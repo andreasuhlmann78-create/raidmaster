@@ -1,4 +1,4 @@
-RaidMaster 1.7.4 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 1.8.0 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,14 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+ADDS MIT EINEM KLICK MARKIEREN (neu in 1.8.0)
+- Knopf "Adds markieren" (Zielfernrohr in der Symbolleiste, auf der Seite Raidleiter, /rm adds oder eigene Taste):
+  markiert alle sichtbaren Adds auf einmal nach der Vorlage des Bosses – z. B. Garrs 8 Feuerschwörer
+  (Stern bis Totenkopf), Sulfurons Priester, Majordomus (Heiler zuerst, dann Elite), bei allen Bossen mit Vorlage.
+  Der Boss selbst bleibt frei. Gegner-Namensplaketten müssen an sein (Taste V).
+- Beim Pull wählt RaidMaster die Vorlage des Bosses automatisch, vor dem Pull über die Seite Raidleiter.
+- Neues Aussehen: klarere Schrift mit Schatten, Navigation mit Symbolen, ruhigere Knöpfe und Listen.
 
 BOSS-INFOS ALLER RAIDS (neu in 1.7.2)
 - Seite "Raidleiter": Im Menü stehen ALLE Raids von Classic bis Midnight mit Taktik, auch die, die es in
@@ -139,6 +147,7 @@ BEFEHLE
   /rm reset  Fensterpositionen zurücksetzen
   /rm minimap  Minimap-Knopf ein/aus
   /rm clear    alle Schlachtzugsymbole auf einmal ausblenden (auch Knopf "Alle aus" in der Symbolleiste)
+  /rm adds     alle sichtbaren Adds nach der Vorlage des Bosses markieren (Namensplaketten an)
   /rm version  Addon-, Spielversion und Sprache anzeigen
 
 ERSTER TEST (empfohlen)

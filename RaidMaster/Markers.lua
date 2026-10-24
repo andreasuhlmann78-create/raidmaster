@@ -83,6 +83,98 @@ function M.ClearAll()
 	wipe(used)
 end
 
+---------------------------------------------------------------------------
+-- Adds mit einem Klick markieren (über die Namensplaketten)
+-- Sichtbare Gegner bekommen die Symbole der gewählten Vorlage in ihrer Reihenfolge.
+-- Kennt die Vorlage die NPCs (z. B. Garrs Feuerschwörer), werden nur diese markiert,
+-- sonst alle Gegner außer dem Boss selbst.
+---------------------------------------------------------------------------
+local function NpcID(guid)
+	if type(guid) ~= "string" then return nil end
+	local kind, _, _, _, _, id = strsplit("-", guid)
+	if kind ~= "Creature" and kind ~= "Vehicle" then return nil end
+	return tonumber(id)
+end
+
+-- Namen aller Bosse des aktuellen Raids (und des Raids der Vorlage) – die bleiben unmarkiert
+local function BossNames(template)
+	local names = {}
+	local function add(def)
+		for _, b in ipairs(def and def.bosses or {}) do
+			if b.name then names[b.name] = true end
+			for _, n in pairs(b.names or {}) do names[n] = true end
+			if b.en then names[b.en] = true end
+			if b.de then names[b.de] = true end
+		end
+	end
+	add(RM.Data.Pools[RM.DKP.CurrentInstancePool(true) or ""])
+	if template and template.raid then add(RM.Data.Pools[template.raid]) end
+	for i = 1, 5 do
+		local n = UnitExists("boss" .. i) and UnitName("boss" .. i)
+		if n then names[n] = true end
+	end
+	return names
+end
+
+local function VisibleEnemies()
+	local list, seen = {}, {}
+	local function check(unit)
+		if not UnitExists(unit) or UnitIsPlayer(unit) or UnitIsDead(unit) then return end
+		if not UnitCanAttack("player", unit) then return end
+		local ok, guid = pcall(UnitGUID, unit)
+		if not ok or type(guid) ~= "string" or seen[guid] then return end
+		local ctype = UnitCreatureType and UnitCreatureType(unit)
+		if ctype == "Critter" or ctype == "Kleintier" then return end
+		seen[guid] = true
+		list[#list + 1] = { unit = unit, guid = guid, npc = NpcID(guid), name = UnitName(unit), icon = GetRaidTargetIndex(unit) }
+	end
+	for i = 1, 40 do check("nameplate" .. i) end
+	for _, u in ipairs({ "target", "mouseover", "focus" }) do check(u) end
+	table.sort(list, function(a, b) return a.guid < b.guid end)
+	return list
+end
+
+function M.MarkAdds()
+	if not CanMark() then RM.Print(L["Im Schlachtzug brauchst du Leiter- oder Assistentenrechte zum Markieren."]) return end
+	local template = RM.Data.GetTemplate(C().markerTemplate)
+	local enemies = VisibleEnemies()
+	if #enemies == 0 then
+		RM.Print(L["Keine Gegner sichtbar. Namensplaketten der Gegner einschalten (Taste V) und näher an die Adds gehen."])
+		return
+	end
+	local bosses = BossNames(template)
+	local taken = {}
+	for _, e in ipairs(enemies) do if e.icon then taken[e.icon] = true end end
+	-- Gruppen: NPC-IDs mit eigener Symbolreihenfolge, sonst alle Gegner außer Bossen
+	local groups = template.npcs or { { icons = template.order } }
+	local marked = 0
+	for _, g in ipairs(groups) do
+		local ids
+		if g.ids then ids = {}; for _, id in ipairs(g.ids) do ids[id] = true end end
+		local icons = g.icons or template.order
+		local pos = 1
+		for _, e in ipairs(enemies) do
+			local fits = not e.icon and not e.done and (ids and e.npc and ids[e.npc] or (not ids and not bosses[e.name or ""]))
+			if fits then
+				while icons[pos] and taken[icons[pos]] do pos = pos + 1 end
+				local icon = icons[pos]
+				if not icon then break end
+				local ok = pcall(SetRaidTarget, e.unit, icon)
+				if ok then
+					taken[icon], used[icon], e.done = true, true, true
+					marked = marked + 1
+				end
+				pos = pos + 1
+			end
+		end
+	end
+	if marked > 0 then
+		RM.Print(string.format(L["%d Gegner markiert (Vorlage: %s)."], marked, template.name))
+	else
+		RM.Print(L["Keine passenden Gegner gefunden – schon markiert oder nicht sichtbar."])
+	end
+end
+
 function M.ResetUsed()
 	wipe(used)
 end
@@ -178,6 +270,15 @@ local function CreateBar()
 	end, function() M.SmartMark() end)
 	auto:SetPoint("LEFT", x + 2, 0)
 	x = x + ICON_SIZE
+
+	local adds = BarButton(f, "Interface\\Icons\\Ability_Hunter_SniperShot", ICON_SIZE - 2, function(tip)
+		tip:AddLine(L["Adds markieren"], 1, 0.82, 0)
+		tip:AddLine(L["Markiert alle sichtbaren Adds auf einmal nach der Vorlage des Bosses (z. B. Garrs Feuerschwörer, Sulfurons Priester).\nGegner-Namensplaketten müssen an sein (Taste V)."], 0.85, 0.85, 0.85, true)
+		tip:AddLine(L["Vorlage: "] .. RM.Data.GetTemplate(C().markerTemplate).name, 1, 0.55, 0.1)
+	end, function() M.MarkAdds() end)
+	adds:SetPoint("LEFT", x + 3, 0)
+	adds.icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+	x = x + ICON_SIZE + 1
 
 	local clear = BarButton(f, "Interface\\Buttons\\UI-GroupLoot-Pass-Up", ICON_SIZE - 2, function(tip)
 		tip:AddLine(L["Alle aus"], 1, 0.82, 0)

@@ -406,12 +406,12 @@ Data.MarkerNames = { [1] = L["Stern"], [2] = L["Kreis"], [3] = L["Diamant"], [4]
 
 Data.BaseTemplates = {
 	{ id = "standard", name = L["Standard"], order = { 8, 7, 6, 5, 4, 3, 2, 1 }, note = L["Totenkopf, Kreuz, Viereck, Mond, Dreieck, Diamant, Kreis, Stern."] },
-	{ id = "lucifron", name = L["Lucifron"], order = { 8, 7 }, note = L["Totenkopf und Kreuz auf die zwei Beschützer."] },
-	{ id = "gehennas", name = L["Gehennas"], order = { 8, 7 }, note = L["Totenkopf und Kreuz auf die zwei Adds."] },
-	{ id = "garr", name = L["Garr (Verbannen)"], order = { 1, 2, 3, 4, 5, 6, 7, 8 }, note = L["Jedes Add ein Symbol. Hexer verbannen ihr zugewiesenes Symbol (Stern zuerst)."] },
-	{ id = "sulfuron", name = L["Sulfuron"], order = { 8, 7, 6, 5 }, note = L["Vier Priester: Totenkopf, Kreuz, Viereck, Mond in Tötungsreihenfolge."] },
-	{ id = "golemagg", name = L["Golemagg"], order = { 6, 5 }, note = L["Viereck und Mond auf die Kernwüter (nicht töten)."] },
-	{ id = "majordomo", name = L["Majordomus"], order = { 8, 7, 6, 5, 4, 3, 2, 1 }, note = L["Zuerst die 4 Heiler (Totenkopf, Kreuz, Viereck, Mond), dann die 4 Elite (Dreieck, Diamant, Kreis, Stern)."] },
+	{ id = "lucifron", npcs = { { ids = { 12119 } } }, name = L["Lucifron"], order = { 8, 7 }, note = L["Totenkopf und Kreuz auf die zwei Beschützer."] },
+	{ id = "gehennas", npcs = { { ids = { 11661 } } }, name = L["Gehennas"], order = { 8, 7 }, note = L["Totenkopf und Kreuz auf die zwei Adds."] },
+	{ id = "garr", npcs = { { ids = { 12099 } } }, name = L["Garr (Verbannen)"], order = { 1, 2, 3, 4, 5, 6, 7, 8 }, note = L["Jedes Add ein Symbol. Hexer verbannen ihr zugewiesenes Symbol (Stern zuerst)."] },
+	{ id = "sulfuron", npcs = { { ids = { 11662 } } }, name = L["Sulfuron"], order = { 8, 7, 6, 5 }, note = L["Vier Priester: Totenkopf, Kreuz, Viereck, Mond in Tötungsreihenfolge."] },
+	{ id = "golemagg", npcs = { { ids = { 11672 } } }, name = L["Golemagg"], order = { 6, 5 }, note = L["Viereck und Mond auf die Kernwüter (nicht töten)."] },
+	{ id = "majordomo", npcs = { { ids = { 11663 }, icons = { 8, 7, 6, 5 } }, { ids = { 11664 }, icons = { 4, 3, 2, 1 } } }, name = L["Majordomus"], order = { 8, 7, 6, 5, 4, 3, 2, 1 }, note = L["Zuerst die 4 Heiler (Totenkopf, Kreuz, Viereck, Mond), dann die 4 Elite (Dreieck, Diamant, Kreis, Stern)."] },
 }
 
 function Data.GetTemplate(id)

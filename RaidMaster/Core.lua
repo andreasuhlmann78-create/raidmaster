@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "1.7.4"
-RM.VERSION_NUM = 10704
+RM.VERSION = "1.8.0"
+RM.VERSION_NUM = 10800
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -482,6 +482,7 @@ BINDING_NAME_RAIDMASTER_MARK3 = L["Diamant (Maus/Ziel)"]
 BINDING_NAME_RAIDMASTER_MARK2 = L["Kreis (Maus/Ziel)"]
 BINDING_NAME_RAIDMASTER_MARK1 = L["Stern (Maus/Ziel)"]
 BINDING_NAME_RAIDMASTER_CLEARMARK = L["Symbol entfernen (Maus/Ziel)"]
+BINDING_NAME_RAIDMASTER_MARKADDS = L["Adds markieren (alle sichtbaren, nach Vorlage)"]
 BINDING_NAME_RAIDMASTER_CLEARALL = L["Alle Symbole entfernen"]
 
 ---------------------------------------------------------------------------
@@ -496,6 +497,8 @@ SlashCmdList["RAIDMASTER"] = function(msg)
 	elseif msg == "reset" then
 		RM.db.config.positions = {}
 		ReloadUI()
+	elseif msg == "adds" or msg == "mark" then
+		RM.Markers.MarkAdds()
 	elseif msg == "clear" or msg == "aus" then
 		RM.Markers.ClearAll()
 	elseif msg == "sync" then

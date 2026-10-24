@@ -1229,6 +1229,9 @@ UI.AddPage("leader", L["Raidleiter"], function(page)
 		UI.RefreshCurrent()
 	end, L["Springt zum Raid, in dem du gerade bist."])
 	Place(nowBtn, page, 410, -336)
+	local addsBtn = UI.Button(page, L["Adds markieren"], 150, 28, function() RM.Markers.MarkAdds() end,
+		L["Markiert alle sichtbaren Adds auf einmal nach der Vorlage des Bosses (z. B. Garrs Feuerschwörer, Sulfurons Priester).\nGegner-Namensplaketten müssen an sein (Taste V)."])
+	Place(addsBtn, page, 560, -336)
 
 	-- Markierungen
 	Section(page, L["Schlachtzugsymbole"], 0, -412)

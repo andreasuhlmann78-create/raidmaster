@@ -29,6 +29,7 @@ COMMANDS
   /rm sync     request a data sync
   /rm minimap  show/hide the minimap button (drag it around the minimap with the left mouse button)
   /rm clear    remove all raid target icons at once (also the "Clear all" button on the icon bar)
+  /rm adds     mark all visible adds at once using the boss marker template (enemy nameplates on)
   /rm version  show addon version, game version and language
   /rm reset    reset window positions
 

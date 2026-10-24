@@ -9,13 +9,15 @@ UI.pages = {}
 UI.pageOrder = {}
 
 local COLORS = {
-	bg = { 0.05, 0.055, 0.07, 0.97 },
-	panel = { 0.085, 0.09, 0.11, 0.96 },
-	field = { 0.03, 0.035, 0.045, 1 },
-	border = { 0.2, 0.21, 0.25, 1 },
-	accent = { 1, 0.55, 0.1 },
-	text = { 0.92, 0.92, 0.92 },
-	muted = { 0.6, 0.62, 0.66 },
+	bg = { 0.045, 0.048, 0.06, 0.96 },
+	panel = { 0.075, 0.08, 0.098, 0.95 },
+	field = { 0.025, 0.028, 0.036, 1 },
+	border = { 0.16, 0.17, 0.21, 1 },
+	accent = { 1, 0.56, 0.12 },
+	text = { 0.93, 0.93, 0.94 },
+	muted = { 0.58, 0.6, 0.66 },
+	button = { 0.12, 0.125, 0.15, 1 },
+	buttonHover = { 0.16, 0.165, 0.2, 1 },
 }
 UI.COLORS = COLORS
 
@@ -42,6 +44,8 @@ end
 function UI.Text(parent, text, size, r, g, b, justify)
 	local fs = parent:CreateFontString(nil, "OVERLAY")
 	fs:SetFont(STANDARD_TEXT_FONT, size or 12, "")
+	fs:SetShadowOffset(1, -1)
+	fs:SetShadowColor(0, 0, 0, 0.85)
 	fs:SetText(text or "")
 	fs:SetTextColor(r or COLORS.text[1], g or COLORS.text[2], b or COLORS.text[3])
 	fs:SetJustifyH(justify or "LEFT")
@@ -51,6 +55,12 @@ end
 
 function UI.Header(parent, text)
 	local fs = UI.Text(parent, text, 14, COLORS.accent[1], COLORS.accent[2], COLORS.accent[3])
+	local line = parent:CreateTexture(nil, "ARTWORK")
+	line:SetColorTexture(COLORS.accent[1], COLORS.accent[2], COLORS.accent[3], 0.35)
+	line:SetHeight(1)
+	line:SetPoint("TOPLEFT", fs, "BOTTOMLEFT", 0, -4)
+	line:SetWidth(240)
+	fs.line = line
 	return fs
 end
 
@@ -66,7 +76,12 @@ end
 function UI.Button(parent, text, w, h, onClick, tooltip)
 	local b = CreateFrame("Button", nil, parent, TEMPLATE)
 	b:SetSize(w or 100, h or 24)
-	UI.Skin(b, { 0.13, 0.14, 0.17, 1 })
+	UI.Skin(b, COLORS.button)
+	local shine = b:CreateTexture(nil, "ARTWORK")
+	shine:SetColorTexture(1, 1, 1, 0.06)
+	shine:SetPoint("TOPLEFT", 1, -1)
+	shine:SetPoint("TOPRIGHT", -1, -1)
+	shine:SetHeight(1)
 	b.label = UI.Text(b, text, 12, nil, nil, nil, "CENTER")
 	b.label:SetPoint("CENTER")
 	b.label:SetWordWrap(false)
@@ -75,20 +90,25 @@ function UI.Button(parent, text, w, h, onClick, tooltip)
 	end)
 	b:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 	b:SetScript("OnEnter", function(self)
-		if self:IsEnabled() then self:SetBackdropBorderColor(COLORS.accent[1], COLORS.accent[2], COLORS.accent[3], 1) end
+		if self:IsEnabled() then
+			self:SetBackdropBorderColor(COLORS.accent[1], COLORS.accent[2], COLORS.accent[3], 1)
+			if not self.accent then self:SetBackdropColor(unpack(COLORS.buttonHover)) end
+		end
 		ShowTooltip(self, self.tooltip)
 	end)
 	b:SetScript("OnLeave", function(self)
 		self:SetBackdropBorderColor(unpack(COLORS.border))
+		if not self.accent then self:SetBackdropColor(unpack(COLORS.button)) end
 		GameTooltip:Hide()
 	end)
 	b.tooltip = tooltip
 	function b:SetText(t) self.label:SetText(t) end
 	function b:SetAccent(on)
+		self.accent = on and true or nil
 		if on then
-			self:SetBackdropColor(0.55, 0.28, 0.04, 1)
+			self:SetBackdropColor(0.6, 0.3, 0.05, 1)
 		else
-			self:SetBackdropColor(0.13, 0.14, 0.17, 1)
+			self:SetBackdropColor(unpack(COLORS.button))
 		end
 	end
 	hooksecurefunc(b, "Disable", function(self) self.label:SetTextColor(0.4, 0.4, 0.4) end)
@@ -390,8 +410,13 @@ function UI.List(parent, width, height, columns, opts)
 		x = x + col.width + 6
 		L.headers[i] = h
 	end
+	local headBg = L:CreateTexture(nil, "BACKGROUND")
+	headBg:SetColorTexture(1, 1, 1, 0.035)
+	headBg:SetPoint("TOPLEFT", 1, -1)
+	headBg:SetPoint("TOPRIGHT", -1, -1)
+	headBg:SetHeight(23)
 	local sep = L:CreateTexture(nil, "ARTWORK")
-	sep:SetColorTexture(COLORS.border[1], COLORS.border[2], COLORS.border[3], 1)
+	sep:SetColorTexture(COLORS.accent[1], COLORS.accent[2], COLORS.accent[3], 0.3)
 	sep:SetPoint("TOPLEFT", 1, -24)
 	sep:SetPoint("TOPRIGHT", -1, -24)
 	sep:SetHeight(1)
@@ -655,6 +680,60 @@ end
 
 local main
 
+-- Symbole der Seiten in der Navigation (alle in jeder WoW-Version vorhanden)
+UI.PAGE_ICONS = {
+	dkp = "Interface\\Icons\\INV_Misc_Coin_01", auction = "Interface\\Icons\\INV_Hammer_15",
+	loot = "Interface\\Icons\\INV_Box_01", log = "Interface\\Icons\\INV_Misc_Note_01",
+	raid = "Interface\\Icons\\Ability_Warrior_BattleShout", signup = "Interface\\Icons\\INV_Scroll_03",
+	pug = "Interface\\Icons\\Spell_Holy_PrayerOfHealing02", ad = "Interface\\Icons\\INV_Scroll_05",
+	assign = "Interface\\Icons\\Ability_Warrior_DefensiveStance", leader = "Interface\\Icons\\INV_Misc_Head_Dragon_01",
+	specs = "Interface\\Icons\\INV_Misc_Book_11", settings = "Interface\\Icons\\INV_Misc_Gear_01",
+}
+
+-- Eintrag der Navigation: Symbol, Text, Akzentbalken links für die aktive Seite
+function UI.NavButton(parent, text, icon, onClick)
+	local b = CreateFrame("Button", nil, parent)
+	b:SetSize(158, 34)
+	b.bg = b:CreateTexture(nil, "BACKGROUND")
+	b.bg:SetAllPoints()
+	b.bg:SetColorTexture(1, 1, 1, 0)
+	local hl = b:CreateTexture(nil, "HIGHLIGHT")
+	hl:SetAllPoints()
+	hl:SetColorTexture(1, 1, 1, 0.05)
+	b.bar = b:CreateTexture(nil, "ARTWORK")
+	b.bar:SetPoint("TOPLEFT", 0, -4)
+	b.bar:SetPoint("BOTTOMLEFT", 0, 4)
+	b.bar:SetWidth(3)
+	b.bar:SetColorTexture(COLORS.accent[1], COLORS.accent[2], COLORS.accent[3], 1)
+	b.bar:Hide()
+	b.icon = b:CreateTexture(nil, "ARTWORK")
+	b.icon:SetSize(22, 22)
+	b.icon:SetPoint("LEFT", 12, 0)
+	b.icon:SetTexture(icon or "Interface\\Icons\\INV_Misc_QuestionMark")
+	b.icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
+	b.label = UI.Text(b, text, 13, COLORS.muted[1], COLORS.muted[2], COLORS.muted[3])
+	b.label:SetPoint("LEFT", b.icon, "RIGHT", 10, 0)
+	b.label:SetPoint("RIGHT", -6, 0)
+	b.label:SetWordWrap(false)
+	b:SetScript("OnClick", onClick)
+	function b:SetAccent(on)
+		if on then
+			self.bar:Show()
+			self.bg:SetColorTexture(COLORS.accent[1], COLORS.accent[2], COLORS.accent[3], 0.12)
+			self.label:SetTextColor(1, 1, 1)
+			self.icon:SetDesaturated(false)
+			self.icon:SetAlpha(1)
+		else
+			self.bar:Hide()
+			self.bg:SetColorTexture(1, 1, 1, 0)
+			self.label:SetTextColor(unpack(COLORS.muted))
+			self.icon:SetAlpha(0.75)
+		end
+	end
+	b:SetAccent(false)
+	return b
+end
+
 local function UpdateStatus()
 	if not main then return end
 	local data = RM.db.data
@@ -710,7 +789,17 @@ local function CreateMain()
 	titleBar:SetPoint("TOPRIGHT")
 	local tbg = titleBar:CreateTexture(nil, "BACKGROUND")
 	tbg:SetAllPoints()
-	tbg:SetColorTexture(0.1, 0.06, 0.03, 1)
+	tbg:SetColorTexture(0.085, 0.06, 0.04, 1)
+	local tshade = titleBar:CreateTexture(nil, "BACKGROUND", nil, 1)
+	tshade:SetPoint("TOPLEFT")
+	tshade:SetPoint("TOPRIGHT")
+	tshade:SetHeight(20)
+	tshade:SetColorTexture(1, 0.7, 0.4, 0.04)
+	local tline = titleBar:CreateTexture(nil, "ARTWORK")
+	tline:SetPoint("BOTTOMLEFT")
+	tline:SetPoint("BOTTOMRIGHT")
+	tline:SetHeight(1)
+	tline:SetColorTexture(COLORS.accent[1], COLORS.accent[2], COLORS.accent[3], 0.6)
 	local logo = titleBar:CreateTexture(nil, "ARTWORK")
 	logo:SetSize(26, 26)
 	logo:SetPoint("LEFT", 10, 0)
@@ -728,7 +817,12 @@ local function CreateMain()
 	nav:SetPoint("BOTTOMLEFT", 0, 26)
 	local nbg = nav:CreateTexture(nil, "BACKGROUND")
 	nbg:SetAllPoints()
-	nbg:SetColorTexture(0.07, 0.075, 0.09, 1)
+	nbg:SetColorTexture(0.06, 0.064, 0.078, 1)
+	local nline = nav:CreateTexture(nil, "ARTWORK")
+	nline:SetPoint("TOPRIGHT")
+	nline:SetPoint("BOTTOMRIGHT")
+	nline:SetWidth(1)
+	nline:SetColorTexture(COLORS.border[1], COLORS.border[2], COLORS.border[3], 1)
 
 	local content = UI.Frame(f, 800, 574)
 	content:SetPoint("TOPLEFT", 180, -50)
@@ -745,16 +839,13 @@ local function CreateMain()
 	f.status:SetPoint("LEFT", 12, 0)
 
 	main = f
-	local y = -12
+	local y = -10
 	for _, id in ipairs(UI.pageOrder) do
 		local p = UI.pages[id]
-		local b = UI.Button(nav, p.title, 150, 32, function() UI.ShowPage(id) end)
-		b:SetPoint("TOPLEFT", 10, y)
-		b.label:SetJustifyH("LEFT")
-		b.label:ClearAllPoints()
-		b.label:SetPoint("LEFT", 12, 0)
+		local b = UI.NavButton(nav, p.title, UI.PAGE_ICONS[id], function() UI.ShowPage(id) end)
+		b:SetPoint("TOPLEFT", 6, y)
 		p.nav = b
-		y = y - 38
+		y = y - 40
 		local page = CreateFrame("Frame", nil, content)
 		page:SetAllPoints()
 		page:Hide()
