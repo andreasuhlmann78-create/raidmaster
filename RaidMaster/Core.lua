@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "1.8.3"
-RM.VERSION_NUM = 10803
+RM.VERSION = "1.8.4"
+RM.VERSION_NUM = 10804
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -291,6 +291,28 @@ end
 -- Text in den Raidchat (eigene Funktion, damit das Test-Tool sie umleiten kann)
 function RM.RaidChat(msg, channel)
 	SendChatMessage(msg, channel or "RAID")
+end
+
+-- Flüstern (eigene Funktion, damit das Test-Tool sie umleiten kann)
+function RM.Whisper(msg, target)
+	SendChatMessage(msg, "WHISPER", nil, target)
+end
+
+-- Zeilen IMMER als Schlachtzugwarnung, nie in den normalen Chat.
+-- Ohne Leiter-/Assistentenrechte (oder außerhalb eines Raids) erscheinen sie nur bei dir.
+function RM.RaidWarning(lines)
+	if type(lines) == "string" then lines = { lines } end
+	local can = RM.InRaid() and RM.IsAssist()
+	if not can then
+		RM.Print(L["Schlachtzugwarnungen können nur Raidleiter und Co-Raidleiter im Raid senden – nur bei dir angezeigt:"])
+	end
+	for i, l in ipairs(lines) do
+		if can then
+			C_Timer.After((i - 1) * 0.3, function() RM.RaidChat(l, "RAID_WARNING") end)
+		else
+			RM.Print("|cffff4800" .. l .. "|r")
+		end
+	end
 end
 
 -- Ein Spiel-Ereignis an alle RaidMaster-Handler geben (für das Test-Tool RaidMasterTest)

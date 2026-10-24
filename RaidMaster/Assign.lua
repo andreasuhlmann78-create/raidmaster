@@ -280,7 +280,12 @@ function A.Build()
 	-- Magmadar: Einlull-Rotation, Furchtschutz auf MT
 	local mg = newCtx()
 	result.magmadar = mg
+	-- nur Jäger, die Einlullender Schuss haben (nach der Abfrage), sonst alle Jäger
 	local hunters = list(r.byClass.HUNTER)
+	if RM.Tranq then
+		local rot, asked = RM.Tranq.Rotation()
+		if asked then hunters = rot end
+	end
 	if #hunters > 0 then
 		local parts = {}
 		for i, h in ipairs(hunters) do

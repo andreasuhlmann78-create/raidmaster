@@ -330,14 +330,20 @@ RM.Listen("CONFIG_CHANGED", function() M.UpdateBar() end)
 ---------------------------------------------------------------------------
 -- Boss-Infos im Raid posten
 ---------------------------------------------------------------------------
+-- Kurzinfo: alle Zeilen als Schlachtzugwarnung (nie im normalen Chat)
 function M.PostBossInfo(encounterID, info)
 	info = info or RM.Data.BossInfo[encounterID]
 	if not info then return end
-	if not RM.InRaid() then
-		for _, l in ipairs(info.post) do RM.Print(l) end
-		return
+	local lines = {}
+	for _, l in ipairs(info.post or {}) do lines[#lines + 1] = l end
+	-- Magmadar: Einlull-Rotation der Jäger gleich mit ansagen
+	if encounterID == 664 and RM.Tranq then
+		local list = RM.Tranq.Rotation()
+		if #list > 0 then
+			local parts = {}
+			for i, h in ipairs(list) do parts[#parts + 1] = i .. ". " .. h end
+			lines[#lines + 1] = L["Einlull-Rotation: "] .. table.concat(parts, " > ")
+		end
 	end
-	for i, l in ipairs(info.post) do
-		RM.Announce(l, i == 1)
-	end
+	RM.RaidWarning(lines)
 end

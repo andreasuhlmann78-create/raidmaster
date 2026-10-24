@@ -5,7 +5,7 @@
 --   * Raid-, DKP- und Lootdaten werden beim Start gesichert und beim Beenden
 --     (oder beim nächsten Einloggen) wiederhergestellt
 --   * keine Addon-Nachrichten an Gilde/Raid, Raidchat-Texte erscheinen nur bei dir
---   * ein Testraid mit 9 Testspielern wird vorgespielt
+--   * ein Testraid mit 10 Testspielern wird vorgespielt
 -- Öffnen: /rmtest
 -- ============================================================================
 
@@ -20,7 +20,7 @@ local T = { active = false, role = "officer", log = {} }
 RaidMasterTest = T
 
 local FAKE = {
-	{ "Testkrieger", "WARRIOR" }, { "Testpriester", "PRIEST" }, { "Testmagier", "MAGE" },
+	{ "Testkrieger", "WARRIOR" }, { "Testpriester", "PRIEST" }, { "Testmagier", "MAGE" }, { "Testjaegerin", "HUNTER" },
 	{ "Testschurke", "ROGUE" }, { "Testjaeger", "HUNTER" }, { "Testhexer", "WARLOCK" },
 	{ "Testdruide", "DRUID" }, { "Testpaladin", "PALADIN" }, { "Testschamane", "SHAMAN" },
 }
@@ -45,7 +45,7 @@ end
 -- Testmodus: Daten sichern, RaidMaster-Funktionen umleiten
 ---------------------------------------------------------------------------
 local saved = {}
-local OVERRIDE = { "InRaid", "RaidMembers", "IsAssist", "IsLeader", "CanEdit", "SendAddonMessage", "RaidChat", "Announce" }
+local OVERRIDE = { "InRaid", "RaidMembers", "IsAssist", "IsLeader", "CanEdit", "SendAddonMessage", "RaidChat", "Announce", "Whisper" }
 
 local function FakeMembers()
 	local list = { { name = RM.Me(), class = select(2, UnitClass("player")), online = true, rank = 2, index = 1 } }
@@ -66,6 +66,7 @@ function T.Start()
 	RM.CanEdit = function() return T.role == "officer" end
 	RM.SendAddonMessage = function() T.blocked = (T.blocked or 0) + 1 end
 	RM.RaidChat = function(msg, ch) print("|cffff7f00[Test-" .. (ch or "RAID") .. "]|r " .. msg) end
+	RM.Whisper = function(msg, target) print("|cffff80ff[Test-Flüstern an " .. tostring(target) .. "]|r " .. msg) end
 	RM.Announce = function(msg, warning) print("|cffff4800[Test-" .. (warning and "Raidwarnung" or "Raid") .. "]|r " .. msg) end
 	if RM.Loot then RM.Loot.Deliver = function(link, name) Log("Item würde übergeben: " .. tostring(link) .. " -> " .. tostring(name)) end end
 	-- Testspieler mit 100 DKP im aktuellen Topf
@@ -77,7 +78,7 @@ function T.Start()
 	end
 	T.active = true
 	T.blocked = 0
-	Log("Testmodus AN – Daten gesichert, keine Nachrichten an Gilde/Raid. Testraid mit 9 Testspielern.")
+	Log("Testmodus AN – Daten gesichert, keine Nachrichten an Gilde/Raid. Testraid mit 10 Testspielern.")
 	RM.Fire("SESSION_CHANGED"); RM.Fire("DATA_CHANGED")
 end
 
@@ -132,7 +133,7 @@ function T.SetRole(role)
 end
 
 ---------------------------------------------------------------------------
--- Simulationen
+-- Simulationen (Testraid: 10 Testspieler + du)
 ---------------------------------------------------------------------------
 local function Need()
 	if not T.active then T.Start() end
@@ -185,6 +186,21 @@ function T.Auction(link)
 			Log(who .. " bietet " .. amount .. " DKP" .. (ok and "" or (" – abgelehnt: " .. tostring(err))))
 		end)
 	end
+end
+
+-- Magmadar: Jäger nach Einlullender Schuss fragen; die Testjäger antworten per Flüstern
+function T.TranqTest()
+	if not T.active then T.Start() end
+	if T.role == "member" then Log("Die Jäger-Abfrage gibt es nur für Raidleiter/Co-Raidleiter/Offiziere.") return end
+	RM.Tranq.Ask()
+	Log("Jäger-Abfrage gestartet – Testjaeger antwortet 'ja', Testjaegerin 'nein'.")
+	C_Timer.After(5, function()
+		RM.SimulateEvent("CHAT_MSG_WHISPER", "ja", "Testjaeger")
+		RM.SimulateEvent("CHAT_MSG_WHISPER", "nein", "Testjaegerin")
+		Log("Antworten: " .. RM.Tranq.StatusText():gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", ""))
+		RM.Tranq.Post()
+		Log("Einlull-Rotation als Schlachtzugwarnung gepostet (im Test nur bei dir).")
+	end)
 end
 
 ---------------------------------------------------------------------------
@@ -296,6 +312,9 @@ local function CreateWindow()
 	killBtn:SetAccent(true)
 	local endBtn = UI.Button(f, "Raid beenden", 126, 26, function() T.EndRaid() end, "Beendet die Sitzung mit Abschlussbonus.")
 	endBtn:SetPoint("LEFT", killBtn, "RIGHT", 8, 0)
+	local tqBtn = UI.Button(f, "Jäger-Abfrage", 120, 26, function() T.TranqTest() end,
+		"Magmadar: fragt die Jäger nach Einlullender Schuss und postet die Rotation (Testjäger antworten selbst).")
+	tqBtn:SetPoint("LEFT", endBtn, "RIGHT", 8, 0)
 
 	Section(f, "Versteigerung", -268)
 	local itemBox = UI.LinkBox(f, 300, 26)

@@ -1,4 +1,4 @@
-RaidMaster 1.8.3 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 1.8.4 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,14 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+KURZINFOS NUR ALS SCHLACHTZUGWARNUNG, EINLULL-ROTATION (neu in 1.8.4)
+- "Kurzinfo als Raidwarnung" sendet ALLE Zeilen als Schlachtzugwarnung, nie in den normalen Chat
+  (nur als Raidleiter/Co-Raidleiter möglich, sonst nur bei dir angezeigt).
+- Magmadar (Seite Raidleiter): "Jäger abfragen" fragt alle Jäger im Raid, ob sie Einlullender Schuss haben
+  (Buch aus dem Geschmolzenen Kern, ab TBC beim Lehrer). Mit Addon antworten sie automatisch, ohne Addon per
+  Flüstern ja/nein. "Rotation posten" sagt die Reihenfolge als Schlachtzugwarnung an und flüstert jedem Jäger
+  seine Nummer. Die Kurzinfo zu Magmadar enthält die Rotation automatisch; die Einteilung nutzt sie auch.
 
 WER SIEHT WAS (neu in 1.8.2)
 - Normale Teilnehmer sehen nur "DKP-Stände" und "Versteigerung" und können nur bieten.

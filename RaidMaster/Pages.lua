@@ -1224,8 +1224,8 @@ UI.AddPage("leader", L["Raidleiter"], function(page)
 	local info = UI.Multiline(page, 560, 300, true)
 	Place(info, page, 200, -28)
 
-	local postBtn = UI.Button(page, L["Kurzinfo im Raid posten"], 200, 28, function() local e = selectedBoss and Entry(selectedBoss) if e then RM.Markers.PostBossInfo(selectedBoss, e.info) end end,
-		L["Postet zwei kurze Zeilen (erste als Raidwarnung)."])
+	local postBtn = UI.Button(page, L["Kurzinfo als Raidwarnung"], 200, 28, function() local e = selectedBoss and Entry(selectedBoss) if e then RM.Markers.PostBossInfo(selectedBoss, e.info) end end,
+		L["Postet die Kurzinfo als Schlachtzugwarnung (nie im normalen Chat)."])
 	Place(postBtn, page, 200, -336)
 	postBtn:SetAccent(true)
 	local nowBtn = UI.Button(page, L["Aktueller Raid"], 140, 28, function()
@@ -1236,6 +1236,20 @@ UI.AddPage("leader", L["Raidleiter"], function(page)
 	local addsBtn = UI.Button(page, L["Adds markieren"], 150, 28, function() RM.Markers.MarkAdds() end,
 		L["Markiert alle sichtbaren Adds auf einmal nach der Vorlage des Bosses (z. B. Garrs Feuerschwörer, Sulfurons Priester).\nGegner-Namensplaketten müssen an sein (Taste V)."])
 	Place(addsBtn, page, 560, -336)
+
+	-- Magmadar: Jäger nach Einlullender Schuss fragen, Rotation posten
+	local tq = CreateFrame("Frame", nil, page)
+	tq:SetSize(560, 34)
+	Place(tq, page, 200, -370)
+	local tqAsk = UI.Button(tq, L["Jäger abfragen"], 130, 26, function() RM.Tranq.Ask() end,
+		L["Fragt alle Jäger im Raid, ob sie Einlullender Schuss haben (mit Addon automatisch, sonst per Flüstern: ja/nein)."])
+	tqAsk:SetPoint("LEFT", 0, 0)
+	local tqPost = UI.Button(tq, L["Rotation posten"], 130, 26, function() RM.Tranq.Post() end,
+		L["Postet die Einlull-Rotation als Schlachtzugwarnung und flüstert jedem Jäger seine Position."])
+	tqPost:SetPoint("LEFT", tqAsk, "RIGHT", 8, 0)
+	local tqText = UI.Text(tq, "", 11)
+	tqText:SetPoint("LEFT", tqPost, "RIGHT", 10, 0)
+	tqText:SetWidth(280)
 
 	-- Markierungen
 	Section(page, L["Schlachtzugsymbole"], 0, -412)
@@ -1313,6 +1327,12 @@ UI.AddPage("leader", L["Raidleiter"], function(page)
 			info:SetText(L["Für diesen Boss gibt es noch keine Taktik."])
 		end
 		if i and i.post and i.post[1] then postBtn:Enable() else postBtn:Disable() end
+		if selectedBoss == 664 and RM.Tranq then
+			tq:Show()
+			tqText:SetText(RM.Tranq.StatusText())
+		else
+			tq:Hide()
+		end
 		RebuildTemplates()
 		tmpl:Refresh()
 		local t = Data.GetTemplate(RM.db.config.markerTemplate)
