@@ -1855,6 +1855,27 @@ COMMAND_INFO = {
 SECTION_ORDER = [("Raids", "⚔️"), ("Spieler", "👤"), ("Verwaltung", "🛠️")]
 
 
+# Befehle im Spiel (Addon RaidMaster) – stehen unter den Bot-Befehlen
+ADDON_COMMAND_BLOCKS = [
+    "🎮 **Im Spiel – Addon RaidMaster** (in den Chat tippen)\n"
+    "**`/rm`** – RaidMaster-Fenster öffnen/schließen _(alle)_\n"
+    "**`/rm adds`** – alle sichtbaren Adds auf einmal nach der Vorlage des Bosses markieren, z. B. Garrs Feuerschwörer "
+    "(Gegner-Namensplaketten an, Taste V) _(Raidleitung/Assistenten)_\n"
+    "**`/rm clear`** – alle Schlachtzugsymbole auf einmal entfernen _(Raidleitung/Assistenten)_\n"
+    "**`/rm bar`** – Symbolleiste ein-/ausblenden _(alle)_\n"
+    "**`/rm minimap`** – Minimap-Knopf ein-/ausblenden _(alle)_\n"
+    "**`/rm sync`** – DKP-Daten von anderen Addon-Nutzern abgleichen _(alle)_\n"
+    "**`/rm version`** – Addon-Version, erkannte Spielversion und Sprache anzeigen _(alle)_\n"
+    "**`/rm reset`** – Fensterpositionen zurücksetzen (lädt das Interface neu) _(alle)_",
+    "💬 **Im Spiel – Flüstern an den Plündermeister** (auch ohne Addon)\n"
+    "**`!bid 50`** – bei einer laufenden Versteigerung 50 DKP bieten _(alle)_\n"
+    "**`!dkp`** – eigenen DKP-Stand abfragen _(alle)_\n"
+    "**`inv`** – an den Raidleiter flüstern: Einladung in den Raid, solange Werbung läuft _(alle)_",
+    "⌨️ **Tastenbelegung im Spiel** – Esc → Tastaturbelegung → RaidMaster: Fenster, nächstes freies Symbol, "
+    "einzelne Symbole, **Adds markieren**, **Alle Symbole entfernen**.",
+]
+
+
 def command_list_text() -> list[str]:
     """Liste aller Slash-Befehle aus dem Befehlsbaum – neue Befehle erscheinen automatisch."""
     entries = []
@@ -1877,6 +1898,7 @@ def command_list_text() -> list[str]:
         if by_section.get(section):
             blocks.append(f"{emoji} **{section}**\n" + "\n".join(by_section[section]))
     blocks.append("_Offiziere = Rollen Offizier/Raidleitung · Admins = Recht „Server verwalten“_")
+    blocks.extend(ADDON_COMMAND_BLOCKS)
     return rmd.chunk_blocks(blocks)
 
 
