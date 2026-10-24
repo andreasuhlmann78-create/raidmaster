@@ -75,15 +75,16 @@ Ohne GitHub geht es auch: das RaidMaster-Paket per WinSCP auf den Server kopiere
 `/raidmaster-einrichten` ausführen (nur Admins). Der Bot legt an bzw. ergänzt:
 
 - Rollen **Offizier**, **Raidleitung**, **Raider**, **Gast**
-- **📌 INFO**: #willkommen, #regeln, #ankündigungen, **#raid-addon** (Downloads)
+- **📌 INFO**: #willkommen, #regeln, #ankündigungen
 - **⚔️ RAID-ORGA**: #einteilung
+- **🧩 RAID-ADDON** (direkt darunter): **#raid-addon** (Downloads, automatisch vom Bot) und #addon-hilfe
 - **Eine Kategorie pro Raid** (🔥 MOLTEN CORE, 🐉 ONYXIAS HORT, 🌲 BARROW DEEPS, 🌋 HYJALGIPFEL) mit
   **-anmeldung** (mit Knopf **Charakter registrieren**), **-chat**, **-taktik**, **-dkp** und **-loot**
 - **🎲 PUG**: #pug-anmeldung, #softreserve, #pug-chat
 - **💬 ALLGEMEIN**, **🔊 SPRACHE**, **🔒 OFFIZIERE** (#offiziere, #bot-befehle, **#bot-daten**,
   Sprachkanal nur für Offiziere)
 
-Die Rolle **Gast** sieht nur **INFO** und **PUG** (mit Sprachkanal „PUG-Raid“). Gildenmitglieder
+Die Rolle **Gast** sieht nur **INFO**, **RAID-ADDON** und **PUG** (mit Sprachkanal „PUG-Raid“). Gildenmitglieder
 sind davon nicht betroffen.
 
 **#bot-daten** sieht nur der Bot (und Admins). Dort landen die Uploads und die tägliche Datensicherung.

@@ -58,13 +58,20 @@ BASE_TOP = [
             ("text", "willkommen", "Begrüßung und Infos zur Gilde", None),
             ("text", "regeln", "Gilden-, DKP- und Lootregeln", None),
             ("text", "ankündigungen", "Neuigkeiten, Raidzeiten und Änderungen", None),
-            ("text", "raid-addon", "Download der aktuellen RaidMaster-Addon-Version (automatisch vom Bot)", "botonly"),
         ],
     },
     {
         "name": "⚔️ RAID-ORGA", "mode": None,
         "channels": [
             ("text", "einteilung", "Aufstellung, Gruppen, Heil-, Entfluch- und CC-Einteilung (automatisch vom Bot)", "readonly"),
+        ],
+    },
+    {
+        # direkt unter RAID-ORGA; auch Gäste (PUG) sehen sie, damit sie das Addon laden können
+        "name": "🧩 RAID-ADDON", "mode": None, "guest": True, "after": "⚔️ RAID-ORGA",
+        "channels": [
+            ("text", "raid-addon", "Download der aktuellen RaidMaster-Addon-Version (automatisch vom Bot)", "botonly"),
+            ("text", "addon-hilfe", "Fragen, Probleme und Wünsche zum RaidMaster-Addon", None),
         ],
     },
 ]
@@ -236,6 +243,21 @@ async def _ensure_category(guild, cat_def: dict, roles: dict, report: list, crea
     return category
 
 
+async def _place_after(guild, name: str, after: str, report: list, reason: str):
+    cat = _find(guild.categories, name)
+    anchor = _find(guild.categories, after)
+    if not cat or not anchor:
+        return
+    ordered = sorted(guild.categories, key=lambda c: c.position)
+    if ordered.index(cat) == ordered.index(anchor) + 1:
+        return
+    try:
+        await cat.edit(position=anchor.position + 1, reason=reason)
+        report.append(f"↕️ Kategorie **{name}** unter **{after}** verschoben")
+    except discord.HTTPException:
+        report.append(f"⚠️ Kategorie **{name}** konnte nicht verschoben werden")
+
+
 async def _hide_from_guests(guild, cat_def: dict, roles: dict, created: dict, report: list, reason: str):
     """Rolle Gast sieht nur INFO und PUG: alle anderen Kategorien und ihre Kanäle für Gast ausblenden.
     Gildenmitglieder sind davon nicht betroffen (sie haben die Rolle Gast nicht)."""
@@ -286,7 +308,7 @@ def _welcome_text() -> str:
         "• Einmal registrieren: Knopf **Charakter registrieren** in der Anmeldung deines Raids.\n"
         "• Melde dich per Knopf an – beim ersten Mal gibst du Klasse, Rolle und Charakternamen an, danach reicht ein Klick.\n"
         "• Deine DKP pro Raid: im jeweiligen DKP-Kanal oder mit `/dkp`.\n"
-        "• Das Addon **RaidMaster** gibt es immer aktuell in **#raid-addon**."
+        "• Das Addon **RaidMaster** gibt es immer aktuell in **#raid-addon** (Kategorie 🧩 RAID-ADDON), Fragen dazu in **#addon-hilfe**."
     )
 
 
@@ -432,6 +454,10 @@ async def run_setup(guild: discord.Guild, invoker: discord.Member, cfg: dict, dk
     raids = [raid_category(*r) for r in raid_list(extra_pools)]
     for cat_def in BASE_TOP + raids + BASE_BOTTOM:
         await _ensure_category(guild, cat_def, roles, report, created, new_names, reason)
+    # Kategorien mit fester Position (z. B. RAID-ADDON direkt unter RAID-ORGA)
+    for cat_def in BASE_TOP + raids + BASE_BOTTOM:
+        if cat_def.get("after"):
+            await _place_after(guild, cat_def["name"], cat_def["after"], report, reason)
     hidden = 0
     for cat_def in BASE_TOP + raids + BASE_BOTTOM:
         hidden += await _hide_from_guests(guild, cat_def, roles, created, report, reason)
