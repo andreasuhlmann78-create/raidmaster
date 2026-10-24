@@ -29,13 +29,13 @@ function S.Parse(text)
 	if not text or not text:find("RAIDMASTER%-ANMELDUNG") then
 		return nil, "Das ist kein Anmeldetext vom RaidMaster-Bot."
 	end
-	local result = { title = "", date = "", list = {}, sr = nil, mode = "dkp", srLimit = nil, groups = nil, bench = nil, start = nil }
+	local result = { title = "", date = "", list = {}, mode = "dkp", groups = nil, bench = nil, start = nil }
 	for raw in text:gmatch("[^\r\n]+") do
 		local line = trim(raw):gsub("`", "")
 		local t = line:match("^Raid:%s*(.+)$")
 		local d = line:match("^Datum:%s*(.+)$")
-		local mode, limit = line:match("^Modus:%s*(%a+)%s*;?%s*(%d*)")
-		local srName, srIDs = line:match("^SR;([^;]+);(.+)$")
+		local mode = line:match("^Modus:%s*(%a+)")
+		local isSR = line:match("^SR;")   -- ältere Exporte mit Soft Reserve: ignorieren
 		local gName, gNum = line:match("^GRP;([^;]+);(%d+)$")
 		local bName = line:match("^BANK;([^;]+)$")
 		local startTs = line:match("^Start:%s*(%d+)$")
@@ -62,13 +62,8 @@ function S.Parse(text)
 			result.date = d
 		elseif mode then
 			result.mode = mode:lower()
-			result.srLimit = tonumber(limit)
-		elseif srName then
-			local ids = RM.PUG.ParseIDs(srIDs)
-			if #ids > 0 then
-				result.sr = result.sr or {}
-				result.sr[RM.Short(trim(srName))] = ids
-			end
+		elseif isSR then
+			-- nichts
 		else
 			local n, c, r, s = line:match("^([^;]+);([^;]*);([^;]*);([^;]+)$")
 			if n then
@@ -89,12 +84,6 @@ function S.Import(text)
 	for _, e in ipairs(result.list) do counts[e.status] = (counts[e.status] or 0) + 1 end
 	RM.Print(string.format("Anmeldungen für '%s' importiert: %d angemeldet, %d Ersatzbank, %d vielleicht, %d abgemeldet.",
 		result.title, counts.an or 0, counts.ersatz or 0, counts.vielleicht or 0, counts.ab or 0))
-	if result.sr then
-		local n = 0
-		for _ in pairs(result.sr) do n = n + 1 end
-		RM.Print(n .. " Soft Reserves aus Discord gelesen.")
-		if RM.PUG.IsLeader() then RM.PUG.ImportFromSignup() end
-	end
 	if result.link then
 		RM.db.config.adLink = result.link
 		RM.Print("Discord-Link für die Werbung übernommen: " .. result.link)

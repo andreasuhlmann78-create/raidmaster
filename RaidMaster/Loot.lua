@@ -255,12 +255,7 @@ RM.On("LOOT_OPENED", function()
 				local action = Loot.Classify(link, quality)
 				local item = { slot = slot, link = link, quality = quality, action = action }
 				Loot.items[#Loot.items + 1] = item
-				if RM.PUG.IsLeader() then
-					local sr = RM.PUG.ReserversOf(RM.ItemID(link), RM.db.pug.reserves)
-					announceParts[#announceParts + 1] = #sr > 0 and (link .. " (SR: " .. table.concat(sr, ", ") .. ")") or link
-				else
-					announceParts[#announceParts + 1] = link
-				end
+				announceParts[#announceParts + 1] = link
 
 				local firstTime = not queuedFromSource[key .. ":" .. slot]
 				queuedFromSource[key .. ":" .. slot] = true

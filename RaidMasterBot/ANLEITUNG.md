@@ -1,6 +1,6 @@
 # RaidMaster-Bot 1.5 – Einrichtung und Bedienung
 
-Der Bot übernimmt Raidanmeldungen (Gilde und PUG mit Soft Reserve), stellt Raids und feste Gruppen
+Der Bot übernimmt Raidanmeldungen (Gilde und PUG), stellt Raids und feste Gruppen
 zusammen, postet die DKP-Stände pro Raid, hinterlegt die Skillungen aus dem Spiel und verschickt die
 Einteilung als Direktnachricht.
 
@@ -80,7 +80,7 @@ Ohne GitHub geht es auch: das RaidMaster-Paket per WinSCP auf den Server kopiere
 - **🧩 RAID-ADDON** (direkt darunter): **#raid-addon** (Downloads, automatisch vom Bot) und #addon-hilfe
 - **Eine Kategorie pro Raid** (🔥 MOLTEN CORE, 🐉 ONYXIAS HORT, 🌲 BARROW DEEPS, 🌋 HYJALGIPFEL) mit
   **-anmeldung** (mit Knopf **Charakter registrieren**), **-chat**, **-taktik**, **-dkp** und **-loot**
-- **🎲 PUG**: #pug-anmeldung, #softreserve, #pug-chat
+- **🎲 PUG**: #pug-anmeldung, #pug-chat, Sprachkanal PUG-Raid
 - **💬 ALLGEMEIN**, **🔊 SPRACHE**, **🔒 OFFIZIERE** (#offiziere, #bot-befehle, **#bot-daten**,
   Sprachkanal nur für Offiziere)
 
@@ -161,22 +161,15 @@ erkennt der Bot ihn, legt **automatisch eine eigene Kategorie** an und meldet da
 optional Beschreibung und **max_spieler** (40, 20 oder 10). Der Raid erscheint in der Anmeldung seiner
 Kategorie (z. B. #mc-anmeldung).
 
-**PUG-Raid:** `/raid erstellen` mit **modus: PUG-Raid mit Soft Reserve** und **soft_reserve** =
-Items pro Spieler (1–3). Er erscheint in #pug-anmeldung, Spieler mit der Rolle **Gast** werden angepingt.
+**PUG-Raid:** `/raid erstellen` mit **modus: PUG-Raid**. Er erscheint in #pug-anmeldung, Spieler mit
+der Rolle **Gast** werden angepingt. Im Raid gibt es keine DKP – der Loot wird ausgewürfelt
+(Bedarf `/roll`, Gier `/roll 99`).
 
 **Für alle:** Knöpfe **Anmelden / Ersatzbank / Vielleicht / Abmelden**, beim ersten Mal Klasse, Rolle
 und Charakter festlegen. `/charakter` ändert das Profil.
 
 **Gildenspieler registrieren sich** einmal über den Knopf **Charakter registrieren** in der Anmeldung
 ihres Raids (z. B. #mc-anmeldung). **PUG-Spieler** nehmen den Knopf in #pug-anmeldung: Rolle Gast + Charakter.
-
-## Soft Reserve (PUG)
-
-- Knopf **Soft Reserve** am Raid oder `/sr raid:<Raid> items:16800, 18823`.
-- Die Item-ID steht bei Wowhead in der Adresse (`item=16800`). Ganze Wowhead-Links funktionieren auch.
-- Leer abschicken löscht die eigene Reservierung.
-- **#softreserve** zeigt pro PUG-Raid eine ständig aktuelle Übersicht.
-- Im Spiel geht es auch: Addon-Seite **Soft Reserve** oder `/w <Leiter> !sr 16800`.
 
 ## Aufstellung und feste Gruppen
 
@@ -189,7 +182,7 @@ Aufstellung in **#einteilung** und **#offiziere**:
 3. **Gruppe 1 = MT** mit den Tanks, danach Nahkampf-, Fernkampf- und Heilergruppen.
 4. Wer nicht hineinpasst, steht auf der **Ersatzbank**.
 
-Der Knopf **„Für RaidMaster“** exportiert Anmeldungen, Soft Reserves, Startzeit und die Gruppen –
+Der Knopf **„Für RaidMaster“** exportiert Anmeldungen, Startzeit, die Gruppen und bei PUG-Raids den Einladungslink –
 im Spiel lädt das Addon dann automatisch ein und sortiert die Gruppen.
 
 ## Einteilung als Direktnachricht
@@ -213,7 +206,6 @@ Erstellt die Raidleitung im Spiel die **Einteilung** und gibt danach `/reload` e
 | `/raid liste`, `schliessen`, `oeffnen`, `absagen`, `export` | Offiziere | Raids verwalten |
 | `/raid taktik` | Offiziere | Molten-Core-Taktik in #mc-taktik |
 | `/addon` | alle | Download-Link der aktuellen Addon-Version |
-| `/sr` | alle | Soft Reserve für PUG-Raids |
 | `/charakter` | alle | Charakter und Rolle festlegen |
 | `/dkp`, `/dkpliste` | alle | DKP abfragen |
 | `/raidmaster-status` | Offiziere | Version, Uploads, Datenstand |

@@ -80,8 +80,7 @@ BASE_BOTTOM = [
     {
         "name": "🎲 PUG", "mode": None, "guest": True,
         "channels": [
-            ("text", "pug-anmeldung", "PUG-Raids mit Soft Reserve – Anmeldung per Knopf", "readonly"),
-            ("text", "softreserve", "Soft Reserves der PUG-Raids – eintragen mit /sr oder Knopf am Raid", "botonly"),
+            ("text", "pug-anmeldung", "PUG-Raids – Anmeldung per Knopf, Loot wird ausgewürfelt", "readonly"),
             ("text", "pug-chat", "Absprachen für PUG-Raids", None),
             ("voice", "PUG-Raid", None, None),
         ],
@@ -372,13 +371,12 @@ def _raid_howto_text(name: str) -> str:
 
 def _pug_howto_text() -> str:
     return (
-        "**PUG-Raids mit Soft Reserve** 🎲\n"
-        "• Offiziere erstellen PUG-Raids mit `/raid erstellen` und **modus: PUG-Raid mit Soft Reserve**.\n"
-        "• Anmelden per Knopf wie gewohnt. Mit **Soft Reserve** trägst du deine Wunsch-Items per **Item-ID** ein "
-        "(steht bei Wowhead in der Adresse: item=12345). Alternativ `/sr`.\n"
-        "• Alle Reservierungen siehst du in **#softreserve**.\n"
-        "• Im Raid: Reservierte Items würfeln nur die Reservierer aus, alles andere: Bedarf `/roll`, Gier `/roll 99`.\n"
-        "• Im Spiel kannst du auch im RaidMaster-Addon (Seite **Soft Reserve**) reservieren oder dem Leiter `!sr 12345` flüstern."
+        "**PUG-Raids** 🎲\n"
+        "• Offiziere erstellen PUG-Raids mit `/raid erstellen` und **modus: PUG-Raid**.\n"
+        "• Einmal registrieren (Knopf unten), dann bei jedem Raid per Knopf anmelden.\n"
+        "• Im Raid wird der Loot fair ausgewürfelt: Bedarf `/roll`, Gier `/roll 99`. Nur der erste Wurf zählt, "
+        "bei Gleichstand gibt es ein Stechen.\n"
+        "• Das Addon **RaidMaster** aus **#raid-addon** ist empfohlen, aber kein Muss."
     )
 
 
@@ -387,7 +385,7 @@ def _bot_commands_text() -> str:
         "**Bot-Befehle für die Gildenleitung**\n"
         "`/raid erstellen` (mit Raid-Auswahl) · `/raid aufstellung` · `/raid liste` · `/raid schliessen` · `/raid oeffnen` · "
         "`/raid absagen` · `/raid export` · `/raid taktik`\n"
-        "`/sr` – Soft Reserve für PUG-Raids · `/dkp` · `/dkpliste` · `/addon`\n"
+        "`/dkp` · `/dkpliste` · `/addon`\n"
         "`/raidmaster-status` – zeigt Datenstand, Uploads und installierte Version\n"
         "`/pug-einladung` – Einladungslink für PUG-Spieler (Rolle Gast)\n"
         "`/willkommen` – Willkommenstext in #willkommen posten/aktualisieren (Admins)\n"
@@ -395,6 +393,23 @@ def _bot_commands_text() -> str:
         "`/update` – Update jetzt prüfen bzw. eine Update-ZIP einspielen (Admins)\n"
         "`/raidmaster-einrichten` – Kanäle und Rollen erneut prüfen/ergänzen"
     )
+
+
+async def _replace_old_pug_text(channel, guild, report: list):
+    """Alte PUG-Anleitung mit Soft Reserve durch die neue ersetzen."""
+    if not channel:
+        return
+    found = False
+    try:
+        async for msg in channel.history(limit=50):
+            if msg.author.id == guild.me.id and (msg.content or "").startswith("**PUG-Raids mit Soft Reserve**"):
+                await msg.delete()
+                found = True
+        if found:
+            await channel.send(_pug_howto_text())
+            report.append("✏️ PUG-Anleitung in #pug-anmeldung aktualisiert (ohne Soft Reserve)")
+    except (discord.HTTPException, AttributeError):
+        pass
 
 
 async def _post_pug_registration(channel, cfg: dict, report: list):
@@ -507,6 +522,7 @@ async def run_setup(guild: discord.Guild, invoker: discord.Member, cfg: dict, dk
             except discord.HTTPException:
                 report.append(f"⚠️ Text in #{name} konnte nicht gepostet werden")
 
+    await _replace_old_pug_text(created.get("pug-anmeldung"), guild, report)
     await _post_pug_registration(created.get("pug-anmeldung"), cfg, report)
     for r in raids:
         await _post_raid_registration(created.get(f"{r['prefix']}-anmeldung"), cfg, r["raid"],
@@ -520,7 +536,10 @@ async def run_setup(guild: discord.Guild, invoker: discord.Member, cfg: dict, dk
         cfg["dkp_channel_id"] = mc["dkp"]
     if mc.get("loot"):
         cfg["loot_channel_id"] = mc["loot"]
-    for key, ch_name in (("softreserve_channel_id", "softreserve"), ("assignment_channel_id", "einteilung"),
+    if _find(guild.text_channels, "softreserve"):
+        report.append("ℹ️ #softreserve wird nicht mehr gebraucht (Soft Reserve wurde entfernt) – du kannst den Kanal löschen.")
+    cfg.pop("softreserve_channel_id", None)
+    for key, ch_name in (("assignment_channel_id", "einteilung"),
                          ("officer_channel_id", "offiziere"), ("addon_channel_id", "raid-addon"),
                          ("announce_channel_id", "ankündigungen"), ("pug_channel_id", "pug-anmeldung"),
                          ("data_channel_id", "bot-daten"), ("botcmd_channel_id", "bot-befehle"),

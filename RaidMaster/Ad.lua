@@ -6,8 +6,8 @@ local _, RM = ...
 local Ad = {}
 RM.Ad = Ad
 
-Ad.DEFAULT_TEXT = "[{raid}] PUG {zeit} – {frei}, {sr}. Anmeldung + SR im Discord: {link} – oder /w {name} inv"
-Ad.DEFAULT_TEXT_NOLINK = "[{raid}] PUG {zeit} – {frei}, {sr}. Einladung: /w {name} inv"
+Ad.DEFAULT_TEXT = "[{raid}] PUG {zeit} – {frei}, Loot wird ausgewürfelt. Anmeldung im Discord: {link} – oder /w {name} inv"
+Ad.DEFAULT_TEXT_NOLINK = "[{raid}] PUG {zeit} – {frei}, Loot wird ausgewürfelt. Einladung: /w {name} inv"
 Ad.COOLDOWN = 30
 Ad.lastPost = 0
 
@@ -98,18 +98,6 @@ local function FreeText()
 	return string.format("noch %d %s frei", free, free == 1 and "Platz" or "Plätze")
 end
 
-local function SRText()
-	local v = RM.PUG and RM.PUG.view
-	local limit
-	if v and v.active then
-		limit = v.limit or 1
-	elseif RM.db.signup and RM.db.signup.mode == "pug" then
-		limit = RM.db.signup.srLimit or 1
-	end
-	if not limit then return "" end
-	return string.format("Soft Reserve %d %s", limit, limit == 1 and "Item" or "Items")
-end
-
 local function Clean(s)
 	s = s:gsub("%s+", " ")
 	for _ = 1, 3 do
@@ -138,7 +126,6 @@ function Ad.Build()
 		raid = RaidTitle(),
 		zeit = TimeText(),
 		frei = FreeText(),
-		sr = SRText(),
 		link = cfg.adLink or "",
 		name = RM.Me() or "",
 	}

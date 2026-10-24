@@ -63,7 +63,6 @@ DEFAULT_CONFIG = {
     "dkp_channel_id": 0,
     "dkp_channels": {},
     "loot_channel_id": 0,
-    "softreserve_channel_id": 0,
     "assignment_channel_id": 0,
     "officer_channel_id": 0,
     "addon_channel_id": 0,
@@ -180,6 +179,12 @@ class RaidBot(discord.Client):
                 await ensure_welcome(update=False)
             except Exception:
                 log.exception("Willkommenstext konnte nicht gepostet werden")
+            # offene Raid-Nachrichten auf den aktuellen Stand bringen (z. B. Knöpfe nach einem Update)
+            for r in book.open_raids():
+                try:
+                    await update_raid_message(r)
+                except Exception:
+                    log.exception("Raid-Nachricht %s konnte nicht aktualisiert werden", r.get("id"))
         await refresh_invite_cache()
 
     async def on_invite_create(self, invite):
@@ -230,7 +235,7 @@ def raid_embed(raid: dict) -> discord.Embed:
     if raid.get("pool_name"):
         desc = f"🏰 **{raid['pool_name']}**\n" + desc
     if raid.get("mode") == "pug":
-        desc += f"\n🎲 **PUG-Raid** · Soft Reserve: {raid.get('sr_limit') or 1} Item(s) pro Spieler · gewürfelt statt DKP"
+        desc += "\n🎲 **PUG-Raid** · Loot wird ausgewürfelt (Bedarf `/roll`, Gier `/roll 99`) statt DKP"
     if raid.get("description"):
         desc += "\n" + raid["description"]
     count = book.count_status(raid, "an")
@@ -254,8 +259,6 @@ def raid_view(raid: dict) -> discord.ui.View:
     v.add_item(discord.ui.Button(label="Vielleicht", emoji="❔", style=discord.ButtonStyle.secondary, custom_id=f"rm:vielleicht:{rid}", disabled=closed, row=0))
     v.add_item(discord.ui.Button(label="Abmelden", emoji="❌", style=discord.ButtonStyle.danger, custom_id=f"rm:ab:{rid}", disabled=closed, row=0))
     v.add_item(discord.ui.Button(label="Charakter ändern", emoji="👤", style=discord.ButtonStyle.secondary, custom_id=f"rm:char:{rid}", row=1))
-    if raid.get("mode") == "pug":
-        v.add_item(discord.ui.Button(label="Soft Reserve", emoji="🎲", style=discord.ButtonStyle.success, custom_id=f"rm:sr:{rid}", disabled=closed, row=1))
     v.add_item(discord.ui.Button(label="Für RaidMaster (Offiziere)", emoji="📋", style=discord.ButtonStyle.primary, custom_id=f"rm:export:{rid}", row=1))
     return v
 
@@ -267,70 +270,6 @@ async def update_raid_message(raid: dict):
             await channel.get_partial_message(raid["message_id"]).edit(embed=raid_embed(raid), view=raid_view(raid))
         except discord.HTTPException as e:
             log.warning("Raid-Nachricht %s konnte nicht aktualisiert werden: %s", raid["id"], e)
-    if raid.get("mode") == "pug":
-        await update_sr_overview(raid)
-
-
-async def update_sr_overview(raid: dict):
-    """Übersicht im Kanal #softreserve anlegen bzw. aktualisieren."""
-    channel_id = cfg.get("softreserve_channel_id")
-    if not channel_id:
-        return
-    try:
-        channel = bot.get_channel(int(channel_id)) or await bot.fetch_channel(int(channel_id))
-        text = rmd.sr_overview_text(raid)
-        if raid.get("sr_message"):
-            try:
-                await channel.get_partial_message(raid["sr_message"]).edit(content=text)
-                return
-            except discord.NotFound:
-                pass
-        msg = await channel.send(text)
-        raid["sr_message"] = msg.id
-        book.save()
-    except discord.HTTPException as e:
-        log.warning("Soft-Reserve-Übersicht konnte nicht aktualisiert werden: %s", e)
-
-
-async def save_soft_reserve(inter: discord.Interaction, raid: dict, text: str):
-    """Gemeinsame Logik für Knopf und /sr."""
-    profile = book.profile(inter.user.id)
-    if not profile:
-        await inter.response.send_message("Lege zuerst deinen Charakter fest (`/charakter`), dann erneut reservieren.", ephemeral=True)
-        return
-    if raid.get("closed"):
-        await inter.response.send_message("Für diesen Raid kann nicht mehr reserviert werden.", ephemeral=True)
-        return
-    ids = rmd.parse_item_ids(text)
-    if text.strip() and not ids:
-        await inter.response.send_message("Keine gültige Item-ID gefunden. Beispiel: `16800` oder `16800, 18823` "
-                                          "(die ID steht bei Wowhead in der Adresse: item=16800).", ephemeral=True)
-        return
-    limit = raid.get("sr_limit") or 1
-    if len(ids) > limit:
-        await inter.response.send_message(f"Maximal **{limit}** Item(s) erlaubt – du hast {len(ids)} angegeben.", ephemeral=True)
-        return
-    book.set_sr(raid, inter.user.id, profile["name"], ids)
-    if ids:
-        msg = "Soft Reserve gespeichert: " + ", ".join(f"`{i}`" for i in ids)
-    else:
-        msg = "Deine Soft Reserves wurden gelöscht."
-    await inter.response.send_message(msg + f"\nRaid: **{raid['title']}** · Charakter: **{profile['name']}**", ephemeral=True)
-    await update_raid_message(raid)
-
-
-class SoftReserveModal(discord.ui.Modal):
-    def __init__(self, raid: dict, current: list[int]):
-        super().__init__(title="Soft Reserve")
-        self.raid = raid
-        limit = raid.get("sr_limit") or 1
-        self.items_input = discord.ui.TextInput(
-            label=f"Item-IDs (max. {limit}, mit Komma getrennt)", required=False, max_length=100,
-            default=", ".join(str(i) for i in current) or None, placeholder="z. B. 16800, 18823  (leer = löschen)")
-        self.add_item(self.items_input)
-
-    async def on_submit(self, inter: discord.Interaction):
-        await save_soft_reserve(inter, self.raid, self.items_input.value or "")
 
 
 def status_text(actual: str, wanted: str) -> str:
@@ -467,7 +406,7 @@ async def register_pug_player(inter: discord.Interaction):
             note = ""
     await inter.response.send_message(
         note + "Wähle jetzt Klasse und Rolle und gib deinen Charakternamen ein – danach kannst du dich mit einem Klick "
-        "für PUG-Raids anmelden und Soft Reserves setzen.",
+        "für PUG-Raids anmelden.",
         view=ProfileView("", None, book.profile(inter.user.id)), ephemeral=True)
 
 
@@ -509,13 +448,9 @@ async def on_interaction(inter: discord.Interaction):
         profile = book.profile(inter.user.id)
 
         if action == "sr":
-            if not profile:
-                await inter.response.send_message(
-                    "Lege zuerst deinen Charakter fest – danach erneut auf **Soft Reserve** klicken.",
-                    view=ProfileView(rid, None, None), ephemeral=True)
-                return
-            current = ((raid.get("sr") or {}).get(str(inter.user.id)) or {}).get("ids", [])
-            await inter.response.send_modal(SoftReserveModal(raid, current))
+            # Knopf älterer Raid-Nachrichten
+            await inter.response.send_message("Soft Reserve gibt es nicht mehr – im PUG-Raid wird alles ausgewürfelt.", ephemeral=True)
+            await update_raid_message(raid)
             return
 
         if action == "char":
@@ -590,13 +525,13 @@ def raid_channel(pool: str, kind: str) -> int:
 @app_commands.describe(titel="z. B. Molten Core Mittwoch", datum="TT.MM.JJJJ, z. B. 29.10.2026", uhrzeit="HH:MM, z. B. 20:00",
                        raid="Welcher Raid? (bestimmt Kategorie und DKP-Topf, Standard Molten Core)",
                        beschreibung="optional, z. B. Treffpunkt und Buffs", max_spieler="optional, z. B. 40 (0 = unbegrenzt)",
-                       modus="DKP-Raid (Gilde) oder PUG-Raid mit Soft Reserve", soft_reserve="PUG: Items pro Spieler (Standard 1)")
+                       modus="DKP-Raid (Gilde) oder PUG-Raid (Loot wird ausgewürfelt)")
 @app_commands.choices(modus=[app_commands.Choice(name="DKP-Raid (Gilde)", value="dkp"),
-                             app_commands.Choice(name="PUG-Raid mit Soft Reserve", value="pug")])
+                             app_commands.Choice(name="PUG-Raid (Loot auswürfeln)", value="pug")])
 @app_commands.autocomplete(raid=raid_pool_autocomplete)
 async def raid_create(inter: discord.Interaction, titel: str, datum: str, uhrzeit: str, raid: str = "mc",
                       beschreibung: str | None = None, max_spieler: app_commands.Range[int, 0, 40] = 0,
-                      modus: app_commands.Choice[str] | None = None, soft_reserve: app_commands.Range[int, 1, 3] = 1):
+                      modus: app_commands.Choice[str] | None = None):
     pool = raid
     if not is_creator(inter.user):
         await inter.response.send_message("Raids erstellen dürfen nur Offiziere bzw. die Raidleitung.", ephemeral=True)
@@ -615,8 +550,7 @@ async def raid_create(inter: discord.Interaction, titel: str, datum: str, uhrzei
     target = await channel_by_id(target_id) if target_id else None
     if target is None:
         target = inter.channel
-    raid = book.create(titel[:80], start, (beschreibung or "")[:500], max_spieler, inter.user.id, target.id,
-                       mode=mode, sr_limit=soft_reserve if mode == "pug" else 0)
+    raid = book.create(titel[:80], start, (beschreibung or "")[:500], max_spieler, inter.user.id, target.id, mode=mode)
     raid["pool"] = pool
     raid["pool_name"] = dict(known_raids()).get(pool, pool)
     if target.id == inter.channel_id:
@@ -628,11 +562,10 @@ async def raid_create(inter: discord.Interaction, titel: str, datum: str, uhrzei
     raid["message_id"] = msg.id
     book.save()
     if mode == "pug":
-        await update_sr_overview(raid)
         role = discord.utils.get(inter.guild.roles, name="Gast") if inter.guild else None
         if role:
             try:
-                await target.send(f"{role.mention} 🎲 Neuer PUG-Raid: **{raid['title']}** ({raid['pool_name']}) am <t:{raid['start']}:F> – Anmeldung und Soft Reserve oben!",
+                await target.send(f"{role.mention} 🎲 Neuer PUG-Raid: **{raid['title']}** ({raid['pool_name']}) am <t:{raid['start']}:F> – Anmeldung oben!",
                                   allowed_mentions=discord.AllowedMentions(roles=True))
             except discord.HTTPException:
                 pass
@@ -792,28 +725,6 @@ async def raid_tactics(inter: discord.Interaction):
 
 bot.tree.add_command(raid_group)
 
-
-async def pug_autocomplete(inter: discord.Interaction, current: str) -> list[app_commands.Choice[str]]:
-    out = []
-    for r in book.open_raids():
-        if r.get("mode") != "pug":
-            continue
-        start = datetime.fromtimestamp(r["start"], ZoneInfo(TZ)).strftime("%d.%m. %H:%M")
-        label = f"#{r['id']} {r['title']} – {start}"
-        if current.lower() in label.lower():
-            out.append(app_commands.Choice(name=label[:100], value=r["id"]))
-    return out[:20]
-
-
-@bot.tree.command(name="sr", description="Soft Reserve für einen PUG-Raid setzen (Item-IDs)")
-@app_commands.describe(raid="Welcher PUG-Raid?", items="Item-IDs mit Komma, z. B. 16800, 18823 (leer = löschen)")
-@app_commands.autocomplete(raid=pug_autocomplete)
-async def sr_cmd(inter: discord.Interaction, raid: str, items: str = ""):
-    r = book.get(raid)
-    if not r or r.get("mode") != "pug":
-        await inter.response.send_message("PUG-Raid nicht gefunden.", ephemeral=True)
-        return
-    await save_soft_reserve(inter, r, items)
 
 # ---------------------------------------------------------------------------
 # Befehle: Charakter und DKP
@@ -1685,7 +1596,7 @@ async def handle_member_join(member):
         await member.send(
             f"👋 Willkommen auf **{member.guild.name}**!\n"
             f"Für unsere PUG-Raids: In {pug} auf **Als PUG-Spieler registrieren** klicken, Charakter festlegen, "
-            "dann bei einem Raid anmelden und deine Soft Reserves eintragen. Viel Spaß!")
+            "dann bei einem Raid anmelden. Der Loot wird im Raid fair ausgewürfelt. Viel Spaß!")
     except discord.HTTPException:
         pass
 

@@ -1,4 +1,4 @@
-RaidMaster 1.5.1 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 1.5.2 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -8,11 +8,11 @@ INSTALLATION
 - ALLE Raidmitglieder sollten mindestens 1.3.0 nutzen (Datenformat mit DKP pro Raid).
 - Neue Versionen gibt es immer im Discord unter #raid-addon (alle Registrierten bekommen eine Nachricht).
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
-  Ohne Addon kann man trotzdem bieten (!bid 50), DKP abfragen (!dkp) und reservieren (!sr 12345).
+  Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
 SEITEN IM FENSTER
-  DKP-Stände · Versteigerung · Loot · Log · Raid · Anmeldungen · Soft Reserve · Einteilung ·
+  DKP-Stände · Versteigerung · Loot · Log · Raid · Anmeldungen · PUG-Raid · Einteilung ·
   Raidleiter · Werbung · Skillungen · Einstellungen
 
 RECHTE
@@ -44,17 +44,12 @@ ABLAUF STAMMRAID (DKP)
 5. Seite "Raid": "Raid starten". Bosse werden automatisch gebucht, Loot automatisch versteigert.
 6. Am Ende "Raid beenden", danach /reload, damit der Bot die DKP in Discord aktualisiert.
 
-PUG-RAIDS MIT SOFT RESERVE (neu in 1.3.0)
-- Seite "Soft Reserve" -> Leitung: Items pro Spieler wählen -> "PUG-Raid starten".
-  Kein DKP – epische Items werden ausgewürfelt statt versteigert.
-- Spieler reservieren:
-  - im Addon (Seite Soft Reserve): Item-ID eintippen oder Item per Shift-Klick einfügen -> Reservieren
-  - per Flüstern an den Leiter: !sr 16800  (oder !sr [Itemlink]; !sr zeigt, !sr löschen löscht)
-  - in Discord: Knopf "Soft Reserve" am Raid oder /sr – kommt über den Import ins Spiel
-- Leiter: SR sperren, SR-Liste im Raid posten, SR aus Discord übernehmen, einzelne entfernen.
-- Beim Öffnen des Bosses: Reservierte Items würfeln nur die Reservierer (/roll), alle anderen Items:
+PUG-RAIDS (Soft Reserve wurde in 1.5.2 entfernt)
+- Seite "PUG-Raid" -> "PUG-Raid starten". Kein DKP – epische Items werden ausgewürfelt statt versteigert.
+- Beim Öffnen des Bosses kommen die Items automatisch in die Würfel-Warteschlange:
   Bedarf /roll, Gier /roll 99. Würfe werden automatisch erkannt (nur der erste zählt),
   bei Gleichstand gibt es ein Stechen. Danach bestätigen -> Item wird direkt zugeteilt.
+- Einzelnes Item von Hand würfeln lassen: per Shift-Klick ins Feld und "Würfeln".
 
 EINTEILUNG PER KNOPFDRUCK (neu in 1.3.0)
 - Seite "Einteilung": Tanks in Reihenfolge (MT zuerst) – "Auto" erkennt sie aus Haupttank-
@@ -73,8 +68,8 @@ EINTEILUNG PER KNOPFDRUCK (neu in 1.3.0)
 WERBUNG FÜR PUG-RAIDS (neu in 1.5.1)
 - Seite "Werbung": Kanal wählen (Welt, Handel, Gruppensuche ... – nur Kanäle, in denen du bist),
   Vorschau ansehen, "Im Chat posten". Höchstens alle 30 Sekunden.
-- Der Text enthält automatisch Raid, Uhrzeit, freie Plätze, Soft Reserve und den Discord-Link.
-  Eigener Text mit Platzhaltern {raid} {zeit} {frei} {sr} {link} {name} möglich.
+- Der Text enthält automatisch Raid, Uhrzeit, freie Plätze und den Discord-Link.
+  Eigener Text mit Platzhaltern {raid} {zeit} {frei} {link} {name} möglich.
 - Den Discord-Link gibt es mit /pug-einladung im Discord; beim Import eines PUG-Raids
   ("Für RaidMaster") wird er automatisch übernommen.
 - Wer dir danach "inv" flüstert, wird automatisch eingeladen (abschaltbar).

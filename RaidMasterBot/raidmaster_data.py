@@ -66,7 +66,7 @@ POOLS = {
 POOL_ORDER = ["mc", "ony", "barrow", "hyjal"]
 POOL_SLUGS = {"mc": "dkp-molten-core", "ony": "dkp-onyxia", "barrow": "dkp-barrow-deeps", "hyjal": "dkp-hyjal"}
 
-MODES = {"dkp": "DKP-Raid", "pug": "PUG-Raid (Soft Reserve)"}
+MODES = {"dkp": "DKP-Raid", "pug": "PUG-Raid (Loot wird ausgewürfelt)"}
 
 STATUS = {
     "an": "Angemeldet",
@@ -711,9 +711,6 @@ class RaidBook:
             s = raid["signups"].get(str(user_id))
             if s and not raid.get("closed"):
                 s.update(name=name, cls=cls, role=role, spec=spec_short(p.get("spec")))
-            sr = (raid.get("sr") or {}).get(str(user_id))
-            if sr and not raid.get("closed"):
-                sr["name"] = name
         self.raids.save()
         return p
 
@@ -751,14 +748,14 @@ class RaidBook:
 
     # Raids ---------------------------------------------------------------
     def create(self, title: str, start: datetime, description: str, max_players: int, creator: int, channel_id: int,
-               mode: str = "dkp", sr_limit: int = 0) -> dict:
+               mode: str = "dkp") -> dict:
         rid = str(self.raids.data["next_id"])
         self.raids.data["next_id"] += 1
         raid = {
             "id": rid, "title": title, "start": int(start.timestamp()), "description": description or "",
             "max": int(max_players or 0), "creator": creator, "channel_id": channel_id, "message_id": None,
             "signups": {}, "closed": False, "cancelled": False, "reminded": False,
-            "mode": mode if mode in MODES else "dkp", "sr_limit": int(sr_limit or 0), "sr": {}, "sr_message": None,
+            "mode": mode if mode in MODES else "dkp",
         }
         self.raids.data["raids"][rid] = raid
         self.raids.save()
@@ -775,14 +772,6 @@ class RaidBook:
 
     def save(self):
         self.raids.save()
-
-    def set_sr(self, raid: dict, user_id: int, name: str, ids: list[int]):
-        raid.setdefault("sr", {})
-        if ids:
-            raid["sr"][str(user_id)] = {"name": name, "ids": ids}
-        else:
-            raid["sr"].pop(str(user_id), None)
-        self.save()
 
     def count_status(self, raid: dict, status: str) -> int:
         return sum(1 for s in raid["signups"].values() if s["status"] == status)
@@ -803,25 +792,6 @@ class RaidBook:
         raid["signups"][key] = entry
         self.save()
         return status
-
-
-def parse_item_ids(text: str) -> list[int]:
-    """Item-IDs aus Text: Zahlen, 'item=12345' (Wowhead-Adresse) oder 'item:12345'."""
-    ids: list[int] = []
-    for m in re.finditer(r"(?:item[=:])?(\d{2,7})", text or ""):
-        v = int(m.group(1))
-        if v > 0 and v not in ids:
-            ids.append(v)
-    return ids
-
-
-def sr_lines(raid: dict) -> list[str]:
-    """Soft Reserves gruppiert nach Item: 'Item 12345: A, B'."""
-    by_item: dict[int, list[str]] = {}
-    for entry in (raid.get("sr") or {}).values():
-        for i in entry.get("ids", []):
-            by_item.setdefault(int(i), []).append(entry["name"])
-    return [f"`{i}`: {', '.join(sorted(names))}" for i, names in sorted(by_item.items())]
 
 
 def clean_name(name: str) -> str:
@@ -852,10 +822,6 @@ def raid_fields(raid: dict) -> list[tuple[str, str, bool]]:
         if members:
             text = ", ".join(f"{s['name']} ({CLASSES.get(s['cls'], s['cls'])})" for s in members)
             fields.append((f"{STATUS[status]} ({len(members)})", text[:1024], False))
-    if raid.get("mode") == "pug":
-        lines = sr_lines(raid)
-        text = "\n".join(lines) if lines else "Noch keine – Knopf **Soft Reserve** oder `/sr`"
-        fields.append((f"🎲 Soft Reserves (je {raid.get('sr_limit') or 1})", text[:1024], False))
     out = sum(1 for s in raid["signups"].values() if s["status"] == "ab")
     if out:
         names = ", ".join(sorted(s["name"] for s in raid["signups"].values() if s["status"] == "ab"))
@@ -885,7 +851,7 @@ def export_text(raid: dict, tz: str, lineup: dict | None = None, link: str = "")
     if raid.get("pool"):
         lines.append(f"Topf: {raid['pool']}")
     if raid.get("mode") == "pug":
-        lines.append(f"Modus: pug;{raid.get('sr_limit') or 1}")
+        lines.append("Modus: pug")
     if raid.get("max"):
         lines.append(f"Max: {int(raid['max'])}")
     if link:
@@ -893,9 +859,6 @@ def export_text(raid: dict, tz: str, lineup: dict | None = None, link: str = "")
     order = {"an": 0, "ersatz": 1, "vielleicht": 2, "ab": 3}
     for s in sorted(raid["signups"].values(), key=lambda s: (order.get(s["status"], 9), s["t"])):
         lines.append(f"{s['name']};{s['cls']};{s['role']};{s['status']}")
-    for entry in (raid.get("sr") or {}).values():
-        if entry.get("ids"):
-            lines.append(f"SR;{entry['name']};{','.join(str(i) for i in entry['ids'])}")
     if lineup:
         for name, g in lineup["groups"].items():
             lines.append(f"GRP;{name};{g}")
@@ -903,13 +866,3 @@ def export_text(raid: dict, tz: str, lineup: dict | None = None, link: str = "")
             lines.append(f"BANK;{name}")
     return "\n".join(lines)
 
-
-def sr_overview_text(raid: dict) -> str:
-    """Übersicht für den Kanal #softreserve."""
-    head = f"🎲 **Soft Reserves – {raid['title']}** (<t:{raid['start']}:F>) · je {raid.get('sr_limit') or 1} Item(s)"
-    if raid.get("closed"):
-        head += " · geschlossen"
-    lines = sr_lines(raid)
-    body = "\n".join(lines) if lines else "Noch keine Reservierungen."
-    hint = "\n\nReservieren: Knopf **Soft Reserve** am Raid oder `/sr` mit Item-IDs (Wowhead: item=12345)."
-    return (head + "\n" + body)[:1800] + hint
