@@ -1,8 +1,8 @@
-RaidMaster Test 1.0.0 – RaidMaster im Spiel gefahrlos ausprobieren
+RaidMaster Test 1.1.0 – RaidMaster im Spiel gefahrlos ausprobieren
 ==================================================================
 
 INSTALLATION
-- Den Ordner "RaidMasterTest" neben "RaidMaster" in ...\Interface\AddOns\ kopieren (RaidMaster ab 1.8.3).
+- Den Ordner "RaidMasterTest" neben "RaidMaster" in ...\Interface\AddOns\ kopieren (RaidMaster ab 1.8.5).
 - Öffnen mit /rmtest. Nur für dich als Raidleitung/Offizier gedacht – die Gilde braucht es nicht.
 
 TESTMODUS
@@ -20,6 +20,11 @@ WAS DU TESTEN KANNST
   vorlage des Bosses wird gewählt), "Raid beenden".
 - Versteigerung: Item per Shift-Klick einfügen (leer = Ruhestein) -> 4 Testspieler bieten nacheinander,
   danach fragt RaidMaster wie im echten Raid, ob vergeben wird.
+- Ganzen Raid durchspielen: Raid wählen (z. B. Molten Core) -> "Ganzen Raid durchspielen" startet den Raid,
+  besiegt alle Bosse nacheinander, legt echte Beute aus der Beutetabelle des Bosses aus (Classic, TBC und
+  Wrath), lässt die Testspieler darauf bieten, vergibt die Items und beendet den Raid am Schluss.
+  "Trash-Loot" legt Beute von Trashgegnern des Raids aus. "Durchlauf abbrechen" hält jederzeit an.
+- Plündermethode und Raidleiter der echten Gruppe werden im Testmodus nicht verändert.
 - Schlachtzugsymbole: echt testen, z. B. an Trainingspuppen in der Hauptstadt ("Adds markieren"
   markiert alle sichtbaren Gegner, Namensplaketten mit Taste V einschalten).
 - Selbsttest: prüft Spielversion, Sprache, Raids und Taktiken, Plündermeister, Namensplaketten,

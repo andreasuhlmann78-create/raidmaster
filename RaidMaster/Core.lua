@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "1.8.4"
-RM.VERSION_NUM = 10804
+RM.VERSION = "1.8.5"
+RM.VERSION_NUM = 10805
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -113,12 +113,15 @@ RM.DEFAULT_SETTINGS = {
 	allowNegative = false,
 	onlyOnline = false,
 	standbyGetsDKP = true,
+	raidLeader = "Rokan",     -- fester Raidleiter der Gilde (bekommt automatisch die Raidleitung)
 }
 
 -- Lokale Einstellungen (nur dieser Spieler)
 RM.DEFAULT_CONFIG = {
 	lootMaster = "",
-	lootThreshold = 3,        -- 3 = Rar (blau), 4 = Episch
+	autoPromote = true,       -- als Gruppenleiter den festen Raidleiter automatisch befördern
+	lootThreshold = 2,        -- 2 = Selten (grün), 3 = Rar (blau), 4 = Episch
+	autoLoot = true,          -- als Raidleiter vergessenen Plündermeister automatisch setzen
 	setLootOnStart = true,
 	autoDistribute = true,
 	announceLoot = true,
@@ -379,6 +382,8 @@ end
 
 function RM.IsOfficer(name)
 	name = RM.Short(name)
+	-- der feste Raidleiter hat immer alle Rechte (andere nur, wenn er in der Gilde ist)
+	if RM.IsMainLeader(name) and (name == RM.Me() or RM.guild.rank[name] ~= nil) then return true end
 	local rank = RM.guild.rank[name]
 	if rank == nil and name == RM.Me() then
 		local _, _, rankIndex = GetGuildInfo("player")
@@ -389,9 +394,59 @@ function RM.IsOfficer(name)
 	return rank <= limit
 end
 
--- Darf dieser Spieler DKP verändern?
+-- Fester Raidleiter der Gilde (Einstellungen → System)
+function RM.MainLeader()
+	local n = RM.db and RM.db.data.settings.raidLeader
+	if n and n ~= "" then return RM.Short(n) end
+end
+
+function RM.IsMainLeader(name)
+	local m = RM.MainLeader()
+	if not m then return false end
+	name = RM.Short(name or RM.Me())
+	return name ~= nil and name:lower() == m:lower()
+end
+
+-- Darf dieser Spieler DKP verändern? (Offiziere und der feste Raidleiter)
 function RM.CanEdit()
-	return RM.IsOfficer(RM.Me())
+	return RM.IsOfficer(RM.Me()) or RM.IsMainLeader()
+end
+
+-- Einheit (raidN/partyN) eines Gruppenmitglieds
+function RM.GroupUnit(name)
+	name = RM.Short(name)
+	if not name then return nil end
+	if RM.InRaid() then
+		for i = 1, 40 do
+			local u = "raid" .. i
+			if UnitExists(u) and RM.Short(UnitName(u)) == name then return u end
+		end
+	else
+		for i = 1, 4 do
+			local u = "party" .. i
+			if UnitExists(u) and RM.Short(UnitName(u)) == name then return u end
+		end
+	end
+end
+
+-- Als Gruppenleiter den festen Raidleiter automatisch zum Leiter machen
+local promoteWait = false
+function RM.CheckMainLeader(force)
+	if not (RM.db and (RM.db.config.autoPromote or force)) then return end
+	local m = RM.MainLeader()
+	if not m or RM.IsMainLeader() then return end
+	if not (IsInGroup and IsInGroup()) or not RM.IsLeader() then return end
+	if InCombatLockdown and InCombatLockdown() then return end
+	local unit = RM.GroupUnit(m)
+	if not unit or not UnitIsConnected(unit) or UnitIsGroupLeader(unit) then return end
+	if promoteWait and not force then return end
+	promoteWait = true
+	C_Timer.After(10, function() promoteWait = false end)
+	local promote = PromoteToLeader or (C_PartyInfo and C_PartyInfo.SetLeader) or nil
+	if promote then
+		promote(UnitName(unit))
+		RM.Print(string.format(L["%s ist der feste Raidleiter und wurde zum Raidleiter gemacht."], m))
+	end
 end
 
 -- Name der eigenen Gilde (nil ohne Gilde)
@@ -465,6 +520,11 @@ RM.On("ADDON_LOADED", function(name)
 	FillDefaults(db.data.settings, RM.DEFAULT_SETTINGS)
 	db.config = db.config or {}
 	FillDefaults(db.config, RM.DEFAULT_CONFIG)
+	-- 1.8.5: Plündermeister schon ab grünen Items (alte Standardeinstellung "blau" umstellen)
+	if not db.config.threshold2 then
+		if db.config.lootThreshold == 3 then db.config.lootThreshold = 2 end
+		db.config.threshold2 = true
+	end
 	db.session = db.session or { active = false, kills = {} }
 	db.trade = db.trade or {}
 	db.foreign = db.foreign or {}

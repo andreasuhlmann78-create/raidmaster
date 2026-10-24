@@ -1,4 +1,4 @@
-RaidMaster 1.8.4 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 1.8.5 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,22 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+FENSTERGRÖSSE, PLÜNDERMEISTER, FESTER RAIDLEITER, WICHTIG-HINWEISE (neu in 1.8.5)
+- Das Fenster lässt sich am Griff unten rechts frei größer und kleiner ziehen; Schrift, Knöpfe und Listen
+  passen sich an (lange Listen zeigen mehr Zeilen). Rechtsklick auf den Griff: Standardgröße.
+- Plündermeister per Knopfdruck (Seite Loot und oben auf der Seite Raidleiter): Spieler aus dem Menü wählen –
+  als Raidleiter wird die Plündermethode im Spiel sofort umgestellt. Die Auswahl wird gespeichert; stellst du
+  im Spiel selbst um, merkt sich RaidMaster das ebenfalls.
+- Vergessen? Steht die Plündermethode als Raidleiter nicht auf Plündermeister, setzt RaidMaster den
+  gespeicherten Plündermeister und die Schwelle automatisch (abschaltbar auf der Seite Loot).
+- Plünderschwelle jetzt standardmäßig "Selten (grün)": der Plündermeister verteilt schon grüne Items.
+- Warnung (Schlachtzugwarnung nur bei dir + Ton) beim Raidstart, Bosspull und Gruppenwechsel, wenn kein
+  Plündermeister gesetzt ist oder die Seltenheitsstufe nicht stimmt.
+- Fester Raidleiter (Einstellungen → System, Standard: Rokan): hat immer alle Rechte im Addon und wird
+  automatisch zum Raidleiter gemacht, sobald er in die Gruppe kommt und der bisherige Leiter RaidMaster hat.
+- Jeder Boss aller Raids hat jetzt eine Zeile "Wichtig:" mit den entscheidenden Details (z. B. Lucifron:
+  Fluch zuerst bei Heilern und Manaklassen entfernen), in allen Sprachen.
 
 KURZINFOS NUR ALS SCHLACHTZUGWARNUNG, EINLULL-ROTATION (neu in 1.8.4)
 - "Kurzinfo als Raidwarnung" sendet ALLE Zeilen als Schlachtzugwarnung, nie in den normalen Chat

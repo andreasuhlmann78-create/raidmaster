@@ -253,6 +253,9 @@ UI.CloseMenus = CloseMenus
 
 -- Einträge in ein Menüfenster füllen; Gruppen öffnen beim Überfahren die zweite Spalte
 local function FillMenu(f, entries, owner, width)
+	-- Menü so groß wie das (evtl. skalierte) Hauptfenster
+	local us = UIParent:GetEffectiveScale()
+	if owner.GetEffectiveScale and us and us > 0 then f:SetScale(owner:GetEffectiveScale() / us) end
 	for _, r in ipairs(f.rows) do r:Hide() end
 	local cur = owner.getter()
 	for i, e in ipairs(entries) do
@@ -421,13 +424,12 @@ function UI.List(parent, width, height, columns, opts)
 	sep:SetPoint("TOPRIGHT", -1, -24)
 	sep:SetHeight(1)
 
-	local visible = math.floor((height - 28) / L.rowH)
-	L.visible = visible
-
-	for r = 1, visible do
+	-- Zeilen werden bei Bedarf erzeugt: die Liste passt sich ihrer Höhe an (Fenstergröße)
+	local function MakeRow(r)
 		local row = CreateFrame("Button", nil, L)
-		row:SetSize(width - 18, L.rowH)
+		row:SetHeight(L.rowH)
 		row:SetPoint("TOPLEFT", 1, -26 - (r - 1) * L.rowH)
+		row:SetPoint("TOPRIGHT", -17, -26 - (r - 1) * L.rowH)
 		row:RegisterForClicks("LeftButtonUp", "RightButtonUp")
 		local hl = row:CreateTexture(nil, "HIGHLIGHT")
 		hl:SetAllPoints()
@@ -471,7 +473,15 @@ function UI.List(parent, width, height, columns, opts)
 		end)
 		row:SetScript("OnLeave", function() GameTooltip:Hide() end)
 		L.rows[r] = row
+		return row
 	end
+
+	function L:Layout(h)
+		local visible = math.max(1, math.floor(((h or self:GetHeight() or height) - 28) / self.rowH))
+		for r = #self.rows + 1, visible do MakeRow(r) end
+		self.visible = visible
+	end
+	L:Layout(height)
 
 	local slider = CreateFrame("Slider", nil, L, TEMPLATE)
 	slider:SetOrientation("VERTICAL")
@@ -517,7 +527,7 @@ function UI.List(parent, width, height, columns, opts)
 	function L:Refresh()
 		for r, row in ipairs(self.rows) do
 			local idx = self.offset + r
-			local d = self.data[idx]
+			local d = r <= self.visible and self.data[idx] or nil
 			row.index = idx
 			if d then
 				for c, fs in ipairs(row.cells) do
@@ -533,6 +543,12 @@ function UI.List(parent, width, height, columns, opts)
 		end
 		if #self.data == 0 then self.empty:Show() else self.empty:Hide() end
 	end
+
+	L:SetScript("OnSizeChanged", function(self, _, h)
+		local old = self.visible
+		self:Layout(h)
+		if old ~= self.visible then self:SetData(self.data) end
+	end)
 
 	function L:Selected()
 		if self.selectedKey == nil then return nil end
@@ -563,6 +579,7 @@ function UI.Multiline(parent, w, h, readOnly)
 	eb:SetAutoFocus(false)
 	eb:SetFontObject(ChatFontNormal)
 	eb:SetWidth(w - 36)
+	holder:SetScript("OnSizeChanged", function(_, nw) if nw and nw > 40 then eb:SetWidth(nw - 36) end end)
 	eb:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
 	sf:SetScrollChild(eb)
 	holder.edit = eb
@@ -680,6 +697,7 @@ end
 UI.PAGE_ACCESS = { dkp = "all", auction = "all", settings = "officer" }
 
 function UI.IsRaidLead()
+	if RM.IsMainLeader() then return true end
 	local grouped = RM.InRaid() or (IsInGroup and IsInGroup())
 	return grouped and RM.IsAssist() and true or false
 end
@@ -819,8 +837,52 @@ function UI.RefreshCurrent()
 	end
 end
 
+-- Fenstergröße: das Fenster lässt sich frei ziehen (Griff unten rechts). Der Inhalt wird mit
+-- der kleineren der beiden Achsen skaliert, die andere Achse bekommt zusätzlichen Platz
+-- (Listen und Textfelder wachsen mit).
+UI.MAIN_W, UI.MAIN_H = 980, 640
+UI.CONTENT_H = 556     -- Höhe der Seiten im Entwurf (Seiten-Koordinaten)
+local MIN_W, MIN_H = 640, 420
+
+-- Element bis zum unteren (und optional rechten) Rand der Seite strecken, Abstand wie im Entwurf
+function UI.Fill(w, page, right)
+	local _, rel, _, x, y = w:GetPoint(1)
+	local bottom = UI.CONTENT_H + (y or 0) - w:GetHeight()
+	w:SetPoint("BOTTOMLEFT", rel or page, "BOTTOMLEFT", x or 0, math.max(0, bottom))
+	if right then
+		local pw = 790
+		w:SetPoint("TOPRIGHT", rel or page, "TOPRIGHT", (x or 0) + w:GetWidth() - pw, y or 0)
+	end
+	return w
+end
+
+-- Element am unteren Rand der Seite festhalten (y wie im Entwurf, von oben gemessen)
+function UI.PlaceBottom(w, page, x, y)
+	w:ClearAllPoints()
+	w:SetPoint("TOPLEFT", page, "BOTTOMLEFT", x, UI.CONTENT_H + y)
+	return w
+end
+
+local function ApplyMainScale(f)
+	local w, h = f:GetWidth(), f:GetHeight()
+	if not w or w <= 0 or not h or h <= 0 then return end
+	local s = math.min(w / UI.MAIN_W, h / UI.MAIN_H)
+	s = math.max(0.5, math.min(2.5, s))
+	f.root:SetScale(s)
+	f.root:SetSize(w / s, h / s)
+end
+
+function UI.ResetMainSize()
+	RM.db.config.mainSize = nil
+	if main then
+		main:SetSize(UI.MAIN_W, UI.MAIN_H)
+		ApplyMainScale(main)
+	end
+end
+
 local function CreateMain()
-	local f = UI.Frame(UIParent, 980, 640)
+	local size = RM.db.config.mainSize
+	local f = UI.Frame(UIParent, size and size[1] or UI.MAIN_W, size and size[2] or UI.MAIN_H)
 	f:SetFrameStrata("HIGH")
 	f:SetToplevel(true)
 	f:SetClampedToScreen(true)
@@ -829,7 +891,23 @@ local function CreateMain()
 	_G["RaidMasterMainFrame"] = f
 	tinsert(UISpecialFrames, "RaidMasterMainFrame")
 
-	local titleBar = UI.Frame(f, 980, 40)
+	-- Größe frei änderbar
+	f:SetResizable(true)
+	local maxW, maxH = (UIParent:GetWidth() or 1920), (UIParent:GetHeight() or 1080)
+	if f.SetResizeBounds then
+		f:SetResizeBounds(MIN_W, MIN_H, maxW, maxH)
+	else
+		if f.SetMinResize then f:SetMinResize(MIN_W, MIN_H) end
+		if f.SetMaxResize then f:SetMaxResize(maxW, maxH) end
+	end
+
+	-- Alles Sichtbare hängt an "root", das mit der Fenstergröße skaliert wird
+	local root = CreateFrame("Frame", nil, f)
+	root:SetPoint("TOPLEFT")
+	root:SetSize(UI.MAIN_W, UI.MAIN_H)
+	f.root = root
+
+	local titleBar = UI.Frame(root, UI.MAIN_W, 40)
 	titleBar:SetPoint("TOPLEFT")
 	titleBar:SetPoint("TOPRIGHT")
 	local tbg = titleBar:CreateTexture(nil, "BACKGROUND")
@@ -857,7 +935,7 @@ local function CreateMain()
 	local close = UI.CloseButton(titleBar, function() f:Hide() end)
 	close:SetPoint("RIGHT", -8, 0)
 
-	local nav = UI.Frame(f, 170, 560)
+	local nav = UI.Frame(root, 170, 560)
 	f.nav = nav
 	nav:SetPoint("TOPLEFT", 0, -40)
 	nav:SetPoint("BOTTOMLEFT", 0, 26)
@@ -870,12 +948,12 @@ local function CreateMain()
 	nline:SetWidth(1)
 	nline:SetColorTexture(COLORS.border[1], COLORS.border[2], COLORS.border[3], 1)
 
-	local content = UI.Frame(f, 800, 574)
+	local content = UI.Frame(root, 800, UI.CONTENT_H)
 	content:SetPoint("TOPLEFT", 180, -50)
 	content:SetPoint("BOTTOMRIGHT", -10, 34)
 	f.content = content
 
-	local footer = UI.Frame(f, 980, 26)
+	local footer = UI.Frame(root, UI.MAIN_W, 26)
 	footer:SetPoint("BOTTOMLEFT")
 	footer:SetPoint("BOTTOMRIGHT")
 	local fbg = footer:CreateTexture(nil, "BACKGROUND")
@@ -883,6 +961,38 @@ local function CreateMain()
 	fbg:SetColorTexture(0.04, 0.045, 0.055, 1)
 	f.status = UI.Text(footer, "", 11, unpack(COLORS.muted))
 	f.status:SetPoint("LEFT", 12, 0)
+	f.status:SetPoint("RIGHT", -28, 0)
+	f.status:SetWordWrap(false)
+
+	-- Griff zum Ändern der Größe (Rechtsklick: Standardgröße)
+	local grip = CreateFrame("Button", nil, f)
+	grip:SetSize(16, 16)
+	grip:SetPoint("BOTTOMRIGHT", -3, 3)
+	grip:SetFrameLevel((f:GetFrameLevel() or 1) + 20)
+	grip:SetNormalTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Up")
+	grip:SetHighlightTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Highlight")
+	grip:SetPushedTexture("Interface\\ChatFrame\\UI-ChatIM-SizeGrabber-Down")
+	grip:RegisterForClicks("RightButtonUp")
+	grip:SetScript("OnMouseDown", function(_, button)
+		if button == "LeftButton" then f:StartSizing("BOTTOMRIGHT") end
+	end)
+	grip:SetScript("OnMouseUp", function(_, button)
+		if button ~= "LeftButton" then return end
+		f:StopMovingOrSizing()
+		RM.db.config.mainSize = { math.floor(f:GetWidth() + 0.5), math.floor(f:GetHeight() + 0.5) }
+		local p, _, rp, px, py = f:GetPoint()
+		RM.db.config.positions.main = { p, rp, px, py }
+		ApplyMainScale(f)
+	end)
+	grip:SetScript("OnClick", function() UI.ResetMainSize() end)
+	grip:SetScript("OnEnter", function(self)
+		GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
+		GameTooltip:AddLine(L["Fenstergröße"])
+		GameTooltip:AddLine(L["Ziehen: Größe ändern – Rechtsklick: Standardgröße"], 1, 1, 1, true)
+		GameTooltip:Show()
+	end)
+	grip:SetScript("OnLeave", function() GameTooltip:Hide() end)
+	f:SetScript("OnSizeChanged", function(self) ApplyMainScale(self) end)
 
 	main = f
 	local y = -10
@@ -900,6 +1010,7 @@ local function CreateMain()
 		if ok then p.refresh = refresh else geterrorhandler()(refresh) end
 	end
 
+	ApplyMainScale(f)
 	f:SetScript("OnShow", function() UI.RefreshCurrent() end)
 	UI.ShowPage(UI.pageOrder[1])
 	return f

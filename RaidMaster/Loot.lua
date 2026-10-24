@@ -42,6 +42,60 @@ function Loot.ApplySettings()
 	end)
 end
 
+-- Plündermeister per Knopfdruck: sofort im Spiel umstellen (wenn man Raidleiter ist)
+function Loot.SetMaster(name)
+	C().lootMaster = name or ""
+	RM.Fire("CONFIG_CHANGED")
+	if not (IsInGroup and IsInGroup()) then
+		RM.Print(L["Gespeichert – wird beim nächsten Raid übernommen."])
+		return
+	end
+	if not RM.IsLeader() then
+		RM.Print(L["Gespeichert – umstellen kann nur der Raidleiter."])
+		return
+	end
+	if not RM.Caps.masterLoot then
+		RM.Print(L["Diese Spielversion hat keinen Plündermeister – Plündermethode bleibt unverändert."])
+		return
+	end
+	local ml = (name and name ~= "") and name or RM.Me()
+	RM.SetLootMethod("master", ml)
+	C_Timer.After(1.5, function()
+		RM.SetLootThreshold(C().lootThreshold)
+		RM.Fire("CONFIG_CHANGED")
+	end)
+	RM.Print(string.format(L["Plündermeister: %s, Schwelle: %s"], ml, RM.Raid.THRESHOLD_NAMES[C().lootThreshold] or C().lootThreshold))
+end
+
+-- Plünderschwelle sofort übernehmen
+function Loot.SetThreshold(v)
+	C().lootThreshold = v
+	if (IsInGroup and IsInGroup()) and RM.IsLeader() and RM.GetLootMethod() == "master" then RM.SetLootThreshold(v) end
+end
+
+-- Auswahl für das Plündermeister-Menü: du selbst + alle Gruppenmitglieder
+function Loot.MasterChoices()
+	local items = { { "", L["Du selbst"] .. " (" .. RM.Me() .. ")" } }
+	local names = {}
+	if RM.InRaid() then
+		for _, m in ipairs(RM.RaidMembers()) do if m.name ~= RM.Me() then names[#names + 1] = m.name end end
+	elseif IsInGroup and IsInGroup() then
+		for i = 1, 4 do
+			local n = UnitExists("party" .. i) and RM.Short(UnitName("party" .. i))
+			if n then names[#names + 1] = n end
+		end
+	end
+	table.sort(names)
+	local cur = C().lootMaster
+	local found = (cur == "" or cur == RM.Me())
+	for _, n in ipairs(names) do
+		items[#items + 1] = { n, n }
+		if n == cur then found = true end
+	end
+	if not found and cur and cur ~= "" then items[#items + 1] = { cur, cur .. " |cff888888(" .. L["nicht in der Gruppe"] .. ")|r" } end
+	return { { items = items } }
+end
+
 ---------------------------------------------------------------------------
 -- Einordnung eines Items
 ---------------------------------------------------------------------------
@@ -242,7 +296,7 @@ RM.On("LOOT_OPENED", function()
 	Loot.pendingBoss = nil
 
 	local cfg = C()
-	local threshold = cfg.lootThreshold or 3
+	local threshold = cfg.lootThreshold or 2
 	local key = SourceKey()
 	local announceParts = {}
 	local delay = 0.3
@@ -346,3 +400,102 @@ RM.On("PLAYER_ENTERING_WORLD", function()
 	wipe(announced)
 	wipe(queuedFromSource)
 end)
+
+-- Gespeicherter Plündermeister: wurde er vergessen (Plündermethode nicht Plündermeister),
+-- setzt RaidMaster ihn als Raidleiter automatisch. Stellt der Raidleiter im Spiel selbst um,
+-- wird das als neue Einstellung gespeichert.
+local ensureWait = false
+function Loot.EnsureSettings()
+	if not (RM.db and C().autoLoot) then return end
+	if not RM.InRaid() or not RM.IsLeader() or not RM.Caps.masterLoot then return end
+	if InCombatLockdown and InCombatLockdown() then return end
+	if RM.GetLootMethod() == "master" then return end
+	if ensureWait then return end
+	ensureWait = true
+	C_Timer.After(15, function() ensureWait = false end)
+	local want = C().lootMaster
+	local ml = (want and want ~= "" and RM.IsInMyRaid(want)) and want or RM.Me()
+	RM.SetLootMethod("master", ml)
+	C_Timer.After(1.5, function()
+		RM.SetLootThreshold(C().lootThreshold)
+		RM.Fire("CONFIG_CHANGED")
+	end)
+	if want and want ~= "" and ml ~= want then
+		RM.Print(string.format(L["Gespeicherter Plündermeister %s ist nicht im Raid – vorerst bist du Plündermeister."], want))
+	else
+		RM.Print(string.format(L["Plündermeister automatisch gesetzt: %s, Schwelle: %s"], ml, RM.Raid.THRESHOLD_NAMES[C().lootThreshold] or C().lootThreshold))
+	end
+end
+
+-- Warnung an die Raidleitung: kein Plündermeister oder falsche Seltenheitsstufe
+local lastWarn = {}
+function Loot.Problems()
+	local p = {}
+	if not RM.Caps.masterLoot or not RM.InRaid() then return p end
+	if RM.GetLootMethod() ~= "master" then
+		p[#p + 1] = L["Kein Plündermeister gesetzt!"]
+	else
+		local want = C().lootMaster
+		local ml = RM.MasterLooterName()
+		if want and want ~= "" and ml and ml ~= want and RM.IsInMyRaid(want) then
+			p[#p + 1] = string.format(L["Plündermeister ist %s, gespeichert ist %s."], ml, want)
+		end
+		local th = RM.GetLootThreshold()
+		if th and th ~= C().lootThreshold then
+			p[#p + 1] = string.format(L["Seltenheitsstufe ist %s, eingestellt ist %s."], RM.Raid.THRESHOLD_NAMES[th] or th, RM.Raid.THRESHOLD_NAMES[C().lootThreshold] or C().lootThreshold)
+		end
+	end
+	return p
+end
+local hintShown = false
+
+function Loot.Warn(force)
+	if not RM.db or not RM.InRaid() then return end
+	if not (RM.IsLeader() or RM.IsMainLeader()) then return end
+	if RM.Caps.masterLoot and not hintShown and (not C().lootMaster or C().lootMaster == "") then
+		hintShown = true
+		RM.Print("|cffffcc00" .. L["Achtung: "] .. "|r" .. L["Im Addon ist kein Plündermeister angegeben – es wird der Raidleiter genommen. Auswahl: Loot oder Raidleiter."])
+	end
+	local p = Loot.Problems()
+	local serious = #p
+	local key = table.concat(p, "|")
+	if #p == 0 then wipe(lastWarn) return end
+	if not force and lastWarn[key] and GetTime() - lastWarn[key] < 120 then return end
+	lastWarn[key] = GetTime()
+	for _, t in ipairs(p) do RM.Print("|cffff4040" .. L["Achtung: "] .. "|r" .. t) end
+	if serious > 0 then
+		PlaySound(SOUNDKIT and SOUNDKIT.RAID_WARNING or 8959)
+		RaidNotice_AddMessage(RaidWarningFrame, "RaidMaster: " .. p[1], ChatTypeInfo["RAID_WARNING"])
+	end
+end
+
+RM.On("PARTY_LOOT_METHOD_CHANGED", function()
+	C_Timer.After(3, function() Loot.Warn() end)
+	if not (RM.db and RM.IsLeader() and (IsInGroup and IsInGroup())) then return end
+	local ml = RM.MasterLooterName()
+	if ml and ml ~= "" then
+		local cur = C().lootMaster
+		local saved = (cur == "" and RM.Me()) or cur
+		if ml ~= saved then
+			C().lootMaster = (ml == RM.Me()) and "" or ml
+			RM.Fire("CONFIG_CHANGED")
+		end
+	end
+end)
+RM.On("GROUP_ROSTER_UPDATE", function()
+	C_Timer.After(2, function() Loot.EnsureSettings() end)
+	C_Timer.After(6, function() Loot.Warn() end)
+end)
+RM.On("PLAYER_ENTERING_WORLD", function()
+	C_Timer.After(5, function() Loot.EnsureSettings() end)
+	C_Timer.After(9, function() Loot.Warn() end)
+end)
+RM.On("ENCOUNTER_START", function() Loot.Warn(true) end)
+
+-- Fester Raidleiter: sobald er in der Gruppe ist, bekommt er die Raidleitung
+RM.On("GROUP_ROSTER_UPDATE", function() C_Timer.After(1, function() RM.CheckMainLeader() end) end)
+RM.On("PARTY_LEADER_CHANGED", function()
+	C_Timer.After(1, function() RM.CheckMainLeader() end)
+	C_Timer.After(2, function() Loot.EnsureSettings() end)
+end)
+RM.On("PLAYER_REGEN_ENABLED", function() RM.CheckMainLeader() end)

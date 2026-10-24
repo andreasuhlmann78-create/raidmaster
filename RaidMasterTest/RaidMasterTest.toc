@@ -3,8 +3,9 @@
 ## Notes: Test-Werkzeug für RaidMaster: Testmodus ohne Folgen, Ansicht als Teilnehmer/Raidleiter/Offizier, Raid, Bosskill und Versteigerung simulieren, Selbsttest
 ## Notes-enUS: Test tool for RaidMaster: safe test mode, view as member/raid lead/officer, simulate raid, boss kill and auction, self test
 ## Author: GoldSentinel
-## Version: 1.0.1
+## Version: 1.1.0
 ## Dependencies: RaidMaster
 ## SavedVariables: RaidMasterTestDB
 
+LootData.lua
 RaidMasterTest.lua

@@ -143,9 +143,15 @@ function Data.Build()
 				def.bossIDs[#def.bossIDs + 1] = b.id
 				if b.text and not Data.BossInfo[b.id] then
 					local info = { text = table.concat(b.text, "\n"), post = b.post or {} }
+					if b.wichtig then info.text = info.text .. "\n\n" .. b.wichtig end
 					for _, e in ipairs(b.e) do Data.BossInfo[e] = info end
 				elseif Data.BossInfo[b.id] then
-					for _, e in ipairs(b.e) do Data.BossInfo[e] = Data.BossInfo[b.id] end
+					local info = Data.BossInfo[b.id]
+					if b.wichtig and not info.wichtig then
+						info.wichtig = true
+						info.text = info.text .. "\n\n" .. b.wichtig
+					end
+					for _, e in ipairs(b.e) do Data.BossInfo[e] = info end
 				end
 				if b.marker and not b.template then
 					b.template = "b" .. b.id
@@ -166,7 +172,7 @@ function Data.Build()
 			if def.available then
 				entry.info = Data.BossInfo[id]
 			elseif b.text then
-				entry.info = { text = table.concat(b.text, "\n"), post = b.post or {} }
+				entry.info = { text = table.concat(b.text, "\n") .. (b.wichtig and ("\n\n" .. b.wichtig) or ""), post = b.post or {} }
 			else
 				entry.info = Data.BossInfo[id]
 			end

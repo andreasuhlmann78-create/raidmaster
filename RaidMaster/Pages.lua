@@ -139,6 +139,7 @@ UI.AddPage("dkp", L["DKP-Stände"], function(page)
 		onSelect = function(d) selected = d.key; UI.RefreshCurrent() end,
 	})
 	Place(list, page, 0, -64)
+	UI.Fill(list, page)
 
 	-- Offiziersbereich
 	local px = 560
@@ -478,16 +479,28 @@ UI.AddPage("loot", L["Loot"], function(page)
 
 	Section(page, L["Plündermeister"], 0, y)
 	y = y - 28
-	NameField(L["Name (leer = du selbst)"], "lootMaster", y); y = y - 30
+	Label(page, L["Plündermeister"], 0, y - 5)
+	local mlDrop = UI.Dropdown(page, 150, function() return RM.Loot.MasterChoices() end,
+		function() return cfg().lootMaster or "" end, function(v) RM.Loot.SetMaster(v) end,
+		L["Plündermeister wählen – als Raidleiter wird die Plündermethode im Spiel sofort umgestellt."])
+	Place(mlDrop, page, 170, y)
+	refreshers[#refreshers + 1] = mlDrop
+	y = y - 30
 	Label(page, L["Plünderschwelle"], 0, y - 5)
 	local th = UI.Cycle(page, 150, { { 2, L["Selten (grün)"] }, { 3, L["Rar (blau)"] }, { 4, L["Episch (lila)"] } },
-		function() return cfg().lootThreshold end, function(v) cfg().lootThreshold = v end,
-		L["In Molten Core sind Kerne und Rezepte blau – daher wird Rar empfohlen."])
+		function() return cfg().lootThreshold end, function(v) RM.Loot.SetThreshold(v) end,
+		L["Empfohlen: Selten (grün) – der Plündermeister verteilt dann schon grüne Items, Kerne und Rezepte sowieso."])
 	Place(th, page, 170, y)
 	refreshers[#refreshers + 1] = th
 	y = y - 32
 	local applyBtn = UI.Button(page, L["Jetzt anwenden"], 150, 26, function() RM.Loot.ApplySettings() end, L["Setzt Plündermeister und Schwelle (nur Raidleiter)."])
 	Place(applyBtn, page, 170, y)
+	y = y - 30
+	local autoLootCheck = UI.Check(page, L["Vergessenen Plündermeister automatisch setzen"], function() return cfg().autoLoot end,
+		function(v) cfg().autoLoot = v; if v then RM.Loot.EnsureSettings() end end,
+		L["Als Raidleiter: steht die Plündermethode nicht auf Plündermeister, setzt RaidMaster den gespeicherten Plündermeister und die Schwelle."])
+	Place(autoLootCheck, page, 0, y)
+	refreshers[#refreshers + 1] = autoLootCheck
 
 	-- Optionen
 	local ox = 350
@@ -594,6 +607,7 @@ UI.AddPage("log", L["Log"], function(page)
 		{ title = L["Spieler"], width = 70, justify = "RIGHT" },
 	}, { emptyText = L["Noch keine Buchungen."] })
 	Place(list, page, 0, -60)
+	UI.Fill(list, page, true)
 
 	local undoBtn = UI.Button(page, L["Rückgängig"], 120, 26, function()
 		if not NeedOfficer() then return end
@@ -601,10 +615,10 @@ UI.AddPage("log", L["Log"], function(page)
 		if not d then RM.Print(L["Bitte zuerst eine Buchung wählen."]) return end
 		UI.Confirm(L["Diese Buchung rückgängig machen?\n"] .. (d.desc or ""), function() RM.DKP.Undo(d.key) end)
 	end, L["Erstellt eine Gegenbuchung. Nichts wird gelöscht."])
-	Place(undoBtn, page, 0, -526)
+	UI.PlaceBottom(undoBtn, page, 0, -526)
 
 	local exportBtn = UI.Button(page, L["Export"], 100, 26, function() UI.ShowExport(RM.DKP.ExportText()) end)
-	Place(exportBtn, page, 128, -526)
+	UI.PlaceBottom(exportBtn, page, 128, -526)
 
 	return function()
 		viewCycle:Update()
@@ -1127,9 +1141,10 @@ UI.AddPage("assign", L["Einteilung"], function(page)
 	Place(ctxCycle, page, rx + 90, 4)
 	local preview = UI.Multiline(page, 390, 460, true)
 	Place(preview, page, rx, -28)
+	UI.Fill(preview, page)
 	local postBtn = UI.Button(page, L["Im Raid posten"], 185, 28, function() Assign.Post(selected) end,
 		L["Postet die gewählte Einteilung in den Raidchat (Symbole werden im Chat als Grafik angezeigt)."])
-	Place(postBtn, page, rx, -500)
+	UI.PlaceBottom(postBtn, page, rx, -500)
 
 	local function iconize(text)
 		return (text:gsub("{rt(%d)}", "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_%1:0|t"))
@@ -1188,6 +1203,15 @@ UI.AddPage("leader", L["Raidleiter"], function(page)
 	SelectRaid(selectedRaid)
 
 	Section(page, L["Boss-Infos"], 0, 0)
+
+	-- Plündermeister per Knopfdruck (stellt die Plündermethode im Spiel sofort um)
+	local mlLabel = Label(page, L["Plündermeister"], 470, -5, 12, true)
+	mlLabel:SetWidth(110)
+	mlLabel:SetJustifyH("RIGHT")
+	local mlDrop = UI.Dropdown(page, 170, function() return RM.Loot.MasterChoices() end,
+		function() return RM.db.config.lootMaster or "" end, function(v) RM.Loot.SetMaster(v) end,
+		L["Plündermeister wählen – als Raidleiter wird die Plündermethode im Spiel sofort umgestellt."])
+	Place(mlDrop, page, 590, 0)
 
 	-- Raid wählen: alle bekannten Raids aller Erweiterungen (* = gibt es in dieser Spielversion nicht)
 	local raidDrop = UI.Dropdown(page, 190, function() return Data.InfoGroups() end, function() return selectedRaid end, function(v)
@@ -1297,6 +1321,7 @@ UI.AddPage("leader", L["Raidleiter"], function(page)
 	return function()
 		if not Raid() then SelectRaid(DefaultRaid()) end
 		raidDrop:Refresh()
+		mlDrop:Refresh()
 		local def = Raid()
 		local expName = ""
 		for _, x in ipairs(Data.Expansions) do if def and x.key == def.exp then expName = x.name end end
@@ -1368,22 +1393,24 @@ UI.AddPage("specs", L["Skillungen"], function(page)
 		{ title = L["Stand"], width = 90 },
 	}, { emptyText = L["Noch keine Skillungen bekannt."] })
 	Place(list, page, 0, -64)
+	UI.Fill(list, page, true)
 
 	local scanBtn = UI.Button(page, L["Raid scannen"], 140, 28, function()
 		if Spec.scan.running then Spec.StopScan() else Spec.StartScan(true) end
 	end, L["Fragt alle Addon-Nutzer im Raid nach ihrer Skillung und betrachtet Spieler ohne Addon\n"]
 		.. L["(in Reichweite, außerhalb des Kampfes)."])
-	Place(scanBtn, page, 0, -456)
+	UI.PlaceBottom(scanBtn, page, 0, -456)
 	local sendBtn = UI.Button(page, L["Meine Skillung senden"], 170, 28, function()
 		Spec.UpdateMine(true)
 		RM.Print(L["Deine Skillung wurde an Gilde und Raid gesendet."])
 	end)
-	Place(sendBtn, page, 150, -456)
+	UI.PlaceBottom(sendBtn, page, 150, -456)
 	local autoCheck = UI.Check(page, L["Als Raidleiter automatisch alle 5 Minuten scannen"],
 		function() return RM.db.config.specScan end, function(v) RM.db.config.specScan = v end,
 		L["Nur für Raidleiter, Assistenten und Offiziere."])
-	Place(autoCheck, page, 340, -460)
+	UI.PlaceBottom(autoCheck, page, 340, -460)
 	local status = Label(page, "", 0, -496, 11, true)
+	UI.PlaceBottom(status, page, 0, -496)
 	status:SetWidth(780)
 
 	return function()
@@ -1518,7 +1545,19 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 	y2 = y2 - 28
 	NumField(L["Decay in %"], x2, y2, function() return S().decayPct end, function(v) S().decayPct = math.max(0, math.min(100, v)) end); y2 = y2 - 28
 	NumField(L["Offiziersränge bis Index"], x2, y2, function() return S().officerRank end, function(v) S().officerRank = math.max(0, math.min(9, v)) end,
-		L["Gildenrang-Index: 0 = Gildenmeister, 1 = nächster Rang usw. Alle Ränge bis zu diesem Index dürfen DKP ändern."]); y2 = y2 - 36
+		L["Gildenrang-Index: 0 = Gildenmeister, 1 = nächster Rang usw. Alle Ränge bis zu diesem Index dürfen DKP ändern."]); y2 = y2 - 28
+	Label(page, L["Fester Raidleiter"], x2, y2 - 5)
+	local leaderEdit = UI.EditBox(page, 110, 24)
+	Place(leaderEdit, page, x2 + 190, y2)
+	leaderEdit:SetScript("OnEnter", function(self)
+		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
+		GameTooltip:AddLine(L["Fester Raidleiter"])
+		GameTooltip:AddLine(L["Dieser Spieler wird automatisch zum Raidleiter gemacht, sobald er in der Gruppe ist, und hat immer alle Rechte im Addon."], 1, 1, 1, true)
+		GameTooltip:Show()
+	end)
+	leaderEdit:SetScript("OnLeave", function() GameTooltip:Hide() end)
+	leaderEdit:SetScript("OnEnterPressed", function(self) self:ClearFocus() end)
+	y2 = y2 - 36
 
 	local checks = {}
 	local function SCheck(label, key, tooltip)
@@ -1535,6 +1574,7 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 
 	local saveBtn = UI.Button(page, L["Speichern und an die Gilde verteilen"], 300, 30, function()
 		if not NeedOfficer() then return end
+		S().raidLeader = CapName(leaderEdit:GetText() or "")
 		for _, f in ipairs(fields) do
 			local v = tonumber(f.edit:GetText())
 			if v and f.edit:IsShown() then f.set(math.floor(v)) end
@@ -1547,6 +1587,7 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 	local revertBtn = UI.Button(page, L["Verwerfen"], 100, 30, function()
 		for _, f in ipairs(fields) do f.edit:SetText(tostring(f.get() or 0)) end
 		for _, c in ipairs(checks) do c:Refresh() end
+		leaderEdit:SetText(S().raidLeader or "")
 	end)
 	Place(revertBtn, page, x2 + 306, y2 - 10)
 
@@ -1561,6 +1602,11 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 	end)
 	Place(mmCheck, page, x2, y2 - 100)
 
+	local promoteCheck = UI.Check(page, L["Festen Raidleiter automatisch zum Raidleiter machen"], function() return RM.db.config.autoPromote end,
+		function(v) RM.db.config.autoPromote = v; if v then RM.CheckMainLeader(true) end end,
+		L["Wenn du Gruppenleiter bist und der feste Raidleiter in die Gruppe kommt, übergibt RaidMaster ihm die Leitung."])
+	Place(promoteCheck, page, x2, y2 - 126)
+
 	return function()
 		UpdateBossRows()
 		for _, f in ipairs(fields) do
@@ -1568,6 +1614,8 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 		end
 		for _, c in ipairs(checks) do c:Refresh() end
 		mmCheck:Refresh()
+		promoteCheck:Refresh()
+		if not leaderEdit:HasFocus() then leaderEdit:SetText(S().raidLeader or "") end
 		if RM.CanEdit() then saveBtn:Enable() else saveBtn:Disable() end
 	end
 end)

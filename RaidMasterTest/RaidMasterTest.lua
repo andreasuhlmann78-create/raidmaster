@@ -59,6 +59,13 @@ function T.Start()
 	RaidMasterTestDB = { data = Copy(db.data), session = Copy(db.session), trade = Copy(db.trade), config = Copy(db.config) }
 	for _, k in ipairs(OVERRIDE) do saved[k] = RM[k] end
 	saved.Deliver = RM.Loot and RM.Loot.Deliver
+	saved.Ensure = RM.Loot and RM.Loot.EnsureSettings
+	saved.Warn = RM.Loot and RM.Loot.Warn
+	saved.CheckMainLeader = RM.CheckMainLeader
+	-- im Testraid nichts an der echten Gruppe ändern (Plündermethode, Raidleiter)
+	if RM.Loot and RM.Loot.EnsureSettings then RM.Loot.EnsureSettings = function() end end
+	if RM.Loot and RM.Loot.Warn then RM.Loot.Warn = function() end end
+	if RM.CheckMainLeader then RM.CheckMainLeader = function() end end
 	RM.InRaid = function() return true end
 	RM.RaidMembers = FakeMembers
 	RM.IsAssist = function() return T.role ~= "member" end
@@ -93,11 +100,13 @@ local function Restore(silent)
 	local b = RaidMasterTestDB
 	if b and RM.db then
 		local pos = RM.db.config and RM.db.config.positions
+		local size = RM.db.config and RM.db.config.mainSize
 		Replace(RM.db.data, b.data)
 		Replace(RM.db.session, b.session)
 		Replace(RM.db.trade, b.trade)
 		Replace(RM.db.config, b.config)
 		if pos then RM.db.config.positions = pos end
+		RM.db.config.mainSize = size
 	end
 	RaidMasterTestDB = nil
 	if not silent then RM.Fire("SESSION_CHANGED"); RM.Fire("DATA_CHANGED"); RM.Fire("CONFIG_CHANGED") end
@@ -108,6 +117,9 @@ function T.Stop()
 	if RM.Auction and RM.Auction.current then pcall(RM.Auction.Cancel) end
 	for _, k in ipairs(OVERRIDE) do RM[k] = saved[k] end
 	if RM.Loot and saved.Deliver then RM.Loot.Deliver = saved.Deliver end
+	if RM.Loot and saved.Ensure then RM.Loot.EnsureSettings = saved.Ensure end
+	if RM.Loot and saved.Warn then RM.Loot.Warn = saved.Warn end
+	if saved.CheckMainLeader then RM.CheckMainLeader = saved.CheckMainLeader end
 	T.active = false
 	Restore()
 	Log(string.format("Testmodus AUS – alle Daten wiederhergestellt (%d Addon-Nachrichten wurden zurückgehalten).", T.blocked or 0))
@@ -204,6 +216,204 @@ function T.TranqTest()
 end
 
 ---------------------------------------------------------------------------
+-- Ganzen Raid durchspielen: alle Bosse nacheinander, Beute aus der echten Beutetabelle
+-- (Classic, TBC, Wrath), Versteigerungen mit Testgeboten, Trash-Beute zwischendurch
+---------------------------------------------------------------------------
+local run
+local CONFIRM = "RAIDMASTER_CONFIRM"
+
+local function LootTable(def)
+	if not (def and RaidMasterTestLoot) then return nil end
+	for id in pairs(def.ids or {}) do
+		local t = RaidMasterTestLoot[id .. ":" .. tostring(def.exp)]
+		if t then return t end
+		for key, v in pairs(RaidMasterTestLoot) do
+			if key:match("^" .. id .. ":") then return v end
+		end
+	end
+end
+
+local function BossLoot(lt, boss, index)
+	local en = (boss.en or ""):lower()
+	for _, b in ipairs(lt) do if b.n:lower() == en then return b.i end end
+	if en ~= "" then
+		for _, b in ipairs(lt) do
+			local n = b.n:lower()
+			if n:find(en, 1, true) or en:find(n, 1, true) then return b.i end
+		end
+	end
+	return lt[index] and lt[index].i
+end
+
+local function ItemInfo(id)
+	local name, link, quality = (RM.GetItemInfo or GetItemInfo)(id)
+	return link, quality
+end
+
+-- n zufällige Items, die das Spiel schon kennt (sonst beim nächsten Mal)
+local function Pick(ids, n)
+	local pool, out = {}, {}
+	for _, id in ipairs(ids or {}) do if ItemInfo(id) then pool[#pool + 1] = id end end
+	for _ = 1, n do
+		if #pool == 0 then break end
+		out[#out + 1] = table.remove(pool, math.random(#pool))
+	end
+	return out
+end
+
+local RULE_NAMES = { auction = "Versteigerung", bank = "Gildenbank", de = "Entzauberer", crafter = "Handwerker",
+	manual = "von Hand verteilen", notify = "Hinweis (legendär) – nie automatisch", roll = "Würfeln" }
+
+-- ein Item wie im echten Raid behandeln: Regel prüfen, versteigern oder zuteilen
+local function HandleItem(id, source)
+	local link, quality = ItemInfo(id)
+	if not link then return end
+	local action = RM.Loot.Classify(link, quality)
+	if action == "auction" then
+		run.queue[#run.queue + 1] = link
+		Log(source .. ": " .. link .. " -> Versteigerung")
+	else
+		local who = RM.Loot.RecipientFor and RM.Loot.RecipientFor(action)
+		Log(source .. ": " .. link .. " -> " .. (RULE_NAMES[action] or tostring(action)) .. (who and who ~= "" and (" (" .. who .. ")") or ""))
+		run.other = run.other + 1
+	end
+end
+
+local function StartAuctionWithBids(link)
+	RM.Auction.Start(link)
+	local c = RM.Auction.current
+	if not c then return false end
+	-- 2–4 Testspieler bieten nacheinander, jeder höchstens seine DKP
+	local bidders = {}
+	for _, f in ipairs(FAKE) do bidders[#bidders + 1] = f[1] end
+	local count = math.random(2, 4)
+	local amount = c.min
+	for i = 1, count do
+		local who = table.remove(bidders, math.random(#bidders))
+		amount = amount + math.random(0, 3) * (c.inc or 5)
+		local a = amount
+		C_Timer.After(1 + i * 1.5, function()
+			if RM.Auction.current == c and not c.finished then
+				local have = RM.DKP.Get(who, c.pool)
+				local bid = math.min(a, have)
+				if bid >= ((c.highName and (c.high + c.inc)) or c.min) then RM.Auction.ReceiveBid(who, bid, "") end
+			end
+		end)
+		amount = amount + (c.inc or 5)
+	end
+	return true
+end
+
+local function RunStep()
+	if not run or not T.active then return end
+	local now = GetTime()
+	if now < run.waitUntil then return end
+	local c = RM.Auction.current
+	-- Versteigerung fertig: wie die Raidleitung "Vergeben" klicken
+	if c and c.finished then
+		if c.highName then
+			StaticPopup_Hide(CONFIRM)
+			local who, amount, link = c.highName, c.high, c.link
+			RM.Auction.Award()
+			run.awarded[#run.awarded + 1] = who .. " " .. link .. " (" .. amount .. " DKP)"
+			Log("Vergeben: " .. link .. " an " .. who .. " für " .. amount .. " DKP")
+		else
+			RM.Auction.current = nil
+		end
+		run.waitUntil = now + 1.5
+		return
+	end
+	if c then return end
+	if #run.queue > 0 then
+		local link = table.remove(run.queue, 1)
+		if not StartAuctionWithBids(link) then Log("Versteigerung von " .. link .. " nicht möglich.") end
+		run.waitUntil = now + 1
+		return
+	end
+	-- nächster Boss
+	run.index = run.index + 1
+	local boss = run.def.bosses[run.index]
+	if not boss then
+		RM.Raid.End()
+		Log(string.format("Raid-Durchlauf fertig: %d Bosse, %d Items versteigert, %d nach Regel verteilt.", #run.def.bosses, #run.awarded, run.other))
+		for _, a in ipairs(run.awarded) do Log("  " .. a) end
+		Log("Alles im Testmodus – 'Testmodus beenden' setzt deine echten Daten zurück.")
+		RM.db.data.settings.auctionTime = run.oldTime
+		run.ticker:Cancel()
+		run = nil
+		if T.Refresh then T.Refresh() end
+		return
+	end
+	-- Trash vor jedem zweiten Boss
+	if run.loot and run.index > 1 and run.index % 2 == 0 and run.loot.trash then
+		for _, id in ipairs(Pick(run.loot.trash, 1)) do HandleItem(id, "Trash") end
+	end
+	local ids = boss.e
+	RM.SimulateEvent("ENCOUNTER_START", ids[#ids], boss.name, 9, 40)
+	RM.SimulateEvent("ENCOUNTER_END", ids[#ids], boss.name, 9, 40, 1)
+	Log(string.format("Boss %d/%d besiegt: %s", run.index, #run.def.bosses, boss.name))
+	if run.loot then
+		local drops = BossLoot(run.loot, boss, run.index)
+		local n = (#run.def.bosses == 1 or run.index == #run.def.bosses) and 3 or 2
+		local picked = Pick(drops, n)
+		if #picked == 0 then Log("  (keine Beute bekannt oder noch nicht vom Server geladen)") end
+		for _, id in ipairs(picked) do HandleItem(id, boss.name) end
+	end
+	run.waitUntil = now + 2
+end
+
+function T.RunRaid()
+	if run then Log("Es läuft schon ein Durchlauf.") return end
+	if not T.active then T.Start() end
+	if T.role ~= "officer" then T.SetRole("officer") end
+	local def = RM.Data.Pools[T.pool]
+	if not def or not def.bosses[1] then Log("Für diesen Raid sind keine Bosse hinterlegt.") return end
+	local loot = LootTable(def)
+	-- Items beim Server anfragen, damit Namen/Qualität bereitstehen
+	if loot then
+		for _, b in ipairs(loot) do for _, id in ipairs(b.i) do ItemInfo(id) end end
+		for _, id in ipairs(loot.trash or {}) do ItemInfo(id) end
+	end
+	run = { def = def, loot = loot, index = 0, queue = {}, awarded = {}, other = 0, waitUntil = GetTime() + 2,
+		oldTime = RM.db.data.settings.auctionTime }
+	RM.db.data.settings.auctionTime = 10      -- im Test schneller versteigern
+	RM.db.config.activePool = def.key
+	if not RM.db.session.active then RM.Raid.Start() end
+	Log("Raid-Durchlauf gestartet: " .. def.name .. " (" .. #def.bosses .. " Bosse)" ..
+		(loot and ", Beute aus der Beutetabelle" or ", keine Beutetabelle für diesen Raid (nur Classic/TBC/Wrath)") ..
+		". Versteigerungen laufen je 10 Sek.")
+	run.ticker = C_Timer.NewTicker(0.5, RunStep)
+	if T.Refresh then T.Refresh() end
+end
+
+function T.StopRun()
+	if not run then return end
+	run.ticker:Cancel()
+	if RM.Auction.current then pcall(RM.Auction.Cancel) end
+	StaticPopup_Hide(CONFIRM)
+	RM.db.data.settings.auctionTime = run.oldTime
+	run = nil
+	Log("Raid-Durchlauf abgebrochen.")
+end
+
+function T.TrashLoot()
+	if not T.active then T.Start() end
+	local loot = LootTable(RM.Data.Pools[T.pool])
+	if not (loot and loot.trash and loot.trash[1]) then Log("Keine Trash-Beute für diesen Raid bekannt (nur Classic/TBC/Wrath).") return end
+	for _, id in ipairs(loot.trash) do ItemInfo(id) end
+	local picked = Pick(loot.trash, 1)
+	if not picked[1] then Log("Items werden noch vom Server geladen – gleich nochmal klicken.") return end
+	local own = not run
+	if own then run = { queue = {}, awarded = {}, other = 0 } end
+	HandleItem(picked[1], "Trash")
+	local link = run.queue[1]
+	if own then
+		run = nil
+		if link then T.Auction(link) end
+	end
+end
+
+---------------------------------------------------------------------------
 -- Selbsttest: was kann dieser Client, ist RaidMaster richtig eingestellt?
 ---------------------------------------------------------------------------
 function T.SelfTest()
@@ -249,7 +459,7 @@ local function Section(parent, text, y)
 end
 
 local function CreateWindow()
-	local f = UI.Frame(UIParent, 560, 640)
+	local f = UI.Frame(UIParent, 560, 690)
 	UI.Skin(f)
 	f:SetFrameStrata("HIGH")
 	f:SetClampedToScreen(true)
@@ -316,9 +526,19 @@ local function CreateWindow()
 		"Magmadar: fragt die Jäger nach Einlullender Schuss und postet die Rotation (Testjäger antworten selbst).")
 	tqBtn:SetPoint("LEFT", endBtn, "RIGHT", 8, 0)
 
-	Section(f, "Versteigerung", -268)
+	local runBtn = UI.Button(f, "Ganzen Raid durchspielen", 200, 26, function() T.RunRaid() end,
+		"Alle Bosse des gewählten Raids nacheinander: Bosskill, Beute aus der echten Beutetabelle (Classic/TBC/Wrath),\n"
+		.. "Regeln (Versteigerung, Gildenbank, Entzauberer ...), Versteigerungen mit Testgeboten, Trash-Beute zwischendurch.")
+	runBtn:SetPoint("TOPLEFT", 14, -258)
+	runBtn:SetAccent(true)
+	local trashBtn = UI.Button(f, "Trash-Loot", 120, 26, function() T.TrashLoot() end, "Ein zufälliges Trash-Item des Raids droppen lassen.")
+	trashBtn:SetPoint("LEFT", runBtn, "RIGHT", 8, 0)
+	local stopRunBtn = UI.Button(f, "Durchlauf abbrechen", 160, 26, function() T.StopRun() end)
+	stopRunBtn:SetPoint("LEFT", trashBtn, "RIGHT", 8, 0)
+
+	Section(f, "Versteigerung", -298)
 	local itemBox = UI.LinkBox(f, 300, 26)
-	itemBox:SetPoint("TOPLEFT", 14, -292)
+	itemBox:SetPoint("TOPLEFT", 14, -322)
 	local hint = UI.Text(itemBox, "Item per Shift-Klick (leer = Ruhestein)", 11, unpack(COLORS.muted))
 	hint:SetPoint("LEFT", 8, 0)
 	itemBox:HookScript("OnTextChanged", function(self) if self:GetText() == "" then hint:Show() else hint:Hide() end end)
@@ -327,17 +547,17 @@ local function CreateWindow()
 		"Startet eine Versteigerung; 4 Testspieler bieten nacheinander. Danach fragt RaidMaster wie im echten Raid, ob vergeben wird.")
 	aucBtn:SetPoint("LEFT", itemBox, "RIGHT", 8, 0)
 
-	Section(f, "Schlachtzugsymbole (echt, z. B. an Trainingspuppen)", -334)
+	Section(f, "Schlachtzugsymbole (echt, z. B. an Trainingspuppen)", -364)
 	local m1 = UI.Button(f, "Totenkopf aufs Ziel", 160, 26, function() RM.Markers.Mark(8) end)
-	m1:SetPoint("TOPLEFT", 14, -358)
+	m1:SetPoint("TOPLEFT", 14, -388)
 	local m2 = UI.Button(f, "Adds markieren", 160, 26, function() RM.Markers.MarkAdds() end, "Markiert alle sichtbaren Gegner nach der gewählten Vorlage.")
 	m2:SetPoint("LEFT", m1, "RIGHT", 8, 0)
 	local m3 = UI.Button(f, "Alle aus", 120, 26, function() RM.Markers.ClearAll() end)
 	m3:SetPoint("LEFT", m2, "RIGHT", 8, 0)
 
-	Section(f, "Protokoll", -400)
-	local box = UI.Multiline(f, 532, 210, true)
-	box:SetPoint("TOPLEFT", 14, -424)
+	Section(f, "Protokoll", -430)
+	local box = UI.Multiline(f, 532, 220, true)
+	box:SetPoint("TOPLEFT", 14, -454)
 
 	function T.Refresh()
 		if not f:IsShown() then return end

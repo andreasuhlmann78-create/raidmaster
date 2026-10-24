@@ -26,6 +26,7 @@ function Raid.Start()
 	if RM.db.config.setLootOnStart and RM.IsLeader() then
 		RM.Loot.ApplySettings()
 	end
+	C_Timer.After(4, function() RM.Loot.Warn(true) end)
 	local amount = S().dkpStart
 	local poolName = RM.DKP.PoolName(pool)
 	if amount and amount > 0 then
