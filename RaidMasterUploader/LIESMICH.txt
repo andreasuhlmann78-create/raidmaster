@@ -1,0 +1,13 @@
+RaidMaster-Uploader – schickt die RaidMaster-Daten vom PC der Raidleitung an den Discord-Bot
+==========================================================================================
+
+1. Python 3 installieren (kostenlos auf python.org, bei der Installation "Add Python to PATH" anhaken).
+2. Diesen Ordner "RaidMasterUploader" z. B. nach Dokumente legen.
+3. Im Discord /uploader eingeben (nur Admins). Die Datei uploader_config.json, die der Bot schickt,
+   in diesen Ordner legen. NIE weitergeben – sie enthält einen geheimen Link zu eurem Discord.
+4. uploader.bat doppelklicken und das Fenster offen lassen.
+5. Automatisch mit Windows starten: Windows-Taste + R, shell:startup eingeben, eine Verknüpfung zu
+   uploader.bat hineinlegen.
+
+Nach jedem /reload oder Ausloggen sind DKP, Loot, Einteilung und Skillungen nach wenigen Sekunden im
+Discord. Im Spiel zeigt die Seite "Discord" (oder /rm discord) die ganze Anleitung.
