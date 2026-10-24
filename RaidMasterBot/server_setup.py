@@ -79,7 +79,8 @@ BASE_TOP = [
     },
     {
         # eigene Addons von GoldSentinel – nur für Offiziere, direkt unter RAID-ADDON
-        "name": "🛠️ Addons by GoldSentinel", "mode": "officers_only", "after": "🧩 RAID-ADDON",
+        "name": "Addon's by GoldSentinel", "mode": "officers_only", "after": "🧩 RAID-ADDON",
+        "old_names": ["🛠️ Addons by GoldSentinel"],
         "channels": [
             ("text", "aktionshaus", "AH Analyzer Pro – Auktionshaus-Analyse (nur Offiziere)", "officers_only"),
         ],
@@ -228,6 +229,14 @@ def _known_roles(guild: discord.Guild) -> dict:
 async def _ensure_category(guild, cat_def: dict, roles: dict, report: list, created: dict, new_names: set, reason: str):
     cat_name = cat_def["name"]
     category = _find(guild.categories, cat_name)
+    if not category:
+        for old in cat_def.get("old_names", []):
+            old_cat = _find(guild.categories, old)
+            if old_cat:
+                await old_cat.edit(name=cat_name, reason=reason)
+                report.append(f"✏️ Kategorie **{old}** in **{cat_name}** umbenannt")
+                category = old_cat
+                break
     cat_ow = _overwrites(cat_def["mode"], guild, roles)
     if category:
         report.append(f"• Kategorie **{cat_name}** war schon vorhanden")
