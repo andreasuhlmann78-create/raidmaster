@@ -2,6 +2,14 @@
 
 Raid-Werkzeuge für die Gilde auf **WoW Forever**.
 
+## Download Addon
+
+**Aktuelle Version: [RaidMaster-1.6.0.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/RaidMaster-1.6.0.zip)**
+(immer die neueste: [RaidMaster-latest.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/RaidMaster-latest.zip))
+
+ZIP entpacken und den Ordner `RaidMaster` nach `Interface/AddOns` kopieren (alten Ordner ersetzen).
+Läuft in allen WoW-Versionen (Classic Era, WoW Forever, TBC, Wrath, Cata, MoP Classic, Retail) und in 11 Sprachen.
+
 | Ordner | Inhalt |
 |---|---|
 | `RaidMaster/` | WoW-Addon: DKP pro Raid, Versteigerung, Loot, PUG mit Soft Reserve, Einteilung, Auto-Einladung, Skillungen |
