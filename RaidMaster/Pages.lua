@@ -1136,6 +1136,100 @@ end)
 ---------------------------------------------------------------------------
 -- Seite: Einteilung (Heilung, Entfluchen, CC)
 ---------------------------------------------------------------------------
+UI.AddPage("ad", "Werbung", function(page)
+	local Ad = RM.Ad
+	local cfg = function() return RM.db.config end
+
+	Section(page, "Werbung im offenen Chat", 0, 0)
+	Label(page, "Postet einen Werbetext für deinen Raid mit dem Discord-Link – z. B. in den Welt-, Handels- oder Gruppensuche-Kanal.", 0, -26, 11, true):SetWidth(780)
+
+	Label(page, "Discord-Link", 0, -60)
+	local linkBox = UI.EditBox(page, 420, 24)
+	Place(linkBox, page, 110, -56)
+	linkBox:SetScript("OnTextChanged", function(self, user)
+		if user then cfg().adLink = self:GetText(); UI.RefreshCurrent() end
+	end)
+	Label(page, "Den PUG-Link gibt es im Discord mit /pug-einladung. Beim Import eines PUG-Raids wird er automatisch übernommen.", 0, -86, 11, true):SetWidth(780)
+
+	Label(page, "Kanal", 0, -120)
+	local targets = {}
+	local function RebuildTargets()
+		wipe(targets)
+		for _, t in ipairs(Ad.Targets()) do targets[#targets + 1] = t end
+		local cur = Ad.Target()
+		local found = false
+		for _, t in ipairs(targets) do if t[1] == cur then found = true end end
+		if not found then targets[#targets + 1] = { cur, Ad.TargetLabel(cur) } end
+	end
+	RebuildTargets()
+	local chanCycle = UI.Cycle(page, 260, targets, function() return Ad.Target() end,
+		function(v) cfg().adChannel = v; UI.RefreshCurrent() end,
+		"Kanäle, denen du beigetreten bist. Einem Kanal beitreten: /join Name")
+	Place(chanCycle, page, 110, -116)
+
+	Label(page, "Text", 0, -158)
+	local textBox = UI.EditBox(page, 670, 24)
+	Place(textBox, page, 110, -154)
+	textBox:SetScript("OnTextChanged", function(self, user)
+		if user then cfg().adText = self:GetText(); UI.RefreshCurrent() end
+	end)
+	Label(page, "Platzhalter: {raid} Raidname · {zeit} Datum/Uhrzeit · {frei} freie Plätze · {sr} Soft Reserve · {link} Discord-Link · {name} dein Name", 110, -182, 11, true):SetWidth(670)
+	local resetBtn = UI.Button(page, "Standardtext", 120, 24, function()
+		cfg().adText = ""
+		textBox:SetText(Ad.DEFAULT_TEXT)
+		UI.RefreshCurrent()
+	end)
+	Place(resetBtn, page, 110, -204)
+
+	Section(page, "Vorschau", 0, -248)
+	local preview = Label(page, "", 0, -274, 12)
+	preview:SetWidth(780)
+	local lenText = Label(page, "", 0, -318, 11, true)
+
+	local postBtn = UI.Button(page, "Im Chat posten", 200, 32, function()
+		Ad.Post()
+		UI.RefreshCurrent()
+	end, "Postet die Vorschau in den gewählten Kanal (höchstens alle 30 Sekunden).")
+	Place(postBtn, page, 0, -350)
+	postBtn:SetAccent(true)
+	local cdText = Label(page, "", 214, -360, 11, true)
+
+	local invCheck = UI.Check(page, "Auf geflüstertes \"inv\" automatisch einladen (30 Minuten nach der Werbung)",
+		function() return cfg().adAutoInvite end, function(v) cfg().adAutoInvite = v end,
+		"Spieler flüstern dir \"inv\" – RaidMaster lädt sie ein, solange der Raid nicht voll ist.\nAus einer Gruppe wird automatisch ein Schlachtzug.")
+	Place(invCheck, page, 0, -400)
+
+	page.elapsed = 0
+	page:SetScript("OnUpdate", function(self, el)
+		self.elapsed = self.elapsed + el
+		if self.elapsed > 1 and Ad.CooldownLeft() > 0 then self.elapsed = 0; UI.RefreshCurrent() end
+	end)
+
+	return function()
+		if not linkBox:HasFocus() then linkBox:SetText(cfg().adLink or "") end
+		if not textBox:HasFocus() then
+			textBox:SetText((cfg().adText and cfg().adText ~= "") and cfg().adText or Ad.DEFAULT_TEXT)
+		end
+		RebuildTargets()
+		chanCycle:Refresh()
+		local text = Ad.Build()
+		preview:SetText(text)
+		lenText:SetText(string.format("%d / 255 Zeichen", #text))
+		local left = Ad.CooldownLeft()
+		if left > 0 then
+			postBtn:Disable()
+			cdText:SetText(string.format("Nächster Post in %d s", left))
+		else
+			postBtn:Enable()
+			cdText:SetText(Ad.lastPost > 0 and "Bereit" or "")
+		end
+		if (cfg().adLink or "") == "" then
+			lenText:SetText(lenText:GetText() .. "  ·  |cffff6040Kein Discord-Link eingetragen|r")
+		end
+		invCheck:Refresh()
+	end
+end)
+
 UI.AddPage("assign", "Einteilung", function(page)
 	local Assign = RM.Assign
 	local selected = "general"

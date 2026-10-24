@@ -4,8 +4,8 @@
 local ADDON, RM = ...
 RaidMaster = RM
 
-RM.VERSION = "1.5.0"
-RM.VERSION_NUM = 10500
+RM.VERSION = "1.5.1"
+RM.VERSION_NUM = 10501
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -104,6 +104,10 @@ RM.DEFAULT_CONFIG = {
 	assignTanks = "",
 	instanceMap = {},
 	specScan = true,
+	adLink = "",
+	adChannel = "",
+	adText = "",
+	adAutoInvite = true,
 	minimap = { angle = 215, hide = false },
 	positions = {},
 }

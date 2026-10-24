@@ -53,7 +53,7 @@ RENAMES = {
 #   "hidden"   = nur der Bot (und Admins) sehen den Kanal
 BASE_TOP = [
     {
-        "name": "📌 INFO", "mode": "readonly",
+        "name": "📌 INFO", "mode": "readonly", "guest": True,
         "channels": [
             ("text", "willkommen", "Begrüßung und Infos zur Gilde", None),
             ("text", "regeln", "Gilden-, DKP- und Lootregeln", None),
@@ -71,11 +71,12 @@ BASE_TOP = [
 
 BASE_BOTTOM = [
     {
-        "name": "🎲 PUG", "mode": None,
+        "name": "🎲 PUG", "mode": None, "guest": True,
         "channels": [
             ("text", "pug-anmeldung", "PUG-Raids mit Soft Reserve – Anmeldung per Knopf", "readonly"),
             ("text", "softreserve", "Soft Reserves der PUG-Raids – eintragen mit /sr oder Knopf am Raid", "botonly"),
             ("text", "pug-chat", "Absprachen für PUG-Raids", None),
+            ("voice", "PUG-Raid", None, None),
         ],
     },
     {
@@ -233,6 +234,31 @@ async def _ensure_category(guild, cat_def: dict, roles: dict, report: list, crea
             report.append(f"✅ {'#' if kind == 'text' else '🔊 '}{name} angelegt")
         created[name] = channel
     return category
+
+
+async def _hide_from_guests(guild, cat_def: dict, roles: dict, created: dict, report: list, reason: str):
+    """Rolle Gast sieht nur INFO und PUG: alle anderen Kategorien und ihre Kanäle für Gast ausblenden.
+    Gildenmitglieder sind davon nicht betroffen (sie haben die Rolle Gast nicht)."""
+    guest = roles.get("Gast")
+    if not guest or cat_def.get("guest"):
+        return 0
+    targets = []
+    category = _find(guild.categories, cat_def["name"])
+    if category:
+        targets.append(category)
+    for _, name, _, _ in cat_def["channels"]:
+        if name in created:
+            targets.append(created[name])
+    changed = 0
+    for t in targets:
+        if t.overwrites_for(guest).view_channel is False:
+            continue
+        try:
+            await t.set_permissions(guest, view_channel=False, reason=reason)
+            changed += 1
+        except discord.HTTPException:
+            report.append(f"⚠️ {t.name}: Gast konnte nicht ausgeblendet werden")
+    return changed
 
 
 def _store_raid_channels(cfg: dict, raid_def: dict, created: dict):
@@ -406,6 +432,11 @@ async def run_setup(guild: discord.Guild, invoker: discord.Member, cfg: dict, dk
     raids = [raid_category(*r) for r in raid_list(extra_pools)]
     for cat_def in BASE_TOP + raids + BASE_BOTTOM:
         await _ensure_category(guild, cat_def, roles, report, created, new_names, reason)
+    hidden = 0
+    for cat_def in BASE_TOP + raids + BASE_BOTTOM:
+        hidden += await _hide_from_guests(guild, cat_def, roles, created, report, reason)
+    if hidden:
+        report.append(f"✅ Rolle **Gast** sieht nur noch INFO und PUG ({hidden} Kanäle/Kategorien ausgeblendet)")
 
     # Begrüßungs- und Infotexte nur in neu angelegte Kanäle
     texts = {
@@ -464,6 +495,7 @@ async def ensure_raid(guild: discord.Guild, cfg: dict, key: str, name: str) -> l
     new_names: set[str] = set()
     raid_def = raid_category(key, name)
     await _ensure_category(guild, raid_def, roles, report, created, new_names, "RaidMaster: neuer Raid")
+    await _hide_from_guests(guild, raid_def, roles, created, report, "RaidMaster: neuer Raid")
     sign = created.get(f"{raid_def['prefix']}-anmeldung")
     if sign and sign.name in new_names:
         try:

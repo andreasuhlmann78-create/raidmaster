@@ -83,6 +83,8 @@ DEFAULT_CONFIG = {
     "update_check_minutes": 30,
     "backup_days": 7,
     "message_content_intent": False,
+    "pug_invite_code": "",
+    "pug_invite_url": "",
 }
 
 CONFIG_ERROR = 3   # launcher.py startet dann nicht neu
@@ -134,7 +136,11 @@ class RaidBot(discord.Client):
         intents = discord.Intents.default()
         # nur nötig, falls Uploads trotz Erwähnung des Bots ohne Anhang ankommen (siehe ANLEITUNG)
         intents.message_content = bool(cfg.get("message_content_intent", False))
+        # Beitritte erkennen (PUG-Einladungslink -> Rolle Gast); braucht den "Server Members Intent"
+        intents.members = not state.data.get("members_intent_missing", False)
+        intents.invites = True
         super().__init__(intents=intents)
+        self.invite_uses: dict[str, int] = {}
         self.tree = app_commands.CommandTree(self)
         self.dkp_data = None
         self.dkp_db = None
@@ -168,6 +174,19 @@ class RaidBot(discord.Client):
                 await check_addon_release()
             except Exception:
                 log.exception("Prüfung der Addon-Version fehlgeschlagen")
+        await refresh_invite_cache()
+
+    async def on_invite_create(self, invite):
+        await refresh_invite_cache()
+
+    async def on_invite_delete(self, invite):
+        await refresh_invite_cache()
+
+    async def on_member_join(self, member):
+        try:
+            await handle_member_join(member)
+        except Exception:
+            log.exception("Beitritt konnte nicht verarbeitet werden")
 
     async def on_message(self, message: discord.Message):
         if cfg.get("data_channel_id") and message.channel.id == int(cfg["data_channel_id"]) and message.webhook_id:
@@ -335,7 +354,8 @@ async def send_export(inter: discord.Interaction, raid: dict):
     if raid["signups"]:
         att, _, _ = rmd.attendance(bot.dkp_data, book)
         lineup = rmd.build_lineup(raid, att)
-    text = rmd.export_text(raid, TZ, lineup)
+    link = cfg.get("pug_invite_url", "") if raid.get("mode") == "pug" else ""
+    text = rmd.export_text(raid, TZ, lineup, link)
     intro = ("Diesen Text kopieren und im Spiel bei **RaidMaster → Anmeldungen → Importieren** einfügen. "
              "Enthält Aufstellung und feste Gruppen – das Addon lädt automatisch ein und sortiert die Gruppen.")
     if len(text) < 1800:
@@ -430,6 +450,9 @@ async def register_pug_player(inter: discord.Interaction):
     """Knopf 'Als PUG-Spieler registrieren': Rolle Gast + Charakterprofil."""
     note = ""
     role = discord.utils.get(inter.guild.roles, name="Gast") if inter.guild else None
+    member_roles = {r.name for r in getattr(inter.user, "roles", [])}
+    if member_roles & {"Raider", "Offizier", "Raidleitung"}:
+        role = None   # Gildenmitglieder nicht zu Gästen machen – sie würden sonst nur noch PUG sehen
     if role and isinstance(inter.user, discord.Member) and role not in inter.user.roles:
         try:
             await inter.user.add_roles(role, reason="PUG-Registrierung")
@@ -1607,11 +1630,114 @@ async def import_cmd(inter: discord.Interaction, datei: discord.Attachment):
     asyncio.create_task(restart_soon())
 
 
+# ---------------------------------------------------------------------------
+# PUG-Einladungslink: wer darüber beitritt, bekommt automatisch die Rolle Gast
+# ---------------------------------------------------------------------------
+
+def bot_guild():
+    return bot.get_guild(int(cfg["guild_id"])) if cfg.get("guild_id") else None
+
+
+async def fetch_invite_uses(guild) -> dict[str, int] | None:
+    if guild is None or not guild.me.guild_permissions.manage_guild:
+        return None
+    try:
+        return {i.code: int(i.uses or 0) for i in await guild.invites()}
+    except discord.HTTPException:
+        return None
+
+
+async def refresh_invite_cache():
+    uses = await fetch_invite_uses(bot_guild())
+    if uses is not None:
+        bot.invite_uses = uses
+
+
+async def handle_member_join(member):
+    if not cfg.get("guild_id") or member.guild.id != int(cfg["guild_id"]) or member.bot:
+        return
+    code = cfg.get("pug_invite_code")
+    before = dict(bot.invite_uses)
+    after = await fetch_invite_uses(member.guild)
+    if after is None:
+        return
+    bot.invite_uses = after
+    used = [c for c, n in after.items() if n > before.get(c, 0)]
+    if not code or used != [code]:
+        return
+    role = discord.utils.get(member.guild.roles, name="Gast")
+    if role:
+        try:
+            await member.add_roles(role, reason="Beitritt über den PUG-Einladungslink")
+        except discord.HTTPException as e:
+            log.warning("Rolle Gast für %s nicht vergeben: %s", member, e)
+            return
+    log.info("%s ist über den PUG-Link beigetreten – Rolle Gast vergeben.", member)
+    pug = f"<#{cfg['pug_channel_id']}>" if cfg.get("pug_channel_id") else "#pug-anmeldung"
+    try:
+        await member.send(
+            f"👋 Willkommen auf **{member.guild.name}**!\n"
+            f"Für unsere PUG-Raids: In {pug} auf **Als PUG-Spieler registrieren** klicken, Charakter festlegen, "
+            "dann bei einem Raid anmelden und deine Soft Reserves eintragen. Viel Spaß!")
+    except discord.HTTPException:
+        pass
+
+
+@bot.tree.command(name="pug-einladung", description="Einladungslink für PUG-Spieler (bekommen automatisch die Rolle Gast)")
+async def pug_invite_cmd(inter: discord.Interaction):
+    if not is_creator(inter.user):
+        await inter.response.send_message("Nur Offiziere bzw. die Raidleitung.", ephemeral=True)
+        return
+    guild = inter.guild
+    if state.data.get("members_intent_missing"):
+        state.data["members_intent_missing"] = False
+        state.save()
+        await inter.response.send_message(
+            "Dafür muss der Bot neue Mitglieder sehen dürfen:\n"
+            "1. https://discord.com/developers/applications → **Raidmaster tool** → **Bot**\n"
+            "2. Unter **Privileged Gateway Intents** den **Server Members Intent** einschalten → speichern.\n"
+            "3. Ich starte jetzt neu – danach `/pug-einladung` noch einmal.", ephemeral=True)
+        asyncio.create_task(restart_soon())
+        return
+    if not guild.me.guild_permissions.manage_guild:
+        await inter.response.send_message(
+            "Damit der Bot erkennt, über welchen Link jemand beitritt, braucht er das Recht **Server verwalten**: "
+            "Servereinstellungen → Rollen → Raidmaster tool → Berechtigungen → „Server verwalten“ einschalten.", ephemeral=True)
+        return
+    ch = await channel_by_id(cfg.get("pug_channel_id"))
+    if not ch:
+        await inter.response.send_message("#pug-anmeldung fehlt – bitte zuerst `/raidmaster-einrichten`.", ephemeral=True)
+        return
+    await inter.response.defer(ephemeral=True, thinking=True)
+    invites = await fetch_invite_uses(guild) or {}
+    code = cfg.get("pug_invite_code")
+    if not code or code not in invites:
+        invite = await ch.create_invite(max_age=0, max_uses=0, unique=True, reason=f"PUG-Einladung ({inter.user})")
+        cfg["pug_invite_code"] = invite.code
+        cfg["pug_invite_url"] = invite.url
+        save_config()
+        await refresh_invite_cache()
+    await inter.followup.send(
+        f"🎲 **PUG-Einladungslink:** {cfg['pug_invite_url']}\n"
+        "• Wer über diesen Link beitritt, bekommt automatisch die Rolle **Gast** und sieht nur INFO und PUG.\n"
+        "• Eure normalen Einladungslinks bleiben wie bisher.\n"
+        "• Im Addon steht der Link nach dem Import („Für RaidMaster“ bei einem PUG-Raid) automatisch im Werbetext – "
+        "oder du trägst ihn auf der Seite **Werbung** ein.", ephemeral=True)
+
+
 @dkp_loop.before_loop
 async def before_dkp():
     await bot.wait_until_ready()
 
 
 if __name__ == "__main__":
-    bot.run(cfg["token"], log_handler=None)
+    try:
+        bot.run(cfg["token"], log_handler=None)
+    except discord.PrivilegedIntentsRequired:
+        # Server Members Intent im Entwicklerportal nicht eingeschaltet -> ohne Beitritts-Erkennung neu starten
+        log.error("Server Members Intent ist im Discord-Entwicklerportal nicht eingeschaltet – "
+                  "starte ohne PUG-Beitrittserkennung neu (siehe /pug-einladung).")
+        state.data["members_intent_missing"] = True
+        state.save()
+        sys.exit(updater.RESTART_CODE)
     sys.exit(EXIT_CODE)

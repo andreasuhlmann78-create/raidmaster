@@ -40,7 +40,13 @@ function S.Parse(text)
 		local bName = line:match("^BANK;([^;]+)$")
 		local startTs = line:match("^Start:%s*(%d+)$")
 		local poolKey = line:match("^Topf:%s*([%w_]+)$")
-		if poolKey then
+		local link = line:match("^Link:%s*(%S+)$")
+		local maxN = line:match("^Max:%s*(%d+)$")
+		if link then
+			result.link = link
+		elseif maxN then
+			result.max = tonumber(maxN)
+		elseif poolKey then
 			result.pool = poolKey
 		elseif gName then
 			result.groups = result.groups or {}
@@ -88,6 +94,10 @@ function S.Import(text)
 		for _ in pairs(result.sr) do n = n + 1 end
 		RM.Print(n .. " Soft Reserves aus Discord gelesen.")
 		if RM.PUG.IsLeader() then RM.PUG.ImportFromSignup() end
+	end
+	if result.link then
+		RM.db.config.adLink = result.link
+		RM.Print("Discord-Link für die Werbung übernommen: " .. result.link)
 	end
 	if result.pool then
 		RM.db.config.activePool = result.pool

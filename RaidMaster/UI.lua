@@ -605,7 +605,7 @@ function UI.Open(pageId)
 	if pageId then UI.ShowPage(pageId) end
 end
 
-for _, msg in ipairs({ "DATA_CHANGED", "AUCTION_CHANGED", "LOOT_CHANGED", "SESSION_CHANGED", "CHECK_DONE", "CONFIG_CHANGED", "GUILD_CHANGED", "SIGNUP_CHANGED", "PUG_CHANGED", "ASSIGN_CHANGED", "SPEC_CHANGED", "SPEC_SCAN_CHANGED" }) do
+for _, msg in ipairs({ "DATA_CHANGED", "AUCTION_CHANGED", "LOOT_CHANGED", "SESSION_CHANGED", "CHECK_DONE", "CONFIG_CHANGED", "GUILD_CHANGED", "SIGNUP_CHANGED", "PUG_CHANGED", "ASSIGN_CHANGED", "SPEC_CHANGED", "SPEC_SCAN_CHANGED", "AD_CHANGED" }) do
 	RM.Listen(msg, function() UI.RefreshCurrent() end)
 end
 RM.On("GROUP_ROSTER_UPDATE", function() UI.RefreshCurrent() end)

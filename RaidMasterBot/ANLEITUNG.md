@@ -35,6 +35,10 @@ Servereinstellungen → **Rollen** → **Raidmaster tool** → **Berechtigungen*
 - **Rollen verwalten** (Rolle Gast für PUG-Spieler)
 - **Webhooks verwalten** (für den Uploader)
 - **Nachrichten verwalten** (verarbeitete Uploads aufräumen)
+- **Server verwalten** (erkennen, wer über den PUG-Einladungslink beitritt)
+
+Außerdem im Entwicklerportal unter **Bot → Privileged Gateway Intents** den **Server Members Intent**
+einschalten (damit der Bot neue Mitglieder sieht).
 
 ## 3. Server mieten
 
@@ -79,10 +83,22 @@ Ohne GitHub geht es auch: das RaidMaster-Paket per WinSCP auf den Server kopiere
 - **💬 ALLGEMEIN**, **🔊 SPRACHE**, **🔒 OFFIZIERE** (#offiziere, #bot-befehle, **#bot-daten**,
   Sprachkanal nur für Offiziere)
 
+Die Rolle **Gast** sieht nur **INFO** und **PUG** (mit Sprachkanal „PUG-Raid“). Gildenmitglieder
+sind davon nicht betroffen.
+
 **#bot-daten** sieht nur der Bot (und Admins). Dort landen die Uploads und die tägliche Datensicherung.
 In **#bot-befehle** meldet der Bot Updates.
 
-## 6. Uploader auf dem PC der Raidleitung
+## 6. PUG-Spieler einladen
+
+`/pug-einladung` (Offiziere) erstellt einen eigenen Einladungslink. Wer darüber beitritt, bekommt
+automatisch die Rolle **Gast**, sieht nur INFO und PUG und erhält eine Begrüßung mit Anleitung.
+Über eure normalen Einladungslinks kommt man wie bisher auf den ganzen Server.
+
+Werbung im Spiel: Addon-Seite **Werbung** – postet einen Text mit dem Link in den Welt-/Handelskanal.
+Der Link kommt beim Import eines PUG-Raids automatisch ins Addon.
+
+## 7. Uploader auf dem PC der Raidleitung
 
 Der Uploader schickt die Addon-Daten (DKP, Loot, Einteilung, Skillungen) an den Bot. Er braucht nur
 Python (ist schon installiert).
@@ -98,7 +114,7 @@ Python (ist schon installiert).
 Nach jedem `/reload` oder Ausloggen sind die Daten nach wenigen Sekunden im Discord. Mehrere Offiziere
 können den Uploader nutzen – es zählt immer der neueste DKP-Stand.
 
-## 7. Umzug vom PC auf den Server (nur wenn der Bot vorher auf deinem PC lief)
+## 8. Umzug vom PC auf den Server (nur wenn der Bot vorher auf deinem PC lief)
 
 Damit Raids, Charaktere und die DKP-Nachrichten erhalten bleiben:
 
@@ -107,7 +123,7 @@ Damit Raids, Charaktere und die DKP-Nachrichten erhalten bleiben:
 3. In Discord `/daten-import` ausführen und die ZIP anhängen. Der Bot übernimmt die Daten und startet kurz neu.
 4. `/raidmaster-einrichten` erneut ausführen (trägt die Kanäle ein und legt #bot-daten an).
 
-## 8. Updates – automatisch
+## 9. Updates – automatisch
 
 - Alle 30 Minuten prüft der Bot das GitHub-Repository. Gibt es etwas Neues, lädt er es herunter,
   **prüft es**, sichert die aktuelle Version, tauscht die Dateien aus und startet neu.
@@ -121,12 +137,12 @@ Damit Raids, Charaktere und die DKP-Nachrichten erhalten bleiben:
 
 Privates Repository: In `config.json` bei `update_token` einen GitHub-Token mit Leserecht eintragen.
 
-## 9. Neue Raids – automatisch
+## 10. Neue Raids – automatisch
 
 Betritt das Addon einen **neuen Raid**, legt es einen eigenen DKP-Topf an. Beim nächsten Upload
 erkennt der Bot ihn, legt **automatisch eine eigene Kategorie** an und meldet das in #ankündigungen.
 
-## 10. Skillungen
+## 11. Skillungen
 
 - Jeder Spieler mit RaidMaster ab 1.5.0 schickt seine Skillung automatisch (beim Einloggen und nach
   jeder Änderung). Spieler ohne Addon erfasst das Addon des Raidleiters per **Betrachten**.
@@ -202,6 +218,7 @@ Erstellt die Raidleitung im Spiel die **Einteilung** und gibt danach `/reload` e
 | `/raidmaster-status` | Offiziere | Version, Uploads, Datenstand |
 | `/raidmaster-einrichten` | Admins | Server einrichten/ergänzen |
 | `/uploader` | Admins | Einrichtung für den Uploader |
+| `/pug-einladung` | Offiziere | Einladungslink für PUG-Spieler (Rolle Gast) |
 | `/update` | Admins | Update prüfen oder ZIP einspielen |
 | `/daten-import` | Admins | Daten aus einer Sicherung übernehmen |
 
