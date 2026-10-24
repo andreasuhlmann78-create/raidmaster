@@ -83,6 +83,8 @@ DEFAULT_CONFIG = {
     "update_check_minutes": 30,
     "backup_days": 7,
     "message_content_intent": False,
+    "guild_name": "",
+    "welcome_channel_id": 0,
     "pug_invite_code": "",
     "pug_invite_url": "",
 }
@@ -1723,6 +1725,39 @@ async def pug_invite_cmd(inter: discord.Interaction):
         "• Eure normalen Einladungslinks bleiben wie bisher.\n"
         "• Im Addon steht der Link nach dem Import („Für RaidMaster“ bei einem PUG-Raid) automatisch im Werbetext – "
         "oder du trägst ihn auf der Seite **Werbung** ein.", ephemeral=True)
+
+
+@bot.tree.command(name="willkommen", description="Willkommenstext in #willkommen posten bzw. aktualisieren (Admins)")
+@app_commands.describe(gildenname="Name eurer Gilde (wird gespeichert)")
+async def welcome_cmd(inter: discord.Interaction, gildenname: str | None = None):
+    if not is_admin(inter.user):
+        await inter.response.send_message("Nur Admins (Recht „Server verwalten“).", ephemeral=True)
+        return
+    if gildenname:
+        cfg["guild_name"] = gildenname.strip()
+        save_config()
+    guild = inter.guild
+    channel = await channel_by_id(cfg.get("welcome_channel_id")) or discord.utils.get(guild.text_channels, name="willkommen")
+    if channel is None:
+        await inter.response.send_message("Kanal #willkommen nicht gefunden – bitte zuerst `/raidmaster-einrichten`.", ephemeral=True)
+        return
+    ids = {c.name: c.id for c in guild.text_channels}
+    officer = discord.utils.get(guild.roles, name="Offizier")
+    text = server_setup.welcome_text(cfg.get("guild_name") or guild.name, ids, officer.id if officer else None)
+    no_ping = discord.AllowedMentions(roles=False, users=False, everyone=False)
+    msg_id = state.data.get("welcome_message")
+    if msg_id:
+        try:
+            await channel.get_partial_message(int(msg_id)).edit(content=text, allowed_mentions=no_ping)
+            await inter.response.send_message(f"✅ Willkommenstext in {channel.mention} aktualisiert.", ephemeral=True)
+            return
+        except discord.HTTPException:
+            pass
+    msg = await channel.send(text, allowed_mentions=no_ping)
+    state.data["welcome_message"] = msg.id
+    state.save()
+    await inter.response.send_message(
+        f"✅ Willkommenstext in {channel.mention} gepostet. Ältere Begrüßungen dort kannst du löschen.", ephemeral=True)
 
 
 @dkp_loop.before_loop

@@ -300,15 +300,40 @@ def _store_raid_channels(cfg: dict, raid_def: dict, created: dict):
 # Texte
 # ---------------------------------------------------------------------------
 
-def _welcome_text() -> str:
+def welcome_text(guild_name: str, channels: dict | None = None, officer_role_id: int | None = None) -> str:
+    """Einladender Willkommenstext für #willkommen. channels: {Kanalname: ID} für klickbare Verweise."""
+    channels = channels or {}
+
+    def ch(name: str) -> str:
+        return f"<#{channels[name]}>" if channels.get(name) else f"**#{name}**"
+
+    officer = f"<@&{officer_role_id}>" if officer_role_id else "**Offizier**"
+    name = guild_name or "unserer Gilde"
     return (
-        "**Willkommen in unserer Gilde!** 👋\n\n"
-        "• Regeln und DKP-System findest du in **#regeln**.\n"
-        "• Jeder Raid hat eine eigene Kategorie: Anmeldung, Chat, Taktik, DKP-Stand und Loot (z. B. **#mc-anmeldung**).\n"
-        "• Einmal registrieren: Knopf **Charakter registrieren** in der Anmeldung deines Raids.\n"
-        "• Melde dich per Knopf an – beim ersten Mal gibst du Klasse, Rolle und Charakternamen an, danach reicht ein Klick.\n"
-        "• Deine DKP pro Raid: im jeweiligen DKP-Kanal oder mit `/dkp`.\n"
-        "• Das Addon **RaidMaster** gibt es immer aktuell in **#raid-addon** (Kategorie 🧩 RAID-ADDON), Fragen dazu in **#addon-hilfe**."
+        f"⚔️ **Willkommen bei {name} auf WoW Forever!** ⚔️\n\n"
+        "Schön, dass du da bist! Wir sind eine Gilde, die gemeinsam Raids erlebt – mit Plan, fairer Lootverteilung "
+        "und vor allem mit Spaß. Ob erfahrener Raider oder frisch auf Stufe 60: Bei uns findest du deinen Platz.\n\n"
+        "🏰 **Unsere Raids**\n"
+        "🔥 Molten Core · 🐉 Onyxias Hort · 🌲 Barrow Deeps · 🌋 Hyjalgipfel\n"
+        "Jeder Raid hat seine eigene Kategorie mit Anmeldung, Chat, Taktik, DKP-Stand und Loot.\n\n"
+        "🚀 **So startest du in 3 Schritten**\n"
+        f"**1.** Lies kurz die {ch('regeln')} – dort steht auch, wie unser DKP-System funktioniert.\n"
+        f"**2.** Geh in die Anmeldung deines Raids (z. B. {ch('mc-anmeldung')}) und klick auf **📝 Charakter registrieren**. "
+        "Klasse, Rolle und Name einmal eintragen – danach meldest du dich mit einem Klick an.\n"
+        f"**3.** Lade dir unser Addon **RaidMaster** aus {ch('raid-addon')} herunter. Damit siehst du deine DKP, "
+        "bietest auf Items und bekommst deine Aufgaben im Raid direkt angezeigt.\n\n"
+        "💎 **Loot bei uns: DKP**\n"
+        "Für Pünktlichkeit, jeden Boss und das Raidende gibt es DKP. Damit bietest du im Raid offen auf die Items, "
+        "die du dir wünschst – transparent und fair für alle. Deinen Stand siehst du jederzeit im DKP-Kanal deines "
+        "Raids oder mit `/dkp`.\n\n"
+        "🤝 **Was uns wichtig ist**\n"
+        "• Pünktlich und vorbereitet zum Raid (Tränke, Buffs, Taktik gelesen)\n"
+        "• Freundlicher Umgang – auch wenn mal etwas schiefgeht\n"
+        "• Absagen rechtzeitig per Knopf, damit wir planen können\n\n"
+        "❓ **Fragen?**\n"
+        f"Schreib einfach in {ch('allgemein')} oder sprich einen {officer} an. "
+        f"Bei Problemen mit dem Addon hilft {ch('addon-hilfe')}.\n\n"
+        "Wir freuen uns auf viele gemeinsame Bosskills mit dir! 🍻"
     )
 
 
@@ -364,6 +389,8 @@ def _bot_commands_text() -> str:
         "`/raid absagen` · `/raid export` · `/raid taktik`\n"
         "`/sr` – Soft Reserve für PUG-Raids · `/dkp` · `/dkpliste` · `/addon`\n"
         "`/raidmaster-status` – zeigt Datenstand, Uploads und installierte Version\n"
+        "`/pug-einladung` – Einladungslink für PUG-Spieler (Rolle Gast)\n"
+        "`/willkommen` – Willkommenstext in #willkommen posten/aktualisieren (Admins)\n"
         "`/uploader` – Einrichtung für den Daten-Uploader auf dem PC der Raidleitung (Admins)\n"
         "`/update` – Update jetzt prüfen bzw. eine Update-ZIP einspielen (Admins)\n"
         "`/raidmaster-einrichten` – Kanäle und Rollen erneut prüfen/ergänzen"
@@ -465,8 +492,10 @@ async def run_setup(guild: discord.Guild, invoker: discord.Member, cfg: dict, dk
         report.append(f"✅ Rolle **Gast** sieht nur noch INFO und PUG ({hidden} Kanäle/Kategorien ausgeblendet)")
 
     # Begrüßungs- und Infotexte nur in neu angelegte Kanäle
+    officer = roles.get("Offizier")
     texts = {
-        "willkommen": _welcome_text(),
+        "willkommen": welcome_text(cfg.get("guild_name") or guild.name, {n: c.id for n, c in created.items()},
+                                   officer.id if officer else None),
         "regeln": _rules_text(settings),
         "pug-anmeldung": _pug_howto_text(),
         "bot-befehle": _bot_commands_text(),
@@ -497,7 +526,8 @@ async def run_setup(guild: discord.Guild, invoker: discord.Member, cfg: dict, dk
     for key, ch_name in (("softreserve_channel_id", "softreserve"), ("assignment_channel_id", "einteilung"),
                          ("officer_channel_id", "offiziere"), ("addon_channel_id", "raid-addon"),
                          ("announce_channel_id", "ankündigungen"), ("pug_channel_id", "pug-anmeldung"),
-                         ("data_channel_id", "bot-daten"), ("botcmd_channel_id", "bot-befehle")):
+                         ("data_channel_id", "bot-daten"), ("botcmd_channel_id", "bot-befehle"),
+                         ("welcome_channel_id", "willkommen")):
         if ch_name in created:
             cfg[key] = created[ch_name].id
     creator_roles = list(cfg.get("raid_creator_roles") or [])
