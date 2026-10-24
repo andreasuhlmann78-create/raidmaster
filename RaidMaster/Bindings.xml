@@ -1,0 +1,14 @@
+<Bindings>
+	<Binding name="RAIDMASTER_TOGGLE" header="RAIDMASTER">RaidMaster.UI.Toggle()</Binding>
+	<Binding name="RAIDMASTER_SMARTMARK">RaidMaster.Markers.SmartMark()</Binding>
+	<Binding name="RAIDMASTER_MARK8">RaidMaster.Markers.Mark(8)</Binding>
+	<Binding name="RAIDMASTER_MARK7">RaidMaster.Markers.Mark(7)</Binding>
+	<Binding name="RAIDMASTER_MARK6">RaidMaster.Markers.Mark(6)</Binding>
+	<Binding name="RAIDMASTER_MARK5">RaidMaster.Markers.Mark(5)</Binding>
+	<Binding name="RAIDMASTER_MARK4">RaidMaster.Markers.Mark(4)</Binding>
+	<Binding name="RAIDMASTER_MARK3">RaidMaster.Markers.Mark(3)</Binding>
+	<Binding name="RAIDMASTER_MARK2">RaidMaster.Markers.Mark(2)</Binding>
+	<Binding name="RAIDMASTER_MARK1">RaidMaster.Markers.Mark(1)</Binding>
+	<Binding name="RAIDMASTER_CLEARMARK">RaidMaster.Markers.Mark(0)</Binding>
+	<Binding name="RAIDMASTER_CLEARALL">RaidMaster.Markers.ClearAll()</Binding>
+</Bindings>

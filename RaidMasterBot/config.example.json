@@ -1,0 +1,17 @@
+{
+  "token": "HIER_DEN_BOT_TOKEN_EINFUEGEN",
+  "guild_id": 0,
+  "timezone": "Europe/Zurich",
+  "raid_creator_roles": ["Offizier", "Raidleitung"],
+  "reminder_minutes": 60,
+  "close_after_hours": 6,
+  "savedvariables_path": "",
+  "update_repo": "",
+  "update_branch": "main",
+  "update_token": "",
+  "update_check_minutes": 30,
+  "backup_days": 7,
+  "notify_addon_updates": true,
+  "notify_spec_changes": true,
+  "send_assignment_dms": true
+}

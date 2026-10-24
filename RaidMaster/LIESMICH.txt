@@ -1,0 +1,106 @@
+RaidMaster 1.5.0 – DKP, Loot und Raidleitung für WoW Forever
+===============================================================
+
+INSTALLATION
+- Den Ordner "RaidMaster" in den AddOns-Ordner eures Servers kopieren
+  (...\Interface\AddOns\RaidMaster). Bei einem Update den alten Ordner ersetzen –
+  die gespeicherten Daten bleiben erhalten.
+- ALLE Raidmitglieder sollten mindestens 1.3.0 nutzen (Datenformat mit DKP pro Raid).
+- Neue Versionen gibt es immer im Discord unter #raid-addon (alle Registrierten bekommen eine Nachricht).
+  Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
+  Ohne Addon kann man trotzdem bieten (!bid 50), DKP abfragen (!dkp) und reservieren (!sr 12345).
+- Öffnen: Minimap-Knopf oder /rm.
+
+SEITEN IM FENSTER
+  DKP-Stände · Versteigerung · Loot · Log · Raid · Anmeldungen · Soft Reserve · Einteilung ·
+  Raidleiter · Skillungen · Einstellungen
+
+RECHTE
+- DKP ändern, DKP-Raids starten und versteigern: nur Offiziere (Gildenrang 0 und 1, einstellbar).
+- PUG-Raids, Einteilung, Einladen und Gruppen: Raidleiter oder Assistenten.
+
+DKP PRO RAID (neu in 1.3.0)
+- Jeder Raid hat einen eigenen DKP-Topf: Molten Core, Onyxias Hort, Barrow Deeps, Hyjalgipfel.
+- Bisherige DKP wurden automatisch dem Topf Molten Core zugeordnet.
+- In einer Raid-Instanz wird der Topf automatisch erkannt. Neue, unbekannte Raids bekommen beim
+  ersten Betreten automatisch einen eigenen Topf. Wird ein Raid falsch erkannt: Seite "Raid" ->
+  DKP-Topf auswählen – RaidMaster merkt sich das für diese Instanz.
+- Gebote, Bosskills, Start-/Endbonus und Korrekturen buchen immer auf den passenden Topf.
+- Auf den Seiten "DKP-Stände" und "Log" oben den Raid auswählen. Decay gilt für alle Töpfe.
+- Boss-DKP pro Raid unter "Einstellungen" – Bosse neuer Raids erscheinen nach dem ersten Kill.
+
+ABLAUF STAMMRAID (DKP)
+1. Seite "Loot": Empfänger eintragen (Gildenbank, Entzauberer, Handwerker).
+2. Discord: Raid mit Raid-Auswahl erstellen, anmelden lassen, "/raid aufstellung",
+   dann Knopf "Für RaidMaster" kopieren (enthält auch den DKP-Topf des Raids).
+3. Seite "Anmeldungen": Text einfügen -> Übernehmen. Ab jetzt:
+   - Auto-Einladung: X Minuten vor Raidbeginn (einstellbar) lädt das Addon alle Aufgestellten ein,
+     macht automatisch einen Schlachtzug und lädt Nachzügler bis 30 Min. nach Beginn nach.
+   - Gruppen: Jeder, der beitritt, kommt sofort in seine feste Gruppe (Gruppe 1 = MT).
+     Knopf "Gruppen einteilen" sortiert alles auf einmal (nur außerhalb des Kampfes).
+   - Das Spiel muss dafür beim Raidleiter laufen.
+4. Seite "Einteilung": "Einteilung erstellen" -> "An alle senden" -> /reload (für Discord).
+   Der Uploader auf dem PC der Raidleitung schickt die Daten nach jedem /reload an den Bot.
+5. Seite "Raid": "Raid starten". Bosse werden automatisch gebucht, Loot automatisch versteigert.
+6. Am Ende "Raid beenden", danach /reload, damit der Bot die DKP in Discord aktualisiert.
+
+PUG-RAIDS MIT SOFT RESERVE (neu in 1.3.0)
+- Seite "Soft Reserve" -> Leitung: Items pro Spieler wählen -> "PUG-Raid starten".
+  Kein DKP – epische Items werden ausgewürfelt statt versteigert.
+- Spieler reservieren:
+  - im Addon (Seite Soft Reserve): Item-ID eintippen oder Item per Shift-Klick einfügen -> Reservieren
+  - per Flüstern an den Leiter: !sr 16800  (oder !sr [Itemlink]; !sr zeigt, !sr löschen löscht)
+  - in Discord: Knopf "Soft Reserve" am Raid oder /sr – kommt über den Import ins Spiel
+- Leiter: SR sperren, SR-Liste im Raid posten, SR aus Discord übernehmen, einzelne entfernen.
+- Beim Öffnen des Bosses: Reservierte Items würfeln nur die Reservierer (/roll), alle anderen Items:
+  Bedarf /roll, Gier /roll 99. Würfe werden automatisch erkannt (nur der erste zählt),
+  bei Gleichstand gibt es ein Stechen. Danach bestätigen -> Item wird direkt zugeteilt.
+
+EINTEILUNG PER KNOPFDRUCK (neu in 1.3.0)
+- Seite "Einteilung": Tanks in Reihenfolge (MT zuerst) – "Auto" erkennt sie aus Haupttank-
+  Markierung, Discord-Rolle oder Kriegern.
+- "Einteilung erstellen" erzeugt aus den Klassen im Raid:
+  Heilung (Heiler auf die Tanks, Rest auf Gruppen), Entfluchen (Magier, Druiden), Magie bannen
+  (Priester, Paladine), Furchtschutz (Zwergenpriester), Seelensteine, Anregen,
+  Lucifron/Gehennas Add-Tanks, Magmadar Einlull-Rotation, Garr Verbannen mit Symbolen,
+  Shazzrah Tank-Reihenfolge, Sulfuron Tanks + Unterbrecher, Golemagg Tankwechsel + Kernwüter,
+  Majordomus Sheep + Elite-Tanks + Unterbrecher, Ragnaros MT/Ersatztank.
+- "An alle senden": Spieler mit Addon bekommen ihre Aufgaben ins Addon und sehen sie beim Pull
+  des Bosses groß auf dem Bildschirm. Alle anderen bekommen sie zugeflüstert.
+  Nach /reload schickt der Discord-Bot jedem verknüpften Spieler eine Direktnachricht.
+- "Im Raid posten" postet die gewählte Einteilung mit Symbolen in den Raidchat.
+
+SKILLUNGEN (neu in 1.5.0)
+- Das Addon liest deine Skillung aus und schickt sie an Gilde und Raid – beim Einloggen, beim
+  Betreten eines Raids und nach jeder Talentänderung. Nichts zu tun.
+- Spieler ohne Addon: Das Addon von Raidleiter/Assistenten/Offizieren betrachtet sie automatisch
+  (alle 5 Minuten, nur in Reichweite und außerhalb des Kampfes). Abschaltbar auf der Seite "Skillungen".
+- Seite "Skillungen": alle Raidmitglieder mit Skillung (z. B. Schatten 0/10/41), Rolle und Quelle.
+  Knopf "Raid scannen" holt fehlende sofort.
+- Die Einteilung nutzt die Skillung: Schattenpriester, Vergelter, Verstärker usw. werden nicht als
+  Heiler eingeteilt; Schutzkrieger und Bären werden als Tanks erkannt.
+- Nach /reload überträgt der Uploader die Skillungen zum Discord-Bot – dort stehen sie im Profil,
+  bei den Anmeldungen und in der Aufstellung.
+
+SPIELER
+- Gebotsfenster öffnet sich automatisch (Enter = bieten). Es zeigt, in welchem Raid-Topf geboten wird.
+- Warnung, wenn deine Klasse das Item nicht tragen kann.
+
+SCHLACHTZUGSYMBOLE
+- Esc > Tastaturbelegung > RaidMaster: Taste für "Nächstes freies Symbol" belegen, mit der Maus über
+  Gegner fahren und drücken. Vorlagen (Garr, Majordomus ...) auf der Seite "Raidleiter".
+
+SYNC
+- Buchungen gehen sofort an alle Addon-Nutzer der Gilde und an den Raid (auch Gildenfremde).
+- Gildenfremde sehen die DKP der Raid-Gilde getrennt (Auswahl "Raid: ..." oben auf der DKP-Seite).
+
+BEFEHLE
+  /rm        Fenster öffnen
+  /rm bar    Markierungsleiste ein/aus
+  /rm sync   Datenabgleich anfordern
+  /rm reset  Fensterpositionen zurücksetzen
+
+ERSTER TEST (empfohlen)
+- Mit 2–3 Leuten in einer Raidgruppe: Raid starten, ein Item per Shift-Klick versteigern,
+  PUG-Raid starten und ein Item auswürfeln, Einteilung erstellen und senden.
+- Prüfen, ob Bosskills und der Raid-Topf auf dem Server richtig erkannt werden.

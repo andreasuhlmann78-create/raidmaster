@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+RaidMasterBot/config.json
+RaidMasterBot/data/
+RaidMasterBot/backup/
+RaidMasterBot/update/
+RaidMasterBot/addon/*.zip
+RaidMasterUploader/uploader_config.json

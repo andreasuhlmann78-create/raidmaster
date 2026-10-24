@@ -1,0 +1,21 @@
+## Interface: 16001
+## Title: |cffff8c1aRaidMaster|r - DKP & Raid Tools
+## Notes: DKP pro Raid, Skillungen, offene Gebote, PUG mit Soft Reserve, Einteilung, Auto-Einladung und Raidleiter-Hilfen
+## Author: GoldSentinel
+## Version: 1.5.0
+## SavedVariables: RaidMasterDB
+
+Core.lua
+Data.lua
+Comm.lua
+Spec.lua
+DKP.lua
+Raid.lua
+Loot.lua
+Auction.lua
+Signup.lua
+PUG.lua
+Assign.lua
+Markers.lua
+UI.lua
+Pages.lua
