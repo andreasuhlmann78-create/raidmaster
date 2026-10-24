@@ -74,7 +74,7 @@ Ohne GitHub geht es auch: das RaidMaster-Paket per WinSCP auf den Server kopiere
 - **📌 INFO**: #willkommen, #regeln, #ankündigungen, **#raid-addon** (Downloads)
 - **⚔️ RAID-ORGA**: #einteilung
 - **Eine Kategorie pro Raid** (🔥 MOLTEN CORE, 🐉 ONYXIAS HORT, 🌲 BARROW DEEPS, 🌋 HYJALGIPFEL) mit
-  **-anmeldung**, **-taktik**, **-dkp** und **-loot**
+  **-anmeldung** (mit Knopf **Charakter registrieren**), **-chat**, **-taktik**, **-dkp** und **-loot**
 - **🎲 PUG**: #pug-anmeldung, #softreserve, #pug-chat
 - **💬 ALLGEMEIN**, **🔊 SPRACHE**, **🔒 OFFIZIERE** (#offiziere, #bot-befehle, **#bot-daten**,
   Sprachkanal nur für Offiziere)
@@ -150,7 +150,8 @@ Items pro Spieler (1–3). Er erscheint in #pug-anmeldung, Spieler mit der Rolle
 **Für alle:** Knöpfe **Anmelden / Ersatzbank / Vielleicht / Abmelden**, beim ersten Mal Klasse, Rolle
 und Charakter festlegen. `/charakter` ändert das Profil.
 
-**PUG-Spieler registrieren sich** einmal über den Knopf in #pug-anmeldung: Rolle Gast + Charakter.
+**Gildenspieler registrieren sich** einmal über den Knopf **Charakter registrieren** in der Anmeldung
+ihres Raids (z. B. #mc-anmeldung). **PUG-Spieler** nehmen den Knopf in #pug-anmeldung: Rolle Gast + Charakter.
 
 ## Soft Reserve (PUG)
 

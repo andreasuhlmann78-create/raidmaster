@@ -442,6 +442,17 @@ async def register_pug_player(inter: discord.Interaction):
         view=ProfileView("", None, book.profile(inter.user.id)), ephemeral=True)
 
 
+async def register_raid_player(inter: discord.Interaction, key: str):
+    """Knopf 'Charakter registrieren' in der Anmeldung eines Raids (Gildenspieler)."""
+    name = rmd.pool_name(key, bot.dkp_data) if key else "Raids"
+    profile = book.profile(inter.user.id)
+    intro = (f"Du bist schon registriert: {profile_text(profile)}.\nHier kannst du Klasse, Rolle oder Charakter ändern."
+             if profile else
+             f"Willkommen bei **{name}**! Wähle Klasse und Rolle und gib deinen Charakternamen ein – danach meldest "
+             "du dich bei jedem Raid mit einem Klick an.")
+    await inter.response.send_message(intro, view=ProfileView("", None, profile), ephemeral=True)
+
+
 @bot.event
 async def on_interaction(inter: discord.Interaction):
     if inter.type != discord.InteractionType.component:
@@ -453,6 +464,9 @@ async def on_interaction(inter: discord.Interaction):
         _, action, rid = cid.split(":", 2)
         if action == "pugreg":
             await register_pug_player(inter)
+            return
+        if action == "raidreg":
+            await register_raid_player(inter, rid)
             return
         raid = book.get(rid)
         if not raid:

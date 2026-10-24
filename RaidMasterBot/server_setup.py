@@ -120,12 +120,13 @@ def slug(name: str) -> str:
 
 
 def raid_category(key: str, name: str, emoji: str = "🗡️", prefix: str | None = None) -> dict:
-    """Kategorie eines Raids mit Anmeldung, Taktik, DKP und Loot."""
+    """Kategorie eines Raids mit Anmeldung (inkl. Registrier-Knopf), Chat, Taktik, DKP und Loot."""
     p = prefix or slug(name)
     return {
         "name": f"{emoji} {name.upper()}", "mode": None, "raid": key, "prefix": p,
         "channels": [
             ("text", f"{p}-anmeldung", f"Anmeldung {name} – per Knopf", "readonly"),
+            ("text", f"{p}-chat", f"Austausch und Absprachen zu {name}", None),
             ("text", f"{p}-taktik", f"Taktik und Fragen zu {name}", None),
             ("text", f"{p}-dkp", f"DKP-Stand {name} (automatisch vom RaidMaster-Bot)", "botonly"),
             ("text", f"{p}-loot", f"Loot-Protokoll {name} (automatisch vom RaidMaster-Bot)", "botonly"),
@@ -237,7 +238,8 @@ async def _ensure_category(guild, cat_def: dict, roles: dict, report: list, crea
 def _store_raid_channels(cfg: dict, raid_def: dict, created: dict):
     p = raid_def["prefix"]
     ids = {}
-    for kind, ch_name in (("signup", f"{p}-anmeldung"), ("tactics", f"{p}-taktik"), ("dkp", f"{p}-dkp"), ("loot", f"{p}-loot")):
+    for kind, ch_name in (("signup", f"{p}-anmeldung"), ("chat", f"{p}-chat"), ("tactics", f"{p}-taktik"),
+                          ("dkp", f"{p}-dkp"), ("loot", f"{p}-loot")):
         if ch_name in created:
             ids[kind] = created[ch_name].id
     cfg.setdefault("raid_channels", {})[raid_def["raid"]] = ids
@@ -254,7 +256,8 @@ def _welcome_text() -> str:
     return (
         "**Willkommen in unserer Gilde!** 👋\n\n"
         "• Regeln und DKP-System findest du in **#regeln**.\n"
-        "• Jeder Raid hat eine eigene Kategorie: Anmeldung, Taktik, DKP-Stand und Loot (z. B. **#mc-anmeldung**).\n"
+        "• Jeder Raid hat eine eigene Kategorie: Anmeldung, Chat, Taktik, DKP-Stand und Loot (z. B. **#mc-anmeldung**).\n"
+        "• Einmal registrieren: Knopf **Charakter registrieren** in der Anmeldung deines Raids.\n"
         "• Melde dich per Knopf an – beim ersten Mal gibst du Klasse, Rolle und Charakternamen an, danach reicht ein Klick.\n"
         "• Deine DKP pro Raid: im jeweiligen DKP-Kanal oder mit `/dkp`.\n"
         "• Das Addon **RaidMaster** gibt es immer aktuell in **#raid-addon**."
@@ -336,6 +339,25 @@ async def _post_pug_registration(channel, cfg: dict, report: list):
         report.append("⚠️ PUG-Registrierung konnte nicht gepostet werden")
 
 
+async def _post_raid_registration(channel, cfg: dict, key: str, name: str, report: list):
+    """Fester Registrier-Knopf in der Anmeldung eines Raids (für Gildenspieler, ohne Rolle Gast)."""
+    posted = cfg.setdefault("raid_reg_messages", {})
+    if not channel or posted.get(key):
+        return
+    view = discord.ui.View(timeout=None)
+    view.add_item(discord.ui.Button(label="Charakter registrieren", emoji="📝",
+                                    style=discord.ButtonStyle.success, custom_id=f"rm:raidreg:{key}"))
+    try:
+        msg = await channel.send(
+            f"**Bei {name} dabei sein?** 📝\n"
+            "Einmal registrieren: Klasse, Rolle und Charakternamen festlegen. Danach meldest du dich bei jedem "
+            f"{name}-Raid mit einem Klick an. Deine Skillung übernimmt das Addon RaidMaster automatisch.", view=view)
+        posted[key] = msg.id
+        report.append(f"✅ Registrier-Knopf in #{channel.name} gepostet")
+    except discord.HTTPException:
+        report.append(f"⚠️ Registrier-Knopf in #{getattr(channel, 'name', '?')} konnte nicht gepostet werden")
+
+
 # ---------------------------------------------------------------------------
 # Einrichtung
 # ---------------------------------------------------------------------------
@@ -403,6 +425,9 @@ async def run_setup(guild: discord.Guild, invoker: discord.Member, cfg: dict, dk
                 report.append(f"⚠️ Text in #{name} konnte nicht gepostet werden")
 
     await _post_pug_registration(created.get("pug-anmeldung"), cfg, report)
+    for r in raids:
+        await _post_raid_registration(created.get(f"{r['prefix']}-anmeldung"), cfg, r["raid"],
+                                      r["name"].split(" ", 1)[1].title(), report)
 
     # Einstellungen des Bots aktualisieren
     for r in raids:
@@ -445,5 +470,6 @@ async def ensure_raid(guild: discord.Guild, cfg: dict, key: str, name: str) -> l
             await sign.send(_raid_howto_text(name))
         except discord.HTTPException:
             pass
+    await _post_raid_registration(sign, cfg, key, name, report)
     _store_raid_channels(cfg, raid_def, created)
     return report
