@@ -492,10 +492,7 @@ async def run_setup(guild: discord.Guild, invoker: discord.Member, cfg: dict, dk
         report.append(f"✅ Rolle **Gast** sieht nur noch INFO und PUG ({hidden} Kanäle/Kategorien ausgeblendet)")
 
     # Begrüßungs- und Infotexte nur in neu angelegte Kanäle
-    officer = roles.get("Offizier")
     texts = {
-        "willkommen": welcome_text(cfg.get("guild_name") or guild.name, {n: c.id for n, c in created.items()},
-                                   officer.id if officer else None),
         "regeln": _rules_text(settings),
         "pug-anmeldung": _pug_howto_text(),
         "bot-befehle": _bot_commands_text(),

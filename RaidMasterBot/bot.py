@@ -83,7 +83,7 @@ DEFAULT_CONFIG = {
     "update_check_minutes": 30,
     "backup_days": 7,
     "message_content_intent": False,
-    "guild_name": "",
+    "guild_name": "test",
     "welcome_channel_id": 0,
     "pug_invite_code": "",
     "pug_invite_url": "",
@@ -176,6 +176,10 @@ class RaidBot(discord.Client):
                 await check_addon_release()
             except Exception:
                 log.exception("Prüfung der Addon-Version fehlgeschlagen")
+            try:
+                await ensure_welcome(update=False)
+            except Exception:
+                log.exception("Willkommenstext konnte nicht gepostet werden")
         await refresh_invite_cache()
 
     async def on_invite_create(self, invite):
@@ -954,6 +958,7 @@ async def setup_cmd(inter: discord.Interaction):
         cfg.setdefault("raid_names", {}).update(extra)
         save_config()
         await check_addon_release()
+        report.append(await ensure_welcome(update=True))
     except discord.Forbidden:
         await inter.followup.send("Discord hat eine Aktion verweigert. Prüfe, ob die Rolle **Raidmaster tool** in "
                                   "**Servereinstellungen → Rollen** möglichst weit oben steht, und versuche es erneut.", ephemeral=True)
@@ -1727,7 +1732,46 @@ async def pug_invite_cmd(inter: discord.Interaction):
         "oder du trägst ihn auf der Seite **Werbung** ein.", ephemeral=True)
 
 
-@bot.tree.command(name="willkommen", description="Willkommenstext in #willkommen posten bzw. aktualisieren (Admins)")
+OLD_WELCOME_START = "**Willkommen in unserer Gilde!**"
+
+
+async def ensure_welcome(update: bool = True) -> str:
+    """Willkommenstext in #willkommen eintragen: fehlt er, wird er gepostet; update=True aktualisiert ihn
+    (z. B. nach der Einrichtung, wenn neue Kanäle verlinkt werden können). Alte Bot-Begrüßung wird ersetzt."""
+    guild = bot_guild()
+    if guild is None:
+        return "Server nicht gefunden."
+    channel = await channel_by_id(cfg.get("welcome_channel_id")) or discord.utils.get(guild.text_channels, name="willkommen")
+    if channel is None:
+        return "Kanal #willkommen nicht gefunden – bitte zuerst `/raidmaster-einrichten`."
+    ids = {c.name: c.id for c in guild.text_channels}
+    officer = discord.utils.get(guild.roles, name="Offizier")
+    text = server_setup.welcome_text(cfg.get("guild_name") or guild.name, ids, officer.id if officer else None)
+    no_ping = discord.AllowedMentions(roles=False, users=False, everyone=False)
+    msg_id = state.data.get("welcome_message")
+    if msg_id:
+        if not update:
+            return "Willkommenstext ist bereits eingetragen."
+        try:
+            await channel.get_partial_message(int(msg_id)).edit(content=text, allowed_mentions=no_ping)
+            return f"✅ Willkommenstext in {channel.mention} aktualisiert."
+        except discord.HTTPException:
+            pass
+    # frühere, kurze Begrüßung des Bots entfernen
+    try:
+        async for old in channel.history(limit=30):
+            if old.author.id == bot.user.id and (old.content or "").startswith(OLD_WELCOME_START):
+                await old.delete()
+    except discord.HTTPException:
+        pass
+    msg = await channel.send(text, allowed_mentions=no_ping)
+    state.data["welcome_message"] = msg.id
+    state.save()
+    log.info("Willkommenstext in #%s eingetragen.", channel.name)
+    return f"✅ Willkommenstext in {channel.mention} eingetragen."
+
+
+@bot.tree.command(name="willkommen", description="Willkommenstext in #willkommen aktualisieren, z. B. mit neuem Gildennamen (Admins)")
 @app_commands.describe(gildenname="Name eurer Gilde (wird gespeichert)")
 async def welcome_cmd(inter: discord.Interaction, gildenname: str | None = None):
     if not is_admin(inter.user):
@@ -1736,28 +1780,7 @@ async def welcome_cmd(inter: discord.Interaction, gildenname: str | None = None)
     if gildenname:
         cfg["guild_name"] = gildenname.strip()
         save_config()
-    guild = inter.guild
-    channel = await channel_by_id(cfg.get("welcome_channel_id")) or discord.utils.get(guild.text_channels, name="willkommen")
-    if channel is None:
-        await inter.response.send_message("Kanal #willkommen nicht gefunden – bitte zuerst `/raidmaster-einrichten`.", ephemeral=True)
-        return
-    ids = {c.name: c.id for c in guild.text_channels}
-    officer = discord.utils.get(guild.roles, name="Offizier")
-    text = server_setup.welcome_text(cfg.get("guild_name") or guild.name, ids, officer.id if officer else None)
-    no_ping = discord.AllowedMentions(roles=False, users=False, everyone=False)
-    msg_id = state.data.get("welcome_message")
-    if msg_id:
-        try:
-            await channel.get_partial_message(int(msg_id)).edit(content=text, allowed_mentions=no_ping)
-            await inter.response.send_message(f"✅ Willkommenstext in {channel.mention} aktualisiert.", ephemeral=True)
-            return
-        except discord.HTTPException:
-            pass
-    msg = await channel.send(text, allowed_mentions=no_ping)
-    state.data["welcome_message"] = msg.id
-    state.save()
-    await inter.response.send_message(
-        f"✅ Willkommenstext in {channel.mention} gepostet. Ältere Begrüßungen dort kannst du löschen.", ephemeral=True)
+    await inter.response.send_message(await ensure_welcome(update=True), ephemeral=True)
 
 
 @dkp_loop.before_loop

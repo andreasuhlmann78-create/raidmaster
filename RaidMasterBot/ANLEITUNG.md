@@ -220,7 +220,7 @@ Erstellt die Raidleitung im Spiel die **Einteilung** und gibt danach `/reload` e
 | `/raidmaster-einrichten` | Admins | Server einrichten/ergänzen |
 | `/uploader` | Admins | Einrichtung für den Uploader |
 | `/pug-einladung` | Offiziere | Einladungslink für PUG-Spieler (Rolle Gast) |
-| `/willkommen` | Admins | Willkommenstext in #willkommen posten/aktualisieren (z. B. `gildenname:test`) |
+| `/willkommen` | Admins | Willkommenstext neu eintragen, z. B. mit anderem Gildennamen (`gildenname:…`) – sonst macht es der Bot selbst |
 | `/update` | Admins | Update prüfen oder ZIP einspielen |
 | `/daten-import` | Admins | Daten aus einer Sicherung übernehmen |
 
