@@ -84,6 +84,7 @@ DEFAULT_CONFIG = {
     "message_content_intent": False,
     "guild_name": "test",
     "welcome_channel_id": 0,
+    "command_list_channel_id": 0,
     "pug_invite_code": "",
     "pug_invite_url": "",
 }
@@ -179,6 +180,10 @@ class RaidBot(discord.Client):
                 await ensure_welcome(update=False)
             except Exception:
                 log.exception("Willkommenstext konnte nicht gepostet werden")
+            try:
+                await ensure_command_list()
+            except Exception:
+                log.exception("Befehlsliste konnte nicht gepostet werden")
             # offene Raid-Nachrichten auf den aktuellen Stand bringen (z. B. Knöpfe nach einem Update)
             for r in book.open_raids():
                 try:
@@ -918,6 +923,7 @@ async def setup_cmd(inter: discord.Interaction):
         save_config()
         await check_addon_release()
         report.append(await ensure_welcome(update=True))
+        report.append(await ensure_command_list())
     except discord.Forbidden:
         await inter.followup.send("Discord hat eine Aktion verweigert. Prüfe, ob die Rolle **Raidmaster tool** in "
                                   "**Servereinstellungen → Rollen** möglichst weit oben steht, und versuche es erneut.", ephemeral=True)
@@ -1740,6 +1746,92 @@ async def welcome_cmd(inter: discord.Interaction, gildenname: str | None = None)
         cfg["guild_name"] = gildenname.strip()
         save_config()
     await inter.response.send_message(await ensure_welcome(update=True), ephemeral=True)
+
+
+# ---------------------------------------------------------------------------
+# Befehlsliste im Offiziersbereich (nur der Bot schreibt, wird automatisch aktuell gehalten)
+# ---------------------------------------------------------------------------
+
+COMMAND_INFO = {
+    # Befehl: (Wer, Bereich)
+    "raid erstellen": ("Offiziere", "Raids"),
+    "raid softres": ("Offiziere", "Raids"),
+    "raid aufstellung": ("Offiziere", "Raids"),
+    "raid liste": ("Offiziere", "Raids"),
+    "raid schliessen": ("Offiziere", "Raids"),
+    "raid oeffnen": ("Offiziere", "Raids"),
+    "raid absagen": ("Offiziere", "Raids"),
+    "raid export": ("Offiziere", "Raids"),
+    "raid taktik": ("Offiziere", "Raids"),
+    "pug-einladung": ("Offiziere", "Raids"),
+    "charakter": ("alle", "Spieler"),
+    "dkp": ("alle", "Spieler"),
+    "dkpliste": ("alle", "Spieler"),
+    "addon": ("alle", "Spieler"),
+    "raidmaster-status": ("Offiziere", "Verwaltung"),
+    "raidmaster-einrichten": ("Admins", "Verwaltung"),
+    "willkommen": ("Admins", "Verwaltung"),
+    "uploader": ("Admins", "Verwaltung"),
+    "update": ("Admins", "Verwaltung"),
+    "daten-import": ("Admins", "Verwaltung"),
+}
+SECTION_ORDER = [("Raids", "⚔️"), ("Spieler", "👤"), ("Verwaltung", "🛠️")]
+
+
+def command_list_text() -> list[str]:
+    """Liste aller Slash-Befehle aus dem Befehlsbaum – neue Befehle erscheinen automatisch."""
+    entries = []
+    for cmd in bot.tree.get_commands():
+        subs = getattr(cmd, "commands", None)
+        if subs:
+            for sub in subs:
+                entries.append((f"{cmd.name} {sub.name}", sub.description, [p.name for p in sub.parameters]))
+        else:
+            entries.append((cmd.name, cmd.description, [p.name for p in getattr(cmd, "parameters", [])]))
+    blocks = [f"📖 **Alle Bot-Befehle** · RaidMaster-Bot {updater.bot_version(BASE)}\n"
+              "Befehl im Chat mit `/` beginnen und aus der Liste wählen. Diese Liste aktualisiert der Bot selbst."]
+    by_section: dict[str, list[str]] = {}
+    for name, desc, params in sorted(entries):
+        who, section = COMMAND_INFO.get(name, ("alle", "Sonstiges"))
+        opts = (" · " + " ".join(f"`{p}`" for p in params)) if params else ""
+        by_section.setdefault(section, []).append(f"**`/{name}`** – {desc} _({who})_{opts}")
+    order = SECTION_ORDER + [(s, "•") for s in by_section if s not in dict(SECTION_ORDER)]
+    for section, emoji in order:
+        if by_section.get(section):
+            blocks.append(f"{emoji} **{section}**\n" + "\n".join(by_section[section]))
+    blocks.append("_Offiziere = Rollen Offizier/Raidleitung · Admins = Recht „Server verwalten“_")
+    return rmd.chunk_blocks(blocks)
+
+
+async def ensure_command_list() -> str:
+    guild = bot_guild()
+    if guild is None:
+        return "Befehlsliste: Server nicht gefunden."
+    channel = await channel_by_id(cfg.get("command_list_channel_id")) or discord.utils.get(guild.text_channels, name="befehlsliste")
+    if channel is None:
+        return "Befehlsliste: Kanal #befehlsliste fehlt – `/raidmaster-einrichten` ausführen."
+    parts = command_list_text()
+    old_ids = list(state.data.get("command_list_messages") or [])
+    new_ids = []
+    no_ping = discord.AllowedMentions(roles=False, users=False, everyone=False)
+    for i, text in enumerate(parts):
+        if i < len(old_ids):
+            try:
+                await channel.get_partial_message(int(old_ids[i])).edit(content=text, allowed_mentions=no_ping)
+                new_ids.append(old_ids[i])
+                continue
+            except discord.HTTPException:
+                pass
+        msg = await channel.send(text, allowed_mentions=no_ping)
+        new_ids.append(msg.id)
+    for mid in old_ids[len(parts):]:
+        try:
+            await channel.get_partial_message(int(mid)).delete()
+        except discord.HTTPException:
+            pass
+    state.data["command_list_messages"] = new_ids
+    state.save()
+    return f"✅ Befehlsliste in {channel.mention} aktuell."
 
 
 @dkp_loop.before_loop

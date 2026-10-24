@@ -81,8 +81,11 @@ Ohne GitHub geht es auch: das RaidMaster-Paket per WinSCP auf den Server kopiere
 - **Eine Kategorie pro Raid** (🔥 MOLTEN CORE, 🐉 ONYXIAS HORT, 🌲 BARROW DEEPS, 🌋 HYJALGIPFEL) mit
   **-anmeldung** (mit Knopf **Charakter registrieren**), **-chat**, **-taktik**, **-dkp** und **-loot**
 - **🎲 PUG**: #pug-anmeldung, #pug-chat, Sprachkanal PUG-Raid
-- **💬 ALLGEMEIN**, **🔊 SPRACHE**, **🔒 OFFIZIERE** (#offiziere, #bot-befehle, **#bot-daten**,
-  Sprachkanal nur für Offiziere)
+- **💬 ALLGEMEIN**, **🔊 SPRACHE**, **🔒 OFFIZIERE** (#offiziere, **#befehlsliste**, #bot-befehle,
+  **#bot-daten**, Sprachkanal nur für Offiziere)
+
+**#befehlsliste** zeigt alle Bot-Befehle und hält sich bei jedem Update selbst aktuell. Dort schreibt nur
+der Bot – Offiziere können lesen, aber nichts posten.
 
 Die Rolle **Gast** sieht nur **INFO**, **RAID-ADDON** und **PUG** (mit Sprachkanal „PUG-Raid“). Gildenmitglieder
 sind davon nicht betroffen.

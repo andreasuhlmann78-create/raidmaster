@@ -51,6 +51,7 @@ RENAMES = {
 #   "private"  = nur Offiziere/Raidleitung und der Bot sehen den Bereich
 #   "officers" = ausschließlich die Rolle Offizier (und der Bot) sieht den Kanal
 #   "hidden"   = nur der Bot (und Admins) sehen den Kanal
+#   "officers_readonly" = Offiziere/Raidleitung lesen, nur der Bot schreibt
 BASE_TOP = [
     {
         "name": "📌 INFO", "mode": "readonly", "guest": True,
@@ -105,6 +106,7 @@ BASE_BOTTOM = [
         "name": "🔒 OFFIZIERE", "mode": "private",
         "channels": [
             ("text", "offiziere", "Absprachen der Gildenleitung", None),
+            ("text", "befehlsliste", "Alle Bot-Befehle – wird vom Bot automatisch aktuell gehalten", "officers_readonly"),
             ("text", "bot-befehle", "Zum Testen von Bot-Befehlen", None),
             ("text", "bot-daten", "Daten aus dem Spiel (Uploader) und Update-Meldungen – nur für den Bot", "hidden"),
             ("voice", "Offiziere", None, "officers"),
@@ -187,6 +189,13 @@ def _overwrites(mode: str | None, guild: discord.Guild, roles: dict) -> dict | N
                 ow[r] = discord.PermissionOverwrite(view_channel=True, send_messages=True)
     elif mode == "hidden":
         ow[everyone] = discord.PermissionOverwrite(view_channel=False)
+    elif mode == "officers_readonly":
+        ow[everyone] = discord.PermissionOverwrite(view_channel=False, send_messages=False)
+        for r in leaders:
+            if r:
+                ow[r] = discord.PermissionOverwrite(view_channel=True, send_messages=False, add_reactions=False,
+                                                    create_public_threads=False, create_private_threads=False,
+                                                    send_messages_in_threads=False)
     elif mode == "officers":
         ow[everyone] = discord.PermissionOverwrite(view_channel=False, connect=False)
         if roles.get("Raidleitung"):
@@ -544,7 +553,7 @@ async def run_setup(guild: discord.Guild, invoker: discord.Member, cfg: dict, dk
                          ("officer_channel_id", "offiziere"), ("addon_channel_id", "raid-addon"),
                          ("announce_channel_id", "ankündigungen"), ("pug_channel_id", "pug-anmeldung"),
                          ("data_channel_id", "bot-daten"), ("botcmd_channel_id", "bot-befehle"),
-                         ("welcome_channel_id", "willkommen")):
+                         ("welcome_channel_id", "willkommen"), ("command_list_channel_id", "befehlsliste")):
         if ch_name in created:
             cfg[key] = created[ch_name].id
     creator_roles = list(cfg.get("raid_creator_roles") or [])
