@@ -91,6 +91,31 @@ def changelog_section(text, version):
     return "\n".join(out).strip() or f"Version {version}"
 
 
+def changelog_since(path, addon, since, upto):
+    """Alle Changelog-Abschnitte nach `since` bis einschließlich `upto` (Markdown)."""
+    with zipfile.ZipFile(path) as z:
+        name = next((n for n in z.namelist() if n.lower() == f"{addon}/changelog.md".lower()), None)
+        if not name:
+            return ""
+        text = z.read(name).decode("utf-8", "replace")
+    lo, hi = addon_version_key(addon, since), addon_version_key(addon, upto)
+    out, keep, sections = [], False, 0
+    for line in text.splitlines():
+        m = re.match(r"^##\s+v?([\d.]+)", line)
+        if m:
+            v = addon_version_key(addon, m.group(1))
+            keep = lo < v <= hi
+            if keep:
+                sections += 1
+                out.append(line)
+            continue
+        if keep:
+            if line.startswith(">") and sections > 1:
+                continue              # Beta-Hinweis nur beim obersten Abschnitt
+            out.append(line)
+    return "\n".join(out).strip()
+
+
 def interface_to_version(n):
     """11509 -> '1.15.9', 120105 -> '12.1.5'"""
     major, rest = divmod(n, 10000)
@@ -175,6 +200,13 @@ def main():
             print(f"{addon}: keine Zip in download/ - übersprungen")
             continue
         version, interfaces, changelog = read_zip_info(zp, addon)
+        # alle Neuerungen seit der zuletzt hochgeladenen Version (nicht nur diese eine)
+        done = state.get(addon, [])
+        if done:
+            last = max(done, key=lambda v: addon_version_key(addon, v))
+            full = changelog_since(zp, addon, last, version)
+            if full:
+                changelog = full
         display = f"{addon}-{version}"
         print(f"{addon}: {zp.name}, Version {version}, Interface {interfaces}")
 

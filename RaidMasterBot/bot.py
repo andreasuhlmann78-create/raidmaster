@@ -1225,6 +1225,36 @@ def find_addon_package(key: str = "raidmaster") -> tuple[str, str] | None:
     return best
 
 
+def zip_changelog(path: str, key: str, since: str | None, upto: str, limit: int = 3500) -> str:
+    """Changelog-Abschnitte aus der ZIP: alles nach Version `since` bis einschließlich `upto`."""
+    try:
+        with zipfile.ZipFile(path) as z:
+            name = next((n for n in z.namelist() if n.lower().endswith("/changelog.md") or n.lower() == "changelog.md"), None)
+            if not name:
+                return ""
+            text = z.read(name).decode("utf-8", "replace")
+    except (zipfile.BadZipFile, OSError, KeyError):
+        return ""
+    lo = addon_version_key(key, since) if since else None
+    hi = addon_version_key(key, upto)
+    out, keep = [], False
+    for line in text.splitlines():
+        m = re.match(r"^##\s+v?([\d.]+)", line)
+        if m:
+            v = addon_version_key(key, m.group(1))
+            keep = v <= hi and (lo is None or v > lo)
+            if keep:
+                out.append(f"**{m.group(1)}**")
+            continue
+        if keep and not line.startswith(">"):        # Beta-Hinweis weglassen
+            out.append(line)
+    text = "\n".join(out).strip()
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    if len(text) > limit:
+        text = text[:limit].rsplit("\n", 1)[0] + "\n…"
+    return text
+
+
 async def check_extra_releases():
     """Neue Versionen der weiteren Addons (z. B. AH Analyzer Pro) in ihrem Kanal posten."""
     versions = state.data.setdefault("extra_versions", {})
@@ -1239,18 +1269,64 @@ async def check_extra_releases():
         if not ch:
             log.info("%s %s gefunden, aber Kanal #%s fehlt (/raidmaster-einrichten).", meta["title"], version, meta["channel_name"])
             continue
+        notes = zip_changelog(path, key, versions.get(key), version)
+        embed = None
+        if notes:
+            embed = discord.Embed(title=f"{meta['title']} {version} – what's new", description=notes, color=0xFFD100)
         await ch.send(
             f"🆕 **{meta['title']} {version}** ist da!\n"
             f"Download: Datei unten herunterladen, entpacken und den Ordner **{meta['folder']}** in "
             "`Interface/AddOns` ersetzen. Deine Einstellungen bleiben erhalten.",
+            embed=embed,
             file=discord.File(path, filename=f"{meta['folder']}-{version}.zip"))
         versions[key] = version
         state.save()
         log.info("%s %s in #%s veröffentlicht.", meta["title"], version, meta["channel_name"])
 
 
+# Ankündigungen: Textdateien im Repo-Ordner "announce" werden je einmal gepostet.
+# Dateiname: <kanal>-<irgendwas>.md, z. B. aktionshaus-0.59.22.md oder raid-addon-info.md
+ANNOUNCE_DIR = os.path.join(BASE, "announce")
+ANNOUNCE_CHANNELS = {"aktionshaus": "aktionshaus_channel_id", "raid-addon": "addon_channel_id"}
+
+
+async def check_announcements():
+    if not os.path.isdir(ANNOUNCE_DIR):
+        return
+    done = state.data.setdefault("announced", [])
+    for fn in sorted(os.listdir(ANNOUNCE_DIR)):
+        if not fn.lower().endswith(".md") or fn in done:
+            continue
+        chan_key = next((v for k, v in ANNOUNCE_CHANNELS.items() if fn.lower().startswith(k + "-")), None)
+        if not chan_key:
+            continue
+        ch = await channel_by_id(cfg.get(chan_key))
+        if not ch:
+            continue
+        try:
+            with open(os.path.join(ANNOUNCE_DIR, fn), "r", encoding="utf-8") as f:
+                text = f.read().strip()
+        except OSError:
+            continue
+        # Discord: höchstens 2000 Zeichen pro Nachricht - an Absätzen teilen
+        parts, cur = [], ""
+        for para in text.split("\n\n"):
+            if len(cur) + len(para) + 2 > 1900 and cur:
+                parts.append(cur)
+                cur = ""
+            cur = (cur + "\n\n" + para) if cur else para
+        if cur:
+            parts.append(cur)
+        for p in parts:
+            await ch.send(p[:2000])
+        done.append(fn)
+        state.save()
+        log.info("Ankündigung %s gepostet.", fn)
+
+
 async def check_addon_release():
     await check_extra_releases()
+    await check_announcements()
     pkg = find_addon_package("raidmaster")
     if not pkg:
         return

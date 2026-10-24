@@ -2,23 +2,23 @@
 
 **Market analysis, sniper and gold-making toolkit for the auction house – for every WoW version.**
 
-> ⚠️ **Version 5.9.12 is a beta.** It may still contain bugs. If you run into an error or unexpected behaviour in-game, please report it in the comments – ideally with the Lua error message (if any) and the WoW version you play on.
+> ⚠️ **Version 0.59.22 is a beta.** It may still contain bugs. If you run into an error or unexpected behaviour in-game, please report it in the comments – ideally with the Lua error message (if any) and the WoW version you play on.
 
 AH Analyzer Pro scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It runs as its own tab inside the auction house window, can be used completely with the mouse and speaks the language of your WoW client.
 
 ---
 
-## What's new
+## What's new in 0.59.22
 
-- **Classic auction house support:** Classic Era, TBC Anniversary and Wrath Classic now work with scan, price check, sniper, bargain watcher, buying, posting and cancelling
-- **All WoW versions in one download:** Classic Era, WoW Forever, TBC Anniversary, Wrath Classic, Wrath Titan Reforged, Cataclysm Classic, Mists of Pandaria Classic and Retail
-- **Bargain watcher:** a new tab that searches trade goods for prices far below market value and alerts you with sound and chat
-- **Bait-offer protection:** a single cheap unit placed at the bottom of a commodity no longer fools the sniper, the sell suggestion or the market value
-- **Suspicious prices are double-checked** with a quick search before they count
-- **Charts with EMAs** over 6 hours, 1 day and 7 days, including crossover markers
-- **Much faster searches** – the addon follows the server's own throttle instead of fixed waits
-- **Buy commodities with a single mouse-wheel notch** – the price is confirmed in advance, nothing is bought if it rose in the meantime
-- **Disenchant values that learn** from your own disenchants
+- **New Buy tab** (next to Overview) – works like the auction house's own Buy tab: search, categories, level, rarity. Categories show **instantly** from your last scan while the live search updates them in the background
+- **Sniper and Watcher search as often as the server allows** and take turns – the Sniper hunts your targets, the Watcher finds lucky bargains. The speed adjusts itself to the limit of every WoW version
+- **The Sniper keeps searching after a hit** – the hit stays buyable with one mouse-wheel notch and the sound repeats while it's there
+- **Bait offers** (single units at the very bottom) are no longer shown anywhere and never count for prices
+- **Page bar in every list** (‹ 1 2 3 … 20 ›), draggable scrollbars, **Item column sorts by rarity, then name**, new **iLvl** column
+- **Size in auction house** option (100–160 %) for large screens
+- The AH Analyzer tab **no longer overlaps TSM, Auctionator & co.**
+- **Classic auction house** (Classic Era, TBC Anniversary, Wrath): full support, all result pages are read
+- **Back button** in the price history, rarity picker with checkboxes everywhere, new look with icons and gold accents, smooth scanning without stutter
 
 ---
 

@@ -206,6 +206,13 @@ def install_zip(data: bytes, base: str, source: str, ref: str = "") -> dict:
             raise UpdateError("In der ZIP wurde weder der Bot (bot.py) noch das Addon (RaidMaster.toc) gefunden.")
         result = {"source": source, "ref": ref, "at": int(time.time()), "bot_changed": [], "addon_zip": None,
                   "old_version": bot_version(base), "version": bot_version(base), "requirements": False}
+        # Ankündigungen (Ordner announce) übernehmen - der Bot postet jede Datei einmal
+        for dirpath, _, filenames in os.walk(tmp):
+            if os.path.basename(dirpath) == "announce":
+                os.makedirs(os.path.join(base, "announce"), exist_ok=True)
+                for fn in filenames:
+                    if fn.lower().endswith(".md"):
+                        shutil.copy2(os.path.join(dirpath, fn), os.path.join(base, "announce", fn))
         # fertige Addon-ZIPs aus dem Ordner download (z. B. AH Analyzer Pro) übernehmen
         for dirpath, _, filenames in os.walk(tmp):
             if os.path.basename(dirpath) == "download":

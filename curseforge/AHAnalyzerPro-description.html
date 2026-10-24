@@ -1,21 +1,21 @@
 <h1>AH Analyzer Pro</h1>
 <p><strong>Market analysis, sniper and gold-making toolkit for the auction house – for every WoW version.</strong></p>
 <blockquote>
-<p>⚠️ <strong>Version 5.9.12 is a beta.</strong> It may still contain bugs. If you run into an error or unexpected behaviour in-game, please report it in the comments – ideally with the Lua error message (if any) and the WoW version you play on.</p>
+<p>⚠️ <strong>Version 0.59.22 is a beta.</strong> It may still contain bugs. If you run into an error or unexpected behaviour in-game, please report it in the comments – ideally with the Lua error message (if any) and the WoW version you play on.</p>
 </blockquote>
 <p>AH Analyzer Pro scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It runs as its own tab inside the auction house window, can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
-<h2>What's new</h2>
+<h2>What's new in 0.59.22</h2>
 <ul>
-<li><strong>Classic auction house support:</strong> Classic Era, TBC Anniversary and Wrath Classic now work with scan, price check, sniper, bargain watcher, buying, posting and cancelling</li>
-<li><strong>All WoW versions in one download:</strong> Classic Era, WoW Forever, TBC Anniversary, Wrath Classic, Wrath Titan Reforged, Cataclysm Classic, Mists of Pandaria Classic and Retail</li>
-<li><strong>Bargain watcher:</strong> a new tab that searches trade goods for prices far below market value and alerts you with sound and chat</li>
-<li><strong>Bait-offer protection:</strong> a single cheap unit placed at the bottom of a commodity no longer fools the sniper, the sell suggestion or the market value</li>
-<li><strong>Suspicious prices are double-checked</strong> with a quick search before they count</li>
-<li><strong>Charts with EMAs</strong> over 6 hours, 1 day and 7 days, including crossover markers</li>
-<li><strong>Much faster searches</strong> – the addon follows the server's own throttle instead of fixed waits</li>
-<li><strong>Buy commodities with a single mouse-wheel notch</strong> – the price is confirmed in advance, nothing is bought if it rose in the meantime</li>
-<li><strong>Disenchant values that learn</strong> from your own disenchants</li>
+<li><strong>New Buy tab</strong> (next to Overview) – works like the auction house's own Buy tab: search, categories, level, rarity. Categories show <strong>instantly</strong> from your last scan while the live search updates them in the background</li>
+<li><strong>Sniper and Watcher search as often as the server allows</strong> and take turns – the Sniper hunts your targets, the Watcher finds lucky bargains. The speed adjusts itself to the limit of every WoW version</li>
+<li><strong>The Sniper keeps searching after a hit</strong> – the hit stays buyable with one mouse-wheel notch and the sound repeats while it's there</li>
+<li><strong>Bait offers</strong> (single units at the very bottom) are no longer shown anywhere and never count for prices</li>
+<li><strong>Page bar in every list</strong> (‹ 1 2 3 … 20 ›), draggable scrollbars, <strong>Item column sorts by rarity, then name</strong>, new <strong>iLvl</strong> column</li>
+<li><strong>Size in auction house</strong> option (100–160 %) for large screens</li>
+<li>The AH Analyzer tab <strong>no longer overlaps TSM, Auctionator &amp; co.</strong></li>
+<li><strong>Classic auction house</strong> (Classic Era, TBC Anniversary, Wrath): full support, all result pages are read</li>
+<li><strong>Back button</strong> in the price history, rarity picker with checkboxes everywhere, new look with icons and gold accents, smooth scanning without stutter</li>
 </ul>
 <hr />
 <h2>Features</h2>
@@ -62,95 +62,31 @@
 </ul>
 <hr />
 <h2>Supported game versions</h2>
-<table>
-<thead>
-<tr>
-<th>Game version</th>
-<th>Status</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>WoW Forever</td>
-<td>main version</td>
-</tr>
-<tr>
-<td>Classic Era</td>
-<td>supported (beta)</td>
-</tr>
-<tr>
-<td>TBC Anniversary, Wrath Classic, Wrath Titan Reforged</td>
-<td>supported (beta)</td>
-</tr>
-<tr>
-<td>Cataclysm Classic, Mists of Pandaria Classic</td>
-<td>supported (beta)</td>
-</tr>
-<tr>
-<td>Retail</td>
-<td>supported (beta)</td>
-</tr>
-</tbody>
-</table>
+<p>| Game version | Status |
+|---|---|
+| WoW Forever | main version |
+| Classic Era | supported (beta) |
+| TBC Anniversary, Wrath Classic, Wrath Titan Reforged | supported (beta) |
+| Cataclysm Classic, Mists of Pandaria Classic | supported (beta) |
+| Retail | supported (beta) |</p>
 <p>One download for everything – just copy the folder <code>AHAnalyzerPro</code> into <code>Interface\AddOns</code> of your game.</p>
 <h2>Languages</h2>
 <p>English, German, French, Spanish (EU and Latin America), Portuguese, Italian, Russian, Korean, Chinese (simplified and traditional). The addon follows your client language automatically; you can change it in the options or with <code>/ahp language</code>.</p>
 <h2>Commands</h2>
 <p>Everything works with the mouse – the commands are optional.</p>
-<table>
-<thead>
-<tr>
-<th>Command</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>/ahp</code></td>
-<td>open / close the window</td>
-</tr>
-<tr>
-<td><code>/ahp scan</code></td>
-<td>start a full market scan</td>
-</tr>
-<tr>
-<td><code>/ahp sniper</code></td>
-<td>sniper on / off</td>
-</tr>
-<tr>
-<td><code>/ahp sync</code></td>
-<td>price sync on / off</td>
-</tr>
-<tr>
-<td><code>/ahp lists</code></td>
-<td>shopping lists</td>
-</tr>
-<tr>
-<td><code>/ahp options</code></td>
-<td>options</td>
-</tr>
-<tr>
-<td><code>/ahp design</code></td>
-<td>switch between Classic and Modern</td>
-</tr>
-<tr>
-<td><code>/ahp language</code></td>
-<td>change the addon language</td>
-</tr>
-<tr>
-<td><code>/ahp export</code></td>
-<td>CSV export</td>
-</tr>
-<tr>
-<td><code>/ahp help</code></td>
-<td>help</td>
-</tr>
-<tr>
-<td><code>/ahp reset</code></td>
-<td>reset window and button positions</td>
-</tr>
-</tbody>
-</table>
+<p>| Command | Action |
+|---|---|
+| <code>/ahp</code> | open / close the window |
+| <code>/ahp scan</code> | start a full market scan |
+| <code>/ahp sniper</code> | sniper on / off |
+| <code>/ahp sync</code> | price sync on / off |
+| <code>/ahp lists</code> | shopping lists |
+| <code>/ahp options</code> | options |
+| <code>/ahp design</code> | switch between Classic and Modern |
+| <code>/ahp language</code> | change the addon language |
+| <code>/ahp export</code> | CSV export |
+| <code>/ahp help</code> | help |
+| <code>/ahp reset</code> | reset window and button positions |</p>
 <hr />
 <h2>Feedback</h2>
 <p>Found a bug or have an idea? Leave a comment here on CurseForge – bug reports with the Lua error message and your WoW version help the most.</p>
