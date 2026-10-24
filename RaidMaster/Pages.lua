@@ -397,6 +397,10 @@ UI.AddPage("auction", L["Versteigerung"], function(page)
 		for _, b in ipairs({ startBtn, removeBtn, addItemBtn, directBtn }) do
 			if canRun then b:Enable() else b:Disable() end
 		end
+		-- normale Teilnehmer bieten nur: Steuerung der Versteigerung ausblenden
+		for _, b in ipairs({ startBtn, removeBtn, addItemBtn, directBtn, finishBtn, addBtn, cancelBtn }) do
+			if canRun then b:Show() else b:Hide() end
+		end
 
 		local rows = {}
 		for _, b in ipairs(RM.Auction.BidList()) do

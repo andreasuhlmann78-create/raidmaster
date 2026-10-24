@@ -673,6 +673,25 @@ end
 ---------------------------------------------------------------------------
 -- Hauptfenster
 ---------------------------------------------------------------------------
+-- Wer sieht welche Seite:
+--   alle Teilnehmer: DKP-Stände und Versteigerung (bieten)
+--   Raidleiter/Co-Raidleiter und Offiziere: alle Raid-Seiten
+--   Einstellungen: nur Offiziere
+UI.PAGE_ACCESS = { dkp = "all", auction = "all", settings = "officer" }
+
+function UI.IsRaidLead()
+	local grouped = RM.InRaid() or (IsInGroup and IsInGroup())
+	return grouped and RM.IsAssist() and true or false
+end
+
+function UI.CanSeePage(id)
+	local access = UI.PAGE_ACCESS[id] or "lead"
+	if access == "all" then return true end
+	if RM.CanEdit() then return true end
+	if access == "lead" then return UI.IsRaidLead() end
+	return false
+end
+
 function UI.AddPage(id, title, build)
 	UI.pages[id] = { id = id, title = title, build = build }
 	UI.pageOrder[#UI.pageOrder + 1] = id
@@ -752,8 +771,33 @@ local function UpdateStatus()
 	main.status:SetText(table.concat(parts, "   ·   "))
 end
 
+-- Navigation: nur erlaubte Seiten, lückenlos untereinander
+local function UpdateNav()
+	if not main then return end
+	local y = -10
+	for _, pid in ipairs(UI.pageOrder) do
+		local p = UI.pages[pid]
+		if p.nav then
+			if UI.CanSeePage(pid) then
+				p.nav:ClearAllPoints()
+				p.nav:SetPoint("TOPLEFT", main.nav, "TOPLEFT", 6, y)
+				p.nav:Show()
+				y = y - 40
+			else
+				p.nav:Hide()
+			end
+		end
+	end
+	if main.current and not UI.CanSeePage(main.current) then
+		main.current = nil
+		UI.ShowPage(UI.pageOrder[1])
+	end
+end
+UI.UpdateNav = UpdateNav
+
 function UI.ShowPage(id)
 	if not main then return end
+	if not UI.CanSeePage(id) then id = UI.pageOrder[1] end
 	for pid, p in pairs(UI.pages) do
 		if p.frame then
 			if pid == id then p.frame:Show() else p.frame:Hide() end
@@ -766,6 +810,7 @@ end
 
 function UI.RefreshCurrent()
 	if not main or not main:IsShown() then return end
+	UpdateNav()
 	UpdateStatus()
 	local p = UI.pages[main.current]
 	if p and p.refresh then
@@ -813,6 +858,7 @@ local function CreateMain()
 	close:SetPoint("RIGHT", -8, 0)
 
 	local nav = UI.Frame(f, 170, 560)
+	f.nav = nav
 	nav:SetPoint("TOPLEFT", 0, -40)
 	nav:SetPoint("BOTTOMLEFT", 0, 26)
 	local nbg = nav:CreateTexture(nil, "BACKGROUND")

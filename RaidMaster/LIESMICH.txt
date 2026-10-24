@@ -1,4 +1,4 @@
-RaidMaster 1.8.1 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 1.8.2 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,12 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+WER SIEHT WAS (neu in 1.8.2)
+- Normale Teilnehmer sehen nur "DKP-Stände" und "Versteigerung" und können nur bieten.
+- Raidleiter und Co-Raidleiter (Assistenten) sehen zusätzlich alle Raid-Seiten (Raid, Loot, Log,
+  Anmeldungen, PUG, Werbung, Einteilung, Raidleiter, Skillungen).
+- Offiziere sehen alles, auch die Einstellungen. Die Navigation passt sich beim Befördern sofort an.
 
 SCHLACHTZUGSYMBOLE NUR FÜR DIE RAIDLEITUNG (neu in 1.8.1)
 - Symbole setzen, Adds markieren und alle entfernen können nur Raidleiter und Co-Raidleiter (Assistenten),
