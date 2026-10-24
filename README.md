@@ -33,3 +33,8 @@ curl -fsSL https://raw.githubusercontent.com/andreasuhlmann78-create/raidmaster/
 
 Der Bot prüft dieses Repository alle 30 Minuten und installiert neue Versionen selbst.
 Neue Addon-Versionen veröffentlicht er in #raid-addon.
+
+## Lizenz
+
+© GoldSentinel – Alle Rechte vorbehalten / All rights reserved. Benutzen erlaubt; verändern, weitergeben oder
+veröffentlichen nur mit schriftlicher Erlaubnis. Siehe [LICENSE.txt](LICENSE.txt).
