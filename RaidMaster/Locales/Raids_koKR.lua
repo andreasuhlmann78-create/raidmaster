@@ -4279,3 +4279,5 @@ L["KRONE DES KOSMOS: Pfeile durch Wächter/Adds lenken! Strahlen aus dem Raid!"]
 L["Zwischenphase: zusammen auf eine Sektion. P3: Feder nehmen und springen, Bindungen per Tankwechsel."] = "사이 단계: 한 구역에 다 같이. 3페: 깃털 집고 점프, 속박은 탱 교대로."
 L["Krone des Kosmos"] = "우주의 왕관"
 L["Ein Symbol pro Unsterblichem Wächter in Phase 1, Tötungsreihenfolge Totenkopf, Kreuz, Viereck."] = "1단계 불멸의 수호자마다 징표 하나, 처치 순서 해골, 가위표, 네모."
+L["Weitere Raids"] = "기타 공격대"
+L["Raids nach WoW-Erweiterung geordnet; ein grüner Punkt zeigt Raids mit DKP-Ständen."] = "WoW 확장팩별 공격대; 초록 점은 DKP가 있는 공격대입니다."

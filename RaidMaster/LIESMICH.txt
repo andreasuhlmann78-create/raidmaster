@@ -1,4 +1,4 @@
-RaidMaster 1.7.0 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 1.7.1 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,11 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+RAIDAUSWAHL ALS MENÜ (neu in 1.7.1)
+- DKP-Stände, Log, Raid-Seite (DKP-Topf) und Einstellungen: Der Raid wird über ein Aufklappmenü gewählt,
+  geordnet nach WoW-Erweiterung (Classic, TBC, Wrath ...). Maus über die Erweiterung -> Raids erscheinen.
+  Ein grüner Punkt zeigt Raids, in denen es schon DKP gibt.
 
 ALLE RAIDS ALLER VERSIONEN (neu in 1.7.0)
 - RaidMaster kennt jetzt alle Raids von Classic bis Midnight (über 60 Raids, über 400 Bosse) und zeigt

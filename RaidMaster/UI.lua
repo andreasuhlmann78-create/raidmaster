@@ -183,6 +183,184 @@ function UI.Cycle(parent, w, options, getter, setter, tooltip)
 end
 
 ---------------------------------------------------------------------------
+-- Aufklappmenü mit Gruppen (z. B. Raids nach WoW-Erweiterung)
+-- build() liefert { { text = "Gruppe", items = { {value, text, mark} } }, ... };
+-- eine Gruppe ohne text zeigt ihre Einträge direkt in der ersten Spalte.
+---------------------------------------------------------------------------
+local menu, sub
+local ROW_H = 20
+
+local function MenuFrame(level)
+	local f = CreateFrame("Frame", nil, UIParent, TEMPLATE)
+	UI.Skin(f, COLORS.panel, COLORS.accent)
+	f:SetFrameStrata("FULLSCREEN_DIALOG")
+	f:SetClampedToScreen(true)
+	f:EnableMouse(true)
+	f.rows = {}
+	f.level = level
+	f:Hide()
+	return f
+end
+
+local function MenuRow(f, i)
+	local r = f.rows[i]
+	if r then return r end
+	r = CreateFrame("Button", nil, f)
+	r:SetHeight(ROW_H)
+	r:SetPoint("TOPLEFT", 4, -4 - (i - 1) * ROW_H)
+	r:SetPoint("TOPRIGHT", -4, -4 - (i - 1) * ROW_H)
+	local hl = r:CreateTexture(nil, "HIGHLIGHT")
+	hl:SetAllPoints()
+	hl:SetColorTexture(1, 1, 1, 0.08)
+	r.sel = r:CreateTexture(nil, "BACKGROUND")
+	r.sel:SetAllPoints()
+	r.sel:SetColorTexture(COLORS.accent[1], COLORS.accent[2], COLORS.accent[3], 0.25)
+	r.text = UI.Text(r, "", 12)
+	r.text:SetPoint("LEFT", 6, 0)
+	r.text:SetPoint("RIGHT", -16, 0)
+	r.text:SetWordWrap(false)
+	r.arrow = UI.Text(r, ">", 12, COLORS.muted[1], COLORS.muted[2], COLORS.muted[3], "RIGHT")
+	r.arrow:SetPoint("RIGHT", -4, 0)
+	f.rows[i] = r
+	return r
+end
+
+local function CloseMenus()
+	if sub then sub:Hide() end
+	if menu then menu:Hide() end
+end
+UI.CloseMenus = CloseMenus
+
+-- Einträge in ein Menüfenster füllen; Gruppen öffnen beim Überfahren die zweite Spalte
+local function FillMenu(f, entries, owner, width)
+	for _, r in ipairs(f.rows) do r:Hide() end
+	local cur = owner.getter()
+	for i, e in ipairs(entries) do
+		local r = MenuRow(f, i)
+		r.entry = e
+		r.text:SetText(e.text .. ((e.mark and " |cff40ff40•|r") or ""))
+		if e.group then
+			r.text:SetTextColor(COLORS.accent[1], COLORS.accent[2], COLORS.accent[3])
+			r.arrow:Show()
+			local has = false
+			for _, it in ipairs(e.group.items) do if it[1] == cur then has = true end end
+			if has then r.sel:Show() else r.sel:Hide() end
+		else
+			r.text:SetTextColor(unpack(COLORS.text))
+			r.arrow:Hide()
+			if e.value == cur then r.sel:Show() else r.sel:Hide() end
+		end
+		r:SetScript("OnEnter", function(self)
+			if f.level == 1 then
+				if self.entry.group then
+					local items = {}
+					for _, it in ipairs(self.entry.group.items) do items[#items + 1] = { value = it[1], text = it[2], mark = it[3] } end
+					sub = sub or MenuFrame(2)
+					FillMenu(sub, items, owner, width)
+					sub:ClearAllPoints()
+					sub:SetPoint("TOPLEFT", self, "TOPRIGHT", 6, 4)
+					sub:Show()
+				elseif sub then
+					sub:Hide()
+				end
+			end
+		end)
+		r:SetScript("OnClick", function(self)
+			if self.entry.group then return end
+			CloseMenus()
+			owner.setter(self.entry.value)
+			owner:Refresh()
+		end)
+		r:Show()
+	end
+	f:SetSize(width, #entries * ROW_H + 8)
+end
+
+function UI.Dropdown(parent, w, build, getter, setter, tooltip)
+	local b = UI.Button(parent, "", w, 24, nil, tooltip)
+	b.label:ClearAllPoints()
+	b.label:SetPoint("LEFT", 8, 0)
+	b.label:SetPoint("RIGHT", -18, 0)
+	b.label:SetJustifyH("LEFT")
+	local arrow = UI.Text(b, "v", 11, COLORS.accent[1], COLORS.accent[2], COLORS.accent[3], "RIGHT")
+	arrow:SetPoint("RIGHT", -6, 0)
+	b.getter, b.setter, b.build = getter, setter, build
+	b:SetScript("OnClick", function(self)
+		if menu and menu:IsShown() and menu.owner == self then CloseMenus() return end
+		menu = menu or MenuFrame(1)
+		menu.owner = self
+		local entries = {}
+		for _, g in ipairs(self.build()) do
+			if g.text then
+				if g.items[1] then entries[#entries + 1] = { text = g.text, group = g } end
+			else
+				for _, it in ipairs(g.items) do entries[#entries + 1] = { value = it[1], text = it[2], mark = it[3] } end
+			end
+		end
+		if sub then sub:Hide() end
+		FillMenu(menu, entries, self, math.max(w, 180))
+		menu:ClearAllPoints()
+		menu:SetPoint("TOPLEFT", self, "BOTTOMLEFT", 0, -2)
+		menu:Show()
+	end)
+	-- Menü schließen, wenn die Maus es länger verlässt oder die Seite verschwindet
+	b:HookScript("OnHide", function(self) if menu and menu.owner == self then CloseMenus() end end)
+	function b:Refresh()
+		local cur = getter()
+		for _, g in ipairs(self.build()) do
+			for _, it in ipairs(g.items) do
+				if it[1] == cur then self:SetText(it[2]) return end
+			end
+		end
+		self:SetText(tostring(cur or ""))
+	end
+	b:Refresh()
+	return b
+end
+
+do
+	local idle = 0
+	local watcher = CreateFrame("Frame")
+	watcher:SetScript("OnUpdate", function(_, dt)
+		if not (menu and menu:IsShown()) then idle = 0 return end
+		local over = menu:IsMouseOver() or (sub and sub:IsShown() and sub:IsMouseOver()) or (menu.owner and menu.owner:IsMouseOver())
+		if over then idle = 0 else idle = idle + (dt or 0) end
+		if idle > 1.5 then CloseMenus() end
+	end)
+end
+
+-- Raids nach WoW-Erweiterung für das Aufklappmenü der DKP-Töpfe.
+-- withAll: zusätzlicher Eintrag "Alle Raids"; Raids mit DKP-Ständen bekommen einen Punkt
+function UI.PoolGroups(data, withAll)
+	local Data, DKP = RM.Data, RM.DKP
+	data = data or RM.db.data
+	local used = {}
+	for _, p in pairs(data.players or {}) do
+		for key, v in pairs(p.d or {}) do if v ~= 0 then used[key] = true end end
+	end
+	local groups = {}
+	if withAll then groups[#groups + 1] = { items = { { "__all", L["Alle Raids"] } } } end
+	local seen = {}
+	for _, x in ipairs(Data.Expansions) do
+		local items = {}
+		for _, def in ipairs(Data.RaidList) do
+			local exp = (RM.GAME.key == "forever" and def.key == "hyjal") and "custom" or def.exp
+			if exp == x.key then
+				items[#items + 1] = { def.key, def.name, used[def.key] }
+				seen[def.key] = true
+			end
+		end
+		if items[1] then groups[#groups + 1] = { text = x.name, items = items } end
+	end
+	local other = {}
+	for _, key in ipairs(DKP.PoolList(data)) do
+		if not seen[key] then other[#other + 1] = { key, DKP.PoolName(key, data), used[key] }; seen[key] = true end
+	end
+	if other[1] then groups[#groups + 1] = { text = L["Weitere Raids"], items = other } end
+	return groups
+end
+
+---------------------------------------------------------------------------
 -- Liste mit Spalten, Auswahl, Scrollen und Tooltips
 ---------------------------------------------------------------------------
 function UI.List(parent, width, height, columns, opts)

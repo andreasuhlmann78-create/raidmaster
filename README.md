@@ -4,7 +4,7 @@ Raid-Werkzeuge für die Gilde auf **WoW Forever**.
 
 ## Download Addon
 
-**Aktuelle Version: [RaidMaster-1.7.0.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/RaidMaster-1.7.0.zip)**
+**Aktuelle Version: [RaidMaster-1.7.1.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/RaidMaster-1.7.1.zip)**
 (immer die neueste: [RaidMaster-latest.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/RaidMaster-latest.zip))
 
 **AH Analyzer Pro:** [AHAnalyzerPro-5.9.12.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/AHAnalyzerPro-5.9.12.zip)

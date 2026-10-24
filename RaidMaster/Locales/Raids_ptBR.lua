@@ -4279,3 +4279,5 @@ L["KRONE DES KOSMOS: Pfeile durch Wächter/Adds lenken! Strahlen aus dem Raid!"]
 L["Zwischenphase: zusammen auf eine Sektion. P3: Feder nehmen und springen, Bindungen per Tankwechsel."] = "Intermissão: todos juntos em uma seção. F3: peguem a pena e pulem, ligações com troca de tank."
 L["Krone des Kosmos"] = "Crown of the Cosmos"
 L["Ein Symbol pro Unsterblichem Wächter in Phase 1, Tötungsreihenfolge Totenkopf, Kreuz, Viereck."] = "Um símbolo por Guardião Imortal na fase 1, ordem de abate Caveira, X, Quadrado."
+L["Weitere Raids"] = "Outras raides"
+L["Raids nach WoW-Erweiterung geordnet; ein grüner Punkt zeigt Raids mit DKP-Ständen."] = "Raides ordenadas por expansão do WoW; um ponto verde indica raides com DKP."

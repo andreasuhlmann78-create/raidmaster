@@ -4279,3 +4279,5 @@ L["KRONE DES KOSMOS: Pfeile durch Wächter/Adds lenken! Strahlen aus dem Raid!"]
 L["Zwischenphase: zusammen auf eine Sektion. P3: Feder nehmen und springen, Bindungen per Tankwechsel."] = "轉換階段：一起站同一區。P3：拿羽毛跳，連結靠換坦處理。"
 L["Krone des Kosmos"] = "宇宙之冠"
 L["Ein Symbol pro Unsterblichem Wächter in Phase 1, Tötungsreihenfolge Totenkopf, Kreuz, Viereck."] = "第1階段每名不朽守衛一個標記，擊殺順序骷髏、叉叉、方塊。"
+L["Weitere Raids"] = "其他團隊副本"
+L["Raids nach WoW-Erweiterung geordnet; ein grüner Punkt zeigt Raids mit DKP-Ständen."] = "依魔獸世界資料片排列的團隊副本；綠點表示有DKP的團隊副本。"

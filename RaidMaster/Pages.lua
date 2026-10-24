@@ -70,17 +70,7 @@ end
 -- Auswahl des DKP-Topfes (Raid), gemeinsam für DKP- und Log-Seite
 -- withAll = zusätzliche Option "Alle Raids"
 local function PoolCycle(page, x, y, width, withAll)
-	local opts = {}
-	local function Rebuild()
-		wipe(opts)
-		local data = RM.DKP.View()
-		if withAll then opts[#opts + 1] = { "__all", L["Alle Raids"] } end
-		for _, key in ipairs(RM.DKP.PoolList(data)) do
-			opts[#opts + 1] = { key, L["Raid: "] .. RM.DKP.PoolName(key, data) }
-		end
-	end
-	Rebuild()
-	local cyc = UI.Cycle(page, width or 220, opts, function()
+	local cyc = UI.Dropdown(page, width or 220, function() return UI.PoolGroups(RM.DKP.View(), withAll) end, function()
 		if withAll and UI.logAllPools then return "__all" end
 		return UI.viewPool or RM.DKP.DefaultViewPool()
 	end, function(v)
@@ -91,10 +81,10 @@ local function PoolCycle(page, x, y, width, withAll)
 			UI.viewPool = v
 		end
 		UI.RefreshCurrent()
-	end, L["Jeder Raid hat einen eigenen DKP-Topf. Hier wählst du, welchen du siehst."])
+	end, L["Jeder Raid hat einen eigenen DKP-Topf. Hier wählst du, welchen du siehst."] .. "\n"
+		.. L["Raids nach WoW-Erweiterung geordnet; ein grüner Punkt zeigt Raids mit DKP-Ständen."])
 	Place(cyc, page, x, y)
 	function cyc:Update()
-		Rebuild()
 		self:Refresh()
 	end
 	return cyc
@@ -690,13 +680,7 @@ UI.AddPage("raid", L["Raid"], function(page)
 	Place(endBtn, page, 150, -70)
 
 	Label(page, L["DKP-Topf"], 0, -115)
-	local poolOpts = {}
-	local function RebuildPools()
-		wipe(poolOpts)
-		for _, key in ipairs(RM.DKP.PoolList(RM.db.data)) do poolOpts[#poolOpts + 1] = { key, RM.DKP.PoolName(key) } end
-	end
-	RebuildPools()
-	local raidPool = UI.Cycle(page, 200, poolOpts, function()
+	local raidPool = UI.Dropdown(page, 220, function() return UI.PoolGroups(RM.db.data) end, function()
 		local s = RM.db.session
 		return (s.active and s.pool) or RM.DKP.CurrentInstancePool() or RM.db.config.activePool or "mc"
 	end, function(v)
@@ -780,7 +764,6 @@ UI.AddPage("raid", L["Raid"], function(page)
 			if RM.CanEdit() then startBtn:Enable() else startBtn:Disable() end
 			endBtn:Disable()
 		end
-		RebuildPools()
 		raidPool:Refresh()
 		local inst = RM.DKP.CurrentInstancePool()
 		if inst then
@@ -1443,13 +1426,7 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 	-- Boss-DKP je Raid-Topf (neue Bosse erscheinen nach dem ersten Kill)
 	Section(page, L["Bosse"], 0, y)
 	local settingsPool = "mc"
-	local spOpts = {}
-	local function RebuildSP()
-		wipe(spOpts)
-		for _, key in ipairs(RM.DKP.PoolList(RM.db.data)) do spOpts[#spOpts + 1] = { key, RM.DKP.PoolName(key) } end
-	end
-	RebuildSP()
-	local spCycle = UI.Cycle(page, 170, spOpts, function() return settingsPool end, function(v)
+	local spCycle = UI.Dropdown(page, 190, function() return UI.PoolGroups(RM.db.data) end, function() return settingsPool end, function(v)
 		settingsPool = v
 		UI.RefreshCurrent()
 	end, L["Raid wählen, dessen Boss-DKP du einstellen willst."])
@@ -1478,7 +1455,6 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 	end
 
 	local function UpdateBossRows()
-		RebuildSP()
 		spCycle:Refresh()
 		local list = RM.Data.BossesForPool(settingsPool, RM.db.data)
 		for i, row in ipairs(bossRows) do
