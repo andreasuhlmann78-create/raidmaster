@@ -1169,6 +1169,16 @@ def version_tuple(v: str) -> tuple:
     return tuple(int(x) for x in re.findall(r"\d+", v or "0"))
 
 
+def addon_version_key(key: str, v: str) -> tuple:
+    """Vergleichswert einer Addon-Version. AH Analyzer Pro wurde von 5.9.x auf 0.59.x
+    umbenannt (5.9.13 -> 0.59.13): alte Nummern werden dafür umgerechnet, damit
+    0.59.14 neuer ist als 5.9.12."""
+    t = version_tuple(v)
+    if key == "ahanalyzerpro" and t and t[0] >= 1:
+        return (0, t[0] * 10 + (t[1] if len(t) > 1 else 0)) + t[2:]
+    return t
+
+
 # Weitere Addons von GoldSentinel: Schlüssel = Name der TOC-Datei (klein, ohne _Vanilla usw.)
 EXTRA_ADDONS = {
     "ahanalyzerpro": {"title": "AH Analyzer Pro", "folder": "AHAnalyzerPro", "channel": "aktionshaus_channel_id",
@@ -1210,7 +1220,7 @@ def find_addon_package(key: str = "raidmaster") -> tuple[str, str] | None:
         info = zip_addon_info(path)
         if not info or info[0] != key:
             continue
-        if best is None or version_tuple(info[2]) > version_tuple(best[1]):
+        if best is None or addon_version_key(key, info[2]) > addon_version_key(key, best[1]):
             best = (path, info[2])
     return best
 
@@ -1223,7 +1233,7 @@ async def check_extra_releases():
         if not pkg:
             continue
         path, version = pkg
-        if version_tuple(version) <= version_tuple(versions.get(key) or "0"):
+        if addon_version_key(key, version) <= addon_version_key(key, versions.get(key) or "0"):
             continue
         ch = await channel_by_id(cfg.get(meta["channel"]))
         if not ch:

