@@ -156,6 +156,29 @@ function Data.Build()
 			end
 		end
 	end
+	-- Boss-Infos ALLER Raids (auch anderer Spielversionen) für die Raidleiter-Seite
+	for _, def in ipairs(ALL_RAIDS) do
+		def.view = {}
+		def.available = Data.Pools[def.key] == def
+		for _, b in ipairs(def.bosses) do
+			local id = b.id or PrimaryID(b.e)
+			local entry = { id = id, name = b.name or BossName(b), template = b.template, boss = b }
+			if def.available then
+				entry.info = Data.BossInfo[id]
+			elseif b.text then
+				entry.info = { text = table.concat(b.text, "\n"), post = b.post or {} }
+			else
+				entry.info = Data.BossInfo[id]
+			end
+			if b.marker and not entry.template then
+				entry.template = "x" .. def.idx .. "_" .. id
+				Data.MarkerTemplates[#Data.MarkerTemplates + 1] = {
+					id = entry.template, name = b.marker.name or entry.name, order = b.marker.order, note = b.marker.note or "", raid = def.key,
+				}
+			end
+			def.view[#def.view + 1] = entry
+		end
+	end
 	local g = RM.GAME and RM.GAME.key or "unknown"
 	for _, key in ipairs(Data.HomeRaids[g] or Data.HomeRaids.unknown) do
 		if Data.Pools[key] then Data.PoolOrder[#Data.PoolOrder + 1] = key end
@@ -175,6 +198,23 @@ function Data.RaidsOfExpansion(exp)
 	for _, def in ipairs(Data.RaidList) do if def.exp == exp then list[#list + 1] = def end end
 	return list
 end
+
+-- Alle bekannten Raids nach Erweiterung (für die Boss-Infos, unabhängig von der Spielversion)
+function Data.InfoGroups()
+	local groups = {}
+	for _, x in ipairs(Data.Expansions) do
+		local items = {}
+		for _, def in ipairs(ALL_RAIDS) do
+			if def.exp == x.key and def.view and def.view[1] then
+				items[#items + 1] = { def.idx, def.name .. (def.available and "" or " |cff888888*|r") }
+			end
+		end
+		if items[1] then groups[#groups + 1] = { text = x.name, items = items } end
+	end
+	return groups
+end
+
+function Data.RaidByIndex(idx) return ALL_RAIDS[idx] end
 
 -- Erweiterungen, zu denen es in dieser Spielversion Raids gibt
 function Data.AvailableExpansions()

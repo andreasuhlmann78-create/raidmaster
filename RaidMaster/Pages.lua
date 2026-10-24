@@ -1166,51 +1166,43 @@ UI.AddPage("leader", L["Raidleiter"], function(page)
 	-- Vorauswahl: Raid der aktuellen Instanz, sonst der erste aktuelle Raid dieser Spielversion
 	local function DefaultRaid()
 		local inst = RM.DKP.CurrentInstancePool(true)
-		if inst and Data.Pools[inst] then return inst end
-		return Data.PoolOrder[1] or (Data.RaidList[1] and Data.RaidList[1].key)
+		local def = (inst and Data.Pools[inst]) or Data.Pools[Data.PoolOrder[1] or ""] or Data.RaidList[1] or Data.AllRaids[1]
+		return def and def.idx
 	end
 	local selectedRaid = DefaultRaid()
 	local selectedBoss
-	local function Raid() return Data.Pools[selectedRaid] end
-	local function SelectRaid(key)
-		selectedRaid = key
+	local function Raid() return Data.RaidByIndex(selectedRaid or 0) end
+	local function Entry(id)
 		local def = Raid()
-		selectedBoss = def and def.bossIDs and def.bossIDs[1] or nil
+		for _, e in ipairs(def and def.view or {}) do if e.id == id then return e end end
+	end
+	local function SelectRaid(idx)
+		selectedRaid = idx
+		local def = Raid()
+		selectedBoss = def and def.view and def.view[1] and def.view[1].id or nil
 	end
 	SelectRaid(selectedRaid)
 
 	Section(page, L["Boss-Infos"], 0, 0)
 
-	-- Erweiterung und Raid wählen
-	local expOpts, raidOpts = {}, {}
-	local function RebuildOpts()
-		wipe(expOpts)
-		for _, x in ipairs(Data.AvailableExpansions()) do expOpts[#expOpts + 1] = { x.key, x.name } end
-		wipe(raidOpts)
-		local def = Raid()
-		for _, r in ipairs(Data.RaidsOfExpansion(def and def.exp or "classic")) do raidOpts[#raidOpts + 1] = { r.key, r.name } end
-	end
-	RebuildOpts()
-	local expCycle = UI.Cycle(page, 190, expOpts, function() local def = Raid() return def and def.exp end, function(v)
-		local list = Data.RaidsOfExpansion(v)
-		if list[1] then SelectRaid(list[1].key) end
-		UI.RefreshCurrent()
-	end, L["Erweiterung wählen."])
-	Place(expCycle, page, 0, -28)
-	local raidCycle = UI.Cycle(page, 190, raidOpts, function() return selectedRaid end, function(v)
+	-- Raid wählen: alle bekannten Raids aller Erweiterungen (* = gibt es in dieser Spielversion nicht)
+	local raidDrop = UI.Dropdown(page, 190, function() return Data.InfoGroups() end, function() return selectedRaid end, function(v)
 		SelectRaid(v)
 		UI.RefreshCurrent()
-	end, L["Raid wählen. Im Raid wird er automatisch vorausgewählt."])
-	Place(raidCycle, page, 0, -56)
+	end, L["Raid wählen – alle Raids von Classic bis Midnight, nach Erweiterung geordnet."] .. "\n"
+		.. L["* = Raid gibt es in deiner Spielversion nicht (nur Taktik zum Nachlesen)."])
+	Place(raidDrop, page, 0, -28)
+	local expLabel = Label(page, "", 0, -58, 11, true)
+	expLabel:SetWidth(190)
 
 	local bossButtons = {}
-	local y = -86
+	local y = -76
 	for i = 1, MAX_BOSSES do
 		local b = UI.Button(page, "", 190, 19, function(self)
 			selectedBoss = self.bossID
-			local boss = Data.Bosses[selectedBoss]
-			if boss and boss.template and RM.db.config.autoTemplate then
-				RM.db.config.markerTemplate = boss.template
+			local e = Entry(selectedBoss)
+			if e and e.template and RM.db.config.autoTemplate then
+				RM.db.config.markerTemplate = e.template
 				RM.Markers.ResetUsed()
 				RM.Fire("CONFIG_CHANGED")
 			end
@@ -1228,7 +1220,7 @@ UI.AddPage("leader", L["Raidleiter"], function(page)
 	local info = UI.Multiline(page, 560, 300, true)
 	Place(info, page, 200, -28)
 
-	local postBtn = UI.Button(page, L["Kurzinfo im Raid posten"], 200, 28, function() if selectedBoss then RM.Markers.PostBossInfo(selectedBoss) end end,
+	local postBtn = UI.Button(page, L["Kurzinfo im Raid posten"], 200, 28, function() local e = selectedBoss and Entry(selectedBoss) if e then RM.Markers.PostBossInfo(selectedBoss, e.info) end end,
 		L["Postet zwei kurze Zeilen (erste als Raidwarnung)."])
 	Place(postBtn, page, 200, -336)
 	postBtn:SetAccent(true)
@@ -1246,7 +1238,9 @@ UI.AddPage("leader", L["Raidleiter"], function(page)
 		wipe(tmplOpts)
 		local seen = {}
 		local function add(t) if t and not seen[t.id] then seen[t.id] = true; tmplOpts[#tmplOpts + 1] = { t.id, t.name } end end
-		for _, t in ipairs(Data.TemplatesForRaid(selectedRaid)) do add(t) end
+		add(Data.GetTemplate("standard"))
+		local def = Raid()
+		for _, e in ipairs(def and def.view or {}) do if e.template then add(Data.GetTemplate(e.template)) end end
 		add(Data.GetTemplate(RM.db.config.markerTemplate))
 	end
 	RebuildTemplates()
@@ -1278,26 +1272,30 @@ UI.AddPage("leader", L["Raidleiter"], function(page)
 	keyHint:SetWidth(770)
 
 	return function()
-		if not Data.Pools[selectedRaid] then SelectRaid(DefaultRaid()) end
-		RebuildOpts()
-		expCycle:Refresh()
-		raidCycle:Refresh()
+		if not Raid() then SelectRaid(DefaultRaid()) end
+		raidDrop:Refresh()
 		local def = Raid()
-		local ids = def and def.bossIDs or {}
+		local expName = ""
+		for _, x in ipairs(Data.Expansions) do if def and x.key == def.exp then expName = x.name end end
+		expLabel:SetText(expName .. ((def and not def.available) and (" · " .. L["nicht in dieser Spielversion"]) or ""))
+		local view = def and def.view or {}
+		local ids = {}
+		for i, e in ipairs(view) do ids[i] = e.id end
 		for i, b in ipairs(bossButtons) do
 			local id = ids[i]
 			b.bossID = id
 			if id then
-				local boss = Data.Bosses[id]
-				local mark = boss.template and " |TInterface\\TargetingFrame\\UI-RaidTargetingIcon_8:0|t" or ""
-				b:SetText(boss.name .. mark)
+				local e = view[i]
+				local mark = e.template and " |TInterface\\TargetingFrame\\UI-RaidTargetingIcon_8:0|t" or ""
+				b:SetText(e.name .. mark)
 				b:SetAccent(id == selectedBoss)
 				b:Show()
 			else
 				b:Hide()
 			end
 		end
-		local i = selectedBoss and Data.BossInfo[selectedBoss]
+		local cur = selectedBoss and Entry(selectedBoss)
+		local i = cur and cur.info
 		if i then
 			info:SetText(i.text or "")
 		elseif def and #ids == 0 then

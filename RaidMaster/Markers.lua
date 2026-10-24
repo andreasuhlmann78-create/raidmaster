@@ -181,8 +181,8 @@ RM.Listen("CONFIG_CHANGED", function() M.UpdateBar() end)
 ---------------------------------------------------------------------------
 -- Boss-Infos im Raid posten
 ---------------------------------------------------------------------------
-function M.PostBossInfo(encounterID)
-	local info = RM.Data.BossInfo[encounterID]
+function M.PostBossInfo(encounterID, info)
+	info = info or RM.Data.BossInfo[encounterID]
 	if not info then return end
 	if not RM.InRaid() then
 		for _, l in ipairs(info.post) do RM.Print(l) end
