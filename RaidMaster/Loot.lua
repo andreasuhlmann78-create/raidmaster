@@ -3,6 +3,7 @@
 -- offene Zuteilungen, Handelshelfer, Erinnerung an nicht geplünderte Bosse
 
 local ADDON, RM = ...
+local L = RM.L
 local Loot = {}
 RM.Loot = Loot
 
@@ -14,26 +15,30 @@ local queuedFromSource = {}
 local function C() return RM.db.config end
 
 Loot.ActionNames = {
-	auction = "Versteigerung",
-	bank = "Gildenbank",
-	de = "Entzauberer",
-	crafter = "Handwerker",
-	manual = "Manuell",
-	notify = "Hinweis (legendär)",
+	auction = L["Versteigerung"],
+	bank = L["Gildenbank"],
+	de = L["Entzauberer"],
+	crafter = L["Handwerker"],
+	manual = L["Manuell"],
+	notify = L["Hinweis (legendär)"],
 }
 
 ---------------------------------------------------------------------------
 -- Loot-Einstellungen setzen
 ---------------------------------------------------------------------------
 function Loot.ApplySettings()
-	if not RM.InRaid() then RM.Print("Du bist in keinem Schlachtzug.") return end
-	if not RM.IsLeader() then RM.Print("Nur der Raidleiter kann die Plündermethode ändern.") return end
+	if not RM.InRaid() then RM.Print(L["Du bist in keinem Schlachtzug."]) return end
+	if not RM.IsLeader() then RM.Print(L["Nur der Raidleiter kann die Plündermethode ändern."]) return end
+	if not RM.Caps.masterLoot then
+		RM.Print(L["Diese Spielversion hat keinen Plündermeister – Plündermethode bleibt unverändert."])
+		return
+	end
 	local ml = C().lootMaster
 	if not ml or ml == "" then ml = RM.Me() end
 	RM.SetLootMethod("master", ml)
 	C_Timer.After(1.5, function()
 		RM.SetLootThreshold(C().lootThreshold)
-		RM.Print(string.format("Plündermeister: %s, Schwelle: %s", ml, RM.Raid.THRESHOLD_NAMES[C().lootThreshold] or C().lootThreshold))
+		RM.Print(string.format(L["Plündermeister: %s, Schwelle: %s"], ml, RM.Raid.THRESHOLD_NAMES[C().lootThreshold] or C().lootThreshold))
 	end)
 end
 
@@ -95,6 +100,12 @@ end
 
 -- Item an den Gewinner bringen (direkt, beim nächsten Öffnen oder per Handel)
 function Loot.Deliver(link, name)
+	if not RM.Caps.masterLoot then
+		-- Persönliche Beute (z. B. Retail): Wer das Item hat, gibt es per Handel weiter
+		Loot.AddTrade(link, name)
+		RM.Announce(string.format(L["[RaidMaster] %s geht an %s – bitte per Handel übergeben."], link, name), false)
+		return true
+	end
 	local ok, reason, slot = Loot.GiveFromWindow(link, name)
 	if ok then return true end
 	if reason == "nocandidate" and C().tradeFallback and slot then
@@ -102,18 +113,18 @@ function Loot.Deliver(link, name)
 		if myIdx then
 			GiveMasterLoot(slot, myIdx)
 			Loot.AddTrade(link, name)
-			RM.Print(string.format("%s ist nicht erreichbar – %s an dich vergeben und in die Handelsliste gelegt.", name, link))
+			RM.Print(string.format(L["%s ist nicht erreichbar – %s an dich vergeben und in die Handelsliste gelegt."], name, link))
 			return true
 		end
 	end
 	if reason == "closed" or reason == "noslot" then
 		local pa = RM.db.pendingAwards
 		pa[#pa + 1] = { link = link, name = name, t = GetServerTime() }
-		RM.Print(string.format("Öffne den Boss erneut – %s wird dann automatisch an %s vergeben.", link, name))
+		RM.Print(string.format(L["Öffne den Boss erneut – %s wird dann automatisch an %s vergeben."], link, name))
 		RM.Fire("LOOT_CHANGED")
 		return false
 	end
-	RM.Print(string.format("%s konnte nicht an %s vergeben werden. Bitte manuell zuteilen.", link, name))
+	RM.Print(string.format(L["%s konnte nicht an %s vergeben werden. Bitte manuell zuteilen."], link, name))
 	return false
 end
 
@@ -122,10 +133,10 @@ function Loot.ApplyFallback(link)
 	local action = C().fallback
 	local name = Loot.RecipientFor(action)
 	if action == "manual" or not name or name == "" then
-		RM.Print("Keine Gebote für " .. link .. " – bitte manuell entscheiden.")
+		RM.Print(L["Keine Gebote für "] .. link .. L[" – bitte manuell entscheiden."])
 		return
 	end
-	RM.Announce(string.format("[RaidMaster] Keine Gebote für %s – geht an %s (%s).", link, name, Loot.ActionNames[action] or action), false)
+	RM.Announce(string.format(L["[RaidMaster] Keine Gebote für %s – geht an %s (%s)."], link, name, Loot.ActionNames[action] or action), false)
 	Loot.Deliver(link, name)
 end
 
@@ -182,7 +193,7 @@ RM.On("TRADE_SHOW", function()
 			end
 		end)
 	end
-	RM.Print(string.format("Handel mit %s: %d Item(s) aus der Handelsliste werden eingelegt.", partner, #todo))
+	RM.Print(string.format(L["Handel mit %s: %d Item(s) aus der Handelsliste werden eingelegt."], partner, #todo))
 end)
 
 RM.On("UI_INFO_MESSAGE", function(a, b)
@@ -219,7 +230,7 @@ local function GiveDelayed(link, name, delay)
 		if ok then
 			RM.Print(string.format("%s -> %s", link, name))
 		else
-			RM.Print(string.format("%s konnte nicht automatisch an %s gegeben werden (nicht in Reichweite?).", link, name))
+			RM.Print(string.format(L["%s konnte nicht automatisch an %s gegeben werden (nicht in Reichweite?)."], link, name))
 		end
 	end)
 end
@@ -263,8 +274,8 @@ RM.On("LOOT_OPENED", function()
 				if action == "notify" then
 					if firstTime then
 						PlaySound(SOUNDKIT and SOUNDKIT.RAID_WARNING or 8959)
-						RaidNotice_AddMessage(RaidWarningFrame, "Legendärer Gegenstand: " .. link, ChatTypeInfo["RAID_WARNING"])
-						RM.Print("Legendärer Gegenstand im Loot: " .. link .. " – bitte nach Gildenregel vergeben.")
+						RaidNotice_AddMessage(RaidWarningFrame, L["Legendärer Gegenstand: "] .. link, ChatTypeInfo["RAID_WARNING"])
+						RM.Print(L["Legendärer Gegenstand im Loot: "] .. link .. L[" – bitte nach Gildenregel vergeben."])
 					end
 				elseif action == "auction" then
 					-- PUG-Raid: keine Versteigerung – der Loot läuft über softres.it, der Plündermeister verteilt von Hand
@@ -276,7 +287,7 @@ RM.On("LOOT_OPENED", function()
 						delay = delay + 0.3
 						item.done = true
 					elseif firstTime and (not name or name == "") then
-						RM.Print(string.format("%s: Kein Empfänger für '%s' eingestellt – bitte manuell zuteilen.", link, Loot.ActionNames[action]))
+						RM.Print(string.format(L["%s: Kein Empfänger für '%s' eingestellt – bitte manuell zuteilen."], link, Loot.ActionNames[action]))
 					end
 				end
 			end
@@ -285,7 +296,7 @@ RM.On("LOOT_OPENED", function()
 
 	if cfg.announceLoot and #announceParts > 0 and not announced[key] then
 		announced[key] = true
-		RM.AnnounceLines("[RaidMaster] Loot: ", announceParts, RM.PUG.IsLeader() and 2 or 3)
+		RM.AnnounceLines(L["[RaidMaster] Loot: "], announceParts, RM.PUG.IsLeader() and 2 or 3)
 	end
 
 	RM.Fire("LOOT_CHANGED")
@@ -308,7 +319,7 @@ RM.On("LOOT_CLOSED", function()
 			if not item.done and item.action ~= "auction" then left = left + 1 end
 		end
 		if left > 0 then
-			RM.Print(string.format("Achtung: Es liegen noch %d Item(s) ohne Versteigerung im Loot.", left))
+			RM.Print(string.format(L["Achtung: Es liegen noch %d Item(s) ohne Versteigerung im Loot."], left))
 		end
 	end
 	RM.Fire("LOOT_CHANGED")
@@ -324,8 +335,8 @@ function Loot.OnBossKilled(bossName)
 	C_Timer.After(90, function()
 		if Loot.pendingBoss == token and RM.IAmMasterLooter() then
 			PlaySound(SOUNDKIT and SOUNDKIT.RAID_WARNING or 8959)
-			RaidNotice_AddMessage(RaidWarningFrame, "RaidMaster: " .. bossName .. " wurde noch nicht geplündert!", ChatTypeInfo["RAID_WARNING"])
-			RM.Print(bossName .. " wurde noch nicht geplündert!")
+			RaidNotice_AddMessage(RaidWarningFrame, "RaidMaster: " .. bossName .. L[" wurde noch nicht geplündert!"], ChatTypeInfo["RAID_WARNING"])
+			RM.Print(bossName .. L[" wurde noch nicht geplündert!"])
 			Loot.pendingBoss = nil
 		end
 	end)

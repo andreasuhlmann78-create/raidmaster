@@ -1,4 +1,4 @@
-RaidMaster 1.5.3 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 1.6.0 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,18 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+SPIELVERSIONEN UND SPRACHEN (neu in 1.6.0)
+- Läuft in allen aktuellen WoW-Versionen: Classic Era, WoW Forever, TBC, Wrath (auch Titan Reforged),
+  Cataclysm, Mists of Pandaria Classic und Retail. Beim Einloggen zeigt RaidMaster im Chat,
+  welche Version erkannt wurde (auch mit /rm version).
+- Ohne Plündermeister (Retail): Ersteigerte Items kommen in die Handelsliste und werden per Handel übergeben.
+- Skillungen: in Classic über Talentbäume, ab Mists of Pandaria über die Spezialisierung.
+- Sprache wird aus dem Spiel übernommen: Deutsch, Englisch, Französisch, Spanisch (Spanien/Mexiko),
+  Italienisch, Portugiesisch (Brasilien), Russisch, Koreanisch, Chinesisch (vereinfacht/traditionell).
+  Andere Sprachen bekommen Englisch.
+- Minimap-Knopf: mit gedrückter linker Maustaste um die Minimap ziehen (auch bei eckiger Minimap),
+  /rm minimap blendet ihn aus und wieder ein.
 
 SEITEN IM FENSTER
   DKP-Stände · Versteigerung · Loot · Log · Raid · Anmeldungen · PUG-Raid · Einteilung ·
@@ -102,6 +114,8 @@ BEFEHLE
   /rm bar    Markierungsleiste ein/aus
   /rm sync   Datenabgleich anfordern
   /rm reset  Fensterpositionen zurücksetzen
+  /rm minimap  Minimap-Knopf ein/aus
+  /rm version  Addon-, Spielversion und Sprache anzeigen
 
 ERSTER TEST (empfohlen)
 - Mit 2–3 Leuten in einer Raidgruppe: Raid starten, ein Item per Shift-Klick versteigern,

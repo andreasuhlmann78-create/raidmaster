@@ -3,6 +3,7 @@
 -- Spieler-Seite (Gebotsfenster mit Enter, Passen, Ausrüstungsvergleich)
 
 local ADDON, RM = ...
+local L = RM.L
 local A = {}
 RM.Auction = A
 
@@ -30,8 +31,8 @@ function A.Remove(index)
 end
 
 function A.CanRun()
-	if not RM.CanEdit() then return false, "Nur Offiziere können Versteigerungen durchführen." end
-	if not RM.InRaid() then return false, "Du bist in keinem Schlachtzug." end
+	if not RM.CanEdit() then return false, L["Nur Offiziere können Versteigerungen durchführen."] end
+	if not RM.InRaid() then return false, L["Du bist in keinem Schlachtzug."] end
 	return true
 end
 
@@ -49,7 +50,7 @@ end
 function A.Start(indexOrLink)
 	local ok, err = A.CanRun()
 	if not ok then RM.Print(err) return end
-	if A.current then RM.Print("Es läuft bereits eine Versteigerung.") return end
+	if A.current then RM.Print(L["Es läuft bereits eine Versteigerung."]) return end
 	local link
 	if type(indexOrLink) == "number" then
 		local item = table.remove(A.queue, indexOrLink)
@@ -57,7 +58,7 @@ function A.Start(indexOrLink)
 	else
 		link = indexOrLink
 	end
-	if not link or not link:find("item:") then RM.Print("Kein gültiger Itemlink.") return end
+	if not link or not link:find("item:") then RM.Print(L["Kein gültiger Itemlink."]) return end
 
 	local s = S()
 	local pool = RM.DKP.ActivePool()
@@ -71,7 +72,7 @@ function A.Start(indexOrLink)
 	local as = { a = aid, l = link, m = s.minBid, i = s.bidIncrement, d = s.auctionTime, g = RM.MyGuild(), p = pool, pn = poolName }
 	RM.Comm.Send("AS", as, "RAID", nil, true)
 	A.OnStart(RM.Me(), as)
-	RM.Announce(string.format("Gebot (%s-DKP): %s – Mindestgebot %d, %d Sek. Addon nutzen oder /w %s !bid <Zahl>",
+	RM.Announce(string.format(L["Gebot (%s-DKP): %s – Mindestgebot %d, %d Sek. Addon nutzen oder /w %s !bid <Zahl>"],
 		RM.DKP.PoolShort(pool), link, s.minBid, s.auctionTime, RM.Me()), true)
 	if ticker then ticker:Cancel() end
 	ticker = C_Timer.NewTicker(0.25, A.Tick)
@@ -94,7 +95,7 @@ function A.Tick()
 	if ANNOUNCE_AT[rem] and c.lastAnn ~= rem then
 		c.lastAnn = rem
 		local high = c.highName and string.format("%d DKP (%s)", c.high, c.highName) or "keins"
-		SendChatMessage(string.format("%s – noch %d Sek. Höchstgebot: %s", c.link, rem, high), "RAID")
+		SendChatMessage(string.format(L["%s – noch %d Sek. Höchstgebot: %s"], c.link, rem, high), "RAID")
 	end
 end
 
@@ -116,18 +117,18 @@ end
 ---------------------------------------------------------------------------
 function A.ReceiveBid(name, amount, gear)
 	local c = A.current
-	if not c or c.finished then return false, "Es läuft keine Versteigerung." end
+	if not c or c.finished then return false, L["Es läuft keine Versteigerung."] end
 	name = RM.Short(name)
 	amount = math.floor(tonumber(amount) or 0)
 	local s = S()
-	if not RM.IsInMyRaid(name) then return false, "Nur Raidmitglieder können bieten." end
+	if not RM.IsInMyRaid(name) then return false, L["Nur Raidmitglieder können bieten."] end
 	local minNeeded = c.highName and (c.high + c.inc) or c.min
 	if amount < minNeeded then
 		return false, string.format("Gebot zu niedrig – mindestens %d DKP.", minNeeded)
 	end
 	local have = RM.DKP.Get(name, c.pool)
 	if not s.allowNegative and amount > have then
-		return false, string.format("Nicht genug DKP – du hast %d.", have)
+		return false, string.format(L["Nicht genug DKP – du hast %d."], have)
 	end
 	c.bids[name] = { amount = amount, gear = gear or (c.bids[name] and c.bids[name].gear) or "", t = GetTime() }
 	c.passes[name] = nil
@@ -154,10 +155,10 @@ function A.Finish()
 	if c.highName then
 		RM.Comm.Send("AE", { a = c.aid, n = c.highName, v = c.high }, "RAID", nil, true)
 		A.OnEnd(RM.Me(), { a = c.aid, n = c.highName, v = c.high })
-		RM.UI.Confirm(string.format("%s an %s für %d DKP vergeben?", c.link, c.highName, c.high),
+		RM.UI.Confirm(string.format(L["%s an %s für %d DKP vergeben?"], c.link, c.highName, c.high),
 			function() A.Award() end,
 			function() A.CancelAward() end,
-			"Vergeben", "Nicht vergeben")
+			L["Vergeben"], L["Nicht vergeben"])
 	else
 		RM.Comm.Send("AE", { a = c.aid }, "RAID", nil, true)
 		A.OnEnd(RM.Me(), { a = c.aid })
@@ -173,7 +174,7 @@ function A.Award()
 	if not c or not c.highName then return end
 	local e = RM.DKP.ChargeItem(c.highName, c.high, c.link, c.pool)
 	if e then
-		RM.Announce(string.format("[RaidMaster] %s erhält %s für %d DKP.", c.highName, c.link, c.high), true)
+		RM.Announce(string.format(L["[RaidMaster] %s erhält %s für %d DKP."], c.highName, c.link, c.high), true)
 		RM.Loot.Deliver(c.link, c.highName)
 	end
 	A.current = nil
@@ -186,7 +187,7 @@ function A.CancelAward()
 	if not c then return end
 	A.current = nil
 	table.insert(A.queue, 1, { link = c.link })
-	RM.Print(c.link .. " wurde nicht vergeben und liegt wieder vorne in der Warteschlange.")
+	RM.Print(c.link .. L[" wurde nicht vergeben und liegt wieder vorne in der Warteschlange."])
 	RM.Fire("AUCTION_CHANGED")
 end
 
@@ -198,7 +199,7 @@ function A.Cancel()
 	A.OnCancel(RM.Me(), { a = c.aid })
 	A.current = nil
 	table.insert(A.queue, 1, { link = c.link })
-	RM.Announce("[RaidMaster] Versteigerung von " .. c.link .. " abgebrochen.", false)
+	RM.Announce(L["[RaidMaster] Versteigerung von "] .. c.link .. L[" abgebrochen."], false)
 	RM.Fire("AUCTION_CHANGED")
 end
 
@@ -246,9 +247,9 @@ RM.On("CHAT_MSG_WHISPER", function(msg, sender)
 	if not amount then return end
 	local ok, err = A.ReceiveBid(sender, amount, nil)
 	if ok then
-		SendChatMessage(string.format("[RaidMaster] Gebot angenommen: %s DKP auf %s", amount, c.link), "WHISPER", nil, sender)
+		SendChatMessage(string.format(L["[RaidMaster] Gebot angenommen: %s DKP auf %s"], amount, c.link), "WHISPER", nil, sender)
 	else
-		SendChatMessage("[RaidMaster] " .. err, "WHISPER", nil, sender)
+		SendChatMessage(L["[RaidMaster] "] .. err, "WHISPER", nil, sender)
 	end
 end)
 
@@ -309,7 +310,7 @@ function A.SendBid(amount)
 	local cl = A.client
 	if not cl or cl.ended then return end
 	amount = math.floor(tonumber(amount) or 0)
-	if amount <= 0 then A.ShowBidError("Bitte eine Zahl eingeben.") return end
+	if amount <= 0 then A.ShowBidError(L["Bitte eine Zahl eingeben."]) return end
 	local gear = RM.Data.EquippedFor(cl.link)
 	if cl.ml == RM.Me() then
 		local ok, err = A.ReceiveBid(RM.Me(), amount, gear)
@@ -350,7 +351,7 @@ local function TryBid()
 		bidFrame.input:SetText("")
 	end
 	if not RM.Data.CanEquip(MyClass(), cl.link) then
-		RM.UI.Confirm("Deine Klasse kann dieses Item nicht tragen. Trotzdem bieten?", go, nil, "Bieten", "Abbrechen")
+		RM.UI.Confirm(L["Deine Klasse kann dieses Item nicht tragen. Trotzdem bieten?"], go, nil, L["Bieten"], L["Abbrechen"])
 	else
 		go()
 	end
@@ -364,7 +365,7 @@ local function CreateBidFrame()
 	UI.MakeMovable(f, "bidFrame", "TOP", 0, -180)
 	f:SetClampedToScreen(true)
 
-	local title = UI.Text(f, "Versteigerung", 13, 1, 0.55, 0.1)
+	local title = UI.Text(f, L["Versteigerung"], 13, 1, 0.55, 0.1)
 	title:SetPoint("TOPLEFT", 12, -10)
 	f.title = title
 
@@ -420,20 +421,20 @@ local function CreateBidFrame()
 	input:SetScript("OnEnterPressed", function() TryBid() end)
 	f.input = input
 
-	local bidBtn = UI.Button(f, "Bieten", 80, 24, TryBid)
+	local bidBtn = UI.Button(f, L["Bieten"], 80, 24, TryBid)
 	bidBtn:SetPoint("LEFT", input, "RIGHT", 6, 0)
 	bidBtn:SetAccent(true)
 
-	local plusBtn = UI.Button(f, "Mindest", 70, 24, function()
+	local plusBtn = UI.Button(f, L["Mindest"], 70, 24, function()
 		local cl = A.client
 		if not cl then return end
 		local v = cl.highName and (cl.high + cl.inc) or cl.min
 		input:SetText(tostring(v))
 		input:SetFocus()
-	end, "Trägt das kleinste gültige Gebot ein.")
+	end, L["Trägt das kleinste gültige Gebot ein."])
 	plusBtn:SetPoint("LEFT", bidBtn, "RIGHT", 6, 0)
 
-	local passBtn = UI.Button(f, "Passen", 64, 24, function() A.SendPass() end)
+	local passBtn = UI.Button(f, L["Passen"], 64, 24, function() A.SendPass() end)
 	passBtn:SetPoint("LEFT", plusBtn, "RIGHT", 6, 0)
 
 	local status = UI.Text(f, "", 11, 0.7, 0.9, 1)
@@ -450,7 +451,7 @@ local function CreateBidFrame()
 		if not cl then return end
 		if cl.ended then
 			bar:SetValue(0)
-			bar.text:SetText("Beendet")
+			bar.text:SetText(L["Beendet"])
 			return
 		end
 		local rem = math.max(0, cl.endsAt - GetTime())
@@ -458,7 +459,7 @@ local function CreateBidFrame()
 		cl.total = total
 		bar:SetMinMaxValues(0, total)
 		bar:SetValue(rem)
-		bar.text:SetText(string.format("%.0f Sek.", rem))
+		bar.text:SetText(string.format(L["%.0f Sek."], rem))
 	end)
 	f:Hide()
 	return f
@@ -480,7 +481,7 @@ function A.ShowBidFrame()
 	if RM.Data.CanEquip(MyClass(), cl.link) then
 		bidFrame.warn:SetText("")
 	else
-		bidFrame.warn:SetText("Achtung: Deine Klasse kann dieses Item nicht tragen.")
+		bidFrame.warn:SetText(L["Achtung: Deine Klasse kann dieses Item nicht tragen."])
 	end
 	A.UpdateBidFrame()
 	bidFrame:Show()
@@ -490,21 +491,21 @@ end
 function A.UpdateBidFrame()
 	if not bidFrame or not A.client then return end
 	local cl = A.client
-	local high = cl.highName and string.format("%d DKP (%s)", cl.high, cl.highName) or "noch keins"
+	local high = cl.highName and string.format("%d DKP (%s)", cl.high, cl.highName) or L["noch keins"]
 	local myDKP = RM.DKP.GetFor(cl.g, RM.Me(), cl.pool)
 	local foreign = RM.Comm.IsForeign(cl.g)
 	local poolName = cl.poolName or RM.DKP.PoolName(cl.pool)
-	bidFrame.title:SetText("Versteigerung · " .. poolName .. "-DKP")
-	bidFrame.info:SetText(string.format("Mindestgebot: %d  ·  Höchstgebot: %s\nDeine %s-DKP: %d%s", cl.min, high, poolName, myDKP,
-		foreign and ("  (Gilde " .. cl.g .. ")") or ""))
+	bidFrame.title:SetText(L["Versteigerung · "] .. poolName .. L["-DKP"])
+	bidFrame.info:SetText(string.format(L["Mindestgebot: %d  ·  Höchstgebot: %s\nDeine %s-DKP: %d%s"], cl.min, high, poolName, myDKP,
+		foreign and (L["  (Gilde "] .. cl.g .. ")") or ""))
 	if cl.ended then
 		if cl.winner then
 			bidFrame.status:SetText(string.format("Gewinner: %s mit %d DKP", cl.winner, cl.winAmount or 0))
 		else
-			bidFrame.status:SetText("Keine Gebote.")
+			bidFrame.status:SetText(L["Keine Gebote."])
 		end
 	elseif cl.highName == RM.Me() then
-		bidFrame.status:SetText("|cff40ff40Du bist Höchstbietender.|r")
+		bidFrame.status:SetText(L["|cff40ff40Du bist Höchstbietender.|r"])
 	elseif cl.highName then
 		bidFrame.status:SetText("")
 	end

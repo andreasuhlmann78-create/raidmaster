@@ -2,11 +2,12 @@
 -- Import des Textes vom RaidMaster-Bot, Abgleich mit dem Raid, Einladen, Ersatzbank übernehmen
 
 local ADDON, RM = ...
+local L = RM.L
 local S = {}
 RM.Signup = S
 
-S.ROLE = { tank = "Tank", heal = "Heiler", melee = "Nahkampf", ranged = "Fernkampf" }
-S.STATUS = { an = "Angemeldet", ersatz = "Ersatzbank", vielleicht = "Vielleicht", ab = "Abgemeldet" }
+S.ROLE = { tank = L["Tank"], heal = L["Heiler"], melee = L["Nahkampf"], ranged = L["Fernkampf"] }
+S.STATUS = { an = L["Angemeldet"], ersatz = L["Ersatzbank"], vielleicht = L["Vielleicht"], ab = L["Abgemeldet"] }
 
 local function Invite(name)
 	local fn = (C_PartyInfo and C_PartyInfo.InviteUnit) or InviteUnit
@@ -27,7 +28,7 @@ end
 ---------------------------------------------------------------------------
 function S.Parse(text)
 	if not text or not text:find("RAIDMASTER%-ANMELDUNG") then
-		return nil, "Das ist kein Anmeldetext vom RaidMaster-Bot."
+		return nil, L["Das ist kein Anmeldetext vom RaidMaster-Bot."]
 	end
 	local result = { title = "", date = "", list = {}, mode = "dkp", groups = nil, bench = nil, start = nil }
 	for raw in text:gmatch("[^\r\n]+") do
@@ -74,7 +75,7 @@ function S.Parse(text)
 			end
 		end
 	end
-	if #result.list == 0 then return nil, "Im Text wurden keine Anmeldungen gefunden." end
+	if #result.list == 0 then return nil, L["Im Text wurden keine Anmeldungen gefunden."] end
 	return result
 end
 
@@ -85,24 +86,24 @@ function S.Import(text)
 	RM.db.signup = result
 	local counts = {}
 	for _, e in ipairs(result.list) do counts[e.status] = (counts[e.status] or 0) + 1 end
-	RM.Print(string.format("Anmeldungen für '%s' importiert: %d angemeldet, %d Ersatzbank, %d vielleicht, %d abgemeldet.",
+	RM.Print(string.format(L["Anmeldungen für '%s' importiert: %d angemeldet, %d Ersatzbank, %d vielleicht, %d abgemeldet."],
 		result.title, counts.an or 0, counts.ersatz or 0, counts.vielleicht or 0, counts.ab or 0))
 	if result.softres then
 		RM.db.config.softresLink = result.softres
-		RM.Print("softres.it-Link übernommen: " .. result.softres)
+		RM.Print(L["softres.it-Link übernommen: "] .. result.softres)
 	end
 	if result.link then
 		RM.db.config.adLink = result.link
-		RM.Print("Discord-Link für die Werbung übernommen: " .. result.link)
+		RM.Print(L["Discord-Link für die Werbung übernommen: "] .. result.link)
 	end
 	if result.pool then
 		RM.db.config.activePool = result.pool
-		RM.Print("DKP-Topf für diesen Raid: " .. RM.DKP.PoolName(result.pool))
+		RM.Print(L["DKP-Topf für diesen Raid: "] .. RM.DKP.PoolName(result.pool))
 	end
 	if result.groups then
 		local n = 0
 		for _ in pairs(result.groups) do n = n + 1 end
-		RM.Print(string.format("Aufstellung mit %d Spielern und festen Gruppen übernommen.", n))
+		RM.Print(string.format(L["Aufstellung mit %d Spielern und festen Gruppen übernommen."], n))
 	end
 	if result.start and RM.db.config.autoInvite then
 		RM.Print(string.format("Auto-Einladung: %d Min. vor Raidbeginn (%s).", RM.db.config.autoInviteMinutes or 15, date("%d.%m. %H:%M", result.start)))
@@ -164,8 +165,8 @@ local function Stop(msg)
 end
 
 local function Tick()
-	if #queue == 0 then Stop("Alle Einladungen verschickt.") return end
-	if GetTime() > deadline then Stop("Einladen abgebrochen (Zeitlimit). Nicht eingeladen: " .. table.concat(queue, ", ")) return end
+	if #queue == 0 then Stop(L["Alle Einladungen verschickt."]) return end
+	if GetTime() > deadline then Stop(L["Einladen abgebrochen (Zeitlimit). Nicht eingeladen: "] .. table.concat(queue, ", ")) return end
 	if not RM.InRaid() then
 		if IsInGroup() then
 			if UnitIsGroupLeader("player") then MakeRaid() end
@@ -184,8 +185,8 @@ end
 
 function S.InviteAll(includeBench, silentSkip)
 	local su = RM.db.signup
-	if not su then RM.Print("Zuerst Anmeldungen importieren.") return end
-	if IsInGroup() and not RM.IsAssist() then RM.Print("Zum Einladen brauchst du Leiter- oder Assistentenrechte.") return end
+	if not su then RM.Print(L["Zuerst Anmeldungen importieren."]) return end
+	if IsInGroup() and not RM.IsAssist() then RM.Print(L["Zum Einladen brauchst du Leiter- oder Assistentenrechte."]) return end
 	wipe(queue)
 	local me = RM.Me()
 	local rows = S.Compare()
@@ -204,12 +205,12 @@ function S.InviteAll(includeBench, silentSkip)
 		end
 	end
 	if #queue == 0 then
-		if not silentSkip then RM.Print("Alle Angemeldeten sind bereits in der Gruppe.") end
+		if not silentSkip then RM.Print(L["Alle Angemeldeten sind bereits in der Gruppe."]) end
 		return 0
 	end
 	soloInvites = 0
 	deadline = GetTime() + 180
-	RM.Print(string.format("Lade %d Spieler ein ...", #queue))
+	RM.Print(string.format(L["Lade %d Spieler ein ..."], #queue))
 	local count = #queue
 	if ticker then ticker:Cancel() end
 	ticker = C_Timer.NewTicker(0.6, Tick)
@@ -218,7 +219,7 @@ function S.InviteAll(includeBench, silentSkip)
 end
 
 function S.StopInvites()
-	Stop("Einladen gestoppt.")
+	Stop(L["Einladen gestoppt."])
 end
 
 ---------------------------------------------------------------------------
@@ -264,11 +265,11 @@ end
 function S.ArrangeGroups(silent)
 	local su = RM.db.signup
 	if not su or not su.groups then
-		if not silent then RM.Print("Keine Gruppen-Aufstellung importiert (in Discord: /raid aufstellung, dann Export).") end
+		if not silent then RM.Print(L["Keine Gruppen-Aufstellung importiert (in Discord: /raid aufstellung, dann Export)."]) end
 		return
 	end
 	if not RM.IsAssist() then
-		if not silent then RM.Print("Zum Einteilen brauchst du Leiter- oder Assistentenrechte.") end
+		if not silent then RM.Print(L["Zum Einteilen brauchst du Leiter- oder Assistentenrechte."]) end
 		return
 	end
 	arrangeSteps = 0
@@ -278,7 +279,7 @@ function S.ArrangeGroups(silent)
 		if not S.ArrangeStep() or arrangeSteps > 60 then
 			arrangeTicker:Cancel()
 			arrangeTicker = nil
-			if not silent then RM.Print("Gruppen eingeteilt.") end
+			if not silent then RM.Print(L["Gruppen eingeteilt."]) end
 			RM.Fire("SIGNUP_CHANGED")
 		end
 	end)
@@ -305,10 +306,10 @@ function S.AutoInviteState()
 	local su = RM.db.signup
 	local cfg = RM.db.config
 	if not cfg.autoInvite then return "aus" end
-	if not su or not su.start then return "kein Raidbeginn im Import" end
+	if not su or not su.start then return L["kein Raidbeginn im Import"] end
 	local openAt = su.start - (cfg.autoInviteMinutes or 15) * 60
 	local now = GetServerTime()
-	if now < openAt then return "öffnet " .. date("%d.%m. %H:%M", openAt) end
+	if now < openAt then return L["öffnet "] .. date("%d.%m. %H:%M", openAt) end
 	if now > su.start + 1800 then return "beendet" end
 	return "aktiv"
 end
@@ -329,7 +330,7 @@ C_Timer.NewTicker(20, function()
 		if first then
 			su.autoInvited = true
 			if IsInGroup() or RM.InRaid() then
-				RM.Announce("[RaidMaster] Raid ist offen – Einladungen gehen raus!", false)
+				RM.Announce(L["[RaidMaster] Raid ist offen – Einladungen gehen raus!"], false)
 			end
 		end
 	end
@@ -340,7 +341,7 @@ end)
 ---------------------------------------------------------------------------
 function S.ApplyStandby()
 	local su = RM.db.signup
-	if not su then RM.Print("Zuerst Anmeldungen importieren.") return end
+	if not su then RM.Print(L["Zuerst Anmeldungen importieren."]) return end
 	local n = 0
 	for _, e in ipairs(su.list) do
 		local bench = e.status == "ersatz" or (su.bench and su.bench[e.name])
@@ -349,6 +350,6 @@ function S.ApplyStandby()
 			n = n + 1
 		end
 	end
-	RM.Print(n .. " Spieler auf die Ersatzbank übernommen.")
+	RM.Print(n .. L[" Spieler auf die Ersatzbank übernommen."])
 	RM.Fire("DATA_CHANGED")
 end

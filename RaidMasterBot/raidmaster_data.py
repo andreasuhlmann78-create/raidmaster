@@ -31,6 +31,10 @@ CLASSES = {
     "MAGE": "Magier",
     "WARLOCK": "Hexenmeister",
     "DRUID": "Druide",
+    "DEATHKNIGHT": "Todesritter",
+    "MONK": "Mönch",
+    "DEMONHUNTER": "Dämonenjäger",
+    "EVOKER": "Rufer",
 }
 
 ROLES = {
@@ -53,6 +57,7 @@ SPEC_TREES = {
     "MAGE": [("Arkan", "ranged", ("ranged",)), ("Feuer", "ranged", ("ranged",)), ("Frost", "ranged", ("ranged",))],
     "WARLOCK": [("Gebrechen", "ranged", ("ranged",)), ("Dämonologie", "ranged", ("ranged",)), ("Zerstörung", "ranged", ("ranged",))],
     "DRUID": [("Gleichgewicht", "ranged", ("ranged",)), ("Wilder Kampf", "melee", ("melee", "tank")), ("Wiederherstellung", "heal", ("heal",))],
+    "DEATHKNIGHT": [("Blut", "tank", ("tank", "melee")), ("Frost", "melee", ("melee", "tank")), ("Unheilig", "melee", ("melee", "tank"))],
 }
 SPEC_SOURCES = {"self": "eigene Angabe im Addon", "addon": "Addon", "inspect": "betrachtet"}
 
@@ -271,18 +276,28 @@ def specs_from_db(db: dict | None) -> dict[str, dict]:
     for name, e in ((db or {}).get("specs") or {}).items():
         if not isinstance(e, dict) or not isinstance(name, str):
             continue
-        spec = make_spec(e.get("c") or "", lua_list(e.get("p")), e.get("t") or 0, e.get("s") or "")
+        if e.get("sid") and e.get("l") and e.get("r") in ROLES:
+            # Spezialisierung (Mists of Pandaria / Retail): Name und Rolle kommen direkt aus dem Spiel
+            spec = {"cls": e.get("c") or "", "tree": int(e["sid"]), "label": str(e["l"])[:40], "points": "",
+                    "role": e["r"], "roles": [e["r"]], "at": int(e.get("t") or 0), "src": e.get("s") or ""}
+        else:
+            spec = make_spec(e.get("c") or "", lua_list(e.get("p")), e.get("t") or 0, e.get("s") or "")
         if spec:
             spec["name"] = name
             out[name.lower()] = spec
     return out
 
 
+def spec_label(text: str) -> str:
+    """'Wilder Kampf 0/31/20' -> 'Wilder Kampf'"""
+    return re.sub(r"\s+\d+/\d+/\d+$", "", text or "")
+
+
 def spec_short(spec: dict | None) -> str:
     """'Feuer 0/31/20'"""
     if not spec:
         return ""
-    return f"{spec['label']} {spec['points']}"
+    return f"{spec['label']} {spec['points']}".strip()
 
 
 # ---------------------------------------------------------------------------
@@ -620,7 +635,7 @@ def lineup_text(raid: dict, lineup: dict, att_source: str, att_count: int) -> li
             star = "⭐" if s["name"] in lineup["stamm"] else ""
             cls_text = CLASSES.get(s['cls'], s['cls'])
             if s.get("spec"):
-                cls_text = f"{cls_text} {s['spec'].rsplit(' ', 1)[0]}"
+                cls_text = f"{cls_text} {spec_label(s['spec'])}"
             parts.append(f"{star}{s['name']} ({cls_text}, {ROLES.get(s['role'], s['role'])})")
         label = "Gruppe 1 (MT)" if g == 1 else f"Gruppe {g}"
         blocks.append(f"**{label}:** " + ", ".join(parts))
@@ -812,7 +827,7 @@ def raid_fields(raid: dict) -> list[tuple[str, str, bool]]:
     for role, label in ROLES.items():
         members = [s for s in signed if s["role"] == role]
         text = "\n".join(f"{s['name']} · {CLASSES.get(s['cls'], s['cls'])}"
-                         + (f" {s['spec'].rsplit(' ', 1)[0]}" if s.get("spec") else "") for s in members) or "–"
+                         + (f" {spec_label(s['spec'])}" if s.get("spec") else "") for s in members) or "–"
         fields.append((f"{ROLE_ICONS[role]} {label} ({len(members)})", text[:1024], True))
     # 2 Spalten: Tank | Heiler / Nahkampf | Fernkampf (Platzhalter füllt die 3. Spalte)
     fields.insert(2, ("\u200b", "\u200b", True))

@@ -294,7 +294,7 @@ def profile_text(p: dict) -> str:
     text = f"**{p['name']}** ({rmd.CLASSES.get(p['cls'], p['cls'])}, {rmd.ROLES.get(p['role'], p['role'])})"
     spec = p.get("spec")
     if spec:
-        text += f" · Skillung **{spec['label']}** ({spec['points']})"
+        text += f" · Skillung **{spec['label']}**" + (f" ({spec['points']})" if spec.get("points") else "")
     return text
 
 
@@ -1119,7 +1119,7 @@ async def sync_specs():
         if c["old_role"] == c["role"] or not c["old_role"]:
             continue
         spec = c["spec"]
-        text = (f"🧬 Deine Skillung aus dem Spiel wurde übernommen: **{c['name']} – {spec['label']}** ({spec['points']}).\n"
+        text = (f"🧬 Deine Skillung aus dem Spiel wurde übernommen: **{c['name']} – {spec['label']}**" + (f" ({spec['points']})" if spec.get("points") else "") + ".\n"
                 f"Deine Rolle für Raids ist jetzt **{rmd.ROLES.get(c['role'], c['role'])}** "
                 f"(vorher {rmd.ROLES.get(c['old_role'], c['old_role'])}). Ändern kannst du das jederzeit mit `/charakter`.")
         try:

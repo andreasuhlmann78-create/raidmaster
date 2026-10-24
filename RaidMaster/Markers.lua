@@ -2,6 +2,7 @@
 -- Markierungsleiste, Mouseover-Tasten, nächstes freies Symbol nach Vorlage, alle entfernen
 
 local ADDON, RM = ...
+local L = RM.L
 local M = {}
 RM.Markers = M
 
@@ -24,7 +25,7 @@ end
 function M.Mark(icon)
 	local unit = TargetUnit()
 	if not unit then return end
-	if not CanMark() then RM.Print("Im Schlachtzug brauchst du Leiter- oder Assistentenrechte zum Markieren.") return end
+	if not CanMark() then RM.Print(L["Im Schlachtzug brauchst du Leiter- oder Assistentenrechte zum Markieren."]) return end
 	SetRaidTarget(unit, icon)
 	if icon and icon > 0 then used[icon] = true end
 end
@@ -52,7 +53,7 @@ end
 function M.SmartMark()
 	local unit = TargetUnit()
 	if not unit then return end
-	if not CanMark() then RM.Print("Im Schlachtzug brauchst du Leiter- oder Assistentenrechte zum Markieren.") return end
+	if not CanMark() then RM.Print(L["Im Schlachtzug brauchst du Leiter- oder Assistentenrechte zum Markieren."]) return end
 	if GetRaidTargetIndex(unit) then return end
 	if UnitIsPlayer(unit) or UnitIsDead(unit) then return end
 	local template = RM.Data.GetTemplate(C().markerTemplate)
@@ -64,12 +65,12 @@ function M.SmartMark()
 			return
 		end
 	end
-	RM.Print("Alle Symbole der Vorlage '" .. template.name .. "' sind vergeben.")
+	RM.Print(L["Alle Symbole der Vorlage '"] .. template.name .. L["' sind vergeben."])
 end
 
 -- Alle Symbole entfernen: jedes Symbol kurz auf sich selbst setzen, dann löschen
 function M.ClearAll()
-	if not CanMark() then RM.Print("Im Schlachtzug brauchst du Leiter- oder Assistentenrechte zum Markieren.") return end
+	if not CanMark() then RM.Print(L["Im Schlachtzug brauchst du Leiter- oder Assistentenrechte zum Markieren."]) return end
 	local step = 0
 	for i = 8, 1, -1 do
 		step = step + 1
@@ -119,20 +120,20 @@ local function CreateBar()
 		b:SetScript("OnEnter", function(self)
 			GameTooltip:SetOwner(self, "ANCHOR_TOP")
 			GameTooltip:AddLine(RM.Data.MarkerNames[i])
-			GameTooltip:AddLine("Linksklick: auf Maus-Ziel/Ziel setzen", 0.8, 0.8, 0.8)
-			GameTooltip:AddLine("Rechtsklick: Symbol entfernen", 0.8, 0.8, 0.8)
+			GameTooltip:AddLine(L["Linksklick: auf Maus-Ziel/Ziel setzen"], 0.8, 0.8, 0.8)
+			GameTooltip:AddLine(L["Rechtsklick: Symbol entfernen"], 0.8, 0.8, 0.8)
 			GameTooltip:Show()
 		end)
 		b:SetScript("OnLeave", function() GameTooltip:Hide() end)
 		x = x + 28
 	end
 
-	local smart = UI.Button(f, "Auto", 42, 26, function() M.SmartMark() end,
-		"Setzt das nächste freie Symbol der gewählten Vorlage.\nAm schnellsten per Tastenbelegung mit Mouseover.")
+	local smart = UI.Button(f, L["Auto"], 42, 26, function() M.SmartMark() end,
+		L["Setzt das nächste freie Symbol der gewählten Vorlage.\nAm schnellsten per Tastenbelegung mit Mouseover."])
 	smart:SetPoint("LEFT", x + 2, 0)
 	x = x + 46
 
-	local clear = UI.Button(f, "X", 26, 26, function() M.ClearAll() end, "Alle Symbole entfernen")
+	local clear = UI.Button(f, "X", 26, 26, function() M.ClearAll() end, L["Alle Symbole entfernen"])
 	clear:SetPoint("LEFT", x, 0)
 	x = x + 30
 
@@ -150,7 +151,7 @@ function M.UpdateBar()
 		bar = bar or CreateBar()
 		bar:Show()
 		local t = RM.Data.GetTemplate(C().markerTemplate)
-		bar.templateText:SetText("Vorlage: " .. t.name)
+		bar.templateText:SetText(L["Vorlage: "] .. t.name)
 	elseif bar then
 		bar:Hide()
 	end

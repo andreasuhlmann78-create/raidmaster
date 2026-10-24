@@ -2,6 +2,7 @@
 -- DKP-Töpfe pro Raid, Punktestände, Log mit Rückgängig, Decay, Ersatzbank, Snapshot und Export
 
 local ADDON, RM = ...
+local L = RM.L
 local DKP = {}
 RM.DKP = DKP
 
@@ -11,13 +12,13 @@ local entryCounter = 0
 DKP.FORMAT = 2   -- Datenformat 2 = DKP-Töpfe pro Raid
 
 DKP.KindNames = {
-	start = "Raidstart",
-	["end"] = "Raidende",
-	boss = "Bosskill",
-	item = "Item",
-	manual = "Anpassung",
-	decay = "Decay",
-	undo = "Rückgängig",
+	start = L["Raidstart"],
+	["end"] = L["Raidende"],
+	boss = L["Bosskill"],
+	item = L["Item"],
+	manual = L["Anpassung"],
+	decay = L["Decay"],
+	undo = L["Rückgängig"],
 }
 
 ---------------------------------------------------------------------------
@@ -60,7 +61,7 @@ function DKP.EnsurePool(key, name, data)
 	data.pools = data.pools or {}
 	if not data.pools[key] then
 		data.pools[key] = { n = name or key }
-		RM.Print("Neuer DKP-Topf angelegt: " .. (name or key))
+		RM.Print(L["Neuer DKP-Topf angelegt: "] .. (name or key))
 	end
 end
 
@@ -99,6 +100,8 @@ function DKP.CurrentInstancePool()
 		for _, m in ipairs(def.match or {}) do
 			if lname:find(m, 1, true) then return key end
 		end
+		-- übersetzter Raidname (für Spielclients in anderen Sprachen)
+		if def.name and def.name ~= "" and lname:find(def.name:lower(), 1, true) then return key end
 	end
 	if not instanceID then return nil end
 	local key = "i" .. instanceID
@@ -233,7 +236,7 @@ function DKP.ApplyEntryTo(data, e, isMain)
 		data.firstKills[e.b] = true
 		data.knownBosses = data.knownBosses or {}
 		if not RM.Data.Bosses[e.b] then
-			data.knownBosses[e.b] = { n = e.bn or ("Boss " .. e.b), p = pool }
+			data.knownBosses[e.b] = { n = e.bn or (L["Boss "] .. e.b), p = pool }
 		end
 	end
 	table.insert(data.log, e)
@@ -248,7 +251,7 @@ end
 -- Neue Buchung erstellen (nur Offiziere)
 function DKP.NewEntry(kind, text, deltas, item, ref, extra)
 	if not RM.CanEdit() then
-		RM.Print("Keine Berechtigung: Nur Offiziere dürfen DKP ändern.")
+		RM.Print(L["Keine Berechtigung: Nur Offiziere dürfen DKP ändern."])
 		return nil
 	end
 	if not deltas or not next(deltas) then return nil end
@@ -308,28 +311,28 @@ end
 function DKP.Adjust(name, amount, reason, pool)
 	name = RM.Short(name)
 	if not name or name == "" or not amount or amount == 0 then return end
-	return DKP.NewEntry("manual", (reason and reason ~= "") and reason or "Manuelle Anpassung", { [name] = amount }, nil, nil, { pool = pool })
+	return DKP.NewEntry("manual", (reason and reason ~= "") and reason or L["Manuelle Anpassung"], { [name] = amount }, nil, nil, { pool = pool })
 end
 
 function DKP.ChargeItem(name, amount, link, pool)
-	return DKP.NewEntry("item", "Item gewonnen", { [RM.Short(name)] = -amount }, link, nil, { pool = pool })
+	return DKP.NewEntry("item", L["Item gewonnen"], { [RM.Short(name)] = -amount }, link, nil, { pool = pool })
 end
 
 function DKP.Undo(id)
 	local e = DKP.FindEntry(id)
 	if not e then return end
-	if e.u then RM.Print("Diese Buchung wurde bereits rückgängig gemacht.") return end
-	if e.k == "undo" then RM.Print("Eine Rückgängig-Buchung kann nicht rückgängig gemacht werden.") return end
+	if e.u then RM.Print(L["Diese Buchung wurde bereits rückgängig gemacht."]) return end
+	if e.k == "undo" then RM.Print(L["Eine Rückgängig-Buchung kann nicht rückgängig gemacht werden."]) return end
 	local deltas = {}
 	for name, delta in pairs(e.d or {}) do deltas[name] = -delta end
 	local label = (DKP.KindNames[e.k] or e.k) .. ": " .. (e.x or "")
-	return DKP.NewEntry("undo", "Rückgängig – " .. label, deltas, e.i, e.id, { pool = e.pool or "mc" })
+	return DKP.NewEntry("undo", L["Rückgängig – "] .. label, deltas, e.i, e.id, { pool = e.pool or "mc" })
 end
 
 -- Decay für einen Topf oder (pool = nil) für alle Töpfe
 function DKP.ApplyDecay(pool)
 	local pct = RM.db.data.settings.decayPct or 0
-	if pct <= 0 then RM.Print("Decay ist auf 0 % eingestellt.") return end
+	if pct <= 0 then RM.Print(L["Decay ist auf 0 % eingestellt."]) return end
 	local pools = pool and { pool } or DKP.PoolList()
 	local count = 0
 	for _, key in ipairs(pools) do
@@ -342,11 +345,11 @@ function DKP.ApplyDecay(pool)
 			end
 		end
 		if next(deltas) then
-			DKP.NewEntry("decay", pct .. " % Decay", deltas, nil, nil, { pool = key })
+			DKP.NewEntry("decay", pct .. L[" % Decay"], deltas, nil, nil, { pool = key })
 			count = count + 1
 		end
 	end
-	if count == 0 then RM.Print("Niemand hat positive DKP.") end
+	if count == 0 then RM.Print(L["Niemand hat positive DKP."]) end
 end
 
 function DKP.AddPlayer(name)
@@ -384,13 +387,13 @@ end
 ---------------------------------------------------------------------------
 function DKP.SettingsChanged()
 	if not RM.CanEdit() then
-		RM.Print("Nur Offiziere können die gemeinsamen DKP-Einstellungen ändern.")
+		RM.Print(L["Nur Offiziere können die gemeinsamen DKP-Einstellungen ändern."])
 		return
 	end
 	RM.db.data.version = math.max(RM.db.data.version + 1, GetServerTime())
 	RM.Comm.BroadcastSnapshot()
 	RM.Fire("DATA_CHANGED")
-	RM.Print("Einstellungen gespeichert und an die Gilde verteilt.")
+	RM.Print(L["Einstellungen gespeichert und an die Gilde verteilt."])
 end
 
 ---------------------------------------------------------------------------
@@ -422,7 +425,7 @@ function DKP.ImportForeign(s, sender)
 		RM.UI.viewGuild = s.g
 	end
 	if isNew then
-		RM.Print(string.format("DKP-Tabelle der Gilde <%s> empfangen (von %s). Auf der DKP-Seite umschaltbar.", s.g, sender))
+		RM.Print(string.format(L["DKP-Tabelle der Gilde <%s> empfangen (von %s). Auf der DKP-Seite umschaltbar."], s.g, sender))
 	end
 	RM.Fire("DATA_CHANGED")
 end
@@ -483,8 +486,8 @@ end
 function DKP.ExportText()
 	local data = RM.db.data
 	local pools = DKP.PoolList(data)
-	local lines = { "RaidMaster DKP-Export " .. date("%d.%m.%Y %H:%M"), "" }
-	local header = { "Name", "Klasse" }
+	local lines = { L["RaidMaster DKP-Export "] .. date("%d.%m.%Y %H:%M"), "" }
+	local header = { L["Name"], L["Klasse"] }
 	for _, key in ipairs(pools) do header[#header + 1] = DKP.PoolName(key, data) end
 	lines[#lines + 1] = table.concat(header, ";")
 	local names = {}
@@ -497,7 +500,7 @@ function DKP.ExportText()
 		lines[#lines + 1] = table.concat(row, ";")
 	end
 	lines[#lines + 1] = ""
-	lines[#lines + 1] = "Datum;Von;Topf;Art;Text;Item;Betrag;Spieler;Rückgängig"
+	lines[#lines + 1] = L["Datum;Von;Topf;Art;Text;Item;Betrag;Spieler;Rückgängig"]
 	local log = data.log
 	for i = #log, 1, -1 do
 		local e = log[i]
@@ -514,7 +517,7 @@ function DKP.ExportText()
 		if count == 1 then
 			amountText = tostring(amount)
 		elseif uniform then
-			amountText = tostring(amount) .. " (je)"
+			amountText = tostring(amount) .. L[" (je)"]
 		else
 			amountText = "verschieden"
 			wipe(entryNames)
@@ -538,7 +541,7 @@ function DKP.Summary(name, data)
 		local v = PoolValue(p, key)
 		if v ~= 0 then parts[#parts + 1] = DKP.PoolShort(key, data) .. " " .. v end
 	end
-	if #parts == 0 then return "0 DKP" end
+	if #parts == 0 then return L["0 DKP"] end
 	return table.concat(parts, " · ")
 end
 

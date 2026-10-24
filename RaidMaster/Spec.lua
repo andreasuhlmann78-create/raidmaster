@@ -4,23 +4,63 @@
 -- Die Daten landen in RaidMasterDB.specs und werden vom Discord-Bot gelesen.
 
 local _, RM = ...
+local L = RM.L
 local Spec = {}
 RM.Spec = Spec
 
 -- Talentbäume in der Reihenfolge des Spiels: Name, Hauptrolle, mögliche Rollen
 Spec.TREES = {
-	WARRIOR = { { "Waffen", "melee", { "melee", "tank" } }, { "Furor", "melee", { "melee", "tank" } }, { "Schutz", "tank" } },
-	PALADIN = { { "Heilig", "heal" }, { "Schutz", "tank" }, { "Vergeltung", "melee" } },
-	HUNTER  = { { "Tierherrschaft", "ranged" }, { "Treffsicherheit", "ranged" }, { "Überleben", "ranged" } },
-	ROGUE   = { { "Meucheln", "melee" }, { "Kampf", "melee" }, { "Täuschung", "melee" } },
-	PRIEST  = { { "Disziplin", "heal" }, { "Heilig", "heal" }, { "Schatten", "ranged" } },
-	SHAMAN  = { { "Elementar", "ranged" }, { "Verstärkung", "melee" }, { "Wiederherstellung", "heal" } },
-	MAGE    = { { "Arkan", "ranged" }, { "Feuer", "ranged" }, { "Frost", "ranged" } },
-	WARLOCK = { { "Gebrechen", "ranged" }, { "Dämonologie", "ranged" }, { "Zerstörung", "ranged" } },
-	DRUID   = { { "Gleichgewicht", "ranged" }, { "Wilder Kampf", "melee", { "melee", "tank" } }, { "Wiederherstellung", "heal" } },
+	WARRIOR = { { L["Waffen"], "melee", { "melee", "tank" } }, { L["Furor"], "melee", { "melee", "tank" } }, { L["Schutz"], "tank" } },
+	PALADIN = { { L["Heilig"], "heal" }, { L["Schutz"], "tank" }, { L["Vergeltung"], "melee" } },
+	HUNTER  = { { L["Tierherrschaft"], "ranged" }, { L["Treffsicherheit"], "ranged" }, { L["Überleben"], "ranged" } },
+	ROGUE   = { { L["Meucheln"], "melee" }, { L["Kampf"], "melee" }, { L["Täuschung"], "melee" } },
+	PRIEST  = { { L["Disziplin"], "heal" }, { L["Heilig"], "heal" }, { L["Schatten"], "ranged" } },
+	SHAMAN  = { { L["Elementar"], "ranged" }, { L["Verstärkung"], "melee" }, { L["Wiederherstellung"], "heal" } },
+	MAGE    = { { L["Arkan"], "ranged" }, { L["Feuer"], "ranged" }, { L["Frost"], "ranged" } },
+	WARLOCK = { { L["Gebrechen"], "ranged" }, { L["Dämonologie"], "ranged" }, { L["Zerstörung"], "ranged" } },
+	DRUID   = { { L["Gleichgewicht"], "ranged" }, { L["Wilder Kampf"], "melee", { "melee", "tank" } }, { L["Wiederherstellung"], "heal" } },
+	DEATHKNIGHT = { { L["Blut"], "tank", { "tank", "melee" } }, { L["Frost"], "melee", { "melee", "tank" } }, { L["Unheilig"], "melee", { "melee", "tank" } } },
 }
 
-Spec.ROLE_NAMES = { tank = "Tank", heal = "Heiler", melee = "Nahkampf", ranged = "Fernkampf" }
+-- Manche Sprachen nennen gleiche deutsche Baumnamen je Klasse unterschiedlich (z. B. Koreanisch)
+local CLASS_SPECIFIC = { PALADIN = { [2] = "Schutz (Paladin)" }, DRUID = { [3] = "Wiederherstellung (Druide)" } }
+function Spec.TreeLabel(class, tree, default)
+	local key = CLASS_SPECIFIC[class] and CLASS_SPECIFIC[class][tree]
+	return (key and rawget(RM.L, key)) or default
+end
+
+-- Spezialisierungen ab Mists of Pandaria / Retail: Fernkampf-Spezialisierungen (alle anderen DAMAGER = Nahkampf)
+Spec.RANGED_SPECS = {
+	[102] = true, [253] = true, [254] = true, [62] = true, [63] = true, [64] = true, [258] = true,
+	[262] = true, [265] = true, [266] = true, [267] = true, [1467] = true, [1473] = true,
+}
+local SPEC_ROLE = { TANK = "tank", HEALER = "heal" }
+
+function Spec.RoleForSpec(specID, role)
+	if SPEC_ROLE[role] then return SPEC_ROLE[role] end
+	if specID == 255 and RM.TOC < 70000 then return "ranged" end   -- Überleben war bis Legion Fernkampf
+	return Spec.RANGED_SPECS[specID] and "ranged" or "melee"
+end
+
+-- Spezialisierung lesen (MoP/Retail). Liefert specID, Name, Rolle oder nil
+function Spec.ReadSpecialization(unit)
+	if unit then
+		if not GetInspectSpecialization or not GetSpecializationInfoByID then return nil end
+		local id = GetInspectSpecialization(unit)
+		if not id or id == 0 then return nil end
+		local _, name, _, _, role = GetSpecializationInfoByID(id)
+		if not name then return nil end
+		return id, name, Spec.RoleForSpec(id, role)
+	end
+	if not GetSpecialization or not GetSpecializationInfo then return nil end
+	local idx = GetSpecialization()
+	if not idx or idx == 0 then return nil end
+	local id, name, _, _, role = GetSpecializationInfo(idx)
+	if not id or not name then return nil end
+	return id, name, Spec.RoleForSpec(id, role)
+end
+
+Spec.ROLE_NAMES = { tank = L["Tank"], heal = L["Heiler"], melee = L["Nahkampf"], ranged = L["Fernkampf"] }
 
 local MAX_AGE = 90 * 86400        -- ältere Einträge werden gelöscht
 local RESCAN_AFTER = 24 * 3600    -- Skillung per Betrachten höchstens einmal am Tag neu holen
@@ -100,10 +140,13 @@ function Spec.Get(name)
 	if not RM.db or not name then return nil end
 	local e = RM.db.specs[RM.Short(name)]
 	if not e then return nil end
+	if e.sid then
+		return e, nil, e.l, e.r, { e.r }
+	end
 	local tree = Spec.MainTree(e.p)
 	local info = tree and Spec.TREES[e.c] and Spec.TREES[e.c][tree]
 	if not info then return e end
-	return e, tree, info[1], info[2], info[3] or { info[2] }
+	return e, tree, Spec.TreeLabel(e.c, tree, info[1]), info[2], info[3] or { info[2] }
 end
 
 function Spec.Role(name)
@@ -119,7 +162,7 @@ function Spec.CanRole(name, role)
 end
 
 function Spec.PointsText(e)
-	if not e or not e.p then return "" end
+	if not e or not e.p or e.sid then return "" end
 	return string.format("%d/%d/%d", e.p[1] or 0, e.p[2] or 0, e.p[3] or 0)
 end
 
@@ -127,6 +170,7 @@ end
 function Spec.Text(name)
 	local e, _, label = Spec.Get(name)
 	if not e then return nil end
+	if e.sid then return label or "?" end
 	return (label or "?") .. " (" .. Spec.PointsText(e) .. ")"
 end
 
@@ -153,6 +197,19 @@ function Spec.Store(name, class, points, src, at)
 	return changed
 end
 
+-- Spezialisierung speichern (MoP/Retail)
+function Spec.StoreSpec(name, class, sid, label, role, src, at)
+	if not RM.db or not name or not class or not sid or not label then return false end
+	name = RM.Short(name)
+	at = at or GetServerTime()
+	local old = RM.db.specs[name]
+	if old and old.t and old.t > at then return false end
+	local changed = not old or old.sid ~= sid or old.c ~= class
+	RM.db.specs[name] = { c = class, sid = sid, l = label, r = role, t = at, s = src }
+	if changed then RM.Fire("SPEC_CHANGED", name) end
+	return changed
+end
+
 function Spec.Prune()
 	if not RM.db then return end
 	local limit = GetServerTime() - MAX_AGE
@@ -169,7 +226,7 @@ local lastSent
 function Spec.SendMine(channel)
 	local e = RM.db and RM.db.specs[RM.Me()]
 	if not e then return end
-	local payload = { c = e.c, p = e.p, t = e.t }
+	local payload = e.sid and { c = e.c, sid = e.sid, l = e.l, r = e.r, t = e.t } or { c = e.c, p = e.p, t = e.t }
 	if channel then
 		RM.Comm.Send("SPEC", payload, channel)
 		return
@@ -180,11 +237,19 @@ end
 
 function Spec.UpdateMine(forceSend)
 	if not RM.db then return end
-	local points = Spec.ReadPoints(false)
-	if not points then return end
 	local _, class = UnitClass("player")
-	local changed = Spec.Store(RM.Me(), class, points, "self")
-	local key = Spec.PointsText(RM.db.specs[RM.Me()])
+	local changed
+	if RM.Caps.specs then
+		local sid, label, role = Spec.ReadSpecialization()
+		if not sid then return end
+		changed = Spec.StoreSpec(RM.Me(), class, sid, label, role, "self")
+	else
+		local points = Spec.ReadPoints(false)
+		if not points then return end
+		changed = Spec.Store(RM.Me(), class, points, "self")
+	end
+	local e = RM.db.specs[RM.Me()]
+	local key = e.sid and tostring(e.sid) or Spec.PointsText(e)
 	if changed or forceSend or lastSent ~= key then
 		lastSent = key
 		Spec.SendMine()
@@ -204,6 +269,7 @@ end
 RM.On("CHARACTER_POINTS_CHANGED", ScheduleUpdate)
 RM.On("PLAYER_TALENT_UPDATE", ScheduleUpdate)
 RM.On("ACTIVE_TALENT_GROUP_CHANGED", ScheduleUpdate)
+RM.On("PLAYER_SPECIALIZATION_CHANGED", ScheduleUpdate)
 
 RM.Listen("DB_READY", function() Spec.Prune() end)
 
@@ -215,7 +281,17 @@ end)
 -- Empfang
 ---------------------------------------------------------------------------
 RM.Comm.Register("SPEC", function(sender, d)
-	if type(d.p) ~= "table" or type(d.c) ~= "string" then return end
+	if type(d.c) ~= "string" then return end
+	if d.sid then
+		local sid = tonumber(d.sid)
+		local role = (d.r == "tank" or d.r == "heal" or d.r == "melee" or d.r == "ranged") and d.r or nil
+		if not sid or type(d.l) ~= "string" or not role then return end
+		local at = tonumber(d.t) or GetServerTime()
+		if at > GetServerTime() + 300 then at = GetServerTime() end
+		Spec.StoreSpec(sender, d.c, sid, d.l:sub(1, 40), role, "addon", at)
+		return
+	end
+	if type(d.p) ~= "table" then return end
 	local p = { tonumber(d.p[1]) or 0, tonumber(d.p[2]) or 0, tonumber(d.p[3]) or 0 }
 	if p[1] + p[2] + p[3] <= 0 or p[1] + p[2] + p[3] > 100 then return end
 	local at = tonumber(d.t) or GetServerTime()
@@ -286,6 +362,16 @@ end
 local function ReadInspect()
 	local cur = scan.current
 	if not cur then return end
+	if RM.Caps.specs then
+		local sid, label, role = Spec.ReadSpecialization(cur.unit)
+		if sid then
+			scan.zeros = 0
+			Spec.StoreSpec(cur.name, cur.class, sid, label, role, "inspect")
+		end
+		FinishCurrent()
+		RM.Fire("SPEC_SCAN_CHANGED")
+		return
+	end
 	local points = Spec.ReadPoints(true)
 	if points then
 		scan.zeros = 0
@@ -295,7 +381,7 @@ local function ReadInspect()
 		scan.zeros = scan.zeros + 1
 		if scan.zeros >= 3 and not Spec.inspectUnsupported then
 			Spec.inspectUnsupported = true
-			RM.Print("Dieser Spielclient zeigt beim Betrachten keine Talente. Skillungen kommen nur von Spielern mit RaidMaster.")
+			RM.Print(L["Dieser Spielclient zeigt beim Betrachten keine Talente. Skillungen kommen nur von Spielern mit RaidMaster."])
 		end
 	end
 	FinishCurrent()
@@ -354,21 +440,21 @@ end
 
 function Spec.StartScan(manual)
 	if not Spec.CanScan() then
-		if manual then RM.Print("Skillungen scannen dürfen Raidleiter, Assistenten und Offiziere.") end
+		if manual then RM.Print(L["Skillungen scannen dürfen Raidleiter, Assistenten und Offiziere."]) end
 		return
 	end
 	if Spec.inspectUnsupported then
-		if manual then RM.Print("Dieser Spielclient zeigt beim Betrachten keine Talente.") end
+		if manual then RM.Print(L["Dieser Spielclient zeigt beim Betrachten keine Talente."]) end
 		return
 	end
 	Spec.RequestRaid()
 	local n = Spec.BuildQueue()
 	if n == 0 then
-		if manual then RM.Print("Alle Skillungen im Raid sind aktuell.") end
+		if manual then RM.Print(L["Alle Skillungen im Raid sind aktuell."]) end
 		return
 	end
 	scan.running = true
-	if manual then RM.Print(n .. " Spieler ohne aktuelle Skillung werden betrachtet (nur in Reichweite, außerhalb des Kampfes).") end
+	if manual then RM.Print(n .. L[" Spieler ohne aktuelle Skillung werden betrachtet (nur in Reichweite, außerhalb des Kampfes)."]) end
 	RM.Fire("SPEC_SCAN_CHANGED")
 end
 

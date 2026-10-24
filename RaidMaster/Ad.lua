@@ -3,15 +3,16 @@
 -- und auf geflüstertes "inv" automatisch einladen.
 
 local _, RM = ...
+local L = RM.L
 local Ad = {}
 RM.Ad = Ad
 
-Ad.DEFAULT_TEXT = "[{raid}] PUG {zeit} – {frei}. SR: {softres} · Anmeldung im Discord: {link} – oder /w {name} inv"
-Ad.DEFAULT_TEXT_NOLINK = "[{raid}] PUG {zeit} – {frei}. SR: {softres} · Einladung: /w {name} inv"
+Ad.DEFAULT_TEXT = L["[{raid}] PUG {zeit} – {frei}. SR: {softres} · Anmeldung im Discord: {link} – oder /w {name} inv"]
+Ad.DEFAULT_TEXT_NOLINK = L["[{raid}] PUG {zeit} – {frei}. SR: {softres} · Einladung: /w {name} inv"]
 Ad.COOLDOWN = 30
 Ad.lastPost = 0
 
-local WEEKDAYS = { "So", "Mo", "Di", "Mi", "Do", "Fr", "Sa" }
+local WEEKDAYS = { L["So"], L["Mo"], L["Di"], L["Mi"], L["Do"], L["Fr"], L["Sa"] }
 
 ---------------------------------------------------------------------------
 -- Kanäle
@@ -28,9 +29,9 @@ function Ad.Targets()
 			end
 		end
 	end
-	list[#list + 1] = { "YELL", "Schreien (/y)" }
-	list[#list + 1] = { "SAY", "Sagen (/s)" }
-	list[#list + 1] = { "GUILD", "Gilde" }
+	list[#list + 1] = { "YELL", L["Schreien (/y)"] }
+	list[#list + 1] = { "SAY", L["Sagen (/s)"] }
+	list[#list + 1] = { "GUILD", L["Gilde"] }
 	return list
 end
 
@@ -58,7 +59,7 @@ function Ad.TargetLabel(key)
 	for _, t in ipairs(Ad.Targets()) do
 		if t[1] == key then return t[2] end
 	end
-	if key:find("^c:") then return key:sub(3) .. " (nicht beigetreten)" end
+	if key:find("^c:") then return key:sub(3) .. L[" (nicht beigetreten)"] end
 	return key
 end
 
@@ -69,7 +70,7 @@ local function RaidTitle()
 	local su = RM.db.signup
 	if su and su.title and su.title ~= "" then return su.title end
 	local pool = RM.DKP.CurrentInstancePool() or RM.db.config.activePool
-	return pool and RM.DKP.PoolName(pool) or "Raid"
+	return pool and RM.DKP.PoolName(pool) or L["Raid"]
 end
 
 local function TimeText()
@@ -95,7 +96,7 @@ local function FreeText()
 	end
 	local free = max - have
 	if free <= 0 then return "" end
-	return string.format("noch %d %s frei", free, free == 1 and "Platz" or "Plätze")
+	return string.format("noch %d %s frei", free, free == 1 and L["Platz"] or L["Plätze"])
 end
 
 local function Clean(s)
@@ -149,7 +150,7 @@ end
 function Ad.Post()
 	local left = Ad.CooldownLeft()
 	if left > 0 then
-		RM.Print(string.format("Bitte noch %d Sekunden warten – sonst gilt es als Spam.", left))
+		RM.Print(string.format(L["Bitte noch %d Sekunden warten – sonst gilt es als Spam."], left))
 		return false
 	end
 	local text = Ad.Build()
@@ -158,7 +159,7 @@ function Ad.Post()
 	if key:find("^c:") then
 		local id = GetChannelName(key:sub(3))
 		if not id or id == 0 then
-			RM.Print("Du bist nicht im Kanal '" .. key:sub(3) .. "'. Bitte beitreten (/join " .. key:sub(3) .. ") oder einen anderen Kanal wählen.")
+			RM.Print(L["Du bist nicht im Kanal '"] .. key:sub(3) .. L["'. Bitte beitreten (/join "] .. key:sub(3) .. L[") oder einen anderen Kanal wählen."])
 			return false
 		end
 		SendChatMessage(text, "CHANNEL", nil, id)

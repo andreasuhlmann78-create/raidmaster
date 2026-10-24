@@ -4,6 +4,7 @@
 -- Verteilung: Flüstern (ohne Addon), Addon-Nachricht mit Anzeige beim Pull, Discord (Bot liest nach /reload).
 
 local ADDON, RM = ...
+local L = RM.L
 local A = {}
 RM.Assign = A
 
@@ -12,16 +13,16 @@ local ICON_NAME = RM.Data.MarkerNames
 
 -- Kontexte: allgemein + Molten-Core-Bosse (Encounter-ID für die Anzeige beim Pull)
 A.Contexts = {
-	{ key = "general", name = "Allgemein" },
-	{ key = "lucifron", name = "Lucifron", enc = 663 },
-	{ key = "magmadar", name = "Magmadar", enc = 664 },
-	{ key = "gehennas", name = "Gehennas", enc = 665 },
-	{ key = "garr", name = "Garr", enc = 666 },
-	{ key = "shazzrah", name = "Shazzrah", enc = 667 },
-	{ key = "sulfuron", name = "Sulfuronherold", enc = 669 },
-	{ key = "golemagg", name = "Golemagg", enc = 670 },
-	{ key = "majordomo", name = "Majordomus", enc = 671 },
-	{ key = "ragnaros", name = "Ragnaros", enc = 672 },
+	{ key = "general", name = L["Allgemein"] },
+	{ key = "lucifron", name = L["Lucifron"], enc = 663 },
+	{ key = "magmadar", name = L["Magmadar"], enc = 664 },
+	{ key = "gehennas", name = L["Gehennas"], enc = 665 },
+	{ key = "garr", name = L["Garr"], enc = 666 },
+	{ key = "shazzrah", name = L["Shazzrah"], enc = 667 },
+	{ key = "sulfuron", name = L["Sulfuronherold"], enc = 669 },
+	{ key = "golemagg", name = L["Golemagg"], enc = 670 },
+	{ key = "majordomo", name = L["Majordomus"], enc = 671 },
+	{ key = "ragnaros", name = L["Ragnaros"], enc = 672 },
 }
 local CTX_BY_ENC = {}
 for _, c in ipairs(A.Contexts) do if c.enc then CTX_BY_ENC[c.enc] = c end end
@@ -155,7 +156,7 @@ end
 local function list(t) return t or {} end
 
 function A.Build()
-	if not RM.InRaid() then RM.Print("Du bist in keinem Schlachtzug.") return end
+	if not RM.InRaid() then RM.Print(L["Du bist in keinem Schlachtzug."]) return end
 	local r = A.Analyze()
 	local T = r.tanks
 	local G = groupCount()
@@ -189,7 +190,7 @@ function A.Build()
 			local hs = perTank[tank]
 			if hs then
 				c.lines[#c.lines + 1] = string.format("Heilung %s (%s): %s", tank, i == 1 and "MT" or ("OT" .. (i - 1)), table.concat(hs, ", "))
-				for _, h in ipairs(hs) do addPersonal(c, h, "Heile " .. tank .. (i == 1 and " (MT)" or "")) end
+				for _, h in ipairs(hs) do addPersonal(c, h, L["Heile "] .. tank .. (i == 1 and L[" (MT)"] or "")) end
 			end
 		end
 		local raidHealers = {}
@@ -199,10 +200,10 @@ function A.Build()
 		for _, h in ipairs(raidHealers) do
 			if split[h] then
 				parts[#parts + 1] = h .. " G" .. table.concat(split[h], "+")
-				addPersonal(c, h, "Raidheilung Gruppe " .. table.concat(split[h], ", "))
+				addPersonal(c, h, L["Raidheilung Gruppe "] .. table.concat(split[h], ", "))
 			end
 		end
-		if #parts > 0 then c.lines[#c.lines + 1] = "Raidheilung: " .. table.concat(parts, ", ") end
+		if #parts > 0 then c.lines[#c.lines + 1] = L["Raidheilung: "] .. table.concat(parts, ", ") end
 	end
 	-- Entfluchen
 	local decurse = {}
@@ -213,10 +214,10 @@ function A.Build()
 	for _, n in ipairs(decurse) do
 		if dsplit[n] then
 			dparts[#dparts + 1] = n .. " G" .. table.concat(dsplit[n], "+")
-			addPersonal(c, n, "Entfluchen Gruppe " .. table.concat(dsplit[n], ", "))
+			addPersonal(c, n, L["Entfluchen Gruppe "] .. table.concat(dsplit[n], ", "))
 		end
 	end
-	if #dparts > 0 then c.lines[#c.lines + 1] = "Entfluchen: " .. table.concat(dparts, ", ") end
+	if #dparts > 0 then c.lines[#c.lines + 1] = L["Entfluchen: "] .. table.concat(dparts, ", ") end
 	-- Magie bannen
 	local dispel = {}
 	for _, n in ipairs(list(r.byClass.PRIEST)) do dispel[#dispel + 1] = n end
@@ -226,16 +227,16 @@ function A.Build()
 	for _, n in ipairs(dispel) do
 		if bsplit[n] then
 			bparts[#bparts + 1] = n .. " G" .. table.concat(bsplit[n], "+")
-			addPersonal(c, n, "Magie bannen Gruppe " .. table.concat(bsplit[n], ", "))
+			addPersonal(c, n, L["Magie bannen Gruppe "] .. table.concat(bsplit[n], ", "))
 		end
 	end
-	if #bparts > 0 then c.lines[#c.lines + 1] = "Bannen: " .. table.concat(bparts, ", ") end
+	if #bparts > 0 then c.lines[#c.lines + 1] = L["Bannen: "] .. table.concat(bparts, ", ") end
 	-- Furchtschutz (Zwergenpriester) auf die Tanks
 	for i, p in ipairs(r.dwarfPriests) do
 		local tank = T[i]
 		if tank then
-			c.lines[#c.lines + 1] = "Furchtschutz: " .. p .. " -> " .. tank
-			addPersonal(c, p, "Furchtschutz auf " .. tank)
+			c.lines[#c.lines + 1] = L["Furchtschutz: "] .. p .. " -> " .. tank
+			addPersonal(c, p, L["Furchtschutz auf "] .. tank)
 		end
 	end
 	-- Seelensteine: Hexer -> Heiler, die wiederbeleben können
@@ -244,8 +245,8 @@ function A.Build()
 	for i, w in ipairs(list(r.byClass.WARLOCK)) do
 		local target = rezzers[i]
 		if target then
-			c.lines[#c.lines + 1] = "Seelenstein: " .. w .. " -> " .. target
-			addPersonal(c, w, "Seelenstein auf " .. target)
+			c.lines[#c.lines + 1] = L["Seelenstein: "] .. w .. " -> " .. target
+			addPersonal(c, w, L["Seelenstein auf "] .. target)
 		end
 	end
 	-- Anregen: Druiden -> Priester
@@ -253,8 +254,8 @@ function A.Build()
 	for i, d in ipairs(list(r.byClass.DRUID)) do
 		local target = priests[i]
 		if target then
-			c.lines[#c.lines + 1] = "Anregen: " .. d .. " -> " .. target
-			addPersonal(c, d, "Anregen auf " .. target)
+			c.lines[#c.lines + 1] = L["Anregen: "] .. d .. " -> " .. target
+			addPersonal(c, d, L["Anregen auf "] .. target)
 		end
 	end
 
@@ -265,15 +266,15 @@ function A.Build()
 	for _, key in ipairs({ "lucifron", "gehennas" }) do
 		local b = newCtx()
 		result[key] = b
-		if T[1] then b.lines[#b.lines + 1] = "Boss: " .. T[1]; addPersonal(b, T[1], "Tanke den Boss") end
+		if T[1] then b.lines[#b.lines + 1] = L["Boss: "] .. T[1]; addPersonal(b, T[1], L["Tanke den Boss"]) end
 		for i, icon in ipairs({ 8, 7 }) do
 			local tank = T[i + 1]
 			if tank then
 				b.lines[#b.lines + 1] = string.format("Add %s: %s", ICON[icon], tank)
-				addPersonal(b, tank, "Tanke Add " .. ICON[icon] .. " (" .. ICON_NAME[icon] .. ")")
+				addPersonal(b, tank, L["Tanke Add "] .. ICON[icon] .. " (" .. ICON_NAME[icon] .. ")")
 			end
 		end
-		b.lines[#b.lines + 1] = "Adds zuerst! Entfluchen nach allgemeiner Einteilung."
+		b.lines[#b.lines + 1] = L["Adds zuerst! Entfluchen nach allgemeiner Einteilung."]
 	end
 
 	-- Magmadar: Einlull-Rotation, Furchtschutz auf MT
@@ -286,60 +287,60 @@ function A.Build()
 			parts[#parts + 1] = i .. ". " .. h
 			addPersonal(mg, h, string.format("Einlullender Schuss: Position %d von %d", i, #hunters))
 		end
-		mg.lines[#mg.lines + 1] = "Einlull-Rotation: " .. table.concat(parts, ", ")
+		mg.lines[#mg.lines + 1] = L["Einlull-Rotation: "] .. table.concat(parts, ", ")
 	end
 	if r.dwarfPriests[1] and T[1] then
-		mg.lines[#mg.lines + 1] = "Furchtschutz auf MT " .. T[1] .. ": " .. r.dwarfPriests[1]
-		addPersonal(mg, r.dwarfPriests[1], "Furchtschutz auf " .. T[1] .. " erneuern!")
+		mg.lines[#mg.lines + 1] = L["Furchtschutz auf MT "] .. T[1] .. ": " .. r.dwarfPriests[1]
+		addPersonal(mg, r.dwarfPriests[1], L["Furchtschutz auf "] .. T[1] .. L[" erneuern!"])
 	end
-	if T[1] then addPersonal(mg, T[1], "Tanke Magmadar, Furcht beachten") end
+	if T[1] then addPersonal(mg, T[1], L["Tanke Magmadar, Furcht beachten"]) end
 
 	-- Garr: Hexer verbannen, Tanks auf den Rest
 	local ga = newCtx()
 	result.garr = ga
 	local order = RM.Data.GetTemplate("garr").order
 	local warlocks = list(r.byClass.WARLOCK)
-	if T[1] then ga.lines[#ga.lines + 1] = "Garr: " .. T[1]; addPersonal(ga, T[1], "Tanke Garr") end
+	if T[1] then ga.lines[#ga.lines + 1] = L["Garr: "] .. T[1]; addPersonal(ga, T[1], L["Tanke Garr"]) end
 	local used = 0
 	local banish = {}
 	for i, w in ipairs(warlocks) do
 		local icon = order[i]
 		if not icon then break end
 		banish[#banish + 1] = ICON[icon] .. " " .. w
-		addPersonal(ga, w, "Verbanne " .. ICON[icon] .. " (" .. ICON_NAME[icon] .. ")")
+		addPersonal(ga, w, L["Verbanne "] .. ICON[icon] .. " (" .. ICON_NAME[icon] .. ")")
 		used = i
 	end
-	if #banish > 0 then ga.lines[#ga.lines + 1] = "Verbannen: " .. table.concat(banish, ", ") end
+	if #banish > 0 then ga.lines[#ga.lines + 1] = L["Verbannen: "] .. table.concat(banish, ", ") end
 	local tankParts = {}
 	local t = 2
 	for i = used + 1, #order do
 		local tank = T[t]
 		if not tank then break end
 		tankParts[#tankParts + 1] = ICON[order[i]] .. " " .. tank
-		addPersonal(ga, tank, "Tanke Add " .. ICON[order[i]] .. " (" .. ICON_NAME[order[i]] .. ")")
+		addPersonal(ga, tank, L["Tanke Add "] .. ICON[order[i]] .. " (" .. ICON_NAME[order[i]] .. ")")
 		t = t + 1
 	end
-	if #tankParts > 0 then ga.lines[#ga.lines + 1] = "Adds tanken: " .. table.concat(tankParts, ", ") end
-	ga.lines[#ga.lines + 1] = "Adds einzeln töten, Nahkampf weg bei Explosion."
+	if #tankParts > 0 then ga.lines[#ga.lines + 1] = L["Adds tanken: "] .. table.concat(tankParts, ", ") end
+	ga.lines[#ga.lines + 1] = L["Adds einzeln töten, Nahkampf weg bei Explosion."]
 
 	-- Shazzrah: Tank-Reihenfolge nach Blinzeln
 	local sh = newCtx()
 	result.shazzrah = sh
 	if #T > 0 then
-		sh.lines[#sh.lines + 1] = "Tanks verteilt im Raum, Reihenfolge nach Blinzeln: " .. table.concat(T, " > ")
-		for i, tank in ipairs(T) do addPersonal(sh, tank, "Tank Nr. " .. i .. " – nach Blinzeln sofort spotten") end
+		sh.lines[#sh.lines + 1] = L["Tanks verteilt im Raum, Reihenfolge nach Blinzeln: "] .. table.concat(T, " > ")
+		for i, tank in ipairs(T) do addPersonal(sh, tank, L["Tank Nr. "] .. i .. L[" – nach Blinzeln sofort spotten"]) end
 	end
 
 	-- Sulfuron: Tanks auf Priester, Unterbrecher je Priester
 	local su = newCtx()
 	result.sulfuron = su
-	if T[1] then su.lines[#su.lines + 1] = "Sulfuron: " .. T[1]; addPersonal(su, T[1], "Tanke Sulfuron") end
+	if T[1] then su.lines[#su.lines + 1] = L["Sulfuron: "] .. T[1]; addPersonal(su, T[1], L["Tanke Sulfuron"]) end
 	local priestIcons = { 8, 7, 6, 5 }
 	for i, icon in ipairs(priestIcons) do
 		local tank = T[i + 1]
 		if tank then
 			su.lines[#su.lines + 1] = string.format("Priester %s: %s", ICON[icon], tank)
-			addPersonal(su, tank, "Tanke Priester " .. ICON[icon] .. " (" .. ICON_NAME[icon] .. ")")
+			addPersonal(su, tank, L["Tanke Priester "] .. ICON[icon] .. " (" .. ICON_NAME[icon] .. ")")
 		end
 	end
 	local ip = {}
@@ -347,77 +348,77 @@ function A.Build()
 		local icon = priestIcons[((i - 1) % 4) + 1]
 		ip[icon] = ip[icon] or {}
 		table.insert(ip[icon], n)
-		addPersonal(su, n, "Unterbrich Priester " .. ICON[icon] .. " (" .. ICON_NAME[icon] .. ")")
+		addPersonal(su, n, L["Unterbrich Priester "] .. ICON[icon] .. " (" .. ICON_NAME[icon] .. ")")
 	end
 	for _, icon in ipairs(priestIcons) do
-		if ip[icon] then su.lines[#su.lines + 1] = "Unterbrechen " .. ICON[icon] .. ": " .. table.concat(ip[icon], ", ") end
+		if ip[icon] then su.lines[#su.lines + 1] = L["Unterbrechen "] .. ICON[icon] .. ": " .. table.concat(ip[icon], ", ") end
 	end
 
 	-- Golemagg: zwei Tanks im Wechsel, Kernwüter abseits
 	local go = newCtx()
 	result.golemagg = go
-	if T[1] then go.lines[#go.lines + 1] = "Golemagg: " .. T[1] .. (T[2] and (" / Wechsel " .. T[2]) or "") end
-	if T[1] then addPersonal(go, T[1], "Tanke Golemagg") end
-	if T[2] then addPersonal(go, T[2], "Golemagg übernehmen bei vielen Magmaspritzer-Stapeln") end
+	if T[1] then go.lines[#go.lines + 1] = L["Golemagg: "] .. T[1] .. (T[2] and (L[" / Wechsel "] .. T[2]) or "") end
+	if T[1] then addPersonal(go, T[1], L["Tanke Golemagg"]) end
+	if T[2] then addPersonal(go, T[2], L["Golemagg übernehmen bei vielen Magmaspritzer-Stapeln"]) end
 	for i, icon in ipairs({ 6, 5 }) do
 		local tank = T[i + 2]
 		if tank then
-			go.lines[#go.lines + 1] = string.format("Kernwüter %s: %s (nicht töten)", ICON[icon], tank)
-			addPersonal(go, tank, "Tanke Kernwüter " .. ICON[icon] .. " abseits (nicht töten)")
+			go.lines[#go.lines + 1] = string.format(L["Kernwüter %s: %s (nicht töten)"], ICON[icon], tank)
+			addPersonal(go, tank, L["Tanke Kernwüter "] .. ICON[icon] .. L[" abseits (nicht töten)"])
 		end
 	end
 
 	-- Majordomus: Heiler 8/7/6/5 (8 zuerst töten, Rest sheepen), Elite 4/3/2/1 tanken, Unterbrecher
 	local mj = newCtx()
 	result.majordomo = mj
-	mj.lines[#mj.lines + 1] = "Tötungsreihenfolge: Heiler " .. ICON[8] .. " " .. ICON[7] .. " " .. ICON[6] .. " " .. ICON[5] .. ", dann Elite"
+	mj.lines[#mj.lines + 1] = L["Tötungsreihenfolge: Heiler "] .. ICON[8] .. " " .. ICON[7] .. " " .. ICON[6] .. " " .. ICON[5] .. L[", dann Elite"]
 	local mages = list(r.byClass.MAGE)
 	local sheepIcons = { 7, 6, 5 }
 	local sheepParts = {}
 	for i, mage in ipairs(mages) do
 		local icon = sheepIcons[((i - 1) % #sheepIcons) + 1]
 		local backup = i > #sheepIcons
-		sheepParts[#sheepParts + 1] = ICON[icon] .. " " .. mage .. (backup and " (Ersatz)" or "")
-		addPersonal(mj, mage, (backup and "Ersatz-Sheep auf " or "Sheep auf ") .. ICON[icon] .. " (" .. ICON_NAME[icon] .. ")")
+		sheepParts[#sheepParts + 1] = ICON[icon] .. " " .. mage .. (backup and L[" (Ersatz)"] or "")
+		addPersonal(mj, mage, (backup and L["Ersatz-Sheep auf "] or L["Sheep auf "]) .. ICON[icon] .. " (" .. ICON_NAME[icon] .. ")")
 	end
-	if #sheepParts > 0 then mj.lines[#mj.lines + 1] = "Sheep: " .. table.concat(sheepParts, ", ") end
+	if #sheepParts > 0 then mj.lines[#mj.lines + 1] = L["Sheep: "] .. table.concat(sheepParts, ", ") end
 	local eliteIcons = { 4, 3, 2, 1 }
 	local eparts = {}
 	for i, icon in ipairs(eliteIcons) do
 		local tank = T[i]
 		if tank then
 			eparts[#eparts + 1] = ICON[icon] .. " " .. tank
-			addPersonal(mj, tank, "Tanke Elite " .. ICON[icon] .. " (" .. ICON_NAME[icon] .. ")")
+			addPersonal(mj, tank, L["Tanke Elite "] .. ICON[icon] .. " (" .. ICON_NAME[icon] .. ")")
 		end
 	end
-	if #eparts > 0 then mj.lines[#mj.lines + 1] = "Elite tanken: " .. table.concat(eparts, ", ") end
+	if #eparts > 0 then mj.lines[#mj.lines + 1] = L["Elite tanken: "] .. table.concat(eparts, ", ") end
 	local kick = {}
 	for i, n in ipairs(r.interrupt) do
 		if i > 4 then break end
 		kick[#kick + 1] = n
-		addPersonal(mj, n, "Unterbrich Heiler " .. ICON[8] .. " (Totenkopf)")
+		addPersonal(mj, n, L["Unterbrich Heiler "] .. ICON[8] .. L[" (Totenkopf)"])
 	end
-	if #kick > 0 then mj.lines[#mj.lines + 1] = "Unterbrechen " .. ICON[8] .. ": " .. table.concat(kick, ", ") end
-	mj.lines[#mj.lines + 1] = "Bei Schild/Reflexion SOFORT aufhören!"
+	if #kick > 0 then mj.lines[#mj.lines + 1] = L["Unterbrechen "] .. ICON[8] .. ": " .. table.concat(kick, ", ") end
+	mj.lines[#mj.lines + 1] = L["Bei Schild/Reflexion SOFORT aufhören!"]
 
 	-- Ragnaros: MT, Ersatztank spottet nach dem Rückstoß
 	local rg = newCtx()
 	result.ragnaros = rg
-	if T[1] then rg.lines[#rg.lines + 1] = "MT: " .. T[1]; addPersonal(rg, T[1], "Tanke Ragnaros (Feuerresistenz!)") end
-	if T[2] then rg.lines[#rg.lines + 1] = "Ersatztank: " .. T[2]; addPersonal(rg, T[2], "Nach Zorn des Ragnaros sofort spotten") end
-	rg.lines[#rg.lines + 1] = "Söhne der Flamme: alle Schaden darauf!"
+	if T[1] then rg.lines[#rg.lines + 1] = L["MT: "] .. T[1]; addPersonal(rg, T[1], L["Tanke Ragnaros (Feuerresistenz!)"]) end
+	if T[2] then rg.lines[#rg.lines + 1] = L["Ersatztank: "] .. T[2]; addPersonal(rg, T[2], L["Nach Zorn des Ragnaros sofort spotten"]) end
+	rg.lines[#rg.lines + 1] = L["Söhne der Flamme: alle Schaden darauf!"]
 
 	-------------------------------------------------------------------
 	-- Speichern (auch für den Discord-Bot)
 	-------------------------------------------------------------------
-	local store = { v = GetServerTime(), by = RM.Me(), title = (RM.db.signup and RM.db.signup.title) or "Raid", ctx = {} }
+	local store = { v = GetServerTime(), by = RM.Me(), title = (RM.db.signup and RM.db.signup.title) or L["Raid"], ctx = {} }
 	for _, cdef in ipairs(A.Contexts) do
 		local d = result[cdef.key]
 		if d then store.ctx[cdef.key] = { n = cdef.name, lines = d.lines, p = d.p } end
 	end
 	RM.db.assign = store
 	RM.Fire("ASSIGN_CHANGED")
-	RM.Print("Einteilung erstellt. Mit 'An alle senden' verschicken – für Discord danach /reload.")
+	RM.Print(L["Einteilung erstellt. Mit 'An alle senden' verschicken – für Discord danach /reload."])
 	return store
 end
 
@@ -427,8 +428,8 @@ end
 function A.Post(key)
 	local store = RM.db.assign
 	local ctx = store and store.ctx[key]
-	if not ctx then RM.Print("Zuerst die Einteilung erstellen.") return end
-	RM.Announce("[RaidMaster] Einteilung " .. ctxName(key) .. ":", true)
+	if not ctx then RM.Print(L["Zuerst die Einteilung erstellen."]) return end
+	RM.Announce(L["[RaidMaster] Einteilung "] .. ctxName(key) .. ":", true)
 	for _, line in ipairs(ctx.lines) do RM.Announce(line, false) end
 end
 
@@ -457,7 +458,7 @@ end
 
 function A.SendAll()
 	local store = RM.db.assign
-	if not store then RM.Print("Zuerst die Einteilung erstellen.") return end
+	if not store then RM.Print(L["Zuerst die Einteilung erstellen."]) return end
 	local delay = 0
 	local sent = 0
 	for _, m in ipairs(RM.RaidMembers()) do
@@ -474,7 +475,7 @@ function A.SendAll()
 				for _, cdef in ipairs(A.Contexts) do
 					if texts[cdef.key] then parts[#parts + 1] = cdef.name .. ": " .. texts[cdef.key] end
 				end
-				for _, msg in ipairs(chunks("[RaidMaster] Deine Aufgaben – " .. table.concat(parts, " · "), 240)) do
+				for _, msg in ipairs(chunks(L["[RaidMaster] Deine Aufgaben – "] .. table.concat(parts, " · "), 240)) do
 					local target, text = m.name, msg
 					C_Timer.After(delay, function() SendChatMessage(text, "WHISPER", nil, target) end)
 					delay = delay + 0.3
@@ -482,7 +483,7 @@ function A.SendAll()
 			end
 		end
 	end
-	RM.Print(string.format("Einteilung an %d Spieler verschickt. Für Discord-Nachrichten jetzt /reload eingeben.", sent))
+	RM.Print(string.format(L["Einteilung an %d Spieler verschickt. Für Discord-Nachrichten jetzt /reload eingeben."], sent))
 end
 
 ---------------------------------------------------------------------------
@@ -491,10 +492,10 @@ end
 function A.Receive(texts)
 	RM.db.myAssign = texts
 	local general = texts.general
-	if general then RM.Print("|cffffcc00Deine Aufgabe (allgemein):|r " .. general) end
+	if general then RM.Print(L["|cffffcc00Deine Aufgabe (allgemein):|r "] .. general) end
 	local n = 0
 	for key in pairs(texts) do if key ~= "general" then n = n + 1 end end
-	if n > 0 then RM.Print(string.format("Du hast Aufgaben bei %d Boss(en) – sie erscheinen beim Pull.", n)) end
+	if n > 0 then RM.Print(string.format(L["Du hast Aufgaben bei %d Boss(en) – sie erscheinen beim Pull."], n)) end
 	RM.Fire("ASSIGN_CHANGED")
 end
 
@@ -512,7 +513,7 @@ RM.On("ENCOUNTER_START", function(encounterID)
 	local text = cdef.name .. ": " .. mine[cdef.key]
 	-- Symbole im Bildschirmtext als Grafik zeigen
 	local shown = text:gsub("{rt(%d)}", "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_%1:0|t")
-	RaidNotice_AddMessage(RaidWarningFrame, "Deine Aufgabe – " .. shown, ChatTypeInfo["RAID_WARNING"])
+	RaidNotice_AddMessage(RaidWarningFrame, L["Deine Aufgabe – "] .. shown, ChatTypeInfo["RAID_WARNING"])
 	PlaySound(SOUNDKIT and SOUNDKIT.RAID_WARNING or 8959)
-	RM.Print("|cffffcc00Deine Aufgabe:|r " .. shown)
+	RM.Print(L["|cffffcc00Deine Aufgabe:|r "] .. shown)
 end)

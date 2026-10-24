@@ -3,6 +3,7 @@
 -- RaidMaster schaltet nur die DKP-Funktionen für diesen Raid ab und verteilt den softres.it-Link.
 
 local ADDON, RM = ...
+local L = RM.L
 local P = {}
 RM.PUG = P
 
@@ -40,10 +41,10 @@ end
 function P.AnnounceSoftres(asWarning)
 	local link = P.SoftresLink()
 	if link == "" then
-		RM.Print("Kein softres.it-Link eingetragen (Seite PUG-Raid).")
+		RM.Print(L["Kein softres.it-Link eingetragen (Seite PUG-Raid)."])
 		return false
 	end
-	RM.Announce("[RaidMaster] Soft Reserve und Loot über softres.it: " .. link, asWarning)
+	RM.Announce(L["[RaidMaster] Soft Reserve und Loot über softres.it: "] .. link, asWarning)
 	return true
 end
 
@@ -59,15 +60,15 @@ function P.SyncView()
 end
 
 function P.Start(title)
-	if not P.CanLead() then RM.Print("PUG-Raids kann der Raidleiter, ein Assistent oder der Plündermeister starten.") return end
+	if not P.CanLead() then RM.Print(L["PUG-Raids kann der Raidleiter, ein Assistent oder der Plündermeister starten."]) return end
 	local d = DB()
 	d.active = true
 	d.leader = RM.Me()
-	d.title = (type(title) == "string" and title) or (RM.db.signup and RM.db.signup.title) or "PUG-Raid"
+	d.title = (type(title) == "string" and title) or (RM.db.signup and RM.db.signup.title) or L["PUG-Raid"]
 	RM.Comm.Send("PS", { t = d.title, s = RM.db.config.softresLink }, "RAID", nil, true)
 	P.SyncView()
 	if not P.AnnounceSoftres(true) then
-		RM.Announce("[RaidMaster] PUG-Raid gestartet – kein DKP, Loot nach Ansage des Plündermeisters.", true)
+		RM.Announce(L["[RaidMaster] PUG-Raid gestartet – kein DKP, Loot nach Ansage des Plündermeisters."], true)
 	end
 	if RM.InRaid() and RM.IsLeader() and RM.db.config.setLootOnStart then RM.Loot.ApplySettings() end
 	RM.Fire("PUG_CHANGED")
@@ -79,7 +80,7 @@ function P.Stop()
 	d.active = false
 	RM.Comm.Send("PE", {}, "RAID", nil, true)
 	P.view = { active = false }
-	RM.Announce("[RaidMaster] PUG-Raid beendet. Danke fürs Mitspielen!", false)
+	RM.Announce(L["[RaidMaster] PUG-Raid beendet. Danke fürs Mitspielen!"], false)
 	RM.Fire("PUG_CHANGED")
 end
 
@@ -88,8 +89,8 @@ end
 ---------------------------------------------------------------------------
 RM.Comm.Register("PS", function(sender, d)
 	P.view = { active = true, leader = sender, title = d.t, softres = d.s }
-	local link = (d.s and d.s ~= "") and (" Soft Reserve und Loot: " .. d.s) or ""
-	RM.Print(string.format("PUG-Raid gestartet von %s – kein DKP.%s", sender, link))
+	local link = (d.s and d.s ~= "") and (L[" Soft Reserve und Loot: "] .. d.s) or ""
+	RM.Print(string.format(L["PUG-Raid gestartet von %s – kein DKP.%s"], sender, link))
 	RM.Fire("PUG_CHANGED")
 end)
 

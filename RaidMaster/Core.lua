@@ -2,11 +2,51 @@
 -- Namensraum, Events, gespeicherte Daten, Rechte und Hilfsfunktionen
 
 local ADDON, RM = ...
+local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "1.5.3"
-RM.VERSION_NUM = 10503
+RM.VERSION = "1.6.0"
+RM.VERSION_NUM = 10600
 RM.PREFIX = "RaidMstr"
+
+---------------------------------------------------------------------------
+-- Spielversion erkennen (Classic Era, WoW Forever, TBC, Wrath, Cata, MoP, Retail)
+---------------------------------------------------------------------------
+do
+	local version, build, _, toc = GetBuildInfo()
+	RM.GAME_VERSION = version or "?"
+	RM.GAME_BUILD = build or "?"
+	RM.TOC = tonumber(toc) or 0
+end
+
+-- Bekannte Spielversionen: Schlüssel, Name, TOC von/bis, zuletzt getestete Interface-Nummer
+RM.GAMES = {
+	{ key = "retail",  name = L["Retail"],                       from = 100000, to = 999999, tested = 120105 },
+	{ key = "mists",   name = L["Mists of Pandaria Classic"],    from = 50000,  to = 59999,  tested = 50504 },
+	{ key = "cata",    name = L["Cataclysm Classic"],            from = 40000,  to = 49999,  tested = 40402 },
+	{ key = "titan",   name = L["Wrath of the Lich King (Titan Reforged)"], from = 38000, to = 38999, tested = 38002 },
+	{ key = "wrath",   name = L["Wrath of the Lich King Classic"], from = 30000, to = 37999, tested = 30405 },
+	{ key = "tbc",     name = L["The Burning Crusade Classic"],  from = 20000,  to = 29999,  tested = 20506 },
+	{ key = "forever", name = L["WoW Forever"],                  from = 16000,  to = 16999,  tested = 16001 },
+	{ key = "era",     name = L["Classic Era"],                  from = 10000,  to = 15999,  tested = 11509 },
+}
+
+function RM.DetectGame()
+	for _, g in ipairs(RM.GAMES) do
+		if RM.TOC >= g.from and RM.TOC <= g.to then return g end
+	end
+	return { key = "unknown", name = L["Unbekannte Version"], from = 0, to = 0, tested = 0 }
+end
+RM.GAME = RM.DetectGame()
+RM.IsRetail = RM.GAME.key == "retail"
+RM.IsClassicEra = RM.GAME.key == "era" or RM.GAME.key == "forever"
+
+-- Was kann dieser Client? (wird im ganzen Addon abgefragt statt Versionsnummern zu vergleichen)
+RM.Caps = {
+	masterLoot = (GiveMasterLoot ~= nil and GetMasterLootCandidate ~= nil) and not RM.IsRetail,
+	specs = (GetSpecialization ~= nil and RM.TOC >= 50000),
+	talentTrees = (GetTalentTabInfo ~= nil and RM.TOC < 50000),
+}
 
 ---------------------------------------------------------------------------
 -- Kompatibilität (Classic-Client, verschiedene API-Stände)
@@ -225,6 +265,7 @@ function RM.IsInMyRaid(name)
 end
 
 function RM.IAmMasterLooter()
+	if not RM.Caps.masterLoot then return false end
 	local method, partyIndex, raidIndex = RM.GetLootMethod()
 	if method ~= "master" then return false end
 	if RM.InRaid() and raidIndex then
@@ -406,10 +447,23 @@ RM.On("ADDON_LOADED", function(name)
 	RM.Fire("DB_READY")
 end)
 
+function RM.GameInfoText()
+	return string.format("%s (WoW %s, Build %s, Interface %d)", RM.GAME.name, RM.GAME_VERSION, RM.GAME_BUILD, RM.TOC)
+end
+
 RM.On("PLAYER_LOGIN", function()
 	RM.RequestGuildRoster()
 	RM.Fire("LOGIN")
-	RM.Print("v" .. RM.VERSION .. " geladen. /rm öffnet das Fenster.")
+	RM.db.game = { key = RM.GAME.key, toc = RM.TOC, version = RM.GAME_VERSION, locale = RM.GAME_LOCALE }
+	RM.Print("v" .. RM.VERSION .. L[" geladen – "] .. RM.GameInfoText() .. " · " .. (RM.LANGUAGES[RM.LOCALE] or RM.LOCALE) .. L[". /rm öffnet das Fenster."])
+	if RM.GAME.key == "unknown" then
+		RM.Print(L["|cffffcc00Diese Spielversion kennt RaidMaster noch nicht. Bitte im Discord unter #addon-hilfe melden.|r"])
+	elseif RM.TOC > RM.GAME.tested then
+		RM.Print(L["|cffffcc00Neuere Spielversion als getestet – falls etwas nicht klappt, bitte im Discord unter #addon-hilfe melden.|r"])
+	end
+	if not RM.Caps.masterLoot then
+		RM.Print(L["Diese Spielversion hat keinen Plündermeister: Ersteigerte Items werden per Handel übergeben."])
+	end
 end)
 
 RM.On("GUILD_ROSTER_UPDATE", RebuildGuild)
@@ -419,18 +473,18 @@ RM.On("PLAYER_GUILD_UPDATE", function() RM.RequestGuildRoster() end)
 -- Tastenbelegungen (Texte)
 ---------------------------------------------------------------------------
 BINDING_HEADER_RAIDMASTER = "RaidMaster"
-BINDING_NAME_RAIDMASTER_TOGGLE = "Fenster öffnen/schließen"
-BINDING_NAME_RAIDMASTER_SMARTMARK = "Nächstes freies Symbol (Maus/Ziel)"
-BINDING_NAME_RAIDMASTER_MARK8 = "Totenkopf (Maus/Ziel)"
-BINDING_NAME_RAIDMASTER_MARK7 = "Kreuz (Maus/Ziel)"
-BINDING_NAME_RAIDMASTER_MARK6 = "Viereck (Maus/Ziel)"
-BINDING_NAME_RAIDMASTER_MARK5 = "Mond (Maus/Ziel)"
-BINDING_NAME_RAIDMASTER_MARK4 = "Dreieck (Maus/Ziel)"
-BINDING_NAME_RAIDMASTER_MARK3 = "Diamant (Maus/Ziel)"
-BINDING_NAME_RAIDMASTER_MARK2 = "Kreis (Maus/Ziel)"
-BINDING_NAME_RAIDMASTER_MARK1 = "Stern (Maus/Ziel)"
-BINDING_NAME_RAIDMASTER_CLEARMARK = "Symbol entfernen (Maus/Ziel)"
-BINDING_NAME_RAIDMASTER_CLEARALL = "Alle Symbole entfernen"
+BINDING_NAME_RAIDMASTER_TOGGLE = L["Fenster öffnen/schließen"]
+BINDING_NAME_RAIDMASTER_SMARTMARK = L["Nächstes freies Symbol (Maus/Ziel)"]
+BINDING_NAME_RAIDMASTER_MARK8 = L["Totenkopf (Maus/Ziel)"]
+BINDING_NAME_RAIDMASTER_MARK7 = L["Kreuz (Maus/Ziel)"]
+BINDING_NAME_RAIDMASTER_MARK6 = L["Viereck (Maus/Ziel)"]
+BINDING_NAME_RAIDMASTER_MARK5 = L["Mond (Maus/Ziel)"]
+BINDING_NAME_RAIDMASTER_MARK4 = L["Dreieck (Maus/Ziel)"]
+BINDING_NAME_RAIDMASTER_MARK3 = L["Diamant (Maus/Ziel)"]
+BINDING_NAME_RAIDMASTER_MARK2 = L["Kreis (Maus/Ziel)"]
+BINDING_NAME_RAIDMASTER_MARK1 = L["Stern (Maus/Ziel)"]
+BINDING_NAME_RAIDMASTER_CLEARMARK = L["Symbol entfernen (Maus/Ziel)"]
+BINDING_NAME_RAIDMASTER_CLEARALL = L["Alle Symbole entfernen"]
 
 ---------------------------------------------------------------------------
 -- Slash-Befehle (Bedienung erfolgt sonst per Maus)
@@ -446,6 +500,10 @@ SlashCmdList["RAIDMASTER"] = function(msg)
 		ReloadUI()
 	elseif msg == "sync" then
 		RM.Comm.RequestSync()
+	elseif msg == "minimap" then
+		RM.UI.ToggleMinimapButton()
+	elseif msg == "version" or msg == "info" then
+		RM.Print("v" .. RM.VERSION .. " – " .. RM.GameInfoText() .. " · " .. (RM.LANGUAGES[RM.LOCALE] or RM.LOCALE) .. " (" .. RM.GAME_LOCALE .. ")")
 	else
 		RM.UI.Toggle()
 	end

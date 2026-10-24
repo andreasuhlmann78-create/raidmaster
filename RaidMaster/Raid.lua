@@ -2,6 +2,7 @@
 -- Raidstart/-ende, Bosskills, Raid-Check, Pausen-Timer, Kernhunde-Hilfe
 
 local ADDON, RM = ...
+local L = RM.L
 local Raid = {}
 RM.Raid = Raid
 
@@ -17,9 +18,9 @@ function Raid.IsActive()
 end
 
 function Raid.Start()
-	if not RM.CanEdit() then RM.Print("Nur Offiziere können einen Raid starten.") return end
-	if not RM.InRaid() then RM.Print("Du bist in keinem Schlachtzug.") return end
-	if RM.db.session.active then RM.Print("Der Raid läuft bereits.") return end
+	if not RM.CanEdit() then RM.Print(L["Nur Offiziere können einen Raid starten."]) return end
+	if not RM.InRaid() then RM.Print(L["Du bist in keinem Schlachtzug."]) return end
+	if RM.db.session.active then RM.Print(L["Der Raid läuft bereits."]) return end
 	local pool = RM.DKP.CurrentInstancePool() or RM.db.config.activePool or "mc"
 	RM.db.session = { active = true, started = GetServerTime(), kills = {}, pool = pool }
 	if RM.db.config.setLootOnStart and RM.IsLeader() then
@@ -28,10 +29,10 @@ function Raid.Start()
 	local amount = S().dkpStart
 	local poolName = RM.DKP.PoolName(pool)
 	if amount and amount > 0 then
-		RM.DKP.AwardRaid(amount, "start", "Pünktlich zum Raidstart", nil, pool)
-		RM.Announce(string.format("[RaidMaster] Raid gestartet (%s) – +%d DKP für Pünktlichkeit. Viel Erfolg!", poolName, amount), true)
+		RM.DKP.AwardRaid(amount, "start", L["Pünktlich zum Raidstart"], nil, pool)
+		RM.Announce(string.format(L["[RaidMaster] Raid gestartet (%s) – +%d DKP für Pünktlichkeit. Viel Erfolg!"], poolName, amount), true)
 	else
-		RM.Announce("[RaidMaster] Raid gestartet (" .. poolName .. "). Viel Erfolg!", true)
+		RM.Announce(L["[RaidMaster] Raid gestartet ("] .. poolName .. L["). Viel Erfolg!"], true)
 	end
 	C_Timer.After(3, Raid.RunCheck)
 	-- Stand an den Raid verteilen, damit gildenfremde Mitspieler ihn sehen
@@ -42,14 +43,14 @@ function Raid.Start()
 end
 
 function Raid.End()
-	if not RM.db.session.active then RM.Print("Es läuft kein Raid.") return end
+	if not RM.db.session.active then RM.Print(L["Es läuft kein Raid."]) return end
 	local amount = S().dkpEnd
 	local pool = RM.db.session.lastPool or RM.db.session.pool or "mc"
 	if amount and amount > 0 and RM.InRaid() then
-		RM.DKP.AwardRaid(amount, "end", "Raid bis zum Ende", nil, pool)
+		RM.DKP.AwardRaid(amount, "end", L["Raid bis zum Ende"], nil, pool)
 		RM.Announce(string.format("[RaidMaster] Raid beendet (%s) – +%d DKP Abschlussbonus. Danke an alle!", RM.DKP.PoolName(pool), amount), true)
 	else
-		RM.Announce("[RaidMaster] Raid beendet. Danke an alle!", true)
+		RM.Announce(L["[RaidMaster] Raid beendet. Danke an alle!"], true)
 	end
 	RM.db.session.active = false
 	RM.db.session.ended = GetServerTime()
@@ -62,7 +63,7 @@ end
 RM.On("ENCOUNTER_END", function(encounterID, encounterName, difficulty, groupSize, success)
 	if success ~= 1 and success ~= true then return end
 	local boss = RM.Data.Bosses[encounterID]
-	local bossName = boss and boss.name or encounterName or "Boss"
+	local bossName = boss and boss.name or encounterName or L["Boss"]
 	RM.Loot.OnBossKilled(bossName)
 
 	local session = RM.db.session
@@ -83,22 +84,22 @@ RM.On("ENCOUNTER_END", function(encounterID, encounterName, difficulty, groupSiz
 	local text = bossName
 	if first and s.firstKillDouble then
 		amount = amount * 2
-		text = bossName .. " (Erstkill)"
+		text = bossName .. L[" (Erstkill)"]
 	end
 	RM.DKP.AwardRaid(amount, "boss", text, { b = encounterID, bn = bossName }, pool)
-	RM.Announce(string.format("[RaidMaster] %s besiegt – +%d %s-DKP für den Raid%s.", bossName, amount, RM.DKP.PoolShort(pool),
-		(first and s.firstKillDouble) and " (Erstkill doppelt)" or ""), true)
+	RM.Announce(string.format(L["[RaidMaster] %s besiegt – +%d %s-DKP für den Raid%s."], bossName, amount, RM.DKP.PoolShort(pool),
+		(first and s.firstKillDouble) and L[" (Erstkill doppelt)"] or ""), true)
 	RM.Fire("SESSION_CHANGED")
 end)
 
 ---------------------------------------------------------------------------
 -- Raid-Check: Loot-Einstellungen und Addon-Versionen
 ---------------------------------------------------------------------------
-local THRESHOLD_NAMES = { [2] = "Selten (grün)", [3] = "Rar (blau)", [4] = "Episch (lila)", [5] = "Legendär" }
+local THRESHOLD_NAMES = { [2] = L["Selten (grün)"], [3] = L["Rar (blau)"], [4] = L["Episch (lila)"], [5] = L["Legendär"] }
 Raid.THRESHOLD_NAMES = THRESHOLD_NAMES
 
 function Raid.RunCheck()
-	if not RM.InRaid() then RM.Print("Du bist in keinem Schlachtzug.") return end
+	if not RM.InRaid() then RM.Print(L["Du bist in keinem Schlachtzug."]) return end
 	wipe(Raid.lastCheck)
 	local cfg = RM.db.config
 	local lines = Raid.lastCheck
@@ -107,24 +108,24 @@ function Raid.RunCheck()
 	local ml = RM.MasterLooterName()
 	local wantML = (cfg.lootMaster ~= "" and cfg.lootMaster) or nil
 	if method ~= "master" then
-		lines[#lines + 1] = "|cffff4040Plündermethode ist nicht Plündermeister.|r"
+		lines[#lines + 1] = L["|cffff4040Plündermethode ist nicht Plündermeister.|r"]
 	elseif wantML and ml ~= wantML then
-		lines[#lines + 1] = "|cffffcc00Plündermeister ist " .. tostring(ml) .. ", eingestellt ist " .. wantML .. ".|r"
+		lines[#lines + 1] = L["|cffffcc00Plündermeister ist "] .. tostring(ml) .. L[", eingestellt ist "] .. wantML .. ".|r"
 	else
-		lines[#lines + 1] = "|cff40ff40Plündermeister: " .. tostring(ml) .. "|r"
+		lines[#lines + 1] = L["|cff40ff40Plündermeister: "] .. tostring(ml) .. "|r"
 	end
 	local th = RM.GetLootThreshold()
 	if th and th ~= cfg.lootThreshold then
-		lines[#lines + 1] = "|cffffcc00Plünderschwelle ist " .. (THRESHOLD_NAMES[th] or th) .. ", eingestellt ist " .. (THRESHOLD_NAMES[cfg.lootThreshold] or cfg.lootThreshold) .. ".|r"
+		lines[#lines + 1] = L["|cffffcc00Plünderschwelle ist "] .. (THRESHOLD_NAMES[th] or th) .. L[", eingestellt ist "] .. (THRESHOLD_NAMES[cfg.lootThreshold] or cfg.lootThreshold) .. ".|r"
 	elseif th then
-		lines[#lines + 1] = "|cff40ff40Plünderschwelle: " .. (THRESHOLD_NAMES[th] or th) .. "|r"
+		lines[#lines + 1] = L["|cff40ff40Plünderschwelle: "] .. (THRESHOLD_NAMES[th] or th) .. "|r"
 	end
 	if RM.CanEdit() then
-		lines[#lines + 1] = "|cff40ff40Du hast Offiziersrechte (DKP-Buchungen möglich).|r"
+		lines[#lines + 1] = L["|cff40ff40Du hast Offiziersrechte (DKP-Buchungen möglich).|r"]
 	else
-		lines[#lines + 1] = "|cffff4040Du hast keine Offiziersrechte – DKP-Buchungen nicht möglich.|r"
+		lines[#lines + 1] = L["|cffff4040Du hast keine Offiziersrechte – DKP-Buchungen nicht möglich.|r"]
 	end
-	lines[#lines + 1] = "Prüfe Addon-Versionen ..."
+	lines[#lines + 1] = L["Prüfe Addon-Versionen ..."]
 	RM.Fire("CHECK_DONE")
 
 	local started = GetTime()
@@ -136,21 +137,21 @@ function Raid.RunCheck()
 			if m.name ~= RM.Me() then
 				local v = RM.Comm.versions[m.name]
 				if not v or v.t < started - 600 then
-					missing[#missing + 1] = m.name .. (m.online and "" or " (offline)")
+					missing[#missing + 1] = m.name .. (m.online and "" or L[" (offline)"])
 				elseif v.num < RM.VERSION_NUM then
 					old[#old + 1] = m.name .. " (" .. v.text .. ")"
 				end
 			end
 		end
 		if #missing == 0 and #old == 0 then
-			lines[#lines + 1] = "|cff40ff40Alle Raidmitglieder haben RaidMaster in der aktuellen Version.|r"
+			lines[#lines + 1] = L["|cff40ff40Alle Raidmitglieder haben RaidMaster in der aktuellen Version.|r"]
 		end
 		if #missing > 0 then
-			lines[#lines + 1] = "|cffffcc00Ohne Addon (" .. #missing .. "):|r " .. table.concat(missing, ", ")
-			lines[#lines + 1] = "   -> Diese Spieler können per Flüstern bieten: /w <Plündermeister> !bid <Zahl>"
+			lines[#lines + 1] = L["|cffffcc00Ohne Addon ("] .. #missing .. "):|r " .. table.concat(missing, ", ")
+			lines[#lines + 1] = L["   -> Diese Spieler können per Flüstern bieten: /w <Plündermeister> !bid <Zahl>"]
 		end
 		if #old > 0 then
-			lines[#lines + 1] = "|cffffcc00Ältere Version (" .. #old .. "):|r " .. table.concat(old, ", ")
+			lines[#lines + 1] = L["|cffffcc00Ältere Version ("] .. #old .. "):|r " .. table.concat(old, ", ")
 		end
 		for _, l in ipairs(lines) do RM.Print(l) end
 		RM.Fire("CHECK_DONE")
@@ -206,7 +207,7 @@ function Raid.ShowPause(seconds, owner)
 			pauseBar:Hide()
 			PlaySound(SOUNDKIT and SOUNDKIT.RAID_WARNING or 8959)
 			if pauseOwner == RM.Me() then
-				RM.Announce("[RaidMaster] Pause vorbei – weiter geht's!", true)
+				RM.Announce(L["[RaidMaster] Pause vorbei – weiter geht's!"], true)
 			end
 			return
 		end
@@ -222,13 +223,13 @@ function Raid.StopPause(silent)
 	if pauseBar then pauseBar:Hide() end
 	if not silent then
 		RM.Comm.Send("PTX", {}, "RAID", nil, true)
-		RM.Announce("[RaidMaster] Pause beendet – weiter geht's!", true)
+		RM.Announce(L["[RaidMaster] Pause beendet – weiter geht's!"], true)
 	end
 end
 
 function Raid.StartPause(seconds)
-	if not RM.InRaid() then RM.Print("Du bist in keinem Schlachtzug.") return end
-	if not (RM.IsAssist() or RM.CanEdit()) then RM.Print("Nur Raidleiter, Assistenten oder Offiziere können eine Pause starten.") return end
+	if not RM.InRaid() then RM.Print(L["Du bist in keinem Schlachtzug."]) return end
+	if not (RM.IsAssist() or RM.CanEdit()) then RM.Print(L["Nur Raidleiter, Assistenten oder Offiziere können eine Pause starten."]) return end
 	RM.Comm.Send("PT", { s = seconds }, "RAID", nil, true)
 	Raid.ShowPause(seconds, RM.Me())
 	RM.Announce(string.format("[RaidMaster] Pause: %d Minuten.", math.floor(seconds / 60)), true)
@@ -272,8 +273,8 @@ RM.On("COMBAT_LOG_EVENT_UNFILTERED", function()
 	for i = 1, math.min(5, #list) do parts[#parts + 1] = list[i].name .. " (" .. list[i].skill .. ")" end
 	local hound = destName or RM.Data.CoreHounds[npcID]
 	if #parts > 0 then
-		RM.Announce("[RaidMaster] " .. hound .. " tot – Kürschner bitte häuten: " .. table.concat(parts, ", "), false)
+		RM.Announce(L["[RaidMaster] "] .. hound .. L[" tot – Kürschner bitte häuten: "] .. table.concat(parts, ", "), false)
 	else
-		RM.Announce("[RaidMaster] " .. hound .. " tot – Kürschner bitte häuten!", false)
+		RM.Announce(L["[RaidMaster] "] .. hound .. L[" tot – Kürschner bitte häuten!"], false)
 	end
 end)

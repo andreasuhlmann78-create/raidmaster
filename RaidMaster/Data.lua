@@ -2,6 +2,7 @@
 -- Molten-Core-Bosse, Boss-Infos, Markierungsvorlagen, Klassen-Ausrüstung
 
 local ADDON, RM = ...
+local L = RM.L
 local Data = {}
 RM.Data = Data
 
@@ -13,10 +14,10 @@ RM.Data = Data
 Data.PoolOrder = { "mc", "ony", "barrow", "hyjal" }
 
 Data.Pools = {
-	mc = { name = "Molten Core", short = "MC", ids = { [409] = true }, match = { "molten", "geschmolzen" } },
-	ony = { name = "Onyxias Hort", short = "Ony", ids = { [249] = true }, match = { "onyxia" } },
-	barrow = { name = "Barrow Deeps", short = "Barrow", match = { "barrow" } },
-	hyjal = { name = "Hyjalgipfel", short = "Hyjal", match = { "hyjal" } },
+	mc = { name = L["Molten Core"], short = "MC", ids = { [409] = true }, match = { "molten", "geschmolzen" } },
+	ony = { name = L["Onyxias Hort"], short = L["Ony"], ids = { [249] = true }, match = { "onyxia" } },
+	barrow = { name = L["Barrow Deeps"], short = L["Barrow"], match = { "barrow" } },
+	hyjal = { name = L["Hyjalgipfel"], short = L["Hyjal"], match = { "hyjal" } },
 }
 
 ---------------------------------------------------------------------------
@@ -26,17 +27,17 @@ Data.Pools = {
 Data.BossOrder = { 663, 664, 665, 666, 667, 668, 669, 670, 671, 672, 1084 }
 
 Data.Bosses = {
-	[663] = { name = "Lucifron", dkp = 10, pool = "mc" },
-	[664] = { name = "Magmadar", dkp = 10, pool = "mc" },
-	[665] = { name = "Gehennas", dkp = 10, pool = "mc" },
-	[666] = { name = "Garr", dkp = 10, pool = "mc" },
-	[667] = { name = "Shazzrah", dkp = 10, pool = "mc" },
-	[668] = { name = "Baron Geddon", dkp = 10, pool = "mc" },
-	[669] = { name = "Sulfuronherold", dkp = 10, pool = "mc" },
-	[670] = { name = "Golemagg der Verbrenner", dkp = 10, pool = "mc" },
-	[671] = { name = "Majordomus Exekutus", dkp = 15, pool = "mc" },
-	[672] = { name = "Ragnaros", dkp = 20, pool = "mc" },
-	[1084] = { name = "Onyxia", dkp = 20, pool = "ony" },
+	[663] = { name = L["Lucifron"], dkp = 10, pool = "mc" },
+	[664] = { name = L["Magmadar"], dkp = 10, pool = "mc" },
+	[665] = { name = L["Gehennas"], dkp = 10, pool = "mc" },
+	[666] = { name = L["Garr"], dkp = 10, pool = "mc" },
+	[667] = { name = L["Shazzrah"], dkp = 10, pool = "mc" },
+	[668] = { name = L["Baron Geddon"], dkp = 10, pool = "mc" },
+	[669] = { name = L["Sulfuronherold"], dkp = 10, pool = "mc" },
+	[670] = { name = L["Golemagg der Verbrenner"], dkp = 10, pool = "mc" },
+	[671] = { name = L["Majordomus Exekutus"], dkp = 15, pool = "mc" },
+	[672] = { name = L["Ragnaros"], dkp = 20, pool = "mc" },
+	[1084] = { name = L["Onyxia"], dkp = 20, pool = "ony" },
 }
 
 -- Molten-Core-Bosse für die Boss-Infos des Raidleiters
@@ -63,126 +64,126 @@ end
 ---------------------------------------------------------------------------
 Data.BossInfo = {
 	[663] = {
-		text = "Lucifron + 2 Beschützer der Flammenschuppen\n\n"
-			.. "- Fluch des Lucifron: verdoppelt Mana-/Wut-/Energiekosten -> sofort entfluchen (Magier, Druiden).\n"
-			.. "- Drohende Verdammnis: Magie-Debuff, nach 10 Sek. hoher Schattenschaden -> bannen (Priester, Paladine).\n"
-			.. "- Schattenschock: Schattenschaden in der Nähe.\n"
-			.. "- Beschützer: Gedankenkontrolle und Spalten -> Adds zuerst töten, gedankenkontrollierte Spieler kurz kontrollieren.\n\n"
-			.. "Taktik: Adds von Lucifron weg tanken, Adds zuerst, Decurser und Banner fest einteilen.",
+		text = L["Lucifron + 2 Beschützer der Flammenschuppen\n\n"]
+			.. L["- Fluch des Lucifron: verdoppelt Mana-/Wut-/Energiekosten -> sofort entfluchen (Magier, Druiden).\n"]
+			.. L["- Drohende Verdammnis: Magie-Debuff, nach 10 Sek. hoher Schattenschaden -> bannen (Priester, Paladine).\n"]
+			.. L["- Schattenschock: Schattenschaden in der Nähe.\n"]
+			.. L["- Beschützer: Gedankenkontrolle und Spalten -> Adds zuerst töten, gedankenkontrollierte Spieler kurz kontrollieren.\n\n"]
+			.. L["Taktik: Adds von Lucifron weg tanken, Adds zuerst, Decurser und Banner fest einteilen."],
 		post = {
-			"LUCIFRON: Adds zuerst! Flüche sofort entfernen, Magie bannen!",
-			"Adds weg vom Boss tanken. Gedankenkontrolle beachten.",
+			L["LUCIFRON: Adds zuerst! Flüche sofort entfernen, Magie bannen!"],
+			L["Adds weg vom Boss tanken. Gedankenkontrolle beachten."],
 		},
 	},
 	[664] = {
-		text = "Magmadar\n\n"
-			.. "- Panik: Massenfurcht für den ganzen Raid -> Furchtschutz auf Tanks, Tremor-Totem (Horde), Berserkerwut.\n"
-			.. "- Raserei: stark erhöhter Schaden -> Jäger nutzen Einlullenden Schuss.\n"
-			.. "- Lavabombe: Feuerflächen am Boden -> sofort heraus laufen.\n"
-			.. "- Lavaodem: frontaler Feuerschaden -> Boss vom Raid wegdrehen.\n\n"
-			.. "Taktik: Tank mit Furchtschutz, Jäger-Rotation für Einlullenden Schuss, alle seitlich oder hinter dem Boss.",
+		text = L["Magmadar\n\n"]
+			.. L["- Panik: Massenfurcht für den ganzen Raid -> Furchtschutz auf Tanks, Tremor-Totem (Horde), Berserkerwut.\n"]
+			.. L["- Raserei: stark erhöhter Schaden -> Jäger nutzen Einlullenden Schuss.\n"]
+			.. L["- Lavabombe: Feuerflächen am Boden -> sofort heraus laufen.\n"]
+			.. L["- Lavaodem: frontaler Feuerschaden -> Boss vom Raid wegdrehen.\n\n"]
+			.. L["Taktik: Tank mit Furchtschutz, Jäger-Rotation für Einlullenden Schuss, alle seitlich oder hinter dem Boss."],
 		post = {
-			"MAGMADAR: Jäger -> Einlullender Schuss bei Raserei! Raus aus dem Feuer!",
-			"Furchtschutz auf die Tanks. Niemand vor den Boss.",
+			L["MAGMADAR: Jäger -> Einlullender Schuss bei Raserei! Raus aus dem Feuer!"],
+			L["Furchtschutz auf die Tanks. Niemand vor den Boss."],
 		},
 	},
 	[665] = {
-		text = "Gehennas + 2 Flammenschuppen-Adds\n\n"
-			.. "- Fluch des Gehennas: stark reduzierte erhaltene Heilung -> sofort entfluchen.\n"
-			.. "- Feuerregen: Feuerflächen -> heraus laufen.\n"
-			.. "- Schattenblitz: Schaden auf zufällige Ziele.\n\n"
-			.. "Taktik: Adds zuerst töten, Decurser einteilen, Heiler achten auf verfluchte Ziele.",
+		text = L["Gehennas + 2 Flammenschuppen-Adds\n\n"]
+			.. L["- Fluch des Gehennas: stark reduzierte erhaltene Heilung -> sofort entfluchen.\n"]
+			.. L["- Feuerregen: Feuerflächen -> heraus laufen.\n"]
+			.. L["- Schattenblitz: Schaden auf zufällige Ziele.\n\n"]
+			.. L["Taktik: Adds zuerst töten, Decurser einteilen, Heiler achten auf verfluchte Ziele."],
 		post = {
-			"GEHENNAS: Adds zuerst! Fluch sofort entfernen (Heilung reduziert)!",
-			"Raus aus dem Feuerregen.",
+			L["GEHENNAS: Adds zuerst! Fluch sofort entfernen (Heilung reduziert)!"],
+			L["Raus aus dem Feuerregen."],
 		},
 	},
 	[666] = {
-		text = "Garr + 8 Feuerschwörer\n\n"
-			.. "- Antimagischer Impuls: entfernt Buffs bei Spielern in der Nähe.\n"
-			.. "- Magmafesseln: verlangsamt Spieler in der Nähe.\n"
-			.. "- Feuerschwörer: explodieren beim Tod (Eruption) -> Nahkämpfer weg von sterbenden Adds.\n"
-			.. "- Feuerschwörer sind Elementare -> Hexer können sie verbannen.\n\n"
-			.. "Taktik: Jedem Add ein Symbol geben, Hexer verbannen zugewiesene Adds, Krieger tanken den Rest. Adds einzeln töten.",
+		text = L["Garr + 8 Feuerschwörer\n\n"]
+			.. L["- Antimagischer Impuls: entfernt Buffs bei Spielern in der Nähe.\n"]
+			.. L["- Magmafesseln: verlangsamt Spieler in der Nähe.\n"]
+			.. L["- Feuerschwörer: explodieren beim Tod (Eruption) -> Nahkämpfer weg von sterbenden Adds.\n"]
+			.. L["- Feuerschwörer sind Elementare -> Hexer können sie verbannen.\n\n"]
+			.. L["Taktik: Jedem Add ein Symbol geben, Hexer verbannen zugewiesene Adds, Krieger tanken den Rest. Adds einzeln töten."],
 		post = {
-			"GARR: Hexer verbannen ihre Symbole! Tanks übernehmen die restlichen Adds.",
-			"Nahkampf weg von sterbenden Adds (Explosion). Adds einzeln töten.",
+			L["GARR: Hexer verbannen ihre Symbole! Tanks übernehmen die restlichen Adds."],
+			L["Nahkampf weg von sterbenden Adds (Explosion). Adds einzeln töten."],
 		},
 	},
 	[667] = {
-		text = "Shazzrah\n\n"
-			.. "- Arkane Explosion: Flächenschaden um den Boss -> Nahkämpfer vorsichtig, Fernkämpfer auf Abstand.\n"
-			.. "- Blinzeln: teleportiert sich und setzt die Bedrohung zurück -> Tanks im Raum verteilen.\n"
-			.. "- Fluch des Shazzrah: erhöhter Magieschaden -> entfluchen.\n"
-			.. "- Gegenzauber: unterbricht Zauberer in der Nähe.\n"
-			.. "- Magiedämpfung: Schutzbuff auf dem Boss -> Magie bannen / läutern.\n\n"
-			.. "Taktik: Mehrere Tanks verteilen, Fernkämpfer auf maximaler Distanz, Flüche entfernen, Buff vom Boss bannen.",
+		text = L["Shazzrah\n\n"]
+			.. L["- Arkane Explosion: Flächenschaden um den Boss -> Nahkämpfer vorsichtig, Fernkämpfer auf Abstand.\n"]
+			.. L["- Blinzeln: teleportiert sich und setzt die Bedrohung zurück -> Tanks im Raum verteilen.\n"]
+			.. L["- Fluch des Shazzrah: erhöhter Magieschaden -> entfluchen.\n"]
+			.. L["- Gegenzauber: unterbricht Zauberer in der Nähe.\n"]
+			.. L["- Magiedämpfung: Schutzbuff auf dem Boss -> Magie bannen / läutern.\n\n"]
+			.. L["Taktik: Mehrere Tanks verteilen, Fernkämpfer auf maximaler Distanz, Flüche entfernen, Buff vom Boss bannen."],
 		post = {
-			"SHAZZRAH: Tanks verteilen (Blinzeln)! Fernkämpfer auf Abstand!",
-			"Flüche entfernen, Buff vom Boss bannen.",
+			L["SHAZZRAH: Tanks verteilen (Blinzeln)! Fernkämpfer auf Abstand!"],
+			L["Flüche entfernen, Buff vom Boss bannen."],
 		},
 	},
 	[668] = {
-		text = "Baron Geddon\n\n"
-			.. "- Lebende Bombe: Spieler explodiert nach kurzer Zeit -> SOFORT aus dem Raid laufen.\n"
-			.. "- Inferno: starker Flächenschaden um den Boss -> Nahkämpfer heraus.\n"
-			.. "- Mana entzünden: verbrennt Mana -> bannen.\n"
-			.. "- Am Ende des Kampfes explodiert er -> Nahkämpfer weg.\n\n"
-			.. "Taktik: Raid verteilt aufstellen, Bomben-Träger laufen zu einem festen Platz, Mana entzünden bannen.\n"
-			.. "Kann Bindungen des Windsuchers droppen (legendär).",
+		text = L["Baron Geddon\n\n"]
+			.. L["- Lebende Bombe: Spieler explodiert nach kurzer Zeit -> SOFORT aus dem Raid laufen.\n"]
+			.. L["- Inferno: starker Flächenschaden um den Boss -> Nahkämpfer heraus.\n"]
+			.. L["- Mana entzünden: verbrennt Mana -> bannen.\n"]
+			.. L["- Am Ende des Kampfes explodiert er -> Nahkämpfer weg.\n\n"]
+			.. L["Taktik: Raid verteilt aufstellen, Bomben-Träger laufen zu einem festen Platz, Mana entzünden bannen.\n"]
+			.. L["Kann Bindungen des Windsuchers droppen (legendär)."],
 		post = {
-			"GEDDON: Lebende Bombe -> SOFORT aus dem Raid laufen! Inferno -> Nahkampf raus!",
-			"Mana entzünden bannen. Am Ende Explosion -> weg vom Boss.",
+			L["GEDDON: Lebende Bombe -> SOFORT aus dem Raid laufen! Inferno -> Nahkampf raus!"],
+			L["Mana entzünden bannen. Am Ende Explosion -> weg vom Boss."],
 		},
 	},
 	[669] = {
-		text = "Sulfuronherold + 4 Priester der Flammenschuppen\n\n"
-			.. "- Priester: heilen (Dunkle Besserung) -> UNTERBRECHEN!\n"
-			.. "- Schattenwort: Schmerz -> bannen.\n"
-			.. "- Inspiration: verstärkt die Adds.\n"
-			.. "- Hand des Ragnaros: Betäubung und Rückstoß in der Nähe.\n"
-			.. "- Flammenspeer: Feuerschaden auf Gruppen.\n\n"
-			.. "Taktik: Priester einzeln töten und konsequent unterbrechen, Sulfuron separat tanken, zuletzt töten.",
+		text = L["Sulfuronherold + 4 Priester der Flammenschuppen\n\n"]
+			.. L["- Priester: heilen (Dunkle Besserung) -> UNTERBRECHEN!\n"]
+			.. L["- Schattenwort: Schmerz -> bannen.\n"]
+			.. L["- Inspiration: verstärkt die Adds.\n"]
+			.. L["- Hand des Ragnaros: Betäubung und Rückstoß in der Nähe.\n"]
+			.. L["- Flammenspeer: Feuerschaden auf Gruppen.\n\n"]
+			.. L["Taktik: Priester einzeln töten und konsequent unterbrechen, Sulfuron separat tanken, zuletzt töten."],
 		post = {
-			"SULFURON: Priester zuerst und UNTERBRECHEN (Heilung)!",
-			"Sulfuron separat tanken. Schattenwort: Schmerz bannen.",
+			L["SULFURON: Priester zuerst und UNTERBRECHEN (Heilung)!"],
+			L["Sulfuron separat tanken. Schattenwort: Schmerz bannen."],
 		},
 	},
 	[670] = {
-		text = "Golemagg der Verbrenner + 2 Kernwüter\n\n"
-			.. "- Kernwüter: werden separat getankt und müssen nicht getötet werden.\n"
-			.. "- Magmaspritzer: stapelnder Debuff auf dem Tank -> Tankwechsel bei vielen Stapeln.\n"
-			.. "- Pyroschlag: Feuerschaden auf zufällige Ziele.\n"
-			.. "- Erdbeben bei wenig Leben: Schaden für Nahkämpfer.\n\n"
-			.. "Taktik: Hunde abseits tanken, Golemagg mit zwei Tanks im Wechsel, gegen Ende Nahkampf vorsichtig.",
+		text = L["Golemagg der Verbrenner + 2 Kernwüter\n\n"]
+			.. L["- Kernwüter: werden separat getankt und müssen nicht getötet werden.\n"]
+			.. L["- Magmaspritzer: stapelnder Debuff auf dem Tank -> Tankwechsel bei vielen Stapeln.\n"]
+			.. L["- Pyroschlag: Feuerschaden auf zufällige Ziele.\n"]
+			.. L["- Erdbeben bei wenig Leben: Schaden für Nahkämpfer.\n\n"]
+			.. L["Taktik: Hunde abseits tanken, Golemagg mit zwei Tanks im Wechsel, gegen Ende Nahkampf vorsichtig."],
 		post = {
-			"GOLEMAGG: Kernwüter abseits tanken und NICHT töten! Fokus auf Golemagg.",
-			"Tankwechsel bei hohen Magmaspritzer-Stapeln.",
+			L["GOLEMAGG: Kernwüter abseits tanken und NICHT töten! Fokus auf Golemagg."],
+			L["Tankwechsel bei hohen Magmaspritzer-Stapeln."],
 		},
 	},
 	[671] = {
-		text = "Majordomus Exekutus + 4 Heiler + 4 Elite der Flammenschuppen\n\n"
-			.. "- Majordomus selbst wird nicht getötet; der Kampf endet, wenn alle Adds tot sind.\n"
-			.. "- Magiereflexion / Schadensschild: bei aktivem Schild Angriffe stoppen!\n"
-			.. "- Teleport: wirft Spieler in die Feuergrube.\n"
-			.. "- Heiler: heilen und Schattenblitz -> unterbrechen.\n"
-			.. "- Elite: Großer Feuerball und Explosion.\n\n"
-			.. "Taktik: Heiler zuerst, Adds mit Symbolen verteilen, beim Schild sofort aufhören. Danach erscheint Ragnaros.",
+		text = L["Majordomus Exekutus + 4 Heiler + 4 Elite der Flammenschuppen\n\n"]
+			.. L["- Majordomus selbst wird nicht getötet; der Kampf endet, wenn alle Adds tot sind.\n"]
+			.. L["- Magiereflexion / Schadensschild: bei aktivem Schild Angriffe stoppen!\n"]
+			.. L["- Teleport: wirft Spieler in die Feuergrube.\n"]
+			.. L["- Heiler: heilen und Schattenblitz -> unterbrechen.\n"]
+			.. L["- Elite: Großer Feuerball und Explosion.\n\n"]
+			.. L["Taktik: Heiler zuerst, Adds mit Symbolen verteilen, beim Schild sofort aufhören. Danach erscheint Ragnaros."],
 		post = {
-			"MAJORDOMUS: Heiler zuerst und unterbrechen! Bei Schild SOFORT aufhören!",
-			"Symbole beachten, Elite separat tanken.",
+			L["MAJORDOMUS: Heiler zuerst und unterbrechen! Bei Schild SOFORT aufhören!"],
+			L["Symbole beachten, Elite separat tanken."],
 		},
 	},
 	[672] = {
-		text = "Ragnaros\n\n"
-			.. "- Zorn des Ragnaros: Rückstoß aller Nahkämpfer -> Nahkämpfer laufen kurz vorher heraus.\n"
-			.. "- Lavaschlag: wenn niemand in Nahkampfreichweite ist -> immer ein Tank in Reichweite!\n"
-			.. "- Elementarfeuer: Feuerschaden über Zeit auf dem Tank.\n"
-			.. "- Nach einiger Zeit taucht er ab -> Söhne der Flamme erscheinen und müssen schnell getötet werden.\n\n"
-			.. "Taktik: Feuerresistenz für Tanks und Nahkämpfer, Ersatztank bereit, Fernkämpfer verteilt, Söhne mit allen Kräften töten.",
+		text = L["Ragnaros\n\n"]
+			.. L["- Zorn des Ragnaros: Rückstoß aller Nahkämpfer -> Nahkämpfer laufen kurz vorher heraus.\n"]
+			.. L["- Lavaschlag: wenn niemand in Nahkampfreichweite ist -> immer ein Tank in Reichweite!\n"]
+			.. L["- Elementarfeuer: Feuerschaden über Zeit auf dem Tank.\n"]
+			.. L["- Nach einiger Zeit taucht er ab -> Söhne der Flamme erscheinen und müssen schnell getötet werden.\n\n"]
+			.. L["Taktik: Feuerresistenz für Tanks und Nahkämpfer, Ersatztank bereit, Fernkämpfer verteilt, Söhne mit allen Kräften töten."],
 		post = {
-			"RAGNAROS: Nahkampf vor dem Rückstoß raus! Immer ein Tank in Reichweite!",
-			"Bei Abtauchen: Söhne der Flamme schnell töten. Feuerresistenz an!",
+			L["RAGNAROS: Nahkampf vor dem Rückstoß raus! Immer ein Tank in Reichweite!"],
+			L["Bei Abtauchen: Söhne der Flamme schnell töten. Feuerresistenz an!"],
 		},
 	},
 }
@@ -191,16 +192,16 @@ Data.BossInfo = {
 -- Markierungsvorlagen (Reihenfolge für "Nächstes freies Symbol")
 -- 8 Totenkopf, 7 Kreuz, 6 Viereck, 5 Mond, 4 Dreieck, 3 Diamant, 2 Kreis, 1 Stern
 ---------------------------------------------------------------------------
-Data.MarkerNames = { [1] = "Stern", [2] = "Kreis", [3] = "Diamant", [4] = "Dreieck", [5] = "Mond", [6] = "Viereck", [7] = "Kreuz", [8] = "Totenkopf" }
+Data.MarkerNames = { [1] = L["Stern"], [2] = L["Kreis"], [3] = L["Diamant"], [4] = L["Dreieck"], [5] = L["Mond"], [6] = L["Viereck"], [7] = L["Kreuz"], [8] = L["Totenkopf"] }
 
 Data.MarkerTemplates = {
-	{ id = "standard", name = "Standard", order = { 8, 7, 6, 5, 4, 3, 2, 1 }, note = "Totenkopf, Kreuz, Viereck, Mond, Dreieck, Diamant, Kreis, Stern." },
-	{ id = "lucifron", name = "Lucifron", order = { 8, 7 }, note = "Totenkopf und Kreuz auf die zwei Beschützer." },
-	{ id = "gehennas", name = "Gehennas", order = { 8, 7 }, note = "Totenkopf und Kreuz auf die zwei Adds." },
-	{ id = "garr", name = "Garr (Verbannen)", order = { 1, 2, 3, 4, 5, 6, 7, 8 }, note = "Jedes Add ein Symbol. Hexer verbannen ihr zugewiesenes Symbol (Stern zuerst)." },
-	{ id = "sulfuron", name = "Sulfuron", order = { 8, 7, 6, 5 }, note = "Vier Priester: Totenkopf, Kreuz, Viereck, Mond in Tötungsreihenfolge." },
-	{ id = "golemagg", name = "Golemagg", order = { 6, 5 }, note = "Viereck und Mond auf die Kernwüter (nicht töten)." },
-	{ id = "majordomo", name = "Majordomus", order = { 8, 7, 6, 5, 4, 3, 2, 1 }, note = "Zuerst die 4 Heiler (Totenkopf, Kreuz, Viereck, Mond), dann die 4 Elite (Dreieck, Diamant, Kreis, Stern)." },
+	{ id = "standard", name = L["Standard"], order = { 8, 7, 6, 5, 4, 3, 2, 1 }, note = L["Totenkopf, Kreuz, Viereck, Mond, Dreieck, Diamant, Kreis, Stern."] },
+	{ id = "lucifron", name = L["Lucifron"], order = { 8, 7 }, note = L["Totenkopf und Kreuz auf die zwei Beschützer."] },
+	{ id = "gehennas", name = L["Gehennas"], order = { 8, 7 }, note = L["Totenkopf und Kreuz auf die zwei Adds."] },
+	{ id = "garr", name = L["Garr (Verbannen)"], order = { 1, 2, 3, 4, 5, 6, 7, 8 }, note = L["Jedes Add ein Symbol. Hexer verbannen ihr zugewiesenes Symbol (Stern zuerst)."] },
+	{ id = "sulfuron", name = L["Sulfuron"], order = { 8, 7, 6, 5 }, note = L["Vier Priester: Totenkopf, Kreuz, Viereck, Mond in Tötungsreihenfolge."] },
+	{ id = "golemagg", name = L["Golemagg"], order = { 6, 5 }, note = L["Viereck und Mond auf die Kernwüter (nicht töten)."] },
+	{ id = "majordomo", name = L["Majordomus"], order = { 8, 7, 6, 5, 4, 3, 2, 1 }, note = L["Zuerst die 4 Heiler (Totenkopf, Kreuz, Viereck, Mond), dann die 4 Elite (Dreieck, Diamant, Kreis, Stern)."] },
 }
 
 function Data.GetTemplate(id)
@@ -221,8 +222,8 @@ Data.Legendary = {
 
 -- NPC-IDs für die Kernhunde-Hilfe
 Data.CoreHounds = {
-	[11673] = "Uralter Kernhund",
-	[11671] = "Kernhund",
+	[11673] = L["Uralter Kernhund"],
+	[11671] = L["Kernhund"],
 }
 
 ---------------------------------------------------------------------------

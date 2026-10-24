@@ -2,6 +2,7 @@
 -- DKP, Versteigerung, Loot, Log, Raid, Raidleiter, Einstellungen
 
 local ADDON, RM = ...
+local L = RM.L
 local UI = RM.UI
 local COLORS = UI.COLORS
 
@@ -32,7 +33,7 @@ end
 
 local function NeedOfficer()
 	if RM.CanEdit() then return true end
-	RM.Print("Dafür brauchst du Offiziersrechte.")
+	RM.Print(L["Dafür brauchst du Offiziersrechte."])
 	return false
 end
 
@@ -48,14 +49,14 @@ local function ViewCycle(page, x, y)
 	local function Rebuild()
 		wipe(opts)
 		local own = RM.MyGuild()
-		opts[#opts + 1] = { "__own", own and ("Gilde: " .. own) or "Eigene Daten" }
-		for g in pairs(RM.db.foreign) do opts[#opts + 1] = { g, "Raid: " .. g } end
+		opts[#opts + 1] = { "__own", own and (L["Gilde: "] .. own) or L["Eigene Daten"] }
+		for g in pairs(RM.db.foreign) do opts[#opts + 1] = { g, L["Raid: "] .. g } end
 	end
 	Rebuild()
 	local cyc = UI.Cycle(page, 220, opts, function() return UI.viewGuild or "__own" end, function(v)
 		if v == "__own" then UI.viewGuild = nil else UI.viewGuild = v end
 		UI.RefreshCurrent()
-	end, "Wechselt zwischen der eigenen Gilde und der DKP-Tabelle der Gilde, mit der du gerade raidest.")
+	end, L["Wechselt zwischen der eigenen Gilde und der DKP-Tabelle der Gilde, mit der du gerade raidest."])
 	Place(cyc, page, x, y)
 	function cyc:Update()
 		Rebuild()
@@ -73,9 +74,9 @@ local function PoolCycle(page, x, y, width, withAll)
 	local function Rebuild()
 		wipe(opts)
 		local data = RM.DKP.View()
-		if withAll then opts[#opts + 1] = { "__all", "Alle Raids" } end
+		if withAll then opts[#opts + 1] = { "__all", L["Alle Raids"] } end
 		for _, key in ipairs(RM.DKP.PoolList(data)) do
-			opts[#opts + 1] = { key, "Raid: " .. RM.DKP.PoolName(key, data) }
+			opts[#opts + 1] = { key, L["Raid: "] .. RM.DKP.PoolName(key, data) }
 		end
 	end
 	Rebuild()
@@ -90,7 +91,7 @@ local function PoolCycle(page, x, y, width, withAll)
 			UI.viewPool = v
 		end
 		UI.RefreshCurrent()
-	end, "Jeder Raid hat einen eigenen DKP-Topf. Hier wählst du, welchen du siehst.")
+	end, L["Jeder Raid hat einen eigenen DKP-Topf. Hier wählst du, welchen du siehst."])
 	Place(cyc, page, x, y)
 	function cyc:Update()
 		Rebuild()
@@ -107,39 +108,39 @@ end
 ---------------------------------------------------------------------------
 -- Seite: DKP-Stände
 ---------------------------------------------------------------------------
-UI.AddPage("dkp", "DKP-Stände", function(page)
+UI.AddPage("dkp", L["DKP-Stände"], function(page)
 	local sortKey, sortDesc = "dkp", true
 	local onlyRaid = false
 	local selected
 
-	Section(page, "DKP-Stände", 0, 0)
+	Section(page, L["DKP-Stände"], 0, 0)
 	local poolCycle = PoolCycle(page, 120, 4, 240)
 
 	local search = UI.EditBox(page, 180, 24)
 	Place(search, page, 0, -30)
-	local searchHint = UI.Text(search, "Suchen ...", 11, unpack(COLORS.muted))
+	local searchHint = UI.Text(search, L["Suchen ..."], 11, unpack(COLORS.muted))
 	searchHint:SetPoint("LEFT", 8, 0)
 
-	local raidCheck = UI.Check(page, "Nur Raid", function() return onlyRaid end, function(v) onlyRaid = v; UI.RefreshCurrent() end)
+	local raidCheck = UI.Check(page, L["Nur Raid"], function() return onlyRaid end, function(v) onlyRaid = v; UI.RefreshCurrent() end)
 	Place(raidCheck, page, 196, -33)
 
-	local syncBtn = UI.Button(page, "Sync anfordern", 120, 24, function() RM.Comm.RequestSync() end,
-		"Fragt Offiziere nach dem neuesten DKP-Stand.")
+	local syncBtn = UI.Button(page, L["Sync anfordern"], 120, 24, function() RM.Comm.RequestSync() end,
+		L["Fragt Offiziere nach dem neuesten DKP-Stand."])
 	Place(syncBtn, page, 316, -30)
 
-	local exportBtn = UI.Button(page, "Export", 80, 24, function() UI.ShowExport(RM.DKP.ExportText()) end)
+	local exportBtn = UI.Button(page, L["Export"], 80, 24, function() UI.ShowExport(RM.DKP.ExportText()) end)
 	Place(exportBtn, page, 442, -30)
 
 	local viewCycle = ViewCycle(page, 560, -30)
 
 	local list
 	list = UI.List(page, 540, 490, {
-		{ title = "Name", width = 170 },
-		{ title = "Klasse", width = 100 },
+		{ title = L["Name"], width = 170 },
+		{ title = L["Klasse"], width = 100 },
 		{ title = "DKP", width = 70, justify = "RIGHT" },
-		{ title = "Status", width = 150 },
+		{ title = L["Status"], width = 150 },
 	}, {
-		emptyText = "Noch keine DKP-Daten. Als Offizier: Raid starten oder Spieler hinzufügen.",
+		emptyText = L["Noch keine DKP-Daten. Als Offizier: Raid starten oder Spieler hinzufügen."],
 		onSort = function(col)
 			local key = ({ "name", "class", "dkp", "status" })[col]
 			if sortKey == key then sortDesc = not sortDesc else sortKey = key; sortDesc = (key == "dkp") end
@@ -151,26 +152,26 @@ UI.AddPage("dkp", "DKP-Stände", function(page)
 
 	-- Offiziersbereich
 	local px = 560
-	Section(page, "Buchung", px, -64)
-	local selLabel = Label(page, "Kein Spieler gewählt", px, -90)
+	Section(page, L["Buchung"], px, -64)
+	local selLabel = Label(page, L["Kein Spieler gewählt"], px, -90)
 	selLabel:SetWidth(220)
 
-	Label(page, "Betrag (+/-)", px, -118, 11, true)
+	Label(page, L["Betrag (+/-)"], px, -118, 11, true)
 	local amountBox = UI.EditBox(page, 80, 24, true)
 	Place(amountBox, page, px, -134)
 
-	Label(page, "Grund", px, -164, 11, true)
+	Label(page, L["Grund"], px, -164, 11, true)
 	local reasonBox = UI.EditBox(page, 220, 24)
 	Place(reasonBox, page, px, -180)
 
-	local bookBtn = UI.Button(page, "Buchen", 105, 26, function()
+	local bookBtn = UI.Button(page, L["Buchen"], 105, 26, function()
 		if not NeedOfficer() then return end
-		if not selected then RM.Print("Bitte zuerst einen Spieler wählen.") return end
+		if not selected then RM.Print(L["Bitte zuerst einen Spieler wählen."]) return end
 		local amount = tonumber(amountBox:GetText())
-		if not amount or amount == 0 then RM.Print("Bitte einen Betrag eingeben, z. B. 10 oder -5.") return end
+		if not amount or amount == 0 then RM.Print(L["Bitte einen Betrag eingeben, z. B. 10 oder -5."]) return end
 		local reason = reasonBox:GetText()
 		local pool = ViewPool()
-		UI.Confirm(string.format("%s %+d %s-DKP buchen?\nGrund: %s", selected, amount, RM.DKP.PoolName(pool), reason ~= "" and reason or "Manuelle Anpassung"), function()
+		UI.Confirm(string.format("%s %+d %s-DKP buchen?\nGrund: %s", selected, amount, RM.DKP.PoolName(pool), reason ~= "" and reason or L["Manuelle Anpassung"]), function()
 			RM.DKP.Adjust(selected, amount, reason, pool)
 			amountBox:SetText("")
 			reasonBox:SetText("")
@@ -179,25 +180,25 @@ UI.AddPage("dkp", "DKP-Stände", function(page)
 	Place(bookBtn, page, px, -214)
 	bookBtn:SetAccent(true)
 
-	local standbyBtn = UI.Button(page, "Ersatzbank an/aus", 110, 26, function()
-		if not selected then RM.Print("Bitte zuerst einen Spieler wählen.") return end
+	local standbyBtn = UI.Button(page, L["Ersatzbank an/aus"], 110, 26, function()
+		if not selected then RM.Print(L["Bitte zuerst einen Spieler wählen."]) return end
 		RM.DKP.ToggleStandby(selected)
-	end, "Spieler auf der Ersatzbank erhalten bei Raid-Buchungen ebenfalls DKP (einstellbar).")
+	end, L["Spieler auf der Ersatzbank erhalten bei Raid-Buchungen ebenfalls DKP (einstellbar)."])
 	Place(standbyBtn, page, px + 110, -214)
 
-	Section(page, "Spieler hinzufügen", px, -260)
+	Section(page, L["Spieler hinzufügen"], px, -260)
 	local addBox = UI.EditBox(page, 140, 24)
 	Place(addBox, page, px, -286)
-	local addBtn = UI.Button(page, "Hinzufügen", 76, 24, function()
+	local addBtn = UI.Button(page, L["Hinzufügen"], 76, 24, function()
 		if not NeedOfficer() then return end
 		local name = RM.DKP.AddPlayer(addBox:GetText())
-		if name then addBox:SetText(""); RM.Print(name .. " hinzugefügt.") end
+		if name then addBox:SetText(""); RM.Print(name .. L[" hinzugefügt."]) end
 	end)
 	Place(addBtn, page, px + 144, -286)
 
 	local myInfo = Label(page, "", px, -330, 12)
 	myInfo:SetWidth(220)
-	local help = Label(page, "Spieler ohne Addon können ihren Stand per Flüstern abfragen: /w <Plündermeister> !dkp", px, -380, 11, true)
+	local help = Label(page, L["Spieler ohne Addon können ihren Stand per Flüstern abfragen: /w <Plündermeister> !dkp"], px, -380, 11, true)
 	help:SetWidth(220)
 
 	search:SetScript("OnTextChanged", function(self)
@@ -229,7 +230,7 @@ UI.AddPage("dkp", "DKP-Stände", function(page)
 			local standby = RM.DKP.IsStandby(name)
 			if (not onlyRaid or inRaid or standby) and (filter == "" or name:lower():find(filter, 1, true)) then
 				local class = p.c or (inRaid and inRaid.class) or RM.guild.class[name]
-				local status = inRaid and "Im Raid" or (standby and "Ersatzbank" or "")
+				local status = inRaid and L["Im Raid"] or (standby and L["Ersatzbank"] or "")
 				local dkpColor = value < 0 and { 1, 0.35, 0.35 } or nil
 				rows[#rows + 1] = {
 					key = name, name = name, class = class or "", dkp = value, status = status,
@@ -248,9 +249,9 @@ UI.AddPage("dkp", "DKP-Stände", function(page)
 
 		local function dkpOf(n) return RM.DKP.PoolValue(data.players[n], pool) end
 		if selected then
-			selLabel:SetText("Gewählt: " .. selected .. " (" .. dkpOf(selected) .. " " .. poolName .. "-DKP)" .. (RM.DKP.IsStandby(selected) and " – Ersatzbank" or ""))
+			selLabel:SetText(L["Gewählt: "] .. selected .. " (" .. dkpOf(selected) .. " " .. poolName .. L["-DKP)"] .. (RM.DKP.IsStandby(selected) and L[" – Ersatzbank"] or ""))
 		else
-			selLabel:SetText("Kein Spieler gewählt")
+			selLabel:SetText(L["Kein Spieler gewählt"])
 		end
 		if isMain then
 			myInfo:SetText(string.format("Deine DKP: |cffff8c1a%s|r", RM.DKP.Summary(RM.Me(), data)))
@@ -268,8 +269,8 @@ end)
 ---------------------------------------------------------------------------
 -- Seite: Versteigerung
 ---------------------------------------------------------------------------
-UI.AddPage("auction", "Versteigerung", function(page)
-	Section(page, "Laufende Versteigerung", 0, 0)
+UI.AddPage("auction", L["Versteigerung"], function(page)
+	Section(page, L["Laufende Versteigerung"], 0, 0)
 
 	local box = UI.Frame(page, 790, 92)
 	UI.Skin(box, COLORS.panel)
@@ -297,72 +298,72 @@ UI.AddPage("auction", "Versteigerung", function(page)
 	end)
 	itemHover:SetScript("OnLeave", function() GameTooltip:Hide() end)
 
-	local finishBtn = UI.Button(box, "Jetzt beenden", 110, 26, function() RM.Auction.FinishNow() end)
+	local finishBtn = UI.Button(box, L["Jetzt beenden"], 110, 26, function() RM.Auction.FinishNow() end)
 	finishBtn:SetPoint("TOPRIGHT", -12, -12)
-	local addBtn = UI.Button(box, "+10 Sek.", 80, 26, function() RM.Auction.AddTime(10) end)
+	local addBtn = UI.Button(box, L["+10 Sek."], 80, 26, function() RM.Auction.AddTime(10) end)
 	addBtn:SetPoint("RIGHT", finishBtn, "LEFT", -6, 0)
-	local cancelBtn = UI.Button(box, "Abbrechen", 100, 26, function()
-		UI.Confirm("Versteigerung abbrechen? Das Item kommt zurück in die Warteschlange.", function() RM.Auction.Cancel() end)
+	local cancelBtn = UI.Button(box, L["Abbrechen"], 100, 26, function()
+		UI.Confirm(L["Versteigerung abbrechen? Das Item kommt zurück in die Warteschlange."], function() RM.Auction.Cancel() end)
 	end)
 	cancelBtn:SetPoint("TOPRIGHT", -12, -46)
-	local bidOpenBtn = UI.Button(box, "Gebotsfenster", 110, 26, function() RM.Auction.ShowBidFrame() end, "Öffnet das Gebotsfenster erneut.")
+	local bidOpenBtn = UI.Button(box, L["Gebotsfenster"], 110, 26, function() RM.Auction.ShowBidFrame() end, L["Öffnet das Gebotsfenster erneut."])
 	bidOpenBtn:SetPoint("RIGHT", cancelBtn, "LEFT", -6, 0)
 
 	local bidList = UI.List(page, 790, 190, {
-		{ title = "Bieter", width = 150 },
-		{ title = "Gebot", width = 70, justify = "RIGHT" },
+		{ title = L["Bieter"], width = 150 },
+		{ title = L["Gebot"], width = 70, justify = "RIGHT" },
 		{ title = "DKP", width = 70, justify = "RIGHT" },
-		{ title = "Trägt aktuell", width = 450 },
-	}, { emptyText = "Noch keine Gebote." })
+		{ title = L["Trägt aktuell"], width = 450 },
+	}, { emptyText = L["Noch keine Gebote."] })
 	Place(bidList, page, 0, -126)
 
-	Section(page, "Warteschlange", 0, -326)
+	Section(page, L["Warteschlange"], 0, -326)
 	local queueList
 	queueList = UI.List(page, 520, 196, {
 		{ title = "#", width = 24 },
-		{ title = "Item", width = 460 },
-	}, { emptyText = "Leer. Epische Items kommen beim Öffnen des Bosses automatisch hierher." })
+		{ title = L["Item"], width = 460 },
+	}, { emptyText = L["Leer. Epische Items kommen beim Öffnen des Bosses automatisch hierher."] })
 	Place(queueList, page, 0, -352)
 
 	local qx = 536
-	local startBtn = UI.Button(page, "Gewähltes starten", 160, 28, function()
+	local startBtn = UI.Button(page, L["Gewähltes starten"], 160, 28, function()
 		local d = queueList:Selected()
 		if not d then
-			if #RM.Auction.queue > 0 then RM.Auction.Start(1) else RM.Print("Die Warteschlange ist leer.") end
+			if #RM.Auction.queue > 0 then RM.Auction.Start(1) else RM.Print(L["Die Warteschlange ist leer."]) end
 			return
 		end
 		RM.Auction.Start(d.index)
 		queueList:ClearSelection()
-	end, "Startet das gewählte Item (ohne Auswahl das erste).")
+	end, L["Startet das gewählte Item (ohne Auswahl das erste)."])
 	Place(startBtn, page, qx, -352)
 	startBtn:SetAccent(true)
 
-	local removeBtn = UI.Button(page, "Entfernen", 160, 26, function()
+	local removeBtn = UI.Button(page, L["Entfernen"], 160, 26, function()
 		local d = queueList:Selected()
 		if d then RM.Auction.Remove(d.index); queueList:ClearSelection() end
 	end)
 	Place(removeBtn, page, qx, -386)
 
-	Label(page, "Item hinzufügen (Shift-Klick auf ein Item):", qx, -426, 11, true):SetWidth(250)
+	Label(page, L["Item hinzufügen (Shift-Klick auf ein Item):"], qx, -426, 11, true):SetWidth(250)
 	local linkBox = UI.LinkBox(page, 250, 24)
 	Place(linkBox, page, qx, -458)
-	local addItemBtn = UI.Button(page, "Zur Warteschlange", 160, 26, function()
+	local addItemBtn = UI.Button(page, L["Zur Warteschlange"], 160, 26, function()
 		local link = linkBox:GetText()
 		if link and link:find("item:") then
 			RM.Auction.Enqueue(link)
 			linkBox:SetText("")
 		else
-			RM.Print("Bitte zuerst einen Itemlink per Shift-Klick einfügen.")
+			RM.Print(L["Bitte zuerst einen Itemlink per Shift-Klick einfügen."])
 		end
 	end)
 	Place(addItemBtn, page, qx, -488)
-	local directBtn = UI.Button(page, "Sofort versteigern", 160, 26, function()
+	local directBtn = UI.Button(page, L["Sofort versteigern"], 160, 26, function()
 		local link = linkBox:GetText()
 		if link and link:find("item:") then
 			RM.Auction.Start(link)
 			linkBox:SetText("")
 		else
-			RM.Print("Bitte zuerst einen Itemlink per Shift-Klick einfügen.")
+			RM.Print(L["Bitte zuerst einen Itemlink per Shift-Klick einfügen."])
 		end
 	end)
 	Place(directBtn, page, qx, -518)
@@ -373,20 +374,20 @@ UI.AddPage("auction", "Versteigerung", function(page)
 		if c then
 			itemText:SetText(c.link)
 			local rem = math.max(0, math.ceil(c.endsAt - GetTime()))
-			local high = c.highName and string.format("%d DKP (%s)", c.high, c.highName) or "noch keins"
+			local high = c.highName and string.format("%d DKP (%s)", c.high, c.highName) or L["noch keins"]
 			if c.finished then
-				infoText:SetText("Beendet – wartet auf Bestätigung. Höchstgebot: " .. high)
+				infoText:SetText(L["Beendet – wartet auf Bestätigung. Höchstgebot: "] .. high)
 			else
-				infoText:SetText(string.format("Restzeit: %d Sek.  ·  Mindestgebot: %d  ·  Schritt: %d  ·  Höchstgebot: %s", rem, c.min, c.inc, high))
+				infoText:SetText(string.format(L["Restzeit: %d Sek.  ·  Mindestgebot: %d  ·  Schritt: %d  ·  Höchstgebot: %s"], rem, c.min, c.inc, high))
 			end
 		elseif cl and not cl.ended then
 			itemText:SetText(cl.link)
 			local rem = math.max(0, math.ceil(cl.endsAt - GetTime()))
-			local high = cl.highName and string.format("%d DKP (%s)", cl.high, cl.highName) or "noch keins"
-			infoText:SetText(string.format("Plündermeister: %s  ·  Restzeit: %d Sek.  ·  Höchstgebot: %s", cl.ml, rem, high))
+			local high = cl.highName and string.format("%d DKP (%s)", cl.high, cl.highName) or L["noch keins"]
+			infoText:SetText(string.format(L["Plündermeister: %s  ·  Restzeit: %d Sek.  ·  Höchstgebot: %s"], cl.ml, rem, high))
 		else
-			itemText:SetText("|cff888888Keine laufende Versteigerung|r")
-			infoText:SetText(RM.CanEdit() and "Wähle ein Item aus der Warteschlange oder füge eines per Shift-Klick hinzu." or "Sobald der Plündermeister ein Item versteigert, öffnet sich das Gebotsfenster.")
+			itemText:SetText(L["|cff888888Keine laufende Versteigerung|r"])
+			infoText:SetText(RM.CanEdit() and L["Wähle ein Item aus der Warteschlange oder füge eines per Shift-Klick hinzu."] or L["Sobald der Plündermeister ein Item versteigert, öffnet sich das Gebotsfenster."])
 		end
 	end
 
@@ -414,7 +415,7 @@ UI.AddPage("auction", "Versteigerung", function(page)
 			for l in gear:gmatch("|c%x+|Hitem:.-|h.-|h|r") do gearLinks[#gearLinks + 1] = l end
 			rows[#rows + 1] = {
 				key = b.name,
-				cells = { b.name, b.pass and "Passt" or tostring(b.amount), tostring(RM.DKP.Get(b.name, RM.Auction.current and RM.Auction.current.pool)), table.concat(gearLinks, "  ") },
+				cells = { b.name, b.pass and L["Passt"] or tostring(b.amount), tostring(RM.DKP.Get(b.name, RM.Auction.current and RM.Auction.current.pool)), table.concat(gearLinks, "  ") },
 				colors = { nil, b.pass and { 0.6, 0.6, 0.6 } or { 1, 0.8, 0.3 } },
 				tooltip = (#gearLinks > 0) and function(tt)
 					tt:SetHyperlink(RM.ItemString(gearLinks[1]) or gearLinks[1])
@@ -434,16 +435,16 @@ end)
 ---------------------------------------------------------------------------
 -- Seite: Loot
 ---------------------------------------------------------------------------
-UI.AddPage("loot", "Loot", function(page)
+UI.AddPage("loot", L["Loot"], function(page)
 	local cfg = function() return RM.db.config end
 	local refreshers = {}
 
-	Section(page, "Loot-Regeln", 0, 0)
+	Section(page, L["Loot-Regeln"], 0, 0)
 	local rules = {
-		{ key = "epic", label = "Epische Ausrüstung", opts = { { "auction", "Versteigerung" }, { "manual", "Manuell" } } },
-		{ key = "blue", label = "Blaue Ausrüstung", opts = { { "auction", "Versteigerung" }, { "de", "Entzauberer" }, { "bank", "Gildenbank" }, { "manual", "Manuell" } } },
-		{ key = "recipe", label = "Rezepte und Pläne", opts = { { "bank", "Gildenbank" }, { "crafter", "Handwerker" }, { "auction", "Versteigerung" }, { "manual", "Manuell" } } },
-		{ key = "mats", label = "Handwerksmaterialien", opts = { { "bank", "Gildenbank" }, { "crafter", "Handwerker" }, { "auction", "Versteigerung" }, { "manual", "Manuell" } } },
+		{ key = "epic", label = L["Epische Ausrüstung"], opts = { { "auction", L["Versteigerung"] }, { "manual", L["Manuell"] } } },
+		{ key = "blue", label = L["Blaue Ausrüstung"], opts = { { "auction", L["Versteigerung"] }, { "de", L["Entzauberer"] }, { "bank", L["Gildenbank"] }, { "manual", L["Manuell"] } } },
+		{ key = "recipe", label = L["Rezepte und Pläne"], opts = { { "bank", L["Gildenbank"] }, { "crafter", L["Handwerker"] }, { "auction", L["Versteigerung"] }, { "manual", L["Manuell"] } } },
+		{ key = "mats", label = L["Handwerksmaterialien"], opts = { { "bank", L["Gildenbank"] }, { "crafter", L["Handwerker"] }, { "auction", L["Versteigerung"] }, { "manual", L["Manuell"] } } },
 	}
 	local y = -28
 	for _, r in ipairs(rules) do
@@ -453,17 +454,17 @@ UI.AddPage("loot", "Loot", function(page)
 		refreshers[#refreshers + 1] = cyc
 		y = y - 30
 	end
-	Label(page, "Legendäre Items", 0, y - 5)
-	Label(page, "immer nur Hinweis", 170, y - 5, 12, true)
+	Label(page, L["Legendäre Items"], 0, y - 5)
+	Label(page, L["immer nur Hinweis"], 170, y - 5, 12, true)
 	y = y - 30
-	Label(page, "Keine Gebote", 0, y - 5)
-	local fb = UI.Cycle(page, 150, { { "de", "Entzauberer" }, { "bank", "Gildenbank" }, { "manual", "Manuell" } },
+	Label(page, L["Keine Gebote"], 0, y - 5)
+	local fb = UI.Cycle(page, 150, { { "de", L["Entzauberer"] }, { "bank", L["Gildenbank"] }, { "manual", L["Manuell"] } },
 		function() return cfg().fallback end, function(v) cfg().fallback = v end)
 	Place(fb, page, 170, y)
 	refreshers[#refreshers + 1] = fb
 	y = y - 40
 
-	Section(page, "Empfänger", 0, y)
+	Section(page, L["Empfänger"], 0, y)
 	y = y - 28
 	local function NameField(label, key, yy)
 		Label(page, label, 0, yy - 5)
@@ -477,35 +478,35 @@ UI.AddPage("loot", "Loot", function(page)
 		refreshers[#refreshers + 1] = { Refresh = function() if not e:HasFocus() then e:SetText(cfg()[key] or "") end end }
 		return e
 	end
-	NameField("Gildenbank-Charakter", "bankChar", y); y = y - 30
-	NameField("Entzauberer", "deChar", y); y = y - 30
-	NameField("Handwerker", "crafterChar", y); y = y - 40
+	NameField(L["Gildenbank-Charakter"], "bankChar", y); y = y - 30
+	NameField(L["Entzauberer"], "deChar", y); y = y - 30
+	NameField(L["Handwerker"], "crafterChar", y); y = y - 40
 
-	Section(page, "Plündermeister", 0, y)
+	Section(page, L["Plündermeister"], 0, y)
 	y = y - 28
-	NameField("Name (leer = du selbst)", "lootMaster", y); y = y - 30
-	Label(page, "Plünderschwelle", 0, y - 5)
-	local th = UI.Cycle(page, 150, { { 2, "Selten (grün)" }, { 3, "Rar (blau)" }, { 4, "Episch (lila)" } },
+	NameField(L["Name (leer = du selbst)"], "lootMaster", y); y = y - 30
+	Label(page, L["Plünderschwelle"], 0, y - 5)
+	local th = UI.Cycle(page, 150, { { 2, L["Selten (grün)"] }, { 3, L["Rar (blau)"] }, { 4, L["Episch (lila)"] } },
 		function() return cfg().lootThreshold end, function(v) cfg().lootThreshold = v end,
-		"In Molten Core sind Kerne und Rezepte blau – daher wird Rar empfohlen.")
+		L["In Molten Core sind Kerne und Rezepte blau – daher wird Rar empfohlen."])
 	Place(th, page, 170, y)
 	refreshers[#refreshers + 1] = th
 	y = y - 32
-	local applyBtn = UI.Button(page, "Jetzt anwenden", 150, 26, function() RM.Loot.ApplySettings() end, "Setzt Plündermeister und Schwelle (nur Raidleiter).")
+	local applyBtn = UI.Button(page, L["Jetzt anwenden"], 150, 26, function() RM.Loot.ApplySettings() end, L["Setzt Plündermeister und Schwelle (nur Raidleiter)."])
 	Place(applyBtn, page, 170, y)
 
 	-- Optionen
 	local ox = 350
-	Section(page, "Optionen", ox, 0)
+	Section(page, L["Optionen"], ox, 0)
 	local checks = {
-		{ "setLootOnStart", "Loot-Einstellungen bei Raidstart setzen" },
-		{ "autoDistribute", "Mats/Rezepte/Blaues automatisch zuteilen" },
-		{ "announceLoot", "Loot gesammelt im Raidchat ansagen" },
-		{ "autoNext", "Nächste Versteigerung automatisch starten" },
-		{ "announceBids", "Gebote im Raidchat ansagen" },
-		{ "unlootedReminder", "Erinnern, wenn Boss nicht geplündert" },
-		{ "tradeFallback", "Bei Abwesenheit an mich + Handelsliste" },
-		{ "whisperReplies", "Auf !dkp-Flüstern antworten" },
+		{ "setLootOnStart", L["Loot-Einstellungen bei Raidstart setzen"] },
+		{ "autoDistribute", L["Mats/Rezepte/Blaues automatisch zuteilen"] },
+		{ "announceLoot", L["Loot gesammelt im Raidchat ansagen"] },
+		{ "autoNext", L["Nächste Versteigerung automatisch starten"] },
+		{ "announceBids", L["Gebote im Raidchat ansagen"] },
+		{ "unlootedReminder", L["Erinnern, wenn Boss nicht geplündert"] },
+		{ "tradeFallback", L["Bei Abwesenheit an mich + Handelsliste"] },
+		{ "whisperReplies", L["Auf !dkp-Flüstern antworten"] },
 	}
 	local cy = -30
 	for _, c in ipairs(checks) do
@@ -515,14 +516,14 @@ UI.AddPage("loot", "Loot", function(page)
 		cy = cy - 26
 	end
 
-	Section(page, "Offene Zuteilungen und Handel", ox, -248)
+	Section(page, L["Offene Zuteilungen und Handel"], ox, -248)
 	local openList = UI.List(page, 440, 160, {
-		{ title = "Item", width = 200 },
-		{ title = "Spieler", width = 90 },
-		{ title = "Art", width = 120 },
-	}, { emptyText = "Nichts offen." })
+		{ title = L["Item"], width = 200 },
+		{ title = L["Spieler"], width = 90 },
+		{ title = L["Art"], width = 120 },
+	}, { emptyText = L["Nichts offen."] })
 	Place(openList, page, ox, -274)
-	local removeOpen = UI.Button(page, "Entfernen", 100, 24, function()
+	local removeOpen = UI.Button(page, L["Entfernen"], 100, 24, function()
 		local d = openList:Selected()
 		if not d then return end
 		if d.kind == "trade" then
@@ -534,9 +535,9 @@ UI.AddPage("loot", "Loot", function(page)
 		openList:ClearSelection()
 	end)
 	Place(removeOpen, page, ox, -440)
-	Label(page, "Handel: Öffne einfach ein Handelsfenster mit dem Spieler – seine Items werden automatisch eingelegt.", ox + 108, -440, 11, true):SetWidth(330)
+	Label(page, L["Handel: Öffne einfach ein Handelsfenster mit dem Spieler – seine Items werden automatisch eingelegt."], ox + 108, -440, 11, true):SetWidth(330)
 
-	Section(page, "Aktuelles Lootfenster", ox, -480)
+	Section(page, L["Aktuelles Lootfenster"], ox, -480)
 	local lootInfo = Label(page, "", ox, -504, 11, true)
 	lootInfo:SetWidth(440)
 
@@ -544,23 +545,23 @@ UI.AddPage("loot", "Loot", function(page)
 		for _, r in ipairs(refreshers) do r:Refresh() end
 		local rows = {}
 		for i, p in ipairs(RM.db.pendingAwards) do
-			rows[#rows + 1] = { key = "p" .. i .. p.link, kind = "pending", index = i, link = p.link, cells = { p.link, p.name, "Boss erneut öffnen" }, colors = { nil, nil, { 1, 0.8, 0.3 } } }
+			rows[#rows + 1] = { key = "p" .. i .. p.link, kind = "pending", index = i, link = p.link, cells = { p.link, p.name, L["Boss erneut öffnen"] }, colors = { nil, nil, { 1, 0.8, 0.3 } } }
 		end
 		for i, t in ipairs(RM.db.trade) do
-			rows[#rows + 1] = { key = "t" .. i .. t.link, kind = "trade", index = i, link = t.link, cells = { t.link, t.name, "Handeln" }, colors = { nil, nil, { 0.5, 0.8, 1 } } }
+			rows[#rows + 1] = { key = "t" .. i .. t.link, kind = "trade", index = i, link = t.link, cells = { t.link, t.name, L["Handeln"] }, colors = { nil, nil, { 0.5, 0.8, 1 } } }
 		end
 		openList:SetData(rows)
 
 		if RM.Loot.isOpen and #RM.Loot.items > 0 then
 			local parts = {}
 			for _, it in ipairs(RM.Loot.items) do
-				parts[#parts + 1] = it.link .. " – " .. (RM.Loot.ActionNames[it.action] or it.action) .. (it.done and " (erledigt)" or "")
+				parts[#parts + 1] = it.link .. " – " .. (RM.Loot.ActionNames[it.action] or it.action) .. (it.done and L[" (erledigt)"] or "")
 			end
 			lootInfo:SetText(table.concat(parts, "\n"))
 		elseif RM.Loot.isOpen then
-			lootInfo:SetText("Geöffnet – keine Items über der Schwelle.")
+			lootInfo:SetText(L["Geöffnet – keine Items über der Schwelle."])
 		else
-			lootInfo:SetText("Kein Lootfenster geöffnet.")
+			lootInfo:SetText(L["Kein Lootfenster geöffnet."])
 		end
 	end
 end)
@@ -568,21 +569,21 @@ end)
 ---------------------------------------------------------------------------
 -- Seite: Log
 ---------------------------------------------------------------------------
-UI.AddPage("log", "Log", function(page)
+UI.AddPage("log", L["Log"], function(page)
 	local filterKind = "all"
-	Section(page, "Buchungsprotokoll", 0, 0)
+	Section(page, L["Buchungsprotokoll"], 0, 0)
 	local poolCycle = PoolCycle(page, 180, 4, 240, true)
 
 	local filter = UI.Cycle(page, 150, {
-		{ "all", "Alle Buchungen" }, { "boss", "Bosskills" }, { "item", "Items" }, { "manual", "Anpassungen" },
-		{ "raid", "Raidstart/-ende" }, { "decay", "Decay" }, { "undo", "Rückgängig" },
+		{ "all", L["Alle Buchungen"] }, { "boss", L["Bosskills"] }, { "item", L["Items"] }, { "manual", L["Anpassungen"] },
+		{ "raid", L["Raidstart/-ende"] }, { "decay", L["Decay"] }, { "undo", L["Rückgängig"] },
 	}, function() return filterKind end, function(v) filterKind = v; UI.RefreshCurrent() end)
 	Place(filter, page, 0, -28)
 
 	local search = UI.EditBox(page, 160, 24)
 	Place(search, page, 160, -28)
 	local viewCycle = ViewCycle(page, 330, -28)
-	local hint = UI.Text(search, "Spieler suchen ...", 11, unpack(COLORS.muted))
+	local hint = UI.Text(search, L["Spieler suchen ..."], 11, unpack(COLORS.muted))
 	hint:SetPoint("LEFT", 8, 0)
 	search:SetScript("OnTextChanged", function(self)
 		if self:GetText() == "" then hint:Show() else hint:Hide() end
@@ -590,25 +591,25 @@ UI.AddPage("log", "Log", function(page)
 	end)
 
 	local list = UI.List(page, 790, 456, {
-		{ title = "Zeit", width = 80 },
-		{ title = "Von", width = 85 },
-		{ title = "Raid", width = 64 },
-		{ title = "Art", width = 74 },
-		{ title = "Beschreibung", width = 266 },
-		{ title = "Betrag", width = 70, justify = "RIGHT" },
-		{ title = "Spieler", width = 70, justify = "RIGHT" },
-	}, { emptyText = "Noch keine Buchungen." })
+		{ title = L["Zeit"], width = 80 },
+		{ title = L["Von"], width = 85 },
+		{ title = L["Raid"], width = 64 },
+		{ title = L["Art"], width = 74 },
+		{ title = L["Beschreibung"], width = 266 },
+		{ title = L["Betrag"], width = 70, justify = "RIGHT" },
+		{ title = L["Spieler"], width = 70, justify = "RIGHT" },
+	}, { emptyText = L["Noch keine Buchungen."] })
 	Place(list, page, 0, -60)
 
-	local undoBtn = UI.Button(page, "Rückgängig", 120, 26, function()
+	local undoBtn = UI.Button(page, L["Rückgängig"], 120, 26, function()
 		if not NeedOfficer() then return end
 		local d = list:Selected()
-		if not d then RM.Print("Bitte zuerst eine Buchung wählen.") return end
-		UI.Confirm("Diese Buchung rückgängig machen?\n" .. (d.desc or ""), function() RM.DKP.Undo(d.key) end)
-	end, "Erstellt eine Gegenbuchung. Nichts wird gelöscht.")
+		if not d then RM.Print(L["Bitte zuerst eine Buchung wählen."]) return end
+		UI.Confirm(L["Diese Buchung rückgängig machen?\n"] .. (d.desc or ""), function() RM.DKP.Undo(d.key) end)
+	end, L["Erstellt eine Gegenbuchung. Nichts wird gelöscht."])
 	Place(undoBtn, page, 0, -526)
 
-	local exportBtn = UI.Button(page, "Export", 100, 26, function() UI.ShowExport(RM.DKP.ExportText()) end)
+	local exportBtn = UI.Button(page, L["Export"], 100, 26, function() UI.ShowExport(RM.DKP.ExportText()) end)
 	Place(exportBtn, page, 128, -526)
 
 	return function()
@@ -645,8 +646,8 @@ UI.AddPage("log", "Log", function(page)
 					key = e.id, desc = desc,
 					cells = {
 						date("%d.%m. %H:%M", e.t or 0), e.by or "", RM.DKP.PoolShort(epool, data), RM.DKP.KindNames[e.k] or e.k or "",
-						desc .. (e.u and " (rückgängig)" or ""),
-						count == 1 and string.format("%+d", amount or 0) or (uniform and string.format("%+d je", amount or 0) or "versch."),
+						desc .. (e.u and L[" (rückgängig)"] or ""),
+						count == 1 and string.format("%+d", amount or 0) or (uniform and string.format(L["%+d je"], amount or 0) or "versch."),
 						tostring(count),
 					},
 					colors = { grey, grey, grey, grey, grey, amountColor, grey },
@@ -671,24 +672,24 @@ end)
 ---------------------------------------------------------------------------
 -- Seite: Raid
 ---------------------------------------------------------------------------
-UI.AddPage("raid", "Raid", function(page)
-	Section(page, "Raid-Sitzung", 0, 0)
+UI.AddPage("raid", L["Raid"], function(page)
+	Section(page, L["Raid-Sitzung"], 0, 0)
 	local sessionText = Label(page, "", 0, -28)
 	sessionText:SetWidth(380)
 
-	local startBtn = UI.Button(page, "Raid starten", 140, 30, function()
+	local startBtn = UI.Button(page, L["Raid starten"], 140, 30, function()
 		if not NeedOfficer() then return end
-		UI.Confirm("Raid starten?\nAlle Raidmitglieder (und die Ersatzbank) erhalten den Pünktlichkeitsbonus.", function() RM.Raid.Start() end)
+		UI.Confirm(L["Raid starten?\nAlle Raidmitglieder (und die Ersatzbank) erhalten den Pünktlichkeitsbonus."], function() RM.Raid.Start() end)
 	end)
 	Place(startBtn, page, 0, -70)
 	startBtn:SetAccent(true)
 
-	local endBtn = UI.Button(page, "Raid beenden", 140, 30, function()
-		UI.Confirm("Raid beenden?\nAlle Raidmitglieder (und die Ersatzbank) erhalten den Abschlussbonus.", function() RM.Raid.End() end)
+	local endBtn = UI.Button(page, L["Raid beenden"], 140, 30, function()
+		UI.Confirm(L["Raid beenden?\nAlle Raidmitglieder (und die Ersatzbank) erhalten den Abschlussbonus."], function() RM.Raid.End() end)
 	end)
 	Place(endBtn, page, 150, -70)
 
-	Label(page, "DKP-Topf", 0, -115)
+	Label(page, L["DKP-Topf"], 0, -115)
 	local poolOpts = {}
 	local function RebuildPools()
 		wipe(poolOpts)
@@ -703,8 +704,8 @@ UI.AddPage("raid", "Raid", function(page)
 		if RM.db.session.active then RM.db.session.pool = v end
 		RM.DKP.MapCurrentInstance(v)
 		RM.Fire("SESSION_CHANGED")
-	end, "Für welchen Raid Start-/Endbonus und Versteigerungen gebucht werden.\n"
-		.. "In einer Raid-Instanz wird der Topf automatisch erkannt. Wählst du hier etwas anderes, merkt sich RaidMaster das für diese Instanz.")
+	end, L["Für welchen Raid Start-/Endbonus und Versteigerungen gebucht werden.\n"]
+		.. L["In einer Raid-Instanz wird der Topf automatisch erkannt. Wählst du hier etwas anderes, merkt sich RaidMaster das für diese Instanz."])
 	Place(raidPool, page, 75, -110)
 	local poolHint = Label(page, "", 0, -140, 11, true)
 	poolHint:SetWidth(390)
@@ -712,70 +713,70 @@ UI.AddPage("raid", "Raid", function(page)
 	local killsText = Label(page, "", 0, -166, 11, true)
 	killsText:SetWidth(380)
 
-	Section(page, "Raid-Check", 0, -230)
-	local checkBtn = UI.Button(page, "Jetzt prüfen", 120, 26, function() RM.Raid.RunCheck() end,
-		"Prüft Plündermethode, Schwelle, Rechte und welche Spieler das Addon haben.")
+	Section(page, L["Raid-Check"], 0, -230)
+	local checkBtn = UI.Button(page, L["Jetzt prüfen"], 120, 26, function() RM.Raid.RunCheck() end,
+		L["Prüft Plündermethode, Schwelle, Rechte und welche Spieler das Addon haben."])
 	Place(checkBtn, page, 0, -256)
-	local checkText = Label(page, "Noch nicht geprüft.", 0, -290, 11)
+	local checkText = Label(page, L["Noch nicht geprüft."], 0, -290, 11)
 	checkText:SetWidth(390)
 
 	-- rechte Spalte
 	local rx = 410
-	Section(page, "Ersatzbank", rx, 0)
-	local sbList = UI.List(page, 230, 200, { { title = "Name", width = 200 } }, { emptyText = "Niemand auf der Ersatzbank." })
+	Section(page, L["Ersatzbank"], rx, 0)
+	local sbList = UI.List(page, 230, 200, { { title = L["Name"], width = 200 } }, { emptyText = L["Niemand auf der Ersatzbank."] })
 	Place(sbList, page, rx, -26)
 	local sbBox = UI.EditBox(page, 140, 24)
 	Place(sbBox, page, rx + 240, -26)
-	local sbAdd = UI.Button(page, "Hinzufügen", 130, 24, function()
+	local sbAdd = UI.Button(page, L["Hinzufügen"], 130, 24, function()
 		local n = CapName(sbBox:GetText())
 		if n ~= "" and not RM.DKP.IsStandby(n) then RM.DKP.ToggleStandby(n) end
 		sbBox:SetText("")
 	end)
 	Place(sbAdd, page, rx + 240, -56)
-	local sbRemove = UI.Button(page, "Entfernen", 130, 24, function()
+	local sbRemove = UI.Button(page, L["Entfernen"], 130, 24, function()
 		local d = sbList:Selected()
 		if d then RM.DKP.ToggleStandby(d.key); sbList:ClearSelection() end
 	end)
 	Place(sbRemove, page, rx + 240, -86)
-	local sbClear = UI.Button(page, "Alle entfernen", 130, 24, function()
-		UI.Confirm("Ersatzbank leeren?", function() wipe(RM.db.config.standby); RM.Fire("DATA_CHANGED") end)
+	local sbClear = UI.Button(page, L["Alle entfernen"], 130, 24, function()
+		UI.Confirm(L["Ersatzbank leeren?"], function() wipe(RM.db.config.standby); RM.Fire("DATA_CHANGED") end)
 	end)
 	Place(sbClear, page, rx + 240, -116)
 
-	Section(page, "Pausen-Timer", rx, -246)
+	Section(page, L["Pausen-Timer"], rx, -246)
 	local px = rx
 	for _, m in ipairs({ 2, 5, 10, 15 }) do
-		local b = UI.Button(page, m .. " Min.", 70, 26, function() RM.Raid.StartPause(m * 60) end)
+		local b = UI.Button(page, m .. L[" Min."], 70, 26, function() RM.Raid.StartPause(m * 60) end)
 		Place(b, page, px, -272)
 		px = px + 76
 	end
-	local stopBtn = UI.Button(page, "Pause beenden", 120, 26, function() RM.Raid.StopPause() end)
+	local stopBtn = UI.Button(page, L["Pause beenden"], 120, 26, function() RM.Raid.StopPause() end)
 	Place(stopBtn, page, rx, -304)
 
-	Section(page, "Decay", rx, -350)
+	Section(page, L["Decay"], rx, -350)
 	local decayText = Label(page, "", rx, -376, 11)
 	decayText:SetWidth(370)
-	local decayBtn = UI.Button(page, "Decay anwenden", 140, 26, function()
+	local decayBtn = UI.Button(page, L["Decay anwenden"], 140, 26, function()
 		if not NeedOfficer() then return end
 		local pct = RM.db.data.settings.decayPct
-		UI.Confirm(string.format("Wöchentlichen Decay anwenden?\nAlle positiven DKP in allen Raid-Töpfen werden um %d %% reduziert.", pct), function() RM.DKP.ApplyDecay() end)
+		UI.Confirm(string.format(L["Wöchentlichen Decay anwenden?\nAlle positiven DKP in allen Raid-Töpfen werden um %d %% reduziert."], pct), function() RM.DKP.ApplyDecay() end)
 	end)
 	Place(decayBtn, page, rx, -416)
 
-	Section(page, "Kernhunde", rx, -462)
-	local houndCheck = UI.Check(page, "Kürschner ansagen, wenn ein Kernhund stirbt",
+	Section(page, L["Kernhunde"], rx, -462)
+	local houndCheck = UI.Check(page, L["Kürschner ansagen, wenn ein Kernhund stirbt"],
 		function() return RM.db.config.coreHound end, function(v) RM.db.config.coreHound = v end,
-		"Der Raidleiter sagt die Kürschner mit Addon im Raid an (nach Skill sortiert).")
+		L["Der Raidleiter sagt die Kürschner mit Addon im Raid an (nach Skill sortiert)."])
 	Place(houndCheck, page, rx, -488)
 
 	return function()
 		local s = RM.db.session
 		if s.active then
-			sessionText:SetText(string.format("|cff40ff40Raid läuft seit %s.|r\nBosse werden automatisch erkannt und gebucht.", date("%H:%M", s.started)))
+			sessionText:SetText(string.format(L["|cff40ff40Raid läuft seit %s.|r\nBosse werden automatisch erkannt und gebucht."], date("%H:%M", s.started)))
 			startBtn:Disable()
 			endBtn:Enable()
 		else
-			sessionText:SetText(s.ended and ("Kein Raid aktiv. Letzter Raid beendet: " .. RM.FormatTime(s.ended)) or "Kein Raid aktiv.")
+			sessionText:SetText(s.ended and (L["Kein Raid aktiv. Letzter Raid beendet: "] .. RM.FormatTime(s.ended)) or L["Kein Raid aktiv."])
 			if RM.CanEdit() then startBtn:Enable() else startBtn:Disable() end
 			endBtn:Disable()
 		end
@@ -783,9 +784,9 @@ UI.AddPage("raid", "Raid", function(page)
 		raidPool:Refresh()
 		local inst = RM.DKP.CurrentInstancePool()
 		if inst then
-			poolHint:SetText("Erkannt in dieser Instanz: |cffff8c1a" .. RM.DKP.PoolName(inst) .. "|r")
+			poolHint:SetText(L["Erkannt in dieser Instanz: |cffff8c1a"] .. RM.DKP.PoolName(inst) .. "|r")
 		else
-			poolHint:SetText("Außerhalb einer Raid-Instanz – der gewählte Topf gilt.")
+			poolHint:SetText(L["Außerhalb einer Raid-Instanz – der gewählte Topf gilt."])
 		end
 		local kills = {}
 		local list = {}
@@ -793,10 +794,10 @@ UI.AddPage("raid", "Raid", function(page)
 		table.sort(list, function(a, b) return a.t < b.t end)
 		for _, k in ipairs(list) do
 			local b = RM.Data.Bosses[k.id]
-			local name = (b and b.name) or (s.names and s.names[k.id]) or ("Boss " .. k.id)
+			local name = (b and b.name) or (s.names and s.names[k.id]) or (L["Boss "] .. k.id)
 			kills[#kills + 1] = "|cff40ff40" .. name .. "|r (" .. date("%H:%M", k.t) .. ")"
 		end
-		killsText:SetText(#kills > 0 and ("Besiegt: " .. table.concat(kills, ", ")) or (s.active and "Noch kein Boss besiegt." or ""))
+		killsText:SetText(#kills > 0 and (L["Besiegt: "] .. table.concat(kills, ", ")) or (s.active and L["Noch kein Boss besiegt."] or ""))
 
 		if #RM.Raid.lastCheck > 0 then checkText:SetText(table.concat(RM.Raid.lastCheck, "\n")) end
 
@@ -812,7 +813,7 @@ UI.AddPage("raid", "Raid", function(page)
 			local color = days >= 7 and "|cffff6040" or "|cffcccccc"
 			decayText:SetText(string.format("%sLetzter Decay: %s (vor %d Tagen).|r Einstellung: %d %% pro Anwendung.", color, RM.FormatTime(last), days, pct))
 		else
-			decayText:SetText(string.format("Noch kein Decay angewendet. Einstellung: %d %% pro Anwendung.", pct))
+			decayText:SetText(string.format(L["Noch kein Decay angewendet. Einstellung: %d %% pro Anwendung."], pct))
 		end
 		if RM.CanEdit() then decayBtn:Enable() else decayBtn:Disable() end
 		houndCheck:Refresh()
@@ -822,19 +823,19 @@ end)
 ---------------------------------------------------------------------------
 -- Seite: Anmeldungen (aus Discord)
 ---------------------------------------------------------------------------
-UI.AddPage("signup", "Anmeldungen", function(page)
-	Section(page, "Raidanmeldungen aus Discord", 0, 0)
+UI.AddPage("signup", L["Anmeldungen"], function(page)
+	Section(page, L["Raidanmeldungen aus Discord"], 0, 0)
 	local info = Label(page, "", 0, -26, 12)
 	info:SetWidth(520)
 
 	local list = UI.List(page, 520, 330, {
-		{ title = "Name", width = 115 },
-		{ title = "Klasse", width = 85 },
-		{ title = "Rolle", width = 80 },
-		{ title = "Status", width = 90 },
-		{ title = "Im Raid", width = 60 },
-		{ title = "Grp.", width = 40, justify = "CENTER" },
-	}, { emptyText = "Noch nichts importiert." })
+		{ title = L["Name"], width = 115 },
+		{ title = L["Klasse"], width = 85 },
+		{ title = L["Rolle"], width = 80 },
+		{ title = L["Status"], width = 90 },
+		{ title = L["Im Raid"], width = 60 },
+		{ title = L["Grp."], width = 40, justify = "CENTER" },
+	}, { emptyText = L["Noch nichts importiert."] })
 	Place(list, page, 0, -50)
 
 	local summary = Label(page, "", 0, -390, 11)
@@ -842,11 +843,11 @@ UI.AddPage("signup", "Anmeldungen", function(page)
 
 	-- rechte Spalte: Import und Aktionen
 	local rx = 540
-	Section(page, "Importieren", rx, 0)
-	Label(page, "Im Discord beim Raid auf 'Für RaidMaster' klicken, den Text kopieren und hier einfügen (Strg+V).", rx, -26, 11, true):SetWidth(245)
+	Section(page, L["Importieren"], rx, 0)
+	Label(page, L["Im Discord beim Raid auf 'Für RaidMaster' klicken, den Text kopieren und hier einfügen (Strg+V)."], rx, -26, 11, true):SetWidth(245)
 	local box = UI.Multiline(page, 245, 150)
 	Place(box, page, rx, -64)
-	local importBtn = UI.Button(page, "Übernehmen", 120, 26, function()
+	local importBtn = UI.Button(page, L["Übernehmen"], 120, 26, function()
 		if RM.Signup.Import(box.edit:GetText()) then
 			box:SetText("")
 			box.edit:ClearFocus()
@@ -854,36 +855,36 @@ UI.AddPage("signup", "Anmeldungen", function(page)
 	end)
 	Place(importBtn, page, rx, -220)
 	importBtn:SetAccent(true)
-	local clearBtn = UI.Button(page, "Liste leeren", 120, 26, function()
-		UI.Confirm("Importierte Anmeldungen löschen?", function() RM.Signup.Clear() end)
+	local clearBtn = UI.Button(page, L["Liste leeren"], 120, 26, function()
+		UI.Confirm(L["Importierte Anmeldungen löschen?"], function() RM.Signup.Clear() end)
 	end)
 	Place(clearBtn, page, rx + 125, -220)
 
-	Section(page, "Aktionen", rx, -266)
-	local inviteBtn = UI.Button(page, "Angemeldete einladen", 245, 28, function() RM.Signup.InviteAll(false) end,
-		"Lädt alle Angemeldeten ein, die noch nicht in der Gruppe sind.\nAus einer Gruppe wird automatisch ein Schlachtzug.")
+	Section(page, L["Aktionen"], rx, -266)
+	local inviteBtn = UI.Button(page, L["Angemeldete einladen"], 245, 28, function() RM.Signup.InviteAll(false) end,
+		L["Lädt alle Angemeldeten ein, die noch nicht in der Gruppe sind.\nAus einer Gruppe wird automatisch ein Schlachtzug."])
 	Place(inviteBtn, page, rx, -292)
-	local inviteAllBtn = UI.Button(page, "Inkl. Ersatzbank einladen", 245, 26, function() RM.Signup.InviteAll(true) end)
+	local inviteAllBtn = UI.Button(page, L["Inkl. Ersatzbank einladen"], 245, 26, function() RM.Signup.InviteAll(true) end)
 	Place(inviteAllBtn, page, rx, -326)
-	local stopBtn = UI.Button(page, "Einladen stoppen", 245, 26, function() RM.Signup.StopInvites() end)
+	local stopBtn = UI.Button(page, L["Einladen stoppen"], 245, 26, function() RM.Signup.StopInvites() end)
 	Place(stopBtn, page, rx, -358)
-	local benchBtn = UI.Button(page, "Ersatzbank übernehmen", 245, 26, function() RM.Signup.ApplyStandby() end,
-		"Trägt alle Discord-Ersatzbank-Anmeldungen in die DKP-Ersatzbank ein (Seite Raid).")
+	local benchBtn = UI.Button(page, L["Ersatzbank übernehmen"], 245, 26, function() RM.Signup.ApplyStandby() end,
+		L["Trägt alle Discord-Ersatzbank-Anmeldungen in die DKP-Ersatzbank ein (Seite Raid)."])
 	Place(benchBtn, page, rx, -390)
-	local groupBtn = UI.Button(page, "Gruppen einteilen", 245, 26, function() RM.Signup.ArrangeGroups() end,
-		"Sortiert den Schlachtzug in die festen Gruppen aus Discord (/raid aufstellung).\nNur außerhalb des Kampfes.")
+	local groupBtn = UI.Button(page, L["Gruppen einteilen"], 245, 26, function() RM.Signup.ArrangeGroups() end,
+		L["Sortiert den Schlachtzug in die festen Gruppen aus Discord (/raid aufstellung).\nNur außerhalb des Kampfes."])
 	Place(groupBtn, page, rx, -422)
 
-	local autoInv = UI.Check(page, "Auto-Einladung", function() return RM.db.config.autoInvite end,
+	local autoInv = UI.Check(page, L["Auto-Einladung"], function() return RM.db.config.autoInvite end,
 		function(v) RM.db.config.autoInvite = v; UI.RefreshCurrent() end,
-		"Lädt automatisch alle Aufgestellten ein, sobald der Raid öffnet, und Nachzügler bis 30 Min. nach Beginn.\nDein Spiel muss dafür laufen.")
+		L["Lädt automatisch alle Aufgestellten ein, sobald der Raid öffnet, und Nachzügler bis 30 Min. nach Beginn.\nDein Spiel muss dafür laufen."])
 	Place(autoInv, page, rx, -458)
-	local minutes = UI.Cycle(page, 90, { { 5, "5 Min." }, { 10, "10 Min." }, { 15, "15 Min." }, { 20, "20 Min." }, { 30, "30 Min." } },
+	local minutes = UI.Cycle(page, 90, { { 5, L["5 Min."] }, { 10, L["10 Min."] }, { 15, L["15 Min."] }, { 20, L["20 Min."] }, { 30, L["30 Min."] } },
 		function() return RM.db.config.autoInviteMinutes or 15 end, function(v) RM.db.config.autoInviteMinutes = v; UI.RefreshCurrent() end,
-		"So viele Minuten vor Raidbeginn öffnet der Raid.")
+		L["So viele Minuten vor Raidbeginn öffnet der Raid."])
 	Place(minutes, page, rx + 150, -454)
-	local autoGrp = UI.Check(page, "Gruppen automatisch sortieren", function() return RM.db.config.autoGroups end,
-		function(v) RM.db.config.autoGroups = v end, "Jeder, der dem Raid beitritt, kommt sofort in seine feste Gruppe.")
+	local autoGrp = UI.Check(page, L["Gruppen automatisch sortieren"], function() return RM.db.config.autoGroups end,
+		function(v) RM.db.config.autoGroups = v end, L["Jeder, der dem Raid beitritt, kommt sofort in seine feste Gruppe."])
 	Place(autoGrp, page, rx, -486)
 	local autoState = Label(page, "", rx, -512, 11, true)
 	autoState:SetWidth(245)
@@ -896,9 +897,9 @@ UI.AddPage("signup", "Anmeldungen", function(page)
 	return function()
 		local su = RM.db.signup
 		if su then
-			info:SetText(string.format("|cffff8c1a%s|r  ·  %s  ·  importiert %s", su.title ~= "" and su.title or "Raid", su.date or "", RM.FormatTime(su.imported or 0)))
+			info:SetText(string.format("|cffff8c1a%s|r  ·  %s  ·  importiert %s", su.title ~= "" and su.title or L["Raid"], su.date or "", RM.FormatTime(su.imported or 0)))
 		else
-			info:SetText("Noch keine Anmeldungen importiert.")
+			info:SetText(L["Noch keine Anmeldungen importiert."])
 		end
 		local rows, missing, extra = RM.Signup.Compare()
 		table.sort(rows, function(a, b)
@@ -911,7 +912,7 @@ UI.AddPage("signup", "Anmeldungen", function(page)
 			local e = r.entry
 			local group = r.inRaid and (r.online and "dabei" or "offline") or "-"
 			local grp = su and su.groups and su.groups[e.name]
-			local grpText = grp and tostring(grp) or ((su and su.bench and su.bench[e.name]) and "Bank" or "")
+			local grpText = grp and tostring(grp) or ((su and su.bench and su.bench[e.name]) and L["Bank"] or "")
 			data[#data + 1] = {
 				key = e.name,
 				cells = { RM.ClassColor(e.cls, e.name), ClassName(e.cls), RM.Signup.ROLE[e.role] or e.role,
@@ -931,8 +932,8 @@ UI.AddPage("signup", "Anmeldungen", function(page)
 				end
 			end
 			local lines = { string.format("Angemeldet: %d  ·  davon in der Gruppe: %d", signed, present) }
-			if #missing > 0 then lines[#lines + 1] = "|cffffcc00Fehlen noch:|r " .. table.concat(missing, ", ") end
-			if #extra > 0 then lines[#lines + 1] = "|cff99bbffIn der Gruppe ohne Anmeldung:|r " .. table.concat(extra, ", ") end
+			if #missing > 0 then lines[#lines + 1] = L["|cffffcc00Fehlen noch:|r "] .. table.concat(missing, ", ") end
+			if #extra > 0 then lines[#lines + 1] = L["|cff99bbffIn der Gruppe ohne Anmeldung:|r "] .. table.concat(extra, ", ") end
 			summary:SetText(table.concat(lines, "\n"))
 		else
 			summary:SetText("")
@@ -947,52 +948,52 @@ UI.AddPage("signup", "Anmeldungen", function(page)
 		autoInv:Refresh()
 		autoGrp:Refresh()
 		minutes:Refresh()
-		autoState:SetText("Auto-Einladung: " .. RM.Signup.AutoInviteState())
+		autoState:SetText(L["Auto-Einladung: "] .. RM.Signup.AutoInviteState())
 	end
 end)
 
 ---------------------------------------------------------------------------
 -- Seite: PUG-Raid (kein DKP, Loot über softres.it)
 ---------------------------------------------------------------------------
-UI.AddPage("pug", "PUG-Raid", function(page)
+UI.AddPage("pug", L["PUG-Raid"], function(page)
 	local PUG = RM.PUG
 	local cfg = function() return RM.db.config end
-	Section(page, "PUG-Raid", 0, 0)
+	Section(page, L["PUG-Raid"], 0, 0)
 	local status = Label(page, "", 0, -26, 12)
 	status:SetWidth(780)
-	Label(page, "Im PUG-Raid gibt es keine DKP und keine Versteigerung. Soft Reserve und Würfeln laufen über softres.it – "
-		.. "der Plündermeister verteilt den Loot nach der softres.it-Liste.", 0, -50, 11, true):SetWidth(780)
+	Label(page, L["Im PUG-Raid gibt es keine DKP und keine Versteigerung. Soft Reserve und Würfeln laufen über softres.it – "]
+		.. L["der Plündermeister verteilt den Loot nach der softres.it-Liste."], 0, -50, 11, true):SetWidth(780)
 
 	Section(page, "softres.it", 0, -96)
-	Label(page, "Link", 0, -126)
+	Label(page, L["Link"], 0, -126)
 	local linkBox = UI.EditBox(page, 520, 24)
 	Place(linkBox, page, 60, -122)
 	linkBox:SetScript("OnTextChanged", function(self, user)
 		if user then cfg().softresLink = self:GetText(); UI.RefreshCurrent() end
 	end)
-	Label(page, "z. B. https://softres.it/raid/abcd – wird beim Import eines PUG-Raids aus Discord automatisch übernommen.", 60, -150, 11, true):SetWidth(720)
-	local postBtn = UI.Button(page, "Link im Raid posten", 185, 26, function() PUG.AnnounceSoftres(true) end,
-		"Postet den softres.it-Link als Schlachtzugswarnung.")
+	Label(page, L["z. B. https://softres.it/raid/abcd – wird beim Import eines PUG-Raids aus Discord automatisch übernommen."], 60, -150, 11, true):SetWidth(720)
+	local postBtn = UI.Button(page, L["Link im Raid posten"], 185, 26, function() PUG.AnnounceSoftres(true) end,
+		L["Postet den softres.it-Link als Schlachtzugswarnung."])
 	Place(postBtn, page, 0, -180)
 
-	Section(page, "Leitung", 0, -230)
-	local startBtn = UI.Button(page, "PUG-Raid starten", 185, 28, function()
-		UI.Confirm("PUG-Raid starten?\nKein DKP, keine Versteigerung – Loot über softres.it.", function() PUG.Start() end)
-	end, "Raidleiter, Assistent oder Plündermeister.")
+	Section(page, L["Leitung"], 0, -230)
+	local startBtn = UI.Button(page, L["PUG-Raid starten"], 185, 28, function()
+		UI.Confirm(L["PUG-Raid starten?\nKein DKP, keine Versteigerung – Loot über softres.it."], function() PUG.Start() end)
+	end, L["Raidleiter, Assistent oder Plündermeister."])
 	Place(startBtn, page, 0, -256)
 	startBtn:SetAccent(true)
-	local stopBtn = UI.Button(page, "PUG-Raid beenden", 185, 28, function()
-		UI.Confirm("PUG-Raid beenden?", function() PUG.Stop() end)
+	local stopBtn = UI.Button(page, L["PUG-Raid beenden"], 185, 28, function()
+		UI.Confirm(L["PUG-Raid beenden?"], function() PUG.Stop() end)
 	end)
 	Place(stopBtn, page, 195, -256)
-	Label(page, "Werbung für den Raid: Seite \"Werbung\".", 0, -296, 11, true):SetWidth(380)
+	Label(page, L["Werbung für den Raid: Seite \"Werbung\"."], 0, -296, 11, true):SetWidth(380)
 
 	return function()
 		local v = PUG.view
 		if v.active then
 			status:SetText(string.format("|cff40ff40PUG-Raid aktiv|r – Leiter: %s", v.leader or "?"))
 		else
-			status:SetText("Kein PUG-Raid aktiv. Der Raidleiter startet ihn unten unter 'Leitung'.")
+			status:SetText(L["Kein PUG-Raid aktiv. Der Raidleiter startet ihn unten unter 'Leitung'."])
 		end
 		if not linkBox:HasFocus() then linkBox:SetText(cfg().softresLink or "") end
 		local lead = PUG.IsLeader()
@@ -1005,22 +1006,22 @@ end)
 ---------------------------------------------------------------------------
 -- Seite: Einteilung (Heilung, Entfluchen, CC)
 ---------------------------------------------------------------------------
-UI.AddPage("ad", "Werbung", function(page)
+UI.AddPage("ad", L["Werbung"], function(page)
 	local Ad = RM.Ad
 	local cfg = function() return RM.db.config end
 
-	Section(page, "Werbung im offenen Chat", 0, 0)
-	Label(page, "Postet einen Werbetext für deinen Raid mit dem Discord-Link – z. B. in den Welt-, Handels- oder Gruppensuche-Kanal.", 0, -26, 11, true):SetWidth(780)
+	Section(page, L["Werbung im offenen Chat"], 0, 0)
+	Label(page, L["Postet einen Werbetext für deinen Raid mit dem Discord-Link – z. B. in den Welt-, Handels- oder Gruppensuche-Kanal."], 0, -26, 11, true):SetWidth(780)
 
-	Label(page, "Discord-Link", 0, -60)
+	Label(page, L["Discord-Link"], 0, -60)
 	local linkBox = UI.EditBox(page, 420, 24)
 	Place(linkBox, page, 110, -56)
 	linkBox:SetScript("OnTextChanged", function(self, user)
 		if user then cfg().adLink = self:GetText(); UI.RefreshCurrent() end
 	end)
-	Label(page, "Den PUG-Link gibt es im Discord mit /pug-einladung. Beim Import eines PUG-Raids wird er automatisch übernommen.", 0, -86, 11, true):SetWidth(780)
+	Label(page, L["Den PUG-Link gibt es im Discord mit /pug-einladung. Beim Import eines PUG-Raids wird er automatisch übernommen."], 0, -86, 11, true):SetWidth(780)
 
-	Label(page, "Kanal", 0, -120)
+	Label(page, L["Kanal"], 0, -120)
 	local targets = {}
 	local function RebuildTargets()
 		wipe(targets)
@@ -1033,39 +1034,39 @@ UI.AddPage("ad", "Werbung", function(page)
 	RebuildTargets()
 	local chanCycle = UI.Cycle(page, 260, targets, function() return Ad.Target() end,
 		function(v) cfg().adChannel = v; UI.RefreshCurrent() end,
-		"Kanäle, denen du beigetreten bist. Einem Kanal beitreten: /join Name")
+		L["Kanäle, denen du beigetreten bist. Einem Kanal beitreten: /join Name"])
 	Place(chanCycle, page, 110, -116)
 
-	Label(page, "Text", 0, -158)
+	Label(page, L["Text"], 0, -158)
 	local textBox = UI.EditBox(page, 670, 24)
 	Place(textBox, page, 110, -154)
 	textBox:SetScript("OnTextChanged", function(self, user)
 		if user then cfg().adText = self:GetText(); UI.RefreshCurrent() end
 	end)
-	Label(page, "Platzhalter: {raid} Raidname · {zeit} Datum/Uhrzeit · {frei} freie Plätze · {softres} softres.it-Link · {link} Discord-Link · {name} dein Name", 110, -182, 11, true):SetWidth(670)
-	local resetBtn = UI.Button(page, "Standardtext", 120, 24, function()
+	Label(page, L["Platzhalter: {raid} Raidname · {zeit} Datum/Uhrzeit · {frei} freie Plätze · {softres} softres.it-Link · {link} Discord-Link · {name} dein Name"], 110, -182, 11, true):SetWidth(670)
+	local resetBtn = UI.Button(page, L["Standardtext"], 120, 24, function()
 		cfg().adText = ""
 		textBox:SetText(Ad.DEFAULT_TEXT)
 		UI.RefreshCurrent()
 	end)
 	Place(resetBtn, page, 110, -204)
 
-	Section(page, "Vorschau", 0, -248)
+	Section(page, L["Vorschau"], 0, -248)
 	local preview = Label(page, "", 0, -274, 12)
 	preview:SetWidth(780)
 	local lenText = Label(page, "", 0, -318, 11, true)
 
-	local postBtn = UI.Button(page, "Im Chat posten", 200, 32, function()
+	local postBtn = UI.Button(page, L["Im Chat posten"], 200, 32, function()
 		Ad.Post()
 		UI.RefreshCurrent()
-	end, "Postet die Vorschau in den gewählten Kanal (höchstens alle 30 Sekunden).")
+	end, L["Postet die Vorschau in den gewählten Kanal (höchstens alle 30 Sekunden)."])
 	Place(postBtn, page, 0, -350)
 	postBtn:SetAccent(true)
 	local cdText = Label(page, "", 214, -360, 11, true)
 
-	local invCheck = UI.Check(page, "Auf geflüstertes \"inv\" automatisch einladen (30 Minuten nach der Werbung)",
+	local invCheck = UI.Check(page, L["Auf geflüstertes \"inv\" automatisch einladen (30 Minuten nach der Werbung)"],
 		function() return cfg().adAutoInvite end, function(v) cfg().adAutoInvite = v end,
-		"Spieler flüstern dir \"inv\" – RaidMaster lädt sie ein, solange der Raid nicht voll ist.\nAus einer Gruppe wird automatisch ein Schlachtzug.")
+		L["Spieler flüstern dir \"inv\" – RaidMaster lädt sie ein, solange der Raid nicht voll ist.\nAus einer Gruppe wird automatisch ein Schlachtzug."])
 	Place(invCheck, page, 0, -400)
 
 	page.elapsed = 0
@@ -1087,60 +1088,60 @@ UI.AddPage("ad", "Werbung", function(page)
 		local left = Ad.CooldownLeft()
 		if left > 0 then
 			postBtn:Disable()
-			cdText:SetText(string.format("Nächster Post in %d s", left))
+			cdText:SetText(string.format(L["Nächster Post in %d s"], left))
 		else
 			postBtn:Enable()
-			cdText:SetText(Ad.lastPost > 0 and "Bereit" or "")
+			cdText:SetText(Ad.lastPost > 0 and L["Bereit"] or "")
 		end
 		if (cfg().adLink or "") == "" then
-			lenText:SetText(lenText:GetText() .. "  ·  |cffff6040Kein Discord-Link eingetragen|r")
+			lenText:SetText(lenText:GetText() .. L["  ·  |cffff6040Kein Discord-Link eingetragen|r"])
 		end
 		invCheck:Refresh()
 	end
 end)
 
-UI.AddPage("assign", "Einteilung", function(page)
+UI.AddPage("assign", L["Einteilung"], function(page)
 	local Assign = RM.Assign
 	local selected = "general"
 
-	Section(page, "Einteilung per Knopfdruck", 0, 0)
-	Label(page, "Tanks in Reihenfolge (MT zuerst), mit Komma getrennt:", 0, -28, 11, true):SetWidth(380)
+	Section(page, L["Einteilung per Knopfdruck"], 0, 0)
+	Label(page, L["Tanks in Reihenfolge (MT zuerst), mit Komma getrennt:"], 0, -28, 11, true):SetWidth(380)
 	local tankBox = UI.EditBox(page, 300, 24)
 	Place(tankBox, page, 0, -46)
 	tankBox:SetScript("OnTextChanged", function(self, user) if user then RM.db.config.assignTanks = self:GetText() end end)
-	local autoBtn = UI.Button(page, "Auto", 72, 24, function()
+	local autoBtn = UI.Button(page, L["Auto"], 72, 24, function()
 		local t = Assign.AutoTanks()
 		RM.db.config.assignTanks = table.concat(t, ", ")
 		tankBox:SetText(RM.db.config.assignTanks)
-	end, "Tanks aus Haupttank-Markierung, Discord-Rolle 'Tank' oder Kriegern ermitteln.")
+	end, L["Tanks aus Haupttank-Markierung, Discord-Rolle 'Tank' oder Kriegern ermitteln."])
 	Place(autoBtn, page, 308, -46)
 
-	local buildBtn = UI.Button(page, "Einteilung erstellen", 185, 30, function() Assign.Build() end,
-		"Erstellt Heil-, Entfluch-, Bann- und CC-Einteilung für alle Molten-Core-Bosse aus den Klassen im Raid.")
+	local buildBtn = UI.Button(page, L["Einteilung erstellen"], 185, 30, function() Assign.Build() end,
+		L["Erstellt Heil-, Entfluch-, Bann- und CC-Einteilung für alle Molten-Core-Bosse aus den Klassen im Raid."])
 	Place(buildBtn, page, 0, -84)
 	buildBtn:SetAccent(true)
-	local sendBtn = UI.Button(page, "An alle senden", 185, 30, function() Assign.SendAll() end,
+	local sendBtn = UI.Button(page, L["An alle senden"], 185, 30, function() Assign.SendAll() end,
 		"Spieler mit Addon sehen ihre Aufgabe beim Pull groß auf dem Bildschirm, alle anderen bekommen sie zugeflüstert.\\n"
-		.. "Danach /reload, damit der Discord-Bot jedem eine Direktnachricht schickt.")
+		.. L["Danach /reload, damit der Discord-Bot jedem eine Direktnachricht schickt."])
 	Place(sendBtn, page, 195, -84)
-	local info = Label(page, "Grundlage: Klassen im Raid, Rollen aus der Discord-Anmeldung und die Symbol-Vorlagen der Seite Raidleiter. "
-		.. "Gruppen für Entfluchen, Bannen und Raidheilung richten sich nach den Raidgruppen.", 0, -124, 11, true)
+	local info = Label(page, L["Grundlage: Klassen im Raid, Rollen aus der Discord-Anmeldung und die Symbol-Vorlagen der Seite Raidleiter. "]
+		.. L["Gruppen für Entfluchen, Bannen und Raidheilung richten sich nach den Raidgruppen."], 0, -124, 11, true)
 	info:SetWidth(380)
 
-	Section(page, "Meine Aufgaben", 0, -186)
+	Section(page, L["Meine Aufgaben"], 0, -186)
 	local mine = UI.Multiline(page, 380, 330, true)
 	Place(mine, page, 0, -212)
 
 	local rx = 400
-	Section(page, "Übersicht", rx, 0)
+	Section(page, L["Übersicht"], rx, 0)
 	local opts = {}
 	for _, c in ipairs(Assign.Contexts) do opts[#opts + 1] = { c.key, c.name } end
 	local ctxCycle = UI.Cycle(page, 200, opts, function() return selected end, function(v) selected = v; UI.RefreshCurrent() end)
 	Place(ctxCycle, page, rx + 90, 4)
 	local preview = UI.Multiline(page, 390, 460, true)
 	Place(preview, page, rx, -28)
-	local postBtn = UI.Button(page, "Im Raid posten", 185, 28, function() Assign.Post(selected) end,
-		"Postet die gewählte Einteilung in den Raidchat (Symbole werden im Chat als Grafik angezeigt).")
+	local postBtn = UI.Button(page, L["Im Raid posten"], 185, 28, function() Assign.Post(selected) end,
+		L["Postet die gewählte Einteilung in den Raidchat (Symbole werden im Chat als Grafik angezeigt)."])
 	Place(postBtn, page, rx, -500)
 
 	local function iconize(text)
@@ -1157,7 +1158,7 @@ UI.AddPage("assign", "Einteilung", function(page)
 			for _, l in ipairs(ctx.lines) do lines[#lines + 1] = iconize(l) end
 			preview:SetText(string.format("Erstellt %s von %s\n\n", RM.FormatTime(store.v), store.by or "?") .. table.concat(lines, "\n"))
 		else
-			preview:SetText("Noch keine Einteilung erstellt.")
+			preview:SetText(L["Noch keine Einteilung erstellt."])
 		end
 		local my = RM.db.myAssign
 		if not my and store then my = Assign.PersonalTexts(RM.Me()) end
@@ -1165,7 +1166,7 @@ UI.AddPage("assign", "Einteilung", function(page)
 		for _, c in ipairs(Assign.Contexts) do
 			if my and my[c.key] then parts[#parts + 1] = c.name .. ": " .. iconize(my[c.key]) end
 		end
-		mine:SetText(#parts > 0 and table.concat(parts, "\n\n") or "Noch keine Aufgaben erhalten.")
+		mine:SetText(#parts > 0 and table.concat(parts, "\n\n") or L["Noch keine Aufgaben erhalten."])
 		local lead = RM.InRaid() and (RM.IsAssist() or RM.CanEdit())
 		for _, b in ipairs({ buildBtn, sendBtn, autoBtn }) do if lead then b:Enable() else b:Disable() end end
 		if store and RM.InRaid() then postBtn:Enable() else postBtn:Disable() end
@@ -1176,9 +1177,9 @@ end)
 ---------------------------------------------------------------------------
 -- Seite: Raidleiter (Boss-Infos und Markierungen)
 ---------------------------------------------------------------------------
-UI.AddPage("leader", "Raidleiter", function(page)
+UI.AddPage("leader", L["Raidleiter"], function(page)
 	local selectedBoss = RM.Data.InfoBossOrder[1]
-	Section(page, "Molten Core – Boss-Infos", 0, 0)
+	Section(page, L["Molten Core – Boss-Infos"], 0, 0)
 
 	local bossButtons = {}
 	local info = UI.Multiline(page, 560, 300, true)
@@ -1198,14 +1199,14 @@ UI.AddPage("leader", "Raidleiter", function(page)
 		y = y - 30
 	end
 
-	local postBtn = UI.Button(page, "Kurzinfo im Raid posten", 200, 28, function() RM.Markers.PostBossInfo(selectedBoss) end,
-		"Postet zwei kurze Zeilen (erste als Raidwarnung).")
+	local postBtn = UI.Button(page, L["Kurzinfo im Raid posten"], 200, 28, function() RM.Markers.PostBossInfo(selectedBoss) end,
+		L["Postet zwei kurze Zeilen (erste als Raidwarnung)."])
 	Place(postBtn, page, 200, -336)
 	postBtn:SetAccent(true)
 
 	-- Markierungen
-	Section(page, "Schlachtzugsymbole", 0, -382)
-	Label(page, "Vorlage für 'Auto'", 0, -412)
+	Section(page, L["Schlachtzugsymbole"], 0, -382)
+	Label(page, L["Vorlage für 'Auto'"], 0, -412)
 	local opts = {}
 	for _, t in ipairs(RM.Data.MarkerTemplates) do opts[#opts + 1] = { t.id, t.name } end
 	local tmpl = UI.Cycle(page, 170, opts, function() return RM.db.config.markerTemplate end, function(v)
@@ -1217,19 +1218,19 @@ UI.AddPage("leader", "Raidleiter", function(page)
 	local note = Label(page, "", 310, -412, 11, true)
 	note:SetWidth(460)
 
-	local barCheck = UI.Check(page, "Markierungsleiste anzeigen", function() return RM.db.config.markerBar end, function(v)
+	local barCheck = UI.Check(page, L["Markierungsleiste anzeigen"], function() return RM.db.config.markerBar end, function(v)
 		RM.db.config.markerBar = v
 		RM.Fire("CONFIG_CHANGED")
 	end)
 	Place(barCheck, page, 0, -446)
-	local lockCheck = UI.Check(page, "Leiste fixieren", function() return RM.db.config.markerLocked end, function(v) RM.db.config.markerLocked = v end)
+	local lockCheck = UI.Check(page, L["Leiste fixieren"], function() return RM.db.config.markerLocked end, function(v) RM.db.config.markerLocked = v end)
 	Place(lockCheck, page, 230, -446)
 
-	local clearBtn = UI.Button(page, "Alle Symbole entfernen", 180, 26, function() RM.Markers.ClearAll() end)
+	local clearBtn = UI.Button(page, L["Alle Symbole entfernen"], 180, 26, function() RM.Markers.ClearAll() end)
 	Place(clearBtn, page, 0, -478)
 
-	local keyHint = Label(page, "Am schnellsten: Esc > Tastaturbelegung > RaidMaster. Dort z. B. eine Taste für 'Nächstes freies Symbol' "
-		.. "belegen, dann mit der Maus über die Gegner fahren und die Taste drücken – ohne sie anzuklicken.", 0, -514, 11, true)
+	local keyHint = Label(page, L["Am schnellsten: Esc > Tastaturbelegung > RaidMaster. Dort z. B. eine Taste für 'Nächstes freies Symbol' "]
+		.. L["belegen, dann mit der Maus über die Gegner fahren und die Taste drücken – ohne sie anzuklicken."], 0, -514, 11, true)
 	keyHint:SetWidth(770)
 
 	return function()
@@ -1247,39 +1248,39 @@ end)
 ---------------------------------------------------------------------------
 -- Seite: Skillungen
 ---------------------------------------------------------------------------
-UI.AddPage("specs", "Skillungen", function(page)
+UI.AddPage("specs", L["Skillungen"], function(page)
 	local Spec = RM.Spec
-	local SOURCES = { self = "eigene", addon = "Addon", inspect = "Betrachtet" }
+	local SOURCES = { self = "eigene", addon = L["Addon"], inspect = L["Betrachtet"] }
 	local ROLE_COLORS = { tank = { 0.6, 0.8, 1 }, heal = { 0.4, 1, 0.5 }, melee = { 1, 0.75, 0.4 }, ranged = { 1, 0.55, 0.9 } }
 
-	Section(page, "Skillungen", 0, 0)
+	Section(page, L["Skillungen"], 0, 0)
 	local info = Label(page, "", 0, -26, 11, true)
 	info:SetWidth(780)
 
 	local list = UI.List(page, 780, 380, {
-		{ title = "Name", width = 150 },
-		{ title = "Klasse", width = 110 },
-		{ title = "Skillung", width = 150 },
-		{ title = "Punkte", width = 80 },
-		{ title = "Rolle", width = 90 },
-		{ title = "Quelle", width = 80 },
-		{ title = "Stand", width = 90 },
-	}, { emptyText = "Noch keine Skillungen bekannt." })
+		{ title = L["Name"], width = 150 },
+		{ title = L["Klasse"], width = 110 },
+		{ title = L["Skillung"], width = 150 },
+		{ title = L["Punkte"], width = 80 },
+		{ title = L["Rolle"], width = 90 },
+		{ title = L["Quelle"], width = 80 },
+		{ title = L["Stand"], width = 90 },
+	}, { emptyText = L["Noch keine Skillungen bekannt."] })
 	Place(list, page, 0, -64)
 
-	local scanBtn = UI.Button(page, "Raid scannen", 140, 28, function()
+	local scanBtn = UI.Button(page, L["Raid scannen"], 140, 28, function()
 		if Spec.scan.running then Spec.StopScan() else Spec.StartScan(true) end
-	end, "Fragt alle Addon-Nutzer im Raid nach ihrer Skillung und betrachtet Spieler ohne Addon\n"
-		.. "(in Reichweite, außerhalb des Kampfes).")
+	end, L["Fragt alle Addon-Nutzer im Raid nach ihrer Skillung und betrachtet Spieler ohne Addon\n"]
+		.. L["(in Reichweite, außerhalb des Kampfes)."])
 	Place(scanBtn, page, 0, -456)
-	local sendBtn = UI.Button(page, "Meine Skillung senden", 170, 28, function()
+	local sendBtn = UI.Button(page, L["Meine Skillung senden"], 170, 28, function()
 		Spec.UpdateMine(true)
-		RM.Print("Deine Skillung wurde an Gilde und Raid gesendet.")
+		RM.Print(L["Deine Skillung wurde an Gilde und Raid gesendet."])
 	end)
 	Place(sendBtn, page, 150, -456)
-	local autoCheck = UI.Check(page, "Als Raidleiter automatisch alle 5 Minuten scannen",
+	local autoCheck = UI.Check(page, L["Als Raidleiter automatisch alle 5 Minuten scannen"],
 		function() return RM.db.config.specScan end, function(v) RM.db.config.specScan = v end,
-		"Nur für Raidleiter, Assistenten und Offiziere.")
+		L["Nur für Raidleiter, Assistenten und Offiziere."])
 	Place(autoCheck, page, 340, -460)
 	local status = Label(page, "", 0, -496, 11, true)
 	status:SetWidth(780)
@@ -1296,7 +1297,7 @@ UI.AddPage("specs", "Skillungen", function(page)
 				cells = {
 					RM.ClassColor(r.class, r.name),
 					ClassName(r.class),
-					r.label or (e and "?" or "|cff888888unbekannt|r"),
+					r.label or (e and "?" or L["|cff888888unbekannt|r"]),
 					e and Spec.PointsText(e) or "",
 					r.role and Spec.ROLE_NAMES[r.role] or "",
 					e and (SOURCES[e.s] or e.s or "") or "",
@@ -1307,20 +1308,20 @@ UI.AddPage("specs", "Skillungen", function(page)
 		end
 		list:SetData(data)
 		if RM.InRaid() then
-			info:SetText(string.format("Skillungen der Raidmitglieder: %d von %d bekannt. Nach /reload übernimmt der Discord-Bot sie in die Profile.", known, #rows))
+			info:SetText(string.format(L["Skillungen der Raidmitglieder: %d von %d bekannt. Nach /reload übernimmt der Discord-Bot sie in die Profile."], known, #rows))
 		else
-			info:SetText(string.format("%d bekannte Skillungen (Gilde und frühere Raids). Nach /reload übernimmt der Discord-Bot sie in die Profile.", known))
+			info:SetText(string.format(L["%d bekannte Skillungen (Gilde und frühere Raids). Nach /reload übernimmt der Discord-Bot sie in die Profile."], known))
 		end
-		scanBtn.label:SetText(Spec.scan.running and "Scan stoppen" or "Raid scannen")
+		scanBtn.label:SetText(Spec.scan.running and L["Scan stoppen"] or L["Raid scannen"])
 		if Spec.CanScan() then scanBtn:Enable() else scanBtn:Disable() end
 		autoCheck:Refresh()
 		if Spec.inspectUnsupported then
-			status:SetText("Dieser Spielclient liefert beim Betrachten keine Talente – Skillungen kommen nur von Spielern mit RaidMaster.")
+			status:SetText(L["Dieser Spielclient liefert beim Betrachten keine Talente – Skillungen kommen nur von Spielern mit RaidMaster."])
 		elseif Spec.scan.running then
 			local cur = Spec.scan.current
-			status:SetText(string.format("Scan läuft: noch %d Spieler%s", #Spec.scan.queue, cur and (" – betrachte " .. cur.name) or ""))
+			status:SetText(string.format(L["Scan läuft: noch %d Spieler%s"], #Spec.scan.queue, cur and (L[" – betrachte "] .. cur.name) or ""))
 		else
-			status:SetText("Spieler mit RaidMaster senden ihre Skillung selbst. Spieler ohne Addon werden per Betrachten erfasst.")
+			status:SetText(L["Spieler mit RaidMaster senden ihre Skillung selbst. Spieler ohne Addon werden per Betrachten erfasst."])
 		end
 	end
 end)
@@ -1328,7 +1329,7 @@ end)
 ---------------------------------------------------------------------------
 -- Seite: Einstellungen
 ---------------------------------------------------------------------------
-UI.AddPage("settings", "Einstellungen", function(page)
+UI.AddPage("settings", L["Einstellungen"], function(page)
 	local fields = {}
 	local function S() return RM.db.data.settings end
 
@@ -1345,14 +1346,14 @@ UI.AddPage("settings", "Einstellungen", function(page)
 		return e
 	end
 
-	Section(page, "DKP-Vergabe", 0, 0)
+	Section(page, L["DKP-Vergabe"], 0, 0)
 	local y = -28
-	NumField("Pünktlich zum Raidstart", 0, y, function() return S().dkpStart end, function(v) S().dkpStart = v end); y = y - 28
-	NumField("Raid bis zum Ende", 0, y, function() return S().dkpEnd end, function(v) S().dkpEnd = v end); y = y - 28
-	NumField("Andere Bosse (Standard)", 0, y, function() return S().defaultBossDKP end, function(v) S().defaultBossDKP = v end); y = y - 36
+	NumField(L["Pünktlich zum Raidstart"], 0, y, function() return S().dkpStart end, function(v) S().dkpStart = v end); y = y - 28
+	NumField(L["Raid bis zum Ende"], 0, y, function() return S().dkpEnd end, function(v) S().dkpEnd = v end); y = y - 28
+	NumField(L["Andere Bosse (Standard)"], 0, y, function() return S().defaultBossDKP end, function(v) S().defaultBossDKP = v end); y = y - 36
 
 	-- Boss-DKP je Raid-Topf (neue Bosse erscheinen nach dem ersten Kill)
-	Section(page, "Bosse", 0, y)
+	Section(page, L["Bosse"], 0, y)
 	local settingsPool = "mc"
 	local spOpts = {}
 	local function RebuildSP()
@@ -1363,7 +1364,7 @@ UI.AddPage("settings", "Einstellungen", function(page)
 	local spCycle = UI.Cycle(page, 170, spOpts, function() return settingsPool end, function(v)
 		settingsPool = v
 		UI.RefreshCurrent()
-	end, "Raid wählen, dessen Boss-DKP du einstellen willst.")
+	end, L["Raid wählen, dessen Boss-DKP du einstellen willst."])
 	Place(spCycle, page, 60, y + 4)
 	y = y - 28
 	local bossRows = {}
@@ -1401,7 +1402,7 @@ UI.AddPage("settings", "Einstellungen", function(page)
 			end
 		end
 		if #list == 0 then
-			bossNote:SetText("Die Bosse dieses Raids werden beim ersten Kill automatisch erkannt. Bis dahin gilt der Standardwert.")
+			bossNote:SetText(L["Die Bosse dieses Raids werden beim ersten Kill automatisch erkannt. Bis dahin gilt der Standardwert."])
 			bossNote:Show()
 		else
 			bossNote:Hide()
@@ -1409,17 +1410,17 @@ UI.AddPage("settings", "Einstellungen", function(page)
 	end
 
 	local x2 = 290
-	Section(page, "Gebote", x2, 0)
+	Section(page, L["Gebote"], x2, 0)
 	local y2 = -28
-	NumField("Mindestgebot", x2, y2, function() return S().minBid end, function(v) S().minBid = math.max(0, v) end); y2 = y2 - 28
-	NumField("Gebotsschritt", x2, y2, function() return S().bidIncrement end, function(v) S().bidIncrement = math.max(1, v) end); y2 = y2 - 28
-	NumField("Dauer (Sekunden)", x2, y2, function() return S().auctionTime end, function(v) S().auctionTime = math.max(10, math.min(120, v)) end); y2 = y2 - 36
+	NumField(L["Mindestgebot"], x2, y2, function() return S().minBid end, function(v) S().minBid = math.max(0, v) end); y2 = y2 - 28
+	NumField(L["Gebotsschritt"], x2, y2, function() return S().bidIncrement end, function(v) S().bidIncrement = math.max(1, v) end); y2 = y2 - 28
+	NumField(L["Dauer (Sekunden)"], x2, y2, function() return S().auctionTime end, function(v) S().auctionTime = math.max(10, math.min(120, v)) end); y2 = y2 - 36
 
-	Section(page, "System", x2, y2)
+	Section(page, L["System"], x2, y2)
 	y2 = y2 - 28
-	NumField("Decay in %", x2, y2, function() return S().decayPct end, function(v) S().decayPct = math.max(0, math.min(100, v)) end); y2 = y2 - 28
-	NumField("Offiziersränge bis Index", x2, y2, function() return S().officerRank end, function(v) S().officerRank = math.max(0, math.min(9, v)) end,
-		"Gildenrang-Index: 0 = Gildenmeister, 1 = nächster Rang usw. Alle Ränge bis zu diesem Index dürfen DKP ändern."); y2 = y2 - 36
+	NumField(L["Decay in %"], x2, y2, function() return S().decayPct end, function(v) S().decayPct = math.max(0, math.min(100, v)) end); y2 = y2 - 28
+	NumField(L["Offiziersränge bis Index"], x2, y2, function() return S().officerRank end, function(v) S().officerRank = math.max(0, math.min(9, v)) end,
+		L["Gildenrang-Index: 0 = Gildenmeister, 1 = nächster Rang usw. Alle Ränge bis zu diesem Index dürfen DKP ändern."]); y2 = y2 - 36
 
 	local checks = {}
 	local function SCheck(label, key, tooltip)
@@ -1428,13 +1429,13 @@ UI.AddPage("settings", "Einstellungen", function(page)
 		checks[#checks + 1] = cb
 		y2 = y2 - 26
 	end
-	SCheck("Erstkill zählt doppelt", "firstKillDouble")
-	SCheck("Verlängern bei späten Geboten (5 Sek.)", "antiSnipe", "Kommt in den letzten 5 Sekunden ein Gebot, wird auf 5 Sekunden verlängert.")
-	SCheck("Negative DKP erlauben", "allowNegative", "Spieler dürfen mehr bieten, als sie haben.")
-	SCheck("Nur Spieler online erhalten DKP", "onlyOnline")
-	SCheck("Ersatzbank erhält DKP", "standbyGetsDKP")
+	SCheck(L["Erstkill zählt doppelt"], "firstKillDouble")
+	SCheck(L["Verlängern bei späten Geboten (5 Sek.)"], "antiSnipe", L["Kommt in den letzten 5 Sekunden ein Gebot, wird auf 5 Sekunden verlängert."])
+	SCheck(L["Negative DKP erlauben"], "allowNegative", L["Spieler dürfen mehr bieten, als sie haben."])
+	SCheck(L["Nur Spieler online erhalten DKP"], "onlyOnline")
+	SCheck(L["Ersatzbank erhält DKP"], "standbyGetsDKP")
 
-	local saveBtn = UI.Button(page, "Speichern und an die Gilde verteilen", 300, 30, function()
+	local saveBtn = UI.Button(page, L["Speichern und an die Gilde verteilen"], 300, 30, function()
 		if not NeedOfficer() then return end
 		for _, f in ipairs(fields) do
 			local v = tonumber(f.edit:GetText())
@@ -1445,17 +1446,17 @@ UI.AddPage("settings", "Einstellungen", function(page)
 	Place(saveBtn, page, x2, y2 - 10)
 	saveBtn:SetAccent(true)
 
-	local revertBtn = UI.Button(page, "Verwerfen", 100, 30, function()
+	local revertBtn = UI.Button(page, L["Verwerfen"], 100, 30, function()
 		for _, f in ipairs(fields) do f.edit:SetText(tostring(f.get() or 0)) end
 		for _, c in ipairs(checks) do c:Refresh() end
 	end)
 	Place(revertBtn, page, x2 + 306, y2 - 10)
 
-	local note = Label(page, "Diese Werte gelten für die ganze Gilde und werden mit allen Addon-Nutzern abgeglichen. "
-		.. "Häkchen werden sofort lokal übernommen und beim Speichern verteilt.", x2, y2 - 52, 11, true)
+	local note = Label(page, L["Diese Werte gelten für die ganze Gilde und werden mit allen Addon-Nutzern abgeglichen. "]
+		.. L["Häkchen werden sofort lokal übernommen und beim Speichern verteilt."], x2, y2 - 52, 11, true)
 	note:SetWidth(480)
 
-	local mmCheck = UI.Check(page, "Minimap-Knopf ausblenden", function() return RM.db.config.minimap.hide end, function(v)
+	local mmCheck = UI.Check(page, L["Minimap-Knopf ausblenden"], function() return RM.db.config.minimap.hide end, function(v)
 		RM.db.config.minimap.hide = v
 		local b = _G["RaidMasterMinimapButton"]
 		if b then if v then b:Hide() else b:Show() end end

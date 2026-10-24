@@ -1,10 +1,31 @@
-## Interface: 16001
+## Interface: 11509, 16001, 20506, 30405, 38002, 40402, 50504, 120105
 ## Title: |cffff8c1aRaidMaster|r - DKP & Raid Tools
-## Notes: DKP pro Raid, Skillungen, offene Gebote, PUG-Raids mit softres.it, Einteilung, Auto-Einladung und Raidleiter-Hilfen
+## Notes: DKP per raid, open bidding, loot rules, raid assignments, auto invite, specs and raid leader tools
+## Notes-deDE: DKP pro Raid, Skillungen, offene Gebote, PUG-Raids mit softres.it, Einteilung, Auto-Einladung und Raidleiter-Hilfen
+## Notes-frFR: DKP par raid, enchères ouvertes, règles de butin, répartition du raid, invitation auto, spécialisations et outils de chef de raid
+## Notes-esES: DKP por banda, pujas abiertas, reglas de botín, asignaciones, invitación automática, especializaciones y herramientas de líder
+## Notes-esMX: DKP por banda, pujas abiertas, reglas de botín, asignaciones, invitación automática, especializaciones y herramientas de líder
+## Notes-itIT: DKP per incursione, offerte aperte, regole del bottino, assegnazioni, invito automatico, specializzazioni e strumenti per il capo incursione
+## Notes-ptBR: DKP por raide, lances abertos, regras de saque, atribuições, convite automático, especializações e ferramentas de líder
+## Notes-ruRU: DKP для каждого рейда, открытые ставки, правила добычи, распределение ролей, автоприглашение, специализации и инструменты лидера
+## Notes-koKR: 공격대별 DKP, 공개 입찰, 전리품 규칙, 역할 배정, 자동 초대, 전문화 및 공격대장 도구
+## Notes-zhCN: 按团队副本区分的DKP、公开竞拍、拾取规则、团队分工、自动邀请、天赋专精和团长工具
+## Notes-zhTW: 依團隊副本區分的DKP、公開競標、拾取規則、團隊分工、自動邀請、天賦專精與團長工具
 ## Author: GoldSentinel
-## Version: 1.5.3
+## Version: 1.6.0
 ## SavedVariables: RaidMasterDB
 
+Locale.lua
+Locales\enUS.lua
+Locales\frFR.lua
+Locales\esES.lua
+Locales\esMX.lua
+Locales\itIT.lua
+Locales\ptBR.lua
+Locales\ruRU.lua
+Locales\koKR.lua
+Locales\zhCN.lua
+Locales\zhTW.lua
 Core.lua
 Data.lua
 Comm.lua

@@ -1,6 +1,7 @@
 -- RaidMaster - Oberfläche (Grundbausteine, Hauptfenster, Minimap-Knopf, Dialoge)
 
 local ADDON, RM = ...
+local L = RM.L
 local UI = {}
 RM.UI = UI
 
@@ -169,7 +170,7 @@ function UI.Cycle(parent, w, options, getter, setter, tooltip)
 		if idx > #options then idx = 1 elseif idx < 1 then idx = #options end
 		setter(options[idx][1])
 		b:Refresh()
-	end, (tooltip and (tooltip .. "\n") or "") .. "Linksklick: weiter · Rechtsklick: zurück")
+	end, (tooltip and (tooltip .. "\n") or "") .. L["Linksklick: weiter · Rechtsklick: zurück"])
 	function b:Refresh()
 		local cur = getter()
 		for _, o in ipairs(options) do
@@ -443,15 +444,15 @@ function UI.ShowExport(text)
 		f:SetFrameStrata("DIALOG")
 		UI.Skin(f)
 		UI.MakeMovable(f, "export", "CENTER", 0, 0)
-		local title = UI.Header(f, "Export")
+		local title = UI.Header(f, L["Export"])
 		title:SetPoint("TOPLEFT", 12, -10)
-		local hint = UI.Text(f, "Strg+A markiert alles, Strg+C kopiert. Einfügen z. B. in eine Tabelle oder in Discord.", 11, unpack(COLORS.muted))
+		local hint = UI.Text(f, L["Strg+A markiert alles, Strg+C kopiert. Einfügen z. B. in eine Tabelle oder in Discord."], 11, unpack(COLORS.muted))
 		hint:SetPoint("TOPLEFT", 12, -30)
 		local close = UI.CloseButton(f, function() f:Hide() end)
 		close:SetPoint("TOPRIGHT", -6, -6)
 		f.box = UI.Multiline(f, 596, 380, true)
 		f.box:SetPoint("TOPLEFT", 12, -50)
-		local sel = UI.Button(f, "Alles markieren", 140, 24, function()
+		local sel = UI.Button(f, L["Alles markieren"], 140, 24, function()
 			f.box.edit:SetFocus()
 			f.box.edit:HighlightText()
 		end)
@@ -480,16 +481,16 @@ local function UpdateStatus()
 	if not main then return end
 	local data = RM.db.data
 	local parts = {}
-	parts[#parts + 1] = "Datenstand: " .. (data.version > 0 and RM.FormatTime(math.min(data.version, GetServerTime())) or "leer")
-	parts[#parts + 1] = RM.CanEdit() and "|cff40ff40Offizier|r" or "Nur Ansicht"
+	parts[#parts + 1] = L["Datenstand: "] .. (data.version > 0 and RM.FormatTime(math.min(data.version, GetServerTime())) or "leer")
+	parts[#parts + 1] = RM.CanEdit() and L["|cff40ff40Offizier|r"] or L["Nur Ansicht"]
 	if RM.db.session.active then
-		parts[#parts + 1] = "|cffff8c1aRaid aktiv seit " .. date("%H:%M", RM.db.session.started) .. "|r"
+		parts[#parts + 1] = L["|cffff8c1aRaid aktiv seit "] .. date("%H:%M", RM.db.session.started) .. "|r"
 	end
 	if RM.PUG and RM.PUG.view.active then
-		parts[#parts + 1] = "|cff66ccffPUG-Raid (softres.it)|r"
+		parts[#parts + 1] = L["|cff66ccffPUG-Raid (softres.it)|r"]
 	end
 	local ml = RM.MasterLooterName()
-	if ml then parts[#parts + 1] = "Plündermeister: " .. ml end
+	if ml then parts[#parts + 1] = L["Plündermeister: "] .. ml end
 	parts[#parts + 1] = "v" .. RM.VERSION
 	main.status:SetText(table.concat(parts, "   ·   "))
 end
@@ -539,7 +540,7 @@ local function CreateMain()
 	logo:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 	local title = UI.Text(titleBar, "RaidMaster", 17, COLORS.accent[1], COLORS.accent[2], COLORS.accent[3])
 	title:SetPoint("LEFT", logo, "RIGHT", 8, 1)
-	local sub = UI.Text(titleBar, "DKP · Loot · Raidleitung", 11, unpack(COLORS.muted))
+	local sub = UI.Text(titleBar, L["DKP · Loot · Raidleitung"], 11, unpack(COLORS.muted))
 	sub:SetPoint("LEFT", title, "RIGHT", 10, -1)
 	local close = UI.CloseButton(titleBar, function() f:Hide() end)
 	close:SetPoint("RIGHT", -8, 0)
@@ -614,10 +615,20 @@ RM.On("PARTY_LOOT_METHOD_CHANGED", function() UI.RefreshCurrent() end)
 ---------------------------------------------------------------------------
 -- Minimap-Knopf
 ---------------------------------------------------------------------------
+-- Position am Rand der Minimap (rund oder eckig, z. B. mit Minimap-Addons)
 local function UpdateMinimapPos(btn)
 	local angle = math.rad(RM.db.config.minimap.angle or 215)
-	local r = (Minimap:GetWidth() / 2) + 6
-	btn:SetPoint("CENTER", Minimap, "CENTER", math.cos(angle) * r, math.sin(angle) * r)
+	local x, y = math.cos(angle), math.sin(angle)
+	local r = (Minimap:GetWidth() / 2) + (RM.IsRetail and 10 or 6)
+	local shape = GetMinimapShape and GetMinimapShape() or "ROUND"
+	if shape == "SQUARE" then
+		-- auf dem Rand eines Quadrats entlangführen
+		local m = math.max(math.abs(x), math.abs(y))
+		x, y = x / m, y / m
+		r = (Minimap:GetWidth() / 2) + 2
+	end
+	btn:ClearAllPoints()
+	btn:SetPoint("CENTER", Minimap, "CENTER", x * r, y * r)
 end
 
 local function CreateMinimapButton()
@@ -639,7 +650,11 @@ local function CreateMinimapButton()
 	b:SetScript("OnClick", function(_, button)
 		if button == "RightButton" then RM.Markers.ToggleBar() else UI.Toggle() end
 	end)
+	b:SetMovable(true)
+	b:SetClampedToScreen(true)
 	b:SetScript("OnDragStart", function(self)
+		self.dragging = true
+		GameTooltip:Hide()
 		self:SetScript("OnUpdate", function()
 			local mx, my = Minimap:GetCenter()
 			local cx, cy = GetCursorPosition()
@@ -650,25 +665,39 @@ local function CreateMinimapButton()
 			UpdateMinimapPos(self)
 		end)
 	end)
-	b:SetScript("OnDragStop", function(self) self:SetScript("OnUpdate", nil) end)
+	b:SetScript("OnDragStop", function(self)
+		self:SetScript("OnUpdate", nil)
+		self.dragging = false
+	end)
 	b:SetScript("OnEnter", function(self)
 		GameTooltip:SetOwner(self, "ANCHOR_LEFT")
 		GameTooltip:AddLine("RaidMaster", COLORS.accent[1], COLORS.accent[2], COLORS.accent[3])
 		if RM.MyGuild() then
-			GameTooltip:AddLine("Deine DKP: " .. RM.DKP.Summary(RM.Me()), 1, 1, 1)
+			GameTooltip:AddLine(L["Deine DKP: "] .. RM.DKP.Summary(RM.Me()), 1, 1, 1)
 		end
 		for g, d in pairs(RM.db.foreign) do
 			GameTooltip:AddLine(string.format("Deine DKP bei <%s>: %s", g, RM.DKP.Summary(RM.Me(), d)), 1, 0.8, 0.4)
 		end
-		GameTooltip:AddLine("Linksklick: Fenster öffnen", 0.8, 0.8, 0.8)
-		GameTooltip:AddLine("Rechtsklick: Markierungsleiste ein/aus", 0.8, 0.8, 0.8)
-		GameTooltip:AddLine("Ziehen: verschieben", 0.8, 0.8, 0.8)
+		GameTooltip:AddLine(L["Linksklick: Fenster öffnen"], 0.8, 0.8, 0.8)
+		GameTooltip:AddLine(L["Rechtsklick: Markierungsleiste ein/aus"], 0.8, 0.8, 0.8)
+		GameTooltip:AddLine(L["Ziehen: um die Minimap verschieben"], 0.8, 0.8, 0.8)
+		GameTooltip:AddLine(L["/rm minimap: Knopf ein-/ausblenden"], 0.8, 0.8, 0.8)
 		GameTooltip:Show()
 	end)
 	b:SetScript("OnLeave", function() GameTooltip:Hide() end)
 	UpdateMinimapPos(b)
 	if RM.db.config.minimap.hide then b:Hide() end
+	UI.minimapButton = b
 	return b
+end
+
+function UI.ToggleMinimapButton()
+	local cfg = RM.db.config.minimap
+	cfg.hide = not cfg.hide
+	if UI.minimapButton then
+		if cfg.hide then UI.minimapButton:Hide() else UI.minimapButton:Show() end
+	end
+	RM.Print(cfg.hide and L["Minimap-Knopf ausgeblendet (/rm minimap zeigt ihn wieder)."] or L["Minimap-Knopf eingeblendet."])
 end
 
 RM.Listen("LOGIN", function() CreateMinimapButton() end)

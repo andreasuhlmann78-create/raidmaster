@@ -2,6 +2,7 @@
 -- Serializer, gedrosselte Sendewarteschlange, Mehrteil-Nachrichten, Daten-Sync, Versionsprüfung
 
 local ADDON, RM = ...
+local L = RM.L
 local Comm = {}
 RM.Comm = Comm
 
@@ -53,11 +54,11 @@ local function decode(s, pos)
 	local c = s:sub(pos, pos)
 	if c == "s" then
 		local e = s:find("^", pos + 1, true)
-		if not e then error("bad string") end
+		if not e then error(L["bad string"]) end
 		return unesc(s:sub(pos + 1, e - 1)), e + 1
 	elseif c == "n" then
 		local e = s:find("^", pos + 1, true)
-		if not e then error("bad number") end
+		if not e then error(L["bad number"]) end
 		return tonumber(s:sub(pos + 1, e - 1)), e + 1
 	elseif c == "T" then
 		return true, pos + 1
@@ -69,14 +70,14 @@ local function decode(s, pos)
 		while true do
 			local nc = s:sub(pos, pos)
 			if nc == "}" then return t, pos + 1 end
-			if nc == "" then error("unterminated table") end
+			if nc == "" then error(L["unterminated table"]) end
 			local k, v
 			k, pos = decode(s, pos)
 			v, pos = decode(s, pos)
 			if k ~= nil then t[k] = v end
 		end
 	end
-	error("bad token " .. tostring(c))
+	error(L["bad token "] .. tostring(c))
 end
 
 function Comm.Deserialize(s)
@@ -187,7 +188,7 @@ end)
 -- Eigener Kürschnerei-Skill (für die Kernhunde-Hilfe)
 ---------------------------------------------------------------------------
 function Comm.MySkinning()
-	if not GetNumSkillLines then return 0 end
+	if not GetNumSkillLines or not GetSkillLineInfo then return 0 end
 	for i = 1, GetNumSkillLines() do
 		local name, isHeader, _, rank = GetSkillLineInfo(i)
 		if not isHeader and name and (name == "Kürschnerei" or name == "Skinning" or name == "Kürschner") then
@@ -213,7 +214,7 @@ local function StoreHello(sender, d)
 	-- Hinweis, wenn jemand eine neuere Addon-Version hat
 	if not versionNotified and (d.av or 0) > RM.VERSION_NUM then
 		versionNotified = true
-		local msg = string.format("Neue RaidMaster-Version %s verfügbar (du hast %s). Download im Discord unter #raid-addon.", d.at or "?", RM.VERSION)
+		local msg = string.format(L["Neue RaidMaster-Version %s verfügbar (du hast %s). Download im Discord unter #raid-addon."], d.at or "?", RM.VERSION)
 		RM.Print("|cffffcc00" .. msg .. "|r")
 		RaidNotice_AddMessage(RaidWarningFrame, "RaidMaster: " .. msg, ChatTypeInfo["RAID_WARNING"])
 	end
@@ -252,7 +253,7 @@ function Comm.Consider(sender, version)
 end
 
 function Comm.RequestSync()
-	RM.Print("Datenabgleich angefordert ...")
+	RM.Print(L["Datenabgleich angefordert ..."])
 	Comm.SendHello("GUILD")
 end
 
@@ -326,7 +327,7 @@ Comm.Register("SNAP", function(sender, d)
 	if not RM.IsOfficer(sender) then return end
 	if (d.v or 0) <= RM.db.data.version then return end
 	RM.DKP.ImportSnapshot(d)
-	RM.Print("Datenstand von " .. sender .. " übernommen.")
+	RM.Print(L["Datenstand von "] .. sender .. L[" übernommen."])
 end)
 
 local lastForeignReq = 0
