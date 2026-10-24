@@ -1169,8 +1169,37 @@ def version_tuple(v: str) -> tuple:
     return tuple(int(x) for x in re.findall(r"\d+", v or "0"))
 
 
-def find_addon_package() -> tuple[str, str] | None:
-    """Neueste RaidMaster-ZIP im Ordner addon: (Pfad, Version aus der TOC)."""
+# Weitere Addons von GoldSentinel: Schlüssel = Name der TOC-Datei (klein, ohne _Vanilla usw.)
+EXTRA_ADDONS = {
+    "ahanalyzerpro": {"title": "AH Analyzer Pro", "folder": "AHAnalyzerPro", "channel": "aktionshaus_channel_id",
+                      "channel_name": "aktionshaus"},
+}
+
+
+def zip_addon_info(path: str) -> tuple[str, str, str] | None:
+    """(Schlüssel, Ordnername, Version) aus einer Addon-ZIP oder None."""
+    try:
+        with zipfile.ZipFile(path) as z:
+            tocs = [n for n in z.namelist() if n.lower().endswith(".toc") and "/" in n.strip("/")]
+            tocs = tocs or [n for n in z.namelist() if n.lower().endswith(".toc")]
+            if not tocs:
+                return None
+            tocs.sort(key=lambda n: ("_" in os.path.basename(n), len(n)))
+            toc = tocs[0]
+            text = z.read(toc).decode("utf-8-sig", "replace")
+    except (zipfile.BadZipFile, OSError, KeyError):
+        return None
+    m = re.search(r"##\s*Version:\s*v?([\d.]+)", text)
+    if not m:
+        return None
+    base = os.path.basename(toc)[:-4]
+    key = base.split("_")[0].lower()
+    folder = toc.split("/")[0] if "/" in toc else base.split("_")[0]
+    return key, folder, m.group(1)
+
+
+def find_addon_package(key: str = "raidmaster") -> tuple[str, str] | None:
+    """Neueste ZIP eines Addons im Ordner addon: (Pfad, Version aus der TOC)."""
     if not os.path.isdir(ADDON_DIR):
         return None
     best = None
@@ -1178,24 +1207,41 @@ def find_addon_package() -> tuple[str, str] | None:
         if not fn.lower().endswith(".zip"):
             continue
         path = os.path.join(ADDON_DIR, fn)
-        try:
-            with zipfile.ZipFile(path) as z:
-                toc = next((n for n in z.namelist() if n.lower().endswith("raidmaster.toc")), None)
-                if not toc:
-                    continue
-                text = z.read(toc).decode("utf-8", "replace")
-            m = re.search(r"##\s*Version:\s*([\d.]+)", text)
-            if not m:
-                continue
-            if best is None or version_tuple(m.group(1)) > version_tuple(best[1]):
-                best = (path, m.group(1))
-        except (zipfile.BadZipFile, OSError):
+        info = zip_addon_info(path)
+        if not info or info[0] != key:
             continue
+        if best is None or version_tuple(info[2]) > version_tuple(best[1]):
+            best = (path, info[2])
     return best
 
 
+async def check_extra_releases():
+    """Neue Versionen der weiteren Addons (z. B. AH Analyzer Pro) in ihrem Kanal posten."""
+    versions = state.data.setdefault("extra_versions", {})
+    for key, meta in EXTRA_ADDONS.items():
+        pkg = find_addon_package(key)
+        if not pkg:
+            continue
+        path, version = pkg
+        if version_tuple(version) <= version_tuple(versions.get(key) or "0"):
+            continue
+        ch = await channel_by_id(cfg.get(meta["channel"]))
+        if not ch:
+            log.info("%s %s gefunden, aber Kanal #%s fehlt (/raidmaster-einrichten).", meta["title"], version, meta["channel_name"])
+            continue
+        await ch.send(
+            f"🆕 **{meta['title']} {version}** ist da!\n"
+            f"Download: Datei unten herunterladen, entpacken und den Ordner **{meta['folder']}** in "
+            "`Interface/AddOns` ersetzen. Deine Einstellungen bleiben erhalten.",
+            file=discord.File(path, filename=f"{meta['folder']}-{version}.zip"))
+        versions[key] = version
+        state.save()
+        log.info("%s %s in #%s veröffentlicht.", meta["title"], version, meta["channel_name"])
+
+
 async def check_addon_release():
-    pkg = find_addon_package()
+    await check_extra_releases()
+    pkg = find_addon_package("raidmaster")
     if not pkg:
         return
     path, version = pkg
@@ -1232,6 +1278,36 @@ async def notify_registered(text: str):
             failed += 1
         await asyncio.sleep(1)
     log.info("Benachrichtigung an %d Spieler verschickt (%d ohne Direktnachrichten).", sent, failed)
+
+
+@bot.tree.command(name="addon-hochladen", description="Neue Addon-Version (ZIP) hochladen – wird im passenden Kanal veröffentlicht (Admins)")
+@app_commands.describe(datei="Addon-ZIP, z. B. AHAnalyzerPro-5.9.zip oder RaidMaster-1.6.0.zip")
+async def addon_upload_cmd(inter: discord.Interaction, datei: discord.Attachment):
+    if not is_admin(inter.user):
+        await inter.response.send_message("Nur Admins (Recht „Server verwalten“).", ephemeral=True)
+        return
+    if not datei.filename.lower().endswith(".zip") or datei.size > 25 * 1024 * 1024:
+        await inter.response.send_message("Bitte eine Addon-ZIP (max. 25 MB) anhängen.", ephemeral=True)
+        return
+    await inter.response.defer(ephemeral=True, thinking=True)
+    os.makedirs(ADDON_DIR, exist_ok=True)
+    tmp = os.path.join(ADDON_DIR, "upload.tmp")
+    with open(tmp, "wb") as f:
+        f.write(await datei.read())
+    info = zip_addon_info(tmp)
+    if not info or (info[0] != "raidmaster" and info[0] not in EXTRA_ADDONS):
+        os.remove(tmp)
+        known = ", ".join(["RaidMaster"] + [m["title"] for m in EXTRA_ADDONS.values()])
+        await inter.followup.send(f"In der ZIP wurde keine bekannte Addon-TOC mit Version gefunden (bekannt: {known}).", ephemeral=True)
+        return
+    key, folder, version = info
+    target = os.path.join(ADDON_DIR, f"{folder}-{version}.zip")
+    os.replace(tmp, target)
+    log.info("Addon-ZIP hochgeladen: %s %s von %s", folder, version, inter.user)
+    await check_addon_release()
+    where = "#raid-addon" if key == "raidmaster" else "#" + EXTRA_ADDONS[key]["channel_name"]
+    await inter.followup.send(f"✅ **{folder} {version}** gespeichert – wird in **{where}** veröffentlicht "
+                              "(falls die Version neuer ist als die zuletzt gepostete).", ephemeral=True)
 
 
 @bot.tree.command(name="addon", description="Link zur aktuellen RaidMaster-Addon-Version")
@@ -1427,7 +1503,7 @@ async def apply_update(data: bytes, source: str, ref: str = "", note: str = "") 
     await post_bot_log(text)
     if result["bot_changed"]:
         asyncio.create_task(restart_soon())
-    elif result.get("addon_zip"):
+    else:
         await check_addon_release()
     return text
 
@@ -1770,6 +1846,7 @@ COMMAND_INFO = {
     "addon": ("alle", "Spieler"),
     "raidmaster-status": ("Offiziere", "Verwaltung"),
     "raidmaster-einrichten": ("Admins", "Verwaltung"),
+    "addon-hochladen": ("Admins", "Verwaltung"),
     "willkommen": ("Admins", "Verwaltung"),
     "uploader": ("Admins", "Verwaltung"),
     "update": ("Admins", "Verwaltung"),

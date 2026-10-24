@@ -78,7 +78,8 @@ Ohne GitHub geht es auch: das RaidMaster-Paket per WinSCP auf den Server kopiere
 - **📌 INFO**: #willkommen, #regeln, #ankündigungen
 - **⚔️ RAID-ORGA**: #einteilung
 - **🧩 RAID-ADDON** (direkt darunter): **#raid-addon** (Downloads, automatisch vom Bot) und #addon-hilfe
-- **Addon's by GoldSentinel** (direkt darunter, **nur für Offiziere**): #aktionshaus
+- **Addon's by GoldSentinel** (direkt darunter, **nur für Offiziere**): #aktionshaus – neue Versionen von
+  **AH Analyzer Pro** postet der Bot dort automatisch (per `/addon-hochladen` oder über GitHub)
 - **Eine Kategorie pro Raid** (🔥 MOLTEN CORE, 🐉 ONYXIAS HORT, 🌲 BARROW DEEPS, 🌋 HYJALGIPFEL) mit
   **-anmeldung** (mit Knopf **Charakter registrieren**), einem **Sprachkanal** (z. B. 🔊 Molten Core),
   **-taktik**, **-dkp** und **-loot**
@@ -213,6 +214,7 @@ Erstellt die Raidleitung im Spiel die **Einteilung** und gibt danach `/reload` e
 | `/raid taktik` | Offiziere | Molten-Core-Taktik in #mc-taktik |
 | `/raid softres` | Offiziere | softres.it-Link eines PUG-Raids setzen/ändern |
 | `/addon` | alle | Download-Link der aktuellen Addon-Version |
+| `/addon-hochladen` | Admins | Addon-ZIP hochladen (RaidMaster → #raid-addon, AH Analyzer Pro → #aktionshaus) |
 | `/charakter` | alle | Charakter und Rolle festlegen |
 | `/dkp`, `/dkpliste` | alle | DKP abfragen |
 | `/raidmaster-status` | Offiziere | Version, Uploads, Datenstand |
