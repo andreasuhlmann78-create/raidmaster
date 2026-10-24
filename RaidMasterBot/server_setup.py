@@ -129,13 +129,13 @@ def slug(name: str) -> str:
 
 
 def raid_category(key: str, name: str, emoji: str = "🗡️", prefix: str | None = None) -> dict:
-    """Kategorie eines Raids mit Anmeldung (inkl. Registrier-Knopf), Chat, Taktik, DKP und Loot."""
+    """Kategorie eines Raids mit Anmeldung (inkl. Registrier-Knopf), Sprachkanal, Taktik, DKP und Loot."""
     p = prefix or slug(name)
     return {
         "name": f"{emoji} {name.upper()}", "mode": None, "raid": key, "prefix": p,
         "channels": [
             ("text", f"{p}-anmeldung", f"Anmeldung {name} – per Knopf", "readonly"),
-            ("text", f"{p}-chat", f"Austausch und Absprachen zu {name}", None),
+            ("voice", f"🔊 {name}", None, None),
             ("text", f"{p}-taktik", f"Taktik und Fragen zu {name}", None),
             ("text", f"{p}-dkp", f"DKP-Stand {name} (automatisch vom RaidMaster-Bot)", "botonly"),
             ("text", f"{p}-loot", f"Loot-Protokoll {name} (automatisch vom RaidMaster-Bot)", "botonly"),
@@ -294,7 +294,8 @@ async def _hide_from_guests(guild, cat_def: dict, roles: dict, created: dict, re
 def _store_raid_channels(cfg: dict, raid_def: dict, created: dict):
     p = raid_def["prefix"]
     ids = {}
-    for kind, ch_name in (("signup", f"{p}-anmeldung"), ("chat", f"{p}-chat"), ("tactics", f"{p}-taktik"),
+    voice_name = next((n for k, n, _, _ in raid_def["channels"] if k == "voice"), None)
+    for kind, ch_name in (("signup", f"{p}-anmeldung"), ("voice", voice_name), ("tactics", f"{p}-taktik"),
                           ("dkp", f"{p}-dkp"), ("loot", f"{p}-loot")):
         if ch_name in created:
             ids[kind] = created[ch_name].id
@@ -323,7 +324,7 @@ def welcome_text(guild_name: str, channels: dict | None = None, officer_role_id:
         "und vor allem mit Spaß. Ob erfahrener Raider oder frisch auf Stufe 60: Bei uns findest du deinen Platz.\n\n"
         "🏰 **Unsere Raids**\n"
         "🔥 Molten Core · 🐉 Onyxias Hort · 🌲 Barrow Deeps · 🌋 Hyjalgipfel\n"
-        "Jeder Raid hat seine eigene Kategorie mit Anmeldung, Chat, Taktik, DKP-Stand und Loot.\n\n"
+        "Jeder Raid hat seine eigene Kategorie mit Anmeldung, Sprachkanal, Taktik, DKP-Stand und Loot.\n\n"
         "🚀 **So startest du in 3 Schritten**\n"
         f"**1.** Lies kurz die {ch('regeln')} – dort steht auch, wie unser DKP-System funktioniert.\n"
         f"**2.** Geh in die Anmeldung deines Raids (z. B. {ch('mc-anmeldung')}) und klick auf **📝 Charakter registrieren**. "
@@ -546,6 +547,11 @@ async def run_setup(guild: discord.Guild, invoker: discord.Member, cfg: dict, dk
         cfg["dkp_channel_id"] = mc["dkp"]
     if mc.get("loot"):
         cfg["loot_channel_id"] = mc["loot"]
+    old_chats = [c.name for c in guild.text_channels
+                 if any(c.name == f"{r['prefix']}-chat" for r in raids)]
+    if old_chats:
+        report.append("ℹ️ Die Raid-Chats sind jetzt Sprachkanäle. Die alten Textkanäle "
+                      + ", ".join(f"#{n}" for n in old_chats) + " kannst du löschen.")
     if _find(guild.text_channels, "softreserve"):
         report.append("ℹ️ #softreserve wird nicht mehr gebraucht (Soft Reserve wurde entfernt) – du kannst den Kanal löschen.")
     cfg.pop("softreserve_channel_id", None)
