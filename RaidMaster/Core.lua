@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "1.8.6"
-RM.VERSION_NUM = 10806
+RM.VERSION = "1.8.7"
+RM.VERSION_NUM = 10807
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -612,6 +612,8 @@ SlashCmdList["RAIDMASTER"] = function(msg)
 		RM.Markers.ClearAll()
 	elseif msg == "sync" then
 		RM.Comm.RequestSync()
+	elseif msg == "discord" or msg == "anleitung" or msg == "guide" then
+		RM.Guide.Toggle()
 	elseif msg == "minimap" then
 		RM.UI.ToggleMinimapButton()
 	elseif msg == "version" or msg == "info" then

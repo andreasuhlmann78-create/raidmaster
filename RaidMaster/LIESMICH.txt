@@ -1,4 +1,4 @@
-RaidMaster 1.8.6 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 1.8.7 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,15 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+DISCORD-ANLEITUNG IM ADDON (neu in 1.8.7)
+- Neue Seite "Discord" (Raidleitung und Offiziere) und /rm discord: Schritt-für-Schritt-Anleitung, wie DKP,
+  Loot, Einteilung und Skillungen automatisch im Discord landen (Uploader einrichten, Spieler verknüpfen,
+  vor/im/nach dem Raid). Beim ersten Start öffnet sie sich für Raidleitung und Offiziere von selbst.
+- Knopf "Jetzt an Discord senden": lädt die Oberfläche neu (/reload), WoW speichert, der Uploader schickt.
+- Die Seite zeigt, wann zuletzt gespeichert wurde und ob neue DKP-Daten noch nicht im Discord sind.
+- Nach "Raid beenden" fragt RaidMaster, ob DKP und Loot gleich an Discord gehen sollen.
+- Uploader zum Herunterladen: download/RaidMasterUploader.zip auf GitHub.
 
 FENSTERGRÖSSE, PLÜNDERMEISTER, FESTER RAIDLEITER, WICHTIG-HINWEISE (neu in 1.8.5/1.8.6)
 - Das Fenster lässt sich am Griff unten rechts frei größer und kleiner ziehen; Schrift, Knöpfe und Listen
