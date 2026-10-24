@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "1.7.2"
-RM.VERSION_NUM = 10702
+RM.VERSION = "1.7.3"
+RM.VERSION_NUM = 10703
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -496,6 +496,8 @@ SlashCmdList["RAIDMASTER"] = function(msg)
 	elseif msg == "reset" then
 		RM.db.config.positions = {}
 		ReloadUI()
+	elseif msg == "clear" or msg == "aus" then
+		RM.Markers.ClearAll()
 	elseif msg == "sync" then
 		RM.Comm.RequestSync()
 	elseif msg == "minimap" then

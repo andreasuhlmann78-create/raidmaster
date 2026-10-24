@@ -4284,3 +4284,6 @@ L["Raids nach WoW-Erweiterung geordnet; ein grüner Punkt zeigt Raids mit DKP-St
 L["Raid wählen – alle Raids von Classic bis Midnight, nach Erweiterung geordnet."] = "Scegli un'incursione – tutte le incursioni da Classic a Midnight, per espansione."
 L["* = Raid gibt es in deiner Spielversion nicht (nur Taktik zum Nachlesen)."] = "* = incursione non presente nella tua versione del gioco (solo tattica da leggere)."
 L["nicht in dieser Spielversion"] = "non presente in questa versione del gioco"
+L["Alle aus"] = "Togli tutti"
+L["Alle Schlachtzugsymbole auf einmal ausblenden (bei allen Gegnern und Spielern).\nAuch per Tastenbelegung oder /rm clear."] = "Rimuovi tutti i simboli d'incursione in una volta (nemici e giocatori).\nAnche con tasto rapido o /rm clear."
+L["Alle Schlachtzugsymbole ausgeblendet."] = "Tutti i simboli d'incursione rimossi."

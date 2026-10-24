@@ -76,7 +76,10 @@ function M.ClearAll()
 		step = step + 1
 		C_Timer.After(step * 0.12, function() SetRaidTarget("player", i) end)
 	end
-	C_Timer.After((step + 1) * 0.12 + 0.1, function() SetRaidTarget("player", 0) end)
+	C_Timer.After((step + 1) * 0.12 + 0.1, function()
+		SetRaidTarget("player", 0)
+		RM.Print(L["Alle Schlachtzugsymbole ausgeblendet."])
+	end)
 	wipe(used)
 end
 
@@ -145,9 +148,10 @@ local function CreateBar()
 	smart:SetPoint("LEFT", x + 2, 0)
 	x = x + 46
 
-	local clear = UI.Button(f, "X", 26, 26, function() M.ClearAll() end, L["Alle Symbole entfernen"])
-	clear:SetPoint("LEFT", x, 0)
-	x = x + 30
+	local clear = UI.Button(f, L["Alle aus"], 62, 26, function() M.ClearAll() end,
+		L["Alle Schlachtzugsymbole auf einmal ausblenden (bei allen Gegnern und Spielern).\nAuch per Tastenbelegung oder /rm clear."])
+	clear:SetPoint("LEFT", x + 2, 0)
+	x = x + 66
 
 	f.templateText = UI.Text(f, "", 10, 0.8, 0.8, 0.8)
 	f.templateText:SetPoint("TOPLEFT", f, "BOTTOMLEFT", 2, -2)

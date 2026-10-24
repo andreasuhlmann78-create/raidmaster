@@ -4284,3 +4284,6 @@ L["Raids nach WoW-Erweiterung geordnet; ein grüner Punkt zeigt Raids mit DKP-St
 L["Raid wählen – alle Raids von Classic bis Midnight, nach Erweiterung geordnet."] = "Elegir banda: todas las bandas de Classic a Midnight, ordenadas por expansión."
 L["* = Raid gibt es in deiner Spielversion nicht (nur Taktik zum Nachlesen)."] = "* = la banda no existe en tu versión del juego (solo para leer la táctica)."
 L["nicht in dieser Spielversion"] = "no está en esta versión del juego"
+L["Alle aus"] = "Quitar todo"
+L["Alle Schlachtzugsymbole auf einmal ausblenden (bei allen Gegnern und Spielern).\nAuch per Tastenbelegung oder /rm clear."] = "Quitar todas las marcas de banda a la vez (enemigos y jugadores).\nTambién con atajo de teclado o /rm clear."
+L["Alle Schlachtzugsymbole ausgeblendet."] = "Todas las marcas de banda quitadas."

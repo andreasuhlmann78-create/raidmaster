@@ -4284,3 +4284,6 @@ L["Raids nach WoW-Erweiterung geordnet; ein grüner Punkt zeigt Raids mit DKP-St
 L["Raid wählen – alle Raids von Classic bis Midnight, nach Erweiterung geordnet."] = "选择团队副本——从经典旧世到至暗之夜的所有团队副本，按资料片排列。"
 L["* = Raid gibt es in deiner Spielversion nicht (nur Taktik zum Nachlesen)."] = "* = 你的游戏版本中没有此团队副本（仅供阅读战术）。"
 L["nicht in dieser Spielversion"] = "此游戏版本中没有"
+L["Alle aus"] = "全部清除"
+L["Alle Schlachtzugsymbole auf einmal ausblenden (bei allen Gegnern und Spielern).\nAuch per Tastenbelegung oder /rm clear."] = "一次清除所有团队标记（敌人和玩家）。\n也可用快捷键或 /rm clear。"
+L["Alle Schlachtzugsymbole ausgeblendet."] = "已清除所有团队标记。"

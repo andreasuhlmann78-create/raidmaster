@@ -28,6 +28,7 @@ COMMANDS
   /rm bar      toggle the raid icon bar
   /rm sync     request a data sync
   /rm minimap  show/hide the minimap button (drag it around the minimap with the left mouse button)
+  /rm clear    remove all raid target icons at once (also the "Clear all" button on the icon bar)
   /rm version  show addon version, game version and language
   /rm reset    reset window positions
 

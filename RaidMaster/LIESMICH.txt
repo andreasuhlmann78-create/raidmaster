@@ -1,4 +1,4 @@
-RaidMaster 1.7.2 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 1.7.3 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -138,6 +138,7 @@ BEFEHLE
   /rm sync   Datenabgleich anfordern
   /rm reset  Fensterpositionen zurücksetzen
   /rm minimap  Minimap-Knopf ein/aus
+  /rm clear    alle Schlachtzugsymbole auf einmal ausblenden (auch Knopf "Alle aus" in der Symbolleiste)
   /rm version  Addon-, Spielversion und Sprache anzeigen
 
 ERSTER TEST (empfohlen)

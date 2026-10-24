@@ -4284,3 +4284,6 @@ L["Raids nach WoW-Erweiterung geordnet; ein grüner Punkt zeigt Raids mit DKP-St
 L["Raid wählen – alle Raids von Classic bis Midnight, nach Erweiterung geordnet."] = "공격대 선택 – 클래식부터 한밤까지 모든 공격대, 확장팩별 정렬."
 L["* = Raid gibt es in deiner Spielversion nicht (nur Taktik zum Nachlesen)."] = "* = 현재 게임 버전에 없는 공격대 (공략 읽기 전용)."
 L["nicht in dieser Spielversion"] = "이 게임 버전에 없음"
+L["Alle aus"] = "모두 해제"
+L["Alle Schlachtzugsymbole auf einmal ausblenden (bei allen Gegnern und Spielern).\nAuch per Tastenbelegung oder /rm clear."] = "모든 공격대 징표를 한 번에 해제합니다 (적과 플레이어 모두).\n단축키 또는 /rm clear로도 가능."
+L["Alle Schlachtzugsymbole ausgeblendet."] = "모든 공격대 징표를 해제했습니다."
