@@ -1,4 +1,4 @@
-RaidMaster 1.8.0 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 1.8.1 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,11 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+SCHLACHTZUGSYMBOLE NUR FÜR DIE RAIDLEITUNG (neu in 1.8.1)
+- Symbole setzen, Adds markieren und alle entfernen können nur Raidleiter und Co-Raidleiter (Assistenten),
+  in einer Gruppe der Gruppenleiter. Die kleine Symbolleiste sehen nur sie; sie erscheint/verschwindet
+  automatisch, wenn jemand befördert oder herabgestuft wird.
 
 ADDS MIT EINEM KLICK MARKIEREN (neu in 1.8.0)
 - Knopf "Adds markieren" (Zielfernrohr in der Symbolleiste, auf der Seite Raidleiter, /rm adds oder eigene Taste):

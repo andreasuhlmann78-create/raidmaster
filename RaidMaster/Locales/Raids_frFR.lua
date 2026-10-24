@@ -4293,3 +4293,5 @@ L["Adds markieren (alle sichtbaren, nach Vorlage)"] = "Marquer les adds (tous vi
 L["Keine Gegner sichtbar. Namensplaketten der Gegner einschalten (Taste V) und näher an die Adds gehen."] = "Aucun ennemi visible. Activez les barres d'info ennemies (touche V) et approchez-vous des adds."
 L["%d Gegner markiert (Vorlage: %s)."] = "%d ennemis marqués (modèle : %s)."
 L["Keine passenden Gegner gefunden – schon markiert oder nicht sichtbar."] = "Aucun ennemi correspondant – déjà marqués ou invisibles."
+L["Nur Raidleiter und Co-Raidleiter (Assistenten) können Schlachtzugsymbole setzen."] = "Seuls le chef de raid et ses assistants peuvent poser des marques de raid."
+L["Die Symbolleiste erscheint nur bei ihnen."] = "La barre de marques ne s'affiche que pour eux."

@@ -4293,3 +4293,5 @@ L["Adds markieren (alle sichtbaren, nach Vorlage)"] = "Пометить аддо
 L["Keine Gegner sichtbar. Namensplaketten der Gegner einschalten (Taste V) und näher an die Adds gehen."] = "Противники не видны. Включите индикаторы противников (клавиша V) и подойдите ближе к аддам."
 L["%d Gegner markiert (Vorlage: %s)."] = "Помечено противников: %d (шаблон: %s)."
 L["Keine passenden Gegner gefunden – schon markiert oder nicht sichtbar."] = "Подходящих противников нет – уже помечены или не видны."
+L["Nur Raidleiter und Co-Raidleiter (Assistenten) können Schlachtzugsymbole setzen."] = "Ставить рейдовые метки могут только лидер рейда и помощники."
+L["Die Symbolleiste erscheint nur bei ihnen."] = "Панель меток видят только они."

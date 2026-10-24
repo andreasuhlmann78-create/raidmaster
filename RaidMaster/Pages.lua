@@ -1269,6 +1269,8 @@ UI.AddPage("leader", L["Raidleiter"], function(page)
 
 	local clearBtn = UI.Button(page, L["Alle Symbole entfernen"], 180, 26, function() RM.Markers.ClearAll() end)
 	Place(clearBtn, page, 0, -502)
+	local markHint = Label(page, "", 190, -497, 11, true)
+	markHint:SetWidth(580)
 
 	local keyHint = Label(page, L["Am schnellsten: Esc > Tastaturbelegung > RaidMaster. Dort z. B. eine Taste für 'Nächstes freies Symbol' "]
 		.. L["belegen, dann mit der Maus über die Gegner fahren und die Taste drücken – ohne sie anzuklicken."], 0, -536, 11, true)
@@ -1314,6 +1316,9 @@ UI.AddPage("leader", L["Raidleiter"], function(page)
 		barCheck:Refresh()
 		lockCheck:Refresh()
 		autoCheck:Refresh()
+		local lead = RM.Markers.IsMarkerLead() or not (RM.InRaid() or (IsInGroup and IsInGroup()))
+		for _, b in ipairs({ addsBtn, clearBtn }) do if lead then b:Enable() else b:Disable() end end
+		markHint:SetText(lead and "" or ("|cffff5544" .. L["Nur Raidleiter und Co-Raidleiter (Assistenten) können Schlachtzugsymbole setzen."] .. "|r " .. L["Die Symbolleiste erscheint nur bei ihnen."]))
 	end
 end)
 

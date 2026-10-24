@@ -4293,3 +4293,5 @@ L["Adds markieren (alle sichtbaren, nach Vorlage)"] = "標記小怪（所有可�
 L["Keine Gegner sichtbar. Namensplaketten der Gegner einschalten (Taste V) und näher an die Adds gehen."] = "沒有可見的敵人。請開啟敵方名條（V鍵）並靠近小怪。"
 L["%d Gegner markiert (Vorlage: %s)."] = "已標記 %d 個敵人（模板：%s）。"
 L["Keine passenden Gegner gefunden – schon markiert oder nicht sichtbar."] = "沒有找到合適的敵人——已被標記或不可見。"
+L["Nur Raidleiter und Co-Raidleiter (Assistenten) können Schlachtzugsymbole setzen."] = "只有團隊隊長和助理可以設定團隊標記。"
+L["Die Symbolleiste erscheint nur bei ihnen."] = "標記列只對他們顯示。"

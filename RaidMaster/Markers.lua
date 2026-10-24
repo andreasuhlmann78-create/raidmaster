@@ -16,16 +16,29 @@ local function TargetUnit()
 	if UnitExists("target") then return "target" end
 end
 
+-- Symbole setzen dürfen nur Raidleiter und Co-Raidleiter (Assistenten),
+-- in einer Gruppe der Gruppenleiter. Allein (ohne Gruppe) zum Ausprobieren erlaubt.
+function M.IsMarkerLead()
+	if RM.InRaid() then return RM.IsAssist() and true or false end
+	if IsInGroup and IsInGroup() or (GetNumPartyMembers and GetNumPartyMembers() > 0) then
+		return RM.IsLeader() and true or false
+	end
+	return false
+end
+
 local function CanMark()
-	if RM.InRaid() then return RM.IsAssist() end
+	if RM.InRaid() or (IsInGroup and IsInGroup()) then return M.IsMarkerLead() end
 	return true
 end
+M.CanMark = CanMark
+
+local NO_RIGHTS = "Nur Raidleiter und Co-Raidleiter (Assistenten) können Schlachtzugsymbole setzen."
 
 -- Symbol auf Maus-Ziel (sonst aktuelles Ziel) setzen; 0 entfernt
 function M.Mark(icon)
 	local unit = TargetUnit()
 	if not unit then return end
-	if not CanMark() then RM.Print(L["Im Schlachtzug brauchst du Leiter- oder Assistentenrechte zum Markieren."]) return end
+	if not CanMark() then RM.Print(L[NO_RIGHTS]) return end
 	SetRaidTarget(unit, icon)
 	if icon and icon > 0 then used[icon] = true end
 end
@@ -53,7 +66,7 @@ end
 function M.SmartMark()
 	local unit = TargetUnit()
 	if not unit then return end
-	if not CanMark() then RM.Print(L["Im Schlachtzug brauchst du Leiter- oder Assistentenrechte zum Markieren."]) return end
+	if not CanMark() then RM.Print(L[NO_RIGHTS]) return end
 	if GetRaidTargetIndex(unit) then return end
 	if UnitIsPlayer(unit) or UnitIsDead(unit) then return end
 	local template = RM.Data.GetTemplate(C().markerTemplate)
@@ -70,7 +83,7 @@ end
 
 -- Alle Symbole entfernen: jedes Symbol kurz auf sich selbst setzen, dann löschen
 function M.ClearAll()
-	if not CanMark() then RM.Print(L["Im Schlachtzug brauchst du Leiter- oder Assistentenrechte zum Markieren."]) return end
+	if not CanMark() then RM.Print(L[NO_RIGHTS]) return end
 	local step = 0
 	for i = 8, 1, -1 do
 		step = step + 1
@@ -135,7 +148,7 @@ local function VisibleEnemies()
 end
 
 function M.MarkAdds()
-	if not CanMark() then RM.Print(L["Im Schlachtzug brauchst du Leiter- oder Assistentenrechte zum Markieren."]) return end
+	if not CanMark() then RM.Print(L[NO_RIGHTS]) return end
 	local template = RM.Data.GetTemplate(C().markerTemplate)
 	local enemies = VisibleEnemies()
 	if #enemies == 0 then
@@ -293,7 +306,8 @@ end
 
 function M.UpdateBar()
 	if not RM.db then return end
-	local show = C().markerBar
+	-- die kleine Symbolleiste sehen nur Raidleiter und Co-Raidleiter
+	local show = C().markerBar and M.IsMarkerLead()
 	if show then
 		bar = bar or CreateBar()
 		bar:Show()
@@ -309,6 +323,8 @@ function M.ToggleBar()
 end
 
 RM.Listen("LOGIN", function() M.UpdateBar() end)
+RM.On("GROUP_ROSTER_UPDATE", function() M.UpdateBar() end)
+RM.On("PARTY_LEADER_CHANGED", function() M.UpdateBar() end)
 RM.Listen("CONFIG_CHANGED", function() M.UpdateBar() end)
 
 ---------------------------------------------------------------------------

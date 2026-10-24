@@ -4293,3 +4293,5 @@ L["Adds markieren (alle sichtbaren, nach Vorlage)"] = "쫄 징표 (보이는 모
 L["Keine Gegner sichtbar. Namensplaketten der Gegner einschalten (Taste V) und näher an die Adds gehen."] = "보이는 적이 없습니다. 적 이름표를 켜고 (V 키) 쫄에게 가까이 가세요."
 L["%d Gegner markiert (Vorlage: %s)."] = "%d명에게 징표 (템플릿: %s)."
 L["Keine passenden Gegner gefunden – schon markiert oder nicht sichtbar."] = "알맞은 적이 없습니다 – 이미 징표가 있거나 보이지 않습니다."
+L["Nur Raidleiter und Co-Raidleiter (Assistenten) können Schlachtzugsymbole setzen."] = "공격대장과 부공격대장(지휘관)만 공격대 징표를 설정할 수 있습니다."
+L["Die Symbolleiste erscheint nur bei ihnen."] = "징표 바는 그들에게만 표시됩니다."
