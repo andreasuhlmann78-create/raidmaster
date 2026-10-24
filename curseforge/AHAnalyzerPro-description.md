@@ -2,7 +2,7 @@
 
 **Market analysis, sniper and gold-making toolkit for the auction house – for every WoW version.**
 
-> ⚠️ **Version 5.9.11 is a beta.** It may still contain bugs. If you run into an error or unexpected behaviour in-game, please report it in the comments – ideally with the Lua error message (if any) and the WoW version you play on.
+> ⚠️ **Version 5.9.12 is a beta.** It may still contain bugs. If you run into an error or unexpected behaviour in-game, please report it in the comments – ideally with the Lua error message (if any) and the WoW version you play on.
 
 AH Analyzer Pro scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It runs as its own tab inside the auction house window, can be used completely with the mouse and speaks the language of your WoW client.
 
@@ -10,6 +10,7 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 
 ## What's new
 
+- **Classic auction house support:** Classic Era, TBC Anniversary and Wrath Classic now work with scan, price check, sniper, bargain watcher, buying, posting and cancelling
 - **All WoW versions in one download:** Classic Era, WoW Forever, TBC Anniversary, Wrath Classic, Wrath Titan Reforged, Cataclysm Classic, Mists of Pandaria Classic and Retail
 - **Bargain watcher:** a new tab that searches trade goods for prices far below market value and alerts you with sound and chat
 - **Bait-offer protection:** a single cheap unit placed at the bottom of a commodity no longer fools the sniper, the sell suggestion or the market value
