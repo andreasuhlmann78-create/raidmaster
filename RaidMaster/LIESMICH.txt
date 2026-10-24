@@ -1,4 +1,4 @@
-RaidMaster 1.8.5 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 1.8.6 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -11,7 +11,7 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
-FENSTERGRÖSSE, PLÜNDERMEISTER, FESTER RAIDLEITER, WICHTIG-HINWEISE (neu in 1.8.5)
+FENSTERGRÖSSE, PLÜNDERMEISTER, FESTER RAIDLEITER, WICHTIG-HINWEISE (neu in 1.8.5/1.8.6)
 - Das Fenster lässt sich am Griff unten rechts frei größer und kleiner ziehen; Schrift, Knöpfe und Listen
   passen sich an (lange Listen zeigen mehr Zeilen). Rechtsklick auf den Griff: Standardgröße.
 - Plündermeister per Knopfdruck (Seite Loot und oben auf der Seite Raidleiter): Spieler aus dem Menü wählen –
@@ -22,7 +22,8 @@ FENSTERGRÖSSE, PLÜNDERMEISTER, FESTER RAIDLEITER, WICHTIG-HINWEISE (neu in 1.8
 - Plünderschwelle jetzt standardmäßig "Selten (grün)": der Plündermeister verteilt schon grüne Items.
 - Warnung (Schlachtzugwarnung nur bei dir + Ton) beim Raidstart, Bosspull und Gruppenwechsel, wenn kein
   Plündermeister gesetzt ist oder die Seltenheitsstufe nicht stimmt.
-- Fester Raidleiter (Einstellungen → System, Standard: Rokan): hat immer alle Rechte im Addon und wird
+- Fester Raidleiter (Einstellungen → System, in WoW Forever Standard "Rokan Steinwacht" – nur dort gibt es
+  Vor- und Nachnamen; in anderen Versionen leer und frei eintragbar): hat immer alle Rechte im Addon und wird
   automatisch zum Raidleiter gemacht, sobald er in die Gruppe kommt und der bisherige Leiter RaidMaster hat.
 - Jeder Boss aller Raids hat jetzt eine Zeile "Wichtig:" mit den entscheidenden Details (z. B. Lucifron:
   Fluch zuerst bei Heilern und Manaklassen entfernen), in allen Sprachen.

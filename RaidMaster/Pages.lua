@@ -37,10 +37,15 @@ local function NeedOfficer()
 	return false
 end
 
+-- Namen säubern; nur WoW Forever hat Vor- und Nachnamen ("Rokan Steinwacht"), dort Leerzeichen behalten
 local function CapName(name)
-	name = (name or ""):gsub("%s", "")
+	if RM.GAME.key == "forever" then
+		name = (name or ""):gsub("^%s+", ""):gsub("%s+$", ""):gsub("%s+", " ")
+	else
+		name = (name or ""):gsub("%s", "")
+	end
 	if name == "" then return "" end
-	return name:sub(1, 1):upper() .. name:sub(2):lower()
+	return (name:gsub("(%S)(%S*)", function(a, b) return a:upper() .. b:lower() end))
 end
 
 -- Auswahl der angezeigten DKP-Tabelle (eigene Gilde oder Raid-Gilde)

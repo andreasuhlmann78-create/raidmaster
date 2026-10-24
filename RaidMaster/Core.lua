@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "1.8.5"
-RM.VERSION_NUM = 10805
+RM.VERSION = "1.8.6"
+RM.VERSION_NUM = 10806
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -113,7 +113,7 @@ RM.DEFAULT_SETTINGS = {
 	allowNegative = false,
 	onlyOnline = false,
 	standbyGetsDKP = true,
-	raidLeader = "Rokan",     -- fester Raidleiter der Gilde (bekommt automatisch die Raidleitung)
+	raidLeader = (RM.GAME.key == "forever") and "Rokan Steinwacht" or "", -- fester Raidleiter der Gilde (bekommt automatisch die Raidleitung)
 }
 
 -- Lokale Einstellungen (nur dieser Spieler)
@@ -400,11 +400,25 @@ function RM.MainLeader()
 	if n and n ~= "" then return RM.Short(n) end
 end
 
+-- Namen vergleichen. Nur im Client WoW Forever haben Charaktere Vor- und Nachnamen
+-- ("Rokan Steinwacht"); dort passt der Name auch, wenn eine Seite nur den Vornamen kennt.
+-- In allen anderen Versionen gilt nur der exakte Name.
+function RM.SameName(a, b)
+	if not a or not b then return false end
+	a = a:lower():gsub("^%s+", ""):gsub("%s+$", "")
+	b = b:lower():gsub("^%s+", ""):gsub("%s+$", "")
+	if a == b then return true end
+	if RM.GAME.key ~= "forever" then return false end
+	local fa, fb = a:match("^(%S+)"), b:match("^(%S+)")
+	if (not a:find(" ") or not b:find(" ")) and fa == fb then return true end
+	return false
+end
+
 function RM.IsMainLeader(name)
 	local m = RM.MainLeader()
 	if not m then return false end
 	name = RM.Short(name or RM.Me())
-	return name ~= nil and name:lower() == m:lower()
+	return RM.SameName(name, m)
 end
 
 -- Darf dieser Spieler DKP verändern? (Offiziere und der feste Raidleiter)
@@ -419,12 +433,12 @@ function RM.GroupUnit(name)
 	if RM.InRaid() then
 		for i = 1, 40 do
 			local u = "raid" .. i
-			if UnitExists(u) and RM.Short(UnitName(u)) == name then return u end
+			if UnitExists(u) and RM.SameName(RM.Short(UnitName(u)), name) then return u end
 		end
 	else
 		for i = 1, 4 do
 			local u = "party" .. i
-			if UnitExists(u) and RM.Short(UnitName(u)) == name then return u end
+			if UnitExists(u) and RM.SameName(RM.Short(UnitName(u)), name) then return u end
 		end
 	end
 end
@@ -518,6 +532,8 @@ RM.On("ADDON_LOADED", function(name)
 	db.data = db.data or {}
 	FillDefaults(db.data, { version = 0, players = {}, log = {}, firstKills = {}, lastDecay = 0, settings = {} })
 	FillDefaults(db.data.settings, RM.DEFAULT_SETTINGS)
+	-- 1.8.5 hatte kurz "Rokan" als Standard für alle Versionen
+	if db.data.settings.raidLeader == "Rokan" then db.data.settings.raidLeader = RM.DEFAULT_SETTINGS.raidLeader end
 	db.config = db.config or {}
 	FillDefaults(db.config, RM.DEFAULT_CONFIG)
 	-- 1.8.5: Plündermeister schon ab grünen Items (alte Standardeinstellung "blau" umstellen)
