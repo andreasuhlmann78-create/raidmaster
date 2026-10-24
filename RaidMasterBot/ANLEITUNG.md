@@ -78,6 +78,7 @@ Ohne GitHub geht es auch: das RaidMaster-Paket per WinSCP auf den Server kopiere
 - **📌 INFO**: #willkommen, #regeln, #ankündigungen
 - **⚔️ RAID-ORGA**: #einteilung
 - **🧩 RAID-ADDON** (direkt darunter): **#raid-addon** (Downloads, automatisch vom Bot) und #addon-hilfe
+- **🛠️ Addons by GoldSentinel** (direkt darunter, **nur für Offiziere**): #aktionshaus
 - **Eine Kategorie pro Raid** (🔥 MOLTEN CORE, 🐉 ONYXIAS HORT, 🌲 BARROW DEEPS, 🌋 HYJALGIPFEL) mit
   **-anmeldung** (mit Knopf **Charakter registrieren**), einem **Sprachkanal** (z. B. 🔊 Molten Core),
   **-taktik**, **-dkp** und **-loot**

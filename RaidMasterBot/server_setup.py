@@ -9,6 +9,7 @@ Der Befehl kann daher gefahrlos mehrmals ausgeführt werden.
 
 from __future__ import annotations
 
+import asyncio
 import discord
 
 # ---------------------------------------------------------------------------
@@ -52,6 +53,7 @@ RENAMES = {
 #   "officers" = ausschließlich die Rolle Offizier (und der Bot) sieht den Kanal
 #   "hidden"   = nur der Bot (und Admins) sehen den Kanal
 #   "officers_readonly" = Offiziere/Raidleitung lesen, nur der Bot schreibt
+#   "officers_only" = nur die Rolle Offizier (und der Bot) sieht und schreibt
 BASE_TOP = [
     {
         "name": "📌 INFO", "mode": "readonly", "guest": True,
@@ -73,6 +75,13 @@ BASE_TOP = [
         "channels": [
             ("text", "raid-addon", "Download der aktuellen RaidMaster-Addon-Version (automatisch vom Bot)", "botonly"),
             ("text", "addon-hilfe", "Fragen, Probleme und Wünsche zum RaidMaster-Addon", None),
+        ],
+    },
+    {
+        # eigene Addons von GoldSentinel – nur für Offiziere, direkt unter RAID-ADDON
+        "name": "🛠️ Addons by GoldSentinel", "mode": "officers_only", "after": "🧩 RAID-ADDON",
+        "channels": [
+            ("text", "aktionshaus", "AH Analyzer Pro – Auktionshaus-Analyse (nur Offiziere)", "officers_only"),
         ],
     },
 ]
@@ -189,6 +198,13 @@ def _overwrites(mode: str | None, guild: discord.Guild, roles: dict) -> dict | N
                 ow[r] = discord.PermissionOverwrite(view_channel=True, send_messages=True)
     elif mode == "hidden":
         ow[everyone] = discord.PermissionOverwrite(view_channel=False)
+    elif mode == "officers_only":
+        ow[everyone] = discord.PermissionOverwrite(view_channel=False)
+        if roles.get("Raidleitung"):
+            ow[roles["Raidleitung"]] = discord.PermissionOverwrite(view_channel=False)
+        if roles.get("Offizier"):
+            ow[roles["Offizier"]] = discord.PermissionOverwrite(view_channel=True, send_messages=True,
+                                                                read_message_history=True, attach_files=True)
     elif mode == "officers_readonly":
         ow[everyone] = discord.PermissionOverwrite(view_channel=False, send_messages=False)
         for r in leaders:
@@ -262,6 +278,7 @@ async def _place_after(guild, name: str, after: str, report: list, reason: str):
     try:
         await cat.edit(position=anchor.position + 1, reason=reason)
         report.append(f"↕️ Kategorie **{name}** unter **{after}** verschoben")
+        await asyncio.sleep(1.5)   # Discord meldet die neuen Positionen kurz verzögert
     except discord.HTTPException:
         report.append(f"⚠️ Kategorie **{name}** konnte nicht verschoben werden")
 
