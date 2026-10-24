@@ -1,8 +1,23 @@
 # AH Analyzer Pro
 
-**Market analysis, sniper and gold-making toolkit for the auction house – built for WoW Forever and Classic.**
+**Market analysis, sniper and gold-making toolkit for the auction house – for every WoW version.**
 
-AH Analyzer Pro scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. On top of that it finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It runs as its own tab inside the auction house window and speaks the language of your WoW client.
+> ⚠️ **Version 5.9.11 is a beta.** It may still contain bugs. If you run into an error or unexpected behaviour in-game, please report it in the comments – ideally with the Lua error message (if any) and the WoW version you play on.
+
+AH Analyzer Pro scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It runs as its own tab inside the auction house window, can be used completely with the mouse and speaks the language of your WoW client.
+
+---
+
+## What's new
+
+- **All WoW versions in one download:** Classic Era, WoW Forever, TBC Anniversary, Wrath Classic, Wrath Titan Reforged, Cataclysm Classic, Mists of Pandaria Classic and Retail
+- **Bargain watcher:** a new tab that searches trade goods for prices far below market value and alerts you with sound and chat
+- **Bait-offer protection:** a single cheap unit placed at the bottom of a commodity no longer fools the sniper, the sell suggestion or the market value
+- **Suspicious prices are double-checked** with a quick search before they count
+- **Charts with EMAs** over 6 hours, 1 day and 7 days, including crossover markers
+- **Much faster searches** – the addon follows the server's own throttle instead of fixed waits
+- **Buy commodities with a single mouse-wheel notch** – the price is confirmed in advance, nothing is bought if it rose in the meantime
+- **Disenchant values that learn** from your own disenchants
 
 ---
 
@@ -11,33 +26,32 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 ### Market data
 - **Full market scan** with price history for every item
 - **Market value** = median of the last 14 days, so single outliers barely count
-- **Trends and charts** with time-based EMAs (6 hours, 1 day, 7 days) and crossover markers
-- **Bait-offer protection:** a single cheap unit at the bottom of a commodity is recognised and ignored everywhere – no fake market values, no false sniper hits
-- Suspiciously cheap prices are re-checked automatically before they count
+- **Trends and charts** with time-based EMAs and crossover markers
+- **Bait-offer protection** and automatic re-checks of suspiciously cheap prices
 - **Price sync** between all players using the addon
 - Prices and a small price chart in **every item tooltip**, plus vendor price and disenchant value
 
 ### Buying
 - **Sniper:** targets with max price, quantity, budget, rarity, item level and level filters – searches on its own while the auction house is open
-- **Bargain watcher:** searches trade goods (herbs, ore, cloth, leather, enchanting, elemental, gems, cooking …) for anything at or below x % of market value, with sound and chat alert
-- **Buy with one mouse-wheel notch** (or your own key binding); the price is confirmed in advance, nothing is bought if it rose meanwhile
-- **Shopping lists** with quantities – check all prices at once or turn missing items into sniper targets
+- **Bargain watcher:** herbs, ore, cloth, leather, enchanting, elemental, gems, cooking and more – anything at or below x % of market value (default 50 %); never weapons or armour
+- **One-notch buying** with the mouse wheel or your own key binding
+- **Shopping lists** with quantities – check all prices at once or turn missing items into sniper targets; items already in your bags are subtracted
 - **Watchlist** with alerts
 
 ### Selling
 - **Sell tab:** price check and undercut suggestion (1 copper, 1 % or 5 %), deposit, AH cut and proceeds – warns when a vendor pays more or when you would sell below your purchase price
 - **Series posting:** posts every bag item with a remembered price, one click per auction
-- **Auctions tab:** status of your auctions (lowest / tied / undercut / sold) and cancel with one click
-- **Collect AH mail** – gold and items from all auction mail with one click (COD is never paid)
+- **Auctions tab:** status of your auctions (lowest / tied / undercut / sold), cancel with one click
+- **Collect AH mail:** gold and items from all auction mail with one click (COD is never paid)
 
 ### Profit & bookkeeping
 - **Ledger:** income after the AH cut, spending, deposits and profit for today / 7 days / 30 days / all time – read from your mailbox invoices, nothing counted twice
-- Statistics: sell-through per item, best selling hours and weekdays
+- **Statistics:** sell-through per item, best selling hours and weekdays
 - **Profit tab:** bargains below market value, below vendor price or below disenchant value; flipping calculator
 - **Professions:** material cost, value of the result and profit for every recipe, best recipes, materials straight to a shopping list
-- **Disenchant values that learn** from your own disenchants
+- **Vendor prices** are learned automatically at every merchant
 - **Alts & gold:** gold, bags and bank of all your characters, gold history of the last 30 days
-- CSV export
+- **CSV export**
 
 ### Comfort
 - Two designs: **Classic** (looks like the WoW auction house) and **Modern**
@@ -47,15 +61,25 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 
 ---
 
+## Supported game versions
+
+| Game version | Status |
+|---|---|
+| WoW Forever | main version |
+| Classic Era | supported (beta) |
+| TBC Anniversary, Wrath Classic, Wrath Titan Reforged | supported (beta) |
+| Cataclysm Classic, Mists of Pandaria Classic | supported (beta) |
+| Retail | supported (beta) |
+
+One download for everything – just copy the folder `AHAnalyzerPro` into `Interface\AddOns` of your game.
+
 ## Languages
 
-English, German, French, Spanish (EU and Latin America), Portuguese, Italian, Russian, Korean, Chinese (simplified and traditional). The addon follows your client language automatically; you can switch it with `/ahp language`.
-
-## Game versions
-
-Made and tested for **WoW Forever** and Classic Era. The addon is flagged for all current WoW flavours (Classic Era, TBC, Wrath, Cataclysm, Mists of Pandaria Classic, Retail).
+English, German, French, Spanish (EU and Latin America), Portuguese, Italian, Russian, Korean, Chinese (simplified and traditional). The addon follows your client language automatically; you can change it in the options or with `/ahp language`.
 
 ## Commands
+
+Everything works with the mouse – the commands are optional.
 
 | Command | Action |
 |---|---|
@@ -71,9 +95,11 @@ Made and tested for **WoW Forever** and Classic Era. The addon is flagged for al
 | `/ahp help` | help |
 | `/ahp reset` | reset window and button positions |
 
-Everything can also be done with the mouse.
-
 ---
+
+## Feedback
+
+Found a bug or have an idea? Leave a comment here on CurseForge – bug reports with the Lua error message and your WoW version help the most.
 
 ## Credits & license
 
