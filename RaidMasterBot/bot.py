@@ -235,7 +235,9 @@ def raid_embed(raid: dict) -> discord.Embed:
     if raid.get("pool_name"):
         desc = f"🏰 **{raid['pool_name']}**\n" + desc
     if raid.get("mode") == "pug":
-        desc += "\n🎲 **PUG-Raid** · Loot wird ausgewürfelt (Bedarf `/roll`, Gier `/roll 99`) statt DKP"
+        desc += "\n🎲 **PUG-Raid** · kein DKP · Soft Reserve und Loot über softres.it"
+        if raid.get("softres"):
+            desc += f"\n🔗 **Soft Reserve:** {raid['softres']}"
     if raid.get("description"):
         desc += "\n" + raid["description"]
     count = book.count_status(raid, "an")
@@ -300,7 +302,7 @@ async def send_export(inter: discord.Interaction, raid: dict):
         att, _, _ = rmd.attendance(bot.dkp_data, book)
         lineup = rmd.build_lineup(raid, att)
     link = cfg.get("pug_invite_url", "") if raid.get("mode") == "pug" else ""
-    text = rmd.export_text(raid, TZ, lineup, link)
+    text = rmd.export_text(raid, TZ, lineup, link, raid.get("softres", ""))
     intro = ("Diesen Text kopieren und im Spiel bei **RaidMaster → Anmeldungen → Importieren** einfügen. "
              "Enthält Aufstellung und feste Gruppen – das Addon lädt automatisch ein und sortiert die Gruppen.")
     if len(text) < 1800:
@@ -449,7 +451,7 @@ async def on_interaction(inter: discord.Interaction):
 
         if action == "sr":
             # Knopf älterer Raid-Nachrichten
-            await inter.response.send_message("Soft Reserve gibt es nicht mehr – im PUG-Raid wird alles ausgewürfelt.", ephemeral=True)
+            await inter.response.send_message("Soft Reserve läuft jetzt über softres.it – den Link findest du direkt am Raid.", ephemeral=True)
             await update_raid_message(raid)
             return
 
@@ -525,13 +527,14 @@ def raid_channel(pool: str, kind: str) -> int:
 @app_commands.describe(titel="z. B. Molten Core Mittwoch", datum="TT.MM.JJJJ, z. B. 29.10.2026", uhrzeit="HH:MM, z. B. 20:00",
                        raid="Welcher Raid? (bestimmt Kategorie und DKP-Topf, Standard Molten Core)",
                        beschreibung="optional, z. B. Treffpunkt und Buffs", max_spieler="optional, z. B. 40 (0 = unbegrenzt)",
-                       modus="DKP-Raid (Gilde) oder PUG-Raid (Loot wird ausgewürfelt)")
+                       modus="DKP-Raid (Gilde) oder PUG-Raid (Loot über softres.it)",
+                       softres="PUG: Link zum softres.it-Raid (kann auch später mit /raid softres gesetzt werden)")
 @app_commands.choices(modus=[app_commands.Choice(name="DKP-Raid (Gilde)", value="dkp"),
-                             app_commands.Choice(name="PUG-Raid (Loot auswürfeln)", value="pug")])
+                             app_commands.Choice(name="PUG-Raid (softres.it)", value="pug")])
 @app_commands.autocomplete(raid=raid_pool_autocomplete)
 async def raid_create(inter: discord.Interaction, titel: str, datum: str, uhrzeit: str, raid: str = "mc",
                       beschreibung: str | None = None, max_spieler: app_commands.Range[int, 0, 40] = 0,
-                      modus: app_commands.Choice[str] | None = None):
+                      modus: app_commands.Choice[str] | None = None, softres: str | None = None):
     pool = raid
     if not is_creator(inter.user):
         await inter.response.send_message("Raids erstellen dürfen nur Offiziere bzw. die Raidleitung.", ephemeral=True)
@@ -545,6 +548,10 @@ async def raid_create(inter: discord.Interaction, titel: str, datum: str, uhrzei
         await inter.response.send_message("Dieser Zeitpunkt liegt in der Vergangenheit.", ephemeral=True)
         return
     mode = modus.value if modus else "dkp"
+    softres_link = clean_softres(softres)
+    if softres and not softres_link:
+        await inter.response.send_message("Das ist kein softres.it-Link. Beispiel: `https://softres.it/raid/abcd`", ephemeral=True)
+        return
     # Zielkanal: Anmeldung der Raid-Kategorie bzw. #pug-anmeldung
     target_id = cfg.get("pug_channel_id") if mode == "pug" else raid_channel(pool, "signup")
     target = await channel_by_id(target_id) if target_id else None
@@ -553,6 +560,8 @@ async def raid_create(inter: discord.Interaction, titel: str, datum: str, uhrzei
     raid = book.create(titel[:80], start, (beschreibung or "")[:500], max_spieler, inter.user.id, target.id, mode=mode)
     raid["pool"] = pool
     raid["pool_name"] = dict(known_raids()).get(pool, pool)
+    if mode == "pug" and softres_link:
+        raid["softres"] = softres_link
     if target.id == inter.channel_id:
         await inter.response.send_message(embed=raid_embed(raid), view=raid_view(raid))
         msg = await inter.original_response()
@@ -565,7 +574,8 @@ async def raid_create(inter: discord.Interaction, titel: str, datum: str, uhrzei
         role = discord.utils.get(inter.guild.roles, name="Gast") if inter.guild else None
         if role:
             try:
-                await target.send(f"{role.mention} 🎲 Neuer PUG-Raid: **{raid['title']}** ({raid['pool_name']}) am <t:{raid['start']}:F> – Anmeldung oben!",
+                await target.send(f"{role.mention} 🎲 Neuer PUG-Raid: **{raid['title']}** ({raid['pool_name']}) am <t:{raid['start']}:F> – Anmeldung oben"
+                                  + (f", Soft Reserve: {raid['softres']}" if raid.get("softres") else "") + "!",
                                   allowed_mentions=discord.AllowedMentions(roles=True))
             except discord.HTTPException:
                 pass
@@ -591,6 +601,44 @@ async def raid_cancel(inter: discord.Interaction, raid: str):
     mentions = " ".join(f"<@{u}>" for u in ids)
     await inter.response.send_message(f"❌ **{r['title']}** (<t:{r['start']}:F>) wurde abgesagt. {mentions}",
                                       allowed_mentions=discord.AllowedMentions(users=True))
+
+
+def clean_softres(link: str | None) -> str:
+    """Nur echte softres.it-Links zulassen."""
+    link = (link or "").strip().strip("<>")
+    if not link:
+        return ""
+    if not link.startswith("http"):
+        link = "https://" + link
+    if not re.match(r"^https://(www\.)?softres\.it/[\w\-/?=&#.]+$", link):
+        return ""
+    return link
+
+
+@raid_group.command(name="softres", description="softres.it-Link für einen PUG-Raid setzen oder ändern")
+@app_commands.describe(raid="Welcher Raid?", link="z. B. https://softres.it/raid/abcd (leer = entfernen)")
+@app_commands.autocomplete(raid=raid_autocomplete)
+async def raid_softres(inter: discord.Interaction, raid: str, link: str = ""):
+    if not is_creator(inter.user):
+        await inter.response.send_message("Nur Offiziere bzw. die Raidleitung.", ephemeral=True)
+        return
+    r = book.get(raid)
+    if not r:
+        await inter.response.send_message("Raid nicht gefunden.", ephemeral=True)
+        return
+    value = clean_softres(link)
+    if link and not value:
+        await inter.response.send_message("Das ist kein softres.it-Link. Beispiel: `https://softres.it/raid/abcd`", ephemeral=True)
+        return
+    if value:
+        r["softres"] = value
+    else:
+        r.pop("softres", None)
+    book.save()
+    await update_raid_message(r)
+    await inter.response.send_message(
+        f"softres.it-Link für **{r['title']}** " + (f"gesetzt: {value}" if value else "entfernt.")
+        + "\nIm Spiel kommt er mit dem Import („Für RaidMaster“) ins Addon.", ephemeral=True)
 
 
 @raid_group.command(name="schliessen", description="Anmeldung für einen Raid schließen")
@@ -1596,7 +1644,7 @@ async def handle_member_join(member):
         await member.send(
             f"👋 Willkommen auf **{member.guild.name}**!\n"
             f"Für unsere PUG-Raids: In {pug} auf **Als PUG-Spieler registrieren** klicken, Charakter festlegen, "
-            "dann bei einem Raid anmelden. Der Loot wird im Raid fair ausgewürfelt. Viel Spaß!")
+            "dann bei einem Raid anmelden. Soft Reserve und Loot laufen über softres.it (Link am Raid). Viel Spaß!")
     except discord.HTTPException:
         pass
 

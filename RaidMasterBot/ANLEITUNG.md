@@ -161,9 +161,10 @@ erkennt der Bot ihn, legt **automatisch eine eigene Kategorie** an und meldet da
 optional Beschreibung und **max_spieler** (40, 20 oder 10). Der Raid erscheint in der Anmeldung seiner
 Kategorie (z. B. #mc-anmeldung).
 
-**PUG-Raid:** `/raid erstellen` mit **modus: PUG-Raid**. Er erscheint in #pug-anmeldung, Spieler mit
-der Rolle **Gast** werden angepingt. Im Raid gibt es keine DKP – der Loot wird ausgewürfelt
-(Bedarf `/roll`, Gier `/roll 99`).
+**PUG-Raid:** `/raid erstellen` mit **modus: PUG-Raid (softres.it)** und optional **softres** = Link zum
+softres.it-Raid (oder später mit `/raid softres`). Er erscheint in #pug-anmeldung mit dem softres.it-Link,
+Spieler mit der Rolle **Gast** werden angepingt. Kein DKP – Soft Reserve und Loot laufen über softres.it.
+Der Link kommt mit „Für RaidMaster“ ins Addon (Ansage im Raid und Werbetext).
 
 **Für alle:** Knöpfe **Anmelden / Ersatzbank / Vielleicht / Abmelden**, beim ersten Mal Klasse, Rolle
 und Charakter festlegen. `/charakter` ändert das Profil.
@@ -205,6 +206,7 @@ Erstellt die Raidleitung im Spiel die **Einteilung** und gibt danach `/reload` e
 | `/raid aufstellung` | Offiziere | Aufstellung + Gruppen posten |
 | `/raid liste`, `schliessen`, `oeffnen`, `absagen`, `export` | Offiziere | Raids verwalten |
 | `/raid taktik` | Offiziere | Molten-Core-Taktik in #mc-taktik |
+| `/raid softres` | Offiziere | softres.it-Link eines PUG-Raids setzen/ändern |
 | `/addon` | alle | Download-Link der aktuellen Addon-Version |
 | `/charakter` | alle | Charakter und Rolle festlegen |
 | `/dkp`, `/dkpliste` | alle | DKP abfragen |

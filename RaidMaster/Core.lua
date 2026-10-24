@@ -4,8 +4,8 @@
 local ADDON, RM = ...
 RaidMaster = RM
 
-RM.VERSION = "1.5.2"
-RM.VERSION_NUM = 10502
+RM.VERSION = "1.5.3"
+RM.VERSION_NUM = 10503
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -108,6 +108,7 @@ RM.DEFAULT_CONFIG = {
 	adChannel = "",
 	adText = "",
 	adAutoInvite = true,
+	softresLink = "",
 	minimap = { angle = 215, hide = false },
 	positions = {},
 }

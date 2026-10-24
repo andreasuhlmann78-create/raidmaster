@@ -80,7 +80,7 @@ BASE_BOTTOM = [
     {
         "name": "🎲 PUG", "mode": None, "guest": True,
         "channels": [
-            ("text", "pug-anmeldung", "PUG-Raids – Anmeldung per Knopf, Loot wird ausgewürfelt", "readonly"),
+            ("text", "pug-anmeldung", "PUG-Raids – Anmeldung per Knopf, Soft Reserve über softres.it", "readonly"),
             ("text", "pug-chat", "Absprachen für PUG-Raids", None),
             ("voice", "PUG-Raid", None, None),
         ],
@@ -374,8 +374,7 @@ def _pug_howto_text() -> str:
         "**PUG-Raids** 🎲\n"
         "• Offiziere erstellen PUG-Raids mit `/raid erstellen` und **modus: PUG-Raid**.\n"
         "• Einmal registrieren (Knopf unten), dann bei jedem Raid per Knopf anmelden.\n"
-        "• Im Raid wird der Loot fair ausgewürfelt: Bedarf `/roll`, Gier `/roll 99`. Nur der erste Wurf zählt, "
-        "bei Gleichstand gibt es ein Stechen.\n"
+        "• Soft Reserve und Loot laufen über **softres.it** – den Link findest du direkt am Raid.\n"
         "• Das Addon **RaidMaster** aus **#raid-addon** ist empfohlen, aber kein Muss."
     )
 
@@ -396,18 +395,20 @@ def _bot_commands_text() -> str:
 
 
 async def _replace_old_pug_text(channel, guild, report: list):
-    """Alte PUG-Anleitung mit Soft Reserve durch die neue ersetzen."""
+    """Veraltete PUG-Anleitung des Bots durch die aktuelle ersetzen."""
     if not channel:
         return
+    current = _pug_howto_text()
     found = False
     try:
         async for msg in channel.history(limit=50):
-            if msg.author.id == guild.me.id and (msg.content or "").startswith("**PUG-Raids mit Soft Reserve**"):
+            text = msg.content or ""
+            if msg.author.id == guild.me.id and text.startswith("**PUG-Raids") and text != current:
                 await msg.delete()
                 found = True
         if found:
-            await channel.send(_pug_howto_text())
-            report.append("✏️ PUG-Anleitung in #pug-anmeldung aktualisiert (ohne Soft Reserve)")
+            await channel.send(current)
+            report.append("✏️ PUG-Anleitung in #pug-anmeldung aktualisiert (softres.it)")
     except (discord.HTTPException, AttributeError):
         pass
 

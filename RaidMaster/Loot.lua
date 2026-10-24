@@ -267,10 +267,8 @@ RM.On("LOOT_OPENED", function()
 						RM.Print("Legendärer Gegenstand im Loot: " .. link .. " – bitte nach Gildenregel vergeben.")
 					end
 				elseif action == "auction" then
-					-- PUG-Raid: würfeln statt versteigern
-					if firstTime then
-						if RM.PUG.IsLeader() then RM.PUG.EnqueueRoll(link) else RM.Auction.Enqueue(link) end
-					end
+					-- PUG-Raid: keine Versteigerung – der Loot läuft über softres.it, der Plündermeister verteilt von Hand
+					if firstTime and not RM.PUG.IsLeader() then RM.Auction.Enqueue(link) end
 				elseif action == "bank" or action == "de" or action == "crafter" then
 					local name = Loot.RecipientFor(action)
 					if cfg.autoDistribute and firstTime and name and name ~= "" then
@@ -291,7 +289,7 @@ RM.On("LOOT_OPENED", function()
 	end
 
 	RM.Fire("LOOT_CHANGED")
-	if RM.PUG.IsLeader() then RM.PUG.StartNextIfIdle() else RM.Auction.StartNextIfIdle() end
+	if not RM.PUG.IsLeader() then RM.Auction.StartNextIfIdle() end
 end)
 
 RM.On("LOOT_SLOT_CLEARED", function(slot)

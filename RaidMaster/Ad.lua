@@ -6,8 +6,8 @@ local _, RM = ...
 local Ad = {}
 RM.Ad = Ad
 
-Ad.DEFAULT_TEXT = "[{raid}] PUG {zeit} – {frei}, Loot wird ausgewürfelt. Anmeldung im Discord: {link} – oder /w {name} inv"
-Ad.DEFAULT_TEXT_NOLINK = "[{raid}] PUG {zeit} – {frei}, Loot wird ausgewürfelt. Einladung: /w {name} inv"
+Ad.DEFAULT_TEXT = "[{raid}] PUG {zeit} – {frei}. SR: {softres} · Anmeldung im Discord: {link} – oder /w {name} inv"
+Ad.DEFAULT_TEXT_NOLINK = "[{raid}] PUG {zeit} – {frei}. SR: {softres} · Einladung: /w {name} inv"
 Ad.COOLDOWN = 30
 Ad.lastPost = 0
 
@@ -109,6 +109,8 @@ local function Clean(s)
 		s = s:gsub("%(%s*%)", "")
 		s = s:gsub("%[%s*%]", "")
 		s = s:gsub(":%s*–", " –")
+		s = s:gsub("SR:%s*·%s*", "")
+		s = s:gsub(":%s*·", " ·")
 		s = s:gsub(":%s*$", "")
 		s = s:gsub("%s+([,%.])", "%1")
 		s = s:gsub("%s+", " ")
@@ -127,6 +129,7 @@ function Ad.Build()
 		zeit = TimeText(),
 		frei = FreeText(),
 		link = cfg.adLink or "",
+		softres = cfg.softresLink or "",
 		name = RM.Me() or "",
 	}
 	text = text:gsub("{(%a+)}", function(k) return values[k:lower()] or "" end)

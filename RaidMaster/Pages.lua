@@ -952,68 +952,40 @@ UI.AddPage("signup", "Anmeldungen", function(page)
 end)
 
 ---------------------------------------------------------------------------
--- Seite: PUG-Raid (Loot auswürfeln statt DKP)
+-- Seite: PUG-Raid (kein DKP, Loot über softres.it)
 ---------------------------------------------------------------------------
 UI.AddPage("pug", "PUG-Raid", function(page)
 	local PUG = RM.PUG
+	local cfg = function() return RM.db.config end
 	Section(page, "PUG-Raid", 0, 0)
 	local status = Label(page, "", 0, -26, 12)
-	status:SetWidth(380)
-	local info = Label(page, "Im PUG-Raid gibt es keine DKP. Epische Items werden beim Öffnen des Bosses automatisch "
-		.. "in die Würfel-Warteschlange gelegt:\n• Bedarf: /roll\n• Gier: /roll 99\n"
-		.. "Nur der erste Wurf zählt. Bei Gleichstand gibt es ein Stechen. Danach bestätigst du den Gewinner und "
-		.. "RaidMaster teilt das Item direkt zu.", 0, -70, 11, true)
-	info:SetWidth(380)
+	status:SetWidth(780)
+	Label(page, "Im PUG-Raid gibt es keine DKP und keine Versteigerung. Soft Reserve und Würfeln laufen über softres.it – "
+		.. "der Plündermeister verteilt den Loot nach der softres.it-Liste.", 0, -50, 11, true):SetWidth(780)
 
-	Section(page, "Leitung", 0, -200)
+	Section(page, "softres.it", 0, -96)
+	Label(page, "Link", 0, -126)
+	local linkBox = UI.EditBox(page, 520, 24)
+	Place(linkBox, page, 60, -122)
+	linkBox:SetScript("OnTextChanged", function(self, user)
+		if user then cfg().softresLink = self:GetText(); UI.RefreshCurrent() end
+	end)
+	Label(page, "z. B. https://softres.it/raid/abcd – wird beim Import eines PUG-Raids aus Discord automatisch übernommen.", 60, -150, 11, true):SetWidth(720)
+	local postBtn = UI.Button(page, "Link im Raid posten", 185, 26, function() PUG.AnnounceSoftres(true) end,
+		"Postet den softres.it-Link als Schlachtzugswarnung.")
+	Place(postBtn, page, 0, -180)
+
+	Section(page, "Leitung", 0, -230)
 	local startBtn = UI.Button(page, "PUG-Raid starten", 185, 28, function()
-		UI.Confirm("PUG-Raid starten?\nEpische Items werden ausgewürfelt statt versteigert.", function() PUG.Start() end)
+		UI.Confirm("PUG-Raid starten?\nKein DKP, keine Versteigerung – Loot über softres.it.", function() PUG.Start() end)
 	end, "Raidleiter, Assistent oder Plündermeister.")
-	Place(startBtn, page, 0, -226)
+	Place(startBtn, page, 0, -256)
 	startBtn:SetAccent(true)
 	local stopBtn = UI.Button(page, "PUG-Raid beenden", 185, 28, function()
 		UI.Confirm("PUG-Raid beenden?", function() PUG.Stop() end)
 	end)
-	Place(stopBtn, page, 195, -226)
-	Label(page, "Werbung für den Raid: Seite \"Werbung\".", 0, -266, 11, true):SetWidth(380)
-
-	-- Würfeln
-	local rx = 400
-	Section(page, "Würfeln", rx, 0)
-	local rollText = Label(page, "", rx, -26, 12)
-	rollText:SetWidth(390)
-	local rollList = UI.List(page, 390, 220, {
-		{ title = "Spieler", width = 150 },
-		{ title = "Art", width = 100 },
-		{ title = "Wurf", width = 100, justify = "RIGHT" },
-	}, { emptyText = "Noch keine Würfe." })
-	Place(rollList, page, rx, -64)
-	local nextBtn = UI.Button(page, "Nächstes würfeln", 125, 24, function()
-		if #PUG.queue > 0 then PUG.StartRoll(1) else RM.Print("Die Würfel-Warteschlange ist leer.") end
-	end)
-	Place(nextBtn, page, rx, -294)
-	local finishBtn = UI.Button(page, "Jetzt beenden", 125, 24, function() PUG.FinishRoll() end)
-	Place(finishBtn, page, rx + 132, -294)
-	local cancelBtn = UI.Button(page, "Abbrechen", 125, 24, function() PUG.CancelRoll() end)
-	Place(cancelBtn, page, rx + 264, -294)
-	local rollBox = UI.LinkBox(page, 250, 24)
-	Place(rollBox, page, rx, -326)
-	local rollHint = UI.Text(rollBox, "Item per Shift-Klick würfeln lassen", 11, unpack(COLORS.muted))
-	rollHint:SetPoint("LEFT", 8, 0)
-	rollBox:SetScript("OnTextChanged", function(self) if self:GetText() == "" then rollHint:Show() else rollHint:Hide() end end)
-	local rollBtn = UI.Button(page, "Würfeln", 132, 24, function()
-		local link = rollBox:GetText()
-		if link and link:find("item:") then PUG.StartRoll(link); rollBox:SetText("") else RM.Print("Bitte ein Item per Shift-Klick einfügen.") end
-	end)
-	Place(rollBtn, page, rx + 258, -326)
-
-	page.elapsed = 0
-	page:SetScript("OnUpdate", function(self, el)
-		self.elapsed = self.elapsed + el
-		if self.elapsed > 0.5 and PUG.current then self.elapsed = 0; UI.RefreshCurrent() end
-	end)
-
-	local KIND = { tie = "Stechen", need = "Bedarf", greed = "Gier" }
+	Place(stopBtn, page, 195, -256)
+	Label(page, "Werbung für den Raid: Seite \"Werbung\".", 0, -296, 11, true):SetWidth(380)
 
 	return function()
 		local v = PUG.view
@@ -1022,28 +994,11 @@ UI.AddPage("pug", "PUG-Raid", function(page)
 		else
 			status:SetText("Kein PUG-Raid aktiv. Der Raidleiter startet ihn unten unter 'Leitung'.")
 		end
-
+		if not linkBox:HasFocus() then linkBox:SetText(cfg().softresLink or "") end
 		local lead = PUG.IsLeader()
 		if PUG.CanLead() and not lead then startBtn:Enable() else startBtn:Disable() end
-		for _, b in ipairs({ stopBtn, nextBtn, rollBtn }) do
-			if lead then b:Enable() else b:Disable() end
-		end
-
-		local c = PUG.current
-		if c then
-			local rem = math.max(0, math.ceil(c.endsAt - GetTime()))
-			local who = c.allowed and ("Stechen: " .. table.concat(c.only, ", ")) or "Bedarf /roll · Gier /roll 99"
-			rollText:SetText(c.link .. "\n" .. (c.finished and "Beendet" or (rem .. " Sek. – " .. who)))
-			finishBtn:Enable(); cancelBtn:Enable()
-		else
-			rollText:SetText(string.format("Kein Würfeln aktiv. Warteschlange: %d Item(s).", #PUG.queue))
-			finishBtn:Disable(); cancelBtn:Disable()
-		end
-		local rows = {}
-		for _, r in ipairs(PUG.RollList()) do
-			rows[#rows + 1] = { key = r.name, cells = { r.name, KIND[r.kind] or r.kind, tostring(r.v) } }
-		end
-		rollList:SetData(rows)
+		if lead then stopBtn:Enable() else stopBtn:Disable() end
+		if (cfg().softresLink or "") ~= "" and RM.InRaid() then postBtn:Enable() else postBtn:Disable() end
 	end
 end)
 
@@ -1087,7 +1042,7 @@ UI.AddPage("ad", "Werbung", function(page)
 	textBox:SetScript("OnTextChanged", function(self, user)
 		if user then cfg().adText = self:GetText(); UI.RefreshCurrent() end
 	end)
-	Label(page, "Platzhalter: {raid} Raidname · {zeit} Datum/Uhrzeit · {frei} freie Plätze · {link} Discord-Link · {name} dein Name", 110, -182, 11, true):SetWidth(670)
+	Label(page, "Platzhalter: {raid} Raidname · {zeit} Datum/Uhrzeit · {frei} freie Plätze · {softres} softres.it-Link · {link} Discord-Link · {name} dein Name", 110, -182, 11, true):SetWidth(670)
 	local resetBtn = UI.Button(page, "Standardtext", 120, 24, function()
 		cfg().adText = ""
 		textBox:SetText(Ad.DEFAULT_TEXT)

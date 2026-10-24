@@ -66,7 +66,7 @@ POOLS = {
 POOL_ORDER = ["mc", "ony", "barrow", "hyjal"]
 POOL_SLUGS = {"mc": "dkp-molten-core", "ony": "dkp-onyxia", "barrow": "dkp-barrow-deeps", "hyjal": "dkp-hyjal"}
 
-MODES = {"dkp": "DKP-Raid", "pug": "PUG-Raid (Loot wird ausgewürfelt)"}
+MODES = {"dkp": "DKP-Raid", "pug": "PUG-Raid (softres.it)"}
 
 STATUS = {
     "an": "Angemeldet",
@@ -839,7 +839,7 @@ def class_summary(raid: dict) -> str:
     return " · ".join(f"{CLASSES.get(c, c)} {n}" for c, n in sorted(counts.items(), key=lambda x: -x[1]))
 
 
-def export_text(raid: dict, tz: str, lineup: dict | None = None, link: str = "") -> str:
+def export_text(raid: dict, tz: str, lineup: dict | None = None, link: str = "", softres: str = "") -> str:
     """Text zum Einfügen in RaidMaster (Seite 'Anmeldungen')."""
     start = datetime.fromtimestamp(raid["start"], ZoneInfo(tz))
     lines = [
@@ -856,6 +856,8 @@ def export_text(raid: dict, tz: str, lineup: dict | None = None, link: str = "")
         lines.append(f"Max: {int(raid['max'])}")
     if link:
         lines.append(f"Link: {link}")
+    if softres:
+        lines.append(f"SoftRes: {softres}")
     order = {"an": 0, "ersatz": 1, "vielleicht": 2, "ab": 3}
     for s in sorted(raid["signups"].values(), key=lambda s: (order.get(s["status"], 9), s["t"])):
         lines.append(f"{s['name']};{s['cls']};{s['role']};{s['status']}")

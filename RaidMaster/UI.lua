@@ -486,7 +486,7 @@ local function UpdateStatus()
 		parts[#parts + 1] = "|cffff8c1aRaid aktiv seit " .. date("%H:%M", RM.db.session.started) .. "|r"
 	end
 	if RM.PUG and RM.PUG.view.active then
-		parts[#parts + 1] = "|cff66ccffPUG-Raid (Würfeln)|r"
+		parts[#parts + 1] = "|cff66ccffPUG-Raid (softres.it)|r"
 	end
 	local ml = RM.MasterLooterName()
 	if ml then parts[#parts + 1] = "Plündermeister: " .. ml end

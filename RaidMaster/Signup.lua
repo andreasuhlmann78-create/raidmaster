@@ -41,8 +41,11 @@ function S.Parse(text)
 		local startTs = line:match("^Start:%s*(%d+)$")
 		local poolKey = line:match("^Topf:%s*([%w_]+)$")
 		local link = line:match("^Link:%s*(%S+)$")
+		local softres = line:match("^SoftRes:%s*(%S+)$")
 		local maxN = line:match("^Max:%s*(%d+)$")
-		if link then
+		if softres then
+			result.softres = softres
+		elseif link then
 			result.link = link
 		elseif maxN then
 			result.max = tonumber(maxN)
@@ -84,6 +87,10 @@ function S.Import(text)
 	for _, e in ipairs(result.list) do counts[e.status] = (counts[e.status] or 0) + 1 end
 	RM.Print(string.format("Anmeldungen für '%s' importiert: %d angemeldet, %d Ersatzbank, %d vielleicht, %d abgemeldet.",
 		result.title, counts.an or 0, counts.ersatz or 0, counts.vielleicht or 0, counts.ab or 0))
+	if result.softres then
+		RM.db.config.softresLink = result.softres
+		RM.Print("softres.it-Link übernommen: " .. result.softres)
+	end
 	if result.link then
 		RM.db.config.adLink = result.link
 		RM.Print("Discord-Link für die Werbung übernommen: " .. result.link)
