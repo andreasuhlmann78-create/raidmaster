@@ -1,4 +1,4 @@
-RaidMaster 1.6.0 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 1.7.0 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,20 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+ALLE RAIDS ALLER VERSIONEN (neu in 1.7.0)
+- RaidMaster kennt jetzt alle Raids von Classic bis Midnight (über 60 Raids, über 400 Bosse) und zeigt
+  automatisch die Raids, die es in deiner Spielversion gibt:
+  Classic Era: MC, Ony, BWL, ZG, AQ20, AQ40, Naxx · WoW Forever: dazu Barrow Deeps und Hyjalgipfel ·
+  TBC: Karazhan bis Sonnenbrunnen · Wrath: Naxx bis Rubinsanktum · Cataclysm · Mists of Pandaria ·
+  Retail: alle Raids aller Erweiterungen.
+- Seite "Raidleiter": Erweiterung und Raid wählen (im Raid automatisch der aktuelle), zu jedem Boss
+  Taktik, Kurzinfo für den Raidchat und Markierungsvorlage. Beim Bosskampf wird die Vorlage des Bosses
+  automatisch gewählt (abschaltbar).
+- Jeder Raid hat einen eigenen DKP-Topf; Bosse werden mit Standard-DKP erkannt (letzter Boss 20,
+  vorletzter 15, sonst 10 – in den Einstellungen änderbar). Früher automatisch angelegte Töpfe
+  ("i" + Instanznummer) werden dem richtigen Raid zugeordnet.
+- Bossnamen kommen aus dem Spiel (Dungeon-Journal bzw. Bosskampf), also immer in deiner Sprache.
 
 SPIELVERSIONEN UND SPRACHEN (neu in 1.6.0)
 - Läuft in allen aktuellen WoW-Versionen: Classic Era, WoW Forever, TBC, Wrath (auch Titan Reforged),
@@ -32,7 +46,7 @@ RECHTE
 - PUG-Raids, Einteilung, Einladen und Gruppen: Raidleiter oder Assistenten.
 
 DKP PRO RAID (neu in 1.3.0)
-- Jeder Raid hat einen eigenen DKP-Topf: Molten Core, Onyxias Hort, Barrow Deeps, Hyjalgipfel.
+- Jeder Raid hat einen eigenen DKP-Topf (z. B. Molten Core, Onyxias Hort, Barrow Deeps, Hyjalgipfel).
 - Bisherige DKP wurden automatisch dem Topf Molten Core zugeordnet.
 - In einer Raid-Instanz wird der Topf automatisch erkannt. Neue, unbekannte Raids bekommen beim
   ersten Betreten automatisch einen eigenen Topf. Wird ein Raid falsch erkannt: Seite "Raid" ->

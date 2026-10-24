@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "1.6.0"
-RM.VERSION_NUM = 10600
+RM.VERSION = "1.7.0"
+RM.VERSION_NUM = 10700
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -102,7 +102,7 @@ RM.DEFAULT_SETTINGS = {
 	dkpStart = 10,
 	dkpEnd = 10,
 	defaultBossDKP = 10,
-	bossDKP = {},             -- [encounterID] = Punkte (wird aus Data.lua befüllt)
+	bossDKP = {},             -- [encounterID] = Punkte (sonst Standard aus Data/RaidData)
 	firstKillDouble = true,
 	decayPct = 10,
 	minBid = 10,
@@ -135,6 +135,7 @@ RM.DEFAULT_CONFIG = {
 	unlootedReminder = true,
 	markerBar = true,
 	markerTemplate = "standard",
+	autoTemplate = true,       -- beim Bosskampf automatisch die Vorlage des Bosses
 	markerLocked = false,
 	standby = {},
 	activePool = "mc",
@@ -429,9 +430,6 @@ RM.On("ADDON_LOADED", function(name)
 	db.data = db.data or {}
 	FillDefaults(db.data, { version = 0, players = {}, log = {}, firstKills = {}, lastDecay = 0, settings = {} })
 	FillDefaults(db.data.settings, RM.DEFAULT_SETTINGS)
-	for id, boss in pairs(RM.Data.Bosses) do
-		if db.data.settings.bossDKP[id] == nil then db.data.settings.bossDKP[id] = boss.dkp end
-	end
 	db.config = db.config or {}
 	FillDefaults(db.config, RM.DEFAULT_CONFIG)
 	db.session = db.session or { active = false, kills = {} }

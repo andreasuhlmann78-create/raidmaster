@@ -1,4 +1,4 @@
-RaidMaster 1.6.0 – DKP, loot and raid leading tools
+RaidMaster 1.7.0 – DKP, loot and raid leading tools
 ====================================================
 
 INSTALLATION
@@ -17,7 +17,11 @@ MAIN FEATURES
 - Assignments (healing, decurse, dispel, crowd control per boss) sent to every player.
 - Specs of all raid members (own spec is shared automatically, others via inspect).
 - PUG raids without DKP (soft reserve via softres.it) and an ad text for public chat channels.
-- Raid target icon bar and boss tips for Molten Core.
+- All raids of every WoW version (Classic to Midnight, 60+ raids, 400+ bosses): the addon shows the raids of
+  your game version, with tactics, two raid chat lines and a raid marker template per boss.
+  The boss's marker template is selected automatically when the encounter starts.
+- Every raid has its own DKP pool; boss kills are detected and booked automatically.
+- Raid target icon bar.
 
 COMMANDS
   /rm          open the window

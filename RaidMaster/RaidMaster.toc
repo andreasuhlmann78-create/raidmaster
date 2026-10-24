@@ -12,7 +12,7 @@
 ## Notes-zhCN: 按团队副本区分的DKP、公开竞拍、拾取规则、团队分工、自动邀请、天赋专精和团长工具
 ## Notes-zhTW: 依團隊副本區分的DKP、公開競標、拾取規則、團隊分工、自動邀請、天賦專精與團長工具
 ## Author: GoldSentinel
-## Version: 1.6.0
+## Version: 1.7.0
 ## SavedVariables: RaidMasterDB
 
 Locale.lua
@@ -26,8 +26,19 @@ Locales\ruRU.lua
 Locales\koKR.lua
 Locales\zhCN.lua
 Locales\zhTW.lua
+Locales\Raids_enUS.lua
+Locales\Raids_frFR.lua
+Locales\Raids_esES.lua
+Locales\Raids_esMX.lua
+Locales\Raids_itIT.lua
+Locales\Raids_ptBR.lua
+Locales\Raids_ruRU.lua
+Locales\Raids_koKR.lua
+Locales\Raids_zhCN.lua
+Locales\Raids_zhTW.lua
 Core.lua
 Data.lua
+RaidData.lua
 Comm.lua
 Spec.lua
 DKP.lua

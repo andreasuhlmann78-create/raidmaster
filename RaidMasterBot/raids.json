@@ -1,0 +1,362 @@
+[
+ {
+  "key": "mc",
+  "name": "Geschmolzener Kern",
+  "en": "Molten Core",
+  "exp": "classic"
+ },
+ {
+  "key": "ony",
+  "name": "Onyxias Hort",
+  "en": "Onyxia's Lair",
+  "exp": "classic"
+ },
+ {
+  "key": "bwl",
+  "name": "Pechschwingenhort",
+  "en": "Blackwing Lair",
+  "exp": "classic"
+ },
+ {
+  "key": "zg",
+  "name": "Zul'Gurub",
+  "en": "Zul'Gurub",
+  "exp": "classic"
+ },
+ {
+  "key": "aq20",
+  "name": "Ruinen von Ahn'Qiraj",
+  "en": "Ruins of Ahn'Qiraj",
+  "exp": "classic"
+ },
+ {
+  "key": "aq40",
+  "name": "Tempel von Ahn'Qiraj",
+  "en": "Temple of Ahn'Qiraj",
+  "exp": "classic"
+ },
+ {
+  "key": "naxx",
+  "name": "Naxxramas",
+  "en": "Naxxramas",
+  "exp": "classic"
+ },
+ {
+  "key": "kara",
+  "name": "Karazhan",
+  "en": "Karazhan",
+  "exp": "tbc"
+ },
+ {
+  "key": "gruul",
+  "name": "Gruuls Unterschlupf",
+  "en": "Gruul's Lair",
+  "exp": "tbc"
+ },
+ {
+  "key": "mag",
+  "name": "Magtheridons Kammer",
+  "en": "Magtheridon's Lair",
+  "exp": "tbc"
+ },
+ {
+  "key": "ssc",
+  "name": "Höhle des Schlangenschreins",
+  "en": "Serpentshrine Cavern",
+  "exp": "tbc"
+ },
+ {
+  "key": "tk",
+  "name": "Festung der Stürme",
+  "en": "Tempest Keep",
+  "exp": "tbc"
+ },
+ {
+  "key": "hyjal",
+  "name": "Hyjalgipfel",
+  "en": "Hyjal Summit",
+  "exp": "tbc"
+ },
+ {
+  "key": "bt",
+  "name": "Der Schwarze Tempel",
+  "en": "Black Temple",
+  "exp": "tbc"
+ },
+ {
+  "key": "za",
+  "name": "Zul'Aman",
+  "en": "Zul'Aman",
+  "exp": "tbc"
+ },
+ {
+  "key": "swp",
+  "name": "Sonnenbrunnenplateau",
+  "en": "Sunwell Plateau",
+  "exp": "tbc"
+ },
+ {
+  "key": "os",
+  "name": "Das Obsidiansanktum",
+  "en": "The Obsidian Sanctum",
+  "exp": "wrath"
+ },
+ {
+  "key": "eoe",
+  "name": "Das Auge der Ewigkeit",
+  "en": "The Eye of Eternity",
+  "exp": "wrath"
+ },
+ {
+  "key": "voa",
+  "name": "Archavons Kammer",
+  "en": "Vault of Archavon",
+  "exp": "wrath"
+ },
+ {
+  "key": "uld",
+  "name": "Ulduar",
+  "en": "Ulduar",
+  "exp": "wrath"
+ },
+ {
+  "key": "toc",
+  "name": "Prüfung des Kreuzfahrers",
+  "en": "Trial of the Crusader",
+  "exp": "wrath"
+ },
+ {
+  "key": "icc",
+  "name": "Eiskronenzitadelle",
+  "en": "Icecrown Citadel",
+  "exp": "wrath"
+ },
+ {
+  "key": "rs",
+  "name": "Das Rubinsanktum",
+  "en": "The Ruby Sanctum",
+  "exp": "wrath"
+ },
+ {
+  "key": "bh",
+  "name": "Baradinfestung",
+  "en": "Baradin Hold",
+  "exp": "cata"
+ },
+ {
+  "key": "bwd",
+  "name": "Pechschwingenabstieg",
+  "en": "Blackwing Descent",
+  "exp": "cata"
+ },
+ {
+  "key": "bot",
+  "name": "Die Bastion des Zwielichts",
+  "en": "The Bastion of Twilight",
+  "exp": "cata"
+ },
+ {
+  "key": "tofw",
+  "name": "Thron der Vier Winde",
+  "en": "Throne of the Four Winds",
+  "exp": "cata"
+ },
+ {
+  "key": "fl",
+  "name": "Feuerlande",
+  "en": "Firelands",
+  "exp": "cata"
+ },
+ {
+  "key": "ds",
+  "name": "Drachenseele",
+  "en": "Dragon Soul",
+  "exp": "cata"
+ },
+ {
+  "key": "msv",
+  "name": "Mogu'shangewölbe",
+  "en": "Mogu'shan Vaults",
+  "exp": "mop"
+ },
+ {
+  "key": "hof",
+  "name": "Herz der Angst",
+  "en": "Heart of Fear",
+  "exp": "mop"
+ },
+ {
+  "key": "toes",
+  "name": "Terrasse des Endlosen Frühlings",
+  "en": "Terrace of Endless Spring",
+  "exp": "mop"
+ },
+ {
+  "key": "tot",
+  "name": "Thron des Donners",
+  "en": "Throne of Thunder",
+  "exp": "mop"
+ },
+ {
+  "key": "soo",
+  "name": "Schlacht um Orgrimmar",
+  "en": "Siege of Orgrimmar",
+  "exp": "mop"
+ },
+ {
+  "key": "hm",
+  "name": "Hochfels",
+  "en": "Highmaul",
+  "exp": "wod"
+ },
+ {
+  "key": "brf",
+  "name": "Schwarzfelsgießerei",
+  "en": "Blackrock Foundry",
+  "exp": "wod"
+ },
+ {
+  "key": "hfc",
+  "name": "Höllenfeuerzitadelle",
+  "en": "Hellfire Citadel",
+  "exp": "wod"
+ },
+ {
+  "key": "en",
+  "name": "Der Smaragdgrüne Albtraum",
+  "en": "The Emerald Nightmare",
+  "exp": "legion"
+ },
+ {
+  "key": "tov",
+  "name": "Prüfung der Tapferkeit",
+  "en": "Trial of Valor",
+  "exp": "legion"
+ },
+ {
+  "key": "nh",
+  "name": "Die Nachtfestung",
+  "en": "The Nighthold",
+  "exp": "legion"
+ },
+ {
+  "key": "tos",
+  "name": "Grabmal des Sargeras",
+  "en": "Tomb of Sargeras",
+  "exp": "legion"
+ },
+ {
+  "key": "abt",
+  "name": "Antorus, der Brennende Thron",
+  "en": "Antorus, the Burning Throne",
+  "exp": "legion"
+ },
+ {
+  "key": "uldir",
+  "name": "Uldir",
+  "en": "Uldir",
+  "exp": "bfa"
+ },
+ {
+  "key": "bod",
+  "name": "Schlacht um Dazar'alor",
+  "en": "Battle of Dazar'alor",
+  "exp": "bfa"
+ },
+ {
+  "key": "cos",
+  "name": "Tiegel der Stürme",
+  "en": "Crucible of Storms",
+  "exp": "bfa"
+ },
+ {
+  "key": "ep",
+  "name": "Der Ewige Palast",
+  "en": "The Eternal Palace",
+  "exp": "bfa"
+ },
+ {
+  "key": "nya",
+  "name": "Ny'alotha, die Erwachende Stadt",
+  "en": "Ny'alotha, the Waking City",
+  "exp": "bfa"
+ },
+ {
+  "key": "cn",
+  "name": "Schloss Nathria",
+  "en": "Castle Nathria",
+  "exp": "sl"
+ },
+ {
+  "key": "sod",
+  "name": "Sanktum der Herrschaft",
+  "en": "Sanctum of Domination",
+  "exp": "sl"
+ },
+ {
+  "key": "sfo",
+  "name": "Mausoleum der Ersten",
+  "en": "Sepulcher of the First Ones",
+  "exp": "sl"
+ },
+ {
+  "key": "voti",
+  "name": "Gewölbe der Inkarnationen",
+  "en": "Vault of the Incarnates",
+  "exp": "df"
+ },
+ {
+  "key": "abe",
+  "name": "Aberrus, der Schattenschmelztiegel",
+  "en": "Aberrus, the Shadowed Crucible",
+  "exp": "df"
+ },
+ {
+  "key": "ami",
+  "name": "Amirdrassil, die Hoffnung des Traums",
+  "en": "Amirdrassil, the Dream's Hope",
+  "exp": "df"
+ },
+ {
+  "key": "np",
+  "name": "Palast der Nerub'ar",
+  "en": "Nerub-ar Palace",
+  "exp": "tww"
+ },
+ {
+  "key": "lou",
+  "name": "Befreiung von Lorenhall",
+  "en": "Liberation of Undermine",
+  "exp": "tww"
+ },
+ {
+  "key": "mfo",
+  "name": "Manaschmiede Omega",
+  "en": "Manaforge Omega",
+  "exp": "tww"
+ },
+ {
+  "key": "vs",
+  "name": "Leerenspitze",
+  "en": "The Voidspire",
+  "exp": "midnight"
+ },
+ {
+  "key": "dr",
+  "name": "Der Traumriss",
+  "en": "The Dreamrift",
+  "exp": "midnight"
+ },
+ {
+  "key": "mqd",
+  "name": "Marsch auf Quel'Danas",
+  "en": "March on Quel'Danas",
+  "exp": "midnight"
+ },
+ {
+  "key": "va",
+  "name": "Der Giftige Abgrund",
+  "en": "The Venomous Abyss",
+  "exp": "midnight"
+ }
+]

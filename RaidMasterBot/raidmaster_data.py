@@ -69,6 +69,16 @@ POOLS = {
     "hyjal": "Hyjalgipfel",
 }
 POOL_ORDER = ["mc", "ony", "barrow", "hyjal"]
+
+# Alle Raids aller WoW-Versionen (wie im Addon, RaidData.lua): raids.json neben dieser Datei
+RAID_ORDER: list[str] = []
+try:
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "raids.json"), encoding="utf-8") as _fh:
+        for _r in json.load(_fh):
+            RAID_ORDER.append(_r["key"])
+            POOLS.setdefault(_r["key"], _r["name"])
+except (OSError, ValueError, KeyError):
+    pass
 POOL_SLUGS = {"mc": "dkp-molten-core", "ony": "dkp-onyxia", "barrow": "dkp-barrow-deeps", "hyjal": "dkp-hyjal"}
 
 MODES = {"dkp": "DKP-Raid", "pug": "PUG-Raid (softres.it)"}
@@ -399,7 +409,9 @@ def pool_list(data: dict) -> list[str]:
             for k in p["d"]:
                 if k not in keys:
                     extra.add(str(k))
-    return keys + sorted(extra)
+    def order(k: str):
+        return (RAID_ORDER.index(k) if k in RAID_ORDER else len(RAID_ORDER), k)
+    return keys + sorted(extra, key=order)
 
 
 def pool_name(key: str, data: dict | None = None) -> str:

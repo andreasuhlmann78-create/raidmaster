@@ -86,6 +86,18 @@ end
 
 RM.On("PLAYER_REGEN_ENABLED", function() wipe(used) end)
 
+-- Bosskampf beginnt: Bossname übernehmen und die Markierungsvorlage des Bosses wählen
+RM.On("ENCOUNTER_START", function(encounterID, encounterName)
+	RM.Data.LearnBossName(encounterID, encounterName)
+	if not RM.db or not C().autoTemplate then return end
+	local boss = RM.Data.Bosses[encounterID]
+	if boss and boss.template and C().markerTemplate ~= boss.template then
+		C().markerTemplate = boss.template
+		wipe(used)
+		RM.Fire("CONFIG_CHANGED")
+	end
+end)
+
 ---------------------------------------------------------------------------
 -- Markierungsleiste
 ---------------------------------------------------------------------------

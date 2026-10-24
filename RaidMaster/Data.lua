@@ -7,47 +7,196 @@ local Data = {}
 RM.Data = Data
 
 ---------------------------------------------------------------------------
--- DKP-Töpfe: jeder Raid sammelt und zahlt eigene DKP
--- ids = Instanz-IDs (GetInstanceInfo), match = Teil des Instanznamens (klein geschrieben)
+-- Raids aller WoW-Versionen
+-- Jeder Raid ist ein eigener DKP-Topf. Welche Raids es gibt, hängt von der
+-- erkannten Spielversion ab (RM.GAME.key): Classic Era/WoW Forever, TBC, Wrath,
+-- Cataclysm, Mists of Pandaria, Retail. Die Raid- und Bossdaten selbst stehen in
+-- RaidData.lua (Taktiken, Raidchat-Zeilen, Markierungsvorlagen).
+--
+-- Felder eines Raids: key (Topf), exp (Erweiterung), games (Spielversionen),
+--   name (übersetzt), en (englisch), short, ids (Instanz-IDs), ji (Dungeon-Journal-ID),
+--   bosses = { { e = {Encounter-IDs}, j = Journal-ID, name/de/en/names, text, post, marker, dkp } }
 -- Unbekannte Raids bekommen beim ersten Betreten automatisch einen eigenen Topf.
 ---------------------------------------------------------------------------
-Data.PoolOrder = { "mc", "ony", "barrow", "hyjal" }
-
-Data.Pools = {
-	mc = { name = L["Molten Core"], short = "MC", ids = { [409] = true }, match = { "molten", "geschmolzen" } },
-	ony = { name = L["Onyxias Hort"], short = L["Ony"], ids = { [249] = true }, match = { "onyxia" } },
-	barrow = { name = L["Barrow Deeps"], short = L["Barrow"], match = { "barrow" } },
-	hyjal = { name = L["Hyjalgipfel"], short = L["Hyjal"], match = { "hyjal" } },
+Data.Expansions = {
+	{ key = "classic", name = L["Classic"] },
+	{ key = "tbc", name = L["The Burning Crusade"] },
+	{ key = "wrath", name = L["Wrath of the Lich King"] },
+	{ key = "cata", name = L["Cataclysm"] },
+	{ key = "mop", name = L["Mists of Pandaria"] },
+	{ key = "wod", name = L["Warlords of Draenor"] },
+	{ key = "legion", name = L["Legion"] },
+	{ key = "bfa", name = L["Battle for Azeroth"] },
+	{ key = "sl", name = L["Shadowlands"] },
+	{ key = "df", name = L["Dragonflight"] },
+	{ key = "tww", name = L["The War Within"] },
+	{ key = "midnight", name = L["Midnight"] },
+	{ key = "custom", name = L["WoW Forever"] },
 }
 
----------------------------------------------------------------------------
--- Bekannte Bosse: Encounter-IDs (ENCOUNTER_END), Standard-DKP und Topf
--- Bosse der neuen Raids werden beim ersten Kill automatisch erkannt.
----------------------------------------------------------------------------
-Data.BossOrder = { 663, 664, 665, 666, 667, 668, 669, 670, 671, 672, 1084 }
-
-Data.Bosses = {
-	[663] = { name = L["Lucifron"], dkp = 10, pool = "mc" },
-	[664] = { name = L["Magmadar"], dkp = 10, pool = "mc" },
-	[665] = { name = L["Gehennas"], dkp = 10, pool = "mc" },
-	[666] = { name = L["Garr"], dkp = 10, pool = "mc" },
-	[667] = { name = L["Shazzrah"], dkp = 10, pool = "mc" },
-	[668] = { name = L["Baron Geddon"], dkp = 10, pool = "mc" },
-	[669] = { name = L["Sulfuronherold"], dkp = 10, pool = "mc" },
-	[670] = { name = L["Golemagg der Verbrenner"], dkp = 10, pool = "mc" },
-	[671] = { name = L["Majordomus Exekutus"], dkp = 15, pool = "mc" },
-	[672] = { name = L["Ragnaros"], dkp = 20, pool = "mc" },
-	[1084] = { name = L["Onyxia"], dkp = 20, pool = "ony" },
+-- Raids, die in der Auswahl der DKP-Töpfe immer stehen (die "aktuellen" Raids der Spielversion).
+-- Alle anderen erscheinen, sobald man sie betritt oder DKP darin vergeben wurden.
+Data.HomeRaids = {
+	era = { "mc", "ony", "bwl", "zg", "aq20", "aq40", "naxx" },
+	forever = { "mc", "ony", "barrow", "hyjal" },
+	tbc = { "kara", "gruul", "mag", "ssc", "tk", "hyjal", "bt", "za", "swp" },
+	wrath = { "naxx", "os", "eoe", "voa", "uld", "toc", "ony", "icc", "rs" },
+	titan = { "naxx", "os", "eoe", "voa", "uld", "toc", "ony", "icc", "rs" },
+	cata = { "bh", "bwd", "bot", "tofw", "fl", "ds" },
+	mists = { "msv", "hof", "toes", "tot", "soo" },
+	retail = { "vs", "dr", "mqd", "va" },
+	unknown = { "mc", "ony" },
 }
 
--- Molten-Core-Bosse für die Boss-Infos des Raidleiters
-Data.InfoBossOrder = { 663, 664, 665, 666, 667, 668, 669, 670, 671, 672 }
+local ALL_RAIDS = {}
+Data.AllRaids = ALL_RAIDS
+
+-- Spielversionen als Menge: "era forever tbc" -> { era = true, ... }
+local function GameSet(s)
+	local set = {}
+	for k in tostring(s or ""):gmatch("%S+") do set[k] = true end
+	return set
+end
+
+-- Raid registrieren (RaidData.lua); Reihenfolge = Reihenfolge in den Auswahlen
+function Data.AddRaid(def)
+	def.games = type(def.games) == "string" and GameSet(def.games) or def.games or {}
+	def.idx = #ALL_RAIDS + 1
+	ALL_RAIDS[#ALL_RAIDS + 1] = def
+	return def
+end
+
+Data.Pools = {}       -- [Topf] = Raid (nur Raids dieser Spielversion)
+Data.Bosses = {}      -- [Encounter-ID] = Boss (alle IDs eines Bosses zeigen auf dieselbe Tabelle)
+Data.BossOrder = {}   -- Haupt-IDs in Raid-Reihenfolge
+Data.RaidList = {}    -- Raids dieser Spielversion in Reihenfolge
+Data.PoolOrder = {}
+
+-- Gibt es den Raid in dieser Spielversion?
+function Data.Available(def)
+	local g = RM.GAME and RM.GAME.key or "unknown"
+	if g == "unknown" then return def.exp == "classic" end
+	return def.games[g] == true
+end
+
+-- Bosse in Cataclysm-Classic und neuer haben für alte Raids teils andere Encounter-IDs
+local function PrimaryID(ids)
+	if #ids == 1 then return ids[1] end
+	local lo, hi = ids[1], ids[1]
+	for _, v in ipairs(ids) do
+		if v < lo then lo = v end
+		if v > hi then hi = v end
+	end
+	return ((RM.TOC or 0) >= 40000) and hi or lo
+end
+
+-- Bossname in der Sprache des Spiels
+local function BossName(b)
+	if b.names and b.names[RM.LOCALE] then return b.names[RM.LOCALE] end
+	if b.j and EJ_GetEncounterInfo then
+		local ok, n = pcall(EJ_GetEncounterInfo, b.j)
+		if ok and type(n) == "string" and n ~= "" then return n end
+	end
+	if b.name then return b.name end
+	if RM.LOCALE == "deDE" then return b.de or b.en or "?" end
+	return b.en or b.de or "?"
+end
+Data.BossName = BossName
+
+local function RaidMatch(def)
+	local m = {}
+	for _, s in ipairs(def.match or {}) do m[#m + 1] = s end
+	for _, s in ipairs({ def.name, def.en, def.de }) do
+		if type(s) == "string" and s ~= "" then m[#m + 1] = s:lower() end
+	end
+	return m
+end
+
+Data.MarkerTemplates = {}
+
+-- Alles für die erkannte Spielversion zusammenstellen
+function Data.Build()
+	wipe(Data.Pools); wipe(Data.Bosses); wipe(Data.BossOrder); wipe(Data.RaidList); wipe(Data.PoolOrder)
+	wipe(Data.MarkerTemplates)
+	for _, t in ipairs(Data.BaseTemplates) do Data.MarkerTemplates[#Data.MarkerTemplates + 1] = t end
+	for _, def in ipairs(ALL_RAIDS) do
+		if Data.Available(def) and not Data.Pools[def.key] then
+			Data.Pools[def.key] = def
+			Data.RaidList[#Data.RaidList + 1] = def
+			if type(def.ids) == "table" and def.ids[1] then
+				local set = {}
+				for _, id in ipairs(def.ids) do set[id] = true end
+				def.ids = set
+			end
+			def.match = RaidMatch(def)
+			def.bossIDs = {}
+			local n = #def.bosses
+			for i, b in ipairs(def.bosses) do
+				b.id = PrimaryID(b.e)
+				b.pool = def.key
+				b.raid = def
+				b.name = BossName(b)
+				b.dkp = b.dkp or ((i == n and n > 1) and 20 or (i == n - 1 and n > 4) and 15 or 10)
+				if n == 1 then b.dkp = def.soloDKP or 20 end
+				for _, e in ipairs(b.e) do Data.Bosses[e] = b end
+				Data.BossOrder[#Data.BossOrder + 1] = b.id
+				def.bossIDs[#def.bossIDs + 1] = b.id
+				if b.text and not Data.BossInfo[b.id] then
+					local info = { text = table.concat(b.text, "\n"), post = b.post or {} }
+					for _, e in ipairs(b.e) do Data.BossInfo[e] = info end
+				elseif Data.BossInfo[b.id] then
+					for _, e in ipairs(b.e) do Data.BossInfo[e] = Data.BossInfo[b.id] end
+				end
+				if b.marker and not b.template then
+					b.template = "b" .. b.id
+					Data.MarkerTemplates[#Data.MarkerTemplates + 1] = {
+						id = b.template, name = b.marker.name or b.name, order = b.marker.order, note = b.marker.note or "", raid = def.key,
+					}
+				end
+			end
+		end
+	end
+	local g = RM.GAME and RM.GAME.key or "unknown"
+	for _, key in ipairs(Data.HomeRaids[g] or Data.HomeRaids.unknown) do
+		if Data.Pools[key] then Data.PoolOrder[#Data.PoolOrder + 1] = key end
+	end
+	if not Data.PoolOrder[1] and Data.RaidList[1] then Data.PoolOrder[1] = Data.RaidList[1].key end
+end
+
+-- Raid zu einem Topf (auch Raids anderer Versionen, z. B. aus fremden Daten)
+function Data.RaidByKey(key)
+	if Data.Pools[key] then return Data.Pools[key] end
+	for _, def in ipairs(ALL_RAIDS) do if def.key == key then return def end end
+end
+
+-- Raids dieser Spielversion zu einer Erweiterung
+function Data.RaidsOfExpansion(exp)
+	local list = {}
+	for _, def in ipairs(Data.RaidList) do if def.exp == exp then list[#list + 1] = def end end
+	return list
+end
+
+-- Erweiterungen, zu denen es in dieser Spielversion Raids gibt
+function Data.AvailableExpansions()
+	local list = {}
+	for _, x in ipairs(Data.Expansions) do
+		if Data.RaidsOfExpansion(x.key)[1] then list[#list + 1] = x end
+	end
+	return list
+end
+
+-- Name eines im Kampf gemeldeten Bosses übernehmen (immer in der Sprache des Spiels)
+function Data.LearnBossName(encounterID, name)
+	local b = Data.Bosses[encounterID]
+	if b and type(name) == "string" and name ~= "" then b.name = name end
+end
 
 -- Alle bekannten Bosse eines Topfes: { {id=, name=} }
 function Data.BossesForPool(pool, data)
 	local list = {}
-	for _, id in ipairs(Data.BossOrder) do
-		if Data.Bosses[id].pool == pool then list[#list + 1] = { id = id, name = Data.Bosses[id].name } end
+	local def = Data.Pools[pool]
+	for _, id in ipairs(def and def.bossIDs or {}) do
+		list[#list + 1] = { id = id, name = Data.Bosses[id].name }
 	end
 	local learned = {}
 	for id, b in pairs((data and data.knownBosses) or {}) do
@@ -57,6 +206,27 @@ function Data.BossesForPool(pool, data)
 	for _, b in ipairs(learned) do list[#list + 1] = b end
 	return list
 end
+
+-- Molten Core (Taktiken unten in Data.BossInfo, bereits in alle Sprachen übersetzt)
+Data.AddRaid({
+	key = "mc", exp = "classic", games = "era forever tbc wrath titan cata mists retail",
+	name = L["Molten Core"], en = "Molten Core", de = "Geschmolzener Kern", short = "MC", ids = { 409 }, match = { "molten", "geschmolzen" },
+	bosses = {
+		{ e = { 663 }, name = L["Lucifron"], template = "lucifron" },
+		{ e = { 664 }, name = L["Magmadar"] },
+		{ e = { 665 }, name = L["Gehennas"], template = "gehennas" },
+		{ e = { 666 }, name = L["Garr"], template = "garr" },
+		{ e = { 667 }, name = L["Shazzrah"] },
+		{ e = { 668 }, name = L["Baron Geddon"] },
+		{ e = { 669 }, name = L["Sulfuronherold"], template = "sulfuron" },
+		{ e = { 670 }, name = L["Golemagg der Verbrenner"], template = "golemagg" },
+		{ e = { 671 }, name = L["Majordomus Exekutus"], template = "majordomo", dkp = 15 },
+		{ e = { 672 }, name = L["Ragnaros"], dkp = 20 },
+	},
+})
+
+-- Eigene Raids von WoW Forever
+Data.AddRaid({ key = "barrow", exp = "custom", games = "forever", name = L["Barrow Deeps"], en = "Barrow Deeps", short = L["Barrow"], match = { "barrow" }, bosses = {} })
 
 ---------------------------------------------------------------------------
 -- Boss-Infos für den Raidleiter
@@ -194,7 +364,7 @@ Data.BossInfo = {
 ---------------------------------------------------------------------------
 Data.MarkerNames = { [1] = L["Stern"], [2] = L["Kreis"], [3] = L["Diamant"], [4] = L["Dreieck"], [5] = L["Mond"], [6] = L["Viereck"], [7] = L["Kreuz"], [8] = L["Totenkopf"] }
 
-Data.MarkerTemplates = {
+Data.BaseTemplates = {
 	{ id = "standard", name = L["Standard"], order = { 8, 7, 6, 5, 4, 3, 2, 1 }, note = L["Totenkopf, Kreuz, Viereck, Mond, Dreieck, Diamant, Kreis, Stern."] },
 	{ id = "lucifron", name = L["Lucifron"], order = { 8, 7 }, note = L["Totenkopf und Kreuz auf die zwei Beschützer."] },
 	{ id = "gehennas", name = L["Gehennas"], order = { 8, 7 }, note = L["Totenkopf und Kreuz auf die zwei Adds."] },
@@ -208,7 +378,25 @@ function Data.GetTemplate(id)
 	for _, t in ipairs(Data.MarkerTemplates) do
 		if t.id == id then return t end
 	end
-	return Data.MarkerTemplates[1]
+	for _, t in ipairs(Data.BaseTemplates) do
+		if t.id == id then return t end
+	end
+	return Data.BaseTemplates[1]
+end
+
+-- Vorlagen für einen Raid (Standard + die Vorlagen seiner Bosse)
+function Data.TemplatesForRaid(key)
+	local list = { Data.BaseTemplates[1] }
+	local def = Data.Pools[key]
+	if not def then return list end
+	local seen = { standard = true }
+	for _, b in ipairs(def.bosses) do
+		if b.template and not seen[b.template] then
+			seen[b.template] = true
+			list[#list + 1] = Data.GetTemplate(b.template)
+		end
+	end
+	return list
 end
 
 ---------------------------------------------------------------------------

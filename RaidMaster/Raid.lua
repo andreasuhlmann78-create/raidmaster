@@ -61,6 +61,7 @@ end
 -- Bosskills
 ---------------------------------------------------------------------------
 RM.On("ENCOUNTER_END", function(encounterID, encounterName, difficulty, groupSize, success)
+	RM.Data.LearnBossName(encounterID, encounterName)
 	if success ~= 1 and success ~= true then return end
 	local boss = RM.Data.Bosses[encounterID]
 	local bossName = boss and boss.name or encounterName or L["Boss"]
@@ -78,7 +79,7 @@ RM.On("ENCOUNTER_END", function(encounterID, encounterName, difficulty, groupSiz
 	session.names[encounterID] = bossName
 
 	local s = S()
-	local amount = s.bossDKP[encounterID] or (boss and boss.dkp) or s.defaultBossDKP or 0
+	local amount = s.bossDKP[boss and boss.id or encounterID] or s.bossDKP[encounterID] or (boss and boss.dkp) or s.defaultBossDKP or 0
 	if amount <= 0 then RM.Fire("SESSION_CHANGED") return end
 	local first = not RM.db.data.firstKills[encounterID]
 	local text = bossName

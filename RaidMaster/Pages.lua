@@ -1178,70 +1178,158 @@ end)
 -- Seite: Raidleiter (Boss-Infos und Markierungen)
 ---------------------------------------------------------------------------
 UI.AddPage("leader", L["Raidleiter"], function(page)
-	local selectedBoss = RM.Data.InfoBossOrder[1]
-	Section(page, L["Molten Core – Boss-Infos"], 0, 0)
+	local Data = RM.Data
+	local MAX_BOSSES = 16
+	-- Vorauswahl: Raid der aktuellen Instanz, sonst der erste aktuelle Raid dieser Spielversion
+	local function DefaultRaid()
+		local inst = RM.DKP.CurrentInstancePool(true)
+		if inst and Data.Pools[inst] then return inst end
+		return Data.PoolOrder[1] or (Data.RaidList[1] and Data.RaidList[1].key)
+	end
+	local selectedRaid = DefaultRaid()
+	local selectedBoss
+	local function Raid() return Data.Pools[selectedRaid] end
+	local function SelectRaid(key)
+		selectedRaid = key
+		local def = Raid()
+		selectedBoss = def and def.bossIDs and def.bossIDs[1] or nil
+	end
+	SelectRaid(selectedRaid)
+
+	Section(page, L["Boss-Infos"], 0, 0)
+
+	-- Erweiterung und Raid wählen
+	local expOpts, raidOpts = {}, {}
+	local function RebuildOpts()
+		wipe(expOpts)
+		for _, x in ipairs(Data.AvailableExpansions()) do expOpts[#expOpts + 1] = { x.key, x.name } end
+		wipe(raidOpts)
+		local def = Raid()
+		for _, r in ipairs(Data.RaidsOfExpansion(def and def.exp or "classic")) do raidOpts[#raidOpts + 1] = { r.key, r.name } end
+	end
+	RebuildOpts()
+	local expCycle = UI.Cycle(page, 190, expOpts, function() local def = Raid() return def and def.exp end, function(v)
+		local list = Data.RaidsOfExpansion(v)
+		if list[1] then SelectRaid(list[1].key) end
+		UI.RefreshCurrent()
+	end, L["Erweiterung wählen."])
+	Place(expCycle, page, 0, -28)
+	local raidCycle = UI.Cycle(page, 190, raidOpts, function() return selectedRaid end, function(v)
+		SelectRaid(v)
+		UI.RefreshCurrent()
+	end, L["Raid wählen. Im Raid wird er automatisch vorausgewählt."])
+	Place(raidCycle, page, 0, -56)
 
 	local bossButtons = {}
-	local info = UI.Multiline(page, 560, 300, true)
-	Place(info, page, 200, -28)
-
-	local y = -28
-	for _, id in ipairs(RM.Data.InfoBossOrder) do
-		local b = UI.Button(page, RM.Data.Bosses[id].name, 190, 26, function()
-			selectedBoss = id
+	local y = -86
+	for i = 1, MAX_BOSSES do
+		local b = UI.Button(page, "", 190, 19, function(self)
+			selectedBoss = self.bossID
+			local boss = Data.Bosses[selectedBoss]
+			if boss and boss.template and RM.db.config.autoTemplate then
+				RM.db.config.markerTemplate = boss.template
+				RM.Markers.ResetUsed()
+				RM.Fire("CONFIG_CHANGED")
+			end
 			UI.RefreshCurrent()
 		end)
 		Place(b, page, 0, y)
 		b.label:SetJustifyH("LEFT")
 		b.label:ClearAllPoints()
-		b.label:SetPoint("LEFT", 10, 0)
-		bossButtons[id] = b
-		y = y - 30
+		b.label:SetPoint("LEFT", 8, 0)
+		b.label:SetPoint("RIGHT", -4, 0)
+		bossButtons[i] = b
+		y = y - 20
 	end
 
-	local postBtn = UI.Button(page, L["Kurzinfo im Raid posten"], 200, 28, function() RM.Markers.PostBossInfo(selectedBoss) end,
+	local info = UI.Multiline(page, 560, 300, true)
+	Place(info, page, 200, -28)
+
+	local postBtn = UI.Button(page, L["Kurzinfo im Raid posten"], 200, 28, function() if selectedBoss then RM.Markers.PostBossInfo(selectedBoss) end end,
 		L["Postet zwei kurze Zeilen (erste als Raidwarnung)."])
 	Place(postBtn, page, 200, -336)
 	postBtn:SetAccent(true)
+	local nowBtn = UI.Button(page, L["Aktueller Raid"], 140, 28, function()
+		SelectRaid(DefaultRaid())
+		UI.RefreshCurrent()
+	end, L["Springt zum Raid, in dem du gerade bist."])
+	Place(nowBtn, page, 410, -336)
 
 	-- Markierungen
-	Section(page, L["Schlachtzugsymbole"], 0, -382)
-	Label(page, L["Vorlage für 'Auto'"], 0, -412)
-	local opts = {}
-	for _, t in ipairs(RM.Data.MarkerTemplates) do opts[#opts + 1] = { t.id, t.name } end
-	local tmpl = UI.Cycle(page, 170, opts, function() return RM.db.config.markerTemplate end, function(v)
+	Section(page, L["Schlachtzugsymbole"], 0, -412)
+	Label(page, L["Vorlage für 'Auto'"], 0, -442)
+	local tmplOpts = {}
+	local function RebuildTemplates()
+		wipe(tmplOpts)
+		local seen = {}
+		local function add(t) if t and not seen[t.id] then seen[t.id] = true; tmplOpts[#tmplOpts + 1] = { t.id, t.name } end end
+		for _, t in ipairs(Data.TemplatesForRaid(selectedRaid)) do add(t) end
+		add(Data.GetTemplate(RM.db.config.markerTemplate))
+	end
+	RebuildTemplates()
+	local tmpl = UI.Cycle(page, 170, tmplOpts, function() return RM.db.config.markerTemplate end, function(v)
 		RM.db.config.markerTemplate = v
 		RM.Markers.ResetUsed()
 		RM.Fire("CONFIG_CHANGED")
 	end)
-	Place(tmpl, page, 130, -407)
-	local note = Label(page, "", 310, -412, 11, true)
+	Place(tmpl, page, 130, -437)
+	local note = Label(page, "", 310, -442, 11, true)
 	note:SetWidth(460)
 
 	local barCheck = UI.Check(page, L["Markierungsleiste anzeigen"], function() return RM.db.config.markerBar end, function(v)
 		RM.db.config.markerBar = v
 		RM.Fire("CONFIG_CHANGED")
 	end)
-	Place(barCheck, page, 0, -446)
+	Place(barCheck, page, 0, -472)
 	local lockCheck = UI.Check(page, L["Leiste fixieren"], function() return RM.db.config.markerLocked end, function(v) RM.db.config.markerLocked = v end)
-	Place(lockCheck, page, 230, -446)
+	Place(lockCheck, page, 230, -472)
+	local autoCheck = UI.Check(page, L["Vorlage beim Bosskampf automatisch wählen"], function() return RM.db.config.autoTemplate end,
+		function(v) RM.db.config.autoTemplate = v end)
+	Place(autoCheck, page, 420, -472)
 
 	local clearBtn = UI.Button(page, L["Alle Symbole entfernen"], 180, 26, function() RM.Markers.ClearAll() end)
-	Place(clearBtn, page, 0, -478)
+	Place(clearBtn, page, 0, -502)
 
 	local keyHint = Label(page, L["Am schnellsten: Esc > Tastaturbelegung > RaidMaster. Dort z. B. eine Taste für 'Nächstes freies Symbol' "]
-		.. L["belegen, dann mit der Maus über die Gegner fahren und die Taste drücken – ohne sie anzuklicken."], 0, -514, 11, true)
+		.. L["belegen, dann mit der Maus über die Gegner fahren und die Taste drücken – ohne sie anzuklicken."], 0, -536, 11, true)
 	keyHint:SetWidth(770)
 
 	return function()
-		local i = RM.Data.BossInfo[selectedBoss]
-		info:SetText(i and i.text or "")
-		for id, b in pairs(bossButtons) do b:SetAccent(id == selectedBoss) end
+		if not Data.Pools[selectedRaid] then SelectRaid(DefaultRaid()) end
+		RebuildOpts()
+		expCycle:Refresh()
+		raidCycle:Refresh()
+		local def = Raid()
+		local ids = def and def.bossIDs or {}
+		for i, b in ipairs(bossButtons) do
+			local id = ids[i]
+			b.bossID = id
+			if id then
+				local boss = Data.Bosses[id]
+				local mark = boss.template and " |TInterface\\TargetingFrame\\UI-RaidTargetingIcon_8:0|t" or ""
+				b:SetText(boss.name .. mark)
+				b:SetAccent(id == selectedBoss)
+				b:Show()
+			else
+				b:Hide()
+			end
+		end
+		local i = selectedBoss and Data.BossInfo[selectedBoss]
+		if i then
+			info:SetText(i.text or "")
+		elseif def and #ids == 0 then
+			info:SetText(L["Für diesen Raid sind keine Bosse hinterlegt. Bosse werden beim ersten Kill automatisch erkannt."])
+		else
+			info:SetText(L["Für diesen Boss gibt es noch keine Taktik."])
+		end
+		if i and i.post and i.post[1] then postBtn:Enable() else postBtn:Disable() end
+		RebuildTemplates()
 		tmpl:Refresh()
-		local t = RM.Data.GetTemplate(RM.db.config.markerTemplate)
-		note:SetText(t.note)
+		local t = Data.GetTemplate(RM.db.config.markerTemplate)
+		note:SetText(t.note or "")
 		barCheck:Refresh()
 		lockCheck:Refresh()
+		autoCheck:Refresh()
 	end
 end)
 
@@ -1370,19 +1458,23 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 	local bossRows = {}
 	local bossNote = Label(page, "", 0, y - 5, 11, true)
 	bossNote:SetWidth(270)
-	for i = 1, 13 do
+	for i = 1, 16 do
 		local row = {}
 		row.label = Label(page, "", 0, y - 5)
 		row.label:SetWidth(170)
-		row.edit = UI.EditBox(page, 60, 24, true)
+		row.edit = UI.EditBox(page, 60, 21, true)
 		Place(row.edit, page, 175, y)
 		bossRows[i] = row
 		fields[#fields + 1] = {
 			edit = row.edit,
-			get = function() return row.id and (S().bossDKP[row.id] or S().defaultBossDKP) or nil end,
+			get = function()
+				if not row.id then return nil end
+				local b = RM.Data.Bosses[row.id]
+				return S().bossDKP[row.id] or (b and b.dkp) or S().defaultBossDKP
+			end,
 			set = function(v) if row.id then S().bossDKP[row.id] = v end end,
 		}
-		y = y - 26
+		y = y - 23
 	end
 
 	local function UpdateBossRows()

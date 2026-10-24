@@ -38,10 +38,39 @@ function DKP.Migrate(data)
 			end
 		end
 	end
+	-- Früher automatisch angelegte Töpfe "i<Instanz-ID>" dem jetzt bekannten Raid zuordnen
+	local remap = {}
+	for key in pairs(data.pools) do
+		local id = tonumber(tostring(key):match("^i(%d+)$"))
+		if id then
+			for _, def in ipairs(RM.Data.AllRaids) do
+				local ids = def.ids or {}
+				if ids[id] == true then remap[key] = def.key end
+				for _, v in ipairs(ids) do if v == id then remap[key] = def.key end end
+				if remap[key] then break end
+			end
+		end
+	end
+	if next(remap) then
+		for _, p in pairs(data.players or {}) do
+			if type(p) == "table" and p.d then
+				for old, new in pairs(remap) do
+					if p.d[old] then p.d[new] = RM.Round((p.d[new] or 0) + p.d[old]); p.d[old] = nil end
+				end
+			end
+		end
+		for _, e in ipairs(data.log or {}) do
+			if e.pool and remap[e.pool] then e.pool = remap[e.pool]; e.pn = nil end
+		end
+		for _, b in pairs(data.knownBosses) do
+			if b.p and remap[b.p] then b.p = remap[b.p] end
+		end
+		for old in pairs(remap) do data.pools[old] = nil end
+	end
 end
 
 function DKP.PoolName(key, data)
-	local def = RM.Data.Pools[key]
+	local def = RM.Data.RaidByKey(key)
 	if def then return def.name end
 	data = data or RM.db.data
 	local custom = data and data.pools and data.pools[key]
@@ -49,8 +78,8 @@ function DKP.PoolName(key, data)
 end
 
 function DKP.PoolShort(key, data)
-	local def = RM.Data.Pools[key]
-	if def then return def.short end
+	local def = RM.Data.RaidByKey(key)
+	if def then return def.short or def.name end
 	return DKP.PoolName(key, data)
 end
 
@@ -82,13 +111,27 @@ function DKP.PoolList(data)
 			if not seen[key] then extra[#extra + 1] = key; seen[key] = true end
 		end
 	end
-	table.sort(extra)
+	-- aktueller Raid (Instanz oder laufende Sitzung) immer mit anbieten
+	local cur = (RM.db and RM.db.session and RM.db.session.active and RM.db.session.pool) or nil
+	for _, key in ipairs({ DKP.CurrentInstancePool and DKP.CurrentInstancePool(true), cur }) do
+		if key and not seen[key] then extra[#extra + 1] = key; seen[key] = true end
+	end
+	local function idx(key)
+		local def = RM.Data.RaidByKey(key)
+		return def and def.idx or 100000
+	end
+	table.sort(extra, function(a, b)
+		local ia, ib = idx(a), idx(b)
+		if ia ~= ib then return ia < ib end
+		return a < b
+	end)
 	for _, key in ipairs(extra) do list[#list + 1] = key end
 	return list
 end
 
 -- Topf der aktuellen Raid-Instanz (nil außerhalb eines Raids)
-function DKP.CurrentInstancePool()
+-- noCreate = true: unbekannten Raid nicht als neuen Topf anlegen
+function DKP.CurrentInstancePool(noCreate)
 	if not GetInstanceInfo then return nil end
 	local name, instanceType, _, _, _, _, _, instanceID = GetInstanceInfo()
 	if instanceType ~= "raid" then return nil end
@@ -105,6 +148,7 @@ function DKP.CurrentInstancePool()
 	end
 	if not instanceID then return nil end
 	local key = "i" .. instanceID
+	if noCreate then return (RM.db.data.pools or {})[key] and key or nil end
 	DKP.EnsurePool(key, name)
 	return key
 end
