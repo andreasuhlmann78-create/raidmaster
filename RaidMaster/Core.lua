@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "1.8.2"
-RM.VERSION_NUM = 10802
+RM.VERSION = "1.8.3"
+RM.VERSION_NUM = 10803
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -286,6 +286,17 @@ function RM.MasterLooterName()
 	elseif partyIndex then
 		return RM.Short(UnitName("party" .. partyIndex))
 	end
+end
+
+-- Text in den Raidchat (eigene Funktion, damit das Test-Tool sie umleiten kann)
+function RM.RaidChat(msg, channel)
+	SendChatMessage(msg, channel or "RAID")
+end
+
+-- Ein Spiel-Ereignis an alle RaidMaster-Handler geben (für das Test-Tool RaidMasterTest)
+function RM.SimulateEvent(event, ...)
+	local fn = RM.frame and RM.frame:GetScript("OnEvent")
+	if fn then fn(RM.frame, event, ...) end
 end
 
 -- Nachricht an den Raid (Raidwarnung wenn möglich)

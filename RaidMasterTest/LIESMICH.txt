@@ -1,0 +1,32 @@
+RaidMaster Test 1.0.0 – RaidMaster im Spiel gefahrlos ausprobieren
+==================================================================
+
+INSTALLATION
+- Den Ordner "RaidMasterTest" neben "RaidMaster" in ...\Interface\AddOns\ kopieren (RaidMaster ab 1.8.3).
+- Öffnen mit /rmtest. Nur für dich als Raidleitung/Offizier gedacht – die Gilde braucht es nicht.
+
+TESTMODUS
+- "Testmodus starten": deine DKP-, Raid- und Lootdaten werden gesichert. Es wird ein Testraid mit
+  9 Testspielern vorgespielt (Testkrieger, Testpriester ...), jeder mit 100 DKP.
+- Während des Tests gehen KEINE Addon-Nachrichten an Gilde oder Raid, und Raidchat-Texte erscheinen
+  nur bei dir im Chat (orange markiert).
+- "Testmodus beenden": alles wird exakt wiederhergestellt. Auch nach einem Absturz oder Ausloggen
+  mitten im Test wird beim nächsten Einloggen automatisch zurückgesetzt.
+
+WAS DU TESTEN KANNST
+- Ansicht als: Teilnehmer / Co-Raidleiter / Offizier – zeigt RaidMaster so, wie es die jeweilige
+  Rolle sieht (Seiten, Symbolleiste, Knöpfe).
+- Raid simulieren: Raid und Boss wählen, "Raid starten", "Bosskill" (Boss-DKP, Erstkill, Markierungs-
+  vorlage des Bosses wird gewählt), "Raid beenden".
+- Versteigerung: Item per Shift-Klick einfügen (leer = Ruhestein) -> 4 Testspieler bieten nacheinander,
+  danach fragt RaidMaster wie im echten Raid, ob vergeben wird.
+- Schlachtzugsymbole: echt testen, z. B. an Trainingspuppen in der Hauptstadt ("Adds markieren"
+  markiert alle sichtbaren Gegner, Namensplaketten mit Taste V einschalten).
+- Selbsttest: prüft Spielversion, Sprache, Raids und Taktiken, Plündermeister, Namensplaketten,
+  Gilde, deine Rechte, Plündermethode und Datenstand.
+
+BEFEHLE
+  /rmtest           Fenster öffnen/schließen
+  /rmtest start     Testmodus starten
+  /rmtest stop      Testmodus beenden (alles zurücksetzen)
+  /rmtest check     Selbsttest im Chat

@@ -1,0 +1,10 @@
+## Interface: 11509, 16001, 20506, 30405, 38002, 40402, 50504, 120105
+## Title: |cffff8c1aRaidMaster|r Test
+## Notes: Test-Werkzeug für RaidMaster: Testmodus ohne Folgen, Ansicht als Teilnehmer/Raidleiter/Offizier, Raid, Bosskill und Versteigerung simulieren, Selbsttest
+## Notes-enUS: Test tool for RaidMaster: safe test mode, view as member/raid lead/officer, simulate raid, boss kill and auction, self test
+## Author: GoldSentinel
+## Version: 1.0.0
+## Dependencies: RaidMaster
+## SavedVariables: RaidMasterTestDB
+
+RaidMasterTest.lua

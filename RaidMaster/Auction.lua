@@ -95,7 +95,7 @@ function A.Tick()
 	if ANNOUNCE_AT[rem] and c.lastAnn ~= rem then
 		c.lastAnn = rem
 		local high = c.highName and string.format("%d DKP (%s)", c.high, c.highName) or "keins"
-		SendChatMessage(string.format(L["%s – noch %d Sek. Höchstgebot: %s"], c.link, rem, high), "RAID")
+		RM.RaidChat(string.format(L["%s – noch %d Sek. Höchstgebot: %s"], c.link, rem, high), "RAID")
 	end
 end
 
@@ -141,7 +141,7 @@ function A.ReceiveBid(name, amount, gear)
 	RM.Comm.Send("AB", d, "RAID", nil, true)
 	A.OnBid(RM.Me(), d)
 	if C().announceBids then
-		SendChatMessage(string.format("%s bietet %d DKP auf %s", name, amount, c.link), "RAID")
+		RM.RaidChat(string.format("%s bietet %d DKP auf %s", name, amount, c.link), "RAID")
 	end
 	RM.Fire("AUCTION_CHANGED")
 	return true
