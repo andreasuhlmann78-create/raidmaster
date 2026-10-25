@@ -24,7 +24,7 @@ local FAKE = {
 	{ "Testschurke", "ROGUE" }, { "Testjaeger", "HUNTER" }, { "Testhexer", "WARLOCK" },
 	{ "Testdruide", "DRUID" }, { "Testpaladin", "PALADIN" }, { "Testschamane", "SHAMAN" },
 }
-local ROLE_NAMES = { member = "Teilnehmer", lead = "Co-Raidleiter", officer = "Offizier" }
+local ROLE_NAMES = { member = "Teilnehmer", lead = "Co-Raidleiter", raidlead = "Raidleiter", officer = "Offizier" }
 
 local function Log(msg)
 	local line = date("%H:%M:%S") .. "  " .. msg
@@ -68,9 +68,11 @@ function T.Start()
 	if RM.CheckMainLeader then RM.CheckMainLeader = function() end end
 	RM.InRaid = function() return true end
 	RM.RaidMembers = FakeMembers
+	-- Rollen: Teilnehmer (nur bieten), Co-Raidleiter (Assistent), Raidleiter (Gruppenleiter mit allen Rechten),
+	-- Offizier (alle Rechte)
 	RM.IsAssist = function() return T.role ~= "member" end
-	RM.IsLeader = function() return T.role ~= "member" end
-	RM.CanEdit = function() return T.role == "officer" end
+	RM.IsLeader = function() return T.role == "raidlead" or T.role == "officer" end
+	RM.CanEdit = function() return T.role == "officer" or T.role == "raidlead" end
 	RM.SendAddonMessage = function() T.blocked = (T.blocked or 0) + 1 end
 	RM.RaidChat = function(msg, ch) print("|cffff7f00[Test-" .. (ch or "RAID") .. "]|r " .. msg) end
 	RM.Whisper = function(msg, target) print("|cffff80ff[Test-Flüstern an " .. tostring(target) .. "]|r " .. msg) end
@@ -150,11 +152,30 @@ end
 ---------------------------------------------------------------------------
 local function Need()
 	if not T.active then T.Start() end
-	if T.role ~= "officer" then
-		Log("Für Raid, Bosskill und Versteigerung bitte 'Ansicht als: Offizier' wählen.")
+	if T.role ~= "officer" and T.role ~= "raidlead" then
+		Log("Für Raid, Bosskill und Versteigerung bitte 'Ansicht als: Raidleiter' oder 'Offizier' wählen.")
 		return false
 	end
 	return true
+end
+
+-- DKP für dich selbst (beliebige Menge, auch negativ) im gewählten Raid – nur im Testmodus
+function T.GiveMeDKP(amount)
+	amount = tonumber(amount)
+	if not amount or amount == 0 then Log("Bitte eine Zahl eingeben (z. B. 500 oder -50).") return end
+	amount = math.floor(amount)
+	if not T.active then T.Start() end
+	local pool = T.pool or RM.DKP.ActivePool()
+	RM.DKP.EnsurePlayer(RM.Me(), select(2, UnitClass("player")))
+	-- im Test immer erlaubt, unabhängig von der gewählten Ansicht
+	local canEdit = RM.CanEdit
+	RM.CanEdit = function() return true end
+	local ok = pcall(RM.DKP.Adjust, RM.Me(), amount, "Test: DKP selbst vergeben", pool)
+	RM.CanEdit = canEdit
+	Log(string.format("%s%d DKP für dich (%s) – jetzt %d.", amount > 0 and "+" or "", amount, RM.DKP.PoolName(pool), RM.DKP.Get(RM.Me(), pool)))
+	if not ok then Log("DKP konnten nicht gebucht werden.") end
+	RM.Fire("DATA_CHANGED")
+	if RM.UI.RefreshCurrent then RM.UI.RefreshCurrent() end
 end
 
 function T.StartRaid()
@@ -373,7 +394,7 @@ end
 function T.RunRaid()
 	if run then Log("Es läuft schon ein Durchlauf.") return end
 	if not T.active then T.Start() end
-	if T.role ~= "officer" then T.SetRole("officer") end
+	if T.role ~= "officer" and T.role ~= "raidlead" then T.SetRole("raidlead") end
 	local def = RM.Data.Pools[T.pool]
 	if not def or not def.bosses[1] then Log("Für diesen Raid sind keine Bosse hinterlegt.") return end
 	local loot = LootTable(def)
@@ -469,7 +490,7 @@ local function Section(parent, text, y)
 end
 
 local function CreateWindow()
-	local f = UI.Frame(UIParent, 560, 690)
+	local f = UI.Frame(UIParent, 560, 724)
 	UI.Skin(f)
 	f:SetFrameStrata("HIGH")
 	f:SetClampedToScreen(true)
@@ -496,14 +517,15 @@ local function CreateWindow()
 	Section(f, "Ansicht als", -104)
 	local roleBtns = {}
 	local x = 14
-	for _, role in ipairs({ "member", "lead", "officer" }) do
-		local b = UI.Button(f, ROLE_NAMES[role], 140, 26, function() T.SetRole(role) end,
+	for _, role in ipairs({ "member", "lead", "raidlead", "officer" }) do
+		local b = UI.Button(f, ROLE_NAMES[role], 126, 26, function() T.SetRole(role) end,
 			role == "member" and "Sieht nur DKP-Stände und Versteigerung, keine Symbolleiste." or
-			role == "lead" and "Raidleiter/Assistent: Raid-Seiten und Symbolleiste, kein DKP ändern." or
+			role == "lead" and "Co-Raidleiter (Assistent): Raid-Seiten und Symbolleiste, kein DKP ändern." or
+			role == "raidlead" and "Raidleiter des Raids: alle Raid-Seiten, Symbolleiste, Plündermeister, DKP und Versteigerung." or
 			"Offizier: alles, auch DKP, Versteigerung und Einstellungen.")
 		b:SetPoint("TOPLEFT", x, -128)
 		roleBtns[role] = b
-		x = x + 148
+		x = x + 133
 	end
 
 	Section(f, "Raid simulieren", -170)
@@ -556,18 +578,27 @@ local function CreateWindow()
 	local aucBtn = UI.Button(f, "Mit Testgeboten versteigern", 220, 26, function() T.Auction(itemBox:GetText()) end,
 		"Startet eine Versteigerung; 4 Testspieler bieten nacheinander. Danach fragt RaidMaster wie im echten Raid, ob vergeben wird.")
 	aucBtn:SetPoint("LEFT", itemBox, "RIGHT", 8, 0)
+	local dkpBox = UI.EditBox(f, 120, 26)
+	dkpBox:SetPoint("TOPLEFT", 14, -356)
+	dkpBox:SetText("1000")
+	dkpBox:SetScript("OnEnterPressed", function(self) T.GiveMeDKP(self:GetText()); self:ClearFocus() end)
+	local dkpBtn = UI.Button(f, "DKP an mich (gewählter Raid)", 220, 26, function() T.GiveMeDKP(dkpBox:GetText()) end,
+		"Bucht dir beliebig viele DKP im oben gewählten Raid (negativ = abziehen). Nur im Testmodus – wird beim Beenden zurückgesetzt.")
+	dkpBtn:SetPoint("LEFT", dkpBox, "RIGHT", 8, 0)
+	local dkpHint = UI.Text(f, "beliebige Zahl, z. B. 5000 oder -50", 11, unpack(COLORS.muted))
+	dkpHint:SetPoint("LEFT", dkpBtn, "RIGHT", 8, 0)
 
-	Section(f, "Schlachtzugsymbole (echt, z. B. an Trainingspuppen)", -364)
+	Section(f, "Schlachtzugsymbole (echt, z. B. an Trainingspuppen)", -398)
 	local m1 = UI.Button(f, "Totenkopf aufs Ziel", 160, 26, function() RM.Markers.Mark(8) end)
-	m1:SetPoint("TOPLEFT", 14, -388)
+	m1:SetPoint("TOPLEFT", 14, -422)
 	local m2 = UI.Button(f, "Adds markieren", 160, 26, function() RM.Markers.MarkAdds() end, "Markiert alle sichtbaren Gegner nach der gewählten Vorlage.")
 	m2:SetPoint("LEFT", m1, "RIGHT", 8, 0)
 	local m3 = UI.Button(f, "Alle aus", 120, 26, function() RM.Markers.ClearAll() end)
 	m3:SetPoint("LEFT", m2, "RIGHT", 8, 0)
 
-	Section(f, "Protokoll", -430)
+	Section(f, "Protokoll", -464)
 	local box = UI.Multiline(f, 532, 220, true)
-	box:SetPoint("TOPLEFT", 14, -454)
+	box:SetPoint("TOPLEFT", 14, -488)
 
 	function T.Refresh()
 		if not f:IsShown() then return end

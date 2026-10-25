@@ -1,4 +1,4 @@
-RaidMaster Test 1.1.1 – RaidMaster im Spiel gefahrlos ausprobieren
+RaidMaster Test 1.2.0 – RaidMaster im Spiel gefahrlos ausprobieren
 ==================================================================
 
 INSTALLATION
@@ -14,8 +14,12 @@ TESTMODUS
   mitten im Test wird beim nächsten Einloggen automatisch zurückgesetzt.
 
 WAS DU TESTEN KANNST
-- Ansicht als: Teilnehmer / Co-Raidleiter / Offizier – zeigt RaidMaster so, wie es die jeweilige
-  Rolle sieht (Seiten, Symbolleiste, Knöpfe).
+- Ansicht als: Teilnehmer / Co-Raidleiter / Raidleiter / Offizier – zeigt RaidMaster so, wie es die
+  jeweilige Rolle sieht (Seiten, Symbolleiste, Knöpfe). Raidleiter = Leiter des Raids mit allen Rechten
+  (DKP, Versteigerung, Plündermeister), Co-Raidleiter = Assistent ohne DKP-Rechte.
+- DKP an mich: beliebige Zahl eingeben (z. B. 5000, oder -50 zum Abziehen) -> wird dir im oben gewählten
+  Raid gebucht, egal in welcher Ansicht. So kannst du als Teilnehmer unbegrenzt mitbieten.
+  Wie alles im Testmodus wird es beim Beenden zurückgesetzt.
 - Raid simulieren: Raid und Boss wählen, "Raid starten", "Bosskill" (Boss-DKP, Erstkill, Markierungs-
   vorlage des Bosses wird gewählt), "Raid beenden".
 - Versteigerung: Item per Shift-Klick einfügen (leer = Ruhestein) -> 4 Testspieler bieten nacheinander,
