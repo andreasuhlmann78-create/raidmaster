@@ -4846,3 +4846,6 @@ L["Plündermethode ist nicht Plündermeister – die Items kommen nicht in die W
 L["Nur der Plündermeister (%s) stellt die Items in die Warteschlange – öffnet er die Beute, siehst du sie hier auch."] = "Только ответственный за добычу (%s) ставит предметы в очередь – как только он откроет добычу, вы увидите их и здесь."
 L["Versteigerungen startet nur der Plündermeister (%s)."] = "Аукционы запускает только ответственный за добычу (%s)."
 L["Gesamt %s: |cffff8c1a%d DKP|r · %d Spieler"] = "Всего %s: |cffff8c1a%d DKP|r · %d игроков"
+L["Verdient"] = "Заработано"
+L["%s: aktuell %d DKP, insgesamt verdient %d DKP"] = "%s: сейчас %d DKP, всего заработано %d DKP"
+L["verdient: %d"] = "заработано: %d"

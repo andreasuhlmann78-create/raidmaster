@@ -29,6 +29,7 @@ function DKP.Migrate(data)
 	if not data then return end
 	data.pools = data.pools or {}
 	data.knownBosses = data.knownBosses or {}
+	DKP.InitEarned(data)
 	for _, p in pairs(data.players or {}) do
 		if type(p) == "table" then
 			p.d = p.d or {}
@@ -56,6 +57,7 @@ function DKP.Migrate(data)
 			if type(p) == "table" and p.d then
 				for old, new in pairs(remap) do
 					if p.d[old] then p.d[new] = RM.Round((p.d[new] or 0) + p.d[old]); p.d[old] = nil end
+					if p.e and p.e[old] then p.e[new] = RM.Round((p.e[new] or 0) + p.e[old]); p.e[old] = nil end
 				end
 			end
 		end
@@ -185,18 +187,51 @@ local function PoolValue(p, pool)
 end
 DKP.PoolValue = PoolValue
 
+-- Insgesamt verdiente DKP je Spieler und Raid (Raidstart, Bosskills, Raidende, Gutschriften) –
+-- ohne Abzüge für Items und Decay. Wird bei jeder Buchung mitgezählt (p.e[Topf]).
+DKP.EARN_KINDS = { start = true, ["end"] = true, boss = true, manual = true }
+function DKP.Earned(p, pool)
+	if not p then return 0 end
+	return (p.e and p.e[pool]) or 0
+end
+
+local function AddEarned(p, pool, amount)
+	if not amount or amount == 0 then return end
+	p.e = p.e or {}
+	p.e[pool] = math.max(0, RM.Round((p.e[pool] or 0) + amount))
+end
+
+-- Einmalig aus dem vorhandenen Log nachrechnen (ältere Daten ohne Zähler)
+function DKP.InitEarned(data)
+	if not data or data.earnedInit then return end
+	for _, p in pairs(data.players or {}) do
+		if type(p) == "table" then p.e = {} end
+	end
+	for _, e in ipairs(data.log or {}) do
+		if DKP.EARN_KINDS[e.k] and not e.u then
+			local pool = e.pool or "mc"
+			for name, delta in pairs(e.d or {}) do
+				local p = data.players[name]
+				if type(p) == "table" and delta > 0 then AddEarned(p, pool, delta) end
+			end
+		end
+	end
+	data.earnedInit = true
+end
+
 -- Gesamtpunkte eines Raid-Topfes: Summe aller DKP-Stände und Zahl der Spieler mit Stand
 function DKP.PoolTotal(data, pool)
 	data = data or RM.db.data
-	local total, count = 0, 0
+	local total, count, earned = 0, 0, 0
 	for _, p in pairs(data.players or {}) do
 		local v = PoolValue(p, pool)
 		if v and v ~= 0 then
 			total = total + v
 			count = count + 1
 		end
+		earned = earned + DKP.Earned(p, pool)
 	end
-	return total, count
+	return total, count, earned
 end
 
 function DKP.Get(name, pool)
@@ -284,10 +319,20 @@ function DKP.ApplyEntryTo(data, e, isMain)
 			p.d = p.d or {}
 		end
 		p.d[pool] = RM.Round((p.d[pool] or 0) + delta)
+		if DKP.EARN_KINDS[e.k] and delta > 0 then AddEarned(p, pool, delta) end
 	end
 	if e.k == "undo" and e.r then
 		local target = FindIn(data, e.r)
-		if target then target.u = true end
+		if target then
+			-- rückgängig gemachte Gutschrift zählt nicht mehr als verdient
+			if DKP.EARN_KINDS[target.k] and not target.u then
+				for name, delta in pairs(target.d or {}) do
+					local p = data.players[name]
+					if p and delta > 0 then AddEarned(p, target.pool or pool, -delta) end
+				end
+			end
+			target.u = true
+		end
 	elseif e.k == "decay" then
 		data.lastDecay = e.t
 	elseif e.k == "boss" and e.b then

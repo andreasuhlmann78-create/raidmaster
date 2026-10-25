@@ -4846,3 +4846,6 @@ L["Plündermethode ist nicht Plündermeister – die Items kommen nicht in die W
 L["Nur der Plündermeister (%s) stellt die Items in die Warteschlange – öffnet er die Beute, siehst du sie hier auch."] = "只有隊長分配者（%s）會把物品放入佇列 – 他打開拾取後，你在這裡也能看到。"
 L["Versteigerungen startet nur der Plündermeister (%s)."] = "只有隊長分配者（%s）可以開始拍賣。"
 L["Gesamt %s: |cffff8c1a%d DKP|r · %d Spieler"] = "%s 合計：|cffff8c1a%d DKP|r · %d 名玩家"
+L["Verdient"] = "累計獲得"
+L["%s: aktuell %d DKP, insgesamt verdient %d DKP"] = "%s：目前 %d DKP，累計獲得 %d DKP"
+L["verdient: %d"] = "累計獲得：%d"

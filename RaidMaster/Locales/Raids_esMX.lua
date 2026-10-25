@@ -4846,3 +4846,6 @@ L["Plündermethode ist nicht Plündermeister – die Items kommen nicht in die W
 L["Nur der Plündermeister (%s) stellt die Items in die Warteschlange – öffnet er die Beute, siehst du sie hier auch."] = "Solo el maestro despojador (%s) pone los objetos en la cola – cuando abra el botín, también los verás aquí."
 L["Versteigerungen startet nur der Plündermeister (%s)."] = "Solo el maestro despojador (%s) inicia las subastas."
 L["Gesamt %s: |cffff8c1a%d DKP|r · %d Spieler"] = "Total %s: |cffff8c1a%d DKP|r · %d jugadores"
+L["Verdient"] = "Ganados"
+L["%s: aktuell %d DKP, insgesamt verdient %d DKP"] = "%s: ahora %d DKP, %d DKP ganados en total"
+L["verdient: %d"] = "ganados: %d"

@@ -429,7 +429,9 @@ def standings(data: dict, pool: str = "mc") -> list[dict]:
     for name, p in players.items():
         if not isinstance(p, dict):
             continue
-        rows.append({"name": str(name), "dkp": player_pool_value(p, pool), "class": p.get("c") or ""})
+        earned = p.get("e") if isinstance(p.get("e"), dict) else {}
+        rows.append({"name": str(name), "dkp": player_pool_value(p, pool), "class": p.get("c") or "",
+                     "earned": int(earned.get(pool) or 0)})
     rows.sort(key=lambda r: (-r["dkp"], r["name"].lower()))
     return rows
 
@@ -442,7 +444,8 @@ def pool_total(rows: list[dict]) -> tuple[int, int]:
 
 def total_line(rows: list[dict]) -> str:
     total, count = pool_total(rows)
-    return f"Gesamt: **{total} DKP** · {count} Spieler"
+    earned = sum(int(r.get("earned") or 0) for r in rows)
+    return f"Gesamt: **{total} DKP** · {count} Spieler · insgesamt verdient {earned} DKP"
 
 
 def player_summary(data: dict, name: str) -> list[tuple[str, int, int, int]]:
@@ -486,10 +489,11 @@ def format_standings(rows: list[dict], limit_chars: int = 1900) -> list[str]:
     if not rows:
         return ["```\nNoch keine DKP-Daten.\n```"]
     lines = []
+    rows = [r for r in rows if r["dkp"] != 0 or r.get("earned")] or rows
     for i, r in enumerate(rows, 1):
         cls = CLASSES.get(r["class"], "")
-        lines.append(f"{i:>3}. {r['name']:<14} {cls:<13} {r['dkp']:>6}")
-    header = f"{'#':>3}  {'Name':<14} {'Klasse':<13} {'DKP':>6}\n" + "-" * 40
+        lines.append(f"{i:>3}. {r['name']:<14} {cls:<13} {r['dkp']:>6} {int(r.get('earned') or 0):>8}")
+    header = f"{'#':>3}  {'Name':<14} {'Klasse':<13} {'DKP':>6} {'Verdient':>8}\n" + "-" * 49
     chunks, cur = [], [header]
     size = len(header)
     for line in lines:

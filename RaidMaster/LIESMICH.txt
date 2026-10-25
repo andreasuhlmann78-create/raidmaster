@@ -1,4 +1,4 @@
-RaidMaster 1.9.1 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 1.9.2 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,12 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+VERDIENTE DKP JE SPIELER (neu in 1.9.2)
+- Neue Spalte "Verdient" auf der Seite DKP-Stände: wie viele DKP jeder Spieler in diesem Raid insgesamt
+  verdient hat (Raidstart, Bosskills, Raidende, Gutschriften) – Items und Decay ziehen davon nichts ab.
+  Klick auf die Spaltenüberschrift sortiert danach. Im Discord steht dieselbe Spalte in jeder DKP-Tabelle.
+- Beim ersten Start wird "Verdient" aus den gespeicherten Buchungen nachgerechnet (die letzten 1000).
 
 GESAMTPUNKTE PRO RAID (neu in 1.9.1)
 - Seite DKP-Stände: neben der Raidauswahl steht die Summe aller DKP dieses Raids und die Zahl der Spieler
