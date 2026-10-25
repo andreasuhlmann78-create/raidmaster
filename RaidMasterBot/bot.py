@@ -628,6 +628,99 @@ async def raid_create(inter: discord.Interaction, titel: str, datum: str, uhrzei
     log.info("Raid #%s erstellt: %s", raid["id"], titel)
 
 
+# ---------------------------------------------------------------------------
+# Testraid: 40 Anmeldungen mit zufälligen Namen (für Tests von Anmeldung, Export und Einteilung)
+# ---------------------------------------------------------------------------
+TEST_RAID_HOURS = 2
+TEST_NAMES = [
+    "Thorgrim", "Elandra", "Brakkus", "Sylvara", "Garrok", "Mirelle", "Durnhelm", "Kaelith", "Brunhild", "Varonis",
+    "Grimbald", "Lunessa", "Torvak", "Isolde", "Krugnar", "Faelyn", "Hadrik", "Seraphine", "Borin", "Aeris",
+    "Galdor", "Nyria", "Ulfgar", "Thalindra", "Morgrim", "Celestia", "Rokhar", "Ilyana", "Dagnar", "Vespera",
+    "Haldor", "Liora", "Brogan", "Eowyna", "Kazrak", "Selwyn", "Tormund", "Arwena", "Gorath", "Miravel",
+    "Fendrik", "Shaela", "Bjornar", "Talwen", "Drakon", "Ysolde", "Hrothgar", "Nimara", "Korgath", "Elowen",
+]
+# MC-Aufstellung: (Klasse, Rolle, Skillung, Anzahl) – Paladin bzw. Schamane je nach Fraktion
+TEST_LINEUP = [
+    ("WARRIOR", "tank", "Schutz 5/5/41", 4), ("WARRIOR", "melee", "Furor 20/31/0", 6),
+    ("PRIEST", "heal", "Heilig 21/30/0", 5), ("PRIEST", "ranged", "Schatten 5/0/46", 1),
+    ("@HYBRID", "heal", "", 5), ("DRUID", "heal", "Wiederherstellung 11/0/40", 2), ("DRUID", "melee", "Wilder Kampf 0/30/21", 1),
+    ("ROGUE", "melee", "Kampf 21/30/0", 4), ("MAGE", "ranged", "Frost 10/0/41", 6),
+    ("WARLOCK", "ranged", "Zerstörung 0/21/30", 3), ("HUNTER", "ranged", "Treffsicherheit 0/31/20", 3),
+]
+TEST_BENCH = [("WARRIOR", "melee", "Furor 20/31/0"), ("PRIEST", "heal", "Heilig 21/30/0"), ("MAGE", "ranged", "Frost 10/0/41"),
+              ("ROGUE", "melee", "Kampf 21/30/0"), ("HUNTER", "ranged", "Treffsicherheit 0/31/20")]
+TEST_MAYBE = [("DRUID", "heal", "Wiederherstellung 11/0/40"), ("WARLOCK", "ranged", "Zerstörung 0/21/30"), ("@HYBRID", "heal", "")]
+
+
+@raid_group.command(name="testraid", description="Testraid mit 40 Anmeldungen (zufällige Namen) – verschwindet nach 2 Stunden")
+@app_commands.describe(raid="Welcher Raid? (Standard Molten Core)", fraktion="Paladine (Allianz) oder Schamanen (Horde)")
+@app_commands.choices(fraktion=[app_commands.Choice(name="Allianz (Paladine)", value="alliance"),
+                                app_commands.Choice(name="Horde (Schamanen)", value="horde")])
+@app_commands.autocomplete(raid=raid_pool_autocomplete)
+async def raid_test(inter: discord.Interaction, raid: str = "mc", fraktion: app_commands.Choice[str] | None = None):
+    if not is_creator(inter.user):
+        await inter.response.send_message("Einen Testraid dürfen nur Offiziere bzw. die Raidleitung anlegen.", ephemeral=True)
+        return
+    import random
+    pool = raid
+    hybrid = ("SHAMAN", "Wiederherstellung 5/0/46") if fraktion and fraktion.value == "horde" else ("PALADIN", "Heilig 31/20/0")
+    target_id = raid_channel(pool, "signup")
+    target = await channel_by_id(target_id) if target_id else None
+    if target is None:
+        target = inter.channel
+    now = int(time.time())
+    start = datetime.fromtimestamp(now + 3600, ZoneInfo(TZ))
+    pool_name = dict(known_raids()).get(pool, pool)
+    t = book.create(f"TEST {pool_name}"[:80], start,
+                    f"🧪 Testdaten mit zufälligen Namen – {TEST_RAID_HOURS} Std. nach dem Anlegen verschwindet dieser Raid wieder.", 40,
+                    inter.user.id, target.id, mode="dkp")
+    t.update(pool=pool, pool_name=pool_name, test=True, expires=now + TEST_RAID_HOURS * 3600, reminded=True)
+    names = random.sample(TEST_NAMES, len(TEST_NAMES))
+    n = 0
+
+    def add(cls, role, spec, status):
+        nonlocal n
+        if cls == "@HYBRID":
+            cls, spec = hybrid
+        label, _, points = spec.rpartition(" ") if spec else ("", "", "")
+        uid = 900000000000000000 + n          # erfundene Nutzer-IDs, nie echte Mitglieder
+        t["signups"][str(uid)] = {"t": now + n, "name": names[n], "cls": cls, "role": role, "status": status,
+                                  "spec": f"{label} {points}".strip(), "test": True}
+        n += 1
+    for cls, role, spec, count in TEST_LINEUP:
+        for _ in range(count):
+            add(cls, role, spec, "an")
+    for cls, role, spec in TEST_BENCH:
+        add(cls, role, spec, "ersatz")
+    for cls, role, spec in TEST_MAYBE:
+        add(cls, role, spec, "vielleicht")
+    book.save()
+    msg = await target.send(embed=raid_embed(t), view=raid_view(t))
+    t["message_id"] = msg.id
+    book.save()
+    await inter.response.send_message(
+        f"🧪 Testraid #{t['id']} in {target.mention} angelegt: {book.count_status(t, 'an')} angemeldet, "
+        f"{book.count_status(t, 'ersatz')} Ersatzbank, {book.count_status(t, 'vielleicht')} vielleicht. "
+        f"Er verschwindet <t:{t['expires']}:R>.", ephemeral=True)
+    log.info("Testraid #%s angelegt (%d Anmeldungen).", t["id"], len(t["signups"]))
+
+
+async def remove_expired_test_raids():
+    """Testraids nach Ablauf löschen (Nachricht und Eintrag)."""
+    now = time.time()
+    for t in [x for x in book.all() if x.get("test") and x.get("expires", 0) <= now]:
+        if t.get("message_id"):
+            try:
+                ch = await channel_by_id(t["channel_id"])
+                if ch:
+                    await ch.get_partial_message(int(t["message_id"])).delete()
+            except discord.HTTPException:
+                pass
+        book.raids.data["raids"].pop(str(t["id"]), None)
+        book.save()
+        log.info("Testraid #%s entfernt.", t["id"])
+
+
 @raid_group.command(name="absagen", description="Raid absagen (Angemeldete werden benachrichtigt)")
 @app_commands.describe(raid="Welcher Raid?")
 @app_commands.autocomplete(raid=raid_autocomplete)
@@ -2402,6 +2495,10 @@ async def handle_test_upload(db: dict, uploader: str):
 
 @tasks.loop(seconds=60)
 async def test_cleanup_loop():
+    try:
+        await remove_expired_test_raids()
+    except Exception:  # noqa: BLE001
+        log.exception("Testraids konnten nicht entfernt werden")
     pending = state.data.get("test_messages") or []
     if not pending:
         return

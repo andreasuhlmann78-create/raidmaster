@@ -178,6 +178,11 @@ und Charakter festlegen. `/charakter` ändert das Profil.
 **Gildenspieler registrieren sich** einmal über den Knopf **Charakter registrieren** in der Anmeldung
 ihres Raids (z. B. #mc-anmeldung). **PUG-Spieler** nehmen den Knopf in #pug-anmeldung: Rolle Gast + Charakter.
 
+- **Testraid:** `/raid testraid` (Offiziere/Raidleitung) legt einen Raid „TEST Molten Core“ mit 40 Anmeldungen
+  (zufällige Namen, MC-Aufstellung), 5 auf der Ersatzbank und 3 „Vielleicht“ an – zum Ausprobieren von Anmeldung,
+  „Für RaidMaster“-Export und Einteilung. Optional `raid:` und `fraktion:` (Paladine oder Schamanen).
+  Nach 2 Stunden verschwindet er samt Nachricht von selbst.
+
 ## Aufstellung und feste Gruppen
 
 `/raid aufstellung raid:<Raid>` (oder automatisch mit der Erinnerung vor dem Raid) postet die
