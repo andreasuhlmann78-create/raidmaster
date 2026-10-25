@@ -1,8 +1,8 @@
-RaidMaster Test 1.3.0 – RaidMaster im Spiel gefahrlos ausprobieren
+RaidMaster Test 1.4.0 – RaidMaster im Spiel gefahrlos ausprobieren
 ==================================================================
 
 INSTALLATION
-- Den Ordner "RaidMasterTest" neben "RaidMaster" in ...\Interface\AddOns\ kopieren (RaidMaster ab 1.9.0).
+- Den Ordner "RaidMasterTest" neben "RaidMaster" in ...\Interface\AddOns\ kopieren (RaidMaster ab 1.9.2).
 - Öffnen mit /rmtest. Nur für dich als Raidleitung/Offizier gedacht – die Gilde braucht es nicht.
 
 TESTMODUS
@@ -26,6 +26,11 @@ WAS DU TESTEN KANNST
   vorlage des Bosses wird gewählt), "Raid beenden".
 - Versteigerung: Item per Shift-Klick einfügen (leer = Ruhestein) -> 4 Testspieler bieten nacheinander,
   danach fragt RaidMaster wie im echten Raid, ob vergeben wird.
+- Ganzen Raid durchspielen (neu in 1.4.0 wie im echten Raid): Nach jedem Boss liegt die Beute im Lootfenster des
+  Plündermeisters (Seite Loot, "Aktuelles Lootfenster") und Epics/Blaues in der Warteschlange (Seite
+  Versteigerung öffnet sich). Du startest jede Versteigerung selbst ("Gewähltes starten"), die Testspieler
+  bieten mit, du klickst "Vergeben". Ist die Warteschlange leer, kommt der nächste Boss.
+  Häkchen "Versteigerungen automatisch" = schneller Durchlauf ohne Klicken (wie bisher).
 - Ganzen Raid durchspielen: Raid wählen (z. B. Molten Core) -> "Ganzen Raid durchspielen" startet den Raid,
   besiegt alle Bosse nacheinander, legt echte Beute aus der Beutetabelle des Bosses aus (Classic, TBC und
   Wrath), lässt die Testspieler darauf bieten, vergibt die Items und beendet den Raid am Schluss.

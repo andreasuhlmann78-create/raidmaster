@@ -125,6 +125,8 @@ function T.Stop()
 	if RM.Auction and RM.Auction.current then pcall(RM.Auction.Cancel) end
 	for _, k in ipairs(OVERRIDE) do RM[k] = saved[k] end
 	if RM.Auction and RM.Auction.queue then wipe(RM.Auction.queue) end   -- Test-Items nicht im echten Raid lassen
+	if T.StopRun then T.StopRun() end
+	if RM.Loot then RM.Loot.isOpen = false; wipe(RM.Loot.items) end
 	if RM.Loot and saved.Deliver then RM.Loot.Deliver = saved.Deliver end
 	if RM.Loot and saved.Ensure then RM.Loot.EnsureSettings = saved.Ensure end
 	if RM.Loot and saved.Warn then RM.Loot.Warn = saved.Warn end
@@ -310,6 +312,10 @@ local function HandleItem(id, source)
 	local link, quality = ItemInfo(id)
 	if not link then return end
 	local action = RM.Loot.Classify(link, quality)
+	-- wie ein offenes Lootfenster beim Plündermeister (Seite Loot: "Aktuelles Lootfenster")
+	RM.Loot.isOpen = true
+	RM.Loot.items[#RM.Loot.items + 1] = { link = link, quality = quality, action = action, done = action ~= "auction" and action ~= "manual" and action ~= "notify" }
+	RM.Fire("LOOT_CHANGED")
 	if action == "auction" then
 		-- wie im echten Raid in die Warteschlange von RaidMaster (Seite Versteigerung)
 		RM.Auction.Enqueue(link)
@@ -359,29 +365,38 @@ local function RunStep()
 	local c = RM.Auction.current
 	-- Versteigerung fertig: wie die Raidleitung "Vergeben" klicken
 	if c and c.finished then
+		-- selbst versteigern: du klickst "Vergeben" / "Nicht vergeben" wie im echten Raid
+		if not T.autoAuction then return end
 		if c.highName then
 			StaticPopup_Hide(CONFIRM)
-			local who, amount, link = c.highName, c.high, c.link
 			RM.Auction.Award()
-			run.awarded[#run.awarded + 1] = who .. " " .. link .. " (" .. amount .. " DKP)"
-			Log("Vergeben: " .. link .. " an " .. who .. " für " .. amount .. " DKP")
 		else
 			RM.Auction.current = nil
 		end
 		run.waitUntil = now + 1.5
 		return
 	end
-	-- läuft eine Versteigerung (auch automatisch gestartet), bieten die Testspieler mit
+	-- läuft eine Versteigerung (von dir gestartet), bieten die Testspieler mit
 	if c then AddFakeBids(c) return end
 	if #RM.Auction.queue > 0 then
-		if not StartFromQueue() then Log("Versteigerung aus der Warteschlange nicht möglich."); wipe(RM.Auction.queue) end
-		run.waitUntil = now + 1
+		if T.autoAuction then
+			if not StartFromQueue() then Log("Versteigerung aus der Warteschlange nicht möglich."); wipe(RM.Auction.queue) end
+			run.waitUntil = now + 1
+		elseif not run.told then
+			run.told = true
+			Log(string.format("%d Item(s) in der Warteschlange – starte jede Versteigerung selbst auf der Seite Versteigerung "
+				.. "(Item wählen, \"Gewähltes starten\"). Testspieler bieten mit, \"Vergeben\" klickst du. Danach geht es zum nächsten Boss.", #RM.Auction.queue))
+			RM.UI.Open("auction")
+		end
 		return
 	end
+	run.told = false
 	-- nächster Boss
 	run.index = run.index + 1
 	local boss = run.def.bosses[run.index]
 	if not boss then
+		RM.Auction.Award = run.origAward
+		RM.Loot.isOpen = false; wipe(RM.Loot.items)
 		RM.Raid.End()
 		Log(string.format("Raid-Durchlauf fertig: %d Bosse, %d Items versteigert, %d nach Regel verteilt.", #run.def.bosses, #run.awarded, run.other))
 		for _, a in ipairs(run.awarded) do Log("  " .. a) end
@@ -397,6 +412,7 @@ local function RunStep()
 		for _, id in ipairs(Pick(run.loot.trash, 1)) do HandleItem(id, "Trash") end
 	end
 	local ids = boss.e
+	wipe(RM.Loot.items)
 	RM.SimulateEvent("ENCOUNTER_START", ids[#ids], boss.name, 9, 40)
 	RM.SimulateEvent("ENCOUNTER_END", ids[#ids], boss.name, 9, 40, 1)
 	Log(string.format("Boss %d/%d besiegt: %s", run.index, #run.def.bosses, boss.name))
@@ -424,7 +440,18 @@ function T.RunRaid()
 	end
 	run = { def = def, loot = loot, index = 0, queue = {}, awarded = {}, other = 0, waitUntil = GetTime() + 2,
 		oldTime = RM.db.data.settings.auctionTime }
-	RM.db.data.settings.auctionTime = 10      -- im Test schneller versteigern
+	RM.db.data.settings.auctionTime = T.autoAuction and 10 or 20      -- im Test schneller versteigern
+	-- Vergaben mitschreiben (egal ob du oder der automatische Durchlauf "Vergeben" klickt)
+	local origAward = RM.Auction.Award
+	run.origAward = origAward
+	RM.Auction.Award = function(...)
+		local c = RM.Auction.current
+		if run and c and c.highName then
+			run.awarded[#run.awarded + 1] = c.highName .. " " .. c.link .. " (" .. c.high .. " DKP)"
+			Log("Vergeben: " .. c.link .. " an " .. c.highName .. " für " .. c.high .. " DKP")
+		end
+		return origAward(...)
+	end
 	RM.db.config.activePool = def.key
 	if not RM.db.session.active then RM.Raid.Start() end
 	Log("Raid-Durchlauf gestartet: " .. def.name .. " (" .. #def.bosses .. " Bosse)" ..
@@ -437,6 +464,8 @@ end
 function T.StopRun()
 	if not run then return end
 	run.ticker:Cancel()
+	if run.origAward then RM.Auction.Award = run.origAward end
+	RM.Loot.isOpen = false; wipe(RM.Loot.items)
 	if RM.Auction.current then pcall(RM.Auction.Cancel) end
 	wipe(RM.Auction.queue)
 	RM.Fire("AUCTION_CHANGED")
@@ -509,7 +538,7 @@ local function Section(parent, text, y)
 end
 
 local function CreateWindow()
-	local f = UI.Frame(UIParent, 560, 724)
+	local f = UI.Frame(UIParent, 560, 750)
 	UI.Skin(f)
 	f:SetFrameStrata("HIGH")
 	f:SetClampedToScreen(true)
@@ -586,10 +615,15 @@ local function CreateWindow()
 	trashBtn:SetPoint("LEFT", runBtn, "RIGHT", 8, 0)
 	local stopRunBtn = UI.Button(f, "Durchlauf abbrechen", 160, 26, function() T.StopRun() end)
 	stopRunBtn:SetPoint("LEFT", trashBtn, "RIGHT", 8, 0)
+	local autoCheck = UI.Check(f, "Versteigerungen automatisch (schneller Durchlauf ohne Klicken)", function() return T.autoAuction end,
+		function(v) T.autoAuction = v end,
+		"Aus (Standard): die Beute liegt in der Warteschlange, du startest jede Versteigerung selbst und klickst \"Vergeben\".\n"
+		.. "An: der Durchlauf versteigert und vergibt alles von selbst.")
+	autoCheck:SetPoint("TOPLEFT", 14, -290)
 
-	Section(f, "Versteigerung", -298)
+	Section(f, "Versteigerung", -324)
 	local itemBox = UI.LinkBox(f, 300, 26)
-	itemBox:SetPoint("TOPLEFT", 14, -322)
+	itemBox:SetPoint("TOPLEFT", 14, -348)
 	local hint = UI.Text(itemBox, "Item per Shift-Klick (leer = Ruhestein)", 11, unpack(COLORS.muted))
 	hint:SetPoint("LEFT", 8, 0)
 	itemBox:HookScript("OnTextChanged", function(self) if self:GetText() == "" then hint:Show() else hint:Hide() end end)
@@ -598,7 +632,7 @@ local function CreateWindow()
 		"Startet eine Versteigerung; 4 Testspieler bieten nacheinander. Danach fragt RaidMaster wie im echten Raid, ob vergeben wird.")
 	aucBtn:SetPoint("LEFT", itemBox, "RIGHT", 8, 0)
 	local dkpBox = UI.EditBox(f, 120, 26)
-	dkpBox:SetPoint("TOPLEFT", 14, -356)
+	dkpBox:SetPoint("TOPLEFT", 14, -382)
 	dkpBox:SetText("1000")
 	dkpBox:SetScript("OnEnterPressed", function(self) T.GiveMeDKP(self:GetText()); self:ClearFocus() end)
 	local dkpBtn = UI.Button(f, "DKP an mich (gewählter Raid)", 220, 26, function() T.GiveMeDKP(dkpBox:GetText()) end,
@@ -609,17 +643,17 @@ local function CreateWindow()
 		.. "Lädt die Oberfläche neu – danach ist der Testmodus beendet. Der Uploader muss laufen.")
 	discordBtn:SetPoint("LEFT", dkpBtn, "RIGHT", 8, 0)
 
-	Section(f, "Schlachtzugsymbole (echt, z. B. an Trainingspuppen)", -398)
+	Section(f, "Schlachtzugsymbole (echt, z. B. an Trainingspuppen)", -424)
 	local m1 = UI.Button(f, "Totenkopf aufs Ziel", 160, 26, function() RM.Markers.Mark(8) end)
-	m1:SetPoint("TOPLEFT", 14, -422)
+	m1:SetPoint("TOPLEFT", 14, -448)
 	local m2 = UI.Button(f, "Adds markieren", 160, 26, function() RM.Markers.MarkAdds() end, "Markiert alle sichtbaren Gegner nach der gewählten Vorlage.")
 	m2:SetPoint("LEFT", m1, "RIGHT", 8, 0)
 	local m3 = UI.Button(f, "Alle aus", 120, 26, function() RM.Markers.ClearAll() end)
 	m3:SetPoint("LEFT", m2, "RIGHT", 8, 0)
 
-	Section(f, "Protokoll", -464)
+	Section(f, "Protokoll", -490)
 	local box = UI.Multiline(f, 532, 220, true)
-	box:SetPoint("TOPLEFT", 14, -488)
+	box:SetPoint("TOPLEFT", 14, -514)
 
 	function T.Refresh()
 		if not f:IsShown() then return end
@@ -628,7 +662,7 @@ local function CreateWindow()
 		toggle:SetText(T.active and "Testmodus beenden (alles zurücksetzen)" or "Testmodus starten")
 		toggle:SetAccent(not T.active)
 		for role, b in pairs(roleBtns) do b:SetAccent(T.active and T.role == role) end
-		raidDrop:Refresh(); bossDrop:Refresh()
+		raidDrop:Refresh(); bossDrop:Refresh(); autoCheck:Refresh()
 		local text = T.selfTest and (T.selfTest .. "\n\n") or ""
 		box:SetText(text .. table.concat(T.log, "\n"))
 	end
