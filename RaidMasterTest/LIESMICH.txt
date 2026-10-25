@@ -1,9 +1,17 @@
-RaidMaster Test 1.7.3 – RaidMaster im Spiel gefahrlos ausprobieren
+RaidMaster Test 1.7.4 – RaidMaster im Spiel gefahrlos ausprobieren
 ==================================================================
 
 INSTALLATION
 - Den Ordner "RaidMasterTest" neben "RaidMaster" in ...\Interface\AddOns\ kopieren (RaidMaster ab 2.0.0).
 - Öffnen mit /rmtest. Nur für dich als Raidleitung/Offizier gedacht – die Gilde braucht es nicht.
+
+SCHNELLE RESTZEIT (neu in 1.7.4, nur im Testmodus)
+- Versteigerungen im Test dauern standardmäßig nur noch 3 Sek. (wählbar 3, 5, 8, 10, 15, 20, 30 Sek.).
+- Sobald alle Testspieler geboten haben, läuft die Restzeit nur noch 1 Sek. – kein Warten bis zum Ablauf.
+- Keine Verlängerung bei späten Geboten im Test.
+- Ein ganzer MC-Durchlauf mit automatischen Versteigerungen dauert so knapp 2 Minuten.
+- Alles gilt nur im Testmodus. Im echten Raid bleiben deine Einstellungen (z. B. 30 Sek. und Verlängerung)
+  unverändert, beim Beenden des Testmodus kommen sie wieder zurück.
 
 RAID AUS RAIDMASTER STARTEN (neu in 1.7.3)
 - Im Testmodus "Raid starten" in RaidMaster (Seite Raidleiter) klicken: das Test-Tool spielt diesen Raid
@@ -22,8 +30,8 @@ ERGEBNIS IMMER AN DISCORD (neu in 1.7.3)
 - Abschaltbar: Haken "Ergebnis nach dem Raid automatisch an Discord senden". Der Uploader muss laufen.
 
 TEMPO (neu in 1.7.2)
-- "Dauer je Versteigerung" im Test-Fenster (neben "Automatisch versteigern"): 5, 8, 10, 15, 20 oder 30 Sek.
-  Klick schaltet zum nächsten Wert. Standard: 8 Sek. Die Wahl wird gespeichert.
+- "Dauer je Versteigerung" im Test-Fenster (neben "Automatisch versteigern"): 3, 5, 8, 10, 15, 20 oder 30 Sek.
+  Klick schaltet zum nächsten Wert. Standard: 3 Sek. (seit 1.7.4). Die Wahl wird gespeichert.
 - Die Testspieler bieten entsprechend schneller, die Pausen zwischen Bossen und Vergaben werden kürzer.
 - Gilt nur im Testmodus – beim Beenden kommt deine echte Versteigerungsdauer zurück.
 

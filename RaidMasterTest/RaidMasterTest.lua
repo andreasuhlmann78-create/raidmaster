@@ -72,11 +72,11 @@ end
 ---------------------------------------------------------------------------
 -- Tempo: wie lange eine Test-Versteigerung läuft (gespeichert in RaidMasterTestOptions)
 ---------------------------------------------------------------------------
-T.SPEEDS = { 5, 8, 10, 15, 20, 30 }
+T.SPEEDS = { 3, 5, 8, 10, 15, 20, 30 }
 function T.AuctionSec()
 	local o = RaidMasterTestOptions
 	local v = type(o) == "table" and tonumber(o.auctionSec)
-	return v or 8
+	return v or 3
 end
 -- kurze Pausen zwischen den Schritten passend zum Tempo (schnell = kürzer)
 local function Pause(sec)
@@ -91,7 +91,23 @@ end
 function T.ApplySpeed()
 	if T.active and RM.db and RM.db.data and RM.db.data.settings then
 		RM.db.data.settings.auctionTime = T.AuctionSec()
+		-- im Test keine Verlängerung bei späten Geboten (echte Einstellung kommt beim Beenden zurück)
+		RM.db.data.settings.antiSnipe = false
 	end
+end
+
+-- Haben alle Testspieler geboten, läuft die Restzeit nur noch kurz (nur im Testmodus)
+T.REST_AFTER_BIDS = 1
+function T.ShortenRest(c)
+	local A = RM.Auction
+	if not T.active or not c or A.current ~= c or c.finished then return end
+	local now = GetTime()
+	if c.endsAt - now <= T.REST_AFTER_BIDS then return end
+	c.endsAt = now + T.REST_AFTER_BIDS
+	if A.OnBid and c.aid then
+		pcall(A.OnBid, RM.Me(), { a = c.aid, n = c.highName or "", v = c.high or 0, r = T.REST_AFTER_BIDS })
+	end
+	RM.Fire("AUCTION_CHANGED")
 end
 -- Ergebnis automatisch an Discord senden (Standard an)
 function T.AutoSendOn()
@@ -444,6 +460,7 @@ function T.Auction(link)
 		C_Timer.After(0.5 + i * step, function()
 			local ok, err = RM.Auction.ReceiveBid(who, amount, "")
 			Log(who .. " bietet " .. amount .. " DKP" .. (ok and "" or (" – abgelehnt: " .. tostring(err))))
+			if i == #amounts then T.ShortenRest(RM.Auction.current) end
 		end)
 	end
 end
@@ -547,11 +564,13 @@ local function AddFakeBids(c)
 		local who = table.remove(bidders, math.random(#bidders))
 		amount = amount + math.random(0, 3) * (c.inc or 5)
 		local a = amount
+		local last = (i == count)
 		C_Timer.After(0.5 + i * step, function()
 			if RM.Auction.current == c and not c.finished then
 				local have = RM.DKP.Get(who, c.pool)
 				local bid = math.min(a, have)
 				if bid >= ((c.highName and (c.high + c.inc)) or c.min) then RM.Auction.ReceiveBid(who, bid, "") end
+				if last then T.ShortenRest(c) end
 			end
 		end)
 		amount = amount + (c.inc or 5)
@@ -885,7 +904,8 @@ local function CreateWindow()
 	local speedOpts = {}
 	for _, v in ipairs(T.SPEEDS) do speedOpts[#speedOpts + 1] = { v, v .. " Sek." } end
 	local speed = UI.Cycle(f, 90, speedOpts, function() return T.AuctionSec() end, function(v) T.SetAuctionSec(v) end,
-		"Wie lange jede Versteigerung im Test läuft (Klick = nächster Wert). Die Testspieler bieten entsprechend schneller.\n"
+		"Wie lange jede Versteigerung im Test höchstens läuft (Klick = nächster Wert). Die Testspieler bieten entsprechend schneller;\n"
+		.. "haben alle geboten, läuft die Restzeit nur noch 1 Sek. Keine Verlängerung bei späten Geboten.\n"
 		.. "Gilt nur im Testmodus – beim Beenden kommt deine echte Einstellung zurück.")
 	speed:SetPoint("TOPLEFT", 450, -290)
 	local runsLabel = UI.Text(f, "Raidabende hintereinander:", 12)
