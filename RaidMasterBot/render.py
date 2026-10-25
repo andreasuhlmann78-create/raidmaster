@@ -173,3 +173,19 @@ def render_summary(title: str, subtitle: str, srows: list[dict]) -> bytes | None
         out.append({"cells": cells, "cls": r.get("class"), "colored": (0, 1),
                     "colors": {2: GOOD if r["earned"] else MUTED, 3: BAD if r["spent"] else MUTED}})
     return render_table(title, subtitle, cols, out)
+
+
+def render_roster(title: str, subtitle: str, members: dict[str, str]) -> bytes | None:
+    """Teilnehmer nach Klasse gruppiert – Klasse und Namen in Klassenfarbe. members: {Name: Klasse}."""
+    by_cls: dict[str, list[str]] = {}
+    for name, cls in members.items():
+        by_cls.setdefault(str(cls or "").upper(), []).append(name)
+    order = [c for c in CLASS_COLORS if c in by_cls] + sorted(c for c in by_cls if c not in CLASS_COLORS)
+    rows = []
+    for c in order:
+        names = sorted(by_cls[c], key=str.lower)
+        for i in range(0, len(names), 6):        # höchstens 6 Namen je Zeile
+            rows.append({"cells": [CLASS_NAMES.get(c, c.title() or "?") if i == 0 else "", len(names) if i == 0 else "",
+                                   ", ".join(names[i:i + 6])], "cls": c, "colored": (0, 2)})
+    cols = [("Klasse", "l", 100), ("Anzahl", "r", 50), ("Spieler", "l", 300)]
+    return render_table(title, subtitle, cols, rows)

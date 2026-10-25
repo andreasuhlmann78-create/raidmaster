@@ -2043,7 +2043,17 @@ async def handle_test_upload(db: dict, uploader: str):
             if (e.get("pool") or "mc") == pool and e.get("k") in ("start", "boss", "end"):
                 names.update(str(n) for n in (e.get("d") or {}).keys())
         if names:
-            await send_test(dkp_ch, f"🧪 👥 **Teilnehmer {name}** (Test, {len(names)}): " + ", ".join(sorted(names, key=str.lower)))
+            plist = (data.get("players") or {})
+            roster = {n: ((plist.get(n) or {}).get("c") if isinstance(plist.get(n), dict) else "") for n in names}
+            try:
+                png = rimg.render_roster(f"Teilnehmer {name}", f"Test · {len(names)} Spieler · nach Klasse", roster)
+            except Exception as ex:  # noqa: BLE001
+                log.warning("Teilnehmer-Bild nicht möglich: %s", ex)
+                png = None
+            if png:
+                await send_test(dkp_ch, f"🧪 👥 **Teilnehmer {name}** (Test, {len(names)})", file_bytes=png, filename="teilnehmer.png")
+            else:
+                await send_test(dkp_ch, f"🧪 👥 **Teilnehmer {name}** (Test, {len(names)}): " + ", ".join(sorted(names, key=str.lower)))
             posted += 1
         # 4) aktueller DKP-Stand zuletzt (mit Raids und Verdient)
         rows = rmd.standings(data, pool)
