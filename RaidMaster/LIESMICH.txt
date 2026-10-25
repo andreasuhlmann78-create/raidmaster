@@ -1,4 +1,4 @@
-RaidMaster 1.9.2 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 1.9.3 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,14 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+SEITE RAIDLEITER NEU AUFGETEILT (neu in 1.9.3)
+- Die Seite Raidleiter hat drei Teile (Knöpfe oben):
+  * Raid & Gruppen: Raid starten/beenden, DKP-Topf, Plündermeister und Schwelle (mit Warnung, wenn etwas nicht
+    stimmt), Raid-Check, "Gruppen sortieren" nach der Discord-Aufstellung, alle 8 Gruppen mit Klassenfarbe und
+    Rolle (T/H/N/F), Rollen-Zählung des Raids und die Ersatzbank.
+  * Einteilung: die bisherige Seite Einteilung (eigene Seite entfällt).
+  * Bosse & Symbole: Boss-Infos, Kurzinfo als Raidwarnung, Markierungen, Einlull-Rotation.
 
 VERDIENTE DKP JE SPIELER (neu in 1.9.2)
 - Neue Spalte "Verdient" auf der Seite DKP-Stände: wie viele DKP jeder Spieler in diesem Raid insgesamt

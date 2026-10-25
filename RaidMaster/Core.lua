@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "1.9.2"
-RM.VERSION_NUM = 10902
+RM.VERSION = "1.9.3"
+RM.VERSION_NUM = 10903
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -248,9 +248,9 @@ function RM.RaidMembers()
 	local list = {}
 	if not RM.InRaid() then return list end
 	for i = 1, GetNumGroupMembers() do
-		local name, rank, _, _, _, class, _, online = GetRaidRosterInfo(i)
+		local name, rank, subgroup, _, _, class, _, online = GetRaidRosterInfo(i)
 		if name then
-			list[#list + 1] = { name = RM.Short(name), class = class, online = online and true or false, rank = rank, index = i }
+			list[#list + 1] = { name = RM.Short(name), class = class, online = online and true or false, rank = rank, index = i, group = subgroup or 1 }
 		end
 	end
 	return list

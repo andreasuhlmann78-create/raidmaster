@@ -1205,7 +1205,7 @@ end)
 ---------------------------------------------------------------------------
 -- Seite: Raidleiter (Boss-Infos und Markierungen)
 ---------------------------------------------------------------------------
-UI.AddPage("leader", L["Raidleiter"], function(page)
+local function BuildLeaderBosses(page)
 	local Data = RM.Data
 	local MAX_BOSSES = 16
 	-- Vorauswahl: Raid der aktuellen Instanz, sonst der erste aktuelle Raid dieser Spielversion
@@ -1230,14 +1230,6 @@ UI.AddPage("leader", L["Raidleiter"], function(page)
 
 	Section(page, L["Boss-Infos"], 0, 0)
 
-	-- Plündermeister per Knopfdruck (stellt die Plündermethode im Spiel sofort um)
-	local mlLabel = Label(page, L["Plündermeister"], 470, -5, 12, true)
-	mlLabel:SetWidth(110)
-	mlLabel:SetJustifyH("RIGHT")
-	local mlDrop = UI.Dropdown(page, 170, function() return RM.Loot.MasterChoices() end,
-		function() return RM.db.config.lootMaster or "" end, function(v) RM.Loot.SetMaster(v) end,
-		L["Plündermeister wählen – als Raidleiter wird die Plündermethode im Spiel sofort umgestellt."])
-	Place(mlDrop, page, 590, 0)
 
 	-- Raid wählen: alle bekannten Raids aller Erweiterungen (* = gibt es in dieser Spielversion nicht)
 	local raidDrop = UI.Dropdown(page, 190, function() return Data.InfoGroups() end, function() return selectedRaid end, function(v)
@@ -1347,7 +1339,6 @@ UI.AddPage("leader", L["Raidleiter"], function(page)
 	return function()
 		if not Raid() then SelectRaid(DefaultRaid()) end
 		raidDrop:Refresh()
-		mlDrop:Refresh()
 		local def = Raid()
 		local expName = ""
 		for _, x in ipairs(Data.Expansions) do if def and x.key == def.exp then expName = x.name end end
@@ -1395,7 +1386,194 @@ UI.AddPage("leader", L["Raidleiter"], function(page)
 		for _, b in ipairs({ addsBtn, clearBtn }) do if lead then b:Enable() else b:Disable() end end
 		markHint:SetText(lead and "" or ("|cffff5544" .. L["Nur Raidleiter und Co-Raidleiter (Assistenten) können Schlachtzugsymbole setzen."] .. "|r " .. L["Die Symbolleiste erscheint nur bei ihnen."]))
 	end
+end
+
+-- Teil "Raid & Gruppen": Raid starten/beenden, Plündermeister, Gruppenaufstellung, Ersatzbank
+local ROLE_SHORT = { tank = { L["T"], 0.45, 0.7, 1 }, heal = { L["H"], 0.35, 1, 0.45 }, melee = { L["N"], 1, 0.6, 0.3 }, ranged = { L["F"], 0.85, 0.55, 1 } }
+local function BuildLeaderRaid(page)
+	Section(page, L["Raid-Sitzung"], 0, 0)
+	local sessionText = Label(page, "", 0, -26, 12)
+	sessionText:SetWidth(390)
+	local startBtn = UI.Button(page, L["Raid starten"], 140, 28, function()
+		if not NeedOfficer() then return end
+		UI.Confirm(L["Raid starten?\nAlle Raidmitglieder (und die Ersatzbank) erhalten den Pünktlichkeitsbonus."], function() RM.Raid.Start() end)
+	end)
+	Place(startBtn, page, 0, -60)
+	startBtn:SetAccent(true)
+	local endBtn = UI.Button(page, L["Raid beenden"], 140, 28, function()
+		UI.Confirm(L["Raid beenden?\nAlle Raidmitglieder (und die Ersatzbank) erhalten den Abschlussbonus."], function() RM.Raid.End() end)
+	end)
+	Place(endBtn, page, 148, -60)
+	Label(page, L["DKP-Topf"], 0, -103)
+	local raidPool = UI.Dropdown(page, 220, function() return UI.PoolGroups(RM.db.data) end, function()
+		local s = RM.db.session
+		return (s.active and s.pool) or RM.DKP.CurrentInstancePool() or RM.db.config.activePool or "mc"
+	end, function(v)
+		RM.db.config.activePool = v
+		if RM.db.session.active then RM.db.session.pool = v end
+		RM.DKP.MapCurrentInstance(v)
+		RM.Fire("SESSION_CHANGED")
+	end, L["Für welchen Raid Start-/Endbonus und Versteigerungen gebucht werden."])
+	Place(raidPool, page, 75, -98)
+
+	local rx = 410
+	Section(page, L["Plündermeister"], rx, 0)
+	local mlDrop = UI.Dropdown(page, 180, function() return RM.Loot.MasterChoices() end,
+		function() return RM.db.config.lootMaster or "" end, function(v) RM.Loot.SetMaster(v) end,
+		L["Plündermeister wählen – als Raidleiter wird die Plündermethode im Spiel sofort umgestellt."])
+	Place(mlDrop, page, rx, -26)
+	local th = UI.Cycle(page, 170, { { 2, L["Selten (grün)"] }, { 3, L["Rar (blau)"] }, { 4, L["Episch (lila)"] } },
+		function() return RM.db.config.lootThreshold end, function(v) RM.Loot.SetThreshold(v) end, L["Plünderschwelle"])
+	Place(th, page, rx + 190, -26)
+	local lootState = Label(page, "", rx, -58, 11)
+	lootState:SetWidth(380)
+	local checkBtn = UI.Button(page, L["Raid-Check"], 120, 26, function() RM.Raid.RunCheck(); UI.RefreshCurrent() end,
+		L["Prüft Plündermethode, Schwelle, Rechte und welche Spieler das Addon haben."])
+	Place(checkBtn, page, rx, -96)
+	local sortBtn = UI.Button(page, L["Gruppen sortieren"], 150, 26, function() if RM.Signup and RM.Signup.ArrangeGroups then RM.Signup.ArrangeGroups() end end,
+		L["Setzt alle in die Gruppen der Discord-Aufstellung (Seite Anmeldungen: Import)."])
+	Place(sortBtn, page, rx + 128, -96)
+
+	-- Gruppen 1–8
+	Section(page, L["Gruppen"], 0, -138)
+	local roleSum = Label(page, "", 110, -141, 11, true)
+	roleSum:SetWidth(680)
+	local boxes = {}
+	for g = 1, 8 do
+		local col, row = (g - 1) % 4, math.floor((g - 1) / 4)
+		local box = UI.Frame(page, 190, 116)
+		UI.Skin(box, COLORS.panel)
+		Place(box, page, col * 200, -164 - row * 124)
+		box.title = UI.Text(box, string.format(L["Gruppe %d"], g), 12, COLORS.accent[1], COLORS.accent[2], COLORS.accent[3])
+		box.title:SetPoint("TOPLEFT", 8, -6)
+		box.lines = {}
+		for i = 1, 5 do
+			local fs = UI.Text(box, "", 12)
+			fs:SetPoint("TOPLEFT", 8, -8 - i * 18)
+			fs:SetWidth(174)
+			fs:SetJustifyH("LEFT")
+			fs:SetWordWrap(false)
+			box.lines[i] = fs
+		end
+		boxes[g] = box
+	end
+	Section(page, L["Ersatzbank"], 0, -420)
+	local bench = Label(page, "", 0, -446, 12)
+	bench:SetWidth(790)
+	local legend = Label(page, L["T = Tank · H = Heiler · N = Nahkampf · F = Fernkampf (aus der Skillung bzw. Discord-Rolle). Ersatzbank verwalten: Seite Raid."], 0, -500, 11, true)
+	legend:SetWidth(790)
+
+	local function roleTag(name)
+		local r = RM.Spec and RM.Spec.Role(name)
+		local t = r and ROLE_SHORT[r]
+		if not t then return "" end
+		return string.format("|cff%02x%02x%02x%s|r ", t[2] * 255, t[3] * 255, t[4] * 255, t[1])
+	end
+
+	return function()
+		local s = RM.db.session
+		if s.active then
+			local n = 0
+			for _ in pairs(s.kills or {}) do n = n + 1 end
+			sessionText:SetText(string.format(L["|cff40ff40Raid läuft seit %s|r (%s) · %d Bosse besiegt"], date("%H:%M", s.started), RM.DKP.PoolName(s.pool or "mc"), n))
+			startBtn:Disable(); endBtn:Enable()
+		else
+			sessionText:SetText(s.ended and (L["Kein Raid aktiv. Letzter Raid beendet: "] .. RM.FormatTime(s.ended)) or L["Kein Raid aktiv."])
+			if RM.CanEdit() then startBtn:Enable() else startBtn:Disable() end
+			endBtn:Disable()
+		end
+		raidPool:Refresh(); mlDrop:Refresh(); th:Refresh()
+		local problems = RM.Loot.Problems and RM.Loot.Problems() or {}
+		if #problems > 0 then
+			lootState:SetText("|cffff5544" .. table.concat(problems, "\n") .. "|r")
+		elseif RM.InRaid() and RM.MasterLooterName() then
+			lootState:SetText("|cff40ff40" .. L["Plündermeister: "] .. RM.MasterLooterName() .. "|r")
+		else
+			lootState:SetText("")
+		end
+		if RM.IsAssist() and RM.db.signup and RM.db.signup.groups then sortBtn:Enable() else sortBtn:Disable() end
+
+		local groups, counts, total = {}, { tank = 0, heal = 0, melee = 0, ranged = 0 }, 0
+		for g = 1, 8 do groups[g] = {} end
+		for _, m in ipairs(RM.RaidMembers()) do
+			local g = m.group or 1
+			if groups[g] then table.insert(groups[g], m) end
+			local r = RM.Spec and RM.Spec.Role(m.name)
+			if r and counts[r] then counts[r] = counts[r] + 1 end
+			total = total + 1
+		end
+		for g = 1, 8 do
+			local box = boxes[g]
+			table.sort(groups[g], function(a, b) return a.name < b.name end)
+			box.title:SetText(string.format(L["Gruppe %d"], g) .. "  |cff888888" .. #groups[g] .. "/5|r")
+			for i = 1, 5 do
+				local m = groups[g][i]
+				if m then
+					box.lines[i]:SetText(roleTag(m.name) .. RM.ClassColor(m.class, m.name) .. (m.online == false and " |cff888888(offline)|r" or ""))
+				else
+					box.lines[i]:SetText("|cff555555–|r")
+				end
+			end
+		end
+		roleSum:SetText(total > 0 and string.format(L["%d Spieler · Tanks %d · Heiler %d · Nahkampf %d · Fernkampf %d"], total, counts.tank, counts.heal, counts.melee, counts.ranged)
+			or L["Nicht in einem Schlachtzug."])
+		local names = {}
+		for name in pairs(RM.db.config.standby or {}) do names[#names + 1] = name end
+		table.sort(names)
+		for i, n in ipairs(names) do
+			local p = RM.db.data.players[n]
+			names[i] = roleTag(n) .. RM.ClassColor(p and p.c or (RM.guild.class and RM.guild.class[n]), n)
+		end
+		bench:SetText(#names > 0 and table.concat(names, "   ") or ("|cff888888" .. L["Niemand auf der Ersatzbank."] .. "|r"))
+	end
+end
+
+-- Seite Raidleiter: drei Teile – Raid & Gruppen, Einteilung, Bosse & Symbole
+UI.leaderTab = "raid"
+UI.AddPage("leader", L["Raidleiter"], function(root)
+	local tabs = {
+		{ key = "raid", name = L["Raid & Gruppen"] },
+		{ key = "assign", name = L["Einteilung"] },
+		{ key = "boss", name = L["Bosse & Symbole"] },
+	}
+	local subs, refresh, buttons = {}, {}, {}
+	for i, t in ipairs(tabs) do
+		local b = UI.Button(root, t.name, 170, 26, function() UI.leaderTab = t.key; UI.RefreshCurrent() end)
+		b:SetPoint("TOPLEFT", root, "TOPLEFT", (i - 1) * 176, 0)
+		buttons[t.key] = b
+		local f = CreateFrame("Frame", nil, root)
+		f:SetSize(790, UI.CONTENT_H)
+		f:SetScale(0.94)
+		f:SetPoint("TOPLEFT", root, "TOPLEFT", 0, -34)
+		f:Hide()
+		subs[t.key] = f
+	end
+	refresh.raid = BuildLeaderRaid(subs.raid)
+	local assignPage = UI.pages.assign
+	if assignPage then
+		local ok, r = pcall(assignPage.build, subs.assign)
+		if ok then refresh.assign = r else geterrorhandler()(r) end
+	end
+	refresh.boss = BuildLeaderBosses(subs.boss)
+	return function()
+		local cur = subs[UI.leaderTab] and UI.leaderTab or "raid"
+		for key, f in pairs(subs) do
+			if key == cur then f:Show() else f:Hide() end
+			buttons[key]:SetAccent(key == cur)
+		end
+		if refresh[cur] then refresh[cur]() end
+	end
 end)
+
+-- Einteilung gibt es nur noch auf der Seite Raidleiter
+function UI.OpenLeaderTab(key)
+	UI.leaderTab = key
+	UI.Open("leader")
+	UI.RefreshCurrent()
+end
+for i, id in ipairs(UI.pageOrder) do
+	if id == "assign" then table.remove(UI.pageOrder, i) break end
+end
 
 ---------------------------------------------------------------------------
 -- Seite: Skillungen

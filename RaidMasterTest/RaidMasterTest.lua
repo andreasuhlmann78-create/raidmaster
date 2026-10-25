@@ -76,8 +76,8 @@ local saved = {}
 local OVERRIDE = { "InRaid", "RaidMembers", "IsAssist", "IsLeader", "CanEdit", "SendAddonMessage", "RaidChat", "Announce", "Whisper", "IAmMasterLooter", "MasterLooterName" }
 
 local function FakeMembers()
-	local list = { { name = RM.Me(), class = select(2, UnitClass("player")), online = true, rank = 2, index = 1 } }
-	for i, f in ipairs(FAKE) do list[#list + 1] = { name = f[1], class = f[2], online = true, rank = 0, index = i + 1 } end
+	local list = { { name = RM.Me(), class = select(2, UnitClass("player")), online = true, rank = 2, index = 1, group = 1 } }
+	for i, f in ipairs(FAKE) do list[#list + 1] = { name = f[1], class = f[2], online = true, rank = 0, index = i + 1, group = math.floor(i / 5) + 1 } end
 	return list
 end
 
