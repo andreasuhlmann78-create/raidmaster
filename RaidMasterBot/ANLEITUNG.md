@@ -222,7 +222,7 @@ Erstellt die Raidleitung im Spiel die **Einteilung** und gibt danach `/reload` e
 | `/raid erstellen` | Offiziere | Raid (DKP oder PUG) zur Anmeldung |
 | `/raid aufstellung` | Offiziere | Aufstellung + Gruppen posten |
 | `/raid liste`, `schliessen`, `oeffnen`, `absagen`, `export` | Offiziere | Raids verwalten |
-| `/raid taktik` | Offiziere | Molten-Core-Taktik in #mc-taktik |
+| `/raid taktik` | Offiziere | Taktik eines Raids (oder ohne Angabe: aller Raids) in die Taktik-Kanäle (#mc-taktik, #onyxia-taktik …) |
 | `/raid softres` | Offiziere | softres.it-Link eines PUG-Raids setzen/ändern |
 | `/addon` | alle | Download-Link der aktuellen Addon-Version |
 | `/addon-hochladen` | Admins | Addon-ZIP hochladen (RaidMaster → #raid-addon, AH Analyzer Pro → #aktionshaus) |

@@ -178,6 +178,12 @@ class RaidBot(discord.Client):
             except Exception:
                 log.exception("Prüfung der Addon-Version fehlgeschlagen")
             try:
+                report = await post_all_tactics()
+                if report:
+                    log.info("Taktiken: %s", "; ".join(report))
+            except Exception:
+                log.exception("Taktiken konnten nicht gepostet werden")
+            try:
                 await ensure_welcome(update=False)
             except Exception:
                 log.exception("Willkommenstext konnte nicht gepostet werden")
@@ -758,23 +764,118 @@ async def raid_lineup(inter: discord.Interaction, raid: str):
                               "der Export enthält jetzt die Gruppen.", ephemeral=True)
 
 
-@raid_group.command(name="taktik", description="Postet die Molten-Core-Taktik (ein Beitrag pro Boss) in #raid-taktik")
-async def raid_tactics(inter: discord.Interaction):
+# Taktiken aller Raids (Molten Core ausführlich aus mc_tactics, die übrigen aus raid_tactics.json = Addon-Daten)
+try:
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "raid_tactics.json"), encoding="utf-8") as _fh:
+        RAID_TACTICS = {r["key"]: r for r in json.load(_fh)}
+except (OSError, ValueError, KeyError):
+    RAID_TACTICS = {}
+
+
+def tactics_posts(pool: str) -> list[str]:
+    """Beiträge (je max. 2000 Zeichen) mit der Taktik eines Raids; leer, wenn keine bekannt ist."""
+    if pool == "mc":
+        return [text for _, text in mc_tactics.TACTICS]
+    r = RAID_TACTICS.get(pool)
+    if not r or not r.get("bosses"):
+        return []
+    order = " → ".join(b["name"] for b in r["bosses"])
+    posts = [f"# ⚔️ {r['name']} – Raidtaktik\n**Bosse:** {order}\n\nJe Boss ein Beitrag: Fähigkeiten, Taktik und das Wichtigste. "
+             "Die Kurzinfo kommt im Raid als Schlachtzugwarnung aus dem Addon (Seite Raidleiter)."]
+    for b in r["bosses"]:
+        lines = [f"## {b['name']}"]
+        text = [t for t in b.get("text") or []]
+        if text and not text[0].startswith("-") and not text[0].startswith("Taktik"):
+            lines.append(f"*{text[0]}*")
+            text = text[1:]
+        for t in text:
+            if not t.strip():
+                continue
+            if t.startswith("- "):
+                lines.append("• " + t[2:])
+            elif t.startswith("Taktik:"):
+                lines.append("\n**Taktik:**" + t[len("Taktik:"):])
+            else:
+                lines.append(t)
+        if b.get("wichtig"):
+            w = b["wichtig"]
+            lines.append("\n**⚠️ Wichtig:**" + (w[len("Wichtig:"):] if w.startswith("Wichtig:") else " " + w))
+        posts.append("\n".join(lines)[:1990])
+    return posts
+
+
+async def post_tactics(pool: str, channel) -> int:
+    posts = tactics_posts(pool)
+    for text in posts:
+        await channel.send(text)
+        await asyncio.sleep(0.6)
+    return len(posts)
+
+
+async def post_all_tactics(force: bool = False) -> list[str]:
+    """Taktik in jeden Taktik-Kanal der Raid-Kategorien (z. B. #mc-taktik, #onyxia-taktik).
+    Ohne force nur einmal je Kanal und nur, wenn der Bot dort noch nichts gepostet hat."""
+    done = set(state.data.get("tactics_posted") or [])
+    report = []
+    for pool, chans in (cfg.get("raid_channels") or {}).items():
+        if not isinstance(chans, dict) or not chans.get("tactics"):
+            continue
+        if pool in done and not force:
+            continue
+        ch = await channel_by_id(chans["tactics"])
+        if not ch:
+            continue
+        name = rmd.pool_name(pool, bot.dkp_data)
+        if not tactics_posts(pool):
+            report.append(f"{name}: keine Taktik bekannt")
+            continue
+        if not force:
+            try:
+                async for m in ch.history(limit=30):
+                    if m.author.id == bot.user.id:
+                        done.add(pool)
+                        break
+            except discord.HTTPException:
+                pass
+            if pool in done:
+                report.append(f"{name}: schon vorhanden")
+                continue
+        try:
+            n = await post_tactics(pool, ch)
+            report.append(f"{name}: {n} Beiträge in {ch.mention}")
+            done.add(pool)
+        except discord.HTTPException as e:
+            report.append(f"{name}: Fehler {e}")
+    state.data["tactics_posted"] = sorted(done)
+    state.save()
+    return report
+
+
+@raid_group.command(name="taktik", description="Postet die Raidtaktik (ein Beitrag pro Boss) in den Taktik-Kanal des Raids")
+@app_commands.describe(raid="Welcher Raid? Leer = alle Raids mit Taktik-Kanal (z. B. #mc-taktik, #onyxia-taktik)")
+@app_commands.autocomplete(raid=raid_pool_autocomplete)
+async def raid_tactics(inter: discord.Interaction, raid: str = ""):
     if not is_creator(inter.user):
         await inter.response.send_message("Nur Offiziere bzw. die Raidleitung.", ephemeral=True)
         return
-    channel = await channel_by_id(raid_channel("mc", "tactics"))
+    await inter.response.defer(ephemeral=True, thinking=True)
+    if not raid:
+        report = await post_all_tactics(force=True)
+        await inter.followup.send("Taktiken gepostet:\n" + ("\n".join("• " + r for r in report) or "Keine Taktik-Kanäle gefunden – `/raidmaster-einrichten` ausführen."), ephemeral=True)
+        return
+    channel = await channel_by_id(raid_channel(raid, "tactics"))
     if channel is None and inter.guild:
         channel = discord.utils.get(inter.guild.text_channels, name="raid-taktik")
     channel = channel or inter.channel
-    await inter.response.defer(ephemeral=True, thinking=True)
+    if not tactics_posts(raid):
+        await inter.followup.send(f"Für {rmd.pool_name(raid, bot.dkp_data)} ist keine Taktik hinterlegt.", ephemeral=True)
+        return
     try:
-        for _, text in mc_tactics.TACTICS:
-            await channel.send(text)
+        n = await post_tactics(raid, channel)
     except discord.HTTPException as e:
         await inter.followup.send(f"Posten fehlgeschlagen: {e}", ephemeral=True)
         return
-    await inter.followup.send(f"Taktik in {channel.mention} gepostet ({len(mc_tactics.TACTICS)} Beiträge).", ephemeral=True)
+    await inter.followup.send(f"Taktik in {channel.mention} gepostet ({n} Beiträge).", ephemeral=True)
 
 
 bot.tree.add_command(raid_group)
