@@ -4840,3 +4840,7 @@ L["Im Addon ist kein Plündermeister angegeben – es wird der Raidleiter genomm
 L["Empfohlen: Selten (grün) – der Plündermeister verteilt dann schon grüne Items, Kerne und Rezepte sowieso."] = "推荐：优秀（绿色）– 队长分配者也会分配绿色物品，核心和配方当然也是。"
 L["Vergessenen Plündermeister automatisch setzen"] = "自动设置忘记的队长分配者"
 L["Als Raidleiter: steht die Plündermethode nicht auf Plündermeister, setzt RaidMaster den gespeicherten Plündermeister und die Schwelle."] = "身为团长：如果拾取方式不是队长分配，RaidMaster 会设置保存的分配者和品质门槛。"
+L["vom Plündermeister %s"] = "来自队长分配者 %s"
+L["Diese Spielversion hat keinen Plündermeister – Items kommen nicht automatisch in die Warteschlange (Item per Shift-Klick auf der Seite Versteigerung hinzufügen)."] = "此游戏版本没有队长分配 – 物品不会自动进入队列（在“拍卖”页面按住Shift点击物品添加）。"
+L["Plündermethode ist nicht Plündermeister – die Items kommen nicht in die Warteschlange. Plündermeister auf der Seite Loot oder Raidleiter setzen."] = "拾取方式不是队长分配 – 物品不会进入队列。请在“拾取”或“团长”页面设置分配者。"
+L["Nur der Plündermeister (%s) stellt die Items in die Warteschlange – öffnet er die Beute, siehst du sie hier auch."] = "只有队长分配者（%s）会把物品放入队列 – 他打开拾取后，你在这里也能看到。"

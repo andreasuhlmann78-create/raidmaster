@@ -289,10 +289,38 @@ local function GiveDelayed(link, name, delay)
 	end)
 end
 
+-- Warum landet nichts in der Warteschlange? (nur für Raidleitung/Offiziere, einmal pro Leiche)
+local explained = {}
+function Loot.ExplainNoQueue()
+	if not RM.InRaid() or not (RM.IsLeader() or RM.IsAssist() or RM.CanEdit()) then return end
+	local worthy = false
+	for slot = 1, GetNumLootItems() do
+		local link = GetLootSlotLink(slot)
+		if link and RM.ItemQuality(link) >= 3 then worthy = true break end
+	end
+	if not worthy then return end
+	local key = SourceKey()
+	if explained[key] then return end
+	explained[key] = true
+	local why
+	if not RM.Caps.masterLoot then
+		why = L["Diese Spielversion hat keinen Plündermeister – Items kommen nicht automatisch in die Warteschlange (Item per Shift-Klick auf der Seite Versteigerung hinzufügen)."]
+	elseif RM.GetLootMethod() ~= "master" then
+		why = L["Plündermethode ist nicht Plündermeister – die Items kommen nicht in die Warteschlange. Plündermeister auf der Seite Loot oder Raidleiter setzen."]
+	else
+		why = string.format(L["Nur der Plündermeister (%s) stellt die Items in die Warteschlange – öffnet er die Beute, siehst du sie hier auch."], RM.MasterLooterName() or "?")
+	end
+	RM.Print("|cffffcc00" .. why .. "|r")
+end
+
 RM.On("LOOT_OPENED", function()
 	Loot.isOpen = true
 	wipe(Loot.items)
-	if not RM.IAmMasterLooter() then RM.Fire("LOOT_CHANGED") return end
+	if not RM.IAmMasterLooter() then
+		Loot.ExplainNoQueue()
+		RM.Fire("LOOT_CHANGED")
+		return
+	end
 	Loot.pendingBoss = nil
 
 	local cfg = C()

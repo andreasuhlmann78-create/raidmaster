@@ -22,12 +22,44 @@ local function C() return RM.db.config end
 function A.Enqueue(link)
 	if not link then return end
 	A.queue[#A.queue + 1] = { link = link }
+	A.SendQueue()
 	RM.Fire("AUCTION_CHANGED")
 end
 
 function A.Remove(index)
 	table.remove(A.queue, index)
+	A.SendQueue()
 	RM.Fire("AUCTION_CHANGED")
+end
+
+-- Die Warteschlange liegt beim Plündermeister. Damit Raidleitung und Raid sie auch sehen,
+-- schickt er sie bei jeder Änderung an den Raid (kurz gebündelt).
+A.remote = nil          -- { from = Name, list = { {link=...}, ... } }
+local queueSendPending = false
+function A.SendQueue()
+	if not RM.InRaid() or queueSendPending then return end
+	queueSendPending = true
+	C_Timer.After(0.5, function()
+		queueSendPending = false
+		local q = {}
+		for _, item in ipairs(A.queue) do q[#q + 1] = item.link end
+		RM.Comm.Send("AQ", { q = q }, "RAID")
+	end)
+end
+
+RM.Comm.Register("AQ", function(sender, d)
+	if sender == RM.Me() then return end
+	local list = {}
+	for _, l in ipairs(d.q or {}) do list[#list + 1] = { link = l } end
+	if #list == 0 and A.remote and A.remote.from ~= sender then return end
+	A.remote = { from = sender, list = list }
+	RM.Fire("AUCTION_CHANGED")
+end)
+
+-- Was die Seite zeigt: die eigene Warteschlange oder die des Plündermeisters
+function A.ViewQueue()
+	if #A.queue > 0 or not A.remote or #A.remote.list == 0 then return A.queue, nil end
+	return A.remote.list, A.remote.from
 end
 
 function A.CanRun()
@@ -55,6 +87,7 @@ function A.Start(indexOrLink)
 	if type(indexOrLink) == "number" then
 		local item = table.remove(A.queue, indexOrLink)
 		link = item and item.link
+		A.SendQueue()
 	else
 		link = indexOrLink
 	end

@@ -4840,3 +4840,7 @@ L["Im Addon ist kein Plündermeister angegeben – es wird der Raidleiter genomm
 L["Empfohlen: Selten (grün) – der Plündermeister verteilt dann schon grüne Items, Kerne und Rezepte sowieso."] = "Recomendado: Incomum (verde) – o mestre saqueador então distribui também itens verdes, núcleos e receitas de qualquer forma."
 L["Vergessenen Plündermeister automatisch setzen"] = "Definir automaticamente um mestre saqueador esquecido"
 L["Als Raidleiter: steht die Plündermethode nicht auf Plündermeister, setzt RaidMaster den gespeicherten Plündermeister und die Schwelle."] = "Como líder de raide: se o modo de saque não for mestre saqueador, o RaidMaster define o mestre salvo e o limite."
+L["vom Plündermeister %s"] = "do mestre saqueador %s"
+L["Diese Spielversion hat keinen Plündermeister – Items kommen nicht automatisch in die Warteschlange (Item per Shift-Klick auf der Seite Versteigerung hinzufügen)."] = "Esta versão do jogo não tem mestre saqueador – os itens não entram sozinhos na fila (adicione um item com Shift-clique na página Leilão)."
+L["Plündermethode ist nicht Plündermeister – die Items kommen nicht in die Warteschlange. Plündermeister auf der Seite Loot oder Raidleiter setzen."] = "O modo de saque não é mestre saqueador – os itens não entram na fila. Defina o mestre na página Saque ou Líder de raide."
+L["Nur der Plündermeister (%s) stellt die Items in die Warteschlange – öffnet er die Beute, siehst du sie hier auch."] = "Só o mestre saqueador (%s) coloca os itens na fila – quando ele abrir o saque, você também os vê aqui."

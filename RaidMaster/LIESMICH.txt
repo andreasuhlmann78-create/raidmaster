@@ -1,4 +1,4 @@
-RaidMaster 1.8.8 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 1.8.9 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,13 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+WARTESCHLANGE FÜR ALLE SICHTBAR (neu in 1.8.9)
+- Die Warteschlange der Versteigerung liegt beim Plündermeister. Jetzt schickt er sie an den Raid: Raidleitung
+  und Teilnehmer sehen auf der Seite Versteigerung dieselben Items ("vom Plündermeister ...").
+- Kommt nichts in die Warteschlange, sagt RaidMaster der Raidleitung beim Öffnen der Beute, warum
+  (kein Plündermeister eingestellt, jemand anderes ist Plündermeister, Spielversion ohne Plündermeister).
+- Test-Tool 1.1.1: Beute beim Raid-Durchlauf und Trash-Loot landen jetzt sichtbar in der Warteschlange.
 
 DISCORD-ANLEITUNG IM ADDON (neu in 1.8.7)
 - Neue Seite "Discord" (Raidleitung und Offiziere) und /rm discord: Schritt-für-Schritt-Anleitung, wie DKP,

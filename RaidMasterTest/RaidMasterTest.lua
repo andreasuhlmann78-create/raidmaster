@@ -116,6 +116,7 @@ function T.Stop()
 	if not T.active then return end
 	if RM.Auction and RM.Auction.current then pcall(RM.Auction.Cancel) end
 	for _, k in ipairs(OVERRIDE) do RM[k] = saved[k] end
+	if RM.Auction and RM.Auction.queue then wipe(RM.Auction.queue) end   -- Test-Items nicht im echten Raid lassen
 	if RM.Loot and saved.Deliver then RM.Loot.Deliver = saved.Deliver end
 	if RM.Loot and saved.Ensure then RM.Loot.EnsureSettings = saved.Ensure end
 	if RM.Loot and saved.Warn then RM.Loot.Warn = saved.Warn end
@@ -270,8 +271,9 @@ local function HandleItem(id, source)
 	if not link then return end
 	local action = RM.Loot.Classify(link, quality)
 	if action == "auction" then
-		run.queue[#run.queue + 1] = link
-		Log(source .. ": " .. link .. " -> Versteigerung")
+		-- wie im echten Raid in die Warteschlange von RaidMaster (Seite Versteigerung)
+		RM.Auction.Enqueue(link)
+		Log(source .. ": " .. link .. " -> Warteschlange (Versteigerung)")
 	else
 		local who = RM.Loot.RecipientFor and RM.Loot.RecipientFor(action)
 		Log(source .. ": " .. link .. " -> " .. (RULE_NAMES[action] or tostring(action)) .. (who and who ~= "" and (" (" .. who .. ")") or ""))
@@ -279,11 +281,10 @@ local function HandleItem(id, source)
 	end
 end
 
-local function StartAuctionWithBids(link)
-	RM.Auction.Start(link)
-	local c = RM.Auction.current
-	if not c then return false end
-	-- 2–4 Testspieler bieten nacheinander, jeder höchstens seine DKP
+-- Testspieler bieten auf die laufende Versteigerung (2–4 Gebote, jeder höchstens seine DKP)
+local function AddFakeBids(c)
+	if not c or c.testBids then return end
+	c.testBids = true
 	local bidders = {}
 	for _, f in ipairs(FAKE) do bidders[#bidders + 1] = f[1] end
 	local count = math.random(2, 4)
@@ -301,7 +302,14 @@ local function StartAuctionWithBids(link)
 		end)
 		amount = amount + (c.inc or 5)
 	end
-	return true
+end
+
+-- nächstes Item aus der Warteschlange von RaidMaster versteigern
+local function StartFromQueue()
+	if RM.Auction.current or #RM.Auction.queue == 0 then return false end
+	RM.Auction.Start(1)
+	AddFakeBids(RM.Auction.current)
+	return RM.Auction.current ~= nil
 end
 
 local function RunStep()
@@ -323,10 +331,10 @@ local function RunStep()
 		run.waitUntil = now + 1.5
 		return
 	end
-	if c then return end
-	if #run.queue > 0 then
-		local link = table.remove(run.queue, 1)
-		if not StartAuctionWithBids(link) then Log("Versteigerung von " .. link .. " nicht möglich.") end
+	-- läuft eine Versteigerung (auch automatisch gestartet), bieten die Testspieler mit
+	if c then AddFakeBids(c) return end
+	if #RM.Auction.queue > 0 then
+		if not StartFromQueue() then Log("Versteigerung aus der Warteschlange nicht möglich."); wipe(RM.Auction.queue) end
 		run.waitUntil = now + 1
 		return
 	end
@@ -390,6 +398,8 @@ function T.StopRun()
 	if not run then return end
 	run.ticker:Cancel()
 	if RM.Auction.current then pcall(RM.Auction.Cancel) end
+	wipe(RM.Auction.queue)
+	RM.Fire("AUCTION_CHANGED")
 	StaticPopup_Hide(CONFIRM)
 	RM.db.data.settings.auctionTime = run.oldTime
 	run = nil
@@ -406,10 +416,10 @@ function T.TrashLoot()
 	local own = not run
 	if own then run = { queue = {}, awarded = {}, other = 0 } end
 	HandleItem(picked[1], "Trash")
-	local link = run.queue[1]
 	if own then
 		run = nil
-		if link then T.Auction(link) end
+		-- ohne Raid-Durchlauf: Item steht in der Warteschlange; gleich versteigern, falls nichts läuft
+		if StartFromQueue() then Log("Versteigerung gestartet – Testspieler bieten gleich.") end
 	end
 end
 

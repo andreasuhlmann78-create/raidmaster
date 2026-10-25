@@ -314,6 +314,8 @@ UI.AddPage("auction", L["Versteigerung"], function(page)
 	Place(bidList, page, 0, -126)
 
 	Section(page, L["Warteschlange"], 0, -326)
+	local queueFrom = Label(page, "", 160, -330, 11, true)
+	queueFrom:SetWidth(360)
 	local queueList
 	queueList = UI.List(page, 520, 196, {
 		{ title = "#", width = 24 },
@@ -425,10 +427,13 @@ UI.AddPage("auction", L["Versteigerung"], function(page)
 		bidList:SetData(rows)
 
 		local qrows = {}
-		for i, q in ipairs(RM.Auction.queue) do
+		local list, from = RM.Auction.ViewQueue()
+		for i, q in ipairs(list) do
 			qrows[#qrows + 1] = { key = i .. q.link, index = i, link = q.link, cells = { tostring(i), q.link } }
 		end
 		queueList:SetData(qrows)
+		queueFrom:SetText(from and string.format(L["vom Plündermeister %s"], from) or "")
+		if from then startBtn:Disable(); removeBtn:Disable() end
 	end
 end)
 

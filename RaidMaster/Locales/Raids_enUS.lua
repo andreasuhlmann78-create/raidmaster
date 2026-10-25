@@ -4840,3 +4840,7 @@ L["Im Addon ist kein Plündermeister angegeben – es wird der Raidleiter genomm
 L["Empfohlen: Selten (grün) – der Plündermeister verteilt dann schon grüne Items, Kerne und Rezepte sowieso."] = "Recommended: Uncommon (green) – the master looter then hands out green items too, cores and recipes anyway."
 L["Vergessenen Plündermeister automatisch setzen"] = "Set a forgotten master looter automatically"
 L["Als Raidleiter: steht die Plündermethode nicht auf Plündermeister, setzt RaidMaster den gespeicherten Plündermeister und die Schwelle."] = "As raid leader: if the loot method is not master loot, RaidMaster sets the saved master looter and threshold."
+L["vom Plündermeister %s"] = "from master looter %s"
+L["Diese Spielversion hat keinen Plündermeister – Items kommen nicht automatisch in die Warteschlange (Item per Shift-Klick auf der Seite Versteigerung hinzufügen)."] = "This game version has no master loot – items are not queued automatically (add an item with Shift-click on the Auction page)."
+L["Plündermethode ist nicht Plündermeister – die Items kommen nicht in die Warteschlange. Plündermeister auf der Seite Loot oder Raidleiter setzen."] = "Loot method is not master loot – items are not added to the queue. Set the master looter on the Loot or Raid Leader page."
+L["Nur der Plündermeister (%s) stellt die Items in die Warteschlange – öffnet er die Beute, siehst du sie hier auch."] = "Only the master looter (%s) puts items into the queue – once he opens the loot, you see them here too."

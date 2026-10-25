@@ -4840,3 +4840,7 @@ L["Im Addon ist kein Plündermeister angegeben – es wird der Raidleiter genomm
 L["Empfohlen: Selten (grün) – der Plündermeister verteilt dann schon grüne Items, Kerne und Rezepte sowieso."] = "권장: 고급(녹색) – 담당자가 녹색 아이템도 분배합니다. 핵과 제조법은 물론입니다."
 L["Vergessenen Plündermeister automatisch setzen"] = "잊은 담당자를 자동으로 지정"
 L["Als Raidleiter: steht die Plündermethode nicht auf Plündermeister, setzt RaidMaster den gespeicherten Plündermeister und die Schwelle."] = "공격대장일 때: 전리품 방식이 담당자 획득이 아니면 RaidMaster가 저장된 담당자와 기준을 설정합니다."
+L["vom Plündermeister %s"] = "담당자 %s 님의 목록"
+L["Diese Spielversion hat keinen Plündermeister – Items kommen nicht automatisch in die Warteschlange (Item per Shift-Klick auf der Seite Versteigerung hinzufügen)."] = "이 게임 버전에는 담당자 획득이 없습니다 – 아이템이 자동으로 대기열에 들어가지 않습니다(경매 탭에서 Shift-클릭으로 추가)."
+L["Plündermethode ist nicht Plündermeister – die Items kommen nicht in die Warteschlange. Plündermeister auf der Seite Loot oder Raidleiter setzen."] = "전리품 방식이 담당자 획득이 아닙니다 – 아이템이 대기열에 들어가지 않습니다. 전리품 또는 공격대장 탭에서 담당자를 지정하세요."
+L["Nur der Plündermeister (%s) stellt die Items in die Warteschlange – öffnet er die Beute, siehst du sie hier auch."] = "담당자(%s)만 아이템을 대기열에 넣습니다 – 담당자가 전리품을 열면 여기에도 표시됩니다."
