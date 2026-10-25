@@ -1022,18 +1022,52 @@ async def post_dkp_tables():
         await post_dkp_table(pool, channel_id, rows)
 
 
+async def post_raid_summaries():
+    """Nach jedem beendeten Raid eine Abrechnung im DKP-Kanal des Raids (bleibt stehen = Verlauf über die Wochen).
+    Beim ersten Mal werden alle noch gespeicherten Raidabende nachgetragen."""
+    done = set(state.data.get("raid_summaries_done") or [])
+    posted = False
+    for s in rmd.raid_summaries(bot.dkp_data):
+        if s["id"] in done:
+            continue
+        ch = await channel_by_id(dkp_channel_for(s["pool"]))
+        if not ch:
+            continue
+        # alte DKP-Tabelle entfernen – sie wird danach unter der Abrechnung neu gepostet
+        for msg_id in (state.data.setdefault("dkp_messages", {})).pop(s["pool"], None) or []:
+            try:
+                await ch.get_partial_message(msg_id).delete()
+            except discord.HTTPException:
+                pass
+        for text in rmd.format_raid_summary(s):
+            await ch.send(text)
+            await asyncio.sleep(0.5)
+        done.add(s["id"])
+        posted = True
+    if posted:
+        state.data["raid_summaries_done"] = sorted(done)[-1000:]
+        state.save()
+
+
 async def remove_overall():
-    """Die Gesamtsumme über alle Raids wird nicht gebraucht: frühere Tabellen in #dkp-gesamt einmal entfernen."""
-    ids = state.data.pop("dkp_total_messages", None)
-    if not ids:
+    """Die Gesamtsumme über alle Raids wird nicht gebraucht: den vom Bot angelegten Kanal #dkp-gesamt einmal entfernen."""
+    if state.data.get("dkp_total_removed"):
         return
     ch = await channel_by_id(cfg.get("dkp_total_channel_id"))
-    for msg_id in ids:
+    if ch is None:
+        guild = bot_guild()
+        ch = discord.utils.get(guild.text_channels, name="dkp-gesamt") if guild else None
+    if ch is not None and getattr(ch, "name", "") == "dkp-gesamt":
         try:
-            if ch:
-                await ch.get_partial_message(msg_id).delete()
-        except discord.HTTPException:
-            pass
+            await ch.delete(reason="RaidMaster: Gesamtsumme über alle Raids wird nicht mehr gebraucht")
+            log.info("Kanal #dkp-gesamt entfernt.")
+        except discord.HTTPException as e:
+            log.warning("#dkp-gesamt konnte nicht entfernt werden: %s", e)
+            return
+    cfg.pop("dkp_total_channel_id", None)
+    save_config()
+    state.data.pop("dkp_total_messages", None)
+    state.data["dkp_total_removed"] = True
     state.save()
 
 
