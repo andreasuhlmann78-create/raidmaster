@@ -492,10 +492,6 @@ RM.On("PLAYER_ENTERING_WORLD", function()
 end)
 RM.On("ENCOUNTER_START", function() Loot.Warn(true) end)
 
--- Fester Raidleiter: sobald er in der Gruppe ist, bekommt er die Raidleitung
-RM.On("GROUP_ROSTER_UPDATE", function() C_Timer.After(1, function() RM.CheckMainLeader() end) end)
 RM.On("PARTY_LEADER_CHANGED", function()
-	C_Timer.After(1, function() RM.CheckMainLeader() end)
 	C_Timer.After(2, function() Loot.EnsureSettings() end)
 end)
-RM.On("PLAYER_REGEN_ENABLED", function() RM.CheckMainLeader() end)

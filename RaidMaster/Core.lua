@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "1.8.7"
-RM.VERSION_NUM = 10807
+RM.VERSION = "1.8.8"
+RM.VERSION_NUM = 10808
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -113,13 +113,11 @@ RM.DEFAULT_SETTINGS = {
 	allowNegative = false,
 	onlyOnline = false,
 	standbyGetsDKP = true,
-	raidLeader = (RM.GAME.key == "forever") and "Rokan Steinwacht" or "", -- fester Raidleiter der Gilde (bekommt automatisch die Raidleitung)
 }
 
 -- Lokale Einstellungen (nur dieser Spieler)
 RM.DEFAULT_CONFIG = {
 	lootMaster = "",
-	autoPromote = true,       -- als Gruppenleiter den festen Raidleiter automatisch befördern
 	lootThreshold = 2,        -- 2 = Selten (grün), 3 = Rar (blau), 4 = Episch
 	autoLoot = true,          -- als Raidleiter vergessenen Plündermeister automatisch setzen
 	setLootOnStart = true,
@@ -382,7 +380,7 @@ end
 
 function RM.IsOfficer(name)
 	name = RM.Short(name)
-	-- der feste Raidleiter hat immer alle Rechte (andere nur, wenn er in der Gilde ist)
+	-- der Raidleiter des aktuellen Raids hat alle Rechte (wenn er in der eigenen Gilde ist)
 	if RM.IsMainLeader(name) and (name == RM.Me() or RM.guild.rank[name] ~= nil) then return true end
 	local rank = RM.guild.rank[name]
 	if rank == nil and name == RM.Me() then
@@ -394,10 +392,21 @@ function RM.IsOfficer(name)
 	return rank <= limit
 end
 
--- Fester Raidleiter der Gilde (Einstellungen → System)
+-- Leiter ist immer der Raidleiter des aktuellen Raids (bzw. Gruppenleiter)
 function RM.MainLeader()
-	local n = RM.db and RM.db.data.settings.raidLeader
-	if n and n ~= "" then return RM.Short(n) end
+	if not (IsInGroup and IsInGroup()) and not RM.InRaid() then return nil end
+	if UnitIsGroupLeader("player") then return RM.Me() end
+	if RM.InRaid() then
+		for i = 1, GetNumGroupMembers() do
+			local name, rank = GetRaidRosterInfo(i)
+			if name and rank == 2 then return RM.Short(name) end
+		end
+	else
+		for i = 1, 4 do
+			local u = "party" .. i
+			if UnitExists(u) and UnitIsGroupLeader(u) then return RM.Short(UnitName(u)) end
+		end
+	end
 end
 
 -- Namen vergleichen. Nur im Client WoW Forever haben Charaktere Vor- und Nachnamen
@@ -421,7 +430,7 @@ function RM.IsMainLeader(name)
 	return RM.SameName(name, m)
 end
 
--- Darf dieser Spieler DKP verändern? (Offiziere und der feste Raidleiter)
+-- Darf dieser Spieler DKP verändern? (Offiziere und der Raidleiter des aktuellen Raids)
 function RM.CanEdit()
 	return RM.IsOfficer(RM.Me()) or RM.IsMainLeader()
 end
@@ -440,26 +449,6 @@ function RM.GroupUnit(name)
 			local u = "party" .. i
 			if UnitExists(u) and RM.SameName(RM.Short(UnitName(u)), name) then return u end
 		end
-	end
-end
-
--- Als Gruppenleiter den festen Raidleiter automatisch zum Leiter machen
-local promoteWait = false
-function RM.CheckMainLeader(force)
-	if not (RM.db and (RM.db.config.autoPromote or force)) then return end
-	local m = RM.MainLeader()
-	if not m or RM.IsMainLeader() then return end
-	if not (IsInGroup and IsInGroup()) or not RM.IsLeader() then return end
-	if InCombatLockdown and InCombatLockdown() then return end
-	local unit = RM.GroupUnit(m)
-	if not unit or not UnitIsConnected(unit) or UnitIsGroupLeader(unit) then return end
-	if promoteWait and not force then return end
-	promoteWait = true
-	C_Timer.After(10, function() promoteWait = false end)
-	local promote = PromoteToLeader or (C_PartyInfo and C_PartyInfo.SetLeader) or nil
-	if promote then
-		promote(UnitName(unit))
-		RM.Print(string.format(L["%s ist der feste Raidleiter und wurde zum Raidleiter gemacht."], m))
 	end
 end
 
@@ -532,10 +521,11 @@ RM.On("ADDON_LOADED", function(name)
 	db.data = db.data or {}
 	FillDefaults(db.data, { version = 0, players = {}, log = {}, firstKills = {}, lastDecay = 0, settings = {} })
 	FillDefaults(db.data.settings, RM.DEFAULT_SETTINGS)
-	-- 1.8.5 hatte kurz "Rokan" als Standard für alle Versionen
-	if db.data.settings.raidLeader == "Rokan" then db.data.settings.raidLeader = RM.DEFAULT_SETTINGS.raidLeader end
 	db.config = db.config or {}
 	FillDefaults(db.config, RM.DEFAULT_CONFIG)
+	-- 1.8.8: kein fester Raidleiter mehr – Leiter ist der Raidleiter des Raids
+	db.data.settings.raidLeader = nil
+	db.config.autoPromote = nil
 	-- 1.8.5: Plündermeister schon ab grünen Items (alte Standardeinstellung "blau" umstellen)
 	if not db.config.threshold2 then
 		if db.config.lootThreshold == 3 then db.config.lootThreshold = 2 end

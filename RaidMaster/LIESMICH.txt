@@ -1,4 +1,4 @@
-RaidMaster 1.8.7 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 1.8.8 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -31,9 +31,8 @@ FENSTERGRÖSSE, PLÜNDERMEISTER, FESTER RAIDLEITER, WICHTIG-HINWEISE (neu in 1.8
 - Plünderschwelle jetzt standardmäßig "Selten (grün)": der Plündermeister verteilt schon grüne Items.
 - Warnung (Schlachtzugwarnung nur bei dir + Ton) beim Raidstart, Bosspull und Gruppenwechsel, wenn kein
   Plündermeister gesetzt ist oder die Seltenheitsstufe nicht stimmt.
-- Fester Raidleiter (Einstellungen → System, in WoW Forever Standard "Rokan Steinwacht" – nur dort gibt es
-  Vor- und Nachnamen; in anderen Versionen leer und frei eintragbar): hat immer alle Rechte im Addon und wird
-  automatisch zum Raidleiter gemacht, sobald er in die Gruppe kommt und der bisherige Leiter RaidMaster hat.
+- Leiter ist immer der Raidleiter des aktuellen Raids (seit 1.8.8, vorher ein fester Name): Ist er in
+  der Gilde, hat er im Addon alle Rechte wie ein Offizier, solange er den Raid leitet.
 - Jeder Boss aller Raids hat jetzt eine Zeile "Wichtig:" mit den entscheidenden Details (z. B. Lucifron:
   Fluch zuerst bei Heilern und Manaklassen entfernen), in allen Sprachen.
 

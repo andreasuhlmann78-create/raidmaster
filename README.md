@@ -4,7 +4,7 @@ Raid-Werkzeuge für die Gilde auf **WoW Forever**.
 
 ## Download Addon
 
-**Aktuelle Version: [RaidMaster-1.8.7.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/RaidMaster-1.8.7.zip)**
+**Aktuelle Version: [RaidMaster-1.8.8.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/RaidMaster-1.8.8.zip)**
 (immer die neueste: [RaidMaster-latest.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/RaidMaster-latest.zip))
 
 **Test-Werkzeug für die Raidleitung:** [RaidMasterTest-1.1.0.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/RaidMasterTest-1.1.0.zip) (`/rmtest`)

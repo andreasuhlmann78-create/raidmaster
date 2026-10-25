@@ -1550,19 +1550,7 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 	y2 = y2 - 28
 	NumField(L["Decay in %"], x2, y2, function() return S().decayPct end, function(v) S().decayPct = math.max(0, math.min(100, v)) end); y2 = y2 - 28
 	NumField(L["Offiziersränge bis Index"], x2, y2, function() return S().officerRank end, function(v) S().officerRank = math.max(0, math.min(9, v)) end,
-		L["Gildenrang-Index: 0 = Gildenmeister, 1 = nächster Rang usw. Alle Ränge bis zu diesem Index dürfen DKP ändern."]); y2 = y2 - 28
-	Label(page, L["Fester Raidleiter"], x2, y2 - 5)
-	local leaderEdit = UI.EditBox(page, 110, 24)
-	Place(leaderEdit, page, x2 + 190, y2)
-	leaderEdit:SetScript("OnEnter", function(self)
-		GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-		GameTooltip:AddLine(L["Fester Raidleiter"])
-		GameTooltip:AddLine(L["Dieser Spieler wird automatisch zum Raidleiter gemacht, sobald er in der Gruppe ist, und hat immer alle Rechte im Addon."], 1, 1, 1, true)
-		GameTooltip:Show()
-	end)
-	leaderEdit:SetScript("OnLeave", function() GameTooltip:Hide() end)
-	leaderEdit:SetScript("OnEnterPressed", function(self) self:ClearFocus() end)
-	y2 = y2 - 36
+		L["Gildenrang-Index: 0 = Gildenmeister, 1 = nächster Rang usw. Alle Ränge bis zu diesem Index dürfen DKP ändern."]); y2 = y2 - 36
 
 	local checks = {}
 	local function SCheck(label, key, tooltip)
@@ -1579,7 +1567,6 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 
 	local saveBtn = UI.Button(page, L["Speichern und an die Gilde verteilen"], 300, 30, function()
 		if not NeedOfficer() then return end
-		S().raidLeader = CapName(leaderEdit:GetText() or "")
 		for _, f in ipairs(fields) do
 			local v = tonumber(f.edit:GetText())
 			if v and f.edit:IsShown() then f.set(math.floor(v)) end
@@ -1592,7 +1579,6 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 	local revertBtn = UI.Button(page, L["Verwerfen"], 100, 30, function()
 		for _, f in ipairs(fields) do f.edit:SetText(tostring(f.get() or 0)) end
 		for _, c in ipairs(checks) do c:Refresh() end
-		leaderEdit:SetText(S().raidLeader or "")
 	end)
 	Place(revertBtn, page, x2 + 306, y2 - 10)
 
@@ -1607,11 +1593,6 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 	end)
 	Place(mmCheck, page, x2, y2 - 100)
 
-	local promoteCheck = UI.Check(page, L["Festen Raidleiter automatisch zum Raidleiter machen"], function() return RM.db.config.autoPromote end,
-		function(v) RM.db.config.autoPromote = v; if v then RM.CheckMainLeader(true) end end,
-		L["Wenn du Gruppenleiter bist und der feste Raidleiter in die Gruppe kommt, übergibt RaidMaster ihm die Leitung."])
-	Place(promoteCheck, page, x2, y2 - 126)
-
 	return function()
 		UpdateBossRows()
 		for _, f in ipairs(fields) do
@@ -1619,8 +1600,6 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 		end
 		for _, c in ipairs(checks) do c:Refresh() end
 		mmCheck:Refresh()
-		promoteCheck:Refresh()
-		if not leaderEdit:HasFocus() then leaderEdit:SetText(S().raidLeader or "") end
 		if RM.CanEdit() then saveBtn:Enable() else saveBtn:Disable() end
 	end
 end)

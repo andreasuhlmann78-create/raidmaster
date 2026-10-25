@@ -697,7 +697,6 @@ end
 UI.PAGE_ACCESS = { dkp = "all", auction = "all", settings = "officer" }
 
 function UI.IsRaidLead()
-	if RM.IsMainLeader() then return true end
 	local grouped = RM.InRaid() or (IsInGroup and IsInGroup())
 	return grouped and RM.IsAssist() and true or false
 end
