@@ -1,4 +1,4 @@
-RaidMaster 1.9.3 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 1.9.4 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,12 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+SHEEP-ROTATION BEI MAJORDOMUS (neu in 1.9.4)
+- Raidleiter -> Bosse & Symbole -> Majordomus: "Sheep-Rotation posten". Drei Magier fest auf Kreuz, Viereck und
+  Mond (Totenkopf-Heiler stirbt zuerst), weitere Magier als Ersatz für ein Symbol. Die Rotation geht als
+  Schlachtzugwarnung raus, jeder Magier bekommt sein Symbol geflüstert. Warnung bei weniger als 3 Magiern.
+- Die Kurzinfo zu Majordomus enthält die Sheep-Rotation automatisch (wie die Einlull-Rotation bei Magmadar).
 
 SEITE RAIDLEITER NEU AUFGETEILT (neu in 1.9.3)
 - Die Seite Raidleiter hat drei Teile (Knöpfe oben):

@@ -345,5 +345,10 @@ function M.PostBossInfo(encounterID, info)
 			lines[#lines + 1] = L["Einlull-Rotation: "] .. table.concat(parts, " > ")
 		end
 	end
+	-- Majordomus: Sheep-Rotation der Magier gleich mit ansagen
+	if encounterID == 671 and RM.Sheep then
+		local line = RM.Sheep.Line()
+		if line then lines[#lines + 1] = line end
+	end
 	RM.RaidWarning(lines)
 end

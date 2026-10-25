@@ -133,3 +133,82 @@ function Q.Post()
 		end
 	end
 end
+
+---------------------------------------------------------------------------
+-- Majordomus: Sheep-Rotation der Magier
+-- Die Heiler der Flammenschuppen tragen Totenkopf, Kreuz, Viereck, Mond. Totenkopf stirbt zuerst,
+-- Kreuz, Viereck und Mond werden gesheept – mindestens 3 Magier, jeder fest auf ein Symbol.
+-- Weitere Magier sind Ersatz für ein Symbol (springen ein, wenn das Sheep bricht oder der Magier stirbt).
+---------------------------------------------------------------------------
+local S = {}
+RM.Sheep = S
+S.ENCOUNTER = 671
+S.ICONS = { 7, 6, 5 }
+S.MIN = #S.ICONS
+
+local function IconTex(i) return "|TInterface\\TargetingFrame\\UI-RaidTargetingIcon_" .. i .. ":0|t" end
+local function IconName(i) return (RM.Data.MarkerNames and RM.Data.MarkerNames[i]) or tostring(i) end
+
+-- Magier im Raid (online), alphabetisch
+function S.Mages()
+	local list = {}
+	for _, m in ipairs(RM.RaidMembers()) do
+		if m.class == "MAGE" and m.online ~= false then list[#list + 1] = m.name end
+	end
+	table.sort(list)
+	return list
+end
+
+-- Zuteilung: { {icon=7, main="A", backup={"D"}}, ... }
+function S.Rotation()
+	local mages = S.Mages()
+	local rot = {}
+	for i, icon in ipairs(S.ICONS) do rot[i] = { icon = icon, main = mages[i], backup = {} } end
+	for i = #S.ICONS + 1, #mages do
+		local slot = rot[((i - 1) % #S.ICONS) + 1]
+		slot.backup[#slot.backup + 1] = mages[i]
+	end
+	return rot, #mages
+end
+
+-- eine Zeile für Chat / Raidwarnung ({rt7} wird im Spiel als Symbol gezeigt)
+function S.Line()
+	local rot, n = S.Rotation()
+	if n == 0 then return nil end
+	local parts = {}
+	for _, s in ipairs(rot) do
+		if s.main then
+			parts[#parts + 1] = "{rt" .. s.icon .. "} " .. s.main .. (#s.backup > 0 and (" (" .. table.concat(s.backup, ", ") .. ")") or "")
+		end
+	end
+	return L["Sheep: "] .. table.concat(parts, " · ")
+end
+
+function S.StatusText()
+	local rot, n = S.Rotation()
+	if n == 0 then return "|cffff5544" .. L["Keine Magier im Raid – die Heiler müssen getankt und unterbrochen werden."] .. "|r" end
+	local parts = {}
+	for _, s in ipairs(rot) do
+		parts[#parts + 1] = IconTex(s.icon) .. " " .. (s.main or "|cffff5544?|r") .. (#s.backup > 0 and (" |cff999999+" .. table.concat(s.backup, ", ") .. "|r") or "")
+	end
+	local warn = n < S.MIN and ("  |cffff5544" .. string.format(L["Nur %d Magier – mindestens %d nötig!"], n, S.MIN) .. "|r") or ""
+	return table.concat(parts, "   ") .. warn
+end
+
+-- als Schlachtzugwarnung posten und jedem Magier sein Symbol flüstern
+function S.Post()
+	local rot, n = S.Rotation()
+	if n == 0 then RM.Print(L["Keine Magier im Raid."]) return end
+	if n < S.MIN then RM.Print("|cffff5544" .. string.format(L["Nur %d Magier – mindestens %d nötig!"], n, S.MIN) .. "|r") end
+	RM.RaidWarning({ L["MAJORDOMUS – "] .. S.Line() })
+	for _, s in ipairs(rot) do
+		if s.main and s.main ~= RM.Me() then
+			RM.Whisper(string.format(L["[RaidMaster] Majordomus: Sheep auf {rt%d} (%s) – halten, bis er als letzter Heiler dran ist."], s.icon, IconName(s.icon)), s.main)
+		end
+		for _, b in ipairs(s.backup) do
+			if b ~= RM.Me() then
+				RM.Whisper(string.format(L["[RaidMaster] Majordomus: Ersatz-Sheep auf {rt%d} (%s) – sofort nachsheepen, wenn es bricht."], s.icon, IconName(s.icon)), b)
+			end
+		end
+	end
+end

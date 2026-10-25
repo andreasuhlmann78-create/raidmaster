@@ -1293,6 +1293,18 @@ local function BuildLeaderBosses(page)
 	tqText:SetPoint("LEFT", tqPost, "RIGHT", 10, 0)
 	tqText:SetWidth(280)
 
+	-- Majordomus: Sheep-Rotation der Magier (mindestens 3, je ein Symbol)
+	local sh = CreateFrame("Frame", nil, page)
+	sh:SetSize(560, 34)
+	Place(sh, page, 200, -370)
+	local shPost = UI.Button(sh, L["Sheep-Rotation posten"], 170, 26, function() RM.Sheep.Post() end,
+		L["Sagt als Schlachtzugwarnung an, welcher Magier welchen Heiler sheept (Kreuz, Viereck, Mond), und flüstert jedem Magier sein Symbol."])
+	shPost:SetPoint("LEFT", 0, 0)
+	local shText = UI.Text(sh, "", 11)
+	shText:SetPoint("LEFT", shPost, "RIGHT", 10, 0)
+	shText:SetWidth(380)
+	shText:SetWordWrap(false)
+
 	-- Markierungen
 	Section(page, L["Schlachtzugsymbole"], 0, -412)
 	Label(page, L["Vorlage für 'Auto'"], 0, -442)
@@ -1369,6 +1381,13 @@ local function BuildLeaderBosses(page)
 			info:SetText(L["Für diesen Boss gibt es noch keine Taktik."])
 		end
 		if i and i.post and i.post[1] then postBtn:Enable() else postBtn:Disable() end
+		if selectedBoss == 671 and RM.Sheep then
+			sh:Show()
+			shText:SetText(RM.Sheep.StatusText())
+			if RM.IsAssist() or RM.CanEdit() then shPost:Enable() else shPost:Disable() end
+		else
+			sh:Hide()
+		end
 		if selectedBoss == 664 and RM.Tranq then
 			tq:Show()
 			tqText:SetText(RM.Tranq.StatusText())
