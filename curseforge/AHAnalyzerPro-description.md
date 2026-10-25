@@ -2,22 +2,23 @@
 
 **Market analysis, sniper and gold-making toolkit for the auction house – for every WoW version.**
 
-> ⚠️ **Version 0.59.22 is a beta.** It may still contain bugs. If you run into an error or unexpected behaviour in-game, please report it in the comments – ideally with the Lua error message (if any) and the WoW version you play on.
+> ⚠️ **This addon is in beta.** It may still contain bugs. If you run into an error or unexpected behaviour in-game, please report it in the comments – ideally with the Lua error message (if any) and the WoW version you play on.
 
 AH Analyzer Pro scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It runs as its own tab inside the auction house window, can be used completely with the mouse and speaks the language of your WoW client.
 
 ---
 
-## What's new in 0.59.22
+## What's new
 
-- **New Buy tab** (next to Overview) – works like the auction house's own Buy tab: search, categories, level, rarity. Categories show **instantly** from your last scan while the live search updates them in the background
+- **Own, resizable window:** the addon opens in its own window by default – drag the bottom-right corner to make it as big as you like, all lists grow with it. Size and position are saved. Prefer it inside the auction house? Options → "Show in auction house"
+- **New Buy tab** – works like the auction house's own Buy tab: search, categories, level, rarity. Categories show **instantly** from your last scan while the live search updates them in the background
 - **Sniper and Watcher search as often as the server allows** and take turns – the Sniper hunts your targets, the Watcher finds lucky bargains. The speed adjusts itself to the limit of every WoW version
-- **The Sniper keeps searching after a hit** – the hit stays buyable with one mouse-wheel notch and the sound repeats while it's there
+- **Buy with the mouse wheel – also over the addon window.** The sound repeats while a hit is waiting. Options → "Sniper buys with" / "Watcher buys with": mouse wheel or your own key, separately for each
+- **Sniper shows the total amount** it will buy of an item (quantity, total cost, average price)
 - **Bait offers** (single units at the very bottom) are no longer shown anywhere and never count for prices
 - **Page bar in every list** (‹ 1 2 3 … 20 ›), draggable scrollbars, **Item column sorts by rarity, then name**, new **iLvl** column
-- **Size in auction house** option (100–160 %) for large screens
-- The AH Analyzer tab **no longer overlaps TSM, Auctionator & co.**
-- **Classic auction house** (Classic Era, TBC Anniversary, Wrath): full support, all result pages are read
+- **Classic auction house** (Classic Era, TBC Anniversary, Wrath): full support – scan, all result pages, buying with the mouse wheel, "Search in auction house"
+- **Profit tab:** clear columns – "Current buyout" vs. market value / vendor price / disenchant value
 - **Back button** in the price history, rarity picker with checkboxes everywhere, new look with icons and gold accents, smooth scanning without stutter
 
 ---
