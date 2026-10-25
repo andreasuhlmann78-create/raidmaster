@@ -574,13 +574,25 @@ def raid_counts(summaries: list[dict], pool: str) -> dict[str, int]:
     return counts
 
 
-def format_raid_summary(s: dict, limit_chars: int = 1900) -> list[str]:
-    """Raid-Abrechnung als Nachrichten: Kopf, Tabelle je Spieler, Items."""
+def raid_summary_head(s: dict) -> str:
+    """Kopf der Raid-Abrechnung (Datum, Zeit, Bosse, Teilnehmer, Ersatzbank)."""
     from datetime import datetime as _dt
     day = _dt.fromtimestamp(s["t"]).strftime("%d.%m.%Y")
-    head = (f"📜 **Raid-Abrechnung {s['pool_name']} – {day}** (<t:{s['start']}:t>–<t:{s['t']}:t>)\n"
+    return (f"📜 **Raid-Abrechnung {s['pool_name']} – {day}** (<t:{s['start']}:t>–<t:{s['t']}:t>)\n"
             f"Bosse ({len(s['bosses'])}): {', '.join(s['bosses']) or '–'} · Teilnehmer: {sum(1 for r in s['rows'] if r.get('present', True))}"
             + (f" · Ersatzbank: {sum(1 for r in s['rows'] if not r.get('present', True))}" if any(not r.get('present', True) for r in s['rows']) else ""))
+
+
+def raid_summary_items(s: dict) -> list[str]:
+    """Items eines Raidabends als Textzeile(n)."""
+    if not s["items"]:
+        return []
+    return split_discord("🎁 " + " · ".join(f"**{n}**: {it} ({a} DKP)" for n, it, a in s["items"]))
+
+
+def format_raid_summary(s: dict, limit_chars: int = 1900) -> list[str]:
+    """Raid-Abrechnung als Nachrichten: Kopf, Tabelle je Spieler, Items."""
+    head = raid_summary_head(s)
     lines = [f"{'Name':<14} {'Klasse':<10} {'+DKP':>5} {'Items':>6} {'Stand':>6}", "-" * 45]
     for r in s["rows"]:
         cls = CLASSES.get(r["class"], "")[:10]

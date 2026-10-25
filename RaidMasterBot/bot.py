@@ -35,6 +35,7 @@ from discord import app_commands
 from discord.ext import tasks
 
 import raidmaster_data as rmd
+import render as rimg
 import server_setup
 import mc_tactics
 import updater
@@ -184,6 +185,10 @@ class RaidBot(discord.Client):
                     await post_bot_log("🆕 Raid-Kategorien angelegt: " + ", ".join(made) + " (Anmeldung, Sprachkanal, Taktik, DKP, Loot).")
             except Exception:
                 log.exception("Raid-Kategorien konnten nicht angelegt werden")
+            try:
+                await sync_class_roles()
+            except Exception:
+                log.exception("Klassenfarben konnten nicht gesetzt werden")
             try:
                 report = await post_all_tactics()
                 if report:
@@ -352,6 +357,11 @@ class NameModal(discord.ui.Modal):
             return
         profile = book.set_profile(inter.user.id, name, pv.cls, pv.role)
         text = "Gespeichert: " + profile_text(profile) + "."
+        if isinstance(inter.user, discord.Member):
+            try:
+                await sync_class_roles(only=[inter.user])
+            except Exception:  # noqa: BLE001
+                log.exception("Klassenfarbe konnte nicht gesetzt werden")
         raid = book.get(pv.raid_id) if pv.raid_id else None
         if raid and pv.status and not raid.get("closed"):
             actual = book.signup(raid, inter.user.id, pv.status, profile, int(time.time()))
@@ -1133,6 +1143,58 @@ def dkp_channel_for(pool: str) -> int:
     return int(cid or 0)
 
 
+def table_file(png: bytes | None, name: str):
+    return discord.File(io.BytesIO(png), filename=name) if png else None
+
+
+def standings_png(pool: str, rows: list[dict], data: dict | None, subtitle: str) -> bytes | None:
+    try:
+        return rimg.render_standings(f"DKP-Stand {rmd.pool_name(pool, data)}", subtitle, rows)
+    except Exception as e:  # noqa: BLE001
+        log.warning("DKP-Bild konnte nicht gezeichnet werden: %s", e)
+        return None
+
+
+def summary_png(s: dict) -> bytes | None:
+    try:
+        from datetime import datetime as _dt
+        day = _dt.fromtimestamp(s["t"]).strftime("%d.%m.%Y")
+        return rimg.render_summary(f"Raid-Abrechnung {s['pool_name']} – {day}",
+                                   f"Bosse: {len(s['bosses'])} · Teilnehmer: {sum(1 for r in s['rows'] if r.get('present', True))}",
+                                   s["rows"])
+    except Exception as e:  # noqa: BLE001
+        log.warning("Abrechnungs-Bild konnte nicht gezeichnet werden: %s", e)
+        return None
+
+
+async def send_summary(ch, s: dict, prefix: str = "", test: bool = False) -> int:
+    """Raid-Abrechnung senden: Kopf + Bild (Klassenfarben), sonst als Text. Liefert die Anzahl Nachrichten."""
+    png = summary_png(s)
+    n = 0
+    if png:
+        head = prefix + rmd.raid_summary_head(s)
+        if test:
+            await send_test(ch, head, file_bytes=png, filename="abrechnung.png")
+        else:
+            await ch.send(content=head, file=table_file(png, "abrechnung.png"))
+        n += 1
+        for text in rmd.raid_summary_items(s):
+            if test:
+                await send_test(ch, text)
+            else:
+                await ch.send(text)
+            n += 1
+        return n
+    for i, text in enumerate(rmd.format_raid_summary(s)):
+        for part in rmd.split_discord((prefix + text) if i == 0 else text):
+            if test:
+                await send_test(ch, part)
+            else:
+                await ch.send(part)
+            n += 1
+    return n
+
+
 async def post_dkp_tables():
     """Je Raid-Topf eine Tabelle im passenden Kanal (z. B. #dkp-molten-core)."""
     summaries = rmd.raid_summaries(bot.dkp_data)
@@ -1168,10 +1230,8 @@ async def post_raid_summaries():
                 await ch.get_partial_message(msg_id).delete()
             except discord.HTTPException:
                 pass
-        for text in rmd.format_raid_summary(s):
-            for part in rmd.split_discord(text):
-                await ch.send(part)
-            await asyncio.sleep(0.5)
+        await send_summary(ch, s)
+        await asyncio.sleep(0.5)
         done.add(s["id"])
         posted = True
     if posted:
@@ -1207,23 +1267,31 @@ async def post_dkp_table(pool: str, channel_id: int, rows: list[dict]):
     except discord.HTTPException as e:
         log.warning("DKP-Kanal nicht erreichbar: %s", e)
         return
-    chunks = rmd.with_head(f"**DKP-Stand {rmd.pool_name(pool, bot.dkp_data)}** – aktualisiert <t:{int(bot.dkp_mtime)}:f>\n"
-                           f"{rmd.total_line(rows)}", rmd.format_standings(rows))
+    head = (f"**DKP-Stand {rmd.pool_name(pool, bot.dkp_data)}** – aktualisiert <t:{int(bot.dkp_mtime)}:f>\n"
+            f"{rmd.total_line(rows)}")
+    png = standings_png(pool, rows, bot.dkp_data, "Namen in Klassenfarbe wie im Spiel")
+    # mit Bild (Klassenfarben): eine Nachricht; ohne Pillow: Texttabelle wie bisher
+    chunks = [head] if png else rmd.with_head(head, rmd.format_standings(rows))
     all_ids = state.data.setdefault("dkp_messages", {})
     ids = list(all_ids.get(pool) or [])
     new_ids = []
     for i, text in enumerate(chunks):
         msg_id = ids[i] if i < len(ids) else None
         done = False
+        file = table_file(png, "dkp.png") if (png and i == 0) else None
         if msg_id:
             try:
-                await channel.get_partial_message(msg_id).edit(content=text)
+                if file:
+                    await channel.get_partial_message(msg_id).edit(content=text, attachments=[file])
+                else:
+                    await channel.get_partial_message(msg_id).edit(content=text, attachments=[])
                 new_ids.append(msg_id)
                 done = True
             except discord.HTTPException:
                 pass
         if not done:
-            m = await channel.send(text)
+            file = table_file(png, "dkp.png") if (png and i == 0) else None
+            m = await channel.send(content=text, file=file) if file else await channel.send(text)
             new_ids.append(m.id)
     for msg_id in ids[len(chunks):]:
         try:
@@ -1284,6 +1352,10 @@ async def item_embed(e: dict, db: dict | None, test: bool = False) -> discord.Em
     icon = await item_icon(e.get("link"), tip)
     if icon:
         emb.set_thumbnail(url=icon)
+    cls = (((db or {}).get("data") or {}).get("players") or {}).get(e["name"], {})
+    cls = cls.get("c") if isinstance(cls, dict) else None
+    emb.set_author(name=f"{e['name']}" + (f" · {rimg.CLASS_NAMES.get(str(cls).upper(), '')}" if cls else ""),
+                   icon_url=rimg.class_icon_url(cls))
     emb.set_footer(text=(("TEST · " if test else "") + e.get("pool_name", "")))
     return emb
 
@@ -1349,6 +1421,10 @@ async def process_new_data():
     log.info("Neue DKP-Daten gelesen (%d Spieler).", len(bot.dkp_rows))
     try:
         await sync_specs()
+        try:
+            await sync_class_roles()
+        except Exception:  # noqa: BLE001
+            log.exception("Klassenfarben konnten nicht gesetzt werden")
         await ensure_new_raid_categories()
         await post_raid_summaries()
         await post_dkp_tables()
@@ -1357,6 +1433,93 @@ async def process_new_data():
         await process_assignment()
     except discord.HTTPException as e:
         log.warning("Posten fehlgeschlagen: %s", e)
+
+
+# ---------------------------------------------------------------------------
+# Klassenfarben für Discord-Mitglieder: je Klasse eine Rolle in der WoW-Klassenfarbe
+# (Name im Discord erscheint dann wie im Spiel). Klasse aus dem Profil (/profil bzw. Anmeldung),
+# sonst über den Discord-Namen aus den RaidMaster-Daten.
+# ---------------------------------------------------------------------------
+def member_class(member, players: dict) -> str | None:
+    p = book.profile(member.id)
+    if p and p.get("cls") in rimg.CLASS_COLORS:
+        return p["cls"]
+    names = {str(n).lower(): (v.get("c") if isinstance(v, dict) else None) for n, v in (players or {}).items()}
+    for cand in (getattr(member, "nick", None), getattr(member, "global_name", None), member.name):
+        if not cand:
+            continue
+        c = str(cand).strip().lower()
+        cls = names.get(c) or names.get(c.split(" ")[0]) or names.get(re.split(r"[^\wäöüß]", c)[0] if c else "")
+        if cls and str(cls).upper() in rimg.CLASS_COLORS:
+            return str(cls).upper()
+    return None
+
+
+async def ensure_class_role(guild, cls: str):
+    name = rimg.CLASS_NAMES.get(cls, cls.title())
+    color = discord.Colour.from_rgb(*rimg.CLASS_COLORS[cls])
+    ids = cfg.setdefault("class_roles", {})
+    role = guild.get_role(int(ids.get(cls) or 0)) or discord.utils.get(guild.roles, name=name)
+    if role is None:
+        role = await guild.create_role(name=name, colour=color, hoist=False, mentionable=False,
+                                       reason="RaidMaster: Klassenfarbe wie im Spiel")
+        # direkt unter die Bot-Rolle schieben, damit die Farbe vor anderen farbigen Rollen gilt
+        try:
+            me = guild.me
+            await guild.edit_role_positions({role: max(1, me.top_role.position - 1)})
+        except discord.HTTPException:
+            pass
+    elif role.colour != color and role < guild.me.top_role:
+        try:
+            await role.edit(colour=color, reason="RaidMaster: Klassenfarbe wie im Spiel")
+        except discord.HTTPException:
+            pass
+    if str(ids.get(cls)) != str(role.id):
+        ids[cls] = role.id
+        save_config()
+    return role
+
+
+async def sync_class_roles(only=None) -> int:
+    """Jedem Mitglied die Rolle seiner Klasse geben (und andere Klassenrollen entfernen). Liefert die Anzahl Änderungen."""
+    guild = bot_guild()
+    if guild is None or not guild.me.guild_permissions.manage_roles:
+        return 0
+    players = (bot.dkp_data or {}).get("players") or {}
+    members = list(only) if only else list(guild.members)
+    if not members and not only:
+        for uid in list(book.profiles.data.keys()):
+            m = guild.get_member(int(uid))
+            if m is None:
+                try:
+                    m = await guild.fetch_member(int(uid))
+                except discord.HTTPException:
+                    m = None
+            if m:
+                members.append(m)
+    changes = 0
+    class_role_ids = {int(v) for v in (cfg.get("class_roles") or {}).values() if v}
+    for m in members:
+        if m.bot:
+            continue
+        cls = member_class(m, players)
+        if not cls:
+            continue
+        try:
+            role = await ensure_class_role(guild, cls)
+            class_role_ids.add(role.id)
+            wrong = [r_ for r_ in m.roles if r_.id in class_role_ids and r_.id != role.id]
+            if wrong:
+                await m.remove_roles(*wrong, reason="RaidMaster: Klasse geändert")
+                changes += 1
+            if role not in m.roles:
+                await m.add_roles(role, reason="RaidMaster: Klassenfarbe wie im Spiel")
+                changes += 1
+        except discord.HTTPException as e:
+            log.info("Klassenrolle für %s nicht möglich: %s", m, e)
+    if changes:
+        log.info("Klassenfarben: %d Änderung(en).", changes)
+    return changes
 
 
 async def sync_specs():
@@ -1828,10 +1991,14 @@ def test_info(db: dict | None) -> dict | None:
     return t if isinstance(t, dict) and t.get("active") else None
 
 
-async def send_test(channel, text: str | None, embeds: list | None = None):
+async def send_test(channel, text: str | None, embeds: list | None = None,
+                    file_bytes: bytes | None = None, filename: str = "bild.png"):
     """Testnachricht senden und zum Löschen vormerken (übersteht auch einen Neustart des Bots).
     Zu lange Texte werden in Discord-taugliche Stücke geteilt (max. 2000 Zeichen)."""
-    if embeds:
+    if file_bytes:
+        m = await channel.send(content=text or None, file=table_file(file_bytes, filename))
+        state.data.setdefault("test_messages", []).append([channel.id, m.id, int(time.time()) + TEST_TTL])
+    elif embeds:
         m = await channel.send(content=text or None, embeds=embeds)
         state.data.setdefault("test_messages", []).append([channel.id, m.id, int(time.time()) + TEST_TTL])
     else:
@@ -1869,10 +2036,7 @@ async def handle_test_upload(db: dict, uploader: str):
         posted += 1
         # 2) Raid-Abrechnung je Raidabend, chronologisch (wie nach echten Raids)
         for summ in summaries:
-            for i, text in enumerate(rmd.format_raid_summary(summ)):
-                # nur die Kopfzeile markieren – ein Codeblock muss am Zeilenanfang beginnen
-                await send_test(dkp_ch, ("🧪 " + text) if i == 0 else text)
-                posted += 1
+            posted += await send_summary(dkp_ch, summ, prefix="🧪 ", test=True)
         # 3) Teilnehmer (Raidstart, Bosskills, Raidende im Test; ohne reine Ersatzbank)
         names = set()
         for e in log_entries:
@@ -1886,10 +2050,15 @@ async def handle_test_upload(db: dict, uploader: str):
         counts = rmd.raid_counts(summaries, pool)
         for r_ in rows:
             r_["raids"] = counts.get(r_["name"], 0)
-        for text in rmd.with_head(f"🧪 **DKP-Stand {name}** (Test, nach {len(summaries)} Raidabend(en))\n{rmd.total_line(rows)}",
-                                  rmd.format_standings(rows)):
-            await send_test(dkp_ch, text)
+        dkp_head = f"🧪 **DKP-Stand {name}** (Test, nach {len(summaries)} Raidabend(en))\n{rmd.total_line(rows)}"
+        png = standings_png(pool, rows, data, f"Test · nach {len(summaries)} Raidabend(en) · Namen in Klassenfarbe")
+        if png:
+            await send_test(dkp_ch, dkp_head, file_bytes=png, filename="dkp.png")
             posted += 1
+        else:
+            for text in rmd.with_head(dkp_head, rmd.format_standings(rows)):
+                await send_test(dkp_ch, text)
+                posted += 1
         # 5) Loot im Loot-Kanal: chronologisch, je Raidabend eine Gruppe
         if loot_ch:
             groups = rmd.loot_by_raid(data, pool, since)

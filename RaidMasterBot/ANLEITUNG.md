@@ -212,7 +212,13 @@ Erstellt die Raidleitung im Spiel die **Einteilung** und gibt danach `/reload` e
   sieht jeder seinen Verlauf über mehrere Wochen. Die DKP-Tabelle steht darunter und hat die Spalte „Raids“
   (Anzahl der Raidabende). Beim ersten Mal werden alle noch gespeicherten Raidabende nachgetragen.
 - `/dkp` zeigt die eigenen DKP in allen Raids, `/dkpliste raid:<Raid>` die Rangliste.
-- Neue Items erscheinen im Loot-Kanal des jeweiligen Raids (#mc-loot usw.).
+- Neue Items erscheinen im Loot-Kanal des jeweiligen Raids (#mc-loot usw.) als Karte wie der Tooltip im Spiel:
+  Qualitätsfarbe, echtes Item-Symbol, Werte und Effekte, Gewinner mit Klassensymbol, DKP.
+- **Klassenfarben wie im Spiel:** DKP-Stand und Raid-Abrechnung kommen als Bild – Namen und Klassen in der echten
+  WoW-Klassenfarbe. Jedes Mitglied bekommt außerdem eine Rolle seiner Klasse (Krieger, Magier …) in der Klassenfarbe,
+  so erscheint auch sein Name im Discord farbig. Die Klasse kommt aus dem Profil (Anmeldung/Charakter), sonst wird der
+  Discord-Name mit den RaidMaster-Daten abgeglichen. Der Bot braucht dafür **Rollen verwalten**; seine eigene Rolle
+  muss in der Rollenliste über den Klassenrollen stehen.
 - WoW schreibt die Daten beim **Ausloggen** oder nach **/reload** – der Uploader schickt sie sofort weiter.
 
 ## Alle Befehle
