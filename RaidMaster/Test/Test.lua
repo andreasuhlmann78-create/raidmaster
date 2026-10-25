@@ -931,8 +931,31 @@ local function Section(parent, text, y)
 	return h
 end
 
+-- kurzer Stand des Durchlaufs für die Startseite
+function T.RunStatus()
+	if not T.active then return "|cff999999Testmodus aus – oben \"Testmodus starten\" klicken.|r" end
+	local A = RM.Auction
+	local parts = {}
+	if T.stress then parts[#parts + 1] = string.format("|cffff8c1aStresstest läuft|r (%d Wochen)", T.stress.weeks) end
+	if T.series and T.series.total > 1 then
+		parts[#parts + 1] = string.format("Raidabend %d von %d", T.series.total - T.series.left, T.series.total)
+	end
+	if run then
+		parts[#parts + 1] = string.format("%s – Boss %d von %d", run.def and run.def.name or "?", run.index or 0, run.def and #run.def.bosses or 0)
+		if A.current and A.AwaitingAward() then parts[#parts + 1] = "|cffffaa33wartet auf \"Vergeben\"|r"
+		elseif A.current then parts[#parts + 1] = "Versteigerung läuft"
+		elseif #A.queue > 0 and not T.autoAuction then parts[#parts + 1] = "|cffffaa33" .. #A.queue .. " Item(s) warten – Versteigerung in RaidMaster starten|r" end
+	elseif RM.db.session.active then
+		parts[#parts + 1] = "Raid-Sitzung läuft (" .. RM.DKP.PoolName(RM.db.session.pool or T.pool) .. ")"
+	else
+		parts[#parts + 1] = "bereit"
+	end
+	return table.concat(parts, " · ")
+end
+
 local function CreateWindow()
-	local f = UI.Frame(UIParent, 560, 860)
+	local W = 560
+	local f = UI.Frame(UIParent, W, 690)
 	UI.Skin(f)
 	f:SetFrameStrata("HIGH")
 	f:SetClampedToScreen(true)
@@ -945,32 +968,33 @@ local function CreateWindow()
 	local close = UI.CloseButton(f, function() f:Hide() end)
 	close:SetPoint("TOPRIGHT", -8, -8)
 
+	-- Kopf: Testmodus, Ansicht, Raid
 	f.status = UI.Text(f, "", 12)
-	f.status:SetPoint("TOPLEFT", 14, -40)
-	f.status:SetWidth(530)
-	local toggle = UI.Button(f, "", 260, 28, function() if T.active then T.StopAsk() else T.Start() end end,
+	f.status:SetPoint("TOPLEFT", 14, -38)
+	f.status:SetWidth(W - 28)
+	local toggle = UI.Button(f, "", 300, 30, function() if T.active then T.StopAsk() else T.Start() end end,
 		"Testmodus: Daten werden gesichert und beim Beenden wiederhergestellt.\nKeine Nachrichten an Gilde oder Raid.")
-	toggle:SetPoint("TOPLEFT", 14, -62)
-	local selfBtn = UI.Button(f, "Selbsttest", 120, 28, function() T.SelfTest() end, "Prüft Spielversion, Daten, Rechte und Einstellungen.")
-	selfBtn:SetPoint("LEFT", toggle, "RIGHT", 8, 0)
-	local openBtn = UI.Button(f, "RaidMaster öffnen", 130, 28, function() RM.UI.Open() end)
-	openBtn:SetPoint("LEFT", selfBtn, "RIGHT", 8, 0)
+	toggle:SetPoint("TOPLEFT", 14, -60)
+	local openBtn = UI.Button(f, "RaidMaster öffnen", 218, 30, function() RM.UI.Open() end)
+	openBtn:SetPoint("LEFT", toggle, "RIGHT", 14, 0)
 
-	Section(f, "Ansicht als", -104)
+	local roleLabel = UI.Text(f, "Ansicht als:", 12, unpack(COLORS.muted))
+	roleLabel:SetPoint("TOPLEFT", 14, -104)
 	local roleBtns = {}
-	local x = 14
+	local x = 100
 	for _, role in ipairs({ "member", "lead", "looter", "raidlead" }) do
-		local b = UI.Button(f, ROLE_NAMES[role], 126, 26, function() T.SetRole(role) end,
+		local b = UI.Button(f, ROLE_NAMES[role], 108, 24, function() T.SetRole(role) end,
 			role == "member" and "Raidmitglied: sieht nur DKP-Stände und Versteigerung (bieten), keine Rechte." or
 			role == "lead" and "Assistent: Raid-Seiten und Symbolleiste (z. B. Mobs markieren), kein DKP ändern." or
 			role == "looter" and "Plündermeister (nicht Raidleiter): sieht nur DKP, Versteigerung und Loot,\nstartet und vergibt die Versteigerungen." or
 			"Raidleiter: alle Rechte – Raid starten/beenden, Plündermeister, DKP, Versteigerung, Einstellungen.")
-		b:SetPoint("TOPLEFT", x, -128)
+		b:SetPoint("TOPLEFT", x, -98)
 		roleBtns[role] = b
-		x = x + 133
+		x = x + 112
 	end
 
-	Section(f, "Raid simulieren", -170)
+	local raidLabel = UI.Text(f, "Raid:", 12, unpack(COLORS.muted))
+	raidLabel:SetPoint("TOPLEFT", 14, -138)
 	T.pool = RM.DKP.ActivePool()
 	local raidDrop = UI.Dropdown(f, 230, function() return UI.PoolGroups(RM.db.data) end, function() return T.pool end, function(v)
 		T.pool = v
@@ -978,129 +1002,185 @@ local function CreateWindow()
 		T.boss = def and def.bossIDs and def.bossIDs[1]
 		T.Refresh()
 	end, "Raid für den Test")
-	raidDrop:SetPoint("TOPLEFT", 14, -194)
+	raidDrop:SetPoint("TOPLEFT", 100, -132)
 	local def0 = RM.Data.Pools[T.pool]
 	T.boss = def0 and def0.bossIDs and def0.bossIDs[1]
-	local bossDrop = UI.Dropdown(f, 230, function()
+
+	-- Reiter
+	local TABS = {
+		{ key = "start", name = "Schnellstart" },
+		{ key = "single", name = "Einzeln testen" },
+		{ key = "options", name = "Einstellungen" },
+		{ key = "log", name = "Protokoll" },
+	}
+	local tabBtns, panes = {}, {}
+	T.tab = T.tab or "start"
+	for i, t in ipairs(TABS) do
+		local b = UI.Button(f, t.name, 128, 26, function() T.tab = t.key; T.Refresh() end)
+		b:SetPoint("TOPLEFT", 14 + (i - 1) * 133, -172)
+		tabBtns[t.key] = b
+		local p = CreateFrame("Frame", nil, f)
+		p:SetPoint("TOPLEFT", 0, -206)
+		p:SetPoint("BOTTOMRIGHT", 0, 0)
+		p:Hide()
+		panes[t.key] = p
+	end
+	local line = f:CreateTexture(nil, "ARTWORK")
+	line:SetPoint("TOPLEFT", 14, -201)
+	line:SetPoint("TOPRIGHT", -14, -201)
+	line:SetHeight(1)
+	line:SetColorTexture(COLORS.accent[1], COLORS.accent[2], COLORS.accent[3], 0.5)
+
+	local function Desc(parent, text, anchor)
+		local d = UI.Text(parent, text, 11, unpack(COLORS.muted))
+		d:SetPoint("TOPLEFT", anchor, "BOTTOMLEFT", 2, -4)
+		d:SetWidth(W - 40)
+		d:SetJustifyH("LEFT")
+		return d
+	end
+
+	-------------------------------------------------------------------
+	-- Reiter Schnellstart: die drei Hauptaktionen groß und erklärt
+	-------------------------------------------------------------------
+	local ps = panes.start
+	f.runStatus = UI.Text(ps, "", 12)
+	f.runStatus:SetPoint("TOPLEFT", 14, -8)
+	f.runStatus:SetWidth(W - 28)
+	f.runStatus:SetJustifyH("LEFT")
+
+	local runBtn = UI.Button(ps, "Ganzen Raid durchspielen", 300, 34, function() T.RunRaids(T.runs) end)
+	runBtn:SetPoint("TOPLEFT", 14, -34)
+	runBtn:SetAccent(true)
+	local runsLabel = UI.Text(ps, "Raidabende:", 12)
+	runsLabel:SetPoint("LEFT", runBtn, "RIGHT", 16, 0)
+	local runsBox = UI.EditBox(ps, 44, 26)
+	runsBox:SetPoint("LEFT", runsLabel, "RIGHT", 8, 0)
+	runsBox:SetText(tostring(T.runs or 1))
+	runsBox:SetScript("OnTextChanged", function(self, user)
+		if user then T.runs = math.max(1, math.min(10, math.floor(tonumber(self:GetText()) or 1))) end
+	end)
+	runsBox:SetScript("OnEnterPressed", function(self) self:ClearFocus(); self:SetText(tostring(T.runs)) end)
+	local d1 = Desc(ps, "Alle Bosse des gewählten Raids: Bosskill, Beute, Testgebote. Du startest die Versteigerungen in RaidMaster selbst\n"
+		.. "(oder unter Einstellungen \"Automatisch versteigern\"). Tipp: \"Raid starten\" in RaidMaster macht dasselbe.", runBtn)
+
+	local stressBtn = UI.Button(ps, "Stresstest (3–10 Wochen)", 300, 34, function() T.StressTest() end)
+	stressBtn:SetPoint("TOPLEFT", d1, "BOTTOMLEFT", -2, -14)
+	stressBtn:SetAccent(true)
+	local d2 = Desc(ps, "Zufällig 3 bis 10 Wochen am Stück, alles automatisch und ohne Abfragen (ca. 1,5 Min. pro Woche).\n"
+		.. "Am Ende: Zusammenfassung im Protokoll, Ergebnis geht an Discord (DKP- und Loot-Kanal).", stressBtn)
+
+	local sendBtn = UI.Button(ps, "Ergebnis jetzt an Discord senden", 300, 30, function() T.SendToDiscord() end)
+	sendBtn:SetPoint("TOPLEFT", d2, "BOTTOMLEFT", -2, -14)
+	local d3 = Desc(ps, "Lädt die Oberfläche neu, der Uploader schickt die Daten, der Bot postet mit TEST markiert (nach 10 Min. gelöscht).", sendBtn)
+
+	local stopRunBtn = UI.Button(ps, "Durchlauf abbrechen", 300, 30, function() T.StopRun() end)
+	stopRunBtn:SetPoint("TOPLEFT", d3, "BOTTOMLEFT", -2, -14)
+
+	local lastHead = UI.Text(ps, "Letzte Meldungen", 12, COLORS.accent[1], COLORS.accent[2], COLORS.accent[3])
+	lastHead:SetPoint("TOPLEFT", stopRunBtn, "BOTTOMLEFT", 0, -16)
+	f.lastLog = UI.Text(ps, "", 11)
+	f.lastLog:SetPoint("TOPLEFT", lastHead, "BOTTOMLEFT", 0, -4)
+	f.lastLog:SetWidth(W - 28)
+	f.lastLog:SetJustifyH("LEFT")
+
+	-------------------------------------------------------------------
+	-- Reiter Einzeln testen
+	-------------------------------------------------------------------
+	local pe = panes.single
+	Section(pe, "Raid", -4)
+	local bossDrop = UI.Dropdown(pe, 230, function()
 		local def = RM.Data.Pools[T.pool]
 		local items = {}
 		for _, id in ipairs(def and def.bossIDs or {}) do items[#items + 1] = { id, RM.Data.Bosses[id].name } end
 		return { { items = items } }
 	end, function() return T.boss end, function(v) T.boss = v end, "Boss für den Bosskill")
-	bossDrop:SetPoint("LEFT", raidDrop, "RIGHT", 10, 0)
-	local startBtn = UI.Button(f, "Raid starten", 126, 26, function() T.StartRaid() end, "Startet eine Raid-Sitzung mit Pünktlichkeitsbonus.")
-	startBtn:SetPoint("TOPLEFT", 14, -226)
-	local killBtn = UI.Button(f, "Bosskill", 126, 26, function() T.BossKill() end,
+	bossDrop:SetPoint("TOPLEFT", 14, -28)
+	local startBtn = UI.Button(pe, "Raid starten", 126, 26, function() T.StartRaid() end, "Startet nur die Raid-Sitzung (Pünktlichkeitsbonus, Ersatzbank).")
+	startBtn:SetPoint("TOPLEFT", 14, -60)
+	local killBtn = UI.Button(pe, "Bosskill", 126, 26, function() T.BossKill() end,
 		"Spielt Bosskampf-Beginn und -Ende vor: Boss-DKP, Erstkill, automatische Markierungsvorlage.")
 	killBtn:SetPoint("LEFT", startBtn, "RIGHT", 8, 0)
 	killBtn:SetAccent(true)
-	local endBtn = UI.Button(f, "Raid beenden", 126, 26, function() T.EndRaid() end, "Beendet die Sitzung mit Abschlussbonus.")
+	local endBtn = UI.Button(pe, "Raid beenden", 126, 26, function() T.EndRaid() end, "Beendet die Sitzung mit Abschlussbonus.")
 	endBtn:SetPoint("LEFT", killBtn, "RIGHT", 8, 0)
-	local tqBtn = UI.Button(f, "Jäger-Abfrage", 120, 26, function() T.TranqTest() end,
+	local trashBtn = UI.Button(pe, "Trash-Loot", 126, 26, function() T.TrashLoot() end, "Ein zufälliges Trash-Item des Raids droppen lassen.")
+	trashBtn:SetPoint("TOPLEFT", 14, -92)
+	local tqBtn = UI.Button(pe, "Jäger-Abfrage", 126, 26, function() T.TranqTest() end,
 		"Magmadar: fragt die Jäger nach Einlullender Schuss und postet die Rotation (Testjäger antworten selbst).")
-	tqBtn:SetPoint("LEFT", endBtn, "RIGHT", 8, 0)
+	tqBtn:SetPoint("LEFT", trashBtn, "RIGHT", 8, 0)
 
-	local runBtn = UI.Button(f, "Ganzen Raid durchspielen", 200, 26, function() T.RunRaids(T.runs) end,
-		"Alle Bosse des gewählten Raids nacheinander: Bosskill, Beute aus der echten Beutetabelle (Classic/TBC/Wrath),\n"
-		.. "Regeln (Versteigerung, Gildenbank, Entzauberer ...), Versteigerungen mit Testgeboten, Trash-Beute zwischendurch.")
-	runBtn:SetPoint("TOPLEFT", 14, -258)
-	runBtn:SetAccent(true)
-	local trashBtn = UI.Button(f, "Trash-Loot", 120, 26, function() T.TrashLoot() end, "Ein zufälliges Trash-Item des Raids droppen lassen.")
-	trashBtn:SetPoint("LEFT", runBtn, "RIGHT", 8, 0)
-	local stopRunBtn = UI.Button(f, "Durchlauf abbrechen", 160, 26, function() T.StopRun() end)
-	stopRunBtn:SetPoint("LEFT", trashBtn, "RIGHT", 8, 0)
-	local autoCheck = UI.Check(f, "Automatisch versteigern (ohne Klicken)", function() return T.autoAuction end,
-		function(v) T.autoAuction = v end,
-		"Aus (Standard): die Beute liegt in der Warteschlange, du startest jede Versteigerung selbst und klickst \"Vergeben\".\n"
-		.. "An: der Durchlauf versteigert und vergibt alles von selbst.")
-	autoCheck:SetPoint("TOPLEFT", 14, -290)
-	local speedLabel = UI.Text(f, "Dauer je Versteigerung:", 12)
-	speedLabel:SetPoint("TOPLEFT", 290, -295)
-	local speedOpts = {}
-	for _, v in ipairs(T.SPEEDS) do speedOpts[#speedOpts + 1] = { v, v .. " Sek." } end
-	local speed = UI.Cycle(f, 90, speedOpts, function() return T.AuctionSec() end, function(v) T.SetAuctionSec(v) end,
-		"Wie lange jede Versteigerung im Test höchstens läuft (Klick = nächster Wert). Die Testspieler bieten entsprechend schneller;\n"
-		.. "haben alle geboten, läuft die Restzeit nur noch 1 Sek. Keine Verlängerung bei späten Geboten.\n"
-		.. "Gilt nur im Testmodus – beim Beenden kommt deine echte Einstellung zurück.")
-	speed:SetPoint("TOPLEFT", 450, -290)
-	local runsLabel = UI.Text(f, "Raidabende hintereinander:", 12)
-	runsLabel:SetPoint("TOPLEFT", 16, -323)
-	local runsBox = UI.EditBox(f, 44, 24)
-	runsBox:SetPoint("TOPLEFT", 190, -318)
-	runsBox:SetText("1")
-	runsBox:SetScript("OnTextChanged", function(self, user)
-		if user then T.runs = math.max(1, math.min(10, math.floor(tonumber(self:GetText()) or 1))) end
-	end)
-	runsBox:SetScript("OnEnterPressed", function(self) self:ClearFocus(); self:SetText(tostring(T.runs)) end)
-	local weeklyCheck = UI.Check(f, "je eine Woche auseinander datieren", function() return T.weekly end, function(v) T.weekly = v end,
-		"Die Raidabende bekommen Daten im Wochenabstand (der letzte heute) – so sieht der Verlauf im Discord aus wie nach mehreren Wochen.")
-	weeklyCheck:SetPoint("TOPLEFT", 250, -321)
-
-	local awardCheck = UI.Check(f, "Items automatisch vergeben", function() return T.AutoAwardOn() end,
-		function(v) T.SetAutoAward(v) end,
-		"An (Standard): im Test wird jedes versteigerte Item sofort an den Höchstbieter vergeben –\n"
-		.. "keine \"Vergeben\"-Abfrage für den Plündermeister. Aus: du klickst \"Vergeben\" wie im echten Raid.")
-	awardCheck:SetPoint("TOPLEFT", 14, -350)
-	local stressBtn = UI.Button(f, "Stresstest (3–10 Wochen)", 200, 26, function() T.StressTest() end,
-		"Spielt zufällig 3 bis 10 Wochen des gewählten Raids hintereinander durch – Bosse, Beute, Testgebote,\n"
-		.. "Versteigerung und Vergabe alles automatisch, ohne Abfragen. Am Ende: Zusammenfassung im Protokoll\n"
-		.. "(Items, DKP, neue Fehler) und das Ergebnis geht an Discord.")
-	stressBtn:SetPoint("TOPLEFT", 330, -348)
-	stressBtn:SetAccent(true)
-
-	Section(f, "Versteigerung", -386)
-	local itemBox = UI.LinkBox(f, 300, 26)
-	itemBox:SetPoint("TOPLEFT", 14, -410)
+	Section(pe, "Versteigerung", -132)
+	local itemBox = UI.LinkBox(pe, 300, 26)
+	itemBox:SetPoint("TOPLEFT", 14, -156)
 	local hint = UI.Text(itemBox, "Item per Shift-Klick (leer = Ruhestein)", 11, unpack(COLORS.muted))
 	hint:SetPoint("LEFT", 8, 0)
 	itemBox:HookScript("OnTextChanged", function(self) if self:GetText() == "" then hint:Show() else hint:Hide() end end)
 	itemBox:HookScript("OnEditFocusGained", function() hint:Hide() end)
-	local aucBtn = UI.Button(f, "Mit Testgeboten versteigern", 220, 26, function() T.Auction(itemBox:GetText()) end,
-		"Startet eine Versteigerung; 4 Testspieler bieten nacheinander. Danach fragt RaidMaster wie im echten Raid, ob vergeben wird.")
+	local aucBtn = UI.Button(pe, "Mit Testgeboten versteigern", 210, 26, function() T.Auction(itemBox:GetText()) end,
+		"Startet eine Versteigerung; 4 Testspieler bieten nacheinander.")
 	aucBtn:SetPoint("LEFT", itemBox, "RIGHT", 8, 0)
-	local dkpBox = UI.EditBox(f, 120, 26)
-	dkpBox:SetPoint("TOPLEFT", 14, -444)
+	local dkpBox = UI.EditBox(pe, 100, 26)
+	dkpBox:SetPoint("TOPLEFT", 14, -190)
 	dkpBox:SetText("1000")
 	dkpBox:SetScript("OnEnterPressed", function(self) T.GiveMeDKP(self:GetText()); self:ClearFocus() end)
-	local dkpBtn = UI.Button(f, "DKP an mich (gewählter Raid)", 220, 26, function() T.GiveMeDKP(dkpBox:GetText()) end,
-		"Bucht dir beliebig viele DKP im oben gewählten Raid (negativ = abziehen). Nur im Testmodus – wird beim Beenden zurückgesetzt.")
+	local dkpBtn = UI.Button(pe, "DKP an mich (gewählter Raid)", 220, 26, function() T.GiveMeDKP(dkpBox:GetText()) end,
+		"Bucht dir beliebig viele DKP im gewählten Raid (negativ = abziehen). Nur im Testmodus.")
 	dkpBtn:SetPoint("LEFT", dkpBox, "RIGHT", 8, 0)
-	local discordBtn = UI.Button(f, "Test an Discord senden", 168, 26, function() T.SendToDiscord() end,
-		"DKP-Stand, Teilnehmer und Loot dieses Tests im Discord posten (mit TEST markiert, nach 10 Minuten gelöscht).\n"
-		.. "Lädt die Oberfläche neu – danach ist der Testmodus beendet. Der Uploader muss laufen.")
-	discordBtn:SetPoint("LEFT", dkpBtn, "RIGHT", 8, 0)
 
-	local sendCheck = UI.Check(f, "Ergebnis nach dem Raid automatisch an Discord senden (DKP- und Loot-Kanal)",
-		function() return T.AutoSendOn() end,
+	Section(pe, "Schlachtzugsymbole (echt, z. B. an Trainingspuppen)", -232)
+	local m1 = UI.Button(pe, "Totenkopf aufs Ziel", 160, 26, function() RM.Markers.Mark(8) end)
+	m1:SetPoint("TOPLEFT", 14, -256)
+	local m2 = UI.Button(pe, "Adds markieren", 160, 26, function() RM.Markers.MarkAdds() end, "Markiert alle sichtbaren Gegner nach der gewählten Vorlage.")
+	m2:SetPoint("LEFT", m1, "RIGHT", 8, 0)
+	local m3 = UI.Button(pe, "Alle aus", 120, 26, function() RM.Markers.ClearAll() end)
+	m3:SetPoint("LEFT", m2, "RIGHT", 8, 0)
+
+	-------------------------------------------------------------------
+	-- Reiter Einstellungen
+	-------------------------------------------------------------------
+	local po = panes.options
+	local checks = {}
+	local oy = -8
+	local function Opt(label, getter, setter, tip)
+		local c = UI.Check(po, label, getter, setter, tip)
+		c:SetPoint("TOPLEFT", 14, oy)
+		checks[#checks + 1] = c
+		oy = oy - 30
+		return c
+	end
+	Opt("Items automatisch vergeben (keine \"Vergeben\"-Abfrage)", function() return T.AutoAwardOn() end, function(v) T.SetAutoAward(v) end,
+		"An (Standard): jedes versteigerte Item geht sofort an den Höchstbieter. Aus: du klickst \"Vergeben\" wie im echten Raid.")
+	Opt("Automatisch versteigern (Durchlauf ohne Klicken)", function() return T.autoAuction end, function(v) T.autoAuction = v end,
+		"Aus (Standard): die Beute liegt in der Warteschlange, du startest jede Versteigerung in RaidMaster selbst.\nAn: der Durchlauf versteigert alles von selbst.")
+	Opt("Raidabende je eine Woche auseinander datieren", function() return T.weekly end, function(v) T.weekly = v end,
+		"Die Raidabende bekommen Daten im Wochenabstand (der letzte heute) – wie nach mehreren Wochen im Discord.")
+	Opt("Ergebnis nach dem Raid automatisch an Discord senden", function() return T.AutoSendOn() end,
 		function(v)
 			T.SetAutoSend(v)
 			if T.active and RM.db.testMode then RM.db.testMode.post = v or nil end
 		end,
-		"An (Standard): nach \"Raid beenden\" bzw. am Ende des Durchlaufs wird das Ergebnis nach 10 Sek. gesendet\n"
-		.. "(lädt die Oberfläche neu), und auch jedes /reload oder Ausloggen im Testmodus schickt es.\n"
-		.. "Der Bot postet es mit TEST markiert und löscht es nach 10 Minuten. Der Uploader muss laufen.")
-	sendCheck:SetPoint("TOPLEFT", 14, -476)
-	local followCheck = UI.Check(f, "\"Raid starten\" in RaidMaster spielt im Test den ganzen Raid durch",
-		function() return T.FollowStartOn() end, function(v) T.SetFollowStart(v) end,
-		"An (Standard): startest du im Testmodus den Raid in RaidMaster (Seite Raidleiter), startet das Test-Tool\n"
-		.. "den Durchlauf (Bosse, Beute, Testgebote) für diesen Raid. \"Raid beenden\" in RaidMaster bricht ihn ab\n"
-		.. "und schickt das Ergebnis an Discord. Der Knopf \"Raid starten\" hier im Test-Tool startet nur die Sitzung.")
-	followCheck:SetPoint("TOPLEFT", 14, -500)
+		"Nach \"Raid beenden\" bzw. am Ende des Durchlaufs wird das Ergebnis nach 10 Sek. gesendet (lädt die Oberfläche neu).")
+	Opt("\"Raid starten\" in RaidMaster spielt den ganzen Raid durch", function() return T.FollowStartOn() end, function(v) T.SetFollowStart(v) end,
+		"Startest du im Testmodus den Raid in RaidMaster, startet das Test-Tool den Durchlauf für diesen Raid.")
+	local speedLabel = UI.Text(po, "Dauer je Versteigerung im Test:", 12)
+	speedLabel:SetPoint("TOPLEFT", 16, oy - 6)
+	local speedOpts = {}
+	for _, v in ipairs(T.SPEEDS) do speedOpts[#speedOpts + 1] = { v, v .. " Sek." } end
+	local speed = UI.Cycle(po, 100, speedOpts, function() return T.AuctionSec() end, function(v) T.SetAuctionSec(v) end,
+		"Klick = nächster Wert. Haben alle Testspieler geboten, läuft die Restzeit nur noch 1 Sek. Nur im Testmodus.")
+	speed:SetPoint("TOPLEFT", 240, oy)
 
-	Section(f, "Schlachtzugsymbole (echt, z. B. an Trainingspuppen)", -534)
-	local m1 = UI.Button(f, "Totenkopf aufs Ziel", 160, 26, function() RM.Markers.Mark(8) end)
-	m1:SetPoint("TOPLEFT", 14, -558)
-	local m2 = UI.Button(f, "Adds markieren", 160, 26, function() RM.Markers.MarkAdds() end, "Markiert alle sichtbaren Gegner nach der gewählten Vorlage.")
-	m2:SetPoint("LEFT", m1, "RIGHT", 8, 0)
-	local m3 = UI.Button(f, "Alle aus", 120, 26, function() RM.Markers.ClearAll() end)
-	m3:SetPoint("LEFT", m2, "RIGHT", 8, 0)
-
-	Section(f, "Protokoll", -600)
-	local diagBtn = UI.Button(f, "Diagnose", 110, 22, function() if RM.Diag then RM.Diag.Toggle() end end,
+	-------------------------------------------------------------------
+	-- Reiter Protokoll
+	-------------------------------------------------------------------
+	local pl = panes.log
+	local selfBtn = UI.Button(pl, "Selbsttest", 120, 26, function() T.SelfTest() end, "Prüft Spielversion, Daten, Rechte und Einstellungen.")
+	selfBtn:SetPoint("TOPLEFT", 14, -4)
+	local diagBtn = UI.Button(pl, "Diagnose", 120, 26, function() if RM.Diag then RM.Diag.Toggle() end end,
 		"Zeigt Fehler und Hänger von RaidMaster und vom Test-Durchlauf und kann sie lösen.")
-	diagBtn:SetPoint("TOPRIGHT", -14, -596)
-	local box = UI.Multiline(f, 532, 220, true)
-	box:SetPoint("TOPLEFT", 14, -624)
+	diagBtn:SetPoint("LEFT", selfBtn, "RIGHT", 8, 0)
+	local box = UI.Multiline(pl, W - 28, 380, true)
+	box:SetPoint("TOPLEFT", 14, -38)
 
 	function T.Refresh()
 		if not f:IsShown() then return end
@@ -1109,7 +1189,17 @@ local function CreateWindow()
 		toggle:SetText(T.active and "Testmodus beenden (alles zurücksetzen)" or "Testmodus starten")
 		toggle:SetAccent(not T.active)
 		for role, b in pairs(roleBtns) do b:SetAccent(T.active and T.role == role) end
-		raidDrop:Refresh(); bossDrop:Refresh(); autoCheck:Refresh()
+		raidDrop:Refresh(); bossDrop:Refresh()
+		for _, c in ipairs(checks) do c:Refresh() end
+		local cur = panes[T.tab] and T.tab or "start"
+		for key, p in pairs(panes) do
+			if key == cur then p:Show() else p:Hide() end
+			tabBtns[key]:SetAccent(key == cur)
+		end
+		f.runStatus:SetText("Stand: " .. T.RunStatus())
+		local last = {}
+		for i = 1, math.min(6, #T.log) do last[#last + 1] = T.log[i] end
+		f.lastLog:SetText(table.concat(last, "\n"))
 		local text = T.selfTest and (T.selfTest .. "\n\n") or ""
 		box:SetText(text .. table.concat(T.log, "\n"))
 	end

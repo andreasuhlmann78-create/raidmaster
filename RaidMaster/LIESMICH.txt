@@ -1,4 +1,4 @@
-RaidMaster 2.3.0 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 2.3.1 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,12 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+TEST-TOOL ÜBERSICHTLICHER (neu in 2.3.1)
+- Oben: Testmodus starten/beenden, "Ansicht als" und der Raid. Darunter vier Reiter:
+  Schnellstart (Ganzen Raid durchspielen, Stresstest, Ergebnis an Discord, Abbrechen – mit Erklärung und
+  aktuellem Stand), Einzeln testen (Raid/Bosskill/Ende, Trash, Jäger, Versteigerung, DKP an mich, Symbole),
+  Einstellungen (alle Haken und die Dauer je Versteigerung) und Protokoll (Selbsttest, Diagnose, Meldungen).
 
 ERSATZBANK NUR BEIM RAIDSTART (neu in 2.3.0)
 - Spieler auf der Ersatzbank bekommen beim Raidstart automatisch einmalig 10 DKP – danach nichts mehr
