@@ -1791,19 +1791,19 @@ async def handle_test_upload(db: dict, uploader: str):
         if not dkp_ch:
             log.info("Test: kein Kanal für %s gefunden.", name)
             continue
-        # DKP-Tabelle
-        rows = rmd.standings(data, pool)
-        chunks = rmd.with_head(f"{head}\n**DKP-Stand {name}** (Test)\n{rmd.total_line(rows)}", rmd.format_standings(rows))
-        for text in chunks:
-            await send_test(dkp_ch, text)
-            posted += 1
-        # Raid-Abrechnung des Testraids (wie nach einem echten Raid)
-        for summ in rmd.raid_summaries(data):
-            if summ["pool"] == pool and summ["t"] >= since:
-                for text in rmd.format_raid_summary(summ):
-                    await send_test(dkp_ch, "🧪 " + text)
-                    posted += 1
-        # Teilnehmer (Raidstart, Bosskills, Raidende im Test)
+        summaries = sorted((x for x in rmd.raid_summaries(data) if x["pool"] == pool and x["t"] >= since),
+                           key=lambda x: x["start"])
+        # 1) Kopf
+        await send_test(dkp_ch, f"{head}\n🧪 **{name}** – {len(summaries)} Raidabend(e) im Test, älteste zuerst. "
+                                f"Der aktuelle DKP-Stand steht ganz unten.")
+        posted += 1
+        # 2) Raid-Abrechnung je Raidabend, chronologisch (wie nach echten Raids)
+        for summ in summaries:
+            for i, text in enumerate(rmd.format_raid_summary(summ)):
+                # nur die Kopfzeile markieren – ein Codeblock muss am Zeilenanfang beginnen
+                await send_test(dkp_ch, ("🧪 " + text) if i == 0 else text)
+                posted += 1
+        # 3) Teilnehmer (Raidstart, Bosskills, Raidende im Test; ohne reine Ersatzbank)
         names = set()
         for e in log_entries:
             if (e.get("pool") or "mc") == pool and e.get("k") in ("start", "boss", "end"):
@@ -1811,20 +1811,25 @@ async def handle_test_upload(db: dict, uploader: str):
         if names:
             await send_test(dkp_ch, f"🧪 👥 **Teilnehmer {name}** (Test, {len(names)}): " + ", ".join(sorted(names, key=str.lower)))
             posted += 1
-        # Loot
-        items = [e for e in rmd.loot_entries(data) if e["t"] >= since and e["pool"] == pool]
-        if items and loot_ch:
-            text = f"🧪 **Loot {name}** (Test)\n"
-            for e in items:
-                line = f"🎁 **{e['name']}** erhält **{e['item']}** für {e['amount']} DKP ({e['pool_name']})\n"
-                if len(text) + len(line) > 1900:
+        # 4) aktueller DKP-Stand zuletzt (mit Raids und Verdient)
+        rows = rmd.standings(data, pool)
+        counts = rmd.raid_counts(summaries, pool)
+        for r_ in rows:
+            r_["raids"] = counts.get(r_["name"], 0)
+        for text in rmd.with_head(f"🧪 **DKP-Stand {name}** (Test, nach {len(summaries)} Raidabend(en))\n{rmd.total_line(rows)}",
+                                  rmd.format_standings(rows)):
+            await send_test(dkp_ch, text)
+            posted += 1
+        # 5) Loot im Loot-Kanal: chronologisch, je Raidabend eine Gruppe
+        if loot_ch:
+            groups = rmd.loot_by_raid(data, pool, since)
+            if groups:
+                await send_test(loot_ch, f"{head}\n🧪 **Loot {name}** – {sum(len(g['items']) for g in groups)} Items, nach Raid sortiert.")
+                posted += 1
+            for g in groups:
+                for text in rmd.format_loot_group(g, "🧪 "):
                     await send_test(loot_ch, text)
                     posted += 1
-                    text = ""
-                text += line
-            if text:
-                await send_test(loot_ch, text)
-                posted += 1
     log.info("Testdaten von %s gepostet (%d Nachrichten, werden nach %d Min. gelöscht).", uploader, posted, TEST_TTL // 60)
     return posted
 

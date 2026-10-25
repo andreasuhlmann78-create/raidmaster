@@ -537,7 +537,9 @@ def raid_summaries(data: dict) -> list[dict]:
             if k == "boss":
                 bosses.append(str(e.get("bn") or e.get("x") or "Boss"))
             for name, d in (e.get("d") or {}).items():
-                r = rows.setdefault(str(name), {"name": str(name), "earned": 0, "spent": 0, "items": []})
+                r = rows.setdefault(str(name), {"name": str(name), "earned": 0, "spent": 0, "items": [], "present": False})
+                if k != "bench":
+                    r["present"] = True
                 d = int(d)
                 if k in EARN_KINDS and d > 0:
                     r["earned"] += d
@@ -567,7 +569,8 @@ def raid_counts(summaries: list[dict], pool: str) -> dict[str, int]:
     for s in summaries:
         if s["pool"] == pool:
             for r in s["rows"]:
-                counts[r["name"]] = counts.get(r["name"], 0) + 1
+                if r.get("present", True):
+                    counts[r["name"]] = counts.get(r["name"], 0) + 1
     return counts
 
 
@@ -576,7 +579,8 @@ def format_raid_summary(s: dict, limit_chars: int = 1900) -> list[str]:
     from datetime import datetime as _dt
     day = _dt.fromtimestamp(s["t"]).strftime("%d.%m.%Y")
     head = (f"📜 **Raid-Abrechnung {s['pool_name']} – {day}** (<t:{s['start']}:t>–<t:{s['t']}:t>)\n"
-            f"Bosse ({len(s['bosses'])}): {', '.join(s['bosses']) or '–'} · Teilnehmer: {len(s['rows'])}")
+            f"Bosse ({len(s['bosses'])}): {', '.join(s['bosses']) or '–'} · Teilnehmer: {sum(1 for r in s['rows'] if r.get('present', True))}"
+            + (f" · Ersatzbank: {sum(1 for r in s['rows'] if not r.get('present', True))}" if any(not r.get('present', True) for r in s['rows']) else ""))
     lines = [f"{'Name':<14} {'Klasse':<10} {'+DKP':>5} {'Items':>6} {'Stand':>6}", "-" * 45]
     for r in s["rows"]:
         cls = CLASSES.get(r["class"], "")[:10]
@@ -1094,3 +1098,38 @@ def with_head(head: str, chunks: list[str], limit: int = DISCORD_LIMIT) -> list[
     for i, c in enumerate(chunks):
         out.extend(split_discord((head + "\n" + c) if i == 0 and head else c, limit))
     return out
+
+
+def loot_by_raid(data: dict, pool: str, since: int = 0) -> list[dict]:
+    """Loot eines Topfes chronologisch, gruppiert nach Raidabend (Raidstart bis Raidende).
+    Items außerhalb eines beendeten Raids landen in einer Gruppe ohne Raid (start=None)."""
+    items = [e for e in loot_entries(data) if e["pool"] == pool and e["t"] >= since]
+    raids = [s for s in raid_summaries(data) if s["pool"] == pool and s["t"] >= since]
+    raids.sort(key=lambda s: s["start"])
+    groups = [{"start": s["start"], "end": s["t"], "pool_name": s["pool_name"], "items": []} for s in raids]
+    rest = {"start": None, "end": None, "pool_name": pool_name(pool, data), "items": []}
+    for e in items:
+        for g in groups:
+            if g["start"] <= e["t"] <= g["end"]:
+                g["items"].append(e)
+                break
+        else:
+            rest["items"].append(e)
+    out = [g for g in groups if g["items"]]
+    if rest["items"]:
+        out.append(rest)
+    return out
+
+
+def format_loot_group(g: dict, prefix: str = "") -> list[str]:
+    """Loot eines Raidabends als Nachrichten (chronologisch, mit Uhrzeit)."""
+    from datetime import datetime as _dt
+    if g["start"]:
+        day = _dt.fromtimestamp(g["end"]).strftime("%d.%m.%Y")
+        head = f"{prefix}🎁 **Loot {g['pool_name']} – Raid vom {day}** ({len(g['items'])} Items)"
+    else:
+        head = f"{prefix}🎁 **Loot {g['pool_name']} – außerhalb eines Raids** ({len(g['items'])} Items)"
+    lines = [head]
+    for e in g["items"]:
+        lines.append(f"<t:{int(e['t'])}:t> **{e['name']}** erhält **{e['item']}** für {e['amount']} DKP")
+    return split_discord("\n".join(lines))
