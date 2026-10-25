@@ -1011,8 +1011,13 @@ def dkp_channel_for(pool: str) -> int:
 
 async def post_dkp_tables():
     """Je Raid-Topf eine Tabelle im passenden Kanal (z. B. #dkp-molten-core)."""
+    summaries = rmd.raid_summaries(bot.dkp_data)
     for pool in rmd.pool_list(bot.dkp_data):
         rows = rmd.standings(bot.dkp_data, pool)
+        counts = rmd.raid_counts(summaries, pool)
+        if counts:
+            for r in rows:
+                r["raids"] = counts.get(r["name"], 0)
         if not any(r["dkp"] != 0 for r in rows):
             continue
         channel_id = dkp_channel_for(pool)
@@ -1045,6 +1050,33 @@ async def total_channel():
     cfg["dkp_total_channel_id"] = ch.id
     save_config()
     return ch
+
+
+async def post_raid_summaries():
+    """Nach jedem beendeten Raid eine Abrechnung im DKP-Kanal des Raids (bleibt stehen = Verlauf über die Wochen).
+    Beim ersten Mal werden alle noch gespeicherten Raidabende nachgetragen."""
+    done = set(state.data.get("raid_summaries_done") or [])
+    posted = False
+    for s in rmd.raid_summaries(bot.dkp_data):
+        if s["id"] in done:
+            continue
+        ch = await channel_by_id(dkp_channel_for(s["pool"]))
+        if not ch:
+            continue
+        # alte DKP-Tabelle entfernen – sie wird danach unter der Abrechnung neu gepostet
+        for msg_id in (state.data.setdefault("dkp_messages", {})).pop(s["pool"], None) or []:
+            try:
+                await ch.get_partial_message(msg_id).delete()
+            except discord.HTTPException:
+                pass
+        for text in rmd.format_raid_summary(s):
+            await ch.send(text)
+            await asyncio.sleep(0.5)
+        done.add(s["id"])
+        posted = True
+    if posted:
+        state.data["raid_summaries_done"] = sorted(done)[-1000:]
+        state.save()
 
 
 async def post_overall():
@@ -1164,6 +1196,7 @@ async def process_new_data():
     try:
         await sync_specs()
         await ensure_new_raid_categories()
+        await post_raid_summaries()
         await post_dkp_tables()
         await post_overall()
         await post_new_loot()
@@ -1651,6 +1684,12 @@ async def handle_test_upload(db: dict, uploader: str):
         for text in chunks:
             await send_test(dkp_ch, text)
             posted += 1
+        # Raid-Abrechnung des Testraids (wie nach einem echten Raid)
+        for summ in rmd.raid_summaries(data):
+            if summ["pool"] == pool and summ["t"] >= since:
+                for text in rmd.format_raid_summary(summ):
+                    await send_test(dkp_ch, "🧪 " + text)
+                    posted += 1
         # Teilnehmer (Raidstart, Bosskills, Raidende im Test)
         names = set()
         for e in log_entries:

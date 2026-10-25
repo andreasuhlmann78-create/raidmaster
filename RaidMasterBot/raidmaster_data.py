@@ -502,6 +502,100 @@ def overall_line(rows: list[dict]) -> str:
             f"insgesamt verdient {sum(r['earned'] for r in rows)} DKP")
 
 
+EARN_KINDS = ("start", "end", "boss", "manual")
+
+
+def raid_summaries(data: dict) -> list[dict]:
+    """Abrechnung je beendetem Raidabend (Raidstart bis Raidende eines Topfes), älteste zuerst.
+    Je Spieler: verdient (Start, Bosse, Ende, Gutschriften), für Items ausgegeben, Stand nach dem Raid."""
+    log = [e for e in lua_list((data or {}).get("log")) if isinstance(e, dict)]
+    log.sort(key=lambda e: (int(e.get("t") or 0), str(e.get("id"))))
+    players = (data or {}).get("players") or {}
+    out = []
+    for i, end in enumerate(log):
+        if end.get("k") != "end" or end.get("u"):
+            continue
+        pool = end.get("pool") or "mc"
+        t_end = int(end.get("t") or 0)
+        start = None
+        for e in reversed(log[:i]):
+            if (e.get("pool") or "mc") != pool:
+                continue
+            if e.get("k") == "end" and not e.get("u"):
+                break
+            if e.get("k") == "start" and not e.get("u"):
+                start = e
+                break
+        t_start = int(start.get("t") or 0) if start else t_end - 6 * 3600
+        rows: dict[str, dict] = {}
+        bosses, items = [], []
+        for e in log:
+            t = int(e.get("t") or 0)
+            if (e.get("pool") or "mc") != pool or e.get("u") or t < t_start or t > t_end:
+                continue
+            k = e.get("k")
+            if k == "boss":
+                bosses.append(str(e.get("bn") or e.get("x") or "Boss"))
+            for name, d in (e.get("d") or {}).items():
+                r = rows.setdefault(str(name), {"name": str(name), "earned": 0, "spent": 0, "items": []})
+                d = int(d)
+                if k in EARN_KINDS and d > 0:
+                    r["earned"] += d
+                elif k == "item":
+                    r["spent"] += -d
+                    r["items"].append(item_name(e.get("i")))
+                    items.append((str(name), item_name(e.get("i")), -d))
+        # Stand nach dem Raid = heutiger Stand minus alles, was danach im Topf gebucht wurde
+        after: dict[str, int] = {}
+        for e in log:
+            if (e.get("pool") or "mc") == pool and not e.get("u") and int(e.get("t") or 0) > t_end:
+                for name, d in (e.get("d") or {}).items():
+                    after[str(name)] = after.get(str(name), 0) + int(d)
+        for r in rows.values():
+            p = players.get(r["name"])
+            r["balance"] = (player_pool_value(p, pool) if isinstance(p, dict) else 0) - after.get(r["name"], 0)
+            r["class"] = (p.get("c") if isinstance(p, dict) else "") or ""
+        out.append({"id": str(end.get("id")), "t": t_end, "start": t_start, "pool": pool,
+                    "pool_name": end.get("pn") or pool_name(pool, data), "bosses": bosses, "items": items,
+                    "rows": sorted(rows.values(), key=lambda r: (-r["balance"], r["name"].lower()))})
+    return out
+
+
+def raid_counts(summaries: list[dict], pool: str) -> dict[str, int]:
+    """Wie viele beendete Raidabende jeder Spieler in diesem Topf dabei war."""
+    counts: dict[str, int] = {}
+    for s in summaries:
+        if s["pool"] == pool:
+            for r in s["rows"]:
+                counts[r["name"]] = counts.get(r["name"], 0) + 1
+    return counts
+
+
+def format_raid_summary(s: dict, limit_chars: int = 1900) -> list[str]:
+    """Raid-Abrechnung als Nachrichten: Kopf, Tabelle je Spieler, Items."""
+    from datetime import datetime as _dt
+    day = _dt.fromtimestamp(s["t"]).strftime("%d.%m.%Y")
+    head = (f"📜 **Raid-Abrechnung {s['pool_name']} – {day}** (<t:{s['start']}:t>–<t:{s['t']}:t>)\n"
+            f"Bosse ({len(s['bosses'])}): {', '.join(s['bosses']) or '–'} · Teilnehmer: {len(s['rows'])}")
+    lines = [f"{'Name':<14} {'Klasse':<10} {'+DKP':>5} {'Items':>6} {'Stand':>6}", "-" * 45]
+    for r in s["rows"]:
+        cls = CLASSES.get(r["class"], "")[:10]
+        lines.append(f"{r['name'][:14]:<14} {cls:<10} {r['earned']:>5} {(-r['spent'] if r['spent'] else 0):>6} {r['balance']:>6}")
+    msgs, cur = [], head + "\n```\n"
+    for line in lines:
+        if len(cur) + len(line) + 10 > limit_chars:
+            msgs.append(cur + "```")
+            cur = "```\n"
+        cur += line + "\n"
+    msgs.append(cur + "```")
+    if s["items"]:
+        text = "🎁 " + " · ".join(f"**{n}**: {it} ({a} DKP)" for n, it, a in s["items"])
+        while text:
+            msgs.append(text[:1900])
+            text = text[1900:]
+    return msgs
+
+
 def player_summary(data: dict, name: str) -> list[tuple[str, int, int, int]]:
     """Für /dkp: (Raidname, DKP, Platz, Spielerzahl) je Topf mit Stand ungleich 0."""
     out = []
@@ -544,10 +638,13 @@ def format_standings(rows: list[dict], limit_chars: int = 1900) -> list[str]:
         return ["```\nNoch keine DKP-Daten.\n```"]
     lines = []
     rows = [r for r in rows if r["dkp"] != 0 or r.get("earned")] or rows
+    with_raids = any("raids" in r for r in rows)
     for i, r in enumerate(rows, 1):
         cls = CLASSES.get(r["class"], "")
-        lines.append(f"{i:>3}. {r['name']:<14} {cls:<13} {r['dkp']:>6} {int(r.get('earned') or 0):>8}")
-    header = f"{'#':>3}  {'Name':<14} {'Klasse':<13} {'DKP':>6} {'Verdient':>8}\n" + "-" * 49
+        lines.append(f"{i:>3}. {r['name']:<14} {cls:<13} {r['dkp']:>6} {int(r.get('earned') or 0):>8}"
+                     + (f" {int(r.get('raids') or 0):>5}" if with_raids else ""))
+    header = (f"{'#':>3}  {'Name':<14} {'Klasse':<13} {'DKP':>6} {'Verdient':>8}" + (f" {'Raids':>5}" if with_raids else "")
+              + "\n" + "-" * (55 if with_raids else 49))
     chunks, cur = [], [header]
     size = len(header)
     for line in lines:

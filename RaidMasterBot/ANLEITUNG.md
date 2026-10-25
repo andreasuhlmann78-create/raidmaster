@@ -207,6 +207,10 @@ Erstellt die Raidleitung im Spiel die **Einteilung** und gibt danach `/reload` e
 ## DKP in Discord
 
 - Jeder Raid hat einen eigenen DKP-Topf und einen eigenen Kanal in seiner Kategorie (#mc-dkp usw.).
+- **Raid-Abrechnung:** Nach jedem beendeten Raid postet der Bot im DKP-Kanal des Raids (z. B. #mc-dkp) eine
+  Abrechnung: Datum, Bosse, und je Spieler +DKP, Items und Stand nach dem Raid. Die Beiträge bleiben stehen – so
+  sieht jeder seinen Verlauf über mehrere Wochen. Die DKP-Tabelle steht darunter und hat die Spalte „Raids“
+  (Anzahl der Raidabende). Beim ersten Mal werden alle noch gespeicherten Raidabende nachgetragen.
 - **#dkp-gesamt** (RAID-ORGA) zeigt die Gesamt-DKP je Raider über alle Raids: eine Spalte pro Raid, Gesamt und
   insgesamt verdient. Der Bot hält die Tabelle nach jedem Upload aktuell (fehlt der Kanal, legt er ihn selbst an).
 - `/dkp` zeigt die eigenen DKP in allen Raids und die Gesamtsumme, `/dkpliste raid:<Raid>` die Rangliste.
