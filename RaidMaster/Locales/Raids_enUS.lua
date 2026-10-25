@@ -4963,3 +4963,7 @@ L["Volle Rechte hat der Raidleiter des aktuellen Raids (und der Eigentümer). As
 L["keine Gilde"] = "no guild"
 L["Testmodus läuft – Ansicht als %s."] = "Test mode running – viewing as %s."
 L["Eigentümer: immer alle Rechte."] = "Owner: always all rights."
+L["Versteigerungen führt nur der Plündermeister oder der Raidleiter durch."] = "Only the master looter or the raid leader runs auctions."
+L["eingeschränkt – im Test auf Raidleiter umstellen"] = "limited – switch to raid leader in the test tool"
+L["Assistent: "] = "Assistant: "
+L["Volle Rechte hat der Raidleiter des aktuellen Raids. Der Plündermeister darf versteigern, Assistenten z. B. markieren."] = "Full rights belong to the leader of the current raid. The master looter may run auctions, assistants can e.g. mark targets."

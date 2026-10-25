@@ -1,4 +1,4 @@
-RaidMaster 2.1.2 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 2.2.0 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -11,12 +11,17 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
-RECHTE: RAIDLEITER UND EIGENTÜMER (neu in 2.1.2)
-- Im Raid gibt es nur Raidleiter, Assistenten und Raidmitglieder. Volle Rechte hat der Raidleiter des aktuellen Raids.
-- Rokan Steinwacht hat als Eigentümer von RaidMaster immer alle Rechte – auch ohne Raid und unabhängig vom Gildenrang.
-- Test-Tool: Ansichten Raidmitglied / Assistent / Raidleiter (die Ansicht "Offizier" entfällt, Standard ist Raidleiter).
-  Als Raidmitglied steht oben im Fenster der Knopf "Volle Rechte" – ein Klick, und du bist wieder Raidleiter.
-- Diagnose zeigt, warum du (keine) Rechte hast: Raidleiter im Raid, Eigentümer, Testmodus-Ansicht.
+RECHTE IM RAID (neu in 2.2.0)
+- Raidleiter: immer voller Zugang – alle Seiten, Raid starten/beenden, DKP, Versteigerung, Einstellungen.
+- Plündermeister (wenn er nicht der Raidleiter ist): sieht nur DKP-Stände, Versteigerung und Loot.
+  Er startet und vergibt die Versteigerungen, die Items werden ihm abgebucht wie beim Raidleiter.
+  Ist der Raidleiter selbst Plündermeister, sieht er natürlich alles.
+- Assistenten: Raid-Seiten und Symbolleiste (z. B. Mobs markieren), keine DKP-Rechte.
+- Raidmitglieder: DKP-Stände und Versteigerung (bieten).
+- Im Raid zählt der Gildenrang für deine eigenen Rechte nicht mehr (keine Offiziere im Raid).
+  Ohne Gruppe gelten weiter die "Offiziersränge bis Index" (z. B. für DKP-Korrekturen zu Hause).
+- Die Sonderrechte für "Rokan Steinwacht" aus 2.1.2 sind wieder entfernt.
+- Test-Tool: Ansichten Raidmitglied / Assistent / Plündermeister / Raidleiter.
 
 TESTMODUS SICHTBAR, RECHTE SICHER ZURÜCK (neu in 2.1.1)
 - Im Testmodus steht oben im RaidMaster-Fenster rot "TESTMODUS – Ansicht als ..." und der Knopf heißt "Test AN".

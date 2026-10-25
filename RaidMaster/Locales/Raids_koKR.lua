@@ -4963,3 +4963,7 @@ L["Volle Rechte hat der Raidleiter des aktuellen Raids (und der Eigentümer). As
 L["keine Gilde"] = "길드 없음"
 L["Testmodus läuft – Ansicht als %s."] = "테스트 모드 실행 중 – %s 시점."
 L["Eigentümer: immer alle Rechte."] = "소유자: 항상 모든 권한."
+L["Versteigerungen führt nur der Plündermeister oder der Raidleiter durch."] = "경매는 전리품 담당자 또는 공격대장만 진행합니다."
+L["eingeschränkt – im Test auf Raidleiter umstellen"] = "제한됨 – 테스트 도구에서 공격대장으로 전환"
+L["Assistent: "] = "부공대장: "
+L["Volle Rechte hat der Raidleiter des aktuellen Raids. Der Plündermeister darf versteigern, Assistenten z. B. markieren."] = "전체 권한은 현재 공격대의 공격대장에게 있습니다. 전리품 담당자는 경매를, 부공대장은 예: 징표 지정을 할 수 있습니다."

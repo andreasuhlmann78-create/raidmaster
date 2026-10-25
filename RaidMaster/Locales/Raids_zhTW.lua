@@ -4963,3 +4963,7 @@ L["Volle Rechte hat der Raidleiter des aktuellen Raids (und der Eigentümer). As
 L["keine Gilde"] = "無公會"
 L["Testmodus läuft – Ansicht als %s."] = "測試模式進行中 – 以%s視角。"
 L["Eigentümer: immer alle Rechte."] = "擁有者：永遠擁有全部權限。"
+L["Versteigerungen führt nur der Plündermeister oder der Raidleiter durch."] = "只有拾取者或團長可以進行拍賣。"
+L["eingeschränkt – im Test auf Raidleiter umstellen"] = "受限 – 在測試工具中切換為團長"
+L["Assistent: "] = "助理："
+L["Volle Rechte hat der Raidleiter des aktuellen Raids. Der Plündermeister darf versteigern, Assistenten z. B. markieren."] = "完整權限屬於目前團隊的團長。拾取者可以拍賣，助理可以例如標記目標。"

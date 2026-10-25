@@ -69,7 +69,7 @@ function A.CanRun()
 	if RM.Caps.masterLoot and not RM.IAmMasterLooter() then
 		return false, string.format(L["Versteigerungen startet nur der Plündermeister (%s)."], RM.MasterLooterName() or "?")
 	end
-	if not RM.CanEdit() then return false, L["Nur Offiziere können Versteigerungen durchführen."] end
+	if not RM.CanLoot() then return false, L["Versteigerungen führt nur der Plündermeister oder der Raidleiter durch."] end
 	return true
 end
 

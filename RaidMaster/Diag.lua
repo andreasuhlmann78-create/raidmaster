@@ -85,9 +85,9 @@ function D.Text()
 		local ri = RM.RightsInfo()
 		add("  " .. string.format(L["Rechte: %s · Raidleiter im Raid: %s · Gildenrang %s (%s)"],
 			ri.me or "?", ri.leader or "–", ri.rank ~= nil and tostring(ri.rank) or "?", ri.rankName or (ri.inGuild and "?" or L["keine Gilde"])))
-		if ri.owner then add("  |cff40ff40" .. L["Eigentümer: immer alle Rechte."] .. "|r") end
+		add("  " .. L["Plündermeister: "] .. yes(ri.looter) .. "   " .. L["Assistent: "] .. yes(ri.assist))
 		if not RM.CanEdit() then
-			add("  |cffffaa33" .. L["Volle Rechte hat der Raidleiter des aktuellen Raids (und der Eigentümer). Assistenten und Raidmitglieder haben keine."] .. "|r")
+			add("  |cffffaa33" .. L["Volle Rechte hat der Raidleiter des aktuellen Raids. Der Plündermeister darf versteigern, Assistenten z. B. markieren."] .. "|r")
 		end
 		if RM.Test and RM.Test.active then
 			add("  |cffff5544" .. string.format(L["Testmodus läuft – Ansicht als %s."], RM.Test.RoleName()) .. "|r")

@@ -351,7 +351,7 @@ Comm.Register("ENTRY", function(sender, d)
 		end
 		return
 	end
-	if not RM.IsOfficer(sender) then return end
+	if not RM.IsOfficer(sender) and not (d.e.k == "item" and RM.IsRaidLooter(sender)) then return end
 	local data = RM.db.data
 	if data.version == d.pv then
 		RM.DKP.ApplyEntry(d.e)

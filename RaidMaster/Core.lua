@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "2.1.2"
-RM.VERSION_NUM = 20102
+RM.VERSION = "2.2.0"
+RM.VERSION_NUM = 20200
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -377,24 +377,21 @@ function RM.RequestGuildRoster()
 	if C_GuildInfo and C_GuildInfo.GuildRoster then C_GuildInfo.GuildRoster() elseif GuildRoster then GuildRoster() end
 end
 
--- Eigentümer von RaidMaster: hat immer alle Rechte (zusätzlich zum Raidleiter des aktuellen Raids)
-RM.OWNERS = { "Rokan Steinwacht" }
-function RM.IsOwner(name)
-	name = RM.Short(name)
-	if not name then return false end
-	for _, o in ipairs(RM.OWNERS) do
-		-- voller Name; nur beim eigenen Charakter reicht der Vorname (manche Anzeigen kürzen auf den Vornamen)
-		if name:lower() == o:lower() then return true end
-		if name == RM.Me() and RM.SameName(name, o) then return true end
-	end
-	return false
+-- Rechte:
+--   im Raid / in der Gruppe: volle Rechte hat nur der Raidleiter (Gruppenleiter) – keine Offiziere
+--   der Plündermeister darf versteigern und Items buchen (RM.CanLoot), Assistenten markieren usw.
+--   ohne Gruppe: Gildenränge bis "Offiziersränge bis Index" (z. B. DKP-Korrekturen zu Hause)
+local function Grouped()
+	return RM.InRaid() or (IsInGroup and IsInGroup()) and true or false
 end
 
 function RM.IsOfficer(name)
 	name = RM.Short(name)
-	if RM.IsOwner(name) then return true end
 	-- der Raidleiter des aktuellen Raids hat alle Rechte (wenn er in der eigenen Gilde ist)
 	if RM.IsMainLeader(name) and (name == RM.Me() or RM.guild.rank[name] ~= nil) then return true end
+	-- im Raid/in der Gruppe hast DU nur als Raidleiter volle Rechte (Gildenrang zählt dann nicht);
+	-- Daten anderer Offiziere (Abgleich in der Gilde) werden weiterhin angenommen
+	if name == RM.Me() and Grouped() then return false end
 	local rank = RM.GuildRank(name)
 	if rank == nil then return false end
 	local limit = (RM.db and RM.db.data.settings.officerRank) or 1
@@ -426,7 +423,8 @@ function RM.RightsInfo()
 	local limit = (RM.db and RM.db.data.settings.officerRank) or 1
 	return {
 		me = me, inGuild = IsInGuild() and true or false, rank = rank, rankName = rankName, limit = limit,
-		byRank = rank ~= nil and rank <= limit, leader = RM.MainLeader(), isLeader = RM.IsMainLeader(), owner = RM.IsOwner(me),
+		byRank = rank ~= nil and rank <= limit, leader = RM.MainLeader(), isLeader = RM.IsMainLeader(),
+		looter = RM.IAmMasterLooter(), assist = RM.IsAssist(), grouped = Grouped(),
 	}
 end
 
@@ -471,6 +469,18 @@ end
 -- Darf dieser Spieler DKP verändern? (Offiziere und der Raidleiter des aktuellen Raids)
 function RM.CanEdit()
 	return RM.IsOfficer(RM.Me()) or RM.IsMainLeader()
+end
+
+-- Plündermeister (auch wenn er nicht Raidleiter ist): Versteigerungen durchführen und Items buchen
+function RM.CanLoot()
+	if RM.CanEdit() then return true end
+	return RM.InRaid() and RM.IAmMasterLooter() and true or false
+end
+
+-- Ist name der Plündermeister unseres Raids? (für Item-Buchungen von ihm)
+function RM.IsRaidLooter(name)
+	local ml = RM.MasterLooterName()
+	return ml and name and RM.InRaid() and RM.SameName(RM.Short(name), RM.Short(ml)) or false
 end
 
 -- Einheit (raidN/partyN) eines Gruppenmitglieds

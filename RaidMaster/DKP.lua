@@ -353,7 +353,8 @@ end
 
 -- Neue Buchung erstellen (nur Offiziere)
 function DKP.NewEntry(kind, text, deltas, item, ref, extra)
-	if not RM.CanEdit() then
+	-- Raidleiter: alles; Plündermeister: Item-Buchungen aus Versteigerungen
+	if not (RM.CanEdit() or (kind == "item" and RM.CanLoot())) then
 		RM.Print(L["Keine Berechtigung: Nur Offiziere dürfen DKP ändern."])
 		return nil
 	end

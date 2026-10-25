@@ -4963,3 +4963,7 @@ L["Volle Rechte hat der Raidleiter des aktuellen Raids (und der Eigentümer). As
 L["keine Gilde"] = "sin hermandad"
 L["Testmodus läuft – Ansicht als %s."] = "Modo de prueba activo – vista como %s."
 L["Eigentümer: immer alle Rechte."] = "Propietario: siempre todos los permisos."
+L["Versteigerungen führt nur der Plündermeister oder der Raidleiter durch."] = "Solo el maestro despojador o el líder de banda realizan subastas."
+L["eingeschränkt – im Test auf Raidleiter umstellen"] = "limitado – cambia a líder de banda en la herramienta de prueba"
+L["Assistent: "] = "Asistente: "
+L["Volle Rechte hat der Raidleiter des aktuellen Raids. Der Plündermeister darf versteigern, Assistenten z. B. markieren."] = "Los permisos completos los tiene el líder de la banda actual. El maestro despojador puede subastar, los asistentes p. ej. marcar."

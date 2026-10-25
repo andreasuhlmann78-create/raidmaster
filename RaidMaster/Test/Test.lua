@@ -51,8 +51,8 @@ local function BuildFake()
 	add("Testjaeger", "HUNTER", { 21, 30, 0 }); add("Testjaegerin", "HUNTER", { 21, 30, 0 }); add("Testjaeger2", "HUNTER", { 0, 31, 20 })
 end
 BuildFake()
--- Im Raid gibt es nur Raidleiter, Assistenten und Raidmitglieder (keine Offiziere)
-local ROLE_NAMES = { member = "Raidmitglied", lead = "Assistent", raidlead = "Raidleiter" }
+-- Im Raid gibt es Raidleiter, Plündermeister, Assistenten und Raidmitglieder (keine Offiziere)
+local ROLE_NAMES = { member = "Raidmitglied", lead = "Assistent", looter = "Plündermeister", raidlead = "Raidleiter" }
 
 local function Log(msg)
 	local line = date("%H:%M:%S") .. "  " .. msg
@@ -209,11 +209,11 @@ function T.Start()
 	RM.RaidMembers = FakeMembers
 	-- Rollen: Teilnehmer (nur bieten), Co-Raidleiter (Assistent), Raidleiter (Gruppenleiter mit allen Rechten),
 	-- (früher zusätzlich "Offizier" – im Raid gibt es nur Raidleiter, Assistenten und Mitglieder)
-	RM.IsAssist = function() return T.role ~= "member" end
+	RM.IsAssist = function() return T.role == "lead" or T.role == "raidlead" end
 	RM.IsLeader = function() return T.role == "raidlead" end
 	RM.CanEdit = function() return T.role == "raidlead" end
 	-- im Testraid bist du als Raidleiter auch der Plündermeister (startet die Versteigerungen)
-	RM.IAmMasterLooter = function() return T.role == "raidlead" end
+	RM.IAmMasterLooter = function() return T.role == "raidlead" or T.role == "looter" end
 	RM.MasterLooterName = function() return RM.Me() end
 	RM.SendAddonMessage = function() T.blocked = (T.blocked or 0) + 1 end
 	RM.RaidChat = function(msg, ch) print("|cffff7f00[Test-" .. (ch or "RAID") .. "]|r " .. msg) end
@@ -434,7 +434,7 @@ end
 ---------------------------------------------------------------------------
 local function Need()
 	if not T.active then T.Start() end
-	if T.role ~= "raidlead" then
+	if T.role ~= "raidlead" and T.role ~= "looter" then
 		Log("Für Raid, Bosskill und Versteigerung bitte 'Ansicht als: Raidleiter' wählen.")
 		return false
 	end
@@ -513,7 +513,7 @@ end
 -- Magmadar: Jäger nach Einlullender Schuss fragen; die Testjäger antworten per Flüstern
 function T.TranqTest()
 	if not T.active then T.Start() end
-	if T.role == "member" then Log("Die Jäger-Abfrage gibt es nur für Raidleiter und Assistenten.") return end
+	if T.role ~= "lead" and T.role ~= "raidlead" then Log("Die Jäger-Abfrage gibt es nur für Raidleiter und Assistenten.") return end
 	RM.Tranq.Ask()
 	Log("Jäger-Abfrage gestartet – Testjaeger und Testjaeger2 antworten 'ja', Testjaegerin 'nein'.")
 	C_Timer.After(5, function()
@@ -748,7 +748,7 @@ end
 function T.RunRaid()
 	if run then Log("Es läuft schon ein Durchlauf.") return end
 	if not T.active then T.Start() end
-	if T.role ~= "raidlead" then T.SetRole("raidlead") end
+	if T.role ~= "raidlead" and T.role ~= "looter" then T.SetRole("raidlead") end
 	local def = RM.Data.Pools[T.pool]
 	if not def or not def.bosses[1] then Log("Für diesen Raid sind keine Bosse hinterlegt.") return end
 	local loot = LootTable(def)
@@ -889,14 +889,15 @@ local function CreateWindow()
 	Section(f, "Ansicht als", -104)
 	local roleBtns = {}
 	local x = 14
-	for _, role in ipairs({ "member", "lead", "raidlead" }) do
-		local b = UI.Button(f, ROLE_NAMES[role], 170, 26, function() T.SetRole(role) end,
+	for _, role in ipairs({ "member", "lead", "looter", "raidlead" }) do
+		local b = UI.Button(f, ROLE_NAMES[role], 126, 26, function() T.SetRole(role) end,
 			role == "member" and "Raidmitglied: sieht nur DKP-Stände und Versteigerung (bieten), keine Rechte." or
-			role == "lead" and "Assistent: Raid-Seiten und Symbolleiste, kein DKP ändern." or
+			role == "lead" and "Assistent: Raid-Seiten und Symbolleiste (z. B. Mobs markieren), kein DKP ändern." or
+			role == "looter" and "Plündermeister (nicht Raidleiter): sieht nur DKP, Versteigerung und Loot,\nstartet und vergibt die Versteigerungen." or
 			"Raidleiter: alle Rechte – Raid starten/beenden, Plündermeister, DKP, Versteigerung, Einstellungen.")
 		b:SetPoint("TOPLEFT", x, -128)
 		roleBtns[role] = b
-		x = x + 177
+		x = x + 133
 	end
 
 	Section(f, "Raid simulieren", -170)

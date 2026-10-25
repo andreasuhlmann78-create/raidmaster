@@ -691,10 +691,11 @@ end
 -- Hauptfenster
 ---------------------------------------------------------------------------
 -- Wer sieht welche Seite:
---   alle Teilnehmer: DKP-Stände und Versteigerung (bieten)
---   Raidleiter/Co-Raidleiter und Offiziere: alle Raid-Seiten
---   Einstellungen: nur Offiziere
-UI.PAGE_ACCESS = { dkp = "all", auction = "all", settings = "officer" }
+--   alle Raidmitglieder: DKP-Stände und Versteigerung (bieten)
+--   Plündermeister: zusätzlich Loot (nur was er braucht) – ist er auch Raidleiter, sieht er alles
+--   Assistenten: Raid-Seiten (z. B. Symbole/Markieren), ohne DKP-Rechte
+--   Raidleiter: alles, auch Einstellungen
+UI.PAGE_ACCESS = { dkp = "all", auction = "all", loot = "looter", settings = "leader" }
 
 function UI.IsRaidLead()
 	local grouped = RM.InRaid() or (IsInGroup and IsInGroup())
@@ -705,6 +706,9 @@ function UI.CanSeePage(id)
 	local access = UI.PAGE_ACCESS[id] or "lead"
 	if access == "all" then return true end
 	if RM.CanEdit() then return true end
+	-- Plündermeister (nicht Raidleiter): nur seine Seiten, auch wenn er Assistent ist
+	if RM.CanLoot() then return access == "looter" end
+	if access == "looter" then return UI.IsRaidLead() end
 	if access == "lead" then return UI.IsRaidLead() end
 	return false
 end
@@ -965,10 +969,10 @@ local function CreateMain()
 		-- im Testmodus deutlich anzeigen, in welcher Ansicht du gerade bist (z. B. Raidmitglied = ohne Rechte)
 		if T and T.active then
 			sub:SetText("|cffff5544" .. L["TESTMODUS"] .. "|r – " .. string.format(L["Ansicht als %s"], T.RoleName and T.RoleName() or "?")
-				.. (T.role == "member" and (" |cffffaa33(" .. L["ohne Rechte – im Test auf Raidleiter umstellen"] .. ")|r") or ""))
+				.. (T.role ~= "raidlead" and (" |cffffaa33(" .. L["eingeschränkt – im Test auf Raidleiter umstellen"] .. ")|r") or ""))
 			testBtn:SetText(L["Test AN"])
 			testBtn:SetAccent(true)
-			if T.role == "member" then rightsBtn:Show() else rightsBtn:Hide() end
+			if T.role ~= "raidlead" then rightsBtn:Show() else rightsBtn:Hide() end
 		else
 			sub:SetText(L["DKP · Loot · Raidleitung"])
 			testBtn:SetText(L["Test"])
