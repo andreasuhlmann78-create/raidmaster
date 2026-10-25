@@ -775,7 +775,7 @@ local function UpdateStatus()
 	local data = RM.db.data
 	local parts = {}
 	parts[#parts + 1] = L["Datenstand: "] .. (data.version > 0 and RM.FormatTime(math.min(data.version, GetServerTime())) or "leer")
-	parts[#parts + 1] = RM.CanEdit() and L["|cff40ff40Offizier|r"] or L["Nur Ansicht"]
+	parts[#parts + 1] = RM.CanEdit() and L["|cff40ff40Volle Rechte|r"] or L["Nur Ansicht"]
 	if RM.db.session.active then
 		parts[#parts + 1] = L["|cffff8c1aRaid aktiv seit "] .. date("%H:%M", RM.db.session.started) .. "|r"
 	end
@@ -952,19 +952,28 @@ local function CreateMain()
 	local testBtn = UI.Button(titleBar, L["Test"], 70, 22, function() if RM.Test then RM.Test.Toggle() end end,
 		L["Test-Werkzeug: RaidMaster gefahrlos ausprobieren (Testraid, Versteigerungen, Discord). Deine echten Daten werden gesichert."])
 	testBtn:SetPoint("RIGHT", diag, "LEFT", -6, 0)
+	-- im Test als Raidmitglied: mit einem Klick zurück zu vollen Rechten (Ansicht Raidleiter)
+	local rightsBtn = UI.Button(titleBar, L["Volle Rechte"], 100, 22, function()
+		if RM.Test and RM.Test.active then RM.Test.SetRole("raidlead") end
+	end, L["Testmodus: Ansicht zurück auf Raidleiter stellen (alle Rechte)."])
+	rightsBtn:SetPoint("RIGHT", testBtn, "LEFT", -6, 0)
+	rightsBtn:SetAccent(true)
+	rightsBtn:Hide()
 	local function TestVisible()
 		local T = RM.Test
 		if T and (T.active or RM.IsOfficer(RM.Me()) or RM.CanEdit()) then testBtn:Show() else testBtn:Hide() end
 		-- im Testmodus deutlich anzeigen, in welcher Ansicht du gerade bist (z. B. Raidmitglied = ohne Rechte)
 		if T and T.active then
 			sub:SetText("|cffff5544" .. L["TESTMODUS"] .. "|r – " .. string.format(L["Ansicht als %s"], T.RoleName and T.RoleName() or "?")
-				.. (T.role == "member" and (" |cffffaa33(" .. L["ohne Rechte – im Test auf Offizier umstellen"] .. ")|r") or ""))
+				.. (T.role == "member" and (" |cffffaa33(" .. L["ohne Rechte – im Test auf Raidleiter umstellen"] .. ")|r") or ""))
 			testBtn:SetText(L["Test AN"])
 			testBtn:SetAccent(true)
+			if T.role == "member" then rightsBtn:Show() else rightsBtn:Hide() end
 		else
 			sub:SetText(L["DKP · Loot · Raidleitung"])
 			testBtn:SetText(L["Test"])
 			testBtn:SetAccent(false)
+			rightsBtn:Hide()
 		end
 	end
 	f:HookScript("OnShow", TestVisible)

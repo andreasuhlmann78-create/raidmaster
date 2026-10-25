@@ -14,7 +14,7 @@ local RM = (type(NS) == "table" and NS.UI and NS) or RaidMaster
 if not RM or not RM.UI then return end
 local UI = RM.UI
 local COLORS = UI.COLORS
-local T = { active = false, role = "officer", log = {}, integrated = true }
+local T = { active = false, role = "raidlead", log = {}, integrated = true }
 RaidMasterTest = T
 RM.Test = T
 
@@ -51,7 +51,8 @@ local function BuildFake()
 	add("Testjaeger", "HUNTER", { 21, 30, 0 }); add("Testjaegerin", "HUNTER", { 21, 30, 0 }); add("Testjaeger2", "HUNTER", { 0, 31, 20 })
 end
 BuildFake()
-local ROLE_NAMES = { member = "Teilnehmer", lead = "Co-Raidleiter", raidlead = "Raidleiter", officer = "Offizier" }
+-- Im Raid gibt es nur Raidleiter, Assistenten und Raidmitglieder (keine Offiziere)
+local ROLE_NAMES = { member = "Raidmitglied", lead = "Assistent", raidlead = "Raidleiter" }
 
 local function Log(msg)
 	local line = date("%H:%M:%S") .. "  " .. msg
@@ -207,12 +208,12 @@ function T.Start()
 	RM.InRaid = function() return true end
 	RM.RaidMembers = FakeMembers
 	-- Rollen: Teilnehmer (nur bieten), Co-Raidleiter (Assistent), Raidleiter (Gruppenleiter mit allen Rechten),
-	-- Offizier (alle Rechte)
+	-- (früher zusätzlich "Offizier" – im Raid gibt es nur Raidleiter, Assistenten und Mitglieder)
 	RM.IsAssist = function() return T.role ~= "member" end
-	RM.IsLeader = function() return T.role == "raidlead" or T.role == "officer" end
-	RM.CanEdit = function() return T.role == "officer" or T.role == "raidlead" end
-	-- im Testraid bist du als Raidleiter/Offizier auch der Plündermeister (startet die Versteigerungen)
-	RM.IAmMasterLooter = function() return T.role == "officer" or T.role == "raidlead" end
+	RM.IsLeader = function() return T.role == "raidlead" end
+	RM.CanEdit = function() return T.role == "raidlead" end
+	-- im Testraid bist du als Raidleiter auch der Plündermeister (startet die Versteigerungen)
+	RM.IAmMasterLooter = function() return T.role == "raidlead" end
 	RM.MasterLooterName = function() return RM.Me() end
 	RM.SendAddonMessage = function() T.blocked = (T.blocked or 0) + 1 end
 	RM.RaidChat = function(msg, ch) print("|cffff7f00[Test-" .. (ch or "RAID") .. "]|r " .. msg) end
@@ -418,6 +419,8 @@ end)
 function T.RoleName() return ROLE_NAMES[T.role] or "?" end
 
 function T.SetRole(role)
+	if role == "officer" then role = "raidlead" end      -- frühere Ansicht "Offizier" = Raidleiter
+	if not ROLE_NAMES[role] then role = "raidlead" end
 	T.role = role
 	if not T.active then T.Start() end
 	Log("Ansicht als " .. ROLE_NAMES[role] .. ".")
@@ -431,8 +434,8 @@ end
 ---------------------------------------------------------------------------
 local function Need()
 	if not T.active then T.Start() end
-	if T.role ~= "officer" and T.role ~= "raidlead" then
-		Log("Für Raid, Bosskill und Versteigerung bitte 'Ansicht als: Raidleiter' oder 'Offizier' wählen.")
+	if T.role ~= "raidlead" then
+		Log("Für Raid, Bosskill und Versteigerung bitte 'Ansicht als: Raidleiter' wählen.")
 		return false
 	end
 	return true
@@ -510,7 +513,7 @@ end
 -- Magmadar: Jäger nach Einlullender Schuss fragen; die Testjäger antworten per Flüstern
 function T.TranqTest()
 	if not T.active then T.Start() end
-	if T.role == "member" then Log("Die Jäger-Abfrage gibt es nur für Raidleiter/Co-Raidleiter/Offiziere.") return end
+	if T.role == "member" then Log("Die Jäger-Abfrage gibt es nur für Raidleiter und Assistenten.") return end
 	RM.Tranq.Ask()
 	Log("Jäger-Abfrage gestartet – Testjaeger und Testjaeger2 antworten 'ja', Testjaegerin 'nein'.")
 	C_Timer.After(5, function()
@@ -745,7 +748,7 @@ end
 function T.RunRaid()
 	if run then Log("Es läuft schon ein Durchlauf.") return end
 	if not T.active then T.Start() end
-	if T.role ~= "officer" and T.role ~= "raidlead" then T.SetRole("raidlead") end
+	if T.role ~= "raidlead" then T.SetRole("raidlead") end
 	local def = RM.Data.Pools[T.pool]
 	if not def or not def.bosses[1] then Log("Für diesen Raid sind keine Bosse hinterlegt.") return end
 	local loot = LootTable(def)
@@ -832,7 +835,7 @@ function T.SelfTest()
 	line(plates == "1", "Gegner-Namensplaketten: " .. (plates == "1" and "an" or "AUS – für 'Adds markieren' Taste V drücken"))
 	line(IsInGuild(), "Gilde: " .. (RM.MyGuild() or "keine"))
 	local edit = (saved.CanEdit or RM.CanEdit)()
-	line(nil, "Deine Rechte: " .. (edit and "Offizier (DKP ändern, versteigern)" or "keine Offiziersrechte"))
+	line(nil, "Deine Rechte: " .. (edit and "volle Rechte (DKP ändern, versteigern)" or "keine Raidleiter-Rechte"))
 	local inRaid = (saved.InRaid or RM.InRaid)()
 	line(nil, "Gruppe: " .. (inRaid and ("im Raid" .. (((saved.IsAssist or RM.IsAssist)()) and ", Raidleiter/Assistent" or "")) or "kein Raid"))
 	if inRaid then
@@ -886,15 +889,14 @@ local function CreateWindow()
 	Section(f, "Ansicht als", -104)
 	local roleBtns = {}
 	local x = 14
-	for _, role in ipairs({ "member", "lead", "raidlead", "officer" }) do
-		local b = UI.Button(f, ROLE_NAMES[role], 126, 26, function() T.SetRole(role) end,
-			role == "member" and "Sieht nur DKP-Stände und Versteigerung, keine Symbolleiste." or
-			role == "lead" and "Co-Raidleiter (Assistent): Raid-Seiten und Symbolleiste, kein DKP ändern." or
-			role == "raidlead" and "Raidleiter des Raids: alle Raid-Seiten, Symbolleiste, Plündermeister, DKP und Versteigerung." or
-			"Offizier: alles, auch DKP, Versteigerung und Einstellungen.")
+	for _, role in ipairs({ "member", "lead", "raidlead" }) do
+		local b = UI.Button(f, ROLE_NAMES[role], 170, 26, function() T.SetRole(role) end,
+			role == "member" and "Raidmitglied: sieht nur DKP-Stände und Versteigerung (bieten), keine Rechte." or
+			role == "lead" and "Assistent: Raid-Seiten und Symbolleiste, kein DKP ändern." or
+			"Raidleiter: alle Rechte – Raid starten/beenden, Plündermeister, DKP, Versteigerung, Einstellungen.")
 		b:SetPoint("TOPLEFT", x, -128)
 		roleBtns[role] = b
-		x = x + 133
+		x = x + 177
 	end
 
 	Section(f, "Raid simulieren", -170)

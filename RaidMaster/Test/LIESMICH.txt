@@ -2,7 +2,7 @@ RaidMaster Test-Werkzeug (in RaidMaster eingebaut) – RaidMaster im Spiel gefah
 ===============================================================================================
 
 ÖFFNEN
-- Knopf "Test" oben im RaidMaster-Fenster (nur für Offiziere/Raidleitung sichtbar), /rmtest oder /rm test.
+- Knopf "Test" oben im RaidMaster-Fenster (nur für die Raidleitung sichtbar), /rmtest oder /rm test.
 - Keine eigene Installation mehr – das Test-Tool kommt mit RaidMaster (ab 2.1.0).
   Den alten Ordner Interface\AddOns\RaidMasterTest bitte löschen.
 
@@ -57,10 +57,10 @@ TESTMODUS
   mitten im Test wird beim nächsten Einloggen automatisch zurückgesetzt.
 
 WAS DU TESTEN KANNST
-- Ansicht als: Teilnehmer / Co-Raidleiter / Raidleiter / Offizier – zeigt RaidMaster so, wie es die
+- Ansicht als: Raidmitglied / Assistent / Raidleiter – zeigt RaidMaster so, wie es die
   jeweilige Rolle sieht (Seiten, Symbolleiste, Knöpfe). Raidleiter = Leiter des Raids mit allen Rechten
   (DKP, Versteigerung, Plündermeister), Co-Raidleiter = Assistent ohne DKP-Rechte.
-  Als Raidleiter/Offizier bist du im Testraid auch der Plündermeister und startest die Versteigerungen
+  Als Raidleiter bist du im Testraid auch der Plündermeister und startest die Versteigerungen
   auf der Seite Versteigerung selbst ("Gewähltes starten") – nur der Raid-Durchlauf klickt das für dich.
 - DKP an mich: beliebige Zahl eingeben (z. B. 5000, oder -50 zum Abziehen) -> wird dir im oben gewählten
   Raid gebucht, egal in welcher Ansicht. So kannst du als Teilnehmer unbegrenzt mitbieten.

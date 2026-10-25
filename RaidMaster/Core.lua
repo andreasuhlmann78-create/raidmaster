@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "2.1.1"
-RM.VERSION_NUM = 20101
+RM.VERSION = "2.1.2"
+RM.VERSION_NUM = 20102
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -377,18 +377,57 @@ function RM.RequestGuildRoster()
 	if C_GuildInfo and C_GuildInfo.GuildRoster then C_GuildInfo.GuildRoster() elseif GuildRoster then GuildRoster() end
 end
 
+-- Eigentümer von RaidMaster: hat immer alle Rechte (zusätzlich zum Raidleiter des aktuellen Raids)
+RM.OWNERS = { "Rokan Steinwacht" }
+function RM.IsOwner(name)
+	name = RM.Short(name)
+	if not name then return false end
+	for _, o in ipairs(RM.OWNERS) do
+		-- voller Name; nur beim eigenen Charakter reicht der Vorname (manche Anzeigen kürzen auf den Vornamen)
+		if name:lower() == o:lower() then return true end
+		if name == RM.Me() and RM.SameName(name, o) then return true end
+	end
+	return false
+end
+
 function RM.IsOfficer(name)
 	name = RM.Short(name)
+	if RM.IsOwner(name) then return true end
 	-- der Raidleiter des aktuellen Raids hat alle Rechte (wenn er in der eigenen Gilde ist)
 	if RM.IsMainLeader(name) and (name == RM.Me() or RM.guild.rank[name] ~= nil) then return true end
-	local rank = RM.guild.rank[name]
-	if rank == nil and name == RM.Me() then
-		local _, _, rankIndex = GetGuildInfo("player")
-		rank = rankIndex
-	end
+	local rank = RM.GuildRank(name)
 	if rank == nil then return false end
 	local limit = (RM.db and RM.db.data.settings.officerRank) or 1
 	return rank <= limit
+end
+
+-- Gildenrang (0 = Gildenmeister) – auch wenn die Gildenliste den Namen anders schreibt
+-- (WoW Forever: Vor- und Nachname)
+function RM.GuildRank(name)
+	name = RM.Short(name)
+	local rank = RM.guild.rank[name]
+	if rank == nil then
+		for n, r in pairs(RM.guild.rank) do
+			if RM.SameName(n, name) then rank = r break end
+		end
+	end
+	if rank == nil and RM.SameName(name, RM.Me()) then
+		local _, _, rankIndex = GetGuildInfo("player")
+		rank = rankIndex
+	end
+	return rank
+end
+
+-- Warum habe ich (keine) Rechte? Für die Diagnose
+function RM.RightsInfo()
+	local me = RM.Me()
+	local rank = RM.GuildRank(me)
+	local rankName = select(2, GetGuildInfo("player"))
+	local limit = (RM.db and RM.db.data.settings.officerRank) or 1
+	return {
+		me = me, inGuild = IsInGuild() and true or false, rank = rank, rankName = rankName, limit = limit,
+		byRank = rank ~= nil and rank <= limit, leader = RM.MainLeader(), isLeader = RM.IsMainLeader(), owner = RM.IsOwner(me),
+	}
 end
 
 -- Leiter ist immer der Raidleiter des aktuellen Raids (bzw. Gruppenleiter)
