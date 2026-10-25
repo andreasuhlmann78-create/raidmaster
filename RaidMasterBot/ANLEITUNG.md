@@ -192,6 +192,13 @@ Aufstellung in **#einteilung** und **#offiziere**:
 Der Knopf **„Für RaidMaster“** exportiert Anmeldungen, Startzeit, die Gruppen und bei PUG-Raids den Einladungslink –
 im Spiel lädt das Addon dann automatisch ein und sortiert die Gruppen.
 
+## Testdaten aus dem Test-Tool
+
+Im Test-Tool (`/rmtest`) schickt **„Test an Discord senden“** DKP-Stand, Teilnehmer und Loot des Tests in die
+Kanäle des Raids – mit **🧪 TEST** markiert. Der Bot löscht diese Nachrichten nach **10 Minuten** selbst (auch nach
+einem Neustart). Daten aus dem Testmodus übernimmt der Bot **nie** als echte DKP – auch nicht, wenn jemand mitten
+im Test ausloggt.
+
 ## Einteilung als Direktnachricht
 
 Erstellt die Raidleitung im Spiel die **Einteilung** und gibt danach `/reload` ein, postet der Bot die

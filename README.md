@@ -7,7 +7,7 @@ Raid-Werkzeuge für die Gilde auf **WoW Forever**.
 **Aktuelle Version: [RaidMaster-1.9.0.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/RaidMaster-1.9.0.zip)**
 (immer die neueste: [RaidMaster-latest.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/RaidMaster-latest.zip))
 
-**Test-Werkzeug für die Raidleitung:** [RaidMasterTest-1.2.1.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/RaidMasterTest-1.2.1.zip) (`/rmtest`)
+**Test-Werkzeug für die Raidleitung:** [RaidMasterTest-1.3.0.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/RaidMasterTest-1.3.0.zip) (`/rmtest`)
 
 **Uploader für den PC der Raidleitung (DKP automatisch in Discord):** [RaidMasterUploader.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/RaidMasterUploader.zip) – Anleitung im Spiel: Seite *Discord* oder `/rm discord`
 

@@ -1,4 +1,4 @@
-RaidMaster Test 1.2.1 – RaidMaster im Spiel gefahrlos ausprobieren
+RaidMaster Test 1.3.0 – RaidMaster im Spiel gefahrlos ausprobieren
 ==================================================================
 
 INSTALLATION
@@ -31,6 +31,10 @@ WAS DU TESTEN KANNST
   Wrath), lässt die Testspieler darauf bieten, vergibt die Items und beendet den Raid am Schluss.
   "Trash-Loot" legt Beute von Trashgegnern des Raids aus. "Durchlauf abbrechen" hält jederzeit an.
 - Plündermethode und Raidleiter der echten Gruppe werden im Testmodus nicht verändert.
+- Test an Discord senden: postet DKP-Stand, Teilnehmer und Loot des Tests in die Discord-Kanäle des Raids
+  (mit TEST markiert) und löscht sie nach 10 Minuten. Die Oberfläche wird dafür neu geladen, danach ist der
+  Testmodus beendet. Der Uploader muss laufen. Deine echten DKP im Discord bleiben dabei unverändert –
+  der Bot übernimmt Daten aus dem Testmodus nie als echte Daten (auch nicht beim Ausloggen mitten im Test).
 - Schlachtzugsymbole: echt testen, z. B. an Trainingspuppen in der Hauptstadt ("Adds markieren"
   markiert alle sichtbaren Gegner, Namensplaketten mit Taste V einschalten).
 - Selbsttest: prüft Spielversion, Sprache, Raids und Taktiken, Plündermeister, Namensplaketten,

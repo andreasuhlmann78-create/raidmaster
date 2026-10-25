@@ -90,6 +90,8 @@ function T.Start()
 	end
 	T.active = true
 	T.blocked = 0
+	-- Markierung für den Discord-Bot: Daten aus dem Testmodus nie als echte DKP übernehmen
+	RM.db.testMode = { active = true, started = GetServerTime(), pool = T.pool }
 	Log("Testmodus AN – Daten gesichert, keine Nachrichten an Gilde/Raid. Testraid mit 10 Testspielern.")
 	RM.Fire("SESSION_CHANGED"); RM.Fire("DATA_CHANGED")
 end
@@ -113,6 +115,7 @@ local function Restore(silent)
 		if pos then RM.db.config.positions = pos end
 		RM.db.config.mainSize = size
 	end
+	if RM.db then RM.db.testMode = nil end
 	RaidMasterTestDB = nil
 	if not silent then RM.Fire("SESSION_CHANGED"); RM.Fire("DATA_CHANGED"); RM.Fire("CONFIG_CHANGED") end
 end
@@ -129,6 +132,19 @@ function T.Stop()
 	T.active = false
 	Restore()
 	Log(string.format("Testmodus AUS – alle Daten wiederhergestellt (%d Addon-Nachrichten wurden zurückgehalten).", T.blocked or 0))
+end
+
+-- Testdaten an Discord: WoW speichert beim /reload, der Uploader schickt die Datei, der Bot postet
+-- DKP-Stand, Teilnehmer und Loot des Tests (mit TEST markiert) und löscht alles nach 10 Minuten.
+-- Nach dem Neuladen ist der Testmodus beendet und deine echten Daten sind wieder da.
+function T.SendToDiscord()
+	if not T.active then Log("Erst den Testmodus starten und einen Raid simulieren.") return end
+	RM.db.testMode = RM.db.testMode or { active = true, started = GetServerTime() }
+	RM.db.testMode.post = true
+	RM.db.testMode.pool = T.pool
+	RM.UI.Confirm("Testdaten an Discord senden?\nDie Oberfläche wird neu geladen. Der Bot postet DKP, Teilnehmer und Loot des Tests "
+		.. "(mit TEST markiert) und löscht sie nach 10 Minuten. Danach ist der Testmodus beendet, deine echten Daten sind wieder da.",
+		function() ReloadUI() end, function() RM.db.testMode.post = nil end)
 end
 
 -- Abgestürzt/ausgeloggt mitten im Test: beim nächsten Laden zurücksetzen
@@ -588,8 +604,10 @@ local function CreateWindow()
 	local dkpBtn = UI.Button(f, "DKP an mich (gewählter Raid)", 220, 26, function() T.GiveMeDKP(dkpBox:GetText()) end,
 		"Bucht dir beliebig viele DKP im oben gewählten Raid (negativ = abziehen). Nur im Testmodus – wird beim Beenden zurückgesetzt.")
 	dkpBtn:SetPoint("LEFT", dkpBox, "RIGHT", 8, 0)
-	local dkpHint = UI.Text(f, "beliebige Zahl, z. B. 5000 oder -50", 11, unpack(COLORS.muted))
-	dkpHint:SetPoint("LEFT", dkpBtn, "RIGHT", 8, 0)
+	local discordBtn = UI.Button(f, "Test an Discord senden", 168, 26, function() T.SendToDiscord() end,
+		"DKP-Stand, Teilnehmer und Loot dieses Tests im Discord posten (mit TEST markiert, nach 10 Minuten gelöscht).\n"
+		.. "Lädt die Oberfläche neu – danach ist der Testmodus beendet. Der Uploader muss laufen.")
+	discordBtn:SetPoint("LEFT", dkpBtn, "RIGHT", 8, 0)
 
 	Section(f, "Schlachtzugsymbole (echt, z. B. an Trainingspuppen)", -398)
 	local m1 = UI.Button(f, "Totenkopf aufs Ziel", 160, 26, function() RM.Markers.Mark(8) end)

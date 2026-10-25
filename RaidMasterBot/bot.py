@@ -163,6 +163,7 @@ class RaidBot(discord.Client):
         update_loop.change_interval(minutes=max(5, int(cfg.get("update_check_minutes") or 30)))
         update_loop.start()
         backup_loop.start()
+        test_cleanup_loop.start()
 
     async def on_ready(self):
         log.info("Angemeldet als %s – bereit (Version %s).", self.user, updater.bot_version(BASE))
@@ -1484,6 +1485,18 @@ async def receive_upload(message: discord.Message):
     except ValueError as e:
         log.warning("Upload abgelehnt: %s", e)
         return
+    if test_info(db):
+        # Testmodus des Test-Tools: echte Daten bleiben unberührt, Test wird gepostet und nach 10 Min. gelöscht
+        uploader = message.author.name if message.author else "?"
+        try:
+            await message.delete()
+        except discord.HTTPException:
+            pass
+        if test_info(db).get("post"):
+            await handle_test_upload(db, uploader)
+        else:
+            log.info("Upload von %s aus dem Testmodus ignoriert (echte Daten bleiben).", uploader)
+        return
     new_version = int((db.get("data") or {}).get("version") or 0)
     current = int((bot.dkp_data or {}).get("version") or 0)
     uploader = message.author.name if message.author else "?"
@@ -1504,6 +1517,107 @@ async def receive_upload(message: discord.Message):
     except discord.HTTPException:
         pass
     await process_new_data()
+
+
+# ---------------------------------------------------------------------------
+# Testmodus (RaidMasterTest): DKP, Teilnehmer und Loot wie echt posten, nach 10 Minuten löschen
+# ---------------------------------------------------------------------------
+
+TEST_TTL = 600
+
+
+def test_info(db: dict | None) -> dict | None:
+    t = (db or {}).get("testMode")
+    return t if isinstance(t, dict) and t.get("active") else None
+
+
+async def send_test(channel, text: str):
+    """Testnachricht senden und zum Löschen vormerken (übersteht auch einen Neustart des Bots)."""
+    m = await channel.send(text)
+    state.data.setdefault("test_messages", []).append([channel.id, m.id, int(time.time()) + TEST_TTL])
+    state.save()
+
+
+async def handle_test_upload(db: dict, uploader: str):
+    data = db.get("data") or {}
+    t = test_info(db) or {}
+    since = int(t.get("started") or 0)
+    log_entries = [e for e in rmd.lua_list(data.get("log"))
+                   if isinstance(e, dict) and not e.get("u") and int(e.get("t") or 0) >= since]
+    pools = []
+    for p in [t.get("pool")] + [e.get("pool") or "mc" for e in log_entries]:
+        if p and p not in pools:
+            pools.append(str(p))
+    head = (f"🧪 **TEST** – aus dem Testmodus von {uploader}, keine echten Daten. "
+            f"Wird <t:{int(time.time()) + TEST_TTL}:R> gelöscht.")
+    posted = 0
+    for pool in pools:
+        name = rmd.pool_name(pool, data)
+        dkp_ch = await channel_by_id(dkp_channel_for(pool)) or await channel_by_id(cfg.get("botcmd_channel_id"))
+        loot_ch = await channel_by_id(raid_channel(pool, "loot") or cfg.get("loot_channel_id")) or dkp_ch
+        if not dkp_ch:
+            log.info("Test: kein Kanal für %s gefunden.", name)
+            continue
+        # DKP-Tabelle
+        rows = rmd.standings(data, pool)
+        chunks = rmd.format_standings(rows)
+        chunks[0] = f"{head}\n**DKP-Stand {name}** (Test)\n" + chunks[0]
+        for text in chunks:
+            await send_test(dkp_ch, text)
+            posted += 1
+        # Teilnehmer (Raidstart, Bosskills, Raidende im Test)
+        names = set()
+        for e in log_entries:
+            if (e.get("pool") or "mc") == pool and e.get("k") in ("start", "boss", "end"):
+                names.update(str(n) for n in (e.get("d") or {}).keys())
+        if names:
+            await send_test(dkp_ch, f"🧪 👥 **Teilnehmer {name}** (Test, {len(names)}): " + ", ".join(sorted(names, key=str.lower)))
+            posted += 1
+        # Loot
+        items = [e for e in rmd.loot_entries(data) if e["t"] >= since and e["pool"] == pool]
+        if items and loot_ch:
+            text = f"🧪 **Loot {name}** (Test)\n"
+            for e in items:
+                line = f"🎁 **{e['name']}** erhält **{e['item']}** für {e['amount']} DKP ({e['pool_name']})\n"
+                if len(text) + len(line) > 1900:
+                    await send_test(loot_ch, text)
+                    posted += 1
+                    text = ""
+                text += line
+            if text:
+                await send_test(loot_ch, text)
+                posted += 1
+    log.info("Testdaten von %s gepostet (%d Nachrichten, werden nach %d Min. gelöscht).", uploader, posted, TEST_TTL // 60)
+
+
+@tasks.loop(seconds=60)
+async def test_cleanup_loop():
+    pending = state.data.get("test_messages") or []
+    if not pending:
+        return
+    now = int(time.time())
+    keep = []
+    for ch_id, msg_id, due in pending:
+        if due > now:
+            keep.append([ch_id, msg_id, due])
+            continue
+        try:
+            ch = await channel_by_id(ch_id)
+            if ch:
+                await ch.get_partial_message(int(msg_id)).delete()
+        except discord.NotFound:
+            pass
+        except discord.HTTPException as e:
+            if due > now - 3600:      # eine Stunde lang erneut versuchen
+                keep.append([ch_id, msg_id, due])
+            log.warning("Testnachricht nicht gelöscht: %s", e)
+    state.data["test_messages"] = keep
+    state.save()
+
+
+@test_cleanup_loop.before_loop
+async def before_test_cleanup():
+    await bot.wait_until_ready()
 
 
 @bot.tree.command(name="uploader", description="Einrichtung des Daten-Uploaders für den PC der Raidleitung (Admins)")
