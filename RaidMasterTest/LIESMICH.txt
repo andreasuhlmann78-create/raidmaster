@@ -1,9 +1,17 @@
-RaidMaster Test 1.7.4 – RaidMaster im Spiel gefahrlos ausprobieren
+RaidMaster Test 1.7.5 – RaidMaster im Spiel gefahrlos ausprobieren
 ==================================================================
 
 INSTALLATION
 - Den Ordner "RaidMasterTest" neben "RaidMaster" in ...\Interface\AddOns\ kopieren (RaidMaster ab 2.0.0).
 - Öffnen mit /rmtest. Nur für dich als Raidleitung/Offizier gedacht – die Gilde braucht es nicht.
+
+RAIDMASTER HAT VORRANG (neu in 1.7.5)
+- "Raid starten" oder "Raid beenden" in RaidMaster überschreibt alles, was das Test-Tool gerade macht:
+  laufender Durchlauf (auch mehrere Raidabende), laufende Versteigerung, Warteschlange, offenes Vergabe-Fenster
+  und der Sende-Countdown werden abgebrochen.
+- "Raid starten": ein noch offener Test-Raid wird still geschlossen (ohne Bonus), dann gilt dein Start mit dem
+  in RaidMaster gewählten Raid, und das Test-Tool spielt genau diesen Raid neu durch.
+- "Raid beenden": Abschlussbonus wie gewohnt, danach geht das Ergebnis an Discord.
 
 SCHNELLE RESTZEIT (neu in 1.7.4, nur im Testmodus)
 - Versteigerungen im Test dauern standardmäßig nur noch 3 Sek. (wählbar 3, 5, 8, 10, 15, 20, 30 Sek.).

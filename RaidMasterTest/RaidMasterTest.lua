@@ -167,6 +167,8 @@ function T.Start()
 	-- Raid starten/beenden in RaidMaster steuert den Test-Durchlauf
 	saved.RaidStart, saved.RaidEnd = RM.Raid.Start, RM.Raid.End
 	RM.Raid.Start = function(...)
+		-- "Raid starten" in RaidMaster hat Vorrang: alles, was das Test-Tool gerade macht, wird abgebrochen
+		if T.active and not T.manualStart then T.Override("Raid starten") end
 		local was = RM.db.session.active
 		local r = saved.RaidStart(...)
 		if T.active and not was and RM.db.session.active and not T.manualStart and not T.IsRunning() and T.FollowStartOn() then
@@ -178,10 +180,11 @@ function T.Start()
 		return r
 	end
 	RM.Raid.End = function(...)
+		-- "Raid beenden" in RaidMaster hat Vorrang: Durchlauf, Versteigerung und Warteschlange des Test-Tools abbrechen
+		if T.active and not T.runEnding then T.Override("Raid beenden", true) end
 		local was = RM.db.session.active
 		local r = saved.RaidEnd(...)
 		if T.active and was and not RM.db.session.active and not T.runEnding then
-			if T.IsRunning() then T.StopRun() end
 			T.AutoSend("Raid beendet.")
 		end
 		return r
@@ -350,6 +353,28 @@ function T.AutoSend(reason)
 	sendTicker = C_Timer.NewTicker(0.25, sendFrame.Tick)
 	sendFrame.Tick()
 	Log((reason or "Test fertig.") .. " Ergebnis geht in " .. SEND_DELAY .. " Sek. an Discord.")
+end
+
+-- Raid starten/beenden in RaidMaster überschreibt alle laufenden Befehle des Test-Tools:
+-- Durchlauf (auch mehrere Raidabende), laufende Versteigerung, Warteschlange, Vergabe-Fenster, Sende-Countdown.
+-- Beim Starten wird ein noch offener Test-Raid still geschlossen (ohne Bonus), damit der neue Start gilt.
+function T.Override(what, keepSession)
+	local A = RM.Auction
+	local did = false
+	if T.IsRunning() then T.StopRun(); did = true end
+	T.series = nil
+	if A.current then pcall(A.Cancel); A.current = nil; did = true end
+	if #A.queue > 0 then wipe(A.queue); did = true end
+	if A.HideAward then A.HideAward() end
+	if RM.Loot then RM.Loot.isOpen = false; wipe(RM.Loot.items) end
+	if sendFrame and sendFrame:IsShown() then T.HideAutoSend(); did = true end
+	if not keepSession and RM.db.session.active then
+		RM.db.session.active = false
+		RM.db.session.ended = GetServerTime()
+		did = true
+	end
+	RM.Fire("AUCTION_CHANGED"); RM.Fire("SESSION_CHANGED")
+	if did then Log("\"" .. what .. "\" in RaidMaster – laufende Befehle des Test-Tools abgebrochen.") end
 end
 
 -- "Testmodus beenden": ein vorhandenes Ergebnis vorher an Discord senden?
