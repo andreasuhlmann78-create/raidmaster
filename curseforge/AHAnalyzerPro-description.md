@@ -75,13 +75,16 @@ In-game: the **Support** button in the addon window (or `/ahp donate`).
 
 ## Supported game versions
 
-| Game version | Status |
-|---|---|
-| WoW Forever | main version |
-| Classic Era | supported (beta) |
-| TBC Anniversary, Wrath Classic, Wrath Titan Reforged | supported (beta) |
-| Cataclysm Classic, Mists of Pandaria Classic | supported (beta) |
-| Retail | supported (beta) |
+AH Analyzer Pro works on **every** WoW version – all with the same features:
+
+- **Retail**
+- **Mists of Pandaria Classic** and **Cataclysm Classic**
+- **Wrath Classic** and **Wrath Titan Reforged**
+- **TBC Anniversary**
+- **Classic Era** (incl. Hardcore / Season realms)
+- **WoW Forever**
+
+Both auction house types are supported: the modern one (Retail, Cata, MoP) and the classic one (Classic Era, TBC, Wrath).
 
 One download for everything – just copy the folder `AHAnalyzerPro` into `Interface\AddOns` of your game.
 
