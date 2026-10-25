@@ -1,9 +1,10 @@
-RaidMaster Test 1.7.5 – RaidMaster im Spiel gefahrlos ausprobieren
-==================================================================
+RaidMaster Test-Werkzeug (in RaidMaster eingebaut) – RaidMaster im Spiel gefahrlos ausprobieren
+===============================================================================================
 
-INSTALLATION
-- Den Ordner "RaidMasterTest" neben "RaidMaster" in ...\Interface\AddOns\ kopieren (RaidMaster ab 2.0.0).
-- Öffnen mit /rmtest. Nur für dich als Raidleitung/Offizier gedacht – die Gilde braucht es nicht.
+ÖFFNEN
+- Knopf "Test" oben im RaidMaster-Fenster (nur für Offiziere/Raidleitung sichtbar), /rmtest oder /rm test.
+- Keine eigene Installation mehr – das Test-Tool kommt mit RaidMaster (ab 2.1.0).
+  Den alten Ordner Interface\AddOns\RaidMasterTest bitte löschen.
 
 RAIDMASTER HAT VORRANG (neu in 1.7.5)
 - "Raid starten" oder "Raid beenden" in RaidMaster überschreibt alles, was das Test-Tool gerade macht:

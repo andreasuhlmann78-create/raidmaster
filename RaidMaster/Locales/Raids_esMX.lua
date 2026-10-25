@@ -4947,3 +4947,5 @@ L["Fehler in RaidMaster (bitte Screenshot an die Raidleitung):"] = "Error de Rai
 L["Versteigerung beendet"] = "Subasta terminada"
 L["Geht wie bei keinen Geboten an Entzauberer bzw. Gildenbank (Einstellung auf der Seite Loot)."] = "Va al encantador o al banco de hermandad, como cuando nadie puja (ajuste en la página Botín)."
 L["Das Item kommt wieder vorne in die Warteschlange."] = "El objeto vuelve al principio de la cola."
+L["Test"] = "Prueba"
+L["Test-Werkzeug: RaidMaster gefahrlos ausprobieren (Testraid, Versteigerungen, Discord). Deine echten Daten werden gesichert."] = "Herramienta de prueba: prueba RaidMaster sin riesgo (banda de prueba, subastas, Discord). Tus datos reales se guardan."

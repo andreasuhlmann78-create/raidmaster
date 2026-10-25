@@ -4947,3 +4947,5 @@ L["Fehler in RaidMaster (bitte Screenshot an die Raidleitung):"] = "Erro do Raid
 L["Versteigerung beendet"] = "Leilão encerrado"
 L["Geht wie bei keinen Geboten an Entzauberer bzw. Gildenbank (Einstellung auf der Seite Loot)."] = "Vai para o encantador ou o banco da guilda, como quando ninguém dá lance (configuração na página Saque)."
 L["Das Item kommt wieder vorne in die Warteschlange."] = "O item volta para o início da fila."
+L["Test"] = "Teste"
+L["Test-Werkzeug: RaidMaster gefahrlos ausprobieren (Testraid, Versteigerungen, Discord). Deine echten Daten werden gesichert."] = "Ferramenta de teste: experimente o RaidMaster sem riscos (raide de teste, leilões, Discord). Seus dados reais são salvos."

@@ -4947,3 +4947,5 @@ L["Fehler in RaidMaster (bitte Screenshot an die Raidleitung):"] = "Ошибка
 L["Versteigerung beendet"] = "Аукцион завершён"
 L["Geht wie bei keinen Geboten an Entzauberer bzw. Gildenbank (Einstellung auf der Seite Loot)."] = "Уходит зачарователю или в банк гильдии, как при отсутствии ставок (настройка на странице «Добыча»)."
 L["Das Item kommt wieder vorne in die Warteschlange."] = "Предмет возвращается в начало очереди."
+L["Test"] = "Тест"
+L["Test-Werkzeug: RaidMaster gefahrlos ausprobieren (Testraid, Versteigerungen, Discord). Deine echten Daten werden gesichert."] = "Инструмент тестирования: безопасно опробовать RaidMaster (тестовый рейд, аукционы, Discord). Твои настоящие данные сохраняются."

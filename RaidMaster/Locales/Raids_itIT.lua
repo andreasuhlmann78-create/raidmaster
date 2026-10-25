@@ -4947,3 +4947,5 @@ L["Fehler in RaidMaster (bitte Screenshot an die Raidleitung):"] = "Errore di Ra
 L["Versteigerung beendet"] = "Asta terminata"
 L["Geht wie bei keinen Geboten an Entzauberer bzw. Gildenbank (Einstellung auf der Seite Loot)."] = "Va all'incantatore o alla banca di gilda, come senza offerte (impostazione nella pagina Bottino)."
 L["Das Item kommt wieder vorne in die Warteschlange."] = "L'oggetto torna in testa alla coda."
+L["Test"] = "Test"
+L["Test-Werkzeug: RaidMaster gefahrlos ausprobieren (Testraid, Versteigerungen, Discord). Deine echten Daten werden gesichert."] = "Strumento di test: prova RaidMaster senza rischi (incursione di prova, aste, Discord). I tuoi dati reali vengono salvati."

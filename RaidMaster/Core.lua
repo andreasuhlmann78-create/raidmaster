@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "2.0.1"
-RM.VERSION_NUM = 20001
+RM.VERSION = "2.1.0"
+RM.VERSION_NUM = 20100
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -601,6 +601,8 @@ SlashCmdList["RAIDMASTER"] = function(msg)
 		RM.Markers.ClearAll()
 	elseif msg == "sync" then
 		RM.Comm.RequestSync()
+	elseif msg == "test" then
+		if RM.Test then RM.Test.Toggle() end
 	elseif msg == "diag" or msg == "diagnose" or msg == "fix" then
 		if msg == "fix" then RM.Diag.Fix() else RM.Diag.Toggle() end
 	elseif msg == "discord" or msg == "anleitung" or msg == "guide" then

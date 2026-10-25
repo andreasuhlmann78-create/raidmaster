@@ -4947,3 +4947,5 @@ L["Fehler in RaidMaster (bitte Screenshot an die Raidleitung):"] = "Erreur RaidM
 L["Versteigerung beendet"] = "Enchère terminée"
 L["Geht wie bei keinen Geboten an Entzauberer bzw. Gildenbank (Einstellung auf der Seite Loot)."] = "Va à l'enchanteur ou à la banque de guilde, comme sans offre (réglage sur la page Butin)."
 L["Das Item kommt wieder vorne in die Warteschlange."] = "L'objet revient en tête de la file d'attente."
+L["Test"] = "Test"
+L["Test-Werkzeug: RaidMaster gefahrlos ausprobieren (Testraid, Versteigerungen, Discord). Deine echten Daten werden gesichert."] = "Outil de test : essayer RaidMaster sans risque (raid de test, enchères, Discord). Tes vraies données sont sauvegardées."

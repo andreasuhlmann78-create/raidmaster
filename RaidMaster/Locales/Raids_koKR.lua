@@ -4947,3 +4947,5 @@ L["Fehler in RaidMaster (bitte Screenshot an die Raidleitung):"] = "RaidMaster �
 L["Versteigerung beendet"] = "경매 종료"
 L["Geht wie bei keinen Geboten an Entzauberer bzw. Gildenbank (Einstellung auf der Seite Loot)."] = "입찰이 없을 때처럼 마부사 또는 길드 은행으로 갑니다 (전리품 페이지 설정)."
 L["Das Item kommt wieder vorne in die Warteschlange."] = "아이템이 대기열 맨 앞으로 돌아갑니다."
+L["Test"] = "테스트"
+L["Test-Werkzeug: RaidMaster gefahrlos ausprobieren (Testraid, Versteigerungen, Discord). Deine echten Daten werden gesichert."] = "테스트 도구: RaidMaster를 안전하게 시험 (테스트 공격대, 경매, Discord). 실제 데이터는 백업됩니다."

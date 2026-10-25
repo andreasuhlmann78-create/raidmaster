@@ -4947,3 +4947,5 @@ L["Fehler in RaidMaster (bitte Screenshot an die Raidleitung):"] = "RaidMaster �
 L["Versteigerung beendet"] = "拍賣結束"
 L["Geht wie bei keinen Geboten an Entzauberer bzw. Gildenbank (Einstellung auf der Seite Loot)."] = "像無人出價時一樣交給附魔師或公會銀行（在「拾取」頁面設定）。"
 L["Das Item kommt wieder vorne in die Warteschlange."] = "物品回到佇列最前面。"
+L["Test"] = "測試"
+L["Test-Werkzeug: RaidMaster gefahrlos ausprobieren (Testraid, Versteigerungen, Discord). Deine echten Daten werden gesichert."] = "測試工具：安全試用 RaidMaster（測試團隊、拍賣、Discord）。你的真實資料會被備份。"

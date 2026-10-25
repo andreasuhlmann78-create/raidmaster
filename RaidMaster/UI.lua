@@ -948,6 +948,17 @@ local function CreateMain()
 	local diag = UI.Button(titleBar, L["Diagnose"], 90, 22, function() if RM.Diag then RM.Diag.Toggle() end end,
 		L["Zeigt Fehler und Hänger (z. B. eine Versteigerung, die auf die Vergabe wartet) und kann sie lösen."])
 	diag:SetPoint("RIGHT", close, "LEFT", -8, 0)
+	-- Test-Werkzeug (nur für Offiziere/Raidleitung sichtbar, oder solange der Testmodus läuft)
+	local testBtn = UI.Button(titleBar, L["Test"], 70, 22, function() if RM.Test then RM.Test.Toggle() end end,
+		L["Test-Werkzeug: RaidMaster gefahrlos ausprobieren (Testraid, Versteigerungen, Discord). Deine echten Daten werden gesichert."])
+	testBtn:SetPoint("RIGHT", diag, "LEFT", -6, 0)
+	local function TestVisible()
+		if RM.Test and (RM.Test.active or RM.IsOfficer(RM.Me()) or RM.CanEdit()) then testBtn:Show() else testBtn:Hide() end
+	end
+	f:HookScript("OnShow", TestVisible)
+	RM.Listen("SESSION_CHANGED", TestVisible)
+	RM.Listen("CONFIG_CHANGED", TestVisible)
+	TestVisible()
 
 	local nav = UI.Frame(root, 170, 560)
 	f.nav = nav

@@ -1,4 +1,4 @@
-RaidMaster 2.0.1 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 2.1.0 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,13 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+TEST-WERKZEUG EINGEBAUT (neu in 2.1.0)
+- Das Test-Tool ist jetzt fester Teil von RaidMaster – kein eigenes Addon mehr.
+- Öffnen: Knopf "Test" oben im RaidMaster-Fenster (neben "Diagnose"; nur für Offiziere/Raidleitung sichtbar),
+  /rmtest oder /rm test. Alle Funktionen wie bisher, Anleitung in Test\LIESMICH.txt.
+- Update: vorher einmal einloggen und einen laufenden Testmodus beenden. Danach den alten Ordner
+  Interface\AddOns\RaidMasterTest löschen. Ist er noch da, schaltet RaidMaster ihn ab und bittet um /reload.
 
 RAID STANDARDMÄSSIG MOLTEN CORE (neu in 2.0.1)
 - Reiter Raid (und Raidleiter > Raid & Gruppen): ohne laufenden Raid steht der DKP-Topf immer auf Molten Core –

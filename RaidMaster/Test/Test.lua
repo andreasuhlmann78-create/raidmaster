@@ -1,23 +1,36 @@
 -- ============================================================================
--- RaidMaster Test – kleines Werkzeug, um RaidMaster im Spiel auszuprobieren
+-- RaidMaster Test – Werkzeug, um RaidMaster im Spiel auszuprobieren (fest in RaidMaster eingebaut)
 --
 -- Testmodus: alles, was du hier machst, bleibt bei dir:
 --   * Raid-, DKP- und Lootdaten werden beim Start gesichert und beim Beenden
 --     (oder beim nächsten Einloggen) wiederhergestellt
 --   * keine Addon-Nachrichten an Gilde/Raid, Raidchat-Texte erscheinen nur bei dir
 --   * ein Testraid mit 40 Spielern (MC-Aufstellung) wird vorgespielt
--- Öffnen: /rmtest
+-- Öffnen: Knopf "Test" oben im RaidMaster-Fenster, /rmtest oder /rm test
 -- ============================================================================
 
-local RM = RaidMaster
-if not RM or not RM.UI then
-	print("|cffff5544RaidMaster Test:|r RaidMaster ist nicht geladen.")
-	return
-end
+local ADDON, NS = ...
+local RM = (type(NS) == "table" and NS.UI and NS) or RaidMaster
+if not RM or not RM.UI then return end
 local UI = RM.UI
 local COLORS = UI.COLORS
-local T = { active = false, role = "officer", log = {} }
+local T = { active = false, role = "officer", log = {}, integrated = true }
 RaidMasterTest = T
+RM.Test = T
+
+-- Früher gab es das Test-Tool als eigenes Addon "RaidMasterTest" – das alte wird abgeschaltet
+do
+	RM.On("PLAYER_LOGIN", function()
+		local loaded = (C_AddOns and C_AddOns.IsAddOnLoaded and C_AddOns.IsAddOnLoaded("RaidMasterTest"))
+			or (IsAddOnLoaded and IsAddOnLoaded("RaidMasterTest"))
+		if loaded then
+			local disable = (C_AddOns and C_AddOns.DisableAddOn) or DisableAddOn
+			if disable then pcall(disable, "RaidMasterTest") end
+			print("|cffff8c1a[RaidMaster]|r Das Test-Tool ist jetzt in RaidMaster eingebaut. Das alte Addon \"RaidMasterTest\" "
+				.. "wurde abgeschaltet – bitte einmal /reload und den Ordner Interface\\AddOns\\RaidMasterTest löschen.")
+		end
+	end)
+end
 
 -- Testraid: 39 Testspieler + du = 40, aufgestellt wie für Molten Core üblich:
 -- 4 Tanks, 6 Furor-Krieger, 6 Priester (5 Heilig, 1 Schatten), 5 Paladine (Allianz) bzw. Schamanen (Horde),
