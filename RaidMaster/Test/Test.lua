@@ -218,7 +218,11 @@ function T.Start()
 		if T.active and not T.manualStart then T.Override("Raid starten") end
 		local was = RM.db.session.active
 		local r = saved.RaidStart(...)
-		if T.active and not was and RM.db.session.active and not T.manualStart and not T.IsRunning() and T.FollowStartOn() then
+		if T.active and not was and RM.db.session.active and not T.manualStart and not T.IsRunning() and T.FollowStartOn() and T.RosterEmpty() then
+			-- leerer Testraid: nichts automatisch füllen, nur die Sitzung läuft
+			Log("Raid in RaidMaster gestartet – der Testraid ist leer, darum spielt das Test-Tool nichts durch. "
+				.. "Erst \"Raid füllen\" klicken oder Anmeldungen einladen, dann im Test-Fenster \"Ganzen Raid durchspielen\".")
+		elseif T.active and not was and RM.db.session.active and not T.manualStart and not T.IsRunning() and T.FollowStartOn() then
 			local pool = RM.db.session.pool
 			if pool and RM.Data.Pools[pool] and RM.Data.Pools[pool].bosses[1] then T.pool = pool end
 			Log("Raid in RaidMaster gestartet – das Test-Tool spielt jetzt " .. RM.DKP.PoolName(T.pool) .. " durch.")
@@ -273,13 +277,15 @@ function T.Start()
 	end
 	T.active = true
 	T.blocked = 0
-	T.roster = nil
+	-- der Testraid startet leer (nur du) – gefüllt wird nur auf Wunsch: "Raid füllen" oder Anmeldungen einladen
+	T.roster = {}
 	T.InstallSimulations()
 	-- Markierung für den Discord-Bot: Daten aus dem Testmodus nie als echte DKP übernehmen
 	-- post = true: jedes Speichern (/reload, Ausloggen) schickt das Testergebnis an Discord (DKP- und Loot-Kanal)
 	RM.db.testMode = { active = true, started = GetServerTime(), pool = T.pool, post = T.AutoSendOn() or nil }
 	T.ApplySpeed()
-	Log("Testmodus AN – Daten gesichert, keine Nachrichten an Gilde/Raid. Testraid mit " .. #FAKE + 1 .. " Spielern (MC-Aufstellung) und " .. #BENCH .. " auf der Ersatzbank.")
+	Log("Testmodus AN – Daten gesichert, keine Nachrichten an Gilde/Raid. Der Testraid ist leer (nur du), " .. #BENCH .. " Testspieler auf der Ersatzbank. "
+		.. "Füllen nur auf Wunsch: \"Raid füllen\" (39 Testspieler) oder in RaidMaster Anmeldungen einladen.")
 	RM.Fire("SESSION_CHANGED"); RM.Fire("DATA_CHANGED")
 end
 
@@ -402,10 +408,30 @@ function T.ClearRoster()
 end
 
 function T.UseFakeRoster()
+	if not T.active then T.Start() end
 	T.roster = nil
-	Log("Testraid wieder mit den 39 Testspielern.")
+	Log("Testraid gefüllt: du + " .. #FAKE .. " Testspieler (MC-Aufstellung).")
 	RosterUpdated()
 end
+T.FillRoster = T.UseFakeRoster
+
+-- Ist der Testraid leer (nur du drin)?
+function T.RosterEmpty()
+	if not T.roster then return false end
+	for _, m in ipairs(T.roster) do if m.online ~= false then return false end end
+	return true
+end
+
+-- Durchläufe brauchen Mitspieler: ist der Testraid leer, nichts automatisch füllen, nur Bescheid sagen
+local function NeedRoster()
+	if not T.RosterEmpty() then return true end
+	local msg = "Der Testraid ist leer – erst \"Raid füllen\" klicken (39 Testspieler) oder in RaidMaster Anmeldungen einladen."
+	Log(msg)
+	RM.Print("|cffff8c1a[Test]|r " .. msg)
+	if T.Refresh then T.Refresh() end
+	return false
+end
+T.NeedRoster = NeedRoster
 
 function T.InstallSimulations()
 	local S = RM.Signup
@@ -944,6 +970,8 @@ T.SetTimeOffset = SetTimeOffset
 function T.RunRaids(n)
 	n = math.max(1, math.min(10, math.floor(tonumber(n) or 1)))
 	if run then Log("Es läuft schon ein Durchlauf.") return end
+	if not T.active then T.Start() end
+	if not NeedRoster() then return end
 	T.series = { total = n, left = n }
 	T.NextSeriesRun()
 end
@@ -964,6 +992,7 @@ end
 function T.RunRaid()
 	if run then Log("Es läuft schon ein Durchlauf.") return end
 	if not T.active then T.Start() end
+	if not NeedRoster() then T.series = nil; return end
 	if T.role ~= "raidlead" and T.role ~= "looter" then T.SetRole("raidlead") end
 	local def = RM.Data.Pools[T.pool]
 	if not def or not def.bosses[1] then Log("Für diesen Raid sind keine Bosse hinterlegt.") return end
@@ -1006,6 +1035,7 @@ end
 function T.StressTest(weeks)
 	if T.IsRunning() then Log("Es läuft schon ein Durchlauf.") return end
 	if not T.active then T.Start() end
+	if not NeedRoster() then return end
 	T.SetRole("raidlead")
 	local n = tonumber(weeks) or math.random(3, 10)
 	local diagErrors = RM.Diag and #RM.Diag.errors or 0
@@ -1121,6 +1151,9 @@ function T.RunStatus()
 	if not T.active then return "|cff999999Testmodus aus – oben \"Testmodus starten\" klicken.|r" end
 	local A = RM.Auction
 	local parts = {}
+	local n = T.roster and 0 or #FAKE
+	for _, m in ipairs(T.roster or {}) do if m.online ~= false then n = n + 1 end end
+	parts[#parts + 1] = n == 0 and "|cffffaa33Raid leer (nur du)|r" or string.format("Raid: %d Spieler", n + 1)
 	if T.stress then parts[#parts + 1] = string.format("|cffff8c1aStresstest läuft|r (%d Wochen)", T.stress.weeks) end
 	if T.series and T.series.total > 1 then
 		parts[#parts + 1] = string.format("Raidabend %d von %d", T.series.total - T.series.left, T.series.total)
@@ -1140,7 +1173,7 @@ end
 
 local function CreateWindow()
 	local W = 560
-	local f = UI.Frame(UIParent, W, 690)
+	local f = UI.Frame(UIParent, W, 740)
 	UI.Skin(f)
 	f:SetFrameStrata("HIGH")
 	f:SetClampedToScreen(true)
@@ -1233,8 +1266,17 @@ local function CreateWindow()
 	f.runStatus:SetWidth(W - 28)
 	f.runStatus:SetJustifyH("LEFT")
 
+	-- Raid füllen / leeren: der Testraid startet leer, gefüllt wird nur auf Wunsch
+	local fillBtn = UI.Button(ps, "Raid füllen (39 Testspieler)", 300, 30, function()
+		if T.RosterEmpty() then T.FillRoster() else T.ClearRoster() end
+	end)
+	fillBtn:SetPoint("TOPLEFT", 14, -34)
+	f.fillBtn = fillBtn
+	local d0 = Desc(ps, "Der Testraid startet leer. Füllen nur auf Wunsch – mit den 39 Testspielern oder in RaidMaster\n"
+		.. "über Anmeldungen > Einladen (simuliert). Nochmal klicken leert den Raid wieder.", fillBtn)
+
 	local runBtn = UI.Button(ps, "Ganzen Raid durchspielen", 300, 34, function() T.RunRaids(T.runs) end)
-	runBtn:SetPoint("TOPLEFT", 14, -34)
+	runBtn:SetPoint("TOPLEFT", d0, "BOTTOMLEFT", -2, -14)
 	runBtn:SetAccent(true)
 	local runsLabel = UI.Text(ps, "Raidabende:", 12)
 	runsLabel:SetPoint("LEFT", runBtn, "RIGHT", 16, 0)
@@ -1299,8 +1341,8 @@ local function CreateWindow()
 	targetBtn:SetAccent(true)
 	local untargetBtn = UI.Button(pe, "Ziel löschen", 110, 26, function() T.TargetBoss(nil) end)
 	untargetBtn:SetPoint("LEFT", bossDrop, "RIGHT", 8, 0)
-	local rosterBtn = UI.Button(pe, "39 Testspieler", 110, 26, function() T.UseFakeRoster() end,
-		"Nach einem Import von Anmeldungen: Testraid wieder mit den 39 Testspielern füllen.")
+	local rosterBtn = UI.Button(pe, "Raid füllen", 110, 26, function() T.FillRoster() end,
+		"Testraid mit den 39 Testspielern füllen (MC-Aufstellung). Ohne diesen Klick bleibt der Testraid leer.")
 	rosterBtn:SetPoint("LEFT", untargetBtn, "RIGHT", 8, 0)
 
 	Section(pe, "Versteigerung", -132)
@@ -1391,6 +1433,8 @@ local function CreateWindow()
 			tabBtns[key]:SetAccent(key == cur)
 		end
 		f.runStatus:SetText("Stand: " .. T.RunStatus())
+		f.fillBtn:SetText(T.RosterEmpty() and "Raid füllen (39 Testspieler)" or "Raid leeren")
+		f.fillBtn:SetAccent(T.active and T.RosterEmpty())
 		local last = {}
 		for i = 1, math.min(6, #T.log) do last[#last + 1] = T.log[i] end
 		f.lastLog:SetText(table.concat(last, "\n"))

@@ -1,4 +1,4 @@
-RaidMaster 2.5.1 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 2.5.2 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,11 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+TESTRAID NUR AUF WUNSCH FÜLLEN (neu in 2.5.2)
+- Der Testmodus startet mit leerem Testraid (nur du). Gefüllt wird nur, wenn du es willst: im Test-Fenster
+  "Raid füllen (39 Testspieler)" oder in RaidMaster über Anmeldungen einladen (simuliert).
+- "Raid starten" füllt den Testraid nicht. Bei leerem Raid starten Durchlauf und Stresstest nicht, es kommt ein Hinweis.
 
 TESTRAID LEEREN (neu in 2.5.1)
 - Seite Anmeldungen, nur im Testmodus: Knopf "Testraid leeren" – alle Testspieler verlassen den Raid, die

@@ -6,13 +6,20 @@ RaidMaster Test-Werkzeug (in RaidMaster eingebaut) – RaidMaster im Spiel gefah
 - Keine eigene Installation mehr – das Test-Tool kommt mit RaidMaster (ab 2.1.0).
   Den alten Ordner Interface\AddOns\RaidMasterTest bitte löschen.
 
+TESTRAID NUR AUF WUNSCH FÜLLEN (neu mit RaidMaster 2.5.2)
+- Der Testmodus startet mit einem LEEREN Testraid (nur du). Die 5 Testspieler auf der Ersatzbank sind da.
+- Füllen nur auf Wunsch: Schnellstart "Raid füllen (39 Testspieler)" (nochmal klicken = "Raid leeren"),
+  Einzeln testen "Raid füllen" – oder in RaidMaster unter Anmeldungen einladen (simuliert).
+- Auch "Raid starten" (im Test-Tool oder in RaidMaster) füllt den Raid nicht mehr. Ist der Raid leer, starten
+  "Ganzen Raid durchspielen" und der Stresstest nicht, sondern sagen Bescheid.
+
 SIMULATIONEN (neu mit RaidMaster 2.5.0)
-- Einzeln testen: "Boss ins Ziel" (Boss-Leiste erscheint), "Ziel löschen", "39 Testspieler" (nach einem Import).
+- Einzeln testen: "Boss ins Ziel" (Boss-Leiste erscheint), "Ziel löschen", "Raid füllen" (39 Testspieler).
 - Anmeldungen importieren -> Testraid ist leer -> in RaidMaster "Alle einladen": Einladungen werden simuliert.
 - Gruppen einteilen, Plündermeister setzen und Werbung posten wirken im Test nicht im echten Spiel.
 
 FENSTER MIT REITERN (neu mit RaidMaster 2.3.1)
-- Schnellstart: Ganzen Raid durchspielen, Stresstest (3–10 Wochen), Ergebnis an Discord, Durchlauf abbrechen.
+- Schnellstart: Raid füllen/leeren, Ganzen Raid durchspielen, Stresstest (3–10 Wochen), Ergebnis an Discord, Durchlauf abbrechen.
 - Einzeln testen: Raid starten, Bosskill, Raid beenden, Trash-Loot, Jäger-Abfrage, Versteigerung, DKP an mich, Symbole.
 - Einstellungen: alle Haken und die Dauer je Versteigerung. Protokoll: Selbsttest, Diagnose, alle Meldungen.
 
@@ -60,8 +67,8 @@ TEMPO (neu in 1.7.2)
 - Gilt nur im Testmodus – beim Beenden kommt deine echte Versteigerungsdauer zurück.
 
 TESTMODUS
-- "Testmodus starten": deine DKP-, Raid- und Lootdaten werden gesichert. Es wird ein Testraid mit 40 Spielern
-  (du + 39 Testspieler) in einer typischen Molten-Core-Aufstellung vorgespielt, jeder mit 100 DKP und Skillung:
+- "Testmodus starten": deine DKP-, Raid- und Lootdaten werden gesichert. Der Testraid ist zuerst leer; mit
+  "Raid füllen" kommen 39 Testspieler dazu (40 Spieler mit dir) in einer typischen Molten-Core-Aufstellung vorgespielt, jeder mit 100 DKP und Skillung:
   4 Schutz-Krieger (Tanks), 6 Furor-Krieger, 5 Heilig-Priester, 1 Schattenpriester, 5 Paladine (Allianz) bzw.
   5 Schamanen (Horde), 2 Wiederherstellungs-Druiden, 1 Wildheits-Druide, 4 Schurken, 5 Frostmagier
   (Entfluchen bei Lucifron), 3 Hexenmeister (Verbannen bei Garr), 3 Jäger (Einlullender Schuss bei Magmadar).
