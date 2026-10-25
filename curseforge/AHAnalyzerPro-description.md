@@ -23,6 +23,16 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 
 ---
 
+## ☕ Support the addon
+
+AH Analyzer Pro is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!
+
+**[Donate with PayPal](https://www.paypal.com/ncp/payment/46R68N2BF7BTY)**
+
+In-game: the **Support** button in the addon window (or `/ahp donate`).
+
+---
+
 ## Features
 
 ### Market data
