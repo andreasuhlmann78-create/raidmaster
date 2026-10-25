@@ -14,6 +14,9 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 - **New Buy tab** – works like the auction house's own Buy tab: search, categories, level, rarity. Categories show **instantly** from your last scan while the live search updates them in the background
 - **Sniper and Watcher search as often as the server allows** and take turns – the Sniper hunts your targets, the Watcher finds lucky bargains. The speed adjusts itself to the limit of every WoW version
 - **Buy with the mouse wheel – also over the addon window.** The sound repeats while a hit is waiting. Options → "Sniper buys with" / "Watcher buys with": mouse wheel or your own key, separately for each
+- **Bid sniping:** Profit → "Bids" lists auctions whose next bid is far below market value, with time left – click to bid in the Buy tab
+- **Price protection when posting:** warns before you post far below market value or follow a bait offer
+- **Sale notification** with proceeds and profit as soon as an auction sells
 - **Sniper shows the total amount** it will buy of an item (quantity, total cost, average price)
 - **Bait offers** (single units at the very bottom) are no longer shown anywhere and never count for prices
 - **Page bar in every list** (‹ 1 2 3 … 20 ›), draggable scrollbars, **Item column sorts by rarity, then name**, new **iLvl** column
