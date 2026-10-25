@@ -457,6 +457,12 @@ async def on_interaction(inter: discord.Interaction):
     if inter.type != discord.InteractionType.component:
         return
     cid = (inter.data or {}).get("custom_id", "")
+    if cid.startswith("rmtip:"):
+        try:
+            await show_tip(inter)
+        except Exception:  # noqa: BLE001
+            log.exception("Tooltip konnte nicht angezeigt werden")
+        return
     if not cid.startswith("rm:"):
         return
     try:
@@ -1309,17 +1315,22 @@ WOWHEAD_FLAVOR = "classic"
 
 
 async def item_icon(link: str | None, tip: dict | None) -> str | None:
-    """URL des Item-Symbols. Pfad vom Addon -> Name direkt, sonst einmal bei Wowhead nachschlagen
-    (Ergebnis wird gemerkt)."""
+    """URL des Item-Symbols."""
+    return rmd.icon_url(await item_icon_name(link, tip))
+
+
+async def item_icon_name(link: str | None, tip: dict | None) -> str | None:
+    """Name des Item-Symbols (z. B. inv_boots_05). Pfad vom Addon -> Name direkt, sonst einmal bei
+    Wowhead nachschlagen (Ergebnis wird gemerkt)."""
     name = rmd.icon_name_from_hint(tip.get("ic") if tip else None)
     if name:
-        return rmd.icon_url(name)
+        return name
     iid = rmd.item_id(link)
     if not iid:
         return None
     cache = state.data.setdefault("item_icons", {})
     if str(iid) in cache:
-        return rmd.icon_url(cache[str(iid)])
+        return cache[str(iid)]
     found = None
     try:
         import aiohttp
@@ -1337,12 +1348,12 @@ async def item_icon(link: str | None, tip: dict | None) -> str | None:
         return None
     cache[str(iid)] = found
     state.save()
-    return rmd.icon_url(found)
+    return found
 
 
-async def item_embed(e: dict, db: dict | None, test: bool = False) -> discord.Embed:
+async def item_embed(e: dict, db: dict | None, test: bool = False, tip: dict | None = None) -> discord.Embed:
     """Ein vergebenes Item als Embed wie der Tooltip im Spiel."""
-    tip = rmd.item_tip(db, e.get("link"))
+    tip = tip or rmd.item_tip(db, e.get("link"))
     name = (tip or {}).get("n") or e["item"]
     emb = discord.Embed(title=name, url=rmd.wowhead_url(e.get("link"), WOWHEAD_FLAVOR),
                         color=rmd.item_color(e.get("link"), tip))
@@ -1360,18 +1371,141 @@ async def item_embed(e: dict, db: dict | None, test: bool = False) -> discord.Em
     return emb
 
 
-async def send_item_embeds(channel, items: list[dict], db: dict | None, header: str | None = None, test: bool = False) -> int:
-    """Items als Embeds senden (je Nachricht höchstens 10). Liefert die Anzahl Nachrichten."""
+QUALITY_SQUARES = {0: "⬜", 1: "⬜", 2: "🟩", 3: "🟦", 4: "🟪", 5: "🟧"}
+_emoji_lock = asyncio.Lock()
+
+
+async def item_emoji(link: str | None, tip: dict | None) -> str:
+    """Item-Symbol als Emoji für den Zeilenanfang (eigenes App-Emoji aus dem Spielsymbol).
+    Geht das nicht, ein Quadrat in der Qualitätsfarbe."""
+    q = (tip or {}).get("q")
+    if not isinstance(q, int):
+        q = {0xA335EE: 4, 0x0070DD: 3, 0x1EFF00: 2, 0xFF8000: 5}.get(rmd.item_color(link), 4)
+    fallback = QUALITY_SQUARES.get(q, "🟪")
+    try:
+        name = await item_icon_name(link, tip)
+    except Exception:  # noqa: BLE001
+        name = None
+    if not name:
+        return fallback
+    cache = state.data.setdefault("item_emojis", {})
+    if name in cache:
+        return cache[name] or fallback
+    ename = re.sub(r"[^A-Za-z0-9_]", "_", name)[:32]
+    if len(ename) < 2:
+        return fallback
+    async with _emoji_lock:
+        if name in cache:
+            return cache[name] or fallback
+        try:
+            existing = state.data.get("_app_emojis_loaded")
+            if not existing and hasattr(bot, "fetch_application_emojis"):
+                for em in await bot.fetch_application_emojis():
+                    cache.setdefault(em.name, f"<:{em.name}:{em.id}>")
+                state.data["_app_emojis_loaded"] = True
+                if ename in cache:
+                    cache[name] = cache[ename]
+                    state.save()
+                    return cache[name]
+            import aiohttp
+            async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=8)) as session:
+                async with session.get(f"https://wow.zamimg.com/images/wow/icons/medium/{name}.jpg") as resp:
+                    img = await resp.read() if resp.status == 200 else None
+            if not img or not hasattr(bot, "create_application_emoji"):
+                cache[name] = None
+                state.save()
+                return fallback
+            em = await bot.create_application_emoji(name=ename, image=img)
+            cache[name] = f"<:{em.name}:{em.id}>"
+        except Exception as e:  # noqa: BLE001
+            log.info("Item-Emoji %s nicht möglich: %s", name, e)
+            cache[name] = None
+        state.save()
+        return cache[name] or fallback
+
+
+def remember_tip(link: str | None, tip: dict | None, db: dict | None):
+    """Tooltip für das Menü "Tooltip anzeigen" merken (auch Testdaten, die sonst nicht gespeichert sind)."""
+    iid = rmd.item_id(link)
+    if not iid:
+        return
+    store = state.data.setdefault("tip_cache", {})
+    store[str(iid)] = {"link": link, "tip": tip, "t": int(time.time())}
+    if len(store) > 400:
+        for k, _ in sorted(store.items(), key=lambda kv: kv[1].get("t", 0))[:len(store) - 400]:
+            store.pop(k, None)
+
+
+async def loot_line(e: dict, db: dict | None) -> str:
+    tip = rmd.item_tip(db, e.get("link"))
+    remember_tip(e.get("link"), tip, db)
+    emoji = await item_emoji(e.get("link"), tip)
+    url = rmd.wowhead_url(e.get("link"), WOWHEAD_FLAVOR)
+    item = (tip or {}).get("n") or e["item"]
+    item_txt = f"[**{item}**](<{url}>)" if url else f"**{item}**"
+    return f"{emoji} <t:{int(e['t'])}:t> **{e['name']}** erhält {item_txt} für {e['amount']} DKP"
+
+
+def tip_view(items: list[dict], db: dict | None = None) -> discord.ui.View | None:
+    """Auswahlmenü "Tooltip anzeigen" unter der Loot-Liste (je Menü 25 Items, höchstens 5 Menüs)."""
+    opts = []
+    for e in items:
+        iid = rmd.item_id(e.get("link"))
+        if not iid:
+            continue
+        p_ = (((db or {}).get("data") or {}).get("players") or {}).get(e["name"])
+        cls = (p_.get("c") if isinstance(p_, dict) else "") or ""
+        value = f"{iid}|{e['name']}|{e['amount']}|{int(e['t'])}|{cls}"[:100]
+        opts.append(discord.SelectOption(label=str(e["item"])[:100], description=f"{e['name']} · {e['amount']} DKP"[:100],
+                                         value=value))
+    if not opts:
+        return None
+    view = discord.ui.View(timeout=None)
+    for n, i in enumerate(range(0, min(len(opts), 125), 25)):
+        part = opts[i:i + 25]
+        # Werte müssen je Menü eindeutig sein
+        seen, uniq = set(), []
+        for o in part:
+            if o.value in seen:
+                continue
+            seen.add(o.value)
+            uniq.append(o)
+        view.add_item(discord.ui.Select(custom_id=f"rmtip:{n}:{int(time.time() * 1000) % 10**9}",
+                                        placeholder="🔍 Tooltip anzeigen …" + (f" ({n + 1})" if len(opts) > 25 else ""),
+                                        options=uniq, min_values=1, max_values=1))
+    return view
+
+
+async def send_loot_list(channel, items: list[dict], db: dict | None, header: str | None = None, test: bool = False) -> int:
+    """Loot als kompakte Liste: Item-Symbol vorne, Uhrzeit, Gewinner, Item (Link zu Wowhead), DKP.
+    Darunter ein Menü, das den Tooltip wie im Spiel zeigt (nur für den, der auswählt)."""
+    lines = [await loot_line(e, db) for e in items]
+    state.save()
+    text = ((header + "\n") if header else "") + "\n".join(lines)
+    parts = rmd.split_discord(text)
+    view = tip_view(items, db)
     sent = 0
-    embeds = [await item_embed(e, db, test) for e in items]
-    for i in range(0, len(embeds), 10):
-        content = header if (i == 0 and header) else None
+    for i, part in enumerate(parts):
+        v = view if i == len(parts) - 1 else None
         if test:
-            await send_test(channel, content, embeds=embeds[i:i + 10])
+            await send_test(channel, part, view=v)
         else:
-            await channel.send(content=content, embeds=embeds[i:i + 10])
+            await channel.send(content=part, view=v) if v else await channel.send(part)
         sent += 1
     return sent
+
+
+async def show_tip(inter: discord.Interaction):
+    """Antwort auf das Menü "Tooltip anzeigen": Tooltip-Karte nur für den Klickenden."""
+    values = (inter.data or {}).get("values") or []
+    if not values:
+        return
+    iid, name, amount, t, cls = (values[0].split("|") + ["", "", "0", "0", ""])[:5]
+    cached = (state.data.get("tip_cache") or {}).get(str(iid)) or {}
+    link = cached.get("link") or f"|Hitem:{iid}|h[Item {iid}]|h"
+    e = {"name": name, "amount": amount, "t": int(t or 0), "item": rmd.item_name(link), "link": link, "pool_name": ""}
+    emb = await item_embed(e, {"data": {"players": {name: {"c": cls}}}} if cls else None, tip=cached.get("tip"))
+    await inter.response.send_message(embed=emb, ephemeral=True)
 
 
 async def post_new_loot():
@@ -1396,9 +1530,9 @@ async def post_new_loot():
         if not channel:
             continue
         try:
-            await send_item_embeds(channel, items, bot.dkp_db)
+            await send_loot_list(channel, items, bot.dkp_db)
         except discord.HTTPException as ex:
-            log.warning("Loot als Embed nicht möglich (%s) – als Text.", ex)
+            log.warning("Loot-Liste mit Symbolen nicht möglich (%s) – als Text.", ex)
             lines = [f"🎁 **{e['name']}** erhält **{e['item']}** für {e['amount']} DKP ({e['pool_name']})" for e in items]
             for text in rmd.split_discord("\n".join(lines)):
                 await channel.send(text)
@@ -1992,11 +2126,14 @@ def test_info(db: dict | None) -> dict | None:
 
 
 async def send_test(channel, text: str | None, embeds: list | None = None,
-                    file_bytes: bytes | None = None, filename: str = "bild.png"):
+                    file_bytes: bytes | None = None, filename: str = "bild.png", view=None):
     """Testnachricht senden und zum Löschen vormerken (übersteht auch einen Neustart des Bots).
     Zu lange Texte werden in Discord-taugliche Stücke geteilt (max. 2000 Zeichen)."""
     if file_bytes:
         m = await channel.send(content=text or None, file=table_file(file_bytes, filename))
+        state.data.setdefault("test_messages", []).append([channel.id, m.id, int(time.time()) + TEST_TTL])
+    elif view is not None:
+        m = await channel.send(content=text or None, view=view)
         state.data.setdefault("test_messages", []).append([channel.id, m.id, int(time.time()) + TEST_TTL])
     elif embeds:
         m = await channel.send(content=text or None, embeds=embeds)
@@ -2078,9 +2215,9 @@ async def handle_test_upload(db: dict, uploader: str):
             for g in groups:
                 head_line = rmd.format_loot_group(g, "🧪 ")[0].split("\n")[0]
                 try:
-                    posted += await send_item_embeds(loot_ch, g["items"], db, header=head_line, test=True)
+                    posted += await send_loot_list(loot_ch, g["items"], db, header=head_line, test=True)
                 except Exception as ex:  # noqa: BLE001
-                    log.warning("Test-Loot als Embed nicht möglich (%s) – als Text.", ex)
+                    log.warning("Test-Loot mit Symbolen nicht möglich (%s) – als Text.", ex)
                     for text in rmd.format_loot_group(g, "🧪 "):
                         await send_test(loot_ch, text)
                         posted += 1
