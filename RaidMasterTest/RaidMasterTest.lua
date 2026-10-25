@@ -755,6 +755,9 @@ local function CreateWindow()
 	m3:SetPoint("LEFT", m2, "RIGHT", 8, 0)
 
 	Section(f, "Protokoll", -520)
+	local diagBtn = UI.Button(f, "Diagnose", 110, 22, function() if RM.Diag then RM.Diag.Toggle() end end,
+		"Zeigt Fehler und Hänger von RaidMaster und vom Test-Durchlauf und kann sie lösen.")
+	diagBtn:SetPoint("TOPRIGHT", -14, -516)
 	local box = UI.Multiline(f, 532, 220, true)
 	box:SetPoint("TOPLEFT", 14, -544)
 
@@ -785,4 +788,35 @@ SlashCmdList["RAIDMASTERTEST"] = function(msg)
 	elseif msg == "stop" or msg == "ende" then T.Stop()
 	elseif msg == "check" or msg == "selbsttest" then T.SelfTest(); if not (win and win:IsShown()) then print((T.selfTest or ""):gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", "")) end
 	else T.Toggle() end
+end
+
+-- Diagnose von RaidMaster: Zustand des Test-Durchlaufs anzeigen und Hänger lösen
+if RM.Diag then
+	table.insert(RM.Diag.providers, function()
+		local lines = { "|cffffd200Test-Tool|r" }
+		lines[#lines + 1] = "  Testmodus: " .. (T.active and ("an, Ansicht als " .. ROLE_NAMES[T.role]) or "aus")
+		if run then
+			local A = RM.Auction
+			local why
+			if A.current and A.AwaitingAward() then why = "wartet auf DICH: Vergeben / Nicht vergeben / Neu versteigern"
+			elseif A.current then why = "Versteigerung läuft"
+			elseif #A.queue > 0 then why = (T.autoAuction and "startet gleich die nächste Versteigerung" or ("wartet auf DICH: " .. #A.queue .. " Item(s) in der Warteschlange – Seite Versteigerung, \"Gewähltes starten\""))
+			else why = "nächster Boss kommt gleich" end
+			lines[#lines + 1] = string.format("  Durchlauf: %s, Boss %d von %d – %s", run.def and run.def.name or "?", run.index or 0, run.def and #run.def.bosses or 0, why)
+			if T.series then lines[#lines + 1] = string.format("  Raidabend %d von %d", T.series.total - T.series.left, T.series.total) end
+		else
+			lines[#lines + 1] = "  Kein Durchlauf aktiv."
+		end
+		return lines
+	end)
+	table.insert(RM.Diag.fixers, function()
+		if run then
+			run.told = false
+			run.waitUntil = math.min(run.waitUntil or 0, GetTime())
+			if run.ticker == nil or (run.ticker.IsCancelled and run.ticker:IsCancelled()) then
+				run.ticker = C_Timer.NewTicker(0.5, RunStep)
+				return { "Test-Durchlauf neu angestoßen." }
+			end
+		end
+	end)
 end

@@ -1,8 +1,8 @@
-RaidMaster Test 1.6.1 – RaidMaster im Spiel gefahrlos ausprobieren
+RaidMaster Test 1.7.0 – RaidMaster im Spiel gefahrlos ausprobieren
 ==================================================================
 
 INSTALLATION
-- Den Ordner "RaidMasterTest" neben "RaidMaster" in ...\Interface\AddOns\ kopieren (RaidMaster ab 1.9.6).
+- Den Ordner "RaidMasterTest" neben "RaidMaster" in ...\Interface\AddOns\ kopieren (RaidMaster ab 1.9.9).
 - Öffnen mit /rmtest. Nur für dich als Raidleitung/Offizier gedacht – die Gilde braucht es nicht.
 
 TESTMODUS
@@ -48,6 +48,8 @@ WAS DU TESTEN KANNST
   (mit TEST markiert) und löscht sie nach 10 Minuten. Die Oberfläche wird dafür neu geladen, danach ist der
   Testmodus beendet. Der Uploader muss laufen. Deine echten DKP im Discord bleiben dabei unverändert –
   der Bot übernimmt Daten aus dem Testmodus nie als echte Daten (auch nicht beim Ausloggen mitten im Test).
+- Diagnose (Knopf beim Protokoll): zeigt Fehler und ob der Durchlauf auf dich wartet (Vergabe, Warteschlange),
+  "Hänger lösen" stößt einen festhängenden Durchlauf wieder an.
 - Schlachtzugsymbole: echt testen, z. B. an Trainingspuppen in der Hauptstadt ("Adds markieren"
   markiert alle sichtbaren Gegner, Namensplaketten mit Taste V einschalten).
 - Selbsttest: prüft Spielversion, Sprache, Raids und Taktiken, Plündermeister, Namensplaketten,

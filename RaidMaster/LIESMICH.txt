@@ -1,4 +1,4 @@
-RaidMaster 1.9.8 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 1.9.9 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,13 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+DIAGNOSE (neu in 1.9.9)
+- Knopf "Diagnose" oben im Hauptfenster (oder /rm diagnose): zeigt auf einen Blick, ob eine Versteigerung läuft
+  oder auf "Vergeben" wartet, was in der Warteschlange ist, ob du versteigern darfst (und warum nicht),
+  Plündermethode und Plündermeister, die Raid-Sitzung und alle Fehler von RaidMaster seit dem Einloggen.
+- "Hänger lösen" (oder /rm fix): zeigt eine offene Vergabe wieder an, beendet abgelaufene Versteigerungen
+  und räumt alte Fenster auf. Im Test-Tool zusätzlich: Stand des Durchlaufs und worauf er gerade wartet.
 
 FEHLERMELDUNGEN IM CHAT (neu in 1.9.8)
 - Tritt auf einer Seite ein Fehler auf, steht er jetzt auch im Chat ("Fehler in RaidMaster …") – auch wenn

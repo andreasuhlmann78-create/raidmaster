@@ -945,6 +945,9 @@ local function CreateMain()
 	sub:SetPoint("LEFT", title, "RIGHT", 10, -1)
 	local close = UI.CloseButton(titleBar, function() f:Hide() end)
 	close:SetPoint("RIGHT", -8, 0)
+	local diag = UI.Button(titleBar, L["Diagnose"], 90, 22, function() if RM.Diag then RM.Diag.Toggle() end end,
+		L["Zeigt Fehler und Hänger (z. B. eine Versteigerung, die auf die Vergabe wartet) und kann sie lösen."])
+	diag:SetPoint("RIGHT", close, "LEFT", -8, 0)
 
 	local nav = UI.Frame(root, 170, 560)
 	f.nav = nav
