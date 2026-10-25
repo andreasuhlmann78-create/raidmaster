@@ -469,6 +469,10 @@ async def on_interaction(inter: discord.Interaction):
             await show_tip(inter)
         except Exception:  # noqa: BLE001
             log.exception("Tooltip konnte nicht angezeigt werden")
+            try:
+                await inter.followup.send("Der Tooltip konnte gerade nicht geladen werden – bitte gleich nochmal versuchen.", ephemeral=True)
+            except Exception:  # noqa: BLE001
+                pass
         return
     if not cid.startswith("rm:"):
         return
@@ -1160,9 +1164,18 @@ def table_file(png: bytes | None, name: str):
     return discord.File(io.BytesIO(png), filename=name) if png else None
 
 
-def standings_png(pool: str, rows: list[dict], data: dict | None, subtitle: str) -> bytes | None:
+def standings_png(pool: str, rows: list[dict], data: dict | None, subtitle: str, db: dict | None = None) -> bytes | None:
+    """DKP-Stände wie die Seite im Addon (Name, Klasse, DKP, Verdient, Status) – alle Raids zusammengefasst."""
     try:
-        return rimg.render_standings(f"DKP-Stand {rmd.pool_name(pool, data)}", subtitle, rows)
+        standby = set(str(n) for n in ((((db or {}).get("config") or {}).get("standby")) or {}).keys())
+        out = []
+        for r_ in rows:
+            if r_["dkp"] == 0 and not r_.get("earned") and r_["name"] not in standby:
+                continue
+            out.append({"name": r_["name"], "class": r_.get("class"), "dkp": r_["dkp"], "earned": r_.get("earned") or 0,
+                        "status": "Ersatzbank" if r_["name"] in standby else ""})
+        total, count = rmd.pool_total(rows)
+        return rimg.render_addon_dkp(rmd.pool_name(pool, data), out, total, count, subtitle)
     except Exception as e:  # noqa: BLE001
         log.warning("DKP-Bild konnte nicht gezeichnet werden: %s", e)
         return None
@@ -1229,9 +1242,39 @@ async def post_dkp_tables():
         await post_dkp_table(pool, channel_id, rows)
 
 
+async def cleanup_dkp_channels():
+    """Einmalig: alte Abrechnungen und Item-Zeilen des Bots aus den DKP-Kanälen entfernen –
+    dort steht nur noch die zusammengefasste DKP-Tabelle."""
+    if state.data.get("dkp_cleanup_v1"):
+        return
+    keep = {int(i) for ids in (state.data.get("dkp_messages") or {}).values() for i in (ids or [])}
+    seen = set()
+    for pool in rmd.pool_list(bot.dkp_data) if bot.dkp_data else []:
+        cid = dkp_channel_for(pool)
+        if not cid or cid in seen:
+            continue
+        seen.add(cid)
+        ch = await channel_by_id(cid)
+        if not ch:
+            continue
+        try:
+            async for m in ch.history(limit=300):
+                if m.author.id == bot.user.id and m.id not in keep:
+                    await m.delete()
+                    await asyncio.sleep(0.4)
+        except discord.HTTPException as e:
+            log.info("DKP-Kanal konnte nicht aufgeräumt werden: %s", e)
+    state.data["dkp_cleanup_v1"] = True
+    state.save()
+
+
 async def post_raid_summaries():
     """Nach jedem beendeten Raid eine Abrechnung im DKP-Kanal des Raids (bleibt stehen = Verlauf über die Wochen).
     Beim ersten Mal werden alle noch gespeicherten Raidabende nachgetragen."""
+    # Standard: keine einzelnen Abrechnungen – die Raids stehen zusammengefasst in der DKP-Tabelle (wie im Addon)
+    if not cfg.get("raid_summaries", False):
+        await cleanup_dkp_channels()
+        return
     done = set(state.data.get("raid_summaries_done") or [])
     posted = False
     for s in rmd.raid_summaries(bot.dkp_data):
@@ -1287,11 +1330,11 @@ async def post_dkp_table(pool: str, channel_id: int, rows: list[dict]):
     after = ""
     if last:
         after = f"nach dem Raid vom {datetime.fromtimestamp(last['t']).strftime('%d.%m.%Y')}"
-    head = (f"**DKP-Stand {rmd.pool_name(pool, bot.dkp_data)}**" + (f" – {after}" if after else "")
-            + f" · aktualisiert <t:{int(bot.dkp_mtime)}:f>\n{rmd.total_line(rows)}")
+    head = (f"**DKP-Stände {rmd.pool_name(pool, bot.dkp_data)}**" + (f" – {after}" if after else "")
+            + f" · aktualisiert <t:{int(bot.dkp_mtime)}:f>")
     png = standings_png(pool, rows, bot.dkp_data,
-                        ("Stand " + after + " · \"Letzter Raid\" = dazugekommen (+DKP, minus Items)") if after
-                        else "Namen in Klassenfarbe wie im Spiel")
+                        ("Stand " + after + " · alle Raids zusammengefasst") if after else "alle Raids zusammengefasst",
+                        bot.dkp_db)
     # mit Bild (Klassenfarben): eine Nachricht; ohne Pillow: Texttabelle wie bisher
     chunks = [head] if png else rmd.with_head(head, rmd.format_standings(rows))
     all_ids = state.data.setdefault("dkp_messages", {})
@@ -1367,9 +1410,48 @@ async def item_icon_name(link: str | None, tip: dict | None) -> str | None:
     return found
 
 
+async def wowhead_tip(link: str | None) -> dict | None:
+    """Tooltip von Wowhead (deutsch, sonst englisch), falls das Addon keinen geliefert hat. Wird gemerkt."""
+    iid = rmd.item_id(link)
+    if not iid:
+        return None
+    cache = state.data.setdefault("wh_tips", {})
+    if str(iid) in cache:
+        return cache[str(iid)]
+    found = None
+    try:
+        import aiohttp
+        async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=6)) as session:
+            for url in (f"https://nether.wowhead.com/{WOWHEAD_FLAVOR}/de/tooltip/item/{iid}",
+                        f"https://nether.wowhead.com/{WOWHEAD_FLAVOR}/tooltip/item/{iid}"):
+                async with session.get(url) as resp:
+                    if resp.status != 200:
+                        continue
+                    js = await resp.json(content_type=None)
+                if isinstance(js, dict) and js.get("tooltip"):
+                    found = rmd.tip_from_wowhead_html(js["tooltip"], js.get("name"), js.get("quality"), js.get("icon"))
+                    break
+    except Exception as ex:  # noqa: BLE001
+        log.info("Wowhead-Tooltip %s nicht geladen: %s", iid, ex)
+        return None
+    if found:
+        found["l"] = [list(x) for x in found["l"]]
+    cache[str(iid)] = found
+    if len(cache) > 500:
+        for k in list(cache)[:len(cache) - 500]:
+            cache.pop(k, None)
+    state.save()
+    return found
+
+
 async def item_embed(e: dict, db: dict | None, test: bool = False, tip: dict | None = None) -> discord.Embed:
     """Ein vergebenes Item als Embed wie der Tooltip im Spiel."""
     tip = tip or rmd.item_tip(db, e.get("link"))
+    if not tip or not tip.get("l"):
+        # kein Tooltip vom Addon (ältere Version oder Item noch nicht gelesen): bei Wowhead nachschlagen
+        wh = await wowhead_tip(e.get("link"))
+        if wh:
+            tip = {**wh, "l": [tuple(x) for x in wh.get("l") or []], "q": (tip or {}).get("q") or wh.get("q")}
     name = (tip or {}).get("n") or e["item"]
     emb = discord.Embed(title=name, url=rmd.wowhead_url(e.get("link"), WOWHEAD_FLAVOR),
                         color=rmd.item_color(e.get("link"), tip))
@@ -1551,16 +1633,21 @@ async def send_loot_list(channel, items: list[dict], db: dict | None, header: st
 
 
 async def show_tip(inter: discord.Interaction):
-    """Antwort auf das Menü "Tooltip anzeigen": Tooltip-Karte nur für den Klickenden."""
+    """Antwort auf das Menü "Tooltip anzeigen": Tooltip-Karte nur für den Klickenden.
+    Sofort bestätigen (Discord wartet nur 3 Sekunden), dann die Karte nachreichen."""
     values = (inter.data or {}).get("values") or []
     if not values:
         return
+    try:
+        await inter.response.defer(ephemeral=True, thinking=True)
+    except discord.HTTPException:
+        pass
     iid, name, amount, t, cls = (values[0].split("|") + ["", "", "0", "0", ""])[:5]
     cached = (state.data.get("tip_cache") or {}).get(str(iid)) or {}
     link = cached.get("link") or f"|Hitem:{iid}|h[Item {iid}]|h"
     e = {"name": name, "amount": amount, "t": int(t or 0), "item": rmd.item_name(link), "link": link, "pool_name": ""}
     emb = await item_embed(e, {"data": {"players": {name: {"c": cls}}}} if cls else None, tip=cached.get("tip"))
-    await inter.response.send_message(embed=emb, ephemeral=True)
+    await inter.followup.send(embed=emb, ephemeral=True)
 
 
 async def post_new_loot():
@@ -2269,36 +2356,10 @@ async def handle_test_upload(db: dict, uploader: str):
             continue
         summaries = sorted((x for x in rmd.raid_summaries(data) if x["pool"] == pool and x["t"] >= since),
                            key=lambda x: x["start"])
-        # 1) Kopf
-        await send_test(dkp_ch, f"{head}\n🧪 **{name}** – {len(summaries)} Raidabend(e) im Test, älteste zuerst. "
-                                f"Der aktuelle DKP-Stand steht ganz unten.")
-        posted += 1
-        # 2) Raid-Abrechnung je Raidabend, chronologisch (wie nach echten Raids)
-        for summ in summaries:
-            posted += await send_summary(dkp_ch, summ, prefix="🧪 ", test=True)
-        # 3) Teilnehmer (Raidstart, Bosskills, Raidende im Test; ohne reine Ersatzbank)
-        names = set()
-        for e in log_entries:
-            if (e.get("pool") or "mc") == pool and e.get("k") in ("start", "boss", "end"):
-                names.update(str(n) for n in (e.get("d") or {}).keys())
-        if names:
-            plist = (data.get("players") or {})
-            roster = {n: ((plist.get(n) or {}).get("c") if isinstance(plist.get(n), dict) else "") for n in names}
-            try:
-                png = rimg.render_roster(f"Teilnehmer {name}", f"Test · {len(names)} Spieler · nach Klasse", roster)
-            except Exception as ex:  # noqa: BLE001
-                log.warning("Teilnehmer-Bild nicht möglich: %s", ex)
-                png = None
-            if png:
-                await send_test(dkp_ch, f"🧪 👥 **Teilnehmer {name}** (Test, {len(names)})", file_bytes=png, filename="teilnehmer.png")
-            else:
-                await send_test(dkp_ch, f"🧪 👥 **Teilnehmer {name}** (Test, {len(names)}): " + ", ".join(sorted(names, key=str.lower)))
-            posted += 1
-        # 4) aktueller DKP-Stand zuletzt (mit Raids und Verdient)
+        # DKP-Kanal: eine Tabelle wie die Seite "DKP-Stände" im Addon – alle Test-Raids zusammengefasst
         rows = rmd.standings(data, pool)
-        rmd.add_raid_columns(rows, summaries, pool)
-        dkp_head = f"🧪 **DKP-Stand {name}** (Test, nach {len(summaries)} Raidabend(en))\n{rmd.total_line(rows)}"
-        png = standings_png(pool, rows, data, f"Test · nach {len(summaries)} Raidabend(en) · \"Letzter Raid\" = dazugekommen")
+        dkp_head = (f"{head}\n🧪 **DKP-Stände {name}** (Test) – {len(summaries)} Raidabend(e) zusammengefasst")
+        png = standings_png(pool, rows, data, f"Test · {len(summaries)} Raidabend(e) zusammengefasst", db)
         if png:
             await send_test(dkp_ch, dkp_head, file_bytes=png, filename="dkp.png")
             posted += 1

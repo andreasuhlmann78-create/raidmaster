@@ -217,18 +217,16 @@ Erstellt die Raidleitung im Spiel die **Einteilung** und gibt danach `/reload` e
 ## DKP in Discord
 
 - Jeder Raid hat einen eigenen DKP-Topf und einen eigenen Kanal in seiner Kategorie (#mc-dkp usw.).
-- **Raid-Abrechnung:** Nach jedem beendeten Raid postet der Bot im DKP-Kanal des Raids (z. B. #mc-dkp) eine
-  Abrechnung: Datum, Bosse, und je Spieler +DKP, Items und Stand nach dem Raid. Die Beiträge bleiben stehen – so
-  sieht jeder seinen Verlauf über mehrere Wochen. Die DKP-Tabelle steht darunter und hat die Spalte „Raids“
-  (Anzahl der Raidabende). Beim ersten Mal werden alle noch gespeicherten Raidabende nachgetragen.
+- **DKP-Kanal = DKP-Stände wie im Addon:** eine Tabelle je Raid (Name in Klassenfarbe, Klasse, DKP, Verdient,
+  Status „Ersatzbank“) – alle Raids zusammengefasst. Sie wird nach jedem Raid aktualisiert (dieselbe Nachricht),
+  solange ein Raid läuft bleibt der letzte Stand stehen. Viele Spieler stehen in mehreren Spalten nebeneinander.
+- Einzelne Raid-Abrechnungen gibt es standardmäßig nicht mehr (in config.json `"raid_summaries": true` schaltet sie
+  wieder ein). Alte Abrechnungen des Bots werden einmal aus den DKP-Kanälen entfernt.
 - `/dkp` zeigt die eigenen DKP in allen Raids, `/dkpliste raid:<Raid>` die Rangliste.
 - Neue Items erscheinen im Loot-Kanal des jeweiligen Raids (#mc-loot usw.) als kompakte Liste: vorne das echte
   Item-Symbol, dann Uhrzeit, Gewinner, Item (Link zu Wowhead) und DKP. Unter der Liste zeigt das Menü
   **„🔍 Tooltip anzeigen …“** den Tooltip wie im Spiel (nur für den, der auswählt). Ein Tooltip beim reinen
   Drüberfahren mit der Maus ist in Discord nicht möglich. Die Symbole legt der Bot als eigene App-Emojis an.
-- **DKP-Tabelle wie im Addon (Seite DKP):** eine Tabelle je Raid mit Platz, Name, Klasse, DKP, **Letzter Raid**
-  (was nach dem letzten Raid dazugekommen ist: +DKP minus Items), Verdient und Raids. Sie wird **nach dem Raid**
-  aktualisiert – solange ein Raid läuft, bleibt sie auf dem letzten Stand; nach "Raid beenden" kommen die DKP dazu.
 - **Klassenfarben wie im Spiel:** DKP-Stand und Raid-Abrechnung kommen als Bild – Namen und Klassen in der echten
   WoW-Klassenfarbe. Jedes Mitglied bekommt außerdem eine Rolle seiner Klasse (Krieger, Magier …) in der Klassenfarbe,
   so erscheint auch sein Name im Discord farbig. Die Klasse kommt aus dem Profil (Anmeldung/Charakter), sonst wird der

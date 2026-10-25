@@ -224,3 +224,97 @@ def class_dot_png(cls: str, size: int = 64) -> bytes | None:
     buf = io.BytesIO()
     img.save(buf, "PNG")
     return buf.getvalue()
+
+
+# ---------------------------------------------------------------------------
+# DKP-Stände genau wie die Seite "DKP-Stände" im Addon
+# ---------------------------------------------------------------------------
+ADDON_BG = (11, 12, 15)          # COLORS.bg
+ADDON_PANEL = (19, 20, 25)       # COLORS.panel
+ADDON_BORDER = (41, 43, 54)
+ADDON_ACCENT = (255, 143, 31)
+ADDON_MUTED = (148, 153, 168)
+ADDON_TEXT = (237, 237, 240)
+ADDON_CLASS_TXT = (191, 191, 191)
+ADDON_EARNED = (153, 217, 255)
+ADDON_BENCH = (255, 204, 77)
+ADDON_INRAID = (128, 255, 128)
+ADDON_NEG = (255, 89, 89)
+
+
+def render_addon_dkp(pool_name: str, rows: list[dict], total: int, count: int, footer: str = "",
+                     per_panel: int = 25) -> bytes | None:
+    """rows: {'name','class','dkp','earned','status'} – gleiche Spalten und Farben wie im Addon.
+    Viele Spieler werden in mehrere Spalten nebeneinander verteilt (gut lesbar in Discord)."""
+    if not available():
+        return None
+    f_title, f_head, f_cell, f_small = _font(20, True), _font(13), _font(15), _font(13)
+    tmp = ImageDraw.Draw(Image.new("RGB", (10, 10)))
+    cols = [("Name", "l"), ("Klasse", "l"), ("DKP", "r"), ("Verdient", "r"), ("Status", "l")]
+    cells_of = lambda r: [r["name"], CLASS_NAMES.get(str(r.get("class") or "").upper(), ""), str(r["dkp"]),
+                          str(int(r.get("earned") or 0)), r.get("status") or ""]
+    widths = [max(_text_w(tmp, c[0], f_head), 30) for c in cols]
+    for r in rows:
+        for i, t in enumerate(cells_of(r)):
+            widths[i] = max(widths[i], _text_w(tmp, t, f_cell))
+    widths[4] = max(widths[4], _text_w(tmp, "Ersatzbank", f_cell))
+    gap, pad, row_h, inner = 26, 16, 25, 10
+    panel_w = inner * 2 + sum(widths) + gap * (len(cols) - 1)
+    n_panels = max(1, min(4, -(-len(rows) // per_panel)))
+    per = -(-len(rows) // n_panels) if rows else 1
+    top = pad + 40
+    head_h = 26
+    height = top + head_h + per * row_h + inner + pad + (22 if footer else 0)
+    width = pad * 2 + n_panels * panel_w + (n_panels - 1) * 14
+    title_w = _text_w(tmp, f"DKP-Stände  {pool_name}", f_title) + _text_w(tmp, f"Gesamt {pool_name}: {total} DKP · {count} Spieler", f_cell) + 60
+    width = max(width, title_w + pad * 2, 520)
+    img = Image.new("RGB", (width, height), ADDON_BG)
+    d = ImageDraw.Draw(img)
+    d.rectangle([0, 0, width - 1, height - 1], outline=ADDON_BORDER)
+    # Kopf wie im Addon: "DKP-Stände" orange unterstrichen, Raid, Gesamt
+    d.text((pad, pad), "DKP-Stände", font=f_title, fill=ADDON_ACCENT)
+    tw = _text_w(d, "DKP-Stände", f_title)
+    d.line([pad, pad + 28, pad + tw, pad + 28], fill=ADDON_ACCENT, width=1)
+    d.text((pad + tw + 18, pad + 3), pool_name, font=f_cell, fill=ADDON_TEXT)
+    gtxt_a = f"Gesamt {pool_name}: "
+    gtxt_b = f"{total} DKP"
+    gtxt_c = f" · {count} Spieler"
+    gx = width - pad - _text_w(d, gtxt_a + gtxt_b + gtxt_c, f_cell)
+    d.text((gx, pad + 3), gtxt_a, font=f_cell, fill=ADDON_TEXT)
+    gx += _text_w(d, gtxt_a, f_cell)
+    d.text((gx, pad + 3), gtxt_b, font=f_cell, fill=ADDON_ACCENT)
+    gx += _text_w(d, gtxt_b, f_cell)
+    d.text((gx, pad + 3), gtxt_c, font=f_cell, fill=ADDON_TEXT)
+    for p in range(n_panels):
+        part = rows[p * per:(p + 1) * per]
+        x0 = pad + p * (panel_w + 14)
+        y0 = top
+        d.rectangle([x0, y0, x0 + panel_w, y0 + head_h + per * row_h + inner], fill=ADDON_PANEL, outline=ADDON_BORDER)
+        # Kopfzeile
+        d.rectangle([x0 + 1, y0 + 1, x0 + panel_w - 1, y0 + head_h - 1], fill=(26, 27, 33))
+        x = x0 + inner
+        for i, (name, align) in enumerate(cols):
+            tx = x if align == "l" else x + widths[i] - _text_w(d, name, f_head)
+            d.text((tx, y0 + 5), name, font=f_head, fill=ADDON_MUTED)
+            x += widths[i] + gap
+        d.line([x0 + 1, y0 + head_h, x0 + panel_w - 1, y0 + head_h], fill=(110, 70, 30), width=1)
+        y = y0 + head_h + 2
+        for n, r in enumerate(part):
+            if n % 2 == 1:
+                d.rectangle([x0 + 1, y, x0 + panel_w - 1, y + row_h - 1], fill=(23, 24, 30))
+            cells = cells_of(r)
+            status = cells[4]
+            colors = [class_color(r.get("class")), ADDON_CLASS_TXT, ADDON_NEG if r["dkp"] < 0 else ADDON_TEXT, ADDON_EARNED,
+                      ADDON_INRAID if status == "Im Raid" else ADDON_BENCH]
+            x = x0 + inner
+            for i, (_, align) in enumerate(cols):
+                t = cells[i]
+                tx = x if align == "l" else x + widths[i] - _text_w(d, t, f_cell)
+                d.text((tx, y + 4), t, font=f_cell, fill=colors[i])
+                x += widths[i] + gap
+            y += row_h
+    if footer:
+        d.text((pad, height - pad - 16), footer, font=f_small, fill=ADDON_MUTED)
+    buf = io.BytesIO()
+    img.save(buf, "PNG", optimize=True)
+    return buf.getvalue()

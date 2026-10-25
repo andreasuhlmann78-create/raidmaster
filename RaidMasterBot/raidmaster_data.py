@@ -1249,3 +1249,36 @@ def add_raid_columns(rows: list[dict], summaries: list[dict], pool: str) -> dict
 def session_active(db: dict | None) -> bool:
     s = (db or {}).get("session") or {}
     return bool(isinstance(s, dict) and s.get("active"))
+
+
+def tip_from_wowhead_html(html: str, name: str | None = None, quality=None, icon: str | None = None) -> dict | None:
+    """Tooltip-HTML von Wowhead in Zeilen wie beim Addon umwandeln: [(farbe, links, rechts)]."""
+    import html as _html
+    if not html:
+        return None
+    h = re.sub(r"<!--.*?-->", "", html, flags=re.S)
+    # zweispaltige Zeilen (z. B. "Füße | Stoff", "Schaden | Tempo")
+    h = re.sub(r"<td[^>]*>(.*?)</td>\s*<th[^>]*>(.*?)</th>", lambda m: m.group(1) + "\t" + m.group(2) + "<br>", h, flags=re.S)
+    parts = re.split(r"<br\s*/?>|</tr>|</table>|</div>|<table[^>]*>|<div[^>]*>", h)
+    lines = []
+    for part in parts:
+        cls = re.search(r'class="(q\d*|c\d+)"', part)
+        color = "w"
+        if cls:
+            c = cls.group(1)
+            color = {"q2": "g", "q0": "d", "q": "y", "q10": "r"}.get(c, "w")
+            if c.startswith("c"):
+                color = "w"
+        if 'style="color: #ffd100' in part or "q1\"" in part and "Set" in part:
+            color = "y"
+        text = _html.unescape(re.sub(r"<[^>]+>", "", part)).strip()
+        if not text:
+            continue
+        left, _, right = text.partition("\t")
+        lines.append((color, left.strip(), right.strip()))
+    if lines and name and lines[0][1] == name:
+        lines = lines[1:]
+    elif lines and not name:
+        name = lines[0][1]
+        lines = lines[1:]
+    return {"n": name, "q": quality if isinstance(quality, int) else None, "l": lines[:30], "ic": icon}
