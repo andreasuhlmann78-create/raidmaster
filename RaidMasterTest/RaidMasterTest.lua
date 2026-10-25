@@ -309,7 +309,7 @@ end
 -- (Classic, TBC, Wrath), Versteigerungen mit Testgeboten, Trash-Beute zwischendurch
 ---------------------------------------------------------------------------
 local run
-local CONFIRM = "RAIDMASTER_CONFIRM"
+local CONFIRM = "RAIDMASTER_AWARD"
 
 local function LootTable(def)
 	if not (def and RaidMasterTestLoot) then return nil end

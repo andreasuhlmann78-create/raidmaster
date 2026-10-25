@@ -305,11 +305,14 @@ UI.AddPage("auction", L["Versteigerung"], function(page)
 	end)
 	itemHover:SetScript("OnLeave", function() GameTooltip:Hide() end)
 
-	local finishBtn = UI.Button(box, L["Jetzt beenden"], 110, 26, function() RM.Auction.FinishNow() end)
+	local finishBtn = UI.Button(box, L["Jetzt beenden"], 110, 26, function()
+		if RM.Auction.AwaitingAward() then RM.Auction.Award() else RM.Auction.FinishNow() end
+	end)
 	finishBtn:SetPoint("TOPRIGHT", -12, -12)
 	local addBtn = UI.Button(box, L["+10 Sek."], 80, 26, function() RM.Auction.AddTime(10) end)
 	addBtn:SetPoint("RIGHT", finishBtn, "LEFT", -6, 0)
 	local cancelBtn = UI.Button(box, L["Abbrechen"], 100, 26, function()
+		if RM.Auction.AwaitingAward() then RM.Auction.CancelAward() return end
 		UI.Confirm(L["Versteigerung abbrechen? Das Item kommt zurück in die Warteschlange."], function() RM.Auction.Cancel() end)
 	end)
 	cancelBtn:SetPoint("TOPRIGHT", -12, -46)
@@ -412,7 +415,12 @@ UI.AddPage("auction", L["Versteigerung"], function(page)
 		local running = c and not c.finished
 		local canRun = RM.Auction.CanRun() and true or false
 		local isStaff = RM.CanEdit()
-		if running then finishBtn:Enable(); addBtn:Enable(); cancelBtn:Enable() else finishBtn:Disable(); addBtn:Disable(); cancelBtn:Disable() end
+		local awaiting = RM.Auction.AwaitingAward()
+		finishBtn:SetText(awaiting and L["Vergeben"] or L["Jetzt beenden"])
+		cancelBtn:SetText(awaiting and L["Nicht vergeben"] or L["Abbrechen"])
+		if awaiting then finishBtn:SetAccent(true) else finishBtn:SetAccent(false) end
+		if running or awaiting then finishBtn:Enable(); cancelBtn:Enable() else finishBtn:Disable(); cancelBtn:Disable() end
+		if running then addBtn:Enable() else addBtn:Disable() end
 		if RM.Auction.client and not RM.Auction.client.ended then bidOpenBtn:Enable() else bidOpenBtn:Disable() end
 		for _, b in ipairs({ startBtn, removeBtn, addItemBtn, directBtn }) do
 			if canRun then b:Enable() else b:Disable() end

@@ -79,6 +79,11 @@ end
 function A.Start(indexOrLink)
 	local ok, err = A.CanRun()
 	if not ok then RM.Print(err) return end
+	if A.AwaitingAward() then
+		RM.Print(L["Erst die letzte Versteigerung vergeben oder nicht vergeben."])
+		A.AskAward()
+		return
+	end
 	if A.current then RM.Print(L["Es läuft bereits eine Versteigerung."]) return end
 	local link
 	if type(indexOrLink) == "number" then
@@ -185,10 +190,7 @@ function A.Finish()
 	if c.highName then
 		RM.Comm.Send("AE", { a = c.aid, n = c.highName, v = c.high }, "RAID", nil, true)
 		A.OnEnd(RM.Me(), { a = c.aid, n = c.highName, v = c.high })
-		RM.UI.Confirm(string.format(L["%s an %s für %d DKP vergeben?"], c.link, c.highName, c.high),
-			function() A.Award() end,
-			function() A.CancelAward() end,
-			L["Vergeben"], L["Nicht vergeben"])
+		A.AskAward()
 	else
 		RM.Comm.Send("AE", { a = c.aid }, "RAID", nil, true)
 		A.OnEnd(RM.Me(), { a = c.aid })
@@ -198,9 +200,35 @@ function A.Finish()
 	RM.Fire("AUCTION_CHANGED")
 end
 
+-- Eigenes Fenster für die Vergabe (wird von keinem anderen Bestätigungsfenster verdrängt).
+-- Geht es trotzdem verloren, vergibt man auf der Seite Versteigerung mit "Vergeben"/"Nicht vergeben".
+StaticPopupDialogs["RAIDMASTER_AWARD"] = {
+	text = "%s",
+	button1 = L["Vergeben"],
+	button2 = L["Nicht vergeben"],
+	OnAccept = function() A.Award() end,
+	OnCancel = function(_, _, reason) if reason == "clicked" then A.CancelAward() end end,
+	timeout = 0,
+	whileDead = true,
+	hideOnEscape = false,
+	preferredIndex = 3,
+}
+
+function A.AwaitingAward()
+	local c = A.current
+	return c and c.finished and c.highName and true or false
+end
+
+function A.AskAward()
+	local c = A.current
+	if not (c and c.finished and c.highName) then return end
+	StaticPopup_Show("RAIDMASTER_AWARD", string.format(L["%s an %s für %d DKP vergeben?"], c.link, c.highName, c.high))
+end
+
 function A.Award()
 	local c = A.current
 	if not c or not c.highName then return end
+	if StaticPopup_Hide then StaticPopup_Hide("RAIDMASTER_AWARD") end
 	local e = RM.DKP.ChargeItem(c.highName, c.high, c.link, c.pool)
 	if e then
 		RM.Announce(string.format(L["[RaidMaster] %s erhält %s für %d DKP."], c.highName, c.link, c.high), true)
@@ -213,6 +241,7 @@ end
 function A.CancelAward()
 	local c = A.current
 	if not c then return end
+	if StaticPopup_Hide then StaticPopup_Hide("RAIDMASTER_AWARD") end
 	A.current = nil
 	table.insert(A.queue, 1, { link = c.link })
 	RM.Print(c.link .. L[" wurde nicht vergeben und liegt wieder vorne in der Warteschlange."])

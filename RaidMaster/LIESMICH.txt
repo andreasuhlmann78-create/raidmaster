@@ -1,4 +1,4 @@
-RaidMaster 1.9.5 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 1.9.6 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,11 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+VERGABE KANN NICHT MEHR HÄNGEN BLEIBEN (neu in 1.9.6)
+- Die Frage "… vergeben?" am Ende einer Versteigerung hat ein eigenes Fenster und wird nicht mehr von anderen
+  Bestätigungen verdrängt. Ist sie trotzdem weg: Seite Versteigerung -> "Vergeben" / "Nicht vergeben"
+  (die Knöpfe oben rechts wechseln dann ihre Beschriftung). "Gewähltes starten" zeigt die offene Vergabe wieder an.
 
 AUSFÜHRLICHE TAKTIK MC UND ONYXIA (neu in 1.9.5)
 - Raidleiter -> Bosse & Symbole: Molten Core und Onyxia zeigen jetzt dieselbe ausführliche Taktik wie die

@@ -4901,3 +4901,4 @@ L["[RaidMaster] Majordomus: Sheep auf {rt%d} (%s) – halten, bis er als letzter
 L["[RaidMaster] Majordomus: Ersatz-Sheep auf {rt%d} (%s) – sofort nachsheepen, wenn es bricht."] = "[RaidMaster] 管理者：備用變羊 {rt%d}（%s）– 羊破了立刻補羊。"
 L["Sheep-Rotation posten"] = "發布變羊分配"
 L["Sagt als Schlachtzugwarnung an, welcher Magier welchen Heiler sheept (Kreuz, Viereck, Mond), und flüstert jedem Magier sein Symbol."] = "以團隊警告公布哪個法師負責把哪個治療者變羊（十字、方塊、月亮），並密語告訴每個法師他的標記。"
+L["Erst die letzte Versteigerung vergeben oder nicht vergeben."] = "請先決定上一次拍賣是否分配。"

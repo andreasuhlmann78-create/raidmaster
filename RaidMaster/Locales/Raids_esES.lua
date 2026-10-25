@@ -4901,3 +4901,4 @@ L["[RaidMaster] Majordomus: Sheep auf {rt%d} (%s) – halten, bis er als letzter
 L["[RaidMaster] Majordomus: Ersatz-Sheep auf {rt%d} (%s) – sofort nachsheepen, wenn es bricht."] = "[RaidMaster] Mayordomo: oveja de reserva en {rt%d} (%s) – vuelve a ovejar en cuanto se rompa."
 L["Sheep-Rotation posten"] = "Anunciar rotación de ovejas"
 L["Sagt als Schlachtzugwarnung an, welcher Magier welchen Heiler sheept (Kreuz, Viereck, Mond), und flüstert jedem Magier sein Symbol."] = "Anuncia como aviso de banda qué mago ovejea a qué sanador (cruz, cuadrado, luna) y susurra a cada mago su marca."
+L["Erst die letzte Versteigerung vergeben oder nicht vergeben."] = "Primero adjudica (o no) la última subasta."
