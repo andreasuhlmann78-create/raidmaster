@@ -1,4 +1,4 @@
-RaidMaster 2.4.0 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 2.4.1 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,10 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+"VERDIENT" AUSGEBLENDET (neu in 2.4.1)
+- Die Seite DKP-Stände zeigt nur noch Name, Klasse, DKP und Status. "Verdient" wird weiter im Hintergrund
+  mitgezählt (für die Daten), aber nicht mehr angezeigt – auch nicht im Discord (Bot 1.5.40).
 
 ITEMS IM DISCORD WIE IM SPIEL (neu in 2.4.0)
 - RaidMaster liest den Tooltip jedes Items (Werte, Rüstung, Anlegen-/Benutzen-Effekte, Set) und das Item-Symbol

@@ -1016,8 +1016,9 @@ async def dkp_list_cmd(inter: discord.Interaction, raid: str = "mc"):
     except Exception:
         log.exception("DKP-Datei konnte nicht gelesen werden")
     rows = rmd.standings(bot.dkp_data or {}, raid)
-    chunks = rmd.with_head(f"**{rmd.pool_name(raid, bot.dkp_data)}** – {rmd.total_line(rows)}", rmd.format_standings(rows))
-    await inter.response.send_message(chunks[0], ephemeral=True)
+    await inter.response.defer(ephemeral=True)
+    chunks = await dkp_list_messages(raid, rows, bot.dkp_data, bot.dkp_db, f"**DKP-Stände {rmd.pool_name(raid, bot.dkp_data)}**")
+    await inter.followup.send(chunks[0], ephemeral=True)
     for text in chunks[1:]:
         await inter.followup.send(text, ephemeral=True)
 
@@ -1162,6 +1163,27 @@ def dkp_channel_for(pool: str) -> int:
 
 def table_file(png: bytes | None, name: str):
     return discord.File(io.BytesIO(png), filename=name) if png else None
+
+
+async def dkp_list_messages(pool: str, rows: list[dict], data: dict | None, db: dict | None, head: str) -> list[str]:
+    """DKP-Stände als feste Textliste – für alle Raids gleich (MC, Onyxia, BWL …):
+    Punkt in Klassenfarbe, Name, Klasse, DKP, ggf. Ersatzbank. "Verdient" wird mitgezählt, aber nicht gezeigt."""
+    standby = set(str(n) for n in ((((db or {}).get("config") or {}).get("standby")) or {}).keys())
+    total, count = rmd.pool_total(rows)
+    lines = [head, f"Gesamt: **{total} DKP** · {count} Spieler", ""]
+    n = 0
+    for r_ in rows:
+        if r_["dkp"] == 0 and r_["name"] not in standby:
+            continue
+        n += 1
+        dot = await class_emoji(r_.get("class"))
+        cls = rimg.CLASS_NAMES.get(str(r_.get("class") or "").upper(), "")
+        dkp = f"**{r_['dkp']}** DKP" if r_["dkp"] >= 0 else f"**{r_['dkp']}** DKP ❗"
+        lines.append(f"`{n:>2}.` {dot} **{r_['name']}** · {cls} · {dkp}" + (" · *Ersatzbank*" if r_["name"] in standby else ""))
+    if n == 0:
+        lines.append("Noch keine DKP.")
+    state.save()
+    return rmd.split_discord("\n".join(lines))
 
 
 def standings_png(pool: str, rows: list[dict], data: dict | None, subtitle: str, db: dict | None = None) -> bytes | None:
@@ -1332,11 +1354,9 @@ async def post_dkp_table(pool: str, channel_id: int, rows: list[dict]):
         after = f"nach dem Raid vom {datetime.fromtimestamp(last['t']).strftime('%d.%m.%Y')}"
     head = (f"**DKP-Stände {rmd.pool_name(pool, bot.dkp_data)}**" + (f" – {after}" if after else "")
             + f" · aktualisiert <t:{int(bot.dkp_mtime)}:f>")
-    png = standings_png(pool, rows, bot.dkp_data,
-                        ("Stand " + after + " · alle Raids zusammengefasst") if after else "alle Raids zusammengefasst",
-                        bot.dkp_db)
-    # mit Bild (Klassenfarben): eine Nachricht; ohne Pillow: Texttabelle wie bisher
-    chunks = [head] if png else rmd.with_head(head, rmd.format_standings(rows))
+    # feste Textliste (wird nur bearbeitet, nicht neu gepostet) – für alle Raids gleich
+    chunks = await dkp_list_messages(pool, rows, bot.dkp_data, bot.dkp_db, head)
+    png = None
     all_ids = state.data.setdefault("dkp_messages", {})
     ids = list(all_ids.get(pool) or [])
     new_ids = []
@@ -2359,14 +2379,9 @@ async def handle_test_upload(db: dict, uploader: str):
         # DKP-Kanal: eine Tabelle wie die Seite "DKP-Stände" im Addon – alle Test-Raids zusammengefasst
         rows = rmd.standings(data, pool)
         dkp_head = (f"{head}\n🧪 **DKP-Stände {name}** (Test) – {len(summaries)} Raidabend(e) zusammengefasst")
-        png = standings_png(pool, rows, data, f"Test · {len(summaries)} Raidabend(e) zusammengefasst", db)
-        if png:
-            await send_test(dkp_ch, dkp_head, file_bytes=png, filename="dkp.png")
+        for text in await dkp_list_messages(pool, rows, data, db, dkp_head):
+            await send_test(dkp_ch, text)
             posted += 1
-        else:
-            for text in rmd.with_head(dkp_head, rmd.format_standings(rows)):
-                await send_test(dkp_ch, text)
-                posted += 1
         # 5) Loot im Loot-Kanal: chronologisch, je Raidabend eine Gruppe
         if loot_ch:
             groups = rmd.loot_by_raid(data, pool, since)

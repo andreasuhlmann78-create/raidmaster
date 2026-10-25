@@ -4974,3 +4974,4 @@ L["Spieler auf der Ersatzbank bekommen beim Raidstart einmalig diese DKP – dan
 L["Ersatzbank erhält DKP (nur beim Raidstart)"] = "替補獲得DKP（僅開團時）"
 L["Spieler auf der Ersatzbank bekommen beim Raidstart einmalig DKP (Standard 10), danach nichts mehr."] = "替補玩家在開團時一次性獲得DKP（預設10），之後不再獲得。"
 L["Ersatzbank: %d Spieler erhalten je %d DKP (nur beim Raidstart)."] = "替補：%d名玩家各獲得%d DKP（僅開團時）。"
+L["%s: aktuell %d DKP"] = "%s：目前 %d DKP"

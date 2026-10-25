@@ -4974,3 +4974,4 @@ L["Spieler auf der Ersatzbank bekommen beim Raidstart einmalig diese DKP – dan
 L["Ersatzbank erhält DKP (nur beim Raidstart)"] = "Reserva recebe DKP (só no início)"
 L["Spieler auf der Ersatzbank bekommen beim Raidstart einmalig DKP (Standard 10), danach nichts mehr."] = "Jogadores na reserva recebem DKP uma vez no início do raide (padrão 10), depois nada."
 L["Ersatzbank: %d Spieler erhalten je %d DKP (nur beim Raidstart)."] = "Reserva: %d jogadores recebem %d DKP cada (só no início)."
+L["%s: aktuell %d DKP"] = "%s: atualmente %d DKP"

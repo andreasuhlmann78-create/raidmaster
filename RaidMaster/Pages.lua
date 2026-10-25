@@ -134,14 +134,14 @@ UI.AddPage("dkp", L["DKP-Stände"], function(page)
 	list = UI.List(page, 540, 490, {
 		{ title = L["Name"], width = 140 },
 		{ title = L["Klasse"], width = 95 },
-		{ title = "DKP", width = 66, justify = "RIGHT" },
-		{ title = L["Verdient"], width = 74, justify = "RIGHT" },
-		{ title = L["Status"], width = 120 },
+		{ title = "DKP", width = 80, justify = "RIGHT" },
+		{ title = L["Status"], width = 180 },
 	}, {
 		emptyText = L["Noch keine DKP-Daten. Als Offizier: Raid starten oder Spieler hinzufügen."],
 		onSort = function(col)
-			local key = ({ "name", "class", "dkp", "earned", "status" })[col]
-			if sortKey == key then sortDesc = not sortDesc else sortKey = key; sortDesc = (key == "dkp" or key == "earned") end
+			-- "Verdient" wird weiter mitgezählt (RM.DKP.Earned), aber nicht angezeigt
+			local key = ({ "name", "class", "dkp", "status" })[col]
+			if sortKey == key then sortDesc = not sortDesc else sortKey = key; sortDesc = (key == "dkp") end
 			UI.RefreshCurrent()
 		end,
 		onSelect = function(d) selected = d.key; UI.RefreshCurrent() end,
@@ -234,11 +234,11 @@ UI.AddPage("dkp", L["DKP-Stände"], function(page)
 				local earned = RM.DKP.Earned(p, pool)
 				rows[#rows + 1] = {
 					key = name, name = name, class = class or "", dkp = value, earned = earned, status = status,
-					cells = { RM.ClassColor(class, name), ClassName(class), tostring(value), tostring(earned), status },
-					colors = { nil, { 0.75, 0.75, 0.75 }, dkpColor, { 0.6, 0.85, 1 }, inRaid and { 0.5, 1, 0.5 } or { 1, 0.8, 0.3 } },
+					cells = { RM.ClassColor(class, name), ClassName(class), tostring(value), status },
+					colors = { nil, { 0.75, 0.75, 0.75 }, dkpColor, inRaid and { 0.5, 1, 0.5 } or { 1, 0.8, 0.3 } },
 					tooltip = function(tt)
 						tt:AddLine(name)
-						tt:AddLine(string.format(L["%s: aktuell %d DKP, insgesamt verdient %d DKP"], poolName, value, earned), 1, 1, 1, true)
+						tt:AddLine(string.format(L["%s: aktuell %d DKP"], poolName, value), 1, 1, 1, true)
 					end,
 				}
 			end
@@ -250,9 +250,8 @@ UI.AddPage("dkp", L["DKP-Stände"], function(page)
 			return x < y
 		end)
 		list:SetData(rows)
-		local total, count, earnedAll = RM.DKP.PoolTotal(data, pool)
-		totalLabel:SetText(string.format(L["Gesamt %s: |cffff8c1a%d DKP|r · %d Spieler"], poolName, total, count)
-			.. "  ·  " .. string.format(L["verdient: %d"], earnedAll))
+		local total, count = RM.DKP.PoolTotal(data, pool)
+		totalLabel:SetText(string.format(L["Gesamt %s: |cffff8c1a%d DKP|r · %d Spieler"], poolName, total, count))
 
 		local function dkpOf(n) return RM.DKP.PoolValue(data.players[n], pool) end
 		if selected then

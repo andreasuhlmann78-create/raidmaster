@@ -444,8 +444,7 @@ def pool_total(rows: list[dict]) -> tuple[int, int]:
 
 def total_line(rows: list[dict]) -> str:
     total, count = pool_total(rows)
-    earned = sum(int(r.get("earned") or 0) for r in rows)
-    return f"Gesamt: **{total} DKP** · {count} Spieler · insgesamt verdient {earned} DKP"
+    return f"Gesamt: **{total} DKP** · {count} Spieler"
 
 
 def pool_short(key: str) -> str:

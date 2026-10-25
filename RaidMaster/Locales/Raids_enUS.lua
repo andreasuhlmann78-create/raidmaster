@@ -4974,3 +4974,4 @@ L["Spieler auf der Ersatzbank bekommen beim Raidstart einmalig diese DKP – dan
 L["Ersatzbank erhält DKP (nur beim Raidstart)"] = "Bench gets DKP (only at raid start)"
 L["Spieler auf der Ersatzbank bekommen beim Raidstart einmalig DKP (Standard 10), danach nichts mehr."] = "Players on the bench get DKP once at raid start (default 10), nothing afterwards."
 L["Ersatzbank: %d Spieler erhalten je %d DKP (nur beim Raidstart)."] = "Bench: %d players get %d DKP each (only at raid start)."
+L["%s: aktuell %d DKP"] = "%s: currently %d DKP"

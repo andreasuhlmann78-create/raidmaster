@@ -4974,3 +4974,4 @@ L["Spieler auf der Ersatzbank bekommen beim Raidstart einmalig diese DKP – dan
 L["Ersatzbank erhält DKP (nur beim Raidstart)"] = "대기 인원 DKP (공격대 시작 시만)"
 L["Spieler auf der Ersatzbank bekommen beim Raidstart einmalig DKP (Standard 10), danach nichts mehr."] = "대기 인원은 공격대 시작 시 한 번 DKP를 받습니다 (기본 10), 이후에는 없습니다."
 L["Ersatzbank: %d Spieler erhalten je %d DKP (nur beim Raidstart)."] = "대기 인원: %d명이 각각 %d DKP를 받습니다 (시작 시만)."
+L["%s: aktuell %d DKP"] = "%s: 현재 %d DKP"

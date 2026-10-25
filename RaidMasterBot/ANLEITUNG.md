@@ -217,9 +217,10 @@ Erstellt die Raidleitung im Spiel die **Einteilung** und gibt danach `/reload` e
 ## DKP in Discord
 
 - Jeder Raid hat einen eigenen DKP-Topf und einen eigenen Kanal in seiner Kategorie (#mc-dkp usw.).
-- **DKP-Kanal = DKP-Stände wie im Addon:** eine Tabelle je Raid (Name in Klassenfarbe, Klasse, DKP, Verdient,
-  Status „Ersatzbank“) – alle Raids zusammengefasst. Sie wird nach jedem Raid aktualisiert (dieselbe Nachricht),
-  solange ein Raid läuft bleibt der letzte Stand stehen. Viele Spieler stehen in mehreren Spalten nebeneinander.
+- **DKP-Kanal = feste DKP-Liste:** je Raid (MC, Onyxia, BWL …) dieselbe Darstellung – Platz, Punkt in Klassenfarbe,
+  Name, Klasse, DKP und ggf. „Ersatzbank“, oben die Gesamtsumme. Alle Raids sind zusammengefasst; nach jedem Raid wird
+  dieselbe Nachricht bearbeitet (nichts Neues gepostet). Solange ein Raid läuft, bleibt der letzte Stand stehen.
+  „Verdient“ wird weiter mitgezählt, aber weder im Discord noch im Addon angezeigt.
 - Einzelne Raid-Abrechnungen gibt es standardmäßig nicht mehr (in config.json `"raid_summaries": true` schaltet sie
   wieder ein). Alte Abrechnungen des Bots werden einmal aus den DKP-Kanälen entfernt.
 - `/dkp` zeigt die eigenen DKP in allen Raids, `/dkpliste raid:<Raid>` die Rangliste.
