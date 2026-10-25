@@ -182,7 +182,7 @@ UI.AddPage("dkp", L["DKP-Stände"], function(page)
 	local standbyBtn = UI.Button(page, L["Ersatzbank an/aus"], 110, 26, function()
 		if not selected then RM.Print(L["Bitte zuerst einen Spieler wählen."]) return end
 		RM.DKP.ToggleStandby(selected)
-	end, L["Spieler auf der Ersatzbank erhalten bei Raid-Buchungen ebenfalls DKP (einstellbar)."])
+	end, L["Spieler auf der Ersatzbank bekommen beim Raidstart einmalig DKP (Standard 10), danach nichts mehr."])
 	Place(standbyBtn, page, px + 110, -214)
 
 	Section(page, L["Spieler hinzufügen"], px, -260)
@@ -1717,6 +1717,8 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 	local y = -28
 	NumField(L["Pünktlich zum Raidstart"], 0, y, function() return S().dkpStart end, function(v) S().dkpStart = v end); y = y - 28
 	NumField(L["Raid bis zum Ende"], 0, y, function() return S().dkpEnd end, function(v) S().dkpEnd = v end); y = y - 28
+	NumField(L["Ersatzbank beim Raidstart"], 0, y, function() return S().standbyStartDKP or 10 end, function(v) S().standbyStartDKP = math.max(0, v) end,
+		L["Spieler auf der Ersatzbank bekommen beim Raidstart einmalig diese DKP – danach keine Boss- oder Endpunkte."]); y = y - 28
 	NumField(L["Andere Bosse (Standard)"], 0, y, function() return S().defaultBossDKP end, function(v) S().defaultBossDKP = v end); y = y - 36
 
 	-- Boss-DKP je Raid-Topf (neue Bosse erscheinen nach dem ersten Kill)
@@ -1797,7 +1799,7 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 	SCheck(L["Verlängern bei späten Geboten (5 Sek.)"], "antiSnipe", L["Kommt in den letzten 5 Sekunden ein Gebot, wird auf 5 Sekunden verlängert."])
 	SCheck(L["Negative DKP erlauben"], "allowNegative", L["Spieler dürfen mehr bieten, als sie haben."])
 	SCheck(L["Nur Spieler online erhalten DKP"], "onlyOnline")
-	SCheck(L["Ersatzbank erhält DKP"], "standbyGetsDKP")
+	SCheck(L["Ersatzbank erhält DKP (nur beim Raidstart)"], "standbyGetsDKP")
 
 	local saveBtn = UI.Button(page, L["Speichern und an die Gilde verteilen"], 300, 30, function()
 		if not NeedOfficer() then return end

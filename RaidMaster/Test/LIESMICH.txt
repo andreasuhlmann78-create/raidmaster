@@ -6,6 +6,11 @@ RaidMaster Test-Werkzeug (in RaidMaster eingebaut) – RaidMaster im Spiel gefah
 - Keine eigene Installation mehr – das Test-Tool kommt mit RaidMaster (ab 2.1.0).
   Den alten Ordner Interface\AddOns\RaidMasterTest bitte löschen.
 
+AUTOMATISCH VERGEBEN UND STRESSTEST (neu mit RaidMaster 2.3.0)
+- Haken "Items automatisch vergeben" (Standard an): keine "Vergeben"-Abfrage im Test.
+- Knopf "Stresstest (3–10 Wochen)": zufällig 3–10 Wochen am Stück, ohne Abfragen, mit Zusammenfassung
+  im Protokoll und Versand an Discord. Dauer etwa 1,5 Minuten pro Woche.
+
 RAIDMASTER HAT VORRANG (neu in 1.7.5)
 - "Raid starten" oder "Raid beenden" in RaidMaster überschreibt alles, was das Test-Tool gerade macht:
   laufender Durchlauf (auch mehrere Raidabende), laufende Versteigerung, Warteschlange, offenes Vergabe-Fenster

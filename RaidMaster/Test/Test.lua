@@ -129,6 +129,16 @@ function T.SetFollowStart(v)
 	RaidMasterTestOptions.followStart = v and true or false
 end
 
+-- Im Test vergibt RaidMaster jedes versteigerte Item sofort an den Höchstbieter (ohne "Vergeben"-Abfrage)
+function T.AutoAwardOn()
+	local o = RaidMasterTestOptions
+	return not (type(o) == "table" and o.autoAward == false)
+end
+function T.SetAutoAward(v)
+	if type(RaidMasterTestOptions) ~= "table" then RaidMasterTestOptions = {} end
+	RaidMasterTestOptions.autoAward = v and true or false
+end
+
 function T.SetAuctionSec(v)
 	if type(RaidMasterTestOptions) ~= "table" then RaidMasterTestOptions = {} end
 	RaidMasterTestOptions.auctionSec = tonumber(v) or 8
@@ -393,6 +403,20 @@ function T.Override(what, keepSession)
 	if did then Log("\"" .. what .. "\" in RaidMaster – laufende Befehle des Test-Tools abgebrochen.") end
 end
 
+-- Im Test: fertige Versteigerung sofort vergeben (keine "Vergeben"-Abfrage)
+RM.Listen("AUCTION_CHANGED", function()
+	if not (T.active and T.AutoAwardOn()) then return end
+	local A = RM.Auction
+	if not A.AwaitingAward() then return end
+	local c = A.current
+	C_Timer.After(0.2, function()
+		if T.active and A.current == c and A.AwaitingAward() then
+			if A.HideAward then A.HideAward() end
+			A.Award()
+		end
+	end)
+end)
+
 -- "Testmodus beenden": ein vorhandenes Ergebnis vorher an Discord senden?
 function T.StopAsk()
 	if not T.active then return end
@@ -638,7 +662,8 @@ local function RunStep()
 	-- Versteigerung fertig: wie die Raidleitung "Vergeben" klicken
 	if c and c.finished then
 		-- selbst versteigern: du klickst "Vergeben" / "Nicht vergeben" wie im echten Raid
-		if not T.autoAuction then return end
+		-- (im Test standardmäßig automatisch vergeben, siehe T.AutoAwardOn)
+		if not (T.autoAuction or T.AutoAwardOn()) then return end
 		if c.highName then
 			if RM.Auction.HideAward then RM.Auction.HideAward() end
 			RM.Auction.Award()
@@ -674,12 +699,17 @@ local function RunStep()
 		T.runEnding = nil
 		if not ok then Log("Fehler beim Raidende: " .. tostring(err)) end
 		Log(string.format("Raid-Durchlauf fertig: %d Bosse, %d Items versteigert, %d nach Regel verteilt.", #run.def.bosses, #run.awarded, run.other))
+		if T.stress then
+			T.stress.items = T.stress.items + #run.awarded
+			T.stress.other = T.stress.other + run.other
+			T.stress.bosses = T.stress.bosses + #run.def.bosses
+		end
 		for _, a in ipairs(run.awarded) do Log("  " .. a) end
 		Log("Alles im Testmodus – 'Testmodus beenden' setzt deine echten Daten zurück.")
 		run.ticker:Cancel()
 		run = nil
 		if T.series and T.series.left > 0 then
-			C_Timer.After(3, function() if T.active and T.series then T.NextSeriesRun() end end)
+			C_Timer.After(T.stress and 0.5 or 3, function() if T.active and T.series then T.NextSeriesRun() end end)
 		else
 			if T.series and T.series.total > 1 then
 				Log(string.format("Alle %d Raidabende fertig – 'Test an Discord senden' zeigt die Raid-Abrechnungen im Discord.", T.series.total))
@@ -687,6 +717,7 @@ local function RunStep()
 			local total = T.series and T.series.total or 1
 			T.series = nil
 			T.SetTimeOffset(0)
+			if T.stress then T.FinishStress() end
 			T.AutoSend(total > 1 and string.format("Alle %d Raidabende fertig.", total) or "Raid-Durchlauf fertig.")
 		end
 		if T.Refresh then T.Refresh() end
@@ -784,9 +815,48 @@ function T.RunRaid()
 	if T.Refresh then T.Refresh() end
 end
 
+---------------------------------------------------------------------------
+-- Stresstest: 3–10 Wochen (zufällig) hintereinander, alles automatisch, ohne Abfragen
+---------------------------------------------------------------------------
+function T.StressTest(weeks)
+	if T.IsRunning() then Log("Es läuft schon ein Durchlauf.") return end
+	if not T.active then T.Start() end
+	T.SetRole("raidlead")
+	local n = tonumber(weeks) or math.random(3, 10)
+	local diagErrors = RM.Diag and #RM.Diag.errors or 0
+	T.stress = { weeks = n, t0 = GetTime(), oldAuto = T.autoAuction, oldWeekly = T.weekly,
+		errors = diagErrors, items = 0, other = 0, bosses = 0 }
+	T.autoAuction = true
+	T.weekly = true
+	if RM.Auction.HideAward then RM.Auction.HideAward() end
+	Log(string.format("Stresstest: %d Wochen (%s) werden automatisch durchgespielt – ohne Abfragen.", n, RM.DKP.PoolName(T.pool)))
+	T.RunRaids(n)
+end
+
+function T.FinishStress(aborted)
+	local st = T.stress
+	if not st then return end
+	T.stress = nil
+	T.autoAuction = st.oldAuto
+	T.weekly = st.oldWeekly
+	local neg, total, players = 0, 0, 0
+	for _, p in pairs(RM.db.data.players) do
+		local v = p.d and p.d[T.pool] or 0
+		players = players + 1
+		total = total + v
+		if v < 0 then neg = neg + 1 end
+	end
+	local errs = (RM.Diag and #RM.Diag.errors or 0) - st.errors
+	Log(string.format("Stresstest %s: %d Wochen, %d Bosse, %d Items versteigert, %d nach Regel verteilt, %.0f Sek.",
+		aborted and "abgebrochen" or "fertig", st.weeks, st.bosses, st.items, st.other, GetTime() - st.t0))
+	Log(string.format("  DKP %s: %d Spieler, gesamt %d, negativ: %d · neue Fehler: %d%s", RM.DKP.PoolName(T.pool), players, total, neg,
+		math.max(0, errs), (errs > 0) and " – siehe Diagnose" or " – alles in Ordnung"))
+end
+
 function T.StopRun()
 	T.series = nil
 	T.SetTimeOffset(0)
+	if T.stress then T.FinishStress(true) end
 	if not run then return end
 	run.ticker:Cancel()
 	if run.origAward then RM.Auction.Award = run.origAward end
@@ -862,7 +932,7 @@ local function Section(parent, text, y)
 end
 
 local function CreateWindow()
-	local f = UI.Frame(UIParent, 560, 828)
+	local f = UI.Frame(UIParent, 560, 860)
 	UI.Skin(f)
 	f:SetFrameStrata("HIGH")
 	f:SetClampedToScreen(true)
@@ -966,9 +1036,21 @@ local function CreateWindow()
 		"Die Raidabende bekommen Daten im Wochenabstand (der letzte heute) – so sieht der Verlauf im Discord aus wie nach mehreren Wochen.")
 	weeklyCheck:SetPoint("TOPLEFT", 250, -321)
 
-	Section(f, "Versteigerung", -354)
+	local awardCheck = UI.Check(f, "Items automatisch vergeben", function() return T.AutoAwardOn() end,
+		function(v) T.SetAutoAward(v) end,
+		"An (Standard): im Test wird jedes versteigerte Item sofort an den Höchstbieter vergeben –\n"
+		.. "keine \"Vergeben\"-Abfrage für den Plündermeister. Aus: du klickst \"Vergeben\" wie im echten Raid.")
+	awardCheck:SetPoint("TOPLEFT", 14, -350)
+	local stressBtn = UI.Button(f, "Stresstest (3–10 Wochen)", 200, 26, function() T.StressTest() end,
+		"Spielt zufällig 3 bis 10 Wochen des gewählten Raids hintereinander durch – Bosse, Beute, Testgebote,\n"
+		.. "Versteigerung und Vergabe alles automatisch, ohne Abfragen. Am Ende: Zusammenfassung im Protokoll\n"
+		.. "(Items, DKP, neue Fehler) und das Ergebnis geht an Discord.")
+	stressBtn:SetPoint("TOPLEFT", 330, -348)
+	stressBtn:SetAccent(true)
+
+	Section(f, "Versteigerung", -386)
 	local itemBox = UI.LinkBox(f, 300, 26)
-	itemBox:SetPoint("TOPLEFT", 14, -378)
+	itemBox:SetPoint("TOPLEFT", 14, -410)
 	local hint = UI.Text(itemBox, "Item per Shift-Klick (leer = Ruhestein)", 11, unpack(COLORS.muted))
 	hint:SetPoint("LEFT", 8, 0)
 	itemBox:HookScript("OnTextChanged", function(self) if self:GetText() == "" then hint:Show() else hint:Hide() end end)
@@ -977,7 +1059,7 @@ local function CreateWindow()
 		"Startet eine Versteigerung; 4 Testspieler bieten nacheinander. Danach fragt RaidMaster wie im echten Raid, ob vergeben wird.")
 	aucBtn:SetPoint("LEFT", itemBox, "RIGHT", 8, 0)
 	local dkpBox = UI.EditBox(f, 120, 26)
-	dkpBox:SetPoint("TOPLEFT", 14, -412)
+	dkpBox:SetPoint("TOPLEFT", 14, -444)
 	dkpBox:SetText("1000")
 	dkpBox:SetScript("OnEnterPressed", function(self) T.GiveMeDKP(self:GetText()); self:ClearFocus() end)
 	local dkpBtn = UI.Button(f, "DKP an mich (gewählter Raid)", 220, 26, function() T.GiveMeDKP(dkpBox:GetText()) end,
@@ -997,28 +1079,28 @@ local function CreateWindow()
 		"An (Standard): nach \"Raid beenden\" bzw. am Ende des Durchlaufs wird das Ergebnis nach 10 Sek. gesendet\n"
 		.. "(lädt die Oberfläche neu), und auch jedes /reload oder Ausloggen im Testmodus schickt es.\n"
 		.. "Der Bot postet es mit TEST markiert und löscht es nach 10 Minuten. Der Uploader muss laufen.")
-	sendCheck:SetPoint("TOPLEFT", 14, -444)
+	sendCheck:SetPoint("TOPLEFT", 14, -476)
 	local followCheck = UI.Check(f, "\"Raid starten\" in RaidMaster spielt im Test den ganzen Raid durch",
 		function() return T.FollowStartOn() end, function(v) T.SetFollowStart(v) end,
 		"An (Standard): startest du im Testmodus den Raid in RaidMaster (Seite Raidleiter), startet das Test-Tool\n"
 		.. "den Durchlauf (Bosse, Beute, Testgebote) für diesen Raid. \"Raid beenden\" in RaidMaster bricht ihn ab\n"
 		.. "und schickt das Ergebnis an Discord. Der Knopf \"Raid starten\" hier im Test-Tool startet nur die Sitzung.")
-	followCheck:SetPoint("TOPLEFT", 14, -468)
+	followCheck:SetPoint("TOPLEFT", 14, -500)
 
-	Section(f, "Schlachtzugsymbole (echt, z. B. an Trainingspuppen)", -502)
+	Section(f, "Schlachtzugsymbole (echt, z. B. an Trainingspuppen)", -534)
 	local m1 = UI.Button(f, "Totenkopf aufs Ziel", 160, 26, function() RM.Markers.Mark(8) end)
-	m1:SetPoint("TOPLEFT", 14, -526)
+	m1:SetPoint("TOPLEFT", 14, -558)
 	local m2 = UI.Button(f, "Adds markieren", 160, 26, function() RM.Markers.MarkAdds() end, "Markiert alle sichtbaren Gegner nach der gewählten Vorlage.")
 	m2:SetPoint("LEFT", m1, "RIGHT", 8, 0)
 	local m3 = UI.Button(f, "Alle aus", 120, 26, function() RM.Markers.ClearAll() end)
 	m3:SetPoint("LEFT", m2, "RIGHT", 8, 0)
 
-	Section(f, "Protokoll", -568)
+	Section(f, "Protokoll", -600)
 	local diagBtn = UI.Button(f, "Diagnose", 110, 22, function() if RM.Diag then RM.Diag.Toggle() end end,
 		"Zeigt Fehler und Hänger von RaidMaster und vom Test-Durchlauf und kann sie lösen.")
-	diagBtn:SetPoint("TOPRIGHT", -14, -564)
+	diagBtn:SetPoint("TOPRIGHT", -14, -596)
 	local box = UI.Multiline(f, 532, 220, true)
-	box:SetPoint("TOPLEFT", 14, -592)
+	box:SetPoint("TOPLEFT", 14, -624)
 
 	function T.Refresh()
 		if not f:IsShown() then return end

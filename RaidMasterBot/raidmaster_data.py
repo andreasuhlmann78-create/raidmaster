@@ -502,7 +502,7 @@ def overall_line(rows: list[dict]) -> str:
             f"insgesamt verdient {sum(r['earned'] for r in rows)} DKP")
 
 
-EARN_KINDS = ("start", "end", "boss", "manual")
+EARN_KINDS = ("start", "end", "boss", "manual", "bench")
 
 
 def raid_summaries(data: dict) -> list[dict]:

@@ -17,6 +17,7 @@ DKP.KindNames = {
 	boss = L["Bosskill"],
 	item = L["Item"],
 	manual = L["Anpassung"],
+	bench = L["Ersatzbank"],
 	decay = L["Decay"],
 	undo = L["Rückgängig"],
 }
@@ -189,7 +190,7 @@ DKP.PoolValue = PoolValue
 
 -- Insgesamt verdiente DKP je Spieler und Raid (Raidstart, Bosskills, Raidende, Gutschriften) –
 -- ohne Abzüge für Items und Decay. Wird bei jeder Buchung mitgezählt (p.e[Topf]).
-DKP.EARN_KINDS = { start = true, ["end"] = true, boss = true, manual = true }
+DKP.EARN_KINDS = { start = true, ["end"] = true, boss = true, manual = true, bench = true }
 function DKP.Earned(p, pool)
 	if not p then return 0 end
 	return (p.e and p.e[pool]) or 0
@@ -383,7 +384,8 @@ end
 ---------------------------------------------------------------------------
 -- Buchungen
 ---------------------------------------------------------------------------
--- Namen, die bei Raid-Buchungen Punkte erhalten (Raid + Ersatzbank)
+-- Namen, die bei Raid-Buchungen Punkte erhalten (nur Spieler im Raid;
+-- die Ersatzbank bekommt einmalig beim Raidstart DKP, siehe DKP.AwardStandby)
 function DKP.RaidRecipients()
 	local s = RM.db.data.settings
 	local names = {}
@@ -392,12 +394,26 @@ function DKP.RaidRecipients()
 			names[m.name] = m.class or true
 		end
 	end
-	if s.standbyGetsDKP then
-		for name in pairs(RM.db.config.standby) do
-			if not names[name] then names[name] = true end
+	return names
+end
+
+-- Ersatzbank: beim Raidstart einmalig DKP (Standard 10), danach nichts mehr
+function DKP.AwardStandby(pool)
+	local s = RM.db.data.settings
+	local amount = tonumber(s.standbyStartDKP) or 10
+	if not s.standbyGetsDKP or amount <= 0 then return nil, 0 end
+	local inRaid = {}
+	for _, m in ipairs(RM.RaidMembers()) do inRaid[m.name] = true end
+	local deltas, n = {}, 0
+	for name in pairs(RM.db.config.standby or {}) do
+		if not inRaid[name] then
+			DKP.EnsurePlayer(name)
+			deltas[name] = amount
+			n = n + 1
 		end
 	end
-	return names
+	if n == 0 then return nil, 0 end
+	return DKP.NewEntry("bench", L["Ersatzbank beim Raidstart"], deltas, nil, nil, { pool = pool }), n, amount
 end
 
 function DKP.AwardRaid(amount, kind, text, extra, pool)

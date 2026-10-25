@@ -35,6 +35,11 @@ function Raid.Start()
 	else
 		RM.Announce(L["[RaidMaster] Raid gestartet ("] .. poolName .. L["). Viel Erfolg!"], true)
 	end
+	-- Ersatzbank: einmalig beim Raidstart (Standard 10 DKP), danach keine weiteren Punkte
+	local _, benchN, benchAmount = RM.DKP.AwardStandby(pool)
+	if benchN and benchN > 0 then
+		RM.Print(string.format(L["Ersatzbank: %d Spieler erhalten je %d DKP (nur beim Raidstart)."], benchN, benchAmount))
+	end
 	C_Timer.After(3, Raid.RunCheck)
 	-- Stand an den Raid verteilen, damit gildenfremde Mitspieler ihn sehen
 	C_Timer.After(6, function()

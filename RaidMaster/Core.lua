@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "2.2.1"
-RM.VERSION_NUM = 20201
+RM.VERSION = "2.3.0"
+RM.VERSION_NUM = 20300
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -112,7 +112,8 @@ RM.DEFAULT_SETTINGS = {
 	officerRank = 1,          -- Gildenränge 0..officerRank dürfen DKP ändern
 	allowNegative = false,
 	onlyOnline = false,
-	standbyGetsDKP = true,
+	standbyGetsDKP = true,     -- Ersatzbank bekommt beim Raidstart einmalig DKP ...
+	standbyStartDKP = 10,      -- ... so viele (danach nichts mehr: keine Boss- oder Endpunkte)
 }
 
 -- Lokale Einstellungen (nur dieser Spieler)
