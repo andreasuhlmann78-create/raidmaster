@@ -26,6 +26,7 @@ import sys
 import re
 import time
 import zipfile
+import zlib
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
@@ -801,6 +802,8 @@ def tactics_posts(pool: str) -> list[str]:
                 lines.append("• " + t[2:])
             elif t.startswith("Taktik:"):
                 lines.append("\n**Taktik:**" + t[len("Taktik:"):])
+            elif t.rstrip().endswith(":") and len(t) < 60:
+                lines.append("\n**" + t.rstrip() + "**")
             else:
                 lines.append(t)
         if b.get("wichtig"):
@@ -822,20 +825,36 @@ async def post_all_tactics(force: bool = False) -> list[str]:
     """Taktik in jeden Taktik-Kanal der Raid-Kategorien (z. B. #mc-taktik, #onyxia-taktik).
     Ohne force nur einmal je Kanal und nur, wenn der Bot dort noch nichts gepostet hat."""
     done = set(state.data.get("tactics_posted") or [])
+    hashes = state.data.setdefault("tactics_hash", {})
     report = []
     for pool, chans in (cfg.get("raid_channels") or {}).items():
         if not isinstance(chans, dict) or not chans.get("tactics"):
-            continue
-        if pool in done and not force:
             continue
         ch = await channel_by_id(chans["tactics"])
         if not ch:
             continue
         name = rmd.pool_name(pool, bot.dkp_data)
-        if not tactics_posts(pool):
+        posts = tactics_posts(pool)
+        if not posts:
             report.append(f"{name}: keine Taktik bekannt")
             continue
-        if not force:
+        digest = str(zlib.crc32("\n".join(posts).encode("utf-8")))
+        if pool in done and not force:
+            if hashes.get(pool) == digest:
+                continue
+            # Taktik wurde überarbeitet: alte Beiträge des Bots ersetzen
+            try:
+                async for m in ch.history(limit=60):
+                    if m.author.id == bot.user.id:
+                        await m.delete()
+                        await asyncio.sleep(0.4)
+            except discord.HTTPException:
+                pass
+            done.discard(pool)
+            force_this = True
+        else:
+            force_this = force
+        if not force_this:
             try:
                 async for m in ch.history(limit=30):
                     if m.author.id == bot.user.id:
@@ -850,6 +869,7 @@ async def post_all_tactics(force: bool = False) -> list[str]:
             n = await post_tactics(pool, ch)
             report.append(f"{name}: {n} Beiträge in {ch.mention}")
             done.add(pool)
+            hashes[pool] = digest
         except discord.HTTPException as e:
             report.append(f"{name}: Fehler {e}")
     state.data["tactics_posted"] = sorted(done)
