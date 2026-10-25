@@ -5055,3 +5055,4 @@ L["%s würde kommen, aber der Raid ist voll."] = "%s viria, mas a raide está ch
 L["Gruppensuche beendet – der Raid ist voll (%d/%d)."] = "Busca de grupo encerrada – a raide está cheia (%d/%d)."
 L["Raid voll"] = "raide cheia"
 L["Gruppen einteilen abgebrochen – im Kampf geht das nicht."] = "Organização dos grupos cancelada – não é possível em combate."
+L["Übernimmt die Gruppen aus Discord (/raid aufstellung). Wer nicht in der Aufstellung steht, kommt auf den Platz\neines Fehlenden derselben Art (Heiler für Heiler, Magier für Magier). Ohne Aufstellung: dieselbe Classic-Einteilung\nwie im Discord. Main-/Offtank immer in Gruppe 1. Nur außerhalb des Kampfes."] = "Adota os grupos do Discord (/raid aufstellung). Quem não está na formação ocupa a vaga\nde um ausente do mesmo tipo (curador por curador, mago por mago). Sem formação: a mesma divisão Classic\ndo Discord. Tanque principal e secundário sempre no grupo 1. Só fora de combate."

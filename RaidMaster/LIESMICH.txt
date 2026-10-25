@@ -1,4 +1,4 @@
-RaidMaster 2.6.2 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 2.6.3 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,15 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+GRUPPEN EINTEILEN WIE IM DISCORD (neu in 2.6.3)
+- "Gruppen einteilen" übernimmt die Aufstellung aus Discord für alle, die da sind.
+- Wer nicht in der Aufstellung steht (Ersatzbank, Gilde, Gruppensuche), kommt auf den Platz eines Fehlenden
+  derselben Art: Heiler für Heiler, Magier für Magier, Schurke für Schurke, Schamane/Paladin in eine Kampfgruppe.
+  Gibt es keinen solchen Platz, in die Gruppe, in der diese Art schon spielt, sonst in die leerste.
+- Ohne Discord-Aufstellung teilt das Addon genauso ein wie der Bot: Gruppe 1 Tanks, Nahkampfgruppen, Hexer-Gruppe
+  mit Schattenpriester, Magier-Gruppen, Jäger-Gruppe, je Kampfgruppe ein Schamane bzw. Paladin, Heiler auf den Rest.
+- Main- und Offtank immer in Gruppe 1. Auch du selbst wirst eingeteilt (im Testmodus ebenso).
 
 GRUPPEN EINTEILEN OHNE VERBINDUNGSABBRUCH (neu in 2.6.2)
 - Behoben: Bei vollem Raid (alle Gruppen mit 5) geht nur Tauschen. Das Addon hat schneller getauscht, als der

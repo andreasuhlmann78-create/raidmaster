@@ -171,7 +171,7 @@ CaptureReal()   -- Test.lua lädt als letzte Datei von RaidMaster, alles ist sch
 -- eingeladen wurde und angenommen hat (T.roster)
 T.roster = nil
 local function FakeMembers()
-	local list = { { name = RM.Me(), class = select(2, UnitClass("player")), online = true, rank = 2, index = 1, group = 1 } }
+	local list = { { name = RM.Me(), class = select(2, UnitClass("player")), online = true, rank = 2, index = 1, group = T.myGroup or 1 } }
 	if T.roster then
 		for i, m in ipairs(T.roster) do
 			list[#list + 1] = { name = m.name, class = m.class, online = m.online ~= false, rank = 0, index = i + 1, group = m.group or 1 }
@@ -278,7 +278,7 @@ function T.Start()
 	T.active = true
 	T.blocked = 0
 	-- der Testraid startet leer (nur du) – gefüllt wird nur auf Wunsch: "Raid füllen" oder Anmeldungen einladen
-	T.roster = {}
+	T.roster = {}; T.myGroup = nil
 	T.InstallSimulations()
 	-- Markierung für den Discord-Bot: Daten aus dem Testmodus nie als echte DKP übernehmen
 	-- post = true: jedes Speichern (/reload, Ausloggen) schickt das Testergebnis an Discord (DKP- und Loot-Kanal)
@@ -349,7 +349,8 @@ local STRANGERS = {
 local function FreeGroup()
 	local count = {}
 	for _, m in ipairs(T.roster or {}) do count[m.group or 1] = (count[m.group or 1] or 0) + 1 end
-	count[1] = (count[1] or 0) + 1      -- du selbst bist in Gruppe 1
+	local mine = T.myGroup or 1
+	count[mine] = (count[mine] or 0) + 1      -- du selbst
 	for g = 1, 8 do if (count[g] or 0) < 5 then return g end end
 	return 8
 end
@@ -418,6 +419,8 @@ function T.SimArrange(silent)
 		local g = want[m.name]
 		if g and m.group ~= g then m.group = g; moved = moved + 1 end
 	end
+	local me = want[RM.Me()]
+	if me and me ~= (T.myGroup or 1) then T.myGroup = me; moved = moved + 1 end
 	local mts = RM.Signup.MainTanks and RM.Signup.MainTanks() or {}
 	if not silent or moved > 0 then
 		Log(string.format("Gruppen eingeteilt (Test): %d Spieler verschoben.%s", moved,
@@ -430,7 +433,7 @@ end
 -- Anmeldungen importiert: Testraid startet leer, die Gruppe entsteht durch (simuliertes) Einladen
 function T.UseSignupRoster()
 	if not T.active then return end
-	T.roster = {}
+	T.roster = {}; T.myGroup = nil
 	local n = #((RM.db.signup and RM.db.signup.list) or {})
 	Log(string.format("Anmeldungen im Test: %d Einträge. Testraid ist jetzt leer – lade ein (RaidMaster, Seite Anmeldungen: \"Alle einladen\").", n))
 	RosterUpdated()
@@ -440,14 +443,17 @@ end
 function T.ClearRoster()
 	if not T.active then return end
 	if RM.Signup and RM.Signup.StopInvites and RM.Signup.IsInviting() then RM.Signup.StopInvites() end
-	T.roster = {}
+	T.roster = {}; T.myGroup = nil
 	Log("Testraid geleert – nur du bist noch drin. Die Anmeldungen bleiben, du kannst erneut einladen.")
 	RosterUpdated()
 end
 
 function T.UseFakeRoster()
 	if not T.active then T.Start() end
-	T.roster = nil
+	-- als echte Liste, damit "Gruppen einteilen" die Testspieler verschieben kann
+	T.roster = {}; T.myGroup = nil
+	T.myGroup = 1
+	for i, f in ipairs(FAKE) do T.roster[#T.roster + 1] = { name = f[1], class = f[2], group = math.floor(i / 5) + 1, online = true } end
 	Log("Testraid gefüllt: du + " .. #FAKE .. " Testspieler (MC-Aufstellung).")
 	RosterUpdated()
 end

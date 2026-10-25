@@ -5055,3 +5055,4 @@ L["%s würde kommen, aber der Raid ist voll."] = "%s would come, but the raid is
 L["Gruppensuche beendet – der Raid ist voll (%d/%d)."] = "Group search stopped – the raid is full (%d/%d)."
 L["Raid voll"] = "raid full"
 L["Gruppen einteilen abgebrochen – im Kampf geht das nicht."] = "Group arranging stopped – not possible in combat."
+L["Übernimmt die Gruppen aus Discord (/raid aufstellung). Wer nicht in der Aufstellung steht, kommt auf den Platz\neines Fehlenden derselben Art (Heiler für Heiler, Magier für Magier). Ohne Aufstellung: dieselbe Classic-Einteilung\nwie im Discord. Main-/Offtank immer in Gruppe 1. Nur außerhalb des Kampfes."] = "Takes over the groups from Discord (/raid aufstellung). Players not in the lineup take the seat\nof a missing player of the same kind (healer for healer, mage for mage). Without a lineup: the same Classic layout\nas in Discord. Main/off tank always in group 1. Only out of combat."

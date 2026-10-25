@@ -442,10 +442,272 @@ function S.MainTanks()
 end
 
 -- Wunschgruppen: Aufstellung aus Discord, Main- und Offtank immer in Gruppe 1
-function S.WantedGroups()
+---------------------------------------------------------------------------
+-- Gruppen wie im Discord: Aufstellung übernehmen, Nachrücker sinnvoll einsortieren,
+-- ohne Aufstellung dieselbe Classic-Einteilung wie der Bot (Gruppe 1 Tanks, Nahkampf-, Hexer-,
+-- Fernkampf-, Jäger- und Heilergruppen, je Kampfgruppe ein Schamane bzw. Paladin)
+---------------------------------------------------------------------------
+local DEFAULT_ROLE = { WARRIOR = "melee", ROGUE = "melee", DEATHKNIGHT = "melee", MAGE = "ranged", WARLOCK = "ranged",
+	HUNTER = "ranged", PRIEST = "heal", PALADIN = "heal", SHAMAN = "heal", DRUID = "heal" }
+
+local function Entry(name)
 	local su = RM.db.signup
+	for _, e in ipairs((su and su.list) or {}) do if e.name == name then return e end end
+end
+
+local function RoleOf(name, class)
+	local e = Entry(name)
+	if RM.Gaps and RM.Gaps.RoleOf then return (RM.Gaps.RoleOf(name, class, e and e.role)) end
+	if e and e.role and e.role ~= "" then return e.role end
+	return (RM.Spec and RM.Spec.Role(name)) or DEFAULT_ROLE[class] or "melee"
+end
+
+-- Schamane (Horde) bzw. Paladin (Allianz): Totems/Auren wirken nur in der eigenen Gruppe
+function S.SupportClass(players)
+	for _, p in ipairs(players or {}) do if p.class == "SHAMAN" then return "SHAMAN" end end
+	local f = UnitFactionGroup and UnitFactionGroup("player")
+	if f == "Horde" then return "SHAMAN" end
+	return "PALADIN"
+end
+
+-- Einordnung wie beim Bot: tank, melee, lock, caster, hunter, heal (+ support = Schamane/Paladin ohne Tank-Rolle)
+function S.PlayerKind(p, supportCls)
+	if p.role == "tank" then return "tank" end
+	if supportCls and p.class == supportCls then return "support" end
+	if p.role == "heal" then return "heal" end
+	if p.class == "HUNTER" then return "hunter" end
+	if p.class == "WARLOCK" or (p.class == "PRIEST" and p.role == "ranged") then return "lock" end
+	if p.role == "ranged" then return "caster" end
+	return "melee"
+end
+
+-- Classic-Einteilung (wie arrange_groups im Bot). players: { name, class, role } -> { {name, ...}, ... }
+function S.ClassicGroups(players)
+	local n = #players
+	if n == 0 then return {} end
+	local nGroups = math.min(8, math.ceil(n / 5))
+	local supportCls = S.SupportClass(players)
+	local supports, byKind = {}, {}
+	local sorted = {}
+	for _, p in ipairs(players) do sorted[#sorted + 1] = p end
+	table.sort(sorted, function(a, b) return a.name:lower() < b.name:lower() end)
+	for _, p in ipairs(sorted) do
+		if p.class == supportCls and p.role ~= "tank" then
+			supports[#supports + 1] = p
+		else
+			local k = S.PlayerKind(p, nil)
+			byKind[k] = byKind[k] or {}
+			table.insert(byKind[k], p)
+		end
+	end
+	-- Unterstützer: zuerst die ohne Heiler-Rolle (Verstärker/Vergelter) in die Kampfgruppen
+	table.sort(supports, function(a, b)
+		local x, y = a.role ~= "heal" and 0 or 1, b.role ~= "heal" and 0 or 1
+		if x ~= y then return x < y end
+		return a.name:lower() < b.name:lower()
+	end)
+	byKind.melee = byKind.melee or {}
+	local MELEE_ORDER = { WARRIOR = 0, DRUID = 1 }
+	table.sort(byKind.melee, function(a, b)
+		local x, y = MELEE_ORDER[a.class] or 2, MELEE_ORDER[b.class] or 2
+		if x ~= y then return x < y end
+		return a.name:lower() < b.name:lower()
+	end)
+	local function groupsFor(k) return math.ceil(#(byKind[k] or {}) / 4) end
+	local plan = {}
+	local function addPlan(k, c) for _ = 1, c do plan[#plan + 1] = k end end
+	local function countPlan(k) local c = 0 for _, x in ipairs(plan) do if x == k then c = c + 1 end end return c end
+	local function moveTo(from, to)
+		byKind[to] = byKind[to] or {}
+		for _, p in ipairs(byKind[from] or {}) do table.insert(byKind[to], p) end
+		byKind[from] = nil
+	end
+	if byKind.tank and #byKind.tank > 0 then addPlan("tank", groupsFor("tank")) end
+	addPlan("melee", groupsFor("melee"))
+	addPlan("lock", groupsFor("lock"))
+	addPlan("caster", groupsFor("caster"))
+	if #(byKind.hunter or {}) >= 2 then addPlan("hunter", groupsFor("hunter")) else moveTo("hunter", "caster") end
+	local coreCap = 4
+	if #plan > nGroups then
+		coreCap = 5     -- zu wenig Gruppen: Kampfgruppen voll, Unterstützer zu den Heilern
+		while #plan > nGroups do
+			local removed = false
+			for _, k in ipairs({ "caster", "hunter", "lock", "melee", "tank" }) do
+				local c = countPlan(k)
+				if c > 1 or ((k == "hunter" or k == "lock") and c > 0) then
+					for i, x in ipairs(plan) do if x == k then table.remove(plan, i) break end end
+					if k == "hunter" or k == "lock" then
+						moveTo(k, "caster")
+						if countPlan("caster") == 0 then plan[#plan + 1] = "caster" end
+					end
+					removed = true
+					break
+				end
+			end
+			if not removed then break end
+		end
+		while #plan > nGroups do table.remove(plan) end
+	end
+	while #plan < nGroups do plan[#plan + 1] = "heal" end
+	local groups = {}
+	for i = 1, #plan do groups[i] = {} end
+	local function place(p, idxs, cap)
+		for _, i in ipairs(idxs) do
+			if #groups[i] < cap then table.insert(groups[i], p) return true end
+		end
+		return false
+	end
+	local leftovers = {}
+	for _, kind in ipairs({ "tank", "melee", "lock", "caster", "hunter" }) do
+		local idxs = {}
+		for i, k in ipairs(plan) do if k == kind then idxs[#idxs + 1] = i end end
+		for j, p in ipairs(byKind[kind] or {}) do
+			if #idxs == 0 then
+				leftovers[#leftovers + 1] = p
+			elseif kind == "tank" then
+				-- Main- und Offtank zusammen in Gruppe 1, weitere Tanks danach
+				if not place(p, idxs, coreCap) then leftovers[#leftovers + 1] = p end
+			else
+				-- gleichmäßig verteilen (z. B. 11 Nahkämpfer -> 4/4/3)
+				local target = { idxs[((j - 1) % #idxs) + 1] }
+				for _, i in ipairs(idxs) do target[#target + 1] = i end
+				if not place(p, target, coreCap) then leftovers[#leftovers + 1] = p end
+			end
+		end
+	end
+	-- je Kampfgruppe ein Unterstützer
+	local sup = {}
+	for _, p in ipairs(supports) do sup[#sup + 1] = p end
+	for i, k in ipairs(plan) do
+		if k ~= "heal" and #sup > 0 and #groups[i] < 5 then table.insert(groups[i], table.remove(sup, 1)) end
+	end
+	-- Heiler: zuerst Heilergruppen, dann freie Plätze (Gruppen ohne Heiler zuerst)
+	local healers = {}
+	for _, p in ipairs(byKind.heal or {}) do healers[#healers + 1] = p end
+	for _, p in ipairs(sup) do healers[#healers + 1] = p end
+	for _, p in ipairs(leftovers) do healers[#healers + 1] = p end
+	local healIdx = {}
+	for i, k in ipairs(plan) do if k == "heal" then healIdx[#healIdx + 1] = i end end
+	for _, p in ipairs(healers) do
+		if not place(p, healIdx, 5) then
+			local free = {}
+			for i = 1, #groups do free[#free + 1] = i end
+			table.sort(free, function(a, b)
+				local function hasHeal(i)
+					for _, x in ipairs(groups[i]) do if x.role == "heal" or x.class == supportCls then return 1 end end
+					return 0
+				end
+				local x, y = hasHeal(a), hasHeal(b)
+				if x ~= y then return x < y end
+				if #groups[a] ~= #groups[b] then return #groups[a] < #groups[b] end
+				return a < b
+			end)
+			place(p, free, 5)
+		end
+	end
+	return groups
+end
+
+-- Anwesende mit Klasse und Rolle
+local function PresentPlayers()
+	local out = {}
+	for _, m in ipairs(RM.RaidMembers()) do
+		if m.name and m.class then out[#out + 1] = { name = m.name, class = m.class, role = RoleOf(m.name, m.class) } end
+	end
+	return out
+end
+
+-- Gruppen ohne Main-/Offtank-Regel: Discord-Aufstellung + Nachrücker, sonst Classic-Einteilung
+function S.BaseGroups()
+	local su = RM.db.signup
+	local lineup = su and su.groups
+	local players = PresentPlayers()
 	local want = {}
-	for n, g in pairs((su and su.groups) or {}) do want[n] = g end
+	if #players == 0 then
+		for n, g in pairs(lineup or {}) do want[n] = g end
+		return want
+	end
+	local present = {}
+	for _, p in ipairs(players) do present[p.name] = p end
+	local hasLineup = false
+	if lineup then for n in pairs(lineup) do if present[n] then hasLineup = true break end end end
+	if not hasLineup then
+		for g, list in ipairs(S.ClassicGroups(players)) do
+			for _, p in ipairs(list) do want[p.name] = g end
+		end
+		return want
+	end
+	-- 1. Aufstellung aus Discord für alle, die da sind
+	local supportCls = S.SupportClass(players)
+	local count, openKind, kindIn = {}, {}, {}
+	for name, g in pairs(lineup) do
+		local p = present[name]
+		local e = Entry(name)
+		local kind = S.PlayerKind(p or { name = name, class = e and e.cls, role = RoleOf(name, e and e.cls) }, supportCls)
+		kindIn[g] = kindIn[g] or {}
+		kindIn[g][kind] = (kindIn[g][kind] or 0) + 1
+		if p then
+			want[name] = g
+			count[g] = (count[g] or 0) + 1
+		else
+			-- Platz eines Fehlenden: hier gehört ein Nachrücker derselben Art hin
+			openKind[g] = openKind[g] or {}
+			openKind[g][kind] = (openKind[g][kind] or 0) + 1
+		end
+	end
+	-- 2. Nachrücker (nicht in der Aufstellung): Tanks, Heiler, Unterstützer zuerst
+	local ORDER = { tank = 1, heal = 2, support = 3, melee = 4, lock = 5, caster = 6, hunter = 7 }
+	local extra = {}
+	for _, p in ipairs(players) do
+		if not want[p.name] then
+			p.kind = S.PlayerKind(p, supportCls)
+			extra[#extra + 1] = p
+		end
+	end
+	table.sort(extra, function(a, b)
+		if ORDER[a.kind] ~= ORDER[b.kind] then return ORDER[a.kind] < ORDER[b.kind] end
+		return a.name < b.name
+	end)
+	local function free(g) return (count[g] or 0) < 5 end
+	for _, p in ipairs(extra) do
+		local best
+		-- a) freier Platz eines Fehlenden derselben Art
+		for g = 1, 8 do
+			if free(g) and openKind[g] and (openKind[g][p.kind] or 0) > 0 then best = g break end
+		end
+		-- b) Gruppe, in der diese Art laut Aufstellung schon spielt (die meisten zuerst)
+		if not best then
+			local most = 0
+			for g = 1, 8 do
+				local c = kindIn[g] and kindIn[g][p.kind] or 0
+				if free(g) and c > most then best, most = g, c end
+			end
+		end
+		-- c) Heiler/Unterstützer: Gruppe ohne Heiler; sonst die leerste Gruppe
+		if not best then
+			local fewest = 6
+			for g = 1, 8 do
+				if free(g) then
+					local c = count[g] or 0
+					local healers = kindIn[g] and ((kindIn[g].heal or 0) + (kindIn[g].support or 0)) or 0
+					local score = c + ((p.kind == "heal" or p.kind == "support") and healers or 0)
+					if score < fewest then best, fewest = g, score end
+				end
+			end
+		end
+		if best then
+			want[p.name] = best
+			count[best] = (count[best] or 0) + 1
+			if openKind[best] and (openKind[best][p.kind] or 0) > 0 then openKind[best][p.kind] = openKind[best][p.kind] - 1 end
+			kindIn[best] = kindIn[best] or {}
+			kindIn[best][p.kind] = (kindIn[best][p.kind] or 0) + 1
+		end
+	end
+	return want
+end
+
+function S.WantedGroups()
+	local want = S.BaseGroups()
 	local mts = S.MainTanks()
 	local isMT = {}
 	for _, n in ipairs(mts) do isMT[n] = true end

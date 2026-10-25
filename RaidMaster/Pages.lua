@@ -928,7 +928,7 @@ UI.AddPage("signup", L["Anmeldungen"], function(page)
 		L["Trägt alle Discord-Ersatzbank-Anmeldungen in die DKP-Ersatzbank ein (Seite Raid)."])
 	Place(benchBtn, page, rx, -390)
 	local groupBtn = UI.Button(page, L["Gruppen einteilen"], 245, 26, function() RM.Signup.ArrangeGroups() end,
-		L["Sortiert den Schlachtzug in die festen Gruppen aus Discord (/raid aufstellung).\nNur außerhalb des Kampfes."])
+		L["Übernimmt die Gruppen aus Discord (/raid aufstellung). Wer nicht in der Aufstellung steht, kommt auf den Platz\neines Fehlenden derselben Art (Heiler für Heiler, Magier für Magier). Ohne Aufstellung: dieselbe Classic-Einteilung\nwie im Discord. Main-/Offtank immer in Gruppe 1. Nur außerhalb des Kampfes."])
 	Place(groupBtn, page, rx, -422)
 
 	local autoInv = UI.Check(page, L["Auto-Einladung"], function() return RM.db.config.autoInvite end,

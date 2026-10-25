@@ -5055,3 +5055,4 @@ L["%s würde kommen, aber der Raid ist voll."] = "%s 願意來，但團隊已滿
 L["Gruppensuche beendet – der Raid ist voll (%d/%d)."] = "招募已結束——團隊已滿（%d/%d）。"
 L["Raid voll"] = "團隊已滿"
 L["Gruppen einteilen abgebrochen – im Kampf geht das nicht."] = "分組已中止——戰鬥中無法進行。"
+L["Übernimmt die Gruppen aus Discord (/raid aufstellung). Wer nicht in der Aufstellung steht, kommt auf den Platz\neines Fehlenden derselben Art (Heiler für Heiler, Magier für Magier). Ohne Aufstellung: dieselbe Classic-Einteilung\nwie im Discord. Main-/Offtank immer in Gruppe 1. Nur außerhalb des Kampfes."] = "採用 Discord 的分組（/raid aufstellung）。不在陣容中的人補到同類缺席者的位置\n（治療補治療，法師補法師）。沒有陣容時：與 Discord 相同的經典分組。\n主坦和副坦始終在 1 隊。僅限脫戰時。"

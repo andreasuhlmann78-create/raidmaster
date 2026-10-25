@@ -5055,3 +5055,4 @@ L["%s würde kommen, aber der Raid ist voll."] = "%s готов прийти, н
 L["Gruppensuche beendet – der Raid ist voll (%d/%d)."] = "Поиск группы завершён – рейд заполнен (%d/%d)."
 L["Raid voll"] = "рейд полон"
 L["Gruppen einteilen abgebrochen – im Kampf geht das nicht."] = "Распределение по группам прервано – в бою нельзя."
+L["Übernimmt die Gruppen aus Discord (/raid aufstellung). Wer nicht in der Aufstellung steht, kommt auf den Platz\neines Fehlenden derselben Art (Heiler für Heiler, Magier für Magier). Ohne Aufstellung: dieselbe Classic-Einteilung\nwie im Discord. Main-/Offtank immer in Gruppe 1. Nur außerhalb des Kampfes."] = "Берёт группы из Discord (/raid aufstellung). Кто не в составе, занимает место\nотсутствующего того же типа (лекарь вместо лекаря, маг вместо мага). Без состава: та же классическая раскладка,\nчто и в Discord. Главный и второй танк всегда в группе 1. Только вне боя."
