@@ -870,7 +870,7 @@ UI.AddPage("signup", L["Anmeldungen"], function(page)
 	local info = Label(page, "", 0, -26, 12)
 	info:SetWidth(520)
 
-	local list = UI.List(page, 520, 330, {
+	local list = UI.List(page, 520, 316, {
 		{ title = L["Name"], width = 115 },
 		{ title = L["Klasse"], width = 75 },
 		{ title = L["Rolle"], width = 75 },
@@ -880,7 +880,7 @@ UI.AddPage("signup", L["Anmeldungen"], function(page)
 	}, { emptyText = L["Noch nichts importiert."] })
 	Place(list, page, 0, -50)
 
-	local summary = Label(page, "", 0, -390, 11)
+	local summary = Label(page, "", 0, -374, 11)
 	summary:SetWidth(520)
 
 	-- Lücken füllen: fehlende Tanks/Heiler/Klassen aus Ersatzbank, Gilde oder Gruppensuche
@@ -999,7 +999,7 @@ UI.AddPage("signup", L["Anmeldungen"], function(page)
 					if r.inRaid then present = present + 1 end
 				end
 			end
-			local lines = { string.format("Angemeldet: %d  ·  davon in der Gruppe: %d", signed, present) }
+			local lines = { RM.Signup.CapacityText(), string.format("Angemeldet: %d  ·  davon in der Gruppe: %d", signed, present) }
 			if #missing > 0 then lines[#lines + 1] = L["|cffffcc00Fehlen noch:|r "] .. table.concat(missing, ", ") end
 			if #extra > 0 then lines[#lines + 1] = L["|cff99bbffIn der Gruppe ohne Anmeldung:|r "] .. table.concat(extra, ", ") end
 			summary:SetText(table.concat(lines, "\n"))

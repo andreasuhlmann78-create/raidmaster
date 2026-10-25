@@ -1,4 +1,4 @@
-RaidMaster 2.6.0 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 2.6.1 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,12 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+HÖCHSTENS 40 IM RAID (neu in 2.6.1)
+- Einladen, Lücken füllen, Gruppensuche und Werbung laden nie mehr ein, als Platz ist (Raidgröße, höchstens 40).
+  Gezählt werden alle im Raid plus verschickte Einladungen ohne Antwort. Ist der Raid voll, stoppt das Einladen
+  und meldet, wer nicht mehr eingeladen wurde; wer auf die Gruppensuche flüstert, bekommt eine freundliche Absage.
+- Seite Anmeldungen und Fenster "Lücken füllen" zeigen den Platz im Raid: "Raid 35/40 · 3 Einladungen offen · frei: 2".
 
 LÜCKEN FÜLLEN (neu in 2.6.0)
 - Seite Anmeldungen: Knopf "Lücken füllen ..." öffnet ein Fenster. Es vergleicht den Raid (plus die Angemeldeten,

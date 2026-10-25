@@ -63,7 +63,7 @@ end
 
 function G.RaidSize(pool)
 	local su = RM.db.signup
-	if su and tonumber(su.max) then return tonumber(su.max) end
+	if su and tonumber(su.max) then return math.min(40, tonumber(su.max)) end
 	pool = pool or G.PoolKey()
 	if G.SIZE[pool] then return G.SIZE[pool] end
 	local def = RM.Data.Pools[pool]
@@ -350,6 +350,8 @@ function G.Plan()
 	end
 	plan.expected = expected
 	plan.free = math.max(0, size - comp.total)
+	-- nie mehr vorschlagen, als wirklich Platz ist (Anwesende + offene Einladungen, höchstens 40)
+	if RM.Signup.Capacity then plan.free = math.max(0, math.min(plan.free, RM.Signup.Capacity())) end
 	plan.needs = G.Needs(comp, req)
 	plan.complete = #plan.needs == 0
 
@@ -571,6 +573,13 @@ function G.OnWhisper(msg, sender, guid)
 			RM.Print(string.format(L["%s hat keine Zeit."], name))
 			RM.Fire("GAPS_CHANGED")
 		elseif Has(msg, YES) then
+			if RM.Signup.Capacity() <= 0 then
+				a.state = "no"
+				RM.Whisper(L["Danke! Leider ist der Raid inzwischen voll."], name)
+				RM.Print(string.format(L["%s würde kommen, aber der Raid ist voll."], name))
+				RM.Fire("GAPS_CHANGED")
+				return
+			end
 			a.state = "yes"
 			RM.Print(string.format(L["%s kommt – wird eingeladen (%s)."], name, a.label or "?"))
 			RM.Signup.InviteNames({ name })
@@ -582,6 +591,12 @@ function G.OnWhisper(msg, sender, guid)
 	local m = msg:lower()
 	if not m:find("inv", 1, true) and not Has(msg, YES, true) then return end
 	if G.answered[name] or RM.IsInMyRaid(name) then return end
+	if RM.Signup.Capacity() <= 0 then
+		G.answered[name] = true
+		RM.Whisper(L["Danke! Leider ist der Raid inzwischen voll."], name)
+		G.StopSearch(string.format(L["Gruppensuche beendet – der Raid ist voll (%d/%d)."], RM.Signup.MemberCount(), RM.Signup.RaidSize()))
+		return
+	end
 	local class = G.ClassOf(name, guid, msg)
 	if not class then
 		RM.Whisper(L["Welche Klasse und Rolle? Schreib z. B. 'inv heal priest'."], name)
@@ -700,6 +715,7 @@ function G.Refresh()
 	if not win or not win:IsShown() then return end
 	local p = G.Plan()
 	local head = string.format(L["%s: %d/%d im Raid, %d kommen noch · frei: %d"], RaidName(p.pool), p.have, p.size, p.expected, p.free)
+		.. "\n" .. RM.Signup.CapacityText()
 	if p.complete then
 		head = head .. "\n|cff66ff66" .. L["Aufstellung komplett – Tanks, Heiler und wichtige Klassen sind da."] .. "|r"
 	else

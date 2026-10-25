@@ -42,7 +42,7 @@ end
 -- Antworten auf Einladungen: nicht gefunden/offline, abgelehnt, schon in einer Gruppe
 ---------------------------------------------------------------------------
 S.inviteState = {}       -- Name -> { s = "invited" | "notfound" | "declined" | "ingroup", t = GetTime() }
-S.STATE_TEXT = { invited = L["eingeladen"], notfound = L["nicht gefunden"], declined = L["abgelehnt"], ingroup = L["in Gruppe"] }
+S.STATE_TEXT = { invited = L["eingeladen"], notfound = L["nicht gefunden"], declined = L["abgelehnt"], ingroup = L["in Gruppe"], full = L["Raid voll"] }
 S.RETRY_AFTER = 600      -- so lange lädt die Auto-Einladung "nicht gefunden"/"abgelehnt" nicht erneut ein
 
 function S.MarkInvite(name, state)
@@ -266,8 +266,53 @@ local function Stop(msg)
 	RM.Fire("SIGNUP_CHANGED")
 end
 
+---------------------------------------------------------------------------
+-- Platz im Raid: nie mehr einladen, als hineinpassen (höchstens 40)
+---------------------------------------------------------------------------
+S.MAX_RAID = 40
+S.PENDING_SECONDS = 90   -- so lange zählt eine verschickte, noch offene Einladung als belegter Platz
+
+function S.RaidSize()
+	local size = (RM.Gaps and RM.Gaps.RaidSize and RM.Gaps.RaidSize()) or tonumber(RM.db.signup and RM.db.signup.max) or S.MAX_RAID
+	return math.max(1, math.min(S.MAX_RAID, size))
+end
+
+-- wie viele sind schon da (inkl. dir)?
+function S.MemberCount()
+	local n = #RM.RaidMembers()
+	if n > 0 then return n end
+	if IsInGroup and IsInGroup() and GetNumGroupMembers then return math.max(1, GetNumGroupMembers()) end
+	return 1
+end
+
+-- verschickte Einladungen, auf die noch keine Antwort kam
+function S.PendingInvites()
+	local n = 0
+	for name, st in pairs(S.inviteState) do
+		if st.s == "invited" and GetTime() - st.t < S.PENDING_SECONDS and not RM.IsInMyRaid(name) then n = n + 1 end
+	end
+	return n
+end
+
+-- freie Plätze: Raidgröße minus Anwesende minus offene Einladungen
+function S.Capacity()
+	return S.RaidSize() - S.MemberCount() - S.PendingInvites()
+end
+
+-- Text für die Anzeige: "Raid 35/40 · 3 Einladungen offen · frei: 2"
+function S.CapacityText()
+	local size, have, pending = S.RaidSize(), S.MemberCount(), S.PendingInvites()
+	local free = math.max(0, size - have - pending)
+	local color = free == 0 and "|cffff6666" or "|cff66ff66"
+	return string.format(L["Raid %d/%d · %d Einladungen offen · %sfrei: %d|r"], have, size, pending, color, free)
+end
+
 local function Tick()
 	if #queue == 0 then Stop(L["Alle Einladungen verschickt."]) return end
+	if S.Capacity() <= 0 then
+		Stop(string.format(L["Raid ist voll (%d/%d) – nicht mehr eingeladen: %s"], S.MemberCount() + S.PendingInvites(), S.RaidSize(), table.concat(queue, ", ")))
+		return
+	end
 	if GetTime() > deadline then Stop(L["Einladen abgebrochen (Zeitlimit). Nicht eingeladen: "] .. table.concat(queue, ", ")) return end
 	if not RM.InRaid() then
 		if IsInGroup() then

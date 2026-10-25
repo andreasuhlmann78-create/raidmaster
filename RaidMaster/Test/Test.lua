@@ -386,6 +386,13 @@ function T.SimInvite(name)
 	C_Timer.After(1 + math.random() * 2, function()
 		if not T.active then return end
 		for _, m in ipairs(T.roster) do if m.name == name then return end end
+		-- wie im Spiel: ein voller Schlachtzug nimmt niemanden mehr auf
+		local size = (S and S.RaidSize and S.RaidSize()) or 40
+		if #FakeMembers() >= size then
+			Log(string.format("%s kann nicht beitreten – der Raid ist voll (%d/%d, Test).", name, #FakeMembers(), size))
+			if S and S.MarkInvite then S.MarkInvite(name, "full") end
+			return
+		end
 		local class = (e and (e.cls or e.class)) or (RM.Gaps and RM.Gaps.knownClass[name]) or (GuildClass and GuildClass(name))
 			or RANDOM_CLASSES[math.random(#RANDOM_CLASSES)]
 		local p = RM.DKP.EnsurePlayer(name, class)

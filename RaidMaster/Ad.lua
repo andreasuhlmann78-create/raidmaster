@@ -189,9 +189,11 @@ end
 local INV_WORDS = { inv = true, invite = true, ["inv pls"] = true, ["inv bitte"] = true, ["+"] = true, ["1"] = true }
 
 local function CanInvite()
+	if RM.Signup and RM.Signup.Capacity and RM.Signup.Capacity() <= 0 then return false end
 	if not RM.InRaid() then
 		return not IsInGroup() or UnitIsGroupLeader("player")
 	end
+	if RM.Signup and RM.Signup.Capacity then return RM.IsAssist() and RM.Signup.Capacity() > 0 end
 	return RM.IsAssist() and GetNumGroupMembers() < 40
 end
 
