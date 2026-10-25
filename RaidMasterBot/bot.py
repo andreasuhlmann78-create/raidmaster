@@ -883,6 +883,8 @@ async def status_cmd(inter: discord.Interaction):
     else:
         lines.append("Daten-Uploads: noch keine (`/uploader` einrichten)" if cfg.get("data_channel_id") else
                      "Daten-Uploads: kein Kanal #bot-daten – `/raidmaster-einrichten` ausführen")
+    if state.data.get("last_test_upload"):
+        lines.append(f"Letzte Testdaten: <t:{int(state.data['last_test_upload'])}:R> von {state.data.get('last_test_upload_by') or '?'}")
     lines.append(f"RaidMaster-Datei: `{path}` " + ("✅" if exists else "❌"))
     if exists:
         lines.append(f"Zuletzt geändert: <t:{int(os.path.getmtime(path))}:R>")
@@ -1473,8 +1475,11 @@ async def receive_upload(message: discord.Message):
         return
     att = next((a for a in message.attachments if a.filename.lower().endswith((".lua", ".lua.gz", ".gz"))), None)
     if not att:
-        if not message.attachments and "RaidMaster" in (message.content or ""):
+        if not message.attachments:
             log.warning("Upload ohne Anhang empfangen – Message Content Intent einschalten (siehe ANLEITUNG, Probleme).")
+            await post_bot_log("⚠️ Daten-Upload ohne Datei empfangen: Im Discord-Entwicklerportal unter Bot → Privileged "
+                               "Gateway Intents den **Message Content Intent** einschalten, in config.json "
+                               "`\"message_content_intent\": true` setzen und den Bot neu starten.")
         return
     if att.size > 25 * 1024 * 1024:
         log.warning("Upload zu groß (%d Bytes).", att.size)
@@ -1492,16 +1497,28 @@ async def receive_upload(message: discord.Message):
             await message.delete()
         except discord.HTTPException:
             pass
+        state.data["last_test_upload"] = int(time.time())
+        state.data["last_test_upload_by"] = uploader
+        state.save()
         if test_info(db).get("post"):
-            await handle_test_upload(db, uploader)
+            try:
+                n = await handle_test_upload(db, uploader)
+                await post_bot_log(f"🧪 Testdaten von {uploader} empfangen – {n} Nachrichten gepostet, werden nach 10 Minuten gelöscht."
+                                   if n else f"🧪 Testdaten von {uploader} empfangen, aber keine DKP-/Loot-Kanäle gefunden "
+                                   "(`/raidmaster-einrichten` ausführen).")
+            except Exception as e:  # noqa: BLE001
+                log.exception("Testdaten konnten nicht gepostet werden")
+                await post_bot_log(f"⚠️ Testdaten von {uploader} konnten nicht gepostet werden: {e}")
         else:
             log.info("Upload von %s aus dem Testmodus ignoriert (echte Daten bleiben).", uploader)
+            await post_bot_log(f"🧪 Daten von {uploader} kamen aus dem Testmodus (ohne „Test an Discord senden“) – nicht übernommen, echte DKP bleiben.")
         return
     new_version = int((db.get("data") or {}).get("version") or 0)
     current = int((bot.dkp_data or {}).get("version") or 0)
     uploader = message.author.name if message.author else "?"
     if new_version < current and uploader != state.data.get("last_upload_by"):
         log.info("Upload von %s ignoriert: älterer DKP-Stand (%d < %d).", uploader, new_version, current)
+        await post_bot_log(f"ℹ️ Daten von {uploader} nicht übernommen: älterer DKP-Stand als der vorhandene.")
         return
     os.makedirs(DATA_DIR, exist_ok=True)
     tmp = UPLOAD_PATH + ".tmp"
@@ -1512,6 +1529,9 @@ async def receive_upload(message: discord.Message):
     state.data["last_upload_by"] = uploader
     state.save()
     log.info("Neue Daten von %s empfangen (%d KB).", uploader, len(text) // 1024)
+    if cfg.get("upload_receipts", True):
+        players = len((db.get("data") or {}).get("players") or {})
+        await post_bot_log(f"📥 Daten von {uploader} empfangen ({players} Spieler) – DKP- und Loot-Kanäle werden aktualisiert.")
     try:
         await message.delete()
     except discord.HTTPException:
@@ -1588,6 +1608,7 @@ async def handle_test_upload(db: dict, uploader: str):
                 await send_test(loot_ch, text)
                 posted += 1
     log.info("Testdaten von %s gepostet (%d Nachrichten, werden nach %d Min. gelöscht).", uploader, posted, TEST_TTL // 60)
+    return posted
 
 
 @tasks.loop(seconds=60)
