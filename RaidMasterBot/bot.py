@@ -1596,9 +1596,8 @@ async def loot_line(e: dict, db: dict | None) -> str:
     tip = rmd.item_tip(db, e.get("link"))
     remember_tip(e.get("link"), tip, db)
     emoji = await item_emoji(e.get("link"), tip)
-    url = rmd.wowhead_url(e.get("link"), WOWHEAD_FLAVOR)
     item = (tip or {}).get("n") or e["item"]
-    item_txt = f"[**{item}**](<{url}>)" if url else f"**{item}**"
+    item_txt = f"**{item}**"     # nur Symbol und Name – kein Link, kein Tooltip
     dot = await class_emoji(player_class(db, e["name"]))
     return f"{emoji} <t:{int(e['t'])}:t> {dot}**{e['name']}** erhält {item_txt} für {e['amount']} DKP"
 
@@ -1640,7 +1639,7 @@ async def send_loot_list(channel, items: list[dict], db: dict | None, header: st
     state.save()
     text = ((header + "\n") if header else "") + "\n".join(lines)
     parts = rmd.split_discord(text)
-    view = tip_view(items, db)
+    view = None     # kein Tooltip-Menü mehr unter der Loot-Liste
     sent = 0
     for i, part in enumerate(parts):
         v = view if i == len(parts) - 1 else None

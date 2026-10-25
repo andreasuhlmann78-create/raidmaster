@@ -225,9 +225,7 @@ Erstellt die Raidleitung im Spiel die **Einteilung** und gibt danach `/reload` e
   wieder ein). Alte Abrechnungen des Bots werden einmal aus den DKP-Kanälen entfernt.
 - `/dkp` zeigt die eigenen DKP in allen Raids, `/dkpliste raid:<Raid>` die Rangliste.
 - Neue Items erscheinen im Loot-Kanal des jeweiligen Raids (#mc-loot usw.) als kompakte Liste: vorne das echte
-  Item-Symbol, dann Uhrzeit, Gewinner, Item (Link zu Wowhead) und DKP. Unter der Liste zeigt das Menü
-  **„🔍 Tooltip anzeigen …“** den Tooltip wie im Spiel (nur für den, der auswählt). Ein Tooltip beim reinen
-  Drüberfahren mit der Maus ist in Discord nicht möglich. Die Symbole legt der Bot als eigene App-Emojis an.
+  Item-Symbol, dann Uhrzeit, Gewinner (Punkt in Klassenfarbe), Itemname und DKP.
 - **Klassenfarben wie im Spiel:** DKP-Stand und Raid-Abrechnung kommen als Bild – Namen und Klassen in der echten
   WoW-Klassenfarbe. Jedes Mitglied bekommt außerdem eine Rolle seiner Klasse (Krieger, Magier …) in der Klassenfarbe,
   so erscheint auch sein Name im Discord farbig. Die Klasse kommt aus dem Profil (Anmeldung/Charakter), sonst wird der
