@@ -280,123 +280,70 @@ Data.AddRaid({ key = "barrow", exp = "custom", games = "forever", name = L["Barr
 ---------------------------------------------------------------------------
 Data.BossInfo = {
 	[663] = {
-		text = L["Lucifron + 2 Beschützer der Flammenschuppen\n\n"]
-			.. L["- Fluch des Lucifron: verdoppelt Mana-/Wut-/Energiekosten -> sofort entfluchen (Magier, Druiden).\n"]
-			.. L["- Drohende Verdammnis: Magie-Debuff, nach 10 Sek. hoher Schattenschaden -> bannen (Priester, Paladine).\n"]
-			.. L["- Schattenschock: Schattenschaden in der Nähe.\n"]
-			.. L["- Beschützer: Gedankenkontrolle und Spalten -> Adds zuerst töten, gedankenkontrollierte Spieler kurz kontrollieren.\n\n"]
-			.. L["Taktik: Adds von Lucifron weg tanken, Adds zuerst, Decurser und Banner fest einteilen."],
+		text = L["Lucifron + 2 Beschützer der Flammenschuppen\n\nFähigkeiten:\n- Fluch des Lucifron: verdoppelt Kosten für Mana, Wut und Energie -> sofort entfluchen\n- Drohende Verdammnis: Magie-Debuff, nach 10 Sek. hoher Schattenschaden -> bannen\n- Schattenschock: Schaden in der Nähe\n- Beschützer: Gedankenkontrolle und Spalten\n\nTaktik:\n- 3 Tanks: Lucifron und je ein Beschützer, Adds vom Boss weg tanken\n- Erst die beiden Beschützer töten, dann Lucifron\n- Gedankenkontrollierte Spieler kurz verwandeln oder festhalten, nicht töten\n- Entflucher und Banner arbeiten durchgehend"],
 		post = {
 			L["LUCIFRON: Adds zuerst! Flüche sofort entfernen, Magie bannen!"],
 			L["Adds weg vom Boss tanken. Gedankenkontrolle beachten."],
 		},
 	},
 	[664] = {
-		text = L["Magmadar\n\n"]
-			.. L["- Panik: Massenfurcht für den ganzen Raid -> Furchtschutz auf Tanks, Tremor-Totem (Horde), Berserkerwut.\n"]
-			.. L["- Raserei: stark erhöhter Schaden -> Jäger nutzen Einlullenden Schuss.\n"]
-			.. L["- Lavabombe: Feuerflächen am Boden -> sofort heraus laufen.\n"]
-			.. L["- Lavaodem: frontaler Feuerschaden -> Boss vom Raid wegdrehen.\n\n"]
-			.. L["Taktik: Tank mit Furchtschutz, Jäger-Rotation für Einlullenden Schuss, alle seitlich oder hinter dem Boss."],
+		text = L["Magmadar\n\nFähigkeiten:\n- Panik: Furcht auf den ganzen Raid\n- Raserei: stark erhöhter Schaden auf den Tank\n- Lavabombe: Feuerflächen am Boden\n- Lavaatem: Feuerkegel nach vorne\n\nTaktik:\n- Tank mit Furchtschutz (Zwergenpriester), Horde: Erdbebentotem (Tremor)\n- Krieger nutzen Berserkerwut gegen die Furcht\n- Jäger-Rotation: Bei Raserei sofort Einlullender Schuss – feste Reihenfolge ansagen\n- Boss vom Raid wegdrehen, niemand steht vor ihm\n- Sofort aus Lavabomben herauslaufen\n- Ersatztank in Bereitschaft, falls der Haupttank in Furcht gerät"],
 		post = {
 			L["MAGMADAR: Jäger -> Einlullender Schuss bei Raserei! Raus aus dem Feuer!"],
 			L["Furchtschutz auf die Tanks. Niemand vor den Boss."],
 		},
 	},
 	[665] = {
-		text = L["Gehennas + 2 Flammenschuppen-Adds\n\n"]
-			.. L["- Fluch des Gehennas: stark reduzierte erhaltene Heilung -> sofort entfluchen.\n"]
-			.. L["- Feuerregen: Feuerflächen -> heraus laufen.\n"]
-			.. L["- Schattenblitz: Schaden auf zufällige Ziele.\n\n"]
-			.. L["Taktik: Adds zuerst töten, Decurser einteilen, Heiler achten auf verfluchte Ziele."],
+		text = L["Gehennas + 2 Flammenschuppen\n\nFähigkeiten:\n- Fluch des Gehennas: stark reduzierte erhaltene Heilung -> sofort entfluchen\n- Feuerregen: Feuerflächen -> herauslaufen\n- Schattenblitz: Schaden auf zufällige Ziele\n- Adds: Betäubung und Rüstungsreduktion auf den Tank\n\nTaktik:\n- 3 Tanks, Adds zuerst töten\n- Entflucher haben höchste Priorität – verfluchte Spieler sind kaum heilbar\n- Fernkämpfer verteilt stehen, damit der Feuerregen wenige trifft"],
 		post = {
 			L["GEHENNAS: Adds zuerst! Fluch sofort entfernen (Heilung reduziert)!"],
 			L["Raus aus dem Feuerregen."],
 		},
 	},
 	[666] = {
-		text = L["Garr + 8 Feuerschwörer\n\n"]
-			.. L["- Antimagischer Impuls: entfernt Buffs bei Spielern in der Nähe.\n"]
-			.. L["- Magmafesseln: verlangsamt Spieler in der Nähe.\n"]
-			.. L["- Feuerschwörer: explodieren beim Tod (Eruption) -> Nahkämpfer weg von sterbenden Adds.\n"]
-			.. L["- Feuerschwörer sind Elementare -> Hexer können sie verbannen.\n\n"]
-			.. L["Taktik: Jedem Add ein Symbol geben, Hexer verbannen zugewiesene Adds, Krieger tanken den Rest. Adds einzeln töten."],
+		text = L["Garr + 8 Feuerschwörer\n\nFähigkeiten:\n- Garr: Antimagischer Impuls (entfernt Buffs), Magmafesseln (verlangsamt)\n- Feuerschwörer: Feuerbrand, beim Tod Eruption (Explosion mit Rückstoß)\n- Feuerschwörer, die zu weit von Garr weg sind, werden wütend\n\nTaktik:\n- Jeder Feuerschwörer bekommt ein Symbol (RaidMaster-Vorlage „Garr“)\n- Hexer verbannen ihre zugewiesenen Adds (Elementare), Krieger tanken den Rest\n- Garr wird separat getankt, nicht zu weit von den Adds\n- Adds einzeln nacheinander töten, dann Garr\n- Nahkämpfer weg, wenn ein Add stirbt (Explosion)\n- Verbannung rechtzeitig erneuern – Hexer achten auf die Laufzeit"],
 		post = {
 			L["GARR: Hexer verbannen ihre Symbole! Tanks übernehmen die restlichen Adds."],
 			L["Nahkampf weg von sterbenden Adds (Explosion). Adds einzeln töten."],
 		},
 	},
 	[667] = {
-		text = L["Shazzrah\n\n"]
-			.. L["- Arkane Explosion: Flächenschaden um den Boss -> Nahkämpfer vorsichtig, Fernkämpfer auf Abstand.\n"]
-			.. L["- Blinzeln: teleportiert sich und setzt die Bedrohung zurück -> Tanks im Raum verteilen.\n"]
-			.. L["- Fluch des Shazzrah: erhöhter Magieschaden -> entfluchen.\n"]
-			.. L["- Gegenzauber: unterbricht Zauberer in der Nähe.\n"]
-			.. L["- Magiedämpfung: Schutzbuff auf dem Boss -> Magie bannen / läutern.\n\n"]
-			.. L["Taktik: Mehrere Tanks verteilen, Fernkämpfer auf maximaler Distanz, Flüche entfernen, Buff vom Boss bannen."],
+		text = L["Shazzrah\n\nFähigkeiten:\n- Arkane Explosion: starker Flächenschaden um ihn herum\n- Blinzeln: teleportiert sich und setzt die Bedrohung zurück\n- Fluch des Shazzrah: erhöhter Arkanschaden -> entfluchen\n- Gegenzauber: unterbricht Zauberer in der Nähe\n- Magiedämpfung: Schutz auf dem Boss -> bannen bzw. reinigen\n\nTaktik:\n- Mehrere Tanks im Raum verteilen – nach dem Blinzeln übernimmt der nächste\n- Fernkämpfer und Heiler auf maximale Distanz\n- Nur Nahkämpfer mit guter Heilung am Boss, nach Arkaner Explosion kurz zurück\n- Der Kampf ist kurz: voller Schaden, Flüche weg, Buff vom Boss bannen"],
 		post = {
 			L["SHAZZRAH: Tanks verteilen (Blinzeln)! Fernkämpfer auf Abstand!"],
 			L["Flüche entfernen, Buff vom Boss bannen."],
 		},
 	},
 	[668] = {
-		text = L["Baron Geddon\n\n"]
-			.. L["- Lebende Bombe: Spieler explodiert nach kurzer Zeit -> SOFORT aus dem Raid laufen.\n"]
-			.. L["- Inferno: starker Flächenschaden um den Boss -> Nahkämpfer heraus.\n"]
-			.. L["- Mana entzünden: verbrennt Mana -> bannen.\n"]
-			.. L["- Am Ende des Kampfes explodiert er -> Nahkämpfer weg.\n\n"]
-			.. L["Taktik: Raid verteilt aufstellen, Bomben-Träger laufen zu einem festen Platz, Mana entzünden bannen.\n"]
-			.. L["Kann Bindungen des Windsuchers droppen (legendär)."],
+		text = L["Baron Geddon\n\nFähigkeiten:\n- Lebende Bombe: Spieler explodiert nach kurzer Zeit und trifft alle in der Nähe\n- Inferno: starker Flächenschaden um den Boss\n- Mana entzünden: verbrennt Mana und verursacht Schaden -> bannen\n- Kurz vor dem Tod: große Explosion\n\nTaktik:\n- Lebende Bombe -> SOFORT aus dem Raid laufen zu einem vorher festgelegten Platz\n- Inferno -> Nahkämpfer raus, danach wieder rein\n- Raid weit verteilt aufstellen\n- Mana entzünden bannen\n- Bei wenig Leben: alle weg vom Boss\n- Kann Bindungen des Windsuchers droppen (legendär)"],
 		post = {
 			L["GEDDON: Lebende Bombe -> SOFORT aus dem Raid laufen! Inferno -> Nahkampf raus!"],
 			L["Mana entzünden bannen. Am Ende Explosion -> weg vom Boss."],
 		},
 	},
 	[669] = {
-		text = L["Sulfuronherold + 4 Priester der Flammenschuppen\n\n"]
-			.. L["- Priester: heilen (Dunkle Besserung) -> UNTERBRECHEN!\n"]
-			.. L["- Schattenwort: Schmerz -> bannen.\n"]
-			.. L["- Inspiration: verstärkt die Adds.\n"]
-			.. L["- Hand des Ragnaros: Betäubung und Rückstoß in der Nähe.\n"]
-			.. L["- Flammenspeer: Feuerschaden auf Gruppen.\n\n"]
-			.. L["Taktik: Priester einzeln töten und konsequent unterbrechen, Sulfuron separat tanken, zuletzt töten."],
+		text = L["Sulfuronherold + 4 Priester der Flammenschuppen\n\nFähigkeiten:\n- Priester: Dunkle Besserung (Heilung), Schattenwort: Schmerz, Feuerbrand\n- Sulfuron: Inspiration (stärkt die Adds), Hand des Ragnaros (Betäubung und Rückstoß), Flammenspeer, Demoralisierungsruf\n\nTaktik:\n- Jeder Priester bekommt ein Symbol und einen Tank\n- Priester einzeln töten, Heilungen konsequent unterbrechen\n- Sulfuron separat tanken und zuletzt töten\n- Schattenwort: Schmerz bannen"],
 		post = {
 			L["SULFURON: Priester zuerst und UNTERBRECHEN (Heilung)!"],
 			L["Sulfuron separat tanken. Schattenwort: Schmerz bannen."],
 		},
 	},
 	[670] = {
-		text = L["Golemagg der Verbrenner + 2 Kernwüter\n\n"]
-			.. L["- Kernwüter: werden separat getankt und müssen nicht getötet werden.\n"]
-			.. L["- Magmaspritzer: stapelnder Debuff auf dem Tank -> Tankwechsel bei vielen Stapeln.\n"]
-			.. L["- Pyroschlag: Feuerschaden auf zufällige Ziele.\n"]
-			.. L["- Erdbeben bei wenig Leben: Schaden für Nahkämpfer.\n\n"]
-			.. L["Taktik: Hunde abseits tanken, Golemagg mit zwei Tanks im Wechsel, gegen Ende Nahkampf vorsichtig."],
+		text = L["Golemagg der Verbrenner + 2 Kernwüter\n\nFähigkeiten:\n- Magmaspritzer: stapelnder Debuff auf dem Tank\n- Pyroschlag: Feuerschaden auf zufällige Spieler\n- Erdbeben bei wenig Leben: Schaden für Nahkämpfer\n- Kernwüter: können nicht sterben, solange Golemagg lebt\n\nTaktik:\n- Die beiden Kernwüter abseits tanken und ignorieren – sie sterben mit Golemagg\n- Alle Schaden auf Golemagg\n- Bei vielen Stapeln Magmaspritzer Tank wechseln\n- Gegen Ende Nahkämpfer mit wenig Leben zurückziehen"],
 		post = {
 			L["GOLEMAGG: Kernwüter abseits tanken und NICHT töten! Fokus auf Golemagg."],
 			L["Tankwechsel bei hohen Magmaspritzer-Stapeln."],
 		},
 	},
 	[671] = {
-		text = L["Majordomus Exekutus + 4 Heiler + 4 Elite der Flammenschuppen\n\n"]
-			.. L["- Majordomus selbst wird nicht getötet; der Kampf endet, wenn alle Adds tot sind.\n"]
-			.. L["- Magiereflexion / Schadensschild: bei aktivem Schild Angriffe stoppen!\n"]
-			.. L["- Teleport: wirft Spieler in die Feuergrube.\n"]
-			.. L["- Heiler: heilen und Schattenblitz -> unterbrechen.\n"]
-			.. L["- Elite: Großer Feuerball und Explosion.\n\n"]
-			.. L["Taktik: Heiler zuerst, Adds mit Symbolen verteilen, beim Schild sofort aufhören. Danach erscheint Ragnaros."],
+		text = L["Majordomus Exekutus + 4 Heiler + 4 Elite\n\nErscheint erst, wenn alle 7 Runen gelöscht sind.\n\nFähigkeiten:\n- Magiereflexion: Zauber werden zurückgeworfen -> Zauberer hören auf\n- Schadensschild: Nahkampftreffer schaden dem Angreifer -> Nahkämpfer hören auf\n- Teleport: wirft Spieler in die Feuergrube\n- Heiler: Große Heilung, Schattenblitz · Elite: Feuerschlag, Druckwelle\n\nTaktik:\n- Majordomus wird nicht angegriffen – der Kampf endet, wenn alle 8 Adds tot sind\n- Symbole: zuerst die Heiler, dann die Elite (RaidMaster-Vorlage „Majordomus“)\n- Heiler zuerst, Heilungen unterbrechen; Magier können Heiler verwandeln\n- Bei Schild oder Reflexion sofort aufhören – der Raidleiter sagt es an\n- Teleportierte Spieler schnell aus dem Feuer und gegenheilen\n- Danach: Truhe des Feuerfürsten plündern, später Majordomus ansprechen -> Ragnaros"],
 		post = {
 			L["MAJORDOMUS: Heiler zuerst und unterbrechen! Bei Schild SOFORT aufhören!"],
 			L["Symbole beachten, Elite separat tanken."],
 		},
 	},
 	[672] = {
-		text = L["Ragnaros\n\n"]
-			.. L["- Zorn des Ragnaros: Rückstoß aller Nahkämpfer -> Nahkämpfer laufen kurz vorher heraus.\n"]
-			.. L["- Lavaschlag: wenn niemand in Nahkampfreichweite ist -> immer ein Tank in Reichweite!\n"]
-			.. L["- Elementarfeuer: Feuerschaden über Zeit auf dem Tank.\n"]
-			.. L["- Nach einiger Zeit taucht er ab -> Söhne der Flamme erscheinen und müssen schnell getötet werden.\n\n"]
-			.. L["Taktik: Feuerresistenz für Tanks und Nahkämpfer, Ersatztank bereit, Fernkämpfer verteilt, Söhne mit allen Kräften töten."],
+		text = L["Ragnaros\n\nFähigkeiten:\n- Zorn des Ragnaros: schleudert alle Nahkämpfer weg\n- Lavaschlag: wenn niemand in Nahkampfreichweite ist – sehr gefährlich\n- Elementarfeuer: Feuerschaden über Zeit auf dem Tank\n- Lavaeruption: schleudert Spieler hoch\n- Waffe schmelzen: Haltbarkeit der Nahkampfwaffen sinkt\n- Abtauchen: nach einiger Zeit taucht er ab – Söhne der Flamme erscheinen\n\nTaktik:\n- Tanks mit möglichst viel Feuerresistenz, Ersatztank steht bereit und spottet nach dem Rückstoß\n- Immer jemand in Nahkampfreichweite – sonst Lavaschlag auf den Raid\n- Kleine Nahkampfgruppe, vor dem Zorn kurz heraus\n- Fernkämpfer und Heiler verteilt im Halbkreis\n- Söhne der Flamme: alle Kräfte darauf, schnell töten, Mana-Klassen auf Abstand\n- Feuerschutztränke trinken, Ersatzwaffe für Nahkämpfer mitnehmen"],
 		post = {
 			L["RAGNAROS: Nahkampf vor dem Rückstoß raus! Immer ein Tank in Reichweite!"],
 			L["Bei Abtauchen: Söhne der Flamme schnell töten. Feuerresistenz an!"],

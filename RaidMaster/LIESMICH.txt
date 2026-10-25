@@ -1,4 +1,4 @@
-RaidMaster 1.9.4 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 1.9.5 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,10 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+AUSFÜHRLICHE TAKTIK MC UND ONYXIA (neu in 1.9.5)
+- Raidleiter -> Bosse & Symbole: Molten Core und Onyxia zeigen jetzt dieselbe ausführliche Taktik wie die
+  Taktik-Kanäle im Discord (Fähigkeiten, Taktik, Phasen, Vorbereitung, Wichtig), in allen Sprachen.
 
 SHEEP-ROTATION BEI MAJORDOMUS (neu in 1.9.4)
 - Raidleiter -> Bosse & Symbole -> Majordomus: "Sheep-Rotation posten". Drei Magier fest auf Kreuz, Viereck und
