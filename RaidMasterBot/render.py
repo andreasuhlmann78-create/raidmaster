@@ -203,3 +203,24 @@ def render_roster(title: str, subtitle: str, members: dict[str, str]) -> bytes |
                                    ", ".join(names[i:i + 6])], "cls": c, "colored": (0, 2)})
     cols = [("Klasse", "l", 100), ("Anzahl", "r", 50), ("Spieler", "l", 300)]
     return render_table(title, subtitle, cols, rows)
+
+
+# Ersatz, wenn kein eigenes Emoji angelegt werden kann (ungefähre Farben)
+CLASS_FALLBACK_EMOJI = {
+    "WARRIOR": "🟤", "PALADIN": "🩷", "HUNTER": "🟢", "ROGUE": "🟡", "PRIEST": "⚪", "SHAMAN": "🔵",
+    "MAGE": "🩵", "WARLOCK": "🟣", "DRUID": "🟠", "DEATHKNIGHT": "🔴", "MONK": "🟢", "DEMONHUNTER": "🟣", "EVOKER": "🟢",
+}
+
+
+def class_dot_png(cls: str, size: int = 64) -> bytes | None:
+    """Runder Punkt in der genauen Klassenfarbe (für ein Discord-Emoji vor dem Namen)."""
+    if not available() or str(cls).upper() not in CLASS_COLORS:
+        return None
+    img = Image.new("RGBA", (size, size), (0, 0, 0, 0))
+    d = ImageDraw.Draw(img)
+    pad = size // 8
+    d.ellipse([pad, pad, size - pad, size - pad], fill=CLASS_COLORS[str(cls).upper()] + (255,),
+              outline=(20, 20, 24, 255), width=max(2, size // 20))
+    buf = io.BytesIO()
+    img.save(buf, "PNG")
+    return buf.getvalue()

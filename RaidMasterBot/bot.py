@@ -1433,6 +1433,44 @@ async def item_emoji(link: str | None, tip: dict | None) -> str:
         return cache[name] or fallback
 
 
+async def class_emoji(cls: str | None) -> str:
+    """Punkt in der genauen Klassenfarbe vor dem Namen (eigenes App-Emoji, sonst ähnliches Unicode-Emoji)."""
+    c = str(cls or "").upper()
+    if c not in rimg.CLASS_COLORS:
+        return ""
+    fallback = rimg.CLASS_FALLBACK_EMOJI.get(c, "")
+    cache = state.data.setdefault("class_emojis", {})
+    if c in cache:
+        return cache[c] or fallback
+    async with _emoji_lock:
+        if c in cache:
+            return cache[c] or fallback
+        ename = f"rm_{c.lower()}"
+        try:
+            if hasattr(bot, "fetch_application_emojis"):
+                for em in await bot.fetch_application_emojis():
+                    if em.name == ename:
+                        cache[c] = f"<:{em.name}:{em.id}>"
+                        state.save()
+                        return cache[c]
+            png = rimg.class_dot_png(c)
+            if png and hasattr(bot, "create_application_emoji"):
+                em = await bot.create_application_emoji(name=ename, image=png)
+                cache[c] = f"<:{em.name}:{em.id}>"
+            else:
+                cache[c] = None
+        except Exception as e:  # noqa: BLE001
+            log.info("Klassen-Emoji %s nicht möglich: %s", c, e)
+            cache[c] = None
+        state.save()
+        return cache[c] or fallback
+
+
+def player_class(db: dict | None, name: str) -> str | None:
+    p_ = (((db or {}).get("data") or {}).get("players") or {}).get(name)
+    return p_.get("c") if isinstance(p_, dict) else None
+
+
 def remember_tip(link: str | None, tip: dict | None, db: dict | None):
     """Tooltip für das Menü "Tooltip anzeigen" merken (auch Testdaten, die sonst nicht gespeichert sind)."""
     iid = rmd.item_id(link)
@@ -1452,7 +1490,8 @@ async def loot_line(e: dict, db: dict | None) -> str:
     url = rmd.wowhead_url(e.get("link"), WOWHEAD_FLAVOR)
     item = (tip or {}).get("n") or e["item"]
     item_txt = f"[**{item}**](<{url}>)" if url else f"**{item}**"
-    return f"{emoji} <t:{int(e['t'])}:t> **{e['name']}** erhält {item_txt} für {e['amount']} DKP"
+    dot = await class_emoji(player_class(db, e["name"]))
+    return f"{emoji} <t:{int(e['t'])}:t> {dot}**{e['name']}** erhält {item_txt} für {e['amount']} DKP"
 
 
 def tip_view(items: list[dict], db: dict | None = None) -> discord.ui.View | None:
