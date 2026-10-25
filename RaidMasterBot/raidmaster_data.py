@@ -629,7 +629,7 @@ def loot_entries(data: dict) -> list[dict]:
         for name, d in deltas.items():
             out.append({
                 "id": e.get("id"), "t": e.get("t", 0), "name": name,
-                "amount": -int(d), "item": item_name(e.get("i")), "by": e.get("by", ""),
+                "amount": -int(d), "item": item_name(e.get("i")), "link": e.get("i") or "", "by": e.get("by", ""),
                 "pool": pool, "pool_name": e.get("pn") or pool_name(pool, data),
             })
     out.sort(key=lambda x: (x["t"], str(x["id"])))
@@ -1133,3 +1133,76 @@ def format_loot_group(g: dict, prefix: str = "") -> list[str]:
     for e in g["items"]:
         lines.append(f"<t:{int(e['t'])}:t> **{e['name']}** erhält **{e['item']}** für {e['amount']} DKP")
     return split_discord("\n".join(lines))
+
+
+# ---------------------------------------------------------------------------
+# Items wie im Spiel-Tooltip (Daten aus RaidMasterDB.itemTips, gelesen vom Addon)
+# ---------------------------------------------------------------------------
+QUALITY_COLORS = {0: 0x9D9D9D, 1: 0xFFFFFF, 2: 0x1EFF00, 3: 0x0070DD, 4: 0xA335EE, 5: 0xFF8000, 6: 0xE6CC80}
+
+
+def item_id(link: str | None) -> int | None:
+    m = re.search(r"item:(\d+)", link or "")
+    return int(m.group(1)) if m else None
+
+
+def item_tip(db: dict | None, link: str | None) -> dict | None:
+    """Tooltip eines Items aus dem Upload: {'n','q','l':[(farbe, links, rechts)], 'ic'}."""
+    iid = item_id(link)
+    tips = (db or {}).get("itemTips") or {}
+    if not iid or not isinstance(tips, dict):
+        return None
+    t = tips.get(iid) or tips.get(str(iid))
+    if not isinstance(t, dict):
+        return None
+    lines = []
+    for raw in lua_list(t.get("l")):
+        parts = str(raw).split("|")
+        color = parts[0] if parts else "w"
+        lines.append((color, parts[1] if len(parts) > 1 else "", parts[2] if len(parts) > 2 else ""))
+    return {"n": t.get("n"), "q": t.get("q"), "l": lines, "ic": t.get("ic")}
+
+
+def item_color(link: str | None, tip: dict | None = None) -> int:
+    """Farbe nach Item-Qualität (aus dem Tooltip oder der Farbe im Item-Link)."""
+    if tip and isinstance(tip.get("q"), int) and tip["q"] in QUALITY_COLORS:
+        return QUALITY_COLORS[tip["q"]]
+    m = re.search(r"\|c[fF]{2}([0-9a-fA-F]{6})", link or "")
+    return int(m.group(1), 16) if m else QUALITY_COLORS[4]
+
+
+ANSI = {"g": "\u001b[0;32m", "r": "\u001b[0;31m", "y": "\u001b[0;33m", "d": "\u001b[0;30m", "w": "\u001b[0;37m"}
+
+
+def tooltip_block(tip: dict | None, width: int = 34) -> str:
+    """Tooltipzeilen als farbiger Codeblock (```ansi) – links/rechts wie im Spiel nebeneinander."""
+    if not tip or not tip.get("l"):
+        return ""
+    out = []
+    for color, left, right in tip["l"]:
+        text = left
+        if right:
+            text = (left + " " * max(1, width - len(left) - len(right)) + right) if len(left) + len(right) < width else f"{left}  {right}"
+        out.append(ANSI.get(color, ANSI["w"]) + text + "\u001b[0m")
+    block = "\n".join(out)
+    if len(block) > 3800:
+        block = block[:3800]
+    return "```ansi\n" + block + "\n```"
+
+
+def icon_name_from_hint(ic) -> str | None:
+    """Symbolname aus dem Addon, wenn es einen Pfad liefert ('Interface\\Icons\\INV_Boots_05')."""
+    if isinstance(ic, str) and ic.strip():
+        name = re.split(r"[\\/]", ic.strip())[-1]
+        name = re.sub(r"\.(blp|tga|png|jpg)$", "", name, flags=re.I)
+        return name.lower() or None
+    return None
+
+
+def icon_url(name: str | None) -> str | None:
+    return f"https://wow.zamimg.com/images/wow/icons/large/{name}.jpg" if name else None
+
+
+def wowhead_url(link: str | None, flavor: str = "classic") -> str | None:
+    iid = item_id(link)
+    return f"https://www.wowhead.com/{flavor}/item={iid}" if iid else None

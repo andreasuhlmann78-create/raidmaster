@@ -1234,6 +1234,74 @@ async def post_dkp_table(pool: str, channel_id: int, rows: list[dict]):
     state.save()
 
 
+# ---------------------------------------------------------------------------
+# Items wie im Spiel: Embed mit Qualitätsfarbe, Tooltip und echtem Spielsymbol
+# ---------------------------------------------------------------------------
+WOWHEAD_FLAVOR = "classic"
+
+
+async def item_icon(link: str | None, tip: dict | None) -> str | None:
+    """URL des Item-Symbols. Pfad vom Addon -> Name direkt, sonst einmal bei Wowhead nachschlagen
+    (Ergebnis wird gemerkt)."""
+    name = rmd.icon_name_from_hint(tip.get("ic") if tip else None)
+    if name:
+        return rmd.icon_url(name)
+    iid = rmd.item_id(link)
+    if not iid:
+        return None
+    cache = state.data.setdefault("item_icons", {})
+    if str(iid) in cache:
+        return rmd.icon_url(cache[str(iid)])
+    found = None
+    try:
+        import aiohttp
+        timeout = aiohttp.ClientTimeout(total=8)
+        async with aiohttp.ClientSession(timeout=timeout) as session:
+            for flavor in (WOWHEAD_FLAVOR, "tbc", "wotlk"):
+                async with session.get(f"https://nether.wowhead.com/{flavor}/tooltip/item/{iid}") as resp:
+                    if resp.status == 200:
+                        js = await resp.json(content_type=None)
+                        if isinstance(js, dict) and js.get("icon"):
+                            found = str(js["icon"]).lower()
+                            break
+    except Exception as e:  # noqa: BLE001
+        log.info("Item-Symbol %s nicht gefunden: %s", iid, e)
+        return None
+    cache[str(iid)] = found
+    state.save()
+    return rmd.icon_url(found)
+
+
+async def item_embed(e: dict, db: dict | None, test: bool = False) -> discord.Embed:
+    """Ein vergebenes Item als Embed wie der Tooltip im Spiel."""
+    tip = rmd.item_tip(db, e.get("link"))
+    name = (tip or {}).get("n") or e["item"]
+    emb = discord.Embed(title=name, url=rmd.wowhead_url(e.get("link"), WOWHEAD_FLAVOR),
+                        color=rmd.item_color(e.get("link"), tip))
+    desc = f"🎁 **{e['name']}** · **{e['amount']} DKP** · <t:{int(e['t'])}:t>"
+    block = rmd.tooltip_block(tip)
+    emb.description = desc + ("\n" + block if block else "")
+    icon = await item_icon(e.get("link"), tip)
+    if icon:
+        emb.set_thumbnail(url=icon)
+    emb.set_footer(text=(("TEST · " if test else "") + e.get("pool_name", "")))
+    return emb
+
+
+async def send_item_embeds(channel, items: list[dict], db: dict | None, header: str | None = None, test: bool = False) -> int:
+    """Items als Embeds senden (je Nachricht höchstens 10). Liefert die Anzahl Nachrichten."""
+    sent = 0
+    embeds = [await item_embed(e, db, test) for e in items]
+    for i in range(0, len(embeds), 10):
+        content = header if (i == 0 and header) else None
+        if test:
+            await send_test(channel, content, embeds=embeds[i:i + 10])
+        else:
+            await channel.send(content=content, embeds=embeds[i:i + 10])
+        sent += 1
+    return sent
+
+
 async def post_new_loot():
     entries = rmd.loot_entries(bot.dkp_data)
     if not entries:
@@ -1255,15 +1323,13 @@ async def post_new_loot():
         channel = await channel_by_id(raid_channel(pool, "loot") or cfg.get("loot_channel_id"))
         if not channel:
             continue
-        lines = [f"🎁 **{e['name']}** erhält **{e['item']}** für {e['amount']} DKP ({e['pool_name']})" for e in items]
-        text = ""
-        for line in lines:
-            if len(text) + len(line) > 1900:
+        try:
+            await send_item_embeds(channel, items, bot.dkp_db)
+        except discord.HTTPException as ex:
+            log.warning("Loot als Embed nicht möglich (%s) – als Text.", ex)
+            lines = [f"🎁 **{e['name']}** erhält **{e['item']}** für {e['amount']} DKP ({e['pool_name']})" for e in items]
+            for text in rmd.split_discord("\n".join(lines)):
                 await channel.send(text)
-                text = ""
-            text += line + "\n"
-        if text:
-            await channel.send(text)
 
 
 @tasks.loop(seconds=30)
@@ -1762,12 +1828,16 @@ def test_info(db: dict | None) -> dict | None:
     return t if isinstance(t, dict) and t.get("active") else None
 
 
-async def send_test(channel, text: str):
+async def send_test(channel, text: str | None, embeds: list | None = None):
     """Testnachricht senden und zum Löschen vormerken (übersteht auch einen Neustart des Bots).
     Zu lange Texte werden in Discord-taugliche Stücke geteilt (max. 2000 Zeichen)."""
-    for part in rmd.split_discord(text):
-        m = await channel.send(part)
+    if embeds:
+        m = await channel.send(content=text or None, embeds=embeds)
         state.data.setdefault("test_messages", []).append([channel.id, m.id, int(time.time()) + TEST_TTL])
+    else:
+        for part in rmd.split_discord(text or ""):
+            m = await channel.send(part)
+            state.data.setdefault("test_messages", []).append([channel.id, m.id, int(time.time()) + TEST_TTL])
     state.save()
 
 
@@ -1827,9 +1897,14 @@ async def handle_test_upload(db: dict, uploader: str):
                 await send_test(loot_ch, f"{head}\n🧪 **Loot {name}** – {sum(len(g['items']) for g in groups)} Items, nach Raid sortiert.")
                 posted += 1
             for g in groups:
-                for text in rmd.format_loot_group(g, "🧪 "):
-                    await send_test(loot_ch, text)
-                    posted += 1
+                head_line = rmd.format_loot_group(g, "🧪 ")[0].split("\n")[0]
+                try:
+                    posted += await send_item_embeds(loot_ch, g["items"], db, header=head_line, test=True)
+                except Exception as ex:  # noqa: BLE001
+                    log.warning("Test-Loot als Embed nicht möglich (%s) – als Text.", ex)
+                    for text in rmd.format_loot_group(g, "🧪 "):
+                        await send_test(loot_ch, text)
+                        posted += 1
     log.info("Testdaten von %s gepostet (%d Nachrichten, werden nach %d Min. gelöscht).", uploader, posted, TEST_TTL // 60)
     return posted
 

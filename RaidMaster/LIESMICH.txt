@@ -1,4 +1,4 @@
-RaidMaster 2.3.1 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 2.4.0 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,12 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+ITEMS IM DISCORD WIE IM SPIEL (neu in 2.4.0)
+- RaidMaster liest den Tooltip jedes Items (Werte, Rüstung, Anlegen-/Benutzen-Effekte, Set) und das Item-Symbol
+  und speichert sie. Der Bot zeigt vergebene Items im Loot-Kanal als Karte: Rahmen in der Qualitätsfarbe,
+  echtes Spielsymbol, Tooltip mit farbigen Zeilen, Gewinner und DKP. Der Itemname verlinkt auf Wowhead.
+- Gelesen wird beim Versteigern/Vergeben und nach dem Einloggen für die letzten Items. Braucht Bot 1.5.32.
 
 TEST-TOOL ÜBERSICHTLICHER (neu in 2.3.1)
 - Oben: Testmodus starten/beenden, "Ansicht als" und der Raid. Darunter vier Reiter:
