@@ -872,16 +872,24 @@ UI.AddPage("signup", L["Anmeldungen"], function(page)
 
 	local list = UI.List(page, 520, 330, {
 		{ title = L["Name"], width = 115 },
-		{ title = L["Klasse"], width = 85 },
-		{ title = L["Rolle"], width = 80 },
+		{ title = L["Klasse"], width = 75 },
+		{ title = L["Rolle"], width = 75 },
 		{ title = L["Status"], width = 90 },
-		{ title = L["Im Raid"], width = 60 },
+		{ title = L["Im Raid"], width = 95 },
 		{ title = L["Grp."], width = 40, justify = "CENTER" },
 	}, { emptyText = L["Noch nichts importiert."] })
 	Place(list, page, 0, -50)
 
 	local summary = Label(page, "", 0, -390, 11)
 	summary:SetWidth(520)
+
+	-- Lücken füllen: fehlende Tanks/Heiler/Klassen aus Ersatzbank, Gilde oder Gruppensuche
+	local gapsBtn = UI.Button(page, L["Lücken füllen ..."], 200, 28, function() if RM.Gaps then RM.Gaps.Open() end end,
+		L["Zeigt, welche Rollen und Klassen fehlen, und füllt sie per Klick:\nzuerst Angemeldete, dann passende Ersatzbank, dann Gilde, zuletzt Gruppensuche."])
+	Place(gapsBtn, page, 0, -444)
+	gapsBtn:SetAccent(true)
+	local gapsInfo = Label(page, "", 210, -451, 11, true)
+	gapsInfo:SetWidth(310)
 
 	-- rechte Spalte: Import und Aktionen
 	local rx = 540
@@ -944,6 +952,15 @@ UI.AddPage("signup", L["Anmeldungen"], function(page)
 
 	return function()
 		if RM.Test and RM.Test.active then testClearBtn:Show() else testClearBtn:Hide() end
+		if RM.Gaps then
+			local ok, plan = pcall(RM.Gaps.Plan)
+			if ok and plan then
+				gapsInfo:SetText(plan.complete and ("|cff66ff66" .. L["Aufstellung komplett"] .. "|r")
+					or ("|cffffcc00" .. L["Fehlt:"] .. "|r " .. RM.Gaps.NeedsText(plan.needs)))
+			else
+				gapsInfo:SetText("")
+			end
+		end
 		local su = RM.db.signup
 		if su then
 			info:SetText(string.format("|cffff8c1a%s|r  ·  %s  ·  importiert %s", su.title ~= "" and su.title or L["Raid"], su.date or "", RM.FormatTime(su.imported or 0)))
@@ -959,7 +976,7 @@ UI.AddPage("signup", L["Anmeldungen"], function(page)
 		local data = {}
 		for _, r in ipairs(rows) do
 			local e = r.entry
-			local group = r.inRaid and (r.online and "dabei" or "offline") or "-"
+			local group = r.inRaid and (r.online and "dabei" or "offline") or (r.state and RM.Signup.STATE_TEXT[r.state]) or "-"
 			local grp = su and su.groups and su.groups[e.name]
 			local grpText = grp and tostring(grp) or ((su and su.bench and su.bench[e.name]) and L["Bank"] or "")
 			data[#data + 1] = {
@@ -967,7 +984,9 @@ UI.AddPage("signup", L["Anmeldungen"], function(page)
 				cells = { RM.ClassColor(e.cls, e.name), ClassName(e.cls), RM.Signup.ROLE[e.role] or e.role,
 					RM.Signup.STATUS[e.status] or e.status, group, grpText },
 				colors = { nil, { 0.75, 0.75, 0.75 }, { 0.75, 0.75, 0.75 }, STATUS_COLORS[e.status],
-					r.inRaid and (r.online and { 0.4, 1, 0.4 } or { 1, 0.8, 0.3 }) or { 0.5, 0.5, 0.5 } },
+					r.inRaid and (r.online and { 0.4, 1, 0.4 } or { 1, 0.8, 0.3 })
+						or ((r.state == "notfound" or r.state == "declined" or r.state == "ingroup") and { 1, 0.4, 0.4 })
+						or (r.state == "invited" and { 0.6, 0.75, 1 }) or { 0.5, 0.5, 0.5 } },
 			}
 		end
 		list:SetData(data)
@@ -993,7 +1012,7 @@ UI.AddPage("signup", L["Anmeldungen"], function(page)
 			if su and not inviting then b:Enable() else b:Disable() end
 		end
 		if inviting then stopBtn:Enable() else stopBtn:Disable() end
-		if su and su.groups then groupBtn:Enable() else groupBtn:Disable() end
+		if next(RM.Signup.WantedGroups()) then groupBtn:Enable() else groupBtn:Disable() end
 		autoInv:Refresh()
 		autoGrp:Refresh()
 		minutes:Refresh()

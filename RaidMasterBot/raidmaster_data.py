@@ -778,6 +778,7 @@ def player_kind(s: dict) -> str:
 
 def arrange_groups(chosen: list[dict], order_key=None) -> dict:
     """Verteilt die Spieler auf Gruppen zu je 5. Liefert {"groups": [[Spieler]], "labels": ["Tanks", ...]}.
+    Main- und Offtank (die ersten beiden Tanks nach order_key) sind immer in Gruppe 1.
     Unterstützer (Schamanen bei der Horde, Paladine bei der Allianz) kommen je einer in jede
     Kampfgruppe – ihre Totems bzw. Auren wirken nur in der eigenen Gruppe."""
     key = order_key or (lambda s: s["name"].lower())
@@ -837,6 +838,12 @@ def arrange_groups(chosen: list[dict], order_key=None) -> dict:
     for kind in ("tank", "melee", "lock", "caster", "hunter"):
         idxs = [i for i, k in enumerate(plan) if k == kind]
         members = by_kind.get(kind, [])
+        if kind == "tank":
+            # Main- und Offtank (die ersten beiden Tanks) immer zusammen in Gruppe 1, weitere Tanks danach
+            for s in members:
+                if not place(s, idxs, core_cap):
+                    leftovers.append(s)
+            continue
         # gleichmäßig verteilen (z. B. 11 Nahkämpfer -> 4/4/3)
         for j, s in enumerate(members):
             if not idxs:
@@ -1181,6 +1188,8 @@ def export_text(raid: dict, tz: str, lineup: dict | None = None, link: str = "",
     lines.append(f"Start: {raid['start']}")
     if raid.get("pool"):
         lines.append(f"Topf: {raid['pool']}")
+    if raid.get("test"):
+        lines.append("Test: 1")           # Testraid mit erfundenen Namen: RaidMaster lädt nie echt ein
     if raid.get("mode") == "pug":
         lines.append("Modus: pug")
     if raid.get("max"):

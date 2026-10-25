@@ -6,6 +6,14 @@ RaidMaster Test-Werkzeug (in RaidMaster eingebaut) – RaidMaster im Spiel gefah
 - Keine eigene Installation mehr – das Test-Tool kommt mit RaidMaster (ab 2.1.0).
   Den alten Ordner Interface\AddOns\RaidMasterTest bitte löschen.
 
+LÜCKEN FÜLLEN IM TEST (neu mit RaidMaster 2.6.0)
+- Testgilde mit 9 Mitgliedern (Tank, Heil-Priester, Priester ohne bekannte Skillung, Magier, Schurke, Druide, Hexer,
+  Jäger, Krieger) – "Gilde fragen" flüstert sie an, sie antworten nach 2–4 Sek. (meist "inv").
+- "Gruppensuche posten": Fremde melden sich (passende und unpassende Klassen) – du siehst, wer eingeladen wird
+  und wer eine Absage bekommt.
+- Einladungen: "nicht gefunden" und "abgelehnt" erscheinen wie im echten Spiel in der Anmeldeliste.
+- Testraid aus Discord importieren startet den Testmodus automatisch.
+
 TESTRAID NUR AUF WUNSCH FÜLLEN (neu mit RaidMaster 2.5.2)
 - Der Testmodus startet mit einem LEEREN Testraid (nur du). Die 5 Testspieler auf der Ersatzbank sind da.
 - Füllen nur auf Wunsch: Schnellstart "Raid füllen (39 Testspieler)" (nochmal klicken = "Raid leeren"),

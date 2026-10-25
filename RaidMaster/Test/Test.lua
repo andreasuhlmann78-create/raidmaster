@@ -328,6 +328,23 @@ end
 
 local RANDOM_CLASSES = { "WARRIOR", "PRIEST", "MAGE", "ROGUE", "HUNTER", "WARLOCK", "DRUID" }
 
+-- Testgilde: Mitglieder, die online, aber nicht angemeldet sind (für "Lücken füllen" > Gilde fragen)
+-- { Name, Klasse, Skillung (Punkte) oder nil = unbekannt }
+local GUILD_FAKE = {
+	{ "Brannok", "WARRIOR", { 5, 5, 41 } }, { "Seluna", "PRIEST", { 21, 30, 0 } }, { "Mirella", "PRIEST", nil },
+	{ "Thalor", "MAGE", { 10, 0, 41 } }, { "Varis", "ROGUE", { 21, 30, 0 } }, { "Elowen", "DRUID", { 11, 0, 40 } },
+	{ "Korgath", "WARLOCK", { 0, 21, 30 } }, { "Hargrim", "HUNTER", { 0, 31, 20 } }, { "Torvik", "WARRIOR", nil },
+}
+local function GuildClass(name)
+	for _, g in ipairs(GUILD_FAKE) do if g[1] == name then return g[2] end end
+end
+-- Fremde, die sich im Test auf die Gruppensuche melden: { Name, Klasse, Flüstertext }
+local STRANGERS = {
+	{ "Kaldor", "PRIEST", "inv heal" }, { "Freyja", "SHAMAN", "inv resto" }, { "Grumbash", "WARRIOR", "inv tank" },
+	{ "Lyrana", "MAGE", "inv" }, { "Tobrin", "ROGUE", "inv" }, { "Mareike", "PALADIN", "inv holy" },
+	{ "Orrik", "WARLOCK", "inv" }, { "Zelda", "HUNTER", "inv" }, { "Bram", "DRUID", "inv heal" }, { "Ysolde", "PRIEST", "inv shadow" },
+}
+
 -- nächste Gruppe mit freiem Platz (je 5)
 local function FreeGroup()
 	local count = {}
@@ -350,18 +367,27 @@ function T.SimInvite(name)
 	T.roster = T.roster or {}
 	for _, m in ipairs(T.roster) do if m.name == name then return end end
 	local e = SignupEntry(name)
-	local roll = math.random(100)
+	local S = RM.Signup
+	if S and S.MarkInvite then S.MarkInvite(name, "invited") end
+	-- wer im Test schon zugesagt hat (Gilde, Gruppensuche), nimmt sicher an
+	local sure = RM.Gaps and ((RM.Gaps.asked[name] and RM.Gaps.asked[name].state == "yes") or RM.Gaps.answered[name])
+	local roll = sure and 100 or math.random(100)
 	if roll <= 7 then
-		C_Timer.After(1 + math.random(), function() Log(name .. " hat die Einladung abgelehnt (Test).") end)
+		C_Timer.After(1 + math.random(), function()
+			Log(name .. " hat die Einladung abgelehnt (Test).")
+			if S and S.MarkInvite then S.MarkInvite(name, "declined") end
+		end)
 		return
 	elseif roll <= 15 then
-		Log(name .. " ist offline – keine Antwort (Test).")
+		Log(name .. " ist offline – nicht gefunden (Test).")
+		if S and S.MarkInvite then S.MarkInvite(name, "notfound") end
 		return
 	end
 	C_Timer.After(1 + math.random() * 2, function()
 		if not T.active then return end
 		for _, m in ipairs(T.roster) do if m.name == name then return end end
-		local class = (e and e.class) or RANDOM_CLASSES[math.random(#RANDOM_CLASSES)]
+		local class = (e and (e.cls or e.class)) or (RM.Gaps and RM.Gaps.knownClass[name]) or (GuildClass and GuildClass(name))
+			or RANDOM_CLASSES[math.random(#RANDOM_CLASSES)]
 		local p = RM.DKP.EnsurePlayer(name, class)
 		p.d = p.d or {}
 		local pool = RM.DKP.ActivePool()
@@ -374,17 +400,22 @@ end
 
 -- Gruppen nach der Aufstellung aus Discord einteilen (ohne echtes Verschieben)
 function T.SimArrange(silent)
-	local su = RM.db.signup
-	if not su or not su.groups then
+	-- Aufstellung aus Discord, Main- und Offtank immer in Gruppe 1 (wie im echten Raid)
+	local want = RM.Signup.WantedGroups and RM.Signup.WantedGroups() or ((RM.db.signup and RM.db.signup.groups) or {})
+	if not next(want) then
 		if not silent then Log("Keine Gruppen-Aufstellung importiert (in Discord: /raid aufstellung, dann Export).") end
 		return
 	end
 	local moved = 0
 	for _, m in ipairs(T.roster or {}) do
-		local g = su.groups[m.name]
+		local g = want[m.name]
 		if g and m.group ~= g then m.group = g; moved = moved + 1 end
 	end
-	if not silent or moved > 0 then Log(string.format("Gruppen eingeteilt (Test): %d Spieler verschoben.", moved)) end
+	local mts = RM.Signup.MainTanks and RM.Signup.MainTanks() or {}
+	if not silent or moved > 0 then
+		Log(string.format("Gruppen eingeteilt (Test): %d Spieler verschoben.%s", moved,
+			#mts > 0 and (" Main-/Offtank in Gruppe 1: " .. table.concat(mts, ", ")) or ""))
+	end
 	RM.Fire("SESSION_CHANGED")
 	if T.Refresh then T.Refresh() end
 end
@@ -448,9 +479,47 @@ function T.InstallSimulations()
 	RM.SetLootThreshold = function(v)
 		Log(string.format("Plünderschwelle würde gesetzt: %s (Test).", tostring(v)))
 	end
+	local Gp = RM.Gaps
+	if Gp then
+		Gp.SimGuild = function()
+			local out = {}
+			for _, g in ipairs(GUILD_FAKE) do
+				if g[3] and RM.Spec and RM.Spec.Store and not (RM.db.specs and RM.db.specs[g[1]]) then pcall(RM.Spec.Store, g[1], g[2], g[3], "addon") end
+				out[#out + 1] = { name = g[1], class = g[2] }
+			end
+			return out
+		end
+		-- gefragte Gildenmitglieder antworten nach 2–4 Sek.: meist "inv", manchmal keine Zeit
+		Gp.SimulateAsk = function(name)
+			C_Timer.After(2 + math.random() * 2, function()
+				if not T.active then return end
+				local yes = math.random(100) <= 75
+				local msg = yes and "inv" or "sorry, heute nicht"
+				Log(name .. " flüstert: " .. msg .. " (Test)")
+				RM.SimulateEvent("CHAT_MSG_WHISPER", msg, name)
+			end)
+		end
+	end
 	if RM.Ad then
 		RM.Ad.SimulatePost = function(text, key)
 			Log("Werbung (Test, nicht gepostet) in " .. tostring(key) .. ": " .. text)
+			if Gp and Gp.Searching() then
+				-- Gruppensuche: passende und unpassende Fremde melden sich
+				local list = {}
+				for _, st in ipairs(STRANGERS) do list[#list + 1] = st end
+				for i = #list, 2, -1 do local j = math.random(i); list[i], list[j] = list[j], list[i] end
+				for i = 1, math.min(#list, 6) do
+					local st = list[i]
+					local who = st[1] .. math.random(10, 99)
+					Gp.knownClass[who] = st[2]
+					C_Timer.After(1.5 + i * 1.5, function()
+						if not T.active then return end
+						Log(who .. " (" .. st[2] .. ") flüstert: " .. st[3] .. " (Test)")
+						RM.SimulateEvent("CHAT_MSG_WHISPER", st[3], who)
+					end)
+				end
+				return
+			end
 			-- ein paar Fremde melden sich mit "inv"
 			for i = 1, math.random(2, 4) do
 				local who = ({ "Kaldor", "Freyja", "Grumbash", "Lyrana", "Tobrin", "Zuljin", "Mareike", "Orrik" })[math.random(8)] .. i
@@ -470,6 +539,12 @@ function T.RemoveSimulations()
 	if S and sim.invite then S.DoInvite, S.DoMakeRaid, S.ArrangeGroups = sim.invite, sim.makeRaid, sim.arrange end
 	if sim.lootMethod then RM.SetLootMethod, RM.SetLootThreshold = sim.lootMethod, sim.lootThreshold end
 	if RM.Ad then RM.Ad.SimulatePost = nil end
+	if RM.Gaps then
+		RM.Gaps.SimGuild, RM.Gaps.SimulateAsk = nil, nil
+		wipe(RM.Gaps.asked); wipe(RM.Gaps.answered); wipe(RM.Gaps.knownClass)
+		RM.Gaps.search, RM.Gaps.searchUntil = nil, 0
+	end
+	if RM.Signup and RM.Signup.inviteState then wipe(RM.Signup.inviteState) end
 	if RM.BossBar then RM.BossBar.SetTestTarget(nil) end
 	sim.invite, sim.lootMethod = nil, nil
 end

@@ -148,13 +148,18 @@ function Ad.CooldownLeft()
 end
 
 function Ad.Post()
+	return Ad.PostText(Ad.Build())
+end
+
+-- beliebigen Werbetext posten (auch für die Gruppensuche aus "Lücken füllen")
+function Ad.PostText(text)
 	local left = Ad.CooldownLeft()
 	if left > 0 then
 		RM.Print(string.format(L["Bitte noch %d Sekunden warten – sonst gilt es als Spam."], left))
 		return false
 	end
-	local text = Ad.Build()
-	if text == "" then return false end
+	if not text or text == "" then return false end
+	if #text > 255 then text = text:sub(1, 252) .. "..." end
 	local key = Ad.Target()
 	if Ad.SimulatePost then
 		-- Testmodus: nicht in echte Kanäle schreiben
@@ -194,6 +199,8 @@ RM.On("CHAT_MSG_WHISPER", function(msg, sender)
 	if not RM.db or not RM.db.config.adAutoInvite then return end
 	-- nur in den 30 Minuten nach der letzten Werbung
 	if Ad.lastPost == 0 or GetTime() - Ad.lastPost > 1800 then return end
+	-- Antworten auf "Lücken füllen" (Gilde gefragt, Gruppensuche) prüft RM.Gaps selbst (Klasse/Rolle)
+	if RM.Gaps and RM.Gaps.HandlesWhisper and RM.Gaps.HandlesWhisper(sender) then return end
 	local m = (msg or ""):lower():gsub("^%s+", ""):gsub("%s+$", "")
 	if not INV_WORDS[m] then return end
 	if not CanInvite() then return end

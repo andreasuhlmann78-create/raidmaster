@@ -191,7 +191,7 @@ Aufstellung in **#einteilung** und **#offiziere**:
 1. **Optimale Besetzung hat Vorrang:** Zuerst Tanks und Heiler nach Bedarf, dann wichtige Klassen,
    dann Nahkampf und Fernkampf. Die Rolle kommt aus dem Profil – und damit aus der Skillung.
 2. **Innerhalb jeder Rolle haben Stammspieler Vorrang** (⭐ = mind. 70 % der letzten 10 Raids).
-3. **Gruppe 1 = MT** mit den Tanks, danach Nahkampf-, Fernkampf- und Heilergruppen.
+3. **Gruppe 1 = Main- und Offtank** (immer zusammen, Stammspieler zuerst) mit den weiteren Tanks, danach Nahkampf-, Fernkampf- und Heilergruppen.
 4. Wer nicht hineinpasst, steht auf der **Ersatzbank**.
 
 Der Knopf **„Für RaidMaster“** exportiert Anmeldungen, Startzeit, die Gruppen und bei PUG-Raids den Einladungslink –

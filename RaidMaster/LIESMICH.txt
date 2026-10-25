@@ -1,4 +1,4 @@
-RaidMaster 2.5.2 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 2.6.0 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,35 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+LÜCKEN FÜLLEN (neu in 2.6.0)
+- Seite Anmeldungen: Knopf "Lücken füllen ..." öffnet ein Fenster. Es vergleicht den Raid (plus die Angemeldeten,
+  die noch kommen) mit der Mindestaufstellung: Tanks, Heiler nach Klasse (Priester, Paladin/Schamane, Druide) und
+  wichtige Klassen (MC: 3 Magier, 2 Hexer, 2 Jäger). Beispiel: "Fehlt: 1 Tank, 1 Heiler (Priester)".
+- Gefüllt wird per Klick, in dieser Reihenfolge:
+  1. Angemeldete einladen, die noch fehlen.
+  2. Ersatzbank (und "vielleicht") – aber nur, wer eine Lücke füllt. Ein vierter Schurke kommt nicht, wenn ein
+     Heiler fehlt.
+  3. Gilde fragen: passende Gildenmitglieder, die online und nicht angemeldet sind, werden angeflüstert.
+     Antwort "inv" = Einladung, "nein"/"sorry" = keine Zeit.
+  4. Gruppensuche posten: z. B. "[Molten Core] LFM 1 Tank, 1 Heiler (Priester) – /w Name inv + Klasse/Rolle".
+     Wer flüstert, wird geprüft: Klasse aus dem Spiel, Rolle aus dem Text ("inv heal", "inv tank").
+     Passt es, kommt die Einladung, sonst eine freundliche Absage mit dem, was noch gesucht wird.
+  5. Platzfüller: ab 5 Min. vor Raidbeginn (oder nach dem Raidstart) darf die übrige Ersatzbank freie Plätze füllen.
+- "Alles auf einmal" macht 1–3 (und 5, wenn erlaubt). Die Gruppensuche postest du selbst, wenn das nicht reicht.
+- Im Testmodus ist alles simuliert: Testgilde, Antworten auf Flüstern, Fremde auf die Gruppensuche.
+
+EINLADEN: NIE MEHR ERFUNDENE NAMEN, "NICHT GEFUNDEN" ERKANNT (neu in 2.6.0)
+- Testraids aus Discord (/raid testraid) sind markiert. Importierst du sie ohne Testmodus, startet der Testmodus
+  von selbst – die erfundenen Namen werden nie wirklich eingeladen.
+- Live: "Spieler nicht gefunden" (offline/falscher Name), "lehnt ab" und "ist bereits in einer Gruppe" werden
+  erkannt und in der Liste angezeigt (Spalte "Im Raid"). Die Auto-Einladung versucht diese Spieler erst nach
+  10 Minuten erneut.
+
+MAIN- UND OFFTANK IN GRUPPE 1 (neu in 2.6.0)
+- Main- und Offtank sind immer in Gruppe 1: in der Discord-Aufstellung und beim "Gruppen einteilen" im Spiel.
+  Erkannt werden sie an der Haupttank-Markierung im Raid, sonst an der Rolle "Tank" (Anmeldung/Skillung).
+  "Gruppen einteilen" geht jetzt auch ohne Discord-Aufstellung (dann nur die beiden Tanks nach Gruppe 1).
 
 TESTRAID NUR AUF WUNSCH FÜLLEN (neu in 2.5.2)
 - Der Testmodus startet mit leerem Testraid (nur du). Gefüllt wird nur, wenn du es willst: im Test-Fenster

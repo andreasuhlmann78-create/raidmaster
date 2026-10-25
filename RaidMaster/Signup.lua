@@ -9,11 +9,100 @@ RM.Signup = S
 S.ROLE = { tank = L["Tank"], heal = L["Heiler"], melee = L["Nahkampf"], ranged = L["Fernkampf"] }
 S.STATUS = { an = L["Angemeldet"], ersatz = L["Ersatzbank"], vielleicht = L["Vielleicht"], ab = L["Abgemeldet"] }
 
+-- Ist das ein Testraid aus Discord (/raid testraid, erfundene Namen)?
+function S.IsTestSignup(su)
+	su = su or RM.db.signup
+	return su ~= nil and (su.test == true or (type(su.title) == "string" and su.title:find("^TEST ") ~= nil))
+end
+
+local function InTestSignup(name)
+	local su = RM.db and RM.db.signup
+	if not S.IsTestSignup(su) then return false end
+	name = RM.Short(name)
+	for _, e in ipairs(su.list or {}) do if e.name == name then return true end end
+	return false
+end
+
 -- Einladen / Schlachtzug bilden (im Testmodus ersetzt das Test-Tool beides durch eine Simulation)
 function S.DoInvite(name)
+	-- Testanmeldungen (erfundene Namen) nie wirklich einladen – das geht nur im Testmodus (simuliert)
+	if InTestSignup(name) then
+		if not S.warnedTest then
+			S.warnedTest = true
+			RM.Print(L["Das sind Testanmeldungen (erfundene Namen) – sie werden nie wirklich eingeladen. Testmodus starten, dann wird das Einladen simuliert."])
+		end
+		return false
+	end
+	S.MarkInvite(name, "invited")
 	local fn = (C_PartyInfo and C_PartyInfo.InviteUnit) or InviteUnit
 	if fn then fn(name) end
 end
+
+---------------------------------------------------------------------------
+-- Antworten auf Einladungen: nicht gefunden/offline, abgelehnt, schon in einer Gruppe
+---------------------------------------------------------------------------
+S.inviteState = {}       -- Name -> { s = "invited" | "notfound" | "declined" | "ingroup", t = GetTime() }
+S.STATE_TEXT = { invited = L["eingeladen"], notfound = L["nicht gefunden"], declined = L["abgelehnt"], ingroup = L["in Gruppe"] }
+S.RETRY_AFTER = 600      -- so lange lädt die Auto-Einladung "nicht gefunden"/"abgelehnt" nicht erneut ein
+
+function S.MarkInvite(name, state)
+	if not name then return end
+	name = RM.Short(name)
+	local old = S.inviteState[name]
+	S.inviteState[name] = { s = state, t = GetTime() }
+	if not old or old.s ~= state then RM.Fire("SIGNUP_CHANGED") end
+end
+
+-- aktueller Stand einer Einladung (nil, wenn nichts bekannt oder schon lange her)
+function S.InviteState(name)
+	local st = name and S.inviteState[RM.Short(name)]
+	if not st then return nil end
+	if GetTime() - st.t > 3600 then return nil end
+	return st.s, GetTime() - st.t
+end
+
+-- lohnt sich eine (automatische) Einladung gerade nicht?
+function S.RecentlyFailed(name)
+	local st, age = S.InviteState(name)
+	return (st == "notfound" or st == "declined" or st == "ingroup") and age < S.RETRY_AFTER
+end
+
+local function Pattern(fmt)
+	if type(fmt) ~= "string" or not fmt:find("%%s") then return nil end
+	local p = fmt:gsub("([%(%)%.%+%-%*%?%[%]%^%$])", "%%%1")
+	p = p:gsub("%%%d?%%?%$?s", "(.+)")
+	return "^" .. p .. "$"
+end
+local SYSTEM_PATTERNS
+local function SystemPatterns()
+	if SYSTEM_PATTERNS then return SYSTEM_PATTERNS end
+	SYSTEM_PATTERNS = {}
+	for _, v in ipairs({ { "ERR_BAD_PLAYER_NAME_S", "notfound" }, { "ERR_PLAYER_NOT_FOUND_S", "notfound" },
+		{ "ERR_DECLINE_GROUP_S", "declined" }, { "ERR_ALREADY_IN_GROUP_S", "ingroup" }, { "ERR_INVITE_PLAYER_S", "invited" } }) do
+		local p = Pattern(_G[v[1]])
+		if p then SYSTEM_PATTERNS[#SYSTEM_PATTERNS + 1] = { p, v[2] } end
+	end
+	return SYSTEM_PATTERNS
+end
+
+function S.OnSystemMessage(msg)
+	if type(msg) ~= "string" then return end
+	for _, v in ipairs(SystemPatterns()) do
+		local name = msg:match(v[1])
+		if name then
+			name = name:gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", ""):gsub("|H[^|]+|h", ""):gsub("|h", "")
+			S.MarkInvite(name, v[2])
+			return v[2], RM.Short(name)
+		end
+	end
+end
+RM.On("CHAT_MSG_SYSTEM", function(msg) S.OnSystemMessage(msg) end)
+RM.On("GROUP_ROSTER_UPDATE", function()
+	-- wer jetzt im Raid ist, hat angenommen
+	for name, st in pairs(S.inviteState) do
+		if st.s == "invited" and RM.IsInMyRaid(name) then S.inviteState[name] = nil end
+	end
+end)
 
 function S.DoMakeRaid()
 	local fn = (C_PartyInfo and C_PartyInfo.ConvertToRaid) or ConvertToRaid
@@ -40,7 +129,8 @@ function S.Parse(text)
 		local t = line:match("^Raid:%s*(.+)$")
 		local d = line:match("^Datum:%s*(.+)$")
 		local mode = line:match("^Modus:%s*(%a+)")
-		local isSR = line:match("^SR;")   -- ältere Exporte mit Soft Reserve: ignorieren
+		local isSR = line:match("^SR;")
+		local testFlag = line:match("^Test:%s*(%d)")   -- ältere Exporte mit Soft Reserve: ignorieren
 		local gName, gNum = line:match("^GRP;([^;]+);(%d+)$")
 		local bName = line:match("^BANK;([^;]+)$")
 		local startTs = line:match("^Start:%s*(%d+)$")
@@ -48,7 +138,9 @@ function S.Parse(text)
 		local link = line:match("^Link:%s*(%S+)$")
 		local softres = line:match("^SoftRes:%s*(%S+)$")
 		local maxN = line:match("^Max:%s*(%d+)$")
-		if softres then
+		if testFlag then
+			result.test = testFlag == "1"
+		elseif softres then
 			result.softres = softres
 		elseif link then
 			result.link = link
@@ -87,7 +179,13 @@ function S.Import(text)
 	local result, err = S.Parse(text)
 	if not result then RM.Print(err) return false end
 	result.imported = GetServerTime()
+	-- Testraid aus Discord: nur im Testmodus (Einladen wird simuliert, nichts geht an echte Spieler)
+	if S.IsTestSignup(result) and RM.Test and not RM.Test.active and RM.Test.Start then
+		RM.Test.Start()
+		RM.Print(L["Testanmeldungen erkannt – der Testmodus wurde gestartet. Einladungen werden nur simuliert."])
+	end
 	RM.db.signup = result
+	S.warnedTest = nil
 	local counts = {}
 	for _, e in ipairs(result.list) do counts[e.status] = (counts[e.status] or 0) + 1 end
 	RM.Print(string.format(L["Anmeldungen für '%s' importiert: %d angemeldet, %d Ersatzbank, %d vielleicht, %d abgemeldet."],
@@ -142,7 +240,7 @@ function S.Compare()
 		for _, e in ipairs(su.list) do
 			local m = members[e.name]
 			listed[e.name] = true
-			rows[#rows + 1] = { entry = e, inRaid = m ~= nil, online = m and m.online }
+			rows[#rows + 1] = { entry = e, inRaid = m ~= nil, online = m and m.online, state = (not m) and S.InviteState(e.name) or nil }
 			if e.status == "an" and not m then missing[#missing + 1] = e.name end
 		end
 		for name in pairs(members) do
@@ -187,6 +285,13 @@ function S.IsInviting()
 	return ticker ~= nil
 end
 
+-- steht der Spieler gerade in der Einladeliste?
+function S.IsQueued(name)
+	name = RM.Short(name)
+	for _, n in ipairs(queue) do if n == name then return true end end
+	return false
+end
+
 function S.InviteAll(includeBench, silentSkip)
 	local su = RM.db.signup
 	if not su then RM.Print(L["Zuerst Anmeldungen importieren."]) return end
@@ -212,6 +317,33 @@ function S.InviteAll(includeBench, silentSkip)
 		if not silentSkip then RM.Print(L["Alle Angemeldeten sind bereits in der Gruppe."]) end
 		return 0
 	end
+	return S.StartQueue()
+end
+
+-- Bestimmte Spieler einladen (z. B. aus "Lücken füllen")
+function S.InviteNames(names)
+	if IsInGroup() and not RM.IsAssist() then RM.Print(L["Zum Einladen brauchst du Leiter- oder Assistentenrechte."]) return 0 end
+	local seen = {}
+	for _, n in ipairs(queue) do seen[n] = true end
+	local added = 0
+	for _, name in ipairs(names or {}) do
+		name = RM.Short(name)
+		if name ~= RM.Me() and not seen[name] and not RM.IsInMyRaid(name) then
+			queue[#queue + 1] = name
+			seen[name] = true
+			added = added + 1
+		end
+	end
+	if added == 0 then return 0 end
+	if ticker then
+		deadline = math.max(deadline, GetTime() + 180)
+		RM.Fire("SIGNUP_CHANGED")
+		return added
+	end
+	return S.StartQueue()
+end
+
+function S.StartQueue()
 	soloInvites = 0
 	deadline = GetTime() + 180
 	RM.Print(string.format(L["Lade %d Spieler ein ..."], #queue))
@@ -232,11 +364,77 @@ end
 local arrangeTicker
 local arrangeSteps = 0
 
+local function IsTank(name)
+	local su = RM.db.signup
+	for _, e in ipairs((su and su.list) or {}) do
+		if e.name == name and e.role and e.role ~= "" then return e.role == "tank" end
+	end
+	return RM.Spec and RM.Spec.Role(name) == "tank" or false
+end
+
+-- Main- und Offtank: Haupttank-Markierung im Raid, dann Tanks, die Discord schon in Gruppe 1 hat, dann übrige Tanks
+function S.MainTanks()
+	local su = RM.db.signup
+	local groups = su and su.groups or {}
+	local list, seen = {}, {}
+	local members = RM.RaidMembers()
+	local function add(name) if #list < 2 and not seen[name] then list[#list + 1] = name; seen[name] = true end end
+	if not (RM.Test and RM.Test.active) and GetRaidRosterInfo then
+		for _, m in ipairs(members) do
+			local ok, role = pcall(function() return select(10, GetRaidRosterInfo(m.index)) end)
+			if ok and role == "MAINTANK" then add(m.name) end
+		end
+	end
+	local tanks = {}
+	for _, m in ipairs(members) do if IsTank(m.name) then tanks[#tanks + 1] = m.name end end
+	table.sort(tanks, function(a, b)
+		local x, y = groups[a] == 1 and 0 or 1, groups[b] == 1 and 0 or 1
+		if x ~= y then return x < y end
+		return a < b
+	end)
+	for _, n in ipairs(tanks) do add(n) end
+	return list
+end
+
+-- Wunschgruppen: Aufstellung aus Discord, Main- und Offtank immer in Gruppe 1
+function S.WantedGroups()
+	local su = RM.db.signup
+	local want = {}
+	for n, g in pairs((su and su.groups) or {}) do want[n] = g end
+	local mts = S.MainTanks()
+	local isMT = {}
+	for _, n in ipairs(mts) do isMT[n] = true end
+	for _, n in ipairs(mts) do
+		if want[n] ~= 1 then
+			local old = want[n]
+			local inOne, victim = 0, nil
+			local names = {}
+			for o, g in pairs(want) do if g == 1 then names[#names + 1] = o end end
+			table.sort(names)
+			for _, o in ipairs(names) do
+				inOne = inOne + 1
+				-- Platz machen: lieber ein Nicht-Tank als ein weiterer Tank
+				if not isMT[o] and (not victim or (IsTank(victim) and not IsTank(o))) then victim = o end
+			end
+			if inOne >= 5 and victim then
+				if not old then
+					local count = {}
+					for _, g in pairs(want) do count[g] = (count[g] or 0) + 1 end
+					old = 8
+					for g = 2, 8 do if (count[g] or 0) < 5 then old = g break end end
+				end
+				want[victim] = old
+			end
+			want[n] = 1
+		end
+	end
+	return want
+end
+
 -- Ein Schritt: einen Spieler in seine Gruppe setzen oder tauschen. true = etwas getan
 function S.ArrangeStep()
-	local su = RM.db.signup
-	local want = su and su.groups
-	if not want or not RM.InRaid() or not RM.IsAssist() then return false end
+	local want = S.WantedGroups()
+	if not next(want) or not RM.InRaid() or not RM.IsAssist() then return false end
 	if InCombatLockdown and InCombatLockdown() then return false end
 	local cur, count, index = {}, {}, {}
 	for i = 1, GetNumGroupMembers() do
@@ -267,8 +465,7 @@ function S.ArrangeStep()
 end
 
 function S.ArrangeGroups(silent)
-	local su = RM.db.signup
-	if not su or not su.groups then
+	if not next(S.WantedGroups()) then
 		if not silent then RM.Print(L["Keine Gruppen-Aufstellung importiert (in Discord: /raid aufstellung, dann Export)."]) end
 		return
 	end
@@ -293,7 +490,7 @@ end
 local lastArrange = 0
 RM.On("GROUP_ROSTER_UPDATE", function()
 	if not RM.db or not RM.db.config.autoGroups or arrangeTicker then return end
-	if not RM.db.signup or not RM.db.signup.groups then return end
+	if not next(S.WantedGroups()) then return end
 	if not RM.InRaid() or not RM.IsAssist() then return end
 	local now = GetTime()
 	if now - lastArrange < 2 then return end
@@ -327,6 +524,8 @@ C_Timer.NewTicker(20, function()
 	local now = GetTime()
 	local skip = {}
 	for name, t in pairs(lastTry) do if now - t < 120 then skip[name] = true end end
+	-- nicht gefunden / offline / abgelehnt: erst nach 10 Min. wieder versuchen
+	for _, e in ipairs(su.list or {}) do if S.RecentlyFailed(e.name) then skip[e.name] = true end end
 	local first = not su.autoInvited
 	local n = S.InviteAll(false, skip)
 	if n and n > 0 then
