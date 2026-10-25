@@ -1,9 +1,15 @@
-RaidMaster Test 1.7.1 – RaidMaster im Spiel gefahrlos ausprobieren
+RaidMaster Test 1.7.2 – RaidMaster im Spiel gefahrlos ausprobieren
 ==================================================================
 
 INSTALLATION
 - Den Ordner "RaidMasterTest" neben "RaidMaster" in ...\Interface\AddOns\ kopieren (RaidMaster ab 2.0.0).
 - Öffnen mit /rmtest. Nur für dich als Raidleitung/Offizier gedacht – die Gilde braucht es nicht.
+
+TEMPO (neu in 1.7.2)
+- "Dauer je Versteigerung" im Test-Fenster (neben "Automatisch versteigern"): 5, 8, 10, 15, 20 oder 30 Sek.
+  Klick schaltet zum nächsten Wert. Standard: 8 Sek. Die Wahl wird gespeichert.
+- Die Testspieler bieten entsprechend schneller, die Pausen zwischen Bossen und Vergaben werden kürzer.
+- Gilt nur im Testmodus – beim Beenden kommt deine echte Versteigerungsdauer zurück.
 
 TESTMODUS
 - "Testmodus starten": deine DKP-, Raid- und Lootdaten werden gesichert. Es wird ein Testraid mit 40 Spielern

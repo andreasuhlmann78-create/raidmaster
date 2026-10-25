@@ -70,6 +70,37 @@ local function Copy(v)
 end
 
 ---------------------------------------------------------------------------
+-- Tempo: wie lange eine Test-Versteigerung läuft (gespeichert in RaidMasterTestOptions)
+---------------------------------------------------------------------------
+T.SPEEDS = { 5, 8, 10, 15, 20, 30 }
+function T.AuctionSec()
+	local o = RaidMasterTestOptions
+	local v = type(o) == "table" and tonumber(o.auctionSec)
+	return v or 8
+end
+-- kurze Pausen zwischen den Schritten passend zum Tempo (schnell = kürzer)
+local function Pause(sec)
+	return sec * math.min(1, T.AuctionSec() / 20)
+end
+-- im Testmodus die Versteigerungsdauer von RaidMaster setzen (echte Einstellung kommt beim Beenden zurück)
+-- Gebote möglichst vor den letzten 5 Sekunden, damit der Schutz gegen Last-Second-Gebote nicht verlängert
+function T.BidWindow()
+	local d = T.AuctionSec()
+	return math.max(d * 0.5, d - 5.5)
+end
+function T.ApplySpeed()
+	if T.active and RM.db and RM.db.data and RM.db.data.settings then
+		RM.db.data.settings.auctionTime = T.AuctionSec()
+	end
+end
+function T.SetAuctionSec(v)
+	if type(RaidMasterTestOptions) ~= "table" then RaidMasterTestOptions = {} end
+	RaidMasterTestOptions.auctionSec = tonumber(v) or 8
+	T.ApplySpeed()
+	Log(string.format("Test-Versteigerungen dauern jetzt %d Sek.", T.AuctionSec()))
+end
+
+---------------------------------------------------------------------------
 -- Testmodus: Daten sichern, RaidMaster-Funktionen umleiten
 ---------------------------------------------------------------------------
 local saved = {}
@@ -136,6 +167,7 @@ function T.Start()
 	T.blocked = 0
 	-- Markierung für den Discord-Bot: Daten aus dem Testmodus nie als echte DKP übernehmen
 	RM.db.testMode = { active = true, started = GetServerTime(), pool = T.pool }
+	T.ApplySpeed()
 	Log("Testmodus AN – Daten gesichert, keine Nachrichten an Gilde/Raid. Testraid mit " .. #FAKE + 1 .. " Spielern (MC-Aufstellung) und " .. #BENCH .. " auf der Ersatzbank.")
 	RM.Fire("SESSION_CHANGED"); RM.Fire("DATA_CHANGED")
 end
@@ -275,13 +307,15 @@ function T.Auction(link)
 	if not link or not link:find("item:") then
 		link = select(2, (RM.GetItemInfo or GetItemInfo)(6948)) or "|cffffffff|Hitem:6948::::::::60:::::|h[Ruhestein]|h|r"
 	end
+	T.ApplySpeed()
 	RM.Auction.Start(link)
 	if not RM.Auction.current then Log("Versteigerung konnte nicht starten.") return end
 	Log("Versteigerung gestartet: " .. link .. " – Testspieler bieten gleich.")
 	local amounts = { 10, 15, 25, 30 }
+	local step = math.min(2, math.max(0.4, (T.BidWindow() - 0.5) / #amounts))
 	for i, amount in ipairs(amounts) do
 		local who = FAKE[(i % #FAKE) + 1][1]
-		C_Timer.After(2 + i * 2, function()
+		C_Timer.After(0.5 + i * step, function()
 			local ok, err = RM.Auction.ReceiveBid(who, amount, "")
 			Log(who .. " bietet " .. amount .. " DKP" .. (ok and "" or (" – abgelehnt: " .. tostring(err))))
 		end)
@@ -380,11 +414,13 @@ local function AddFakeBids(c)
 	for _, f in ipairs(FAKE) do bidders[#bidders + 1] = f[1] end
 	local count = math.random(2, 4)
 	local amount = c.min
+	-- Gebote gleichmäßig auf den Anfang der Versteigerung verteilen
+	local step = math.min(1.5, math.max(0.4, (T.BidWindow() - 0.5) / count))
 	for i = 1, count do
 		local who = table.remove(bidders, math.random(#bidders))
 		amount = amount + math.random(0, 3) * (c.inc or 5)
 		local a = amount
-		C_Timer.After(1 + i * 1.5, function()
+		C_Timer.After(0.5 + i * step, function()
 			if RM.Auction.current == c and not c.finished then
 				local have = RM.DKP.Get(who, c.pool)
 				local bid = math.min(a, have)
@@ -418,7 +454,7 @@ local function RunStep()
 		else
 			RM.Auction.current = nil
 		end
-		run.waitUntil = now + 1.5
+		run.waitUntil = now + Pause(1.5)
 		return
 	end
 	-- läuft eine Versteigerung (von dir gestartet), bieten die Testspieler mit
@@ -446,7 +482,6 @@ local function RunStep()
 		Log(string.format("Raid-Durchlauf fertig: %d Bosse, %d Items versteigert, %d nach Regel verteilt.", #run.def.bosses, #run.awarded, run.other))
 		for _, a in ipairs(run.awarded) do Log("  " .. a) end
 		Log("Alles im Testmodus – 'Testmodus beenden' setzt deine echten Daten zurück.")
-		RM.db.data.settings.auctionTime = run.oldTime
 		run.ticker:Cancel()
 		run = nil
 		if T.series and T.series.left > 0 then
@@ -477,7 +512,7 @@ local function RunStep()
 		if #picked == 0 then Log("  (keine Beute bekannt oder noch nicht vom Server geladen)") end
 		for _, id in ipairs(picked) do HandleItem(id, boss.name) end
 	end
-	run.waitUntil = now + 2
+	run.waitUntil = now + Pause(2)
 end
 
 -- Mehrere Raidabende hintereinander: auf Wunsch je eine Woche auseinander datiert
@@ -526,9 +561,8 @@ function T.RunRaid()
 		for _, b in ipairs(loot) do for _, id in ipairs(b.i) do ItemInfo(id) end end
 		for _, id in ipairs(loot.trash or {}) do ItemInfo(id) end
 	end
-	run = { def = def, loot = loot, index = 0, queue = {}, awarded = {}, other = 0, waitUntil = GetTime() + 2,
-		oldTime = RM.db.data.settings.auctionTime }
-	RM.db.data.settings.auctionTime = T.autoAuction and 10 or 20      -- im Test schneller versteigern
+	run = { def = def, loot = loot, index = 0, queue = {}, awarded = {}, other = 0, waitUntil = GetTime() + 2 }
+	T.ApplySpeed()      -- Tempo aus dem Test-Fenster (Dauer der Versteigerungen)
 	-- Vergaben mitschreiben (egal ob du oder der automatische Durchlauf "Vergeben" klickt)
 	local origAward = RM.Auction.Award
 	run.origAward = origAward
@@ -544,7 +578,7 @@ function T.RunRaid()
 	if not RM.db.session.active then RM.Raid.Start() end
 	Log("Raid-Durchlauf gestartet: " .. def.name .. " (" .. #def.bosses .. " Bosse)" ..
 		(loot and ", Beute aus der Beutetabelle" or ", keine Beutetabelle für diesen Raid (nur Classic/TBC/Wrath)") ..
-		". Versteigerungen laufen je 10 Sek.")
+		". Versteigerungen laufen je " .. T.AuctionSec() .. " Sek.")
 	run.ticker = C_Timer.NewTicker(0.5, RunStep)
 	if T.Refresh then T.Refresh() end
 end
@@ -560,7 +594,6 @@ function T.StopRun()
 	wipe(RM.Auction.queue)
 	RM.Fire("AUCTION_CHANGED")
 	if RM.Auction.HideAward then RM.Auction.HideAward() end
-	RM.db.data.settings.auctionTime = run.oldTime
 	run = nil
 	Log("Raid-Durchlauf abgebrochen.")
 end
@@ -705,11 +738,19 @@ local function CreateWindow()
 	trashBtn:SetPoint("LEFT", runBtn, "RIGHT", 8, 0)
 	local stopRunBtn = UI.Button(f, "Durchlauf abbrechen", 160, 26, function() T.StopRun() end)
 	stopRunBtn:SetPoint("LEFT", trashBtn, "RIGHT", 8, 0)
-	local autoCheck = UI.Check(f, "Versteigerungen automatisch (schneller Durchlauf ohne Klicken)", function() return T.autoAuction end,
+	local autoCheck = UI.Check(f, "Automatisch versteigern (ohne Klicken)", function() return T.autoAuction end,
 		function(v) T.autoAuction = v end,
 		"Aus (Standard): die Beute liegt in der Warteschlange, du startest jede Versteigerung selbst und klickst \"Vergeben\".\n"
 		.. "An: der Durchlauf versteigert und vergibt alles von selbst.")
 	autoCheck:SetPoint("TOPLEFT", 14, -290)
+	local speedLabel = UI.Text(f, "Dauer je Versteigerung:", 12)
+	speedLabel:SetPoint("TOPLEFT", 290, -295)
+	local speedOpts = {}
+	for _, v in ipairs(T.SPEEDS) do speedOpts[#speedOpts + 1] = { v, v .. " Sek." } end
+	local speed = UI.Cycle(f, 90, speedOpts, function() return T.AuctionSec() end, function(v) T.SetAuctionSec(v) end,
+		"Wie lange jede Versteigerung im Test läuft (Klick = nächster Wert). Die Testspieler bieten entsprechend schneller.\n"
+		.. "Gilt nur im Testmodus – beim Beenden kommt deine echte Einstellung zurück.")
+	speed:SetPoint("TOPLEFT", 450, -290)
 	local runsLabel = UI.Text(f, "Raidabende hintereinander:", 12)
 	runsLabel:SetPoint("TOPLEFT", 16, -323)
 	local runsBox = UI.EditBox(f, 44, 24)
