@@ -18,20 +18,6 @@ local T = { active = false, role = "officer", log = {}, integrated = true }
 RaidMasterTest = T
 RM.Test = T
 
--- Früher gab es das Test-Tool als eigenes Addon "RaidMasterTest" – das alte wird abgeschaltet
-do
-	RM.On("PLAYER_LOGIN", function()
-		local loaded = (C_AddOns and C_AddOns.IsAddOnLoaded and C_AddOns.IsAddOnLoaded("RaidMasterTest"))
-			or (IsAddOnLoaded and IsAddOnLoaded("RaidMasterTest"))
-		if loaded then
-			local disable = (C_AddOns and C_AddOns.DisableAddOn) or DisableAddOn
-			if disable then pcall(disable, "RaidMasterTest") end
-			print("|cffff8c1a[RaidMaster]|r Das Test-Tool ist jetzt in RaidMaster eingebaut. Das alte Addon \"RaidMasterTest\" "
-				.. "wurde abgeschaltet – bitte einmal /reload und den Ordner Interface\\AddOns\\RaidMasterTest löschen.")
-		end
-	end)
-end
-
 -- Testraid: 39 Testspieler + du = 40, aufgestellt wie für Molten Core üblich:
 -- 4 Tanks, 6 Furor-Krieger, 6 Priester (5 Heilig, 1 Schatten), 5 Paladine (Allianz) bzw. Schamanen (Horde),
 -- 3 Druiden (2 Wiederherstellung, 1 Wildheit), 4 Schurken, 5 Frostmagier (Entfluchen bei Lucifron, Feuer ist
@@ -153,7 +139,22 @@ end
 -- Testmodus: Daten sichern, RaidMaster-Funktionen umleiten
 ---------------------------------------------------------------------------
 local saved = {}
+-- echte RaidMaster-Funktionen beim Laden merken: "Testmodus beenden" stellt immer genau diese wieder her
+-- (auch wenn ein anderes Addon, z. B. das alte RaidMasterTest, sie zwischendurch ersetzt hat)
+local REAL = {}
 local OVERRIDE = { "InRaid", "RaidMembers", "IsAssist", "IsLeader", "CanEdit", "SendAddonMessage", "RaidChat", "Announce", "Whisper", "IAmMasterLooter", "MasterLooterName" }
+
+local function CaptureReal()
+	if REAL.captured then return end
+	for _, k in ipairs(OVERRIDE) do REAL[k] = RM[k] end
+	REAL.Deliver = RM.Loot and RM.Loot.Deliver
+	REAL.Ensure = RM.Loot and RM.Loot.EnsureSettings
+	REAL.Warn = RM.Loot and RM.Loot.Warn
+	REAL.CheckMainLeader = RM.CheckMainLeader
+	REAL.RaidStart, REAL.RaidEnd = RM.Raid.Start, RM.Raid.End
+	REAL.captured = true
+end
+CaptureReal()   -- Test.lua lädt als letzte Datei von RaidMaster, alles ist schon da
 
 local function FakeMembers()
 	local list = { { name = RM.Me(), class = select(2, UnitClass("player")), online = true, rank = 2, index = 1, group = 1 } }
@@ -163,22 +164,23 @@ end
 
 function T.Start()
 	if T.active then return end
+	CaptureReal()
 	local db = RM.db
 	BuildFake()
 	T.pool = T.pool or RM.DKP.ActivePool()
 	db.specs = db.specs or {}
 	RaidMasterTestDB = { data = Copy(db.data), session = Copy(db.session), trade = Copy(db.trade), config = Copy(db.config), specs = Copy(db.specs) }
-	for _, k in ipairs(OVERRIDE) do saved[k] = RM[k] end
-	saved.Deliver = RM.Loot and RM.Loot.Deliver
-	saved.Ensure = RM.Loot and RM.Loot.EnsureSettings
-	saved.Warn = RM.Loot and RM.Loot.Warn
-	saved.CheckMainLeader = RM.CheckMainLeader
+	for _, k in ipairs(OVERRIDE) do saved[k] = REAL[k] end
+	saved.Deliver = REAL.Deliver
+	saved.Ensure = REAL.Ensure
+	saved.Warn = REAL.Warn
+	saved.CheckMainLeader = REAL.CheckMainLeader
 	-- im Testraid nichts an der echten Gruppe ändern (Plündermethode, Raidleiter)
 	if RM.Loot and RM.Loot.EnsureSettings then RM.Loot.EnsureSettings = function() end end
 	if RM.Loot and RM.Loot.Warn then RM.Loot.Warn = function() end end
 	if RM.CheckMainLeader then RM.CheckMainLeader = function() end end
 	-- Raid starten/beenden in RaidMaster steuert den Test-Durchlauf
-	saved.RaidStart, saved.RaidEnd = RM.Raid.Start, RM.Raid.End
+	saved.RaidStart, saved.RaidEnd = REAL.RaidStart, REAL.RaidEnd
 	RM.Raid.Start = function(...)
 		-- "Raid starten" in RaidMaster hat Vorrang: alles, was das Test-Tool gerade macht, wird abgebrochen
 		if T.active and not T.manualStart then T.Override("Raid starten") end
@@ -412,6 +414,8 @@ loader:SetScript("OnEvent", function()
 		print("|cffff8c1a[RM-Test]|r Testdaten vom letzten Mal entfernt – deine echten Daten sind wiederhergestellt.")
 	end
 end)
+
+function T.RoleName() return ROLE_NAMES[T.role] or "?" end
 
 function T.SetRole(role)
 	T.role = role
@@ -1034,13 +1038,14 @@ function T.Toggle()
 end
 
 SLASH_RAIDMASTERTEST1 = "/rmtest"
-SlashCmdList["RAIDMASTERTEST"] = function(msg)
+function T.Slash(msg)
 	msg = (msg or ""):lower()
 	if msg == "start" then T.Start()
 	elseif msg == "stop" or msg == "ende" then T.StopAsk()
 	elseif msg == "check" or msg == "selbsttest" then T.SelfTest(); if not (win and win:IsShown()) then print((T.selfTest or ""):gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", "")) end
 	else T.Toggle() end
 end
+SlashCmdList["RAIDMASTERTEST"] = T.Slash
 
 -- Diagnose von RaidMaster: Zustand des Test-Durchlaufs anzeigen und Hänger lösen
 if RM.Diag then
@@ -1069,6 +1074,38 @@ if RM.Diag then
 				run.ticker = C_Timer.NewTicker(0.5, RunStep)
 				return { "Test-Durchlauf neu angestoßen." }
 			end
+		end
+	end)
+end
+
+-- Früher gab es das Test-Tool als eigenes Addon "RaidMasterTest" – das alte wird abgeschaltet
+do
+	RM.On("PLAYER_LOGIN", function()
+		local loaded = (C_AddOns and C_AddOns.IsAddOnLoaded and C_AddOns.IsAddOnLoaded("RaidMasterTest"))
+			or (IsAddOnLoaded and IsAddOnLoaded("RaidMasterTest"))
+		if loaded or (RaidMasterTest and RaidMasterTest ~= T) then
+			-- das alte Addon hat sich beim Laden über das eingebaute gelegt: stoppen und stilllegen
+			local old = RaidMasterTest
+			if old and old ~= T then
+				if old.active and old.Stop then pcall(old.Stop) end
+				for k, v in pairs(old) do
+					if type(v) == "function" then
+						old[k] = function() print("|cffff8c1a[RaidMaster]|r Altes RaidMasterTest ist abgeschaltet – bitte /reload.") end
+					end
+				end
+				old.active = false
+				RaidMasterTest = T
+			end
+			SlashCmdList["RAIDMASTERTEST"] = T.Slash
+			-- falls das alte Addon RaidMaster-Funktionen umgebogen hat: echte wiederherstellen
+			if not T.active and REAL.captured then
+				for _, k in ipairs(OVERRIDE) do RM[k] = REAL[k] end
+			end
+			RM.Fire("CONFIG_CHANGED"); RM.Fire("SESSION_CHANGED")
+			local disable = (C_AddOns and C_AddOns.DisableAddOn) or DisableAddOn
+			if disable then pcall(disable, "RaidMasterTest") end
+			print("|cffff8c1a[RaidMaster]|r Das Test-Tool ist jetzt in RaidMaster eingebaut. Das alte Addon \"RaidMasterTest\" "
+				.. "wurde abgeschaltet – bitte einmal /reload und den Ordner Interface\\AddOns\\RaidMasterTest löschen.")
 		end
 	end)
 end

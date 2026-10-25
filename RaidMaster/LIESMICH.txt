@@ -1,4 +1,4 @@
-RaidMaster 2.1.0 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 2.1.1 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,12 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+TESTMODUS SICHTBAR, RECHTE SICHER ZURÜCK (neu in 2.1.1)
+- Im Testmodus steht oben im RaidMaster-Fenster rot "TESTMODUS – Ansicht als ..." und der Knopf heißt "Test AN".
+  Bei "Raidmitglied" steht dabei, dass du ohne Rechte bist – im Test-Tool auf "Offizier" umstellen.
+- "Testmodus beenden" stellt immer deine echten Rechte wieder her, auch wenn das alte Addon RaidMasterTest
+  noch geladen war. Das alte Addon wird beim Einloggen sofort stillgelegt und abgeschaltet.
 
 TEST-WERKZEUG EINGEBAUT (neu in 2.1.0)
 - Das Test-Tool ist jetzt fester Teil von RaidMaster – kein eigenes Addon mehr.

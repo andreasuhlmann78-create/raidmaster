@@ -953,7 +953,19 @@ local function CreateMain()
 		L["Test-Werkzeug: RaidMaster gefahrlos ausprobieren (Testraid, Versteigerungen, Discord). Deine echten Daten werden gesichert."])
 	testBtn:SetPoint("RIGHT", diag, "LEFT", -6, 0)
 	local function TestVisible()
-		if RM.Test and (RM.Test.active or RM.IsOfficer(RM.Me()) or RM.CanEdit()) then testBtn:Show() else testBtn:Hide() end
+		local T = RM.Test
+		if T and (T.active or RM.IsOfficer(RM.Me()) or RM.CanEdit()) then testBtn:Show() else testBtn:Hide() end
+		-- im Testmodus deutlich anzeigen, in welcher Ansicht du gerade bist (z. B. Raidmitglied = ohne Rechte)
+		if T and T.active then
+			sub:SetText("|cffff5544" .. L["TESTMODUS"] .. "|r – " .. string.format(L["Ansicht als %s"], T.RoleName and T.RoleName() or "?")
+				.. (T.role == "member" and (" |cffffaa33(" .. L["ohne Rechte – im Test auf Offizier umstellen"] .. ")|r") or ""))
+			testBtn:SetText(L["Test AN"])
+			testBtn:SetAccent(true)
+		else
+			sub:SetText(L["DKP · Loot · Raidleitung"])
+			testBtn:SetText(L["Test"])
+			testBtn:SetAccent(false)
+		end
 	end
 	f:HookScript("OnShow", TestVisible)
 	RM.Listen("SESSION_CHANGED", TestVisible)

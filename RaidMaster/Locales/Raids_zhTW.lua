@@ -4949,3 +4949,7 @@ L["Geht wie bei keinen Geboten an Entzauberer bzw. Gildenbank (Einstellung auf d
 L["Das Item kommt wieder vorne in die Warteschlange."] = "物品回到佇列最前面。"
 L["Test"] = "測試"
 L["Test-Werkzeug: RaidMaster gefahrlos ausprobieren (Testraid, Versteigerungen, Discord). Deine echten Daten werden gesichert."] = "測試工具：安全試用 RaidMaster（測試團隊、拍賣、Discord）。你的真實資料會被備份。"
+L["TESTMODUS"] = "測試模式"
+L["Ansicht als %s"] = "以%s視角"
+L["ohne Rechte – im Test auf Offizier umstellen"] = "無權限 – 在測試工具中切換為幹部"
+L["Test AN"] = "測試 開"

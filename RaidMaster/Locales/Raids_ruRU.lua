@@ -4949,3 +4949,7 @@ L["Geht wie bei keinen Geboten an Entzauberer bzw. Gildenbank (Einstellung auf d
 L["Das Item kommt wieder vorne in die Warteschlange."] = "Предмет возвращается в начало очереди."
 L["Test"] = "Тест"
 L["Test-Werkzeug: RaidMaster gefahrlos ausprobieren (Testraid, Versteigerungen, Discord). Deine echten Daten werden gesichert."] = "Инструмент тестирования: безопасно опробовать RaidMaster (тестовый рейд, аукционы, Discord). Твои настоящие данные сохраняются."
+L["TESTMODUS"] = "ТЕСТОВЫЙ РЕЖИМ"
+L["Ansicht als %s"] = "Вид: %s"
+L["ohne Rechte – im Test auf Offizier umstellen"] = "без прав – переключи на «Офицер» в инструменте тестирования"
+L["Test AN"] = "Тест ВКЛ"
