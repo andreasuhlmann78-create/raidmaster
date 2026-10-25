@@ -4967,3 +4967,5 @@ L["Versteigerungen führt nur der Plündermeister oder der Raidleiter durch."] =
 L["eingeschränkt – im Test auf Raidleiter umstellen"] = "limité – passe en chef de raid dans l'outil de test"
 L["Assistent: "] = "Assistant : "
 L["Volle Rechte hat der Raidleiter des aktuellen Raids. Der Plündermeister darf versteigern, Assistenten z. B. markieren."] = "Les droits complets appartiennent au chef du raid en cours. Le maître du butin peut lancer les enchères, les assistants p. ex. marquer."
+L["|cffffd200Plündermeister|r"] = "|cffffd200Maître du butin|r"
+L["nicht Raidleiter"] = "pas chef de raid"

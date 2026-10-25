@@ -1,4 +1,4 @@
-RaidMaster 2.2.0 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 2.2.1 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -11,6 +11,12 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+ALLEIN = EIGENER RAIDLEITER (neu in 2.2.1)
+- Ohne Gruppe bist du dein eigener Raidleiter: volle Rechte und alle Seiten auf deinem Client.
+  Andere übernehmen deine Daten trotzdem nur, wenn du Raidleiter ihres Raids bist oder einen Offiziersrang hast.
+- Der Knopf "Test" ist jetzt für alle sichtbar (Testen ist gefahrlos, deine Daten werden gesichert).
+- Unten in der Statusleiste steht, warum du nur Ansicht hast ("nicht Raidleiter") oder ob du Plündermeister bist.
+
 RECHTE IM RAID (neu in 2.2.0)
 - Raidleiter: immer voller Zugang – alle Seiten, Raid starten/beenden, DKP, Versteigerung, Einstellungen.
 - Plündermeister (wenn er nicht der Raidleiter ist): sieht nur DKP-Stände, Versteigerung und Loot.
@@ -19,7 +25,6 @@ RECHTE IM RAID (neu in 2.2.0)
 - Assistenten: Raid-Seiten und Symbolleiste (z. B. Mobs markieren), keine DKP-Rechte.
 - Raidmitglieder: DKP-Stände und Versteigerung (bieten).
 - Im Raid zählt der Gildenrang für deine eigenen Rechte nicht mehr (keine Offiziere im Raid).
-  Ohne Gruppe gelten weiter die "Offiziersränge bis Index" (z. B. für DKP-Korrekturen zu Hause).
 - Die Sonderrechte für "Rokan Steinwacht" aus 2.1.2 sind wieder entfernt.
 - Test-Tool: Ansichten Raidmitglied / Assistent / Plündermeister / Raidleiter.
 

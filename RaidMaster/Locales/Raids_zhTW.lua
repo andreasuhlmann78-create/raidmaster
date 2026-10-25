@@ -4967,3 +4967,5 @@ L["Versteigerungen führt nur der Plündermeister oder der Raidleiter durch."] =
 L["eingeschränkt – im Test auf Raidleiter umstellen"] = "受限 – 在測試工具中切換為團長"
 L["Assistent: "] = "助理："
 L["Volle Rechte hat der Raidleiter des aktuellen Raids. Der Plündermeister darf versteigern, Assistenten z. B. markieren."] = "完整權限屬於目前團隊的團長。拾取者可以拍賣，助理可以例如標記目標。"
+L["|cffffd200Plündermeister|r"] = "|cffffd200拾取者|r"
+L["nicht Raidleiter"] = "不是團長"

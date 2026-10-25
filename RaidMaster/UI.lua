@@ -779,7 +779,8 @@ local function UpdateStatus()
 	local data = RM.db.data
 	local parts = {}
 	parts[#parts + 1] = L["Datenstand: "] .. (data.version > 0 and RM.FormatTime(math.min(data.version, GetServerTime())) or "leer")
-	parts[#parts + 1] = RM.CanEdit() and L["|cff40ff40Volle Rechte|r"] or L["Nur Ansicht"]
+	parts[#parts + 1] = RM.CanEdit() and L["|cff40ff40Volle Rechte|r"]
+		or (RM.CanLoot() and L["|cffffd200Plündermeister|r"]) or (L["Nur Ansicht"] .. " (" .. L["nicht Raidleiter"] .. ")")
 	if RM.db.session.active then
 		parts[#parts + 1] = L["|cffff8c1aRaid aktiv seit "] .. date("%H:%M", RM.db.session.started) .. "|r"
 	end
@@ -952,7 +953,7 @@ local function CreateMain()
 	local diag = UI.Button(titleBar, L["Diagnose"], 90, 22, function() if RM.Diag then RM.Diag.Toggle() end end,
 		L["Zeigt Fehler und Hänger (z. B. eine Versteigerung, die auf die Vergabe wartet) und kann sie lösen."])
 	diag:SetPoint("RIGHT", close, "LEFT", -8, 0)
-	-- Test-Werkzeug (nur für Offiziere/Raidleitung sichtbar, oder solange der Testmodus läuft)
+	-- Test-Werkzeug (für alle sichtbar)
 	local testBtn = UI.Button(titleBar, L["Test"], 70, 22, function() if RM.Test then RM.Test.Toggle() end end,
 		L["Test-Werkzeug: RaidMaster gefahrlos ausprobieren (Testraid, Versteigerungen, Discord). Deine echten Daten werden gesichert."])
 	testBtn:SetPoint("RIGHT", diag, "LEFT", -6, 0)
@@ -965,7 +966,8 @@ local function CreateMain()
 	rightsBtn:Hide()
 	local function TestVisible()
 		local T = RM.Test
-		if T and (T.active or RM.IsOfficer(RM.Me()) or RM.CanEdit()) then testBtn:Show() else testBtn:Hide() end
+		-- Testen ist für jeden gefahrlos (Daten werden gesichert) – Knopf immer sichtbar
+		if T then testBtn:Show() else testBtn:Hide() end
 		-- im Testmodus deutlich anzeigen, in welcher Ansicht du gerade bist (z. B. Raidmitglied = ohne Rechte)
 		if T and T.active then
 			sub:SetText("|cffff5544" .. L["TESTMODUS"] .. "|r – " .. string.format(L["Ansicht als %s"], T.RoleName and T.RoleName() or "?")

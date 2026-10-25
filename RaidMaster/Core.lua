@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "2.2.0"
-RM.VERSION_NUM = 20200
+RM.VERSION = "2.2.1"
+RM.VERSION_NUM = 20201
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -380,7 +380,7 @@ end
 -- Rechte:
 --   im Raid / in der Gruppe: volle Rechte hat nur der Raidleiter (Gruppenleiter) – keine Offiziere
 --   der Plündermeister darf versteigern und Items buchen (RM.CanLoot), Assistenten markieren usw.
---   ohne Gruppe: Gildenränge bis "Offiziersränge bis Index" (z. B. DKP-Korrekturen zu Hause)
+--   ohne Gruppe: du bist dein eigener Raidleiter (volle Rechte auf deinem Client)
 local function Grouped()
 	return RM.InRaid() or (IsInGroup and IsInGroup()) and true or false
 end
@@ -468,6 +468,9 @@ end
 
 -- Darf dieser Spieler DKP verändern? (Offiziere und der Raidleiter des aktuellen Raids)
 function RM.CanEdit()
+	-- ohne Gruppe bist du dein eigener Raidleiter (eigener Client; andere übernehmen deine Daten
+	-- trotzdem nur, wenn du Raidleiter ihres Raids bist oder einen Offiziersrang hast)
+	if not Grouped() then return true end
 	return RM.IsOfficer(RM.Me()) or RM.IsMainLeader()
 end
 

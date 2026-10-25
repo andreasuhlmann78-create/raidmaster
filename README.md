@@ -4,7 +4,7 @@ Raid-Werkzeuge für die Gilde auf **WoW Forever**.
 
 ## Download Addon
 
-**Aktuelle Version: [RaidMaster-2.2.0.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/RaidMaster-2.2.0.zip)**
+**Aktuelle Version: [RaidMaster-2.2.1.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/RaidMaster-2.2.1.zip)**
 (immer die neueste: [RaidMaster-latest.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/RaidMaster-latest.zip))
 
 **Test-Werkzeug für die Raidleitung:** in RaidMaster eingebaut (ab 2.1.0) – Knopf „Test“ oben im RaidMaster-Fenster oder `/rmtest`. Den alten Ordner `RaidMasterTest` bitte löschen.

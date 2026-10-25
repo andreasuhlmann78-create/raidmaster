@@ -4967,3 +4967,5 @@ L["Versteigerungen führt nur der Plündermeister oder der Raidleiter durch."] =
 L["eingeschränkt – im Test auf Raidleiter umstellen"] = "limitado – cambia a líder de banda en la herramienta de prueba"
 L["Assistent: "] = "Asistente: "
 L["Volle Rechte hat der Raidleiter des aktuellen Raids. Der Plündermeister darf versteigern, Assistenten z. B. markieren."] = "Los permisos completos los tiene el líder de la banda actual. El maestro despojador puede subastar, los asistentes p. ej. marcar."
+L["|cffffd200Plündermeister|r"] = "|cffffd200Maestro despojador|r"
+L["nicht Raidleiter"] = "no eres líder de banda"

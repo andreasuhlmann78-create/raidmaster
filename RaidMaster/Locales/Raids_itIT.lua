@@ -4967,3 +4967,5 @@ L["Versteigerungen führt nur der Plündermeister oder der Raidleiter durch."] =
 L["eingeschränkt – im Test auf Raidleiter umstellen"] = "limitato – passa a capo incursione nello strumento di test"
 L["Assistent: "] = "Assistente: "
 L["Volle Rechte hat der Raidleiter des aktuellen Raids. Der Plündermeister darf versteigern, Assistenten z. B. markieren."] = "I permessi completi li ha il capo dell'incursione attuale. Il responsabile del bottino può gestire le aste, gli assistenti ad es. marcare."
+L["|cffffd200Plündermeister|r"] = "|cffffd200Responsabile del bottino|r"
+L["nicht Raidleiter"] = "non capo incursione"
