@@ -216,6 +216,9 @@ Erstellt die Raidleitung im Spiel die **Einteilung** und gibt danach `/reload` e
   Item-Symbol, dann Uhrzeit, Gewinner, Item (Link zu Wowhead) und DKP. Unter der Liste zeigt das Menü
   **„🔍 Tooltip anzeigen …“** den Tooltip wie im Spiel (nur für den, der auswählt). Ein Tooltip beim reinen
   Drüberfahren mit der Maus ist in Discord nicht möglich. Die Symbole legt der Bot als eigene App-Emojis an.
+- **DKP-Tabelle wie im Addon (Seite DKP):** eine Tabelle je Raid mit Platz, Name, Klasse, DKP, **Letzter Raid**
+  (was nach dem letzten Raid dazugekommen ist: +DKP minus Items), Verdient und Raids. Sie wird **nach dem Raid**
+  aktualisiert – solange ein Raid läuft, bleibt sie auf dem letzten Stand; nach "Raid beenden" kommen die DKP dazu.
 - **Klassenfarben wie im Spiel:** DKP-Stand und Raid-Abrechnung kommen als Bild – Namen und Klassen in der echten
   WoW-Klassenfarbe. Jedes Mitglied bekommt außerdem eine Rolle seiner Klasse (Krieger, Magier …) in der Klassenfarbe,
   so erscheint auch sein Name im Discord farbig. Die Klasse kommt aus dem Profil (Anmeldung/Charakter), sonst wird der

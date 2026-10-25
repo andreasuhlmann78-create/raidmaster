@@ -1202,14 +1202,17 @@ async def send_summary(ch, s: dict, prefix: str = "", test: bool = False) -> int
 
 
 async def post_dkp_tables():
-    """Je Raid-Topf eine Tabelle im passenden Kanal (z. B. #dkp-molten-core)."""
+    """Je Raid-Topf eine Tabelle im passenden Kanal (z. B. #mc-dkp) – wie die Seite DKP im Addon.
+    Aktualisiert wird nach dem Raid: läuft gerade ein Raid, bleibt die Tabelle auf dem letzten Stand."""
+    if rmd.session_active(bot.dkp_db) and state.data.get("dkp_messages"):
+        log.info("Raid läuft noch – DKP-Tabelle wird nach dem Raidende aktualisiert.")
+        return
     summaries = rmd.raid_summaries(bot.dkp_data)
     for pool in rmd.pool_list(bot.dkp_data):
         rows = rmd.standings(bot.dkp_data, pool)
-        counts = rmd.raid_counts(summaries, pool)
-        if counts:
-            for r in rows:
-                r["raids"] = counts.get(r["name"], 0)
+        last = rmd.add_raid_columns(rows, summaries, pool)
+        bot.last_raid_info = getattr(bot, "last_raid_info", {})
+        bot.last_raid_info[pool] = last
         if not any(r["dkp"] != 0 for r in rows):
             continue
         channel_id = dkp_channel_for(pool)
@@ -1273,9 +1276,15 @@ async def post_dkp_table(pool: str, channel_id: int, rows: list[dict]):
     except discord.HTTPException as e:
         log.warning("DKP-Kanal nicht erreichbar: %s", e)
         return
-    head = (f"**DKP-Stand {rmd.pool_name(pool, bot.dkp_data)}** – aktualisiert <t:{int(bot.dkp_mtime)}:f>\n"
-            f"{rmd.total_line(rows)}")
-    png = standings_png(pool, rows, bot.dkp_data, "Namen in Klassenfarbe wie im Spiel")
+    last = (getattr(bot, "last_raid_info", {}) or {}).get(pool)
+    after = ""
+    if last:
+        after = f"nach dem Raid vom {datetime.fromtimestamp(last['t']).strftime('%d.%m.%Y')}"
+    head = (f"**DKP-Stand {rmd.pool_name(pool, bot.dkp_data)}**" + (f" – {after}" if after else "")
+            + f" · aktualisiert <t:{int(bot.dkp_mtime)}:f>\n{rmd.total_line(rows)}")
+    png = standings_png(pool, rows, bot.dkp_data,
+                        ("Stand " + after + " · \"Letzter Raid\" = dazugekommen (+DKP, minus Items)") if after
+                        else "Namen in Klassenfarbe wie im Spiel")
     # mit Bild (Klassenfarben): eine Nachricht; ohne Pillow: Texttabelle wie bisher
     chunks = [head] if png else rmd.with_head(head, rmd.format_standings(rows))
     all_ids = state.data.setdefault("dkp_messages", {})
@@ -2194,11 +2203,9 @@ async def handle_test_upload(db: dict, uploader: str):
             posted += 1
         # 4) aktueller DKP-Stand zuletzt (mit Raids und Verdient)
         rows = rmd.standings(data, pool)
-        counts = rmd.raid_counts(summaries, pool)
-        for r_ in rows:
-            r_["raids"] = counts.get(r_["name"], 0)
+        rmd.add_raid_columns(rows, summaries, pool)
         dkp_head = f"🧪 **DKP-Stand {name}** (Test, nach {len(summaries)} Raidabend(en))\n{rmd.total_line(rows)}"
-        png = standings_png(pool, rows, data, f"Test · nach {len(summaries)} Raidabend(en) · Namen in Klassenfarbe")
+        png = standings_png(pool, rows, data, f"Test · nach {len(summaries)} Raidabend(en) · \"Letzter Raid\" = dazugekommen")
         if png:
             await send_test(dkp_ch, dkp_head, file_bytes=png, filename="dkp.png")
             posted += 1

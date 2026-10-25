@@ -146,19 +146,33 @@ def render_table(title: str, subtitle: str, columns: list[tuple[str, str, int]],
 
 
 def render_standings(title: str, subtitle: str, rows: list[dict]) -> bytes | None:
-    """DKP-Stand: Platz, Name und Klasse in Klassenfarbe, DKP, Verdient (und Raids)."""
+    """DKP-Stand wie die Seite DKP im Addon: Platz, Name und Klasse in Klassenfarbe, DKP, Verdient –
+    dazu "Letzter Raid" (was nach dem letzten Raid dazugekommen ist) und die Zahl der Raids."""
     rows = [r for r in rows if r["dkp"] != 0 or r.get("earned")] or rows
     with_raids = any("raids" in r for r in rows)
-    cols = [("#", "r", 24), ("Name", "l", 120), ("Klasse", "l", 90), ("DKP", "r", 50), ("Verdient", "r", 60)]
+    with_last = any("last" in r for r in rows)
+    cols = [("#", "r", 24), ("Name", "l", 120), ("Klasse", "l", 90), ("DKP", "r", 50)]
+    if with_last:
+        cols.append(("Letzter Raid", "r", 80))
+    cols.append(("Verdient", "r", 60))
     if with_raids:
         cols.append(("Raids", "r", 40))
     out = []
     for i, r in enumerate(rows, 1):
-        cells = [i, r["name"], CLASS_NAMES.get(str(r.get("class") or "").upper(), ""), r["dkp"], int(r.get("earned") or 0)]
+        cells = [i, r["name"], CLASS_NAMES.get(str(r.get("class") or "").upper(), ""), r["dkp"]]
+        colors = {3: BAD} if r["dkp"] < 0 else {}
+        if with_last:
+            last = r.get("last")
+            if last is None:
+                cells.append("–")
+                colors[len(cells) - 1] = MUTED
+            else:
+                cells.append(f"+{last}" if last > 0 else str(last))
+                colors[len(cells) - 1] = GOOD if last > 0 else (BAD if last < 0 else MUTED)
+        cells.append(int(r.get("earned") or 0))
         if with_raids:
             cells.append(int(r.get("raids") or 0))
-        out.append({"cells": cells, "cls": r.get("class"), "colored": (1, 2),
-                    "colors": {3: BAD} if r["dkp"] < 0 else {}})
+        out.append({"cells": cells, "cls": r.get("class"), "colored": (1, 2), "colors": colors})
     return render_table(title, subtitle, cols, out)
 
 

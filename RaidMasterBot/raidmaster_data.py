@@ -655,12 +655,18 @@ def format_standings(rows: list[dict], limit_chars: int = 1900) -> list[str]:
     lines = []
     rows = [r for r in rows if r["dkp"] != 0 or r.get("earned")] or rows
     with_raids = any("raids" in r for r in rows)
+    with_last = any("last" in r for r in rows)
+
+    def last_txt(r):
+        v = r.get("last")
+        return "–" if v is None else (f"+{v}" if v > 0 else str(v))
     for i, r in enumerate(rows, 1):
         cls = CLASSES.get(r["class"], "")
-        lines.append(f"{i:>3}. {r['name']:<14} {cls:<13} {r['dkp']:>6} {int(r.get('earned') or 0):>8}"
-                     + (f" {int(r.get('raids') or 0):>5}" if with_raids else ""))
-    header = (f"{'#':>3}  {'Name':<14} {'Klasse':<13} {'DKP':>6} {'Verdient':>8}" + (f" {'Raids':>5}" if with_raids else "")
-              + "\n" + "-" * (55 if with_raids else 49))
+        lines.append(f"{i:>3}. {r['name']:<14} {cls:<13} {r['dkp']:>6}" + (f" {last_txt(r):>6}" if with_last else "")
+                     + f" {int(r.get('earned') or 0):>8}" + (f" {int(r.get('raids') or 0):>5}" if with_raids else ""))
+    header = (f"{'#':>3}  {'Name':<14} {'Klasse':<13} {'DKP':>6}" + (f" {'Raid':>6}" if with_last else "")
+              + f" {'Verdient':>8}" + (f" {'Raids':>5}" if with_raids else "")
+              + "\n" + "-" * (49 + (6 if with_raids else 0) + (7 if with_last else 0)))
     chunks, cur = [], [header]
     size = len(header)
     for line in lines:
@@ -1218,3 +1224,28 @@ def icon_url(name: str | None) -> str | None:
 def wowhead_url(link: str | None, flavor: str = "classic") -> str | None:
     iid = item_id(link)
     return f"https://www.wowhead.com/{flavor}/item={iid}" if iid else None
+
+
+def last_raid_changes(summaries: list[dict], pool: str) -> tuple[dict | None, dict[str, int]]:
+    """Letzter beendeter Raidabend eines Topfes und je Spieler die Änderung (+verdient - Items)."""
+    raids = sorted((x for x in summaries if x["pool"] == pool), key=lambda x: x["t"])
+    if not raids:
+        return None, {}
+    last = raids[-1]
+    return last, {r["name"]: int(r["earned"]) - int(r["spent"]) for r in last["rows"]}
+
+
+def add_raid_columns(rows: list[dict], summaries: list[dict], pool: str) -> dict | None:
+    """Spalten "Raids" und "Letzter Raid" in die DKP-Tabelle eintragen. Liefert den letzten Raid."""
+    counts = raid_counts(summaries, pool)
+    last, delta = last_raid_changes(summaries, pool)
+    for r in rows:
+        r["raids"] = counts.get(r["name"], 0)
+        if last is not None:
+            r["last"] = delta.get(r["name"])
+    return last
+
+
+def session_active(db: dict | None) -> bool:
+    s = (db or {}).get("session") or {}
+    return bool(isinstance(s, dict) and s.get("active"))
