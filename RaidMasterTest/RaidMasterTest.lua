@@ -45,7 +45,7 @@ end
 -- Testmodus: Daten sichern, RaidMaster-Funktionen umleiten
 ---------------------------------------------------------------------------
 local saved = {}
-local OVERRIDE = { "InRaid", "RaidMembers", "IsAssist", "IsLeader", "CanEdit", "SendAddonMessage", "RaidChat", "Announce", "Whisper" }
+local OVERRIDE = { "InRaid", "RaidMembers", "IsAssist", "IsLeader", "CanEdit", "SendAddonMessage", "RaidChat", "Announce", "Whisper", "IAmMasterLooter", "MasterLooterName" }
 
 local function FakeMembers()
 	local list = { { name = RM.Me(), class = select(2, UnitClass("player")), online = true, rank = 2, index = 1 } }
@@ -73,6 +73,9 @@ function T.Start()
 	RM.IsAssist = function() return T.role ~= "member" end
 	RM.IsLeader = function() return T.role == "raidlead" or T.role == "officer" end
 	RM.CanEdit = function() return T.role == "officer" or T.role == "raidlead" end
+	-- im Testraid bist du als Raidleiter/Offizier auch der Plündermeister (startet die Versteigerungen)
+	RM.IAmMasterLooter = function() return T.role == "officer" or T.role == "raidlead" end
+	RM.MasterLooterName = function() return RM.Me() end
 	RM.SendAddonMessage = function() T.blocked = (T.blocked or 0) + 1 end
 	RM.RaidChat = function(msg, ch) print("|cffff7f00[Test-" .. (ch or "RAID") .. "]|r " .. msg) end
 	RM.Whisper = function(msg, target) print("|cffff80ff[Test-Flüstern an " .. tostring(target) .. "]|r " .. msg) end

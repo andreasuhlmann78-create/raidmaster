@@ -1,8 +1,8 @@
-RaidMaster Test 1.2.0 – RaidMaster im Spiel gefahrlos ausprobieren
+RaidMaster Test 1.2.1 – RaidMaster im Spiel gefahrlos ausprobieren
 ==================================================================
 
 INSTALLATION
-- Den Ordner "RaidMasterTest" neben "RaidMaster" in ...\Interface\AddOns\ kopieren (RaidMaster ab 1.8.9).
+- Den Ordner "RaidMasterTest" neben "RaidMaster" in ...\Interface\AddOns\ kopieren (RaidMaster ab 1.9.0).
 - Öffnen mit /rmtest. Nur für dich als Raidleitung/Offizier gedacht – die Gilde braucht es nicht.
 
 TESTMODUS
@@ -17,6 +17,8 @@ WAS DU TESTEN KANNST
 - Ansicht als: Teilnehmer / Co-Raidleiter / Raidleiter / Offizier – zeigt RaidMaster so, wie es die
   jeweilige Rolle sieht (Seiten, Symbolleiste, Knöpfe). Raidleiter = Leiter des Raids mit allen Rechten
   (DKP, Versteigerung, Plündermeister), Co-Raidleiter = Assistent ohne DKP-Rechte.
+  Als Raidleiter/Offizier bist du im Testraid auch der Plündermeister und startest die Versteigerungen
+  auf der Seite Versteigerung selbst ("Gewähltes starten") – nur der Raid-Durchlauf klickt das für dich.
 - DKP an mich: beliebige Zahl eingeben (z. B. 5000, oder -50 zum Abziehen) -> wird dir im oben gewählten
   Raid gebucht, egal in welcher Ansicht. So kannst du als Teilnehmer unbegrenzt mitbieten.
   Wie alles im Testmodus wird es beim Beenden zurückgesetzt.

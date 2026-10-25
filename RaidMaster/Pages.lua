@@ -399,15 +399,17 @@ UI.AddPage("auction", L["Versteigerung"], function(page)
 		UpdateInfo()
 		local c = RM.Auction.current
 		local running = c and not c.finished
-		local canRun = RM.CanEdit()
+		local canRun = RM.Auction.CanRun() and true or false
+		local isStaff = RM.CanEdit()
 		if running then finishBtn:Enable(); addBtn:Enable(); cancelBtn:Enable() else finishBtn:Disable(); addBtn:Disable(); cancelBtn:Disable() end
 		if RM.Auction.client and not RM.Auction.client.ended then bidOpenBtn:Enable() else bidOpenBtn:Disable() end
 		for _, b in ipairs({ startBtn, removeBtn, addItemBtn, directBtn }) do
 			if canRun then b:Enable() else b:Disable() end
 		end
 		-- normale Teilnehmer bieten nur: Steuerung der Versteigerung ausblenden
+		-- (Offiziere sehen sie, starten kann aber nur der Plündermeister)
 		for _, b in ipairs({ startBtn, removeBtn, addItemBtn, directBtn, finishBtn, addBtn, cancelBtn }) do
-			if canRun then b:Show() else b:Hide() end
+			if canRun or isStaff then b:Show() else b:Hide() end
 		end
 
 		local rows = {}
@@ -434,6 +436,10 @@ UI.AddPage("auction", L["Versteigerung"], function(page)
 		queueList:SetData(qrows)
 		queueFrom:SetText(from and string.format(L["vom Plündermeister %s"], from) or "")
 		if from then startBtn:Disable(); removeBtn:Disable() end
+		if not canRun and isStaff and not from then
+			local _, why = RM.Auction.CanRun()
+			queueFrom:SetText(why or "")
+		end
 	end
 end)
 
@@ -519,7 +525,6 @@ UI.AddPage("loot", L["Loot"], function(page)
 		{ "setLootOnStart", L["Loot-Einstellungen bei Raidstart setzen"] },
 		{ "autoDistribute", L["Mats/Rezepte/Blaues automatisch zuteilen"] },
 		{ "announceLoot", L["Loot gesammelt im Raidchat ansagen"] },
-		{ "autoNext", L["Nächste Versteigerung automatisch starten"] },
 		{ "announceBids", L["Gebote im Raidchat ansagen"] },
 		{ "unlootedReminder", L["Erinnern, wenn Boss nicht geplündert"] },
 		{ "tradeFallback", L["Bei Abwesenheit an mich + Handelsliste"] },

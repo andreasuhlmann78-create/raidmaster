@@ -1,4 +1,4 @@
-RaidMaster 1.8.9 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 1.9.0 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,13 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+VERSTEIGERUNG NUR DURCH DEN PLÜNDERMEISTER (neu in 1.9.0)
+- Jede Versteigerung startet der Plündermeister selbst, Item für Item (Seite Versteigerung: Item wählen,
+  "Gewähltes starten"). Nichts startet mehr automatisch – weder beim Öffnen der Beute noch nach einer Vergabe.
+- Offiziere, die nicht Plündermeister sind, sehen die Warteschlange, können aber nicht starten
+  (Hinweis "Versteigerungen startet nur der Plündermeister ...").
+- In Spielversionen ohne Plündermeister (Retail) starten Raidleitung bzw. Offiziere.
 
 WARTESCHLANGE FÜR ALLE SICHTBAR (neu in 1.8.9)
 - Die Warteschlange der Versteigerung liegt beim Plündermeister. Jetzt schickt er sie an den Raid: Raidleitung

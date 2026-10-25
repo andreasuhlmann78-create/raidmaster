@@ -62,18 +62,15 @@ function A.ViewQueue()
 	return A.remote.list, A.remote.from
 end
 
+-- Versteigerungen startet nur der Plündermeister, jedes Item einzeln von Hand (nie automatisch).
+-- In Spielversionen ohne Plündermeister (Retail) übernimmt das die Raidleitung/ein Offizier.
 function A.CanRun()
-	if not RM.CanEdit() then return false, L["Nur Offiziere können Versteigerungen durchführen."] end
 	if not RM.InRaid() then return false, L["Du bist in keinem Schlachtzug."] end
+	if RM.Caps.masterLoot and not RM.IAmMasterLooter() then
+		return false, string.format(L["Versteigerungen startet nur der Plündermeister (%s)."], RM.MasterLooterName() or "?")
+	end
+	if not RM.CanEdit() then return false, L["Nur Offiziere können Versteigerungen durchführen."] end
 	return true
-end
-
-function A.StartNextIfIdle()
-	if A.current or #A.queue == 0 or not C().autoNext then return end
-	if not A.CanRun() then return end
-	C_Timer.After(1.5, function()
-		if not A.current and #A.queue > 0 then A.Start(1) end
-	end)
 end
 
 ---------------------------------------------------------------------------
@@ -197,7 +194,6 @@ function A.Finish()
 		A.OnEnd(RM.Me(), { a = c.aid })
 		A.current = nil
 		RM.Loot.ApplyFallback(c.link)
-		A.StartNextIfIdle()
 	end
 	RM.Fire("AUCTION_CHANGED")
 end
@@ -212,7 +208,6 @@ function A.Award()
 	end
 	A.current = nil
 	RM.Fire("AUCTION_CHANGED")
-	A.StartNextIfIdle()
 end
 
 function A.CancelAward()

@@ -382,7 +382,6 @@ RM.On("LOOT_OPENED", function()
 	end
 
 	RM.Fire("LOOT_CHANGED")
-	if not RM.PUG.IsLeader() then RM.Auction.StartNextIfIdle() end
 end)
 
 RM.On("LOOT_SLOT_CLEARED", function(slot)
