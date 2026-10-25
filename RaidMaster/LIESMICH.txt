@@ -1,4 +1,4 @@
-RaidMaster 1.9.7 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 1.9.8 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,10 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+FEHLERMELDUNGEN IM CHAT (neu in 1.9.8)
+- Tritt auf einer Seite ein Fehler auf, steht er jetzt auch im Chat ("Fehler in RaidMaster …") – auch wenn
+  Lua-Fehlermeldungen im Spiel ausgeschaltet sind. Bitte als Screenshot weitergeben.
 
 ENTZAUBERER/HANDWERKER PER MENÜ, VERGABE MIT 3 KNÖPFEN (neu in 1.9.7)
 - Seite Loot: Entzauberer und Handwerker werden wie der Plündermeister aus einem Menü gewählt (Raidmitglieder,

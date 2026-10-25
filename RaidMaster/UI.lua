@@ -825,6 +825,18 @@ function UI.ShowPage(id)
 	UI.RefreshCurrent()
 end
 
+-- Fehler einer Seite auch im Chat zeigen (viele haben Lua-Fehlermeldungen ausgeschaltet),
+-- jeden Fehler nur einmal pro Sitzung
+local reported = {}
+function UI.ReportError(err)
+	err = tostring(err)
+	if not reported[err] then
+		reported[err] = true
+		RM.Print("|cffff5555" .. L["Fehler in RaidMaster (bitte Screenshot an die Raidleitung):"] .. "|r " .. err:gsub("^Interface\\AddOns\\", ""))
+	end
+	geterrorhandler()(err)
+end
+
 function UI.RefreshCurrent()
 	if not main or not main:IsShown() then return end
 	UpdateNav()
@@ -832,7 +844,7 @@ function UI.RefreshCurrent()
 	local p = UI.pages[main.current]
 	if p and p.refresh then
 		local ok, err = pcall(p.refresh)
-		if not ok then geterrorhandler()(err) end
+		if not ok then UI.ReportError(err) end
 	end
 end
 
@@ -1006,7 +1018,7 @@ local function CreateMain()
 		page:Hide()
 		p.frame = page
 		local ok, refresh = pcall(p.build, page)
-		if ok then p.refresh = refresh else geterrorhandler()(refresh) end
+		if ok then p.refresh = refresh else UI.ReportError(refresh) end
 	end
 
 	ApplyMainScale(f)
