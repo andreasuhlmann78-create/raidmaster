@@ -5054,3 +5054,4 @@ L["Danke! Leider ist der Raid inzwischen voll."] = "Merci ! Désolé, le raid es
 L["%s würde kommen, aber der Raid ist voll."] = "%s viendrait, mais le raid est plein."
 L["Gruppensuche beendet – der Raid ist voll (%d/%d)."] = "Recherche de groupe terminée – le raid est plein (%d/%d)."
 L["Raid voll"] = "raid plein"
+L["Gruppen einteilen abgebrochen – im Kampf geht das nicht."] = "Répartition des groupes annulée – impossible en combat."

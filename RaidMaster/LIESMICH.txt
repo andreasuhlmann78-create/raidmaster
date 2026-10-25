@@ -1,4 +1,4 @@
-RaidMaster 2.6.1 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 2.6.2 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,13 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+GRUPPEN EINTEILEN OHNE VERBINDUNGSABBRUCH (neu in 2.6.2)
+- Behoben: Bei vollem Raid (alle Gruppen mit 5) geht nur Tauschen. Das Addon hat schneller getauscht, als der
+  Server bestätigt hat – derselbe Tausch ging mehrfach raus und machte sich selbst rückgängig (Hin und Her,
+  viele Anfragen in kurzer Zeit). Das konnte einen Verbindungsabbruch auslösen.
+- Jetzt: nach jedem Zug auf die Bestätigung vom Server warten, jeder Tausch höchstens einmal, höchstens 45 Züge,
+  Abbruch im Kampf, ein zweiter Klick startet keinen zweiten Durchgang. Main-/Offtank werden zuerst verschoben.
 
 HÖCHSTENS 40 IM RAID (neu in 2.6.1)
 - Einladen, Lücken füllen, Gruppensuche und Werbung laden nie mehr ein, als Platz ist (Raidgröße, höchstens 40).

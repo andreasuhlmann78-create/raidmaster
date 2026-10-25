@@ -5054,3 +5054,4 @@ L["Danke! Leider ist der Raid inzwischen voll."] = "Obrigado! Infelizmente a rai
 L["%s würde kommen, aber der Raid ist voll."] = "%s viria, mas a raide está cheia."
 L["Gruppensuche beendet – der Raid ist voll (%d/%d)."] = "Busca de grupo encerrada – a raide está cheia (%d/%d)."
 L["Raid voll"] = "raide cheia"
+L["Gruppen einteilen abgebrochen – im Kampf geht das nicht."] = "Organização dos grupos cancelada – não é possível em combate."

@@ -5054,3 +5054,4 @@ L["Danke! Leider ist der Raid inzwischen voll."] = "Спасибо! К сожа�
 L["%s würde kommen, aber der Raid ist voll."] = "%s готов прийти, но рейд заполнен."
 L["Gruppensuche beendet – der Raid ist voll (%d/%d)."] = "Поиск группы завершён – рейд заполнен (%d/%d)."
 L["Raid voll"] = "рейд полон"
+L["Gruppen einteilen abgebrochen – im Kampf geht das nicht."] = "Распределение по группам прервано – в бою нельзя."

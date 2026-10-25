@@ -5054,3 +5054,4 @@ L["Danke! Leider ist der Raid inzwischen voll."] = "谢谢！抱歉，团队已�
 L["%s würde kommen, aber der Raid ist voll."] = "%s 愿意来，但团队已满。"
 L["Gruppensuche beendet – der Raid ist voll (%d/%d)."] = "招募已结束——团队已满（%d/%d）。"
 L["Raid voll"] = "团队已满"
+L["Gruppen einteilen abgebrochen – im Kampf geht das nicht."] = "分组已中止——战斗中无法进行。"

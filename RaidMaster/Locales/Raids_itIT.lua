@@ -5054,3 +5054,4 @@ L["Danke! Leider ist der Raid inzwischen voll."] = "Grazie! Purtroppo l'incursio
 L["%s würde kommen, aber der Raid ist voll."] = "%s verrebbe, ma l'incursione è piena."
 L["Gruppensuche beendet – der Raid ist voll (%d/%d)."] = "Ricerca gruppo terminata: l'incursione è piena (%d/%d)."
 L["Raid voll"] = "incursione piena"
+L["Gruppen einteilen abgebrochen – im Kampf geht das nicht."] = "Divisione dei gruppi annullata: non possibile in combattimento."

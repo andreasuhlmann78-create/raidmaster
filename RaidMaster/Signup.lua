@@ -477,36 +477,77 @@ function S.WantedGroups()
 end
 
 -- Ein Schritt: einen Spieler in seine Gruppe setzen oder tauschen. true = etwas getan
-function S.ArrangeStep()
+-- state.tries merkt sich jeden Zug: derselbe Zug wird nie mehrfach geschickt. Wichtig bei vollem Raid:
+-- dort geht nur Tauschen, und ein doppelt geschickter Tausch macht sich selbst rückgängig (Hin und Her,
+-- viele Anfragen an den Server in kurzer Zeit -> Verbindungsabbruch).
+function S.ArrangeStep(state)
+	state = state or { tries = {} }
 	local want = S.WantedGroups()
 	if not next(want) or not RM.InRaid() or not RM.IsAssist() then return false end
 	if InCombatLockdown and InCombatLockdown() then return false end
 	local cur, count, index = {}, {}, {}
 	for i = 1, GetNumGroupMembers() do
 		local name, _, subgroup = GetRaidRosterInfo(i)
-		if name then
+		if name and subgroup then
 			name = RM.Short(name)
 			cur[name] = subgroup
 			index[name] = i
 			count[subgroup] = (count[subgroup] or 0) + 1
 		end
 	end
-	for name, g in pairs(want) do
+	-- feste Reihenfolge (Main-/Offtank zuerst, dann alphabetisch), damit jeder Lauf gleich entscheidet
+	local names = {}
+	for name in pairs(want) do if index[name] and cur[name] ~= want[name] then names[#names + 1] = name end end
+	local first = {}
+	for _, n in ipairs(S.MainTanks()) do first[n] = true end
+	table.sort(names, function(a, b)
+		if (first[a] or false) ~= (first[b] or false) then return first[a] and true or false end
+		return a < b
+	end)
+	for _, name in ipairs(names) do
+		local g = want[name]
 		local i = index[name]
-		if i and cur[name] ~= g then
-			if (count[g] or 0) < 5 then
+		if (count[g] or 0) < 5 then
+			local key = name .. ">" .. g
+			if (state.tries[key] or 0) < 2 then
+				state.tries[key] = (state.tries[key] or 0) + 1
 				SetRaidSubgroup(i, g)
 				return true
 			end
+		else
+			-- Tauschpartner: jemand in der Zielgruppe, der dort nicht hingehört – am liebsten einer, der in unsere Gruppe will
+			local best
 			for other, og in pairs(cur) do
 				if og == g and want[other] ~= g then
-					SwapRaidSubgroup(i, index[other])
-					return true
+					local a, b = name < other and name or other, name < other and other or name
+					local key = a .. "<>" .. b
+					if not state.tries[key] then
+						if not best or want[other] == cur[name] then best = other end
+					end
 				end
+			end
+			if best then
+				local a, b = name < best and name or best, name < best and best or name
+				state.tries[a .. "<>" .. b] = 1
+				SwapRaidSubgroup(i, index[best])
+				return true
 			end
 		end
 	end
 	return false
+end
+
+S.ARRANGE_MAX_MOVES = 45   -- mehr Züge braucht ein 40er-Raid nie
+local arrangeState
+
+function S.IsArranging() return arrangeTicker ~= nil end
+
+local function FinishArrange(silent, msg)
+	if arrangeTicker then arrangeTicker:Cancel() end
+	arrangeTicker = nil
+	arrangeState = nil
+	if not silent then RM.Print(msg or L["Gruppen eingeteilt."]) end
+	RM.Fire("SIGNUP_CHANGED")
 end
 
 function S.ArrangeGroups(silent)
@@ -518,18 +559,36 @@ function S.ArrangeGroups(silent)
 		if not silent then RM.Print(L["Zum Einteilen brauchst du Leiter- oder Assistentenrechte."]) end
 		return
 	end
+	if arrangeTicker then return end      -- läuft schon: kein zweiter Durchgang parallel
 	arrangeSteps = 0
-	if arrangeTicker then arrangeTicker:Cancel() end
-	arrangeTicker = C_Timer.NewTicker(0.4, function()
-		arrangeSteps = arrangeSteps + 1
-		if not S.ArrangeStep() or arrangeSteps > 60 then
-			arrangeTicker:Cancel()
-			arrangeTicker = nil
-			if not silent then RM.Print(L["Gruppen eingeteilt."]) end
-			RM.Fire("SIGNUP_CHANGED")
+	arrangeState = { tries = {}, waitUntil = 0, silent = silent }
+	arrangeTicker = C_Timer.NewTicker(0.5, function()
+		local st = arrangeState
+		if not st then return end
+		-- nach jedem Zug auf die Bestätigung vom Server warten (neue Gruppenliste), höchstens 3 Sek.
+		if GetTime() < st.waitUntil then return end
+		if InCombatLockdown and InCombatLockdown() then
+			FinishArrange(silent, L["Gruppen einteilen abgebrochen – im Kampf geht das nicht."])
+			return
 		end
+		if arrangeSteps >= S.ARRANGE_MAX_MOVES or not S.ArrangeStep(st) then
+			FinishArrange(silent)
+			return
+		end
+		arrangeSteps = arrangeSteps + 1
+		st.waiting = true
+		st.waitUntil = GetTime() + 3
 	end)
 end
+
+-- neue Gruppenliste vom Server: der nächste Zug darf gleich kommen
+RM.On("GROUP_ROSTER_UPDATE", function()
+	local st = arrangeState
+	if st and st.waiting then
+		st.waiting = false
+		st.waitUntil = GetTime() + 0.3
+	end
+end)
 
 -- Beim Beitritt neuer Spieler automatisch nachsortieren
 local lastArrange = 0

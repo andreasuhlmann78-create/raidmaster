@@ -5054,3 +5054,4 @@ L["Danke! Leider ist der Raid inzwischen voll."] = "감사합니다! 죄송하�
 L["%s würde kommen, aber der Raid ist voll."] = "%s님이 오려 했지만 공격대가 가득 찼습니다."
 L["Gruppensuche beendet – der Raid ist voll (%d/%d)."] = "파티 찾기 종료 – 공격대가 가득 찼습니다 (%d/%d)."
 L["Raid voll"] = "공격대 가득 참"
+L["Gruppen einteilen abgebrochen – im Kampf geht das nicht."] = "파티 배치 중단 – 전투 중에는 할 수 없습니다."
