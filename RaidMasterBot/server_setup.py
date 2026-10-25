@@ -31,6 +31,11 @@ RAIDS = [
     ("ony", "Onyxias Hort", "🐉", "onyxia"),
     ("barrow", "Barrow Deeps", "🌲", "barrow"),
     ("hyjal", "Hyjalgipfel", "🌋", "hyjal"),
+    ("bwl", "Pechschwingenhort", "🖤", "bwl"),
+    ("zg", "Zul'Gurub", "🐍", "zg"),
+    ("aq20", "Ruinen von Ahn'Qiraj", "🪲", "aq20"),
+    ("aq40", "Tempel von Ahn'Qiraj", "🐞", "aq40"),
+    ("naxx", "Naxxramas", "💀", "naxx"),
 ]
 
 # Ältere Kanalnamen -> neue Namen in den Raid-Kategorien (wird nur umbenannt, wenn das Ziel fehlt)
@@ -602,13 +607,14 @@ async def run_setup(guild: discord.Guild, invoker: discord.Member, cfg: dict, dk
     return report
 
 
-async def ensure_raid(guild: discord.Guild, cfg: dict, key: str, name: str) -> list[str]:
-    """Kategorie für einen neu erkannten Raid anlegen (vom Bot automatisch aufgerufen)."""
+async def ensure_raid(guild: discord.Guild, cfg: dict, key: str, name: str, emoji: str = "🗡️",
+                      prefix: str | None = None) -> list[str]:
+    """Kategorie für einen Raid anlegen (neu erkannter Raid oder neu in der Raidliste)."""
     report: list[str] = []
     roles = _known_roles(guild)
     created: dict = {}
     new_names: set[str] = set()
-    raid_def = raid_category(key, name)
+    raid_def = raid_category(key, name, emoji, prefix)
     await _ensure_category(guild, raid_def, roles, report, created, new_names, "RaidMaster: neuer Raid")
     await _hide_from_guests(guild, raid_def, roles, created, report, "RaidMaster: neuer Raid")
     sign = created.get(f"{raid_def['prefix']}-anmeldung")

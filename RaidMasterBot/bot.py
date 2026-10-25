@@ -178,6 +178,12 @@ class RaidBot(discord.Client):
             except Exception:
                 log.exception("Prüfung der Addon-Version fehlgeschlagen")
             try:
+                made = await ensure_listed_raid_categories()
+                if made:
+                    await post_bot_log("🆕 Raid-Kategorien angelegt: " + ", ".join(made) + " (Anmeldung, Sprachkanal, Taktik, DKP, Loot).")
+            except Exception:
+                log.exception("Raid-Kategorien konnten nicht angelegt werden")
+            try:
                 report = await post_all_tactics()
                 if report:
                     log.info("Taktiken: %s", "; ".join(report))
@@ -1289,6 +1295,30 @@ async def sync_specs():
             await user.send(text)
         except discord.HTTPException:
             pass
+
+
+async def ensure_listed_raid_categories() -> list[str]:
+    """Alle Raids der festen Liste (MC, Onyxia, BWL, ZG, AQ, Naxx …) bekommen ihre Kategorie mit Kanälen."""
+    if not cfg.get("guild_id"):
+        return []
+    guild = bot.get_guild(int(cfg["guild_id"]))
+    if guild is None or not guild.me.guild_permissions.manage_channels:
+        return []
+    known = set((cfg.get("raid_channels") or {}).keys())
+    made = []
+    for key, name, emoji, prefix in server_setup.RAIDS:
+        if key in known:
+            continue
+        try:
+            await server_setup.ensure_raid(guild, cfg, key, name, emoji, prefix)
+        except discord.HTTPException as e:
+            log.warning("Kategorie für %s konnte nicht angelegt werden: %s", name, e)
+            continue
+        cfg.setdefault("raid_names", {})[key] = name
+        save_config()
+        made.append(name)
+        log.info("Raid-Kategorie angelegt: %s", name)
+    return made
 
 
 async def ensure_new_raid_categories():
