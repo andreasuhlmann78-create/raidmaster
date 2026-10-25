@@ -11,7 +11,7 @@ Raid-Werkzeuge für die Gilde auf **WoW Forever**.
 
 **Uploader für den PC der Raidleitung (DKP automatisch in Discord):** [RaidMasterUploader.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/RaidMasterUploader.zip) – Anleitung im Spiel: Seite *Discord* oder `/rm discord`
 
-**AH Analyzer Pro:** [AHAnalyzerPro-0.59.24.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/AHAnalyzerPro-0.59.24.zip)
+**AH Analyzer Pro:** [AHAnalyzerPro-0.59.25.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/AHAnalyzerPro-0.59.25.zip)
 
 ZIP entpacken und den Ordner `RaidMaster` nach `Interface/AddOns` kopieren (alten Ordner ersetzen).
 Läuft in allen WoW-Versionen (Classic Era, WoW Forever, TBC, Wrath, Cata, MoP Classic, Retail) und in 11 Sprachen – mit allen Raids von Classic bis Midnight (Taktiken, Raidchat-Infos, Markierungsvorlagen).
