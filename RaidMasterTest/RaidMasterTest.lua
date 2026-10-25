@@ -93,6 +93,26 @@ function T.ApplySpeed()
 		RM.db.data.settings.auctionTime = T.AuctionSec()
 	end
 end
+-- Ergebnis automatisch an Discord senden (Standard an)
+function T.AutoSendOn()
+	local o = RaidMasterTestOptions
+	return not (type(o) == "table" and o.autoSend == false)
+end
+function T.SetAutoSend(v)
+	if type(RaidMasterTestOptions) ~= "table" then RaidMasterTestOptions = {} end
+	RaidMasterTestOptions.autoSend = v and true or false
+end
+
+-- "Raid starten" in RaidMaster spielt im Testmodus den ganzen Raid durch (Standard an)
+function T.FollowStartOn()
+	local o = RaidMasterTestOptions
+	return not (type(o) == "table" and o.followStart == false)
+end
+function T.SetFollowStart(v)
+	if type(RaidMasterTestOptions) ~= "table" then RaidMasterTestOptions = {} end
+	RaidMasterTestOptions.followStart = v and true or false
+end
+
 function T.SetAuctionSec(v)
 	if type(RaidMasterTestOptions) ~= "table" then RaidMasterTestOptions = {} end
 	RaidMasterTestOptions.auctionSec = tonumber(v) or 8
@@ -128,6 +148,28 @@ function T.Start()
 	if RM.Loot and RM.Loot.EnsureSettings then RM.Loot.EnsureSettings = function() end end
 	if RM.Loot and RM.Loot.Warn then RM.Loot.Warn = function() end end
 	if RM.CheckMainLeader then RM.CheckMainLeader = function() end end
+	-- Raid starten/beenden in RaidMaster steuert den Test-Durchlauf
+	saved.RaidStart, saved.RaidEnd = RM.Raid.Start, RM.Raid.End
+	RM.Raid.Start = function(...)
+		local was = RM.db.session.active
+		local r = saved.RaidStart(...)
+		if T.active and not was and RM.db.session.active and not T.manualStart and not T.IsRunning() and T.FollowStartOn() then
+			local pool = RM.db.session.pool
+			if pool and RM.Data.Pools[pool] and RM.Data.Pools[pool].bosses[1] then T.pool = pool end
+			Log("Raid in RaidMaster gestartet – das Test-Tool spielt jetzt " .. RM.DKP.PoolName(T.pool) .. " durch.")
+			C_Timer.After(1, function() if T.active and not T.IsRunning() then T.RunRaids(T.runs) end end)
+		end
+		return r
+	end
+	RM.Raid.End = function(...)
+		local was = RM.db.session.active
+		local r = saved.RaidEnd(...)
+		if T.active and was and not RM.db.session.active and not T.runEnding then
+			if T.IsRunning() then T.StopRun() end
+			T.AutoSend("Raid beendet.")
+		end
+		return r
+	end
 	RM.InRaid = function() return true end
 	RM.RaidMembers = FakeMembers
 	-- Rollen: Teilnehmer (nur bieten), Co-Raidleiter (Assistent), Raidleiter (Gruppenleiter mit allen Rechten),
@@ -166,7 +208,8 @@ function T.Start()
 	T.active = true
 	T.blocked = 0
 	-- Markierung für den Discord-Bot: Daten aus dem Testmodus nie als echte DKP übernehmen
-	RM.db.testMode = { active = true, started = GetServerTime(), pool = T.pool }
+	-- post = true: jedes Speichern (/reload, Ausloggen) schickt das Testergebnis an Discord (DKP- und Loot-Kanal)
+	RM.db.testMode = { active = true, started = GetServerTime(), pool = T.pool, post = T.AutoSendOn() or nil }
 	T.ApplySpeed()
 	Log("Testmodus AN – Daten gesichert, keine Nachrichten an Gilde/Raid. Testraid mit " .. #FAKE + 1 .. " Spielern (MC-Aufstellung) und " .. #BENCH .. " auf der Ersatzbank.")
 	RM.Fire("SESSION_CHANGED"); RM.Fire("DATA_CHANGED")
@@ -208,7 +251,9 @@ function T.Stop()
 	if RM.Loot and saved.Ensure then RM.Loot.EnsureSettings = saved.Ensure end
 	if RM.Loot and saved.Warn then RM.Loot.Warn = saved.Warn end
 	if saved.CheckMainLeader then RM.CheckMainLeader = saved.CheckMainLeader end
+	if saved.RaidStart then RM.Raid.Start, RM.Raid.End = saved.RaidStart, saved.RaidEnd; saved.RaidStart, saved.RaidEnd = nil, nil end
 	T.active = false
+	T.HideAutoSend()
 	Restore()
 	Log(string.format("Testmodus AUS – alle Daten wiederhergestellt (%d Addon-Nachrichten wurden zurückgehalten).", T.blocked or 0))
 end
@@ -224,6 +269,84 @@ function T.SendToDiscord()
 	RM.UI.Confirm("Testdaten an Discord senden?\nDie Oberfläche wird neu geladen. Der Bot postet DKP, Teilnehmer und Loot des Tests "
 		.. "(mit TEST markiert) und löscht sie nach 10 Minuten. Danach ist der Testmodus beendet, deine echten Daten sind wieder da.",
 		function() ReloadUI() end, function() RM.db.testMode.post = nil end)
+end
+
+-- Gibt es im Test schon ein Ergebnis (Raid, Bosse, DKP, Loot)?
+function T.HasResults()
+	local since = RM.db.testMode and RM.db.testMode.started or 0
+	for _, e in ipairs(RM.db.data.log or {}) do
+		if type(e) == "table" and not e.u and (e.t or 0) >= since then return true end
+	end
+	return false
+end
+
+-- Nach dem Raid: Ergebnis mit Countdown automatisch senden (lädt die Oberfläche neu)
+local sendFrame, sendTicker
+local sendState = {}
+local SEND_DELAY = 10
+function T.HideAutoSend()
+	if sendFrame then sendFrame:Hide() end
+end
+function T.AutoSend(reason)
+	if not T.active or not T.AutoSendOn() then return end
+	RM.db.testMode = RM.db.testMode or { active = true, started = GetServerTime() }
+	RM.db.testMode.post = true
+	RM.db.testMode.pool = T.pool
+	if not sendFrame then
+		local f = UI.Frame(UIParent, 440, 112)
+		f:SetFrameStrata("FULLSCREEN_DIALOG")
+		f:SetToplevel(true)
+		f:SetClampedToScreen(true)
+		UI.Skin(f, nil, COLORS.accent)
+		UI.MakeMovable(f, "testSend", "TOP", 0, -150)
+		f.text = UI.Text(f, "", 13)
+		f.text:SetPoint("TOPLEFT", 14, -12)
+		f.text:SetWidth(412)
+		f.text:SetJustifyH("LEFT")
+		local now = UI.Button(f, "Jetzt senden", 130, 28, function() f:Hide(); ReloadUI() end)
+		now:SetPoint("BOTTOMLEFT", 14, 12)
+		now:SetAccent(true)
+		local later = UI.Button(f, "Später", 130, 28, function()
+			f:Hide()
+			Log("Ergebnis wird beim nächsten /reload oder Ausloggen an Discord gesendet (oder 'Test an Discord senden').")
+		end)
+		later:SetPoint("LEFT", now, "RIGHT", 8, 0)
+		sendFrame = f
+		function f.Tick()
+			if not f:IsShown() then return end
+			local left = sendState.endsAt - GetTime()
+			if left <= 0 then
+				f:Hide()
+				if T.active then ReloadUI() end
+				return
+			end
+			f.text:SetText((sendState.reason or "Test fertig.") .. "\n" .. string.format(
+				"Ergebnis (DKP, Teilnehmer, Loot) geht in |cffffd200%d Sek.|r an Discord – die Oberfläche lädt dafür neu.\n"
+				.. "Danach ist der Testmodus beendet, deine echten Daten sind wieder da.", math.ceil(left)))
+		end
+		f:SetScript("OnHide", function() if sendTicker then sendTicker:Cancel(); sendTicker = nil end end)
+	end
+	sendState.reason = reason
+	sendState.endsAt = GetTime() + SEND_DELAY
+	sendFrame:Show()
+	sendFrame:Raise()
+	if sendTicker then sendTicker:Cancel() end
+	sendTicker = C_Timer.NewTicker(0.25, sendFrame.Tick)
+	sendFrame.Tick()
+	Log((reason or "Test fertig.") .. " Ergebnis geht in " .. SEND_DELAY .. " Sek. an Discord.")
+end
+
+-- "Testmodus beenden": ein vorhandenes Ergebnis vorher an Discord senden?
+function T.StopAsk()
+	if not T.active then return end
+	if T.AutoSendOn() and T.HasResults() then
+		RM.UI.Confirm("Das Testergebnis vorher an Discord senden (DKP-, Teilnehmer- und Loot-Kanal)?\n"
+			.. "Ja: die Oberfläche lädt neu, danach ist der Testmodus beendet. Nein: alles verwerfen.",
+			function() T.HideAutoSend(); RM.db.testMode.post = true; ReloadUI() end,
+			function() T.HideAutoSend(); T.Stop() end, "Senden", "Verwerfen")
+	else
+		T.Stop()
+	end
 end
 
 -- Abgestürzt/ausgeloggt mitten im Test: beim nächsten Laden zurücksetzen
@@ -279,13 +402,16 @@ end
 function T.StartRaid()
 	if not Need() then return end
 	RM.db.config.activePool = T.pool
-	RM.Raid.Start()
+	T.manualStart = true
+	local ok, err = pcall(RM.Raid.Start)
+	T.manualStart = nil
+	if not ok then error(err) end
 	Log("Raid gestartet (" .. RM.DKP.PoolName(T.pool) .. ").")
 end
 
 function T.EndRaid()
 	if not Need() then return end
-	RM.Raid.End()
+	RM.Raid.End()      -- sendet das Ergebnis (siehe Raid.End im Testmodus)
 	Log("Raid beendet.")
 end
 
@@ -343,6 +469,7 @@ end
 -- (Classic, TBC, Wrath), Versteigerungen mit Testgeboten, Trash-Beute zwischendurch
 ---------------------------------------------------------------------------
 local run
+function T.IsRunning() return run ~= nil or T.series ~= nil end
 
 local function LootTable(def)
 	if not (def and RaidMasterTestLoot) then return nil end
@@ -478,7 +605,10 @@ local function RunStep()
 	if not boss then
 		RM.Auction.Award = run.origAward
 		RM.Loot.isOpen = false; wipe(RM.Loot.items)
-		RM.Raid.End()
+		T.runEnding = true
+		local ok, err = pcall(RM.Raid.End)
+		T.runEnding = nil
+		if not ok then Log("Fehler beim Raidende: " .. tostring(err)) end
 		Log(string.format("Raid-Durchlauf fertig: %d Bosse, %d Items versteigert, %d nach Regel verteilt.", #run.def.bosses, #run.awarded, run.other))
 		for _, a in ipairs(run.awarded) do Log("  " .. a) end
 		Log("Alles im Testmodus – 'Testmodus beenden' setzt deine echten Daten zurück.")
@@ -490,8 +620,10 @@ local function RunStep()
 			if T.series and T.series.total > 1 then
 				Log(string.format("Alle %d Raidabende fertig – 'Test an Discord senden' zeigt die Raid-Abrechnungen im Discord.", T.series.total))
 			end
+			local total = T.series and T.series.total or 1
 			T.series = nil
 			T.SetTimeOffset(0)
+			T.AutoSend(total > 1 and string.format("Alle %d Raidabende fertig.", total) or "Raid-Durchlauf fertig.")
 		end
 		if T.Refresh then T.Refresh() end
 		return
@@ -575,7 +707,12 @@ function T.RunRaid()
 		return origAward(...)
 	end
 	RM.db.config.activePool = def.key
-	if not RM.db.session.active then RM.Raid.Start() end
+	if not RM.db.session.active then
+		T.manualStart = true
+		local ok, err = pcall(RM.Raid.Start)
+		T.manualStart = nil
+		if not ok then Log("Fehler beim Raidstart: " .. tostring(err)) end
+	end
 	Log("Raid-Durchlauf gestartet: " .. def.name .. " (" .. #def.bosses .. " Bosse)" ..
 		(loot and ", Beute aus der Beutetabelle" or ", keine Beutetabelle für diesen Raid (nur Classic/TBC/Wrath)") ..
 		". Versteigerungen laufen je " .. T.AuctionSec() .. " Sek.")
@@ -661,7 +798,7 @@ local function Section(parent, text, y)
 end
 
 local function CreateWindow()
-	local f = UI.Frame(UIParent, 560, 780)
+	local f = UI.Frame(UIParent, 560, 828)
 	UI.Skin(f)
 	f:SetFrameStrata("HIGH")
 	f:SetClampedToScreen(true)
@@ -677,7 +814,7 @@ local function CreateWindow()
 	f.status = UI.Text(f, "", 12)
 	f.status:SetPoint("TOPLEFT", 14, -40)
 	f.status:SetWidth(530)
-	local toggle = UI.Button(f, "", 260, 28, function() if T.active then T.Stop() else T.Start() end end,
+	local toggle = UI.Button(f, "", 260, 28, function() if T.active then T.StopAsk() else T.Start() end end,
 		"Testmodus: Daten werden gesichert und beim Beenden wiederhergestellt.\nKeine Nachrichten an Gilde oder Raid.")
 	toggle:SetPoint("TOPLEFT", 14, -62)
 	local selfBtn = UI.Button(f, "Selbsttest", 120, 28, function() T.SelfTest() end, "Prüft Spielversion, Daten, Rechte und Einstellungen.")
@@ -786,20 +923,37 @@ local function CreateWindow()
 		.. "Lädt die Oberfläche neu – danach ist der Testmodus beendet. Der Uploader muss laufen.")
 	discordBtn:SetPoint("LEFT", dkpBtn, "RIGHT", 8, 0)
 
-	Section(f, "Schlachtzugsymbole (echt, z. B. an Trainingspuppen)", -454)
+	local sendCheck = UI.Check(f, "Ergebnis nach dem Raid automatisch an Discord senden (DKP- und Loot-Kanal)",
+		function() return T.AutoSendOn() end,
+		function(v)
+			T.SetAutoSend(v)
+			if T.active and RM.db.testMode then RM.db.testMode.post = v or nil end
+		end,
+		"An (Standard): nach \"Raid beenden\" bzw. am Ende des Durchlaufs wird das Ergebnis nach 10 Sek. gesendet\n"
+		.. "(lädt die Oberfläche neu), und auch jedes /reload oder Ausloggen im Testmodus schickt es.\n"
+		.. "Der Bot postet es mit TEST markiert und löscht es nach 10 Minuten. Der Uploader muss laufen.")
+	sendCheck:SetPoint("TOPLEFT", 14, -444)
+	local followCheck = UI.Check(f, "\"Raid starten\" in RaidMaster spielt im Test den ganzen Raid durch",
+		function() return T.FollowStartOn() end, function(v) T.SetFollowStart(v) end,
+		"An (Standard): startest du im Testmodus den Raid in RaidMaster (Seite Raidleiter), startet das Test-Tool\n"
+		.. "den Durchlauf (Bosse, Beute, Testgebote) für diesen Raid. \"Raid beenden\" in RaidMaster bricht ihn ab\n"
+		.. "und schickt das Ergebnis an Discord. Der Knopf \"Raid starten\" hier im Test-Tool startet nur die Sitzung.")
+	followCheck:SetPoint("TOPLEFT", 14, -468)
+
+	Section(f, "Schlachtzugsymbole (echt, z. B. an Trainingspuppen)", -502)
 	local m1 = UI.Button(f, "Totenkopf aufs Ziel", 160, 26, function() RM.Markers.Mark(8) end)
-	m1:SetPoint("TOPLEFT", 14, -478)
+	m1:SetPoint("TOPLEFT", 14, -526)
 	local m2 = UI.Button(f, "Adds markieren", 160, 26, function() RM.Markers.MarkAdds() end, "Markiert alle sichtbaren Gegner nach der gewählten Vorlage.")
 	m2:SetPoint("LEFT", m1, "RIGHT", 8, 0)
 	local m3 = UI.Button(f, "Alle aus", 120, 26, function() RM.Markers.ClearAll() end)
 	m3:SetPoint("LEFT", m2, "RIGHT", 8, 0)
 
-	Section(f, "Protokoll", -520)
+	Section(f, "Protokoll", -568)
 	local diagBtn = UI.Button(f, "Diagnose", 110, 22, function() if RM.Diag then RM.Diag.Toggle() end end,
 		"Zeigt Fehler und Hänger von RaidMaster und vom Test-Durchlauf und kann sie lösen.")
-	diagBtn:SetPoint("TOPRIGHT", -14, -516)
+	diagBtn:SetPoint("TOPRIGHT", -14, -564)
 	local box = UI.Multiline(f, 532, 220, true)
-	box:SetPoint("TOPLEFT", 14, -544)
+	box:SetPoint("TOPLEFT", 14, -592)
 
 	function T.Refresh()
 		if not f:IsShown() then return end
@@ -825,7 +979,7 @@ SLASH_RAIDMASTERTEST1 = "/rmtest"
 SlashCmdList["RAIDMASTERTEST"] = function(msg)
 	msg = (msg or ""):lower()
 	if msg == "start" then T.Start()
-	elseif msg == "stop" or msg == "ende" then T.Stop()
+	elseif msg == "stop" or msg == "ende" then T.StopAsk()
 	elseif msg == "check" or msg == "selbsttest" then T.SelfTest(); if not (win and win:IsShown()) then print((T.selfTest or ""):gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", "")) end
 	else T.Toggle() end
 end

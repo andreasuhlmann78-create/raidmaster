@@ -1,9 +1,25 @@
-RaidMaster Test 1.7.2 – RaidMaster im Spiel gefahrlos ausprobieren
+RaidMaster Test 1.7.3 – RaidMaster im Spiel gefahrlos ausprobieren
 ==================================================================
 
 INSTALLATION
 - Den Ordner "RaidMasterTest" neben "RaidMaster" in ...\Interface\AddOns\ kopieren (RaidMaster ab 2.0.0).
 - Öffnen mit /rmtest. Nur für dich als Raidleitung/Offizier gedacht – die Gilde braucht es nicht.
+
+RAID AUS RAIDMASTER STARTEN (neu in 1.7.3)
+- Im Testmodus "Raid starten" in RaidMaster (Seite Raidleiter) klicken: das Test-Tool spielt diesen Raid
+  sofort durch (Bosse, Beute in der Warteschlange, Testgebote). Der Raid wird aus RaidMaster übernommen.
+- "Raid beenden" in RaidMaster bricht den Durchlauf ab und schickt das Ergebnis an Discord.
+- Der Knopf "Raid starten" im Test-Tool startet weiterhin nur die Sitzung (für Bosskill-Tests von Hand).
+- Abschaltbar: Haken "\"Raid starten\" in RaidMaster spielt im Test den ganzen Raid durch".
+
+ERGEBNIS IMMER AN DISCORD (neu in 1.7.3)
+- Nach "Raid beenden" bzw. am Ende des Durchlaufs erscheint ein Fenster mit Countdown: nach 10 Sek. wird
+  das Ergebnis gesendet (die Oberfläche lädt dafür neu). "Jetzt senden" geht sofort, "Später" schickt es
+  beim nächsten /reload oder Ausloggen.
+- Der Bot trägt es im DKP-Kanal (DKP-Stand, Raid-Abrechnung, Teilnehmer) und im Loot-Kanal des Raids ein,
+  mit TEST markiert, und löscht es nach 10 Minuten. Deine echten DKP bleiben unberührt.
+- "Testmodus beenden" fragt, ob ein vorhandenes Ergebnis vorher gesendet werden soll.
+- Abschaltbar: Haken "Ergebnis nach dem Raid automatisch an Discord senden". Der Uploader muss laufen.
 
 TEMPO (neu in 1.7.2)
 - "Dauer je Versteigerung" im Test-Fenster (neben "Automatisch versteigern"): 5, 8, 10, 15, 20 oder 30 Sek.
