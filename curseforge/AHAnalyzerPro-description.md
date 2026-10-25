@@ -16,7 +16,7 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 - **Repost with one click:** expired and cancelled auctions that came back by mail – "Repost (n)" in the Auctions tab
 - **Flip recommendations:** Profit → "Flips" – regularly listed items that are cheap right now, with turnover stars
 - **Mail to alts:** rules like "Herbs → Alchemist"; at the mailbox "To alts" sends the matching stacks
-- **Buy tab:** iLvl for every item, sortable · **Sell tab:** listings appear much faster
+- **Buy tab:** iLvl for every item, sortable and as a search filter (also in Market) · **Sell tab:** listings appear much faster
 - **`/ahp help`** lists all commands in the chat
 - **Own, resizable window:** the addon opens in its own window by default – drag the bottom-right corner to make it as big as you like, all lists grow with it. Size and position are saved. Prefer it inside the auction house? Options → "Show in auction house"
 - **New Buy tab** – works like the auction house's own Buy tab: search, categories, level, rarity. Categories show **instantly** from your last scan while the live search updates them in the background
