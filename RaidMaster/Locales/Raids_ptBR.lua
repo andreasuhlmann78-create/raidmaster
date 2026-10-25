@@ -4989,3 +4989,5 @@ L["Nur die Schlachtzugsymbole nach der Vorlage des Bosses setzen."] = "Só coloc
 L["Symbole"] = "Marcas"
 L["TEST"] = "TESTE"
 L["Test: Symbole für %s – Vorlage '%s': %s"] = "Teste: marcas para %s – modelo '%s': %s"
+L["Testraid leeren"] = "Esvaziar raide de teste"
+L["Nur im Testmodus: alle Testspieler verlassen den Raid. Die Anmeldungen bleiben – danach erneut einladen."] = "Só no modo de teste: todos os jogadores de teste saem do raide. As inscrições ficam – convide de novo depois."

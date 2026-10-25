@@ -1,4 +1,4 @@
-RaidMaster 2.5.0 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 2.5.1 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,10 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+TESTRAID LEEREN (neu in 2.5.1)
+- Seite Anmeldungen, nur im Testmodus: Knopf "Testraid leeren" – alle Testspieler verlassen den Raid, die
+  Anmeldungen bleiben. Danach kannst du das Einladen erneut ausprobieren.
 
 BOSS-LEISTE UND MANUELLE RAIDLEITUNG (neu in 2.5.0)
 - Nimmt der Raidleiter (oder ein Assistent) einen Boss ins Ziel, erscheint die Boss-Leiste (verschiebbar):

@@ -4989,3 +4989,5 @@ L["Nur die Schlachtzugsymbole nach der Vorlage des Bosses setzen."] = "只按首
 L["Symbole"] = "标记"
 L["TEST"] = "测试"
 L["Test: Symbole für %s – Vorlage '%s': %s"] = "测试：%s 的标记 – 模板 '%s'：%s"
+L["Testraid leeren"] = "清空测试团队"
+L["Nur im Testmodus: alle Testspieler verlassen den Raid. Die Anmeldungen bleiben – danach erneut einladen."] = "仅测试模式：所有测试玩家离开团队。报名保留，之后可重新邀请。"

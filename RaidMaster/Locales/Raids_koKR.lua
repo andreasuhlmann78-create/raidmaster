@@ -4989,3 +4989,5 @@ L["Nur die Schlachtzugsymbole nach der Vorlage des Bosses setzen."] = "보스 �
 L["Symbole"] = "징표"
 L["TEST"] = "테스트"
 L["Test: Symbole für %s – Vorlage '%s': %s"] = "테스트: %s 징표 – 템플릿 '%s': %s"
+L["Testraid leeren"] = "테스트 공격대 비우기"
+L["Nur im Testmodus: alle Testspieler verlassen den Raid. Die Anmeldungen bleiben – danach erneut einladen."] = "테스트 모드 전용: 모든 테스트 플레이어가 공격대를 떠납니다. 신청은 유지되며 다시 초대할 수 있습니다."

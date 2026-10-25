@@ -4989,3 +4989,5 @@ L["Nur die Schlachtzugsymbole nach der Vorlage des Bosses setzen."] = "Only set 
 L["Symbole"] = "Marks"
 L["TEST"] = "TEST"
 L["Test: Symbole für %s – Vorlage '%s': %s"] = "Test: marks for %s – template '%s': %s"
+L["Testraid leeren"] = "Empty test raid"
+L["Nur im Testmodus: alle Testspieler verlassen den Raid. Die Anmeldungen bleiben – danach erneut einladen."] = "Test mode only: all test players leave the raid. Sign-ups stay – invite again afterwards."

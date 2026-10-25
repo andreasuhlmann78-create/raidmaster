@@ -903,6 +903,12 @@ UI.AddPage("signup", L["Anmeldungen"], function(page)
 	Place(clearBtn, page, rx + 125, -220)
 
 	Section(page, L["Aktionen"], rx, -266)
+	-- nur im Testmodus: Testraid leeren (alle simuliert Eingeladenen raus, die Anmeldungen bleiben)
+	local testClearBtn = UI.Button(page, L["Testraid leeren"], 245, 26, function()
+		if RM.Test and RM.Test.active then RM.Test.ClearRoster() end
+	end, L["Nur im Testmodus: alle Testspieler verlassen den Raid. Die Anmeldungen bleiben – danach erneut einladen."])
+	Place(testClearBtn, page, rx, -256)
+	testClearBtn:Hide()
 	local inviteBtn = UI.Button(page, L["Angemeldete einladen"], 245, 28, function() RM.Signup.InviteAll(false) end,
 		L["Lädt alle Angemeldeten ein, die noch nicht in der Gruppe sind.\nAus einer Gruppe wird automatisch ein Schlachtzug."])
 	Place(inviteBtn, page, rx, -292)
@@ -937,6 +943,7 @@ UI.AddPage("signup", L["Anmeldungen"], function(page)
 	local ORDER = { an = 1, ersatz = 2, vielleicht = 3, ab = 4 }
 
 	return function()
+		if RM.Test and RM.Test.active then testClearBtn:Show() else testClearBtn:Hide() end
 		local su = RM.db.signup
 		if su then
 			info:SetText(string.format("|cffff8c1a%s|r  ·  %s  ·  importiert %s", su.title ~= "" and su.title or L["Raid"], su.date or "", RM.FormatTime(su.imported or 0)))

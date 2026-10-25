@@ -392,6 +392,15 @@ function T.UseSignupRoster()
 	RosterUpdated()
 end
 
+-- Testraid leeren: alle (simuliert) Eingeladenen verlassen den Raid, die Anmeldungen bleiben
+function T.ClearRoster()
+	if not T.active then return end
+	if RM.Signup and RM.Signup.StopInvites and RM.Signup.IsInviting() then RM.Signup.StopInvites() end
+	T.roster = {}
+	Log("Testraid geleert – nur du bist noch drin. Die Anmeldungen bleiben, du kannst erneut einladen.")
+	RosterUpdated()
+end
+
 function T.UseFakeRoster()
 	T.roster = nil
 	Log("Testraid wieder mit den 39 Testspielern.")
