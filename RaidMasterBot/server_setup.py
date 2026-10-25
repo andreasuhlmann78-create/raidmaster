@@ -67,6 +67,7 @@ BASE_TOP = [
         "name": "⚔️ RAID-ORGA", "mode": None,
         "channels": [
             ("text", "einteilung", "Aufstellung, Gruppen, Heil-, Entfluch- und CC-Einteilung (automatisch vom Bot)", "readonly"),
+            ("text", "dkp-gesamt", "Gesamt-DKP je Raider über alle Raids (automatisch vom Bot)", "readonly"),
         ],
     },
     {
@@ -586,7 +587,7 @@ async def run_setup(guild: discord.Guild, invoker: discord.Member, cfg: dict, dk
                          ("announce_channel_id", "ankündigungen"), ("pug_channel_id", "pug-anmeldung"),
                          ("data_channel_id", "bot-daten"), ("botcmd_channel_id", "bot-befehle"),
                          ("welcome_channel_id", "willkommen"), ("command_list_channel_id", "befehlsliste"),
-                         ("aktionshaus_channel_id", "aktionshaus")):
+                         ("aktionshaus_channel_id", "aktionshaus"), ("dkp_total_channel_id", "dkp-gesamt")):
         if ch_name in created:
             cfg[key] = created[ch_name].id
     creator_roles = list(cfg.get("raid_creator_roles") or [])

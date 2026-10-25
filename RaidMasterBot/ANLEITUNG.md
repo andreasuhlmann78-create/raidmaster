@@ -207,7 +207,9 @@ Erstellt die Raidleitung im Spiel die **Einteilung** und gibt danach `/reload` e
 ## DKP in Discord
 
 - Jeder Raid hat einen eigenen DKP-Topf und einen eigenen Kanal in seiner Kategorie (#mc-dkp usw.).
-- `/dkp` zeigt die eigenen DKP in allen Raids, `/dkpliste raid:<Raid>` die Rangliste.
+- **#dkp-gesamt** (RAID-ORGA) zeigt die Gesamt-DKP je Raider über alle Raids: eine Spalte pro Raid, Gesamt und
+  insgesamt verdient. Der Bot hält die Tabelle nach jedem Upload aktuell (fehlt der Kanal, legt er ihn selbst an).
+- `/dkp` zeigt die eigenen DKP in allen Raids und die Gesamtsumme, `/dkpliste raid:<Raid>` die Rangliste.
 - Neue Items erscheinen im Loot-Kanal des jeweiligen Raids (#mc-loot usw.).
 - WoW schreibt die Daten beim **Ausloggen** oder nach **/reload** – der Uploader schickt sie sofort weiter.
 

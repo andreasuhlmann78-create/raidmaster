@@ -448,6 +448,60 @@ def total_line(rows: list[dict]) -> str:
     return f"Gesamt: **{total} DKP** · {count} Spieler · insgesamt verdient {earned} DKP"
 
 
+def pool_short(key: str) -> str:
+    """Kurzname für Tabellenspalten (MC, ONY, BWL ...)."""
+    return {"barrow": "BARROW", "hyjal": "HYJAL"}.get(key, key.upper())[:6]
+
+
+def overall(data: dict) -> tuple[list[str], list[dict]]:
+    """Gesamt-DKP je Raider über alle Raids: (Töpfe mit Daten, Zeilen absteigend nach Gesamt).
+    Zeile: name, class, per{Topf: DKP}, total, earned (insgesamt verdient über alle Raids)."""
+    players = (data or {}).get("players") or {}
+    pools = [k for k in pool_list(data)
+             if any(isinstance(p, dict) and (player_pool_value(p, k) or ((p.get("e") or {}).get(k) if isinstance(p.get("e"), dict) else 0))
+                    for p in players.values())]
+    rows = []
+    for name, p in players.items():
+        if not isinstance(p, dict):
+            continue
+        per = {k: player_pool_value(p, k) for k in pools}
+        e = p.get("e") if isinstance(p.get("e"), dict) else {}
+        earned = sum(int(e.get(k) or 0) for k in pools)
+        total = sum(per.values())
+        if total == 0 and earned == 0:
+            continue
+        rows.append({"name": str(name), "class": p.get("c") or "", "per": per, "total": total, "earned": earned})
+    rows.sort(key=lambda r: (-r["total"], r["name"].lower()))
+    return pools, rows
+
+
+def format_overall(pools: list[str], rows: list[dict], limit_chars: int = 1900) -> list[str]:
+    """Tabelle Gesamt-DKP je Raider als Codeblöcke."""
+    if not rows:
+        return ["```\nNoch keine DKP-Daten.\n```"]
+    head = f"{'#':>3}  {'Name':<14} {'Klasse':<10}" + "".join(f" {pool_short(k):>6}" for k in pools) + f" {'Gesamt':>7} {'Verdient':>8}"
+    header = head + "\n" + "-" * len(head)
+    lines = []
+    for i, r in enumerate(rows, 1):
+        cls = CLASSES.get(r["class"], "")[:10]
+        lines.append(f"{i:>3}. {r['name'][:14]:<14} {cls:<10}" + "".join(f" {r['per'][k]:>6}" for k in pools)
+                     + f" {r['total']:>7} {r['earned']:>8}")
+    chunks, cur, size = [], [header], len(header)
+    for line in lines:
+        if size + len(line) + 10 > limit_chars:
+            chunks.append("```\n" + "\n".join(cur) + "\n```")
+            cur, size = [], 0
+        cur.append(line)
+        size += len(line) + 1
+    chunks.append("```\n" + "\n".join(cur) + "\n```")
+    return chunks
+
+
+def overall_line(rows: list[dict]) -> str:
+    return (f"Alle Raids: **{sum(r['total'] for r in rows)} DKP** · {len(rows)} Raider · "
+            f"insgesamt verdient {sum(r['earned'] for r in rows)} DKP")
+
+
 def player_summary(data: dict, name: str) -> list[tuple[str, int, int, int]]:
     """Für /dkp: (Raidname, DKP, Platz, Spielerzahl) je Topf mit Stand ungleich 0."""
     out = []
