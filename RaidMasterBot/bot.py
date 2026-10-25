@@ -989,8 +989,10 @@ async def dkp_list_cmd(inter: discord.Interaction, raid: str = "mc"):
     except Exception:
         log.exception("DKP-Datei konnte nicht gelesen werden")
     rows = rmd.standings(bot.dkp_data or {}, raid)
-    chunks = rmd.format_standings(rows)
-    await inter.response.send_message(f"**{rmd.pool_name(raid, bot.dkp_data)}** – {rmd.total_line(rows)}\n" + chunks[0], ephemeral=True)
+    chunks = rmd.with_head(f"**{rmd.pool_name(raid, bot.dkp_data)}** – {rmd.total_line(rows)}", rmd.format_standings(rows))
+    await inter.response.send_message(chunks[0], ephemeral=True)
+    for text in chunks[1:]:
+        await inter.followup.send(text, ephemeral=True)
 
 
 @bot.tree.command(name="raidmaster-status", description="Zeigt, ob der Bot die RaidMaster-Datei findet")
@@ -1167,7 +1169,8 @@ async def post_raid_summaries():
             except discord.HTTPException:
                 pass
         for text in rmd.format_raid_summary(s):
-            await ch.send(text)
+            for part in rmd.split_discord(text):
+                await ch.send(part)
             await asyncio.sleep(0.5)
         done.add(s["id"])
         posted = True
@@ -1204,9 +1207,8 @@ async def post_dkp_table(pool: str, channel_id: int, rows: list[dict]):
     except discord.HTTPException as e:
         log.warning("DKP-Kanal nicht erreichbar: %s", e)
         return
-    chunks = rmd.format_standings(rows)
-    chunks[0] = (f"**DKP-Stand {rmd.pool_name(pool, bot.dkp_data)}** – aktualisiert <t:{int(bot.dkp_mtime)}:f>\n"
-                 f"{rmd.total_line(rows)}\n" + chunks[0])
+    chunks = rmd.with_head(f"**DKP-Stand {rmd.pool_name(pool, bot.dkp_data)}** – aktualisiert <t:{int(bot.dkp_mtime)}:f>\n"
+                           f"{rmd.total_line(rows)}", rmd.format_standings(rows))
     all_ids = state.data.setdefault("dkp_messages", {})
     ids = list(all_ids.get(pool) or [])
     new_ids = []
@@ -1761,9 +1763,11 @@ def test_info(db: dict | None) -> dict | None:
 
 
 async def send_test(channel, text: str):
-    """Testnachricht senden und zum Löschen vormerken (übersteht auch einen Neustart des Bots)."""
-    m = await channel.send(text)
-    state.data.setdefault("test_messages", []).append([channel.id, m.id, int(time.time()) + TEST_TTL])
+    """Testnachricht senden und zum Löschen vormerken (übersteht auch einen Neustart des Bots).
+    Zu lange Texte werden in Discord-taugliche Stücke geteilt (max. 2000 Zeichen)."""
+    for part in rmd.split_discord(text):
+        m = await channel.send(part)
+        state.data.setdefault("test_messages", []).append([channel.id, m.id, int(time.time()) + TEST_TTL])
     state.save()
 
 
@@ -1789,8 +1793,7 @@ async def handle_test_upload(db: dict, uploader: str):
             continue
         # DKP-Tabelle
         rows = rmd.standings(data, pool)
-        chunks = rmd.format_standings(rows)
-        chunks[0] = f"{head}\n**DKP-Stand {name}** (Test)\n{rmd.total_line(rows)}\n" + chunks[0]
+        chunks = rmd.with_head(f"{head}\n**DKP-Stand {name}** (Test)\n{rmd.total_line(rows)}", rmd.format_standings(rows))
         for text in chunks:
             await send_test(dkp_ch, text)
             posted += 1

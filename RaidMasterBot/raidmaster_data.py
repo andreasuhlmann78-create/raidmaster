@@ -1061,3 +1061,36 @@ def export_text(raid: dict, tz: str, lineup: dict | None = None, link: str = "",
             lines.append(f"BANK;{name}")
     return "\n".join(lines)
 
+
+DISCORD_LIMIT = 1990
+
+
+def split_discord(text: str, limit: int = DISCORD_LIMIT) -> list[str]:
+    """Text in Discord-taugliche Stücke (max. limit Zeichen) teilen – an Zeilengrenzen,
+    offene Codeblöcke (```) werden am Ende eines Stücks geschlossen und im nächsten wieder geöffnet."""
+    text = text or ""
+    if len(text) <= limit:
+        return [text]
+    out, cur, in_code = [], "", False
+    for line in text.split("\n"):
+        # sehr lange Einzelzeilen hart teilen
+        pieces = [line[i:i + limit - 10] for i in range(0, len(line), limit - 10)] or [""]
+        for piece in pieces:
+            extra = len(piece) + 1 + (4 if in_code else 0)
+            if cur and len(cur) + extra > limit:
+                out.append(cur + ("\n```" if in_code else ""))
+                cur = "```" if in_code else ""
+            cur = (cur + "\n" + piece) if cur else piece
+            if piece.count("```") % 2 == 1:
+                in_code = not in_code
+    if cur:
+        out.append(cur)
+    return [c for c in out if c.strip()]
+
+
+def with_head(head: str, chunks: list[str], limit: int = DISCORD_LIMIT) -> list[str]:
+    """Überschrift vor das erste Stück setzen, ohne das Discord-Limit zu sprengen."""
+    out = []
+    for i, c in enumerate(chunks):
+        out.extend(split_discord((head + "\n" + c) if i == 0 and head else c, limit))
+    return out
