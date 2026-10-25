@@ -5,7 +5,7 @@
 --   * Raid-, DKP- und Lootdaten werden beim Start gesichert und beim Beenden
 --     (oder beim nächsten Einloggen) wiederhergestellt
 --   * keine Addon-Nachrichten an Gilde/Raid, Raidchat-Texte erscheinen nur bei dir
---   * ein Testraid mit 10 Testspielern wird vorgespielt
+--   * ein Testraid mit 40 Spielern (MC-Aufstellung) wird vorgespielt
 -- Öffnen: /rmtest
 -- ============================================================================
 
@@ -19,11 +19,39 @@ local COLORS = UI.COLORS
 local T = { active = false, role = "officer", log = {} }
 RaidMasterTest = T
 
-local FAKE = {
-	{ "Testkrieger", "WARRIOR" }, { "Testpriester", "PRIEST" }, { "Testmagier", "MAGE" }, { "Testjaegerin", "HUNTER" },
-	{ "Testschurke", "ROGUE" }, { "Testjaeger", "HUNTER" }, { "Testhexer", "WARLOCK" },
-	{ "Testdruide", "DRUID" }, { "Testpaladin", "PALADIN" }, { "Testschamane", "SHAMAN" },
+-- Testraid: 39 Testspieler + du = 40, aufgestellt wie für Molten Core üblich:
+-- 4 Tanks, 6 Furor-Krieger, 6 Priester (5 Heilig, 1 Schatten), 5 Paladine (Allianz) bzw. Schamanen (Horde),
+-- 3 Druiden (2 Wiederherstellung, 1 Wildheit), 4 Schurken, 5 Frostmagier (Entfluchen bei Lucifron, Feuer ist
+-- in MC nutzlos), 3 Hexenmeister (Verbannen bei Garr), 3 Jäger (Einlullender Schuss bei Magmadar).
+-- Talentpunkte je Baum (Classic-Reihenfolge), damit Einteilung und Skillungen echte Rollen sehen.
+local FAKE = {}
+-- Ersatzbank: nicht im Raid, bekommen aber (je nach Einstellung) die Raid-DKP mit
+local BENCH = {
+	{ "Testersatz1", "WARRIOR", { 5, 5, 41 } }, { "Testersatz2", "PRIEST", { 21, 30, 0 } },
+	{ "Testersatz3", "MAGE", { 21, 0, 30 } }, { "Testersatz4", "ROGUE", { 19, 32, 0 } },
+	{ "Testersatz5", "DRUID", { 11, 0, 40 } },
 }
+local function BuildFake()
+	wipe(FAKE)
+	local horde = (UnitFactionGroup and UnitFactionGroup("player")) == "Horde"
+	local function add(name, class, points) FAKE[#FAKE + 1] = { name, class, points } end
+	for i = 1, 4 do add("Testtank" .. i, "WARRIOR", { 5, 5, 41 }) end
+	for i = 1, 6 do add("Testkrieger" .. i, "WARRIOR", { 17, 34, 0 }) end
+	for i = 1, 5 do add("Testpriester" .. i, "PRIEST", { 21, 30, 0 }) end
+	add("Testschatten", "PRIEST", { 13, 0, 38 })
+	if horde then
+		for i = 1, 5 do add("Testschamane" .. i, "SHAMAN", { 0, 5, 46 }) end
+	else
+		for i = 1, 5 do add("Testpaladin" .. i, "PALADIN", { 31, 20, 0 }) end
+	end
+	add("Testdruide1", "DRUID", { 11, 0, 40 }); add("Testdruide2", "DRUID", { 11, 0, 40 })
+	add("Testbaer", "DRUID", { 0, 31, 20 })
+	for i = 1, 4 do add("Testschurke" .. i, "ROGUE", { 19, 32, 0 }) end
+	for i = 1, 5 do add("Testmagier" .. i, "MAGE", { 21, 0, 30 }) end
+	for i = 1, 3 do add("Testhexer" .. i, "WARLOCK", { 17, 0, 34 }) end
+	add("Testjaeger", "HUNTER", { 21, 30, 0 }); add("Testjaegerin", "HUNTER", { 21, 30, 0 }); add("Testjaeger2", "HUNTER", { 0, 31, 20 })
+end
+BuildFake()
 local ROLE_NAMES = { member = "Teilnehmer", lead = "Co-Raidleiter", raidlead = "Raidleiter", officer = "Offizier" }
 
 local function Log(msg)
@@ -56,7 +84,10 @@ end
 function T.Start()
 	if T.active then return end
 	local db = RM.db
-	RaidMasterTestDB = { data = Copy(db.data), session = Copy(db.session), trade = Copy(db.trade), config = Copy(db.config) }
+	BuildFake()
+	T.pool = T.pool or RM.DKP.ActivePool()
+	db.specs = db.specs or {}
+	RaidMasterTestDB = { data = Copy(db.data), session = Copy(db.session), trade = Copy(db.trade), config = Copy(db.config), specs = Copy(db.specs) }
 	for _, k in ipairs(OVERRIDE) do saved[k] = RM[k] end
 	saved.Deliver = RM.Loot and RM.Loot.Deliver
 	saved.Ensure = RM.Loot and RM.Loot.EnsureSettings
@@ -81,6 +112,19 @@ function T.Start()
 	RM.Whisper = function(msg, target) print("|cffff80ff[Test-Flüstern an " .. tostring(target) .. "]|r " .. msg) end
 	RM.Announce = function(msg, warning) print("|cffff4800[Test-" .. (warning and "Raidwarnung" or "Raid") .. "]|r " .. msg) end
 	if RM.Loot then RM.Loot.Deliver = function(link, name) Log("Item würde übergeben: " .. tostring(link) .. " -> " .. tostring(name)) end end
+	-- Skillungen der Testspieler (nur im Test, werden beim Beenden zurückgesetzt)
+	if RM.Spec and RM.Spec.Store then
+		for _, f in ipairs(FAKE) do pcall(RM.Spec.Store, f[1], f[2], f[3], "addon") end
+		for _, f in ipairs(BENCH) do pcall(RM.Spec.Store, f[1], f[2], f[3], "addon") end
+	end
+	-- Ersatzbank mit 5 Testspielern
+	RM.db.config.standby = RM.db.config.standby or {}
+	for _, f in ipairs(BENCH) do
+		local p = RM.DKP.EnsurePlayer(f[1], f[2])
+		p.d = p.d or {}
+		p.d[RM.DKP.ActivePool()] = 100
+		RM.db.config.standby[f[1]] = true
+	end
 	-- Testspieler mit 100 DKP im aktuellen Topf
 	local pool = RM.DKP.ActivePool()
 	for _, f in ipairs(FAKE) do
@@ -92,7 +136,7 @@ function T.Start()
 	T.blocked = 0
 	-- Markierung für den Discord-Bot: Daten aus dem Testmodus nie als echte DKP übernehmen
 	RM.db.testMode = { active = true, started = GetServerTime(), pool = T.pool }
-	Log("Testmodus AN – Daten gesichert, keine Nachrichten an Gilde/Raid. Testraid mit 10 Testspielern.")
+	Log("Testmodus AN – Daten gesichert, keine Nachrichten an Gilde/Raid. Testraid mit " .. #FAKE + 1 .. " Spielern (MC-Aufstellung) und " .. #BENCH .. " auf der Ersatzbank.")
 	RM.Fire("SESSION_CHANGED"); RM.Fire("DATA_CHANGED")
 end
 
@@ -112,6 +156,7 @@ local function Restore(silent)
 		Replace(RM.db.session, b.session)
 		Replace(RM.db.trade, b.trade)
 		Replace(RM.db.config, b.config)
+		if b.specs and RM.db.specs then Replace(RM.db.specs, b.specs) end
 		if pos then RM.db.config.positions = pos end
 		RM.db.config.mainSize = size
 	end
@@ -169,7 +214,7 @@ function T.SetRole(role)
 end
 
 ---------------------------------------------------------------------------
--- Simulationen (Testraid: 10 Testspieler + du)
+-- Simulationen (Testraid: 39 Testspieler + du)
 ---------------------------------------------------------------------------
 local function Need()
 	if not T.active then T.Start() end
@@ -248,10 +293,11 @@ function T.TranqTest()
 	if not T.active then T.Start() end
 	if T.role == "member" then Log("Die Jäger-Abfrage gibt es nur für Raidleiter/Co-Raidleiter/Offiziere.") return end
 	RM.Tranq.Ask()
-	Log("Jäger-Abfrage gestartet – Testjaeger antwortet 'ja', Testjaegerin 'nein'.")
+	Log("Jäger-Abfrage gestartet – Testjaeger und Testjaeger2 antworten 'ja', Testjaegerin 'nein'.")
 	C_Timer.After(5, function()
 		RM.SimulateEvent("CHAT_MSG_WHISPER", "ja", "Testjaeger")
 		RM.SimulateEvent("CHAT_MSG_WHISPER", "nein", "Testjaegerin")
+		RM.SimulateEvent("CHAT_MSG_WHISPER", "ja", "Testjaeger2")
 		Log("Antworten: " .. RM.Tranq.StatusText():gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", ""))
 		RM.Tranq.Post()
 		Log("Einlull-Rotation als Schlachtzugwarnung gepostet (im Test nur bei dir).")

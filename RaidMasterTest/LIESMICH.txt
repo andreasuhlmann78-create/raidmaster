@@ -1,4 +1,4 @@
-RaidMaster Test 1.4.0 – RaidMaster im Spiel gefahrlos ausprobieren
+RaidMaster Test 1.5.0 – RaidMaster im Spiel gefahrlos ausprobieren
 ==================================================================
 
 INSTALLATION
@@ -6,8 +6,12 @@ INSTALLATION
 - Öffnen mit /rmtest. Nur für dich als Raidleitung/Offizier gedacht – die Gilde braucht es nicht.
 
 TESTMODUS
-- "Testmodus starten": deine DKP-, Raid- und Lootdaten werden gesichert. Es wird ein Testraid mit
-  10 Testspielern vorgespielt (Testkrieger, Testpriester ...), jeder mit 100 DKP.
+- "Testmodus starten": deine DKP-, Raid- und Lootdaten werden gesichert. Es wird ein Testraid mit 40 Spielern
+  (du + 39 Testspieler) in einer typischen Molten-Core-Aufstellung vorgespielt, jeder mit 100 DKP und Skillung:
+  4 Schutz-Krieger (Tanks), 6 Furor-Krieger, 5 Heilig-Priester, 1 Schattenpriester, 5 Paladine (Allianz) bzw.
+  5 Schamanen (Horde), 2 Wiederherstellungs-Druiden, 1 Wildheits-Druide, 4 Schurken, 5 Frostmagier
+  (Entfluchen bei Lucifron), 3 Hexenmeister (Verbannen bei Garr), 3 Jäger (Einlullender Schuss bei Magmadar).
+  Dazu 5 Spieler auf der Ersatzbank (Krieger, Priester, Magier, Schurke, Druide), die die Raid-DKP mitbekommen.
 - Während des Tests gehen KEINE Addon-Nachrichten an Gilde oder Raid, und Raidchat-Texte erscheinen
   nur bei dir im Chat (orange markiert).
 - "Testmodus beenden": alles wird exakt wiederhergestellt. Auch nach einem Absturz oder Ausloggen
