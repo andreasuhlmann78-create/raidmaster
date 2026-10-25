@@ -10,6 +10,14 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 
 ## What's new
 
+- **Sell junk at vendors with one click:** a button below every vendor sells grey items and everything a vendor pays more for than the auction house
+- **Inventory value:** Ledger → "Assets" shows what your bags, bank and alts are worth, plus the gold of all characters
+- **Daily summary at login:** yesterday's profit, last 7 days, gold of all characters – any time with `/ahp summary`
+- **Repost with one click:** expired and cancelled auctions that came back by mail – "Repost (n)" in the Auctions tab
+- **Flip recommendations:** Profit → "Flips" – regularly listed items that are cheap right now, with turnover stars
+- **Mail to alts:** rules like "Herbs → Alchemist"; at the mailbox "To alts" sends the matching stacks
+- **Buy tab:** iLvl for every item, sortable · **Sell tab:** listings appear much faster
+- **`/ahp help`** lists all commands in the chat
 - **Own, resizable window:** the addon opens in its own window by default – drag the bottom-right corner to make it as big as you like, all lists grow with it. Size and position are saved. Prefer it inside the auction house? Options → "Show in auction house"
 - **New Buy tab** – works like the auction house's own Buy tab: search, categories, level, rarity. Categories show **instantly** from your last scan while the live search updates them in the background
 - **Sniper and Watcher search as often as the server allows** and take turns – the Sniper hunts your targets, the Watcher finds lucky bargains. The speed adjusts itself to the limit of every WoW version
@@ -102,15 +110,19 @@ Everything works with the mouse – the commands are optional.
 | Command | Action |
 |---|---|
 | `/ahp` | open / close the window |
+| `/ahp help` | list all commands in the chat |
 | `/ahp scan` | start a full market scan |
 | `/ahp sniper` | sniper on / off |
-| `/ahp sync` | price sync on / off |
+| `/ahp summary` | daily summary in the chat |
+| `/ahp alts` | rules for mail to alts |
 | `/ahp lists` | shopping lists |
 | `/ahp options` | options |
+| `/ahp sync` | price sync on / off |
 | `/ahp design` | switch between Classic and Modern |
 | `/ahp language` | change the addon language |
 | `/ahp export` | CSV export |
-| `/ahp help` | help |
+| `/ahp donate` | support the addon (PayPal link) |
+| `/ahp manual` | help window with guide |
 | `/ahp reset` | reset window and button positions |
 
 ---
