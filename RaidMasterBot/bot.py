@@ -839,11 +839,6 @@ async def dkp_cmd(inter: discord.Interaction, name: str | None = None):
     lines = [f"**{rmd.clean_name(name)}** – DKP pro Raid:"]
     for raid_name, dkp, pos, total in summary:
         lines.append(f"• {raid_name}: **{dkp}** (Platz {pos} von {total})")
-    _, rows = rmd.overall(bot.dkp_data)
-    want = (name or "").replace(" ", "").lower()
-    me = next((r for r in rows if r["name"].replace(" ", "").lower() == want), None)
-    if me:
-        lines.append(f"**Gesamt über alle Raids: {me['total']} DKP** (insgesamt verdient {me['earned']})")
     lines.append(f"Stand: <t:{int(bot.dkp_mtime)}:R>")
     await inter.response.send_message("\n".join(lines), ephemeral=True)
 
@@ -1027,88 +1022,18 @@ async def post_dkp_tables():
         await post_dkp_table(pool, channel_id, rows)
 
 
-async def total_channel():
-    """Kanal #dkp-gesamt; fehlt er (ältere Einrichtung), legt der Bot ihn in RAID-ORGA selbst an."""
-    ch = await channel_by_id(cfg.get("dkp_total_channel_id"))
-    if ch:
-        return ch
-    guild = bot_guild()
-    if not guild:
-        return None
-    ch = discord.utils.get(guild.text_channels, name="dkp-gesamt")
-    if not ch:
-        try:
-            category = discord.utils.get(guild.categories, name="⚔️ RAID-ORGA")
-            overwrites = {guild.default_role: discord.PermissionOverwrite(send_messages=False),
-                          guild.me: discord.PermissionOverwrite(send_messages=True, read_messages=True)}
-            ch = await guild.create_text_channel("dkp-gesamt", category=category, overwrites=overwrites,
-                                                 topic="Gesamt-DKP je Raider über alle Raids (automatisch vom Bot)")
-            log.info("Kanal #dkp-gesamt angelegt.")
-        except discord.HTTPException as e:
-            log.warning("#dkp-gesamt konnte nicht angelegt werden: %s", e)
-            return None
-    cfg["dkp_total_channel_id"] = ch.id
-    save_config()
-    return ch
-
-
-async def post_raid_summaries():
-    """Nach jedem beendeten Raid eine Abrechnung im DKP-Kanal des Raids (bleibt stehen = Verlauf über die Wochen).
-    Beim ersten Mal werden alle noch gespeicherten Raidabende nachgetragen."""
-    done = set(state.data.get("raid_summaries_done") or [])
-    posted = False
-    for s in rmd.raid_summaries(bot.dkp_data):
-        if s["id"] in done:
-            continue
-        ch = await channel_by_id(dkp_channel_for(s["pool"]))
-        if not ch:
-            continue
-        # alte DKP-Tabelle entfernen – sie wird danach unter der Abrechnung neu gepostet
-        for msg_id in (state.data.setdefault("dkp_messages", {})).pop(s["pool"], None) or []:
-            try:
-                await ch.get_partial_message(msg_id).delete()
-            except discord.HTTPException:
-                pass
-        for text in rmd.format_raid_summary(s):
-            await ch.send(text)
-            await asyncio.sleep(0.5)
-        done.add(s["id"])
-        posted = True
-    if posted:
-        state.data["raid_summaries_done"] = sorted(done)[-1000:]
-        state.save()
-
-
-async def post_overall():
-    """Gesamt-DKP je Raider über alle Raids in #dkp-gesamt (Nachricht wird bearbeitet, nicht neu gepostet)."""
-    ch = await total_channel()
-    if not ch:
+async def remove_overall():
+    """Die Gesamtsumme über alle Raids wird nicht gebraucht: frühere Tabellen in #dkp-gesamt einmal entfernen."""
+    ids = state.data.pop("dkp_total_messages", None)
+    if not ids:
         return
-    pools, rows = rmd.overall(bot.dkp_data)
-    chunks = rmd.format_overall(pools, rows)
-    chunks[0] = (f"**Gesamt-DKP je Raider** – aktualisiert <t:{int(bot.dkp_mtime)}:f>\n{rmd.overall_line(rows)}\n"
-                 + ", ".join(f"{rmd.pool_short(k)} = {rmd.pool_name(k, bot.dkp_data)}" for k in pools) + "\n" + chunks[0])
-    ids = list(state.data.get("dkp_total_messages") or [])
-    new_ids = []
-    for i, text in enumerate(chunks):
-        msg_id = ids[i] if i < len(ids) else None
-        done = False
-        if msg_id:
-            try:
-                await ch.get_partial_message(msg_id).edit(content=text)
-                new_ids.append(msg_id)
-                done = True
-            except discord.HTTPException:
-                pass
-        if not done:
-            m = await ch.send(text)
-            new_ids.append(m.id)
-    for msg_id in ids[len(chunks):]:
+    ch = await channel_by_id(cfg.get("dkp_total_channel_id"))
+    for msg_id in ids:
         try:
-            await ch.get_partial_message(msg_id).delete()
+            if ch:
+                await ch.get_partial_message(msg_id).delete()
         except discord.HTTPException:
             pass
-    state.data["dkp_total_messages"] = new_ids
     state.save()
 
 
@@ -1198,7 +1123,7 @@ async def process_new_data():
         await ensure_new_raid_categories()
         await post_raid_summaries()
         await post_dkp_tables()
-        await post_overall()
+        await remove_overall()
         await post_new_loot()
         await process_assignment()
     except discord.HTTPException as e:
@@ -1712,14 +1637,6 @@ async def handle_test_upload(db: dict, uploader: str):
             if text:
                 await send_test(loot_ch, text)
                 posted += 1
-    tch = await total_channel()
-    if tch:
-        tpools, trows = rmd.overall(data)
-        tchunks = rmd.format_overall(tpools, trows)
-        tchunks[0] = f"{head}\n**Gesamt-DKP je Raider** (Test)\n{rmd.overall_line(trows)}\n" + tchunks[0]
-        for text in tchunks:
-            await send_test(tch, text)
-            posted += 1
     log.info("Testdaten von %s gepostet (%d Nachrichten, werden nach %d Min. gelöscht).", uploader, posted, TEST_TTL // 60)
     return posted
 

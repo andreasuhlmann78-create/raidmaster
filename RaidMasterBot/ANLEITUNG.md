@@ -211,9 +211,7 @@ Erstellt die Raidleitung im Spiel die **Einteilung** und gibt danach `/reload` e
   Abrechnung: Datum, Bosse, und je Spieler +DKP, Items und Stand nach dem Raid. Die Beiträge bleiben stehen – so
   sieht jeder seinen Verlauf über mehrere Wochen. Die DKP-Tabelle steht darunter und hat die Spalte „Raids“
   (Anzahl der Raidabende). Beim ersten Mal werden alle noch gespeicherten Raidabende nachgetragen.
-- **#dkp-gesamt** (RAID-ORGA) zeigt die Gesamt-DKP je Raider über alle Raids: eine Spalte pro Raid, Gesamt und
-  insgesamt verdient. Der Bot hält die Tabelle nach jedem Upload aktuell (fehlt der Kanal, legt er ihn selbst an).
-- `/dkp` zeigt die eigenen DKP in allen Raids und die Gesamtsumme, `/dkpliste raid:<Raid>` die Rangliste.
+- `/dkp` zeigt die eigenen DKP in allen Raids, `/dkpliste raid:<Raid>` die Rangliste.
 - Neue Items erscheinen im Loot-Kanal des jeweiligen Raids (#mc-loot usw.).
 - WoW schreibt die Daten beim **Ausloggen** oder nach **/reload** – der Uploader schickt sie sofort weiter.
 
