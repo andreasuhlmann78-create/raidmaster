@@ -10,6 +10,7 @@ Der Befehl kann daher gefahrlos mehrmals ausgeführt werden.
 from __future__ import annotations
 
 import asyncio
+import os
 import discord
 
 # ---------------------------------------------------------------------------
@@ -59,6 +60,7 @@ RENAMES = {
 #   "hidden"   = nur der Bot (und Admins) sehen den Kanal
 #   "officers_readonly" = Offiziere/Raidleitung lesen, nur der Bot schreibt
 #   "officers_only" = nur die Rolle Offizier (und der Bot) sieht und schreibt
+#   "officers_write" = alle lesen, nur die Rolle Offizier (und der Bot, Admins) schreibt
 BASE_TOP = [
     {
         "name": "📌 INFO", "mode": "readonly", "guest": True,
@@ -211,6 +213,15 @@ def _overwrites(mode: str | None, guild: discord.Guild, roles: dict) -> dict | N
         if roles.get("Offizier"):
             ow[roles["Offizier"]] = discord.PermissionOverwrite(view_channel=True, send_messages=True,
                                                                 read_message_history=True, attach_files=True)
+    elif mode == "officers_write":
+        ow[everyone] = discord.PermissionOverwrite(view_channel=True, send_messages=False, add_reactions=True,
+                                                   create_public_threads=False, create_private_threads=False,
+                                                   send_messages_in_threads=False)
+        if roles.get("Raidleitung"):
+            ow[roles["Raidleitung"]] = discord.PermissionOverwrite(send_messages=False)
+        if roles.get("Offizier"):
+            ow[roles["Offizier"]] = discord.PermissionOverwrite(view_channel=True, send_messages=True, manage_messages=True,
+                                                                embed_links=True, attach_files=True)
     elif mode == "officers_readonly":
         ow[everyone] = discord.PermissionOverwrite(view_channel=False, send_messages=False)
         for r in leaders:
@@ -386,7 +397,7 @@ def _rules_text(s: dict) -> str:
         f"• Pünktlich zum Raidstart: **+{s.get('dkpStart', 10)} DKP**\n"
         f"• Jeder Bosskill: **+10 DKP**, besondere Bosse mehr (z. B. Ragnaros **+20**){first}\n"
         f"• Bis zum Raidende dabei: **+{s.get('dkpEnd', 10)} DKP**\n"
-        "• Wer auf der Ersatzbank bereitsteht, erhält die Punkte ebenfalls.\n\n"
+        "• Wer auf der Ersatzbank bereitsteht, erhält beim Raidstart einmalig **+10 DKP** (danach keine weiteren Punkte).\n\n"
         "__Items ersteigern__\n"
         "• Epische Items werden mit **offenen Geboten** versteigert – das Gebotsfenster öffnet sich automatisch.\n"
         f"• Mindestgebot **{s.get('minBid', 10)} DKP**, jedes neue Gebot mindestens **+{s.get('bidIncrement', 5)}**, "
@@ -626,3 +637,50 @@ async def ensure_raid(guild: discord.Guild, cfg: dict, key: str, name: str, emoj
     await _post_raid_registration(sign, cfg, key, name, report)
     _store_raid_channels(cfg, raid_def, created)
     return report
+
+
+# ---------------------------------------------------------------------------
+# Gildenregeln (Zusammenleben in der Gilde, nicht Raid): eigene Kategorie unter INFO.
+# Alle lesen, nur Offiziere, Admins und der Bot schreiben. Texte stehen in guild_rules.json.
+# ---------------------------------------------------------------------------
+RULES_CATEGORY = "📜 REGELN"
+
+
+def guild_rules() -> list[dict]:
+    import json
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "guild_rules.json")
+    try:
+        with open(path, encoding="utf-8") as f:
+            return [c for c in (json.load(f).get("channels") or []) if c.get("key")]
+    except (OSError, ValueError):
+        return []
+
+
+async def ensure_rules_category(guild: discord.Guild, cfg: dict) -> list[str]:
+    """Kategorie 📜 REGELN mit den Kanälen aus guild_rules.json anlegen (fehlende ergänzen, Rechte setzen)."""
+    rules = guild_rules()
+    if not rules:
+        return []
+    reason = "RaidMaster: Gildenregeln"
+    roles = _known_roles(guild)
+    cat_def = {"name": RULES_CATEGORY, "mode": "officers_write",
+               "channels": [("text", c["key"], c.get("topic"), "officers_write") for c in rules]}
+    report: list[str] = []
+    created: dict = {}
+    category = await _ensure_category(guild, cat_def, roles, report, created, set(), reason)
+    # Rechte immer auf "nur Offiziere schreiben" halten
+    ow = _overwrites("officers_write", guild, roles)
+    try:
+        if category.overwrites != ow:
+            await category.edit(overwrites=ow, reason=reason)
+    except discord.HTTPException:
+        pass
+    for name, ch in created.items():
+        try:
+            if ch.overwrites != ow:
+                await ch.edit(overwrites=ow, reason=reason)
+        except discord.HTTPException:
+            pass
+    await _place_after(guild, RULES_CATEGORY, "📌 INFO", report, reason)
+    cfg["rules_channels"] = {name: ch.id for name, ch in created.items()}
+    return [r for r in report if r.startswith(("✅", "↪️", "↕️"))]

@@ -186,6 +186,13 @@ class RaidBot(discord.Client):
             except Exception:
                 log.exception("Raid-Kategorien konnten nicht angelegt werden")
             try:
+                rep = await ensure_guild_rules()
+                if rep:
+                    log.info("Gildenregeln: %s", "; ".join(rep))
+                    await post_bot_log("📜 Gildenregeln: " + "; ".join(rep))
+            except Exception:
+                log.exception("Gildenregeln konnten nicht angelegt werden")
+            try:
                 await sync_class_roles()
             except Exception:
                 log.exception("Klassenfarben konnten nicht gesetzt werden")
@@ -1728,6 +1735,53 @@ async def sync_specs():
             await user.send(text)
         except discord.HTTPException:
             pass
+
+
+async def ensure_guild_rules() -> list[str]:
+    """Kategorie 📜 REGELN (Zusammenleben in der Gilde) anlegen und die Regeltexte posten.
+    Ändert sich ein Text in guild_rules.json, ersetzt der Bot seine Beiträge im Kanal."""
+    guild = bot_guild()
+    if guild is None or not guild.me.guild_permissions.manage_channels:
+        return []
+    report = await server_setup.ensure_rules_category(guild, cfg)
+    save_config()
+    hashes = state.data.setdefault("rules_hash", {})
+    msgs = state.data.setdefault("rules_messages", {})
+    for rule in server_setup.guild_rules():
+        key = rule["key"]
+        ch = await channel_by_id((cfg.get("rules_channels") or {}).get(key))
+        if not ch:
+            continue
+        posts = [p for p in rule.get("posts") or [] if p.strip()]
+        digest = str(zlib.crc32("\n".join(posts).encode("utf-8")))
+        if hashes.get(key) == digest and msgs.get(key):
+            continue
+        old = list(msgs.get(key) or [])
+        new_ids = []
+        for i, text in enumerate(posts):
+            text = text[:2000]
+            done = False
+            if i < len(old):
+                try:
+                    await ch.get_partial_message(old[i]).edit(content=text)
+                    new_ids.append(old[i])
+                    done = True
+                except discord.HTTPException:
+                    pass
+            if not done:
+                m = await ch.send(text)
+                new_ids.append(m.id)
+            await asyncio.sleep(0.4)
+        for mid in old[len(posts):]:
+            try:
+                await ch.get_partial_message(mid).delete()
+            except discord.HTTPException:
+                pass
+        msgs[key] = new_ids
+        hashes[key] = digest
+        report.append(f"📜 #{key}: Regeln {'aktualisiert' if old else 'gepostet'}")
+        state.save()
+    return report
 
 
 async def ensure_listed_raid_categories() -> list[str]:

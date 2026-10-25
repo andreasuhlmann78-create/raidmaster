@@ -204,6 +204,16 @@ im Test ausloggt.
 Erstellt die Raidleitung im Spiel die **Einteilung** und gibt danach `/reload` ein, postet der Bot die
 Übersicht in **#einteilung** und schickt jedem verknüpften Spieler seine Aufgaben als **Direktnachricht**.
 
+## Gildenregeln (Kategorie 📜 REGELN)
+
+- Der Bot legt die Kategorie **📜 REGELN** unter 📌 INFO an – mit den Kanälen #verhaltensregeln, #loot-regeln
+  (Looten außerhalb von Raids), #gildenbank und #ränge-und-aufnahme – und postet dort die Regeltexte.
+- **Alle lesen, nur Offiziere (Rolle „Offizier“), Admins und der Bot schreiben.** Raidleitung und Mitglieder können
+  dort nichts posten, nur reagieren.
+- Die Texte stehen in `RaidMasterBot/guild_rules.json`. Wird die Datei geändert (z. B. auf GitHub), ersetzt der Bot
+  nach dem nächsten Update seine Beiträge – die Nachrichten bleiben an ihrem Platz. Offiziere können zusätzlich
+  eigene Beiträge in die Kanäle schreiben.
+
 ## DKP in Discord
 
 - Jeder Raid hat einen eigenen DKP-Topf und einen eigenen Kanal in seiner Kategorie (#mc-dkp usw.).
