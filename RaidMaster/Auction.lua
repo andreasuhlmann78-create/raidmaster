@@ -200,37 +200,74 @@ function A.Finish()
 	RM.Fire("AUCTION_CHANGED")
 end
 
--- Eigenes Fenster für die Vergabe (wird von keinem anderen Bestätigungsfenster verdrängt).
--- Geht es trotzdem verloren, vergibt man auf der Seite Versteigerung mit "Vergeben"/"Nicht vergeben".
-StaticPopupDialogs["RAIDMASTER_AWARD"] = {
-	text = "%s",
-	button1 = L["Vergeben"],
-	button2 = L["Nicht vergeben"],
-	button3 = L["Neu versteigern"],
-	OnAccept = function() A.Award() end,
-	OnCancel = function(_, _, reason) if reason == "clicked" then A.NoAward() end end,
-	OnAlt = function() A.CancelAward() end,
-	timeout = 0,
-	whileDead = true,
-	hideOnEscape = false,
-	preferredIndex = 3,
-}
+-- Vergabe-Fenster: eigenes, immer sichtbares Fenster (kein Blizzard-Popup), damit es weder durch Seitenwechsel,
+-- Schließen anderer Fenster noch durch Escape verschwindet. Solange eine Vergabe offen ist, bleibt es stehen.
+local awardFrame
+local function AwardFrame()
+	if awardFrame then return awardFrame end
+	local UI = RM.UI
+	local COLORS = UI.COLORS
+	local f = UI.Frame(UIParent, 440, 120)
+	f:SetFrameStrata("FULLSCREEN_DIALOG")
+	f:SetToplevel(true)
+	f:SetClampedToScreen(true)
+	UI.Skin(f, nil, COLORS.accent)
+	UI.MakeMovable(f, "awardFrame", "TOP", 0, -150)
+	f.title = UI.Text(f, L["Versteigerung beendet"], 14, COLORS.accent[1], COLORS.accent[2], COLORS.accent[3])
+	f.title:SetPoint("TOPLEFT", 14, -12)
+	f.text = UI.Text(f, "", 13)
+	f.text:SetPoint("TOPLEFT", 14, -36)
+	f.text:SetWidth(412)
+	f.text:SetJustifyH("LEFT")
+	local award = UI.Button(f, L["Vergeben"], 130, 28, function() A.Award() end)
+	award:SetPoint("BOTTOMLEFT", 14, 12)
+	award:SetAccent(true)
+	local no = UI.Button(f, L["Nicht vergeben"], 130, 28, function() A.NoAward() end,
+		L["Geht wie bei keinen Geboten an Entzauberer bzw. Gildenbank (Einstellung auf der Seite Loot)."])
+	no:SetPoint("LEFT", award, "RIGHT", 8, 0)
+	local again = UI.Button(f, L["Neu versteigern"], 130, 28, function() A.CancelAward() end,
+		L["Das Item kommt wieder vorne in die Warteschlange."])
+	again:SetPoint("LEFT", no, "RIGHT", 8, 0)
+	f:Hide()
+	awardFrame = f
+	return f
+end
 
 function A.AwaitingAward()
 	local c = A.current
 	return c and c.finished and c.highName and true or false
 end
 
+function A.AwardShown()
+	return awardFrame and awardFrame:IsShown() and true or false
+end
+
+function A.HideAward()
+	if awardFrame then awardFrame:Hide() end
+end
+
 function A.AskAward()
 	local c = A.current
 	if not (c and c.finished and c.highName) then return end
-	StaticPopup_Show("RAIDMASTER_AWARD", string.format(L["%s an %s für %d DKP vergeben?"], c.link, c.highName, c.high))
+	local f = AwardFrame()
+	f.text:SetText(string.format(L["%s an %s für %d DKP vergeben?"], c.link, c.highName, c.high))
+	f:Show()
+	f:Raise()
 end
+
+-- offene Vergabe nie aus den Augen verlieren
+RM.Listen("AUCTION_CHANGED", function()
+	if A.AwaitingAward() then
+		if not (awardFrame and awardFrame:IsShown()) then A.AskAward() end
+	else
+		A.HideAward()
+	end
+end)
 
 function A.Award()
 	local c = A.current
 	if not c or not c.highName then return end
-	if StaticPopup_Hide then StaticPopup_Hide("RAIDMASTER_AWARD") end
+	A.HideAward()
 	local e = RM.DKP.ChargeItem(c.highName, c.high, c.link, c.pool)
 	if e then
 		RM.Announce(string.format(L["[RaidMaster] %s erhält %s für %d DKP."], c.highName, c.link, c.high), true)
@@ -244,7 +281,7 @@ end
 function A.NoAward()
 	local c = A.current
 	if not c then return end
-	if StaticPopup_Hide then StaticPopup_Hide("RAIDMASTER_AWARD") end
+	A.HideAward()
 	A.current = nil
 	RM.Print(c.link .. L[" wurde nicht vergeben."])
 	RM.Loot.ApplyFallback(c.link)
@@ -255,7 +292,7 @@ end
 function A.CancelAward()
 	local c = A.current
 	if not c then return end
-	if StaticPopup_Hide then StaticPopup_Hide("RAIDMASTER_AWARD") end
+	A.HideAward()
 	A.current = nil
 	table.insert(A.queue, 1, { link = c.link })
 	RM.Print(c.link .. L[" wurde nicht vergeben und liegt wieder vorne in der Warteschlange."])

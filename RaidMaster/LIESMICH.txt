@@ -1,4 +1,4 @@
-RaidMaster 1.9.9 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 2.0.0 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,14 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+EIGENES VERGABE-FENSTER (neu in 2.0.0)
+- Nach jeder Versteigerung erscheint ein eigenes Fenster "Versteigerung beendet" mit
+  Vergeben / Nicht vergeben / Neu versteigern. Es ersetzt das Blizzard-Popup, das beim Wechsel auf
+  den Reiter DKP oder beim Schließen eines anderen Fensters verschwinden konnte – dann hing die Lootvergabe.
+- Das Fenster bleibt sichtbar, egal welcher Reiter offen ist oder ob das RaidMaster- bzw. Test-Fenster
+  geschlossen wird. Wird es doch einmal geschlossen, kommt es von selbst wieder, solange die Vergabe offen ist.
+  Es lässt sich verschieben (Position wird gespeichert).
 
 DIAGNOSE (neu in 1.9.9)
 - Knopf "Diagnose" oben im Hauptfenster (oder /rm diagnose): zeigt auf einen Blick, ob eine Versteigerung läuft

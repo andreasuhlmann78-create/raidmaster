@@ -309,7 +309,6 @@ end
 -- (Classic, TBC, Wrath), Versteigerungen mit Testgeboten, Trash-Beute zwischendurch
 ---------------------------------------------------------------------------
 local run
-local CONFIRM = "RAIDMASTER_AWARD"
 
 local function LootTable(def)
 	if not (def and RaidMasterTestLoot) then return nil end
@@ -414,7 +413,7 @@ local function RunStep()
 		-- selbst versteigern: du klickst "Vergeben" / "Nicht vergeben" wie im echten Raid
 		if not T.autoAuction then return end
 		if c.highName then
-			StaticPopup_Hide(CONFIRM)
+			if RM.Auction.HideAward then RM.Auction.HideAward() end
 			RM.Auction.Award()
 		else
 			RM.Auction.current = nil
@@ -560,7 +559,7 @@ function T.StopRun()
 	if RM.Auction.current then pcall(RM.Auction.Cancel) end
 	wipe(RM.Auction.queue)
 	RM.Fire("AUCTION_CHANGED")
-	StaticPopup_Hide(CONFIRM)
+	if RM.Auction.HideAward then RM.Auction.HideAward() end
 	RM.db.data.settings.auctionTime = run.oldTime
 	run = nil
 	Log("Raid-Durchlauf abgebrochen.")
