@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "2.4.1"
-RM.VERSION_NUM = 20401
+RM.VERSION = "2.5.0"
+RM.VERSION_NUM = 20500
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -120,7 +120,7 @@ RM.DEFAULT_SETTINGS = {
 RM.DEFAULT_CONFIG = {
 	lootMaster = "",
 	lootThreshold = 2,        -- 2 = Selten (grün), 3 = Rar (blau), 4 = Episch
-	autoLoot = true,          -- als Raidleiter vergessenen Plündermeister automatisch setzen
+	autoLoot = false,         -- als Raidleiter vergessenen Plündermeister automatisch setzen (sonst nur Warnung)
 	setLootOnStart = true,
 	autoDistribute = true,
 	announceLoot = true,
@@ -137,12 +137,13 @@ RM.DEFAULT_CONFIG = {
 	markerBar = true,
 	markerTemplate = "standard",
 	autoTemplate = true,       -- beim Bosskampf automatisch die Vorlage des Bosses
+	bossBar = true,            -- Boss-Leiste für die Raidleitung, sobald ein Boss im Ziel ist
 	markerLocked = false,
 	standby = {},
 	activePool = "mc",
-	autoInvite = true,
+	autoInvite = false,       -- 2.5.0: Einladen, Gruppen und Plündermeister macht die Raidleitung per Knopf
 	autoInviteMinutes = 15,
-	autoGroups = true,
+	autoGroups = false,
 	assignTanks = "",
 	instanceMap = {},
 	specScan = true,
@@ -582,6 +583,13 @@ RM.On("ADDON_LOADED", function(name)
 	if not db.config.threshold2 then
 		if db.config.lootThreshold == 3 then db.config.lootThreshold = 2 end
 		db.config.threshold2 = true
+	end
+	-- 2.5.0: Automatiken aus – die Raidleitung lädt ein, teilt Gruppen ein und setzt den Plündermeister per Knopf
+	if not db.config.manual250 then
+		db.config.autoInvite = false
+		db.config.autoGroups = false
+		db.config.autoLoot = false
+		db.config.manual250 = true
 	end
 	db.session = db.session or { active = false, kills = {} }
 	db.trade = db.trade or {}

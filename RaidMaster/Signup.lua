@@ -9,15 +9,19 @@ RM.Signup = S
 S.ROLE = { tank = L["Tank"], heal = L["Heiler"], melee = L["Nahkampf"], ranged = L["Fernkampf"] }
 S.STATUS = { an = L["Angemeldet"], ersatz = L["Ersatzbank"], vielleicht = L["Vielleicht"], ab = L["Abgemeldet"] }
 
-local function Invite(name)
+-- Einladen / Schlachtzug bilden (im Testmodus ersetzt das Test-Tool beides durch eine Simulation)
+function S.DoInvite(name)
 	local fn = (C_PartyInfo and C_PartyInfo.InviteUnit) or InviteUnit
 	if fn then fn(name) end
 end
 
-local function MakeRaid()
+function S.DoMakeRaid()
 	local fn = (C_PartyInfo and C_PartyInfo.ConvertToRaid) or ConvertToRaid
 	if fn then fn() end
 end
+
+local function Invite(name) S.DoInvite(name) end
+local function MakeRaid() S.DoMakeRaid() end
 
 local function trim(s)
 	return (s:gsub("^%s+", ""):gsub("%s+$", ""))

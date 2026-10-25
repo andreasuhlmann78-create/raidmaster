@@ -6,6 +6,11 @@ RaidMaster Test-Werkzeug (in RaidMaster eingebaut) – RaidMaster im Spiel gefah
 - Keine eigene Installation mehr – das Test-Tool kommt mit RaidMaster (ab 2.1.0).
   Den alten Ordner Interface\AddOns\RaidMasterTest bitte löschen.
 
+SIMULATIONEN (neu mit RaidMaster 2.5.0)
+- Einzeln testen: "Boss ins Ziel" (Boss-Leiste erscheint), "Ziel löschen", "39 Testspieler" (nach einem Import).
+- Anmeldungen importieren -> Testraid ist leer -> in RaidMaster "Alle einladen": Einladungen werden simuliert.
+- Gruppen einteilen, Plündermeister setzen und Werbung posten wirken im Test nicht im echten Spiel.
+
 FENSTER MIT REITERN (neu mit RaidMaster 2.3.1)
 - Schnellstart: Ganzen Raid durchspielen, Stresstest (3–10 Wochen), Ergebnis an Discord, Durchlauf abbrechen.
 - Einzeln testen: Raid starten, Bosskill, Raid beenden, Trash-Loot, Jäger-Abfrage, Versteigerung, DKP an mich, Symbole.

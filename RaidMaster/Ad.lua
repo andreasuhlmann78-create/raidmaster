@@ -156,6 +156,13 @@ function Ad.Post()
 	local text = Ad.Build()
 	if text == "" then return false end
 	local key = Ad.Target()
+	if Ad.SimulatePost then
+		-- Testmodus: nicht in echte Kanäle schreiben
+		Ad.SimulatePost(text, key)
+		Ad.lastPost = GetTime()
+		RM.Fire("AD_CHANGED")
+		return true
+	end
 	if key:find("^c:") then
 		local id = GetChannelName(key:sub(3))
 		if not id or id == 0 then
@@ -192,6 +199,7 @@ RM.On("CHAT_MSG_WHISPER", function(msg, sender)
 	if not CanInvite() then return end
 	local name = RM.Short(sender)
 	if RM.IsInMyRaid(name) then return end
+	if RM.Signup and RM.Signup.DoInvite then RM.Signup.DoInvite(sender) return end
 	local invite = (C_PartyInfo and C_PartyInfo.InviteUnit) or InviteUnit
 	if invite then invite(sender) end
 end)

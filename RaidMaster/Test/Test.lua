@@ -167,10 +167,30 @@ local function CaptureReal()
 end
 CaptureReal()   -- Test.lua lädt als letzte Datei von RaidMaster, alles ist schon da
 
+-- Testgruppe: entweder die 39 Testspieler oder – nach dem Import von Anmeldungen – nur, wer (simuliert)
+-- eingeladen wurde und angenommen hat (T.roster)
+T.roster = nil
 local function FakeMembers()
 	local list = { { name = RM.Me(), class = select(2, UnitClass("player")), online = true, rank = 2, index = 1, group = 1 } }
+	if T.roster then
+		for i, m in ipairs(T.roster) do
+			list[#list + 1] = { name = m.name, class = m.class, online = m.online ~= false, rank = 0, index = i + 1, group = m.group or 1 }
+		end
+		return list
+	end
 	for i, f in ipairs(FAKE) do list[#list + 1] = { name = f[1], class = f[2], online = true, rank = 0, index = i + 1, group = math.floor(i / 5) + 1 } end
 	return list
+end
+
+-- Namen der Testspieler, die gerade im Testraid sind (für Testgebote)
+function T.MemberNames()
+	local out = {}
+	if T.roster then
+		for _, m in ipairs(T.roster) do if m.online ~= false then out[#out + 1] = m.name end end
+	else
+		for _, f in ipairs(FAKE) do out[#out + 1] = f[1] end
+	end
+	return out
 end
 
 function T.Start()
@@ -180,7 +200,8 @@ function T.Start()
 	BuildFake()
 	T.pool = T.pool or RM.DKP.ActivePool()
 	db.specs = db.specs or {}
-	RaidMasterTestDB = { data = Copy(db.data), session = Copy(db.session), trade = Copy(db.trade), config = Copy(db.config), specs = Copy(db.specs) }
+	RaidMasterTestDB = { data = Copy(db.data), session = Copy(db.session), trade = Copy(db.trade), config = Copy(db.config), specs = Copy(db.specs),
+		signup = Copy(db.signup), hasSignup = db.signup ~= nil }
 	for _, k in ipairs(OVERRIDE) do saved[k] = REAL[k] end
 	saved.Deliver = REAL.Deliver
 	saved.Ensure = REAL.Ensure
@@ -252,6 +273,8 @@ function T.Start()
 	end
 	T.active = true
 	T.blocked = 0
+	T.roster = nil
+	T.InstallSimulations()
 	-- Markierung für den Discord-Bot: Daten aus dem Testmodus nie als echte DKP übernehmen
 	-- post = true: jedes Speichern (/reload, Ausloggen) schickt das Testergebnis an Discord (DKP- und Loot-Kanal)
 	RM.db.testMode = { active = true, started = GetServerTime(), pool = T.pool, post = T.AutoSendOn() or nil }
@@ -277,12 +300,159 @@ local function Restore(silent)
 		Replace(RM.db.trade, b.trade)
 		Replace(RM.db.config, b.config)
 		if b.specs and RM.db.specs then Replace(RM.db.specs, b.specs) end
+		if b.hasSignup ~= nil then RM.db.signup = b.hasSignup and b.signup or nil end
 		if pos then RM.db.config.positions = pos end
 		RM.db.config.mainSize = size
 	end
 	if RM.db then RM.db.testMode = nil end
 	RaidMasterTestDB = nil
 	if not silent then RM.Fire("SESSION_CHANGED"); RM.Fire("DATA_CHANGED"); RM.Fire("CONFIG_CHANGED") end
+end
+
+---------------------------------------------------------------------------
+-- Simulationen im Testmodus: Einladen, Gruppen, Plündermeister, Werbung, Boss im Ziel
+---------------------------------------------------------------------------
+local sim = {}
+
+local function SignupEntry(name)
+	for _, e in ipairs((RM.db.signup and RM.db.signup.list) or {}) do
+		if e.name == name then return e end
+	end
+end
+
+local RANDOM_CLASSES = { "WARRIOR", "PRIEST", "MAGE", "ROGUE", "HUNTER", "WARLOCK", "DRUID" }
+
+-- nächste Gruppe mit freiem Platz (je 5)
+local function FreeGroup()
+	local count = {}
+	for _, m in ipairs(T.roster or {}) do count[m.group or 1] = (count[m.group or 1] or 0) + 1 end
+	count[1] = (count[1] or 0) + 1      -- du selbst bist in Gruppe 1
+	for g = 1, 8 do if (count[g] or 0) < 5 then return g end end
+	return 8
+end
+
+local function RosterUpdated()
+	RM.SimulateEvent("GROUP_ROSTER_UPDATE")
+	RM.Fire("SESSION_CHANGED")
+	if T.Refresh then T.Refresh() end
+end
+
+-- Einladung: die meisten nehmen nach 1–3 Sek. an, manche lehnen ab, manche sind offline
+function T.SimInvite(name)
+	name = RM.Short(name)
+	if not T.active or name == RM.Me() then return end
+	T.roster = T.roster or {}
+	for _, m in ipairs(T.roster) do if m.name == name then return end end
+	local e = SignupEntry(name)
+	local roll = math.random(100)
+	if roll <= 7 then
+		C_Timer.After(1 + math.random(), function() Log(name .. " hat die Einladung abgelehnt (Test).") end)
+		return
+	elseif roll <= 15 then
+		Log(name .. " ist offline – keine Antwort (Test).")
+		return
+	end
+	C_Timer.After(1 + math.random() * 2, function()
+		if not T.active then return end
+		for _, m in ipairs(T.roster) do if m.name == name then return end end
+		local class = (e and e.class) or RANDOM_CLASSES[math.random(#RANDOM_CLASSES)]
+		local p = RM.DKP.EnsurePlayer(name, class)
+		p.d = p.d or {}
+		local pool = RM.DKP.ActivePool()
+		if not p.d[pool] or p.d[pool] == 0 then p.d[pool] = 100 end
+		T.roster[#T.roster + 1] = { name = name, class = class, group = FreeGroup(), online = true }
+		Log(string.format("%s ist dem Raid beigetreten (Test, Gruppe %d).", name, T.roster[#T.roster].group))
+		RosterUpdated()
+	end)
+end
+
+-- Gruppen nach der Aufstellung aus Discord einteilen (ohne echtes Verschieben)
+function T.SimArrange(silent)
+	local su = RM.db.signup
+	if not su or not su.groups then
+		if not silent then Log("Keine Gruppen-Aufstellung importiert (in Discord: /raid aufstellung, dann Export).") end
+		return
+	end
+	local moved = 0
+	for _, m in ipairs(T.roster or {}) do
+		local g = su.groups[m.name]
+		if g and m.group ~= g then m.group = g; moved = moved + 1 end
+	end
+	if not silent or moved > 0 then Log(string.format("Gruppen eingeteilt (Test): %d Spieler verschoben.", moved)) end
+	RM.Fire("SESSION_CHANGED")
+	if T.Refresh then T.Refresh() end
+end
+
+-- Anmeldungen importiert: Testraid startet leer, die Gruppe entsteht durch (simuliertes) Einladen
+function T.UseSignupRoster()
+	if not T.active then return end
+	T.roster = {}
+	local n = #((RM.db.signup and RM.db.signup.list) or {})
+	Log(string.format("Anmeldungen im Test: %d Einträge. Testraid ist jetzt leer – lade ein (RaidMaster, Seite Anmeldungen: \"Alle einladen\").", n))
+	RosterUpdated()
+end
+
+function T.UseFakeRoster()
+	T.roster = nil
+	Log("Testraid wieder mit den 39 Testspielern.")
+	RosterUpdated()
+end
+
+function T.InstallSimulations()
+	local S = RM.Signup
+	if S then
+		sim.invite, sim.makeRaid, sim.arrange = S.DoInvite, S.DoMakeRaid, S.ArrangeGroups
+		S.DoInvite = function(name) T.SimInvite(name) end
+		S.DoMakeRaid = function() end
+		S.ArrangeGroups = function(silent) T.SimArrange(silent) end
+	end
+	sim.lootMethod, sim.lootThreshold = RM.SetLootMethod, RM.SetLootThreshold
+	RM.SetLootMethod = function(method, name)
+		Log(string.format("Plündermethode würde gesetzt: %s%s (Test – im Spiel nichts geändert).", tostring(method), name and (", Plündermeister " .. name) or ""))
+	end
+	RM.SetLootThreshold = function(v)
+		Log(string.format("Plünderschwelle würde gesetzt: %s (Test).", tostring(v)))
+	end
+	if RM.Ad then
+		RM.Ad.SimulatePost = function(text, key)
+			Log("Werbung (Test, nicht gepostet) in " .. tostring(key) .. ": " .. text)
+			-- ein paar Fremde melden sich mit "inv"
+			for i = 1, math.random(2, 4) do
+				local who = ({ "Kaldor", "Freyja", "Grumbash", "Lyrana", "Tobrin", "Zuljin", "Mareike", "Orrik" })[math.random(8)] .. i
+				C_Timer.After(2 + i * 2, function()
+					if not T.active then return end
+					Log(who .. " flüstert: inv (Test)")
+					RM.SimulateEvent("CHAT_MSG_WHISPER", "inv", who)
+				end)
+			end
+		end
+	end
+	sim.listener = sim.listener or true
+end
+
+function T.RemoveSimulations()
+	local S = RM.Signup
+	if S and sim.invite then S.DoInvite, S.DoMakeRaid, S.ArrangeGroups = sim.invite, sim.makeRaid, sim.arrange end
+	if sim.lootMethod then RM.SetLootMethod, RM.SetLootThreshold = sim.lootMethod, sim.lootThreshold end
+	if RM.Ad then RM.Ad.SimulatePost = nil end
+	if RM.BossBar then RM.BossBar.SetTestTarget(nil) end
+	sim.invite, sim.lootMethod = nil, nil
+end
+
+RM.Listen("SIGNUP_CHANGED", function()
+	if T.active and RM.db and RM.db.signup and RM.db.signup.imported and RM.db.signup.imported ~= T.signupSeen then
+		T.signupSeen = RM.db.signup.imported
+		T.UseSignupRoster()
+	end
+end)
+
+-- Boss im Ziel simulieren (für die Boss-Leiste der Raidleitung)
+function T.TargetBoss(id)
+	if not RM.BossBar then return end
+	if not T.active then T.Start() end
+	RM.BossBar.SetTestTarget(id)
+	local b = id and RM.Data.Bosses[id]
+	Log(b and ("Ziel: " .. b.name .. " (Test) – die Boss-Leiste ist da: \"Ansage + Symbole\" klicken.") or "Ziel gelöscht (Test).")
 end
 
 function T.Stop()
@@ -299,6 +469,8 @@ function T.Stop()
 	if saved.RaidStart then RM.Raid.Start, RM.Raid.End = saved.RaidStart, saved.RaidEnd; saved.RaidStart, saved.RaidEnd = nil, nil end
 	T.active = false
 	T.HideAutoSend()
+	T.RemoveSimulations()
+	T.roster = nil
 	Restore()
 	Log(string.format("Testmodus AUS – alle Daten wiederhergestellt (%d Addon-Nachrichten wurden zurückgehalten).", T.blocked or 0))
 end
@@ -624,7 +796,8 @@ local function AddFakeBids(c)
 	if not c or c.testBids then return end
 	c.testBids = true
 	local bidders = {}
-	for _, f in ipairs(FAKE) do bidders[#bidders + 1] = f[1] end
+	for _, n in ipairs(T.MemberNames()) do bidders[#bidders + 1] = n end
+	if #bidders == 0 then return end
 	local count = math.random(2, 4)
 	local amount = c.min
 	-- Gebote gleichmäßig auf den Anfang der Versteigerung verteilen
@@ -692,6 +865,7 @@ local function RunStep()
 	run.index = run.index + 1
 	local boss = run.def.bosses[run.index]
 	if not boss then
+		if RM.BossBar then RM.BossBar.SetTestTarget(nil) end
 		RM.Auction.Award = run.origAward
 		RM.Loot.isOpen = false; wipe(RM.Loot.items)
 		T.runEnding = true
@@ -729,6 +903,8 @@ local function RunStep()
 	end
 	local ids = boss.e
 	wipe(RM.Loot.items)
+	-- Boss ins Ziel: die Boss-Leiste erscheint (Ansage + Symbole per Klick)
+	if RM.BossBar then RM.BossBar.SetTestTarget(boss.id or ids[#ids]) end
 	RM.SimulateEvent("ENCOUNTER_START", ids[#ids], boss.name, 9, 40)
 	RM.SimulateEvent("ENCOUNTER_END", ids[#ids], boss.name, 9, 40, 1)
 	Log(string.format("Boss %d/%d besiegt: %s", run.index, #run.def.bosses, boss.name))
@@ -1108,6 +1284,15 @@ local function CreateWindow()
 	local tqBtn = UI.Button(pe, "Jäger-Abfrage", 126, 26, function() T.TranqTest() end,
 		"Magmadar: fragt die Jäger nach Einlullender Schuss und postet die Rotation (Testjäger antworten selbst).")
 	tqBtn:SetPoint("LEFT", trashBtn, "RIGHT", 8, 0)
+	local targetBtn = UI.Button(pe, "Boss ins Ziel", 126, 26, function() T.TargetBoss(T.boss) end,
+		"Simuliert, dass du den gewählten Boss ins Ziel nimmst: die Boss-Leiste erscheint\n(Ansage + Symbole per Klick, nur bei dir angezeigt).")
+	targetBtn:SetPoint("LEFT", tqBtn, "RIGHT", 8, 0)
+	targetBtn:SetAccent(true)
+	local untargetBtn = UI.Button(pe, "Ziel löschen", 110, 26, function() T.TargetBoss(nil) end)
+	untargetBtn:SetPoint("LEFT", bossDrop, "RIGHT", 8, 0)
+	local rosterBtn = UI.Button(pe, "39 Testspieler", 110, 26, function() T.UseFakeRoster() end,
+		"Nach einem Import von Anmeldungen: Testraid wieder mit den 39 Testspielern füllen.")
+	rosterBtn:SetPoint("LEFT", untargetBtn, "RIGHT", 8, 0)
 
 	Section(pe, "Versteigerung", -132)
 	local itemBox = UI.LinkBox(pe, 300, 26)

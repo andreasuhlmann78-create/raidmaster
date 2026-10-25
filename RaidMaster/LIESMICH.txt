@@ -1,4 +1,4 @@
-RaidMaster 2.4.1 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 2.5.0 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,21 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+BOSS-LEISTE UND MANUELLE RAIDLEITUNG (neu in 2.5.0)
+- Nimmt der Raidleiter (oder ein Assistent) einen Boss ins Ziel, erscheint die Boss-Leiste (verschiebbar):
+  "Ansage + Symbole" = mit einem Klick die Boss-Ansage als Schlachtzugwarnung (Taktik, Einlull-/Sheep-Rotation)
+  und die Schlachtzugsymbole wie im Automatikmodus (Totenkopf auf den Boss, Adds nach der Vorlage des Bosses).
+  Einzeln: "Ansage", "Symbole", "Einteil." (Einteilung für diesen Boss ansagen). Der Boss wird am Namen erkannt.
+  Ein-/ausschalten: Raidleiter > Bosse & Symbole.
+- Nicht mehr vollautomatisch (die Raidleitung macht es per Knopf): Auto-Einladung, automatisches Gruppen-
+  Einteilen und das automatische Setzen eines vergessenen Plündermeisters (es kommt nur noch die Warnung).
+  Wer es wieder automatisch will, schaltet es in den Einstellungen der Seiten wieder ein.
+- Testmodus simuliert jetzt mehr: Einladen (Testspieler nehmen an, manche lehnen ab oder sind offline),
+  Anmeldungen aus Discord als Testgruppe (Import -> leerer Testraid, dann "Alle einladen"), Gruppen einteilen nach
+  der Discord-Aufstellung, Plündermeister/Plünderschwelle (nichts im echten Spiel), Werbung (nicht in echte Kanäle,
+  Fremde flüstern "inv" und werden eingeladen) und "Boss ins Ziel" für die Boss-Leiste. Beim Durchlauf nimmt das
+  Test-Tool jeden Boss ins Ziel, damit die Boss-Leiste erscheint.
 
 "VERDIENT" AUSGEBLENDET (neu in 2.4.1)
 - Die Seite DKP-Stände zeigt nur noch Name, Klasse, DKP und Status. "Verdient" wird weiter im Hintergrund

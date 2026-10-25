@@ -196,6 +196,10 @@ Aufstellung in **#einteilung** und **#offiziere**:
 
 Der Knopf **„Für RaidMaster“** exportiert Anmeldungen, Startzeit, die Gruppen und bei PUG-Raids den Einladungslink –
 im Spiel lädt das Addon dann automatisch ein und sortiert die Gruppen.
+- **Gruppen wie im Classic-Raid:** Gruppe 1 = Tanks, dann Nahkampfgruppen, eine Hexer-Gruppe mit Schattenpriester,
+  Magier-Gruppen und eine Jäger-Gruppe. In jede Kampfgruppe kommt ein Schamane (Horde) bzw. Paladin (Allianz),
+  weil Totems und Auren nur in der eigenen Gruppe wirken; die übrigen Heiler füllen Heilergruppen und freie Plätze.
+  Jede Gruppe ist in der Aufstellung beschriftet (z. B. „Gruppe 2 (Nahkampf)“).
 
 ## Testdaten aus dem Test-Tool
 

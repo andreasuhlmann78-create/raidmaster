@@ -757,6 +757,118 @@ def attendance(data: dict | None, book: "RaidBook") -> tuple[dict, int, str]:
     return att, n, "Discord"
 
 
+GROUP_LABELS = {"tank": "Tanks", "melee": "Nahkampf", "lock": "Hexer", "caster": "Fernkampf", "hunter": "Jäger", "heal": "Heiler"}
+
+
+def player_kind(s: dict) -> str:
+    """Einordnung für die Gruppen: tank, melee, lock, caster, hunter, heal."""
+    cls, role = s.get("cls"), s.get("role")
+    if role == "tank":
+        return "tank"
+    if role == "heal":
+        return "heal"
+    if cls == "HUNTER":
+        return "hunter"
+    if cls == "WARLOCK" or (cls == "PRIEST" and role == "ranged"):
+        return "lock"          # Schattenpriester gehört zu den Hexern (Vampirumarmung)
+    if role == "ranged":
+        return "caster"
+    return "melee"
+
+
+def arrange_groups(chosen: list[dict], order_key=None) -> dict:
+    """Verteilt die Spieler auf Gruppen zu je 5. Liefert {"groups": [[Spieler]], "labels": ["Tanks", ...]}.
+    Unterstützer (Schamanen bei der Horde, Paladine bei der Allianz) kommen je einer in jede
+    Kampfgruppe – ihre Totems bzw. Auren wirken nur in der eigenen Gruppe."""
+    key = order_key or (lambda s: s["name"].lower())
+    n = len(chosen)
+    if n == 0:
+        return {"groups": [], "labels": []}
+    n_groups = (n + 4) // 5
+    support_cls = "SHAMAN" if any(s["cls"] == "SHAMAN" for s in chosen) else "PALADIN"
+    supports = sorted([s for s in chosen if s["cls"] == support_cls and s.get("role") != "tank"],
+                      key=lambda s: (0 if s.get("role") != "heal" else 1, key(s)))
+    rest = [s for s in chosen if s not in supports]
+    by_kind: dict[str, list] = {}
+    for s in sorted(rest, key=key):
+        by_kind.setdefault(player_kind(s), []).append(s)
+    # Feral-Druide (Rudelführer) und Krieger vorn in den Nahkampfgruppen verteilen
+    by_kind.setdefault("melee", []).sort(key=lambda s: (0 if s["cls"] == "WARRIOR" else 1 if s["cls"] == "DRUID" else 2, key(s)))
+
+    # Gruppentypen festlegen
+    plan: list[str] = []
+    if by_kind.get("tank"):
+        plan += ["tank"] * ((len(by_kind["tank"]) + 3) // 4)
+    plan += ["melee"] * ((len(by_kind.get("melee", [])) + 3) // 4)
+    plan += ["lock"] * ((len(by_kind.get("lock", [])) + 3) // 4)
+    plan += ["caster"] * ((len(by_kind.get("caster", [])) + 3) // 4)
+    if len(by_kind.get("hunter", [])) >= 2:
+        plan += ["hunter"] * ((len(by_kind["hunter"]) + 3) // 4)
+    else:
+        by_kind.setdefault("caster", []).extend(by_kind.pop("hunter", []))
+    core_cap = 4
+    if len(plan) > n_groups:
+        core_cap = 5                       # zu wenig Gruppen: Kampfgruppen voll, Unterstützer zu den Heilern
+        plan = [k for k in plan]
+        while len(plan) > n_groups:
+            # die kleinste Gruppenart zusammenlegen
+            for k in ("caster", "hunter", "lock", "melee", "tank"):
+                if plan.count(k) > 1 or (k in ("hunter", "lock") and k in plan):
+                    plan.remove(k)
+                    if k in ("hunter", "lock"):
+                        by_kind.setdefault("caster", []).extend(by_kind.pop(k, []))
+                        if "caster" not in plan:
+                            plan.append("caster")
+                    break
+            else:
+                break
+        plan = plan[:n_groups]             # kleine Raids: übrige Spieler füllen freie Plätze
+    plan += ["heal"] * (n_groups - len(plan))
+    groups: list[list] = [[] for _ in plan]
+
+    def place(s, idxs, cap):
+        for i in idxs:
+            if len(groups[i]) < cap:
+                groups[i].append(s)
+                return True
+        return False
+
+    leftovers = []
+    for kind in ("tank", "melee", "lock", "caster", "hunter"):
+        idxs = [i for i, k in enumerate(plan) if k == kind]
+        members = by_kind.get(kind, [])
+        # gleichmäßig verteilen (z. B. 11 Nahkämpfer -> 4/4/3)
+        for j, s in enumerate(members):
+            if not idxs:
+                leftovers.append(s)
+                continue
+            target = [idxs[j % len(idxs)]] + idxs
+            if not place(s, target, core_cap):
+                leftovers.append(s)
+    # je Kampfgruppe ein Unterstützer (Reihenfolge: Tanks, Nahkampf, Hexer, Fernkampf, Jäger)
+    fight = [i for i, k in enumerate(plan) if k != "heal"]
+    sup = list(supports)
+    for i in fight:
+        if not sup:
+            break
+        if len(groups[i]) < 5:
+            groups[i].append(sup.pop(0))
+    # Heiler: zuerst Heilergruppen, dann freie Plätze (Gruppen ohne Heiler zuerst)
+    healers = by_kind.get("heal", []) + sup + leftovers
+    heal_idx = [i for i, k in enumerate(plan) if k == "heal"]
+    for s in healers:
+        if place(s, heal_idx, 5):
+            continue
+        free = sorted(range(len(groups)), key=lambda i: (any(player_kind(x) == "heal" or x["cls"] == support_cls for x in groups[i]), len(groups[i])))
+        place(s, free, 5)
+    labels = [GROUP_LABELS.get(k, "") for k in plan]
+    # leere Gruppen am Ende entfernen
+    while groups and not groups[-1]:
+        groups.pop()
+        labels.pop()
+    return {"groups": groups, "labels": labels}
+
+
 def build_lineup(raid: dict, att: dict) -> dict:
     """Optimale Besetzung zuerst, innerhalb der Rollen Stammspieler vor anderen.
     Liefert {"groups": {name: nr}, "bench": [...], "players": [...], "stamm": set, "size": n}."""
@@ -805,21 +917,25 @@ def build_lineup(raid: dict, att: dict) -> dict:
             break
         chosen.append(s)
 
-    # Gruppen: Gruppe 1 mit MT und Tanks, dann Nahkampf, Fernkampf, Heiler.
-    # Innerhalb der Rolle: Stammspieler alphabetisch (fester Platz), danach die anderen.
+    # Gruppen wie im Classic-Raid üblich (Gruppen-Buffs wirken nur in der eigenen Gruppe):
+    #   Gruppe 1 = Tanks · Nahkampfgruppen (Kampfschrei, Windzorn/Paladin-Aura, Rudelführer) ·
+    #   Hexer-Gruppe mit Schattenpriester (Vampirumarmung) · Magier-Gruppen · Jäger-Gruppe (Aura des Volltreffers) ·
+    #   je Gruppe ein Unterstützer (Schamane bzw. Paladin) · übrige Heiler auf Heilergruppen und freie Plätze.
     def stable(s):
         return (0, s["name"].lower()) if is_stamm(s) else (1, -ratio(s), s["name"].lower())
 
-    tanks = sorted([s for s in chosen if s["role"] == "tank"], key=lambda s: (-ratio(s), s["name"].lower()))
-    ordered = list(tanks)
-    for role in ("melee", "ranged", "heal"):
-        ordered += sorted([s for s in chosen if s["role"] == role], key=stable)
-    ordered += [s for s in chosen if s not in ordered]
-    groups = {s["name"]: i // 5 + 1 for i, s in enumerate(ordered)}
+    layout = arrange_groups(chosen, stable)
+    groups = {}
+    ordered = []
+    for g, members in enumerate(layout["groups"], 1):
+        for s in members:
+            groups[s["name"]] = g
+            ordered.append(s)
     bench = [s["name"] for s in sorted(signed + backup, key=prio) if s not in chosen]
     return {
         "groups": groups, "bench": bench, "players": ordered, "size": size,
         "stamm": {s["name"] for s in ordered if is_stamm(s)}, "template": tpl,
+        "labels": layout["labels"],
     }
 
 
@@ -836,7 +952,8 @@ def lineup_text(raid: dict, lineup: dict, att_source: str, att_count: int) -> li
             if s.get("spec"):
                 cls_text = f"{cls_text} {spec_label(s['spec'])}"
             parts.append(f"{star}{s['name']} ({cls_text}, {ROLES.get(s['role'], s['role'])})")
-        label = "Gruppe 1 (MT)" if g == 1 else f"Gruppe {g}"
+        kinds = lineup.get("labels") or []
+        label = f"Gruppe {g}" + (f" ({kinds[g - 1]})" if g - 1 < len(kinds) and kinds[g - 1] else "")
         blocks.append(f"**{label}:** " + ", ".join(parts))
     counts = {r: sum(1 for s in players if s["role"] == r) for r in ("tank", "heal", "melee", "ranged")}
     blocks.append("Besetzung: " + " · ".join(f"{ROLES[r]} {counts[r]}" for r in ("tank", "heal", "melee", "ranged")))

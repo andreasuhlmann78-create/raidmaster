@@ -1359,9 +1359,12 @@ local function BuildLeaderBosses(page)
 	local markHint = Label(page, "", 190, -497, 11, true)
 	markHint:SetWidth(580)
 
-	local keyHint = Label(page, L["Am schnellsten: Esc > Tastaturbelegung > RaidMaster. Dort z. B. eine Taste für 'Nächstes freies Symbol' "]
-		.. L["belegen, dann mit der Maus über die Gegner fahren und die Taste drücken – ohne sie anzuklicken."], 0, -536, 11, true)
-	keyHint:SetWidth(770)
+	-- Boss-Leiste: erscheint, sobald die Raidleitung einen Boss ins Ziel nimmt (Ansage + Symbole per Klick)
+	local bossBarCheck = UI.Check(page, L["Boss-Leiste, sobald ein Boss im Ziel ist (Ansage + Symbole per Klick)"],
+		function() return RM.db.config.bossBar ~= false end,
+		function(v) RM.db.config.bossBar = v; RM.Fire("CONFIG_CHANGED") end,
+		L["Nimmt der Raidleiter oder ein Assistent einen Boss ins Ziel, erscheint eine Leiste: ein Klick sagt die Taktik als Schlachtzugwarnung an und setzt die Symbole wie im Automatikmodus."])
+	Place(bossBarCheck, page, 0, -532)
 
 	return function()
 		if not Raid() then SelectRaid(DefaultRaid()) end
@@ -1414,6 +1417,7 @@ local function BuildLeaderBosses(page)
 		local t = Data.GetTemplate(RM.db.config.markerTemplate)
 		note:SetText(t.note or "")
 		barCheck:Refresh()
+		bossBarCheck:Refresh()
 		lockCheck:Refresh()
 		autoCheck:Refresh()
 		local lead = RM.Markers.IsMarkerLead() or not (RM.InRaid() or (IsInGroup and IsInGroup()))
