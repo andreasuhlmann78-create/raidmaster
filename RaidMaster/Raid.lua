@@ -55,8 +55,19 @@ function Raid.End()
 	end
 	RM.db.session.active = false
 	RM.db.session.ended = GetServerTime()
+	Raid.ResetPool()
 	RM.Fire("SESSION_CHANGED")
 end
+
+-- Reiter Raid: ohne laufenden Raid steht der DKP-Topf immer auf Molten Core
+-- (in einer Raid-Instanz wird der passende Topf weiterhin automatisch erkannt)
+Raid.DEFAULT_POOL = "mc"
+function Raid.ResetPool()
+	if not (RM.db and RM.db.config and RM.db.session) or RM.db.session.active then return end
+	if RM.Data and RM.Data.Pools and not RM.Data.Pools[Raid.DEFAULT_POOL] then return end
+	RM.db.config.activePool = Raid.DEFAULT_POOL
+end
+RM.On("PLAYER_LOGIN", function() Raid.ResetPool() end)
 
 ---------------------------------------------------------------------------
 -- Bosskills

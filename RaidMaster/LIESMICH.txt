@@ -1,4 +1,4 @@
-RaidMaster 2.0.0 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 2.0.1 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,11 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+RAID STANDARDMÄSSIG MOLTEN CORE (neu in 2.0.1)
+- Reiter Raid (und Raidleiter > Raid & Gruppen): ohne laufenden Raid steht der DKP-Topf immer auf Molten Core –
+  nach dem Einloggen und nach jedem "Raid beenden". Einen anderen Raid kannst du vor dem Start wie bisher wählen.
+- In einer Raid-Instanz (z. B. Onyxias Hort) wird der passende Topf weiterhin automatisch erkannt.
 
 EIGENES VERGABE-FENSTER (neu in 2.0.0)
 - Nach jeder Versteigerung erscheint ein eigenes Fenster "Versteigerung beendet" mit
