@@ -1,4 +1,4 @@
-RaidMaster Test 1.5.1 – RaidMaster im Spiel gefahrlos ausprobieren
+RaidMaster Test 1.6.0 – RaidMaster im Spiel gefahrlos ausprobieren
 ==================================================================
 
 INSTALLATION
@@ -35,6 +35,10 @@ WAS DU TESTEN KANNST
   Versteigerung öffnet sich). Du startest jede Versteigerung selbst ("Gewähltes starten"), die Testspieler
   bieten mit, du klickst "Vergeben". Ist die Warteschlange leer, kommt der nächste Boss.
   Häkchen "Versteigerungen automatisch" = schneller Durchlauf ohne Klicken (wie bisher).
+- Mehrere Raidabende (neu in 1.6.0): "Raidabende hintereinander" (1–10) eintragen, dann "Ganzen Raid
+  durchspielen". Mit dem Häkchen "je eine Woche auseinander datieren" bekommen die Abende Daten im Wochenabstand
+  (der letzte heute) – so stehen nach "Test an Discord senden" mehrere Raid-Abrechnungen wie nach Wochen im Discord.
+  Tipp: dazu "Versteigerungen automatisch" anhaken, sonst versteigerst du jeden Abend selbst.
 - Ganzen Raid durchspielen: Raid wählen (z. B. Molten Core) -> "Ganzen Raid durchspielen" startet den Raid,
   besiegt alle Bosse nacheinander, legt echte Beute aus der Beutetabelle des Bosses aus (Classic, TBC und
   Wrath), lässt die Testspieler darauf bieten, vergibt die Items und beendet den Raid am Schluss.

@@ -450,6 +450,15 @@ local function RunStep()
 		RM.db.data.settings.auctionTime = run.oldTime
 		run.ticker:Cancel()
 		run = nil
+		if T.series and T.series.left > 0 then
+			C_Timer.After(3, function() if T.active and T.series then T.NextSeriesRun() end end)
+		else
+			if T.series and T.series.total > 1 then
+				Log(string.format("Alle %d Raidabende fertig – 'Test an Discord senden' zeigt die Raid-Abrechnungen im Discord.", T.series.total))
+			end
+			T.series = nil
+			T.SetTimeOffset(0)
+		end
 		if T.Refresh then T.Refresh() end
 		return
 	end
@@ -470,6 +479,40 @@ local function RunStep()
 		for _, id in ipairs(picked) do HandleItem(id, boss.name) end
 	end
 	run.waitUntil = now + 2
+end
+
+-- Mehrere Raidabende hintereinander: auf Wunsch je eine Woche auseinander datiert
+-- (GetServerTime wird nur im Testmodus verschoben und danach zurückgesetzt)
+T.runs, T.weekly = 1, true
+local realServerTime
+local function SetTimeOffset(sec)
+	if not realServerTime then realServerTime = GetServerTime end
+	if sec == 0 then
+		GetServerTime = realServerTime
+	else
+		GetServerTime = function() return realServerTime() + sec end
+	end
+end
+T.SetTimeOffset = SetTimeOffset
+
+function T.RunRaids(n)
+	n = math.max(1, math.min(10, math.floor(tonumber(n) or 1)))
+	if run then Log("Es läuft schon ein Durchlauf.") return end
+	T.series = { total = n, left = n }
+	T.NextSeriesRun()
+end
+
+function T.NextSeriesRun()
+	local sr = T.series
+	if not sr or sr.left <= 0 then return end
+	local idx = sr.total - sr.left + 1
+	T.SetTimeOffset(T.weekly and -(sr.left - 1) * 7 * 86400 or 0)
+	Log(string.format("Raidabend %d von %d%s", idx, sr.total,
+		(T.weekly and sr.total > 1) and (" – datiert auf " .. date("%d.%m.%Y", GetServerTime())) or ""))
+	sr.left = sr.left - 1
+	-- zurückdatierte Abende gehören auch zu den Testdaten für Discord
+	if RM.db.testMode then RM.db.testMode.started = math.min(RM.db.testMode.started or GetServerTime(), GetServerTime() - 60) end
+	T.RunRaid()
 end
 
 function T.RunRaid()
@@ -508,6 +551,8 @@ function T.RunRaid()
 end
 
 function T.StopRun()
+	T.series = nil
+	T.SetTimeOffset(0)
 	if not run then return end
 	run.ticker:Cancel()
 	if run.origAward then RM.Auction.Award = run.origAward end
@@ -584,7 +629,7 @@ local function Section(parent, text, y)
 end
 
 local function CreateWindow()
-	local f = UI.Frame(UIParent, 560, 750)
+	local f = UI.Frame(UIParent, 560, 780)
 	UI.Skin(f)
 	f:SetFrameStrata("HIGH")
 	f:SetClampedToScreen(true)
@@ -652,7 +697,7 @@ local function CreateWindow()
 		"Magmadar: fragt die Jäger nach Einlullender Schuss und postet die Rotation (Testjäger antworten selbst).")
 	tqBtn:SetPoint("LEFT", endBtn, "RIGHT", 8, 0)
 
-	local runBtn = UI.Button(f, "Ganzen Raid durchspielen", 200, 26, function() T.RunRaid() end,
+	local runBtn = UI.Button(f, "Ganzen Raid durchspielen", 200, 26, function() T.RunRaids(T.runs) end,
 		"Alle Bosse des gewählten Raids nacheinander: Bosskill, Beute aus der echten Beutetabelle (Classic/TBC/Wrath),\n"
 		.. "Regeln (Versteigerung, Gildenbank, Entzauberer ...), Versteigerungen mit Testgeboten, Trash-Beute zwischendurch.")
 	runBtn:SetPoint("TOPLEFT", 14, -258)
@@ -666,10 +711,22 @@ local function CreateWindow()
 		"Aus (Standard): die Beute liegt in der Warteschlange, du startest jede Versteigerung selbst und klickst \"Vergeben\".\n"
 		.. "An: der Durchlauf versteigert und vergibt alles von selbst.")
 	autoCheck:SetPoint("TOPLEFT", 14, -290)
+	local runsLabel = UI.Text(f, "Raidabende hintereinander:", 12)
+	runsLabel:SetPoint("TOPLEFT", 16, -323)
+	local runsBox = UI.EditBox(f, 44, 24)
+	runsBox:SetPoint("TOPLEFT", 190, -318)
+	runsBox:SetText("1")
+	runsBox:SetScript("OnTextChanged", function(self, user)
+		if user then T.runs = math.max(1, math.min(10, math.floor(tonumber(self:GetText()) or 1))) end
+	end)
+	runsBox:SetScript("OnEnterPressed", function(self) self:ClearFocus(); self:SetText(tostring(T.runs)) end)
+	local weeklyCheck = UI.Check(f, "je eine Woche auseinander datieren", function() return T.weekly end, function(v) T.weekly = v end,
+		"Die Raidabende bekommen Daten im Wochenabstand (der letzte heute) – so sieht der Verlauf im Discord aus wie nach mehreren Wochen.")
+	weeklyCheck:SetPoint("TOPLEFT", 250, -321)
 
-	Section(f, "Versteigerung", -324)
+	Section(f, "Versteigerung", -354)
 	local itemBox = UI.LinkBox(f, 300, 26)
-	itemBox:SetPoint("TOPLEFT", 14, -348)
+	itemBox:SetPoint("TOPLEFT", 14, -378)
 	local hint = UI.Text(itemBox, "Item per Shift-Klick (leer = Ruhestein)", 11, unpack(COLORS.muted))
 	hint:SetPoint("LEFT", 8, 0)
 	itemBox:HookScript("OnTextChanged", function(self) if self:GetText() == "" then hint:Show() else hint:Hide() end end)
@@ -678,7 +735,7 @@ local function CreateWindow()
 		"Startet eine Versteigerung; 4 Testspieler bieten nacheinander. Danach fragt RaidMaster wie im echten Raid, ob vergeben wird.")
 	aucBtn:SetPoint("LEFT", itemBox, "RIGHT", 8, 0)
 	local dkpBox = UI.EditBox(f, 120, 26)
-	dkpBox:SetPoint("TOPLEFT", 14, -382)
+	dkpBox:SetPoint("TOPLEFT", 14, -412)
 	dkpBox:SetText("1000")
 	dkpBox:SetScript("OnEnterPressed", function(self) T.GiveMeDKP(self:GetText()); self:ClearFocus() end)
 	local dkpBtn = UI.Button(f, "DKP an mich (gewählter Raid)", 220, 26, function() T.GiveMeDKP(dkpBox:GetText()) end,
@@ -689,17 +746,17 @@ local function CreateWindow()
 		.. "Lädt die Oberfläche neu – danach ist der Testmodus beendet. Der Uploader muss laufen.")
 	discordBtn:SetPoint("LEFT", dkpBtn, "RIGHT", 8, 0)
 
-	Section(f, "Schlachtzugsymbole (echt, z. B. an Trainingspuppen)", -424)
+	Section(f, "Schlachtzugsymbole (echt, z. B. an Trainingspuppen)", -454)
 	local m1 = UI.Button(f, "Totenkopf aufs Ziel", 160, 26, function() RM.Markers.Mark(8) end)
-	m1:SetPoint("TOPLEFT", 14, -448)
+	m1:SetPoint("TOPLEFT", 14, -478)
 	local m2 = UI.Button(f, "Adds markieren", 160, 26, function() RM.Markers.MarkAdds() end, "Markiert alle sichtbaren Gegner nach der gewählten Vorlage.")
 	m2:SetPoint("LEFT", m1, "RIGHT", 8, 0)
 	local m3 = UI.Button(f, "Alle aus", 120, 26, function() RM.Markers.ClearAll() end)
 	m3:SetPoint("LEFT", m2, "RIGHT", 8, 0)
 
-	Section(f, "Protokoll", -490)
+	Section(f, "Protokoll", -520)
 	local box = UI.Multiline(f, 532, 220, true)
-	box:SetPoint("TOPLEFT", 14, -514)
+	box:SetPoint("TOPLEFT", 14, -544)
 
 	function T.Refresh()
 		if not f:IsShown() then return end
