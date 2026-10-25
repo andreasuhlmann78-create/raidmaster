@@ -4845,3 +4845,4 @@ L["Diese Spielversion hat keinen Plündermeister – Items kommen nicht automati
 L["Plündermethode ist nicht Plündermeister – die Items kommen nicht in die Warteschlange. Plündermeister auf der Seite Loot oder Raidleiter setzen."] = "Способ добычи не «ответственный за добычу» – предметы не попадают в очередь. Назначьте ответственного на странице Добыча или Лидер рейда."
 L["Nur der Plündermeister (%s) stellt die Items in die Warteschlange – öffnet er die Beute, siehst du sie hier auch."] = "Только ответственный за добычу (%s) ставит предметы в очередь – как только он откроет добычу, вы увидите их и здесь."
 L["Versteigerungen startet nur der Plündermeister (%s)."] = "Аукционы запускает только ответственный за добычу (%s)."
+L["Gesamt %s: |cffff8c1a%d DKP|r · %d Spieler"] = "Всего %s: |cffff8c1a%d DKP|r · %d игроков"

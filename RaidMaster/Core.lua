@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "1.9.0"
-RM.VERSION_NUM = 10900
+RM.VERSION = "1.9.1"
+RM.VERSION_NUM = 10901
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------

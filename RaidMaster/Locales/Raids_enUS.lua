@@ -4845,3 +4845,4 @@ L["Diese Spielversion hat keinen Plündermeister – Items kommen nicht automati
 L["Plündermethode ist nicht Plündermeister – die Items kommen nicht in die Warteschlange. Plündermeister auf der Seite Loot oder Raidleiter setzen."] = "Loot method is not master loot – items are not added to the queue. Set the master looter on the Loot or Raid Leader page."
 L["Nur der Plündermeister (%s) stellt die Items in die Warteschlange – öffnet er die Beute, siehst du sie hier auch."] = "Only the master looter (%s) puts items into the queue – once he opens the loot, you see them here too."
 L["Versteigerungen startet nur der Plündermeister (%s)."] = "Only the master looter (%s) starts auctions."
+L["Gesamt %s: |cffff8c1a%d DKP|r · %d Spieler"] = "Total %s: |cffff8c1a%d DKP|r · %d players"

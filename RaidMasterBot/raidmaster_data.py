@@ -434,6 +434,17 @@ def standings(data: dict, pool: str = "mc") -> list[dict]:
     return rows
 
 
+def pool_total(rows: list[dict]) -> tuple[int, int]:
+    """Gesamtpunkte eines Raid-Topfes: Summe aller DKP-Stände, Zahl der Spieler mit Stand."""
+    vals = [int(r["dkp"]) for r in rows if r["dkp"] != 0]
+    return sum(vals), len(vals)
+
+
+def total_line(rows: list[dict]) -> str:
+    total, count = pool_total(rows)
+    return f"Gesamt: **{total} DKP** · {count} Spieler"
+
+
 def player_summary(data: dict, name: str) -> list[tuple[str, int, int, int]]:
     """Für /dkp: (Raidname, DKP, Platz, Spielerzahl) je Topf mit Stand ungleich 0."""
     out = []

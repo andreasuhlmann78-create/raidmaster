@@ -4845,3 +4845,4 @@ L["Diese Spielversion hat keinen Plündermeister – Items kommen nicht automati
 L["Plündermethode ist nicht Plündermeister – die Items kommen nicht in die Warteschlange. Plündermeister auf der Seite Loot oder Raidleiter setzen."] = "O modo de saque não é mestre saqueador – os itens não entram na fila. Defina o mestre na página Saque ou Líder de raide."
 L["Nur der Plündermeister (%s) stellt die Items in die Warteschlange – öffnet er die Beute, siehst du sie hier auch."] = "Só o mestre saqueador (%s) coloca os itens na fila – quando ele abrir o saque, você também os vê aqui."
 L["Versteigerungen startet nur der Plündermeister (%s)."] = "Só o mestre saqueador (%s) inicia os leilões."
+L["Gesamt %s: |cffff8c1a%d DKP|r · %d Spieler"] = "Total %s: |cffff8c1a%d DKP|r · %d jogadores"

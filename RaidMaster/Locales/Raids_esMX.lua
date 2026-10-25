@@ -4845,3 +4845,4 @@ L["Diese Spielversion hat keinen Plündermeister – Items kommen nicht automati
 L["Plündermethode ist nicht Plündermeister – die Items kommen nicht in die Warteschlange. Plündermeister auf der Seite Loot oder Raidleiter setzen."] = "El modo de botín no es maestro despojador – los objetos no entran en la cola. Establece el maestro en la página Botín o Líder de banda."
 L["Nur der Plündermeister (%s) stellt die Items in die Warteschlange – öffnet er die Beute, siehst du sie hier auch."] = "Solo el maestro despojador (%s) pone los objetos en la cola – cuando abra el botín, también los verás aquí."
 L["Versteigerungen startet nur der Plündermeister (%s)."] = "Solo el maestro despojador (%s) inicia las subastas."
+L["Gesamt %s: |cffff8c1a%d DKP|r · %d Spieler"] = "Total %s: |cffff8c1a%d DKP|r · %d jugadores"

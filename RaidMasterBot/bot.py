@@ -861,8 +861,9 @@ async def dkp_list_cmd(inter: discord.Interaction, raid: str = "mc"):
         await asyncio.to_thread(reload_dkp_if_needed)
     except Exception:
         log.exception("DKP-Datei konnte nicht gelesen werden")
-    chunks = rmd.format_standings(rmd.standings(bot.dkp_data or {}, raid))
-    await inter.response.send_message(f"**{rmd.pool_name(raid, bot.dkp_data)}**\n" + chunks[0], ephemeral=True)
+    rows = rmd.standings(bot.dkp_data or {}, raid)
+    chunks = rmd.format_standings(rows)
+    await inter.response.send_message(f"**{rmd.pool_name(raid, bot.dkp_data)}** – {rmd.total_line(rows)}\n" + chunks[0], ephemeral=True)
 
 
 @bot.tree.command(name="raidmaster-status", description="Zeigt, ob der Bot die RaidMaster-Datei findet")
@@ -1023,7 +1024,8 @@ async def post_dkp_table(pool: str, channel_id: int, rows: list[dict]):
         log.warning("DKP-Kanal nicht erreichbar: %s", e)
         return
     chunks = rmd.format_standings(rows)
-    chunks[0] = f"**DKP-Stand {rmd.pool_name(pool, bot.dkp_data)}** – aktualisiert <t:{int(bot.dkp_mtime)}:f>\n" + chunks[0]
+    chunks[0] = (f"**DKP-Stand {rmd.pool_name(pool, bot.dkp_data)}** – aktualisiert <t:{int(bot.dkp_mtime)}:f>\n"
+                 f"{rmd.total_line(rows)}\n" + chunks[0])
     all_ids = state.data.setdefault("dkp_messages", {})
     ids = list(all_ids.get(pool) or [])
     new_ids = []
@@ -1581,7 +1583,7 @@ async def handle_test_upload(db: dict, uploader: str):
         # DKP-Tabelle
         rows = rmd.standings(data, pool)
         chunks = rmd.format_standings(rows)
-        chunks[0] = f"{head}\n**DKP-Stand {name}** (Test)\n" + chunks[0]
+        chunks[0] = f"{head}\n**DKP-Stand {name}** (Test)\n{rmd.total_line(rows)}\n" + chunks[0]
         for text in chunks:
             await send_test(dkp_ch, text)
             posted += 1

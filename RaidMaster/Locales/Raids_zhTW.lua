@@ -4845,3 +4845,4 @@ L["Diese Spielversion hat keinen Plündermeister – Items kommen nicht automati
 L["Plündermethode ist nicht Plündermeister – die Items kommen nicht in die Warteschlange. Plündermeister auf der Seite Loot oder Raidleiter setzen."] = "拾取方式不是隊長分配 – 物品不會進入佇列。請在「拾取」或「團長」頁面設定分配者。"
 L["Nur der Plündermeister (%s) stellt die Items in die Warteschlange – öffnet er die Beute, siehst du sie hier auch."] = "只有隊長分配者（%s）會把物品放入佇列 – 他打開拾取後，你在這裡也能看到。"
 L["Versteigerungen startet nur der Plündermeister (%s)."] = "只有隊長分配者（%s）可以開始拍賣。"
+L["Gesamt %s: |cffff8c1a%d DKP|r · %d Spieler"] = "%s 合計：|cffff8c1a%d DKP|r · %d 名玩家"

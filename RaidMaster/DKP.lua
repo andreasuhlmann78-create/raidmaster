@@ -185,6 +185,20 @@ local function PoolValue(p, pool)
 end
 DKP.PoolValue = PoolValue
 
+-- Gesamtpunkte eines Raid-Topfes: Summe aller DKP-Stände und Zahl der Spieler mit Stand
+function DKP.PoolTotal(data, pool)
+	data = data or RM.db.data
+	local total, count = 0, 0
+	for _, p in pairs(data.players or {}) do
+		local v = PoolValue(p, pool)
+		if v and v ~= 0 then
+			total = total + v
+			count = count + 1
+		end
+	end
+	return total, count
+end
+
 function DKP.Get(name, pool)
 	return PoolValue(RM.db.data.players[RM.Short(name)], pool or DKP.ActivePool())
 end

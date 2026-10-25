@@ -110,6 +110,8 @@ UI.AddPage("dkp", L["DKP-Stände"], function(page)
 
 	Section(page, L["DKP-Stände"], 0, 0)
 	local poolCycle = PoolCycle(page, 120, 4, 240)
+	local totalLabel = Label(page, "", 372, -2, 13)
+	totalLabel:SetWidth(420)
 
 	local search = UI.EditBox(page, 180, 24)
 	Place(search, page, 0, -30)
@@ -242,6 +244,8 @@ UI.AddPage("dkp", L["DKP-Stände"], function(page)
 			return x < y
 		end)
 		list:SetData(rows)
+		local total, count = RM.DKP.PoolTotal(data, pool)
+		totalLabel:SetText(string.format(L["Gesamt %s: |cffff8c1a%d DKP|r · %d Spieler"], poolName, total, count))
 
 		local function dkpOf(n) return RM.DKP.PoolValue(data.players[n], pool) end
 		if selected then

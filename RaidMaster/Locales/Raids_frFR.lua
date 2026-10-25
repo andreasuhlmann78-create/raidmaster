@@ -4845,3 +4845,4 @@ L["Diese Spielversion hat keinen Plündermeister – Items kommen nicht automati
 L["Plündermethode ist nicht Plündermeister – die Items kommen nicht in die Warteschlange. Plündermeister auf der Seite Loot oder Raidleiter setzen."] = "Le mode de butin n'est pas Responsable du butin – les objets ne vont pas dans la file. Définir le responsable sur la page Butin ou Chef de raid."
 L["Nur der Plündermeister (%s) stellt die Items in die Warteschlange – öffnet er die Beute, siehst du sie hier auch."] = "Seul le responsable du butin (%s) met les objets dans la file – dès qu'il ouvre le butin, vous les voyez ici aussi."
 L["Versteigerungen startet nur der Plündermeister (%s)."] = "Seul le responsable du butin (%s) lance les enchères."
+L["Gesamt %s: |cffff8c1a%d DKP|r · %d Spieler"] = "Total %s : |cffff8c1a%d DKP|r · %d joueurs"

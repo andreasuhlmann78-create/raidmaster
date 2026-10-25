@@ -1,4 +1,4 @@
-RaidMaster 1.9.0 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 1.9.1 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,10 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+GESAMTPUNKTE PRO RAID (neu in 1.9.1)
+- Seite DKP-Stände: neben der Raidauswahl steht die Summe aller DKP dieses Raids und die Zahl der Spieler
+  (z. B. "Gesamt Molten Core: 2350 DKP · 31 Spieler"). Im Discord steht dieselbe Zeile über jeder DKP-Tabelle.
 
 VERSTEIGERUNG NUR DURCH DEN PLÜNDERMEISTER (neu in 1.9.0)
 - Jede Versteigerung startet der Plündermeister selbst, Item für Item (Seite Versteigerung: Item wählen,

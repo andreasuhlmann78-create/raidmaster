@@ -4845,3 +4845,4 @@ L["Diese Spielversion hat keinen Plündermeister – Items kommen nicht automati
 L["Plündermethode ist nicht Plündermeister – die Items kommen nicht in die Warteschlange. Plündermeister auf der Seite Loot oder Raidleiter setzen."] = "전리품 방식이 담당자 획득이 아닙니다 – 아이템이 대기열에 들어가지 않습니다. 전리품 또는 공격대장 탭에서 담당자를 지정하세요."
 L["Nur der Plündermeister (%s) stellt die Items in die Warteschlange – öffnet er die Beute, siehst du sie hier auch."] = "담당자(%s)만 아이템을 대기열에 넣습니다 – 담당자가 전리품을 열면 여기에도 표시됩니다."
 L["Versteigerungen startet nur der Plündermeister (%s)."] = "경매는 담당자(%s)만 시작할 수 있습니다."
+L["Gesamt %s: |cffff8c1a%d DKP|r · %d Spieler"] = "%s 합계: |cffff8c1a%d DKP|r · %d명"

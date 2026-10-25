@@ -4845,3 +4845,4 @@ L["Diese Spielversion hat keinen Plündermeister – Items kommen nicht automati
 L["Plündermethode ist nicht Plündermeister – die Items kommen nicht in die Warteschlange. Plündermeister auf der Seite Loot oder Raidleiter setzen."] = "Il metodo di bottino non è responsabile del bottino – gli oggetti non vanno in coda. Imposta il responsabile nella pagina Bottino o Capoincursione."
 L["Nur der Plündermeister (%s) stellt die Items in die Warteschlange – öffnet er die Beute, siehst du sie hier auch."] = "Solo il responsabile del bottino (%s) mette gli oggetti in coda – appena apre il bottino li vedi anche qui."
 L["Versteigerungen startet nur der Plündermeister (%s)."] = "Solo il responsabile del bottino (%s) avvia le aste."
+L["Gesamt %s: |cffff8c1a%d DKP|r · %d Spieler"] = "Totale %s: |cffff8c1a%d DKP|r · %d giocatori"
