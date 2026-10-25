@@ -10,7 +10,7 @@ RAID AUS RAIDMASTER STARTEN (neu in 1.7.3)
   sofort durch (Bosse, Beute in der Warteschlange, Testgebote). Der Raid wird aus RaidMaster übernommen.
 - "Raid beenden" in RaidMaster bricht den Durchlauf ab und schickt das Ergebnis an Discord.
 - Der Knopf "Raid starten" im Test-Tool startet weiterhin nur die Sitzung (für Bosskill-Tests von Hand).
-- Abschaltbar: Haken "\"Raid starten\" in RaidMaster spielt im Test den ganzen Raid durch".
+- Abschaltbar: Haken „Raid starten“ in RaidMaster spielt im Test den ganzen Raid durch.
 
 ERGEBNIS IMMER AN DISCORD (neu in 1.7.3)
 - Nach "Raid beenden" bzw. am Ende des Durchlaufs erscheint ein Fenster mit Countdown: nach 10 Sek. wird
