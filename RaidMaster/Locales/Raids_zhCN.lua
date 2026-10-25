@@ -4902,3 +4902,8 @@ L["[RaidMaster] Majordomus: Ersatz-Sheep auf {rt%d} (%s) – sofort nachsheepen,
 L["Sheep-Rotation posten"] = "发布变羊分配"
 L["Sagt als Schlachtzugwarnung an, welcher Magier welchen Heiler sheept (Kreuz, Viereck, Mond), und flüstert jedem Magier sein Symbol."] = "以团队警告公布哪个法师负责把哪个治疗者变羊（十字、方块、月亮），并密语告诉每个法师他的标记。"
 L["Erst die letzte Versteigerung vergeben oder nicht vergeben."] = "请先决定上一次拍卖是否分配。"
+L["Niemand"] = "无人"
+L["Neu versteigern"] = "重新拍卖"
+L[" wurde nicht vergeben."] = " 未分配。"
+L["Bekommt Items, auf die niemand bietet (wenn eingestellt), und blaue Items mit Regel Entzauberer."] = "获得无人出价的物品（如已设置）以及规则为分解的蓝色物品。"
+L["Bekommt Rezepte und Materialien mit Regel Handwerker."] = "获得规则为工匠的配方和材料。"

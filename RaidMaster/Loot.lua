@@ -73,6 +73,29 @@ function Loot.SetThreshold(v)
 	if (IsInGroup and IsInGroup()) and RM.IsLeader() and RM.GetLootMethod() == "master" then RM.SetLootThreshold(v) end
 end
 
+-- Auswahl für Entzauberer / Handwerker: niemand, du selbst, alle Gruppenmitglieder
+function Loot.RecipientChoices(key)
+	local items = { { "", L["Niemand"] }, { RM.Me(), L["Du selbst"] .. " (" .. RM.Me() .. ")" } }
+	local names = {}
+	if RM.InRaid() then
+		for _, m in ipairs(RM.RaidMembers()) do if m.name ~= RM.Me() then names[#names + 1] = m.name end end
+	elseif IsInGroup and IsInGroup() then
+		for i = 1, 4 do
+			local n = UnitExists("party" .. i) and RM.Short(UnitName("party" .. i))
+			if n then names[#names + 1] = n end
+		end
+	end
+	table.sort(names)
+	local cur = C()[key]
+	local found = (not cur or cur == "" or cur == RM.Me())
+	for _, n in ipairs(names) do
+		items[#items + 1] = { n, n }
+		if n == cur then found = true end
+	end
+	if not found then items[#items + 1] = { cur, cur .. " |cff888888(" .. L["nicht in der Gruppe"] .. ")|r" } end
+	return { { items = items } }
+end
+
 -- Auswahl für das Plündermeister-Menü: du selbst + alle Gruppenmitglieder
 function Loot.MasterChoices()
 	local items = { { "", L["Du selbst"] .. " (" .. RM.Me() .. ")" } }

@@ -1,4 +1,4 @@
-RaidMaster 1.9.6 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 1.9.7 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,13 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+ENTZAUBERER/HANDWERKER PER MENÜ, VERGABE MIT 3 KNÖPFEN (neu in 1.9.7)
+- Seite Loot: Entzauberer und Handwerker werden wie der Plündermeister aus einem Menü gewählt (Raidmitglieder,
+  du selbst oder niemand).
+- Am Ende einer Versteigerung: "Vergeben", "Nicht vergeben" (geht wie bei keinen Geboten an Entzauberer bzw.
+  Gildenbank) oder "Neu versteigern" (wieder vorne in die Warteschlange). Vorher kam "Nicht vergeben" immer
+  zurück in die Warteschlange – im Test-Raid wartete der Durchlauf dann ewig auf eine leere Warteschlange.
 
 VERGABE KANN NICHT MEHR HÄNGEN BLEIBEN (neu in 1.9.6)
 - Die Frage "… vergeben?" am Ende einer Versteigerung hat ein eigenes Fenster und wird nicht mehr von anderen

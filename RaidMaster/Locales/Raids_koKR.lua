@@ -4902,3 +4902,8 @@ L["[RaidMaster] Majordomus: Ersatz-Sheep auf {rt%d} (%s) – sofort nachsheepen,
 L["Sheep-Rotation posten"] = "변이 순서 알리기"
 L["Sagt als Schlachtzugwarnung an, welcher Magier welchen Heiler sheept (Kreuz, Viereck, Mond), und flüstert jedem Magier sein Symbol."] = "어느 마법사가 어느 치유사(가위표, 네모, 달)를 변이할지 공격대 경보로 알리고, 각 마법사에게 징표를 귓속말합니다."
 L["Erst die letzte Versteigerung vergeben oder nicht vergeben."] = "먼저 마지막 경매를 지급하거나 지급하지 않음을 선택하세요."
+L["Niemand"] = "없음"
+L["Neu versteigern"] = "다시 경매"
+L[" wurde nicht vergeben."] = " 아이템을 지급하지 않았습니다."
+L["Bekommt Items, auf die niemand bietet (wenn eingestellt), und blaue Items mit Regel Entzauberer."] = "입찰이 없는 아이템(설정 시)과 마력 추출 규칙의 파란 아이템을 받습니다."
+L["Bekommt Rezepte und Materialien mit Regel Handwerker."] = "제작자 규칙의 제조법과 재료를 받습니다."

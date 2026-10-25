@@ -312,7 +312,7 @@ UI.AddPage("auction", L["Versteigerung"], function(page)
 	local addBtn = UI.Button(box, L["+10 Sek."], 80, 26, function() RM.Auction.AddTime(10) end)
 	addBtn:SetPoint("RIGHT", finishBtn, "LEFT", -6, 0)
 	local cancelBtn = UI.Button(box, L["Abbrechen"], 100, 26, function()
-		if RM.Auction.AwaitingAward() then RM.Auction.CancelAward() return end
+		if RM.Auction.AwaitingAward() then RM.Auction.NoAward() return end
 		UI.Confirm(L["Versteigerung abbrechen? Das Item kommt zurück in die Warteschlange."], function() RM.Auction.Cancel() end)
 	end)
 	cancelBtn:SetPoint("TOPRIGHT", -12, -46)
@@ -509,8 +509,16 @@ UI.AddPage("loot", L["Loot"], function(page)
 		return e
 	end
 	NameField(L["Gildenbank-Charakter"], "bankChar", y); y = y - 30
-	NameField(L["Entzauberer"], "deChar", y); y = y - 30
-	NameField(L["Handwerker"], "crafterChar", y); y = y - 40
+	-- Entzauberer und Handwerker per Menü aus dem Raid wählen (wie der Plündermeister)
+	local function RecipientDrop(label, key, yy, tip)
+		Label(page, label, 0, yy - 5)
+		local d = UI.Dropdown(page, 150, function() return RM.Loot.RecipientChoices(key) end,
+			function() return cfg()[key] or "" end, function(v) cfg()[key] = v; UI.RefreshCurrent() end, tip)
+		Place(d, page, 170, yy)
+		refreshers[#refreshers + 1] = d
+	end
+	RecipientDrop(L["Entzauberer"], "deChar", y, L["Bekommt Items, auf die niemand bietet (wenn eingestellt), und blaue Items mit Regel Entzauberer."]); y = y - 30
+	RecipientDrop(L["Handwerker"], "crafterChar", y, L["Bekommt Rezepte und Materialien mit Regel Handwerker."]); y = y - 40
 
 	Section(page, L["Plündermeister"], 0, y)
 	y = y - 28

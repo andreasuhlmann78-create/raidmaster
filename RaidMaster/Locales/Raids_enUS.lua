@@ -4902,3 +4902,8 @@ L["[RaidMaster] Majordomus: Ersatz-Sheep auf {rt%d} (%s) – sofort nachsheepen,
 L["Sheep-Rotation posten"] = "Post sheep rotation"
 L["Sagt als Schlachtzugwarnung an, welcher Magier welchen Heiler sheept (Kreuz, Viereck, Mond), und flüstert jedem Magier sein Symbol."] = "Announces as a raid warning which mage sheeps which healer (Cross, Square, Moon) and whispers each mage their marker."
 L["Erst die letzte Versteigerung vergeben oder nicht vergeben."] = "First award (or don't award) the last auction."
+L["Niemand"] = "Nobody"
+L["Neu versteigern"] = "Auction again"
+L[" wurde nicht vergeben."] = " was not awarded."
+L["Bekommt Items, auf die niemand bietet (wenn eingestellt), und blaue Items mit Regel Entzauberer."] = "Receives items nobody bids on (if set) and blue items with the Disenchanter rule."
+L["Bekommt Rezepte und Materialien mit Regel Handwerker."] = "Receives recipes and materials with the Crafter rule."

@@ -4902,3 +4902,8 @@ L["[RaidMaster] Majordomus: Ersatz-Sheep auf {rt%d} (%s) – sofort nachsheepen,
 L["Sheep-Rotation posten"] = "Объявить овец"
 L["Sagt als Schlachtzugwarnung an, welcher Magier welchen Heiler sheept (Kreuz, Viereck, Mond), und flüstert jedem Magier sein Symbol."] = "Объявляет предупреждением рейду, какой маг овцует какого лекаря (крест, квадрат, луна), и шепчет каждому магу его метку."
 L["Erst die letzte Versteigerung vergeben oder nicht vergeben."] = "Сначала выдайте (или не выдавайте) предмет с последнего аукциона."
+L["Niemand"] = "Никто"
+L["Neu versteigern"] = "Снова на аукцион"
+L[" wurde nicht vergeben."] = " не был выдан."
+L["Bekommt Items, auf die niemand bietet (wenn eingestellt), und blaue Items mit Regel Entzauberer."] = "Получает предметы без ставок (если включено) и синие предметы по правилу «Распылитель»."
+L["Bekommt Rezepte und Materialien mit Regel Handwerker."] = "Получает рецепты и материалы по правилу «Ремесленник»."

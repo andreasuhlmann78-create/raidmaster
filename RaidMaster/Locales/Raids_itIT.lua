@@ -4902,3 +4902,8 @@ L["[RaidMaster] Majordomus: Ersatz-Sheep auf {rt%d} (%s) – sofort nachsheepen,
 L["Sheep-Rotation posten"] = "Annuncia rotazione pecore"
 L["Sagt als Schlachtzugwarnung an, welcher Magier welchen Heiler sheept (Kreuz, Viereck, Mond), und flüstert jedem Magier sein Symbol."] = "Annuncia come avviso d'incursione quale mago trasforma in pecora quale guaritore (croce, quadrato, luna) e sussurra a ogni mago il suo simbolo."
 L["Erst die letzte Versteigerung vergeben oder nicht vergeben."] = "Prima assegna (o non assegnare) l'ultima asta."
+L["Niemand"] = "Nessuno"
+L["Neu versteigern"] = "Rimetti all'asta"
+L[" wurde nicht vergeben."] = " non è stato assegnato."
+L["Bekommt Items, auf die niemand bietet (wenn eingestellt), und blaue Items mit Regel Entzauberer."] = "Riceve gli oggetti senza offerte (se impostato) e gli oggetti blu con la regola Disincantatore."
+L["Bekommt Rezepte und Materialien mit Regel Handwerker."] = "Riceve ricette e materiali con la regola Artigiano."

@@ -206,8 +206,10 @@ StaticPopupDialogs["RAIDMASTER_AWARD"] = {
 	text = "%s",
 	button1 = L["Vergeben"],
 	button2 = L["Nicht vergeben"],
+	button3 = L["Neu versteigern"],
 	OnAccept = function() A.Award() end,
-	OnCancel = function(_, _, reason) if reason == "clicked" then A.CancelAward() end end,
+	OnCancel = function(_, _, reason) if reason == "clicked" then A.NoAward() end end,
+	OnAlt = function() A.CancelAward() end,
 	timeout = 0,
 	whileDead = true,
 	hideOnEscape = false,
@@ -238,6 +240,18 @@ function A.Award()
 	RM.Fire("AUCTION_CHANGED")
 end
 
+-- Nicht vergeben: wie "keine Gebote" – geht an Entzauberer/Gildenbank (Einstellung "Keine Gebote") oder bleibt liegen
+function A.NoAward()
+	local c = A.current
+	if not c then return end
+	if StaticPopup_Hide then StaticPopup_Hide("RAIDMASTER_AWARD") end
+	A.current = nil
+	RM.Print(c.link .. L[" wurde nicht vergeben."])
+	RM.Loot.ApplyFallback(c.link)
+	RM.Fire("AUCTION_CHANGED")
+end
+
+-- Neu versteigern: Item kommt wieder vorne in die Warteschlange
 function A.CancelAward()
 	local c = A.current
 	if not c then return end
