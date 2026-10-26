@@ -389,14 +389,14 @@ def welcome_text(guild_name: str, channels: dict | None = None, officer_role_id:
         "🍻 **Was dich bei uns erwartet**\n"
         f"• **Gemeinsam statt allein:** Quests, Dungeons und Elitegebiete machen zusammen mehr Spaß – Mitspieler findest du in {ch('gruppensuche')}.\n"
         "• **Hilfe ohne schiefe Blicke:** Fragen sind ausdrücklich erwünscht, egal wie einfach sie dir vorkommen.\n"
-        f"• **Handwerk und Handel:** Berufe, Rezepte und Materialien tauschen in {ch('handwerk-und-handel')}, "
-        "die Gildenbank hilft beim Herstellen.\n"
+        f"• **Handwerk und Handel:** Rezepte und Materialien tauschen in {ch('handwerk-und-handel')}. Wer was herstellen "
+        "kann, verrät dir `/handwerk` – zum Beispiel `/handwerk Feuerschutz`.\n"
         "• **Einfach mal reinschauen:** In den Sprachkanälen ist abends oft jemand zum Quatschen.\n"
         f"• **Zusammen feiern:** Jeder Erfolg der Gilde landet in {ch('ruhmeshalle')}.\n\n"
         "⚔️ **Und wenn du raiden willst**\n"
-        "Wir raiden mit Plan und einem fairen DKP-System – von Molten Core bis zu den neuen Raids. Kein Muss, aber "
-        f"jederzeit willkommen: Anmeldung per Knopf, unser Addon RaidMaster aus {ch('raid-addon')} zeigt dir alles Wichtige, "
-        f"die Regeln stehen in {ch('regeln')}.\n\n"
+        "Wir sind Casual-Raider: Wir raiden gemütlich und mit Spaß, ohne Druck und ohne Tryhard – von Molten Core bis zu den "
+        f"neuen Raids. Kein Muss, aber jederzeit willkommen. Angemeldet wird per Knopf, unser Addon RaidMaster aus {ch('raid-addon')} "
+        f"nimmt dir im Raid die Arbeit ab, und wie wir Punkte und Beute verteilen, steht in {ch('regeln')}.\n\n"
         "👋 **So geht's los**\n"
         f"**1.** Stell dich kurz in {ch('allgemein')} vor – wer bist du, was spielst du?\n"
         f"**2.** Lies in {ch('verhaltensregeln')}, wie wir miteinander umgehen.\n"
@@ -409,67 +409,69 @@ def welcome_text(guild_name: str, channels: dict | None = None, officer_role_id:
 def _rules_text(s: dict) -> str:
     first = " (beim ersten Kill doppelt)" if s.get("firstKillDouble", True) else ""
     return (
-        "**DKP-Regeln** 🔥\n\n"
-        "__Punkte sammeln__\n"
-        "• Jeder Raid hat **eigene DKP** – Punkte aus Molten Core gelten nur in Molten Core usw.\n"
-        f"• Pünktlich zum Raidstart: **+{s.get('dkpStart', 10)} DKP**\n"
-        f"• Jeder Bosskill: **+10 DKP**, besondere Bosse mehr (z. B. Ragnaros **+20**){first}\n"
-        f"• Bis zum Raidende dabei: **+{s.get('dkpEnd', 10)} DKP**\n"
-        "• Wer auf der Ersatzbank bereitsteht, erhält beim Raidstart einmalig **+10 DKP** (danach keine weiteren Punkte).\n\n"
-        "__Items ersteigern__\n"
-        "• Epische Items werden mit **offenen Geboten** versteigert – das Gebotsfenster öffnet sich automatisch.\n"
+        "💎 **So funktionieren unsere DKP**\n\n"
+        "Damit die Beute fair verteilt wird, sammelst du im Raid Punkte (DKP) und bietest damit auf die Items, die du dir "
+        "wünschst. Klingt kompliziert, ist es aber nicht – das Addon RaidMaster rechnet alles für dich mit.\n\n"
+        "🪙 **Punkte sammeln**\n"
+        "• **Jeder Raid hat eigene DKP** – Punkte aus Molten Core gelten nur in Molten Core usw.\n"
+        f"• **Dabei sein lohnt sich:** pünktlich zum Start **+{s.get('dkpStart', 10)}**, jeder Boss **+10** "
+        f"(besondere wie Ragnaros **+20**){first}, bis zum Schluss geblieben **+{s.get('dkpEnd', 10)}**.\n"
+        "• **Ersatzbank:** Wer bereitsteht, bekommt beim Raidstart einmalig **+10 DKP** als Dankeschön.\n"
+        "• **Immer im Blick:** Nach jedem Raid schickt dir der Bot deine Punkte per Direktnachricht (abbestellen mit "
+        "`/dkp-nachricht aus`), sonst hilft `/dkp`.\n\n"
+        "🎁 **Bieten**\n"
+        "• Epische Items werden **offen versteigert** – das Gebotsfenster öffnet sich bei dir von selbst.\n"
         f"• Mindestgebot **{s.get('minBid', 10)} DKP**, jedes neue Gebot mindestens **+{s.get('bidIncrement', 5)}**, "
-        f"Dauer **{s.get('auctionTime', 30)} Sekunden**.\n"
-        "• Das höchste Gebot gewinnt, die DKP werden sofort abgezogen.\n"
-        "• Ohne Addon: im Spiel `/w <Plündermeister> !bid 50` flüstern.\n\n"
-        "__Handwerksmaterial gehört der Gilde__\n"
-        "• Materialien aus dem Raid wie **Kernleder, Lavakern, Feuerkern** oder **Blut des Berges** werden nicht versteigert – "
-        "sie gehen in die **Gildenbank**.\n"
-        "• Herausgegeben werden sie **auf Anfrage zum Herstellen** (z. B. Feuerwiderstand oder Raid-Ausrüstung): "
-        "kurz bei einem Offizier melden, was du craften willst.\n"
-        "• Was damit hergestellt wird, kommt dem Raid zugute – Weiterverkaufen der Materialien ist nicht erlaubt.\n\n"
-        "__Sonstiges__\n"
-        f"• **Verfall:** Jeden Mittwoch nach dem Raid-Reset werden alle DKP um **{s.get('decayPct', 10)} %** reduziert "
-        "(gegen Horten) – automatisch, in allen Raids.\n"
-        "• **Main vor Twink:** Twinks gewinnen ein Item nur, wenn kein Main bietet. Twinks meldest du mit `/twink` an.\n"
-        "• Legendäre Items vergibt die Gildenleitung nach eigener Regel.\n"
-        "• Die Gildenleitung kann Werte jederzeit anpassen."
+        f"Zeit **{s.get('auctionTime', 30)} Sekunden**. Das höchste Gebot gewinnt.\n"
+        "• **Tipp:** Fährst du mit der Maus über ein Item, zeigt dir RaidMaster, was es bisher gekostet hat.\n"
+        "• Ohne Addon geht's auch: `/w <Plündermeister> !bid 50` flüstern.\n\n"
+        "🧵 **Handwerksmaterial gehört der Gilde**\n"
+        "• Materialien wie **Kernleder, Lavakern, Feuerkern** oder **Blut des Berges** werden nicht versteigert, sondern "
+        "kommen in die **Gildenbank**.\n"
+        "• Du willst daraus etwas herstellen (z. B. Feuerwiderstand)? Einfach einen Offizier fragen – dafür ist es da. "
+        "Weiterverkaufen ist nicht drin.\n\n"
+        "📌 **Gut zu wissen**\n"
+        f"• **Verfall:** Jeden Mittwoch sinken alle DKP um **{s.get('decayPct', 10)} %** – so bleibt es für Neue fair.\n"
+        "• **Main vor Twink:** Twinks bekommen ein Item nur, wenn kein Main bietet. Twink eintragen: `/twink hinzufügen`.\n"
+        "• Legendäre Items vergibt die Gildenleitung nach eigener Regel, und sie kann die Werte jederzeit anpassen."
     )
 
 
 def _raid_rules_texts() -> list[str]:
     """Raid-Regeln in zwei Beiträgen (Discord nimmt höchstens 2000 Zeichen pro Nachricht)."""
     return [(
-        "**Raid-Regeln** ⚔️\n\n"
-        "__Vor dem Raid__\n"
-        "• **Anmelden bis spätestens 24 Stunden vor dem Raid** im Anmelde-Kanal des Raids – dann kann die Raidleitung "
-        "die Aufstellung planen. Spätere Anmeldungen nur nach Absprache mit der Raidleitung.\n"
-        "• Du kannst nicht? Genauso früh **abmelden** – so rückt jemand von der Ersatzbank nach.\n"
-        "• **15 Minuten vor Raidstart** online, eingeladen und am Instanzeingang.\n"
-        "• Ausrüstung **repariert**, Taschen frei, genug **Reagenzien, Tränke, Essen** (Jäger: Munition) dabei.\n"
-        "• **Fläschchen und Elixiere** nach Möglichkeit. Weltbuffs gibt es auf WoW Forever im Raid nicht – darauf wird nicht gewartet.\n"
-        "• Molten Core: **Feuerwiderstand** nach Ansage der Raidleitung.\n"
-        "• Addons: **RaidMaster** (aktuelle Version aus #raid-addon) und ein **Boss-Addon** (DBM oder BigWigs) – Pull- und Pausen-Timer laufen darüber.\n"
-        "• **Taktik** im Taktik-Kanal des Raids lesen und deine Aufgabe in **#einteilung** nachschauen.\n\n"
-        "__Im Raid__\n"
-        "• Im **Sprachkanal** sein. Zuhören ist Pflicht, Mikrofon nur bei Bedarf – bei Ansagen herrscht Ruhe.\n"
-        "• Es gilt, was der **Raidleiter** ansagt. Schlachtzugwarnungen (Taktik, Symbole) beachten.\n"
-        "• **Bereitschafts-Check** sofort beantworten. Kurz weg? „AFK“ in den Raidchat – Pausen macht der Raidleiter.\n"
-        "• **Nicht selbst pullen** – auf Ansage bzw. Pull-Timer warten.\n"
-        "• Ziele nach **Symbolen**: zuerst Totenkopf, dann Kreuz. Kontrollierte Gegner (z. B. Mond) nicht angreifen.\n"
-        "• Nach einem **Wipe**: auf Ansage gemeinsam zurücklaufen, nicht einzeln loslaufen. Kein Schuldzuweisen im Chat – "
-        "Fehler bespricht die Raidleitung danach."
+        "⚔️ **So raiden wir**\n\n"
+        "Wir sind Casual-Raider: Spaß geht vor Bestzeit, und ein Wipe ist kein Weltuntergang. Damit der Abend für alle "
+        "entspannt bleibt, gibt's ein paar einfache Absprachen.\n\n"
+        "📅 **Vor dem Raid**\n"
+        "• **Bis 24 Stunden vorher anmelden** im Anmelde-Kanal des Raids – so können wir die Gruppen planen. Später geht's "
+        "nach kurzer Absprache mit der Raidleitung.\n"
+        "• **Doch keine Zeit?** Kein Problem, einfach abmelden. Der Bot fragt dann von selbst jemanden von der Ersatzbank.\n"
+        "• **Ein paar Minuten vor dem Start** online sein – dann geht's pünktlich los.\n"
+        "• Ausrüstung repariert, ein paar **Tränke und Essen** dabei. Fläschchen sind nett, aber kein Muss – und auf "
+        "Weltbuffs warten wir nicht (die gibt's auf WoW Forever im Raid ohnehin nicht).\n"
+        "• In Molten Core hilft etwas **Feuerwiderstand** – die Raidleitung sagt dir, wenn du ihn brauchst.\n"
+        "• **Hilfreich:** RaidMaster aus #raid-addon und ein Boss-Addon (DBM oder BigWigs). Einen Blick in die Taktik "
+        "und in **#einteilung** zu werfen, schadet auch nicht.\n\n"
+        "🎧 **Im Raid**\n"
+        "• Komm in den **Sprachkanal** – zuhören reicht, ein Mikro ist kein Muss. Bei Ansagen kurz ruhig sein.\n"
+        "• Die **Raidleitung** sagt an. Taktik und Symbole kommen bei dir als Schlachtzugwarnung mitten auf den "
+        "Bildschirm – du musst nichts auswendig können.\n"
+        "• **Bereitschafts-Check** kurz beantworten, mit dem **Pull-Timer** geht's los – bitte nicht vorher pullen.\n"
+        "• Kurz weg? „AFK“ in den Raidchat, und Pausen gibt's auch.\n"
+        "• **Symbole:** zuerst Totenkopf, dann Kreuz – den Mond nicht angreifen, der schläft.\n"
+        "• **Nach einem Wipe** laufen wir gemeinsam zurück, lachen kurz und versuchen es nochmal. Schuldige suchen wir nicht."
     ), (
-        "**Raid-Regeln – Loot und Ersatzbank** 🎁\n\n"
-        "__Loot im Raid__\n"
-        "• Nur auf Items **bieten, die du selbst nutzt** – nicht zum Verkaufen oder Entzaubern.\n"
-        "• **Gebote sind verbindlich.** Wer gewinnt, bekommt das Item und die DKP werden abgezogen.\n"
-        "• Items ohne Gebot gehen an den Entzauberer bzw. in die Gildenbank.\n"
-        "• Fragen zum Loot an den Plündermeister flüstern, nicht in den Raidchat.\n\n"
-        "__Früher gehen & Ersatzbank__\n"
-        "• Wer **früher gehen** muss, sagt es vorher an. Die Punkte für das Raidende bekommt nur, wer bis zum Schluss bleibt.\n"
-        "• **Ersatzbank:** während des Raids im Discord erreichbar sein und bei einer Einladung zügig kommen.\n"
-        "• Die Raidleitung kann diese Regeln jederzeit anpassen."
+        "🎁 **Beute und Ersatzbank**\n\n"
+        "🎲 **Beute im Raid**\n"
+        "• **Biete auf das, was du selbst nutzt** – nicht zum Verkaufen oder Entzaubern.\n"
+        "• **Gebote gelten:** Wer gewinnt, bekommt das Item, die DKP werden abgezogen.\n"
+        "• Was niemand will, geht an den Entzauberer oder in die Gildenbank.\n"
+        "• Fragen zur Beute flüsterst du dem Plündermeister, so bleibt der Raidchat frei.\n\n"
+        "🪑 **Früher gehen & Ersatzbank**\n"
+        "• Musst du **früher weg**, sag kurz Bescheid. Die Punkte fürs Raidende gibt's fürs Bleiben bis zum Schluss.\n"
+        "• **Auf der Ersatzbank** bleibst du im Discord erreichbar – wird ein Platz frei, kommt die Einladung zu dir.\n\n"
+        "Die Raidleitung kann diese Absprachen anpassen. Viel Spaß beim Raiden! 🍻"
     )]
 
 
@@ -482,36 +484,58 @@ def rules_posts(dkp_settings: dict | None = None) -> list[str]:
 
 def _raid_howto_text(name: str) -> str:
     return (
-        f"**Anmeldung {name}** 📋\n"
-        "• Offiziere erstellen Raids mit `/raid erstellen` – sie erscheinen automatisch hier.\n"
-        "• Klicke unter dem Raid auf **Anmelden**, **Ersatzbank**, **Vielleicht** oder **Abmelden**.\n"
-        "• Mit **Charakter ändern** oder `/charakter` wechselst du Klasse, Rolle oder Namen.\n"
-        "• Vor dem Raid erinnert dich der Bot, die Aufstellung steht in **#einteilung**."
+        f"📋 **Anmeldung {name}**\n\n"
+        "Hier erscheinen alle geplanten Raids – such dir einen aus und klick auf den passenden Knopf: "
+        "**Anmelden**, **Ersatzbank**, **Vielleicht** oder **Abmelden**.\n\n"
+        "💡 **Gut zu wissen**\n"
+        "• **Bis 24 Stunden vorher anmelden** – dann können wir die Gruppen in Ruhe planen.\n"
+        "• **Klasse, Rolle oder Charakter ändern:** Knopf **Charakter ändern** oder `/charakter`. Mit einem Twink "
+        "meldest du dich über `/twink wechseln` an.\n"
+        "• **Erinnerung:** Vor dem Raid meldet sich der Bot bei dir, und in **#einteilung** siehst du deine Gruppe.\n"
+        "• **Ersatzbank:** Sagt jemand ab, fragt dich der Bot per Direktnachricht – ein Klick auf **Ich komme!** und du bist dabei."
     )
 
 
 def _pug_howto_text() -> str:
     return (
-        "**PUG-Raids** 🎲\n"
-        "• Offiziere erstellen PUG-Raids mit `/raid erstellen` und **modus: PUG-Raid**.\n"
-        "• Einmal registrieren (Knopf unten), dann bei jedem Raid per Knopf anmelden.\n"
-        "• Soft Reserve und Loot laufen über **softres.it** – den Link findest du direkt am Raid.\n"
-        "• Das Addon **RaidMaster** aus **#raid-addon** ist empfohlen, aber kein Muss."
+        "🎲 **PUG-Raids – mitspielen ohne Gildenbeitritt**\n\n"
+        "Bei unseren PUG-Raids kann jeder mitmachen, auch ohne in der Gilde zu sein. Locker, freundlich und mit fairer Beute.\n\n"
+        "✨ **So geht's**\n"
+        "• **Einmal registrieren** (Knopf unten) – dann sagt dir der Bot bei jedem neuen PUG-Raid Bescheid.\n"
+        "• **Anmelden** per Knopf direkt am Raid.\n"
+        "• **Beute:** Soft Reserve über **softres.it** – den Link findest du am Raid.\n"
+        "• **Einladung im Spiel:** dem Raidleiter `inv` flüstern, solange er Werbung macht.\n\n"
+        "Kleine Überraschung: Im Raid wirst du mit Namen begrüßt. 😉 Das Addon **RaidMaster** aus **#raid-addon** "
+        "ist praktisch, aber kein Muss."
     )
 
 
 def _bot_commands_text() -> str:
     return (
-        "**Bot-Befehle für die Gildenleitung**\n"
-        "`/raid erstellen` (mit Raid-Auswahl) · `/raid aufstellung` · `/raid liste` · `/raid schliessen` · `/raid oeffnen` · "
-        "`/raid absagen` · `/raid export` · `/raid taktik`\n"
-        "`/dkp` · `/dkpliste` · `/addon`\n"
-        "`/raidmaster-status` – zeigt Datenstand, Uploads und installierte Version\n"
-        "`/pug-einladung` – Einladungslink für PUG-Spieler (Rolle Gast)\n"
-        "`/willkommen` – Willkommenstext in #willkommen posten/aktualisieren (Admins)\n"
-        "`/uploader` – Einrichtung für den Daten-Uploader auf dem PC der Raidleitung (Admins)\n"
-        "`/update` – Update jetzt prüfen bzw. eine Update-ZIP einspielen (Admins)\n"
-        "`/raidmaster-einrichten` – Kanäle und Rollen erneut prüfen/ergänzen"
+        "🛠️ **Hier darfst du Bot-Befehle ausprobieren**\n\n"
+        "Tipp einfach `/` und such dir einen Befehl aus – die vollständige, immer aktuelle Liste steht in **#befehlsliste**.\n\n"
+        "🔎 **Ein paar Lieblinge**\n"
+        "• `/dkp` – dein Punktestand in allen Raids\n"
+        "• `/beute boss` – was ein Boss bei uns schon fallen gelassen hat\n"
+        "• `/rekorde` und `/erfolge` – Bestzeiten der Gilde und deine Erfolge\n"
+        "• `/berufe` – wer welchen Beruf hat\n"
+        "• `/bank` – was gerade in der Gildenbank liegt"
+    )
+
+
+def raid_registration_text(name: str) -> str:
+    return (
+        f"📝 **Bei {name} dabei sein?**\n"
+        "Einmal registrieren, fertig: Klasse, Rolle und Charakternamen festlegen – danach meldest du dich bei jedem "
+        f"{name}-Raid mit einem Klick an. Deine Skillung trägt das Addon RaidMaster später von selbst nach."
+    )
+
+
+def pug_registration_text() -> str:
+    return (
+        "🎲 **Neu hier und Lust auf einen PUG-Raid?**\n"
+        "Klick auf den Knopf: Du bekommst die Rolle **Gast**, legst deinen Charakter fest und erfährst als Erstes, "
+        "wenn ein neuer PUG-Raid ansteht."
     )
 
 
@@ -524,7 +548,7 @@ async def _replace_old_pug_text(channel, guild, report: list):
     try:
         async for msg in channel.history(limit=50):
             text = msg.content or ""
-            if msg.author.id == guild.me.id and text.startswith("**PUG-Raids") and text != current:
+            if msg.author.id == guild.me.id and text.startswith(("**PUG-Raids", "🎲 **PUG-Raids")) and text != current:
                 await msg.delete()
                 found = True
         if found:
@@ -541,10 +565,7 @@ async def _post_pug_registration(channel, cfg: dict, report: list):
     view.add_item(discord.ui.Button(label="Als PUG-Spieler registrieren", emoji="🎲",
                                     style=discord.ButtonStyle.success, custom_id="rm:pugreg:0"))
     try:
-        msg = await channel.send(
-            "**Neu hier und willst bei unseren PUG-Raids mitspielen?** 🎲\n"
-            "Klick auf den Knopf: Du bekommst die Rolle **Gast**, legst deinen Charakter fest und wirst "
-            "bei jedem neuen PUG-Raid benachrichtigt.", view=view)
+        msg = await channel.send(pug_registration_text(), view=view)
         cfg["pug_reg_message"] = msg.id
         report.append("✅ Registrierung für PUG-Spieler in #pug-anmeldung gepostet")
     except discord.HTTPException:
@@ -560,10 +581,7 @@ async def _post_raid_registration(channel, cfg: dict, key: str, name: str, repor
     view.add_item(discord.ui.Button(label="Charakter registrieren", emoji="📝",
                                     style=discord.ButtonStyle.success, custom_id=f"rm:raidreg:{key}"))
     try:
-        msg = await channel.send(
-            f"**Bei {name} dabei sein?** 📝\n"
-            "Einmal registrieren: Klasse, Rolle und Charakternamen festlegen. Danach meldest du dich bei jedem "
-            f"{name}-Raid mit einem Klick an. Deine Skillung übernimmt das Addon RaidMaster automatisch.", view=view)
+        msg = await channel.send(raid_registration_text(name), view=view)
         posted[key] = msg.id
         report.append(f"✅ Registrier-Knopf in #{channel.name} gepostet")
     except discord.HTTPException:

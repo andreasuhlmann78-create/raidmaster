@@ -4,14 +4,14 @@
 // {version} wird durch die aktuelle Addon-Version ersetzt. Zeilen mit // werden nicht gepostet.
 // Bei jeder neuen Version: oben unter "Updates" einen Eintrag ergänzen.
 🛡️ **RaidMaster {version} – das Raid-Werkzeug unserer Gilde**
-RaidMaster ist unser eigenes Addon für WoW Forever: DKP, Versteigerung, Loot und Raidleitung in einem Fenster, verbunden mit diesem Discord. Die Datei zum Herunterladen hängt an dieser Nachricht.
+RaidMaster ist unser eigenes Addon für WoW Forever. Es nimmt dir im Raid die Arbeit ab – DKP, Bieten, Beute und Ansagen in einem Fenster, verbunden mit diesem Discord. Die Datei zum Herunterladen hängt an dieser Nachricht.
 
-**📦 Installation**
+📦 **Installation**
 • ZIP herunterladen, entpacken und den Ordner **RaidMaster** nach `Interface/AddOns` kopieren (bei einem Update den alten Ordner ersetzen – DKP und Einstellungen bleiben erhalten).
 • Im Spiel mit dem Minimap-Knopf oder `/rm` öffnen.
 • Ohne Addon geht es auch: bieten mit `/w <Plündermeister> !bid 50`, Stand abfragen mit `!dkp`.
 
-**🧭 Was RaidMaster kann**
+🧭 **Was RaidMaster kann**
 • **DKP**: Stände je Raid, Log aller Buchungen, automatischer Verfall jeden Mittwoch, Twinks mit Main verknüpft.
 • **Beute**: Versteigerung mit Gebotsfenster, Vergabe durch den Plündermeister, eigene Beute-Datenbank mit Droprate und Preisen im Item-Tooltip.
 • **Raid**: Sitzung starten, Pull- und Pausen-Timer, Bereitschafts-Check, Begrüßung, Anmeldungen aus Discord, Gruppen und Einteilung wie im Discord, Boss-Leiste mit Taktik und Schlachtzugsymbolen, Lücken füllen von Ersatzbank, Gilde und Gruppensuche.
@@ -20,10 +20,10 @@ RaidMaster ist unser eigenes Addon für WoW Forever: DKP, Versteigerung, Loot un
 • **Ruhmeshalle**: Erstkills mit Screenshot, Bestzeiten, Erfolge, Raider des Monats.
 • **Test-Werkzeug** (Knopf „Test“): alles gefahrlos ausprobieren, auch alle Ansagen – deine Daten werden gesichert.
 
-**🔗 Mit Discord verbunden**
+🔗 **Mit Discord verbunden**
 Der Uploader der Raidleitung schickt nach dem Raid DKP, Loot, Einteilung und Skillungen hierher. Du bekommst deine DKP per Direktnachricht (`/dkp-nachricht aus` zum Abbestellen) und siehst alles in den Raid-Kanälen.
 
-Fragen und Probleme: **#addon-hilfe**.
+Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern.
 © GoldSentinel – alle Rechte vorbehalten. RaidMaster darf von anderen nicht verändert werden.
 ===
 📜 **Updates**

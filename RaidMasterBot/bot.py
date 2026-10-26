@@ -201,6 +201,12 @@ class RaidBot(discord.Client):
             except Exception:
                 log.exception("Raid-Kategorien konnten nicht angelegt werden")
             try:
+                rep = await ensure_channel_texts()
+                if rep:
+                    await post_bot_log("✏️ Texte im neuen Stil: " + ", ".join(rep))
+            except Exception:
+                log.exception("Kanaltexte konnten nicht aktualisiert werden")
+            try:
                 rep = await ensure_voice_limits()
                 if rep:
                     await post_bot_log("👥 Raid-Sprachkanäle begrenzt auf die Raidgröße: " + ", ".join(rep))
@@ -2582,7 +2588,7 @@ async def bank_text(bank: dict) -> list[str]:
     if not bank["items"]:
         lines.append("Leer.")
     lines.append("")
-    lines.append("_Entnahmen: einen Offizier fragen. Suche: `/bank Name`._")
+    lines.append("🙋 _Etwas gebraucht? Einfach einen Offizier fragen. Suchen: `/bank Name`._")
     return rmd.split_discord("\n".join(lines))
 
 
@@ -2904,7 +2910,7 @@ async def ensure_dkp_rules() -> list[str]:
         # früher gepostete Regeln (z. B. von /raidmaster-einrichten) übernehmen
         try:
             async for m in ch.history(limit=100, oldest_first=True):
-                if m.author.id == bot.user.id and (m.content or "").startswith(("**DKP-Regeln**", "**Raid-Regeln")):
+                if m.author.id == bot.user.id and (m.content or "").startswith(("**DKP-Regeln**", "**Raid-Regeln", "💎 **So funktionieren unsere DKP", "⚔️ **So raiden wir", "🎁 **Beute und Ersatzbank")):
                     ids.append(m.id)
         except discord.HTTPException:
             pass
@@ -2930,6 +2936,75 @@ async def ensure_dkp_rules() -> list[str]:
     state.data["dkp_rules"] = {"ch": ch.id, "ids": new_ids, "hash": digest}
     state.save()
     return [f"#regeln: DKP- und Raid-Regeln {'aktualisiert' if ids else 'gepostet'}"]
+
+
+async def _keep_text(ch, key: str, text: str, prefixes: tuple = (), msg_id: int | None = None) -> bool:
+    """Einen festen Beitrag des Bots aktuell halten: per gespeicherter ID oder am Textanfang im Verlauf finden
+    und bearbeiten, wenn sich der Text geändert hat (Knöpfe bleiben erhalten). Postet nichts Neues."""
+    if ch is None:
+        return False
+    rec = state.data.setdefault("kept_texts", {})
+    digest = str(zlib.crc32(text.encode("utf-8")))
+    cur = rec.get(key) or {}
+    mid = msg_id or cur.get("id")
+    if mid and cur.get("hash") == digest and cur.get("id") == mid:
+        return False
+    if not mid and prefixes:
+        try:
+            async for m in ch.history(limit=100, oldest_first=True):
+                if m.author.id == bot.user.id and (m.content or "").startswith(prefixes):
+                    mid = m.id
+                    break
+        except discord.HTTPException:
+            return False
+    if not mid:
+        return False
+    try:
+        await ch.get_partial_message(int(mid)).edit(content=text)
+    except discord.NotFound:
+        rec.pop(key, None)
+        state.save()
+        return False
+    except discord.HTTPException as e:
+        log.info("Beitrag %s nicht aktualisiert: %s", key, e)
+        return False
+    rec[key] = {"id": int(mid), "hash": digest}
+    state.save()
+    await asyncio.sleep(0.4)
+    return True
+
+
+async def ensure_channel_texts() -> list[str]:
+    """Anleitungen in den Anmelde-Kanälen, PUG-Anmeldung und #bot-befehle auf die aktuelle Fassung bringen
+    (sie wurden früher nur beim Anlegen der Kanäle gepostet)."""
+    guild = bot_guild()
+    if guild is None:
+        return []
+    done = []
+    names = {k: n for k, n, _, _ in server_setup.RAIDS}
+    names.update(cfg.get("raid_names") or {})
+    regs = cfg.get("raid_reg_messages") or {}
+    for key, ids in (cfg.get("raid_channels") or {}).items():
+        ch = await channel_by_id((ids or {}).get("signup"))
+        if ch is None:
+            continue
+        name = names.get(key) or rmd.pool_name(key, bot.dkp_data)
+        if await _keep_text(ch, f"howto:{key}", server_setup._raid_howto_text(name), ("**Anmeldung ", "📋 **Anmeldung ")):
+            done.append(f"#{ch.name}")
+        if regs.get(key) and await _keep_text(ch, f"reg:{key}", server_setup.raid_registration_text(name), msg_id=int(regs[key])):
+            done.append(f"#{ch.name} (Knopf)")
+    pug = discord.utils.get(guild.text_channels, name="pug-anmeldung")
+    if pug is not None:
+        if await _keep_text(pug, "howto:pug", server_setup._pug_howto_text(), ("**PUG-Raids", "🎲 **PUG-Raids")):
+            done.append("#pug-anmeldung")
+        if cfg.get("pug_reg_message") and await _keep_text(pug, "reg:pug", server_setup.pug_registration_text(),
+                                                          msg_id=int(cfg["pug_reg_message"])):
+            done.append("#pug-anmeldung (Knopf)")
+    test_ch = discord.utils.get(guild.text_channels, name="bot-befehle")
+    if test_ch is not None and await _keep_text(test_ch, "howto:botcmd", server_setup._bot_commands_text(),
+                                                ("**Bot-Befehle für die Gildenleitung", "🛠️ **Hier darfst du")):
+        done.append("#bot-befehle")
+    return done
 
 
 async def ensure_voice_limits() -> list[str]:
@@ -4457,7 +4532,7 @@ def command_list_text() -> list[str]:
         else:
             entries.append((cmd.name, cmd.description, [p.name for p in getattr(cmd, "parameters", [])]))
     blocks = [f"📖 **Alle Bot-Befehle** · RaidMaster-Bot {updater.bot_version(BASE)}\n"
-              "Befehl im Chat mit `/` beginnen und aus der Liste wählen. Diese Liste aktualisiert der Bot selbst."]
+              "Tipp `/` in den Chat und such dir einen Befehl aus der Liste aus. Diese Übersicht hält der Bot selbst aktuell."]
     by_section: dict[str, list[str]] = {}
     for name, desc, params in sorted(entries):
         who, section = COMMAND_INFO.get(name, ("alle", "Sonstiges"))
