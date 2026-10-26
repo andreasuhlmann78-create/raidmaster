@@ -4,7 +4,7 @@
 
 > ⚠️ **This addon is in beta.** It may still contain bugs. If you run into an error or unexpected behaviour in-game, please report it in the comments – ideally with the Lua error message (if any) and the WoW version you play on.
 
-AH Analyzer Pro scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It runs as its own tab inside the auction house window, can be used completely with the mouse and speaks the language of your WoW client.
+AH Analyzer Pro scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – **Overview, Buy, Sell, Market, Ledger** – can be used completely with the mouse and speaks the language of your WoW client.
 
 ---
 
@@ -122,21 +122,22 @@ In-game: the **Support** button in the addon window (or `/ahp donate`).
 - **Watchlist** with alerts
 
 ### Selling
-- **Sell tab:** price check and undercut suggestion (1 copper, 1 % or 5 %), deposit, AH cut and proceeds – warns when a vendor pays more or when you would sell below your purchase price
+- **Sell → Post:** price check and undercut suggestion (1 copper, 1 % or 5 %), deposit, AH cut and proceeds – warns when a vendor pays more or when you would sell below your purchase price
 - **Series posting:** posts every bag item with a remembered price, one click per auction
-- **Auctions tab:** status of your auctions (lowest / tied / undercut / sold), cancel with one click
+- **Sell → My auctions:** status of your auctions (lowest / tied / undercut / sold), cancel with one click
 - **Collect AH mail:** gold and items from all auction mail with one click (COD is never paid)
 
 ### Profit & bookkeeping
 - **Ledger:** income after the AH cut, spending, deposits and profit for today / 7 days / 30 days / all time – read from your mailbox invoices, nothing counted twice
 - **Statistics:** sell-through per item, best selling hours and weekdays
-- **Profit tab:** bargains below market value, below vendor price or below disenchant value; flipping calculator
+- **Buy → Bargains:** below market value, below vendor price or below disenchant value, bids and flip recommendations; flipping calculator
 - **Professions:** material cost, value of the result and profit for every recipe, best recipes, materials straight to a shopping list
 - **Vendor prices** are learned automatically at every merchant
 - **Alts & gold:** gold, bags and bank of all your characters, gold history of the last 30 days
 - **CSV export**
 
 ### Comfort
+- **Five tabs** with sub-tabs, price history in its own window, sniper and watcher switchable in the title bar
 - Two designs: **Classic** (looks like the WoW auction house) and **Modern**
 - Item search by name in any language, by item ID or by shift-click, with suggestions while typing
 - Built-in item name list (~23,000 items in 10 languages)
