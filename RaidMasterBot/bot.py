@@ -3378,7 +3378,60 @@ async def check_announcements():
                 log.warning("Alte Versionen zu %s nicht gelöscht: %s", fn, e)
 
 
+RM_RELEASE_FILE = re.compile(r"^RaidMaster-v?(\d+(?:\.\d+)+)\.zip$", re.I)
+RM_RELEASE_HEAD = re.compile(r"^\W{0,6}\**\s*(?:Neue\s+)?RaidMaster(?:-Version)?\s+v?(\d+(?:\.\d+)+)", re.I)
+_rm_cleaned = False
+
+
+async def remove_old_raidmaster_versions(ch, keep_version: str) -> int:
+    """#raid-addon: nur die aktuelle RaidMaster-Version behalten. Gelöscht werden eigene Beiträge mit einer
+    älteren Addon-ZIP (RaidMaster-x.y.z.zip) oder die mit "RaidMaster x.y.z" beginnen (Versions-Posts,
+    Zusammenfassungen), dazu ihre direkten Fortsetzungen (innerhalb von 60 s). Andere Beiträge
+    (Uploader, Hilfe-Texte) bleiben stehen."""
+    keep = version_tuple(keep_version)
+    try:
+        hist = [m async for m in ch.history(limit=500)]
+    except discord.HTTPException as e:
+        log.warning("Verlauf von #raid-addon nicht lesbar: %s", e)
+        return 0
+    hist.sort(key=lambda m: m.created_at)
+    removed, last_old = 0, None
+    for m in hist:
+        if m.author != bot.user:
+            last_old = None
+            continue
+        ver = None
+        for a in m.attachments:
+            hit = RM_RELEASE_FILE.match(a.filename or "")
+            if hit:
+                ver = hit.group(1)
+                break
+        if ver is None:
+            hit = RM_RELEASE_HEAD.match(m.content or "")
+            ver = hit.group(1) if hit else None
+        if ver is not None:
+            old = version_tuple(ver) < keep
+        else:
+            old = last_old is not None and not m.attachments and (m.created_at - last_old).total_seconds() <= 60
+        if old:
+            try:
+                await m.delete()
+                removed += 1
+            except discord.NotFound:
+                pass
+            except discord.HTTPException as e:
+                log.warning("Alte RaidMaster-Version (Nachricht %s) nicht gelöscht: %s", m.id, e)
+            last_old = m.created_at
+            await asyncio.sleep(0.4)
+        else:
+            last_old = None
+    if removed:
+        log.info("#raid-addon: %d Nachricht(en) zu älteren RaidMaster-Versionen gelöscht (nur %s bleibt).", removed, keep_version)
+    return removed
+
+
 async def check_addon_release():
+    global _rm_cleaned
     await check_extra_releases()
     await check_announcements()
     pkg = find_addon_package("raidmaster")
@@ -3386,6 +3439,15 @@ async def check_addon_release():
         return
     path, version = pkg
     if version_tuple(version) <= version_tuple(state.data.get("addon_version") or "0"):
+        # einmal nach dem Start: veraltete Versionen aus #raid-addon entfernen
+        if not _rm_cleaned and state.data.get("addon_version"):
+            ch0 = await channel_by_id(cfg.get("addon_channel_id"))
+            if ch0:
+                _rm_cleaned = True
+                try:
+                    await remove_old_raidmaster_versions(ch0, state.data["addon_version"])
+                except Exception as e:  # noqa: BLE001 – Aufräumen darf nichts anderes stören
+                    log.warning("Aufräumen von #raid-addon fehlgeschlagen: %s", e)
         return
     ch = await channel_by_id(cfg.get("addon_channel_id"))
     if not ch:
@@ -3400,6 +3462,11 @@ async def check_addon_release():
     state.data["addon_message"] = msg.jump_url
     state.save()
     log.info("Addon %s in #raid-addon veröffentlicht.", version)
+    _rm_cleaned = True
+    try:
+        await remove_old_raidmaster_versions(ch, version)
+    except Exception as e:  # noqa: BLE001
+        log.warning("Aufräumen von #raid-addon fehlgeschlagen: %s", e)
     if cfg.get("notify_addon_updates", True):
         await notify_registered(
             f"🆕 **Neue RaidMaster-Version {version}** – bitte das Addon aktualisieren!\n"
