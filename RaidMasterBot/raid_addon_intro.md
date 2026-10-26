@@ -16,7 +16,7 @@ RaidMaster ist unser eigenes Addon für WoW Forever. Es nimmt dir im Raid die Ar
 • **Beute**: Versteigerung mit Gebotsfenster, Vergabe durch den Plündermeister, eigene Beute-Datenbank mit Droprate und Preisen im Item-Tooltip.
 • **Raid**: Sitzung starten, Pull- und Pausen-Timer, Bereitschafts-Check, Begrüßung, Anmeldungen aus Discord, Gruppen und Einteilung wie im Discord, Boss-Leiste mit Taktik und Schlachtzugsymbolen, Lücken füllen von Ersatzbank, Gilde und Gruppensuche.
 • **Werbung**: PUG-Raids mit softres.it und Werbetext für den offenen Chat (Einladung per „inv“).
-• **Gilde**: Skillungen und Berufe-Verzeichnis.
+• **Gilde**: Skillungen und Berufe-Verzeichnis – und auf dem Bank-Charakter der Bereich **Gildenbank** mit dem ganzen Bestand.
 • **Ruhmeshalle**: Erstkills mit Screenshot, Bestzeiten, Erfolge, Raider des Monats.
 • **Test-Werkzeug** (Knopf „Test“): alles gefahrlos ausprobieren, auch alle Ansagen – deine Daten werden gesichert.
 
@@ -27,6 +27,9 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 © GoldSentinel – alle Rechte vorbehalten. RaidMaster darf von anderen nicht verändert werden.
 ===
 📜 **Updates**
+
+**3.0.1** – Gildenbank
+• Eigener Bereich „Gildenbank“, nur auf dem Bank-Charakter: ganzer Bestand mit Suche, Gold und „An Discord senden“ – im Discord in #gildenbank-bestand.
 
 **3.0.0** – Aufgeräumt, nichts weggefallen
 • 6 Bereiche mit Reitern statt 13 Knöpfen: DKP, Beute, Raid, Werbung, Gilde, Einstellungen.

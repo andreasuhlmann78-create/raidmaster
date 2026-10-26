@@ -1898,7 +1898,7 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 	Place(ttCheck, page, x2, y2 - 126)
 	local bankCheck = UI.Check(page, L["Bank-Charakter (Bestand an Discord)"], function() return RM.db.config.bankScan end,
 		function(v) RM.db.config.bankScan = v end,
-		L["Beim Öffnen von Bank, Briefkasten (und Gildenbank, falls vorhanden) liest RaidMaster den Bestand aus.\nDer Uploader schickt ihn an Discord (#gildenbank, /bank)."])
+		L["Beim Öffnen von Bank, Briefkasten (und Gildenbank, falls vorhanden) liest RaidMaster den Bestand aus.\nDer Uploader schickt ihn an Discord (#gildenbank-bestand, /bank).\nAuf diesem Charakter erscheint dann der Bereich Gildenbank."])
 	Place(bankCheck, page, x2 + 250, y2 - 100)
 	local recCheck = UI.Check(page, L["Erstkill-Feier und Bestzeiten"], function() return RM.db.config.records ~= false end,
 		function(v) RM.db.config.records = v end,
@@ -1914,5 +1914,95 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 		mmCheck:Refresh()
 		ttCheck:Refresh(); bankCheck:Refresh(); recCheck:Refresh()
 		if RM.CanEdit() then saveBtn:Enable() else saveBtn:Disable() end
+	end
+end)
+
+---------------------------------------------------------------------------
+-- Seite: Gildenbank (nur auf dem Bank-Charakter sichtbar)
+---------------------------------------------------------------------------
+UI.AddPage("bank", L["Gildenbank"], function(page)
+	local B = RM.Bank
+	local query = ""
+	Section(page, L["Bestand der Gildenbank"], 0, 0)
+	local status = Label(page, "", 0, -28)
+	status:SetWidth(560)
+	status:SetJustifyH("LEFT")
+	local hint = Label(page, L["Öffne Bank, Briefkasten oder Gildenbank – RaidMaster liest den Bestand dann von selbst ein."], 0, -48, 11, true)
+	hint:SetWidth(560)
+	hint:SetJustifyH("LEFT")
+
+	local scanBtn = UI.Button(page, L["Jetzt einlesen"], 130, 26, function()
+		if B.bankOpen then B.ScanBank()
+		elseif B.mailOpen then B.ScanMail()
+		else RM.Print(L["Öffne zuerst die Bank oder den Briefkasten."]) end
+	end, L["Liest Taschen und Bank (bei offener Bank) bzw. die Post (bei offenem Briefkasten) neu ein."])
+	Place(scanBtn, page, 580, -24)
+	local sendBtn = UI.Button(page, L["An Discord senden"], 150, 26, function() RM.Guide.SendNow() end,
+		L["Lädt die Oberfläche neu, damit WoW speichert – der Uploader schickt den Bestand nach #gildenbank-bestand."])
+	Place(sendBtn, page, 580, -54)
+	sendBtn:SetAccent(true)
+
+	local search = UI.EditBox(page, 200, 24)
+	Place(search, page, 0, -76)
+	local shint = UI.Text(search, L["Item suchen ..."], 11, unpack(COLORS.muted))
+	shint:SetPoint("LEFT", 8, 0)
+	search:SetScript("OnTextChanged", function(self)
+		query = self:GetText():lower()
+		if query == "" then shint:Show() else shint:Hide() end
+		UI.RefreshCurrent()
+	end)
+	local check = UI.Check(page, L["Dieser Charakter ist der Bank-Charakter"], function() return RM.db.config.bankScan end,
+		function(v) RM.db.config.bankScan = v; UI.RefreshCurrent() end,
+		L["Ausschalten, wenn das nicht mehr der Bank-Charakter ist – der Bereich Gildenbank verschwindet dann."])
+	Place(check, page, 220, -76)
+
+	local list = UI.List(page, 790, 400, {
+		{ title = L["Item"], width = 300 },
+		{ title = L["Anzahl"], width = 70, justify = "RIGHT" },
+		{ title = L["Taschen"], width = 80, justify = "RIGHT" },
+		{ title = L["Bank"], width = 80, justify = "RIGHT" },
+		{ title = L["Post"], width = 80, justify = "RIGHT" },
+		{ title = L["Gildenbank"], width = 100, justify = "RIGHT" },
+	}, { emptyText = L["Noch nichts eingelesen – öffne die Bank oder den Briefkasten."] })
+	Place(list, page, 0, -110)
+	UI.Fill(list, page, true)
+
+	RM.Listen("BANK_CHANGED", function() if page:IsShown() then UI.RefreshCurrent() end end)
+
+	local function Money(c)
+		c = tonumber(c) or 0
+		if GetCoinTextureString then return GetCoinTextureString(c) end
+		return string.format("%dg %ds %dc", math.floor(c / 10000), math.floor(c / 100) % 100, c % 100)
+	end
+
+	return function()
+		check:Refresh()
+		local b = RM.db.bank
+		local rows, total = {}, 0
+		if b and b.i then
+			for id, e in pairs(b.i) do
+				total = total + 1
+				if query == "" or (e.n or ""):lower():find(query, 1, true) then
+					local col = ITEM_QUALITY_COLORS and e.q and ITEM_QUALITY_COLORS[e.q]
+					local w = e.w or {}
+					local function n(x) return (x and x > 0) and tostring(x) or "" end
+					rows[#rows + 1] = {
+						key = id, link = "item:" .. id, name = e.n or ("item:" .. id),
+						cells = { (e.ic and ("|T" .. e.ic .. ":14|t ") or "") .. (e.n or ("item:" .. id)), tostring(e.c or 0),
+							n(w.bag), n(w.bank), n(w.mail), n(w.guild) },
+						colors = { col and { col.r, col.g, col.b } or nil },
+					}
+				end
+			end
+		end
+		table.sort(rows, function(x, y) return x.name < y.name end)
+		list:SetData(rows)
+		if b and b.t then
+			status:SetText(string.format(L["%s · Stand %s · %d verschiedene Items · Gold: %s"], b.c or RM.Me(),
+				date("%d.%m. %H:%M", b.t), total, Money(b.g)) .. (b.gb and (" · " .. L["Gildenbank: "] .. Money(b.gb)) or ""))
+		else
+			status:SetText(L["Noch kein Bestand eingelesen."])
+		end
+		if B.bankOpen or B.mailOpen then scanBtn:Enable() else scanBtn:Disable() end
 	end
 end)

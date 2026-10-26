@@ -3,7 +3,7 @@
 -- RaidMaster Taschen, Bankfächer, Gold und die Post (Anhänge im Briefkasten) aus. Der Uploader schickt den Stand
 -- an den Bot; der zeigt ihn in #gildenbank und mit /bank <Suche>.
 -- Welcher Charakter? Einstellungen > "Bank-Charakter (Bestand an Discord)" (oder der Name unter Loot >
--- Gildenbank-Charakter).
+-- Gildenbank-Charakter). Nur dort erscheint im Fenster der Bereich "Gildenbank" mit dem ganzen Bestand.
 --
 --   RaidMasterDB.bank = { c = Name, t = Zeit, g = Gold (Kupfer), gb = Gold der Gildenbank,
 --                         i = { [Item-ID] = { n = Name, q = Qualität, c = Anzahl, ic = Symbol, w = { bag = x, bank = y, mail = z, guild = w } } } }
@@ -146,7 +146,11 @@ function B.ScanGuildBank()
 	Finish(L["Gildenbank"])
 end
 
-RM.On("BANKFRAME_OPENED", function() C_Timer.After(0.5, B.ScanBank) end)
+B.bankOpen, B.mailOpen = false, false
+RM.On("BANKFRAME_OPENED", function() B.bankOpen = true; RM.Fire("BANK_CHANGED"); C_Timer.After(0.5, B.ScanBank) end)
+RM.On("BANKFRAME_CLOSED", function() B.bankOpen = false; RM.Fire("BANK_CHANGED") end)
+RM.On("MAIL_SHOW", function() B.mailOpen = true; RM.Fire("BANK_CHANGED") end)
+RM.On("MAIL_CLOSED", function() B.mailOpen = false; RM.Fire("BANK_CHANGED") end)
 RM.On("MAIL_INBOX_UPDATE", function()
 	if guildPending == "mail" then return end
 	guildPending = "mail"

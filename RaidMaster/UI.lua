@@ -695,7 +695,7 @@ end
 --   Plündermeister: zusätzlich Loot (nur was er braucht) – ist er auch Raidleiter, sieht er alles
 --   Assistenten: Raid-Seiten (z. B. Symbole/Markieren), ohne DKP-Rechte
 --   Raidleiter: alles, auch Einstellungen
-UI.PAGE_ACCESS = { dkp = "all", auction = "all", loot = "looter", settings = "leader", discord = "leader" }
+UI.PAGE_ACCESS = { dkp = "all", auction = "all", loot = "looter", settings = "leader", discord = "leader", bank = "bank" }
 
 -- 3.0: sechs Bereiche links, die Seiten darin als Reiter oben (alle Funktionen bleiben, nur übersichtlicher)
 UI.GROUPS = {
@@ -710,6 +710,9 @@ UI.GROUPS = {
 		tabs = { { "pug", L["PUG-Raid"] }, { "ad", L["Werbung"] } } },
 	{ id = "gilde", title = L["Gilde"], icon = "Interface\\Icons\\INV_Misc_Book_11",
 		tabs = { { "specs", L["Skillungen & Berufe"] } } },
+	-- nur auf dem Bank-Charakter der Gilde (Einstellungen > "Bank-Charakter" oder Name unter Loot)
+	{ id = "gildenbank", title = L["Gildenbank"], icon = "Interface\\Icons\\INV_Misc_Bag_10",
+		tabs = { { "bank", L["Bestand"] } } },
 	{ id = "settings", title = L["Einstellungen"], icon = "Interface\\Icons\\INV_Misc_Gear_01",
 		tabs = { { "settings", L["Einstellungen"] }, { "discord", L["Discord-Anleitung"] } } },
 }
@@ -740,6 +743,8 @@ end
 function UI.CanSeePage(id)
 	local access = UI.PAGE_ACCESS[id] or "lead"
 	if access == "all" then return true end
+	-- Gildenbank: nur der Bank-Charakter sieht sie (auch nicht der Raidleiter)
+	if access == "bank" then return RM.Bank and RM.Bank.IsBankChar() or false end
 	if RM.CanEdit() then return true end
 	-- Plündermeister (nicht Raidleiter): nur seine Seiten, auch wenn er Assistent ist
 	if RM.CanLoot() then return access == "looter" end

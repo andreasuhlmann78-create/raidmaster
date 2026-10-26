@@ -1,4 +1,4 @@
-RaidMaster 3.0.0 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 3.0.1 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,14 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+NEU IN 3.0.1 – Bereich Gildenbank
+- Auf dem Bank-Charakter gibt es einen eigenen Bereich "Gildenbank" (nur dort sichtbar, auch nicht beim Raidleiter):
+  der ganze Bestand mit Suche, Anzahl und wo es liegt (Taschen, Bank, Post, Gildenbank), dazu Gold und Stand.
+  Knöpfe: "Jetzt einlesen" (bei offener Bank bzw. offenem Briefkasten) und "An Discord senden".
+- Bank-Charakter festlegen: Einstellungen > "Bank-Charakter (Bestand an Discord)" (allein ohne Gruppe hast du
+  dafür die Rechte) oder im Bereich selbst wieder ausschalten.
+- Im Discord steht der Bestand jetzt in der eigenen Kategorie 🏦 GILDENBANK im Kanal #gildenbank-bestand.
 
 NEU IN 3.0.0 – aufgeräumt, nichts weggefallen
 - Statt 13 Knöpfen links gibt es nur noch 6 Bereiche, darin Reiter oben:
