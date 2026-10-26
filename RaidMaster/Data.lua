@@ -272,7 +272,11 @@ Data.AddRaid({
 })
 
 -- Eigene Raids von WoW Forever
-Data.AddRaid({ key = "barrow", exp = "custom", games = "forever", name = L["Barrow Deeps"], en = "Barrow Deeps", short = L["Barrow"], match = { "barrow" }, bosses = {} })
+-- Ab 9. Dezember 2026: Barrow Deeps (10 Spieler), Hyjalgipfel (20 Spieler, eigene Bosse – nicht der TBC-Raid),
+-- Onyxias Hort (40). Die Bosse lernt das Addon beim ersten Kampf (Name und Encounter-ID aus dem Spiel),
+-- die Beute füllt die eigene Beute-Datenbank (LootDB.lua).
+Data.AddRaid({ key = "barrow", exp = "custom", games = "forever", size = 10, name = L["Barrow Deeps"], en = "Barrow Deeps", short = L["Barrow"], match = { "barrow" }, bosses = {} })
+Data.AddRaid({ key = "hyjal", exp = "custom", games = "forever", size = 20, name = L["Hyjalgipfel"], en = "Hyjal Summit", de = "Hyjalgipfel", short = "Hyjal", match = { "hyjal" }, bosses = {} })
 
 ---------------------------------------------------------------------------
 -- Boss-Infos für den Raidleiter

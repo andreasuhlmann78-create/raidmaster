@@ -5056,3 +5056,6 @@ L["Gruppensuche beendet – der Raid ist voll (%d/%d)."] = "Recherche de groupe 
 L["Raid voll"] = "raid plein"
 L["Gruppen einteilen abgebrochen – im Kampf geht das nicht."] = "Répartition des groupes annulée – impossible en combat."
 L["Übernimmt die Gruppen aus Discord (/raid aufstellung). Wer nicht in der Aufstellung steht, kommt auf den Platz\neines Fehlenden derselben Art (Heiler für Heiler, Magier für Magier). Ohne Aufstellung: dieselbe Classic-Einteilung\nwie im Discord. Main-/Offtank immer in Gruppe 1. Nur außerhalb des Kampfes."] = "Reprend les groupes de Discord (/raid aufstellung). Ceux qui ne sont pas dans la composition prennent la place\nd'un absent du même type (soigneur pour soigneur, mage pour mage). Sans composition : la même répartition Classic\nque sur Discord. Tank principal et off-tank toujours dans le groupe 1. Hors combat uniquement."
+L["Die Beute-Datenbank ist noch leer – sie füllt sich mit jedem Bosskill."] = "La base de données du butin est encore vide – elle se remplit à chaque boss tué."
+L["%s: %d Kills, %d verschiedene Items"] = "%s : %d victoires, %d objets différents"
+L["Kein Boss mit '%s' in der Beute-Datenbank."] = "Aucun boss avec '%s' dans la base de données du butin."

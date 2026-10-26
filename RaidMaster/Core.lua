@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "2.6.3"
-RM.VERSION_NUM = 20603
+RM.VERSION = "2.7.0"
+RM.VERSION_NUM = 20700
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -664,6 +664,11 @@ SlashCmdList["RAIDMASTER"] = function(msg)
 		RM.Comm.RequestSync()
 	elseif msg == "test" then
 		if RM.Test then RM.Test.Toggle() end
+	elseif msg:match("^beute") or msg:match("^loot%s") or msg == "loot" then
+		-- eigene Beute-Datenbank: /rm beute [Boss]
+		if RM.LootDB then RM.LootDB.PrintBoss(msg:match("^%S+%s*(.*)$")) end
+	elseif msg == "luecken" or msg == "lücken" or msg == "gaps" then
+		if RM.Gaps then RM.Gaps.Open() end
 	elseif msg == "diag" or msg == "diagnose" or msg == "fix" then
 		if msg == "fix" then RM.Diag.Fix() else RM.Diag.Toggle() end
 	elseif msg == "discord" or msg == "anleitung" or msg == "guide" then

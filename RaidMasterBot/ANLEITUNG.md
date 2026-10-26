@@ -183,6 +183,21 @@ ihres Raids (z. B. #mc-anmeldung). **PUG-Spieler** nehmen den Knopf in #pug-anme
   „Für RaidMaster“-Export und Einteilung. Optional `raid:` und `fraktion:` (Paladine oder Schamanen).
   Nach 2 Stunden verschwindet er samt Nachricht von selbst.
 
+## Eigene Beute-Datenbank
+
+RaidMaster merkt sich nach jedem Bosskill, welche Items im Lootfenster lagen. Der Uploader schickt das mit,
+der Bot führt die Daten aller Uploader zusammen (derselbe Kill zählt nur einmal, gespeichert in `data/loot_db.json`).
+
+- Nach jedem Raid hängt der Bot im **Loot-Kanal** des Raids die **Beutetabelle** an: je Boss die Items mit
+  „so oft gedroppt / so oft getötet“ (Droprate). Die alte Tabelle wird dabei gelöscht.
+- `/beute boss` – was droppt dieser Boss? (nur für dich sichtbar)
+- `/beute entfernen` – falsch erfasstes Item aus der Tabelle eines Bosses nehmen (Offiziere)
+- `/beute export` – die ganze Datenbank als Datei (Offiziere)
+- `/beute tabellen` – alle Beutetabellen neu posten (Offiziere)
+- Ausschalten: `"loot_tables": false` in der config.json (die Daten werden trotzdem gesammelt).
+
+Neue Raids (ab 9. Dezember 2026: Barrow Deeps, Hyjalgipfel, Onyxia) kommen von selbst dazu, sobald ihr dort Bosse tötet.
+
 ## Aufstellung und feste Gruppen
 
 `/raid aufstellung raid:<Raid>` (oder automatisch mit der Erinnerung vor dem Raid) postet die

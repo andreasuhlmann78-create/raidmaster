@@ -852,6 +852,8 @@ end
 local run
 function T.IsRunning() return run ~= nil or T.series ~= nil end
 
+T.OWN_LOOT_MIN_KILLS = 2   -- ab so vielen erfassten Kills nimmt der Test die eigene Beute-Datenbank
+
 local function LootTable(def)
 	if not (def and RaidMasterTestLoot) then return nil end
 	for id in pairs(def.ids or {}) do
@@ -1031,8 +1033,17 @@ local function RunStep()
 	RM.SimulateEvent("ENCOUNTER_START", ids[#ids], boss.name, 9, 40)
 	RM.SimulateEvent("ENCOUNTER_END", ids[#ids], boss.name, 9, 40, 1)
 	Log(string.format("Boss %d/%d besiegt: %s", run.index, #run.def.bosses, boss.name))
-	if run.loot then
-		local drops = BossLoot(run.loot, boss, run.index)
+	-- Beute: zuerst die eigene Beute-Datenbank (ab 2 erfassten Kills), sonst die mitgelieferten Beutetabellen
+	local own, ownKills = {}, 0
+	if RM.LootDB then own, ownKills = RM.LootDB.ItemIDs(boss.id or ids[#ids]) end
+	local drops
+	if ownKills >= T.OWN_LOOT_MIN_KILLS and #own > 0 then
+		drops = own
+		Log(string.format("  Beute aus eurer Datenbank (%d Kills, %d Items)", ownKills, #own))
+	elseif run.loot then
+		drops = BossLoot(run.loot, boss, run.index)
+	end
+	if drops then
 		local n = (#run.def.bosses == 1 or run.index == #run.def.bosses) and 3 or 2
 		local picked = Pick(drops, n)
 		if #picked == 0 then Log("  (keine Beute bekannt oder noch nicht vom Server geladen)") end
@@ -1083,8 +1094,36 @@ function T.RunRaid()
 	if not NeedRoster() then T.series = nil; return end
 	if T.role ~= "raidlead" and T.role ~= "looter" then T.SetRole("raidlead") end
 	local def = RM.Data.Pools[T.pool]
-	if not def or not def.bosses[1] then Log("Für diesen Raid sind keine Bosse hinterlegt.") return end
+	if def and not def.bosses[1] then
+		-- eigene Raids (WoW Forever): Bosse aus der eigenen Beute-Datenbank bzw. aus schon gelernten Bossen
+		local list = {}
+		local seen = {}
+		for _, b in ipairs(RM.LootDB and RM.LootDB.BossesForPool(T.pool) or {}) do
+			seen[b.id] = true
+			list[#list + 1] = { e = { b.id }, id = b.id, name = b.name, en = b.name }
+		end
+		for _, b in ipairs(RM.Data.BossesForPool(T.pool, RM.db.data)) do
+			if not seen[b.id] then list[#list + 1] = { e = { b.id }, id = b.id, name = b.name, en = b.name } end
+		end
+		if list[1] then
+			local copy = {}
+			for k, v in pairs(def) do copy[k] = v end
+			copy.bosses = list
+			def = copy
+			Log(string.format("%s: %d Bosse aus euren eigenen Raids (Beute-Datenbank).", def.name, #list))
+		end
+	end
+	if not def or not def.bosses[1] then
+		Log("Für diesen Raid sind noch keine Bosse bekannt – sie kommen nach dem ersten echten Raid aus der Beute-Datenbank.")
+		return
+	end
 	local loot = LootTable(def)
+	-- eigene Beute-Datenbank: Items beim Server anfragen
+	if RM.LootDB then
+		for _, b in ipairs(def.bosses) do
+			for _, id in ipairs((RM.LootDB.ItemIDs(b.id or b.e[#b.e]))) do ItemInfo(id) end
+		end
+	end
 	-- Items beim Server anfragen, damit Namen/Qualität bereitstehen
 	if loot then
 		for _, b in ipairs(loot) do for _, id in ipairs(b.i) do ItemInfo(id) end end

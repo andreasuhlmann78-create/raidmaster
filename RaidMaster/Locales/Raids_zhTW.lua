@@ -5056,3 +5056,6 @@ L["Gruppensuche beendet – der Raid ist voll (%d/%d)."] = "招募已結束—�
 L["Raid voll"] = "團隊已滿"
 L["Gruppen einteilen abgebrochen – im Kampf geht das nicht."] = "分組已中止——戰鬥中無法進行。"
 L["Übernimmt die Gruppen aus Discord (/raid aufstellung). Wer nicht in der Aufstellung steht, kommt auf den Platz\neines Fehlenden derselben Art (Heiler für Heiler, Magier für Magier). Ohne Aufstellung: dieselbe Classic-Einteilung\nwie im Discord. Main-/Offtank immer in Gruppe 1. Nur außerhalb des Kampfes."] = "採用 Discord 的分組（/raid aufstellung）。不在陣容中的人補到同類缺席者的位置\n（治療補治療，法師補法師）。沒有陣容時：與 Discord 相同的經典分組。\n主坦和副坦始終在 1 隊。僅限脫戰時。"
+L["Die Beute-Datenbank ist noch leer – sie füllt sich mit jedem Bosskill."] = "戰利品資料庫還是空的——每擊殺一個首領就會補充。"
+L["%s: %d Kills, %d verschiedene Items"] = "%s：擊殺 %d 次，%d 種物品"
+L["Kein Boss mit '%s' in der Beute-Datenbank."] = "戰利品資料庫中沒有含「%s」的首領。"

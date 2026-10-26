@@ -470,7 +470,7 @@ Add({ key = "tk", exp = "tbc", games = "tbc wrath titan cata mists retail", name
 	},
 })
 
-Add({ key = "hyjal", exp = "tbc", games = "tbc wrath titan cata mists retail forever", name = L["Hyjalgipfel"], en = "Hyjal Summit", de = "Hyjalgipfel", short = "Hyjal",
+Add({ key = "hyjal", exp = "tbc", games = "tbc wrath titan cata mists retail", name = L["Hyjalgipfel"], en = "Hyjal Summit", de = "Hyjalgipfel", short = "Hyjal",
 	ids = { 534 }, match = { "hyjal" },
 	bosses = {
 		{ e = { 618, 2468 }, name = L["Furor Winterfrost"], en = "Rage Winterchill", de = "Furor Winterfrost",

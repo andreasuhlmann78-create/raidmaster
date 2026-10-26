@@ -1407,3 +1407,149 @@ def tip_from_wowhead_html(html: str, name: str | None = None, quality=None, icon
         name = lines[0][1]
         lines = lines[1:]
     return {"n": name, "q": quality if isinstance(quality, int) else None, "l": lines[:30], "ic": icon}
+
+
+# ---------------------------------------------------------------------------
+# Eigene Beute-Datenbank (aus RaidMasterDB.lootdb aller Uploader zusammengeführt)
+#   {"v": 1, "kills": [{"e", "p", "n", "t", "i": [ids], "by"}], "items": {id: {n, q, ic, f, l}},
+#    "bosses": {e: {n, p}}, "removed": [[e, id], ...]}
+# Derselbe Kill (gleicher Boss, Zeit höchstens 10 Min. auseinander) zählt nur einmal.
+# ---------------------------------------------------------------------------
+LOOTDB_SAME_KILL = 600
+
+
+def lootdb_empty() -> dict:
+    return {"v": 1, "kills": [], "items": {}, "bosses": {}, "removed": []}
+
+
+def lootdb_merge(store: dict, addon_db: dict | None, uploader: str = "") -> int:
+    """Kills aus dem Addon übernehmen. Liefert die Zahl neuer Kills."""
+    src = (addon_db or {}).get("lootdb")
+    if not isinstance(src, dict):
+        return 0
+    for k in ("kills", "removed"):
+        store.setdefault(k, [])
+    store.setdefault("items", {})
+    store.setdefault("bosses", {})
+    by_boss: dict[int, list[int]] = {}
+    for k in store["kills"]:
+        by_boss.setdefault(int(k["e"]), []).append(int(k["t"]))
+    added = 0
+    for k in lua_list(src.get("kills")):
+        if not isinstance(k, dict) or not k.get("e") or not k.get("t"):
+            continue
+        e, t = int(k["e"]), int(k["t"])
+        ids = sorted({int(x) for x in lua_list(k.get("i")) if str(x).lstrip("-").isdigit()})
+        if not ids:
+            continue
+        if any(abs(t - other) <= LOOTDB_SAME_KILL for other in by_boss.get(e, [])):
+            continue
+        store["kills"].append({"e": e, "p": k.get("p") or None, "n": k.get("n") or None, "t": t, "i": ids, "by": uploader or None})
+        by_boss.setdefault(e, []).append(t)
+        added += 1
+    store["kills"].sort(key=lambda k: k["t"])
+    items = src.get("items") or {}
+    if isinstance(items, dict):
+        for iid, it in items.items():
+            if not isinstance(it, dict):
+                continue
+            cur = store["items"].setdefault(str(int(iid)), {})
+            for f in ("n", "q", "ic"):
+                if it.get(f) not in (None, ""):
+                    cur[f] = it[f]
+            if it.get("f"):
+                cur["f"] = min(int(cur.get("f") or it["f"]), int(it["f"]))
+            if it.get("l"):
+                cur["l"] = max(int(cur.get("l") or 0), int(it["l"]))
+    bosses = src.get("bosses") or {}
+    if isinstance(bosses, dict):
+        for e, b in bosses.items():
+            if isinstance(b, dict):
+                cur = store["bosses"].setdefault(str(int(e)), {})
+                if b.get("n"):
+                    cur["n"] = b["n"]
+                if b.get("p"):
+                    cur["p"] = b["p"]
+    return added
+
+
+def lootdb_removed(store: dict) -> set:
+    return {(int(e), int(i)) for e, i in store.get("removed") or []}
+
+
+def lootdb_boss_loot(store: dict, e: int) -> tuple[list[dict], int]:
+    """Beute eines Bosses: [{id, n, q, ic, c, rate}], Anzahl Kills."""
+    removed = lootdb_removed(store)
+    count: dict[int, int] = {}
+    kills = 0
+    for k in store.get("kills") or []:
+        if int(k["e"]) != int(e):
+            continue
+        kills += 1
+        for i in k.get("i") or []:
+            if (int(e), int(i)) not in removed:
+                count[int(i)] = count.get(int(i), 0) + 1
+    out = []
+    for i, c in count.items():
+        it = (store.get("items") or {}).get(str(i)) or {}
+        out.append({"id": i, "n": it.get("n") or f"Item {i}", "q": it.get("q"), "ic": it.get("ic"),
+                    "c": c, "rate": c / kills if kills else 0.0})
+    out.sort(key=lambda x: (-x["c"], x["n"]))
+    return out, kills
+
+
+def lootdb_bosses(store: dict, pool: str | None = None) -> list[dict]:
+    """Bosse (Reihenfolge des ersten Kills): [{e, n, p, kills}]."""
+    seen: dict[int, dict] = {}
+    for k in store.get("kills") or []:
+        e = int(k["e"])
+        b = (store.get("bosses") or {}).get(str(e)) or {}
+        p = b.get("p") or k.get("p")
+        if pool and p != pool:
+            continue
+        if e not in seen:
+            seen[e] = {"e": e, "n": b.get("n") or k.get("n") or f"Boss {e}", "p": p, "kills": 0}
+        seen[e]["kills"] += 1
+    return list(seen.values())
+
+
+def lootdb_pools(store: dict) -> list[str]:
+    out = []
+    for b in lootdb_bosses(store):
+        if b["p"] and b["p"] not in out:
+            out.append(b["p"])
+    return out
+
+
+def lootdb_find_boss(store: dict, query: str) -> list[dict]:
+    q = (query or "").strip().lower()
+    return [b for b in lootdb_bosses(store) if not q or q in b["n"].lower()]
+
+
+def lootdb_remove(store: dict, e: int, item_id: int) -> bool:
+    key = [int(e), int(item_id)]
+    store.setdefault("removed", [])
+    if key in store["removed"]:
+        return False
+    store["removed"].append(key)
+    return True
+
+
+def item_link_for(iid: int, name: str | None, q) -> str:
+    color = {0: "9d9d9d", 1: "ffffff", 2: "1eff00", 3: "0070dd", 4: "a335ee", 5: "ff8000"}.get(q if isinstance(q, int) else 4, "a335ee")
+    return f"|cff{color}|Hitem:{int(iid)}::::::::60:::::|h[{name or iid}]|h|r"
+
+
+def lootdb_lines(store: dict, pool: str, emoji_for=None, max_items: int = 15) -> list[str]:
+    """Textzeilen der Beutetabelle eines Raids (emoji_for(item) -> Text vor dem Namen)."""
+    lines = []
+    for b in lootdb_bosses(store, pool):
+        items, kills = lootdb_boss_loot(store, b["e"])
+        lines.append(f"**{b['n']}** · {kills} Kill{'s' if kills != 1 else ''}")
+        for it in items[:max_items]:
+            pre = (emoji_for(it) if emoji_for else "") or ""
+            lines.append(f"{pre} {it['n']} – {it['c']}/{kills} ({round(it['rate'] * 100)} %)".strip())
+        if len(items) > max_items:
+            lines.append(f"… und {len(items) - max_items} weitere")
+        lines.append("")
+    return lines

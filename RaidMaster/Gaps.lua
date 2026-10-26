@@ -65,8 +65,9 @@ function G.RaidSize(pool)
 	local su = RM.db.signup
 	if su and tonumber(su.max) then return math.min(40, tonumber(su.max)) end
 	pool = pool or G.PoolKey()
-	if G.SIZE[pool] then return G.SIZE[pool] end
 	local def = RM.Data.Pools[pool]
+	if def and def.size then return def.size end
+	if G.SIZE[pool] then return G.SIZE[pool] end
 	if def and def.exp and def.exp ~= "classic" then return 25 end
 	return 40
 end

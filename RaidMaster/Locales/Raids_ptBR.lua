@@ -5056,3 +5056,6 @@ L["Gruppensuche beendet – der Raid ist voll (%d/%d)."] = "Busca de grupo encer
 L["Raid voll"] = "raide cheia"
 L["Gruppen einteilen abgebrochen – im Kampf geht das nicht."] = "Organização dos grupos cancelada – não é possível em combate."
 L["Übernimmt die Gruppen aus Discord (/raid aufstellung). Wer nicht in der Aufstellung steht, kommt auf den Platz\neines Fehlenden derselben Art (Heiler für Heiler, Magier für Magier). Ohne Aufstellung: dieselbe Classic-Einteilung\nwie im Discord. Main-/Offtank immer in Gruppe 1. Nur außerhalb des Kampfes."] = "Adota os grupos do Discord (/raid aufstellung). Quem não está na formação ocupa a vaga\nde um ausente do mesmo tipo (curador por curador, mago por mago). Sem formação: a mesma divisão Classic\ndo Discord. Tanque principal e secundário sempre no grupo 1. Só fora de combate."
+L["Die Beute-Datenbank ist noch leer – sie füllt sich mit jedem Bosskill."] = "O banco de dados de saque ainda está vazio – ele é preenchido a cada chefe derrotado."
+L["%s: %d Kills, %d verschiedene Items"] = "%s: %d abates, %d itens diferentes"
+L["Kein Boss mit '%s' in der Beute-Datenbank."] = "Nenhum chefe com '%s' no banco de dados de saque."

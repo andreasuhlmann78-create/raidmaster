@@ -1,4 +1,4 @@
-RaidMaster 2.6.3 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 2.7.0 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,23 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+EIGENE BEUTE-DATENBANK (neu in 2.7.0)
+- Nach jedem Bosskill merkt sich RaidMaster, welche Items im Lootfenster des Bosses lagen (ab Grün), samt Name,
+  Qualität und Symbol. So entsteht mit jedem Raid eure eigene Beutetabelle für WoW Forever – ohne fremde Quelle.
+- Zählt nur bei einem Sieg (kein Wipe), nur das erste Lootfenster mit Beute innerhalb von 15 Min. nach dem Kill,
+  und jeder Kill nur einmal (mehrmals öffnen zählt nicht doppelt). Im Testmodus wird nichts gespeichert.
+- Der Uploader schickt die Daten an den Bot. Der Bot führt die Daten aller Uploader zusammen (derselbe Kill zählt nur
+  einmal) und hängt nach jedem Raid die Beutetabelle im Loot-Kanal des Raids an: Item, wie oft gedroppt / wie oft
+  getötet (Droprate). Discord-Befehle: /beute boss, /beute entfernen, /beute export, /beute tabellen.
+- Im Spiel: /rm beute [Boss] zeigt die Beute eines Bosses mit Droprate im Chat.
+- Testmodus: Sobald ein Boss mindestens 2 erfasste Kills hat, nimmt der Test-Durchlauf die eigene Beute statt der
+  mitgelieferten Tabellen. Für die neuen Forever-Raids kommen auch die Bosse aus der Datenbank.
+
+NEUE RAIDS AB 9. DEZEMBER 2026 (WoW Forever)
+- Barrow Deeps (10 Spieler), Hyjalgipfel (20 Spieler, eigene Bosse – nicht der TBC-Raid) und Onyxias Hort (40).
+- Bosse lernt RaidMaster beim ersten Kampf (Name und ID aus dem Spiel), Beute über die Beute-Datenbank.
+  Raidgröße für Einladen und "Lücken füllen": 10 bzw. 20 bzw. 40. Die Discord-Kategorien gibt es schon.
 
 GRUPPEN EINTEILEN WIE IM DISCORD (neu in 2.6.3)
 - "Gruppen einteilen" übernimmt die Aufstellung aus Discord für alle, die da sind.

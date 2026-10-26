@@ -5056,3 +5056,6 @@ L["Gruppensuche beendet – der Raid ist voll (%d/%d)."] = "Group search stopped
 L["Raid voll"] = "raid full"
 L["Gruppen einteilen abgebrochen – im Kampf geht das nicht."] = "Group arranging stopped – not possible in combat."
 L["Übernimmt die Gruppen aus Discord (/raid aufstellung). Wer nicht in der Aufstellung steht, kommt auf den Platz\neines Fehlenden derselben Art (Heiler für Heiler, Magier für Magier). Ohne Aufstellung: dieselbe Classic-Einteilung\nwie im Discord. Main-/Offtank immer in Gruppe 1. Nur außerhalb des Kampfes."] = "Takes over the groups from Discord (/raid aufstellung). Players not in the lineup take the seat\nof a missing player of the same kind (healer for healer, mage for mage). Without a lineup: the same Classic layout\nas in Discord. Main/off tank always in group 1. Only out of combat."
+L["Die Beute-Datenbank ist noch leer – sie füllt sich mit jedem Bosskill."] = "The loot database is still empty – it fills up with every boss kill."
+L["%s: %d Kills, %d verschiedene Items"] = "%s: %d kills, %d different items"
+L["Kein Boss mit '%s' in der Beute-Datenbank."] = "No boss matching '%s' in the loot database."

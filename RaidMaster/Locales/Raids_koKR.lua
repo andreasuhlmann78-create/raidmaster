@@ -5056,3 +5056,6 @@ L["Gruppensuche beendet – der Raid ist voll (%d/%d)."] = "파티 찾기 종료
 L["Raid voll"] = "공격대 가득 참"
 L["Gruppen einteilen abgebrochen – im Kampf geht das nicht."] = "파티 배치 중단 – 전투 중에는 할 수 없습니다."
 L["Übernimmt die Gruppen aus Discord (/raid aufstellung). Wer nicht in der Aufstellung steht, kommt auf den Platz\neines Fehlenden derselben Art (Heiler für Heiler, Magier für Magier). Ohne Aufstellung: dieselbe Classic-Einteilung\nwie im Discord. Main-/Offtank immer in Gruppe 1. Nur außerhalb des Kampfes."] = "Discord(/raid aufstellung)의 파티 구성을 가져옵니다. 구성에 없는 사람은 같은 유형의 빠진 사람 자리에\n들어갑니다(힐러는 힐러, 마법사는 마법사). 구성이 없으면 Discord와 같은 클래식 배치를 사용합니다.\n메인/서브 탱커는 항상 1파티. 전투 중에는 불가."
+L["Die Beute-Datenbank ist noch leer – sie füllt sich mit jedem Bosskill."] = "전리품 데이터베이스가 아직 비어 있습니다 – 보스를 처치할 때마다 채워집니다."
+L["%s: %d Kills, %d verschiedene Items"] = "%s: 처치 %d회, 아이템 %d종"
+L["Kein Boss mit '%s' in der Beute-Datenbank."] = "전리품 데이터베이스에 '%s' 보스가 없습니다."
