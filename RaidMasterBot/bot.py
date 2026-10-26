@@ -59,6 +59,7 @@ DEFAULT_CONFIG = {
     "guild_id": 0,
     "timezone": "Europe/Zurich",
     "raid_creator_roles": ["Offizier", "Raidleitung"],
+    "guild_leader": "Rokan Steinwacht",   # Gildenchef: darf wie die Offiziere alles im Discord verändern
     "reminder_minutes": 60,
     "close_after_hours": 6,
     "savedvariables_path": "",
@@ -201,6 +202,16 @@ class RaidBot(discord.Client):
             except Exception:
                 log.exception("Raid-Kategorien konnten nicht angelegt werden")
             try:
+                power = members_with_power()
+                key = "|".join(sorted(power))
+                if power and state.data.get("power_warned") != key:
+                    state.data["power_warned"] = key
+                    state.save()
+                    await post_bot_log("🔐 Im Discord sollen nur der Gildenchef und die Offiziere etwas verändern. Diese Mitglieder "
+                                       "haben trotzdem Verwaltungsrechte (Servereinstellungen → Rollen prüfen): " + "; ".join(power))
+            except Exception:
+                log.exception("Rechte-Prüfung fehlgeschlagen")
+            try:
                 rep = await ensure_channel_texts()
                 if rep:
                     await post_bot_log("✏️ Texte im neuen Stil: " + ", ".join(rep))
@@ -282,14 +293,55 @@ bot = RaidBot()
 # ---------------------------------------------------------------------------
 
 
-def is_creator(member) -> bool:
+# Wer im Discord etwas verändern darf: nur der Gildenchef (config "guild_leader", Standard Rokan Steinwacht)
+# und die Rolle Offizier. Der Server-Besitzer bleibt als Notfall-Zugang erlaubt, damit sich niemand aussperrt.
+def is_guild_leader(member) -> bool:
     if not isinstance(member, discord.Member):
         return False
-    perms = member.guild_permissions
-    if perms.administrator or perms.manage_guild:
+    leader = (cfg.get("guild_leader") or "Rokan Steinwacht").strip().lower()
+    if not leader:
+        return False
+    uid = book.user_for_char(cfg.get("guild_leader") or "Rokan Steinwacht")
+    if uid and int(uid) == member.id:
         return True
-    allowed = {r.lower() for r in cfg.get("raid_creator_roles", [])}
-    return any(role.name.lower() in allowed for role in member.roles)
+    for cand in (getattr(member, "nick", None), getattr(member, "global_name", None), member.name):
+        c = str(cand or "").strip().lower()
+        if c and (c == leader or c.startswith(leader + " ")):
+            return True
+    return False
+
+
+def is_admin(member) -> bool:
+    if not isinstance(member, discord.Member):
+        return False
+    if member.guild and member.id == member.guild.owner_id:
+        return True
+    if is_guild_leader(member):
+        return True
+    return any(role.name.lower() == "offizier" for role in member.roles)
+
+
+POWER_PERMS = ("administrator", "manage_guild", "manage_channels", "manage_roles", "manage_messages", "manage_webhooks")
+
+
+def members_with_power() -> list[str]:
+    """Mitglieder (keine Bots), die über Discord-Rechte den Server ändern können, aber weder Gildenchef noch
+    Offizier sind – der Bot meldet sie im Bot-Log, damit die Rechte angepasst werden können."""
+    guild = bot_guild()
+    out = []
+    for m in (guild.members if guild else []):
+        if m.bot or is_admin(m):
+            continue
+        perms = m.guild_permissions
+        names = [p for p in POWER_PERMS if getattr(perms, p, False)]
+        if names:
+            out.append(f"{m.display_name} ({', '.join(names)})")
+    return out
+
+
+def is_creator(member) -> bool:
+    """Raids, Einteilung, Beute-Daten usw. verwalten – seit 1.5.64 wie alles andere nur Gildenchef und Offiziere."""
+    return is_admin(member)
 
 
 def raid_embed(raid: dict) -> discord.Embed:
@@ -363,7 +415,7 @@ def profile_text(p: dict) -> str:
 
 async def send_export(inter: discord.Interaction, raid: dict):
     if not is_creator(inter.user):
-        await inter.response.send_message("Den Export dürfen nur Offiziere bzw. die Raidleitung abrufen.", ephemeral=True)
+        await inter.response.send_message("Den Export dürfen nur der Gildenchef und die Offiziere abrufen.", ephemeral=True)
         return
     lineup = None
     if raid["signups"]:
@@ -627,7 +679,7 @@ async def raid_create(inter: discord.Interaction, titel: str, datum: str, uhrzei
                       modus: app_commands.Choice[str] | None = None, softres: str | None = None):
     pool = raid
     if not is_creator(inter.user):
-        await inter.response.send_message("Raids erstellen dürfen nur Offiziere bzw. die Raidleitung.", ephemeral=True)
+        await inter.response.send_message("Raids erstellen dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
         return
     try:
         start = rmd.parse_datetime(datum, uhrzeit, TZ)
@@ -704,7 +756,7 @@ TEST_MAYBE = [("DRUID", "heal", "Wiederherstellung 11/0/40"), ("WARLOCK", "range
 @app_commands.autocomplete(raid=raid_pool_autocomplete)
 async def raid_test(inter: discord.Interaction, raid: str = "mc", fraktion: app_commands.Choice[str] | None = None):
     if not is_creator(inter.user):
-        await inter.response.send_message("Einen Testraid dürfen nur Offiziere bzw. die Raidleitung anlegen.", ephemeral=True)
+        await inter.response.send_message("Einen Testraid dürfen nur der Gildenchef und die Offiziere anlegen.", ephemeral=True)
         return
     import random
     pool = raid
@@ -771,7 +823,7 @@ async def remove_expired_test_raids():
 @app_commands.autocomplete(raid=raid_autocomplete)
 async def raid_cancel(inter: discord.Interaction, raid: str):
     if not is_creator(inter.user):
-        await inter.response.send_message("Nur Offiziere bzw. die Raidleitung.", ephemeral=True)
+        await inter.response.send_message("Das dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
         return
     r = book.get(raid)
     if not r:
@@ -805,7 +857,7 @@ def clean_softres(link: str | None) -> str:
 @app_commands.autocomplete(raid=raid_autocomplete)
 async def raid_softres(inter: discord.Interaction, raid: str, link: str = ""):
     if not is_creator(inter.user):
-        await inter.response.send_message("Nur Offiziere bzw. die Raidleitung.", ephemeral=True)
+        await inter.response.send_message("Das dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
         return
     r = book.get(raid)
     if not r:
@@ -831,7 +883,7 @@ async def raid_softres(inter: discord.Interaction, raid: str, link: str = ""):
 @app_commands.autocomplete(raid=raid_autocomplete)
 async def raid_close(inter: discord.Interaction, raid: str):
     if not is_creator(inter.user):
-        await inter.response.send_message("Nur Offiziere bzw. die Raidleitung.", ephemeral=True)
+        await inter.response.send_message("Das dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
         return
     r = book.get(raid)
     if not r:
@@ -848,7 +900,7 @@ async def raid_close(inter: discord.Interaction, raid: str):
 @app_commands.autocomplete(raid=raid_autocomplete)
 async def raid_open(inter: discord.Interaction, raid: str):
     if not is_creator(inter.user):
-        await inter.response.send_message("Nur Offiziere bzw. die Raidleitung.", ephemeral=True)
+        await inter.response.send_message("Das dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
         return
     r = book.get(raid)
     if not r:
@@ -921,7 +973,7 @@ async def post_lineup(raid: dict, extra_channel=None) -> int:
 @app_commands.autocomplete(raid=raid_autocomplete)
 async def raid_lineup(inter: discord.Interaction, raid: str):
     if not is_creator(inter.user):
-        await inter.response.send_message("Nur Offiziere bzw. die Raidleitung.", ephemeral=True)
+        await inter.response.send_message("Das dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
         return
     r = book.get(raid)
     if not r:
@@ -1048,7 +1100,7 @@ async def post_all_tactics(force: bool = False) -> list[str]:
 @app_commands.autocomplete(raid=raid_pool_autocomplete)
 async def raid_tactics(inter: discord.Interaction, raid: str = ""):
     if not is_creator(inter.user):
-        await inter.response.send_message("Nur Offiziere bzw. die Raidleitung.", ephemeral=True)
+        await inter.response.send_message("Das dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
         return
     await inter.response.defer(ephemeral=True, thinking=True)
     if not raid:
@@ -1165,7 +1217,7 @@ async def dkp_list_cmd(inter: discord.Interaction, raid: str = "mc"):
 @bot.tree.command(name="raidmaster-status", description="Zeigt, ob der Bot die RaidMaster-Datei findet")
 async def status_cmd(inter: discord.Interaction):
     if not is_creator(inter.user):
-        await inter.response.send_message("Nur Offiziere bzw. die Raidleitung.", ephemeral=True)
+        await inter.response.send_message("Das dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
         return
     path = data_path() or "(noch keine Daten)"
     exists = os.path.isfile(path)
@@ -1195,8 +1247,8 @@ async def status_cmd(inter: discord.Interaction):
 @bot.tree.command(name="raidmaster-einrichten", description="Legt Kanäle, Rollen und Berechtigungen für die Gilde automatisch an")
 async def setup_cmd(inter: discord.Interaction):
     member = inter.user
-    if not isinstance(member, discord.Member) or not (member.guild_permissions.administrator or member.guild_permissions.manage_guild):
-        await inter.response.send_message("Die Einrichtung dürfen nur Admins (Recht „Server verwalten“) starten.", ephemeral=True)
+    if not is_admin(member):
+        await inter.response.send_message("Die Einrichtung dürfen nur der Gildenchef und die Offiziere starten.", ephemeral=True)
         return
     me = inter.guild.me
     missing = []
@@ -2419,7 +2471,7 @@ async def rdm_cmd(inter: discord.Interaction, monat: str | None = None, verkuend
         month, year = int(m_.group(1)), int(m_.group(2))
     if verkuenden:
         if not is_creator(inter.user):
-            await inter.response.send_message("Verkünden dürfen nur Offiziere bzw. die Raidleitung.", ephemeral=True)
+            await inter.response.send_message("Verkünden dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
             return
         await inter.response.defer(ephemeral=True)
         await inter.followup.send(await announce_raider_of_month(year, month, True), ephemeral=True)
@@ -2483,7 +2535,7 @@ async def delete_raid_event(raid: dict):
 @bot.tree.command(name="raid-ereignisse", description="Für alle offenen Raids die Discord-Ereignisse anlegen (Offiziere)")
 async def raid_events_cmd(inter: discord.Interaction):
     if not is_creator(inter.user):
-        await inter.response.send_message("Nur Offiziere bzw. die Raidleitung.", ephemeral=True)
+        await inter.response.send_message("Das dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
         return
     await inter.response.defer(ephemeral=True)
     n = 0
@@ -2723,7 +2775,7 @@ async def beute_boss(inter: discord.Interaction, boss: str):
 @app_commands.autocomplete(boss=lootdb_boss_autocomplete)
 async def beute_entfernen(inter: discord.Interaction, boss: str, item: str):
     if not is_creator(inter.user):
-        await inter.response.send_message("Das dürfen nur Offiziere bzw. die Raidleitung.", ephemeral=True)
+        await inter.response.send_message("Das dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
         return
     b = _boss_by_value(boss)
     if not b:
@@ -2747,7 +2799,7 @@ async def beute_entfernen(inter: discord.Interaction, boss: str, item: str):
 @beute_group.command(name="export", description="Beute-Datenbank als Datei (z. B. für Partner-Gilden)")
 async def beute_export(inter: discord.Interaction):
     if not is_creator(inter.user):
-        await inter.response.send_message("Das dürfen nur Offiziere bzw. die Raidleitung.", ephemeral=True)
+        await inter.response.send_message("Das dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
         return
     data = json.dumps(lootdb.data, ensure_ascii=False, indent=1).encode("utf-8")
     await inter.response.send_message(f"Beute-Datenbank: {len(lootdb.data.get('kills') or [])} Kills, "
@@ -2758,7 +2810,7 @@ async def beute_export(inter: discord.Interaction):
 @beute_group.command(name="tabellen", description="Beutetabellen in den Loot-Kanälen neu posten (Offiziere)")
 async def beute_tabellen(inter: discord.Interaction):
     if not is_creator(inter.user):
-        await inter.response.send_message("Das dürfen nur Offiziere bzw. die Raidleitung.", ephemeral=True)
+        await inter.response.send_message("Das dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
         return
     await inter.response.defer(ephemeral=True)
     pools = rmd.lootdb_pools(lootdb.data)
@@ -3624,6 +3676,7 @@ async def ensure_addon_intro(ch, path: str, version: str) -> bool:
             return False
         except discord.HTTPException as e:
             log.info("Vorstellung nicht bearbeitet (%s) – wird neu gepostet.", e)
+    old_ids = set(rec.get("ids") or []) if rec.get("ch") == ch.id else set()
     ids = []
     first = await ch.send(posts[0], file=discord.File(path, filename=f"RaidMaster-{version}.zip"))
     ids.append(first.id)
@@ -3638,7 +3691,7 @@ async def ensure_addon_intro(ch, path: str, version: str) -> bool:
     removed = 0
     try:
         async for m in ch.history(limit=500):
-            if m.author == bot.user and m.id not in ids and _is_rm_post(m):
+            if m.author == bot.user and m.id not in ids and (m.id in old_ids or _is_rm_post(m)):
                 try:
                     await m.delete()
                     removed += 1
@@ -3714,11 +3767,11 @@ async def notify_registered(text: str):
     log.info("Benachrichtigung an %d Spieler verschickt (%d ohne Direktnachrichten).", sent, failed)
 
 
-@bot.tree.command(name="addon-hochladen", description="Neue Addon-Version (ZIP) hochladen – wird im passenden Kanal veröffentlicht (Admins)")
+@bot.tree.command(name="addon-hochladen", description="Neue Addon-Version (ZIP) hochladen – wird im passenden Kanal veröffentlicht (Gildenleitung)")
 @app_commands.describe(datei="Addon-ZIP, z. B. AHAnalyzerPro-5.9.zip oder RaidMaster-1.6.0.zip")
 async def addon_upload_cmd(inter: discord.Interaction, datei: discord.Attachment):
     if not is_admin(inter.user):
-        await inter.response.send_message("Nur Admins (Recht „Server verwalten“).", ephemeral=True)
+        await inter.response.send_message("Das dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
         return
     if not datei.filename.lower().endswith(".zip") or datei.size > 25 * 1024 * 1024:
         await inter.response.send_message("Bitte eine Addon-ZIP (max. 25 MB) anhängen.", ephemeral=True)
@@ -3791,10 +3844,6 @@ async def process_assignment():
 # ---------------------------------------------------------------------------
 # Server-Betrieb: Daten-Upload vom PC der Raidleitung
 # ---------------------------------------------------------------------------
-
-def is_admin(member) -> bool:
-    return isinstance(member, discord.Member) and (member.guild_permissions.administrator or member.guild_permissions.manage_guild)
-
 
 def check_upload(raw: bytes, filename: str) -> tuple[str, dict]:
     """Entpackt und prüft einen Upload. Liefert (Text, RaidMasterDB) oder wirft ValueError."""
@@ -4013,11 +4062,11 @@ def uploader_package() -> str | None:
     return path if os.path.isfile(path) else None
 
 
-@bot.tree.command(name="uploader", description="Daten-Uploader per Direktnachricht: Programm + Einrichtungsdatei (Admins)")
+@bot.tree.command(name="uploader", description="Daten-Uploader per Direktnachricht: Programm + Einrichtungsdatei (Gildenleitung)")
 @app_commands.describe(nur_programm="Nur das Programm (RaidMasterUploader.zip) schicken, ohne neue Einrichtungsdatei – z. B. für ein Update")
 async def uploader_cmd(inter: discord.Interaction, nur_programm: bool = False):
     if not is_admin(inter.user):
-        await inter.response.send_message("Nur Admins (Recht „Server verwalten“).", ephemeral=True)
+        await inter.response.send_message("Das dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
         return
     if nur_programm:
         pkg = uploader_package()
@@ -4190,11 +4239,11 @@ async def report_update_result():
         asyncio.create_task(confirm_later())
 
 
-@bot.tree.command(name="update", description="Update prüfen bzw. eine Update-ZIP einspielen (Admins)")
+@bot.tree.command(name="update", description="Update prüfen bzw. eine Update-ZIP einspielen (Gildenleitung)")
 @app_commands.describe(datei="Optional: Update-ZIP (RaidMaster-Paket). Leer = auf GitHub nach neuer Version suchen")
 async def update_cmd(inter: discord.Interaction, datei: discord.Attachment | None = None):
     if not is_admin(inter.user):
-        await inter.response.send_message("Nur Admins (Recht „Server verwalten“).", ephemeral=True)
+        await inter.response.send_message("Das dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
         return
     await inter.response.defer(ephemeral=True, thinking=True)
     try:
@@ -4321,11 +4370,11 @@ async def before_icon_map():
 IMPORT_FILES = ("raids.json", "profiles.json", "state.json", "RaidMaster.lua")
 
 
-@bot.tree.command(name="daten-import", description="Bot-Daten aus einer Sicherung übernehmen, z. B. beim Umzug auf den Server (Admins)")
+@bot.tree.command(name="daten-import", description="Bot-Daten aus einer Sicherung übernehmen, z. B. beim Umzug auf den Server (Gildenleitung)")
 @app_commands.describe(datei="Sicherungs-ZIP aus #bot-daten (daten-JJJJ-MM-TT.zip)")
 async def import_cmd(inter: discord.Interaction, datei: discord.Attachment):
     if not is_admin(inter.user):
-        await inter.response.send_message("Nur Admins (Recht „Server verwalten“).", ephemeral=True)
+        await inter.response.send_message("Das dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
         return
     if not datei.filename.lower().endswith(".zip") or datei.size > 25 * 1024 * 1024:
         await inter.response.send_message("Bitte die Sicherungs-ZIP anhängen.", ephemeral=True)
@@ -4414,7 +4463,7 @@ async def handle_member_join(member):
 @bot.tree.command(name="pug-einladung", description="Einladungslink für PUG-Spieler (bekommen automatisch die Rolle Gast)")
 async def pug_invite_cmd(inter: discord.Interaction):
     if not is_creator(inter.user):
-        await inter.response.send_message("Nur Offiziere bzw. die Raidleitung.", ephemeral=True)
+        await inter.response.send_message("Das dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
         return
     guild = inter.guild
     if state.data.get("members_intent_missing"):
@@ -4497,11 +4546,11 @@ async def ensure_welcome(update: bool = True) -> str:
     return f"✅ Willkommenstext in {channel.mention} eingetragen."
 
 
-@bot.tree.command(name="willkommen", description="Willkommenstext in #willkommen aktualisieren, z. B. mit neuem Gildennamen (Admins)")
+@bot.tree.command(name="willkommen", description="Willkommenstext in #willkommen aktualisieren, z. B. mit neuem Gildennamen (Gildenleitung)")
 @app_commands.describe(gildenname="Name eurer Gilde (wird gespeichert)")
 async def welcome_cmd(inter: discord.Interaction, gildenname: str | None = None):
     if not is_admin(inter.user):
-        await inter.response.send_message("Nur Admins (Recht „Server verwalten“).", ephemeral=True)
+        await inter.response.send_message("Das dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
         return
     if gildenname:
         cfg["guild_name"] = gildenname.strip()
@@ -4515,27 +4564,27 @@ async def welcome_cmd(inter: discord.Interaction, gildenname: str | None = None)
 
 COMMAND_INFO = {
     # Befehl: (Wer, Bereich)
-    "raid erstellen": ("Offiziere", "Raids"),
-    "raid softres": ("Offiziere", "Raids"),
-    "raid aufstellung": ("Offiziere", "Raids"),
-    "raid liste": ("Offiziere", "Raids"),
-    "raid schliessen": ("Offiziere", "Raids"),
-    "raid oeffnen": ("Offiziere", "Raids"),
-    "raid absagen": ("Offiziere", "Raids"),
-    "raid export": ("Offiziere", "Raids"),
-    "raid taktik": ("Offiziere", "Raids"),
-    "pug-einladung": ("Offiziere", "Raids"),
+    "raid erstellen": ("Gildenleitung", "Raids"),
+    "raid softres": ("Gildenleitung", "Raids"),
+    "raid aufstellung": ("Gildenleitung", "Raids"),
+    "raid liste": ("Gildenleitung", "Raids"),
+    "raid schliessen": ("Gildenleitung", "Raids"),
+    "raid oeffnen": ("Gildenleitung", "Raids"),
+    "raid absagen": ("Gildenleitung", "Raids"),
+    "raid export": ("Gildenleitung", "Raids"),
+    "raid taktik": ("Gildenleitung", "Raids"),
+    "pug-einladung": ("Gildenleitung", "Raids"),
     "charakter": ("alle", "Spieler"),
     "dkp": ("alle", "Spieler"),
     "dkpliste": ("alle", "Spieler"),
     "addon": ("alle", "Spieler"),
-    "raidmaster-status": ("Offiziere", "Verwaltung"),
-    "raidmaster-einrichten": ("Admins", "Verwaltung"),
-    "addon-hochladen": ("Admins", "Verwaltung"),
-    "willkommen": ("Admins", "Verwaltung"),
-    "uploader": ("Admins", "Verwaltung"),
-    "update": ("Admins", "Verwaltung"),
-    "daten-import": ("Admins", "Verwaltung"),
+    "raidmaster-status": ("Gildenleitung", "Verwaltung"),
+    "raidmaster-einrichten": ("Gildenleitung", "Verwaltung"),
+    "addon-hochladen": ("Gildenleitung", "Verwaltung"),
+    "willkommen": ("Gildenleitung", "Verwaltung"),
+    "uploader": ("Gildenleitung", "Verwaltung"),
+    "update": ("Gildenleitung", "Verwaltung"),
+    "daten-import": ("Gildenleitung", "Verwaltung"),
 }
 SECTION_ORDER = [("Raids", "⚔️"), ("Spieler", "👤"), ("Verwaltung", "🛠️")]
 
@@ -4582,7 +4631,7 @@ def command_list_text() -> list[str]:
     for section, emoji in order:
         if by_section.get(section):
             blocks.append(f"{emoji} **{section}**\n" + "\n".join(by_section[section]))
-    blocks.append("_Offiziere = Rollen Offizier/Raidleitung · Admins = Recht „Server verwalten“_")
+    blocks.append("_Gildenleitung = Gildenchef und Rolle Offizier – nur sie dürfen im Discord etwas verändern._")
     blocks.extend(ADDON_COMMAND_BLOCKS)
     return rmd.chunk_blocks(blocks)
 
