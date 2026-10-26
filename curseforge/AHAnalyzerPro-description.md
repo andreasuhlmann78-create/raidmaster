@@ -10,6 +10,11 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 
 ## What's new
 
+- **Comfort update:** stack size and number of stacks when posting (classic AH), mail collected automatically, a **minimum price** per item that is never undercut
+- **Only what I'm missing:** shopping list from your profession window with just the missing materials (bags, bank and alts counted)
+- **Alt-click** any item to open its price history · **sell rate** in the tooltip · reminder when **auctions expire**
+- **Favorites** in the Buy tab · **gold goal** for all characters · **guild bank value** · one-click **raid supplies** list · price sync **guild only**
+- **No absurd profits:** items showing 1000 % or more profit (bad data) are hidden
 - **Sell junk at vendors with one click:** a button below every vendor sells grey items and everything a vendor pays more for than the auction house
 - **Inventory value:** Ledger → "Assets" shows what your bags, bank and alts are worth, plus the gold of all characters
 - **Daily summary at login:** yesterday's profit, last 7 days, gold of all characters – any time with `/ahp summary`
@@ -115,6 +120,8 @@ Everything works with the mouse – the commands are optional.
 | `/ahp sniper` | sniper on / off |
 | `/ahp summary` | daily summary in the chat |
 | `/ahp alts` | rules for mail to alts |
+| `/ahp goal 5000` | gold goal (no number: progress, `off`: clear) |
+| `/ahp raid` | raid supplies as a shopping list |
 | `/ahp lists` | shopping lists |
 | `/ahp options` | options |
 | `/ahp sync` | price sync on / off |
