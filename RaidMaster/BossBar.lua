@@ -108,12 +108,11 @@ end
 function B.PostAssignment(boss)
 	boss = boss or B.TargetBoss()
 	if not boss or not RM.Assign then return end
-	for _, c in ipairs(RM.Assign.Contexts) do
-		if c.enc == boss.id and RM.db.assign and RM.db.assign.ctx and RM.db.assign.ctx[c.key] then
-			RM.Assign.Post(c.key)
-			RM.Fire("BOSSBAR_ACTION", "assign", boss.id)
-			return
-		end
+	local c = RM.Assign.ContextForEncounter(boss.id)
+	if c and RM.db.assign and RM.db.assign.ctx and RM.db.assign.ctx[c.key] then
+		RM.Assign.Post(c.key)
+		RM.Fire("BOSSBAR_ACTION", "assign", boss.id)
+		return
 	end
 	RM.Print(string.format(L["Für %s gibt es keine Einteilung (Seite Raidleiter > Einteilung)."], boss.name))
 end

@@ -1,7 +1,11 @@
 -- RaidMaster - Einteilung
 -- Erstellt auf Knopfdruck aus den Klassen im Raid: Heilung, Entfluchen, Magie bannen,
 -- CC je Boss (Verbannen, Sheep), Unterbrechen, Einlull-Rotation, Furchtschutz, Seelensteine, Anregen.
--- Verteilung: Flüstern (ohne Addon), Addon-Nachricht mit Anzeige beim Pull, Discord (Bot liest nach /reload).
+-- Je Raid eigene Kontexte: Molten Core (alle Bosse), Onyxias Hort, Barrow Deeps und Hyjalgipfel
+-- (die Bosse der neuen Raids sind noch nicht bekannt: dort gibt es eine allgemeine Boss-Einteilung).
+-- Tanks heißen überall MT (Maintank) und OT1, OT2 ... (Offtanks) in der eingetragenen Reihenfolge.
+-- Verteilung: Flüstern (ohne Addon), Addon-Nachricht mit Anzeige beim Pull, Discord (Bot liest nach /reload,
+-- jeder Raid hat dort seinen eigenen Einteilungs-Kanal).
 
 local ADDON, RM = ...
 local L = RM.L
@@ -11,26 +15,55 @@ RM.Assign = A
 local ICON = { [1] = "{rt1}", [2] = "{rt2}", [3] = "{rt3}", [4] = "{rt4}", [5] = "{rt5}", [6] = "{rt6}", [7] = "{rt7}", [8] = "{rt8}" }
 local ICON_NAME = RM.Data.MarkerNames
 
--- Kontexte: allgemein + Molten-Core-Bosse (Encounter-ID für die Anzeige beim Pull)
+-- Kontexte: allgemein + Bosse je Raid (Encounter-ID für die Anzeige beim Pull)
 A.Contexts = {
 	{ key = "general", name = L["Allgemein"] },
-	{ key = "lucifron", name = L["Lucifron"], enc = 663 },
-	{ key = "magmadar", name = L["Magmadar"], enc = 664 },
-	{ key = "gehennas", name = L["Gehennas"], enc = 665 },
-	{ key = "garr", name = L["Garr"], enc = 666 },
-	{ key = "shazzrah", name = L["Shazzrah"], enc = 667 },
-	{ key = "sulfuron", name = L["Sulfuronherold"], enc = 669 },
-	{ key = "golemagg", name = L["Golemagg"], enc = 670 },
-	{ key = "majordomo", name = L["Majordomus"], enc = 671 },
-	{ key = "ragnaros", name = L["Ragnaros"], enc = 672 },
+	{ key = "lucifron", name = L["Lucifron"], enc = 663, raid = "mc" },
+	{ key = "magmadar", name = L["Magmadar"], enc = 664, raid = "mc" },
+	{ key = "gehennas", name = L["Gehennas"], enc = 665, raid = "mc" },
+	{ key = "garr", name = L["Garr"], enc = 666, raid = "mc" },
+	{ key = "geddon", name = L["Baron Geddon"], enc = 668, raid = "mc" },
+	{ key = "shazzrah", name = L["Shazzrah"], enc = 667, raid = "mc" },
+	{ key = "sulfuron", name = L["Sulfuronherold"], enc = 669, raid = "mc" },
+	{ key = "golemagg", name = L["Golemagg"], enc = 670, raid = "mc" },
+	{ key = "majordomo", name = L["Majordomus"], enc = 671, raid = "mc" },
+	{ key = "ragnaros", name = L["Ragnaros"], enc = 672, raid = "mc" },
+	{ key = "onyxia", name = L["Onyxia"], enc = 1084, raid = "ony" },
+	{ key = "barrow_bosses", name = L["Bosse (allgemein)"], raid = "barrow", any = true },
+	{ key = "hyjal_bosses", name = L["Bosse (allgemein)"], raid = "hyjal", any = true },
 }
-local CTX_BY_ENC = {}
-for _, c in ipairs(A.Contexts) do if c.enc then CTX_BY_ENC[c.enc] = c end end
+A.RAIDS = { "mc", "ony", "barrow", "hyjal" }
+local CTX_BY_ENC, CTX_ANY = {}, {}
+for _, c in ipairs(A.Contexts) do
+	if c.enc then CTX_BY_ENC[c.enc] = c end
+	if c.any then CTX_ANY[c.raid] = c end
+end
 
 local function ctxName(key)
 	for _, c in ipairs(A.Contexts) do if c.key == key then return c.name end end
 	return key
 end
+
+-- Kontexte eines Raids (allgemein zuerst)
+function A.ContextsFor(pool)
+	local out = {}
+	for _, c in ipairs(A.Contexts) do
+		if not c.raid or c.raid == pool then out[#out + 1] = c end
+	end
+	return out
+end
+
+-- Raid der Einteilung: aktuelle Instanz, sonst laufende Sitzung, sonst Molten Core
+function A.DefaultPool()
+	local inst = RM.DKP and RM.DKP.CurrentInstancePool and RM.DKP.CurrentInstancePool(true)
+	local pool = inst or (RM.db and RM.db.session and RM.db.session.pool) or "mc"
+	for _, k in ipairs(A.RAIDS) do if k == pool then return pool end end
+	return "mc"
+end
+
+-- MT, OT1, OT2 ...
+local function TL(i) return i == 1 and L["MT"] or (L["OT"] .. (i - 1)) end
+A.TankLabel = TL
 
 ---------------------------------------------------------------------------
 -- Raid analysieren
@@ -78,9 +111,12 @@ end
 function A.Tanks()
 	local text = RM.db.config.assignTanks or ""
 	local list = {}
-	for name in text:gmatch("[^,%s]+") do
-		name = name:sub(1, 1):upper() .. name:sub(2):lower()
-		if RM.IsInMyRaid(name) then list[#list + 1] = name end
+	for name in text:gmatch("[^,]+") do
+		name = name:gsub("^%s+", ""):gsub("%s+$", "")
+		if name ~= "" then
+			name = name:sub(1, 1):upper() .. name:sub(2)
+			if RM.IsInMyRaid(name) then list[#list + 1] = name end
+		end
 	end
 	if #list == 0 then list = A.AutoTanks() end
 	return list
@@ -132,6 +168,8 @@ local function addPersonal(ctx, name, text)
 	ctx.p[name] = ctx.p[name] and (ctx.p[name] .. " · " .. text) or text
 end
 
+local function addLine(ctx, text) ctx.lines[#ctx.lines + 1] = text end
+
 -- Gruppen 1–8 gleichmäßig auf Spieler verteilen
 local function splitGroups(names, groupCount)
 	local out = {}
@@ -155,25 +193,31 @@ end
 
 local function list(t) return t or {} end
 
-function A.Build()
-	if not RM.InRaid() then RM.Print(L["Du bist in keinem Schlachtzug."]) return end
-	local r = A.Analyze()
-	local T = r.tanks
-	local G = groupCount()
-	local result = {}
+-- Schamane in der Gruppe des MT (Erdstoß-Totem gegen Furcht), sonst der erste Schamane
+local function TremorShaman(r)
+	local shamans = list(r.byClass.SHAMAN)
+	local mt = r.tanks[1]
+	local g = mt and r.groups[mt]
+	for _, s in ipairs(shamans) do if g and r.groups[s] == g then return s end end
+	return shamans[1]
+end
 
-	-------------------------------------------------------------------
-	-- Allgemein: Heilung, Entfluchen, Bannen, Furchtschutz, Seelensteine, Anregen
-	-------------------------------------------------------------------
+-- Allgemein: Heilung, Entfluchen, Bannen, Furchtschutz, Seelensteine, Anregen (für jeden Raid)
+local function BuildGeneral(r, G)
 	local c = newCtx()
-	result.general = c
-	local H = r.healers
+	local T, H = r.tanks, r.healers
+	if #T > 0 then
+		local parts = {}
+		for i, t in ipairs(T) do parts[#parts + 1] = TL(i) .. " " .. t end
+		addLine(c, L["Tanks: "] .. table.concat(parts, " · "))
+		for i, t in ipairs(T) do addPersonal(c, t, string.format(L["Du bist %s"], TL(i) == L["MT"] and L["Maintank (MT)"] or (L["Offtank "] .. TL(i)))) end
+	end
 	if #T > 0 and #H > 0 then
 		local tankHealers = math.max(1, math.ceil(#H / 2))
 		local mtShare = math.max(1, math.ceil(tankHealers * 0.4))
 		local idx = 1
 		local perTank = {}
-		for i = 1, mtShare do
+		for _ = 1, mtShare do
 			if H[idx] then perTank[T[1]] = perTank[T[1]] or {}; table.insert(perTank[T[1]], H[idx].name); idx = idx + 1 end
 		end
 		local t = 2
@@ -189,8 +233,8 @@ function A.Build()
 		for i, tank in ipairs(T) do
 			local hs = perTank[tank]
 			if hs then
-				c.lines[#c.lines + 1] = string.format("Heilung %s (%s): %s", tank, i == 1 and "MT" or ("OT" .. (i - 1)), table.concat(hs, ", "))
-				for _, h in ipairs(hs) do addPersonal(c, h, L["Heile "] .. tank .. (i == 1 and L[" (MT)"] or "")) end
+				addLine(c, string.format(L["Heilung %s %s: %s"], TL(i), tank, table.concat(hs, ", ")))
+				for _, h in ipairs(hs) do addPersonal(c, h, string.format(L["Heile %s %s"], TL(i), tank)) end
 			end
 		end
 		local raidHealers = {}
@@ -203,7 +247,7 @@ function A.Build()
 				addPersonal(c, h, L["Raidheilung Gruppe "] .. table.concat(split[h], ", "))
 			end
 		end
-		if #parts > 0 then c.lines[#c.lines + 1] = L["Raidheilung: "] .. table.concat(parts, ", ") end
+		if #parts > 0 then addLine(c, L["Raidheilung: "] .. table.concat(parts, ", ")) end
 	end
 	-- Entfluchen
 	local decurse = {}
@@ -217,7 +261,7 @@ function A.Build()
 			addPersonal(c, n, L["Entfluchen Gruppe "] .. table.concat(dsplit[n], ", "))
 		end
 	end
-	if #dparts > 0 then c.lines[#c.lines + 1] = L["Entfluchen: "] .. table.concat(dparts, ", ") end
+	if #dparts > 0 then addLine(c, L["Entfluchen: "] .. table.concat(dparts, ", ")) end
 	-- Magie bannen
 	local dispel = {}
 	for _, n in ipairs(list(r.byClass.PRIEST)) do dispel[#dispel + 1] = n end
@@ -230,13 +274,13 @@ function A.Build()
 			addPersonal(c, n, L["Magie bannen Gruppe "] .. table.concat(bsplit[n], ", "))
 		end
 	end
-	if #bparts > 0 then c.lines[#c.lines + 1] = L["Bannen: "] .. table.concat(bparts, ", ") end
+	if #bparts > 0 then addLine(c, L["Bannen: "] .. table.concat(bparts, ", ")) end
 	-- Furchtschutz (Zwergenpriester) auf die Tanks
 	for i, p in ipairs(r.dwarfPriests) do
 		local tank = T[i]
 		if tank then
-			c.lines[#c.lines + 1] = L["Furchtschutz: "] .. p .. " -> " .. tank
-			addPersonal(c, p, L["Furchtschutz auf "] .. tank)
+			addLine(c, L["Furchtschutz: "] .. p .. " -> " .. TL(i) .. " " .. tank)
+			addPersonal(c, p, L["Furchtschutz auf "] .. TL(i) .. " " .. tank)
 		end
 	end
 	-- Seelensteine: Hexer -> Heiler, die wiederbeleben können
@@ -245,7 +289,7 @@ function A.Build()
 	for i, w in ipairs(list(r.byClass.WARLOCK)) do
 		local target = rezzers[i]
 		if target then
-			c.lines[#c.lines + 1] = L["Seelenstein: "] .. w .. " -> " .. target
+			addLine(c, L["Seelenstein: "] .. w .. " -> " .. target)
 			addPersonal(c, w, L["Seelenstein auf "] .. target)
 		end
 	end
@@ -254,33 +298,52 @@ function A.Build()
 	for i, d in ipairs(list(r.byClass.DRUID)) do
 		local target = priests[i]
 		if target then
-			c.lines[#c.lines + 1] = L["Anregen: "] .. d .. " -> " .. target
+			addLine(c, L["Anregen: "] .. d .. " -> " .. target)
 			addPersonal(c, d, L["Anregen auf "] .. target)
 		end
 	end
+	return c
+end
 
-	-------------------------------------------------------------------
-	-- Bosse
-	-------------------------------------------------------------------
-	-- Lucifron / Gehennas: Boss + 2 Adds
+---------------------------------------------------------------------------
+-- Molten Core (geprüft mit gängigen MC-Guides: Tanks auf Boss und Adds, Bannen/Entfluchen,
+-- Einlull-Rotation, Verbannen, Unterbrechen, Sheep, Tankwechsel)
+---------------------------------------------------------------------------
+local function BuildMC(r, result)
+	local T = r.tanks
+	local function tankBoss(ctx, name, extra)
+		if T[1] then
+			addLine(ctx, string.format(L["%s: MT %s"], name, T[1]))
+			addPersonal(ctx, T[1], string.format(L["MT – tanke %s"], name) .. (extra and (", " .. extra) or ""))
+		end
+	end
+
+	-- Lucifron / Gehennas: Boss + 2 Flamewaker-Adds
 	for _, key in ipairs({ "lucifron", "gehennas" }) do
 		local b = newCtx()
 		result[key] = b
-		if T[1] then b.lines[#b.lines + 1] = L["Boss: "] .. T[1]; addPersonal(b, T[1], L["Tanke den Boss"]) end
+		tankBoss(b, ctxName(key), L["vom Raid weg drehen"])
 		for i, icon in ipairs({ 8, 7 }) do
 			local tank = T[i + 1]
 			if tank then
-				b.lines[#b.lines + 1] = string.format("Add %s: %s", ICON[icon], tank)
-				addPersonal(b, tank, L["Tanke Add "] .. ICON[icon] .. " (" .. ICON_NAME[icon] .. ")")
+				addLine(b, string.format(L["Add %s: %s %s"], ICON[icon], TL(i + 1), tank))
+				addPersonal(b, tank, string.format(L["%s – tanke Add %s (%s)"], TL(i + 1), ICON[icon], ICON_NAME[icon]))
 			end
 		end
-		b.lines[#b.lines + 1] = L["Adds zuerst! Entfluchen nach allgemeiner Einteilung."]
+		addLine(b, L["Adds zuerst, dann der Boss. Entfluchen nach allgemeiner Einteilung (Heiler und Tanks zuerst)."])
+		if key == "lucifron" then
+			addLine(b, L["Priester: Gedankenkontrolle sofort bannen, danach Drohende Verdammnis (Tanks zuerst)."])
+		end
 	end
 
-	-- Magmadar: Einlull-Rotation, Furchtschutz auf MT
+	-- Magmadar: Einlull-Rotation, OT hält Bedrohung, Furcht
 	local mg = newCtx()
 	result.magmadar = mg
-	-- nur Jäger, die Einlullender Schuss haben (nach der Abfrage), sonst alle Jäger
+	tankBoss(mg, ctxName("magmadar"), L["vom Raid weg drehen"])
+	if T[2] then
+		addLine(mg, string.format(L["OT1 %s: hohe Bedrohung halten, übernimmt bei Raserei"], T[2]))
+		addPersonal(mg, T[2], L["OT1 – hohe Bedrohung auf Magmadar halten, übernehmen falls der MT stirbt"])
+	end
 	local hunters = list(r.byClass.HUNTER)
 	if RM.Tranq then
 		local rot, asked = RM.Tranq.Rotation()
@@ -290,22 +353,27 @@ function A.Build()
 		local parts = {}
 		for i, h in ipairs(hunters) do
 			parts[#parts + 1] = i .. ". " .. h
-			addPersonal(mg, h, string.format("Einlullender Schuss: Position %d von %d", i, #hunters))
+			addPersonal(mg, h, string.format(L["Einlullender Schuss: Position %d von %d"], i, #hunters))
 		end
-		mg.lines[#mg.lines + 1] = L["Einlull-Rotation: "] .. table.concat(parts, ", ")
+		addLine(mg, L["Einlull-Rotation: "] .. table.concat(parts, ", "))
 	end
 	if r.dwarfPriests[1] and T[1] then
-		mg.lines[#mg.lines + 1] = L["Furchtschutz auf MT "] .. T[1] .. ": " .. r.dwarfPriests[1]
-		addPersonal(mg, r.dwarfPriests[1], L["Furchtschutz auf "] .. T[1] .. L[" erneuern!"])
+		addLine(mg, string.format(L["Furchtschutz auf MT %s: %s"], T[1], r.dwarfPriests[1]))
+		addPersonal(mg, r.dwarfPriests[1], string.format(L["Furchtschutz auf MT %s erneuern!"], T[1]))
 	end
-	if T[1] then addPersonal(mg, T[1], L["Tanke Magmadar, Furcht beachten"]) end
+	local tremor = TremorShaman(r)
+	if tremor then
+		addLine(mg, L["Erdstoß-Totem: "] .. tremor)
+		addPersonal(mg, tremor, L["Erdstoß-Totem gegen Panik (Furcht) stellen"])
+	end
+	addLine(mg, L["Fernkampf und Heiler auf maximale Reichweite, Nahkampf hinter den Boss, raus aus dem Feuer."])
 
 	-- Garr: Hexer verbannen, Tanks auf den Rest
 	local ga = newCtx()
 	result.garr = ga
 	local order = RM.Data.GetTemplate("garr").order
 	local warlocks = list(r.byClass.WARLOCK)
-	if T[1] then ga.lines[#ga.lines + 1] = L["Garr: "] .. T[1]; addPersonal(ga, T[1], L["Tanke Garr"]) end
+	tankBoss(ga, ctxName("garr"))
 	local used = 0
 	local banish = {}
 	for i, w in ipairs(warlocks) do
@@ -315,37 +383,64 @@ function A.Build()
 		addPersonal(ga, w, L["Verbanne "] .. ICON[icon] .. " (" .. ICON_NAME[icon] .. ")")
 		used = i
 	end
-	if #banish > 0 then ga.lines[#ga.lines + 1] = L["Verbannen: "] .. table.concat(banish, ", ") end
+	if #banish > 0 then addLine(ga, L["Verbannen: "] .. table.concat(banish, ", ")) end
 	local tankParts = {}
 	local t = 2
 	for i = used + 1, #order do
 		local tank = T[t]
 		if not tank then break end
-		tankParts[#tankParts + 1] = ICON[order[i]] .. " " .. tank
-		addPersonal(ga, tank, L["Tanke Add "] .. ICON[order[i]] .. " (" .. ICON_NAME[order[i]] .. ")")
+		tankParts[#tankParts + 1] = ICON[order[i]] .. " " .. TL(t) .. " " .. tank
+		addPersonal(ga, tank, string.format(L["%s – tanke Add %s (%s)"], TL(t), ICON[order[i]], ICON_NAME[order[i]]))
 		t = t + 1
 	end
-	if #tankParts > 0 then ga.lines[#ga.lines + 1] = L["Adds tanken: "] .. table.concat(tankParts, ", ") end
-	ga.lines[#ga.lines + 1] = L["Adds einzeln töten, Nahkampf weg bei Explosion."]
+	if #tankParts > 0 then addLine(ga, L["Adds tanken: "] .. table.concat(tankParts, ", ")) end
+	addLine(ga, L["Ablauf nach Ansage. Feuergeschworene einzeln und mit Abstand töten – Nahkampf weg bei der Explosion."])
 
-	-- Shazzrah: Tank-Reihenfolge nach Blinzeln
+	-- Baron Geddon: MT, Lebende Bombe raus, Mana entzünden bannen
+	local gd = newCtx()
+	result.geddon = gd
+	tankBoss(gd, ctxName("geddon"), L["bei Inferno weglaufen"])
+	addLine(gd, L["Lebende Bombe: sofort raus aus dem Raid, erst nach der Explosion zurück."])
+	addLine(gd, L["Inferno: Nahkampf und MT laufen weg."])
+	local pr = list(r.byClass.PRIEST)
+	if #pr > 0 then
+		addLine(gd, L["Mana entzünden bannen (Heiler zuerst): "] .. table.concat(pr, ", "))
+		for _, p in ipairs(pr) do addPersonal(gd, p, L["Mana entzünden bannen, Lebende Bombe mit Schild schützen"]) end
+	end
+	addLine(gd, L["Fernkampf und Heiler zusammen in einer Ecke auf maximaler Reichweite."])
+
+	-- Shazzrah: MT in der Mitte, OTs verteilt (Blinzeln), Entfluchen, Magie dämpfen
 	local sh = newCtx()
 	result.shazzrah = sh
 	if #T > 0 then
-		sh.lines[#sh.lines + 1] = L["Tanks verteilt im Raum, Reihenfolge nach Blinzeln: "] .. table.concat(T, " > ")
-		for i, tank in ipairs(T) do addPersonal(sh, tank, L["Tank Nr. "] .. i .. L[" – nach Blinzeln sofort spotten"]) end
+		local parts = {}
+		for i, tank in ipairs(T) do parts[#parts + 1] = TL(i) .. " " .. tank end
+		addLine(sh, L["MT in der Mitte, OTs im Bogen verteilt – nach Blinzeln übernimmt der nächste: "] .. table.concat(parts, " > "))
+		for i, tank in ipairs(T) do
+			addPersonal(sh, tank, i == 1 and L["MT – tanke Shazzrah in der Mitte, vom Raid weg drehen"]
+				or string.format(L["%s – nach Blinzeln sofort spotten"], TL(i)))
+		end
 	end
+	addLine(sh, L["Entfluchen: Shazzrahs Fluch (Tanks zuerst)."])
+	local purge = {}
+	for _, n in ipairs(list(r.byClass.PRIEST)) do purge[#purge + 1] = n end
+	for _, n in ipairs(list(r.byClass.SHAMAN)) do purge[#purge + 1] = n end
+	if #purge > 0 then
+		addLine(sh, L["Magie dämpfen auf Shazzrah bannen/reinigen: "] .. table.concat(purge, ", "))
+		for _, n in ipairs(purge) do addPersonal(sh, n, L["Magie dämpfen auf Shazzrah entfernen"]) end
+	end
+	addLine(sh, L["Nach Blinzeln: Schaden kurz stoppen, bis der neue Tank ihn hat."])
 
-	-- Sulfuron: Tanks auf Priester, Unterbrecher je Priester
+	-- Sulfuron: Tanks auf die Priester, Unterbrecher je Priester, Bannen
 	local su = newCtx()
 	result.sulfuron = su
-	if T[1] then su.lines[#su.lines + 1] = L["Sulfuron: "] .. T[1]; addPersonal(su, T[1], L["Tanke Sulfuron"]) end
+	tankBoss(su, ctxName("sulfuron"))
 	local priestIcons = { 8, 7, 6, 5 }
 	for i, icon in ipairs(priestIcons) do
 		local tank = T[i + 1]
 		if tank then
-			su.lines[#su.lines + 1] = string.format("Priester %s: %s", ICON[icon], tank)
-			addPersonal(su, tank, L["Tanke Priester "] .. ICON[icon] .. " (" .. ICON_NAME[icon] .. ")")
+			addLine(su, string.format(L["Priester %s: %s %s"], ICON[icon], TL(i + 1), tank))
+			addPersonal(su, tank, string.format(L["%s – tanke Priester %s (%s)"], TL(i + 1), ICON[icon], ICON_NAME[icon]))
 		end
 	end
 	local ip = {}
@@ -353,30 +448,34 @@ function A.Build()
 		local icon = priestIcons[((i - 1) % 4) + 1]
 		ip[icon] = ip[icon] or {}
 		table.insert(ip[icon], n)
-		addPersonal(su, n, L["Unterbrich Priester "] .. ICON[icon] .. " (" .. ICON_NAME[icon] .. ")")
+		addPersonal(su, n, L["Unterbrich Dunkle Besserung bei Priester "] .. ICON[icon] .. " (" .. ICON_NAME[icon] .. ")")
 	end
 	for _, icon in ipairs(priestIcons) do
-		if ip[icon] then su.lines[#su.lines + 1] = L["Unterbrechen "] .. ICON[icon] .. ": " .. table.concat(ip[icon], ", ") end
+		if ip[icon] then addLine(su, L["Unterbrechen "] .. ICON[icon] .. ": " .. table.concat(ip[icon], ", ")) end
 	end
+	addLine(su, L["Priester zuerst. Bannen: Schattenwort: Schmerz und Feuerbrand."])
 
-	-- Golemagg: zwei Tanks im Wechsel, Kernwüter abseits
+	-- Golemagg: MT, OT1 für den Tankwechsel, OT2/OT3 auf die Kernwüter
 	local go = newCtx()
 	result.golemagg = go
-	if T[1] then go.lines[#go.lines + 1] = L["Golemagg: "] .. T[1] .. (T[2] and (L[" / Wechsel "] .. T[2]) or "") end
-	if T[1] then addPersonal(go, T[1], L["Tanke Golemagg"]) end
-	if T[2] then addPersonal(go, T[2], L["Golemagg übernehmen bei vielen Magmaspritzer-Stapeln"]) end
+	tankBoss(go, ctxName("golemagg"))
+	if T[2] then
+		addLine(go, string.format(L["Tankwechsel bei vielen Magmaspritzern: OT1 %s"], T[2]))
+		addPersonal(go, T[2], L["OT1 – Golemagg bei vielen Magmaspritzer-Stapeln übernehmen"])
+	end
 	for i, icon in ipairs({ 6, 5 }) do
 		local tank = T[i + 2]
 		if tank then
-			go.lines[#go.lines + 1] = string.format(L["Kernwüter %s: %s (nicht töten)"], ICON[icon], tank)
-			addPersonal(go, tank, L["Tanke Kernwüter "] .. ICON[icon] .. L[" abseits (nicht töten)"])
+			addLine(go, string.format(L["Kernwüter %s: %s %s (nicht töten)"], ICON[icon], TL(i + 2), tank))
+			addPersonal(go, tank, string.format(L["%s – tanke Kernwüter %s abseits (nicht töten)"], TL(i + 2), ICON[icon]))
 		end
 	end
+	addLine(go, L["Alles auf Golemagg, die Hunde ignorieren. Bei 10 % Erdbeben: Heiler bereit."])
 
 	-- Majordomus: Heiler 8/7/6/5 (8 zuerst töten, Rest sheepen), Elite 4/3/2/1 tanken, Unterbrecher
 	local mj = newCtx()
 	result.majordomo = mj
-	mj.lines[#mj.lines + 1] = L["Tötungsreihenfolge: Heiler "] .. ICON[8] .. " " .. ICON[7] .. " " .. ICON[6] .. " " .. ICON[5] .. L[", dann Elite"]
+	addLine(mj, L["Tötungsreihenfolge: Heiler "] .. ICON[8] .. " " .. ICON[7] .. " " .. ICON[6] .. " " .. ICON[5] .. L[", dann Elite"])
 	local mages = list(r.byClass.MAGE)
 	local sheepIcons = { 7, 6, 5 }
 	local sheepParts = {}
@@ -386,38 +485,116 @@ function A.Build()
 		sheepParts[#sheepParts + 1] = ICON[icon] .. " " .. mage .. (backup and L[" (Ersatz)"] or "")
 		addPersonal(mj, mage, (backup and L["Ersatz-Sheep auf "] or L["Sheep auf "]) .. ICON[icon] .. " (" .. ICON_NAME[icon] .. ")")
 	end
-	if #sheepParts > 0 then mj.lines[#mj.lines + 1] = L["Sheep: "] .. table.concat(sheepParts, ", ") end
+	if #sheepParts > 0 then addLine(mj, L["Sheep: "] .. table.concat(sheepParts, ", ")) end
 	local eliteIcons = { 4, 3, 2, 1 }
 	local eparts = {}
 	for i, icon in ipairs(eliteIcons) do
 		local tank = T[i]
 		if tank then
-			eparts[#eparts + 1] = ICON[icon] .. " " .. tank
-			addPersonal(mj, tank, L["Tanke Elite "] .. ICON[icon] .. " (" .. ICON_NAME[icon] .. ")")
+			eparts[#eparts + 1] = ICON[icon] .. " " .. TL(i) .. " " .. tank
+			addPersonal(mj, tank, string.format(L["%s – tanke Elite %s (%s)"], TL(i), ICON[icon], ICON_NAME[icon]))
 		end
 	end
-	if #eparts > 0 then mj.lines[#mj.lines + 1] = L["Elite tanken: "] .. table.concat(eparts, ", ") end
+	if #eparts > 0 then addLine(mj, L["Elite tanken: "] .. table.concat(eparts, ", ")) end
 	local kick = {}
 	for i, n in ipairs(r.interrupt) do
 		if i > 4 then break end
 		kick[#kick + 1] = n
-		addPersonal(mj, n, L["Unterbrich Heiler "] .. ICON[8] .. L[" (Totenkopf)"])
+		addPersonal(mj, n, L["Unterbrich Schattenblitz und Feuerball, zuerst Heiler "] .. ICON[8])
 	end
-	if #kick > 0 then mj.lines[#mj.lines + 1] = L["Unterbrechen "] .. ICON[8] .. ": " .. table.concat(kick, ", ") end
-	mj.lines[#mj.lines + 1] = L["Bei Schild/Reflexion SOFORT aufhören!"]
+	if #kick > 0 then addLine(mj, L["Unterbrechen (Schattenblitz/Feuerball): "] .. table.concat(kick, ", ")) end
+	addLine(mj, L["Priester: Schattenschutz auf den Raid. Bei Schild bzw. Magiereflexion SOFORT aufhören!"])
 
-	-- Ragnaros: MT, Ersatztank spottet nach dem Rückstoß
+	-- Ragnaros: MT, OT1 übernimmt nach dem Rückstoß
 	local rg = newCtx()
 	result.ragnaros = rg
-	if T[1] then rg.lines[#rg.lines + 1] = L["MT: "] .. T[1]; addPersonal(rg, T[1], L["Tanke Ragnaros (Feuerresistenz!)"]) end
-	if T[2] then rg.lines[#rg.lines + 1] = L["Ersatztank: "] .. T[2]; addPersonal(rg, T[2], L["Nach Zorn des Ragnaros sofort spotten"]) end
-	rg.lines[#rg.lines + 1] = L["Söhne der Flamme: alle Schaden darauf!"]
+	tankBoss(rg, ctxName("ragnaros"), L["Feuerresistenz!"])
+	if T[2] then
+		addLine(rg, string.format(L["OT1 %s: übernimmt nach Zorn des Ragnaros"], T[2]))
+		addPersonal(rg, T[2], L["OT1 – nach Zorn des Ragnaros sofort übernehmen (Feuerresistenz!)"])
+	end
+	addLine(rg, L["Nahkampf bei Zorn des Ragnaros raus. Fernkampf verteilt (Lavaeruption)."])
+	addLine(rg, L["Söhne der Flamme: alle Schaden darauf, Manabenutzer Abstand halten!"])
+end
 
-	-------------------------------------------------------------------
-	-- Speichern (auch für den Discord-Bot)
-	-------------------------------------------------------------------
-	local store = { v = GetServerTime(), by = RM.Me(), title = (RM.db.signup and RM.db.signup.title) or L["Raid"], ctx = {} }
-	for _, cdef in ipairs(A.Contexts) do
+---------------------------------------------------------------------------
+-- Onyxias Hort
+---------------------------------------------------------------------------
+local function BuildOnyxia(r, result)
+	local T = r.tanks
+	local o = newCtx()
+	result.onyxia = o
+	if T[1] then
+		addLine(o, string.format(L["Phase 1: MT %s tankt Onyxia, Kopf zur Wand, Raid an den Seiten – nie vor oder hinter ihr."], T[1]))
+		addPersonal(o, T[1], L["MT – Phase 1 und 3: Onyxia tanken, Kopf zur Wand"])
+	end
+	local sides = { L["linke Seite"], L["rechte Seite"], L["Eingang"] }
+	local wparts = {}
+	for i = 2, math.min(#T, 4) do
+		local side = sides[i - 1]
+		wparts[#wparts + 1] = TL(i) .. " " .. T[i] .. " (" .. side .. ")"
+		addPersonal(o, T[i], string.format(L["%s – Phase 2: Welpen sammeln (%s)"], TL(i), side))
+	end
+	if #wparts > 0 then addLine(o, L["Phase 2 Welpen: "] .. table.concat(wparts, ", ")) end
+	addLine(o, L["Phase 2: Fernkampf auf Onyxia, bei Tiefem Atem aus der Flugbahn laufen."])
+	if T[1] then addLine(o, string.format(L["Phase 3 (ab 40 %%): MT %s übernimmt sofort, Furcht beachten."], T[1])) end
+	if r.dwarfPriests[1] and T[1] then
+		addLine(o, string.format(L["Furchtschutz auf MT %s: %s"], T[1], r.dwarfPriests[1]))
+		addPersonal(o, r.dwarfPriests[1], string.format(L["Furchtschutz auf MT %s in Phase 3"], T[1]))
+	end
+	local tremor = TremorShaman(r)
+	if tremor then
+		addLine(o, L["Erdstoß-Totem: "] .. tremor)
+		addPersonal(o, tremor, L["Erdstoß-Totem in Phase 3 (Furcht)"])
+	end
+	addLine(o, L["Nicht in die Lavaspalten treten, Eier in Phase 3 nicht aufwecken."])
+end
+
+---------------------------------------------------------------------------
+-- Neue Raids (Barrow Deeps 10, Hyjalgipfel 20): die Bosse sind noch nicht bekannt.
+-- Allgemeine Boss-Einteilung: MT/OTs, Unterbrecher-Reihenfolge, wer was kontrollieren kann.
+---------------------------------------------------------------------------
+local function BuildGeneric(r, result, key)
+	local T = r.tanks
+	local b = newCtx()
+	result[key] = b
+	if #T > 0 then
+		local parts = {}
+		for i, tank in ipairs(T) do parts[#parts + 1] = TL(i) .. " " .. tank end
+		addLine(b, L["Tanks: "] .. table.concat(parts, " · ") .. L[" – MT auf den Boss, OTs auf Adds und für den Tankwechsel."])
+		addPersonal(b, T[1], L["MT – zieh und tanke den Boss"])
+		for i = 2, #T do addPersonal(b, T[i], string.format(L["%s – Adds übernehmen, bereit für den Tankwechsel"], TL(i))) end
+	end
+	if #r.interrupt > 0 then
+		addLine(b, L["Unterbrechen der Reihe nach: "] .. table.concat(r.interrupt, " > "))
+		for i, n in ipairs(r.interrupt) do addPersonal(b, n, string.format(L["Unterbrechen: Platz %d"], i)) end
+	end
+	local cc = {}
+	local function add(class, what)
+		for _, n in ipairs(list(r.byClass[class])) do
+			cc[#cc + 1] = n .. " (" .. what .. ")"
+			addPersonal(b, n, string.format(L["Kontrolle bei Adds: %s"], what))
+		end
+	end
+	add("MAGE", L["Sheep"]); add("WARLOCK", L["Verbannen/Furcht"]); add("HUNTER", L["Eiskältefalle"]); add("PRIEST", L["Fesseln (Untote)"])
+	if #cc > 0 then addLine(b, L["Kontrolle (CC), falls Adds kommen: "] .. table.concat(cc, ", ")) end
+	addLine(b, L["Die Taktik je Boss sagt die Raidleitung an – RaidMaster lernt die Bosse beim ersten Kampf."])
+end
+
+function A.Build(pool)
+	if not RM.InRaid() then RM.Print(L["Du bist in keinem Schlachtzug."]) return end
+	pool = pool or A.selectedPool or A.DefaultPool()
+	local r = A.Analyze()
+	local G = groupCount()
+	local result = { general = BuildGeneral(r, G) }
+	if pool == "mc" then BuildMC(r, result)
+	elseif pool == "ony" then BuildOnyxia(r, result)
+	elseif CTX_ANY[pool] then BuildGeneric(r, result, CTX_ANY[pool].key) end
+
+	-- Speichern (auch für den Discord-Bot: jeder Raid hat dort seinen eigenen Einteilungs-Kanal)
+	local store = { v = GetServerTime(), by = RM.Me(), pool = pool, raid = RM.DKP and RM.DKP.PoolName and RM.DKP.PoolName(pool) or pool,
+		title = (RM.db.signup and RM.db.signup.title) or L["Raid"], ctx = {} }
+	for _, cdef in ipairs(A.ContextsFor(pool)) do
 		local d = result[cdef.key]
 		if d then store.ctx[cdef.key] = { n = cdef.name, lines = d.lines, p = d.p } end
 	end
@@ -511,8 +688,16 @@ RM.Comm.Register("ASG", function(sender, d)
 	end
 end)
 
-RM.On("ENCOUNTER_START", function(encounterID)
+-- Kontext zu einem Bosskampf: bekannter Boss, sonst die allgemeine Boss-Einteilung des Raids
+function A.ContextForEncounter(encounterID)
 	local cdef = CTX_BY_ENC[encounterID]
+	if cdef then return cdef end
+	local pool = RM.DKP and RM.DKP.CurrentInstancePool and RM.DKP.CurrentInstancePool(true)
+	return pool and CTX_ANY[pool] or nil
+end
+
+RM.On("ENCOUNTER_START", function(encounterID)
+	local cdef = A.ContextForEncounter(encounterID)
 	local mine = RM.db and RM.db.myAssign
 	if not cdef or not mine or not mine[cdef.key] then return end
 	local text = cdef.name .. ": " .. mine[cdef.key]

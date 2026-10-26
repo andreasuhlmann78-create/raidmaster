@@ -28,6 +28,9 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
+**3.0.2** – Einteilung je Raid
+• Eigene Einteilung für Molten Core (geprüft, mit Baron Geddon), Onyxia, Barrow Deeps und Hyjal – im Discord je Raid ein Kanal unter ⚔️ RAID-ORGA. Tanks heißen überall MT und OT1, OT2 …
+
 **3.0.1** – Gildenbank
 • Eigener Bereich „Gildenbank“, nur auf dem Bank-Charakter: ganzer Bestand mit Suche, Gold und „An Discord senden“ – im Discord in #gildenbank-bestand.
 

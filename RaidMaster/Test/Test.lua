@@ -26,29 +26,29 @@ RM.Test = T
 local FAKE = {}
 -- Ersatzbank: nicht im Raid, bekommen aber (je nach Einstellung) die Raid-DKP mit
 local BENCH = {
-	{ "Testersatz1", "WARRIOR", { 5, 5, 41 } }, { "Testersatz2", "PRIEST", { 21, 30, 0 } },
-	{ "Testersatz3", "MAGE", { 21, 0, 30 } }, { "Testersatz4", "ROGUE", { 19, 32, 0 } },
-	{ "Testersatz5", "DRUID", { 11, 0, 40 } },
+	{ "Ersatz1", "WARRIOR", { 5, 5, 41 } }, { "Ersatz2", "PRIEST", { 21, 30, 0 } },
+	{ "Ersatz3", "MAGE", { 21, 0, 30 } }, { "Ersatz4", "ROGUE", { 19, 32, 0 } },
+	{ "Ersatz5", "DRUID", { 11, 0, 40 } },
 }
 local function BuildFake()
 	wipe(FAKE)
 	local horde = (UnitFactionGroup and UnitFactionGroup("player")) == "Horde"
 	local function add(name, class, points) FAKE[#FAKE + 1] = { name, class, points } end
-	for i = 1, 4 do add("Testtank" .. i, "WARRIOR", { 5, 5, 41 }) end
-	for i = 1, 6 do add("Testkrieger" .. i, "WARRIOR", { 17, 34, 0 }) end
-	for i = 1, 5 do add("Testpriester" .. i, "PRIEST", { 21, 30, 0 }) end
-	add("Testschatten", "PRIEST", { 13, 0, 38 })
+	for i = 1, 4 do add("Tank" .. i, "WARRIOR", { 5, 5, 41 }) end
+	for i = 1, 6 do add("Krieger" .. i, "WARRIOR", { 17, 34, 0 }) end
+	for i = 1, 5 do add("Priester" .. i, "PRIEST", { 21, 30, 0 }) end
+	add("Schatten", "PRIEST", { 13, 0, 38 })
 	if horde then
-		for i = 1, 5 do add("Testschamane" .. i, "SHAMAN", { 0, 5, 46 }) end
+		for i = 1, 5 do add("Schamane" .. i, "SHAMAN", { 0, 5, 46 }) end
 	else
-		for i = 1, 5 do add("Testpaladin" .. i, "PALADIN", { 31, 20, 0 }) end
+		for i = 1, 5 do add("Paladin" .. i, "PALADIN", { 31, 20, 0 }) end
 	end
-	add("Testdruide1", "DRUID", { 11, 0, 40 }); add("Testdruide2", "DRUID", { 11, 0, 40 })
-	add("Testbaer", "DRUID", { 0, 31, 20 })
-	for i = 1, 4 do add("Testschurke" .. i, "ROGUE", { 19, 32, 0 }) end
-	for i = 1, 5 do add("Testmagier" .. i, "MAGE", { 21, 0, 30 }) end
-	for i = 1, 3 do add("Testhexer" .. i, "WARLOCK", { 17, 0, 34 }) end
-	add("Testjaeger", "HUNTER", { 21, 30, 0 }); add("Testjaegerin", "HUNTER", { 21, 30, 0 }); add("Testjaeger2", "HUNTER", { 0, 31, 20 })
+	add("Druide1", "DRUID", { 11, 0, 40 }); add("Druide2", "DRUID", { 11, 0, 40 })
+	add("Bär", "DRUID", { 0, 31, 20 })
+	for i = 1, 4 do add("Schurke" .. i, "ROGUE", { 19, 32, 0 }) end
+	for i = 1, 5 do add("Magier" .. i, "MAGE", { 21, 0, 30 }) end
+	for i = 1, 3 do add("Hexer" .. i, "WARLOCK", { 17, 0, 34 }) end
+	add("Jäger1", "HUNTER", { 21, 30, 0 }); add("Jägerin", "HUNTER", { 21, 30, 0 }); add("Jäger2", "HUNTER", { 0, 31, 20 })
 end
 BuildFake()
 -- Im Raid gibt es Raidleiter, Plündermeister, Assistenten und Raidmitglieder (keine Offiziere)
@@ -957,16 +957,16 @@ function T.Auction(link)
 	end
 end
 
--- Magmadar: Jäger nach Einlullender Schuss fragen; die Testjäger antworten per Flüstern
+-- Magmadar: Jäger nach Einlullender Schuss fragen; die Jäger antworten per Flüstern
 function T.TranqTest()
 	if not T.active then T.Start() end
 	if T.role ~= "lead" and T.role ~= "raidlead" then Log("Die Jäger-Abfrage gibt es nur für Raidleiter und Assistenten.") return end
 	RM.Tranq.Ask()
-	Log("Jäger-Abfrage gestartet – Testjaeger und Testjaeger2 antworten 'ja', Testjaegerin 'nein'.")
+	Log("Jäger-Abfrage gestartet – Jäger1 und Jäger2 antworten 'ja', Jägerin 'nein'.")
 	C_Timer.After(5, function()
-		RM.SimulateEvent("CHAT_MSG_WHISPER", "ja", "Testjaeger")
-		RM.SimulateEvent("CHAT_MSG_WHISPER", "nein", "Testjaegerin")
-		RM.SimulateEvent("CHAT_MSG_WHISPER", "ja", "Testjaeger2")
+		RM.SimulateEvent("CHAT_MSG_WHISPER", "ja", "Jäger1")
+		RM.SimulateEvent("CHAT_MSG_WHISPER", "nein", "Jägerin")
+		RM.SimulateEvent("CHAT_MSG_WHISPER", "ja", "Jäger2")
 		Log("Antworten: " .. RM.Tranq.StatusText():gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", ""))
 		RM.Tranq.Post()
 		Log("Einlull-Rotation als Schlachtzugwarnung gepostet (im Test nur bei dir).")
@@ -1594,7 +1594,7 @@ local function CreateWindow()
 	local trashBtn = UI.Button(pe, "Trash-Loot", 126, 26, function() T.TrashLoot() end, "Ein zufälliges Trash-Item des Raids droppen lassen.")
 	trashBtn:SetPoint("TOPLEFT", 14, -92)
 	local tqBtn = UI.Button(pe, "Jäger-Abfrage", 126, 26, function() T.TranqTest() end,
-		"Magmadar: fragt die Jäger nach Einlullender Schuss und postet die Rotation (Testjäger antworten selbst).")
+		"Magmadar: fragt die Jäger nach Einlullender Schuss und postet die Rotation (Jäger antworten selbst).")
 	tqBtn:SetPoint("LEFT", trashBtn, "RIGHT", 8, 0)
 	local targetBtn = UI.Button(pe, "Boss ins Ziel", 126, 26, function() T.TargetBoss(T.boss) end,
 		"Simuliert, dass du den gewählten Boss ins Ziel nimmst: die Boss-Leiste erscheint\n(Ansage + Symbole per Klick, nur bei dir angezeigt).")

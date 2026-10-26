@@ -212,6 +212,15 @@ class RaidBot(discord.Client):
             except Exception:
                 log.exception("Rechte-Prüfung fehlgeschlagen")
             try:
+                guild0 = bot_guild()
+                if guild0 is not None and guild0.me.guild_permissions.manage_channels:
+                    rep = await server_setup.ensure_assignment_channels(guild0, cfg)
+                    save_config()
+                    if rep:
+                        await post_bot_log("📋 Einteilung je Raid: " + "; ".join(rep))
+            except Exception:
+                log.exception("Einteilungs-Kanäle konnten nicht angelegt werden")
+            try:
                 rep = await ensure_channel_texts()
                 if rep:
                     await post_bot_log("✏️ Texte im neuen Stil: " + ", ".join(rep))
@@ -947,13 +956,31 @@ async def channel_by_id(channel_id) -> discord.abc.Messageable | None:
         return None
 
 
+async def assignment_channel(pool: str | None):
+    """Einteilungs-Kanal eines Raids (#einteilung-mc, #einteilung-barrow …), sonst der allgemeine."""
+    pool = pool or "mc"
+    ch = await channel_by_id((cfg.get("assignment_channels") or {}).get(pool))
+    if ch:
+        return ch
+    guild = bot_guild()
+    ch = discord.utils.get(guild.text_channels, name=server_setup.assignment_channel_name(pool)) if guild else None
+    if ch:
+        cfg.setdefault("assignment_channels", {})[pool] = ch.id
+        save_config()
+        return ch
+    return await channel_by_id(cfg.get("assignment_channel_id"))
+
+
 async def post_lineup(raid: dict, extra_channel=None) -> int:
-    """Aufstellung berechnen und in #einteilung und #offiziere posten. Liefert Anzahl Kanäle."""
+    """Aufstellung berechnen und im Einteilungs-Kanal des Raids und in #offiziere posten. Liefert Anzahl Kanäle."""
     att, n, source = rmd.attendance(bot.dkp_data, book)
     lineup = rmd.build_lineup(raid, att)
     texts = rmd.lineup_text(raid, lineup, source, n)
     targets = []
-    for cid in (cfg.get("assignment_channel_id"), cfg.get("officer_channel_id")):
+    main = await assignment_channel(raid.get("pool"))
+    if main:
+        targets.append(main)
+    for cid in (cfg.get("officer_channel_id"),):
         ch = await channel_by_id(cid)
         if ch and ch not in targets:
             targets.append(ch)
@@ -3081,7 +3108,7 @@ async def ensure_channel_texts() -> list[str]:
         if ch is None:
             continue
         name = names.get(key) or rmd.pool_name(key, bot.dkp_data)
-        if await _keep_text(ch, f"howto:{key}", server_setup._raid_howto_text(name), ("**Anmeldung ", "📋 **Anmeldung ")):
+        if await _keep_text(ch, f"howto:{key}", server_setup._raid_howto_text(name, key), ("**Anmeldung ", "📋 **Anmeldung ")):
             done.append(f"#{ch.name}")
         if regs.get(key) and await _keep_text(ch, f"reg:{key}", server_setup.raid_registration_text(name), msg_id=int(regs[key])):
             done.append(f"#{ch.name} (Knopf)")
@@ -3813,7 +3840,7 @@ async def process_assignment():
         return
     state.data["assign_v"] = int(a["v"])
     state.save()
-    ch = await channel_by_id(cfg.get("assignment_channel_id"))
+    ch = await assignment_channel(a.get("pool"))
     if ch:
         for text in rmd.assignment_overview(a):
             await ch.send(text)

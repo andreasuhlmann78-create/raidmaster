@@ -1238,9 +1238,25 @@ end)
 UI.AddPage("assign", L["Einteilung"], function(page)
 	local Assign = RM.Assign
 	local selected = "general"
+	Assign.selectedPool = Assign.selectedPool or Assign.DefaultPool()
 
 	Section(page, L["Einteilung per Knopfdruck"], 0, 0)
-	Label(page, L["Tanks in Reihenfolge (MT zuerst), mit Komma getrennt:"], 0, -28, 11, true):SetWidth(380)
+	local raidOpts = {}
+	for _, k in ipairs(Assign.RAIDS) do raidOpts[#raidOpts + 1] = { k, RM.DKP.PoolName(k) } end
+	local opts = {}
+	local function RebuildCtx()
+		wipe(opts)
+		for _, c in ipairs(Assign.ContextsFor(Assign.selectedPool)) do opts[#opts + 1] = { c.key, c.name } end
+		local ok = false
+		for _, o in ipairs(opts) do if o[1] == selected then ok = true end end
+		if not ok then selected = "general" end
+	end
+	RebuildCtx()
+	local raidCycle = UI.Cycle(page, 170, raidOpts, function() return Assign.selectedPool end,
+		function(v) Assign.selectedPool = v; RebuildCtx(); UI.RefreshCurrent() end,
+		L["Für welchen Raid? Jeder Raid hat eigene Boss-Einteilungen und im Discord einen eigenen Einteilungs-Kanal."])
+	Place(raidCycle, page, 210, 4)
+	Label(page, L["Tanks in Reihenfolge (MT zuerst, dann OT1, OT2 ...), mit Komma getrennt:"], 0, -28, 11, true):SetWidth(380)
 	local tankBox = UI.EditBox(page, 300, 24)
 	Place(tankBox, page, 0, -46)
 	tankBox:SetScript("OnTextChanged", function(self, user) if user then RM.db.config.assignTanks = self:GetText() end end)
@@ -1251,8 +1267,8 @@ UI.AddPage("assign", L["Einteilung"], function(page)
 	end, L["Tanks aus Haupttank-Markierung, Discord-Rolle 'Tank' oder Kriegern ermitteln."])
 	Place(autoBtn, page, 308, -46)
 
-	local buildBtn = UI.Button(page, L["Einteilung erstellen"], 185, 30, function() Assign.Build() end,
-		L["Erstellt Heil-, Entfluch-, Bann- und CC-Einteilung für alle Molten-Core-Bosse aus den Klassen im Raid."])
+	local buildBtn = UI.Button(page, L["Einteilung erstellen"], 185, 30, function() Assign.Build(Assign.selectedPool) end,
+		L["Erstellt Heil-, Entfluch-, Bann- und CC-Einteilung für den gewählten Raid aus den Klassen im Raid (MT und OTs nach der Tank-Reihenfolge)."])
 	Place(buildBtn, page, 0, -84)
 	buildBtn:SetAccent(true)
 	local sendBtn = UI.Button(page, L["An alle senden"], 185, 30, function() Assign.SendAll() end,
@@ -1269,8 +1285,6 @@ UI.AddPage("assign", L["Einteilung"], function(page)
 
 	local rx = 400
 	Section(page, L["Übersicht"], rx, 0)
-	local opts = {}
-	for _, c in ipairs(Assign.Contexts) do opts[#opts + 1] = { c.key, c.name } end
 	local ctxCycle = UI.Cycle(page, 200, opts, function() return selected end, function(v) selected = v; UI.RefreshCurrent() end)
 	Place(ctxCycle, page, rx + 90, 4)
 	local preview = UI.Multiline(page, 390, 460, true)
@@ -1286,13 +1300,15 @@ UI.AddPage("assign", L["Einteilung"], function(page)
 
 	return function()
 		if not tankBox:HasFocus() then tankBox:SetText(RM.db.config.assignTanks or "") end
+		raidCycle:Refresh()
 		ctxCycle:Refresh()
 		local store = RM.db.assign
 		local ctx = store and store.ctx[selected]
 		if ctx then
 			local lines = {}
 			for _, l in ipairs(ctx.lines) do lines[#lines + 1] = iconize(l) end
-			preview:SetText(string.format("Erstellt %s von %s\n\n", RM.FormatTime(store.v), store.by or "?") .. table.concat(lines, "\n"))
+			preview:SetText(string.format(L["%s · erstellt %s von %s"], store.raid or RM.DKP.PoolName(store.pool or "mc"), RM.FormatTime(store.v), store.by or "?")
+				.. "\n\n" .. table.concat(lines, "\n"))
 		else
 			preview:SetText(L["Noch keine Einteilung erstellt."])
 		end

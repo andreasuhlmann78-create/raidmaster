@@ -39,6 +39,25 @@ RAIDS = [
     ("naxx", "Naxxramas", "💀", "naxx"),
 ]
 
+# Raids mit eigenem Einteilungs-Kanal unter ⚔️ RAID-ORGA (die Raids von WoW Forever)
+ASSIGN_RAIDS = ["mc", "ony", "barrow", "hyjal"]
+RAID_ORGA = "⚔️ RAID-ORGA"
+
+
+def assignment_channel_name(key: str) -> str:
+    prefix = next((p for k, _, _, p in RAIDS if k == key), None) or slug(key)
+    return f"einteilung-{prefix}"
+
+
+def _assignment_channels() -> list:
+    out = []
+    for key in ASSIGN_RAIDS:
+        name = next((n for k, n, _, _ in RAIDS if k == key), key)
+        out.append(("text", assignment_channel_name(key),
+                    f"Einteilung {name}: Aufstellung, Gruppen, Heil-, Entfluch- und CC-Einteilung (automatisch vom Bot)", "readonly"))
+    return out
+
+
 # Raidgröße je Raid: so viele Plätze hat der Sprachkanal des Raids (unbekannte/eigene Raids: 40)
 RAID_SIZES = {"mc": 40, "ony": 40, "barrow": 10, "hyjal": 20, "bwl": 40, "zg": 20, "aq20": 20, "aq40": 40, "naxx": 40}
 
@@ -55,6 +74,7 @@ def raid_size(key: str, cfg: dict | None = None) -> int:
 
 # Ältere Kanalnamen -> neue Namen in den Raid-Kategorien (wird nur umbenannt, wenn das Ziel fehlt)
 RENAMES = {
+    "einteilung": "einteilung-mc",
     "raid-anmeldung": "mc-anmeldung",
     "raid-taktik": "mc-taktik",
     "loot": "mc-loot",
@@ -87,7 +107,7 @@ BASE_TOP = [
     {
         "name": "⚔️ RAID-ORGA", "mode": None,
         "channels": [
-            ("text", "einteilung", "Aufstellung, Gruppen, Heil-, Entfluch- und CC-Einteilung (automatisch vom Bot)", "readonly"),
+            # je Raid ein eigener Einteilungs-Kanal (siehe ASSIGN_RAIDS), wird unten eingesetzt
         ],
     },
     {
@@ -107,6 +127,10 @@ BASE_TOP = [
         ],
     },
 ]
+
+for _cat in BASE_TOP:
+    if _cat["name"] == RAID_ORGA:
+        _cat["channels"] = _assignment_channels() + [c for c in _cat["channels"] if not c[1].startswith("einteilung")]
 
 BASE_BOTTOM = [
     {
@@ -452,7 +476,7 @@ def _raid_rules_texts() -> list[str]:
         "Weltbuffs warten wir nicht (die gibt's auf WoW Forever im Raid ohnehin nicht).\n"
         "• In Molten Core hilft etwas **Feuerwiderstand** – die Raidleitung sagt dir, wenn du ihn brauchst.\n"
         "• **Hilfreich:** RaidMaster aus #raid-addon und ein Boss-Addon (DBM oder BigWigs). Einen Blick in die Taktik "
-        "und in **#einteilung** zu werfen, schadet auch nicht.\n\n"
+        "und in den **Einteilungs-Kanal** deines Raids (unter ⚔️ RAID-ORGA) zu werfen, schadet auch nicht.\n\n"
         "🎧 **Im Raid**\n"
         "• Komm in den **Sprachkanal** – zuhören reicht, ein Mikro ist kein Muss. Bei Ansagen kurz ruhig sein.\n"
         "• Die **Raidleitung** sagt an. Taktik und Symbole kommen bei dir als Schlachtzugwarnung mitten auf den "
@@ -482,7 +506,8 @@ def rules_posts(dkp_settings: dict | None = None) -> list[str]:
     return [_rules_text(s)] + _raid_rules_texts()
 
 
-def _raid_howto_text(name: str) -> str:
+def _raid_howto_text(name: str, key: str | None = None) -> str:
+    where = f"**#{assignment_channel_name(key)}**" if key in ASSIGN_RAIDS else "im **Einteilungs-Kanal** unter ⚔️ RAID-ORGA"
     return (
         f"📋 **Anmeldung {name}**\n\n"
         "Hier erscheinen alle geplanten Raids – such dir einen aus und klick auf den passenden Knopf: "
@@ -491,7 +516,7 @@ def _raid_howto_text(name: str) -> str:
         "• **Bis 24 Stunden vorher anmelden** – dann können wir die Gruppen in Ruhe planen.\n"
         "• **Klasse, Rolle oder Charakter ändern:** Knopf **Charakter ändern** oder `/charakter`. Mit einem Twink "
         "meldest du dich über `/twink wechseln` an.\n"
-        "• **Erinnerung:** Vor dem Raid meldet sich der Bot bei dir, und in **#einteilung** siehst du deine Gruppe.\n"
+        f"• **Erinnerung:** Vor dem Raid meldet sich der Bot bei dir, deine Gruppe und Aufgaben siehst du in {where}.\n"
         "• **Ersatzbank:** Sagt jemand ab, fragt dich der Bot per Direktnachricht – ein Klick auf **Ich komme!** und du bist dabei."
     )
 
@@ -653,7 +678,8 @@ async def run_setup(guild: discord.Guild, invoker: discord.Member, cfg: dict, dk
         "bot-befehle": _bot_commands_text(),
     }
     for r in raids:
-        texts[f"{r['prefix']}-anmeldung"] = _raid_howto_text(r["name"].split(" ", 1)[1].title())
+        texts[f"{r['prefix']}-anmeldung"] = _raid_howto_text(next((n for k, n, _, _ in RAIDS if k == r["raid"]),
+                                                                  r["name"].split(" ", 1)[1].title()), r["raid"])
     for name, text in texts.items():
         ch = created.get(name)
         if ch and name in new_names:
@@ -684,7 +710,9 @@ async def run_setup(guild: discord.Guild, invoker: discord.Member, cfg: dict, dk
     if _find(guild.text_channels, "softreserve"):
         report.append("ℹ️ #softreserve wird nicht mehr gebraucht (Soft Reserve wurde entfernt) – du kannst den Kanal löschen.")
     cfg.pop("softreserve_channel_id", None)
-    for key, ch_name in (("assignment_channel_id", "einteilung"),
+    cfg["assignment_channels"] = {k: created[assignment_channel_name(k)].id for k in ASSIGN_RAIDS
+                                  if assignment_channel_name(k) in created}
+    for key, ch_name in (("assignment_channel_id", "einteilung-mc"),
                          ("officer_channel_id", "offiziere"), ("addon_channel_id", "raid-addon"),
                          ("announce_channel_id", "ankündigungen"), ("pug_channel_id", "pug-anmeldung"),
                          ("data_channel_id", "bot-daten"), ("botcmd_channel_id", "bot-befehle"),
@@ -705,6 +733,24 @@ async def run_setup(guild: discord.Guild, invoker: discord.Member, cfg: dict, dk
     return report
 
 
+async def ensure_assignment_channels(guild: discord.Guild, cfg: dict) -> list[str]:
+    """⚔️ RAID-ORGA: je Raid ein Einteilungs-Kanal. Der alte #einteilung wird zu #einteilung-mc (Verlauf bleibt)."""
+    reason = "RaidMaster: Einteilung je Raid"
+    report: list[str] = []
+    old = _find(guild.text_channels, "einteilung")
+    if old and not _find(guild.text_channels, "einteilung-mc"):
+        await old.edit(name="einteilung-mc", topic=_assignment_channels()[0][2], reason=reason)
+        report.append("✏️ #einteilung in #einteilung-mc umbenannt")
+    cat_def = next(c for c in BASE_TOP if c["name"] == RAID_ORGA)
+    created: dict = {}
+    await _ensure_category(guild, cat_def, _known_roles(guild), report, created, set(), reason)
+    cfg["assignment_channels"] = {k: created[assignment_channel_name(k)].id for k in ASSIGN_RAIDS
+                                  if assignment_channel_name(k) in created}
+    if "einteilung-mc" in created:
+        cfg["assignment_channel_id"] = created["einteilung-mc"].id
+    return [r for r in report if r.startswith(("✅", "✏️"))]
+
+
 async def ensure_raid(guild: discord.Guild, cfg: dict, key: str, name: str, emoji: str = "🗡️",
                       prefix: str | None = None) -> list[str]:
     """Kategorie für einen Raid anlegen (neu erkannter Raid oder neu in der Raidliste)."""
@@ -718,7 +764,7 @@ async def ensure_raid(guild: discord.Guild, cfg: dict, key: str, name: str, emoj
     sign = created.get(f"{raid_def['prefix']}-anmeldung")
     if sign and sign.name in new_names:
         try:
-            await sign.send(_raid_howto_text(name))
+            await sign.send(_raid_howto_text(name, key))
         except discord.HTTPException:
             pass
     await _post_raid_registration(sign, cfg, key, name, report)

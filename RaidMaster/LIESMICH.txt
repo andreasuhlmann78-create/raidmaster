@@ -1,4 +1,4 @@
-RaidMaster 3.0.1 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 3.0.2 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,19 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+NEU IN 3.0.2 – Einteilung je Raid
+- Raid > Einteilung: oben den Raid wählen (Molten Core, Onyxias Hort, Barrow Deeps, Hyjalgipfel). Jeder Raid hat
+  seine eigene Einteilung, im Discord steht sie im eigenen Kanal unter ⚔️ RAID-ORGA (#einteilung-mc, #einteilung-onyxia,
+  #einteilung-barrow, #einteilung-hyjal).
+- Tanks heißen überall MT (Maintank) und OT1, OT2 ... (Offtanks) – in der Reihenfolge, die du einträgst.
+- Molten Core mit gängigen Guides abgeglichen: Baron Geddon neu (Lebende Bombe, Mana entzünden), Lucifron
+  (Gedankenkontrolle bannen), Magmadar (OT1 hält Bedrohung, Erdstoß-Totem), Shazzrah (Magie dämpfen), Sulfuron
+  (Bannen), Majordomus (Schattenblitz/Feuerball unterbrechen, Schattenschutz), Ragnaros (OT1 übernimmt nach dem Rückstoß).
+- Onyxia: Phase 1–3 mit MT, Welpen-OTs, Furchtschutz und Erdstoß-Totem.
+- Barrow Deeps und Hyjalgipfel: Die Bosse sind noch nicht bekannt – bis dahin eine allgemeine Boss-Einteilung
+  (MT/OTs, Unterbrecher-Reihenfolge, wer welche Gegner kontrollieren kann). Beim Pull erscheint sie bei jedem Boss.
+- Testmodus: Die Testspieler heißen jetzt ohne "Test" davor (Jäger1, Tank1, Priester1 ...).
 
 NEU IN 3.0.1 – Bereich Gildenbank
 - Auf dem Bank-Charakter gibt es einen eigenen Bereich "Gildenbank" (nur dort sichtbar, auch nicht beim Raidleiter):

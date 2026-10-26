@@ -337,7 +337,8 @@ def assignment_from_db(db: dict) -> dict | None:
     return a
 
 
-ASSIGN_ORDER = ["general", "lucifron", "magmadar", "gehennas", "garr", "shazzrah", "sulfuron", "golemagg", "majordomo", "ragnaros"]
+ASSIGN_ORDER = ["general", "lucifron", "magmadar", "gehennas", "garr", "geddon", "shazzrah", "sulfuron", "golemagg", "majordomo",
+                "ragnaros", "onyxia", "barrow_bosses", "hyjal_bosses"]
 ICON_EMOJI = {"1": "⭐", "2": "🟠", "3": "🟣", "4": "🟢", "5": "🌙", "6": "🟦", "7": "❌", "8": "💀"}
 
 
@@ -357,7 +358,9 @@ def assignment_overview(a: dict) -> list[str]:
         lines = [discord_icons(l) for l in lua_list(c.get("lines"))]
         if lines:
             blocks.append(f"**{c.get('n') or key}**\n" + "\n".join(f"• {l}" for l in lines))
-    head = f"📋 **Einteilung – {a.get('title') or 'Raid'}** (erstellt von {a.get('by') or '?'})"
+    raid = a.get("raid")
+    head = (f"📋 **Einteilung {raid} – {a.get('title') or 'Raid'}**" if raid else f"📋 **Einteilung – {a.get('title') or 'Raid'}**") \
+        + f" (erstellt von {a.get('by') or '?'})\n_MT = Maintank · OT1, OT2 … = Offtanks_"
     return chunk_blocks([head] + blocks)
 
 
