@@ -3430,6 +3430,85 @@ async def remove_old_raidmaster_versions(ch, keep_version: str) -> int:
     return removed
 
 
+ADDON_INTRO = os.path.join(BASE, "raid_addon_intro.md")
+
+
+def addon_intro_posts(version: str) -> list[str]:
+    """Vorstellung + Updates aus raid_addon_intro.md (Nachrichten durch "===" getrennt, //-Zeilen weggelassen)."""
+    try:
+        with open(ADDON_INTRO, "r", encoding="utf-8") as f:
+            raw = f.read()
+    except OSError:
+        return []
+    lines = [l for l in raw.splitlines() if not l.startswith("//")]
+    posts = []
+    for part in "\n".join(lines).split("\n===\n"):
+        part = part.strip().replace("{version}", version)
+        if part:
+            posts.extend(rmd.split_discord(part))
+    return posts
+
+
+def _is_rm_post(m) -> bool:
+    """Eigener Beitrag in #raid-addon zu RaidMaster: Vorstellung, Updates, Versions-Post oder alte Zusammenfassung."""
+    text = m.content or ""
+    if text.startswith(("🛡️ **RaidMaster", "📜 **Updates**")):
+        return True
+    if any(RM_RELEASE_FILE.match(a.filename or "") for a in m.attachments):
+        return True
+    return bool(RM_RELEASE_HEAD.match(text))
+
+
+async def ensure_addon_intro(ch, path: str, version: str) -> bool:
+    """#raid-addon: Vorstellung (mit der aktuellen Addon-ZIP) und Updates. Neue Version oder anderer Text ->
+    die alten Beiträge (auch alte Versions-Posts und Zusammenfassungen) werden ersetzt. Liefert True, wenn neu gepostet."""
+    posts = addon_intro_posts(version)
+    if not posts:
+        return False
+    digest = str(zlib.crc32(("\n".join(posts)).encode("utf-8")))
+    rec = state.data.get("addon_intro") or {}
+    same_place = rec.get("ch") == ch.id and rec.get("version") == version and rec.get("ids")
+    if same_place and rec.get("hash") == digest:
+        return False
+    if same_place and len(rec["ids"]) == len(posts):
+        # nur der Text hat sich geändert: Beiträge bearbeiten (die Datei bleibt dran)
+        try:
+            for mid, text in zip(rec["ids"], posts):
+                await ch.get_partial_message(mid).edit(content=text)
+                await asyncio.sleep(0.4)
+            rec["hash"] = digest
+            state.data["addon_intro"] = rec
+            state.save()
+            return False
+        except discord.HTTPException as e:
+            log.info("Vorstellung nicht bearbeitet (%s) – wird neu gepostet.", e)
+    ids = []
+    first = await ch.send(posts[0], file=discord.File(path, filename=f"RaidMaster-{version}.zip"))
+    ids.append(first.id)
+    for text in posts[1:]:
+        m = await ch.send(text)
+        ids.append(m.id)
+        await asyncio.sleep(0.4)
+    state.data["addon_intro"] = {"ch": ch.id, "ids": ids, "hash": digest, "version": version}
+    state.data["addon_message"] = first.jump_url
+    state.save()
+    # alte Vorstellung, alte Versions-Posts und Zusammenfassungen entfernen
+    removed = 0
+    try:
+        async for m in ch.history(limit=500):
+            if m.author == bot.user and m.id not in ids and _is_rm_post(m):
+                try:
+                    await m.delete()
+                    removed += 1
+                except discord.HTTPException:
+                    pass
+                await asyncio.sleep(0.4)
+    except discord.HTTPException as e:
+        log.warning("Alte Beiträge in #raid-addon nicht entfernt: %s", e)
+    log.info("#raid-addon: Vorstellung RaidMaster %s gepostet, %d alte Beiträge entfernt.", version, removed)
+    return True
+
+
 async def check_addon_release():
     global _rm_cleaned
     await check_extra_releases()
@@ -3438,39 +3517,45 @@ async def check_addon_release():
     if not pkg:
         return
     path, version = pkg
-    if version_tuple(version) <= version_tuple(state.data.get("addon_version") or "0"):
-        # einmal nach dem Start: veraltete Versionen aus #raid-addon entfernen
-        if not _rm_cleaned and state.data.get("addon_version"):
-            ch0 = await channel_by_id(cfg.get("addon_channel_id"))
-            if ch0:
+    ch = await channel_by_id(cfg.get("addon_channel_id"))
+    new_version = version_tuple(version) > version_tuple(state.data.get("addon_version") or "0")
+    if not ch:
+        if new_version:
+            log.info("Neue Addon-Version %s gefunden, aber kein Kanal #raid-addon eingetragen (/raidmaster-einrichten).", version)
+        return
+    if os.path.isfile(ADDON_INTRO):
+        posted = await ensure_addon_intro(ch, path, version)
+        if not new_version:
+            return
+        if not posted:
+            return
+    else:
+        if not new_version:
+            if not _rm_cleaned and state.data.get("addon_version"):
                 _rm_cleaned = True
                 try:
-                    await remove_old_raidmaster_versions(ch0, state.data["addon_version"])
+                    await remove_old_raidmaster_versions(ch, state.data["addon_version"])
                 except Exception as e:  # noqa: BLE001 – Aufräumen darf nichts anderes stören
                     log.warning("Aufräumen von #raid-addon fehlgeschlagen: %s", e)
-        return
-    ch = await channel_by_id(cfg.get("addon_channel_id"))
-    if not ch:
-        log.info("Neue Addon-Version %s gefunden, aber kein Kanal #raid-addon eingetragen (/raidmaster-einrichten).", version)
-        return
-    msg = await ch.send(
-        f"🆕 **RaidMaster {version}** ist da!\n"
-        "Download: Datei unten herunterladen, entpacken und den Ordner **RaidMaster** in "
-        "`Interface/AddOns` ersetzen. Deine Einstellungen und DKP bleiben erhalten.",
-        file=discord.File(path, filename=f"RaidMaster-{version}.zip"))
+            return
+        msg = await ch.send(
+            f"🆕 **RaidMaster {version}** ist da!\n"
+            "Download: Datei unten herunterladen, entpacken und den Ordner **RaidMaster** in "
+            "`Interface/AddOns` ersetzen. Deine Einstellungen und DKP bleiben erhalten.",
+            file=discord.File(path, filename=f"RaidMaster-{version}.zip"))
+        state.data["addon_message"] = msg.jump_url
+        _rm_cleaned = True
+        try:
+            await remove_old_raidmaster_versions(ch, version)
+        except Exception as e:  # noqa: BLE001
+            log.warning("Aufräumen von #raid-addon fehlgeschlagen: %s", e)
     state.data["addon_version"] = version
-    state.data["addon_message"] = msg.jump_url
     state.save()
     log.info("Addon %s in #raid-addon veröffentlicht.", version)
-    _rm_cleaned = True
-    try:
-        await remove_old_raidmaster_versions(ch, version)
-    except Exception as e:  # noqa: BLE001
-        log.warning("Aufräumen von #raid-addon fehlgeschlagen: %s", e)
     if cfg.get("notify_addon_updates", True):
         await notify_registered(
             f"🆕 **Neue RaidMaster-Version {version}** – bitte das Addon aktualisieren!\n"
-            f"Download in **#raid-addon**: {msg.jump_url}")
+            f"Download in **#raid-addon**: {state.data.get('addon_message')}")
 
 
 async def notify_registered(text: str):
