@@ -39,6 +39,20 @@ RAIDS = [
     ("naxx", "Naxxramas", "💀", "naxx"),
 ]
 
+# Raidgröße je Raid: so viele Plätze hat der Sprachkanal des Raids (unbekannte/eigene Raids: 40)
+RAID_SIZES = {"mc": 40, "ony": 40, "barrow": 10, "hyjal": 20, "bwl": 40, "zg": 20, "aq20": 20, "aq40": 40, "naxx": 40}
+
+
+def raid_size(key: str, cfg: dict | None = None) -> int:
+    """Plätze im Raid (für den Sprachkanal). In config.json änderbar: "raid_sizes": {"mc": 40}."""
+    custom = ((cfg or {}).get("raid_sizes") or {}).get(key)
+    try:
+        n = int(custom) if custom else RAID_SIZES.get(key, 40)
+    except (TypeError, ValueError):
+        n = RAID_SIZES.get(key, 40)
+    return max(1, min(99, n))           # Discord erlaubt 1–99 Plätze
+
+
 # Ältere Kanalnamen -> neue Namen in den Raid-Kategorien (wird nur umbenannt, wenn das Ziel fehlt)
 RENAMES = {
     "raid-anmeldung": "mc-anmeldung",
@@ -145,11 +159,12 @@ def slug(name: str) -> str:
     return s.strip("-")[:60] or "raid"
 
 
-def raid_category(key: str, name: str, emoji: str = "🗡️", prefix: str | None = None) -> dict:
-    """Kategorie eines Raids mit Anmeldung (inkl. Registrier-Knopf), Sprachkanal, Taktik, DKP und Loot."""
+def raid_category(key: str, name: str, emoji: str = "🗡️", prefix: str | None = None, cfg: dict | None = None) -> dict:
+    """Kategorie eines Raids mit Anmeldung (inkl. Registrier-Knopf), Sprachkanal, Taktik, DKP und Loot.
+    Der Sprachkanal hat so viele Plätze wie der Raid (MC 40, Hyjal 20, Barrow Deeps 10 ...)."""
     p = prefix or slug(name)
     return {
-        "name": f"{emoji} {name.upper()}", "mode": None, "raid": key, "prefix": p,
+        "name": f"{emoji} {name.upper()}", "mode": None, "raid": key, "prefix": p, "voice_limit": raid_size(key, cfg),
         "channels": [
             ("text", f"{p}-anmeldung", f"Anmeldung {name} – per Knopf", "readonly"),
             ("voice", f"🔊 {name}", None, None),
@@ -276,6 +291,10 @@ async def _ensure_category(guild, cat_def: dict, roles: dict, report: list, crea
             if mode == "officers" and ch_ow:
                 await channel.edit(overwrites=ch_ow, reason=reason)
                 report.append(f"🔒 {'#' if kind == 'text' else '🔊 '}{name}: nur noch für Offiziere")
+            limit = cat_def.get("voice_limit")
+            if kind == "voice" and limit and getattr(channel, "user_limit", 0) != limit:
+                await channel.edit(user_limit=limit, reason=reason)
+                report.append(f"👥 🔊 {name}: höchstens {limit} Personen (Raidgröße)")
         else:
             kwargs = {"category": category, "reason": reason}
             if ch_ow:
@@ -285,6 +304,8 @@ async def _ensure_category(guild, cat_def: dict, roles: dict, report: list, crea
                     kwargs["topic"] = topic
                 channel = await guild.create_text_channel(name, **kwargs)
             else:
+                if cat_def.get("voice_limit"):
+                    kwargs["user_limit"] = cat_def["voice_limit"]
                 channel = await guild.create_voice_channel(name, **kwargs)
             new_names.add(name)
             report.append(f"✅ {'#' if kind == 'text' else '🔊 '}{name} angelegt")
@@ -597,7 +618,7 @@ async def run_setup(guild: discord.Guild, invoker: discord.Member, cfg: dict, dk
 
     created: dict = {}
     new_names: set[str] = set()
-    raids = [raid_category(*r) for r in raid_list(extra_pools)]
+    raids = [raid_category(*r, cfg=cfg) for r in raid_list(extra_pools)]
     for cat_def in BASE_TOP + raids + BASE_BOTTOM:
         await _ensure_category(guild, cat_def, roles, report, created, new_names, reason)
     # Kategorien mit fester Position (z. B. RAID-ADDON direkt unter RAID-ORGA)
@@ -676,7 +697,7 @@ async def ensure_raid(guild: discord.Guild, cfg: dict, key: str, name: str, emoj
     roles = _known_roles(guild)
     created: dict = {}
     new_names: set[str] = set()
-    raid_def = raid_category(key, name, emoji, prefix)
+    raid_def = raid_category(key, name, emoji, prefix, cfg)
     await _ensure_category(guild, raid_def, roles, report, created, new_names, "RaidMaster: neuer Raid")
     await _hide_from_guests(guild, raid_def, roles, created, report, "RaidMaster: neuer Raid")
     sign = created.get(f"{raid_def['prefix']}-anmeldung")

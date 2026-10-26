@@ -201,6 +201,12 @@ class RaidBot(discord.Client):
             except Exception:
                 log.exception("Raid-Kategorien konnten nicht angelegt werden")
             try:
+                rep = await ensure_voice_limits()
+                if rep:
+                    await post_bot_log("👥 Raid-Sprachkanäle begrenzt auf die Raidgröße: " + ", ".join(rep))
+            except Exception:
+                log.exception("Platzzahl der Raid-Sprachkanäle konnte nicht gesetzt werden")
+            try:
                 rep = await ensure_dkp_rules()
                 if rep:
                     await post_bot_log("📜 " + "; ".join(rep))
@@ -2924,6 +2930,27 @@ async def ensure_dkp_rules() -> list[str]:
     state.data["dkp_rules"] = {"ch": ch.id, "ids": new_ids, "hash": digest}
     state.save()
     return [f"#regeln: DKP- und Raid-Regeln {'aktualisiert' if ids else 'gepostet'}"]
+
+
+async def ensure_voice_limits() -> list[str]:
+    """Raid-Sprachkanäle: höchstens so viele Personen wie der Raid Plätze hat (MC 40, Hyjal 20, Barrow Deeps 10 ...)."""
+    guild = bot_guild()
+    if guild is None or not guild.me.guild_permissions.manage_channels:
+        return []
+    out = []
+    for key, ids in (cfg.get("raid_channels") or {}).items():
+        ch = guild.get_channel(int((ids or {}).get("voice") or 0))
+        if ch is None or not isinstance(ch, discord.VoiceChannel):
+            continue
+        limit = server_setup.raid_size(key, cfg)
+        if ch.user_limit == limit:
+            continue
+        try:
+            await ch.edit(user_limit=limit, reason="RaidMaster: Sprachkanal so groß wie der Raid")
+            out.append(f"{ch.name}: {limit}")
+        except discord.HTTPException as e:
+            log.warning("Platzzahl für %s nicht gesetzt: %s", ch.name, e)
+    return out
 
 
 async def ensure_listed_raid_categories() -> list[str]:
