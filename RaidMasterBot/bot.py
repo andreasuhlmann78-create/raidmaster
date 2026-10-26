@@ -3057,9 +3057,84 @@ async def check_extra_releases():
 # Für beliebige Kanäle (z. B. andere Projekte): <kanalname>__<titel>.md, z. B. projekte__version-1.2.md
 # -> Kanal mit genau diesem Namen. Anhänge: Dateien mit demselben Namen und anderer Endung
 # (projekte__version-1.2.png, ….zip, ….pdf) kommen an die erste Nachricht (je höchstens 10 MB).
+# Enthält der Titel eine Versionsnummer (…-1.3.md), ersetzt eine neuere Version die ältere: deren
+# Nachrichten werden nach dem Posten gelöscht.
 ANNOUNCE_DIR = os.path.join(BASE, "announce")
 ANNOUNCE_CHANNELS = {"aktionshaus": "aktionshaus_channel_id", "raid-addon": "addon_channel_id"}
 ANNOUNCE_ATTACH = (".png", ".jpg", ".jpeg", ".gif", ".zip", ".pdf", ".txt")
+# Versionsreihen: <kanal>__<name>-<version>… (z. B. levelpilot__levelpilot-3.3.0.md). Kommt eine neuere
+# Version derselben Reihe, löscht der Bot die Nachrichten der älteren (samt Anhängen).
+ANNOUNCE_VER = re.compile(r"^(?P<series>.+?)[-_ ]v?(?P<ver>\d+(?:\.\d+)+)(?P<rest>.*)$")
+
+
+def announce_series(fn: str):
+    """Reihe und Version einer Ankündigung oder ihres Anhangs – (None, None) ohne Versionsnummer."""
+    stem = fn[:-3] if fn.lower().endswith(".md") else fn
+    if "__" not in stem:
+        return None, None
+    m = ANNOUNCE_VER.match(stem)
+    if not m or "__" not in m.group("series"):
+        return None, None
+    return m.group("series").lower(), tuple(int(x) for x in m.group("ver").split("."))
+
+
+async def remove_old_announcements(ch, series: str, ver: tuple, keep_fn: str):
+    """Löscht die Nachrichten älterer Versionen derselben Reihe. Liefert die Anzahl gelöschter Nachrichten."""
+    rec = state.data.setdefault("announce_msgs", {})
+    removed = 0
+
+    async def delete(msg):
+        nonlocal removed
+        try:
+            await msg.delete()
+            removed += 1
+        except discord.NotFound:
+            pass
+        except discord.HTTPException as e:
+            log.warning("Alte Ankündigung %s nicht gelöscht: %s", msg.id, e)
+
+    # 1) gespeicherte Nachrichten (ab Bot 1.5.51)
+    for fn, r in list(rec.items()):
+        if fn == keep_fn or r.get("series") != series or tuple(r.get("ver") or ()) >= ver:
+            continue
+        c = ch if r.get("ch") == ch.id else await channel_by_id(r.get("ch"))
+        for mid in r.get("ids", []):
+            try:
+                await delete(await c.fetch_message(mid))
+            except discord.NotFound:
+                pass
+            except (discord.HTTPException, AttributeError) as e:
+                log.warning("Alte Ankündigung %s nicht gefunden: %s", mid, e)
+        rec.pop(fn, None)
+    # 2) ältere Beiträge ohne gespeicherte Nachrichten (vor Bot 1.5.51): im Kanalverlauf an den Anhängen erkennen,
+    #    dazu die direkt folgenden Fortsetzungen derselben Ankündigung (ohne Anhang, innerhalb von 20 Sekunden)
+    known = {mid for r in rec.values() for mid in r.get("ids", [])}
+    try:
+        hist = [m async for m in ch.history(limit=100)]
+    except discord.HTTPException:
+        hist = []
+    hist.sort(key=lambda m: m.created_at)
+    i = 0
+    while i < len(hist):
+        m = hist[i]
+        old = False
+        if m.author == bot.user and m.id not in known:
+            for a in m.attachments:
+                s_, v_ = announce_series(a.filename)
+                if s_ == series and v_ and v_ < ver:
+                    old = True
+        if not old:
+            i += 1
+            continue
+        await delete(m)
+        j = i + 1
+        while j < len(hist) and hist[j].author == bot.user and not hist[j].attachments and hist[j].id not in known \
+                and (hist[j].created_at - m.created_at).total_seconds() <= 20:
+            await delete(hist[j])
+            j += 1
+        i = j
+    state.save()
+    return removed
 
 
 async def announce_target(fn: str):
@@ -3081,10 +3156,36 @@ async def announce_target(fn: str):
     return await channel_by_id(cfg.get(chan_key)) if chan_key else None
 
 
+_announce_cleaned = False
+
+
+async def cleanup_announcements_once():
+    """Einmal nach dem Start: je Versionsreihe die älteren Beiträge löschen (auch solche von älteren Bot-Versionen)."""
+    global _announce_cleaned
+    if _announce_cleaned:
+        return
+    _announce_cleaned = True
+    newest = {}
+    for fn in state.data.get("announced", []):
+        series, ver = announce_series(fn)
+        if series and (series not in newest or ver > newest[series][1]):
+            newest[series] = (fn, ver)
+    for series, (fn, ver) in newest.items():
+        try:
+            ch = await announce_target(fn)
+            if ch:
+                n = await remove_old_announcements(ch, series, ver, fn)
+                if n:
+                    log.info("Aufgeräumt: %d Nachricht(en) älterer Versionen vor %s gelöscht.", n, fn)
+        except Exception as e:
+            log.warning("Aufräumen der Ankündigungen (%s) fehlgeschlagen: %s", series, e)
+
+
 async def check_announcements():
     if not os.path.isdir(ANNOUNCE_DIR):
         return
     done = state.data.setdefault("announced", [])
+    await cleanup_announcements_once()
     for fn in sorted(os.listdir(ANNOUNCE_DIR)):
         if not fn.lower().endswith(".md") or fn in done:
             continue
@@ -3109,18 +3210,31 @@ async def check_announcements():
         attach = [os.path.join(ANNOUNCE_DIR, x) for x in sorted(os.listdir(ANNOUNCE_DIR))
                   if x.startswith(stem + ".") and x.lower().endswith(ANNOUNCE_ATTACH)
                   and os.path.getsize(os.path.join(ANNOUNCE_DIR, x)) <= 10 * 1024 * 1024][:10]
+        sent = []
         try:
             for i, p in enumerate(parts or [""]):
                 if i == 0 and attach:
-                    await ch.send(p[:2000] or None, files=[discord.File(x) for x in attach])
+                    msg = await ch.send(p[:2000] or None, files=[discord.File(x) for x in attach])
                 else:
-                    await ch.send(p[:2000])
+                    msg = await ch.send(p[:2000])
+                sent.append(msg.id)
         except discord.HTTPException as e:
             log.warning("Ankündigung %s nicht gepostet: %s", fn, e)
             continue
         done.append(fn)
+        series, ver = announce_series(fn)
+        if series:
+            state.data.setdefault("announce_msgs", {})[fn] = {"ch": ch.id, "ids": sent, "series": series, "ver": list(ver)}
         state.save()
         log.info("Ankündigung %s gepostet.", fn)
+        # neuere Version derselben Reihe: alte Beiträge entfernen
+        if series:
+            try:
+                n = await remove_old_announcements(ch, series, ver, fn)
+                if n:
+                    log.info("Ankündigung %s: %d Nachricht(en) älterer Versionen gelöscht.", fn, n)
+            except Exception as e:      # Aufräumen darf das Posten nie stören
+                log.warning("Alte Versionen zu %s nicht gelöscht: %s", fn, e)
 
 
 async def check_addon_release():
