@@ -3027,14 +3027,70 @@ def zip_changelog(path: str, key: str, since: str | None, upto: str, limit: int 
     return text
 
 
+_releases_cleaned = set()
+
+
+async def remove_old_releases(ch, key: str, meta: dict, keep_version: str) -> int:
+    """Im Kanal nur die neueste Version behalten: löscht eigene Nachrichten zu älteren Versionen.
+    Erkannt werden Beiträge, die den Addon-Namen mit einer älteren Versionsnummer nennen
+    (Versions-Posts, Zusammenfassungen) und deren direkte Fortsetzungen (innerhalb von 60 s, ohne Namen)."""
+    keep = addon_version_key(key, keep_version)
+    pat = re.compile(re.escape(meta["title"]) + r"\D{0,40}?v?(\d+(?:\.\d+)+)")
+    try:
+        hist = [m async for m in ch.history(limit=500)]
+    except discord.HTTPException as e:
+        log.warning("Verlauf von #%s nicht lesbar: %s", meta["channel_name"], e)
+        return 0
+    hist.sort(key=lambda m: m.created_at)
+    removed, last_old = 0, None
+    for m in hist:
+        if m.author != bot.user:
+            last_old = None
+            continue
+        text = m.content or ""
+        for e in m.embeds:
+            text += "\n" + (e.title or "")
+        first = pat.search(text)
+        old = False
+        if first:
+            old = addon_version_key(key, first.group(1)) < keep
+        elif last_old is not None and (m.created_at - last_old).total_seconds() <= 60:
+            old = True                                   # Fortsetzung einer alten Ankündigung
+        if old:
+            try:
+                await m.delete()
+                removed += 1
+            except discord.NotFound:
+                pass
+            except discord.HTTPException as e:
+                log.warning("Alte Version (Nachricht %s) nicht gelöscht: %s", m.id, e)
+            last_old = m.created_at
+        else:
+            last_old = None
+    if removed:
+        log.info("#%s: %d Nachricht(en) zu älteren %s-Versionen gelöscht (nur %s bleibt).",
+                 meta["channel_name"], removed, meta["title"], keep_version)
+    return removed
+
+
 async def check_extra_releases():
-    """Neue Versionen der weiteren Addons (z. B. AH Analyzer Pro) in ihrem Kanal posten."""
+    """Neue Versionen der weiteren Addons (z. B. AH Analyzer Pro) in ihrem Kanal posten.
+    Ältere Versionen werden danach aus dem Kanal gelöscht - es bleibt immer nur die neueste."""
     versions = state.data.setdefault("extra_versions", {})
     for key, meta in EXTRA_ADDONS.items():
         pkg = find_addon_package(key)
         if not pkg:
             continue
         path, version = pkg
+        # einmal nach dem Start: Kanal aufräumen (auch Beiträge älterer Bot-Versionen)
+        if key not in _releases_cleaned and versions.get(key):
+            ch0 = await channel_by_id(cfg.get(meta["channel"]))
+            if ch0:
+                _releases_cleaned.add(key)
+                try:
+                    await remove_old_releases(ch0, key, meta, versions[key])
+                except Exception as e:
+                    log.warning("Aufräumen von #%s fehlgeschlagen: %s", meta["channel_name"], e)
         if addon_version_key(key, version) <= addon_version_key(key, versions.get(key) or "0"):
             continue
         ch = await channel_by_id(cfg.get(meta["channel"]))
@@ -3054,6 +3110,10 @@ async def check_extra_releases():
         versions[key] = version
         state.save()
         log.info("%s %s in #%s veröffentlicht.", meta["title"], version, meta["channel_name"])
+        try:
+            await remove_old_releases(ch, key, meta, version)
+        except Exception as e:
+            log.warning("Aufräumen von #%s fehlgeschlagen: %s", meta["channel_name"], e)
 
 
 # Ankündigungen: Textdateien im Repo-Ordner "announce" werden je einmal gepostet.
