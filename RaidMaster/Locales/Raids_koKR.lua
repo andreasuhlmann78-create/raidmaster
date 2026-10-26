@@ -5059,3 +5059,4 @@ L["Übernimmt die Gruppen aus Discord (/raid aufstellung). Wer nicht in der Aufs
 L["Die Beute-Datenbank ist noch leer – sie füllt sich mit jedem Bosskill."] = "전리품 데이터베이스가 아직 비어 있습니다 – 보스를 처치할 때마다 채워집니다."
 L["%s: %d Kills, %d verschiedene Items"] = "%s: 처치 %d회, 아이템 %d종"
 L["Kein Boss mit '%s' in der Beute-Datenbank."] = "전리품 데이터베이스에 '%s' 보스가 없습니다."
+L["Trash: %d Leichen mit Beute, %d verschiedene Items"] = "일반 몹: 전리품 있는 시체 %d개, 아이템 %d종"

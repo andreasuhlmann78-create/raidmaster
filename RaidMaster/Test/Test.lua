@@ -1023,8 +1023,12 @@ local function RunStep()
 		return
 	end
 	-- Trash vor jedem zweiten Boss
-	if run.loot and run.index > 1 and run.index % 2 == 0 and run.loot.trash then
-		for _, id in ipairs(Pick(run.loot.trash, 1)) do HandleItem(id, "Trash") end
+	if run.index > 1 and run.index % 2 == 0 then
+		-- Trash: eigene Drops aus der Beute-Datenbank (ab 5 erfassten Leichen), sonst die mitgelieferte Tabelle
+		local own, n = {}, 0
+		if RM.LootDB then own, n = RM.LootDB.TrashIDs(run.def.key) end
+		local trash = (n >= 5 and #own > 0) and own or (run.loot and run.loot.trash)
+		if trash then for _, id in ipairs(Pick(trash, 1)) do HandleItem(id, "Trash") end end
 	end
 	local ids = boss.e
 	wipe(RM.Loot.items)

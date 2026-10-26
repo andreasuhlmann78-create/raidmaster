@@ -190,6 +190,10 @@ der Bot führt die Daten aller Uploader zusammen (derselbe Kill zählt nur einma
 
 - Nach jedem Raid hängt der Bot im **Loot-Kanal** des Raids die **Beutetabelle** an: je Boss die Items mit
   „so oft gedroppt / so oft getötet“ (Droprate). Die alte Tabelle wird dabei gelöscht.
+- Darunter die **zufälligen Drops vom Trash** (jede Leiche nur einmal gezählt).
+- **Symbole:** Das Addon speichert die Datei-ID des Spielsymbols. Der Bot ordnet sie über die Community-Listfile
+  (github.com/wowdev/wow-listfile) dem Symbolnamen zu – auch für neue WoW-Forever-Items. Die Liste wird alle
+  14 Tage aktualisiert (`data/icon_fileids.json.gz`); eine Fassung liegt dem Bot bei.
 - `/beute boss` – was droppt dieser Boss? (nur für dich sichtbar)
 - `/beute entfernen` – falsch erfasstes Item aus der Tabelle eines Bosses nehmen (Offiziere)
 - `/beute export` – die ganze Datenbank als Datei (Offiziere)

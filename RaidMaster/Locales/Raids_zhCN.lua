@@ -5059,3 +5059,4 @@ L["Übernimmt die Gruppen aus Discord (/raid aufstellung). Wer nicht in der Aufs
 L["Die Beute-Datenbank ist noch leer – sie füllt sich mit jedem Bosskill."] = "战利品数据库还是空的——每击杀一个首领就会补充。"
 L["%s: %d Kills, %d verschiedene Items"] = "%s：击杀 %d 次，%d 种物品"
 L["Kein Boss mit '%s' in der Beute-Datenbank."] = "战利品数据库中没有含“%s”的首领。"
+L["Trash: %d Leichen mit Beute, %d verschiedene Items"] = "小怪：%d 具有战利品的尸体，%d 种物品"

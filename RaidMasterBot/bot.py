@@ -129,6 +129,11 @@ UPLOAD_PATH = os.path.join(DATA_DIR, "RaidMaster.lua")
 lootdb = rmd.Store(os.path.join(DATA_DIR, "loot_db.json"), rmd.lootdb_empty())
 for _k, _v in rmd.lootdb_empty().items():
     lootdb.data.setdefault(_k, _v)
+# Datei-ID -> Name der Spielsymbole (für die Item-Emojis; mitgeliefert, wird regelmäßig aktualisiert)
+ICON_MAP_BUNDLED = os.path.join(BASE, "icon_fileids.json.gz")
+ICON_MAP_FRESH = os.path.join(DATA_DIR, "icon_fileids.json.gz")
+ICON_LISTFILE_URL = "https://github.com/wowdev/wow-listfile/releases/latest/download/community-listfile.csv"
+rmd.load_icon_fileids(ICON_MAP_BUNDLED, ICON_MAP_FRESH)
 EXIT_CODE = 0
 if isinstance(state.data.get("dkp_messages"), list):
     # älteres Format: eine Tabelle -> gehört zu Molten Core
@@ -169,6 +174,7 @@ class RaidBot(discord.Client):
         update_loop.change_interval(minutes=max(5, int(cfg.get("update_check_minutes") or 30)))
         update_loop.start()
         backup_loop.start()
+        icon_map_loop.start()
         test_cleanup_loop.start()
 
     async def on_ready(self):
@@ -1843,7 +1849,7 @@ async def update_lootdb(force_pools: list[str] | None = None):
         log.info("Beute-Datenbank: %d neue Kills von %s.", added, uploader or "?")
     if not cfg.get("loot_tables", True):
         return
-    pools = force_pools if force_pools is not None else ([b["p"] for b in rmd.lootdb_bosses(lootdb.data)] if added else [])
+    pools = force_pools if force_pools is not None else (rmd.lootdb_pools(lootdb.data) if added else [])
     done = []
     for pool in pools:
         if pool and pool not in done:
@@ -1856,14 +1862,16 @@ async def update_lootdb(force_pools: list[str] | None = None):
 
 async def lootdb_text(pool: str) -> list[str]:
     emojis = {}
-    for b in rmd.lootdb_bosses(lootdb.data, pool):
-        items, _ = rmd.lootdb_boss_loot(lootdb.data, b["e"])
-        for it in items[:15]:
+    lists = [rmd.lootdb_boss_loot(lootdb.data, b["e"])[0][:15] for b in rmd.lootdb_bosses(lootdb.data, pool)]
+    lists.append(rmd.lootdb_trash_loot(lootdb.data, pool)[0][:20])
+    for items in lists:
+        for it in items:
             if it["id"] not in emojis:
                 link = rmd.item_link_for(it["id"], it["n"], it["q"])
                 emojis[it["id"]] = await item_emoji(link, {"ic": it.get("ic"), "q": it.get("q")})
     kills = sum(b["kills"] for b in rmd.lootdb_bosses(lootdb.data, pool))
-    head = (f"📖 **Beutetabelle {rmd.pool_name(pool, bot.dkp_data)}** – aus euren eigenen Raids ({kills} Bosskills) · "
+    head = (f"📖 **Beutetabelle {rmd.pool_name(pool, bot.dkp_data)}** – aus euren eigenen Raids ({kills} Bosskills, "
+            f"{rmd.lootdb_trash_loot(lootdb.data, pool)[1]} Trash-Leichen) · "
             f"aktualisiert <t:{int(time.time())}:f>\n_Zahl = so oft gedroppt / so oft getötet._\n")
     lines = rmd.lootdb_lines(lootdb.data, pool, lambda it: emojis.get(it["id"], ""))
     return rmd.split_discord(head + "\n".join(lines).strip())
@@ -2896,6 +2904,63 @@ async def backup_loop():
 
 @backup_loop.before_loop
 async def before_backup():
+    await bot.wait_until_ready()
+
+
+# ---------------------------------------------------------------------------
+# Spielsymbole: Datei-ID -> Symbolname aus der Community-Listfile (alle 14 Tage neu, damit auch neue
+# Symbole von WoW Forever erkannt werden). Gespeichert wird nur der kleine Auszug Interface/Icons.
+# ---------------------------------------------------------------------------
+async def refresh_icon_map() -> int:
+    import aiohttp
+    import gzip
+    found: dict[str, str] = {}
+    timeout = aiohttp.ClientTimeout(total=900)
+    async with aiohttp.ClientSession(timeout=timeout) as session:
+        async with session.get(ICON_LISTFILE_URL) as resp:
+            if resp.status != 200:
+                raise RuntimeError(f"HTTP {resp.status}")
+            buf = b""
+            async for chunk in resp.content.iter_chunked(1 << 16):
+                buf += chunk
+                *lines, buf = buf.split(b"\n")
+                found.update(rmd.icon_fileids_from_listfile(x.decode("utf-8", "ignore") for x in lines))
+            if buf:
+                found.update(rmd.icon_fileids_from_listfile([buf.decode("utf-8", "ignore")]))
+    if len(found) < 1000:
+        raise RuntimeError(f"nur {len(found)} Symbole gefunden")
+    os.makedirs(DATA_DIR, exist_ok=True)
+    tmp = ICON_MAP_FRESH + ".tmp"
+    with gzip.open(tmp, "wt", encoding="utf-8") as f:
+        json.dump(found, f, separators=(",", ":"))
+    os.replace(tmp, ICON_MAP_FRESH)
+    rmd.ICON_FILEIDS.update(found)
+    # Symbole, die bisher unbekannt waren, beim nächsten Mal neu nachschlagen
+    for key in [k for k, v in (state.data.get("item_icons") or {}).items() if not v]:
+        state.data["item_icons"].pop(key, None)
+    for key in [k for k, v in (state.data.get("item_emojis") or {}).items() if not v]:
+        state.data["item_emojis"].pop(key, None)
+    state.save()
+    return len(found)
+
+
+@tasks.loop(hours=6)
+async def icon_map_loop():
+    try:
+        age = time.time() - os.path.getmtime(ICON_MAP_FRESH) if os.path.isfile(ICON_MAP_FRESH) else None
+    except OSError:
+        age = None
+    if age is not None and age < 14 * 86400:
+        return
+    try:
+        n = await refresh_icon_map()
+        log.info("Symbol-Liste aktualisiert: %d Spielsymbole.", n)
+    except Exception as e:  # noqa: BLE001
+        log.info("Symbol-Liste nicht aktualisiert: %s", e)
+
+
+@icon_map_loop.before_loop
+async def before_icon_map():
     await bot.wait_until_ready()
 
 

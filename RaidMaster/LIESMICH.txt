@@ -1,4 +1,4 @@
-RaidMaster 2.7.0 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 2.7.1 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -11,11 +11,21 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+BEUTE-DATENBANK: TRASH, 30 MINUTEN, SYMBOLE (neu in 2.7.1)
+- Auch die zufälligen Drops vom Trash werden gespeichert (in Raids, ab Grün, jede Leiche nur einmal).
+- Die Beute eines Bosses kann bis 30 Minuten nach dem Kill geöffnet werden (vorher 15).
+- Die Boss-Leiche wird an der NPC-ID der Bossgegner erkannt (Bossanzeige im Kampf, später auch von früheren Kills):
+  Trash, der nach dem Kill zuerst geöffnet wird, bleibt Trash. Truhen nach dem Kill zählen zum Boss.
+- Jeder Kill zählt – egal wie oft ein Boss im Lauf der Raids getötet wird.
+- Zu jedem Item wird das Spielsymbol (Datei-ID) gespeichert. Der Bot ordnet die Datei-ID dem Symbolnamen zu
+  (Community-Listfile, alle 14 Tage neu) und zeigt so auch die Symbole neuer WoW-Forever-Items.
+- /rm beute trash zeigt die Trash-Drops des aktuellen Raids.
+
 EIGENE BEUTE-DATENBANK (neu in 2.7.0)
 - Nach jedem Bosskill merkt sich RaidMaster, welche Items im Lootfenster des Bosses lagen (ab Grün), samt Name,
   Qualität und Symbol. So entsteht mit jedem Raid eure eigene Beutetabelle für WoW Forever – ohne fremde Quelle.
-- Zählt nur bei einem Sieg (kein Wipe), nur das erste Lootfenster mit Beute innerhalb von 15 Min. nach dem Kill,
-  und jeder Kill nur einmal (mehrmals öffnen zählt nicht doppelt). Im Testmodus wird nichts gespeichert.
+- Zählt nur bei einem Sieg (kein Wipe), Beute bis 30 Min. nach dem Kill, jeder Kill nur einmal (mehrmals öffnen
+  zählt nicht doppelt). Im Testmodus wird nichts gespeichert.
 - Der Uploader schickt die Daten an den Bot. Der Bot führt die Daten aller Uploader zusammen (derselbe Kill zählt nur
   einmal) und hängt nach jedem Raid die Beutetabelle im Loot-Kanal des Raids an: Item, wie oft gedroppt / wie oft
   getötet (Droprate). Discord-Befehle: /beute boss, /beute entfernen, /beute export, /beute tabellen.

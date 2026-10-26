@@ -5059,3 +5059,4 @@ L["Übernimmt die Gruppen aus Discord (/raid aufstellung). Wer nicht in der Aufs
 L["Die Beute-Datenbank ist noch leer – sie füllt sich mit jedem Bosskill."] = "База добычи пока пуста – она пополняется с каждым убитым боссом."
 L["%s: %d Kills, %d verschiedene Items"] = "%s: убийств %d, разных предметов %d"
 L["Kein Boss mit '%s' in der Beute-Datenbank."] = "В базе добычи нет босса с '%s'."
+L["Trash: %d Leichen mit Beute, %d verschiedene Items"] = "Трэш: трупов с добычей %d, разных предметов %d"

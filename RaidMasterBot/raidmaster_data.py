@@ -1333,8 +1333,38 @@ def tooltip_block(tip: dict | None, width: int = 34) -> str:
     return "```ansi\n" + block + "\n```"
 
 
+ICON_FILEIDS: dict[str, str] = {}
+
+
+def load_icon_fileids(*paths: str) -> int:
+    """Zuordnung Datei-ID -> Symbolname (aus der Community-Listfile, nur Interface/Icons) laden.
+    Die neueste vorhandene Datei gewinnt."""
+    import gzip
+    for p in paths:
+        try:
+            if p and os.path.isfile(p):
+                with gzip.open(p, "rt", encoding="utf-8") as f:
+                    ICON_FILEIDS.update(json.load(f))
+        except (OSError, ValueError):
+            continue
+    return len(ICON_FILEIDS)
+
+
+def icon_fileids_from_listfile(lines) -> dict[str, str]:
+    """Aus Zeilen der Listfile ('133730;interface/icons/inv_misc_bone_humanskull_01.blp') die Symbole herausziehen."""
+    out = {}
+    for line in lines:
+        fid, _, path = line.strip().partition(";")
+        pl = path.lower()
+        if pl.startswith("interface/icons/") and pl.endswith(".blp") and "/" not in pl[16:]:
+            out[fid] = pl[16:-4]
+    return out
+
+
 def icon_name_from_hint(ic) -> str | None:
-    """Symbolname aus dem Addon, wenn es einen Pfad liefert ('Interface\\Icons\\INV_Boots_05')."""
+    """Symbolname aus dem Addon: Pfad ('Interface\\Icons\\INV_Boots_05') oder Datei-ID des Spielsymbols."""
+    if isinstance(ic, (int, float)) or (isinstance(ic, str) and ic.strip().isdigit()):
+        return ICON_FILEIDS.get(str(int(float(ic))))
     if isinstance(ic, str) and ic.strip():
         name = re.split(r"[\\/]", ic.strip())[-1]
         name = re.sub(r"\.(blp|tga|png|jpg)$", "", name, flags=re.I)
@@ -1419,7 +1449,7 @@ LOOTDB_SAME_KILL = 600
 
 
 def lootdb_empty() -> dict:
-    return {"v": 1, "kills": [], "items": {}, "bosses": {}, "removed": []}
+    return {"v": 2, "kills": [], "trash": [], "items": {}, "bosses": {}, "removed": []}
 
 
 def lootdb_merge(store: dict, addon_db: dict | None, uploader: str = "") -> int:
@@ -1427,11 +1457,12 @@ def lootdb_merge(store: dict, addon_db: dict | None, uploader: str = "") -> int:
     src = (addon_db or {}).get("lootdb")
     if not isinstance(src, dict):
         return 0
-    for k in ("kills", "removed"):
+    for k in ("kills", "removed", "trash"):
         store.setdefault(k, [])
     store.setdefault("items", {})
     store.setdefault("bosses", {})
     by_boss: dict[int, list[int]] = {}
+    guids = {k.get("g") for k in store["kills"] if k.get("g")}
     for k in store["kills"]:
         by_boss.setdefault(int(k["e"]), []).append(int(k["t"]))
     added = 0
@@ -1442,11 +1473,30 @@ def lootdb_merge(store: dict, addon_db: dict | None, uploader: str = "") -> int:
         ids = sorted({int(x) for x in lua_list(k.get("i")) if str(x).lstrip("-").isdigit()})
         if not ids:
             continue
+        g = k.get("g") or None
+        if g and g in guids:
+            continue                      # dieselbe Leiche/Truhe
         if any(abs(t - other) <= LOOTDB_SAME_KILL for other in by_boss.get(e, [])):
             continue
-        store["kills"].append({"e": e, "p": k.get("p") or None, "n": k.get("n") or None, "t": t, "i": ids, "by": uploader or None})
+        store["kills"].append({"e": e, "p": k.get("p") or None, "n": k.get("n") or None, "t": t, "i": ids, "g": g,
+                               "by": uploader or None})
         by_boss.setdefault(e, []).append(t)
+        if g:
+            guids.add(g)
         added += 1
+    # Trash: jede Leiche (GUID) nur einmal
+    tguids = {x.get("g") for x in store["trash"] if x.get("g")}
+    for x in lua_list(src.get("trash")):
+        if not isinstance(x, dict) or not x.get("g") or x["g"] in tguids:
+            continue
+        ids = sorted({int(i) for i in lua_list(x.get("i")) if str(i).lstrip("-").isdigit()})
+        if not ids:
+            continue
+        store["trash"].append({"p": x.get("p") or None, "t": int(x.get("t") or 0), "g": x["g"], "m": x.get("m"), "i": ids,
+                               "by": uploader or None})
+        tguids.add(x["g"])
+        added += 1
+    store["trash"].sort(key=lambda x: x["t"])
     store["kills"].sort(key=lambda k: k["t"])
     items = src.get("items") or {}
     if isinstance(items, dict):
@@ -1518,7 +1568,29 @@ def lootdb_pools(store: dict) -> list[str]:
     for b in lootdb_bosses(store):
         if b["p"] and b["p"] not in out:
             out.append(b["p"])
+    for x in store.get("trash") or []:
+        if x.get("p") and x["p"] not in out:
+            out.append(x["p"])
     return out
+
+
+def lootdb_trash_loot(store: dict, pool: str | None) -> tuple[list[dict], int]:
+    """Zufällige Drops vom Trash eines Raids: [{id, n, q, ic, c, rate}], Anzahl Leichen mit Beute."""
+    count: dict[int, int] = {}
+    n = 0
+    for x in store.get("trash") or []:
+        if pool and x.get("p") != pool:
+            continue
+        n += 1
+        for i in x.get("i") or []:
+            count[int(i)] = count.get(int(i), 0) + 1
+    out = []
+    for i, c in count.items():
+        it = (store.get("items") or {}).get(str(i)) or {}
+        out.append({"id": i, "n": it.get("n") or f"Item {i}", "q": it.get("q"), "ic": it.get("ic"), "c": c,
+                    "rate": c / n if n else 0.0})
+    out.sort(key=lambda x: (-(x["q"] or 0), -x["c"], x["n"]))
+    return out, n
 
 
 def lootdb_find_boss(store: dict, query: str) -> list[dict]:
@@ -1551,5 +1623,14 @@ def lootdb_lines(store: dict, pool: str, emoji_for=None, max_items: int = 15) ->
             lines.append(f"{pre} {it['n']} – {it['c']}/{kills} ({round(it['rate'] * 100)} %)".strip())
         if len(items) > max_items:
             lines.append(f"… und {len(items) - max_items} weitere")
+        lines.append("")
+    trash, n = lootdb_trash_loot(store, pool)
+    if trash:
+        lines.append(f"**Trash – zufällige Drops** · {n} Leiche{'n' if n != 1 else ''} mit Beute")
+        for it in trash[:20]:
+            pre = (emoji_for(it) if emoji_for else "") or ""
+            lines.append(f"{pre} {it['n']} – {it['c']}×".strip())
+        if len(trash) > 20:
+            lines.append(f"… und {len(trash) - 20} weitere")
         lines.append("")
     return lines
