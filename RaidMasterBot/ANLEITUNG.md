@@ -111,10 +111,10 @@ Der Link kommt beim Import eines PUG-Raids automatisch ins Addon.
 Der Uploader schickt die Addon-Daten (DKP, Loot, Einteilung, Skillungen) an den Bot. Er braucht nur
 Python (ist schon installiert).
 
-1. In Discord `/uploader` ausführen (Admins). Der Bot schickt dir die Datei **uploader_config.json**
-   – sie enthält einen geheimen Link, nicht weitergeben.
-2. Den Ordner **RaidMasterUploader** aus dem Paket z. B. nach `Dokumente` kopieren und die Datei
-   hineinlegen.
+1. In Discord `/uploader` ausführen (Admins). Der Bot schickt dir per **Direktnachricht** das Programm
+   **RaidMasterUploader.zip** und die Datei **uploader_config.json** – sie enthält einen geheimen Link, nicht weitergeben.
+   Nur ein Update des Programms (ohne neue Einrichtungsdatei): `/uploader nur_programm:True`.
+2. **RaidMasterUploader.zip** z. B. nach `Dokumente` entpacken und **uploader_config.json** in den Ordner legen.
 3. **`uploader.bat`** doppelklicken. Beim ersten Start sucht er die RaidMaster-Datei von WoW selbst.
    Fenster offen lassen.
 4. Automatisch mit Windows starten: `Win + R` → `shell:startup` → Verknüpfung zu `uploader.bat` hineinlegen.
@@ -308,7 +308,7 @@ Erstellt die Raidleitung im Spiel die **Einteilung** und gibt danach `/reload` e
 | `/dkp`, `/dkpliste` | alle | DKP abfragen |
 | `/raidmaster-status` | Offiziere | Version, Uploads, Datenstand |
 | `/raidmaster-einrichten` | Admins | Server einrichten/ergänzen |
-| `/uploader` | Admins | Einrichtung für den Uploader |
+| `/uploader` | Admins | Uploader-Programm + Einrichtungsdatei per Direktnachricht (`nur_programm`: nur das Programm) |
 | `/pug-einladung` | Offiziere | Einladungslink für PUG-Spieler (Rolle Gast) |
 | `/willkommen` | Admins | Willkommenstext neu eintragen, z. B. mit anderem Gildennamen (`gildenname:…`) – sonst macht es der Bot selbst |
 | `/update` | Admins | Update prüfen oder ZIP einspielen |

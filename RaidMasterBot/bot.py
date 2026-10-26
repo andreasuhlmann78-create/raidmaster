@@ -3427,10 +3427,31 @@ async def before_test_cleanup():
     await bot.wait_until_ready()
 
 
-@bot.tree.command(name="uploader", description="Einrichtung des Daten-Uploaders für den PC der Raidleitung (Admins)")
-async def uploader_cmd(inter: discord.Interaction):
+def uploader_package() -> str | None:
+    """RaidMasterUploader.zip (kommt mit jedem Update aus dem Ordner download des Repositorys)."""
+    path = os.path.join(ADDON_DIR, "RaidMasterUploader.zip")
+    return path if os.path.isfile(path) else None
+
+
+@bot.tree.command(name="uploader", description="Daten-Uploader per Direktnachricht: Programm + Einrichtungsdatei (Admins)")
+@app_commands.describe(nur_programm="Nur das Programm (RaidMasterUploader.zip) schicken, ohne neue Einrichtungsdatei – z. B. für ein Update")
+async def uploader_cmd(inter: discord.Interaction, nur_programm: bool = False):
     if not is_admin(inter.user):
         await inter.response.send_message("Nur Admins (Recht „Server verwalten“).", ephemeral=True)
+        return
+    if nur_programm:
+        pkg = uploader_package()
+        if not pkg:
+            await inter.response.send_message("RaidMasterUploader.zip liegt noch nicht auf dem Server – nach dem nächsten Update (`/update`) erneut.",
+                                              ephemeral=True)
+            return
+        try:
+            await inter.user.send("📦 **RaidMaster-Uploader** (neueste Fassung). Entpacken und die alten Dateien ersetzen – "
+                                  "deine `uploader_config.json` im Ordner behalten.", file=discord.File(pkg, filename="RaidMasterUploader.zip"))
+            await inter.response.send_message("Ich habe dir den Uploader per Direktnachricht geschickt. 📬", ephemeral=True)
+        except discord.HTTPException:
+            await inter.response.send_message("Direktnachricht nicht möglich (Privatnachrichten von Servermitgliedern erlauben) – hier die Datei:",
+                                              file=discord.File(pkg, filename="RaidMasterUploader.zip"), ephemeral=True)
         return
     ch = await channel_by_id(cfg.get("data_channel_id"))
     if not isinstance(ch, discord.TextChannel):
@@ -3455,13 +3476,28 @@ async def uploader_cmd(inter: discord.Interaction):
         cfg["uploader_webhooks"] = ids
         save_config()
     conf = {"webhook_url": hook.url, "bot_id": bot.user.id, "savedvariables_path": "", "check_seconds": 10}
-    file = discord.File(io.BytesIO(json.dumps(conf, indent=2).encode("utf-8")), filename="uploader_config.json")
-    await inter.followup.send(
-        "**Daten-Uploader einrichten** (auf dem PC, auf dem du WoW spielst):\n"
-        "1. Die Datei unten herunterladen und in den Ordner **uploader** aus dem RaidMaster-Paket legen.\n"
-        "2. `uploader.bat` doppelklicken – beim ersten Start sucht er deine RaidMaster-Datei selbst.\n"
-        "3. Fertig: Nach jedem `/reload` oder Ausloggen sind DKP, Einteilung und Skillungen nach wenigen Sekunden im Discord.\n"
-        "⚠️ Die Datei enthält einen geheimen Link – nicht weitergeben.", file=file, ephemeral=True)
+    conf_bytes = json.dumps(conf, indent=2).encode("utf-8")
+    pkg = uploader_package()
+    text = ("**Daten-Uploader einrichten** (auf dem PC, auf dem du WoW spielst):\n"
+            + ("1. **RaidMasterUploader.zip** entpacken, z. B. nach Dokumente.\n" if pkg else
+               "1. Den Ordner **RaidMasterUploader** aus dem RaidMaster-Paket nehmen (die ZIP liegt noch nicht auf dem Server).\n")
+            + "2. **uploader_config.json** in diesen Ordner legen.\n"
+            "3. `uploader.bat` doppelklicken – beim ersten Start sucht er deine RaidMaster-Datei selbst.\n"
+            "4. Fertig: Nach jedem `/reload` oder Ausloggen sind DKP, Einteilung, Skillungen und Erstkill-Screenshots nach wenigen Sekunden im Discord.\n"
+            "⚠️ uploader_config.json enthält einen geheimen Link – nicht weitergeben.")
+
+    def files():
+        out = [discord.File(io.BytesIO(conf_bytes), filename="uploader_config.json")]
+        if pkg:
+            out.insert(0, discord.File(pkg, filename="RaidMasterUploader.zip"))
+        return out
+    # privat per Direktnachricht (nur du siehst sie); geht das nicht, hier nur für dich sichtbar
+    try:
+        await inter.user.send(text, files=files())
+        await inter.followup.send("Ich habe dir den Uploader und die Einrichtungsdatei per **Direktnachricht** geschickt. 📬", ephemeral=True)
+    except discord.HTTPException:
+        await inter.followup.send(text + "\n\n_(Direktnachricht nicht möglich – bitte Privatnachrichten von Servermitgliedern erlauben.)_",
+                                  files=files(), ephemeral=True)
 
 
 # ---------------------------------------------------------------------------

@@ -220,7 +220,8 @@ def install_zip(data: bytes, base: str, source: str, ref: str = "") -> dict:
                 for fn in filenames:
                     if fn.lower().endswith(".zip") and "latest" not in fn.lower():
                         dst = os.path.join(base, "addon", fn)
-                        if not os.path.isfile(dst):
+                        # der Uploader hat keine Versionsnummer im Namen: immer die neueste Fassung übernehmen
+                        if not os.path.isfile(dst) or fn.lower().startswith("raidmasteruploader"):
                             shutil.copy2(os.path.join(dirpath, fn), dst)
         if addon_dir:
             z = build_addon_zip(addon_dir, base)
