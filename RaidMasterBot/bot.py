@@ -201,6 +201,12 @@ class RaidBot(discord.Client):
             except Exception:
                 log.exception("Raid-Kategorien konnten nicht angelegt werden")
             try:
+                rep = await ensure_dkp_rules()
+                if rep:
+                    await post_bot_log("📜 " + "; ".join(rep))
+            except Exception:
+                log.exception("DKP- und Raid-Regeln konnten nicht gepostet werden")
+            try:
                 rep = await ensure_guild_rules()
                 if rep:
                     log.info("Gildenregeln: %s", "; ".join(rep))
@@ -1202,6 +1208,7 @@ async def setup_cmd(inter: discord.Interaction):
         await check_addon_release()
         report.append(await ensure_welcome(update=True))
         report.append(await ensure_command_list())
+        report += await ensure_dkp_rules()
     except discord.Forbidden:
         await inter.followup.send("Discord hat eine Aktion verweigert. Prüfe, ob die Rolle **Raidmaster tool** in "
                                   "**Servereinstellungen → Rollen** möglichst weit oben steht, und versuche es erneut.", ephemeral=True)
@@ -2871,6 +2878,52 @@ async def ensure_guild_rules() -> list[str]:
         report.append(f"📜 #{key}: Regeln {'aktualisiert' if old else 'gepostet'}")
         state.save()
     return report
+
+
+async def ensure_dkp_rules() -> list[str]:
+    """#regeln: DKP-Regeln und Raid-Regeln. Ändert sich ein Text (oder ein DKP-Wert im Addon), bearbeitet der Bot
+    seine Beiträge; seine früheren Regel-Beiträge im Kanal werden übernommen statt doppelt gepostet."""
+    guild = bot_guild()
+    ch = discord.utils.get(guild.text_channels, name="regeln") if guild else None
+    if ch is None:
+        return []
+    settings = (bot.dkp_data or {}).get("settings") if isinstance((bot.dkp_data or {}).get("settings"), dict) else None
+    posts = [p[:2000] for p in server_setup.rules_posts(settings)]
+    digest = str(zlib.crc32("\n".join(posts).encode("utf-8")))
+    rec = state.data.get("dkp_rules") or {}
+    if rec.get("hash") == digest and rec.get("ch") == ch.id and rec.get("ids"):
+        return []
+    ids = list(rec.get("ids") or []) if rec.get("ch") == ch.id else []
+    if not ids:
+        # früher gepostete Regeln (z. B. von /raidmaster-einrichten) übernehmen
+        try:
+            async for m in ch.history(limit=100, oldest_first=True):
+                if m.author.id == bot.user.id and (m.content or "").startswith(("**DKP-Regeln**", "**Raid-Regeln")):
+                    ids.append(m.id)
+        except discord.HTTPException:
+            pass
+    new_ids = []
+    for i, text in enumerate(posts):
+        done = False
+        if i < len(ids):
+            try:
+                await ch.get_partial_message(ids[i]).edit(content=text)
+                new_ids.append(ids[i])
+                done = True
+            except discord.HTTPException:
+                pass
+        if not done:
+            m = await ch.send(text)
+            new_ids.append(m.id)
+        await asyncio.sleep(0.4)
+    for mid in ids[len(posts):]:
+        try:
+            await ch.get_partial_message(mid).delete()
+        except discord.HTTPException:
+            pass
+    state.data["dkp_rules"] = {"ch": ch.id, "ids": new_ids, "hash": digest}
+    state.save()
+    return [f"#regeln: DKP- und Raid-Regeln {'aktualisiert' if ids else 'gepostet'}"]
 
 
 async def ensure_listed_raid_categories() -> list[str]:

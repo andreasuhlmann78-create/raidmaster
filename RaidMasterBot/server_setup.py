@@ -413,6 +413,47 @@ def _rules_text(s: dict) -> str:
     )
 
 
+def _raid_rules_texts() -> list[str]:
+    """Raid-Regeln in zwei Beiträgen (Discord nimmt höchstens 2000 Zeichen pro Nachricht)."""
+    return [(
+        "**Raid-Regeln** ⚔️\n\n"
+        "__Vor dem Raid__\n"
+        "• **Anmelden** im Anmelde-Kanal des Raids – oder rechtzeitig **abmelden**. Wer absagt, macht Platz für die Ersatzbank.\n"
+        "• **15 Minuten vor Raidstart** online, eingeladen und am Instanzeingang.\n"
+        "• Ausrüstung **repariert**, Taschen frei, genug **Reagenzien, Tränke, Essen** (Jäger: Munition) dabei.\n"
+        "• **Fläschchen und Elixiere** nach Möglichkeit. Weltbuffs gibt es auf WoW Forever im Raid nicht – darauf wird nicht gewartet.\n"
+        "• Molten Core: **Feuerwiderstand** nach Ansage der Raidleitung.\n"
+        "• Addons: **RaidMaster** (aktuelle Version aus #raid-addon) und ein **Boss-Addon** (DBM oder BigWigs) – Pull- und Pausen-Timer laufen darüber.\n"
+        "• **Taktik** im Taktik-Kanal des Raids lesen und deine Aufgabe in **#einteilung** nachschauen.\n\n"
+        "__Im Raid__\n"
+        "• Im **Sprachkanal** sein. Zuhören ist Pflicht, Mikrofon nur bei Bedarf – bei Ansagen herrscht Ruhe.\n"
+        "• Es gilt, was der **Raidleiter** ansagt. Schlachtzugwarnungen (Taktik, Symbole) beachten.\n"
+        "• **Bereitschafts-Check** sofort beantworten. Kurz weg? „AFK“ in den Raidchat – Pausen macht der Raidleiter.\n"
+        "• **Nicht selbst pullen** – auf Ansage bzw. Pull-Timer warten.\n"
+        "• Ziele nach **Symbolen**: zuerst Totenkopf, dann Kreuz. Kontrollierte Gegner (z. B. Mond) nicht angreifen.\n"
+        "• Nach einem **Wipe**: auf Ansage gemeinsam zurücklaufen, nicht einzeln loslaufen. Kein Schuldzuweisen im Chat – "
+        "Fehler bespricht die Raidleitung danach."
+    ), (
+        "**Raid-Regeln – Loot und Ersatzbank** 🎁\n\n"
+        "__Loot im Raid__\n"
+        "• Nur auf Items **bieten, die du selbst nutzt** – nicht zum Verkaufen oder Entzaubern.\n"
+        "• **Gebote sind verbindlich.** Wer gewinnt, bekommt das Item und die DKP werden abgezogen.\n"
+        "• Items ohne Gebot gehen an den Entzauberer bzw. in die Gildenbank.\n"
+        "• Fragen zum Loot an den Plündermeister flüstern, nicht in den Raidchat.\n\n"
+        "__Früher gehen & Ersatzbank__\n"
+        "• Wer **früher gehen** muss, sagt es vorher an. Die Punkte für das Raidende bekommt nur, wer bis zum Schluss bleibt.\n"
+        "• **Ersatzbank:** während des Raids im Discord erreichbar sein und bei einer Einladung zügig kommen.\n"
+        "• Die Raidleitung kann diese Regeln jederzeit anpassen."
+    )]
+
+
+def rules_posts(dkp_settings: dict | None = None) -> list[str]:
+    """Beiträge in #regeln: DKP-Regeln und Raid-Regeln (je eine Nachricht, der Bot hält sie aktuell)."""
+    s = dict(DEFAULT_DKP)
+    s.update(dkp_settings or {})
+    return [_rules_text(s)] + _raid_rules_texts()
+
+
 def _raid_howto_text(name: str) -> str:
     return (
         f"**Anmeldung {name}** 📋\n"
