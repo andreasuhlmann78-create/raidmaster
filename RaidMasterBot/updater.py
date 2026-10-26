@@ -211,7 +211,8 @@ def install_zip(data: bytes, base: str, source: str, ref: str = "") -> dict:
             if os.path.basename(dirpath) == "announce":
                 os.makedirs(os.path.join(base, "announce"), exist_ok=True)
                 for fn in filenames:
-                    if fn.lower().endswith(".md"):
+                    # Text (.md) und Anhänge dazu (Bilder, ZIP, PDF) – siehe check_announcements im Bot
+                    if fn.lower().endswith((".md", ".png", ".jpg", ".jpeg", ".gif", ".zip", ".pdf", ".txt")):
                         shutil.copy2(os.path.join(dirpath, fn), os.path.join(base, "announce", fn))
         # fertige Addon-ZIPs aus dem Ordner download (z. B. AH Analyzer Pro) übernehmen
         for dirpath, _, filenames in os.walk(tmp):

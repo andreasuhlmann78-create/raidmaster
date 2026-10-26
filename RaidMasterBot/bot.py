@@ -3054,8 +3054,31 @@ async def check_extra_releases():
 
 # Ankündigungen: Textdateien im Repo-Ordner "announce" werden je einmal gepostet.
 # Dateiname: <kanal>-<irgendwas>.md, z. B. aktionshaus-0.59.22.md oder raid-addon-info.md
+# Für beliebige Kanäle (z. B. andere Projekte): <kanalname>__<titel>.md, z. B. projekte__version-1.2.md
+# -> Kanal mit genau diesem Namen. Anhänge: Dateien mit demselben Namen und anderer Endung
+# (projekte__version-1.2.png, ….zip, ….pdf) kommen an die erste Nachricht (je höchstens 10 MB).
 ANNOUNCE_DIR = os.path.join(BASE, "announce")
 ANNOUNCE_CHANNELS = {"aktionshaus": "aktionshaus_channel_id", "raid-addon": "addon_channel_id"}
+ANNOUNCE_ATTACH = (".png", ".jpg", ".jpeg", ".gif", ".zip", ".pdf", ".txt")
+
+
+async def announce_target(fn: str):
+    """Zielkanal einer Ankündigungsdatei (None = noch nicht möglich)."""
+    low = fn.lower()
+    if "__" in low:
+        name = low.split("__", 1)[0].lstrip("#")
+        guild = bot_guild()
+        ch = discord.utils.get(guild.text_channels, name=name) if guild else None
+        if ch is None:
+            warned = state.data.setdefault("announce_warned", [])
+            if fn not in warned:
+                warned.append(fn)
+                state.save()
+                await post_bot_log(f"📣 Ankündigung **{fn}** wartet: Den Kanal **#{name}** gibt es nicht – bitte anlegen "
+                                   "(der Bot braucht dort Schreibrechte), dann wird sie automatisch gepostet.")
+        return ch
+    chan_key = next((v for k, v in ANNOUNCE_CHANNELS.items() if low.startswith(k + "-")), None)
+    return await channel_by_id(cfg.get(chan_key)) if chan_key else None
 
 
 async def check_announcements():
@@ -3065,10 +3088,7 @@ async def check_announcements():
     for fn in sorted(os.listdir(ANNOUNCE_DIR)):
         if not fn.lower().endswith(".md") or fn in done:
             continue
-        chan_key = next((v for k, v in ANNOUNCE_CHANNELS.items() if fn.lower().startswith(k + "-")), None)
-        if not chan_key:
-            continue
-        ch = await channel_by_id(cfg.get(chan_key))
+        ch = await announce_target(fn)
         if not ch:
             continue
         try:
@@ -3085,8 +3105,19 @@ async def check_announcements():
             cur = (cur + "\n\n" + para) if cur else para
         if cur:
             parts.append(cur)
-        for p in parts:
-            await ch.send(p[:2000])
+        stem = fn[:-3]
+        attach = [os.path.join(ANNOUNCE_DIR, x) for x in sorted(os.listdir(ANNOUNCE_DIR))
+                  if x.startswith(stem + ".") and x.lower().endswith(ANNOUNCE_ATTACH)
+                  and os.path.getsize(os.path.join(ANNOUNCE_DIR, x)) <= 10 * 1024 * 1024][:10]
+        try:
+            for i, p in enumerate(parts or [""]):
+                if i == 0 and attach:
+                    await ch.send(p[:2000] or None, files=[discord.File(x) for x in attach])
+                else:
+                    await ch.send(p[:2000])
+        except discord.HTTPException as e:
+            log.warning("Ankündigung %s nicht gepostet: %s", fn, e)
+            continue
         done.append(fn)
         state.save()
         log.info("Ankündigung %s gepostet.", fn)

@@ -184,6 +184,15 @@ ihres Raids (z. B. #mc-anmeldung). **PUG-Spieler** nehmen den Knopf in #pug-anme
   „Für RaidMaster“-Export und Einteilung. Optional `raid:` und `fraktion:` (Paladine oder Schamanen).
   Nach 2 Stunden verschwindet er samt Nachricht von selbst.
 
+## Ankündigungen aus dem Repository (auch aus anderen Projekten)
+
+Alles, was im GitHub-Repository im Ordner **`announce`** landet, postet der Bot nach dem nächsten Update **einmal**:
+- `<kanalname>__<titel>.md` → in den Kanal mit genau diesem Namen, z. B. `projekte__version-1.2.md` → #projekte.
+- Anhänge: Dateien mit demselben Namen und anderer Endung (`projekte__version-1.2.png`, `.jpg`, `.gif`, `.zip`,
+  `.pdf`, `.txt`, je höchstens 10 MB) kommen an die erste Nachricht.
+- Fehlt der Kanal, meldet der Bot das im Bot-Kanal und postet, sobald es ihn gibt.
+- Ältere Kurzform: `aktionshaus-….md` → #aktionshaus, `raid-addon-….md` → #raid-addon.
+
 ## Ruhmeshalle, Ereignisse, Ersatz, Gildenbank
 
 - **#ruhmeshalle** legt der Bot selbst an (nur der Bot schreibt). Dort erscheinen:
