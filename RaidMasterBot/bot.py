@@ -2997,7 +2997,11 @@ def zip_changelog(path: str, key: str, since: str | None, upto: str, limit: int 
     """Changelog-Abschnitte aus der ZIP: alles nach Version `since` bis einschließlich `upto`."""
     try:
         with zipfile.ZipFile(path) as z:
-            name = next((n for n in z.namelist() if n.lower().endswith("/changelog.md") or n.lower() == "changelog.md"), None)
+            names = z.namelist()
+            # deutsche Zusammenfassung bevorzugen (CHANGELOG.de.md), sonst die englische
+            name = next((n for n in names if n.lower().endswith("/changelog.de.md") or n.lower() == "changelog.de.md"), None)
+            if not name:
+                name = next((n for n in names if n.lower().endswith("/changelog.md") or n.lower() == "changelog.md"), None)
             if not name:
                 return ""
             text = z.read(name).decode("utf-8", "replace")
@@ -3040,7 +3044,7 @@ async def check_extra_releases():
         notes = zip_changelog(path, key, versions.get(key), version)
         embed = None
         if notes:
-            embed = discord.Embed(title=f"{meta['title']} {version} – what's new", description=notes, color=0xFFD100)
+            embed = discord.Embed(title=f"{meta['title']} {version} – das ist neu", description=notes, color=0xFFD100)
         await ch.send(
             f"🆕 **{meta['title']} {version}** ist da!\n"
             f"Download: Datei unten herunterladen, entpacken und den Ordner **{meta['folder']}** in "
