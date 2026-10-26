@@ -123,7 +123,7 @@ end
 ---------------------------------------------------------------------------
 local function Create()
 	local UI = RM.UI
-	local f = UI.Frame(UIParent, 330, 64)
+	local f = UI.Frame(UIParent, 330, 96)
 	f:SetFrameStrata("MEDIUM")
 	f:SetClampedToScreen(true)
 	UI.Skin(f, nil, UI.COLORS.accent)
@@ -134,7 +134,7 @@ local function Create()
 	f.sub:SetPoint("TOPRIGHT", -10, -9)
 	local one = UI.Button(f, L["Ansage + Symbole"], 132, 26, function() B.AnnounceAndMark() end,
 		L["Ein Klick: Boss-Ansage als Schlachtzugwarnung (Taktik, Rotationen) und Schlachtzugsymbole wie im Automatikmodus (Totenkopf auf den Boss, Adds nach Vorlage)."])
-	one:SetPoint("BOTTOMLEFT", 8, 8)
+	one:SetPoint("BOTTOMLEFT", 8, 40)
 	one:SetAccent(true)
 	local ann = UI.Button(f, L["Ansage"], 58, 26, function() B.Announce() end, L["Nur die Boss-Ansage als Schlachtzugwarnung."])
 	ann:SetPoint("LEFT", one, "RIGHT", 4, 0)
@@ -142,6 +142,20 @@ local function Create()
 	mark:SetPoint("LEFT", ann, "RIGHT", 4, 0)
 	local asg = UI.Button(f, L["Einteil."], 56, 26, function() B.PostAssignment() end, L["Einteilung für diesen Boss im Raid ansagen (falls erstellt)."])
 	asg:SetPoint("LEFT", mark, "RIGHT", 4, 0)
+	-- zweite Reihe: Pull- und Pausen-Timer (auch für DBM/BigWigs), Bereitschafts-Check
+	local pull = UI.Button(f, L["Pull"], 70, 26, function()
+		if RM.Timer.Running("pull") then RM.Timer.Cancel() else RM.Timer.Pull() end
+	end, L["Pull-Timer starten (Sekunden: Seite Raidleiter > Raid). Nochmal klicken bricht ab.\nGeht auch an Deadly Boss Mods und BigWigs."])
+	pull:SetPoint("BOTTOMLEFT", 8, 8)
+	f.pull = pull
+	local brk = UI.Button(f, L["Pause"], 70, 26, function()
+		if RM.Timer.Running("break") then RM.Timer.Cancel() else RM.Timer.Break() end
+	end, L["Pausen-Timer starten (Minuten: Seite Raidleiter > Raid). Nochmal klicken beendet die Pause."])
+	brk:SetPoint("LEFT", pull, "RIGHT", 4, 0)
+	f.brk = brk
+	local rdy = UI.Button(f, L["Bereitschaft"], 166, 26, function() RM.Ready.Start() end,
+		L["Bereitschafts-Check: Fläschchen, Elixiere, Feuerwiderstand, Reagenzien, Haltbarkeit."])
+	rdy:SetPoint("LEFT", brk, "RIGHT", 4, 0)
 	f:Hide()
 	return f
 end
@@ -158,6 +172,9 @@ function B.Update()
 	bar.title:SetText(boss.name)
 	local template = RM.Data.GetTemplate(boss.template or C().markerTemplate)
 	bar.sub:SetText((B.testTarget and (L["TEST"] .. " · ") or "") .. (template and template.name or ""))
+	local secs = tonumber(C().pullSeconds) or 10
+	bar.pull:SetText(RM.Timer.Running("pull") and L["Abbrechen"] or (L["Pull"] .. " " .. secs))
+	bar.brk:SetText(RM.Timer.Running("break") and L["Pause aus"] or (L["Pause"] .. " " .. (tonumber(C().breakMinutes) or 5)))
 	bar:Show()
 end
 
@@ -170,3 +187,4 @@ RM.On("PLAYER_TARGET_CHANGED", function() B.Update() end)
 RM.On("GROUP_ROSTER_UPDATE", function() B.Update() end)
 RM.Listen("CONFIG_CHANGED", function() B.Update() end)
 RM.Listen("LOGIN", function() B.Update() end)
+RM.Listen("TIMER_CHANGED", function() B.Update() end)

@@ -891,7 +891,8 @@ def build_lineup(raid: dict, att: dict) -> dict:
         return ratio(s) >= STAMM_THRESHOLD
 
     def prio(s):
-        return (0 if is_stamm(s) else 1, -ratio(s), s.get("t", 0))
+        # Main vor Twink, dann Stammspieler, dann Teilnahme, dann Anmeldezeit
+        return (1 if s.get("main") else 0, 0 if is_stamm(s) else 1, -ratio(s), s.get("t", 0))
 
     pool = sorted(signed, key=prio)
     chosen: list[dict] = []
@@ -1042,6 +1043,16 @@ class RaidBook:
         # Skillung behalten, solange es derselbe Charakter ist
         if old.get("spec") and old.get("name") == name and old.get("cls") == cls:
             p["spec"] = old["spec"]
+        # Twinks, Main und Einstellungen behalten
+        for k in ("alts", "main", "main_char", "no_dm"):
+            if k in old:
+                p[k] = old[k]
+        if old.get("main") and old.get("name") and old["main"].lower() == old["name"].lower():
+            p["main"] = name                 # der Main selbst wurde umbenannt
+        if p.get("main") and p["main"].lower() == name.lower():
+            p.pop("main_char", None)
+        if p.get("alts"):
+            p["alts"] = [a for a in p["alts"] if a["name"].lower() != name.lower()]
         self.profiles.data[str(user_id)] = p
         self.profiles.save()
         # offene Anmeldungen mitziehen
@@ -1051,6 +1062,94 @@ class RaidBook:
                 s.update(name=name, cls=cls, role=role, spec=spec_short(p.get("spec")))
         self.raids.save()
         return p
+
+    # Twinks ------------------------------------------------------------
+    # Profil: name/cls/role = aktiver Charakter (mit ihm meldet man sich an), main = Name des Mains,
+    # alts = [{name, cls, role}] alle weiteren Charaktere.
+    def main_name(self, user_id: int) -> str | None:
+        p = self.profile(user_id)
+        if not p:
+            return None
+        return p.get("main") or p.get("name")
+
+    def add_alt(self, user_id: int, name: str, cls: str, role: str) -> dict | None:
+        p = self.profile(user_id)
+        if not p:
+            return None
+        name = clean_name(name)
+        p.setdefault("main", p.get("name"))
+        alts = [a for a in p.get("alts") or [] if a["name"].lower() != name.lower()]
+        if name.lower() != (p.get("main") or "").lower():
+            alts.append({"name": name, "cls": cls, "role": role})
+        p["alts"] = alts
+        self.profiles.save()
+        return p
+
+    def remove_alt(self, user_id: int, name: str) -> bool:
+        p = self.profile(user_id)
+        if not p:
+            return False
+        before = len(p.get("alts") or [])
+        p["alts"] = [a for a in p.get("alts") or [] if a["name"].lower() != name.lower()]
+        if p.get("name", "").lower() == name.lower():   # aktiver Twink gelöscht -> zurück zum Main
+            self.switch_char(user_id, p.get("main") or p["name"])
+        self.profiles.save()
+        return len(p["alts"]) != before
+
+    def characters(self, user_id: int) -> list[dict]:
+        """Alle Charaktere: Main zuerst ({name, cls, role, main: bool})."""
+        p = self.profile(user_id)
+        if not p:
+            return []
+        main = p.get("main") or p["name"]
+        chars = {}
+        if p["name"].lower() == main.lower():
+            chars[main.lower()] = {"name": p["name"], "cls": p["cls"], "role": p["role"], "main": True}
+        else:
+            chars[main.lower()] = dict(p.get("main_char") or {"name": main, "cls": p["cls"], "role": p["role"]}, main=True)
+            chars[p["name"].lower()] = {"name": p["name"], "cls": p["cls"], "role": p["role"], "main": False}
+        for a in p.get("alts") or []:
+            chars.setdefault(a["name"].lower(), dict(a, main=False))
+        return list(chars.values())
+
+    def switch_char(self, user_id: int, name: str) -> dict | None:
+        """Mit welchem Charakter man sich anmeldet (Main oder Twink)."""
+        p = self.profile(user_id)
+        if not p:
+            return None
+        target = next((c for c in self.characters(user_id) if c["name"].lower() == name.lower()), None)
+        if not target:
+            return None
+        main = p.get("main") or p["name"]
+        cur = {"name": p["name"], "cls": p["cls"], "role": p["role"]}
+        if cur["name"].lower() == main.lower():
+            p["main_char"] = cur
+        else:
+            p["alts"] = [a for a in p.get("alts") or [] if a["name"].lower() != cur["name"].lower()] + [cur]
+        p["alts"] = [a for a in p.get("alts") or [] if a["name"].lower() != target["name"].lower()]
+        p.update(name=target["name"], cls=target["cls"], role=target["role"], main=main)
+        if target["name"].lower() != main.lower() and p.get("spec"):
+            p.pop("spec", None)
+        self.profiles.save()
+        return p
+
+    def alt_links(self) -> dict[str, str]:
+        """Alle Twinks der Gilde: {Twink: Main}."""
+        out = {}
+        for uid in self.profiles.data:
+            p = self.profiles.data[uid]
+            main = p.get("main") or p.get("name")
+            for c in self.characters(int(uid)):
+                if not c["main"] and main:
+                    out[c["name"]] = main
+        return out
+
+    def user_for_char(self, name: str) -> int | None:
+        n = (name or "").lower()
+        for uid in self.profiles.data:
+            if any(c["name"].lower() == n for c in self.characters(int(uid))):
+                return int(uid)
+        return None
 
     def apply_specs(self, specs: dict[str, dict]) -> list[dict]:
         """Skillungen aus dem Spiel in die Profile übernehmen.
@@ -1125,6 +1224,11 @@ class RaidBook:
         entry = current or {"t": now_ts}
         entry.update(name=profile["name"], cls=profile["cls"], role=profile["role"], status=status,
                      spec=spec_short(profile.get("spec")))
+        main = profile.get("main")
+        if main and main.lower() != profile["name"].lower():
+            entry["main"] = main            # Anmeldung mit einem Twink
+        else:
+            entry.pop("main", None)
         if not current or current.get("status") != status:
             entry["t"] = now_ts
         raid["signups"][key] = entry
@@ -1150,7 +1254,8 @@ def raid_fields(raid: dict) -> list[tuple[str, str, bool]]:
     for role, label in ROLES.items():
         members = [s for s in signed if s["role"] == role]
         text = "\n".join(f"{s['name']} · {CLASSES.get(s['cls'], s['cls'])}"
-                         + (f" {spec_label(s['spec'])}" if s.get("spec") else "") for s in members) or "–"
+                         + (f" {spec_label(s['spec'])}" if s.get("spec") else "")
+                         + (f" · _Twink von {s['main']}_" if s.get("main") else "") for s in members) or "–"
         fields.append((f"{ROLE_ICONS[role]} {label} ({len(members)})", text[:1024], True))
     # 2 Spalten: Tank | Heiler / Nahkampf | Fernkampf (Platzhalter füllt die 3. Spalte)
     fields.insert(2, ("\u200b", "\u200b", True))
@@ -1177,7 +1282,8 @@ def class_summary(raid: dict) -> str:
     return " · ".join(f"{CLASSES.get(c, c)} {n}" for c, n in sorted(counts.items(), key=lambda x: -x[1]))
 
 
-def export_text(raid: dict, tz: str, lineup: dict | None = None, link: str = "", softres: str = "") -> str:
+def export_text(raid: dict, tz: str, lineup: dict | None = None, link: str = "", softres: str = "",
+                alts: dict | None = None) -> str:
     """Text zum Einfügen in RaidMaster (Seite 'Anmeldungen')."""
     start = datetime.fromtimestamp(raid["start"], ZoneInfo(tz))
     lines = [
@@ -1206,6 +1312,13 @@ def export_text(raid: dict, tz: str, lineup: dict | None = None, link: str = "",
             lines.append(f"GRP;{name};{g}")
         for name in lineup["bench"]:
             lines.append(f"BANK;{name}")
+    # Twinks (aus /twink): das Addon verknüpft sie mit ihrem Main (Loot-Regel "Main vor Twink")
+    links = dict(alts or {})
+    for s in raid["signups"].values():
+        if s.get("main"):
+            links[s["name"]] = s["main"]
+    for twink, main in sorted(links.items()):
+        lines.append(f"ALT;{twink};{main}")
     return "\n".join(lines)
 
 
@@ -1634,3 +1747,58 @@ def lootdb_lines(store: dict, pool: str, emoji_for=None, max_items: int = 15) ->
             lines.append(f"… und {len(trash) - 20} weitere")
         lines.append("")
     return lines
+
+
+
+# ---------------------------------------------------------------------------
+# Berufe (aus RaidMasterDB.prof – vom Addon per Knopf "Meine Berufe einlesen")
+# ---------------------------------------------------------------------------
+def professions(db: dict | None) -> dict[str, dict]:
+    """{Name: {"c": Klasse, "t": Zeit, "p": {Beruf: {"r", "m", "recipes": [(id, name)]}}}}"""
+    out = {}
+    for name, e in ((db or {}).get("prof") or {}).items():
+        if not isinstance(e, dict):
+            continue
+        profs = {}
+        for prof, v in (e.get("p") or {}).items():
+            if not isinstance(v, dict):
+                continue
+            ids = lua_list(v.get("i"))
+            names = lua_list(v.get("n"))
+            recipes = [(int(ids[i]) if i < len(ids) and str(ids[i]).isdigit() else 0, str(n)) for i, n in enumerate(names)]
+            profs[str(prof)] = {"r": v.get("r"), "m": v.get("m"), "recipes": recipes}
+        out[str(name)] = {"c": e.get("c"), "t": int(e.get("t") or 0), "p": profs}
+    return out
+
+
+def find_crafters(profs: dict, query: str, limit: int = 40) -> list[dict]:
+    """Wer kann etwas herstellen, dessen Name query enthält? [{recipe, id, name, prof, rank}]"""
+    q = (query or "").strip().lower()
+    if not q:
+        return []
+    out = []
+    for who, e in profs.items():
+        for prof, v in e["p"].items():
+            for iid, rname in v["recipes"]:
+                if q in rname.lower():
+                    out.append({"recipe": rname, "id": iid, "name": who, "prof": prof, "rank": v.get("r"), "c": e.get("c")})
+    out.sort(key=lambda x: (x["recipe"].lower(), -(x["rank"] or 0), x["name"].lower()))
+    return out[:limit]
+
+
+def raid_dm_text(summary: dict, row: dict, data: dict | None, twink_of: str | None = None) -> str:
+    """Persönliche Nachricht nach dem Raid."""
+    when = datetime.fromtimestamp(summary["t"]).strftime("%d.%m.%Y")
+    s = (data or {}).get("settings") or {}
+    lines = [f"📊 **{summary['pool_name']}** vom {when} – **{row['name']}**" + (f" (Twink von {twink_of})" if twink_of else "")]
+    parts = [f"**+{row['earned']} DKP** verdient"]
+    if row.get("spent"):
+        parts.append(f"**−{row['spent']} DKP** für Items")
+    lines.append(" · ".join(parts))
+    if row.get("items"):
+        lines.append("🎁 Gewonnen: " + ", ".join(row["items"]))
+    lines.append(f"💰 Stand jetzt: **{row['balance']} DKP** ({summary['pool_name']})")
+    if s.get("autoDecay", True) is not False and int(s.get("decayPct") or 0) > 0:
+        lines.append(f"⏳ Verfall: {int(s.get('decayPct'))} % jeden Mittwoch nach dem Raid-Reset.")
+    lines.append("_Diese Nachricht abbestellen: `/dkp-nachricht aus`_")
+    return "\n".join(lines)

@@ -195,9 +195,27 @@ UI.AddPage("dkp", L["DKP-Stände"], function(page)
 	end)
 	Place(addBtn, page, px + 144, -286)
 
-	local myInfo = Label(page, "", px, -330, 12)
+	-- Twinks: gewählten Spieler mit seinem Main verknüpfen (Loot-Regel "Main vor Twink", Discord)
+	Section(page, L["Twink von"], px, -322)
+	local mainBox = UI.EditBox(page, 140, 24)
+	Place(mainBox, page, px, -348)
+	local linkBtn = UI.Button(page, L["Verknüpfen"], 76, 24, function()
+		if not NeedOfficer() then return end
+		if not selected then RM.Print(L["Bitte zuerst den Twink in der Liste wählen."]) return end
+		local main = mainBox:GetText():gsub("^%s+", ""):gsub("%s+$", "")
+		if main == "" then RM.Print(L["Namen des Mains eingeben."]) return end
+		if RM.DKP.SetMain(selected, main) then mainBox:SetText("") end
+	end, L["Der gewählte Spieler wird Twink des eingetragenen Mains.\nMain vor Twink: Twinks gewinnen nur, wenn kein Main bietet."])
+	Place(linkBtn, page, px + 144, -348)
+	local unlinkBtn = UI.Button(page, L["Twink lösen"], 110, 22, function()
+		if not NeedOfficer() then return end
+		if selected then RM.DKP.SetMain(selected, nil) end
+	end)
+	Place(unlinkBtn, page, px, -376)
+
+	local myInfo = Label(page, "", px, -410, 12)
 	myInfo:SetWidth(220)
-	local help = Label(page, L["Spieler ohne Addon können ihren Stand per Flüstern abfragen: /w <Plündermeister> !dkp"], px, -380, 11, true)
+	local help = Label(page, L["Spieler ohne Addon können ihren Stand per Flüstern abfragen: /w <Plündermeister> !dkp"], px, -460, 11, true)
 	help:SetWidth(220)
 
 	search:SetScript("OnTextChanged", function(self)
@@ -205,7 +223,7 @@ UI.AddPage("dkp", L["DKP-Stände"], function(page)
 		UI.RefreshCurrent()
 	end)
 
-	local officerWidgets = { bookBtn, standbyBtn, addBtn }
+	local officerWidgets = { bookBtn, standbyBtn, addBtn, linkBtn, unlinkBtn }
 
 	return function()
 		viewCycle:Update()
@@ -230,6 +248,7 @@ UI.AddPage("dkp", L["DKP-Stände"], function(page)
 			if (not onlyRaid or inRaid or standby) and (filter == "" or name:lower():find(filter, 1, true)) then
 				local class = p.c or (inRaid and inRaid.class) or RM.guild.class[name]
 				local status = inRaid and L["Im Raid"] or (standby and L["Ersatzbank"] or "")
+				if p.m then status = (status ~= "" and (status .. " · ") or "") .. L["Twink von "] .. p.m end
 				local dkpColor = value < 0 and { 1, 0.35, 0.35 } or nil
 				local earned = RM.DKP.Earned(p, pool)
 				rows[#rows + 1] = {
@@ -239,6 +258,9 @@ UI.AddPage("dkp", L["DKP-Stände"], function(page)
 					tooltip = function(tt)
 						tt:AddLine(name)
 						tt:AddLine(string.format(L["%s: aktuell %d DKP"], poolName, value), 1, 1, 1, true)
+						if p.m then tt:AddLine(L["Twink von "] .. p.m, 0.8, 0.8, 0.8) end
+						local tw = RM.DKP.TwinksOf(name, data)
+						if #tw > 0 then tt:AddLine(L["Twinks: "] .. table.concat(tw, ", "), 0.8, 0.8, 0.8, true) end
 					end,
 				}
 			end
@@ -763,6 +785,40 @@ UI.AddPage("raid", L["Raid"], function(page)
 	local checkText = Label(page, L["Noch nicht geprüft."], 0, -290, 11)
 	checkText:SetWidth(390)
 
+	-- Bereitschafts-Check, Pull- und Pausen-Timer (auch in der Boss-Leiste)
+	local cfg = function() return RM.db.config end
+	Section(page, L["Bereitschaft und Timer"], 0, -392)
+	local readyBtn = UI.Button(page, L["Bereitschaft prüfen"], 150, 26, function() RM.Ready.Start() end,
+		L["Fläschchen und Elixiere (alle), dazu Feuerwiderstand, Reagenzien und Haltbarkeit (mit RaidMaster).\nWeltbuffs werden nicht geprüft."])
+	Place(readyBtn, page, 0, -418)
+	local pullBtn = UI.Button(page, L["Pull-Timer"], 100, 26, function()
+		if RM.Timer.Running("pull") then RM.Timer.Cancel() else RM.Timer.Pull() end
+	end, L["Pull-Timer mit Countdown – auch für Deadly Boss Mods und BigWigs. Nochmal klicken bricht ab."])
+	Place(pullBtn, page, 156, -418)
+	local pullSec = UI.Cycle(page, 80, { { 5, "5 s" }, { 8, "8 s" }, { 10, "10 s" }, { 15, "15 s" }, { 20, "20 s" } },
+		function() return cfg().pullSeconds or 10 end, function(v) cfg().pullSeconds = v; RM.Fire("TIMER_CHANGED") end)
+	Place(pullSec, page, 262, -418)
+	-- Pausen: Knöpfe rechts unter "Pause" (gehen jetzt auch an DBM/BigWigs); Boss-Leiste: "Pause" = so viele Minuten
+	local breakMin = UI.Cycle(page, 150, { { 3, L["Leiste: Pause 3 min"] }, { 5, L["Leiste: Pause 5 min"] }, { 10, L["Leiste: Pause 10 min"] }, { 15, L["Leiste: Pause 15 min"] } },
+		function() return cfg().breakMinutes or 5 end, function(v) cfg().breakMinutes = v; RM.Fire("TIMER_CHANGED") end)
+	Place(breakMin, page, 0, -450)
+	local addons = UI.Cycle(page, 140, { { "both", L["DBM + BigWigs"] }, { "dbm", L["nur DBM"] }, { "bigwigs", L["nur BigWigs"] }, { "none", L["ohne Boss-Addons"] } },
+		function() return cfg().timerAddons or "both" end, function(v) cfg().timerAddons = v end,
+		L["An welche Boss-Addons die Timer gehen (Pull und Pause)."])
+	Place(addons, page, 156, -450)
+	local chatCheck = UI.Check(page, L["Countdown 5-4-3-2-1 im Raidchat"], function() return cfg().pullCountdownChat ~= false end,
+		function(v) cfg().pullCountdownChat = v end)
+	Place(chatCheck, page, 0, -482)
+	local welcomeCheck = UI.Check(page, L["Begrüßung beim Raidstart"], function() return cfg().welcome ~= false end,
+		function(v) cfg().welcome = v end,
+		L["Begrüßt den Raid im Raidchat, passend zur Raidzone. Gäste und Spieler von der Ersatzbank werden mit Namen begrüßt."])
+	Place(welcomeCheck, page, 0, -510)
+	local frCycle = UI.Cycle(page, 150, { { 0, L["Feuerwid. egal"] }, { 100, L["Feuerwid. ab 100"] }, { 150, L["Feuerwid. ab 150"] },
+		{ 200, L["Feuerwid. ab 200"] }, { 250, L["Feuerwid. ab 250"] } },
+		function() return tonumber(cfg().fireResMin) or 0 end, function(v) cfg().fireResMin = v end,
+		L["Ab wie viel Feuerwiderstand der Bereitschafts-Check zufrieden ist (z. B. für Ragnaros)."])
+	Place(frCycle, page, 240, -482)
+
 	-- rechte Spalte
 	local rx = 410
 	Section(page, L["Ersatzbank"], rx, 0)
@@ -805,6 +861,13 @@ UI.AddPage("raid", L["Raid"], function(page)
 		UI.Confirm(string.format(L["Wöchentlichen Decay anwenden?\nAlle positiven DKP in allen Raid-Töpfen werden um %d %% reduziert."], pct), function() RM.DKP.ApplyDecay() end)
 	end)
 	Place(decayBtn, page, rx, -416)
+	local autoDecay = UI.Check(page, L["Automatisch jeden Mittwoch (Raid-Reset)"], function() return RM.db.data.settings.autoDecay ~= false end,
+		function(v)
+			if not NeedOfficer() then return end
+			RM.db.data.settings.autoDecay = v
+			RM.DKP.SettingsChanged()
+		end, L["Einmal pro Woche nach dem Raid-Reset bucht der erste Offizier, der online ist, den Verfall auf alle Raids – nie während eines Raids."])
+	Place(autoDecay, page, rx + 150, -420)
 
 	Section(page, L["Kernhunde"], rx, -462)
 	local houndCheck = UI.Check(page, L["Kürschner ansagen, wenn ein Kernhund stirbt"],
@@ -850,13 +913,17 @@ UI.AddPage("raid", L["Raid"], function(page)
 
 		local last = RM.db.data.lastDecay or 0
 		local pct = RM.db.data.settings.decayPct
+		local nextText = (RM.db.data.settings.autoDecay ~= false)
+			and string.format(L["\nAutomatisch %d %% – nächster Verfall: %s"], pct, date("%d.%m. %H:%M", RM.DKP.NextDecay())) or ""
 		if last > 0 then
 			local days = math.floor((GetServerTime() - last) / 86400)
 			local color = days >= 7 and "|cffff6040" or "|cffcccccc"
-			decayText:SetText(string.format("%sLetzter Decay: %s (vor %d Tagen).|r Einstellung: %d %% pro Anwendung.", color, RM.FormatTime(last), days, pct))
+			decayText:SetText(string.format("%sLetzter Decay: %s (vor %d Tagen).|r Einstellung: %d %% pro Anwendung.", color, RM.FormatTime(last), days, pct) .. nextText)
 		else
-			decayText:SetText(string.format(L["Noch kein Decay angewendet. Einstellung: %d %% pro Anwendung."], pct))
+			decayText:SetText(string.format(L["Noch kein Decay angewendet. Einstellung: %d %% pro Anwendung."], pct) .. nextText)
 		end
+		autoDecay:Refresh(); chatCheck:Refresh(); welcomeCheck:Refresh(); pullSec:Refresh(); breakMin:Refresh(); addons:Refresh(); frCycle:Refresh()
+		pullBtn:SetText(RM.Timer.Running("pull") and L["Pull abbrechen"] or L["Pull-Timer"])
 		if RM.CanEdit() then decayBtn:Enable() else decayBtn:Disable() end
 		houndCheck:Refresh()
 	end
@@ -1679,7 +1746,12 @@ UI.AddPage("specs", L["Skillungen"], function(page)
 	UI.PlaceBottom(autoCheck, page, 340, -460)
 	local status = Label(page, "", 0, -496, 11, true)
 	UI.PlaceBottom(status, page, 0, -496)
-	status:SetWidth(780)
+	status:SetWidth(580)
+	-- Berufe-Verzeichnis: jeder Klick öffnet und liest den nächsten Beruf (Discord: /handwerk, /berufe)
+	local profBtn = UI.Button(page, L["Meine Berufe einlesen"], 180, 28, function() RM.Prof.ReadNext() end,
+		L["Öffnet nacheinander deine Berufsfenster (ein Klick pro Beruf) und liest Stufe und Rezepte aus.\n"]
+		.. L["Die Liste geht an die Gilde; im Discord zeigt /handwerk, wer was herstellen kann."])
+	UI.PlaceBottom(profBtn, page, 600, -492)
 
 	return function()
 		local rows = Spec.List()
@@ -1829,6 +1901,7 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 	SCheck(L["Negative DKP erlauben"], "allowNegative", L["Spieler dürfen mehr bieten, als sie haben."])
 	SCheck(L["Nur Spieler online erhalten DKP"], "onlyOnline")
 	SCheck(L["Ersatzbank erhält DKP (nur beim Raidstart)"], "standbyGetsDKP")
+	SCheck(L["Main vor Twink"], "mainBeforeTwink", L["Twinks gewinnen eine Versteigerung nur, wenn kein Main bietet.\nEin Main übernimmt ein Twink-Gebot schon ab dem Mindestgebot."])
 
 	local saveBtn = UI.Button(page, L["Speichern und an die Gilde verteilen"], 300, 30, function()
 		if not NeedOfficer() then return end
@@ -1857,6 +1930,9 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 		if b then if v then b:Hide() else b:Show() end end
 	end)
 	Place(mmCheck, page, x2, y2 - 100)
+	local ttCheck = UI.Check(page, L["Item-Tooltip ergänzen (Droprate, letzter Preis)"], function() return RM.db.config.itemTooltip ~= false end,
+		function(v) RM.db.config.itemTooltip = v end, L["Zeigt im Item-Tooltip, wie oft das Item bei euch gedroppt ist und wofür es zuletzt versteigert wurde."])
+	Place(ttCheck, page, x2, y2 - 126)
 
 	return function()
 		UpdateBossRows()
@@ -1865,6 +1941,7 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 		end
 		for _, c in ipairs(checks) do c:Refresh() end
 		mmCheck:Refresh()
+		ttCheck:Refresh()
 		if RM.CanEdit() then saveBtn:Enable() else saveBtn:Disable() end
 	end
 end)

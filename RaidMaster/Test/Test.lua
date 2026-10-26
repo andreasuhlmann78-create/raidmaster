@@ -182,6 +182,13 @@ local function FakeMembers()
 	return list
 end
 
+-- gehört der Name zu den 39 Testspielern bzw. zur Testersatzbank? (zählen als Gildenmitglieder)
+function T.IsFake(name)
+	for _, f in ipairs(FAKE) do if f[1] == name then return true end end
+	for _, f in ipairs(BENCH) do if f[1] == name then return true end end
+	return false
+end
+
 -- Namen der Testspieler, die gerade im Testraid sind (für Testgebote)
 function T.MemberNames()
 	local out = {}
@@ -492,6 +499,26 @@ function T.InstallSimulations()
 	RM.SetLootThreshold = function(v)
 		Log(string.format("Plünderschwelle würde gesetzt: %s (Test).", tostring(v)))
 	end
+	-- Bereitschafts-Check: die Testspieler antworten (mal fehlt ein Fläschchen, mal sind Reagenzien knapp)
+	if RM.Ready then
+		RM.Ready.SimulateAnswers = function(id)
+			for i, m in ipairs(FakeMembers()) do
+				if m.name ~= RM.Me() then
+					C_Timer.After(0.5 + (i % 10) * 0.2, function()
+						if not T.active then return end
+						local r = math.random(100)
+						local reag = {}
+						for _, x in ipairs(RM.Ready.REAGENTS[m.class] or {}) do
+							reag[#reag + 1] = { x[2], (r % 4 == 0) and 0 or x[3] * 2, x[3] }
+						end
+						RM.Ready.OnAnswer(m.name, { id = id, s = { f = (r > 15) and "Fläschchen der Titanen" or nil, e = (r > 25) and 2 or 0,
+							fr = 40 + (r % 5) * 40, rg = reag, du = (r % 9 == 0) and 12 or 85 } })
+					end)
+				end
+			end
+			Log("Bereitschafts-Check (Test): die Testspieler antworten.")
+		end
+	end
 	local Gp = RM.Gaps
 	if Gp then
 		Gp.SimGuild = function()
@@ -552,6 +579,7 @@ function T.RemoveSimulations()
 	if S and sim.invite then S.DoInvite, S.DoMakeRaid, S.ArrangeGroups = sim.invite, sim.makeRaid, sim.arrange end
 	if sim.lootMethod then RM.SetLootMethod, RM.SetLootThreshold = sim.lootMethod, sim.lootThreshold end
 	if RM.Ad then RM.Ad.SimulatePost = nil end
+	if RM.Ready then RM.Ready.SimulateAnswers = nil end
 	if RM.Gaps then
 		RM.Gaps.SimGuild, RM.Gaps.SimulateAsk = nil, nil
 		wipe(RM.Gaps.asked); wipe(RM.Gaps.answered); wipe(RM.Gaps.knownClass)

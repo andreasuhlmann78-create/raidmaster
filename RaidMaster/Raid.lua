@@ -41,6 +41,8 @@ function Raid.Start()
 		RM.Print(string.format(L["Ersatzbank: %d Spieler erhalten je %d DKP (nur beim Raidstart)."], benchN, benchAmount))
 	end
 	C_Timer.After(3, Raid.RunCheck)
+	-- Begrüßung im Raidchat (Text passend zur Raidzone, Gäste und Ersatzbank mit Namen)
+	if RM.Welcome then C_Timer.After(2, function() RM.Welcome.Send(pool) end) end
 	-- Stand an den Raid verteilen, damit gildenfremde Mitspieler ihn sehen
 	C_Timer.After(6, function()
 		if RM.InRaid() then RM.Comm.Send("SNAP", RM.DKP.MakeSnapshot(20), "RAID") end
@@ -239,7 +241,11 @@ end
 function Raid.StopPause(silent)
 	if pauseTimer then pauseTimer:Cancel(); pauseTimer = nil end
 	if pauseBar then pauseBar:Hide() end
+	local was = Raid.pauseUntil
+	Raid.pauseUntil = nil
+	RM.Fire("TIMER_CHANGED")
 	if not silent then
+		if was and RM.Timer and RM.Timer.SendBossMods then RM.Timer.SendBossMods("break", 0) end
 		RM.Comm.Send("PTX", {}, "RAID", nil, true)
 		RM.Announce(L["[RaidMaster] Pause beendet – weiter geht's!"], true)
 	end
@@ -249,7 +255,10 @@ function Raid.StartPause(seconds)
 	if not RM.InRaid() then RM.Print(L["Du bist in keinem Schlachtzug."]) return end
 	if not (RM.IsAssist() or RM.CanEdit()) then RM.Print(L["Nur Raidleiter, Assistenten oder Offiziere können eine Pause starten."]) return end
 	RM.Comm.Send("PT", { s = seconds }, "RAID", nil, true)
+	if RM.Timer and RM.Timer.SendBossMods then RM.Timer.SendBossMods("break", seconds) end   -- auch DBM/BigWigs
+	Raid.pauseUntil = GetTime() + seconds
 	Raid.ShowPause(seconds, RM.Me())
+	RM.Fire("TIMER_CHANGED")
 	RM.Announce(string.format("[RaidMaster] Pause: %d Minuten.", math.floor(seconds / 60)), true)
 end
 

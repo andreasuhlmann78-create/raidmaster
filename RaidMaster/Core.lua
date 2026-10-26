@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "2.7.1"
-RM.VERSION_NUM = 20701
+RM.VERSION = "2.8.0"
+RM.VERSION_NUM = 20800
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -114,6 +114,8 @@ RM.DEFAULT_SETTINGS = {
 	onlyOnline = false,
 	standbyGetsDKP = true,     -- Ersatzbank bekommt beim Raidstart einmalig DKP ...
 	standbyStartDKP = 10,      -- ... so viele (danach nichts mehr: keine Boss- oder Endpunkte)
+	autoDecay = true,          -- 2.8.0: Verfall automatisch einmal pro Woche zum Raid-Reset (Mittwoch)
+	mainBeforeTwink = true,    -- 2.8.0: Twinks gewinnen nur, wenn kein Main bietet
 }
 
 -- Lokale Einstellungen (nur dieser Spieler)
@@ -138,6 +140,14 @@ RM.DEFAULT_CONFIG = {
 	markerTemplate = "standard",
 	autoTemplate = true,       -- beim Bosskampf automatisch die Vorlage des Bosses
 	bossBar = true,            -- Boss-Leiste für die Raidleitung, sobald ein Boss im Ziel ist
+	pullSeconds = 10,          -- 2.8.0: Pull-Timer
+	breakMinutes = 5,          -- 2.8.0: Pausen-Timer
+	pullCountdownChat = true,  -- Countdown 5-4-3-2-1 im Raidchat
+	timerAddons = "both",      -- Timer an DBM und BigWigs: both | dbm | bigwigs | none
+	readyCheckGame = true,     -- Bereitschafts-Check startet auch den des Spiels
+	fireResMin = 0,            -- Feuerwiderstand mindestens (0 = nicht prüfen)
+	itemTooltip = true,        -- Droprate und Preisverlauf im Item-Tooltip
+	welcome = true,            -- Begrüßung im Raidchat beim Raidstart
 	markerLocked = false,
 	standby = {},
 	activePool = "mc",
@@ -667,6 +677,16 @@ SlashCmdList["RAIDMASTER"] = function(msg)
 	elseif msg:match("^beute") or msg:match("^loot%s") or msg == "loot" then
 		-- eigene Beute-Datenbank: /rm beute [Boss]
 		if RM.LootDB then RM.LootDB.PrintBoss(msg:match("^%S+%s*(.*)$")) end
+	elseif msg:match("^berufe") or msg:match("^handwerk") then
+		-- /rm berufe = eigene Berufe einlesen, /rm handwerk <Item> = wer kann das herstellen?
+		local q = msg:match("^%S+%s+(.+)$")
+		if RM.Prof then if q and msg:match("^handwerk") then RM.Prof.PrintFind(q) else RM.Prof.ReadNext() end end
+	elseif msg == "bereit" or msg == "ready" then
+		if RM.Ready then RM.Ready.Start() end
+	elseif msg:match("^pull") then
+		if RM.Timer then RM.Timer.Pull(tonumber(msg:match("(%d+)"))) end
+	elseif msg:match("^pause") then
+		if RM.Timer then RM.Timer.Break(tonumber(msg:match("(%d+)"))) end
 	elseif msg == "luecken" or msg == "lücken" or msg == "gaps" then
 		if RM.Gaps then RM.Gaps.Open() end
 	elseif msg == "diag" or msg == "diagnose" or msg == "fix" then

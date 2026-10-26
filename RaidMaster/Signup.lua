@@ -133,6 +133,7 @@ function S.Parse(text)
 		local testFlag = line:match("^Test:%s*(%d)")   -- ältere Exporte mit Soft Reserve: ignorieren
 		local gName, gNum = line:match("^GRP;([^;]+);(%d+)$")
 		local bName = line:match("^BANK;([^;]+)$")
+		local altName, altMain = line:match("^ALT;([^;]+);([^;]+)$")
 		local startTs = line:match("^Start:%s*(%d+)$")
 		local poolKey = line:match("^Topf:%s*([%w_]+)$")
 		local link = line:match("^Link:%s*(%S+)$")
@@ -151,6 +152,9 @@ function S.Parse(text)
 		elseif gName then
 			result.groups = result.groups or {}
 			result.groups[RM.Short(trim(gName))] = tonumber(gNum)
+		elseif altName then
+			result.alts = result.alts or {}
+			result.alts[RM.Short(trim(altName))] = RM.Short(trim(altMain))
 		elseif bName then
 			result.bench = result.bench or {}
 			result.bench[RM.Short(trim(bName))] = true
@@ -201,6 +205,14 @@ function S.Import(text)
 	if result.pool then
 		RM.db.config.activePool = result.pool
 		RM.Print(L["DKP-Topf für diesen Raid: "] .. RM.DKP.PoolName(result.pool))
+	end
+	-- Twinks aus Discord (/twink) mit ihrem Main verknüpfen (nur Offiziere/Raidleitung)
+	if result.alts and RM.CanEdit() and RM.DKP.SetMain then
+		local linked = 0
+		for twink, main in pairs(result.alts) do
+			if RM.DKP.MainOf(twink) ~= main and RM.DKP.SetMain(twink, main, true) then linked = linked + 1 end
+		end
+		if linked > 0 then RM.Print(string.format(L["%d Twinks aus Discord mit ihrem Main verknüpft."], linked)) end
 	end
 	if result.groups then
 		local n = 0

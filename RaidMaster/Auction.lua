@@ -158,6 +158,19 @@ function A.ReceiveBid(name, amount, gear)
 	local s = S()
 	if not RM.IsInMyRaid(name) then return false, L["Nur Raidmitglieder können bieten."] end
 	local minNeeded = c.highName and (c.high + c.inc) or c.min
+	-- Main vor Twink: Twinks gewinnen nur, wenn kein Main bietet; ein Main übernimmt ein Twink-Gebot schon ab dem Mindestgebot
+	if s.mainBeforeTwink ~= false and RM.DKP.IsTwink then
+		local twink = RM.DKP.IsTwink(name)
+		if twink then
+			for bidder in pairs(c.bids) do
+				if not RM.DKP.IsTwink(bidder) then
+					return false, L["Main vor Twink: Ein Main bietet schon – Twinks können hier nicht mehr bieten."]
+				end
+			end
+		elseif c.highName and RM.DKP.IsTwink(c.highName) then
+			minNeeded = c.min
+		end
+	end
 	if amount < minNeeded then
 		return false, string.format("Gebot zu niedrig – mindestens %d DKP.", minNeeded)
 	end

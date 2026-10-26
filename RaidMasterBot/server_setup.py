@@ -405,7 +405,9 @@ def _rules_text(s: dict) -> str:
         "• Das höchste Gebot gewinnt, die DKP werden sofort abgezogen.\n"
         "• Ohne Addon: im Spiel `/w <Plündermeister> !bid 50` flüstern.\n\n"
         "__Sonstiges__\n"
-        f"• Jede Woche werden alle DKP um **{s.get('decayPct', 10)} %** reduziert (gegen Horten).\n"
+        f"• **Verfall:** Jeden Mittwoch nach dem Raid-Reset werden alle DKP um **{s.get('decayPct', 10)} %** reduziert "
+        "(gegen Horten) – automatisch, in allen Raids.\n"
+        "• **Main vor Twink:** Twinks gewinnen ein Item nur, wenn kein Main bietet. Twinks meldest du mit `/twink` an.\n"
         "• Legendäre Items vergibt die Gildenleitung nach eigener Regel.\n"
         "• Die Gildenleitung kann Werte jederzeit anpassen."
     )

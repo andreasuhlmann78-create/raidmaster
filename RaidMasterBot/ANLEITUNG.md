@@ -183,6 +183,18 @@ ihres Raids (z. B. #mc-anmeldung). **PUG-Spieler** nehmen den Knopf in #pug-anme
   „Für RaidMaster“-Export und Einteilung. Optional `raid:` und `fraktion:` (Paladine oder Schamanen).
   Nach 2 Stunden verschwindet er samt Nachricht von selbst.
 
+## Twinks, Berufe, DKP-Nachricht, Verfall
+
+- **Twinks:** `/twink hinzufügen` (Name, Klasse, Rolle), `/twink wechseln` (mit welchem Charakter du dich anmeldest),
+  `/twink liste`, `/twink entfernen`. In der Anmeldung steht „Twink von …“; in der Aufstellung kommen Mains vor Twinks.
+  Der Export „Für RaidMaster“ enthält die Twinks – im Addon gilt dann „Main vor Twink“ beim Bieten.
+- **Berufe:** Im Spiel bei RaidMaster → Skillungen → **Meine Berufe einlesen**. Danach im Discord:
+  `/handwerk Feuerschutz` (wer kann das herstellen?) und `/berufe` (Übersicht) bzw. `/berufe Name`.
+- **DKP-Nachricht:** Nach jedem Raid bekommt jeder Teilnehmer mit Discord-Profil eine Direktnachricht: verdient,
+  ausgegeben, gewonnene Items, neuer Stand. Abbestellen: `/dkp-nachricht aus`. Ganz ausschalten: `"raid_dms": false`.
+- **Verfall:** 10 % jeden Mittwoch nach dem Raid-Reset (bucht das Addon). Die DKP-Liste im Discord zeigt
+  „Verfall: 10 % jeden Mittwoch · zuletzt …“.
+
 ## Eigene Beute-Datenbank
 
 RaidMaster merkt sich nach jedem Bosskill, welche Items im Lootfenster lagen. Der Uploader schickt das mit,

@@ -343,7 +343,7 @@ async def send_export(inter: discord.Interaction, raid: dict):
         att, _, _ = rmd.attendance(bot.dkp_data, book)
         lineup = rmd.build_lineup(raid, att)
     link = cfg.get("pug_invite_url", "") if raid.get("mode") == "pug" else ""
-    text = rmd.export_text(raid, TZ, lineup, link, raid.get("softres", ""))
+    text = rmd.export_text(raid, TZ, lineup, link, raid.get("softres", ""), book.alt_links())
     intro = ("Diesen Text kopieren und im Spiel bei **RaidMaster → Anmeldungen → Importieren** einfügen. "
              "Enthält Aufstellung und feste Gruppen – das Addon lädt automatisch ein und sortiert die Gruppen.")
     if len(text) < 1800:
@@ -1273,7 +1273,14 @@ async def dkp_list_messages(pool: str, rows: list[dict], data: dict | None, db: 
     Punkt in Klassenfarbe, Name, Klasse, DKP, ggf. Ersatzbank. "Verdient" wird mitgezählt, aber nicht gezeigt."""
     standby = set(str(n) for n in ((((db or {}).get("config") or {}).get("standby")) or {}).keys())
     total, count = rmd.pool_total(rows)
-    lines = [head, f"Gesamt: **{total} DKP** · {count} Spieler", ""]
+    players = (data or {}).get("players") or {}
+    settings = (data or {}).get("settings") or {}
+    decay = ""
+    if settings.get("autoDecay", True) is not False and int(settings.get("decayPct") or 0) > 0:
+        last = int((data or {}).get("lastDecay") or 0)
+        decay = (f"⏳ Verfall: {int(settings.get('decayPct'))} % jeden Mittwoch (Raid-Reset)"
+                 + (f" · zuletzt <t:{last}:d>" if last > 0 else ""))
+    lines = [head, f"Gesamt: **{total} DKP** · {count} Spieler" + (f"\n{decay}" if decay else ""), ""]
     n = 0
     for r_ in rows:
         if r_["dkp"] == 0 and r_["name"] not in standby:
@@ -1282,7 +1289,9 @@ async def dkp_list_messages(pool: str, rows: list[dict], data: dict | None, db: 
         dot = await class_emoji(r_.get("class"))
         cls = rimg.CLASS_NAMES.get(str(r_.get("class") or "").upper(), "")
         dkp = f"**{r_['dkp']}** DKP" if r_["dkp"] >= 0 else f"**{r_['dkp']}** DKP ❗"
-        lines.append(f"`{n:>2}.` {dot} **{r_['name']}** · {cls} · {dkp}" + (" · *Ersatzbank*" if r_["name"] in standby else ""))
+        main = (players.get(r_["name"]) or {}).get("m") if isinstance(players.get(r_["name"]), dict) else None
+        lines.append(f"`{n:>2}.` {dot} **{r_['name']}** · {cls} · {dkp}" + (" · *Ersatzbank*" if r_["name"] in standby else "")
+                     + (f" · *Twink von {main}*" if main else ""))
     if n == 0:
         lines.append("Noch keine DKP.")
     state.save()
@@ -1829,6 +1838,7 @@ async def process_new_data():
         await remove_overall()
         await post_new_loot()
         await update_lootdb()
+        await send_raid_dms()
         await process_assignment()
     except discord.HTTPException as e:
         log.warning("Posten fehlgeschlagen: %s", e)
@@ -1896,6 +1906,219 @@ async def post_loot_table(pool: str):
         new_ids.append(m.id)
     all_ids[pool] = new_ids
     state.save()
+
+
+# ---------------------------------------------------------------------------
+# Persönliche DKP-Nachricht nach dem Raid (Direktnachricht an jeden Teilnehmer mit Discord-Profil)
+# ---------------------------------------------------------------------------
+DM_MAX_AGE = 2 * 86400
+
+
+async def find_member_for_char(name: str):
+    guild = bot_guild()
+    uid = book.user_for_char(name)
+    if guild is None:
+        return None
+    if uid:
+        m = guild.get_member(uid)
+        if m is None:
+            try:
+                m = await guild.fetch_member(uid)
+            except discord.HTTPException:
+                m = None
+        return m
+    n = name.lower()
+    for m in guild.members:
+        for cand in (getattr(m, "nick", None), getattr(m, "global_name", None), m.name):
+            if cand and str(cand).strip().lower().split(" ")[0] == n:
+                return m
+    return None
+
+
+async def send_raid_dms():
+    if not cfg.get("raid_dms", True):
+        return
+    data = bot.dkp_data or {}
+    if test_info(bot.dkp_db):
+        return
+    sent = state.data.setdefault("dm_sent", [])
+    now = time.time()
+    links = book.alt_links()
+    players = data.get("players") or {}
+    for summ in rmd.raid_summaries(data):
+        if summ["id"] in sent:
+            continue
+        sent.append(summ["id"])
+        if now - summ["t"] > DM_MAX_AGE:
+            continue                       # alte Raids beim ersten Start nicht nachschicken
+        count = 0
+        for row in summ["rows"]:
+            if not row.get("present") and not row.get("earned"):
+                continue
+            main = links.get(row["name"]) or ((players.get(row["name"]) or {}).get("m") if isinstance(players.get(row["name"]), dict) else None)
+            member = await find_member_for_char(row["name"]) or (await find_member_for_char(main) if main else None)
+            if member is None or member.bot:
+                continue
+            prof = book.profile(member.id) or {}
+            if prof.get("no_dm"):
+                continue
+            try:
+                await member.send(rmd.raid_dm_text(summ, row, data, main))
+                count += 1
+            except discord.HTTPException:
+                pass                       # Direktnachrichten ausgeschaltet
+            await asyncio.sleep(0.5)
+        log.info("Raid %s: %d persönliche DKP-Nachrichten verschickt.", summ["id"], count)
+    del sent[:-200]
+    state.save()
+
+
+@bot.tree.command(name="dkp-nachricht", description="Persönliche DKP-Nachricht nach jedem Raid an- oder abbestellen")
+@app_commands.choices(wahl=[app_commands.Choice(name="an", value="an"), app_commands.Choice(name="aus", value="aus")])
+async def dkp_dm_cmd(inter: discord.Interaction, wahl: app_commands.Choice[str]):
+    p = book.profile(inter.user.id)
+    if not p:
+        await inter.response.send_message("Lege zuerst dein Charakterprofil an (`/charakter`).", ephemeral=True)
+        return
+    if wahl.value == "aus":
+        p["no_dm"] = True
+    else:
+        p.pop("no_dm", None)
+    book.profiles.save()
+    await inter.response.send_message("Nach jedem Raid bekommst du deine DKP-Zusammenfassung per Direktnachricht."
+                                      if wahl.value == "an" else "Keine DKP-Nachrichten mehr nach dem Raid.", ephemeral=True)
+
+
+# ---------------------------------------------------------------------------
+# Twinks: weitere Charaktere eines Discord-Mitglieds (Anmeldung, "Main vor Twink" im Addon)
+# ---------------------------------------------------------------------------
+twink_group = app_commands.Group(name="twink", description="Twinks (weitere Charaktere) verwalten")
+CLASS_CHOICES = [app_commands.Choice(name=v, value=k) for k, v in rmd.CLASSES.items()][:25]
+ROLE_CHOICES = [app_commands.Choice(name=v, value=k) for k, v in rmd.ROLES.items()]
+
+
+async def own_char_autocomplete(inter: discord.Interaction, current: str) -> list[app_commands.Choice[str]]:
+    return [app_commands.Choice(name=c["name"] + (" (Main)" if c["main"] else " (Twink)"), value=c["name"])
+            for c in book.characters(inter.user.id) if current.lower() in c["name"].lower()][:25]
+
+
+async def refresh_signups_of(user_id: int):
+    for r in book.open_raids():
+        if str(user_id) in r["signups"]:
+            await update_raid_message(r)
+
+
+@twink_group.command(name="hinzufügen", description="Twink anlegen (Name wie im Spiel)")
+@app_commands.describe(name="Charaktername des Twinks", klasse="Klasse", rolle="Rolle")
+@app_commands.choices(klasse=CLASS_CHOICES, rolle=ROLE_CHOICES)
+async def twink_add(inter: discord.Interaction, name: str, klasse: app_commands.Choice[str], rolle: app_commands.Choice[str]):
+    if not book.profile(inter.user.id):
+        await inter.response.send_message("Lege zuerst deinen Main an (`/charakter` oder beim Raid „Charakter registrieren“).", ephemeral=True)
+        return
+    clean = rmd.clean_name(name)
+    if not clean.isalpha():
+        await inter.response.send_message("Der Name darf nur Buchstaben enthalten.", ephemeral=True)
+        return
+    p = book.add_alt(inter.user.id, clean, klasse.value, rolle.value)
+    await inter.response.send_message(f"Twink **{clean}** ({klasse.name}, {rolle.name}) gespeichert – Main ist **{p.get('main')}**.\n"
+                                      "Mit `/twink wechseln` meldest du dich mit ihm an. Im Spiel gilt „Main vor Twink“.", ephemeral=True)
+
+
+@twink_group.command(name="entfernen", description="Twink löschen")
+@app_commands.autocomplete(name=own_char_autocomplete)
+async def twink_remove(inter: discord.Interaction, name: str):
+    ok = book.remove_alt(inter.user.id, name)
+    await inter.response.send_message(f"Twink **{name}** entfernt." if ok else "Diesen Twink gibt es nicht.", ephemeral=True)
+    await refresh_signups_of(inter.user.id)
+
+
+@twink_group.command(name="wechseln", description="Mit welchem Charakter meldest du dich an? (Main oder Twink)")
+@app_commands.autocomplete(name=own_char_autocomplete)
+async def twink_switch(inter: discord.Interaction, name: str):
+    p = book.switch_char(inter.user.id, name)
+    if not p:
+        await inter.response.send_message("Diesen Charakter gibt es in deinem Profil nicht (`/twink liste`).", ephemeral=True)
+        return
+    is_twink = p["name"].lower() != (p.get("main") or p["name"]).lower()
+    await inter.response.send_message(f"Du meldest dich jetzt mit **{p['name']}** an" + (f" (Twink von {p['main']})." if is_twink else " (Main)."),
+                                      ephemeral=True)
+
+
+@twink_group.command(name="liste", description="Deine Charaktere (Main und Twinks)")
+async def twink_list(inter: discord.Interaction):
+    chars = book.characters(inter.user.id)
+    if not chars:
+        await inter.response.send_message("Noch kein Profil – `/charakter`.", ephemeral=True)
+        return
+    active = (book.profile(inter.user.id) or {}).get("name", "")
+    lines = [f"{'⭐' if c['main'] else '↳'} **{c['name']}** · {rmd.CLASSES.get(c['cls'], c['cls'])} · {rmd.ROLES.get(c['role'], c['role'])}"
+             + (" · *aktiv*" if c["name"].lower() == active.lower() else "") for c in chars]
+    await inter.response.send_message("\n".join(lines), ephemeral=True)
+
+
+bot.tree.add_command(twink_group)
+
+
+# ---------------------------------------------------------------------------
+# Berufe-Verzeichnis (Addon: Seite Skillungen > "Meine Berufe einlesen")
+# ---------------------------------------------------------------------------
+@bot.tree.command(name="handwerk", description="Wer kann das herstellen? (aus den Berufen der Addon-Nutzer)")
+@app_commands.describe(suche="Teil des Namens, z. B. Feuerschutz")
+async def handwerk_cmd(inter: discord.Interaction, suche: str):
+    profs = rmd.professions(bot.dkp_db)
+    found = rmd.find_crafters(profs, suche)
+    if not profs:
+        await inter.response.send_message("Noch keine Berufe bekannt – im Spiel bei RaidMaster → Skillungen → **Meine Berufe einlesen** klicken.",
+                                          ephemeral=True)
+        return
+    if not found:
+        await inter.response.send_message(f"Niemand mit RaidMaster kann „{suche}“ herstellen.", ephemeral=True)
+        return
+    lines = [f"🔨 **Wer kann „{suche}“ herstellen?**"]
+    last = None
+    for x in found:
+        if x["recipe"] != last:
+            lines.append(f"**{x['recipe']}**")
+            last = x["recipe"]
+        dot = await class_emoji(x.get("c"))
+        lines.append(f"  {dot} {x['name']} – {x['prof']}" + (f" ({x['rank']})" if x.get("rank") else ""))
+    for part in rmd.split_discord("\n".join(lines)):
+        if not inter.response.is_done():
+            await inter.response.send_message(part, ephemeral=True)
+        else:
+            await inter.followup.send(part, ephemeral=True)
+
+
+@bot.tree.command(name="berufe", description="Berufe eines Charakters (oder aller, wenn leer)")
+@app_commands.describe(name="Charaktername (leer = Übersicht der Gilde)")
+async def berufe_cmd(inter: discord.Interaction, name: str | None = None):
+    profs = rmd.professions(bot.dkp_db)
+    if not profs:
+        await inter.response.send_message("Noch keine Berufe bekannt – im Spiel bei RaidMaster → Skillungen → **Meine Berufe einlesen** klicken.",
+                                          ephemeral=True)
+        return
+    lines = []
+    if name:
+        e = next((v for k, v in profs.items() if k.lower() == name.strip().lower()), None)
+        if not e:
+            await inter.response.send_message(f"Von {name} sind keine Berufe bekannt.", ephemeral=True)
+            return
+        lines.append(f"🔨 **Berufe von {name}**")
+        for prof, v in sorted(e["p"].items()):
+            lines.append(f"**{prof}** {v.get('r') or '?'}/{v.get('m') or '?'}" + (f" · {len(v['recipes'])} Rezepte" if v["recipes"] else ""))
+    else:
+        by_prof: dict[str, list] = {}
+        for who, e in profs.items():
+            for prof, v in e["p"].items():
+                by_prof.setdefault(prof, []).append((v.get("r") or 0, who))
+        lines.append("🔨 **Berufe der Gilde** (mit RaidMaster eingelesen)")
+        for prof in sorted(by_prof):
+            people = ", ".join(f"{w} ({r})" for r, w in sorted(by_prof[prof], reverse=True))
+            lines.append(f"**{prof}:** {people}")
+    parts = rmd.split_discord("\n".join(lines))
+    await inter.response.send_message(parts[0], ephemeral=True)
+    for part in parts[1:]:
+        await inter.followup.send(part, ephemeral=True)
 
 
 beute_group = app_commands.Group(name="beute", description="Eigene Beute-Datenbank: welcher Boss droppt was")

@@ -472,6 +472,117 @@ function DKP.ApplyDecay(pool)
 	if count == 0 then RM.Print(L["Niemand hat positive DKP."]) end
 end
 
+---------------------------------------------------------------------------
+-- Automatischer Verfall: einmal pro Woche zum Raid-Reset (Mittwoch), alle Töpfe, decayPct (Standard 10 %)
+-- Läuft beim Offizier (Gildenrang), der zuerst nach dem Reset online ist; nie während eines Raids.
+-- Der Stand geht wie jede Buchung an alle (Abgleich), darum gibt es den Verfall pro Woche nur einmal.
+---------------------------------------------------------------------------
+-- Beginn der laufenden Raid-Woche (Zeitpunkt des letzten Resets)
+function DKP.WeekStart(now)
+	now = now or GetServerTime()
+	local untilReset = C_DateAndTime and C_DateAndTime.GetSecondsUntilWeeklyReset and C_DateAndTime.GetSecondsUntilWeeklyReset()
+	if type(untilReset) == "number" and untilReset > 0 and untilReset <= 7 * 86400 then
+		return now + math.floor(untilReset) - 7 * 86400
+	end
+	-- ohne Angabe des Spiels: Mittwoch 04:00 UTC (Reset in Europa)
+	local t = now - 4 * 3600
+	local days = math.floor(t / 86400)
+	local wday = (days + 4) % 7          -- 0 = Sonntag (1.1.1970 war ein Donnerstag)
+	local back = (wday - 3) % 7          -- 3 = Mittwoch
+	return (days - back) * 86400 + 4 * 3600
+end
+
+function DKP.NextDecay()
+	return DKP.WeekStart() + 7 * 86400
+end
+
+local function IsDecayManager()
+	local rank = RM.GuildRank and RM.GuildRank(RM.Me())
+	local limit = RM.db.data.settings.officerRank or 1
+	return rank ~= nil and rank <= limit and RM.CanEdit()
+end
+
+-- true = Verfall wurde jetzt gebucht
+function DKP.CheckAutoDecay()
+	if not RM.db or RM.db.data.settings.autoDecay == false then return false end
+	if RM.Test and RM.Test.active then return false end
+	if (RM.db.data.settings.decayPct or 0) <= 0 then return false end
+	if RM.db.session.active then return false end
+	if not IsDecayManager() then return false end
+	local data = RM.db.data
+	local ws = DKP.WeekStart()
+	if (data.lastDecay or 0) >= ws then return false end
+	if (data.lastDecay or 0) == 0 then
+		-- erstes Mal: ab jetzt zählen (kein Verfall auf Punkte, die vor dem Einschalten verdient wurden)
+		data.lastDecay = GetServerTime()
+		data.version = math.max((data.version or 0) + 1, GetServerTime())
+		if RM.Comm and RM.Comm.BroadcastSnapshot then RM.Comm.BroadcastSnapshot() end
+		RM.Fire("DATA_CHANGED")
+		return false
+	end
+	local before = #data.log
+	DKP.ApplyDecay()
+	if #data.log > before then
+		RM.Print(string.format(L["Wöchentlicher DKP-Verfall gebucht: %d %% auf alle Raids (Raid-Reset)."], data.settings.decayPct))
+		return true
+	end
+	-- niemand hat DKP: Woche trotzdem als erledigt merken
+	data.lastDecay = GetServerTime()
+	return false
+end
+
+RM.On("PLAYER_LOGIN", function()
+	if not C_Timer then return end
+	-- erst den Abgleich mit der Gilde abwarten, dann regelmäßig prüfen
+	C_Timer.After(90, function() pcall(DKP.CheckAutoDecay) end)
+	C_Timer.NewTicker(1800, function() pcall(DKP.CheckAutoDecay) end)
+end)
+
+---------------------------------------------------------------------------
+-- Twinks: Main eines Charakters (data.players[Twink].m = Main) – wird mit dem DKP-Stand abgeglichen
+---------------------------------------------------------------------------
+function DKP.MainOf(name, data)
+	data = data or RM.db.data
+	local p = data.players[RM.Short(name or "")]
+	return p and p.m or nil
+end
+
+function DKP.IsTwink(name, data)
+	return DKP.MainOf(name, data) ~= nil
+end
+
+function DKP.TwinksOf(main, data)
+	data = data or RM.db.data
+	local out = {}
+	for n, p in pairs(data.players) do if p.m == main then out[#out + 1] = n end end
+	table.sort(out)
+	return out
+end
+
+-- Twink mit Main verknüpfen (main = nil löst die Verknüpfung). Nur Offiziere / Raidleitung.
+function DKP.SetMain(twink, main, silent)
+	if not RM.CanEdit() then
+		if not silent then RM.Print(L["Dafür brauchst du Offiziersrechte."]) end
+		return false
+	end
+	twink = RM.Short(twink or "")
+	main = main and main ~= "" and RM.Short(main) or nil
+	if twink == "" or twink == main then return false end
+	if main and DKP.MainOf(main) then main = DKP.MainOf(main) end   -- Twink eines Twinks -> echter Main
+	local p = DKP.EnsurePlayer(twink)
+	if p.m == main then return false end
+	p.m = main
+	if main then DKP.EnsurePlayer(main) end
+	local data = RM.db.data
+	data.version = math.max((data.version or 0) + 1, GetServerTime())
+	if RM.Comm and RM.Comm.BroadcastSnapshot then RM.Comm.BroadcastSnapshot() end
+	if not silent then
+		RM.Print(main and string.format(L["%s ist jetzt ein Twink von %s."], twink, main) or string.format(L["%s ist kein Twink mehr."], twink))
+	end
+	RM.Fire("DATA_CHANGED")
+	return true
+end
+
 function DKP.AddPlayer(name)
 	name = RM.Short(name)
 	if not name or name == "" then return end

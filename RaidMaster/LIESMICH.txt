@@ -1,4 +1,4 @@
-RaidMaster 2.7.1 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 2.8.0 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,29 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+NEU IN 2.8.0
+- Begrüßung beim Raidstart: RaidMaster begrüßt den Raid im Raidchat, passend zur Raidzone (z. B. "Herzlich willkommen
+  zu unserem Raid in Geschmolzener Kern! Ragnaros wartet schon ..."). Gäste (nicht in der Gilde) und Spieler von der
+  Ersatzbank werden mit Namen begrüßt. Abschaltbar: Seite Raid > "Begrüßung beim Raidstart".
+- Item-Tooltip: unter jedem Item stehen (wenn bekannt) die Droprate aus eurer Beute-Datenbank ("Ragnaros: 3/5 Kills")
+  und der Preisverlauf ("Zuletzt 120 DKP an Bob (12.11.) · Ø 95 DKP (4×)"). Abschaltbar: Einstellungen.
+- Bereitschafts-Check (Boss-Leiste, Seite Raid, /rm bereit): Fläschchen und Elixiere bei allen, dazu bei
+  Addon-Nutzern Feuerwiderstand, Klassen-Reagenzien (Ankh, Seelensplitter, Kerzen, Pulver, Wildwurz, Symbole,
+  Munition) und Haltbarkeit. Weltbuffs werden nicht geprüft (in WoW Forever im Raid nicht nutzbar).
+  "Fehlendes ansagen" schreibt die Lücken in den Raidchat. Feuerwiderstand-Minimum einstellbar (z. B. Ragnaros).
+- Pull- und Pausen-Timer (Boss-Leiste, Seite Raid, /rm pull 10, /rm pause 5): Countdown für alle – auch für
+  Deadly Boss Mods und BigWigs –, Schlachtzugwarnung, auf Wunsch 5-4-3-2-1 im Raidchat. Die Pause ist dieselbe
+  wie die bisherigen Pause-Knöpfe (die jetzt auch an DBM/BigWigs gehen).
+- Twinks: Auf der Seite DKP-Stände einen Spieler wählen, Main eintragen, "Verknüpfen". Twinks aus Discord (/twink)
+  kommen mit dem Anmelde-Export automatisch. Regel "Main vor Twink" (Einstellungen, Standard an): Twinks gewinnen
+  nur, wenn kein Main bietet; ein Main übernimmt ein Twink-Gebot schon ab dem Mindestgebot.
+- Berufe-Verzeichnis: Seite Skillungen > "Meine Berufe einlesen" (jeder Klick öffnet und liest den nächsten Beruf)
+  oder /rm berufe. Die Liste geht an die Gilde und an Discord (/handwerk, /berufe). Im Spiel: /rm handwerk <Item>.
+- DKP-Verfall automatisch: jeden Mittwoch nach dem Raid-Reset 10 % (Einstellung "Decay in %"), alle Raids. Bucht
+  der erste Offizier (Gildenrang), der online ist – nie während eines Raids, einmal pro Woche. Abschaltbar auf der
+  Seite Raid. Beim ersten Einschalten wird nur der Startpunkt gemerkt (kein Verfall auf alte Punkte).
+- Discord: persönliche DKP-Nachricht nach jedem Raid (abbestellen mit /dkp-nachricht aus).
 
 BEUTE-DATENBANK: TRASH, 30 MINUTEN, SYMBOLE (neu in 2.7.1)
 - Auch die zufälligen Drops vom Trash werden gespeichert (in Raids, ab Grün, jede Leiche nur einmal).
