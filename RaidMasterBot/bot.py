@@ -27,7 +27,7 @@ import re
 import time
 import zipfile
 import zlib
-from datetime import datetime
+from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 import discord
@@ -127,6 +127,10 @@ for _k, _v in {"installed_sha": "", "failed_sha": "", "last_backup": 0, "last_up
 UPLOAD_PATH = os.path.join(DATA_DIR, "RaidMaster.lua")
 # eigene Beute-Datenbank (aus den Lootfenstern der Bosskills aller Uploader)
 lootdb = rmd.Store(os.path.join(DATA_DIR, "loot_db.json"), rmd.lootdb_empty())
+# Ruhmeshalle: alle Bosskills (Erstkills, Bestzeiten) und vergebene Erfolge
+kills_db = rmd.Store(os.path.join(DATA_DIR, "kills.json"), {"kills": []})
+fame_db = rmd.Store(os.path.join(DATA_DIR, "achievements.json"), {"init": False, "players": {}})
+SHOTS_DIR = os.path.join(DATA_DIR, "shots")
 for _k, _v in rmd.lootdb_empty().items():
     lootdb.data.setdefault(_k, _v)
 # Datei-ID -> Name der Spielsymbole (für die Item-Emojis; mitgeliefert, wird regelmäßig aktualisiert)
@@ -175,6 +179,7 @@ class RaidBot(discord.Client):
         update_loop.start()
         backup_loop.start()
         icon_map_loop.start()
+        monthly_loop.start()
         test_cleanup_loop.start()
 
     async def on_ready(self):
@@ -503,6 +508,10 @@ async def on_interaction(inter: discord.Interaction):
             await send_export(inter, raid)
             return
 
+        if action == "sub":
+            await accept_substitute(inter, raid)
+            return
+
         profile = book.profile(inter.user.id)
 
         if action == "sr":
@@ -530,8 +539,11 @@ async def on_interaction(inter: discord.Interaction):
                 view=ProfileView(rid, action, None), ephemeral=True)
             return
 
+        before = (raid["signups"].get(str(inter.user.id)) or {}).get("status")
         actual = book.signup(raid, inter.user.id, action, profile, int(time.time()))
         await inter.response.edit_message(embed=raid_embed(raid), view=raid_view(raid))
+        if before == "an" and actual in ("ab", "vielleicht"):
+            asyncio.create_task(offer_substitute(raid, profile))
         await inter.followup.send(f"{status_text(actual, action)}\nCharakter: {profile_text(profile)}", ephemeral=True)
     except Exception:
         log.exception("Fehler bei Knopf %s", cid)
@@ -626,6 +638,7 @@ async def raid_create(inter: discord.Interaction, titel: str, datum: str, uhrzei
         await inter.response.send_message(f"Raid erstellt in {target.mention}.", ephemeral=True)
     raid["message_id"] = msg.id
     book.save()
+    await create_raid_event(raid)
     if mode == "pug":
         role = discord.utils.get(inter.guild.roles, name="Gast") if inter.guild else None
         if role:
@@ -746,6 +759,7 @@ async def raid_cancel(inter: discord.Interaction, raid: str):
     r["cancelled"] = True
     book.save()
     await update_raid_message(r)
+    await delete_raid_event(r)
     ids = [uid for uid, s in r["signups"].items() if s["status"] in ("an", "ersatz", "vielleicht")]
     mentions = " ".join(f"<@{u}>" for u in ids)
     await inter.response.send_message(f"❌ **{r['title']}** (<t:{r['start']}:F>) wurde abgesagt. {mentions}",
@@ -1838,6 +1852,8 @@ async def process_new_data():
         await remove_overall()
         await post_new_loot()
         await update_lootdb()
+        await update_hall_of_fame()
+        await post_guild_bank()
         await send_raid_dms()
         await process_assignment()
     except discord.HTTPException as e:
@@ -2119,6 +2135,495 @@ async def berufe_cmd(inter: discord.Interaction, name: str | None = None):
     await inter.response.send_message(parts[0], ephemeral=True)
     for part in parts[1:]:
         await inter.followup.send(part, ephemeral=True)
+
+
+# ---------------------------------------------------------------------------
+# Ruhmeshalle (#ruhmeshalle): Erstkills mit Screenshot, Bestzeiten, Erfolge, Raider des Monats
+# ---------------------------------------------------------------------------
+async def hall_channel():
+    ch = await channel_by_id(cfg.get("hall_channel_id"))
+    if ch:
+        return ch
+    guild = bot_guild()
+    if guild is None:
+        return None
+    ch = discord.utils.get(guild.text_channels, name="ruhmeshalle")
+    if ch is None and guild.me.guild_permissions.manage_channels:
+        category = None
+        for name in ("ankündigungen", "ankuendigungen", "announcements", "willkommen"):
+            other = discord.utils.get(guild.text_channels, name=name)
+            if other and other.category:
+                category = other.category
+                break
+        overwrites = {guild.default_role: discord.PermissionOverwrite(send_messages=False, add_reactions=True),
+                      guild.me: discord.PermissionOverwrite(send_messages=True, attach_files=True, embed_links=True)}
+        try:
+            ch = await guild.create_text_channel("ruhmeshalle", category=category, overwrites=overwrites,
+                                                 topic="🏆 Erstkills, Bestzeiten, Erfolge und der Raider des Monats – postet der RaidMaster-Bot.")
+        except discord.HTTPException as e:
+            log.warning("#ruhmeshalle nicht angelegt: %s", e)
+            return None
+    if ch:
+        cfg["hall_channel_id"] = ch.id
+        save_config()
+    return ch
+
+
+def shot_for(kill: dict) -> str | None:
+    if not os.path.isdir(SHOTS_DIR):
+        return None
+    best = None
+    for fn in os.listdir(SHOTS_DIR):
+        m_ = re.match(r"^shot_(\d+)_(\d+)\.", fn)
+        if m_ and int(m_.group(1)) == kill["e"] and abs(int(m_.group(2)) - kill["t"]) <= rmd.SAME_KILL:
+            best = os.path.join(SHOTS_DIR, fn)
+    return best
+
+
+async def member_names_with_dots(names: list[str]) -> str:
+    players = (bot.dkp_data or {}).get("players") or {}
+    parts = []
+    for n in sorted(names, key=str.lower):
+        p = players.get(n)
+        parts.append(f"{await class_emoji(p.get('c') if isinstance(p, dict) else None)}{n}")
+    return ", ".join(parts)
+
+
+async def post_first_kill(ch, k: dict) -> bool:
+    raid = rmd.pool_name(k["p"], bot.dkp_data) if k.get("p") else ""
+    emb = discord.Embed(title=f"🏆 Erstkill: {k['n']}", colour=0xFF8C1A,
+                        description=(f"**{raid}** · <t:{k['t']}:F>\n"
+                                     f"Nach **{k['w'] + 1}** {'Versuch' if k['w'] == 0 else 'Versuchen'}"
+                                     + (f" · Kampfdauer **{rmd.fmt_duration(k.get('d'))}**" if k.get("d") else "")))
+    if k.get("m"):
+        emb.add_field(name=f"Dabei ({len(k['m'])})", value=(await member_names_with_dots(k["m"]))[:1024], inline=False)
+    path = shot_for(k)
+    try:
+        if path:
+            fn = "erstkill" + os.path.splitext(path)[1]
+            emb.set_image(url=f"attachment://{fn}")
+            await ch.send(embed=emb, file=discord.File(path, filename=fn))
+        else:
+            await ch.send(embed=emb)
+    except discord.HTTPException as e:
+        log.warning("Erstkill nicht gepostet: %s", e)
+        return False
+    state.data.setdefault("first_posted", {})[f"{k['e']}:{k['t']}"] = bool(path)
+    return True
+
+
+async def update_hall_of_fame():
+    db = bot.dkp_db or {}
+    if test_info(db):
+        return
+    best_before = rmd.best_times(kills_db.data)
+    added = rmd.kills_merge(kills_db.data, rmd.killlog(db), state.data.get("last_upload_by") or "")
+    if added:
+        kills_db.save()
+    ch = await hall_channel() if cfg.get("hall_of_fame", True) else None
+    posted = state.data.setdefault("first_posted", {})
+    if ch:
+        # Erstkills (auch Screenshots, die erst später ankommen)
+        for k in kills_db.data["kills"]:
+            if not k.get("f"):
+                continue
+            key = f"{k['e']}:{k['t']}"
+            if key not in posted:
+                if time.time() - k["t"] < 14 * 86400:
+                    await post_first_kill(ch, k)
+                else:
+                    posted[key] = True
+            elif posted[key] is False and shot_for(k):
+                try:
+                    path = shot_for(k)
+                    await ch.send(f"📸 Der Screenshot vom Erstkill **{k['n']}**:", file=discord.File(path))
+                    posted[key] = True
+                except discord.HTTPException:
+                    pass
+        # neue Bestzeiten
+        for k in added:
+            old = best_before.get(k["e"])
+            if k.get("d") and k["d"] >= 10 and old and k["d"] < old["d"]:
+                try:
+                    await ch.send(f"⏱️ **Neuer Rekord: {k['n']} in {rmd.fmt_duration(k['d'])}** (vorher {rmd.fmt_duration(old['d'])}"
+                                  f" vom <t:{old['t']}:d>) · {rmd.pool_name(k['p'], bot.dkp_data) if k.get('p') else ''} <t:{k['t']}:d>")
+                except discord.HTTPException:
+                    pass
+            if k.get("d") and k["d"] >= 10:
+                best_before[k["e"]] = k if (not old or k["d"] < old["d"]) else old
+        state.save()
+    await update_achievements(ch)
+
+
+async def update_achievements(ch):
+    earned = rmd.achievements(bot.dkp_data, kills_db.data)
+    players = fame_db.data.setdefault("players", {})
+    new = []
+    for name, codes in earned.items():
+        have = players.setdefault(name, {})
+        for code, t in codes.items():
+            if code not in have:
+                have[code] = t
+                new.append((name, code))
+    first_run = not fame_db.data.get("init")
+    fame_db.data["init"] = True
+    fame_db.save()
+    if first_run or not new or ch is None or not cfg.get("hall_of_fame", True):
+        return
+    lines = ["🎖️ **Neue Erfolge**"]
+    for name, code in sorted(new):
+        title, desc = rmd.achievement_title(code, kills_db.data.get("kills"))
+        lines.append(f"• **{name}** – {title}" + (f" ({desc})" if desc else ""))
+    for part in rmd.split_discord("\n".join(lines)):
+        try:
+            await ch.send(part)
+        except discord.HTTPException:
+            pass
+
+
+@bot.tree.command(name="rekorde", description="Bestzeiten der Gilde pro Boss")
+@app_commands.describe(raid="optional: nur dieser Raid")
+@app_commands.autocomplete(raid=raid_pool_autocomplete)
+async def rekorde_cmd(inter: discord.Interaction, raid: str | None = None):
+    best = rmd.best_times(kills_db.data)
+    rows = [k for k in best.values() if not raid or k.get("p") == raid]
+    if not rows:
+        await inter.response.send_message("Noch keine Bestzeiten – sie entstehen mit jedem Bosskill (RaidMaster ab 2.9.0).", ephemeral=True)
+        return
+    rows.sort(key=lambda k: (str(k.get("p") or ""), k["n"]))
+    lines, last = ["⏱️ **Bestzeiten der Gilde**"], None
+    for k in rows:
+        if k.get("p") != last:
+            last = k.get("p")
+            lines.append(f"__{rmd.pool_name(last, bot.dkp_data) if last else 'Sonstige'}__")
+        lines.append(f"{k['n']} – **{rmd.fmt_duration(k['d'])}** (<t:{k['t']}:d>)")
+    parts = rmd.split_discord("\n".join(lines))
+    await inter.response.send_message(parts[0], ephemeral=True)
+    for part in parts[1:]:
+        await inter.followup.send(part, ephemeral=True)
+
+
+@bot.tree.command(name="erfolge", description="Erfolge eines Charakters (leer = deine)")
+@app_commands.describe(name="Charaktername")
+async def erfolge_cmd(inter: discord.Interaction, name: str | None = None):
+    if not name:
+        p = book.profile(inter.user.id)
+        name = (p.get("main") or p.get("name")) if p else None
+    if not name:
+        await inter.response.send_message("Gib einen Namen an oder lege dein Profil an (`/charakter`).", ephemeral=True)
+        return
+    have = next((v for k, v in (fame_db.data.get("players") or {}).items() if k.lower() == name.lower()), None)
+    if not have:
+        await inter.response.send_message(f"{name} hat noch keine Erfolge – das kommt noch! 💪", ephemeral=True)
+        return
+    lines = [f"🎖️ **Erfolge von {name}** ({len(have)})"]
+    for code, t in sorted(have.items(), key=lambda x: x[1]):
+        title, desc = rmd.achievement_title(code, kills_db.data.get("kills"))
+        lines.append(f"• **{title}**" + (f" – {desc}" if desc else "") + (f" (<t:{t}:d>)" if t else ""))
+    await inter.response.send_message("\n".join(lines)[:2000], ephemeral=True)
+
+
+# Raider des Monats: am Monatsanfang für den Vormonat, mit eigener Rolle für einen Monat
+RDM_ROLE = "⭐ Raider des Monats"
+
+
+async def announce_raider_of_month(year: int, month: int, force: bool = False) -> str:
+    ranking = rmd.raider_of_month(bot.dkp_data, year, month, TZ)
+    label = f"{month:02d}.{year}"
+    if not ranking:
+        return f"Im {label} gab es keine Raids."
+    top = ranking[0]
+    guild = bot_guild()
+    role_text = ""
+    if guild is not None and guild.me.guild_permissions.manage_roles:
+        try:
+            role = discord.utils.get(guild.roles, name=RDM_ROLE) or await guild.create_role(
+                name=RDM_ROLE, colour=discord.Colour.gold(), hoist=False, mentionable=False, reason="RaidMaster: Raider des Monats")
+            for m in list(role.members):
+                await m.remove_roles(role, reason="RaidMaster: neuer Raider des Monats")
+            member = await find_member_for_char(top["name"])
+            if member:
+                await member.add_roles(role, reason="RaidMaster: Raider des Monats")
+                role_text = f" {member.mention} bekommt für einen Monat die Rolle **{RDM_ROLE}**."
+        except discord.HTTPException as e:
+            log.warning("Rolle Raider des Monats: %s", e)
+    medals = ["🥇", "🥈", "🥉"]
+    lines = [f"⭐ **Raider des Monats {label}: {top['name']}!**{role_text}",
+             f"{top['raids']} Raids dabei, {top['punctual']}× pünktlich, {top['bench']}× auf der Ersatzbank bereit. Danke für deinen Einsatz!", ""]
+    for i, r in enumerate(ranking[:3]):
+        lines.append(f"{medals[i]} {r['name']} – {r['raids']} Raids · {r['punctual']}× pünktlich · {r['bench']}× Ersatzbank ({r['score']} Punkte)")
+    lines.append("_Punkte: Raid dabei 10 · pünktlich 2 · Ersatzbank bereit 5._")
+    ch = await hall_channel()
+    if ch:
+        await ch.send("\n".join(lines), allowed_mentions=discord.AllowedMentions(users=True))
+    return lines[0]
+
+
+@tasks.loop(hours=1)
+async def monthly_loop():
+    now = datetime.now(ZoneInfo(TZ))
+    prev = (now.replace(day=1) - timedelta(days=1))
+    key = f"{prev.year}-{prev.month:02d}"
+    if state.data.get("rdm_done") == key or now.day > 7:
+        return
+    if not state.data.get("rdm_done"):
+        state.data["rdm_done"] = key       # erster Start: nicht rückwirkend küren
+        state.save()
+        return
+    state.data["rdm_done"] = key
+    state.save()
+    try:
+        await announce_raider_of_month(prev.year, prev.month)
+    except Exception:  # noqa: BLE001
+        log.exception("Raider des Monats fehlgeschlagen")
+
+
+@monthly_loop.before_loop
+async def before_monthly():
+    await bot.wait_until_ready()
+
+
+@bot.tree.command(name="raider-des-monats", description="Rangliste eines Monats (Offiziere: auch verkünden)")
+@app_commands.describe(monat="MM.JJJJ (leer = aktueller Monat)", verkuenden="Offiziere: in #ruhmeshalle verkünden und Rolle vergeben")
+async def rdm_cmd(inter: discord.Interaction, monat: str | None = None, verkuenden: bool = False):
+    now = datetime.now(ZoneInfo(TZ))
+    year, month = now.year, now.month
+    if monat:
+        m_ = re.match(r"^(\d{1,2})\.(\d{4})$", monat.strip())
+        if not m_:
+            await inter.response.send_message("Format: MM.JJJJ, z. B. 11.2026", ephemeral=True)
+            return
+        month, year = int(m_.group(1)), int(m_.group(2))
+    if verkuenden:
+        if not is_creator(inter.user):
+            await inter.response.send_message("Verkünden dürfen nur Offiziere bzw. die Raidleitung.", ephemeral=True)
+            return
+        await inter.response.defer(ephemeral=True)
+        await inter.followup.send(await announce_raider_of_month(year, month, True), ephemeral=True)
+        return
+    ranking = rmd.raider_of_month(bot.dkp_data, year, month, TZ)
+    if not ranking:
+        await inter.response.send_message(f"Im {month:02d}.{year} gibt es (noch) keine Raids.", ephemeral=True)
+        return
+    lines = [f"⭐ **Rangliste {month:02d}.{year}**"] + [
+        f"{i + 1}. {r['name']} – {r['score']} Punkte ({r['raids']} Raids, {r['punctual']}× pünktlich, {r['bench']}× Ersatzbank)"
+        for i, r in enumerate(ranking[:10])]
+    await inter.response.send_message("\n".join(lines), ephemeral=True)
+
+
+# ---------------------------------------------------------------------------
+# Discord-Ereignisse: jeder Raid steht auch im Ereignis-Kalender des Servers
+# ---------------------------------------------------------------------------
+RAID_EVENT_HOURS = 3
+
+
+async def create_raid_event(raid: dict):
+    if not cfg.get("raid_events", True) or raid.get("test") or raid.get("event_id"):
+        return
+    guild = bot_guild()
+    if guild is None or not guild.me.guild_permissions.manage_events:
+        if guild is not None:
+            log.info("Ereignis für Raid #%s nicht angelegt: Bot braucht die Berechtigung 'Events verwalten'.", raid["id"])
+        return
+    start = datetime.fromtimestamp(raid["start"], ZoneInfo(TZ))
+    if start.timestamp() < time.time() + 60:
+        return
+    end = start + timedelta(hours=RAID_EVENT_HOURS)
+    ch = await channel_by_id(raid.get("channel_id"))
+    jump = f"https://discord.com/channels/{guild.id}/{raid['channel_id']}/{raid['message_id']}" if raid.get("message_id") else ""
+    desc = (raid.get("description") or "") + (f"\n\nAnmeldung: {jump}" if jump else "")
+    try:
+        ev = await guild.create_scheduled_event(
+            name=raid["title"][:100], start_time=start, end_time=end, entity_type=discord.EntityType.external,
+            privacy_level=discord.PrivacyLevel.guild_only, location=f"WoW Forever – {raid.get('pool_name') or 'Raid'}"[:100],
+            description=desc[:1000] or None)
+        raid["event_id"] = ev.id
+        book.save()
+    except (discord.HTTPException, TypeError) as e:
+        log.warning("Ereignis für Raid #%s nicht angelegt: %s", raid["id"], e)
+
+
+async def delete_raid_event(raid: dict):
+    eid = raid.get("event_id")
+    guild = bot_guild()
+    if not eid or guild is None:
+        return
+    try:
+        ev = guild.get_scheduled_event(int(eid)) or await guild.fetch_scheduled_event(int(eid))
+        await ev.delete()
+    except discord.HTTPException:
+        pass
+    raid.pop("event_id", None)
+    book.save()
+
+
+@bot.tree.command(name="raid-ereignisse", description="Für alle offenen Raids die Discord-Ereignisse anlegen (Offiziere)")
+async def raid_events_cmd(inter: discord.Interaction):
+    if not is_creator(inter.user):
+        await inter.response.send_message("Nur Offiziere bzw. die Raidleitung.", ephemeral=True)
+        return
+    await inter.response.defer(ephemeral=True)
+    n = 0
+    for r in book.open_raids():
+        if not r.get("event_id") and not r.get("cancelled"):
+            await create_raid_event(r)
+            n += 1 if r.get("event_id") else 0
+    await inter.followup.send(f"{n} Ereignisse angelegt." if n else
+                              "Keine neuen Ereignisse (alle haben schon eins, oder dem Bot fehlt die Berechtigung „Events verwalten“).",
+                              ephemeral=True)
+
+
+# ---------------------------------------------------------------------------
+# Ersatz bei Absage: kurz vor dem Raid fragt der Bot passende Spieler der Ersatzbank per Direktnachricht
+# ---------------------------------------------------------------------------
+SUB_HOURS = 48
+
+
+def sub_candidates(raid: dict, leaver: dict) -> list[tuple[str, dict]]:
+    asked = set(raid.get("subs_asked") or [])
+    cands = [(uid, s) for uid, s in raid["signups"].items() if s["status"] == "ersatz" and uid not in asked and not uid.startswith("9000")]
+    def score(item):
+        _, s = item
+        return (0 if s.get("role") == leaver.get("role") else 1, 0 if s.get("cls") == leaver.get("cls") else 1, 1 if s.get("main") else 0, s.get("t", 0))
+    return sorted(cands, key=score)
+
+
+async def offer_substitute(raid: dict, leaver: dict):
+    try:
+        if raid.get("closed") or raid.get("test") or not cfg.get("auto_substitute", True):
+            return
+        if raid["start"] - time.time() > SUB_HOURS * 3600 or raid["start"] < time.time() - 1800:
+            return
+        if raid.get("max") and book.count_status(raid, "an") >= raid["max"]:
+            return
+        cands = sub_candidates(raid, leaver)
+        if not cands:
+            return
+        guild = bot_guild()
+        uid, s = cands[0]
+        member = guild.get_member(int(uid)) if guild else None
+        if member is None and guild:
+            try:
+                member = await guild.fetch_member(int(uid))
+            except discord.HTTPException:
+                member = None
+        raid.setdefault("subs_asked", []).append(uid)
+        book.save()
+        if member is None:
+            return
+        view = discord.ui.View(timeout=None)
+        view.add_item(discord.ui.Button(label="Ich komme!", emoji="✅", style=discord.ButtonStyle.success, custom_id=f"rm:sub:{raid['id']}"))
+        role = rmd.ROLES.get(leaver.get("role"), leaver.get("role") or "")
+        await member.send(f"🪑 Ein Platz ist frei: **{raid['title']}** am <t:{raid['start']}:F> – gesucht wird ein **{role}** "
+                          f"(du stehst auf der Ersatzbank). Hast du Zeit? Dann klick auf **Ich komme!**", view=view)
+        log.info("Raid #%s: %s als Ersatz gefragt.", raid["id"], s.get("name"))
+    except Exception:  # noqa: BLE001
+        log.exception("Ersatz konnte nicht gefragt werden")
+
+
+async def accept_substitute(inter: discord.Interaction, raid: dict):
+    uid = str(inter.user.id)
+    s = raid["signups"].get(uid)
+    if raid.get("closed"):
+        await inter.response.send_message("Die Anmeldung ist schon geschlossen – danke trotzdem!", ephemeral=True)
+        return
+    if raid.get("max") and book.count_status(raid, "an") >= raid["max"] and not (s and s["status"] == "an"):
+        await inter.response.send_message("Danke! Der Platz ist leider schon wieder besetzt – du bleibst auf der Ersatzbank.", ephemeral=True)
+        return
+    profile = book.profile(inter.user.id)
+    if not profile:
+        await inter.response.send_message("Dein Profil fehlt – bitte beim Raid über „Anmelden“ anmelden.", ephemeral=True)
+        return
+    book.signup(raid, inter.user.id, "an", profile, int(time.time()))
+    await update_raid_message(raid)
+    await inter.response.send_message(f"✅ Super, du bist für **{raid['title']}** angemeldet!", ephemeral=True)
+    ch = await channel_by_id(cfg.get("officer_channel_id"))
+    if ch:
+        try:
+            await ch.send(f"🪑 **{profile['name']}** springt bei **{raid['title']}** (<t:{raid['start']}:f>) von der Ersatzbank ein.")
+        except discord.HTTPException:
+            pass
+
+
+# ---------------------------------------------------------------------------
+# Gildenbank: Bestand vom Bank-Charakter in #gildenbank (wird bearbeitet, nicht neu gepostet) und /bank
+# ---------------------------------------------------------------------------
+async def bank_channel():
+    ch = await channel_by_id(cfg.get("bank_channel_id"))
+    if ch:
+        return ch
+    guild = bot_guild()
+    ch = discord.utils.get(guild.text_channels, name="gildenbank") if guild else None
+    if ch:
+        cfg["bank_channel_id"] = ch.id
+        save_config()
+    return ch
+
+
+async def bank_text(bank: dict) -> list[str]:
+    lines = [f"📦 **Bestand der Gildenbank** – {bank['char']} · Stand <t:{bank['t']}:f>",
+             f"💰 Gold: **{rmd.money_text(bank['gold'])}**" + (f" · Gildenbank: **{rmd.money_text(bank['guild_gold'])}**" if bank.get("guild_gold") else ""), ""]
+    for it in bank["items"]:
+        em = await item_emoji(rmd.item_link_for(it["id"], it["n"], it["q"]), {"ic": it.get("ic"), "q": it.get("q")})
+        lines.append(f"{em} {it['n']} ×{it['c']}" + (f" _(davon {it['mail']} in der Post)_" if it.get("mail") else ""))
+    if not bank["items"]:
+        lines.append("Leer.")
+    lines.append("")
+    lines.append("_Entnahmen: einen Offizier fragen. Suche: `/bank Name`._")
+    return rmd.split_discord("\n".join(lines))
+
+
+async def post_guild_bank():
+    bank = rmd.guild_bank(bot.dkp_db)
+    if not bank or test_info(bot.dkp_db) or state.data.get("bank_t") == bank["t"]:
+        return
+    ch = await bank_channel()
+    if ch is None:
+        return
+    chunks = await bank_text(bank)
+    ids = list(state.data.get("bank_messages") or [])
+    new_ids = []
+    for i, text in enumerate(chunks):
+        done = False
+        if i < len(ids):
+            try:
+                await ch.get_partial_message(int(ids[i])).edit(content=text)
+                new_ids.append(ids[i])
+                done = True
+            except discord.HTTPException:
+                pass
+        if not done:
+            m = await ch.send(text)
+            new_ids.append(m.id)
+    for mid in ids[len(chunks):]:
+        try:
+            await ch.get_partial_message(int(mid)).delete()
+        except discord.HTTPException:
+            pass
+    state.data["bank_messages"] = new_ids
+    state.data["bank_t"] = bank["t"]
+    state.save()
+
+
+@bot.tree.command(name="bank", description="Was ist in der Gildenbank? (Suche nach Name)")
+@app_commands.describe(suche="Teil des Namens, leer = alles")
+async def bank_cmd(inter: discord.Interaction, suche: str | None = None):
+    bank = rmd.guild_bank(bot.dkp_db)
+    if not bank:
+        await inter.response.send_message("Noch kein Bestand – der Bank-Charakter muss einmal seine Bank öffnen "
+                                          "(RaidMaster → Einstellungen → „Bank-Charakter“).", ephemeral=True)
+        return
+    q = (suche or "").strip().lower()
+    items = [it for it in bank["items"] if not q or q in it["n"].lower()]
+    if not items:
+        await inter.response.send_message(f"„{suche}“ ist nicht in der Gildenbank (Stand <t:{bank['t']}:R>).", ephemeral=True)
+        return
+    lines = [f"📦 **Gildenbank** ({bank['char']}, Stand <t:{bank['t']}:R>)" + (f" – Suche „{suche}“" if suche else "")]
+    for it in items[:60]:
+        lines.append(f"{it['n']} ×{it['c']}")
+    if len(items) > 60:
+        lines.append(f"… und {len(items) - 60} weitere")
+    await inter.response.send_message("\n".join(lines)[:2000], ephemeral=True)
 
 
 beute_group = app_commands.Group(name="beute", description="Eigene Beute-Datenbank: welcher Boss droppt was")
@@ -2745,6 +3250,16 @@ async def receive_upload(message: discord.Message):
         log.warning("Upload zu groß (%d Bytes).", att.size)
         return
     raw = await att.read()
+    # Erstkill-Screenshots vom Uploader (shot_<Boss-ID>_<Zeit>.jpg) aufheben – die Ruhmeshalle postet sie
+    for a in message.attachments:
+        m_ = re.match(r"^shot_(\d+)_(\d+)\.(jpg|jpeg|png)$", a.filename.lower())
+        if m_ and a.size <= 10 * 1024 * 1024:
+            try:
+                os.makedirs(SHOTS_DIR, exist_ok=True)
+                with open(os.path.join(SHOTS_DIR, a.filename.lower()), "wb") as f_:
+                    f_.write(await a.read())
+            except (OSError, discord.HTTPException) as e:
+                log.warning("Screenshot %s nicht gespeichert: %s", a.filename, e)
     try:
         text, db = await asyncio.to_thread(check_upload, raw, att.filename)
     except ValueError as e:

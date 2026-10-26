@@ -1,4 +1,4 @@
-RaidMaster 2.8.0 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 2.9.0 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,18 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+NEU IN 2.9.0
+- Erstkill-Feier: Liegt ein Boss zum ersten Mal, gibt es Fanfare, Schlachtzugwarnung ("ERSTKILL! ... nach 3 Versuchen")
+  und einen Screenshot. Der Uploader (ab 1.6.0) schickt ihn mit, der Bot postet ihn in #ruhmeshalle mit allen
+  Teilnehmern, Versuchen und Kampfdauer.
+- Bestzeiten: RaidMaster misst jeden Bosskampf. Schneller als der Gilden-Rekord -> "NEUER REKORD: Ragnaros in 2:00
+  (vorher 2:30)!" im Raid und in #ruhmeshalle. Rekorde gehen an die ganze Gilde. Im Spiel: /rm rekorde.
+- Erfolge und Raider des Monats: berechnet der Bot aus euren Daten (#ruhmeshalle, /erfolge, /raider-des-monats).
+- Gildenbank: auf dem Bank-Charakter Einstellungen > "Bank-Charakter (Bestand an Discord)" anhaken. Beim Öffnen von
+  Bank und Briefkasten (und der Gildenbank, falls WoW Forever eine hat) liest RaidMaster den Bestand samt Gold.
+  Im Discord: #gildenbank und /bank <Suche>. Im Spiel: /rm bank <Suche>.
+- Abschaltbar: Einstellungen > "Erstkill-Feier und Bestzeiten".
 
 NEU IN 2.8.0
 - Begrüßung beim Raidstart: RaidMaster begrüßt den Raid im Raidchat, passend zur Raidzone (z. B. "Herzlich willkommen

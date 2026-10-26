@@ -1933,6 +1933,14 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 	local ttCheck = UI.Check(page, L["Item-Tooltip ergänzen (Droprate, letzter Preis)"], function() return RM.db.config.itemTooltip ~= false end,
 		function(v) RM.db.config.itemTooltip = v end, L["Zeigt im Item-Tooltip, wie oft das Item bei euch gedroppt ist und wofür es zuletzt versteigert wurde."])
 	Place(ttCheck, page, x2, y2 - 126)
+	local bankCheck = UI.Check(page, L["Bank-Charakter (Bestand an Discord)"], function() return RM.db.config.bankScan end,
+		function(v) RM.db.config.bankScan = v end,
+		L["Beim Öffnen von Bank, Briefkasten (und Gildenbank, falls vorhanden) liest RaidMaster den Bestand aus.\nDer Uploader schickt ihn an Discord (#gildenbank, /bank)."])
+	Place(bankCheck, page, x2 + 250, y2 - 100)
+	local recCheck = UI.Check(page, L["Erstkill-Feier und Bestzeiten"], function() return RM.db.config.records ~= false end,
+		function(v) RM.db.config.records = v end,
+		L["Erstkill: Fanfare, Schlachtzugwarnung und Screenshot für Discord. Bestzeiten: 'Neuer Rekord!' bei schnelleren Kills."])
+	Place(recCheck, page, x2 + 250, y2 - 126)
 
 	return function()
 		UpdateBossRows()
@@ -1941,7 +1949,7 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 		end
 		for _, c in ipairs(checks) do c:Refresh() end
 		mmCheck:Refresh()
-		ttCheck:Refresh()
+		ttCheck:Refresh(); bankCheck:Refresh(); recCheck:Refresh()
 		if RM.CanEdit() then saveBtn:Enable() else saveBtn:Disable() end
 	end
 end)

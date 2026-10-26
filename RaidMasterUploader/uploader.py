@@ -7,6 +7,10 @@ liest sie dort und aktualisiert DKP, Loot, Einteilung und Skillungen.
 
 Start: uploader.bat (Doppelklick). Einrichtung: in Discord /uploader ausführen und die Datei
 uploader_config.json in diesen Ordner legen. Nur Python 3 nötig, keine weiteren Pakete.
+
+Erstkill-Screenshots (ab 1.6.0): RaidMaster macht beim Erstkill einen Screenshot und merkt sich die Zeit
+(RaidMasterDB.shotList). Der Uploader sucht im Screenshots-Ordner von WoW das passende Bild und schickt es
+beim nächsten Upload mit. Andere Screenshots werden nie hochgeladen.
 """
 
 from __future__ import annotations
@@ -15,6 +19,7 @@ import glob
 import gzip
 import json
 import os
+import re
 import socket
 import string
 import sys
@@ -23,7 +28,10 @@ import urllib.error
 import urllib.request
 import uuid
 
-VERSION = "1.5.0"
+VERSION = "1.6.0"
+SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
+SHOT_MAX_BYTES = 9 * 1024 * 1024
+SHOT_MAX_AGE = 14 * 86400
 HERE = os.path.dirname(os.path.abspath(__file__))
 CONFIG = os.path.join(HERE, "uploader_config.json")
 USER_AGENT = f"RaidMasterUploader (https://github.com, {VERSION})"
@@ -92,10 +100,62 @@ def choose_path(cfg: dict) -> str:
     return path
 
 
+def screenshots_dir(path: str) -> str:
+    """.../<WoW>/WTF/Account/<X>/SavedVariables/RaidMaster.lua -> .../<WoW>/Screenshots"""
+    root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(path))))))
+    return os.path.join(root, "Screenshots")
+
+
+def find_shots(cfg: dict, path: str, raw: bytes) -> list[tuple[str, str]]:
+    """Erstkill-Screenshots, die noch nicht geschickt wurden: [(Dateipfad, Name im Upload)]."""
+    m = re.search(rb'\["shotList"\]\s*=\s*"([0-9:;]*)"', raw)
+    if not m:
+        return []
+    folder = cfg.get("screenshots_path") or screenshots_dir(path)
+    if not os.path.isdir(folder):
+        return []
+    files = []
+    for fn in os.listdir(folder):
+        if fn.lower().endswith((".jpg", ".jpeg", ".png")):
+            full = os.path.join(folder, fn)
+            try:
+                files.append((os.path.getmtime(full), full))
+            except OSError:
+                pass
+    sent = set(cfg.get("sent_shots") or [])
+    out = []
+    now = time.time()
+    for part in m.group(1).decode().split(";"):
+        t, _, enc = part.partition(":")
+        if not t.isdigit() or part in sent or now - int(t) > SHOT_MAX_AGE:
+            continue
+        t = int(t)
+        cands = [(abs(mt - t), full) for mt, full in files if SHOT_WINDOW[0] <= mt - t <= SHOT_WINDOW[1]]
+        if not cands:
+            continue
+        full = min(cands)[1]
+        if os.path.getsize(full) > SHOT_MAX_BYTES:
+            continue
+        ext = os.path.splitext(full)[1].lower()
+        out.append((full, f"shot_{enc}_{t}{ext}", part))
+    return out
+
+
 def upload(cfg: dict, path: str) -> bool:
     with open(path, "rb") as f:
         raw = f.read()
     packed = gzip.compress(raw, 9)
+    shots = []
+    try:
+        # Discord nimmt pro Nachricht nur ca. 10 MB an: Bilder nur, solange alles zusammen darunter bleibt
+        total = len(packed)
+        for shot in find_shots(cfg, path, raw):
+            size = os.path.getsize(shot[0])
+            if total + size <= SHOT_MAX_BYTES:
+                shots.append(shot)
+                total += size
+    except OSError:
+        shots = []
     bot_id = str(cfg.get("bot_id") or "")
     payload = {
         "content": (f"<@{bot_id}> " if bot_id else "") + "RaidMaster-Daten",
@@ -103,7 +163,7 @@ def upload(cfg: dict, path: str) -> bool:
         "allowed_mentions": {"parse": [], "users": [bot_id] if bot_id else []},
     }
     boundary = "----RaidMaster" + uuid.uuid4().hex
-    body = b"".join([
+    parts = [
         f"--{boundary}\r\n".encode(),
         b'Content-Disposition: form-data; name="payload_json"\r\nContent-Type: application/json\r\n\r\n',
         json.dumps(payload).encode("utf-8"), b"\r\n",
@@ -111,8 +171,16 @@ def upload(cfg: dict, path: str) -> bool:
         b'Content-Disposition: form-data; name="files[0]"; filename="RaidMaster.lua.gz"\r\n'
         b"Content-Type: application/gzip\r\n\r\n",
         packed, b"\r\n",
-        f"--{boundary}--\r\n".encode(),
-    ])
+    ]
+    for i, (full, name, _) in enumerate(shots, 1):
+        with open(full, "rb") as f:
+            img = f.read()
+        ctype = "image/png" if name.endswith(".png") else "image/jpeg"
+        parts += [f"--{boundary}\r\n".encode(),
+                  f'Content-Disposition: form-data; name="files[{i}]"; filename="{name}"\r\nContent-Type: {ctype}\r\n\r\n'.encode(),
+                  img, b"\r\n"]
+    parts.append(f"--{boundary}--\r\n".encode())
+    body = b"".join(parts)
     url = cfg["webhook_url"] + ("&" if "?" in cfg["webhook_url"] else "?") + "wait=true"
     req = urllib.request.Request(url, data=body, method="POST", headers={
         "Content-Type": f"multipart/form-data; boundary={boundary}", "User-Agent": USER_AGENT})
@@ -120,7 +188,11 @@ def upload(cfg: dict, path: str) -> bool:
         try:
             with urllib.request.urlopen(req, timeout=60) as r:
                 r.read()
-            log(f"Hochgeladen ({len(raw) // 1024} KB, gepackt {len(packed) // 1024} KB).")
+            log(f"Hochgeladen ({len(raw) // 1024} KB, gepackt {len(packed) // 1024} KB)."
+                + (f" Dazu {len(shots)} Erstkill-Screenshot(s)." if shots else ""))
+            if shots:
+                cfg["sent_shots"] = (list(cfg.get("sent_shots") or []) + [p for _, _, p in shots])[-200:]
+                save_config(cfg)
             return True
         except urllib.error.HTTPError as e:
             if e.code == 429:

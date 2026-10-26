@@ -1802,3 +1802,188 @@ def raid_dm_text(summary: dict, row: dict, data: dict | None, twink_of: str | No
         lines.append(f"⏳ Verfall: {int(s.get('decayPct'))} % jeden Mittwoch nach dem Raid-Reset.")
     lines.append("_Diese Nachricht abbestellen: `/dkp-nachricht aus`_")
     return "\n".join(lines)
+
+
+# ---------------------------------------------------------------------------
+# Ruhmeshalle: Kill-Protokoll (RaidMasterDB.killlog), Erstkills, Bestzeiten, Erfolge, Raider des Monats
+# ---------------------------------------------------------------------------
+SAME_KILL = 600
+
+
+def killlog(db: dict | None) -> list[dict]:
+    out = []
+    for k in lua_list((db or {}).get("killlog")):
+        if not isinstance(k, dict) or not k.get("e") or not k.get("t"):
+            continue
+        members = [m for m in str(k.get("m") or "").split(",") if m]
+        out.append({"e": int(k["e"]), "n": str(k.get("n") or f"Boss {k['e']}"), "p": k.get("p") or None, "t": int(k["t"]),
+                    "d": int(k["d"]) if k.get("d") not in (None, "") else None, "w": int(k.get("w") or 0),
+                    "f": bool(k.get("f")), "m": members})
+    return out
+
+
+def kills_merge(store: dict, entries: list[dict], uploader: str = "") -> list[dict]:
+    """Kills übernehmen (derselbe Kill von mehreren Uploadern zählt einmal). Liefert die neuen Kills."""
+    store.setdefault("kills", [])
+    added = []
+    for k in entries:
+        dup = next((x for x in store["kills"] if x["e"] == k["e"] and abs(x["t"] - k["t"]) <= SAME_KILL), None)
+        if dup:
+            # Daten ergänzen (z. B. Dauer, Teilnehmer, Erstkill-Kennzeichen)
+            if k.get("d") and not dup.get("d"):
+                dup["d"] = k["d"]
+            if len(k.get("m") or []) > len(dup.get("m") or []):
+                dup["m"] = k["m"]
+            if k.get("f"):
+                dup["f"] = True
+            continue
+        x = dict(k, by=uploader or None)
+        store["kills"].append(x)
+        added.append(x)
+    store["kills"].sort(key=lambda x: x["t"])
+    return added
+
+
+def best_times(store: dict, before: int | None = None) -> dict[int, dict]:
+    """Bestzeit je Boss (nur Kills vor 'before', wenn angegeben)."""
+    best: dict[int, dict] = {}
+    for k in store.get("kills") or []:
+        if not k.get("d") or k["d"] < 10 or (before is not None and k["t"] >= before):
+            continue
+        cur = best.get(k["e"])
+        if not cur or k["d"] < cur["d"]:
+            best[k["e"]] = k
+    return best
+
+
+def fmt_duration(sec: int | None) -> str:
+    if not sec:
+        return "?"
+    return f"{int(sec) // 60}:{int(sec) % 60:02d}"
+
+
+ACHIEVEMENTS = {
+    "streak10": ("Unermüdlich", "10 Raids am Stück dabei"),
+    "raids25": ("Stammgast", "25 Raids dabei"),
+    "raids50": ("Urgestein", "50 Raids dabei"),
+    "bosses100": ("Bossjäger", "100 Bosse gelegt"),
+    "bench5": ("Retter in der Not", "5-mal von der Ersatzbank eingesprungen"),
+    "loot10": ("Glückspilz", "10 Items gewonnen"),
+}
+
+
+def achievement_title(code: str, kills: list[dict] | None = None) -> tuple[str, str]:
+    if code.startswith("first:"):
+        e = int(code.split(":", 1)[1])
+        name = next((k["n"] for k in kills or [] if k["e"] == e), f"Boss {e}")
+        return (f"Erster {name}", f"beim ersten Kill von {name} dabei")
+    return ACHIEVEMENTS.get(code, (code, ""))
+
+
+def achievements(data: dict | None, kill_store: dict | None) -> dict[str, dict[str, int]]:
+    """Erfolge je Spieler: {Name: {Code: Zeitpunkt}}."""
+    out: dict[str, dict[str, int]] = {}
+
+    def give(name, code, t):
+        out.setdefault(str(name), {}).setdefault(code, int(t or 0))
+    log = sorted((e for e in lua_list((data or {}).get("log")) if isinstance(e, dict) and not e.get("u")),
+                 key=lambda e: int(e.get("t") or 0))
+    bosses: dict[str, int] = {}
+    bench: dict[str, int] = {}
+    loot: dict[str, int] = {}
+    for e in log:
+        k = e.get("k")
+        t = int(e.get("t") or 0)
+        for name, d in (e.get("d") or {}).items():
+            d = int(d)
+            if k == "boss" and d > 0:
+                bosses[name] = bosses.get(name, 0) + 1
+                if bosses[name] == 100:
+                    give(name, "bosses100", t)
+            elif k == "bench" and d > 0:
+                bench[name] = bench.get(name, 0) + 1
+                if bench[name] == 5:
+                    give(name, "bench5", t)
+            elif k == "item" and d < 0:
+                loot[name] = loot.get(name, 0) + 1
+                if loot[name] == 10:
+                    give(name, "loot10", t)
+    summaries = sorted(raid_summaries(data or {}), key=lambda s: s["start"])
+    count: dict[str, int] = {}
+    streak: dict[str, int] = {}
+    for s in summaries:
+        present = {r["name"] for r in s["rows"] if r.get("present")}
+        for name in present:
+            count[name] = count.get(name, 0) + 1
+            streak[name] = streak.get(name, 0) + 1
+            if count[name] == 25:
+                give(name, "raids25", s["t"])
+            if count[name] == 50:
+                give(name, "raids50", s["t"])
+            if streak[name] == 10:
+                give(name, "streak10", s["t"])
+        for name in list(streak):
+            if name not in present:
+                streak[name] = 0
+    for k in (kill_store or {}).get("kills") or []:
+        if k.get("f"):
+            for name in k.get("m") or []:
+                give(name, f"first:{k['e']}", k["t"])
+    return out
+
+
+def raider_of_month(data: dict | None, year: int, month: int, tz: str = "Europe/Zurich") -> list[dict]:
+    """Rangliste eines Monats: Raids dabei (je 10 Punkte), pünktlich (je 2), Ersatzbank bereit (je 5)."""
+    from zoneinfo import ZoneInfo
+    zone = ZoneInfo(tz)
+    log = [e for e in lua_list((data or {}).get("log")) if isinstance(e, dict) and not e.get("u")]
+    rows: dict[str, dict] = {}
+
+    def row(n):
+        return rows.setdefault(str(n), {"name": str(n), "raids": 0, "punctual": 0, "bench": 0, "score": 0})
+    for s in raid_summaries(data or {}):
+        dt = datetime.fromtimestamp(s["start"], zone)
+        if (dt.year, dt.month) != (year, month):
+            continue
+        for r in s["rows"]:
+            if r.get("present"):
+                row(r["name"])["raids"] += 1
+    for e in log:
+        dt = datetime.fromtimestamp(int(e.get("t") or 0), zone)
+        if (dt.year, dt.month) != (year, month):
+            continue
+        if e.get("k") == "start":
+            for n, d in (e.get("d") or {}).items():
+                if int(d) > 0:
+                    row(n)["punctual"] += 1
+        elif e.get("k") == "bench":
+            for n, d in (e.get("d") or {}).items():
+                if int(d) > 0:
+                    row(n)["bench"] += 1
+    for r in rows.values():
+        r["score"] = r["raids"] * 10 + r["punctual"] * 2 + r["bench"] * 5
+    return sorted((r for r in rows.values() if r["score"] > 0), key=lambda r: (-r["score"], -r["raids"], r["name"].lower()))
+
+
+# ---------------------------------------------------------------------------
+# Gildenbank (RaidMasterDB.bank vom Bank-Charakter)
+# ---------------------------------------------------------------------------
+def guild_bank(db: dict | None) -> dict | None:
+    b = (db or {}).get("bank")
+    if not isinstance(b, dict) or not b.get("t"):
+        return None
+    items = []
+    for iid, e in (b.get("i") or {}).items():
+        if isinstance(e, dict):
+            w = e.get("w") or {}
+            items.append({"id": int(iid), "n": str(e.get("n") or f"Item {iid}"), "q": e.get("q"), "c": int(e.get("c") or 0),
+                          "ic": e.get("ic"), "mail": int(w.get("mail") or 0) if isinstance(w, dict) else 0})
+    items.sort(key=lambda x: (-(x["q"] or 0) if isinstance(x["q"], int) else 0, x["n"].lower()))
+    return {"char": b.get("c") or "?", "t": int(b.get("t") or 0), "gold": int(b.get("g") or 0), "guild_gold": b.get("gb"),
+            "items": items}
+
+
+def money_text(copper: int | None) -> str:
+    c = int(copper or 0)
+    g, s, k = c // 10000, (c // 100) % 100, c % 100
+    return (f"{g}g " if g else "") + (f"{s}s " if s or g else "") + f"{k}k"

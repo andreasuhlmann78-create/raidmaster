@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "2.8.0"
-RM.VERSION_NUM = 20800
+RM.VERSION = "2.9.0"
+RM.VERSION_NUM = 20900
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -148,6 +148,9 @@ RM.DEFAULT_CONFIG = {
 	fireResMin = 0,            -- Feuerwiderstand mindestens (0 = nicht prüfen)
 	itemTooltip = true,        -- Droprate und Preisverlauf im Item-Tooltip
 	welcome = true,            -- Begrüßung im Raidchat beim Raidstart
+	records = true,            -- 2.9.0: Erstkill-Feier, Bestzeiten, Kill-Protokoll
+	firstKillScreenshot = true, -- Screenshot beim Erstkill (der Uploader schickt ihn an Discord)
+	bankScan = false,          -- dieser Charakter ist der Bank-Charakter (Bestand an Discord)
 	markerLocked = false,
 	standby = {},
 	activePool = "mc",
@@ -681,6 +684,10 @@ SlashCmdList["RAIDMASTER"] = function(msg)
 		-- /rm berufe = eigene Berufe einlesen, /rm handwerk <Item> = wer kann das herstellen?
 		local q = msg:match("^%S+%s+(.+)$")
 		if RM.Prof then if q and msg:match("^handwerk") then RM.Prof.PrintFind(q) else RM.Prof.ReadNext() end end
+	elseif msg == "rekorde" or msg == "records" then
+		if RM.Records then RM.Records.Print() end
+	elseif msg:match("^bank") then
+		if RM.Bank then RM.Bank.PrintFind(msg:match("^%S+%s*(.*)$")) end
 	elseif msg == "bereit" or msg == "ready" then
 		if RM.Ready then RM.Ready.Start() end
 	elseif msg:match("^pull") then

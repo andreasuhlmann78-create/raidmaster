@@ -36,6 +36,7 @@ Servereinstellungen → **Rollen** → **Raidmaster tool** → **Berechtigungen*
 - **Webhooks verwalten** (für den Uploader)
 - **Nachrichten verwalten** (verarbeitete Uploads aufräumen)
 - **Server verwalten** (erkennen, wer über den PUG-Einladungslink beitritt)
+- **Events verwalten** (jeder Raid erscheint als Discord-Ereignis im Kalender des Servers)
 
 Außerdem im Entwicklerportal unter **Bot → Privileged Gateway Intents** den **Server Members Intent**
 einschalten (damit der Bot neue Mitglieder sieht).
@@ -182,6 +183,25 @@ ihres Raids (z. B. #mc-anmeldung). **PUG-Spieler** nehmen den Knopf in #pug-anme
   (zufällige Namen, MC-Aufstellung), 5 auf der Ersatzbank und 3 „Vielleicht“ an – zum Ausprobieren von Anmeldung,
   „Für RaidMaster“-Export und Einteilung. Optional `raid:` und `fraktion:` (Paladine oder Schamanen).
   Nach 2 Stunden verschwindet er samt Nachricht von selbst.
+
+## Ruhmeshalle, Ereignisse, Ersatz, Gildenbank
+
+- **#ruhmeshalle** legt der Bot selbst an (nur der Bot schreibt). Dort erscheinen:
+  - **Erstkills** mit Screenshot (macht RaidMaster beim Erstkill, schickt der Uploader ab 1.6.0 mit), Datum,
+    Versuchen, Kampfdauer und allen Teilnehmern.
+  - **Neue Rekorde**: schneller als die bisherige Bestzeit. Alle Bestzeiten: `/rekorde`.
+  - **Erfolge**: Unermüdlich (10 Raids am Stück), Stammgast (25 Raids), Urgestein (50), Bossjäger (100 Bosse),
+    Retter in der Not (5× von der Ersatzbank), Glückspilz (10 Items), „Erster <Boss>“. Abfragen: `/erfolge [Name]`.
+  - **Raider des Monats** am Monatsanfang (Raid dabei 10 Punkte, pünktlich 2, Ersatzbank bereit 5) – bekommt
+    für einen Monat die Rolle **⭐ Raider des Monats**. Rangliste: `/raider-des-monats`.
+- **Discord-Ereignisse:** Jeder neue Raid erscheint als Ereignis (Kalender oben im Server, Erinnerung von Discord).
+  Für ältere Raids: `/raid-ereignisse`. Beim Absagen wird das Ereignis gelöscht. Ausschalten: `"raid_events": false`.
+- **Ersatz bei Absage:** Meldet sich jemand in den letzten 48 Stunden vor dem Raid ab, fragt der Bot den
+  passendsten Spieler der Ersatzbank (gleiche Rolle, dann gleiche Klasse) per Direktnachricht mit Knopf
+  „Ich komme!“. Ausschalten: `"auto_substitute": false`.
+- **Gildenbank:** Auf dem Bank-Charakter in RaidMaster → Einstellungen „Bank-Charakter“ anhaken. Öffnet er Bank
+  oder Briefkasten, liest das Addon den Bestand. Der Uploader auf seinem PC schickt ihn mit, der Bot zeigt ihn in
+  **#gildenbank** (eine Nachricht, wird aktualisiert) und mit `/bank Feuerschutz`.
 
 ## Twinks, Berufe, DKP-Nachricht, Verfall
 

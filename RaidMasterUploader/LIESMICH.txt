@@ -10,4 +10,9 @@ RaidMaster-Uploader – schickt die RaidMaster-Daten vom PC der Raidleitung an d
    uploader.bat hineinlegen.
 
 Nach jedem /reload oder Ausloggen sind DKP, Loot, Einteilung und Skillungen nach wenigen Sekunden im
-Discord. Im Spiel zeigt die Seite "Discord" (oder /rm discord) die ganze Anleitung.
+Discord.
+
+Ab Version 1.6.0: Beim Erstkill eines Bosses macht RaidMaster einen Screenshot. Der Uploader sucht ihn im
+Screenshots-Ordner von WoW und schickt ihn mit dem nächsten Upload mit – in #ruhmeshalle erscheint er dann
+mit allen Teilnehmern. Andere Screenshots werden nie hochgeladen. Liegt der Ordner woanders: in
+uploader_config.json "screenshots_path" eintragen. Im Spiel zeigt die Seite "Discord" (oder /rm discord) die ganze Anleitung.
