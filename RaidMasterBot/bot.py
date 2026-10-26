@@ -2998,10 +2998,9 @@ def zip_changelog(path: str, key: str, since: str | None, upto: str, limit: int 
     try:
         with zipfile.ZipFile(path) as z:
             names = z.namelist()
-            # deutsche Zusammenfassung bevorzugen (CHANGELOG.de.md), sonst die englische
+            # Im Discord immer Deutsch: nur die deutsche Zusammenfassung (CHANGELOG.de.md) wird gepostet,
+            # ein englischer CHANGELOG.md (für CurseForge) nie
             name = next((n for n in names if n.lower().endswith("/changelog.de.md") or n.lower() == "changelog.de.md"), None)
-            if not name:
-                name = next((n for n in names if n.lower().endswith("/changelog.md") or n.lower() == "changelog.md"), None)
             if not name:
                 return ""
             text = z.read(name).decode("utf-8", "replace")
@@ -3073,9 +3072,34 @@ async def remove_old_releases(ch, key: str, meta: dict, keep_version: str) -> in
     return removed
 
 
+async def remove_english_release_notes():
+    """Einmalig: englische Changelogs ("– what's new") aus früheren Versions-Beiträgen entfernen.
+    Text und Download-Datei bleiben, nur der englische Kasten verschwindet (im Discord alles auf Deutsch)."""
+    if state.data.get("english_notes_removed"):
+        return
+    for meta in EXTRA_ADDONS.values():
+        ch = await channel_by_id(cfg.get(meta["channel"]))
+        if not ch:
+            continue
+        try:
+            async for m in ch.history(limit=200):
+                if m.author.id == bot.user.id and any("what's new" in (e.title or "") for e in m.embeds):
+                    await m.edit(embeds=[])
+                    await asyncio.sleep(0.5)
+        except discord.HTTPException as e:
+            log.info("Englische Changelogs in #%s nicht entfernt: %s", meta["channel_name"], e)
+            return
+    state.data["english_notes_removed"] = True
+    state.save()
+
+
 async def check_extra_releases():
     """Neue Versionen der weiteren Addons (z. B. AH Analyzer Pro) in ihrem Kanal posten.
     Ältere Versionen werden danach aus dem Kanal gelöscht - es bleibt immer nur die neueste."""
+    try:
+        await remove_english_release_notes()
+    except Exception as e:  # noqa: BLE001 – Aufräumen darf das Posten nie stören
+        log.warning("Englische Changelogs nicht entfernt: %s", e)
     versions = state.data.setdefault("extra_versions", {})
     for key, meta in EXTRA_ADDONS.items():
         pkg = find_addon_package(key)
