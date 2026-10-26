@@ -226,6 +226,10 @@ class RaidBot(discord.Client):
             except Exception:
                 log.exception("Gildenregeln konnten nicht angelegt werden")
             try:
+                await post_guild_bank()
+            except Exception:
+                log.exception("Gildenbank-Bestand konnte nicht gepostet werden")
+            try:
                 await sync_class_roles()
             except Exception:
                 log.exception("Klassenfarben konnten nicht gesetzt werden")
@@ -2567,16 +2571,31 @@ async def accept_substitute(inter: discord.Interaction, raid: dict):
 # ---------------------------------------------------------------------------
 # Gildenbank: Bestand vom Bank-Charakter in #gildenbank (wird bearbeitet, nicht neu gepostet) und /bank
 # ---------------------------------------------------------------------------
+BANK_CHANNEL = "gildenbank-bestand"
+
+
 async def bank_channel():
+    """#gildenbank-bestand (Kategorie 🏦 GILDENBANK). Stand der Bestand früher in #gildenbank, wird er dort
+    entfernt und im neuen Kanal neu gepostet."""
     ch = await channel_by_id(cfg.get("bank_channel_id"))
-    if ch:
+    if ch and ch.name == BANK_CHANNEL:
         return ch
     guild = bot_guild()
-    ch = discord.utils.get(guild.text_channels, name="gildenbank") if guild else None
-    if ch:
-        cfg["bank_channel_id"] = ch.id
-        save_config()
-    return ch
+    new = discord.utils.get(guild.text_channels, name=BANK_CHANNEL) if guild else None
+    if new is None:
+        return ch or (discord.utils.get(guild.text_channels, name="gildenbank") if guild else None)
+    if ch and ch.id != new.id:
+        for mid in state.data.get("bank_messages") or []:
+            try:
+                await ch.get_partial_message(int(mid)).delete()
+            except discord.HTTPException:
+                pass
+        state.data["bank_messages"] = []
+        state.data.pop("bank_t", None)
+        state.save()
+    cfg["bank_channel_id"] = new.id
+    save_config()
+    return new
 
 
 async def bank_text(bank: dict) -> list[str]:
@@ -2592,9 +2611,28 @@ async def bank_text(bank: dict) -> list[str]:
     return rmd.split_discord("\n".join(lines))
 
 
+BANK_EMPTY_TEXT = ("📦 **Bestand der Gildenbank**\n\n"
+                   "Hier siehst du bald alles, was in unserer Gildenbank liegt – Items und Gold, immer auf dem neuesten Stand.\n\n"
+                   "🔄 **So kommt der Bestand hierher:** Der Bank-Charakter hat RaidMaster und setzt unter Einstellungen den Haken "
+                   "„Bank-Charakter (Bestand an Discord)“. Öffnet er Bank oder Briefkasten, liest RaidMaster alles ein, "
+                   "und mit dem nächsten Upload steht es hier.\n\n"
+                   "🔍 Suchen geht jederzeit mit `/bank`.")
+
+
 async def post_guild_bank():
-    bank = rmd.guild_bank(bot.dkp_db)
-    if not bank or test_info(bot.dkp_db) or state.data.get("bank_t") == bank["t"]:
+    bank = rmd.guild_bank(bot.dkp_db) if bot.dkp_db else None
+    if test_info(bot.dkp_db or {}):
+        return
+    if not bank:
+        # noch kein Bestand: kurze Erklärung in den leeren Kanal (wird später durch den Bestand ersetzt)
+        if not state.data.get("bank_messages"):
+            ch = await bank_channel()
+            if ch is not None and ch.name == BANK_CHANNEL:
+                m = await ch.send(BANK_EMPTY_TEXT)
+                state.data["bank_messages"] = [m.id]
+                state.save()
+        return
+    if state.data.get("bank_t") == bank["t"]:
         return
     ch = await bank_channel()
     if ch is None:
@@ -2861,6 +2899,8 @@ async def ensure_guild_rules() -> list[str]:
         if not ch:
             continue
         posts = [p for p in rule.get("posts") or [] if p.strip()]
+        if not posts:
+            continue                       # z. B. #gildenbank-bestand: dort schreibt nur der Bot den Bestand
         digest = str(zlib.crc32("\n".join(posts).encode("utf-8")))
         if hashes.get(key) == digest and msgs.get(key):
             continue

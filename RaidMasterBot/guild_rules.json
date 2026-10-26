@@ -1,5 +1,5 @@
 {
-  "_info": "Gildenregeln (nicht Raid). Der Bot postet jeden Kanal; ändert sich der Text hier, ersetzt er seine Beiträge. Kanalname = Schlüssel.",
+  "_info": "Gildenregeln (nicht Raid). Der Bot postet jeden Kanal; ändert sich der Text hier, ersetzt er seine Beiträge. Kanalname = Schlüssel. Optional je Kanal: \"category\" (eigene Kategorie, Standard 📜 REGELN) und \"mode\" (Rechte, Standard officers_write).",
   "channels": [
     {
       "key": "verhaltensregeln",
@@ -19,10 +19,18 @@
     },
     {
       "key": "gildenbank",
-      "topic": "Spenden, Entnahmen und Gold der Gildenbank",
+      "topic": "Spenden, Entnahmen und Regeln der Gildenbank – den Bestand siehst du in #gildenbank-bestand",
       "posts": [
-        "🏦 **Unsere Gildenbank**\n\nDie Gildenbank ist unser gemeinsamer Schatz: Hier landet, was der eine übrig hat und der andere gut gebrauchen kann.\n\n🎁 **Spenden**\n• **Alles Nützliche ist willkommen:** Materialien, Kräuter, Erze, Stoffe, Tränke, Rezepte, überzählige Items.\n• **Per Post an den Bank-Charakter** – ein kurzer Satz im Brief, was es ist, freut uns.\n• **Gold** hilft bei Reparaturen, Raid-Verbrauchsgütern und Gildenprojekten.\n\n🔍 **Was ist gerade da?**\n• Den aktuellen Bestand siehst du **hier im Kanal** – der Bank-Charakter liest ihn mit RaidMaster ein, sobald er Bank oder Briefkasten öffnet.\n• Suchen geht noch schneller: `/bank Feuerschutz` zeigt dir, ob etwas da ist.\n\n📤 **Etwas brauchen**\n• Einfach einen **Offizier** fragen und kurz sagen, wofür – etwa für deinen Beruf, den Raid oder neue Ausrüstung.\n• Zuerst kommen Raid-Verbrauchsgüter (Tränke, Fläschchen, Feuerschutz) und Material für unsere Handwerker.\n• Was du bekommst, verarbeitest du für die Gilde – im Auktionshaus landet es nicht.\n\n🔨 **Handwerker der Gilde**\n• Wer ein seltenes Rezept aus der Gildenbank bekommt, stellt die Sachen für Mitglieder gegen Material her – ohne Aufpreis.\n• Sag in #handwerk-und-handel, was du kannst. Noch besser: Berufe in RaidMaster einlesen, dann findet dich jeder mit `/handwerk`.\n\nBei großen Entnahmen sagt die Gildenleitung in den Ankündigungen Bescheid. Danke für jede Spende! 🧡"
-      ]
+        "🏦 **Unsere Gildenbank**\n\nDie Gildenbank ist unser gemeinsamer Schatz: Hier landet, was der eine übrig hat und der andere gut gebrauchen kann.\n\n🎁 **Spenden**\n• **Alles Nützliche ist willkommen:** Materialien, Kräuter, Erze, Stoffe, Tränke, Rezepte, überzählige Items.\n• **Per Post an den Bank-Charakter** – ein kurzer Satz im Brief, was es ist, freut uns.\n• **Gold** hilft bei Reparaturen, Raid-Verbrauchsgütern und Gildenprojekten.\n\n🔍 **Was ist gerade da?**\n• Den aktuellen Bestand siehst du in **#gildenbank-bestand** – der Bank-Charakter liest ihn mit RaidMaster ein, sobald er Bank oder Briefkasten öffnet.\n• Suchen geht noch schneller: `/bank Feuerschutz` zeigt dir, ob etwas da ist.\n\n📤 **Etwas brauchen**\n• Einfach einen **Offizier** fragen und kurz sagen, wofür – etwa für deinen Beruf, den Raid oder neue Ausrüstung.\n• Zuerst kommen Raid-Verbrauchsgüter (Tränke, Fläschchen, Feuerschutz) und Material für unsere Handwerker.\n• Was du bekommst, verarbeitest du für die Gilde – im Auktionshaus landet es nicht.\n\n🔨 **Handwerker der Gilde**\n• Wer ein seltenes Rezept aus der Gildenbank bekommt, stellt die Sachen für Mitglieder gegen Material her – ohne Aufpreis.\n• Sag in #handwerk-und-handel, was du kannst. Noch besser: Berufe in RaidMaster einlesen, dann findet dich jeder mit `/handwerk`.\n\nBei großen Entnahmen sagt die Gildenleitung in den Ankündigungen Bescheid. Danke für jede Spende! 🧡"
+      ],
+      "category": "🏦 GILDENBANK"
+    },
+    {
+      "key": "gildenbank-bestand",
+      "category": "🏦 GILDENBANK",
+      "mode": "botonly",
+      "topic": "Was gerade in der Gildenbank liegt – Items und Gold, aktualisiert der RaidMaster-Bot",
+      "posts": []
     },
     {
       "key": "ränge-und-aufnahme",

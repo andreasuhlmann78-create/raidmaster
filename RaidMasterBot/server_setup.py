@@ -743,31 +743,51 @@ def guild_rules() -> list[dict]:
         return []
 
 
+# Kategorien der Regel-Kanäle: Standard 📜 REGELN, ein Eintrag mit "category" kommt in eine eigene Kategorie
+# (z. B. 🏦 GILDENBANK). Position: (Kategorie, steht direkt unter ...)
+RULE_CATEGORY_PLACE = {RULES_CATEGORY: "📌 INFO", "🏦 GILDENBANK": "💬 ALLGEMEIN"}
+
+
 async def ensure_rules_category(guild: discord.Guild, cfg: dict) -> list[str]:
-    """Kategorie 📜 REGELN mit den Kanälen aus guild_rules.json anlegen (fehlende ergänzen, Rechte setzen)."""
+    """Kategorien mit den Kanälen aus guild_rules.json anlegen (fehlende ergänzen, Rechte setzen).
+    Standard: 📜 REGELN, alle lesen, nur Offiziere schreiben. Ein Eintrag kann eine eigene Kategorie ("category")
+    und eigene Rechte ("mode", z. B. "botonly") haben – Kanäle werden dorthin verschoben, Inhalt bleibt."""
     rules = guild_rules()
     if not rules:
         return []
     reason = "RaidMaster: Gildenregeln"
     roles = _known_roles(guild)
-    cat_def = {"name": RULES_CATEGORY, "mode": "officers_write",
-               "channels": [("text", c["key"], c.get("topic"), "officers_write") for c in rules]}
     report: list[str] = []
     created: dict = {}
-    category = await _ensure_category(guild, cat_def, roles, report, created, set(), reason)
-    # Rechte immer auf "nur Offiziere schreiben" halten
-    ow = _overwrites("officers_write", guild, roles)
-    try:
-        if category.overwrites != ow:
-            await category.edit(overwrites=ow, reason=reason)
-    except discord.HTTPException:
-        pass
-    for name, ch in created.items():
-        try:
-            if ch.overwrites != ow:
-                await ch.edit(overwrites=ow, reason=reason)
-        except discord.HTTPException:
-            pass
-    await _place_after(guild, RULES_CATEGORY, "📌 INFO", report, reason)
+    groups: dict[str, list[dict]] = {}
+    for c in rules:
+        groups.setdefault(c.get("category") or RULES_CATEGORY, []).append(c)
+    for cat_name, entries in groups.items():
+        # REGELN bleiben wie bisher auch für Gäste sichtbar, andere Kategorien (Gildenbank) nur für die Gilde
+        cat_def = {"name": cat_name, "mode": "officers_write" if cat_name == RULES_CATEGORY else None,
+                   "guest": cat_name == RULES_CATEGORY,
+                   "channels": [("text", c["key"], c.get("topic"), c.get("mode", "officers_write")) for c in entries]}
+        mine: dict = {}
+        category = await _ensure_category(guild, cat_def, roles, report, mine, set(), reason)
+        created.update(mine)
+        # Rechte immer wie vorgesehen halten
+        if cat_def["mode"]:
+            ow = _overwrites(cat_def["mode"], guild, roles)
+            try:
+                if category.overwrites != ow:
+                    await category.edit(overwrites=ow, reason=reason)
+            except discord.HTTPException:
+                pass
+        for c in entries:
+            ch = mine.get(c["key"])
+            ow = _overwrites(c.get("mode", "officers_write"), guild, roles)
+            try:
+                if ch and ow and ch.overwrites != ow:
+                    await ch.edit(overwrites=ow, reason=reason)
+            except discord.HTTPException:
+                pass
+        await _hide_from_guests(guild, cat_def, roles, mine, report, reason)
+        if RULE_CATEGORY_PLACE.get(cat_name):
+            await _place_after(guild, cat_name, RULE_CATEGORY_PLACE[cat_name], report, reason)
     cfg["rules_channels"] = {name: ch.id for name, ch in created.items()}
     return [r for r in report if r.startswith(("✅", "↪️", "↕️"))]
