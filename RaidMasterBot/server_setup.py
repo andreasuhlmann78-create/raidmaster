@@ -418,7 +418,9 @@ def _raid_rules_texts() -> list[str]:
     return [(
         "**Raid-Regeln** ⚔️\n\n"
         "__Vor dem Raid__\n"
-        "• **Anmelden** im Anmelde-Kanal des Raids – oder rechtzeitig **abmelden**. Wer absagt, macht Platz für die Ersatzbank.\n"
+        "• **Anmelden bis spätestens 24 Stunden vor dem Raid** im Anmelde-Kanal des Raids – dann kann die Raidleitung "
+        "die Aufstellung planen. Spätere Anmeldungen nur nach Absprache mit der Raidleitung.\n"
+        "• Du kannst nicht? Genauso früh **abmelden** – so rückt jemand von der Ersatzbank nach.\n"
         "• **15 Minuten vor Raidstart** online, eingeladen und am Instanzeingang.\n"
         "• Ausrüstung **repariert**, Taschen frei, genug **Reagenzien, Tränke, Essen** (Jäger: Munition) dabei.\n"
         "• **Fläschchen und Elixiere** nach Möglichkeit. Weltbuffs gibt es auf WoW Forever im Raid nicht – darauf wird nicht gewartet.\n"
