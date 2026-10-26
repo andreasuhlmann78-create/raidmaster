@@ -26,19 +26,22 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install requests
+      - run: pip install requests markdown
       - name: Neue Versionen auf CurseForge hochladen
         env:
           CF_API_KEY: ${{ secrets.CF_API_KEY }}
         run: python3 curseforge/upload.py
-      - name: Liste der hochgeladenen Versionen speichern
+      - name: Beschreibung mit den Neuerungen aktualisieren
+        if: always()
+        run: python3 curseforge/make_description.py
+      - name: Liste der hochgeladenen Versionen und Beschreibung speichern
         if: always()
         run: |
-          if [ -n "$(git status --porcelain curseforge/uploaded.json)" ]; then
+          if [ -n "$(git status --porcelain curseforge/)" ]; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add curseforge/uploaded.json
-            git commit -m "CurseForge: hochgeladene Versionen [skip ci]"
+            git add curseforge/uploaded.json curseforge/*-description.md curseforge/*-description.html
+            git commit -m "CurseForge: hochgeladene Versionen und Beschreibung [skip ci]"
             git pull --rebase
             git push
           fi

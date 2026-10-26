@@ -6,34 +6,86 @@
 <p>AH Analyzer Pro scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It runs as its own tab inside the auction house window, can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.59.33</h3>
+<p><strong>Comfort update - twelve small things that save clicks every day:</strong></p>
 <ul>
-<li><strong>Comfort update:</strong> stack size and number of stacks when posting (classic AH), mail collected automatically, a <strong>minimum price</strong> per item that is never undercut</li>
-<li><strong>Only what I'm missing:</strong> shopping list from your profession window with just the missing materials (bags, bank and alts counted)</li>
-<li><strong>Alt-click</strong> any item to open its price history · <strong>sell rate</strong> in the tooltip · reminder when <strong>auctions expire</strong></li>
-<li><strong>Favorites</strong> in the Buy tab · <strong>gold goal</strong> for all characters · <strong>guild bank value</strong> · one-click <strong>raid supplies</strong> list · price sync <strong>guild only</strong></li>
-<li><strong>No absurd profits:</strong> items showing 1000 % or more profit (bad data) are hidden</li>
-<li><strong>Sell junk at vendors with one click:</strong> a button below every vendor sells grey items and everything a vendor pays more for than the auction house</li>
-<li><strong>Inventory value:</strong> Ledger → "Assets" shows what your bags, bank and alts are worth, plus the gold of all characters</li>
-<li><strong>Daily summary at login:</strong> yesterday's profit, last 7 days, gold of all characters – any time with <code>/ahp summary</code></li>
-<li><strong>Repost with one click:</strong> expired and cancelled auctions that came back by mail – "Repost (n)" in the Auctions tab</li>
-<li><strong>Flip recommendations:</strong> Profit → "Flips" – regularly listed items that are cheap right now, with turnover stars</li>
-<li><strong>Mail to alts:</strong> rules like "Herbs → Alchemist"; at the mailbox "To alts" sends the matching stacks</li>
-<li><strong>Buy tab:</strong> iLvl for every item, sortable and as a search filter (also in Market) · <strong>Sell tab:</strong> listings appear much faster</li>
-<li><strong><code>/ahp help</code></strong> lists all commands in the chat</li>
-<li><strong>Own, resizable window:</strong> the addon opens in its own window by default – drag the bottom-right corner to make it as big as you like, all lists grow with it. Size and position are saved. Prefer it inside the auction house? Options → "Show in auction house"</li>
-<li><strong>New Buy tab</strong> – works like the auction house's own Buy tab: search, categories, level, rarity. Categories show <strong>instantly</strong> from your last scan while the live search updates them in the background</li>
-<li><strong>Sniper and Watcher search as often as the server allows</strong> and take turns – the Sniper hunts your targets, the Watcher finds lucky bargains. The speed adjusts itself to the limit of every WoW version</li>
-<li><strong>Buy with the mouse wheel – also over the addon window.</strong> The sound repeats while a hit is waiting. Options → "Sniper buys with" / "Watcher buys with": mouse wheel or your own key, separately for each</li>
-<li><strong>Bid sniping:</strong> Profit → "Bids" lists auctions whose next bid is far below market value, with time left – click to bid in the Buy tab</li>
-<li><strong>Price protection when posting:</strong> warns before you post far below market value or follow a bait offer</li>
-<li><strong>Sale notification</strong> with proceeds and profit as soon as an auction sells</li>
-<li><strong>Sniper shows the total amount</strong> it will buy of an item (quantity, total cost, average price)</li>
-<li><strong>Bait offers</strong> (single units at the very bottom) are no longer shown anywhere and never count for prices</li>
-<li><strong>Page bar in every list</strong> (‹ 1 2 3 … 20 ›), draggable scrollbars, <strong>Item column sorts by rarity, then name</strong>, new <strong>iLvl</strong> column</li>
-<li><strong>Classic auction house</strong> (Classic Era, TBC Anniversary, Wrath): full support – scan, all result pages, buying with the mouse wheel, "Search in auction house"</li>
-<li><strong>Profit tab:</strong> clear columns – "Current buyout" vs. market value / vendor price / disenchant value</li>
-<li><strong>Back button</strong> in the price history, rarity picker with checkboxes everywhere, new look with icons and gold accents, smooth scanning without stutter</li>
+<li><strong>Stack size and number of stacks</strong> (classic auction house): in the Sell tab, choose e.g.
+  5 stacks of 20. Remembered per item and used by "Post all".</li>
+<li><strong>Collect mail automatically:</strong> opening the mailbox collects auction mail right away
+  (hold Shift while opening to skip). Can be turned off in Options.</li>
+<li><strong>Minimum price per item:</strong> the new "Min" button in the Sell tab remembers the current price
+  as a floor. The suggestion never goes below it, and "Post all" waits instead of selling cheap.</li>
+<li><strong>Only what I'm missing:</strong> next to your profession window, a new button puts only the missing
+  materials on a shopping list - counting your bags, bank and alts.</li>
+<li><strong>Alt-click an item</strong> in your bags or a link in chat: opens the price history, or the Buy tab
+  while the auction house is open.</li>
+<li><strong>Sell rate in the tooltip:</strong> how much of what you posted actually sold (last 60 days) and how
+  long it usually took.</li>
+<li><strong>Expiring auctions:</strong> a message when your auctions have less than 30 minutes left, and at
+  login what expired since your last visit.</li>
+<li><strong>Favorites in the Buy tab:</strong> save searches (text, category, level, iLvl, rarity) and run them
+  again with one click.</li>
+<li><strong>Gold goal:</strong> set a goal for all characters together (Options or <code>/ahp goal 5000</code>) and get a
+  message when you reach it. The daily summary shows your progress.</li>
+<li><strong>Guild bank value:</strong> new view Ledger -&gt; "Guild bank" shows what is in your guild bank and what
+  it is worth (TBC and later).</li>
+<li><strong>Raid supplies:</strong> one click creates a shopping list with potions, flasks, elixirs and buff
+  food for a raid week (Classic, TBC, Wrath) - with the total cost. Also <code>/ahp raid</code>.</li>
+<li><strong>Price sync with your guild only:</strong> new option to share prices only with your guild.</li>
 </ul>
+<h3>Version 0.59.32</h3>
+<ul>
+<li><strong>No more absurd profits:</strong> items that would show a profit of 1000 % or more (almost always
+  bad data such as an outlier market value or placeholder prices) are no longer listed in the
+  Profit tab (all views: market value, vendor, disenchant, bids, flips) and no longer appear
+  under "Biggest price increases" in the Overview.</li>
+</ul>
+<h3>Version 0.59.31</h3>
+<ul>
+<li><strong>Item level as a search filter:</strong> the Buy tab and the Market tab now have "iLvl from" /
+  "iLvl to" fields. They filter the results instantly, without a new search on the server,
+  and also apply to the single listings of an item. In the Buy tab you can also search with
+  only an iLvl range.</li>
+</ul>
+<h3>Version 0.59.30</h3>
+<ul>
+<li><strong>Sell junk at vendors:</strong> at any vendor a button below the window sells grey items and
+  everything a vendor pays more for than the auction house (after the AH cut). The tooltip
+  lists what will be sold. Can be turned off in Options.</li>
+<li><strong>Inventory value:</strong> new view <strong>Ledger -&gt; "Assets"</strong> shows what your bags, bank and alts are
+  worth (market value and vendor value), plus the gold of all characters.</li>
+<li><strong>Daily summary at login:</strong> once a day the chat shows yesterday's profit, the last 7 days,
+  the gold of all characters and how many items are waiting to be reposted. Any time with
+  <code>/ahp summary</code>. Can be turned off in Options.</li>
+<li><strong>Repost with one click:</strong> expired or cancelled auctions that came back by mail are
+  remembered. In the Auctions tab, "Repost (n)" posts them again one click at a time,
+  undercutting the current price, with price protection.</li>
+<li><strong>Flip recommendations:</strong> new view <strong>Profit -&gt; "Flips"</strong>: items that are listed regularly and
+  are currently well below market value. Stars show the turnover, sorted by expected profit.</li>
+<li><strong>Mail to alts:</strong> set rules like "Herbs -&gt; Alchemist" (Options -&gt; Mail to alts). At the mailbox
+  the "To alts" button sends one mail per click with up to 12 matching stacks.</li>
+<li><strong>Buy tab:</strong> the iLvl column now shows the item level for every item (also for items the
+  game had not loaded yet) and can be sorted.</li>
+<li><strong>Sell tab - listings appear faster:</strong> listings show up while they are still loading, a click
+  on an item now goes before the bargain watcher and sniper, and hovering over an item already
+  starts loading its listings.</li>
+<li><strong>Chat help:</strong> <code>/ahp help</code> (or <code>/ahp ?</code>) lists all commands in the chat. Unknown commands show
+  the list too.</li>
+</ul>
+<h3>Version 0.59.29</h3>
+<ul>
+<li><strong>Bid sniping:</strong> new view <strong>Profit -&gt; "Bids"</strong> lists auctions whose next bid is far below
+  market value, with the time left. They are collected during the full scan (classic auction
+  house) and every search in the Buy tab. Click an item to open it in the Buy tab and bid.
+  (Thanks paladriel for the idea!)</li>
+<li><strong>Price protection when posting:</strong> warns if your price is far below market value or follows a
+  suspiciously cheap single unit - a second click is then needed, and "Post all" skips such items.
+  Threshold in Options (off / 20 / 30 / 40 / 50 %, default 40 %).</li>
+<li><strong>Sale notification:</strong> as soon as one of your auctions sells you get a message with the
+  proceeds after the AH cut and your profit compared to what you paid, plus a coin sound.
+  Can be turned off in Options.</li>
+</ul>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AH Analyzer Pro is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
