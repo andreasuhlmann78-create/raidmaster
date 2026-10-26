@@ -10,6 +10,20 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 
 ## What's new
 
+### Version 0.60.0
+
+**Tidier window - 5 tabs instead of 11:**
+
+- **Overview · Buy · Sell · Market · Ledger.** Related pages are now sub-tabs:
+  Buy = Buy, Sniper, Watcher, Bargains · Sell = Post, My auctions · Market = All prices, Watchlist.
+  Every feature is still there, nothing was removed.
+- **Price history in its own window:** clicking an item opens the price history next to the
+  addon - the list you came from stays exactly where it was. The window can be moved and resized.
+- **Sniper and watcher in the title bar:** see at a glance whether they are running and turn them
+  on or off with one click (right-click opens their tab).
+- **Remembers where you were:** the addon opens on the tab you used last, and every main tab
+  remembers its last sub-tab.
+
 ### Version 0.59.33
 
 **Comfort update - twelve small things that save clicks every day:**
@@ -76,19 +90,6 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
   starts loading its listings.
 - **Chat help:** `/ahp help` (or `/ahp ?`) lists all commands in the chat. Unknown commands show
   the list too.
-
-### Version 0.59.29
-
-- **Bid sniping:** new view **Profit -> "Bids"** lists auctions whose next bid is far below
-  market value, with the time left. They are collected during the full scan (classic auction
-  house) and every search in the Buy tab. Click an item to open it in the Buy tab and bid.
-  (Thanks paladriel for the idea!)
-- **Price protection when posting:** warns if your price is far below market value or follows a
-  suspiciously cheap single unit - a second click is then needed, and "Post all" skips such items.
-  Threshold in Options (off / 20 / 30 / 40 / 50 %, default 40 %).
-- **Sale notification:** as soon as one of your auctions sells you get a message with the
-  proceeds after the AH cut and your profit compared to what you paid, plus a coin sound.
-  Can be turned off in Options.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

@@ -3,9 +3,22 @@
 <blockquote>
 <p>⚠️ <strong>This addon is in beta.</strong> It may still contain bugs. If you run into an error or unexpected behaviour in-game, please report it in the comments – ideally with the Lua error message (if any) and the WoW version you play on.</p>
 </blockquote>
-<p>AH Analyzer Pro scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It runs as its own tab inside the auction house window, can be used completely with the mouse and speaks the language of your WoW client.</p>
+<p>AH Analyzer Pro scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.60.0</h3>
+<p><strong>Tidier window - 5 tabs instead of 11:</strong></p>
+<ul>
+<li><strong>Overview · Buy · Sell · Market · Ledger.</strong> Related pages are now sub-tabs:
+  Buy = Buy, Sniper, Watcher, Bargains · Sell = Post, My auctions · Market = All prices, Watchlist.
+  Every feature is still there, nothing was removed.</li>
+<li><strong>Price history in its own window:</strong> clicking an item opens the price history next to the
+  addon - the list you came from stays exactly where it was. The window can be moved and resized.</li>
+<li><strong>Sniper and watcher in the title bar:</strong> see at a glance whether they are running and turn them
+  on or off with one click (right-click opens their tab).</li>
+<li><strong>Remembers where you were:</strong> the addon opens on the tab you used last, and every main tab
+  remembers its last sub-tab.</li>
+</ul>
 <h3>Version 0.59.33</h3>
 <p><strong>Comfort update - twelve small things that save clicks every day:</strong></p>
 <ul>
@@ -72,19 +85,6 @@
 <li><strong>Chat help:</strong> <code>/ahp help</code> (or <code>/ahp ?</code>) lists all commands in the chat. Unknown commands show
   the list too.</li>
 </ul>
-<h3>Version 0.59.29</h3>
-<ul>
-<li><strong>Bid sniping:</strong> new view <strong>Profit -&gt; "Bids"</strong> lists auctions whose next bid is far below
-  market value, with the time left. They are collected during the full scan (classic auction
-  house) and every search in the Buy tab. Click an item to open it in the Buy tab and bid.
-  (Thanks paladriel for the idea!)</li>
-<li><strong>Price protection when posting:</strong> warns if your price is far below market value or follows a
-  suspiciously cheap single unit - a second click is then needed, and "Post all" skips such items.
-  Threshold in Options (off / 20 / 30 / 40 / 50 %, default 40 %).</li>
-<li><strong>Sale notification:</strong> as soon as one of your auctions sells you get a message with the
-  proceeds after the AH cut and your profit compared to what you paid, plus a coin sound.
-  Can be turned off in Options.</li>
-</ul>
 <p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
@@ -112,16 +112,16 @@
 </ul>
 <h3>Selling</h3>
 <ul>
-<li><strong>Sell tab:</strong> price check and undercut suggestion (1 copper, 1 % or 5 %), deposit, AH cut and proceeds – warns when a vendor pays more or when you would sell below your purchase price</li>
+<li><strong>Sell → Post:</strong> price check and undercut suggestion (1 copper, 1 % or 5 %), deposit, AH cut and proceeds – warns when a vendor pays more or when you would sell below your purchase price</li>
 <li><strong>Series posting:</strong> posts every bag item with a remembered price, one click per auction</li>
-<li><strong>Auctions tab:</strong> status of your auctions (lowest / tied / undercut / sold), cancel with one click</li>
+<li><strong>Sell → My auctions:</strong> status of your auctions (lowest / tied / undercut / sold), cancel with one click</li>
 <li><strong>Collect AH mail:</strong> gold and items from all auction mail with one click (COD is never paid)</li>
 </ul>
 <h3>Profit &amp; bookkeeping</h3>
 <ul>
 <li><strong>Ledger:</strong> income after the AH cut, spending, deposits and profit for today / 7 days / 30 days / all time – read from your mailbox invoices, nothing counted twice</li>
 <li><strong>Statistics:</strong> sell-through per item, best selling hours and weekdays</li>
-<li><strong>Profit tab:</strong> bargains below market value, below vendor price or below disenchant value; flipping calculator</li>
+<li><strong>Buy → Bargains:</strong> below market value, below vendor price or below disenchant value, bids and flip recommendations; flipping calculator</li>
 <li><strong>Professions:</strong> material cost, value of the result and profit for every recipe, best recipes, materials straight to a shopping list</li>
 <li><strong>Vendor prices</strong> are learned automatically at every merchant</li>
 <li><strong>Alts &amp; gold:</strong> gold, bags and bank of all your characters, gold history of the last 30 days</li>
@@ -129,6 +129,7 @@
 </ul>
 <h3>Comfort</h3>
 <ul>
+<li><strong>Five tabs</strong> with sub-tabs, price history in its own window, sniper and watcher switchable in the title bar</li>
 <li>Two designs: <strong>Classic</strong> (looks like the WoW auction house) and <strong>Modern</strong></li>
 <li>Item search by name in any language, by item ID or by shift-click, with suggestions while typing</li>
 <li>Built-in item name list (~23,000 items in 10 languages)</li>
