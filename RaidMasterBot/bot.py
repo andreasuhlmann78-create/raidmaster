@@ -4355,11 +4355,15 @@ async def ensure_welcome(update: bool = True) -> str:
     text = server_setup.welcome_text(cfg.get("guild_name") or guild.name, ids, officer.id if officer else None)
     no_ping = discord.AllowedMentions(roles=False, users=False, everyone=False)
     msg_id = state.data.get("welcome_message")
+    digest = str(zlib.crc32(text.encode("utf-8")))
     if msg_id:
-        if not update:
+        # beim Start: nur bearbeiten, wenn sich der Text geändert hat (z. B. neue Fassung mit einem Update)
+        if not update and state.data.get("welcome_hash") == digest:
             return "Willkommenstext ist bereits eingetragen."
         try:
             await channel.get_partial_message(int(msg_id)).edit(content=text, allowed_mentions=no_ping)
+            state.data["welcome_hash"] = digest
+            state.save()
             return f"✅ Willkommenstext in {channel.mention} aktualisiert."
         except discord.HTTPException:
             pass
@@ -4372,6 +4376,7 @@ async def ensure_welcome(update: bool = True) -> str:
         pass
     msg = await channel.send(text, allowed_mentions=no_ping)
     state.data["welcome_message"] = msg.id
+    state.data["welcome_hash"] = digest
     state.save()
     log.info("Willkommenstext in #%s eingetragen.", channel.name)
     return f"✅ Willkommenstext in {channel.mention} eingetragen."
