@@ -49,7 +49,7 @@ G.STEPS = {
 	{ group = 2, title = L["Einteilung verschicken"],
 	  text = L["Auf der Seite Einteilung die Aufgaben verteilen, dann unten \"Jetzt an Discord senden\" drücken."] .. "\n\n"
 		.. L["Der Bot postet die Übersicht in #einteilung und schickt jedem verknüpften Spieler seine Aufgabe als Direktnachricht."],
-	  page = "leader", tab = "assign", reload = true },
+	  page = "assign", reload = true },
 	{ group = 2, title = L["Nach dem Raid: DKP an Discord"],
 	  text = L["Auf der Seite Raid den Raid beenden. RaidMaster fragt dann, ob die Daten jetzt an Discord gehen sollen – mit Ja wird die Oberfläche kurz neu geladen."] .. "\n\n"
 		.. L["Wenige Sekunden später stehen DKP und Loot in den Kanälen des Raids, und jeder kann /dkp im Discord benutzen. Ausloggen schickt die Daten genauso."],
@@ -156,7 +156,7 @@ function G.Build(parent)
 		local s = G.STEPS[cur]
 		if s.page then
 			if G.window then G.window:Hide() end
-			if s.tab and UI.OpenLeaderTab then UI.OpenLeaderTab(s.tab) else UI.Open(s.page) end
+			UI.Open(s.page)
 		end
 	end)
 	pageBtn:SetPoint("BOTTOMLEFT", 18, 18)
@@ -199,7 +199,7 @@ function G.Build(parent)
 			link:Hide(); linkLabel:Hide()
 		end
 		if s.page and UI.CanSeePage(s.page) and UI.pages[s.page] then
-			pageBtn:SetText(L["Seite öffnen: "] .. UI.pages[s.page].title .. (s.tab == "assign" and (" – " .. L["Einteilung"]) or ""))
+			pageBtn:SetText(L["Seite öffnen: "] .. UI.pages[s.page].title)
 			pageBtn:Show()
 		else
 			pageBtn:Hide()

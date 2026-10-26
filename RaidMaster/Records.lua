@@ -5,7 +5,7 @@
 --   * Bestzeiten: das Addon misst jeden Bosskampf. Schneller als der Gilden-Rekord -> "Neuer Rekord!" im Raid
 --     (und im Discord). Rekorde gehen an die Gilde (Addon-Nachricht), damit alle denselben Stand haben.
 --   * Kill-Protokoll (RaidMasterDB.killlog) für Discord: Boss, Raid, Zeit, Dauer, Versuche, Teilnehmer.
--- Im Testmodus wird nichts gespeichert und nichts gefeiert.
+-- Im Testmodus wird nichts gespeichert und nichts gefeiert (die Feier lässt sich im Test-Werkzeug unter "Ansagen" ansehen).
 
 local ADDON, RM = ...
 local L = RM.L
@@ -85,14 +85,15 @@ end
 ---------------------------------------------------------------------------
 -- Erstkill
 ---------------------------------------------------------------------------
-function R.Celebrate(id, bossName, tries, t)
+-- test = true: nur zeigen (Fanfare + Ansage), kein Screenshot und nichts für den Discord merken
+function R.Celebrate(id, bossName, tries, t, test)
 	-- Fanfare bei allen mit RaidMaster
 	if PlaySound then
 		local kit = SOUNDKIT and (SOUNDKIT.UI_RAID_BOSS_WHISPER_WARNING or SOUNDKIT.LEVEL_UP or SOUNDKIT.READY_CHECK)
 		pcall(PlaySound, kit or 888, "Master")
 	end
 	-- Screenshot (nach einer Sekunde, wenn der Boss sicher liegt) – der Uploader schickt ihn an Discord
-	if C().firstKillScreenshot ~= false and Screenshot then
+	if not test and C().firstKillScreenshot ~= false and Screenshot then
 		C_Timer.After(1.5, function() pcall(Screenshot) end)
 		RM.db.shots = RM.db.shots or {}
 		table.insert(RM.db.shots, { t = t, e = id, n = bossName })
@@ -103,11 +104,13 @@ function R.Celebrate(id, bossName, tries, t)
 		RM.db.shotList = table.concat(parts, ";")
 	end
 	-- Ansage nur durch die Raidleitung (sonst käme sie von jedem Addon-Nutzer)
-	if RM.IsLeader() or (RM.IsAssist() and RM.CanEdit()) then
+	if test or RM.IsLeader() or (RM.IsAssist() and RM.CanEdit()) then
 		RM.Announce(string.format(L["[RaidMaster] ERSTKILL! %s liegt zum ersten Mal – nach %d %s. Großartig, Leute!"], bossName, tries,
 			tries == 1 and L["Versuch"] or L["Versuchen"]), true)
 	end
-	RM.Print(string.format(L["Erstkill %s – Screenshot gemacht, er kommt mit dem nächsten Upload in den Discord."], bossName))
+	if not test then
+		RM.Print(string.format(L["Erstkill %s – Screenshot gemacht, er kommt mit dem nächsten Upload in den Discord."], bossName))
+	end
 end
 
 ---------------------------------------------------------------------------

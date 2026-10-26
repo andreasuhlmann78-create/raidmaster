@@ -258,9 +258,10 @@ function T.Start()
 	RM.IAmMasterLooter = function() return T.role == "raidlead" or T.role == "looter" end
 	RM.MasterLooterName = function() return RM.Me() end
 	RM.SendAddonMessage = function() T.blocked = (T.blocked or 0) + 1 end
-	RM.RaidChat = function(msg, ch) print("|cffff7f00[Test-" .. (ch or "RAID") .. "]|r " .. msg) end
-	RM.Whisper = function(msg, target) print("|cffff80ff[Test-Flüstern an " .. tostring(target) .. "]|r " .. msg) end
-	RM.Announce = function(msg, warning) print("|cffff4800[Test-" .. (warning and "Raidwarnung" or "Raid") .. "]|r " .. msg) end
+	-- Ansagen sehen wie im echten Raid (Raidchat-Farbe, Schlachtzugwarnung in der Bildschirmmitte), gehen aber an niemanden
+	RM.RaidChat = function(msg, ch) T.ShowChat(ch or "RAID", msg) end
+	RM.Whisper = function(msg, target) T.ShowChat("WHISPER_INFORM", msg, target) end
+	RM.Announce = function(msg, warning) T.ShowChat(warning and "RAID_WARNING" or "RAID", msg) end
 	if RM.Loot then RM.Loot.Deliver = function(link, name) Log("Item würde übergeben: " .. tostring(link) .. " -> " .. tostring(name)) end end
 	-- Skillungen der Testspieler (nur im Test, werden beim Beenden zurückgesetzt)
 	if RM.Spec and RM.Spec.Store then
@@ -290,6 +291,7 @@ function T.Start()
 	-- Markierung für den Discord-Bot: Daten aus dem Testmodus nie als echte DKP übernehmen
 	-- post = true: jedes Speichern (/reload, Ausloggen) schickt das Testergebnis an Discord (DKP- und Loot-Kanal)
 	RM.db.testMode = { active = true, started = GetServerTime(), pool = T.pool, post = T.AutoSendOn() or nil }
+	C_Timer.After(0.2, function() if T.active then T.UpdateBars() end end)
 	T.ApplySpeed()
 	Log("Testmodus AN – Daten gesichert, keine Nachrichten an Gilde/Raid. Der Testraid ist leer (nur du), " .. #BENCH .. " Testspieler auf der Ersatzbank. "
 		.. "Füllen nur auf Wunsch: \"Raid füllen\" (39 Testspieler) oder in RaidMaster Anmeldungen einladen.")
@@ -326,6 +328,34 @@ end
 -- Simulationen im Testmodus: Einladen, Gruppen, Plündermeister, Werbung, Boss im Ziel
 ---------------------------------------------------------------------------
 local sim = {}
+
+-- Testmodus: Nachricht so zeigen, wie sie im Spiel erscheinen würde – nur bei dir, mit [Test] davor
+local CHAT_LABEL = { RAID = "Schlachtzug", RAID_WARNING = "Schlachtzugwarnung", PARTY = "Gruppe", GUILD = "Gilde",
+	SAY = "Sagen", YELL = "Schreien", WHISPER_INFORM = "Flüstern" }
+function T.ShowChat(ch, msg, target)
+	msg = tostring(msg or "")
+	T.lastChat = T.lastChat or {}
+	table.insert(T.lastChat, 1, (CHAT_LABEL[ch] or ch) .. ": " .. msg)
+	while #T.lastChat > 30 do table.remove(T.lastChat) end
+	local info = ChatTypeInfo and (ChatTypeInfo[ch] or ChatTypeInfo.RAID) or nil
+	local r, g, b = 1, 0.5, 0
+	if info then r, g, b = info.r or r, info.g or g, info.b or b end
+	local text
+	if ch == "WHISPER_INFORM" then
+		text = string.format("|cff999999[Test]|r An [%s] flüstern: %s", tostring(target), msg)
+	else
+		text = string.format("|cff999999[Test]|r [%s] [%s]: %s", CHAT_LABEL[ch] or ch, RM.Me(), msg)
+	end
+	local frame = DEFAULT_CHAT_FRAME
+	if frame and frame.AddMessage then frame:AddMessage(text, r, g, b) else print(text) end
+	-- Schlachtzugwarnung wie im Spiel groß in der Bildschirmmitte (mit Warnton)
+	if ch == "RAID_WARNING" and RaidNotice_AddMessage and RaidWarningFrame then
+		pcall(RaidNotice_AddMessage, RaidWarningFrame, msg, ChatTypeInfo and ChatTypeInfo.RAID_WARNING or { r = 1, g = 0.28, b = 0 })
+		if PlaySound and SOUNDKIT and SOUNDKIT.RAID_WARNING then pcall(PlaySound, SOUNDKIT.RAID_WARNING) end
+	end
+	RM.Fire("TEST_CHAT", ch, msg)
+	if T.Refresh then pcall(T.Refresh) end
+end
 
 local function SignupEntry(name)
 	for _, e in ipairs((RM.db.signup and RM.db.signup.list) or {}) do
@@ -619,6 +649,8 @@ function T.Stop()
 	if saved.CheckMainLeader then RM.CheckMainLeader = saved.CheckMainLeader end
 	if saved.RaidStart then RM.Raid.Start, RM.Raid.End = saved.RaidStart, saved.RaidEnd; saved.RaidStart, saved.RaidEnd = nil, nil end
 	T.active = false
+	if RM.BossBar and RM.BossBar.testTarget then RM.BossBar.testTarget = nil end
+	T.UpdateBars()
 	T.HideAutoSend()
 	T.RemoveSimulations()
 	T.roster = nil
@@ -772,8 +804,76 @@ function T.SetRole(role)
 	if not T.active then T.Start() end
 	Log("Ansicht als " .. ROLE_NAMES[role] .. ".")
 	RM.Fire("CONFIG_CHANGED"); RM.Fire("SESSION_CHANGED")
-	if RM.Markers and RM.Markers.UpdateBar then RM.Markers.UpdateBar() end
+	T.UpdateBars()
 	if RM.UI.RefreshCurrent then RM.UI.RefreshCurrent() end
+end
+
+-- Leisten (Markierungen, Boss-Leiste) passend zur Ansicht zeigen
+function T.UpdateBars()
+	if RM.Markers and RM.Markers.UpdateBar then pcall(RM.Markers.UpdateBar) end
+	if RM.BossBar and RM.BossBar.Update then pcall(RM.BossBar.Update) end
+end
+
+---------------------------------------------------------------------------
+-- Reiter "Ansagen": alle Ansagen und Leisten im Testmodus ausprobieren (nichts geht an andere)
+---------------------------------------------------------------------------
+local function NeedActive()
+	if not T.active then T.Start() end
+	if T.role ~= "raidlead" then T.SetRole("raidlead") end
+end
+
+function T.TryBossBar()
+	NeedActive()
+	local def = RM.Data.Pools[T.pool]
+	local id = T.boss or (def and def.bossIDs and def.bossIDs[1])
+	if not id then Log("Für diesen Raid sind noch keine Bosse bekannt.") return end
+	T.TargetBoss(id)
+end
+
+function T.TryMarkerBar()
+	NeedActive()
+	RM.db.config.markerBar = true
+	T.UpdateBars()
+	Log("Markierungsleiste an – Symbole per Klick (im Test ohne echtes Ziel nur angezeigt).")
+end
+
+function T.TryPull() NeedActive() RM.Timer.Pull(tonumber(RM.db.config.pullSeconds) or 10) end
+function T.TryBreak() NeedActive() RM.Raid.StartPause(60) end
+function T.TryReady() NeedActive() RM.Ready.Start() end
+
+function T.TryWelcome()
+	NeedActive()
+	-- mit einem Testgast und einem Spieler von der Ersatzbank, damit alle Zeilen zu sehen sind
+	local extra = { { name = "Gastino" } }
+	if BENCH[1] then extra[#extra + 1] = { name = BENCH[1][1], bench = true } end
+	for i, line in ipairs(RM.Welcome.Lines(T.pool, extra)) do
+		C_Timer.After((i - 1) * 0.4, function() RM.RaidChat(line, "RAID") end)
+	end
+end
+
+function T.TryFirstKill()
+	NeedActive()
+	local def = RM.Data.Pools[T.pool]
+	local id = T.boss or (def and def.bossIDs and def.bossIDs[#def.bossIDs]) or 672
+	local b = RM.Data.Bosses[id]
+	RM.Records.Celebrate(id, b and b.name or "Ragnaros", 3, GetServerTime(), true)
+end
+
+function T.TryRecord()
+	NeedActive()
+	local def = RM.Data.Pools[T.pool]
+	local id = T.boss or (def and def.bossIDs and def.bossIDs[1]) or 663
+	local b = RM.Data.Bosses[id]
+	RM.Announce(string.format(RM.L["[RaidMaster] NEUER REKORD: %s in %s (vorher %s)!"],
+		b and b.name or "Lucifron", "1:42", "2:05"), true)
+end
+
+function T.TryBossInfo()
+	NeedActive()
+	local def = RM.Data.Pools[T.pool]
+	local id = T.boss or (def and def.bossIDs and def.bossIDs[1])
+	local boss = id and RM.Data.Bosses[id]
+	if boss then RM.BossBar.Announce({ id = id, name = boss.name, pool = boss.pool, template = boss.template }) else Log("Kein Boss gewählt.") end
 end
 
 ---------------------------------------------------------------------------
@@ -1387,6 +1487,7 @@ local function CreateWindow()
 	local TABS = {
 		{ key = "start", name = "Schnellstart" },
 		{ key = "single", name = "Einzeln testen" },
+		{ key = "say", name = "Ansagen" },
 		{ key = "options", name = "Einstellungen" },
 		{ key = "log", name = "Protokoll" },
 	}
@@ -1394,7 +1495,8 @@ local function CreateWindow()
 	T.tab = T.tab or "start"
 	for i, t in ipairs(TABS) do
 		local b = UI.Button(f, t.name, 128, 26, function() T.tab = t.key; T.Refresh() end)
-		b:SetPoint("TOPLEFT", 14 + (i - 1) * 133, -172)
+		b:SetWidth(102)
+		b:SetPoint("TOPLEFT", 14 + (i - 1) * 107, -172)
 		tabBtns[t.key] = b
 		local p = CreateFrame("Frame", nil, f)
 		p:SetPoint("TOPLEFT", 0, -206)
@@ -1533,6 +1635,43 @@ local function CreateWindow()
 	-------------------------------------------------------------------
 	-- Reiter Einstellungen
 	-------------------------------------------------------------------
+	-------------------------------------------------------------------
+	-- Reiter Ansagen: Ansagen und Mini-Leisten ausprobieren
+	-------------------------------------------------------------------
+	local pa = panes.say
+	local intro = UI.Text(pa, "Alles wie im echten Raid – nur bei dir sichtbar (Chat mit [Test], Schlachtzugwarnung in der Bildschirmmitte).\n"
+		.. "Boss: den Raid oben wählen, den Boss im Reiter \"Einzeln testen\".", 11, unpack(COLORS.muted))
+	intro:SetPoint("TOPLEFT", 14, -6)
+	intro:SetWidth(W - 28)
+	intro:SetJustifyH("LEFT")
+	local SAY = {
+		{ "Boss-Leiste", T.TryBossBar, "Boss ins Ziel: die Leiste mit Ansage + Symbole, Pull, Pause, Bereitschaft erscheint." },
+		{ "Markierungsleiste", T.TryMarkerBar, "Die kleine Leiste mit den Schlachtzugsymbolen einblenden." },
+		{ "Boss-Ansage", T.TryBossInfo, "Taktik des Bosses als Schlachtzugwarnung (wie Knopf \"Ansage\")." },
+		{ "Pull-Timer", T.TryPull, "Countdown mit 5-4-3-2-1 und PULL! (auch an DBM/BigWigs – im Test nicht gesendet)." },
+		{ "Pause (1 Min.)", T.TryBreak, "Pausenfenster mit Countdown wie bei allen im Raid." },
+		{ "Bereitschafts-Check", T.TryReady, "Die Testspieler antworten, danach erscheint die Liste." },
+		{ "Begrüßung", T.TryWelcome, "Begrüßung beim Raidstart – mit Testgast und Spieler von der Ersatzbank." },
+		{ "Erstkill-Feier", T.TryFirstKill, "Fanfare und Schlachtzugwarnung (im Test ohne Screenshot)." },
+		{ "Neuer Rekord", T.TryRecord, "So sieht die Ansage bei einer neuen Bestzeit aus." },
+		{ "Lücken füllen", function() NeedActive() RM.Gaps.Open() end, "Fenster mit Bedarf, Ersatzbank, Gilde und Gruppensuche." },
+	}
+	for i, x in ipairs(SAY) do
+		local col, row = (i - 1) % 2, math.floor((i - 1) / 2)
+		local b = UI.Button(pa, x[1], 160, 26, x[2], x[3])
+		b:SetPoint("TOPLEFT", 14 + col * 270, -48 - row * 58)
+		local d = UI.Text(pa, x[3], 10, unpack(COLORS.muted))
+		d:SetPoint("TOPLEFT", b, "BOTTOMLEFT", 2, -2)
+		d:SetWidth(255)
+		d:SetJustifyH("LEFT")
+	end
+	local chatHead = UI.Text(pa, "Zuletzt angesagt (Test)", 12, COLORS.accent[1], COLORS.accent[2], COLORS.accent[3])
+	chatHead:SetPoint("TOPLEFT", 14, -48 - 5 * 58 - 6)
+	f.chatLog = UI.Text(pa, "", 11)
+	f.chatLog:SetPoint("TOPLEFT", chatHead, "BOTTOMLEFT", 0, -4)
+	f.chatLog:SetWidth(W - 28)
+	f.chatLog:SetJustifyH("LEFT")
+
 	local po = panes.options
 	local checks = {}
 	local oy = -8
@@ -1592,6 +1731,9 @@ local function CreateWindow()
 			tabBtns[key]:SetAccent(key == cur)
 		end
 		f.runStatus:SetText("Stand: " .. T.RunStatus())
+		local said = {}
+		for i = 1, math.min(8, #(T.lastChat or {})) do said[#said + 1] = T.lastChat[i] end
+		f.chatLog:SetText(#said > 0 and table.concat(said, "\n") or "|cff999999Noch nichts angesagt.|r")
 		f.fillBtn:SetText(T.RosterEmpty() and "Raid füllen (39 Testspieler)" or "Raid leeren")
 		f.fillBtn:SetAccent(T.active and T.RosterEmpty())
 		local last = {}

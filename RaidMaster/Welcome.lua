@@ -57,7 +57,8 @@ local function FromBench(name)
 end
 
 -- Begrüßung: Liste von Zeilen für den Raidchat
-function W.Lines(pool)
+-- extra (optional): zusätzliche Spieler { name = ..., bench = true/false } – z. B. für die Vorschau im Testmodus
+function W.Lines(pool, extra)
 	pool = pool or RM.db.session.pool or "mc"
 	local raidName = W.RaidName(pool)
 	local lines = {}
@@ -71,6 +72,9 @@ function W.Lines(pool)
 				guests[#guests + 1] = m.name
 			end
 		end
+	end
+	for _, x in ipairs(extra or {}) do
+		if x.bench or FromBench(x.name) then bench[#bench + 1] = x.name else guests[#guests + 1] = x.name end
 	end
 	table.sort(guests); table.sort(bench)
 	if #guests > 0 then

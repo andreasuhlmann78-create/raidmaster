@@ -1659,51 +1659,14 @@ local function BuildLeaderRaid(page)
 	end
 end
 
--- Seite Raidleiter: drei Teile – Raid & Gruppen, Einteilung, Bosse & Symbole
-UI.leaderTab = "raid"
-UI.AddPage("leader", L["Raidleiter"], function(root)
-	local tabs = {
-		{ key = "raid", name = L["Raid & Gruppen"] },
-		{ key = "assign", name = L["Einteilung"] },
-		{ key = "boss", name = L["Bosse & Symbole"] },
-	}
-	local subs, refresh, buttons = {}, {}, {}
-	for i, t in ipairs(tabs) do
-		local b = UI.Button(root, t.name, 170, 26, function() UI.leaderTab = t.key; UI.RefreshCurrent() end)
-		b:SetPoint("TOPLEFT", root, "TOPLEFT", (i - 1) * 176, 0)
-		buttons[t.key] = b
-		local f = CreateFrame("Frame", nil, root)
-		f:SetSize(790, UI.CONTENT_H)
-		f:SetScale(0.94)
-		f:SetPoint("TOPLEFT", root, "TOPLEFT", 0, -34)
-		f:Hide()
-		subs[t.key] = f
-	end
-	refresh.raid = BuildLeaderRaid(subs.raid)
-	local assignPage = UI.pages.assign
-	if assignPage then
-		local ok, r = pcall(assignPage.build, subs.assign)
-		if ok then refresh.assign = r else geterrorhandler()(r) end
-	end
-	refresh.boss = BuildLeaderBosses(subs.boss)
-	return function()
-		local cur = subs[UI.leaderTab] and UI.leaderTab or "raid"
-		for key, f in pairs(subs) do
-			if key == cur then f:Show() else f:Hide() end
-			buttons[key]:SetAccent(key == cur)
-		end
-		if refresh[cur] then refresh[cur]() end
-	end
-end)
+-- Raidleiter-Seiten (3.0: eigene Reiter im Bereich Raid statt einer Seite mit Unter-Reitern)
+UI.AddPage("lgroups", L["Gruppen"], function(page) return BuildLeaderRaid(page) end)
+UI.AddPage("lboss", L["Bosse & Symbole"], function(page) return BuildLeaderBosses(page) end)
 
--- Einteilung gibt es nur noch auf der Seite Raidleiter
+-- frühere Unter-Reiter der Seite Raidleiter -> Reiter im Bereich Raid
+local LEADER_TABS = { raid = "lgroups", assign = "assign", boss = "lboss" }
 function UI.OpenLeaderTab(key)
-	UI.leaderTab = key
-	UI.Open("leader")
-	UI.RefreshCurrent()
-end
-for i, id in ipairs(UI.pageOrder) do
-	if id == "assign" then table.remove(UI.pageOrder, i) break end
+	UI.Open(LEADER_TABS[key] or key or "lgroups")
 end
 
 ---------------------------------------------------------------------------

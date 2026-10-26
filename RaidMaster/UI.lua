@@ -695,7 +695,42 @@ end
 --   Plündermeister: zusätzlich Loot (nur was er braucht) – ist er auch Raidleiter, sieht er alles
 --   Assistenten: Raid-Seiten (z. B. Symbole/Markieren), ohne DKP-Rechte
 --   Raidleiter: alles, auch Einstellungen
-UI.PAGE_ACCESS = { dkp = "all", auction = "all", loot = "looter", settings = "leader" }
+UI.PAGE_ACCESS = { dkp = "all", auction = "all", loot = "looter", settings = "leader", discord = "leader" }
+
+-- 3.0: sechs Bereiche links, die Seiten darin als Reiter oben (alle Funktionen bleiben, nur übersichtlicher)
+UI.GROUPS = {
+	{ id = "dkp", title = L["DKP"], icon = "Interface\\Icons\\INV_Misc_Coin_01",
+		tabs = { { "dkp", L["Stände"] }, { "log", L["Log"] } } },
+	{ id = "beute", title = L["Beute"], icon = "Interface\\Icons\\INV_Box_01",
+		tabs = { { "auction", L["Versteigerung"] }, { "loot", L["Loot"] } } },
+	{ id = "raid", title = L["Raid"], icon = "Interface\\Icons\\Ability_Warrior_BattleShout",
+		tabs = { { "raid", L["Sitzung & Timer"] }, { "signup", L["Anmeldungen"] }, { "lgroups", L["Gruppen"] },
+			{ "assign", L["Einteilung"] }, { "lboss", L["Bosse & Symbole"] } } },
+	{ id = "werbung", title = L["Werbung"], icon = "Interface\\Icons\\INV_Scroll_05",
+		tabs = { { "pug", L["PUG-Raid"] }, { "ad", L["Werbung"] } } },
+	{ id = "gilde", title = L["Gilde"], icon = "Interface\\Icons\\INV_Misc_Book_11",
+		tabs = { { "specs", L["Skillungen & Berufe"] } } },
+	{ id = "settings", title = L["Einstellungen"], icon = "Interface\\Icons\\INV_Misc_Gear_01",
+		tabs = { { "settings", L["Einstellungen"] }, { "discord", L["Discord-Anleitung"] } } },
+}
+UI.TAB_SCALE = 0.94          -- Seiten mit Reitern etwas kleiner, damit die Reiterleiste Platz hat
+UI.groupTab = {}             -- zuletzt gewählter Reiter je Bereich
+
+-- Bereich einer Seite
+function UI.GroupOf(pageId)
+	for _, g in ipairs(UI.GROUPS) do
+		for _, t in ipairs(g.tabs) do if t[1] == pageId then return g end end
+	end
+end
+
+-- sichtbare Reiter eines Bereichs (nach Rechten)
+function UI.VisibleTabs(g)
+	local out = {}
+	for _, t in ipairs(g.tabs) do
+		if UI.pages[t[1]] and UI.CanSeePage(t[1]) then out[#out + 1] = t end
+	end
+	return out
+end
 
 function UI.IsRaidLead()
 	local grouped = RM.InRaid() or (IsInGroup and IsInGroup())
@@ -793,39 +828,105 @@ local function UpdateStatus()
 	main.status:SetText(table.concat(parts, "   ·   "))
 end
 
--- Navigation: nur erlaubte Seiten, lückenlos untereinander
+-- Reiterleiste des aktuellen Bereichs (nur bei mehr als einem sichtbaren Reiter)
+local function UpdateTabs(g, current)
+	local tabs = g and UI.VisibleTabs(g) or {}
+	local bar = main.tabBar
+	for _, b in ipairs(bar.buttons) do b:Hide() end
+	if #tabs < 2 then bar:Hide() return false end
+	local w = math.min(170, math.floor(790 / #tabs) - 6)
+	for i, t in ipairs(tabs) do
+		local b = bar.buttons[i]
+		if not b then
+			b = UI.Button(bar, "", w, 26, function(self) UI.ShowPage(self.pageId) end)
+			bar.buttons[i] = b
+		end
+		b:SetSize(w, 26)
+		b:ClearAllPoints()
+		b:SetPoint("TOPLEFT", bar, "TOPLEFT", (i - 1) * (w + 6), 0)
+		b.pageId = t[1]
+		b:SetText(t[2])
+		b:SetAccent(t[1] == current)
+		b:Show()
+	end
+	bar:Show()
+	return true
+end
+
+-- Seite in den Inhaltsbereich legen: mit Reiterleiste etwas kleiner und darunter, sonst ganz
+local function PlacePage(p, withTabs)
+	local f = p.frame
+	if not f then return end
+	f:ClearAllPoints()
+	if withTabs then
+		f:SetScale(UI.TAB_SCALE)
+		f:SetPoint("TOPLEFT", main.content, "TOPLEFT", 0, -34)
+		f:SetPoint("BOTTOMRIGHT", main.content, "BOTTOMRIGHT", 0, 0)
+	else
+		f:SetScale(1)
+		f:SetAllPoints(main.content)
+	end
+end
+
+-- Navigation: nur Bereiche mit erlaubten Seiten, lückenlos untereinander
 local function UpdateNav()
 	if not main then return end
 	local y = -10
-	for _, pid in ipairs(UI.pageOrder) do
-		local p = UI.pages[pid]
-		if p.nav then
-			if UI.CanSeePage(pid) then
-				p.nav:ClearAllPoints()
-				p.nav:SetPoint("TOPLEFT", main.nav, "TOPLEFT", 6, y)
-				p.nav:Show()
+	for _, g in ipairs(UI.GROUPS) do
+		local b = main.groupNav[g.id]
+		if b then
+			if #UI.VisibleTabs(g) > 0 then
+				b:ClearAllPoints()
+				b:SetPoint("TOPLEFT", main.nav, "TOPLEFT", 6, y)
+				b:Show()
 				y = y - 40
 			else
-				p.nav:Hide()
+				b:Hide()
 			end
 		end
 	end
 	if main.current and not UI.CanSeePage(main.current) then
 		main.current = nil
-		UI.ShowPage(UI.pageOrder[1])
+		UI.ShowPage("dkp")
 	end
 end
 UI.UpdateNav = UpdateNav
 
+-- Bereich öffnen: zuletzt gewählter Reiter, sonst der erste erlaubte
+function UI.ShowGroup(gid)
+	for _, g in ipairs(UI.GROUPS) do
+		if g.id == gid then
+			local last = UI.groupTab[gid]
+			if last and UI.pages[last] and UI.CanSeePage(last) then return UI.ShowPage(last) end
+			local tabs = UI.VisibleTabs(g)
+			return UI.ShowPage(tabs[1] and tabs[1][1] or "dkp")
+		end
+	end
+	UI.ShowPage(gid)
+end
+
 function UI.ShowPage(id)
 	if not main then return end
-	if not UI.CanSeePage(id) then id = UI.pageOrder[1] end
+	-- Bereich statt Seite (z. B. "beute"): erster erlaubter Reiter
+	if not UI.pages[id] then
+		for _, g in ipairs(UI.GROUPS) do
+			if g.id == id then
+				local tabs = UI.VisibleTabs(g)
+				id = tabs[1] and tabs[1][1] or "dkp"
+				break
+			end
+		end
+	end
+	if not UI.pages[id] or not UI.CanSeePage(id) then id = "dkp" end
+	local g = UI.GroupOf(id)
+	if g then UI.groupTab[g.id] = id end
+	local withTabs = UpdateTabs(g, id)
 	for pid, p in pairs(UI.pages) do
 		if p.frame then
-			if pid == id then p.frame:Show() else p.frame:Hide() end
+			if pid == id then PlacePage(p, withTabs); p.frame:Show() else p.frame:Hide() end
 		end
-		if p.nav then p.nav:SetAccent(pid == id) end
 	end
+	for gid, b in pairs(main.groupNav) do b:SetAccent(g ~= nil and gid == g.id) end
 	main.current = id
 	UI.RefreshCurrent()
 end
@@ -1047,13 +1148,26 @@ local function CreateMain()
 	f:SetScript("OnSizeChanged", function(self) ApplyMainScale(self) end)
 
 	main = f
+	-- Reiterleiste über den Seiten eines Bereichs
+	local tabBar = CreateFrame("Frame", nil, content)
+	tabBar:SetPoint("TOPLEFT", content, "TOPLEFT", 0, 0)
+	tabBar:SetPoint("TOPRIGHT", content, "TOPRIGHT", 0, 0)
+	tabBar:SetHeight(28)
+	tabBar.buttons = {}
+	tabBar:Hide()
+	f.tabBar = tabBar
+	-- Bereiche links
+	f.groupNav = {}
 	local y = -10
+	for _, g in ipairs(UI.GROUPS) do
+		local b = UI.NavButton(nav, g.title, g.icon, function() UI.ShowGroup(g.id) end)
+		b:SetPoint("TOPLEFT", 6, y)
+		f.groupNav[g.id] = b
+		y = y - 40
+	end
+	-- alle Seiten bauen (auch die, die in keinem Bereich stehen, bleiben über UI.Open erreichbar)
 	for _, id in ipairs(UI.pageOrder) do
 		local p = UI.pages[id]
-		local b = UI.NavButton(nav, p.title, UI.PAGE_ICONS[id], function() UI.ShowPage(id) end)
-		b:SetPoint("TOPLEFT", 6, y)
-		p.nav = b
-		y = y - 40
 		local page = CreateFrame("Frame", nil, content)
 		page:SetAllPoints()
 		page:Hide()
@@ -1064,7 +1178,7 @@ local function CreateMain()
 
 	ApplyMainScale(f)
 	f:SetScript("OnShow", function() UI.RefreshCurrent() end)
-	UI.ShowPage(UI.pageOrder[1])
+	UI.ShowPage("dkp")
 	return f
 end
 

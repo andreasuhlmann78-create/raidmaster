@@ -1,4 +1,4 @@
-RaidMaster 2.9.0 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 3.0.0 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,24 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+NEU IN 3.0.0 – aufgeräumt, nichts weggefallen
+- Statt 13 Knöpfen links gibt es nur noch 6 Bereiche, darin Reiter oben:
+    DKP           – Stände | Log
+    Beute         – Versteigerung | Loot
+    Raid          – Sitzung & Timer | Anmeldungen | Gruppen | Einteilung | Bosse & Symbole
+    Werbung       – PUG-Raid | Werbung
+    Gilde         – Skillungen & Berufe
+    Einstellungen – Einstellungen | Discord-Anleitung
+  Die frühere Seite "Raidleiter" mit ihren drei Unter-Reitern ist aufgeteilt: Gruppen, Einteilung und Bosse & Symbole
+  sind jetzt eigene Reiter im Bereich Raid. RaidMaster merkt sich je Bereich den zuletzt offenen Reiter.
+- Rechte wie bisher: Teilnehmer und Plündermeister sehen nur DKP und Beute (der Plündermeister zusätzlich Loot),
+  Raidleitung und Assistenten alles außer Einstellungen, der Raidleiter alles.
+- Testmodus: Ansagen sind jetzt so zu sehen wie im echten Raid – Raidchat in Raidfarbe, Flüstern in Flüsterfarbe,
+  Schlachtzugwarnungen groß in der Bildschirmmitte mit Warnton (alles mit [Test] und nur bei dir).
+- Test-Werkzeug, neuer Reiter "Ansagen": Boss-Leiste, Markierungsleiste, Boss-Ansage, Pull-Timer, Pause,
+  Bereitschafts-Check, Begrüßung (mit Testgast und Ersatzbank-Spieler), Erstkill-Feier (ohne Screenshot),
+  Neuer Rekord und Lücken füllen – jeweils ein Knopf. Darunter die zuletzt angesagten Zeilen.
 
 NEU IN 2.9.0
 - Erstkill-Feier: Liegt ein Boss zum ersten Mal, gibt es Fanfare, Schlachtzugwarnung ("ERSTKILL! ... nach 3 Versuchen")
