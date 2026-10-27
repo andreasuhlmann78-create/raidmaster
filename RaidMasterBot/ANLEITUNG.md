@@ -191,7 +191,7 @@ Alles, was im GitHub-Repository im Ordner **`announce`** landet, postet der Bot 
 - Anhänge: Dateien mit demselben Namen und anderer Endung (`projekte__version-1.2.png`, `.jpg`, `.gif`, `.zip`,
   `.pdf`, `.txt`, je höchstens 10 MB) kommen an die erste Nachricht.
 - Fehlt der Kanal, meldet der Bot das im Bot-Kanal und postet, sobald es ihn gibt.
-- Ausnahme: Kanäle aus `ANNOUNCE_AUTO_CHANNELS` in `bot.py` (z. B. **#buffsentinel** in „Addon's by GoldSentinel“)
+- Ausnahme: Kanäle aus `ANNOUNCE_AUTO_CHANNELS` in `bot.py` (z. B. **#buffsentinel** und **#threatsentinel** in „Addon's by GoldSentinel“)
   legt der Bot selbst an, wenn er das Recht „Kanäle verwalten“ hat. Der Kanal übernimmt die Rechte der Kategorie.
 - **Neue Version ersetzt die alte:** Enthält der Titel eine Versionsnummer (`levelpilot__levelpilot-3.3.0.md`),
   löscht der Bot nach dem Posten die Nachrichten älterer Versionen derselben Reihe (`levelpilot__levelpilot-3.2.1`)

@@ -3559,6 +3559,10 @@ ANNOUNCE_AUTO_CHANNELS = {
         "category": "Addon's by GoldSentinel",
         "topic": "BuffSentinel – Buff-Erinnerungen, Proc-Buttons und Cooldowns für alle WoW-Versionen",
     },
+    "threatsentinel": {
+        "category": "Addon's by GoldSentinel",
+        "topic": "ThreatSentinel – hilft Tanks, die Aggro zu halten (WoW Forever)",
+    },
 }
 
 

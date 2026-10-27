@@ -155,6 +155,8 @@ BASE_TOP = [
             ("text", "aktionshaus", "AH Analyzer Pro – Auktionshaus-Analyse (nur Offiziere)", "officers_only"),
             ("text", "buffsentinel", "BuffSentinel – Buff-Erinnerungen, Proc-Buttons und Cooldowns für alle WoW-Versionen",
              "officers_only"),
+            ("text", "threatsentinel", "ThreatSentinel – hilft Tanks, die Aggro zu halten (WoW Forever)",
+             "officers_only"),
         ],
     },
 ]
