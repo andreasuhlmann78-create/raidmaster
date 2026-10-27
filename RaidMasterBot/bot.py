@@ -3596,6 +3596,52 @@ async def cleanup_announcements_once():
             log.warning("Aufräumen der Ankündigungen (%s) fehlgeschlagen: %s", series, e)
 
 
+def _find_member_by_names(guild, names: list[str]):
+    """Mitglied zu einem der Namen (Discord-Name, Anzeigename, Spitzname oder registrierter Charakter)."""
+    for alt in names:
+        a = alt.strip().casefold()
+        if not a:
+            continue
+        uid = book.user_for_char(alt.strip())
+        if uid:
+            m = guild.get_member(int(uid))
+            if m:
+                return m
+        for m in guild.members:
+            for cand in (getattr(m, "nick", None), getattr(m, "global_name", None), m.display_name, m.name):
+                c = str(cand or "").strip().casefold()
+                if c and (c == a or c.split(" ")[0] == a):
+                    return m
+    return None
+
+
+async def resolve_announce_text(text: str) -> tuple[str, list[str]]:
+    """Platzhalter in Ankündigungen: {@Name} oder {@Name1/Name2} = Mitglied anpingen, {#kanal} = Link zum Kanal.
+    Liefert (Text, nicht gefundene Namen/Kanäle)."""
+    guild = bot_guild()
+    missing: list[str] = []
+
+    def user(m_):
+        raw = m_.group(1)
+        mem = _find_member_by_names(guild, raw.split("/")) if guild else None
+        if mem:
+            return mem.mention
+        missing.append("@" + raw)
+        return "**@" + raw.split("/")[0].strip() + "**"
+
+    def chan(m_):
+        name = m_.group(1).strip().lstrip("#").lower()
+        c = discord.utils.get(guild.text_channels, name=name) if guild else None
+        if c:
+            return c.mention
+        missing.append("#" + name)
+        return "**#" + name + "**"
+
+    text = re.sub(r"\{@([^{}]+)\}", user, text)
+    text = re.sub(r"\{#([^{}]+)\}", chan, text)
+    return text, missing
+
+
 async def check_announcements():
     if not os.path.isdir(ANNOUNCE_DIR):
         return
@@ -3612,6 +3658,9 @@ async def check_announcements():
                 text = f.read().strip()
         except OSError:
             continue
+        text, missing = await resolve_announce_text(text)
+        if missing:
+            await post_bot_log(f"📣 Ankündigung **{fn}**: nicht gefunden – " + ", ".join(missing) + " (ohne Ping gepostet).")
         # Discord: höchstens 2000 Zeichen pro Nachricht - an Absätzen teilen
         parts, cur = [], ""
         for para in text.split("\n\n"):
@@ -3629,9 +3678,10 @@ async def check_announcements():
         try:
             for i, p in enumerate(parts or [""]):
                 if i == 0 and attach:
-                    msg = await ch.send(p[:2000] or None, files=[discord.File(x) for x in attach])
+                    msg = await ch.send(p[:2000] or None, files=[discord.File(x) for x in attach],
+                                        allowed_mentions=discord.AllowedMentions(users=True, roles=False, everyone=False))
                 else:
-                    msg = await ch.send(p[:2000])
+                    msg = await ch.send(p[:2000], allowed_mentions=discord.AllowedMentions(users=True, roles=False, everyone=False))
                 sent.append(msg.id)
         except discord.HTTPException as e:
             log.warning("Ankündigung %s nicht gepostet: %s", fn, e)
