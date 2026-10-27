@@ -1,0 +1,74 @@
+{
+  "_info": "Raids mit eigener Kategorie im Discord (Anmeldung, Sprachkanal mit Platzzahl = size, Taktik, DKP, Loot). \"forever\": true = Raid ist auf WoW Forever spielbar/angekündigt -> zusätzlich eigener Einteilungs-Kanal unter ⚔️ RAID-ORGA. Neuen Raid ergänzen: Eintrag anhängen (key = kurzer Schlüssel ohne Leerzeichen, prefix = Kanal-Präfix, nur Kleinbuchstaben/Ziffern/Bindestriche). Der Bot legt beim nächsten Start (nach dem Update) alles automatisch an. Reihenfolge = Reihenfolge der Kategorien.",
+  "raids": [
+    {
+      "key": "mc",
+      "name": "Molten Core",
+      "emoji": "🔥",
+      "prefix": "mc",
+      "size": 40,
+      "forever": true
+    },
+    {
+      "key": "ony",
+      "name": "Onyxias Hort",
+      "emoji": "🐉",
+      "prefix": "onyxia",
+      "size": 40,
+      "forever": true
+    },
+    {
+      "key": "barrow",
+      "name": "Barrow Deeps",
+      "emoji": "🌲",
+      "prefix": "barrow",
+      "size": 10,
+      "forever": true,
+      "opens": "2026-12-09"
+    },
+    {
+      "key": "hyjal",
+      "name": "Hyjalgipfel",
+      "emoji": "🌋",
+      "prefix": "hyjal",
+      "size": 20,
+      "forever": true,
+      "opens": "2026-12-09"
+    },
+    {
+      "key": "bwl",
+      "name": "Pechschwingenhort",
+      "emoji": "🖤",
+      "prefix": "bwl",
+      "size": 40
+    },
+    {
+      "key": "zg",
+      "name": "Zul'Gurub",
+      "emoji": "🐍",
+      "prefix": "zg",
+      "size": 20
+    },
+    {
+      "key": "aq20",
+      "name": "Ruinen von Ahn'Qiraj",
+      "emoji": "🪲",
+      "prefix": "aq20",
+      "size": 20
+    },
+    {
+      "key": "aq40",
+      "name": "Tempel von Ahn'Qiraj",
+      "emoji": "🐞",
+      "prefix": "aq40",
+      "size": 40
+    },
+    {
+      "key": "naxx",
+      "name": "Naxxramas",
+      "emoji": "💀",
+      "prefix": "naxx",
+      "size": 40
+    }
+  ]
+}

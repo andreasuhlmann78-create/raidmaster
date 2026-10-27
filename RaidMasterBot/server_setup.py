@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import asyncio
 import os
+import re
 import discord
 
 # ---------------------------------------------------------------------------
@@ -26,21 +27,41 @@ ROLES = [
 ]
 MENTIONABLE = {"Gast"}   # PUG-Spieler werden bei neuen PUG-Raids angepingt
 
-# Raids mit eigener Kategorie: Topf-Schlüssel (wie im Addon), Name, Emoji, Kanal-Präfix
-RAIDS = [
-    ("mc", "Molten Core", "🔥", "mc"),
-    ("ony", "Onyxias Hort", "🐉", "onyxia"),
-    ("barrow", "Barrow Deeps", "🌲", "barrow"),
-    ("hyjal", "Hyjalgipfel", "🌋", "hyjal"),
-    ("bwl", "Pechschwingenhort", "🖤", "bwl"),
-    ("zg", "Zul'Gurub", "🐍", "zg"),
-    ("aq20", "Ruinen von Ahn'Qiraj", "🪲", "aq20"),
-    ("aq40", "Tempel von Ahn'Qiraj", "🐞", "aq40"),
-    ("naxx", "Naxxramas", "💀", "naxx"),
+# Raids mit eigener Kategorie: Topf-Schlüssel (wie im Addon), Name, Emoji, Kanal-Präfix.
+# Stehen in forever_raids.json (neue Raids von WoW Forever einfach dort ergänzen – der Bot legt dann alles an).
+_DEFAULT_RAIDS = [
+    {"key": "mc", "name": "Molten Core", "emoji": "🔥", "prefix": "mc", "size": 40, "forever": True},
+    {"key": "ony", "name": "Onyxias Hort", "emoji": "🐉", "prefix": "onyxia", "size": 40, "forever": True},
+    {"key": "barrow", "name": "Barrow Deeps", "emoji": "🌲", "prefix": "barrow", "size": 10, "forever": True},
+    {"key": "hyjal", "name": "Hyjalgipfel", "emoji": "🌋", "prefix": "hyjal", "size": 20, "forever": True},
 ]
 
+
+def _load_raids() -> list[dict]:
+    import json
+    path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "forever_raids.json")
+    try:
+        with open(path, encoding="utf-8") as f:
+            raw = json.load(f).get("raids") or []
+    except (OSError, ValueError):
+        return list(_DEFAULT_RAIDS)
+    out, seen = [], set()
+    for r in raw:
+        key = str(r.get("key") or "").strip().lower()
+        if not key or key in seen or not r.get("name"):
+            continue
+        seen.add(key)
+        prefix = re.sub(r"[^a-z0-9-]", "", str(r.get("prefix") or key).lower()) or key
+        out.append({"key": key, "name": str(r["name"]), "emoji": r.get("emoji") or "🗡️", "prefix": prefix,
+                    "size": int(r.get("size") or 40), "forever": bool(r.get("forever"))})
+    return out or list(_DEFAULT_RAIDS)
+
+
+RAID_DEFS = _load_raids()
+RAIDS = [(r["key"], r["name"], r["emoji"], r["prefix"]) for r in RAID_DEFS]
+
 # Raids mit eigenem Einteilungs-Kanal unter ⚔️ RAID-ORGA (die Raids von WoW Forever)
-ASSIGN_RAIDS = ["mc", "ony", "barrow", "hyjal"]
+ASSIGN_RAIDS = [r["key"] for r in RAID_DEFS if r["forever"]]
 RAID_ORGA = "⚔️ RAID-ORGA"
 
 
@@ -59,7 +80,7 @@ def _assignment_channels() -> list:
 
 
 # Raidgröße je Raid: so viele Plätze hat der Sprachkanal des Raids (unbekannte/eigene Raids: 40)
-RAID_SIZES = {"mc": 40, "ony": 40, "barrow": 10, "hyjal": 20, "bwl": 40, "zg": 20, "aq20": 20, "aq40": 40, "naxx": 40}
+RAID_SIZES = {r["key"]: r["size"] for r in RAID_DEFS}
 
 
 def raid_size(key: str, cfg: dict | None = None) -> int:

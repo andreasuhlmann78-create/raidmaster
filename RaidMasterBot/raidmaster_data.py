@@ -79,6 +79,16 @@ try:
             POOLS.setdefault(_r["key"], _r["name"])
 except (OSError, ValueError, KeyError):
     pass
+# Neue Raids von WoW Forever (forever_raids.json, wie im Discord): Name und Reihenfolge übernehmen
+try:
+    with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "forever_raids.json"), encoding="utf-8") as _fh:
+        for _r in json.load(_fh).get("raids") or []:
+            if _r.get("forever") and _r.get("key"):
+                POOLS.setdefault(_r["key"], _r["name"])
+                if _r["key"] not in POOL_ORDER:
+                    POOL_ORDER.append(_r["key"])
+except (OSError, ValueError, KeyError, AttributeError):
+    pass
 POOL_SLUGS = {"mc": "dkp-molten-core", "ony": "dkp-onyxia", "barrow": "dkp-barrow-deeps", "hyjal": "dkp-hyjal"}
 
 MODES = {"dkp": "DKP-Raid", "pug": "PUG-Raid (softres.it)"}
