@@ -3552,6 +3552,45 @@ async def remove_old_announcements(ch, series: str, ver: tuple, keep_fn: str):
     return removed
 
 
+# Kanäle, die der Bot für Ankündigungen selbst anlegt (Kanalname -> Kategorie und Thema).
+# Der Kanal übernimmt die Rechte der Kategorie.
+ANNOUNCE_AUTO_CHANNELS = {
+    "buffsentinel": {
+        "category": "Addon's by GoldSentinel",
+        "topic": "BuffSentinel – Buff-Erinnerungen, Proc-Buttons und Cooldowns für alle WoW-Versionen",
+    },
+}
+
+
+def _norm_category(name: str) -> str:
+    return re.sub(r"[^a-z0-9]", "", (name or "").lower())
+
+
+async def ensure_announce_channel(guild, name: str):
+    """Legt einen Ankündigungskanal aus ANNOUNCE_AUTO_CHANNELS an (samt Kategorie, falls sie fehlt)."""
+    spec = ANNOUNCE_AUTO_CHANNELS.get(name)
+    if not spec or guild is None or not guild.me.guild_permissions.manage_channels:
+        return None
+    want = _norm_category(spec["category"])
+    cat = next((c for c in guild.categories if _norm_category(c.name) == want), None)
+    try:
+        if cat is None:
+            cat_def = next((c for c in server_setup.BASE_TOP if _norm_category(c["name"]) == want), None)
+            overwrites = None
+            if cat_def:
+                overwrites = server_setup._overwrites(cat_def.get("mode"), guild, server_setup._known_roles(guild))
+            cat = await guild.create_category(spec["category"], overwrites=overwrites or {},
+                                              reason="RaidMaster-Bot: Kategorie für Addon-Ankündigungen")
+        ch = await guild.create_text_channel(name, category=cat, topic=spec.get("topic"),
+                                             reason="RaidMaster-Bot: Kanal für Addon-Ankündigungen")
+    except discord.HTTPException as e:
+        log.warning("Ankündigungskanal #%s konnte nicht angelegt werden: %s", name, e)
+        return None
+    log.info("Ankündigungskanal #%s in %s angelegt.", name, cat.name)
+    await post_bot_log(f"🆕 Kanal **#{name}** in **{cat.name}** angelegt (für Addon-Ankündigungen).")
+    return ch
+
+
 async def announce_target(fn: str):
     """Zielkanal einer Ankündigungsdatei (None = noch nicht möglich)."""
     low = fn.lower()
@@ -3559,6 +3598,8 @@ async def announce_target(fn: str):
         name = low.split("__", 1)[0].lstrip("#")
         guild = bot_guild()
         ch = discord.utils.get(guild.text_channels, name=name) if guild else None
+        if ch is None and name in ANNOUNCE_AUTO_CHANNELS:
+            ch = await ensure_announce_channel(guild, name)
         if ch is None:
             warned = state.data.setdefault("announce_warned", [])
             if fn not in warned:

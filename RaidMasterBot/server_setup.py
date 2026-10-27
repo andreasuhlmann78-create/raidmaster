@@ -153,6 +153,8 @@ BASE_TOP = [
         "old_names": ["🛠️ Addons by GoldSentinel"],
         "channels": [
             ("text", "aktionshaus", "AH Analyzer Pro – Auktionshaus-Analyse (nur Offiziere)", "officers_only"),
+            ("text", "buffsentinel", "BuffSentinel – Buff-Erinnerungen, Proc-Buttons und Cooldowns für alle WoW-Versionen",
+             "officers_only"),
         ],
     },
 ]
