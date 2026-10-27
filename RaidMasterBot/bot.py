@@ -3563,6 +3563,10 @@ ANNOUNCE_AUTO_CHANNELS = {
         "category": "Addon's by GoldSentinel",
         "topic": "ThreatSentinel – hilft Tanks, die Aggro zu halten (WoW Forever)",
     },
+    "guildsentinel": {
+        "category": "Addon's by GoldSentinel",
+        "topic": "GuildSentinel – Gildentool: Mitglieder, Gruppensuche, Leveling-Rennen, Raid-Zugänge, Rekrutierung (WoW Forever)",
+    },
 }
 
 
