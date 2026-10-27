@@ -549,7 +549,7 @@ def _pug_howto_text() -> str:
         "✨ **So geht's**\n"
         "• **Einmal registrieren** (Knopf unten) – dann sagt dir der Bot bei jedem neuen PUG-Raid Bescheid.\n"
         "• **Anmelden** per Knopf direkt am Raid.\n"
-        "• **Beute:** Soft Reserve über **softres.it** – den Link findest du am Raid.\n"
+        "• **Beute:** Soft Reserve über **softres.it** (Tanks und Heiler 3 Items, DDs 2) – den Link findest du am Raid.\n"
         "• **Einladung im Spiel:** dem Raidleiter `inv` flüstern, solange er Werbung macht.\n"
         "• **Regeln** zu Soft Reserve, Würfeln und Verhalten im Raid stehen in **#pug-regeln** – kurz lesen lohnt sich.\n\n"
         "Kleine Überraschung: Im Raid wirst du mit Namen begrüßt. 😉 Das Addon **RaidMaster** aus **#raid-addon** "
