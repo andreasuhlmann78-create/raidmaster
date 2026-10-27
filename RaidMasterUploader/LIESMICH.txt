@@ -16,8 +16,3 @@ Ab Version 1.6.0: Beim Erstkill eines Bosses macht RaidMaster einen Screenshot. 
 Screenshots-Ordner von WoW und schickt ihn mit dem nächsten Upload mit – in #ruhmeshalle erscheint er dann
 mit allen Teilnehmern. Andere Screenshots werden nie hochgeladen. Liegt der Ordner woanders: in
 uploader_config.json "screenshots_path" eintragen. Im Spiel zeigt die Seite "Discord" (oder /rm discord) die ganze Anleitung.
-
-Ab Version 1.7.0: Liegt im selben Ordner auch GuildSentinel.lua (Gildentool GuildSentinel), geht sie mit.
-Der Bot zeigt dann Wunschliste und Spenden der Gildenbank in #gildenbank-bestand und den Gildenverlauf
-(beigetreten, verlassen, befördert ...) in #offiziere. Der Bankbestand kommt so auch dann in den Discord,
-wenn auf dem PC des Bank-Charakters kein Uploader läuft.

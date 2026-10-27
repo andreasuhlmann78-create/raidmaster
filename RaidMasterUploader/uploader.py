@@ -8,9 +8,6 @@ liest sie dort und aktualisiert DKP, Loot, Einteilung und Skillungen.
 Start: uploader.bat (Doppelklick). Einrichtung: in Discord /uploader ausführen und die Datei
 uploader_config.json in diesen Ordner legen. Nur Python 3 nötig, keine weiteren Pakete.
 
-GuildSentinel (ab 1.7.0): Liegt neben RaidMaster.lua auch GuildSentinel.lua (Gildentool: Wunschliste, Spenden,
-Bankbestand, Gildenverlauf), geht sie mit. Eine Änderung an einer der beiden Dateien löst den Upload aus.
-
 Erstkill-Screenshots (ab 1.6.0): RaidMaster macht beim Erstkill einen Screenshot und merkt sich die Zeit
 (RaidMasterDB.shotList). Der Uploader sucht im Screenshots-Ordner von WoW das passende Bild und schickt es
 beim nächsten Upload mit. Andere Screenshots werden nie hochgeladen.
@@ -31,8 +28,7 @@ import urllib.error
 import urllib.request
 import uuid
 
-VERSION = "1.7.0"
-EXTRA_FILES = ("GuildSentinel.lua",)   # weitere SavedVariables im selben Ordner, die mitgehen
+VERSION = "1.6.0"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400
@@ -145,38 +141,14 @@ def find_shots(cfg: dict, path: str, raw: bytes) -> list[tuple[str, str]]:
     return out
 
 
-def extra_paths(path: str) -> list[str]:
-    """Weitere Dateien aus demselben SavedVariables-Ordner (z. B. GuildSentinel.lua), sofern vorhanden."""
-    folder = os.path.dirname(os.path.abspath(path))
-    return [p for p in (os.path.join(folder, n) for n in EXTRA_FILES) if os.path.isfile(p)]
-
-
-def watch_stamp(path: str) -> tuple:
-    """Änderungszeiten aller überwachten Dateien (RaidMaster.lua zuerst)."""
-    out = []
-    for p in [path] + extra_paths(path):
-        try:
-            out.append((p, os.path.getmtime(p)))
-        except OSError:
-            out.append((p, 0))
-    return tuple(out)
-
-
 def upload(cfg: dict, path: str) -> bool:
     with open(path, "rb") as f:
         raw = f.read()
     packed = gzip.compress(raw, 9)
-    extras = []
-    for p in extra_paths(path):
-        try:
-            with open(p, "rb") as f:
-                extras.append((os.path.basename(p) + ".gz", gzip.compress(f.read(), 9)))
-        except OSError:
-            pass
     shots = []
     try:
         # Discord nimmt pro Nachricht nur ca. 10 MB an: Bilder nur, solange alles zusammen darunter bleibt
-        total = len(packed) + sum(len(b) for _, b in extras)
+        total = len(packed)
         for shot in find_shots(cfg, path, raw):
             size = os.path.getsize(shot[0])
             if total + size <= SHOT_MAX_BYTES:
@@ -200,11 +172,7 @@ def upload(cfg: dict, path: str) -> bool:
         b"Content-Type: application/gzip\r\n\r\n",
         packed, b"\r\n",
     ]
-    for i, (name, data) in enumerate(extras, 1):
-        parts += [f"--{boundary}\r\n".encode(),
-                  f'Content-Disposition: form-data; name="files[{i}]"; filename="{name}"\r\nContent-Type: application/gzip\r\n\r\n'.encode(),
-                  data, b"\r\n"]
-    for i, (full, name, _) in enumerate(shots, 1 + len(extras)):
+    for i, (full, name, _) in enumerate(shots, 1):
         with open(full, "rb") as f:
             img = f.read()
         ctype = "image/png" if name.endswith(".png") else "image/jpeg"
@@ -221,7 +189,6 @@ def upload(cfg: dict, path: str) -> bool:
             with urllib.request.urlopen(req, timeout=60) as r:
                 r.read()
             log(f"Hochgeladen ({len(raw) // 1024} KB, gepackt {len(packed) // 1024} KB)."
-                + (" Dazu " + ", ".join(n[:-3] for n, _ in extras) + "." if extras else "")
                 + (f" Dazu {len(shots)} Erstkill-Screenshot(s)." if shots else ""))
             if shots:
                 cfg["sent_shots"] = (list(cfg.get("sent_shots") or []) + [p for _, _, p in shots])[-200:]
@@ -251,22 +218,26 @@ def main():
     cfg = load_config()
     path = choose_path(cfg)
     log("Überwache: " + path)
-    for p in extra_paths(path):
-        log("Und: " + p)
     log("Fenster offen lassen. Nach /reload oder Ausloggen werden die Daten automatisch hochgeladen.")
     interval = max(3, int(cfg.get("check_seconds") or 10))
-    last_sent: tuple = ()
+    last_sent = 0.0
     failures = 0
     next_try = 0.0
     while True:
-        stamp = watch_stamp(path)
-        if stamp[0][1] and stamp != last_sent and time.time() >= next_try:
+        try:
+            mtime = os.path.getmtime(path)
+        except OSError:
+            mtime = 0
+        if mtime and mtime != last_sent and time.time() >= next_try:
             # warten, bis WoW fertig geschrieben hat
             time.sleep(2)
-            if watch_stamp(path) != stamp:
+            try:
+                if os.path.getmtime(path) != mtime:
+                    continue
+            except OSError:
                 continue
             if upload(cfg, path):
-                last_sent = stamp
+                last_sent = mtime
                 failures = 0
             else:
                 failures += 1

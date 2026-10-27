@@ -17,8 +17,6 @@ Raid-Werkzeuge für die Gilde auf **WoW Forever**.
 
 **ThreatSentinel** (hilft Tanks, die Aggro zu halten: lose Mobs leuchten, gehaltene werden ausgeblendet, Aggrometer, Tank-Sync): [ThreatSentinel-1.1.0.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/ThreatSentinel-1.1.0.zip)
 
-**GuildSentinel** (Gildentool: Mitgliederliste mit Twinks und Verlauf, Rekrutierung, Berufe-Verzeichnis, Gildenbank mit Wunschliste und Spenden – arbeitet mit RaidMaster zusammen): [GuildSentinel-0.2.0.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/GuildSentinel-0.2.0.zip)
-
 ZIP entpacken und den Ordner `RaidMaster` nach `Interface/AddOns` kopieren (alten Ordner ersetzen).
 Läuft in allen WoW-Versionen (Classic Era, WoW Forever, TBC, Wrath, Cata, MoP Classic, Retail) und in 11 Sprachen – mit allen Raids von Classic bis Midnight (Taktiken, Raidchat-Infos, Markierungsvorlagen).
 
