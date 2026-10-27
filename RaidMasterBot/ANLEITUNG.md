@@ -196,6 +196,8 @@ Alles, was im GitHub-Repository im Ordner **`announce`** landet, postet der Bot 
 - **Neue Version ersetzt die alte:** Enthält der Titel eine Versionsnummer (`levelpilot__levelpilot-3.3.0.md`),
   löscht der Bot nach dem Posten die Nachrichten älterer Versionen derselben Reihe (`levelpilot__levelpilot-3.2.1`)
   samt Anhängen. Titel ohne Versionsnummer bleiben stehen.
+- **Gleicher Titel ersetzt:** Beginnt eine neue Ankündigung mit derselben ersten Zeile wie ein älterer Bot-Beitrag
+  im Kanal (z. B. eine überarbeitete Vorstellung), löscht der Bot den älteren Beitrag samt Fortsetzungen.
 - Ältere Kurzform: `aktionshaus-….md` → #aktionshaus, `raid-addon-….md` → #raid-addon.
 
 ## Ruhmeshalle, Ereignisse, Ersatz, Gildenbank

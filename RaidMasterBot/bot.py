@@ -3745,6 +3745,50 @@ async def check_announcements():
                     log.info("Ankündigung %s: %d Nachricht(en) älterer Versionen gelöscht.", fn, n)
             except Exception as e:      # Aufräumen darf das Posten nie stören
                 log.warning("Alte Versionen zu %s nicht gelöscht: %s", fn, e)
+        # gleicher Titel (erste Zeile) wie ein älterer Bot-Beitrag im Kanal: der ältere wird ersetzt
+        try:
+            title = (parts[0] if parts else "").split("\n", 1)[0].strip()
+            n = await remove_same_title(ch, title, sent)
+            if n:
+                log.info("Ankündigung %s: %d Nachricht(en) mit gleichem Titel ersetzt.", fn, n)
+        except Exception as e:
+            log.warning("Ältere Beiträge mit gleichem Titel zu %s nicht gelöscht: %s", fn, e)
+
+
+async def remove_same_title(ch, title: str, keep_ids: list) -> int:
+    """Löscht ältere Bot-Beiträge im Kanal, deren erste Zeile `title` ist – samt ihren direkten
+    Fortsetzungen (Bot-Nachrichten ohne Anhang innerhalb von 20 Sekunden). So ersetzt z. B. eine
+    überarbeitete Vorstellung die alte."""
+    if not title or len(title) < 8:
+        return 0
+    try:
+        hist = [m async for m in ch.history(limit=100)]
+    except discord.HTTPException:
+        return 0
+    hist.sort(key=lambda m: m.created_at)
+    keep = set(keep_ids)
+    removed, i = 0, 0
+    while i < len(hist):
+        m = hist[i]
+        if m.author != bot.user or m.id in keep or (m.content or "").split("\n", 1)[0].strip() != title:
+            i += 1
+            continue
+        group = [m]
+        j = i + 1
+        while j < len(hist) and hist[j].author == bot.user and not hist[j].attachments and hist[j].id not in keep \
+                and (hist[j].created_at - m.created_at).total_seconds() <= 20:
+            group.append(hist[j])
+            j += 1
+        for g in group:
+            try:
+                await g.delete()
+                removed += 1
+            except discord.NotFound:
+                pass
+            except discord.HTTPException as e:
+                log.warning("Alter Beitrag %s nicht gelöscht: %s", g.id, e)
+        i = j
+    return removed
 
 
 RM_RELEASE_FILE = re.compile(r"^RaidMaster-v?(\d+(?:\.\d+)+)\.zip$", re.I)
