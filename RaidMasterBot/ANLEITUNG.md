@@ -305,6 +305,24 @@ Erstellt die Raidleitung im Spiel die **Einteilung** und gibt danach `/reload` e
   muss in der Rollenliste über den Klassenrollen stehen.
 - WoW schreibt die Daten beim **Ausloggen** oder nach **/reload** – der Uploader schickt sie sofort weiter.
 
+## Abstimmung über den Gildennamen (#gildenname)
+
+Der Bot führt im Kanal **#gildenname** eine Abstimmung (fehlt der Kanal, legt er ihn an).
+
+- **Vorschlagen:** einfach einen Namen in den Kanal schreiben (eine Zeile, 2–24 Zeichen, nur Buchstaben) – der Bot
+  macht daraus eine Karte und setzt ✅ darunter. Normale Chat-Sätze („ich bin dafür“) zählen nicht. Mit Lore geht es
+  über den Knopf **„Namen vorschlagen“** in der Übersicht oder `/gildenname vorschlagen`.
+  Ohne `message_content_intent` kann der Bot normale Beiträge nicht lesen – dann nur Knopf, Befehl oder Beitrag mit
+  Erwähnung des Bots (`@RaidMaster Name`).
+- **Abstimmen:** auf der Karte „Dafür stimmen“. Jeder hat eine Stimme; ein Klick auf einen anderen Namen verschiebt sie,
+  ein zweiter Klick nimmt sie zurück.
+- **Lore:** steht auf der Karte; die Übersicht (immer die letzte Nachricht im Kanal) verlinkt jeden Namen und seine
+  Lore. Wer den Namen vorgeschlagen hat (oder die Gildenleitung), kann die Lore bearbeiten oder den Vorschlag entfernen.
+- **Gildenleitung:** `/gildenname hinzufuegen` übernimmt einen Vorschlag für jemanden, `/gildenname abschliessen`
+  beendet die Abstimmung (mit `uebernehmen` wird der Gewinner gleich als Gildenname gespeichert und der
+  Willkommenstext angepasst), `/gildenname oeffnen` öffnet sie wieder.
+- Vorschläge der Gildenleitung stehen in `gildenname_vorschlaege.json` und werden je einmal eingetragen.
+
 ## Alle Befehle
 
 | Befehl | Wer | Wofür |
