@@ -563,6 +563,33 @@ def rules_posts(dkp_settings: dict | None = None, materials: dict | None = None,
     return [_rules_text(s), materials_text(materials, recipes)] + _raid_rules_texts()
 
 
+def assignment_intro_text(key: str) -> str:
+    """Fester Beitrag im Einteilungs-Kanal eines Raids: wie die Einteilung entsteht, dazu ein Grundplan."""
+    r = next((x for x in RAID_DEFS if x["key"] == key), None) or {"name": key, "emoji": "📋"}
+    head = (f"🗂️ **Einteilung {r['name']} – so läuft's**\n\n"
+            f"Hier postet der Bot die Einteilung aus **RaidMaster** (Raid › Einteilung › oben „{r['name']}“ wählen › "
+            "„Einteilung erstellen“): wer heilt wen, wer entflucht und bannt, wer unterbricht und kontrolliert. "
+            "Tanks heißen dabei **MT** (Maintank) und **OT1, OT2 …** (Offtanks). Deine eigenen Aufgaben bekommst du "
+            "zusätzlich per Direktnachricht und beim Pull groß auf den Bildschirm.\n\n")
+    plans = {
+        "ony": ("📌 **Grundplan, bis die Raidleitung Namen einträgt**\n"
+                "• **Phase 1 (100–65 %):** MT tankt Onyxia, Kopf zur Wand. Nahkampf an der Flanke – nie vor ihr (Feueratem) "
+                "oder hinter ihr (Schwanzhieb). Fernkampf und Heiler auf Abstand.\n"
+                "• **Phase 2 (65–40 %):** Onyxia fliegt. Fernkampf auf sie, verteilt stehen (Feuerball). Bei **Tiefem Atem** "
+                "raus aus der Flugbahn. OT1 und OT2 sammeln die **Welpen** an den Seiten, Magier helfen mit Flächenschaden.\n"
+                "• **Phase 3 (ab 40 %):** Sie landet, der MT übernimmt sofort. Gegen die **Furcht**: Furchtschutz auf den MT, "
+                "Erdstoß-Totem. Nicht in die **Lavaspalten** treten und die **Eier** nicht aufwecken."),
+        "mc": ("📌 **Gut zu wissen**\n"
+               "• Die Einteilung deckt alle Bosse ab – von Lucifron bis Ragnaros, auch Baron Geddon.\n"
+               "• Die ausführliche Taktik je Boss steht in **#mc-taktik**."),
+    }
+    plan = plans.get(key) or ("📌 **Neue Bosse**\n"
+                              "• Solange die Bosse noch nicht bekannt sind, gibt es eine **allgemeine Boss-Einteilung**: MT auf den Boss, "
+                              "OTs auf Adds und für den Tankwechsel, die Reihenfolge fürs Unterbrechen und wer Gegner kontrolliert.\n"
+                              f"• Taktiken kommen nach und nach in **#{r.get('prefix', key)}-taktik**.")
+    return head + plan
+
+
 def _raid_howto_text(name: str, key: str | None = None) -> str:
     where = f"**#{assignment_channel_name(key)}**" if key in ASSIGN_RAIDS else "im **Einteilungs-Kanal** unter ⚔️ RAID-ORGA"
     return (

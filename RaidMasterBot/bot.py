@@ -3065,7 +3065,7 @@ async def ensure_dkp_rules() -> list[str]:
     return [f"#regeln: DKP- und Raid-Regeln {'aktualisiert' if ids else 'gepostet'}"]
 
 
-async def _keep_text(ch, key: str, text: str, prefixes: tuple = (), msg_id: int | None = None) -> bool:
+async def _keep_text(ch, key: str, text: str, prefixes: tuple = (), msg_id: int | None = None, post_missing: bool = False) -> bool:
     """Einen festen Beitrag des Bots aktuell halten: per gespeicherter ID oder am Textanfang im Verlauf finden
     und bearbeiten, wenn sich der Text geändert hat (Knöpfe bleiben erhalten). Postet nichts Neues."""
     if ch is None:
@@ -3085,7 +3085,16 @@ async def _keep_text(ch, key: str, text: str, prefixes: tuple = (), msg_id: int 
         except discord.HTTPException:
             return False
     if not mid:
-        return False
+        if not post_missing:
+            return False
+        try:
+            m = await ch.send(text)
+        except discord.HTTPException as e:
+            log.info("Beitrag %s nicht gepostet: %s", key, e)
+            return False
+        rec[key] = {"id": m.id, "hash": digest}
+        state.save()
+        return True
     try:
         await ch.get_partial_message(int(mid)).edit(content=text)
     except discord.NotFound:
@@ -3127,6 +3136,11 @@ async def ensure_channel_texts() -> list[str]:
         if cfg.get("pug_reg_message") and await _keep_text(pug, "reg:pug", server_setup.pug_registration_text(),
                                                           msg_id=int(cfg["pug_reg_message"])):
             done.append("#pug-anmeldung (Knopf)")
+    for key in server_setup.ASSIGN_RAIDS:
+        ach = discord.utils.get(guild.text_channels, name=server_setup.assignment_channel_name(key))
+        if ach is not None and await _keep_text(ach, f"assign:{key}", server_setup.assignment_intro_text(key),
+                                                ("🗂️ **Einteilung ",), post_missing=True):
+            done.append(f"#{ach.name}")
     test_ch = discord.utils.get(guild.text_channels, name="bot-befehle")
     if test_ch is not None and await _keep_text(test_ch, "howto:botcmd", server_setup._bot_commands_text(),
                                                 ("**Bot-Befehle für die Gildenleitung", "🛠️ **Hier darfst du")):

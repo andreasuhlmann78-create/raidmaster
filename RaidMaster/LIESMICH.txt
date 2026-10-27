@@ -1,4 +1,4 @@
-RaidMaster 3.0.3 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 3.0.4 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,12 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+NEU IN 3.0.4 – Einteilung Onyxia
+- Raid > Einteilung > "Onyxias Hort": ausführlicher – Phase 1 Nahkampf an der Flanke, Phase 2 (ab 65 %) Welpen-OTs
+  und Magier mit Flächenschaden, verteilt stehen, Tiefer Atem; Phase 3 (ab 40 %) MT, Furchtschutz, Erdstoß-Totem.
+- Im Discord steht in jedem Einteilungs-Kanal (#einteilung-onyxia usw.) oben, wie die Einteilung entsteht, bei Onyxia
+  zusätzlich ein Grundplan je Phase.
 
 NEU IN 3.0.3 – Raid-Materialien und Rezepte
 - Die Beute-Datenbank merkt sich jetzt auch die Art jedes Items. So erkennt der Discord-Bot Handwerksmaterialien aus

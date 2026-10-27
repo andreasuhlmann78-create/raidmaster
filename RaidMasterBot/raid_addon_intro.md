@@ -28,6 +28,9 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
+**3.0.4** – Einteilung Onyxia
+• Onyxia-Einteilung mit allen drei Phasen (Welpen-OTs, Magier, Furchtschutz, Erdstoß-Totem); #einteilung-onyxia mit Grundplan.
+
 **3.0.3** – Raid-Materialien
 • Neue Materialien aus Barrow Deeps, Hyjal und künftigen Raids erkennt RaidMaster beim Droppen; der Bot zeigt sie in #regeln samt den Rezepten, die sie brauchen.
 

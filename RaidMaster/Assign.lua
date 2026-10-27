@@ -528,6 +528,7 @@ local function BuildOnyxia(r, result)
 		addLine(o, string.format(L["Phase 1: MT %s tankt Onyxia, Kopf zur Wand, Raid an den Seiten – nie vor oder hinter ihr."], T[1]))
 		addPersonal(o, T[1], L["MT – Phase 1 und 3: Onyxia tanken, Kopf zur Wand"])
 	end
+	addLine(o, L["Phase 1: Nahkampf an der Flanke (Feueratem vorne, Schwanzhieb hinten), Fernkampf und Heiler auf Abstand."])
 	local sides = { L["linke Seite"], L["rechte Seite"], L["Eingang"] }
 	local wparts = {}
 	for i = 2, math.min(#T, 4) do
@@ -536,7 +537,12 @@ local function BuildOnyxia(r, result)
 		addPersonal(o, T[i], string.format(L["%s – Phase 2: Welpen sammeln (%s)"], TL(i), side))
 	end
 	if #wparts > 0 then addLine(o, L["Phase 2 Welpen: "] .. table.concat(wparts, ", ")) end
-	addLine(o, L["Phase 2: Fernkampf auf Onyxia, bei Tiefem Atem aus der Flugbahn laufen."])
+	local aoe = list(r.byClass.MAGE)
+	if #aoe > 0 then
+		addLine(o, L["Phase 2 Welpen mit Flächenschaden: "] .. table.concat(aoe, ", "))
+		for _, m in ipairs(aoe) do addPersonal(o, m, L["Phase 2: Welpen mit Flächenschaden (Arkane Explosion) bei den OTs wegputzen"]) end
+	end
+	addLine(o, L["Phase 2 (ab 65 %): Fernkampf auf Onyxia, verteilt stehen (Feuerball), bei Tiefem Atem aus der Flugbahn laufen."])
 	if T[1] then addLine(o, string.format(L["Phase 3 (ab 40 %%): MT %s übernimmt sofort, Furcht beachten."], T[1])) end
 	if r.dwarfPriests[1] and T[1] then
 		addLine(o, string.format(L["Furchtschutz auf MT %s: %s"], T[1], r.dwarfPriests[1]))
