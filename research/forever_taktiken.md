@@ -30,6 +30,7 @@ Roadmap laut Blizzard (über warcraft.wiki.gg): Frühjahr 2027 „2 neue Raids�
 ### Was noch fehlt
 - Barrow Deeps: Fähigkeiten/Taktik aller 8 Bosse (ab 09.12.2026 täglich recherchieren), deutsche Namen
 - Hyjalgipfel: Fähigkeiten/Taktik aller 13 Bosse, Routen/Wege (ab 09.12.2026), deutsche Namen
+- Resistenz-Kanal (wie #mc-feuerresi) für Barrow Deeps und Hyjalgipfel: erst anlegen, wenn gesicherte Quellen Resistenzbedarf/Rezepte zeigen (kein Datamining). Stand 2026-10-27: nichts gesichert, kein Kanal.
 
 ## (C) Materialien & Rezepte
 
