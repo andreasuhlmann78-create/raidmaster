@@ -126,6 +126,7 @@ state = rmd.Store(os.path.join(DATA_DIR, "state.json"), {"dkp_messages": {}, "la
 for _k, _v in {"installed_sha": "", "failed_sha": "", "last_backup": 0, "last_upload": 0, "last_upload_by": ""}.items():
     state.data.setdefault(_k, _v)
 UPLOAD_PATH = os.path.join(DATA_DIR, "RaidMaster.lua")
+GS_PATH = os.path.join(DATA_DIR, "GuildSentinel.lua")      # Gildentool GuildSentinel (kommt mit dem Uploader ab 1.7.0)
 # eigene Beute-Datenbank (aus den Lootfenstern der Bosskills aller Uploader)
 lootdb = rmd.Store(os.path.join(DATA_DIR, "loot_db.json"), rmd.lootdb_empty())
 # Ruhmeshalle: alle Bosskills (Erstkills, Bestzeiten) und vergebene Erfolge
@@ -164,6 +165,8 @@ class RaidBot(discord.Client):
         self.dkp_db = None
         self.dkp_rows: list[dict] = []
         self.dkp_mtime = 0.0
+        self.gs_db = None
+        self.gs_mtime = 0.0
 
     async def setup_hook(self):
         if cfg.get("guild_id"):
@@ -2735,11 +2738,79 @@ BANK_EMPTY_TEXT = ("📦 **Bestand der Gildenbank**\n\n"
                    "🔍 Suchen geht jederzeit mit `/bank`.")
 
 
+def gs_data() -> dict | None:
+    """Daten der eigenen Gilde aus GuildSentinel (zuletzt hochgeladen) oder None."""
+    try:
+        mtime = os.path.getmtime(GS_PATH)
+    except OSError:
+        return None
+    if bot.gs_db is None or bot.gs_mtime != mtime:
+        try:
+            bot.gs_db = rmd.load_guildsentinel_db(GS_PATH)
+        except Exception as e:  # noqa: BLE001
+            log.warning("GuildSentinel-Datei nicht lesbar: %s", e)
+            return None
+        bot.gs_mtime = mtime
+    return rmd.gs_guild(bot.gs_db, cfg.get("guild_name"))
+
+
+def current_bank() -> dict | None:
+    """Neuester Bankbestand: aus RaidMaster (Bank-Charakter mit Uploader) oder aus GuildSentinel
+    (der Bank-Charakter verteilt ihn in der Gilde, jeder Uploader hat ihn)."""
+    rm = rmd.guild_bank(bot.dkp_db) if bot.dkp_db else None
+    try:
+        gs = rmd.gs_bank(gs_data())
+    except Exception as e:  # noqa: BLE001
+        log.warning("GuildSentinel-Bestand nicht lesbar: %s", e)
+        gs = None
+    if gs and (not rm or gs["t"] > rm["t"]):
+        return gs
+    return rm
+
+
+def gs_bank_lines(g: dict | None) -> list[str]:
+    """Wunschliste, Spender-Rangliste und letzte Spenden (aus GuildSentinel) für #gildenbank-bestand."""
+    if not g:
+        return []
+    lines = []
+    wishes = rmd.gs_wishes(g)
+    if wishes:
+        lines.append("🎁 **Wunschliste** – das braucht die Gildenbank:")
+        for w in wishes[:25]:
+            have = f"{w['have']}/{w['c']}" if w["have"] is not None else f"×{w['c']}"
+            note = f" – _{w['note']}_" if w["note"] else ""
+            lines.append(f"{'✅' if w['done'] else '▫️'} {w['n']} {have}{note}")
+        if len(wishes) > 25:
+            lines.append(f"… und {len(wishes) - 25} weitere")
+        lines.append("")
+    top = rmd.gs_top_donors(g, 30)
+    if top:
+        lines.append("🏆 **Fleißigste Spender** (30 Tage):")
+        for i, d in enumerate(top[:5], 1):
+            gold = f", {rmd.gs_money(d['gold'])}" if d["gold"] else ""
+            lines.append(f"{i}. **{d['name']}** – {d['n']} {'Spende' if d['n'] == 1 else 'Spenden'}{gold}")
+        lines.append("")
+    recent = rmd.gs_donations(g, "in")[:8]
+    if recent:
+        lines.append("🧾 **Letzte Spenden** – danke!")
+        for e in recent:
+            lines.append(f"<t:{e['t']}:d> **{e['who']}**: {rmd.gs_donation_text(e)}")
+        lines.append("")
+    if lines:
+        lines.append("💡 _Wünsche eintragen und Spenden sehen: im Spiel mit GuildSentinel (/gs → Gildenbank)._")
+    return lines
+
+
 async def post_guild_bank():
-    bank = rmd.guild_bank(bot.dkp_db) if bot.dkp_db else None
     if test_info(bot.dkp_db or {}):
         return
-    if not bank:
+    bank = current_bank()
+    try:
+        extra = gs_bank_lines(gs_data())
+    except Exception as e:  # noqa: BLE001
+        log.warning("Wunschliste/Spenden nicht lesbar: %s", e)
+        extra = []
+    if not bank and not extra:
         # noch kein Bestand: kurze Erklärung in den leeren Kanal (wird später durch den Bestand ersetzt)
         if not state.data.get("bank_messages"):
             ch = await bank_channel()
@@ -2748,12 +2819,15 @@ async def post_guild_bank():
                 state.data["bank_messages"] = [m.id]
                 state.save()
         return
-    if state.data.get("bank_t") == bank["t"]:
+    chunks = await bank_text(bank) if bank else []
+    if extra:
+        chunks = rmd.split_discord(("\n\n".join(chunks) + "\n\n" if chunks else "") + "\n".join(extra).strip())
+    digest = zlib.crc32("\x00".join(chunks).encode("utf-8"))
+    if state.data.get("bank_digest") == digest and state.data.get("bank_messages"):
         return
     ch = await bank_channel()
     if ch is None:
         return
-    chunks = await bank_text(bank)
     ids = list(state.data.get("bank_messages") or [])
     new_ids = []
     for i, text in enumerate(chunks):
@@ -2774,14 +2848,73 @@ async def post_guild_bank():
         except discord.HTTPException:
             pass
     state.data["bank_messages"] = new_ids
-    state.data["bank_t"] = bank["t"]
+    state.data["bank_digest"] = digest
+    if bank:
+        state.data["bank_t"] = bank["t"]
     state.save()
+
+
+async def post_gs_log():
+    """Gildenverlauf aus GuildSentinel (beigetreten, verlassen, befördert ...) in #offiziere."""
+    g = gs_data()
+    if not g or not cfg.get("guild_log", True):
+        return
+    since = int(state.data.get("gs_log_t") or 0)
+    entries = rmd.gs_log(g, since)
+    if not since:
+        # erster Upload: nur die letzten 3 Tage, nicht den ganzen alten Verlauf
+        cutoff = int(time.time()) - 3 * 86400
+        entries = [e for e in entries if e["t"] >= cutoff]
+    # mehrere Uploader: dasselbe Ereignis nur einmal (gleiche Art + Name innerhalb von 15 Minuten)
+    recent = state.data.get("gs_log_recent") or []
+    fresh = []
+    for e in entries:
+        if any(r[0] == e["k"] and r[1] == e["n"] and abs(int(r[2]) - e["t"]) < 900 for r in recent):
+            continue
+        fresh.append(e)
+        recent.append([e["k"], e["n"], e["t"]])
+    newest = max([e["t"] for e in entries] + [since])
+    if not fresh:
+        if newest != since:
+            state.data["gs_log_t"] = newest
+            state.save()
+        return
+    ch = await channel_by_id(cfg.get("officer_channel_id"))
+    if ch is None:
+        return
+    shown = fresh[-40:]
+    lines = ["📜 **Gildenverlauf** _(aus GuildSentinel)_"]
+    if len(fresh) > len(shown):
+        lines.append(f"_… {len(fresh) - len(shown)} ältere Einträge ausgelassen_")
+    lines += [rmd.gs_log_line(e) for e in shown]
+    for part in rmd.split_discord("\n".join(lines)):
+        await ch.send(part)
+    state.data["gs_log_t"] = newest
+    state.data["gs_log_recent"] = recent[-200:]
+    state.save()
+
+
+@bot.tree.command(name="wunschliste", description="Was braucht die Gildenbank? (aus GuildSentinel)")
+async def wunschliste_cmd(inter: discord.Interaction):
+    g = gs_data()
+    wishes = rmd.gs_wishes(g) if g else []
+    if not wishes:
+        await inter.response.send_message("Die Wunschliste ist leer – eintragen geht im Spiel mit GuildSentinel "
+                                          "(/gs → Gildenbank → Wunschliste).", ephemeral=True)
+        return
+    lines = ["🎁 **Wunschliste der Gildenbank**"]
+    for w in wishes[:40]:
+        have = f"{w['have']}/{w['c']}" if w["have"] is not None else f"×{w['c']}"
+        by = f" · von {w['by']}" if w["by"] else ""
+        note = f" – _{w['note']}_" if w["note"] else ""
+        lines.append(f"{'✅' if w['done'] else '▫️'} {w['n']} {have}{note}{by}")
+    await inter.response.send_message("\n".join(lines)[:2000], ephemeral=True)
 
 
 @bot.tree.command(name="bank", description="Was ist in der Gildenbank? (Suche nach Name)")
 @app_commands.describe(suche="Teil des Namens, leer = alles")
 async def bank_cmd(inter: discord.Interaction, suche: str | None = None):
-    bank = rmd.guild_bank(bot.dkp_db)
+    bank = current_bank()
     if not bank:
         await inter.response.send_message("Noch kein Bestand – der Bank-Charakter muss einmal seine Bank öffnen "
                                           "(RaidMaster → Einstellungen → „Bank-Charakter“).", ephemeral=True)
@@ -4064,6 +4197,47 @@ async def process_assignment():
 # Server-Betrieb: Daten-Upload vom PC der Raidleitung
 # ---------------------------------------------------------------------------
 
+def check_gs_upload(raw: bytes, filename: str) -> str:
+    """Entpackt und prüft GuildSentinel.lua. Liefert den Text oder wirft ValueError."""
+    if filename.lower().endswith(".gz"):
+        try:
+            raw = gzip.decompress(raw)
+        except OSError:
+            raise ValueError("Datei ist nicht richtig gepackt")
+    text = raw.decode("utf-8", errors="replace")
+    try:
+        db = rmd.parse_saved_variables(text).get("GuildSentinelDB")
+    except Exception as e:  # noqa: BLE001
+        raise ValueError(f"Datei nicht lesbar: {e}")
+    if not isinstance(db, dict) or not isinstance(db.get("guilds"), dict):
+        raise ValueError("keine GuildSentinel-Daten enthalten")
+    return text
+
+
+async def receive_guildsentinel(att: discord.Attachment):
+    """GuildSentinel-Daten speichern, dann Gildenbank (Wunschliste, Spenden, Bestand) und Verlauf aktualisieren."""
+    if att.size > 25 * 1024 * 1024:
+        log.warning("GuildSentinel-Upload zu groß (%d Bytes).", att.size)
+        return
+    raw = await att.read()
+    try:
+        text = await asyncio.to_thread(check_gs_upload, raw, att.filename)
+    except ValueError as e:
+        log.warning("GuildSentinel-Upload abgelehnt: %s", e)
+        return
+    os.makedirs(DATA_DIR, exist_ok=True)
+    tmp = GS_PATH + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        f.write(text)
+    os.replace(tmp, GS_PATH)
+    log.info("GuildSentinel-Daten empfangen (%d KB).", len(text) // 1024)
+    try:
+        await post_guild_bank()
+        await post_gs_log()
+    except discord.HTTPException as e:
+        log.warning("GuildSentinel: Posten fehlgeschlagen: %s", e)
+
+
 def check_upload(raw: bytes, filename: str) -> tuple[str, dict]:
     """Entpackt und prüft einen Upload. Liefert (Text, RaidMasterDB) oder wirft ValueError."""
     if filename.lower().endswith(".gz"):
@@ -4086,7 +4260,16 @@ async def receive_upload(message: discord.Message):
     if allowed and message.webhook_id not in allowed:
         log.warning("Upload von unbekanntem Webhook %s ignoriert.", message.webhook_id)
         return
-    att = next((a for a in message.attachments if a.filename.lower().endswith((".lua", ".lua.gz", ".gz"))), None)
+    lua_atts = [a for a in message.attachments if a.filename.lower().endswith((".lua", ".lua.gz", ".gz"))]
+    # ab Uploader 1.7.0 kommt GuildSentinel.lua.gz mit – RaidMaster.lua.gz bleibt die Hauptdatei
+    gs_att = next((a for a in lua_atts if a.filename.lower().startswith("guildsentinel")), None)
+    att = (next((a for a in lua_atts if a.filename.lower().startswith("raidmaster")), None)
+           or next((a for a in lua_atts if a is not gs_att), None))
+    if gs_att:
+        try:
+            await receive_guildsentinel(gs_att)
+        except Exception:  # noqa: BLE001
+            log.exception("GuildSentinel-Daten konnten nicht verarbeitet werden")
     if not att:
         if not message.attachments:
             log.warning("Upload ohne Anhang empfangen – Message Content Intent einschalten (siehe ANLEITUNG, Probleme).")

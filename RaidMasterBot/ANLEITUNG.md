@@ -219,6 +219,22 @@ Alles, was im GitHub-Repository im Ordner **`announce`** landet, postet der Bot 
   oder Briefkasten, liest das Addon den Bestand. Der Uploader auf seinem PC schickt ihn mit, der Bot zeigt ihn in
   **#gildenbank** (eine Nachricht, wird aktualisiert) und mit `/bank Feuerschutz`.
 
+## GuildSentinel (Gildentool): Wunschliste, Spenden, Gildenverlauf
+
+GuildSentinel ist das Gildentool zu RaidMaster (Mitglieder mit Twinks, Rekrutierung, Berufe, Gildenbank). Ab Uploader
+**1.7.0** geht die Datei `GuildSentinel.lua` mit jedem Upload mit – ganz ohne Einrichtung.
+
+- **#gildenbank-bestand:** Unter dem Bestand stehen die **Wunschliste** (was die Gildenbank braucht, mit „vorhanden/gewünscht“),
+  die **fleißigsten Spender** der letzten 30 Tage (Twinks zählen für ihren Main) und die **letzten Spenden**. Handel und Post
+  mit dem Bank-Charakter trägt GuildSentinel im Spiel automatisch ein.
+- **Bestand auch ohne Uploader beim Bank-Charakter:** GuildSentinel verteilt den Bestand des Bank-Charakters in der Gilde.
+  Der Bot nimmt den jeweils neueren Stand – aus RaidMaster oder aus GuildSentinel.
+- **#offiziere:** Der **Gildenverlauf** – wer beigetreten ist, die Gilde verlassen hat, entfernt, befördert oder degradiert
+  wurde und wer Stufe 60 erreicht hat. Beim ersten Upload nur die letzten 3 Tage; dasselbe Ereignis von zwei Uploadern
+  erscheint nur einmal. Ausschalten: `"guild_log": false` in der config.json.
+- `/wunschliste` – die Wunschliste der Gildenbank (nur für dich sichtbar).
+- Mit RaidMaster zusammen: Berufe und Twinks liest GuildSentinel aus RaidMaster (keine doppelten Nachrichten im Spiel).
+
 ## Twinks, Berufe, DKP-Nachricht, Verfall
 
 - **Twinks:** `/twink hinzufügen` (Name, Klasse, Rolle), `/twink wechseln` (mit welchem Charakter du dich anmeldest),
@@ -340,6 +356,7 @@ Der Bot führt im Kanal **#gildenname** eine Abstimmung (fehlt der Kanal, legt e
 | `/addon-hochladen` | Admins | Addon-ZIP hochladen (RaidMaster → #raid-addon, AH Analyzer Pro → #aktionshaus) |
 | `/charakter` | alle | Charakter und Rolle festlegen |
 | `/dkp`, `/dkpliste` | alle | DKP abfragen |
+| `/bank`, `/wunschliste` | alle | Gildenbank: Bestand suchen, Wunschliste (GuildSentinel) |
 | `/raidmaster-status` | Offiziere | Version, Uploads, Datenstand |
 | `/raidmaster-einrichten` | Admins | Server einrichten/ergänzen |
 | `/uploader` | Admins | Uploader-Programm + Einrichtungsdatei per Direktnachricht (`nur_programm`: nur das Programm) |

@@ -11,3 +11,7 @@ RaidMaster Uploader – sends the RaidMaster data from the raid leader's PC to t
 
 After every /reload or logout, DKP, loot, assignments and specs show up in Discord within a few
 seconds. In the game, the page "Discord" (or /rm discord) shows the full step-by-step guide.
+
+From version 1.7.0: if GuildSentinel.lua (the GuildSentinel guild tool) is in the same folder, it is sent
+as well. The bot then shows the guild bank wishlist and donations in #gildenbank-bestand and the guild
+history (joined, left, promoted ...) in #offiziere.
