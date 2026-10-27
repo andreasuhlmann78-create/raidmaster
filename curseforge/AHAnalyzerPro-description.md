@@ -10,6 +10,13 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 
 ## What's new
 
+### Version 0.60.1
+
+- **Real minimap button:** the button now sits on the minimap like with other addons - drag it
+  around the minimap with the mouse, the position is saved. Works with round and square
+  minimaps. Hide or show it in Options or with `/ahp minimap`; `/ahp reset` brings it back.
+- **New icon:** a golden scale - on the minimap button, in the title bar and in the addon list.
+
 ### Version 0.60.0
 
 **Tidier window - 5 tabs instead of 11:**
@@ -65,31 +72,6 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
   "iLvl to" fields. They filter the results instantly, without a new search on the server,
   and also apply to the single listings of an item. In the Buy tab you can also search with
   only an iLvl range.
-
-### Version 0.59.30
-
-- **Sell junk at vendors:** at any vendor a button below the window sells grey items and
-  everything a vendor pays more for than the auction house (after the AH cut). The tooltip
-  lists what will be sold. Can be turned off in Options.
-- **Inventory value:** new view **Ledger -> "Assets"** shows what your bags, bank and alts are
-  worth (market value and vendor value), plus the gold of all characters.
-- **Daily summary at login:** once a day the chat shows yesterday's profit, the last 7 days,
-  the gold of all characters and how many items are waiting to be reposted. Any time with
-  `/ahp summary`. Can be turned off in Options.
-- **Repost with one click:** expired or cancelled auctions that came back by mail are
-  remembered. In the Auctions tab, "Repost (n)" posts them again one click at a time,
-  undercutting the current price, with price protection.
-- **Flip recommendations:** new view **Profit -> "Flips"**: items that are listed regularly and
-  are currently well below market value. Stars show the turnover, sorted by expected profit.
-- **Mail to alts:** set rules like "Herbs -> Alchemist" (Options -> Mail to alts). At the mailbox
-  the "To alts" button sends one mail per click with up to 12 matching stacks.
-- **Buy tab:** the iLvl column now shows the item level for every item (also for items the
-  game had not loaded yet) and can be sorted.
-- **Sell tab - listings appear faster:** listings show up while they are still loading, a click
-  on an item now goes before the bargain watcher and sniper, and hovering over an item already
-  starts loading its listings.
-- **Chat help:** `/ahp help` (or `/ahp ?`) lists all commands in the chat. Unknown commands show
-  the list too.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
