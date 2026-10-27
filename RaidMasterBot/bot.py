@@ -221,6 +221,14 @@ class RaidBot(discord.Client):
             except Exception:
                 log.exception("Einteilungs-Kanäle konnten nicht angelegt werden")
             try:
+                guild0 = bot_guild()
+                if guild0 is not None and guild0.me.guild_permissions.manage_channels:
+                    rep = await server_setup.ensure_raid_extra_channels(guild0, cfg)
+                    if rep:
+                        await post_bot_log("🆕 Zusätzliche Raid-Kanäle: " + "; ".join(rep))
+            except Exception:
+                log.exception("Zusätzliche Raid-Kanäle konnten nicht angelegt werden")
+            try:
                 rep = await ensure_channel_texts()
                 if rep:
                     await post_bot_log("✏️ Texte im neuen Stil: " + ", ".join(rep))

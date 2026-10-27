@@ -1,5 +1,6 @@
 {
   "_info": "Raids mit eigener Kategorie im Discord (Anmeldung, Sprachkanal mit Platzzahl = size, Taktik, DKP, Loot). \"forever\": true = Raid ist auf WoW Forever spielbar/angekündigt -> zusätzlich eigener Einteilungs-Kanal unter ⚔️ RAID-ORGA. Neuen Raid ergänzen: Eintrag anhängen (key = kurzer Schlüssel ohne Leerzeichen, prefix = Kanal-Präfix, nur Kleinbuchstaben/Ziffern/Bindestriche). Der Bot legt beim nächsten Start (nach dem Update) alles automatisch an. Reihenfolge = Reihenfolge der Kategorien.",
+  "_info_extra_channels": "Optional je Raid: \"extra_channels\": [{\"name\": \"feuerresi\", \"topic\": \"...\", \"mode\": \"readonly\"}] -> zusätzlicher Textkanal #<prefix>-<name> in der Raid-Kategorie (mode: leer = alle schreiben, readonly = nur Offiziere/Raidleitung/Bot, botonly = nur Bot).",
   "raids": [
     {
       "key": "mc",
@@ -7,7 +8,14 @@
       "emoji": "🔥",
       "prefix": "mc",
       "size": 40,
-      "forever": true
+      "forever": true,
+      "extra_channels": [
+        {
+          "name": "feuerresi",
+          "topic": "Feuerresistenz für Molten Core: wer wie viel braucht, bei welchen Bossen, Rezepte und Tränke",
+          "mode": "readonly"
+        }
+      ]
     },
     {
       "key": "ony",

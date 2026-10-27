@@ -52,12 +52,20 @@ def _load_raids() -> list[dict]:
             continue
         seen.add(key)
         prefix = re.sub(r"[^a-z0-9-]", "", str(r.get("prefix") or key).lower()) or key
+        extra = []
+        for e in r.get("extra_channels") or []:
+            name = re.sub(r"[^a-z0-9-]", "", str((e or {}).get("name") or "").lower()).strip("-")
+            if name:
+                mode = e.get("mode") if e.get("mode") in ("readonly", "botonly") else None
+                extra.append(("text", f"{prefix}-{name}", e.get("topic") or None, mode))
         out.append({"key": key, "name": str(r["name"]), "emoji": r.get("emoji") or "🗡️", "prefix": prefix,
-                    "size": int(r.get("size") or 40), "forever": bool(r.get("forever"))})
+                    "size": int(r.get("size") or 40), "forever": bool(r.get("forever")), "extra": extra})
     return out or list(_DEFAULT_RAIDS)
 
 
 RAID_DEFS = _load_raids()
+# Zusätzliche Textkanäle je Raid aus forever_raids.json ("extra_channels"), z. B. #mc-feuerresi
+RAID_EXTRA = {r["key"]: r.get("extra") or [] for r in RAID_DEFS}
 RAIDS = [(r["key"], r["name"], r["emoji"], r["prefix"]) for r in RAID_DEFS]
 
 # Raids mit eigenem Einteilungs-Kanal unter ⚔️ RAID-ORGA (die Raids von WoW Forever)
@@ -214,6 +222,7 @@ def raid_category(key: str, name: str, emoji: str = "🗡️", prefix: str | Non
             ("text", f"{p}-anmeldung", f"Anmeldung {name} – per Knopf", "readonly"),
             ("voice", f"🔊 {name}", None, None),
             ("text", f"{p}-taktik", f"Taktik und Fragen zu {name}", None),
+            *RAID_EXTRA.get(key, []),
             ("text", f"{p}-dkp", f"DKP-Stand {name} (automatisch vom RaidMaster-Bot)", "botonly"),
             ("text", f"{p}-loot", f"Loot-Protokoll {name} (automatisch vom RaidMaster-Bot)", "botonly"),
         ],
@@ -834,6 +843,26 @@ async def ensure_assignment_channels(guild: discord.Guild, cfg: dict) -> list[st
     if "einteilung-mc" in created:
         cfg["assignment_channel_id"] = created["einteilung-mc"].id
     return [r for r in report if r.startswith(("✅", "✏️"))]
+
+
+async def ensure_raid_extra_channels(guild: discord.Guild, cfg: dict) -> list[str]:
+    """Zusätzliche Kanäle aus forever_raids.json ("extra_channels") in schon vorhandenen Raid-Kategorien anlegen."""
+    reason = "RaidMaster: zusätzlicher Raid-Kanal"
+    report: list[str] = []
+    roles = _known_roles(guild)
+    for key, name, emoji, prefix in RAIDS:
+        extra = RAID_EXTRA.get(key) or []
+        if not extra or key not in (cfg.get("raid_channels") or {}):
+            continue   # neue Raids bekommen die Kanäle über ensure_raid
+        # Kategorie des Taktik-Kanals nehmen (falls sie umbenannt wurde), sonst den Standardnamen
+        ids = cfg["raid_channels"][key] or {}
+        anchor = next((guild.get_channel(int(ids[k])) for k in ("tactics", "signup", "dkp") if ids.get(k)), None)
+        cat_name = anchor.category.name if anchor and anchor.category else f"{emoji} {name.upper()}"
+        cat_def = {"name": cat_name, "mode": None, "raid": key, "prefix": prefix, "channels": extra}
+        created: dict = {}
+        await _ensure_category(guild, cat_def, roles, report, created, set(), reason)
+        await _hide_from_guests(guild, cat_def, roles, created, report, reason)
+    return [r for r in report if r.startswith(("✅", "↪️"))]
 
 
 async def ensure_raid(guild: discord.Guild, cfg: dict, key: str, name: str, emoji: str = "🗡️",
