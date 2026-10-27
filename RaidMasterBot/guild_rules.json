@@ -1,5 +1,5 @@
 {
-  "_info": "Gildenregeln (nicht Raid). Der Bot postet jeden Kanal; ändert sich der Text hier, ersetzt er seine Beiträge. Kanalname = Schlüssel. Optional je Kanal: \"category\" (eigene Kategorie, Standard 📜 REGELN) und \"mode\" (Rechte, Standard officers_write).",
+  "_info": "Gildenregeln (nicht Raid). Der Bot postet jeden Kanal; ändert sich der Text hier, ersetzt er seine Beiträge. Kanalname = Schlüssel. Optional je Kanal: \"category\" (eigene Kategorie, Standard 📜 REGELN) und \"mode\" (Rechte, Standard officers_write), \"guest\": true = auch die Rolle Gast sieht den Kanal.",
   "channels": [
     {
       "key": "verhaltensregeln",
@@ -37,6 +37,16 @@
       "topic": "Aufnahme, Probezeit, Ränge, Aktivität und Abwesenheit",
       "posts": [
         "🎖️ **Mitmachen, Ränge und Pausen**\n\nSchön, dass du dabei sein willst! Hier steht, wie man zu uns kommt und was die Ränge bedeuten.\n\n👋 **Aufnahme**\n• In die Gilde kommst du über die Einladung eines Offiziers.\n• Stell deinen **Discord-Spitznamen auf deinen Charakternamen** und registriere dich mit `/charakter` – dann leuchtet dein Name in deiner Klassenfarbe.\n• **Twinks** trägst du mit `/twink hinzufügen` ein, so weiß jeder, wer zu wem gehört.\n\n🏷️ **Ränge**\n• **Gildenleitung / Offiziere** – kümmern sich um Gilde, Raids und Gildenbank und helfen, wenn es mal knirscht.\n• **Raider** – sind gern und oft bei unseren Raids dabei.\n• **Mitglied** – gehört nach der Probezeit voll dazu.\n• **Probezeit** – die ersten **zwei Wochen** zum Kennenlernen in Gruppen, Dungeons und im Gildenchat.\n• **Twink** – Zweitcharaktere unserer Mitglieder.\n\n🌴 **Pausen und Abwesenheit**\n• Urlaub oder Spielpause? Sag kurz hier im Discord oder bei einem Offizier Bescheid – das Leben geht vor.\n• Wer **über 60 Tage** ohne Nachricht nicht online war, kann aus der Gilde genommen werden. Zurückkommen geht jederzeit.\n\n🚪 **Wenn du gehst**\n• Ein kurzes Tschüss freut uns. Gildenbank-Items und Geliehenes bleiben bei der Gilde.\n\nFragen? Einfach einen Offizier ansprechen. 🧡"
+      ]
+    },
+    {
+      "key": "pug-regeln",
+      "category": "🎲 PUG",
+      "guest": true,
+      "topic": "Regeln für PUG-Raids: Anmeldung, Soft Reserve, Beute und Verhalten im Raid",
+      "posts": [
+        "🎲 **Regeln für unsere PUG-Raids**\n\nSchön, dass du mit uns raidest! Bei PUGs kennen sich nicht alle – darum gibt es ein paar einfache Absprachen. Dann bleibt es fair, entspannt und alle gehen mit einem guten Gefühl nach Hause.\n\n📝 **Anmelden und reservieren**\n• **Anmelden** per Knopf in #pug-anmeldung – wer angemeldet ist, bekommt zuerst eine Einladung.\n• **Soft Reserve** über **softres.it** vor dem Raidstart eintragen, der Link steht am Raid. Reservieren darfst du so viele Items, wie dort angegeben.\n• **Nur reservieren, was du selbst nutzt** – passend zu Klasse und Skillung.\n• **Nach dem Start** wird an den Reserven nichts mehr geändert.\n\n🎁 **So wird die Beute verteilt**\n• **Reservierte Items:** Nur wer reserviert hat, würfelt mit `/roll`. Hat nur eine Person reserviert, bekommt sie das Item.\n• **Nicht reservierte Items:** Hauptskillung vor Zweitskillung. Wer schon ein Item bekommen hat, würfelt bei Hauptskillung erst wieder, wenn sonst niemand mitwürfelt.\n• **Materialien und wertvolle Items, die beim Anlegen gebunden werden:** offenes Würfeln für alle, außer die Raidleitung sagt vor dem Raid etwas anderes an.\n• **Würfeln** nur mit `/roll` im Raidchat, es zählt der erste Wurf. Verteilt wird vom Plündermeister.",
+        "🎧 **Im Raid**\n• **Pünktlich und vorbereitet:** repariert, ein paar Tränke und Essen dabei.\n• **Sprachkanal 🔊 PUG-Raid:** zuhören reicht, ein Mikro ist kein Muss. Bei Ansagen kurz ruhig sein.\n• **Die Raidleitung sagt an** – bitte nicht selbst pullen und den Markierungen folgen.\n• **Freundlich bleiben:** Ein Wipe gehört dazu. Kein Flamen, kein Ninja-Loot, kein Streit im Raidchat.\n\n🚪 **Früher weg?**\n• Sag kurz Bescheid, dann holen wir Ersatz. Wer ohne ein Wort verschwindet, wird beim nächsten Mal nicht mehr eingeladen.\n• Probleme oder Fragen? Flüster einfach die Raidleitung an.\n\n🤝 **Hat's dir gefallen?**\nWir sind eine entspannte Horde-Gilde auf WoW Forever. Wenn du Lust auf mehr hast, sprich einfach einen Offizier an – wir freuen uns über neue Gesichter! 🔥"
       ]
     }
   ]

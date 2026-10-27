@@ -550,7 +550,8 @@ def _pug_howto_text() -> str:
         "• **Einmal registrieren** (Knopf unten) – dann sagt dir der Bot bei jedem neuen PUG-Raid Bescheid.\n"
         "• **Anmelden** per Knopf direkt am Raid.\n"
         "• **Beute:** Soft Reserve über **softres.it** – den Link findest du am Raid.\n"
-        "• **Einladung im Spiel:** dem Raidleiter `inv` flüstern, solange er Werbung macht.\n\n"
+        "• **Einladung im Spiel:** dem Raidleiter `inv` flüstern, solange er Werbung macht.\n"
+        "• **Regeln** zu Soft Reserve, Würfeln und Verhalten im Raid stehen in **#pug-regeln** – kurz lesen lohnt sich.\n\n"
         "Kleine Überraschung: Im Raid wirst du mit Namen begrüßt. 😉 Das Addon **RaidMaster** aus **#raid-addon** "
         "ist praktisch, aber kein Muss."
     )
@@ -832,7 +833,7 @@ async def ensure_rules_category(guild: discord.Guild, cfg: dict) -> list[str]:
     for cat_name, entries in groups.items():
         # REGELN bleiben wie bisher auch für Gäste sichtbar, andere Kategorien (Gildenbank) nur für die Gilde
         cat_def = {"name": cat_name, "mode": "officers_write" if cat_name == RULES_CATEGORY else None,
-                   "guest": cat_name == RULES_CATEGORY,
+                   "guest": cat_name == RULES_CATEGORY or any(c.get("guest") for c in entries),
                    "channels": [("text", c["key"], c.get("topic"), c.get("mode", "officers_write")) for c in entries]}
         mine: dict = {}
         category = await _ensure_category(guild, cat_def, roles, report, mine, set(), reason)
