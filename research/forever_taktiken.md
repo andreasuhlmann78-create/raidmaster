@@ -20,6 +20,7 @@ Roadmap laut Blizzard (über warcraft.wiki.gg): Frühjahr 2027 „2 neue Raids�
 |---|---|---|---|---|---|
 | announce/barrow-taktik__uebersicht-1.0.md | barrow | 1.0 | 2026-10-27 | Vorschau: Eckdaten + 8 Bossnamen (Reihenfolge unbestätigt), keine Fähigkeiten | Blizzard News 24303009, Blizzard Watch 14.09.2026, warcraft.wiki.gg |
 | announce/hyjal-taktik__uebersicht-1.0.md | hyjal | 1.0 | 2026-10-27 | Vorschau: Eckdaten + 13 Bossnamen (Reihenfolge unbestätigt), keine Fähigkeiten | Blizzard News 24303009, Icy Veins 13.09.2026, Blizzard Watch, warcraft.wiki.gg |
+| announce/onyxia-taktik__onyxia-video-1.0.md | ony | 1.0 | 2026-10-27 | Taktik-Videos (DE: 5kx6k3A8ytM, EN: BFH1_YGbP3k) + Kurz-Merkliste; auf Wunsch von GoldSentinel; Videoinhalt nicht selbst geprüft (YouTube-Seiten nicht abrufbar), Auswahl nach Titel | YouTube, Warcraft Tavern |
 
 ### Bosslisten (Namen aus Spiel-Client/Legacy-Challenges laut Blizzard Watch; Reihenfolge laut warcraft.wiki.gg, noch nicht bestätigt)
 - **Barrow Deeps (8):** Deepscar Matriarch, Khalith the Dreadspinner, Amethrax, Ravus and Darlissa, Elder Tangleclaw, Well of Sorrow, Del'lynar Songwood, Sonya Darkhallow (Endboss)
