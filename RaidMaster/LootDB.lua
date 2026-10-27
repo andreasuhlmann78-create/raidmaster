@@ -11,7 +11,8 @@
 --   lootdb.kills  = { { e = Encounter-ID, p = Topf (mc, ony, barrow, hyjal ...), n = Bossname, t = Zeit, z = Instanz,
 --                       s = Gruppengröße, g = GUID der Leiche/Truhe, i = { Item-IDs } }, ... }   (neueste zuletzt)
 --   lootdb.trash  = { { p = Topf, t = Zeit, z = Instanz, g = GUID der Leiche, m = NPC-ID, i = { Item-IDs } }, ... }
---   lootdb.items  = { [Item-ID] = { n = Name, q = Qualität, ic = Symbol (Datei-ID), f = zuerst gesehen, l = zuletzt gesehen } }
+--   lootdb.items  = { [Item-ID] = { n = Name, q = Qualität, ic = Symbol (Datei-ID), cl = Item-Klasse (7 = Handwerkswaren,
+--                     5 = Reagenz – daran erkennt der Bot neue Handwerksmaterialien), f = zuerst gesehen, l = zuletzt gesehen } }
 --   lootdb.bosses = { [Encounter-ID] = { n = Name, p = Topf, npc = { NPC-IDs der Bossgegner } } }
 -- Im Testmodus wird nichts gespeichert.
 
@@ -128,7 +129,8 @@ function LDB.ReadLootWindow()
 			quality = quality or (RM.ItemQuality and RM.ItemQuality(link)) or 0
 			if quality >= LDB.MIN_QUALITY then
 				ids[#ids + 1] = id
-				info[id] = { n = name or (link:match("%[(.-)%]")), q = quality, ic = IconOf(id, slot) }
+				local classID = RM.GetItemInfoInstant and select(6, RM.GetItemInfoInstant(link)) or nil
+				info[id] = { n = name or (link:match("%[(.-)%]")), q = quality, ic = IconOf(id, slot), cl = classID }
 			end
 		end
 	end
@@ -142,6 +144,7 @@ local function RememberItems(s, ids, info, now)
 		e.n = x.n or e.n
 		e.q = x.q or e.q
 		e.ic = x.ic or e.ic
+		e.cl = x.cl or e.cl
 		e.f = e.f or now
 		e.l = now
 		s.items[id] = e

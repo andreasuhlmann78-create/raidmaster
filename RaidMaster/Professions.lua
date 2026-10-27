@@ -6,6 +6,9 @@
 --
 --   RaidMasterDB.prof[Name] = { c = Klasse, t = Zeit, p = { [Beruf] = { r = Stufe, m = max, i = { Item-IDs }, n = { Namen } } } }
 --   (i und n gehören zusammen: n[k] ist der Name zu i[k]; Rezepte ohne Item, z. B. Verzauberungen, haben i[k] = 0)
+--   RaidMasterDB.recipeMats[Rezeptname] = { p = Beruf, r = { { id = Item-ID, n = Name, c = Anzahl }, ... } }
+--   – nur besondere Zutaten (ab Grün, z. B. Raid-Materialien wie Lavakern). Daraus zeigt der Bot in #regeln,
+--   wofür die Materialien aus den Raids gebraucht werden. Geht wie die Berufe an die Gilde.
 
 local ADDON, RM = ...
 local L = RM.L
@@ -49,11 +52,39 @@ local function ItemIDFromLink(link)
 	return type(link) == "string" and tonumber(link:match("item:(%d+)")) or 0
 end
 
+P.MAT_QUALITY = 2          -- Zutaten ab Grün merken (Raid-Materialien), einfache Stoffe/Kräuter nicht
+
+local function Mats()
+	RM.db.recipeMats = RM.db.recipeMats or {}
+	return RM.db.recipeMats
+end
+
+-- besondere Zutaten eines Rezepts: { { id, n, c } } (leer = nur einfache Zutaten)
+local function ReadReagents(kind, i)
+	local out = {}
+	local num = kind == "craft" and (GetCraftNumReagents and GetCraftNumReagents(i)) or (GetTradeSkillNumReagents and GetTradeSkillNumReagents(i))
+	for j = 1, (num or 0) do
+		local name, _, count
+		local link
+		if kind == "craft" then
+			if GetCraftReagentInfo then name, _, count = GetCraftReagentInfo(i, j) end
+			link = GetCraftReagentItemLink and GetCraftReagentItemLink(i, j)
+		else
+			if GetTradeSkillReagentInfo then name, _, count = GetTradeSkillReagentInfo(i, j) end
+			link = GetTradeSkillReagentItemLink and GetTradeSkillReagentItemLink(i, j)
+		end
+		local id = ItemIDFromLink(link)
+		local quality = link and RM.ItemQuality and RM.ItemQuality(link) or 0
+		if id > 0 and quality >= P.MAT_QUALITY then out[#out + 1] = { id = id, n = name, c = count or 1 } end
+	end
+	return out
+end
+
 -- offenes Berufsfenster lesen (Fertigkeiten-Fenster oder – für Verzauberkunst in Classic – Handwerksfenster)
 function P.ScanOpen(kind)
 	if not RM.db then return nil end
 	local profName, rank, max
-	local ids, names = {}, {}
+	local ids, names, mats = {}, {}, {}
 	if kind == "craft" then
 		if not GetCraftDisplaySkillLine then return nil end
 		profName, rank, max = GetCraftDisplaySkillLine()
@@ -62,6 +93,8 @@ function P.ScanOpen(kind)
 			if name and ctype ~= "header" then
 				ids[#ids + 1] = ItemIDFromLink(GetCraftItemLink and GetCraftItemLink(i))
 				names[#names + 1] = name
+				local rg = ReadReagents("craft", i)
+				if #rg > 0 then mats[name] = rg end
 			end
 		end
 	else
@@ -72,12 +105,16 @@ function P.ScanOpen(kind)
 			if name and ttype ~= "header" then
 				ids[#ids + 1] = ItemIDFromLink(GetTradeSkillItemLink and GetTradeSkillItemLink(i))
 				names[#names + 1] = name
+				local rg = ReadReagents("trade", i)
+				if #rg > 0 then mats[name] = rg end
 			end
 		end
 	end
 	if not profName or profName == "" or profName == "UNKNOWN" then return nil end
 	local me = Mine()
 	me.p[profName] = { r = rank, m = max, i = ids, n = names }
+	local store = Mats()
+	for recipe, rg in pairs(mats) do store[recipe] = { p = profName, r = rg } end
 	me.t = GetServerTime()
 	-- Sammelberufe und Stufen ergänzen
 	for name, v in pairs(P.ReadSkillLines()) do
@@ -164,7 +201,25 @@ function P.SendMine(channel)
 	local me = RM.db and RM.db.prof and RM.db.prof[RM.Me()]
 	if not me or not RM.MyGuild() then return end
 	RM.Comm.Send("PROF", { c = me.c, t = me.t, p = me.p }, channel or "GUILD")
+	-- besondere Zutaten der eigenen Rezepte (für "Wofür braucht man Lavakern?" im Discord)
+	local mine = {}
+	local n = 0
+	for _, v in pairs(me.p or {}) do
+		for _, recipe in ipairs(v.n or {}) do
+			local m = RM.db.recipeMats and RM.db.recipeMats[recipe]
+			if m then mine[recipe] = m; n = n + 1 end
+		end
+	end
+	if n > 0 then RM.Comm.Send("RCP", { m = mine }, channel or "GUILD") end
 end
+
+RM.Comm.Register("RCP", function(sender, d, channel)
+	if type(d.m) ~= "table" or (channel ~= "WHISPER" and channel ~= "GUILD") then return end
+	local store = Mats()
+	for recipe, m in pairs(d.m) do
+		if type(recipe) == "string" and type(m) == "table" and type(m.r) == "table" then store[recipe] = { p = m.p, r = m.r } end
+	end
+end)
 
 RM.Comm.Register("PROF", function(sender, d, channel)
 	if type(d.p) ~= "table" then return end

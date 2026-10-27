@@ -1975,6 +1975,12 @@ async def update_lootdb(force_pools: list[str] | None = None):
     if added:
         lootdb.save()
         log.info("Beute-Datenbank: %d neue Kills von %s.", added, uploader or "?")
+    # neue Materialien/Rezepte aus der Beute und den Berufen: #regeln und #pug-regeln nachziehen (nur bei Änderung)
+    try:
+        await ensure_dkp_rules()
+        await ensure_guild_rules()
+    except Exception as e:  # noqa: BLE001
+        log.warning("Regeln mit Materialien nicht aktualisiert: %s", e)
     if not cfg.get("loot_tables", True):
         return
     pools = force_pools if force_pools is not None else (rmd.lootdb_pools(lootdb.data) if added else [])
@@ -2977,7 +2983,8 @@ async def ensure_guild_rules() -> list[str]:
         ch = await channel_by_id((cfg.get("rules_channels") or {}).get(key))
         if not ch:
             continue
-        posts = [p for p in rule.get("posts") or [] if p.strip()]
+        examples = server_setup.material_examples(rmd.raid_materials(lootdb.data))
+        posts = [p.replace("{material_beispiele}", examples) for p in rule.get("posts") or [] if p.strip()]
         if not posts:
             continue                       # z. B. #gildenbank-bestand: dort schreibt nur der Bot den Bestand
         digest = str(zlib.crc32("\n".join(posts).encode("utf-8")))
@@ -3019,7 +3026,8 @@ async def ensure_dkp_rules() -> list[str]:
     if ch is None:
         return []
     settings = (bot.dkp_data or {}).get("settings") if isinstance((bot.dkp_data or {}).get("settings"), dict) else None
-    posts = [p[:2000] for p in server_setup.rules_posts(settings)]
+    mats = rmd.raid_materials(lootdb.data)
+    posts = [p[:2000] for p in server_setup.rules_posts(settings, mats, rmd.material_recipes(bot.dkp_db, mats))]
     digest = str(zlib.crc32("\n".join(posts).encode("utf-8")))
     rec = state.data.get("dkp_rules") or {}
     if rec.get("hash") == digest and rec.get("ch") == ch.id and rec.get("ids"):

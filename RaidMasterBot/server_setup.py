@@ -470,11 +470,7 @@ def _rules_text(s: dict) -> str:
         f"Zeit **{s.get('auctionTime', 30)} Sekunden**. Das höchste Gebot gewinnt.\n"
         "• **Tipp:** Fährst du mit der Maus über ein Item, zeigt dir RaidMaster, was es bisher gekostet hat.\n"
         "• Ohne Addon geht's auch: `/w <Plündermeister> !bid 50` flüstern.\n\n"
-        "🧵 **Handwerksmaterial gehört der Gilde**\n"
-        "• Materialien wie **Kernleder, Lavakern, Feuerkern** oder **Blut des Berges** werden nicht versteigert, sondern "
-        "kommen in die **Gildenbank**.\n"
-        "• Du willst daraus etwas herstellen (z. B. Feuerwiderstand)? Einfach einen Offizier fragen – dafür ist es da. "
-        "Weiterverkaufen ist nicht drin.\n\n"
+        "🧵 **Handwerksmaterial gehört der Gilde** – mehr dazu in der nächsten Nachricht.\n\n"
         "📌 **Gut zu wissen**\n"
         f"• **Verfall:** Jeden Mittwoch sinken alle DKP um **{s.get('decayPct', 10)} %** – so bleibt es für Neue fair.\n"
         "• **Main vor Twink:** Twinks bekommen ein Item nur, wenn kein Main bietet. Twink eintragen: `/twink hinzufügen`.\n"
@@ -520,11 +516,51 @@ def _raid_rules_texts() -> list[str]:
     )]
 
 
-def rules_posts(dkp_settings: dict | None = None) -> list[str]:
-    """Beiträge in #regeln: DKP-Regeln und Raid-Regeln (je eine Nachricht, der Bot hält sie aktuell)."""
+def materials_text(materials: dict | None = None, recipes: dict | None = None) -> str:
+    """Eigene Nachricht in #regeln: Handwerksmaterial je Raid (bekannt + von RaidMaster erfasst) und wofür man es braucht.
+    materials: {Topf: [Name, ...]}, recipes: {Material (klein): [„Rezept (Beruf)“, ...]}"""
+    materials = materials or {}
+    recipes = recipes or {}
+    lines = ["🧵 **Handwerksmaterial gehört der Gilde**", "",
+             "Materialien aus unseren Raids werden **nicht versteigert**, sie kommen in die **Gildenbank**. Du willst daraus "
+             "etwas herstellen? Einfach einen Offizier fragen – dafür ist es da. Weiterverkaufen ist nicht drin.", ""]
+    for key in ASSIGN_RAIDS:
+        r = next((x for x in RAID_DEFS if x["key"] == key), None)
+        if not r:
+            continue
+        mats = materials.get(key) or []
+        if not mats:
+            lines.append(f"{r['emoji']} **{r['name']}:** _noch unbekannt – RaidMaster trägt sie hier ein, sobald etwas droppt._")
+            continue
+        lines.append(f"{r['emoji']} **{r['name']}:** " + ", ".join(mats))
+        for m in mats:
+            used = recipes.get(m.lower()) or []
+            if used:
+                more = f" und {len(used) - 5} weitere" if len(used) > 5 else ""
+                lines.append(f"   ↳ _{m}_ für: " + ", ".join(used[:5]) + more)
+    lines += ["", "_Neue Materialien und Rezepte ergänzt der Bot automatisch – aus der Beute, die RaidMaster erfasst, "
+              "und aus den Berufen der Addon-Nutzer._"]
+    text = "\n".join(lines)
+    if len(text) > 1990:
+        text = text[:1980].rsplit("\n", 1)[0] + "\n…"
+    return text
+
+
+def material_examples(materials: dict | None = None, n: int = 4) -> str:
+    """Ein paar bekannte Materialien als Beispiel für Regeltexte, z. B. „Kernleder, Lavakern, Feuerkern“."""
+    out = []
+    for key in ASSIGN_RAIDS:
+        for m in (materials or {}).get(key) or []:
+            if m not in out:
+                out.append(m)
+    return ", ".join(out[:n]) if out else "Handwerksmaterialien"
+
+
+def rules_posts(dkp_settings: dict | None = None, materials: dict | None = None, recipes: dict | None = None) -> list[str]:
+    """Beiträge in #regeln: DKP-Regeln, Handwerksmaterial und Raid-Regeln (der Bot hält sie aktuell)."""
     s = dict(DEFAULT_DKP)
     s.update(dkp_settings or {})
-    return [_rules_text(s)] + _raid_rules_texts()
+    return [_rules_text(s), materials_text(materials, recipes)] + _raid_rules_texts()
 
 
 def _raid_howto_text(name: str, key: str | None = None) -> str:

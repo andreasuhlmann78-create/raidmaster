@@ -1630,7 +1630,7 @@ def lootdb_merge(store: dict, addon_db: dict | None, uploader: str = "") -> int:
             if not isinstance(it, dict):
                 continue
             cur = store["items"].setdefault(str(int(iid)), {})
-            for f in ("n", "q", "ic"):
+            for f in ("n", "q", "ic", "cl"):
                 if it.get(f) not in (None, ""):
                     cur[f] = it[f]
             if it.get("f"):
@@ -1647,6 +1647,86 @@ def lootdb_merge(store: dict, addon_db: dict | None, uploader: str = "") -> int:
                 if b.get("p"):
                     cur["p"] = b["p"]
     return added
+
+
+MATERIAL_CLASSES = {5, 7}      # Reagenz, Handwerkswaren (Item-Klasse aus dem Spiel)
+
+
+def known_materials() -> dict:
+    """Bekannte Handwerksmaterialien je Raid aus raid_materials.json (zuverlässige Quellen)."""
+    try:
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "raid_materials.json"), encoding="utf-8") as f:
+            m = json.load(f).get("materials") or {}
+        return {str(k): [str(x) for x in (v or []) if x] for k, v in m.items()}
+    except (OSError, ValueError, AttributeError):
+        return {}
+
+
+def lootdb_materials(store: dict | None) -> dict:
+    """Handwerksmaterialien, die RaidMaster in einem Raid droppen sah: {Topf: [Name, ...]} (häufigste zuerst)."""
+    store = store or {}
+    items = store.get("items") or {}
+    removed = lootdb_removed(store) if store.get("removed") else set()
+    counts: dict = {}
+    for src in (store.get("kills") or []) + (store.get("trash") or []):
+        pool = src.get("p")
+        if not pool:
+            continue
+        for iid in src.get("i") or []:
+            it = items.get(str(iid)) or {}
+            try:
+                cl = int(it.get("cl")) if it.get("cl") is not None else None
+            except (TypeError, ValueError):
+                cl = None
+            if src.get("e") and (int(src["e"]), int(iid)) in removed:
+                continue                      # als falsch erfasst entfernt (/beute entfernen)
+            if cl in MATERIAL_CLASSES and it.get("n"):
+                counts.setdefault(pool, {}).setdefault(it["n"], 0)
+                counts[pool][it["n"]] += 1
+    return {p: [n for n, _ in sorted(c.items(), key=lambda x: (-x[1], x[0]))] for p, c in counts.items()}
+
+
+def known_recipes() -> dict:
+    """Rezepte zu Materialien aus raid_materials.json (Recherche): {Material (klein): [„Rezept (Beruf)“]}"""
+    try:
+        with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "raid_materials.json"), encoding="utf-8") as f:
+            r = json.load(f).get("recipes") or {}
+        return {str(k).lower(): [str(x) for x in (v or []) if x] for k, v in r.items()}
+    except (OSError, ValueError, AttributeError):
+        return {}
+
+
+def material_recipes(db: dict | None, materials: dict) -> dict:
+    """Wofür braucht man die Materialien? Aus RaidMasterDB.recipeMats (Berufe der Addon-Nutzer) und der Recherche.
+    Liefert {Material (klein): [„Rezept (Beruf)“, ...]}."""
+    wanted = {m.lower() for names in materials.values() for m in names}
+    out: dict = {k: list(v) for k, v in known_recipes().items() if k in wanted}
+    rm = (db or {}).get("recipeMats") or {}
+    if isinstance(rm, dict):
+        for recipe, e in rm.items():
+            if not isinstance(e, dict):
+                continue
+            for r in lua_list(e.get("r")):
+                n = str((r or {}).get("n") or "").lower() if isinstance(r, dict) else ""
+                if n in wanted:
+                    label = f"{recipe} ({e.get('p')})" if e.get("p") else str(recipe)
+                    lst = out.setdefault(n, [])
+                    if label not in lst:
+                        lst.append(label)
+    for k in out:
+        out[k].sort()
+    return out
+
+
+def raid_materials(store: dict | None) -> dict:
+    """Bekannte + selbst erfasste Materialien je Raid (ohne Doppelte)."""
+    out = {k: list(v) for k, v in known_materials().items()}
+    for pool, names in lootdb_materials(store).items():
+        cur = out.setdefault(pool, [])
+        for n in names:
+            if n.lower() not in {x.lower() for x in cur}:
+                cur.append(n)
+    return out
 
 
 def lootdb_removed(store: dict) -> set:

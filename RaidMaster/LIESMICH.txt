@@ -1,4 +1,4 @@
-RaidMaster 3.0.2 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 3.0.3 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,12 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+NEU IN 3.0.3 – Raid-Materialien und Rezepte
+- Die Beute-Datenbank merkt sich jetzt auch die Art jedes Items. So erkennt der Discord-Bot Handwerksmaterialien aus
+  neuen Raids (Barrow Deeps, Hyjal und alle künftigen) von selbst, sobald sie droppen, und trägt sie in #regeln ein.
+- "Meine Berufe einlesen" merkt sich bei jedem Rezept die besonderen Zutaten (ab Grün, z. B. Lavakern). Daraus zeigt
+  der Bot, wofür die Raid-Materialien gebraucht werden. Die Rezepte gehen wie die Berufe an die Gilde.
 
 NEU IN 3.0.2 – Einteilung je Raid
 - Raid > Einteilung: oben den Raid wählen (Molten Core, Onyxias Hort, Barrow Deeps, Hyjalgipfel). Jeder Raid hat

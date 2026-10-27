@@ -1,0 +1,15 @@
+{
+  "_info": "Bekannte Handwerksmaterialien je Raid (deutsche Namen). Bei neuen Raids leer lassen, bis etwas bekannt ist: der Bot ergänzt automatisch alles, was RaidMaster dort an Handwerkswaren/Reagenzien droppen sieht. Die geplante Recherche-Aufgabe trägt hier nur Materialien aus zuverlässigen Quellen ein. Unter \"recipes\": {Materialname: [\"Rezept (Beruf)\", ...]} – nur aus zuverlässigen Quellen; die Rezepte der Addon-Nutzer ergänzt der Bot selbst.",
+  "materials": {
+    "mc": [
+      "Kernleder",
+      "Lavakern",
+      "Feuerkern",
+      "Blut des Berges"
+    ],
+    "ony": [],
+    "barrow": [],
+    "hyjal": []
+  },
+  "recipes": {}
+}

@@ -28,6 +28,9 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
+**3.0.3** – Raid-Materialien
+• Neue Materialien aus Barrow Deeps, Hyjal und künftigen Raids erkennt RaidMaster beim Droppen; der Bot zeigt sie in #regeln samt den Rezepten, die sie brauchen.
+
 **3.0.2** – Einteilung je Raid
 • Eigene Einteilung für Molten Core (geprüft, mit Baron Geddon), Onyxia, Barrow Deeps und Hyjal – im Discord je Raid ein Kanal unter ⚔️ RAID-ORGA. Tanks heißen überall MT und OT1, OT2 …
 
