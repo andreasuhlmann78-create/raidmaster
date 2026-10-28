@@ -1,6 +1,10 @@
 🛡️ **GuildSentinel – das Gildentool**
 
-GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mit Twinks), **wer ist wo**, **wer sucht eine Gruppe**, **wer bietet gerade Portale an**, **was steht an**, **wer levelt am schnellsten**, **wer hat welchen Raid-Zugang** – dazu Termine, Brett, Umfragen, Rekrutierung, Berufe und Gildenregeln. Alles per Maus, auf Deutsch und Englisch, vernetzt mit allen Addons von GoldSentinel.
+GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mit Twinks), **wer ist wo**, **wer sucht eine Gruppe**, **wer bietet gerade Portale an**, **was steht an**, **wer levelt am schnellsten**, **wer hat welchen Raid-Zugang** – dazu Termine, Brett, Umfragen, Rekrutierung, Berufe und Gildenregeln. Alles per Maus, in allen Sprachen des Spiels, für Classic Era, WoW Forever und TBC – vernetzt mit allen Addons von GoldSentinel.
+
+**🏠 Übersicht**
+• Gilden-Gesundheit auf einen Blick: aktive Spieler gegenüber dem Vormonat, Zu- und Abgänge, wer bald inaktiv wird, offene Bewerber, nächster Termin
+• „Für dich“: Termine ohne Antwort, offene Umfragen, Herstellungswünsche, Fragen an die Gilde
 
 **👥 Mitglieder**
 • Liste mit Stufe, Klasse, Rang, Zone oder „zuletzt online“ – suchen, filtern, Twinks ein- und ausblenden
@@ -24,6 +28,13 @@ GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mi
 • Wer von Stufe und Rolle passt, bekommt einen Hinweis im Chat
 • „Ich komme mit“ – ein Klick, und der Suchende sieht dich in seiner Liste und lädt dich mit einem Klick ein
 
+**🛡 Leitung** (nur Offiziere)
+• **Probezeit** mit Online-Tagen, Terminen und Danke – danach „Befördern“ oder „Gespräch“
+• **Pate vorschlagen** nach gleichen Online-Zeiten, **Abgänge mit Grund**, **Offiziersnotizen** mit Verlauf (nur für Offiziere), **Rangrechte**
+
+**🗓 Meine Woche**
+• Gesperrte Raids und Heroics je Charakter, Dailies, **Raid-Vorbereitung** (Fläschchen, Tränke, Reagenzien, Haltbarkeit, Widerstände)
+
 **📅 Gildentermine**
 • PvP-Abend, Gildentreffen, Dungeon-Nacht, Weltboss … – jeder legt Termine an, alle sagen per Klick zu
 • Erinnerung 15 Minuten vorher – Raids bleiben bei RaidMaster und der Anmeldung hier im Discord
@@ -31,6 +42,8 @@ GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mi
 **📌 Brett**
 • **Dienste**: Magier bieten Portale an, Hexenmeister Beschwören, Schurken Schlösser knacken, Verzauberer ihre Verzauberungen – alle sehen, wer gerade Zeit hat
 • **Biete/Suche unter Mitgliedern**: Passt eine Suche zu einem Angebot, bekommen beide einen Hinweis (keine Gildenbank – gehandelt wird direkt)
+• **Beute-Wünsche**: wer braucht was aus welchem Dungeon – die Gruppensuche zeigt es an
+• **Fragen an die Gilde**: „Wer weiss …?“ – die hilfreichste Antwort bekommt einen Danke-Punkt
 
 **🗳 Umfragen**
 • Offiziere fragen („Raid lieber Mittwoch oder Donnerstag?“), alle mit dem Addon stimmen per Klick ab
@@ -43,6 +56,7 @@ GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mi
 • **Wochenziel**: „150 Stufen als Gilde diese Woche“ mit Balken und Ansage, wenn es geschafft ist
 • **Gilden-Meilensteine**: 5 Mitglieder auf 60, 25 Spieler, alle Tanks eingestimmt, Erstkills … – jeder wird einmal gefeiert
 • **Dank-Punkte**: „Danke sagen“ für Hilfe – mit Rangliste der Hilfsbereitesten
+• **Gildenerfolge**, **Chronik** (Export für Discord) und ein **Wochenrückblick** im Gildenchat
 
 **📣 Rekrutierung und Gildenleben**
 • Werbetext mit Vorschau – jeder Klick postet in den nächsten Kanal (Welt, Gruppensuche, Handel)
