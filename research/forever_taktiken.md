@@ -22,6 +22,7 @@ Roadmap laut Blizzard (über warcraft.wiki.gg): Frühjahr 2027 „2 neue Raids�
 | announce/hyjal-taktik__uebersicht-1.0.md | hyjal | 1.0 | 2026-10-27 | Vorschau: Eckdaten + 13 Bossnamen (Reihenfolge unbestätigt), keine Fähigkeiten | Blizzard News 24303009, Icy Veins 13.09.2026, Blizzard Watch, warcraft.wiki.gg |
 | announce/onyxia-taktik__onyxia-video-1.0.md | ony | 1.0 | 2026-10-27 | Taktik-Videos (DE: 5kx6k3A8ytM, EN: BFH1_YGbP3k) + Kurz-Merkliste; auf Wunsch von GoldSentinel; Videoinhalt nicht selbst geprüft (YouTube-Seiten nicht abrufbar), Auswahl nach Titel | YouTube, Warcraft Tavern |
 | announce/mc-feuerresi__feuerresi-1.0.md | mc | 1.0 | 2026-10-27 | Neuer Kanal #mc-feuerresi (Wunsch GoldSentinel, Bot 1.5.74 "extra_channels"): FR-Bedarf je Rolle/Boss, Tränke/Buffs (Horde), herstellbare FR-Teile je Beruf; Stand Classic, Forever-Berufe noch prüfen; einige Itemnamen noch englisch | warcraft.wiki.gg Ragnaros (tactics), Icy Veins Ragnaros, Wowhead FR-Tank-Guide, Warcraft Tavern FR-Guide |
+| announce/onyxia-feuerresi__feuerresi-1.0.md | ony | 1.0 | 2026-10-28 | Neuer Kanal #onyxia-feuerresi (extra_channels): Blizzard-Vorschau sagt offiziell „Feuerresi vor Onyxia aufbauen“; Bedarf je Rolle (MT/OTs Resi-Teile, Rest Großer Feuerschutztrank), Fähigkeiten mit Classic-Schadenswerten, Tränke/Buffs (Horde); genaue Forever-Werte noch nicht bestätigt | Blizzard News 24303009, warcraft.wiki.gg Onyxia_(Classic), Icy Veins Onyxia Classic, Warcraft Tavern FR-Guide |
 
 ### Bosslisten (Namen aus Spiel-Client/Legacy-Challenges laut Blizzard Watch; Reihenfolge laut warcraft.wiki.gg, noch nicht bestätigt)
 - **Barrow Deeps (8):** Deepscar Matriarch, Khalith the Dreadspinner, Amethrax, Ravus and Darlissa, Elder Tangleclaw, Well of Sorrow, Del'lynar Songwood, Sonya Darkhallow (Endboss)
@@ -30,7 +31,9 @@ Roadmap laut Blizzard (über warcraft.wiki.gg): Frühjahr 2027 „2 neue Raids�
 ### Was noch fehlt
 - Barrow Deeps: Fähigkeiten/Taktik aller 8 Bosse (ab 09.12.2026 täglich recherchieren), deutsche Namen
 - Hyjalgipfel: Fähigkeiten/Taktik aller 13 Bosse, Routen/Wege (ab 09.12.2026), deutsche Namen
-- Resistenz-Kanal (wie #mc-feuerresi) für Barrow Deeps, Hyjalgipfel und alle künftigen Forever-Raids: erst anlegen, wenn gesicherte Quellen Resistenzbedarf/Rezepte zeigen (kein Datamining). Stand 2026-10-27: nichts gesichert, kein Kanal.
+- Resistenz-Kanal (wie #mc-feuerresi) für Barrow Deeps, Hyjalgipfel und alle künftigen Forever-Raids: erst anlegen, wenn gesicherte Quellen Resistenzbedarf/Rezepte zeigen (kein Datamining). Stand 2026-10-28: Barrow/Hyjal weiter nichts gesichert (Blizzard-Vorschau nennt keine Resistenz, warcraft.wiki.gg-Bossseiten noch leer), kein Kanal. Onyxia: Kanal #onyxia-feuerresi angelegt (Blizzard bestätigt Feuerresi).
+- Hinweis: warcraft.wiki.gg Barrow Deeps nennt im Text 20 Spieler, in der Infobox 10 – Blizzard sagt offiziell 10, size bleibt 10.
+- Onyxia-Feuerresi: konkrete Forever-Zahlen/Rezepte nach Öffnung (09.12.2026) prüfen, ggf. Version 1.1.
 
 ## (C) Materialien & Rezepte
 
@@ -44,7 +47,7 @@ Noch nicht bestätigt (nur Datamining Beta, nicht eintragen):
 | Raid | Letzte Prüfung | Ergebnis |
 |---|---|---|
 | mc | 2026-10-27 | keine Forever-Änderungen gefunden, nichts gepostet |
-| ony | 2026-10-27 | keine Forever-Änderungen an der Begegnung gefunden (nur Einstimmung bestätigt), nichts gepostet |
-| barrow | 2026-10-27 | Vorschau 1.0 gepostet |
-| hyjal | 2026-10-27 | Vorschau 1.0 gepostet |
-| bwl, zg, aq20, aq40, naxx | 2026-10-27 | keine Forever-Ankündigung |
+| ony | 2026-10-27 | keine Forever-Änderungen an der Begegnung gefunden (nur Einstimmung bestätigt), nichts gepostet; 2026-10-28 Feuerresi-Kanal ergänzt |
+| barrow | 2026-10-28 | keine neuen offiziellen Bossinfos, nichts gepostet |
+| hyjal | 2026-10-28 | keine neuen offiziellen Bossinfos, nichts gepostet |
+| bwl, zg, aq20, aq40, naxx | 2026-10-28 | keine Forever-Ankündigung (Launch WoW Forever laut Blizzard Watch 04.11.2026) |

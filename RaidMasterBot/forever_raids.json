@@ -24,7 +24,14 @@
       "prefix": "onyxia",
       "size": 40,
       "forever": true,
-      "opens": "2026-12-09"
+      "opens": "2026-12-09",
+      "extra_channels": [
+        {
+          "name": "feuerresi",
+          "topic": "Feuerresistenz für Onyxias Hort: wer wie viel braucht, bei welchen Bossen, Rezepte und Tränke",
+          "mode": "readonly"
+        }
+      ]
     },
     {
       "key": "barrow",
