@@ -1070,6 +1070,17 @@ local function CreateMain()
 	rightsBtn:SetPoint("RIGHT", testBtn, "LEFT", -6, 0)
 	rightsBtn:SetAccent(true)
 	rightsBtn:Hide()
+	-- Spenden-Knopf „Unterstützen“: immer links neben den übrigen Knöpfen (öffnet nur auf Klick)
+	local donateBtn = RM.Donate.CreateButton(titleBar, 96, 22)
+	f.donateButton = donateBtn
+	-- Untertitel endet vor den Knöpfen, damit lange Texte (Testmodus, andere Sprachen) nichts überdecken
+	sub:SetWordWrap(false)
+	local function PlaceDonate()
+		local left = (rightsBtn:IsShown() and rightsBtn) or (testBtn:IsShown() and testBtn) or diag
+		donateBtn:ClearAllPoints()
+		donateBtn:SetPoint("RIGHT", left, "LEFT", -6, 0)
+		sub:SetPoint("RIGHT", donateBtn, "LEFT", -10, 0)
+	end
 	local function TestVisible()
 		local T = RM.Test
 		-- Testen ist für jeden gefahrlos (Daten werden gesichert) – Knopf immer sichtbar
@@ -1087,6 +1098,7 @@ local function CreateMain()
 			testBtn:SetAccent(false)
 			rightsBtn:Hide()
 		end
+		PlaceDonate()
 	end
 	f:HookScript("OnShow", TestVisible)
 	RM.Listen("SESSION_CHANGED", TestVisible)

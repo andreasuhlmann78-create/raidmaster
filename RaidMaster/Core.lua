@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "3.0.4"
-RM.VERSION_NUM = 30004
+RM.VERSION = "3.0.5"
+RM.VERSION_NUM = 30005
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -700,6 +700,8 @@ SlashCmdList["RAIDMASTER"] = function(msg)
 		if msg == "fix" then RM.Diag.Fix() else RM.Diag.Toggle() end
 	elseif msg == "discord" or msg == "anleitung" or msg == "guide" then
 		RM.Guide.Toggle()
+	elseif msg == "spenden" or msg == "donate" or msg == "support" then
+		RM.Donate.Show()
 	elseif msg == "minimap" then
 		RM.UI.ToggleMinimapButton()
 	elseif msg == "version" or msg == "info" then

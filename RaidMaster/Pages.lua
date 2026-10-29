@@ -1920,6 +1920,12 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 		function(v) RM.db.config.records = v end,
 		L["Erstkill: Fanfare, Schlachtzugwarnung und Screenshot für Discord. Bestzeiten: 'Neuer Rekord!' bei schnelleren Kills."])
 	Place(recCheck, page, x2 + 250, y2 - 126)
+	-- Addon unterstützen (PayPal) – nur auf Klick, wie oben in der Titelleiste
+	local donateLabel = Label(page, L["Addon unterstützen"], x2, y2 - 163)
+	donateLabel:SetWidth(170)
+	donateLabel:SetWordWrap(false)
+	local donateBtn = RM.Donate.CreateButton(page, 120, 24)
+	Place(donateBtn, page, x2 + 175, y2 - 158)
 
 	return function()
 		UpdateBossRows()

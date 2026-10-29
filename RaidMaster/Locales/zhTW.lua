@@ -753,3 +753,10 @@ L["Verwerfen"] = "放棄變更"
 L["Diese Werte gelten für die ganze Gilde und werden mit allen Addon-Nutzern abgeglichen. "] = "這些數值適用於整個公會，並會與所有插件使用者同步。 "
 L["Häkchen werden sofort lokal übernommen und beim Speichern verteilt."] = "勾選項目會立刻在本機套用，並在儲存時發送出去。"
 L["Minimap-Knopf ausblenden"] = "隱藏小地圖按鈕"
+
+-- Spenden-Knopf (Donate.lua)
+L["%s unterstützen"] = "支持 %s"
+L["Unterstützen"] = "支持"
+L["Danke, dass du %s unterstützt! Jede Spende hilft mir, mehr Zeit in neue Funktionen und schnelle Fehlerbehebungen zu stecken."] = "非常感謝你支持 %s！每一筆贊助都能讓我投入更多時間開發新功能和快速修復問題。"
+L["Strg+C kopiert den PayPal-Link - dann im Browser einfügen."] = "按 Ctrl+C 複製 PayPal 連結，然後貼到瀏覽器中。"
+L["Addon unterstützen"] = "支持插件"

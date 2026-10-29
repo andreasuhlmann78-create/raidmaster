@@ -28,6 +28,9 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
+**3.0.5** – Addon unterstützen
+• Neuer Knopf **Unterstützen** oben im RaidMaster-Fenster (auch in den Einstellungen und mit `/rm spenden`): zeigt den PayPal-Link zum Kopieren. Geht nie von selbst auf – keine Erinnerungen, keine Werbung. Danke an alle, die mithelfen! ☕
+
 **3.0.4** – Einteilung Onyxia
 • Onyxia-Einteilung mit allen drei Phasen (Welpen-OTs, Magier, Furchtschutz, Erdstoß-Totem); #einteilung-onyxia mit Grundplan.
 

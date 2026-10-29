@@ -755,3 +755,10 @@ L["Häkchen werden sofort lokal übernommen und beim Speichern verteilt."] = "�
 L["Minimap-Knopf ausblenden"] = "미니맵 버튼 숨기기"
 L["Schutz (Paladin)"] = "보호"
 L["Wiederherstellung (Druide)"] = "회복"
+
+-- Spenden-Knopf (Donate.lua)
+L["%s unterstützen"] = "%s 후원하기"
+L["Unterstützen"] = "후원"
+L["Danke, dass du %s unterstützt! Jede Spende hilft mir, mehr Zeit in neue Funktionen und schnelle Fehlerbehebungen zu stecken."] = "%s 를 후원해 주셔서 정말 감사합니다! 모든 후원은 새 기능과 빠른 버그 수정에 더 많은 시간을 쓰는 데 도움이 됩니다."
+L["Strg+C kopiert den PayPal-Link - dann im Browser einfügen."] = "Ctrl+C로 PayPal 링크를 복사한 뒤 브라우저에 붙여넣으세요."
+L["Addon unterstützen"] = "애드온 후원"

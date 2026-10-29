@@ -1,4 +1,4 @@
-RaidMaster 3.0.4 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 3.0.5 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,13 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+NEU IN 3.0.5 – Addon unterstützen
+- RaidMaster ist kostenlos und entsteht in meiner Freizeit. Wer mag, kann es mit einer kleinen Spende unterstützen:
+  Knopf "Unterstützen" oben im RaidMaster-Fenster (links neben "Test"/"Diagnose"), in den Einstellungen
+  ("Addon unterstützen") oder /rm spenden. Das Fenster zeigt den PayPal-Link markiert: Strg+C, dann im Browser einfügen.
+- Nichts davon geht von selbst auf – keine Erinnerungen, keine Werbung im Chat.
+- Selbsttest im Test-Werkzeug prüft den Knopf mit (Knopf da, Fenster mit Link, Esc schließt).
 
 NEU IN 3.0.4 – Einteilung Onyxia
 - Raid > Einteilung > "Onyxias Hort": ausführlicher – Phase 1 Nahkampf an der Flanke, Phase 2 (ab 65 %) Welpen-OTs
@@ -517,6 +524,7 @@ BEFEHLE
   /rm clear    alle Schlachtzugsymbole auf einmal ausblenden (auch Knopf "Alle aus" in der Symbolleiste)
   /rm adds     alle sichtbaren Adds nach der Vorlage des Bosses markieren (Namensplaketten an)
   /rm version  Addon-, Spielversion und Sprache anzeigen
+  /rm spenden  Addon unterstützen (PayPal-Link zum Kopieren; auch /rm donate oder /rm support)
 
 ERSTER TEST (empfohlen)
 - Mit 2–3 Leuten in einer Raidgruppe: Raid starten, ein Item per Shift-Klick versteigern,

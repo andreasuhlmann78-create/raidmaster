@@ -1391,6 +1391,30 @@ function T.SelfTest()
 	for _ in pairs(d.players or {}) do players = players + 1 end
 	line(true, string.format("Daten: %d Spieler, %d Log-Einträge, Stand %s", players, #(d.log or {}), d.version > 0 and RM.FormatTime(math.min(d.version, GetServerTime())) or "leer"))
 	line(nil, "Testmodus: " .. (T.active and ("AN, Ansicht als " .. ROLE_NAMES[T.role]) or "aus"))
+	-- Spenden-Knopf: Knopf da, Klick öffnet das Fenster, Feld enthält genau den Link, Esc schließt
+	do
+		local D = RM.Donate
+		local mainF = _G["RaidMasterMainFrame"]
+		local btn = mainF and mainF.donateButton
+		local wasShown = D and D.Frame() and D.Frame():IsShown()
+		if not btn then
+			line(nil, "Spenden-Knopf: erst das RaidMaster-Fenster (/rm) öffnen, dann den Selbsttest wiederholen")
+		else
+			local ok, err = pcall(function()
+				assert(D and D.URL == "https://www.paypal.com/ncp/payment/46R68N2BF7BTY", "Link falsch")
+				assert(btn, "Knopf fehlt in der Titelleiste")
+				btn:Click()
+				local f = D.Frame()
+				assert(f and f:IsShown(), "Klick öffnet das Fenster nicht")
+				assert(f.edit:GetText() == D.URL, "Feld enthält nicht genau den Link")
+				local esc = false
+				for _, n in ipairs(UISpecialFrames or {}) do if n == "RaidMasterDonate" then esc = true end end
+				assert(esc, "Esc schließt das Fenster nicht")
+			end)
+			if not wasShown then D.Hide() end
+			line(ok, "Spenden-Knopf: " .. (ok and "da, öffnet das Fenster mit dem PayPal-Link, Esc schließt" or tostring(err):gsub("^.-:%d+: ", "")))
+		end
+	end
 	T.selfTest = table.concat(out, "\n")
 	Log("Selbsttest ausgeführt.")
 end

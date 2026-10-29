@@ -753,3 +753,10 @@ L["Verwerfen"] = "Descartar"
 L["Diese Werte gelten für die ganze Gilde und werden mit allen Addon-Nutzern abgeglichen. "] = "Estes valores valem para a guilda toda e são sincronizados com todos os usuários do addon. "
 L["Häkchen werden sofort lokal übernommen und beim Speichern verteilt."] = "Caixas marcadas valem na hora localmente e são enviadas ao salvar."
 L["Minimap-Knopf ausblenden"] = "Ocultar botão do minimapa"
+
+-- Spenden-Knopf (Donate.lua)
+L["%s unterstützen"] = "Apoiar %s"
+L["Unterstützen"] = "Apoiar"
+L["Danke, dass du %s unterstützt! Jede Spende hilft mir, mehr Zeit in neue Funktionen und schnelle Fehlerbehebungen zu stecken."] = "Muito obrigado por apoiar %s! Cada doação me ajuda a dedicar mais tempo a novos recursos e correções rápidas."
+L["Strg+C kopiert den PayPal-Link - dann im Browser einfügen."] = "Ctrl+C copia o link do PayPal - depois cole no navegador."
+L["Addon unterstützen"] = "Apoiar o addon"

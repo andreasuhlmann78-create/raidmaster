@@ -1,4 +1,4 @@
-RaidMaster 1.7.0 – DKP, loot and raid leading tools
+RaidMaster 3.0.5 – DKP, loot and raid leading tools
 ====================================================
 
 INSTALLATION
@@ -23,11 +23,21 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.5
+- New "Support" button at the top of the RaidMaster window (also in Settings and /rm donate): opens a small window
+  with the PayPal link selected – press Ctrl+C and paste it into your browser. It never pops up on its own.
+
+SUPPORT THE ADDON
+RaidMaster is free and made in my spare time. If it helps you, you can support it with a small donation – thank you so much!
+Donate with PayPal: https://www.paypal.com/ncp/payment/46R68N2BF7BTY
+In-game: the Support button in the addon window (or /rm donate).
+
 COMMANDS
   /rm          open the window
   /rm bar      toggle the raid icon bar
   /rm sync     request a data sync
   /rm minimap  show/hide the minimap button (drag it around the minimap with the left mouse button)
+  /rm donate   support the addon (PayPal link to copy; also /rm support)
   /rm clear    remove all raid target icons at once (also the "Clear all" button on the icon bar)
   /rm adds     mark all visible adds at once using the boss marker template (enemy nameplates on)
   /rm version  show addon version, game version and language
