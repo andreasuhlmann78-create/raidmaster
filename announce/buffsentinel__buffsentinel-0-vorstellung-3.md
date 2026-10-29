@@ -49,8 +49,12 @@ BuffSentinel ist dein Klassen-Helfer für den Kampf: Es meldet sich genau dann, 
 • Retail (Midnight): nur Buff-Erinnerungen ausserhalb des Kampfes, weil Blizzard dort Buffs, Debuffs und Cooldowns im Kampf für Addons sperrt
 • Alle Klassen der jeweiligen Version, inklusive Todesritter und Mönch
 
-**🎥 Aufnahme-Modus**
-• Protokolliert neue Buffs und Procs mit ihrer ID – fehlende Procs (z. B. neue WoW-Forever-Talente) lassen sich per Klick als eigener Proc-Button übernehmen
+**🎓 Lernt selbst dazu**
+• Trifft BuffSentinel auf einen **neuen Proc** oder eine **neue Fähigkeit**, die noch nicht in seinen Daten steht (z. B. Neuheiten in **WoW Forever**), nimmt es sie **automatisch** auf
+• Procs: Wird ein kurzer Buff mehrmals beim Wirken desselben Zaubers verbraucht, bekommt er einen eigenen Proc-Button für diesen Zauber
+• Fähigkeiten mit Abklingzeit kommen in die Cooldown-Leiste, sobald du sie wirkst oder beim Lehrer lernst
+• Entdeckungen werden mit allen BuffSentinel-Nutzern geteilt – was einer lernt, haben alle
+• Aufnahme-Modus für den Rest: Neue Buffs mit ID protokollieren und per Klick als eigenen Proc übernehmen
 
 **⚙ Bedienung**
 • Komplett per Maus: Minimap-Button → Einstellungsfenster mit Seiten für Skillung, Procs, Buffs, Cooldowns, Reinigen, Zonen & Anzeige und Aufnahme
@@ -59,5 +63,5 @@ BuffSentinel ist dein Klassen-Helfer für den Kampf: Es meldet sich genau dann, 
 **📦 Installation**
 Die aktuelle ZIP hängt an der Versions-Ankündigung in diesem Kanal. Entpacken und den Ordner **BuffSentinel** nach `Interface/AddOns` kopieren (alten Ordner ersetzen). Ein Download für alle WoW-Versionen.
 
-Fragen, Fehler oder fehlende Procs bitte hier melden – am liebsten mit Klasse, Skillung und WoW-Version 🙏
+Fragen und Fehler bitte hier melden – am liebsten mit Klasse, Skillung und WoW-Version 🙏
 © GoldSentinel – alle Rechte vorbehalten.
