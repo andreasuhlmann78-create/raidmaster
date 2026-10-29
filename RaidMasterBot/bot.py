@@ -5369,7 +5369,8 @@ ADDON_COMMAND_BLOCKS = [
     "**`/rm minimap`** – Minimap-Knopf ein-/ausblenden _(alle)_\n"
     "**`/rm sync`** – DKP-Daten von anderen Addon-Nutzern abgleichen _(alle)_\n"
     "**`/rm version`** – Addon-Version, erkannte Spielversion und Sprache anzeigen _(alle)_\n"
-    "**`/rm reset`** – Fensterpositionen zurücksetzen (lädt das Interface neu) _(alle)_",
+    "**`/rm reset`** – Fensterpositionen zurücksetzen (lädt das Interface neu) _(alle)_\n"
+    "**`/rm spenden`** – RaidMaster unterstützen: zeigt den PayPal-Link zum Kopieren (auch `/rm donate`, `/rm support`) _(alle)_",
     "💬 **Im Spiel – Flüstern an den Plündermeister** (auch ohne Addon)\n"
     "**`!bid 50`** – bei einer laufenden Versteigerung 50 DKP bieten _(alle)_\n"
     "**`!dkp`** – eigenen DKP-Stand abfragen _(alle)_\n"

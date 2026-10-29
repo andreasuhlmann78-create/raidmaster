@@ -47,23 +47,4 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 • 6 Bereiche mit Reitern statt 13 Knöpfen: DKP, Beute, Raid, Werbung, Gilde, Einstellungen.
 • Testmodus zeigt alle Ansagen wie im echten Raid, neuer Test-Reiter „Ansagen“.
 
-**2.9.0** – Ruhmeshalle und Gildenbank
-• Erstkill-Feier mit Screenshot in #ruhmeshalle, Bestzeiten je Boss (`/rm rekorde`), Erfolge, Raider des Monats.
-• Gildenbank: der Bank-Charakter liest Bank, Post und Gold – Bestand in #gildenbank und mit `/bank`.
-
-**2.8.0** – Komfort im Raid
-• Begrüßung beim Raidstart passend zur Raidzone, Gäste und Ersatzbank mit Namen.
-• Item-Tooltip mit Droprate und Preisen, Bereitschafts-Check, Pull- und Pausen-Timer.
-• Twinks, Berufe-Verzeichnis, DKP-Verfall automatisch (10 % jeden Mittwoch), DKP-Nachricht nach dem Raid.
-
-**2.7.0 / 2.7.1** – Eigene Beute-Datenbank
-• Boss- und Trash-Drops werden gesammelt, jeder Kill zählt, Beute bis 30 Minuten nach dem Kill, mit Item-Symbolen.
-
-**2.6.0 – 2.6.3** – Einladen und Gruppen
-• Lücken füllen (Ersatzbank → Gilde → Gruppensuche), höchstens 40 im Raid.
-• Gruppen einteilen wie in der Discord-Aufstellung, ohne Verbindungsabbruch; Main- und Offtank in Gruppe 1.
-
-**2.5.0** – Boss-Leiste
-• Boss ins Ziel: Taktik als Schlachtzugwarnung und Symbole mit einem Klick.
-
-Neue Raids ab 9. Dezember 2026: Barrow Deeps (10), Hyjalgipfel (20) und Onyxias Hort (40) sind schon dabei.
+Ältere Neuerungen stehen im Addon in der Datei LIESMICH.txt.
