@@ -111,7 +111,15 @@ The **Addons** page shows who in your guild uses which addon and who has an old 
 - Language: always the language of your game client
 - **Features** can be turned on and off individually (Settings > Features)
 - **Test mode** (`/gs test`): a made-up guild to try everything – nothing is sent; "Click through everything" checks every page
-- Commands (optional): `/gs`, `/gs group`, `/gs events`, `/gs board`, `/gs where`, `/gs thanks <name>`, `/gs away <days>`, `/gs poll`, `/gs progress`, `/gs attune`, `/gs rules`, `/gs find <recipe>`, `/gs ad`, `/gs test`
+- Commands (optional): `/gs`, `/gs group`, `/gs events`, `/gs board`, `/gs where`, `/gs thanks <name>`, `/gs away <days>`, `/gs poll`, `/gs progress`, `/gs attune`, `/gs rules`, `/gs find <recipe>`, `/gs ad`, `/gs test`, `/gs donate`
+
+## ☕ Support the addon
+
+GuildSentinel is free and made in my spare time. If it helps you, you can support it with a small donation – thank you so much!
+
+**[Donate with PayPal](https://www.paypal.com/ncp/payment/46R68N2BF7BTY)**
+
+In-game: the **Support** button in the addon window (or `/gs donate`).
 
 ## 📦 Installation
 
