@@ -6,6 +6,22 @@
 <p>AH Analyzer Pro scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.61.0</h3>
+<p><strong>More profit, fewer fake bargains:</strong></p>
+<ul>
+<li><strong>"Today" (button in the overview, <code>/ahp today</code>):</strong> the actions that bring the most gold right
+  now, ranked by estimated net gold - buy below vendor price, flips, selling what is in your bags,
+  undercut auctions, items to repost, disenchant and bid deals. Click a row to jump straight to
+  the right tab.</li>
+<li><strong>Sell-through instead of listing prices:</strong> from your scans the addon now estimates how much of
+  an item actually sells per day and whether its market value can be trusted. Items that are
+  rarely listed or only have "moon prices" (like 2499g 99s 99c) are hidden from bargains, flips and
+  the overview (button "also unsure" shows them). Bargains are sorted by <strong>profit per day</strong>, the
+  tooltip shows "~N/day sold (estimated)".</li>
+<li><strong>Net profit with the posting fee:</strong> on the classic auction house the fee is now estimated from
+  the vendor price ("approx.") and learned exactly the first time you really post. Profits subtract
+  the fee you lose when an auction comes back (based on your own sell rate).</li>
+</ul>
 <h3>Version 0.60.11</h3>
 <ul>
 <li><strong>Mailbox buttons always answer:</strong> "Mail collected: ..." now also appears in the middle of the
@@ -54,19 +70,6 @@
   reminder", posting fee on classic AH shows "when posting" instead of "?", iLvl filter hint only
   when there are results, faster mouse-wheel scrolling in the report window, report title
   "Test report".</li>
-</ul>
-<h3>Version 0.60.7</h3>
-<ul>
-<li><strong>New "Test" button</strong> at the top of the window (and in the auction house bar): self-test and
-  the new <strong>test mode</strong> in one window.</li>
-<li><strong>Test mode:</strong> try every feature by hand with your real auction house data - buy, bid, sniper
-  (mouse wheel too), post, cancel, vendor sale, collecting and sending mail. Every trade is only
-  simulated: the command to the server is intercepted and the server's answer is played back, so
-  messages, ledger and sniper counters behave like the real thing. All settings and data (lists,
-  ledger, sniper, watcher, selling) are restored when you stop test mode - or automatically after
-  a /reload or crash. A log shows every simulated action and is included in the copied report.
-  Note: only the addon's buttons are simulated, Blizzard's own auction house buttons still buy
-  for real. Also: <code>/ahp testmode</code>.</li>
 </ul>
 <p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
 <hr />

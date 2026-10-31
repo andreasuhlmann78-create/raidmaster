@@ -10,6 +10,23 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 
 ## What's new
 
+### Version 0.61.0
+
+**More profit, fewer fake bargains:**
+
+- **"Today" (button in the overview, `/ahp today`):** the actions that bring the most gold right
+  now, ranked by estimated net gold - buy below vendor price, flips, selling what is in your bags,
+  undercut auctions, items to repost, disenchant and bid deals. Click a row to jump straight to
+  the right tab.
+- **Sell-through instead of listing prices:** from your scans the addon now estimates how much of
+  an item actually sells per day and whether its market value can be trusted. Items that are
+  rarely listed or only have "moon prices" (like 2499g 99s 99c) are hidden from bargains, flips and
+  the overview (button "also unsure" shows them). Bargains are sorted by **profit per day**, the
+  tooltip shows "~N/day sold (estimated)".
+- **Net profit with the posting fee:** on the classic auction house the fee is now estimated from
+  the vendor price ("approx.") and learned exactly the first time you really post. Profits subtract
+  the fee you lose when an auction comes back (based on your own sell rate).
+
 ### Version 0.60.11
 
 - **Mailbox buttons always answer:** "Mail collected: ..." now also appears in the middle of the
@@ -58,19 +75,6 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
   reminder", posting fee on classic AH shows "when posting" instead of "?", iLvl filter hint only
   when there are results, faster mouse-wheel scrolling in the report window, report title
   "Test report".
-
-### Version 0.60.7
-
-- **New "Test" button** at the top of the window (and in the auction house bar): self-test and
-  the new **test mode** in one window.
-- **Test mode:** try every feature by hand with your real auction house data - buy, bid, sniper
-  (mouse wheel too), post, cancel, vendor sale, collecting and sending mail. Every trade is only
-  simulated: the command to the server is intercepted and the server's answer is played back, so
-  messages, ledger and sniper counters behave like the real thing. All settings and data (lists,
-  ledger, sniper, watcher, selling) are restored when you stop test mode - or automatically after
-  a /reload or crash. A log shows every simulated action and is included in the copied report.
-  Note: only the addon's buttons are simulated, Blizzard's own auction house buttons still buy
-  for real. Also: `/ahp testmode`.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
