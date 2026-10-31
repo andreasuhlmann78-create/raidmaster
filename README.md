@@ -17,7 +17,7 @@ Raid-Werkzeuge für die Gilde auf **WoW Forever**.
 
 **BuffSentinel** (Buff-Erinnerungen, Proc-Buttons und Cooldowns mit Ein-Klick-Buttons, alle WoW-Versionen): [BuffSentinel-0.8.2.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/BuffSentinel-0.8.2.zip)
 
-**ThreatSentinel** (hilft Tanks, die Aggro zu halten: lose Mobs leuchten, gehaltene werden ausgeblendet, Aggrometer, Tank-Sync): [ThreatSentinel-1.7.0.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/ThreatSentinel-1.7.0.zip)
+**ThreatSentinel** (hilft Tanks, die Aggro zu halten: lose Mobs leuchten, gehaltene werden ausgeblendet, Aggrometer, Tank-Sync): [ThreatSentinel-1.7.1.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/ThreatSentinel-1.7.1.zip)
 
 **GuildSentinel** (Gildentool: Mitglieder mit Twinks, wer ist wo, Gruppensuche für Gilde und Server, Termine, Brett, Umfragen, Leveling-Rennen, Zugänge und Schlüssel, Gildenziele, Rekrutierung, Berufe – vernetzt mit allen GoldSentinel-Addons): [GuildSentinel-0.9.0.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/GuildSentinel-0.9.0.zip)
 
