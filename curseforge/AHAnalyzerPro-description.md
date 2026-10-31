@@ -10,6 +10,25 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 
 ## What's new
 
+### Version 0.61.1
+
+- **Fixed: "Today" suggested unrealistic purchases.** Page-by-page scans often see only part of the
+  auction house, which looked like huge sales. Sales per day are now only estimated between
+  **complete** scans, count only half of each drop (the rest expired or was cancelled) and never
+  more than half of what is usually listed. "Price change since scan" also compares complete scans only.
+- **Capital protection:** each suggestion in "Today" uses at most 20 % of your gold, all of them
+  together at most half; the window shows the capital needed. The self-test checks this.
+- **Overview:** rises to several times the market value and drops from a former moon price are no
+  longer listed.
+- **Mailbox:** the addon's buttons now sit in a tidy panel **next to** the mailbox instead of over
+  its frame. "Collect all" is only shown when WoW has no "Open all" button of its own (and in
+  test mode for the test mail), "Stop" only while collecting.
+- **One money field instead of three:** type "5s", "1g 20s", "4s 85c" or "1.5" (= 1g 50s); a plain
+  number shows what it means ("= 5g"). No more silver ending up in the gold field.
+- Smaller things: "Bid" without a selected listing says so, the vendor warning when posting only
+  appears when it matters (at least 1 silver and 10 %), fictional auctions show up in test mode
+  right away, the "Today" window closes when you jump to a tab.
+
 ### Version 0.61.0
 
 **More profit, fewer fake bargains:**
@@ -56,25 +75,6 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 - **Message when the scan is done:** a large message in the middle of the screen ("AH scan done:
   N items") plus a sound (if alert sounds are on in the options) - you no longer have to watch the
   chat. A scan without results is shown there too.
-
-### Version 0.60.8
-
-- **Fixed: no price lines in item tooltips** on some clients (e.g. TBC Anniversary). The addon
-  now hooks every way WoW fills an item tooltip and resizes the tooltip after adding its lines.
-  The self-test now checks the real bag tooltip.
-- **Esc closes only the top window:** e.g. the price history window - the addon window and the
-  auction house stay open (before, one Esc closed everything).
-- **Price history window:** the close button no longer sits on top of the "All" button.
-- **Test mode** now also restores search favorites, repost list and mail rules.
-- **Your own searches come first:** a running watcher round is stopped so the buy tab no longer
-  waits ("Waiting for the watcher ...").
-- Buy tab shows "Bought: ..." instead of "Purchase in progress ..." when done.
-- Overview: tenfold price jumps (almost always bogus data) are no longer listed as rises/drops.
-- Smaller fixes: test mode log shows sniper buys as such, shopping lists release the keyboard after
-  deleting a list, no "N entries" overlap in the lists window, shorter option label "Expiry
-  reminder", posting fee on classic AH shows "when posting" instead of "?", iLvl filter hint only
-  when there are results, faster mouse-wheel scrolling in the report window, report title
-  "Test report".
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
