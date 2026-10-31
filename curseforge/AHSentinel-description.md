@@ -12,6 +12,17 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.62.4
+
+- **Stackable goods combined (classic auction house):** in the buy tab, all offers of a stackable item
+  with the same unit price form **one row with the sum** – e.g. 5 stacks of 20 show as "100", with the
+  unit price and the **total price** of the row.
+- **Buy several at once:** click a row, **Shift+click** adds more rows. The box on the right shows the
+  pieces, the number of offers and the total of your selection. "Buy selection" asks once with the
+  total, then every click buys the next offer (WoW needs one click per auction).
+- "Show single offers" switches back to the old list (also for bidding). The modern auction house
+  already combines goods by price – there you simply enter the quantity.
+
 ### Version 0.62.3
 
 - **Item names for WoW Forever:** the built-in names of WoW Forever come first again; the Burning
@@ -75,17 +86,6 @@ GuildSentinel, ThreatSentinel).
 
 **Install:** copy both folders from the ZIP into `Interface\AddOns` (overwrite the old
 `AHAnalyzerPro` folder), start the game, done.
-
-### Version 0.61.2
-
-- **One language for everything:** item names now follow the addon language (unless you chose a
-  separate item-name language), and the tooltip shows the item name in that language when it
-  differs from the game client's.
-- **Language switch rebuilds every window:** besides the main window also "Today", the test window,
-  the mail-to-alts rules and the mailbox panel (even while the mailbox is open).
-- **Self-test:** new check "language switch" - every addon language once and then back and forth
-  several times; window, tabs, texts, item names and tooltip must appear in the chosen language,
-  and the original language is restored afterwards.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
