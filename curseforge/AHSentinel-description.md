@@ -12,6 +12,12 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.62.3
+
+- **Item names for WoW Forever:** the built-in names of WoW Forever come first again; the Burning
+  Crusade names added in 0.62.1 only fill gaps. About 2,000 items that were renamed in TBC now show
+  their Forever name again in the other languages.
+
 ### Version 0.62.2
 
 - **Test and developer functions are hidden:** the self-test and the test mode (button "Test",
@@ -80,25 +86,6 @@ GuildSentinel, ThreatSentinel).
 - **Self-test:** new check "language switch" - every addon language once and then back and forth
   several times; window, tabs, texts, item names and tooltip must appear in the chosen language,
   and the original language is restored afterwards.
-
-### Version 0.61.1
-
-- **Fixed: "Today" suggested unrealistic purchases.** Page-by-page scans often see only part of the
-  auction house, which looked like huge sales. Sales per day are now only estimated between
-  **complete** scans, count only half of each drop (the rest expired or was cancelled) and never
-  more than half of what is usually listed. "Price change since scan" also compares complete scans only.
-- **Capital protection:** each suggestion in "Today" uses at most 20 % of your gold, all of them
-  together at most half; the window shows the capital needed. The self-test checks this.
-- **Overview:** rises to several times the market value and drops from a former moon price are no
-  longer listed.
-- **Mailbox:** the addon's buttons now sit in a tidy panel **next to** the mailbox instead of over
-  its frame. "Collect all" is only shown when WoW has no "Open all" button of its own (and in
-  test mode for the test mail), "Stop" only while collecting.
-- **One money field instead of three:** type "5s", "1g 20s", "4s 85c" or "1.5" (= 1g 50s); a plain
-  number shows what it means ("= 5g"). No more silver ending up in the gold field.
-- Smaller things: "Bid" without a selected listing says so, the vendor warning when posting only
-  appears when it matters (at least 1 silver and 10 %), fictional auctions show up in test mode
-  right away, the "Today" window closes when you jump to a tab.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
