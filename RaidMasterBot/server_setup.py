@@ -183,8 +183,8 @@ BASE_BOTTOM = [
         ],
     },
     {
-        # Sprachkanäle für Dungeon-Gruppen (je 5 Plätze), direkt unter ALLGEMEIN
-        "name": "🗝️ DUNGEONS", "mode": None, "after": "💬 ALLGEMEIN", "voice_limit": 5,
+        # Sprachkanäle für Dungeon-Gruppen (je 10 Plätze), direkt unter ALLGEMEIN
+        "name": "🗝️ DUNGEONS", "mode": None, "after": "💬 ALLGEMEIN", "voice_limit": 10,
         "channels": [
             ("voice", "Dungeon 1", None, None),
             ("voice", "Dungeon 2", None, None),
@@ -883,7 +883,7 @@ DUNGEONS = "🗝️ DUNGEONS"
 
 
 async def ensure_dungeon_category(guild: discord.Guild) -> list[str]:
-    """Kategorie 🗝️ DUNGEONS mit 4 Sprachkanälen (je 5 Plätze) anlegen, falls sie fehlt – beim Start."""
+    """Kategorie 🗝️ DUNGEONS mit 4 Sprachkanälen (je 10 Plätze) anlegen, falls sie fehlt – beim Start."""
     reason = "RaidMaster: Dungeon-Sprachkanäle"
     cat_def = next((c for c in BASE_BOTTOM if c["name"] == DUNGEONS), None)
     if cat_def is None:
