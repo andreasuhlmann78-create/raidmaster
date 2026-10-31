@@ -37,6 +37,7 @@ BuffSentinel ist dein Klassen-Helfer für den Kampf: Es meldet sich genau dann, 
 • Starten: **Shift + Linksklick** auf den Minimap-Button, Knopf „Testmodus“ im Fenster oder `/bsen test`
 
 **🖱 Buttons frei platzieren**
+• Knopf **„Anordnen“** oben im Fenster (oder Strg + Linksklick auf den Minimap-Button): zeigt alle deine Buttons zum Verschieben – dazu Grösse, Abstand und Richtung (waagrecht/senkrecht) jeder Gruppe
 • Im Testmodus jeden Button einzeln dorthin ziehen, wo du willst – **Shift + ziehen** verschiebt die ganze Gruppe, **Rechtsklick** setzt zurück
 • Auch ohne Testmodus: Shift + ziehen (ausserhalb des Kampfes)
 • **Grösse pro Gruppe:** Procs, Buffs, Cooldowns und Reinigen einzeln von 50 bis 200 %, dazu eine Gesamtgrösse
