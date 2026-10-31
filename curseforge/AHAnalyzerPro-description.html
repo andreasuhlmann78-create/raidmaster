@@ -6,6 +6,22 @@
 <p>AH Analyzer Pro scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.60.10</h3>
+<ul>
+<li><strong>Test mode with fictional auctions:</strong> "My auctions" now shows three fictional auctions (one
+  undercut, one cheapest, one sold) plus everything you post in test mode - so cancelling and the
+  undercut check can be tried without a real auction. The self-test uses a fictional auction for
+  "cancel" when you have none.</li>
+<li><strong>Test mailbox:</strong> in test mode the mailbox buttons of the addon work with fictional mail (sold,
+  won, expired, cancelled, outbid, a normal letter): auto-collect, "All", ledger invoices and the
+  repost list can all be tried - your real mail stays untouched.</li>
+<li><strong>Buy tab:</strong> the bid field and the selected listing are reset when you switch to another item
+  (no more old bid in the field). The header shows the cheapest listing and the market value
+  (median 14 days) separately, and says when more listings are still loading.</li>
+<li><strong>Sniper:</strong> listings of the previous target are no longer shown under the new target's name.</li>
+<li><strong>Self-test:</strong> the sniper test buys (simulated) the smallest stack instead of a 2-stack.</li>
+<li><strong>Price history window:</strong> can be dragged by its title.</li>
+</ul>
 <h3>Version 0.60.9</h3>
 <ul>
 <li><strong>Message when the scan is done:</strong> a large message in the middle of the screen ("AH scan done:
@@ -53,19 +69,6 @@
   simulation are marked "[Simulation]".</li>
 <li><strong>Self-test:</strong> the watcher is switched off again right after its test round, so it no longer
   blocks the following server searches.</li>
-</ul>
-<h3>Version 0.60.5</h3>
-<ul>
-<li><strong>Fixed (classic clients):</strong> a Lua error "attempt to compare number with nil" could appear when
-  opening the auction house (bid tracking after a reload).</li>
-<li><strong>Watcher/Sniper status in the header</strong> now always updates when you switch them on or off.</li>
-<li><strong>Self-test:</strong> a market scan still running in the background no longer makes all server
-  searches time out - in the "saved data" mode it is stopped, otherwise the test waits for it.
-  Starting a scan during the test is blocked.</li>
-<li><strong>Self-test:</strong> settings, the watcher and the window (tab, or closed) are restored reliably
-  after the test; if something can't be restored, the report says so.</li>
-<li><strong>Text window</strong> (copy report) now always opens in front, starts at the top and scrolls
-  quickly with the mouse wheel (hold Shift for big steps).</li>
 </ul>
 <p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
 <hr />

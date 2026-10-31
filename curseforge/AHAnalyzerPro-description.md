@@ -10,6 +10,22 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 
 ## What's new
 
+### Version 0.60.10
+
+- **Test mode with fictional auctions:** "My auctions" now shows three fictional auctions (one
+  undercut, one cheapest, one sold) plus everything you post in test mode - so cancelling and the
+  undercut check can be tried without a real auction. The self-test uses a fictional auction for
+  "cancel" when you have none.
+- **Test mailbox:** in test mode the mailbox buttons of the addon work with fictional mail (sold,
+  won, expired, cancelled, outbid, a normal letter): auto-collect, "All", ledger invoices and the
+  repost list can all be tried - your real mail stays untouched.
+- **Buy tab:** the bid field and the selected listing are reset when you switch to another item
+  (no more old bid in the field). The header shows the cheapest listing and the market value
+  (median 14 days) separately, and says when more listings are still loading.
+- **Sniper:** listings of the previous target are no longer shown under the new target's name.
+- **Self-test:** the sniper test buys (simulated) the smallest stack instead of a 2-stack.
+- **Price history window:** can be dragged by its title.
+
 ### Version 0.60.9
 
 - **Message when the scan is done:** a large message in the middle of the screen ("AH scan done:
@@ -57,19 +73,6 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
   simulation are marked "[Simulation]".
 - **Self-test:** the watcher is switched off again right after its test round, so it no longer
   blocks the following server searches.
-
-### Version 0.60.5
-
-- **Fixed (classic clients):** a Lua error "attempt to compare number with nil" could appear when
-  opening the auction house (bid tracking after a reload).
-- **Watcher/Sniper status in the header** now always updates when you switch them on or off.
-- **Self-test:** a market scan still running in the background no longer makes all server
-  searches time out - in the "saved data" mode it is stopped, otherwise the test waits for it.
-  Starting a scan during the test is blocked.
-- **Self-test:** settings, the watcher and the window (tab, or closed) are restored reliably
-  after the test; if something can't be restored, the report says so.
-- **Text window** (copy report) now always opens in front, starts at the top and scrolls
-  quickly with the mouse wheel (hold Shift for big steps).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
