@@ -10,6 +10,12 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 
 ## What's new
 
+### Version 0.60.9
+
+- **Message when the scan is done:** a large message in the middle of the screen ("AH scan done:
+  N items") plus a sound (if alert sounds are on in the options) - you no longer have to watch the
+  chat. A scan without results is shown there too.
+
 ### Version 0.60.8
 
 - **Fixed: no price lines in item tooltips** on some clients (e.g. TBC Anniversary). The addon
@@ -64,12 +70,6 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
   after the test; if something can't be restored, the report says so.
 - **Text window** (copy report) now always opens in front, starts at the top and scrolls
   quickly with the mouse wheel (hold Shift for big steps).
-
-### Version 0.60.4
-
-- **Self-test with saved data:** new button "With saved data" in the self-test window (or
-  `/ahp test saved`). It tests with the auction house data you already scanned - no new scan.
-  It even runs with the auction house closed; the server searches are then skipped.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
