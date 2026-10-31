@@ -10,6 +10,14 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 
 ## What's new
 
+### Version 0.60.2
+
+- **Self-test:** Options -> "Self-test" or `/ahp test` checks every feature with real data from
+  your auction house: market scan (if needed), market data, every tab, all calculations and real
+  server searches (Buy, price check, Sniper, Watcher, your auctions). Buying, bidding, posting and
+  cancelling are locked while it runs; your settings and sniper targets are restored afterwards.
+  The result is shown in a window, can be copied as a report and is saved in the SavedVariables.
+
 ### Version 0.60.1
 
 - **Real minimap button:** the button now sits on the minimap like with other addons - drag it
@@ -65,13 +73,6 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
   bad data such as an outlier market value or placeholder prices) are no longer listed in the
   Profit tab (all views: market value, vendor, disenchant, bids, flips) and no longer appear
   under "Biggest price increases" in the Overview.
-
-### Version 0.59.31
-
-- **Item level as a search filter:** the Buy tab and the Market tab now have "iLvl from" /
-  "iLvl to" fields. They filter the results instantly, without a new search on the server,
-  and also apply to the single listings of an item. In the Buy tab you can also search with
-  only an iLvl range.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
