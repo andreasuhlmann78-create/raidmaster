@@ -1,11 +1,24 @@
-<h1>AH Analyzer Pro</h1>
+<h1>AHSentinel</h1>
 <p><strong>Market analysis, sniper and gold-making toolkit for the auction house – for every WoW version.</strong></p>
 <blockquote>
 <p>⚠️ <strong>This addon is in beta.</strong> It may still contain bugs. If you run into an error or unexpected behaviour in-game, please report it in the comments – ideally with the Lua error message (if any) and the WoW version you play on.</p>
+<p>🔁 <strong>Formerly "AH Analyzer Pro".</strong> Since version 0.62.0 the addon is called <strong>AHSentinel</strong>. Your saved data is taken over automatically on the first login – just install both folders from the zip. The new command is <code>/ahs</code> (<code>/ahp</code> still works).</p>
 </blockquote>
-<p>AH Analyzer Pro scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
+<p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.62.0</h3>
+<p><strong>AH Analyzer Pro is now called AHSentinel</strong> – part of the Sentinel family (BuffSentinel,
+GuildSentinel, ThreatSentinel).</p>
+<ul>
+<li><strong>Your data is taken over automatically:</strong> the download contains the new folder <code>AHSentinel</code>
+  and a small <code>AHAnalyzerPro</code> folder that only hands your old data (prices, ledger, lists,
+  sniper targets, settings) over on the first start. Afterwards you can delete <code>AHAnalyzerPro</code>.</li>
+<li><strong>New command <code>/ahs</code></strong> (also <code>/ahsentinel</code>); <code>/ahp</code> keeps working.</li>
+<li>Everything else stays the same.</li>
+</ul>
+<p><strong>Install:</strong> copy both folders from the ZIP into <code>Interface\AddOns</code> (overwrite the old
+<code>AHAnalyzerPro</code> folder), start the game, done.</p>
 <h3>Version 0.61.2</h3>
 <ul>
 <li><strong>One language for everything:</strong> item names now follow the addon language (unless you chose a
@@ -60,28 +73,12 @@
 <li><strong>Test mode:</strong> the fictional "sold" mail belongs to the fictional sold auction, and that auction
   disappears from "My auctions" once its money is collected - like in the game.</li>
 </ul>
-<h3>Version 0.60.10</h3>
-<ul>
-<li><strong>Test mode with fictional auctions:</strong> "My auctions" now shows three fictional auctions (one
-  undercut, one cheapest, one sold) plus everything you post in test mode - so cancelling and the
-  undercut check can be tried without a real auction. The self-test uses a fictional auction for
-  "cancel" when you have none.</li>
-<li><strong>Test mailbox:</strong> in test mode the mailbox buttons of the addon work with fictional mail (sold,
-  won, expired, cancelled, outbid, a normal letter): auto-collect, "All", ledger invoices and the
-  repost list can all be tried - your real mail stays untouched.</li>
-<li><strong>Buy tab:</strong> the bid field and the selected listing are reset when you switch to another item
-  (no more old bid in the field). The header shows the cheapest listing and the market value
-  (median 14 days) separately, and says when more listings are still loading.</li>
-<li><strong>Sniper:</strong> listings of the previous target are no longer shown under the new target's name.</li>
-<li><strong>Self-test:</strong> the sniper test buys (simulated) the smallest stack instead of a 2-stack.</li>
-<li><strong>Price history window:</strong> can be dragged by its title.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
-<p>AH Analyzer Pro is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
+<p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
 <p><strong><a href="https://www.paypal.com/ncp/payment/46R68N2BF7BTY">Donate with PayPal</a></strong></p>
-<p>In-game: the <strong>Support</strong> button in the addon window (or <code>/ahp donate</code>).</p>
+<p>In-game: the <strong>Support</strong> button in the addon window (or <code>/ahs donate</code>).</p>
 <hr />
 <h2>Features</h2>
 <h3>Market data</h3>
@@ -128,7 +125,7 @@
 </ul>
 <hr />
 <h2>Supported game versions</h2>
-<p>AH Analyzer Pro works on <strong>every</strong> WoW version – all with the same features:</p>
+<p>AHSentinel works on <strong>every</strong> WoW version – all with the same features:</p>
 <ul>
 <li><strong>Retail</strong></li>
 <li><strong>Mists of Pandaria Classic</strong> and <strong>Cataclysm Classic</strong></li>
@@ -138,9 +135,9 @@
 <li><strong>WoW Forever</strong></li>
 </ul>
 <p>Both auction house types are supported: the modern one (Retail, Cata, MoP) and the classic one (Classic Era, TBC, Wrath).</p>
-<p>One download for everything – just copy the folder <code>AHAnalyzerPro</code> into <code>Interface\AddOns</code> of your game.</p>
+<p>One download for everything – just copy both folders from the zip (<code>AHSentinel</code> and the small transition folder <code>AHAnalyzerPro</code>) into <code>Interface\AddOns</code> of your game.</p>
 <h2>Languages</h2>
-<p>English, German, French, Spanish (EU and Latin America), Portuguese, Italian, Russian, Korean, Chinese (simplified and traditional). The addon follows your client language automatically; you can change it in the options or with <code>/ahp language</code>.</p>
+<p>English, German, French, Spanish (EU and Latin America), Portuguese, Italian, Russian, Korean, Chinese (simplified and traditional). The addon follows your client language automatically; you can change it in the options or with <code>/ahs language</code>.</p>
 <h2>Commands</h2>
 <p>Everything works with the mouse – the commands are optional.</p>
 <table>
@@ -152,71 +149,71 @@
 </thead>
 <tbody>
 <tr>
-<td><code>/ahp</code></td>
+<td><code>/ahs</code></td>
 <td>open / close the window</td>
 </tr>
 <tr>
-<td><code>/ahp help</code></td>
+<td><code>/ahs help</code></td>
 <td>list all commands in the chat</td>
 </tr>
 <tr>
-<td><code>/ahp scan</code></td>
+<td><code>/ahs scan</code></td>
 <td>start a full market scan</td>
 </tr>
 <tr>
-<td><code>/ahp sniper</code></td>
+<td><code>/ahs sniper</code></td>
 <td>sniper on / off</td>
 </tr>
 <tr>
-<td><code>/ahp summary</code></td>
+<td><code>/ahs summary</code></td>
 <td>daily summary in the chat</td>
 </tr>
 <tr>
-<td><code>/ahp alts</code></td>
+<td><code>/ahs alts</code></td>
 <td>rules for mail to alts</td>
 </tr>
 <tr>
-<td><code>/ahp goal 5000</code></td>
+<td><code>/ahs goal 5000</code></td>
 <td>gold goal (no number: progress, <code>off</code>: clear)</td>
 </tr>
 <tr>
-<td><code>/ahp raid</code></td>
+<td><code>/ahs raid</code></td>
 <td>raid supplies as a shopping list</td>
 </tr>
 <tr>
-<td><code>/ahp lists</code></td>
+<td><code>/ahs lists</code></td>
 <td>shopping lists</td>
 </tr>
 <tr>
-<td><code>/ahp options</code></td>
+<td><code>/ahs options</code></td>
 <td>options</td>
 </tr>
 <tr>
-<td><code>/ahp sync</code></td>
+<td><code>/ahs sync</code></td>
 <td>price sync on / off</td>
 </tr>
 <tr>
-<td><code>/ahp design</code></td>
+<td><code>/ahs design</code></td>
 <td>switch between Classic and Modern</td>
 </tr>
 <tr>
-<td><code>/ahp language</code></td>
+<td><code>/ahs language</code></td>
 <td>change the addon language</td>
 </tr>
 <tr>
-<td><code>/ahp export</code></td>
+<td><code>/ahs export</code></td>
 <td>CSV export</td>
 </tr>
 <tr>
-<td><code>/ahp donate</code></td>
+<td><code>/ahs donate</code></td>
 <td>support the addon (PayPal link)</td>
 </tr>
 <tr>
-<td><code>/ahp manual</code></td>
+<td><code>/ahs manual</code></td>
 <td>help window with guide</td>
 </tr>
 <tr>
-<td><code>/ahp reset</code></td>
+<td><code>/ahs reset</code></td>
 <td>reset window and button positions</td>
 </tr>
 </tbody>

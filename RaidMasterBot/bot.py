@@ -3269,15 +3269,17 @@ def addon_version_key(key: str, v: str) -> tuple:
     umbenannt (5.9.13 -> 0.59.13): alte Nummern werden dafür umgerechnet, damit
     0.59.14 neuer ist als 5.9.12."""
     t = version_tuple(v)
-    if key == "ahanalyzerpro" and t and t[0] >= 1:
+    if key in ("ahanalyzerpro", "ahsentinel") and t and t[0] >= 1:
         return (0, t[0] * 10 + (t[1] if len(t) > 1 else 0)) + t[2:]
     return t
 
 
 # Weitere Addons von GoldSentinel: Schlüssel = Name der TOC-Datei (klein, ohne _Vanilla usw.)
+# old_keys/old_titles: frühere Namen (AH Analyzer Pro heißt seit 0.62.0 AHSentinel) - deren Beiträge
+# gelten als ältere Versionen und werden beim Aufräumen mit gelöscht.
 EXTRA_ADDONS = {
-    "ahanalyzerpro": {"title": "AH Analyzer Pro", "folder": "AHAnalyzerPro", "channel": "aktionshaus_channel_id",
-                      "channel_name": "aktionshaus"},
+    "ahsentinel": {"title": "AHSentinel", "folder": "AHSentinel", "channel": "aktionshaus_channel_id",
+                   "channel_name": "aktionshaus", "old_keys": ["ahanalyzerpro"], "old_titles": ["AH Analyzer Pro"]},
 }
 
 
@@ -3362,6 +3364,7 @@ async def remove_old_releases(ch, key: str, meta: dict, keep_version: str) -> in
     (Versions-Posts, Zusammenfassungen) und deren direkte Fortsetzungen (innerhalb von 60 s, ohne Namen)."""
     keep = addon_version_key(key, keep_version)
     pat = re.compile(re.escape(meta["title"]) + r"\D{0,40}?v?(\d+(?:\.\d+)+)")
+    old_pats = [re.compile(re.escape(t) + r"\D{0,40}?v?(\d+(?:\.\d+)+)") for t in meta.get("old_titles", [])]
     try:
         hist = [m async for m in ch.history(limit=500)]
     except discord.HTTPException as e:
@@ -3380,6 +3383,8 @@ async def remove_old_releases(ch, key: str, meta: dict, keep_version: str) -> in
         old = False
         if first:
             old = addon_version_key(key, first.group(1)) < keep
+        elif any(p.search(text) for p in old_pats):
+            old = True                                   # Beitrag unter dem früheren Namen
         elif last_old is not None and (m.created_at - last_old).total_seconds() <= 60:
             old = True                                   # Fortsetzung einer alten Ankündigung
         if old:
@@ -3421,7 +3426,7 @@ async def remove_english_release_notes():
 
 
 async def check_extra_releases():
-    """Neue Versionen der weiteren Addons (z. B. AH Analyzer Pro) in ihrem Kanal posten.
+    """Neue Versionen der weiteren Addons (z. B. AHSentinel) in ihrem Kanal posten.
     Ältere Versionen werden danach aus dem Kanal gelöscht - es bleibt immer nur die neueste."""
     try:
         await remove_english_release_notes()
@@ -3429,6 +3434,13 @@ async def check_extra_releases():
         log.warning("Englische Changelogs nicht entfernt: %s", e)
     versions = state.data.setdefault("extra_versions", {})
     for key, meta in EXTRA_ADDONS.items():
+        # umbenanntes Addon: zuletzt gepostete Version unter dem alten Schlüssel übernehmen
+        if not versions.get(key):
+            for ok in meta.get("old_keys", []):
+                if versions.get(ok):
+                    versions[key] = versions[ok]
+                    state.save()
+                    break
         pkg = find_addon_package(key)
         if not pkg:
             continue
@@ -3455,7 +3467,9 @@ async def check_extra_releases():
         await ch.send(
             f"🆕 **{meta['title']} {version}** ist da!\n"
             f"Download: Datei unten herunterladen, entpacken und den Ordner **{meta['folder']}** in "
-            "`Interface/AddOns` ersetzen. Deine Einstellungen bleiben erhalten.",
+            "`Interface/AddOns` ersetzen. Deine Einstellungen bleiben erhalten."
+            + (f"\nℹ️ Früher **{meta['old_titles'][0]}** – die ZIP enthält beide Ordner, deine Daten werden "
+               "beim ersten Start automatisch übernommen." if meta.get("old_titles") else ""),
             embed=embed,
             file=discord.File(path, filename=f"{meta['folder']}-{version}.zip"))
         versions[key] = version
@@ -3991,7 +4005,7 @@ async def notify_registered(text: str):
 
 
 @bot.tree.command(name="addon-hochladen", description="Neue Addon-Version (ZIP) hochladen – wird im passenden Kanal veröffentlicht (Gildenleitung)")
-@app_commands.describe(datei="Addon-ZIP, z. B. AHAnalyzerPro-5.9.zip oder RaidMaster-1.6.0.zip")
+@app_commands.describe(datei="Addon-ZIP, z. B. AHSentinel-0.62.0.zip oder RaidMaster-1.6.0.zip")
 async def addon_upload_cmd(inter: discord.Interaction, datei: discord.Attachment):
     if not is_admin(inter.user):
         await inter.response.send_message("Das dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)

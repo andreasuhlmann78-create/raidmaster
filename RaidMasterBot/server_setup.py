@@ -152,7 +152,7 @@ BASE_TOP = [
         "name": "Addon's by GoldSentinel", "mode": "officers_only", "after": "🧩 RAID-ADDON",
         "old_names": ["🛠️ Addons by GoldSentinel"],
         "channels": [
-            ("text", "aktionshaus", "AH Analyzer Pro – Auktionshaus-Analyse (nur Offiziere)", "officers_only"),
+            ("text", "aktionshaus", "AHSentinel – Auktionshaus-Analyse (nur Offiziere)", "officers_only"),
             ("text", "buffsentinel", "BuffSentinel – Buff-Erinnerungen, Proc-Buttons und Cooldowns für alle WoW-Versionen",
              "officers_only"),
             ("text", "threatsentinel", "ThreatSentinel – hilft Tanks, die Aggro zu halten (WoW Forever)",

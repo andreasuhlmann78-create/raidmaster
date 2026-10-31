@@ -101,7 +101,7 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 | Addon | What GuildSentinel uses |
 |---|---|
 | **RaidMaster** | professions, alts, roles from talent specs, next raid in events, first kills as milestones |
-| **AH Analyzer Pro** | market value on the board and for profession cooldowns |
+| **AHSentinel** | market value on the board and for profession cooldowns |
 | **BuffSentinel** | detects your class services for the board |
 | **ThreatSentinel** | your role (tank stance / bear form) for composition and group finder |
 | **LevelPilot** | elite quests from your quest log as a group search, players with the same quest |

@@ -31,9 +31,9 @@ def version_tuple(v):
 
 
 def addon_version_key(addon, v):
-    """AH Analyzer Pro: 5.9.x wurde zu 0.59.x umbenannt - alte Nummern umrechnen."""
+    """AHSentinel (früher AH Analyzer Pro): 5.9.x wurde zu 0.59.x umbenannt - alte Nummern umrechnen."""
     t = version_tuple(v)
-    if addon.lower() == "ahanalyzerpro" and t and t[0] >= 1:
+    if addon.lower() in ("ahanalyzerpro", "ahsentinel") and t and t[0] >= 1:
         return (0, t[0] * 10 + (t[1] if len(t) > 1 else 0)) + t[2:]
     return t
 

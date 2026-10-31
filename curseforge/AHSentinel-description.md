@@ -1,14 +1,30 @@
-# AH Analyzer Pro
+# AHSentinel
 
 **Market analysis, sniper and gold-making toolkit for the auction house – for every WoW version.**
 
 > ⚠️ **This addon is in beta.** It may still contain bugs. If you run into an error or unexpected behaviour in-game, please report it in the comments – ideally with the Lua error message (if any) and the WoW version you play on.
 
-AH Analyzer Pro scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – **Overview, Buy, Sell, Market, Ledger** – can be used completely with the mouse and speaks the language of your WoW client.
+> 🔁 **Formerly "AH Analyzer Pro".** Since version 0.62.0 the addon is called **AHSentinel**. Your saved data is taken over automatically on the first login – just install both folders from the zip. The new command is `/ahs` (`/ahp` still works).
+
+AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – **Overview, Buy, Sell, Market, Ledger** – can be used completely with the mouse and speaks the language of your WoW client.
 
 ---
 
 ## What's new
+
+### Version 0.62.0
+
+**AH Analyzer Pro is now called AHSentinel** – part of the Sentinel family (BuffSentinel,
+GuildSentinel, ThreatSentinel).
+
+- **Your data is taken over automatically:** the download contains the new folder `AHSentinel`
+  and a small `AHAnalyzerPro` folder that only hands your old data (prices, ledger, lists,
+  sniper targets, settings) over on the first start. Afterwards you can delete `AHAnalyzerPro`.
+- **New command `/ahs`** (also `/ahsentinel`); `/ahp` keeps working.
+- Everything else stays the same.
+
+**Install:** copy both folders from the ZIP into `Interface\AddOns` (overwrite the old
+`AHAnalyzerPro` folder), start the game, done.
 
 ### Version 0.61.2
 
@@ -65,33 +81,17 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 - **Test mode:** the fictional "sold" mail belongs to the fictional sold auction, and that auction
   disappears from "My auctions" once its money is collected - like in the game.
 
-### Version 0.60.10
-
-- **Test mode with fictional auctions:** "My auctions" now shows three fictional auctions (one
-  undercut, one cheapest, one sold) plus everything you post in test mode - so cancelling and the
-  undercut check can be tried without a real auction. The self-test uses a fictional auction for
-  "cancel" when you have none.
-- **Test mailbox:** in test mode the mailbox buttons of the addon work with fictional mail (sold,
-  won, expired, cancelled, outbid, a normal letter): auto-collect, "All", ledger invoices and the
-  repost list can all be tried - your real mail stays untouched.
-- **Buy tab:** the bid field and the selected listing are reset when you switch to another item
-  (no more old bid in the field). The header shows the cheapest listing and the market value
-  (median 14 days) separately, and says when more listings are still loading.
-- **Sniper:** listings of the previous target are no longer shown under the new target's name.
-- **Self-test:** the sniper test buys (simulated) the smallest stack instead of a 2-stack.
-- **Price history window:** can be dragged by its title.
-
 *Older versions: see the changelog of each file in the **Files** tab.*
 
 ---
 
 ## ☕ Support the addon
 
-AH Analyzer Pro is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!
+AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!
 
 **[Donate with PayPal](https://www.paypal.com/ncp/payment/46R68N2BF7BTY)**
 
-In-game: the **Support** button in the addon window (or `/ahp donate`).
+In-game: the **Support** button in the addon window (or `/ahs donate`).
 
 ---
 
@@ -138,7 +138,7 @@ In-game: the **Support** button in the addon window (or `/ahp donate`).
 
 ## Supported game versions
 
-AH Analyzer Pro works on **every** WoW version – all with the same features:
+AHSentinel works on **every** WoW version – all with the same features:
 
 - **Retail**
 - **Mists of Pandaria Classic** and **Cataclysm Classic**
@@ -149,11 +149,11 @@ AH Analyzer Pro works on **every** WoW version – all with the same features:
 
 Both auction house types are supported: the modern one (Retail, Cata, MoP) and the classic one (Classic Era, TBC, Wrath).
 
-One download for everything – just copy the folder `AHAnalyzerPro` into `Interface\AddOns` of your game.
+One download for everything – just copy both folders from the zip (`AHSentinel` and the small transition folder `AHAnalyzerPro`) into `Interface\AddOns` of your game.
 
 ## Languages
 
-English, German, French, Spanish (EU and Latin America), Portuguese, Italian, Russian, Korean, Chinese (simplified and traditional). The addon follows your client language automatically; you can change it in the options or with `/ahp language`.
+English, German, French, Spanish (EU and Latin America), Portuguese, Italian, Russian, Korean, Chinese (simplified and traditional). The addon follows your client language automatically; you can change it in the options or with `/ahs language`.
 
 ## Commands
 
@@ -161,23 +161,23 @@ Everything works with the mouse – the commands are optional.
 
 | Command | Action |
 |---|---|
-| `/ahp` | open / close the window |
-| `/ahp help` | list all commands in the chat |
-| `/ahp scan` | start a full market scan |
-| `/ahp sniper` | sniper on / off |
-| `/ahp summary` | daily summary in the chat |
-| `/ahp alts` | rules for mail to alts |
-| `/ahp goal 5000` | gold goal (no number: progress, `off`: clear) |
-| `/ahp raid` | raid supplies as a shopping list |
-| `/ahp lists` | shopping lists |
-| `/ahp options` | options |
-| `/ahp sync` | price sync on / off |
-| `/ahp design` | switch between Classic and Modern |
-| `/ahp language` | change the addon language |
-| `/ahp export` | CSV export |
-| `/ahp donate` | support the addon (PayPal link) |
-| `/ahp manual` | help window with guide |
-| `/ahp reset` | reset window and button positions |
+| `/ahs` | open / close the window |
+| `/ahs help` | list all commands in the chat |
+| `/ahs scan` | start a full market scan |
+| `/ahs sniper` | sniper on / off |
+| `/ahs summary` | daily summary in the chat |
+| `/ahs alts` | rules for mail to alts |
+| `/ahs goal 5000` | gold goal (no number: progress, `off`: clear) |
+| `/ahs raid` | raid supplies as a shopping list |
+| `/ahs lists` | shopping lists |
+| `/ahs options` | options |
+| `/ahs sync` | price sync on / off |
+| `/ahs design` | switch between Classic and Modern |
+| `/ahs language` | change the addon language |
+| `/ahs export` | CSV export |
+| `/ahs donate` | support the addon (PayPal link) |
+| `/ahs manual` | help window with guide |
+| `/ahs reset` | reset window and button positions |
 
 ---
 
