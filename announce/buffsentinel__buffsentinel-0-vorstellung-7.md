@@ -3,9 +3,13 @@
 BuffSentinel ist dein Klassen-Helfer für den Kampf: Es meldet sich genau dann, wenn du etwas tun musst – und du löst es mit **einem Klick** direkt auf dem Button aus. Kein Suchen in der Aktionsleiste, keine vergessenen Buffs, keine übersehenen Flüche mehr.
 
 **⚡ Proc-Buttons**
-• Wird eine Fähigkeit plötzlich nutzbar (z. B. **Überwältigen**, **Rache**, **Hinrichten**, Freizauber, Hot Streak), erscheint sofort ein leuchtender Button – mit Sound
+• Wird eine Fähigkeit plötzlich nutzbar (z. B. **Überwältigen**, **Rache**, **Hinrichten**, Freizauber, Hot Streak), erscheint sofort ein leuchtender Button
 • Ein Klick auf den Button wirkt die Fähigkeit
 • Restzeit und Stapel stehen direkt auf dem Button
+
+**🔔 Ruhig, ausser es zählt**
+• Töne sind standardmässig aus – nur ein fehlender **Schlachtruf** klingelt
+• Jeder Proc, Buff und Cooldown kann eine eigene Klingel bekommen (Knopf „Ton“), allgemeine Töne lassen sich unter „Zonen & Anzeige“ einschalten
 
 **✨ Buff-Wächter mit Ein-Klick-Buff**
 • Läuft ein Buff aus, kommt die Meldung (z. B. **SCHLACHTRUF!**) – vorher stört nichts
