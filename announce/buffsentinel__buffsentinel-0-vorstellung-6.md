@@ -31,16 +31,12 @@ BuffSentinel ist dein Klassen-Helfer für den Kampf: Es meldet sich genau dann, 
 • Umskillen oder Zweitskillung: Die Buttons stellen sich automatisch um, jede Skillung behält ihre eigenen Einstellungen
 • Talentnamen in jeder Client-Sprache: BuffSentinel lernt sie selbst und tauscht sie mit allen BuffSentinel-Nutzern auf dem Server aus
 
-**🧪 Testmodus**
-• Alle Buttons mit Beispielwerten ansehen – ganz ohne Kampf
-• **Jede Klasse und Skillung durchschalten**, ohne den Charakter zu wechseln, und alle Warntöne anhören
-• Starten: **Shift + Linksklick** auf den Minimap-Button, Knopf „Testmodus“ im Fenster oder `/bsen test`
-
-**🖱 Buttons frei platzieren**
-• Knopf **„Anordnen“** oben im Fenster (oder Strg + Linksklick auf den Minimap-Button): zeigt alle deine Buttons zum Verschieben – dazu Grösse, Abstand und Richtung (waagrecht/senkrecht) jeder Gruppe
-• Im Testmodus jeden Button einzeln dorthin ziehen, wo du willst – **Shift + ziehen** verschiebt die ganze Gruppe, **Rechtsklick** setzt zurück
-• Auch ohne Testmodus: Shift + ziehen (ausserhalb des Kampfes)
-• **Grösse pro Gruppe:** Procs, Buffs, Cooldowns und Reinigen einzeln von 50 bis 200 %, dazu eine Gesamtgrösse
+**🖱 Buttons anordnen**
+• Knopf **„Anordnen“** oben im Fenster, **Shift + Linksklick** auf den Minimap-Button oder `/bsen anordnen`
+• Zeigt alle deine Buttons mit Beispielwerten – ganz ohne Kampf
+• Jeden Button einzeln dorthin ziehen, wo du willst – **Shift + ziehen** verschiebt die ganze Gruppe, **Rechtsklick** setzt zurück
+• Leiste oben: **Grösse** (50–200 %), **Abstand** und **Richtung** (waagrecht/senkrecht) für jede Gruppe, alle Warntöne anhören
+• Auch ohne Anordnen: Shift + ziehen (ausserhalb des Kampfes)
 
 **🗺 Nur wo es Sinn macht**
 • In Hauptstädten, Gasthäusern, auf Flugrouten, als Geist und beritten bleibt alles ruhig
@@ -60,7 +56,7 @@ BuffSentinel ist dein Klassen-Helfer für den Kampf: Es meldet sich genau dann, 
 
 **⚙ Bedienung**
 • Komplett per Maus: Minimap-Button → Einstellungsfenster mit Seiten für Skillung, Procs, Buffs, Cooldowns, Reinigen, Zonen & Anzeige und Aufnahme
-• Notfall-Befehle: `/bsen` · `/bsen test`
+• Notfall-Befehle: `/bsen` · `/bsen anordnen`
 
 **📦 Installation**
 Die aktuelle ZIP hängt an der Versions-Ankündigung in diesem Kanal. Entpacken und den Ordner **BuffSentinel** nach `Interface/AddOns` kopieren (alten Ordner ersetzen). Ein Download für alle WoW-Versionen.
