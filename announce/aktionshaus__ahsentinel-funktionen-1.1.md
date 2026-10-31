@@ -22,6 +22,7 @@ Ein Knopf in der Übersicht (oder `/ahs heute`) zeigt, **was gerade am meisten G
 
 ## 🛒 Kaufen
 🔎 **Einkauf** – Kategorien, Filter für Stufe, iLvl und Seltenheit, **Favoriten**, Sofortkauf und Gebot
+📦 **Stapelware zusammengefasst** – gleicher Stückpreis = eine Zeile mit der Summe und dem Gesamtpreis; mit **Shift+Klick** mehrere Zeilen wählen und zusammen kaufen
 🎯 **Sniper** – Ziel mit Max-Preis, Menge und Budget; beim Treffer kommt ein Ton, **eine Mausrad-Raste kauft**
 👁️ **Wächter** – findet nebenbei Kräuter, Erz, Stoff & Co. weit unter Marktwert
 💎 **Schnäppchen** – unter Marktwert, Händler- oder Entzauberwert, Gebote und Flips, sortiert nach **Gewinn pro Tag**
