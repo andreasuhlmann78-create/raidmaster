@@ -13,7 +13,7 @@ Raid-Werkzeuge für die Gilde auf **WoW Forever**.
 
 **Uploader für den PC der Raidleitung (DKP automatisch in Discord):** [RaidMasterUploader.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/RaidMasterUploader.zip) – Anleitung im Spiel: Seite *Discord* oder `/rm discord`
 
-**AH Analyzer Pro:** [AHAnalyzerPro-0.60.3.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/AHAnalyzerPro-0.60.3.zip)
+**AH Analyzer Pro:** [AHAnalyzerPro-0.60.4.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/AHAnalyzerPro-0.60.4.zip)
 
 **BuffSentinel** (Buff-Erinnerungen, Proc-Buttons und Cooldowns mit Ein-Klick-Buttons, alle WoW-Versionen): [BuffSentinel-0.8.0.zip](https://github.com/andreasuhlmann78-create/raidmaster/raw/main/download/BuffSentinel-0.8.0.zip)
 
