@@ -10,6 +10,19 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 
 ## What's new
 
+### Version 0.60.7
+
+- **New "Test" button** at the top of the window (and in the auction house bar): self-test and
+  the new **test mode** in one window.
+- **Test mode:** try every feature by hand with your real auction house data - buy, bid, sniper
+  (mouse wheel too), post, cancel, vendor sale, collecting and sending mail. Every trade is only
+  simulated: the command to the server is intercepted and the server's answer is played back, so
+  messages, ledger and sniper counters behave like the real thing. All settings and data (lists,
+  ledger, sniper, watcher, selling) are restored when you stop test mode - or automatically after
+  a /reload or crash. A log shows every simulated action and is included in the copied report.
+  Note: only the addon's buttons are simulated, Blizzard's own auction house buttons still buy
+  for real. Also: `/ahp testmode`.
+
 ### Version 0.60.6
 
 - **Self-test simulates real trading:** with the real auction house listings it now runs instant
@@ -47,14 +60,6 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
   its own events there. Found by the new self-test.
 - **Self-test:** the copied report can now be scrolled, and the result list is wider - hover a
   row to see the full text.
-
-### Version 0.60.2
-
-- **Self-test:** Options -> "Self-test" or `/ahp test` checks every feature with real data from
-  your auction house: market scan (if needed), market data, every tab, all calculations and real
-  server searches (Buy, price check, Sniper, Watcher, your auctions). Buying, bidding, posting and
-  cancelling are locked while it runs; your settings and sniper targets are restored afterwards.
-  The result is shown in a window, can be copied as a report and is saved in the SavedVariables.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

@@ -6,6 +6,19 @@
 <p>AH Analyzer Pro scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.60.7</h3>
+<ul>
+<li><strong>New "Test" button</strong> at the top of the window (and in the auction house bar): self-test and
+  the new <strong>test mode</strong> in one window.</li>
+<li><strong>Test mode:</strong> try every feature by hand with your real auction house data - buy, bid, sniper
+  (mouse wheel too), post, cancel, vendor sale, collecting and sending mail. Every trade is only
+  simulated: the command to the server is intercepted and the server's answer is played back, so
+  messages, ledger and sniper counters behave like the real thing. All settings and data (lists,
+  ledger, sniper, watcher, selling) are restored when you stop test mode - or automatically after
+  a /reload or crash. A log shows every simulated action and is included in the copied report.
+  Note: only the addon's buttons are simulated, Blizzard's own auction house buttons still buy
+  for real. Also: <code>/ahp testmode</code>.</li>
+</ul>
 <h3>Version 0.60.6</h3>
 <ul>
 <li><strong>Self-test simulates real trading:</strong> with the real auction house listings it now runs instant
@@ -43,14 +56,6 @@
   its own events there. Found by the new self-test.</li>
 <li><strong>Self-test:</strong> the copied report can now be scrolled, and the result list is wider - hover a
   row to see the full text.</li>
-</ul>
-<h3>Version 0.60.2</h3>
-<ul>
-<li><strong>Self-test:</strong> Options -&gt; "Self-test" or <code>/ahp test</code> checks every feature with real data from
-  your auction house: market scan (if needed), market data, every tab, all calculations and real
-  server searches (Buy, price check, Sniper, Watcher, your auctions). Buying, bidding, posting and
-  cancelling are locked while it runs; your settings and sniper targets are restored afterwards.
-  The result is shown in a window, can be copied as a report and is saved in the SavedVariables.</li>
 </ul>
 <p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
 <hr />
