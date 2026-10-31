@@ -6,6 +6,25 @@
 <p>AH Analyzer Pro scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.60.8</h3>
+<ul>
+<li><strong>Fixed: no price lines in item tooltips</strong> on some clients (e.g. TBC Anniversary). The addon
+  now hooks every way WoW fills an item tooltip and resizes the tooltip after adding its lines.
+  The self-test now checks the real bag tooltip.</li>
+<li><strong>Esc closes only the top window:</strong> e.g. the price history window - the addon window and the
+  auction house stay open (before, one Esc closed everything).</li>
+<li><strong>Price history window:</strong> the close button no longer sits on top of the "All" button.</li>
+<li><strong>Test mode</strong> now also restores search favorites, repost list and mail rules.</li>
+<li><strong>Your own searches come first:</strong> a running watcher round is stopped so the buy tab no longer
+  waits ("Waiting for the watcher ...").</li>
+<li>Buy tab shows "Bought: ..." instead of "Purchase in progress ..." when done.</li>
+<li>Overview: tenfold price jumps (almost always bogus data) are no longer listed as rises/drops.</li>
+<li>Smaller fixes: test mode log shows sniper buys as such, shopping lists release the keyboard after
+  deleting a list, no "N entries" overlap in the lists window, shorter option label "Expiry
+  reminder", posting fee on classic AH shows "when posting" instead of "?", iLvl filter hint only
+  when there are results, faster mouse-wheel scrolling in the report window, report title
+  "Test report".</li>
+</ul>
 <h3>Version 0.60.7</h3>
 <ul>
 <li><strong>New "Test" button</strong> at the top of the window (and in the auction house bar): self-test and
@@ -47,15 +66,6 @@
 <li><strong>Self-test with saved data:</strong> new button "With saved data" in the self-test window (or
   <code>/ahp test saved</code>). It tests with the auction house data you already scanned - no new scan.
   It even runs with the auction house closed; the server searches are then skipped.</li>
-</ul>
-<h3>Version 0.60.3</h3>
-<ul>
-<li><strong>Fix for TBC Anniversary (and other classic clients):</strong> "My auctions" never updated and some
-  auction house messages (e.g. "auction posted") never arrived. These clients know the event names
-  of the modern auction house but never fire them for the classic one; the addon now always uses
-  its own events there. Found by the new self-test.</li>
-<li><strong>Self-test:</strong> the copied report can now be scrolled, and the result list is wider - hover a
-  row to see the full text.</li>
 </ul>
 <p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
 <hr />

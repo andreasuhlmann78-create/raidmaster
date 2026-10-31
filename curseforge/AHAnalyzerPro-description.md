@@ -10,6 +10,25 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 
 ## What's new
 
+### Version 0.60.8
+
+- **Fixed: no price lines in item tooltips** on some clients (e.g. TBC Anniversary). The addon
+  now hooks every way WoW fills an item tooltip and resizes the tooltip after adding its lines.
+  The self-test now checks the real bag tooltip.
+- **Esc closes only the top window:** e.g. the price history window - the addon window and the
+  auction house stay open (before, one Esc closed everything).
+- **Price history window:** the close button no longer sits on top of the "All" button.
+- **Test mode** now also restores search favorites, repost list and mail rules.
+- **Your own searches come first:** a running watcher round is stopped so the buy tab no longer
+  waits ("Waiting for the watcher ...").
+- Buy tab shows "Bought: ..." instead of "Purchase in progress ..." when done.
+- Overview: tenfold price jumps (almost always bogus data) are no longer listed as rises/drops.
+- Smaller fixes: test mode log shows sniper buys as such, shopping lists release the keyboard after
+  deleting a list, no "N entries" overlap in the lists window, shorter option label "Expiry
+  reminder", posting fee on classic AH shows "when posting" instead of "?", iLvl filter hint only
+  when there are results, faster mouse-wheel scrolling in the report window, report title
+  "Test report".
+
 ### Version 0.60.7
 
 - **New "Test" button** at the top of the window (and in the auction house bar): self-test and
@@ -51,15 +70,6 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 - **Self-test with saved data:** new button "With saved data" in the self-test window (or
   `/ahp test saved`). It tests with the auction house data you already scanned - no new scan.
   It even runs with the auction house closed; the server searches are then skipped.
-
-### Version 0.60.3
-
-- **Fix for TBC Anniversary (and other classic clients):** "My auctions" never updated and some
-  auction house messages (e.g. "auction posted") never arrived. These clients know the event names
-  of the modern auction house but never fire them for the classic one; the addon now always uses
-  its own events there. Found by the new self-test.
-- **Self-test:** the copied report can now be scrolled, and the result list is wider - hover a
-  row to see the full text.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
