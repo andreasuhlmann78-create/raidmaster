@@ -10,6 +10,17 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 
 ## What's new
 
+### Version 0.61.2
+
+- **One language for everything:** item names now follow the addon language (unless you chose a
+  separate item-name language), and the tooltip shows the item name in that language when it
+  differs from the game client's.
+- **Language switch rebuilds every window:** besides the main window also "Today", the test window,
+  the mail-to-alts rules and the mailbox panel (even while the mailbox is open).
+- **Self-test:** new check "language switch" - every addon language once and then back and forth
+  several times; window, tabs, texts, item names and tooltip must appear in the chosen language,
+  and the original language is restored afterwards.
+
 ### Version 0.61.1
 
 - **Fixed: "Today" suggested unrealistic purchases.** Page-by-page scans often see only part of the
@@ -69,12 +80,6 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 - **Sniper:** listings of the previous target are no longer shown under the new target's name.
 - **Self-test:** the sniper test buys (simulated) the smallest stack instead of a 2-stack.
 - **Price history window:** can be dragged by its title.
-
-### Version 0.60.9
-
-- **Message when the scan is done:** a large message in the middle of the screen ("AH scan done:
-  N items") plus a sound (if alert sounds are on in the options) - you no longer have to watch the
-  chat. A scan without results is shown there too.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
