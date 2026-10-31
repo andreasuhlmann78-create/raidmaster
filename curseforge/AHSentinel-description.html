@@ -7,6 +7,12 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.62.2</h3>
+<ul>
+<li><strong>Test and developer functions are hidden:</strong> the self-test and the test mode (button "Test",
+  <code>/ahs test</code>, <code>/ahs testmode</code>) are only available to the developer now. For everybody else the
+  addon looks and works the same, just without these tools.</li>
+</ul>
 <h3>Version 0.62.1</h3>
 <p><strong>Realistic prices – important for a fresh server, where prices fall every day:</strong>
 - <strong>Market value follows the market faster:</strong> newer prices count more (half-life 3 days) instead of a
@@ -82,22 +88,6 @@ GuildSentinel, ThreatSentinel).</p>
 <li>Smaller things: "Bid" without a selected listing says so, the vendor warning when posting only
   appears when it matters (at least 1 silver and 10 %), fictional auctions show up in test mode
   right away, the "Today" window closes when you jump to a tab.</li>
-</ul>
-<h3>Version 0.61.0</h3>
-<p><strong>More profit, fewer fake bargains:</strong></p>
-<ul>
-<li><strong>"Today" (button in the overview, <code>/ahp today</code>):</strong> the actions that bring the most gold right
-  now, ranked by estimated net gold - buy below vendor price, flips, selling what is in your bags,
-  undercut auctions, items to repost, disenchant and bid deals. Click a row to jump straight to
-  the right tab.</li>
-<li><strong>Sell-through instead of listing prices:</strong> from your scans the addon now estimates how much of
-  an item actually sells per day and whether its market value can be trusted. Items that are
-  rarely listed or only have "moon prices" (like 2499g 99s 99c) are hidden from bargains, flips and
-  the overview (button "also unsure" shows them). Bargains are sorted by <strong>profit per day</strong>, the
-  tooltip shows "~N/day sold (estimated)".</li>
-<li><strong>Net profit with the posting fee:</strong> on the classic auction house the fee is now estimated from
-  the vendor price ("approx.") and learned exactly the first time you really post. Profits subtract
-  the fee you lose when an auction comes back (based on your own sell rate).</li>
 </ul>
 <p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
 <hr />

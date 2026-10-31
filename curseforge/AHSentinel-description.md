@@ -12,6 +12,12 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.62.2
+
+- **Test and developer functions are hidden:** the self-test and the test mode (button "Test",
+  `/ahs test`, `/ahs testmode`) are only available to the developer now. For everybody else the
+  addon looks and works the same, just without these tools.
+
 ### Version 0.62.1
 
 **Realistic prices – important for a fresh server, where prices fall every day:**
@@ -93,23 +99,6 @@ GuildSentinel, ThreatSentinel).
 - Smaller things: "Bid" without a selected listing says so, the vendor warning when posting only
   appears when it matters (at least 1 silver and 10 %), fictional auctions show up in test mode
   right away, the "Today" window closes when you jump to a tab.
-
-### Version 0.61.0
-
-**More profit, fewer fake bargains:**
-
-- **"Today" (button in the overview, `/ahp today`):** the actions that bring the most gold right
-  now, ranked by estimated net gold - buy below vendor price, flips, selling what is in your bags,
-  undercut auctions, items to repost, disenchant and bid deals. Click a row to jump straight to
-  the right tab.
-- **Sell-through instead of listing prices:** from your scans the addon now estimates how much of
-  an item actually sells per day and whether its market value can be trusted. Items that are
-  rarely listed or only have "moon prices" (like 2499g 99s 99c) are hidden from bargains, flips and
-  the overview (button "also unsure" shows them). Bargains are sorted by **profit per day**, the
-  tooltip shows "~N/day sold (estimated)".
-- **Net profit with the posting fee:** on the classic auction house the fee is now estimated from
-  the vendor price ("approx.") and learned exactly the first time you really post. Profits subtract
-  the fee you lose when an auction comes back (based on your own sell rate).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
