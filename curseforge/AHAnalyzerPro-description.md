@@ -10,6 +10,12 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 
 ## What's new
 
+### Version 0.60.4
+
+- **Self-test with saved data:** new button "With saved data" in the self-test window (or
+  `/ahp test saved`). It tests with the auction house data you already scanned - no new scan.
+  It even runs with the auction house closed; the server searches are then skipped.
+
 ### Version 0.60.3
 
 - **Fix for TBC Anniversary (and other classic clients):** "My auctions" never updated and some
@@ -47,34 +53,6 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
   on or off with one click (right-click opens their tab).
 - **Remembers where you were:** the addon opens on the tab you used last, and every main tab
   remembers its last sub-tab.
-
-### Version 0.59.33
-
-**Comfort update - twelve small things that save clicks every day:**
-
-- **Stack size and number of stacks** (classic auction house): in the Sell tab, choose e.g.
-  5 stacks of 20. Remembered per item and used by "Post all".
-- **Collect mail automatically:** opening the mailbox collects auction mail right away
-  (hold Shift while opening to skip). Can be turned off in Options.
-- **Minimum price per item:** the new "Min" button in the Sell tab remembers the current price
-  as a floor. The suggestion never goes below it, and "Post all" waits instead of selling cheap.
-- **Only what I'm missing:** next to your profession window, a new button puts only the missing
-  materials on a shopping list - counting your bags, bank and alts.
-- **Alt-click an item** in your bags or a link in chat: opens the price history, or the Buy tab
-  while the auction house is open.
-- **Sell rate in the tooltip:** how much of what you posted actually sold (last 60 days) and how
-  long it usually took.
-- **Expiring auctions:** a message when your auctions have less than 30 minutes left, and at
-  login what expired since your last visit.
-- **Favorites in the Buy tab:** save searches (text, category, level, iLvl, rarity) and run them
-  again with one click.
-- **Gold goal:** set a goal for all characters together (Options or `/ahp goal 5000`) and get a
-  message when you reach it. The daily summary shows your progress.
-- **Guild bank value:** new view Ledger -> "Guild bank" shows what is in your guild bank and what
-  it is worth (TBC and later).
-- **Raid supplies:** one click creates a shopping list with potions, flasks, elixirs and buff
-  food for a raid week (Classic, TBC, Wrath) - with the total cost. Also `/ahp raid`.
-- **Price sync with your guild only:** new option to share prices only with your guild.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
