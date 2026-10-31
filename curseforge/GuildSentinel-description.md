@@ -8,6 +8,37 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ---
 
+## What's new
+
+### Version 0.9.1
+
+- Test mode is now developer-only: the Settings > Test mode tab and `/gs test` only appear for the developer account. Nothing else changes for players.
+
+### Version 0.9.0
+
+- **Who's free** (Group finder): one click flags you as free for dungeon, raid, quest group or PvP for 1, 2 or 4 hours. Everyone with GuildSentinel sees who is free, with level, item level and zone. Inside dungeons, raids and battlegrounds you automatically show as busy.
+- After posting a group search, GuildSentinel tells you how many guild members are free for it right now.
+- **Item level** with "I'll join": the searcher sees it in the replies and in chat.
+- **Bulk actions** (Leadership, officers): remove inactive players by rule or promote several suggestions at once – always a checklist first, one step per click.
+- **GRM import** (Leadership): alts, join dates and personal notes from Guild Roster Manager, with a preview.
+
+### Version 0.8.3
+
+- New **Support** button (PayPal link to copy) in the title bar and under Settings > General, also `/gs donate`. Opens only on click.
+
+### Version 0.8.2
+
+- Guild achievements: singular for the first weekly goal; names that are too long use a smaller font.
+- Professions: old raw-material entries (e.g. Felweed as "Alchemy") are removed automatically.
+
+### Version 0.8.1
+
+- Settings > Features in three columns; probation advice follows the 40 % rule; overview counts departures like Leadership; My week markers and singulars; chronicle without duplicates; loot wishes preselect a dungeon; removing a question asks first; raw materials leave the watch list.
+
+*Older versions: see the changelog of each file in the **Files** tab.*
+
+---
+
 ## 🏠 Overview
 
 - **Guild health at a glance**: active players vs. last month, joins and departures, who will soon be inactive, open applicants, probations due, weekly goal, next event
@@ -101,7 +132,7 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 | Addon | What GuildSentinel uses |
 |---|---|
 | **RaidMaster** | professions, alts, roles from talent specs, next raid in events, first kills as milestones |
-| **AHSentinel** | market value on the board and for profession cooldowns |
+| **AH Analyzer Pro** | market value on the board and for profession cooldowns |
 | **BuffSentinel** | detects your class services for the board |
 | **ThreatSentinel** | your role (tank stance / bear form) for composition and group finder |
 | **LevelPilot** | elite quests from your quest log as a group search, players with the same quest |
@@ -113,8 +144,7 @@ The **Addons** page shows who in your guild uses which addon and who has an old 
 - Minimap button: left-click opens the window, right-click posts the guild ad
 - Language: always the language of your game client
 - **Features** can be turned on and off individually (Settings > Features)
-- **Test mode** (`/gs test`): a made-up guild to try everything – nothing is sent; "Click through everything" checks every page
-- Commands (optional): `/gs`, `/gs group`, `/gs events`, `/gs board`, `/gs where`, `/gs thanks <name>`, `/gs away <days>`, `/gs poll`, `/gs progress`, `/gs attune`, `/gs rules`, `/gs find <recipe>`, `/gs ad`, `/gs test`
+- Commands (optional): `/gs`, `/gs group`, `/gs events`, `/gs board`, `/gs where`, `/gs thanks <name>`, `/gs away <days>`, `/gs poll`, `/gs progress`, `/gs attune`, `/gs rules`, `/gs find <recipe>`, `/gs ad`, `/gs donate`
 
 ## 📦 Installation
 
