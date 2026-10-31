@@ -10,6 +10,15 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 
 ## What's new
 
+### Version 0.60.3
+
+- **Fix for TBC Anniversary (and other classic clients):** "My auctions" never updated and some
+  auction house messages (e.g. "auction posted") never arrived. These clients know the event names
+  of the modern auction house but never fire them for the classic one; the addon now always uses
+  its own events there. Found by the new self-test.
+- **Self-test:** the copied report can now be scrolled, and the result list is wider - hover a
+  row to see the full text.
+
 ### Version 0.60.2
 
 - **Self-test:** Options -> "Self-test" or `/ahp test` checks every feature with real data from
@@ -66,13 +75,6 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 - **Raid supplies:** one click creates a shopping list with potions, flasks, elixirs and buff
   food for a raid week (Classic, TBC, Wrath) - with the total cost. Also `/ahp raid`.
 - **Price sync with your guild only:** new option to share prices only with your guild.
-
-### Version 0.59.32
-
-- **No more absurd profits:** items that would show a profit of 1000 % or more (almost always
-  bad data such as an outlier market value or placeholder prices) are no longer listed in the
-  Profit tab (all views: market value, vendor, disenchant, bids, flips) and no longer appear
-  under "Biggest price increases" in the Overview.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

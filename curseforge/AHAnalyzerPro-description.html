@@ -6,6 +6,15 @@
 <p>AH Analyzer Pro scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.60.3</h3>
+<ul>
+<li><strong>Fix for TBC Anniversary (and other classic clients):</strong> "My auctions" never updated and some
+  auction house messages (e.g. "auction posted") never arrived. These clients know the event names
+  of the modern auction house but never fire them for the classic one; the addon now always uses
+  its own events there. Found by the new self-test.</li>
+<li><strong>Self-test:</strong> the copied report can now be scrolled, and the result list is wider - hover a
+  row to see the full text.</li>
+</ul>
 <h3>Version 0.60.2</h3>
 <ul>
 <li><strong>Self-test:</strong> Options -&gt; "Self-test" or <code>/ahp test</code> checks every feature with real data from
@@ -60,13 +69,6 @@
 <li><strong>Raid supplies:</strong> one click creates a shopping list with potions, flasks, elixirs and buff
   food for a raid week (Classic, TBC, Wrath) - with the total cost. Also <code>/ahp raid</code>.</li>
 <li><strong>Price sync with your guild only:</strong> new option to share prices only with your guild.</li>
-</ul>
-<h3>Version 0.59.32</h3>
-<ul>
-<li><strong>No more absurd profits:</strong> items that would show a profit of 1000 % or more (almost always
-  bad data such as an outlier market value or placeholder prices) are no longer listed in the
-  Profit tab (all views: market value, vendor, disenchant, bids, flips) and no longer appear
-  under "Biggest price increases" in the Overview.</li>
 </ul>
 <p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
 <hr />
