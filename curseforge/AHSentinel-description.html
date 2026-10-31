@@ -7,6 +7,14 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.63.0</h3>
+<ul>
+<li><strong>Disenchanting – everyone learns together:</strong> what comes out of a disenchant is now shared through the price sync with every player who has AHSentinel (or only your guild if you set it so). Everyone sends only their own numbers, nothing is counted twice, so the drop chances match WoW Forever's real ones much sooner.</li>
+<li><strong>New starting values for green items:</strong> 75 % dust, 20 % essence, 5 % shard (weapons the other way round: 75 % essence, 20 % dust). Your own and the shared results adjust them from there.</li>
+<li>Tooltip: "Disenchant (Ø, 12 own, 340 shared)" shows how many disenchants the value is based on.</li>
+<li>Only which material came out how often is shared – nonsense (foreign items, impossible amounts) is rejected.</li>
+<li>ProfessionSentinel uses these values for its "Craft &amp; disenchant" ranking.</li>
+</ul>
 <h3>Version 0.62.4</h3>
 <ul>
 <li><strong>Stackable goods combined (classic auction house):</strong> in the buy tab, all offers of a stackable item
@@ -64,18 +72,6 @@
   Chinese name are written without umlauts (ö → oe), which the Chinese font cannot show.
 - Self-test: the language check now also finds cut-off option labels, list names in the wrong
   language and counts missing item names per language.</p>
-<h3>Version 0.62.0</h3>
-<p><strong>AH Analyzer Pro is now called AHSentinel</strong> – part of the Sentinel family (BuffSentinel,
-GuildSentinel, ThreatSentinel).</p>
-<ul>
-<li><strong>Your data is taken over automatically:</strong> the download contains the new folder <code>AHSentinel</code>
-  and a small <code>AHAnalyzerPro</code> folder that only hands your old data (prices, ledger, lists,
-  sniper targets, settings) over on the first start. Afterwards you can delete <code>AHAnalyzerPro</code>.</li>
-<li><strong>New command <code>/ahs</code></strong> (also <code>/ahsentinel</code>); <code>/ahp</code> keeps working.</li>
-<li>Everything else stays the same.</li>
-</ul>
-<p><strong>Install:</strong> copy both folders from the ZIP into <code>Interface\AddOns</code> (overwrite the old
-<code>AHAnalyzerPro</code> folder), start the game, done.</p>
 <p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>

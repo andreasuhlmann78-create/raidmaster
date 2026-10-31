@@ -12,6 +12,14 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.63.0
+
+- **Disenchanting – everyone learns together:** what comes out of a disenchant is now shared through the price sync with every player who has AHSentinel (or only your guild if you set it so). Everyone sends only their own numbers, nothing is counted twice, so the drop chances match WoW Forever's real ones much sooner.
+- **New starting values for green items:** 75 % dust, 20 % essence, 5 % shard (weapons the other way round: 75 % essence, 20 % dust). Your own and the shared results adjust them from there.
+- Tooltip: "Disenchant (Ø, 12 own, 340 shared)" shows how many disenchants the value is based on.
+- Only which material came out how often is shared – nonsense (foreign items, impossible amounts) is rejected.
+- ProfessionSentinel uses these values for its "Craft & disenchant" ranking.
+
 ### Version 0.62.4
 
 - **Stackable goods combined (classic auction house):** in the buy tab, all offers of a stackable item
@@ -72,20 +80,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   Chinese name are written without umlauts (ö → oe), which the Chinese font cannot show.
 - Self-test: the language check now also finds cut-off option labels, list names in the wrong
   language and counts missing item names per language.
-
-### Version 0.62.0
-
-**AH Analyzer Pro is now called AHSentinel** – part of the Sentinel family (BuffSentinel,
-GuildSentinel, ThreatSentinel).
-
-- **Your data is taken over automatically:** the download contains the new folder `AHSentinel`
-  and a small `AHAnalyzerPro` folder that only hands your old data (prices, ledger, lists,
-  sniper targets, settings) over on the first start. Afterwards you can delete `AHAnalyzerPro`.
-- **New command `/ahs`** (also `/ahsentinel`); `/ahp` keeps working.
-- Everything else stays the same.
-
-**Install:** copy both folders from the ZIP into `Interface\AddOns` (overwrite the old
-`AHAnalyzerPro` folder), start the game, done.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
