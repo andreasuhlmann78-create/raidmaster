@@ -39,6 +39,7 @@ BuffSentinel ist dein Klassen-Helfer für den Kampf: Es meldet sich genau dann, 
 **🖱 Buttons frei platzieren**
 • Im Testmodus jeden Button einzeln dorthin ziehen, wo du willst – **Shift + ziehen** verschiebt die ganze Gruppe, **Rechtsklick** setzt zurück
 • Auch ohne Testmodus: Shift + ziehen (ausserhalb des Kampfes)
+• **Grösse pro Gruppe:** Procs, Buffs, Cooldowns und Reinigen einzeln von 50 bis 200 %, dazu eine Gesamtgrösse
 
 **🗺 Nur wo es Sinn macht**
 • In Hauptstädten, Gasthäusern, auf Flugrouten, als Geist und beritten bleibt alles ruhig
