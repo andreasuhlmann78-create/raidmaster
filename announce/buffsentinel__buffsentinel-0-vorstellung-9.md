@@ -8,7 +8,7 @@ BuffSentinel ist dein Klassen-Helfer für den Kampf: Es meldet sich genau dann, 
 • Restzeit und Stapel stehen direkt auf dem Button
 
 **🔔 Ruhig, ausser es zählt**
-• Töne sind standardmässig aus – ausser wenn ein **eigener Buff ausläuft**: Dann hupt BuffSentinel, bis du nachgebufft hast (ein fehlender **Schlachtruf** klingelt)
+• Töne sind standardmässig aus – ausser wenn ein **eigener Buff ausläuft**: Dann hupt BuffSentinel, bis du nachgebufft hast – z. B. bei fehlendem **Schlachtruf**
 • Jeder Proc, Buff und Cooldown kann eine eigene Klingel bekommen (Knopf „Ton“), allgemeine Töne lassen sich unter „Zonen & Anzeige“ einschalten
 
 **✨ Buff-Wächter mit Ein-Klick-Buff**
