@@ -10,6 +10,16 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 
 ## What's new
 
+### Version 0.60.6
+
+- **Self-test simulates real trading:** with the real auction house listings it now runs instant
+  buy, bid, sniper buy, posting and cancelling exactly like the real thing - same listing, same
+  price, same command. The command to the server is intercepted, so nothing is bought, posted or
+  cancelled; the test finally checks that your gold is unchanged. Chat messages during the
+  simulation are marked "[Simulation]".
+- **Self-test:** the watcher is switched off again right after its test round, so it no longer
+  blocks the following server searches.
+
 ### Version 0.60.5
 
 - **Fixed (classic clients):** a Lua error "attempt to compare number with nil" could appear when
@@ -45,13 +55,6 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
   server searches (Buy, price check, Sniper, Watcher, your auctions). Buying, bidding, posting and
   cancelling are locked while it runs; your settings and sniper targets are restored afterwards.
   The result is shown in a window, can be copied as a report and is saved in the SavedVariables.
-
-### Version 0.60.1
-
-- **Real minimap button:** the button now sits on the minimap like with other addons - drag it
-  around the minimap with the mouse, the position is saved. Works with round and square
-  minimaps. Hide or show it in Options or with `/ahp minimap`; `/ahp reset` brings it back.
-- **New icon:** a golden scale - on the minimap button, in the title bar and in the addon list.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
