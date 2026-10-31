@@ -10,6 +10,14 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 
 ## What's new
 
+### Version 0.60.11
+
+- **Mailbox buttons always answer:** "Mail collected: ..." now also appears in the middle of the
+  screen, and an empty mailbox says "Nothing to collect" instead of staying silent.
+- **"To alts" without a rule** says so in the chat before opening the rules window.
+- **Test mode:** the fictional "sold" mail belongs to the fictional sold auction, and that auction
+  disappears from "My auctions" once its money is collected - like in the game.
+
 ### Version 0.60.10
 
 - **Test mode with fictional auctions:** "My auctions" now shows three fictional auctions (one
@@ -63,16 +71,6 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
   a /reload or crash. A log shows every simulated action and is included in the copied report.
   Note: only the addon's buttons are simulated, Blizzard's own auction house buttons still buy
   for real. Also: `/ahp testmode`.
-
-### Version 0.60.6
-
-- **Self-test simulates real trading:** with the real auction house listings it now runs instant
-  buy, bid, sniper buy, posting and cancelling exactly like the real thing - same listing, same
-  price, same command. The command to the server is intercepted, so nothing is bought, posted or
-  cancelled; the test finally checks that your gold is unchanged. Chat messages during the
-  simulation are marked "[Simulation]".
-- **Self-test:** the watcher is switched off again right after its test round, so it no longer
-  blocks the following server searches.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
