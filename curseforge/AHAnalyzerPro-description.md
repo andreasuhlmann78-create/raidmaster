@@ -10,6 +10,19 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
 
 ## What's new
 
+### Version 0.60.5
+
+- **Fixed (classic clients):** a Lua error "attempt to compare number with nil" could appear when
+  opening the auction house (bid tracking after a reload).
+- **Watcher/Sniper status in the header** now always updates when you switch them on or off.
+- **Self-test:** a market scan still running in the background no longer makes all server
+  searches time out - in the "saved data" mode it is stopped, otherwise the test waits for it.
+  Starting a scan during the test is blocked.
+- **Self-test:** settings, the watcher and the window (tab, or closed) are restored reliably
+  after the test; if something can't be restored, the report says so.
+- **Text window** (copy report) now always opens in front, starts at the top and scrolls
+  quickly with the mouse wheel (hold Shift for big steps).
+
 ### Version 0.60.4
 
 - **Self-test with saved data:** new button "With saved data" in the self-test window (or
@@ -39,20 +52,6 @@ AH Analyzer Pro scans the auction house, keeps a price history for every item an
   around the minimap with the mouse, the position is saved. Works with round and square
   minimaps. Hide or show it in Options or with `/ahp minimap`; `/ahp reset` brings it back.
 - **New icon:** a golden scale - on the minimap button, in the title bar and in the addon list.
-
-### Version 0.60.0
-
-**Tidier window - 5 tabs instead of 11:**
-
-- **Overview · Buy · Sell · Market · Ledger.** Related pages are now sub-tabs:
-  Buy = Buy, Sniper, Watcher, Bargains · Sell = Post, My auctions · Market = All prices, Watchlist.
-  Every feature is still there, nothing was removed.
-- **Price history in its own window:** clicking an item opens the price history next to the
-  addon - the list you came from stays exactly where it was. The window can be moved and resized.
-- **Sniper and watcher in the title bar:** see at a glance whether they are running and turn them
-  on or off with one click (right-click opens their tab).
-- **Remembers where you were:** the addon opens on the tab you used last, and every main tab
-  remembers its last sub-tab.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
