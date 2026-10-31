@@ -3515,6 +3515,58 @@ def announce_series(fn: str):
     return m.group("series").lower(), tuple(int(x) for x in m.group("ver").split("."))
 
 
+# Reihen, deren Beitrag bei einer neuen Fassung BEARBEITET wird (statt gelöscht und neu gepostet):
+# Vorstellungen, Funktionsübersichten, Hilfen. Nur die Nachrichten, deren Text sich geändert hat,
+# werden bearbeitet; kommt ein Teil dazu, wird er angehängt, fällt einer weg, wird er gelöscht.
+ANNOUNCE_EDIT_WORDS = ("vorstellung", "funktionen", "uebersicht", "hilfe")
+
+
+def announce_editable(series: str) -> bool:
+    s_ = (series or "").lower()
+    return any(w in s_ for w in ANNOUNCE_EDIT_WORDS)
+
+
+async def edit_announcement(ch, series: str, ver: tuple, parts: list):
+    """Beitrag einer älteren Fassung derselben Reihe in diesem Kanal bearbeiten.
+    Rückgabe: (alter Dateiname, Nachrichten-IDs, Anzahl geänderter Nachrichten) oder None (dann normal posten)."""
+    rec = state.data.setdefault("announce_msgs", {})
+    prev = None
+    for fn, r in rec.items():
+        if r.get("series") == series and r.get("ch") == ch.id and tuple(r.get("ver") or ()) < ver and r.get("ids") \
+                and not r.get("attach"):
+            if prev is None or tuple(r.get("ver")) > tuple(prev[1].get("ver")):
+                prev = (fn, r)
+    if not prev:
+        return None
+    old_fn, r = prev
+    msgs = []
+    for mid in r["ids"]:
+        try:
+            msgs.append(await ch.fetch_message(mid))
+        except (discord.NotFound, discord.HTTPException):
+            return None                 # Beitrag fehlt (z. B. von Hand gelöscht): neu posten
+    am = discord.AllowedMentions(users=True, roles=False, everyone=False)
+    ids, changed = [], 0
+    for i, part in enumerate(parts or [""]):
+        text = part[:2000]
+        if i < len(msgs):
+            if (msgs[i].content or "") != text:
+                await msgs[i].edit(content=text, allowed_mentions=am)
+                changed += 1
+            ids.append(msgs[i].id)
+        else:
+            m = await ch.send(text, allowed_mentions=am)
+            ids.append(m.id)
+            changed += 1
+    for m in msgs[len(parts or [""]):]:
+        try:
+            await m.delete()
+            changed += 1
+        except discord.HTTPException:
+            pass
+    return old_fn, ids, changed
+
+
 async def remove_old_announcements(ch, series: str, ver: tuple, keep_fn: str):
     """Löscht die Nachrichten älterer Versionen derselben Reihe. Liefert die Anzahl gelöschter Nachrichten."""
     rec = state.data.setdefault("announce_msgs", {})
@@ -3745,6 +3797,23 @@ async def check_announcements():
         attach = [os.path.join(ANNOUNCE_DIR, x) for x in sorted(os.listdir(ANNOUNCE_DIR))
                   if x.startswith(stem + ".") and x.lower().endswith(ANNOUNCE_ATTACH)
                   and os.path.getsize(os.path.join(ANNOUNCE_DIR, x)) <= 10 * 1024 * 1024][:10]
+        # Vorstellung / Übersicht / Hilfe: vorhandenen Beitrag bearbeiten statt neu posten
+        series, ver = announce_series(fn)
+        if series and announce_editable(series) and not attach:
+            try:
+                res = await edit_announcement(ch, series, ver, parts)
+            except discord.HTTPException as e:
+                log.warning("Ankündigung %s nicht bearbeitet: %s", fn, e)
+                res = None
+            if res:
+                old_fn, ids, changed = res
+                rec = state.data.setdefault("announce_msgs", {})
+                rec.pop(old_fn, None)
+                rec[fn] = {"ch": ch.id, "ids": ids, "series": series, "ver": list(ver)}
+                done.append(fn)
+                state.save()
+                log.info("Ankündigung %s: Beitrag von %s bearbeitet (%d Nachricht(en) geändert).", fn, old_fn, changed)
+                continue
         sent = []
         try:
             for i, p in enumerate(parts or [""]):
@@ -3758,9 +3827,9 @@ async def check_announcements():
             log.warning("Ankündigung %s nicht gepostet: %s", fn, e)
             continue
         done.append(fn)
-        series, ver = announce_series(fn)
         if series:
-            state.data.setdefault("announce_msgs", {})[fn] = {"ch": ch.id, "ids": sent, "series": series, "ver": list(ver)}
+            state.data.setdefault("announce_msgs", {})[fn] = {"ch": ch.id, "ids": sent, "series": series, "ver": list(ver),
+                                                              "attach": bool(attach) or None}
         state.save()
         log.info("Ankündigung %s gepostet.", fn)
         # neuere Version derselben Reihe: alte Beiträge entfernen

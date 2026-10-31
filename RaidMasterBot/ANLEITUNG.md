@@ -196,6 +196,10 @@ Alles, was im GitHub-Repository im Ordner **`announce`** landet, postet der Bot 
 - **Neue Version ersetzt die alte:** Enthält der Titel eine Versionsnummer (`levelpilot__levelpilot-3.3.0.md`),
   löscht der Bot nach dem Posten die Nachrichten älterer Versionen derselben Reihe (`levelpilot__levelpilot-3.2.1`)
   samt Anhängen. Titel ohne Versionsnummer bleiben stehen.
+- **Vorstellung, Übersicht, Hilfe werden bearbeitet statt neu gepostet:** Enthält der Reihenname „vorstellung“,
+  „funktionen“, „uebersicht“ oder „hilfe“ (z. B. `aktionshaus__ahsentinel-funktionen-1.2.md`), bearbeitet der Bot
+  den vorhandenen Beitrag: Nur Nachrichten mit geändertem Text werden geändert, neue Teile angehängt, weggefallene
+  gelöscht. Der Beitrag behält seinen Platz im Kanal. (Gilt nicht für Beiträge mit Anhängen.)
 - **Gleicher Titel ersetzt:** Beginnt eine neue Ankündigung mit derselben ersten Zeile wie ein älterer Bot-Beitrag
   im Kanal (z. B. eine überarbeitete Vorstellung), löscht der Bot den älteren Beitrag samt Fortsetzungen.
 - Ältere Kurzform: `aktionshaus-….md` → #aktionshaus, `raid-addon-….md` → #raid-addon.

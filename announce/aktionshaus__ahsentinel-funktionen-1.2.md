@@ -1,6 +1,8 @@
-# 💰 AHSentinel – was das Addon kann
-**Das Auktionshaus-Addon von GoldSentinel** – für TBC Anniversary, **WoW Forever**, Classic Era, Wrath, Cata, MoP und Retail.
-Scannen, Schnäppchen finden, richtig verkaufen und Buch führen – komplett mit der Maus, in 10 Sprachen.
+# 💰 AHSentinel – Vorstellung
+**Das Auktionshaus-Addon von GoldSentinel** – für **WoW Forever**, TBC Anniversary, Classic Era, Wrath, Cata, MoP und Retail.
+
+AHSentinel scannt das Auktionshaus, merkt sich für jedes Item den Preisverlauf und sagt dir, **was sich gerade lohnt**: was du günstig kaufen kannst, was du zu welchem Preis verkaufen solltest und was du besser beim Händler loswirst. Dabei rechnet es ehrlich – mit dem, was du heute wirklich bekommst, nicht mit alten Wunschpreisen. Dazu Sniper, Schnäppchen-Wächter, automatisches Post-Abholen und eine Buchhaltung, die zeigt, wie viel Gold du wirklich verdienst.
+Alles geht mit der Maus, das Addon spricht 10 Sprachen.
 
 ## 🗂️ Aufbau
 > **Übersicht** · **Kaufen** · **Verkaufen** · **Markt** · **Buchhaltung**
