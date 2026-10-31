@@ -1,3 +1,15 @@
+## GuildSentinel 0.9.0
+
+### New
+- **Who's free** (Group finder): one click flags you as free for dungeon, raid, quest group or PvP for 1, 2 or 4 hours. Everyone with GuildSentinel sees who is free, with level, item level and zone. Inside dungeons, raids and battlegrounds you automatically show as busy.
+- After posting a group search, GuildSentinel tells you how many guild members are free for it right now.
+- **Item level** with "I'll join": the searcher sees it in the replies and in chat.
+- **Bulk actions** (Leadership, officers): remove inactive players by rule (offline 30–365 days, rank filter, keep max level) or promote several suggestions at once. Always a checklist first; one step per click, as the game requires.
+- **GRM import** (Leadership): take over alts, join dates and personal notes from Guild Roster Manager, with a preview. Anything already set in GuildSentinel stays.
+
+## GuildSentinel 0.8.3
+- New **Support** button (PayPal link to copy) in the title bar and under Settings > General, also `/gs donate`. Opens only on click.
+
 ## GuildSentinel 0.8.2
 
 - Guild achievements: singular for the first weekly goal; names that are too long use a smaller font instead of being cut off.

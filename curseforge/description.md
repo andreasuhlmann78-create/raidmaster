@@ -18,6 +18,8 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 - **Probation**: online days, events attended and thanks since joining – then "Promote" or "Talk"
 - **Suggest mentor** based on matching online times
 - **Departures with reason**, **officer notes with history** (shared only between officers), **rank rights**
+- **Bulk actions**: remove inactive players by rule or promote several suggestions at once – always with a checklist first, one step per click
+- **Import from Guild Roster Manager (GRM)**: alts, join dates and notes, with a preview
 
 ## 🗓 My week
 
@@ -47,7 +49,8 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 - **Guild only or the whole server** – everyone with GuildSentinel sees your search, other guilds too
 - Players whose level and role fit get a notice in chat (optionally with sound), with the zone of the searcher
 - On WoW Forever: all new dungeons and the raids Barrow Deeps, Hyjal Summit and Onyxia's Lair
-- "I'll join" – one click, and the searcher invites you with one click
+- "I'll join" – one click, and the searcher invites you with one click; your **item level** goes along
+- **Who's free**: flag yourself as free for dungeon, raid, quest group or PvP – inside instances you automatically show as busy
 
 ## 📅 Guild events
 
@@ -111,15 +114,7 @@ The **Addons** page shows who in your guild uses which addon and who has an old 
 - Language: always the language of your game client
 - **Features** can be turned on and off individually (Settings > Features)
 - **Test mode** (`/gs test`): a made-up guild to try everything – nothing is sent; "Click through everything" checks every page
-- Commands (optional): `/gs`, `/gs group`, `/gs events`, `/gs board`, `/gs where`, `/gs thanks <name>`, `/gs away <days>`, `/gs poll`, `/gs progress`, `/gs attune`, `/gs rules`, `/gs find <recipe>`, `/gs ad`, `/gs test`, `/gs donate`
-
-## ☕ Support the addon
-
-GuildSentinel is free and made in my spare time. If it helps you, you can support it with a small donation – thank you so much!
-
-**[Donate with PayPal](https://www.paypal.com/ncp/payment/46R68N2BF7BTY)**
-
-In-game: the **Support** button in the addon window (or `/gs donate`).
+- Commands (optional): `/gs`, `/gs group`, `/gs events`, `/gs board`, `/gs where`, `/gs thanks <name>`, `/gs away <days>`, `/gs poll`, `/gs progress`, `/gs attune`, `/gs rules`, `/gs find <recipe>`, `/gs ad`, `/gs test`
 
 ## 📦 Installation
 
