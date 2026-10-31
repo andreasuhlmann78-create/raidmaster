@@ -85,7 +85,7 @@ Ohne GitHub geht es auch: das RaidMaster-Paket per WinSCP auf den Server kopiere
   **-anmeldung** (mit Knopf **Charakter registrieren**), einem **Sprachkanal** (z. B. 🔊 Molten Core),
   **-taktik**, **-dkp** und **-loot**
 - **🎲 PUG**: #pug-anmeldung, #pug-chat, Sprachkanal PUG-Raid
-- **💬 ALLGEMEIN**, **🔊 SPRACHE**, **🔒 OFFIZIERE** (#offiziere, **#befehlsliste**, #bot-befehle,
+- **💬 ALLGEMEIN**, **🗝️ DUNGEONS** (4 Sprachkanäle „Dungeon 1–4“, je 5 Plätze), **🔊 SPRACHE**, **🔒 OFFIZIERE** (#offiziere, **#befehlsliste**, #bot-befehle,
   **#bot-daten**, Sprachkanal nur für Offiziere)
 
 **#befehlsliste** zeigt alle Bot-Befehle und hält sich bei jedem Update selbst aktuell. Dort schreibt nur

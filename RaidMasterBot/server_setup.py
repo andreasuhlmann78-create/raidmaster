@@ -183,6 +183,16 @@ BASE_BOTTOM = [
         ],
     },
     {
+        # Sprachkanäle für Dungeon-Gruppen (je 5 Plätze), direkt unter ALLGEMEIN
+        "name": "🗝️ DUNGEONS", "mode": None, "after": "💬 ALLGEMEIN", "voice_limit": 5,
+        "channels": [
+            ("voice", "Dungeon 1", None, None),
+            ("voice", "Dungeon 2", None, None),
+            ("voice", "Dungeon 3", None, None),
+            ("voice", "Dungeon 4", None, None),
+        ],
+    },
+    {
         "name": "🔊 SPRACHE", "mode": None,
         "channels": [
             ("voice", "Raid", None, None),
@@ -867,6 +877,25 @@ async def ensure_raid_extra_channels(guild: discord.Guild, cfg: dict) -> list[st
         await _ensure_category(guild, cat_def, roles, report, created, set(), reason)
         await _hide_from_guests(guild, cat_def, roles, created, report, reason)
     return [r for r in report if r.startswith(("✅", "↪️"))]
+
+
+DUNGEONS = "🗝️ DUNGEONS"
+
+
+async def ensure_dungeon_category(guild: discord.Guild) -> list[str]:
+    """Kategorie 🗝️ DUNGEONS mit 4 Sprachkanälen (je 5 Plätze) anlegen, falls sie fehlt – beim Start."""
+    reason = "RaidMaster: Dungeon-Sprachkanäle"
+    cat_def = next((c for c in BASE_BOTTOM if c["name"] == DUNGEONS), None)
+    if cat_def is None:
+        return []
+    report: list[str] = []
+    roles = _known_roles(guild)
+    created: dict = {}
+    await _ensure_category(guild, cat_def, roles, report, created, set(), reason)
+    await _hide_from_guests(guild, cat_def, roles, created, report, reason)
+    if cat_def.get("after"):
+        await _place_after(guild, cat_def["name"], cat_def["after"], report, reason)
+    return [r for r in report if r.startswith(("✅", "↪️", "👥", "↕️"))]
 
 
 async def ensure_raid(guild: discord.Guild, cfg: dict, key: str, name: str, emoji: str = "🗡️",

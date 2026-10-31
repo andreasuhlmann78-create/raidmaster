@@ -229,6 +229,14 @@ class RaidBot(discord.Client):
             except Exception:
                 log.exception("Zusätzliche Raid-Kanäle konnten nicht angelegt werden")
             try:
+                guild0 = bot_guild()
+                if guild0 is not None and guild0.me.guild_permissions.manage_channels:
+                    rep = await server_setup.ensure_dungeon_category(guild0)
+                    if rep:
+                        await post_bot_log("🗝️ Dungeon-Sprachkanäle: " + "; ".join(rep))
+            except Exception:
+                log.exception("Dungeon-Kategorie konnte nicht angelegt werden")
+            try:
                 rep = await ensure_channel_texts()
                 if rep:
                     await post_bot_log("✏️ Texte im neuen Stil: " + ", ".join(rep))
