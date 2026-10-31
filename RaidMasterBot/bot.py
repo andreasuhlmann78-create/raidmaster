@@ -3641,6 +3641,10 @@ ANNOUNCE_AUTO_CHANNELS = {
         "category": "Addon's by GoldSentinel",
         "topic": "GuildSentinel – Gildentool: Mitglieder, Gruppensuche, Leveling-Rennen, Raid-Zugänge, Rekrutierung (WoW Forever)",
     },
+    "professionsentinel": {
+        "category": "Addon's by GoldSentinel",
+        "topic": "ProfessionSentinel – Rezept-Bibliothek: alle Rezepte von Lehrern, Händlern und Drops, gelernt/fehlend je Beruf (WoW Forever)",
+    },
 }
 
 

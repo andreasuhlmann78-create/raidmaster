@@ -157,6 +157,9 @@ BASE_TOP = [
              "officers_only"),
             ("text", "threatsentinel", "ThreatSentinel – hilft Tanks, die Aggro zu halten (WoW Forever)",
              "officers_only"),
+            ("text", "professionsentinel",
+             "ProfessionSentinel – Rezept-Bibliothek: alle Rezepte von Lehrern, Händlern und Drops, gelernt/fehlend je Beruf (WoW Forever)",
+             "officers_only"),
         ],
     },
 ]
