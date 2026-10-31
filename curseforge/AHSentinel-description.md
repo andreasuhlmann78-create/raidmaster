@@ -12,6 +12,44 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.62.1
+
+**Realistic prices – important for a fresh server, where prices fall every day:**
+- **Market value follows the market faster:** newer prices count more (half-life 3 days) instead of a
+  plain 14-day median, and silly prices like "1666g 99s 98c" no longer count at all.
+- **Price crash detection:** if the last two scans (at least 6 hours apart) are both far below the market
+  value, the item is marked "price just crashed" (tooltip) and its market value counts as uncertain.
+  Such items are no longer suggested for buying, flipping or selling.
+- **"Today" sells at what you really get:** at most 5 % above the cheapest current offer, never the old
+  market value. If the AH price has crashed close to the vendor price, it suggests selling to a vendor.
+- **Bids** are only suggested on items with a reliable market value and never on silly prices.
+- **Profit/day** in bargains counts only a share of the daily sales (you are not the only seller),
+  at most the available amount and what 20 % of your gold can buy.
+- The overview no longer lists prices ending in …99s 9xc.
+
+**Fixes:**
+- **Esc** closes the price history again instead of the whole auction house (also after a language switch).
+- **Test mode:** a sniper purchase with the mouse wheel now shows up in the test log and the ledger.
+- **Mailbox:** new button "Repost (N)" for returned auctions; on-screen messages say "[Test]" in test
+  mode; collecting is slower in test mode so you can try "Stop"; returned test goods are counted.
+- `/ahs summary` no longer shows "+all your gold since yesterday" when yesterday's gold is unknown.
+- The money field shows what it understood for every input ("= 5s"), not only for plain numbers.
+- An item tooltip no longer stays on top of a newly opened window ("Today", options, ...).
+- Self-test details no longer show raw icon codes.
+
+**Languages:**
+- **About 10,000 more item names in every language,** including all Burning Crusade items
+  (English: 25,800 instead of 14,800). Lists no longer show German names in an English interface.
+- **Lists always show names in the current language** – search results, sniper targets, watch list,
+  shopping lists, ledger, auctions – also right after switching, without a new search.
+- The buy tab keeps its category, search text and filters after a language switch.
+- Options: long labels (French, Spanish, Russian) wrap into a second line instead of being cut off.
+- Buy filters: short placeholders ("Lvl min / max") that no longer overlap.
+- Chinese: "simplified" and "traditional" can be told apart in the language list; item names without a
+  Chinese name are written without umlauts (ö → oe), which the Chinese font cannot show.
+- Self-test: the language check now also finds cut-off option labels, list names in the wrong
+  language and counts missing item names per language.
+
 ### Version 0.62.0
 
 **AH Analyzer Pro is now called AHSentinel** – part of the Sentinel family (BuffSentinel,
@@ -72,14 +110,6 @@ GuildSentinel, ThreatSentinel).
 - **Net profit with the posting fee:** on the classic auction house the fee is now estimated from
   the vendor price ("approx.") and learned exactly the first time you really post. Profits subtract
   the fee you lose when an auction comes back (based on your own sell rate).
-
-### Version 0.60.11
-
-- **Mailbox buttons always answer:** "Mail collected: ..." now also appears in the middle of the
-  screen, and an empty mailbox says "Nothing to collect" instead of staying silent.
-- **"To alts" without a rule** says so in the chat before opening the rules window.
-- **Test mode:** the fictional "sold" mail belongs to the fictional sold auction, and that auction
-  disappears from "My auctions" once its money is collected - like in the game.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

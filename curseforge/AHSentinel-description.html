@@ -7,6 +7,40 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.62.1</h3>
+<p><strong>Realistic prices – important for a fresh server, where prices fall every day:</strong>
+- <strong>Market value follows the market faster:</strong> newer prices count more (half-life 3 days) instead of a
+  plain 14-day median, and silly prices like "1666g 99s 98c" no longer count at all.
+- <strong>Price crash detection:</strong> if the last two scans (at least 6 hours apart) are both far below the market
+  value, the item is marked "price just crashed" (tooltip) and its market value counts as uncertain.
+  Such items are no longer suggested for buying, flipping or selling.
+- <strong>"Today" sells at what you really get:</strong> at most 5 % above the cheapest current offer, never the old
+  market value. If the AH price has crashed close to the vendor price, it suggests selling to a vendor.
+- <strong>Bids</strong> are only suggested on items with a reliable market value and never on silly prices.
+- <strong>Profit/day</strong> in bargains counts only a share of the daily sales (you are not the only seller),
+  at most the available amount and what 20 % of your gold can buy.
+- The overview no longer lists prices ending in …99s 9xc.</p>
+<p><strong>Fixes:</strong>
+- <strong>Esc</strong> closes the price history again instead of the whole auction house (also after a language switch).
+- <strong>Test mode:</strong> a sniper purchase with the mouse wheel now shows up in the test log and the ledger.
+- <strong>Mailbox:</strong> new button "Repost (N)" for returned auctions; on-screen messages say "[Test]" in test
+  mode; collecting is slower in test mode so you can try "Stop"; returned test goods are counted.
+- <code>/ahs summary</code> no longer shows "+all your gold since yesterday" when yesterday's gold is unknown.
+- The money field shows what it understood for every input ("= 5s"), not only for plain numbers.
+- An item tooltip no longer stays on top of a newly opened window ("Today", options, ...).
+- Self-test details no longer show raw icon codes.</p>
+<p><strong>Languages:</strong>
+- <strong>About 10,000 more item names in every language,</strong> including all Burning Crusade items
+  (English: 25,800 instead of 14,800). Lists no longer show German names in an English interface.
+- <strong>Lists always show names in the current language</strong> – search results, sniper targets, watch list,
+  shopping lists, ledger, auctions – also right after switching, without a new search.
+- The buy tab keeps its category, search text and filters after a language switch.
+- Options: long labels (French, Spanish, Russian) wrap into a second line instead of being cut off.
+- Buy filters: short placeholders ("Lvl min / max") that no longer overlap.
+- Chinese: "simplified" and "traditional" can be told apart in the language list; item names without a
+  Chinese name are written without umlauts (ö → oe), which the Chinese font cannot show.
+- Self-test: the language check now also finds cut-off option labels, list names in the wrong
+  language and counts missing item names per language.</p>
 <h3>Version 0.62.0</h3>
 <p><strong>AH Analyzer Pro is now called AHSentinel</strong> – part of the Sentinel family (BuffSentinel,
 GuildSentinel, ThreatSentinel).</p>
@@ -64,14 +98,6 @@ GuildSentinel, ThreatSentinel).</p>
 <li><strong>Net profit with the posting fee:</strong> on the classic auction house the fee is now estimated from
   the vendor price ("approx.") and learned exactly the first time you really post. Profits subtract
   the fee you lose when an auction comes back (based on your own sell rate).</li>
-</ul>
-<h3>Version 0.60.11</h3>
-<ul>
-<li><strong>Mailbox buttons always answer:</strong> "Mail collected: ..." now also appears in the middle of the
-  screen, and an empty mailbox says "Nothing to collect" instead of staying silent.</li>
-<li><strong>"To alts" without a rule</strong> says so in the chat before opening the rules window.</li>
-<li><strong>Test mode:</strong> the fictional "sold" mail belongs to the fictional sold auction, and that auction
-  disappears from "My auctions" once its money is collected - like in the game.</li>
 </ul>
 <p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
 <hr />
