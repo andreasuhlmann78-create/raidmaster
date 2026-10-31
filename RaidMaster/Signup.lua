@@ -184,6 +184,11 @@ function S.Import(text)
 	if not result then RM.Print(err) return false end
 	result.imported = GetServerTime()
 	-- Testraid aus Discord: nur im Testmodus (Einladen wird simuliert, nichts geht an echte Spieler)
+	if S.IsTestSignup(result) and not RM.IsDev() then
+		-- Testraids aus Discord gehören zum Testmodus – nur für den Entwickler
+		RM.RequireDev()
+		return false
+	end
 	if S.IsTestSignup(result) and RM.Test and not RM.Test.active and RM.Test.Start then
 		RM.Test.Start()
 		RM.Print(L["Testanmeldungen erkannt – der Testmodus wurde gestartet. Einladungen werden nur simuliert."])

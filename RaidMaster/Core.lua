@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "3.0.5"
-RM.VERSION_NUM = 30005
+RM.VERSION = "3.0.6"
+RM.VERSION_NUM = 30006
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -252,6 +252,16 @@ end
 
 function RM.IsLeader()
 	return UnitIsGroupLeader("player")
+end
+
+-- Test- und Entwicklerfunktionen (Test-Werkzeug, Testmodus) nur für den Entwickler GoldSentinel (GoldSentinelDev.lua)
+function RM.IsDev()
+	return (GoldSentinelDev and GoldSentinelDev.IsDev and GoldSentinelDev:IsDev()) and true or false
+end
+
+function RM.RequireDev()
+	if GoldSentinelDev and GoldSentinelDev.Require then return GoldSentinelDev:Require("RaidMaster") end
+	return false
 end
 
 function RM.IsAssist()

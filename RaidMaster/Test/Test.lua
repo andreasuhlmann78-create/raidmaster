@@ -202,6 +202,7 @@ end
 
 function T.Start()
 	if T.active then return end
+	if not RM.RequireDev() then return end          -- Testmodus nur für den Entwickler
 	CaptureReal()
 	local db = RM.db
 	BuildFake()
@@ -1771,6 +1772,11 @@ local function CreateWindow()
 end
 
 function T.Toggle()
+	-- Test-Werkzeug nur für den Entwickler; ein noch laufender Testmodus lässt sich immer beenden
+	if not RM.IsDev() then
+		if T.active then T.StopAsk() else RM.RequireDev() end
+		return
+	end
 	win = win or CreateWindow()
 	if win:IsShown() then win:Hide() else win:Show(); T.Refresh() end
 end
@@ -1778,6 +1784,10 @@ end
 SLASH_RAIDMASTERTEST1 = "/rmtest"
 function T.Slash(msg)
 	msg = (msg or ""):lower()
+	if not RM.IsDev() and not (T.active and (msg == "stop" or msg == "ende")) then
+		if T.active then T.StopAsk() else RM.RequireDev() end
+		return
+	end
 	if msg == "start" then T.Start()
 	elseif msg == "stop" or msg == "ende" then T.StopAsk()
 	elseif msg == "check" or msg == "selbsttest" then T.SelfTest(); if not (win and win:IsShown()) then print((T.selfTest or ""):gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", "")) end

@@ -1083,8 +1083,8 @@ local function CreateMain()
 	end
 	local function TestVisible()
 		local T = RM.Test
-		-- Testen ist für jeden gefahrlos (Daten werden gesichert) – Knopf immer sichtbar
-		if T then testBtn:Show() else testBtn:Hide() end
+		-- Test-Werkzeug nur für den Entwickler (GoldSentinelDev); läuft ein Testmodus noch, bleibt der Knopf zum Beenden
+		if T and (RM.IsDev() or T.active) then testBtn:Show() else testBtn:Hide() end
 		-- im Testmodus deutlich anzeigen, in welcher Ansicht du gerade bist (z. B. Raidmitglied = ohne Rechte)
 		if T and T.active then
 			sub:SetText("|cffff5544" .. L["TESTMODUS"] .. "|r – " .. string.format(L["Ansicht als %s"], T.RoleName and T.RoleName() or "?")

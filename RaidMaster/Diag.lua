@@ -10,6 +10,11 @@ RM.Diag = D
 
 D.errors = {}          -- { {t=Zeit, msg=Text, n=Anzahl} }
 D.providers = {}       -- weitere Zeilen, z. B. vom Test-Tool: function() return { "Zeile", ... } end
+-- Testmodus-Erkennung (GoldSentinelDev): nur ob erkannt – nie der BattleTag
+table.insert(D.providers, function()
+	if GoldSentinelDev and GoldSentinelDev.Status then return { GoldSentinelDev:Status() } end
+	return {}
+end)
 D.fixers = {}          -- weitere Reparaturen: function() return { "erledigt: ..." } end
 
 ---------------------------------------------------------------------------

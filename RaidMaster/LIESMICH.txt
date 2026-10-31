@@ -1,4 +1,4 @@
-RaidMaster 3.0.5 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 3.0.6 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,13 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+NEU IN 3.0.6 – Test-Werkzeug nur für den Entwickler
+- Das Test-Werkzeug (Knopf "Test", /rmtest, /rm test) und der Testmodus sind nur noch für den Entwickler
+  GoldSentinel freigeschaltet (Erkennung über GoldSentinelDev, wie in allen Addons von GoldSentinel).
+  Alle anderen sehen den Knopf nicht; Testraids aus Discord werden für sie nicht importiert.
+- Ein noch laufender Testmodus lässt sich trotzdem immer beenden – deine echten Daten kommen zurück.
+- /gsdev zeigt, ob der Testmodus erkannt wird; die Diagnose zeigt es ebenfalls (nie den BattleTag).
 
 NEU IN 3.0.5 – Addon unterstützen
 - RaidMaster ist kostenlos und entsteht in meiner Freizeit. Wer mag, kann es mit einer kleinen Spende unterstützen:

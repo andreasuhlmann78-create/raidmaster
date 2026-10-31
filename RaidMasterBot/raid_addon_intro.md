@@ -18,7 +18,6 @@ RaidMaster ist unser eigenes Addon für WoW Forever. Es nimmt dir im Raid die Ar
 • **Werbung**: PUG-Raids mit softres.it und Werbetext für den offenen Chat (Einladung per „inv“).
 • **Gilde**: Skillungen und Berufe-Verzeichnis – und auf dem Bank-Charakter der Bereich **Gildenbank** mit dem ganzen Bestand.
 • **Ruhmeshalle**: Erstkills mit Screenshot, Bestzeiten, Erfolge, Raider des Monats.
-• **Test-Werkzeug** (Knopf „Test“): alles gefahrlos ausprobieren, auch alle Ansagen – deine Daten werden gesichert.
 
 🔗 **Mit Discord verbunden**
 Nach dem Raid kommen DKP, Loot und Einteilung automatisch hierher, deine Punkte bekommst du per Direktnachricht (`/dkp-nachricht aus` zum Abbestellen).
@@ -27,6 +26,9 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 © GoldSentinel – alle Rechte vorbehalten. RaidMaster darf von anderen nicht verändert werden.
 ===
 📜 **Updates**
+
+**3.0.6** – Aufgeräumt
+• Das Test-Werkzeug ist jetzt nur noch für den Entwickler da – für euch ändert sich sonst nichts.
 
 **3.0.5** – Addon unterstützen
 • Neuer Knopf **Unterstützen** oben im RaidMaster-Fenster (auch in den Einstellungen und mit `/rm spenden`): zeigt den PayPal-Link zum Kopieren. Geht nie von selbst auf – keine Erinnerungen, keine Werbung. Danke an alle, die mithelfen! ☕
@@ -45,6 +47,5 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 
 **3.0.0** – Aufgeräumt, nichts weggefallen
 • 6 Bereiche mit Reitern statt 13 Knöpfen: DKP, Beute, Raid, Werbung, Gilde, Einstellungen.
-• Testmodus zeigt alle Ansagen wie im echten Raid, neuer Test-Reiter „Ansagen“.
 
 Ältere Neuerungen stehen im Addon in der Datei LIESMICH.txt.
