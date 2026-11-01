@@ -12,6 +12,32 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.63.4
+
+- **Bargain watcher only with a reliable market value:** the watcher used to report "bargains" at 0–10 % of the market value – almost always because the market value itself was wrong (moon price, rare item, price crash). As the watcher buys with the mouse wheel, only a market value you can trust counts now.
+- **Test mode log:** watcher purchases show as "Sniper buy (watcher)" with the price; goods bought from the buy tab and the sniper show the price too.
+
+### Version 0.63.3
+
+- **Quality tiers (retail):** crafting reagents and crafted items come in several tiers – so far e.g. "Bismuth" showed three times with no difference. The tier icon now follows the name (buy, market, sell, sniper, ledger …).
+- **Feedback after posting and cancelling:** instead of "Posting …" / "Cancelling …" staying forever, the window now shows "Posted: …" / "Cancelled: …".
+- **Daily summary:** showed "+ all your gold since yesterday" when the game briefly reported 0 gold at login. Such a 0 value no longer counts.
+- **Test mode log:** buying goods (retail) now shows the price, a sniper buy is logged as "Sniper buy" instead of "Buyout".
+
+### Version 0.63.2
+
+- **Self-test on retail:** stopped with "script ran too long" (retail stops scripts that run too long in one go – with about 20,000 scanned items that happens). The test now pauses regularly; the language test checks one language per frame.
+- **Sell tab with the auction house closed:** showed "No sellable items in your bags" on retail although the bags were full. The "can this be posted?" check now only runs while the auction house is open.
+- **Reagent bag (retail):** items in it now count for selling, mail to alts and vendor selling.
+
+### Version 0.63.1
+
+- **Retail (The War Within / Midnight, interface 12.x): item names are back.** The modern game no longer has the old `GetItemInfo`, `GetItemIcon` etc. – AHSentinel now uses `C_Item` there. Before, "Item #12345" showed instead of the name (buy tab, price history, tooltip, test data).
+- **Names are loaded in the background:** the full scan of the modern auction house only returns item IDs. Items your client does not know yet are now requested in the background (40 per second); the lists update by themselves.
+- **Self-test "Search by name"** failed on retail ("'Item #251665' -> nil"). It now picks an item whose name is already known and otherwise reports how many names are still loading.
+- **Test mode on retail:** the fake auctions and mails need item names – they are created there now as well.
+- Disenchanting: spell name via `C_Spell` (retail).
+
 ### Version 0.63.0
 
 - **Disenchanting – everyone learns together:** what comes out of a disenchant is now shared through the price sync with every player who has AHSentinel (or only your guild if you set it so). Everyone sends only their own numbers, nothing is counted twice, so the drop chances match WoW Forever's real ones much sooner.
@@ -19,67 +45,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - Tooltip: "Disenchant (Ø, 12 own, 340 shared)" shows how many disenchants the value is based on.
 - Only which material came out how often is shared – nonsense (foreign items, impossible amounts) is rejected.
 - ProfessionSentinel uses these values for its "Craft & disenchant" ranking.
-
-### Version 0.62.4
-
-- **Stackable goods combined (classic auction house):** in the buy tab, all offers of a stackable item
-  with the same unit price form **one row with the sum** – e.g. 5 stacks of 20 show as "100", with the
-  unit price and the **total price** of the row.
-- **Buy several at once:** click a row, **Shift+click** adds more rows. The box on the right shows the
-  pieces, the number of offers and the total of your selection. "Buy selection" asks once with the
-  total, then every click buys the next offer (WoW needs one click per auction).
-- "Show single offers" switches back to the old list (also for bidding). The modern auction house
-  already combines goods by price – there you simply enter the quantity.
-
-### Version 0.62.3
-
-- **Item names for WoW Forever:** the built-in names of WoW Forever come first again; the Burning
-  Crusade names added in 0.62.1 only fill gaps. About 2,000 items that were renamed in TBC now show
-  their Forever name again in the other languages.
-
-### Version 0.62.2
-
-- **Test and developer functions are hidden:** the self-test and the test mode (button "Test",
-  `/ahs test`, `/ahs testmode`) are only available to the developer now. For everybody else the
-  addon looks and works the same, just without these tools.
-
-### Version 0.62.1
-
-**Realistic prices – important for a fresh server, where prices fall every day:**
-- **Market value follows the market faster:** newer prices count more (half-life 3 days) instead of a
-  plain 14-day median, and silly prices like "1666g 99s 98c" no longer count at all.
-- **Price crash detection:** if the last two scans (at least 6 hours apart) are both far below the market
-  value, the item is marked "price just crashed" (tooltip) and its market value counts as uncertain.
-  Such items are no longer suggested for buying, flipping or selling.
-- **"Today" sells at what you really get:** at most 5 % above the cheapest current offer, never the old
-  market value. If the AH price has crashed close to the vendor price, it suggests selling to a vendor.
-- **Bids** are only suggested on items with a reliable market value and never on silly prices.
-- **Profit/day** in bargains counts only a share of the daily sales (you are not the only seller),
-  at most the available amount and what 20 % of your gold can buy.
-- The overview no longer lists prices ending in …99s 9xc.
-
-**Fixes:**
-- **Esc** closes the price history again instead of the whole auction house (also after a language switch).
-- **Test mode:** a sniper purchase with the mouse wheel now shows up in the test log and the ledger.
-- **Mailbox:** new button "Repost (N)" for returned auctions; on-screen messages say "[Test]" in test
-  mode; collecting is slower in test mode so you can try "Stop"; returned test goods are counted.
-- `/ahs summary` no longer shows "+all your gold since yesterday" when yesterday's gold is unknown.
-- The money field shows what it understood for every input ("= 5s"), not only for plain numbers.
-- An item tooltip no longer stays on top of a newly opened window ("Today", options, ...).
-- Self-test details no longer show raw icon codes.
-
-**Languages:**
-- **About 10,000 more item names in every language,** including all Burning Crusade items
-  (English: 25,800 instead of 14,800). Lists no longer show German names in an English interface.
-- **Lists always show names in the current language** – search results, sniper targets, watch list,
-  shopping lists, ledger, auctions – also right after switching, without a new search.
-- The buy tab keeps its category, search text and filters after a language switch.
-- Options: long labels (French, Spanish, Russian) wrap into a second line instead of being cut off.
-- Buy filters: short placeholders ("Lvl min / max") that no longer overlap.
-- Chinese: "simplified" and "traditional" can be told apart in the language list; item names without a
-  Chinese name are written without umlauts (ö → oe), which the Chinese font cannot show.
-- Self-test: the language check now also finds cut-off option labels, list names in the wrong
-  language and counts missing item names per language.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
