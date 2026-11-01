@@ -3664,6 +3664,10 @@ ANNOUNCE_AUTO_CHANNELS = {
         "category": "Addon's by GoldSentinel",
         "topic": "ProfessionSentinel – Rezept-Bibliothek: alle Rezepte von Lehrern, Händlern und Drops, gelernt/fehlend je Beruf (WoW Forever)",
     },
+    "lore": {
+        "category": "📌 INFO",
+        "topic": "Die Geschichte der Alpine Vanguard – Wächter der Pässe im Alteracgebirge (Horde, WoW Forever)",
+    },
 }
 
 
