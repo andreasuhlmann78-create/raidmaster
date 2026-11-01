@@ -10,6 +10,11 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.2
+
+- **Professions on WoW Forever**: GuildSentinel now also reads the new retail-style profession window. The game client decides the way: WoW Forever uses the new window, Classic Era and TBC the classic one as before. Linked professions, guild professions and NPC windows are not read.
+- The "Open next profession" button opens the new window directly on WoW Forever if needed.
+
 ### Version 0.9.1
 
 - Test mode is now developer-only: the Settings > Test mode tab and `/gs test` only appear for the developer account. Nothing else changes for players.
@@ -30,10 +35,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 - Guild achievements: singular for the first weekly goal; names that are too long use a smaller font.
 - Professions: old raw-material entries (e.g. Felweed as "Alchemy") are removed automatically.
-
-### Version 0.8.1
-
-- Settings > Features in three columns; probation advice follows the 40 % rule; overview counts departures like Leadership; My week markers and singulars; chronicle without duplicates; loot wishes preselect a dungeon; removing a question asks first; raw materials leave the watch list.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
