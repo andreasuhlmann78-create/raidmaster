@@ -10,6 +10,10 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.3
+
+- **Guild name**: the guild master can set a name for GuildSentinel under Leadership > Rank rights. It applies to everyone in the guild with the addon (ad, chronicle, rules, welcome guide, header). Empty = the name from the game. Only the guild master can change it.
+
 ### Version 0.9.2
 
 - **Professions on WoW Forever**: GuildSentinel now also reads the new retail-style profession window. The game client decides the way: WoW Forever uses the new window, Classic Era and TBC the classic one as before. Linked professions, guild professions and NPC windows are not read.
@@ -30,11 +34,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 ### Version 0.8.3
 
 - New **Support** button (PayPal link to copy) in the title bar and under Settings > General, also `/gs donate`. Opens only on click.
-
-### Version 0.8.2
-
-- Guild achievements: singular for the first weekly goal; names that are too long use a smaller font.
-- Professions: old raw-material entries (e.g. Felweed as "Alchemy") are removed automatically.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
