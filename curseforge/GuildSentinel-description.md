@@ -124,6 +124,7 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 ## 🔨 Professions
 
 - Guild-wide directory: who can craft what – search, "ask to craft" with one click
+- Reads the classic profession window (Classic Era, TBC) and the new profession window of **WoW Forever**
 - **Requests**: crafters get a notice and take the request with one click
 - **Gaps**: important raid recipes nobody in the guild can craft
 - **Cooldowns**: transmutes, mooncloth, salt shaker – who is ready right now?
