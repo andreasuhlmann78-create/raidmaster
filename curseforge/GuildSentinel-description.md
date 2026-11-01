@@ -49,6 +49,7 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 - **Probation**: online days, events attended and thanks since joining – then "Promote" or "Talk"
 - **Suggest mentor** based on matching online times
 - **Departures with reason**, **officer notes with history** (shared only between officers), **rank rights**
+- **Guild name**: the guild master can set the name GuildSentinel shows to everyone (ad, chronicle, rules, header) – empty means the name from the game
 - **Bulk actions**: remove inactive players by rule or promote several suggestions at once – always with a checklist first, one step per click
 - **Import from Guild Roster Manager (GRM)**: alts, join dates and notes, with a preview
 
