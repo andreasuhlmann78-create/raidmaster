@@ -363,6 +363,15 @@ def is_admin(member) -> bool:
     return any(role.name.lower() == "offizier" for role in member.roles)
 
 
+def is_chef(member) -> bool:
+    """Nur der Gildenchef (bzw. der Besitzer des Discord-Servers) – z. B. für den Gildennamen."""
+    if not isinstance(member, discord.Member):
+        return False
+    if member.guild and member.id == member.guild.owner_id:
+        return True
+    return is_guild_leader(member)
+
+
 POWER_PERMS = ("administrator", "manage_guild", "manage_channels", "manage_roles", "manage_messages", "manage_webhooks")
 
 
@@ -4875,14 +4884,20 @@ async def ensure_welcome(update: bool = True) -> str:
 
 
 @bot.tree.command(name="willkommen", description="Willkommenstext in #willkommen aktualisieren, z. B. mit neuem Gildennamen (Gildenleitung)")
-@app_commands.describe(gildenname="Name eurer Gilde (wird gespeichert)")
+@app_commands.describe(gildenname="Name eurer Gilde (wird gespeichert, nur Gildenchef)")
 async def welcome_cmd(inter: discord.Interaction, gildenname: str | None = None):
     if not is_admin(inter.user):
         await inter.response.send_message("Das dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
         return
     if gildenname:
+        # den Gildennamen legt nur der Gildenchef fest (Besitzer des Servers oder eingetragener Gildenchef)
+        if not is_chef(inter.user):
+            await inter.response.send_message("Den Gildennamen kann nur der Gildenchef ändern.", ephemeral=True)
+            return
         cfg["guild_name"] = gildenname.strip()
         save_config()
+        state.data["guild_name_applied"] = cfg["guild_name"]
+        state.save()
     await inter.response.send_message(await ensure_welcome(update=True), ephemeral=True)
 
 
@@ -5401,6 +5416,9 @@ async def name_close_cmd(inter: discord.Interaction, uebernehmen: bool = False):
         await refresh_name_card(prop)
     await refresh_name_overview(repost=True)
     note = f"🔥 Abstimmung beendet – Gewinner: **{winner}** ({vote_word(top)})."
+    if uebernehmen and not is_chef(inter.user):
+        note += "\nDen Gildennamen übernehmen kann nur der Gildenchef (`/willkommen gildenname:…`)."
+        uebernehmen = False
     if uebernehmen:
         cfg["guild_name"] = winner
         save_config()
