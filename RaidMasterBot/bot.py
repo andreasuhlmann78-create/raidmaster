@@ -85,7 +85,7 @@ DEFAULT_CONFIG = {
     "update_check_minutes": 30,
     "backup_days": 7,
     "message_content_intent": False,
-    "guild_name": "test",
+    "guild_name": "Alpine Vanguard",
     "welcome_channel_id": 0,
     "command_list_channel_id": 0,
     "pug_invite_code": "",
@@ -201,6 +201,12 @@ class RaidBot(discord.Client):
                     await post_bot_log("🆕 Raid-Kategorien angelegt: " + ", ".join(made) + " (Anmeldung, Sprachkanal, Taktik, DKP, Loot).")
             except Exception:
                 log.exception("Raid-Kategorien konnten nicht angelegt werden")
+            try:
+                rep = await apply_fixed_guild_name()
+                if rep:
+                    await post_bot_log("🏔️ Gildenname **" + FIXED_GUILD_NAME + "**: " + "; ".join(rep))
+            except Exception:
+                log.exception("Gildenname konnte nicht übernommen werden")
             try:
                 power = members_with_power()
                 key = "|".join(sorted(power))
@@ -4775,7 +4781,7 @@ async def handle_member_join(member):
     pug = f"<#{cfg['pug_channel_id']}>" if cfg.get("pug_channel_id") else "#pug-anmeldung"
     try:
         await member.send(
-            f"👋 Willkommen auf **{member.guild.name}**!\n"
+            f"👋 Willkommen bei **{cfg.get('guild_name') or member.guild.name}**!\n"
             f"Für unsere PUG-Raids: In {pug} auf **Als PUG-Spieler registrieren** klicken, Charakter festlegen, "
             "dann bei einem Raid anmelden. Soft Reserve und Loot laufen über softres.it (Link am Raid). Viel Spaß!")
     except discord.HTTPException:
@@ -5242,7 +5248,7 @@ class NameProposalModal(discord.ui.Modal):
         self.name_input = None
         if not prop:
             self.name_input = discord.ui.TextInput(label="Gildenname", min_length=NAME_MIN, max_length=NAME_MAX,
-                                                   placeholder="z. B. Glutbrüder")
+                                                   placeholder="z. B. Alpine Vanguard")
             self.add_item(self.name_input)
         self.lore_input = discord.ui.TextInput(label="Lore / Geschichte zum Namen (freiwillig)", style=discord.TextStyle.paragraph,
                                                required=False, max_length=4000, default=(prop or {}).get("lore") or None,
@@ -5420,6 +5426,60 @@ async def name_open_cmd(inter: discord.Interaction):
 
 
 bot.tree.add_command(name_group)
+
+
+# Der Gildenname steht fest: Abstimmung schliessen, Namen speichern, Willkommenstext und Servername anpassen.
+# Läuft einmal beim Start (gemerkt in state "guild_name_applied"); danach ändert der Bot nichts mehr daran.
+FIXED_GUILD_NAME = "Alpine Vanguard"
+
+
+async def apply_fixed_guild_name() -> list[str]:
+    done = []
+    if state.data.get("guild_name_applied") == FIXED_GUILD_NAME:
+        return done
+    if cfg.get("guild_name") != FIXED_GUILD_NAME:
+        cfg["guild_name"] = FIXED_GUILD_NAME
+        save_config()
+        done.append(f"Gildenname gespeichert: **{FIXED_GUILD_NAME}**")
+    # Abstimmung schliessen, Gewinner = der festgelegte Name
+    p = name_poll()
+    if not p["closed"] or p.get("winner") != FIXED_GUILD_NAME:
+        async with name_lock:
+            p["closed"] = True
+            p["winner"] = FIXED_GUILD_NAME
+            state.save()
+        for prop in name_ranking():
+            await refresh_name_card(prop)
+        await refresh_name_overview(repost=True)
+        ch = await name_channel()
+        if ch is not None:
+            try:
+                await ch.send(f"🏔️ **Die Abstimmung ist geschlossen.** Unsere Gilde heisst **{FIXED_GUILD_NAME}**! "
+                              "Danke an alle fürs Vorschlagen und Abstimmen.", allowed_mentions=NO_PING)
+            except discord.HTTPException as e:
+                log.warning("Hinweis in #gildenname nicht gepostet: %s", e)
+        done.append("Abstimmung in #gildenname geschlossen")
+    # Willkommenstext mit dem neuen Namen
+    try:
+        res = await ensure_welcome(update=True)
+        if res:
+            done.append(res)
+    except Exception:
+        log.exception("Willkommenstext konnte nicht aktualisiert werden")
+    # Servername
+    guild = bot_guild()
+    if guild is not None and guild.name != FIXED_GUILD_NAME:
+        if guild.me.guild_permissions.manage_guild:
+            try:
+                await guild.edit(name=FIXED_GUILD_NAME, reason="Gildenname festgelegt")
+                done.append(f"Servername geändert: **{FIXED_GUILD_NAME}**")
+            except discord.HTTPException as e:
+                done.append(f"Servername nicht geändert ({e})")
+        else:
+            done.append("Servername nicht geändert – dem Bot fehlt das Recht „Server verwalten“")
+    state.data["guild_name_applied"] = FIXED_GUILD_NAME
+    state.save()
+    return done
 
 
 # ---------------------------------------------------------------------------
