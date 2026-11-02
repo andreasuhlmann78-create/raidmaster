@@ -55,12 +55,16 @@ WebFetch https://raw.githubusercontent.com/andreasuhlmann78-create/raidmaster/ma
 
 **Neu prüfen lassen** (dauert etwa 1 Minute):
 
+Nur REST-Aufrufe verwenden. `gh workflow run` und `gh run watch` brauchen GraphQL, und das ist in Claude-Sitzungen gesperrt.
+
 ```bash
 R=andreasuhlmann78-create/raidmaster
-gh workflow run discord-check.yml -R $R -f warten=0
-# kurz warten, bis der Lauf angelegt ist (z. B. mit dem Monitor-Werkzeug), dann:
-RUN=$(gh run list -R $R -w discord-check.yml -L 1 --json databaseId -q '.[0].databaseId')
-gh run watch $RUN -R $R --exit-status
+gh api -X POST repos/$R/actions/workflows/discord-check.yml/dispatches -f ref=main -f "inputs[warten]=0"
+# Lauf-ID holen (ein paar Sekunden nach dem Start)
+RUN=$(gh api "repos/$R/actions/workflows/discord-check.yml/runs?per_page=1" --jq '.workflow_runs[0].id')
+# Status abfragen, bis "completed" kommt (etwa 30-60 s)
+gh api repos/$R/actions/runs/$RUN --jq '.status+" "+(.conclusion//"")'
+# Ergebnis lesen
 gh api repos/$R/contents/discord-check/status.md -H "Accept: application/vnd.github.raw"
 ```
 
