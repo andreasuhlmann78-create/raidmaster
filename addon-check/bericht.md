@@ -8,7 +8,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## BuffSentinel-0.9.4.zip: OK
 
-## GuildSentinel-0.9.8.zip: OK
+## GuildSentinel-0.9.9.zip: OK
 
 ## ProfessionSentinel-0.9.8.zip: OK
 
