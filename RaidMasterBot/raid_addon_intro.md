@@ -27,6 +27,9 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
+**3.0.11** – Berufe in WoW Forever
+• „Meine Berufe einlesen“ funktioniert jetzt auch im neuen Forever-Client – für `/handwerk` und `/berufe` hier im Discord.
+
 **3.0.10** – Zusammenspiel der Addons
 • Mehrere GoldSentinel-Addons gleichzeitig laufen jetzt sauber zusammen (gemeinsame Versionserkennung, Version 2).
 
@@ -44,8 +47,5 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 
 **3.0.5** – Addon unterstützen
 • Neuer Knopf **Unterstützen** oben im RaidMaster-Fenster (auch in den Einstellungen und mit `/rm spenden`): zeigt den PayPal-Link zum Kopieren. Geht nie von selbst auf – keine Erinnerungen, keine Werbung. Danke an alle, die mithelfen! ☕
-
-**3.0.4** – Einteilung Onyxia
-• Onyxia-Einteilung mit allen drei Phasen (Welpen-OTs, Magier, Furchtschutz, Erdstoß-Totem); #einteilung-onyxia mit Grundplan.
 
 Ältere Neuerungen stehen im Addon in der Datei LIESMICH.txt.

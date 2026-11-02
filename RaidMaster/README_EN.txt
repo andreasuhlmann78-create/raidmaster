@@ -1,4 +1,4 @@
-RaidMaster 3.0.10 – DKP, loot and raid leading tools
+RaidMaster 3.0.11 – DKP, loot and raid leading tools
 ====================================================
 
 INSTALLATION
@@ -22,6 +22,14 @@ MAIN FEATURES
   The boss's marker template is selected automatically when the encounter starts.
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
+
+WHAT'S NEW IN 3.0.11 – Reading professions on WoW Forever
+- "Read my professions" now uses the modern profession API (C_TradeSkillUI) on WoW Forever and Retail:
+  profession, skill, recipes and special reagents. Linked windows of other players are ignored; if the recipe list
+  arrives after opening, RaidMaster reads it then.
+- Gathering professions and skill levels come from the profession overview (GetProfessions) there.
+- The saved format stays the same – the bot, uploader and ProfessionSentinel read everything as before.
+- Classic Era, TBC, Wrath, Cata and MoP Classic behave exactly as before.
 
 WHAT'S NEW IN 3.0.10 – GoldSentinelGame version 2
 - The shared version detection is now version 2. It takes precedence over early, withdrawn copies that other

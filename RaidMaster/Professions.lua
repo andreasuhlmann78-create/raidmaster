@@ -32,10 +32,30 @@ local function Mine()
 	return s[me]
 end
 
--- Stufen aller Berufe aus der Fertigkeitenliste (auch Sammelberufe)
+-- Stufen aller Berufe aus der Fertigkeitenliste (auch Sammelberufe).
+-- Moderner Client (WoW Forever, Retail) ohne Fertigkeitenliste: über GetProfessions/GetProfessionInfo.
+local function ReadProfessionSlots()
+	local out = {}
+	if not (GetProfessions and GetProfessionInfo) then return out end
+	local slots = { pcall(GetProfessions) }
+	if not table.remove(slots, 1) then return out end
+	for i = 1, 6 do
+		local idx = slots[i]
+		if idx then
+			local ok, name, _, rank, max = pcall(GetProfessionInfo, idx)
+			if ok and type(name) == "string" and name ~= "" then out[name] = { r = rank or 0, m = max or 0 } end
+		end
+	end
+	return out
+end
+P.ReadProfessionSlots = ReadProfessionSlots
+
 function P.ReadSkillLines()
 	local out = {}
-	if not GetNumSkillLines then return out end
+	if not GetNumSkillLines then
+		if RM.IsModern then return ReadProfessionSlots() end
+		return out
+	end
 	local section
 	for i = 1, GetNumSkillLines() do
 		local name, isHeader, _, rank, _, _, max = GetSkillLineInfo(i)
@@ -80,9 +100,126 @@ local function ReadReagents(kind, i)
 	return out
 end
 
+---------------------------------------------------------------------------
+-- Moderne Berufe-API (WoW Forever, Retail): C_TradeSkillUI. Gleiches Datenformat wie der alte Weg.
+-- Vorbild: Scan.lua in ProfessionSentinel. IM CLIENT TESTEN (Forever 1.60.1).
+---------------------------------------------------------------------------
+local TS = C_TradeSkillUI
+
+function P.HasModernAPI()
+	return RM.IsModern and TS ~= nil and TS.GetAllRecipeIDs ~= nil and TS.GetRecipeInfo ~= nil
+end
+
+-- eigenes Fenster? (nicht verlinkt, nicht Gilde, nicht NPC)
+local function IsOwnModern()
+	for _, f in ipairs({ "IsTradeSkillLinked", "IsTradeSkillGuild", "IsNPCCrafting" }) do
+		if TS[f] then
+			local ok, r = pcall(TS[f])
+			if ok and r then return false end
+		end
+	end
+	return true
+end
+
+-- Name und Stufe des offenen Berufs: Basisberuf (z. B. "Lederverarbeitung"), Stufe der aktuellen Linie
+local function ModernProfession()
+	local name, rank, max
+	for _, f in ipairs({ "GetChildProfessionInfo", "GetBaseProfessionInfo" }) do
+		if TS[f] then
+			local ok, info = pcall(TS[f])
+			if ok and type(info) == "table" then
+				name = name or info.parentProfessionName or info.professionName
+				if (info.maxSkillLevel or 0) > 0 and not rank then rank, max = info.skillLevel or 0, info.maxSkillLevel end
+			end
+		end
+	end
+	if type(name) ~= "string" or name == "" then return nil end
+	-- gleiche Schreibweise wie in der Fertigkeitenliste, falls dort vorhanden
+	local slots = ReadProfessionSlots()
+	if slots[name] and not rank then rank, max = slots[name].r, slots[name].m end
+	return name, rank or 0, max or 0
+end
+
+-- hergestelltes Item eines Rezepts (0 = keins, z. B. Verzauberung)
+local function ModernOutput(id)
+	if TS.GetRecipeOutputItemData then
+		local ok, d = pcall(TS.GetRecipeOutputItemData, id)
+		if ok and type(d) == "table" then
+			if tonumber(d.itemID) then return tonumber(d.itemID) end
+			if d.hyperlink then return ItemIDFromLink(d.hyperlink) end
+		end
+	end
+	if TS.GetRecipeItemLink then
+		local ok, link = pcall(TS.GetRecipeItemLink, id)
+		if ok then return ItemIDFromLink(link) end
+	end
+	return 0
+end
+
+-- besondere Zutaten (ab Grün) eines Rezepts
+local function ModernReagents(id)
+	local out = {}
+	local function add(itemID, count)
+		itemID = tonumber(itemID)
+		if not itemID or itemID <= 0 then return end
+		local name, link, quality = RM.GetItemInfo(itemID)
+		quality = quality or (link and RM.ItemQuality(link)) or 0
+		if quality >= P.MAT_QUALITY then out[#out + 1] = { id = itemID, n = name, c = count or 1 } end
+	end
+	if TS.GetRecipeSchematic then
+		local ok, sch = pcall(TS.GetRecipeSchematic, id, false)
+		if ok and type(sch) == "table" and type(sch.reagentSlotSchematics) == "table" then
+			for _, slot in ipairs(sch.reagentSlotSchematics) do
+				local r = type(slot.reagents) == "table" and slot.reagents[1]
+				if r then add(r.itemID, slot.quantityRequired) end
+			end
+			return out
+		end
+	end
+	if TS.GetRecipeNumReagents and TS.GetRecipeReagentItemLink then
+		local ok, num = pcall(TS.GetRecipeNumReagents, id)
+		for j = 1, (ok and num or 0) do
+			local okL, link = pcall(TS.GetRecipeReagentItemLink, id, j)
+			local count = 1
+			if TS.GetRecipeReagentInfo then
+				local okI, _, _, c = pcall(TS.GetRecipeReagentInfo, id, j)
+				if okI and c then count = c end
+			end
+			if okL then add(ItemIDFromLink(link), count) end
+		end
+	end
+	return out
+end
+
+function P.ScanModern()
+	if not RM.db or not P.HasModernAPI() or not IsOwnModern() then return nil end
+	local profName, rank, max = ModernProfession()
+	if not profName then return nil end
+	local okIds, recipeIDs = pcall(TS.GetAllRecipeIDs)
+	if not okIds or type(recipeIDs) ~= "table" then return nil end
+	local ids, names, mats = {}, {}, {}
+	for _, id in ipairs(recipeIDs) do
+		local ok, info = pcall(TS.GetRecipeInfo, id)
+		if ok and type(info) == "table" and info.learned and type(info.name) == "string" and not info.isDummyRecipe then
+			ids[#ids + 1] = ModernOutput(id)
+			names[#names + 1] = info.name
+			local rg = ModernReagents(id)
+			if #rg > 0 then mats[info.name] = rg end
+		end
+	end
+	if #names == 0 then return nil end   -- Liste noch nicht geladen: TRADE_SKILL_LIST_UPDATE versucht es erneut
+	return profName, rank, max, ids, names, mats
+end
+
 -- offenes Berufsfenster lesen (Fertigkeiten-Fenster oder – für Verzauberkunst in Classic – Handwerksfenster)
 function P.ScanOpen(kind)
 	if not RM.db then return nil end
+	-- moderner Client: eigener Weg, gleiche Daten
+	if kind == "trade" and P.HasModernAPI() then
+		local profName, rank, max, ids, names, mats = P.ScanModern()
+		if not profName then return nil end
+		return P.StoreScan(profName, rank, max, ids, names, mats)
+	end
 	local profName, rank, max
 	local ids, names, mats = {}, {}, {}
 	if kind == "craft" then
@@ -111,6 +248,11 @@ function P.ScanOpen(kind)
 		end
 	end
 	if not profName or profName == "" or profName == "UNKNOWN" then return nil end
+	return P.StoreScan(profName, rank, max, ids, names, mats)
+end
+
+-- Ergebnis speichern (für alten und modernen Weg gleich; Format von RaidMasterDB.prof nicht ändern)
+function P.StoreScan(profName, rank, max, ids, names, mats)
 	local me = Mine()
 	me.p[profName] = { r = rank, m = max, i = ids, n = names }
 	local store = Mats()
@@ -177,12 +319,21 @@ local function AfterScan(kind)
 		P.pendingScan = nil
 		RM.Print(string.format(L["%s eingelesen (%d Rezepte). Nochmal klicken für den nächsten Beruf."], name, n))
 		C_Timer.After(0.2, function()
-			if kind == "craft" and CloseCraft then CloseCraft() elseif CloseTradeSkill then CloseTradeSkill() end
+			if kind == "craft" and CloseCraft then CloseCraft()
+			elseif CloseTradeSkill then CloseTradeSkill()
+			elseif TS and TS.CloseTradeSkill then pcall(TS.CloseTradeSkill) end
 		end)
 	end
 end
 RM.On("TRADE_SKILL_SHOW", function() C_Timer.After(0.3, function() AfterScan("trade") end) end)
 RM.On("CRAFT_SHOW", function() C_Timer.After(0.3, function() AfterScan("craft") end) end)
+-- moderner Client: die Rezeptliste kommt oft erst nach dem Öffnen – dann noch einmal lesen
+local listPending
+RM.On("TRADE_SKILL_LIST_UPDATE", function()
+	if not P.HasModernAPI() or listPending then return end
+	listPending = true
+	C_Timer.After(0.5, function() listPending = false; AfterScan("trade") end)
+end)
 
 ---------------------------------------------------------------------------
 -- An die Gilde (die Berufe aller Addon-Nutzer landen so beim Uploader)

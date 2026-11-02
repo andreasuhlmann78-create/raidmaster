@@ -1,4 +1,4 @@
-RaidMaster 3.0.10 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 3.0.11 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,15 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+NEU IN 3.0.11 – Berufe einlesen in WoW Forever
+- "Meine Berufe einlesen" liest im modernen Client (WoW Forever, Retail) Beruf, Stufe, Rezepte und besondere
+  Zutaten über die neue Berufe-Schnittstelle (C_TradeSkillUI). Fremde, verlinkte Berufsfenster werden nicht
+  gelesen. Kommt die Rezeptliste erst nach dem Öffnen, liest RaidMaster sie dann automatisch nach.
+- Sammelberufe und Stufen kommen dort aus der Berufsübersicht (GetProfessions).
+- Das gespeicherte Format bleibt gleich – Bot, Uploader und ProfessionSentinel lesen alles wie bisher.
+- Classic Era, TBC, Wrath, Cata und MoP Classic laufen genau wie bisher.
+- Im Forever-Client noch zu testen.
 
 NEU IN 3.0.10 – GoldSentinelGame Version 2
 - Die gemeinsame Versionserkennung kommt in Version 2. Sie setzt sich gegen frühe, zurückgenommene Fassungen
