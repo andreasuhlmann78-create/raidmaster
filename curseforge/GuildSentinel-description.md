@@ -10,6 +10,10 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.4
+
+- **Without a guild**: instead of empty pages the overview shows a hint – GuildSentinel is a guild tool, and members, events, board, polls, progress, professions, recruitment and the group finder appear once you are in a guild. My week, Addons and Settings stay available. Joining or leaving a guild takes effect right away.
+
 ### Version 0.9.3
 
 - **Guild name**: the guild master can set a name for GuildSentinel under Leadership > Rank rights. It applies to everyone in the guild with the addon (ad, chronicle, rules, welcome guide, header). Empty = the name from the game. Only the guild master can change it.
@@ -30,10 +34,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 - **Item level** with "I'll join": the searcher sees it in the replies and in chat.
 - **Bulk actions** (Leadership, officers): remove inactive players by rule or promote several suggestions at once – always a checklist first, one step per click.
 - **GRM import** (Leadership): alts, join dates and personal notes from Guild Roster Manager, with a preview.
-
-### Version 0.8.3
-
-- New **Support** button (PayPal link to copy) in the title bar and under Settings > General, also `/gs donate`. Opens only on click.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
