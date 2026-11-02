@@ -144,7 +144,7 @@ AHSentinel works on **every** WoW version – all with the same features:
 
 Both auction house types are supported: the modern one (Retail, Cata, MoP) and the classic one (Classic Era, TBC, Wrath).
 
-One download for everything – just copy both folders from the zip (`AHSentinel` and the small transition folder `AHAnalyzerPro`) into `Interface\AddOns` of your game.
+One download for everything – just copy the folder `AHSentinel` from the zip into `Interface\AddOns` of your game.
 
 ## Languages
 

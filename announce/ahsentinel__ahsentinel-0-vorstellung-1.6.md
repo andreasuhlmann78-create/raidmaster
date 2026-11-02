@@ -57,7 +57,7 @@ Deutsch, Englisch, Französisch, Spanisch (EU und Lateinamerika), Portugiesisch,
 `/ahs` Fenster · `/ahs scan` Markt-Scan · `/ahs heute` Heute tun · `/ahs sniper` Sniper an/aus · `/ahs bilanz` Tagesbilanz · `/ahs help` alle Befehle
 
 **📥 Installieren**
-ZIP von **CurseForge** (AHSentinel) oder aus dem Discord herunterladen, entpacken und **beide Ordner** (`AHSentinel` und den kleinen Übergangsordner `AHAnalyzerPro`) nach `Interface/AddOns` kopieren. Deine Daten und Einstellungen bleiben bei jedem Update erhalten. Früher hieß das Addon „AH Analyzer Pro“ – die alten Daten werden beim ersten Start automatisch übernommen.
+ZIP von **CurseForge** (AHSentinel) oder aus dem Discord herunterladen, entpacken und den Ordner `AHSentinel` nach `Interface/AddOns` kopieren. Deine Daten und Einstellungen bleiben bei jedem Update erhalten. Früher hieß das Addon „AH Analyzer Pro“ – die alten Daten werden beim ersten Start automatisch übernommen.
 
 **🐞 Fehler oder Ideen?**
 Einfach hier schreiben – am besten mit der Fehlermeldung und deiner WoW-Version. Gefällt dir das Addon? Knopf **Unterstützen** im Fenster oder `/ahs spenden`.

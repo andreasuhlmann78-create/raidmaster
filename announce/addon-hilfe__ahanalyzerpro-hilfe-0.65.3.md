@@ -5,7 +5,7 @@ Das Wichtigste in Kürze. Mehr steht im Spiel hinter dem **?** in jedem Reiter.
 
 ## 📥 Installieren
 1. ZIP aus **#aktionshaus** oder von **CurseForge** herunterladen
-2. Entpacken, **beide Ordner** (**AHSentinel** und der kleine Übergangsordner **AHAnalyzerPro**) nach `World of Warcraft/_classic_era_/Interface/AddOns` (bzw. `_retail_`, `_classic_`)
+2. Entpacken, den Ordner **AHSentinel** nach `World of Warcraft/_classic_era_/Interface/AddOns` (bzw. `_retail_`, `_classic_`)
 3. Im Charakter-Menü unter **AddOns** prüfen, dass es aktiv ist – bei Bedarf **„Veraltete AddOns laden“** anhaken
 
 ## 🚀 Erste Schritte
