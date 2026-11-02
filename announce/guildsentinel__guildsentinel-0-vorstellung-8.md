@@ -8,7 +8,7 @@ GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mi
 
 **👥 Mitglieder**
 • Liste mit Stufe, Klasse, Rang, Zone oder „zuletzt online“ – suchen, filtern, Twinks ein- und ausblenden
-• Twinks erkennt das Addon an der Notiz („Twink von Rokan“) oder ihr legt sie fest
+• Twinks erkennt das Addon an der Notiz („Twink von Rokan“, auf WoW Forever auch mit Vor- und Nachnamen) oder ihr legt sie fest
 • Verlauf: wer beigetreten ist, wer gegangen ist, wer befördert wurde, wer Stufe 60 erreicht hat
 • **Wer ist wo**: alle Online-Mitglieder nach Zone – zum Treffen, Beschwören und für Weltbosse
 • Inaktiv: wer seit 14, 30, 60 oder 90 Tagen nicht online war (nur wenn auch kein Twink online war)

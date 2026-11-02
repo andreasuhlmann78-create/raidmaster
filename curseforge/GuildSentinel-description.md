@@ -61,7 +61,7 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 ## 👥 Members
 
 - List with level, class, rank, zone or "last online" – search, filter, show or hide alts
-- **Alts** are detected from the public note ("Alt: Rokan", "Alt of Rokan") or set by hand
+- **Alts** are detected from the public note ("Alt: Rokan", "Alt of Rokan" – on WoW Forever also with first and last name) or set by hand
 - **Who's where**: all online members grouped by zone – for meeting up, summoning and world bosses
 - **History**: who joined, left, got promoted or reached level 60
 - **Inactive list** (14/30/60/90 days) – only if none of the player's alts were online either
