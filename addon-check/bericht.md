@@ -12,8 +12,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## ProfessionSentinel-0.9.8.zip: OK
 
-## RaidMaster-3.0.12.zip: FEHLER
-- **FEHLER** diese Version wurde schon mit ANDEREM Inhalt veröffentlicht (download/RaidMaster-3.0.12.zip in Commit 01c8938; geändert: LIESMICH.txt, Professions.lua, README_EN.txt). Wer sie schon hat, bekommt das Update nie – geänderten Inhalt immer als neue, höhere Version veröffentlichen.
+## RaidMaster-3.0.13.zip: OK
 
 ## ThreatSentinel-2.4.1.zip: OK
 
