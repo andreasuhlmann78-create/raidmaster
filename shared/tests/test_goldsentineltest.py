@@ -183,6 +183,8 @@ lua.execute(SRC)
 text = lua.eval("(function() local T = GoldSentinelTest.Begin('X','1',nil); T:Check('T01','A','x',function() end); local t = T:Finish(); return t end)()")
 check("ohne db: Hinweis statt Fehler", "nicht gespeichert" in text, True)
 check("ohne GoldSentinelGame", lua.eval("GoldSentinelTest.IsSecret(1)"), False)
+check("ohne GoldSentinelGame: Zählzeile da", "OK 1 · FEHLER 0" in text, True)
+check("Sprache im Text", "Sprache" in text, True)
 
 # 8. Uploader-Sicht: so schreibt WoW die SavedVariables – String finden und zurückwandeln
 lua = new_lua()

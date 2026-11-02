@@ -260,18 +260,16 @@ end
 function Run:Text(rep)
     rep = rep or self:Report()
     local c = rep.counts
-    local lines = {
+    local out = {
         string.format("%s %s – Testroutine · %s", tostring(rep.addon), tostring(rep.version),
             type(date) == "function" and date("%d.%m.%Y %H:%M", rep.time) or tostring(rep.time)),
-        string.format("Client %s (%s) · Interface %s · %s · %s %s",
+        string.format("Client %s (%s) · Interface %s · %s · %s %s · Sprache %s",
             tostring(rep.env.client), tostring(rep.env.build), tostring(rep.env.interface), tostring(rep.env.flavor),
-            tostring(rep.env.class), tostring(rep.env.level)),
-        rep.env.status and ("GoldSentinelGame: " .. rep.env.status) or nil,
-        string.format("OK %d · FEHLER %d · übersprungen %d · im Client prüfen %d · %d ms",
-            c.ok, c.fehler, c.uebersprungen, c.client, rep.dur_ms),
+            tostring(rep.env.class), tostring(rep.env.level), tostring(rep.env.locale)),
     }
-    local out = {}
-    for _, l in ipairs(lines) do out[#out + 1] = l end
+    if rep.env.status then out[#out + 1] = "GoldSentinelGame: " .. rep.env.status end
+    out[#out + 1] = string.format("OK %d · FEHLER %d · übersprungen %d · im Client prüfen %d · %d ms",
+        c.ok, c.fehler, c.uebersprungen, c.client, rep.dur_ms)
     if rep.sandbox then out[#out + 1] = "Sandbox (echte Daten unverändert): " .. tostring(rep.sandbox) end
     for _, e in ipairs(rep.results) do
         if e.status ~= "OK" then
