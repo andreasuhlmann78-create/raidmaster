@@ -27,7 +27,7 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
-**3.0.12** – Berufe in WoW Forever
+**3.0.12 / 3.0.13** – Berufe in WoW Forever
 • „Meine Berufe einlesen“ funktioniert jetzt auch im neuen Forever-Client: Jeder Klick öffnet den nächsten Beruf und liest Rezepte und Zutaten – für `/handwerk` und `/berufe` hier im Discord.
 
 **3.0.10** – Zusammenspiel der Addons

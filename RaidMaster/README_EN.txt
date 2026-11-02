@@ -1,4 +1,4 @@
-RaidMaster 3.0.12 – DKP, loot and raid leading tools
+RaidMaster 3.0.13 – DKP, loot and raid leading tools
 ====================================================
 
 INSTALLATION
@@ -22,6 +22,11 @@ MAIN FEATURES
   The boss's marker template is selected automatically when the encounter starts.
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
+
+WHAT'S NEW IN 3.0.13 – "Read my professions" button: final version
+- Contains the revised button (professions sorted alphabetically; if the profession overview returns nothing,
+  RaidMaster opens the windows via spells as before). Anyone who already has a 3.0.12 is offered this update.
+- No other changes compared to 3.0.12.
 
 WHAT'S NEW IN 3.0.12 – "Read my professions" button on WoW Forever
 - On the modern client (WoW Forever, Retail) the button now opens the profession windows through the profession

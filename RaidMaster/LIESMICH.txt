@@ -1,4 +1,4 @@
-RaidMaster 3.0.12 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 3.0.13 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,11 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+NEU IN 3.0.13 – Knopf "Meine Berufe einlesen": endgültige Fassung
+- Enthält die überarbeitete Fassung des Knopfs (Berufe alphabetisch; liefert die Berufsübersicht nichts, öffnet
+  RaidMaster die Fenster wie bisher über die Zauber). Wer schon eine 3.0.12 hat, bekommt so ein Update angezeigt.
+- Sonst keine Änderungen gegenüber 3.0.12.
 
 NEU IN 3.0.12 – Knopf "Meine Berufe einlesen" in WoW Forever
 - Im modernen Client (WoW Forever, Retail) öffnet der Knopf die Berufsfenster jetzt über die Berufsübersicht
