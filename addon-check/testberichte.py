@@ -311,8 +311,14 @@ def evaluate(note=None):
         details += d
     md += [""] + details
     OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / "status.md").write_text("\n".join(md).rstrip() + "\n", encoding="utf-8")
-    (OUT / "status.json").write_text(json.dumps(status, ensure_ascii=False, indent=1, default=list) + "\n", encoding="utf-8")
+    new_md = "\n".join(md).rstrip() + "\n"
+    new_js = json.dumps(status, ensure_ascii=False, indent=1, default=list) + "\n"
+    # nur schreiben, wenn sich ausser der Zeit etwas geändert hat (sonst alle 30 Minuten ein leerer Commit)
+    stamp = re.compile(r"^(Ausgewertet: .*|  \"ausgewertet\": .*|\s*\"ausgewertet\": .*)$", re.M)
+    old_md = (OUT / "status.md").read_text(encoding="utf-8") if (OUT / "status.md").exists() else ""
+    if stamp.sub("", old_md) != stamp.sub("", new_md) or not (OUT / "status.json").exists():
+        (OUT / "status.md").write_text(new_md, encoding="utf-8")
+        (OUT / "status.json").write_text(new_js, encoding="utf-8")
     return status
 
 
