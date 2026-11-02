@@ -34,8 +34,7 @@ end
 
 -- Stufen aller Berufe aus der Fertigkeitenliste (auch Sammelberufe).
 -- Moderner Client (WoW Forever, Retail) ohne Fertigkeitenliste: über GetProfessions/GetProfessionInfo.
--- Liste { { name, r, m, line } } – line = Fertigkeitslinie (7. Rückgabewert von GetProfessionInfo)
-local function ReadProfessionList()
+local function ReadProfessionSlots()
 	local out = {}
 	if not (GetProfessions and GetProfessionInfo) then return out end
 	local slots = { pcall(GetProfessions) }
@@ -43,19 +42,11 @@ local function ReadProfessionList()
 	for i = 1, 6 do
 		local idx = slots[i]
 		if idx then
-			local ok, name, _, rank, max, _, _, line = pcall(GetProfessionInfo, idx)
-			if ok and type(name) == "string" and name ~= "" then
-				out[#out + 1] = { name = name, r = rank or 0, m = max or 0, line = tonumber(line) }
-			end
+			local ok, name, _, rank, max, _, _, skillLine = pcall(GetProfessionInfo, idx)
+			-- l = Fertigkeitslinie (zum Öffnen des Fensters); wird nicht in RaidMasterDB.prof gespeichert
+			if ok and type(name) == "string" and name ~= "" then out[name] = { r = rank or 0, m = max or 0, l = skillLine } end
 		end
 	end
-	return out
-end
-P.ReadProfessionList = ReadProfessionList
-
-local function ReadProfessionSlots()
-	local out = {}
-	for _, p in ipairs(ReadProfessionList()) do out[p.name] = { r = p.r, m = p.m } end
 	return out
 end
 P.ReadProfessionSlots = ReadProfessionSlots
@@ -283,35 +274,40 @@ end
 ---------------------------------------------------------------------------
 -- Knopf: nacheinander die Berufsfenster öffnen (jeder Klick öffnet den nächsten)
 ---------------------------------------------------------------------------
--- Moderne API: Berufe sind keine Zauber im Zauberbuch, geöffnet wird über die Fertigkeitslinie.
--- Ohne Rezeptfenster: Kräuterkunde, Kürschnerei, Angeln, Archäologie (klassische Linien und Forever-Kindlinien).
-P.NO_RECIPES = { [182] = true, [393] = true, [356] = true, [794] = true, [2944] = true, [2947] = true, [2943] = true }
+-- Moderner Client: Berufe sind keine Zauber im Zauberbuch mehr. Die Liste kommt aus GetProfessions, geöffnet
+-- wird über die Fertigkeitslinie (C_TradeSkillUI.OpenTradeSkill). Ohne Rezepte: Kräuterkunde, Kürschnerei,
+-- Angeln, Archäologie (klassische Linien und die Kindlinien von WoW Forever).
+P.NO_RECIPE_LINES = { [182] = true, [393] = true, [356] = true, [794] = true, [2944] = true, [2947] = true, [2943] = true }
 P.lineByName = {}
 
 local function ModernOpenable()
 	local list = {}
 	wipe(P.lineByName)
-	for _, p in ipairs(ReadProfessionList()) do
-		if p.line and not P.NO_RECIPES[p.line] then
-			list[#list + 1] = p.name
-			P.lineByName[p.name] = p.line
+	for name, v in pairs(ReadProfessionSlots()) do
+		if v.l and not P.NO_RECIPE_LINES[v.l] then
+			list[#list + 1] = name
+			P.lineByName[name] = v.l
 		end
 	end
+	table.sort(list)
 	return list
 end
 
--- Fenster öffnen: moderne API über C_TradeSkillUI.OpenTradeSkill, nur wenn das fehlt/scheitert über den Zauber
+-- Berufsfenster öffnen: moderner Client über die Fertigkeitslinie, sonst (und als Rückfall) über den Zauber
 local function OpenProfession(name)
 	local line = P.lineByName[name]
 	if line and TS and TS.OpenTradeSkill then
-		local ok, res = pcall(TS.OpenTradeSkill, line)
-		if ok and res ~= false then return end
+		local ok = pcall(TS.OpenTradeSkill, line)
+		if ok then return end
 	end
 	if CastSpellByName then CastSpellByName(name) end
 end
 
 function P.Openable()
-	if P.HasModernAPI() then return ModernOpenable() end
+	if P.HasModernAPI() and GetProfessions and GetProfessionInfo then
+		local list = ModernOpenable()
+		if #list > 0 then return list end
+	end
 	local list = {}
 	local skills = P.ReadSkillLines()
 	for _, id in ipairs(P.CRAFT_SPELLS) do
@@ -342,8 +338,7 @@ function P.ReadNext()
 	for _, name in ipairs(list) do
 		if not P.scanned[name] then
 			P.pendingScan = name
-			if P.HasModernAPI() then OpenProfession(name)
-			elseif CastSpellByName then CastSpellByName(name) end
+			OpenProfession(name)
 			return
 		end
 	end
@@ -355,9 +350,9 @@ local function AfterScan(kind)
 	local name, n = P.ScanOpen(kind)
 	if not name then return end
 	if P.pendingScan then
-		-- moderne API: der Listenname (aus GetProfessions) kann vom Fensternamen abweichen – beide als gelesen merken,
-		-- sonst öffnet der nächste Klick denselben Beruf noch einmal
-		if P.HasModernAPI() then P.scanned = P.scanned or {}; P.scanned[P.pendingScan] = true end
+		-- moderner Client: der Listenname (aus GetProfessions) kann vom Fensternamen abweichen –
+		-- als gelesen merken, sonst öffnet der nächste Klick denselben Beruf erneut
+		if P.HasModernAPI() then P.scanned[P.pendingScan] = true end
 		P.pendingScan = nil
 		RM.Print(string.format(L["%s eingelesen (%d Rezepte). Nochmal klicken für den nächsten Beruf."], name, n))
 		C_Timer.After(0.2, function()

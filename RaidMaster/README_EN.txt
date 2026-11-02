@@ -24,11 +24,12 @@ MAIN FEATURES
 - Raid target icon bar.
 
 WHAT'S NEW IN 3.0.12 – "Read my professions" button on WoW Forever
-- On the modern client (WoW Forever, Retail) the button opens the profession windows via their skill line
-  (C_TradeSkillUI.OpenTradeSkill) instead of spells; if that fails it falls back to the spell as before.
-- The list comes from the profession overview; Herbalism, Skinning, Fishing and Archaeology (no recipe window)
-  are skipped. Each click opens the next profession, even if the window names it differently.
-- Classic Era, TBC, Wrath, Cata and MoP Classic behave exactly as before.
+- On the modern client (WoW Forever, Retail) the button now opens the profession windows through the profession
+  overview (C_TradeSkillUI.OpenTradeSkill) – professions are no longer spells in the spellbook there. Each click opens
+  the next profession with recipes; Herbalism, Skinning, Fishing and Archaeology are skipped (their skill is saved).
+- A profession is reliably marked as read, so the next click no longer reopens the same one.
+- Without the new function RaidMaster opens the window via the spell as before.
+- The saved format stays the same. Classic Era, TBC, Wrath, Cata and MoP Classic behave exactly as before.
 
 WHAT'S NEW IN 3.0.11 – Reading professions on WoW Forever
 - "Read my professions" now uses the modern profession API (C_TradeSkillUI) on WoW Forever and Retail:
