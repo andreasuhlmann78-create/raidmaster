@@ -7,6 +7,18 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.64.1</h3>
+<ul>
+<li><strong>"Today" suggests crafting – even without ProfessionSentinel:</strong> AHSentinel now remembers the
+  recipes of each character when you open the profession window. "Today" then suggests the 2–3 most
+  profitable recipes you <strong>already know</strong> (result sells well, at least 10 % profit after the AH cut).
+  The button <strong>Buy reagents</strong> adds a buy row for every missing reagent from the auction house
+  (10 % price margin, nothing bought without your click); reagents from vendors are named in the chat.
+  When everything is there: "All there – craft".</li>
+<li>With ProfessionSentinel installed, its suggestions are used instead (no duplicates).</li>
+<li>Characters with a crafting profession but without ProfessionSentinel see a small tip at the bottom
+  of "Today" – <strong>Hide</strong> removes it for good.</li>
+</ul>
 <h3>Version 0.64.0</h3>
 <p><strong>"Today" – buy and post right in the list:</strong>
 - Every row now has a <strong>button with the next step</strong>, no need to switch tabs:
@@ -42,14 +54,6 @@
 <li><strong>Self-test on retail:</strong> stopped with "script ran too long" (retail stops scripts that run too long in one go – with about 20,000 scanned items that happens). The test now pauses regularly; the language test checks one language per frame.</li>
 <li><strong>Sell tab with the auction house closed:</strong> showed "No sellable items in your bags" on retail although the bags were full. The "can this be posted?" check now only runs while the auction house is open.</li>
 <li><strong>Reagent bag (retail):</strong> items in it now count for selling, mail to alts and vendor selling.</li>
-</ul>
-<h3>Version 0.63.1</h3>
-<ul>
-<li><strong>Retail (The War Within / Midnight, interface 12.x): item names are back.</strong> The modern game no longer has the old <code>GetItemInfo</code>, <code>GetItemIcon</code> etc. – AHSentinel now uses <code>C_Item</code> there. Before, "Item #12345" showed instead of the name (buy tab, price history, tooltip, test data).</li>
-<li><strong>Names are loaded in the background:</strong> the full scan of the modern auction house only returns item IDs. Items your client does not know yet are now requested in the background (40 per second); the lists update by themselves.</li>
-<li><strong>Self-test "Search by name"</strong> failed on retail ("'Item #251665' -&gt; nil"). It now picks an item whose name is already known and otherwise reports how many names are still loading.</li>
-<li><strong>Test mode on retail:</strong> the fake auctions and mails need item names – they are created there now as well.</li>
-<li>Disenchanting: spell name via <code>C_Spell</code> (retail).</li>
 </ul>
 <p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
 <hr />

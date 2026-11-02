@@ -12,6 +12,18 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.64.1
+
+- **"Today" suggests crafting – even without ProfessionSentinel:** AHSentinel now remembers the
+  recipes of each character when you open the profession window. "Today" then suggests the 2–3 most
+  profitable recipes you **already know** (result sells well, at least 10 % profit after the AH cut).
+  The button **Buy reagents** adds a buy row for every missing reagent from the auction house
+  (10 % price margin, nothing bought without your click); reagents from vendors are named in the chat.
+  When everything is there: "All there – craft".
+- With ProfessionSentinel installed, its suggestions are used instead (no duplicates).
+- Characters with a crafting profession but without ProfessionSentinel see a small tip at the bottom
+  of "Today" – **Hide** removes it for good.
+
 ### Version 0.64.0
 
 **"Today" – buy and post right in the list:**
@@ -49,14 +61,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Self-test on retail:** stopped with "script ran too long" (retail stops scripts that run too long in one go – with about 20,000 scanned items that happens). The test now pauses regularly; the language test checks one language per frame.
 - **Sell tab with the auction house closed:** showed "No sellable items in your bags" on retail although the bags were full. The "can this be posted?" check now only runs while the auction house is open.
 - **Reagent bag (retail):** items in it now count for selling, mail to alts and vendor selling.
-
-### Version 0.63.1
-
-- **Retail (The War Within / Midnight, interface 12.x): item names are back.** The modern game no longer has the old `GetItemInfo`, `GetItemIcon` etc. – AHSentinel now uses `C_Item` there. Before, "Item #12345" showed instead of the name (buy tab, price history, tooltip, test data).
-- **Names are loaded in the background:** the full scan of the modern auction house only returns item IDs. Items your client does not know yet are now requested in the background (40 per second); the lists update by themselves.
-- **Self-test "Search by name"** failed on retail ("'Item #251665' -> nil"). It now picks an item whose name is already known and otherwise reports how many names are still loading.
-- **Test mode on retail:** the fake auctions and mails need item names – they are created there now as well.
-- Disenchanting: spell name via `C_Spell` (retail).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
