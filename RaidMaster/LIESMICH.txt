@@ -1,4 +1,4 @@
-RaidMaster 3.0.13 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 3.0.14 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,18 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+NEU IN 3.0.14 – Korrekturen vor dem Forever-Launch
+- Boss-Leiste: Ist der Name des Ziels im Kampf geschützt (WoW Forever, Retail), gibt es keinen Lua-Fehler mehr
+  beim Zielwechsel – die Leiste erkennt den Boss dann einfach nicht.
+- Beute-Datenbank: geschützte Boss-GUIDs im Kampf werden übersprungen; der Kill wird weiter über den Bosskampf
+  (Encounter) zugeordnet.
+- Betrachten: Kommt die Antwort erst nach dem Pull, werden geschützte GUIDs nicht mehr verglichen.
+- Namen: geschützte Namen werden nie mehr bearbeitet.
+- Classic Era, TBC und die anderen alten Versionen nehmen beim Bereitschafts-Check, bei Reagenzien und Zaubernamen
+  wieder genau den alten Weg (UnitAura, GetItemCount, GetSpellInfo) wie vor 3.0.7 – auch wenn die neuen
+  Funktionen dort schon existieren.
+- Test-Werkzeug: Selbsttest prüft die Boss-Leiste mit geschütztem Zielnamen.
 
 NEU IN 3.0.13 – Knopf "Meine Berufe einlesen": endgültige Fassung
 - Enthält die überarbeitete Fassung des Knopfs (Berufe alphabetisch; liefert die Berufsübersicht nichts, öffnet

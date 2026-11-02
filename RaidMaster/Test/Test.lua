@@ -1392,6 +1392,23 @@ function T.SelfTest()
 			line(ok, "Versionsweiche (Forever ↔ Classic Era): " .. (ok and "beide Wege richtig, echte Erkennung wiederhergestellt" or tostring(err)))
 		end
 	end
+	-- Bossleiste: geschützter Zielname (moderner Client im Kampf) darf keinen Fehler auslösen
+	do
+		local B = RM.BossBar
+		local saved = { UnitExists = UnitExists, UnitIsPlayer = UnitIsPlayer, UnitName = UnitName, IsSecret = RM.IsSecret, tt = B and B.testTarget }
+		local SECRET = "Ragnaros"
+		local ok, res = pcall(function()
+			B.testTarget = nil
+			UnitExists = function(u) return u == "target" end
+			UnitIsPlayer = function() return false end
+			UnitName = function(u) if u == "target" then return SECRET end return saved.UnitName(u) end
+			RM.IsSecret = function(v) return v == SECRET end
+			return B.TargetBoss()
+		end)
+		UnitExists, UnitIsPlayer, UnitName, RM.IsSecret = saved.UnitExists, saved.UnitIsPlayer, saved.UnitName, saved.IsSecret
+		if B then B.testTarget = saved.tt end
+		line(ok and res == nil, "Bossleiste mit geschütztem Zielnamen: " .. (ok and res == nil and "kein Fehler, kein Boss erkannt" or tostring(res)))
+	end
 	line(#RM.Data.RaidList > 0, string.format("Raids dieser Version: %d mit %d Bossen, %d Markierungsvorlagen", #RM.Data.RaidList, #RM.Data.BossOrder, #RM.Data.MarkerTemplates))
 	local noInfo = 0
 	for _, id in ipairs(RM.Data.BossOrder) do if not RM.Data.BossInfo[id] then noInfo = noInfo + 1 end end

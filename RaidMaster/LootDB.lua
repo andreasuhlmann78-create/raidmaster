@@ -65,7 +65,8 @@ end
 
 -- "Creature-0-1234-409-5678-11502-0000ABCDEF" -> "Creature", 11502
 function LDB.ParseGUID(guid)
-	if type(guid) ~= "string" then return nil end
+	-- geschützte GUID (moderner Client im Kampf): type() ergibt trotzdem "string" -> eigens prüfen
+	if type(guid) ~= "string" or RM.IsSecret(guid) then return nil end
 	local kind, _, _, _, _, id = strsplit("-", guid)
 	return kind, tonumber(id)
 end
@@ -77,7 +78,7 @@ local function ScanBossUnits()
 	if not UnitGUID then return end
 	for i = 1, 5 do
 		local kind, npc = LDB.ParseGUID(UnitGUID("boss" .. i))
-		if kind == "Creature" or kind == "Vehicle" then engaged[npc] = true end
+		if npc and (kind == "Creature" or kind == "Vehicle") then engaged[npc] = true end
 	end
 end
 

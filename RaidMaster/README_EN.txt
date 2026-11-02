@@ -1,4 +1,4 @@
-RaidMaster 3.0.13 – DKP, loot and raid leading tools
+RaidMaster 3.0.14 – DKP, loot and raid leading tools
 ====================================================
 
 INSTALLATION
@@ -22,6 +22,16 @@ MAIN FEATURES
   The boss's marker template is selected automatically when the encounter starts.
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
+
+WHAT'S NEW IN 3.0.14 – Fixes before the Forever launch
+- Boss bar: if the target's name is protected in combat (WoW Forever, Retail), changing targets no longer causes a
+  Lua error – the bar simply does not detect the boss then.
+- Loot database: protected boss GUIDs in combat are skipped; the kill is still assigned via the encounter.
+- Inspect: if the reply arrives after the pull, protected GUIDs are no longer compared.
+- Names: protected names are never processed.
+- Classic Era, TBC and the other old versions use exactly the old path again for the ready check, reagents and
+  spell names (UnitAura, GetItemCount, GetSpellInfo) as before 3.0.7 – even where the new functions exist.
+- Test tool: the self-test checks the boss bar with a protected target name.
 
 WHAT'S NEW IN 3.0.13 – "Read my professions" button: final version
 - Contains the revised button (professions sorted alphabetically; if the profession overview returns nothing,

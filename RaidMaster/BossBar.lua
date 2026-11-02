@@ -36,7 +36,8 @@ function B.TargetBoss()
 	if B.testTarget then return RM.Data.Bosses[B.testTarget] end
 	if not UnitExists("target") or UnitIsPlayer("target") then return nil end
 	local name = UnitName("target")
-	if not name then return nil end
+	-- moderner Client im Kampf: Name kann geschützt sein (kein lower(), kein Tabellenschlüssel)
+	if not name or RM.IsSecret(name) then return nil end
 	return NameIndex()[name:lower()]
 end
 

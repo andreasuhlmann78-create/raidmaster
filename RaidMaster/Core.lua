@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "3.0.13"
-RM.VERSION_NUM = 30013
+RM.VERSION = "3.0.14"
+RM.VERSION_NUM = 30014
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -87,10 +87,15 @@ end
 ---------------------------------------------------------------------------
 RM.GetItemInfo = (C_Item and C_Item.GetItemInfo) or GetItemInfo
 RM.GetItemInfoInstant = (C_Item and C_Item.GetItemInfoInstant) or GetItemInfoInstant
-RM.GetItemCount = (C_Item and C_Item.GetItemCount) or GetItemCount
+-- Alte API (Classic Era, TBC …): zuerst die alte Funktion wie vor 3.0.7 – auch wenn C_Item dort schon existiert
+RM.GetItemCount = (not RM.IsModern and GetItemCount) or (C_Item and C_Item.GetItemCount) or GetItemCount
 
 -- Name eines Zaubers (moderner Client: C_Spell.GetSpellName, alt: GetSpellInfo)
 function RM.GetSpellName(id)
+	if not RM.IsModern and GetSpellInfo then          -- alte API: Weg wie vor 3.0.7
+		local ok, n = pcall(GetSpellInfo, id)
+		if ok and n then return n end
+	end
 	if C_Spell and C_Spell.GetSpellName then
 		local ok, n = pcall(C_Spell.GetSpellName, id)
 		if ok and n then return n end
@@ -102,9 +107,13 @@ function RM.GetSpellName(id)
 end
 
 -- Hilfreicher Buff Nr. i einer Einheit: name, spellId (nil = keiner mehr).
--- Moderner Client: C_UnitAuras, alter Client: UnitAura/UnitBuff.
--- RM.CanReadAuras() sagt, ob dieser Client Buffs überhaupt liefert.
+-- Moderner Client: C_UnitAuras. Alte API (Classic Era 1.15, TBC Anniversary …): zuerst UnitAura wie vor 3.0.7,
+-- auch wenn C_UnitAuras dort schon existiert. RM.CanReadAuras() sagt, ob dieser Client Buffs überhaupt liefert.
 function RM.GetBuff(unit, i)
+	if not RM.IsModern and UnitAura then
+		local name, _, _, _, _, _, _, _, _, spellId = UnitAura(unit, i, "HELPFUL")
+		return name, spellId
+	end
 	if C_UnitAuras and C_UnitAuras.GetAuraDataByIndex then
 		local ok, a = pcall(C_UnitAuras.GetAuraDataByIndex, unit, i, "HELPFUL")
 		if not ok or not a then return nil end
@@ -271,6 +280,8 @@ end
 
 function RM.Short(name)
 	if not name then return nil end
+	-- geschützter Name (secret value, moderner Client im Kampf) -> nil, nie damit rechnen
+	if RM.G and RM.G.Short then return RM.G.Short(name) end
 	return (name:gsub("%-.*$", ""))
 end
 

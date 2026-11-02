@@ -27,6 +27,9 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
+**3.0.14** – Fit für den Forever-Launch
+• Boss-Leiste, Beute-Datenbank und Betrachten laufen im Kampf im neuen Forever-Client ohne Fehler. Classic Era und TBC wie gehabt.
+
 **3.0.12 / 3.0.13** – Berufe in WoW Forever
 • „Meine Berufe einlesen“ funktioniert jetzt auch im neuen Forever-Client: Jeder Klick öffnet den nächsten Beruf und liest Rezepte und Zutaten – für `/handwerk` und `/berufe` hier im Discord.
 
@@ -44,8 +47,5 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 
 **3.0.6** – Aufgeräumt
 • Das Test-Werkzeug ist jetzt nur noch für den Entwickler da – für euch ändert sich sonst nichts.
-
-**3.0.5** – Addon unterstützen
-• Neuer Knopf **Unterstützen** oben im RaidMaster-Fenster (auch in den Einstellungen und mit `/rm spenden`): zeigt den PayPal-Link zum Kopieren. Geht nie von selbst auf – keine Erinnerungen, keine Werbung. Danke an alle, die mithelfen! ☕
 
 Ältere Neuerungen stehen im Addon in der Datei LIESMICH.txt.

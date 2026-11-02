@@ -391,7 +391,9 @@ end
 local function OnInspectReady(guid)
 	local cur = scan.current
 	if not cur then return end
-	if guid and UnitGUID and UnitGUID(cur.unit) and UnitGUID(cur.unit) ~= guid then return end
+	-- Antwort kann nach dem Pull kommen: geschützte GUIDs nicht vergleichen, dann wie ohne GUID lesen
+	local g = UnitGUID and UnitGUID(cur.unit)
+	if guid and g and not RM.IsSecret(g) and not RM.IsSecret(guid) and g ~= guid then return end
 	ReadInspect()
 end
 RM.On("INSPECT_READY", OnInspectReady)
