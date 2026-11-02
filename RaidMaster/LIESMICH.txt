@@ -1,4 +1,4 @@
-RaidMaster 3.0.6 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 3.0.7 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,18 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+NEU IN 3.0.7 – WoW Forever: moderner Client
+WoW Forever sieht aus wie Classic, läuft aber auf dem modernen Client. Dort sehen Addons im Kampf keine
+Namen, GUIDs und Buffs mehr ("secret values") und das Kampflog ist für Addons geschlossen. RaidMaster stellt sich darauf ein:
+- Bereitschafts-Check: liest Fläschchen und Elixiere über die neue Buff-Schnittstelle (C_UnitAuras), in
+  Classic Era weiter über die alte. Gibt der Client die Buffs nicht her, steht "Buffs nicht lesbar" statt
+  fälschlich "kein Fläschchen". Der Check startet nur außerhalb des Kampfes.
+- Kernhunde: In WoW Forever gibt es auf der Seite Raid den Knopf "Kürschner ansagen" statt der automatischen
+  Ansage (die braucht das Kampflog). In Classic Era bleibt alles automatisch.
+- Markieren nach Vorlage: Sperrt der Client im Kampf die Gegnerdaten, sagt RaidMaster das jetzt klar an.
+  Vor dem Pull geht die Vorlage wie gewohnt, im Kampf Ziel anklicken und Symbolknopf drücken.
+- Zaubernamen und Gegenstandszahlen laufen über die modernen Schnittstellen (C_Spell, C_Item), mit Rückfall.
 
 NEU IN 3.0.6 – Test-Werkzeug nur für den Entwickler
 - Das Test-Werkzeug (Knopf "Test", /rmtest, /rm test) und der Testmodus sind nur noch für den Entwickler

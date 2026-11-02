@@ -870,10 +870,18 @@ UI.AddPage("raid", L["Raid"], function(page)
 	Place(autoDecay, page, rx + 150, -420)
 
 	Section(page, L["Kernhunde"], rx, -462)
-	local houndCheck = UI.Check(page, L["Kürschner ansagen, wenn ein Kernhund stirbt"],
-		function() return RM.db.config.coreHound end, function(v) RM.db.config.coreHound = v end,
-		L["Der Raidleiter sagt die Kürschner mit Addon im Raid an (nach Skill sortiert)."])
-	Place(houndCheck, page, rx, -488)
+	local houndCheck
+	if RM.Caps.combatLog then
+		houndCheck = UI.Check(page, L["Kürschner ansagen, wenn ein Kernhund stirbt"],
+			function() return RM.db.config.coreHound end, function(v) RM.db.config.coreHound = v end,
+			L["Der Raidleiter sagt die Kürschner mit Addon im Raid an (nach Skill sortiert)."])
+		Place(houndCheck, page, rx, -488)
+	else
+		-- WoW Forever / Midnight: Addons sehen keine Kämpfe → per Klick
+		local houndBtn = UI.Button(page, L["Kürschner ansagen"], 170, 24, function() RM.Raid.AnnounceSkinners() end,
+			L["Sagt die Kürschner mit Addon im Raid an (nach Skill sortiert). In diesem Client sehen Addons keine Kämpfe – deshalb per Klick, wenn ein Kernhund liegt."])
+		Place(houndBtn, page, rx, -488)
+	end
 
 	return function()
 		local s = RM.db.session
@@ -925,7 +933,7 @@ UI.AddPage("raid", L["Raid"], function(page)
 		autoDecay:Refresh(); chatCheck:Refresh(); welcomeCheck:Refresh(); pullSec:Refresh(); breakMin:Refresh(); addons:Refresh(); frCycle:Refresh()
 		pullBtn:SetText(RM.Timer.Running("pull") and L["Pull abbrechen"] or L["Pull-Timer"])
 		if RM.CanEdit() then decayBtn:Enable() else decayBtn:Disable() end
-		houndCheck:Refresh()
+		if houndCheck then houndCheck:Refresh() end
 	end
 end)
 

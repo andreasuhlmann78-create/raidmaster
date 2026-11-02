@@ -135,10 +135,10 @@ function P.Openable()
 	local list = {}
 	local skills = P.ReadSkillLines()
 	for _, id in ipairs(P.CRAFT_SPELLS) do
-		local name = GetSpellInfo and GetSpellInfo(id)
+		local name = RM.GetSpellName(id)
 		if name then
 			-- Verhüttung gehört zu Bergbau; die anderen heißen wie der Beruf
-			local skill = (id == 2656) and (GetSpellInfo(2575) or L["Bergbau"]) or name
+			local skill = (id == 2656) and (RM.GetSpellName(2575) or L["Bergbau"]) or name
 			if skills[skill] or skills[name] then list[#list + 1] = name end
 		end
 	end

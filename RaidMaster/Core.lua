@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "3.0.6"
-RM.VERSION_NUM = 30006
+RM.VERSION = "3.0.7"
+RM.VERSION_NUM = 30007
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -46,13 +46,59 @@ RM.Caps = {
 	masterLoot = (GiveMasterLoot ~= nil and GetMasterLootCandidate ~= nil) and not RM.IsRetail,
 	specs = (GetSpecialization ~= nil and RM.TOC >= 50000),
 	talentTrees = (GetTalentTabInfo ~= nil and RM.TOC < 50000),
+	-- Combat Log: in WoW Forever und ab Midnight (12.x) für Addons geschlossen
+	combatLog = (CombatLogGetCurrentEventInfo ~= nil) and RM.GAME.key ~= "forever" and RM.TOC < 120000,
 }
+
+-- "Secret values" (moderner Client, im Kampf): anzeigen geht, auswerten nicht
+function RM.IsSecret(v)
+	return issecretvalue ~= nil and v ~= nil and issecretvalue(v) == true
+end
 
 ---------------------------------------------------------------------------
 -- Kompatibilität (Classic-Client, verschiedene API-Stände)
 ---------------------------------------------------------------------------
 RM.GetItemInfo = (C_Item and C_Item.GetItemInfo) or GetItemInfo
 RM.GetItemInfoInstant = (C_Item and C_Item.GetItemInfoInstant) or GetItemInfoInstant
+RM.GetItemCount = (C_Item and C_Item.GetItemCount) or GetItemCount
+
+-- Name eines Zaubers (moderner Client: C_Spell.GetSpellName, alt: GetSpellInfo)
+function RM.GetSpellName(id)
+	if C_Spell and C_Spell.GetSpellName then
+		local ok, n = pcall(C_Spell.GetSpellName, id)
+		if ok and n then return n end
+	end
+	if GetSpellInfo then
+		local ok, n = pcall(GetSpellInfo, id)
+		if ok then return n end
+	end
+end
+
+-- Hilfreicher Buff Nr. i einer Einheit: name, spellId (nil = keiner mehr).
+-- Moderner Client: C_UnitAuras, alter Client: UnitAura/UnitBuff.
+-- RM.CanReadAuras() sagt, ob dieser Client Buffs überhaupt liefert.
+function RM.GetBuff(unit, i)
+	if C_UnitAuras and C_UnitAuras.GetAuraDataByIndex then
+		local ok, a = pcall(C_UnitAuras.GetAuraDataByIndex, unit, i, "HELPFUL")
+		if not ok or not a then return nil end
+		return a.name, a.spellId
+	elseif C_UnitAuras and C_UnitAuras.GetBuffDataByIndex then
+		local ok, a = pcall(C_UnitAuras.GetBuffDataByIndex, unit, i)
+		if not ok or not a then return nil end
+		return a.name, a.spellId
+	elseif UnitAura then
+		local name, _, _, _, _, _, _, _, _, spellId = UnitAura(unit, i, "HELPFUL")
+		return name, spellId
+	elseif UnitBuff then
+		local name, _, _, _, _, _, _, _, _, spellId = UnitBuff(unit, i)
+		return name, spellId
+	end
+end
+
+function RM.CanReadAuras()
+	return (C_UnitAuras ~= nil and (C_UnitAuras.GetAuraDataByIndex ~= nil or C_UnitAuras.GetBuffDataByIndex ~= nil))
+		or UnitAura ~= nil or UnitBuff ~= nil
+end
 RM.SendAddonMessage = (C_ChatInfo and C_ChatInfo.SendAddonMessage) or SendAddonMessage
 local RegisterPrefix = (C_ChatInfo and C_ChatInfo.RegisterAddonMessagePrefix) or RegisterAddonMessagePrefix
 

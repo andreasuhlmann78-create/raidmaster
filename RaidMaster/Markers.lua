@@ -124,33 +124,42 @@ local function BossNames(template)
 	if template and template.raid then add(RM.Data.Pools[template.raid]) end
 	for i = 1, 5 do
 		local n = UnitExists("boss" .. i) and UnitName("boss" .. i)
-		if n then names[n] = true end
+		if n and not RM.IsSecret(n) then names[n] = true end
 	end
 	return names
 end
 
+-- Sichtbare Gegner. Zweiter Rückgabewert: Anzahl Gegner, deren Daten der Client sperrt
+-- ("secret values" im Kampf, WoW Forever/Midnight) – die lassen sich nur per Symbolknopf markieren.
 local function VisibleEnemies()
-	local list, seen = {}, {}
+	local list, seen, blocked = {}, {}, 0
 	local function check(unit)
 		if not UnitExists(unit) or UnitIsPlayer(unit) or UnitIsDead(unit) then return end
 		if not UnitCanAttack("player", unit) then return end
 		local ok, guid = pcall(UnitGUID, unit)
+		if ok and RM.IsSecret(guid) then blocked = blocked + 1 return end
 		if not ok or type(guid) ~= "string" or seen[guid] then return end
 		local ctype = UnitCreatureType and UnitCreatureType(unit)
 		if ctype == "Critter" or ctype == "Kleintier" then return end
 		seen[guid] = true
-		list[#list + 1] = { unit = unit, guid = guid, npc = NpcID(guid), name = UnitName(unit), icon = GetRaidTargetIndex(unit) }
+		local name = UnitName(unit)
+		if RM.IsSecret(name) then name = nil end
+		list[#list + 1] = { unit = unit, guid = guid, npc = NpcID(guid), name = name, icon = GetRaidTargetIndex(unit) }
 	end
 	for i = 1, 40 do check("nameplate" .. i) end
 	for _, u in ipairs({ "target", "mouseover", "focus" }) do check(u) end
 	table.sort(list, function(a, b) return a.guid < b.guid end)
-	return list
+	return list, blocked
 end
 
 function M.MarkAdds()
 	if not CanMark() then RM.Print(L[NO_RIGHTS]) return end
 	local template = RM.Data.GetTemplate(C().markerTemplate)
-	local enemies = VisibleEnemies()
+	local enemies, blocked = VisibleEnemies()
+	if #enemies == 0 and blocked > 0 then
+		RM.Print(L["Im Kampf gibt dieser Client die Gegnerdaten nicht frei. Vorlage vor dem Pull markieren – im Kampf Ziel anklicken und Symbolknopf drücken."])
+		return
+	end
 	if #enemies == 0 then
 		RM.Print(L["Keine Gegner sichtbar. Namensplaketten der Gegner einschalten (Taste V) und näher an die Adds gehen."])
 		return

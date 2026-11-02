@@ -275,17 +275,10 @@ end)
 ---------------------------------------------------------------------------
 local lastHound = 0
 
-RM.On("COMBAT_LOG_EVENT_UNFILTERED", function()
-	if not RM.db or not RM.db.config.coreHound then return end
-	local _, subEvent, _, _, _, _, _, destGUID, destName = CombatLogGetCurrentEventInfo()
-	if subEvent ~= "UNIT_DIED" or not destGUID then return end
-	local npcID = tonumber((select(6, strsplit("-", destGUID))))
-	if not npcID or not RM.Data.CoreHounds[npcID] then return end
-	-- Nur der Raidleiter sagt an (sonst der Plündermeister, wenn der Leiter kein Addon hat)
-	if not (RM.IsLeader() or RM.IAmMasterLooter()) then return end
-	local now = GetTime()
-	if now - lastHound < 20 then return end
-	lastHound = now
+-- Kürschner im Raid ansagen (nach Skill sortiert). hound = Name des toten Hundes (optional).
+-- Mit Combat Log ruft das Addon das selbst auf; in WoW Forever und Midnight per Klick der Raidleitung.
+function Raid.AnnounceSkinners(hound)
+	if not RM.InRaid() then RM.Print(L["Du bist in keinem Schlachtzug."]) return end
 	local list = {}
 	local own = RM.Comm.MySkinning()
 	if own > 0 then list[#list + 1] = { name = RM.Me(), skill = own } end
@@ -298,10 +291,27 @@ RM.On("COMBAT_LOG_EVENT_UNFILTERED", function()
 	table.sort(list, function(a, b) return a.skill > b.skill end)
 	local parts = {}
 	for i = 1, math.min(5, #list) do parts[#parts + 1] = list[i].name .. " (" .. list[i].skill .. ")" end
-	local hound = destName or RM.Data.CoreHounds[npcID]
+	hound = hound or L["Kernhund"]
 	if #parts > 0 then
 		RM.Announce(L["[RaidMaster] "] .. hound .. L[" tot – Kürschner bitte häuten: "] .. table.concat(parts, ", "), false)
 	else
 		RM.Announce(L["[RaidMaster] "] .. hound .. L[" tot – Kürschner bitte häuten!"], false)
 	end
-end)
+end
+
+-- Automatisch nur, wo Addons das Combat Log lesen dürfen (Classic Era, TBC … Cata, MoP)
+if RM.Caps.combatLog then
+	RM.On("COMBAT_LOG_EVENT_UNFILTERED", function()
+		if not RM.db or not RM.db.config.coreHound then return end
+		local _, subEvent, _, _, _, _, _, destGUID, destName = CombatLogGetCurrentEventInfo()
+		if subEvent ~= "UNIT_DIED" or not destGUID then return end
+		local npcID = tonumber((select(6, strsplit("-", destGUID))))
+		if not npcID or not RM.Data.CoreHounds[npcID] then return end
+		-- Nur der Raidleiter sagt an (sonst der Plündermeister, wenn der Leiter kein Addon hat)
+		if not (RM.IsLeader() or RM.IAmMasterLooter()) then return end
+		local now = GetTime()
+		if now - lastHound < 20 then return end
+		lastHound = now
+		Raid.AnnounceSkinners(destName or RM.Data.CoreHounds[npcID])
+	end)
+end

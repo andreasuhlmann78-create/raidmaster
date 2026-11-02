@@ -27,6 +27,9 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
+**3.0.7** – Bereit für WoW Forever
+• Bereitschafts-Check liest Fläschchen und Elixiere im neuen Forever-Client; ist ein Buff nicht lesbar, steht das da statt „kein Fläschchen“. Kernhunde: Knopf **Kürschner ansagen** auf der Seite Raid.
+
 **3.0.6** – Aufgeräumt
 • Das Test-Werkzeug ist jetzt nur noch für den Entwickler da – für euch ändert sich sonst nichts.
 
@@ -44,8 +47,5 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 
 **3.0.1** – Gildenbank
 • Eigener Bereich „Gildenbank“, nur auf dem Bank-Charakter: ganzer Bestand mit Suche, Gold und „An Discord senden“ – im Discord in #gildenbank-bestand.
-
-**3.0.0** – Aufgeräumt, nichts weggefallen
-• 6 Bereiche mit Reitern statt 13 Knöpfen: DKP, Beute, Raid, Werbung, Gilde, Einstellungen.
 
 Ältere Neuerungen stehen im Addon in der Datei LIESMICH.txt.

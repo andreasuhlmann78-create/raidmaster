@@ -1,4 +1,4 @@
-RaidMaster 3.0.5 – DKP, loot and raid leading tools
+RaidMaster 3.0.7 – DKP, loot and raid leading tools
 ====================================================
 
 INSTALLATION
@@ -22,6 +22,21 @@ MAIN FEATURES
   The boss's marker template is selected automatically when the encounter starts.
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
+
+WHAT'S NEW IN 3.0.7 – WoW Forever: modern client
+WoW Forever looks like Classic but runs on the modern client: in combat, addons no longer see names, GUIDs
+and buffs ("secret values") and the combat log is closed to addons. RaidMaster now handles this:
+- Ready check: reads flasks and elixirs via the new aura API (C_UnitAuras), Classic Era keeps the old one.
+  If the client does not provide buffs, the check shows "buffs not readable" instead of a false "no flask".
+  The check only starts out of combat.
+- Core Hounds: on WoW Forever the Raid page has an "Announce skinners" button instead of the automatic
+  announcement (which needs the combat log). Classic Era stays automatic.
+- Template marking: if the client locks enemy data in combat, RaidMaster now says so clearly.
+  Before the pull the template works as usual; in combat, target the enemy and press a marker button.
+- Spell names and item counts use the modern APIs (C_Spell, C_Item) with a fallback.
+
+WHAT'S NEW IN 3.0.6
+- The test tool is now available to the developer only.
 
 WHAT'S NEW IN 3.0.5
 - New "Support" button at the top of the RaidMaster window (also in Settings and /rm donate): opens a small window

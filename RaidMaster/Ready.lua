@@ -42,26 +42,30 @@ local function C() return RM.db.config end
 ---------------------------------------------------------------------------
 -- Eigener Stand (für die Antwort)
 ---------------------------------------------------------------------------
+-- Liefert flask, elixirs, lesbar. lesbar = false, wenn der Client die Buffs nicht hergibt
+-- (keine Aura-API oder "secret values" im Kampf) – dann gilt der Spieler nicht als "ohne Fläschchen".
 local function AuraInfo(unit)
 	local flask, elixirs = nil, 0
-	if not UnitAura then return flask, elixirs end
+	if not RM.CanReadAuras() then return flask, elixirs, false end
+	local flaskWord, elixirWord = (L["Fläschchen"]):lower(), (L["Elixier"]):lower()
 	for i = 1, 40 do
-		local name, _, _, _, _, _, _, _, _, spellId = UnitAura(unit, i, "HELPFUL")
+		local name, spellId = RM.GetBuff(unit, i)
 		if not name then break end
-		local lname = name:lower()
-		if R.FLASKS[spellId] or lname:find("flask", 1, true) or lname:find((L["Fläschchen"]):lower(), 1, true) then
+		if RM.IsSecret(name) or RM.IsSecret(spellId) then return nil, 0, false end
+		local lname = tostring(name):lower()
+		if R.FLASKS[spellId] or lname:find("flask", 1, true) or lname:find(flaskWord, 1, true) then
 			flask = name
-		elseif R.ELIXIRS[spellId] or lname:find("elixir", 1, true) or lname:find((L["Elixier"]):lower(), 1, true) then
+		elseif R.ELIXIRS[spellId] or lname:find("elixir", 1, true) or lname:find(elixirWord, 1, true) then
 			elixirs = elixirs + 1
 		end
 	end
-	return flask, elixirs
+	return flask, elixirs, true
 end
 R.AuraInfo = AuraInfo
 
 function R.MyStatus()
 	local _, class = UnitClass("player")
-	local flask, elixirs = AuraInfo("player")
+	local flask, elixirs, readable = AuraInfo("player")
 	local fr
 	if UnitResistance then fr = select(2, UnitResistance("player", 2)) end
 	local reagents = {}
@@ -70,7 +74,7 @@ function R.MyStatus()
 		if r[1] == 0 then
 			have = GetInventoryItemCount and GetInventoryItemCount("player", 0) or 0
 		else
-			have = GetItemCount and GetItemCount(r[1]) or 0
+			have = RM.GetItemCount and RM.GetItemCount(r[1]) or 0
 		end
 		local name = (r[1] > 0 and (RM.GetItemInfo or GetItemInfo)(r[1])) or L[r[2]]
 		reagents[#reagents + 1] = { name, have or 0, r[3] }
@@ -82,7 +86,7 @@ function R.MyStatus()
 			if cur and max and max > 0 then dur = math.min(dur, math.floor(cur / max * 100)) end
 		end
 	end
-	return { f = flask, e = elixirs, fr = fr, rg = reagents, du = dur }
+	return { f = flask, e = elixirs, fr = fr, rg = reagents, du = dur, au = readable and 1 or 0 }
 end
 
 ---------------------------------------------------------------------------
@@ -97,14 +101,16 @@ end
 function R.Start()
 	if not RM.InRaid() then RM.Print(L["Der Bereitschafts-Check geht nur im Raid."]) return end
 	if not (RM.IsAssist() or RM.CanEdit()) then RM.Print(L["Den Bereitschafts-Check starten Raidleiter und Assistenten."]) return end
+	if InCombatLockdown and InCombatLockdown() then RM.Print(L["Den Bereitschafts-Check bitte außerhalb des Kampfes starten."]) return end
 	R.checkId = tostring(GetServerTime()) .. math.random(100, 999)
 	R.started = GetTime()
 	wipe(R.results)
 	-- alle Raidmitglieder: Buffs selbst prüfen (geht auch ohne Addon)
 	for _, m in ipairs(RM.RaidMembers()) do
 		local unit = (m.name == RM.Me()) and "player" or ("raid" .. m.index)
-		local flask, elixirs = AuraInfo(unit)
-		R.results[m.name] = { class = m.class, flask = flask, elixirs = elixirs, addon = false, online = m.online }
+		local flask, elixirs, readable = AuraInfo(unit)
+		R.results[m.name] = { class = m.class, flask = flask, elixirs = elixirs, addon = false, online = m.online,
+			noAura = not readable }
 	end
 	-- eigener vollständiger Stand
 	R.OnAnswer(RM.Me(), { id = R.checkId, s = R.MyStatus() })
@@ -126,6 +132,8 @@ function R.OnAnswer(sender, d)
 	r.addon = true
 	r.flask = s.f or r.flask
 	r.elixirs = math.max(r.elixirs or 0, tonumber(s.e) or 0)
+	-- Antwort des Spielers konnte die Buffs lesen (au = 1) → Ergebnis gilt; ältere Versionen schicken kein au
+	if s.au == nil or tonumber(s.au) == 1 then r.noAura = nil end
 	r.fr = tonumber(s.fr)
 	r.dur = tonumber(s.du)
 	r.reagents = {}
@@ -149,8 +157,12 @@ RM.Comm.Register("RDYA", function(sender, d) R.OnAnswer(sender, d) end)
 function R.Problems(name, r)
 	local out = {}
 	if r.online == false then out[#out + 1] = L["offline"] return out end
-	if not r.flask then out[#out + 1] = L["kein Fläschchen"] end
-	if (r.elixirs or 0) == 0 then out[#out + 1] = L["keine Elixiere"] end
+	if r.noAura then
+		out[#out + 1] = L["Buffs nicht lesbar"]
+	else
+		if not r.flask then out[#out + 1] = L["kein Fläschchen"] end
+		if (r.elixirs or 0) == 0 then out[#out + 1] = L["keine Elixiere"] end
+	end
 	local frMin = tonumber(C().fireResMin) or 0
 	if frMin > 0 and r.fr and r.fr < frMin then out[#out + 1] = string.format(L["Feuerwid. %d"], r.fr) end
 	for _, x in ipairs(r.reagents or {}) do
@@ -175,8 +187,10 @@ function R.Summary()
 	for _, n in ipairs(names) do
 		local r = R.results[n]
 		if r.online ~= false then
-			if not r.flask then add(L["Ohne Fläschchen"], n) end
-			if (r.elixirs or 0) == 0 then add(L["Ohne Elixiere"], n) end
+			if not r.noAura then
+				if not r.flask then add(L["Ohne Fläschchen"], n) end
+				if (r.elixirs or 0) == 0 then add(L["Ohne Elixiere"], n) end
+			end
 			if frMin > 0 and r.fr and r.fr < frMin then add(string.format(L["Feuerwiderstand unter %d"], frMin), n .. " (" .. r.fr .. ")") end
 			local miss = {}
 			for _, x in ipairs(r.reagents or {}) do
@@ -263,9 +277,10 @@ function R.Refresh()
 		if r.addon then withAddon = withAddon + 1 end
 		data[#data + 1] = {
 			key = n,
-			cells = { RM.ClassColor(r.class, n), r.flask or "–", tostring(r.elixirs or 0), r.fr and tostring(r.fr) or "?",
+			cells = { RM.ClassColor(r.class, n), r.noAura and "?" or (r.flask or "–"), r.noAura and "?" or tostring(r.elixirs or 0), r.fr and tostring(r.fr) or "?",
 				r.dur and (r.dur .. " %") or "?", #probs > 0 and table.concat(probs, ", ") or L["alles da"] },
-			colors = { nil, r.flask and { 0.4, 1, 0.4 } or { 1, 0.4, 0.4 }, (r.elixirs or 0) > 0 and { 0.4, 1, 0.4 } or { 1, 0.6, 0.3 },
+			colors = { nil, r.noAura and { 0.7, 0.7, 0.7 } or (r.flask and { 0.4, 1, 0.4 } or { 1, 0.4, 0.4 }),
+					r.noAura and { 0.7, 0.7, 0.7 } or ((r.elixirs or 0) > 0 and { 0.4, 1, 0.4 } or { 1, 0.6, 0.3 }),
 				nil, (r.dur and r.dur < R.DURABILITY_WARN) and { 1, 0.4, 0.4 } or nil, #probs > 0 and { 1, 0.8, 0.3 } or { 0.4, 1, 0.4 } },
 		}
 	end
