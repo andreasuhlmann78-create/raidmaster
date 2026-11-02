@@ -144,6 +144,7 @@ The **Addons** page shows who in your guild uses which addon and who has an old 
 ## ⚙ Usage
 
 - Minimap button: left-click opens the window, right-click posts the guild ad
+- **Without a guild** the overview shows a hint – the guild pages appear as soon as you join a guild; My week, Addons and Settings work without one
 - Language: always the language of your game client
 - **Features** can be turned on and off individually (Settings > Features)
 - Commands (optional): `/gs`, `/gs group`, `/gs events`, `/gs board`, `/gs where`, `/gs thanks <name>`, `/gs away <days>`, `/gs poll`, `/gs progress`, `/gs attune`, `/gs rules`, `/gs find <recipe>`, `/gs ad`, `/gs donate`

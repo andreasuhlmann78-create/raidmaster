@@ -89,6 +89,7 @@ GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mi
 • Seite **Addons**: wer in der Gilde welches Addon nutzt, wer eine alte Version hat, Öffnen mit einem Klick
 
 **⚙ Bedienung**
+• **Ohne Gilde** zeigt die Übersicht einen Hinweis – die Gildenseiten erscheinen, sobald du in einer Gilde bist. Meine Woche, Addons und Einstellungen gehen auch ohne Gilde
 • Minimap-Knopf: Linksklick öffnet das Fenster, Rechtsklick postet die Gildenwerbung
 • Befehle (wer mag): `/gs`, `/gs gruppe`, `/gs termine`, `/gs brett`, `/gs wo`, `/gs danke Name`, `/gs weg Tage`, `/gs umfrage`, `/gs fortschritt`, `/gs regeln`, `/gs spenden`
 • Jede Funktion lässt sich unter Einstellungen > Funktionen einzeln ein- und ausschalten
