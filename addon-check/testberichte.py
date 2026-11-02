@@ -1,0 +1,345 @@
+#!/usr/bin/env python3
+"""Testberichte der GoldSentinel-Addons einsammeln und auswerten (Prüf-Sitzung).
+
+Weg: Addon (shared/GoldSentinelTest.lua) -> SavedVariables -> RaidMasterUploader -> Discord #testberichte
+     -> dieses Skript (GitHub-Workflow testberichte.yml) -> testberichte/ im Repo -> Prüf-Sitzung.
+
+Aufruf:
+  python3 addon-check/testberichte.py                 Discord-Kanal lesen (DISCORD_BOT_TOKEN), dann auswerten
+  python3 addon-check/testberichte.py --import DATEI  Berichte aus einer Datei übernehmen: SavedVariables (*.lua),
+                                                      testberichte.json(.gz) vom Uploader oder ein einzelner Bericht
+  python3 addon-check/testberichte.py --nur-auswerten status.md/status.json neu schreiben
+
+Ergebnis:
+  testberichte/berichte/<Addon>/<id>.json   jeder Bericht einmal (nach id)
+  testberichte/status.md                    für Menschen: je Addon letzter Testlauf, FEHLER, Fehler im Spiel
+  testberichte/status.json                  maschinenlesbar, mit "offen" (alles, was die Prüf-Sitzung ansehen muss)
+
+Die Berichte kommen von den PCs der Spieler: Sie gelten als ungeprüfte Daten. Es wird nur JSON gelesen, Grössen und
+Namen werden begrenzt, nichts daraus wird ausgeführt.
+"""
+import datetime as dt
+import gzip
+import io
+import json
+import os
+import re
+import sys
+import time
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+OUT = ROOT / "testberichte"
+STORE = OUT / "berichte"
+PREFIX = "GSTEST1"
+CHANNEL = os.environ.get("TESTBERICHTE_KANAL", "testberichte")
+API = "https://discord.com/api/v10"
+HISTORY = 500
+MAX_FILE = 5 * 1024 * 1024
+MAX_REPORT = 512 * 1024
+SAFE = re.compile(r"[^A-Za-z0-9_.\-]")
+LUA_STR = re.compile(r'"(' + PREFIX + r'(?:[^"\\]|\\.)*)"', re.S)
+
+
+# ---------------------------------------------------------------------------
+# Berichte erkennen und prüfen
+# ---------------------------------------------------------------------------
+def lua_unescape(s):
+    out, i = [], 0
+    while i < len(s):
+        c = s[i]
+        if c == "\\" and i + 1 < len(s):
+            n = s[i + 1]
+            if n.isdigit():                                   # \ddd (Byte dezimal)
+                m = re.match(r"\d{1,3}", s[i + 1:])
+                out.append(chr(int(m.group(0))))
+                i += 1 + len(m.group(0))
+                continue
+            out.append({"n": "\n", "t": "\t", "r": "\r", "\\": "\\", '"': '"', "'": "'", "\n": "\n"}.get(n, n))
+            i += 2
+            continue
+        out.append(c)
+        i += 1
+    text = "".join(out)
+    # WoW schreibt UTF-8; \ddd-Bytes wieder zu UTF-8 zusammensetzen
+    try:
+        return text.encode("latin-1").decode("utf-8")
+    except (UnicodeEncodeError, UnicodeDecodeError):
+        return text
+
+
+def clean(rep):
+    """Bericht prüfen und auf erlaubte Felder kürzen. None = unbrauchbar."""
+    if not isinstance(rep, dict) or rep.get("f") != 1 or rep.get("kind") not in ("test", "fehler"):
+        return None
+    addon, rid = str(rep.get("addon") or ""), str(rep.get("id") or "")
+    if not addon or not rid or len(addon) > 60 or len(rid) > 120:
+        return None
+    rep["addon"] = SAFE.sub("_", addon)
+    rep["id"] = SAFE.sub("_", rid)
+    for key in ("results", "errors"):
+        if key in rep and not isinstance(rep[key], list):
+            rep[key] = []
+    if not isinstance(rep.get("counts"), dict):
+        rep["counts"] = {}
+    if not isinstance(rep.get("env"), dict):
+        rep["env"] = {}
+    return rep
+
+
+def from_text(text):
+    """Alle Berichte in einem Text: GSTEST1-Strings (SavedVariables) oder JSON (Liste / einzelner Bericht)."""
+    found = []
+    for m in LUA_STR.finditer(text):
+        raw = lua_unescape(m.group(1))[len(PREFIX):]
+        try:
+            found.append(json.loads(raw))
+        except ValueError:
+            pass
+    if not found:
+        t = text.strip()
+        if t.startswith(PREFIX):
+            t = t[len(PREFIX):]
+        try:
+            data = json.loads(t)
+            items = data if isinstance(data, list) else [data]
+            for x in items:
+                if isinstance(x, str) and x.startswith(PREFIX):
+                    x = json.loads(x[len(PREFIX):])
+                found.append(x)
+        except ValueError:
+            pass
+    return [r for r in (clean(x) for x in found) if r]
+
+
+def from_bytes(name, data):
+    if len(data) > MAX_FILE:
+        return []
+    if name.endswith(".gz") or data[:2] == b"\x1f\x8b":
+        try:
+            data = gzip.GzipFile(fileobj=io.BytesIO(data)).read(MAX_FILE + 1)
+        except (OSError, EOFError, ValueError):
+            return []
+        if len(data) > MAX_FILE:
+            return []
+    return from_text(data.decode("utf-8", "replace"))
+
+
+def store(reports):
+    new = 0
+    for r in reports:
+        p = STORE / r["addon"] / f"{r['id']}.json"
+        if p.exists():
+            continue
+        body = json.dumps(r, ensure_ascii=False, indent=1, sort_keys=True)
+        if len(body) > MAX_REPORT:
+            continue
+        p.parent.mkdir(parents=True, exist_ok=True)
+        p.write_text(body + "\n", encoding="utf-8")
+        new += 1
+    return new
+
+
+# ---------------------------------------------------------------------------
+# Discord lesen
+# ---------------------------------------------------------------------------
+def fetch_discord():
+    import requests
+    token = os.environ.get("DISCORD_BOT_TOKEN", "").strip()
+    if not token:
+        return None, "Secret DISCORD_BOT_TOKEN fehlt (GitHub: Settings -> Secrets and variables -> Actions)."
+    s = requests.Session()
+    s.headers.update({"Authorization": f"Bot {token}", "User-Agent": "GoldSentinel-Testberichte (github actions)"})
+
+    def get(path, **params):
+        for _ in range(6):
+            r = s.get(API + path, params=params, timeout=30)
+            if r.status_code == 429:
+                time.sleep(float(r.json().get("retry_after", 1)) + 0.2)
+                continue
+            if r.status_code in (401, 403):
+                raise PermissionError(f"Discord {r.status_code} bei {path}")
+            r.raise_for_status()
+            return r.json()
+        raise RuntimeError(f"Discord: zu viele Anfragen bei {path}")
+
+    try:
+        guilds = get("/users/@me/guilds")
+    except PermissionError as e:
+        return None, f"Discord lehnt den Token ab ({e})."
+    want = os.environ.get("DISCORD_GUILD_ID", "").strip()
+    guild = next((g for g in guilds if g["id"] == want), None) if want else (guilds[0] if guilds else None)
+    if not guild:
+        return None, "Der Bot ist auf keinem Server (oder DISCORD_GUILD_ID passt nicht)."
+    chans = [c for c in get(f"/guilds/{guild['id']}/channels") if c.get("type") in (0, 5) and c.get("name") == CHANNEL]
+    if not chans:
+        return None, f"Kanal #{CHANNEL} gibt es (noch) nicht – der Bot legt ihn bei /uploader an."
+    reports, before, seen = [], None, 0
+    try:
+        while seen < HISTORY:
+            params = {"limit": 100}
+            if before:
+                params["before"] = before
+            batch = get(f"/channels/{chans[0]['id']}/messages", **params)
+            if not batch:
+                break
+            seen += len(batch)
+            before = batch[-1]["id"]
+            for m in batch:
+                for a in m.get("attachments", []):
+                    fn = a.get("filename", "")
+                    if not re.search(r"\.(json|json\.gz|lua|gz)$", fn) or a.get("size", 0) > MAX_FILE:
+                        continue
+                    if not str(a.get("url", "")).startswith("https://cdn.discordapp.com/"):
+                        continue
+                    r = s.get(a["url"], timeout=60)
+                    if r.ok:
+                        reports += from_bytes(fn, r.content)
+                if m.get("content", "").lstrip().startswith(PREFIX):
+                    reports += from_text(m["content"])
+            if len(batch) < 100:
+                break
+    except PermissionError:
+        return None, f"Der Bot darf #{CHANNEL} nicht lesen."
+    return reports, None
+
+
+# ---------------------------------------------------------------------------
+# Auswerten
+# ---------------------------------------------------------------------------
+def load_all():
+    out = {}
+    if not STORE.exists():
+        return out
+    for p in sorted(STORE.glob("*/*.json")):
+        try:
+            r = json.loads(p.read_text(encoding="utf-8"))
+        except ValueError:
+            continue
+        out.setdefault(r.get("addon", p.parent.name), []).append(r)
+    for lst in out.values():
+        lst.sort(key=lambda r: (r.get("time") or 0, r.get("id")))
+    return out
+
+
+def ts(t):
+    try:
+        return dt.datetime.fromtimestamp(int(t), dt.timezone.utc).strftime("%d.%m.%Y %H:%M UTC")
+    except (TypeError, ValueError, OverflowError, OSError):
+        return "?"
+
+
+def client_of(r):
+    e = r.get("env", {})
+    return f"{e.get('flavor') or '?'} {e.get('client') or ''} (Interface {e.get('interface') or '?'})".strip()
+
+
+def evaluate(note=None):
+    data = load_all()
+    now = time.time()
+    md = ["# Testberichte der GoldSentinel-Addons", "",
+          f"Ausgewertet: {dt.datetime.now(dt.timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}"]
+    if note:
+        md += ["", f"**Hinweis:** {note}"]
+    md += ["", "Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. "
+           "Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.", ""]
+    status = {"ausgewertet": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"), "hinweis": note,
+              "addons": {}, "offen": []}
+    if not data:
+        md.append("Noch keine Berichte.")
+    md += ["| Addon | letzter Testlauf | Version | Client | OK | FEHLER | übersprungen | im Client prüfen | Fehler im Spiel (7 Tage) |",
+           "|---|---|---|---|---|---|---|---|---|"] if data else []
+    details = []
+    for addon in sorted(data):
+        lst = data[addon]
+        tests = [r for r in lst if r.get("kind") == "test"]
+        last = tests[-1] if tests else None
+        # Fehler im Spiel der letzten 7 Tage, zusammengefasst
+        agg = {}
+        for r in lst:
+            if (r.get("time") or 0) < now - 7 * 86400:
+                continue
+            for e in r.get("errors") or []:
+                if not isinstance(e, dict):
+                    continue
+                k = (str(e.get("wo")), str(e.get("msg")))
+                a = agg.setdefault(k, {"wo": k[0], "msg": k[1], "count": 0, "versionen": set(), "clients": set(),
+                                       "zuletzt": 0, "stack": e.get("stack")})
+                a["count"] += int(e.get("count") or 1)
+                a["versionen"].add(str(e.get("version") or r.get("version")))
+                a["clients"].add(client_of(r))
+                a["zuletzt"] = max(a["zuletzt"], int(e.get("last") or r.get("time") or 0))
+        errs = sorted(agg.values(), key=lambda a: -a["count"])
+        c = (last or {}).get("counts", {})
+        md.append(f"| {addon} | {ts(last['time']) if last else '–'} | {last.get('version') if last else '–'} | "
+                  f"{client_of(last) if last else '–'} | {c.get('ok', '–')} | {c.get('fehler', '–')} | "
+                  f"{c.get('uebersprungen', '–')} | {c.get('client', '–')} | {sum(a['count'] for a in errs)} |")
+        st = {"berichte": len(lst), "letzter_test": last and {k: last.get(k) for k in ("id", "version", "time", "counts")},
+              "fehler_tests": [], "fehler_spiel": []}
+        d = [f"## {addon}", ""]
+        # letzter Testlauf je Client (Forever und alter Client getrennt)
+        per_client = {}
+        for r in tests:
+            per_client[(r.get("env", {}).get("flavor"), r.get("version"))] = r
+        for (flavor, ver), r in sorted(per_client.items(), key=lambda x: x[1].get("time") or 0)[-4:]:
+            cc = r.get("counts", {})
+            d.append(f"**Testlauf {ver} · {client_of(r)} · {ts(r.get('time'))}** – OK {cc.get('ok')} · "
+                     f"FEHLER {cc.get('fehler')} · übersprungen {cc.get('uebersprungen')} · im Client prüfen {cc.get('client')}"
+                     + (f" · Sandbox {r.get('sandbox')}" if r.get("sandbox") else ""))
+            for e in r.get("results") or []:
+                if not isinstance(e, dict) or e.get("status") == "OK":
+                    continue
+                extra = " | ".join(f"{k}: {e[k]}" for k in ("lua", "ergebnis", "erwartet", "grund", "anleitung") if e.get(k))
+                d.append(f"- [{e.get('status')}] {e.get('id')} {e.get('bereich')} – {e.get('name')}" + (f" ({extra})" if extra else ""))
+                if e.get("status") == "FEHLER" and r is last:
+                    item = {"addon": addon, "art": "test", "version": ver, "client": client_of(r), "id": e.get("id"),
+                            "name": e.get("name"), "detail": extra, "bericht": r.get("id")}
+                    st["fehler_tests"].append(item)
+                    status["offen"].append(item)
+            d.append("")
+        if errs:
+            d.append("**Fehler im Spiel (letzte 7 Tage)**")
+            for a in errs[:30]:
+                d.append(f"- {a['count']}× `{a['wo']}`: {a['msg']} – Version {', '.join(sorted(a['versionen']))} · "
+                         f"{', '.join(sorted(a['clients']))} · zuletzt {ts(a['zuletzt'])}")
+                item = {"addon": addon, "art": "spiel", "wo": a["wo"], "msg": a["msg"], "anzahl": a["count"],
+                        "versionen": sorted(a["versionen"]), "clients": sorted(a["clients"]), "stack": a.get("stack")}
+                st["fehler_spiel"].append(item)
+                status["offen"].append(item)
+            d.append("")
+        status["addons"][addon] = st
+        details += d
+    md += [""] + details
+    OUT.mkdir(parents=True, exist_ok=True)
+    (OUT / "status.md").write_text("\n".join(md).rstrip() + "\n", encoding="utf-8")
+    (OUT / "status.json").write_text(json.dumps(status, ensure_ascii=False, indent=1, default=list) + "\n", encoding="utf-8")
+    return status
+
+
+def main(argv):
+    note = None
+    if "--import" in argv:
+        i = argv.index("--import")
+        total = 0
+        for f in argv[i + 1:]:
+            if f.startswith("--"):
+                break
+            p = Path(f)
+            reps = from_bytes(p.name, p.read_bytes())
+            n = store(reps)
+            total += n
+            print(f"{p.name}: {len(reps)} Berichte gefunden, {n} neu")
+        print(f"neu gespeichert: {total}")
+    elif "--nur-auswerten" not in argv:
+        reps, note = fetch_discord()
+        if reps is not None:
+            print(f"Discord: {len(reps)} Berichte gelesen, {store(reps)} neu")
+        else:
+            print(f"Discord: {note}")
+    st = evaluate(note)
+    print(f"offen: {len(st['offen'])} (testberichte/status.md)")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

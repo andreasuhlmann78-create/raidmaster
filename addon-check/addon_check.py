@@ -50,10 +50,11 @@ EXTRA_DIRS = []
 #   "version" : Kopien mit gleicher VERSION müssen gleich sein; ältere Kopien nur Warnung
 SHARED = {
     "GoldSentinelGame.lua": "exact",
+    "GoldSentinelTest.lua": "exact",
     "GoldSentinelDev.lua": "version",
 }
 # Wer GoldSentinelGame selbst nachbaut (statt die Datei zu kopieren), schreibt das hier:
-REIMPL = re.compile(r"_G\.GoldSentinelGame\s*=|^\s*GoldSentinelGame\s*=", re.M)
+REIMPL = re.compile(r"_G\.GoldSentinel(?:Game|Test)\s*=|^\s*GoldSentinel(?:Game|Test)\s*=", re.M)
 
 # Bekannte Fallen der modernen API. Jede Regel: Muster im Code, Ersatz, der in DERSELBEN Datei vorkommen muss
 # (sonst Warnung), und eine kurze Erklärung. Kommentarzeilen werden vorher entfernt.
@@ -78,6 +79,8 @@ TRAPS = [
 ]
 
 GAME_TESTS = SHARED_DIR / "tests" / "test_goldsentinelgame.py"
+# alle Tests der gemeinsamen Dateien und des Prüfsystems (shared/tests/test_*.py, addon-check/test_*.py)
+ALL_TESTS = sorted((SHARED_DIR / "tests").glob("test_*.py")) + sorted(Path(__file__).resolve().parent.glob("test_*.py"))
 
 
 # ---------------------------------------------------------------------------
@@ -424,6 +427,8 @@ def check_zip(path, shared_ref=None, dev_max=None):
             if "GoldSentinelGame.lua" in files and own:
                 if files.index("GoldSentinelGame.lua") > files.index(own[0]):
                     err(f"{t}: GoldSentinelGame.lua muss vor den eigenen Dateien stehen (vor {own[0]})")
+            if "GoldSentinelTest.lua" in files and own and files.index("GoldSentinelTest.lua") > files.index(own[0]):
+                err(f"{t}: GoldSentinelTest.lua muss vor den eigenen Dateien stehen (vor {own[0]})")
         vs = {v for v in versions.values() if v}
         if len(vs) > 1:
             err(f"{folder}: .toc-Dateien mit unterschiedlicher Version: " +
@@ -470,7 +475,7 @@ def check_zip(path, shared_ref=None, dev_max=None):
             err(msg)
 
     # gemeinsame Dateien
-    has_game = False
+    has_game = has_test = False
     for n in names:
         base = n.rsplit("/", 1)[-1]
         data = z.read(n)
@@ -480,6 +485,8 @@ def check_zip(path, shared_ref=None, dev_max=None):
             v = lua_version_const(data.decode("utf-8", "replace"))
             if base == "GoldSentinelGame.lua":
                 has_game = True
+            if base == "GoldSentinelTest.lua":
+                has_test = True
             if rule == "exact":
                 if not ref:
                     warn(f"{n}: Vorlage shared/{base} fehlt im Repo – Vergleich übersprungen")
@@ -518,6 +525,9 @@ def check_zip(path, shared_ref=None, dev_max=None):
              "Die Prüfung beim CurseForge-Upload bzw. im GitHub-Lauf prüft sie vollständig.")
     if not has_game and any(f.lower() != "raidmasteruploader" for f in folders):
         warn("GoldSentinelGame.lua fehlt (gemeinsame Versionserkennung noch nicht eingebaut)")
+    if not has_test and any(f.lower() != "raidmasteruploader" for f in folders) and not all(
+            f.lower().endswith("_data") for f in folders):
+        warn("GoldSentinelTest.lua fehlt (Testberichte und Fehlermeldungen an die Prüfung noch nicht eingebaut)")
     if not any(l == "FEHLER" for l, _ in res):
         res.insert(0, ("OK", "keine Fehler"))
     return res
@@ -587,14 +597,19 @@ def zip_top_folders(path: Path):
 
 
 def run_game_tests():
-    if not GAME_TESTS.exists():
+    if not ALL_TESTS:
         return None
     try:
         import lupa.lua51  # noqa: F401  (die Tests brauchen Lua 5.1 über lupa)
     except Exception:
         return "skip", ["nicht ausgeführt – lupa fehlt (pip install lupa); im GitHub-Lauf werden sie ausgeführt"]
-    r = subprocess.run([sys.executable, "-I", str(GAME_TESTS)], capture_output=True, text=True)
-    return r.returncode, (r.stdout + r.stderr).strip().splitlines()[-1:] if (r.stdout or r.stderr) else []
+    code, tails = 0, []
+    for t in ALL_TESTS:
+        r = subprocess.run([sys.executable, "-I", str(t)], capture_output=True, text=True)
+        out = (r.stdout + r.stderr).strip().splitlines()
+        tails.append(out[-1] if out else f"{t.name}: keine Ausgabe")
+        code = code or r.returncode
+    return code, ["; ".join(tails)]
 
 
 def main(argv):
@@ -610,6 +625,8 @@ def main(argv):
 
     if "GoldSentinelGame.lua" in shared_ref:
         lines.append(f"Vorlage shared/GoldSentinelGame.lua: Version {shared_ref['GoldSentinelGame.lua']['version']}")
+    if "GoldSentinelTest.lua" in shared_ref:
+        lines.append(f"Vorlage shared/GoldSentinelTest.lua: Version {shared_ref['GoldSentinelTest.lua']['version']}")
     t = run_game_tests()
     if t is not None:
         code, tail = t

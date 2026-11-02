@@ -11,7 +11,7 @@ on:
       - "download/*.zip"
       - "announce/*.zip"
       - "shared/**"
-      - "addon-check/addon_check.py"
+      - "addon-check/*.py"
   pull_request:
     paths:
       - "download/*.zip"

@@ -54,3 +54,13 @@ veröffentlicht wurden (eine davon auf CurseForge).
 
 Neue Falle: Liste `TRAPS` in `addon_check.py` (Muster, Ersatz in derselben Datei, Erklärung).
 Neue gemeinsame Datei: Liste `SHARED` (Regel `exact` oder `version`).
+
+## Testberichte aus dem Spiel (`shared/GoldSentinelTest.lua`)
+
+Jedes Addon kopiert `shared/GoldSentinelTest.lua` unverändert (Regel `exact`, in der `.toc` direkt nach
+`GoldSentinelGame.lua`). Damit schreiben die Testroutinen im Spiel ihre Ergebnisse und die abgefangenen Lua-Fehler in
+die SavedVariables. Der RaidMasterUploader schickt sie an Discord #testberichte, der Workflow `testberichte.yml` holt
+sie nach `testberichte/` (Skript `addon-check/testberichte.py`, Tests `addon-check/test_testberichte.py`).
+Fehlt die Datei in einem Addon, meldet die Prüfung eine Warnung. Ändern nur hier, mit höherer `VERSION`, danach
+`python3 -I shared/tests/test_goldsentineltest.py`.
+

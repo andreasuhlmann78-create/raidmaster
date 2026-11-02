@@ -1,0 +1,48 @@
+name: Testberichte
+
+# Holt die Testberichte und Fehlermeldungen der GoldSentinel-Addons aus dem Discord-Kanal #testberichte
+# (dorthin schickt sie der RaidMasterUploader vom PC des Spielers) und wertet sie aus.
+# Ergebnis: testberichte/status.md (lesen), testberichte/status.json (maschinenlesbar, "offen" = für die Prüf-Sitzung),
+#           testberichte/berichte/<Addon>/<id>.json (jeder Bericht einmal).
+# Braucht das Secret DISCORD_BOT_TOKEN (Settings -> Secrets and variables -> Actions), wie die Discord-Prüfung.
+# Läuft alle 30 Minuten, von Hand (Actions -> Testberichte -> Run workflow) und wenn sich das Skript ändert.
+on:
+  schedule:
+    - cron: "17,47 * * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "addon-check/testberichte.py"
+      - ".github/workflows/testberichte.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: testberichte
+  cancel-in-progress: false
+
+jobs:
+  sammeln:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - name: Berichte holen und auswerten
+        env:
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          DISCORD_GUILD_ID: ${{ vars.DISCORD_GUILD_ID }}
+        run: python3 addon-check/testberichte.py
+      - name: Speichern
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add testberichte/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Testberichte: neue Berichte [skip ci]"
+          for i in 1 2 3; do git pull --rebase && git push && break; sleep 5; done
