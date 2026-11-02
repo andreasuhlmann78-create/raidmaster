@@ -10,6 +10,10 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.8
+
+- Shared game-version detection (GoldSentinelGame.lua) updated to version 2: it also wins over early, withdrawn copies that other GoldSentinel addons briefly shipped, so loading several GoldSentinel addons together causes no errors. Nothing changes for players.
+
 ### Version 0.9.7
 
 - Uses the shared game-version detection of all GoldSentinel addons (GoldSentinelGame.lua): Classic Era, WoW Forever and TBC are detected the same way everywhere, with the shared secret-value guard and first/last name comparison. `/gsgame` shows what was detected. Nothing changes for players.
@@ -28,11 +32,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 ### Version 0.9.3
 
 - **Guild name**: the guild master can set a name for GuildSentinel under Leadership > Rank rights. It applies to everyone in the guild with the addon (ad, chronicle, rules, welcome guide, header). Empty = the name from the game. Only the guild master can change it.
-
-### Version 0.9.2
-
-- **Professions on WoW Forever**: GuildSentinel now also reads the new retail-style profession window. The game client decides the way: WoW Forever uses the new window, Classic Era and TBC the classic one as before. Linked professions, guild professions and NPC windows are not read.
-- The "Open next profession" button opens the new window directly on WoW Forever if needed.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
