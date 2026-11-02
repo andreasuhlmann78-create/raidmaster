@@ -48,12 +48,12 @@ BuffSentinel ist dein Klassen-Helfer für den Kampf: Es meldet sich genau dann, 
 • Offene Welt, Dungeons, Raids und Schlachtfelder einzeln ein- und ausschaltbar
 
 **🌍 Alle WoW-Versionen, alle Klassen**
-• Classic Era / SoD / Hardcore, **WoW Forever**, TBC, Wrath, Titan Reforged, Cataclysm und MoP Classic – mit vollem Umfang
-• Retail (Midnight): nur Buff-Erinnerungen ausserhalb des Kampfes, weil Blizzard dort Buffs, Debuffs und Cooldowns im Kampf für Addons sperrt
+• Classic Era / SoD / Hardcore, TBC, Wrath, Titan Reforged, Cataclysm und MoP Classic – mit vollem Umfang
+• **WoW Forever** und Retail (Midnight): Buff-Erinnerungen vor dem Pull und ausserhalb des Kampfes. Beide laufen auf dem modernen Client, der Buffs, Debuffs und Cooldowns im Kampf für Addons sperrt – für Procs im Kampf dort den Cooldown Manager des Spiels nutzen
 • Alle Klassen der jeweiligen Version, inklusive Todesritter und Mönch
 
 **🎓 Lernt selbst dazu**
-• Trifft BuffSentinel auf einen **neuen Proc** oder eine **neue Fähigkeit**, die noch nicht in seinen Daten steht (z. B. Neuheiten in **WoW Forever**), nimmt es sie **automatisch** auf
+• Trifft BuffSentinel auf einen **neuen Proc** oder eine **neue Fähigkeit**, die noch nicht in seinen Daten steht (z. B. neue Talente oder Fähigkeiten), nimmt es sie **automatisch** auf
 • Procs: Wird ein kurzer Buff mehrmals beim Wirken desselben Zaubers verbraucht, bekommt er einen eigenen Proc-Button für diesen Zauber
 • Fähigkeiten mit Abklingzeit kommen in die Cooldown-Leiste, sobald du sie wirkst oder beim Lehrer lernst
 • Entdeckungen werden mit allen BuffSentinel-Nutzern geteilt – was einer lernt, haben alle
