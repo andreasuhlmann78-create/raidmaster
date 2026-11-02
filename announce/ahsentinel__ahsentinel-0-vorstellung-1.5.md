@@ -33,7 +33,7 @@ AHSentinel scannt das Auktionshaus, merkt sich für jedes Item den Preisverlauf 
 • **Qualitätsstufen** (Retail) – Material in mehreren Stufen trägt das Stufen-Symbol hinter dem Namen
 
 **🏷️ Verkaufen**
-• Item anklicken – **Preisvorschlag**, Stapelgröße, Gebühr und Erlös stehen vorab da (in Retail auch aus der Reagenzientasche)
+• Item anklicken – **Preisvorschlag**, Stapelgröße, Gebühr und Erlös stehen vorab da (in Retail auch aus der Reagenzientasche; auf WoW Forever mit der Einstellgebühr von mind. 1 Silber, die nie erstattet wird – günstige Items gehen dann eher zum Händler)
 • **Preisschutz** warnt, bevor du weit unter Wert einstellst; **Serie** stellt alles mit einem Klick pro Auktion ein
 • **Meine Auktionen** – unterboten? abbrechen und günstiger neu einstellen; **Neu einstellen** für Zurückgekommenes
 • **Meldung bei Verkauf** mit Erlös und Gewinn

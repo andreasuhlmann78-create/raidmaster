@@ -32,7 +32,7 @@ Ein Knopf in der Übersicht (oder `/ahs heute`) zeigt, **was gerade am meisten G
 ⭐ **Qualitätsstufen** (Retail) – Material und Hergestelltes in mehreren Stufen trägt das Stufen-Symbol hinter dem Namen, z. B. dreimal Bismut auseinanderzuhalten
 
 ## 🏷️ Verkaufen
-📦 Item anklicken – **Preisvorschlag**, Stapelgröße, Gebühr und Erlös stehen vorab da (in Retail auch aus der Reagenzientasche)
+📦 Item anklicken – **Preisvorschlag**, Stapelgröße, Gebühr und Erlös stehen vorab da (in Retail auch aus der Reagenzientasche; auf WoW Forever mit der Einstellgebühr von mind. 1 Silber, die nie erstattet wird – günstige Items gehen dann eher zum Händler)
 ✅ Nach dem Einstellen und Abbrechen steht im Fenster, was passiert ist
 🛡️ **Preisschutz** – warnt, bevor du weit unter Wert einstellst
 ⚡ **Serie** – alles mit einem Klick pro Auktion einstellen
