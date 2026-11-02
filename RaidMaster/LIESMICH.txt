@@ -1,4 +1,4 @@
-RaidMaster 3.0.11 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 3.0.12 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,15 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+NEU IN 3.0.12 – Knopf "Meine Berufe einlesen" in WoW Forever
+- Im modernen Client (WoW Forever, Retail) öffnet der Knopf die Berufsfenster über die Fertigkeitslinie
+  (C_TradeSkillUI.OpenTradeSkill) statt über Zauber – dort sind Berufe keine Zauber im Zauberbuch.
+  Klappt das nicht, versucht er es wie bisher über den Zauber.
+- Die Liste kommt aus der Berufsübersicht; Kräuterkunde, Kürschnerei, Angeln und Archäologie (ohne Rezeptfenster)
+  werden übersprungen.
+- Jeder Klick öffnet den nächsten Beruf, auch wenn das Fenster den Beruf anders nennt als die Übersicht.
+- Classic Era, TBC, Wrath, Cata und MoP Classic laufen genau wie bisher. Im Forever-Client noch zu testen.
 
 NEU IN 3.0.11 – Berufe einlesen in WoW Forever
 - "Meine Berufe einlesen" liest im modernen Client (WoW Forever, Retail) Beruf, Stufe, Rezepte und besondere

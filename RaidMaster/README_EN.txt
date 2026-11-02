@@ -1,4 +1,4 @@
-RaidMaster 3.0.11 – DKP, loot and raid leading tools
+RaidMaster 3.0.12 – DKP, loot and raid leading tools
 ====================================================
 
 INSTALLATION
@@ -22,6 +22,13 @@ MAIN FEATURES
   The boss's marker template is selected automatically when the encounter starts.
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
+
+WHAT'S NEW IN 3.0.12 – "Read my professions" button on WoW Forever
+- On the modern client (WoW Forever, Retail) the button opens the profession windows via their skill line
+  (C_TradeSkillUI.OpenTradeSkill) instead of spells; if that fails it falls back to the spell as before.
+- The list comes from the profession overview; Herbalism, Skinning, Fishing and Archaeology (no recipe window)
+  are skipped. Each click opens the next profession, even if the window names it differently.
+- Classic Era, TBC, Wrath, Cata and MoP Classic behave exactly as before.
 
 WHAT'S NEW IN 3.0.11 – Reading professions on WoW Forever
 - "Read my professions" now uses the modern profession API (C_TradeSkillUI) on WoW Forever and Retail:
