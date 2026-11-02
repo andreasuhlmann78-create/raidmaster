@@ -12,4 +12,4 @@ So einbauen (wie `GoldSentinelDev.lua`):
 4. Die eigene Erkennung darauf umstellen, z. B. `local isForever = GoldSentinelGame.IsForever`, mit eigenem Rückfall, falls die Datei fehlt.
 
 Neue Fassung: `VERSION` erhöhen, nur Funktionen ergänzen (nie entfernen oder umbenennen), dann in alle Addons kopieren.
-Erster Nutzer: GuildSentinel ab 0.9.6.
+Nutzer: GuildSentinel ab 0.9.6, ThreatSentinel ab 2.3.0, BuffSentinel ab 0.9.2.
