@@ -10,6 +10,10 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.6
+
+- Uses the shared version detection of all GoldSentinel addons (GoldSentinelGame.lua): Classic Era, WoW Forever and TBC are detected the same way everywhere, with the shared secret-value guard and first/last name comparison. Nothing changes for players.
+
 ### Version 0.9.5
 
 - **WoW Forever hardening**: protection against secret values in combat (player tooltip, addon messages, cooldowns). Applicants who whisper during combat are added after combat instead of being lost.
@@ -29,10 +33,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 - **Professions on WoW Forever**: GuildSentinel now also reads the new retail-style profession window. The game client decides the way: WoW Forever uses the new window, Classic Era and TBC the classic one as before. Linked professions, guild professions and NPC windows are not read.
 - The "Open next profession" button opens the new window directly on WoW Forever if needed.
-
-### Version 0.9.1
-
-- Test mode is now developer-only: the Settings > Test mode tab and `/gs test` only appear for the developer account. Nothing else changes for players.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
