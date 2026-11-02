@@ -1,6 +1,6 @@
 {
-  "geprueft": "2026-11-02T09:05:42Z",
-  "commit": "87f34f6",
+  "geprueft": "2026-11-02T17:22:50Z",
+  "commit": "c5551d4",
   "ok": false,
   "fehler": "Secret DISCORD_BOT_TOKEN fehlt (GitHub: Settings -> Secrets and variables -> Actions).",
   "hinweis": "Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 45 Minuten.",
