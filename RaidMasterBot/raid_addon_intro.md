@@ -27,6 +27,9 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
+**3.0.10** – Zusammenspiel der Addons
+• Mehrere GoldSentinel-Addons gleichzeitig laufen jetzt sauber zusammen (gemeinsame Versionserkennung, Version 2).
+
 **3.0.9** – Gemeinsame Versionserkennung
 • RaidMaster erkennt WoW Forever jetzt genauso wie alle anderen Addons von GoldSentinel – auch falls Blizzard zum Launch die Versionsnummer ändert. `/gsgame` zeigt, was erkannt wurde.
 
@@ -44,8 +47,5 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 
 **3.0.4** – Einteilung Onyxia
 • Onyxia-Einteilung mit allen drei Phasen (Welpen-OTs, Magier, Furchtschutz, Erdstoß-Totem); #einteilung-onyxia mit Grundplan.
-
-**3.0.3** – Raid-Materialien
-• Neue Materialien aus Barrow Deeps, Hyjal und künftigen Raids erkennt RaidMaster beim Droppen; der Bot zeigt sie in #regeln samt den Rezepten, die sie brauchen.
 
 Ältere Neuerungen stehen im Addon in der Datei LIESMICH.txt.

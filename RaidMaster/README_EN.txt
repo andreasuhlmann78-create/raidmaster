@@ -1,4 +1,4 @@
-RaidMaster 3.0.9 – DKP, loot and raid leading tools
+RaidMaster 3.0.10 – DKP, loot and raid leading tools
 ====================================================
 
 INSTALLATION
@@ -22,6 +22,10 @@ MAIN FEATURES
   The boss's marker template is selected automatically when the encounter starts.
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
+
+WHAT'S NEW IN 3.0.10 – GoldSentinelGame version 2
+- The shared version detection is now version 2. It takes precedence over early, withdrawn copies that other
+  GoldSentinel addons briefly shipped, so several addons together run without Lua errors. Nothing else changes.
 
 WHAT'S NEW IN 3.0.9 – Shared version detection (GoldSentinelGame)
 - New: GoldSentinelGame.lua detects the game version the same way in all GoldSentinel addons and tells the two

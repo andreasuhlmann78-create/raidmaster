@@ -1,4 +1,4 @@
-RaidMaster 3.0.9 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 3.0.10 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,11 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+NEU IN 3.0.10 – GoldSentinelGame Version 2
+- Die gemeinsame Versionserkennung kommt in Version 2. Sie setzt sich gegen frühe, zurückgenommene Fassungen
+  durch, die andere Addons von GoldSentinel kurz mitgebracht hatten. Mehrere Addons zusammen laufen so ohne
+  Lua-Fehler. Für euch ändert sich sonst nichts.
 
 NEU IN 3.0.9 – Gemeinsame Versionserkennung (GoldSentinelGame)
 - Neu dabei: GoldSentinelGame.lua – erkennt die Spielversion in allen Addons von GoldSentinel gleich und

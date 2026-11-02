@@ -30,15 +30,29 @@
 --   /gsgame                  -- zeigt im Chat, was erkannt wurde
 --
 -- Fuer Selbsttests: G.SetTestFlavor("forever") erzwingt eine Version, G.SetTestFlavor(nil) hebt das wieder auf.
+--
+-- Version 2: setzt sich gegen fruehe, zurueckgenommene Fassungen durch, die ebenfalls "Version 1" hiessen
+-- (GuildSentinel 0.9.6, ThreatSentinel 2.3.0, BuffSentinel 0.9.2, ProfessionSentinel 0.9.3), und bringt deren
+-- Funktionsnamen als Ersatz mit (G.ProperName, G.ShortName, G.NormName, G.IsClassic, G.interface, G.apiVersion,
+-- G.SameName mit drittem Parameter isUnique), damit Addons mit so einer Fassung keine Lua-Fehler bekommen.
+-- Fuer neuen Code bitte nur die oben beschriebenen Namen benutzen.
 
-local VERSION = 1
+local VERSION = 2
 
+-- Vorhandene Fassung pruefen. "version" ist hier die Dateiversion (Zahl). Eine fruehe Fassung nutzte dafuer
+-- "apiVersion" und speicherte in "version" die Spielversion als Text ("1.60.1") - beides beachten und nie
+-- Text mit Zahl vergleichen (das waere ein Lua-Fehler beim Laden).
 local existing = _G.GoldSentinelGame
-if type(existing) == "table" and (existing.version or 0) >= VERSION then return end
+if type(existing) == "table" then
+    local have = math.max(tonumber(existing.apiVersion) or 0,
+        type(existing.version) == "number" and existing.version or 0)
+    if have >= VERSION then return end
+end
 
 local G = type(existing) == "table" and existing or {}
 _G.GoldSentinelGame = G
 G.version = VERSION
+G.apiVersion = VERSION   -- gleicher Wert unter dem Namen der fruehen Fassung (damit auch sie zurueckweicht)
 
 ---------------------------------------------------------------------------
 -- Spielversion erkennen
@@ -68,6 +82,7 @@ local function ReadBuild()
     G.build = build or "?"
     G.buildDate = date or "?"
     G.toc = tonumber(toc) or 0
+    G.interface = G.toc   -- Ersatzname aus frueher Fassung
 end
 
 local function DetectFlavor()
@@ -99,6 +114,8 @@ function G.Recalc()
     G.IsModern = G.MODERN[G.flavor] == true or (testFlavor == nil and G.HasSecrets) or false
     -- Alte Classic-API (Classic Era, TBC, Wrath, Cata, MoP Classic) - Forever gehoert NICHT dazu
     G.IsOldAPI = not G.IsModern
+    -- Ersatzname aus frueher Fassung: Classic-Versionen mit alter API (ohne "unknown")
+    G.IsClassic = G.IsOldAPI and G.flavor ~= "unknown"
 end
 
 -- Nur fuer Selbsttests: eine Version erzwingen (nil = wieder echt erkennen)
@@ -160,7 +177,7 @@ end
 -- Gleicher Charakter? Gross/klein und Realm egal. In Forever passt auch der Vorname allein, wenn eine Seite
 -- nur den Vornamen kennt ("Rokan" = "Rokan Steinwacht"). Zwei verschiedene volle Namen passen nie.
 -- (Wie RM.SameName in RaidMaster.)
-function G.SameName(a, b)
+function G.SameName(a, b, isUnique)
     a, b = G.Short(a), G.Short(b)
     if not a or not b then return false end
     a = a:lower():gsub("^%s+", ""):gsub("%s+$", "")
@@ -169,8 +186,45 @@ function G.SameName(a, b)
     if a == b then return true end
     if not G.IsForever then return false end
     local fa, fb = a:match("^(%S+)"), b:match("^(%S+)")
-    if (not a:find(" ") or not b:find(" ")) and fa == fb then return true end
+    if (not a:find(" ") or not b:find(" ")) and fa == fb then
+        -- optional (aus frueher Fassung): isUnique(vorname) prueft, ob der Vorname eindeutig ist
+        if type(isUnique) == "function" then
+            local ok, res = pcall(isUnique, fa)
+            return ok and res and true or false
+        end
+        return true
+    end
     return false
+end
+
+---------------------------------------------------------------------------
+-- Ersatznamen aus frueheren Fassungen (nur damit alter Code weiterlaeuft - fuer neuen Code nicht benutzen)
+---------------------------------------------------------------------------
+-- Name ohne Realm, Leerraum gekuerzt (Leerzeichen zwischen Vor- und Nachname bleibt)
+function G.ShortName(name)
+    local s = G.Short(name)
+    if not s then return nil end
+    return (s:gsub("^%s+", ""):gsub("%s+$", ""))
+end
+
+-- Name ohne Realm, Leerraum zusammengefasst, klein geschrieben (zum Vergleichen)
+function G.NormName(name)
+    local s = G.ShortName(name)
+    if not s then return nil end
+    return (s:gsub("%s+", " "):lower())
+end
+
+-- Name ohne Realm, jedes Wort gross (in allen Versionen mit Leerzeichen; Umlaute am Wortanfang bleiben ganz)
+local function CapWord(w)
+    local first = w:match("^[%z\1-\127\194-\244][\128-\191]*") or w:sub(1, 1)
+    return first:upper() .. w:sub(#first + 1):lower()
+end
+function G.ProperName(name)
+    local s = G.ShortName(name)
+    if not s then return nil end
+    s = s:gsub("%s+", " ")
+    if s == "" then return s end
+    return (s:gsub("%S+", CapWord))
 end
 
 ---------------------------------------------------------------------------
