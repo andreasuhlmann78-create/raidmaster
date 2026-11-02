@@ -28,7 +28,7 @@ GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mi
 • Wer von Stufe und Rolle passt, bekommt einen Hinweis im Chat
 • „Ich komme mit“ – ein Klick, und der Suchende sieht dich in seiner Liste, **mit Gegenstandsstufe und Zone**, und lädt dich mit einem Klick ein
 • **Wer ist frei**: Mit einem Klick meldest du dich frei für Dungeon, Raid, Quest-Gruppe oder PvP (1, 2 oder 4 Stunden). In Dungeons, Raids und Schlachtfeldern giltst du automatisch als beschäftigt
-• Auf WoW Forever: alle neuen Dungeons und die Raids Hügelgrabtiefen, Hyjalgipfel und Onyxias Hort
+• Auf WoW Forever: alle neuen Dungeons und die Raids Tiefengrabhügel, Hyjalgipfel und Onyxias Hort
 
 **🛡 Leitung** (nur Offiziere)
 • **Probezeit** mit Online-Tagen, Terminen und Danke – danach „Befördern“ oder „Gespräch“
