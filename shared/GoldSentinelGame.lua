@@ -1,26 +1,23 @@
--- GoldSentinelGame - gemeinsame Spielversions-Erkennung fuer alle Addons von GoldSentinel
+-- GoldSentinelGame - gemeinsame Versionserkennung für alle Addons von GoldSentinel
 -- Copyright (C) 2026 GoldSentinel
 --
--- Diese Datei in jedes Addon kopieren und in der .toc VOR den eigenen Dateien eintragen
--- (direkt nach GoldSentinelDev.lua). Mehrere Addons duerfen sie gleichzeitig mitbringen:
--- die neueste Version gewinnt, alle teilen dieselbe Erkennung.
--- Referenzkopie: raidmaster-Repo, shared/GoldSentinelGame.lua (dort zuerst aendern, VERSION erhoehen).
---
--- WICHTIG: WoW Forever sieht aus wie Classic, laeuft technisch aber auf dem MODERNEN Client
--- (C_TradeSkillUI, C_Container, Retail-Berufsfenster, Secret Values). Forever ist also NIE "Classic".
+-- Diese Datei in jedes Addon kopieren und in der .toc VOR den eigenen Dateien eintragen (wie GoldSentinelDev.lua).
+-- Mehrere Addons dürfen sie gleichzeitig mitbringen: die neueste Version gewinnt, alle teilen dieselbe Erkennung.
 --
 -- Benutzung im Addon:
---   local G = GoldSentinelGame
---   G.flavor        "era" | "forever" | "tbc" | "wrath" | "cata" | "mists" | "retail" | nil (unbekannt)
---   G.IsForever     WoW Forever (Interface 16000-19999 oder WOW_PROJECT_CAMELOT)
---   G.IsEra         Classic Era / Hardcore / Season (Interface 11400-11599)
---   G.IsRetail      Retail (Interface 100000+ oder WOW_PROJECT_MAINLINE)
---   G.IsClassic     Era, TBC, Wrath, Cata, MoP Classic - NICHT Forever
---   G.IsModern      Forever oder Retail (moderne API; auch wenn das Spiel issecretvalue kennt)
---   G.interface     Interface-Nummer (z. B. 16001), G.version ("1.60.1"), G.build ("70707")
---   G.IsSecret(v)   true, wenn v ein Secret Value ist (false, wenn das Spiel keine kennt)
---   G.Safe(v)       v, oder nil wenn v ein Secret Value ist (zum gefahrlosen Rechnen/Vergleichen)
---   G:Status()      Diagnose-Text, /gsgame zeigt ihn im Chat
+--   GoldSentinelGame.flavor          "era" | "forever" | "tbc" | "wrath" | "cata" | "mists" | "retail" | "unknown"
+--   GoldSentinelGame.interface       Interface-Nummer des Clients (z. B. 11508, 16001, 20506, 120105)
+--   GoldSentinelGame.IsForever       WoW Forever (Interface 16000-16999 oder WOW_PROJECT_CAMELOT)
+--   GoldSentinelGame.IsEra / IsTBC / IsRetail
+--   GoldSentinelGame.IsModern        moderner Client mit Addon-Sperren (Forever oder Retail; Kern: issecretvalue vorhanden)
+--   GoldSentinelGame.IsSecret(v)     true, wenn v ein "secret value" ist (false, wenn es issecretvalue nicht gibt)
+--   GoldSentinelGame.Safe(v)         v, oder nil wenn secret
+--   GoldSentinelGame.ProperName(n)   "rokan steinwacht" -> "Rokan Steinwacht" (jedes Wort gross, Realm weg)
+--   GoldSentinelGame.SameName(a, b, isUnique)
+--                                    gleicher Spieler? Forever: Vorname allein passt, wenn eindeutig
+--                                    (isUnique(vorname) optional, z. B. Prüfung gegen die Gildenliste)
+--
+-- Vorbild für die Erkennung: Flavor.lua in ProfessionSentinel.
 
 local VERSION = 1
 
@@ -29,71 +26,73 @@ if type(existing) == "table" and (existing.version or 0) >= VERSION then return 
 
 local G = type(existing) == "table" and existing or {}
 _G.GoldSentinelGame = G
-G.version = VERSION                 -- Version dieser Datei (nicht des Spiels: G.gameVersion)
+G.version = VERSION
 
-local version, build, _, interface = "", "", nil, 0
-if GetBuildInfo then
-    local ok, v, b, _, i = pcall(GetBuildInfo)
-    if ok then version, build, interface = v or "", b or "", tonumber(i) or 0 end
-end
+local _, _, _, interface = GetBuildInfo()
+interface = tonumber(interface) or 0
 G.interface = interface
-G.gameVersion = version
-G.build = build
 
-local function project(name)
-    local p = _G[name]
-    return p ~= nil and WOW_PROJECT_ID ~= nil and WOW_PROJECT_ID == p
-end
-
--- Projekt-Konstanten zuerst (eindeutig), dann die Interface-Nummer
 local flavor
-if project("WOW_PROJECT_CAMELOT") or (interface >= 16000 and interface < 20000) then
-    flavor = "forever"
-elseif project("WOW_PROJECT_MAINLINE") or interface >= 100000 then
-    flavor = "retail"
-elseif interface >= 11400 and interface < 11600 then
-    flavor = "era"
-elseif interface >= 20000 and interface < 30000 then
-    flavor = "tbc"
-elseif interface >= 30000 and interface < 40000 then
-    flavor = "wrath"
-elseif interface >= 40000 and interface < 50000 then
-    flavor = "cata"
-elseif interface >= 50000 and interface < 60000 then
-    flavor = "mists"
+if (WOW_PROJECT_CAMELOT and WOW_PROJECT_ID == WOW_PROJECT_CAMELOT) or (interface >= 16000 and interface < 17000) then
+	flavor = "forever"
+elseif interface >= 100000 or (WOW_PROJECT_MAINLINE and WOW_PROJECT_ID == WOW_PROJECT_MAINLINE) then
+	flavor = "retail"
+elseif interface >= 50000 then
+	flavor = "mists"
+elseif interface >= 40000 then
+	flavor = "cata"
+elseif interface >= 30000 then
+	flavor = "wrath"
+elseif interface >= 20000 then
+	flavor = "tbc"
+elseif interface >= 10000 then
+	flavor = "era"
+else
+	flavor = "unknown"
 end
 
 G.flavor = flavor
 G.IsForever = flavor == "forever"
-G.IsRetail = flavor == "retail"
 G.IsEra = flavor == "era"
-G.IsClassic = flavor == "era" or flavor == "tbc" or flavor == "wrath" or flavor == "cata" or flavor == "mists"
-G.HasSecrets = type(issecretvalue) == "function"
-G.IsModern = G.IsForever or G.IsRetail or (G.HasSecrets and not G.IsClassic)
+G.IsTBC = flavor == "tbc"
+G.IsRetail = flavor == "retail"
+-- moderner Client: Forever und Retail laufen mit denselben Addon-Sperren (secret values im Kampf)
+G.IsModern = G.IsForever or G.IsRetail or (issecretvalue ~= nil)
 
--- Secret Values (Addon-Sperren im Kampf): sicher pruefen, nie selbst einen Fehler ausloesen
+-- secret value? (sicher auch auf Clients ohne issecretvalue)
 function G.IsSecret(v)
-    local f = issecretvalue
-    if type(f) ~= "function" then return false end
-    local ok, res = pcall(f, v)
-    return ok and res == true
+	return issecretvalue ~= nil and issecretvalue(v) and true or false
 end
 
+-- v, oder nil wenn secret
 function G.Safe(v)
-    if G.IsSecret(v) then return nil end
-    return v
+	if G.IsSecret(v) then return nil end
+	return v
 end
 
-function G:Status()
-    return string.format("Spiel: %s · Interface %s · %s.%s · moderne API: %s · Secret Values: %s · GoldSentinelGame v%d",
-        tostring(self.flavor or "unbekannt"), tostring(self.interface), tostring(self.gameVersion), tostring(self.build),
-        self.IsModern and "ja" or "nein", self.HasSecrets and "ja" or "nein", self.version)
+-- Name ohne Realm, jedes Wort mit grossem Anfangsbuchstaben (Umlaute bleiben)
+local function CapWord(w)
+	local first = w:match("^[%z\1-\127\194-\244][\128-\191]*") or w:sub(1, 1)
+	return first:upper() .. w:sub(#first + 1):lower()
+end
+function G.ProperName(name)
+	if type(name) ~= "string" or G.IsSecret(name) then return nil end
+	name = name:gsub("%-.*$", ""):gsub("^%s+", ""):gsub("%s+$", ""):gsub("%s+", " ")
+	if name == "" then return name end
+	return (name:gsub("%S+", CapWord))
 end
 
--- /gsgame: Diagnose im Chat
-if SlashCmdList and not SlashCmdList.GOLDSENTINELGAME then
-    SLASH_GOLDSENTINELGAME1 = "/gsgame"
-    SlashCmdList.GOLDSENTINELGAME = function()
-        if DEFAULT_CHAT_FRAME then DEFAULT_CHAT_FRAME:AddMessage("|cffffb238GoldSentinel|r: " .. G:Status()) end
-    end
+-- gleicher Spieler? Ohne Realm, ohne Gross-/Kleinschreibung. Auf Forever passt ein Vorname allein zum vollen
+-- Namen, wenn einer der beiden nur den Vornamen hat – und (falls isUnique angegeben) der Vorname eindeutig ist.
+function G.SameName(a, b, isUnique)
+	if type(a) ~= "string" or type(b) ~= "string" or G.IsSecret(a) or G.IsSecret(b) then return false end
+	a = a:gsub("%-.*$", ""):lower():gsub("^%s+", ""):gsub("%s+$", "")
+	b = b:gsub("%-.*$", ""):lower():gsub("^%s+", ""):gsub("%s+$", "")
+	if a == b then return true end
+	if not G.IsForever then return false end
+	if a:find(" ") and b:find(" ") then return false end
+	local fa, fb = a:match("^(%S+)"), b:match("^(%S+)")
+	if not fa or fa ~= fb then return false end
+	if isUnique then return isUnique(fa) and true or false end
+	return true
 end
