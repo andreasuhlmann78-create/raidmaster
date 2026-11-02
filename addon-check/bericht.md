@@ -18,10 +18,3 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## levelpilot__levelpilot-3.12.1.LevelPilot.zip: OK
 
-## levelpilot__levelpilot-3.5.0.LevelPilot_Data.zip: OK (5 Warnungen)
-- **WARNUNG** LevelPilot_Data/Tools/forever_maps.lua: liegt im Addon, wird aber nicht geladen (in keiner .toc/.xml) – gehört nicht in die ZIP?
-- **WARNUNG** LevelPilot_Data/Tools/gen_pack.lua: liegt im Addon, wird aber nicht geladen (in keiner .toc/.xml) – gehört nicht in die ZIP?
-- **WARNUNG** LevelPilot_Data/Tools/gen_names.lua: liegt im Addon, wird aber nicht geladen (in keiner .toc/.xml) – gehört nicht in die ZIP?
-- **WARNUNG** Lua-Syntaxfehler in einer Datei, die das Spiel nicht lädt (Werkzeug?): LevelPilot_Data/Tools/gen_pack.lua:35: 'end' expected near '&' – am besten nicht in die ZIP packen
-- **WARNUNG** GoldSentinelGame.lua fehlt (gemeinsame Versionserkennung noch nicht eingebaut)
-
