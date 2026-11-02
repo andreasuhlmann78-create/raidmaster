@@ -28,6 +28,7 @@ Neue Fallen ergänzen: Liste TRAPS unten. Neue gemeinsame Datei: Liste SHARED un
 """
 import hashlib
 import json
+import os
 import re
 import subprocess
 import sys
@@ -121,22 +122,63 @@ def zip_name_version(path: Path):
 
 
 _LUA = None
+SYNTAX_TOOL = None      # womit die Syntax geprüft wird: "lupa (Lua 5.1)", "luac5.1" … oder None = gar nicht
 
 
-def lua_syntax_error(src: str, name: str):
-    """Lua 5.1 (wie im Spiel). Rückgabe: Fehlertext oder None. Ohne lupa: None (Prüfung übersprungen)."""
-    global _LUA
+def _find_luac():
+    import shutil
+    for name in ("luac5.1", "luac51", "luac"):
+        path = shutil.which(name)
+        if not path:
+            continue
+        try:
+            out = subprocess.run([path, "-v"], capture_output=True, text=True, timeout=10)
+            if "5.1" in (out.stdout + out.stderr):
+                return path
+        except Exception:
+            pass
+    return None
+
+
+def syntax_tool():
+    """Lua 5.1 wie im Spiel: zuerst lupa, sonst luac 5.1. Ergebnis merkt sich SYNTAX_TOOL."""
+    global _LUA, SYNTAX_TOOL
     if _LUA is None:
         try:
             import lupa.lua51 as lupa51
             rt = lupa51.LuaRuntime(unpack_returned_tuples=True)
-            _LUA = rt.eval("function(s, n) local f, e = loadstring(s, n) return e end")
+            fn = rt.eval("function(s, n) local f, e = loadstring(s, n) return e end")
+            _LUA, SYNTAX_TOOL = ("lupa", fn), "lupa (Lua 5.1)"
         except Exception:
-            _LUA = False
-    if not _LUA:
+            luac = _find_luac()
+            _LUA, SYNTAX_TOOL = (("luac", luac), Path(luac).name + " (Lua 5.1)") if luac else (False, None)
+    return _LUA
+
+
+def lua_syntax_error(src: str, name: str):
+    """Fehlertext oder None. Ist weder lupa noch luac 5.1 da, wird NICHT geprüft – das meldet check_zip
+    ausdrücklich ("Lua-Syntax NICHT geprüft"), damit ein OK nie fälschlich eine geprüfte Syntax bedeutet."""
+    tool = syntax_tool()
+    if not tool:
         return None
-    err = _LUA(src, "@" + name)
-    return str(err) if err else None
+    kind, impl = tool
+    if kind == "lupa":
+        err = impl(src, "@" + name)
+        return str(err) if err else None
+    import tempfile, os
+    fd, tmp = tempfile.mkstemp(suffix=".lua")
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as fh:
+            fh.write(src)
+        r = subprocess.run([impl, "-p", tmp], capture_output=True, text=True, timeout=60)
+        if r.returncode == 0:
+            return None
+        return (r.stderr or r.stdout).strip().replace(tmp, name)
+    finally:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
 
 
 # ---------------------------------------------------------------------------
@@ -360,6 +402,10 @@ def check_zip(path, shared_ref=None, dev_max=None):
                     line = next((i + 1 for i, l in enumerate(text.splitlines()) if re.search(pat, l)
                                  and not l.lstrip().startswith("--")), "?")
                     warn(f"{n}:{line}: {why}")
+    if not syntax_tool():
+        # streng (GitHub-Lauf, CurseForge-Upload): ohne Syntaxprüfung kein OK
+        (err if os.environ.get("ADDON_CHECK_STRICT") else warn)("Lua-Syntax NICHT geprüft: weder lupa noch luac 5.1 vorhanden (pip install lupa). "
+             "Die Prüfung beim CurseForge-Upload bzw. im GitHub-Lauf prüft sie vollständig.")
     if not has_game and any(f.lower() != "raidmasteruploader" for f in folders):
         warn("GoldSentinelGame.lua fehlt (gemeinsame Versionserkennung noch nicht eingebaut)")
     if not any(l == "FEHLER" for l, _ in res):
@@ -407,6 +453,10 @@ def default_zips():
 def run_game_tests():
     if not GAME_TESTS.exists():
         return None
+    try:
+        import lupa.lua51  # noqa: F401  (die Tests brauchen Lua 5.1 über lupa)
+    except Exception:
+        return "skip", ["nicht ausgeführt – lupa fehlt (pip install lupa); im GitHub-Lauf werden sie ausgeführt"]
     r = subprocess.run([sys.executable, "-I", str(GAME_TESTS)], capture_output=True, text=True)
     return r.returncode, (r.stdout + r.stderr).strip().splitlines()[-1:] if (r.stdout or r.stderr) else []
 
@@ -427,8 +477,13 @@ def main(argv):
     t = run_game_tests()
     if t is not None:
         code, tail = t
-        lines.append(f"Tests der gemeinsamen Datei: {'bestanden' if code == 0 else 'FEHLGESCHLAGEN'} {' '.join(tail)}")
-        failed |= code != 0
+        if code == "skip":
+            lines.append("Tests der gemeinsamen Datei: " + " ".join(tail))
+        else:
+            lines.append(f"Tests der gemeinsamen Datei: {'bestanden' if code == 0 else 'FEHLGESCHLAGEN'} {' '.join(tail)}")
+            failed |= code != 0
+    syntax_tool()
+    lines.append(f"Lua-Syntaxprüfung mit: {SYNTAX_TOOL or 'NICHTS – Syntax wird NICHT geprüft (pip install lupa)'}")
     lines.append("")
 
     for p in zips:

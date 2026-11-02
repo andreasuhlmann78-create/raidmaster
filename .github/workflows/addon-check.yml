@@ -41,6 +41,8 @@ jobs:
       - name: Addons prüfen
         id: check
         continue-on-error: true
+        env:
+          ADDON_CHECK_STRICT: "1"   # hier MUSS die Lua-Syntax geprüft werden
         run: python3 addon-check/addon_check.py --report addon-check/bericht.md
       - name: Bericht in die Zusammenfassung
         if: always()

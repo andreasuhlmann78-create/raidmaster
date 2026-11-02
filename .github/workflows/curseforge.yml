@@ -32,6 +32,7 @@ jobs:
       - name: Neue Versionen auf CurseForge hochladen
         env:
           CF_API_KEY: ${{ secrets.CF_API_KEY }}
+          ADDON_CHECK_STRICT: "1"   # ohne Lua-Syntaxprüfung kein Upload
         run: python3 curseforge/upload.py
       - name: Beschreibung mit den Neuerungen aktualisieren
         if: always()
