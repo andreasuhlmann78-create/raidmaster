@@ -10,6 +10,14 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.9
+
+Fixes from the review:
+- **Officer rights**: players who may only read officer notes no longer count as officers.
+- **Applicant whispers in combat** (WoW Forever): if a message stays protected after combat, GuildSentinel reports once how many could not be read instead of losing them silently.
+- **Player tooltip**: the combat lock applies to every modern client (WoW Forever, Retail).
+- Absence and thanks messages from other players are only accepted when the sender matches exactly.
+
 ### Version 0.9.8
 
 - Shared game-version detection (GoldSentinelGame.lua) updated to version 2: it also wins over early, withdrawn copies that other GoldSentinel addons briefly shipped, so loading several GoldSentinel addons together causes no errors. Nothing changes for players.
@@ -28,10 +36,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 ### Version 0.9.4
 
 - **Without a guild**: instead of empty pages the overview shows a hint – GuildSentinel is a guild tool, and members, events, board, polls, progress, professions, recruitment and the group finder appear once you are in a guild. My week, Addons and Settings stay available. Joining or leaving a guild takes effect right away.
-
-### Version 0.9.3
-
-- **Guild name**: the guild master can set a name for GuildSentinel under Leadership > Rank rights. It applies to everyone in the guild with the addon (ad, chronicle, rules, welcome guide, header). Empty = the name from the game. Only the guild master can change it.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
