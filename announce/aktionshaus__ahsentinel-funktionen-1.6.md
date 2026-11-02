@@ -12,7 +12,7 @@ Das Addon sitzt als eigener Reiter im Auktionshaus. **Sniper** und **Wächter** 
 Ein Knopf in der Übersicht (oder `/ahs heute`) zeigt, **was gerade am meisten Gold bringt** – nach Netto-Gewinn sortiert. **Jede Zeile hat einen Knopf mit dem nächsten Schritt**, alles im selben Fenster:
 • **Prüfen** zeigt das echte aktuelle Angebot, dann **Kaufen** – nie teurer und nie mehr als vorgeschlagen; ist das Angebot weg, steht „nicht mehr lohnend“ da
 • Flips danach direkt **Einstellen**, Taschen-Ware **Prüfen → Einstellen**, zurückgekommene Auktionen **Neu einstellen**
-• Mit **ProfessionSentinel** auch Herstellen: Zutaten kaufen → herstellen → einstellen
+• **Herstellen:** lohnende Rezepte, die du schon kannst – ein Knopf legt die fehlenden Zutaten als Kauf-Zeilen an; mit **ProfessionSentinel** Schritt für Schritt bis zum Einstellen
 🛡️ **Kapitalschutz:** zusammen höchstens die Hälfte deines Golds, kein Vorschlag über 20 %.
 
 ## 📊 Ehrliche Preise

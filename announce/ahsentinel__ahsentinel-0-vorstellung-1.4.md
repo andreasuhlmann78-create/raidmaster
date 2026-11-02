@@ -14,7 +14,7 @@ AHSentinel scannt das Auktionshaus, merkt sich für jedes Item den Preisverlauf 
 • **Jede Zeile hat einen Knopf mit dem nächsten Schritt** – alles im selben Fenster: **Prüfen** zeigt das echte aktuelle Angebot („5× zu je 2g 40s = 12g“), danach **Kaufen**, bei Flips anschließend **Einstellen**
 • Gekauft wird **nie teurer und nie mehr als vorgeschlagen** – ist das Angebot weg oder teurer, steht „nicht mehr lohnend“ da
 • Billig kaufen und wieder einstellen, unter Händler- oder Entzauberwert kaufen, Taschen-Ware einstellen, zurückgekommene Auktionen neu einstellen
-• Mit **ProfessionSentinel** auch Herstellen: Zutaten kaufen → herstellen → einstellen, Schritt für Schritt
+• **Herstellen:** Rezepte, die du schon kannst und die sich lohnen – ein Knopf legt die fehlenden Zutaten als Kauf-Zeilen an. Mit **ProfessionSentinel** zusätzlich fehlende Rezepte, Händler und Drops, Schritt für Schritt bis zum Einstellen
 • **Kapitalschutz:** zusammen höchstens die Hälfte deines Golds, kein Vorschlag über 20 %
 
 **📊 Ehrliche Preise**
