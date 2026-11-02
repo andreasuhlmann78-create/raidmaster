@@ -542,7 +542,8 @@ def dev_versions(zips):
 
 
 def default_zips():
-    """Alle ZIPs in download/ plus die neueste Discord-ZIP je Addon, das nicht in download/ liegt (z. B. LevelPilot)."""
+    """Alle ZIPs in download/ plus die neueste Discord-ZIP je Addon, das nicht in download/ liegt (z. B. LevelPilot).
+    Einzel-ZIPs, deren Addon inzwischen in einer neueren ZIP derselben Reihe steckt, zählen nicht mehr."""
     out, have = [], set()
     for p in sorted(DOWNLOAD.glob("*.zip")):
         if p.stem.endswith("-latest") or p.stem.lower().startswith("raidmasteruploader"):
@@ -556,8 +557,33 @@ def default_zips():
             continue
         if addon not in newest or version_key(addon, ver) > version_key(addon, newest[addon][0]):
             newest[addon] = (ver, p)
+    # Abgelöste Einzel-ZIPs weglassen: Steckt das Addon in einer neueren ZIP derselben Reihe (z. B. das frühere
+    # Datenpaket LevelPilot_Data seit 3.8 in der LevelPilot-ZIP), ist die alte Einzel-ZIP nur noch Archiv.
+    series = {}
+    for p in ANNOUNCE.glob("*__*.zip"):
+        m = re.match(r"^([^_]+__.+?)-(\d+(?:\.\d+)+)\.", p.name)
+        if m:
+            series.setdefault(m.group(1), []).append((tuple(int(x) for x in m.group(2).split(".")), p))
+    for addon, (ver, p) in list(newest.items()):
+        m = re.match(r"^([^_]+__.+?)-(\d+(?:\.\d+)+)\.", p.name)
+        if not m:
+            continue
+        mine = tuple(int(x) for x in m.group(2).split("."))
+        for sv, q in series.get(m.group(1), []):
+            if sv > mine and q != p and addon.lower() in zip_top_folders(q):
+                del newest[addon]
+                break
     out += [p for _, p in sorted(newest.values(), key=lambda x: x[1].name)]
     return out
+
+
+def zip_top_folders(path: Path):
+    """Namen der obersten Ordner einer ZIP (klein geschrieben)."""
+    try:
+        with zipfile.ZipFile(path) as z:
+            return {n.split("/", 1)[0].lower() for n in z.namelist() if "/" in n}
+    except (zipfile.BadZipFile, OSError):
+        return set()
 
 
 def run_game_tests():

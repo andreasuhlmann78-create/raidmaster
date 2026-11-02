@@ -31,6 +31,9 @@ veröffentlicht wurden (eine davon auf CurseForge).
   die anderen laufen weiter.
 - **Bei jedem Push** von ZIPs, `shared/` oder dem Skript (`.github/workflows/addon-check.yml`): prüft alle Addons,
   auch die nur über Discord verteilten (z. B. LevelPilot). Bericht: `addon-check/bericht.md`.
+  Von Discord-ZIPs zählt je Addon nur die neueste. Steckt ein Addon inzwischen in einer neueren ZIP derselben
+  Reihe (z. B. das frühere Datenpaket `LevelPilot_Data` seit 3.8 in der LevelPilot-ZIP), wird die alte Einzel-ZIP
+  nicht mehr geprüft – sie ist nur noch Archiv. Von Hand mit Pfad aufgerufen wird sie trotzdem geprüft.
 - **Im Discord-Bot** (`RaidMasterBot/updater.py`, ab Bot 1.5.92): Beim Übernehmen eines Updates wird jede NEUE
   Addon-ZIP geprüft – aus `download/`, die neueste ZIP je Addon in `announce/` und die gebaute RaidMaster-ZIP.
   Mit Fehlern wird sie nicht übernommen und nicht gepostet (bei Ankündigungen samt Text und Anhängen); im
