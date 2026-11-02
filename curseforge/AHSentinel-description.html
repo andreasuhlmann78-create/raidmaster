@@ -7,6 +7,19 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.0</h3>
+<p><strong>WoW Forever and Retail (modern client) – nothing stays silently empty any more:</strong>
+- <strong>Profession window:</strong> recipes are now read through the modern profession interface
+  (<code>C_TradeSkillUI</code>) when the old one is missing – the profit panel next to the profession window and the
+  crafting suggestions in "Today" work there too. Older game versions keep the old way.
+- <strong>Vendor prices:</strong> read through <code>C_MerchantFrame</code> when the old function is missing. Items that cost
+  a currency or tokens (e.g. Merchant's Favor) are remembered with their exact costs.
+- <strong>Raid supplies:</strong> on WoW Forever the Classic raid template is used (<code>/ahs raid</code>).
+- <strong>Watcher and the 15-minute full scan:</strong> if the server refuses the due full scan after a watcher
+  round, the watcher pauses until the full scan has run.
+- <strong>Sniper:</strong> if WoW blocks the pre-reserved goods purchase (no error, only a blocked-action event),
+  "one notch buys" switches itself off and the sniper goes back to two notches.
+- Translations for the WoW Forever deposit texts from 0.64.2 in all languages.</p>
 <h3>Version 0.64.2</h3>
 <ul>
 <li><strong>WoW Forever: listing fee counted correctly.</strong> On WoW Forever every auction costs <strong>at least
@@ -54,13 +67,6 @@
 <ul>
 <li><strong>Bargain watcher only with a reliable market value:</strong> the watcher used to report "bargains" at 0–10 % of the market value – almost always because the market value itself was wrong (moon price, rare item, price crash). As the watcher buys with the mouse wheel, only a market value you can trust counts now.</li>
 <li><strong>Test mode log:</strong> watcher purchases show as "Sniper buy (watcher)" with the price; goods bought from the buy tab and the sniper show the price too.</li>
-</ul>
-<h3>Version 0.63.3</h3>
-<ul>
-<li><strong>Quality tiers (retail):</strong> crafting reagents and crafted items come in several tiers – so far e.g. "Bismuth" showed three times with no difference. The tier icon now follows the name (buy, market, sell, sniper, ledger …).</li>
-<li><strong>Feedback after posting and cancelling:</strong> instead of "Posting …" / "Cancelling …" staying forever, the window now shows "Posted: …" / "Cancelled: …".</li>
-<li><strong>Daily summary:</strong> showed "+ all your gold since yesterday" when the game briefly reported 0 gold at login. Such a 0 value no longer counts.</li>
-<li><strong>Test mode log:</strong> buying goods (retail) now shows the price, a sniper buy is logged as "Sniper buy" instead of "Buyout".</li>
 </ul>
 <p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
 <hr />

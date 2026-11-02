@@ -12,6 +12,21 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.0
+
+**WoW Forever and Retail (modern client) – nothing stays silently empty any more:**
+- **Profession window:** recipes are now read through the modern profession interface
+  (`C_TradeSkillUI`) when the old one is missing – the profit panel next to the profession window and the
+  crafting suggestions in "Today" work there too. Older game versions keep the old way.
+- **Vendor prices:** read through `C_MerchantFrame` when the old function is missing. Items that cost
+  a currency or tokens (e.g. Merchant's Favor) are remembered with their exact costs.
+- **Raid supplies:** on WoW Forever the Classic raid template is used (`/ahs raid`).
+- **Watcher and the 15-minute full scan:** if the server refuses the due full scan after a watcher
+  round, the watcher pauses until the full scan has run.
+- **Sniper:** if WoW blocks the pre-reserved goods purchase (no error, only a blocked-action event),
+  "one notch buys" switches itself off and the sniper goes back to two notches.
+- Translations for the WoW Forever deposit texts from 0.64.2 in all languages.
+
 ### Version 0.64.2
 
 - **WoW Forever: listing fee counted correctly.** On WoW Forever every auction costs **at least
@@ -61,13 +76,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 - **Bargain watcher only with a reliable market value:** the watcher used to report "bargains" at 0–10 % of the market value – almost always because the market value itself was wrong (moon price, rare item, price crash). As the watcher buys with the mouse wheel, only a market value you can trust counts now.
 - **Test mode log:** watcher purchases show as "Sniper buy (watcher)" with the price; goods bought from the buy tab and the sniper show the price too.
-
-### Version 0.63.3
-
-- **Quality tiers (retail):** crafting reagents and crafted items come in several tiers – so far e.g. "Bismuth" showed three times with no difference. The tier icon now follows the name (buy, market, sell, sniper, ledger …).
-- **Feedback after posting and cancelling:** instead of "Posting …" / "Cancelling …" staying forever, the window now shows "Posted: …" / "Cancelled: …".
-- **Daily summary:** showed "+ all your gold since yesterday" when the game briefly reported 0 gold at login. Such a 0 value no longer counts.
-- **Test mode log:** buying goods (retail) now shows the price, a sniper buy is logged as "Sniper buy" instead of "Buyout".
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
