@@ -12,6 +12,11 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.3
+
+- **The old "AHAnalyzerPro" folder is no longer included.** AHSentinel is the only folder now.
+  If you have started AHSentinel at least once, your old data is already in it and you can delete the folder "AHAnalyzerPro" from Interface\AddOns.
+
 ### Version 0.65.2
 
 - **GoldSentinelGame version 2:** the shared game version detection now also wins against early versions
@@ -52,18 +57,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - Fee per piece = max(1 silver, deposit of a full stack) ÷ stack size. Other game versions are
   unchanged (the deposit is refunded on a sale).
 - Profit calculator: on Forever the 1 silver deposit is included.
-
-### Version 0.64.1
-
-- **"Today" suggests crafting – even without ProfessionSentinel:** AHSentinel now remembers the
-  recipes of each character when you open the profession window. "Today" then suggests the 2–3 most
-  profitable recipes you **already know** (result sells well, at least 10 % profit after the AH cut).
-  The button **Buy reagents** adds a buy row for every missing reagent from the auction house
-  (10 % price margin, nothing bought without your click); reagents from vendors are named in the chat.
-  When everything is there: "All there – craft".
-- With ProfessionSentinel installed, its suggestions are used instead (no duplicates).
-- Characters with a crafting profession but without ProfessionSentinel see a small tip at the bottom
-  of "Today" – **Hide** removes it for good.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
