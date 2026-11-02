@@ -1,0 +1,63 @@
+name: Addon-Prüfung
+
+# Prüft alle Addon-ZIPs (download/ und die neuesten Discord-ZIPs in announce/), sobald sich etwas daran ändert.
+# Ergebnis: addon-check/bericht.md im Repo und die Zusammenfassung im Actions-Lauf.
+# Fehler -> der Lauf wird rot (und der CurseForge-Upload lädt das betroffene Addon nicht hoch).
+# Details: addon-check/README.md. Von Hand: GitHub -> Actions -> Addon-Prüfung -> Run workflow
+on:
+  push:
+    branches: [main]
+    paths:
+      - "download/*.zip"
+      - "announce/*.zip"
+      - "shared/**"
+      - "addon-check/addon_check.py"
+  pull_request:
+    paths:
+      - "download/*.zip"
+      - "announce/*.zip"
+      - "shared/**"
+      - "addon-check/**"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: addon-check
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # ganze Geschichte: kennt alle schon veröffentlichten Versionen
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install lupa
+      - name: Addons prüfen
+        id: check
+        continue-on-error: true
+        run: python3 addon-check/addon_check.py --report addon-check/bericht.md
+      - name: Bericht in die Zusammenfassung
+        if: always()
+        run: cat addon-check/bericht.md >> "$GITHUB_STEP_SUMMARY"
+      - name: Bericht speichern
+        if: always() && github.event_name != 'pull_request'
+        run: |
+          if [ -n "$(git status --porcelain addon-check/bericht.md)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add addon-check/bericht.md
+            git commit -m "Addon-Prüfung: Bericht [skip ci]"
+            git pull --rebase -q || true
+            git push || true
+          fi
+      - name: Ergebnis
+        if: steps.check.outcome == 'failure'
+        run: |
+          echo "::error::Die Addon-Prüfung hat Fehler gefunden – siehe addon-check/bericht.md"
+          exit 1

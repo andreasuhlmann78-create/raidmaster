@@ -13,6 +13,7 @@ download/ liegt (oder curseforge/projects.json geändert wurde).
 
 Aufruf:  python3 curseforge/upload.py [Addon-Name ...] [--dry-run]
 """
+import importlib.util
 import json
 import os
 import re
@@ -173,6 +174,22 @@ def save_state(state):
     STATE.write_text(json.dumps(state, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
 
 
+def addon_check(zp):
+    """Prüft die ZIP mit addon-check/addon_check.py. Rückgabe: Liste der Fehler (leer = darf hoch).
+    Fehlt das Prüfskript, wird NICHT hochgeladen (lieber kein Upload als ein ungeprüfter)."""
+    path = ROOT / "addon-check" / "addon_check.py"
+    if not path.exists():
+        return ["addon-check/addon_check.py fehlt – Upload aus Sicherheitsgründen gestoppt"]
+    spec = importlib.util.spec_from_file_location("addon_check", path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    res = mod.check_zip(zp)
+    for level, text in res:
+        if level == "WARNUNG":
+            print(f"::warning::{zp.name}: {text}")
+    return [text for level, text in res if level == "FEHLER"]
+
+
 def main():
     dry = "--dry-run" in sys.argv
     wanted = [a for a in sys.argv[1:] if not a.startswith("--")]
@@ -212,6 +229,14 @@ def main():
 
         if version in state.get(addon, []):
             print(f"{addon}: {display} wurde schon hochgeladen - nichts zu tun")
+            continue
+
+        problems = addon_check(zp)
+        if problems:
+            for text in problems:
+                print(f"::error::{zp.name}: {text}")
+            print(f"{addon}: {display} NICHT hochgeladen – die Addon-Prüfung hat Fehler gefunden (siehe oben)")
+            failed = True
             continue
 
         if cf_versions is None:

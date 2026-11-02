@@ -23,10 +23,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # ganze Geschichte: die Addon-Prüfung kennt so alle schon veröffentlichten Versionen
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - run: pip install requests markdown
+      - run: pip install requests markdown lupa
       - name: Neue Versionen auf CurseForge hochladen
         env:
           CF_API_KEY: ${{ secrets.CF_API_KEY }}
