@@ -16,5 +16,5 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## ThreatSentinel-2.4.2.zip: OK
 
-## levelpilot__levelpilot-3.12.2.LevelPilot.zip: OK
+## levelpilot__levelpilot-3.12.3.LevelPilot.zip: OK
 
