@@ -12,6 +12,13 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.1
+
+- **Shared game version detection:** AHSentinel now uses **GoldSentinelGame**, the same detection all
+  GoldSentinel addons get step by step. WoW Forever always counts as the modern client there, never as Classic.
+- New: `/gsgame` shows in the chat which game version was detected; `/ahs debug` shows it too.
+- Nothing else changes for you.
+
 ### Version 0.65.0
 
 **WoW Forever and Retail (modern client) – nothing stays silently empty any more:**
@@ -71,11 +78,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **ProfessionSentinel:** its "craft today" suggestions appear in "Today"; the button walks you
   through buying the reagents, crafting and posting.
 - Disenchant texts from 0.63.0 are now translated into all languages.
-
-### Version 0.63.4
-
-- **Bargain watcher only with a reliable market value:** the watcher used to report "bargains" at 0–10 % of the market value – almost always because the market value itself was wrong (moon price, rare item, price crash). As the watcher buys with the mouse wheel, only a market value you can trust counts now.
-- **Test mode log:** watcher purchases show as "Sniper buy (watcher)" with the price; goods bought from the buy tab and the sniper show the price too.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
