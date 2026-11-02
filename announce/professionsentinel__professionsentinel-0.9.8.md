@@ -1,4 +1,4 @@
-📦 **ProfessionSentinel 0.9.7** – Reiter „Gunst“ für WoW Forever 🏕️
+📦 **ProfessionSentinel 0.9.8** – Reiter „Gunst“ für WoW Forever 🏕️
 
 • **Favor-Planer:** Favor-Rezepte und Ziele wie das **Packkodo (6000)** auf die Wunschliste – du siehst deinen Stand an **Händlergunst** und wie viel noch fehlt
 • **Favor-Rezepte deines Berufs** mit Kosten, Rufstufe und **wer in der Gilde sie schon kann** – damit niemand doppelt kauft
