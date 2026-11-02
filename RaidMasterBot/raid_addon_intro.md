@@ -27,6 +27,9 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
+**3.0.9** – Gemeinsame Versionserkennung
+• RaidMaster erkennt WoW Forever jetzt genauso wie alle anderen Addons von GoldSentinel – auch falls Blizzard zum Launch die Versionsnummer ändert. `/gsgame` zeigt, was erkannt wurde.
+
 **3.0.8** – Markieren im Kampf
 • In WoW Forever markiert RaidMaster im Kampf nichts mehr automatisch („Adds markieren“, Boss-Leiste) – dann einfach per Mouseover-Taste markieren. Vor dem Pull geht alles wie gewohnt.
 
@@ -44,8 +47,5 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 
 **3.0.3** – Raid-Materialien
 • Neue Materialien aus Barrow Deeps, Hyjal und künftigen Raids erkennt RaidMaster beim Droppen; der Bot zeigt sie in #regeln samt den Rezepten, die sie brauchen.
-
-**3.0.2** – Einteilung je Raid
-• Eigene Einteilung für Molten Core (geprüft, mit Baron Geddon), Onyxia, Barrow Deeps und Hyjal – im Discord je Raid ein Kanal unter ⚔️ RAID-ORGA. Tanks heißen überall MT und OT1, OT2 …
 
 Ältere Neuerungen stehen im Addon in der Datei LIESMICH.txt.

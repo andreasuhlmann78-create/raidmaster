@@ -1,4 +1,4 @@
-RaidMaster 3.0.8 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 3.0.9 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,15 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+NEU IN 3.0.9 – Gemeinsame Versionserkennung (GoldSentinelGame)
+- Neu dabei: GoldSentinelGame.lua – erkennt die Spielversion in allen Addons von GoldSentinel gleich und
+  unterscheidet die zwei API-Welten: alt (Classic Era, TBC, Wrath, Cata, MoP Classic) und modern
+  (WoW Forever und Retail). Forever wird auch erkannt, falls Blizzard die Interface-Nummer zum Launch erhöht.
+- WoW Forever zählt nicht mehr als "Classic Era". Raids, Klassen und Stufe 60 bleiben wie gehabt.
+- Namen mit Vor- und Nachnamen (Forever) laufen über die gemeinsame Datei.
+- /gsgame und die Diagnose zeigen die erkannte Version und API.
+- Für Classic Era, TBC, Wrath, Cata und MoP Classic ändert sich nichts.
 
 NEU IN 3.0.8 – Markieren im Kampf (WoW Forever)
 - Im Kampf markiert RaidMaster in WoW Forever (und Retail) nichts mehr automatisch: "Adds markieren"

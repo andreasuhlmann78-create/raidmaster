@@ -1369,6 +1369,29 @@ function T.SelfTest()
 	local function line(ok, text) out[#out + 1] = (ok == nil and "|cffbbbbbb•|r " or ok and "|cff40ff40OK|r  " or "|cffff5544!!|r  ") .. text end
 	line(true, "RaidMaster " .. RM.VERSION .. " – " .. RM.GameInfoText())
 	line(true, "Sprache: " .. (RM.LANGUAGES[RM.LOCALE] or RM.LOCALE) .. " (Client " .. tostring(RM.GAME_LOCALE) .. ")")
+	-- Gemeinsame Versionserkennung (GoldSentinelGame): echte Erkennung und Forever-Weg zum Ausprobieren
+	do
+		local G = RM.G
+		line(G ~= nil, "GoldSentinelGame: " .. (G and G.Status() or "fehlt (eigene Erkennung aktiv)"))
+		if G and G.SetTestFlavor then
+			local ok, err = pcall(function()
+				G.SetTestFlavor("forever")
+				RM.SetGameFlags()
+				local f = G.IsModern and RM.IsModern and RM.IsForever and not RM.IsClassicEra
+					and RM.SameName("Rokan Steinwacht", "rokan") and not RM.SameName("Rokan Steinwacht", "Rokan Eisen")
+					and RM.Markers.CombatBlocked() == G.InCombat()
+				G.SetTestFlavor("era")
+				RM.SetGameFlags()
+				local e = not G.IsModern and RM.IsClassicEra and not RM.IsForever and not RM.SameName("Rokan Steinwacht", "Rokan")
+					and RM.Markers.CombatBlocked() == false
+				assert(f, "Forever-Weg falsch")
+				assert(e, "Era-Weg falsch")
+			end)
+			G.SetTestFlavor(nil)
+			RM.SetGameFlags()
+			line(ok, "Versionsweiche (Forever ↔ Classic Era): " .. (ok and "beide Wege richtig, echte Erkennung wiederhergestellt" or tostring(err)))
+		end
+	end
 	line(#RM.Data.RaidList > 0, string.format("Raids dieser Version: %d mit %d Bossen, %d Markierungsvorlagen", #RM.Data.RaidList, #RM.Data.BossOrder, #RM.Data.MarkerTemplates))
 	local noInfo = 0
 	for _, id in ipairs(RM.Data.BossOrder) do if not RM.Data.BossInfo[id] then noInfo = noInfo + 1 end end

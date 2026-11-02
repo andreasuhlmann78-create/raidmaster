@@ -1,4 +1,4 @@
-RaidMaster 3.0.8 – DKP, loot and raid leading tools
+RaidMaster 3.0.9 – DKP, loot and raid leading tools
 ====================================================
 
 INSTALLATION
@@ -22,6 +22,15 @@ MAIN FEATURES
   The boss's marker template is selected automatically when the encounter starts.
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
+
+WHAT'S NEW IN 3.0.9 – Shared version detection (GoldSentinelGame)
+- New: GoldSentinelGame.lua detects the game version the same way in all GoldSentinel addons and tells the two
+  API worlds apart: old (Classic Era, TBC, Wrath, Cata, MoP Classic) and modern (WoW Forever and Retail).
+  Forever is detected even if Blizzard raises the interface number at launch.
+- WoW Forever no longer counts as "Classic Era". Raids, classes and level 60 stay the same.
+- Names with first and last name (Forever) use the shared file.
+- /gsgame and the diagnostics window show the detected version and API.
+- Nothing changes for Classic Era, TBC, Wrath, Cata and MoP Classic.
 
 WHAT'S NEW IN 3.0.8 – Marking in combat (WoW Forever)
 - In combat on WoW Forever (and Retail) RaidMaster no longer marks anything automatically: "Mark adds"

@@ -14,13 +14,14 @@ local function C() return RM.db.config end
 -- Moderner Client (WoW Forever, Retail): Im Kampf kommen Gegnerdaten als "secret values", und Blizzard will
 -- kein automatisches Markieren fremder Einheiten. Dort im Kampf nur noch Mark/SmartMark per Mouseover-Taste.
 -- Alte Clients (Classic Era, TBC … MoP Classic) bleiben genau wie bisher.
-M.MODERN = (issecretvalue ~= nil) or RM.GAME.key == "forever" or RM.GAME.key == "retail"
+M.MODERN = RM.IsModern and true or false   -- beim Laden; CombatBlocked fragt RM.IsModern jedes Mal neu
 M.simCombat = false        -- Test-Werkzeug: Kampf im modernen Client vorspielen
 M.COMBAT_HINT = "Im Kampf bitte per Mouseover-Taste markieren."
 
 function M.CombatBlocked()
 	if M.simCombat then return true end
-	if not M.MODERN then return false end
+	if not RM.IsModern then return false end
+	if RM.G then return RM.G.InCombat() end
 	return (InCombatLockdown and InCombatLockdown()) and true or false
 end
 

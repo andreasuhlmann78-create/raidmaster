@@ -15,6 +15,11 @@ table.insert(D.providers, function()
 	if GoldSentinelDev and GoldSentinelDev.Status then return { GoldSentinelDev:Status() } end
 	return {}
 end)
+-- Erkannte Spielversion und API (GoldSentinelGame)
+table.insert(D.providers, function()
+	if GoldSentinelGame and GoldSentinelGame.Status then return { GoldSentinelGame.Status() } end
+	return {}
+end)
 D.fixers = {}          -- weitere Reparaturen: function() return { "erledigt: ..." } end
 
 ---------------------------------------------------------------------------

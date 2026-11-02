@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "3.0.8"
-RM.VERSION_NUM = 30008
+RM.VERSION = "3.0.9"
+RM.VERSION_NUM = 30009
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -31,15 +31,35 @@ RM.GAMES = {
 	{ key = "era",     name = L["Classic Era"],                  from = 10000,  to = 15999,  tested = 11509 },
 }
 
+-- Gemeinsame Versionserkennung aller GoldSentinel-Addons (GoldSentinelGame.lua, lädt direkt vor dieser Datei).
+-- Die Datei nie hier ändern – nur zentral mit höherer VERSION. Fehlt sie, gilt die eigene Erkennung wie bisher.
+RM.G = _G.GoldSentinelGame
+
 function RM.DetectGame()
+	-- über GoldSentinelGame (gleiche Schlüssel: era, forever, tbc, wrath, titan, cata, mists, retail)
+	if RM.G and RM.G.flavor then
+		for _, g in ipairs(RM.GAMES) do if g.key == RM.G.flavor then return g end end
+	end
 	for _, g in ipairs(RM.GAMES) do
 		if RM.TOC >= g.from and RM.TOC <= g.to then return g end
 	end
 	return { key = "unknown", name = L["Unbekannte Version"], from = 0, to = 0, tested = 0 }
 end
-RM.GAME = RM.DetectGame()
-RM.IsRetail = RM.GAME.key == "retail"
-RM.IsClassicEra = RM.GAME.key == "era" or RM.GAME.key == "forever"
+-- Flaggen der Spielversion. RM.IsClassicEra gilt NUR für echtes Classic Era (Inhalte wie Raids, Klassen, Stufe 60
+-- teilen sich Era und Forever über RM.GAME.key/Data.lua). Für die Wahl der API zählt RM.IsModern:
+-- WoW Forever und Retail = moderner Client (secret values im Kampf, Kampflog für Addons zu).
+function RM.SetGameFlags()
+	RM.GAME = RM.DetectGame()
+	RM.IsRetail = RM.GAME.key == "retail"
+	RM.IsForever = RM.GAME.key == "forever"
+	RM.IsClassicEra = RM.GAME.key == "era"
+	if RM.G then
+		RM.IsModern = RM.G.IsModern and true or false
+	else
+		RM.IsModern = RM.IsForever or RM.IsRetail or (issecretvalue ~= nil)
+	end
+end
+RM.SetGameFlags()
 
 -- Was kann dieser Client? (wird im ganzen Addon abgefragt statt Versionsnummern zu vergleichen)
 RM.Caps = {
@@ -47,12 +67,19 @@ RM.Caps = {
 	specs = (GetSpecialization ~= nil and RM.TOC >= 50000),
 	talentTrees = (GetTalentTabInfo ~= nil and RM.TOC < 50000),
 	-- Combat Log: in WoW Forever und ab Midnight (12.x) für Addons geschlossen
-	combatLog = (CombatLogGetCurrentEventInfo ~= nil) and RM.GAME.key ~= "forever" and RM.TOC < 120000,
+	combatLog = (CombatLogGetCurrentEventInfo ~= nil) and not RM.IsModern and RM.TOC < 120000,
 }
 
 -- "Secret values" (moderner Client, im Kampf): anzeigen geht, auswerten nicht
 function RM.IsSecret(v)
+	if RM.G then return RM.G.IsSecret(v) end
 	return issecretvalue ~= nil and v ~= nil and issecretvalue(v) == true
+end
+
+-- v, oder nil, wenn v ein secret value ist
+function RM.Safe(v)
+	if RM.IsSecret(v) then return nil end
+	return v
 end
 
 ---------------------------------------------------------------------------
@@ -520,6 +547,8 @@ end
 -- ("Rokan Steinwacht"); dort passt der Name auch, wenn eine Seite nur den Vornamen kennt.
 -- In allen anderen Versionen gilt nur der exakte Name.
 function RM.SameName(a, b)
+	if RM.G then return RM.G.SameName(a, b) end
+	-- ohne GoldSentinelGame: bisherige Prüfung
 	if not a or not b then return false end
 	a = a:lower():gsub("^%s+", ""):gsub("%s+$", "")
 	b = b:lower():gsub("^%s+", ""):gsub("%s+$", "")
