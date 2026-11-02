@@ -10,8 +10,11 @@ AHSentinel scannt das Auktionshaus, merkt sich für jedes Item den Preisverlauf 
 • **Rechtsklick** auf ein Item zeigt überall alle Möglichkeiten
 
 **⭐ Heute tun – was jetzt am meisten Gold bringt**
-• Ein Knopf in der Übersicht (oder `/ahs heute`), nach Netto-Gewinn sortiert, ein Klick führt direkt hin
-• Billig kaufen und wieder einstellen, unter Händler- oder Entzauberwert kaufen, Taschen-Ware verkaufen, unterbotene Auktionen neu einstellen
+• Ein Knopf in der Übersicht (oder `/ahs heute`), nach Netto-Gewinn sortiert
+• **Jede Zeile hat einen Knopf mit dem nächsten Schritt** – alles im selben Fenster: **Prüfen** zeigt das echte aktuelle Angebot („5× zu je 2g 40s = 12g“), danach **Kaufen**, bei Flips anschließend **Einstellen**
+• Gekauft wird **nie teurer und nie mehr als vorgeschlagen** – ist das Angebot weg oder teurer, steht „nicht mehr lohnend“ da
+• Billig kaufen und wieder einstellen, unter Händler- oder Entzauberwert kaufen, Taschen-Ware einstellen, zurückgekommene Auktionen neu einstellen
+• Mit **ProfessionSentinel** auch Herstellen: Zutaten kaufen → herstellen → einstellen, Schritt für Schritt
 • **Kapitalschutz:** zusammen höchstens die Hälfte deines Golds, kein Vorschlag über 20 %
 
 **📊 Ehrliche Preise**

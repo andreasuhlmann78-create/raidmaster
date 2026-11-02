@@ -9,10 +9,10 @@ Alles geht mit der Maus, das Addon spricht 10 Sprachen.
 Das Addon sitzt als eigener Reiter im Auktionshaus. **Sniper** und **Wächter** schaltest du oben in der Kopfzeile an und aus, der **Preisverlauf** öffnet sich als eigenes Fenster. **Rechtsklick** auf ein Item zeigt überall alle Möglichkeiten.
 
 ## ⭐ Heute tun
-Ein Knopf in der Übersicht (oder `/ahs heute`) zeigt, **was gerade am meisten Gold bringt** – nach Netto-Gewinn sortiert, ein Klick führt direkt hin:
-• billig kaufen und wieder einstellen (Flips), unter Händler- oder Entzauberwert kaufen
-• was aus deinen Taschen sich jetzt gut verkauft – oder lieber beim Händler
-• unterbotene oder zurückgekommene Auktionen neu einstellen
+Ein Knopf in der Übersicht (oder `/ahs heute`) zeigt, **was gerade am meisten Gold bringt** – nach Netto-Gewinn sortiert. **Jede Zeile hat einen Knopf mit dem nächsten Schritt**, alles im selben Fenster:
+• **Prüfen** zeigt das echte aktuelle Angebot, dann **Kaufen** – nie teurer und nie mehr als vorgeschlagen; ist das Angebot weg, steht „nicht mehr lohnend“ da
+• Flips danach direkt **Einstellen**, Taschen-Ware **Prüfen → Einstellen**, zurückgekommene Auktionen **Neu einstellen**
+• Mit **ProfessionSentinel** auch Herstellen: Zutaten kaufen → herstellen → einstellen
 🛡️ **Kapitalschutz:** zusammen höchstens die Hälfte deines Golds, kein Vorschlag über 20 %.
 
 ## 📊 Ehrliche Preise
