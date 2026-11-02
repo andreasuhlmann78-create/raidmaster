@@ -12,6 +12,12 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.2
+
+- **GoldSentinelGame version 2:** the shared game version detection now also wins against early versions
+  that other GoldSentinel addons briefly shipped – no Lua errors when several addons are loaded together.
+- Vendor prices: if the game has no item link function at the merchant, the item ID is read another way.
+
 ### Version 0.65.1
 
 - **Shared game version detection:** AHSentinel now uses **GoldSentinelGame**, the same detection all
@@ -58,26 +64,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - With ProfessionSentinel installed, its suggestions are used instead (no duplicates).
 - Characters with a crafting profession but without ProfessionSentinel see a small tip at the bottom
   of "Today" – **Hide** removes it for good.
-
-### Version 0.64.0
-
-**"Today" – buy and post right in the list:**
-- Every row now has a **button with the next step**, no need to switch tabs:
-  - Buy suggestions: **Check** looks up the item in the background; the row then shows the real
-    current offer ("5x at 2g 40s each = 12g") and the button becomes **Buy 12g**. Several single
-    auctions: **Buy (1/3)**, one click each (WoW needs one click per auction). Goods in the modern
-    auction house: the price is reserved first, then **Confirm**.
-  - **Never more expensive and never more than suggested**, and the capital protection still applies.
-    If the offer is gone or more expensive, the row says "no longer worth it" and nothing is bought.
-  - After buying: flips get **Post** (price suggestion with price protection), disenchant deals show
-    how many are in your bags, vendor deals say "Sell to a vendor".
-  - Items from your bags: **Check → Post**. Returned auctions: **Repost**, one click each.
-- A click on the row itself still switches to the tab, as before.
-- **For other addons:** `AHAnalyzerPro.Today:QuickBuy(itemID, qty, maxPrice, label)` and
-  `:QuickSell(itemID, count)` add a row at the top of "Today" – nothing is bought without your click.
-- **ProfessionSentinel:** its "craft today" suggestions appear in "Today"; the button walks you
-  through buying the reagents, crafting and posting.
-- Disenchant texts from 0.63.0 are now translated into all languages.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
