@@ -26,11 +26,16 @@ GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mi
 • Dungeon wählen, gesuchte Rollen anhaken, Suche starten
 • **Nur Gilde oder ganzer Server**: Auf Wunsch sehen alle mit GuildSentinel deine Suche – auch aus anderen Gilden
 • Wer von Stufe und Rolle passt, bekommt einen Hinweis im Chat
-• „Ich komme mit“ – ein Klick, und der Suchende sieht dich in seiner Liste und lädt dich mit einem Klick ein
+• „Ich komme mit“ – ein Klick, und der Suchende sieht dich in seiner Liste, **mit Gegenstandsstufe und Zone**, und lädt dich mit einem Klick ein
+• **Wer ist frei**: Mit einem Klick meldest du dich frei für Dungeon, Raid, Quest-Gruppe oder PvP (1, 2 oder 4 Stunden). In Dungeons, Raids und Schlachtfeldern giltst du automatisch als beschäftigt
+• Auf WoW Forever: alle neuen Dungeons und die Raids Hügelgrabtiefen, Hyjalgipfel und Onyxias Hort
 
 **🛡 Leitung** (nur Offiziere)
 • **Probezeit** mit Online-Tagen, Terminen und Danke – danach „Befördern“ oder „Gespräch“
 • **Pate vorschlagen** nach gleichen Online-Zeiten, **Abgänge mit Grund**, **Offiziersnotizen** mit Verlauf (nur für Offiziere), **Rangrechte**
+• **Sammelaktionen**: Inaktive nach Regel entfernen oder mehrere Beförderungs-Vorschläge auf einmal – immer zuerst mit Prüfliste
+• **Import aus Guild Roster Manager (GRM)**: Twinks, Beitrittsdaten und Notizen übernehmen, mit Vorschau
+• **Name der Gilde**: Der Gildenmeister legt fest, wie GuildSentinel die Gilde nennt (Werbung, Chronik, Regeln) – sonst gilt der Name aus dem Spiel
 
 **🗓 Meine Woche**
 • Gesperrte Raids und Heroics je Charakter, Dailies, **Raid-Vorbereitung** (Fläschchen, Tränke, Reagenzien, Haltbarkeit, Widerstände)
@@ -51,7 +56,7 @@ GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mi
 
 **🏁 Fortschritt**
 • **Leveling-Rennen**: Rangliste nach Stufe – bei gleicher Stufe steht vorne, wer zuerst da war, dazu die Stufen der letzten 7 Tage
-• Ansagen im Gildenchat: Stufe 10, 20, 30, **40 (Reittier!)**, 50, 60 und **das erste Gildenmitglied auf 60**
+• Ansagen im Gildenchat: Stufe 10, 20, 30, **40 (Reittier!)**, 50, 60 und **das erste Gildenmitglied auf Höchststufe**
 • **Raid-Zugänge und Dungeon-Schlüssel**: Obere Schwarzfelsspitze, Geschmolzener Kern, Onyxias Hort, Pechschwingenhort, Schattenschmiede-, Skelett-, Mondsichelschlüssel, Schlüssel zur Stadt – wem fehlt noch was?
 • **Wochenziel**: „150 Stufen als Gilde diese Woche“ mit Balken und Ansage, wenn es geschafft ist
 • **Gilden-Meilensteine**: 5 Mitglieder auf 60, 25 Spieler, alle Tanks eingestimmt, Erstkills … – jeder wird einmal gefeiert
@@ -68,7 +73,7 @@ GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mi
 • Haben mehrere das Addon, sagt nur einer an – kein Doppel-Spam im Gildenchat
 
 **🔨 Berufe**
-• Jeder öffnet seine Berufsfenster einmal – danach weiß die ganze Gilde, wer was herstellen kann
+• Jeder öffnet seine Berufsfenster einmal – danach weiß die ganze Gilde, wer was herstellen kann. Funktioniert mit dem klassischen Berufsfenster und dem **neuen Berufsfenster von WoW Forever**
 • Suche nach Rezept, „Herstellen anfragen“ mit einem Klick (auch an den Twink, der gerade online ist)
 • **Nachfrage**: Wünsche eintragen – wer es herstellen kann, bekommt einen Hinweis und übernimmt mit einem Klick
 • **Lücken**: Welche wichtigen Raid-Rezepte (Schutztränke, Fläschchen, Transmutation, Mondstoff …) kann niemand in der Gilde?
@@ -76,7 +81,8 @@ GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mi
 
 **🤝 Vernetzt mit allen Addons von GoldSentinel** (alles freiwillig – GuildSentinel läuft auch allein)
 • **RaidMaster**: Berufe, Twinks (Discord `/twink` hat Vorrang), Rollen aus der Skillung, nächster Raid bei den Terminen, Erstkills als Meilensteine
-• **AH Analyzer Pro**: Marktwert beim Brett und bei den Abklingzeiten
+• **AHSentinel**: Marktwert beim Brett und bei den Abklingzeiten
+• **ProfessionSentinel**: zeigt im Rezept-Tooltip, wer in der Gilde es herstellen kann
 • **BuffSentinel**: erkennt deine Klassen-Dienste fürs Brett
 • **ThreatSentinel**: deine Rolle (Tank in Verteidigungshaltung/Bärengestalt) für Aufstellung und Gruppensuche
 • **LevelPilot**: Elite-Quests aus deinem Questlog als Gruppensuche mit einem Klick
@@ -84,7 +90,9 @@ GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mi
 
 **⚙ Bedienung**
 • Minimap-Knopf: Linksklick öffnet das Fenster, Rechtsklick postet die Gildenwerbung
-• Befehle (wer mag): `/gs`, `/gs gruppe`, `/gs termine`, `/gs brett`, `/gs wo`, `/gs danke Name`, `/gs weg Tage`, `/gs umfrage`, `/gs fortschritt`, `/gs regeln`
+• Befehle (wer mag): `/gs`, `/gs gruppe`, `/gs termine`, `/gs brett`, `/gs wo`, `/gs danke Name`, `/gs weg Tage`, `/gs umfrage`, `/gs fortschritt`, `/gs regeln`, `/gs spenden`
+• Jede Funktion lässt sich unter Einstellungen > Funktionen einzeln ein- und ausschalten
+• Auch auf **CurseForge** – dort aktualisiert die CurseForge-App GuildSentinel automatisch
 
 **📦 Installation**
 Die aktuelle ZIP hängt an der Versions-Ankündigung in diesem Kanal. Entpacken und den Ordner **GuildSentinel** nach `Interface/AddOns` kopieren (alten Ordner ersetzen). Je mehr in der Gilde das Addon haben, desto vollständiger werden Berufe, Raid-Zugänge und Online-Zeiten.
