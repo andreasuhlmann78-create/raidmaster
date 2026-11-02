@@ -12,6 +12,19 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.64.2
+
+- **WoW Forever: listing fee counted correctly.** On WoW Forever every auction costs **at least
+  1 silver** deposit, and it is **never refunded**, not even when the item sells. AHSentinel now
+  detects Forever itself and always subtracts the fee instead of only as a risk for expired auctions:
+  flips, sell suggestions in "Today", crafting profits, bargains, disenchant bargains (materials are
+  sold in stacks, fee per piece), vendor-vs-AH comparison and the Sell tab (shows "not refunded").
+- This mostly affects **cheap items**: an item worth 1s 50c in the AH and 71c at a vendor leaves only
+  42c after 5 % and the 1s fee – "Today" then suggests **selling to a vendor**.
+- Fee per piece = max(1 silver, deposit of a full stack) ÷ stack size. Other game versions are
+  unchanged (the deposit is refunded on a sale).
+- Profit calculator: on Forever the 1 silver deposit is included.
+
 ### Version 0.64.1
 
 - **"Today" suggests crafting – even without ProfessionSentinel:** AHSentinel now remembers the
@@ -55,12 +68,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Feedback after posting and cancelling:** instead of "Posting …" / "Cancelling …" staying forever, the window now shows "Posted: …" / "Cancelled: …".
 - **Daily summary:** showed "+ all your gold since yesterday" when the game briefly reported 0 gold at login. Such a 0 value no longer counts.
 - **Test mode log:** buying goods (retail) now shows the price, a sniper buy is logged as "Sniper buy" instead of "Buyout".
-
-### Version 0.63.2
-
-- **Self-test on retail:** stopped with "script ran too long" (retail stops scripts that run too long in one go – with about 20,000 scanned items that happens). The test now pauses regularly; the language test checks one language per frame.
-- **Sell tab with the auction house closed:** showed "No sellable items in your bags" on retail although the bags were full. The "can this be posted?" check now only runs while the auction house is open.
-- **Reagent bag (retail):** items in it now count for selling, mail to alts and vendor selling.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

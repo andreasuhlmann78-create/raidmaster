@@ -7,6 +7,19 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.64.2</h3>
+<ul>
+<li><strong>WoW Forever: listing fee counted correctly.</strong> On WoW Forever every auction costs <strong>at least
+  1 silver</strong> deposit, and it is <strong>never refunded</strong>, not even when the item sells. AHSentinel now
+  detects Forever itself and always subtracts the fee instead of only as a risk for expired auctions:
+  flips, sell suggestions in "Today", crafting profits, bargains, disenchant bargains (materials are
+  sold in stacks, fee per piece), vendor-vs-AH comparison and the Sell tab (shows "not refunded").</li>
+<li>This mostly affects <strong>cheap items</strong>: an item worth 1s 50c in the AH and 71c at a vendor leaves only
+  42c after 5 % and the 1s fee – "Today" then suggests <strong>selling to a vendor</strong>.</li>
+<li>Fee per piece = max(1 silver, deposit of a full stack) ÷ stack size. Other game versions are
+  unchanged (the deposit is refunded on a sale).</li>
+<li>Profit calculator: on Forever the 1 silver deposit is included.</li>
+</ul>
 <h3>Version 0.64.1</h3>
 <ul>
 <li><strong>"Today" suggests crafting – even without ProfessionSentinel:</strong> AHSentinel now remembers the
@@ -48,12 +61,6 @@
 <li><strong>Feedback after posting and cancelling:</strong> instead of "Posting …" / "Cancelling …" staying forever, the window now shows "Posted: …" / "Cancelled: …".</li>
 <li><strong>Daily summary:</strong> showed "+ all your gold since yesterday" when the game briefly reported 0 gold at login. Such a 0 value no longer counts.</li>
 <li><strong>Test mode log:</strong> buying goods (retail) now shows the price, a sniper buy is logged as "Sniper buy" instead of "Buyout".</li>
-</ul>
-<h3>Version 0.63.2</h3>
-<ul>
-<li><strong>Self-test on retail:</strong> stopped with "script ran too long" (retail stops scripts that run too long in one go – with about 20,000 scanned items that happens). The test now pauses regularly; the language test checks one language per frame.</li>
-<li><strong>Sell tab with the auction house closed:</strong> showed "No sellable items in your bags" on retail although the bags were full. The "can this be posted?" check now only runs while the auction house is open.</li>
-<li><strong>Reagent bag (retail):</strong> items in it now count for selling, mail to alts and vendor selling.</li>
 </ul>
 <p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
 <hr />
