@@ -8,6 +8,7 @@ Datei GoldSentinelGame.lua veröffentlicht (eine davon auf CurseForge). Dieses S
   - gemeinsame Datei GoldSentinelGame.lua weicht von shared/GoldSentinelGame.lua ab (oder wird nachgebaut)
   - gemeinsame Datei GoldSentinelDev.lua: Kopie mit gleicher Version, aber anderem Inhalt
   - Versionsnummer nicht höher als eine schon veröffentlichte (Discord-ZIPs, CurseForge) bzw. ZIP-Name passt nicht
+  - gleiche Versionsnummer schon einmal mit ANDEREM Inhalt veröffentlicht (Spieler bekämen das Update nie)
   - .toc-Dateien eines Addons mit unterschiedlicher Version; in der .toc genannte Datei fehlt in der ZIP
   - Lua-Syntaxfehler (geprüft mit Lua 5.1 wie im Spiel)
   - GoldSentinelGame.lua steht in der .toc nicht vor den eigenen Dateien des Addons
@@ -125,6 +126,40 @@ _LUA = None
 SYNTAX_TOOL = None      # womit die Syntax geprüft wird: "lupa (Lua 5.1)", "luac5.1" … oder None = gar nicht
 
 
+# Probetest für luac: korrekter Code muss durchgehen, kaputter Code und Code, den es erst ab Lua 5.2 gibt
+# (goto/Labels), müssen abgelehnt werden. So fällt ein Ersatz auf, der alles durchwinkt, nicht läuft oder
+# eine andere Lua-Version ist – die Selbstauskunft "-v" allein reicht nicht.
+_PROBE = {
+    "gut": ("local a = { 1, 2 }\nfor i, v in ipairs(a) do a[i] = v * 2 end\nreturn a\n", True),
+    "kaputt": ("local x = \nfunction\n", False),
+    "lua52": ("goto ende\n::ende::\n", False),
+}
+
+
+def _luac_passes_probe(path):
+    import os
+    import tempfile
+    d = tempfile.mkdtemp(prefix="luacprobe")
+    try:
+        for name, (code, should_pass) in _PROBE.items():
+            f = os.path.join(d, name + ".lua")
+            with open(f, "w", encoding="utf-8") as fh:
+                fh.write(code)
+            try:
+                r = subprocess.run([path, "-p", f], capture_output=True, text=True, timeout=20)
+            except Exception:
+                return False
+            if (r.returncode == 0) != should_pass:
+                return False
+        return True
+    finally:
+        import shutil
+        shutil.rmtree(d, ignore_errors=True)
+
+
+LUAC_REJECTED = []      # gefundene luac, die den Probetest nicht bestanden haben (für den Bericht)
+
+
 def _find_luac():
     import shutil
     for name in ("luac5.1", "luac51", "luac"):
@@ -133,10 +168,12 @@ def _find_luac():
             continue
         try:
             out = subprocess.run([path, "-v"], capture_output=True, text=True, timeout=10)
-            if "5.1" in (out.stdout + out.stderr):
-                return path
+            claims_51 = "5.1" in (out.stdout + out.stderr)
         except Exception:
-            pass
+            claims_51 = False
+        if claims_51 and _luac_passes_probe(path):
+            return path
+        LUAC_REJECTED.append(path)
     return None
 
 
@@ -145,6 +182,8 @@ def syntax_tool():
     global _LUA, SYNTAX_TOOL
     if _LUA is None:
         try:
+            if os.environ.get("ADDON_CHECK_NO_LUPA"):      # nur für Tests: lupa ignorieren, luac-Weg prüfen
+                raise ImportError("lupa abgeschaltet")
             import lupa.lua51 as lupa51
             rt = lupa51.LuaRuntime(unpack_returned_tuples=True)
             fn = rt.eval("function(s, n) local f, e = loadstring(s, n) return e end")
@@ -236,6 +275,71 @@ def published_versions():
         pass
     _PUBLISHED = pub
     return pub
+
+
+# ---------------------------------------------------------------------------
+# gleiche Version schon einmal mit anderem Inhalt veröffentlicht?
+# Verglichen werden die Dateien IN der ZIP (nicht die ZIP selbst): neu packen mit gleichem Inhalt ist kein Fehler.
+# ---------------------------------------------------------------------------
+def zip_fingerprint(data):
+    import io
+    try:
+        z = zipfile.ZipFile(io.BytesIO(data) if isinstance(data, bytes) else data)
+        return {n: sha(z.read(n)) for n in z.namelist() if not n.endswith("/")}
+    except Exception:
+        return None
+
+
+def earlier_copies(path: Path):
+    """Früher veröffentlichte Fassungen derselben ZIP (gleicher Dateiname): Git-Geschichte von download/ und
+    announce/ sowie EXTRA_DIRS (z. B. die schon geposteten ZIPs des Discord-Bots). -> [(wo, fingerprint)]"""
+    out = []
+    for rel in (f"download/{path.name}", f"announce/{path.name}"):
+        try:
+            commits = subprocess.run(["git", "-C", str(ROOT), "log", "--all", "--format=%H", "--", rel],
+                                     capture_output=True, text=True, timeout=60).stdout.split()
+        except Exception:
+            commits = []
+        seen = set()
+        for c in commits:
+            try:
+                blob = subprocess.run(["git", "-C", str(ROOT), "rev-parse", f"{c}:{rel}"],
+                                      capture_output=True, text=True, timeout=30).stdout.strip()
+            except Exception:
+                blob = ""
+            if not blob or blob in seen:
+                continue
+            seen.add(blob)
+            data = subprocess.run(["git", "-C", str(ROOT), "cat-file", "blob", blob],
+                                  capture_output=True, timeout=60).stdout
+            fp = zip_fingerprint(data)
+            if fp is not None:
+                out.append((f"{rel} in Commit {c[:7]}", fp))
+    for d in EXTRA_DIRS:
+        f = Path(d) / path.name
+        try:
+            if f.exists() and f.resolve() != path.resolve():
+                fp = zip_fingerprint(f.read_bytes())
+                if fp is not None:
+                    out.append((f"{Path(d).name}/{path.name}", fp))
+        except OSError:
+            pass
+    return out
+
+
+def same_version_changed(path: Path):
+    """Text des Befunds, wenn dieselbe ZIP (Name = Version) früher mit anderem Inhalt veröffentlicht wurde."""
+    cur = zip_fingerprint(path.read_bytes())
+    if cur is None:
+        return None
+    for where, fp in earlier_copies(path):
+        if fp != cur:
+            changed = sorted(n for n in set(fp) | set(cur) if fp.get(n) != cur.get(n))
+            sample = ", ".join(n.rsplit("/", 1)[-1] for n in changed[:4]) + (" …" if len(changed) > 4 else "")
+            return (f"diese Version wurde schon mit ANDEREM Inhalt veröffentlicht ({where}; geändert: {sample}). "
+                    f"Wer sie schon hat, bekommt das Update nie – geänderten Inhalt immer als neue, höhere Version "
+                    f"veröffentlichen.")
+    return None
 
 
 # ---------------------------------------------------------------------------
@@ -358,6 +462,12 @@ def check_zip(path, shared_ref=None, dev_max=None):
             top = higher[-1]
             err(f"Version {ver} ist NIEDRIGER als schon veröffentlichte {top} ({', '.join(sorted(known[top]))}). "
                 f"Neue Version muss höher sein als {top}, sonst bekommen Spieler das Update nicht.")
+
+    # gleiche Version, anderer Inhalt?
+    if ver or zver:
+        msg = same_version_changed(path)
+        if msg:
+            err(msg)
 
     # gemeinsame Dateien
     has_game = False
@@ -484,6 +594,8 @@ def main(argv):
             failed |= code != 0
     syntax_tool()
     lines.append(f"Lua-Syntaxprüfung mit: {SYNTAX_TOOL or 'NICHTS – Syntax wird NICHT geprüft (pip install lupa)'}")
+    for p in LUAC_REJECTED:
+        lines.append(f"Hinweis: {p} meldet sich als luac, hat den Probetest aber nicht bestanden und wird nicht benutzt")
     lines.append("")
 
     for p in zips:
