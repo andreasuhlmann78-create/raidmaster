@@ -42,6 +42,11 @@ ProfessionSentinel zeigt dir direkt im Berufsfenster **alle Rezepte, die es für
 • **Einkaufsliste** mit allem, was nach Taschen und Bank noch fehlt – Händlerware und AH getrennt, dazu Materialkosten und Verkaufswert
 • **Ein Klick beim Händler** kauft genau das Fehlende, ein zweiter legt die **AH-Zutaten in den Sniper** von AHSentinel (Marktwert + 10 %) – du stellst nur noch das Budget ein
 
+**🏕️ Händlergunst – nur WoW Forever (Reiter „Gunst“)**
+• **Favor-Planer:** Favor-Rezepte und Ziele wie das **Packkodo (6000)** auf die Wunschliste – das Addon zeigt, wie viel **Merchant's Favor** dir noch fehlt
+• **Favor-Rezepte deines Berufs** mit Kosten und Rufstufe – und **wer in der Gilde sie schon kann**, damit niemand doppelt kauft
+• **Abgefangene Kisten:** für alle 30 Kisten das **günstigste Materialbündel** nach AH- und Händlerpreisen und **Gold pro Gunst-Punkt** – Kisten in deinen Taschen stehen oben, „bereit“ heißt: Material schon da
+
 **🔔 Rezept-Alarm im Auktionshaus**
 • Liegt ein Rezept, das **dir oder einem deiner Twinks fehlt**, im AH, meldet sich das Addon nach dem Scan mit AHSentinel – mit Ton und Preis
 • Im Reiter „Rezepte“ stehen sie oben unter **„Im AH: Rezepte, die dir fehlen“** – Klick = Sniper-Ziel. An/aus: `/ps alarm`
@@ -96,7 +101,7 @@ Das Addon erkennt am Spiel selbst, welche Version läuft, und lädt die passende
 **Retail** (12.1.5 Midnight): rund **10 170 Rezepte aller Erweiterungen** – jede Erweiterung ist ein **eigener Beruf mit eigener Stufe** wie im Berufsfenster (z. B. „Lederverarbeitung von Midnight“). Rezepte, Lebenslinie, Rangliste, Levelplan, Ruf und Rezept-Alarm laufen dort; Händler-, Drop- und Lehrer-Koordinaten gibt es für Retail nicht (der Reiter „Lehrer“ fehlt dort), Verzauberkunst nur mit „VZ verkaufen“.
 
 **📊 Datenstand**
-Stand: Client-Build 1.60.1.70707 · Quellen vom 31.10.2026 · Addon-Version 0.9.2
+Stand: Client-Build 1.60.1.70707 · Quellen vom 31.10.2026 · Addon-Version 0.9.5
 **2210 Rezepte**, davon **953 neu in WoW Forever**:
 Lederverarbeitung 512 · Schmiedekunst 442 · Schneiderei 418 · Ingenieurskunst 247 · Verzauberkunst 224 · Alchimie 181 · Kochkunst 126 · Erste Hilfe 32 · Bergbau 18 · Überlebenskunst 1 · Angeln 3 · Kräuterkunde 3 · Kürschnerei 3
 Quellen: 751 Rezepte vom Händler · 397 als Drop/Weltdrop · 70 aus Quests · 438 vom Lehrer · bei **546** ist die Quelle noch nicht erfasst (meist neue Forever-Rezepte)
