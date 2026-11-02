@@ -9,7 +9,8 @@ BuffSentinel ist dein Klassen-Helfer für den Kampf: Es meldet sich genau dann, 
 
 **🔔 Ruhig, ausser es zählt**
 • Töne sind standardmässig aus – ausser wenn ein **eigener Buff ausläuft**: Dann hupt BuffSentinel, bis du nachgebufft hast – z. B. bei fehlendem **Schlachtruf**
-• Jeder Proc, Buff und Cooldown kann eine eigene Klingel bekommen (Knopf „Ton“), allgemeine Töne lassen sich unter „Zonen & Anzeige“ einschalten
+• Jede Warnart mit **eigenem Ton nach Wahl** – rund 50 Spieltöne, Glocken, Gong, Kriegstrommel, LibSharedMedia oder eigene Datei – **pro Klasse und Skillung**, dazu der Tonkanal
+• Jeder Proc, Buff und Cooldown kann zusätzlich eine eigene Klingel bekommen (Knopf „Ton“)
 
 **✨ Buff-Wächter mit Ein-Klick-Buff**
 • Läuft ein Buff aus, kommt die Meldung (z. B. **SCHLACHTRUF!**) – vorher stört nichts
@@ -59,7 +60,7 @@ BuffSentinel ist dein Klassen-Helfer für den Kampf: Es meldet sich genau dann, 
 • Aufnahme-Modus für den Rest: Neue Buffs mit ID protokollieren und per Klick als eigenen Proc übernehmen
 
 **⚙ Bedienung**
-• Komplett per Maus: Minimap-Button → Einstellungsfenster mit Seiten für Skillung, Procs, Buffs, Cooldowns, Reinigen, Zonen & Anzeige und Aufnahme
+• Komplett per Maus: Minimap-Button → Einstellungsfenster mit Seiten für Skillung, Procs, Buffs, Cooldowns, Reinigen, Optionen und Aufnahme
 • Notfall-Befehle: `/bsen` · `/bsen anordnen`
 
 **📦 Installation**
