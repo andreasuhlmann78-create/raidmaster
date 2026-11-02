@@ -10,6 +10,13 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.5
+
+- **WoW Forever hardening**: protection against secret values in combat (player tooltip, addon messages, cooldowns). Applicants who whisper during combat are added after combat instead of being lost.
+- **First and last names** (WoW Forever): names are capitalised correctly, notes like "Alt of Rokan Steinwacht" are recognised, and a unique first name alone is enough for alts, thanks and mentors.
+- Whispering a "First Last" name opens the whisper box for the full name.
+- Modern APIs are used first (C_ChatInfo, C_GuildInfo, C_SpellBook), with the old ones as fallback.
+
 ### Version 0.9.4
 
 - **Without a guild**: instead of empty pages the overview shows a hint – GuildSentinel is a guild tool, and members, events, board, polls, progress, professions, recruitment and the group finder appear once you are in a guild. My week, Addons and Settings stay available. Joining or leaving a guild takes effect right away.
@@ -26,14 +33,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 ### Version 0.9.1
 
 - Test mode is now developer-only: the Settings > Test mode tab and `/gs test` only appear for the developer account. Nothing else changes for players.
-
-### Version 0.9.0
-
-- **Who's free** (Group finder): one click flags you as free for dungeon, raid, quest group or PvP for 1, 2 or 4 hours. Everyone with GuildSentinel sees who is free, with level, item level and zone. Inside dungeons, raids and battlegrounds you automatically show as busy.
-- After posting a group search, GuildSentinel tells you how many guild members are free for it right now.
-- **Item level** with "I'll join": the searcher sees it in the replies and in chat.
-- **Bulk actions** (Leadership, officers): remove inactive players by rule or promote several suggestions at once – always a checklist first, one step per click.
-- **GRM import** (Leadership): alts, join dates and personal notes from Guild Roster Manager, with a preview.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

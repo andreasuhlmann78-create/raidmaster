@@ -6,6 +6,13 @@
 </blockquote>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.9.5</h3>
+<ul>
+<li><strong>WoW Forever hardening</strong>: protection against secret values in combat (player tooltip, addon messages, cooldowns). Applicants who whisper during combat are added after combat instead of being lost.</li>
+<li><strong>First and last names</strong> (WoW Forever): names are capitalised correctly, notes like "Alt of Rokan Steinwacht" are recognised, and a unique first name alone is enough for alts, thanks and mentors.</li>
+<li>Whispering a "First Last" name opens the whisper box for the full name.</li>
+<li>Modern APIs are used first (C_ChatInfo, C_GuildInfo, C_SpellBook), with the old ones as fallback.</li>
+</ul>
 <h3>Version 0.9.4</h3>
 <ul>
 <li><strong>Without a guild</strong>: instead of empty pages the overview shows a hint – GuildSentinel is a guild tool, and members, events, board, polls, progress, professions, recruitment and the group finder appear once you are in a guild. My week, Addons and Settings stay available. Joining or leaving a guild takes effect right away.</li>
@@ -22,14 +29,6 @@
 <h3>Version 0.9.1</h3>
 <ul>
 <li>Test mode is now developer-only: the Settings &gt; Test mode tab and <code>/gs test</code> only appear for the developer account. Nothing else changes for players.</li>
-</ul>
-<h3>Version 0.9.0</h3>
-<ul>
-<li><strong>Who's free</strong> (Group finder): one click flags you as free for dungeon, raid, quest group or PvP for 1, 2 or 4 hours. Everyone with GuildSentinel sees who is free, with level, item level and zone. Inside dungeons, raids and battlegrounds you automatically show as busy.</li>
-<li>After posting a group search, GuildSentinel tells you how many guild members are free for it right now.</li>
-<li><strong>Item level</strong> with "I'll join": the searcher sees it in the replies and in chat.</li>
-<li><strong>Bulk actions</strong> (Leadership, officers): remove inactive players by rule or promote several suggestions at once – always a checklist first, one step per click.</li>
-<li><strong>GRM import</strong> (Leadership): alts, join dates and personal notes from Guild Roster Manager, with a preview.</li>
 </ul>
 <p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
 <hr />
@@ -55,7 +54,7 @@
 <h2>👥 Members</h2>
 <ul>
 <li>List with level, class, rank, zone or "last online" – search, filter, show or hide alts</li>
-<li><strong>Alts</strong> are detected from the public note ("Alt: Rokan", "Alt of Rokan") or set by hand</li>
+<li><strong>Alts</strong> are detected from the public note ("Alt: Rokan", "Alt of Rokan" – on WoW Forever also with first and last name) or set by hand</li>
 <li><strong>Who's where</strong>: all online members grouped by zone – for meeting up, summoning and world bosses</li>
 <li><strong>History</strong>: who joined, left, got promoted or reached level 60</li>
 <li><strong>Inactive list</strong> (14/30/60/90 days) – only if none of the player's alts were online either</li>
