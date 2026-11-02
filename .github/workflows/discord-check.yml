@@ -1,0 +1,64 @@
+name: Discord-Prüfung
+
+# Prüft mit dem Konto des RaidMaster-Bots (nur lesen), ob im Discord steht, was im Repo liegt:
+# Ankündigungen aus announce/ (neueste Fassung je Reihe) und die Addon-ZIPs aus download/,
+# die der Bot selbst veröffentlicht. Ergebnis: discord-check/status.md und status.json.
+#
+# Läuft:
+#  - nach jedem Push in announce/ oder download/ (wartet erst 35 Minuten, bis der Bot abgeholt hat)
+#  - von Hand bzw. von Claude: gh workflow run discord-check.yml -R andreasuhlmann78-create/raidmaster
+#  - zweimal am Tag
+# Braucht das Secret DISCORD_BOT_TOKEN (Settings -> Secrets and variables -> Actions).
+on:
+  push:
+    branches: [main]
+    paths:
+      - "announce/**"
+      - "download/*.zip"
+  workflow_dispatch:
+    inputs:
+      warten:
+        description: "Minuten warten, bevor geprüft wird (0 = sofort)"
+        required: false
+        default: "0"
+  schedule:
+    - cron: "41 5,17 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  # ein neuer Push startet die Wartezeit neu; Hand-Starts laufen unabhängig davon
+  group: discord-check-${{ github.event_name }}
+  cancel-in-progress: ${{ github.event_name == 'push' }}
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Warten, bis der Bot die Änderung abgeholt hat
+        run: |
+          if [ "${{ github.event_name }}" = "push" ]; then M=35; else M="${{ github.event.inputs.warten || '0' }}"; fi
+          echo "Warte $M Minuten ..."
+          sleep $(( M * 60 ))
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - name: Discord prüfen
+        env:
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          DISCORD_GUILD_ID: ${{ vars.DISCORD_GUILD_ID }}
+        run: python3 discord-check/check.py
+      - name: Ergebnis speichern
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add discord-check/status.md discord-check/status.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Discord-Prüfung: Ergebnis [skip ci]"
+          for i in 1 2 3; do git pull --rebase && git push && break; sleep 5; done
