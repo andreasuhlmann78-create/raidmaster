@@ -101,7 +101,7 @@ Das Addon erkennt am Spiel selbst, welche Version läuft, und lädt die passende
 **Retail** (12.1.5 Midnight): rund **10 170 Rezepte aller Erweiterungen** – jede Erweiterung ist ein **eigener Beruf mit eigener Stufe** wie im Berufsfenster (z. B. „Lederverarbeitung von Midnight“). Rezepte, Lebenslinie, Rangliste, Levelplan, Ruf und Rezept-Alarm laufen dort; Händler-, Drop- und Lehrer-Koordinaten gibt es für Retail nicht (der Reiter „Lehrer“ fehlt dort), Verzauberkunst nur mit „VZ verkaufen“.
 
 **📊 Datenstand**
-Stand: Client-Build 1.60.1.70707 · Quellen vom 31.10.2026 · Addon-Version 0.9.6
+Stand: Client-Build 1.60.1.70707 · Quellen vom 31.10.2026 · Addon-Version 0.9.7
 **2210 Rezepte**, davon **953 neu in WoW Forever**:
 Lederverarbeitung 512 · Schmiedekunst 442 · Schneiderei 418 · Ingenieurskunst 247 · Verzauberkunst 224 · Alchimie 181 · Kochkunst 126 · Erste Hilfe 32 · Bergbau 18 · Überlebenskunst 1 · Angeln 3 · Kräuterkunde 3 · Kürschnerei 3
 Quellen: 751 Rezepte vom Händler · 397 als Drop/Weltdrop · 70 aus Quests · 438 vom Lehrer · bei **546** ist die Quelle noch nicht erfasst (meist neue Forever-Rezepte)
