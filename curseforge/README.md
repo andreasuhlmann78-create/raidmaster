@@ -16,7 +16,7 @@ Einmalig nötig:
 3. Projekt-ID in `projects.json` eintragen.
 
 Version und Spielversionen kommen aus der `.toc` in der Zip, der Changelog aus dem passenden
-Abschnitt in `CHANGELOG.md`. WoW Forever (16001) kennt CurseForge nicht, es wird ausgelassen.
+Abschnitt in `CHANGELOG.md`. WoW Forever führt CurseForge als eigene Spielvariante „Forever“: Interface 16001 -> Spielversion 1.60.1 (ID 17053). Kommt eine neue Nummer (z. B. 16002) und kennt CurseForge sie noch nicht, nimmt das Skript die höchste 1.60.x.
 Manuell starten: GitHub → Actions → CurseForge-Upload → Run workflow.
 
 Beschreibung: CurseForge hat keine Schnittstelle, um die Projektbeschreibung zu ändern.
