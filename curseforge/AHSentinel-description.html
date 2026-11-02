@@ -62,7 +62,7 @@
 <li><strong>Daily summary:</strong> showed "+ all your gold since yesterday" when the game briefly reported 0 gold at login. Such a 0 value no longer counts.</li>
 <li><strong>Test mode log:</strong> buying goods (retail) now shows the price, a sniper buy is logged as "Sniper buy" instead of "Buyout".</li>
 </ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
@@ -70,10 +70,19 @@
 <p>In-game: the <strong>Support</strong> button in the addon window (or <code>/ahs donate</code>).</p>
 <hr />
 <h2>Features</h2>
+<h3>Today – what makes the most gold right now</h3>
+<ul>
+<li>One button (or <code>/ahs today</code>) lists the best actions right now, sorted by net profit: flips, buying below vendor or disenchant value, selling from your bags, reposting returned auctions</li>
+<li><strong>Every row has a button with the next step – right in the list:</strong> <em>Check</em> shows the real current offer, <em>Buy</em> buys it (never more expensive and never more than suggested), flips then get <em>Post</em></li>
+<li><strong>Crafting:</strong> profitable recipes you already know, with a button that adds the missing reagents as buy rows (with <strong>ProfessionSentinel</strong> also missing recipes, vendors and drops, step by step)</li>
+<li><strong>Capital protection:</strong> together at most half of your gold, no single suggestion above 20 %</li>
+</ul>
 <h3>Market data</h3>
 <ul>
 <li><strong>Full market scan</strong> with price history for every item</li>
-<li><strong>Market value</strong> = median of the last 14 days, so single outliers barely count</li>
+<li><strong>Market value</strong> = weighted median of the last 14 days – newer prices count more, so it follows a price crash quickly; silly prices like "1666g 99s 98c" don't count</li>
+<li><strong>Price crash detection:</strong> the tooltip says "price just crashed", and such items are not suggested</li>
+<li><strong>Sell-through estimate:</strong> how many sell per day and how reliable the market value is</li>
 <li><strong>Trends and charts</strong> with time-based EMAs and crossover markers</li>
 <li><strong>Bait-offer protection</strong> and automatic re-checks of suspiciously cheap prices</li>
 <li><strong>Price sync</strong> between all players using the addon</li>
@@ -84,12 +93,14 @@
 <li><strong>Sniper:</strong> targets with max price, quantity, budget, rarity, item level and level filters – searches on its own while the auction house is open</li>
 <li><strong>Bargain watcher:</strong> herbs, ore, cloth, leather, enchanting, elemental, gems, cooking and more – anything at or below x % of market value (default 50 %); never weapons or armour</li>
 <li><strong>One-notch buying</strong> with the mouse wheel or your own key binding</li>
+<li><strong>Stackable goods combined</strong> (classic auction house): same unit price = one row with the sum and the total price; Shift+click several rows and buy them together</li>
 <li><strong>Shopping lists</strong> with quantities – check all prices at once or turn missing items into sniper targets; items already in your bags are subtracted</li>
 <li><strong>Watchlist</strong> with alerts</li>
 </ul>
 <h3>Selling</h3>
 <ul>
 <li><strong>Sell → Post:</strong> price check and undercut suggestion (1 copper, 1 % or 5 %), deposit, AH cut and proceeds – warns when a vendor pays more or when you would sell below your purchase price</li>
+<li><strong>WoW Forever:</strong> the deposit of at least 1 silver per auction is never refunded there – AHSentinel counts it in every profit calculation and suggests the vendor when the fee eats the AH profit</li>
 <li><strong>Series posting:</strong> posts every bag item with a remembered price, one click per auction</li>
 <li><strong>Sell → My auctions:</strong> status of your auctions (lowest / tied / undercut / sold), cancel with one click</li>
 <li><strong>Collect AH mail:</strong> gold and items from all auction mail with one click (COD is never paid)</li>
@@ -98,7 +109,8 @@
 <ul>
 <li><strong>Ledger:</strong> income after the AH cut, spending, deposits and profit for today / 7 days / 30 days / all time – read from your mailbox invoices, nothing counted twice</li>
 <li><strong>Statistics:</strong> sell-through per item, best selling hours and weekdays</li>
-<li><strong>Buy → Bargains:</strong> below market value, below vendor price or below disenchant value, bids and flip recommendations; flipping calculator</li>
+<li><strong>Buy → Bargains:</strong> below market value, below vendor price or below disenchant value, bids and flip recommendations, sorted by realistic profit per day; flipping calculator</li>
+<li><strong>Disenchanting learns together:</strong> your disenchant results are shared with all AHSentinel players (or only your guild), so the drop chances match the server much sooner</li>
 <li><strong>Professions:</strong> material cost, value of the result and profit for every recipe, best recipes, materials straight to a shopping list</li>
 <li><strong>Vendor prices</strong> are learned automatically at every merchant</li>
 <li><strong>Alts &amp; gold:</strong> gold, bags and bank of all your characters, gold history of the last 30 days</li>
@@ -109,7 +121,7 @@
 <li><strong>Five tabs</strong> with sub-tabs, price history in its own window, sniper and watcher switchable in the title bar</li>
 <li>Two designs: <strong>Classic</strong> (looks like the WoW auction house) and <strong>Modern</strong></li>
 <li>Item search by name in any language, by item ID or by shift-click, with suggestions while typing</li>
-<li>Built-in item name list (~23,000 items in 10 languages)</li>
+<li>Built-in item name list (~33,000 items in 10 languages, incl. The Burning Crusade); lists always show names in your chosen language</li>
 <li>Help page for every tab, right-click menu on every item, minimap button</li>
 </ul>
 <hr />
@@ -148,6 +160,10 @@
 <tr>
 <td><code>/ahs scan</code></td>
 <td>start a full market scan</td>
+</tr>
+<tr>
+<td><code>/ahs today</code></td>
+<td>"Today" – what makes the most gold right now</td>
 </tr>
 <tr>
 <td><code>/ahs sniper</code></td>

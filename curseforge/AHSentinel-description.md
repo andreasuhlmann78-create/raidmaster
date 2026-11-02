@@ -85,9 +85,17 @@ In-game: the **Support** button in the addon window (or `/ahs donate`).
 
 ## Features
 
+### Today – what makes the most gold right now
+- One button (or `/ahs today`) lists the best actions right now, sorted by net profit: flips, buying below vendor or disenchant value, selling from your bags, reposting returned auctions
+- **Every row has a button with the next step – right in the list:** *Check* shows the real current offer, *Buy* buys it (never more expensive and never more than suggested), flips then get *Post*
+- **Crafting:** profitable recipes you already know, with a button that adds the missing reagents as buy rows (with **ProfessionSentinel** also missing recipes, vendors and drops, step by step)
+- **Capital protection:** together at most half of your gold, no single suggestion above 20 %
+
 ### Market data
 - **Full market scan** with price history for every item
-- **Market value** = median of the last 14 days, so single outliers barely count
+- **Market value** = weighted median of the last 14 days – newer prices count more, so it follows a price crash quickly; silly prices like "1666g 99s 98c" don't count
+- **Price crash detection:** the tooltip says "price just crashed", and such items are not suggested
+- **Sell-through estimate:** how many sell per day and how reliable the market value is
 - **Trends and charts** with time-based EMAs and crossover markers
 - **Bait-offer protection** and automatic re-checks of suspiciously cheap prices
 - **Price sync** between all players using the addon
@@ -97,11 +105,13 @@ In-game: the **Support** button in the addon window (or `/ahs donate`).
 - **Sniper:** targets with max price, quantity, budget, rarity, item level and level filters – searches on its own while the auction house is open
 - **Bargain watcher:** herbs, ore, cloth, leather, enchanting, elemental, gems, cooking and more – anything at or below x % of market value (default 50 %); never weapons or armour
 - **One-notch buying** with the mouse wheel or your own key binding
+- **Stackable goods combined** (classic auction house): same unit price = one row with the sum and the total price; Shift+click several rows and buy them together
 - **Shopping lists** with quantities – check all prices at once or turn missing items into sniper targets; items already in your bags are subtracted
 - **Watchlist** with alerts
 
 ### Selling
 - **Sell → Post:** price check and undercut suggestion (1 copper, 1 % or 5 %), deposit, AH cut and proceeds – warns when a vendor pays more or when you would sell below your purchase price
+- **WoW Forever:** the deposit of at least 1 silver per auction is never refunded there – AHSentinel counts it in every profit calculation and suggests the vendor when the fee eats the AH profit
 - **Series posting:** posts every bag item with a remembered price, one click per auction
 - **Sell → My auctions:** status of your auctions (lowest / tied / undercut / sold), cancel with one click
 - **Collect AH mail:** gold and items from all auction mail with one click (COD is never paid)
@@ -109,7 +119,8 @@ In-game: the **Support** button in the addon window (or `/ahs donate`).
 ### Profit & bookkeeping
 - **Ledger:** income after the AH cut, spending, deposits and profit for today / 7 days / 30 days / all time – read from your mailbox invoices, nothing counted twice
 - **Statistics:** sell-through per item, best selling hours and weekdays
-- **Buy → Bargains:** below market value, below vendor price or below disenchant value, bids and flip recommendations; flipping calculator
+- **Buy → Bargains:** below market value, below vendor price or below disenchant value, bids and flip recommendations, sorted by realistic profit per day; flipping calculator
+- **Disenchanting learns together:** your disenchant results are shared with all AHSentinel players (or only your guild), so the drop chances match the server much sooner
 - **Professions:** material cost, value of the result and profit for every recipe, best recipes, materials straight to a shopping list
 - **Vendor prices** are learned automatically at every merchant
 - **Alts & gold:** gold, bags and bank of all your characters, gold history of the last 30 days
@@ -119,7 +130,7 @@ In-game: the **Support** button in the addon window (or `/ahs donate`).
 - **Five tabs** with sub-tabs, price history in its own window, sniper and watcher switchable in the title bar
 - Two designs: **Classic** (looks like the WoW auction house) and **Modern**
 - Item search by name in any language, by item ID or by shift-click, with suggestions while typing
-- Built-in item name list (~23,000 items in 10 languages)
+- Built-in item name list (~33,000 items in 10 languages, incl. The Burning Crusade); lists always show names in your chosen language
 - Help page for every tab, right-click menu on every item, minimap button
 
 ---
@@ -152,6 +163,7 @@ Everything works with the mouse – the commands are optional.
 | `/ahs` | open / close the window |
 | `/ahs help` | list all commands in the chat |
 | `/ahs scan` | start a full market scan |
+| `/ahs today` | "Today" – what makes the most gold right now |
 | `/ahs sniper` | sniper on / off |
 | `/ahs summary` | daily summary in the chat |
 | `/ahs alts` | rules for mail to alts |
