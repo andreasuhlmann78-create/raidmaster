@@ -39,6 +39,9 @@ DOWNLOAD = ROOT / "download"
 ANNOUNCE = ROOT / "announce"
 SHARED_DIR = ROOT / "shared"
 UPLOADED = ROOT / "curseforge" / "uploaded.json"
+# Weitere Ordner mit schon veröffentlichten ZIPs (z. B. setzt der Discord-Bot hier seine Ordner addon/ und announce/
+# ein – dort hat er keine Git-Geschichte, kennt aber alles, was er schon gepostet hat)
+EXTRA_DIRS = []
 
 # Gemeinsame Dateien: Name -> Regel
 #   "exact"   : jede Kopie muss Byte für Byte der Vorlage in shared/ entsprechen
@@ -169,6 +172,20 @@ def published_versions():
             m = re.match(r"^[^_]+__.+?-(\d+(?:\.\d+)+)\.([A-Za-z0-9_]+)\.zip$", base)
             if m:
                 add(m.group(2), m.group(1), "Discord (announce/)")
+    # ohne Git (z. B. im Discord-Bot): Dateinamen in download/, announce/ und EXTRA_DIRS
+    for d in [DOWNLOAD, ANNOUNCE] + [Path(x) for x in EXTRA_DIRS]:
+        try:
+            files = list(Path(d).glob("*.zip"))
+        except OSError:
+            files = []
+        for f in files:
+            if f.stem.endswith("-latest"):
+                continue
+            addon, ver = zip_name_version(f)
+            if "__" in f.stem:
+                add(addon, ver, "Discord (announce/)")
+            else:
+                add(addon, ver, f"{Path(d).name}/")
     try:
         for addon, vers in json.loads(UPLOADED.read_text(encoding="utf-8")).items():
             for v in vers:

@@ -9,12 +9,16 @@ Aufbau des Repositorys bzw. der ZIP:
 
 Ablauf: ZIP entpacken -> prüfen (alle .py-Dateien müssen sich übersetzen lassen) -> aktuelle Dateien
 sichern -> neue Dateien kopieren -> Addon-ZIP für #raid-addon bauen -> Bot mit Code 42 beenden.
+Addon-Prüfung: Jede NEUE Addon-ZIP (download/, ZIP-Anhänge in announce/, die gebaute RaidMaster-ZIP) wird mit
+addon-check/addon_check.py aus derselben Repo-ZIP geprüft. Hat sie Fehler, wird sie NICHT übernommen (also auch
+nicht in Discord gepostet) – bei Ankündigungen samt Text und allen Anhängen. Steht in result["rejected"].
 launcher.py startet den Bot neu und stellt die Sicherung wieder her, falls die neue Version abstürzt.
 config.json, data/, addon/ und backup/ werden nie überschrieben.
 """
 
 from __future__ import annotations
 
+import importlib.util
 import io
 import json
 import os
@@ -190,6 +194,40 @@ def build_addon_zip(addon_dir: str, base: str) -> str | None:
     return out
 
 
+def load_addon_check(tmp: str, base: str):
+    """Lädt addon-check/addon_check.py aus der entpackten Repo-ZIP (immer die aktuellen Regeln). None = nicht da."""
+    for dirpath, _, filenames in os.walk(tmp):
+        if os.path.basename(dirpath) == "addon-check" and "addon_check.py" in filenames:
+            try:
+                spec = importlib.util.spec_from_file_location("addon_check_bot", os.path.join(dirpath, "addon_check.py"))
+                mod = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(mod)
+                mod.EXTRA_DIRS = [os.path.join(base, "addon"), os.path.join(base, "announce")]
+                return mod
+            except Exception:
+                return None
+    return None
+
+
+def check_addon_zip(mod, path: str) -> list[str]:
+    """Fehler der Addon-Prüfung (leer = in Ordnung). Stürzt die Prüfung selbst ab, wird nicht blockiert."""
+    if mod is None:
+        return []
+    try:
+        return [text for level, text in mod.check_zip(path) if level == "FEHLER"]
+    except Exception as e:  # die Prüfung darf den Bot nie lahmlegen
+        print(f"Addon-Prüfung für {os.path.basename(path)} fehlgeschlagen: {e}")
+        return []
+
+
+def announce_stem(fn: str) -> str:
+    """Grundname einer Ankündigung: 'reihe-1.2.Addon.zip' / 'reihe-1.2.png' / 'reihe-1.2.md' -> 'reihe-1.2'."""
+    stem = fn.rsplit(".", 1)[0]
+    if fn.lower().endswith(".zip") and "." in stem and stem.rsplit(".", 1)[1].isalpha():
+        stem = stem.rsplit(".", 1)[0]
+    return stem
+
+
 def install_zip(data: bytes, base: str, source: str, ref: str = "") -> dict:
     """Installiert eine Update-ZIP. Liefert Infos fürs Protokoll; wirft UpdateError bei Problemen."""
     tmp = os.path.join(update_dir(base), "tmp")
@@ -205,12 +243,38 @@ def install_zip(data: bytes, base: str, source: str, ref: str = "") -> dict:
         if not bot_dir and not addon_dir:
             raise UpdateError("In der ZIP wurde weder der Bot (bot.py) noch das Addon (RaidMaster.toc) gefunden.")
         result = {"source": source, "ref": ref, "at": int(time.time()), "bot_changed": [], "addon_zip": None,
-                  "old_version": bot_version(base), "version": bot_version(base), "requirements": False}
+                  "old_version": bot_version(base), "version": bot_version(base), "requirements": False,
+                  "rejected": []}
+        checker = load_addon_check(tmp, base)
+        result["addon_check"] = checker is not None
         # Ankündigungen (Ordner announce) übernehmen - der Bot postet jede Datei einmal
         for dirpath, _, filenames in os.walk(tmp):
             if os.path.basename(dirpath) == "announce":
                 os.makedirs(os.path.join(base, "announce"), exist_ok=True)
+                # neue Addon-ZIPs als Anhang prüfen; mit Fehlern -> ganze Ankündigung zurückhalten.
+                # Nur die NEUESTE ZIP je Addon: ältere liegen als Geschichte im Repo und sind längst gepostet.
+                newest = {}
+                if checker is not None:
+                    for fn in filenames:
+                        if fn.lower().endswith(".zip") and "__" in fn:
+                            try:
+                                addon, ver = checker.zip_name_version(type("P", (), {"stem": fn[:-4]})())
+                                key = checker.version_key(addon, ver) if ver else None
+                            except Exception:
+                                addon, key = None, None
+                            if addon and key and (addon not in newest or key > newest[addon][0]):
+                                newest[addon] = (key, fn)
+                latest = {fn for _, fn in newest.values()}
+                blocked = set()
                 for fn in filenames:
+                    if fn in latest and not os.path.isfile(os.path.join(base, "announce", fn)):
+                        errors = check_addon_zip(checker, os.path.join(dirpath, fn))
+                        if errors:
+                            blocked.add(announce_stem(fn))
+                            result["rejected"].append({"file": fn, "errors": errors})
+                for fn in filenames:
+                    if announce_stem(fn) in blocked:
+                        continue
                     # Text (.md) und Anhänge dazu (Bilder, ZIP, PDF) – siehe check_announcements im Bot
                     if fn.lower().endswith((".md", ".png", ".jpg", ".jpeg", ".gif", ".zip", ".pdf", ".txt")):
                         shutil.copy2(os.path.join(dirpath, fn), os.path.join(base, "announce", fn))
@@ -221,13 +285,26 @@ def install_zip(data: bytes, base: str, source: str, ref: str = "") -> dict:
                 for fn in filenames:
                     if fn.lower().endswith(".zip") and "latest" not in fn.lower():
                         dst = os.path.join(base, "addon", fn)
+                        uploader = fn.lower().startswith("raidmasteruploader")
                         # der Uploader hat keine Versionsnummer im Namen: immer die neueste Fassung übernehmen
-                        if not os.path.isfile(dst) or fn.lower().startswith("raidmasteruploader"):
+                        if not os.path.isfile(dst) or uploader:
+                            errors = [] if uploader else check_addon_zip(checker, os.path.join(dirpath, fn))
+                            if errors:
+                                result["rejected"].append({"file": fn, "errors": errors})
+                                continue
                             shutil.copy2(os.path.join(dirpath, fn), dst)
         if addon_dir:
+            version = toc_version(addon_dir)
+            existed = bool(version) and os.path.isfile(os.path.join(base, "addon", f"RaidMaster-{version}.zip"))
             z = build_addon_zip(addon_dir, base)
+            if z and not existed:
+                errors = check_addon_zip(checker, z)
+                if errors:
+                    os.remove(z)
+                    result["rejected"].append({"file": os.path.basename(z), "errors": errors})
+                    z = None
             result["addon_zip"] = os.path.basename(z) if z else None
-            result["addon_version"] = toc_version(addon_dir)
+            result["addon_version"] = version if z else None
         if bot_dir:
             validate_bot_dir(bot_dir)
             req_old = _read(os.path.join(base, "requirements.txt"))

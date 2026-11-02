@@ -204,6 +204,16 @@ Alles, was im GitHub-Repository im Ordner **`announce`** landet, postet der Bot 
   im Kanal (z. B. eine überarbeitete Vorstellung), löscht der Bot den älteren Beitrag samt Fortsetzungen.
 - Ältere Kurzform: `aktionshaus-….md` → #aktionshaus, `raid-addon-….md` → #raid-addon.
 
+## Addon-Prüfung (ab Bot 1.5.92)
+
+Bevor der Bot eine neue Addon-ZIP übernimmt und postet (aus `download/`, als Anhang in `announce/` oder die gebaute
+RaidMaster-ZIP), prüft er sie mit `addon-check/addon_check.py` aus dem Repo: gemeinsame Dateien unverändert,
+Version höher als alles schon Veröffentlichte, `.toc` vollständig, keine Lua-Syntaxfehler.
+Findet die Prüfung Fehler, wird die ZIP **nicht** gepostet (bei einer Ankündigung auch Text und Bilder nicht) und
+im Bot-Kanal steht **🛑 Addon-Prüfung: … NICHT veröffentlicht** mit den Gründen. Die bisherige Version bleibt im
+Discord. Beheben, als neue (höhere) Version hochladen – dann geht sie normal raus.
+Für die Lua-Prüfung braucht der Bot `lupa` (steht in `requirements.txt`, wird beim Update installiert).
+
 ## Ruhmeshalle, Ereignisse, Ersatz, Gildenbank
 
 - **#ruhmeshalle** legt der Bot selbst an (nur der Bot schreibt). Dort erscheinen:

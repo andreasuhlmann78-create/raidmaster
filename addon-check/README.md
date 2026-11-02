@@ -31,10 +31,13 @@ veröffentlicht wurden (eine davon auf CurseForge).
   die anderen laufen weiter.
 - **Bei jedem Push** von ZIPs, `shared/` oder dem Skript (`.github/workflows/addon-check.yml`): prüft alle Addons,
   auch die nur über Discord verteilten (z. B. LevelPilot). Bericht: `addon-check/bericht.md`.
+- **Im Discord-Bot** (`RaidMasterBot/updater.py`, ab Bot 1.5.92): Beim Übernehmen eines Updates wird jede NEUE
+  Addon-ZIP geprüft – aus `download/`, die neueste ZIP je Addon in `announce/` und die gebaute RaidMaster-ZIP.
+  Mit Fehlern wird sie nicht übernommen und nicht gepostet (bei Ankündigungen samt Text und Anhängen); im
+  Bot-Kanal erscheint "🛑 Addon-Prüfung: … NICHT veröffentlicht" mit den Fehlern. Die Regeln kommen immer aus
+  derselben Repo-Version (`addon-check/addon_check.py`).
 - **Von Hand**: `pip install lupa`, dann `python3 addon-check/addon_check.py` (alle) oder mit ZIP-Pfaden.
-
-**Wichtig:** Der Discord-Bot holt neue ZIPs selbst aus dem Repo und wartet nicht auf die Prüfung.
-Deshalb vor dem Push selbst prüfen: `python3 addon-check/addon_check.py download/MeinAddon-x.y.z.zip`.
+  Am besten vor jedem Push: `python3 addon-check/addon_check.py download/MeinAddon-x.y.z.zip`.
 
 ## Gemeinsame Dateien (`shared/`)
 

@@ -4504,6 +4504,17 @@ async def apply_update(data: bytes, source: str, ref: str = "", note: str = "") 
     parts = [f"⬇️ **Update** ({source}{' · `' + ref[:7] + '`' if ref else ''})" + (f": {note[:200]}" if note else "")]
     if result.get("addon_version"):
         parts.append(f"Addon: RaidMaster {result['addon_version']}")
+    for r in result.get("rejected") or []:
+        errs = r.get("errors") or []
+        parts.append(f"🛑 **Addon-Prüfung:** `{r.get('file')}` NICHT veröffentlicht ({len(errs)} Fehler):")
+        for e in errs[:3]:
+            parts.append(f"  • {e[:300]}")
+        if len(errs) > 3:
+            parts.append(f"  • … und {len(errs) - 3} weitere (Bericht: addon-check/bericht.md im Repo)")
+    if result.get("rejected"):
+        parts.append("Bitte beheben und als neue Version hochladen – bis dahin bleibt die bisherige Version in Discord.")
+    if result.get("addon_check") is False:
+        parts.append("⚠️ Addon-Prüfung nicht gefunden (addon-check/addon_check.py fehlt im Repo) – ZIPs ungeprüft übernommen.")
     if result["bot_changed"]:
         parts.append(f"Bot: {result['old_version']} → {result['version']} · geändert: {', '.join(result['bot_changed'][:12])}")
         parts.append("Der Bot startet in wenigen Sekunden neu.")

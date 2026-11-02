@@ -1,3 +1,4 @@
 discord.py>=2.5,<3
 tzdata
 Pillow>=10.1
+lupa>=2   # Addon-Prüfung: Lua-5.1-Syntax der Addon-ZIPs (ohne lupa wird nur die Syntaxprüfung übersprungen)
