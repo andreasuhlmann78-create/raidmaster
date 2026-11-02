@@ -12,6 +12,19 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.4
+
+Fixes from the addon check:
+- **Old "AH Analyzer Pro" (up to 0.61) still installed:** AHSentinel no longer loads next to it (both used the same
+  global table – double events, double commands, possible Lua errors). Instead it asks once in chat to delete the old
+  folder `AddOns\AHAnalyzerPro`. Your old data is saved for AHSentinel first. The old folder is no longer loaded before AHSentinel.
+- **Watcher (Classic Era, TBC):** back to the behaviour of 0.64.2 – it no longer pauses for up to 15 minutes when the
+  server reports "no full scan" (that can come from another addon).
+- **Watcher (WoW Forever, Retail):** if the full scan is due and the server drops requests, the watcher pauses until the scan has run (at most 15 minutes).
+- **Profession window (modern client):** a recipe list that is still empty right after opening no longer blocks reading for 5 seconds;
+  the ingredient button remembers the last chosen recipe; recipe details are read only once per profession (less stutter).
+- `/ahs debug` shows whether vendor costs in currency (e.g. Merchant's Favor) can be read in this client.
+
 ### Version 0.65.3
 
 - **The old "AHAnalyzerPro" folder is no longer included.** AHSentinel is the only folder now.
@@ -44,19 +57,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Sniper:** if WoW blocks the pre-reserved goods purchase (no error, only a blocked-action event),
   "one notch buys" switches itself off and the sniper goes back to two notches.
 - Translations for the WoW Forever deposit texts from 0.64.2 in all languages.
-
-### Version 0.64.2
-
-- **WoW Forever: listing fee counted correctly.** On WoW Forever every auction costs **at least
-  1 silver** deposit, and it is **never refunded**, not even when the item sells. AHSentinel now
-  detects Forever itself and always subtracts the fee instead of only as a risk for expired auctions:
-  flips, sell suggestions in "Today", crafting profits, bargains, disenchant bargains (materials are
-  sold in stacks, fee per piece), vendor-vs-AH comparison and the Sell tab (shows "not refunded").
-- This mostly affects **cheap items**: an item worth 1s 50c in the AH and 71c at a vendor leaves only
-  42c after 5 % and the 1s fee – "Today" then suggests **selling to a vendor**.
-- Fee per piece = max(1 silver, deposit of a full stack) ÷ stack size. Other game versions are
-  unchanged (the deposit is refunded on a sale).
-- Profit calculator: on Forever the 1 silver deposit is included.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
