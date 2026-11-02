@@ -170,7 +170,7 @@ local function Env()
         local ok, lv = pcall(UnitLevel, "player")
         if ok and not IsSecret(lv) then e.level = tonumber(lv) end
     end
-    e.testflavor = G and G.testFlavor and Str(G.testFlavor) or nil
+    -- ein simulierter Client (G.SetTestFlavor) steht in e.status als "[Test]"
     return e
 end
 T.Env = Env
