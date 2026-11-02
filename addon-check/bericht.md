@@ -4,7 +4,7 @@ Vorlage shared/GoldSentinelGame.lua: Version 2
 Tests der gemeinsamen Datei: bestanden GoldSentinelGame-Tests: bestanden
 Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
-## AHSentinel-0.65.3.zip: OK
+## AHSentinel-0.65.4.zip: OK
 
 ## BuffSentinel-0.9.5.zip: OK
 
