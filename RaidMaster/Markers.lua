@@ -11,6 +11,25 @@ local bar
 
 local function C() return RM.db.config end
 
+-- Moderner Client (WoW Forever, Retail): Im Kampf kommen Gegnerdaten als "secret values", und Blizzard will
+-- kein automatisches Markieren fremder Einheiten. Dort im Kampf nur noch Mark/SmartMark per Mouseover-Taste.
+-- Alte Clients (Classic Era, TBC … MoP Classic) bleiben genau wie bisher.
+M.MODERN = (issecretvalue ~= nil) or RM.GAME.key == "forever" or RM.GAME.key == "retail"
+M.simCombat = false        -- Test-Werkzeug: Kampf im modernen Client vorspielen
+M.COMBAT_HINT = "Im Kampf bitte per Mouseover-Taste markieren."
+
+function M.CombatBlocked()
+	if M.simCombat then return true end
+	if not M.MODERN then return false end
+	return (InCombatLockdown and InCombatLockdown()) and true or false
+end
+
+-- Wert nur verwenden, wenn er lesbar ist (secret value → nil)
+local function Plain(v)
+	if RM.IsSecret(v) then return nil end
+	return v
+end
+
 local function TargetUnit()
 	if UnitExists("mouseover") then return "mouseover" end
 	if UnitExists("target") then return "target" end
@@ -39,8 +58,8 @@ function M.Mark(icon)
 	local unit = TargetUnit()
 	if not unit then return end
 	if not CanMark() then RM.Print(L[NO_RIGHTS]) return end
-	SetRaidTarget(unit, icon)
-	if icon and icon > 0 then used[icon] = true end
+	local ok = pcall(SetRaidTarget, unit, icon)
+	if ok and icon and icon > 0 then used[icon] = true end
 end
 
 -- Aktuell sichtbar vergebene Symbole (Ziele der Raidmitglieder)
@@ -49,7 +68,7 @@ local function IconsInUse()
 	for k in pairs(used) do inUse[k] = true end
 	local function check(unit)
 		if UnitExists(unit) then
-			local i = GetRaidTargetIndex(unit)
+			local i = Plain(GetRaidTargetIndex(unit))
 			if i then inUse[i] = true end
 		end
 	end
@@ -67,14 +86,13 @@ function M.SmartMark()
 	local unit = TargetUnit()
 	if not unit then return end
 	if not CanMark() then RM.Print(L[NO_RIGHTS]) return end
-	if GetRaidTargetIndex(unit) then return end
-	if UnitIsPlayer(unit) or UnitIsDead(unit) then return end
+	if Plain(GetRaidTargetIndex(unit)) then return end
+	if Plain(UnitIsPlayer(unit)) or Plain(UnitIsDead(unit)) then return end
 	local template = RM.Data.GetTemplate(C().markerTemplate)
 	local inUse = IconsInUse()
 	for _, icon in ipairs(template.order) do
 		if not inUse[icon] then
-			SetRaidTarget(unit, icon)
-			used[icon] = true
+			if pcall(SetRaidTarget, unit, icon) then used[icon] = true end
 			return
 		end
 	end
@@ -139,12 +157,12 @@ local function VisibleEnemies()
 		local ok, guid = pcall(UnitGUID, unit)
 		if ok and RM.IsSecret(guid) then blocked = blocked + 1 return end
 		if not ok or type(guid) ~= "string" or seen[guid] then return end
-		local ctype = UnitCreatureType and UnitCreatureType(unit)
+		local ctype = UnitCreatureType and Plain(UnitCreatureType(unit))
 		if ctype == "Critter" or ctype == "Kleintier" then return end
 		seen[guid] = true
 		local name = UnitName(unit)
 		if RM.IsSecret(name) then name = nil end
-		list[#list + 1] = { unit = unit, guid = guid, npc = NpcID(guid), name = name, icon = GetRaidTargetIndex(unit) }
+		list[#list + 1] = { unit = unit, guid = guid, npc = NpcID(guid), name = name, icon = Plain(GetRaidTargetIndex(unit)) }
 	end
 	for i = 1, 40 do check("nameplate" .. i) end
 	for _, u in ipairs({ "target", "mouseover", "focus" }) do check(u) end
@@ -154,10 +172,11 @@ end
 
 function M.MarkAdds()
 	if not CanMark() then RM.Print(L[NO_RIGHTS]) return end
+	if M.CombatBlocked() then RM.Print(L[M.COMBAT_HINT]) return end
 	local template = RM.Data.GetTemplate(C().markerTemplate)
 	local enemies, blocked = VisibleEnemies()
 	if #enemies == 0 and blocked > 0 then
-		RM.Print(L["Im Kampf gibt dieser Client die Gegnerdaten nicht frei. Vorlage vor dem Pull markieren – im Kampf Ziel anklicken und Symbolknopf drücken."])
+		RM.Print(L[M.COMBAT_HINT])
 		return
 	end
 	if #enemies == 0 then

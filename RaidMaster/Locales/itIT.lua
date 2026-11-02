@@ -764,4 +764,4 @@ L["Den Bereitschafts-Check bitte außerhalb des Kampfes starten."] = "Avvia il c
 L["Buffs nicht lesbar"] = "buff non leggibili"
 L["Kürschner ansagen"] = "Annuncia gli scuoiatori"
 L["Sagt die Kürschner mit Addon im Raid an (nach Skill sortiert). In diesem Client sehen Addons keine Kämpfe – deshalb per Klick, wenn ein Kernhund liegt."] = "Annuncia gli scuoiatori nell'incursione che hanno l'addon (ordinati per abilità). In questo client gli addon non vedono il combattimento: clicca quando cade un Segugio del Nucleo."
-L["Im Kampf gibt dieser Client die Gegnerdaten nicht frei. Vorlage vor dem Pull markieren – im Kampf Ziel anklicken und Symbolknopf drücken."] = "In combattimento questo client non fornisce i dati dei nemici. Segna con il modello prima del pull; in combattimento seleziona il bersaglio e premi un pulsante simbolo."
+L["Im Kampf bitte per Mouseover-Taste markieren."] = "In combattimento segna con i tasti mouseover."

@@ -764,4 +764,4 @@ L["Den Bereitschafts-Check bitte außerhalb des Kampfes starten."] = "Запус
 L["Buffs nicht lesbar"] = "баффы недоступны"
 L["Kürschner ansagen"] = "Объявить снятие шкур"
 L["Sagt die Kürschner mit Addon im Raid an (nach Skill sortiert). In diesem Client sehen Addons keine Kämpfe – deshalb per Klick, wenn ein Kernhund liegt."] = "Объявляет снимающих шкуры с аддоном в рейде (по навыку). В этом клиенте аддоны не видят бой – нажимай, когда пала гончая Недр."
-L["Im Kampf gibt dieser Client die Gegnerdaten nicht frei. Vorlage vor dem Pull markieren – im Kampf Ziel anklicken und Symbolknopf drücken."] = "В бою этот клиент не выдаёт данные о противниках. Ставь метки по шаблону до пулла – в бою выбери цель и нажми кнопку метки."
+L["Im Kampf bitte per Mouseover-Taste markieren."] = "В бою ставь метки клавишами по наведению (mouseover)."

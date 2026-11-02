@@ -764,4 +764,4 @@ L["Den Bereitschafts-Check bitte außerhalb des Kampfes starten."] = "Please sta
 L["Buffs nicht lesbar"] = "buffs not readable"
 L["Kürschner ansagen"] = "Announce skinners"
 L["Sagt die Kürschner mit Addon im Raid an (nach Skill sortiert). In diesem Client sehen Addons keine Kämpfe – deshalb per Klick, wenn ein Kernhund liegt."] = "Announces the skinners with the addon in the raid (sorted by skill). In this client addons cannot see combat – so click it when a Core Hound is down."
-L["Im Kampf gibt dieser Client die Gegnerdaten nicht frei. Vorlage vor dem Pull markieren – im Kampf Ziel anklicken und Symbolknopf drücken."] = "In combat this client does not release enemy data. Mark with the template before the pull – in combat, target the enemy and press a marker button."
+L["Im Kampf bitte per Mouseover-Taste markieren."] = "In combat, please mark with the mouseover keys."

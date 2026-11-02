@@ -1656,6 +1656,14 @@ local function CreateWindow()
 	m2:SetPoint("LEFT", m1, "RIGHT", 8, 0)
 	local m3 = UI.Button(pe, "Alle aus", 120, 26, function() RM.Markers.ClearAll() end)
 	m3:SetPoint("LEFT", m2, "RIGHT", 8, 0)
+	local m4 = UI.Button(pe, "Adds markieren im Kampf (Forever)", 260, 26, function()
+		-- spielt den Kampf im modernen Client vor: MarkAdds muss mit Hinweis abbrechen, ohne Lua-Fehler
+		RM.Markers.simCombat = true
+		local ok, err = pcall(RM.Markers.MarkAdds)
+		RM.Markers.simCombat = false
+		Log(ok and "Adds markieren im Kampf: abgebrochen mit Hinweis (richtig)." or ("FEHLER: " .. tostring(err)))
+	end, "Spielt einen Kampf im WoW-Forever-Client vor: Adds markieren muss abbrechen und auf die Mouseover-Tasten verweisen.")
+	m4:SetPoint("TOPLEFT", 14, -288)
 
 	-------------------------------------------------------------------
 	-- Reiter Einstellungen

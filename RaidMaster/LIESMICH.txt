@@ -1,4 +1,4 @@
-RaidMaster 3.0.7 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 3.0.8 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,15 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+NEU IN 3.0.8 – Markieren im Kampf (WoW Forever)
+- Im Kampf markiert RaidMaster in WoW Forever (und Retail) nichts mehr automatisch: "Adds markieren"
+  (Knopf, Leiste, /rm adds, Taste) und "Symbole" in der Boss-Leiste brechen ab mit dem Hinweis
+  "Im Kampf bitte per Mouseover-Taste markieren." – ohne Lua-Fehler. Vor dem Pull geht alles wie gewohnt.
+- Die Mouseover-Tasten (Symbol 1–8, nächstes freies Symbol, Symbol entfernen) funktionieren auch im Kampf;
+  gesperrte Werte ("secret values") werden dabei übersprungen.
+- Classic Era, TBC, Wrath, Cata und MoP Classic laufen genau wie bisher.
+- Test-Werkzeug: Knopf "Adds markieren im Kampf (Forever)" spielt den Fall vor.
 
 NEU IN 3.0.7 – WoW Forever: moderner Client
 WoW Forever sieht aus wie Classic, läuft aber auf dem modernen Client. Dort sehen Addons im Kampf keine

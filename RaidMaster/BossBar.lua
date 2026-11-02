@@ -74,6 +74,8 @@ function B.MarkBoss(boss)
 		return
 	end
 	if not (RM.Markers and RM.Markers.CanMark()) then return end
+	-- moderner Client im Kampf: nichts automatisch markieren (alte Clients unverändert)
+	if RM.Markers.CombatBlocked() then RM.Print(L[RM.Markers.COMBAT_HINT]) return end
 	local skullForAdds = false
 	for _, i in ipairs(template.order or {}) do if i == 8 then skullForAdds = true end end
 	if not skullForAdds and UnitExists("target") and not GetRaidTargetIndex("target") then

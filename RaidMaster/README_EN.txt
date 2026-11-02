@@ -1,4 +1,4 @@
-RaidMaster 3.0.7 – DKP, loot and raid leading tools
+RaidMaster 3.0.8 – DKP, loot and raid leading tools
 ====================================================
 
 INSTALLATION
@@ -22,6 +22,14 @@ MAIN FEATURES
   The boss's marker template is selected automatically when the encounter starts.
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
+
+WHAT'S NEW IN 3.0.8 – Marking in combat (WoW Forever)
+- In combat on WoW Forever (and Retail) RaidMaster no longer marks anything automatically: "Mark adds"
+  (button, bar, /rm adds, key binding) and "Markers" on the boss bar stop with the hint
+  "In combat, please mark with the mouseover keys." – no Lua error. Before the pull everything works as usual.
+- The mouseover keys (marker 1–8, next free marker, clear marker) keep working in combat; locked values
+  ("secret values") are skipped.
+- Classic Era, TBC, Wrath, Cata and MoP Classic behave exactly as before.
 
 WHAT'S NEW IN 3.0.7 – WoW Forever: modern client
 WoW Forever looks like Classic but runs on the modern client: in combat, addons no longer see names, GUIDs

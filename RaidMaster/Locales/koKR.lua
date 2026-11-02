@@ -766,4 +766,4 @@ L["Den Bereitschafts-Check bitte außerhalb des Kampfes starten."] = "준비 확
 L["Buffs nicht lesbar"] = "버프 확인 불가"
 L["Kürschner ansagen"] = "무두장이 알림"
 L["Sagt die Kürschner mit Addon im Raid an (nach Skill sortiert). In diesem Client sehen Addons keine Kämpfe – deshalb per Klick, wenn ein Kernhund liegt."] = "공격대에서 애드온을 쓰는 무두장이를 숙련도 순으로 알립니다. 이 클라이언트에서는 애드온이 전투를 볼 수 없으므로 화산 사냥개가 쓰러지면 눌러 주세요."
-L["Im Kampf gibt dieser Client die Gegnerdaten nicht frei. Vorlage vor dem Pull markieren – im Kampf Ziel anklicken und Symbolknopf drücken."] = "이 클라이언트는 전투 중 적 정보를 제공하지 않습니다. 풀링 전에 템플릿으로 징표를 지정하고, 전투 중에는 대상을 선택한 뒤 징표 버튼을 누르세요."
+L["Im Kampf bitte per Mouseover-Taste markieren."] = "전투 중에는 마우스오버 단축키로 징표를 지정하세요."

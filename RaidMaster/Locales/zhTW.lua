@@ -764,4 +764,4 @@ L["Den Bereitschafts-Check bitte außerhalb des Kampfes starten."] = "請在脫�
 L["Buffs nicht lesbar"] = "無法讀取增益"
 L["Kürschner ansagen"] = "通告剝皮者"
 L["Sagt die Kürschner mit Addon im Raid an (nach Skill sortiert). In diesem Client sehen Addons keine Kämpfe – deshalb per Klick, wenn ein Kernhund liegt."] = "按技能排序通告團隊中裝有插件的剝皮者。此用戶端中插件無法讀取戰鬥，所以熔火惡犬倒下時請點擊。"
-L["Im Kampf gibt dieser Client die Gegnerdaten nicht frei. Vorlage vor dem Pull markieren – im Kampf Ziel anklicken und Symbolknopf drücken."] = "此用戶端在戰鬥中不提供敵人資料。請在開怪前按範本標記——戰鬥中選取目標後點擊標記按鈕。"
+L["Im Kampf bitte per Mouseover-Taste markieren."] = "戰鬥中請使用滑鼠懸停快捷鍵進行標記。"
