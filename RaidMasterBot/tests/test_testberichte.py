@@ -173,7 +173,11 @@ class Uploader(unittest.TestCase):
             self.assertNotIn("from testberichte", src, fn)
         with open(os.path.join(BOT_DIR, "bot.py"), encoding="utf-8") as f:
             src = f.read()
-        self.assertNotIn('"testberichte_channel_id"', src.replace("uploader_setup", ""))   # nur über uploader_setup
+        # bot.py merkt sich nur die Kanal-ID (beim Start angelegt); gelesen, beantwortet oder gepostet wird dort nichts
+        body = src[src.index("async def ensure_test_channel"):src.index("async def repair_missing_announcements")]
+        rest = src.replace(body, "")
+        self.assertNotIn("testberichte_channel_id", rest.replace('route_message(cfg', ''))
+        self.assertNotIn("ch.send", body)
 
     def test_b09_find_player(self):
         r = [{"name": "Tank1", "dkp": 1}, {"name": "Rokan Steinwacht", "dkp": 2}]

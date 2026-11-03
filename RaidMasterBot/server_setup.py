@@ -152,7 +152,7 @@ BASE_TOP = [
         "name": "Addon's by GoldSentinel", "mode": "officers_only", "after": "🧩 RAID-ADDON",
         "old_names": ["🛠️ Addons by GoldSentinel"],
         "channels": [
-            ("text", "aktionshaus", "AHSentinel – Auktionshaus-Analyse (nur Offiziere)", "officers_only"),
+            # AHSentinel postet in #ahsentinel (Kanal der Ankündigungen); #aktionshaus wird nicht mehr angelegt (ab 1.5.98)
             ("text", "buffsentinel", "BuffSentinel – Buff-Erinnerungen, Proc-Buttons und Cooldowns für alle WoW-Versionen",
              "officers_only"),
             ("text", "threatsentinel", "ThreatSentinel – hilft Tanks, die Aggro zu halten (WoW Forever)",
@@ -198,7 +198,7 @@ BASE_BOTTOM = [
     {
         "name": "🔊 SPRACHE", "mode": None,
         "channels": [
-            ("voice", "Raid", None, None),
+            # Sprachkanal "Raid" entfällt ab 1.5.98: jeder Raid hat seinen eigenen Sprachkanal in seiner Kategorie
             ("voice", "Allgemein", None, None),
             ("voice", "AFK", None, None),
         ],
@@ -273,6 +273,7 @@ def _find(items, name: str):
 # legt keinen zweiten Kanal mit dem ursprünglichen Namen an und verlinkt sie im Willkommenstext.
 CHANNEL_ALIASES = {
     "regeln": ("dkp-regeln",),
+    "ahsentinel": ("aktionshaus",),           # früherer Kanal von AHSentinel (bis Bot 1.5.97)
     "gruppensuche": ("gruppensuche-für-dungeons",),
 }
 
@@ -870,8 +871,7 @@ async def run_setup(guild: discord.Guild, invoker: discord.Member, cfg: dict, dk
                          ("announce_channel_id", "ankündigungen"), ("pug_channel_id", "pug-anmeldung"),
                          ("data_channel_id", "bot-daten"), ("botcmd_channel_id", "bot-befehle"),
                          ("testberichte_channel_id", "testberichte"),
-                         ("welcome_channel_id", "willkommen"), ("command_list_channel_id", "befehlsliste"),
-                         ("aktionshaus_channel_id", "aktionshaus")):
+                         ("welcome_channel_id", "willkommen"), ("command_list_channel_id", "befehlsliste")):
         if ch_name in created:
             cfg[key] = created[ch_name].id
     creator_roles = list(cfg.get("raid_creator_roles") or [])

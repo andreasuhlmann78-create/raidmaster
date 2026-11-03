@@ -79,13 +79,13 @@ Ohne GitHub geht es auch: das RaidMaster-Paket per WinSCP auf den Server kopiere
 - **📌 INFO**: #willkommen, #regeln, #ankündigungen
 - **⚔️ RAID-ORGA**: #einteilung
 - **🧩 RAID-ADDON** (direkt darunter): **#raid-addon** (Downloads, automatisch vom Bot) und #addon-hilfe
-- **Addon's by GoldSentinel** (direkt darunter, **nur für Offiziere**): #aktionshaus – neue Versionen von
+- **Addon's by GoldSentinel** (direkt darunter, **nur für Offiziere**): #ahsentinel (bis Bot 1.5.97 #aktionshaus) – neue Versionen von
   **AHSentinel** (früher AH Analyzer Pro) postet der Bot dort automatisch (per `/addon-hochladen` oder über GitHub)
 - **Eine Kategorie pro Raid** (🔥 MOLTEN CORE, 🐉 ONYXIAS HORT, 🌲 BARROW DEEPS, 🌋 HYJALGIPFEL) mit
   **-anmeldung** (mit Knopf **Charakter registrieren**), einem **Sprachkanal** (z. B. 🔊 Molten Core),
   **-taktik**, **-dkp** und **-loot**
 - **🎲 PUG**: #pug-anmeldung, #pug-chat, Sprachkanal PUG-Raid
-- **💬 ALLGEMEIN** (#handwerk-und-handel, #gruppensuche; #allgemein legt der Bot ab 1.5.95 nicht mehr an und löscht einen vorhandenen #allgemein einmal, wenn darin nur Bot-Beiträge stehen – sonst meldet er in #bot-befehle, warum er ihn behalten hat), **🗝️ DUNGEONS** (4 Sprachkanäle „Dungeon 1–4“, je 10 Plätze), **🔊 SPRACHE**, **🔒 OFFIZIERE** (#offiziere, **#befehlsliste**, #bot-befehle,
+- **💬 ALLGEMEIN** (#handwerk-und-handel, #gruppensuche; #allgemein legt der Bot ab 1.5.95 nicht mehr an und löscht einen vorhandenen #allgemein einmal, wenn darin nur Bot-Beiträge stehen – sonst meldet er in #bot-befehle, warum er ihn behalten hat), **🗝️ DUNGEONS** (4 Sprachkanäle „Dungeon 1–4“, je 10 Plätze), **🔊 SPRACHE** (Allgemein, AFK; den Sprachkanal „Raid“ gibt es ab 1.5.98 nicht mehr – jeder Raid hat seinen eigenen in seiner Kategorie), **🔒 OFFIZIERE** (#offiziere, **#befehlsliste**, #bot-befehle,
   **#bot-daten**, **#testberichte**, Sprachkanal nur für Offiziere)
 
 **Umbenannte Kanäle (ab Bot 1.5.95):** #regeln darf auch **#dkp-regeln** heißen, #gruppensuche auch **#gruppensuche-für-dungeons**. Der Bot findet sie unter beiden Namen, legt keinen zweiten Kanal an und verlinkt sie im Willkommenstext. Einen umbenannten Kanal verschiebt `/raidmaster-einrichten` nicht und ändert auch seine Rechte nicht. Weitere Namen: `CHANNEL_ALIASES` in `server_setup.py`. In den Regeltexten (`guild_rules.json`) und in Ankündigungen werden Kanäle als `{#kanal}` geschrieben – der Bot macht daraus einen Link, auch zu umbenannten Kanälen.
@@ -141,6 +141,8 @@ wieder hineinlegen.
 - **Wer liest:** nicht der Bot, sondern der GitHub-Workflow der Addon-Prüfung (liest die letzten 500 Nachrichten).
   Der Bot wertet dort nichts aus, antwortet nicht und löscht nichts.
 - **Nicht löschen:** Bitte in #testberichte keine Nachrichten löschen und dort nichts schreiben.
+- **Kanal anlegen:** Fehlt #testberichte, legt der Bot ihn ab 1.5.98 beim Start selbst an (🔒 OFFIZIERE, nur Bot und
+  Admins) und meldet das in #bot-befehle – `/raidmaster-einrichten` ist dafür nicht nötig.
 - **Datenschutz:** Die Berichte enthalten nur Klasse, Stufe, Spielversion, Sprache und Testergebnisse – keine Spieler-,
   Gilden- oder Chatnamen. Aus fremden SavedVariables schickt der Uploader nur diese Berichte, sonst nichts.
 
@@ -224,7 +226,7 @@ Alles, was im GitHub-Repository im Ordner **`announce`** landet, postet der Bot 
   gelöscht. Der Beitrag behält seinen Platz im Kanal. (Gilt nicht für Beiträge mit Anhängen.)
 - **Gleicher Titel ersetzt:** Beginnt eine neue Ankündigung mit derselben ersten Zeile wie ein älterer Bot-Beitrag
   im Kanal (z. B. eine überarbeitete Vorstellung), löscht der Bot den älteren Beitrag samt Fortsetzungen.
-- Ältere Kurzform: `aktionshaus-….md` → #aktionshaus, `raid-addon-….md` → #raid-addon.
+- Ältere Kurzform: `raid-addon-….md` → #raid-addon. (`aktionshaus-….md` postet der Bot ab 1.5.98 nicht mehr – AHSentinel steht in #ahsentinel.)
 - **Datei gelöscht = Beitrag gelöscht (ab Bot 1.5.95):** Wird eine Ankündigung im Repo gelöscht, entfernt der Bot nach
   dem nächsten GitHub-Update seine Beiträge dazu im Discord (nur eigene Nachrichten). Das gilt nur für Updates von
   GitHub, nicht für `/update datei:`. Schutz: Sind es mehr als 5 auf einmal, löscht der Bot nichts und meldet die Liste
@@ -387,7 +389,7 @@ Der Bot führt im Kanal **#gildenname** eine Abstimmung (fehlt der Kanal, legt e
 | `/raid taktik` | Offiziere | Taktik eines Raids (oder ohne Angabe: aller Raids) in die Taktik-Kanäle (#mc-taktik, #onyxia-taktik …) |
 | `/raid softres` | Offiziere | softres.it-Link eines PUG-Raids setzen/ändern |
 | `/addon` | alle | Download-Link der aktuellen Addon-Version |
-| `/addon-hochladen` | Admins | Addon-ZIP hochladen (RaidMaster → #raid-addon, AHSentinel → #aktionshaus) |
+| `/addon-hochladen` | Admins | Addon-ZIP hochladen (RaidMaster → #raid-addon, AHSentinel → #ahsentinel) |
 | `/charakter` | alle | Charakter und Rolle festlegen |
 | `/dkp`, `/dkpliste` | alle | DKP abfragen |
 | `/raidmaster-status` | Offiziere | Version, Uploads, Datenstand |

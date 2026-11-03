@@ -281,6 +281,17 @@ class RaidBot(discord.Client):
             except Exception:
                 log.exception("Gildenbank-Bestand konnte nicht gepostet werden")
             try:
+                rep = await ensure_test_channel()
+                if rep:
+                    log.info("Testberichte: %s", rep)
+                    await post_bot_log(rep)
+            except Exception:
+                log.exception("#testberichte konnte nicht angelegt werden")
+            try:
+                await repair_missing_announcements()
+            except Exception:
+                log.exception("Fehlende Ankündigungen nicht geprüft")
+            try:
                 await sync_class_roles()
             except Exception:
                 log.exception("Klassenfarben konnten nicht gesetzt werden")
@@ -3346,9 +3357,28 @@ def addon_version_key(key: str, v: str) -> tuple:
 # old_keys/old_titles: frühere Namen (AH Analyzer Pro heißt seit 0.62.0 AHSentinel) - deren Beiträge
 # gelten als ältere Versionen und werden beim Aufräumen mit gelöscht.
 EXTRA_ADDONS = {
+    # ab 1.5.98 in #ahsentinel (früher #aktionshaus – der Konfigurationsschlüssel heißt aus Kompatibilität weiter so)
     "ahsentinel": {"title": "AHSentinel", "folder": "AHSentinel", "channel": "aktionshaus_channel_id",
-                   "channel_name": "aktionshaus", "old_keys": ["ahanalyzerpro"], "old_titles": ["AH Analyzer Pro"]},
+                   "channel_name": "ahsentinel", "old_keys": ["ahanalyzerpro"], "old_titles": ["AH Analyzer Pro"]},
 }
+
+
+async def extra_channel(meta: dict):
+    """Kanal eines weiteren Addons. Zeigt die gespeicherte ID auf keinen Kanal mit passendem Namen (z. B. das alte
+    #aktionshaus gibt es nicht mehr), wird der Kanal über Namen und Aliase gesucht und die ID umgestellt."""
+    names = server_setup.channel_names(meta["channel_name"])
+    ch = await channel_by_id(cfg.get(meta["channel"]))
+    if ch is not None and getattr(ch, "name", None) == names[0]:
+        return ch
+    guild = bot_guild()
+    found = server_setup.find_channel(guild.text_channels, meta["channel_name"]) if guild else None
+    if found is None:
+        return ch if ch is not None and getattr(ch, "name", None) in names else None
+    if cfg.get(meta["channel"]) != found.id:
+        log.info("%s: Kanal auf #%s umgestellt.", meta["title"], found.name)
+        cfg[meta["channel"]] = found.id
+        save_config()
+    return found
 
 
 def zip_addon_info(path: str) -> tuple[str, str, str] | None:
@@ -3439,9 +3469,12 @@ async def remove_old_releases(ch, key: str, meta: dict, keep_version: str) -> in
         log.warning("Verlauf von #%s nicht lesbar: %s", meta["channel_name"], e)
         return 0
     hist.sort(key=lambda m: m.created_at)
+    # Beiträge aus announce/ (z. B. die Vorstellung) gehören nicht zu den Versions-Posts: nie anfassen. Bis 1.5.97
+    # konnte eine Vorstellung, die kurz nach einer alten Version gepostet wurde, als deren "Fortsetzung" gelöscht werden.
+    announced_ids = {int(mid) for r in (state.data.get("announce_msgs") or {}).values() for mid in r.get("ids") or []}
     removed, last_old = 0, None
     for m in hist:
-        if m.author != bot.user:
+        if m.author != bot.user or m.id in announced_ids:
             last_old = None
             continue
         text = m.content or ""
@@ -3478,7 +3511,7 @@ async def remove_english_release_notes():
     if state.data.get("english_notes_removed"):
         return
     for meta in EXTRA_ADDONS.values():
-        ch = await channel_by_id(cfg.get(meta["channel"]))
+        ch = await extra_channel(meta)
         if not ch:
             continue
         try:
@@ -3515,7 +3548,7 @@ async def check_extra_releases():
         path, version = pkg
         # einmal nach dem Start: Kanal aufräumen (auch Beiträge älterer Bot-Versionen)
         if key not in _releases_cleaned and versions.get(key):
-            ch0 = await channel_by_id(cfg.get(meta["channel"]))
+            ch0 = await extra_channel(meta)
             if ch0:
                 _releases_cleaned.add(key)
                 try:
@@ -3524,9 +3557,9 @@ async def check_extra_releases():
                     log.warning("Aufräumen von #%s fehlgeschlagen: %s", meta["channel_name"], e)
         if addon_version_key(key, version) <= addon_version_key(key, versions.get(key) or "0"):
             continue
-        ch = await channel_by_id(cfg.get(meta["channel"]))
+        ch = await extra_channel(meta)
         if not ch:
-            log.info("%s %s gefunden, aber Kanal #%s fehlt (/raidmaster-einrichten).", meta["title"], version, meta["channel_name"])
+            log.info("%s %s gefunden, aber Kanal #%s fehlt.", meta["title"], version, meta["channel_name"])
             continue
         notes = zip_changelog(path, key, versions.get(key), version)
         embed = None
@@ -3557,7 +3590,8 @@ async def check_extra_releases():
 # Enthält der Titel eine Versionsnummer (…-1.3.md), ersetzt eine neuere Version die ältere: deren
 # Nachrichten werden nach dem Posten gelöscht.
 ANNOUNCE_DIR = os.path.join(BASE, "announce")
-ANNOUNCE_CHANNELS = {"aktionshaus": "aktionshaus_channel_id", "raid-addon": "addon_channel_id"}
+# "aktionshaus-…" (ohne "__") wird ab 1.5.98 nicht mehr gepostet: #aktionshaus gibt es nicht mehr, AHSentinel steht in #ahsentinel
+ANNOUNCE_CHANNELS = {"raid-addon": "addon_channel_id"}
 ANNOUNCE_ATTACH = (".png", ".jpg", ".jpeg", ".gif", ".zip", ".pdf", ".txt")
 # Versionsreihen: <kanal>__<name>-<version>… (z. B. levelpilot__levelpilot-3.3.0.md). Kommt eine neuere
 # Version derselben Reihe, löscht der Bot die Nachrichten der älteren (samt Anhängen).
@@ -4699,6 +4733,55 @@ async def uploader_cmd(inter: discord.Interaction, nur_programm: bool = False):
 # ---------------------------------------------------------------------------
 # Server-Betrieb: Selbst-Update
 # ---------------------------------------------------------------------------
+
+async def ensure_test_channel() -> str | None:
+    """#testberichte (OFFIZIERE, nur Bot und Admins) beim Start anlegen, falls er fehlt – ohne /raidmaster-einrichten.
+    Der Uploader 1.8.0 und der GitHub-Workflow testberichte.yml brauchen ihn. Liefert eine Meldung oder None."""
+    guild = bot_guild()
+    if guild is None:
+        return None
+    had = guildbank.find_channel(guild.text_channels, uploader_setup.TEST_CHANNEL)
+    ch, note = await uploader_setup.ensure_test_channel(guild, "Testberichte der GoldSentinel-Addons")
+    if ch is not None and cfg.get("testberichte_channel_id") != ch.id:
+        cfg["testberichte_channel_id"] = ch.id
+        save_config()
+    if ch is not None and had is None:
+        return ("🧪 Kanal **#testberichte** angelegt (🔒 OFFIZIERE, nur Bot und Admins). Damit der Uploader dort Testberichte "
+                "abliefern kann: `/uploader` einmal erneut ausführen und die neue uploader_config.json verwenden.")
+    return note
+
+
+async def repair_missing_announcements():
+    """Einmal je Bot-Version: Beiträge aus announce/, die als gepostet gelten, deren Nachrichten aber nicht mehr im
+    Discord stehen (z. B. eine Vorstellung, die bis 1.5.97 beim Aufräumen alter Versionen mit gelöscht wurde),
+    zum erneuten Posten freigeben. Nur Dateien, die noch in announce/ liegen."""
+    marker = "announce_repaired_" + updater.bot_version(BASE)
+    if state.data.get(marker) or not os.path.isdir(ANNOUNCE_DIR):
+        return
+    present = set(os.listdir(ANNOUNCE_DIR))
+    rec = state.data.setdefault("announce_msgs", {})
+    announced = state.data.setdefault("announced", [])
+    freed = []
+    for fn, r in list(rec.items()):
+        if fn not in present or fn not in announced or not r.get("ids") or not r.get("ch"):
+            continue
+        ch = await channel_by_id(r["ch"])
+        if ch is None:
+            continue
+        try:
+            await ch.fetch_message(int(r["ids"][0]))
+        except discord.NotFound:
+            announced.remove(fn)
+            rec.pop(fn, None)
+            freed.append(fn)
+        except discord.HTTPException:
+            pass
+    state.data[marker] = True
+    state.save()
+    if freed:
+        log.info("Ankündigungen fehlten im Discord und werden neu gepostet: %s", ", ".join(freed))
+        await post_bot_log("📣 Diese Ankündigungen fehlten im Discord und werden neu gepostet: " + ", ".join(freed))
+
 
 async def post_bot_log(text: str):
     ch = await channel_by_id(cfg.get("botcmd_channel_id") or cfg.get("officer_channel_id"))
