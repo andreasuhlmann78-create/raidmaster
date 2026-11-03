@@ -117,7 +117,6 @@ _SCOPE_TOKENS = re.compile(
 # Schon veröffentlichte Versionen, die eine neue FEHLER-Regel verletzen: Dort nur Warnung, damit nicht jeder Push rot wird.
 # Die nächste Version muss es beheben. Eintrag entfernen, sobald die Version aus download/ verschwunden ist.
 ALTLAST = {
-    ("professionsentinel", "0.9.11"),  # TestRoutine.lua ersetzt über Stub() _G- und C_-Funktionen (offen-professionsentinel.txt 1)
 }
 
 # Testdateien (eigene Testroutinen der Addons, nicht shared/GoldSentinelTest.lua)
@@ -824,9 +823,12 @@ def check_zip(path, shared_ref=None, dev_max=None):
                          f"Kampf geheim (Lua-Fehler bei :lower(), Vergleich oder als Schlüssel). Vorher GoldSentinelGame.IsSecret prüfen.")
             code = strip_lua_comments(text)
             for pat, fallback, why in TRAPS:
-                if re.search(pat, code) and not re.search(fallback, code):
-                    line = next((i + 1 for i, l in enumerate(text.splitlines()) if re.search(pat, l)
-                                 and not l.lstrip().startswith("--")), "?")
+                # Fallen für alte Blizzard-Funktionen (Muster beginnt mit \b): ein Feld einer eigenen Tabelle
+                # (ns.API.GetMerchantNumItems, A:GetSpellInfo) ist kein Aufruf der alten Funktion -> nicht zählen
+                hits = [m for m in re.finditer(pat, code)
+                        if not (pat.startswith(r"\b") and re.search(r"[.:]\s*$", code[max(0, m.start() - 40):m.start()]))]
+                if hits and not re.search(fallback, code):
+                    line = code.count("\n", 0, hits[0].start()) + 1
                     warn(f"{n}:{line}: {why}")
     # Ladetest: das Addon im nachgebauten Spiel wirklich laden (Forever und Classic Era) – nur ohne Syntaxfehler sinnvoll
     if not any(l == "FEHLER" and t.startswith("Lua-Syntaxfehler") for l, t in res) and not os.environ.get("ADDON_CHECK_NO_LOADTEST"):

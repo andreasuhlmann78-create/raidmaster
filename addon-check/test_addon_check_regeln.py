@@ -114,6 +114,21 @@ check("eigene Tabelle erlaubt", indirect(STUB + 'Stub(ns.Plan, "BuyItem", f)\nSt
 check("eigene lokale C_-Tabelle erlaubt", indirect(STUB + 'local C_Fake = {}\nStub(C_Fake, "Get", f)') == [])
 check("ohne Hilfsfunktion nichts", indirect('Stub(_G, "GetItemInfo", nil)') == [])
 
+# --- Fallen der modernen API: Feld einer eigenen Tabelle zählt nicht (ProfessionSentinel 0.9.12, ns.API) -------------
+def traps(src):
+    with tempfile.TemporaryDirectory() as d:
+        p = Path(d) / "TrapProbe-1.0.0.zip"
+        with zipfile.ZipFile(p, "w") as z:
+            z.writestr("TrapProbe/TrapProbe.toc", "## Interface: 16001\n## Version: 1.0.0\nCore.lua\n")
+            z.writestr("TrapProbe/Core.lua", src)
+        return [t for l, t in a.check_zip(p) if "ohne" in t and ("Ersatz" in t or "C_" in t)]
+
+
+check("alte Funktion direkt -> Warnung", traps("local n = GetMerchantNumItems()\n"))
+check("über eigene Tabelle -> keine Warnung", traps("local n = ns.API.GetMerchantNumItems and ns.API.GetMerchantNumItems()\n") == [])
+check("über Methode -> keine Warnung", traps("local n = A:GetNumTradeSkills()\n") == [])
+check("direkter Aufruf neben Feld -> Warnung", traps("local a = ns.API.GetMerchantNumItems\nlocal n = GetMerchantNumItems()\n"))
+
 # --- Aktionen in Testdateien -------------------------------------------------------------------------------------
 check("Testdatei Test.lua", a.TEST_FILE.search("GuildSentinel/Test.lua"))
 check("Testdatei SelfTest.lua", a.TEST_FILE.search("AHSentinel/SelfTest.lua"))
