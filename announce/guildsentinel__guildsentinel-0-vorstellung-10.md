@@ -1,6 +1,6 @@
 🛡️ **GuildSentinel – das Gildentool**
 
-GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mit Twinks), **wer ist wo**, **wer sucht eine Gruppe**, **wer bietet gerade Portale an**, **was steht an**, **wer levelt am schnellsten**, **wer hat welchen Raid-Zugang** – dazu Termine, Brett, Umfragen, Rekrutierung, Berufe und Gildenregeln. Alles per Maus, in allen Sprachen des Spiels, für Classic Era, WoW Forever und TBC – vernetzt mit allen Addons von GoldSentinel.
+GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mit Twinks), **wer ist wo**, **wer sucht eine Gruppe**, **wer bietet gerade Portale an**, **was steht an**, **wer levelt am schnellsten**, **wer hat welchen Raid-Zugang** – dazu Termine, Brett, Umfragen, Rekrutierung, Berufe und Gildenregeln. Alles per Maus, in allen Sprachen des Spiels (beim Start die eures Clients, unter Einstellungen umstellbar), für Classic Era, WoW Forever und TBC – vernetzt mit allen Addons von GoldSentinel.
 
 **🏠 Übersicht**
 • Gilden-Gesundheit auf einen Blick: aktive Spieler gegenüber dem Vormonat, Zu- und Abgänge, wer bald inaktiv wird, offene Bewerber, nächster Termin

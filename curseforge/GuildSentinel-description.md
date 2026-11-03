@@ -2,13 +2,17 @@
 
 **GuildSentinel puts everything about your guild into one window:** who is who (with alts), who is where, who is looking for a group, who is offering portals right now, what's coming up, who levels fastest and who has which raid attunement – plus events, a board, polls, recruitment, professions and guild rules.
 
-Everything works with the mouse, in **every WoW client language** (English, German, French, Spanish, Italian, Portuguese, Russian, Korean, Chinese), for **Classic Era, WoW Forever and Burning Crusade Classic / Anniversary** – and it connects with all GoldSentinel addons.
+Everything works with the mouse, in **every WoW client language** (English, German, French, Spanish, Italian, Portuguese, Russian, Korean, Chinese – your client language on start, switchable under Settings > General), for **Classic Era, WoW Forever and Burning Crusade Classic / Anniversary** – and it connects with all GoldSentinel addons.
 
 > Made for WoW Classic: Classic Era, WoW Forever and TBC Classic / Anniversary (level 70, Outland dungeons, attunements and heroic keys). The more members of your guild use GuildSentinel, the more complete everything gets – data syncs automatically between members on login. Nothing is sent outside your guild (except the optional server-wide group search).
 
 ---
 
 ## What's new
+
+### Version 0.9.13
+
+- **Language selectable for everyone**: Settings > General > "Language". On start GuildSentinel still uses the language of your game client; you can switch to German, English, French, Spanish (Spain/Mexico), Italian or Portuguese on any client (Russian, Korean and Chinese on a client in that language). GuildSentinel reloads after the change; "Same as the game client" goes back. Replaces the developer-only switch from 0.9.12.
 
 ### Version 0.9.12
 
@@ -39,10 +43,6 @@ Fixes from the review:
 - **Applicant whispers in combat** (WoW Forever): if a message stays protected after combat, GuildSentinel reports once how many could not be read instead of losing them silently.
 - **Player tooltip**: the combat lock applies to every modern client (WoW Forever, Retail).
 - Absence and thanks messages from other players are only accepted when the sender matches exactly.
-
-### Version 0.9.8
-
-- Shared game-version detection (GoldSentinelGame.lua) updated to version 2: it also wins over early, withdrawn copies that other GoldSentinel addons briefly shipped, so loading several GoldSentinel addons together causes no errors. Nothing changes for players.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
