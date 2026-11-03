@@ -692,10 +692,18 @@ def format_standings(rows: list[dict], limit_chars: int = 1900) -> list[str]:
 
 
 def find_player(rows: list[dict], name: str) -> tuple[int, dict] | None:
+    """Platz und Zeile eines Spielers. Zuerst der genaue Name (Gross/klein egal, wie bisher). WoW Forever (Vor- und
+    Nachname): sonst gilt der Vorname allein, wenn genau ein Spieler mit Vor- und Nachnamen ihn hat."""
     name = (name or "").strip().lower()
     for i, r in enumerate(rows, 1):
         if r["name"].lower() == name:
             return i, r
+    if not name or " " in name:
+        return None
+    hits = [(i, r) for i, r in enumerate(rows, 1)
+            if " " in r["name"].strip() and r["name"].strip().lower().split()[0] == name]
+    if len(hits) == 1:
+        return hits[0]
     return None
 
 

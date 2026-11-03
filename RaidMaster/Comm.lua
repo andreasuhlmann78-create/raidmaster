@@ -155,6 +155,8 @@ end
 RM.On("CHAT_MSG_ADDON", function(prefix, msg, channel, sender)
 	if prefix ~= RM.PREFIX or not msg then return end
 	sender = RM.Short(sender)
+	-- geschützter Absender (moderner Client) -> RM.Short liefert nil: Nachricht verwerfen
+	if not sender or RM.IsSecret(msg) then return end
 	if sender == RM.Me() then return end
 	if msg:sub(1, 3) == "~M\t" then
 		local id, i, total, part = msg:match("^~M\t(%d+)\t(%d+)\t(%d+)\t(.*)$")
@@ -340,7 +342,7 @@ Comm.Register("ENTRY", function(sender, d)
 		if store and store.version == d.pv then
 			RM.DKP.ApplyEntryTo(store, d.e, false)
 			store.version = d.v
-			store.received = GetServerTime()
+			store.received = RM.Now()
 			RM.Fire("DATA_CHANGED")
 		elseif not store or (d.v or 0) > (store.version or 0) then
 			local now = GetTime()

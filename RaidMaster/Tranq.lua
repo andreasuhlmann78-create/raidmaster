@@ -96,6 +96,8 @@ end)
 
 -- Antwort per Flüstern (Jäger ohne Addon)
 RM.On("CHAT_MSG_WHISPER", function(msg, sender)
+	-- moderner Client: geschützter Text oder Absender -> nicht auswerten
+	if RM.IsSecret(msg) or RM.IsSecret(sender) then return end
 	sender = RM.Short(sender)
 	if Q.asked[sender] ~= "whisper" or Q.answers[sender] ~= nil then return end
 	local w = (msg or ""):lower():gsub("[%p%s]+", " "):match("^%s*(%S+)")

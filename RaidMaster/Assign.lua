@@ -598,7 +598,7 @@ function A.Build(pool)
 	elseif CTX_ANY[pool] then BuildGeneric(r, result, CTX_ANY[pool].key) end
 
 	-- Speichern (auch für den Discord-Bot: jeder Raid hat dort seinen eigenen Einteilungs-Kanal)
-	local store = { v = GetServerTime(), by = RM.Me(), pool = pool, raid = RM.DKP and RM.DKP.PoolName and RM.DKP.PoolName(pool) or pool,
+	local store = { v = RM.Now(), by = RM.Me(), pool = pool, raid = RM.DKP and RM.DKP.PoolName and RM.DKP.PoolName(pool) or pool,
 		title = (RM.db.signup and RM.db.signup.title) or L["Raid"], ctx = {} }
 	for _, cdef in ipairs(A.ContextsFor(pool)) do
 		local d = result[cdef.key]
@@ -665,7 +665,7 @@ function A.SendAll()
 				end
 				for _, msg in ipairs(chunks(L["[RaidMaster] Deine Aufgaben – "] .. table.concat(parts, " · "), 240)) do
 					local target, text = m.name, msg
-					C_Timer.After(delay, function() SendChatMessage(text, "WHISPER", nil, target) end)
+					C_Timer.After(delay, function() RM.Whisper(text, target) end)
 					delay = delay + 0.3
 				end
 			end

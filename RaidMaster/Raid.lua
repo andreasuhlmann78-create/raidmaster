@@ -22,7 +22,7 @@ function Raid.Start()
 	if not RM.InRaid() then RM.Print(L["Du bist in keinem Schlachtzug."]) return end
 	if RM.db.session.active then RM.Print(L["Der Raid läuft bereits."]) return end
 	local pool = RM.DKP.CurrentInstancePool() or RM.db.config.activePool or "mc"
-	RM.db.session = { active = true, started = GetServerTime(), kills = {}, pool = pool }
+	RM.db.session = { active = true, started = RM.Now(), kills = {}, pool = pool }
 	if RM.db.config.setLootOnStart and RM.IsLeader() then
 		RM.Loot.ApplySettings()
 	end
@@ -61,7 +61,7 @@ function Raid.End()
 		RM.Announce(L["[RaidMaster] Raid beendet. Danke an alle!"], true)
 	end
 	RM.db.session.active = false
-	RM.db.session.ended = GetServerTime()
+	RM.db.session.ended = RM.Now()
 	Raid.ResetPool()
 	RM.Fire("SESSION_CHANGED")
 end
@@ -89,7 +89,7 @@ RM.On("ENCOUNTER_END", function(encounterID, encounterName, difficulty, groupSiz
 	local session = RM.db.session
 	if not session.active or not RM.CanEdit() then return end
 	if session.kills[encounterID] then return end
-	session.kills[encounterID] = GetServerTime()
+	session.kills[encounterID] = RM.Now()
 
 	-- Topf: bekannter Boss -> sein Raid, sonst die aktuelle Instanz, sonst der Raidstart
 	local pool = (boss and boss.pool) or RM.DKP.CurrentInstancePool() or session.pool or "mc"

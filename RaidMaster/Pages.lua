@@ -925,7 +925,7 @@ UI.AddPage("raid", L["Raid"], function(page)
 		local nextText = (RM.db.data.settings.autoDecay ~= false)
 			and string.format(L["\nAutomatisch %d %% – nächster Verfall: %s"], pct, date("%d.%m. %H:%M", RM.DKP.NextDecay())) or ""
 		if last > 0 then
-			local days = math.floor((GetServerTime() - last) / 86400)
+			local days = math.floor((RM.Now() - last) / 86400)
 			local color = days >= 7 and "|cffff6040" or "|cffcccccc"
 			decayText:SetText(string.format("%sLetzter Decay: %s (vor %d Tagen).|r Einstellung: %d %% pro Anwendung.", color, RM.FormatTime(last), days, pct) .. nextText)
 		else

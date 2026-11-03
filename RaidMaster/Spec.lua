@@ -187,7 +187,7 @@ function Spec.Store(name, class, points, src, at)
 	if not RM.db or not name or not class or not points then return false end
 	if not Spec.TREES[class] then return false end
 	name = RM.Short(name)
-	at = at or GetServerTime()
+	at = at or RM.Now()
 	local old = RM.db.specs[name]
 	-- eigene Angaben eines Spielers sind verlässlicher als ein alter Scan
 	if old and old.t and old.t > at then return false end
@@ -201,7 +201,7 @@ end
 function Spec.StoreSpec(name, class, sid, label, role, src, at)
 	if not RM.db or not name or not class or not sid or not label then return false end
 	name = RM.Short(name)
-	at = at or GetServerTime()
+	at = at or RM.Now()
 	local old = RM.db.specs[name]
 	if old and old.t and old.t > at then return false end
 	local changed = not old or old.sid ~= sid or old.c ~= class
@@ -212,7 +212,7 @@ end
 
 function Spec.Prune()
 	if not RM.db then return end
-	local limit = GetServerTime() - MAX_AGE
+	local limit = RM.Now() - MAX_AGE
 	for name, e in pairs(RM.db.specs) do
 		if type(e) ~= "table" or (e.t or 0) < limit then RM.db.specs[name] = nil end
 	end
@@ -286,16 +286,16 @@ RM.Comm.Register("SPEC", function(sender, d)
 		local sid = tonumber(d.sid)
 		local role = (d.r == "tank" or d.r == "heal" or d.r == "melee" or d.r == "ranged") and d.r or nil
 		if not sid or type(d.l) ~= "string" or not role then return end
-		local at = tonumber(d.t) or GetServerTime()
-		if at > GetServerTime() + 300 then at = GetServerTime() end
+		local at = tonumber(d.t) or RM.Now()
+		if at > RM.Now() + 300 then at = RM.Now() end
 		Spec.StoreSpec(sender, d.c, sid, d.l:sub(1, 40), role, "addon", at)
 		return
 	end
 	if type(d.p) ~= "table" then return end
 	local p = { tonumber(d.p[1]) or 0, tonumber(d.p[2]) or 0, tonumber(d.p[3]) or 0 }
 	if p[1] + p[2] + p[3] <= 0 or p[1] + p[2] + p[3] > 100 then return end
-	local at = tonumber(d.t) or GetServerTime()
-	if at > GetServerTime() + 300 then at = GetServerTime() end
+	local at = tonumber(d.t) or RM.Now()
+	if at > RM.Now() + 300 then at = RM.Now() end
 	Spec.Store(sender, d.c, p, "addon", at)
 end)
 
@@ -335,7 +335,7 @@ local function NeedsScan(name)
 	if HasAddon(name) then return false end
 	local e = RM.db.specs[name]
 	if not e then return true end
-	return GetServerTime() - (e.t or 0) > RESCAN_AFTER
+	return RM.Now() - (e.t or 0) > RESCAN_AFTER
 end
 
 local function UnitFor(name)

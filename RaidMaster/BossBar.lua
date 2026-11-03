@@ -31,11 +31,17 @@ local function NameIndex()
 end
 RM.Listen("DB_READY", function() byName = nil end)
 
+-- Ziel lesen: existiert, ist Spieler, Name. Eigene Lesefunktion, damit der Selbsttest sie ersetzen kann –
+-- der Test ersetzt nur B.ReadTarget, nie die Blizzard-Funktionen selbst (sonst "Taint" bis zum /reload).
+function B.ReadTarget()
+	return UnitExists("target"), UnitIsPlayer("target"), UnitName("target")
+end
+
 -- Welcher Boss ist im Ziel? (Ziel oder boss1–boss5 mit gleichem Namen)
 function B.TargetBoss()
 	if B.testTarget then return RM.Data.Bosses[B.testTarget] end
-	if not UnitExists("target") or UnitIsPlayer("target") then return nil end
-	local name = UnitName("target")
+	local exists, isPlayer, name = B.ReadTarget()
+	if not exists or isPlayer then return nil end
 	-- moderner Client im Kampf: Name kann geschützt sein (kein lower(), kein Tabellenschlüssel)
 	if not name or RM.IsSecret(name) then return nil end
 	return NameIndex()[name:lower()]

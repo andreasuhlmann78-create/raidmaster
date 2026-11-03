@@ -1,4 +1,4 @@
-RaidMaster 3.0.14 – DKP, loot and raid leading tools
+RaidMaster 3.0.15 – DKP, loot and raid leading tools
 ====================================================
 
 INSTALLATION
@@ -22,6 +22,17 @@ MAIN FEATURES
   The boss's marker template is selected automatically when the encounter starts.
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
+
+WHAT'S NEW IN 3.0.15 – Safety before the Forever launch
+- Whisper replies (bid accepted, !dkp, raid assignments) now all go through one place. In test mode no real
+  whispers are sent to test players any more.
+- !dkp in WoW Forever: "!dkp Firstname Lastname" and "!dkp Firstname" (if the first name is unique) find the player.
+  Classic Era, TBC etc. unchanged (first name only, exact spelling).
+- WoW Forever in combat: protected whispers, senders of addon messages and corpse GUIDs while looting no longer cause
+  Lua errors – they are skipped.
+- Test tool (developer only): no longer replaces game functions (prevented "action blocked" after a self-test); new
+  test routine "Test everything" (/rmtest testroutine) with a report for the review.
+- RaidMaster Lua errors are counted and sent to the review via the uploader (error text only, no names).
 
 WHAT'S NEW IN 3.0.14 – Fixes before the Forever launch
 - Boss bar: if the target's name is protected in combat (WoW Forever, Retail), changing targets no longer causes a

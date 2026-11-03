@@ -196,7 +196,7 @@ function Loot.Deliver(link, name)
 	end
 	if reason == "closed" or reason == "noslot" then
 		local pa = RM.db.pendingAwards
-		pa[#pa + 1] = { link = link, name = name, t = GetServerTime() }
+		pa[#pa + 1] = { link = link, name = name, t = RM.Now() }
 		RM.Print(string.format(L["Öffne den Boss erneut – %s wird dann automatisch an %s vergeben."], link, name))
 		RM.Fire("LOOT_CHANGED")
 		return false
@@ -222,7 +222,7 @@ end
 ---------------------------------------------------------------------------
 function Loot.AddTrade(link, name)
 	local t = RM.db.trade
-	t[#t + 1] = { link = link, name = RM.Short(name), t = GetServerTime() }
+	t[#t + 1] = { link = link, name = RM.Short(name), t = RM.Now() }
 	RM.Fire("LOOT_CHANGED")
 end
 

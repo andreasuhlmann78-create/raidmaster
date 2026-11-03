@@ -199,6 +199,8 @@ end
 
 RM.On("CHAT_MSG_WHISPER", function(msg, sender)
 	if not RM.db or not RM.db.config.adAutoInvite then return end
+	-- moderner Client: geschützter Text oder Absender -> nicht auswerten
+	if RM.IsSecret(msg) or RM.IsSecret(sender) then return end
 	-- nur in den 30 Minuten nach der letzten Werbung
 	if Ad.lastPost == 0 or GetTime() - Ad.lastPost > 1800 then return end
 	-- Antworten auf "Lücken füllen" (Gilde gefragt, Gruppensuche) prüft RM.Gaps selbst (Klasse/Rolle)

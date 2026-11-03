@@ -78,7 +78,7 @@ end
 local function Finish(source, quiet)
 	local b = RM.db.bank and RM.db.bank.c == RM.Me() and RM.db.bank or {}
 	b.c = RM.Me()
-	b.t = GetServerTime()
+	b.t = RM.Now()
 	b.g = GetMoney and GetMoney() or b.g
 	b.i = current
 	b.src = source

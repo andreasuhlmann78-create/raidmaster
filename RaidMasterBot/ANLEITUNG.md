@@ -314,6 +314,8 @@ Erstellt die Raidleitung im Spiel die **Einteilung** und gibt danach `/reload` e
 - Einzelne Raid-Abrechnungen gibt es standardmäßig nicht mehr (in config.json `"raid_summaries": true` schaltet sie
   wieder ein). Alte Abrechnungen des Bots werden einmal aus den DKP-Kanälen entfernt.
 - `/dkp` zeigt die eigenen DKP in allen Raids, `/dkpliste raid:<Raid>` die Rangliste.
+- WoW Forever (Vor- und Nachname): Gesucht wird zuerst der genaue Name; sonst reicht der Vorname allein, wenn ihn
+  genau ein Spieler hat (ab Bot 1.5.94). Classic Era und andere Versionen: genauer Name wie bisher.
 - Neue Items erscheinen im Loot-Kanal des jeweiligen Raids (#mc-loot usw.) als kompakte Liste: vorne das echte
   Item-Symbol, dann Uhrzeit, Gewinner (Punkt in Klassenfarbe), Itemname und DKP.
 - **Klassenfarben wie im Spiel:** DKP-Stand und Raid-Abrechnung kommen als Bild – Namen und Klassen in der echten

@@ -60,7 +60,7 @@ G.STEPS = {
 -- Speicherstand: WoW schreibt die Datei bei /reload und beim Ausloggen
 ---------------------------------------------------------------------------
 RM.On("PLAYER_LOGOUT", function()
-	if RM.db then RM.db.lastSave = GetServerTime() end
+	if RM.db then RM.db.lastSave = RM.Now() end
 end)
 
 function G.StatusText()

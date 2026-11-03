@@ -1,4 +1,4 @@
-RaidMaster 3.0.14 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 3.0.15 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,17 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+NEU IN 3.0.15 – Sicherheit vor dem Forever-Launch
+- Antworten per Flüstern (Gebot angenommen, !dkp, Aufgaben der Einteilung) laufen jetzt alle über dieselbe Stelle.
+  Im Testmodus gehen dadurch keine echten Flüsternachrichten mehr an Testspieler.
+- !dkp in WoW Forever: "!dkp Vorname Nachname" und "!dkp Vorname" (wenn der Vorname eindeutig ist) finden den
+  Spieler. Classic Era, TBC usw. wie bisher (nur der erste Name, genau geschrieben).
+- WoW Forever im Kampf: geschützte Flüsternachrichten, Absender von Addon-Nachrichten und Leichen-GUIDs beim
+  Plündern lösen keinen Lua-Fehler mehr aus – sie werden übersprungen.
+- Test-Werkzeug (nur für den Entwickler): ersetzt keine Spielfunktionen mehr (verhinderte "Aktion blockiert" nach
+  einem Selbsttest); neue Testroutine "Alles testen" (/rmtest testroutine) mit Bericht an die Prüfung.
+- Lua-Fehler von RaidMaster werden gezählt und mit dem Uploader an die Prüfung gemeldet (nur Fehlertext, keine Namen).
 
 NEU IN 3.0.14 – Korrekturen vor dem Forever-Launch
 - Boss-Leiste: Ist der Name des Ziels im Kampf geschützt (WoW Forever, Retail), gibt es keinen Lua-Fehler mehr

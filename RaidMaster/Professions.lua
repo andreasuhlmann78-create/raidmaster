@@ -258,7 +258,7 @@ function P.StoreScan(profName, rank, max, ids, names, mats)
 	me.p[profName] = { r = rank, m = max, i = ids, n = names }
 	local store = Mats()
 	for recipe, rg in pairs(mats) do store[recipe] = { p = profName, r = rg } end
-	me.t = GetServerTime()
+	me.t = RM.Now()
 	-- Sammelberufe und Stufen ergänzen
 	for name, v in pairs(P.ReadSkillLines()) do
 		me.p[name] = me.p[name] or {}
@@ -330,7 +330,7 @@ function P.ReadNext()
 		-- keine Berufsfenster: nur Stufen speichern
 		local me = Mine()
 		for name, v in pairs(P.ReadSkillLines()) do me.p[name] = { r = v.r, m = v.m } end
-		me.t = GetServerTime()
+		me.t = RM.Now()
 		RM.Print(L["Keine Berufe mit Rezepten gefunden – Stufen gespeichert."])
 		P.ScheduleSend()
 		return
@@ -415,7 +415,7 @@ RM.Comm.Register("PROF", function(sender, d, channel)
 	local s = Store()
 	local old = s[sender]
 	if old and (old.t or 0) > (d.t or 0) then return end
-	s[sender] = { c = d.c, t = d.t or GetServerTime(), p = d.p }
+	s[sender] = { c = d.c, t = d.t or RM.Now(), p = d.p }
 	RM.Fire("PROF_CHANGED", sender)
 end)
 
@@ -424,8 +424,8 @@ RM.On("PLAYER_LOGIN", function()
 	if not C_Timer then return end
 	C_Timer.After(40, function()
 		local me = RM.db and RM.db.prof and RM.db.prof[RM.Me()]
-		if me and (RM.db.config.profSent or 0) < GetServerTime() - 86400 then
-			RM.db.config.profSent = GetServerTime()
+		if me and (RM.db.config.profSent or 0) < RM.Now() - 86400 then
+			RM.db.config.profSent = RM.Now()
 			P.SendMine()
 		end
 	end)

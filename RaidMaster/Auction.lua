@@ -99,7 +99,7 @@ function A.Start(indexOrLink)
 	local pool = RM.DKP.ActivePool()
 	local poolName = RM.DKP.PoolName(pool)
 	aidCounter = aidCounter + 1
-	local aid = RM.Me() .. "-" .. GetServerTime() .. "-" .. aidCounter
+	local aid = RM.Me() .. "-" .. RM.Now() .. "-" .. aidCounter
 	A.current = {
 		aid = aid, link = link, min = s.minBid, inc = s.bidIncrement, pool = pool,
 		endsAt = GetTime() + s.auctionTime, bids = {}, passes = {}, high = 0, highName = nil,
@@ -363,14 +363,16 @@ end)
 RM.On("CHAT_MSG_WHISPER", function(msg, sender)
 	local c = A.current
 	if not c or c.finished then return end
+	-- moderner Client: geschützter Text oder Absender -> nicht auswerten
+	if RM.IsSecret(msg) or RM.IsSecret(sender) then return end
 	local m = (msg or ""):lower()
 	local amount = m:match("^%s*!?bid%s+(%d+)") or m:match("^%s*!?gebot%s+(%d+)")
 	if not amount then return end
 	local ok, err = A.ReceiveBid(sender, amount, nil)
 	if ok then
-		SendChatMessage(string.format(L["[RaidMaster] Gebot angenommen: %s DKP auf %s"], amount, c.link), "WHISPER", nil, sender)
+		RM.Whisper(string.format(L["[RaidMaster] Gebot angenommen: %s DKP auf %s"], amount, c.link), sender)
 	else
-		SendChatMessage(L["[RaidMaster] "] .. err, "WHISPER", nil, sender)
+		RM.Whisper(L["[RaidMaster] "] .. err, sender)
 	end
 end)
 

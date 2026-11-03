@@ -112,6 +112,7 @@ function D.Text()
 	add("  " .. L["Raid-Sitzung: "] .. (s.active and (string.format(L["aktiv seit %s"], date("%H:%M", s.started)) .. " (" .. RM.DKP.PoolName(s.pool or "mc") .. ")") or L["keine"]))
 	for _, fn in ipairs(D.providers) do
 		local okp, lines = pcall(fn)
+		if not okp then RM.ReportError("Diag.provider", lines) end
 		if okp and type(lines) == "table" and #lines > 0 then
 			add("")
 			for _, l in ipairs(lines) do add(l) end
@@ -153,6 +154,7 @@ function D.Fix()
 	end
 	for _, fn in ipairs(D.fixers) do
 		local okf, lines = pcall(fn)
+		if not okf then RM.ReportError("Diag.fixer", lines) end
 		if okf and type(lines) == "table" then for _, l in ipairs(lines) do done[#done + 1] = l end end
 	end
 	RM.Fire("AUCTION_CHANGED")

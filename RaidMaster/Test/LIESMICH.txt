@@ -6,6 +6,18 @@ RaidMaster Test-Werkzeug (in RaidMaster eingebaut) – RaidMaster im Spiel gefah
 - Keine eigene Installation mehr – das Test-Tool kommt mit RaidMaster (ab 2.1.0).
   Den alten Ordner Interface\AddOns\RaidMasterTest bitte löschen.
 
+TESTROUTINE "ALLES TESTEN" (neu mit RaidMaster 3.0.15, nur für den Entwickler)
+- Reiter "Protokoll" -> Knopf "Alles testen", oder /rmtest testroutine (auch /rm testroutine). Einzelne Bereiche:
+  /rmtest testroutine A … J. Nur außerhalb des Kampfes und mit beendetem Testmodus starten.
+- Die Routine startet den Testmodus selbst, prüft, beendet ihn und vergleicht danach deine echten Daten mit der
+  Sicherung ("echte Daten unverändert: OK"; bei Abweichung wird die Sicherung zurückgeschrieben).
+- Echte Aktionen (Chat, Markieren, Einladen …) werden nur gezählt, nie ausgelöst – erwartet: 0.
+- Bericht im Kopierfenster (Strg+A, Strg+C) und in den SavedVariables; der Uploader schickt ihn nach dem nächsten
+  /reload an die Prüfung. Danach bitte /reload.
+- Was nur im Spiel geprüft werden kann, steht als "IM CLIENT PRÜFEN" mit Anleitung im Bericht.
+- Das Test-Werkzeug ersetzt keine Spielfunktionen mehr (früher GetServerTime, UnitName …): Die Uhr von RaidMaster
+  (RM.Now) wird für mehrere Raidabende verschoben, die Boss-Leiste liest das Ziel über RM.BossBar.ReadTarget.
+
 LÜCKEN FÜLLEN IM TEST (neu mit RaidMaster 2.6.0)
 - Testgilde mit 9 Mitgliedern (Tank, Heil-Priester, Priester ohne bekannte Skillung, Magier, Schurke, Druide, Hexer,
   Jäger, Krieger) – "Gilde fragen" flüstert sie an, sie antworten nach 2–4 Sek. (meist "inv").

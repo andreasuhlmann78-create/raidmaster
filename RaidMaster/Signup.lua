@@ -182,7 +182,7 @@ end
 function S.Import(text)
 	local result, err = S.Parse(text)
 	if not result then RM.Print(err) return false end
-	result.imported = GetServerTime()
+	result.imported = RM.Now()
 	-- Testraid aus Discord: nur im Testmodus (Einladen wird simuliert, nichts geht an echte Spieler)
 	if S.IsTestSignup(result) and not RM.IsDev() then
 		-- Testraids aus Discord gehören zum Testmodus – nur für den Entwickler
@@ -892,7 +892,7 @@ function S.AutoInviteState()
 	if not cfg.autoInvite then return "aus" end
 	if not su or not su.start then return L["kein Raidbeginn im Import"] end
 	local openAt = su.start - (cfg.autoInviteMinutes or 15) * 60
-	local now = GetServerTime()
+	local now = RM.Now()
 	if now < openAt then return L["öffnet "] .. date("%d.%m. %H:%M", openAt) end
 	if now > su.start + 1800 then return "beendet" end
 	return "aktiv"

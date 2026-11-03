@@ -818,7 +818,7 @@ local function UpdateStatus()
 	if not main then return end
 	local data = RM.db.data
 	local parts = {}
-	parts[#parts + 1] = L["Datenstand: "] .. (data.version > 0 and RM.FormatTime(math.min(data.version, GetServerTime())) or "leer")
+	parts[#parts + 1] = L["Datenstand: "] .. (data.version > 0 and RM.FormatTime(math.min(data.version, RM.Now())) or "leer")
 	parts[#parts + 1] = RM.CanEdit() and L["|cff40ff40Volle Rechte|r"]
 		or (RM.CanLoot() and L["|cffffd200Plündermeister|r"]) or (L["Nur Ansicht"] .. " (" .. L["nicht Raidleiter"] .. ")")
 	if RM.db.session.active then

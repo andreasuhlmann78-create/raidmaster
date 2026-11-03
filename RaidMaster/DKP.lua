@@ -361,7 +361,7 @@ function DKP.NewEntry(kind, text, deltas, item, ref, extra)
 	end
 	if not deltas or not next(deltas) then return nil end
 	entryCounter = entryCounter + 1
-	local now = GetServerTime()
+	local now = RM.Now()
 	local e = { id = now .. "-" .. RM.Me() .. "-" .. entryCounter, t = now, by = RM.Me(), k = kind, x = text, d = deltas, i = item, r = ref }
 	if extra then
 		for k, v in pairs(extra) do e[k] = v end
@@ -479,7 +479,7 @@ end
 ---------------------------------------------------------------------------
 -- Beginn der laufenden Raid-Woche (Zeitpunkt des letzten Resets)
 function DKP.WeekStart(now)
-	now = now or GetServerTime()
+	now = now or RM.Now()
 	local untilReset = C_DateAndTime and C_DateAndTime.GetSecondsUntilWeeklyReset and C_DateAndTime.GetSecondsUntilWeeklyReset()
 	if type(untilReset) == "number" and untilReset > 0 and untilReset <= 7 * 86400 then
 		return now + math.floor(untilReset) - 7 * 86400
@@ -514,8 +514,8 @@ function DKP.CheckAutoDecay()
 	if (data.lastDecay or 0) >= ws then return false end
 	if (data.lastDecay or 0) == 0 then
 		-- erstes Mal: ab jetzt zählen (kein Verfall auf Punkte, die vor dem Einschalten verdient wurden)
-		data.lastDecay = GetServerTime()
-		data.version = math.max((data.version or 0) + 1, GetServerTime())
+		data.lastDecay = RM.Now()
+		data.version = math.max((data.version or 0) + 1, RM.Now())
 		if RM.Comm and RM.Comm.BroadcastSnapshot then RM.Comm.BroadcastSnapshot() end
 		RM.Fire("DATA_CHANGED")
 		return false
@@ -527,15 +527,19 @@ function DKP.CheckAutoDecay()
 		return true
 	end
 	-- niemand hat DKP: Woche trotzdem als erledigt merken
-	data.lastDecay = GetServerTime()
+	data.lastDecay = RM.Now()
 	return false
 end
 
 RM.On("PLAYER_LOGIN", function()
 	if not C_Timer then return end
 	-- erst den Abgleich mit der Gilde abwarten, dann regelmäßig prüfen
-	C_Timer.After(90, function() pcall(DKP.CheckAutoDecay) end)
-	C_Timer.NewTicker(1800, function() pcall(DKP.CheckAutoDecay) end)
+	local function Check()
+		local ok, err = pcall(DKP.CheckAutoDecay)
+		if not ok then RM.ReportError("AutoDecay", err) end
+	end
+	C_Timer.After(90, Check)
+	C_Timer.NewTicker(1800, Check)
 end)
 
 ---------------------------------------------------------------------------
@@ -574,7 +578,7 @@ function DKP.SetMain(twink, main, silent)
 	p.m = main
 	if main then DKP.EnsurePlayer(main) end
 	local data = RM.db.data
-	data.version = math.max((data.version or 0) + 1, GetServerTime())
+	data.version = math.max((data.version or 0) + 1, RM.Now())
 	if RM.Comm and RM.Comm.BroadcastSnapshot then RM.Comm.BroadcastSnapshot() end
 	if not silent then
 		RM.Print(main and string.format(L["%s ist jetzt ein Twink von %s."], twink, main) or string.format(L["%s ist kein Twink mehr."], twink))
@@ -591,7 +595,7 @@ function DKP.AddPlayer(name)
 	-- Spieler mit 0 DKP anlegen, über eine 0-Buchung nicht möglich -> Snapshot verteilen
 	DKP.EnsurePlayer(name)
 	if RM.CanEdit() then
-		RM.db.data.version = math.max(RM.db.data.version + 1, GetServerTime())
+		RM.db.data.version = math.max(RM.db.data.version + 1, RM.Now())
 		RM.Comm.BroadcastSnapshot()
 	end
 	RM.Fire("DATA_CHANGED")
@@ -621,7 +625,7 @@ function DKP.SettingsChanged()
 		RM.Print(L["Nur Offiziere können die gemeinsamen DKP-Einstellungen ändern."])
 		return
 	end
-	RM.db.data.version = math.max(RM.db.data.version + 1, GetServerTime())
+	RM.db.data.version = math.max(RM.db.data.version + 1, RM.Now())
 	RM.Comm.BroadcastSnapshot()
 	RM.Fire("DATA_CHANGED")
 	RM.Print(L["Einstellungen gespeichert und an die Gilde verteilt."])
@@ -650,7 +654,7 @@ function DKP.ImportForeign(s, sender)
 	local store = DKP.ForeignStore(s.g)
 	local isNew = (store.version or 0) == 0
 	DKP.ImportSnapshotTo(store, s, false)
-	store.received = GetServerTime()
+	store.received = RM.Now()
 	store.source = sender
 	if RM.UI and not RM.UI.viewGuild and (not RM.MyGuild() or RM.InRaid()) then
 		RM.UI.viewGuild = s.g
@@ -763,10 +767,41 @@ function DKP.ExportText()
 	return table.concat(lines, "\n")
 end
 
+-- Spieler in den DKP-Daten finden: zuerst exakt, sonst über RM.G.SameName (WoW Forever: Vorname allein, wenn er
+-- eindeutig ist). Alte Clients: nur der exakte Name wie bisher. Liefert Name und Eintrag (oder nil).
+function DKP.FindPlayer(name, data)
+	data = data or RM.db.data
+	local players = data.players or {}
+	local short = RM.Short(name)
+	if not short then return nil end
+	if type(players[short]) == "table" then return short, players[short] end
+	local G = RM.G
+	if not (G and G.SameName) then return nil end
+	local function unique(first)
+		local n = 0
+		for k in pairs(players) do
+			if type(k) == "string" and k:lower():match("^(%S+)") == first then n = n + 1 end
+		end
+		return n == 1
+	end
+	local found, entry
+	for k, p in pairs(players) do
+		if type(k) == "string" and type(p) == "table" and G.SameName(k, short, unique) then
+			if found then return nil end        -- mehrdeutig
+			found, entry = k, p
+		end
+	end
+	return found, entry
+end
+
 -- Kurzüberblick aller Töpfe eines Spielers, z. B. "MC 40 · Ony 20"
 function DKP.Summary(name, data)
 	data = data or RM.db.data
 	local p = data.players[RM.Short(name)]
+	if p == nil then
+		local _, found = DKP.FindPlayer(name, data)
+		p = found
+	end
 	local parts = {}
 	for _, key in ipairs(DKP.PoolList(data)) do
 		local v = PoolValue(p, key)
@@ -792,17 +827,29 @@ end)
 ---------------------------------------------------------------------------
 RM.On("CHAT_MSG_WHISPER", function(msg, sender)
 	if not RM.db or not RM.db.config.whisperReplies then return end
+	-- moderner Client: geschützter Text oder Absender -> nicht auswerten
+	if RM.IsSecret(msg) or RM.IsSecret(sender) then return end
 	local m = (msg or ""):lower()
 	if not m:match("^%s*!dkp") then return end
 	if not RM.CanEdit() then return end
 	-- Nur einer soll antworten: Plündermeister oder wer den Raid gestartet hat
 	if not (RM.IAmMasterLooter() or RM.db.session.active) then return end
 	local name = RM.Short(sender)
-	local target = m:match("^%s*!dkp%s+(%S+)")
-	if target then
-		target = target:sub(1, 1):upper() .. target:sub(2)
-		SendChatMessage(string.format("[RaidMaster] %s: %s", target, DKP.Summary(target)), "WHISPER", nil, sender)
+	-- ganzer Rest nach "!dkp" (WoW Forever: Vor- und Nachname mit Leerzeichen)
+	local target = (msg or ""):match("^%s*![dD][kK][pP]%s+(.-)%s*$")
+	-- alte Clients: nur das erste Wort wie bisher (dort gibt es keine Namen mit Leerzeichen)
+	if target and not RM.IsForever then target = target:match("^(%S+)") end
+	if target and target ~= "" then
+		local found = DKP.FindPlayer(target)
+		if found then
+			target = found
+		elseif RM.G and RM.G.CleanName then
+			target = RM.G.CleanName(target) or target
+		else
+			target = target:sub(1, 1):upper() .. target:sub(2):lower()
+		end
+		RM.Whisper(string.format("[RaidMaster] %s: %s", target, DKP.Summary(target)), sender)
 	else
-		SendChatMessage(string.format("[RaidMaster] Deine DKP: %s", DKP.Summary(name)), "WHISPER", nil, sender)
+		RM.Whisper(string.format("[RaidMaster] Deine DKP: %s", DKP.Summary(name)), sender)
 	end
 end)

@@ -166,6 +166,10 @@ local function CaptureReal()
 	REAL.captured = true
 end
 CaptureReal()   -- Test.lua lädt als letzte Datei von RaidMaster, alles ist schon da
+-- für die Testroutine (T07): echte Funktionen gemerkt?
+function T.RealCaptured()
+	return REAL.captured == true and REAL.RaidStart ~= nil and REAL.RaidEnd ~= nil
+end
 
 -- Testgruppe: entweder die 39 Testspieler oder – nach dem Import von Anmeldungen – nur, wer (simuliert)
 -- eingeladen wurde und angenommen hat (T.roster)
@@ -291,7 +295,7 @@ function T.Start()
 	T.InstallSimulations()
 	-- Markierung für den Discord-Bot: Daten aus dem Testmodus nie als echte DKP übernehmen
 	-- post = true: jedes Speichern (/reload, Ausloggen) schickt das Testergebnis an Discord (DKP- und Loot-Kanal)
-	RM.db.testMode = { active = true, started = GetServerTime(), pool = T.pool, post = T.AutoSendOn() or nil }
+	RM.db.testMode = { active = true, started = RM.Now(), pool = T.pool, post = T.AutoSendOn() or nil }
 	C_Timer.After(0.2, function() if T.active then T.UpdateBars() end end)
 	T.ApplySpeed()
 	Log("Testmodus AN – Daten gesichert, keine Nachrichten an Gilde/Raid. Der Testraid ist leer (nur du), " .. #BENCH .. " Testspieler auf der Ersatzbank. "
@@ -650,6 +654,7 @@ function T.Stop()
 	if saved.CheckMainLeader then RM.CheckMainLeader = saved.CheckMainLeader end
 	if saved.RaidStart then RM.Raid.Start, RM.Raid.End = saved.RaidStart, saved.RaidEnd; saved.RaidStart, saved.RaidEnd = nil, nil end
 	T.active = false
+	RM.timeOffset = 0                       -- Uhr von RaidMaster wieder auf echte Serverzeit
 	if RM.BossBar and RM.BossBar.testTarget then RM.BossBar.testTarget = nil end
 	T.UpdateBars()
 	T.HideAutoSend()
@@ -664,7 +669,7 @@ end
 -- Nach dem Neuladen ist der Testmodus beendet und deine echten Daten sind wieder da.
 function T.SendToDiscord()
 	if not T.active then Log("Erst den Testmodus starten und einen Raid simulieren.") return end
-	RM.db.testMode = RM.db.testMode or { active = true, started = GetServerTime() }
+	RM.db.testMode = RM.db.testMode or { active = true, started = RM.Now() }
 	RM.db.testMode.post = true
 	RM.db.testMode.pool = T.pool
 	RM.UI.Confirm("Testdaten an Discord senden?\nDie Oberfläche wird neu geladen. Der Bot postet DKP, Teilnehmer und Loot des Tests "
@@ -690,7 +695,7 @@ function T.HideAutoSend()
 end
 function T.AutoSend(reason)
 	if not T.active or not T.AutoSendOn() then return end
-	RM.db.testMode = RM.db.testMode or { active = true, started = GetServerTime() }
+	RM.db.testMode = RM.db.testMode or { active = true, started = RM.Now() }
 	RM.db.testMode.post = true
 	RM.db.testMode.pool = T.pool
 	if not sendFrame then
@@ -752,7 +757,7 @@ function T.Override(what, keepSession)
 	if sendFrame and sendFrame:IsShown() then T.HideAutoSend(); did = true end
 	if not keepSession and RM.db.session.active then
 		RM.db.session.active = false
-		RM.db.session.ended = GetServerTime()
+		RM.db.session.ended = RM.Now()
 		did = true
 	end
 	RM.Fire("AUCTION_CHANGED"); RM.Fire("SESSION_CHANGED")
@@ -857,7 +862,7 @@ function T.TryFirstKill()
 	local def = RM.Data.Pools[T.pool]
 	local id = T.boss or (def and def.bossIDs and def.bossIDs[#def.bossIDs]) or 672
 	local b = RM.Data.Bosses[id]
-	RM.Records.Celebrate(id, b and b.name or "Ragnaros", 3, GetServerTime(), true)
+	RM.Records.Celebrate(id, b and b.name or "Ragnaros", 3, RM.Now(), true)
 end
 
 function T.TryRecord()
@@ -1186,16 +1191,10 @@ local function RunStep()
 end
 
 -- Mehrere Raidabende hintereinander: auf Wunsch je eine Woche auseinander datiert
--- (GetServerTime wird nur im Testmodus verschoben und danach zurückgesetzt)
+-- (nur die Uhr von RaidMaster – RM.Now – wird verschoben; GetServerTime selbst bleibt unangetastet)
 T.runs, T.weekly = 1, true
-local realServerTime
 local function SetTimeOffset(sec)
-	if not realServerTime then realServerTime = GetServerTime end
-	if sec == 0 then
-		GetServerTime = realServerTime
-	else
-		GetServerTime = function() return realServerTime() + sec end
-	end
+	RM.timeOffset = tonumber(sec) or 0
 end
 T.SetTimeOffset = SetTimeOffset
 
@@ -1214,10 +1213,10 @@ function T.NextSeriesRun()
 	local idx = sr.total - sr.left + 1
 	T.SetTimeOffset(T.weekly and -(sr.left - 1) * 7 * 86400 or 0)
 	Log(string.format("Raidabend %d von %d%s", idx, sr.total,
-		(T.weekly and sr.total > 1) and (" – datiert auf " .. date("%d.%m.%Y", GetServerTime())) or ""))
+		(T.weekly and sr.total > 1) and (" – datiert auf " .. date("%d.%m.%Y", RM.Now())) or ""))
 	sr.left = sr.left - 1
 	-- zurückdatierte Abende gehören auch zu den Testdaten für Discord
-	if RM.db.testMode then RM.db.testMode.started = math.min(RM.db.testMode.started or GetServerTime(), GetServerTime() - 60) end
+	if RM.db.testMode then RM.db.testMode.started = math.min(RM.db.testMode.started or RM.Now(), RM.Now() - 60) end
 	T.RunRaid()
 end
 
@@ -1364,6 +1363,14 @@ end
 ---------------------------------------------------------------------------
 -- Selbsttest: was kann dieser Client, ist RaidMaster richtig eingestellt?
 ---------------------------------------------------------------------------
+-- Köder für einen geschützten Wert ("secret value"): jede Benutzung außer Weitergeben wirft einen Lua-Fehler.
+-- Nur RM.IsSecret bzw. GoldSentinelGame.IsSecret erkennen ihn – über eine Hülle im Test, nie über issecretvalue.
+function T.MakeSecret()
+	local function boom() error("geschützter Wert benutzt", 2) end
+	return setmetatable({}, { __index = boom, __newindex = boom, __concat = boom, __lt = boom, __le = boom, __eq = boom,
+		__len = boom, __call = boom, __tostring = function() return "<geschützt>" end })
+end
+
 function T.SelfTest()
 	local out = {}
 	local function line(ok, text) out[#out + 1] = (ok == nil and "|cffbbbbbb•|r " or ok and "|cff40ff40OK|r  " or "|cffff5544!!|r  ") .. text end
@@ -1392,21 +1399,21 @@ function T.SelfTest()
 			line(ok, "Versionsweiche (Forever ↔ Classic Era): " .. (ok and "beide Wege richtig, echte Erkennung wiederhergestellt" or tostring(err)))
 		end
 	end
-	-- Bossleiste: geschützter Zielname (moderner Client im Kampf) darf keinen Fehler auslösen
+	-- Bossleiste: geschützter Zielname (moderner Client im Kampf) darf keinen Fehler auslösen.
+	-- Ersetzt wird nur die eigene Lesefunktion B.ReadTarget und RM.IsSecret (Felder von RaidMaster), nie eine
+	-- Blizzard-Funktion. Der Köder wirft bei jeder Benutzung (lower(), Vergleich, Tabellenschlüssel …) einen Fehler.
 	do
 		local B = RM.BossBar
-		local saved = { UnitExists = UnitExists, UnitIsPlayer = UnitIsPlayer, UnitName = UnitName, IsSecret = RM.IsSecret, tt = B and B.testTarget }
-		local SECRET = "Ragnaros"
+		local SECRET = T.MakeSecret()
+		local keep = { read = B and B.ReadTarget, isSecret = RM.IsSecret, tt = B and B.testTarget }
 		local ok, res = pcall(function()
 			B.testTarget = nil
-			UnitExists = function(u) return u == "target" end
-			UnitIsPlayer = function() return false end
-			UnitName = function(u) if u == "target" then return SECRET end return saved.UnitName(u) end
-			RM.IsSecret = function(v) return v == SECRET end
+			B.ReadTarget = function() return true, false, SECRET end
+			RM.IsSecret = function(v) return rawequal(v, SECRET) or keep.isSecret(v) end
 			return B.TargetBoss()
 		end)
-		UnitExists, UnitIsPlayer, UnitName, RM.IsSecret = saved.UnitExists, saved.UnitIsPlayer, saved.UnitName, saved.IsSecret
-		if B then B.testTarget = saved.tt end
+		if B then B.ReadTarget, B.testTarget = keep.read, keep.tt end
+		RM.IsSecret = keep.isSecret
 		line(ok and res == nil, "Bossleiste mit geschütztem Zielnamen: " .. (ok and res == nil and "kein Fehler, kein Boss erkannt" or tostring(res)))
 	end
 	line(#RM.Data.RaidList > 0, string.format("Raids dieser Version: %d mit %d Bossen, %d Markierungsvorlagen", #RM.Data.RaidList, #RM.Data.BossOrder, #RM.Data.MarkerTemplates))
@@ -1430,7 +1437,7 @@ function T.SelfTest()
 	local d = RM.db.data
 	local players = 0
 	for _ in pairs(d.players or {}) do players = players + 1 end
-	line(true, string.format("Daten: %d Spieler, %d Log-Einträge, Stand %s", players, #(d.log or {}), d.version > 0 and RM.FormatTime(math.min(d.version, GetServerTime())) or "leer"))
+	line(true, string.format("Daten: %d Spieler, %d Log-Einträge, Stand %s", players, #(d.log or {}), d.version > 0 and RM.FormatTime(math.min(d.version, RM.Now())) or "leer"))
 	line(nil, "Testmodus: " .. (T.active and ("AN, Ansicht als " .. ROLE_NAMES[T.role]) or "aus"))
 	-- Spenden-Knopf: Knopf da, Klick öffnet das Fenster, Feld enthält genau den Link, Esc schließt
 	do
@@ -1783,9 +1790,12 @@ local function CreateWindow()
 	local pl = panes.log
 	local selfBtn = UI.Button(pl, "Selbsttest", 120, 26, function() T.SelfTest() end, "Prüft Spielversion, Daten, Rechte und Einstellungen.")
 	selfBtn:SetPoint("TOPLEFT", 14, -4)
+	local allBtn = UI.Button(pl, "Alles testen", 120, 26, function() if RM.TestRoutine then RM.TestRoutine.Run() end end,
+		"Testroutine: prüft RaidMaster automatisch, Bericht im Kopierfenster und für die Prüfung (/rmtest testroutine).")
+	allBtn:SetPoint("LEFT", selfBtn, "RIGHT", 8, 0)
 	local diagBtn = UI.Button(pl, "Diagnose", 120, 26, function() if RM.Diag then RM.Diag.Toggle() end end,
 		"Zeigt Fehler und Hänger von RaidMaster und vom Test-Durchlauf und kann sie lösen.")
-	diagBtn:SetPoint("LEFT", selfBtn, "RIGHT", 8, 0)
+	diagBtn:SetPoint("LEFT", allBtn, "RIGHT", 8, 0)
 	local box = UI.Multiline(pl, W - 28, 380, true)
 	box:SetPoint("TOPLEFT", 14, -38)
 
@@ -1839,6 +1849,8 @@ function T.Slash(msg)
 	if msg == "start" then T.Start()
 	elseif msg == "stop" or msg == "ende" then T.StopAsk()
 	elseif msg == "check" or msg == "selbsttest" then T.SelfTest(); if not (win and win:IsShown()) then print((T.selfTest or ""):gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", "")) end
+	elseif msg:match("^testroutine") then
+		if RM.TestRoutine then RM.TestRoutine.Run(msg:match("^testroutine%s+(%S+)")) end
 	else T.Toggle() end
 end
 SlashCmdList["RAIDMASTERTEST"] = T.Slash

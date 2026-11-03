@@ -304,7 +304,7 @@ end
 function G.NearStart()
 	if RM.db.session.active then return true end
 	local su = RM.db.signup
-	return su ~= nil and su.start ~= nil and GetServerTime() >= su.start - G.FILLER_MINUTES * 60
+	return su ~= nil and su.start ~= nil and RM.Now() >= su.start - G.FILLER_MINUTES * 60
 end
 
 -- Vorschlag berechnen
@@ -639,6 +639,8 @@ function G.OnWhisper(msg, sender, guid)
 end
 
 RM.On("CHAT_MSG_WHISPER", function(msg, sender, ...)
+	-- moderner Client: geschützter Text oder Absender -> nicht auswerten
+	if RM.IsSecret(msg) or RM.IsSecret(sender) then return end
 	local guid = select(10, ...)
 	G.OnWhisper(msg, sender, guid)
 end)

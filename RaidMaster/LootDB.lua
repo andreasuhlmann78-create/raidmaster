@@ -96,7 +96,7 @@ function LDB.OnKill(encounterID, encounterName, groupSize)
 	local known = RM.db.lootdb and RM.db.lootdb.bosses and RM.db.lootdb.bosses[encounterID]
 	for _, npc in ipairs((known and known.npc) or {}) do npcs[npc] = true end
 	pending[#pending + 1] = { e = encounterID, p = (boss and boss.pool) or CurrentPool(), n = (boss and boss.name) or encounterName,
-		t = GetServerTime(), at = GetTime(), z = Zone(), s = groupSize, npcs = npcs }
+		t = RM.Now(), at = GetTime(), z = Zone(), s = groupSize, npcs = npcs }
 	wipe(engaged)
 end
 
@@ -156,7 +156,7 @@ end
 function LDB.Record(kill, ids, info, guid)
 	if not kill or not kill.e or not ids or #ids == 0 then return false end
 	local s = LDB.Store()
-	local now = kill.t or GetServerTime()
+	local now = kill.t or RM.Now()
 	table.sort(ids)
 	s.kills[#s.kills + 1] = { e = kill.e, p = kill.p, n = kill.n, t = now, z = kill.z, s = kill.s, g = guid, i = ids }
 	while #s.kills > LDB.MAX_KILLS do table.remove(s.kills, 1) end
@@ -183,7 +183,7 @@ end
 function LDB.RecordTrash(ids, info, guid, pool)
 	if not ids or #ids == 0 then return false end
 	local s = LDB.Store()
-	local now = GetServerTime()
+	local now = RM.Now()
 	table.sort(ids)
 	local _, npc = LDB.ParseGUID(guid)
 	s.trash[#s.trash + 1] = { p = pool, t = now, z = Zone(), g = guid, m = npc, i = ids }
@@ -222,6 +222,8 @@ end
 function LDB.OnLootOpened()
 	if not Recording() then return end
 	local ids, info, guid = LDB.ReadLootWindow()
+	-- moderner Client im Kampf: geschützte GUID nie als Tabellenschlüssel oder Vergleich benutzen
+	if RM.IsSecret(guid) then guid = nil end
 	if #ids == 0 then return end
 	if guid and seen[guid] then return end      -- dieselbe Leiche/Truhe nochmal geöffnet
 	local idx = MatchKill(guid, ids, info)
@@ -251,7 +253,7 @@ RM.On("PLAYER_LOGIN", function()
 	-- nach /reload: schon gespeicherte Leichen der letzten Stunde nicht nochmal zählen
 	local s = RM.db and RM.db.lootdb
 	if not s then return end
-	local since = GetServerTime() - 3600
+	local since = RM.Now() - 3600
 	for _, list in ipairs({ s.kills or {}, s.trash or {} }) do
 		for i = #list, 1, -1 do
 			local e = list[i]

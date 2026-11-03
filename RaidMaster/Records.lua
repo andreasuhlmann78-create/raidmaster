@@ -72,7 +72,7 @@ function R.OnEnd(id, name, difficulty, size, success)
 	local first = f and f.first or false
 	local tries = (wipes[id] or 0) + 1
 	wipes[id] = nil
-	local now = GetServerTime()
+	local now = RM.Now()
 	-- Kill-Protokoll
 	RM.db.killlog = RM.db.killlog or {}
 	table.insert(RM.db.killlog, { e = id, n = bossName, p = PoolFor(id), t = now, d = duration and math.floor(duration + 0.5) or nil,
@@ -139,7 +139,7 @@ RM.Comm.Register("REC", function(sender, d, channel)
 	if channel ~= "GUILD" or not d.e or not d.d then return end
 	local s = Store()
 	local cur = s[d.e]
-	if not cur or d.d < cur.d then s[d.e] = { d = tonumber(d.d), t = tonumber(d.t) or GetServerTime(), n = d.n } RM.Fire("RECORDS_CHANGED", d.e) end
+	if not cur or d.d < cur.d then s[d.e] = { d = tonumber(d.d), t = tonumber(d.t) or RM.Now(), n = d.n } RM.Fire("RECORDS_CHANGED", d.e) end
 end)
 
 RM.On("ENCOUNTER_START", function(id) R.OnStart(id) end)

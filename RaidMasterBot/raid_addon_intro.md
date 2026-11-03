@@ -27,6 +27,9 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
+**3.0.15** – Sicher in den Launch
+• `!dkp Vorname Nachname` und `!dkp Vorname` (wenn eindeutig) finden euch in WoW Forever. Flüstern und Addon-Nachrichten im Kampf lösen keine Fehler mehr aus.
+
 **3.0.14** – Fit für den Forever-Launch
 • Boss-Leiste, Beute-Datenbank und Betrachten laufen im Kampf im neuen Forever-Client ohne Fehler. Classic Era und TBC wie gehabt.
 
@@ -44,8 +47,5 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 
 **3.0.7** – Bereit für WoW Forever
 • Bereitschafts-Check liest Fläschchen und Elixiere im neuen Forever-Client; ist ein Buff nicht lesbar, steht das da statt „kein Fläschchen“. Kernhunde: Knopf **Kürschner ansagen** auf der Seite Raid.
-
-**3.0.6** – Aufgeräumt
-• Das Test-Werkzeug ist jetzt nur noch für den Entwickler da – für euch ändert sich sonst nichts.
 
 Ältere Neuerungen stehen im Addon in der Datei LIESMICH.txt.

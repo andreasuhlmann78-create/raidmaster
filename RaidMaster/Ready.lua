@@ -102,7 +102,7 @@ function R.Start()
 	if not RM.InRaid() then RM.Print(L["Der Bereitschafts-Check geht nur im Raid."]) return end
 	if not (RM.IsAssist() or RM.CanEdit()) then RM.Print(L["Den Bereitschafts-Check starten Raidleiter und Assistenten."]) return end
 	if InCombatLockdown and InCombatLockdown() then RM.Print(L["Den Bereitschafts-Check bitte außerhalb des Kampfes starten."]) return end
-	R.checkId = tostring(GetServerTime()) .. math.random(100, 999)
+	R.checkId = tostring(RM.Now()) .. math.random(100, 999)
 	R.started = GetTime()
 	wipe(R.results)
 	-- alle Raidmitglieder: Buffs selbst prüfen (geht auch ohne Addon)

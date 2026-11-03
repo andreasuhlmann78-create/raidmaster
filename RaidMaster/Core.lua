@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "3.0.14"
-RM.VERSION_NUM = 30014
+RM.VERSION = "3.0.15"
+RM.VERSION_NUM = 30015
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -80,6 +80,20 @@ end
 function RM.Safe(v)
 	if RM.IsSecret(v) then return nil end
 	return v
+end
+
+-- Serverzeit für RaidMaster. Das Test-Werkzeug verschiebt nur RM.timeOffset (mehrere Raidabende im Abstand
+-- von einer Woche); GetServerTime selbst wird nie ersetzt (sonst "Taint" für Blizzard und andere Addons).
+RM.timeOffset = 0
+function RM.Now()
+	return GetServerTime() + (RM.timeOffset or 0)
+end
+
+-- Selbst abgefangenen Fehler an die Prüfung melden (GoldSentinelTest.lua, gemeinsame Datei): nur Ort und Lua-Meldung,
+-- nie Namen. Fehler, die schon an geterrorhandler gehen, hier NICHT melden (sonst doppelt gezählt).
+function RM.ReportError(where, err)
+	local GT = _G.GoldSentinelTest
+	if GT and GT.Error then pcall(GT.Error, "RaidMaster", where, err) end
 end
 
 ---------------------------------------------------------------------------
@@ -658,6 +672,11 @@ local frame = CreateFrame("Frame")
 RM.frame = frame
 local handlers = {}
 
+-- Handler eines Ereignisses (für die Testroutine: einzeln mit pcall aufrufen)
+function RM.HandlersFor(event)
+	return handlers[event]
+end
+
 function RM.On(event, fn)
 	if not handlers[event] then
 		-- Events, die es in diesem Client nicht gibt, still überspringen
@@ -709,6 +728,8 @@ RM.On("ADDON_LOADED", function(name)
 	db.pendingAwards = db.pendingAwards or {}
 	db.specs = db.specs or {}
 	RM.db = db
+	-- Testberichte und Lua-Fehler für die Prüfung sammeln (RaidMasterDB.gsTest; der Uploader schickt sie an Discord)
+	if GoldSentinelTest then GoldSentinelTest.TrackErrors("RaidMaster", RM.VERSION, db) end
 	if RegisterPrefix then RegisterPrefix(RM.PREFIX) end
 	RM.Fire("DB_READY")
 end)
@@ -773,6 +794,9 @@ SlashCmdList["RAIDMASTER"] = function(msg)
 		RM.Comm.RequestSync()
 	elseif msg == "test" then
 		if RM.Test then RM.Test.Toggle() end
+	elseif msg:match("^testroutine") then
+		-- Testroutine (nur für den Entwickler, wie das Test-Werkzeug): /rm testroutine [A … J]
+		if RM.Test and RM.Test.Slash then RM.Test.Slash(msg) end
 	elseif msg:match("^beute") or msg:match("^loot%s") or msg == "loot" then
 		-- eigene Beute-Datenbank: /rm beute [Boss]
 		if RM.LootDB then RM.LootDB.PrintBoss(msg:match("^%S+%s*(.*)$")) end

@@ -13,11 +13,12 @@
 ## Notes-zhTW: 依團隊副本區分的DKP、公開競標、拾取規則、團隊分工、自動邀請、天賦專精與團長工具
 ## Author: GoldSentinel
 ## X-License: All Rights Reserved (c) GoldSentinel
-## Version: 3.0.14
+## Version: 3.0.15
 ## SavedVariables: RaidMasterDB, RaidMasterTestDB, RaidMasterTestOptions
 
 GoldSentinelDev.lua
 GoldSentinelGame.lua
+GoldSentinelTest.lua
 Locale.lua
 Locales\enUS.lua
 Locales\frFR.lua
@@ -71,4 +72,5 @@ Welcome.lua
 Records.lua
 Bank.lua
 Test\LootData.lua
+Test\Routine.lua
 Test\Test.lua
