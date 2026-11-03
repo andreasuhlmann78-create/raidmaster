@@ -1,0 +1,621 @@
+ANWEISUNG TESTROUTINE – GUILDSENTINEL
+=====================================
+Addon: GuildSentinel (Gildentool) · geprüfte Version: 0.9.8 (download/GuildSentinel-0.9.8.zip = Repo, Commit f5e607f)
+Stand: 2. November 2026 · von der Prüf-Sitzung
+An: den Claude-Kollegen von GuildSentinel. Ziel: die bestehende Testroutine (Test.lua, "Alles durchklicken") zu einer
+Routine ausbauen, die GuildSentinel "auf Herz und Nieren" prüft und ihre Ergebnisse selbstständig an die Prüf-Sitzung meldet.
+Umsetzen am besten zusammen mit den offenen Korrekturen (korrektur-guildsentinel-0.9.8.txt / neu-guildsentinel.txt) als 0.9.9
+oder direkt danach als 0.9.10.
+
+----------------------------------------------------------------------------------------------------
+0. REGELN (GELTEN FÜR ALLES IN DIESER DATEI)
+----------------------------------------------------------------------------------------------------
+- Bei jeder Code-Änderung immer die KOMPLETTE Datei liefern, nie Ausschnitte oder Fragmente zum Einfügen.
+- Alte Clients nie brechen: Classic Era (11508/11509) und TBC Anniversary (20505/20506) verhalten sich nach dem Umbau exakt
+  wie vorher. Neue Weichen nur über GoldSentinelGame bzw. das Vorhandensein einer Funktion.
+- Der Testmodus und die Routine tun NICHTS mit echten Folgen: kein Chat in Gilde/Offizier/Flüstern/Kanäle, kein Addon-
+  Abgleich, keine Einladung in Gilde oder Gruppe, kein Entfernen/Befördern, keine Gildennotiz, keine Rangrechte
+  (GuildControlSetRank), kein Kanal betreten/verlassen, kein Kauf/Verkauf/Post, keine Markierungen fremder Einheiten, kein Gold.
+  Was sonst hinausginge, wird nur aufgezeichnet (Recorder, siehe 2.4) bzw. wie bisher mit [Test] im Chatfenster gezeigt.
+- Echte SavedVariables (GuildSentinelDB: settings, guilds, chars) sind nach dem Test unverändert. Sandbox wie bei LevelPilot:
+  vorher sichern, nachher vergleichen und wiederherstellen; Berichtzeile "echte Daten unverändert: OK".
+  Ausgenommen ist nur GuildSentinelDB.gsTest (dort legt GoldSentinelTest die Berichte ab, Abschnitt 6).
+- Die Routine startet nur ausserhalb des Kampfes (InCombatLockdown() == false), sonst Hinweis und Abbruch ohne Änderung.
+  Beginnt mitten im Lauf ein Kampf (PLAYER_REGEN_DISABLED), bricht sie sauber ab (Rest = ÜBERSPRUNGEN "Kampf begonnen"),
+  stellt alles wieder her und speichert den Teilbericht.
+- Nur für den Entwickler: wie bisher über GoldSentinelDev:Require("GuildSentinel"). Für alle anderen ändert sich nichts.
+- Vor dem Push: python3 addon-check/addon_check.py download/GuildSentinel-<Version>.zip  -> kein FEHLER.
+  Die Offline-Tests im Repo (test/run_*.lua, tools/loc/check.py) weiter laufen lassen und um die neuen Fälle ergänzen.
+- Texte der Routine (Hinweise, Fenstertitel) in allen 10 Sprachdateien nachziehen. Die Ergebnis-Namen der Testfälle im
+  Bericht bleiben deutsch (der Bericht ist für die Prüf-Sitzung).
+
+----------------------------------------------------------------------------------------------------
+1. BESTEHENDE TESTROUTINE (STAND 0.9.8, BELEGT)
+----------------------------------------------------------------------------------------------------
+Start:
+- Testmodus: /gs test schaltet ihn um und öffnet Einstellungen > Testmodus (Core.lua:672-676). Knopf "Testmodus starten/
+  beenden" (Pages.lua:1820-1822). Reiter "Testmodus" nur mit feature = "dev" (Pages.lua:1664 -> ns.Feature("dev") ->
+  ns.IsDev(), Core.lua:147-156). T:Start verlangt GoldSentinelDev:Require("GuildSentinel") (Test.lua:392). Also: nur Entwickler.
+- Routine: nur der Knopf "Alles durchklicken" in Einstellungen > Testmodus (Pages.lua:1824 -> ns.Test:RunAll()).
+  Es gibt KEINEN Slash-Befehl für die Routine und keine Einzelbereiche.
+Abdeckung (Test.lua:572-619, T:RunAll):
+- startet den Testmodus, falls aus (573), baut und zeigt das Fenster (575-576);
+- öffnet jede eingeschaltete Seite (13 Seiten: home, members, group, events, poll, board, myweek, progress, prof, recruit,
+  lead, addons, settings) und jeden sichtbaren Reiter (40 Reiter: members 8, recruit 4, prof 4, settings 3, lead 6, group 2,
+  progress 6, poll 2, board 5) – je ein pcall über Try (578-581, 582-597);
+- löst die 13 Test-Ereignisse aus T.EVENTS aus (Test.lua:445-459, Aufruf 598);
+- prüft den Spenden-Knopf mit 4 asserts (Knopf da, Fenster offen, Link = Donate.URL, Esc schliesst) (600-610);
+- gibt im Chat "x Seiten, y Reiter, z Ereignisse – keine Fehler" bzw. die Fehlerliste aus (612-617).
+Zahl der Prüfungen: höchstens 13 + 40 + 13 + 1 = 67 Aufrufe; ausser beim Spenden-Knopf wird nur "kein Lua-Fehler" geprüft,
+kein Ergebnis.
+Testgilde (Test.lua:61-347): 17 erfundene Mitglieder + ich, Twinks per Notiz, Termine, Brett, Umfrage, Berufe, Abklingzeiten,
+Bewerber, Offiziersnotizen, Abgänge. Sandbox: nur ns.guild, ns.guildKey, Roster.list/byName/scans, Comm.users, Free.list
+werden getauscht (Test.lua:393-418, 423-435). Senden ist gesperrt in Comm:Send (Comm.lua:167), Dispatch (Comm.lua:205),
+ns.Chat (Core.lua:169), ns.Blocked (Core.lua:175-178), ns.OpenWhisper (Core.lua:447-450), Rc:Whisper (Recruit.lua:320-323).
+Diagnose: S:DiagText zeigt Client, Berufsfenster und G.Status() (Pages.lua:1844-1850).
+
+Was fehlt (wichtigste Lücken):
+ L1  Kein Bericht: Ergebnis nur im Chat, kein OK/FEHLER/ÜBERSPRUNGEN je Prüfung, kein Kopierfenster, nichts gespeichert.
+ L2  Kein Ergebnis wird geprüft (ausser Spenden-Knopf). Funktionen aller Module (Roster, Social, Recruit, Events, Poll, Board,
+     Craft, Cooldowns, Progress, Goals, Lead, Bulk, Sync …), Slash-Befehle, Optionen und Funktionsschalter werden nicht geprüft.
+ L3  Keine Client-Simulation: G.SetTestFlavor wird nie benutzt. Zudem werden die Weichen in Game.lua nur EINMAL beim Laden
+     gesetzt (Game.lua:14-31: FOREVER, TBC, MODERN, MODERN_PROFESSIONS, BOTH_HYBRIDS) – SetTestFlavor erreicht sie heute nicht.
+ L4  Keine Forever-Sonderfälle: keine secret values, keine fehlenden alten Globals, keine Kampfsperre, kein Kampflog-Check.
+     Die Offline-Tests (test/run_forever95.lua) decken einen Teil ab, aber nicht im echten Client.
+ L5  Sandbox unvollständig – vermutete Befunde (im Client bzw. mit der neuen Routine bestätigen):
+     N1  Core.lua:582-601 ns:SetupGuild: kommt im Testmodus PLAYER_GUILD_UPDATE (Core.lua:622-624), liefert ns.GuildName()
+         den Testgilden-Namen (Core.lua:524) -> GuildSentinelDB.guilds["<Realm>|Testgilde"] wird angelegt und GESPEICHERT,
+         ns.guild zeigt danach auf diese Tabelle.
+     N2  Group.lua:327-338 G:JoinChannel prüft den Testmodus nicht: Option "Suchen vom ganzen Server" oder Funktion
+         "Gruppensuche" im Testmodus umschalten -> echter Kanal GuildSentinelLFG wird betreten/verlassen.
+     N3  Verzögerte Sendungen nach "Testmodus beenden": Recruit.lua:348 (Antwort nach 1,5 s), Recruit.lua:76 (Fragen nach 4 s),
+         ns.Claim (Comm.lua:315-326, bis 6,5 s). Wird der Testmodus vor Ablauf beendet, gehen echte Flüsternachrichten an
+         "WandererN-Test" bzw. echte Gildenansagen hinaus.
+     N4  Einstellungen und Charakterdaten werden im Testmodus echt geschrieben: ns.db.lastAdTime (Recruit.lua:229),
+         ns.db.freeBy (Free.lua:73), ns.db.welcomed (Lead.lua:445), GuildSentinelDB.chars (MyWeek.lua:25-46), dazu jede
+         Option, die man im Testmodus anklickt.
+ L6  Kein Fehlerzähler: abgefangene Fehler (Core.lua:219-220, 232-233, Comm.lua:210-211, Tooltip.lua:71-72,
+     Recruit.lua:371-372) werden nur bei /gs debug ausgegeben und sonst verschluckt. Nichts für die Diagnose oder die Prüfung.
+ L7  Kein Regressionstest für die Befunde aus Prüfbericht 0.9.4 und Korrektur 0.9.8.
+ L8  Ohne-Gilde-Weg (0.9.4) wird nie geprüft: im Testmodus ist ns.InGuild() immer true (Core.lua:518-521).
+ L9  Weitere vermutete Lücken im Code, die die Routine aufdecken soll:
+     N5  Social.lua:262-268 ChatFilter und 283-301 SystemFilter: geschützter Chattext (msg) wird verkettet bzw. mit :match
+         gelesen – auf Forever im Kampf möglicher Lua-Fehler (Chat-Argumente).
+     N6  Core.lua:599 und Test.lua:402: g.mine[ns.Me()] – liefert ns.Me() nil (geschützter Name), "table index is nil".
+     N7  Links.lua:19 erkennt das AH-Addon nur unter dem Ordnernamen "AHAnalyzerPro". Heisst der Ordner inzwischen
+         "AHSentinel" (siehe korrektur-ahsentinel-0.65.3.txt: AHSentinel.toc), zeigen K:Loaded/K:Version/Seite Addons es als
+         fehlend; K:MarketValue geht weiter über _G.AHAnalyzerPro.
+     N8  test/run_forever95.lua:150-154 nimmt an, dass ein geschützter Wert nach dem Kampf lesbar wird – laut Korrektur 0.9.8
+         Punkt 2 falsch. Den Offline-Test an K2 anpassen.
+
+----------------------------------------------------------------------------------------------------
+2. ABLAUF UND BERICHT DER ROUTINE (VERBINDLICH)
+----------------------------------------------------------------------------------------------------
+2.1 Dateien
+- Test.lua bleibt (Testgilde, Trigger, Start/Stop). Neue Datei TestRoutine.lua am ENDE der .toc (nach PagesExtra.lua);
+  alle Funktionen dort nur, wenn GoldSentinelDev:IsDev(). GoldSentinelTest.lua direkt nach GoldSentinelGame.lua (Abschnitt 6).
+- T:RunAll bleibt als Kurzfassung erhalten, ruft aber intern die Bereiche B-Seiten/Reiter/Ereignisse der neuen Routine.
+
+2.2 Start
+- /gs testroutine            -> alles (A bis J)
+- /gs testroutine <Bereich>  -> nur einen Bereich: a, b, c, d, e, f, g, h, i, j (z. B. /gs testroutine c)
+- /gs testroutine whisperq   -> nur Anzeige für den Launch-Abend (Anzahl gemerkter Kampf-Flüsternachrichten, wie viele
+                                davon noch geschützt sind – nie der Inhalt)
+- Knopf "Alles testen" in Einstellungen > Testmodus (neben "Alles durchklicken"), gleiche Wirkung wie /gs testroutine.
+- Den neuen Unterbefehl in den Slash-Zweig von Core.lua:672 einhängen (nur Entwickler) und in die Hilfezeile Core.lua:681 nur
+  bei ns.IsDev() aufnehmen.
+
+2.3 Ergebnis je Prüfung
+- OK / FEHLER / ÜBERSPRUNGEN (mit Grund) / IM CLIENT PRÜFEN (mit Anleitung).
+- Jede Prüfung läuft über T:Check (pcall, Zeitmessung). Ein Lua-Fehler bricht die Routine nicht ab, er wird FEHLER mit
+  Lua-Meldung. Ergebnis-Texte nur Zahlen, Schlüssel, true/false – keine Spieler-, Gilden- oder Chatnamen (Abschnitt 6).
+  Erfundene Namen der Testgilde nur, wo nötig (z. B. "MainOf(Rokwar)"), nie ns.Me() oder echte Namen.
+
+2.4 Sandbox und Aufräumen (in dieser Reihenfolge, Aufräumen immer – auch nach Fehler oder Abbruch)
+ 1. Kampf? -> Abbruch mit Hinweis.
+ 2. Sicherung: tiefe Kopie von GuildSentinelDB ohne gsTest (ns.Copy, Core.lua:344).
+    Dazu Laufzeit-Zustand merken: ns.guild, ns.guildKey, ns.lang, ns.debug, Roster.list/byName/scans, Comm.users,
+    Comm.claims, Free.list, Recruit.combatQueue, Recruit.claimed/claimBy, Social.chatHooked, Tooltip.hooked, UI-Seite/Reiter.
+ 3. Recorder: Funktionen mit Wirkung durch Aufzeichner ersetzen (Patch-Hilfe, merkt das Original, stellt in umgekehrter
+    Reihenfolge wieder her): ns.SendAddonMessage, C_ChatInfo.SendChatMessage, SendChatMessage, GuildInvite,
+    C_GuildInfo.Invite, GuildUninvite, C_GuildInfo.Uninvite, GuildPromote, C_GuildInfo.Promote, GuildRosterSetPublicNote,
+    InviteUnit, C_PartyInfo.InviteUnit, JoinTemporaryChannel, JoinChannelByName, LeaveChannelByName, GuildControlSetRank,
+    ChatFrame_OpenChat, ChatFrame_SendTell, PlaySound. Erwartung am Ende: jeder Recorder 0 echte Aufrufe ausser dort, wo
+    ein Testfall ihn ausdrücklich prüft (dann nur aufgezeichnet, nie weitergereicht).
+    Weil ersetzte Spiel-Funktionen bis zum Neuladen als verändert gelten können: am Ende /reload empfehlen (passt zu 6).
+ 4. Testmodus an (T:Start), falls nicht schon an; merken, ob die Routine ihn gestartet hat.
+ 5. Bereiche A bis J.
+ 6. Aufräumen: SetTestFlavor(nil) + Game:Refresh(); alle Patches zurück; Testmodus aus, wenn die Routine ihn gestartet hat;
+    Laufzeit-Zustand zurück.
+ 7. Vergleich: GuildSentinelDB (ohne gsTest) mit der Sicherung tief vergleichen. Unterschiede = FEHLER "echte Daten
+    verändert" mit den Pfaden (Gilden-Schlüssel als "<gilde>", Spielernamen als "<name>"). Danach die Sicherung IN DIE
+    BESTEHENDEN TABELLEN zurückschreiben (Inhalt leeren und kopieren), damit ns.db und ns.guild ihre Bezüge behalten.
+    Berichtzeile: "echte Daten unverändert: OK" bzw. "… FEHLER (n Pfade, wiederhergestellt)".
+
+2.5 Kleine Hilfen im Addon, die die Routine braucht (alter Weg bleibt unverändert)
+ - Game.lua: function Game:Refresh() setzt FOREVER, TBC, MODERN, flavor, MODERN_PROFESSIONS, BOTH_HYBRIDS neu aus
+   GoldSentinelGame (wie Game.lua:20-31). Inhaltslisten (MAX_LEVEL, Cd.LIST, Board.SERVICES, MILESTONES …) bleiben beim
+   Laden festgelegt.
+ - Core.lua: ns.eventFrame = frame (Core.lua:202), damit die Routine Ereignisse auf dem echten Weg auslösen und
+   IsEventRegistered prüfen kann.
+ - Core.lua: Fehlerzähler ns.errors = { n = 0, last = {} } und ns.CountError(wo, err) (letzte 10, Text gekürzt, ohne Namen);
+   aufrufen an allen pcall-Stellen aus L6 und in Try der Routine; zusätzlich GoldSentinelTest.Error("GuildSentinel", wo, err).
+ - Comm.lua: Comm.TestDispatch(sender, payload, channel) = Dispatch ohne die Testmodus-Sperre (Comm.lua:205) und ohne
+   Comm:Seen; nur aus der Routine aufrufen. Ebenso Comm.TestOnAddon(prefix, msg, channel, sender) für den CHAT_MSG_ADDON-Weg
+   inkl. Teile-Zusammenbau (~M).
+ - Tooltip.lua: T.hookWay = "tdp" bzw. "script" in T:Hook merken (Tooltip.lua:77-88).
+ - Test.lua: T.gen (Zähler, bei Start und Stop erhöht). Verzögerte Sendungen (N3) merken sich T.gen beim Planen und senden
+   nicht, wenn der Testmodus inzwischen gewechselt hat. SetupGuild (N1) tut im Testmodus nichts.
+
+2.6 Bericht (Kopierfenster)
+ - Am Ende UI:Info(L["Testroutine"], text, true) (UI.lua:778, editierbar = Strg+A, Strg+C). Achtung: ScrollEdit nimmt
+   höchstens 20000 Zeichen (UI.lua:796) – bei mehr Text zuerst die FEHLER, dann kürzen mit Hinweis "gekürzt".
+ - Inhalt: der Text aus T:Finish (Addon, Version, Datum, Client mit GetBuildInfo und Interface-Nummer, G.Status(), Klasse/Level,
+   Zählung OK/FEHLER/ÜBERSPRUNGEN/IM CLIENT PRÜFEN, alle Nicht-OK-Zeilen mit Bereich, Erwartung und Ergebnis, Laufzeit, Fehler
+   im Spiel), danach von GuildSentinel angehängt: "Sprache: <GetLocale()> (ns.lang)", "Fehlerzähler GuildSentinel: n
+   (letzte: …)", "Recorder: 0 echte Sendungen", "echte Daten unverändert: OK".
+ - Zusätzlich eine Zeile im Chat: "Testroutine: OK x · FEHLER y · übersprungen z · im Client prüfen w" + Hinweis aus 6.
+
+----------------------------------------------------------------------------------------------------
+3. TESTFÄLLE
+----------------------------------------------------------------------------------------------------
+Spalten: ID | Bereich | was wird geprüft | wie | Erwartung | Clients
+"wie": auto = automatisch in der Routine · halb = Spieler tut X, Routine prüft · manuell = nur von Hand mit /dump.
+Clients: F = Forever, E = Classic Era, T = TBC Anniversary, R = Retail (GuildSentinel unterstützt Retail nicht: R nur simuliert
+über SetTestFlavor). "(N…)" = vermutete neue Lücke aus Abschnitt 1, Test zeigt heute voraussichtlich FEHLER.
+Gemeinsame Testdaten: die Testgilde aus Test.lua (Start über T:Start). Wo ein Fall den Testmodus kurz verlassen muss (reine
+Abfragen wie ns.IsOfficer, die im Testmodus immer true liefern, Core.lua:548), setzt er ns.Test.active nur für die Dauer der
+Abfrage auf false; Sendewege sind dabei durch die Recorder gesperrt.
+
+A. LADEN UND ERKENNUNG
+T01 | A | alle Dateien geladen | auto: ns.Game, Comm, RMI, Links, Roster, Recruit, Prof, Race, Jubilee, Attune, Group, Free,
+      Activity, Promote, Rules, Comp, Craft, Poll, Tooltip, Social, Board, Events, Cooldowns, Goals, Lead, Bulk, Gear, Ask,
+      Chronicle, Sync, Test, UI, Donate, MyWeek, Health, ProgressPage, BoardPage sind Tabellen; ns.L, ns.N, ns.EN vorhanden;
+      #UI.pages == 13 mit den Schlüsseln aus Abschnitt 1 | alles vorhanden | F E T
+T02 | A | Version .toc = Code | auto: (C_AddOns.GetAddOnMetadata or GetAddOnMetadata)("GuildSentinel","Version") == ns.version
+      (Core.lua:22) | gleich | F E T
+T03 | A | Interface-Nummer des Clients steht in der .toc | auto: select(4, GetBuildInfo()) in Konstante TOC_INTERFACES
+      {11509, 11508, 16001, 20506, 20505} (in TestRoutine.lua, bei jeder .toc-Änderung mitpflegen; Offline-Test vergleicht die
+      Konstante mit GuildSentinel.toc:1) | enthalten, sonst FEHLER "Interface fehlt in .toc" | F E T
+T04 | A | GoldSentinelGame | auto: GoldSentinelGame.version == 2, apiVersion == 2; IsSecret, AnySecret, Safe, InCombat, Short,
+      CleanName, SameName, Status, SetTestFlavor, Recalc sind Funktionen; G.Status() ist nicht leer | ja | F E T
+T05 | A | Reihenfolge der gemeinsamen Dateien | auto: GoldSentinelDev.version == 1; GoldSentinelTest vorhanden, version >= 1,
+      GoldSentinelTest.registry.GuildSentinel.db == GuildSentinelDB | ja | F E T
+T06 | A | echte Weichen | auto: Game.FOREVER == G.IsForever, Game.TBC == G.IsTBC, Game.MODERN == G.IsModern,
+      Game.MODERN_PROFESSIONS == Game.FOREVER, Game.toc == G.toc; je Client: F -> flavor "forever", MODERN true, HasSecrets
+      true; E -> "era", MODERN false; T -> "tbc", MODERN false | wie angegeben | F E T
+T07 | A | Simulation Forever | auto: G.SetTestFlavor("forever"); Game:Refresh() -> FOREVER, MODERN, MODERN_PROFESSIONS,
+      BOTH_HYBRIDS true; ns.Proper("rokan steinwacht") == "Rokan Steinwacht"; G.Status() enthält "[Test]" | ja | F E T
+T08 | A | Simulation Era | auto: SetTestFlavor("era") + Refresh -> FOREVER, MODERN false; ns.Proper("rokan steinwacht") ==
+      "Rokansteinwacht" (G.CleanName entfernt Leerzeichen, GoldSentinelGame.lua:170-171); ns.Same("Rokan","Rokan Steinwacht")
+      false | ja | F E T
+T09 | A | Simulation TBC | auto: SetTestFlavor("tbc") + Refresh -> TBC true, MODERN false, BOTH_HYBRIDS true. Inhalte
+      (MAX_LEVEL, Cd.LIST, Attune.LIST) -> ÜBERSPRUNGEN "beim Laden festgelegt, siehe D / offline 20505" | ja | F E T
+T10 | A | Simulation Retail | auto: SetTestFlavor("retail") + Refresh -> MODERN true, FOREVER false; alle 13 Seiten öffnen
+      ohne Lua-Fehler | ja | F E T (R simuliert)
+T11 | A | zurück auf echt | auto: SetTestFlavor(nil) + Refresh -> alle Werte wie T06, G.Status() ohne "[Test]" | wie T06 | F E T
+
+B. JEDE FUNKTION (Testmodus mit Testgilde)
+-- Testmodus selbst
+T12 | B | T:Start/T:Stop | auto: vor Start Bezüge merken (ns.guild, guildKey, Roster.list, Comm.users, Free.list); Start ->
+      ns.guildKey == "TEST", #Roster.list == #T.members; Stop -> alle Bezüge identisch (==) zurück | ja | F E T
+T13 | B | nur Entwickler (0.9.1) | auto: GoldSentinelDev.IsDev kurz durch function() return false end ersetzen ->
+      ns.Feature("dev") false, Reiter "test" unsichtbar, SlashCmdList.GUILDSENTINEL("test") ändert T.active nicht | ja | F E T
+T14 | B | Test-Ereignisse (13) | auto: T:Trigger je Schlüssel, danach: event -> g.events["trig<n>"] da; remind -> Erinnerung
+      gedruckt, zweiter CheckReminders-Lauf druckt nicht erneut; market -> passendes Angebot gemeldet; chat -> Text beginnt mit
+      "[Grom]"; online -> Text enthält L["Twink von %s"] mit Rokan; lfg -> g.lfg["trig<n>"]; thanks -> g.thanks neu, to == ich;
+      level -> eine Figur +1 Stufe; milestone -> neuer Schlüssel in g.miles; applicant -> g.apps["Wanderer<n>"]; poll ->
+      g.polls neu; cooldown -> g.cds.Thalia bereit; free -> Free.list.Mira | je Ereignis OK | F E T
+-- Fenster, Seiten, Reiter
+T15 | B | Hauptfenster | auto: UI:Toggle() zweimal -> sichtbar/unsichtbar; "GuildSentinelFrame" in UISpecialFrames | ja | F E T
+T16 | B | alle 13 Seiten | auto: UI:Select(i) je Seite, UI:IsPageShown(key) true, kein Lua-Fehler | 13 OK | F E T
+T17 | B | alle 40 Reiter | auto: je Seite bar:Select(key) für jeden sichtbaren Reiter (wie Test.lua:586-594) | 40 OK | F E T
+T18 | B | Dialoge | auto: UI:Info("x","y",true), UI:Confirm, UI:Ask öffnen und schliessen; UI:PopupMenu und ein UI:Dropdown
+      öffnen/schliessen; Esc-Ziel (UI:SetEscTarget) wechselt zwischen "GuildSentinelMenu" und "GuildSentinelFrame" | ja | F E T
+T19 | B | Minimap-Knopf | auto: Option minimapShow aus/an -> GuildSentinelMinimapButton versteckt/sichtbar; Rechtsklick-Weg
+      ns.Recruit:Post() im Testmodus -> nur [Test]-Ausgabe, Recorder 0 | ja | F E T
+T20 | B | Spenden | auto: wie Test.lua:600-610 (Knopf, Fenster, Link == Donate.URL, Esc) + Donate.Toggle zweimal | ja | F E T
+T21 | B | Ohne Gilde (0.9.4) | auto: ns.InGuild kurz auf function() return false end -> UI:PageOn nur für home, myweek,
+      addons, settings true; Übersicht zeigt den Hinweis; danach zurück (L8) | 4 Seiten | F E T
+-- Slash-Befehle (über SlashCmdList.GUILDSENTINEL)
+T22 | B | alle Unterbefehle | auto: "" (Toggle), "gruppe"/"group"/"lfg" -> group; "termine"/"events"/"termin" -> events;
+      "brett"/"board" -> board; "wo"/"where" -> members+where; "umfrage"/"poll" -> poll; "fortschritt"/"progress"/"rennen" ->
+      progress; "zugang"/"attune" -> progress+attune; "werbung"/"ad" -> recruit+ad; "suche Fläschchen"/"find x" -> prof;
+      "regeln"/"rules" -> GuildSentinelRules sichtbar; "spenden"/"donate"/"support" -> Spendenfenster; "berufe"/"prof" ->
+      Prof:ReadNext ohne Fehler; "debug" zweimal -> ns.debug wieder wie vorher; "xyz" -> Hilfetext | jede Seite offen | F E T
+T23 | B | /gs danke | auto: "danke" leer -> Hinweis; "danke Niemand" -> "%s ist nicht in der Gilde."; "danke Mira" ->
+      g.thanks +1 | ja | F E T
+T24 | B | /gs weg | auto: "weg 3 Urlaub" -> g.away[ich].u ≈ jetzt + 3 Tage, note "Urlaub"; "weg" -> u == 0 | ja | F E T
+-- Mitglieder, Twinks, Verlauf (Roster.lua)
+T25 | B | Roster:Scan | auto: nach Scan #list == #T.members, byName für alle, scans +1, GS_ROSTER gefeuert | ja | F E T
+T26 | B | Twinks aus Notiz | auto: MainOf("Rokwar") == "Rokan", MainOf("Mirabank") == "Mira", MainOf("Gromsham") == "Grom";
+      AltsOf("Rokan") enthält "Rokwar"; IsAlt("Rokan") false | ja | F E T
+T27 | B | SetMain/SetMyMain | auto: SetMain("Durok","grom",true) -> MainOf == "Grom" (Gross/klein egal); SetMain("Durok","")
+      -> nil; SetMyMain(ich) -> g.alts[ich].m == ""; Recorder ns.SendAddonMessage 0 | ja | F E T
+T28 | B | Verlauf | auto: T:Kick("Neuling") -> g.log[1].k == "leave"; T:Promote("Durok") -> "promote"; Stufe auf MAX gehoben ->
+      "maxlevel"; #g.log <= 400 | ja | F E T
+T29 | B | Systemmeldungen live | auto: string.format(ERR_GUILD_JOIN_S, "Testneu") an den CHAT_MSG_SYSTEM-Weg (ns.eventFrame)
+      -> Roster.liveJoin["Testneu"]; fehlt ERR_GUILD_*_S (nil) -> kein Fehler | ja | F E T
+T30 | B | Listen | auto: R:Ranks(), R:Classes(), R:Stats(), R:Filtered mit Suchtext "rok" (enthält Rokan, Rokwar), R:Inactive
+      (Brann mit 45 Tagen dabei) | ja | F E T
+T31 | B | Export | auto: Reiter members > export: Text nicht leer, Zeilenzahl >= #Roster.list | ja | F E T
+-- Social (Abwesenheit, Paten, Notizen, Chat, Danke)
+T32 | B | Abwesenheit | auto: SetAway(nil,3,"x"); IsAway(Twink eines Abwesenden) liefert den Eintrag; SetAway("Ylva",2,"")
+      als Offizier ok; mit IsOfficer = false -> Hinweis, g.away unverändert | ja | F E T
+T33 | B | Paten | auto: SetMentor("Neuling","rokan") -> MentorOf == "Rokan"; Mentees("Rokan") enthält "Neuling"; ohne
+      Offiziersrecht abgelehnt | ja | F E T
+T34 | B | Danke | auto: Thank("Mira","Hilfe") -> neuer Eintrag; zweites Mal am selben Tag -> "heute schon gedankt"; Thank(ich) ->
+      abgelehnt; ThanksTop(7)[1].name == "Rokan" | ja | F E T
+T35 | B | Gildennotiz | auto: NoteWithMain("", "Rokan") == string.format(L["Twink von %s"],"Rokan"); Länge <= NOTE_MAX;
+      WriteNote("Rokwar") im Testmodus -> Recorder GuildRosterSetPublicNote 0, [Test]-Ausgabe; WriteAllNotes zählt | ja | F E T
+T36 | B | Gildenchat mit Main | auto: So.ChatFilter(nil,"CHAT_MSG_GUILD","hi","Gromsham-Test") -> 2. Rückgabe beginnt mit
+      "[Grom]"; Option chatMain aus -> false | ja | F E T
+T37 | B | "ist online" mit Main | auto: So.SystemFilter mit ERR_FRIEND_ONLINE_SS für Rokwar -> enthält Twink-Hinweis; Ylva ->
+      "abwesend gemeldet"; onlineMain aus -> false | ja | F E T
+-- Tooltip
+T38 | B | Tooltip-Zeilen | auto: Tooltip:Lines("Rokwar")[1] enthält "Rokan"; Lines("Fremdling") = Bewerber-Zeile;
+      Lines("Niemand") nil; Tooltip:Add mit Ersatz-Tooltip (Tabelle mit AddLine-Zähler, Show) -> Zeilen > 0; Option tooltip
+      aus -> 0 | ja | F E T
+T39 | B | Tooltip-Haken | auto: Tooltip.hooked true; hookWay == "tdp" auf F, "script" wo TooltipDataProcessor fehlt | ja | F E T
+-- Gruppensuche und "Wer ist frei"
+T40 | B | Gruppensuche | auto: Group:Post (scope "guild") -> G:Mine() gesetzt, Wire/Store-Rundweg gleich; Fits; Joins;
+      RolesText; Close -> weg; Join auf fremde Suche -> nur aufgezeichnet; Invite -> ns.Blocked, Recorder InviteUnit 0 | ja | F E T
+T41 | B | Server-Kanal im Testmodus | auto: Option lfgServer aus/an und Funktion "group" aus/an -> Recorder JoinTemporaryChannel,
+      JoinChannelByName, LeaveChannelByName 0 Aufrufe (N2) | 0 | F E T
+T42 | B | Wer ist frei | auto: Fr:Set({dungeon=true},2) -> Mine, KindsText, CountFor; IsInInstance kurz -> true,"party"
+      -> eigener Eintrag b == true; Fr:Clear -> nil | ja | F E T
+-- Termine
+T43 | B | Termine | auto: E:Create (Titel, Art "dungeon", morgen 20:00) -> g.events neu; Reply yes/maybe/no -> Counts
+      1/0/0 usw.; MyReply; Upcoming sortiert; Cancel -> abgesagt; CanEdit nur eigener/Offizier | ja | F E T
+T44 | B | Zeiteingabe | auto: E:ParseWhen("", "20:00"), ("morgen","20.30"), ("tomorrow","9") -> Zeiten; ("", "25:00") -> nil
+      | ja | F E T
+T45 | B | Termin ansagen | auto: Ansage-Knopf (PagesSocial.lua:124) im Testmodus -> [Test] Gildenchat, Recorder
+      SendChatMessage/C_ChatInfo.SendChatMessage 0 | ja | F E T
+-- Umfragen
+T46 | B | Umfragen | auto: Po:Create mit 9 Optionen -> 8 (MAX_OPTIONS); Vote; Results; OpenUnvoted; Close (CanClose); IsOpen
+      false nach exp | ja | F E T
+-- Brett, Beute-Wünsche, Fragen
+T47 | B | Dienste | auto: für jeden Eintrag in Board.SERVICES ServiceName nicht nil; SetOffer/MyOffer/OffersText/ClearOffer;
+      AskService -> nur [Test] Flüstern | ja | F E T
+T48 | B | Biete/Suche | auto: Board:Post("offer", Runenstoff/Netherstoff, 20, 0, "") -> List; Matches findet "want" von Lowbie;
+      Remove; CanEdit; Contact -> OpenWhisper nur [Test] | ja | F E T
+T49 | B | Beute-Wünsche | auto: Gear:Add, Counts, Mine, Done, Remove | ja | F E T
+T50 | B | Fragen | auto: Ask:Create, Answer, Solve (Danke-Punkt für den Antwortenden), Remove, OpenCount | ja | F E T
+-- Berufe, Herstellung, Abklingzeiten
+T51 | B | Berufe-Daten | auto: Prof:Of("Thalia") hat Alchemie; Prof:Find("Fläschchen") nicht leer; Overview, ProfNames,
+      RecipeLink; Openable/NextToOpen ohne Fehler; WindowKind == "modern (Forever)" auf F, "klassisch" auf E/T | ja | F E T
+T52 | B | Berufsfenster einlesen | halb: Spieler öffnet jedes eigene Berufsfenster; Routine prüft g.prof[ich].p[<Beruf>].r > 0
+      und #n > 0; Knopf "<Beruf> einlesen" (GuildSentinelProfButton) öffnet das nächste Fenster | Daten da | F E T
+T53 | B | Herstellung | auto: Craft.IMPORTANT nicht leer; WhoCanCraft(IMPORTANT[1].i) enthält "Thalia"; Gaps, MissingProfs,
+      WantedText; Request -> Take -> Done -> Remove; Watch/Unwatch | ja | F E T
+T54 | B | Abklingzeiten | auto: Cd:Mine() ohne Fehler; Cd:List() enthält Thalia/transmute; ReadyText für bereit, 30 Min.,
+      5 Std., 2 Tage; Ask -> nur [Test] | ja | F E T
+-- Fortschritt, Ziele, Chronik, Aufstellung
+T55 | B | Leveling-Rennen | auto: Race:Ranking(7) nicht leer, Race:First() == Rokan; MilestoneText; GS_LEVEL live für Stufe
+      20 -> Ansage nur als [Test] (über ns.Claim, Recorder 0) | ja | F E T
+T56 | B | Jubiläen | auto: Jubilee:JoinDate("Rokan") ≈ jetzt - 400 Tage; Due() liefert Liste; StepText | ja | F E T
+T57 | B | Zugänge | auto: Attune:Mine(), Scan(), Status("Rokan", LIST[1].key) true, Summary, Rows, Groups | ja | F E T
+T58 | B | Ziele | auto: Goals:WeekStart() < jetzt; Target/SetTarget(30); WeekLevels > 0; CheckWeek; CheckMiles nach Trigger
+      milestone -> neuer Meilenstein | ja | F E T
+T59 | B | Chronik | auto: Timeline nicht leer; ExportText; Achievements; WeekStats; ReviewText; CheckReview mit annReview an ->
+      nur [Test] | ja | F E T
+T60 | B | Aufstellung | auto: Comp:Classes(Fraktion) enthält PALADIN und SHAMAN genau dann, wenn BOTH_HYBRIDS; Want/SetWant;
+      Role("Grom") == "tank"; ShareRole -> Recorder 0; Table, Missing, WantedText | ja | F E T
+-- Aktivität, Beförderung, Leitung, Sammelaktionen
+T61 | B | Online-Zeiten | auto: Activity:Sample, Grid, Best, Measurements, ActiveDays("Durok") >= 10 | ja | F E T
+T62 | B | Beförderung | auto: Promote:SetRule/Rule; Candidates nicht leer; Promote(name) -> ns.Blocked, Recorder GuildPromote
+      und C_GuildInfo.Promote 0 | ja | F E T
+T63 | B | Leitung | auto: Lead:AddNote/DeleteNote (Offiziersnotizen); RecordGone/SetGoneReason; SetProbationDays/Probation/
+      AdviceText; SuggestMentor("Neuling") nicht nil; RankRights im Testmodus -> Recorder GuildControlSetRank 0;
+      SetGuildName nur als GM; WelcomeText | ja | F E T
+T64 | B | Sammelaktionen | auto: Bulk:KickCandidates/PromoteCandidates; Start -> Step -> T:Kick statt GuildUninvite (Recorder
+      GuildUninvite/C_GuildInfo.Uninvite 0); Cancel; ohne Guild_Roster_Manager: GRMLoaded false, GRMPreview ohne Fehler | ja | F E T
+-- Rekrutierung und Regeln
+T65 | B | Werbung | auto: AdText nicht leer; Build mit {spieler}; EnsureTargets/Targets/NextTarget/GlobalWait; Post im Testmodus
+      -> [Test] Kanal, Recorder 0; ns.db.lastAdTime danach unverändert (N4) | ja | F E T
+T66 | B | Bewerber | auto: Recruit.OnWhisper("… gilde guild", "Wanderer99-Test") -> g.apps.Wanderer99 st "new"; Antwort und
+      Fragen nur [Test]; TakeAnswer speichert; Invite -> ns.Blocked; SetStatus; Remove | ja | F E T
+T67 | B | verzögerte Sendungen nach Stop | auto: Trigger applicant, sofort T:Stop, 7 s warten (C_Timer, Routine wartet
+      asynchron), Recorder SendChatMessage/C_ChatInfo.SendChatMessage == 0; ebenso ns.Claim-Ansage (N3) | 0 | F E T
+T68 | B | Begrüssung | auto: GS_JOINED "Testneu" -> Claim, nur [Test] Gildenchat; WelcomePreview/ReplyPreview nicht leer | ja | F E T
+T69 | B | Regeln | auto: Rules:Save (Text, v+1), Ack, Acked, Status; ShowPopup(true) -> GuildSentinelRules sichtbar, schliessen | ja | F E T
+-- Vernetzung, Abgleich, Meine Woche, Übersicht
+T70 | B | Addons-Liste | auto: Links:Mine(), Usage() (5 Einträge), Store mit überlangen Versionen -> auf 20 Zeichen gekürzt | ja | F E T
+T71 | B | Abgleich | auto: Sync:Digest(), MemData(), Request im Testmodus -> Recorder 0 | ja | F E T
+T72 | B | Meine Woche | auto: MyWeek:Scan, Chars, Prep, PrepText, PlanText ohne Fehler (schreibt GuildSentinelDB.chars – muss
+      im Sandbox-Vergleich wieder verschwinden, N4) | ja | F E T
+T73 | B | Übersicht | auto: Seite home mit und ohne Gilde (T21) ohne Fehler; Health-Werte Zahlen | ja | F E T
+-- Optionen und Funktionsschalter
+T74 | B | jede Option einmal an/aus | auto: minimapShow, tooltip, rulesPopup, chatMain, onlineMain, annLevels, annFirst,
+      annJubilee, annMiles (setzt annGoal mit), annReview, lfgNotify, lfgSound, lfgServer, autoReply, welcome, askQuestions,
+      adRemind, showOffline, showAlts – über die Check-Setter der Einstellungsseite, danach S:Refresh() ohne Fehler; Werte am
+      Ende wie vorher | ja | F E T
+T75 | B | jede Funktion aus/an (24 Schlüssel in ns.FEATURES) | auto: SetFeature(key,false) -> zugehörige Seite/Reiter weg
+      (UI:PageOn bzw. Reiter unsichtbar), Comm.TestDispatch eines Pakets dieser Funktion (Comm.FEATURE) wird ignoriert;
+      SetFeature(key,true) -> wieder da; Knopf "Alle einschalten" | 24 OK | F E T
+-- Kommunikation und Datenpakete (Comm.lua, alle über Comm.TestDispatch / TestOnAddon)
+T76 | B | Serialize/Deserialize | auto: Rundweg für verschachtelte Tabellen mit Text inkl. Tab, "|", Umlauten, Zahlen,
+      true/false, leeren Tabellen -> gleich; kaputter Text -> nil ohne Fehler | ja | F E T
+T77 | B | lange Pakete | auto: Payload 1200 Zeichen -> Teile mit "~M"; Zusammenbau in Reihenfolge und vertauscht ergibt das
+      Paket; total > 400 verworfen; doppelter Teil zählt einmal | ja | F E T
+T78 | B | alle Nachrichtentypen gültig | auto: für jeden Typ in Comm.handlers (HI, VER, CLM, ALT, PROF, ATT, ATTS, LFG, LFGX, LFGJ,
+      LFGQ, FREE, FREEQ, EVT, EVTR, EVTS, SVC, SVCS, MKT, POLL, POLLS, POLLX, VOTE, GOAL, MILES, THX, THXS, CREQ, CD, CDS,
+      RULES, RACK, RACKS, WEL, AWAY, MENT, ADDONS, ADDONSQ, ADDALL, ACT, ONOTE, ONOTES, GONE, PROB, GNAME, ROLE, GEAR, GEARS,
+      ASK, ASKS, MEM, SOC, SREQ, SCLAIM) ein gültiges Beispielpaket von "Mira" -> Daten gespeichert bzw. Antwort nur
+      aufgezeichnet | alle ohne Fehler | F E T
+T79 | B | Kanal-Typen | auto: Typ ausserhalb Comm.channelTypes über "CHANNEL" -> ignoriert; LFG über CHANNEL -> angenommen | ja | F E T
+T80 | B | Versionen | auto: HI/VER mit "0.9.10" -> Comm:NewestVersion() meldet neuer als "0.9.9" (Zahlenvergleich, nicht Text) | ja | F E T
+T81 | B | Ansage-Anspruch | auto: CLM von "Zed" und "Abe" für denselben Schlüssel -> claims[k].by == "Abe" | ja | F E T
+T82 | B | nichts gesendet | auto: am Ende der Routine Recorder ns.SendAddonMessage == 0 und Comm:Pending() == 0 | 0 | F E T
+
+C. FOREVER-SONDERFÄLLE (simuliert)
+Geschützte Werte: issecretvalue für die Dauer des Falls durch eine Ersatzfunktion ersetzen, die genau die markierten Werte
+(eigene Tabelle) als geschützt meldet (wie test/run_forever95.lua:10-13); danach Original (oder nil) zurück und G.Recalc().
+T83 | C | Tooltip, geschützter Name | auto: Ersatz-Tooltip mit GetUnit -> "mouseover", UnitName -> geschützter Text; OnUnit über
+      den echten Haken -> kein Lua-Fehler, 0 Zeilen | ja | F E T
+T84 | C | Addon-Nachricht, geschützter Absender/Text/Präfix | auto: Comm.TestOnAddon mit je einem geschützten Argument ->
+      ignoriert, ns.errors.n unverändert | ja | F E T
+T85 | C | Flüstern im Kampf | auto: CHAT_MSG_WHISPER (ns.eventFrame) mit geschütztem Text -> Recruit.combatQueue +1, keine
+      Bewerbung; 31 Stück -> Warteschlange bleibt bei 30 | ja | F E T
+T86 | C | Abklingzeit, geschützte Spell-ID/Einheit | auto: UNIT_SPELLCAST_SUCCEEDED("player", nil, <geschützt>) -> kein Fehler,
+      kein Scan geplant | ja | F E T
+T87 | C | Gildenchat-Filter, geschützter Autor | auto: ChatFilter mit geschütztem author -> false, kein Fehler | ja | F E T
+T88 | C | Gildenchat-Filter, geschützter Text | auto: ChatFilter mit geschütztem msg (Autor = Gromsham) -> false, kein Fehler
+      (N5) | ja | F E T
+T89 | C | Systemfilter, geschützter Text | auto: SystemFilter und CHAT_MSG_SYSTEM (Roster) mit geschütztem msg -> kein Fehler (N5)
+      | ja | F E T
+T90 | C | geschützte GUID | auto: Recruit-Weg mit geschützter guid -> GetPlayerInfoByGUID nicht aufgerufen (Recorder) | ja | F E T
+T91 | C | eigener Name geschützt | auto: UnitName kurz so ersetzen, dass "player" geschützt ist -> ns.Me() nil; SetupGuild und
+      T:Start-Teil g.mine ohne Lua-Fehler (N6) | ja | F E T
+T92 | C | fehlendes issecretvalue | auto: issecretvalue = nil -> G.IsSecret(x) false, alle Fälle aus T83-T89 laufen den alten
+      Weg ohne Fehler | ja | F E T
+Fehlende alte Globals (vorübergehend nil, danach zurück):
+T93 | C | GetSpellInfo nil | auto: Board/Craft/Professions/Chronicle-SpellName über C_Spell.GetSpellName nicht nil (F);
+      beide nil -> nil ohne Fehler | ja | F E T
+T94 | C | GetContainerNumSlots/GetContainerItemLink nil | auto: ns.FindItemID("Runenstoff") ohne Fehler (C_Container);
+      MyWeek-Taschenlesen (MyWeek.lua:115) ohne Fehler | ja | F E T
+T95 | C | beim Laden gebundene Ersatzwege | auto: auf F ns.GetItemInfo == C_Item.GetItemInfo, ns.SendAddonMessage ==
+      C_ChatInfo.SendAddonMessage, ns.RegisterPrefix == C_ChatInfo.RegisterAddonMessagePrefix, ns.GuildRoster ==
+      C_GuildInfo.GuildRoster (Core.lua:194-197); auf E/T dasselbe oder das alte Global | ja | F E T
+T96 | C | SendChatMessage nil | auto: Testmodus kurz aus (Recorder aktiv), ns.Chat("x","GUILD") -> Recorder
+      C_ChatInfo.SendChatMessage 1 Aufruf; C_ChatInfo.SendChatMessage nil -> Recorder SendChatMessage 1; beide nil -> kein
+      Fehler | ja | F E T
+T97 | C | Offiziers-Globals nil | auto: CanEditOfficerNote/CanGuildRemove/CanGuildPromote nil, C_GuildInfo.CanEditOfficerNote
+      -> true: IsOfficer true; alles nil -> false ohne Fehler | ja | F E T
+T98 | C | Zauber-Globals nil | auto: IsSpellKnown/IsPlayerSpell nil -> Links:KnowsSpell über C_SpellBook.IsSpellKnown; alles nil
+      -> false; BuffSentinel-Ersatz (T124) zuerst | ja | F E T
+T99 | C | Quest-Global nil | auto: IsQuestFlaggedCompleted nil -> Attune-QuestDone über C_QuestLog.IsQuestFlaggedCompleted | ja | F E T
+T100 | C | ChatFrame_SendTell / ChatFrame_OpenChat nil | auto: Testmodus kurz aus, ns.OpenWhisper("Rokan Steinwacht","x") ohne
+      SendTell -> kein Fehler (Rückfall auf OpenChat oder still); beide nil -> kein Fehler | ja | F E T
+T101 | C | ChatFrame_AddMessageEventFilter / ChatFrame_RemoveChannel nil | auto: Social.chatHooked = false, HookChat() -> kein
+      Fehler; Group:HideChannel() -> kein Fehler | ja | F E T
+T102 | C | Berufs-APIs | auto: auf F GetTradeSkillLine/GetNumTradeSkills nil -> UseModern true; auf E/T C_TradeSkillUI nil ->
+      klassisch, ohne Fehler | ja | F E T
+T103 | C | Instanz-APIs nil | auto: GetNumSavedInstances/GetSavedInstanceInfo/GetDailyQuestsCompleted/RequestRaidInfo nil ->
+      MyWeek:Scan ohne Fehler | ja | F E T
+T104 | C | Addon-Metadaten nil | auto: Links:Loaded/Version über pcall -> false/nil ohne Fehler (Links.lua:24-37) | ja | F E T
+Kampfsperre:
+T105 | C | InCombatLockdown simuliert true | auto (Flavor forever und retail): Tooltip OnUnit fügt nichts hinzu; P:UpdateSecure
+      fasst GuildSentinelProfButton nicht an; PLAYER_REGEN_DISABLED versteckt ihn; Rules:ShowPopup(false) öffnet nicht;
+      Start der Routine wird abgelehnt | ja | F E T
+T106 | C | echte Kampfsperre | halb: Berufe-Seite offen, Kampf beginnen (Übungspuppe/Mob) -> GoldSentinelTest zählt kein
+      ADDON_ACTION_BLOCKED für GuildSentinel; nach dem Kampf ist der Knopf wieder da | IM CLIENT PRÜFEN | F
+Kampflog:
+T107 | C | Kampflog nicht benutzt | auto: ns.eventFrame:IsEventRegistered("COMBAT_LOG_EVENT_UNFILTERED") false | false | F E T
+
+D. ALTE CLIENTS (echter Era- bzw. TBC-Client, sonst ÜBERSPRUNGEN "nicht dieser Client")
+T108 | D | ganzer Bereich B auf altem Weg | auto: B läuft ohne SetTestFlavor auf E/T: 0 FEHLER | 0 FEHLER | E T
+T109 | D | Namen alt | auto: ns.Proper("aRTHAS-Realm") == "Arthas"; ns.Same("Rokan","Rokan Steinwacht") false; Twink-Notiz mit
+      einem Wort wie bisher | ja | E T
+T110 | D | Flüstern alt | auto: Testmodus kurz aus, Recorder ChatFrame_OpenChat: ns.OpenWhisper("Andreas","Hallo!") ->
+      "/w Andreas Hallo!" (wie run_forever95.lua:81) | ja | E T
+T111 | D | Tooltip alt | auto: ohne TooltipDataProcessor hookWay == "script"; keine Kampfsperre im Tooltip auf E/T | ja | E T
+T112 | D | Inhalte | auto: E: MAX_LEVEL 60, MILESTONES endet mit 60, RAID_SIZE 40, Cd.LIST mit 3 Einträgen (transmute,
+      mooncloth, saltshaker); T: 70, 70, 25, Cd.LIST == Game.TBC_COOLDOWNS, Attune.LIST mit kara, Board.SERVICES mit port_shatt
+      | ja | E T
+T113 | D | Berufe klassisch | halb: TradeSkillFrame (und auf E Verzauberkunst über CraftFrame) öffnen -> g.prof gefüllt, WindowKind
+      "klassisch" | Daten da | E T
+T114 | D | Offizier alt | auto: Rang ohne Offiziersnotiz-Bearbeitung, aber mit Lesen -> IsOfficer false (Regression K1) | false | E T
+
+E. DATEN
+T115 | E | Neuinstallation | auto (in der Sandbox): GuildSentinelDB = nil, ADDON_LOADED("GuildSentinel") über ns.eventFrame ->
+      settings mit allen ns.defaults, guilds = {}; Seiten öffnen ohne Fehler; danach Sicherung zurück | ja | F E T
+T116 | E | neue Gilde | auto: leere Tabelle + MergeDefaults(g, guildDefaults) -> alle 42 Schlüssel aus ns.guildDefaults (Core.lua:74-112) sind
+      Tabellen (rules mit v/t/text/by) | ja | F E T
+T117 | E | Migration | auto: Testgilde mit Altlasten bank, bankLocal, wishes, don, cfg, names (vor 0.3.0) -> nach SetupGuild-Weg
+      entfernt; settings.lang = "en" (alt) -> ns.lang folgt dem Client; settings.features = { group = false } bleibt gültig;
+      alte Rohstoff-Einträge in craftWatch (0.8.2, Craft.lua:103-107) werden entfernt | ja | F E T
+T118 | E | beschädigte Gildendaten | auto: in der Testgilde g.alts.X = 5, g.away.Y = "x", g.thanks.z = { from = nil },
+      g.events.bad = { t = "abc" }, g.roster.Z = true, g.prof.W = { p = 7 }, g.cds.V = { k = "x" }, g.levels.U = false,
+      g.polls.p = { o = nil }, g.market.m = { i = "x" }, g.mentor.M = 1 -> alle 13 Seiten/40 Reiter und die Listenfunktionen
+      aus B ohne Lua-Fehler | 0 Fehler | F E T
+T119 | E | beschädigte Einstellungen | auto: adTargets = "x", features = 7, annMilestones = nil, questions = 5, adInterval = "15"
+      -> Seiten Einstellungen/Rekrutierung und Recruit:Post ohne Fehler | ja | F E T
+T120 | E | beschädigte Pakete | auto: für jeden Typ aus T78 Paket {} und Paket mit falschen Typen (Zahl statt Tabelle, Text
+      statt Zahl) -> ns.errors.n unverändert, nichts gespeichert | ja | F E T
+T121 | E | Grenzen | auto: #g.log <= 400 nach 450 Log-Einträgen; Bewerber-Warteschlange <= 30; Texte auf 80 Zeichen
+      (Abwesenheit, Danke) gekürzt | ja | F E T
+
+F. SPRACHEN
+Hinweis: Im Spiel ist nur die Sprachdatei des Clients geladen (z. B. Locales_frFR.lua:5 bricht bei anderer Sprache ab),
+Deutsch (Schlüssel) und Englisch (Locales.lua) sind immer da. Die übrigen Sprachen prüft der Offline-Test.
+T122 | F | Sprache wie Client | auto: ns.lang == Zuordnung von GetLocale() (deDE->de, enUS/enGB->en, sonst Code) | ja | F E T
+T123 | F | alle Schlüssel vorhanden | auto: für die Client-Sprache (nicht de/en) jeder Schlüssel aus ns.EN in ns.T[lang];
+      fehlend = 0 | 0 | F E T
+T124 | F | Formatplatzhalter | auto: für jeden Schlüssel in ns.EN und ns.T[lang]: Anzahl und Reihenfolge von %s, %d, %.1f, %%
+      gleich wie im deutschen Schlüssel; string.format mit Beispielwerten in pcall | 0 Abweichungen | F E T
+T125 | F | Sprache umschalten | auto: ns.lang = "de", "en", Client-Sprache -> jeweils alle 13 Seiten öffnen ohne Fehler;
+      danach ns.SetLanguage() | ja | F E T
+T126 | F | Merk-Schlüssel (N[...]) | auto: alle n/d aus ns.FEATURES, n aus Test.EVENTS, Seitentitel, Board.SERVICES[].n,
+      Cooldowns.LIST[].n in ns.EN vorhanden | ja | F E T
+T127 | F | übrige Sprachen | ÜBERSPRUNGEN im Spiel "nur Client-Sprache geladen"; offline: lua run_lang.lua für deDE enUS frFR esES
+      esMX itIT ptBR ruRU koKR zhCN zhTW und tools/loc/check.py -> 0 fehlend, 0 Platzhalter-Abweichungen | offline grün | -
+
+G. ZUSAMMENSPIEL
+T128 | G | mehrere GoldSentinel-Addons | auto: GoldSentinelGame.version == 2, GoldSentinelDev.version == 1, GoldSentinelTest
+      höchste Fassung; Liste der geladenen Addons der Familie (RaidMaster, AHSentinel/AHAnalyzerPro, BuffSentinel,
+      ThreatSentinel, LevelPilot, ProfessionSentinel) im Bericht nur als Name+Version | ja | F E T
+T129 | G | keine globalen Namen überschrieben | auto: SlashCmdList.GUILDSENTINEL ist unsere Funktion, SLASH_GUILDSENTINEL1 == "/gs",
+      hash_SlashCmdList["/GS"] (falls vorhanden) zeigt auf uns; /gsgame und /gsdev gehören GoldSentinelGame/Dev; Rahmen
+      GuildSentinelFrame/Menu/Info/Rules/MinimapButton/ProfButton gehören GuildSentinel | ja | F E T
+T130 | G | RaidMaster da / nicht da | auto: ausserhalb des Testmodus RMI:Active() == (type(RaidMaster)=="table" und RaidMaster.db);
+      mit RaidMaster: Version, Profs, MainOf ohne Fehler, SetMain nur mit CanEdit; im Testmodus RMI:Active() false
+      (RaidMaster.lua:15); ohne RaidMaster alles nil ohne Fehler; Einstellungstext rmInfo passt | ja | F E T
+T131 | G | AH-Preise | auto: _G.AHAnalyzerPro kurz durch Ersatz mit GetMarketValue -> 12345 ersetzen -> Links:MarketValue(14047)
+      == 12345, Board MarketValue zeigt ihn; Ersatz, der einen Fehler wirft -> nil ohne Fehler; ohne Addon -> nil | ja | F E T
+T132 | G | AH-Addon erkannt | auto: ist _G.AHAnalyzerPro da, muss Links:Loaded für das AH-Addon true sein – unter
+      Ordnername AHSentinel ODER AHAnalyzerPro (N7) | true | F E T
+T133 | G | BuffSentinel | auto: Ersatz _G.BuffSentinel.KnowsSpellID -> true/false wird benutzt; liefert nil oder wirft ->
+      Rückfall C_SpellBook/IsSpellKnown | ja | F E T
+T134 | G | ThreatSentinel | auto: Ersatz ThreatSentinelDB mit profiles[...].myRole = "HEALER" und Links:Loaded("ThreatSentinel")
+      true -> ThreatRole "heal"; ohne -> nil | ja | F E T
+T135 | G | LevelPilot | auto: Ersatz _G.LevelPilot.Social.MyEliteQuests -> {123} -> EliteQuests ein Eintrag mit Titel "#123"
+      oder Questtitel; ohne LevelPilot -> {} | ja | F E T
+T136 | G | Guild Roster Manager | halb: mit installiertem GRM GRMPreview zeigt Zahlen, ohne -> GRMLoaded false | ja | F E T
+T137 | G | ProfessionSentinel | ÜBERSPRUNGEN "GuildSentinel nutzt keine Schnittstelle von ProfessionSentinel"; nur T128/T129 | - | -
+
+H. LEISTUNG (debugprofilestop; Grenzen: < 2 ms je Aufruf, < 16 ms für teure Neuberechnungen)
+T138 | H | Roster:Scan gross | auto: Testgilde auf 500 erfundene Mitglieder erweitern (T.members), Scan + MainFromNote + Compare
+      < 16 ms; mit 1000 Mitgliedern nur messen und berichten | < 16 ms | F E T
+T139 | H | Tooltip | auto: Tooltip:Lines für 50 Namen, Mittelwert < 2 ms | < 2 ms | F E T
+T140 | H | Chatfilter | auto: ChatFilter und SystemFilter je 200 Aufrufe, Mittelwert < 2 ms (Ziel < 0,5 ms) | < 2 ms | F E T
+T141 | H | Pakete | auto: Serialize+Deserialize 2 KB < 2 ms; Zusammenbau aus 10 Teilen < 2 ms | < 2 ms | F E T
+T142 | H | Ticker-Arbeit | auto: E:CheckReminders, Activity:Sample, Lead:SampleHours, Recruit-Erinnerung (Rc:Due), Group- und
+      Free-Ticker-Inhalt, Chronicle:CheckReview, Jubilee:Check, Recruit-Seite UpdatePost je < 2 ms | < 2 ms | F E T
+T143 | H | Seiten | auto: jede der 13 Seiten mit 500 Mitgliedern auswählen und Refresh < 16 ms | < 16 ms | F E T
+T144 | H | Abgleich | auto: Sync:Digest() mit 500 Mitgliedern < 16 ms | < 16 ms | F E T
+T145 | H | Speicher | auto: collectgarbage("collect") und collectgarbage("count") vor/nach der ganzen Routine (nach Aufräumen):
+      Zuwachs < 1024 KB; zweiter Lauf direkt danach < 256 KB Zuwachs | ja | F E T
+
+I. FEHLERZÄHLUNG UND DIAGNOSE
+T146 | I | Fehler in internem Ereignis | auto: ns:Listen("GS_SELFTEST_ERR", function() error("GS-Selbsttest") end); ns:Fire ->
+      ns.errors.n +1, letzte Meldung enthält "GS-Selbsttest", GoldSentinelTest-Fehlerliste hat Eintrag wo = "GS_SELFTEST_ERR";
+      den Eintrag danach wieder entfernen (nicht als echter Fehler melden) | ja | F E T
+T147 | I | Fehler in Spiel-Ereignis und Paket | auto: ns:On("GS_SELFTEST_EVT") über ns.eventFrame und ein Comm-Handler-Ersatz,
+      der einen Fehler wirft (Comm.TestDispatch) -> beide gezählt mit "wo" | ja | F E T
+T148 | I | Diagnose zeigt Fehler | auto: S:DiagText() enthält G.Status(), "Fehler: n" und die letzten 3 Meldungen | ja | F E T
+T149 | I | Fehler-Abgriff aktiv | auto: _G.GoldSentinelTestHooked == true, GoldSentinelTest.registry.GuildSentinel vorhanden | ja | F E T
+
+J. REGRESSIONSTESTS (jeder bisherige Befund ein eigener Fall)
+Quellen: P = pruefbericht-guildsentinel.txt (0.9.4), A = anweisung-guildsentinel.txt / auftrag-guildsentinel.txt (gleiche
+Aufgaben 1-6 und Schritt 1), K = korrektur-guildsentinel-0.9.8.txt (Punkte 1-6), RM = korrektur-raidmaster-guildsentinel.txt
+(GuildSentinel-Teil).
+T150 | J | P1/A1: Tooltip-Fehler im Kampf (Tooltip.lua:64 -> ns.Short -> gsub) | auto: wie T83 mit Flavor forever und echtem
+      InCombatLockdown = false, Name geschützt -> kein Lua-Fehler | ja | F E T
+T151 | J | P2/A2a: ns.Proper Vor- und Nachname | auto (forever): ns.Proper("rokan steinwacht") == "Rokan Steinwacht",
+      ns.Proper("Rokan Steinwacht-WoWForever") == "Rokan Steinwacht" | ja | F E T
+T152 | J | P2/A2c: NOTE_PATTERNS zwei Wörter | auto (forever, eigener Mini-Roster mit "Rokan Steinwacht", "Mira Sonnenkind",
+      "Mira Dunkelfeder"): MainFromNote für "Twink von Rokan Steinwacht", "alt of rokan steinwacht", "Main: Rokan Steinwacht",
+      "Twink von Rokan" -> "Rokan Steinwacht"; "Twink von Mira" -> nil (mehrdeutig) | ja | F E T
+T153 | J | P2/A2b: ns.Same Vorname | auto (forever): Same("Rokan","Rokan Steinwacht") true; Same("Mira","Mira Sonnenkind") false;
+      Same("Rokan Steinwacht","Rokan Felsbart") false; (era): Same("Rokan","Rokan Steinwacht") false | ja | F E T
+T154 | J | P2/A2d: Twink/Main, Danke, Pate mit Vor-+Nachname | auto (forever, Mini-Roster): SetMain("Kurztwink","rokan") ->
+      MainOf == "Rokan Steinwacht"; Thank("rokan steinwacht") -> to == "Rokan Steinwacht"; SetMentor(x,"Rokan") -> Pate
+      "Rokan Steinwacht" | ja | F E T
+T155 | J | P3/A3: Flüstern mit Leerzeichen (Core.lua:389-390 alt) | auto: Testmodus kurz aus, Recorder: OpenWhisper
+      ("Rokan Steinwacht","Hallo") -> ChatFrame_SendTell("Rokan Steinwacht"), Text eingefügt; ohne Leerzeichen alter Weg
+      "/w Name Text" | ja | F E T
+T156 | J | P4/A4a: Bewerber-Flüstern im Kampf (Recruit.lua:330 alt) | auto: wie T85 | ja | F E T
+T157 | J | P4/A4b: Addon-Nachricht im Kampf (Comm.lua:212 alt) | auto: wie T84 | ja | F E T
+T158 | J | P4/A4c: Abklingzeit im Kampf (Cooldowns.lua:166 alt) | auto: wie T86 | ja | F E T
+T159 | J | P5/A5a: IsOfficer über C_GuildInfo (Core.lua:475-477 alt) | auto: wie T97 | ja | F E T
+T160 | J | P5/A5b: KnowsSpell über C_SpellBook (Links.lua:141-146 alt) | auto: wie T98 | ja | F E T
+T161 | J | P6/A6a: SendChatMessage-Rückfall (Core.lua:170 alt) | auto: wie T96 | ja | F E T
+T162 | J | P6/A6b: ChatFrame_RemoveChannel fehlt (Group.lua:320) | auto: wie T101, HideChannel | ja | F E T
+T163 | J | A Schritt 1: GoldSentinelGame eingebaut | auto: .toc-Reihenfolge belegt durch T05; Game.FOREVER == G.IsForever (Game.lua:22);
+      ns.Same/ns.Proper benutzen G.SameName/G.CleanName (Ergebnis gleich G); Diagnose enthält G.Status() | ja | F E T
+T164 | J | A Launch-Tag / K6: Interface-Nummer | auto: wie T03; am 5.11. zusätzlich Teil 4 Schritt 1 | ja | F
+T165 | J | 0.9.6-Vorfall (CHANGELOG 0.9.8): Ersatznamen der frühen Fassung | auto: G.ProperName, G.ShortName, G.NormName vorhanden,
+      G.SameName(a, b, isUnique) mit Funktion als 3. Argument ohne Fehler | ja | F E T
+T166 | J | K1: CanViewOfficerNote allein macht keinen Offizier (Core.lua:553) | auto: Testmodus kurz aus, IsInGuild -> true,
+      C_GuildInfo.CanViewOfficerNote -> true, C_GuildInfo.CanEditOfficerNote -> false, CanEditOfficerNote/CanGuildRemove/
+      CanGuildPromote -> false: ns.IsOfficer() == false; SetMentor und SetAway für andere abgelehnt | false | F E T
+T167 | J | K2: Kampf-Flüstern bleibt geschützt | auto: Warteschlange mit 2 geschützten + 1 lesbaren Eintrag, PLAYER_REGEN_ENABLED,
+      0,6 s warten -> lesbarer Eintrag als Bewerber, genau EIN Hinweis mit der Zahl 2 (neuer Schlüssel, %d), kein stiller
+      Verlust | ja | F E T
+T168 | J | K2 im echten Kampf | halb: siehe Teil 4 Schritt 5 (wird der Wert nach dem Kampf lesbar?) | IM CLIENT PRÜFEN | F
+T169 | J | K3: Tooltip-Kampfsperre an MODERN (Tooltip.lua:63) | auto: SetTestFlavor("retail") + Refresh, InCombatLockdown -> true:
+      OnUnit fügt nichts hinzu; SetTestFlavor("era"): Sperre greift nicht (alter Weg wie bisher) | ja | F E T
+T170 | J | K4: Absender exakt (Social.lua:109 AWAY, Social.lua:339 THX) | auto (forever, Mini-Roster mit eindeutigem Rokan):
+      TestDispatch AWAY { n = "Rokan Steinwacht" } von Absender "Rokan" (Rang 3) -> NICHT gespeichert; THX { from = "Rokan
+      Steinwacht" } von "Rokan" -> NICHT gespeichert; gleicher voller Name -> gespeichert; (era) Ergebnis wie bisher | ja | F E T
+T171 | J | K5/RM1: tools/luac5.1 -v ohne Lua 5.1 | ÜBERSPRUNGEN im Spiel "Werkzeug im Repo"; offline: LUA51=/nicht/da
+      tools/luac5.1 -v -> Exit 1 und "lua51 fehlt"; Pfad mit Hochkomma wird geprüft | offline grün | -
+T172 | J | RM2: Werkzeug nicht in der ZIP | ÜBERSPRUNGEN im Spiel; offline: unzip -l download/GuildSentinel-<v>.zip enthält kein
+      tools/, test/, luac | offline grün | -
+T173 | J | N8 (Offline-Test K2): test/run_forever95.lua:150-154 erwartet den Hinweis statt der Bewerbung, solange der Wert
+      geschützt bleibt | offline | offline grün | -
+
+Gesamt: 173 Testfälle (T01-T173). Neue Fälle hinten anhängen, nie umnummerieren.
+
+----------------------------------------------------------------------------------------------------
+4. HALBAUTOMATISCHER TEIL FÜR DEN LAUNCH-ABEND (5. NOVEMBER 2026, WOW FOREVER LIVE)
+----------------------------------------------------------------------------------------------------
+Der Nutzer macht im Forever-Client (ausserhalb des Kampfes, ausser wo anders gesagt):
+ 1. /reload, dann /gsgame und /dump select(4, GetBuildInfo()) -> Zahl zurückschicken. Ist sie nicht 16001: in
+    GuildSentinel.toc ergänzen (16001 bleibt), in TOC_INTERFACES (T03) nachtragen, neue Version.
+ 2. /gs testroutine -> Bericht aus dem Kopierfenster (Strg+A, Strg+C) zurückschicken; danach /reload (meldet ihn auch
+    automatisch, Abschnitt 6).
+ 3. Über ein Gildenmitglied hovern: ausserhalb des Kampfes (GuildSentinel-Zeilen da?) und im Kampf (keine Fehler, keine Zeilen)
+    -> "ja/nein" zurück (T38, T83, T150).
+ 4. Namen: /dump UnitName("player") und /dump GetGuildRosterInfo(1) ansehen und NUR zurückschicken, ob der Name aus einem oder
+    zwei Wörtern besteht und ob ein "-Realm" dran hängt (keine Namen schicken). Bestätigt oder widerlegt die Vor-/Nachnamen-
+    Annahme (P2, T151-T154).
+ 5. Einen Mitspieler bitten, im Kampf mit dem Wort "gilde" zu flüstern; nach dem Kampf /gs testroutine whisperq -> Zahl
+    gemerkt / davon geschützt zurückschicken; erscheint der Hinweis bzw. der Bewerber? (K2, T167/T168).
+ 6. Berufe-Seite: Knopf "<Beruf> einlesen" klicken und jedes Berufsfenster einmal öffnen -> /gs testroutine b (T52); dann mit
+    offener Berufe-Seite einen Kampf beginnen (T106).
+ 7. Brett > Biete: bei einem Angebot eines Mitspielers mit Vor- und Nachnamen "Anschreiben" -> geht das Flüsterfeld an den
+    vollen Namen? (T155) -> ja/nein.
+ 8. Einstellungen > Allgemein: "Suchen vom ganzen Server" an -> /dump GetChannelName("GuildSentinelLFG") -> Zahl > 0 und der
+    Kanal erscheint nicht im Chatfenster (T41-Gegenprobe ausserhalb des Testmodus).
+ 9. /gs debug an, 10 Minuten normal spielen, /gs debug aus; Fehlerzähler aus Einstellungen > Testmodus (Diagnose) zurückschicken.
+Zurück an den Kollegen: Bericht aus Schritt 2, Antworten zu 1, 3, 4, 5, 7, 8, 9. Der Kollege trägt die IM-CLIENT-Punkte als
+bestätigt/nicht bestätigt in den nächsten Bericht ein.
+
+----------------------------------------------------------------------------------------------------
+5. ABNAHME
+----------------------------------------------------------------------------------------------------
+GuildSentinel gilt als bereit, wenn:
+ - /gs testroutine auf WoW Forever UND auf einem alten Client (TBC Anniversary oder Classic Era) 0 FEHLER im automatischen Teil
+   meldet (ÜBERSPRUNGEN nur mit Grund aus dieser Anweisung);
+ - die Zeilen "echte Daten unverändert: OK" und "Recorder: 0 echte Sendungen" in beiden Berichten stehen;
+ - alle IM-CLIENT-PRÜFEN-Punkte (T52, T106, T113, T136, T168 und Teil 4) vom Nutzer bestätigt sind;
+ - die Offline-Fälle (T127, T171-T173) und die Repo-Tests grün sind und addon_check.py keinen FEHLER meldet;
+ - beide Berichte über den automatischen Weg (Abschnitt 6) in testberichte/ angekommen sind.
+
+----------------------------------------------------------------------------------------------------
+6. AUTOMATISCHE MELDUNG
+----------------------------------------------------------------------------------------------------
+Weg: GuildSentinel (Testroutine + laufende Fehler) -> GuildSentinelDB.gsTest -> RaidMasterUploader auf dem PC des Nutzers
+(schickt neue Berichte an #testberichte) -> GitHub-Workflow im raidmaster-Repo holt sie nach testberichte/ -> Prüf-Sitzung
+wertet aus und schreibt Korrektur-Anweisungen. Ein Addon kann im Spiel nicht ins Internet; darum über die SavedVariables.
+ - shared/GoldSentinelTest.lua aus dem raidmaster-Repo UNVERÄNDERT kopieren (wie GoldSentinelGame.lua; nicht anpassen, fehlende
+   Funktionen dem Nutzer melden) und in GuildSentinel.toc direkt nach GoldSentinelGame.lua eintragen, vor Locales.lua.
+ - In ADDON_LOADED (Core.lua:603-612), nachdem GuildSentinelDB angelegt ist:
+       GoldSentinelTest.TrackErrors("GuildSentinel", ns.version, GuildSentinelDB)
+   db ist GuildSentinelDB (oberste Ebene), nicht ns.db. gsTest gehört nicht in die Sandbox-Wiederherstellung (2.4) und darf
+   von MergeDefaults/Migration nicht angefasst werden.
+ - Alle bisherigen pcall-Stellen mit Fehlerausgabe (Core.lua:219-220, 232-233, Comm.lua:210-211, Tooltip.lua:71-72,
+   Recruit.lua:371-372) und das neue ns.CountError rufen zusätzlich GoldSentinelTest.Error("GuildSentinel", wo, err) auf –
+   wo = Ereignis- bzw. Nachrichtentyp ("CHAT_MSG_ADDON", "GS_ROSTER", "MKT", "Tooltip", "Whisper"). Unabhängig von /gs debug.
+ - Die Routine schreibt Ergebnisse NUR über T:Check / T:Skip / T:Client:
+       local R = GoldSentinelTest.Begin("GuildSentinel", ns.version, GuildSentinelDB)
+       R:Check("T02", "A", "Version .toc = Code", function() local v = GetMeta("GuildSentinel","Version"); return v == ns.version, v, ns.version end)
+       R:Skip("T127", "F", "übrige Sprachen", "nur Client-Sprache geladen")
+       R:Client("T106", "C", "Kampfsperre Berufe-Knopf", "Berufe-Seite offen, Kampf beginnen")
+       local text = R:Finish({ sandbox = "OK" })   -- danach Sprache, Fehlerzähler, Recorder anhängen (2.6)
+   Keine eigenen Ausgaben am Bericht vorbei (Chat-Zusammenfassung nur zusätzlich).
+ - Testfall-IDs bleiben über alle Versionen gleich (T01 … T173), damit Verläufe vergleichbar sind; neue Fälle hinten anhängen,
+   entfallene als ÜBERSPRUNGEN "entfällt seit x.y.z" stehen lassen.
+ - Keine Spielernamen, Gildennamen oder Chattexte in den Bericht: nur Klasse, Level, Client, Sprache. Ergebnis-Texte ohne
+   ns.Me(), Gilden-Schlüssel ("Realm|Gilde") als "<gilde>", Sandbox-Pfade anonymisiert, Fehlermeldungen vor GoldSentinelTest.Error
+   von Namen befreien (z. B. Absender in Comm-Fehlern weglassen). Erfundene Testgilden-Namen sind erlaubt, wo der Fall sie braucht.
+ - Nach der Routine im Chat und unten im Kopierfenster: "Bericht gespeichert – wird beim nächsten /reload oder Ausloggen an
+   die Prüfung gemeldet". (Neuer Locale-Schlüssel, alle 10 Sprachdateien.)
+ - Der Fehlerversuch aus T146/T147 wird nach der Prüfung aus GuildSentinelDB.gsTest.errors entfernt, damit er nicht als echter
+   Fehler gemeldet wird.
+ - Offline-Test ergänzen: wowmock lädt GoldSentinelTest.lua mit, TrackErrors legt GuildSentinelDB.gsTest an, ein Finish speichert
+   genau einen String mit Präfix "GSTEST1", höchstens 10 Berichte bleiben.
+
+Ist ein Befund oder eine Annahme in dieser Anweisung falsch (z. B. N1-N8), bitte dem Nutzer begründet zurückmelden.

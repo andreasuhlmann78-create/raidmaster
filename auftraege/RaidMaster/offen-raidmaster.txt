@@ -1,0 +1,46 @@
+OFFENE PUNKTE RAIDMASTER (nach der Nachprüfung von 3.0.14)
+=========================================================
+Stand: 3. November 2026, 07:30 · von der Prüf-Sitzung · Grundlage: download/RaidMaster-3.0.14.zip
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist.
+
+Erledigt in 3.0.14 (danke): Bossleiste (BossBar.lua:40), Boss-GUIDs (LootDB.lua:69), Betrachten (Spec.lua:395-396), RM.Short,
+alter Weg beim Bereitschafts-Check für Era/TBC. Lua 5.1 fehlerfrei.
+Korrektur der Prüf-Sitzung: Die Befunde "verschobene Rezept-IDs" (Professions.lua, ModernOutput) und "fehlende Übersetzungen
+Berufe-Knopf" waren falsch. ItemIDFromLink liefert immer "or 0", und die Texte stehen in Locales/Raids_*.lua. Dort ist nichts zu tun.
+
+Bitte Punkt 1 VOR DEM LAUNCH (5. November) als 3.0.15 veröffentlichen, die übrigen dürfen mit.
+Wie immer: komplette Dateien, alte Clients nie brechen, Locales, LIESMICH/README_EN, vor dem Push
+python3 addon-check/addon_check.py download/RaidMaster-3.0.15.zip  -> kein FEHLER.
+
+1. SELBSTTEST ÜBERSCHREIBT BLIZZARD-FUNKTIONEN (Schwere: HOCH – neu in 3.0.14)
+   Test/Test.lua:1402-1404, 1408: Der neue Test für die Bossleiste ersetzt UnitExists, UnitIsPlayer und UnitName und stellt sie
+   danach zurück. Auch das Zurückschreiben kommt aus Addon-Code, deshalb bleiben die drei Funktionen bis zum /reload "tainted".
+   Blizzard-Code, der sie danach liest (Raid- und Gruppenrahmen, Namensplaketten, sichere Vorlagen), kann "Aktion blockiert"
+   melden, in Forever auch geschützte Werte in Blizzards eigener Oberfläche. Betroffen ist nur der Entwicklermodus
+   (RM.IsDev()), also der Nutzer als Raidleiter.
+   Lösung: In BossBar eine eigene Lesefunktion, z. B.
+       B.ReadTarget = function() return UnitExists("target"), UnitIsPlayer("target"), UnitName("target") end
+   B.TargetBoss nutzt sie. Der Test ersetzt nur B.ReadTarget (und den Köder für RM.IsSecret), nie _G.
+   Siehe auch nachtrag-testroutinen.txt, Punkt 1.
+
+2. GetServerTime IM TESTMODUS (Schwere: MITTEL – schon vor 3.0.14)
+   Test/Test.lua:1195, 1197: GetServerTime wird global ersetzt, mit derselben Taint-Gefahr wie in Punkt 1.
+   Lösung: RM.Now() einführen, überall verwenden, wo heute GetServerTime() steht, und im Test nur RM.Now verschieben.
+
+3. ECHTE FLÜSTERNACHRICHTEN IM TESTMODUS (Schwere: NIEDRIG – schon vor 3.0.14)
+   Assign.lua:668 (A.SendAll) flüstert direkt mit SendChatMessage. Im Testmodus gehen so echte Flüsternachrichten an "Tank1" usw.
+   Dasselbe gilt für Auction.lua:371/373 und DKP.lua:804/806.
+   Lösung: überall RM.Whisper(text, target) verwenden, das der Testmodus umleitet (Test.lua:264).
+
+4. LOOT-GUID IM KAMPF (Schwere: NIEDRIG – im Client testen)
+   LootDB.lua:223/226/232: seen[guid] nutzt die GUID aus GetLootSourceInfo direkt als Tabellenschlüssel. Lösung: direkt nach
+   ReadLootWindow  if RM.IsSecret(guid) then guid = nil end.
+
+5. DOPPELNAMEN BEI !dkp UND IM BOT (Schwere: NIEDRIG – noch offen, erst nötig, wenn Forever Vor-/Nachnamen bestätigt)
+   - DKP.lua:801  m:match("^%s*!dkp%s+(%S+)") nimmt nur das erste Wort. Neu: den Rest  (.-)%s*$  nehmen und über
+     G.SameName(a, b, true) in data.players suchen. Zeile 803  target:sub(1,1):upper()…  durch G.CleanName ersetzen.
+   - DKP.lua:767-769  DKP.Summary sucht nur exakt. Neu: zuerst exakt, sonst über G.SameName.
+   - RaidMasterBot/raidmaster_data.py:694-699  find_player: zuerst exakt, sonst den Vornamen allein gelten lassen, wenn er genau
+     einmal vorkommt. Bot-Version erhöhen, ANLEITUNG.md nachziehen.
+
+Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.

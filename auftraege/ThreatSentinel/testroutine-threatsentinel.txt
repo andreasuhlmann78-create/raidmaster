@@ -1,0 +1,858 @@
+ANWEISUNG: TESTROUTINE THREATSENTINEL AUSBAUEN ("AUF HERZ UND NIEREN")
+=====================================================================
+Addon: ThreatSentinel · geprüfte Version: 2.4.1 (download/ThreatSentinel-2.4.1.zip, Testzentrale = TestMode.lua)
+Stand: 2. November 2026 · von der Prüf-Sitzung
+An: den Claude-Kollegen von ThreatSentinel. Diese Datei enthält alles. Es wurde keine Addon-Datei geändert.
+
+Abkürzungen:  F = WoW Forever (16001)   E = Classic Era (115xx)   T = TBC Anniversary (205xx)   R = Retail (1201xx)
+              auto = läuft vollständig in der Routine · halb = Spieler tut X, Routine prüft · manuell = nur mit /dump bzw. von Hand
+              Zeilenangaben beziehen sich auf 2.4.1.
+
+
+====================================================================================================
+0. REGELN (GELTEN FÜR ALLES)
+====================================================================================================
+- Bei jeder Code-Änderung immer die KOMPLETTE Datei liefern, nie Ausschnitte oder Fragmente zum Einfügen.
+- Alte Clients nie brechen: Der Code-Weg von Classic Era und TBC bleibt exakt wie bisher. Was die Routine braucht
+  (Test-Zugänge, siehe 2.6), ändert kein Verhalten im normalen Spiel.
+- Der Testmodus darf nichts mit echten Folgen tun:
+    * kein Chat in öffentliche, Gilden-, Gruppen- oder Raid-Kanäle (SendChatMessage wird in der Routine durch einen Zähler ersetzt,
+      Erwartung immer 0 Aufrufe),
+    * keine Addon-Nachrichten an die Gruppe (C_ChatInfo.SendAddonMessage / SendAddonMessage werden durch einen Zähler ersetzt –
+      sonst sehen echte Mitspieler "Grimbar hat widerstanden"),
+    * keine Tastenbelegung speichern (SetBinding/SaveBindings nur als Zähler), kein ReloadUI (Zähler), keine Screenshots
+      (Screenshot als Zähler), keine CVars wirklich ändern (SetCVar / C_CVar.SetCVar als Zähler, echte CVars vorher/nachher gleich),
+    * keine Markierungen fremder Einheiten, kein Kauf/Verkauf/Post, kein Gold, kein NotifyInspect auf Mitspieler.
+- Echte SavedVariables (ThreatSentinelDB) sind nach dem Test unverändert: Sandbox wie bei LevelPilot ("echte Daten unverändert"),
+  siehe 2.5. Ausnahme sind nur die Schlüssel, die GoldSentinelTest selbst schreibt (db.gsTest, db.gsErrors – alles mit "gs").
+- Die Routine startet nur ausserhalb des Kampfes (InCombatLockdown() oder UnitAffectingCombat("player") -> Abbruch mit
+  L.NOT_IN_COMBAT). Beginnt mitten im Lauf ein Kampf, werden die restlichen Bereiche ÜBERSPRUNGEN ("Kampf begonnen").
+- Vor dem Push:  python3 addon-check/addon_check.py download/ThreatSentinel-x.y.z.zip  -> kein FEHLER.
+  Lua-Syntax mit Lua 5.1 prüfen (lupa.lua51 oder luac5.1). Die Zeile "Lua-Syntaxprüfung mit: …" aus dem Bericht in die Antwort an
+  den Nutzer übernehmen; ist lokal keine Prüfung möglich: "Lua-Syntax lokal nicht geprüft" schreiben.
+- Neue Texte in en und de (Locales.lua), Version erhöhen, CHANGELOG.md und CHANGELOG.de.md ergänzen.
+- Ist ein Testfall hier falsch beschrieben (Code macht es anders und das ist richtig): dem Nutzer begründet melden, nicht still
+  anpassen.
+
+
+====================================================================================================
+1. BESTEHENDE TESTROUTINE (BELEGT AUS DEM CODE 2.4.1)
+====================================================================================================
+1.1 Start
+- /ts test oder /threatsentinel test (Core.lua:1127-1128) -> TM:ToggleWindow (TestMode.lua:798-803).
+- Rechtsklick auf den Minimap-Knopf (Options.lua:884) und Knopf "Testzentrale" in Einstellungen > Allgemein (Options.lua:508-510).
+- NUR MIT GoldSentinelDev: ToggleWindow ruft ns:RequireDev() (TestMode.lua:800, Core.lua:1113-1117); der Minimap-Rechtsklick und
+  der Knopf erscheinen nur bei ns:IsDev(). Ebenso nur für den Entwickler: /ts guide bzw. /ts assistent (Guide.lua:206),
+  /ts log … (Log.lua:317), die Ini-Prüfung (Log.lua:743).
+- Ohne Entwickler-Freigabe: /ts bedrohung bzw. /ts threat (Core.lua:1133-1134 -> ThreatAccess.lua:193-220) und /gsgame, /gsdev.
+
+1.2 Was sie abdeckt
+- Demo (TestMode.lua:93-206): 7 Zustände (HELD, WARN, LOOSE_DD, LOOSE_HEALER, OTHERTANK, LOOSE_CLAIMED, LOOSE_FAR) an echten
+  Plaketten und 7 Vorschau-Plaketten, dazu HUD, Aggrometer (Meter.lua:177-193 TestList) und DD-Ansicht (DDView.lua:107-111).
+- Live-Test (TestMode.lua:211-220): echte Logik solo, Begleiter zählen als DD; Kontrollkästchen "Pet ist der Tank" (649-661).
+- Meldungen (TestMode.lua:236-288): 9 Einzelknöpfe (DD, Heiler, Zurück, Widerstand, Kontrolliert, Fläche, Notfall, Heiler weit,
+  DD-Warnung) und "Alle" (je 2 Sekunden).
+- Tank-Sync (TestMode.lua:293-324): 5 Knöpfe (Hallo, Spott, Widerstand, Kontrolle, Entfernen) mit dem erfundenen Tank "Grimbar".
+- Diagnose (TestMode.lua:333-402): rund 16 Zeilen live (Client, G.Status, Klasse, Haltung, Bedrohungsmodus, Fehler, aktiv, Spott,
+  Fläche, Defensiv, Taste, Mausziel, Bedrohung am Ziel, Plaketten, Gruppe/Sync).
+- Forever-Schutz (TestMode.lua:405-446): 12 Punkte aus ns.COMPAT_ORDER (Core.lua:184-187), schlechtester Stand seit Start.
+- Sperren simulieren: ns.simSecret mit 10 Kategorien (Core.lua:165-174, TestMode.lua:563-568) und Bedrohungszugriff
+  aus/open/secret/none (TestMode.lua:552-561, 740-744).
+- Bericht im Kopierfenster (TestMode.lua:449-549), Testprotokoll ein/aus (761-764).
+- Testassistent (Guide.lua:58-122): 22 Schritte – 13 automatisch erkannt (pet, held, warn, loose, hud, regain, bind, tauntkey,
+  resist, cc, alerts, simloose, simregain), 7 vom Spieler bestätigt (heldlook, looselook, regainlook, meter, ddview, cdhint,
+  simcompat), 2 Info (errors, done).
+- Auswertung des Testprotokolls (Log.lua:800-1043): bis 27 Zeilen ok/fail/na/info – wertet aber echtes Spiel aus, keine Selbsttests.
+
+1.3 Wie viele Prüfungen
+- Die Testzentrale selbst fällt KEIN Urteil (0 automatische OK/FEHLER-Prüfungen): alles wird angezeigt und vom Auge beurteilt.
+- Urteile gibt es nur im Testassistenten (22 Schritte, davon 13 automatisch) und in der Protokoll-Auswertung (bis 27 Zeilen),
+  beide nur nach echtem Kampf.
+
+1.4 Was fehlt (Grundlage für Abschnitt 3)
+- Kein einzelner Befehl "alles testen", keine Zählung OK/FEHLER/ÜBERSPRUNGEN, kein pcall pro Prüfung, kein maschinenlesbarer Bericht.
+- Keine Sandbox: Demo, Live-Test, Testassistent und Protokoll schreiben in die echten Daten (ns.db.testPreview, testPetTank,
+  db.guide, ThreatSentinelDB.testlog; Tracker.lua:148 db.cdLearned; ThreatAccess.lua:54-58 ThreatSentinelDB.threatAccess;
+  ThreatAccess.lua:159-165 db.blizzOrig und echte CVars).
+- Kein G.SetTestFlavor im ganzen Addon (Korrektur 2.4.1 Punkt 4). ns.isModern wird beim Laden kopiert (Core.lua:32), ebenso
+  A.cleuAllowed (Alerts.lua:438), DM.allowed (DamageMeter.lua:23), ns.threatAccess und TA.checked (ThreatAccess.lua:27-29).
+- simSecret wirkt nur auf ns.IsSecret mit Kategorie (Core.lua:170-174). Die direkten Prüfungen über issecret / G.IsSecret
+  (FullName Core.lua:400, ThreatAccess.lua:20-24, ReadStance Core.lua:609-630, Log.lua:45, Specs.lua:36) werden nie durchlaufen.
+- simAccess überschreibt nur ns:ThreatMode (ThreatAccess.lua:38); TA:Read/TA:Probe, der Weg "unknown" -> "secret"/"none" und
+  MAX_ATTEMPTS werden nie geprüft.
+- Keine Prüfung fehlender alter Globals, keine simulierte Kampfsperre (InCombatLockdown wird nie ersetzt), keine Migration
+  (Core.lua:870-932, Schema 1-9), keine beschädigten Daten, keine Sprachprüfung, keine Zeitmessung, kein Selbsttest der
+  Fehlerzählung, kein Zusammenspiel-Test, keine Regressionstests.
+- Der Bericht enthält Zone und Testassistent-Zeilen (TestMode.lua:479, 494-496); die Diagnose zeigt den Namen des Mausziels
+  (TestMode.lua:404-407) – beides darf nicht in den automatischen Bericht (Abschnitt 6).
+
+
+====================================================================================================
+2. ABLAUF UND BERICHT DER ROUTINE (VERBINDLICH)
+====================================================================================================
+2.1 Befehle
+- Neue Datei TestRoutine.lua (in der .toc direkt nach TestMode.lua). Nur für den Entwickler (ns:RequireDev(), wie die Testzentrale).
+- /ts testroutine            -> alle Bereiche A bis J (automatischer Teil)
+- /ts testroutine a … j      -> nur ein Bereich (Gross-/Kleinschreibung egal)
+- /ts testroutine halb       -> Liste der halbautomatischen Schritte (Abschnitt 4) mit Start-Knöpfen
+- /ts testroutine letzte     -> letzten gespeicherten Bericht im Kopierfenster zeigen
+- Knopf "Alles testen" in der Testzentrale (rechte Spalte unter "Bericht") und je Bereich ein kleiner Knopf.
+- Core.lua SlashCmdList.THREATSENTINEL (1122-1140): Unterbefehl "testroutine" vor dem Rückfall auf Options:Toggle einhängen.
+
+2.2 Ergebnis je Prüfung
+OK / FEHLER / ÜBERSPRUNGEN (mit Grund) / IM CLIENT PRÜFEN – ausschliesslich über T:Check / T:Skip / T:Client aus
+GoldSentinelTest (Abschnitt 6). Jede Prüfung läuft in pcall (macht T:Check). Ein Lua-Fehler bricht die Routine nicht ab, sondern
+wird als FEHLER mit der ersten Zeile der Lua-Meldung gezählt.
+
+2.3 Ablauf
+- Bereiche nacheinander, jeder in seinem eigenen Frame (C_Timer.After(0, nächster Bereich)), damit nichts zu lange läuft.
+- Während des Laufs: ns.routineRunning = true. T:Tick (Threat.lua:352), DM-Ticker (DamageMeter.lua:227), Specs-Ticker
+  (Specs.lua:213), Sync-Hello-Ticker (Sync.lua:66) und Log-Ticker (Log.lua:629) kehren dann sofort zurück. TM:IsTesting()
+  (TestMode.lua:33-35) liefert true, damit GroupChat (Alerts.lua:222) nur an den Spieler geht und ReportError nicht spammt.
+- Ersetzte Funktionen (Stubs) werden IMMER am Ende desselben Bereichs zurückgesetzt (auch bei Fehler), nie über Frames hinweg.
+  Prüfung am Ende jedes Bereichs: "alle Stubs zurückgesetzt" (Zähler = 0), sonst FEHLER.
+- Nach dem letzten Bereich: Sandbox vergleichen und wiederherstellen, Simulationen zurücksetzen (simSecret false, simAccess nil,
+  testMode false, liveTest false, moveMode false, G.SetTestFlavor(nil), ns.isModern = G.IsModern), alle von der Routine geöffneten
+  Fenster schliessen, dann T:Finish().
+
+2.4 Bericht im Kopierfenster (Strg+A, Strg+C) – Inhalt
+- Addon, Version (ns.version), Client: GetBuildInfo() Version, Build, Interface-Nummer; G.Status(); Sprache GetLocale();
+  Klasse (englischer Schlüssel) und Level; Datum/Zeit.
+- Zählung OK / FEHLER / ÜBERSPRUNGEN / IM CLIENT PRÜFEN.
+- Alle FEHLER: ID, Bereich, Name, Erwartung, Ergebnis (bei Lua-Fehler die erste Zeile der Meldung).
+- Alle ÜBERSPRUNGEN mit Grund, alle IM CLIENT PRÜFEN mit Anleitung.
+- Fehlerzähler des Addons (ns.errorCount ohne die absichtlichen Testfehler), Anzahl ns.blocked, erkannter Bedrohungszustand
+  (ns.threatAccess, ns:ThreatMode(), ThreatSentinelDB.threatAccess.state/date/build).
+- Laufzeit (debugprofilestop), Zeilen "echte Daten unverändert: OK", "CVars unverändert: OK", "Tastenbelegung unverändert: OK",
+  "Simulationen zurückgesetzt: OK", "Stubs zurückgesetzt: OK".
+- KEINE Spielernamen, Gildennamen, Realm, Zone, Chattexte (siehe Abschnitt 6).
+- Danach Hinweis: "Bericht gespeichert – wird beim nächsten /reload oder Ausloggen an die Prüfung gemeldet".
+
+2.5 Sandbox
+- Vorher: tiefe Kopie von ThreatSentinelDB (ohne gs*-Schlüssel), zusätzlich gemerkt:
+  ns.testMode, liveTest, simSecret, simAccess, threatAccess, isModern, isRetail, flavor, errorCount, lastError, errorNoticed,
+  memberNow, aggroLeader, tankAtPull, moveMode; TA.checked/attempts/announced/wantBlizzard/lastProbe; ns.syncRoles, ns.fakeNames,
+  ns.cdTrack, ns.compat, ns.blocked, ns.owners, ns.Sync.claims/taunts/cd, ns.Track.sunder/cc/ccSince/ccBreak, DM.total/DM.cur/
+  DM.showTotal, ns.Alerts.extras, ns.Log.on; CVars nameplateShowEnemies, threatShowNumeric, threatWarning; GetBindingKey der beiden
+  Spott-Bindungen (TauntButton.lua:16-19); Positionen und Sichtbarkeit von HUD, Meter, DD, DmgMeter.
+- Nachher: vergleichen (Zeile "echte Daten unverändert: OK" bzw. FEHLER mit dem ersten abweichenden Pfad), dann wiederherstellen.
+- WICHTIG: In-place wiederherstellen (wipe + zurückkopieren in DIESELBEN Tabellen). ns.db zeigt auf
+  ThreatSentinelDB.profiles[profilname] (Core.lua:863); eine neue Tabelle würde ns.db von den gespeicherten Daten trennen.
+- ns.mobs (echte Plaketten) nicht anfassen; Test-Mobs in einer eigenen Tabelle und nach dem Bereich entfernen.
+
+2.6 Test-Zugänge (ohne Verhaltensänderung, alle Clients)
+Damit die lokalen Funktionen prüfbar sind, bitte nur Verweise anlegen:
+  ns:Fire(event, ...)          ruft die Handler-Liste wie eventFrame OnEvent (Core.lua:1038-1045), mit pcall und ReportError
+  ns:HasHandler(event)         true, wenn ns:On(event) erfolgreich angemeldet wurde (handlers in Core.lua:1007)
+  ns._MergeDefaults            = MergeDefaults (Core.lua:211-220)
+  T._ReadThreat, T._ReadMobAuras, T._Try   (Threat.lua:115-191, 87-110, 325-329)
+  P._GetUF, P._Initial         (Nameplates.lua:26-38, 162-166)
+  M._PullPercent               (Meter.lua:117-122)
+  DM._Short                    (DamageMeter.lua:279-284)
+  SP._RoleFromPoints, SP._SpecRole, SP._Read   (Specs.lua:61-97)
+  TA._Shown, TA.MAX_ATTEMPTS   (ThreatAccess.lua:183-191, 25)
+  ns.LOCALES = { enUS = en, deDE = de } und ns:ApplyLocale(code) (Locales.lua:6-1154; siehe T128)
+
+2.7 Hilfen der Routine (in TestRoutine.lua)
+- Stub(pfad, wert): ersetzt _G[...] bzw. Tabellenfeld (z. B. "C_ChatInfo.SendAddonMessage"), merkt das Original, Rücksetzen LIFO.
+- Zähler-Stubs für alle Funktionen mit echten Folgen (Regeln 0). Standardmässig im ganzen automatischen Teil aktiv:
+  SendChatMessage, C_ChatInfo.SendAddonMessage, SendAddonMessage, SetBinding, SaveBindings, ReloadUI, Screenshot, SetCVar,
+  C_CVar.SetCVar, NotifyInspect, PlaySound, PlaySoundFile (Rückgabe true – Töne werden nur halbautomatisch hörbar geprüft).
+- SECRET: ein newproxy(true) mit Metatabelle, deren __add, __sub, __mul, __div, __mod, __unm, __concat, __lt, __le, __len,
+  __index, __call alle error("secret value used") werfen; __tostring = "SECRET".
+  Dazu Stub issecretvalue = function(v) return v == SECRET or (original and original(v)) or false end.
+  GoldSentinelGame.IsSecret liest issecretvalue bei jedem Aufruf (GoldSentinelGame.lua:132-136), damit wirkt es auch über ns.IsSecret,
+  FullName und ThreatAccess. Grenzen: "==", Wahrheitstest und Verwendung als Tabellenschlüssel löst der Proxy NICHT aus – diese
+  Stellen bleiben IM CLIENT PRÜFEN (T174).
+- Test-Einheiten "tsfake1" … "tsfake40" (Mobs) und "party1"…"party4" über Stubs von UnitExists, UnitGUID, UnitName, UnitCanAttack,
+  UnitIsDeadOrGhost, UnitAffectingCombat, UnitDetailedThreatSituation, UnitThreatSituation, UnitIsUnit, UnitIsPlayer, UnitClass,
+  UnitPowerType, GetRaidTargetIndex, UnitDebuff/UnitBuff bzw. C_UnitAuras.GetAuraDataByIndex, C_NamePlate.GetNamePlateForUnit
+  (liefert eine Testplakette mit UnitFrame und healthBar, deren SetAlpha/SetScale/SetFrameStrata mitzählen).
+- Testnamen nur erfunden ("Grimbar", "Torben", "Anna", wie TestMode.lua) und im Bericht durch "<Name>" ersetzt.
+
+
+====================================================================================================
+3. TESTFÄLLE
+====================================================================================================
+Format: ID [Bereich] Name · wie · Clients
+        Prüft / Erwartung
+IDs bleiben über Versionen gleich. Neue Testfälle bekommen neue Nummern am Ende, nie umnummerieren.
+
+----------------------------------------------------------------------------------------------------
+A. LADEN UND ERKENNUNG
+----------------------------------------------------------------------------------------------------
+T01 [A] Alle Dateien und Module geladen · auto · F E T R
+    ns.L, ns.Game, ns.Plates, ns.Donate und die 16 Module in ns.modules (Alerts, DD, DmgMeter, Guide, HUD, Log, Meter, Mover,
+    Options, Specs, Sync, Taunt, Test, Threat, ThreatAccess, Track) vorhanden; alle 22 Dateien der .toc haben ihr Objekt angelegt.
+    Erwartung: nichts fehlt, #ns.modules == 16.
+T02 [A] Version .toc = Code · auto · F E T R
+    (C_AddOns.GetAddOnMetadata or GetAddOnMetadata)("ThreatSentinel", "Version") == ns.version (Core.lua:7).
+    Erwartung: gleich ("2.4.1" bzw. neue Version); oberster Eintrag in CHANGELOG.de.md = Version (manuell vor dem Push).
+T03 [A] GoldSentinelGame Version 2 · auto · F E T R
+    GoldSentinelGame.version == 2, apiVersion == 2, ns.Game == GoldSentinelGame; vorhanden: flavor, IsEra/IsForever/IsTBC/IsWrath/
+    IsTitan/IsCata/IsMists/IsRetail, IsModern, IsOldAPI, HasSecrets, IsSecret, AnySecret, Safe, InCombat, Short, CleanName,
+    SameName, Status, SetTestFlavor, Recalc. Erwartung: alles vorhanden, G.Status() ist ein Text.
+    Manuell vor dem Push: ThreatSentinel/GoldSentinelGame.lua byte-gleich mit raidmaster/shared/GoldSentinelGame.lua; in der .toc
+    direkt nach GoldSentinelDev.lua (2.4.1: ja, Zeile 11).
+T04 [A] Erkennung echt · auto · F E T R
+    ns.isModern == G.IsModern, ns.isRetail == G.IsRetail, ns.flavor == G.flavor; A.cleuAllowed == not ns.isModern (Alerts.lua:438);
+    A.cleuRegistered == A.cleuAllowed; DM.allowed == not ns.isModern (DamageMeter.lua:23); alte API: ns.threatAccess == "open" und
+    TA.checked == true (ThreatAccess.lua:27-29).
+    Erwartung je Client: F modern/forever, E alt/era, T alt/tbc, R modern/retail.
+T05 [A] Simulation G.SetTestFlavor – GoldSentinelGame · auto · F E T R
+    Für f in forever, era, tbc, retail: G.SetTestFlavor(f). Erwartung: forever -> IsForever, IsModern; era -> IsEra, IsOldAPI;
+    tbc -> IsTBC, IsOldAPI; retail -> IsRetail, IsModern; G.Status() enthält "[Test]" bzw. "[test]". Danach SetTestFlavor(nil).
+T06 [A] Simulation – Weichen des Addons · auto · F E T R
+    Je simuliertem Client ns.isModern = G.IsModern setzen (wie Korrektur Punkt 4) und prüfen:
+      ns:ThreatMode() mit threatAccess "unknown" ausserhalb des Kampfs: alt FULL; mit db.threatMode "DISPLAY": alt FULL, modern DISPLAY;
+      ns:DeficitText() bei Klasse DRUID: alt L.DEFICIT_DRUID, modern L.DEFICIT_OTHER (Core.lua:439-443);
+      Sync:Send mit InCombatLockdown-Stub true: alt wird gesendet (Zähler 1), modern false ohne Aufruf (Sync.lua:42);
+      P:Restore im Kampf, Modus DISPLAY: modern -> Detach (keine SetAlpha-Aufrufe), alt -> RestoreFrame (Nameplates.lua:287-293);
+      TA:Probe alt: keine Wirkung (ThreatAccess.lua:105).
+    Erwartung: alle Weichen wie angegeben.
+T07 [A] Beim Laden festgelegte Weichen bleiben · auto · F E T R
+    Während der Simulation bleiben A.cleuAllowed, A.cleuRegistered und DM.allowed auf dem echten Wert (gelten erst nach /reload,
+    Korrektur Punkt 4). Erwartung: unverändert; Bericht vermerkt "Kampflog/Meter: Simulation erst nach /reload".
+T08 [A] Weichen wieder echt · auto · F E T R
+    Nach G.SetTestFlavor(nil): G.flavor, G.IsModern, ns.isModern, ns.isRetail, ns.flavor gleich wie vor T05; G.Status() ohne "[Test]".
+T09 [A] Ereignisse angemeldet · auto · F E T R
+    ns:HasHandler für ADDON_LOADED, PLAYER_LOGIN, PLAYER_REGEN_DISABLED/ENABLED, NAME_PLATE_UNIT_ADDED/REMOVED,
+    UNIT_THREAT_LIST_UPDATE, CHAT_MSG_ADDON, UNIT_SPELLCAST_SUCCEEDED, UNIT_HEALTH, GROUP_ROSTER_UPDATE, UNIT_PET, UNIT_AURA,
+    UPDATE_SHAPESHIFT_FORM, ADDON_ACTION_BLOCKED/FORBIDDEN, SPELLS_CHANGED, INSPECT_READY. COMBAT_LOG_EVENT_UNFILTERED nur E/T.
+    ns:On("TS_GIBT_ES_NICHT", f) liefert false ohne Lua-Fehler (Core.lua:1012-1019).
+T10 [A] Befehle angemeldet · auto · F E T R
+    SLASH_THREATSENTINEL1 == "/ts", SLASH_THREATSENTINEL2 == "/threatsentinel", SlashCmdList.THREATSENTINEL ist eine Funktion;
+    SlashCmdList.GOLDSENTINELGAME und SlashCmdList.GOLDSENTINELDEV vorhanden.
+T11 [A] Interface-Nummer des Clients in der .toc · manuell · F E T R
+    Der Bericht enthält die Interface-Nummer; die Prüf-Sitzung vergleicht sie mit "## Interface:" (2.4.1: 11507-11510, 20504-20506,
+    16001, 120100-120107). Am Launch-Tag /dump select(4, GetBuildInfo()); neue Forever-Nummer ergänzen, 16001 bleibt.
+
+----------------------------------------------------------------------------------------------------
+B. JEDE FUNKTION DES ADDONS
+----------------------------------------------------------------------------------------------------
+Core.lua
+T12 [B] ns.IsSecret / ns.Safe · auto · F E T R
+    simSecret an: IsSecret(5, "auras") true, IsSecret(nil, "auras") false, IsSecret(5) false, IsSecret(5, "gibtsnicht") false;
+    Safe(5, 0, "auras") -> 0, true; simSecret aus: Safe(5, 0, "auras") -> 5, false; IsSecret(SECRET) immer true.
+T13 [B] ns:Compat / ResetCompat · auto · F E T R
+    Compat("guid","ok"), ("guid","off"), ("guid","ok") -> mode "ok", worst "off"; ResetCompat leert ns.compat.
+T14 [B] ns.SpellName / ns.SpellIcon · auto · F E T R
+    SpellName(355) und SpellIcon(355) nicht nil (C_Spell oder GetSpellInfo/GetSpellTexture, Core.lua:222-230).
+T15 [B] ReadCooldown / ns.SpellCD · auto · F E T R
+    Stub GetSpellCooldown bzw. C_Spell.GetSpellCooldown: (jetzt-2, 10) -> SpellCD ~8 (±0.1), compat cooldowns "ok"; (jetzt, 1.5) -> 0;
+    SECRET -> Ersatz aus ns.cdTrack (jetzt+4 -> ~4), compat "fallback"; tauntMode "pet" -> immer cdTrack (Core.lua:253-256).
+T16 [B] ns:BaseCooldown · auto · F E T R
+    db.cdLearned[name] hat Vorrang; Stub GetSpellBaseCooldown 600000 -> 600; SECRET bzw. nil -> BASE_CD (355 -> 10, Core.lua:270-287).
+T17 [B] ns.SpellInRange · auto · F E T R
+    Stub-Rückgabe true/false/1/0/nil/SECRET -> true/false/true/false/nil/nil; SECRET setzt compat range "off" (Core.lua:290-302).
+T18 [B] ns.Aura / ns:FindAura · auto · F E T R
+    Mit Stubs für UnitBuff/UnitDebuff (alter Weg) und C_UnitAuras.GetAuraDataByIndex (moderner Weg): gefunden per ID -> true,true;
+    per Name -> true,true; keine -> false,true; SECRET-Name -> false,false; Fehler im Getter -> false,false (Core.lua:305-338).
+T19 [B] ns:MobKey · auto · F E T R
+    GUID "Creature-0-1-2-3-4-5" -> GUID, true; SECRET -> "plate:tsfake1", false und compat guid "fallback" (Core.lua:341-349).
+T20 [B] ns:SameUnit / ns:PlateFor · auto · F E T R
+    SameUnit: true/false/SECRET/Fehler -> true/false/false/false. PlateFor: C_NamePlate liefert Token -> Token; SECRET-Token ->
+    Suche über ns.mobs; UnitExists false -> nil (Core.lua:352-370).
+T21 [B] ns:SpellbookHas / ns:KnowsSpell · auto · F E T R
+    Stub beider Zauberbuch-Wege (GetNumSpellTabs/GetSpellTabInfo/GetSpellBookItemName und C_SpellBook): Name gross/klein egal -> true;
+    "" und nil -> false. KnowsSpell: IsPlayerSpell -> IsSpellKnown -> Zauberbuch (Core.lua:372-395, 504-509).
+T22 [B] ns:FullName · auto · F E T R
+    ("Thor", "") -> "Thor"; ("Thor", "Realm") -> "Thor-Realm"; SECRET-Name oder SECRET-Realm -> nil; Name über G.Short (Core.lua:398-405).
+T23 [B] ns:FormName / ns:SpecName · auto · F E T R
+    Mit echten Werten und mit SECRET aus GetShapeshiftFormID/GetSpecialization: Text, kein Lua-Fehler; 0 -> "none (0)".
+T24 [B] ns:UpdateSpells je Klasse · auto · F E T R
+    Echte Klasse: tauntSpell/tauntMode passen zu ns.CLASS_SPELLS (Core.lua:453-477): Krieger hostile, Druide hostile (wenn gelernt),
+    Paladin E nil, T friendly, F seal (wenn Siegel 1311649 und Richturteil bekannt), Jäger/Hexer pet. tauntOverride "TestSpott" ->
+    tauntSpell "TestSpott", Modus hostile, spellIdByName["TestSpott"] gesetzt. Danach UpdateSpells mit echtem Wert.
+T25 [B] HasSealOfFury / TauntUsable · auto · F E T R
+    seal-Modus: Aura lesbar und vorhanden -> true; lesbar, nicht vorhanden -> false; nicht lesbar -> sealUntil > jetzt entscheidet,
+    compat selfAuras "fallback"; ohne tauntSpell -> false (Core.lua:512-531).
+T26 [B] IsTankStance / ReadStance · auto · F E T R
+    Krieger Form 18 bzw. Zauber 71 -> true; Druide 5/8 -> true; Paladin Rechtschaffener Zorn (25780) -> true; SECRET -> letzter Stand
+    bleibt, Paladin mit rfCast < 30 Min. -> true; Zwischenspeicher 0.1 s (Core.lua:602-659).
+T27 [B] TankUnit / PetTankActive · auto · F E T R
+    liveTest + testPetTank + Pet lebt + keine Tankhaltung -> "pet", sonst "player"; PetTankActive nur bei tauntMode "pet".
+T28 [B] IsActive / IsMemberMode · auto · F E T R
+    enabled aus -> false; testMode -> true; solo ohne activeSolo -> false; activeOnlyTank ohne Haltung -> IsMemberMode; Mitglied:
+    10-s-Nachlauf nach Tankhaltung (lastTankT) und tankAtPull im Kampf -> false (Core.lua:676-703).
+T29 [B] LooksLikeTank / HasBearForm / CouldTank · auto · F E T R
+    memberNow aus -> false; Aura 5487 -> true (Zwischenspeicher 3 s); aggroLeader + Krieger ohne Heiler-Skillung -> true;
+    SECRET-Name -> false ohne Eintrag in auraTankCache/bearCache (Core.lua:707-766).
+T30 [B] UpdateGroup · auto · F E T R
+    Gruppe mit 2 Spielern + 1 Pet und Schlachtzug mit 5 (Stubs IsInRaid, GetNumGroupMembers, GetNumSubgroupMembers):
+    groupUnits, groupNames, nameToUnit richtig; SECRET-Name ausgelassen (Core.lua:771-790).
+T31 [B] GuessRole / MyRole / GetRole · auto · F E T R
+    Reihenfolge: syncRoles (< 90 s) vor GetPartyAssignment("MAINTANK") vor Specs vor UnitGroupRolesAssigned vor LooksLikeTank vor
+    GuessRole; kein Spieler -> "PET" (Live-Test "DAMAGER"); Priester mit Mana -> HEALER bei healerHeuristic, aus -> DAMAGER;
+    db.myRole HEALER/DAMAGER wirkt; roleCache bis ClearRoleCache (Core.lua:795-848).
+T32 [B] Profile: geteiltes Profil · auto · F E T R
+    ReloadUI als Zähler. UseSharedProfile(true): DB.chars[charKey] == "Global", DB.profiles.Global vorhanden, ReloadUI 1x;
+    UseSharedProfile(false): eigenes Profil zurück; IsSharedProfile passend (Core.lua:970-984). Sandbox stellt alles zurück.
+T33 [B] Voreinstellungen · auto · F E T R
+    ApplyPreset("quiet"/"standard"/"loud"): alle Werte aus ns.PRESETS (Core.lua:935-948) in ns.db; "gibtsnicht" ändert nichts;
+    ApplySettings ohne Fehler.
+T34 [B] Positionen zurücksetzen · auto · F E T R
+    ResetPositions: hudPoint/ddPoint/meterPoint/dmgPoint inhaltsgleich mit ns.defaults, aber nicht dieselbe Tabelle (CopyTable).
+T35 [B] ns:IsBossFight · auto · F E T R
+    boss1 vorhanden -> true; Ziel Level -1 -> true; Klassifikation "worldboss" -> true; SECRET-Level -> false (Core.lua:958-968).
+T36 [B] Slash-Unterbefehle · auto · F E T R
+    Die Ziele als Zähler-Stubs, dann SlashCmdList.THREATSENTINEL(msg):
+    "log status" -> Log:Command("status"); "test" -> Test:ToggleWindow; "guide", "assistent" -> Guide:Start; "spenden", "donate",
+    "support" -> Donate.Show; "bedrohung", "threat", "BEDROHUNG" -> ThreatAccess:Report; "verschieben", "move" -> Mover:Toggle;
+    "" und "unbekannt" -> Options:Toggle; "testroutine x" -> Routine (Stub). Erwartung: genau das richtige Ziel 1x.
+ThreatAccess.lua
+T37 [B] ns:ThreatMode – Tabelle · auto · F E T R
+    simAccess none -> OFF; secret -> DISPLAY; open -> FULL; threatAccess secret -> DISPLAY; none -> OFF; open + db.threatMode
+    DISPLAY: modern DISPLAY, alt FULL; FULL lässt sich nicht erzwingen (es gibt keinen Wert dafür) (ThreatAccess.lua:37-44).
+T38 [B] TA:ModeText · auto · F E T R
+    Für FULL/DISPLAY/OFF ein Text aus L (TA_MODE_*), nicht der Schlüssel selbst.
+T39 [B] TA:Read · auto · F E T R
+    Beide Funktionen nil -> false,false,true; Detailed liefert SECRET in status -> secret true; offene Werte (true,3,100,100,5000) ->
+    found true; nil -> false,false,false (ThreatAccess.lua:79-100).
+T40 [B] TA:Probe · auto · F R (Weg modern; auf E/T ÜBERSPRUNGEN "alte API")
+    Kampf-Stub an: fehlend -> Set("none"); SECRET -> "secret"; offen -> "open"; nichts -> attempts+1, kein Set; nach Set checked;
+    zweiter Probe-Aufruf ohne Wirkung; ohne Kampf ohne Wirkung (ThreatAccess.lua:104-119).
+T41 [B] TA:Candidates · auto · F E T R
+    Ziel feindlich zuerst, dann Testplaketten im Kampf; SECRET aus UnitExists/UnitCanAttack -> nicht in der Liste.
+T42 [B] TA:Set / Store · auto · F E T R
+    Set("secret"): ns.threatAccess "secret", checked true, ThreatSentinelDB.threatAccess = { state, date "JJJJ-MM-TT HH:MM",
+    build "x (y)" }, Hinweis TA_NOTE_DISPLAY genau 1x (announced), wantBlizzard true; zweites Set ohne zweiten Hinweis.
+T43 [B] Neuer Kampf setzt die Prüfung zurück · auto · F E T R
+    ns:Fire("PLAYER_REGEN_DISABLED"): modern checked=false, attempts=0, announced=false; alt unverändert (ThreatAccess.lua:135-138).
+T44 [B] ApplyBlizzard / RestoreBlizzard · auto · F E T R
+    CVar-Stubs (GetCVar/C_CVar.GetCVar liefern "0", SetCVar zählt): wantBlizzard + blizzThreat -> threatShowNumeric "1",
+    threatWarning "3" gesetzt, blizzOrig gemerkt (einmal); CVar liefert nil -> ausgelassen; SECRET -> ausgelassen; blizzThreat aus
+    -> nichts; InCombatLockdown -> nichts; RestoreBlizzard setzt Originale und löscht blizzOrig (ThreatAccess.lua:155-174).
+T45 [B] Bedrohung prüfen – ausserhalb des Kampfs · auto · F E T R
+    ns.Print als Sammler: Zeilen TA_R_MODE, G.Status(), (alt) TA_R_OLDAPI, TA_R_NOCOMBAT, TA_R_LAST bzw. TA_R_NEVER, TA_R_ERRORS.
+T46 [B] Bedrohung prüfen – im Kampf (simuliert) · auto · F E T R
+    Stubs: Kampf, Ziel feindlich, UnitThreatSituation 3, Detailed scaled 100 -> "3" und "100"; SECRET -> TA_PROTECTED;
+    86.25 -> "86.2" bzw. "86.3"; modern: Probe läuft 1x (ThreatAccess.lua:193-220).
+T47 [B] TA:Login · auto · F E T R
+    Gespeichert "open"/"secret" -> übernommen (modern), "none" -> nicht übernommen, alt -> immer "open" (ThreatAccess.lua:222-230).
+Threat.lua
+T48 [B] Zustände eines Mobs (Evaluate) · auto · F E T R
+    Testmob mit Stubs (modern zusätzlich threatAccess "open"): nicht angreifbar/tot -> IDLE; CC-Aura + ignoreCC -> CC; Spieler hält
+    -> HELD; anderer Spieler scaled >= warnThreshold -> WARN; anderer Tank (syncRoles TANK) -> OTHERTANK und ns.owners; Pet hält +
+    petsSafe -> PETHELD; DD hält -> LOOSE mit victim, victimRole, myPull; Gruppen-Ansicht -> HELD/WARN mit otherTank
+    (Threat.lua:196-307).
+T49 [B] LOOSE: Meldung, Übernahme, Besitzer · auto · F E T R
+    Alerts:OnLoose/OnRegain/OnWarn als Zähler: LOOSE -> OnLoose 1x, im nächsten Lauf nicht nochmals; Sync.claims[guid] < 4 s ->
+    claimedBy, keine Meldung; owners anderer Tank < ownerGrace -> muted; LOOSE -> HELD -> OnRegain; HELD -> WARN -> OnWarn.
+T50 [B] Hinweistext (BuildHint) · auto · F E T R
+    claimedBy -> L.CLAIMED; muted -> L.OWNER; ausser Reichweite -> L.TOO_FAR; myPull >= deficitThreshold -> Klassentext;
+    seal ohne Siegel -> L.HINT_NO_SEAL; Spott-CD + anderer Tank bereit -> L.OTHER_TANK_READY; Spott-CD -> L.TAUNT_CD mit Sekunden;
+    sonst L.TAUNT_READY (Threat.lua:43-82).
+T51 [B] Reihenfolge loser Mobs (SortLoose) · auto · F E T R
+    Totenkopf (8) vor Kreuz (7) vor ohne; bei gleicher Markierung HEALER vor DAMAGER vor PET; dann älterer looseSince zuerst.
+T52 [B] T:Tick · auto · F E T R
+    Inaktiv -> Plates:Restore für alle, HUD leer; testMode -> Test:Tick; Modus nicht FULL -> kein Evaluate, kein Plates:Update
+    (Zähler); Moduswechsel -> ModeChanged genau 1x (Detach für alle, extras leer, Meldung in der Mitte gelöscht ausser "test"/"remote").
+T53 [B] T:EvalOne · auto · F E T R
+    Modern, Kampf, noch nicht geprüft -> kein Evaluate; testMode oder Modus nicht FULL -> kein Evaluate (Threat.lua:444-451).
+T54 [B] Plaketten-Ereignisse · auto · F E T R
+    ns:Fire("NAME_PLATE_UNIT_ADDED","tsfake1") -> ns.mobs-Eintrag (in Testtabelle umgeleitet); REMOVED -> Track:Forget("plate:tsfake1"),
+    owners gelöscht; UNIT_THREAT_LIST_UPDATE mit SECRET-Einheit -> ignoriert, kein Fehler (Threat.lua:456-471).
+T55 [B] Gruppen-Ansicht: Aggro-Anführer · auto · F E T R
+    3 Mobs bei einem Krieger (kein Heiler) -> ns.aggroLeader = sein Name; nach 15 s ohne Treffer -> nil (Threat.lua:333-350).
+Nameplates.lua
+T56 [B] GetUF · auto · F E T R
+    Keine Plakette -> nil; plate:IsForbidden() -> nil; UnitFrame verboten -> nil; nur HealthBarsContainer.healthBar -> uf.healthBar
+    gesetzt; ohne Lebensbalken -> nil (Nameplates.lua:26-38).
+T57 [B] P:Apply je Zustand · auto · F E T R
+    An einer Vorschau-Plakette (TM:CreatePreview) für HELD, WARN, LOOSE (DD, Heiler, übernommen, weit), OTHERTANK, PETHELD, CC, IDLE:
+    Rahmen sichtbar/Farbe (colorDD, colorHealer, colorWarn, colorClaimed, grau bei muted), Grösse (heldScale, warnScale, looseScale),
+    Deckkraft (heldPlateAlpha, heldHealthAlpha), Text1 = L.ARROW mit Opfer, Kürzel (Initial), Rüstung-zerreissen-Zahl (nur Krieger),
+    in den Vordergrund (Strata HIGH) bei WARN/LOOSE.
+T58 [B] Plaketten-Optionen an/aus · auto · F E T R
+    Je einmal an und aus mit P:Apply: loosePulse, looseFire, effectGlow, warnBlink, showHints, showSunder, showTankStripe,
+    outOfCombatMode normal/faded, borderSize 1 und 6, effectStrength 50 und 200. Erwartung: sichtbare Wirkung wie in Apply, kein Fehler.
+T59 [B] RestoreFrame / Flash · auto · F E T R
+    Nach LOOSE-Apply: RestoreFrame -> Grösse = origScale, Strata zurück, Deckkraft 1, Overlay versteckt; FlashFrame -> flashAG spielt.
+T60 [B] Initial · auto · F E T R
+    "Grimbar" -> "G"; "ärger" -> "Ä"; "" -> ""; nil -> ""; SECRET -> "" (Nameplates.lua:162-166).
+T61 [B] P:Inspect · auto · F E T R
+    Testplakette -> Tabelle mit alpha, scale, strata, border …; keine Plakette -> nil; kein Fehler.
+Alerts.lua
+T62 [B] Töne: Liste und Play · auto · F E T R
+    Für jeden Eintrag in ns.SOUNDS: SoundByKey liefert ihn, SoundLabel ist kein Schlüssel; "none" -> Play liefert nil; db.sound aus ->
+    nil, mit force -> Aufruf; gleicher Drosselschlüssel innerhalb 0.8 s -> nil; "custom:123" und "custom:datei" -> PlaySound bzw.
+    PlaySoundFile mit Pfad ns.CUSTOM_SOUND_DIR (Alerts.lua:83-137). Hörprobe halbautomatisch (H-Liste Abschnitt 4).
+T63 [B] Meldung in der Mitte · auto · F E T R
+    Center("x", c, 2, "test") wird von Center(…, "aoe") nicht verdrängt (PRIORITY); gleicher Schlüssel ersetzt; ClearCenter("aoe")
+    löscht "test" nicht; während der Testzentrale Strata FULLSCREEN_DIALOG und Hintergrund sichtbar (Alerts.lua:140-212).
+T64 [B] Chat-Kanäle gehen nie hinaus · auto · F E T R
+    SendChatMessage-Zähler. Für chatChannel TANKS, BOSS, GROUP, SELF, OFF: OnResist("<Name>", nil, true) und AnnounceCC(…, true).
+    Erwartung: Zähler 0; bei BOSS/GROUP/SELF eine Test:Say-Zeile mit L.TEST_CHAT, bei TANKS/OFF keine (Alerts.lua:219-234).
+T65 [B] OnLoose / OnWarn / OnRegain · auto · F E T R
+    Heiler -> soundHealer, DD -> soundDD; Gruppen-Ansicht + victimIsMe + memberSelfWarn -> SELF_AGGRO; testMode -> nichts;
+    soundWarn "none" -> kein Ton; regainSound/regainText an/aus wirken (Alerts.lua:239-272).
+T66 [B] Alerts:Evaluate · auto · F E T R
+    aoeHint + #lose >= aoeThreshold + Flächenspott bereit -> AOE_HINT; Notfall: Leben <= emergencyHP und Defensive bereit ->
+    EMERGENCY und Ton 1x; Heiler ausser Reichweite (UnitInRange-Stub) -> höchstens 2 Zeilen HEALER_OOR; Gruppen-Ansicht -> nichts.
+T67 [B] Leben und Notfall-Ersatz · auto · F E T R
+    HealthPercent: SECRET -> nil, max 0 -> 100. EmergencyFallback ohne C_CurveUtil/UnitHealthPercent -> emergFailed, compat health
+    "off"; mit (F/R) -> Frame mit Kurve, compat "fallback" (Alerts.lua:337-396).
+T68 [B] Spott widerstanden · auto · F E T R
+    OnResist: zweiter Aufruf < 1.5 s ohne test -> ignoriert; Ersatz bereit -> RESIST_BACKUP, sonst RESIST_SELF; test -> kein
+    Sync:Send; ohne test -> Sync:Send("R:…") am Zähler-Stub (nie echt) (Alerts.lua:405-430).
+T69 [B] Tank kontrolliert · auto · F E T R
+    Stubs HasFullControl false, C_LossOfControl mit displayText/timeRemaining 4 -> MSG_CC_DUR; Dauer < ccMinDuration -> nichts;
+    ccState verhindert Wiederholung; memberNow -> nichts; SECRET-Felder -> MSG_CC_PLAIN (Alerts.lua:467-513).
+T70 [B] Meldungen anderer Tanks · auto · F E T R
+    RemoteResist/RemoteCC nur mit Tankhaltung oder im Test -> REMOTE_RESIST/REMOTE_CC (Alerts.lua:518-532).
+T71 [B] Hinweis Spott-Taste · auto · F E T R
+    StaticPopup_Show als Zähler. Nicht in Instanz -> nichts; Taste belegt -> keyHintDone; Kampf -> pending; sonst Popup 1x und
+    keyHintDone true; zweiter Aufruf -> nichts (Alerts.lua:548-560).
+T72 [B] Kampflog-Spott (nur alte API) · auto · E T (F R ÜBERSPRUNGEN "Kampflog gesperrt", siehe T85)
+    Stub CombatLogGetCurrentEventInfo: SPELL_MISSED vom Spieler mit tauntSpell -> OnResist (via "log"); andere Quelle -> nichts;
+    simSecret -> nichts. Aufruf über ns:Fire("COMBAT_LOG_EVENT_UNFILTERED").
+Sync.lua
+T73 [B] Sync:Handle · auto · F E T R
+    "H:TANK:2.4.1" -> syncRoles mit Version; "T:Creature-1:10" -> claims, taunts, cd = jetzt+10, Rolle TANK; "T:-:5" -> kein Claim;
+    "R:" -> RemoteResist; "X:Betäubt" -> RemoteCC; "kaputt" und nil -> ignoriert (Sync.lua:188-211).
+T74 [B] Sync:Send · auto · F E T R
+    Zähler-Stub für C_ChatInfo.SendAddonMessage: sync aus -> nil; keine Gruppe -> nil; Kampf modern -> false + compat "fallback";
+    Rückgabe 0 bzw. true -> true; false oder 3 -> blocked; SECRET -> gesendet; ohne C_ChatInfo -> alter SendAddonMessage-Weg.
+T75 [B] Tank-Liste und Übernahmen · auto · F E T R
+    Mit ns.fakeNames: IsTank, Tanks (sortiert, eigener Name zuerst bei Haltung), NumTanks (sync aus -> 0), TankColor, OtherTankReady
+    (CD abgelaufen), Claim (< 4 s), ClaimByTarget, TankTargeting, Users (< 90 s, sortiert) (Sync.lua:86-185).
+T76 [B] Addon-Nachrichten empfangen · auto · F E T R
+    ns:Fire("CHAT_MSG_ADDON", …): falscher Prefix, sync aus, eigener Name, SECRET-Nachricht/-Absender -> ignoriert; gültig ->
+    Handle mit Ambiguate-Name (Sync.lua:213-219).
+T77 [B] Hello / OnTaunt · auto · F E T R
+    Hello zweimal < 5 s -> 1 Sendung; Hello(true) -> immer; OnTaunt(guid) mit C_Timer.After-Stub sofort -> "T:guid:<cd>"
+    (Sync.lua:70-84). Prefix angemeldet: C_ChatInfo.IsAddonMessagePrefixRegistered("ThreatSentinel") true, falls vorhanden.
+Tracker.lua
+T78 [B] Eigene Zauber · auto · F E T R
+    ns:Fire("UNIT_SPELLCAST_SUCCEEDED","player",nil,<spott-id>) mit C_Timer.After-Stub: cdTrack gesetzt, db.cdLearned gelernt
+    (Sandbox), OnOwnTaunt 1x; Rüstung zerreissen 6x -> Sunder 5; Siegel gesetzt -> sealUntil = jetzt+30, Richturteil -> 0
+    (Tracker.lua:135-175).
+T79 [B] Kontrolle der Gruppe · auto · F E T R
+    party1 wirkt Kopfnuss (6770) auf tsfake1 -> Track:IsCC true; UNIT_HEALTH nach > 1 s -> aufgehoben; Verwandlung (118) bleibt
+    bei UNIT_HEALTH; Forget löscht alles (Tracker.lua:177-221).
+T80 [B] Widerstand ohne Kampflog · auto · F R (E T: ÜBERSPRUNGEN "Kampflog vorhanden")
+    OnOwnTaunt mit Testplakette, C_Timer.After sofort, Detailed isTanking false -> OnResist via "threat"; isTanking SECRET -> nichts.
+Specs.lua
+T81 [B] Rolle aus Talentpunkten · auto · F E T R
+    _RoleFromPoints: WARRIOR {0,5,31} -> TANK; PALADIN {31,0,0} -> HEALER; DRUID {0,31,0} -> FERAL; PRIEST {0,0,31} -> DAMAGER;
+    Summe < 10 -> nil. RoleOf: FERAL + Bärengestalt -> TANK, sonst DAMAGER.
+T82 [B] Spezialisierung und Betrachten · auto · F E T R
+    _SpecRole mit Stubs GetSpecialization/GetSpecializationInfo/GetInspectSpecialization: Rolle; SECRET oder 0 -> nil. Step im
+    Kampf (Stub) -> NotifyInspect-Zähler 0. ListText(10) ohne Fehler.
+Meter.lua / DDView.lua / HUD.lua / DamageMeter.lua
+T83 [B] Aggrometer Collect und Render · auto · F E T R
+    Offene Werte (6 Testmitglieder): Tank zuerst, dann nach Anteil absteigend; _PullPercent(raw 110, Nahkampf) -> 100, (raw 130,
+    Fernkampf) -> 100; Vorsprung <= 5 -> METER_LEAD_NONE, < 20 gelb, sonst grün; meterRows 3 -> 3 Zeilen und "du" immer dabei;
+    SECRET-Zielname -> Titel unverändert gesetzt (Meter.lua:117-264).
+T84 [B] Aggrometer und DD-Ansicht: Sichtbarkeit und Optionen · auto · F E T R
+    Meter: moveMode/testMode -> Beispielliste; meterOnlyTank ohne Haltung, Modus OFF, enabled oder meter aus, kein Ziel -> versteckt.
+    DD: Tankhaltung, Modus OFF, ohne Gruppe (ohne liveTest) -> versteckt; Show(80) ohne Ton, Show(95) Ton 1x (FULL), testMode ohne
+    Ton; ddWarn, ddSound, ddScale, ddWidth, meterRows, meterScale, meterWidth je Min/Max ohne Fehler.
+T85 [B] HUD · auto · F E T R
+    Update mit 7 losen Mobs und hudMaxRows 5 -> 5 Zeilen + extras; Kopf L.LOOSE mit Anzahl; Markierungs-Symbol; Gruppen-Ansicht ->
+    versteckt; hud aus -> versteckt (HUD.lua:62-102).
+T86 [B] Schadens-/Heilmeter · auto · E T (F R: ÜBERSPRUNGEN "kein Kampflog", nur Prüfung DM.allowed false und Fenster versteckt)
+    Mit Stub CombatLogGetCurrentEventInfo: SWING_DAMAGE auf feindlich -> dmg; auf freundlich -> nichts; SPELL_HEAL 1000 mit 300
+    Überheilung -> 700; Pet -> Besitzer; SPELL_SUMMON -> summonOwner. REGEN_DISABLED/ENABLED -> Segment, Account; Reset leert;
+    Kind je Rolle (Heiler heal, DD dmg, Tank nur mit dmgMeterTank); Titel Links-/Rechtsklick -> showTotal / Reset;
+    _Short: 999 -> "999", 1234 -> "1.2k", 12345 -> "12k", 2500000 -> "2.5M".
+Mover.lua / TauntButton.lua
+T87 [B] Anzeigen verschieben · auto · F E T R
+    Start im Kampf (Stub) -> L.NOT_IN_COMBAT, moveMode false; ausserhalb -> moveMode, Overlays sichtbar; Stop -> zurück;
+    SetScale(…, 9) -> 2.5, (…, 0.1) -> 0.5; SavePoint schreibt db-Punkt; REGEN_DISABLED beendet (Mover.lua:29-196).
+T88 [B] Spott-Knöpfe · auto · F E T R
+    UpdateMacros: hostile -> "/cast [@mouseover,harm,nodead][harm,nodead] <Spott>", friendly -> @mouseover,help-Text, kein Spott -> "";
+    im Kampf -> pending, kein SetAttribute. SetKey mit Stubs SetBinding/SaveBindings/GetBindingKey: im Kampf false und 0 Aufrufe;
+    ausserhalb -> nur Stubs aufgerufen. Echte Bindung danach unverändert (Sandbox-Zeile).
+Options.lua
+T89 [B] Einstellungsfenster und alle Seiten · auto · F E T R
+    O:Build, Select(1) … Select(8), RefreshAll, Toggle auf/zu; im Kampf (Stub) Toggle und OpenPage(5) -> L.NOT_IN_COMBAT;
+    REGEN_DISABLED schliesst. Seite 1 zeigt Bedrohungsmodus/Blizzard-Anzeige nur modern (Options.lua:513-518).
+T90 [B] Jede Option einmal an/aus · auto · F E T R
+    Für jeden booleschen Schlüssel in ns.defaults (enabled, activeOnlyTank, activeSolo, autoEnableNameplates, blizzThreat, specCheck,
+    memberView, memberSelfWarn, dmgMeter, dmgMeterGroupOnly, dmgMeterTank, loosePulse, looseFire, effectGlow, warnBlink, showHints,
+    showSunder, showTankStripe, ignoreCC, petsSafe, healerHeuristic, sound, regainSound, announceResist, announceCC, aoeHint,
+    healerRange, emergency, regainText, sync, hud, ddView, ddSound, meter, meterOnlyTank, dungeonCheck, dungeonCheckRaid,
+    dungeonShots, testPreview, testPetTank, minimapShow): an, dann aus, je danach ApplySettings, T:Tick (Pause aufheben für diesen
+    einen Aufruf), Meter/DD/HUD/DmgMeter Tick, O:RefreshAll. Auswahlwerte: myRole AUTO/HEALER/DAMAGER, threatMode AUTO/DISPLAY,
+    outOfCombatMode, chatChannel (5), soundChannel (4). Schieberegler: Min und Max laut PAGES (Options.lua:545-688).
+    Erwartung: kein Lua-Fehler, Wert danach wie gesetzt; Sandbox stellt zurück.
+T91 [B] Ton- und Farbwahl, Popups · auto · F E T R
+    OpenSoundPicker für soundDD öffnen, RefreshPicker, schliessen; OpenColor für colorDD öffnen und abbrechen -> Farbe unverändert
+    (beide Wege: SetupColorPickerAndShow und alter Weg, Options.lua:19-45). StaticPopupDialogs THREATSENTINEL_BINDKEY, _REBIND,
+    _CUSTOMSOUND, _RELOAD vorhanden mit Text (nicht anzeigen).
+T92 [B] Minimap-Knopf · auto · F E T R
+    minimapShow an/aus -> sichtbar/versteckt; minimapAngle 0/220 -> PlaceMinimap ohne Fehler; Tooltip OnEnter/OnLeave ohne Fehler.
+Testzentrale, Testassistent, Testprotokoll, Spenden
+T93 [B] Testzentrale vollständig · auto · F E T R
+    Build, auf/zu, Refresh, DiagText, CompatText, ReportText ohne Fehler; SetDemo an/aus (Plaketten danach wiederhergestellt,
+    ns.testMode false); SetLive an/aus; SetSimulation an/aus; SetAccessSim open/secret/none/nil -> TA_R_MODE-Zeile; jede der 9
+    ACTIONS (Töne gezählt, nicht hörbar); jede der 5 SYNC-Aktionen -> Grimbar in syncRoles/claims/cd, SY_REMOVE räumt alles weg;
+    ShowReport: Text = ReportText, Benutzereingabe wird zurückgesetzt.
+T94 [B] Testassistent und Testprotokoll · auto · F E T R
+    Guide: #STEPS == 22, je Schritt skipIf/check in pcall aufrufbar, Build/Render/Summary/ReportLines ohne Fehler (Start nicht).
+    Log (Screenshot-Zähler, Sandbox für testlog): SetOn(true) -> testlog.on, meta; E("TEST","a",1) -> Zeile "<t>|TEST|a=1";
+    Val(SECRET) -> "SECRET", Val(true) -> "1", Val(1.234) -> "1.23"; Changed schreibt nur bei neuer Signatur; 5600 Zeilen ->
+    gekürzt auf 5000; Clear; Count; Status; Command an/aus/leeren/bericht/bilder/status; Analyze auf erfundenen Zeilen liefert Zeilen;
+    ShowSummary öffnet und schliesst; CheckInstance mit IsInInstance-Stub "party" + Dev + Spott -> automatisch an, verlassen -> aus.
+T95 [B] Spenden-Knopf · auto · F E T R
+    Donate.Show/Toggle/CreateButton ohne Fehler; D.locale "deDE"/"enUS" -> deutscher/englischer Titel.
+T96 [B] /gsgame und /gsdev · auto · F E T R
+    Beide Befehle aufrufbar (DEFAULT_CHAT_FRAME:AddMessage als Sammler), je eine Zeile, kein Fehler.
+
+----------------------------------------------------------------------------------------------------
+C. FOREVER-SONDERFÄLLE (SIMULIERT)
+----------------------------------------------------------------------------------------------------
+(1) Geschützte Werte – mit SECRET-Proxy und issecretvalue-Stub, die echten Codepfade
+T97  [C] Bedrohung geschützt, ganzer Durchlauf · auto · F E T R
+     ns.isModern true (Simulation), threatAccess "open", 5 Testmobs, Detailed/ThreatSituation liefern SECRET. T:Tick 3x.
+     Erwartung: kein Lua-Fehler (errorCount gleich), Modus wechselt auf DISPLAY, kein Plates:Update/Apply (Zähler 0) nach dem Wechsel,
+     HUD leer, TA_NOTE_DISPLAY genau 1x, Meter zeigt Balken über SetValue(SECRET), DD über ShowSecret.
+T98  [C] Namen und GUIDs geschützt · auto · F E T R
+     UnitName/UnitGUID liefern SECRET für Gruppe und Mobs: FullName nil, UpdateGroup lässt sie aus, MobKey "plate:…", Evaluate m.name "?",
+     HUD-Zeilen mit "?", HasBearForm false, Specs:RoleOf nil, kein Eintrag mit SECRET als Schlüssel in groupNames/syncRoles/caches.
+T99  [C] Auren geschützt · auto · F E T R
+     ns.Aura liefert SECRET: FindAura false,false; ReadMobAuras -> Ersatz "tracker" + compat mobAuras "fallback"; ReadStance nil ->
+     letzter Stand; HasSealOfFury -> sealUntil-Ersatz.
+T100 [C] Abklingzeiten geschützt · auto · F E T R
+     GetSpellCooldown/C_Spell.GetSpellCooldown liefern SECRET: SpellCD aus cdTrack, compat cooldowns "fallback", BuildHint ohne Fehler.
+T101 [C] Ziel und Mausziel geschützt · auto · F E T R
+     UnitExists/UnitCanAttack liefern SECRET: Safe -> false, Candidates leer, Meter versteckt, DiagText "-", PlateFor nil.
+T102 [C] Chat-Argumente geschützt · auto · F E T R
+     CHAT_MSG_ADDON mit SECRET als Nachricht bzw. Absender -> ignoriert, kein Fehler.
+T103 [C] Leben, Reichweite, Ebene geschützt · auto · F E T R
+     UnitHealth SECRET -> EmergencyFallback; IsSpellInRange SECRET -> nil, kein "zu weit"; Testplakette GetFrameStrata SECRET ->
+     Raise statt SetFrameStrata, compat strata "fallback" (Nameplates.lua:569-582).
+(2) Fehlende alte Funktionen – vorübergehend nil, danach wiederherstellen
+T104 [C] Zauber-Funktionen fehlen · auto · F E T R
+     GetSpellInfo, GetSpellTexture, GetSpellCooldown, IsSpellInRange, GetSpellBaseCooldown, IsPlayerSpell, IsSpellKnown nil:
+     SpellName/SpellIcon/SpellCD/SpellInRange/BaseCooldown/KnowsSpell nutzen C_Spell bzw. BASE_CD/Zauberbuch. Fehlt auch C_Spell
+     (E/T): sauberes nil bzw. 0, kein Lua-Fehler.
+T105 [C] Zauberbuch und Auren-Funktionen fehlen · auto · F E T R
+     GetNumSpellTabs/GetSpellTabInfo/GetSpellBookItemName nil -> C_SpellBook-Weg; UnitBuff/UnitDebuff nil -> C_UnitAuras-Weg in ns.Aura.
+     Hinweis im Ergebnis: AURAS_VIA_C (Core.lua:319) ist beim Laden festgelegt – AuraEmptyUnknown ändert sich nicht (erwartet).
+T106 [C] Chat-, CVar- und Addon-Funktionen fehlen · auto · F E T R
+     C_ChatInfo nil -> SendAddonMessage/RegisterAddonMessagePrefix-Weg; C_CVar nil -> GetCVar/SetCVar-Weg (ThreatAccess.lua:146-153);
+     C_AddOns nil -> GetAddOnMetadata (Donate.lua:28).
+T107 [C] Bedrohungs-Funktionen fehlen · auto · F E T R
+     UnitDetailedThreatSituation und UnitThreatSituation nil: TA:Read -> missing, Probe -> "none" (Modus OFF, Hinweis TA_NOTE_OFF),
+     Meter und DD versteckt, ReadThreat ohne Fehler (pcall), Tank-Sync/Rollen/Spott-CD laufen weiter.
+T108 [C] Rollen-, Gestalt- und Kontroll-Funktionen fehlen · auto · F E T R
+     GetSpecialization*, GetShapeshiftFormID, UnitGroupRolesAssigned, GetPartyAssignment, C_LossOfControl, GetRaidTargetIndex,
+     CombatLogGetCurrentEventInfo, UnitHealthPercent/C_CurveUtil, ColorPickerFrame.SetupColorPickerAndShow nil:
+     Ersatzwege (Talente, Gestalt-Schleife, GuessRole, MSG_CC_PLAIN, mark nil, Kampflog-Handler kehrt zurück, emergFailed, alter
+     Farbwähler). Erwartung: kein Lua-Fehler; danach alle Globals wieder wie vorher.
+(3) Kampfsperre – InCombatLockdown und UnitAffectingCombat("player") als Stub true
+T109 [C] Keine geschützten Aktionen im Kampf · auto · F E T R
+     Zähler 0 für SetCVar/C_CVar.SetCVar (ApplyBlizzard, Option autoEnableNameplates), SetAttribute an den Spott-Knöpfen (pending
+     true), SetBinding/SaveBindings (SetKey false), NotifyInspect (Specs:Step), StaticPopup_Show (CheckKeyHint pending).
+     Mover:Start und Options:Toggle/OpenPage verweigern mit L.NOT_IN_COMBAT.
+T110 [C] Plaketten im Kampf in ANZEIGE/AUS · auto · F E T R
+     Modern, Modus DISPLAY bzw. OFF: P:Restore -> Detach, an der Testplakette 0 Aufrufe von SetAlpha/SetScale/SetFrameStrata,
+     Eintrag in P.pendingRestore; ns:Fire("PLAYER_REGEN_ENABLED") ohne Stub -> RestoreFrame, pendingRestore leer.
+(4) Kampflog gesperrt
+T111 [C] Kampflog auf der modernen API nicht angemeldet · auto · F R (E T: Gegenprobe "angemeldet")
+     A.cleuRegistered false, DM.allowed false, ns:HasHandler("COMBAT_LOG_EVENT_UNFILTERED") false, compat combatlog "fallback",
+     Seite Gruppe zeigt L.O_DMG_NOLOG; ns.blocked enthält nach dem Einloggen keinen Eintrag.
+
+----------------------------------------------------------------------------------------------------
+D. ALTE CLIENTS (ERA / TBC) – ERGEBNIS WIE BISHER
+----------------------------------------------------------------------------------------------------
+T112 [D] Bedrohung offen, Modus immer VOLL · auto · E T
+     Echte API: ns.threatAccess "open", TA.checked true; ns:ThreatMode() FULL auch mit db.threatMode "DISPLAY" (ThreatAccess.lua:42);
+     Seite 1 zeigt keinen Bedrohungsmodus.
+T113 [D] Ersatz über das Ziel des Mobs (nur alt) · auto · E T
+     Bedrohungs-Stubs nil, Mob im Kampf, tsfake1target = player -> Zustand HELD über Ersatz 2 (Threat.lua:173-180), m.via "fallback".
+T114 [D] Auren über UnitBuff/UnitDebuff · auto · E T
+     Leere Liste = "keine Aura" (readable true), auch im Kampf-Stub (AuraEmptyUnknown false).
+T115 [D] Sync im Kampf nicht gesperrt · auto · E T
+     InCombatLockdown-Stub true, simSecret aus -> Send ruft den Zähler-Stub auf und liefert true.
+T116 [D] Talente und Spott je Client · auto · E T
+     Eigene Rolle aus GetTalentInfo plausibel (Summe >= 10 -> Rolle); Paladin: E kein Spott, T Rechtschaffene Verteidigung mit
+     friendly-Makro.
+T117 [D] Gegenprobe im echten Spiel · halb · E T
+     Testassistent (/ts guide) mit Jäger- oder Hexer-Pet oder in der Gruppe: lose Mobs leuchten, gehaltene werden ausgeblendet, Ton
+     bei Aggroverlust – wie vor 2.2.0. Routine prüft danach: Guide-Schritte held, loose, regain = ok, errorCount 0.
+
+----------------------------------------------------------------------------------------------------
+E. DATEN
+----------------------------------------------------------------------------------------------------
+T118 [E] Neuinstallation · auto · F E T R
+     Sandbox: ThreatSentinelDB = nil, ns:InitDB(): profiles[charKey] mit allen Standardwerten, schema 9, chars-Eintrag; danach
+     TA:Login, Log:Init, O:Build, ein T:Tick ohne Fehler; TA:Report zeigt TA_R_NEVER.
+T119 [E] Migration aus Schema 1 · auto · F E T R
+     Profil { heldPlateAlpha = 0, chatChannel = "GROUP", soundHealer = "raidwarning", soundDD = "alarm", soundRegain = "click",
+     soundResist = "readycheck", hudPoint = {"CENTER","UIParent","CENTER",320,-120}, meterPoint = {"CENTER","UIParent","CENTER",320,60},
+     hudScale = 1.3, hudLocked = false, soundEmergency = "ts_emergency", soundDDWarn = "ts_warn", regainSound = true,
+     colorWarn = {1,0.9,0}, colorDD = {1,0.55,0}, looseScale = 1.25, borderSize = 3 } -> InitDB.
+     Erwartung: heldPlateAlpha 0.35, chatChannel "TANKS", soundHealer "fx_engel", soundDD "fx_frosch", soundRegain "ts_regain",
+     soundResist "none", hudPoint und meterPoint = Standard, meterScale = ddScale = 1.3, hudLocked true, soundDDWarn "none",
+     soundEmergency "none", regainSound false, colorWarn {1,0.5,0,1}, colorDD {1,0.1,0.1,1}, looseScale 1.4, borderSize 4, schema 9.
+T120 [E] Migration aus Schema 5 und Schema 9 · auto · F E T R
+     Schema 5 mit soundHealer "ts_healer", soundDD "ts_dd" -> "fx_engel", "fx_frosch". Schema 9 mit selbst gewählten Werten
+     (soundHealer "quest", colorDD {0,0,1,1}, hudPoint verschoben) -> unverändert.
+T121 [E] Alte gespeicherte Bedrohungs-Erkennung · auto · F E T R
+     ThreatSentinelDB.threatAccess fehlt / { state = "none" } / { state = "secret", date = nil } -> Login und Report ohne Fehler
+     ("?" für fehlendes Datum).
+T122 [E] Beschädigte Einträge · auto · F E T R
+     Je einzeln: hudPoint = "x", colorDD = 5, guide = nil, cdLearned = "x", soundHealer = 12, meterRows = "6", heldScale = true,
+     chars[charKey] = 7, ThreatSentinelDB.threatAccess = "open", testlog = 5, testlog.events = "x", blizzOrig = "x",
+     syncRoles-Eintrag ohne t. Danach InitDB, Login-Teile, O:Build, je ein Tick aller Anzeigen.
+     Erwartung: kein Lua-Fehler; Tabellen-Schlüssel (hudPoint, colorDD, guide, cdLearned) durch MergeDefaults wieder Tabellen;
+     falsche Zahl-/Texttypen auf Standard zurückgesetzt (bitte in Migrate eine Typprüfung gegen ns.defaults ergänzen, falls der Test
+     scheitert).
+
+----------------------------------------------------------------------------------------------------
+F. SPRACHEN
+----------------------------------------------------------------------------------------------------
+T123 [F] Gleiche Schlüssel in en und de · auto · F E T R
+     ns.LOCALES.enUS und .deDE: gleiche Schlüsselmenge (2.4.1: je 557, Abgleich der Prüf-Sitzung ohne Abweichung).
+T124 [F] Zusammengesetzte Schlüssel vorhanden · auto · F E T R
+     rawget(L, k) ~= nil (L liefert sonst den Schlüssel selbst, Locales.lua:1150) für: CH_ + TANKS/BOSS/GROUP/SELF/OFF; CP_, CPF_,
+     CPO_, CPH_ + jeder Eintrag in ns.COMPAT_ORDER (12); TA_STATE_ + unknown/open/secret/none; TEST_ACC_ + real/open/secret/none;
+     TA_MODE_FULL/DISPLAY/OFF; PRESET_quiet/standard/loud; TANK, HEALER, DAMAGER, PET; die SND_-, GD_-, GT_-, SG_-Schlüssel aus
+     Options.lua und Guide.lua (Liste beim Bau aus dem Code erzeugen).
+T125 [F] Formatplatzhalter gleich · auto · F E T R
+     Für jeden Schlüssel: Platzhalter (%s, %d, %.0f, %%) in en und de gleich (Anzahl und Reihenfolge); string.format mit Testwerten
+     gelingt in beiden Sprachen (2.4.1: kein Unterschied gefunden).
+T126 [F] Im Code benutzte Schlüssel · manuell (vor dem Push, Skript) · –
+     Alle L.X und L["X"] aus den .lua-Dateien sind in en vorhanden (2.4.1: vollständig). Ergebnis in die Antwort an den Nutzer.
+T127 [F] Aktive Sprache: Hauptfenster · auto · F E T R
+     Optionen (alle 8 Seiten), Testzentrale, Bericht, Testassistent, Protokoll-Bericht öffnen und schliessen ohne Fehler.
+T128 [F] Andere Sprache aktivieren · halb · F (eine Gegenprobe E oder T)
+     /ts testroutine sprache -> setzt ThreatSentinelDB.devLocale auf die andere Sprache; Core ADDON_LOADED ruft vor den Modul-Inits
+     ns:ApplyLocale(devLocale) (nur mit GoldSentinelDev). Spieler: /reload, dann /ts testroutine f. Routine öffnet die Hauptfenster
+     in der anderen Sprache und löscht devLocale am Ende. Bekannt und erlaubt: Popup-Texte und Tastenbelegungs-Namen (beim Laden der
+     Datei gesetzt, Alerts.lua:538, TauntButton.lua:13-14) bleiben in der Client-Sprache.
+T129 [F] Gemeinsame Dateien · auto · F E T R
+     GoldSentinelGame.Text und GoldSentinelDev:Text für enUS und deDE ohne Fehler (Text, nicht Schlüssel).
+
+----------------------------------------------------------------------------------------------------
+G. ZUSAMMENSPIEL
+----------------------------------------------------------------------------------------------------
+T130 [G] Globale Namen gehören ThreatSentinel · auto · F E T R
+     _G-Einträge zeigen auf die eigenen Objekte: Frames ThreatSentinelCenter, ThreatSentinelDD, ThreatSentinelDmgMeter, ThreatSentinelGuide,
+     ThreatSentinelHUD, ThreatSentinelSummary, ThreatSentinelMeter, ThreatSentinelMoveBar, ThreatSentinelSoundPicker, ThreatSentinelOptions,
+     ThreatSentinelMinimapButton, ThreatSentinelTauntButton, ThreatSentinelAoeButton, ThreatSentinelPreview, ThreatSentinelReport,
+     ThreatSentinelTest (soweit schon gebaut); SLASH_THREATSENTINEL1/2, BINDING_HEADER_THREATSENTINEL, StaticPopups (T91), ThreatSentinelDB.
+T131 [G] Keine neuen Globals durch die Routine · auto · F E T R
+     Liste der _G-Schlüssel vor und nach der Routine: neu nur erlaubte Namen (Frames aus T130, die gebaut wurden). Sonst FEHLER mit Namen.
+T132 [G] Gemeinsame GoldSentinelGame-Fassung · auto · F E T R
+     _G.GoldSentinelGame.version >= 2 und ns.Game == _G.GoldSentinelGame. Ergebnis enthält, ob eine ältere Fassung zurückwich (nicht
+     ermittelbar -> nur Versionszahl melden).
+T133 [G] Slash- und Prefix-Kollisionen · auto · F E T R
+     Kein anderer SlashCmdList-Eintrag beansprucht "/ts" (alle SLASH_*-Globals durchsuchen); Prefix "ThreatSentinel" (Sync.lua:14)
+     angemeldet. Ein Fremdtreffer ist FEHLER mit Name des fremden Befehls (kein Spielername).
+T134 [G] Schnittstellen zu den anderen Addons des Nutzers · ÜBERSPRUNGEN (Grund im Bericht)
+     ThreatSentinel nutzt keine Schnittstelle von AHSentinel, ProfessionSentinel, GuildSentinel, RaidMaster, BuffSentinel oder LevelPilot
+     (im Code 2.4.1 kein Zugriff). Grund: "keine Schnittstelle". Kommt eine dazu, hier mit und ohne das andere Addon prüfen.
+T135 [G] Mehrere GoldSentinel-Addons gleichzeitig · halb · F (Gegenprobe E oder T)
+     Spieler lädt ThreatSentinel mit RaidMaster, GuildSentinel, BuffSentinel, ProfessionSentinel (was installiert ist), /reload.
+     Routine prüft: /gsgame eine Zeile, Version 2, ns.errorCount 0, ns.blocked leer, T130-T133 OK.
+
+----------------------------------------------------------------------------------------------------
+H. LEISTUNG (debugprofilestop, je 50 Wiederholungen, Mittelwert; collectgarbage("count"))
+----------------------------------------------------------------------------------------------------
+T136 [H] T:Tick mit 10 und 40 Testmobs (Modus FULL) · auto · F E T R
+     Grenze: 10 Mobs < 2 ms je Aufruf, 40 Mobs < 8 ms (Ticker alle 0.25 s, Threat.lua:37).
+T137 [H] Anzeigen · auto · F E T R
+     Meter:Tick mit 6 Mitgliedern < 1 ms; DD:Tick < 0.5 ms; HUD:Update mit 5 Zeilen < 0.5 ms; DmgMeter:Tick < 1 ms; Alerts:CheckCC
+     (alle 0.1 s) < 0.1 ms; Specs:Step < 1 ms; Sync:Hello < 0.5 ms.
+T138 [H] Bildweise OnUpdate · auto · F E T R
+     fireDriver der Plaketten (Nameplates.lua:73) mit 10 aktiven Overlays < 0.5 ms; OnUpdate der Testzentrale (DiagText + UpdateCompat +
+     RefreshLog, TestMode.lua:767-774) < 2 ms; Center-OnUpdate < 0.05 ms.
+T139 [H] Kampflog und Protokoll · auto · F E T R
+     DM:OnCombatLog 1000 erfundene Ereignisse < 50 ms gesamt (nur E/T, sonst ÜBERSPRUNGEN); Log:Tick bei laufendem Protokoll < 2 ms;
+     Log:Analyze über 1000 Zeilen < 16 ms (5000 Zeilen: Zeit nur melden).
+T140 [H] Speicher · auto · F E T R
+     200x T:Tick mit 10 Testmobs und P:Apply auf dieselben Testplaketten, danach collectgarbage("collect"): Zuwachs < 100 KB;
+     Anzahl Overlays wächst nicht.
+
+----------------------------------------------------------------------------------------------------
+I. FEHLERZÄHLUNG UND DIAGNOSE
+----------------------------------------------------------------------------------------------------
+T141 [I] Absichtlicher Fehler wird gezählt · auto · F E T R
+     ns:ReportError("TS-Selbsttest") -> errorCount +1, lastError gesetzt, GoldSentinelTest.Error 1x aufgerufen (als Selbsttest markiert),
+     Testzentrale CompatText enthält CP_ERRORS, TA:Report enthält TA_R_ERRORS mit der Zahl, ReportText "Errors: n". Danach errorCount und
+     lastError auf den Stand vor dem Test.
+T142 [I] Fehler in einem Teil hält den Durchlauf nicht an · auto · F E T R
+     ns.DD.Tick als Stub mit error(): T:Tick -> Try fängt (Threat.lua:325-329), errorCount +1, Meter:Tick wurde trotzdem aufgerufen.
+T143 [I] Fehler in einem Ereignis-Handler · auto · F E T R
+     ns:Fire mit einem Handler, der error() wirft (über ns:On auf ein bestehendes Ereignis in einer Testliste, danach entfernen):
+     errorCount +1, die übrigen Handler laufen (Core.lua:1041-1044).
+T144 [I] Hinweis einmal pro Sitzung · auto · F R (E T: ÜBERSPRUNGEN "nur moderne API")
+     IsTesting-Stub false, errorNoticed nil: zwei ReportError -> genau eine Chatzeile L.ERR_NOTICE (Core.lua:1028-1031). errorNoticed zurück.
+T145 [I] Gesperrte Aktion wird gezählt · auto · F E T R
+     ns:Fire("ADDON_ACTION_BLOCKED", "ThreatSentinel", "TestFunc") -> ns.blocked +1, errorCount +1; fremdes Addon -> nichts.
+     Danach ns.blocked und errorCount zurück.
+T146 [I] Fehlerschritt im Testassistenten · auto · F E T R
+     errorCount 0 -> Schritt "errors" autoResult "ok"; 1 -> "fail" (Guide.lua:111-117).
+T147 [I] Lua-Fehler ausserhalb von pcall wird erfasst · auto · F E T R
+     C_Timer.After(0, function() error("TS-Selbsttest") end) aus TestRoutine.lua -> GoldSentinelTest.TrackErrors zählt ihn für
+     ThreatSentinel (als Selbsttest markiert, nicht im echten Fehlerzähler).
+
+----------------------------------------------------------------------------------------------------
+J. REGRESSIONSTESTS (JEDER BISHERIGE BEFUND)
+----------------------------------------------------------------------------------------------------
+Quellen: PB = pruefbericht-threatsentinel.txt (2.1.0) · AW = anweisung-/auftrag-threatsentinel.txt (2.1.0, Aufgaben 0a-8 und
+"Nicht ändern") · K = korrektur-threatsentinel-2.4.1.txt · RM = rueckmeldung-threatsentinel-raidmaster.txt (ThreatSentinel-Teil).
+Mit "2.4.1: FEHLER erwartet" markierte Fälle sind dort noch offen und müssen ab 2.4.2 OK sein.
+
+T148 [J] PB 1 / AW 0b, 2: kein Ersatz über das Ziel des Mobs auf der modernen API · auto · F R (+ Gegenprobe T113 auf E T)
+     Modern, Bedrohung nil, tsfake1target = player: Zustand IDLE, UnitIsUnit/SameUnit mit "…target" 0 Aufrufe (Threat.lua:173-180).
+T149 [J] PB 1 / AW 2: kein stilles IDLE bei geschützten Werten · auto · F R
+     Modern, threatAccess "open", Detailed liefert SECRET -> Set("secret"), Modus DISPLAY, Hinweis 1x.
+T150 [J] PB 2 / AW 3: geschützte Namen nie als Schlüssel · auto · F E T R
+     Wie T98, zusätzlich GetRole mit SECRET-Name: syncRoles[""]-Zugriff ohne Fehler (Core.lua:826), LooksLikeTank false, kein Eintrag
+     in auraTankCache.
+T151 [J] PB 3 / AW 4: Textfunktionen ohne geschützte Werte · auto · F E T R
+     Initial(SECRET) "" (Nameplates.lua:163); Meter:Render mit SECRET-Ziel und -Namen -> SetText unverändert (Meter.lua:198, 241);
+     DD:ShowSecret(SECRET) -> SetFormattedText bzw. SetText-Rückfall (DDView.lua:65); P:Apply LOOSE mit m.victim "?" (aus Safe).
+T152 [J] PB 4 / AW 6: leere Aurenliste im Kampf = unbekannt · auto · F R
+     C_UnitAuras-Weg, Kampf-Stub, leere Liste: FindAura false,false; ReadMobAuras readable false -> Tracker-Ersatz (Core.lua:330-333,
+     Threat.lua:92-95). Alt (T114): "keine Aura".
+T153 [J] PB 5 / AW 7: Blizzard-Plaketten im Kampf nicht anfassen (ANZEIGE/AUS) · auto · F R
+     Wie T110. Zusätzlich verbotene Plakette (IsForbidden) wird nie verändert (Nameplates.lua:29, 31).
+T154 [J] PB 5 / AW 7: Taint im Modus VOLL · IM CLIENT PRÜFEN · F
+     Anleitung: Pull mit 3+ Mobs im Modus VOLL, danach /ts test > Bericht: "Blocked: none"; kein "ThreatSentinel hat eine Aktion
+     blockiert".
+T155 [J] PB 6 / AW 1: moderne API überall wie Retail · auto · F
+     ns.isModern true auf F; Druiden-Text DEFICIT_OTHER (Core.lua:441, Threat.lua:63); Tracker Pet-Weg (Tracker.lua:118).
+T156 [J] PB 7 / AW 8: Sync-Kampfsperre echt, nicht nur simuliert · auto · F E T R
+     Modern + InCombatLockdown-Stub -> false ohne Sendung; Rückgabecode 3 -> blocked (Sync.lua:42, 51-52).
+T157 [J] AW 0a: Erkennung einmal pro Kampf, Zustand gespeichert · auto · F R
+     Wie T40 + T42 + T43: zwei Kämpfe hintereinander -> je genau eine Prüfung, Store mit Datum und Build.
+T158 [J] AW 0c: Bedrohung prüfen zeigt geschützte Werte nie · auto · F E T R
+     Wie T46: SECRET -> L.TA_PROTECTED, nie der Wert; ausserhalb des Kampfs TA_R_NOCOMBAT + letzter Zustand.
+T159 [J] AW 0d: "Voll" nicht erzwingbar · auto · F E T R
+     threatAccess "secret" -> DISPLAY bei jedem db.threatMode; Option kennt nur AUTO/DISPLAY (Options.lua:514).
+T160 [J] AW 0e: drei Zustände simulierbar · auto · F E T R
+     SetAccessSim open/secret/none -> FULL/DISPLAY/OFF; Knopf-Text L.TEST_ACC_* wechselt.
+T161 [J] AW 5 / PB 2: Fehler werden gezählt und angezeigt · auto · F E T R
+     Wie T141-T142; Diagnose-Zeile L.D_ERRORS zeigt die Zahl (TestMode.lua:345).
+T162 [J] AW Schritt 1: G.Status in Diagnose und Bericht · auto · F E T R
+     DiagText enthält G.Status() (TestMode.lua:339), ReportText Zeile 2 (TestMode.lua:482), TA:Report (ThreatAccess.lua:196).
+T163 [J] AW "Nicht ändern": Schutz bleibt · auto · F E T R
+     Event-Handler in pcall (T143); MobKey-Rückfall (T19); CVars nur ausserhalb des Kampfs bei PLAYER_LOGIN (Core.lua:1062) und in den
+     Optionen (Options.lua:499); Spott-Knopf (TauntButton.lua:42, 66) und Mover (Mover.lua:157) mit InCombatLockdown; Kampflog-Sperre
+     modern (T111); kein InterfaceOptions_AddCategory/EasyMenu-Aufruf (Prüfung: Funktionen als Zähler-Stub, Optionen bauen -> 0).
+T164 [J] K 1a: "unknown" + Fehlschlag -> "secret" · auto · F R · 2.4.1: FEHLER erwartet
+     Modern, threatAccess "unknown", TA.checked true (Probe übersprungen), Detailed SECRET, T:Evaluate -> ns.threatAccess "secret"
+     (Threat.lua:148: Bedingung ~= "secret" and ~= "none").
+T165 [J] K 1b: nach MAX_ATTEMPTS ohne Antwort "none" für diesen Kampf · auto · F R · 2.4.1: FEHLER erwartet
+     40x Probe ohne Werte -> ns.threatAccess "none", Modus OFF, ThreatSentinelDB.threatAccess NICHT überschrieben; nach
+     REGEN_DISABLED neue Prüfung (ThreatAccess.lua:115-118).
+T166 [J] K 1c: "unknown" im Kampf ergibt ANZEIGE (nur modern) · auto · F E T R · 2.4.1: FEHLER erwartet auf F R
+     Modern + Kampf-Stub + "unknown" -> DISPLAY; ohne Kampf -> FULL; alt -> immer FULL (ThreatAccess.lua:37-43).
+T167 [J] K 2a: Aggrometer sortiert im Modus ANZEIGE nicht · auto · F E T R · 2.4.1: FEHLER erwartet
+     Modus DISPLAY (simAccess "secret"), Testmitglieder mit Status 0/1/3: Reihenfolge Tank, dann Gruppenreihenfolge (ns.groupUnits),
+     nicht nach Status (Meter.lua:163-166).
+T168 [J] K 2b: kein Vorsprung-Text im Modus ANZEIGE · auto · F E T R · 2.4.1: FEHLER erwartet
+     Tank mit Status 2 -> f.lead leer (Meter.lua:208-209).
+T169 [J] K 2c: neutrale Balkenfarbe im Modus ANZEIGE · auto · F E T R · 2.4.1: FEHLER erwartet
+     Meter-Zeilenwert und DD-Balken: Farbe unabhängig von Status bzw. Schwelle (Meter.lua:252, DDView.lua:57-63); Werte weiter nur über
+     SetValue/SetText.
+T170 [J] K 3: Blizzard-Anzeigen bei "immer nur Anzeige" · auto · F R · 2.4.1: FEHLER erwartet
+     threatAccess "open", db.threatMode "DISPLAY", ausserhalb des Kampfs: REGEN_ENABLED bzw. Optionswechsel -> threatShowNumeric "1"
+     am CVar-Zähler (ThreatAccess.lua:71, 152-158). Text in den Optionen zu den Plakettenfarben vorhanden (Schlüssel in en/de).
+T171 [J] K 4: Knopf "Client simulieren: Forever / echt" · auto · F E T R · 2.4.1: FEHLER erwartet
+     Knopf in der Testzentrale vorhanden; Klick -> G.SetTestFlavor("forever"), ns.isModern = G.IsModern, Ausgabe G.Status(), ns.isModern,
+     ns:ThreatMode(); zweiter Klick -> echt; Hinweis zu Kampflog/Meter erst nach /reload.
+T172 [J] K 5a: ausgeschaltetes Addon prüft und meldet nichts · auto · F R · 2.4.1: FEHLER erwartet
+     db.enabled false, Kampf-Stub: T:Tick -> keine Probe (Threat.lua:381), TA:Set -> kein Hinweis (ThreatAccess.lua:66-70).
+T173 [J] K 5b: Simulation "open" übersteuert keine echte Sperre · auto · F R · 2.4.1: FEHLER erwartet
+     threatAccess "secret", simAccess "open" -> ThreatMode DISPLAY, Testzentrale zeigt einen Hinweis (ThreatAccess.lua:38).
+T174 [J] K 5c: UnitIsUnit nur über ns:SameUnit · auto · F E T R · 2.4.1: FEHLER erwartet
+     UnitIsUnit-Stub liefert SECRET: T:Evaluate (Threat.lua:137, 234, 253), M:Collect (Meter.lua:143, 156), GetRole (Core.lua:823) ->
+     kein Lua-Fehler, errorCount unverändert. Zusätzlich IM CLIENT PRÜFEN auf F (Wahrheitstest kann der Proxy nicht auslösen).
+T175 [J] K 5d: Log.lua und Specs.lua nutzen ns.IsSecret · auto · F E T R · 2.4.1: FEHLER erwartet auf E T
+     Mit issecretvalue-Stub: LG.Val(SECRET) == "SECRET" und SP:RoleOf mit SECRET-Name -> nil. (Log.lua:45 und Specs.lua:36 merken sich
+     issecretvalue beim Laden; auf E/T sehen sie den Stub nicht.)
+T176 [J] K 6: TBC Anniversary – Kampflog und Meter aktiv · auto + halb · T
+     auto: A.cleuAllowed, A.cleuRegistered, DM.allowed true; ns.blocked leer. halb: ein Kampf in der Gruppe -> Meter zählt, ein
+     widerstandener Spott wird gemeldet, kein "Addon geblockt". Ergebnis dem Nutzer melden (er entscheidet, ob es so bleibt).
+T177 [J] K Launch-Tag / AW Launch: Interface-Nummer und erster Kampf · halb · F
+     /dump select(4, GetBuildInfo()) steht im Bericht (T11). Im ersten Kampf "Bedrohung prüfen" -> erkannter Modus im Bericht
+     (ThreatSentinelDB.threatAccess).
+T178 [J] RM: Lua-Syntaxprüfung nicht still übersprungen · manuell · –
+     Ausgabe von addon_check.py enthält "Lua-Syntaxprüfung mit: lupa.lua51" bzw. "luac5.1", nie stillschweigend OK; sonst in der Antwort
+     "Lua-Syntax lokal nicht geprüft".
+
+Anzahl: 178 Testfälle (A 11, B 85, C 15, D 6, E 5, F 7, G 6, H 5, I 7, J 31).
+
+
+====================================================================================================
+4. HALBAUTOMATISCHER TEIL – LAUNCH-ABEND (5. NOVEMBER, WOW FOREVER LIVE)
+====================================================================================================
+Der Nutzer tut (Reihenfolge), die Routine bzw. der Bericht prüft:
+1. Einloggen, /dump select(4, GetBuildInfo())  -> Zahl notieren. /gsgame -> "WoW Forever … API: modern".
+2. Ausserhalb des Kampfs: /ts testroutine  -> Bericht kopieren (Strg+A, Strg+C).
+3. Einen einzelnen Mob angreifen (Ziel setzen), im Kampf /ts bedrohung -> die vier Zeilen (Modus, Status, Prozent, zuletzt erkannt)
+   abschreiben. Nach dem Kampf /ts testroutine j (prüft T164-T166, T177 mit dem echten Zustand).
+4. Pull mit 3 oder mehr Mobs (solo mit Pet über Live-Test oder in der Gruppe): kein Lua-Fehler; Modus VOLL: lose Mobs leuchten;
+   Modus ANZEIGE: Balken laufen, Hinweis erscheint genau einmal, nichts leuchtet. Danach /ts test > Bericht: "Blocked: none" (T154).
+5. Ein Spott auf einen Mob (Taste oder Zauber): Spott-Abklingzeit im Hinweis; in der Gruppe Tank-Sync vor dem Pull (Einstellungen >
+   Tank-Sync zeigt den anderen Tank).
+6. Hörprobe: Testzentrale > "Alle Meldungen" -> jeder Ton hörbar (T62).
+7. /reload, dann /ts testroutine (zweiter Lauf, prüft, dass die Sandbox die Daten wirklich unverändert liess).
+8. Optional: Sprache wechseln (T128) und Mehrfach-Addons (T135).
+9. Ausloggen oder /reload, damit der Uploader die Berichte schickt (Abschnitt 6).
+Zurück an den Kollegen: die Zahl aus 1, beide Berichte aus 2 und 7, die vier Zeilen aus 3, Beobachtung aus 4 (Modus, Leuchten ja/nein,
+Hinweis wie oft), Fehlermeldungen im Wortlaut (ohne Spielernamen). Gegenprobe an einem anderen Tag: Schritte 2 und 4 in Classic Era
+oder TBC Anniversary (T117, T176).
+
+
+====================================================================================================
+5. ABNAHME
+====================================================================================================
+Das Addon gilt als bereit, wenn
+- der automatische Teil auf WoW Forever UND auf einem alten Client (Classic Era oder TBC Anniversary) 0 FEHLER hat,
+- in beiden Berichten "echte Daten unverändert: OK", "CVars unverändert: OK", "Tastenbelegung unverändert: OK", "Stubs zurückgesetzt: OK",
+- alle ÜBERSPRUNGEN einen Grund haben, der zum Client passt (z. B. "Kampflog gesperrt" nur auf F/R),
+- alle "IM CLIENT PRÜFEN"-Punkte (T154, T174, T177) und die halbautomatischen Schritte aus Abschnitt 4 vom Nutzer bestätigt sind,
+- die Regressionstests T164-T175 ab 2.4.2 OK sind,
+- addon_check.py ohne FEHLER und mit Lua-5.1-Syntaxprüfung gelaufen ist.
+
+
+====================================================================================================
+6. AUTOMATISCHE MELDUNG
+====================================================================================================
+Weg: Addon (Testroutine + laufende Fehler) -> ThreatSentinelDB -> RaidMasterUploader auf dem PC des Nutzers (schickt neue Berichte an
+den Discord-Kanal #testberichte) -> GitHub-Workflow im raidmaster-Repo holt sie nach testberichte/ -> Prüf-Sitzung wertet aus und schreibt
+Korrektur-Anweisungen.
+
+6.1 Gemeinsame Datei
+- shared/GoldSentinelTest.lua stellt die Prüf-Sitzung bereit. Wie GoldSentinelGame.lua: unverändert kopieren, NICHT selbst bauen oder
+  ändern; in der .toc direkt nach GoldSentinelGame.lua. Sie liegt seit 2. November 2026 auf main
+  (Commit 42a6ef3, Version 1). Benutzung steht im Kopf der Datei.
+- Benutzung:
+    local T = GoldSentinelTest.Begin("ThreatSentinel", ns.version, ThreatSentinelDB)
+    T:Check(id, bereich, name, function() … return ok, ergebnis, erwartet end)
+    T:Skip(id, bereich, name, grund) / T:Client(id, bereich, name, anleitung)
+    local text = T:Finish()      -- speichert in ThreatSentinelDB.gsTest (höchstens 10), Text fürs Kopierfenster
+- db ist ThreatSentinelDB (oberste Ebene, nicht das Profil), damit alle Figuren in eine Liste schreiben.
+
+6.2 Laufende Fehler
+- In Core.lua ADDON_LOADED direkt nach ns:InitDB(): GoldSentinelTest.TrackErrors("ThreatSentinel", ns.version, ThreatSentinelDB).
+- ns:ReportError (Core.lua:1024-1036) ruft zusätzlich GoldSentinelTest.Error("ThreatSentinel", wo, meldung) auf (wo = "Datei:Zeile"
+  aus der ersten Zeile, wie Log.lua:611). Damit sind alle bisherigen Stellen erfasst: Ereignis-pcall (Core.lua:1042-1043), Try
+  (Threat.lua:325-329), Bedrohung prüfen (ThreatAccess.lua:207-208), gesperrte Aktionen (Alerts.lua:452-456), DmgMeter-Ticker
+  (DamageMeter.lua:227-230), Specs-Ticker (Specs.lua:213-216), Ini-Prüfung (Log.lua:762-765).
+- Bisher still verschluckte Fehler zusätzlich an GoldSentinelTest.Error melden (nicht an ns.errorCount, damit sich der Zähler im Spiel
+  nicht ändert): Log-interne Fehler (Log.lua:119-120 internalErrors, Guarded 635-641, Wrap 534/540), RestoreFrame nach dem Kampf
+  (Nameplates.lua:319), Mover-Ticks (Mover.lua:171-173, 186-188), CVar setzen (ThreatAccess.lua:164, 172), Notfall-Kurve
+  (Alerts.lua:364-381 emergFailed).
+- GoldSentinelTest muss auch ohne GoldSentinelTest-Datei nichts brechen: Aufrufe mit "if GoldSentinelTest then … end".
+
+6.3 Regeln für den Bericht
+- Die Testroutine schreibt Ergebnisse NUR über T:Check / T:Skip / T:Client (maschinenlesbar). Die bisherige Testzentrale-Ausgabe
+  (TM:Say) bleibt für den Spieler, zählt aber nicht als Ergebnis.
+- Testfall-IDs bleiben über Versionen gleich (T01 … T178), damit Verläufe vergleichbar sind.
+- Keine Spielernamen, Gildennamen, Realm, Zone oder Chattexte: nur Klasse, Level, Client, Sprache. Ergebnistexte mit Namen
+  (FullName, UnitName, syncRoles, Fehlermeldungen mit Werten) durch "<Name>" ersetzen. ns.charKey ("Name - Realm"), DiagText (Mausziel)
+  und Teile von ReportText mit Zone/Gruppe nicht übernehmen.
+- Absichtliche Testfehler (T141, T143, T147) als Selbsttest markieren, damit die Prüf-Sitzung sie nicht als echte Fehler zählt.
+- Sandbox und gs*-Schlüssel: Erst die Sandbox wiederherstellen, DANN T:Finish() aufrufen – sonst löscht die Wiederherstellung den
+  gerade gespeicherten Bericht. Beim Vergleich alle gs*-Schlüssel auslassen.
+- Nach der Routine im Chat: "Bericht gespeichert – wird beim nächsten /reload oder Ausloggen an die Prüfung gemeldet".

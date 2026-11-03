@@ -1,0 +1,1028 @@
+ANWEISUNG AN DEN LEVELPILOT-KOLLEGEN: TESTROUTINE AUSBAUEN ("AUF HERZ UND NIEREN")
+================================================================================
+Addon: LevelPilot (mit Datenpaket LevelPilot_Data) · geprüfte Version: LevelPilot 3.12.2, LevelPilot_Data 1.6.0
+Stand: 2. November 2026 · von der Prüf-Sitzung
+Grundlage: Code 3.12.2 (LevelPilot/ und LevelPilot_Data/), shared/GoldSentinelGame.lua (Version 2, identisch mit der Kopie
+in LevelPilot/), shared/GoldSentinelTest.lua (Version 1), bisherige Anweisungen (anweisung-levelpilot.txt,
+anweisung-levelpilot-zeiten.txt, korrektur-levelpilot-3.12.2.txt, rueckmeldung-levelpilot-data.txt).
+Zeilenangaben beziehen sich auf 3.12.2.
+
+Bitte zusammen mit der Korrektur-Anweisung 3.12.2 umsetzen (Ziel 3.12.3, möglichst vor dem Launch am 5. November). Die
+Regressionstests in Bereich J prüfen genau diese Korrekturen. Bis eine Korrektur umgesetzt ist, darf ihr Testfall FEHLER
+melden. Er wird nicht abgeschwächt.
+
+
+====================================================================================================
+0. REGELN (GELTEN FÜR ALLES IN DIESER DATEI)
+====================================================================================================
+- Bei jeder Code-Änderung immer die KOMPLETTE Datei liefern, nie Ausschnitte oder Fragmente zum Einfügen.
+- Alte Clients nie brechen: Der Weg der alten API bleibt exakt wie bisher. Weichen nur über LP.Game (GoldSentinelGame) bzw. das
+  Vorhandensein einer Funktion. LevelPilot ist nur für WoW Forever gebaut. In Classic Era muss es trotzdem ohne Lua-Fehler laden
+  (siehe Bereich D).
+- Der Testmodus darf nichts mit echten Folgen tun:
+  kein Chat in öffentliche, Gilden- oder Schlachtzugskanäle, keine Addon-Nachrichten an andere Spieler, kein Beitritt zum
+  Kanal "LevelPilotNet", kein Kauf, Verkauf, Reparieren, keine Post, kein Gold, kein Annehmen, Abgeben oder Teilen von Quests,
+  keine Belohnungswahl, kein Anlegen von Gegenständen, kein Flug, keine Einladung, keine Markierung fremder Einheiten
+  (Ziel-Makro mit SetRaidTarget, Actions.lua:79, nie auslösen), kein ReloadUI.
+  Dafür braucht es einen Trockenlauf (siehe 2.6). LevelPilot hat viele Automatiken, die genau solche Folgen haben
+  (Engine.lua:222/229/236, Comfort.lua:36/108/119, Supply-Nachkauf über API.MerchantBuy, Belohnung anlegen über API.Equip,
+  Social.lua:35/117/207-208, Session.lua:272-274, Comm.lua:191-195/447, Group.lua:31-34, Core.lua:554).
+- Echte SavedVariables (LevelPilotDB, LevelPilotCharDB) sind nach dem Test unverändert. Vorher sichern, nachher am selben Ort
+  wiederherstellen und vergleichen, Zeile "echte Daten unverändert: OK" (wie die Sandbox der virtuellen Reise, Virtual.lua:85-178,
+  aber vollständig, siehe 2.5). Einzige Ausnahme: LevelPilotDB.gsTest (dort liegt der neue Bericht).
+- Den Test nur ausserhalb des Kampfes starten (InCombatLockdown() und UnitAffectingCombat("player") beide falsch). Beginnt
+  während des Tests ein Kampf: abbrechen, siehe 2.3.
+- KEINE Blizzard-Globals überschreiben oder auf nil setzen. Wer im echten Client eine globale Funktion aus Addon-Code schreibt,
+  "verseucht" sie (Taint), auch beim Zurückschreiben. Danach können Taschen, Händler oder Aktionsleisten "Aktion blockiert"
+  melden. Die Simulationen in Bereich C laufen deshalb über umgeleitete Umgebungen der Addon-Funktionen (setfenv) und über
+  Köderwerte, siehe 2.7. Das ist die an LevelPilot angepasste Form von "Globals vorübergehend auf nil setzen" aus der Vorgabe.
+- Gemeinsame Dateien (GoldSentinelGame.lua, GoldSentinelTest.lua) nicht verändern. Fehlt etwas, dem Nutzer melden. Änderungen
+  macht nur die Prüf-Sitzung.
+- Locales: alle neuen Texte in allen 10 Übersetzungen nachziehen (Locale_enUS … Locale_zhTW; esMX darf über esES zurückfallen).
+- Vor dem Push: python3 addon-check/addon_check.py <ZIP>  -> kein FEHLER. Die Zeile "Lua-Syntaxprüfung mit: …" in die Antwort
+  an den Nutzer übernehmen.
+
+
+====================================================================================================
+1. BESTEHENDE TESTROUTINE (STAND 3.12.2, BELEGT)
+====================================================================================================
+Start
+- /lp test oder /lp selbsttest (Core.lua:522-523) -> LP.SelfTest:Show(false). Für alle Spieler, ohne Testmodus.
+- Knopf "Selbsttest" in Zentrale » Daten (Center.lua:185-187), für alle Spieler.
+- /lp test reise (Core.lua:526-527): Selbsttest plus kurze virtuelle Reise (5 Level ab dem aktuellen, SelfTest.lua:219-227).
+  Nur im Testmodus über LP:DevOnly() (Core.lua:260-264).
+- Der Testmodus ist NICHT GoldSentinelDev: GoldSentinelDev.lua steht nicht in LevelPilot.toc. LevelPilot hat eine eigene Erkennung,
+  LP:IsDev() (Core.lua:242-259): Prüfsumme des BattleTags (DEV_TAGS), ersatzweise eine Liste von Charakternamen (DEV_CHARS).
+  Ebenfalls nur im Testmodus: /lp reise … (Core.lua:528-539), /lp debug (Core.lua:548-551) und die Zentrale-Knöpfe
+  "Virtuelle Reise 1–60", "Reise ab hier" und "Beide Modi" (Center.lua:188-208).
+- Daneben gibt es /lp messen (Measure.lua, Core.lua:524-525). Das ist ein Lese-Bericht für die Testumgebung, keine Prüfung.
+
+Abdeckung: 12 Prüfblöcke (CHECKS, SelfTest.lua:23-184). Jeder Block schreibt 1 bis 4 Zeilen, ein Bericht hat meist 20 bis 30.
+  Module        SelfTest.lua:26-32    LP.initErrors, Anzahl LP.errors
+  Spielversion  :34-44                nur G.SetTestFlavor("forever") -> G.IsModern/IsForever/not IsOldAPI, danach (nil)
+  Daten         :46-52                LevelPilotData vorhanden, QuestDB:Counts, QuestDB.pack
+  Sprache       :54-77                CanDisplay, fehlende Übersetzungen nur der aktuellen Sprache, Names:StatusText
+  Position      :79-91                Geo:Player, Zonenname gegen GetRealZoneText
+  Planung       :93-103               Planner:Replan(true), Anzahl Schritte, HINWEIS erst ab 500 ms
+  Weg           :105-119              Nav:Recalc(true), hasPath, Terrain:Available, Caves:Count
+  Flüge         :121-127              Geo:TaxiUsable
+  Anzeige       :129-148              Guide-Fenster sichtbar, abgeschnittene Knopf-Beschriftungen, Pins:Refresh, Plates-Option
+  Ziel          :150-155              Länge des Ziel-Makros <= 255
+  Komfort       :157-171              Session, Supply:Needs, Advisor:Run, Hints:UpcomingClassQuests
+  Austausch     :173-184              Comm:Stats, Protocol:Count
+Ablauf: jeder Block in pcall (SelfTest.lua:190-191), Zustände OK / HINWEIS / FEHLER (SelfTest.lua:14-19). Der Bericht kommt im
+Kopierfenster LP.Backup:ShowText (SelfTest.lua:217). Kopf: Version, Datum, Anzahl Prüfungen, Fehler, Hinweise (SelfTest.lua:198-203).
+Sandbox gibt es nur bei der virtuellen Reise: Install/Uninstall (Virtual.lua:85-178), Fingerabdruck (Virtual.lua:222-243),
+Berichtzeile "Sandbox: echte Daten unverändert (OK)" (Virtual.lua:901-906).
+
+Was fehlt (Belege):
+- Die Zustände ÜBERSPRUNGEN und IM CLIENT PRÜFEN fehlen. HINWEIS mischt "auffällig" und "nicht prüfbar".
+- Der Bericht ist nicht maschinenlesbar. Er hat keine Testfall-IDs, die Bereichsnamen werden übersetzt (L[r.area], SelfTest.lua:206),
+  er wird nicht gespeichert und nicht gemeldet.
+- Im Kopf fehlen Client und Build (GetBuildInfo), Interface-Nummer, Klasse/Level, Laufzeit und der gesamte Fehlerzähler.
+  G.Status() steht nur als Prüfzeile darin.
+- Ein Fehler in einem Block bricht dessen restliche Prüfungen ab, weil ein pcall den ganzen Block umfasst.
+- Die Spielversion wird nur für "forever" simuliert, und nur die Flags von GoldSentinelGame werden geprüft. Die Weichen von
+  LevelPilot werden nie geprüft: API.Forever() (nur eine Einstellung, Compat.lua:97-101), API.modern (beim Laden festgelegt,
+  Compat.lua:9-10), Kampflog-Anmeldung (Calib.lua:560-564), Tooltip-Weg (Tooltips.lua:129-136).
+  Die Wiederherstellung SetTestFlavor(nil) ist nicht gegen Fehler geschützt (SelfTest.lua:38-40).
+- Keine Prüfung von Slash-Befehlen (deshalb ist der Lua-Fehler bei /lp reise bericht, Core.lua:536, nicht aufgefallen), von
+  Fenstern, Reitern, den 65 Schaltern und 12 Steppern der Zentrale, Ereignissen (45), Tickern (14), Kommunikation (LvPilot2,
+  LvPilotG) oder Automatiken.
+- Keine Simulation von geschützten Werten, fehlenden alten Globals, Kampfsperre oder Kampflog.
+- Keine Daten-Tests (leere SavedVariables, Migration, beschädigte Einträge, fehlendes oder altes Datenpaket).
+- Sprachen: nur die aktive Sprache, keine Prüfung der Formatplatzhalter. Gezählt werden nur Schlüssel, die in dieser Sitzung
+  schon benutzt wurden (LP.usedKeys).
+- Leistung: nur Replan, und mit einer Grenze von 500 ms viel zu grosszügig. Speicher wird nicht gemessen.
+- Keine absichtlich ausgelösten Fehler, keine Regressionstests.
+- Der Selbsttest selbst hat keine Sandbox: Replan, Nav:Recalc, Pins:Refresh und Advisor:Run laufen mit dem echten Zustand.
+- Der Fingerabdruck der Reise vergleicht nur die Anzahl in 10 Tabellen (Virtual.lua:222-233). Ein geänderter Wert bei gleicher
+  Anzahl fällt nicht auf. Einstellungen, calib, protocolLog, net, Modus und Sprache werden gar nicht verglichen.
+
+
+====================================================================================================
+2. ABLAUF UND BERICHT DER NEUEN ROUTINE (VERBINDLICH)
+====================================================================================================
+2.1 Befehle
+- /lp testroutine            alles (Bereiche A bis J, ohne die lange Reise)
+- /lp testroutine a … j      ein Bereich
+- /lp testroutine reise      zusätzlich die langen Reisen 1–60 (T84, T180, T183). Dauert Minuten und läuft deshalb einzeln.
+- /lp testroutine kampf | haendler | quest | flug | trainer | gruppe   halbautomatische Beobachtung (Abschnitt 4)
+- Knopf "Alles testen" in Zentrale » Daten neben "Selbsttest", nur im Testmodus sichtbar (wie DevButtons, Center.lua:201-208).
+- /lp testroutine nur im Testmodus (LP:DevOnly()), weil die Routine Umgebungen umleitet und Daten austauscht.
+  GoldSentinelTest.TrackErrors läuft dagegen für alle Spieler.
+- /lp test bleibt als Kurztest für alle Spieler, nur mit lesenden Prüfungen: T01-T04, T06-T08, T39, T50, T56, T133.
+  Er läuft im selben Rahmen (T:Check), damit auch er maschinenlesbar ist.
+- Im Slash-Handler (Core.lua:493) "testroutine" VOR den Zweigen "test" und "^reise" abfangen. Sonst landet der Befehl im
+  else-Zweig (UI:Toggle).
+
+2.2 Ausführung in Häppchen
+- Die Routine läuft als Coroutine mit C_Timer.NewTicker(0.05) und höchstens 8 ms je Bild, wie die virtuelle Reise
+  (Virtual.lua:767-797). Sonst kommt "script ran too long". Ein kleines Fortschrittsfenster zeigt den Bereich, die Testfall-ID
+  sowie die Zahl der OK und FEHLER.
+- Läuft gerade eine virtuelle Reise (LP.Virtual.active): nicht starten, Hinweis ausgeben.
+- Jede T:Check-Funktion läuft in einem Stück, ohne C_Timer oder yield darin. Alles, was die Funktion umleitet (SetTestFlavor,
+  setfenv, LP.Game-Felder, LP.API-Felder), stellt sie selbst wieder her, auch im Fehlerfall:
+      local ok, err = pcall(body)  restore()  if not ok then error(err, 0) end
+
+2.3 Kampf und echte Ereignisse
+- Start verweigern, wenn InCombatLockdown() oder UnitAffectingCombat("player"). Meldung: "Testroutine nur ausserhalb des Kampfes."
+- PLAYER_REGEN_DISABLED während des Laufs: aktuelle Prüfung beenden, alle restlichen mit T:Skip(id, bereich, name,
+  "Kampf begonnen") eintragen, Sandbox sofort zurück, Bericht abschliessen.
+- Während des Laufs zusätzlich QUEST_TURNED_IN, PLAYER_LEVEL_UP, QUEST_ACCEPTED und TAXIMAP_OPENED beobachten. Echter
+  Fortschritt würde von der Wiederherstellung überschrieben. Kommt so ein Ereignis, sofort abbrechen, ebenfalls mit T:Skip
+  ("echtes Spielereignis während des Tests") und dem Hinweis "bitte stillstehen und wiederholen".
+
+2.4 Ergebnis je Prüfung und Bericht
+- Ergebnisse NUR über GoldSentinelTest: T:Check (OK/FEHLER, Lua-Fehler = FEHLER mit Meldung), T:Skip (ÜBERSPRUNGEN mit Grund),
+  T:Client (IM CLIENT PRÜFEN mit Anleitung). HINWEIS gibt es nicht mehr. Auffälliges ist entweder FEHLER oder ein OK mit
+  Ergebnistext.
+- Testfall-IDs wie in Abschnitt 3, über alle Versionen gleich. Ein entfallener Test bleibt als T:Skip(…, "entfällt seit x.y.z").
+- Ende: local text, rep = T:Finish({ sandbox = "OK" oder "FEHLER: <Schlüssel>", sprache = LP:Language(), spielsprache = GetLocale(),
+  fehlerzaehler = LP.errorCount, fehlerEindeutig = <Anzahl Schlüssel in LP.errors>, initFehler = <Anzahl LP.initErrors>,
+  datenpaket = LevelPilotData and LevelPilotData.version, modus = LP.char.mode, bereich = "alle" oder der Buchstabe })
+  T:Text schreibt Addon, Version, Datum, Client, Build, Interface, Flavor, Klasse, Level, G.Status(), die Zählung, alle
+  Nicht-OK-Zeilen mit ist/soll/Lua, die laufenden Fehler und die Laufzeit in ms. Sprache, Fehlerzähler und Datenpaket gibt T:Text
+  nicht aus. Diese drei Zeilen bitte selbst anhängen:
+      "Sprache: <LP:Language()> (Spiel <GetLocale()>) · Datenpaket: <Version oder fehlt>"
+      "Fehlerzähler LevelPilot: <LP.errorCount> (eindeutig <n>), Modulstartfehler: <n>"
+      "echte Daten unverändert: OK"   bzw.   "echte Daten unverändert: FEHLER – <Schlüssel>"
+  Dann LP.Backup:ShowText(L["Testroutine"], L["Strg+A, dann Strg+C drücken …"], text) (Kopierfenster, Strg+A und Strg+C).
+- LP.errorCount ist neu: Zähler in LP:Error (Core.lua:305), der JEDEN Aufruf zählt. LP.errors zählt nur eindeutige Meldungen.
+- Zum Schluss im Chat: L["Bericht gespeichert – wird beim nächsten /reload oder Ausloggen an die Prüfung gemeldet"].
+
+2.5 Sandbox (echte Daten)
+- Vorher: tiefe Kopie von LevelPilotDB und LevelPilotCharDB, ohne gsTest. DeepCopy steht in Backup.lua:47 als local und soll als
+  B.DeepCopy zugänglich werden. Dazu den Laufzeitzustand merken: LP.char, LP.debug, LP.Planner.focus/leftZones/priority/mode,
+  LP.Group.members, LP.Social.partners, die Warteschlange von Comm (Comm.lua, für den Test Comm:QueueSnapshot()/QueueRestore()
+  ergänzen) und LP._throttle.
+- Nachher IN PLACE wiederherstellen: wipe(LevelPilotDB) und den Inhalt aus der Kopie zurückschreiben, ebenso LevelPilotCharDB.
+  gsTest bleibt dabei stehen. NIE LevelPilotDB = kopie zuweisen: LP.db hält die alte Tabelle fest (Core.lua:396
+  "local acc = LevelPilotDB"), LP.char ebenso (Core.lua:392).
+- Vergleich: je Hauptschlüssel GoldSentinelTest.Encode(alt) gegen Encode(neu), in Häppchen, weil graph und qdb gross sind.
+  Encode sortiert die Schlüssel, damit wird der Vergleich eindeutig. Jeder abweichende Schlüssel kommt in die Sandbox-Zeile.
+  Zusätzlich LP.char == LevelPilotCharDB, getmetatable(LevelPilotDB.taxi) == nil und LP.db.language == Wert vorher.
+- Danach: LP:ResetLanguageCache(), Planner:BuildCandidates(), Planner:Replan(true), Nav:Recalc(true), UI:Refresh(),
+  Center:Refresh() (wie Virtual.lua:666-670).
+- Nachlauf: LP:Throttle-Aufrufe aus dem Test feuern Sekunden später noch, denn der Rückruf läuft immer (Core.lua:326-331),
+  z. B. "group_send" -> G:Broadcast oder "comm_qdb". Darum eine Generation einführen: LP.testGen wird beim Start und beim Ende
+  erhöht. Throttle merkt sich die Generation und verwirft Rückrufe aus einer alten Generation. Der Trockenlauf (2.6) bleibt
+  zusätzlich 5 s nach dem Ende an. Erst danach wird die Comm-Warteschlange auf den Stand vor dem Test gesetzt. Testdaten
+  (Testquests, Testwege, Testhöhlen) dürfen nie an andere Spieler gehen.
+
+2.6 Trockenlauf für alles mit echten Folgen
+- Neue Tabelle LP.Act (in Compat.lua), über die ALLE folgenden Aufrufe laufen:
+  AcceptQuest, CompleteQuest, GetQuestReward, C_GossipInfo.SelectActiveQuest/SelectAvailableQuest, SelectActiveQuest,
+  SelectAvailableQuest, RepairAllItems, TakeTaxiNode, API.MerchantBuy, API.UseBagItem (Verkauf), API.Equip, QuestLogPushQuest,
+  C_PartyInfo.InviteUnit/InviteUnit, C_ChatInfo.SendAddonMessage/SendAddonMessage, C_ChatInfo.SendChatMessage/SendChatMessage,
+  JoinTemporaryChannel, ChatFrame_OpenChat, StaticPopup_Show("LEVELPILOT_CONSENT"), ReloadUI.
+  Beispiel: function LP.Act.Call(name, fn, ...) if LP.Act.dry then LP.Act.log[#LP.Act.log+1] = { name, ... } return end return fn(...) end
+- Während der Routine (und im Nachlauf) ist LP.Act.dry = true. Tests prüfen dann LP.Act.log statt echter Folgen.
+- Im normalen Spiel ändert sich nichts. Das ist nur eine Umleitung in derselben Reihenfolge.
+
+2.7 Simulationen ohne Taint
+- Fehlende Funktionen und Kampfsperre: WithEnv(funcs, fake, body). Für jede Addon-Funktion f: alt = getfenv(f),
+  setfenv(f, proxy), body(), danach setfenv(f, alt). Der proxy liefert für Schlüssel in fake den Ersatz (false bedeutet nil),
+  sonst _G[k]. Ganze C_-Tabellen werden durch eine flache Kopie ohne das betroffene Feld ersetzt (z. B. C_Container ohne
+  GetItemCooldown). _G selbst wird nie beschrieben.
+  Grenze: Weichen, die beim Laden festgelegt werden (hasQuestLogInfo Compat.lua:9, Kampflog Calib.lua:560, Tooltip-Weg
+  Tooltips.lua:129), lassen sich so nicht simulieren. Sie werden im echten Era-Client geprüft (Bereich D).
+- Lokale Hilfsfunktionen (z. B. RecordKillXP, Paused, RateOk, JoinChannel) sind für setfenv nicht erreichbar. Wo ein Test
+  sie braucht, die Funktion für den Test zugänglich machen (Comm.RateOk, Comm.JoinChannel, Tt.OnShowObject, Calib.RecordKillXP …).
+- Geschützte Werte: Köder. Die Routine legt Köderwerte an, Zahlen wie 987654.25 und Strings wie
+  "Ihr bekommt Beute: |cffffffff|Hitem:<gesuchter Gegenstand>::::::::|h[x]|h|r". Innerhalb EINER T:Check-Funktion ersetzt sie
+  LP.Game.IsSecret so, dass Köder als geschützt gelten, alles andere wie bisher:
+      local orig = G.IsSecret; G.IsSecret = function(v) return KOEDER[v] == true or orig(v) end
+  Danach sofort zurück. G.AnySecret und G.Safe rufen G.IsSecret über die Tabelle auf (GoldSentinelGame.lua:140/146) und greifen mit.
+  Geprüft wird das Verhalten: Ein Köder darf keine sichtbare Wirkung haben (kein Eintrag in drops, vendors, members, keine
+  Messung). Würde der Code den Köder trotzdem verarbeiten, entsteht diese Wirkung. Das ist dann FEHLER. Ein echter geschützter
+  Wert gäbe an dieser Stelle einen Lua-Fehler.
+  Weil GoldSentinelGame von allen Addons geteilt wird, gilt die Ersetzung nur synchron in derselben Funktion. Andere Addons
+  laufen in dieser Zeit nicht.
+
+
+====================================================================================================
+3. TESTFÄLLE
+====================================================================================================
+Form: Txx | Bereich | was wird geprüft | wie | Clients
+      Erwartung: …
+wie:  auto = automatisch in der Routine · halb = halbautomatisch (Spieler tut X, Routine prüft) · manuell = /dump oder ausserhalb
+      des Spiels (addon-check, Dateivergleich).
+Clients: F = Forever, E = Classic Era, T = TBC, R = Retail. Ist ein Client nicht genannt: dort T:Skip mit Grund
+      "LevelPilot nur für WoW Forever" (für Era siehe Bereich D).
+"(sb)" = läuft auf Testdaten in der Sandbox. "(dry)" = prüft LP.Act.log, nichts wird wirklich ausgeführt.
+
+----------------------------------------------------------------------------------------------------
+A. LADEN UND ERKENNUNG
+----------------------------------------------------------------------------------------------------
+T01 | A | alle Module gestartet | auto | F, E
+      Erwartung: #LP.modules == 31 (Actions, Advisor, Backup, Calib, Caves, Center, Comfort, Comm, Danger, Engine, Geo, Graph,
+      Group, Hints, Measure, Names, Nav, Pins, Planner, Plates, Protocol, QuestDB, Recorder, SelfTest, Session, Social, Supply,
+      Terrain, Tooltips, UI, Virtual), LP.initErrors leer. Im Ergebnis die Namen fehlender Module.
+T02 | A | Dateien ohne Modul geladen | auto | F, E
+      Erwartung: LP.API, LP.Act, LP.Donate, LP.Seed, LP.Dungeons, LP.Gateways, LP.CaveSeed, LP.CaveForeverMaps, LP.LocaleEN sind
+      Tabellen. LP.Locales hat 10 Übersetzungen (en fr es mx pt it ru ko cn tw). _G.LevelPilot == LP.
+T03 | A | Version .toc = Code | auto | F, E
+      Erwartung: (C_AddOns.GetAddOnMetadata or GetAddOnMetadata)("LevelPilot", "Version") == LP.version (Core.lua:8), heute
+      "3.12.2". Der Zentrale-Titel enthält "v" .. LP.version (Center.lua:632).
+T04 | A | Version Datenpaket .toc = Code | auto | F, E
+      Erwartung: Metadata("LevelPilot_Data", "Version") == LevelPilotData.version (heute "1.6.0") und LevelPilotData.format == 1.
+      Ohne Datenpaket: T:Skip("LevelPilot_Data nicht geladen").
+T05 | A | Interface-Nummer passt zum Client | halb | F
+      T:Client: "/dump select(4, GetBuildInfo()) – steht die Zahl in beiden .toc? Addon-Liste: LevelPilot nicht 'veraltet'".
+T06 | A | GoldSentinelGame Version 2 | auto | F, E
+      Erwartung: _G.GoldSentinelGame.version == 2, LP.Game == _G.GoldSentinelGame. Vorhanden sind flavor, IsModern, IsOldAPI,
+      HasSecrets, IsSecret, AnySecret, Safe, InCombat, Short, CleanName, SameName, Status, SetTestFlavor, Recalc.
+      SlashCmdList.GOLDSENTINELGAME ist eine Funktion.
+T07 | A | GoldSentinelTest geladen und angemeldet | auto | F, E
+      Erwartung: _G.GoldSentinelTest.version >= 1, GoldSentinelTest.registry.LevelPilot.db == LevelPilotDB (die echte Tabelle,
+      nicht der Proxy LP.db), type(LevelPilotDB.gsTest) == "table".
+T08 | A | echte Erkennung | auto | F, E
+      Erwartung Forever: G.flavor == "forever", G.IsModern, G.HasSecrets, not G.IsOldAPI, LP.API.modern == true,
+      LP.API.Forever() == true, G.Status() enthält "WoW Forever" und "16001" bzw. die Launch-Nummer.
+      Erwartung Era: G.flavor == "era", G.IsOldAPI, LP.API.Forever() == false (nach Korrektur 19).
+T09 | A | Weichen mit SetTestFlavor("forever") | auto (sb, calib leer) | F, E
+      Erwartung: API.Forever() true, API.MaxQuests() 40 (questLogMax 0), Planner:DungeonXPFactor() == 0.36 "auto",
+      DungeonQuestFactor() == 1.5 "auto", GreenXPFactor(-3) == 0.85, Social.ForeverGroupNote("x") enthält den Gruppen-EP-Hinweis.
+T10 | A | Weichen mit SetTestFlavor("era") | auto (sb) | F, E
+      Erwartung: G.IsOldAPI, API.Forever() false, MaxQuests 20, DungeonXPFactor 1.0, DungeonQuestFactor 1.0, GreenXPFactor(-3) == 1,
+      ForeverGroupNote("x") == "x".
+T11 | A | Weichen mit SetTestFlavor("tbc") | auto (sb) | F, E
+      Erwartung: G.IsTBC, sonst wie T10.
+T12 | A | Weichen mit SetTestFlavor("retail") | auto (sb) | F, E
+      Erwartung: G.IsModern, not G.IsForever, API.Forever() false, MaxQuests 20.
+T13 | A | SetTestFlavor(nil) stellt alles zurück | auto | F, E
+      Erwartung: G.flavor == der vor T09 gemerkte Wert, G.Status() ohne "[" .. G.Text("test") .. "]", API.Forever() wie vorher.
+      Läuft auch, wenn T09 bis T12 mit Lua-Fehler enden (Wiederherstellung in jeder T:Check, siehe 2.2).
+T14 | A | ohne GoldSentinelGame | auto | F, E
+      LP.Game vorübergehend nil (Addon-Feld, kein Taint).
+      Erwartung: LP.SafeValue(5) == 5. LP.SameName("Rokan-Realm", "Rokan") == true und ("Rokan-Realm", "rokan") == false
+      (der Rückfall Core.lua:279-281 vergleicht genau). API.Forever() folgt der Einstellung "forever". Planner:DiagLines()
+      enthält "GoldSentinelGame.lua fehlt" (Planner.lua:1664). Danach LP.Game zurück.
+T15 | A | Reihenfolge in der .toc | manuell (addon-check) | –
+      Erwartung: LevelPilot.toc: GoldSentinelGame.lua erste, GoldSentinelTest.lua zweite Datei, beide byte-gleich mit shared/.
+      In der Routine: T:Skip("wird von addon-check geprüft").
+
+----------------------------------------------------------------------------------------------------
+B. FUNKTIONEN (ALLE MODULE, FENSTER, BEFEHLE, OPTIONEN)
+----------------------------------------------------------------------------------------------------
+Slash-Befehle (SlashCmdList.LEVELPILOT, Core.lua:493-557). Jeder Aufruf in pcall, danach Fenster schliessen und Zustand prüfen.
+T16 | B | Fenster-Befehle | auto (sb) | F, E
+      "", "zentrale", "center", "kompakt" zweimal, "compact" zweimal, "spenden", "donate", "support"
+      Erwartung: kein Lua-Fehler. LevelPilotFrame und LevelPilotCenter wechseln zwischen sichtbar und unsichtbar,
+      compactMode am Ende wie vorher, Spendenfenster offen und wieder zu.
+T17 | B | Modus-Befehle | auto (sb) | F, E
+      "speed" -> LP.char.mode == "speed", "normal" -> "normal", "speedrun", "modus" zweimal, "mode" zweimal.
+      Erwartung: Planner:IsSpeed() passt jeweils zu LP.char.mode, am Ende gilt der echte Modus (Sandbox).
+T18 | B | Wegpunkt und Suche | auto (sb) | F, E
+      "way 45.5 60.2" -> LP.Planner.priority.t == "GOTO", x == 45.5, y == 60.2. "weg 10 20" ebenso. "find repar",
+      "such flug", "find xyz".
+      Erwartung: kein Lua-Fehler. Bei unbekanntem Ziel eine Chatmeldung statt eines Fehlers. priority danach wie vorher.
+T19 | B | Sprache per Befehl | auto (sb) | F, E
+      "lang" -> SetLanguage(nil) gibt false zurück und listet nur Sprachen mit CanDisplay. "lang xx" -> false. "lang en" -> true
+      und LP:Language() == "en". "sprache auto" -> true.
+      Erwartung: am Ende LP.db.language wie vorher.
+T20 | B | Teilen, Gruppe, Bilanz | auto (sb, dry) | F, E
+      "teilen", "share", "gruppe", "lfg", "bilanz", "summary", "bilanz gilde", "summary guild"
+      Erwartung: kein Lua-Fehler. Echt gesendet wird nichts. "bilanz gilde" schreibt nur in einer Gilde einen Eintrag
+      SendChatMessage(…, "GUILD") ins LP.Act.log. Teilen schreibt QuestLogPushQuest nur bei teilbaren Quests ins Log.
+      Der Rückgabetext von Session:Summary beginnt mit "LevelPilot-Bilanz" (in der eingestellten Sprache).
+T21 | B | Protokoll, Diagnose, Messung, Selbsttest | auto (sb) | F, E
+      "protokoll", "log", "protokoll leer", "diag", "diagnose", "plan", "messen", "measure", "test", "selbsttest"
+      Erwartung: kein Lua-Fehler, das Kopierfenster LevelPilotBackupFrame geht auf und wieder zu, nach "protokoll leer" ist
+      Protocol:Count() == 0 (die Sandbox stellt das Protokoll danach wieder her).
+T22 | B | Reise-Befehle | auto (sb) | F, E
+      Im Testmodus: "reise hier" (sofort danach "reise stop"), "reise zuschauen" + "reise stopp", "reise bericht",
+      "journey report", "reise vergleich" (nur in "/lp testroutine reise", sonst T:Skip). Ohne Testmodus: alles ausser "stop" tut
+      nichts (Core.lua:528-529).
+      Erwartung: kein Lua-Fehler, LP.Virtual.active am Ende false, die Sandbox-Zeile der Reise lautet "OK".
+T23 | B | Debug, Zurück, Reset | auto (sb, dry) | F, E
+      "debug" zweimal (nur im Testmodus), "zurück", "zurueck", "undo", "reset"
+      Erwartung: LP.debug wie vorher, Engine:Unignore ohne Fehler, "reset" schreibt ReloadUI ins LP.Act.log (wird nicht ausgeführt),
+      framePos/arrowPos/centerPos == false. Die Sandbox stellt die Positionen zurück.
+T24 | B | unbekannter Befehl | auto | F, E
+      Erwartung: "hilfe" und "xyz" schalten das Guide-Fenster um (UI:Toggle). Zweimal aufgerufen ist der Zustand wie vorher.
+
+Fenster und Bedienelemente
+T25 | B | Guide-Fenster LevelPilotFrame | auto (sb) | F, E
+      UI:Toggle zweimal, UI:IsShown, UI:Refresh. compactMode an/aus. stepsShown 1, 5, 10. scale 0.6 und 1.6. locked an/aus.
+      UI:ApplySettings. UI:CreateSizeGrip ist vorhanden.
+      Erwartung: kein Lua-Fehler, UI:StepText(Engine:Current(), false) ist nicht leer, solange es Schritte gibt.
+T26 | B | Schritt-Menü LevelPilotStepMenu | auto (sb) | F, E
+      UI:StepMenu(Engine:Current()) öffnen und schliessen. Engine:Skip(step) -> step.key nicht mehr in Engine:Steps().
+      Engine:Later / IsLater. Engine:Unignore und ResetIgnored.
+      Erwartung: nach Unignore ist der Schritt wieder geplant, LP.char.ignored danach wie vorher (Sandbox).
+T27 | B | Hinweise oben (Toasts) LevelPilotToasts | auto | F, E
+      Erwartung: UI:Toast("Test") und UI:ClearToasts() ohne Fehler, danach keine Toast-Zeile sichtbar.
+T28 | B | Minimap-Button LevelPilotMinimapButton | auto (sb) | F, E
+      Erwartung: showMinimapBtn aus -> Button versteckt, an -> sichtbar, minimapAngle unverändert.
+T29 | B | Pfeil LevelPilotArrow | auto (sb) | F, E
+      Erwartung: showArrow an/aus und Nav:Refresh() ohne Fehler. Der Pfeil ist bei "aus" versteckt.
+T30 | B | Zentrale LevelPilotCenter, alle 8 Reiter | auto | F, E
+      Center:Toggle(), dann Center:Select(...) für route, dungeons, data, share, assist, comfort, extras, settings, dann schliessen.
+      Erwartung: kein Lua-Fehler in Refresh (RefreshRoute/Data/Share/Assist/Dungeons/Comfort). "LevelPilotCenter" steht in
+      UISpecialFrames (Escape schliesst).
+T31 | B | jede Option der Zentrale einmal an und aus | auto (sb, dry) | F, E
+      Alle 65 Schalter (Center.lua, Toggle(...)): autoAccept, autoTurnin, usePack, useQuestie, recordQuests, recordPaths, forever,
+      dungeons, platesQuest, compactMode, ownSettings, platesAll, showArrow, showMinimapPath, showMapPath, terrainPath,
+      showMinimapBtn, locked, shareGroup, shareGuild, shareChannel, shareSeed, advDurability, advBags, advUpgrades, advAmmo,
+      advTalents, advTrainer, autoSellGrey, autoRepair, autoFly, useHearth, showActionBar, showTimer, showNewTag, groupSync,
+      safeMode, mapAreas, mapAvailable, objPins, objArrow, objAlert, tooltips, restock, restockFood, restockWater, restockAmmo,
+      restockPetFood, autoEquipRewards, bagCleanup, showEta, showRested, showHearthCD, welcomeSummary, turninReminder,
+      logoutSummary, summaryGuild, hintClassQuests, hintClass, hintTrainer, hintMount, hintProfessions, groupFinderText,
+      findPartners, protocol.
+      Dafür in Center.lua Toggle() jeden Schalter in Ce.toggles = { {key, button, onChange} } eintragen. Die Routine klickt
+      button:Click() zweimal.
+      Erwartung: kein Lua-Fehler, LP.db[key] am Ende wie vorher, onChange läuft (QuestDB:Reconnect, Comm:Rejoin -> nur
+      JoinTemporaryChannel im LP.Act.log, Plates:Refresh, Nav:Recalc, Actions:Update, Group:Refresh, Planner:Replan).
+      Nicht im Menü und nur intern geprüft: restockWaterMage, shareSeedAsked.
+T32 | B | alle 12 Stepper | auto (sb) | F, E
+      Haltbarkeit 5–80, Taschen 0–20, Munition 0–2000, Dungeon-Monster-EP 0–100, Dungeon-Lauf 1–6, Speedrun-Strenge 1–3,
+      Questlog 0–50, Fenstergrösse 0.6–1.6, Schritte 1–10, Dungeon-Quest-EP 0–300, Reittier-Gold 10–1000 und der zwölfte Stepper
+      (Vorräte). Dafür wie bei T31 in Stepper() Ce.steppers eintragen.
+      Erwartung: Plus über das Maximum bzw. Minus unter das Minimum bleibt auf der Grenze, der Text zeigt string.format(fmt, Wert),
+      am Ende alle Werte wie vorher.
+T33 | B | Sprachknöpfe | auto | F, E
+      Erwartung: Anzahl Sprachknöpfe in Zentrale » Komfort == 1 + Anzahl Sprachen mit LP:CanDisplay(code) (Center.lua:505-509).
+T34 | B | Zentrale » Daten: Knöpfe | auto (sb) | F, E
+      "Datenquellen neu laden" (QuestDB:Reconnect), "Diagnose", "Fehler-Protokoll", "Selbsttest", "Daten sichern"
+      (Backup:ShowExport), "Daten laden" (Backup:ShowImport, nur öffnen und schliessen).
+      Erwartung: kein Lua-Fehler. Die drei Reiseknöpfe sind genau dann sichtbar, wenn LP:IsDev().
+T35 | B | Fenster der virtuellen Reise LevelPilotVirtualFrame | auto (sb) | F, E
+      Kurze Reise starten (siehe T83), Pause und Weiter, Zuschauen und Schnell, Stopp, Bericht.
+      Erwartung: Die Beschriftungen wechseln (Virtual.lua:1053-1054). Nach dem Ende sind nur noch Bericht und Schliessen sichtbar.
+T36 | B | Gruppen-Panel LevelPilotGroupPanel | auto (sb) | F, E
+      Testmitglied über Group:OnMessage (siehe T63), dann Group:Refresh(), Group:Status(), Group:SharedQuests().
+      Erwartung: kein Lua-Fehler. Ohne Gruppe ist das Panel versteckt. In Ergebnis und Bericht stehen keine Namen.
+T37 | B | Aktionsleiste und Tastenbelegung | auto (sb) | F, E
+      showActionBar an/aus, Actions:Update(). Actions.MacroText({"Kobold","Wolf"}) beginnt mit "/cleartarget" und enthält
+      "/targetexact Kobold". MacroText mit 30 langen Namen bleibt <= 255 Zeichen.
+      _G["BINDING_NAME_CLICK LevelPilotTargetButton:LeftButton"] und "...LevelPilotItemButton..." sind gesetzt.
+      Erwartung: wie beschrieben. Das Makro wird nie ausgeführt (Markierung).
+T38 | B | Spenden-Fenster | auto | F, E
+      Erwartung: LP.Donate.Show() / Toggle() ohne Fehler, D.AddonTitle() == "LevelPilot" (ohne Farbcodes).
+
+Planung und Route (Planner.lua, Engine.lua)
+T39 | B | Planung | auto (sb) | F, E
+      Planner:BuildCandidates(), Planner:Replan(true).
+      Erwartung: #Engine:Steps() > 0 (Level 60: T:Skip), Engine:Current() hat key und t, Planner.state ist gesetzt.
+T40 | B | Planner:KillXPFormula – Werte | auto | F, E
+      Erwartung: (20,20) = 145 · (20,22) = 159.5 · (20,24) = 174 · (20,25) = 174 (höchstens +4) · (20,17) = 105.45 (±0.01) ·
+      (20,14) = 65.91 · (20,13) = 0 (grau) · (5,1) = 14 · (60,60) = 345 · (60,64) = 414 · (60,48) = 86.25 · (60,47) = 0.
+T41 | B | Planner:GreyLevel | auto | F, E
+      Erwartung: 5 -> 0, 6 -> 1, 10 -> 4, 39 -> 31, 40 -> 31, 60 -> 47.
+T42 | B | Planner:GreenXPFactor / KillXP ohne Messung | auto (sb, calib.killxp leer) | F, E
+      Erwartung Forever: GreenXPFactor(-3) == 0.85, false · GreenXPFactor(-2) == 1 · KillXP(20,17) == 89.64 (±0.01) ·
+      KillXP(20,18) == 118.64.
+      Mit SetTestFlavor("era") (nach Korrektur 19): GreenXPFactor(-3) == 1, KillXP(20,17) == 105.45.
+T43 | B | Dungeon-Faktoren | auto (sb) | F, E
+      Erwartung: dungeonMobXP = 0 -> 0.36 "auto" (Forever) · = 50 -> 0.5 "set" · dungeonQuestXP = 200 -> 2.0 "set" ·
+      calib.dungeonxp = {n=20, sum=8} -> 0.4 "measured" (Forever).
+T44 | B | Questlevel bei Quest-Kills | auto | F, E
+      Erwartung: Planner:QuestKillLevel({level=18}, 20) == 18, ohne Level == 20 (Planner.lua:515).
+T45 | B | Speedrun-Filter | auto (sb) | F, E
+      Modus "speed", Replan. Eine Eskortenquest aus LevelPilotData (tg == 84) im Bereich des Charakters steht in
+      Planner.speedSkip, eine Klassenquest (Planner:IsProtected(id) == true) nicht. speedLevel 1, 2, 3 jeweils ohne Fehler.
+      Erwartung: wie beschrieben. Ohne passende Quest: T:Skip mit Grund.
+T46 | B | Dungeon-Übersicht | auto | F, E
+      Erwartung: Planner:DungeonOverview() liefert Einträge für LP.Dungeons, DungeonUsable/PlanInstance ohne Fehler,
+      Reiter "Dungeons" zeigt Zeilen.
+T47 | B | Diagnose | auto | F, E
+      Erwartung: Planner:DiagLines() enthält "Version " .. LP.version, G.Status() und "Quests: Paket". Planner:Diagnose() schreibt
+      in den Chat ohne Fehler.
+T48 | B | Engine-Funktionen | auto (sb) | F, E
+      Erwartung: Engine:WantQuest(id) == false für eine ignorierte Quest-ID, CheckSteps() ohne Fehler, InDungeon() == false
+      ausserhalb einer Instanz, UpdateInstance() ohne Fehler.
+T49 | B | Automatik Annehmen/Abgeben/Gossip | auto (sb, dry) | F, E
+      Die Handler aus LP.handlers.QUEST_DETAIL/QUEST_PROGRESS/QUEST_COMPLETE/GOSSIP_SHOW/QUEST_GREETING über WithEnv aufrufen
+      (GetQuestID -> gewünschte Quest, GetTitleText, IsQuestCompletable -> true, GetNumQuestChoices -> 0/1/2, C_GossipInfo-Kopie
+      mit einer fertigen und einer neuen Quest).
+      Erwartung: autoAccept an -> AcceptQuest im LP.Act.log, aus -> nichts. choices 0/1 -> GetQuestReward(0/1), choices 2 ->
+      kein GetQuestReward (Advisor:RecommendReward). Gossip: zuerst SelectActiveQuest der fertigen Quest. Ignorierte Quest ->
+      nichts. Die Shift-Pause (Paused) prüft T49 nicht, die prüft Abschnitt 4.
+
+Wege und Karte
+T50 | B | Navigation | auto (sb) | F, E
+      Erwartung: Nav:Recalc(true) setzt Nav.target und hasPath (sonst steht Nav.pathError im Ergebnis), RemainingDistance() ist eine
+      Zahl >= 0, PathInfo(), MinimapProject(), ResetNames() ohne Fehler, terrainPath an/aus.
+T51 | B | Wegenetz Graph | auto (sb) | F, E
+      Erwartung: Graph:Stats().seedEdges > 0, Graph:Path zwischen zwei Punkten in Durotar (1411) und Orgrimmar liefert eine Liste,
+      Near/Nearest finden Knoten, AddNode/AddEdge erhöhen Stats in der Sandbox. Danach zeigt der Vergleich in der Sandbox OK.
+T52 | B | Gelände Terrain | auto | F, E
+      Erwartung: Terrain:Available(1411) == true mit Datenpaket, false ohne. Segment/Refine liefern Punkte, Unknown/Clear und
+      Graph:ClearTerrainCache ohne Fehler.
+T53 | B | Höhlen Caves | auto (sb) | F, E
+      Erwartung: Caves:Count() liefert 3 Zahlen, Caves:Store(Testhöhle) +1, At/Same/All/Rebuild/Tick ohne Fehler.
+T54 | B | Gefahr Danger | auto | F, E
+      Erwartung: Danger:Ready(), MobLevel(npc), At/AtMap/Route/Segment/OK/Limit/PathDanger/GrindSpot ohne Fehler.
+      Danger:WayKills(path, Level, grau, 120, minLevel) liefert kills, sum, und sum/kills liegt zwischen minLevel und Level+2.
+T55 | B | Geo | auto | F, E
+      Erwartung: ToWorld -> ToMap ergibt die Koordinaten auf ±0.1 zurück, Dist >= 0, ContinentOf(1411) == 1414, MapName(1411) nicht
+      leer, Player() liefert eine Karte. Bearing, TaxiUsable (2 Zahlen) und CalibrateTaxi ohne Fehler.
+T56 | B | QuestDB | auto (sb) | F, E
+      Erwartung: Counts() hat die Zahlen pack/seed/own/net/questie. Get(844) (oder 7) hat name und level.
+      FitsPlayer/RaceOk/AllIds/QuickInfo/ItemQuests/Dungeon/DungeonAllowed/DungeonHostile/QuestDungeon/ServiceNPCs/
+      NearestService("flight") ohne Fehler. usePack aus + Reconnect -> pack false, packInfo "in den Einstellungen ausgeschaltet",
+      danach wieder an.
+T57 | B | Namen | auto | F, E
+      Erwartung: Names:StatusText() nicht leer. Quest/Npc/Item/Object/Zone liefern für bekannte IDs Text. ObjectiveTexts und
+      LanguageChanged ohne Fehler.
+T58 | B | Recorder (Aufzeichnung) | auto (sb) | F, E
+      Erwartung: Recorder:Entry(Testquest) legt einen eigenen Eintrag an, OnQuestAccepted mit API.AcceptedArgs(1234, nil) ->
+      (LogIndex, 1234) und mit (3, 1234) -> (3, 1234). ScanProgress/FlushTrail/SamplePath ohne Fehler. RecordService("merchant")
+      ohne NPC legt nichts an. Bei Virtual.active wird nichts aufgezeichnet (Recorder.lua:174).
+T59 | B | Comm: Kodieren und Empfangen | auto (sb, dry) | F, E
+      Testquest in qdb, Comm:EncodeQuest(id) -> Nachrichten. Leere Sandbox-qdb, Comm:Receive(msg, "Test-Realm") -> Eintrag mit
+      net == true, gleicher Name, gleiches Level, gleiche Fraktion. Eigener Eintrag (net == nil) zählt nur by + 1. Ungültig
+      (Fraktion "X", ID 0, Level 99) wird verworfen. Für jede Art H, Z, Q, O, E, C, D, M, F, P je eine gültige und eine kaputte
+      Nachricht.
+      Erwartung: kein Lua-Fehler, kein Eintrag aus kaputten Nachrichten. Im Bericht stehen keine Absendernamen.
+T60 | B | Comm: Begrenzung je Absender | auto | F, E
+      Erwartung: Comm.RateOk (für den Test zugänglich): die 80. Nachricht innerhalb von 60 s ist true, die 81. false (PEER_LIMIT).
+T61 | B | Comm: Senden | auto (sb, dry) | F, E
+      Comm:Queue/Broadcast/SendNext, Comm:Hello, Comm:Rejoin, Comm:Stats.
+      Erwartung: Im LP.Act.log stehen SendAddonMessage mit Prefix "LvPilot2", echt gesendet wird nichts, Stats() hat sent/recv.
+      Nach dem Test ist die Warteschlange auf dem Stand vor dem Test (2.5).
+T62 | B | Comm: Zonen-Abgleich | auto (sb, dry) | F, E
+      Erwartung: Comm:RequestZone(1411) und Comm:ReplyZone("Test", 1411) erzeugen Einträge im LP.Act.log, OnZoneRequest ohne Fehler.
+T63 | B | Gruppe (LvPilotG) | auto (sb, dry) | F, E
+      Group:OnMessage("S\t5\t10\tGOTO\t0\ttext", "Test-Realm") -> Mitglied mit level 5, pct 10, text "text".
+      "L\t1\t12 34" -> quests {12, 34}. "R" -> Broadcast (LP.Act.log, Prefix "LvPilotG"). Eine Nachricht vom eigenen Namen
+      wird ignoriert.
+      Erwartung: wie beschrieben, kein Lua-Fehler.
+T64 | B | Social (Teilen, Gruppensuche, Partner) | auto (sb, dry) | F, E
+      Erwartung: ShareList() ist eine Liste. GroupText(Elite-Schritt) beginnt mit "LFG"/"LFM". OpenGroupChat gibt eine Zeile zurück
+      (ChatFrame_OpenChat nur im LP.Act.log). Partner über OnMessage -> Matches. findPartners aus -> OnMessage ignoriert.
+      Announce nur im LP.Act.log.
+T65 | B | Session | auto (sb) | F, E
+      Erwartung: Session.Money(12345) == "1g 23s", (250) == "2s 50c", (5) == "5c". Clock, GoldPerHour, SummaryText ("LevelPilot-Bilanz"),
+      WelcomeText, OpenTurnins, ZoneETA/QuestETA/ObjectiveETA/EtaText/ExtraText/BestText ohne Fehler. CorpseTarget() == nil,
+      solange der Charakter lebt.
+T66 | B | Comfort | auto (sb, dry) | F, E
+      Erwartung: Comfort.Dur(3725) == "1 h 02 min" (de), Dur(59) == "1 min", Dur(nil) == "?". XPPerHour, TimeToLevel, TimeTo60
+      (Level 60 -> nil), TimerText, LevelTimesText ohne Fehler. Repair/SellGrey/AutoFly mit WithEnv-Händler bzw. -Flugkarte ->
+      nur Einträge im LP.Act.log. SetWaypoint, FindNearest("repar"), Find(k.key) für alle 8 KINDS ohne Fehler.
+T67 | B | Supply (Vorräte, Belohnung anlegen) | auto (sb, dry) | F, E
+      Erwartung: Needs/Plan ohne Fehler, Mengen aus foodAmount/waterAmount/ammoAmount/petFoodAmount. Die Kosten eines Plans sind
+      <= restockMaxPct (25 %) von GetMoney(). Restock mit WithEnv-Händler -> nur API.MerchantBuy im LP.Act.log. RememberRewards,
+      EquipRewards -> nur API.Equip im LP.Act.log. Junk/AllDone ohne Fehler.
+T68 | B | Advisor (Assistent) | auto (sb) | F, E
+      Erwartung: Advisor:Run() -> Advisor.hints ist eine Liste, ItemScore/UpgradeValue für zwei Test-Links ergeben Zahlen,
+      StatSummary ohne Fehler. Jede adv*-Option aus -> der zugehörige Hinweis verschwindet. Hinweis-Aktionen (h.action) werden NIE
+      ausgeführt.
+T69 | B | Hints | auto (sb) | F, E
+      Erwartung: UpcomingClassQuests() ist eine Liste, TrainerCost/RidingTrainer/LearnTrainerCosts ohne Fehler, hint*-Optionen
+      an/aus.
+T70 | B | Pins (Karte, Fundstellen) | auto (sb) | F, E
+      Erwartung: Pins:Refresh() füllt areas/objects/avail, NearestObject/CheckAlert/UpdateMinimap/UpdateWorldMap ohne Fehler,
+      mapAreas/mapAvailable/objPins/objArrow/objAlert an/aus.
+T71 | B | Plates (Namensplaketten) | auto | F, E
+      Erwartung: Plates:ForUnit("target") ohne Fehler (auch ohne Ziel), UpdateAll/OpenObjectives/Shown/Refresh ohne Fehler,
+      platesQuest/platesAll an/aus.
+T72 | B | Tooltips | auto | F, E
+      Erwartung: Tooltips:UnitLines("player") == nil, ItemLines(Questgegenstand einer Quest im Log) liefert Zeilen,
+      ObjectLines("Testobjekt") ohne Fehler, IsProtected ohne Fehler. In Forever ist der Hook über TooltipDataProcessor angemeldet
+      (Tooltips.lua:129-133).
+T73 | B | Calib (Lernwerte) | auto (sb) | F, E
+      Erwartung: KillsPerMin, StatusText, FlightText, LearnText ohne Fehler. KillXPText() beginnt mit dem übersetzten
+      "EP je Kill: gemessen". CompareLevelTimes({}) -> leere Liste. DropRate/Need/AddNetDrop/AddNetMob/AddNetFlights/FlightSecs
+      ohne Fehler.
+T74 | B | Calib: EP-Messung je Kill | auto (sb, calib leer) | F, E
+      Mit WithEnv auf Ca.ReadTarget/OnXPUpdate/OnKillXPMessage: Ziellevel = echtes Spielerlevel L, UnitXP 100 -> 100 + KillXPFormula(L, L),
+      IsInGroup false, GetXPExhaustion nil, IsInInstance false.
+      Erwartung: calib.killxp[0].n == 1, Verhältnis 1.0 (±0.01). Mit GetXPExhaustion 500 -> keine Messung. Mit IsInGroup true ->
+      keine Messung.
+T75 | B | Protocol (Fehler-Protokoll) | auto (sb) | F, E
+      Erwartung: Add/AddL/EntryText/Entries/Count/Text/Show/Clear ohne Fehler. Die gleiche Meldung zweimal ergibt EINEN Eintrag
+      (index). Text enthält keine Spielernamen.
+T76 | B | Backup (Sichern/Laden) | auto (sb) | F, E
+      Erwartung: Export() -> Import() in eine leere Sandbox-DB ergibt gleiche Anzahlen (Quests, Händler, Flugpunkte, Wegstücke)
+      und den Text "Nichts wurde gelöscht". Import("kaputt") -> false und "Das ist kein LevelPilot-Sicherungstext.". Eine geänderte
+      Prüfsumme -> false. SaveCopy bei viel kleinerem Konto lässt char.backup unverändert. CheckOnLoad stellt eine geleerte qdb
+      aus der Kopie wieder her. ShowExport/ShowImport/ShowText/Info ohne Fehler.
+T77 | B | Measure (/lp messen) | auto | F, E
+      Erwartung: Measure:Text() beginnt mit "LevelPilot – Messung" und enthält G.Status(). Measure:Show() ohne Fehler.
+      Der Text kommt nicht in den Bericht, weil er Namen von Einheiten enthält.
+T78 | B | Sprache: Hilfsfunktionen | auto | F, E
+      Erwartung: L("%d Module gestartet", 3) enthält "3". LP:ClientLanguage() passt zu GetLocale(), CanDisplay/FontFor/
+      FontWorks/FixText/RegisterText/ApplyFont ohne Fehler.
+T79 | B | Core-Hilfen | auto | F, E
+      Erwartung: LP.HasBit(2^32 + 1, 2^32) == true, HasBit(5, 2) == false, HasBit(0, 1) == false · SameZoneName("Das Brachland",
+      "Brachland") == true, ("Durotar", "Mulgore") == false · FormatDist(500) == "500" .. L[" Yards"], FormatDist(2000) == "1.8 km" ·
+      TagHash("Ab c#1") == TagHash("abc#1") · LP:PlayerLevel() == UnitLevel("player") ohne Reise · LP:Fire mit einem fehlerhaften
+      Listener bricht nicht ab, der nächste Listener läuft.
+T80 | B | alle Ereignisse einmal | auto (sb, dry) | F, E
+      Jeden Handler in LP.handlers (45 Ereignisse: die 40 aus LP:On plus die 5 aus Advisor.lua:417-419) einmal mit harmlosen
+      Argumenten über den Verteiler aufrufen: LP.eventFrame:GetScript("OnEvent")(LP.eventFrame, ev, …).
+      Ausgenommen: ADDON_LOADED, PLAYER_LOGIN (wäre ein zweiter Start). PLAYER_LOGOUT nur in der Sandbox (SaveCopy, EndSession).
+      CHAT_MSG_ADDON prüfen T59/T63, COMBAT_LOG_EVENT_UNFILTERED prüft T118.
+      Erwartung: LP.errorCount unverändert. Folgen mit echter Wirkung (MERCHANT_SHOW, TAXIMAP_OPENED, QUEST_*) nur im LP.Act.log.
+T81 | B | alle Ticker einmal | auto (sb, dry) | F, E
+      Die 14 C_Timer.NewTicker sollen über eine neue Hilfe LP:Ticker(name, sek, fn) laufen, mit LP:Safe darin
+      (siehe Korrektur 15). Die Hilfe merkt sich LP.tickers[name] = fn. Die Routine ruft jeden Ticker einmal auf: ui, engine,
+      caves, recorder, session, group, social, advisor, planner, comm-send, comm-hello, protocol-zone, protocol-mem.
+      Der Reise-Ticker ist ausgenommen.
+      Erwartung: kein Lua-Fehler, Senden nur im LP.Act.log.
+T82 | B | OnUpdate-Treiber | auto | F, E
+      Erwartung: driver:GetScript("OnUpdate")(driver, 0.1) für Navigation (Navigation.lua:551) und Pins (Pins.lua:310) ohne Fehler.
+      Die Weltkarten-Hooks laufen ohne Fehler, wenn die Weltkarte offen ist, sonst T:Skip.
+T83 | B | virtuelle Reise kurz | auto | F, E (nur Testmodus)
+      V:Start("here", { maxLevel = min(60, Level + 2), silent = true, onDone = … }) über den Ticker, nicht RunAll.
+      Erwartung: s.steps > 0, s.sandboxDiff leer, V.lastReport enthält "Sandbox: echte Daten unverändert (OK)", danach
+      LP.char == LevelPilotCharDB, LevelPilotDB.taxi ohne Überlagerung (getmetatable == nil), LP.API.Quests ist wieder das Original.
+T84 | B | virtuelle Reise 1–60, beide Modi | auto, nur "/lp testroutine reise" | F (nur Testmodus)
+      Erwartung: V:CompareModes(done) -> compareText im Format "Normal x h · Speedrun y h · Unterschied z %". Speedrun kürzer als
+      Normal, beide zwischen 50 h und 400 h. Die Zahlen gehen ins Ergebnis (Verlauf über die Versionen). LP.char.mode unverändert,
+      beide Sandbox-Zeilen OK.
+T85 | B | Reise abbrechen | auto | F, E (nur Testmodus)
+      Erwartung: während einer laufenden Reise V:RealChar() == LevelPilotCharDB und V:RealTaxi() ohne Überlagerung. Nach V:Abort()
+      ist nichts umgeleitet (API.Quests, API.Objectives, API.IsQuestDone, Geo.Player, API.HearthReady wieder Original).
+T86 | B | Datenpaket-Inhalt | auto | F, E
+      Erwartung: LevelPilotData.Q/N/O/I/D/T/MB sind Tabellen, #Q > 0, Q[844] hat n und l, T[1411] ist ein String. Die Namen der
+      Spielsprache sind geladen (Names:StatusText). Ohne Paket: T:Skip.
+T87 | B | Werkzeuge ausserhalb des Spiels (Tools/: Sicherung.ps1, Wiederherstellen.ps1, lp_sammeln.py …) | manuell | –
+      In der Routine T:Skip("ausserhalb des Spiels"). Der Kollege prüft bei Änderungen an Tools/ selbst.
+
+----------------------------------------------------------------------------------------------------
+C. FOREVER-SONDERFÄLLE (SIMULIERT, OHNE TAINT – SIEHE 2.7)
+----------------------------------------------------------------------------------------------------
+(1) Geschützte Werte (Köder)
+T88 | C | API.ItemCooldown mit geschützten start/duration (Ruhestein) | auto | F
+      Mit WithEnv: C_Container-Kopie, GetItemCooldown liefert die Köder.
+      Erwartung: kein Lua-Fehler, Rückgabe = letzter lesbarer Wert (lastCD) oder 0. UI:Refresh mit showHearthCD an ohne Fehler.
+T89 | C | Recorder:RecordService mit geschütztem UnitName("npc") | auto (sb) | F
+      Erwartung: kein neuer Eintrag in LP.db.vendors, kein Lua-Fehler.
+T90 | C | Tooltip-Hook OnShow mit geschütztem GameTooltipTextLeft1:GetText() und geschütztem tt:GetUnit() | auto | F
+      Tt.OnShowObject(fakeTooltip) mit einem Tooltip-Ersatz (Tabelle mit GetUnit/GetItem/GetOwner).
+      Erwartung: keine Zeile hinzugefügt, kein Lua-Fehler.
+T91 | C | Calib:OnLoot mit geschütztem Beute-Text | auto (sb) | F
+      Ein gesuchter Gegenstand mit drops[item].k = 1, die Köder-Nachricht enthält seinen Link.
+      Erwartung: drops[item].g unverändert, kein Lua-Fehler.
+T92 | C | CHAT_MSG_ADDON mit geschütztem prefix/msg/sender (Comm und Group) | auto (sb) | F
+      Erwartung: Comm:Receive wird nicht aufgerufen (net.recv unverändert), Group.members ohne neuen Eintrag, kein Lua-Fehler.
+T93 | C | Plates:ForUnit mit geschütztem UnitName/UnitGUID | auto | F
+      Erwartung: kein Treffer über den Namen, kein Lua-Fehler.
+T94 | C | Calib:ReadTarget / OnXPUpdate mit geschütztem UnitLevel/UnitXP | auto (sb) | F
+      Erwartung: Ziellevel nicht übernommen, keine Messung, kein Lua-Fehler.
+T95 | C | Measure-Zeile mit geschütztem UnitClassification | auto | F
+      Erwartung: "?" statt des Wertes, kein Lua-Fehler.
+T96 | C | Calib:ObserveUnit mit geschützter GUID und geschütztem Level | auto (sb) | F
+      Erwartung: nichts gelernt, kein Lua-Fehler.
+T97 | C | Namensvergleich mit geschütztem Namen | auto | F
+      Erwartung: LP.SameName(Köder, "x") == false, G.Short(Köder) == nil.
+T98 | C | EP-Anzeige mit geschütztem UnitXP/UnitXPMax (UI-Ticker im Kampf) | auto | F
+      Erwartung: Comfort:TimerText, TimeTo60 und UI:Refresh ohne Lua-Fehler (Anzeige darf "–" zeigen).
+T99 | C | geschützte Werte im echten Kampf | halb (Abschnitt 4, "kampf") | F
+      Erwartung: LP.errorCount vor und nach einem Kampf gleich, GoldSentinelTest-Fehlerliste ohne neue LevelPilot-Einträge.
+
+(2) Fehlende alte Funktionen (WithEnv, nichts in _G)
+T100 | C | Questlog-Funktionen | auto | F, E
+      C_QuestLog-Kopie ohne GetNumQuestLogEntries/GetQuestObjectives/GetQuestTagInfo/IsQuestFlaggedCompleted/GetLogIndexForQuestID,
+      dazu GetNumQuestLogEntries, GetNumQuestLeaderBoards, GetQuestTagInfo, IsQuestFlaggedCompleted = nil.
+      Erwartung: API.NumEntries() == 0, Objectives(1) == {}, QuestTag(1) == nil, IsQuestDone(1) == false, LogIndexForQuest(1) == nil.
+      Kein Lua-Fehler.
+T101 | C | API.GreenRange ohne C_QuestLog.GetTrivialRange und GetQuestGreenRange | auto | F, E
+      Erwartung: nach Korrektur 11 kommt UnitQuestTrivialLevelRange("player") zum Zug. Sind alle drei weg, gilt die Classic-Formel:
+      GreenRange(5) == 5, (20) == 7, (45) == 10, (60) == 13.
+T102 | C | Händler | auto (dry) | F, E
+      Erwartung: ohne GetMerchantNumItems und C_MerchantFrame: MerchantCount 0, MerchantAvailable false, MerchantLink nil,
+      MerchantBuy false, MerchantItem nil. Nur mit C_MerchantFrame: dessen Funktionen werden benutzt.
+T103 | C | Gegenstände | auto | F, E
+      Ohne C_Item.* und ohne GetItemInfo/IsEquippableItem/GetItemCount/GetItemSpell/GetItemStats/GetItemCooldown.
+      Erwartung: ItemInfo nil, IsEquippable false, ItemCount 0, ItemCooldown 0, ItemSpell nil, ItemStats nil, SellPrice(6948) == 0
+      OHNE Lua-Fehler. NEU: Compat.lua API.SellPrice ruft (C_Item and C_Item.GetItemInfo or GetItemInfo)(id) ungeprüft auf.
+      Fehlen beide, gibt es "attempt to call a nil value". Bitte absichern.
+      Ohne C_TooltipInfo: TooltipLines(Link) läuft über den eigenen Scan-Tooltip und liefert eine Tabelle.
+T104 | C | Taschen | auto (dry) | F, E
+      Ohne C_Container-Funktionen und ohne GetContainer*/UseContainerItem.
+      Erwartung: BagSlots 0, BagFree 0, 0, BagLink nil, BagItem nil, UseBagItem nil, kein Lua-Fehler.
+T105 | C | Talentpunkte | auto | F, E
+      Ohne UnitCharacterPoints und GetUnspentTalentPoints.
+      Erwartung: API.TalentPoints() == nil, Advisor:Run ohne Talent-Hinweis und ohne Fehler, die Diagnose zeigt
+      "Talentpunkte: nicht verfügbar" (Korrektur 12).
+T106 | C | Hints Known ohne IsSpellKnown/IsPlayerSpell | auto | F, E
+      Erwartung: nach Korrektur 8 C_SpellBook.IsSpellKnown, ohne alles false -> kein Gift-Hinweis (Hints.lua:86).
+T107 | C | Gruppensuche ohne ChatFrame_OpenChat | auto (dry) | F, E
+      Erwartung: nach Korrektur 9 ChatFrameUtil.OpenChat im LP.Act.log. Ohne beides steht der Text im Chat, kein stiller Ausfall.
+T108 | C | Addon-Kanal ohne ChatFrame_RemoveChannel | auto (dry) | F, E
+      Erwartung: nach Korrektur 10 frame:RemoveChannel (mit pcall), kein Lua-Fehler.
+T109 | C | Jäger ohne GetPetHappiness/GetPetFoodTypes | auto | F, E
+      Erwartung: Supply:Needs und Hints ohne Fehler, die Diagnose zeigt "nicht verfügbar" (Korrektur 12).
+T110 | C | Metadaten und AddOns | auto | F, E
+      Erwartung: ohne C_AddOns wird GetAddOnMetadata benutzt. Ohne beide ist Donate.AddonTitle() == "LevelPilot".
+      Names ohne LoadAddOn und Protocol-Speichermessung ohne UpdateAddOnMemoryUsage laufen ohne Fehler.
+T111 | C | Senden ohne C_ChatInfo | auto (dry) | F, E
+      Erwartung: Group nimmt dann SendAddonMessage (LP.Act.log). Fehlt beides, gibt es keinen Fehler. Session:Summary(true) ohne
+      SendChatMessage-Funktionen läuft ohne Fehler.
+T112 | C | weitere alte Globals ohne Prüfung | auto (dry) | F, E
+      Je einzeln weg: GetNumActiveQuests/GetActiveTitle/SelectActiveQuest/GetNumAvailableQuests (HandleGreeting, Engine.lua:146-156),
+      GetRepairAllCost (Comfort.lua:30, bei CanMerchantRepair == true), GetInventoryItemDurability (Advisor.lua:54),
+      GetInventoryItemCount (Advisor.lua:119), C_Item.GetItemInfoInstant und GetItemInfoInstant (Supply.lua:68),
+      NumTaxiNodes/TaxiNodeName (Comfort.lua:102-106), GetNumTrainerServices (Hints.lua:113), GetWeaponEnchantInfo (Hints.lua:86),
+      GetQuestLogSpecialItemInfo (Actions.lua:58), GetItemIcon (Actions.lua:180).
+      Erwartung: kein Lua-Fehler. Die Stellen Engine.lua:146-156, Comfort.lua:30, Advisor.lua:54/119 und Supply.lua:68 rufen
+      heute ohne Prüfung auf. Melden sie FEHLER, bitte wie die übrigen mit "if X then" bzw. Rückfall absichern.
+T113 | C | Names: collectgarbage wirft | auto | F, E
+      Mit WithEnv auf die Ladefunktion von Names, collectgarbage wirft einen Fehler.
+      Erwartung: Names:Load läuft trotzdem zu Ende (Korrektur 7).
+
+(3) Kampfsperre
+T114 | C | Aktionsleiste im Kampf | auto | F, E
+      WithEnv auf Actions.Update mit InCombatLockdown -> true, dann einen anderen Schritt setzen.
+      Erwartung: macrotext von LevelPilotTargetButton unverändert, kein Show/Hide/SetAttribute. Danach Handler
+      PLAYER_REGEN_ENABLED (normaler Wert) -> Makro aktualisiert.
+T115 | C | Belohnung anlegen und Hinweis-Knöpfe im Kampf | auto (dry) | F, E
+      Erwartung: Supply:EquipRewards mit InCombatLockdown -> true schreibt nichts ins LP.Act.log. Advisor (Advisor.lua:335) führt im
+      Kampf keine geschützte Aktion aus.
+T116 | C | Testroutine und Kampf | auto | F, E
+      Die Startprüfung der Routine über WithEnv mit InCombatLockdown -> true aufrufen.
+      Erwartung: Start verweigert. Simulierter PLAYER_REGEN_DISABLED mitten im Lauf -> restliche Prüfungen ÜBERSPRUNGEN, Sandbox OK.
+T117 | C | ADDON_ACTION_BLOCKED für LevelPilot | auto (sb) | F, E
+      Handler mit ("LevelPilot", "UseAction") aufrufen.
+      Erwartung: Protokoll-Eintrag "blocked" (Protocol.lua:510-514). Danach den Eintrag wieder entfernen.
+
+(4) Kampflog
+T118 | C | Kampflog nicht angemeldet | auto | F, E
+      Erwartung Forever: LP.handlers.COMBAT_LOG_EVENT_UNFILTERED == nil und
+      not LP.eventFrame:IsEventRegistered("COMBAT_LOG_EVENT_UNFILTERED").
+      Erwartung Era: angemeldet (Calib.lua:560-564, alter Weg wie bisher).
+
+----------------------------------------------------------------------------------------------------
+D. ALTE CLIENTS
+----------------------------------------------------------------------------------------------------
+LevelPilot ist nur für WoW Forever gebaut (alle .toc: 16001). Im Code gibt es KEINE Sperre und keine Meldung "nur für WoW
+Forever". Nur der Selbsttest weist darauf hin (SelfTest.lua:43, " – LevelPilot ist für WoW Forever gebaut"). Die Messung zeigt
+"WoW Forever: ja/nein" (Measure.lua:69). Prüfumfang für alte Clients deshalb nur: lädt ohne Lua-Fehler, die Routine läuft durch,
+der Hinweis steht im Bericht.
+T119 | D | Laden in Classic Era | halb | E
+      Der Nutzer startet Era mit "Veraltete AddOns laden" (die .toc nennen nur 16001), dann /lp testroutine.
+      Erwartung: keine Lua-Fehler beim Laden, LP.initErrors leer, 31 Module (T01 OK).
+T120 | D | Hinweis "für WoW Forever gebaut" | auto | E
+      Erwartung: Auf einem Client mit not G.IsForever schreibt die Routine T:Skip("T120", "D", "Client", "LevelPilot ist für WoW
+      Forever gebaut – alter Client nur Ladeprüfung"). G.Status() enthält "Classic Era" und "API: alt" (in deDE "alt").
+      Auf Forever: OK, Ergebnis G.Status().
+T121 | D | Weichen auf dem alten Weg | auto | E
+      Erwartung: LP.API.modern == (C_QuestLog and C_QuestLog.GetInfo ~= nil). Ist das false, liefert API.Entry über
+      GetQuestLogTitle. Kampflog angemeldet (T118). Tooltip-Hook über OnTooltipSetUnit/OnTooltipSetItem, wenn
+      TooltipDataProcessor fehlt. Nach Korrektur 19 API.Forever() == false.
+T122 | D | TBC und Retail | – | T, R
+      T:Skip("LevelPilot nur für WoW Forever, alter Client nur in Era geprüft").
+
+----------------------------------------------------------------------------------------------------
+E. DATEN
+----------------------------------------------------------------------------------------------------
+Für diesen Bereich den Inhalt des ADDON_LOADED-Handlers (Core.lua:377-422) als LP:LoadSaved(acc, char) zugänglich machen.
+Der Handler ruft dann nur noch LP:LoadSaved(LevelPilotDB, LevelPilotCharDB) auf. Die Tests laufen mit Testtabellen. Danach
+LP:LoadSaved(echte Tabellen) erneut aufrufen. Das ist harmlos, weil ApplyDefaults nur fehlende Werte füllt.
+T123 | E | Neuinstallation (leere SavedVariables) | auto (sb) | F, E
+      LP:LoadSaved({}, {}).
+      Erwartung: alle DEFAULTS vorhanden (69 Schalter, Zahlen, Tabellen qdb/graph/vendors/taxi/net), CHAR_DEFAULTS vorhanden,
+      speedLevelV2 == true, language == "auto". Danach Planner:Replan(true), UI:Refresh, alle 8 Reiter, Backup:CheckOnLoad,
+      Protocol:Init ohne Fehler.
+T124 | E | Migration Speedrun-Strenge (3.10) | auto (sb) | F, E
+      Erwartung: { speedLevel = 3 } ohne speedLevelV2 -> speedLevel 2, speedLevelV2 true. { speedLevel = 3, speedLevelV2 = true } ->
+      bleibt 3 (Core.lua:384-387).
+T125 | E | Migration Sprache | auto (sb) | F, E
+      Erwartung: language "xx" -> "auto". Eine Sprache, die der Client nicht anzeigen kann (CanDisplay false), -> "auto"
+      (Core.lua:417-419). Gibt es keine solche Sprache: T:Skip.
+T126 | E | Migration Protokoll | auto | F, E
+      Erwartung von Protocol.Migrate (Protocol.lua:458-479):
+        { k = "zone", msg = "… Das Brachland (1413), Brachland" } -> "drop"
+        { k = "stuck", msg = "… 12 … 300", c = { st = "COMPLETE:1" } } -> "drop" (300 < STUCK_AREA 400)
+        { k = "stuck", msg = "… 12 … 900", c = { st = "GOTO" } } -> e.key gesetzt, e.msg enthält "\2"
+        { k = "session", msg = "L1 L5 3" } -> e.key "Virtuelle Reise L%d–%d: %d Auffälligkeit(en)"
+        bereits umgestellt (msg enthält "\2") -> unverändert.
+      Protocol:Init löscht Einträge, die mit "Sprachpaket " oder "Namen deDE: " beginnen.
+T127 | E | Überlagerung der Flugpunkte nach einem Abbruch | auto (sb) | F, E
+      Erwartung: Ein LevelPilotDB.taxi mit Überlagerungs-Metatabelle -> Virtual.RealTaxiOf liefert die echte Liste.
+      Backup:SaveCopy speichert die echte Liste (Backup.lua:139-143), Uninstall stellt sie zurück.
+T128 | E | alte Fassung (Beispieldaten im Test) | auto (sb) | F, E
+      Eine fest im Test hinterlegte Beispiel-DB im Stand vor 3.8 und 3.10: qdb-Einträge ohne x/xl/dg, kein speedLevelV2,
+      calib ohne killxp/dungeonxp, protocolLog mit alten Meldungen, char ohne levelTimes/fpVisited/dungeonRun.
+      Erwartung: LP:LoadSaved ergänzt die fehlenden Felder, Replan/Calib:KillXPText/Report/Protocol:Init ohne Fehler,
+      Calib:KillXPMeasured() == false.
+T129 | E | beschädigte Einträge (nil, falscher Typ) | auto (sb) | F, E
+      qdb[123] = "kaputt", qdb[124] = { n = 5, l = "x" }, graph = 5, taxi = "x", vendors[1] = false, caves = { 1 },
+      calib.killxp[-3] = { n = "a" }, protocolLog.entries = { { k = nil, msg = 5 } }, net.peers = 7, char.ignored = "x",
+      char.levelTimes = { [5] = "x" }, char.bind = 3.
+      Erwartung: kein Lua-Fehler in QuestDB:Counts/Get, Planner:Replan, Center RefreshData/RefreshRoute, Backup:Count/Export/SaveCopy,
+      Protocol:Init (Korrektur 16), Calib:KillXPRatio/KillXPText, Comm:EncodeQuest, Virtual:Fingerprint, Comfort:LevelTimesText.
+      Wo ein Typ falsch ist, wird der Eintrag übersprungen oder ersetzt, nie benutzt.
+T130 | E | Datenpaket fehlt, falsches Format, zu alt | auto (sb) | F, E
+      _G.LevelPilotData vorübergehend nil (Addon-Global, kein Taint), QuestDB:Reconnect -> pack false, packInfo "nicht installiert",
+      die Kurztest-Prüfung meldet "Datenpaket LevelPilot_Data fehlt". format = 2 -> "unbekanntes Format 2". version = "1.5.0" ->
+      einmal "Datenpaket veraltet – bitte aktualisieren" (Korrektur 20).
+      Erwartung: wie beschrieben, kein Lua-Fehler. Danach zurück und Reconnect -> pack true.
+T131 | E | QuestieDB vorhanden, aber zu alt oder unvollständig | auto (sb) | F, E
+      Gibt es kein LibQuestieDB, eine Ersatz-Tabelle in _G.LibQuestieDB setzen (danach wieder nil), usePack aus.
+      Erwartung: RequireContract liefert false -> questieInfo beginnt mit "Version zu alt (". Ohne Quest-Tabelle -> "Schnittstelle
+      unvollständig". Ist echtes Questie geladen: nur lesen, nicht ersetzen.
+T132 | E | Einstellungen pro Charakter | auto (sb) | F, E
+      Erwartung: ownSettings an kopiert alle SETTING_KEYS in char.settings (Core.lua:406-412). autoAccept ändern -> nur im Charakter,
+      LevelPilotDB.autoAccept bleibt. ownSettings aus -> der Kontowert gilt wieder.
+
+----------------------------------------------------------------------------------------------------
+F. SPRACHEN
+----------------------------------------------------------------------------------------------------
+T133 | F | Schlüssel in jeder Sprache vorhanden | auto | F, E
+      Nach den Bereichen B bis E (dann ist LP.usedKeys gut gefüllt) für jede der 10 Übersetzungen jeden Schlüssel nachschlagen.
+      mx darf über es zurückfallen.
+      Erwartung: 0 fehlende Schlüssel je Sprache. Im Ergebnis je Sprache die Anzahl und das erste Beispiel.
+      Zusätzlich offline: alle Schlüssel aus dem Code mit L[...] / L(...) (wie die Prüf-Sitzung mit locales.py), weil usedKeys nur
+      ausgeführte Wege kennt. Die Zahl dynamischer L-Aufrufe ins Ergebnis.
+T134 | F | Formatplatzhalter | auto | F, E
+      Für jede Sprache und jedes Paar Schlüssel -> Übersetzung die Folge der Platzhalter vergleichen (%s, %d, %.1f, %+d …, ohne %%).
+      Erwartung: 0 Abweichungen in der Art und Anzahl.
+T135 | F | Format mit Werten | auto | F, E
+      Jeden Schlüssel mit "%" in jeder Sprache über LP.LocaleLookup(code, k) mit Testwerten passend zu den Platzhaltern formatieren.
+      Erwartung: kein Lua-Fehler ("bad argument to format").
+T136 | F | jede Sprache aktivieren, Hauptfenster öffnen | auto (sb) | F, E
+      Für jede Sprache mit CanDisplay(code): LP:SetLanguage(code), dann Guide-Fenster, alle 8 Reiter der Zentrale, Kopierfenster,
+      Fenster der Reise (nur im Testmodus) und Protokoll öffnen und schliessen. Dazu die bestehende Prüfung "abgeschnittene
+      Knopf-Beschriftungen" (SelfTest.lua:133-142).
+      Erwartung: kein Lua-Fehler, LP:Language() == code, keine abgeschnittene Beschriftung (sonst FEHLER mit Text und Sprache).
+      Am Ende SetLanguage(ursprünglicher Wert), LP.db.language wie vorher.
+T137 | F | Sprachen ohne Schrift | auto | F, E
+      Erwartung: Codes mit CanDisplay == false erscheinen weder bei den Sprachknöpfen noch in der Liste von "/lp lang".
+      SetLanguage(code) gibt false zurück und meldet die fehlende Schrift (Core.lua:464-467).
+T138 | F | Namen je Sprache | auto | F, E
+      Erwartung: Names:StatusText() enthält "ok" oder L["geladen"]. Für en und it gelten englische Namen (Names.lua:9).
+T139 | F | Texte von GoldSentinelGame | auto | F, E
+      Erwartung: G.Text("game") passt zu GetLocale(), in deDE "Spielversion".
+
+----------------------------------------------------------------------------------------------------
+G. ZUSAMMENSPIEL
+----------------------------------------------------------------------------------------------------
+LevelPilot benutzt keine Schnittstelle der anderen GoldSentinel-Addons, also keine AHSentinel-Preise und nichts von
+ProfessionSentinel, GuildSentinel, RaidMaster, ThreatSentinel oder BuffSentinel (im Code gesucht: keine Aufrufe). Gemeinsam sind
+nur GoldSentinelGame, GoldSentinelTest und der Fehler-Handler. Optional sind LevelPilot_Data und Questie/QuestieDB.
+T140 | G | gemeinsame Dateien mit anderen GoldSentinel-Addons | auto | F, E
+      Erwartung: GoldSentinelGame.version == 2 und GoldSentinelTest.version == 1 (oder höher), unabhängig davon, welche anderen
+      Addons geladen sind. Die geladenen Addons (GuildSentinel, RaidMaster, ThreatSentinel, BuffSentinel, ProfessionSentinel,
+      AHSentinel) stehen im Ergebnis (C_AddOns.IsAddOnLoaded). LP.Game ist dieselbe Tabelle wie _G.GoldSentinelGame.
+      GoldSentinelTest.registry enthält LevelPilot neben den anderen.
+T141 | G | keine globalen Namen überschrieben | auto | F, E
+      Erwartung: _G.LevelPilot == LP, SlashCmdList.LEVELPILOT ist die beim Laden gemerkte Funktion, SLASH_LEVELPILOT1 == "/lp",
+      hash_SlashCmdList["/LP"] == "LEVELPILOT" bzw. nil (wenn noch nie benutzt). Die 11 Fenster (LevelPilotFrame, LevelPilotCenter,
+      LevelPilotArrow, LevelPilotMinimapButton, LevelPilotToasts, LevelPilotStepMenu, LevelPilotActionBar, LevelPilotGroupPanel,
+      LevelPilotBackupFrame, LevelPilotVirtualFrame, LevelPilotScanTip) sind die eigenen. BINDING_HEADER_LEVELPILOT == "LevelPilot".
+T142 | G | Fehler-Handler-Kette | auto | F, E
+      Erwartung: Ein Testfehler (T159) kommt sowohl im LevelPilot-Protokoll (Protocol.lua:322-331) als auch in der GoldSentinelTest-
+      Fehlerliste an. Der vorherige Handler (BugSack/BugGrabber, falls geladen) bekommt ihn ebenfalls. Ohne BugGrabber: dieser
+      Teil T:Skip.
+T143 | G | Schnittstellen zu anderen GoldSentinel-Addons | – | F, E
+      T:Skip("keine Schnittstelle – LevelPilot nutzt keine anderen GoldSentinel-Addons").
+T144 | G | Questie mit und ohne | auto (sb) | F, E
+      Erwartung: mit Questie/QuestieDB, usePack aus und useQuestie an -> QuestDB.questie == true und Counts().questie > 0.
+      Ohne Questie -> questieInfo "nicht installiert". Keine Lua-Fehler. Ohne Questie im Client: der erste Teil T:Skip.
+T145 | G | Addon-Präfixe angemeldet | auto | F, E
+      Erwartung: C_ChatInfo.IsAddonMessagePrefixRegistered("LvPilot2") und ("LvPilotG") == true.
+
+----------------------------------------------------------------------------------------------------
+H. LEISTUNG (debugprofilestop, je 20 Aufrufe, Median und Höchstwert ins Ergebnis)
+----------------------------------------------------------------------------------------------------
+T146 | H | UI:Refresh (Ticker 1 s) | auto | F, E   Erwartung: Median < 2 ms.
+T147 | H | Engine:CheckSteps (Ticker 0,5 s) | auto | F, E   Erwartung: Median < 2 ms.
+T148 | H | Navigations-Treiber (OnUpdate alle 0,05 s: Nav:Recalc(false), Pfeil, Minikarte) | auto | F, E
+      Erwartung: Median < 2 ms. Nav:Recalc(true) < 16 ms.
+T149 | H | Pins-Treiber und Weltkarte | auto | F, E   Erwartung: OnUpdate < 2 ms, Pins:UpdateWorldMap < 16 ms.
+T150 | H | Planner:Replan(true) (Ticker 15 s und bei Ereignissen) | auto | F, E
+      Erwartung: < 16 ms. Der bisherige HINWEIS ab 500 ms (SelfTest.lua:101) entfällt. Wird die Grenze überschritten:
+      FEHLER mit gemessener Zeit, dann in Häppchen rechnen oder die Grenze begründet beim Nutzer anfragen.
+T151 | H | Graph:Path für eine lange Route (Orgrimmar -> Wegkreuz) | auto | F, E   Erwartung: < 16 ms.
+T152 | H | Drosselung bei "vom Weg ab" | auto | F, E
+      20 Aufrufe Nav:Recalc(false) innerhalb von 1 s mit einer Position über 45 Yards neben dem Weg, Zähler N.recalcCount
+      (neu, nur zum Messen).
+      Erwartung: nach Korrektur 14 höchstens 2 Neuberechnungen. Mit UnitOnTaxi -> true (WithEnv) 0.
+T153 | H | Plaketten, Tooltip und Beobachtung je Einheit | auto | F, E
+      Erwartung: NAME_PLATE_UNIT_ADDED-Handler < 1 ms, Tooltips:UnitLines < 1 ms, Calib:ObserveUnit < 0,5 ms.
+T154 | H | Comm | auto (sb, dry) | F, E   Erwartung: Comm:Receive einer Q-Nachricht < 1 ms, SendNext < 0,5 ms.
+T155 | H | Planung je Reiseschritt | auto | F, E (Testmodus)   Erwartung: aus T83 s.planMs / s.planN < 16 ms.
+T156 | H | alle 1-s-Ticker zusammen (ui, caves, recorder, session) | auto | F, E   Erwartung: Summe < 3 ms.
+T157 | H | Speicher | auto | F, E
+      Am Anfang und am Ende der Routine, jeweils nach collectgarbage("collect"), collectgarbage("count") messen.
+      Erwartung: Zuwachs < 1024 KB. GetAddOnMemoryUsage("LevelPilot") (nach UpdateAddOnMemoryUsage) ins Ergebnis.
+
+----------------------------------------------------------------------------------------------------
+I. FEHLERZÄHLUNG UND DIAGNOSE
+----------------------------------------------------------------------------------------------------
+T158 | I | absichtlicher Fehler über LP:Safe | auto (sb) | F, E
+      LP:Safe("Testroutine", function() error("LP-Testfehler") end)
+      Erwartung: Rückgabe false, LP.errorCount + 1, LP.errors enthält die Meldung. LevelPilotDB.gsTest.errors hat einen Eintrag
+      wo == "Testroutine". Diagnose (Planner:DiagLines) zeigt den Zähler.
+      Danach entfernen: Eintrag aus gsTest.errors löschen (sonst meldet T:Finish ihn als echten Fehler), Protokoll über die Sandbox.
+T159 | I | Lua-Fehler ausserhalb eines pcall | auto (sb) | F, E
+      geterrorhandler()("Interface/AddOns/LevelPilot/Test.lua:1: LP-Testfehler")
+      Erwartung: Eintrag in GoldSentinelTest (Muster AddOns/LevelPilot/) und im LevelPilot-Protokoll (msg enthält "LevelPilot").
+      Danach beide Einträge entfernen.
+T160 | I | Fehler in einem Ereignis-Handler | auto (sb) | F, E
+      Eine werfende Funktion vorübergehend vorne in LP.handlers.PLAYER_XP_UPDATE einfügen und den Verteiler aufrufen.
+      Erwartung: LP.errorCount + 1, die übrigen Handler laufen (Zähler), danach wieder entfernt.
+T161 | I | Fehler in einem LP:Fire-Listener | auto (sb) | F, E
+      Erwartung: heute nur LP:Debug (Core.lua:214-215). Neu: wird gezählt und an GoldSentinelTest.Error gemeldet. Die übrigen
+      Listener laufen.
+T162 | I | Modul-Startfehler in der Diagnose | auto (sb) | F, E
+      Erwartung: Ein Testeintrag in LP.initErrors erscheint in T01 als FEHLER und in Planner:DiagLines. Danach entfernt.
+T163 | I | Ticker-Fehler | auto (sb) | F, E
+      Erwartung: Ein werfender Ticker-Rumpf über LP:Ticker landet in LP:Error. Die Chatmeldung kommt nur einmal (gleiche Meldung,
+      Core.lua:308), errorCount zählt jeden Aufruf.
+T164 | I | Fehler der virtuellen Reise | auto (Testmodus) | F, E
+      Erwartung: Ein Fehler in einem Reiseschritt (Note "error", Virtual.lua:181-187) zählt im Protokoll (höchstens 5 je Reise)
+      und neu auch bei GoldSentinelTest.Error mit wo == "Reise".
+T165 | I | Bericht gespeichert und datenschutzkonform | auto | F, E
+      Nach T:Finish:
+      Erwartung: Der letzte Eintrag in LevelPilotDB.gsTest.reports beginnt mit "GSTEST1", höchstens 10 Berichte. Er enthält
+      "addon":"LevelPilot", die Version und counts. Er enthält weder UnitName("player") noch den Gildennamen (GetGuildInfo) noch
+      einen Absendernamen aus T59/T63. Diese Prüfung trägt die Routine als letzte ein: Ein zweiter T:Check nach Finish geht nicht.
+      Deshalb vor T:Finish rep = T:Report(extra) bauen, GoldSentinelTest.Encode(rep) prüfen, das Ergebnis als T165 eintragen und
+      dann T:Finish aufrufen.
+T166 | I | Testfall-IDs eindeutig und vollständig | auto | F, E
+      Erwartung: Jede ID T01–T205 kommt im Bericht genau einmal vor (OK, FEHLER, ÜBERSPRUNGEN oder IM CLIENT PRÜFEN).
+      Bei einem Einzelbereich nur die IDs dieses Bereichs.
+
+----------------------------------------------------------------------------------------------------
+J. REGRESSIONSTESTS (JEDER BISHERIGE BEFUND EIN EIGENER TESTFALL)
+----------------------------------------------------------------------------------------------------
+Quelle [V] = anweisung-levelpilot.txt (Vorbereitung 3.12.0), [Z] = anweisung-levelpilot-zeiten.txt (Zeitmodell, umgesetzt in
+3.12.2), [K] = korrektur-levelpilot-3.12.2.txt (Nummer = Punkt), [R] = rueckmeldung-levelpilot-data.txt.
+Wo die Prüfung gleich wie in B oder C läuft, wird die Funktion wiederverwendet, aber unter eigener ID eingetragen.
+
+T167 | J [V Schritt 1] GoldSentinelGame unverändert und vor allen eigenen Dateien | auto + manuell | F, E
+      Erwartung: G.version == 2. addon-check meldet die Datei als identisch mit shared/.
+T168 | J [V Schritt 1] G.Status() in der Diagnose | auto | F, E
+      Erwartung: Planner:DiagLines() und Measure:Text() enthalten G.Status() (Planner.lua:1664, Measure.lua:70).
+T169 | J [V Schritt 1] Namensvergleiche über G.SameName | auto (sb) | F
+      Erwartung: Forever: LP.SameName("Rokan", "Rokan Steinwacht") == true, ("Rokan Steinwacht", "Rokan Eisenfaust") == false. Eine
+      eigene CHAT_MSG_ADDON (sender = eigener Name mit Realm) wird von Comm (Comm.lua:483) und Group ignoriert.
+T170 | J [V Schritt 2.1] Datenpaket-Version passt | auto | F, E   (wie T04, T130) Erwartung: LevelPilotData.version >= "1.6.0".
+T171 | J [V Launch] Interface-Nummer in beiden .toc | halb | F
+      T:Client("/dump select(4, GetBuildInfo()) – Nummer in LevelPilot.toc und LevelPilot_Data.toc, 16001 bleibt drin").
+T172 | J [Z1a] EP je Kill nach Levelunterschied | auto | F, E
+      Erwartung: Die Werte von T40 stimmen. Offline (addon-check/grep): "45 + 5" steht als Rechnung nur noch in
+      Planner:KillXPFormula (Planner.lua:493), die übrigen Treffer sind Kommentare.
+T173 | J [Z1b] Abschlag für grüne Monster nur in Forever | auto | F, E
+      Erwartung: Planner.FOREVER_GREEN == 0.85, GREEN_DIFF == 3. Wirkung nur bei API.Forever() (T42).
+T174 | J [Z1c] Weg-Kills mit mittlerem Monsterlevel | auto (Testmodus) | F
+      Kurze Reise im Modus "speed" (T83 mit forceMode "speed").
+      Erwartung: s.wayKills > 0 und s.wayXP / s.wayKills <= KillXP(Level, Level), weil grüne Monster weniger bringen
+      (Virtual.lua:361-365 rechnet mit sum / kills).
+T175 | J [Z1d] Quest-Kills mit Questlevel | auto | F, E   (wie T44)
+T176 | J [Z2] Dungeon-Werte Forever 0,36 / 1,5, Classic 1,0 | auto | F, E
+      Erwartung: Planner.FOREVER_DG_MOB == 0.36, FOREVER_DG_QUEST == 1.5 (Planner.lua:887/901), Werte aus T43 und T10.
+      Der Text der Einstellung ist L["Dungeon-Monster-EP % (0 = auto)"] (Center.lua:376).
+T177 | J [Z3] Messung EP je Kill: geschützt, erholt, Gruppe | auto (sb) | F
+      Erwartung: T74 und T94 OK. Mit 20 gleichen Messungen auf Stufe -3 ersetzt Calib:KillXPRatio(-3) den Faktor 0,85
+      (GreenXPFactor liefert das gemessene Verhältnis, true). KillXPText enthält "gemessen 20".
+T178 | J [Z4] Gruppen-EP-Hinweis in Forever | auto | F
+      Erwartung: Social.ForeverGroupNote("x") endet mit L["Ein viel höheres Gruppenmitglied kann dafür sorgen, dass alle 0 EP
+      bekommen."]. Auf Era unverändert.
+T179 | J [Z5a] "Zeit bis 60" klar beschriftet | auto | F, E
+      Erwartung: Zentrale » Komfort zeigt L["aus deinen EP der letzten Stunde – gilt für jeden Modus (Normal und Speedrun)"]
+      (Center.lua:533). Der Schlüssel ist in allen 10 Sprachen übersetzt.
+T180 | J [Z5b] beide Modi vergleichen, echter Modus bleibt | auto, nur "reise" | F (Testmodus)   (wie T84)
+T181 | J [Z5c] Reisebericht nennt die Herkunft der Werte | auto (Testmodus) | F, E
+      Erwartung: V.lastReport aus T83 enthält die Zeile "Werte: Kills/Min … · EP je Kill … · Dungeon-Faktoren …" (Virtual.lua:896).
+T182 | J [Z NICHT ÄNDERN] EP-Tabelle und Regeln unverändert | auto + manuell | F, E
+      Erwartung: Summe XPNEED 1–59 == 4'084'700 mit 59 Einträgen. Dafür eine Zugriffsfunktion Comfort.XPNeed(l) bzw. V.XPNeed(l)
+      ergänzen, oder offline prüfen. Speedrun-Strenge 1–3, Erholt-Bonus nur auf Monster-EP (offline: Virtual.lua 369/532/555).
+T183 | J [Z Test 1] Zeiten 1–60 Normal und Speedrun | auto, nur "reise" | F (Testmodus)
+      Erwartung: die vier Zahlen der letzten Prüfung (vorher/nachher) gelten nicht mehr. Die aktuellen Werte Normal und Speedrun
+      gehen ins Ergebnis, Speedrun < Normal (wie T84, eigene ID für den Verlauf).
+T184 | J [K1] /lp reise bericht ohne Lua-Fehler (global L) | auto (Testmodus) | F, E
+      Erwartung: SlashCmdList.LEVELPILOT("reise bericht") ohne Fehler, das Kopierfenster hat den übersetzten Titel. Offline: die
+      Liste der benutzten Globals enthält kein "L" mehr.
+T185 | J [K2] Ruhestein-Abklingzeit mit geschützten Werten | auto | F   (wie T88)
+T186 | J [K3] Recorder: geschützter NPC-Name | auto (sb) | F   (wie T89)
+T187 | J [K4] Tooltip-Titel und GetUnit geschützt | auto | F   (wie T90)
+T188 | J [K5] Calib:OnLoot geschützt | auto (sb) | F   (wie T91)
+T189 | J [K6] CHAT_MSG_ADDON geschützt (Comm und Group) | auto (sb) | F   (wie T92)
+T190 | J [K7] collectgarbage in Names mit pcall | auto | F, E   (wie T113)
+T191 | J [K8] Hints Known ohne Rückgabe true | auto | F, E   (wie T106)
+T192 | J [K9] Gruppen-Text ohne ChatFrame_OpenChat | auto (dry) | F, E   (wie T107)
+T193 | J [K10] Kanal ausblenden ohne ChatFrame_RemoveChannel | auto (dry) | F, E   (wie T108)
+T194 | J [K11] GreenRange mit UnitQuestTrivialLevelRange | auto | F, E   (wie T101)
+T195 | J [K12] Talent- und Jägerfunktionen | auto + halb | F
+      Erwartung: T105 und T109 OK. Dazu T:Client("/dump UnitCharacterPoints, /dump GetUnspentTalentPoints, /dump GetPetHappiness,
+      /dump GetPetFoodTypes – Ergebnis zurückmelden").
+T196 | J [K13] Dropraten ohne Kampflog | – | F
+      T:Skip("wartet auf Entscheid des Nutzers (Kills beim Plündern über LOOT_OPENED)"). Nach dem Entscheid: Kill beim Plündern
+      gezählt, GUIDs mit IsSecret geprüft.
+T197 | J [K14] Navigation: 0,5 s Mindestpause auch bei "off", nicht neu rechnen auf Flügen | auto | F, E   (wie T152)
+T198 | J [K15] alle Ticker in LP:Safe | auto + manuell | F, E
+      Erwartung: Die Zahl der Einträge in LP.tickers ist gleich der Zahl der Ticker im Code (13 ohne den Reise-Ticker). Offline:
+      kein C_Timer.NewTicker ausserhalb von LP:Ticker und Virtual.lua.
+T199 | J [K16] Protokoll mit beschädigtem Eintrag startet | auto (sb) | F, E
+      Erwartung: Protocol:Init mit { k = nil, msg = 5 } ohne Fehler (Protocol.lua:497, tostring).
+T200 | J [K17] Measure: UnitClassification geschützt | auto | F   (wie T95)
+T201 | J [K18] Tooltips nutzen LP.API.IsQuestDone | auto (sb) | F, E
+      LP.API.IsQuestDone vorübergehend durch einen Zähler ersetzen (Addon-Tabelle, kein Taint).
+      Erwartung: Tooltips:ItemLines/ObjectLines rufen ihn mindestens einmal auf, nicht mehr C_QuestLog.IsQuestFlaggedCompleted direkt.
+T202 | J [K19] eigene Erkennung auf LP.Game umgeleitet | auto + manuell | F, E
+      Erwartung: API.Forever() == (LP.Game.IsForever) mit LP.Game (T09/T10), ohne LP.Game die Einstellung (T14). Offline: in
+      Compat.lua steht der falsche Kommentar "Forever-Client (1.15.x) hat dieselben Schnittstellen wie Classic Era" nicht mehr.
+T203 | J [K20] Mindestversion des Datenpakets | auto (sb) | F, E   (wie T130, Teil "1.5.0")
+T204 | J [K Frage] Standardwerte mit echten Folgen | auto | F, E
+      Erwartung: Das Ergebnis nennt die Standardwerte restock, autoEquipRewards, autoRepair, autoFly (heute alle true, Core.lua:47/48/64/75).
+      OK, solange sie dem Entscheid des Nutzers entsprechen. Bis dahin unverändert true. Bestehende Einstellungen ändern sich nie.
+T205 | J [R] Datenpaket nur in der gemeinsamen ZIP | manuell (vor dem Push) | –
+      Erwartung: Das ZIP levelpilot__levelpilot-x.y.z.LevelPilot.zip enthält LevelPilot/ und LevelPilot_Data/, es gibt keine
+      einzelne LevelPilot_Data-ZIP, addon-check zeigt keine Warnungen zur alten ZIP 3.5.0, discord-check/ignorieren.txt bleibt
+      unverändert. In der Routine: T:Skip("vor dem Push mit addon-check").
+      Launch-Liste der Korrektur (/dump …) siehe Abschnitt 4.
+
+Summe: 205 Testfälle (T01–T205).
+
+
+====================================================================================================
+4. HALBAUTOMATISCHER TEIL FÜR DEN LAUNCH-ABEND (5. NOVEMBER, WOW FOREVER LIVE)
+====================================================================================================
+Der Nutzer macht (in dieser Reihenfolge, ausserhalb des Kampfes beginnen):
+ 1. Einloggen, /reload, dann /gsgame und /dump select(4, GetBuildInfo()). Beide Zeilen abschreiben.
+    Ist die Nummer nicht 16001: in beiden .toc ergänzen (16001 bleibt) und neu veröffentlichen.
+ 2. /lp testroutine (stillstehen, ca. 1–2 Minuten). Kopierfenster: Strg+A, Strg+C, Text an den Kollegen.
+ 3. /lp testroutine kampf, dann innerhalb von 2 Minuten allein einen Gegner angreifen und töten, möglichst ohne Erholt-Bonus.
+    Die Routine beobachtet: LP.errorCount vor/nach, neue GoldSentinelTest-Fehler, Ruhestein-Anzeige im Kampf (T99/T185),
+    Aktionsleiste unverändert im Kampf (T114), danach eine Messung in calib.killxp (T177), wenn nicht erholt und allein.
+ 4. /lp testroutine haendler, dann einen Händler mit Reparatur öffnen (graue Gegenstände in der Tasche). Trockenlauf: Die
+    Routine zeigt, was verkauft, gekauft und repariert WÜRDE. Nichts geschieht (T66/T67). Händler schliessen.
+ 5. /lp testroutine quest, dann einen Questgeber ansprechen (eine Quest annehmen, eine abgeben, wenn möglich). Trockenlauf
+    zeigt die Entscheidung (T49). Dann einmal mit gedrückter Shift-Taste: keine Entscheidung (Shift-Pause). Danach normal spielen.
+ 6. /lp testroutine flug, dann die Flugkarte bei einem Flugmeister öffnen. Trockenlauf zeigt das geplante Ziel (T66).
+ 7. /lp testroutine trainer, dann den Klassentrainer öffnen. Trainerkosten gelernt (T69).
+ 8. /lp testroutine gruppe, dann mit einem Mitspieler, der LevelPilot hat, eine Gruppe bilden. Das Gruppen-Panel zeigt den
+    Mitspieler. LvPilotG-Nachrichten kommen an. Keine Lua-Fehler. Kein Name im Bericht.
+ 9. /dump-Befehle aus der Korrektur 3.12.2:
+    /dump UnitCharacterPoints   /dump GetUnspentTalentPoints   /dump GetPetHappiness   /dump GetPetFoodTypes
+    /dump ChatFrame_OpenChat   /dump ChatFrame_RemoveChannel   /dump IsSpellKnown   /dump C_QuestLog.GetTrivialRange
+    /dump UnitQuestTrivialLevelRange   /dump C_SpellBook and C_SpellBook.IsSpellKnown   /dump ChatFrameUtil and ChatFrameUtil.OpenChat
+    /dump GetNumActiveQuests   /dump GetRepairAllCost   /dump GetItemInfoInstant
+10. /reload (damit der Bericht in der Datei steht und der RaidMasterUploader ihn meldet).
+Zurück an den Kollegen: der Text aus Schritt 2 (auch wenn er automatisch gemeldet wird), die Zeilen aus Schritt 1, die Ausgaben
+aus Schritt 9 und bei Lua-Fehlern die BugSack-Meldung. Die Kollegen tragen die Antworten als Bestätigung der
+"IM CLIENT PRÜFEN"-Punkte ein (T05, T99, T171, T195).
+
+
+====================================================================================================
+5. ABNAHME (WANN GILT LEVELPILOT ALS BEREIT)
+====================================================================================================
+- /lp testroutine auf WoW Forever: 0 FEHLER im automatischen Teil.
+- /lp testroutine in Classic Era (alter Client): 0 FEHLER. Die nur für Forever gedachten Fälle sind ÜBERSPRUNGEN mit Grund, die
+  Ladeprüfung (T119–T121) ist OK.
+- /lp testroutine reise (Testmodus): T84 und T183 OK, beide Sandbox-Zeilen OK.
+- In jedem Bericht steht "echte Daten unverändert: OK".
+- Alle "IM CLIENT PRÜFEN"-Punkte (T05, T99, T171, T195 und die /dump-Liste) hat der Nutzer bestätigt.
+- Ausnahmen nur mit Begründung: Leistungsgrenzen (H) dürfen nach Rücksprache mit dem Nutzer angepasst werden, nie stillschweigend.
+- addon-check: kein FEHLER. Der Bericht der Routine ist in testberichte/ angekommen.
+
+
+====================================================================================================
+6. AUTOMATISCHE MELDUNG
+====================================================================================================
+Weg: LevelPilot (Testroutine und laufende Fehler) -> LevelPilotDB.gsTest (SavedVariables) -> RaidMasterUploader auf dem PC des
+Nutzers (schickt neue Berichte an Discord #testberichte) -> GitHub-Workflow im raidmaster-Repo holt sie nach testberichte/ ->
+Prüf-Sitzung wertet aus und schreibt Korrektur-Anweisungen. Ein Addon kann im Spiel nicht ins Internet, darum über die Datei.
+
+6.1 Datei einbauen
+- shared/GoldSentinelTest.lua (Version 1, liegt im raidmaster-Repo bereit) unverändert nach LevelPilot/ kopieren und in
+  LevelPilot.toc direkt nach GoldSentinelGame.lua eintragen (zweite Zeile der Dateiliste). Nicht in LevelPilot_Data.toc.
+- Core.lua im ADDON_LOADED-Teil (bzw. in LP:LoadSaved) nach LP.char = LevelPilotCharDB (Core.lua:392):
+      if GoldSentinelTest then GoldSentinelTest.TrackErrors("LevelPilot", LP.version, LevelPilotDB) end
+  Unbedingt die echte Tabelle LevelPilotDB übergeben, nicht den Proxy LP.db. Nur einmal aufrufen, nicht für Testtabellen aus
+  Bereich E.
+- Den Bericht der Routine immer mit db = LevelPilotDB beginnen: local T = GoldSentinelTest.Begin("LevelPilot", LP.version, LevelPilotDB).
+
+6.2 Bisherige Fehlerstellen zusätzlich melden (GoldSentinelTest.Error("LevelPilot", wo, meldung))
+- Core.lua:305-312 LP:Error. Bei JEDEM Aufruf melden (die Chatmeldung bleibt einmalig). Damit sind auch der Ereignis-Verteiler
+  (Core.lua:199-200), LP:Safe (Core.lua:314-318) und LP:Throttle (Core.lua:329/332) abgedeckt.
+- Core.lua:214-215 LP:Fire (heute nur LP:Debug) -> zusätzlich melden, wo = "Fire " .. msg.
+- Core.lua:427-433 Modulstart (Init-Fehler) -> wo = "Init " .. Modulname.
+- Comm.lua:485-486 Empfangsfehler (heute nur LP:Debug) -> wo = "Comm-Empfang". Nur die Lua-Meldung, NIE Absender oder Inhalt.
+- Virtual.lua:181-187 (Note "error") und Virtual.lua:785-790 (Fehler im Reiseschritt) -> wo = "Reise". Virtual.lua:662-663
+  (Bericht) -> wo = "Reise-Bericht".
+- Stille pcalls, deren Fehlschlag heute verloren geht: Backup.lua:384 (SaveCopy beim Ausloggen), Protocol.lua:515-521
+  (Zonen- und Speicherprüfung), Core.lua:475-481 (Sprachwechsel), Center/Comm-Stellen mit pcall ohne Auswertung.
+  Bei "not ok" melden.
+- Das eigene Protokoll (Protocol.lua:322-331) bleibt. GoldSentinelTest hat seinen eigenen Fehler-Abgriff, deshalb nicht doppelt
+  aus dem Protokoll heraus melden.
+
+6.3 Bericht
+- Die Testroutine schreibt Ergebnisse NUR über T:Check, T:Skip und T:Client. Auch der Kurztest /lp test läuft so (eigene
+  Testfall-IDs aus Abschnitt 3, siehe 2.1). Die alten Funktionen ok/warn/bad (SelfTest.lua:14-19) entfallen.
+- Testfall-IDs bleiben über alle Versionen gleich (T01–T205). Neue Tests bekommen neue Nummern ab T206. Entfallene bleiben als
+  T:Skip stehen.
+- Keine Spielernamen, Gildennamen oder Chattexte in Name, Ergebnis oder Erwartung. Das gilt besonders für Comm-Absender (peers),
+  Gruppenmitglieder, Partner (Social), Measure-Zeilen und Ziel-Makros mit Namen von Einheiten. Erlaubt sind Klasse, Level, Client,
+  Sprache, IDs von Quests, NPCs und Karten. T165 prüft das.
+- Reihenfolge am Ende: Sandbox zurück und vergleichen, Testeinträge aus gsTest.errors entfernen (T158/T159), T165 eintragen,
+  T:Finish(extra) aufrufen (speichert in LevelPilotDB.gsTest.reports, höchstens 10), Kopierfenster, dann der Chathinweis
+  L["Bericht gespeichert – wird beim nächsten /reload oder Ausloggen an die Prüfung gemeldet"] (in allen Sprachen übersetzen).
+- Die Sandbox darf gsTest nie zurücksetzen, sonst ist der Bericht weg (2.5).
+- Der bisherige Hinweis "an GoldSentinel schicken (Discord #levelpilot)" im Kopierfenster darf bleiben. Ergänzen: "Wird auch
+  automatisch gemeldet."
+
+6.4 Prüfen
+- T07, T158, T159, T165 und T166 decken den Einbau ab.
+- Nach /reload im SavedVariables-Ordner nachsehen: LevelPilot.lua enthält unter LevelPilotDB.gsTest.reports einen String, der mit
+  "GSTEST1" beginnt.
+
+Ist ein Punkt falsch oder anders besser gelöst: dem Nutzer begründet zurückmelden.

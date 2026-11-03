@@ -1,0 +1,38 @@
+OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.4)
+=========================================================
+Stand: 3. November 2026, 07:30 · von der Prüf-Sitzung · Grundlage: download/AHSentinel-0.65.4.zip
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist.
+
+Erledigt in 0.65.4 (danke): Schutz vor dem alten AH Analyzer Pro (OldAddonGuard.lua), Wächter-Pause ändert Era/TBC nicht mehr,
+leere Rezeptliste, Zwischenspeicher der Schemata, Diagnose "Händler-Kosten lesbar". Lua 5.1 fehlerfrei, Locales vollständig.
+Bitte als 0.65.5 veröffentlichen. Wie immer: komplette Dateien, .json separat ausweisen, alte Clients nie brechen, alle
+Locale-Dateien, CHANGELOG EN/DE, vor dem Push python3 addon-check/addon_check.py download/AHSentinel-0.65.5.zip -> kein FEHLER.
+
+1. CURSEFORGE: FOREVER TAGGEN (Schwere: NIEDRIG – Korrektur der Prüf-Sitzung, 3. November 08:25)
+   Dieser Punkt war falsch gemeldet: Die Markierung funktioniert schon. CurseForge kennt die Spielversion "1.60.1".
+   pick_game_versions() wandelt 16001 in "1.60.1" um und findet sie. Alle Dateien von AHSentinel und GuildSentinel
+   tragen 1.60.1 bereits (im Autoren-Bereich geprüft).
+   Zu tun ist nur noch die Doku: Den Docstring in curseforge/upload.py:128-130 ("Interface-Nummern ohne Gegenstück
+   (z. B. WoW Forever) werden übersprungen") und curseforge/README.md:19 richtigstellen ("WoW Forever wird als 1.60.1
+   markiert"). Ändert sich die Forever-Nummer am Launch-Tag (z. B. 16002 → 1.60.2), prüfen, ob CurseForge diese Version
+   kennt. Sonst nimmt das Skript automatisch die höchste 1.60.x.
+
+2. WÄCHTER-PAUSE IN FOREVER (Schwere: NIEDRIG – teilweise)
+   Watcher.lua:303-325: Die Pause greift nur, wenn innerhalb von 60 s ein AUCTION_HOUSE_THROTTLED_MESSAGE_DROPPED kam. Bestellt
+   war zusätzlich: Pause, solange A:IsScanReady() gilt und der Komplett-Scan noch nicht gelaufen ist, sowie ein abgelehnter
+   Scan-Start als Signal. Bitte ergänzen oder dem Nutzer begründen, warum das Signal allein reicht.
+   Im Client testen (Forever): Wächter an, Scan fällig -> der Scan startet und wird nicht vom Wächter blockiert.
+
+3. RAID-VORRAT (Schwere: NIEDRIG)
+   Comfort.lua:390: Den Kommentar "vorläufig – Classic-Liste, Abgleich mit Forever-Raids nach dem Launch" ergänzen. Nach dem
+   Launch prüfen, ob alle Item-IDs der Liste in Forever existieren, und bei Bedarf RAID_SETS.forever anlegen.
+
+4. BERUFE-FENSTER (Schwere: NIEDRIG)
+   a) Crafting.lua:620-622: Die neue Bedingung "nur merken, wenn mehr als 0 Rezepte" gilt auch für den alten Weg
+      (TRADE_SKILL_UPDATE, CRAFT_UPDATE). Liefert Remember dort 0, läuft es bei jedem Ereignis ohne die 5-Sekunden-Bremse.
+      Lösung: die Bedingung nur bei Cr.kind == "modern" anwenden, sonst wie in 0.65.3.
+   b) Crafting.lua:176, 183: Der Rückfall auf Cr.lastModernRecipe kann ein veraltetes Rezept liefern (vorherige Sitzung,
+      anderes Rezept angeklickt). Lösung: bei TRADE_SKILL_CLOSE und DATA_SOURCE_CHANGED zurücksetzen und die Auswahl über ein
+      Ereignis bzw. einen Hook erfassen. Ist nichts gemerkt: wie bisher "Kein Rezept gewählt".
+
+Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.

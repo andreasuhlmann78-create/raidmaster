@@ -1,0 +1,39 @@
+HINWEIS FÜR DAS PROJEKT PROFESSIONSENTINEL: NEUE GEPLANTE AUFGABE FÜR DAS TÄGLICHE REZEPTDATEN-UPDATE
+====================================================================================================
+Stand: 3. November 2026, 08:30 · von der Prüf-Sitzung · im Auftrag des Nutzers
+Gehört zu: abgleich-professionsentinel-0.9.10.txt
+
+WAS SICH GEÄNDERT HAT
+---------------------
+- Die alte geplante Chat-Aufgabe "ProfessionSentinel Rezeptdaten-Update" ist AUSGESCHALTET. Sie wurde nicht gelöscht.
+  Ursache: Chat-Aufgaben haben kein add_repo und können keine Repositories hinterlegen. Darum kam sie heute nicht mehr an
+  GitHub.
+- Neu läuft die geplante CODE-Aufgabe "ProfessionSentinel Rezeptdaten-Update (Code)":
+  - täglich um 07:21 (Zürich), erster Lauf morgen, 4. November
+  - Repositories fest hinterlegt: andreasuhlmann78-create/ProfessionSentinel und andreasuhlmann78-create/raidmaster
+  - Push-Benachrichtigung an den Nutzer nach jedem Lauf
+- Die GitHub-Verbindung des Nutzers ist in Ordnung (geprüft). Es war kein Token-Problem auf seiner Seite.
+
+WAS IN DER ANWEISUNG DER AUFGABE ANDERS IST
+-------------------------------------------
+Die Schritte 2–5 (Pipeline, Prüfungen, Version, Changelog, Release, Discord) sind inhaltlich gleich geblieben. Angepasst wurde:
+- Schritt 1: Beide Repos sind schon in der Sitzung. Die Aufgabe sucht die Ordner und macht zuerst `git pull --rebase`. Nur wenn
+  eines fehlt, nimmt sie add_repo. Ist ein Repo nicht erreichbar oder nicht beschreibbar, bricht sie mit der genauen
+  Fehlermeldung ab.
+- Ist wago.tools nicht erreichbar, bricht sie ab und meldet es.
+- Prüfwerte auf den Stand von 0.9.10 gesetzt: Forever ca. 2211, Era ca. 1267, Retail ca. 10172 Rezepte (Tabelle ns.RecipeRows,
+  Farbstufen in den Spalten 8, 9, 10).
+- Versionsfolge: 0.9.10 -> 0.9.11 -> 0.9.12 … Vorstellung als Nächstes 1.24 -> 1.25.
+- Gemeinsame Dateien, die die Aufgabe NIE ändert: GoldSentinelGame.lua, GoldSentinelTest.lua und GoldSentinelDev.lua.
+
+WAS DAS FÜR DICH HEISST
+-----------------------
+- Vor jeder eigenen Änderung: `git pull --rebase`. Die Aufgabe pusht jeden Morgen gegen 07:21–07:40 in beide Repos, wenn es neue
+  Daten gibt.
+- Deine nächste Version (Testroutine) bitte als 0.9.11. Hat die Aufgabe bis dahin schon 0.9.11 veröffentlicht, nimm die
+  nächste freie Nummer. Vor dem Push immer Releases und announce/ prüfen.
+- Wenn du `GoldSentinelTest.lua` einbaust (testroutine-professionsentinel.txt, Abschnitt 6): Die Aufgabe läuft danach weiter
+  wie bisher. Ihr Smoketest (tests/run_smoketest.py) muss die neue Datei aber mitladen, sonst fällt der Lauf durch. Bitte den
+  Smoketest beim Einbau anpassen.
+- Ändert sich etwas an der Pipeline (Befehle, Pfade, Prüfwerte), dem Nutzer melden, damit die Prüf-Sitzung die Anweisung der
+  geplanten Aufgabe nachführt.

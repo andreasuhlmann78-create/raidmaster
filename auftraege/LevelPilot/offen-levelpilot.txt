@@ -1,0 +1,42 @@
+OFFENE PUNKTE LEVELPILOT (nach der Nachprüfung von 3.12.4)
+=========================================================
+Stand: 3. November 2026, 07:30 · von der Prüf-Sitzung · Grundlage: announce/levelpilot__levelpilot-3.12.4.LevelPilot.zip
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist.
+
+Sehr gut umgesetzt: 19 von 20 Punkten aus korrektur-levelpilot-3.12.2.txt sind erledigt, ohne Lua-Fehler und ohne Taint
+(luacheck sauber, Lua 5.1 fehlerfrei).
+Zur Kenntnis: Die vier Automatiken (restock, autoEquipRewards, autoRepair, autoFly) sind ab 3.12.4 für neue Spieler aus.
+Das sollte eigentlich erst nach dem Entscheid des Nutzers geschehen. Bestehende Spieler behalten ihre Werte (ApplyDefaults).
+Der Nutzer entscheidet, ob es so bleibt. Bitte bis dahin nicht weiter ändern.
+Bitte als 3.12.5 veröffentlichen. Wie immer: komplette Dateien, Locales (alle Sprachen), vor dem Push
+python3 addon-check/addon_check.py <ZIP>  -> kein FEHLER.
+
+1. DROP-MESSUNG BEIM PLÜNDERN ZÄHLT DOPPELT (Schwere: MITTEL – neu in 3.12.4)
+   Calib.lua:308-312, 330-333: Wird dieselbe Leiche erneut geöffnet (Tasche voll, Fenster ohne Plündern geschlossen), zählt der
+   Kill dank looted[guid] einmal, die Stückzahl aber jedes Mal. Auch Gegenstände, die liegen bleiben, gelten als erhalten. Die
+   Droprate fällt dadurch zu hoch aus.
+   Lösung: gained nur für GUIDs zählen, die in diesem Fenster neu sind (if not looted[guid] schon in der Slot-Schleife prüfen).
+   Besser: die Stückzahl erst bei CHAT_MSG_LOOT (wirklich erhalten) zuordnen.
+2. VERZERRUNG DER DROP-MESSUNG (Schwere: NIEDRIG – im Client testen)
+   Calib.lua:290-336: Leichen ohne Beute zählen nicht als Kill (Rate zu hoch). Taschendiebstahl zählt den lebenden Gegner als
+   Kill. Ist beim Plündern im Kampf nur der Link geschützt, zählt ein Kill ohne Beute.
+   Vorschlag: den Kill über CHAT_MSG_COMBAT_XP_GAIN (+ GUID des Ziels, mit IsSecret) zählen, das Plündern nur für die Stückzahl.
+   Taschendiebstahl ausschliessen (Ziel lebt: UnitIsDead).
+   Im Client prüfen: /dump GetLootSourceInfo
+3. FALSCHER HINWEIS "ERSTE HILFE/KOCHEN LERNEN" (Schwere: NIEDRIG)
+   Hints.lua:43 mit :226: Known() liefert false, wenn keine Funktion vorhanden ist. Dann erscheint der Berufs-Hinweis auch für
+   Spieler, die den Beruf haben. Lösung: Known() gibt bei fehlender Funktion nil zurück. Die Aufrufer prüfen auf == true (Gift)
+   bzw. == false (Beruf). Im Client prüfen, ob C_SpellBook.IsSpellKnown die Berufszauber 3273/2550 in Forever erkennt.
+4. ERKENNUNG (Schwere: NIEDRIG – Punkt 19 teilweise)
+   Compat.lua:13  API.modern = (G and G.IsModern) or hasQuestLogInfo: Meldet GoldSentinelGame "nicht modern", entscheidet
+   trotzdem die eigene Erkennung. Lösung: if G then API.modern = G.IsModern else API.modern = hasQuestLogInfo end
+5. ÜBERSETZUNG (Schwere: NIEDRIG)
+   QuestDB.lua:60: Der Schlüssel "Datenpaket veraltet: v%s (mindestens v%s)" fehlt in allen Locale_*.lua, auch in enUS.
+6. WEITERE TICKER OHNE LP:Safe (Schwere: NIEDRIG)
+   Planner.lua:1734 (alle 15 s), Advisor.lua:443 (30 s), Social.lua:223, Comm.lua:546, Virtual.lua:768 (0,05 s, nur bei der
+   virtuellen Reise). Lösung wie bei den übrigen: C_Timer.NewTicker(n, function() LP:Safe("…", fn) end).
+7. README (Schwere: NIEDRIG)
+   README.md:145, 176 nennen automatisches Reparieren und Nachkaufen ohne den Hinweis, dass beides für neue Spieler aus ist und
+   in der Zentrale eingeschaltet wird.
+
+Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.

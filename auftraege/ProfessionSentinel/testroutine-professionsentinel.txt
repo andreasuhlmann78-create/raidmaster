@@ -1,0 +1,1050 @@
+ANWEISUNG TESTROUTINE – PROFESSIONSENTINEL
+==========================================
+
+0. KOPF
+-------
+Addon:            ProfessionSentinel (Berufe/Rezepte, Lebenslinie, Rangliste, Levelplan, Heute herstellen, Favor-Planer /
+                  Händlergunst, Kistenrechner, Gildenblick, Verzauberer, Rezept-Alarm, Tooltips; Datenpakete Era/Forever/Retail)
+Geprüfte Version: 0.9.9 (alle 4 TOCs "## Version: 0.9.9"; ZIP-Inhalt = scratchpad/ps099/ProfessionSentinel)
+Stand:            2. November 2026 – von der Prüf-Sitzung
+An:               den Claude-Kollegen von ProfessionSentinel
+Auftrag:          Die bestehenden Testroutinen (TestMode.lua, AutoTest.lua) zu EINER Testroutine ausbauen, die das Addon auf
+                  Herz und Nieren prüft und ihre Ergebnisse selbstständig an die Prüf-Sitzung meldet (Abschnitt 6).
+
+REGELN (gelten für alles in dieser Datei)
+- Bei jeder Code-Änderung immer die KOMPLETTE Datei liefern, nie Ausschnitte oder Fragmente zum Einfügen.
+  Geänderte .json-Dateien zusätzlich am Ende separat als vollständige Datei mit vollem Pfad ausweisen.
+- Alte Clients nie brechen: Classic Era (11509/11508) läuft exakt wie bisher; Weichen nur über GoldSentinelGame bzw. das
+  Vorhandensein der Funktion. TBC/Wrath/Cata/MoP bleiben untätig und sagen das einmal.
+- Der Testmodus darf NICHTS mit echten Folgen tun: kein Chat in öffentliche, Gilden-, Raid- oder Gruppenkanäle, kein Flüstern,
+  kein Kauf und Verkauf (Händler UND Auktionshaus), keine Post, kein Herstellen, keine Sniper-Ziele in AHSentinel, keine
+  Markierungen fremder Einheiten, kein Gold bewegen. WICHTIG: Der Testmodus kauft NIE beim Händler – auch nicht "nur einen
+  Faden". Kauf-Logik wird nur gegen Attrappen (PL.BuyItem-Stub) geprüft, siehe T47/T48.
+- Echte SavedVariables (ProfessionSentinelDB) sind nach dem Test unverändert: vorher tief sichern, nachher am Ort
+  wiederherstellen und vergleichen (wie bei LevelPilot "echte Daten unverändert"). Ausgenommen sind nur db.gsTest (Berichte)
+  und db.autotest (alter Bericht). Siehe Abschnitt 2 "Sandbox".
+- Test nur ausserhalb des Kampfes starten; beginnt ein Kampf, bricht die Routine ab, stellt alles wieder her und speichert den
+  Bericht als ABGEBROCHEN.
+- Vor dem Push: python3 addon-check/addon_check.py download/ProfessionSentinel-<version>.zip  -> kein FEHLER.
+- GoldSentinelGame.lua, GoldSentinelDev.lua und GoldSentinelTest.lua NIE verändern (nur unverändert kopieren). Fehlt dort etwas:
+  dem Nutzer melden.
+- Neue Texte über Locales (EN Standard + DE), Code-Kommentare englisch, CHANGELOG.md + CHANGELOG.de.md.
+- Data_*.lua nie von Hand ändern.
+- Ist ein Befund dieser Anweisung falsch, dem Nutzer begründet zurückmelden.
+
+
+1. BESTEHENDE TESTROUTINE (belegt im Code 0.9.9)
+------------------------------------------------
+Es gibt drei Teile, alle nur für den Entwickler (GoldSentinelDev, BattleTag-Prüfung):
+Core.lua:276-280 RequireDev() -> GoldSentinelDev:Require("ProfessionSentinel"); Core.lua:290-295 leitet weiter.
+
+a) /ps test – Testmodus-Fenster (TestMode.lua:480-696, Toggle 713-717)
+   Simulation von Beruf, Fertigkeit (1-375), "alles/nichts gelernt", Testpreise, Verzauberer-Ziel; Knöpfe für Panel, Lehrer,
+   Rangliste, Verzauberer, Wegpunkt, Lebenslinie, Selbsttest, Zurücksetzen. Diagnose TM:Diagnostics (TestMode.lua:41-105):
+   Spielversion, G.Status() (Zeile 47), "Händler-Kosten lesbar" (48-50), Datenstand, Lehrer/NPCs, API-Liste modern/alt.
+
+b) /ps selftest – TM:RunSelfTest (TestMode.lua:110-441), 74 check()-Aufrufe im Code, je Client aktiv etwa
+   69 (Forever), 58 (Era), 55 (Retail). Abgedeckt: Spielversion/Daten (120-145), GoldSentinelGame mit SetTestFlavor
+   forever/era/tbc/nil (126-136), Farbstufen Forever/Era (148-153), Lebenslinie-Mathematik (156-175), Rangliste (178-201),
+   Preise/Kommission/Einstellgebühr (203-247), Entzaubern/Sniper/VZ-Preis/ParseMoney (249-296), Levelplan/Einkaufsliste/Ruf
+   (298-309), Händlergunst/Kisten/Planer/AHSentinel-Kosten nur Forever (313-384), Lehrer/Wegpunkte bzw. Retail-Linien
+   (386-421), Charakterdaten (425), UI-Bausteine (428).
+
+c) /ps autotest [stop|bericht|verlauf] – AutoTest.lua (Befehl 1093-1099), 21 Schritte (Step-Aufrufe 465-799), davon 9 je Beruf
+   (575-722, je Ansicht 2: 606-637), 53 Check()-Aufrufstellen; die Zahl der Prüfungen wächst mit der Zahl der Berufe.
+   Öffnet das Panel je Beruf, klickt Reiter, Zeilen links+rechts (392-405), überfährt Zeilen (369-390), klappt Gruppen
+   (427-448), scrollt, simuliert Fertigkeit 1/75/150/225/300, Filter, Suche, Lebenslinie, Testmodus-Knöpfe, Item-Tooltips
+   (725-747), Andocken (749-772), echter Wegpunkt (774-786), Speicher (788-799), ruft den Selbsttest als EINEN Schritt (485-496).
+   Sandbox: 10 abgefangene Funktionen (INTERCEPT 176-187), Sicherung nur von DB_KEYS (223-224), Vergleich StateUnchanged
+   (264-270). Kampf: Start verweigert (1049), Abbruch bei PLAYER_REGEN_DISABLED (1062-1065). Lua-Fehler über seterrorhandler
+   (1055-1061). Bericht als Markdown in ProfessionSentinelDB.autotest.last + history (höchstens 10) (1003-1007), Kopierfenster
+   (916-979). Ergebnisarten nur OK/FAIL plus Listen Warnungen/Übersprungen.
+
+Was fehlt bzw. falsch ist (belegt):
+ 1. Sandbox unvollständig: DB_KEYS (AutoTest.lua:223) fehlt planTarget, todayCrates, favor (nur wish/goals im Gunst-Schritt
+    626-632) und chars[*].enchantGoal. Beim Klick auf Zeile 1 der Plan-Ansicht ruft UI.lua:927 PL.CycleTarget (Plan.lua:23-36)
+    und ändert ns.db.planTarget dauerhaft; StateUnchanged merkt es nicht. Die Optionszeile im Kistenrechner (UI.lua:1054-1057)
+    schaltet todayCrates um, ohne Rückbau.
+ 2. Nicht abgefangen: TD.Craft (C_TradeSkillUI.CraftRecipe / DoTradeSkill, Today.lua:182-202), TD.Sell (AHSentinel QuickSell,
+    Today.lua:205-221), TD.BuyAH (QuickBuy, Today.lua:156-179). Die Zeilen von "Heute herstellen" (UI.lua:847 -> TD.Run) werden
+    im Ranglisten-Schritt angeklickt. Mit Sim.prof meldet TD.OpenProfession() den simulierten Beruf (Today.lua:31-41), der
+    Schritt "craft" ist also erreichbar. Es gibt keinen Wächter, der echte Käufe/Verkäufe/Chat nachträglich zählt.
+ 3. Selbsttest ohne pcall je Prüfung: er ersetzt vorübergehend _G.AHAnalyzerPro, ns.db.favor, ns.Sim, vzMarkup
+    (TestMode.lua:205, 289-294, 321-373). Ein Lua-Fehler dazwischen lässt den AHSentinel-Global bis /reload ersetzt. Im Autotest
+    beendet ein Fehler den ganzen Selbsttest-Schritt (xpcall nur je Schritt, AutoTest.lua:1023).
+ 4. Versionsweichen nur für GoldSentinelGame simuliert, nicht für die Weichen des Addons (Flavor.lua:12-50 wird nur beim Laden
+    gerechnet: ns.Flavor, IsForever/IsEra/IsRetail, UsesModernProfessions, HasSourceData; abhängig davon F.Active, P.FeeApplies,
+    UpdateTabs). "retail" wird gar nicht simuliert.
+ 5. Keine Simulation geschützter Werte, fehlender alter Funktionen (nur offline im Mock des Kollegen-Repos,
+    tests/smoketest.lua:708-738, für Händler), keiner Kampfsperre ausser dem Startverbot.
+ 6. Keine Prüfung von Sprachen, SavedVariables (leer/alt/kaputt), Leistung je Funktion (nur Warnung bei Panel-Refresh > 50 ms,
+    AutoTest.lua:32/588; Speicher nur absolut, 790-794), keine Regressionstests mit IDs, kein Fehlerzähler im normalen Spiel.
+ 7. Nicht abgedeckt: /ps (Toggle), /professionsentinel, /ps heute, /ps kisten, Verhalten ohne Entwickler-Freigabe; Alerts
+    (OnScan/Match/FromCurrent/BagRecipes), Guild (Crafters/Cooldowns/NobodyKnows), ProfessionSentinelAPI.TodayCrafts, F.Balance,
+    F.LearnFromMerchant und die Händler-Ereignisse, Material-Tooltip-Zeilen, DE.OfferText/Teilen langer Flüsternachrichten,
+    Scan (UpdateProfessions/ScanTradeSkill/PassiveCheck/NEW_RECIPE_LEARNED), Ereignis-Handler.
+ 8. Echte Folge im Autotest: Schritt "Wegpunkt" setzt einen echten Kartenpin (AutoTest.lua:774-786, danach gelöscht). Künftig
+    halbautomatisch (T42).
+ 9. Datenschutz: TM:Diagnostics enthält ns.CharKey() = Name-Realm (TestMode.lua:64). Darf nie in den Bericht.
+10. Der Bericht ist nicht maschinenlesbar und geht nicht über GoldSentinelTest (Abschnitt 6).
+
+Weitere Befunde, die die neuen Testfälle aufdecken werden (bitte beim Ausbau gleich beheben, alte Clients unverändert):
+ - GetItemInfo nur als altes Global: Prices.lua:34 und :98 (Stapelgrösse/Händler-Verkaufspreis), Disenchant.lua:339 (ItemInfo,
+   ohne sie nie ein Entzauberungswert), UI.lua:655 (Shift-Klick -> Lua-Fehler, wenn das Global fehlt). Ersatz: C_Item.GetItemInfo
+   / C_Item.GetItemInfoInstant, alter Weg zuerst wie bisher.
+ - Keine Absicherung geschützter Werte im ganzen Addon (kein G.IsSecret/G.Safe ausserhalb GoldSentinelGame). Kritisch im Kampf:
+   Tooltip.lua:45/62 (ns.Char() -> ns.CharKey() verkettet UnitName("player"), Vergleich n ~= me), Scan.lua:201/106-109
+   (NEW_RECIPE_LEARNED-Argument als Tabellenschlüssel), Disenchant.lua:226-238 (UnitName("target")), Guild.lua:52-53.
+ - Ohne pcall um Aufrufe in AHSentinel: Disenchant.lua:435-437 (D:YieldForKey, D:KeyInfo) und 453-455 (D:TotalLearned,
+   D:TotalShared). Wirft AHSentinel dort einen Fehler, bricht der Verzauberer-Reiter ab.
+ - Kaputte SavedVariables führen zu Lua-Fehlern: Favor.lua:88-90 (costs[id] keine Tabelle), Plan.lua:17-18 (planTarget kein
+   Zahlwert), Disenchant.lua:162-164 (vzMarkup/vzMinProfit Text), Alerts.lua:26-27 (c.profs keine Tabelle).
+ - Option guildShare (Core.lua:187) hat keine Wirkung (das Addon sendet nichts) – so lassen, aber im Test dokumentieren.
+
+
+2. ABLAUF UND BERICHT DER ROUTINE (verbindlich)
+-----------------------------------------------
+Start
+- EIN Befehl startet alles: /ps testroutine  (Kurzform /ps tr). Zusätzlich Knopf "Alles testen" im Testmodus-Fenster.
+- Einzelbereiche: /ps testroutine a|b|c|d|e|f|g|h|i|j   ·  /ps testroutine api (Bereich C2 + J-Fälle mit API-Attrappen)
+  ·  /ps testroutine stop  ·  /ps testroutine bericht (letztes Kopierfenster).
+- Nur für den Entwickler (RequireDev wie /ps test). Ohne Freigabe: Hinweis von GoldSentinelDev, sonst nichts.
+- /ps selftest und /ps autotest bleiben als Abkürzungen bestehen, laufen aber über dieselbe Maschine und schreiben
+  ebenfalls über GoldSentinelTest (kein zweites Berichtsformat mehr; autotest.last darf als Kopie bleiben).
+- Startbedingungen: nicht im Kampf (G.InCombat()), kein Lauf aktiv. Ist ein Händler- oder AH-Fenster offen, laufen die
+  Kauf-/Verkaufs-Attrappentests trotzdem nur gegen Stubs; zusätzlich Hinweis "Händler/AH offen – es wird nichts gekauft".
+- Ablauf in Schritten über C_Timer (wie AutoTest, 0,05 s), damit die UI zeichnen kann. Fortschritt im Chat alle 10 Schritte.
+
+Ergebnis je Prüfung
+- Jeder Testfall T01 … ist genau EINE Prüfung mit Status OK / FEHLER / ÜBERSPRUNGEN (mit Grund) / IM CLIENT PRÜFEN (mit
+  Anleitung). Teilprüfungen (z. B. je Beruf, je Ansicht) werden innerhalb des Testfalls zusammengefasst; das Ergebnis nennt
+  Anzahl und die erste Abweichung ("12 Berufe, 1 Fehler: Schneiderei – Titel leer").
+- Jede Prüfung läuft in pcall (T:Check macht das). Ein Lua-Fehler bricht die Routine nicht ab, sondern wird FEHLER mit der
+  Lua-Meldung. Auch Schritte mit UI-Klicks laufen in xpcall.
+- Rückbau-Stapel: Jede Ersetzung (Stub, Global, ns.Sim, db-Wert, G.IsSecret, G.InCombat, GoldSentinelDev.IsDev, TomTom,
+  _G.AHAnalyzerPro, _G.GuildSentinelDB, _G.RaidMaster, TSM_API, Auctionator) wird mit einer Rückbau-Funktion auf einen Stapel
+  gelegt und in einem finally-Block rückwärts zurückgebaut – auch nach FEHLER, Abbruch oder Kampf. Am Ende Prüfung, dass jede
+  ersetzte Referenz wieder die ursprüngliche ist (rawequal).
+
+Abfangen (Sandbox gegen echte Folgen) – Liste erweitern
+- Bisher INTERCEPT (AutoTest.lua:176-187) plus neu: Today.BuyVendor, Today.BuyAH, Today.Craft, Today.Sell, Plan.BuyItem
+  (neu exportiert, siehe unten). Alle geben einen neutralen Wert zurück und zählen die Aufrufe.
+- Wächter (nur zählen, nie verhindern; einmalig mit hooksecurefunc einhängen, Zählung nur während eines Laufs):
+  BuyMerchantItem, C_MerchantFrame.BuyItem (falls vorhanden), PickupMerchantItem, SendChatMessage, C_ChatInfo.SendAddonMessage,
+  C_TradeSkillUI.CraftRecipe, DoTradeSkill, C_TradeSkillUI.OpenTradeSkill (falls vorhanden), CastSpellByName,
+  C_AuctionHouse.PostItem / PostCommodity / PlaceBid / StartCommoditiesPurchase / ConfirmCommoditiesPurchase (falls vorhanden),
+  PostAuction / StartAuction / PlaceAuctionBid (alte Clients), SendMail, SetRaidTarget, C_Map.SetUserWaypoint.
+  Erwartung am Ende jedes Laufs: alle Zähler 0 (T03).
+- Kleine Umbauten, damit das ohne Blizzard-Globals geht (alter Weg bleibt exakt):
+  * Plan.lua: local BuyItem/MerchantNumItems/MerchantItemID als PL.BuyItem/PL.MerchantNumItems/PL.MerchantItemID exportieren
+    und intern über PL.* aufrufen.
+  * Favor.lua: den OnEvent-Handler als F.OnMerchantEvent(event) exportieren.
+  * Disenchant.lua: Teilen der Flüsternachricht als DE.SplitMessage(msg, max) und die Kundensuche als reine Funktion
+    DE.CustomerFrom(tradeName, targetName, targetRealm, lastTell) herauslösen (DE.Customer liest die Werte und ruft sie auf).
+  * Guild.lua: Eintrag in den Online-Cache als GU.AddOnline(cache, name, online).
+  * Core.lua: ns.VERSION = "0.9.9"; ns.InitDB(db) (CopyDefaults) und ns.InitChar(db, key) (Zeilen 257-265) exportieren;
+    ns.CharKey() merkt sich den Schlüssel beim Login und nimmt nie einen geschützten Namen; ns.Try(wo, fn, ...) (Abschnitt 6);
+    ns.EventFrames = Liste aller eigenen Ereignis-Frames (jede Datei trägt ihren Frame ein).
+  * Flavor.lua: Rechnung der Weichen als ns.ApplyFlavor(G) (beim Laden einmal wie bisher aufrufen), damit der Test sie nach
+    G.SetTestFlavor neu rechnen kann. Datenpakete werden dabei NICHT neu geladen.
+  * Locales.lua: vor dem deDE-Block eine Kopie ns.L_EN = { … } der englischen Werte ablegen; ns.SwapLocaleForTest(loc)
+    tauscht den INHALT von ns.L am Ort (die Dateien halten "local L = ns.L") und setzt ns.isGerman; Rückbau stellt beides her.
+  * AutoTest.lua/Testroutine: Kampfprüfung über G.InCombat() statt InCombatLockdown(), damit sie simulierbar ist.
+
+Sandbox (echte Daten)
+- Vor dem Lauf: tiefe Kopie von ProfessionSentinelDB ohne gsTest und autotest.
+- Nach dem Lauf (vor T:Finish): am Ort wiederherstellen – Tabellen-Identität behalten für ns.db, ns.db.collapsed (UI.lua hält
+  die Referenz, Zeile 1535-1536), ns.db.filters, ns.db.chars[ich], ns.db.favor –, dann tief vergleichen.
+- Erlaubte Unterschiede: nur echte Spielereignisse während des Laufs (neue true-Einträge in chars[ich].known, Rang-Änderungen in
+  chars[ich].profs). Sie werden gezählt und im Bericht genannt ("echte Änderungen durch das Spiel: n").
+- Zeile im Bericht: "Sandbox (echte Daten unverändert): OK" bzw. "FEHLER: <Schlüssel>". Das ist zugleich T04.
+- Test-Daten (SavedVariables-Beispiele, Gildendaten, Charaktere) liegen nur in eigenen Tabellen; ns.db wird dafür kurz auf
+  die Testtabelle umgehängt und sofort zurückgehängt (Rückbau-Stapel).
+
+Bericht (Kopierfenster, Strg+A / Strg+C; Fenster wie AutoTest.lua:916-979)
+- Kopfzeilen (vom Addon vor den Text von T:Finish gesetzt, die Sprache gibt T:Text seit GoldSentinelTest-Commit b3da603 selbst aus; das Addon ergänzt den Datenstand):
+  "ProfessionSentinel <ns.VERSION> · Sprache <GetLocale()> · Daten <DataMeta.flavor> Build <DataMeta.build> · <Datum>"
+- Danach der Text aus T:Finish: Addon, Version, Datum, Client (GetBuildInfo: Version, Build, Interface), Spielversion,
+  Klasse/Level, G.Status(), Zählung OK/FEHLER/übersprungen/im Client prüfen, Laufzeit, alle Nicht-OK-Einträge mit Bereich,
+  Name, ist/soll bzw. Lua-Meldung, Sandbox-Zeile, Fehler im Spiel seit dem letzten Bericht (= Fehlerzähler des Addons).
+- Zusatz am Ende: abgefangene Aktionen (Name ×Anzahl), Wächter-Zähler, Leistung (langsamster Wert je H-Testfall),
+  Speicher vor/nach, Warnungen. Diese Teile auch als Tabelle in T:Finish({ sandbox = …, abgefangen = …, waechter = …,
+  leistung = …, warnungen = …, api_simulation = "ja"/"nein" }).
+- G.Status() erst nach G.SetTestFlavor(nil) lesen (sonst steht "[Test]" darin); T11 prüft das.
+- Keine Spieler-, Gilden- oder Chatnamen (Abschnitt 6, T158).
+
+
+3. TESTFÄLLE
+------------
+Legende Clients: F = WoW Forever (16001, modern), E = Classic Era (11509/11508), T = TBC Anniversary (nicht unterstützt),
+R = Retail (120105). "auto" = automatisch in der Routine; "halb" = Spieler tut X, Routine prüft; "manuell" = nur /dump.
+Das Zeichen ≈ heisst "ungefähr".
+API-Block: Fälle mit "[api]" ersetzen Blizzard-Globals/Felder vorübergehend. Ersetzen eines Blizzard-Globals durch Addon-Code
+kann bis zum nächsten /reload Taint hinterlassen. Darum laufen sie nur in /ps testroutine api bzw. ganz am Ende von "alles",
+werden sofort zurückgebaut, und die Routine verlangt danach /reload (das meldet den Bericht zugleich).
+
+A. LADEN UND ERKENNUNG
+T01 | A | Alle Dateien und Module geladen
+      Wie: auto – ns.L, ns.Recipes (>0), ns.Scan, ns.Lifeline, ns.Waypoint, ns.Prices, ns.Favor, ns.Disenchant, ns.Plan,
+      ns.Alerts, ns.Guild, ns.Today, ns.Advisor, ns.UI, ns.TestMode, ns.AutoTest, ns.ReagentLines (Tooltip.lua) vorhanden;
+      SlashCmdList.PROFESSIONSENTINEL Funktion; SLASH_PROFESSIONSENTINEL1/2 = "/ps" / "/professionsentinel".
+      Erwartung: alle vorhanden. Clients: F E R (T: übersprungen "nicht unterstützt").
+T02 | A | Version .toc = Code
+      Wie: auto – (C_AddOns.GetAddOnMetadata or GetAddOnMetadata)("ProfessionSentinel","Version") == ns.VERSION.
+      Erwartung: beide "0.9.9" (bzw. die neue Version). Clients: F E R.
+T03 | A | Wächter: keine echte Folge im ganzen Lauf
+      Wie: auto (letzter Fall jedes Laufs) – alle Wächter-Zähler aus Abschnitt 2.
+      Erwartung: alle 0; sonst FEHLER mit Name ×Anzahl. Clients: F E R.
+T04 | A | Sandbox: echte Daten unverändert
+      Wie: auto (vor T:Finish) – Vergleich wie in Abschnitt 2; zusätzlich alle Rückbau-Referenzen rawequal.
+      Erwartung: OK, nur erlaubte Spieländerungen. Clients: F E R.
+T05 | A | Datenpaket passt zum Client
+      Wie: auto – ns.DataMeta.flavor == ns.Flavor; DataMeta.count == #ns.Recipes (2210 F / 1267 E / 10172 R im Stand 0.9.9);
+      build nicht leer; Data_*.lua der anderen Versionen haben nichts gesetzt (nur ein ns.RecipeRows-Satz, gleiche Zahl).
+      Erwartung: passend. Clients: F E R.
+T06 | A | Interface-Nummer akzeptiert
+      Wie: auto – C_AddOns.GetAddOnInfo("ProfessionSentinel") Grund ~= "INTERFACE_VERSION"; dazu select(4, GetBuildInfo()).
+      Erwartung: kein "veraltet". Ab Launch (F) zusätzlich IM CLIENT PRÜFEN: Nummer steht in allen 4 TOCs. Clients: F E R.
+T07 | A | GoldSentinelGame Version 2 und gleich erkannt
+      Wie: auto – type(G.version)=="number", G.version==2, G.apiVersion==2; Funktionen IsSecret, AnySecret, Safe, InCombat, Short,
+      CleanName, SameName, Status, SetTestFlavor vorhanden; G.flavor == ns.Flavor (bei unterstütztem Client),
+      G.IsModern == ns.UsesModernProfessions.
+      Erwartung: wahr. Clients: F E R.
+T08 | A | Weichen simuliert: forever
+      Wie: auto – G.SetTestFlavor("forever"); ns.ApplyFlavor(G).
+      Erwartung: ns.Flavor "forever", IsForever true, UsesModernProfessions true, HasSourceData true, ns.Favor.Active() true,
+      ns.Prices.FeeApplies() true, FlavorName() = L.FLAVOR_FOREVER. Nur reine Funktionen, keine Fenster öffnen. Clients: F E R.
+T09 | A | Weichen simuliert: era
+      Wie: auto – wie T08 mit "era". Erwartung: "era", modern false, HasSourceData true, Favor.Active false, FeeApplies false.
+      Clients: F E R.
+T10 | A | Weichen simuliert: tbc und retail
+      Wie: auto – "tbc": ns.Flavor nil, UsesModernProfessions false; SlashCmdList.PROFESSIONSENTINEL("") druckt L.UNSUPPORTED
+      (ns.Print über Rückbau-Stub mitlesen) und öffnet nichts. "retail": "retail", modern true, HasSourceData false,
+      Favor.Active false, FeeApplies false.
+      Erwartung: wie beschrieben. Clients: F E R.
+T11 | A | Weichen wieder echt
+      Wie: auto – G.SetTestFlavor(nil); ns.ApplyFlavor(G); Vergleich mit der Momentaufnahme vor T08; G.Status() ohne "[Test]".
+      Erwartung: identisch. Clients: F E R.
+
+B. JEDE FUNKTION
+Slash-Befehle
+T12 | B | /ps help mit und ohne Entwickler
+      Wie: auto – ns.Print mitlesen; mit Freigabe L.TEST_HELP, mit GoldSentinelDev.IsDev-Stub (false) L.HELP.
+      Erwartung: richtiger Text, kein Fehler. Clients: F E R.
+T13 | B | /ps und /professionsentinel (Panel umschalten)
+      Wie: auto – ohne Berufsfenster und ohne Sim: Ausgabe L.OPEN_PROF_FIRST, Panel zu; mit Sim.prof: auf, nochmals: zu.
+      Erwartung: wie beschrieben. Clients: F E R.
+T14 | B | /ps line
+      Wie: auto – zweimal; db.lifeline kippt und kehrt zurück; Lifeline.RefreshBlizzard ohne Fehler.
+      Erwartung: Ausgangswert wieder da. Clients: F E R.
+T15 | B | /ps heute
+      Wie: auto – mit Sim.prof: panelMode "ranking", Panel offen, Gruppe "today" vorhanden.
+      Erwartung: wahr. Clients: F E R.
+T16 | B | /ps alarm
+      Wie: auto – zweimal; recipeAlert kippt und kehrt zurück. Clients: F E R.
+T17 | B | /ps kisten
+      Wie: auto – F: todayCrates kippt zweimal zurück; E/R: Ausgabe L.FAVOR_ONLY_FOREVER, todayCrates unverändert.
+      Clients: F E R.
+T18 | B | /ps ziel
+      Wie: auto – im Lauf: abgefangene Zielfrage ×1; DE.AskGoal nicht echt aufgerufen. Clients: F E R.
+T19 | B | /ps test, selftest, autotest bericht/verlauf, testroutine ohne Freigabe
+      Wie: auto – mit IsDev-Stub false: nur die Meldung von GoldSentinelDev, kein Fenster, kein Lauf; mit Freigabe: Fenster auf/zu,
+      Selbsttest-Rückgabe, Bericht/Verlauf ohne Fehler.
+      Erwartung: wie beschrieben. Clients: F E R.
+T20 | B | Testroutine: Doppelstart und Stopp
+      Wie: auto – zweiter Start während eines Laufs wird abgewiesen; "stop" in einem Unterlauf (nur Bereich F) beendet sauber,
+      Rückbau komplett, Bericht ABGEBROCHEN, restliche Fälle ÜBERSPRUNGEN "gestoppt".
+      Clients: F E R.
+Core / Scan
+T21 | B | Indizes
+      Wie: auto – jedes r in BySpell[r.spell]; ByProf sortiert (catOrder aufsteigend, dann yellow absteigend, dann Name);
+      ByRecipeItem für jedes ri.id; ByOutput enthält r; ByName findet de/en klein geschrieben; ByReagent je Reagenz.
+      Erwartung: 0 Abweichungen. Clients: F E R.
+T22 | B | Charakterdatensatz
+      Wie: auto – ns.Char() hat known/profs (Tabellen), class, faction, flavor == ns.Flavor; ns.CharKey() stabil.
+      Erwartung: wahr (Name nicht in den Bericht). Clients: F E R.
+T23 | B | Namen und Sprache
+      Wie: auto – ns.isGerman == (GetLocale()=="deDE"); ns.ProfName(165) nicht "?"; ProfName(999999) == "?"; RecipeName liefert
+      name bzw. nameEN; ItemName(id ohne Daten) == "Item <id>" oder Client-Name.
+      Clients: F E R.
+T24 | B | Berufs-Aliasse und Zuordnung
+      Wie: auto – ns.ResolveProf(2945)==165 (Forever-Kindlinie), ResolveProf(165)==165, ResolveProf(nil)==nil;
+      ns.MatchProfession(Name DE) und (Name EN) == 165.
+      Clients: F E (R: ResolveProf der Retail-Linie 2915 == 2915).
+T25 | B | Gelernt-Zustand
+      Wie: auto – ns.IsLearned unter Sim.known "all" true, "none" false, sonst Scan:IsKnown.
+      Clients: F E R.
+T26 | B | Scan-Funktionen
+      Wie: auto – Scan:UpdateProfessions, Scan:ScanTradeSkill, Scan:PassiveCheck ohne Fehler (ohne Berufsfenster);
+      Scan:Rank liefert Zahl oder nil; c.profs danach nicht leerer als vorher.
+      Erwartung: kein Fehler; hat der Charakter keine Berufe: ÜBERSPRUNGEN "keine Berufe". Clients: F E R.
+T27 | B | Charaktere je Rezept (Scan:CharsFor)
+      Wie: auto – Testtabelle mit 3 erfundenen Charakteren (2 gleiche Version, 1 andere Version).
+      Erwartung: nur gleiche Version; Ergebnis nur als Anzahl in den Bericht. Clients: F E R.
+Lebenslinie
+T28 | B | Lebenslinie-Mathematik
+      Wie: auto – Fälle aus TestMode.lua:156-175 (A = 65/95/110/125: 80 -> 15× genau bis Gelb, 95 ≈ bis Grün, 115 ≈ bis Grau,
+      125 grau, 50 rot; Z = 35/40/40/40: 36 -> 4× bis Grau; Layout-Summe 1; Chance fällt).
+      Erwartung: alle wahr. Clients: F E R.
+T29 | B | Farbstufen je Version
+      Wie: auto – Feine Lederstiefel (Zauber 2158): F grau 125, E grau 150; R: in der Classic-Linie (parent 165).
+      Clients: F E R.
+T30 | B | Lebenslinien-Widget und Hooks
+      Wie: auto – LL.Create auf Testframe, LL.Update mit Rezept und Rang, Hide bei yellow 0; LL.RefreshBlizzard ohne Fehler.
+      halb – ist ein Berufsfenster offen: F foreverHooked true, E tsHooked bzw. craftHooked true; sonst IM CLIENT PRÜFEN
+      "Berufsfenster öffnen, dann /ps testroutine b".
+      Clients: F E R.
+Wegpunkte / Lehrer
+T31 | B | Lehrer und Fundorte
+      Wie: auto – Fälle aus TestMode.lua:396-420 (Lehrer Lederverarbeitung > 5, Una 3007 Rang 4 mit Koordinaten, alle Lehrer
+      gültig, NextRank 70/75 -> 2, 210/225 -> 4, 300/300 -> nil, Murlocschuppengürtel -> Händler mit Koordinaten);
+      WP.Available() ∈ {"TomTom","map",nil}.
+      Erwartung: wahr. Clients: F E (R: ÜBERSPRUNGEN "keine Quellendaten").
+T32 | B | Wegpunkt ohne Koordinaten und über TomTom-Attrappe
+      Wie: auto – WP.Set(NPC ohne Koordinaten) gibt false und druckt L.WP_NO_COORDS; mit TomTom-Stub (AddWaypoint zählt) setzt die
+      echte WP.Set-Funktion nur in die Attrappe, kein C_Map-Pin (Wächter).
+      Clients: F E (R: ÜBERSPRUNGEN).
+Preise / Rangliste / Plan
+T33 | B | Preisrechnung
+      Wie: auto – Fälle aus TestMode.lua:203-247 (Händlerware 10c, Kosten 24s 20c, F 1s Einstellgebühr, 5 % Kommission,
+      Netto +9s 5c minus Gebühr, Händler schlägt AH nach Kommission).
+      Clients: F E R.
+T34 | B | Preisquelle und Reihenfolge
+      Wie: auto – Stubs nacheinander: Sim.prices > _G.AHAnalyzerPro.GetMarketValue > TSM_API > Auctionator; P.AH und P.SourceName
+      liefern Wert und Namen der richtigen Quelle; ohne alle: nil.
+      Clients: F E R.
+T35 | B | Einstellgebühr je Stück
+      Wie: auto – F: P.FeePerPiece(2318) == max(100, floor(Verkaufswert × Stapel × 0,15)) / Stapel (Stapel aus GetItemInfo bzw.
+      C_Item); E/R: 0.
+      Clients: F E R.
+T36 | B | Geldtexte
+      Wie: auto – MoneyPlain(0)="0c", (12345)="1g 23s 45c", (-250,true)="−2s 50c", (nil)="?"; Money gleiche Zahlen mit Farbe.
+      Clients: F E R.
+T37 | B | Ranglisten
+      Wie: auto – Fälle aus TestMode.lua:178-201 und 234-247 (Material je Punkt C,B,A; graue/zu hohe raus; Leveln X,Y; Gold
+      verdienen X,Z,Y; echte Daten Lederverarbeitung bei 80 sortiert).
+      Clients: F E R.
+T38 | B | Advisor-Hilfen
+      Wie: auto – AD.Update(prof, rank) setzt current.best/bestLearned; AD.Reachable; AD.Reason/Value/ValueColored/NetColored/
+      OriginDots liefern Text für Einträge mit und ohne Preise; AD.Entry/GoldEntry/DEEntry/IsBest ohne Fehler.
+      Clients: F E R.
+T39 | B | Levelplan und Einkaufsliste
+      Wie: auto – Fälle aus TestMode.lua:299-306 (LevelScore, Plan 90->100 10×, fehlt 6, Sniper 8s 80c ×6); AD.DefaultTarget.
+      Clients: F E R.
+T40 | B | Planziel umschalten
+      Wie: auto – Sandbox: PL.CycleTarget(165, 80, 150) dreimal -> 225, 300, dann wieder erstes Ziel über 80 (150);
+      R: CycleTarget ändert nichts, PL.Target = maxRank.
+      Erwartung: wie beschrieben, nach dem Fall planTarget wie vorher. Clients: F E R.
+T41 | B | Plan bauen
+      Wie: auto – PL.Build(prof, rank, max) mit Sim-Preisen: plan.list, plan.totals, plan.prof gesetzt; PL.MerchantOpen() false
+      ohne Händler; PL.SniperTargets nur AH-Zutaten mit bekanntem Preis.
+      Clients: F E R.
+T42 | B | Echter Kartenpin (halbautomatisch, ersetzt AutoTest-Schritt "Wegpunkt")
+      Wie: halb – Routine fragt "Rechtsklick auf ein fehlendes Rezept mit Händler im Panel"; prüft danach C_Map.HasUserWaypoint
+      bzw. TomTom-Eintrag; der Spieler löscht den Pin selbst.
+      Erwartung: Pin gesetzt. Status IM CLIENT PRÜFEN, bis bestätigt. Clients: F E.
+Heute herstellen / API
+T43 | B | Kandidaten
+      Wie: auto – Sim.prices + Sim.known "all" + Sim.prof: TD.Candidates sortiert nach net absteigend, höchstens 6 Zeilen,
+      count ≤ 5 und ≤ floor(Gold × 0,2 / Kosten); ohne Preisquelle {}.
+      Clients: F E R.
+T44 | B | Nächster Schritt (TD.Plan / StepText)
+      Wie: auto – countFn-Attrappe und PL.MerchantOpen-Stub: have ≥ count -> "sell"; Händlerware fehlt + Händler -> "vendor";
+      AH-Ware fehlt -> "ah"; Händlerware fehlt ohne Händler -> "goVendor"; OpenProfession == prof -> "craft"; sonst "openProf".
+      StepText für jeden Schritt nicht leer, Platzhalter gefüllt.
+      Clients: F E R.
+T45 | B | Klick auf "Heute herstellen" ohne echte Folge
+      Wie: auto – TD.Run(e) für jeden Schritt aus T44: abgefangene Zähler Today.BuyVendor/BuyAH/Craft/Sell je 1, Wächter 0;
+      "goVendor"/"openProf" drucken nur einen Hinweis.
+      Clients: F E R.
+T46 | B | ProfessionSentinelAPI (für AHSentinel "Heute tun")
+      Wie: auto – API.version == 1; TodayCrafts(2) ≤ 2 Einträge mit itemID, recipeName, count, gold, perCraft, cost, capital,
+      step, stepText, run (Funktion); run() im Lauf nur abgefangen. Mit TD.Candidates-Stub, der einen Fehler wirft: Rückgabe {}
+      UND Eintrag in db.gsTest.errors mit wo "API.TodayCrafts" (danach entfernen).
+      Clients: F E R.
+Händler-Kauf (nur Attrappen)
+T47 | B | Kauf-Logik Einzelstücke
+      Wie: auto – PL.current = { list = { { id = 2320, missing = 7, origin = "vendor" } } }; Stubs PL.MerchantOpen -> true,
+      PL.MerchantNumItems -> 1, PL.MerchantItemID -> 2320, PL.MerchantItemInfo -> (name, 0, 10, 1, -1), PL.BuyItem zählt.
+      Erwartung: PL.BuyItem genau einmal mit (1, 7); Wächter BuyMerchantItem 0. Clients: F E R.
+T48 | B | Kauf-Logik Bündel und Begrenzung
+      Wie: auto – wie T47 mit stackCount 5 -> 2 Aufrufe (1, 1); numAvailable 1 -> 1 Aufruf; Preis höher als GetMoney() -> 0
+      Aufrufe und Ausgabe L.PLAN_VENDOR_NOTHING.
+      Clients: F E R.
+Händlergunst / Kisten (nur F; E/R je ÜBERSPRUNGEN "nur WoW Forever" ausser T56)
+T49 | B | Favor-Kosten, Reihenfolge
+      Wie: auto – Fälle aus TestMode.lua:315-373 (Elixier der Gerissenheit 250364 = 180, kein bp, Ruf 5; gelernt 150 vor
+      AHSentinel 170 vor Guide 180; andere Währung nie).
+      Clients: F.
+T50 | B | Favor-Stand
+      Wie: auto – F.Balance(): mit db.currency einer echten ID eine Zahl, sonst Suche per Name in der Währungsliste; Ergebnis
+      Zahl oder nil. nil nach dem ersten Händlerbesuch = IM CLIENT PRÜFEN "Handelslager-Händler öffnen".
+      Clients: F.
+T51 | B | Kostentext
+      Wie: auto – F.CostText für gelernt (L.FAVOR_SEEN), geschätzt (L.FAVOR_ESTIMATE), Guide (L.FAVOR_GUIDE); F.Balance-Stub 999
+      -> grün, 1 -> rot; ohne Stand kein "(du hast …)".
+      Clients: F.
+T52 | B | Favor-Rezepte je Beruf
+      Wie: auto – F.Recipes(prof) nur ri.fv, sortiert nach rs, dann Name; F.RecipeItem(r) liefert das fv-Rezept-Item.
+      Clients: F.
+T53 | B | Favor-Planer
+      Wie: auto – Fall aus TestMode.lua:342-346 (180 + 6000 = 6180); mit Sim.known "all" fällt das Rezept heraus (nur Ziel);
+      missing = max(0, total − have); F.ToggleWish/ToggleGoal je zweimal -> Ausgangszustand.
+      Clients: F.
+T54 | B | Kistenrechner
+      Wie: auto – Fälle aus TestMode.lua:330-340 und 374-383 (30 Kisten; Erz Lehrling 2s 50c / 5 = 50c je Gunst; Barren selbst
+      verhütten 400); F.Crates sortiert: in Taschen zuerst, dann perFavor aufsteigend, unbekannte zuletzt.
+      Clients: F.
+T55 | B | Gildenblick Favor
+      Wie: auto – F.GuildKnows mit Gilden-Attrappe (siehe T71) -> Liste; ohne Gildendaten -> nil.
+      Clients: F.
+T56 | B | Händlergunst in anderen Versionen aus
+      Wie: auto – E/R: F.Active() false, Reiter Gunst versteckt, keine Favor-Zeile im Item-Tooltip, F.OnMerchantEvent tut nichts.
+      Clients: E R.
+Verzauberer
+T57 | B | Ziel und Rolle
+      Wie: auto – Sim.enchanter true/false, Sim.goal gold/sell/both: IsEnchanter, Goal, WantsGold, WantsSell; R ohne Wahl "sell";
+      DE.SetGoal("both") schreibt chars[ich].enchantGoal (Sandbox stellt zurück).
+      Clients: F E R.
+T58 | B | Entzauberungswert
+      Wie: auto – Fälle aus TestMode.lua:251-270 (Sim.de 50s -> 47s 50c, deNet 23s 30c, bestVia "de"); DE.Prior für ein grünes
+      Item aus dem Cache (sonst ÜBERSPRUNGEN "Item nicht im Cache"); DE.IsDisenchantable.
+      Clients: F E (R: Goal "sell", Wert nil).
+T59 | B | VZ-Preis, Marge, Sniper-Ziele
+      Wie: auto – Fälle aus TestMode.lua:272-296 (FilterDeals, ItemTargets 38s ×10, ReagentTargets 8s ×30 und 7s 80c,
+      SellPrice 30s/35s, ParseMoney).
+      Clients: F E R.
+T60 | B | Angebot flüstern ohne echtes Flüstern
+      Wie: auto – DE.OfferText(r) für eine Verzauberung mit vielen Reagenzien nicht leer; DE.SplitMessage(lange Nachricht, 250):
+      jeder Teil ≤ 255 Byte, zusammengesetzt gleich; DE.WhisperOffer im Lauf abgefangen; Wächter SendChatMessage 0.
+      Clients: F E R.
+T61 | B | Kunde ermitteln
+      Wie: auto – DE.CustomerFrom: Handelspartner vor Ziel vor letztem Flüsterpartner; Ziel mit Realm "Name-Realm"; alles leer -> nil.
+      Testnamen erfunden, im Bericht nur "richtig/falsch".
+      Clients: F E R.
+T62 | B | Zielfenster
+      Wie: auto – DE.AskGoal echt (nur UI): Fenster sichtbar, je Knopf Klick -> Ziel gesetzt, "Fertig" schliesst; danach Ziel per
+      Sandbox zurück.
+      Clients: F E (R: Fenster öffnet, Retail fragt nie von selbst – CheckAsk ohne Wirkung).
+T63 | B | Eingabefenster Aufschlag, Mindestgewinn, Marge
+      Wie: auto – EditMarkup/EditMinProfit/EditMargin öffnen das StaticPopup (Schlüssel PROFESSIONSENTINEL_*), dann wieder zu;
+      OnAccept mit Attrappe self.editBox:GetText(): "25%" -> 25, "2000" ignoriert; "1g 20s" -> 12000; Marge "100" ignoriert,
+      "15,5" -> 15,5.
+      Clients: F E R.
+T64 | B | AHSentinel-Daten für den Verzauberer-Reiter
+      Wie: auto – mit Attrappe A.Disenchant (GetValue, Prior, Groups, YieldForKey, KeyInfo, TotalLearned, TotalShared, FindDeals):
+      DE.Deals/Groups/Totals liefern Tabellen; ohne AHSentinel nil.
+      Clients: F E.
+T65 | B | Sniper übergeben
+      Wie: auto – echte DE.SendToSniper mit Sniper-Attrappe (SetTarget zählt, UI.SelectTab zählt): made = Zahl der Ziele;
+      ohne Sniper: Ausgabe L.SNIPE_NEED_AHS, Rückgabe 0. Ausserhalb dieses Falls bleibt SendToSniper abgefangen.
+      Clients: F E R.
+Rezept-Alarm
+T66 | B | Wer braucht welches Rezept
+      Wie: auto – Testtabelle: ich + 1 Charakter gleiche Version + 1 andere Version; AL.Needed nur gleiche Version, Namen nur als
+      Anzahl in den Bericht.
+      Clients: F E R.
+T67 | B | Alarm nach Scan
+      Wie: auto – AL.OnScan(best) mit einem gebrauchten Rezept: 1 Treffer, Ausgabe L.ALERT_HEAD; gleicher Preis nochmals: keine
+      neue Ausgabe; tieferer Preis: wieder Ausgabe; recipeAlert false: nichts; best keine Tabelle: nichts.
+      Clients: F E R.
+T68 | B | Alarm aus aktuellen Preisen
+      Wie: auto – AHSentinel-Attrappe GetCurrent (frisch/alt): nur frische (≤ 2 h); zweiter Aufruf innerhalb 30 s liefert den Cache.
+      Clients: F E R.
+T69 | B | Rezepte in den Taschen
+      Wie: auto – AL.BagRecipes() liefert Tabelle mit itemID, recipe, count, who, ah, vendor; sortiert "gebraucht" zuerst.
+      halb – liegt kein Rezept in den Taschen: IM CLIENT PRÜFEN "ein Rezept-Item in die Taschen legen".
+      Clients: F E R.
+T70 | B | Anbindung an den AHSentinel-Scan
+      Wie: halb – mit AHSentinel: nach einem AH-Scan erscheint der Alarm bzw. die Gruppe "alerts" im Panel.
+      Erwartung: IM CLIENT PRÜFEN; ohne AHSentinel ÜBERSPRUNGEN. Clients: F E.
+Gilde
+T71 | B | Gildendaten zusammenführen
+      Wie: auto – Attrappen _G.RaidMaster.db.prof und (falls in einer Gilde) GuildSentinelDB.guilds["Realm|Gilde"].prof;
+      GU.Invalidate(); neuerer Eintrag (t) gewinnt; GU.Available().
+      Erwartung: richtig; nicht in einer Gilde -> GuildSentinel-Teil ÜBERSPRUNGEN "keine Gilde". Clients: F E R.
+T72 | B | Wer kann was
+      Wie: auto – GU.Crafters (über out und Name de/en), CraftersText (max 6, L.MORE), GU.NobodyKnows (erst ab 2 Mitgliedern),
+      GU.MemberCount; Index-Cache 60 s (zweiter Aufruf ohne Invalidate liefert den Cache).
+      Clients: F E R.
+T73 | B | Abklingzeiten
+      Wie: auto – GU.Cooldowns mit cds-Attrappe für transmute/mooncloth/saltshaker; GU.LeftText(0) = L.CD_READY, 90 s -> Minuten,
+      5 h -> Stunden, 30 h -> Tage.
+      Clients: F E R (ohne Gilde ÜBERSPRUNGEN).
+T74 | B | Online-Liste
+      Wie: auto – GU.Online ohne Gilde {}, Cache 20 s; GU.AddOnline mit "Name-Realm" -> Kurzname.
+      Clients: F E R.
+Tooltips
+T75 | B | Item-Tooltip Rezept
+      Wie: auto – GameTooltip:SetItemByID(Rezept-Item) mit db.tooltip false/true (wie AutoTest.lua:725-747): mehr Zeilen nur mit
+      true; Zeile "bereits gelernt" bzw. "noch nicht gelernt (benötigt …)"; Lebenslinien-Zeile bei bekanntem Rang. Item nicht im
+      Cache: ÜBERSPRUNGEN mit Item-ID.
+      Clients: F E R.
+T76 | B | Item-Tooltip Material
+      Wie: auto – SetItemByID(2318): Zeile L.REAGENT_USED; reagentTooltip false -> keine; zweiter AddLines-Aufruf mit gleichem
+      Item fügt nichts doppelt hinzu (__psItem).
+      Clients: F E R.
+T77 | B | Panel-Tooltips
+      Wie: auto – UI:ShowRecipeTooltip für: Rezept mit Produkt, Verzauberung, Reagenz ohne Preis, mit Sim-Preisen, deMode true,
+      Favor-Rezept (F), Retail ohne Quellen; Lehrer-Tooltip; Info-Zeilen-Tooltip. Je NumLines > 3, kein Fehler.
+      Clients: F E R.
+T78 | B | Nur ein Tooltip-Weg aktiv
+      Wie: auto – wenn TooltipDataProcessor.AddTooltipPostCall da ist: kein OnTooltipSetItem-Hook (Tooltip.lua:102-104); beim
+      Rezept-Item erscheint die ProfessionSentinel-Zeile genau einmal.
+      Clients: F E R.
+Panel / Reiter / Optionen
+T79 | B | Panel je Beruf
+      Wie: auto – wie AutoTest.lua:575-589 und 713-722 für jeden Beruf (> 3 Rezepte): Panel sichtbar, Titel = Berufsname, Zeilen
+      > 0, über X geschlossen.
+      Erwartung: alle Berufe OK. Clients: F E R.
+T80 | B | Reiter
+      Wie: auto – jeder sichtbare Reiter per Klick setzt panelMode; sichtbar: recipes, ranking, plan, trainers (nicht R),
+      disenchant (nur Verzauberer bzw. Sim), favor (nur F).
+      Clients: F E R.
+T81 | B | Jede Ansicht aufbauen und bedienen
+      Wie: auto – wie AutoTest.lua:606-637: Ansicht aufbauen, Zeilen überfahren, links+rechts klicken (alles Gefährliche abgefangen),
+      erste Gruppe zu/auf (gleiche Zeilenzahl), scrollen; collapsed danach wie vorher.
+      Clients: F E R.
+T82 | B | Suche und Filter "nur fehlend"
+      Wie: auto – wie AutoTest.lua:652-701.
+      Clients: F E R.
+T83 | B | Fertigkeits- und Gelernt-Simulation
+      Wie: auto – wie AutoTest.lua:639-650 (1/75/150/225/300) und Sim.known all/none.
+      Clients: F E R.
+T84 | B | Panel ohne Beruf
+      Wie: auto – ns.Sim = nil, kein Berufsfenster, UI:Show(nil): Titel L.TITLE, Zusammenfassung L.OPEN_PROF_FIRST, leere Liste.
+      Clients: F E R.
+T85 | B | Andocken und Hinweis "bester Rezept"
+      Wie: halb – Spieler öffnet ein Berufsfenster (Addons dürfen das nicht selbst): Panel am Fenster (GetPoint relativeTo = Host),
+      Knopf "Alle Rezepte" am Host vorhanden, Hinweis-Knopf zeigt Text, Panel schliesst mit dem Host; E zusätzlich
+      Verzauberkunst-Fenster (CraftFrame).
+      Erwartung: OK, sonst IM CLIENT PRÜFEN. Clients: F E R.
+T86 | B | Jede Option an/aus
+      Wie: auto – je Option einmal umschalten, Panel neu aufbauen, Wirkung prüfen, zurückstellen:
+      tooltip (keine Tooltip-Zeilen), lifeline (keine Linie in Zeilen), best (keine Gruppe "ranking-top", Hinweis versteckt),
+      panelOpen (Host öffnen öffnet Panel nicht – nur halb), filters.missing, recipeAlert (keine Gruppe "alerts"), todayCrates
+      (Kistenzeile in "today", F), reagentTooltip, vzMarkup/vzMinProfit (VZ-Preis ändert sich), deMargin (Sniper-Preise),
+      planTarget (T40), guildShare (keine Wirkung, nichts gesendet – Wächter).
+      Clients: F E R.
+Testmodus / Ereignisse / Daten
+T87 | B | Testmodus-Fenster
+      Wie: auto – wie AutoTest.lua:516-569 (öffnen, jeden Knopf klicken ≥ 10, schliessen); TM:Diagnostics > 50 Zeichen, enthält
+      G.Status(), F zusätzlich L.FAVOR_DIAG_READABLE; TM:Reset setzt ns.Sim nil.
+      Clients: F E R.
+T88 | B | Alter Selbsttest unverändert sauber
+      Wie: auto – TM:RunSelfTest(false) gibt true; danach rawequal für ns.Sim, _G.AHAnalyzerPro, ns.db.favor; vzMarkup/vzMinProfit
+      gleich.
+      Clients: F E R.
+T89 | B | Autotest-Befehle
+      Wie: auto – AT:History druckt ≤ 10 Einträge; AT:ShowLast ohne Bericht -> Hinweis; "stop" ohne Lauf -> Hinweis.
+      Clients: F E R.
+T90 | B | Ereignis-Handler
+      Wie: auto – jeden Frame aus ns.EventFrames mit typischen Argumenten direkt aufrufen: ADDON_LOADED (fremdes Addon),
+      PLAYER_LOGIN nur wo idempotent, MERCHANT_SHOW/UPDATE/CLOSED ohne Händler, GET_ITEM_INFO_RECEIVED (nicht angefragte ID),
+      TRADE_SKILL_LIST_UPDATE, SKILL_LINES_CHANGED, NEW_RECIPE_LEARNED (unbekannter Zauber).
+      Erwartung: kein Fehler, kein neuer known-Eintrag für den unbekannten Zauber, keine abgefangene Aktion. Clients: F E R.
+T91 | B | Entprellung des Scans
+      Wie: auto – 20× TRADE_SKILL_LIST_UPDATE in Folge an den Scan-Frame: Scan:UpdateProfessions (Zähl-Hülle) läuft nach 0,5 s
+      genau einmal.
+      Clients: F E R.
+T92 | B | Datenpakete inhaltlich
+      Wie: auto – je Rezept: yellow ≤ green ≤ grey (wenn > 0), prof in ByProf, reagents gerade Länge, recipeItems[*].id Zahl;
+      jeder Lehrer in ns.NPCs; F: ns.Factions[2586] und [2587] vorhanden, 30 Kisten mit gerader b-Liste und favor > 0;
+      R: Linien mit parent. Abweichungen zählen.
+      Erwartung: 0 Abweichungen. Clients: F E R.
+T93 | B | Keine Addon-Kommunikation
+      Wie: auto – Wächter C_ChatInfo.SendAddonMessage 0 über den ganzen Lauf; kein Präfix registriert
+      (C_ChatInfo.IsAddonMessagePrefixRegistered("ProfessionSentinel") false, falls vorhanden).
+      Erwartung: wahr – das Addon sendet nichts (Gildendaten nur gelesen). Clients: F E R.
+
+C. FOREVER-SONDERFÄLLE (simuliert, laufen auf jedem Client)
+(1) Geschützte Werte: GoldSentinelGame.IsSecret und .Safe über den Rückbau-Stapel vorübergehend so ersetzen, dass ein
+    Testwert SECRET als geschützt gilt. SECRET = Tabelle mit Metamethoden, die bei Rechnen/Verketten/Vergleichen einen Fehler
+    "secret (Test)" werfen. Als Tabellenschlüssel lässt sich das nicht nachbilden – dort prüft der Test, dass vorher G.IsSecret
+    gefragt wurde. issecretvalue selbst NIE ersetzen (Blizzard-UI nutzt es).
+T94 | C | Gelerntes Rezept mit geschütztem Argument
+      Wie: auto – Scan-Handler NEW_RECIPE_LEARNED mit SECRET.
+      Erwartung: kein Fehler, c.known unverändert, G.IsSecret wurde gefragt (Scan.lua:201/106 absichern). Clients: F E R.
+T95 | C | Tooltip mit geschützter Item-ID
+      Wie: auto – ItemIDFromTooltip/AddLines mit data.id = SECRET.
+      Erwartung: kein Fehler, keine Zeilen. Clients: F E R.
+T96 | C | Eigener Name und Fraktion im Kampf
+      Wie: auto – ns.CharKey mit geschütztem UnitName-Ergebnis (Hilfsfunktion ns.CharKeyFrom(SECRET, realm)) liefert den beim
+      Login gemerkten Schlüssel; Tooltip.lua:62 vergleicht nur mit dem gemerkten Namen.
+      Erwartung: kein Fehler, gleicher Schlüssel. Clients: F E R.
+T97 | C | Kunde mit geschütztem Ziel-Namen
+      Wie: auto – DE.CustomerFrom(nil, SECRET, nil, nil) -> nil, DE.WhisperOffer meldet L.VZ_NO_CUSTOMER.
+      Clients: F E R.
+T98 | C | Gildenliste mit geschütztem Namen
+      Wie: auto – GU.AddOnline(cache, SECRET, true): Eintrag wird übersprungen, kein Fehler.
+      Clients: F E R.
+T99 | C | Chat-Ereignis mit geschütztem Argument
+      Wie: auto – Scan-Handler CHAT_MSG_SKILL mit arg1 = SECRET.
+      Erwartung: kein Fehler (Argument wird nicht gelesen). Clients: F E R.
+(2) Fehlende alte Funktionen [api]: je Fall die genannten Globals auf nil, Ersatz als Attrappe wo nötig, sofort zurück.
+T100 | C | GetItemInfo fehlt [api]
+      Wie: auto – _G.GetItemInfo = nil: P.FeePerPiece (Stapel), P.VendorSell, DE.Prior/ItemInfo, ns.ItemName, ns.GetItemLink,
+      Shift-Klick-Pfad UI.lua:655.
+      Erwartung: C_Item.GetItemInfo greift, gleiche Werte wie vorher, kein Fehler. Heute FEHLER (Prices.lua:34/98,
+      Disenchant.lua:339, UI.lua:655) – beheben. Clients: F E R.
+T101 | C | Symbol- und Zählfunktionen fehlen [api]
+      Wie: auto – GetItemIcon, GetSpellTexture, GetItemCount = nil.
+      Erwartung: C_Item.GetItemIconByID / C_Spell.GetSpellTexture / C_Item.GetItemCount greifen (Core.lua:42-69, Advisor.lua:31,
+      Favor.lua:221, Today.lua:25), gleiche Werte. Clients: F E R.
+T102 | C | Taschen-Funktionen fehlen [api]
+      Wie: auto – GetContainerNumSlots/GetContainerItemID = nil.
+      Erwartung: AL.BagRecipes über C_Container gleich; fehlen beide Wege: {} ohne Fehler. Clients: F E R.
+T103 | C | Alte Berufe-API fehlt [api]
+      Wie: auto – GetTradeSkillLine, GetTradeSkillInfo, GetNumTradeSkills, GetTradeSkillRecipeLink, GetNumCrafts, GetCraftInfo,
+      GetCraftDisplaySkillLine, DoTradeSkill = nil.
+      Erwartung: Scan:ScanTradeSkill nur über C_TradeSkillUI, Lifeline-Era-Teile kehren still zurück, TD.Craft meldet
+      L.TODAY_NOT_FOUND statt Fehler. Clients: F E R.
+T104 | C | Berufsliste fehlt [api]
+      Wie: auto – GetProfessions/GetProfessionInfo und GetNumSkillLines/GetSkillLineInfo = nil.
+      Erwartung: Scan:UpdateProfessions ohne Fehler, c.profs bleibt erhalten (nicht geleert). Clients: F E R.
+T105 | C | C_TradeSkillUI unvollständig [api]
+      Wie: auto – C_TradeSkillUI.GetChildProfessionInfo = nil (dann auch GetBaseProfessionInfo = nil), GetRecipeInfo = nil.
+      Erwartung: CurrentProfession fällt zurück bzw. liefert nil -> L.OPEN_PROF_FIRST; Scan.lua:149 ohne Fehler (pcall nachrüsten).
+      Clients: F R (E: ÜBERSPRUNGEN, C_TradeSkillUI nicht benutzt).
+T106 | C | Währungs-API fehlt [api]
+      Wie: auto – C_CurrencyInfo = nil.
+      Erwartung: F.Balance nil, CostText ohne "(du hast …)", Planer zeigt L.FAVOR_BALANCE_UNKNOWN. Clients: F.
+T107 | C | Addon-Info-Funktionen fehlen [api]
+      Wie: auto – GetAddOnMetadata, IsAddOnLoaded, GetAddOnMemoryUsage = nil.
+      Erwartung: C_AddOns-Weg (AutoTest.lua:117/125/790), Version in T02 trotzdem lesbar. Clients: F E R.
+T108 | C | Alter Tooltip-Weg
+      Wie: auto – Hook wird beim Login gewählt (Tooltip.lua:102-116) und lässt sich nicht umhängen.
+      Erwartung: ÜBERSPRUNGEN "nur im alten Client prüfbar – siehe T120". Clients: –.
+(3) Kampfsperre: GoldSentinelGame.InCombat über den Rückbau-Stapel auf "true".
+T109 | C | Start im Kampf verweigert
+      Wie: auto – /ps testroutine und /ps autotest mit InCombat-Stub: kein Lauf, Hinweis.
+      Erwartung: verweigert (AutoTest.lua:1049 auf G.InCombat umstellen). Clients: F E R.
+T110 | C | Kampfbeginn bricht ab
+      Wie: auto – Unterlauf (Bereich F) starten, Abbruch-Handler (PLAYER_REGEN_DISABLED) direkt aufrufen.
+      Erwartung: Rückbau komplett, Sandbox OK, Bericht ABGEBROCHEN, Reste ÜBERSPRUNGEN "Kampf". Clients: F E R.
+T111 | C | Keine Aktionen im Kampf
+      Wie: auto – mit InCombat-Stub: TD.Run (alle Schritte), PL.BuyFromVendor, DE.WhisperOffer, DE.SendToSniper, WP.Set (über die
+      abgefangenen Originale aufgerufen).
+      Erwartung: nichts ausgeführt, Hinweis "nicht im Kampf"; Wächter 0. Fehlt der Kampf-Wächter im Code: FEHLER -> nachrüsten.
+      Clients: F E R.
+T112 | C | Keine geschützten Frames
+      Wie: auto – ProfessionSentinelPanel, ProfessionSentinelTestMode, ProfessionSentinelGoalFrame,
+      ProfessionSentinelAutoTestReport: IsProtected() false; keine Secure-Vorlage im Addon.
+      Erwartung: wahr – darum gibt es keine Knöpfe, die im Kampf versteckt werden müssen. Clients: F E R.
+T113 | C | Panel und Tooltip im echten Kampf
+      Wie: halb – Panel offen und Rezept in den Taschen überfahren, dann einen Kampf beginnen und während des Kampfes Tooltips
+      ansehen.
+      Erwartung: kein Lua-Fehler, kein ADDON_ACTION_BLOCKED (GoldSentinelTest zählt beides). IM CLIENT PRÜFEN. Clients: F (E R).
+(4) Kampflog
+T114 | C | Kampflog nicht registriert
+      Wie: auto – für jeden Frame in ns.EventFrames: IsEventRegistered("COMBAT_LOG_EVENT_UNFILTERED") false.
+      Erwartung: wahr. Clients: F E R.
+
+D. ALTE CLIENTS (dieselbe Routine im Era-Client; TBC nur Untätigkeit)
+T115 | D | Berufe auf dem alten Weg
+      Wie: halb – Spieler öffnet Handwerksfenster und das Verzauberkunst-Fenster: Scan:ScanTradeSkill über GetTradeSkillInfo /
+      GetCraftInfo, known nicht kleiner; EraProfession über GetTradeSkillLine bzw. GetCraftDisplaySkillLine liefert Beruf und Rang.
+      Clients: E.
+T116 | D | Händlerweg alt [api]
+      Wie: auto – Zähl-Attrappen für GetMerchantItemInfo und C_MerchantFrame.GetItemInfo, PL.MerchantItemInfo(1).
+      Erwartung: nur GetMerchantItemInfo gerufen (Plan.lua:68). Clients: E.
+T117 | D | Händlergunst und Gebühr aus
+      Wie: auto – F.Active false, Reiter Gunst versteckt, /ps kisten nur Hinweis, P.FeePerPiece == 0.
+      Clients: E.
+T118 | D | Reiter-Layout wie früher
+      Wie: auto – Reiterbreite 76, Ketten-Anker wie in CreatePanel (UI.lua:1387-1410), UpdateTabs ändert keine Anker (UI.lua:695).
+      Clients: E R.
+T119 | D | Lebenslinie im Blizzard-Fenster alt
+      Wie: halb – Fenster offen: TradeSkillFrame_Update bzw. CraftFrame_Update dekoriert sichtbare Zeilen (psLine vorhanden).
+      Clients: E.
+T120 | D | Tooltip-Weg im alten Client
+      Wie: auto – der im Client vorhandene Weg (TooltipDataProcessor oder OnTooltipSetItem) fügt die Zeilen genau einmal an.
+      Clients: E.
+T121 | D | TBC bleibt untätig
+      Wie: halb – im TBC-Anniversary-Client (falls installiert, "veraltete Addons laden"): beim Login einmal L.UNSUPPORTED,
+      /ps nur Hinweis, kein Panel, keine Fehler.
+      Erwartung: IM CLIENT PRÜFEN; ohne TBC-Client ÜBERSPRUNGEN (simuliert in T10/T172). Clients: T.
+T122 | D | Retail-Eigenheiten
+      Wie: auto – nur R: Lehrer-Reiter versteckt, Mode "trainers" -> "recipes", Erweiterungslinien als Berufe (2915 parent 165,
+      > 10 Rezepte), Verzauberer-Ziel "sell", L.SRC_RETAIL in Tooltips.
+      Clients: R (sonst ÜBERSPRUNGEN).
+
+E. DATEN
+T123 | E | Neuinstallation
+      Wie: auto – ns.InitDB({}) + ns.InitChar(db, "Test-Realm"): alle DEFAULTS (Core.lua:174-188) gesetzt, chars-Eintrag mit
+      known/profs; ns.db kurz auf die Testtabelle: Panel je Ansicht, Tooltip, F.Plan, AL.Needed ohne Fehler.
+      Clients: F E R.
+T124 | E | Migration aus 0.8.x
+      Wie: auto – Beispiel { tooltip = true, lifeline = false, filters = { missing = true }, collapsed = { ["Leder"] = true },
+      chars = { ["Test-Realm"] = { known = { [2158] = true }, profs = { [165] = { rank = 80, max = 150 } } } } } (ohne favor,
+      todayCrates, deMargin, flavor).
+      Erwartung: lifeline bleibt false, todayCrates false, deMargin 20, F.DB() legt favor/costs/wish/goals an, Alte Charaktere ohne
+      flavor zählen für die laufende Version (Scan.lua:247, Alerts.lua:26). Clients: F E R.
+T125 | E | Migration aus 0.9.2 (Favor ohne Wunschliste)
+      Wie: auto – favor = { costs = { [250364] = { n = 150, c = "Merchant's Favor" } } }.
+      Erwartung: wish/goals ergänzt, F.Cost(…) = 150 gelernt. Clients: F.
+T126 | E | Beschädigte Einträge
+      Wie: auto – filters = "x", collapsed = 5, chars = { ["A-B"] = 7, ["C-D"] = { known = "x", profs = 3 } },
+      favor = { costs = { [250364] = 5 }, wish = "x" }, planTarget = { [165] = "abc" }, vzMarkup = "20", deMargin = -5,
+      autotest = { history = "x" }; dann InitDB, AL.Needed, Scan:CharsFor, F.Cost, F.Plan, PL.Target, DE.SellPrice, DE.Margin,
+      AT:History, Panel aufbauen.
+      Erwartung: kein Lua-Fehler, Rückfallwerte (heute FEHLER an Favor.lua:88-90, Plan.lua:17-18, Disenchant.lua:162-164,
+      Alerts.lua:26-27 – beheben, kaputte Einträge beim Laden verwerfen). Clients: F E R.
+T127 | E | Gelernte Kosten mit Zeitstempel
+      Wie: auto – db.favor.costs[id] ohne t, mit t = 0, mit künftiger Zeit.
+      Erwartung: F.Cost liefert n, kein Fehler. Clients: F.
+
+F. SPRACHEN (vorhanden: EN Standard + deDE, Locales.lua:358-696)
+T128 | F | Alle benutzten Schlüssel vorhanden
+      Wie: auto – Liste KEYS_USED (vom Smoketest aus dem Code erzeugt; Stand 0.9.9: 307 statische Schlüssel) plus dynamische:
+      GOAL_GOLD/SELL/BOTH (+_TIP), LL_YELLOW/GREEN/GREY, REP_1…REP_8, RANK_0…RANK_5, FAVOR_GOAL_KODO/MULE/CERT/TABARD (+_NEED),
+      CD_TRANSMUTE/MOONCLOTH/SALTSHAKER; je L[k] ~= nil.
+      Erwartung: 0 fehlend (Prüfstand heute: 0). Clients: F E R.
+T129 | F | Platzhalter gleich
+      Wie: auto – für jeden Schlüssel: Folge der %s/%d/%f in ns.L gleich wie in ns.L_EN; dazu string.format(L[k], Testwerte) ohne
+      Fehler.
+      Erwartung: 0 Abweichungen (heute 0; 6 Schlüssel ohne DE-Text sind sprachneutral: DE_COUNT, FLAVOR_ERA, FLAVOR_FOREVER,
+      FLAVOR_RETAIL, TAG_DE, TITLE). Clients: F E R.
+T130 | F | Jede Sprache einmal aktiv
+      Wie: auto – ns.SwapLocaleForTest("enUS") und ("deDE"): Panel je Ansicht, Testmodus-Fenster, Zielfenster, Kopierfenster
+      öffnen/schliessen; danach Rückbau.
+      Erwartung: kein Fehler, kein leerer Titel. Clients: F E R.
+
+G. ZUSAMMENSPIEL
+T131 | G | Gemeinsame Dateien
+      Wie: auto – GoldSentinelGame.version 2, GoldSentinelDev.version 1, GoldSentinelTest.version ≥ 1; GoldSentinelTest.registry
+      ["ProfessionSentinel"].db == ProfessionSentinelDB; geladene GoldSentinel-Addons (RaidMaster, AHSentinel, GuildSentinel,
+      ThreatSentinel, BuffSentinel, LevelPilot) mit Version in den Bericht.
+      Clients: F E R.
+T132 | G | Keine globalen Namen überschrieben
+      Wie: auto – _G.L, _G.UI, _G.TD, _G.F, _G.P, _G.DE, _G.GU, _G.AL, _G.PL, _G.LL, _G.WP, _G.AD, _G.AT, _G.TM, _G.Scan sind nicht
+      die eigenen Tabellen; alle _G-Schlüssel mit "ProfessionSentinel"/"PROFESSIONSENTINEL" sind in der erlaubten Liste
+      (ProfessionSentinelDB, ProfessionSentinelAPI, SLASH_PROFESSIONSENTINEL1/2, Frames ProfessionSentinelPanel/TestMode/
+      GoalFrame/AutoTestReport/AutoTestScroll).
+      Clients: F E R.
+T133 | G | Ohne AHSentinel
+      Wie: auto – _G.AHAnalyzerPro = nil (Rückbau): P.AH fällt auf TSM/Auctionator/nil, P.VendorBuy nur aus Daten, F.Cost Guide,
+      DE.AHS nil, AL.FromCurrent Cache, TD.Candidates {} ohne Preisquelle, SendToSniper L.SNIPE_NEED_AHS; alle Ansichten bauen.
+      Clients: F E R.
+T134 | G | Mit fehlerhaftem AHSentinel
+      Wie: auto – Attrappe, deren Funktionen alle einen Fehler werfen (GetMarketValue, GetVendorCost, GetVendorBuyPrice,
+      GetCurrent, Disenchant.*, Sniper.SetTarget, UI.*, Today.QuickBuy/QuickSell).
+      Erwartung: kein Lua-Fehler bei uns; heute FEHLER bei DE.Groups/DE.Totals (Disenchant.lua:435-437, 453-455) – pcall nachrüsten.
+      Clients: F E R.
+T135 | G | Mit echtem AHSentinel
+      Wie: auto – falls geladen: GetMarketValue(2318) Zahl oder nil; GetVendorCost liefert nil oder { costs = {…} }; A.On vorhanden;
+      Rezept-Alarm angemeldet. Sonst ÜBERSPRUNGEN "AHSentinel nicht geladen".
+      Clients: F E R.
+T136 | G | GuildSentinel und RaidMaster mit/ohne
+      Wie: auto – beide nil: GU.Available false, Crafters nil, keine Gildenzeilen im Tooltip, keine Gildenspalte im Gunst-Reiter;
+      mit gültigem Beispiel: Treffer; mit kaputtem Beispiel (p = "x", n keine Tabelle, i fehlt): kein Fehler.
+      Clients: F E R.
+T137 | G | TSM, Auctionator, TomTom
+      Wie: auto – Attrappen TSM_API.GetCustomPriceValue und Auctionator.API.v1.GetAuctionPriceByItemID: Wert und Quellenname;
+      TomTom-Attrappe siehe T32.
+      Clients: F E R.
+T138 | G | AHSentinel "Heute tun" zeigt Herstellungen
+      Wie: halb – mit AHSentinel (falls es A.Today hat): Zeilen von ProfessionSentinel erscheinen dort.
+      Erwartung: IM CLIENT PRÜFEN; sonst ÜBERSPRUNGEN. Clients: F E.
+
+H. LEISTUNG (debugprofilestop, Median aus 3 Läufen; Grenzwerte gelten für die grösste Berufsliste des Clients)
+T139 | H | Panel-Aufbau je Ansicht
+      Wie: auto – UI:Refresh für recipes, ranking, plan, trainers, disenchant, favor.
+      Erwartung: < 16 ms je Ansicht (R: grösste Erweiterungslinie). Clients: F E R.
+T140 | H | Bestes Rezept bei jedem Berufs-Ereignis
+      Wie: auto – UI:UpdateBest / AD.Update(prof, rank) (läuft auch bei geschlossenem Panel, UI.lua:1295-1322, 1609).
+      Erwartung: < 16 ms. Clients: F E R.
+T141 | H | Tooltips
+      Wie: auto – AddLines für Rezept-Item und ReagentLines für 2318 (viele Rezepte).
+      Erwartung: < 2 ms je Aufruf; UI:ShowRecipeTooltip < 16 ms. Clients: F E R.
+T142 | H | Passiver Rezept-Abgleich
+      Wie: auto – Scan:PassiveCheck (alle Zauber der Daten, IsPlayerSpell).
+      Erwartung: < 16 ms F/E; R < 40 ms (10172 Zauber, läuft höchstens alle 0,5 s nach Ereignissen). Clients: F E R.
+T143 | H | Teure Rechnungen
+      Wie: auto – TD.Candidates, F.Crates, AD.Plan(1 -> 300), AL.Needed mit 50 Test-Charakteren × 2 Berufe, GU-Index mit 300
+      Test-Mitgliedern (GU.Invalidate davor), F.Recipes(prof).
+      Erwartung: je < 16 ms, F.Recipes < 2 ms. Clients: F E R.
+T144 | H | Lebenslinie im Blizzard-Fenster
+      Wie: halb – Berufsfenster offen: LL.RefreshBlizzard.
+      Erwartung: < 2 ms je sichtbarer Zeile. Clients: F E R.
+T145 | H | Speicher
+      Wie: auto – collectgarbage("collect"); collectgarbage("count") vor und nach dem ganzen Lauf; zusätzlich 20× UI:Refresh in
+      Folge; GetAddOnMemoryUsage in den Bericht.
+      Erwartung: Zuwachs nach dem Lauf < 1024 KB, nach den 20 Refreshs < 256 KB. Clients: F E R.
+
+I. FEHLERZÄHLUNG UND DIAGNOSE
+T146 | I | Fehlerzählung angemeldet
+      Wie: auto – GoldSentinelTest.registry["ProfessionSentinel"] vorhanden, version = ns.VERSION; GoldSentinelTest.Pending(db)
+      Zahl.
+      Clients: F E R.
+T147 | I | Abgefangener Fehler wird gezählt
+      Wie: auto – ns.Try("Testroutine:I", function() error("ProfessionSentinel Testfehler (absichtlich)") end).
+      Erwartung: Eintrag in db.gsTest.errors mit wo "Testroutine:I", count +1; Diagnose zeigt den Zähler; danach Eintrag entfernen.
+      Clients: F E R.
+T148 | I | Ungefangener Fehler wird gezählt
+      Wie: auto – C_Timer.After(0, function() error("ProfessionSentinel Testfehler (absichtlich)") end) aus der Testdatei; nächster
+      Schritt prüft db.gsTest.errors (wo "Lua", Pfad AddOns/ProfessionSentinel/); danach entfernen. Hinweis vorher im Chat
+      ("gleich erscheint ein absichtlicher Testfehler"); BugSack/Fehlerfenster bekommt ihn weiterhin.
+      Clients: F E R.
+T149 | I | Diagnose vollständig
+      Wie: auto – TM:Diagnostics enthält: G.Status(), Fehler im Spiel (Anzahl), offene Berichte (Pending), Datum des letzten
+      Berichts, F "Händler-Kosten lesbar".
+      Clients: F E R.
+
+J. REGRESSIONSTESTS (jeder bisherige Befund ein Fall)
+T150 | J | GoldSentinelGame unverändert, kein eigener Nachbau
+      Befund: anweisung-professionsentinel Schritt 1; nachtrag-goldsentinelgame-v2 (PS 0.9.3 brachte eine eigene Fassung).
+      Wie: auto – type(G.version)=="number" und == 2; keine Funktion aus Flavor.lua überschreibt G-Felder (Momentaufnahme der
+      G-Funktionen vor/nach ApplyFlavor rawequal). Offline: addon_check (byte-gleich).
+      Clients: F E R.
+T151 | J | Versionserkennung aus GoldSentinelGame
+      Befund: anweisung Schritt 1 "Flavor.lua auf GoldSentinelGame umleiten, UsesModernProfessions = G.IsModern".
+      Wie: auto – ns.ApplyFlavor(nil) (eigene Erkennung, Flavor.lua:21-35) liefert dasselbe wie ns.ApplyFlavor(G); danach echt.
+      Clients: F E R.
+T152 | J | Favor-Rezepte ohne Goldpreis
+      Befund: Übergabe 8.1 / uebersicht-aenderungen HOCH (312 Horde-Rezepte mit Goldpreis, Fraktionen fehlten).
+      Wie: auto – Zahl der ri mit fv zwischen 300 und 320 (heute 310); jedes mit fa 2587; keines davon mit bp; ns.Factions[2586]
+      und [2587] mit Namen.
+      Clients: F.
+T153 | J | Panel-Tooltip zeigt Favor statt Gold
+      Befund: Übergabe 8.1 (UI.lua MoneyText(ri.bp) zeigte falschen Preis).
+      Wie: auto – UI:ShowRecipeTooltip(250364-Rezept): eine Zeile mit F.CostText, keine Münz-Zeile für dieses Rezept-Item, Rufzeile
+      mit L.FAVOR_GUIDE.
+      Clients: F.
+T154 | J | Allianz bekommt ihre Fraktion
+      Befund: Übergabe 8.1 (Azeroth Commerce Authority).
+      Wie: auto – F.Faction(2587, "Alliance") == 2586, F.Faction(2587, "Horde") == 2587.
+      Clients: F.
+T155 | J | Händler-Artikelzahl ohne GetMerchantNumItems [api]
+      Befund: nachtrag-favor "FEHLER Favor.lua ca. Zeile 95 – HOCH".
+      Wie: auto – GetMerchantNumItems = nil, C_MerchantFrame.GetNumItems-Attrappe = 1, GetMerchantItemID-Attrappe 250364,
+      Kosten-Attrappen: F.LearnFromMerchant() == 1 (Favor.lua:328-333).
+      Clients: F.
+T156 | J | Weitere Händler-Funktionen ohne alte Globals [api]
+      Befund: nachtrag-favor "GetMerchantItemLink, GetMerchantItemInfo -> C_MerchantFrame.GetItemInfo".
+      Wie: auto – GetMerchantItemInfo/GetMerchantItemLink/GetMerchantItemID = nil, C_MerchantFrame.GetItemInfo-Attrappe:
+      PL.MerchantItemInfo liefert price/stackCount/numAvailable; MerchantItemID über GetItemInfo-Attrappe bzw. nil ohne Fehler;
+      Kauf nur in PL.BuyItem-Stub.
+      Clients: F R.
+T157 | J | Reihenfolge der Kosten
+      Befund: nachtrag-favor "eigene gelernte Kosten -> AHSentinel -> favor_costs.json".
+      Wie: auto – alle drei vorhanden: 150 (gelernt); ohne gelernt: AHSentinel 170; ohne beide: 180 (Guide).
+      Clients: F.
+T158 | J | Keine Namen im Bericht
+      Befund: ZUSATZ der Vorgabe (Datenschutz) und TestMode.lua:64 (Diagnose mit Name-Realm).
+      Wie: auto – fertiger Berichtstext und die gespeicherte GSTEST1-Zeichenkette enthalten weder UnitName("player") noch den
+      Gildennamen noch einen Namen aus den Gilden-/Test-Charakterdaten.
+      Clients: F E R.
+T159 | J | AHSentinel nur aufrufen, wenn vorhanden, in pcall
+      Befund: nachtrag-favor "Aufruf in pcall, nur wenn _G.AHAnalyzerPro und GetVendorCost existieren"; neu-ahsentinel 4
+      (AHSentinel liest in Forever evtl. nichts).
+      Wie: auto – A ohne GetVendorCost; GetVendorCost wirft Fehler; liefert nil; liefert { costs = {} }.
+      Erwartung: jeweils Guide-Wert, kein Lua-Fehler. Clients: F.
+T160 | J | Währungs-ID von AHSentinel für den Stand
+      Befund: nachtrag-favor (F.Balance ohne eigenen Händlerbesuch).
+      Wie: auto – Fall TestMode.lua:356-363: db.currency wird 3333 (Name "Merchant's Favor"), F.Balance fragt diese ID.
+      Clients: F.
+T161 | J | Ruf im modernen Client [api]
+      Befund: korrektur-0.9.8 Punkt 1 / neu-professionsentinel 1 (Ruf immer "unbekannt", 180 von 310 Rezepten).
+      Wie: auto – GetFactionInfoByID = nil, C_Reputation.GetFactionDataByID-Attrappe { name = "Test", reaction = 5 }:
+      ns.RepInfo(2587, 4) met true (grün), reaction 4 -> met false (rot); beide fehlen -> met nil (gelb).
+      manuell (Launch): /dump GetFactionInfoByID  und  /dump C_Reputation.GetFactionDataByID(2587).
+      Clients: F R (E: alter Weg, met nicht nil für 529).
+T162 | J | Nur Händlergunst von AHSentinel
+      Befund: korrektur-0.9.8 Punkt 2 (jede Währung wurde übernommen, db.currency falsch).
+      Wie: auto – db.currency nil: { id 4444, "Honor" } -> nil, currency bleibt nil; { id 3333, "Händlergunst" } -> übernommen,
+      currency 3333; danach { id 3333, name "X" } -> über die ID übernommen; { id 5555, "X" } -> nil.
+      Clients: F.
+T163 | J | Kosten nicht lesbar: Diagnose und Hinweis einmal je Besuch [api]
+      Befund: korrektur-0.9.8 Punkt 3 / neu-professionsentinel 2.
+      Wie: auto – GetMerchantItemCostInfo = nil; Händler-Attrappe mit Favor-Rezept; F.OnMerchantEvent("MERCHANT_SHOW") zweimal ->
+      L.FAVOR_COSTS_UNREADABLE genau einmal; "MERCHANT_CLOSED", dann SHOW -> wieder einmal; Diagnose "nein".
+      manuell (Launch): /dump GetMerchantItemCostInfo  /dump GetMerchantItemCostItem  /dump C_MerchantFrame.
+      Clients: F.
+T164 | J | Hergestellte Kisten: günstiger von Kaufen und Herstellen
+      Befund: korrektur-0.9.8 Punkt 4a.
+      Wie: auto – Fall TestMode.lua:376-383 (origin "craft", 400) plus Gegenfall (Kaufen billiger -> origin "ah"); Kisten-Tooltip
+      im Gunst-Reiter enthält L.ORIGIN_CRAFT.
+      Clients: F.
+T165 | J | Beste Kiste in "Heute herstellen" nur mit Option
+      Befund: korrektur-0.9.8 Punkt 4b ("standardmässig aus").
+      Wie: auto – DEFAULTS.todayCrates false (ns.InitDB({})); F.BestCrate() nil bei aus, Kiste bei an; Gruppe "today" hat die
+      Kistenzeile nur bei an.
+      Clients: F.
+T166 | J | Händlerweg alter Clients exakt wie früher [api]
+      Befund: korrektur-0.9.8 Punkt 5 / neu-professionsentinel 3.
+      Wie: auto – beide vorhanden (Attrappen zählen): nur GetMerchantItemInfo gerufen (wie T116, hier auf allen Clients).
+      Clients: F E R.
+T167 | J | Reiter-Verteilung nur in Forever
+      Befund: korrektur-0.9.8 Punkt 6 / neu-professionsentinel 4.
+      Wie: auto – F: sichtbare Reiter lückenlos, Breite ≤ 76; E/R: Anker wie T118.
+      Clients: F E R.
+T168 | J | Favor-Kosten im Item-Tooltip
+      Befund: korrektur-0.9.8 Punkt 7 / neu-professionsentinel 5.
+      Wie: auto – SetItemByID(250364): Zeile L.FAVOR_COST und Rufzeile; mit db.tooltip false keine.
+      Clients: F.
+T169 | J | Interface-Nummer nach dem Launch
+      Befund: anweisung "Launch-Tag" / korrektur-0.9.8 Launch.
+      Wie: manuell – /dump select(4, GetBuildInfo()); Nummer in allen 4 TOCs (16001 bleibt). Automatisch siehe T06.
+      Erwartung: vor dem 5.11. ÜBERSPRUNGEN "vor Launch", danach IM CLIENT PRÜFEN bis bestätigt. Clients: F.
+T170 | J | Daten aus dem Live-Build
+      Befund: Übergabe 8.6 / korrektur-0.9.8 Launch (Data_Forever.lua:5 Build 1.60.1.70707 = Beta).
+      Wie: auto – ab 5.11.: ns.DataMeta.build ~= "1.60.1.70707" oder gleich dem Client-Build (GetBuildInfo).
+      Erwartung: vor Launch ÜBERSPRUNGEN, danach FEHLER, solange die Beta-Daten drin sind. Clients: F.
+T171 | J | Nur bekannte Ereignisse angemeldet
+      Befund: Übergabe 7 / CHANGELOG 0.8.1 (Retail "unknown event TRADE_SKILL_UPDATE").
+      Wie: auto – für jeden Frame in ns.EventFrames und jedes angemeldete Ereignis: C_EventUtils.IsEventValid(e) true (falls die
+      Funktion fehlt: ÜBERSPRUNGEN mit Grund); Liste der Kandidaten aus Scan.lua:193-197 und UI.lua:1593.
+      Clients: F E R.
+T172 | J | Nicht unterstützte Versionen sagen es einmal
+      Befund: Übergabe 1 ("bleibt untätig und sagt das einmal").
+      Wie: auto – simuliert "tbc" (ApplyFlavor) und den PLAYER_LOGIN-Zweig von Core.lua:252-256 aufrufen: L.UNSUPPORTED genau einmal,
+      kein chars-Eintrag angelegt (Testtabelle), Tooltip-Hook nicht gesetzt.
+      Clients: F E R.
+T173 | J | Nichts in den Gildenkanal, nur lesen
+      Befund: Übergabe 7 ("sendet selbst nichts in den Gildenkanal").
+      Wie: auto – Wächter SendChatMessage für GUILD/OFFICER/RAID/PARTY/SAY/YELL/CHANNEL 0; Guild.lua schreibt nicht in
+      GuildSentinelDB/RaidMaster.db (Tiefenvergleich der Attrappen vor/nach).
+      Clients: F E R.
+T174 | J | Echte Aktionen nur nach Klick
+      Befund: Übergabe 7 / anweisung Regeln ("Einkauf, Flüstern, Sniper-Ziele nur mit Klick").
+      Wie: auto – alle Ereignis-Handler aus T90 laufen lassen: abgefangene Zähler für BuyFromVendor, WhisperOffer, SendToSniper,
+      ToSniper, Today.* bleiben 0.
+      Clients: F E R.
+T175 | J | Berufsfenster wird nie selbst geöffnet
+      Befund: Übergabe 7 ("Das Spiel lässt Addons das Berufsfenster nicht selbst öffnen").
+      Wie: auto – TD.Run für Schritt "openProf": nur Hinweis; Wächter CastSpellByName und C_TradeSkillUI.OpenTradeSkill 0.
+      Clients: F E R.
+T176 | J | Vor- und Nachnamen in Forever
+      Befund: auftrag-alle-addons Punkt 4.
+      Wie: auto – Test-Gildendaten und Test-Charaktere mit Schlüsseln "Vorname Nachname-Realm": GU.Crafters, Scan:CharsFor,
+      AL.Needed kürzen auf "Vorname Nachname" (Leerzeichen bleibt), keine Treffer verloren; im Bericht nur Anzahlen.
+      Clients: F E R.
+T177 | J | Gildenblick bleibt leer, solange RaidMaster in Forever nichts einliest
+      Befund: pruefbericht-alle-addons-1740 (RaidMaster Professions.lua:103 nur alte Berufe-API -> RaidMaster.db.prof leer).
+      Wie: auto – RaidMaster.db.prof = {}: kein Fehler, keine Gildenzeilen; halb – nach dem RaidMaster-Fix: Gildenblick zeigt
+      Einträge (IM CLIENT PRÜFEN).
+      Clients: F.
+T178 | J | Händlerpreise bei Lücke in AHSentinel
+      Befund: pruefbericht-ahsentinel 3 / auftrag-alle-addons Punkt 5 (AHSentinel liest Händlerpreise evtl. nicht).
+      Wie: auto – P.VendorBuy nimmt zuerst ns.Items (Daten), A:GetVendorBuyPrice nur als Rückfall; Attrappe liefert nil/Fehler ->
+      kein Fehler, Datenpreis bleibt.
+      Clients: F E R.
+T179 | J | /gsgame zeigt die richtige API
+      Befund: anweisung "Tests" (/gsgame Forever "API: modern", alter Client "alt").
+      Wie: auto – G.Status() enthält G.Text("modern") bei F/R, G.Text("old") bei E; F zusätzlich "Geschützte Werte: ja" ->
+      sonst IM CLIENT PRÜFEN.
+      Clients: F E R.
+
+
+4. HALBAUTOMATISCHER TEIL FÜR DEN LAUNCH-ABEND (Donnerstag, 5. November 2026, WoW Forever live ab 00:00 Uhr)
+-------------------------------------------------------------------------------------------------------------
+Der Nutzer tut (Horde-Charakter auf WoW Forever, ausserhalb des Kampfes):
+ 1. Einloggen. Im Chat: /dump select(4, GetBuildInfo())   /gsgame   /gsdev
+ 2. /ps testroutine – Berufsfenster dabei geschlossen lassen. Warten, bis das Kopierfenster erscheint. Danach /reload
+    (falls der api-Teil lief, verlangt die Routine das ohnehin).
+ 3. Ein Berufsfenster öffnen (jeden eigenen Beruf einmal), dann /ps testroutine b – prüft Andocken, Lebenslinie, Hinweis
+    (T30, T85, T144).
+ 4. Einen normalen Händler öffnen (z. B. Fadenhändler) – NICHTS kaufen. Im Chat:
+    /dump GetMerchantNumItems   /dump C_MerchantFrame   /dump GetMerchantItemInfo   /dump GetMerchantItemCostInfo
+    /dump GetMerchantItemCostItem
+ 5. Zum Handelslager "Durotar Supply and Logistics" westlich der Wegkreuzung (Brachland), einen Händler öffnen (NPC
+    248196–248202) – nichts kaufen. Hinweis im Chat beachten (T163). Dann:
+    /dump GetFactionInfoByID   /dump C_Reputation.GetFactionDataByID(2587)   /dump C_CurrencyInfo.GetCurrencyListSize()
+    und mit der Maus über ein Favor-Rezept beim Händler fahren (Kosten, "du hast …", Ruf grün/rot).
+ 6. Ein Rezept-Item in die Taschen legen (falls vorhanden) und überfahren (T69, T75, T168).
+ 7. Einen Kampf beginnen (z. B. ein Tier angreifen), währenddessen Tooltips in den Taschen ansehen; im Kampf /ps testroutine
+    eingeben (muss verweigert werden) (T109, T113).
+ 8. Rechtsklick im Panel auf ein fehlendes Rezept mit Händler (Kartenpin, T42), Pin danach selbst entfernen.
+ 9. /reload (meldet den Bericht an die Prüfung). Optional: mit AHSentinel einen AH-Scan machen und auf den Rezept-Alarm achten
+    (T70), "Heute tun" in AHSentinel ansehen (T138).
+10. Einmal im Classic-Era-Client: /ps testroutine, Handwerks- und Verzauberkunst-Fenster öffnen, /ps testroutine b,
+    /reload (T115, T119, T120).
+
+Der Nutzer schickt dem Kollegen zurück:
+ - den Text aus dem Kopierfenster (Forever und Era),
+ - alle /dump-Ausgaben aus 1, 4, 5 (Kopie oder Bildschirmfoto),
+ - Ja/Nein zu: Hinweis beim Handelslager kam einmal; Ruf grün/rot statt gelb; Favor-Stand sichtbar; Pin gesetzt; Lua-Fehler
+   (BugSack) ja/nein.
+Der Kollege trägt die Antworten als bestätigte "IM CLIENT PRÜFEN"-Punkte ein (beim nächsten Lauf: halb-Fälle mit
+gespeicherter Bestätigung = OK, Datum in ergebnis).
+
+
+5. ABNAHME
+----------
+ProfessionSentinel gilt als bereit, wenn
+ - im automatischen Teil 0 FEHLER auf WoW Forever UND auf Classic Era stehen (Retail: 0 FEHLER, falls der Nutzer Retail testet;
+   sonst ÜBERSPRUNGEN mit Grund),
+ - T03 (Wächter alle 0) und T04 (Sandbox: echte Daten unverändert: OK) auf beiden Clients OK sind,
+ - alle IM-CLIENT-PRÜFEN-Punkte vom Nutzer bestätigt sind (mindestens T06, T30, T42, T50, T85, T113, T161, T163, T169),
+ - ab dem 5. November T170 OK ist (Daten aus dem Live-Build),
+ - mindestens ein Bericht über den Weg aus Abschnitt 6 in testberichte/ angekommen ist,
+ - python3 addon-check/addon_check.py download/ProfessionSentinel-<version>.zip kein FEHLER meldet.
+Ein ÜBERSPRUNGEN ohne Grund zählt als FEHLER.
+
+
+6. AUTOMATISCHE MELDUNG
+-----------------------
+Weg: Addon (Testroutine + laufende Fehler) -> ProfessionSentinelDB.gsTest -> RaidMasterUploader auf dem PC des Nutzers
+(schickt neue Berichte an #testberichte) -> GitHub-Workflow im raidmaster-Repo holt sie nach testberichte/ -> Prüf-Sitzung
+wertet aus und schreibt Korrektur-Anweisungen. Ein Addon kann im Spiel nicht ins Internet; der Weg geht über die Datei
+WTF\Account\<Konto>\SavedVariables\ProfessionSentinel.lua, die das Spiel beim /reload und Ausloggen schreibt.
+
+Einbau
+ - shared/GoldSentinelTest.lua aus dem raidmaster-Repo (Version 1) UNVERÄNDERT in den Addon-Ordner kopieren und in ALLEN
+   4 TOCs direkt nach GoldSentinelGame.lua eintragen (vor Flavor.lua).
+ - Core.lua, ADDON_LOADED (nach ns.db = ProfessionSentinelDB, Core.lua:248-251):
+       if GoldSentinelTest then GoldSentinelTest.TrackErrors("ProfessionSentinel", ns.VERSION, ProfessionSentinelDB) end
+   Für alle Spieler aktiv (bleibt lokal, höchstens 50 Fehlerarten); die Testroutine selbst nur für den Entwickler.
+ - ns.Try(wo, fn, ...) in Core.lua: pcall; bei Fehler GoldSentinelTest.Error("ProfessionSentinel", wo, err) und Rückgabe nil.
+
+Bisherige Fehlerstellen zusätzlich melden
+ProfessionSentinel hat noch keinen eigenen Fehlerzähler und kein Try/Safe/CountError. Gemeldet werden ab jetzt die pcall-Stellen,
+die EIGENEN Code oder fremde Addons schützen (nur wenn pcall false liefert, nicht bei leerem Ergebnis):
+   Today.lua:249 (API.TodayCrafts -> wo "API.TodayCrafts"), Favor.lua:264 (CraftUnit), Favor.lua:309 (GuildKnows),
+   Favor.lua:387 und :392 (Händler-Ereignis), AutoTest.lua:992 (Wiederherstellen), AutoTest.lua:1023 (Schritt-Absturz),
+   fremde Addons mit wo "AHSentinel:<Funktion>" bzw. "TSM"/"Auctionator"/"TomTom": Prices.lua:59/63/68/89, Favor.lua:64,
+   Alerts.lua:70/109, Disenchant.lua:397/418/431/474/567, Today.lua:164/209/213-216, Waypoint.lua:66.
+ Nicht melden: pcall um RegisterEvent (unbekanntes Ereignis ist gewollt), um Blizzard-Abfragen, die nil liefern dürfen.
+ Der Fehler-Handler des Autotests (AutoTest.lua:1055-1061) bleibt, ruft aber zusätzlich GoldSentinelTest.Error mit wo "Lua"
+ für eigene Fehler (own = true) – doppelte Zählung vermeiden: nur, wenn der gemeinsame Handler von GoldSentinelTest den Fehler
+ nicht schon zählt (Prüfung über den Pfad "AddOns/ProfessionSentinel/").
+
+Ergebnisse nur über GoldSentinelTest
+ - local T = GoldSentinelTest.Begin("ProfessionSentinel", ns.VERSION, ProfessionSentinelDB) am Start;
+   jeder Testfall nur über T:Check(id, bereich, name, fn) / T:Skip(id, bereich, name, grund) / T:Client(id, bereich, name,
+   anleitung); am Ende local text = T:Finish({ sandbox = …, abgefangen = …, waechter = …, leistung = …, warnungen = …,
+   api_simulation = … }) und text ins Kopierfenster (mit den Kopfzeilen aus Abschnitt 2).
+ - ACHTUNG: In GoldSentinelTest gilt "kein Rückgabewert = OK". Jede Check-Funktion gibt deshalb ausdrücklich
+   return ok, ergebnis, erwartet  zurück (ok = true/false), nie nur "return".
+ - Bereich = Buchstabe A … J aus Abschnitt 3, id = "T01" … "T179".
+ - Teilprüfungen nicht als eigene Einträge (GoldSentinelTest speichert höchstens 400 Ergebnisse), sondern zusammengefasst im
+   ergebnis-Text.
+ - Der alte Markdown-Bericht (autotest.last) darf als Kopie bleiben, ist aber nicht mehr die Quelle für die Prüfung.
+
+Stabile IDs
+ - T01 … T179 behalten ihre Nummer in allen künftigen Versionen. Neue Testfälle bekommen neue Nummern ab T180. Ein entfallener
+   Testfall bleibt als T:Skip(id, …, "entfällt seit <Version>") stehen; seine Nummer wird nie neu vergeben.
+
+Datenschutz
+ - Keine Spielernamen, Gildennamen, Realm-Namen aus Spielerdaten oder Chattexte in Bericht, ergebnis, erwartet, Warnungen
+   oder Fehlermeldungen. Nur Klasse, Level, Client, Sprache (macht GoldSentinelTest.Env) und Spieldaten (Rezept-, Item-,
+   Berufs-, NPC-Namen und IDs).
+ - TM:Diagnostics (enthält Name-Realm, TestMode.lua:64) nie in den Bericht; für T87/T149 nur auf enthaltene Teile prüfen.
+ - Namen aus Gilden-, Charakter- und Testdaten im Bericht nur als Anzahl. T158 prüft das.
+
+Nach der Routine
+ - Chat-Hinweis (neuer Locale-Schlüssel TEST_REPORT_SAVED, EN/DE):
+   DE: "Bericht gespeichert – wird beim nächsten /reload oder Ausloggen an die Prüfung gemeldet."
+   EN: "Report saved – it will be sent to the review on your next /reload or logout."
+ - Lief der api-Teil: zusätzlich "Bitte jetzt /reload – nötig nach dem API-Test." (Schlüssel TEST_RELOAD_NEEDED, EN/DE).
+ - In der Diagnose: Anzahl offener Berichte (GoldSentinelTest.Pending) und Fehler im Spiel seit dem letzten Bericht.
+
+Abgabe
+ - Komplette Dateien: GoldSentinelTest.lua (unverändert), 4 TOCs, Core.lua, Flavor.lua, Locales.lua, Scan.lua, Plan.lua,
+   Favor.lua, Disenchant.lua, Guild.lua, Tooltip.lua, Today.lua, Prices.lua, UI.lua, TestMode.lua, AutoTest.lua und die neue
+   Testroutine-Datei (z. B. TestRoutine.lua, in allen 4 TOCs nach AutoTest.lua) – jeweils nur, wenn geändert, dann ganz.
+ - Version erhöhen (alle 4 TOCs, ns.VERSION), CHANGELOG.md + CHANGELOG.de.md ("Intern: Testroutine … Für Spieler ändert sich
+   nichts" plus die behobenen Befunde aus Abschnitt 1), Smoketest im eigenen Repo (tests/smoketest.lua) auf die neue Routine
+   erweitern (alle drei Versionen, api-Teil offline ohne Taint), addon_check ohne FEHLER, dann veröffentlichen wie in
+   professionsentinel-uebergabe.txt Abschnitt 6.

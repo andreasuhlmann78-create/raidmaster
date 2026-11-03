@@ -1,0 +1,33 @@
+NACHTRAG ZU ALLEN TESTROUTINEN (gilt für alle sieben Addons)
+===========================================================
+Stand: 2. November 2026, 21:30 · von der Prüf-Sitzung · gilt zusätzlich zu testroutine-<addon>.txt
+
+1. KEINE BLIZZARD-FUNKTIONEN ÜBERSCHREIBEN (wichtig, geht der Testroutine vor)
+   Für Bereich C ("fehlende alte Funktionen", "geschützte Werte", "Kampfsperre") steht in einigen Anweisungen, die alten
+   Globals vorübergehend auf nil zu setzen oder Blizzard-Funktionen (UnitName, UnitExists, GetServerTime, InCombatLockdown …)
+   zu ersetzen. Das NICHT im echten Spiel tun: Wer eine Blizzard-Funktion überschreibt, "verseucht" sie für die ganze Sitzung
+   (Taint). Danach können Taschen, Händler, Aktionsleisten oder Raidrahmen "Aktion blockiert" melden, auch bei anderen Addons.
+   Stattdessen:
+   - Alle Aufrufe alter bzw. moderner Funktionen laufen über eine eigene Tabelle des Addons (z. B. LP.API, A.API, ns.API,
+     RM.API). Die Testroutine ersetzt nur Einträge DIESER Tabelle, oder eine Nahtstelle wie A.apiOverride.
+   - Kampfsperre über eine eigene Funktion des Addons (z. B. ns:InCombat()), die der Test umschalten kann.
+   - Geschützte Werte: Köderwert, den die eigene IsSecret-Prüfung des Addons als geschützt erkennt (der Test schaltet eine
+     Testliste in der Addon-Funktion ein). Nicht issecretvalue selbst ersetzen.
+   - setfenv auf eigene Addon-Funktionen ist erlaubt, wenn danach wiederhergestellt wird.
+   - Bisherige Tests, die Blizzard-Globals ersetzen (z. B. RaidMaster Test.lua:1192 GetServerTime und der neue 3.0.14-Test mit
+     UnitName/UnitExists/UnitIsPlayer), auf diesen Weg umstellen.
+   - Nach jedem Lauf trotzdem: "Bitte /reload" anzeigen.
+   Grenze: Ein simulierter geschützter Wert kann nicht alles nachstellen (z. B. ==, Wahrheitstest, Tabellenschlüssel). Diese
+   Stellen bleiben als "IM CLIENT PRÜFEN" für Forever stehen.
+
+2. AKTIONEN MIT FOLGEN IM TEST NUR MITSCHREIBEN
+   Alles mit echten Folgen (Chat/Flüstern, Kaufen, Verkaufen, Bieten, Post, Herstellen, Reparieren, Quest annehmen/abgeben,
+   Fliegen, Raid-Symbole, Kanal betreten) läuft über EINE Stelle im Addon (z. B. LP.Act, RM.Whisper, A.Act). Im Test schreibt
+   diese Stelle nur mit ("hätte geflüstert: …") und führt nichts aus. Die Routine zählt am Ende, ob doch etwas Echtes passiert
+   ist. Erwartet: 0. Direkte Aufrufe wie SendChatMessage, BuyMerchantItem, CraftRecipe oder SetRaidTarget ausserhalb dieser
+   Stelle sind ein FEHLER der Routine (Testfall in Bereich I ergänzen).
+
+3. GoldSentinelTest.lua
+   Liegt auf main (shared/GoldSentinelTest.lua, Version 1). Seit Commit b3da603 gibt T:Text auch die Sprache aus und die
+   Zählzeile fehlt nicht mehr. Ein Feld "testflavor" gibt es nicht: Ein simulierter Client steht in env.status als "[Test]".
+   Unverändert kopieren. Vor dem Push zeigt addon_check, ob die Kopie stimmt.

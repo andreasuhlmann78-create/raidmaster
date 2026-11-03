@@ -1,0 +1,777 @@
+ANWEISUNG: TESTROUTINE FÜR BUFFSENTINEL AUSBAUEN
+===============================================
+Addon: BuffSentinel · geprüfte Version: 0.9.4 · Stand: 2. November 2026 · von der Prüf-Sitzung
+Grundlage: Quelltext BuffSentinel 0.9.4 (alle .lua-Dateien gelesen), Vorgabe "Testroutine" für alle GoldSentinel-Addons,
+bisherige Befunde: anweisung-buffsentinel.txt, auftrag-buffsentinel.txt, pruefbericht-buffsentinel.txt,
+korrektur-buffsentinel-0.9.4.txt (dazu neu-buffsentinel.txt, gleiche Punkte wie die Korrektur, und
+pruefbericht-alle-addons-1740.txt / nachtrag-goldsentinelgame-v2.txt für den GoldSentinelGame-Befund von 0.9.2).
+Zeilenangaben beziehen sich auf 0.9.4.
+
+Ziel: BuffSentinel bekommt eine Testroutine, die das Addon im Spiel "auf Herz und Nieren" prüft, einen kopierbaren Bericht
+erzeugt und ihn über GoldSentinelTest automatisch an die Prüf-Sitzung meldet. Diese Anweisung sagt, was gebaut wird und
+welche Testfälle (T01 bis T135) die Routine enthalten muss.
+
+====================================================================================================
+0. REGELN (GELTEN FÜR ALLES IN DIESER DATEI)
+====================================================================================================
+- Bei jeder Code-Änderung immer die KOMPLETTE Datei liefern, nie Ausschnitte oder Fragmente zum Einfügen.
+- Alte Clients nie brechen: Der Code-Weg für Classic Era, TBC, Wrath, Cata und MoP Classic bleibt exakt wie bisher.
+  Die Hilfen, die die Testroutine braucht (Abschnitt 2.4), ändern das Verhalten im normalen Spiel nicht.
+- Der Testmodus darf nichts mit echten Folgen tun:
+  * kein Chat in öffentliche, Gilden- oder Raid-Kanäle, auch keine Addon-Nachrichten (Names.lua:191-194 Send,
+    Names.lua:215 SendName, AutoLearn.lua:165/177 AutoShare). Alles läuft in eine Test-Senke (2.4 Punkt 3).
+  * keinen Kanal betreten oder verlassen (Names.lua:273-298 JoinSync/TryJoin, Names.lua:320-325 LeaveSync).
+  * keinen Zauber wirken: nie :Click() auf einen SecureActionButton (BuffSentinel_proc/buff/cdN, BuffSentinelRasterCellN,
+    BuffSentinelDispelN). Attribute nur lesen (GetAttribute), nie selbst setzen.
+  * keinen Gegenstand benutzen (Gift-Makros "/use item:ID" nur als Text prüfen), kein Kauf/Verkauf/Post, kein Gold,
+    keine Markierungen fremder Einheiten, keine Spieleinstellungen (CVars) ändern.
+  * Töne nur, wenn der Nutzer selbst "Sounds testen" drückt; in der Routine stumm (2.4 Punkt 5).
+- Echte SavedVariables (BuffSentinelDB) sind nach dem Test unverändert – Sandbox mit Sicherung und Vergleich wie bei
+  LevelPilot ("echte Daten unverändert: OK"). Einzige erlaubte Änderung: BuffSentinelDB.gsTest (Berichte, Abschnitt 6).
+- Test nur ausserhalb des Kampfes starten (InCombatLockdown() oder UnitAffectingCombat("player") -> Abbruch mit Hinweis).
+  Beginnt mitten im Test ein Kampf: Test sofort beenden, alles wiederherstellen, Rest als ÜBERSPRUNGEN "Kampf begonnen".
+- Vor dem Push: python3 addon-check/addon_check.py download/BuffSentinel-x.y.z.zip -> kein FEHLER.
+- Ergebnisse, die nur im Forever-Client bestätigt werden können, als "IM CLIENT PRÜFEN" kennzeichnen (T:Client).
+
+====================================================================================================
+1. BESTEHENDE TESTROUTINE (BELEGT AUS DEM CODE 0.9.4)
+====================================================================================================
+Was es gibt, ist ein VISUELLER Testmodus, keine Prüfroutine.
+
+Start:
+- /bsen test bzw. /buffsentinel test (Core.lua:1180-1181) -> BS:ToggleTestMode (Display.lua:1046-1054).
+- Knopf "Testmodus" oben im Einstellungsfenster (Options.lua:1000-1002; nur sichtbar für den Entwickler, Options.lua:1060-1066),
+  Knopf "Testmodus (Entw.)" auf der Seite "Optionen" (Options.lua:768-769), Shift + Linksklick auf den Minimap-Button
+  (Options.lua:1134-1135), Knopf "Zum Testmodus" in der Anordnen-Leiste (Display.lua:861-864).
+- Nur mit GoldSentinelDev: BS:IsDev (Core.lua:265-267) -> GoldSentinelDev:IsDev(). Alle anderen landen im "Anordnen"
+  (Display.lua:984-987), mit Hinweis von GoldSentinelDev:Require.
+
+Was er abdeckt:
+- Testleiste (Display.lua:702-769): Klasse und Skillung durchschalten (SetTestClass 906-922, CycleTestClass 924-931,
+  CycleTestSpec 933-948), nur Klassen der laufenden Version/Fraktion (AvailableClasses 682-688, FactionAllows 674-680).
+- Beispielwerte auf allen Buttons (Demo, Display.lua:1058-1085), Beispiel-Debuffs in der Reinigungsleiste
+  (Dispel.lua:316-321, 372-387), "Sounds testen" (Display.lua:959-979), "Alle Positionen zurücksetzen".
+- Schutz: Klicks wirken nichts (ConfigureButton Display.lua:533-536, LayoutDispel Dispel.lua:336); fremde Klasse ändert
+  keine eigenen Einstellungen (EntryStore Core.lua:392-397, SoundOverrides Sounds.lua:171-175); Testmodus endet beim
+  Kampfbeginn (Core.lua:1151).
+- Diagnose /bsen fehler | errors | diag (Core.lua:1182-1185): G.Status(), BS:ErrorSummary(), Sperren, Kampflog.
+- Aus den gemeinsamen Dateien: /gsgame (GoldSentinelGame.lua:284-288), /gsdev (GoldSentinelDev.lua).
+
+Anzahl Prüfungen: 0. Es gibt kein OK/FEHLER, keinen Bericht, keine Zählung, kein pcall pro Prüfung.
+
+Was fehlt (alles, was die Vorgabe verlangt):
+- Kein Selbsttest mit G.SetTestFlavor: kommt ausserhalb von GoldSentinelGame.lua nirgends vor. BS.restricted wird nur einmal
+  beim Laden berechnet (Core.lua:43-68). Aufgabe 1 der Korrektur 0.9.4 ist noch offen.
+- Keine Simulation geschützter Werte, fehlender alter Funktionen, der Kampfsperre oder des gesperrten Kampflogs.
+- Keine Prüfung von SavedVariables (Neuinstallation, Migration 0.8.4/0.8.6, beschädigte Einträge).
+- Keine Prüfung von Kommunikation (Prefix "BuffSentinel", Kanal "BuffSentinelSync"), AutoLearn, Aufnahme, Reinigen-Logik.
+- Keine Leistungsmessung, keine Prüfung der Fehlerzählung, keine Regressionstests.
+- Lücken des Testmodus selbst: Mit fremder Klasse fehlen eigene und automatisch gelernte Procs (Core.lua:817) und
+  Gestalt-Makros (Core.lua:841); der Rückfall "nutzbar", Execute und die Reinigungsleiste sind in Forever gar nicht zu sehen.
+- Keine Anbindung an GoldSentinelTest (Abschnitt 6).
+
+====================================================================================================
+2. ABLAUF UND BERICHT DER ROUTINE (VERBINDLICH)
+====================================================================================================
+2.1 Start
+- Neue Datei Selftest.lua (in der .toc nach Options.lua). Befehle (nur mit GoldSentinelDev, sonst GoldSentinelDev:Require):
+    /bsen testroutine                    alles (Bereiche A bis J, automatischer Teil)
+    /bsen testroutine <bereich>          laden | funktionen | forever | alt | daten | sprache | zusammen | leistung |
+                                         fehler | regression   (= A bis J)
+    /bsen testroutine kampf              halbautomatischer Teil (Abschnitt 4): Beobachtung des nächsten Kampfes
+    /bsen selbsttest                     wie in der Korrektur 0.9.4 verlangt; ruft Bereich A auf
+- Knopf "Alles testen" auf der Seite "Optionen" (Bereich "Anzeige & Anordnen", nur Entwickler, neben "Testmodus (Entw.)").
+- Läuft schon ein Testmodus oder Anordnen: zuerst BS:StopTestMode(true).
+
+2.2 Ergebnis je Prüfung und Bericht
+- Jede Prüfung NUR über GoldSentinelTest: T:Check (OK/FEHLER, pcall, Zeit), T:Skip (ÜBERSPRUNGEN mit Grund),
+  T:Client (IM CLIENT PRÜFEN mit Anleitung). Ein Lua-Fehler in einer Prüfung bricht die Routine nicht ab, er wird als
+  FEHLER mit Lua-Meldung gezählt (das macht T:Check).
+- Am Ende: local text = T:Finish({ sandbox = "OK" oder "FEHLER: <Pfad>", bsFehler = BS:ErrorSummary(),
+  geheimSimuliert = "ja/nein" }). Text in ein Kopierfenster (eigener Rahmen "BuffSentinelTestReport", mehrzeilige
+  EditBox, beim Öffnen Fokus + HighlightText, Hinweis "Strg+A, Strg+C"). Der Text enthält (GoldSentinelTest liefert das):
+  Addon, Version, Client (GetBuildInfo, Interface-Nummer), G.Status(), Sprache, Klasse/Level, Datum, Zählung
+  OK/FEHLER/ÜBERSPRUNGEN/IM CLIENT PRÜFEN, alle FEHLER mit Bereich, Erwartung, Ergebnis, Fehlerzähler, Laufzeit.
+- Vor T:Finish alles zurückstellen (SetTestFlavor(nil), Stubs, Sandbox), damit Env() den echten Client meldet.
+
+2.3 Sandbox (echte Daten unverändert)
+- Vorher: real = BuffSentinelDB; snap = DeepCopy(real ohne gsTest); test = DeepCopy(real ohne gsTest).
+  _G.BuffSentinelDB = test; BS.gdb = test; BS.db = test.profiles[<Schlüssel wie Core.lua:339>].
+- Zusätzlich sichern (Laufzeit-Zustand): BS.class, BS.mainSpec, BS.testClass, BS.testMode, BS.arrangeMode, BS.entries,
+  BS.errors, BS.secretNoted, BS.errShownEvent, BS.playerAuras, BS.playerAuraInfo, BS.groupMissing, BS.unitInfo,
+  BS.unitAuras, BS.triggers, BS.dispelSpells, BS.dispelActive, BS.syncReady, BS.syncState, BS.hasCombatLog, alle
+  Felder von BS:DetectFlavor, BS.currentPage, BS.listFreeze, BS.recPrev, GoldSentinelDev unverändert lassen.
+- Die automatischen Bereiche laufen in EINEM Durchgang ohne Warten (kein C_Timer dazwischen), damit ein Ausloggen nie die
+  Testkopie speichert. Asynchrone Prüfungen (Töne, Kanal) nur ausserhalb der Sandbox.
+- Nachher: _G.BuffSentinelDB = real; BS.gdb = real; BS.db = real.profiles[key]; Laufzeit-Zustand zurück; BS:FullScan().
+  Vergleich DeepEqual(real ohne gsTest, snap) -> Zeile "echte Daten unverändert: OK" (sonst FEHLER mit dem ersten
+  abweichenden Pfad, z. B. "profiles.<key>.btnPos" – ohne den Profilnamen, der den Charakternamen enthält).
+
+2.4 Kleine Hilfen im Addon (Verhalten im Spiel unverändert, komplette Dateien liefern)
+1. Core.lua: Berechnung aus Core.lua:43-68 in BS:DetectFlavor() verschieben (Korrektur 0.9.4 Punkt 1). Beim Laden einmal
+   aufrufen. Dazu BS:WantsCombatLog() = not self.restricted (Core.lua:1071) für die Prüfung der Kampflog-Weiche.
+   DetectFlavor muss auch ohne GoldSentinelGame laufen (Rückfall Core.lua:50-57).
+2. Core.lua: BS:Lockdown() = InCombatLockdown() or self.testLockdown == true. Benutzen in Refresh (Display.lua:1364),
+   Layout (572), HideAllForCombat (635), Arm (647), ArmDispel (Dispel.lua:350), LayoutDispel (304), UpdateRaster
+   (Group.lua:213), SettingsChanged (Core.lua:1027), FullScanSoon (1017), ToggleRaster (Group.lua:188), StartTestMode
+   (Display.lua:982), ChangeScale (226), ResetPositions (127), ApplyPositions (113). testLockdown kann eine Sperre nur
+   HINZUFÜGEN, nie aufheben. Ebenso BS.testCombat in BS:InCombat (Core.lua:269), BS:CombatLocked (78) und Refresh
+   (Display.lua:1365) als zusätzliches "im Kampf".
+3. Names.lua: Test-Senke. Solange GetTime() < (BS.testCommUntil or 0): Send() und SendName() hängen {msg, kanal} an
+   BS.testSink an statt zu senden; JoinSync, TryJoin und LeaveSync tun nichts. Die Routine setzt testCommUntil = jetzt + 15 s
+   (deckt die verzögerten Antworten aus ScheduleAnswer Names.lua:460 und ShareAll Names.lua:500 ab) und leert danach
+   qGroup/qSync/pending über eine neue Funktion BS:CommReset() (die Tabellen sind lokal in Names.lua).
+4. AutoLearn.lua:417-421: Ist testCommUntil aktiv, AutoCheckCooldown direkt aufrufen statt über C_Timer.After (sonst
+   schreibt der verzögerte Aufruf nach dem Test in die echten Daten).
+5. Sounds.lua:255 PlaySoundChoice: ist BS.testMute gesetzt, Ton nur auflösen und Ergebnis (true/false) zurückgeben, nicht
+   abspielen.
+6. Options.lua:154-176 AddToggle: Zeile zusätzlich in p.toggles eintragen ({row, label}); Options.lua:1077-1078: Fehler
+   einer Seite zusätzlich mit BS:CountError("Optionen " .. key, err) zählen.
+7. Für die Test-Hilfe lokaler Funktionen: BS._test = { AvailableClasses = AvailableClasses, FitLabel = FitLabel,
+   IsEnrage = IsEnrage, ForEachAura = ForEachAura, KindOfPosKey = KindOfPosKey } (nur Verweise, keine Logik).
+
+2.5 Simulation geschützter Werte und fehlender Funktionen (Bereiche C, D, J)
+- Geschützter Testwert: S = setmetatable({}, mt) mit __add, __sub, __mul, __div, __unm, __lt, __le, __concat, __len,
+  __index, __newindex, __call -> error("geschützter Testwert"). Vorübergehend _G.issecretvalue = function(v) return
+  FAKE[v] == true or (orig and orig(v)) or false end, dann G.SetTestFlavor("forever") (Recalc setzt G.HasSecrets) und
+  BS:DetectFlavor(). Grenze: Lua erkennt den Testwert als Tabellenschlüssel nicht – darum prüft jede C-Prüfung danach, dass
+  S in keiner Tabelle als Schlüssel oder Wert gelandet ist (BS.playerAuras, playerAuraInfo, groupMissing, unitInfo,
+  dispelSpells.types, gdb.learned, gdb.auto).
+- Blizzard-Funktionen ersetzen (UnitBuff, C_UnitAuras.GetAuraDataByIndex, UnitName, UnitHealth, C_Spell.* …): nur im
+  laufenden Durchgang, Original per Verweis sichern und sofort zurücksetzen. Das kann Blizzard-Code "verunreinigen" (Taint).
+  Darum: nach jedem Lauf mit Bereich C, D oder J zeigt die Routine "Bitte jetzt /reload – Testwerte haben Spielfunktionen
+  berührt" (der Bericht ist vorher gespeichert). InCombatLockdown selbst NIE ersetzen (dafür BS.testLockdown).
+- Nach C/D/J: _G.issecretvalue = orig, G.SetTestFlavor(nil), BS:DetectFlavor(), BS:FullScan().
+
+====================================================================================================
+3. TESTFÄLLE
+====================================================================================================
+Form: Tnn [Bereich · Art · Clients] Titel
+      Prüft/Wie: …   Erwartet: …
+Art: auto = automatisch in der Routine · halb = Spieler tut etwas, Routine prüft · manuell = nur mit /dump
+Clients: F = WoW Forever, E = Classic Era, T = TBC (Anniversary), R = Retail. "alle" = F/E/T/R.
+Die IDs bleiben über alle Versionen gleich. Fällt ein Test weg, bleibt seine Nummer frei; neue Tests bekommen neue Nummern.
+
+---------------------------------------------------------------- A. LADEN UND ERKENNUNG
+T01 [A · auto · alle] Alle Dateien geladen
+    Prüft/Wie: BS.ClassData hat 13 Klassen (WARRIOR … EVOKER); vorhanden: BS.CreateDisplay (Display), BS.RefreshGroup (Group),
+    BS.LayoutDispel (Dispel), BS.RecordAuras (Recorder), BS.AutoEntries (AutoLearn), BS.CreateOptions (Options),
+    BS.SoundList (Sounds), BS.InitNames (Names), BS.Donate.Show (Donate), GoldSentinelDev, GoldSentinelGame, GoldSentinelTest.
+    Erwartet: alle vorhanden, BS.ready == true.
+T02 [A · auto · alle] Version .toc = Code
+    Prüft/Wie: (C_AddOns.GetAddOnMetadata or GetAddOnMetadata)("BuffSentinel", "Version") == BS.version (Core.lua:7).
+    Erwartet: gleich (z. B. "0.9.5").
+T03 [A · auto · alle] GoldSentinelGame Version 2
+    Prüft/Wie: GoldSentinelGame.version == 2 und apiVersion == 2; Funktionen IsSecret, AnySecret, Safe, Short, CleanName,
+    SameName, Status, SetTestFlavor, Recalc vorhanden. Die Dateigleichheit mit shared/ prüft addon_check vor dem Push
+    (im Spiel nur die Version).
+    Erwartet: Version 2, alle Funktionen da.
+T04 [A · auto · alle] Echte Weichen
+    Prüft/Wie: BS.flavor == G.flavor; BS.expansion passt zu FLAVOR_EXP (Core.lua:42); BS.family; BS.restricted == G.IsModern;
+    BS:Locked() == (restricted and G.HasSecrets); BS.hasCombatLog == not restricted;
+    BS.frame:IsEventRegistered("COMBAT_LOG_EVENT_UNFILTERED") == hasCombatLog.
+    Erwartet: F: forever/1/classic/restricted ja/Locked ja/Kampflog nein · E: era/1/nein/nein/ja · T: tbc/2/nein/nein/ja ·
+    R: retail/12/modern/ja/ja/nein.
+T05 [A · auto · alle] Simuliert "forever"
+    Prüft/Wie: G.SetTestFlavor("forever"); BS:DetectFlavor(). Auf E/T zusätzlich issecretvalue-Stub (2.5), damit
+    G.HasSecrets wahr ist. EntryAvailable mit {forever=true} / {noForever=true} / {min=2, alsoForever=true}.
+    Erwartet: flavor forever, expansion 1, family classic, isForever ja, isRetail nein, restricted ja, Locked ja,
+    WantsCombatLog nein; EntryAvailable true / false / true.
+T06 [A · auto · alle] Simuliert "era"
+    Prüft/Wie: SetTestFlavor("era"); DetectFlavor().   Erwartet: expansion 1, restricted nein (G.IsModern ist mit
+    Testversion auch auf F falsch), Locked nein, WantsCombatLog ja, EntryAvailable({min=2}) false.
+T07 [A · auto · alle] Simuliert "tbc"
+    Erwartet: expansion 2, family classic, restricted nein, EntryAvailable({min=2}) true, ({max=1}) false.
+T08 [A · auto · alle] Simuliert "retail"
+    Prüft/Wie: wie oben, dazu EntryAvailable({kind="proc"}), ({kind="buff"}), ({kind="buff", retail=true}), BS:AutoActive().
+    Erwartet: expansion 12, family modern, isRetail ja, restricted ja; false / false / true; AutoActive false.
+T09 [A · auto · alle] Zurück auf echt
+    Prüft/Wie: SetTestFlavor(nil); DetectFlavor(); alle Werte aus T04 neu lesen; G.Status() ohne "[Test]".
+    Erwartet: identisch mit T04.
+T10 [A · auto · alle] Rückfall ohne GoldSentinelGame
+    Prüft/Wie: _G.GoldSentinelGame vorübergehend nil, BS:DetectFlavor(), sofort zurück, DetectFlavor() erneut.
+    Erwartet: Werte aus der Interface-Nummer (16001 -> forever, restricted = isRetail or isForever), danach wieder wie T04.
+
+---------------------------------------------------------------- B. JEDE FUNKTION
+Kern (Core.lua)
+T11 [B · auto · alle] API-Hilfen mit echten Werten
+    Prüft/Wie: BS.SpellInfo(6603), BS.GetCooldown(6603), BS.IsUsable(6603), BS.InRange(6603, "player"), BS.IsReady(6603),
+    BS.KnowsSpellID("x"), BS.ItemCount(6948), BS.ItemName(6948), BS.ItemIcon(6948), BS.HasOffhandWeapon().
+    Erwartet: Name ist Text, Zahlen sind Zahlen, IsUsable zwei Booleans, InRange nil oder Boolean, KnowsSpellID("x") false,
+    kein Lua-Fehler.
+T12 [B · auto · alle] Kleine Helfer
+    Prüft/Wie: BS.FormatTime(75) "1m", (2.34) "2.3", (12.6) "13"; BS.Upper("stärke") "STÄRKE"; BS.Contains({1,2},2);
+    BS.HasAny({a=1},{a=true}); BS.ScanAuras("party9", {}) leer.   Erwartet: genau diese Werte.
+T13 [B · auto · alle] Zauberbuch
+    Prüft/Wie: BS:ScanSpellbook().   Erwartet: spellbookOK ja, #known > 0, alle classSpells-Werte Zahlen, IsKnown(nil) false.
+T14 [B · auto · alle] Talente / Spezialisierung
+    Prüft/Wie: BS:ScanTalents(). Classic: Summe points <= UnitLevel - 9, mainSpec 0–3; modern: mainSpec >= 0; talentSig Text.
+    Erwartet: kein Fehler, Werte im Bereich. F: talentsReadable zusätzlich als T:Client (siehe T74).
+T15 [B · auto · alle] Einträge auflösen
+    Prüft/Wie: BS:ResolveEntries(). Jeder Eintrag: key, kind in {buff, proc, cd}, icon, label (Text), status (Text) +
+    statusColor (Tabelle), known Boolean; keine doppelten keys; CountActive() <= #entries.
+    Erwartet: alles erfüllt.
+T16 [B · auto · alle] Einstellungen pro Skillung
+    Prüft/Wie: SetEntrySetting(key, "enabled", false), ("mode", "combat"), ("bell", true), ("enabled", nil);
+    CountOverrides; ResetEntrySettings.
+    Erwartet: Eintrag nach Layout aus / Modus combat / Klingel an / wieder Empfehlung; CountOverrides 1, danach 0.
+T17 [B · auto · alle] Zonen
+    Prüft/Wie: BS:GetContext(); jeden der 6 Schalter (world, dungeon, raid, pvp, resting, sanctuary) für den aktuellen Kontext
+    umschalten.   Erwartet: ctx ist Schlüssel aus BS.CONTEXT_NAMES; der passende Schalter ändert das Ergebnis.
+T18 [B · auto · alle] Slash-Befehle
+    Prüft/Wie: SlashCmdList.BUFFSENTINEL mit "", "fehler", "errors", "diag", "anordnen", "move", "verschieben", "test",
+    "spenden", "donate", "support", "selbsttest", "xyz". BS.Print vorübergehend abfangen.
+    Erwartet: "" und "xyz" öffnen/schliessen Optionen; Diagnose-Zeile mit G.Status, "Sperren", "Kampflog"; Anordnen an
+    (danach StopTestMode); "test" ohne Dev = Anordnen; Spendenfenster offen (danach zu); "selbsttest" nur mit Dev.
+
+Anzeige (Display.lua)
+T19 [B · auto · alle] Layout verteilt die Einträge
+    Prüft/Wie: BS:Layout(). Je Gruppe: Anzahl Buttons mit entry == CountActive(); Buff-Buttons unit "player";
+    Gift-Einträge type "macro", macrotext "/use item:<ID>\n/use 16|17"; Zauber-Einträge type "spell", spell = spellName.
+    Erwartet: alles erfüllt (nur lesen, nichts klicken).
+T20 [B · auto · alle] EvalBuff
+    Prüft/Wie: Test-Eintrag (kind buff, auraNames {TestBuff}) direkt prüfen: ohne Aura / mit Aura in playerAuras /
+    beritten ausser Kampf / mode combat ausser Kampf; Gruppen-Eintrag mit groupMissing = {{unit="player", name="Test", …}}.
+    Erwartet: true / false / false / false; Gruppe: Text "» Test", Zahl leer.
+T21 [B · auto · alle] EvalProc
+    Prüft/Wie: playerAuraInfo[Proc] = {count=3, expires=now+5}, inCombat true; minStacks 4; inCombat false; trigger "dodge"
+    mit triggers.dodge = now (alter Weg) und consumedAt > t; reactive mit IsUsable.
+    Erwartet: aktiv, Timer "5", Zahl "3" / nicht aktiv / nicht aktiv / aktiv, danach nicht / je nach IsUsable.
+T22 [B · auto · alle] EvalCooldown und Aufleuchten
+    Prüft/Wie: Folge bereit -> nicht bereit -> bereit mit BS.GetCooldown-Stub (eigene Funktion, kein Blizzard-Global);
+    testMute an; cdWorldCombatOnly mit ctx "world" ausser Kampf.
+    Erwartet: beim ersten "bereit" kein Aufleuchten (readyInit), beim Wechsel flashUntil gesetzt und genau ein Ton aufgelöst;
+    world ausser Kampf -> false.
+T23 [B · auto · alle] Refresh und Vorschau
+    Prüft/Wie: BS:Refresh() normal; db.locked = false (Vorschau).   Erwartet: kein Fehler, BS.errors unverändert; Vorschau:
+    alle Buttons mit entry sichtbar, Alpha 0.7.
+T24 [B · auto · alle] Beschriftungen passen
+    Prüft/Wie: nach Layout für jeden Button jedes Wort von b.label:GetText() mit GetStringWidth messen.
+    Erwartet: kein Wort breiter als b.label:GetWidth() oder Schriftgrösse >= 8 (FitLabel, Display.lua:320-339).
+T25 [B · auto · alle] Grösse, Abstand, Richtung, Positionen
+    Prüft/Wie: ChangeScale("proc", +0.1) 20x und -0.1 20x; ChangeScale(nil, …); ChangeGap("buff", ±4) bis an die Grenzen;
+    ToggleVertical("cd") 2x; ResetButtonPosition; ResetScales; ResetPositions; ResetArrangement; ResetWindows.
+    Erwartet: Gruppe 0.5–2.0, gesamt 0.6–2.0; Abstand zwischen Grenze (Display.lua:153) und 80; Richtung wieder wie vorher;
+    nach Reset pos/btnPos/winPos leer, groupScale 1, gap 0.
+T26 [B · auto · alle] Anordnen-Modus
+    Prüft/Wie: StartArrangeMode(); arrangeBar sichtbar; alle Buttons mit entry haben type nil; UpdateArrangeBar;
+    StopTestMode().   Erwartet: arrangeMode an/aus, danach type wieder gesetzt, Meldung "Anordnen beendet".
+T27 [B · auto · alle, nur Dev] Testmodus alle Klassen und Skillungen
+    Prüft/Wie: StartTestMode(); für jede Klasse aus BS._test.AvailableClasses() und jede Skillung CycleTestSpec: Layout,
+    Refresh (Demo), Fehler zählen; "Eigene"; StopTestMode().
+    Erwartet: 0 Fehler, type immer nil, db.specs unverändert (testStore), danach eigene Klasse/Skillung wieder da.
+    Ohne Dev: T:Skip "nur Entwickler".
+T28 [B · auto · alle] Tooltips der Buttons
+    Prüft/Wie: für jeden Button mit entry OnEnter/OnLeave-Skript aufrufen (auch Raster-Zelle, Reinigungs-Zelle,
+    Minimap-Button, Spenden-Knopf).   Erwartet: GameTooltip sichtbar, erste Zeile = e.label bzw. "BuffSentinel", danach zu.
+T29 [B · auto · alle] Ereignisse
+    Prüft/Wie: jedes Ereignis aus EVENTS (Core.lua:1055-1062) ist registriert und hat BS[event]; Aufruf mit passenden
+    Argumenten: SPELLS_CHANGED, LEARNED_SPELL_IN_TAB, CHARACTER_POINTS_CHANGED, PLAYER_TALENT_UPDATE,
+    ACTIVE_TALENT_GROUP_CHANGED, PLAYER_SPECIALIZATION_CHANGED("player"), TRAIT_CONFIG_UPDATED (-> scanQueued),
+    GROUP_ROSTER_UPDATE, BAG_UPDATE_DELAYED, UNIT_INVENTORY_CHANGED("player"), UNIT_AURA("player"),
+    UNIT_SPELLCAST_SUCCEEDED("player", nil, 6603), CHAT_MSG_CHANNEL_NOTICE("YOU_JOINED", …, "Andere"),
+    PLAYER_REGEN_DISABLED + PLAYER_REGEN_ENABLED (ausser Kampf).
+    Erwartet: kein Fehler; nach REGEN_DISABLED auf F/R alle Buttons versteckt, auf E/T Arm ausgeführt; nach REGEN_ENABLED
+    Anzeige wie vorher.
+
+Gruppe und Reinigen (Group.lua, Dispel.lua)
+T30 [B · auto · alle] Gruppenmitglieder und Gruppen-Buffs
+    Prüft/Wie: GetGroupUnits() allein; GroupEntries(); Test-Eintrag (group, manaOnly) in BS.entries, RefreshGroup().
+    Erwartet: allein {"player"}, inRaid false; Krieger/Schurke/DK (und Jäger ab Cata) nicht in miss bei manaOnly, sonst
+    miss[1].unit "player"; Sortierung "in Reichweite" zuerst.
+T31 [B · auto · alle] Gruppen-Raster
+    Prüft/Wie: ToggleRaster() mit und ohne Gruppen-Einträge; UpdateRaster(true); ToggleRaster() zu.
+    Erwartet: ohne Einträge Meldung "keine Gruppen-Buffs"; sonst Zellen = #units x #entries, jede Zelle type "spell",
+    spell und unit gesetzt (nur lesen); Fenster wieder zu.
+T32 [B · auto · alle] Reinigungszauber je Klasse
+    Prüft/Wie: ResolveDispelSpells() für die eigene Klasse; LayoutDispel(); DispelSummary().
+    Erwartet: E/T z. B. Priester Magie + Krankheit, Schamane Gift + Krankheit, Magier Fluch, Druide Fluch + Gift,
+    Paladin Magie/Gift/Krankheit, Krieger/Schurke/Jäger/Hexer leer; F/R (Locked): leer, dispelActive false;
+    Zahl Zellen = #units (im Testmodus mind. 5); Summary-Zeilen = #spells.
+T33 [B · auto · E/T] Debuffs reinigen (Testdaten)
+    Prüft/Wie: Auren-Stub mit Fluch (19703 Lucifrons Fluch), Gift, Vampirberührung (34914) auf "player"; RefreshDispel.
+    Erwartet: wichtiger Debuff leuchtet (glow), Rahmen in Typfarbe, Buchstabe L/R/M bei > 1 Zauber; 34914 nie angezeigt.
+    F/R: T:Skip "Reinigen-Raster in Forever/Retail aus".
+T34 [B · auto · alle] Gegner entzaubern
+    Prüft/Wie: FindEnemyDispel mit Ziel-Stub: Magie-Buff, stehlbarer Buff, Wut per ID 19451, Wut per Name "Raserei", ohne Ziel.
+    Erwartet: Name + Anzahl je passender Art; ohne Ziel nil; BS._test.IsEnrage("Raserei", nil, nil) true.
+
+Aufnahme und AutoLearn (Recorder.lua, AutoLearn.lua)
+T35 [B · auto · alle] Aufnahme
+    Prüft/Wie: SetRecorder(true); neue Aura "TestAura" in playerAuraInfo, RecordAuras(); 101 Auren; AddCustomFromRecord;
+    SetCustomSpell(1, "  Testzauber  "); ResolveEntries; RemoveCustom(1); ClearRecorder; SetRecorder(false).
+    Erwartet: Eintrag in list/seen, count 1; Liste höchstens 100; custom mit spell "Testzauber"; Eintrag "custom:TestAura"
+    (proc); nach Entfernen weg (auch aus db.specs); Liste leer.
+T36 [B · auto · F/E/T] Proc automatisch lernen
+    Prüft/Wie: BS.InCombat vorübergehend -> true; 3x: Aura "TestProc" (duration 10, source "player") erscheint,
+    AutoOnCast(<id eines classSpells>), Aura verschwindet vorzeitig. testCommUntil aktiv.
+    Erwartet: c.procs.TestProc mit src "self", spell = gewirkter Zauber; Eintrag "auto:p:TestProc"; Senke enthält
+    "A;<KLASSE>;P;…" nur wenn auraId eine Zahl ist. R: AutoActive false -> T:Skip.
+T37 [B · auto · F/E/T] Fähigkeit automatisch lernen
+    Prüft/Wie: AutoAddCooldown("Testfähigkeit", 6603, 30, "self"); BS.AutoCdText(30), (120); AutoList(); AutoRemove("cd", …);
+    AutoResetIgnore(); AutoSpellbookCheck() beim ersten Lauf (autoBaseDone nil).
+    Erwartet: c.cds-Eintrag, "30 s", "2 Min.", Procs vor Fähigkeiten sortiert; nach Entfernen in ignore; nach Reset leer;
+    erster Bücherscan nimmt nichts auf und setzt autoBaseDone.
+T38 [B · auto · alle] AutoLearn ein/aus und geteilte Entdeckungen
+    Prüft/Wie: SetAutoLearn(false) -> AutoActive; OnAutoShare("WARRIOR", "P", "<auraId>", "<spellId>", "1", "Testsender") und
+    "C" mit gültigen und unsinnigen IDs; ParseSpecs über "1,5,x".
+    Erwartet: false; gültige werden mit src "net" übernommen, unsinnige ignoriert; Retail ignoriert alles.
+
+Namen und Kommunikation (Names.lua)
+T39 [B · auto · alle] Namensindex und Übersetzung
+    Prüft/Wie: BuildNameIndex(); für jeden Text in nameIndex.spells LocalSpellName(n); ResolveTalentList für jede Liste;
+    AssignTalent(en, <gültige pos>); UnassignTalent(en); CountLearned().
+    Erwartet: kein Fehler; Ergebnis Text oder nil; Zuordnung src "manual", danach weg; Zähler passen.
+T40 [B · auto · alle] Senden (nur in die Senke)
+    Prüft/Wie: SendName("X", "both") mit shareNames/shareServer an und aus; Nachricht > 250 Zeichen; doppelt; PumpComm()
+    ohne Gruppe.   Erwartet: an -> 2 Einträge in der Senke (group, sync), aus -> 0; zu lang und doppelt verworfen;
+    ohne Gruppe qGroup leer; KEIN Aufruf von C_ChatInfo.SendAddonMessage (Hook zählt 0).
+T41 [B · auto · alle] Empfangen
+    Prüft/Wie: CHAT_MSG_ADDON("BuffSentinel", msg, "GUILD", "Testsender-Testrealm") mit "T;<KLASSE>;1:2:3;<Talent>",
+    "S;6603;<Name aus Index>", "Q;S;<Name>", "R", "A;WARRIOR;C;6603;0;1"; eigener Name als Absender; anderer Prefix;
+    shareNames aus; "CHANNEL" mit shareServer aus.
+    Erwartet: Zuordnungen in der Sandbox, Antworten nur in der Senke; eigene/fremde Prefixe/abgeschaltete Wege ignoriert.
+T42 [B · auto · alle] Kaputte Nachrichten
+    Prüft/Wie: "", ";;;;", "T;;;", "T;WARRIOR;abc;X", "S;abc;X", "A;WARRIOR;P;x;y;z", "Q", 300 Zeichen, "R;R;R".
+    Erwartet: kein Lua-Fehler, nichts gespeichert.
+T43 [B · auto · alle] Server-Kanal (ohne beizutreten)
+    Prüft/Wie: JoinSync/LeaveSync durch Zähler ersetzen; SetShareServer(false/true); SyncStatusText für off, waiting,
+    connecting, ready, failed; CHAT_MSG_CHANNEL_NOTICE("YOU_LEFT", …, "BuffSentinelSync").
+    Erwartet: Join/Leave je einmal gezählt (nicht echt ausgeführt); 5 verschiedene Texte; syncReady danach false
+    (danach echten Zustand zurück).
+
+Töne (Sounds.lua)
+T44 [B · auto · alle] Tonliste und Einstellungen
+    Prüft/Wie: SoundList(); für alle 7 Arten SoundSetting; SetSoundSetting(art, "on", …), ("sound", "custom", "123");
+    SoundName(…); SoundApplyToAll; SoundResetSpec; SoundResetAll; MigrateSounds zweimal.
+    Erwartet: Liste nicht leer, jede Art liefert Boolean + Schlüssel; Änderung sichtbar; "Eigener: 123"; nach Reset
+    Standard aus SOUND_KINDS; Migration ändert beim zweiten Mal nichts.
+T45 [B · auto · alle] Töne auflösen (stumm)
+    Prüft/Wie: testMute an; PlaySoundChoice für den Standardton jeder Art, für "f:shaysbell", "custom" mit Pfad/ID,
+    unbekannten Schlüssel.   Erwartet: kein Fehler; Standardtöne true; unbekannt false (Ersatzton).
+T46 [B · halb · alle] Töne hören
+    T:Client "Optionen > Warntöne > Anhören je Zeile und 'Sounds testen' in der Anordnen-Leiste: alle 7 Töne hörbar".
+
+Optionen, Fenster, Minimap, Spenden (Options.lua, Donate.lua)
+T47 [B · auto · alle] Alle Seiten
+    Prüft/Wie: ToggleOptions(); ShowPage für skill, proc, buff, cd, dispel, opt, rec und "zones" (alter Name); ToggleOptions().
+    Erwartet: kein "Fehler:"-Text, BS.errors unverändert; "zones" öffnet "opt"; Fenster zu; "BuffSentinelOptions" in
+    UISpecialFrames (Esc schliesst).
+T48 [B · auto · alle] Jede Option einmal an/aus
+    Prüft/Wie: auf jeder Seite alle p.toggles-Zeilen 2x :Click() (keine Secure-Buttons): Zonen (6), Cooldown-Leiste nur im
+    Kampf, Restzeit, Reinigungsleiste (Seiten opt + dispel), Warnton Reinigen, Automatisch lernen und Teilen (Seiten opt +
+    rec), Minimap-Button, Server-Austausch (Join/Leave gezählt, T43), Gilde/Gruppe.
+    Erwartet: nach dem ersten Klick Wert umgekehrt, nach dem zweiten wie vorher; kein Fehler.
+T49 [B · auto · alle] Knöpfe der Seite "Optionen"
+    Prüft/Wie: "Hupe wiederholen" 8x, "Tonkanal" 5x, Grösse +/- je Gruppe, "Grössen zurücksetzen".
+    Erwartet: Hupe durchläuft 3, 5, 8, 10, 15, 20, 30, 60 und ist wieder am Start; Kanal Master, SFX, Dialog, Ambience,
+    Music und zurück.
+T50 [B · auto · alle] Seite "Skillung"
+    Prüft/Wie: "Skillung neu einlesen", "Empfehlung wiederherstellen" (nach T16), "Zuordnen"/"Abbrechen" einer Talentliste.
+    Erwartet: kein Fehler, BS.assigning gesetzt und wieder nil.
+T51 [B · auto · alle] Minimap-Button
+    Prüft/Wie: OnClick "LeftButton" (Optionen auf/zu), "RightButton" (Raster), db.minimap.hide an/aus, angle 0/90/180.
+    Erwartet: entsprechende Fenster; versteckt/gezeigt; Position wechselt.
+T52 [B · auto · alle] Spendenfenster
+    Prüft/Wie: vorher nicht offen; Donate.Show(); edit:GetText() == Donate.URL; Toggle(); CreateButton(UIParent).
+    Erwartet: öffnet sich nur auf Aufruf, Link richtig, danach zu, Knopf vorhanden (wieder verstecken).
+T53 [B · auto · alle] Fensterpositionen
+    Prüft/Wie: für "options", "raster", "testbar", "arrangebar" OnDragStop-Skript aufrufen; PlaceWindow(key).
+    Erwartet: db.winPos[key] mit 4 Werten (Sandbox); PlaceWindow ohne Fehler.
+
+Daten der Klassen (Data/*.lua)
+T54 [B · auto · alle] Datenformat aller Klassen
+    Prüft/Wie: jeder Eintrag aller 13 Klassen: key Text und je Klasse eindeutig (auch "ed_"-Einträge aus Dispel.lua:107-120),
+    kind in {buff, proc, cd}, v in {nil, classic, modern, all}, specs Zahlen 1–4, talents Texte, trigger in {dodge, avoid,
+    parry}, weapon in {main, off}, items Zahlen, minStacks/targetBelow/window Zahlen.
+    Erwartet: 0 Verstösse (Liste der Verstösse als ergebnis).
+T55 [B · auto · alle] Zauber-IDs im laufenden Client
+    Prüft/Wie: für alle EntryAvailable-Einträge der eigenen Klasse mit Zahl-ID: BS.SpellInfo(id).
+    Erwartet: E/T/R: alle aufgelöst (sonst FEHLER mit keys). F: Liste nicht aufgelöster IDs als T:Client
+    "in Forever bestätigen".
+
+---------------------------------------------------------------- C. FOREVER-SONDERFÄLLE (SIMULIERT, 2.5)
+(1) Geschützte Werte
+T56 [C · auto · alle] Eigene Auren geschützt
+    Prüft/Wie: Auren-Stub für "player": Aura 1 name = S; Aura 2 name ok, applications/expirationTime/spellId/duration/
+    sourceUnit = S. ScanPlayerAuras() ausser (echtem) Kampf.
+    Erwartet: Aura 1 übersprungen; Aura 2 gespeichert mit nil-Feldern; NoteSecret genau einmal; S nirgends gespeichert.
+T57 [C · auto · alle] Procs mit geschützten Werten
+    Prüft/Wie: EvalProc mit playerAuraInfo aus T56, dazu AutoScanAuras().   Erwartet: kein Fehler, Timer "".
+T58 [C · auto · alle] Abklingzeit geschützt
+    Prüft/Wie: C_Spell.GetSpellCooldown-Stub {startTime = S} und {duration = S}.
+    Erwartet: GetCooldown 0, 0, true; IsReady false; EvalCooldown false ohne Aufleuchten und ohne Ton.
+T59 [C · auto · alle] Nutzbar / Reichweite geschützt
+    Prüft/Wie: C_Spell.IsSpellUsable- und IsSpellInRange-Stub liefern S.   Erwartet: IsUsable false, false; InRange nil.
+T60 [C · auto · alle] Ziel-Lebenspunkte geschützt
+    Prüft/Wie: UnitExists/UnitCanAttack/UnitIsDead/UnitHealth/UnitHealthMax-Stub (HP = S); EvalProc mit targetBelow.
+    Erwartet: kein Fehler, nicht aktiv.
+T61 [C · auto · alle] Gruppennamen und -klassen geschützt
+    Prüft/Wie: UnitName/UnitClass-Stub liefern S; RefreshGroup(); EvalBuff Gruppe mit current.name = S.
+    Erwartet: unitInfo.name "?" (Text, nicht S), class nil; Zieltext "» ?".
+T62 [C · auto · alle] Debuff-Arten geschützt
+    Prüft/Wie: Auren-Stub HARMFUL/HELPFUL mit dispelName = S, spellId = S, isStealable = S; ForEachAura, FindEnemyDispel,
+    RefreshDispel (mit dispelActive vorübergehend wahr).
+    Erwartet: Rückruf erhält dtype/spellId/stealable nil; kein Fehler; IsEnrage ohne strlower auf S.
+T63 [C · auto · alle] Zauber-Ereignis geschützt
+    Prüft/Wie: UNIT_SPELLCAST_SUCCEEDED("player", nil, S); AutoOnCast(S); GetSpellBaseCooldown-Stub = S -> AutoCheckCooldown.
+    Erwartet: kein Fehler, nichts gelernt, recentCasts unverändert.
+T64 [C · auto · alle] Addon-Nachricht mit geschützten Argumenten
+    Prüft/Wie: CHAT_MSG_ADDON("BuffSentinel", S, "PARTY", "Testsender") und ("BuffSentinel", "R", "PARTY", S);
+    CHAT_MSG_CHANNEL_NOTICE("YOU_JOINED", …, S).
+    Erwartet: kein Lua-Fehler, nichts gespeichert. VERMUTET FEHLER in 0.9.4: Names.lua:441-450 (IsMe vergleicht, ShortName
+    :match), Names.lua:488 (pending[msg] als Schlüssel), Names.lua:302 (strlower-Vergleich) prüfen nichts. Beheben:
+    am Anfang von CHAT_MSG_ADDON / CHAT_MSG_CHANNEL_NOTICE mit G.AnySecret(prefix, msg, channel, sender) bzw.
+    G.IsSecret(channelBaseName) aussteigen.
+T65 [C · auto · alle] Tooltips mit geschütztem Namen
+    Prüft/Wie: UnitName-Stub = S; OnEnter von Raster-Zelle (Group.lua:156), Button mit unit ~= "player" (Display.lua:496),
+    Reinigungs-Zelle (Dispel.lua:274).
+    Erwartet: kein Lua-Fehler. VERMUTET FEHLER in 0.9.4: Group.lua:156 und Display.lua:496 verketten UnitName(...) mit "..".
+    Das Raster-Fenster bleibt im Kampf offen und anklickbar – Mauszeiger darüber in Forever = Lua-Fehler. Beheben: Name mit
+    G.Short prüfen, sonst AddLine(UnitName(u)) ohne Verkettung.
+T66 [C · auto · alle] GoldSentinelGame-Namen geschützt
+    Prüft/Wie: G.Short(S), G.CleanName(S), G.SameName(S, "a"), G.Safe(S), G.AnySecret(1, S).
+    Erwartet: nil, nil, false, nil, true.
+(2) Fehlende alte Funktionen (vorübergehend nil, danach Original zurück)
+T67 [C · auto · alle] Auren ohne UnitBuff/UnitDebuff
+    Prüft/Wie: UnitBuff = nil, UnitDebuff = nil; ScanAuras, ScanPlayerAuras, ForEachAura.
+    Erwartet: mit C_UnitAuras gleiche Namen wie vorher; ohne beides (nur Test) leere Ergebnisse, kein Fehler.
+T68 [C · auto · alle] Zauber ohne GetSpellInfo, GetSpellCooldown, IsUsableSpell, IsSpellInRange
+    Erwartet: mit C_Spell gleiche Ergebnisse wie T11; ohne beides nil / 0, 0 / true, false / nil, kein Fehler.
+T69 [C · auto · alle] Gegenstände ohne GetItemCount, GetItemIcon, GetItemInfo, GetItemInfoInstant
+    Erwartet: Ergebnisse über C_Item gleich; HasOffhandWeapon ohne Fehler.
+T70 [C · auto · alle] Zauberbuch ohne GetNumSpellTabs, GetSpellTabInfo, GetSpellBookItemName, GetSpellBookItemInfo,
+    IsPassiveSpell
+    Erwartet: mit C_SpellBook gleiche known-Menge; ohne beides spellbookOK false, IsKnown liefert true (Rückfall Core.lua:494),
+    kein Fehler. Lücke: kein Hinweis an den Spieler – als ergebnis "kein Hinweis" vermerken.
+T71 [C · auto · alle] Talente ohne GetNumTalentTabs, GetTalentInfo, GetActiveTalentGroup, GetPrimaryTalentTree
+    Erwartet: talentsReadable false, mainSpec 0, Seite "Skillung" zeigt "Talente konnten nicht gelesen werden".
+T72 [C · auto · alle] Kommunikation ohne RegisterAddonMessagePrefix, SendAddonMessage, JoinChannelByName,
+    ChatFrame_RemoveChannel, GetAddOnMetadata
+    Erwartet: Wege über C_ChatInfo / C_AddOns (nur bis zur Senke), HideSyncFromChat steigt ohne Fehler aus,
+    Spendenfenster-Titel über C_AddOns.
+T73 [C · auto · alle] Sonstige: GetZonePVPInfo, GetNumRaidMembers, GetNumPartyMembers, CombatLogGetCurrentEventInfo,
+    GetSpellBaseCooldown, GetSpecialization nil
+    Erwartet: GetContext über C_PvP; GetGroupUnits über GetNumGroupMembers/GetNumSubgroupMembers; Kampflog-Handler steigt
+    aus; BaseCooldown 0; ScanSpecialization spec 0; kein Fehler.
+T74 [C · manuell · F] Welche alten Funktionen hat Forever wirklich?
+    T:Client "/dump GetNumTalentTabs, GetTalentInfo, UnitBuff, GetSpellInfo, C_SpellBook ~= nil, ChatFrame_RemoveChannel,
+    ChatFrameUtil, JoinTemporaryChannel" – Ergebnis zurückschicken (entscheidet, ob Talente und das Verstecken des
+    Sync-Kanals in Forever gehen).
+(3) Kampfsperre (BS.testLockdown / BS.testCombat)
+T75 [C · auto · alle] Keine geschützten Aktionen in der Sperre
+    Prüft/Wie: hooksecurefunc auf SetAttribute, Show, Hide, SetPoint aller Pool-Buttons, Raster- und Reinigungs-Zellen
+    (nur zählen); testLockdown = true; Refresh, Layout, Arm, ArmDispel, LayoutDispel, UpdateRaster(true), SettingsChanged,
+    FullScanSoon-Lauf, ToggleRaster, StartTestMode, ChangeScale, ResetPositions, ApplyPositions.
+    Erwartet: 0 gezählte Aufrufe; nur SetAlpha; pendingLayout/pendingScan gesetzt; Meldungen "Im Kampf nicht möglich" bzw.
+    "nach dem Kampf übernommen".
+T76 [C · auto · alle] Forever im Kampf: alles aus
+    Prüft/Wie: Forever simuliert (2.5) + testCombat; Refresh.   Erwartet: ctxOK false, alle Buttons Alpha 0 (in Sperre) bzw.
+    versteckt, kein Ton, keine Eval-Aufrufe (Zähler auf EvalBuff/EvalProc/EvalCooldown).
+T77 [C · auto · alle] Nachholen nach dem Kampf
+    Prüft/Wie: nach T75 testLockdown = false; PLAYER_REGEN_ENABLED().   Erwartet: pendingScan -> FullScan bzw.
+    pendingLayout -> Layout ausgeführt, Flags zurück; bei Locked ScanPlayerAuras.
+(4) Kampflog gesperrt
+T78 [C · auto · alle] Kampflog-Weiche
+    Prüft/Wie: Forever und Retail simuliert: WantsCombatLog(); echter Client: IsEventRegistered.
+    Erwartet: simuliert F/R nein; echt F/R nicht registriert, E/T registriert.
+T79 [C · auto · alle] Reaktive Fähigkeiten ohne Kampflog
+    Prüft/Wie: hasCombatLog = false; EvalProc mit trigger-Eintrag (Überwältigen-artig), IsUsable-Stub true/false.
+    Erwartet: aktiv nur bei nutzbar (Display.lua:1265-1270), kein Zugriff auf triggers.
+
+---------------------------------------------------------------- D. ALTE CLIENTS (ERA/TBC)
+T80 [D · auto · E/T] Auren auf dem alten Weg
+    Prüft/Wie: C_UnitAuras vorübergehend nil; ScanAuras, ScanPlayerAuras, ForEachAura.
+    Erwartet: gleiche Namen/IDs wie mit C_UnitAuras (wenn vorhanden). F/R: T:Skip "kein UnitBuff".
+T81 [D · auto · E/T] Zauber auf dem alten Weg
+    Prüft/Wie: C_Spell vorübergehend nil.   Erwartet: SpellInfo/GetCooldown/IsUsable/InRange wie T11.
+T82 [D · auto · E/T] Zauberbuch auf dem alten Weg
+    Prüft/Wie: C_SpellBook vorübergehend nil (falls vorhanden).   Erwartet: gleiche known-Menge, FUTURESPELL/FLYOUT ausgelassen.
+T83 [D · auto · E/T] Gegenstände auf dem alten Weg
+    Prüft/Wie: C_Item vorübergehend nil.   Erwartet: Gift-Einträge gleiche itemID/itemName.
+T84 [D · auto · E/T] Kampflog-Auslöser
+    Prüft/Wie: CombatLogGetCurrentEventInfo-Stub: SWING_MISSED DODGE (src = playerGUID), SPELL_MISSED PARRY (dst = ich),
+    SWING_DAMAGE mit Block > 0 (dst = ich); dann EvalProc für trigger dodge/avoid/parry.
+    Erwartet: triggers.dodge / parry + avoid / avoid gesetzt; Procs aktiv innerhalb window, danach nicht.
+T85 [D · auto · E/T] Hauptbaum nur in Cata
+    Prüft/Wie: GetPrimaryTalentTree-Stub liefert 3; ScanTalentTrees bei expansion 2 und (simuliert) 4.
+    Erwartet: expansion 2 -> Baum mit den meisten Punkten; expansion 4 -> 3 (Core.lua:548-553).
+T86 [D · auto · E, nur Dev] Fraktion in Era
+    Prüft/Wie: BS._test.AvailableClasses() als Horde in Era und simuliert Forever.
+    Erwartet: Era Horde ohne PALADIN, Era Allianz ohne SHAMAN; Forever beide.
+T87 [D · auto · E/T] Alter Kampfweg unverändert
+    Prüft/Wie: testCombat = true (nicht Locked): Refresh mit Proc-Testaura, Cooldown-Stub, Reinigungs-Testdebuff; Arm().
+    Erwartet: Proc sichtbar, Cooldown leuchtet beim Wechsel, Reinigungs-Zelle sichtbar – wie 0.9.0.
+
+---------------------------------------------------------------- E. DATEN
+T88 [E · auto · alle] Neuinstallation
+    Prüft/Wie: _G.BuffSentinelDB = nil; BS:InitDB(); Layout; RefreshOptions für alle Seiten.
+    Erwartet: profiles[<key>] mit allen DEFAULTS (Core.lua:276-306), recorder, learned, auto (enabled, share ja),
+    shareNames/shareServer ja, soundV2 und soundV3 gesetzt; kein Fehler.
+T89 [E · auto · alle] Migration aus 0.8.3 (vor Tönen V2)
+    Prüft/Wie: Profil ohne soundV2, sound = {buff=true, proc=true}; InitDB.
+    Erwartet: sound alle false, soundV2 ja; soundBase.buff = {on=false}, proc = {on=false}; soundV3 ja.
+T90 [E · auto · alle] Migration aus 0.8.6
+    Prüft/Wie: soundV2 ja, kein soundV3, hornSelfBuff = false, sound.dispel = true.
+    Erwartet: soundBase.horn {on=false}, dispel {on=true}, dispel_imp {on=true}.
+T91 [E · auto · alle] Migration ältere Felder
+    Prüft/Wie: Profil ohne groupScale, groupLayout, winPos, btnPos, custom; gdb ohne auto, learned, recorder.list.
+    Erwartet: alles mit Standard ergänzt, bestehende Werte unverändert.
+T92 [E · auto · alle] Beschädigte Einträge
+    Prüft/Wie: je Fall eigene Prüfung (pcall), danach InitDB, Layout, Refresh, RefreshGroup, alle Optionsseiten:
+    a) profiles[<key>] = "kaputt"   b) db.zones = 5   c) db.groupScale.proc = "gross"   d) db.btnPos["<KLASSE>:<key>"] = {}
+    e) db.pos.proc = {"CENTER"}   f) db.winPos.options = true   g) db.custom = {"kaputt", {aura = nil}}
+    h) db.specs.spec1 = {<key> = "x"}   i) gdb.auto.classes.<KLASSE> = {procs = {X = 5}, cds = "x"}
+    j) gdb.learned.talents.<KLASSE> = {<Talent> = "1:2:3"}, gdb.learned.spells = {X = 6603}
+    k) gdb.recorder.list = {"Unbekannt"} ohne seen   l) db.minimap.angle = "x", db.hornEvery = 0, db.soundChannel = "Kaputt",
+    db.soundBase.horn = "x".
+    Erwartet: kein Lua-Fehler; kaputter Eintrag ersetzt oder übersprungen. VERMUTET FEHLER in 0.9.4 u. a. bei a)
+    (CopyDefaults Core.lua:308-317 indexiert den Text), c) (Rechnen Display.lua:179), g) (c.aura Core.lua:818-821),
+    i) (r.spellId AutoLearn.lua:135). Beheben: InitDB prüft Typen und ersetzt Falsches durch Standard.
+T93 [E · auto · alle] Grenzen
+    Prüft/Wie: 150 Aufnahmen, 50 Kandidaten (AutoConsumed), 60 Sync-Nachrichten.
+    Erwartet: list <= 100 (Recorder.lua:7), cand <= 40 (AutoLearn.lua:21), qSync <= 40 (Names.lua:28).
+
+---------------------------------------------------------------- F. SPRACHEN
+BuffSentinel hat KEINE Sprachdateien: alle Texte stehen deutsch im Code. Mehrsprachig sind nur Donate.lua, GoldSentinelGame.lua
+und GoldSentinelDev.lua. Zauber- und Talentnamen kommen über Names.lua in der Client-Sprache.
+T94 [F · auto · alle] Spendentexte in allen Sprachen
+    Prüft/Wie: für deDE, enUS, enGB, frFR, esES, esMX, ptBR, itIT, ruRU, koKR, zhCN, zhTW: Donate.locale = loc;
+    Donate.Text(title/button/thanks/hint); danach Donate.locale = nil.
+    Erwartet: alle vorhanden; title und thanks genau ein "%s", button und hint keins; string.format ohne Fehler.
+T95 [F · auto · alle] GoldSentinelGame/-Dev-Texte der Client-Sprache
+    Prüft/Wie: G.Text für game, api, modern, old, secrets, yes, no, test; GoldSentinelDev:Text("blocked"); G.Status().
+    Erwartet: kein Schlüssel kommt als Schlüssel zurück; Status-Format ohne Fehler.
+T96 [F · auto · alle] Formatierte Meldungen
+    Prüft/Wie: AnnounceSpec, ErrorSummary mit Testfehlern, SpecText, EntryStatus aller Einträge, DispelSummary,
+    SyncStatusText, AutoCdText – BS.Print abgefangen.   Erwartet: kein string.format-Fehler.
+T97 [F · auto · alle] Umlaute und Trennung
+    Prüft/Wie: BS.Upper("äöüéèàç"); BS._test.FitLabel an "BLITZSCHLAGSCHILD!" in einem Proc-Button.
+    Erwartet: "ÄÖÜÉÈÀÇ"; Trennung "BLITZSCHLAG-" / "SCHILD!".
+T98 [F · auto · alle] Sprache umschalten
+    T:Skip "keine Sprachdateien – Oberfläche nur Deutsch" (Lücke, siehe Ende). Wut-Erkennung über Namen kennt nur
+    deutsch/englisch (Dispel.lua:93) – als ergebnis vermerken.
+T99 [F · halb · alle] Nicht-deutscher Client
+    T:Client "einmal mit enUS-Client: Optionen öffnen, alle Seiten, Testmodus – Klassennamen kommen aus
+    LOCALIZED_CLASS_NAMES_MALE, Zauber in Client-Sprache, kein Fehler".
+
+---------------------------------------------------------------- G. ZUSAMMENSPIEL
+BuffSentinel nutzt keine Schnittstelle der anderen Addons des Nutzers (kein Aufruf von AHSentinel, ProfessionSentinel,
+GuildSentinel, RaidMaster, ThreatSentinel, LevelPilot im Code) und wird von keinem benutzt. Gemeinsam sind nur
+GoldSentinelGame, GoldSentinelDev, GoldSentinelTest; optional LibSharedMedia.
+T100 [G · auto · alle] Gemeinsame Dateien
+    Prüft/Wie: _G.GoldSentinelGame.version == 2, GoldSentinelDev.version == 1, GoldSentinelTest.version >= 1;
+    GoldSentinelTest.registry.BuffSentinel vorhanden; _G.GoldSentinelTestHooked ja (nur ein Fehler-Abgriff);
+    geladene GoldSentinel-Addons auflisten (C_AddOns.IsAddOnLoaded bzw. IsAddOnLoaded für die 7 Namen).
+    Erwartet: Versionen stimmen, auch wenn andere Addons geladen sind.
+T101 [G · auto · alle] Eigene globale Namen
+    Prüft/Wie: _G.BuffSentinel == BS; SlashCmdList.BUFFSENTINEL ist unsere Funktion; SLASH_BUFFSENTINEL1/2 = "/buffsentinel",
+    "/bsen"; hash_SlashCmdList["/BSEN"] (falls vorhanden) zeigt auf uns; Rahmen BuffSentinelOptions, BuffSentinelRaster,
+    BuffSentinelAnchor_proc/buff/cd/dispel, BuffSentinelMinimapButton gehören BS.
+    Erwartet: nichts überschrieben.
+T102 [G · auto · alle] LibSharedMedia mit und ohne
+    Prüft/Wie: SoundList() normal; LibStub vorübergehend nil, soundList-Zwischenspeicher leeren, SoundList().
+    Erwartet: mit LSM zusätzlich "lsm:"-Einträge (falls ein Addon LSM mitbringt); ohne kein Fehler.
+T103 [G · auto · alle] Andere Addons des Nutzers
+    T:Skip "BuffSentinel hat keine Schnittstelle zu anderen GoldSentinel-Addons" (nur gemeinsame Dateien, T100).
+T104 [G · halb · F/E/T] Mehrere GoldSentinel-Addons gleichzeitig
+    T:Client "BuffSentinel mit RaidMaster, GuildSentinel, ThreatSentinel, ProfessionSentinel laden: /gsgame eine Zeile,
+    /reload ohne Lua-Fehler, /bsen fehler 'keine Fehler'". Die frühen Fassungen (shared/tests/variants/BuffSentinel-0.9.2.lua
+    u. a.) prüft python3 -I shared/tests/test_goldsentinelgame.py – im Spiel nicht nachzubauen.
+
+---------------------------------------------------------------- H. LEISTUNG
+Messung mit debugprofilestop(), je Aufruf Mittel und Höchstwert als ergebnis.
+T105 [H · auto · alle] Refresh (alle 0,1 s)
+    Prüft/Wie: 200x BS:Refresh() mit allen Buttons der Klasse (ausser Kampf und im Testmodus).
+    Erwartet: Mittel < 2 ms, Höchstwert < 5 ms.
+T106 [H · auto · alle] RefreshGroup (alle 0,5 s)
+    Prüft/Wie: 100x allein/Gruppe.   Erwartet: Mittel < 2 ms. Raid 40: T:Client "im Raid /bsen testroutine leistung" < 5 ms.
+T107 [H · auto · alle] UNIT_AURA
+    Prüft/Wie: 100x ScanPlayerAuras() (inkl. LearnAura, RecordAuras, AutoScanAuras).   Erwartet: Mittel < 1 ms.
+T108 [H · auto · alle] Teure Neuberechnungen
+    Prüft/Wie: je 10x FullScan, Layout, ResolveEntries, RefreshOptions je Seite.   Erwartet: je Aufruf < 16 ms.
+T109 [H · auto · alle] Kleine Pfade
+    Prüft/Wie: RefreshDispel (5 Zellen), CHAT_MSG_ADDON je Nachricht, PumpComm, EvalProc je Button.
+    Erwartet: je < 0,5 ms.
+T110 [H · auto · alle] Speicher
+    Prüft/Wie: collectgarbage("collect"); count vorher; 1000x Refresh, 200x RefreshGroup, 200x ScanPlayerAuras;
+    collect; count nachher.   Erwartet: Zuwachs < 100 KB (kein Leck); beide Werte als ergebnis.
+
+---------------------------------------------------------------- I. FEHLERZÄHLUNG UND DIAGNOSE
+Testfehler heissen immer "TEST:…" und werden danach aus BS.errors und db.gsTest.errors entfernt.
+T111 [I · auto · alle] CountError zählt und meldet
+    Prüft/Wie: CountError("TEST:Probe", "absichtlich") 2x.   Erwartet: count +2, byArea 2, ErrorSummary enthält
+    "TEST:Probe 2x", Chatmeldung nur beim ersten Mal, db.gsTest.errors hat Eintrag wo "TEST:Probe" (über GoldSentinelTest.Error).
+T112 [I · auto · alle] Fehler im Event-Handler
+    Prüft/Wie: BS.TEST_EVENT = function() error("absichtlich") end; BS.frame:GetScript("OnEvent")(BS.frame, "TEST_EVENT").
+    Erwartet: gezählt unter "Event TEST_EVENT" (Korrektur 0.9.4 Punkt 2).
+T113 [I · auto · alle] Fehler in einem Button friert die anderen nicht ein
+    Prüft/Wie: EvalCooldown vorübergehend durch Fehlerfunktion für EINEN Eintrag ersetzen; Refresh.
+    Erwartet: Fehler unter e.key gezählt, alle anderen Buttons ausgewertet (Zähler auf EvalBuff/EvalProc > 0).
+T114 [I · auto · alle] Fehler in Scan, Optionen, Kommunikation
+    Prüft/Wie: ScanTalents, Fill.opt und PumpComm vorübergehend mit Fehler; FullScan, RefreshOptions, OnUpdate-Pfad.
+    Erwartet: gezählt unter "Scan", "Optionen opt", "Komm" (heute nur ausgegeben bzw. verschluckt: Core.lua:976-979,
+    Options.lua:1077-1078, Core.lua:1098).
+T115 [I · auto · alle] Diagnose zeigt Fehler
+    Prüft/Wie: /bsen fehler nach T111 (Print abgefangen).   Erwartet: Zeile mit G.Status(), "1 Fehler (TEST:Probe …",
+    "Sperren", "Kampflog", "offene Berichte: <GoldSentinelTest.Pending(BuffSentinelDB)>".
+T116 [I · auto · alle] Lua-Fehler im normalen Spiel
+    Prüft/Wie: geterrorhandler()("Interface/AddOns/BuffSentinel/Selftest.lua:1: TEST:absichtlich").
+    Erwartet: db.gsTest.errors hat Eintrag wo "Lua" (TrackErrors), danach entfernt.
+
+---------------------------------------------------------------- J. REGRESSIONSTESTS (JEDER BEFUND EIN TESTFALL)
+Quellen: PB = pruefbericht-buffsentinel.txt (Befund 1–9), AU = auftrag-buffsentinel.txt / anweisung-buffsentinel.txt
+(Aufgabe 1–9, "Nicht ändern", Launch, Tests), KO = korrektur-buffsentinel-0.9.4.txt (Punkt 1–4, = neu-buffsentinel.txt 1–3),
+GA = pruefbericht-alle-addons-1740.txt / nachtrag-goldsentinelgame-v2.txt.
+T117 [J · auto · alle] PB 1 / AU 1: Forever wie Retail gesperrt
+    Prüft/Wie: Forever simuliert + testCombat: ScanPlayerAuras (Display.lua:1092) kehrt sofort zurück, RefreshGroup
+    (Group.lua:42) ebenso, Refresh setzt ctxOK false (1370), Arm (648) tut nichts, ResolveDispelSpells (Dispel.lua:186) leer,
+    LayoutDispel (312) dispelActive false, WantsCombatLog false (Core.lua:1071).
+    Erwartet: alle sieben Weichen greifen.
+T118 [J · auto · alle] PB 2 / AU 2: eigene Auren – Stapel, Ablauf, Zauber-ID geschützt
+    Prüft/Wie: wie T56 mit allen fünf Feldern einzeln geschützt; danach EvalProc (Display.lua:1260 "a.expires > 0").
+    Erwartet: kein Fehler, nicht still: NoteSecret-Hinweis einmal je Sitzung.
+T119 [J · auto · alle] PB 2 / AU 2: AutoLearn vergleicht keine geschützten Werte
+    Prüft/Wie: AutoScanAuras mit count = nil und expires = nil (Ergebnis aus T56) in zwei Läufen (AutoLearn.lua:330, 338).
+    Erwartet: kein Fehler, prevInfo enthält 0 statt nil.
+T120 [J · auto · alle] PB 3 / AU 6: geschützte Abklingzeit gilt nie als "bereit", kein Aufleuchten beim Pull
+    Prüft/Wie: Folge bereit -> geschützt -> bereit (Stub); EvalCooldown je Schritt; testMute mit Tonzähler.
+    Erwartet: Schritt 2 false; Schritt 3 kein flashUntil, 0 Töne (readyInit wurde in Display.lua:1334 zurückgesetzt).
+T121 [J · auto · alle] PB 4 / AU 3: Execute-Prüfung mit geschützten Lebenspunkten
+    Prüft/Wie: wie T60, einmal hp, einmal max geschützt.   Erwartet: kein Fehler, Proc aus.
+T122 [J · auto · alle] PB 5 / AU 4: Gruppen-Ziel-Text
+    Prüft/Wie: wie T61; dazu prüfen, dass kein Eintrag in groupMissing oder unitInfo S enthält.
+    Erwartet: Name "?" und nie gespeichert.
+T123 [J · auto · alle] PB 6 / AU 5: Debuff-Art geschützt
+    Prüft/Wie: wie T62; zusätzlich r.types[dtype] wird nie mit S aufgerufen (Proxy auf dispelSpells.types mit __index-Zähler).
+    Erwartet: 0 Zugriffe mit S.
+T124 [J · auto · alle] PB 7 / AU 7: Kampflog auf Forever/Retail aus, Überwältigen/Rache/Riposte über "nutzbar"
+    Prüft/Wie: T78 + T79 für die Einträge mit trigger der eigenen Klasse (Krieger: Überwältigen/Rache; Schurke: Riposte).
+    Erwartet: nicht registriert; Proc bei nutzbar.
+T125 [J · auto · alle] PB 8 / AU 8: Fehler werden gezählt, Anzeige friert nicht ein
+    Prüft/Wie: wie T113, dazu 10 Refresh-Durchläufe hintereinander.   Erwartet: Fehler 10x gezählt, Chatmeldung 1x,
+    andere Buttons laufen jede Runde.
+T126 [J · auto · alle] PB 9 / AU 9: unsichtbare Buttons vor dem Kampf versteckt
+    Prüft/Wie: Forever simuliert; Layout; PLAYER_REGEN_DISABLED() ausser Kampf.
+    Erwartet: alle Pool-Buttons und Reinigungs-Zellen IsShown false, wasShown false.
+T127 [J · auto · alle] KO 1: Selbsttest mit G.SetTestFlavor, BS:DetectFlavor
+    Prüft/Wie: /bsen selbsttest (Print abgefangen) auf E/T.   Erwartet: zuerst "restricted: ja", danach wieder "nein";
+    BS:DetectFlavor vorhanden; ohne Dev nur Hinweis.
+T128 [J · auto · alle] KO 2: Fehler in Event-Handlern gezählt
+    Prüft/Wie: wie T112 zweimal.   Erwartet: count 2, Chatmeldung 1x (errShownEvent).
+T129 [J · auto · alle] KO 3: verstecken nachholen, wenn die Sperre schon aktiv war
+    Prüft/Wie: testLockdown = true; HideAllForCombat() -> hidePending; testLockdown = false; PLAYER_REGEN_ENABLED().
+    Erwartet: hidePending ja, danach HideAllForCombat + Refresh ausgeführt, Flag zurück.
+    Dazu T:Client "im Kampf /reload, danach dorthin klicken, wo die Buttons waren: kein Zauber".
+T130 [J · auto · F] KO 4: Hinweis "WoW Forever: im Kampf keine Anzeige, Reinigen-Raster aus"
+    Prüft/Wie: Forever simuliert; Seiten "proc" und "dispel" füllen, alle FontStrings der Seite durchsuchen.
+    Erwartet: beide Texte vorhanden; auf "dispel" NICHT "kann in dieser WoW-Version keine Mitspieler reinigen"
+    (Options.lua:527 heute irreführend). CHANGELOG.de.md: Kollege prüft von Hand vor dem Push.
+T131 [J · auto · alle] GA: keine eigene Fassung von GoldSentinelGame (Fehler von 0.9.2)
+    Prüft/Wie: GoldSentinelGame.version == 2, G.Recalc und G.ProperName vorhanden (nur Version 2 hat sie); im Code kein
+    eigener Nachbau (BS nutzt G.flavor, T04).   Erwartet: erfüllt. Datei-Gleichheit: addon_check vor dem Push.
+T132 [J · auto · alle] AU "Nicht ändern": Secure-Schutz, C_*-Rückfälle, IsUsable/InRange
+    Prüft/Wie: Ergebnisse von T75, T77 (pendingLayout/pendingScan), T67–T73 (Rückfälle), T59 (IsUsable/InRange).
+    Erwartet: alle OK (eigener Eintrag, damit eine spätere Änderung hier sofort auffällt).
+T133 [J · manuell · F] AU Launch: Interface-Nummer
+    T:Client "/dump select(4, GetBuildInfo()) – steht die Zahl in '## Interface' von BuffSentinel.toc? Addon nicht als
+    'veraltet' in der AddOn-Liste". Automatisch dazu: C_AddOns.GetAddOnInfo("BuffSentinel") meldet nicht
+    "INTERFACE_VERSION".
+T134 [J · halb · F] AU Tests: Ablauf im Forever-Client
+    T:Client "Buff-Erinnerung vor dem Pull · im Kampf kein Lua-Fehler · /reload, Fehlerliste leer" – über Abschnitt 4.
+T135 [J · halb · E/T] AU Tests: Gegenprobe alter Client
+    T:Client "Classic Era oder TBC Anniversary: Proc im Kampf, Execute unter 20 %, Dispel im Kampf, Cooldown beim Pull –
+    alles wie vorher; /bsen fehler 'Sperren: nein'".
+
+Zusammen: 135 Testfälle (A 10 · B 45 · C 24 · D 8 · E 6 · F 6 · G 5 · H 6 · I 6 · J 19).
+
+====================================================================================================
+4. HALBAUTOMATISCHER TEIL FÜR DEN LAUNCH-ABEND (5. NOVEMBER, WOW FOREVER LIVE)
+====================================================================================================
+Was der Nutzer selbst tut (in dieser Reihenfolge, ausserhalb des Kampfes beginnen):
+1. Einloggen, 30 s warten. /dump select(4, GetBuildInfo())  ·  /dump WOW_PROJECT_ID, WOW_PROJECT_CAMELOT  ·  /gsgame
+2. /bsen testroutine  -> Kopierfenster abwarten, danach /reload (wie die Routine verlangt).
+3. /dump GetNumTalentTabs, GetTalentInfo, UnitBuff, GetSpellInfo, C_SpellBook ~= nil, ChatFrame_RemoveChannel,
+   ChatFrameUtil, JoinTemporaryChannel  (T74)  ·  /dump GetChannelName("BuffSentinelSync") und schauen, ob der Kanal im
+   Chatfenster auftaucht.
+4. /bsen testroutine kampf, dann eine Trainingspuppe oder ein Mob 20–30 s bekämpfen, Fähigkeiten benutzen, mit der Maus
+   über das offene Gruppen-Raster (Rechtsklick Minimap-Button, vor dem Kampf öffnen) und über die Stellen der Buttons
+   fahren. Die Routine beobachtet nur (liest jede Sekunde): Lua-Fehler, ADDON_ACTION_BLOCKED/FORBIDDEN für BuffSentinel,
+   sichtbare Secure-Buttons (müssen 0 sein), Hinweis "Im Kampf gibt WoW Forever …" genau einmal. Nach PLAYER_REGEN_ENABLED
+   schreibt sie das Ergebnis über T:Check (T76, T126, T134) und speichert den Bericht.
+5. Im Kampf /reload, danach an die Stellen der Buttons klicken: kein Zauber darf ausgelöst werden (T129). Kampf beenden:
+   Buttons wieder normal.
+6. Mit den beiden Gildenkollegen in einer Gruppe: Raster öffnen, fehlende Buffs sichtbar; ausserhalb des Kampfes ein rotes
+   Feld anklicken -> Buff wird gewirkt (gewollte Klick-Aktion des Nutzers). /bsen testroutine leistung in der Gruppe.
+7. /bsen fehler.
+Was er dem Kollegen zurückschickt:
+- den Text aus dem Kopierfenster (Strg+A, Strg+C) von Schritt 2 und 4 – oder nur Bescheid geben, die Berichte kommen nach
+  /reload bzw. Ausloggen automatisch (Abschnitt 6),
+- die Ausgaben der /dump-Befehle aus Schritt 1 und 3,
+- Ja/Nein zu Schritt 5 und 6, bei Auffälligkeiten einen Screenshot.
+
+====================================================================================================
+5. ABNAHME
+====================================================================================================
+BuffSentinel gilt als bereit, wenn
+- der automatische Teil auf WoW Forever UND auf einem alten Client (Classic Era oder TBC Anniversary) 0 FEHLER hat,
+- jede Zeile "echte Daten unverändert: OK" zeigt,
+- alle "IM CLIENT PRÜFEN"-Punkte (T46, T55 auf F, T74, T99, T104, T106 Raid, T129, T133, T134, T135) vom Nutzer bestätigt
+  sind,
+- addon_check für die ZIP kein FEHLER meldet,
+- die als VERMUTET FEHLER markierten Fälle (T64, T65, T92) behoben oder begründet als falsch zurückgemeldet sind.
+ÜBERSPRUNGEN ist nur mit dem in dieser Anweisung genannten Grund erlaubt (z. B. "nur Entwickler", "kein UnitBuff").
+
+====================================================================================================
+6. AUTOMATISCHE MELDUNG
+====================================================================================================
+Weg: BuffSentinel (Testroutine + laufende Fehler) -> BuffSentinelDB.gsTest -> RaidMasterUploader auf dem PC des Nutzers
+(schickt neue Berichte an #testberichte) -> GitHub-Workflow im raidmaster-Repo holt sie nach testberichte/ -> Prüf-Sitzung
+wertet aus und schreibt Korrektur-Anweisungen.
+
+Einbau:
+1. shared/GoldSentinelTest.lua aus dem raidmaster-Repo UNVERÄNDERT in den Addon-Ordner kopieren (wie GoldSentinelGame.lua; nie
+   selbst ändern, fehlt etwas: dem Nutzer melden). In BuffSentinel.toc direkt nach GoldSentinelGame.lua eintragen:
+       GoldSentinelDev.lua
+       GoldSentinelGame.lua
+       GoldSentinelTest.lua
+       Core.lua …                       (Selftest.lua nach Options.lua)
+2. Core.lua BS:PLAYER_LOGIN (1064), direkt nach self:InitDB():
+       if GoldSentinelTest then GoldSentinelTest.TrackErrors("BuffSentinel", BS.version, BuffSentinelDB) end
+   db ist die ganze BuffSentinelDB (accountweit, eine Datei für den Uploader), nicht das Profil. InitDB darf
+   BuffSentinelDB.gsTest nie löschen; die Sandbox (2.3) lässt gsTest aus.
+3. Alle bisherigen Fehlerstellen zusätzlich an GoldSentinelTest.Error("BuffSentinel", wo, meldung) melden:
+   - BS:CountError (Core.lua:1104-1111): am Ende GoldSentinelTest.Error("BuffSentinel", area, err). Damit sind die Aufrufe
+     Core.lua:1092 ("Anzeige"), 1097 ("Gruppe"), Display.lua:1389 (Eintrags-key), 1437 ("Reinigen") abgedeckt.
+   - Event-Handler (Core.lua:1047-1051): BS:CountError("Event " .. event, err) (Korrektur 0.9.4 Punkt 2).
+   - SafeCall (Core.lua:976-979): statt nur Print -> BS:CountError("Scan", err) (Print bleibt beim ersten Mal).
+   - PumpComm (Core.lua:1098): Fehler nicht mehr verschlucken -> BS:CountError("Komm", err).
+   - Optionsseiten (Options.lua:1077-1078): BS:CountError("Optionen " .. key, err).
+   NICHT melden (erwartete Fehlschläge beim Abtasten der API): Core.lua:431, 435, 510, 551, 571, 581, 1068, 1072;
+   Display.lua:436; Sounds.lua:114, 136, 251, 261, 270, 272, 279, 287; AutoLearn.lua:355; Names.lua:88, 193, 256, 275, 277, 324.
+4. Die Testroutine schreibt ihre Ergebnisse NUR über T:Check / T:Skip / T:Client (local T = GoldSentinelTest.Begin(
+   "BuffSentinel", BS.version, BuffSentinelDB) – die echte DB, nicht die Sandbox-Kopie), Abschluss mit T:Finish (2.2).
+   Kein eigenes Berichtsformat daneben.
+5. Testfall-IDs bleiben über Versionen gleich (T01 … T135, Abschnitt 3). Neue Tests hinten anhängen, nie umnummerieren.
+6. Datenschutz: Keine Spielernamen, Gildennamen oder Chattexte in den Bericht – nur Klasse, Level, Client, Sprache (liefert
+   GoldSentinelTest.Env). Konkret: kein Profilschlüssel "Name-Realm" (Core.lua:339) in ergebnis/erwartet, kein UnitName,
+   keine "from"-Felder aus gdb.learned/gdb.auto, keine Inhalte aus der Test-Senke, keine Gruppen- oder Kanalmitglieder.
+   Testnamen sind feste Platzhalter ("Testsender", "Test"). Fehlermeldungen aus BS.Print-Texten mit Namen (z. B.
+   "Neuer Proc von %s übernommen") nicht in den Bericht übernehmen.
+7. Nach der Routine im Chat: "Bericht gespeichert – wird beim nächsten /reload oder Ausloggen an die Prüfung gemeldet"
+   (bei Bereich C/D/J zusätzlich die /reload-Bitte aus 2.5). /bsen fehler zeigt die Zahl offener Berichte
+   (GoldSentinelTest.Pending(BuffSentinelDB)).
+8. Abhängigkeit (nicht Aufgabe des Kollegen): Der Uploader muss BuffSentinel.lua in WTF\Account\*\SavedVariables nach
+   "GSTEST1"-Texten durchsuchen; das richtet die Prüf-Sitzung ein.
+
+====================================================================================================
+BEKANNTE LÜCKEN, DIE DIE ROUTINE SICHTBAR MACHEN SOLL (KURZ)
+====================================================================================================
+- Vermutete Lua-Fehler in Forever, in keinem bisherigen Bericht: geschützte Argumente in CHAT_MSG_ADDON /
+  CHAT_MSG_CHANNEL_NOTICE (T64), Tooltips mit verkettetem UnitName im Raster und auf Buttons (T65).
+- Beschädigte SavedVariables brechen InitDB/Layout (T92).
+- Keine Sprachdateien (T98); Wut-Erkennung über Namen nur deutsch/englisch.
+- Zauberbuch nicht lesbar -> alles gilt als gelernt, ohne Hinweis (T70); Talente in Forever ungeklärt (T74).
+- Seite "Reinigen" sagt in Forever "kann keine Mitspieler reinigen" statt "Reinigen-Raster aus" (T130).
+
+Ist ein Punkt dieser Anweisung falsch, bitte dem Nutzer begründet zurückmelden.

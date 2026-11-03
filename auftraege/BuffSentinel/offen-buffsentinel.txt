@@ -1,0 +1,40 @@
+OFFENE PUNKTE BUFFSENTINEL (nach der Nachprüfung von 0.9.5)
+==========================================================
+Stand: 3. November 2026, 07:30 · von der Prüf-Sitzung · Grundlage: download/BuffSentinel-0.9.5.zip
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist.
+
+Erledigt in 0.9.5 (danke): Fehler in Event-Handlern werden gezählt, unsichtbare Buttons nach /reload im Kampf werden nachgeholt
+versteckt, Changelog-Hinweis zu Forever. Lua 5.1 fehlerfrei, alte Clients unverändert.
+Bitte als 0.9.6 veröffentlichen. Wie immer: komplette Dateien, alte Clients nie brechen, vor dem Push
+python3 addon-check/addon_check.py download/BuffSentinel-0.9.6.zip  -> kein FEHLER.
+
+1. SELBSTTEST MIT G.SetTestFlavor (Schwere: NIEDRIG – noch offen aus 0.9.4)
+   SetTestFlavor wird nirgends aufgerufen. BS.restricted wird nur einmal beim Laden berechnet (Core.lua:67).
+   Lösung:
+   - Die Berechnung aus Core.lua:60-67 in eine Funktion BS:DetectFlavor() verschieben und beim Laden aufrufen (Verhalten wie
+     bisher).
+   - /bsen selbsttest, nur mit GoldSentinelDev: zuerst G.SetTestFlavor("forever"); BS:DetectFlavor() und G.Status(),
+     BS.restricted, BS:Locked() ausgeben; danach G.SetTestFlavor(nil); BS:DetectFlavor() und dieselbe Ausgabe. In Era/TBC
+     erwartet: zuerst "restricted: ja", danach "nein".
+   (Teil der Testroutine, siehe testroutine-buffsentinel.txt, Bereich A.)
+
+2. TEXTE IN DEN OPTIONEN FÜR FOREVER (Schwere: NIEDRIG)
+   a) Options.lua:469-471: Der Kampf-Hinweis auf den Seiten Procs/Cooldowns ist unverändert. Er nennt weder das ausgeschaltete
+      Reinigen-Raster noch, dass Procs in Forever nicht gelernt werden.
+      Lösung: In Forever (BS:Locked()) stattdessen AddText(p, BS:LockedText(), C.yellow).
+   b) Options.lua:501: "Neue Procs (z. B. aus WoW Forever) lernt BuffSentinel automatisch" – das stimmt in Forever nicht
+      (AutoLearn.lua:327 lernt nur im Kampf, dort ist alles gesperrt). Lösung: die Zeile nur zeigen, wenn not BS:Locked().
+      Sonst BS:LockedText() zeigen.
+
+3. KLEINIGKEITEN (Schwere: NIEDRIG)
+   a) Core.lua:82-83: Der Kommentar "Einmaliger Hinweis … (pro Sitzung)" steht jetzt über LockedText statt über NoteSecret.
+      Bitte wieder über function BS:NoteSecret() setzen.
+   b) Core.lua:1057-1061: Die Zähllogik ist aus CountError (Core.lua:1119-1126) kopiert. Eine kleine gemeinsame Hilfsfunktion
+      (zählen ohne Chat) einführen, damit die beiden nicht auseinanderlaufen.
+
+4. ENTSCHEID DES NUTZERS (3. November): ANZEIGE IM KAMPF IN FOREVER BLEIBT AUS
+   BuffSentinel zeigt in WoW Forever im Kampf weiterhin nichts an (wie 0.9.5). Nichts davon umbauen: weder Anzeige über
+   Blizzard-Elemente noch Teil-Anzeige mit lesbaren Werten. Wichtig ist nur, dass die Texte das klar sagen (Punkt 2) und die
+   Prüfung vor dem Pull ausserhalb des Kampfes zuverlässig läuft.
+
+Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.

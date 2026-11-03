@@ -1,0 +1,17 @@
+OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.9)
+===========================================================
+Stand: 3. November 2026, 07:30 · von der Prüf-Sitzung · Grundlage: download/GuildSentinel-0.9.9.zip
+
+Alle 6 Punkte aus korrektur-guildsentinel-0.9.8.txt sind erledigt. Danke, sauber umgesetzt, die Tests sind grün in 16001, 11508
+und 20505. Es bleiben nur Kleinigkeiten. Sie dürfen mit der nächsten Version kommen, nichts ist dringend.
+
+1. Recruit.lua:359  Bei mehr als 30 Flüsternachrichten im Kampf fällt der Rest still weg und wird nicht mitgezählt.
+   Lösung: die Überzähligen zählen und in "hidden" einrechnen.
+2. Recruit.lua:354-355  Der Kommentar "sobald die Werte wieder lesbar sind" stimmt nicht mehr. Bitte anpassen.
+3. Repo README.md:19  "make linux" geht nicht, das Makefile in tools/lua51src hat dieses Ziel nicht. README oder Makefile
+   korrigieren.
+
+AM LAUNCH-TAG IM CLIENT BESTÄTIGEN (und dem Nutzer melden)
+- Nach einem Kampf: Ist eine im Kampf gemerkte Flüsternachricht noch geschützt? (/dump issecretvalue(...))
+- Liefert CHAT_MSG_ADDON in Forever den vollen Absender "Vorname Nachname-Realm"? Sonst lehnt ns.SameExact eigene AWAY/THX ab.
+- /dump select(4, GetBuildInfo()). Ist die Nummer nicht 16001, in der .toc ergänzen.

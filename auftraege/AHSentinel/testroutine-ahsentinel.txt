@@ -1,0 +1,731 @@
+ANWEISUNG FÜR CLAUDE: TESTROUTINE AHSENTINEL AUSBAUEN ("AUF HERZ UND NIEREN")
+==============================================================================
+Addon: AHSentinel (früher AH Analyzer Pro) · geprüfte Version: 0.65.3 (download/AHSentinel-0.65.3.zip = Tag v0.65.3)
+Stand: 2. November 2026 · von der Prüf-Sitzung
+Grundlage: Code-Lesung von AHSentinel 0.65.3 (alle .lua-Dateien, AHSentinel.toc), shared/GoldSentinelGame.lua (Version 2,
+identisch mit der Kopie im Addon), shared/GoldSentinelTest.lua (Version 1) sowie die bisherigen Befunde:
+anweisung-ahsentinel.txt, auftrag-ahsentinel.txt, pruefbericht-ahsentinel.txt, nachtrag-favor.txt,
+korrektur-ahsentinel-0.65.3.txt.
+Umsetzen am besten zusammen mit 0.65.4 (Korrektur-Anweisung), spätestens mit der Version vor dem Launch-Abend.
+
+==============================================================================
+0. REGELN (GELTEN FÜR ALLES IN DIESER DATEI)
+==============================================================================
+- Bei jeder Code-Änderung immer die KOMPLETTE Datei liefern, nie Ausschnitte oder Fragmente zum Einfügen.
+  Geänderte .json-Dateien zusätzlich separat als vollständige Datei mit vollem Pfad ausweisen.
+- Alte Clients nie brechen: Der Code-Weg von Classic Era, TBC (auch Anniversary), Wrath, Cata und MoP Classic bleibt
+  exakt wie bisher. Die Testroutine darf nur lesen, simulieren und danach alles zurückstellen.
+- Der Testmodus und die Testroutine dürfen NICHTS mit echten Folgen tun:
+  * kein Kaufen, Bieten, Einstellen, Abbrechen (alles über den Handels-Schutz, siehe Abschnitt 2),
+  * keine Post senden und keine echte Post abholen (nur der Test-Briefkasten), kein Verkauf an den Händler,
+  * kein Gold bewegen (GetMoney vorher = nachher),
+  * kein Chat in öffentliche, Gilden- oder Raid-Kanäle; auch keine Addon-Nachrichten der Preis-Synchronisation
+    (Prefix "AHAP1") und kein Beitritt/Austritt beim Kanal "AHAPSync",
+  * keine Markierungen fremder Einheiten (AHSentinel setzt heute keine – so muss es bleiben).
+  Wichtig: Nur die Knöpfe von AHSentinel sind simuliert. Blizzards eigene Auktionshaus-Knöpfe kaufen echt
+  (Hinweis steht schon in SelfTest.lua:1245 und 1661 – im neuen Fenster beibehalten).
+- Echte SavedVariables (AHSentinelDB) nach dem Test unverändert: Sicherung vorher, Vergleich nachher, Wiederherstellung,
+  Zeile "echte Daten unverändert: OK" (wie bei LevelPilot). Einzelheiten in Abschnitt 2.
+- Test nur ausserhalb des Kampfes starten (InCombatLockdown). Beginnt während der Routine ein Kampf
+  (PLAYER_REGEN_DISABLED), bricht sie ab, stellt alles zurück und meldet das als ÜBERSPRUNGEN mit Grund.
+- Vor dem Push: python3 addon-check/addon_check.py download/AHSentinel-<Version>.zip -> kein FEHLER.
+- Texte der Routine in alle Locale_*.lua (Locale.lua EN plus 9 Sprachen); CHANGELOG.md (EN) und CHANGELOG.de.md;
+  CurseForge-Texte Englisch.
+- Gemeinsame Dateien (GoldSentinelDev.lua, GoldSentinelGame.lua, GoldSentinelTest.lua) NIE verändern. Fehlt etwas:
+  dem Nutzer melden, die Prüf-Sitzung ändert zentral.
+
+==============================================================================
+1. BESTEHENDE TESTROUTINE (STAND 0.65.3) – BELEGT
+==============================================================================
+Dateien: SelfTest.lua (1724 Zeilen; Kopfkommentar sagt noch "0.62.0", Zeile 2), Aufrufe in AHAnalyzerPro.lua und UI_Main.lua.
+
+1.1 Start
+- Chat: /ahs test (nur mit offenem Auktionshaus, sonst Hinweis; AHAnalyzerPro.lua:2063-2067), /ahs test daten |
+  test saved | test gespeichert (gespeicherte Daten, kein neuer Scan; 2061-2062), /ahs testmodus | testmode (2059-2060).
+- Knöpfe: "Test" in der Kopfzeile des Hauptfensters (UI_Main.lua:1964) und im eingebetteten AH-Fenster (UI_Main.lua:2592),
+  "Test öffnen" in den Optionen (UI_Main.lua:3389-3394); im Testfenster "Test starten", "Mit gespeicherten Daten",
+  "Abbrechen", "Bericht kopieren", "Testmodus starten", "Protokoll" (SelfTest.lua:1188-1214).
+- Nur mit GoldSentinelDev: Chat-Befehle über A:RequireDev (AHAnalyzerPro.lua:2056-2058), ST:Start (SelfTest.lua:1003),
+  ST:ShowWindow (1141), TM:Start (1640). Knopf "Test" nur sichtbar für den Entwickler (UI_Main.lua:2124-2135),
+  Options-Zeile versteckt (UI_Main.lua:3394), Testbefehle fehlen in /ahs hilfe (AHAnalyzerPro.lua:2006-2008).
+
+1.2 Was der Selbsttest prüft (ST:Steps, SelfTest.lua:254-996) – 52 Prüfungen
+- Grundlagen (5): Version und Client (261), Auktionshaus offen (266), Server-Funktionen vorhanden (275),
+  Einstellgebühr WoW Forever inkl. SetTestFlavor forever/era (284-318), Spielversion GoldSentinelGame (319-325).
+- Scan (2): Markt-Scan bzw. vorhandener Scan (328-357), Marktdaten plausibel (358-372).
+- Oberfläche (15): Fenster öffnen (375), 10 Reiter overview/buy/sniper/watcher/profit/sell/auctions/market/watchlist/ledger
+  (379-393), Preisverlauf-Fenster (394), Optionen+Hilfe+Listen (403), Sprachwechsel alle Sprachen mehrfach (412-516),
+  Minikarten-Knopf (517).
+- Auswertungen (15): Marktliste, Suche nach Namen, Unter Händlerpreis, Unter Entzauberwert, Entzaubern Startwerte und Teilen,
+  Gebote, Flips, Vermögen, Tagesbilanz, Buchhaltung, Händler-Verkauf (nur Liste), Tooltip, Verkaufbarkeit, Heute tun,
+  Übersetzungen (532-659).
+- Server (7, nur AH offen): Kein Scan im Hintergrund, Einkauf Kategorie-Suche, Angebote eines Items, Preisprüfung,
+  Sniper-Suche mit Max-Preis 1 Kupfer, Wächter-Runde, Eigene Auktionen (672-777).
+- Handel simuliert (8): Schutz aktiv, Angebote laden, Sofortkauf, Gebot, Sniper-Kauf, Einstellen, Abbrechen (fiktive
+  Auktion), Nichts wirklich ausgeführt (805-994).
+- Schutz: BLOCK-Liste der Modul-Funktionen (33-37) und Handels-Proxy auf A.AH (41-42, 88-109); Markt-Scan während des Tests
+  gesperrt (128-134). Testmodus: AH-Proxy mit nachgespielten Server-Antworten (1318-1419), Test-Briefkasten (1509-1568),
+  Händler-Verkauf und Post an Twinks nur protokolliert (Extras.lua:53-57, 452-456).
+- Ergebnis: A.db.selftest (SelfTest.lua:1096-1101), Text über ST:Report (1118-1135), Chat-Zusammenfassung (1103-1106).
+
+1.3 Was fehlt bzw. nicht stimmt
+a) Kein GoldSentinelTest: eigene Stati PASS/FAIL/SKIP (SelfTest.lua:222-224), keine IDs, kein "IM CLIENT PRÜFEN", keine
+   Erwartung/Ergebnis-Felder, kein maschinenlesbarer Bericht, keine Meldung an die Prüf-Sitzung.
+b) Bericht unvollständig: G.Status() nur als Detail einer Prüfung (325), keine Klasse/Level, kein Fehlerzähler (das Addon hat
+   keinen – Fehler werden nur in den Chat geschrieben: AHAnalyzerPro.lua:100 und 162, Sync.lua:422, Tooltip.lua:388,
+   LegacyAH.lua:41 und 103, UI_Main.lua:2364; Seller.lua:956 verschluckt Fehler ganz, weil A.Debug nirgends existiert).
+c) Keine Sandbox mit Vergleich: ST:SaveState sichert nur Sniper/Wächter/Reiter/Sprache (146-160); der Testmodus sichert nur
+   10 Schlüssel (SNAP_KEYS, 1288-1289) – nicht deStats, deShared, vendorCost, vendorBuy, recipes, guildBank, chars, sync,
+   Ablauf-Daten des Komforts, Gold-Ziel liegt immerhin in settings. Es gibt keinen Vorher/Nachher-Vergleich.
+d) Handels-Schutz des Selbsttests lässt Lücken: Händler-Verkauf (Extras.lua:51-61) und Post an Twinks (Extras.lua:444-481)
+   sind nur im TESTMODUS simuliert, nicht im Selbsttest; die Preis-Synchronisation sendet in jedem Modus echt
+   (Sync.lua:71-85, Kanal-Beitritt Sync.lua:304-338). "Nichts wirklich ausgeführt" prüft nur das Gold (987-994).
+e) Ohne offenes AH bricht der normale Selbsttest ab (272-273); fast alles ausserhalb des AH wird nie geprüft:
+   Berufe (Crafting.lua), Händler-Preise und Favor-Kosten (AHAnalyzerPro.lua:1102-1180), Raid-Vorrat (Comfort.lua:388-425),
+   Wächter-Pause (Watcher.lua:298-315), Post abholen/Buchhaltung aus Briefen (nur von Hand im Testmodus), Charaktere,
+   Gildenbank, Gold-Ziel, Entzaubern lernen, Sync-Empfang, Namen-Suche, Chat-Befehle, jede Option an/aus, Alt-Klick.
+f) Keine Simulation der Forever-Sonderfälle (geschützte Werte, fehlende alte Funktionen, Kampfsperre, Kampflog), keine
+   alten Daten/Migration/kaputten Einträge, keine Leistungsmessung, kein Zusammenspiel mit anderen GoldSentinel-Addons.
+g) "Übersetzungen" (SelfTest.lua:655-659) kann nie fehlschlagen: miss wird gezählt, aber nicht ausgewertet.
+h) Spielversion wird nur für die Gebühr simuliert; die AH-Weiche (A.AH_LEGACY) wird beim Laden festgelegt
+   (LegacyAH.lua:25-28, 65-74) und lässt sich nicht simulieren -> alter Weg nur auf einem echten alten Client prüfbar.
+i) Kein Kampfschutz beim Start, kein Abbruch bei Kampfbeginn.
+
+==============================================================================
+2. ABLAUF UND BERICHT DER ROUTINE (VERBINDLICH)
+==============================================================================
+2.1 Start
+- /ahs testroutine  = alles, was ohne Spieler-Handlung geht (Bereiche A–J, automatischer Teil). Das AH darf zu sein.
+- Einzelbereiche: /ahs testroutine a | b | c | d | e | f | g | h | i | j
+- Halbautomatische Teile (Spieler hat vorher etwas geöffnet): /ahs testroutine server (AH offen: Scan, Suchen,
+  simulierter Handel), haendler (Händlerfenster offen), berufe (Berufsfenster offen), post (Briefkasten offen),
+  gildenbank (Gildenbank offen, ab TBC), kampf (direkt nach einem Kampf: wertet die Fehler aus dem Kampf aus).
+- Knopf "Alles testen" im Testfenster (ersetzt "Test starten"), daneben Auswahl der Bereiche.
+- Die alten Befehle bleiben als Kurzform: /ahs test = testroutine server, /ahs test daten = testroutine.
+- Wie bisher nur für den Entwickler (A:RequireDev). Start im Kampf: ablehnen mit Meldung (Locale).
+- Weiter in Scheiben laufen (SLICE_MS = 40, SelfTest.lua:1029-1041), sonst bricht Retail mit "script ran too long" ab.
+
+2.2 Ergebnis je Prüfung
+- OK / FEHLER / ÜBERSPRUNGEN (immer mit Grund) / IM CLIENT PRÜFEN (mit Anleitung).
+- Jede Prüfung ausschliesslich über T:Check / T:Skip / T:Client (Abschnitt 6). T:Check läuft in pcall: ein Lua-Fehler
+  bricht die Routine nicht ab, sondern wird als FEHLER mit der Lua-Meldung gezählt.
+- Erwartung und Ergebnis immer mitgeben: return ok, ergebnis, erwartet (z. B. return n == 2, tostring(n), "2").
+- Wartende Schritte (Server-Suchen, Scan) behalten den bisherigen WAIT-Mechanismus (ST:Next/ST:Poll). Erst die Auswertung
+  am Ende läuft durch T:Check; Zeitüberschreitung = T:Check(..., function() return false, "keine Antwort", "Antwort in X s" end).
+  Adapter für die alten Schritte (statt ST:Add):
+    status, detail = s.run()   -- in eigenem pcall
+    Lua-Fehler   -> T:Check(id, b, n, function() error(err, 0) end)
+    "SKIP"       -> T:Skip(id, b, n, detail)
+    "PASS"/"FAIL"-> T:Check(id, b, n, function() return status == "PASS", detail, s.expect end)
+  ST:Add, ST:Counts und A.db.selftest werden danach nicht mehr beschrieben (das Fenster zeigt rep.results).
+
+2.3 Bericht im Kopierfenster (UI:ShowTextWindow, Strg+A, Strg+C)
+- Der Text kommt aus T:Finish (Abschnitt 6). Er enthält Addon, Version, Datum, Client und Build, Interface (GetBuildInfo),
+  Flavor, Klasse, Level, G.Status(), Zählung OK/FEHLER/übersprungen/im Client prüfen, Laufzeit, alle Nicht-OK-Prüfungen mit
+  ID, Bereich, Name, Ergebnis, Erwartung, Lua-Meldung, und die laufenden Fehler des Addons ("Fehler im Spiel seit dem letzten
+  Bericht").
+- Die Sprache steht nur im JSON (env.locale). Darum unter den Text von T:Finish eine Zeile anhängen:
+  "Sprache: <GetLocale()> · Addon-Sprache: <A.uiLang> · Auktionshaus: <modern|klassisch>" (nicht in GoldSentinelTest.lua!).
+- Keine Spieler-, Twink-, Gilden- oder Chatnamen. Achtung: Das Testmodus-Protokoll enthält Twink-Namen
+  ("Post an %s", Extras.lua:454) – TM:Report() NICHT mehr an den Bericht hängen (bisher SelfTest.lua:1197).
+
+2.4 Sandbox (echte Daten unverändert)
+- Vor dem Start: Kopie von AHSentinelDB (wie Copy, SelfTest.lua:1293-1298) in A.db.testRoutine.backup schreiben, damit ein
+  /reload oder Absturz mitten im Test beim nächsten READY wiederhergestellt wird (wie TM, SelfTest.lua:1707-1714).
+  Grosse, nur gelesene Tabellen (marketData, names) nicht kopieren, sondern als Prüfsumme sichern
+  (Anzahl Items, Summe der Verlaufslängen, neuester Zeitstempel).
+- Erlaubte Änderungen (Liste fest im Code, im Bericht aufgezählt, wenn sie vorkamen): marketData, lastScanTime, totalScans,
+  scanLog, lastOwnScan, names, namesSent (nur wenn im Teil "server" ein echter Scan lief), vendorPrices und vendorBuy
+  (lernende Caches aus echten Spieldaten; nur im Teil "haendler"), chars[eigener Schlüssel].money/gold/bags/bank
+  (echte Spiel-Ereignisse), gsTest, testRoutine.
+- In allem anderen gilt: nachher == vorher (tiefer Vergleich, Schlüssel und Werte). Unterschied -> FEHLER
+  "echte Daten verändert: <Pfad>" (Pfad ohne Namen: Charakter-/Gilden-Schlüssel als "<Charakter>"/"<Gilde>"),
+  danach Inhalt aus der Sicherung zurückschreiben (Replace, SelfTest.lua:1301-1305 – Tabellen nicht tauschen, Module halten
+  Verweise) und erneut vergleichen.
+- Auch in den erlaubten Teilen dürfen KEINE Testdaten landen: keine Item-IDs ab 990000000 (FAKE_ID0, SelfTest.lua:48),
+  keine Einkaufsliste "AHS-Test", keine Spieler "Testspieler"/"Fremd" in deShared, keine "quick:"-Zeilen in Today.extra.
+- Laufzeit-Zustand ebenfalls zurück: A.forceForever, G.SetTestFlavor(nil), A.AH (Proxy weg), A.Inbox, A.Print,
+  Sn.instantFailed, Sn.pending, Sn.result, Sn.extra, W.holdForScan, W.opps, B.detail, B.pending, Se.pendingPost,
+  Today.state/extra, UI-Thema, Sprache, Skalierung, Reiter, Minikarten-Knopf, Override-Tasten (Sn:ApplyBindings),
+  Sync-Warteschlange leer und S.channelId wie vorher, Crafting-Zwischenspeicher.
+- Ende: T:Finish({ sandbox = "OK" }) erst NACH der Wiederherstellung aufrufen (sonst würde die Wiederherstellung den
+  Bericht in db.gsTest überschreiben). Bei Unterschied: sandbox = "FEHLER: <n> Pfade, wiederhergestellt".
+
+2.5 Schutz während der GANZEN Routine (nicht nur im Teil "Handel")
+- Handels-Proxy auf A.AH für PlaceBid, StartCommoditiesPurchase, ConfirmCommoditiesPurchase, CancelCommoditiesPurchase,
+  PostItem, PostCommodity, CancelAuction (wie SelfTest.lua:41-42, 88-104) plus Test-Briefkasten (TM:InstallInbox).
+- Eine gemeinsame Abfrage A:Simulated() = TM.active oder ST.running (Routine). Diese Abfrage statt "TestMode.active" an:
+  Extras.lua:53 (UseItem), Extras.lua:452 (MailStep), Mailer.lua:176 und 190, Ledger.lua:97, Extras.lua:336,
+  NEU Sync.lua:71 (SendNow: nur protokollieren), NEU Sync.lua:304 und 341 (Connect/Disconnect: kein Kanal-Beitritt/-Austritt),
+  NEU Disenchant BroadcastStats/RequestShared und Names:ShareNames (laufen über Sync, damit abgedeckt).
+- Nachweis "nichts wirklich ausgeführt" am Ende: GetMoney gleich; Zähler über hooksecurefunc (taint-frei) auf SendMail,
+  C_Container.UseContainerItem/UseContainerItem (nur zählen, wenn MerchantFrame offen), C_ChatInfo.SendAddonMessage bzw.
+  SendAddonMessage mit Prefix "AHAP1", JoinTemporaryChannel, LeaveChannelByName, TakeInboxMoney, TakeInboxItem
+  -> alle 0. A.AH-Befehle nur im Protokoll ST.tradeLog.
+
+2.6 Simulation ohne Taint
+- Blizzard-Globals (GetMerchantNumItems, InCombatLockdown, issecretvalue …) aus Addon-Code zu überschreiben verunreinigt sie
+  bis zum nächsten /reload (Taint). Bevorzugt deshalb zwei kleine Nahtstellen im Addon, die ohne Test nichts ändern:
+  * A.apiOverride: Tabelle, die NUR die Routine setzt. Eine Hilfe A:API(name) liefert apiOverride[name] (false = "fehlt")
+    oder _G[name]. Benutzen an den Stellen, die zur Laufzeit nachschauen: AHAnalyzerPro.lua:1108-1121 (MerchantItem),
+    1123-1138 (MerchantCosts), 1146-1150 und 1159-1161 (ScanMerchant), Crafting.lua:187-191 (TradeKind),
+    Extras.lua:445 (SendMail/ClickSendMailItemButton), Disenchant.lua:447-454 (GetSpellInfo).
+  * A:InCombat() = A.testCombat or G.InCombat(); benutzen in Sniper.lua:1176 und UI_Main.lua:1307.
+  * Geschützte Werte: Die Routine ersetzt für die Dauer EINES synchronen Aufrufs GoldSentinelGame.IsSecret (Addon-Tabelle,
+    kein Blizzard-Global) durch eine Testfassung, die für einen Testwert true liefert; danach sofort zurück.
+- Ohne Nahtstelle (letzter Ausweg): Global nur ausserhalb des Kampfes und bei geschlossenem zugehörigem Blizzard-Fenster
+  überschreiben, im selben Frame wiederherstellen.
+- In jedem Fall am Ende der Routine: Hinweis "Bitte jetzt /reload" (entfernt Spuren der Simulation und meldet den Bericht).
+- Lokal beim Laden zwischengespeicherte Aliase (local GetItemInfo = GetItemInfo or C_Item.GetItemInfo in AHAnalyzerPro.lua:14,
+  Buy/Seller/Sniper/Names/Ledger/Extras/UI_*.lua) lassen sich zur Laufzeit nicht abschalten: dort nur prüfen, dass der Alias
+  funktioniert (T90).
+
+2.7 Ereignis-Rahmen erreichbar machen (reine Ergänzung, keine Verhaltensänderung)
+Damit die Routine Ereignisse mit Testargumenten nachspielen kann (frame:GetScript("OnEvent")(frame, event, ...)):
+Cr.evt (Crafting.lua:593), X.evt (Extras.lua:482), Se.saleFrame (Seller.lua:948), Sn.evt (Sniper.lua:990), D.evt
+(Disenchant.lua:482), M.evt (Mailer.lua:222), K.evt (Comfort.lua:476), Ch.evt (Characters.lua:206), S.frame (Sync.lua:417),
+A.eventFrame (AHAnalyzerPro.lua:1914). AH-Ereignisse gehen schon über A:SimulateAHEvent (LegacyAH.lua:36-44).
+
+==============================================================================
+3. TESTFÄLLE
+==============================================================================
+Spalten: ID | Bereich | was wird geprüft | wie | Erwartung | Clients
+wie: AUTO = automatisch in der Routine · HALB = Spieler tut X, Routine prüft · MANUELL = nur mit /dump
+Clients: F = WoW Forever (16001) · E = Classic Era (11509) · T = TBC Anniversary (20506) · R = Retail (120105);
+"alle" = F/E/T/R. Wrath/Cata/MoP wie T, wenn verfügbar.
+Testdaten: Item 2589 (Leinenstoff), Fake-IDs ab 990000001, Liste "AHS-Test", Testcharakter "<Test>-<Test>", alles in der
+Sandbox. Unterpunkte (T25a …) sind eigene T:Check-Aufrufe mit eigener ID.
+
+---------------------------------------------------------------------------------------------------------------------
+A. LADEN UND ERKENNUNG
+---------------------------------------------------------------------------------------------------------------------
+T01 | A | alle Module geladen | AUTO | A.Sniper, A.Watcher, A.Buy, A.Seller, A.Ledger, A.Lists, A.Watchlist, A.Crafting,
+    A.Disenchant, A.Chars, A.Mailer, A.Extras, A.Comfort, A.Today, A.Sync, A.Names, A.Tooltip, A.UI, A.SelfTest, A.TestMode,
+    A.Inbox, A.AH vorhanden; A.T hat frFR esES esMX ptBR itIT ruRU koKR zhCN zhTW und enUS; A.Names:HasBuiltin(loc) für alle
+    10 Data\Names_*.lua | alles true, Ergebnis = Liste der fehlenden (leer) | alle
+T02 | A | Version .toc = Code | AUTO | (C_AddOns.GetAddOnMetadata or GetAddOnMetadata)("AHSentinel","Version") == A.version
+    (AHAnalyzerPro.lua:19) | gleich, z. B. "0.65.4" | alle
+T03 | A | Addon nicht "veraltet" | AUTO | (C_AddOns.GetAddOnInfo or GetAddOnInfo)("AHSentinel"): loadable, reason ~=
+    "INTERFACE_VERSION"; Ergebnis = select(4, GetBuildInfo()) | geladen, kein INTERFACE_VERSION | alle
+T04 | A | gemeinsame Dateien | AUTO | GoldSentinelGame.version == 2 und apiVersion == 2, G.Status() liefert Text,
+    G.flavor passt zur Interface-Nummer (16000–19999 -> forever, G.IsModern true); GoldSentinelDev.version >= 1;
+    GoldSentinelTest.version >= 1 und registry["AHSentinel"] gesetzt | alles erfüllt | alle
+T05 | A | Weichen je Client simuliert | AUTO | A.forceForever = nil; für f in forever, era, tbc, retail:
+    G.SetTestFlavor(f), dann A:IsForever() == (f=="forever"), A:DepositRefunded() == (f~="forever"),
+    A:ApplyMinFee(50, 2) == (f=="forever" and 200 or 50), Comfort:RaidSetKey() bei forever == "classic";
+    danach G.SetTestFlavor(nil): G.flavor und A:IsForever() wieder wie vor dem Test, Status ohne "[Test]" |
+    alles erfüllt; Hinweis im Ergebnis: RaidSetKey für era/tbc folgt WOW_PROJECT_ID, nicht G (Comfort.lua:391-398) | alle
+T06 | A | Ladereihenfolge | AUTO | GoldSentinelDev, GoldSentinelGame, GoldSentinelTest sind vor Locale.lua geladen
+    (GoldSentinelTest.registry hat "AHSentinel" schon bei ADDON_LOADED) | erfüllt | alle
+T07 | A | AH-Weiche | AUTO | A.AH_LEGACY == (C_AuctionHouse.SendBrowseQuery == nil and QueryAuctionItems ~= nil);
+    modern: A.AH == C_AuctionHouse; alt: A.AH ~= C_AuctionHouse und A.AH.SendBrowseQuery vorhanden (LegacyAH.lua:314) |
+    F/R: AH_LEGACY=false · E/T: true | alle
+T08 | A | Berufe-Weiche | AUTO | A.Crafting:TradeKind() == (GetNumTradeSkills and "trade" or "modern") (Crafting.lua:187-191) |
+    F/R: "modern" (zusätzlich T:Client "/dump GetNumTradeSkills") · E/T: "trade" | alle
+T09 | A | Tooltip-Weg | AUTO | A.Tooltip.mode gesetzt; enthält "TooltipDataProcessor" wenn TooltipDataProcessor da ist, sonst
+    "OnTooltipSetItem"; "+Set*" angehängt (Tooltip.lua:372-417) | Weg wie im letzten Bericht desselben Clients | alle
+T10 | A | Chat-Befehle registriert | AUTO | SLASH_AHANALYZERPRO1..4 = /ahs, /ahsentinel, /ahp, /ahanalyzer
+    (AHAnalyzerPro.lua:2017-2020), SlashCmdList.AHANALYZERPRO ist Funktion, /gsgame und /gsdev vorhanden | erfüllt | alle
+
+---------------------------------------------------------------------------------------------------------------------
+B. JEDE FUNKTION
+---------------------------------------------------------------------------------------------------------------------
+Kern
+T11 | B | Geld anzeigen und lesen | AUTO | für x in 0, 1, 99, 10000, 1234567: A:ParseGold(A:FormatMoneyInput(x)) == x;
+    A:FormatMoney(123456) enthält 12, 34, 56 in beiden Stilen (settings.moneyStyle "icons"/"letters"); A:PlainText entfernt
+    |c…|r und |T…|t | erfüllt | alle
+T12 | B | Ereignis-Bus und Hintergrund-Aufgaben | AUTO | A:On("AHS_TEST", f) + A:Fire("AHS_TEST", 1) ruft f mit 1;
+    zweiter Zuhörer mit error() hält den ersten nicht auf (AHAnalyzerPro.lua:92-104); A:Job("ahs-test", fn mit A:Pause())
+    läuft bis "dead", A:HasJob danach false | erfüllt | alle
+T13 | B | Preis-Kern mit Testdaten | AUTO | Fake-ID 990000001: A:RecordPrice mit 100/200/300 Kupfer (je q=1, heute);
+    A:GetCurrent == 300 (letzter), #A:GetHistory == 3, A:GetMarketValue zwischen 100 und 300 (Median-Weg 850-918),
+    A:GetStats/GetTrend/GetEMA ohne Fehler, A:IsSuspicious(id, 1) true; 301 Einträge -> höchstens MAX_HISTORY 300; danach
+    marketData[990000001] = nil | erfüllt, Fake-ID wieder weg | alle
+T14 | B | Verkaufbarkeit (bestehend) | AUTO | wie SelfTest.lua:597-610 (perDay <= max(1, avgQty)) | kein unplausibles Item |
+    alle
+T15 | B | Marktliste, Namenssuche, CSV | AUTO | #A:BuildItemList() > 0 bei Daten; FindItemByName(Client-Name) == ID
+    (bestehend 533-546); A:BuildCSV(): Kopfzeile wie AHAnalyzerPro.lua:1818, Zeilen = Einträge + 1; A:ExportCSV öffnet
+    Textfenster, danach zu | erfüllt | alle
+T16 | B | Forever-Einstellgebühr (bestehend) | AUTO | SelfTest.lua:284-318 unverändert übernehmen | 1s pro Auktion, auf
+    Forever nie erstattet; sonst erstattet | alle
+T17 | B | Händler-Verkaufspreis | AUTO | A:GetVendorPrice(2589) ist Zahl >= 0 (über den Alias GetItemInfo/C_Item, Zeile 14) |
+    Zahl | alle
+T18 | B | Händler-Scan mit Testhändler | AUTO | über A.apiOverride drei Artikel: (1) 100 Kupfer für 5 Stück, unbegrenzt;
+    (2) begrenzt (numAvailable 3); (3) hasExtendedCost, 0 Gold, Kosten "currency:3001" x 2. Einmal moderner Weg
+    (C_MerchantFrame.GetItemInfo-Tabelle), einmal alter Weg (GetMerchantItemInfo). A:ScanMerchant() == 2;
+    vendorBuy[ID1] == 20, vendorBuy[ID2] == nil; A:GetVendorCost(ID3) = { gold = 0, qty = 1, costs = { { kind = "currency",
+    id = 3001, amount = 2, name = … } }, t } | beide Wege gleich | alle
+T19 | B | Händler echt | HALB: Händler öffnen, /ahs testroutine haendler | A:ScanMerchant() > 0 bei einem Händler mit
+    Goldwaren; Anzahl vendorBuy-Einträge wächst nicht über die Zahl der Goldwaren | > 0, keine Lua-Fehler | F/E/T
+Scan und Server
+T20 | B | Markt-Scan (bestehend) | HALB: AH offen, testroutine server | wie SelfTest.lua:328-357; Scan gesperrt ->
+    T:Skip mit Restzeit | Scan fertig oder sauber übersprungen | alle
+T21 | B | Marktdaten plausibel (bestehend) | AUTO | SelfTest.lua:358-372 | keine Marktwerte <= 0 | alle
+T22 | B | 15-Minuten-Sperre | AUTO | A.SCAN_COOLDOWN == 900; mit lastScanTime = time()-100: GetCooldownRemaining() == 800,
+    IsScanReady() false; StartFullScan bei geschlossenem AH: Meldung, Rückgabe false | erfüllt | alle
+T23 | B | Anfrage-Drossel | AUTO | A:QueryReady() boolean, A:QueryGap() >= 0, A:QueryError() erhöht den Fehlerzähler in
+    A:GetSpeedText() um 1 (AHAnalyzerPro.lua:1541-1597; Zustand danach zurück) | erfüllt | alle
+Oberfläche
+T24 | B | Hauptfenster und Designs | AUTO | UI:Show/IsVisible/Hide/Toggle; UI:SetTheme("modern") und ("classic") bauen ohne
+    Fehler neu (UI:Rebuild), danach Thema wie vorher | erfüllt | alle
+T25a–T25j | B | jeder Reiter (bestehend) | AUTO | overview, buy, sniper, watcher, profit, sell, auctions, market,
+    watchlist, ledger: UI:SelectTab(id) liefert Panel, activeTab == id, panel:Refresh ohne Fehler – auch bei geschlossenem
+    AH | 10 x OK | alle
+T26a–T26i | B | jedes Zusatzfenster | AUTO | a Preisverlauf (OpenChart, ChartBack), b Optionen, c Hilfe (ShowHelp für JEDE
+    Seite in A.HELP), d Einkaufslisten (ShowLists, ToggleLists), e Heute tun (ShowToday), f Post-Regeln (ShowMailRules),
+    g Unterstützen (ShowDonate), h Textfenster (ShowTextWindow), i Item-Menü (ShowItemMenu + OnMenuClick "chart",
+    "watch" zweimal, "sniper", "list"; "ah" nur bei offenem AH) – öffnen, IsShown, schliessen | je OK | alle
+T27 | B | Einbindung ins Auktionshaus | HALB: AH offen | UI:SetIntegration(true) -> UI.ahHost da, ShowInAH/LeaveAH,
+    UI:SetIntegration(false); /ahs ah, /ahs ahdebug; UI.ahLastError bleibt nil (UI_Main.lua:2364) | kein Fehler | alle
+T28 | B | Grösse, Zoom, Position | AUTO | UI:SetScale(+0.05/-0.05), UI:SetAHZoom, UI:ResetWindowSize, UI:ResetPosition,
+    A:ResetButtonPosition ohne Fehler; Werte danach wie vorher | erfüllt | alle
+T29 | B | Minikarten-Knopf | AUTO | A:ToggleMinimapButton() zweimal -> Sichtbarkeit wie vorher; A:SetMinimapAngle(90) setzt
+    settings.minimapAngle = 90, danach alter Wert | erfüllt | alle
+T30.01–T30.36 | B | jede Option einmal an/aus | AUTO | im Optionsfenster je Knopf :Click() (bzw. dieselbe Funktion),
+    Einstellung umgeschaltet, w:Refresh ohne Fehler, zurückschalten: 01 Design, 02 Im AH anzeigen, 03 Preis im Tooltip,
+    04 Preisverlauf im Tooltip (TT:CycleChartDays durch alle Stufen), 05 Händlerpreis, 06 Twinks im Tooltip,
+    07 Entzauberwert im Tooltip, 08 Entzaubern zurücksetzen (Doppelklick "Wirklich?", nur Sandbox), 09 Knöpfe am Briefkasten,
+    10 Meldung bei Verkauf, 11 Preisschutz (Se:CycleGuard durch 0/20/30/40/50), 12 Gewinn im Berufsfenster, 13 Sprache
+    (siehe F), 14 Item-Namen-Sprache (Names:CycleDisplayLocale), 15 Geldanzeige, 16 Fenstergrösse, 17 Schriftgrösse,
+    18 Ton, 19 Preise teilen (Sync, nur simuliert!), 20 nur Gilde, 21 Sniper-Intervall, 22 Sniper-Taste, 23 Wächter-Taste,
+    24 Tagesbilanz + "Jetzt zeigen", 25 Knopf beim Händler, 26 Post an Twinks (öffnet Regeln), 27 Minikarte,
+    28 Post automatisch abholen, 29 Alt-Klick, 30 Verkaufschance im Tooltip, 31 Ablauf-Erinnerung, 32 Gold-Ziel setzen/löschen,
+    33 Zeile Selbsttest nur für Dev sichtbar, 34 CSV-Export, 35 Positionen, 36 Unterstützen | 36 x OK, settings danach wie
+    vorher | alle
+T31.01–T31.30 | B | jeder Chat-Befehl | AUTO (A:Print abgefangen, Ausgabe geprüft) | über SlashCmdList.AHANALYZERPRO:
+    "", show, scan (AH zu -> "Bitte zuerst das Auktionshaus öffnen.", kein Scan), export, debug (enthält G.Status()),
+    reset, resetscan, sync (zweimal, nur simuliert), ahdebug, ah, sniper (zweimal), design (zweimal), optionen, options,
+    spenden, donate, bilanz, summary, ziel 5000, ziel, ziel aus, heute, today, minikarte (zweimal), raid, twinks, sprache
+    (ganze Runde bis zur Ausgangssprache), listen, hilfe, handbuch, "xyz" -> "Unbekannter Befehl"; test* und testmodus NICHT
+    aufrufen (T:Skip "würde die Routine stören") | je ohne Fehler, erwartete Meldung | alle
+Kaufen
+T32 | B | Einkauf: Kategorie-Suche (bestehend) | HALB: testroutine server | SelfTest.lua:688-698 | > 0 Items | alle
+T33 | B | Einkauf: Angebote eines Items (bestehend) | HALB | SelfTest.lua:699-714 | > 0 Angebote | alle
+T34 | B | Einkauf rechnen | AUTO | B.detail (Sandbox) = Ware mit Angeboten {qty 5, price 100}, {qty 10, price 150}:
+    B:Quote(8) == 950 (Ø 118.75, höchster 150), B:Quote(20) == nil, B:Available() == 15, B:SetQuantity(99) -> d.qty == 15;
+    B:MinBid({bid = 1000}) == 1050, B:MinBid({minBid = 77}) == 77; B:BuyItem({own = true}) lehnt ab | erfüllt | alle
+T35 | B | Sofortkauf simuliert (bestehend) | HALB | SelfTest.lua:838-869: PlaceBid nur im Protokoll, richtiger Preis |
+    erfüllt | alle
+T36 | B | Gebot simuliert (bestehend) | HALB | SelfTest.lua:870-891 | erfüllt | alle
+T37 | B | Warenkauf simuliert | HALB | B:StartCommodity -> StartCommoditiesPurchase(itemID, 1) im Protokoll; simuliertes
+    COMMODITY_PRICE_UPDATED (A:SimulateAHEvent); B:ConfirmCommodity -> ConfirmCommoditiesPurchase im Protokoll, Gold gleich |
+    erfüllt | F/R (E/T: T:Skip "keine Waren im alten AH")
+T38 | B | Einkauf-Favoriten | AUTO | Comfort:AddFavorite({text="AHS-Test"}) ok; gleiche Suche nochmal -> "schon ein Favorit";
+    13. Favorit -> "Höchstens 12"; RemoveFavorite(i) | erfüllt | alle
+T39 | B | Sniper-Ziele | AUTO | Sn:SetTarget("2589", 500, 3, 2000) ok, GetTarget("i:2589"), Remaining, IsDone false,
+    FilterText, ItemPasses mit Testitem, RemoveTarget; Lists:ToSniper("AHS-Test") legt Ziele an; Sn:ImportOld ohne Fehler |
+    erfüllt, Ziele danach wie vorher | alle
+T40 | B | Sniper-Suche, kauft nichts (bestehend) | HALB | SelfTest.lua:730-754 | kein Treffer bei 1 Kupfer | alle
+T41 | B | Sniper-Kauf simuliert (bestehend) | HALB | SelfTest.lua:892-937 | Befehl im Protokoll, Gold gleich | alle
+T42 | B | Sniper-Vorab-Reservierung kauft nie ohne Klick | HALB (AH offen, Ware) | frischer Treffer, Sn:Tick() mehrfach:
+    höchstens StartCommoditiesPurchase im Protokoll (Sniper.lua:1243-1249), NIE ConfirmCommoditiesPurchase ohne
+    Sn:OnTrigger | erfüllt | F/R
+T43 | B | Sniper-Tasten | AUTO | Sn:KeyName("SHIFT-BUTTON4") == "Shift+" .. L["Maustaste 4"]; Standard GetBindsText() ==
+    L["Mausrad"]; SetBinds({"BUTTON4"}) und UseMouseWheel() je Seite (sniper/watcher); bei geschlossenem AH setzt
+    ApplyBindings keine Override-Taste (Zähler über hooksecurefunc SetOverrideBindingClick == 0) | erfüllt | alle
+T44 | B | Wächter-Einstellungen | AUTO | W:SetThreshold/SetMinValue/SetBudget/ToggleCategory (jede Kategorie aus W.CATS)/
+    ModeLabel/ActiveCategories/CategoryLabel; W:WhyWaiting() bei geschlossenem AH == L["wartet auf das Auktionshaus"] |
+    erfüllt, Werte danach wie vorher | alle
+T45 | B | Wächter-Runde (bestehend) | HALB | SelfTest.lua:755-768 | Runde fertig | alle
+T46 | B | Wächter-Kandidaten mit Testdaten | AUTO | W:AddCandidate mit Fake-Item, W:GetOpportunities enthält es, W:Cleanup und
+    W:ClearTargets räumen; Sn.extra danach leer | erfüllt | alle
+Verkaufen
+T47 | B | Verkaufen rechnen | AUTO | Se:Undercut(1000) == 999 (copper), 990 (p1), 950 (p5); Undercut(1) == 1;
+    Se:Proceeds(1000, 3) == 3000, 150, 2850; Se:SetFloor(2589, 500) -> Suggest liefert >= 500; Se:PriceRisks mit Preis 10 %
+    vom Marktwert -> mind. 1 Grund; Se:VendorBeats ohne Fehler; Se:Deposit auf Forever mind. 100 je Auktion | erfüllt | alle
+T48 | B | Preisprüfung (bestehend) | HALB | SelfTest.lua:715-729 | erfüllt | alle
+T49 | B | Einstellen simuliert (bestehend) | HALB | SelfTest.lua:938-961 | Befehl mit richtigem Preis im Protokoll | alle
+T50 | B | Serie einstellen | HALB | Se:StartBatch, Se:BatchStep (Befehl nur im Protokoll), Se:StopBatch; Se.batch danach nil |
+    erfüllt | alle
+T51 | B | Eigene Auktionen und Abbrechen (bestehend) | HALB | SelfTest.lua:769-777 und 962-986 (fiktive Auktion) | erfüllt | alle
+T52 | B | Unterboten | HALB | Se:CheckUndercuts mit fiktiver zu teurer Auktion (ST.FakeAuction, 1.5 x Preis) -> erkannt;
+    Se:CancelNextUndercut nur im Protokoll | erfüllt | alle
+T53 | B | Verkaufs-Meldung | AUTO | Se.saleFrame-OnEvent("CHAT_MSG_SYSTEM", ERR_AUCTION_SOLD_S mit Testitem-Name) mit
+    fiktiver eigener Auktion -> Se.lastSale.itemID gesetzt, o.sold true, Meldung im Chat | erfüllt | alle
+Buchhaltung, Post, Händler
+T54 | B | Buchhaltung rechnen | AUTO | Le:Add (Kauf 2 x 100, Verkauf 1 x 300) für Fake-ID: Le:Summary("all").sales +1,
+    Le:SoldCount(id, 30) == 1, Le:AverageBuyPrice(id, 30) == 100, Le:Stats, Le:ByItem, Le:PeriodStart("7") | erfüllt | alle
+T55 | B | Buchhaltung aus Test-Briefkasten | AUTO | TM:SeedMail + Test-Briefkasten: Le:ScanInbox() bucht Verkauf und Kauf aus den
+    Rechnungen (SelfTest.lua:1476-1482); zweiter Aufruf bucht 0 (ledger.seen) | erfüllt | alle
+T56 | B | Post abholen | HALB: Briefkasten offen, testroutine post | Mailer:HasAHMail() true mit Test-Briefkasten;
+    Mailer:Start(true) und Mailer:Step bis Ende -> TM.mailMoney gezählt, kein echtes TakeInbox* (Zähler 0) | erfüllt | alle
+T57 | B | Neu einstellen | AUTO | X:NoteReturned(Fake, 5), X:RepostCount() >= 1 (im Simulationsmodus), X:RepostStep startet
+    Serie nur im Protokoll | erfüllt | alle
+T58 | B | Post an Twinks | AUTO + HALB | Regel an "<Test>" für Stoff: X:MailPlan() ohne Fehler; Regel an den eigenen Namen ->
+    nicht im Plan; HALB Briefkasten offen: X:MailStep() simuliert, SendMail-Zähler 0 | erfüllt | alle
+T59 | B | Händler-Verkauf | AUTO + HALB | X:VendorCandidates() ohne Fehler; HALB Händler offen: X:SellToVendor() und
+    X:SellStep() nur protokolliert, UseContainerItem-Zähler 0, Taschen unverändert | erfüllt | alle
+T60 | B | Vermögen, Tagesbilanz, Flips, Gebote | AUTO | Extras:InventoryValue, DailyText, ShowDailySummary(true),
+    GetFlipDeals(20), A:GetBidDeals(30), A:FindVendorDeals, Disenchant:FindDeals ohne Fehler (bestehend 547-575) | erfüllt | alle
+Listen und Watchlist
+T61 | B | Einkaufslisten | AUTO | Lists:Create("AHS-Test"), AddItem("2589", 5), SetQty, Count == 1, TotalCost, CheckPrices,
+    Rename("AHS-Test", "AHS-Test2"), Delete; CycleTolerance einmal rundum | erfüllt, Liste wieder weg | alle
+T62 | B | Watchlist | AUTO | Watchlist:Add("2589", 100, 500), Contains true, SetBuyBelow, GetStatus, CountAlerts,
+    CheckAlerts(false), Remove | erfüllt | alle
+Berufe
+T63 | B | Berufe rechnen | AUTO | Testrezept (Ergebnis Fake-ID, 2 Zutaten mit Testpreisen): Crafting:UnitPrice nimmt den
+    Händlerpreis, wenn billiger; TodaySuggestions mit Testrezept in A.db.recipes["<Test>"] liefert Gewinn > 0; ReagentsToList
+    und MissingToList legen "AHS-Test"-Listen an | erfüllt | alle
+T64 | B | Berufsfenster echt | HALB: Berufsfenster öffnen, testroutine berufe | Crafting.kind gesetzt, Crafting:Remember() > 0,
+    Panel sichtbar (wenn Option an), Top(kind, 9) ohne Fehler; Verzauberkunst auf E: kind "craft" | erfüllt | alle
+Entzaubern, Charaktere, Komfort
+T65 | B | Entzaubern | AUTO | bestehend SelfTest.lua:549-569 (75/20/5, Teilen, fremdes Material abgelehnt) plus D:Record(Fake,
+    {{11083, 2}}) zählt, D:Yield, D:GetValue, D:Groups, D:TotalLearned; D:Reset nur in der Sandbox | erfüllt | alle
+T66 | B | Charaktere | AUTO | Ch:Key() liefert Name-Realm (nicht in den Bericht!), Ch:RecordMoney, Ch:ScanBags, Ch:ItemCounts(2589),
+    Ch:TotalMoney, Ch:DailyTotals(7), Ch:ChangeSince; Testcharakter "<Test>-<Test>" anlegen und Ch:Remove | erfüllt | alle
+T67 | B | Gildenbank | HALB: Gildenbank öffnen, testroutine gildenbank | Comfort:GuildBankSupported(); ScanGuildBank() true;
+    GuildBankValue() ohne Fehler; Gildenname nicht in den Bericht | erfüllt | T/R (E: T:Skip wenn nicht unterstützt; F: prüfen)
+T68 | B | Gold-Ziel | AUTO | Comfort:GoalCommand("5000") -> GoldGoal() == 50000000; GoalCommand("") zeigt Stand;
+    GoalCommand("aus") löscht; CheckGoldGoal ohne Fehler | erfüllt | alle
+T69 | B | Verkaufschance und Ablauf-Erinnerung | AUTO | Comfort:BuildChances/SellChance/ChanceText mit Test-Buchungen;
+    OnOwnedRead mit fiktiven Auktionen, LoginExpiryCheck, ForgetOne ohne Fehler | erfüllt | alle
+T70 | B | Raid-Vorrat | AUTO | Comfort:CreateRaidList(1) und (2): Liste L["Raid-Vorrat"] mit #RAID_SETS[key] Einträgen,
+    Mengen x 2 | erfüllt (Liste aus der Sandbox wieder weg) | alle
+T71 | B | Alt-Klick | AUTO + HALB | Comfort:OnModifiedClick("item:2589") ohne Alt -> nil, kein Fenster; HALB: Alt-Klick auf ein
+    Taschen-Item öffnet Preisverlauf (AH zu) bzw. Einkauf (AH offen) | erfüllt | alle
+T72 | B | Heute tun (bestehend + Knöpfe) | AUTO | SelfTest.lua:611-654; dazu Today:Label für jede Zeile, Today:QuickSell(2589, 1)
+    legt Zeile an, Today:Buy/Confirm/Post nur im Protokoll, ExtraRows/Prune räumen | erfüllt, Gold gleich | alle
+T73 | B | Tooltip (bestehend + Optionen) | AUTO | SelfTest.lua:577-596; je Tooltip-Option aus: Zeile fehlt, an: Zeile da;
+    TT:ShowChart/HideChart ohne Fehler | erfüllt | alle
+T74 | B | Item-Namen und Suche | AUTO | Names:Get(2589, "deDE") == "Leinenstoff", Names:Search("linen") enthält 2589,
+    Names:Resolve("2589") == 2589, Names:ParseID("item:2589") == 2589, Names:SetDisplayLocale zurück | erfüllt | alle
+Preis-Synchronisation
+T75 | B | Sync-Empfang | AUTO | S:OnMessage("AHAP1", Testnachricht, "CHANNEL", "Testpeer-Realm"): "H:" setzt heardScanTime;
+    "D:" mit 2 Einträgen (Fake-IDs) -> HandleData == 2; Preis 25 x eigener -> abgelehnt (MAX_FACTOR 20); Zeit älter als
+    3 Tage -> 0; eigener Absender -> ignoriert; GuildOnly + "CHANNEL" -> ignoriert; "E:"/"Q:"/"N:" ohne Fehler |
+    erfüllt, sync.peers/received danach wie vorher | alle
+T76 | B | Sync senden nur simuliert, Kodierung | AUTO | S.Enc/S.Dec Rundlauf für 0, 1, 35, 36, 123456789; S:BroadcastScan mit
+    3 Test-Einträgen im Simulationsmodus: Nachrichten <= 240 Byte im Protokoll, SendAddonMessage-Zähler 0 | erfüllt | alle
+T77 | B | Sync an/aus/nur Gilde | AUTO | S:Toggle zweimal, S:SetGuildOnly(true/false) im Simulationsmodus: Status-Text ändert
+    sich, Join/Leave-Zähler 0, enabled/guildOnly danach wie vorher | erfüllt | alle
+Testmodus und Diagnose
+T78 | B | Testmodus selbst | AUTO | TM:Start -> fiktive Auktionen (bis 3) und Briefe (6), A.AH ist Proxy; TM:Stop -> alle
+    SNAP_KEYS wie vorher, A.AH echt, A.Inbox echt; TM:Start während der Routine wird abgelehnt (SelfTest.lua:1643) | erfüllt | alle
+T79 | B | Diagnose | AUTO | A:PrintDebug (Ausgabe abgefangen) enthält Version, G.Status(), API-Zeile; GetDebugText von Sync,
+    Names, Tooltip, Sniper, Seller, Ledger, Buy, Watcher ohne Fehler; neu: Zeile "Fehler seit Login: n · Berichte offen: m"
+    (GoldSentinelTest.Pending) | erfüllt | alle
+
+---------------------------------------------------------------------------------------------------------------------
+C. FOREVER-SONDERFÄLLE (SIMULIERT)
+---------------------------------------------------------------------------------------------------------------------
+(1) Geschützte Werte – Testwert = eine Tabelle, die bei Vergleich/Verketten/Index einen Fehler wirft; G.IsSecret liefert für
+sie true (nur für die Dauer des Aufrufs, Abschnitt 2.6). Erwartung überall: kein Lua-Fehler, Handler steigt früh aus,
+nichts gespeichert. Schlägt ein Test fehl: am Anfang des Handlers G.IsSecret/G.Safe prüfen (Regel aus der Anweisung)
+und im Changelog nennen.
+T80 | C | Systemmeldung "verkauft" | AUTO | Se.saleFrame-OnEvent("CHAT_MSG_SYSTEM", <geschützt>) (Seller.lua:950-958) |
+    kein Fehler, Se.lastSale unverändert | F/R
+T81 | C | Addon-Nachricht Sync | AUTO | S.frame-OnEvent("CHAT_MSG_ADDON", "AHAP1", <geschützt>, "CHANNEL", "Testpeer") und mit
+    geschütztem Absender (Sync.lua:418-423, 243-277: sender wird zu peers[name] = Tabellenschlüssel!) | kein Fehler,
+    sync.peers unverändert | F/R
+T82 | C | Zauber-Ereignis Entzaubern | AUTO | D.evt-OnEvent("UNIT_SPELLCAST_SUCCEEDED", "player", "x", <geschützt>)
+    (Disenchant.lua:485-489, Vergleich spellID == 13262) | kein Fehler, pending nil | F/R
+T83 | C | Tooltip-Daten | AUTO | TT:Handle(GameTooltip, { id = <geschützt> }) (Tooltip.lua:333-357) | kein Fehler, keine Zeile,
+    TT.reported bleibt false | F/R
+T84 | C | Fehlermeldung am Briefkasten | AUTO | M.evt-OnEvent("UI_ERROR_MESSAGE", <geschützt>, <geschützt>) bei M.running
+    (Mailer.lua:233-238) | kein Fehler, Mailer läuft weiter | F/R
+T85 | C | Blockierte Aktion | AUTO | Sn:OnEvent("ADDON_ACTION_BLOCKED", <geschützt>, <geschützt>) (Sniper.lua:1001-1012) |
+    kein Fehler, instantFailed unverändert | F/R
+T86 | C | Forever-Namen (Vor- und Nachname) | AUTO | G.SetTestFlavor("forever"), eigener Name als "Rokan Steinwacht"
+    (Testwert über die Nahtstelle bzw. Parameter): Post-Regel an "Rokan" darf NICHT an sich selbst gehen (Extras.lua:407-417
+    vergleicht heute nur den Teil vor "-"; Lösung über G.SameName); Sync IsMe("Rokan Steinwacht-Realm") true
+    (Sync.lua:185-188) | erfüllt; heute vermutlich FEHLER bei der Post-Regel -> beheben | F
+(2) Fehlende alte Funktionen – über A.apiOverride (bevorzugt) bzw. Abschnitt 2.6; danach wiederherstellen.
+T87 | C | Händler ohne alte Funktionen | AUTO | GetMerchantNumItems, GetMerchantItemInfo, GetMerchantItemLink = fehlt, modern
+    vorhanden (Test-C_MerchantFrame mit GetNumItems/GetItemInfo, GetMerchantItemID) -> ScanMerchant liest alle Artikel;
+    alles fehlt -> Rückgabe 0 ohne Fehler | erfüllt | alle
+T88 | C | Berufe ohne alte Funktionen | AUTO | GetNumTradeSkills = fehlt -> TradeKind() == "modern" (wenn C_TradeSkillUI da);
+    beides fehlt -> "trade" und API.trade.num() == 0 ohne Fehler | erfüllt | alle
+T89 | C | Taschen ohne alte Funktionen | AUTO | GetContainerNumSlots/GetContainerItemInfo/GetContainerNumFreeSlots = fehlt ->
+    Seller:GetBagItems, Extras:VendorCandidates, Mailer FreeSlots über C_Container; C_Container fehlt (nur in Simulation) ->
+    leere Liste, kein Fehler | erfüllt | alle
+T90 | C | Zauber- und Item-Funktionen | AUTO | GetSpellInfo = fehlt -> IsDisenchant(13262) true, Crafting:HasCraftProfession über
+    C_Spell.GetSpellName ohne Fehler; Aliase beim Laden: A:StackSize(2589) > 1, A:GetItemIcon(2589) ~= nil | erfüllt | alle
+T91 | C | Post und Briefkasten | AUTO | SendMail/ClickSendMailItemButton = fehlt -> X:MailStep() meldet L["Dein Client unterstützt
+    das Verschicken nicht."]; GetInboxNumItems = fehlt (ohne Testmodus) -> A.Inbox.Available() false, Mailer:Start meldet
+    sauber | erfüllt | alle
+T92 | C | Addon-Info und Chat-Hilfen | AUTO | C_AddOns fehlt -> IsAddOnLoaded/GetAddOnMetadata-Rückfall (für Korrektur 2);
+    C_ChatInfo.SendAddonMessage fehlt -> SendAddonMessage (Sync.lua:61-64); ChatFrame_RemoveChannel fehlt ->
+    HideChannelFromChat kehrt zurück | erfüllt | alle
+(3) Kampfsperre (A.testCombat = true über A:InCombat, Abschnitt 2.6)
+T93 | C | Sniper-Tasten im Kampf | AUTO | AH offen simuliert nicht nötig: Sn:ApplyBindings() im Kampf -> Sn.pendingBindings true,
+    SetOverrideBindingClick/ClearOverrideBindings-Zähler 0 (Sniper.lua:1174-1180); Sn.evt-OnEvent("PLAYER_REGEN_ENABLED")
+    mit testCombat = nil -> pendingBindings false | erfüllt | alle
+T94 | C | Esc-Fenster im Kampf | AUTO | UI:EscCloses-Rahmen: OnShow/OnKeyDown im Kampf rufen SetPropagateKeyboardInput nicht
+    (Zähler über hooksecurefunc auf den Rahmen, UI_Main.lua:1303-1326) | Zähler 0 | alle
+T95 | C | Routine und Kampf | AUTO | Start mit testCombat = true -> abgelehnt; PLAYER_REGEN_DISABLED während eines WAIT-Schritts
+    (simuliert) -> Abbruch, Sandbox wiederhergestellt, T:Skip "Kampf begonnen" | erfüllt | alle
+(4) Kampflog
+T96 | C | Kampflog nicht benutzt | AUTO | für alle Ereignis-Rahmen aus 2.7 und die Ticker: IsEventRegistered(
+    "COMBAT_LOG_EVENT_UNFILTERED") == false; kein Aufruf von CombatLogGetCurrentEventInfo und UnitAura im Code (offline,
+    addon_check) | false | alle
+
+---------------------------------------------------------------------------------------------------------------------
+D. ALTE CLIENTS (ECHTER ALTER CLIENT NÖTIG – A.AH_LEGACY WIRD BEIM LADEN FESTGELEGT)
+---------------------------------------------------------------------------------------------------------------------
+Auf F/R: T:Skip "nur im alten Client". Auf E/T laufen sie automatisch.
+T97 | D | Nachbildung altes AH | AUTO | AH.MakeItemKey(2589).itemID == 2589, AH.EstimateDeposit(2589, 2, 1) >= 0,
+    AH.DepositIsEstimate boolean, AH.GetBrowseProgress, AH.IsThrottledMessageSystemReady, AH.CanCancelAuction(1) ohne Fehler;
+    A:CheckAPI() alle Felder ja | erfüllt | E/T
+T98 | D | Server-Wege altes AH | HALB: AH offen, testroutine server | Scan (getAll oder Seite für Seite, Meldung wie
+    LegacyAH.lua:84), Sniper PrepareBuy, simuliertes PlaceBid/PostItem nur im Protokoll | wie 0.64.2 | E/T
+T99 | D | Alte Berufe-API | HALB: Berufsfenster (und auf E Verzauberkunst = CraftFrame) | kind "trade" bzw. "craft",
+    Remember > 0 | erfüllt | E/T
+T100 | D | Alter Händler-Weg | HALB: Händler offen | MerchantItem über GetMerchantItemInfo, ScanMerchant > 0 | erfüllt | E/T
+T101 | D | Alter Taschen- und Tooltip-Weg | AUTO | Seller:GetBagItems liefert Items; Tooltip-Zeilen da (wie T73) | erfüllt | E/T
+T102 | D | Raid-Vorrat je Version | AUTO | RaidSetKey(): E "classic", T "tbc", Wrath "wrath", Cata/MoP/R nil ->
+    CreateRaidList meldet L["Die Raid-Vorlage gibt es für Classic, TBC und Wrath."] | erfüllt | E/T/R
+T103 | D | Ergebnis wie bisher | AUTO | letzter Bericht desselben Clients in db.gsTest.reports: jede ID, die dort OK war und jetzt
+    FEHLER ist, als "Rückschritt" im Ergebnis nennen | keine Rückschritte | alle
+
+---------------------------------------------------------------------------------------------------------------------
+E. DATEN (IMMER IN DER SANDBOX: AHSentinelDB UND AHAnalyzerProDB VORHER SICHERN, NACHHER ZURÜCK, DANN TrackErrors NEU)
+---------------------------------------------------------------------------------------------------------------------
+T104 | E | Neuinstallation | AUTO | AHSentinelDB = nil, AHAnalyzerProDB = nil, A:InitDB(): dbVersion 4, alle DEFAULTS-Schlüssel
+    (AHAnalyzerPro.lua:355-446), settings.detachedWindow true, sniper.fastSearch true, nameLocale "auto"; danach alle Reiter,
+    TodayActions(10), Tooltip ohne Fehler | erfüllt | alle
+T105 | E | Migration Datenbank 3 -> 4 | AUTO | dbVersion 3, marketData[2589].history = {{price=100, time=t2, quantity=1},
+    {price=90, timestamp=t1, qty=2}} -> history sortiert {t1, 90, 2}, {t2, 100, 1}; Meldung L["Datenbank auf Version 4
+    umgestellt."] (AHAnalyzerPro.lua:449-490) | erfüllt | alle
+T106 | E | Übernahme aus AH Analyzer Pro | AUTO | AHSentinelDB = nil, AHAnalyzerProDB = { marketData = {…}, dbVersion = 4 } ->
+    AHSentinelDB enthält die Daten, AHAnalyzerProDB == { migratedTo = "AHSentinel", time = … }, A.migratedFromOld true;
+    zweiter InitDB übernimmt nicht nochmal (AHAnalyzerPro.lua:470-479) | erfüllt | alle
+T107 | E | kleine Migrationen | AUTO | sniper.interval 3 ohne fastSearch -> 0; watcher.interval 20 -> W:Gap() nutzt MIN_GAP;
+    lastScanTime = time()+3600 -> 0; detachedWindow fehlt -> ahIntegration false | erfüllt | alle
+T108 | E | beschädigte Einträge | AUTO | marketData[1] = "kaputt", marketData[2] = { history = nil }, marketData[3].history =
+    {{t = nil}}, settings.lastSub = 5, sniper.targets["i:1"] = "x", watcher.cats = nil, vendorCost[1] = 5, ledger.entries =
+    {"x"}, lists.items.x = 7, chars.x = true, deStats = nil, sync.peers = nil, recipes = 3 -> InitDB, alle Reiter,
+    TodayActions, Tooltip, Watcher:Tick, Sniper:Tick, Comfort:LoginExpiryCheck | kein Lua-Fehler (jeder Fehler = FEHLER mit
+    Lua-Meldung und Datei:Zeile) | alle
+T109 | E | Abbruch mitten im Test | AUTO | A.db.testMode bzw. A.db.testRoutine mit Sicherung vorhanden, READY-Handler aufrufen
+    (SelfTest.lua:1707-1714) -> Daten zurück, Schlüssel gelöscht, Meldung im Chat | erfüllt | alle
+
+---------------------------------------------------------------------------------------------------------------------
+F. SPRACHEN
+---------------------------------------------------------------------------------------------------------------------
+T110 | F | Text-Schlüssel vollständig | AUTO | jeder Schlüssel in A.EN ist in A.T[lang] für frFR esES esMX ptBR itIT ruRU koKR zhCN
+    zhTW vorhanden (Prüf-Sitzung offline für 0.65.3: 1199 benutzte L-Schlüssel, keiner fehlt in A.EN, keiner in den 9 Dateien) |
+    0 fehlend; Ergebnis = Anzahl je Sprache | alle
+T111 | F | Formatplatzhalter | AUTO | für jeden Schlüssel: Anzahl %s/%d/%.1f/%% in A.EN[key] und A.T[lang][key] == im deutschen
+    Schlüssel; zusätzlich pcall(string.format, L[key], Testargumente) für alle Schlüssel mit Platzhaltern in jeder Sprache
+    (offline 0.65.3: 0 Abweichungen) | 0 Abweichungen | alle
+T112 | F | jede Sprache aktivieren (bestehend) | AUTO | SelfTest.lua:412-516: alle 11 Sprachen + Hin und Her, alle Reiter,
+    Optionen nicht abgeschnitten, Tooltip in der Sprache, Rückkehr zur Ausgangssprache | erfüllt | alle
+T113 | F | Text-Werte gültig | AUTO | jeder Wert in A.EN und A.T[lang] ist string (ersetzt "Übersetzungen", das nie fehlschlug,
+    SelfTest.lua:655-659); A.HELP[lang] hat dieselben Seiten-IDs wie A.HELP.deDE bzw. enUS | erfüllt | alle
+T114 | F | Texte der gemeinsamen Dateien | AUTO | G.Text("game") und GoldSentinelDev:Text("blocked") liefern für die Client-Sprache
+    einen Text ~= Schlüssel | erfüllt | alle
+
+---------------------------------------------------------------------------------------------------------------------
+G. ZUSAMMENSPIEL
+---------------------------------------------------------------------------------------------------------------------
+Andere Addons des Nutzers, die AHSentinel wirklich nutzt: nur ProfessionSentinel (in beide Richtungen). GuildSentinel,
+RaidMaster, ThreatSentinel, BuffSentinel, LevelPilot nutzt AHSentinel nicht – nur die gemeinsamen Dateien.
+T115 | G | gemeinsame Dateien mit anderen GoldSentinel-Addons | AUTO | für jedes geladene GoldSentinel-Addon
+    ((C_AddOns.IsAddOnLoaded or IsAddOnLoaded)): GoldSentinelGame/Dev/Test sind dieselben Tabellen, Version = höchste;
+    nach G.SetTestFlavor(nil) ist G.flavor wieder echt (andere Addons sehen keine Testversion) | erfüllt | alle
+T116 | G | globale Namen | AUTO | _G.AHAnalyzerPro == A und .version == A.version (keine fremde Tabelle, wichtig für Korrektur 2);
+    eigene Globals nur AHAnalyzerPro, AHSentinelDB, AHAnalyzerProDB, SLASH_AHANALYZERPRO1-4 und Rahmen "AHAnalyzerPro*";
+    _G.ProfessionSentinelAPI ist vor und nach der Routine dieselbe Tabelle | erfüllt | alle
+T117 | G | ProfessionSentinel liest AHSentinel | AUTO | A:GetVendorCost-Format wie T18 (nachtrag-favor.txt: "stabil halten");
+    A.Today:QuickBuy(2589, 2, 100, "Test") legt Zeile "quick:2589" mit pin an, Gold gleich; QuickBuy mit maxPrice 0 -> false;
+    QuickSell(2589) legt "quicksell:2589" an | erfüllt, Zeilen wieder weg | alle
+T118 | G | AHSentinel liest ProfessionSentinel | AUTO | Stub _G.ProfessionSentinelAPI = { version = 1, TodayCrafts = … 1 Test-
+    Rezept }: TodayActions enthält kind "craft", kein "owncraft", kein "pshint"; ohne PS: eigene Vorschläge möglich; version 2
+    -> ignoriert; TodayCrafts wirft Fehler -> kein Fehler in TodayActions (Comfort.lua:712-774); echte API danach zurück |
+    erfüllt | alle
+T119 | G | echtes ProfessionSentinel geladen | HALB: beide Addons aktiv | ProfessionSentinelAPI.version == 1, TodayActions
+    zeigt dessen Vorschläge, keine Lua-Fehler in beiden Addons | erfüllt | F/E/T
+T120 | G | fremde AH-Addons | HALB: AH offen mit Auctionator oder TSM | Einbindung und Reiter-Leiste (UI_Main.lua:2471-2523)
+    ohne UI.ahLastError | erfüllt | alle
+
+---------------------------------------------------------------------------------------------------------------------
+H. LEISTUNG (debugprofilestop; je 100 Aufrufe, Mittelwert und Höchstwert ins Ergebnis)
+---------------------------------------------------------------------------------------------------------------------
+T121 | H | Takt-Funktionen | AUTO | Sn:Tick(), W:Tick() (je OnUpdate alle 0.1 s), Extras-OnUpdate (0.05 s), Mailer-Step,
+    Characters-OnUpdate bei AH zu | je < 0.2 ms Mittel, < 2 ms Höchstwert | alle
+T122 | H | Tooltip | AUTO | TT:Handle über GameTooltip:SetHyperlink("item:2589") 100x (ohne Diagramm) und 10x mit Diagramm |
+    < 2 ms je Aufruf, Diagramm < 16 ms | alle
+T123 | H | teure Neuberechnungen | AUTO | A:BuildItemList(), Comfort:TodayActions(10), Extras:InventoryValue(),
+    Disenchant:FindDeals(), A:FindVendorDeals(), Extras:GetFlipDeals(20), Comfort:BuildChances() einzeln |
+    < 16 ms je Aufruf; Ergebnis nennt Itemzahl (A:CountTable(marketData)); läuft etwas als A:Job, gilt je Portion
+    A.FRAME_BUDGET (6 ms) + 2 ms | alle
+T124 | H | Berufsliste | HALB: Berufsfenster offen | Crafting:ReadAll(kind) erstes Mal < 16 ms, zweites Mal (Zwischenspeicher)
+    < 2 ms (Korrektur 5c) | erfüllt | F/R (E/T nur Messwert)
+T125 | H | Zauber-Ereignis im Raid | AUTO | D.evt-OnEvent("UNIT_SPELLCAST_SUCCEEDED", "raid5", …) 1000x | < 0.02 ms je Aufruf
+    (früher Ausstieg); Empfehlung: RegisterUnitEvent(…, "player") statt RegisterEvent (Disenchant.lua:483) | alle
+T126 | H | Scan-Auswertung | HALB: echter Scan im Teil server | A:ProcessScan-Portionen <= A.FRAME_BUDGET + 2 ms | erfüllt | alle
+T127 | H | Speicher | AUTO | collectgarbage("collect"), collectgarbage("count") vor und nach der Routine; UpdateAddOnMemoryUsage
+    + GetAddOnMemoryUsage("AHSentinel") ins Ergebnis | Zunahme < 2 MB nach Wiederherstellung | alle
+
+---------------------------------------------------------------------------------------------------------------------
+I. FEHLERZÄHLUNG UND DIAGNOSE
+---------------------------------------------------------------------------------------------------------------------
+Nach jedem Testfall den absichtlich erzeugten Eintrag wieder aus db.gsTest.errors löschen (Schlüssel "wo|meldung"),
+damit er nicht als echter Fehler gemeldet wird.
+T128 | I | Fehler in Ereignis-Zuhörer | AUTO | A:On("AHS_TEST_ERROR", error) + A:Fire -> db.gsTest.errors hat Eintrag mit wo
+    "Fire:AHS_TEST_ERROR" (AHAnalyzerPro.lua:98-101); /ahs debug zeigt Fehlerzahl +1 | erfüllt | alle
+T129 | I | Fehler in Hintergrund-Aufgabe | AUTO | A:Job("ahs-test-error", error) -> Eintrag wo "Job:ahs-test-error"
+    (AHAnalyzerPro.lua:160-163) | erfüllt | alle
+T130 | I | abgefangene Fehler-Stellen melden | AUTO | je ein erzwungener Fehler: Sync-Empfang (Sync.lua:421-423), Tooltip
+    (Tooltip.lua:385-390), AH-Einbindung (UI.ReportAHError, UI_Main.lua:2364), Verkaufs-Meldung (Seller.lua:955-956 – heute
+    verschluckt, weil A.Debug nicht existiert), LegacyAH-Ereignis (LegacyAH.lua:41, 103) | je ein Eintrag in db.gsTest.errors |
+    alle (LegacyAH nur E/T)
+T131 | I | unbehandelter Lua-Fehler | AUTO | C_Timer.After(0, function() error("AHS-Testfehler T131") end) aus SelfTest.lua ->
+    GoldSentinelTest-Hook (bzw. BugGrabber) zählt ihn unter "Lua" (Pfad enthält AddOns/AHSentinel/) | erfüllt | alle
+T132 | I | blockierte Aktion | AUTO | GoldSentinelTestFrame-OnEvent("ADDON_ACTION_BLOCKED", "AHSentinel", "Test()") -> Eintrag;
+    zugleich Sn:OnEvent ohne Fehler | erfüllt | alle
+
+---------------------------------------------------------------------------------------------------------------------
+J. REGRESSIONSTESTS (JEDER BISHERIGE BEFUND)
+---------------------------------------------------------------------------------------------------------------------
+Abkürzungen: PB = pruefbericht-ahsentinel.txt, AW = anweisung-ahsentinel.txt (= auftrag-ahsentinel.txt, Aufgaben 1–5),
+NF = nachtrag-favor.txt, KO = korrektur-ahsentinel-0.65.3.txt.
+T133 | J | PB 1 / AW 3: Raid-Vorrat in Forever tot | AUTO | G.SetTestFlavor("forever"): RaidSetKey() == "classic",
+    CreateRaidList() == true, nie die Meldung "Die Raid-Vorlage gibt es für Classic, TBC und Wrath." | erfüllt | alle
+T134 | J | PB 2 / AW 1: Berufsfenster in Forever leer | HALB: Berufsfenster | TradeKind() == "modern", Remember() > 0,
+    A.db.recipes[<Charakter>] hat Einträge, "Heute tun" kann eigene Rezepte vorschlagen | erfüllt | F/R
+T135 | J | PB 3 / AW 2: Händler-Einkaufspreise still 0 | AUTO + HALB | T87 (modern ohne GetMerchantItemInfo liefert Preise);
+    HALB auf F: echter Händler -> vendorBuy wächst | erfüllt | F/R
+T136 | J | AW 2 Zusatz / NF: Favor-Kosten, Format stabil | AUTO | Format db.vendorCost[id] = { gold, qty, costs = { { kind, id,
+    name, amount } }, t } genau wie T18; A:GetVendorCost(id) liefert dieselbe Tabelle | erfüllt | alle
+T137 | J | NF: Artikelanzahl GetMerchantNumItems or C_MerchantFrame.GetNumItems | AUTO | GetMerchantNumItems = fehlt ->
+    Anzahl über C_MerchantFrame.GetNumItems (AHAnalyzerPro.lua:1147) | erfüllt | alle
+T138 | J | PB 4 / AW 4: Wächter und Server-Limit | HALB (F): Wächter 2–3 Runden, dann Komplett-Scan fällig ->
+    StartFullScan wird vom Server angenommen; T:Client "nach Wächter-Lauf /ahs scan: startet der Scan?" | Scan läuft | F
+T139 | J | PB 5 / AW 5: Sniper ADDON_ACTION_BLOCKED | AUTO | Sn.pending = { auto = true, … }, Sn:OnEvent("ADDON_ACTION_BLOCKED",
+    "AHSentinel", "C_AuctionHouse.StartCommoditiesPurchase()") -> pending nil, instantFailed true, kein Lua-Fehler
+    (Sniper.lua:1001-1012, 880-885); danach instantFailed zurück | erfüllt | alle
+T140 | J | KO 1a: Wächter-Pause wirkt in Forever nicht | AUTO | A.AH_LEGACY = false (Feld, taint-frei), Scan fällig
+    (lastScanTime alt), simuliertes AUCTION_HOUSE_THROTTLED_MESSAGE_DROPPED bzw. abgelehnter Scan-Start -> W:HoldingForScan()
+    true, W:WhyWaiting() == L["Komplett-Scan hat Vorrang"]; neuer lastScanTime -> false | erfüllt (ab 0.65.4) | alle
+T141 | J | KO 1b: Pause darf altes AH nicht ändern | AUTO | A.AH_LEGACY = true, CanSendAuctionQuery-Ersatz liefert canAll = false
+    -> W:CheckScanAllowance() setzt KEIN holdForScan (Weg wie 0.64.2) | erfüllt (ab 0.65.4) | alle
+T142 | J | KO 1 Client: Scan nicht vom Wächter blockiert | HALB (F): Wächter an, Scan fällig -> /ahs scan startet | T:Client | F
+T143 | J | KO 2: Übergang vom alten AH Analyzer Pro | AUTO + HALB | AUTO: OptionalDeps ohne "AHAnalyzerPro"
+    (C_AddOns.GetAddOnOptionalDependencies("AHSentinel"), sonst T:Skip), T116; HALB: alter Ordner (bis 0.61) zusätzlich
+    vorhanden -> eine Meldung L["Bitte den alten Ordner AddOns\AHAnalyzerPro löschen – AHSentinel ersetzt ihn."], AHSentinel
+    lädt nicht weiter, keine doppelten /ahs-Befehle, keine Lua-Fehler; nur AHSentinel -> normal; Datenübernahme = T106 |
+    erfüllt (ab 0.65.4) | alle
+T144 | J | KO 3: CurseForge Forever-Tag | T:Skip "betrifft curseforge/upload.py im raidmaster-Repo, nicht das Addon – prüft die
+    Prüf-Sitzung im Workflow" | – | –
+T145 | J | KO 4: Raid-Liste für Forever-Raids | AUTO + T:Client | jede ID in RAID_SETS.classic existiert im Client
+    (C_Item.DoesItemExistByID bzw. GetItemInfoInstant ~= nil); fehlende IDs ins Ergebnis; T:Client "Passen die Schutztränke zu
+    Barrow Deeps, Hyjalgipfel, Onyxia?" | alle IDs vorhanden | F
+T146 | J | KO 5a: leere Rezeptliste gemerkt | AUTO | Cr.kind = "modern", Remember liefert 0 (leere Test-API über apiOverride),
+    Cr.evt-OnEvent("TRADE_SKILL_LIST_UPDATE") -> Cr.rememberedAt bleibt nil; mit > 0 Rezepten gesetzt | erfüllt (ab 0.65.4) |
+    alle
+T147 | J | KO 5b: Zutaten-Knopf ohne SchematicForm | HALB (F/R): Rezept wählen; AUTO: ProfessionsFrame ohne SchematicForm
+    simuliert -> API.modern.selected() liefert das zuletzt gewählte Rezept, nicht nil | erfüllt (ab 0.65.4) | F/R
+T148 | J | KO 5c: Zwischenspeicher bei jedem Listen-Ereignis geleert | AUTO + HALB | zwei TRADE_SKILL_LIST_UPDATE hintereinander:
+    GetRecipeSchematic wird beim zweiten Mal nicht erneut gerufen (Zähler); TRADE_SKILL_DATA_SOURCE_CHANGED leert; Zeit = T124 |
+    erfüllt (ab 0.65.4) | F/R
+T149 | J | KO Launch: Händler-Währungsfunktionen in Forever | T:Client "/dump GetMerchantItemCostInfo, /dump
+    GetMerchantItemCostItem – fehlen sie, liest MerchantCosts (AHAnalyzerPro.lua:1123-1138) nichts: dem Nutzer melden" | – | F
+T150 | J | AW Schritt 1: Erkennung über GoldSentinelGame | AUTO | ohne forceForever folgt A:IsForever() G.IsForever
+    (AHAnalyzerPro.lua:1316-1327); mit forceForever = true/false gewinnt der Schalter; /ahs debug zeigt G.Status() | erfüllt | alle
+T151 | J | AW Launch-Tag: Interface-Nummer | AUTO + T:Client | wie T03; T:Client "/dump select(4, GetBuildInfo()) – ist es
+    nicht 16001, neue Nummer in AHSentinel.toc ergänzen (16001 bleibt)" | nicht veraltet | F
+T152 | J | PB "gut gelöst": pcall um alle AH-Aufrufe | AUTO | A.AH-Proxy, dessen SendBrowseQuery/SendSearchQuery/
+    GetBrowseResults/GetItemSearchResultInfo einen Fehler werfen: B:Search, Sn:Search, Se:CheckPrice, W:StartRound liefern
+    false bzw. Meldung, kein Lua-Fehler; W wechselt bei Fehler auf "single" nur in der Sandbox | erfüllt | alle
+
+==============================================================================
+4. HALBAUTOMATISCHER TEIL FÜR DEN LAUNCH-ABEND (5. NOVEMBER, WOW FOREVER LIVE)
+==============================================================================
+Der Nutzer macht (Forever, ausserhalb des Kampfes, Reihenfolge einhalten):
+ 1. Einloggen, /reload, dann /gsgame und /ahs debug.  /dump select(4, GetBuildInfo())
+ 2. /ahs testroutine (AH zu) -> Bericht kopieren.
+ 3. Auktionshaus öffnen -> /ahs testroutine server (Scan, Suchen, simulierter Handel; Wächter 2–3 Runden, danach /ahs scan
+    -> startet er? = T138/T142).
+ 4. Händler öffnen (ein normaler und, falls erreichbar, ein Favor-Händler) -> /ahs testroutine haendler.
+    /dump GetMerchantNumItems · /dump C_MerchantFrame.GetNumItems · /dump GetMerchantItemInfo ·
+    /dump GetMerchantItemCostInfo · /dump GetMerchantItemCostItem
+ 5. Berufsfenster öffnen, ein Rezept wählen, Zutaten-Knopf drücken -> /ahs testroutine berufe.
+    /dump GetNumTradeSkills · /dump C_TradeSkillUI.GetAllRecipeIDs
+ 6. Briefkasten öffnen -> /ahs testroutine post (nur Test-Briefkasten).
+ 7. Einen Kampf (Mob oder Übungspuppe), dabei mit der Maus über ein Taschen-Item (Tooltip im Kampf) und das AHSentinel-Fenster
+    offen; nach dem Kampf /ahs testroutine kampf.
+ 8. Falls Verzauberer: ein Item entzaubern (ausserhalb des Kampfes).
+ 9. Alt-Klick auf ein Taschen-Item (AH zu: Preisverlauf).
+10. /reload -> Bericht wird beim Laden/Ausloggen gemeldet (Abschnitt 6).
+11. Gegenprobe auf Classic Era oder TBC Anniversary: Schritte 2–5.
+Zurück an den Kollegen: alle Kopierfenster-Texte, die /dump-Ausgaben, Antworten zu T138/T142/T145, bei leerem Fenster einen
+Screenshot, und falls BugSack läuft dessen Meldungen. Die automatisch gemeldeten Berichte kommen zusätzlich über
+#testberichte.
+
+==============================================================================
+5. ABNAHME
+==============================================================================
+Das Addon gilt als bereit, wenn
+- der automatische Teil (/ahs testroutine) auf WoW Forever UND auf einem alten Client (Classic Era 11509 oder TBC Anniversary
+  20506) 0 FEHLER hat,
+- in beiden Läufen "Sandbox (echte Daten unverändert): OK" steht und der Nachweis "nichts wirklich ausgeführt" (2.5) überall 0
+  zeigt,
+- die halbautomatischen Teile server, haendler, berufe, post auf Forever 0 FEHLER haben,
+- alle "IM CLIENT PRÜFEN"-Punkte vom Nutzer bestätigt sind (T08, T138, T142, T145, T149, T151 und die Liste aus Abschnitt 4),
+- kein Testfall aus J fehlt oder ÜBERSPRUNGEN ist, ausser T144 (CurseForge) und den Punkten, die erst mit 0.65.4 kommen,
+  wenn 0.65.4 noch nicht draussen ist,
+- addon_check ohne FEHLER und "Fehler im Spiel seit dem letzten Bericht" nach einem normalen Spielabend 0 ist.
+
+==============================================================================
+6. AUTOMATISCHE MELDUNG (FEHLER SELBSTSTÄNDIG AN DIE PRÜF-SITZUNG)
+==============================================================================
+Weg: AHSentinel (Testroutine + laufende Fehler) -> AHSentinelDB.gsTest -> RaidMasterUploader auf dem PC des Nutzers (sucht
+Strings, die mit "GSTEST1" beginnen, schickt neue Berichte an Discord #testberichte) -> GitHub-Workflow im raidmaster-Repo
+holt sie nach testberichte/ -> Prüf-Sitzung wertet aus und schreibt Korrektur-Anweisungen.
+
+6.1 Datei einbauen
+- shared/GoldSentinelTest.lua aus dem raidmaster-Repo UNVERÄNDERT in den Addon-Ordner kopieren und in AHSentinel.toc direkt
+  nach GoldSentinelGame.lua eintragen (vor Locale.lua). Version in der Datei: 1.
+- Keine eigene Kopie der Funktionen bauen; fehlt etwas, dem Nutzer melden.
+
+6.2 Fehler im normalen Spiel zählen
+- Einmal nach A:InitDB() im ADDON_LOADED-Zweig (AHAnalyzerPro.lua:1932-1934):
+    GoldSentinelTest.TrackErrors("AHSentinel", A.version, A.db)
+  Der Name muss "AHSentinel" sein (Ordnername): Der Fehler-Abgriff erkennt Fehler am Pfad "AddOns/AHSentinel/", und
+  ADDON_ACTION_BLOCKED meldet ebenfalls "AHSentinel".
+- InitDB kann AHSentinelDB durch eine neue Tabelle ersetzen (Migration, AHAnalyzerPro.lua:480-490; Tests in E):
+  danach TrackErrors erneut mit dem aktuellen A.db aufrufen.
+- Für alle Spieler aktiv (nicht nur Dev); speichert höchstens 50 Fehlerarten in db.gsTest.errors.
+- /ahs debug zeigt zusätzlich "Fehler seit Login: n · Berichte offen: GoldSentinelTest.Pending(A.db)".
+
+6.3 Abgefangene Fehler zusätzlich melden (GoldSentinelTest.Error("AHSentinel", wo, meldung)), die Chat-Ausgabe bleibt:
+- AHAnalyzerPro.lua:98-101  A:Fire              wo = "Fire:" .. event
+- AHAnalyzerPro.lua:160-163 Hintergrund-Aufgabe wo = "Job:" .. j.name
+- LegacyAH.lua:41           SimulateAHEvent     wo = "SimAH:" .. event
+- LegacyAH.lua:103          Nachbildung         wo = "LegacyAH:" .. event
+- Sync.lua:421-423          Sync-Empfang        wo = "Sync"
+- Tooltip.lua:385-390       Tooltip             wo = "Tooltip" (JEDEN Fehler melden; der Chat-Hinweis bleibt einmalig)
+- UI_Main.lua:2364-2370     AH-Einbindung       wo = "AH-Einbindung"
+- Seller.lua:955-956        Verkaufs-Meldung    wo = "Verkauft" (heute verschluckt: A.Debug gibt es nicht – ersetzen)
+- SelfTest.lua:207-209      Zustand wiederherstellen wo = "Test:Wiederherstellen"
+- Watcher.lua:229-238       abgelehnte Wächter-Suche wo = "Wächter" (nur einmal je Sitzung, sonst zu viele)
+- Die SafeCall-Hilfen (Buy.lua:62, Crafting.lua:26, Seller.lua:49, Sniper.lua:68, Watcher.lua:65) fangen erwartete fehlende
+  Funktionen ab: NICHT bei jedem Aufruf melden; nur wenn eine vorhandene Funktion einen Lua-Fehler wirft, und dann höchstens
+  einmal je Funktion und Sitzung.
+
+6.4 Testroutine
+- Beginn:  local T = GoldSentinelTest.Begin("AHSentinel", A.version, A.db)
+- Jede Prüfung NUR über T:Check(id, bereich, name, fn) / T:Skip(id, bereich, name, grund) / T:Client(id, bereich, name,
+  anleitung). bereich = "A" … "J" (für Unterpunkte derselbe Bereichsbuchstabe), id = "T01" … "T152", Unterpunkte "T25a",
+  "T30.07", "T31.12".
+- Ende (nach der Sandbox-Wiederherstellung, 2.4):
+    local text = T:Finish({ sandbox = <"OK" | "FEHLER: …">, teil = <"auto" | "server" | "haendler" | …> })
+  Text + Sprachzeile (2.3) im Kopierfenster zeigen. T:Finish speichert in db.gsTest.reports (höchstens 10) und leert die
+  bisherigen Fehler (sie stehen im Bericht).
+- Testfall-IDs bleiben über alle Versionen gleich. Entfällt ein Test, wird seine ID nicht neu vergeben; neue Tests bekommen
+  neue Nummern ab T153.
+- A.db.selftest wird nicht mehr geschrieben (alte Daten dürfen liegen bleiben); das Testfenster zeigt den letzten Bericht aus
+  T.report bzw. db.gsTest.
+- Keine Spielernamen, Twink-Namen, Gildennamen, Realm oder Chattexte in Ergebnis-, Erwartungs- oder Grund-Texte: nur Klasse,
+  Level, Client, Sprache (liefert GoldSentinelTest selbst). Item-Namen und Zahlen sind erlaubt. Charakter-Schlüssel als
+  "<Charakter>", Gilde als "<Gilde>", Sync-Absender als "<Spieler>".
+- Nach der Routine im Chat (Locale, alle Sprachen):
+  "Bericht gespeichert – wird beim nächsten /reload oder Ausloggen an die Prüfung gemeldet."
+  dazu der Hinweis aus 2.6: "Bitte jetzt /reload."
+
+6.5 Prüfung vor dem Push
+- addon_check auf das ZIP: GoldSentinelTest.lua unverändert (gleich wie shared/), Eintrag in der .toc direkt nach
+  GoldSentinelGame.lua, kein FEHLER.
+- Einmal im Spiel /ahs testroutine, /reload, dann in WTF\Account\<Konto>\SavedVariables\AHSentinel.lua nachsehen:
+  AHSentinelDB.gsTest.reports[n] beginnt mit "GSTEST1{".

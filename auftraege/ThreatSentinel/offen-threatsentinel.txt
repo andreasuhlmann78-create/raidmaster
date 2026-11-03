@@ -1,0 +1,60 @@
+OFFENE PUNKTE THREATSENTINEL (nach der Nachprüfung von 2.4.2)
+============================================================
+Stand: 3. November 2026, 07:30 · von der Prüf-Sitzung · Grundlage: download/ThreatSentinel-2.4.2.zip
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Du brauchst keine andere Datei dazu.
+
+Erledigt in 2.4.2 (danke): Hinweis nur bei eingeschaltetem Addon, Testzentrale übersteuert keine echte Sperre mehr,
+UnitIsUnit über ns:SameUnit, issecretvalue über ns.IsSecret. Lua 5.1 fehlerfrei, alte Clients unverändert.
+
+Offen sind die Punkte 1–4 aus der Korrektur zu 2.4.1. Sie standen nicht in der Kurzfassung (neu-threatsentinel.txt), die du
+bekommen hast. Punkt 1 betrifft den ersten Kampf in WoW Forever und muss VOR DEM LAUNCH (5. November, 00:00 CH) raus.
+Bitte als 2.4.3 veröffentlichen. Im Changelog nur nennen, was wirklich drin ist.
+Wie immer: komplette Dateien liefern, alte Clients nie brechen, Locales en/de, vor dem Push
+python3 addon-check/addon_check.py download/ThreatSentinel-2.4.3.zip  -> kein FEHLER.
+
+1. ZUSTAND "unknown" IN FOREVER (Schwere: MITTEL – vor dem Launch)
+   a) Threat.lua:148
+          if apiFailed and ns.isModern and ns.threatAccess == "open" then ns.ThreatAccess:Set("secret") end
+      Der Wechsel auf "secret" passiert nur, wenn der Zustand vorher "open" war. Beim ersten Kampf nach dem Login ("unknown")
+      endet ein Fehlschlag weiter still.
+      Lösung:  ... and ns.threatAccess ~= "secret" and ns.threatAccess ~= "none" then ...
+   b) ThreatAccess.lua:119-122: Nach MAX_ATTEMPTS (40) leeren Versuchen wird nur checked = true gesetzt, der Zustand bleibt
+      "unknown". Lösung: Ist er dann noch "unknown", für DIESEN Kampf "none" setzen, ohne zu speichern. Beim nächsten Kampf wird
+      neu geprüft.
+   c) ThreatAccess.lua:37-46 (ns:ThreatMode): "unknown" ergibt "FULL". In Forever greift das Addon dadurch im Kampf an den
+      Plaketten herum, bevor die Prüfung ein Ergebnis hat.
+      Lösung: Gilt ns.isModern, ist der Zustand "unknown" und läuft ein Kampf, "DISPLAY" zurückgeben. Alte Clients bleiben "FULL".
+
+2. MODUS ANZEIGE: KEINE EIGENEN ENTSCHEIDUNGEN (Schwere: MITTEL)
+   Im Modus ANZEIGE kennt das Addon die Werte nicht. Trotzdem:
+   - Meter.lua:163-166 sortiert nach Status
+   - Meter.lua:206-209 zeigt "kein Vorsprung"
+   - Meter.lua:252 und DDView.lua:57-63 setzen Farben nach Schwellwerten
+   Lösung: Bei ns:ThreatMode() == "DISPLAY" nicht sortieren (feste Reihenfolge: Tank, dann Gruppe), keinen Vorsprung-Text, eine
+   neutrale Balkenfarbe. Die geschützten Werte weiter nur an SetValue/SetText durchreichen.
+
+3. BLIZZARD-ANZEIGEN BEI "IMMER NUR ANZEIGE" (Schwere: NIEDRIG)
+   ThreatAccess.lua:160: ApplyBlizzard läuft nur mit wantBlizzard. Das wird nur bei einer erkannten Sperre gesetzt.
+   Lösung: zusätzlich ns:ThreatMode() == "DISPLAY" als Auslöser nehmen. In den Optionen (O_BLIZZTHREAT) kurz vermerken:
+   "Für die Bedrohungsfarben der Plaketten gibt es keine Blizzard-Einstellung."
+   Dazu (neu): ThreatAccess.lua:75 setzt wantBlizzard nur bei eingeschaltetem Addon. Wird das Addon später in derselben Sitzung
+   eingeschaltet, kommen die Blizzard-Anzeigen erst nach dem nächsten Kampf. Lösung: wantBlizzard unabhängig von enabled setzen.
+   ApplyBlizzard prüft enabled ja selbst.
+
+4. SELBSTTEST MIT G.SetTestFlavor (Schwere: NIEDRIG)
+   SetTestFlavor wird im Addon nirgends aufgerufen. Lösung: Knopf in der Testzentrale "Client simulieren: Forever / echt":
+   G.SetTestFlavor("forever") bzw. (nil), danach ns.isModern = G.IsModern neu setzen. Ausgabe: G.Status(), ns.isModern,
+   ns:ThreatMode(). Hinweis: Kampflog und Meter (Alerts.cleuAllowed, DM.allowed) gelten erst nach /reload.
+   (Teil der Testroutine, siehe testroutine-threatsentinel.txt, Bereich A.)
+
+5. KAMPFLOG UND METER IN DEN ALTEN CLIENTS (Entscheid des Nutzers, 3. November)
+   Der Nutzer hat entschieden: In TBC Anniversary bleiben Kampflog, Spott-Meldungen und Schadens-/Heilmeter AN. In den anderen
+   Classic-Versionen ebenso, sofern sie dort funktionieren.
+   Der Code macht das schon so: Alerts.lua:438 und DamageMeter.lua:23 (not ns.isModern) gelten für alle Clients mit alter API.
+   Nichts ändern, nur testen:
+   - Classic Era und TBC Anniversary (beide in der .toc): kein "Addon geblockt", Meter zählt, Spott-Meldung kommt.
+   - Ergebnis dem Nutzer melden. Funktioniert es in einem Client nicht, dort nur Kampflog und Meter abschalten (eigene Weiche
+     je Client) und die Bedrohungsanzeige laufen lassen.
+   - Wrath, Cata und MoP Classic stehen nicht in der .toc. Dafür ist nichts zu tun, solange der Nutzer sie nicht verlangt.
+
+Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.

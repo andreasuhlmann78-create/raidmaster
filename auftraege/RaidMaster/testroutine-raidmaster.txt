@@ -1,0 +1,866 @@
+ANWEISUNG AN RAIDMASTER: TESTROUTINE AUSBAUEN ("AUF HERZ UND NIEREN")
+=====================================================================
+Addon: RaidMaster (Raid-Addon fuer WoW Forever und alte Clients) mit Discord-Bot und Uploader
+Gepruefte Version: 3.0.14 (Arbeitsstand main, Commit 0d36cc7 "RaidMaster 3.0.14"). Der Auftrag nannte 3.0.13; waehrend der
+Pruefung wurde 3.0.14 veroeffentlicht (download/RaidMaster-3.0.14.zip). Alle Zeilenangaben beziehen sich auf 3.0.14.
+Bot 1.5.92, Uploader 1.6.0, GoldSentinelGame Version 2, GoldSentinelTest Version 1 (shared/, Commit 42a6ef3).
+Stand: 2. November 2026 · von der Pruef-Sitzung
+
+======================================================================================================================
+0. REGELN (GELTEN FUER ALLES IN DIESER DATEI)
+======================================================================================================================
+- Bei jeder Code-Aenderung immer die KOMPLETTE Datei liefern, nie Ausschnitte. Geaenderte .json-Dateien am Ende der
+  Antwort zusaetzlich separat als vollstaendige Datei mit vollem Pfad ausweisen.
+- Alte Clients nie brechen: Der Weg von Classic Era, TBC (Anniversary), Wrath/Titan, Cata, MoP bleibt exakt wie bisher.
+  Die Testroutine selbst muss auf allen Clients laden und laufen (Interface 11509 ... 120105).
+- Der Testmodus und die Testroutine duerfen nichts mit echten Folgen tun:
+  kein Chat in oeffentliche, Gilden-, Raid- oder Fluesterkanaele, keine Einladungen, kein Gruppen-Umbau, keine
+  Pluendermethode, kein Verteilen/Handeln von Items (GiveMasterLoot, Handel, Post, Kauf/Verkauf), keine Schlachtzugsymbole
+  auf fremden Einheiten, kein Gold, kein Bereitschaftscheck/Countdown des Spiels, kein Screenshot, kein ReloadUI, kein
+  Senden von Testdaten an Discord (RM.db.testMode.post bleibt nil). Das wird mit Test T46 (Sperrgitter) geprueft.
+- Echte SavedVariables nach dem Test unveraendert: Sicherung + Vergleich + Wiederherstellung wie bei LevelPilot
+  ("echte Daten unveraendert: OK", Abschnitt 2). Ausgenommen sind nur RaidMasterDB.gsTest (neuer Bericht) und
+  config.positions / config.mainSize (die stellt Restore bewusst nicht zurueck, Test.lua:312-321).
+- Test nur ausserhalb des Kampfes starten (InCombatLockdown() und IsEncounterInProgress(), falls vorhanden, beide falsch).
+  Beginnt waehrend der Routine ein Kampf (PLAYER_REGEN_DISABLED): sofort abbrechen, alles zuruecksetzen, Rest als
+  UEBERSPRUNGEN "Kampf begonnen".
+- Testroutine nur fuer den Entwickler (RM.IsDev(), GoldSentinelDev), wie das ganze Test-Werkzeug (Test.lua:1822-1843).
+- Blizzard-Globals (UnitName, UnitGUID, InCombatLockdown, SendChatMessage, SetRaidTarget, GetServerTime, issecretvalue ...)
+  NICHT aus der Routine ueberschreiben: Was ein Addon in _G schreibt, bleibt fuer die Sitzung "tainted", auch nach dem
+  Zuruecksetzen. Stattdessen Nahtstellen im Addon (RM.Act, RM.API, RM.InCombat, RM.Now, siehe Abschnitt 2.4) und fuer
+  geschuetzte Werte GoldSentinelGame.IsSecret umhuellen (Tabellenfeld, kein Blizzard-Global). Wo die Vorgabe "alte Globals
+  auf nil setzen" verlangt (T55, T56), geht das nur ueber RM.API; muss doch einmal _G geaendert werden, dann nur ausserhalb
+  des Kampfes, in einem Schutzblock mit Wiederherstellung, und das Berichtsfenster verlangt danach /reload.
+- issecretvalue nie direkt aufrufen (addon-check-Falle), immer RM.IsSecret / G.IsSecret.
+- Vor dem Push: python3 addon-check/addon_check.py download/RaidMaster-<neu>.zip -> kein FEHLER. Neue Versionsnummer
+  (nie eine veroeffentlichte Nummer mit anderem Inhalt erneut veroeffentlichen). LIESMICH.txt / README_EN.txt nachziehen.
+- Ergebnisse, die nur im Forever-Client bestaetigt werden koennen, als "IM CLIENT PRUEFEN" fuehren (T:Client).
+
+======================================================================================================================
+1. BESTEHENDE TESTROUTINE (BELEGT)
+======================================================================================================================
+Start:
+- Selbsttest: Test-Werkzeug -> Reiter "Protokoll" -> Knopf "Selbsttest" (Test.lua:1784), oder /rmtest check bzw.
+  /rmtest selbsttest (Test.lua:1833-1843, Ausgabe dann ohne Farben im Chat). Test-Werkzeug: /rmtest, /rm test
+  (Core.lua, Slash "test"), Knopf "Test" im Hauptfenster.
+- Nur mit GoldSentinelDev: T.Toggle und T.Slash pruefen RM.IsDev() (Test.lua:1822-1843); sonst nur der Hinweis von
+  GoldSentinelDev:Require. RM.IsDev = BattleTag-Pruefsumme oder Ersatz-Charaktername (GoldSentinelDev.lua:52-66).
+
+Was T.SelfTest (Test.lua:1367-1461) abdeckt – 18 Zeilen, davon 12 echte Pruefungen:
+  Test.lua:1375  GoldSentinelGame vorhanden (G.Status)
+  Test.lua:1376-1393  Versionsweiche: nur G.SetTestFlavor("forever") und ("era"), danach nil (in pcall)
+  Test.lua:1395-1411  Bossleiste mit geschuetztem Zielnamen (neu in 3.0.14; ueberschreibt UnitExists/UnitIsPlayer/UnitName
+                      in _G und nimmt einen normalen String "Ragnaros" als "geheim" – deckt ungeschuetzte Nutzung nicht auf)
+  Test.lua:1412  Raids dieser Version > 0;  1415 Boss-Taktiken vollstaendig
+  Test.lua:1416  Pluendermeister verfuegbar (Client-Faehigkeit, kein Addon-Fehler)
+  Test.lua:1417  Skillungen lesbar;  1418 Addon-Nachrichten-API vorhanden
+  Test.lua:1420  Gegner-Namensplaketten an (Spieler-Einstellung);  1421 Gilde (Umgebung; zeigt den Gildennamen)
+  Test.lua:1428  Pluendermethode (nur im Raid)
+  Test.lua:1435-1457  Spenden-Knopf (Link exakt, Klick oeffnet, Esc schliesst; in pcall)
+  Reine Info-Zeilen: 1370 Version/Client, 1371 Sprache, 1423 Rechte, 1425 Gruppe, 1433 Datenstand, 1434 Testmodus.
+Weitere Pruefstellen ausserhalb des Selbsttests:
+  Test.lua:1699-1705  Knopf "Adds markieren im Kampf (Forever)": M.simCombat, MarkAdds muss mit Hinweis abbrechen.
+  Test.lua:1311-1329  Stresstest: Zusammenfassung mit "neue Fehler" (Diag-Zaehler vorher/nachher).
+  Diag.lua:28-52  Fehler-Sammlung ueber seterrorhandler (nur Texte mit "RaidMaster").
+Ergebnisform: farbiger Text in T.selfTest (Protokoll-Feld bzw. Chat). Keine Zaehlung, kein FEHLER/UEBERSPRUNGEN, nicht
+maschinenlesbar, nicht gespeichert, nur 3 der 12 Pruefungen in pcall (ein Fehler in Zeile 1412-1433 bricht den Selbsttest ab).
+
+Was fehlt (Kurzfassung, Details in Abschnitt 3):
+- Keine einzige Pruefung der Fachfunktionen (DKP, Versteigerung, Loot, Anmeldungen, Einteilung, Kommunikation ...):
+  das Test-Werkzeug ist ein Spielplatz zum Ausprobieren von Hand, keine Routine mit Soll/Ist.
+- Sandbox unvollstaendig: T.Start sichert nur data, session, trade, config, specs, signup (Test.lua:211-212). Nicht gesichert:
+  foreign, pendingAwards, lootdb, records, killlog, shots, shotList, prof, bank, itemTips, recipeMats, assign, myAssign, pug,
+  RaidMasterTestOptions. Kein Vergleich nach dem Test.
+- Sperrgitter luekenhaft: Auction.lua:371/373 (Gebots-Antwort), DKP.lua:804/806 (!dkp-Antwort) und Assign.lua:668
+  (Aufgaben per Fluestern) rufen SendChatMessage direkt auf, nicht RM.Whisper -> im Testmodus nicht umgeleitet.
+  Die Knoepfe "Totenkopf aufs Ziel" / "Adds markieren" (Test.lua:1693-1698) markieren echt.
+- Test.lua:1192-1199 ersetzt das Blizzard-Global GetServerTime (Taint, wirkt auch auf andere Addons).
+- Versionsweiche nur Forever/Era, nicht TBC/Retail; RM.Caps und Markers.MODERN werden nur beim Laden berechnet
+  (Core.lua:64-71, Markers.lua:17) und folgen G.SetTestFlavor nicht.
+- Keine Pruefung geschuetzter Werte ausser der Bossleiste; keine Pruefung fehlender alter Globals; keine Sprachpruefung;
+  keine Leistungsmessung; keine Regressionstests fuer die Befunde 3.0.6 bis 3.0.13; keine Meldung an die Pruef-Sitzung.
+
+======================================================================================================================
+2. ABLAUF UND BERICHT DER ROUTINE (VERBINDLICH)
+======================================================================================================================
+2.1 Start
+- /rmtest testroutine startet alles; /rm testroutine als Kurzform. Einzelbereiche: /rmtest testroutine A ... J
+  (Buchstaben wie in Abschnitt 3), dazu /rmtest testroutine lang (T43 mit Stresstest 1 Woche, ca. 1,5 Min.).
+- Knopf "Alles testen" im Reiter "Protokoll" neben "Selbsttest". Der bisherige Selbsttest bleibt als Kurzansicht, seine
+  Pruefungen wandern in die Routine (A/C/J) und werden dort ueber T:Check gemeldet.
+- Vorbedingungen (sonst Abbruch mit Hinweis, kein Bericht): RM.IsDev(), nicht im Kampf, kein laufender Testmodus-Durchlauf
+  (T.IsRunning() falsch), RM.db vorhanden.
+
+2.2 Ergebnis je Pruefung
+- Nur ueber GoldSentinelTest: T:Check (OK/FEHLER), T:Skip (UEBERSPRUNGEN mit Grund), T:Client (IM CLIENT PRUEFEN mit
+  Anleitung). Kein Rueckgabewert = OK, false = FEHLER mit ergebnis/erwartet, Lua-Fehler = FEHLER mit Lua-Meldung
+  (T:Check laeuft in pcall, ein Fehler bricht die Routine nie ab).
+- Jede Pruefung raeumt in einem Schutzblock auf (Spione, Simulator, Flavor, simCombat, testTarget), auch bei Fehler:
+  local ok, a, b, c = pcall(body); Aufraeumen(); if not ok then error(a, 0) end; return a, b, c
+
+2.3 Bericht im Kopierfenster
+- Am Ende UI.ShowExport(text) (vorhandenes Kopierfenster, Strg+A, Strg+C). Text = T:Finish(extra) von GoldSentinelTest,
+  der Addon, Version, Client (GetBuildInfo, Interface), G.Status(), Sprache, Klasse/Level, Datum, Zaehlung, alle FEHLER /
+  UEBERSPRUNGEN / IM CLIENT PRUEFEN mit Bereich, Erwartung, Ergebnis, Laufzeit enthaelt. extra = {
+  sandbox = "OK" oder "ABWEICHUNG: <Pfade>", fehlerzaehler = #RM.Diag.errors (vor/nach), locale = RM.LOCALE,
+  testflavor_ende = G.flavor (muss echt sein), blocked = Anzahl abgefangener Aktionen (T46) }.
+- Keine Spieler-, Gilden- oder Chatnamen im Bericht (auch nicht RM.Me(), RM.MyGuild(), Testspielernamen in Ergebnissen
+  sind erlaubt, weil erfunden). Der bisherige Gilden-Check meldet nur "in Gilde: ja/nein".
+- Letzte Zeile im Fenster: "Bericht gespeichert – wird beim naechsten /reload oder Ausloggen an die Pruefung gemeldet."
+  Knopf "Neu laden und melden" (ReloadUI erst auf Klick).
+
+2.4 Sandbox und Nahtstellen (Pflicht, sonst sind B/C nicht sicher testbar)
+- Sicherung VOR der Routine: tiefe Kopie aller Schluessel von RaidMasterDB ausser gsTest und lastSave, dazu
+  RaidMasterTestOptions und ob RaidMasterTestDB nil ist. Laufzeit-Zustand merken: RM-Funktionen aus OVERRIDE
+  (Test.lua:156) und REAL, RM.Raid.Start/End, RM.Loot.Deliver/EnsureSettings/Warn, RM.Signup.DoInvite/DoMakeRaid/
+  ArrangeGroups, RM.SetLootMethod/Threshold, RM.Auction.current und #queue, M.simCombat, RM.BossBar.testTarget,
+  T.role, T.pool, T.autoAuction, T.weekly, GetServerTime-Identitaet, G-Testflavor (muss nil sein).
+- Waehrend der Routine: T.SetAutoSend(false) und T.SetFollowStart(false) (sonst Countdown mit ReloadUI, Test.lua:691-738,
+  bzw. automatischer Durchlauf). Die Routine arbeitet im Testmodus (T.Start) mit eigenem Sperrgitter.
+- NACH der Routine: T.Stop(), dann Tiefenvergleich mit der Sicherung (erste 5 abweichende Pfade nennen), bei Abweichung aus
+  der Sicherung wiederherstellen (Inhalt ersetzen wie Replace, Test.lua:303-307, Tabellen nicht tauschen – ProfessionSentinel
+  haelt Verweise auf RaidMaster.db.prof). Pruefen: RM.db.testMode == nil, RaidMasterTestDB == nil, alle gemerkten
+  Funktionen identisch, G.flavor echt. Zeile "echte Daten unveraendert: OK" bzw. FEHLER (eigene Pruefung T-ID "SB").
+- Nahtstellen im Addon einfuehren (alter Weg unveraendert, nur die Aufrufe gehen ueber eine Tabelle):
+  RM.Act = { SendChat = SendChatMessage-Huelle, SetRaidTarget, InviteUnit (C_PartyInfo.InviteUnit oder InviteUnit),
+    ConvertToRaid, SetRaidSubgroup, SwapRaidSubgroup, GiveMasterLoot, ClickTradeButton, InitiateTrade, PickupContainerItem,
+    DoReadyCheck, DoCountdown, Screenshot, ReloadUI, CastSpellByName, OpenTradeSkill, NotifyInspect }.
+  Alle Stellen umstellen: Ad.lua:177/179/212/221, Assign.lua:668, Auction.lua:371/373, BossBar.lua:82, Core.lua:391/396/
+  426/428, DKP.lua:804/806, Guide.lua:88/285, Loot.lua:172/191/267, Markers.lua:62/96/109/112/204, Professions.lua:299-303,
+  Ready.lua:118-119, Records.lua:97, Signup.lua:37/108/793/811, Spec.lua:432, Timer.lua:110/130, Test.lua (ReloadUI).
+  RM.API = Lesezugriffe, die die Routine faelschen muss (UnitName, UnitGUID, UnitExists, UnitIsPlayer, UnitCanAttack,
+    GetRaidTargetIndex, UnitAura/UnitBuff, C_UnitAuras, GetSpellInfo, C_Spell): RM.API.Get("UnitAura") liefert
+    RM.API.over[name] (falls gesetzt), nil wenn RM.API.hide[name], sonst _G[name].
+  RM.InCombat() = M.simCombat/RM.simCombat oder G.InCombat(); alle InCombatLockdown-Stellen umstellen (Guide.lua:84,
+    Loot.lua:461, Professions.lua:326, Ready.lua:104, Signup.lua:766/849, Spec.lua:348, Markers.lua:21-26).
+  RM.Now() statt GetServerTime ueberschreiben (Test.lua:1192-1199): Versatz nur in RM.Now, alle Aufrufer im Addon nutzen
+    RM.Now(); GetServerTime selbst bleibt unangetastet.
+  Spion: die Routine ersetzt RM.Act.* durch Zaehler (Name + Anzahl, keine Argumente mit Namen speichern).
+- Asynchrone Pruefungen (Versteigerung, Einladen, Tranq-Antworten, Durchlauf) mit Koroutine: T:Wait(sek) ueber
+  C_Timer.After; Gesamtgrenze 120 s (lang: 240 s); Zeitueberschreitung = FEHLER "haengt" mit Diag-Text.
+
+======================================================================================================================
+3. TESTFAELLE
+======================================================================================================================
+Format: Txx [Bereich] Name – Art – Clients
+        Wie: ...   Erwartung: ...
+Art: auto = automatisch in der Routine; halb = Spieler tut X, Routine prueft; manuell = /dump bzw. Sichtpruefung.
+Clients: F = WoW Forever, E = Classic Era, T = TBC Anniversary, R = Retail; "alle" = F E T R.
+IDs bleiben ueber Versionen gleich. Luecken zwischen den Bereichen sind fuer spaetere Faelle reserviert.
+
+----------------------------------------------------------------------------------------------------------------------
+A. LADEN UND ERKENNUNG
+----------------------------------------------------------------------------------------------------------------------
+T01 [A] Alle Dateien geladen – auto – alle
+    Wie: Tabellen pruefen: RaidMaster == RM, RM.Data, RM.Comm, RM.Spec, RM.DKP, RM.Raid, RM.Loot, RM.Auction, RM.Signup,
+    RM.PUG, RM.Ad, RM.Assign, RM.Markers, RM.Tranq, RM.Sheep, RM.Donate, RM.UI, RM.Guide, RM.Diag, RM.ItemTip, RM.BossBar,
+    RM.Gaps, RM.LootDB, RM.Tooltip, RM.Ready, RM.Timer, RM.Prof, RM.Welcome, RM.Records, RM.Bank, RM.Test, RaidMasterTestLoot,
+    RM.frame; Locale: RM.L, RM.LOCALE, RM.LANGUAGES[RM.LOCALE].
+    Erwartung: alle vorhanden (Ergebnis: Liste der fehlenden).
+T02 [A] Version .toc = Code – auto – alle
+    Wie: (C_AddOns.GetAddOnMetadata or GetAddOnMetadata)("RaidMaster", "Version") == RM.VERSION; RM.VERSION_NUM ==
+    a*10000 + b*100 + c aus RM.VERSION (3.0.14 -> 30014, Core.lua:8-9).
+    Erwartung: gleich.
+T03 [A] Gemeinsame Dateien – auto – alle
+    Wie: GoldSentinelGame.version >= 2 und RM.G == _G.GoldSentinelGame; GoldSentinelDev.version >= 1;
+    GoldSentinelTest.version >= 1 und GoldSentinelTest.registry.RaidMaster gesetzt (nach Abschnitt 6).
+    Erwartung: alle wahr; G.Status() ist ein String.
+T04 [A] Spielversion erkannt – auto – alle
+    Wie: RM.GAME.key ~= "unknown"; RM.GAME.key == G.flavor (wenn G da); RM.GameInfoText() ohne Fehler.
+    Erwartung: Forever-Client: "forever", RM.IsModern true; Era: "era", RM.IsModern false.
+T05 [A] Weichen fuer jeden Client simuliert – auto – alle
+    Wie: fuer f in {"forever","era","tbc","retail"}: G.SetTestFlavor(f); RM.SetGameFlags(); pruefen; am Ende
+    G.SetTestFlavor(nil); RM.SetGameFlags() (Schutzblock). Erwartung je f:
+      forever: GAME.key forever, IsForever, IsModern, nicht IsClassicEra, nicht IsRetail,
+               RM.SameName("Rokan Steinwacht","rokan") true, RM.SameName("Rokan Steinwacht","Rokan Eisen") false,
+               M.CombatBlocked() == G.InCombat()
+      era:     GAME.key era, IsClassicEra, nicht IsModern, SameName("Rokan Steinwacht","Rokan") false, CombatBlocked false
+      tbc:     GAME.key tbc, nicht IsModern, nicht IsClassicEra, CombatBlocked false
+      retail:  GAME.key retail, IsRetail, IsModern
+      nil:     GAME.key, IsModern, IsClassicEra wieder wie vor dem Test; G.flavor echt.
+    Ersetzt Test.lua:1376-1393 (bisher nur forever/era).
+T06 [A] Faehigkeiten folgen der Weiche – auto – alle
+    Wie: RM.Caps und Markers.MODERN in eine Funktion RM.ComputeCaps() verlegen, die RM.SetGameFlags aufruft (gleiche
+    Ausdruecke wie Core.lua:64-71, alter Weg unveraendert). Bei f = forever: Caps.combatLog false. Bei nil: Caps wie beim
+    Laden (Tabelle vorher merken, Feld fuer Feld vergleichen).
+    Erwartung: wie beschrieben. Ohne Umbau: T:Skip "Caps nur beim Laden berechnet".
+T07 [A] Ladereihenfolge – auto + offline – alle
+    Wie: REAL.captured == true und REAL.RaidStart ist die echte Funktion (Test.lua:158-168 verlangt, dass Test.lua zuletzt
+    laedt); offline: addon_check prueft GoldSentinelDev/Game/Test vor Locale.lua, Test\Test.lua als letzte Zeile.
+    Erwartung: wahr; addon_check ohne FEHLER.
+T08 [A] SavedVariables-Grundzustand – auto – alle
+    Wie: type(RaidMasterDB) == "table", RaidMasterTestDB == nil (sonst Absturzrest), RaidMasterTestOptions nil oder Tabelle,
+    RM.db.game.key == RM.GAME.key (Core.lua, PLAYER_LOGIN).
+    Erwartung: wahr.
+T09 [A] Diagnose zeigt Erkennung – auto – alle
+    Wie: D.Text() in pcall; enthaelt G.Status() und GoldSentinelDev:Status() (Diag.lua:14-23); jeder Provider liefert Tabelle.
+    Erwartung: kein Fehler, beide Zeilen enthalten, kein BattleTag im Text.
+
+----------------------------------------------------------------------------------------------------------------------
+B. JEDE FUNKTION (im Testmodus, Sperrgitter aktiv, Testdaten)
+----------------------------------------------------------------------------------------------------------------------
+T10 [B] Slash /rm mit allen Unterbefehlen – auto – alle
+    Wie: SlashCmdList.RAIDMASTER(x) fuer x = "", "bar" (2x), "adds", "clear", "sync", "test" (2x), "beute", "beute ragnaros",
+    "berufe", "handwerk arkanit", "rekorde", "bank", "bank arkanitbarren", "bereit", "pull 10", "pause 5", "luecken",
+    "diag" (2x), "fix", "discord" (2x), "spenden", "minimap" (2x), "version", "info", "unbekannt" (-> UI.Toggle, 2x).
+    "reset" nur mit Spion auf RM.Act.ReloadUI und gesicherten positions (Core.lua:762-764).
+    Erwartung: kein Lua-Fehler; danach alle geoeffneten Fenster wieder zu; Spion: 0 echte Aktionen (Markieren nur
+    ueber RM.Act, Countdown nicht, Bereitschaftscheck nicht, ReloadUI 0).
+T11 [B] Slash /rmtest und Dev-Sperre – auto – alle
+    Wie: T.Slash("start"), ("stop"), ("check"), (""); dann RM.IsDev voruebergehend durch function() return false end ersetzen:
+    T.Slash("") und T.Toggle() oeffnen nichts, Hinweis von GoldSentinelDev kommt; laufender Testmodus laesst sich trotzdem
+    beenden ("stop").
+    Erwartung: wie beschrieben; RM.IsDev wiederhergestellt.
+T12 [B] Hauptfenster und alle Seiten je Ansicht – auto – alle
+    Wie: fuer Rolle in member, lead, looter, raidlead (T.SetRole): fuer jede Seite dkp, auction, loot, log, raid, signup, pug,
+    ad, assign, lgroups, lboss, specs, settings, bank, discord: UI.ShowPage(id) wenn UI.CanSeePage(id); UI.RefreshCurrent().
+    Zaehler von UI.ReportError (UI.lua:942) vorher/nachher; UI.ResetMainSize(); UI.Toggle() zu.
+    Erwartung: 0 neue Fehler; member sieht keine Seite settings/assign/signup (Liste aus UI.VisibleTabs gegen Erwartung).
+T13 [B] Jede Option einmal an und aus – auto – alle
+    Wie: UI.Check und UI.Cycle tragen sich in UI.registry ein (Beschriftung, getter, setter). Nach T12 alle Eintraege:
+    Wert merken, Click() -> getter() hat gewechselt, Click() -> wieder alter Wert. Betrifft u. a. Pages.lua:122, 564, 584ff
+    (whisperReplies ...), 810, 813, 865, 876, 1010, 1018, 1211, 1464, 1469, 1471, 1481, 1731, 1882-1888 (SCheck: firstKillDouble,
+    antiSnipe, allowNegative, onlyOnline, standbyGetsDKP, mainBeforeTwink), 1915, 1921, 1924, 1928, 1985 und die
+    Test-Optionen Test.lua:1757-1777. Cycle (z. B. timerAddons Pages.lua:806): jeden Wert einmal, dann Ausgangswert.
+    Erwartung: jede Option schaltet, kein Fehler, am Ende alle Werte wie vorher (Ergebnis: Anzahl geprueft, z. B. "27 Haken,
+    9 Auswahl").
+T14 [B] Nebenfenster und Esc – auto – alle
+    Wie: RM.Diag.Toggle(), RM.Gaps.Open(), RM.Guide.Toggle(), RM.Donate.Show()/Hide(), RM.Ready.Show(), RM.Markers.ToggleBar()
+    2x, RM.UI.ToggleMinimapButton() 2x, T.Toggle() 2x, UI.ShowExport("x"), UI.Confirm("x", ok, cancel) -> Abbrechen-Pfad.
+    UISpecialFrames enthaelt RaidMasterDiag, RaidMasterDonate, RaidMasterTestFrame und das Hauptfenster. Bestehende
+    Spenden-Pruefung (Test.lua:1435-1457) wird T14b.
+    Erwartung: alles oeffnet und schliesst ohne Fehler; Link exakt https://www.paypal.com/ncp/payment/46R68N2BF7BTY.
+T15 [B] DKP Grundfunktionen – auto – alle
+    Wie (Topf T.pool = "mc"): DKP.EnsurePlayer("Tank1","WARRIOR"); Adjust("Tank1", 50, "Test") -> Get == 150;
+    Adjust(-20) -> 130; Undo(letzte id) -> 150; ChargeItem("Tank1", 30, link) -> 120; PoolName/PoolShort("mc"); PoolList enthaelt
+    mc; DKP.Summary("Tank1") enthaelt "120"; SortedPlayers("mc") absteigend; Earned/PoolTotal plausibel.
+    Erwartung: genau diese Werte.
+T16 [B] Verfall, Ersatzbank, Twinks – auto – alle
+    Wie: ApplyDecay("mc") bei decayPct 10: 100 -> 90 (Rundung RM.Round); WeekStart/NextDecay: naechster Mittwoch;
+    CheckAutoDecay zweimal hintereinander -> nur ein Verfall (DKP.lua:508 sperrt im Testmodus: hier mit T.active = false in
+    der Sandbox-Kopie oder direkt ApplyDecay pruefen); ToggleStandby("Ersatz1") 2x; AwardStandby -> Ersatzbank +standbyStartDKP;
+    SetMain("Twinky","Tank1") -> IsTwink, MainOf, TwinksOf.
+    Erwartung: Werte wie angegeben, Ersatzbank nur beim Raidstart.
+T17 [B] Snapshot, Export, Abgleich – auto – alle
+    Wie: s = DKP.MakeSnapshot(50); Kopie = {}; DKP.ImportSnapshotTo(Kopie, s, false) -> Spieler und DKP gleich;
+    DKP.ExportText() enthaelt Kopfzeile und "Tank1"; DKP.ImportForeign(s, "Fremd") -> RM.db.foreign (Sandbox).
+    Erwartung: gleiche Werte, kein Fehler.
+T18 [B] Raid starten, Bosskill, beenden, Pause – auto – alle
+    Wie: T.FillRoster(); RM.Raid.Start() (mit T.manualStart) -> session.active, pool, alle 40 + Ersatzbank +dkpStart (10);
+    RM.SimulateEvent("ENCOUNTER_END", 663, "Lucifron", 9, 40, 1) -> Boss-DKP (Erstkill doppelt: 20); mit success 0 -> keine
+    DKP; RM.Raid.End() -> +dkpEnd (10), session.active false; Raid.StartPause(60)/StopPause; Raid.RunCheck();
+    Raid.AnnounceSkinners() -> nur T.ShowChat.
+    Erwartung: DKP genau wie beschrieben (Ergebnis: Tank1 vorher/nachher), keine echte Chatnachricht.
+T19 [B] Versteigerung Ablauf – auto (async) – alle
+    Wie: Auction.Enqueue(link Ruhestein 6948); Start(1); ReceiveBid("Tank1", 10), ("Krieger1", 15), ("Tank1", 20);
+    FinishNow(); AwaitingAward() true; Award() -> Tank1 -20 DKP, Log-Eintrag; zweite Runde: NoAward(); dritte: Cancel();
+    AddTime(5); Remove(1); SendQueue() (nur Zaehler blocked); BidList(); Gebotsfenster: OnStart(sender, {a=..}) ->
+    ShowBidFrame/UpdateBidFrame/HideBidFrame.
+    Erwartung: Gewinner Tank1 zu 20, Queue leer, A.current nil am Ende.
+T20 [B] Versteigerung Regeln – auto – alle
+    Wie: minBid 10, bidIncrement 5: Gebot 5 abgelehnt, 12 nach 10 abgelehnt, 15 ok; allowNegative false: Gebot ueber DKP
+    abgelehnt; mainBeforeTwink: Twink bietet 30, Main 15 -> Main gewinnt; antiSnipe im Test aus (Test.lua:91-97);
+    T.ShortenRest nach letztem Testgebot -> Restzeit <= 1 s.
+    Erwartung: Ablehnungen mit Fehlertext, Gewinner wie angegeben.
+T21 [B] Loot-Regeln und Verteilung – auto – alle
+    Wie: Loot.Classify fuer Epic (4) -> "auction", Blau (3) -> "auction", Rezept -> "bank", Material -> "bank", Legendaer ->
+    "notify", sonst fallback "de"; RecipientFor("bank"/"de"/"crafter") = config-Namen; Loot.Deliver im Test nur Log
+    (Test.lua:266); Caps.masterLoot false simuliert -> AddTrade/RemoveTrade; Problems(); ApplySettings, EnsureSettings und Warn
+    im Test ohne Wirkung (Test.lua:219-221); ExplainNoQueue(); OnBossKilled("Lucifron").
+    Erwartung: Klassen wie angegeben; Spion GiveMasterLoot/ClickTradeButton 0.
+T22 [B] Anmeldungen importieren und abgleichen – auto – alle
+    Wie: Text mit "RAIDMASTER-ANMELDUNG", "Raid: MC", "Datum: 05.11.", "Modus: dkp", "Topf: mc", "Max: 40", "Start: <ts>",
+    Eintraegen "Tank1;WARRIOR;Tank;angemeldet", "Rokan Steinwacht;PRIEST;Heal;angemeldet", "Ersatz1;WARRIOR;DD;ersatz",
+    "GRP;Tank1;1", "BANK;Ersatz1", "ALT;Twinky;Tank1" -> S.Parse: 3 Eintraege, groups, bench, alts, start, pool, max;
+    S.Parse("Hallo") -> nil + Fehlertext; S.Import(text) -> RM.db.signup; S.Compare(); S.Clear().
+    Erwartung: Felder exakt, Name mit Leerzeichen bleibt "Rokan Steinwacht".
+T23 [B] Einladen und Gruppen (simuliert) – auto (async) – alle
+    Wie: S.InviteAll(false) im Test -> T.SimInvite je Eintrag; nach 4 s: invited/declined/notfound/full Zustaende vorhanden
+    (S.InviteState), RaidSize/MemberCount/Capacity/CapacityText; S.ArrangeGroups() -> T.SimArrange; S.StopInvites();
+    S.ClassicGroups(players) 8 Gruppen <= 5; S.MainTanks().
+    Erwartung: Spion InviteUnit/ConvertToRaid/SetRaidSubgroup/SwapRaidSubgroup 0.
+T24 [B] PUG und Werbung – auto – alle
+    Wie: PUG.Start("Test-MC"), IsActive, SoftresLink, AnnounceSoftres(false) -> nur T.ShowChat; PUG.Stop(); Ad.Build() <= 255
+    Zeichen; Ad.Post() -> Ad.SimulatePost (Ad.lua:164-170); CooldownLeft > 0; Targets/DefaultTarget/TargetLabel;
+    simuliertes Fluestern "inv" von "Kaldor12" -> T.SimInvite.
+    Erwartung: Spion SendChat 0.
+T25 [B] Einteilung – auto – alle
+    Wie: Assign.Build(p) fuer p = mc, ony, barrow, hyjal mit vollem Testraid: Kontexte (Heilung, Entfluchen, Bannen, CC,
+    Unterbrechen, Furchtschutz) nicht leer, MT/OT1/OT2 aus AutoTanks; Assign.Post(key) -> T.ShowChat; PersonalTexts("Priester1");
+    SendAll() im Test; Receive(texts); ContextForEncounter(663).
+    Erwartung: kein Fehler; Spion SendChat 0 (bisher FEHLER: Assign.lua:668 fluestert direkt).
+T26 [B] Markierungen ohne echte Symbole – auto – alle
+    Wie: Spion auf RM.Act.SetRaidTarget. IsMarkerLead/CanMark; Mark(8), SmartMark(), MarkAdds(), ClearAll(), ResetUsed(),
+    UpdateBar(), PostBossInfo(663) – ohne Ziel bzw. mit gefaelschten Einheiten ueber RM.API.
+    Erwartung: kein Fehler; Spion zaehlt nur die erwarteten Aufrufe (ClearAll: 8 + 1 auf "player"), keine Einheit ausser
+    "player" und den gefaelschten Testeinheiten.
+T27 [B] Boss-Leiste – auto – alle
+    Wie: BossBar.SetTestTarget(663) -> Update zeigt Leiste; B.TargetBoss().id == 663; Announce, AnnounceAndMark (Testpfad
+    BossBar.lua:66-73: nur Print), PostAssignment; SetTestTarget(nil) -> Leiste weg.
+    Erwartung: Spion SetRaidTarget 0, SendChat 0.
+T28 [B] Einlull- und Schaf-Rotation – auto (async) – alle
+    Wie: T.TranqTest() wie bisher (Test.lua:962-975); Q.Hunters, Rotation, StatusText enthaelt 2x ja, 1x nein; Q.Post ->
+    T.ShowChat; RM.Sheep.Mages/Rotation/Line/StatusText/Post.
+    Erwartung: Antworten richtig zugeordnet, kein echter Chat.
+T29 [B] Luecken fuellen – auto (async) – alle
+    Wie: Gaps.Requirement(pool, 10/20/40) liefert Mindestaufstellung; Needs/NeedsText; RoleHint("inv heal") == heal;
+    RoleOf/CanDo; Plan(); AskGuild (SimGuild, SimulateAsk); PostSearch -> SimulatePost; OnWhisper("inv tank", "Grumbash11");
+    StopSearch(); Open()/Refresh().
+    Erwartung: Fremde passender Klasse eingeladen, unpassende nicht.
+T30 [B] Bereitschafts-Check – auto (async) – alle
+    Wie: Ready.Start() im Test (kein DoReadyCheck, Ready.lua:118); SimulateAnswers -> nach 3 s R.results fuer alle 39;
+    Problems(name), Summary(), Announce() -> T.ShowChat; R.MyStatus() liefert flask/elixirs/readable/fr/dur.
+    Erwartung: Spion DoReadyCheck 0; Ergebnisliste vollstaendig.
+T31 [B] Pull- und Pausen-Timer – auto (async) – alle
+    Wie: Timer.Pull(10) -> Running("pull"); Cancel(); Break(5) -> Running("break"); Cancel(). SendBossMods -> je Prefix
+    D5, D4C, BigWigs ein Aufruf von RM.SendAddonMessage (im Test: T.blocked +3).
+    Erwartung: Spion DoCountdown 0 (Timer.lua:110/130), kein Fehler.
+T32 [B] Rekorde – auto – alle
+    Wie: R.FormatTime(102) == "1:42"; im Test OnStart/OnEnd speichern nichts (Records.lua:22-24); Celebrate(663, "Lucifron",
+    3, RM.Now(), true) -> kein Screenshot; Best(663); CheckRecord mit Sandbox-Kopie; R.Print().
+    Erwartung: Spion Screenshot 0; RM.db.records/killlog unveraendert.
+T33 [B] Beute-Datenbank – auto – alle
+    Wie: LDB.ParseGUID("Creature-0-1234-409-5678-11502-0000ABCDEF") == "Creature", 11502; Recording() im Test false
+    (LootDB.lua:46); Record/RecordTrash in eine Kopie (LDB-Store voruebergehend auf Testtabelle); BossLoot, TrashLoot, ItemIDs,
+    TrashIDs, BossesForPool, Stats, PrintBoss("ragnaros").
+    Erwartung: Zaehlung stimmt mit den eingetragenen Testkills ueberein.
+T34 [B] Item-Tooltips – auto – alle
+    Wie: TT.Info(link) und TT.Lines(link) fuer einen Gegenstand aus der Test-Beutedatenbank; GameTooltip:SetHyperlink(link)
+    mit itemTooltip an -> Zusatzzeile da, aus -> nicht da; IT.Scan/Has/Remember/Prune.
+    Erwartung: wie beschrieben, kein Fehler.
+T35 [B] Berufe – auto + halb – alle
+    Wie: P.HasModernAPI() == (C_TradeSkillUI vorhanden); P.ReadSkillLines(); P.Openable(); P.StoreScan("Testberuf", 300, 300,
+    {1,2}, {"A","B"}, {}) in Sandbox -> RM.db.prof[me].p.Testberuf = {r=300, m=300, i={1,2}, n={"A","B"}}, #i == #n;
+    P.Find("A"), P.PrintFind("A"); P.SendMine blockiert; P.ReadNext() mit RM.Act-Spion (OpenTradeSkill/CastSpellByName).
+    halb: Berufsfenster echt oeffnen -> siehe T152.
+    Erwartung: Datenformat unveraendert (ProfessionSentinel liest es).
+T36 [B] Gildenbank – auto + halb – alle
+    Wie: B.IsBankChar(); B.Find("Arkanit") / PrintFind mit Testbestand. halb: Bank oeffnen -> ScanBank, Post oeffnen -> ScanMail.
+    Erwartung: Treffer aus Testbestand; halb: Bestand > 0 Eintraege.
+T37 [B] Skillungen – auto – alle
+    Wie: Spec.MainTree({5,5,41}) == 3; Spec.Role("Tank1") == "tank" (Test-Skillung Test.lua:37); CanRole, PointsText, Text,
+    TreeLabel, RoleForSpec; Spec.ReadPoints() (eigener Charakter) Summe <= Stufe-9; Store/StoreSpec/Prune; SendMine blockiert;
+    BuildQueue/StartScan/StopScan im Test (Spion NotifyInspect 0 fuer Testnamen); Spec.List().
+    Erwartung: wie angegeben.
+T38 [B] Kommunikation: Serializer – auto – alle
+    Wie: Comm.Deserialize(Comm.Serialize(v)) == v fuer verschachtelte Tabellen mit Strings (Tab, Zeilenumbruch, "|", "~",
+    Umlaute, 300 Zeichen), Zahlen (negativ, Komma), true/false, leere Tabelle; Deserialize("") / ("x\t{") / 2000 Zufallsbytes
+    -> nil ohne Fehler.
+    Erwartung: identisch bzw. nil.
+T39 [B] Kommunikation: Mehrteil, Sync, Vertrauen – auto – alle
+    Wie: Comm.Send("ENTRY", grosse Tabelle > MAX_LEN) erzeugt "~M"-Teile (Zaehler); dieselben Teile als
+    RM.SimulateEvent("CHAT_MSG_ADDON", RM.PREFIX, teil, "RAID", "Tank1") in umgekehrter Reihenfolge -> Handler bekommt die
+    Daten genau einmal; unbekannter Typ ignoriert; HELLO mit hoeherer Version -> Hinweis einmal (Comm.Consider); SNAP von
+    Nicht-Leitung ignoriert, von Raidleitung (IsRaidAuthority simuliert) uebernommen; PING -> PONG nur Zaehler.
+    Erwartung: wie beschrieben, T.blocked steigt, nichts geht wirklich raus.
+T40 [B] Begruessung, Discord-Anleitung – auto – alle
+    Wie: W.Lines("mc", {{name="Gastino"},{name="Ersatz1", bench=true}}) >= 2 Zeilen, Gast und Ersatzbank genannt; W.Send ->
+    RaidChat-Umleitung; Guide.StatusText(); Guide.SendNow() -> UI.Confirm, Abbrechen; Guide.UPLOADER_URL endet auf
+    download/RaidMasterUploader.zip.
+    Erwartung: Spion ReloadUI 0.
+T41 [B] Diagnose und Haenger loesen – auto – alle
+    Wie: Faelle nachstellen: (a) Versteigerung fertig, wartet auf Vergabe -> D.Fix zeigt AskAward; (b) endsAt + 3 < jetzt ->
+    Finish; (c) fertig ohne Gebot -> current nil; (d) altes Gebotsfenster -> geschlossen; Test-Fixer (Test.lua:1865-1874).
+    Erwartung: je Fall die richtige Meldung aus D.Fix().
+T42 [B] Raiddaten je Version – auto – alle
+    Wie: RM.Data.RaidList je echtem Client nicht leer; Forever: Topfschluessel mc, ony, barrow, hyjal verfuegbar (Data.lua:278-279);
+    RaidByKey("mc") 10 Bosse; GetTemplate("standard"); TemplatesForRaid("mc"); CanEquip("WARRIOR", Plattenlink) true,
+    ("MAGE", Plattenlink) false; BossesForPool("barrow") vor dem 9.12. leer -> T.RunRaid meldet "noch keine Bosse".
+    Erwartung: wie angegeben; Boss-Taktiken vollstaendig (bisher Test.lua:1413-1415).
+T43 [B] Test-Werkzeug selbst – auto (async; Stresstest nur "lang") – alle
+    Wie: T.Start/T.Stop stellt alles her (gegen Sicherung aus 2.4); FillRoster 40 / ClearRoster 1; RunRaids(1) "mc" mit
+    autoAuction -> Durchlauf endet, mindestens 1 Item vergeben, Override "Raid starten" bricht ab; SetTimeOffset(-7 Tage) ->
+    RM.Now() 7 Tage frueher, danach 0 -> GetServerTime unangetastet (Identitaet). lang: StressTest(1) -> "neue Fehler: 0".
+    Erwartung: wie angegeben, kein ReloadUI, testMode.post nil.
+T44 [B] Alle Ereignisse einmal – auto – alle
+    Wie: RM.SimulateEvent mit plausiblen Argumenten fuer: ACTIVE_TALENT_GROUP_CHANGED, BANKFRAME_OPENED/CLOSED,
+    CHARACTER_POINTS_CHANGED, CHAT_MSG_ADDON, CHAT_MSG_SYSTEM, CHAT_MSG_WHISPER, CRAFT_SHOW, ENCOUNTER_START/END,
+    GROUP_ROSTER_UPDATE, GUILDBANKFRAME_OPENED, GUILD_ROSTER_UPDATE, INSPECT_READY, INSPECT_TALENT_READY,
+    INSTANCE_ENCOUNTER_ENGAGE_UNIT, LOOT_OPENED/CLOSED/SLOT_CLEARED, MAIL_SHOW/INBOX_UPDATE/CLOSED, PARTY_LEADER_CHANGED,
+    PARTY_LOOT_METHOD_CHANGED, PLAYER_ENTERING_WORLD, PLAYER_GUILD_UPDATE, PLAYER_REGEN_ENABLED,
+    PLAYER_SPECIALIZATION_CHANGED, PLAYER_TALENT_UPDATE, PLAYER_TARGET_CHANGED, TRADE_SHOW, TRADE_SKILL_LIST_UPDATE,
+    TRADE_SKILL_SHOW, UI_INFO_MESSAGE. Nicht: ADDON_LOADED, PLAYER_LOGIN, PLAYER_LOGOUT (Initialisierung/Speichern).
+    Erwartung: #RM.Diag.errors unveraendert, Spion 0 echte Aktionen.
+T45 [B] Tastenbelegungen – auto – alle
+    Wie: jede Funktion aus Bindings.xml existiert (RaidMaster.UI.Toggle, Markers.SmartMark, Mark(0..8), MarkAdds, ClearAll)
+    und laeuft mit Spion ohne Fehler; BINDING_NAME_* alle gesetzt (Core.lua:741-755).
+    Erwartung: wahr.
+T46 [B] Sperrgitter Testmodus – auto – alle
+    Wie: nach B gesamt: Zaehler je RM.Act-Funktion. Zusaetzlich gezielt: im Testmodus simuliertes Fluestern "!bid 20" von
+    "Tank1" bei laufender Versteigerung (Auction.lua:363-375) und "!dkp" / "!dkp Tank1" (DKP.lua:793-807).
+    Erwartung: SendChat 0, InviteUnit 0, SetRaidTarget nur Testeinheiten, GiveMasterLoot 0, DoReadyCheck 0, DoCountdown 0,
+    Screenshot 0, ReloadUI 0, CastSpellByName/OpenTradeSkill 0 (ausser T35 mit Spion), RM.db.testMode.post nil.
+    Heute FEHLER: Auction.lua:371/373, DKP.lua:804/806, Assign.lua:668 fluestern direkt -> ueber RM.Whisper fuehren.
+
+----------------------------------------------------------------------------------------------------------------------
+C. FOREVER-SONDERFAELLE (SIMULIERT)
+----------------------------------------------------------------------------------------------------------------------
+Geschuetzte Werte (C1): T50-T54 hier; dazu die Befund-Tests T132, T133, T140, T141, T143, T144 in Bereich J.
+T50 [C] Simulator fuer geschuetzte Werte – auto – alle
+    Wie: SECRET = Tabelle mit Metatabelle, die bei __index, __concat, __lt, __le, __eq, __len, __call, __tostring einen
+    Fehler wirft (wie shared/tests/test_goldsentineltest.py). G.IsSecret voruebergehend umhuellen:
+    local orig = G.IsSecret; G.IsSecret = function(v) return rawequal(v, SECRET) or orig(v) end (Schutzblock).
+    Geschuetzte Strings als zweite Form: Proxy-String "\1GSSECRET" in einer Menge, die die Huelle ebenfalls als geheim
+    meldet (deckt Pfade ab, die type(v) == "string" pruefen). Gefaelschte Werte ueber RM.API.over (UnitName, UnitGUID ...).
+    Erwartung: RM.IsSecret(SECRET) true, G.Short(SECRET) nil, GoldSentinelTest.Str(SECRET) == "<geschuetzt>"; nach dem
+    Schutzblock G.IsSecret == orig.
+T51 [C] Addon-Nachricht mit geschuetztem Absender – auto – alle
+    Wie: RM.SimulateEvent("CHAT_MSG_ADDON", RM.PREFIX, "PING\t{}", "RAID", SECRET) und mit "~M\t1\t1\t2\tx" (Mehrteil).
+    Comm.lua:157 macht sender = RM.Short(sender) -> nil, danach sender .. ":" .. id (Mehrteil) = Lua-Fehler.
+    Erwartung: Nachricht verworfen, kein Lua-Fehler (vor dem Zusammensetzen auf nil pruefen). IM CLIENT PRUEFEN (T:Client):
+    sind Absender von Addon-Nachrichten im Kampf in Forever geschuetzt?
+T52 [C] Fluestern mit geschuetzter Nachricht oder Absender – auto – alle
+    Wie: CHAT_MSG_WHISPER mit (SECRET, "Tank1"), ("!bid 20", SECRET), (SECRET, SECRET) an alle 5 Handler: Ad.lua:200,
+    Auction.lua:363, DKP.lua:793, Gaps.lua:641, Tranq.lua:98. (msg or ""):lower() auf geschuetztem Text ist ein Lua-Fehler.
+    Erwartung: kein Fehler, keine Antwort, kein Gebot; am Anfang jedes Handlers RM.IsSecret(msg) / RM.IsSecret(sender) -> return.
+T53 [C] Bereitschafts-Check mit geschuetzten Auren – auto – alle
+    Wie: RM.API.over: C_UnitAuras.GetAuraDataByIndex liefert {name=SECRET, spellId=17626}. R.AuraInfo("player").
+    Erwartung: readable false (Ready.lua:56), kein Fehler; R.Problems meldet "Buffs nicht lesbar", nicht "kein Flaeschchen".
+T54 [C] Gaps und Systemmeldungen geschuetzt – auto – alle
+    Wie: G.ClassOf("X", SECRET, "inv") (Gaps.lua:164 pcall GetPlayerInfoByGUID); CHAT_MSG_SYSTEM mit SECRET
+    (Signup.lua:99 S.OnSystemMessage).
+    Erwartung: kein Fehler, Klasse nil bzw. keine Statusaenderung.
+T55 [C] Fehlende alte Globals: Auren und Zauber – auto – alle
+    Wie (ueber RM.API.hide): UnitAura und UnitBuff weg -> RM.GetBuff nimmt C_UnitAuras (Core.lua:107-128); zusaetzlich C_UnitAuras
+    weg -> RM.CanReadAuras() false und R.AuraInfo readable false; GetSpellInfo weg -> RM.GetSpellName(2575) ueber C_Spell;
+    beide weg -> nil ohne Fehler.
+    Erwartung: wie beschrieben; danach hide leer.
+T56 [C] Fehlende alte Globals: Gruppe, Loot, Chat, Addons, Container – auto – alle
+    Wie: Bindungen pruefen, die beim Laden fest gewaehlt werden (Core.lua:84-86, 129-136): wenn C_Item da ->
+    RM.GetItemInfo == C_Item.GetItemInfo; C_ChatInfo da -> RM.SendAddonMessage (echt, REAL) == C_ChatInfo.SendAddonMessage;
+    C_Container da -> RM.Container.NumSlots == C_Container.GetContainerNumSlots. Laufzeitwahl ueber RM.API.hide: GetLootMethod
+    weg -> C_PartyInfo.GetLootMethod (Core.lua:141-148); GuildRoster weg -> C_GuildInfo.GuildRoster; IsAddOnLoaded weg ->
+    C_AddOns (Test.lua:1880); GetNumRaidMembers weg -> IsInRaid; GetTalentTabInfo weg -> Caps.talentTrees false, Spec ohne Fehler.
+    Erwartung: moderner Ersatz greift oder sauberer Hinweis, kein Lua-Fehler.
+T57 [C] Kampfsperre simuliert – auto – alle
+    Wie: RM.simCombat = true (ueber RM.InCombat): P.ReadNext -> "Im Kampf geht das nicht." (Professions.lua:326); Ready.Start ->
+    Hinweis (Ready.lua:104); Signup.ArrangeStep -> false (Signup.lua:766); Spec InspectAllowed false (Spec.lua:348);
+    Guide.SendNow -> Hinweis (Guide.lua:84); Loot.lua:461 -> return; MarkAdds/MarkBoss -> COMBAT_HINT nur auf modernem Weg.
+    Erwartung: keine geschuetzte Aktion (Spion 0), Hinweise kommen; Knopf "Adds" der Markierungsleiste im simulierten Kampf
+    (modern) deaktiviert oder mit Hinweis-Tooltip.
+T58 [C] Kampflog gesperrt – auto – F R (E T Gegenprobe)
+    Wie: RM.frame:IsEventRegistered("COMBAT_LOG_EVENT_UNFILTERED") == RM.Caps.combatLog; auf Forever/Retail beide false.
+    Erwartung: Forever/Retail: nicht registriert; Era/TBC: registriert.
+T59 [C] Gesperrte Aktionen im Spiel – auto – alle
+    Wie: nach der Routine in RaidMasterDB.gsTest.errors nach Eintraegen mit wo = "ADDON_ACTION_BLOCKED" oder
+    "ADDON_ACTION_FORBIDDEN" suchen (GoldSentinelTest zaehlt sie, GoldSentinelTest.lua:392-398).
+    Erwartung: 0 neue Eintraege waehrend der Routine.
+
+----------------------------------------------------------------------------------------------------------------------
+D. ALTE CLIENTS (Era, TBC Anniversary – echte Ausfuehrung im alten Client)
+----------------------------------------------------------------------------------------------------------------------
+T70 [D] Ganze Routine im alten Client – auto – E T
+    Wie: /rmtest testroutine im Era- oder Anniversary-Client.
+    Erwartung: 0 FEHLER in A, B, E, F, G, I; Bereich C nur Simulation, keine Abweichung zum Forever-Ergebnis ausser T58.
+T71 [D] Auren auf dem alten Client – halb – E T
+    Wie: Spieler hat einen beliebigen Buff (z. B. Klassenbuff), besser ein Flaeschchen oder Elixier; Routine prueft
+    RM.GetBuff("player", 1) liefert Name und spellId, R.MyStatus() erkennt Flaeschchen/Elixier.
+    Erwartung: Werte wie im Buff-Fenster (Befund K5, siehe T146).
+T72 [D] Talentbaeume – auto – E T
+    Wie: Caps.talentTrees true; Spec.ReadPoints() drei Baeume, Summe == UnitLevel("player") - 9 (ab Stufe 10).
+    Erwartung: gleich.
+T73 [D] Kampflog-Weg unveraendert – auto – E T
+    Wie: Caps.combatLog true, Ereignis registriert (T58), Raid.AnnounceSkinners("Kernhund") -> T.ShowChat.
+    Erwartung: Ansage wie bisher.
+T74 [D] Namen exakt – auto – E T
+    Wie: RM.SameName("Rokan","rokan") true, ("Rokan Steinwacht","Rokan") false; Comm/Signup mit exakten Namen.
+    Erwartung: wie angegeben (alter Weg: nur exakter Name, Core.lua SameName).
+T75 [D] Pluendermeister-Weg – halb – E T
+    Wie: in einer Gruppe mit Pluendermeister: RM.Caps.masterLoot true, RM.GetLootMethod() == "master"; Loot.GiveFromWindow
+    nur im echten Lootfenster (nicht in der Routine).
+    Erwartung: wie bisher; Routine prueft nur die Erkennung.
+
+----------------------------------------------------------------------------------------------------------------------
+E. DATEN
+----------------------------------------------------------------------------------------------------------------------
+T80 [E] Neuinstallation – auto – alle
+    Wie: Rumpf von ADDON_LOADED (Core.lua, RM.On("ADDON_LOADED")) in RM.InitDB(db) auslagern (gleicher Ablauf). InitDB({}) ->
+    data.version 0, players {}, log {}, settings = DEFAULT_SETTINGS (auctionTime 30, minBid 10, bidIncrement 5, decayPct 10),
+    config = DEFAULT_CONFIG (activePool "mc", autoInvite false), session.active false, pendingAwards {}, specs {}.
+    Erwartung: genau diese Werte, kein Fehler; RM.db bleibt die echte Tabelle.
+T81 [E] Migration aelterer Fassungen – auto – alle
+    Wie: Beispieldaten im Test: (a) players.Alt = { dkp = 40, c = "WARRIOR" } ohne d -> DKP.Migrate: d.mc == 40, dkp nil
+    (DKP.lua:34-41); (b) pools.i409 -> Topf "mc" (DKP.lua:43-54); (c) config.lootThreshold 3 ohne threshold2 -> 2;
+    (d) ohne manual250 -> autoInvite/autoGroups/autoLoot false; (e) settings.raidLeader gesetzt -> nil; (f) foreign-Datensatz
+    migriert.
+    Erwartung: alle Umstellungen wie angegeben, zweiter Lauf aendert nichts mehr.
+T82 [E] Beschaedigte Eintraege – auto – alle
+    Wie: Kopie mit players.X = "kaputt", players.Y = { d = "x" }, log = { 5, { t = "a" } }, specs.Z = 7, signup = { list = "x" },
+    lootdb = 1, prof.A = { p = 3 }, killlog = { "x" }, config.positions = 5, config.standby = nil, gsTest = "x" ->
+    InitDB, alle Seiten (T12) mit dieser Kopie, DKP.SortedPlayers, DKP.Summary("Y"), Spec.List, LDB.Stats.
+    Erwartung: kein Lua-Fehler (falsche Typen werden uebersprungen), echte Daten unberuehrt.
+T83 [E] Absturz mitten im Test – auto – alle
+    Wie: RaidMasterTestDB = Sicherung mit bekannten Werten setzen, Lade-Handler (Test.lua:790-797) aufrufen.
+    Erwartung: Daten wie die Sicherung, RM.db.testMode nil, RaidMasterTestDB nil, gsTest unveraendert.
+T84 [E] Grosse Datenmengen – auto – alle
+    Wie: Kopie mit 500 Spielern, 5000 Log-Eintraegen, 300 Skillungen; DKP-Seite oeffnen, SortedPlayers, MakeSnapshot,
+    Spec.Prune, IT.Prune, Records MAX_LOG 400.
+    Erwartung: kein Fehler, Grenzen eingehalten; Zeiten siehe H.
+T85 [E] Berichte in den SavedVariables – auto – alle
+    Wie: nach T:Finish: RaidMasterDB.gsTest.reports ist eine Liste von Strings, die mit "GSTEST1" beginnen, hoechstens 10;
+    der letzte enthaelt die id des aktuellen Berichts.
+    Erwartung: wahr (Gegenstueck im Bot: B07).
+
+----------------------------------------------------------------------------------------------------------------------
+F. SPRACHEN
+----------------------------------------------------------------------------------------------------------------------
+T90 [F] Fehlende Schluessel der aktiven Sprache – auto – alle
+    Wie: waehrend der ganzen Routine die __index-Funktion von RM.L (Locale.lua:20) umhuellen und jeden Schluessel merken, der
+    auf den deutschen Text zurueckfaellt. deDE: T:Skip "Grundsprache". Auch dynamische Schluessel (L[NO_RIGHTS],
+    L[M.COMBAT_HINT], L[pool]) werden so erfasst.
+    Erwartung: 0 fehlende. Heute FEHLER: "Nur Raidleiter und Co-Raidleiter (Assistenten) koennen Schlachtzugsymbole setzen."
+    (Markers.lua:56, Aufrufe 61/89/105/175) steht in keiner Locale-Datei.
+T91 [F] Formatplatzhalter – auto + offline – alle
+    Wie: fuer jeden uebersetzten Schluessel der aktiven Sprache Anzahl und Reihenfolge von %s/%d/%.1f gegen den Schluessel
+    vergleichen; offline dasselbe fuer alle 10 Sprachen (lupa oder Python, Locales/*.lua und Raids_*.lua).
+    Erwartung: 0 Abweichungen (Stand 3.0.14 offline: 0 Abweichungen, alle 5906 Literal-Schluessel vorhanden).
+T92 [F] Jede Sprache einmal aktiv – halb + offline – alle
+    Wie: Im Spiel laedt nur die Client-Sprache (Locales/enUS.lua:5 "if RM.LOCALE ~= ..."): einmal mit englischem Client
+    /rmtest testroutine F laufen lassen und die Hauptseiten ansehen. Offline: jede Locale-Datei mit RM.LOCALE = <Sprache>
+    in lupa laden -> kein Ladefehler, Schluessel vollstaendig.
+    Erwartung: enUS ohne Fehler und ohne deutsche Reste; offline alle 10 Sprachen OK.
+T93 [F] Sprache im Bericht – auto – alle
+    Wie: Bericht env.locale == GetLocale(), extra.locale == RM.LOCALE (enGB -> enUS).
+    Erwartung: gleich.
+
+----------------------------------------------------------------------------------------------------------------------
+G. ZUSAMMENSPIEL
+----------------------------------------------------------------------------------------------------------------------
+T100 [G] Mehrere GoldSentinel-Addons – auto + halb – alle
+    Wie: GoldSentinelGame, GoldSentinelDev, GoldSentinelTest sind je genau eine Tabelle mit hoechster Version; Registry von
+    GoldSentinelTest enthaelt RaidMaster (und weitere geladene Addons); halb: zusammen mit ProfessionSentinel, GuildSentinel,
+    ThreatSentinel, BuffSentinel laden.
+    Erwartung: kein Ladefehler, Versionen >= 2/1/1.
+T101 [G] Keine globalen Namen ueberschrieben – auto – alle
+    Wie: RaidMaster == RM, RaidMasterTest == RM.Test, SlashCmdList.RAIDMASTER und .RAIDMASTERTEST sind die eigenen Funktionen,
+    SLASH_RAIDMASTER1 == "/rm", hash_SlashCmdList["/RM"] (falls vorhanden) zeigt auf RaidMaster.
+    Erwartung: wahr; sonst Ergebnis: welches Addon den Namen belegt.
+T102 [G] ProfessionSentinel liest RaidMaster.db.prof – auto – alle
+    Wie: Format wie T35 fuer alle Eintraege (c, t, p[beruf] = {r, m, i, n}, #i == #n); mit ProfessionSentinel geladen
+    (C_AddOns.IsAddOnLoaded) und ohne -> kein Fehler. Tabelle RM.db.prof wird nie ersetzt (gleiche Identitaet vor/nach Test).
+    Erwartung: wahr (Befund-Verweis T153).
+T103 [G] DBM und BigWigs – halb – alle
+    Wie: mit DBM oder BigWigs: Pull-Timer aus der Boss-Leiste in einer Gruppe -> Balken erscheint bei DBM/BigWigs.
+    Routine: nur Format (T31).
+    Erwartung: Timer sichtbar; ohne die Addons kein Fehler.
+T104 [G] BugSack/BugGrabber – halb – alle
+    Wie: mit BugSack: absichtlicher Fehler (T120) erscheint in BugSack, in der RaidMaster-Diagnose (Diag.lua Hook nach 5 s
+    erneut) und genau einmal in gsTest.errors.
+    Erwartung: alle drei.
+T105 [G] Altes Addon RaidMasterTest – auto – alle
+    Wie: Ablauf Test.lua:1877-1907 mit Attrappe: RaidMasterTest = { active = false, Stop = function() end, Foo = function() end }
+    und Handler aufrufen (DisableAddOn ueber RM.Act-Spion).
+    Erwartung: Attrappe stillgelegt, RaidMasterTest == T, RM-Funktionen = REAL.
+
+----------------------------------------------------------------------------------------------------------------------
+H. LEISTUNG (debugprofilestop, je 20 Laeufe, Mittelwert und Maximum in ms ins Ergebnis)
+----------------------------------------------------------------------------------------------------------------------
+T110 [H] Zielwechsel – auto – alle
+    Wie: PLAYER_TARGET_CHANGED -> BossBar.Update (BossBar.lua:188). Erster NameIndex-Aufbau getrennt messen.
+    Grenze: < 2 ms je Aufruf; NameIndex-Aufbau < 16 ms.
+T111 [H] Gruppenwechsel – auto – alle
+    Wie: GROUP_ROSTER_UPDATE mit 40 Testspielern, Hauptfenster offen (DKP-Seite): alle 12 Handler (Ad, BossBar, Comm, DKP, Gaps,
+    Loot, Markers, Signup x3, Spec, UI) einzeln und zusammen.
+    Grenze: je Handler < 2 ms, zusammen < 16 ms.
+T112 [H] Addon-Nachrichten – auto – alle
+    Wie: CHAT_MSG_ADDON "BID" verarbeiten; SNAP mit 500 Spielern importieren.
+    Grenze: BID < 2 ms; SNAP < 16 ms (sonst Wert melden und auf Ticker verteilen).
+T113 [H] Ticker und OnUpdate – auto – alle
+    Wie: Auction.Tick, Spec-Tick (Spec.lua:478), Timer-Tick, Diagnose-Refresh mit 20 Fehlern (Diag.lua OnUpdate, D.Text).
+    Grenze: Ticks < 1 ms; D.Text < 16 ms.
+T114 [H] Teure Neuberechnungen – auto – alle
+    Wie: Assign.Build("mc"), Gaps.Plan(), Signup.ClassicGroups (40), DKP.SortedPlayers (500), DKP.MakeSnapshot + Serialize
+    (500 Spieler, 400 Log), UI.RefreshCurrent (DKP-Seite, 500 Spieler).
+    Grenze: je < 16 ms.
+T115 [H] Tooltip – auto – alle
+    Wie: OnTooltipSetItem-Erweiterung (Tooltip.lua) fuer 50 Gegenstaende nach dem ersten Aufbau.
+    Grenze: < 2 ms je Tooltip; erster Aufbau < 16 ms.
+T116 [H] Speicher – auto – alle
+    Wie: collectgarbage("collect"); vorher = collectgarbage("count"); 100x GROUP_ROSTER_UPDATE, 100x PLAYER_TARGET_CHANGED,
+    50 Tooltips; collect; nachher.
+    Grenze: Zuwachs < 256 KB.
+
+----------------------------------------------------------------------------------------------------------------------
+I. FEHLERZAEHLUNG UND DIAGNOSE
+----------------------------------------------------------------------------------------------------------------------
+T120 [I] Absichtlicher Fehler wird gezaehlt – auto – alle
+    Wie: RM.Listen("GSTEST_BOOM", function() error("RaidMaster-Testfehler") end); RM.Fire("GSTEST_BOOM") (Core.lua:635-641
+    gibt ihn an geterrorhandler).
+    Erwartung: #RM.Diag.errors +1, D.Text() zeigt ihn, gsTest.errors hat genau einen Eintrag "Lua" mit dem Text.
+    Danach Testeintrag aus D.errors und gsTest.errors entfernen und den Listener abmelden (Bericht soll ihn nicht als
+    echten Fehler melden).
+T121 [I] Abgefangene Fehler melden – auto – alle
+    Wie: einen Diag-Provider einhaengen, der error() wirft (Diag.lua:114); DKP.CheckAutoDecay-pcall (DKP.lua:537-538) mit
+    erzwungenem Fehler; Fehler in T.RunRaid/Raid.End-pcall (Test.lua:1126, 1281).
+    Erwartung: je ein Eintrag in gsTest.errors mit wo = "Diag.provider", "AutoDecay", "Test.Raid" (Abschnitt 6).
+T122 [I] Doppelte Fehler – auto – alle
+    Wie: denselben Fehler 3x ausloesen.
+    Erwartung: D.errors ein Eintrag mit n = 3 (Diag.lua:28-36); gsTest ein Eintrag mit count = 3.
+T123 [I] Fehler leeren und Haenger-Anzeige – auto – alle
+    Wie: Diagnose oeffnen, "Fehler leeren" (Diag.lua:191) -> 0; Pending-Anzeige "Testberichte warten auf Versand: N"
+    (GoldSentinelTest.Pending).
+    Erwartung: wie beschrieben.
+
+----------------------------------------------------------------------------------------------------------------------
+J. REGRESSIONSTESTS (je Befund ein Testfall; Quelle in Klammern)
+----------------------------------------------------------------------------------------------------------------------
+Quellen: [AW] anweisung-raidmaster.txt (3.0.6), [UE] raidmaster-uebergabe.txt Abschnitt 8, [Z83] raidmaster-zusatz-8.3.txt,
+[K13] korrektur-raidmaster-3.0.13.txt, [KG] korrektur-raidmaster-guildsentinel.txt (RaidMaster-Teil),
+[RT] rueckmeldung-threatsentinel-raidmaster.txt (RaidMaster-Teil).
+
+T130 [J] IsClassicEra nur fuer echtes Era ([AW] Schritt 1, [UE] 8.1) – auto – alle
+    Wie: SetTestFlavor("forever") -> RM.IsClassicEra false, RM.IsModern true; offline: kein RM.IsClassicEra als API-Weiche
+    (nur fuer Inhalte), Suche im Code.
+    Erwartung: wahr.
+T131 [J] Bereitschafts-Check liest Auren modern ([UE] 8.2, [AW] Aufgabe 2) – auto – alle
+    Wie: wie T55, plus: ohne jede Aura-API meldet R.Problems "Buffs nicht lesbar" statt "kein Flaeschchen" (kein stilles return).
+    Erwartung: wahr.
+T132 [J] MarkAdds/MarkBoss im Kampf auf modernem Weg ([UE] 8.3, [Z83] Vorschlag, Tests 2/3) – auto – F R
+    Wie: SetTestFlavor("forever"), M.simCombat = true: MarkAdds() und BossBar.MarkBoss(boss ohne testTarget) -> Hinweis
+    M.COMBAT_HINT, Spion SetRaidTarget 0. Ohne simCombat, mit gefaelschten Nameplates (RM.API.over): eine Einheit mit GUID
+    SECRET, eine mit Name SECRET, zwei normale -> VisibleEnemies zaehlt 1 blocked, sortiert nur lesbare GUIDs (seen[guid],
+    a.guid < b.guid, bosses[e.name] ohne Fehler, Markers.lua:152-171, 175-181).
+    Erwartung: kein Fehler; ersetzt den Knopf Test.lua:1699-1705 als Pruefung.
+T133 [J] Mark/SmartMark per Taste im Kampf ([Z83] Tests 4, Vorschlag "Mark/SmartMark absichern") – auto + halb – alle
+    Wie: M.simCombat = true: Mark(8) und SmartMark() mit gefaelschtem Mouseover -> je ein Aufruf RM.Act.SetRaidTarget
+    (nicht blockiert); GetRaidTargetIndex = SECRET -> kein Fehler. halb (Forever): Trainingspuppe/Mob im Kampf per
+    Mouseover-Taste markieren (eigener Tastendruck des Spielers).
+    Erwartung: Taste wirkt, Fehlerliste leer.
+T134 [J] Kernhunde-Hilfe ohne Kampflog ([UE] 8.4, [AW] Aufgabe 5) – auto – F R
+    Wie: T58 plus: Seite Raid zeigt auf modernem Weg den Knopf "Kuerschner ansagen" (Pages.lua:882) statt des Hakens
+    (Pages.lua:876) bzw. Haken deaktiviert.
+    Erwartung: wahr.
+T135 [J] Skillungen in Forever ([UE] 8.5, [AW] Aufgabe 4) – IM CLIENT PRUEFEN – F
+    Wie: T:Client mit Anleitung: /dump GetTalentTabInfo(1), /dump GetTalentInfo(1,1); Gildenmitglied betrachten (Seite
+    Skillungen, "Scannen"); Rolle in Spec.List plausibel.
+    Erwartung: Baeume und Rollen richtig.
+T136 [J] Pluendermeister vorhanden oder Tauschliste ([UE] 8.6, [AW] Aufgabe 6) – auto + IM CLIENT – F
+    Wie: auto: Caps.masterLoot false simuliert -> Loot.Deliver/Award fuehrt zu AddTrade (Tauschliste). Client:
+    /dump GiveMasterLoot ~= nil, GetMasterLootCandidate ~= nil, C_PartyInfo and C_PartyInfo.GetLootMethod().
+    Erwartung: Rueckfall greift; Client-Ergebnis an die Pruef-Sitzung.
+T137 [J] Namen mit Leerzeichen ([AW] Aufgabe 7) – auto – alle
+    Wie: Signup.Parse mit "Rokan Steinwacht" (T22); Fluestern "!bid 20" von "Rokan Steinwacht" -> Gebot unter diesem Namen;
+    Fluestern "inv" von "Rokan Steinwacht" nach Werbung -> SimInvite("Rokan Steinwacht"); G.SameName im Forever-Weg.
+    Erwartung: Name bleibt vollstaendig, kein Abschneiden am Leerzeichen.
+T138 [J] Bosse Barrow Deeps und Hyjalgipfel ([UE] 8.7, [AW] Aufgabe 8, [K13] Termine) – auto (datumsabhaengig) – F
+    Wie: vor dem 9.12.2026: Data.Pools.barrow/hyjal.bosses leer erlaubt (T:Skip "ab 9. Dezember"); ab RM.Now() >= 9.12.2026:
+    beide > 0 Bosse, Taktiken vorhanden.
+    Erwartung: ab 9.12. FEHLER "8.7 faellig", solange leer.
+T139 [J] Interface-Nummer am Launch ([AW] Launch-Tag, [K13] Termine) – auto – F
+    Wie: RM.TOC <= RM.GAME.tested (Core.lua:22-31), sonst FEHLER "neuere Interface-Nummer als getestet: .toc und RM.GAMES
+    ergaenzen (16001 bleibt)".
+    Erwartung: OK nach dem Nachtrag am 5. November.
+T140 [J] Bossleiste: geschuetzter Zielname ([K13] Punkt 1) – auto – alle
+    Wie: RM.API.over: UnitExists("target") true, UnitIsPlayer false, UnitName("target") = SECRET; B.TargetBoss() und B.Update().
+    Erwartung: nil, kein Fehler (BossBar.lua:38-40). Ersetzt Test.lua:1395-1411 (die schreibt in _G und nutzt einen normalen
+    String, der eine fehlende Pruefung nicht aufdecken wuerde).
+T141 [J] Beute-Datenbank: geschuetzte Boss-GUIDs ([K13] Punkt 2) – auto – alle
+    Wie: LDB.ParseGUID(SECRET) == nil; OnEncounterStart mit UnitGUID("boss1") = SECRET -> engaged leer; danach OnKill(663, ...)
+    in der Sandbox (Recording voruebergehend wahr, Store auf Testtabelle) -> Kill ueber encounterID zugeordnet.
+    Erwartung: kein Fehler, Kill gespeichert (Rueckfall encounterID).
+T142 [J] !dkp mit Doppelnamen ([K13] Punkt 3) – auto – alle
+    Wie: Spieler "Rokan Steinwacht" mit 40 DKP; Fluestern "!dkp Rokan Steinwacht" und "!dkp rokan" (eindeutiger Vorname,
+    Forever-Weg) an DKP.lua:793-807 mit RM.Whisper-Spion; DKP.Summary("rokan") findet ihn ueber G.SameName.
+    Erwartung: Antwort enthaelt "Rokan Steinwacht" und 40. Heute FEHLER: DKP.lua:801 nimmt nur das erste Wort ((%S+)),
+    DKP.Summary sucht nur exakt. Bot-Teil: B09.
+T143 [J] Betrachten: geschuetzte GUID ([K13] Punkt 4a) – auto – alle
+    Wie: scan.current gesetzt, RM.API.over UnitGUID = SECRET; OnInspectReady("Player-1") und OnInspectReady(SECRET).
+    Erwartung: ReadInspect laeuft (Spion), kein Fehler (Spec.lua:391-397).
+T144 [J] RM.Short mit geschuetztem Namen ([K13] Punkt 4b) – auto – alle
+    Wie: RM.Short(SECRET) == nil; Aufrufer mit nil: RM.IsRaidLooter(SECRET), RM.GroupUnit(SECRET), RM.IsInMyRaid(SECRET),
+    Comm CHAT_MSG_ADDON (T51), Tranq-Fluestern.
+    Erwartung: false/nil, kein Fehler (Core.lua:281-284).
+T145 [J] Berufe: Ausgabe-ID nie nil ([K13] Punkt 4c) – auto – F R
+    Wie: RM.API.over C_TradeSkillUI.GetRecipeOutputItemData -> {} und -> {hyperlink = "kaputt"}; GetRecipeItemLink -> nil;
+    ModernOutput liefert 0; nach P.ScanModern gilt #i == #n.
+    Erwartung: 0 statt nil, Listen gleich lang (Professions.lua:72-74, 145-158).
+T146 [J] Bereitschafts-Check in alten Clients ([K13] Punkt 5) – halb – E T
+    Wie: wie T71 (Era 1.15 und Anniversary nehmen jetzt den C_UnitAuras-Weg, Core.lua:107-128).
+    Erwartung: Flaeschchen/Elixier erkannt; Ergebnis an den Nutzer.
+T147 [J] Berufe-Knopf uebersetzt ([K13] Punkt 6) – auto – alle
+    Wie: Schluessel aus Professions.lua:326, 334, 346, 357 in der aktiven Sprache uebersetzt (T90-Mechanik); offline in allen 10.
+    Erwartung: OK (Stand 3.0.14: in allen 10 Locales vorhanden).
+T148 [J] Versionsnummer nie doppelt veroeffentlichen ([KG]) – offline + auto – alle
+    Wie: auto: T02 (toc = Code = VERSION_NUM); offline: addon_check meldet FEHLER, wenn eine veroeffentlichte Nummer mit
+    anderem Inhalt erneut erscheint. Der Bericht traegt die Version, die Pruef-Sitzung vergleicht.
+    Erwartung: OK vor jedem Push.
+T149 [J] Berufe modern aus GetProfessions ([RT] Punkt 1) – auto – F R
+    Wie: RM.API.over GetProfessions/GetProfessionInfo mit Linien 171 (Alchimie), 2944 (Kraeuterkunde), 2947 (Kuerschnerei),
+    2943 (Angeln), 182, 393, 356, 794 -> P.Openable() enthaelt nur Alchimie.
+    Erwartung: Sammelberufe und Angeln/Archaeologie fehlen.
+T150 [J] Berufe oeffnen: OpenTradeSkill zuerst ([RT] Punkt 2) – auto – F R
+    Wie: P.ReadNext() mit Spion: OpenTradeSkill erfolgreich -> CastSpellByName 0; OpenTradeSkill wirft -> CastSpellByName 1.
+    Erwartung: wie angegeben (Professions.lua:299-303).
+T151 [J] Listenname als gelesen markieren ([RT] Punkt 3) – auto – F R
+    Wie: P.pendingScan = "Alchimie", Fenstername "Alchemy" (abweichend) -> AfterScan -> P.scanned["Alchimie"] true; naechster
+    ReadNext oeffnet den naechsten Beruf.
+    Erwartung: kein erneutes Oeffnen desselben Berufs.
+T152 [J] Berufe-Knopf im Client ([RT] "Im Forever-Client testen") – halb – F
+    Wie: Knopf "Meine Berufe einlesen" mehrmals klicken; danach /rm berufe; Routine prueft RM.db.prof[me].p je Beruf
+    #i > 0 und #i == #n.
+    Erwartung: Fenster oeffnen nacheinander, Rezepte vorhanden; im Discord /berufe sichtbar.
+T153 [J] Datenformat fuer ProfessionSentinel ([AW] Launch-Tag "Abhaengigkeit") – auto – alle
+    Wie: = T102 (eigener Eintrag fuer den Befund).
+    Erwartung: Format {c, t, p = {[beruf] = {r, m, i, n}}} unveraendert.
+T154 [J] GoldSentinelGame unveraendert, Version 2 ([AW] Schritt 1, [K13] Gesamturteil) – auto + offline – alle
+    Wie: GoldSentinelGame.version == 2 (oder hoeher, wenn zentral erhoeht); offline addon_check "exact" gegen shared/.
+    Erwartung: OK.
+
+======================================================================================================================
+4. HALBAUTOMATISCHER TEIL FUER DEN LAUNCH-ABEND (5. NOVEMBER, WOW FOREVER LIVE)
+======================================================================================================================
+Der Nutzer macht (Forever-Client, Charakter in der Gilde, wenn moeglich mit einem Mitspieler):
+ 1. /dump select(4, GetBuildInfo())  -> Zahl notieren (T139). /gsgame -> muss "WoW Forever ... API: modern" zeigen.
+ 2. Ausserhalb des Kampfes in der Stadt: /rmtest testroutine. Kopierfenster: Strg+A, Strg+C, Text sichern.
+    Dann "Neu laden und melden" (/reload) -> der Uploader schickt den Bericht nach #testberichte.
+ 3. Kampf an einer Trainingspuppe oder einem Mob: mehrmals das Ziel wechseln (T140), Taste "Adds markieren" druecken
+    (Hinweis, kein Fehler, T132), Mouseover-Markierungstasten 1-8 auf den eigenen Gegner (T133).
+    Nach dem Kampf: /rmtest testroutine C.
+ 4. Mit einem Flaeschchen oder Elixier (sonst irgendein Buff): /rm bereit in einer Gruppe (T30, T131).
+ 5. Berufe: Knopf "Meine Berufe einlesen" mehrmals, dann /rm berufe (T152).
+ 6. /dump GetTalentTabInfo(1)  und  /dump GetTalentInfo(1,1); ein Gildenmitglied betrachten, Seite Skillungen (T135).
+ 7. In einer Gruppe: /dump GiveMasterLoot ~= nil, GetMasterLootCandidate ~= nil  und
+    /dump C_PartyInfo and C_PartyInfo.GetLootMethod()  (T136).
+ 8. /dump UnitName("player")  -> Vor- und Nachname? (T137, T142). Mitspieler fluestert "!dkp" und "!dkp <Vorname>".
+ 9. Mitspieler mit RaidMaster: /rm sync; im Raid ein Pull-Timer (mit DBM/BigWigs, falls installiert, T103).
+10. Zum Schluss /reload und im Discord #testberichte nachsehen: "GoldSentinel-Testberichte: N neu".
+Zurueck an den Kollegen: der kopierte Bericht (Schritt 2 und 3), alle /dump-Ausgaben, ein Screenshot der Diagnose
+(/rm diag), wenn dort Fehler stehen. Einmal dasselbe in Classic Era oder TBC Anniversary: /rmtest testroutine (T70),
+dazu Schritt 4 (T146).
+
+======================================================================================================================
+5. ABNAHME
+======================================================================================================================
+RaidMaster gilt als bereit, wenn:
+- der automatische Teil 0 FEHLER hat, einmal im Forever-Client und einmal in Classic Era oder TBC Anniversary;
+- "echte Daten unveraendert: OK" in beiden Berichten steht und T46 (Sperrgitter) 0 echte Aktionen zaehlt;
+- alle IM-CLIENT-PRUEFEN-Punkte (T51, T133, T135, T136, T139, T146, T152 und die halbautomatischen aus Abschnitt 4) vom
+  Nutzer bestaetigt sind;
+- die Berichte in testberichte/status.md der Pruef-Sitzung angekommen sind (Uploader und Bot nach Abschnitt 7);
+- die Uploader- und Bot-Tests (U01-U13, B01-B09) lokal durchlaufen und addon_check ohne FEHLER ist.
+UEBERSPRUNGEN ist nur mit Grund erlaubt (deDE bei T90, T138 vor dem 9.12., T06 ohne Umbau bis zur naechsten Version).
+
+======================================================================================================================
+6. AUTOMATISCHE MELDUNG (FEHLER SELBSTSTAENDIG AN DIE PRUEF-SITZUNG)
+======================================================================================================================
+Weg: RaidMaster (Testroutine + laufende Fehler) -> RaidMasterDB.gsTest -> RaidMasterUploader (sucht "GSTEST1"-Strings) ->
+Discord #testberichte -> GitHub-Workflow testberichte.yml (addon-check/testberichte.py) -> testberichte/ -> Pruef-Sitzung.
+- shared/GoldSentinelTest.lua (Version 1) unveraendert nach RaidMaster/GoldSentinelTest.lua kopieren und in RaidMaster.toc
+  direkt nach GoldSentinelGame.lua eintragen (vor Locale.lua). addon_check prueft "exact" und die Reihenfolge.
+- Core.lua, ADDON_LOADED, direkt nach RM.db = db:
+    if GoldSentinelTest then GoldSentinelTest.TrackErrors("RaidMaster", RM.VERSION, db) end
+  db = RaidMasterDB, die Berichte liegen in RaidMasterDB.gsTest. Folgen:
+    * Sandbox (2.4), Restore (Test.lua:309-326) und der Absturz-Rueckweg (Test.lua:790-797) duerfen gsTest nie anfassen.
+    * RaidMasterDB.gsTest geht mit RaidMaster.lua auch an #bot-daten; der Bot muss das ignorieren (Test B07).
+- Fehler zusaetzlich an GoldSentinelTest.Error melden – aber nur dort, wo der Fehler NICHT schon an geterrorhandler geht
+  (sonst zaehlt GoldSentinelTest ihn doppelt; RM.On/RM.Fire Core.lua:635-641/660-666, UI.ReportError UI.lua:942-949 und der
+  Spec-Ticker Spec.lua:478-485 gehen schon an den Handler, Diag.Record bleibt wie es ist):
+    Diag.lua:114 (Provider) und 155 (Fixer)        -> GoldSentinelTest.Error("RaidMaster", "Diag.provider"/"Diag.fixer", err)
+    DKP.lua:537-538 pcall(DKP.CheckAutoDecay)       -> "AutoDecay"
+    Markers.lua:62, 96, 204 pcall(SetRaidTarget) = false (Forever: Markieren gesperrt?) -> "SetRaidTarget" (ohne Einheit/Name)
+    Professions.lua:300 pcall(TS.OpenTradeSkill) = false -> "OpenTradeSkill"
+    Records.lua:93, 97 PlaySound/Screenshot          -> "Records"
+    Timer.lua:31-35 pcall(send) und 110/130 DoCountdown, Ready.lua:119 DoReadyCheck -> "Timer"/"Ready"
+    Test.lua:915-917, 1126-1128, 1281-1283 (Raidstart/-ende im Test) -> "Test.Raid"
+  Nur Fehlertext und Ort, nie Namen (auch keine Item-Links mit Spielernamen; err ist die Lua-Meldung).
+- Die Testroutine schreibt ihre Ergebnisse NUR ueber T:Check / T:Skip / T:Client und schliesst mit T:Finish(extra).
+  Kein zweiter Weg ueber Log/Print fuer Ergebnisse (Log darf zusaetzlich anzeigen).
+- Testfall-IDs bleiben ueber Versionen gleich (T01 ... T154, SB fuer die Sandbox-Zeile); neue Faelle bekommen neue IDs,
+  geloeschte IDs werden nicht neu vergeben.
+- Keine Spielernamen, Gildennamen oder Chattexte im Bericht (nur Klasse, Level, Client, Sprache; GoldSentinelTest.Env).
+- Nach der Routine im Kopierfenster und im Chat: "Bericht gespeichert – wird beim naechsten /reload oder Ausloggen an die
+  Pruefung gemeldet."
+- In der Diagnose eine Zeile "Testberichte warten auf Versand: N" (GoldSentinelTest.Pending(RaidMasterDB)).
+
+======================================================================================================================
+7. UPLOADER UND BOT FUER DIE TESTBERICHTE (betreut der RaidMaster-Kollege)
+======================================================================================================================
+Gegenstelle ist addon-check/testberichte.py (Pruef-Sitzung). Dessen Grenzen gelten: Anhang hoechstens 5 MB gepackt UND
+entpackt (MAX_FILE), Kanalname genau "testberichte", Anhang .json.gz, Inhalt JSON-Liste von Berichten (Objekte mit f = 1,
+kind "test"/"fehler", id, addon). Die Funktion lua_unescape dort ist die Referenz.
+
+7.1 Uploader (RaidMasterUploader/uploader.py, Version 1.6.0 -> 1.7.0)
+- Ordner = Verzeichnis von savedvariables_path. Neben dem bisherigen Upload von RaidMaster.lua (unveraendert, eigener
+  Webhook #bot-daten) alle *.lua in diesem Ordner nach Lua-Strings durchsuchen, die mit "GSTEST1" beginnen:
+  Muster wie testberichte.py LUA_STR: "(GSTEST1(?:[^"\\]|\\.)*)". Lua-Escapes zurueckwandeln: \" \\ \n, dazu \t \r,
+  Backslash + echter Zeilenumbruch, \ddd (Bytes, danach latin-1 -> UTF-8 wie testberichte.py). Dann das Praefix
+  abschneiden und json.loads; kaputte Strings ueberspringen (Log-Zeile), nie abbrechen.
+- Nur Dateien neu einlesen, deren mtime sich geaendert hat (AHSentinel.lua kann gross sein). Auch auf Aenderungen anderer
+  *.lua reagieren, nicht nur RaidMaster.lua; Datei erst lesen, wenn die mtime 2 s stabil ist (wie bisher).
+- Neue Berichte = id nicht in cfg["sent_test_ids"]; innerhalb eines Durchgangs nach id entdoppeln.
+- Gesammelt senden an cfg["test_webhook_url"]: eine Nachricht, Inhalt "GoldSentinel-Testberichte: N neu", Anhang
+  testberichte.json.gz = gzip(JSON-Liste der N Berichte als Objekte). Entpackt hoechstens 4 MB je Nachricht, sonst auf
+  mehrere Nachrichten aufteilen (N je Nachricht); ein einzelner Bericht ueber 4 MB wird mit Log-Zeile uebersprungen.
+  username "GoldSentinel-Testberichte" (ohne Rechnernamen), allowed_mentions leer.
+- Erst nach Erfolg (2xx) die ids in cfg["sent_test_ids"] eintragen und speichern; hoechstens 500 (die neuesten behalten);
+  alle anderen Schluessel der Konfiguration bleiben.
+- Fehler beim Senden wiederholen: 429 -> retry_after abwarten (hoechstens 60 s) und erneut; 5xx und Verbindungsfehler ->
+  nicht als gesendet merken, naechster Versuch mit Wartezeit wie bisher (30 s x Fehlversuche, hoechstens 600 s);
+  401/404 -> Log "Webhook fuer #testberichte ungueltig – /uploader erneut ausfuehren", nicht als gesendet merken.
+  Ein Fehler bei den Testberichten darf den Daten-Upload nie verhindern (und umgekehrt).
+- Fehlt test_webhook_url (alte Konfiguration): einmal Hinweis "/uploader erneut ausfuehren", sonst alles wie bisher.
+- Beim Start einmal alle Dateien durchsuchen (Berichte, die vor dem Start gespeichert wurden).
+- LIESMICH.txt und README_EN.txt (Abschnitt Testberichte), download/RaidMasterUploader.zip neu bauen (der Bot verschickt sie).
+
+Uploader-Tests: RaidMasterUploader/tests/test_uploader.py, offline (urlopen gemockt, Beispiel-SavedVariables in einem
+temporaeren Ordner), Start: python3 -I RaidMasterUploader/tests/test_uploader.py
+U01 Findet GSTEST1-Strings in RaidMaster.lua und in ThreatSentinel.lua/BuffSentinel.lua im selben Ordner; ignoriert
+    *.lua.bak, andere Ordner und Strings ohne Praefix.
+U02 Escapes: \" \\ \n, Backslash-Zeilenumbruch, \ddd mit UTF-8 ("\195\164" -> "ae"-Umlaut) ergeben genau dasselbe wie
+    testberichte.lua_unescape (Modul aus dem Repo importieren, gleiche Vektoren).
+U03 Kaputter oder abgeschnittener Bericht wird uebersprungen, die anderen werden gesendet.
+U04 Doppelte id in zwei Dateien und in einer Datei -> einmal gesendet; schon gesendete ids nie wieder.
+U05 sent_test_ids hoechstens 500 (neueste bleiben), webhook_url/bot_id/savedvariables_path/sent_shots unveraendert.
+U06 Nachricht: Inhalt "GoldSentinel-Testberichte: 3 neu", Anhang testberichte.json.gz -> entpackt Liste mit 3 Objekten
+    und den richtigen ids; username ohne Rechnernamen.
+U07 Aufteilen: Berichte zusammen > 4 MB -> mehrere Nachrichten, jede <= 4 MB entpackt und < 5 MB gepackt.
+U08 HTTP: 204 -> gemerkt; 429 mit retry_after 1 -> zweiter Versuch, dann gemerkt; 500 und URLError -> nicht gemerkt,
+    naechster Durchgang sendet erneut; 404 -> nicht gemerkt, Hinweis im Log.
+U09 Alte Konfiguration ohne test_webhook_url: Daten-Upload laeuft wie bisher, ein Hinweis, keine Ausnahme.
+U10 Nur ThreatSentinel.lua geaendert -> Testberichte gesendet, kein Daten-Upload; nur RaidMaster.lua geaendert ->
+    Daten-Upload wie bisher (plus neue Berichte daraus).
+U11 Daten-Upload unveraendert (RaidMaster.lua.gz, Erstkill-Screenshots, Inhalt "RaidMaster-Daten") und Testberichte gehen
+    nie an den Daten-Webhook.
+U12 Es wird nichts ausser den GSTEST1-Berichten aus fremden SavedVariables gesendet (Anhang enthaelt nur die Liste).
+U13 Gegenprobe mit der Auswertung: testberichte.from_bytes("testberichte.json.gz", anhang) liefert dieselben Berichte
+    (Modul addon-check/testberichte.py importieren).
+
+7.2 Bot (RaidMasterBot, Version 1.5.92 -> 1.5.93)
+- /uploader (bot.py:4406-4475): zusaetzlich Kanal #testberichte suchen bzw. anlegen – Kategorie "OFFIZIERE", Modus
+  "hidden" wie #bot-daten (server_setup.py:212, Rechte wie server_setup.py:293), damit der Bot (und damit der
+  GitHub-Workflow mit dem Bot-Token) ihn lesen kann. Darin Webhook "GoldSentinel-Testberichte" suchen oder anlegen.
+  cfg["testberichte_channel_id"] und cfg["testberichte_webhook_id"] speichern (NICHT in uploader_webhooks).
+  uploader_config.json enthaelt dann beide Webhooks:
+    {"webhook_url": <bot-daten>, "test_webhook_url": <testberichte>, "bot_id": ..., "savedvariables_path": "", "check_seconds": 10}
+  Fehlen Rechte (Kanaele verwalten / Webhooks verwalten) fuer #testberichte: Konfiguration trotzdem mit dem Daten-Webhook
+  schicken und klar sagen, welches Recht fehlt. /uploader nur_programm:True bleibt unveraendert.
+- /raidmaster-einrichten: #testberichte in server_setup.CATEGORIES (Kategorie OFFIZIERE, "hidden") und in der Zuordnung
+  (server_setup.py:827-833: ("testberichte_channel_id", "testberichte")).
+- Der Bot wertet die Berichte NICHT aus: on_message (bot.py:316-329) verarbeitet #testberichte nicht, antwortet nicht,
+  loescht nichts. Kein Aufraeum-Loop darf dort Nachrichten loeschen (der Workflow liest die letzten 500).
+- raidmaster_data.parse_saved_variables muss RaidMaster.lua mit RaidMasterDB.gsTest (Strings mit \" und \\) lesen; der
+  Bot ignoriert gsTest.
+- Gleichzeitig Befund [K13] Punkt 3 (Bot-Teil): raidmaster_data.find_player zuerst exakt, sonst Vorname allein, wenn er
+  genau einmal vorkommt.
+- VERSION 1.5.93; ANLEITUNG.md: Abschnitt 7 (Uploader: zwei Webhooks, erneut /uploader nach dem Update), neuer Abschnitt
+  "Testberichte (#testberichte)" (wozu, wer liest, nicht loeschen, Datenschutz), Zeile /uploader in "Alle Befehle".
+
+Bot-Tests: RaidMasterBot/tests/test_testberichte.py, offline mit Attrappen fuer Guild/Kanal/Webhook (keine Verbindung zu
+Discord). Dafuer die Logik von /uploader in eine Funktion mit uebergebenen Objekten auslagern (z. B.
+async def setup_uploader_hooks(guild, data_channel, cfg) -> (data_url, test_url, hinweise)).
+Start: python3 -I -m unittest discover -s RaidMasterBot/tests
+B01 #testberichte fehlt -> wird in OFFIZIERE mit "hidden"-Rechten angelegt; vorhanden -> wiederverwendet, kein zweiter Kanal.
+B02 Webhook "GoldSentinel-Testberichte" angelegt bzw. wiederverwendet; cfg testberichte_channel_id/testberichte_webhook_id
+    gesetzt; uploader_webhooks enthaelt nur den Daten-Webhook.
+B03 Erzeugte uploader_config.json hat webhook_url, test_webhook_url, bot_id, savedvariables_path "", check_seconds 10.
+B04 Fehlendes Recht in #testberichte -> Konfiguration mit Daten-Webhook, Hinweistext nennt das Recht, keine Ausnahme.
+B05 on_message: Webhook-Nachricht in #testberichte -> receive_upload nicht aufgerufen, keine Antwort, nichts geloescht;
+    Nachricht in #bot-daten -> wie bisher.
+B06 /raidmaster-einrichten legt #testberichte an, traegt die ID ein und nennt den Kanal nicht als loeschbar.
+B07 parse_saved_variables auf einer RaidMaster.lua mit gsTest = { reports = { "GSTEST1{\"f\":1,...}" }, errors = {} } ->
+    data unveraendert gelesen, DKP-Verarbeitung wie ohne gsTest.
+B08 Der Bot importiert addon-check/testberichte.py nicht und hat keinen Handler, der #testberichte auswertet oder dorthin
+    postet (ausser dem Webhook des Uploaders).
+B09 find_player: "Rokan Steinwacht" exakt; "Rokan" eindeutig -> gefunden; zwei "Rokan ..." -> None; Era-Name exakt wie bisher.
+
+Ist ein Befund dieser Anweisung falsch oder nicht umsetzbar, bitte dem Nutzer begruendet zurueckmelden.
