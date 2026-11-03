@@ -5,6 +5,9 @@ das Prüfsystem (`addon-check/`, `shared/`, `testberichte/`) und der Discord-Bot
 
 ## Aufträge der Prüf-Sitzung – vor jeder Arbeit an einem Addon lesen
 
+Ausnahme: Geplante Aufgaben (z. B. «ProfessionSentinel Rezeptdaten-Update», «Raids und Taktiken für WoW Forever») führen nur
+ihre eigene Anweisung aus. Sie setzen keine Aufträge aus `auftraege/` um und ändern keinen Programmcode.
+
 Die Prüf-Sitzung verteilt Anweisungen, Korrekturen und Hinweise für die Addon-Projekte über den Ordner `auftraege/`
 (Regeln in `auftraege/README.md`). Ein Ordner pro Addon: `RaidMaster/`, `ThreatSentinel/`, `AHSentinel/`, `BuffSentinel/`,
 `GuildSentinel/`, `ProfessionSentinel/`, `LevelPilot/`.
