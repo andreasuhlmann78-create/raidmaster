@@ -1,48 +1,74 @@
-OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.6)
+OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.7)
 =========================================================
-Stand: 3. November 2026, 11:20 · von der Prüf-Sitzung · Grundlage: download/AHSentinel-0.65.6.zip
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.65.5.
+Stand: 3. November 2026, 12:45 · von der Prüf-Sitzung · Grundlage: download/AHSentinel-0.65.7.zip
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.65.6.
 
-Erledigt in 0.65.6 (danke):
-- Chat-Flut bei scheiterndem Scan-Start behoben: höchstens 2–3 Zeilen, nach 3 Neuversuchen Schluss, Wächter läuft weiter
-- Rezept-Hook mit dem ausgeschriebenen Ereignisnamen
-- 15-Minuten-Pause wird hochgestuft
-- Dauer-Pause des Wächters begründet abgelehnt (sonst ruht er dauerhaft) – die Prüf-Sitzung ist einverstanden
-- TestRoutine.lua mit GoldSentinelTest, sauberen Nahtstellen (A:API, A:InCombat, A:Simulated, A.AH-Proxy) und Sandbox
-Prüfungen: Addon-Prüfung OK (auch der neue Ladetest), alle neuen Texte in allen 10 Sprachdateien, CHANGELOG EN/DE.
+Erledigt in 0.65.7 (danke):
+- Punkt 1 zum grossen Teil: T24, T26c–i, T28, T30.01–T30.36, T31.01–T31.35 (T31.36 begründet übersprungen), T34, T39, T43,
+  T44, T54, T62, T89, T92, T94, T129, T143/T143b. Alle Fälle aus "Am wichtigsten" sind da.
+- Punkt 2: "GoldSentinelTest.lua fehlt" über L[...] in allen 10 Locale-Dateien
+- Client-Aufrufe in Extras, Mailer, Seller und Sync über A:API; ohne Test unverändert, auch für Era/TBC
+Prüfungen:
+- Addon-Prüfung OK ohne Warnung (auch der Ladetest), luac5.1 -p ohne Fehler
+- kein Taint, keine neuen Aktionen mit Folgen, gemeinsame Dateien byte-gleich mit shared/
+- alle neuen Texte in allen Locale-Dateien, CHANGELOG EN/DE
+- Offline-Lauf (Nachbildung, Forever): 153 OK / 14 FEHLER / 4 übersprungen. 12 der FEHLER liegen an der Nachbildung,
+  2 sind echt (Punkt 1 und 2 unten).
 
-Bitte mit der nächsten Version (0.65.7), spätestens vor dem Launch-Abend. Wie immer: komplette Dateien, .json separat
+Bitte mit der nächsten Version (0.65.8), spätestens vor dem Launch-Abend. Wie immer: komplette Dateien, .json separat
 ausweisen, alte Clients nie brechen, alle Locale-Dateien, CHANGELOG EN/DE, vor dem Push
-python3 addon-check/addon_check.py download/AHSentinel-0.65.7.zip -> kein FEHLER.
+python3 addon-check/addon_check.py download/AHSentinel-0.65.8.zip -> kein FEHLER.
 
-1. TESTROUTINE VERVOLLSTÄNDIGEN (Schwere: NIEDRIG – Punkt 6 aus 0.65.5, teilweise)
-   Nach testroutine-ahsentinel.txt fehlen noch diese Fälle:
-   - Am wichtigsten:
-     - T30.xx: jede Option einmal an/aus
-     - T31.xx: jeder Chat-Befehl
-     - T26c–i: Zusatzfenster
-     - T89: Taschen ohne alte Funktionen
-     - T92: Addon-Info und Chat-Hilfen
-     - T94: Esc-Fenster im Kampf
-   - Bereich B: T24, T27, T28, T34, T37, T39, T42, T43, T44, T46, T50, T52, T53, T54, T55, T57, T59, T62, T63, T65, T66,
-     T69, T71, T77
-   - Bereich D: T98–T101
-   - Bereich E: T106–T108
+1. T44 SCHLÄGT IMMER FEHL, WENN DAS AUKTIONSHAUS ZU IST (Schwere: MITTEL)
+   TestRoutine.lua:1300-1301: TR:Start schaltet den Wächter ab (TestRoutine.lua:454). W:WhyWaiting() liefert darum L["aus"]
+   (Watcher.lua:166) statt "wartet auf das Auktionshaus". Damit gibt es nie einen Lauf mit 0 FEHLER.
+   Lösung: für diesen Fall enabled = true setzen (die Sandbox stellt den Wert danach wieder her) oder als Erwartung
+   W:IsEnabled() and L["wartet auf das Auktionshaus"] or L["aus"] nehmen.
+
+2. T31.03 (/ahs scan) SCHLÄGT IMMER FEHL (Schwere: MITTEL)
+   TestRoutine.lua:1197-1200: ST:Lock ersetzt A.StartFullScan (SelfTest.lua:131-134). Im Chat steht dann "Selbsttest läuft –
+   ein Markt-Scan ist solange gesperrt." statt "Bitte zuerst das Auktionshaus öffnen.".
+   Lösung: die Sperrmeldung als erwartetes Ergebnis nehmen, oder für diesen einen Aufruf ST.origScan einsetzen und sofort
+   zurückstellen.
+
+3. T30 UND T31 LAUFEN AM STÜCK (Schwere: MITTEL)
+   TestRoutine.lua:1170-1191 und 1210-1243: Je ein einziger B()-Schritt enthält 36 bzw. 35 Fälle, darunter mehrere
+   UI:Rebuild (Design dreimal, Sprachrunde etwa zehnmal). Das widerspricht testroutine-ahsentinel.txt Abschnitt 2.1
+   (SLICE_MS). Im Client droht "script ran too long" oder ein Ruckler.
+   Lösung: pro Option bzw. Befehl ein eigener B()-Schritt.
+
+4. TESTROUTINE: FEHLENDE FÄLLE (Schwere: NIEDRIG – Rest von Punkt 1)
+   - Bereich B: T27, T37, T42, T46, T50, T52, T53, T55, T57, T59, T63, T65, T66, T69, T71, T77
+   - Bereich D: T98, T99, T100, T101
+   - Bereich E: T106, T107, T108
    - Bereich G: T119, T120
    - Bereich H: T122, T124, T126
-   - Bereich I: T129
-   - Bereich J: T143, T146, T147, T148, T152
-   Die alten Selbsttest-Schritte unter den Ersatz-IDs S01 … können bleiben.
+   - Bereich J: T146, T147, T148, T152
+   - T92: "C_AddOns fehlt" nachspielen statt nur die Versionsangabe zu lesen.
 
-2. KLEINIGKEIT (Schwere: NIEDRIG)
-   TestRoutine.lua:436: A:Print("GoldSentinelTest.lua fehlt") ist nicht übersetzt. Über L[...] ausgeben und in allen
-   Locale-Dateien eintragen.
+5. KLEINERE MÄNGEL IN DER TESTROUTINE (Schwere: NIEDRIG)
+   a) T94 (TestRoutine.lua:1382-1394): A.testCombat = nil und f:Hide() laufen nicht über pcall. Bei einem Fehler bleibt der
+      Test-Frame sichtbar und fängt Tasten ab. Ausserdem entsteht bei jedem Lauf ein neuer Frame. Ablauf in pcall packen,
+      danach immer zurücksetzen und verstecken, den Frame wiederverwenden.
+   b) TestRoutine.lua:1385 (Client ohne SetPropagateKeyboardInput) und 1417 (GetAddOnOptionalDependencies fehlt) geben OK
+      zurück. Richtig ist T:Skip mit Grund.
+   c) T30.13, .17, .21, .34 und .35 liefern immer true. Den Wert nach dem Klick vergleichen.
+   d) T30.19 und T30.20 (TestRoutine.lua:1095-1107) fangen den Chat nicht ab, "Preis-Sync aus/ein" erscheint im Chat.
+      In Capture packen.
+   e) T24, T28, T30.16/17/35 und T31.06 schreiben Position, Grösse und Zoom zurück, wenden sie aber nicht an. Kosmetisch,
+      weil die Routine ohnehin /reload verlangt; schöner wäre, die Werte nach dem Zurückschreiben anzuwenden.
 
-3. RAID-VORRAT (nach dem Launch)
-   Comfort.lua:392: prüfen, ob alle Item-IDs der Liste in Forever existieren, und bei Bedarf RAID_SETS.forever anlegen.
+6. RAID-VORRAT (nach dem Launch)
+   Comfort.lua:390-393: prüfen, ob alle Item-IDs der Liste in Forever existieren, und bei Bedarf RAID_SETS.forever anlegen.
 
-4. IM CLIENT PRÜFEN (Launch-Abend, im Testplan des Nutzers)
+7. IM CLIENT PRÜFEN (Launch-Abend, im Testplan des Nutzers)
    - Wächter an, Scan fällig -> der Scan startet und wird nicht blockiert.
    - Rezept im Blizzard-Berufsfenster wählen -> /dump AHAnalyzerPro.Crafting.lastModernRecipe zeigt die ID.
+   - T30 und T31 auf Forever: kein "script ran too long", kein Ruckler (Punkt 3).
+   - Nach Punkt 1 und 2: Lauf mit geschlossenem AH ergibt 0 FEHLER.
+   - T89 mit echten Taschen: Zahlen plausibel.
+   - T92 auf Forever: Gibt es den globalen SendAddonMessage noch, und greift der Rückfall auf C_ChatInfo?
+   - T94: Nach dem Lauf hängt keine Taste.
+   - T143b: Mit zusätzlich aktivem altem Ordner AHAnalyzerPro kommt nur eine Meldung, keine doppelten Befehle.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
