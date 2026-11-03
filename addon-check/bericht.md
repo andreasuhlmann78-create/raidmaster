@@ -42,13 +42,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 - **WARNUNG** ProfessionSentinel/TestRoutine.lua:3483: ersetzt über eine Hilfsfunktion die Blizzard-Funktion C_Reputation.GetFactionDataByID – das taintet sie bis zum /reload, auch mit Zurücksetzen. Nur eigene Tabellen ersetzen (z. B. ns.API). Schon veröffentlicht: in der nächsten Version beheben, sonst FEHLER.
 - **WARNUNG** ProfessionSentinel/TestRoutine.lua:3487: ersetzt über eine Hilfsfunktion die Blizzard-Funktion C_Reputation.GetFactionDataByID – das taintet sie bis zum /reload, auch mit Zurücksetzen. Nur eigene Tabellen ersetzen (z. B. ns.API). Schon veröffentlicht: in der nächsten Version beheben, sonst FEHLER.
 
-## RaidMaster-3.0.14.zip: OK (6 Warnungen)
-- **WARNUNG** RaidMaster/Test/Test.lua:1195: ersetzt die Blizzard-Funktion GetServerTime – das taintet sie bis zum /reload (auch im Test und auch wenn sie danach zurückgesetzt wird). Eigene Funktion oder Ersatzwert verwenden. Schon veröffentlicht: in der nächsten Version beheben, sonst FEHLER.
-- **WARNUNG** RaidMaster/Test/Test.lua:1197: ersetzt die Blizzard-Funktion GetServerTime – das taintet sie bis zum /reload (auch im Test und auch wenn sie danach zurückgesetzt wird). Eigene Funktion oder Ersatzwert verwenden. Schon veröffentlicht: in der nächsten Version beheben, sonst FEHLER.
-- **WARNUNG** RaidMaster/Test/Test.lua:1402: ersetzt die Blizzard-Funktion UnitExists – das taintet sie bis zum /reload (auch im Test und auch wenn sie danach zurückgesetzt wird). Eigene Funktion oder Ersatzwert verwenden. Schon veröffentlicht: in der nächsten Version beheben, sonst FEHLER.
-- **WARNUNG** RaidMaster/Test/Test.lua:1403: ersetzt die Blizzard-Funktion UnitIsPlayer – das taintet sie bis zum /reload (auch im Test und auch wenn sie danach zurückgesetzt wird). Eigene Funktion oder Ersatzwert verwenden. Schon veröffentlicht: in der nächsten Version beheben, sonst FEHLER.
-- **WARNUNG** RaidMaster/Test/Test.lua:1404: ersetzt die Blizzard-Funktion UnitName – das taintet sie bis zum /reload (auch im Test und auch wenn sie danach zurückgesetzt wird). Eigene Funktion oder Ersatzwert verwenden. Schon veröffentlicht: in der nächsten Version beheben, sonst FEHLER.
-- **WARNUNG** GoldSentinelTest.lua fehlt (Testberichte und Fehlermeldungen an die Prüfung noch nicht eingebaut)
+## RaidMaster-3.0.15.zip: OK
 
 ## ThreatSentinel-2.4.3.zip: OK (1 Warnungen)
 - **WARNUNG** GoldSentinelTest.lua fehlt (Testberichte und Fehlermeldungen an die Prüfung noch nicht eingebaut)
