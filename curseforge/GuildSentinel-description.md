@@ -10,6 +10,15 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.10
+
+- **Alt notes in your client language**: notes that GuildSentinel writes itself ("Reroll de …", "… 的分身" and so on) are recognised again on French, Spanish, Italian, Portuguese, Korean and Chinese clients. Where the label would not fit into the short guild note (Russian), GuildSentinel writes the short form "Alt: Name".
+- **AHSentinel** (formerly AH Analyzer Pro) is recognised under its new folder name (Addons page, market values).
+- **Applicant whispers in combat** (WoW Forever): more than 30 whispers during one fight are now counted in the notice too instead of being dropped silently.
+- More robust against damaged data: malformed event sync messages and broken event or thanks entries no longer cause errors.
+- Test mode (developer only): no longer joins or leaves the server channel, sends nothing delayed after "Stop test mode" and leaves the real settings (last ad, free status, My week) untouched.
+- New for the developer: `/gs testroutine` (button "Test everything" under Settings > Test mode) checks every feature and saves a report for the GoldSentinel review; the diagnosis shows the error counter. Nothing changes for players.
+
 ### Version 0.9.9
 
 Fixes from the review:
@@ -32,10 +41,6 @@ Fixes from the review:
 - **First and last names** (WoW Forever): names are capitalised correctly, notes like "Alt of Rokan Steinwacht" are recognised, and a unique first name alone is enough for alts, thanks and mentors.
 - Whispering a "First Last" name opens the whisper box for the full name.
 - Modern APIs are used first (C_ChatInfo, C_GuildInfo, C_SpellBook), with the old ones as fallback.
-
-### Version 0.9.4
-
-- **Without a guild**: instead of empty pages the overview shows a hint – GuildSentinel is a guild tool, and members, events, board, polls, progress, professions, recruitment and the group finder appear once you are in a guild. My week, Addons and Settings stay available. Joining or leaving a guild takes effect right away.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

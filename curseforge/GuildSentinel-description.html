@@ -6,6 +6,15 @@
 </blockquote>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.9.10</h3>
+<ul>
+<li><strong>Alt notes in your client language</strong>: notes that GuildSentinel writes itself ("Reroll de …", "… 的分身" and so on) are recognised again on French, Spanish, Italian, Portuguese, Korean and Chinese clients. Where the label would not fit into the short guild note (Russian), GuildSentinel writes the short form "Alt: Name".</li>
+<li><strong>AHSentinel</strong> (formerly AH Analyzer Pro) is recognised under its new folder name (Addons page, market values).</li>
+<li><strong>Applicant whispers in combat</strong> (WoW Forever): more than 30 whispers during one fight are now counted in the notice too instead of being dropped silently.</li>
+<li>More robust against damaged data: malformed event sync messages and broken event or thanks entries no longer cause errors.</li>
+<li>Test mode (developer only): no longer joins or leaves the server channel, sends nothing delayed after "Stop test mode" and leaves the real settings (last ad, free status, My week) untouched.</li>
+<li>New for the developer: <code>/gs testroutine</code> (button "Test everything" under Settings &gt; Test mode) checks every feature and saves a report for the GoldSentinel review; the diagnosis shows the error counter. Nothing changes for players.</li>
+</ul>
 <h3>Version 0.9.9</h3>
 <p>Fixes from the review:
 - <strong>Officer rights</strong>: players who may only read officer notes no longer count as officers.
@@ -26,10 +35,6 @@
 <li><strong>First and last names</strong> (WoW Forever): names are capitalised correctly, notes like "Alt of Rokan Steinwacht" are recognised, and a unique first name alone is enough for alts, thanks and mentors.</li>
 <li>Whispering a "First Last" name opens the whisper box for the full name.</li>
 <li>Modern APIs are used first (C_ChatInfo, C_GuildInfo, C_SpellBook), with the old ones as fallback.</li>
-</ul>
-<h3>Version 0.9.4</h3>
-<ul>
-<li><strong>Without a guild</strong>: instead of empty pages the overview shows a hint – GuildSentinel is a guild tool, and members, events, board, polls, progress, professions, recruitment and the group finder appear once you are in a guild. My week, Addons and Settings stay available. Joining or leaving a guild takes effect right away.</li>
 </ul>
 <p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
 <hr />
