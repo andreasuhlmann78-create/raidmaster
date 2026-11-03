@@ -12,6 +12,28 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.6
+
+Fixes from the addon check:
+- **Scan start keeps failing (WoW Forever, Retail):** if the server rejects the scan start permanently, the chat is no
+  longer flooded (before: about 240 lines in 2 minutes). The error is shown once, the addon retries at most 3 times
+  (at least 2 seconds apart), then says once that the scan could not start. The watcher continues right away.
+- **Watcher:** if the server drops requests during the short pause of a wanted scan, the watcher now pauses the full
+  15 minutes as intended (before it resumed after 2 minutes). Deliberately no pause just because a scan is allowed:
+  the watcher would otherwise rest forever for players who never scan.
+- **Profession window (modern client):** the recipe chosen in Blizzard's window is now really recognised (the event
+  name was wrong), so the ingredient button never uses an older recipe.
+- **Mail to alts (WoW Forever):** a rule with your own first name only ("Rokan" for "Rokan Steinwacht") no longer
+  plans mail to yourself.
+- **WoW Forever, protected values:** price sync, tooltip, mailbox errors, blocked actions and disenchant tracking
+  ignore protected ("secret") values instead of risking a Lua error.
+- Errors caught by the addon are now also counted for the addon check (GoldSentinelTest.lua); `/ahs debug` shows
+  "Errors since login · Reports pending". The chat messages stay as before. Sale messages no longer swallow errors silently.
+- Developer only: new test routine `/ahs testroutine` (areas a–j, `server`, `haendler`, `berufe`, `post`,
+  `gildenbank`, `kampf`) with saved report. Your real data is saved before and restored afterwards; buying, posting,
+  mail, vendor and price sync are only simulated. `/ahs test` and `/ahs test daten` are short forms.
+- Missing translations for the classic auction house added.
+
 ### Version 0.65.5
 
 Follow-up fixes from the addon check:
@@ -45,13 +67,6 @@ Fixes from the addon check:
 - **GoldSentinelGame version 2:** the shared game version detection now also wins against early versions
   that other GoldSentinel addons briefly shipped – no Lua errors when several addons are loaded together.
 - Vendor prices: if the game has no item link function at the merchant, the item ID is read another way.
-
-### Version 0.65.1
-
-- **Shared game version detection:** AHSentinel now uses **GoldSentinelGame**, the same detection all
-  GoldSentinel addons get step by step. WoW Forever always counts as the modern client there, never as Classic.
-- New: `/gsgame` shows in the chat which game version was detected; `/ahs debug` shows it too.
-- Nothing else changes for you.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
