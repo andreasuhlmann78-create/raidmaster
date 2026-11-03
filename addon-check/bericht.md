@@ -8,8 +8,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 ## AHSentinel-0.65.5.zip: OK (1 Warnungen)
 - **WARNUNG** GoldSentinelTest.lua fehlt (Testberichte und Fehlermeldungen an die Prüfung noch nicht eingebaut)
 
-## BuffSentinel-0.9.5.zip: OK (1 Warnungen)
-- **WARNUNG** GoldSentinelTest.lua fehlt (Testberichte und Fehlermeldungen an die Prüfung noch nicht eingebaut)
+## BuffSentinel-0.9.6.zip: OK
 
 ## GuildSentinel-0.9.9.zip: OK (1 Warnungen)
 - **WARNUNG** GoldSentinelTest.lua fehlt (Testberichte und Fehlermeldungen an die Prüfung noch nicht eingebaut)
