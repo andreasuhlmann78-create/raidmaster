@@ -85,7 +85,7 @@ Ohne GitHub geht es auch: das RaidMaster-Paket per WinSCP auf den Server kopiere
   **-anmeldung** (mit Knopf **Charakter registrieren**), einem **Sprachkanal** (z. B. 🔊 Molten Core),
   **-taktik**, **-dkp** und **-loot**
 - **🎲 PUG**: #pug-anmeldung, #pug-chat, Sprachkanal PUG-Raid
-- **💬 ALLGEMEIN** (#handwerk-und-handel, #gruppensuche; #allgemein legt der Bot ab 1.5.95 nicht mehr an), **🗝️ DUNGEONS** (4 Sprachkanäle „Dungeon 1–4“, je 10 Plätze), **🔊 SPRACHE**, **🔒 OFFIZIERE** (#offiziere, **#befehlsliste**, #bot-befehle,
+- **💬 ALLGEMEIN** (#handwerk-und-handel, #gruppensuche; #allgemein legt der Bot ab 1.5.95 nicht mehr an und löscht einen vorhandenen #allgemein einmal, wenn darin nur Bot-Beiträge stehen – sonst meldet er in #bot-befehle, warum er ihn behalten hat), **🗝️ DUNGEONS** (4 Sprachkanäle „Dungeon 1–4“, je 10 Plätze), **🔊 SPRACHE**, **🔒 OFFIZIERE** (#offiziere, **#befehlsliste**, #bot-befehle,
   **#bot-daten**, Sprachkanal nur für Offiziere)
 
 **Umbenannte Kanäle (ab Bot 1.5.95):** #regeln darf auch **#dkp-regeln** heißen, #gruppensuche auch **#gruppensuche-für-dungeons**. Der Bot findet sie unter beiden Namen, legt keinen zweiten Kanal an und verlinkt sie im Willkommenstext. Einen umbenannten Kanal verschiebt `/raidmaster-einrichten` nicht und ändert auch seine Rechte nicht. Weitere Namen: `CHANNEL_ALIASES` in `server_setup.py`. In den Regeltexten (`guild_rules.json`) und in Ankündigungen werden Kanäle als `{#kanal}` geschrieben – der Bot macht daraus einen Link, auch zu umbenannten Kanälen.
@@ -205,6 +205,11 @@ Alles, was im GitHub-Repository im Ordner **`announce`** landet, postet der Bot 
 - **Gleicher Titel ersetzt:** Beginnt eine neue Ankündigung mit derselben ersten Zeile wie ein älterer Bot-Beitrag
   im Kanal (z. B. eine überarbeitete Vorstellung), löscht der Bot den älteren Beitrag samt Fortsetzungen.
 - Ältere Kurzform: `aktionshaus-….md` → #aktionshaus, `raid-addon-….md` → #raid-addon.
+- **Datei gelöscht = Beitrag gelöscht (ab Bot 1.5.95):** Wird eine Ankündigung im Repo gelöscht, entfernt der Bot nach
+  dem nächsten GitHub-Update seine Beiträge dazu im Discord (nur eigene Nachrichten). Das gilt nur für Updates von
+  GitHub, nicht für `/update datei:`. Schutz: Sind es mehr als 5 auf einmal, löscht der Bot nichts und meldet die Liste
+  in #bot-befehle – gewollt? In `config.json` `"announce_delete_max"` erhöhen und neu starten.
+  Gelöscht ist gelöscht – der Text bleibt aber in der Git-Historie des Repos.
 
 ## Addon-Prüfung (ab Bot 1.5.92)
 

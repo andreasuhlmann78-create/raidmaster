@@ -228,6 +228,37 @@ def announce_stem(fn: str) -> str:
     return stem
 
 
+ANNOUNCE_REMOVED_DIR = "announce_entfernt"
+
+
+def mirror_announce_removals(repo_files, base: str) -> list[str]:
+    """Ankündigungen, die im Repo gelöscht wurden, auch auf dem Server entfernen (nur bei einem vollständigen
+    GitHub-Update aufrufen). Die .md-Datei und ihre Anhänge kommen nach announce_entfernt/ – der Bot löscht
+    danach seine Beiträge dazu im Discord. Liefert die entfernten .md-Dateien.
+    Schutz: Hat das Repo keine oder weniger als halb so viele Ankündigungen wie der Server, passiert nichts."""
+    local_dir = os.path.join(base, "announce")
+    if not os.path.isdir(local_dir):
+        return []
+    repo_md = {fn for fn in repo_files if fn.lower().endswith(".md")}
+    local_md = {fn for fn in os.listdir(local_dir) if fn.lower().endswith(".md")
+                and os.path.isfile(os.path.join(local_dir, fn))}
+    if not repo_md or len(repo_md) * 2 < len(local_md):
+        return []
+    removed = sorted(local_md - repo_md)
+    if not removed:
+        return []
+    target = os.path.join(base, ANNOUNCE_REMOVED_DIR)
+    os.makedirs(target, exist_ok=True)
+    repo_all = set(repo_files)
+    for fn in removed:
+        stem = fn[:-3]
+        for x in os.listdir(local_dir):
+            # die .md selbst und Anhänge mit demselben Namen, die es im Repo auch nicht mehr gibt
+            if (x == fn or x.startswith(stem + ".")) and x not in repo_all:
+                shutil.move(os.path.join(local_dir, x), os.path.join(target, x))
+    return removed
+
+
 def install_zip(data: bytes, base: str, source: str, ref: str = "") -> dict:
     """Installiert eine Update-ZIP. Liefert Infos fürs Protokoll; wirft UpdateError bei Problemen."""
     tmp = os.path.join(update_dir(base), "tmp")
@@ -248,8 +279,10 @@ def install_zip(data: bytes, base: str, source: str, ref: str = "") -> dict:
         checker = load_addon_check(tmp, base)
         result["addon_check"] = checker is not None
         # Ankündigungen (Ordner announce) übernehmen - der Bot postet jede Datei einmal
+        announce_dirs = []
         for dirpath, _, filenames in os.walk(tmp):
             if os.path.basename(dirpath) == "announce":
+                announce_dirs.append(filenames)
                 os.makedirs(os.path.join(base, "announce"), exist_ok=True)
                 # neue Addon-ZIPs als Anhang prüfen; mit Fehlern -> ganze Ankündigung zurückhalten.
                 # Nur die NEUESTE ZIP je Addon: ältere liegen als Geschichte im Repo und sind längst gepostet.
@@ -278,6 +311,11 @@ def install_zip(data: bytes, base: str, source: str, ref: str = "") -> dict:
                     # Text (.md) und Anhänge dazu (Bilder, ZIP, PDF) – siehe check_announcements im Bot
                     if fn.lower().endswith((".md", ".png", ".jpg", ".jpeg", ".gif", ".zip", ".pdf", ".txt")):
                         shutil.copy2(os.path.join(dirpath, fn), os.path.join(base, "announce", fn))
+        # im Repo gelöschte Ankündigungen: nur bei einem vollständigen GitHub-Update (eine von Hand eingespielte ZIP
+        # kann unvollständig sein) und nur, wenn es genau einen Ordner announce gibt
+        result["announce_removed"] = []
+        if source == "GitHub" and len(announce_dirs) == 1:
+            result["announce_removed"] = mirror_announce_removals(announce_dirs[0], base)
         # fertige Addon-ZIPs aus dem Ordner download (z. B. AHSentinel) übernehmen
         for dirpath, _, filenames in os.walk(tmp):
             if os.path.basename(dirpath) == "download":

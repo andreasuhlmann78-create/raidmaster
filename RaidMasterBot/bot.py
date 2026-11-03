@@ -243,6 +243,12 @@ class RaidBot(discord.Client):
             except Exception:
                 log.exception("Dungeon-Kategorie konnte nicht angelegt werden")
             try:
+                rep = await remove_unused_channels_once()
+                if rep:
+                    await post_bot_log("\n".join(rep))
+            except Exception:
+                log.exception("Ungenutzte Kanäle konnten nicht geprüft werden")
+            try:
                 rep = await ensure_channel_texts()
                 if rep:
                     await post_bot_log("✏️ Texte im neuen Stil: " + ", ".join(rep))
@@ -3805,11 +3811,176 @@ async def resolve_announce_text(text: str) -> tuple[str, list[str]]:
     return text, missing
 
 
+ANNOUNCE_REMOVED_DIR = os.path.join(BASE, updater.ANNOUNCE_REMOVED_DIR)
+
+
+def _announce_channel_quiet(fn: str):
+    """Kanal einer Ankündigung, ohne ihn anzulegen und ohne Meldung (zum Aufräumen)."""
+    guild = bot_guild()
+    if guild is None:
+        return None
+    low = fn.lower()
+    if "__" in low:
+        return discord.utils.get(guild.text_channels, name=low.split("__", 1)[0].lstrip("#"))
+    chan_key = next((v for k, v in ANNOUNCE_CHANNELS.items() if low.startswith(k + "-")), None)
+    return guild.get_channel(int(cfg.get(chan_key) or 0)) if chan_key else None
+
+
+async def remove_deleted_announcements():
+    """Ankündigungen, deren Datei im Repo gelöscht wurde: Der Updater legt sie bei einem GitHub-Update nach
+    announce_entfernt/. Hier löscht der Bot seine Beiträge dazu im Discord (nur eigene Nachrichten) und danach
+    die Datei. Schutz: mehr als announce_delete_max (Standard 5) auf einmal -> nichts löschen, nur melden."""
+    if not os.path.isdir(ANNOUNCE_REMOVED_DIR):
+        return
+    files = sorted(fn for fn in os.listdir(ANNOUNCE_REMOVED_DIR)
+                   if fn.lower().endswith(".md") and os.path.isfile(os.path.join(ANNOUNCE_REMOVED_DIR, fn)))
+    if not files or bot_guild() is None:
+        return
+    limit = int(cfg.get("announce_delete_max", 5) or 0)
+    if len(files) > limit:
+        if state.data.get("announce_delete_warned") != files:
+            state.data["announce_delete_warned"] = files
+            state.save()
+            await post_bot_log(f"⚠️ **{len(files)} Ankündigungen** wurden im Repo gelöscht – mehr als {limit} auf einmal, "
+                               "darum lösche ich ihre Beiträge im Discord NICHT von selbst:\n"
+                               + "\n".join(f"• {fn}" for fn in files[:30])
+                               + "\nWenn das so gewollt ist: in config.json `\"announce_delete_max\"` erhöhen und den Bot "
+                               "neu starten.")
+        return
+    rec = state.data.setdefault("announce_msgs", {})
+    announced = state.data.setdefault("announced", [])
+    newest = {}
+    for fn0 in announced:
+        s_, v_ = announce_series(fn0)
+        if s_ and (s_ not in newest or v_ > newest[s_]):
+            newest[s_] = v_
+    keep_ids = [mid for k, r in rec.items() if k not in files for mid in r.get("ids", [])]
+    report = []
+    for fn in files:
+        removed = 0
+        r = rec.get(fn)
+        if r and r.get("ids"):
+            ch = await channel_by_id(r.get("ch"))
+            for mid in r["ids"]:
+                try:
+                    m = await ch.fetch_message(mid)
+                    if m.author == bot.user:
+                        await m.delete()
+                        removed += 1
+                except discord.NotFound:
+                    pass
+                except (discord.HTTPException, AttributeError) as e:
+                    log.warning("Beitrag %s zu %s nicht gelöscht: %s", mid, fn, e)
+        elif fn in announced:
+            # vor Bot 1.5.95 gepostet (ohne gespeicherte Nachrichten): über die erste Zeile finden.
+            # Ältere Version einer Reihe, deren neuere schon gepostet ist: deren Beitrag ist längst ersetzt.
+            series, ver = announce_series(fn)
+            ch = _announce_channel_quiet(fn)
+            if ch and not (series and newest.get(series, ver) > ver):
+                try:
+                    with open(os.path.join(ANNOUNCE_REMOVED_DIR, fn), "r", encoding="utf-8") as f:
+                        text, _ = await resolve_announce_text(f.read().strip())
+                    title = text.split("\n", 1)[0].strip()
+                    removed = await remove_same_title(ch, title, keep_ids)
+                except OSError:
+                    pass
+        rec.pop(fn, None)
+        if fn in announced:
+            announced.remove(fn)
+        warned = state.data.get("announce_warned") or []
+        if fn in warned:
+            warned.remove(fn)
+        stem = fn[:-3]
+        for x in os.listdir(ANNOUNCE_REMOVED_DIR):
+            if x == fn or x.startswith(stem + "."):
+                try:
+                    os.remove(os.path.join(ANNOUNCE_REMOVED_DIR, x))
+                except OSError:
+                    pass
+        state.save()
+        log.info("Ankündigung %s aus dem Repo entfernt: %d Nachricht(en) im Discord gelöscht.", fn, removed)
+        report.append(f"{fn} ({removed} Nachricht{'en' if removed != 1 else ''})")
+    state.data.pop("announce_delete_warned", None)
+    state.save()
+    if report:
+        await post_bot_log("🗑️ Im Repo gelöschte Ankündigungen auch im Discord entfernt: " + "; ".join(report))
+
+
+# Kanäle, die der Bot früher angelegt hat und die nicht mehr gebraucht werden. Gelöscht wird einmal und nur, wenn
+# darin ausschließlich Bot-Beiträge stehen (keine Nachricht eines Mitglieds, kein Thread) und der Kanal nirgends
+# eingetragen ist. Sonst bleibt er und der Bot meldet den Grund in #bot-befehle.
+UNUSED_CHANNELS = ("allgemein",)
+
+
+def _config_ids(value) -> set:
+    """Alle Zahlen/IDs aus der config.json (verschachtelt), um eingetragene Kanäle zu erkennen."""
+    out = set()
+    if isinstance(value, dict):
+        for v in value.values():
+            out |= _config_ids(v)
+    elif isinstance(value, (list, tuple)):
+        for v in value:
+            out |= _config_ids(v)
+    elif isinstance(value, int) and not isinstance(value, bool):
+        out.add(value)
+    elif isinstance(value, str) and value.isdigit():
+        out.add(int(value))
+    return out
+
+
+async def remove_unused_channels_once() -> list[str]:
+    guild = bot_guild()
+    if guild is None or not guild.me.guild_permissions.manage_channels:
+        return []
+    done = state.data.setdefault("removed_channels", {})
+    report = []
+    for name in UNUSED_CHANNELS:
+        if name in done:
+            continue
+        ch = next((c for c in guild.text_channels if c.name.casefold() == name), None)
+        if ch is None:
+            done[name] = "nicht vorhanden"
+            state.save()
+            continue
+        reason = None
+        if ch in (guild.system_channel, guild.rules_channel, guild.public_updates_channel):
+            reason = "ist in den Servereinstellungen als System-, Regel- oder Update-Kanal eingetragen"
+        elif ch.id in _config_ids(cfg):
+            reason = "ist in der config.json eingetragen"
+        elif ch.threads:
+            reason = "enthält Threads"
+        else:
+            try:
+                async for m in ch.history(limit=1000):
+                    if not m.author.bot:
+                        reason = "enthält Beiträge von Mitgliedern"
+                        break
+            except discord.HTTPException:
+                reason = "der Bot kann den Verlauf nicht lesen"
+        if reason:
+            done[name] = "behalten: " + reason
+            report.append(f"⚠️ #{ch.name} nicht gelöscht – {reason}. Bitte selbst prüfen und ggf. von Hand löschen.")
+        else:
+            try:
+                await ch.delete(reason="RaidMaster: ungenutzter Kanal")
+                done[name] = "gelöscht"
+                report.append(f"🗑️ Ungenutzten Kanal #{name} gelöscht (enthielt nur Bot-Beiträge).")
+            except discord.HTTPException as e:
+                done[name] = f"Fehler: {e}"
+                report.append(f"⚠️ #{name} konnte nicht gelöscht werden: {e}")
+        state.save()
+    return report
+
+
 async def check_announcements():
     if not os.path.isdir(ANNOUNCE_DIR):
         return
     done = state.data.setdefault("announced", [])
     await cleanup_announcements_once()
+    try:
+        await remove_deleted_announcements()
+    except Exception as e:      # Aufräumen darf das Posten nie stören
+        log.warning("Entfernte Ankündigungen nicht aufgeräumt: %s", e)
     for fn in sorted(os.listdir(ANNOUNCE_DIR)):
         if not fn.lower().endswith(".md") or fn in done:
             continue
@@ -3867,9 +4038,11 @@ async def check_announcements():
             log.warning("Ankündigung %s nicht gepostet: %s", fn, e)
             continue
         done.append(fn)
-        if series:
-            state.data.setdefault("announce_msgs", {})[fn] = {"ch": ch.id, "ids": sent, "series": series, "ver": list(ver),
-                                                              "attach": bool(attach) or None}
+        # ab Bot 1.5.95 auch ohne Versionsnummer speichern: so kann der Bot den Beitrag wieder löschen,
+        # wenn die Datei aus announce/ entfernt wird (remove_deleted_announcements)
+        state.data.setdefault("announce_msgs", {})[fn] = {"ch": ch.id, "ids": sent, "series": series,
+                                                          "ver": list(ver) if ver else None,
+                                                          "attach": bool(attach) or None}
         state.save()
         log.info("Ankündigung %s gepostet.", fn)
         # neuere Version derselben Reihe: alte Beiträge entfernen
@@ -4526,6 +4699,10 @@ async def apply_update(data: bytes, source: str, ref: str = "", note: str = "") 
             parts.append(f"  • … und {len(errs) - 3} weitere (Bericht: addon-check/bericht.md im Repo)")
     if result.get("rejected"):
         parts.append("Bitte beheben und als neue Version hochladen – bis dahin bleibt die bisherige Version in Discord.")
+    if result.get("announce_removed"):
+        names = result["announce_removed"]
+        parts.append(f"🗑️ Im Repo gelöscht: {', '.join(names[:10])}{' …' if len(names) > 10 else ''} – "
+                     "die Beiträge dazu entferne ich im Discord.")
     if result.get("addon_check") is False:
         parts.append("⚠️ Addon-Prüfung nicht gefunden (addon-check/addon_check.py fehlt im Repo) – ZIPs ungeprüft übernommen.")
     if result["bot_changed"]:
