@@ -1,6 +1,7 @@
 OFFENE PUNKTE RAIDMASTER (nach der Nachprüfung von 3.0.15)
 =========================================================
-Stand: 3. November 2026, 10:45 · von der Prüf-Sitzung · Grundlage: download/RaidMaster-3.0.15.zip und Bot 1.5.94
+Stand: 3. November 2026, 18:50 · von der Prüf-Sitzung · Grundlage: download/RaidMaster-3.0.15.zip, Bot 1.5.95, Uploader 1.6.0
+(Bot 1.5.95 nachgeprüft: alle 25 Bot-Tests OK.)
 Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 3.0.14.
 
 Erledigt in 3.0.15 (danke):
@@ -61,5 +62,16 @@ Bitte als 3.0.16 veröffentlichen, wenn die Punkte unten umgesetzt sind. Wie imm
 6. UPLOADER UND BOT FÜR #testberichte (noch offen aus testroutine-raidmaster.txt, Teil Uploader und Bot)
    In 3.0.15 und Bot 1.5.94 nicht enthalten. Bauen und offline testen ist möglich. Ob die Berichte wirklich in Discord
    ankommen, lässt sich erst prüfen, wenn der Nutzer das GitHub-Secret DISCORD_BOT_TOKEN eingetragen hat (verschoben).
+
+7. UPLOADER WECHSELT NICHT AUF DEN FOREVER-ORDNER (Schwere: MITTEL – vor dem Launch)
+   uploader.py choose_path(): Steht in uploader_config.json ein savedvariables_path und die Datei existiert, wird er immer
+   genommen. Wer RaidMaster schon im Anniversary-Client hatte (z. B. .../_anniversary_/WTF/.../RaidMaster.lua), lädt nach
+   dem Forever-Start weiter die alte Anniversary-Datei hoch – still, ohne Hinweis.
+   Lösung: Bei jedem Start zusätzlich find_saved_variables() aufrufen (oder nur, wenn der gespeicherte Pfad nicht im
+   Forever-Ordner liegt). Gibt es eine neuere RaidMaster.lua als die gespeicherte, im Fenster melden und auf die neueste
+   wechseln (mit Zeile "Wechsle zu: …"). Die Suche nur alle paar Minuten wiederholen, nicht bei jedem Takt.
+   Ausserdem in LIESMICH.txt / README_EN.txt ergänzen: Beim Update den Ordner ERSETZEN, nicht hineinentpacken (sonst
+   entsteht RaidMasterUploader/RaidMasterUploader und uploader.bat startet weiter die alte Version) – uploader_config.json
+   vorher sichern und danach wieder hineinlegen. Die Versionsnummer beim Start im Fenster anzeigen, falls noch nicht.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
