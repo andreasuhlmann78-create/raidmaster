@@ -81,11 +81,11 @@ function G.StatusText()
 end
 
 function G.SendNow()
-	if InCombatLockdown and InCombatLockdown() then
+	if RM.InCombat() then
 		RM.Print(L["Im Kampf nicht möglich – nach dem Kampf noch einmal."])
 		return
 	end
-	UI.Confirm(L["Jetzt an Discord senden?\nDie Oberfläche wird dafür kurz neu geladen (/reload)."], function() ReloadUI() end)
+	UI.Confirm(L["Jetzt an Discord senden?\nDie Oberfläche wird dafür kurz neu geladen (/reload)."], function() RM.Act.ReloadUI() end)
 end
 
 ---------------------------------------------------------------------------
@@ -282,7 +282,7 @@ if RM.Raid and RM.Raid.End then
 		local r = origEnd(...)
 		if was and not RM.db.session.active and RM.CanEdit() and not RaidMasterTestDB then
 			C_Timer.After(1.5, function()
-				UI.Confirm(L["Raid beendet. DKP und Loot jetzt an Discord senden?\nDie Oberfläche wird dafür kurz neu geladen (/reload)."], function() ReloadUI() end)
+				UI.Confirm(L["Raid beendet. DKP und Loot jetzt an Discord senden?\nDie Oberfläche wird dafür kurz neu geladen (/reload)."], function() RM.Act.ReloadUI() end)
 			end)
 		end
 		return r

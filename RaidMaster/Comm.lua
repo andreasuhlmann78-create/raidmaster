@@ -133,6 +133,14 @@ function Comm.Send(msgType, data, channel, target, high)
 	end
 end
 
+-- Anzahl noch nicht gesendeter Nachrichten; ClearQueue verwirft sie (Test-Werkzeug beim Beenden des Testmodus:
+-- im Test erzeugte Nachrichten dürfen danach nicht doch noch echt hinausgehen)
+function Comm.Pending() return #queueHigh + #queueLow end
+function Comm.ClearQueue()
+	wipe(queueHigh); wipe(queueLow)
+	if ticker then ticker:Cancel(); ticker = nil end
+end
+
 function Comm.Register(msgType, fn)
 	Comm.handlers[msgType] = fn
 end

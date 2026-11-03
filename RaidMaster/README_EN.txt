@@ -1,4 +1,4 @@
-RaidMaster 3.0.15 – DKP, loot and raid leading tools
+RaidMaster 3.0.16 – DKP, loot and raid leading tools
 ====================================================
 
 INSTALLATION
@@ -22,6 +22,16 @@ MAIN FEATURES
   The boss's marker template is selected automatically when the encounter starts.
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
+
+WHAT'S NEW IN 3.0.16 – Complete test routine, more protection in combat
+- Actions with real effects (chat, raid markers, invites, groups, looting, trade, ready check, countdown,
+  screenshot, /reload, profession windows, inspect) now all go through one single place in the addon. Nothing changes
+  in the game; in test mode nothing real can go out.
+- Group search and invites: protected values (WoW Forever in combat) are no longer evaluated.
+- Damaged entries in the saved data no longer cause an error when loading.
+- Test tool (developer only): the test routine now checks about 100 cases automatically instead of 46, waits for
+  timed flows (auction, invites, timers), stops cleanly when combat starts and has a "Reload and report" button.
+- Classic Era, TBC, Wrath, Cata and MoP Classic behave exactly as before.
 
 WHAT'S NEW IN 3.0.15 – Safety before the Forever launch
 - Whisper replies (bid accepted, !dkp, raid assignments) now all go through one place. In test mode no real

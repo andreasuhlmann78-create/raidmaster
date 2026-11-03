@@ -21,8 +21,7 @@ M.COMBAT_HINT = "Im Kampf bitte per Mouseover-Taste markieren."
 function M.CombatBlocked()
 	if M.simCombat then return true end
 	if not RM.IsModern then return false end
-	if RM.G then return RM.G.InCombat() end
-	return (InCombatLockdown and InCombatLockdown()) and true or false
+	return RM.InCombat()
 end
 
 -- Wert nur verwenden, wenn er lesbar ist (secret value → nil)
@@ -31,7 +30,11 @@ local function Plain(v)
 	return v
 end
 
+-- Spiel-API über RM.API (die Testroutine stellt so Einheiten nach, ohne Blizzard-Funktionen zu ersetzen)
+local function API(name) return RM.API.Get(name) end
+
 local function TargetUnit()
+	local UnitExists = API("UnitExists")
 	if UnitExists("mouseover") then return "mouseover" end
 	if UnitExists("target") then return "target" end
 end
@@ -59,7 +62,7 @@ function M.Mark(icon)
 	local unit = TargetUnit()
 	if not unit then return end
 	if not CanMark() then RM.Print(L[NO_RIGHTS]) return end
-	local ok = pcall(SetRaidTarget, unit, icon)
+	local ok = pcall(RM.Act.SetRaidTarget, unit, icon)
 	if ok and icon and icon > 0 then used[icon] = true end
 end
 
@@ -67,6 +70,7 @@ end
 local function IconsInUse()
 	local inUse = {}
 	for k in pairs(used) do inUse[k] = true end
+	local UnitExists, GetRaidTargetIndex = API("UnitExists"), API("GetRaidTargetIndex")
 	local function check(unit)
 		if UnitExists(unit) then
 			local i = Plain(GetRaidTargetIndex(unit))
@@ -87,13 +91,13 @@ function M.SmartMark()
 	local unit = TargetUnit()
 	if not unit then return end
 	if not CanMark() then RM.Print(L[NO_RIGHTS]) return end
-	if Plain(GetRaidTargetIndex(unit)) then return end
-	if Plain(UnitIsPlayer(unit)) or Plain(UnitIsDead(unit)) then return end
+	if Plain(API("GetRaidTargetIndex")(unit)) then return end
+	if Plain(API("UnitIsPlayer")(unit)) or Plain(API("UnitIsDead")(unit)) then return end
 	local template = RM.Data.GetTemplate(C().markerTemplate)
 	local inUse = IconsInUse()
 	for _, icon in ipairs(template.order) do
 		if not inUse[icon] then
-			if pcall(SetRaidTarget, unit, icon) then used[icon] = true end
+			if pcall(RM.Act.SetRaidTarget, unit, icon) then used[icon] = true end
 			return
 		end
 	end
@@ -106,10 +110,10 @@ function M.ClearAll()
 	local step = 0
 	for i = 8, 1, -1 do
 		step = step + 1
-		C_Timer.After(step * 0.12, function() SetRaidTarget("player", i) end)
+		C_Timer.After(step * 0.12, function() RM.Act.SetRaidTarget("player", i) end)
 	end
 	C_Timer.After((step + 1) * 0.12 + 0.1, function()
-		SetRaidTarget("player", 0)
+		RM.Act.SetRaidTarget("player", 0)
 		RM.Print(L["Alle Schlachtzugsymbole ausgeblendet."])
 	end)
 	wipe(used)
@@ -141,6 +145,7 @@ local function BossNames(template)
 	end
 	add(RM.Data.Pools[RM.DKP.CurrentInstancePool(true) or ""])
 	if template and template.raid then add(RM.Data.Pools[template.raid]) end
+	local UnitExists, UnitName = API("UnitExists"), API("UnitName")
 	for i = 1, 5 do
 		local n = UnitExists("boss" .. i) and UnitName("boss" .. i)
 		if n and not RM.IsSecret(n) then names[n] = true end
@@ -152,6 +157,9 @@ end
 -- ("secret values" im Kampf, WoW Forever/Midnight) – die lassen sich nur per Symbolknopf markieren.
 local function VisibleEnemies()
 	local list, seen, blocked = {}, {}, 0
+	local UnitExists, UnitIsPlayer, UnitIsDead = API("UnitExists"), API("UnitIsPlayer"), API("UnitIsDead")
+	local UnitCanAttack, UnitGUID, UnitName = API("UnitCanAttack"), API("UnitGUID"), API("UnitName")
+	local UnitCreatureType, GetRaidTargetIndex = API("UnitCreatureType"), API("GetRaidTargetIndex")
 	local function check(unit)
 		if not UnitExists(unit) or UnitIsPlayer(unit) or UnitIsDead(unit) then return end
 		if not UnitCanAttack("player", unit) then return end
@@ -201,7 +209,7 @@ function M.MarkAdds()
 				while icons[pos] and taken[icons[pos]] do pos = pos + 1 end
 				local icon = icons[pos]
 				if not icon then break end
-				local ok = pcall(SetRaidTarget, e.unit, icon)
+				local ok = pcall(RM.Act.SetRaidTarget, e.unit, icon)
 				if ok then
 					taken[icon], used[icon], e.done = true, true, true
 					marked = marked + 1
@@ -317,7 +325,10 @@ local function CreateBar()
 		tip:AddLine(L["Adds markieren"], 1, 0.82, 0)
 		tip:AddLine(L["Markiert alle sichtbaren Adds auf einmal nach der Vorlage des Bosses (z. B. Garrs Feuerschwörer, Sulfurons Priester).\nGegner-Namensplaketten müssen an sein (Taste V)."], 0.85, 0.85, 0.85, true)
 		tip:AddLine(L["Vorlage: "] .. RM.Data.GetTemplate(C().markerTemplate).name, 1, 0.55, 0.1)
+		-- moderner Client im Kampf: Knopf wirkt nicht, Hinweis auf die Mouseover-Tasten
+		if M.CombatBlocked() then tip:AddLine(L[M.COMBAT_HINT], 1, 0.3, 0.3, true) end
 	end, function() M.MarkAdds() end)
+	M.addsButton = adds
 	adds:SetPoint("LEFT", x + 3, 0)
 	adds.icon:SetTexCoord(0.08, 0.92, 0.08, 0.92)
 	x = x + ICON_SIZE + 1

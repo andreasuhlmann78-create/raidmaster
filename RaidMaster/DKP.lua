@@ -110,7 +110,8 @@ function DKP.PoolList(data)
 		if not seen[key] then extra[#extra + 1] = key; seen[key] = true end
 	end
 	for _, p in pairs(data.players or {}) do
-		for key in pairs(p.d or {}) do
+		-- beschädigte Einträge (falscher Typ) überspringen
+		for key in pairs(type(p) == "table" and type(p.d) == "table" and p.d or {}) do
 			if not seen[key] then extra[#extra + 1] = key; seen[key] = true end
 		end
 	end

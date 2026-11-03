@@ -27,6 +27,9 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
+**3.0.16** – Sicher im Kampf
+• Alles, was RaidMaster im Spiel auslöst (Chat, Symbole, Einladen, Plündern …), läuft jetzt über eine einzige Stelle – im Spiel ändert sich nichts, aber Fehler in WoW Forever werden besser abgefangen.
+
 **3.0.15** – Sicher in den Launch
 • `!dkp Vorname Nachname` und `!dkp Vorname` (wenn eindeutig) finden euch in WoW Forever. Flüstern und Addon-Nachrichten im Kampf lösen keine Fehler mehr aus.
 
@@ -44,8 +47,5 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 
 **3.0.8** – Markieren im Kampf
 • In WoW Forever markiert RaidMaster im Kampf nichts mehr automatisch („Adds markieren“, Boss-Leiste) – dann einfach per Mouseover-Taste markieren. Vor dem Pull geht alles wie gewohnt.
-
-**3.0.7** – Bereit für WoW Forever
-• Bereitschafts-Check liest Fläschchen und Elixiere im neuen Forever-Client; ist ein Buff nicht lesbar, steht das da statt „kein Fläschchen“. Kernhunde: Knopf **Kürschner ansagen** auf der Seite Raid.
 
 Ältere Neuerungen stehen im Addon in der Datei LIESMICH.txt.

@@ -114,6 +114,8 @@ local function OnItem(tt)
 	tt:Show()
 end
 
+TT.OnItem = OnItem      -- für die Testroutine (T34, T115)
+
 local hooked = {}
 local function Hook(tt)
 	if not tt or hooked[tt] or not tt.HookScript then return end

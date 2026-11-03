@@ -34,7 +34,8 @@ RM.Listen("DB_READY", function() byName = nil end)
 -- Ziel lesen: existiert, ist Spieler, Name. Eigene Lesefunktion, damit der Selbsttest sie ersetzen kann –
 -- der Test ersetzt nur B.ReadTarget, nie die Blizzard-Funktionen selbst (sonst "Taint" bis zum /reload).
 function B.ReadTarget()
-	return UnitExists("target"), UnitIsPlayer("target"), UnitName("target")
+	local API = RM.API.Get
+	return API("UnitExists")("target"), API("UnitIsPlayer")("target"), API("UnitName")("target")
 end
 
 -- Welcher Boss ist im Ziel? (Ziel oder boss1–boss5 mit gleichem Namen)
@@ -85,8 +86,9 @@ function B.MarkBoss(boss)
 	if RM.Markers.CombatBlocked() then RM.Print(L[RM.Markers.COMBAT_HINT]) return end
 	local skullForAdds = false
 	for _, i in ipairs(template.order or {}) do if i == 8 then skullForAdds = true end end
-	if not skullForAdds and UnitExists("target") and not GetRaidTargetIndex("target") then
-		SetRaidTarget("target", 8)
+	local API = RM.API.Get
+	if not skullForAdds and API("UnitExists")("target") and not RM.Safe(API("GetRaidTargetIndex")("target")) then
+		RM.Act.SetRaidTarget("target", 8)
 	end
 	RM.Markers.MarkAdds()
 	RM.Fire("BOSSBAR_ACTION", "mark", boss.id)

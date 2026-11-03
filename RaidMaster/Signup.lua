@@ -34,8 +34,7 @@ function S.DoInvite(name)
 		return false
 	end
 	S.MarkInvite(name, "invited")
-	local fn = (C_PartyInfo and C_PartyInfo.InviteUnit) or InviteUnit
-	if fn then fn(name) end
+	RM.Act.InviteUnit(name)
 end
 
 ---------------------------------------------------------------------------
@@ -86,7 +85,8 @@ local function SystemPatterns()
 end
 
 function S.OnSystemMessage(msg)
-	if type(msg) ~= "string" then return end
+	-- moderner Client: geschützter Text (secret value) zuerst prüfen – type() ergibt dort auch "string"
+	if RM.IsSecret(msg) or type(msg) ~= "string" then return end
 	for _, v in ipairs(SystemPatterns()) do
 		local name = msg:match(v[1])
 		if name then
@@ -105,8 +105,7 @@ RM.On("GROUP_ROSTER_UPDATE", function()
 end)
 
 function S.DoMakeRaid()
-	local fn = (C_PartyInfo and C_PartyInfo.ConvertToRaid) or ConvertToRaid
-	if fn then fn() end
+	RM.Act.ConvertToRaid()
 end
 
 local function Invite(name) S.DoInvite(name) end
@@ -763,7 +762,7 @@ function S.ArrangeStep(state)
 	state = state or { tries = {} }
 	local want = S.WantedGroups()
 	if not next(want) or not RM.InRaid() or not RM.IsAssist() then return false end
-	if InCombatLockdown and InCombatLockdown() then return false end
+	if RM.InCombat() then return false end
 	local cur, count, index = {}, {}, {}
 	for i = 1, GetNumGroupMembers() do
 		local name, _, subgroup = GetRaidRosterInfo(i)
@@ -790,7 +789,7 @@ function S.ArrangeStep(state)
 			local key = name .. ">" .. g
 			if (state.tries[key] or 0) < 2 then
 				state.tries[key] = (state.tries[key] or 0) + 1
-				SetRaidSubgroup(i, g)
+				RM.Act.SetRaidSubgroup(i, g)
 				return true
 			end
 		else
@@ -808,7 +807,7 @@ function S.ArrangeStep(state)
 			if best then
 				local a, b = name < best and name or best, name < best and best or name
 				state.tries[a .. "<>" .. b] = 1
-				SwapRaidSubgroup(i, index[best])
+				RM.Act.SwapRaidSubgroup(i, index[best])
 				return true
 			end
 		end
@@ -846,7 +845,7 @@ function S.ArrangeGroups(silent)
 		if not st then return end
 		-- nach jedem Zug auf die Bestätigung vom Server warten (neue Gruppenliste), höchstens 3 Sek.
 		if GetTime() < st.waitUntil then return end
-		if InCombatLockdown and InCombatLockdown() then
+		if RM.InCombat() then
 			FinishArrange(silent, L["Gruppen einteilen abgebrochen – im Kampf geht das nicht."])
 			return
 		end

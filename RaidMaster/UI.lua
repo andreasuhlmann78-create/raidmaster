@@ -160,6 +160,9 @@ if ChatEdit_InsertLink then
 	end)
 end
 
+-- Alle Haken und Auswahlknöpfe (für die Testroutine T13: jede Option einmal an und aus)
+UI.registry = {}
+
 function UI.Check(parent, label, getter, setter, tooltip)
 	local c = CreateFrame("CheckButton", nil, parent, TEMPLATE)
 	c:SetSize(18, 18)
@@ -176,6 +179,7 @@ function UI.Check(parent, label, getter, setter, tooltip)
 	c:SetScript("OnLeave", function() GameTooltip:Hide() end)
 	function c:Refresh() self:SetChecked(getter() and true or false) end
 	c:Refresh()
+	UI.registry[#UI.registry + 1] = { kind = "check", label = label, getter = getter, setter = setter, frame = c }
 	return c
 end
 
@@ -199,6 +203,7 @@ function UI.Cycle(parent, w, options, getter, setter, tooltip)
 		self:SetText(tostring(cur))
 	end
 	b:Refresh()
+	UI.registry[#UI.registry + 1] = { kind = "cycle", options = options, getter = getter, setter = setter, frame = b }
 	return b
 end
 
@@ -658,7 +663,8 @@ end
 -- Export-Fenster
 ---------------------------------------------------------------------------
 local exportFrame
-function UI.ShowExport(text)
+-- extra = { text, onClick } zeigt einen zusätzlichen Knopf unten links (z. B. "Neu laden und melden" der Testroutine)
+function UI.ShowExport(text, extra)
 	if not exportFrame then
 		local f = UI.Frame(UIParent, 620, 460)
 		f:SetFrameStrata("DIALOG")
@@ -677,11 +683,22 @@ function UI.ShowExport(text)
 			f.box.edit:HighlightText()
 		end)
 		sel:SetPoint("BOTTOMRIGHT", -12, 10)
+		f.extra = UI.Button(f, "", 200, 24, function() if f.extraFn then f.extraFn() end end)
+		f.extra:SetPoint("BOTTOMLEFT", 12, 10)
+		f.extra:Hide()
 		exportFrame = f
 		tinsert(UISpecialFrames, "RaidMasterExport")
 		_G["RaidMasterExport"] = f
 	end
 	exportFrame.box:SetText(text)
+	if type(extra) == "table" and extra[1] then
+		exportFrame.extra:SetText(extra[1])
+		exportFrame.extraFn = extra[2]
+		exportFrame.extra:Show()
+	else
+		exportFrame.extraFn = nil
+		exportFrame.extra:Hide()
+	end
 	exportFrame:Show()
 	exportFrame.box.edit:SetFocus()
 	exportFrame.box.edit:HighlightText()

@@ -170,6 +170,10 @@ CaptureReal()   -- Test.lua lädt als letzte Datei von RaidMaster, alles ist sch
 function T.RealCaptured()
 	return REAL.captured == true and REAL.RaidStart ~= nil and REAL.RaidEnd ~= nil
 end
+-- echte (beim Laden gemerkte) RaidMaster-Funktion, z. B. T.Real("Deliver") für die Testroutine (T21, T136)
+function T.Real(name)
+	return REAL[name]
+end
 
 -- Testgruppe: entweder die 39 Testspieler oder – nach dem Import von Anmeldungen – nur, wer (simuliert)
 -- eingeladen wurde und angenommen hat (T.roster)
@@ -654,6 +658,8 @@ function T.Stop()
 	if saved.CheckMainLeader then RM.CheckMainLeader = saved.CheckMainLeader end
 	if saved.RaidStart then RM.Raid.Start, RM.Raid.End = saved.RaidStart, saved.RaidEnd; saved.RaidStart, saved.RaidEnd = nil, nil end
 	T.active = false
+	-- im Test erzeugte Addon-Nachrichten, die noch in der Sendewarteschlange liegen, nie echt hinausschicken
+	if RM.Comm and RM.Comm.ClearQueue then RM.Comm.ClearQueue() end
 	RM.timeOffset = 0                       -- Uhr von RaidMaster wieder auf echte Serverzeit
 	if RM.BossBar and RM.BossBar.testTarget then RM.BossBar.testTarget = nil end
 	T.UpdateBars()
@@ -674,7 +680,7 @@ function T.SendToDiscord()
 	RM.db.testMode.pool = T.pool
 	RM.UI.Confirm("Testdaten an Discord senden?\nDie Oberfläche wird neu geladen. Der Bot postet DKP, Teilnehmer und Loot des Tests "
 		.. "(mit TEST markiert) und löscht sie nach 10 Minuten. Danach ist der Testmodus beendet, deine echten Daten sind wieder da.",
-		function() ReloadUI() end, function() RM.db.testMode.post = nil end)
+		function() RM.Act.ReloadUI() end, function() RM.db.testMode.post = nil end)
 end
 
 -- Gibt es im Test schon ein Ergebnis (Raid, Bosse, DKP, Loot)?
@@ -709,7 +715,7 @@ function T.AutoSend(reason)
 		f.text:SetPoint("TOPLEFT", 14, -12)
 		f.text:SetWidth(412)
 		f.text:SetJustifyH("LEFT")
-		local now = UI.Button(f, "Jetzt senden", 130, 28, function() f:Hide(); ReloadUI() end)
+		local now = UI.Button(f, "Jetzt senden", 130, 28, function() f:Hide(); RM.Act.ReloadUI() end)
 		now:SetPoint("BOTTOMLEFT", 14, 12)
 		now:SetAccent(true)
 		local later = UI.Button(f, "Später", 130, 28, function()
@@ -723,7 +729,7 @@ function T.AutoSend(reason)
 			local left = sendState.endsAt - GetTime()
 			if left <= 0 then
 				f:Hide()
-				if T.active then ReloadUI() end
+				if T.active then RM.Act.ReloadUI() end
 				return
 			end
 			f.text:SetText((sendState.reason or "Test fertig.") .. "\n" .. string.format(
@@ -784,22 +790,25 @@ function T.StopAsk()
 	if T.AutoSendOn() and T.HasResults() then
 		RM.UI.Confirm("Das Testergebnis vorher an Discord senden (DKP-, Teilnehmer- und Loot-Kanal)?\n"
 			.. "Ja: die Oberfläche lädt neu, danach ist der Testmodus beendet. Nein: alles verwerfen.",
-			function() T.HideAutoSend(); RM.db.testMode.post = true; ReloadUI() end,
+			function() T.HideAutoSend(); RM.db.testMode.post = true; RM.Act.ReloadUI() end,
 			function() T.HideAutoSend(); T.Stop() end, "Senden", "Verwerfen")
 	else
 		T.Stop()
 	end
 end
 
--- Abgestürzt/ausgeloggt mitten im Test: beim nächsten Laden zurücksetzen
-local loader = CreateFrame("Frame")
-loader:RegisterEvent("PLAYER_LOGIN")
-loader:SetScript("OnEvent", function()
+-- Abgestürzt/ausgeloggt mitten im Test: beim nächsten Laden zurücksetzen (eigene Funktion für die Testroutine, T83)
+function T.RestoreAfterCrash()
 	if RaidMasterTestDB then
 		Restore(true)
 		print("|cffff8c1a[RM-Test]|r Testdaten vom letzten Mal entfernt – deine echten Daten sind wiederhergestellt.")
+		return true
 	end
-end)
+	return false
+end
+local loader = CreateFrame("Frame")
+loader:RegisterEvent("PLAYER_LOGIN")
+loader:SetScript("OnEvent", function() T.RestoreAfterCrash() end)
 
 function T.RoleName() return ROLE_NAMES[T.role] or "?" end
 
@@ -1887,10 +1896,12 @@ if RM.Diag then
 end
 
 -- Früher gab es das Test-Tool als eigenes Addon "RaidMasterTest" – das alte wird abgeschaltet
+-- (eigene Funktion, damit die Testroutine den Ablauf mit einer Attrappe prüfen kann, T105)
 do
-	RM.On("PLAYER_LOGIN", function()
-		local loaded = (C_AddOns and C_AddOns.IsAddOnLoaded and C_AddOns.IsAddOnLoaded("RaidMasterTest"))
-			or (IsAddOnLoaded and IsAddOnLoaded("RaidMasterTest"))
+	function T.RetireOldAddon()
+		local addons = RM.API.Get("C_AddOns")
+		local loaded = (addons and addons.IsAddOnLoaded and addons.IsAddOnLoaded("RaidMasterTest"))
+			or (RM.API.Get("IsAddOnLoaded") and RM.API.Get("IsAddOnLoaded")("RaidMasterTest"))
 		if loaded or (RaidMasterTest and RaidMasterTest ~= T) then
 			-- das alte Addon hat sich beim Laden über das eingebaute gelegt: stoppen und stilllegen
 			local old = RaidMasterTest
@@ -1910,10 +1921,12 @@ do
 				for _, k in ipairs(OVERRIDE) do RM[k] = REAL[k] end
 			end
 			RM.Fire("CONFIG_CHANGED"); RM.Fire("SESSION_CHANGED")
-			local disable = (C_AddOns and C_AddOns.DisableAddOn) or DisableAddOn
-			if disable then pcall(disable, "RaidMasterTest") end
+			pcall(RM.Act.DisableAddOn, "RaidMasterTest")
 			print("|cffff8c1a[RaidMaster]|r Das Test-Tool ist jetzt in RaidMaster eingebaut. Das alte Addon \"RaidMasterTest\" "
 				.. "wurde abgeschaltet – bitte einmal /reload und den Ordner Interface\\AddOns\\RaidMasterTest löschen.")
+			return true
 		end
-	end)
+		return false
+	end
+	RM.On("PLAYER_LOGIN", function() T.RetireOldAddon() end)
 end

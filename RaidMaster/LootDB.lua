@@ -75,6 +75,7 @@ end
 -- Bosskampf: Bossgegner merken (boss1–boss5), Kill vormerken
 ---------------------------------------------------------------------------
 local function ScanBossUnits()
+	local UnitGUID = RM.API.Get("UnitGUID")
 	if not UnitGUID then return end
 	for i = 1, 5 do
 		local kind, npc = LDB.ParseGUID(UnitGUID("boss" .. i))

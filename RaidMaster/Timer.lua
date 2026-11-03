@@ -107,7 +107,7 @@ function TM.Pull(seconds)
 	if not CanStart() then return end
 	seconds = math.max(3, math.min(60, math.floor(tonumber(seconds) or tonumber(C().pullSeconds) or 10)))
 	TM.SendBossMods("pull", seconds)
-	if C_PartyInfo and C_PartyInfo.DoCountdown and not (RM.Test and RM.Test.active) then pcall(C_PartyInfo.DoCountdown, seconds) end
+	if C_PartyInfo and C_PartyInfo.DoCountdown and not (RM.Test and RM.Test.active) then pcall(RM.Act.DoCountdown, seconds) end
 	RM.Announce(string.format(L["[RaidMaster] Pull in %d Sekunden!"], seconds), true)
 	Begin("pull", seconds)
 end
@@ -127,7 +127,7 @@ function TM.Cancel()
 	local a = TM.active
 	if not a then return end
 	TM.SendBossMods(a.kind, 0)
-	if C_PartyInfo and C_PartyInfo.DoCountdown and a.kind == "pull" and not (RM.Test and RM.Test.active) then pcall(C_PartyInfo.DoCountdown, 0) end
+	if C_PartyInfo and C_PartyInfo.DoCountdown and a.kind == "pull" and not (RM.Test and RM.Test.active) then pcall(RM.Act.DoCountdown, 0) end
 	Stop()
 	RM.Announce(a.kind == "pull" and L["[RaidMaster] Pull abgebrochen!"] or L["[RaidMaster] Pause beendet."], true)
 end

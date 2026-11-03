@@ -1,4 +1,4 @@
-RaidMaster 3.0.15 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 3.0.16 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,17 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+NEU IN 3.0.16 – Testroutine vollständig, mehr Schutz im Kampf
+- Für euch: Aktionen mit Folgen (Chat, Symbole, Einladen, Gruppen, Plündern, Handel, Bereitschafts-Check,
+  Countdown, Screenshot, /reload, Berufsfenster, Betrachten) laufen jetzt alle über eine einzige Stelle im Addon.
+  Im Spiel ändert sich dadurch nichts; im Testmodus geht so garantiert nichts Echtes raus.
+- Gruppensuche und Einladungen: geschützte Werte (WoW Forever im Kampf) werden nicht mehr ausgewertet.
+- Beschädigte Einträge in den gespeicherten Daten führen beim Laden nicht mehr zu einem Fehler.
+- Test-Werkzeug (nur Entwickler): Die Testroutine prüft jetzt rund 100 Fälle automatisch statt 46, wartet bei
+  Abläufen mit Wartezeit (Versteigerung, Einladen, Timer), bricht bei Kampfbeginn sauber ab und hat den Knopf
+  "Neu laden und melden". Abschluss und Sandbox-Prüfung sind abgesichert.
+- Classic Era, TBC, Wrath, Cata und MoP Classic laufen genau wie bisher.
 
 NEU IN 3.0.15 – Sicherheit vor dem Forever-Launch
 - Antworten per Flüstern (Gebot angenommen, !dkp, Aufgaben der Einteilung) laufen jetzt alle über dieselbe Stelle.

@@ -169,7 +169,7 @@ function Loot.GiveFromWindow(link, name)
 	if not slot then return false, "noslot" end
 	local idx = CandidateIndex(slot, name)
 	if idx then
-		GiveMasterLoot(slot, idx)
+		RM.Act.GiveMasterLoot(slot, idx)
 		return true
 	end
 	return false, "nocandidate", slot
@@ -188,7 +188,7 @@ function Loot.Deliver(link, name)
 	if reason == "nocandidate" and C().tradeFallback and slot then
 		local myIdx = CandidateIndex(slot, RM.Me())
 		if myIdx then
-			GiveMasterLoot(slot, myIdx)
+			RM.Act.GiveMasterLoot(slot, myIdx)
 			Loot.AddTrade(link, name)
 			RM.Print(string.format(L["%s ist nicht erreichbar – %s an dich vergeben und in die Handelsliste gelegt."], name, link))
 			return true
@@ -263,8 +263,8 @@ RM.On("TRADE_SHOW", function()
 			local bag, slot = FindInBags(e.link)
 			if bag then
 				ClearCursor()
-				RM.Container.Pickup(bag, slot)
-				ClickTradeButton(tradeSlot)
+				RM.Act.PickupContainerItem(bag, slot)
+				RM.Act.ClickTradeButton(tradeSlot)
 				placedInTrade[#placedInTrade + 1] = e
 				tradeSlot = tradeSlot + 1
 			end
@@ -458,7 +458,7 @@ local ensureWait = false
 function Loot.EnsureSettings()
 	if not (RM.db and C().autoLoot) then return end
 	if not RM.InRaid() or not RM.IsLeader() or not RM.Caps.masterLoot then return end
-	if InCombatLockdown and InCombatLockdown() then return end
+	if RM.InCombat() then return end
 	if RM.GetLootMethod() == "master" then return end
 	if ensureWait then return end
 	ensureWait = true

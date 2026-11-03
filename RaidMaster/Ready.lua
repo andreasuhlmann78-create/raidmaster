@@ -101,7 +101,7 @@ end
 function R.Start()
 	if not RM.InRaid() then RM.Print(L["Der Bereitschafts-Check geht nur im Raid."]) return end
 	if not (RM.IsAssist() or RM.CanEdit()) then RM.Print(L["Den Bereitschafts-Check starten Raidleiter und Assistenten."]) return end
-	if InCombatLockdown and InCombatLockdown() then RM.Print(L["Den Bereitschafts-Check bitte außerhalb des Kampfes starten."]) return end
+	if RM.InCombat() then RM.Print(L["Den Bereitschafts-Check bitte außerhalb des Kampfes starten."]) return end
 	R.checkId = tostring(RM.Now()) .. math.random(100, 999)
 	R.started = GetTime()
 	wipe(R.results)
@@ -116,7 +116,7 @@ function R.Start()
 	R.OnAnswer(RM.Me(), { id = R.checkId, s = R.MyStatus() })
 	RM.Comm.Send("RDYQ", { id = R.checkId }, "RAID", nil, true)
 	if C().readyCheckGame ~= false and DoReadyCheck and (RM.IsLeader() or RM.IsAssist()) and not (RM.Test and RM.Test.active) then
-		pcall(DoReadyCheck)
+		pcall(RM.Act.DoReadyCheck)
 	end
 	if R.SimulateAnswers then R.SimulateAnswers(R.checkId) end
 	RM.Print(L["Bereitschafts-Check läuft – Ergebnis in wenigen Sekunden."])
@@ -291,6 +291,7 @@ end
 
 function R.Show()
 	win = win or Create()
+	R.window = win          -- für die Testroutine (Fenster wieder schließen)
 	win:Show()
 	R.Refresh()
 end

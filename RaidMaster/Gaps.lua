@@ -642,6 +642,7 @@ RM.On("CHAT_MSG_WHISPER", function(msg, sender, ...)
 	-- moderner Client: geschützter Text oder Absender -> nicht auswerten
 	if RM.IsSecret(msg) or RM.IsSecret(sender) then return end
 	local guid = select(10, ...)
+	if RM.IsSecret(guid) then guid = nil end      -- geschützte GUID nie an G.ClassOf weitergeben
 	G.OnWhisper(msg, sender, guid)
 end)
 

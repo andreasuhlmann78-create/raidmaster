@@ -345,7 +345,7 @@ local function UnitFor(name)
 end
 
 local function InspectAllowed()
-	if InCombatLockdown and InCombatLockdown() then return false end
+	if RM.InCombat() then return false end
 	if InspectFrame and InspectFrame:IsShown() then return false end
 	return true
 end
@@ -392,6 +392,7 @@ local function OnInspectReady(guid)
 	local cur = scan.current
 	if not cur then return end
 	-- Antwort kann nach dem Pull kommen: geschützte GUIDs nicht vergleichen, dann wie ohne GUID lesen
+	local UnitGUID = RM.API.Get("UnitGUID")
 	local g = UnitGUID and UnitGUID(cur.unit)
 	if guid and g and not RM.IsSecret(g) and not RM.IsSecret(guid) and g ~= guid then return end
 	ReadInspect()
@@ -431,7 +432,7 @@ local function Step()
 			and (not CanInspect or CanInspect(unit))
 			and (not CheckInteractDistance or CheckInteractDistance(unit, 1)) then
 			scan.current = { name = name, class = m.class, unit = unit, started = GetTime() }
-			NotifyInspect(unit)
+			RM.Act.NotifyInspect(unit)
 			RM.Fire("SPEC_SCAN_CHANGED")
 			return
 		end

@@ -94,7 +94,7 @@ function R.Celebrate(id, bossName, tries, t, test)
 	end
 	-- Screenshot (nach einer Sekunde, wenn der Boss sicher liegt) – der Uploader schickt ihn an Discord
 	if not test and C().firstKillScreenshot ~= false and Screenshot then
-		C_Timer.After(1.5, function() pcall(Screenshot) end)
+		C_Timer.After(1.5, function() pcall(RM.Act.Screenshot) end)
 		RM.db.shots = RM.db.shots or {}
 		table.insert(RM.db.shots, { t = t, e = id, n = bossName })
 		while #RM.db.shots > 50 do table.remove(RM.db.shots, 1) end

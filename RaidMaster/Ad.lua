@@ -174,9 +174,9 @@ function Ad.PostText(text)
 			RM.Print(L["Du bist nicht im Kanal '"] .. key:sub(3) .. L["'. Bitte beitreten (/join "] .. key:sub(3) .. L[") oder einen anderen Kanal wählen."])
 			return false
 		end
-		SendChatMessage(text, "CHANNEL", nil, id)
+		RM.Act.SendChat(text, "CHANNEL", nil, id)
 	else
-		SendChatMessage(text, key)
+		RM.Act.SendChat(text, key)
 	end
 	Ad.lastPost = GetTime()
 	RM.Fire("AD_CHANGED")
@@ -211,8 +211,7 @@ RM.On("CHAT_MSG_WHISPER", function(msg, sender)
 	local name = RM.Short(sender)
 	if RM.IsInMyRaid(name) then return end
 	if RM.Signup and RM.Signup.DoInvite then RM.Signup.DoInvite(sender) return end
-	local invite = (C_PartyInfo and C_PartyInfo.InviteUnit) or InviteUnit
-	if invite then invite(sender) end
+	RM.Act.InviteUnit(sender)
 end)
 
 -- Aus einer Gruppe automatisch einen Schlachtzug machen, solange geworben wird
@@ -220,7 +219,6 @@ RM.On("GROUP_ROSTER_UPDATE", function()
 	if not RM.db or not RM.db.config.adAutoInvite then return end
 	if Ad.lastPost == 0 or GetTime() - Ad.lastPost > 1800 then return end
 	if IsInGroup() and not RM.InRaid() and UnitIsGroupLeader("player") and GetNumGroupMembers() >= 2 then
-		local fn = (C_PartyInfo and C_PartyInfo.ConvertToRaid) or ConvertToRaid
-		if fn then fn() end
+		RM.Act.ConvertToRaid()
 	end
 end)

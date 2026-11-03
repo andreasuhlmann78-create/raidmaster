@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "3.0.15"
-RM.VERSION_NUM = 30015
+RM.VERSION = "3.0.16"
+RM.VERSION_NUM = 30016
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -89,6 +89,86 @@ function RM.Now()
 	return GetServerTime() + (RM.timeOffset or 0)
 end
 
+---------------------------------------------------------------------------
+-- Nahtstellen (testroutine-raidmaster.txt, Abschnitt 2.4). Der Weg im Spiel bleibt genau wie vorher; nur die Aufrufe
+-- laufen über eigene Tabellen, damit die Testroutine sie fälschen bzw. mitschreiben kann, ohne je eine
+-- Blizzard-Funktion zu ersetzen (das gäbe "Taint" bis zum /reload, auch für andere Addons).
+---------------------------------------------------------------------------
+-- RM.API: Lesezugriffe auf die Spiel-API. RM.API.Get("UnitAura") liefert
+--   RM.API.over[name] (Attrappe der Testroutine), nil wenn RM.API.hide[name] (alte Funktion "fehlt"), sonst _G[name].
+-- Auch mit Punkt: RM.API.Get("C_UnitAuras.GetAuraDataByIndex") (over/hide für den ganzen Pfad oder die Tabelle).
+-- over und hide bleiben im Spiel immer leer; nur die Testroutine füllt sie (und leert sie wieder).
+RM.API = { over = {}, hide = {} }
+function RM.API.Get(name)
+	local API = RM.API
+	if next(API.over) or next(API.hide) then
+		local o = API.over[name]
+		if o ~= nil then return o end
+		if API.hide[name] then return nil end
+		local tbl, key = name:match("^([^%.]+)%.(.+)$")
+		if tbl then
+			if API.hide[tbl] then return nil end
+			local t = API.over[tbl]
+			if t == nil then t = _G[tbl] end
+			return type(t) == "table" and t[key] or nil
+		end
+		return _G[name]
+	end
+	local tbl, key = name:match("^([^%.]+)%.(.+)$")
+	if tbl then
+		local t = _G[tbl]
+		return type(t) == "table" and t[key] or nil
+	end
+	return _G[name]
+end
+
+-- RM.Act: die EINZIGE Stelle für Aktionen mit Folgen (Chat, Symbole, Einladen, Gruppen, Plündern, Handel,
+-- Bereitschafts-Check, Countdown, Screenshot, /reload, Berufe öffnen, Betrachten, Addons abschalten).
+-- Jede Funktion ruft die Blizzard-Funktion erst beim Aufruf auf (alter Weg). Die Testroutine ersetzt die Felder von
+-- RM.Act durch Zähler (Spion) – nie die Blizzard-Funktionen selbst.
+RM.Act = {}
+local Act = RM.Act
+function Act.SendChat(msg, chatType, language, target) return SendChatMessage(msg, chatType, language, target) end
+function Act.SetRaidTarget(unit, icon) return SetRaidTarget(unit, icon) end
+function Act.InviteUnit(name)
+	local fn = (C_PartyInfo and C_PartyInfo.InviteUnit) or InviteUnit
+	if fn then return fn(name) end
+end
+function Act.ConvertToRaid()
+	local fn = (C_PartyInfo and C_PartyInfo.ConvertToRaid) or ConvertToRaid
+	if fn then return fn() end
+end
+function Act.SetRaidSubgroup(index, group) return SetRaidSubgroup(index, group) end
+function Act.SwapRaidSubgroup(a, b) return SwapRaidSubgroup(a, b) end
+function Act.GiveMasterLoot(slot, index) return GiveMasterLoot(slot, index) end
+function Act.ClickTradeButton(slot) return ClickTradeButton(slot) end
+function Act.InitiateTrade(unit) return InitiateTrade(unit) end
+function Act.PickupContainerItem(bag, slot) return RM.Container.Pickup(bag, slot) end
+function Act.DoReadyCheck() return DoReadyCheck() end
+function Act.DoCountdown(seconds) return C_PartyInfo.DoCountdown(seconds) end
+function Act.Screenshot() return Screenshot() end
+function Act.ReloadUI() return ReloadUI() end
+function Act.CastSpellByName(name) return CastSpellByName(name) end
+function Act.OpenTradeSkill(line) return C_TradeSkillUI.OpenTradeSkill(line) end
+function Act.NotifyInspect(unit) return NotifyInspect(unit) end
+function Act.DisableAddOn(name)
+	local fn = (C_AddOns and C_AddOns.DisableAddOn) or DisableAddOn
+	if fn then return fn(name) end
+end
+-- Liste der Aktionen (für den Spion der Testroutine)
+RM.ACT_NAMES = { "SendChat", "SetRaidTarget", "InviteUnit", "ConvertToRaid", "SetRaidSubgroup", "SwapRaidSubgroup",
+	"GiveMasterLoot", "ClickTradeButton", "InitiateTrade", "PickupContainerItem", "DoReadyCheck", "DoCountdown",
+	"Screenshot", "ReloadUI", "CastSpellByName", "OpenTradeSkill", "NotifyInspect", "DisableAddOn" }
+
+-- Im Kampf? RM.simCombat ist der simulierte Kampf der Testroutine, RM.Markers.simCombat der Knopf "Adds markieren im
+-- Kampf" des Test-Werkzeugs (beide nur im Test gesetzt), sonst die Kampfsperre des Spiels.
+RM.simCombat = false
+function RM.InCombat()
+	if RM.simCombat or (RM.Markers and RM.Markers.simCombat) then return true end
+	if RM.G and RM.G.InCombat then return RM.G.InCombat() end
+	return (InCombatLockdown and InCombatLockdown()) and true or false
+end
+
 -- Selbst abgefangenen Fehler an die Prüfung melden (GoldSentinelTest.lua, gemeinsame Datei): nur Ort und Lua-Meldung,
 -- nie Namen. Fehler, die schon an geterrorhandler gehen, hier NICHT melden (sonst doppelt gezählt).
 function RM.ReportError(where, err)
@@ -105,13 +185,17 @@ RM.GetItemInfoInstant = (C_Item and C_Item.GetItemInfoInstant) or GetItemInfoIns
 RM.GetItemCount = (not RM.IsModern and GetItemCount) or (C_Item and C_Item.GetItemCount) or GetItemCount
 
 -- Name eines Zaubers (moderner Client: C_Spell.GetSpellName, alt: GetSpellInfo)
+-- (Zugriffe über RM.API.Get, damit die Testroutine fehlende alte bzw. moderne Funktionen nachstellen kann)
 function RM.GetSpellName(id)
+	local API = RM.API.Get
+	local GetSpellInfo = API("GetSpellInfo")
 	if not RM.IsModern and GetSpellInfo then          -- alte API: Weg wie vor 3.0.7
 		local ok, n = pcall(GetSpellInfo, id)
 		if ok and n then return n end
 	end
-	if C_Spell and C_Spell.GetSpellName then
-		local ok, n = pcall(C_Spell.GetSpellName, id)
+	local GetSpellName = API("C_Spell.GetSpellName")
+	if GetSpellName then
+		local ok, n = pcall(GetSpellName, id)
 		if ok and n then return n end
 	end
 	if GetSpellInfo then
@@ -124,30 +208,37 @@ end
 -- Moderner Client: C_UnitAuras. Alte API (Classic Era 1.15, TBC Anniversary …): zuerst UnitAura wie vor 3.0.7,
 -- auch wenn C_UnitAuras dort schon existiert. RM.CanReadAuras() sagt, ob dieser Client Buffs überhaupt liefert.
 function RM.GetBuff(unit, i)
+	local API = RM.API.Get
+	local UnitAura = API("UnitAura")
 	if not RM.IsModern and UnitAura then
 		local name, _, _, _, _, _, _, _, _, spellId = UnitAura(unit, i, "HELPFUL")
 		return name, spellId
 	end
-	if C_UnitAuras and C_UnitAuras.GetAuraDataByIndex then
-		local ok, a = pcall(C_UnitAuras.GetAuraDataByIndex, unit, i, "HELPFUL")
+	local byIndex, buffByIndex = API("C_UnitAuras.GetAuraDataByIndex"), API("C_UnitAuras.GetBuffDataByIndex")
+	if byIndex then
+		local ok, a = pcall(byIndex, unit, i, "HELPFUL")
 		if not ok or not a then return nil end
 		return a.name, a.spellId
-	elseif C_UnitAuras and C_UnitAuras.GetBuffDataByIndex then
-		local ok, a = pcall(C_UnitAuras.GetBuffDataByIndex, unit, i)
+	elseif buffByIndex then
+		local ok, a = pcall(buffByIndex, unit, i)
 		if not ok or not a then return nil end
 		return a.name, a.spellId
 	elseif UnitAura then
 		local name, _, _, _, _, _, _, _, _, spellId = UnitAura(unit, i, "HELPFUL")
 		return name, spellId
-	elseif UnitBuff then
-		local name, _, _, _, _, _, _, _, _, spellId = UnitBuff(unit, i)
-		return name, spellId
+	else
+		local UnitBuff = API("UnitBuff")
+		if UnitBuff then
+			local name, _, _, _, _, _, _, _, _, spellId = UnitBuff(unit, i)
+			return name, spellId
+		end
 	end
 end
 
 function RM.CanReadAuras()
-	return (C_UnitAuras ~= nil and (C_UnitAuras.GetAuraDataByIndex ~= nil or C_UnitAuras.GetBuffDataByIndex ~= nil))
-		or UnitAura ~= nil or UnitBuff ~= nil
+	local API = RM.API.Get
+	return (API("C_UnitAuras.GetAuraDataByIndex") ~= nil or API("C_UnitAuras.GetBuffDataByIndex") ~= nil)
+		or API("UnitAura") ~= nil or API("UnitBuff") ~= nil
 end
 RM.SendAddonMessage = (C_ChatInfo and C_ChatInfo.SendAddonMessage) or SendAddonMessage
 local RegisterPrefix = (C_ChatInfo and C_ChatInfo.RegisterAddonMessagePrefix) or RegisterAddonMessagePrefix
@@ -162,10 +253,11 @@ local LOOT_METHOD_BY_ENUM = { [0] = "freeforall", [1] = "roundrobin", [2] = "mas
 
 -- Liefert Methode als Text ("master" ...), Gruppenindex, Raidindex
 function RM.GetLootMethod()
-	if GetLootMethod then
-		return GetLootMethod()
-	elseif C_PartyInfo and C_PartyInfo.GetLootMethod then
-		local m, partyIndex, raidIndex = C_PartyInfo.GetLootMethod()
+	local old, modern = RM.API.Get("GetLootMethod"), RM.API.Get("C_PartyInfo.GetLootMethod")
+	if old then
+		return old()
+	elseif modern then
+		local m, partyIndex, raidIndex = modern()
 		return LOOT_METHOD_BY_ENUM[m] or tostring(m), partyIndex, raidIndex
 	end
 end
@@ -413,12 +505,12 @@ end
 
 -- Text in den Raidchat (eigene Funktion, damit das Test-Tool sie umleiten kann)
 function RM.RaidChat(msg, channel)
-	SendChatMessage(msg, channel or "RAID")
+	RM.Act.SendChat(msg, channel or "RAID")
 end
 
 -- Flüstern (eigene Funktion, damit das Test-Tool sie umleiten kann)
 function RM.Whisper(msg, target)
-	SendChatMessage(msg, "WHISPER", nil, target)
+	RM.Act.SendChat(msg, "WHISPER", nil, target)
 end
 
 -- Zeilen IMMER als Schlachtzugwarnung, nie in den normalen Chat.
@@ -448,9 +540,9 @@ end
 function RM.Announce(msg, warning)
 	if RM.InRaid() then
 		if warning and RM.IsAssist() then
-			SendChatMessage(msg, "RAID_WARNING")
+			RM.Act.SendChat(msg, "RAID_WARNING")
 		else
-			SendChatMessage(msg, "RAID")
+			RM.Act.SendChat(msg, "RAID")
 		end
 	else
 		RM.Print(msg)
@@ -695,14 +787,25 @@ frame:SetScript("OnEvent", function(_, event, ...)
 	end
 end)
 
-RM.On("ADDON_LOADED", function(name)
-	if name ~= ADDON then return end
-	RaidMasterDB = RaidMasterDB or {}
-	local db = RaidMasterDB
+-- Gespeicherte Daten einrichten und ältere Fassungen umstellen (Rumpf von ADDON_LOADED, ausgelagert für die
+-- Testroutine T80–T82: sie ruft RM.InitDB mit einer Kopie auf, RM.db bleibt dabei die echte Tabelle).
+-- Falsche Typen (beschädigte Datei) werden durch leere Tabellen ersetzt statt mit einem Lua-Fehler abzubrechen.
+function RM.InitDB(db)
+	-- beschädigte Einträge (falscher Typ) nicht übernehmen; bei gültigen Daten ändert sich hier nichts
+	for _, k in ipairs({ "data", "config", "session", "trade", "foreign", "pendingAwards", "specs", "signup", "lootdb", "prof",
+		"records", "killlog", "shots", "bank", "itemTips", "recipeMats", "assign", "myAssign", "pug" }) do
+		if db[k] ~= nil and type(db[k]) ~= "table" then db[k] = nil end
+	end
 	db.data = db.data or {}
+	for _, k in ipairs({ "players", "log", "firstKills", "settings" }) do
+		if db.data[k] ~= nil and type(db.data[k]) ~= "table" then db.data[k] = nil end
+	end
 	FillDefaults(db.data, { version = 0, players = {}, log = {}, firstKills = {}, lastDecay = 0, settings = {} })
 	FillDefaults(db.data.settings, RM.DEFAULT_SETTINGS)
 	db.config = db.config or {}
+	for _, k in ipairs({ "standby", "positions", "rules", "minimap", "instanceMap" }) do
+		if db.config[k] ~= nil and type(db.config[k]) ~= "table" then db.config[k] = nil end
+	end
 	FillDefaults(db.config, RM.DEFAULT_CONFIG)
 	-- 1.8.8: kein fester Raidleiter mehr – Leiter ist der Raidleiter des Raids
 	db.data.settings.raidLeader = nil
@@ -724,9 +827,16 @@ RM.On("ADDON_LOADED", function(name)
 	db.foreign = db.foreign or {}
 	-- Umstellung auf DKP-Töpfe (bisherige DKP gehören zu Molten Core)
 	RM.DKP.Migrate(db.data)
-	for _, f in pairs(db.foreign) do RM.DKP.Migrate(f) end
+	for _, f in pairs(db.foreign) do if type(f) == "table" then RM.DKP.Migrate(f) end end
 	db.pendingAwards = db.pendingAwards or {}
 	db.specs = db.specs or {}
+	return db
+end
+
+RM.On("ADDON_LOADED", function(name)
+	if name ~= ADDON then return end
+	RaidMasterDB = RaidMasterDB or {}
+	local db = RM.InitDB(RaidMasterDB)
 	RM.db = db
 	-- Testberichte und Lua-Fehler für die Prüfung sammeln (RaidMasterDB.gsTest; der Uploader schickt sie an Discord)
 	if GoldSentinelTest then GoldSentinelTest.TrackErrors("RaidMaster", RM.VERSION, db) end
@@ -785,7 +895,7 @@ SlashCmdList["RAIDMASTER"] = function(msg)
 		RM.Markers.ToggleBar()
 	elseif msg == "reset" then
 		RM.db.config.positions = {}
-		ReloadUI()
+		RM.Act.ReloadUI()
 	elseif msg == "adds" or msg == "mark" then
 		RM.Markers.MarkAdds()
 	elseif msg == "clear" or msg == "aus" then

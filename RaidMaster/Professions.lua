@@ -36,6 +36,7 @@ end
 -- Moderner Client (WoW Forever, Retail) ohne Fertigkeitenliste: über GetProfessions/GetProfessionInfo.
 local function ReadProfessionSlots()
 	local out = {}
+	local GetProfessions, GetProfessionInfo = RM.API.Get("GetProfessions"), RM.API.Get("GetProfessionInfo")
 	if not (GetProfessions and GetProfessionInfo) then return out end
 	local slots = { pcall(GetProfessions) }
 	if not table.remove(slots, 1) then return out end
@@ -105,14 +106,17 @@ end
 -- Moderne Berufe-API (WoW Forever, Retail): C_TradeSkillUI. Gleiches Datenformat wie der alte Weg.
 -- Vorbild: Scan.lua in ProfessionSentinel. IM CLIENT TESTEN (Forever 1.60.1).
 ---------------------------------------------------------------------------
-local TS = C_TradeSkillUI
+-- C_TradeSkillUI über RM.API (die Testroutine stellt so Rezeptdaten nach, ohne Blizzard-Funktionen zu ersetzen)
+local function TradeSkillAPI() return RM.API.Get("C_TradeSkillUI") end
 
 function P.HasModernAPI()
+	local TS = TradeSkillAPI()
 	return RM.IsModern and TS ~= nil and TS.GetAllRecipeIDs ~= nil and TS.GetRecipeInfo ~= nil
 end
 
 -- eigenes Fenster? (nicht verlinkt, nicht Gilde, nicht NPC)
 local function IsOwnModern()
+	local TS = TradeSkillAPI()
 	for _, f in ipairs({ "IsTradeSkillLinked", "IsTradeSkillGuild", "IsNPCCrafting" }) do
 		if TS[f] then
 			local ok, r = pcall(TS[f])
@@ -124,6 +128,7 @@ end
 
 -- Name und Stufe des offenen Berufs: Basisberuf (z. B. "Lederverarbeitung"), Stufe der aktuellen Linie
 local function ModernProfession()
+	local TS = TradeSkillAPI()
 	local name, rank, max
 	for _, f in ipairs({ "GetChildProfessionInfo", "GetBaseProfessionInfo" }) do
 		if TS[f] then
@@ -143,6 +148,7 @@ end
 
 -- hergestelltes Item eines Rezepts (0 = keins, z. B. Verzauberung)
 local function ModernOutput(id)
+	local TS = TradeSkillAPI()
 	if TS.GetRecipeOutputItemData then
 		local ok, d = pcall(TS.GetRecipeOutputItemData, id)
 		if ok and type(d) == "table" then
@@ -159,6 +165,7 @@ end
 
 -- besondere Zutaten (ab Grün) eines Rezepts
 local function ModernReagents(id)
+	local TS = TradeSkillAPI()
 	local out = {}
 	local function add(itemID, count)
 		itemID = tonumber(itemID)
@@ -193,6 +200,7 @@ local function ModernReagents(id)
 end
 
 function P.ScanModern()
+	local TS = TradeSkillAPI()
 	if not RM.db or not P.HasModernAPI() or not IsOwnModern() then return nil end
 	local profName, rank, max = ModernProfession()
 	if not profName then return nil end
@@ -295,16 +303,17 @@ end
 
 -- Berufsfenster öffnen: moderner Client über die Fertigkeitslinie, sonst (und als Rückfall) über den Zauber
 local function OpenProfession(name)
+	local TS = TradeSkillAPI()
 	local line = P.lineByName[name]
 	if line and TS and TS.OpenTradeSkill then
-		local ok = pcall(TS.OpenTradeSkill, line)
+		local ok = pcall(RM.Act.OpenTradeSkill, line)
 		if ok then return end
 	end
-	if CastSpellByName then CastSpellByName(name) end
+	if CastSpellByName then RM.Act.CastSpellByName(name) end
 end
 
 function P.Openable()
-	if P.HasModernAPI() and GetProfessions and GetProfessionInfo then
+	if P.HasModernAPI() and RM.API.Get("GetProfessions") and RM.API.Get("GetProfessionInfo") then
 		local list = ModernOpenable()
 		if #list > 0 then return list end
 	end
@@ -323,7 +332,7 @@ end
 
 P.pendingScan = nil
 function P.ReadNext()
-	if InCombatLockdown and InCombatLockdown() then RM.Print(L["Im Kampf geht das nicht."]) return end
+	if RM.InCombat() then RM.Print(L["Im Kampf geht das nicht."]) return end
 	P.scanned = P.scanned or {}
 	local list = P.Openable()
 	if #list == 0 then
@@ -356,6 +365,7 @@ local function AfterScan(kind)
 		P.pendingScan = nil
 		RM.Print(string.format(L["%s eingelesen (%d Rezepte). Nochmal klicken für den nächsten Beruf."], name, n))
 		C_Timer.After(0.2, function()
+			local TS = TradeSkillAPI()
 			if kind == "craft" and CloseCraft then CloseCraft()
 			elseif CloseTradeSkill then CloseTradeSkill()
 			elseif TS and TS.CloseTradeSkill then pcall(TS.CloseTradeSkill) end
