@@ -117,7 +117,6 @@ _SCOPE_TOKENS = re.compile(
 # Schon veröffentlichte Versionen, die eine neue FEHLER-Regel verletzen: Dort nur Warnung, damit nicht jeder Push rot wird.
 # Die nächste Version muss es beheben. Eintrag entfernen, sobald die Version aus download/ verschwunden ist.
 ALTLAST = {
-    ("raidmaster", "3.0.14"),     # Test/Test.lua ersetzt GetServerTime, UnitExists, UnitIsPlayer, UnitName (offen-raidmaster.txt 1+2)
     ("professionsentinel", "0.9.11"),  # TestRoutine.lua ersetzt über Stub() _G- und C_-Funktionen (offen-professionsentinel.txt 1)
 }
 
