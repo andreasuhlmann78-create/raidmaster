@@ -1,0 +1,49 @@
+ANWEISUNG RAIDMASTER-BOT: KANÄLE AUS DER DISCORD-PRÜFUNG RICHTIGSTELLEN
+=====================================================================
+Stand: 3. November 2026, 20:20 · von der Prüf-Sitzung · Wunsch des Nutzers ("stelle das richtig")
+Grundlage: discord-check/kanaele.md und discord-check/status.md (Prüfung vom 3. Nov. 19:07 / 19:20 UTC).
+Die Discord-Prüfung hat jetzt einen Abschnitt "Bot-Funktionen". Regel-Kanäle, Gildenbank und Raid-Kanäle sind dort
+alle OK. Offen sind diese Punkte:
+
+1. #aktionshaus GIBT ES NICHT MEHR (Schwere: MITTEL)
+   Auf dem Server liegt AHSentinel in #ahsentinel (Kategorie "Addon's by GoldSentinel"). Der Bot postet die
+   AHSentinel-Veröffentlichung ("**AHSentinel 0.65.7** ist da" mit ZIP) aber nach aktionshaus_channel_id bzw. #aktionshaus
+   (bot.py:3345-3346, ANNOUNCE_CHANNELS bot.py:3556, server_setup.py:155 und :871). Ergebnis: 0.65.7 ist nirgends
+   veröffentlicht.
+   Lösung:
+   - AHSentinel-Veröffentlichungen nach #ahsentinel (wie bei den anderen Addons). "aktionshaus" als alter Name:
+     CHANNEL_ALIASES["aktionshaus"] = ("ahsentinel",) oder channel_name direkt "ahsentinel". Zeigt die gespeicherte
+     aktionshaus_channel_id auf einen Kanal, den es nicht mehr gibt: auf #ahsentinel umstellen.
+   - /raidmaster-einrichten legt #aktionshaus nicht mehr an.
+   - Die fehlende Veröffentlichung von AHSentinel 0.65.7 einmal nachholen (der Bot erkennt das selbst, sobald der Kanal
+     stimmt – bitte prüfen).
+   - Alte Dateien ohne "__" für #aktionshaus (announce/aktionshaus-0.59.22-stand.md, -0.60.0-neu.md, -0.60.0-uebersicht.md
+     samt PNGs) nicht mehr posten. Die Discord-Prüfung ignoriert sie (discord-check/ignorieren.txt).
+
+2. AHSENTINEL-VORSTELLUNG FEHLT IN #ahsentinel (Schwere: MITTEL)
+   announce/ahsentinel__ahsentinel-0-vorstellung-1.6.md steht seit über 24 Stunden nicht in #ahsentinel (0 %), obwohl
+   die anderen Vorstellungen (buffsentinel-0-vorstellung-11, guildsentinel-0-vorstellung-8, threatsentinel-...-2.2,
+   professionsentinel-...-1.25) alle stehen. Ursache suchen und beheben (Reihen-Erkennung, Kanal-Zuordnung, Grösse?).
+   Hinweis: Die AHSentinel-Sitzung legt die zweite Vorstellung (aktionshaus__ahsentinel-funktionen-1.8.md) mit dieser
+   zusammen, siehe auftraege/AHSentinel/anweisung-ahsentinel-vorstellung.txt.
+
+3. #testberichte FEHLT (Schwere: HOCH vor dem Launch)
+   server_setup.py:213 sieht #testberichte vor, auf dem Server gibt es den Kanal nicht. Uploader 1.8.0 und der
+   GitHub-Workflow testberichte.yml brauchen ihn (Testberichte am Launch-Abend).
+   Lösung: Fehlt #testberichte, legt der Bot ihn beim Start selbst an (Kategorie 🔒 OFFIZIERE, nur Offiziere und Bot,
+   Rechte wie in server_setup.py), ohne dass /raidmaster-einrichten nötig ist. Im Log melden.
+
+4. SPRACHKANAL "Raid" FEHLT (Schwere: NIEDRIG)
+   server_setup.py:201 sieht einen Sprachkanal "Raid" vor (💬 ALLGEMEIN), auf dem Server gibt es ihn nicht. Jeder Raid
+   hat seinen eigenen Sprachkanal in seiner Kategorie. Wird "Raid" noch gebraucht? Wenn nein: aus server_setup.py
+   entfernen. Wenn ja: anlegen wie Punkt 3. Bitte dem Nutzer kurz sagen, was du gewählt hast.
+
+5. TESTS UND ABLAUF
+   - Tests in RaidMasterBot/tests für 1 (alter aktionshaus-Name -> #ahsentinel) und 3 (fehlender Kanal wird angelegt).
+   - Der neue GitHub-Workflow "Bot-Tests" (.github/workflows/bot-tests.yml) prüft bei jedem Push: übersetzen,
+     Module importieren (raidmaster_data, server_setup, updater, launcher, guildbank – neue Module bitte dort ergänzen),
+     alle Bot-Tests, und ob download/RaidMasterUploader.zip zum Ordner RaidMasterUploader/ passt. Er muss grün sein.
+   - Nach dem Push zeigt die Discord-Prüfung (discord-check/status.md, Abschnitt "Bot-Funktionen" und die Tabellen) nach
+     etwa 35 Minuten, ob alles stimmt.
+
+Ist etwas daran falsch oder nicht machbar, bitte dem Nutzer begründet zurückmelden.

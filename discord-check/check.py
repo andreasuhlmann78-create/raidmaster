@@ -31,7 +31,7 @@ HISTORY = 300                  # so viele Nachrichten je Kanal werden gelesen
 # wie in bot.py
 ANNOUNCE_VER = re.compile(r"^(?P<series>.+?)[-_ ]v?(?P<ver>\d+(?:\.\d+)+)(?P<rest>.*)$")
 ANNOUNCE_CHANNELS = {"aktionshaus": "aktionshaus", "raid-addon": "raid-addon"}   # alte Dateinamen ohne "__"
-EXTRA_ADDONS = {"ahsentinel": {"title": "AHSentinel", "channel": "aktionshaus"}}  # Addons aus download/
+EXTRA_ADDONS = {"ahsentinel": {"title": "AHSentinel", "channel": "ahsentinel"}}  # #aktionshaus gibt es nicht mehr  # Addons aus download/
 PLACEHOLDER = re.compile(r"\{[@#][^{}]+\}")
 
 
@@ -247,6 +247,24 @@ def expected_channels():
     return sorted(set(m.group(2) for m in re.finditer(r'\("(text|voice|forum)",\s*"([^"]+)"', src)))
 
 
+def channel_aliases():
+    """CHANNEL_ALIASES aus server_setup.py: von Hand umbenannte Kanäle, die der Bot unter neuem Namen findet."""
+    try:
+        with open(os.path.join(ROOT, "RaidMasterBot", "server_setup.py"), encoding="utf-8") as f:
+            src = f.read()
+    except OSError:
+        return {}
+    m = re.search(r"CHANNEL_ALIASES\s*=\s*\{(.*?)\n\}", src, re.S)
+    out = {}
+    for k, v in re.findall(r'"([^"]+)"\s*:\s*\(([^)]*)\)', m.group(1) if m else ""):
+        out[k] = re.findall(r'"([^"]+)"', v)
+    return out
+
+
+def channel_present(name, names):
+    return name.lower() in names or any(a.lower() in names for a in channel_aliases().get(name, []))
+
+
 def write_channel_list(guild, all_channels, when):
     cats = {c["id"]: c for c in all_channels if c.get("type") == 4}
     by_parent = {}
@@ -268,7 +286,7 @@ def write_channel_list(guild, all_channels, when):
         for c in kids:
             md.append(f"- {'#' if c.get('type') != 2 else '🔊 '}{c['name']} ({KIND.get(c.get('type'), c.get('type'))})")
     names = {c["name"].lower() for c in all_channels}
-    missing = [n for n in expected_channels() if n.lower() not in names]
+    missing = [n for n in expected_channels() if not channel_present(n, names)]
     md += ["", "## Vom Bot erwartet, aber nicht da", "",
            "Kanäle aus /raidmaster-einrichten (server_setup.py), die es auf dem Server nicht gibt. Umbenannte Kanäle findet der",
            "Bot oft trotzdem (über die gespeicherte ID); die Prüfung oben sucht aber nach dem Namen.", ""]
@@ -302,7 +320,7 @@ def bot_functions(all_channels, bot_messages):
         out.append({"pruefung": pruefung, "status": status or ("ok" if ok else "fehlt"), "detail": detail})
 
     # a) Kanäle aus /raidmaster-einrichten
-    missing = [n for n in expected_channels() if n.lower() not in names]
+    missing = [n for n in expected_channels() if not channel_present(n, names)]
     add("Kanäle aus /raidmaster-einrichten", not missing, ("fehlen: " + ", ".join("#" + n for n in missing)) if missing else "alle da")
 
     # b) Regel-Kanäle (guild_rules.json): Kanal da und jeder Beitrag (erste Zeile) vom Bot gepostet
