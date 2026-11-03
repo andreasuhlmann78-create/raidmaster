@@ -95,11 +95,22 @@ SendChatMessage SendAddonMessage BuyMerchantItem RepairAllItems GetRepairAllCost
 SelectGossipOption AcceptQuest CompleteQuest GetQuestReward PlaySound PlaySoundFile CreateFrame
 GetAddOnMetadata IsAddOnLoaded LoadAddOn GetCursorPosition IsShiftKeyDown IsControlKeyDown IsAltKeyDown
 """.split())
+_TARGET = r"(?:_G\s*\.\s*\w+|_G\s*\[\s*[\"']\w+[\"']\s*\]|C_\w+\s*[.:]\s*\w+|[A-Za-z_]\w*)"
+# Anweisungsanfang: Zeilenanfang, ; oder nach then/do/else/repeat (auch mehrere Ziele: A, B = …)
 BLIZZ_ASSIGN = re.compile(
-    r"^[ \t;]*(?:_G\s*\.\s*(?P<g>[A-Za-z_]\w*)|_G\s*\[\s*\"(?P<s>[A-Za-z_]\w*)\"\s*\]|(?P<n>[A-Za-z_]\w*)"
-    r"|(?P<c>C_\w+\s*\.\s*\w+))\s*=(?!=)"
-    r"|^[ \t;]*function\s+(?P<f>(?:C_\w+\.)?[A-Za-z_]\w*)\s*\("
-    r"|\brawset\s*\(\s*_G\s*,\s*\"(?P<r>[A-Za-z_]\w*)\"", re.M)
+    r"(?:^|;|\bthen\b|\bdo\b|\belse\b|\brepeat\b)[ \t]*(?P<a>" + _TARGET + r"(?:\s*,\s*" + _TARGET + r")*)\s*=(?!=)"
+    r"|(?:^|;|\bthen\b|\bdo\b|\belse\b|\brepeat\b)[ \t]*function\s+(?P<f>" + _TARGET + r")\s*\("
+    r"|\brawset\s*\(\s*_G\s*,\s*[\"'](?P<r>\w+)[\"']", re.M)
+_LUA_KEYWORDS = set("and break do else elseif end false for function goto if in local nil not or repeat return then true "
+                    "until while".split())
+# Ereignisse für die Bereichs-Verfolgung (auf Code ohne Strings/Kommentare)
+_SCOPE_TOKENS = re.compile(
+    r"\blocal\s+(?=function\s+(?P<lf>\w+))"
+    r"|\blocal\s+(?P<lv>\w+(?:\s*,\s*\w+)*)(?=(?P<lrhs>\s*=[^\n;]*)|)"
+    r"|\bfunction\b[^(\n]*\((?P<params>[^)]*)\)"
+    r"|\bfor\s+(?P<fv>\w+(?:\s*,\s*\w+)*)\s*(?:=|\bin\b)"
+    r"|(?P<open>\b(?:do|if|repeat)\b)|(?P<close>\b(?:end|until)\b)|(?P<lb>\{)|(?P<rb>\})")
+
 # Schon veröffentlichte Versionen, die eine neue FEHLER-Regel verletzen: Dort nur Warnung, damit nicht jeder Push rot wird.
 # Die nächste Version muss es beheben. Eintrag entfernen, sobald die Version aus download/ verschwunden ist.
 ALTLAST = {
@@ -107,7 +118,8 @@ ALTLAST = {
 }
 
 # Testdateien (eigene Testroutinen der Addons, nicht shared/GoldSentinelTest.lua)
-TEST_FILE = re.compile(r"(?:^|/)(?:Test/[^/]+|[^/]*(?:SelfTest|AutoTest|TestMode|Test)\w*\.lua)$", re.I)
+# Gross geschriebenes "Test" (SelfTest, TestMode, Test.lua) oder ein Ordner Test/ bzw. Tests/; nicht Latest.lua, Contest.lua
+TEST_FILE = re.compile(r"(?:^|/)(?:Tests?/[^/]+\.lua|\w*Test\w*\.lua|test\w*\.lua)$")
 # Aktionen mit Folgen: im Test nur mitschreiben, nie wirklich auslösen (nachtrag-testroutinen.txt)
 TEST_ACTIONS = re.compile(
     r"(?<![\w.:])(?:C_ChatInfo\s*\.\s*)?(?:SendChatMessage|SendAddonMessage)\s*\("
@@ -127,7 +139,7 @@ SECRET_USE = re.compile(
     r"|\[\s*(?:UnitName|GetUnitName|UnitFullName)\s*\(\s*" + SECRET_UNIT
     + r"|\b(?:strlower|string\.lower|strupper|string\.upper|strsub|string\.sub|string\.find|strfind|string\.match|strmatch|gsub|string\.gsub)"
     r"\s*\(\s*(?:UnitName|GetUnitName|UnitFullName)\s*\(\s*" + SECRET_UNIT)
-SECRET_LOCAL = re.compile(r"\blocal\s+(\w+)[\w\s,]*=\s*(?:UnitName|GetUnitName|UnitFullName)\s*\(\s*" + SECRET_UNIT)
+SECRET_LOCAL = re.compile(r"\blocal\s+(\w+(?:\s*,\s*\w+)*)\s*=\s*(?:UnitName|GetUnitName|UnitFullName)\s*\(\s*" + SECRET_UNIT)
 
 
 def secret_name_uses(code):
@@ -136,16 +148,17 @@ def secret_name_uses(code):
     hits = {code.count("\n", 0, m.start()) + 1 for m in SECRET_USE.finditer(code)}
     lines = code.split("\n")
     for m in SECRET_LOCAL.finditer(code):
-        v, start = m.group(1), code.count("\n", 0, m.start())
-        use = re.compile(r"\b" + v + r"\s*(?::\s*\w+\s*\(|[=~]=\s*[\"']|\])|\[\s*" + v + r"\s*\]"
-                         r"|\b(?:strlower|string\.lower|strupper|string\.upper|strsub|string\.sub|string\.find|strfind"
-                         r"|string\.match|strmatch|gsub|string\.gsub)\s*\(\s*" + v + r"\b")
-        for k in range(start + 1, min(start + 9, len(lines))):
-            if re.search(r"\blocal\s+" + v + r"\b", lines[k]):
-                break                   # Variable neu belegt
-            if use.search(lines[k]):
-                hits.add(k + 1)
-                break
+        start = code.count("\n", 0, m.start())
+        for v in re.split(r"\s*,\s*", m.group(1)):
+            use = re.compile(r"\b" + v + r"\s*(?::\s*\w+\s*\(|[=~]=\s*[\"']|\])|\[\s*" + v + r"\s*\]"
+                             r"|\b(?:strlower|string\.lower|strupper|string\.upper|strsub|string\.sub|string\.find|strfind"
+                             r"|string\.match|strmatch|gsub|string\.gsub)\s*\(\s*" + v + r"\b")
+            for k in range(start + 1, min(start + 9, len(lines))):
+                if re.search(r"\blocal\s+" + v + r"\b", lines[k]):
+                    break               # Variable neu belegt
+                if use.search(lines[k]):
+                    hits.add(k + 1)
+                    break
     return sorted(hits)
 
 
@@ -230,37 +243,91 @@ def lua_blank(text):
     return "".join(out)
 
 
-def brace_depth_at_lines(code):
-    """Tiefe der {}-Klammern am Anfang jeder Zeile (code ohne Strings/Kommentare). 0 = nicht in einem Tabellen-Konstruktor."""
-    depth, res = 0, [0]
-    for ch in code:
-        if ch == "{":
-            depth += 1
-        elif ch == "}":
-            depth = max(0, depth - 1)
-        elif ch == "\n":
-            res.append(depth)
-    return res
+def _norm_target(t):
+    t = re.sub(r"\s+", "", t)
+    m = re.fullmatch(r"_G(?:\.(\w+)|\[[\"'](\w+)[\"']\])", t)
+    if m:
+        return "_G", m.group(1) or m.group(2)
+    if t.startswith("C_") and re.search(r"[.:]", t):
+        ns_, fn = re.split(r"[.:]", t, 1)
+        return ns_, f"{ns_}.{fn}"
+    return None, t
 
 
 def blizz_overrides(code):
-    """Zeilen, in denen eine Blizzard-Funktion ersetzt wird -> Liste (zeile, name)."""
-    depth = brace_depth_at_lines(code)
+    """Zeilen, in denen eine Blizzard-Funktion ersetzt wird -> Liste (zeile, name).
+    Verfolgt die Lua-Bereiche (function/do/if/repeat … end/until, Tabellen { }): lokale Variablen, Parameter und
+    for-Variablen gelten nur in ihrem Bereich; ein Feld direkt in einer Tabelle ist kein Global, Code in einer Funktion
+    in einer Tabelle schon. Eigene lokale Tabellen namens _G oder C_… (local C_Helper = {}) zählen nicht."""
+    events = [(m.start(), 0, m) for m in _SCOPE_TOKENS.finditer(code)]
+    events += [(m.start(m.lastgroup), 1, m) for m in BLIZZ_ASSIGN.finditer(code)]
+    events.sort(key=lambda e: (e[0], e[1]))
+    stack = [("block", {})]             # (art, {name: eigene_tabelle?}); art: block | func | table
+    pending = None                      # Namen (Parameter/for), die mit dem nächsten Block-Öffner gelten
     found = []
-    for m in BLIZZ_ASSIGN.finditer(code):
-        name = next(g for g in m.groups() if g)
-        name = re.sub(r"\s+", "", name)
-        line = code.count("\n", 0, m.start()) + 1
-        if depth[line - 1] > 0:
-            continue                    # Feld in einer Tabelle ({ UnitName = … }), kein Global
-        is_c = name.startswith("C_") and "." in name
-        if not is_c and name not in BLIZZ_GLOBALS:
+
+    def local_info(name):
+        for kind, names in reversed(stack):
+            if name in names:
+                return names[name]
+        return None
+
+    for pos, typ, m in events:
+        if typ == 0:
+            g = m.lastgroup if m.lastgroup in ("open", "close", "lb", "rb") else None
+            if m.group("lf"):
+                stack[-1][1][m.group("lf")] = True   # das folgende "function" öffnet den Bereich
+            elif m.group("lv"):
+                rhs = (m.group("lrhs") or "").lstrip(" \t=").strip()
+                for v in re.split(r"\s*,\s*", m.group("lv")):
+                    if v not in _LUA_KEYWORDS:
+                        # local _G = _G / local C_Timer = C_Timer -> echte Tabelle; local C_X = {} -> eigene
+                        stack[-1][1][v] = not re.match(re.escape(v) + r"\b", rhs)
+            elif m.group("params") is not None:
+                params = [x for x in re.split(r"[\s,]+", m.group("params")) if re.fullmatch(r"\w+", x)]
+                stack.append(("func", {x: True for x in params}))
+            elif m.group("fv"):
+                pending = ("for", {x for x in re.split(r"\s*,\s*", m.group("fv"))})
+            elif g == "open":
+                names = {}
+                if pending and pending[0] == "for" and m.group("open") == "do":
+                    names = {x: True for x in pending[1]}
+                    pending = None
+                stack.append(("block", names))
+            elif g == "close":
+                while len(stack) > 1 and stack[-1][0] == "table":
+                    stack.pop()         # unvollständige Tabelle: nicht hängen bleiben
+                if len(stack) > 1:
+                    stack.pop()
+            elif g == "lb":
+                stack.append(("table", {}))
+            elif g == "rb":
+                while len(stack) > 1 and stack[-1][0] != "table":
+                    stack.pop()
+                if len(stack) > 1:
+                    stack.pop()
             continue
-        if not is_c and (re.search(r"\blocal\s+(?:function\s+)?(?:[\w\s,]*,\s*)?" + name + r"\b", code[:m.start()])
-                         or re.search(r"\bfunction\b[^(\n]*\([^)]*\b" + name + r"\b[^)]*\)", code)
-                         or re.search(r"\bfor\s+[\w\s,]*\b" + name + r"\b[\w\s,]*\bin\b", code)):
-            continue                    # lokale Variable oder Parameter gleichen Namens
-        found.append((line, name))
+        # Treffer einer Zuweisung
+        if stack[-1][0] == "table" and m.group("a"):
+            continue                    # Feld in einer Tabelle ({ UnitName = … }), kein Global
+        raw = m.group("a") or m.group("f") or m.group("r")
+        targets = re.split(r"\s*,\s*", raw) if m.group("a") else [raw]
+        if m.group("r"):
+            targets = [f'_G["{raw}"]']
+        line = code.count("\n", 0, m.start(m.lastgroup)) + 1
+        for t in targets:
+            base, name = _norm_target(t)
+            if base is not None:        # _G.X oder C_X.Y
+                if local_info(base):    # eigene lokale Tabelle gleichen Namens
+                    continue
+                if base == "C_" or base.startswith("C_"):
+                    found.append((line, name))
+                    continue
+            if name in _LUA_KEYWORDS or name not in BLIZZ_GLOBALS:
+                continue
+            if base is None and local_info(name) is not None:
+                continue                # lokale Variable, Parameter oder for-Variable in diesem Bereich
+            found.append((line, name))
     return found
 
 
@@ -674,6 +741,11 @@ def check_zip(path, shared_ref=None, dev_max=None):
                     + (" Schon veröffentlicht: in der nächsten Version beheben, sonst FEHLER." if old_release else ""))
             if TEST_FILE.search(n):
                 for m in TEST_ACTIONS.finditer(blank):
+                    if re.search(r"\bfunction\s*$", blank[blank.rfind("\n", 0, m.start()) + 1:m.start()]):
+                        continue        # Definition einer Ersatz-Funktion (local function SendChatMessage …), kein Aufruf
+                    fname = re.match(r"[\w.]+", re.sub(r"\s+", "", m.group(0))).group(0)
+                    if re.search(r"\bfunction\s+" + re.escape(fname) + r"\s*\(|\blocal\s+" + re.escape(fname) + r"\s*=", blank):
+                        continue        # die Datei definiert die Funktion selbst (Ersatz) – Aufruf ist harmlos
                     line = blank.count("\n", 0, m.start()) + 1
                     warn(f"{n}:{line}: Testdatei ruft {re.sub(chr(92) + 's+', '', m.group(0)).rstrip('(')} direkt auf – "
                          f"Aktionen mit Folgen im Test nur mitschreiben, nie auslösen (nachtrag-testroutinen.txt)")
