@@ -1,40 +1,39 @@
-OFFENE PUNKTE BUFFSENTINEL (nach der Nachprüfung von 0.9.5)
+OFFENE PUNKTE BUFFSENTINEL (nach der Nachprüfung von 0.9.6)
 ==========================================================
-Stand: 3. November 2026, 07:30 · von der Prüf-Sitzung · Grundlage: download/BuffSentinel-0.9.5.zip
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist.
+Stand: 3. November 2026, 11:15 · von der Prüf-Sitzung · Grundlage: download/BuffSentinel-0.9.6.zip
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.5.
 
-Erledigt in 0.9.5 (danke): Fehler in Event-Handlern werden gezählt, unsichtbare Buttons nach /reload im Kampf werden nachgeholt
-versteckt, Changelog-Hinweis zu Forever. Lua 5.1 fehlerfrei, alte Clients unverändert.
-Bitte als 0.9.6 veröffentlichen. Wie immer: komplette Dateien, alte Clients nie brechen, vor dem Push
-python3 addon-check/addon_check.py download/BuffSentinel-0.9.6.zip  -> kein FEHLER.
+Erledigt in 0.9.6 (danke):
+- Punkte 1–4 vollständig: Selbsttest mit SetTestFlavor, Texte in den Optionen für Forever, Kommentar NoteSecret, gemeinsame
+  Zählfunktion BS:TallyError, keine Kampfanzeige in Forever wie vom Nutzer entschieden
+- Testroutine mit allen 135 Fällen (A–J)
+- BS.API ohne Ersetzen von Blizzard-Funktionen, Sandbox mit Vergleich
+- GoldSentinelTest.lua eingebaut, TrackErrors beim Laden
+Prüfungen: Addon-Prüfung OK (auch der neue Ladetest), Lua 5.1 fehlerfrei, CHANGELOG EN/DE.
 
-1. SELBSTTEST MIT G.SetTestFlavor (Schwere: NIEDRIG – noch offen aus 0.9.4)
-   SetTestFlavor wird nirgends aufgerufen. BS.restricted wird nur einmal beim Laden berechnet (Core.lua:67).
+Nur noch Kleinigkeiten. Bitte mit der nächsten Version (0.9.7) erledigen. Wie immer: komplette Dateien, alte Clients nie
+brechen, vor dem Push python3 addon-check/addon_check.py download/BuffSentinel-0.9.7.zip -> kein FEHLER.
+
+1. ENDZÄHLUNG DER ECHTEN AKTIONEN (Schwere: NIEDRIG – nachtrag-testroutinen.txt Punkt 2)
+   SelfTest.lua:360: Selftest.sendCount wird nur in einzelnen Prüfungen ausgewertet (:1116, :1143, :1581).
    Lösung:
-   - Die Berechnung aus Core.lua:60-67 in eine Funktion BS:DetectFlavor() verschieben und beim Laden aufrufen (Verhalten wie
-     bisher).
-   - /bsen selbsttest, nur mit GoldSentinelDev: zuerst G.SetTestFlavor("forever"); BS:DetectFlavor() und G.Status(),
-     BS.restricted, BS:Locked() ausgeben; danach G.SetTestFlavor(nil); BS:DetectFlavor() und dieselbe Ausgabe. In Era/TBC
-     erwartet: zuerst "restricted: ja", danach "nein".
-   (Teil der Testroutine, siehe testroutine-buffsentinel.txt, Bereich A.)
+   - Bei Finish "echteAktionen = Selftest.sendCount" mitgeben, damit der Bericht die Zeile "echte Aktionen: 0" zeigt.
+   - Neuer Fall T136 (Bereich I): kein direkter Aufruf einer Aktion mit Folgen ausserhalb der einen Sende-Stelle.
 
-2. TEXTE IN DEN OPTIONEN FÜR FOREVER (Schwere: NIEDRIG)
-   a) Options.lua:469-471: Der Kampf-Hinweis auf den Seiten Procs/Cooldowns ist unverändert. Er nennt weder das ausgeschaltete
-      Reinigen-Raster noch, dass Procs in Forever nicht gelernt werden.
-      Lösung: In Forever (BS:Locked()) stattdessen AddText(p, BS:LockedText(), C.yellow).
-   b) Options.lua:501: "Neue Procs (z. B. aus WoW Forever) lernt BuffSentinel automatisch" – das stimmt in Forever nicht
-      (AutoLearn.lua:327 lernt nur im Kampf, dort ist alles gesperrt). Lösung: die Zeile nur zeigen, wenn not BS:Locked().
-      Sonst BS:LockedText() zeigen.
+2. "/RELOAD"-BITTE NACH JEDEM LAUF (Schwere: NIEDRIG – nachtrag-testroutinen.txt Punkt 1)
+   SelfTest.lua:359-365: Die Bitte erscheint nur, wenn Bereich C, D oder J lief. Bitte immer ausgeben.
 
-3. KLEINIGKEITEN (Schwere: NIEDRIG)
-   a) Core.lua:82-83: Der Kommentar "Einmaliger Hinweis … (pro Sitzung)" steht jetzt über LockedText statt über NoteSecret.
-      Bitte wieder über function BS:NoteSecret() setzen.
-   b) Core.lua:1057-1061: Die Zähllogik ist aus CountError (Core.lua:1119-1126) kopiert. Eine kleine gemeinsame Hilfsfunktion
-      (zählen ohne Chat) einführen, damit die beiden nicht auseinanderlaufen.
+3. T134 DOPPELT IM KAMPF-BERICHT (Schwere: NIEDRIG)
+   SelfTest.lua:2360 und :2364: Derselbe Bericht enthält T134 einmal als Check und einmal als Client. Die Auswertung kann das
+   doppelt zählen.
+   Lösung: das Client dort weglassen (es steht schon im automatischen Lauf, :2286) oder eine eigene ID vergeben.
 
-4. ENTSCHEID DES NUTZERS (3. November): ANZEIGE IM KAMPF IN FOREVER BLEIBT AUS
-   BuffSentinel zeigt in WoW Forever im Kampf weiterhin nichts an (wie 0.9.5). Nichts davon umbauen: weder Anzeige über
-   Blizzard-Elemente noch Teil-Anzeige mit lesbaren Werten. Wichtig ist nur, dass die Texte das klar sagen (Punkt 2) und die
-   Prüfung vor dem Pull ausserhalb des Kampfes zuverlässig läuft.
+4. HINWEIS LEISTUNG (kein Muss)
+   Jeder API.X-Zugriff läuft über eine __index-Funktion (Core.lua:133-143), auch in ScanAuras und Refresh. Das funktioniert,
+   kostet aber etwas. Mit den H-Tests (T105ff) beobachten; bei Bedarf die Funktionen beim Laden einmal in BS.API ablegen.
+
+5. IM CLIENT PRÜFEN (Launch-Abend, im Testplan des Nutzers)
+   - T46, T55, T74, T99, T104, T106, T129, T133, T134, T135
+   - zwei Läufe der Testroutine, einer auf Forever und einer auf Era oder TBC, beide mit 0 FEHLER
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
