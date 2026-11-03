@@ -127,7 +127,9 @@ def interface_to_version(n):
 def pick_game_versions(interfaces, cf_versions, skip):
     """Ordnet jede Interface-Nummer einer CurseForge-Spielversion zu.
     Exakter Treffer, sonst die höchste CurseForge-Version mit gleichem Major.Minor.
-    Interface-Nummern ohne Gegenstück (z. B. WoW Forever) werden übersprungen."""
+    WoW Forever (16001) wird so als "1.60.1" markiert; kennt CurseForge eine neue Forever-Nummer
+    (z. B. 16002 -> "1.60.2") noch nicht, wird die höchste "1.60.x" genommen.
+    Nur Interface-Nummern ganz ohne Gegenstück (kein gleiches Major.Minor) werden übersprungen."""
     by_name = {}
     for v in cf_versions:
         name = str(v.get("name", "")).strip()
