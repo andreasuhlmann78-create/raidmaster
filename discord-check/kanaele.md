@@ -1,6 +1,6 @@
 # Discord-Kanäle
 
-Stand: 2026-11-03T19:07:42Z, Server: Alpine Vanguard. Nur die Struktur – keine Beiträge, keine Mitglieder (das Repo ist öffentlich).
+Stand: 2026-11-03T20:10:31Z, Server: Alpine Vanguard. Nur die Struktur – keine Beiträge, keine Mitglieder (das Repo ist öffentlich).
 Erstellt von discord-check/check.py bei jeder Discord-Prüfung.
 
 
@@ -25,16 +25,16 @@ Erstellt von discord-check/check.py bei jeder Discord-Prüfung.
 - #handwerk-und-handel (Text)
 - #gruppensuche-für-dungeons (Text)
 
-## 🏦 GILDENBANK
-
-- #gildenbank (Text)
-
 ## 🗝️ DUNGEONS
 
 - 🔊 Dungeon 1 (Sprache)
 - 🔊 Dungeon 2 (Sprache)
 - 🔊 Dungeon 3 (Sprache)
 - 🔊 Dungeon 4 (Sprache)
+
+## 🏦 GILDENBANK
+
+- #gildenbank (Text)
 
 ## 🔒 OFFIZIERE
 
@@ -44,6 +44,7 @@ Erstellt von discord-check/check.py bei jeder Discord-Prüfung.
 - #bot-daten (Text)
 - #befehlsliste (Text)
 - #gildenname (Text)
+- #testberichte (Text)
 
 ## Addon's by GoldSentinel
 
@@ -153,8 +154,4 @@ Erstellt von discord-check/check.py bei jeder Discord-Prüfung.
 Kanäle aus /raidmaster-einrichten (server_setup.py), die es auf dem Server nicht gibt. Umbenannte Kanäle findet der
 Bot oft trotzdem (über die gespeicherte ID); die Prüfung oben sucht aber nach dem Namen.
 
-- #Raid
-- #aktionshaus
-- #gruppensuche
-- #regeln
-- #testberichte
+- keine
