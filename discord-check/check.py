@@ -100,7 +100,12 @@ def main():
         report["fehler"] = "Der Bot ist auf keinem Server (oder DISCORD_GUILD_ID passt nicht)."
         return finish(report)
     report["server"] = guild["name"]
-    channels = {c["name"]: c for c in dc.get(f"/guilds/{guild['id']}/channels") if c.get("type") in (0, 5)}
+    all_channels = dc.get(f"/guilds/{guild['id']}/channels")
+    channels = {c["name"]: c for c in all_channels if c.get("type") in (0, 5)}
+    try:
+        write_channel_list(guild, all_channels, report["geprueft"])
+    except Exception as e:                      # die Kanalübersicht darf die eigentliche Prüfung nie stoppen
+        report["info"].append({"datei": "kanaele.md", "kanal": "-", "status": f"nicht geschrieben ({e})"})
     cache = {}
 
     def bot_messages(name):
@@ -216,6 +221,53 @@ def main():
     report["ok"] = not bad
     report["wartet"] = any(e["status"] == "wartet" for e in report["ankuendigungen"] + report["addons"])
     return finish(report)
+
+
+# ---------------------------------------------------------------------------
+# Kanalübersicht (discord-check/kanaele.md): nur Struktur – Kategorien, Kanalnamen, Art.
+# Bewusst KEINE Beiträge, Themen oder Mitgliedernamen: das Repo ist öffentlich.
+# ---------------------------------------------------------------------------
+KIND = {0: "Text", 2: "Sprache", 4: "Kategorie", 5: "Ankündigung", 13: "Bühne", 15: "Forum", 16: "Medien"}
+
+
+def expected_channels():
+    """Kanäle, die /raidmaster-einrichten anlegt (aus RaidMasterBot/server_setup.py gelesen, ohne den Bot zu laden)."""
+    try:
+        with open(os.path.join(ROOT, "RaidMasterBot", "server_setup.py"), encoding="utf-8") as f:
+            src = f.read()
+    except OSError:
+        return []
+    return sorted(set(m.group(2) for m in re.finditer(r'\("(text|voice|forum)",\s*"([^"]+)"', src)))
+
+
+def write_channel_list(guild, all_channels, when):
+    cats = {c["id"]: c for c in all_channels if c.get("type") == 4}
+    by_parent = {}
+    for c in all_channels:
+        if c.get("type") == 4:
+            continue
+        by_parent.setdefault(c.get("parent_id"), []).append(c)
+    pos = lambda c: (c.get("position", 0), c["name"])
+    md = ["# Discord-Kanäle", "",
+          f"Stand: {when}, Server: {guild['name']}. Nur die Struktur – keine Beiträge, keine Mitglieder (das Repo ist öffentlich).",
+          "Erstellt von discord-check/check.py bei jeder Discord-Prüfung.", ""]
+    for c in sorted(by_parent.get(None, []), key=pos):
+        md.append(f"- {'#' if c.get('type') != 2 else '🔊 '}{c['name']} ({KIND.get(c.get('type'), c.get('type'))}, ohne Kategorie)")
+    for cat in sorted(cats.values(), key=pos):
+        md += ["", f"## {cat['name']}", ""]
+        kids = sorted(by_parent.get(cat["id"], []), key=pos)
+        if not kids:
+            md.append("- (leer)")
+        for c in kids:
+            md.append(f"- {'#' if c.get('type') != 2 else '🔊 '}{c['name']} ({KIND.get(c.get('type'), c.get('type'))})")
+    names = {c["name"].lower() for c in all_channels}
+    missing = [n for n in expected_channels() if n.lower() not in names]
+    md += ["", "## Vom Bot erwartet, aber nicht da", "",
+           "Kanäle aus /raidmaster-einrichten (server_setup.py), die es auf dem Server nicht gibt. Umbenannte Kanäle findet der",
+           "Bot oft trotzdem (über die gespeicherte ID); die Prüfung oben sucht aber nach dem Namen.", ""]
+    md += [f"- #{n}" for n in missing] or ["- keine"]
+    with open(os.path.join(OUT, "kanaele.md"), "w", encoding="utf-8") as f:
+        f.write("\n".join(md) + "\n")
 
 
 def check_announcement(fn, channel, msgs):
