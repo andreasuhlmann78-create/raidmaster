@@ -10,6 +10,10 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.12
+
+- Developer only: under Settings > Test mode the language can be switched between German, English and the game client's language (for screenshots); GuildSentinel reloads after the change. Nothing changes for players – GuildSentinel always uses the language of the game client.
+
 ### Version 0.9.11
 
 - **Bank character: stock to Discord** (optional, off by default): tick "Bank character (stock to Discord)" under Settings > General on your guild's bank character. Opening the bank, the mailbox or – where the game has one – the guild bank then reads bags, bank, mail attachments and guild bank tabs (read only, never in combat, in small steps). The RaidMaster uploader sends the stock with its next upload, and the RaidMaster bot shows it in #gildenbank and with /bank. Guilds without the RaidMaster bot notice nothing.
@@ -39,10 +43,6 @@ Fixes from the review:
 ### Version 0.9.8
 
 - Shared game-version detection (GoldSentinelGame.lua) updated to version 2: it also wins over early, withdrawn copies that other GoldSentinel addons briefly shipped, so loading several GoldSentinel addons together causes no errors. Nothing changes for players.
-
-### Version 0.9.7
-
-- Uses the shared game-version detection of all GoldSentinel addons (GoldSentinelGame.lua): Classic Era, WoW Forever and TBC are detected the same way everywhere, with the shared secret-value guard and first/last name comparison. `/gsgame` shows what was detected. Nothing changes for players.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
