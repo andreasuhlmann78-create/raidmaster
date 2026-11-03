@@ -650,6 +650,20 @@ def parse_toc(text):
     return meta, files
 
 
+_LADETEST = None
+
+
+def _ladetest():
+    """ladetest.py aus demselben Ordner laden – auch wenn addon_check als Modul von woanders geladen wird (Bot, CurseForge)."""
+    global _LADETEST
+    if _LADETEST is None:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("gs_ladetest", Path(__file__).resolve().with_name("ladetest.py"))
+        _LADETEST = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(_LADETEST)
+    return _LADETEST
+
+
 def check_zip(path, shared_ref=None, dev_max=None):
     """Prüft eine Addon-ZIP. Rückgabe: Liste (level, text) mit level 'FEHLER' | 'WARNUNG' | 'OK'."""
     path = Path(path)
@@ -814,6 +828,16 @@ def check_zip(path, shared_ref=None, dev_max=None):
                     line = next((i + 1 for i, l in enumerate(text.splitlines()) if re.search(pat, l)
                                  and not l.lstrip().startswith("--")), "?")
                     warn(f"{n}:{line}: {why}")
+    # Ladetest: das Addon im nachgebauten Spiel wirklich laden (Forever und Classic Era) – nur ohne Syntaxfehler sinnvoll
+    if not any(l == "FEHLER" and t.startswith("Lua-Syntaxfehler") for l, t in res) and not os.environ.get("ADDON_CHECK_NO_LOADTEST"):
+        try:
+            for level, text in _ladetest().load_test(path):
+                if level == "FEHLER":
+                    err(text)
+                elif level == "WARNUNG":
+                    warn(text)
+        except Exception as e:        # der Ladetest darf die Prüfung nie selbst zum Absturz bringen
+            warn(f"Ladetest konnte nicht laufen: {e}")
     if not syntax_tool():
         # streng (GitHub-Lauf, CurseForge-Upload): ohne Syntaxprüfung kein OK
         (err if os.environ.get("ADDON_CHECK_STRICT") else warn)("Lua-Syntax NICHT geprüft: weder lupa noch luac 5.1 vorhanden (pip install lupa). "

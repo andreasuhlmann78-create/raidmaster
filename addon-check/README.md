@@ -17,6 +17,7 @@ veröffentlicht wurden (eine davon auf CurseForge).
 | Datei steht in der `.toc`, fehlt aber in der ZIP | Lua-Fehler beim Laden |
 | Lua-Syntaxfehler in einer geladenen Datei (geprüft mit Lua 5.1 wie im Spiel) | Addon lädt nicht |
 | `GoldSentinelGame.lua` steht in der `.toc` nicht vor den eigenen Dateien | eigene Dateien finden die Erkennung nicht |
+| **Ladetest:** Das Addon bricht beim Laden ab, wenn man es im nachgebauten Spiel lädt (WoW Forever und Classic Era, so weit die `.toc` sie nennt; Dateien in der Reihenfolge der `.toc`). Fehlermeldung mit «(a nil value)», z. B. Funktion benutzt, bevor sie definiert ist, oder Datei in falscher Reihenfolge (ab 3. November) | Das Addon lädt im Spiel nicht. So geschehen bei ThreatSentinel 2.0.0–2.4.3 |
 | Code ersetzt eine Blizzard-Funktion (`UnitName = …`, `_G.GetServerTime = …`, `C_ChatInfo.SendChatMessage = …`, `function GetRealmName()`), auch nur im Test und auch mit Zurücksetzen (ab 3. November) | "Taint": Die Funktion bleibt bis zum /reload verseucht, Blizzard-Code, der sie danach aufruft, wird blockiert |
 | Dasselbe über eine eigene Hilfsfunktion, die `t[k] = v` macht (`Stub(_G, "GetItemInfo", nil)`, `Stub(C_TradeSkillUI, "GetRecipeInfo", f)`); mit einer Variable als Name nur Warnung | wie oben |
 
@@ -31,6 +32,11 @@ veröffentlicht wurden (eine davon auf CurseForge).
   `strlower`), verglichen (`== "…"`) oder als Tabellenschlüssel benutzt – direkt oder über eine lokale Variable in
   den nächsten 8 Zeilen. In Forever ist er im Kampf geheim. Kein Alarm, wenn die Datei `IsSecret`, `issecretvalue`
   oder `InCombatLockdown` benutzt. Zusammensetzen mit `..` und Weitergeben sind erlaubt.
+- Ladetest: andere Fehler beim Laden (z. B. Rechnen mit einem Wert der Nachbildung) und Fehler in den Start-Ereignissen
+  `ADDON_LOADED`, `PLAYER_LOGIN`, `PLAYER_ENTERING_WORLD`. Diese können an der Nachbildung liegen, bitte ansehen.
+  Unbekannte Blizzard-Funktionen sind in der Nachbildung harmlose Platzhalter: `Is…/Has…/Can…` geben «nein», Abfragen
+  wie `Get…Num…`, `…Count`, `…Height` geben 0. Eigene Globals und SavedVariables sind beim Laden nil, wie im Spiel.
+  Addons mit `## Dependencies` werden übersprungen. Ohne lupa läuft der Ladetest nicht (z. B. im Discord-Bot).
 - `.lua`-Datei liegt in der ZIP, wird aber nie geladen (Werkzeug?) – Syntaxfehler dort nur als Warnung
 - keine Interface-Nummer für WoW Forever; `GoldSentinelGame.lua` fehlt oder ist veraltet
 
@@ -67,6 +73,8 @@ Strings und Kommentare blendet `lua_blank()` vorher aus, damit Hilfetexte keinen
 Schon veröffentlichte Version, die eine neue FEHLER-Regel verletzt: in `ALTLAST` eintragen (dort nur Warnung, die
 nächste Version bekommt den Fehler). Eintrag entfernen, sobald die Version aus `download/` verschwunden ist.
 Tests der Regeln: `python3 addon-check/test_addon_check_regeln.py` (Treffer und Fehlalarm-Fälle je Regel).
+Ladetest: `addon-check/ladetest.py`, Tests `python3 addon-check/test_ladetest.py`. Fehlt der Nachbildung etwas, das
+Fehlalarme gibt: in `MOCK` ergänzen und einen Fall in `test_ladetest.py` anlegen.
 Neue gemeinsame Datei: Liste `SHARED` (Regel `exact` oder `version`).
 
 ## Testberichte aus dem Spiel (`shared/GoldSentinelTest.lua`)

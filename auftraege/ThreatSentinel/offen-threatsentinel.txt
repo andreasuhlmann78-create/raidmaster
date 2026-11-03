@@ -13,20 +13,21 @@ Erledigt in 2.4.4 (danke):
 - GoldSentinelTest.lua eingebaut
 Prüfungen: Addon-Prüfung OK, Lua 5.1 fehlerfrei.
 
-WICHTIG ZUM LADEFEHLER (von der Prüf-Sitzung nachgeprüft):
-In 2.4.1, 2.4.2 und 2.4.3 ruft Core.lua in Zeile 702 ns:On auf, definiert wird die Funktion aber erst in Zeile 1017. Core.lua
-brach also schon beim Laden ab, und das Addon lief in diesen Versionen GAR NICHT. 2.4.4 behebt das (Core.lua:1061-1062).
-Folge: Die Punkte aus 2.4.3 wurden im Spiel nie getestet. Der erste echte Forever-Kampf am 5. November ist der erste Test
-überhaupt.
+WICHTIG ZUM LADEFEHLER (von der Prüf-Sitzung mit dem neuen Ladetest nachgeprüft):
+ALLE Versionen von 2.0.0 bis 2.4.3 luden im Spiel nicht. Core.lua ruft ns:On auf (2.0.0: Zeile 678, 2.4.3: Zeile 702),
+definiert wird die Funktion aber erst weiter unten (2.0.0: Zeile 955, 2.4.3: Zeile 1017). Core.lua bricht dort ab, danach
+alle Module. 2.4.4 behebt das (Core.lua:1061-1062); der Kommentar "seit 2.0.0" in Core.lua:1058 stimmt.
+Folge: Alles, was seit 2.0.0 dazukam, wurde im Spiel nie getestet. Der erste echte Forever-Kampf am 5. November ist der erste
+Test überhaupt. Die Addon-Prüfung lädt ab jetzt jedes Addon einmal im nachgebauten Spiel und lässt so etwas nicht mehr durch.
 
 Bitte als 2.4.5 veröffentlichen. Wie immer: komplette Dateien, alte Clients nie brechen, Locales EN/DE, CHANGELOG EN/DE,
 vor dem Push python3 addon-check/addon_check.py download/ThreatSentinel-2.4.5.zip -> kein FEHLER.
 
 1. ANKÜNDIGUNG UND CHANGELOG ZUM LADEFEHLER RICHTIGSTELLEN (Schwere: MITTEL)
    announce/threatsentinel__threatsentinel-2.4.4.md und CHANGELOG*.md:4 schreiben nur "konnte einen Lua-Fehler melden".
-   Tatsächlich lud das Addon in 2.4.1–2.4.3 überhaupt nicht.
-   Lösung: In der Ankündigung zu 2.4.5 und im CHANGELOG klar schreiben: "2.4.1 bis 2.4.3 luden nicht – bitte unbedingt
-   aktualisieren." Den Kommentar in Core.lua:1058 ("seit 2.0.0") nur stehen lassen, wenn er belegt ist.
+   Tatsächlich lud das Addon von 2.0.0 bis 2.4.3 überhaupt nicht.
+   Lösung: In der Ankündigung zu 2.4.5 und im CHANGELOG klar schreiben: "2.0.0 bis 2.4.3 luden nicht – bitte unbedingt
+   aktualisieren." Der Kommentar in Core.lua:1058 ("seit 2.0.0") ist belegt und kann bleiben.
 
 2. NAHTSTELLE ns.API (Schwere: MITTEL – nachtrag-testroutinen.txt Punkt 1)
    TestRoutine.lua:285, 839-843, 864-869: 36 Fälle in B, 11 in C und die Regressionstests T164 und T167 werden übersprungen,
