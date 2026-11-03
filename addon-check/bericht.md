@@ -44,8 +44,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## RaidMaster-3.0.15.zip: OK
 
-## ThreatSentinel-2.4.3.zip: OK (1 Warnungen)
-- **WARNUNG** GoldSentinelTest.lua fehlt (Testberichte und Fehlermeldungen an die Prüfung noch nicht eingebaut)
+## ThreatSentinel-2.4.4.zip: OK
 
 ## levelpilot__levelpilot-3.12.4.LevelPilot.zip: OK (1 Warnungen)
 - **WARNUNG** GoldSentinelTest.lua fehlt (Testberichte und Fehlermeldungen an die Prüfung noch nicht eingebaut)
