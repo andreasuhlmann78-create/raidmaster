@@ -12,6 +12,16 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.5
+
+Follow-up fixes from the addon check:
+- **Full scan has priority (WoW Forever, Retail):** if you start the scan while the server is busy or a watcher search is
+  still running, the scan no longer fails – the watcher pauses and the scan starts by itself as soon as the server is ready
+  (at most 2 minutes). A rejected scan start works the same way. Classic Era and TBC are unchanged.
+- **Profession window:** the old clients (Classic Era, TBC) read recipes at most every 5 seconds again, as in 0.65.3.
+  In the modern client the chosen recipe is taken from the recipe list itself and forgotten when the window closes,
+  so the ingredient button never uses an old recipe.
+
 ### Version 0.65.4
 
 Fixes from the addon check:
@@ -42,21 +52,6 @@ Fixes from the addon check:
   GoldSentinel addons get step by step. WoW Forever always counts as the modern client there, never as Classic.
 - New: `/gsgame` shows in the chat which game version was detected; `/ahs debug` shows it too.
 - Nothing else changes for you.
-
-### Version 0.65.0
-
-**WoW Forever and Retail (modern client) – nothing stays silently empty any more:**
-- **Profession window:** recipes are now read through the modern profession interface
-  (`C_TradeSkillUI`) when the old one is missing – the profit panel next to the profession window and the
-  crafting suggestions in "Today" work there too. Older game versions keep the old way.
-- **Vendor prices:** read through `C_MerchantFrame` when the old function is missing. Items that cost
-  a currency or tokens (e.g. Merchant's Favor) are remembered with their exact costs.
-- **Raid supplies:** on WoW Forever the Classic raid template is used (`/ahs raid`).
-- **Watcher and the 15-minute full scan:** if the server refuses the due full scan after a watcher
-  round, the watcher pauses until the full scan has run.
-- **Sniper:** if WoW blocks the pre-reserved goods purchase (no error, only a blocked-action event),
-  "one notch buys" switches itself off and the sniper goes back to two notches.
-- Translations for the WoW Forever deposit texts from 0.64.2 in all languages.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
