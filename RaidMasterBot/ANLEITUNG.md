@@ -236,9 +236,16 @@ Für die Lua-Prüfung braucht der Bot `lupa` (steht in `requirements.txt`, wird 
 - **Ersatz bei Absage:** Meldet sich jemand in den letzten 48 Stunden vor dem Raid ab, fragt der Bot den
   passendsten Spieler der Ersatzbank (gleiche Rolle, dann gleiche Klasse) per Direktnachricht mit Knopf
   „Ich komme!“. Ausschalten: `"auto_substitute": false`.
-- **Gildenbank:** Auf dem Bank-Charakter in RaidMaster → Einstellungen „Bank-Charakter“ anhaken. Öffnet er Bank
-  oder Briefkasten, liest das Addon den Bestand. Der Uploader auf seinem PC schickt ihn mit, der Bot zeigt ihn in
-  **#gildenbank** (eine Nachricht, wird aktualisiert) und mit `/bank Feuerschutz`.
+- **Gildenbank (ab Bot 1.5.96 nur noch ein Kanal #gildenbank):** Den Bank-Charakter in RaidMaster
+  (Einstellungen → „Bank-Charakter“) **oder** in GuildSentinel einstellen. Öffnet er Bank oder Briefkasten, liest das
+  Addon den Bestand. Der Uploader auf seinem PC schickt ihn mit (ab Uploader 1.7.0 auch GuildSentinel.lua als zweiten
+  Anhang, nur wenn darin ein Bestand steht). Der Bot zeigt in **#gildenbank** oben die Regeln, darunter den Bestand
+  (wird bearbeitet, nicht neu gepostet; unten steht klein „gelesen mit RaidMaster“ bzw. „… GuildSentinel“). Sind
+  beide Quellen da, gilt der neuere Stand. Ändern sich die Regeltexte, postet der Bot den Bestand danach neu, damit er
+  unten bleibt. Suchen mit `/bank Feuerschutz`.
+  Den früheren Kanal **#gildenbank-bestand** löst der Bot einmal auf: Bestand nach #gildenbank, Kanal löschen – aber
+  nur, wenn darin ausschliesslich Bot-Beiträge stehen. Sonst meldet er in #bot-befehle „bitte von Hand löschen“.
+  `/raidmaster-einrichten` legt #gildenbank-bestand nicht mehr an.
 
 ## Twinks, Berufe, DKP-Nachricht, Verfall
 

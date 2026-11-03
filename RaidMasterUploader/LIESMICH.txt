@@ -16,3 +16,18 @@ Ab Version 1.6.0: Beim Erstkill eines Bosses macht RaidMaster einen Screenshot. 
 Screenshots-Ordner von WoW und schickt ihn mit dem nächsten Upload mit – in #ruhmeshalle erscheint er dann
 mit allen Teilnehmern. Andere Screenshots werden nie hochgeladen. Liegt der Ordner woanders: in
 uploader_config.json "screenshots_path" eintragen. Im Spiel zeigt die Seite "Discord" (oder /rm discord) die ganze Anleitung.
+
+UPDATE AUF EINE NEUE VERSION
+- Zuerst uploader_config.json aus dem alten Ordner sichern (z. B. auf den Desktop kopieren).
+- Den alten Ordner "RaidMasterUploader" durch den neuen ERSETZEN – nicht in den alten Ordner hineinentpacken.
+  Sonst entsteht RaidMasterUploader\RaidMasterUploader, und uploader.bat startet weiter die alte Version.
+- uploader_config.json wieder in den neuen Ordner legen und uploader.bat starten.
+- Beim Start zeigt das Fenster die Version (z. B. "RaidMaster-Uploader 1.7.0").
+
+Ab Version 1.7.0:
+- WoW Forever: Der Uploader sucht bei jedem Start und danach alle 5 Minuten nach einer neueren RaidMaster.lua.
+  Wer RaidMaster vorher im Anniversary- oder einem anderen Client hatte, wird so automatisch auf den Forever-Ordner
+  umgestellt. Das Fenster meldet das mit der Zeile "Wechsle zu: …".
+- Gildenbank auch mit GuildSentinel: Ist der Bank-Charakter in GuildSentinel eingestellt, schickt der Uploader
+  GuildSentinel.lua aus demselben SavedVariables-Ordner mit – aber nur, wenn darin ein Gildenbank-Bestand steht.
+  Der Bestand erscheint in #gildenbank. Liegt die Datei woanders: in uploader_config.json "guildsentinel_path" eintragen.

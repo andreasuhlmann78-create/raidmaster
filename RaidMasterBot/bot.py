@@ -35,6 +35,7 @@ from discord import app_commands
 from discord.ext import tasks
 
 import raidmaster_data as rmd
+import guildbank
 import render as rimg
 import server_setup
 import mc_tactics
@@ -126,6 +127,7 @@ state = rmd.Store(os.path.join(DATA_DIR, "state.json"), {"dkp_messages": {}, "la
 for _k, _v in {"installed_sha": "", "failed_sha": "", "last_backup": 0, "last_upload": 0, "last_upload_by": ""}.items():
     state.data.setdefault(_k, _v)
 UPLOAD_PATH = os.path.join(DATA_DIR, "RaidMaster.lua")
+GS_UPLOAD_PATH = os.path.join(DATA_DIR, "GuildSentinel.lua")   # Gildenbank-Bestand von GuildSentinel (nur bank)
 # eigene Beute-Datenbank (aus den Lootfenstern der Bosskills aller Uploader)
 lootdb = rmd.Store(os.path.join(DATA_DIR, "loot_db.json"), rmd.lootdb_empty())
 # Ruhmeshalle: alle Bosskills (Erstkills, Bestzeiten) und vergebene Erfolge
@@ -2714,33 +2716,52 @@ async def accept_substitute(inter: discord.Interaction, raid: dict):
 
 
 # ---------------------------------------------------------------------------
-# Gildenbank: Bestand vom Bank-Charakter in #gildenbank (wird bearbeitet, nicht neu gepostet) und /bank
+# Gildenbank: ein Kanal #gildenbank – oben die Regeln (guild_rules.json), darunter der Bestand vom Bank-Charakter
+# (gelesen mit RaidMaster oder GuildSentinel). Der Bestand wird bearbeitet, nicht neu gepostet. Dazu /bank.
+# Der frühere Kanal #gildenbank-bestand wird aufgelöst (guildbank.py).
 # ---------------------------------------------------------------------------
-BANK_CHANNEL = "gildenbank-bestand"
+BANK_CHANNEL = guildbank.BANK_CHANNEL
+_gs_cache: dict = {"mtime": None, "db": None}
+
+
+def guildsentinel_db() -> dict | None:
+    """GuildSentinelDB aus dem letzten Upload (nur bank wird benutzt)."""
+    if not os.path.isfile(GS_UPLOAD_PATH):
+        return None
+    mtime = os.path.getmtime(GS_UPLOAD_PATH)
+    if _gs_cache["mtime"] != mtime:
+        _gs_cache["db"] = rmd.load_guildsentinel_db(GS_UPLOAD_PATH)
+        _gs_cache["mtime"] = mtime
+    return _gs_cache["db"]
+
+
+def current_bank() -> dict | None:
+    """Neuester Bestand aus RaidMaster und GuildSentinel (bank["src"] = "raidmaster" / "guildsentinel")."""
+    return rmd.choose_bank(bot.dkp_db, guildsentinel_db())
 
 
 async def bank_channel():
-    """#gildenbank-bestand (Kategorie 🏦 GILDENBANK). Stand der Bestand früher in #gildenbank, wird er dort
-    entfernt und im neuen Kanal neu gepostet."""
-    ch = await channel_by_id(cfg.get("bank_channel_id"))
-    if ch and ch.name == BANK_CHANNEL:
-        return ch
+    """#gildenbank (Regel-Kanal). Stand der Bestand bisher woanders (#gildenbank-bestand), wird er dort entfernt
+    und hier neu gepostet; #gildenbank-bestand wird einmal zu löschen versucht."""
     guild = bot_guild()
-    new = discord.utils.get(guild.text_channels, name=BANK_CHANNEL) if guild else None
-    if new is None:
-        return ch or (discord.utils.get(guild.text_channels, name="gildenbank") if guild else None)
-    if ch and ch.id != new.id:
-        for mid in state.data.get("bank_messages") or []:
-            try:
-                await ch.get_partial_message(int(mid)).delete()
-            except discord.HTTPException:
-                pass
-        state.data["bank_messages"] = []
-        state.data.pop("bank_t", None)
-        state.save()
-    cfg["bank_channel_id"] = new.id
-    save_config()
-    return new
+    if guild is None:
+        return None
+    ch = await channel_by_id((cfg.get("rules_channels") or {}).get(BANK_CHANNEL))
+    if ch is None:
+        ch = guildbank.find_channel(guild.text_channels, BANK_CHANNEL)
+    if ch is None:
+        return None
+    prev_id = state.data.get("bank_channel") or cfg.get("bank_channel_id")
+    prev = await channel_by_id(prev_id) if prev_id and int(prev_id) != ch.id else None
+    report = await guildbank.migrate_old_channel(guild.text_channels, ch, state.data, bot.user.id if bot.user else 0, prev)
+    if cfg.get("bank_channel_id") != ch.id:
+        cfg["bank_channel_id"] = ch.id
+        save_config()
+    state.save()
+    for line in report:
+        log.info("Gildenbank: %s", line)
+        await post_bot_log(line)
+    return ch
 
 
 async def bank_text(bank: dict) -> list[str]:
@@ -2753,67 +2774,55 @@ async def bank_text(bank: dict) -> list[str]:
         lines.append("Leer.")
     lines.append("")
     lines.append("🙋 _Etwas gebraucht? Einfach einen Offizier fragen. Suchen: `/bank Name`._")
+    src = rmd.BANK_SOURCES.get(bank.get("src") or "")
+    if src:
+        lines.append(f"-# gelesen mit {src}")
     return rmd.split_discord("\n".join(lines))
 
 
 BANK_EMPTY_TEXT = ("📦 **Bestand der Gildenbank**\n\n"
                    "Hier siehst du bald alles, was in unserer Gildenbank liegt – Items und Gold, immer auf dem neuesten Stand.\n\n"
-                   "🔄 **So kommt der Bestand hierher:** Der Bank-Charakter hat RaidMaster und setzt unter Einstellungen den Haken "
-                   "„Bank-Charakter (Bestand an Discord)“. Öffnet er Bank oder Briefkasten, liest RaidMaster alles ein, "
+                   "🔄 **So kommt der Bestand hierher:** Der Bank-Charakter hat RaidMaster oder GuildSentinel und stellt sich "
+                   "dort als Bank-Charakter ein. Öffnet er Bank oder Briefkasten, liest das Addon alles ein, "
                    "und mit dem nächsten Upload steht es hier.\n\n"
                    "🔍 Suchen geht jederzeit mit `/bank`.")
 
 
 async def post_guild_bank():
-    bank = rmd.guild_bank(bot.dkp_db) if bot.dkp_db else None
     if test_info(bot.dkp_db or {}):
         return
+    bank = current_bank()
     if not bank:
-        # noch kein Bestand: kurze Erklärung in den leeren Kanal (wird später durch den Bestand ersetzt)
+        # noch kein Bestand: kurze Erklärung unter den Regeln (wird später durch den Bestand ersetzt)
         if not state.data.get("bank_messages"):
             ch = await bank_channel()
-            if ch is not None and ch.name == BANK_CHANNEL:
+            if ch is not None and not state.data.get("bank_messages"):
                 m = await ch.send(BANK_EMPTY_TEXT)
                 state.data["bank_messages"] = [m.id]
+                state.data["bank_channel"] = ch.id
                 state.save()
-        return
-    if state.data.get("bank_t") == bank["t"]:
         return
     ch = await bank_channel()
     if ch is None:
         return
+    if state.data.get("bank_t") == bank["t"] and state.data.get("bank_src") == bank.get("src") \
+            and state.data.get("bank_messages"):
+        return
     chunks = await bank_text(bank)
-    ids = list(state.data.get("bank_messages") or [])
-    new_ids = []
-    for i, text in enumerate(chunks):
-        done = False
-        if i < len(ids):
-            try:
-                await ch.get_partial_message(int(ids[i])).edit(content=text)
-                new_ids.append(ids[i])
-                done = True
-            except discord.HTTPException:
-                pass
-        if not done:
-            m = await ch.send(text)
-            new_ids.append(m.id)
-    for mid in ids[len(chunks):]:
-        try:
-            await ch.get_partial_message(int(mid)).delete()
-        except discord.HTTPException:
-            pass
-    state.data["bank_messages"] = new_ids
+    await guildbank.write_bank(ch, chunks, state.data)
     state.data["bank_t"] = bank["t"]
+    state.data["bank_src"] = bank.get("src")
     state.save()
 
 
 @bot.tree.command(name="bank", description="Was ist in der Gildenbank? (Suche nach Name)")
 @app_commands.describe(suche="Teil des Namens, leer = alles")
 async def bank_cmd(inter: discord.Interaction, suche: str | None = None):
-    bank = rmd.guild_bank(bot.dkp_db)
+    bank = current_bank()
     if not bank:
         await inter.response.send_message("Noch kein Bestand – der Bank-Charakter muss einmal seine Bank öffnen "
-                                          "(RaidMaster → Einstellungen → „Bank-Charakter“).", ephemeral=True)
+                                          "(RaidMaster → Einstellungen → „Bank-Charakter“ oder in GuildSentinel).",
+                                          ephemeral=True)
         return
     q = (suche or "").strip().lower()
     items = [it for it in bank["items"] if not q or q in it["n"].lower()]
@@ -3051,6 +3060,7 @@ async def ensure_guild_rules() -> list[str]:
     save_config()
     hashes = state.data.setdefault("rules_hash", {})
     msgs = state.data.setdefault("rules_messages", {})
+    bank_reset = False
     for rule in server_setup.guild_rules():
         key = rule["key"]
         ch = await channel_by_id((cfg.get("rules_channels") or {}).get(key))
@@ -3059,7 +3069,7 @@ async def ensure_guild_rules() -> list[str]:
         examples = server_setup.material_examples(rmd.raid_materials(lootdb.data))
         posts = [channel_links(p.replace("{material_beispiele}", examples)) for p in rule.get("posts") or [] if p.strip()]
         if not posts:
-            continue                       # z. B. #gildenbank-bestand: dort schreibt nur der Bot den Bestand
+            continue
         digest = str(zlib.crc32("\n".join(posts).encode("utf-8")))
         if hashes.get(key) == digest and msgs.get(key):
             continue
@@ -3087,7 +3097,19 @@ async def ensure_guild_rules() -> list[str]:
         msgs[key] = new_ids
         hashes[key] = digest
         report.append(f"📜 #{key}: Regeln {'aktualisiert' if old else 'gepostet'}")
+        if key == BANK_CHANNEL:
+            # #gildenbank: Regeln oben, Bestand darunter – nach neuen Regeln den Bestand löschen und neu posten
+            # (dort, wo er gerade steht – vor 1.5.96 war das #gildenbank-bestand)
+            holder_id = state.data.get("bank_channel") or cfg.get("bank_channel_id")
+            holder = await channel_by_id(holder_id) if holder_id else None
+            await guildbank.reset_bank(holder or ch, state.data)
+            bank_reset = True
         state.save()
+    if bank_reset:
+        try:
+            await post_guild_bank()
+        except Exception:  # noqa: BLE001
+            log.exception("Gildenbank-Bestand konnte nach den Regeln nicht neu gepostet werden")
     return report
 
 
@@ -4394,7 +4416,29 @@ async def receive_upload(message: discord.Message):
     if allowed and message.webhook_id not in allowed:
         log.warning("Upload von unbekanntem Webhook %s ignoriert.", message.webhook_id)
         return
-    att = next((a for a in message.attachments if a.filename.lower().endswith((".lua", ".lua.gz", ".gz"))), None)
+    # Anhänge nach Dateinamen: RaidMaster.lua(.gz) wie bisher, GuildSentinel.lua(.gz) nur für den Gildenbank-Bestand.
+    # Ein alter Uploader schickt nur RaidMaster.lua.gz – das funktioniert unverändert.
+    rm_i, gs_i = rmd.pick_upload_files([a.filename for a in message.attachments])
+    att = message.attachments[rm_i] if rm_i is not None else None
+    gs_att = message.attachments[gs_i] if gs_i is not None else None
+    if gs_att is not None and gs_att.size <= 25 * 1024 * 1024:
+        try:
+            gs_text, _ = await asyncio.to_thread(rmd.check_guildsentinel_upload, await gs_att.read(), gs_att.filename)
+            os.makedirs(DATA_DIR, exist_ok=True)
+            tmp_gs = GS_UPLOAD_PATH + ".tmp"
+            with open(tmp_gs, "w", encoding="utf-8") as f_gs:
+                f_gs.write(gs_text)
+            os.replace(tmp_gs, GS_UPLOAD_PATH)
+            log.info("GuildSentinel-Daten (Gildenbank) empfangen.")
+        except (ValueError, OSError, discord.HTTPException) as e:
+            log.warning("GuildSentinel-Datei nicht übernommen (alter Stand bleibt): %s", e)
+            gs_att = None
+    if not att and gs_att is not None:
+        try:
+            await post_guild_bank()
+        except Exception:  # noqa: BLE001
+            log.exception("Gildenbank-Bestand konnte nicht gepostet werden")
+        return
     if not att:
         if not message.attachments:
             log.warning("Upload ohne Anhang empfangen – Message Content Intent einschalten (siehe ANLEITUNG, Probleme).")

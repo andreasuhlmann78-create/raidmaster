@@ -11,3 +11,18 @@ RaidMaster Uploader – sends the RaidMaster data from the raid leader's PC to t
 
 After every /reload or logout, DKP, loot, assignments and specs show up in Discord within a few
 seconds. In the game, the page "Discord" (or /rm discord) shows the full step-by-step guide.
+
+UPDATING TO A NEW VERSION
+- First back up uploader_config.json from the old folder (e.g. copy it to the desktop).
+- REPLACE the old "RaidMasterUploader" folder with the new one – do not unpack into the old folder.
+  Otherwise you get RaidMasterUploader\RaidMasterUploader and uploader.bat keeps starting the old version.
+- Put uploader_config.json back into the new folder and start uploader.bat.
+- On start the window shows the version (e.g. "RaidMaster-Uploader 1.7.0").
+
+New in 1.7.0:
+- WoW Forever: on every start and then every 5 minutes the uploader looks for a newer RaidMaster.lua. If you used
+  RaidMaster in the Anniversary client or another client before, it switches to the Forever folder automatically and
+  says so in the window ("Wechsle zu: …").
+- Guild bank with GuildSentinel too: if the bank character is set up in GuildSentinel, the uploader also sends
+  GuildSentinel.lua from the same SavedVariables folder – only if it contains a guild bank inventory. It shows up in
+  #gildenbank. If the file is somewhere else, set "guildsentinel_path" in uploader_config.json.

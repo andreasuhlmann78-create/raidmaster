@@ -11,6 +11,13 @@ uploader_config.json in diesen Ordner legen. Nur Python 3 nötig, keine weiteren
 Erstkill-Screenshots (ab 1.6.0): RaidMaster macht beim Erstkill einen Screenshot und merkt sich die Zeit
 (RaidMasterDB.shotList). Der Uploader sucht im Screenshots-Ordner von WoW das passende Bild und schickt es
 beim nächsten Upload mit. Andere Screenshots werden nie hochgeladen.
+
+Ab 1.7.0:
+- Sucht bei jedem Start und danach alle paar Minuten nach einer neueren RaidMaster.lua (z. B. nach dem Wechsel vom
+  Anniversary- in den Forever-Client) und wechselt mit Meldung im Fenster dorthin.
+- Gildenbank auch von GuildSentinel: GuildSentinel.lua aus demselben SavedVariables-Ordner geht als zweiter Anhang mit,
+  wenn sie sich geändert hat und einen Gildenbank-Bestand enthält (["bank"]). Sonst wird sie nie geschickt.
+  Pfad überschreiben: "guildsentinel_path" in uploader_config.json.
 """
 
 from __future__ import annotations
@@ -28,13 +35,16 @@ import urllib.error
 import urllib.request
 import uuid
 
-VERSION = "1.6.0"
+VERSION = "1.7.0"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400
 HERE = os.path.dirname(os.path.abspath(__file__))
 CONFIG = os.path.join(HERE, "uploader_config.json")
 USER_AGENT = f"RaidMasterUploader (https://github.com, {VERSION})"
+RESCAN_SECONDS = 300              # so oft nach einer neueren RaidMaster.lua suchen (Wechsel in den Forever-Ordner)
+NEWER_BY_SECONDS = 60             # erst wechseln, wenn die gefundene Datei so viel neuer ist
+GS_BANK = re.compile(rb'\["bank"\]\s*=\s*\{')
 
 
 def log(msg: str):
@@ -100,6 +110,80 @@ def choose_path(cfg: dict) -> str:
     return path
 
 
+def newer_saved_variables(path: str, found: list[str] | None = None) -> str | None:
+    """Gibt es eine deutlich neuere RaidMaster.lua als die überwachte (z. B. im Forever-Ordner)? Dann ihr Pfad."""
+    if found is None:
+        found = find_saved_variables()
+    try:
+        current = os.path.getmtime(path) if path and os.path.isfile(path) else 0
+    except OSError:
+        current = 0
+    for cand in found:
+        if os.path.normpath(cand) == os.path.normpath(path or ""):
+            continue
+        try:
+            if os.path.getmtime(cand) > current + NEWER_BY_SECONDS:
+                return cand.replace("\\", "/")
+        except OSError:
+            pass
+        break                                   # found ist nach Datum sortiert: nur die neueste zählt
+    return None
+
+
+def switch_if_newer(cfg: dict, path: str, found: list[str] | None = None) -> str:
+    new = newer_saved_variables(path, found)
+    if not new:
+        return path
+    log("Neuere RaidMaster-Datei gefunden (z. B. nach dem Wechsel in einen anderen WoW-Client).")
+    log("Wechsle zu: " + new)
+    cfg["savedvariables_path"] = new
+    save_config(cfg)
+    return new
+
+
+def guildsentinel_path(cfg: dict, path: str) -> str:
+    """GuildSentinel.lua liegt im selben SavedVariables-Ordner wie RaidMaster.lua."""
+    return cfg.get("guildsentinel_path") or os.path.join(os.path.dirname(os.path.abspath(path)), "GuildSentinel.lua")
+
+
+def read_guildsentinel(gs_path: str) -> bytes | None:
+    """GuildSentinel.lua nur mit Gildenbank-Bestand – sonst nichts schicken (keine fremden Daten)."""
+    try:
+        with open(gs_path, "rb") as f:
+            raw = f.read()
+    except OSError:
+        return None
+    return raw if GS_BANK.search(raw) else None
+
+
+def build_body(payload: dict, packed: bytes, gs_packed: bytes | None, shots: list[tuple[str, str, bytes]]) -> tuple[str, bytes]:
+    """Multipart-Inhalt: files[0] = RaidMaster.lua.gz (immer zuerst), files[1] = GuildSentinel.lua.gz (falls dabei),
+    danach die Screenshots. shots = [(Name, Content-Type, Daten)]."""
+    boundary = "----RaidMaster" + uuid.uuid4().hex
+    parts = [
+        f"--{boundary}\r\n".encode(),
+        b'Content-Disposition: form-data; name="payload_json"\r\nContent-Type: application/json\r\n\r\n',
+        json.dumps(payload).encode("utf-8"), b"\r\n",
+        f"--{boundary}\r\n".encode(),
+        b'Content-Disposition: form-data; name="files[0]"; filename="RaidMaster.lua.gz"\r\n'
+        b"Content-Type: application/gzip\r\n\r\n",
+        packed, b"\r\n",
+    ]
+    n = 1
+    if gs_packed is not None:
+        parts += [f"--{boundary}\r\n".encode(),
+                  b'Content-Disposition: form-data; name="files[1]"; filename="GuildSentinel.lua.gz"\r\n'
+                  b"Content-Type: application/gzip\r\n\r\n",
+                  gs_packed, b"\r\n"]
+        n = 2
+    for i, (name, ctype, data) in enumerate(shots, n):
+        parts += [f"--{boundary}\r\n".encode(),
+                  f'Content-Disposition: form-data; name="files[{i}]"; filename="{name}"\r\nContent-Type: {ctype}\r\n\r\n'.encode(),
+                  data, b"\r\n"]
+    parts.append(f"--{boundary}--\r\n".encode())
+    return boundary, b"".join(parts)
+
+
 def screenshots_dir(path: str) -> str:
     """.../<WoW>/WTF/Account/<X>/SavedVariables/RaidMaster.lua -> .../<WoW>/Screenshots"""
     root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(path))))))
@@ -141,14 +225,15 @@ def find_shots(cfg: dict, path: str, raw: bytes) -> list[tuple[str, str]]:
     return out
 
 
-def upload(cfg: dict, path: str) -> bool:
+def upload(cfg: dict, path: str, gs_raw: bytes | None = None) -> bool:
     with open(path, "rb") as f:
         raw = f.read()
     packed = gzip.compress(raw, 9)
+    gs_packed = gzip.compress(gs_raw, 9) if gs_raw else None
     shots = []
     try:
         # Discord nimmt pro Nachricht nur ca. 10 MB an: Bilder nur, solange alles zusammen darunter bleibt
-        total = len(packed)
+        total = len(packed) + len(gs_packed or b"")
         for shot in find_shots(cfg, path, raw):
             size = os.path.getsize(shot[0])
             if total + size <= SHOT_MAX_BYTES:
@@ -162,25 +247,11 @@ def upload(cfg: dict, path: str) -> bool:
         "username": f"RaidMaster-Uploader ({socket.gethostname()[:20]})",
         "allowed_mentions": {"parse": [], "users": [bot_id] if bot_id else []},
     }
-    boundary = "----RaidMaster" + uuid.uuid4().hex
-    parts = [
-        f"--{boundary}\r\n".encode(),
-        b'Content-Disposition: form-data; name="payload_json"\r\nContent-Type: application/json\r\n\r\n',
-        json.dumps(payload).encode("utf-8"), b"\r\n",
-        f"--{boundary}\r\n".encode(),
-        b'Content-Disposition: form-data; name="files[0]"; filename="RaidMaster.lua.gz"\r\n'
-        b"Content-Type: application/gzip\r\n\r\n",
-        packed, b"\r\n",
-    ]
-    for i, (full, name, _) in enumerate(shots, 1):
+    shot_data = []
+    for full, name, _ in shots:
         with open(full, "rb") as f:
-            img = f.read()
-        ctype = "image/png" if name.endswith(".png") else "image/jpeg"
-        parts += [f"--{boundary}\r\n".encode(),
-                  f'Content-Disposition: form-data; name="files[{i}]"; filename="{name}"\r\nContent-Type: {ctype}\r\n\r\n'.encode(),
-                  img, b"\r\n"]
-    parts.append(f"--{boundary}--\r\n".encode())
-    body = b"".join(parts)
+            shot_data.append((name, "image/png" if name.endswith(".png") else "image/jpeg", f.read()))
+    boundary, body = build_body(payload, packed, gs_packed, shot_data)
     url = cfg["webhook_url"] + ("&" if "?" in cfg["webhook_url"] else "?") + "wait=true"
     req = urllib.request.Request(url, data=body, method="POST", headers={
         "Content-Type": f"multipart/form-data; boundary={boundary}", "User-Agent": USER_AGENT})
@@ -189,6 +260,7 @@ def upload(cfg: dict, path: str) -> bool:
             with urllib.request.urlopen(req, timeout=60) as r:
                 r.read()
             log(f"Hochgeladen ({len(raw) // 1024} KB, gepackt {len(packed) // 1024} KB)."
+                + (" Dazu der Gildenbank-Bestand aus GuildSentinel." if gs_packed else "")
                 + (f" Dazu {len(shots)} Erstkill-Screenshot(s)." if shots else ""))
             if shots:
                 cfg["sent_shots"] = (list(cfg.get("sent_shots") or []) + [p for _, _, p in shots])[-200:]
@@ -213,22 +285,54 @@ def upload(cfg: dict, path: str) -> bool:
     return False
 
 
+def gs_mtime(gs_path: str) -> float:
+    try:
+        return os.path.getmtime(gs_path)
+    except OSError:
+        return 0
+
+
 def main():
     log(f"RaidMaster-Uploader {VERSION}")
     cfg = load_config()
+    stored = cfg.get("savedvariables_path") or ""
+    had_stored = bool(stored) and os.path.isfile(stored)
     path = choose_path(cfg)
+    if had_stored:
+        # gespeicherter Pfad: trotzdem suchen – nach dem Forever-Start liegt die aktuelle Datei woanders
+        log("Prüfe, ob es eine neuere RaidMaster-Datei gibt (z. B. im Forever-Ordner) ...")
+        path = switch_if_newer(cfg, path)
     log("Überwache: " + path)
     log("Fenster offen lassen. Nach /reload oder Ausloggen werden die Daten automatisch hochgeladen.")
     interval = max(3, int(cfg.get("check_seconds") or 10))
     last_sent = 0.0
+    last_gs_seen = 0.0          # zuletzt gesehene Änderung von GuildSentinel.lua
+    pending_gs = None           # GuildSentinel.lua mit Bestand, die noch mitgeschickt werden muss
     failures = 0
     next_try = 0.0
+    next_scan = time.time() + RESCAN_SECONDS
     while True:
+        if time.time() >= next_scan:
+            next_scan = time.time() + RESCAN_SECONDS
+            new = switch_if_newer(cfg, path)
+            if new != path:
+                path = new
+                last_sent = 0.0
+                log("Überwache: " + path)
+        gs_file = guildsentinel_path(cfg, path)
         try:
             mtime = os.path.getmtime(path)
         except OSError:
             mtime = 0
-        if mtime and mtime != last_sent and time.time() >= next_try:
+        gmt = gs_mtime(gs_file)
+        if gmt and gmt != last_gs_seen:
+            time.sleep(2)                       # warten, bis WoW fertig geschrieben hat
+            if gs_mtime(gs_file) != gmt:
+                continue
+            last_gs_seen = gmt
+            # nur mit Gildenbank-Bestand – sonst löst GuildSentinel.lua keinen Upload aus
+            pending_gs = read_guildsentinel(gs_file) or pending_gs
+        if mtime and (mtime != last_sent or pending_gs) and time.time() >= next_try:
             # warten, bis WoW fertig geschrieben hat
             time.sleep(2)
             try:
@@ -236,8 +340,9 @@ def main():
                     continue
             except OSError:
                 continue
-            if upload(cfg, path):
+            if upload(cfg, path, pending_gs):
                 last_sent = mtime
+                pending_gs = None
                 failures = 0
             else:
                 failures += 1

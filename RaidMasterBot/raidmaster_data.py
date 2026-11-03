@@ -10,6 +10,7 @@ Enthält:
 
 from __future__ import annotations
 
+import gzip
 import json
 import os
 import re
@@ -2082,6 +2083,67 @@ def guild_bank(db: dict | None) -> dict | None:
     items.sort(key=lambda x: (-(x["q"] or 0) if isinstance(x["q"], int) else 0, x["n"].lower()))
     return {"char": b.get("c") or "?", "t": int(b.get("t") or 0), "gold": int(b.get("g") or 0), "guild_gold": b.get("gb"),
             "items": items}
+
+
+# Gildenbank auch von GuildSentinel (GuildSentinelDB.bank, gleiches Format wie RaidMasterDB.bank)
+BANK_SOURCES = {"raidmaster": "RaidMaster", "guildsentinel": "GuildSentinel"}
+
+
+def check_guildsentinel_upload(raw: bytes, filename: str) -> tuple[str, dict]:
+    """Entpackt und prüft GuildSentinel.lua(.gz). Liefert (Text, GuildSentinelDB) oder wirft ValueError.
+    Nur Dateien mit einem Gildenbank-Bestand werden angenommen."""
+    if filename.lower().endswith(".gz"):
+        try:
+            raw = gzip.decompress(raw)
+        except OSError:
+            raise ValueError("GuildSentinel-Datei ist nicht richtig gepackt")
+    text = raw.decode("utf-8", errors="replace")
+    try:
+        db = parse_saved_variables(text).get("GuildSentinelDB")
+    except Exception as e:  # noqa: BLE001
+        raise ValueError(f"GuildSentinel-Datei nicht lesbar: {e}")
+    if not isinstance(db, dict) or guild_bank(db) is None:
+        raise ValueError("kein Gildenbank-Bestand in GuildSentinel.lua")
+    return text, db
+
+
+def load_guildsentinel_db(path: str) -> dict | None:
+    if not path or not os.path.isfile(path):
+        return None
+    with open(path, "r", encoding="utf-8", errors="replace") as f:
+        text = f.read()
+    try:
+        db = parse_saved_variables(text).get("GuildSentinelDB")
+    except Exception:  # noqa: BLE001
+        return None
+    return db if isinstance(db, dict) else None
+
+
+def choose_bank(rm_db: dict | None, gs_db: dict | None) -> dict | None:
+    """Bestand aus RaidMaster und GuildSentinel: der mit dem neueren Stand (t). bank["src"] sagt, woher."""
+    best = None
+    for src, db in (("raidmaster", rm_db), ("guildsentinel", gs_db)):
+        b = guild_bank(db) if db else None
+        if b and (best is None or b["t"] > best["t"]):
+            b["src"] = src
+            best = b
+    return best
+
+
+def pick_upload_files(filenames: list[str]) -> tuple[int | None, int | None]:
+    """Welcher Anhang ist RaidMaster.lua(.gz), welcher GuildSentinel.lua(.gz)? Liefert (Index RM, Index GS).
+    Ein alter Uploader schickt nur einen Anhang (RaidMaster.lua.gz) – der zählt wie bisher als RaidMaster-Datei."""
+    rm = gs = None
+    for i, fn in enumerate(filenames):
+        low = (fn or "").lower()
+        if not low.endswith((".lua", ".lua.gz", ".gz")):
+            continue
+        if low.startswith("guildsentinel"):
+            if gs is None:
+                gs = i
+        elif rm is None:
+            rm = i
+    return rm, gs
 
 
 def money_text(copper: int | None) -> str:
