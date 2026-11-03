@@ -205,6 +205,13 @@ class RaidBot(discord.Client):
             except Exception:
                 log.exception("Raid-Kategorien konnten nicht angelegt werden")
             try:
+                rep = await sync_raid_visibility()
+                if rep:
+                    await post_bot_log("🗂️ Raid-Kategorien: " + "; ".join(rep) + " (noch nicht spielbare Raids sehen nur "
+                                       "Offiziere; freigeschaltet wird mit /raid erstellen oder sobald DKP darin vergeben werden).")
+            except Exception:
+                log.exception("Sichtbarkeit der Raid-Kategorien konnte nicht abgeglichen werden")
+            try:
                 rep = await apply_fixed_guild_name()
                 if rep:
                     await post_bot_log("🏔️ Gildenname **" + FIXED_GUILD_NAME + "**: " + "; ".join(rep))
@@ -245,6 +252,17 @@ class RaidBot(discord.Client):
                         await post_bot_log("🗝️ Dungeon-Sprachkanäle: " + "; ".join(rep))
             except Exception:
                 log.exception("Dungeon-Kategorie konnte nicht angelegt werden")
+            try:
+                guild0 = bot_guild()
+                if guild0 is not None and not state.data.get("afk_moved") \
+                        and guild0.me.guild_permissions.manage_channels:
+                    rep = await server_setup.move_afk_to_general(guild0)
+                    state.data["afk_moved"] = True
+                    state.save()
+                    if rep:
+                        await post_bot_log("🔊 " + "; ".join(rep))
+            except Exception:
+                log.exception("Sprachkanal AFK konnte nicht verschoben werden")
             try:
                 rep = await remove_unused_channels_once()
                 if rep:
@@ -780,6 +798,10 @@ async def raid_create(inter: discord.Interaction, titel: str, datum: str, uhrzei
     if softres and not softres_link:
         await inter.response.send_message("Das ist kein softres.it-Link. Beispiel: `https://softres.it/raid/abcd`", ephemeral=True)
         return
+    # Raid war ausgeblendet (auf WoW Forever noch nicht spielbar): ein Offizier plant ihn -> für alle einblenden
+    # (im Hintergrund: Discord erwartet die Antwort auf den Befehl innerhalb von 3 Sekunden)
+    if mode != "pug" and unlock_raid(pool, f"/raid erstellen von {inter.user}"):
+        asyncio.create_task(_sync_raid_visibility_logged())
     # Zielkanal: Anmeldung der Raid-Kategorie bzw. #pug-anmeldung
     target_id = cfg.get("pug_channel_id") if mode == "pug" else raid_channel(pool, "signup")
     target = await channel_by_id(target_id) if target_id else None
@@ -2026,6 +2048,12 @@ async def process_new_data():
         except Exception:  # noqa: BLE001
             log.exception("Klassenfarben konnten nicht gesetzt werden")
         await ensure_new_raid_categories()
+        try:
+            rep = await sync_raid_visibility()
+            if rep:
+                await post_bot_log("🗂️ Raid-Kategorien: " + "; ".join(rep))
+        except Exception:  # noqa: BLE001
+            log.exception("Sichtbarkeit der Raid-Kategorien konnte nicht abgeglichen werden")
         await post_raid_summaries()
         await post_dkp_tables()
         await remove_overall()
@@ -3291,6 +3319,8 @@ async def ensure_listed_raid_categories() -> list[str]:
     for key, name, emoji, prefix in server_setup.RAIDS:
         if key in known:
             continue
+        if not server_setup.raid_released(key, cfg):
+            continue        # ab Bot 1.5.99: erst anlegen, wenn der Raid auf WoW Forever spielbar ist
         try:
             await server_setup.ensure_raid(guild, cfg, key, name, emoji, prefix)
         except discord.HTTPException as e:
@@ -3301,6 +3331,67 @@ async def ensure_listed_raid_categories() -> list[str]:
         made.append(name)
         log.info("Raid-Kategorie angelegt: %s", name)
     return made
+
+
+def unlock_raid(key: str, why: str) -> bool:
+    """Raid aus forever_raids.json freischalten (Kategorie wird beim nächsten sync_raid_visibility eingeblendet)."""
+    if server_setup.raid_released(key, cfg):
+        return False
+    cfg.setdefault("raids_unlocked", []).append(key)
+    save_config()
+    log.info("Raid %s freigeschaltet (%s).", key, why)
+    return True
+
+
+async def sync_raid_visibility() -> list[str]:
+    """Raids, die auf WoW Forever (noch) nicht spielbar sind, für alle ausblenden; freigeschaltete wieder einblenden.
+    Gemerkt in state "hidden_raids" – eingeblendet wird nur, was der Bot selbst ausgeblendet hat."""
+    guild = bot_guild()
+    perms = guild.me.guild_permissions if guild is not None else None
+    if perms is None or not (perms.manage_roles and perms.manage_channels):
+        return []
+    # DKP aus dem Addon in einem bisher ausgeblendeten Raid = der Raid wird gespielt
+    for key in rmd.pool_list(bot.dkp_data):
+        if any(r["key"] == key for r in server_setup.RAID_DEFS):
+            unlock_raid(key, "DKP im Addon")
+    hidden = state.data.setdefault("hidden_raids", {})
+    report = []
+    for r in server_setup.RAID_DEFS:
+        key = r["key"]
+        ids = (cfg.get("raid_channels") or {}).get(key) or {}
+        anchor = await channel_by_id(ids.get("signup") or ids.get("tactics") or ids.get("dkp"))
+        category = getattr(anchor, "category", None)
+        if category is None:
+            continue
+        targets = server_setup.raid_targets(category, r["prefix"], ids.values())
+        reason = "RaidMaster: Raid auf WoW Forever noch nicht spielbar"
+        try:
+            if not server_setup.raid_released(key, cfg) and key not in hidden:
+                prev = await server_setup.hide_raid(guild, targets, reason)
+                hidden[key] = {"cat": category.id, "prev": prev}
+                state.save()
+                report.append(f"🙈 {r['name']} ausgeblendet")
+            elif server_setup.raid_released(key, cfg) and key in hidden:
+                await server_setup.show_raid(guild, targets, hidden[key].get("prev") or {}, "RaidMaster: Raid freigeschaltet")
+                hidden.pop(key, None)
+                state.save()
+                report.append(f"👀 {r['name']} wieder sichtbar")
+                ch = await channel_by_id(cfg.get("announce_channel_id"))
+                if ch:
+                    await ch.send(f"🆕 **{r['name']}** ist freigeschaltet – Anmeldung, Taktik, DKP und Loot stehen jetzt in "
+                                  f"{category.name}.", allowed_mentions=NO_PING)
+        except discord.HTTPException as e:
+            report.append(f"⚠️ {r['name']}: Sichtbarkeit nicht geändert ({e})")
+    return report
+
+
+async def _sync_raid_visibility_logged():
+    try:
+        rep = await sync_raid_visibility()
+        if rep:
+            await post_bot_log("🗂️ Raid-Kategorien: " + "; ".join(rep))
+    except Exception:  # noqa: BLE001
+        log.exception("Sichtbarkeit der Raid-Kategorien konnte nicht abgeglichen werden")
 
 
 async def ensure_new_raid_categories():
@@ -5289,6 +5380,9 @@ async def name_channel():
     if guild is None:
         return None
     ch = next((c for c in guild.text_channels if "gildenname" in c.name.lower()), None)
+    # Abstimmung beendet (ab Bot 1.5.99): fehlt der Kanal, wird er nicht neu angelegt – er darf gelöscht werden
+    if ch is None and name_poll().get("closed"):
+        return None
     if ch is None and guild.me.guild_permissions.manage_channels:
         category = None
         for name in ("ankündigungen", "ankuendigungen", "announcements", "willkommen"):

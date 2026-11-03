@@ -183,6 +183,8 @@ BASE_BOTTOM = [
             # #allgemein legt der Bot ab 1.5.95 nicht mehr an (wurde nicht genutzt); ein vorhandener Kanal bleibt.
             ("text", "handwerk-und-handel", "Berufe, Rezepte und Auktionshaus", None),
             ("text", "gruppensuche", "Dungeons, Quests und Twinks", None),
+            # ab Bot 1.5.99: AFK hier statt in der Kategorie 🔊 SPRACHE (die mit "Allgemein"/"Raid" entfallen ist)
+            ("voice", "AFK", None, None),
         ],
     },
     {
@@ -193,14 +195,6 @@ BASE_BOTTOM = [
             ("voice", "Dungeon 2", None, None),
             ("voice", "Dungeon 3", None, None),
             ("voice", "Dungeon 4", None, None),
-        ],
-    },
-    {
-        "name": "🔊 SPRACHE", "mode": None,
-        "channels": [
-            # Sprachkanal "Raid" entfällt ab 1.5.98: jeder Raid hat seinen eigenen Sprachkanal in seiner Kategorie
-            ("voice", "Allgemein", None, None),
-            ("voice", "AFK", None, None),
         ],
     },
     {
@@ -928,6 +922,23 @@ async def ensure_raid_extra_channels(guild: discord.Guild, cfg: dict) -> list[st
 DUNGEONS = "🗝️ DUNGEONS"
 
 
+GENERAL = "💬 ALLGEMEIN"
+
+
+async def move_afk_to_general(guild: discord.Guild) -> list[str]:
+    """Sprachkanal AFK nach 💬 ALLGEMEIN verschieben (ab Bot 1.5.99; die Kategorie 🔊 SPRACHE entfällt).
+    Nur verschieben – Rechte und Einstellungen bleiben. Der Bot ruft das einmal auf (state "afk_moved")."""
+    afk = guild.afk_channel or _find(guild.voice_channels, "AFK")
+    category = _find(guild.categories, GENERAL)
+    if afk is None or category is None or afk.category_id == category.id:
+        return []
+    try:
+        await afk.edit(category=category, sync_permissions=False, reason="RaidMaster: AFK nach 💬 ALLGEMEIN")
+    except discord.HTTPException as e:
+        return [f"⚠️ 🔊 {afk.name} konnte nicht nach {GENERAL} verschoben werden: {e}"]
+    return [f"↪️ 🔊 {afk.name} nach {GENERAL} verschoben"]
+
+
 async def ensure_dungeon_category(guild: discord.Guild) -> list[str]:
     """Kategorie 🗝️ DUNGEONS mit 4 Sprachkanälen (je 10 Plätze) anlegen, falls sie fehlt – beim Start."""
     reason = "RaidMaster: Dungeon-Sprachkanäle"
@@ -942,6 +953,76 @@ async def ensure_dungeon_category(guild: discord.Guild) -> list[str]:
     if cat_def.get("after"):
         await _place_after(guild, cat_def["name"], cat_def["after"], report, reason)
     return [r for r in report if r.startswith(("✅", "↪️", "👥", "↕️"))]
+
+
+# ---------------------------------------------------------------------------
+# Raids, die auf WoW Forever (noch) nicht spielbar sind (forever_raids.json ohne "forever": true), z. B. BWL, ZG, AQ,
+# Naxx: Ihre Kategorie wird für alle ausgeblendet (nicht gelöscht – Kanäle und Beiträge bleiben). Der Bot und die
+# Offiziere sehen sie weiter. Freigeschaltet wird ein Raid, sobald er "forever": true bekommt, im Addon DKP darin
+# vergeben wurden oder ein Offizier mit /raid erstellen einen Raid dafür anlegt (cfg "raids_unlocked").
+# Ausschalten: "hide_unreleased_raids": false in config.json (ab Bot 1.5.99).
+# ---------------------------------------------------------------------------
+
+def raid_released(key: str, cfg: dict) -> bool:
+    """True = Kategorie sichtbar. Nur Raids aus forever_raids.json können ausgeblendet werden; automatisch erkannte
+    Raids (neuer DKP-Topf aus dem Addon) sind immer sichtbar."""
+    if not cfg.get("hide_unreleased_raids", True):
+        return True
+    r = next((r for r in RAID_DEFS if r["key"] == key), None)
+    return r is None or r["forever"] or key in (cfg.get("raids_unlocked") or [])
+
+
+def raid_targets(category, prefix: str, ids) -> list:
+    """Kategorie und ihre Raid-Kanäle (gespeicherte IDs oder Name <prefix>-…). Fremde Kanäle, die jemand in die
+    Kategorie gelegt hat (z. B. ein Sprachkanal AFK), werden nicht angefasst."""
+    ids = {int(i) for i in (ids or []) if i}
+    out = [category]
+    for ch in getattr(category, "channels", []) or []:
+        if ch.id in ids or ch.name.lower().startswith(prefix.lower() + "-"):
+            out.append(ch)
+    return out
+
+
+async def hide_raid(guild, targets: list, reason: str) -> dict:
+    """Ausblenden: @everyone sieht nichts mehr, Bot und Offiziere weiterhin. Liefert {Kanal-ID: frühere Einstellung
+    view_channel von @everyone} (None/True/False), damit show_raid genau diesen Stand wiederherstellt."""
+    everyone = guild.default_role
+    officer = _find(guild.roles, "Offizier")
+    prev = {}
+    for t in targets:
+        # zuerst Bot und Offiziere freigeben, damit der Bot den Kanal nie verliert
+        for who, allow in ((guild.me, _bot_overwrite()), (officer, discord.PermissionOverwrite(view_channel=True))):
+            if who is None:
+                continue
+            ow = t.overwrites_for(who)
+            changed = False
+            for attr, value in iter(allow):
+                if value is not None and getattr(ow, attr) is None:
+                    setattr(ow, attr, value)
+                    changed = True
+            if changed:
+                await t.set_permissions(who, overwrite=ow, reason=reason)
+        ow = t.overwrites_for(everyone)
+        prev[str(t.id)] = ow.view_channel
+        if ow.view_channel is not False:
+            ow.view_channel = False
+            await t.set_permissions(everyone, overwrite=ow, reason=reason)
+    return prev
+
+
+async def show_raid(guild, targets: list, prev: dict, reason: str) -> int:
+    """Wieder einblenden: view_channel von @everyone auf den gespeicherten Stand zurück. Liefert die Anzahl Kanäle."""
+    everyone = guild.default_role
+    n = 0
+    for t in targets:
+        ow = t.overwrites_for(everyone)
+        before = prev.get(str(t.id))
+        if ow.view_channel == before:
+            continue
+        ow.view_channel = before
+        await t.set_permissions(everyone, overwrite=None if ow.is_empty() else ow, reason=reason)
+        n += 1
+    return n
 
 
 async def ensure_raid(guild: discord.Guild, cfg: dict, key: str, name: str, emoji: str = "🗡️",
@@ -984,7 +1065,9 @@ def guild_rules() -> list[dict]:
 
 # Kategorien der Regel-Kanäle: Standard 📜 REGELN, ein Eintrag mit "category" kommt in eine eigene Kategorie
 # (z. B. 🏦 GILDENBANK). Position: (Kategorie, steht direkt unter ...)
-RULE_CATEGORY_PLACE = {RULES_CATEGORY: "📌 INFO", "🏦 GILDENBANK": "💬 ALLGEMEIN"}
+# 🏦 GILDENBANK unter 🗝️ DUNGEONS (die steht unter 💬 ALLGEMEIN). Bis Bot 1.5.98 wollten beide direkt unter ALLGEMEIN
+# stehen und wurden bei jedem Start gegenseitig verschoben.
+RULE_CATEGORY_PLACE = {RULES_CATEGORY: "📌 INFO", "🏦 GILDENBANK": "🗝️ DUNGEONS"}
 
 
 async def ensure_rules_category(guild: discord.Guild, cfg: dict) -> list[str]:

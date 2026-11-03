@@ -85,7 +85,7 @@ Ohne GitHub geht es auch: das RaidMaster-Paket per WinSCP auf den Server kopiere
   **-anmeldung** (mit Knopf **Charakter registrieren**), einem **Sprachkanal** (z. B. 🔊 Molten Core),
   **-taktik**, **-dkp** und **-loot**
 - **🎲 PUG**: #pug-anmeldung, #pug-chat, Sprachkanal PUG-Raid
-- **💬 ALLGEMEIN** (#handwerk-und-handel, #gruppensuche; #allgemein legt der Bot ab 1.5.95 nicht mehr an und löscht einen vorhandenen #allgemein einmal, wenn darin nur Bot-Beiträge stehen – sonst meldet er in #bot-befehle, warum er ihn behalten hat), **🗝️ DUNGEONS** (4 Sprachkanäle „Dungeon 1–4“, je 10 Plätze), **🔊 SPRACHE** (Allgemein, AFK; den Sprachkanal „Raid“ gibt es ab 1.5.98 nicht mehr – jeder Raid hat seinen eigenen in seiner Kategorie), **🔒 OFFIZIERE** (#offiziere, **#befehlsliste**, #bot-befehle,
+- **💬 ALLGEMEIN** (#handwerk-und-handel, #gruppensuche, Sprachkanal AFK – ab 1.5.99 statt der früheren Kategorie 🔊 SPRACHE; #allgemein legt der Bot ab 1.5.95 nicht mehr an und löscht einen vorhandenen #allgemein einmal, wenn darin nur Bot-Beiträge stehen – sonst meldet er in #bot-befehle, warum er ihn behalten hat), **🗝️ DUNGEONS** (4 Sprachkanäle „Dungeon 1–4“, je 10 Plätze), (die Kategorie **🔊 SPRACHE** gibt es ab 1.5.99 nicht mehr – jeder Raid hat seinen eigenen Sprachkanal, AFK steht in 💬 ALLGEMEIN; 🏦 GILDENBANK steht unter 🗝️ DUNGEONS), **🔒 OFFIZIERE** (#offiziere, **#befehlsliste**, #bot-befehle,
   **#bot-daten**, **#testberichte**, Sprachkanal nur für Offiziere)
 
 **Umbenannte Kanäle (ab Bot 1.5.95):** #regeln darf auch **#dkp-regeln** heißen, #gruppensuche auch **#gruppensuche-für-dungeons**. Der Bot findet sie unter beiden Namen, legt keinen zweiten Kanal an und verlinkt sie im Willkommenstext. Einen umbenannten Kanal verschiebt `/raidmaster-einrichten` nicht und ändert auch seine Rechte nicht. Weitere Namen: `CHANNEL_ALIASES` in `server_setup.py`. In den Regeltexten (`guild_rules.json`) und in Ankündigungen werden Kanäle als `{#kanal}` geschrieben – der Bot macht daraus einen Link, auch zu umbenannten Kanälen.
@@ -173,6 +173,15 @@ Privates Repository: In `config.json` bei `update_token` einen GitHub-Token mit 
 
 Betritt das Addon einen **neuen Raid**, legt es einen eigenen DKP-Topf an. Beim nächsten Upload
 erkennt der Bot ihn, legt **automatisch eine eigene Kategorie** an und meldet das in #ankündigungen.
+
+
+**Noch nicht spielbare Raids (ab Bot 1.5.99):** Raids aus `forever_raids.json` ohne `"forever": true` (BWL, ZG, AQ20,
+AQ40, Naxx) blendet der Bot für alle aus – nur Offiziere und der Bot sehen sie. Gelöscht wird nichts. Freigeschaltet
+(wieder für alle sichtbar, mit Hinweis in #ankündigungen) wird ein Raid, sobald
+- er in `forever_raids.json` `"forever": true` bekommt,
+- im Addon DKP in diesem Raid vergeben wurden, oder
+- ein Offizier mit `/raid erstellen` einen Raid dafür anlegt.
+Auf neuen Servern legt der Bot diese Kategorien erst beim Freischalten an. Ausschalten: `"hide_unreleased_raids": false`.
 
 ## 11. Skillungen
 
@@ -363,7 +372,7 @@ Erstellt die Raidleitung im Spiel die **Einteilung** und gibt danach `/reload` e
 
 ## Abstimmung über den Gildennamen (#gildenname)
 
-Der Bot führt im Kanal **#gildenname** eine Abstimmung (fehlt der Kanal, legt er ihn an).
+Der Bot führt im Kanal **#gildenname** eine Abstimmung (fehlt der Kanal, legt er ihn an – ab Bot 1.5.99 nur, solange die Abstimmung offen ist; nach dem Abschluss darf #gildenname gelöscht werden).
 
 - **Vorschlagen:** einfach einen Namen in den Kanal schreiben (eine Zeile, 2–24 Zeichen, nur Buchstaben) – der Bot
   macht daraus eine Karte und setzt ✅ darunter. Normale Chat-Sätze („ich bin dafür“) zählen nicht. Mit Lore geht es
