@@ -9,8 +9,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## BuffSentinel-0.9.6.zip: OK
 
-## GuildSentinel-0.9.9.zip: OK (1 Warnungen)
-- **WARNUNG** GoldSentinelTest.lua fehlt (Testberichte und Fehlermeldungen an die Prüfung noch nicht eingebaut)
+## GuildSentinel-0.9.10.zip: OK
 
 ## ProfessionSentinel-0.9.11.zip: OK (26 Warnungen)
 - **WARNUNG** ProfessionSentinel/TestRoutine.lua:2517: ersetzt über eine Hilfsfunktion _G[n] (Name als Variable) – das taintet sie bis zum /reload, auch mit Zurücksetzen. Nur eigene Tabellen ersetzen (z. B. ns.API).
