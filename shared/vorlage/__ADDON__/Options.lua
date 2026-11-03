@@ -38,6 +38,7 @@ local function Build()
 
     Checkbox(panel, L.OPT_ENABLED, "enabled", -70)
     Checkbox(panel, L.OPT_CHAT, "chat", -100)
+    Checkbox(panel, L.OPT_MINIMAP, "minimapButton", -130)
 
     if Settings and Settings.RegisterCanvasLayoutCategory and Settings.RegisterAddOnCategory then
         local category = Settings.RegisterCanvasLayoutCategory(panel, L.TITLE)

@@ -131,6 +131,20 @@ Case("T12", "B", "Optionen: jede einmal an und aus", function()
     return true
 end)
 
+Case("T14", "B", "Minimap-Button: da, aus- und einblenden, Winkel bleibt", function()
+    local b = _G[ADDON .. "MinimapButton"]
+    if not b then return false, "kein Button", ADDON .. "MinimapButton" end
+    local wasOn, wasAngle = ns.db.minimapButton, ns.db.minimapAngle
+    ns.db.minimapButton = true; ns.db.minimapAngle = 90; ns.UpdateMinimapButton()
+    local shown = b:IsShown()
+    ns.ToggleMinimapButton(); local hidden = not b:IsShown()
+    ns.ToggleMinimapButton(); local back = b:IsShown()
+    local angle = ns.db.minimapAngle
+    ns.db.minimapButton, ns.db.minimapAngle = wasOn, wasAngle; ns.UpdateMinimapButton()
+    return shown and hidden and back and angle == 90,
+        tostring(shown) .. "/" .. tostring(hidden) .. "/" .. tostring(back) .. ", Winkel " .. tostring(angle), "true/true/true, Winkel 90"
+end)
+
 Case("T13", "B", "Aktionen laufen nur über ns.Act (im Test nur mitgeschrieben)", function()
     local n = #ns.actLog
     local done = ns.SendChat("Test", "SAY")
@@ -282,6 +296,10 @@ function ns.RunTests(filter)
         end
     end
     -- Hinweise für den Launch-Abend: was nur im echten Client prüfbar ist
+    if filter == "" or filter == "B" then
+        run:Client("T15", "B", "Minimap-Button im Spiel",
+            "Button an der Minimap sichtbar, Tooltip in der Sprache des Clients, Ziehen verschiebt ihn, nach /reload am selben Ort")
+    end
     if filter == "" or filter == "C" then
         run:Client("T29", "C", "Geschützte Werte im echten Kampf",
             "In WoW Forever einen Kampf mit Ziel führen, danach /__SLASH__ status: Fehler = 0")

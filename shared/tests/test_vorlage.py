@@ -84,6 +84,7 @@ function Fire(ev, ...)
 end
 
 UIParent = CreateFrame("Frame", "UIParent")
+Minimap = CreateFrame("Frame", "Minimap")
 UISpecialFrames = {}
 ChatFontNormal = Dummy()
 SlashCmdList = {}

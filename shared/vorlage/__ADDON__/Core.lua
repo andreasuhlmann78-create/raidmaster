@@ -36,6 +36,8 @@ ns.DEFAULTS = {
     enabled = true,
     chat = true,
     window = { point = "CENTER", x = 0, y = 0, shown = false },
+    minimapButton = true,       -- Button an der Minimap (Minimap.lua)
+    minimapAngle = 200,         -- Position um die Minimap in Grad
 }
 
 local function CopyDefaults(src, dst)
@@ -153,6 +155,7 @@ function ns.Help()
     ns.Print(L.HELP_HEADER)
     ns.Print(L.HELP_TOGGLE)
     ns.Print(L.HELP_CONFIG)
+    ns.Print(L.HELP_MINIMAP)
     ns.Print(L.HELP_STATUS)
     ns.Print(L.HELP_TEST)
 end
@@ -165,6 +168,7 @@ ns.COMMANDS = {
     [""]     = function() if ns.ToggleWindow then ns.ToggleWindow() end end,
     help     = ns.Help,
     config   = function() if ns.OpenOptions then ns.OpenOptions() end end,
+    minimap  = function() if ns.ToggleMinimapButton then ns.ToggleMinimapButton() end end,
     status   = function() for line in ns.StatusText():gmatch("[^\n]+") do ns.Print(line) end end,
     test     = function(rest) if ns.RunTests then ns.RunTests(rest) end end,
 }

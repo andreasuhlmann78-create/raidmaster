@@ -34,6 +34,7 @@ Das fertige Addon lädt sofort im Spiel. Mit `/ls test` läuft die eingebaute Te
 | `API.lua` | `ns.API`: jede Blizzard-Funktion einmal ausgewählt (modern zuerst, alt als Rückfall), `ns.SafeUnitName` (geschützte Namen), `ns.Act`: einzige Stelle für Aktionen mit Folgen |
 | `Options.lua` | Seite im Einstellungsfenster (Settings-API, Rückfall InterfaceOptions), Beispiel-Optionen |
 | `UI.lua` | Hauptfenster (verschiebbar, Position gespeichert, Esc schliesst, Inhaltsbereich `ns.content`), Kopierfenster |
+| `Minimap.lua` | Button an der Minimap wie bei allen GoldSentinel-Addons: Linksklick Fenster, Rechtsklick Optionen, Ziehen verschiebt; Option und `/<befehl> minimap` zum Ausblenden |
 | `TestRoutine.lua` | Testroutine nach der Vorgabe der Prüf-Sitzung (Bereiche A–J), Sandbox, Bericht über GoldSentinelTest |
 | `CHANGELOG.md`, `CHANGELOG.de.md`, `LICENSE.txt` | Änderungen Englisch und Deutsch, Lizenz «All Rights Reserved (c) GoldSentinel» |
 
