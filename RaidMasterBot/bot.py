@@ -4890,8 +4890,24 @@ async def restart_soon():
     await bot.close()
 
 
+# Immer nur EIN Update gleichzeitig (ab Bot 1.5.100): Bis 1.5.99 konnten /update und die automatische Prüfung
+# gleichzeitig laufen. Beide entpackten in denselben Ordner update/tmp, der zweite löschte ihn dem ersten unter den
+# Füssen weg ("[Errno 2] No such file or directory: …/update/tmp/…").
+update_lock = asyncio.Lock()
+_restart_pending = False      # Update mit Bot-Änderung installiert, Neustart steht bevor: nichts mehr einspielen
+
+
 async def apply_update(data: bytes, source: str, ref: str = "", note: str = "") -> str:
-    """Installiert eine Update-ZIP. Liefert eine Meldung; startet bei Bot-Änderungen neu."""
+    """Installiert eine Update-ZIP (z. B. /update datei:). Wartet, falls gerade ein anderes Update läuft."""
+    async with update_lock:
+        return await _apply_update(data, source, ref, note)
+
+
+async def _apply_update(data: bytes, source: str, ref: str = "", note: str = "") -> str:
+    """Installiert eine Update-ZIP. Liefert eine Meldung; startet bei Bot-Änderungen neu. Nur mit update_lock aufrufen."""
+    global _restart_pending
+    if _restart_pending:
+        return "⏳ Ein Update ist schon installiert, der Bot startet gleich neu – danach bitte nochmal versuchen."
     try:
         result = await asyncio.to_thread(updater.install_zip, data, BASE, source, ref)
     except updater.UpdateError as e:
@@ -4930,6 +4946,7 @@ async def apply_update(data: bytes, source: str, ref: str = "", note: str = "") 
     text = "\n".join(parts)
     await post_bot_log(text)
     if result["bot_changed"]:
+        _restart_pending = True
         asyncio.create_task(restart_soon())
     else:
         await check_addon_release()
@@ -4937,6 +4954,15 @@ async def apply_update(data: bytes, source: str, ref: str = "", note: str = "") 
 
 
 async def check_github(manual: bool = False) -> str:
+    """Neue Version auf GitHub suchen und einspielen. Läuft gerade ein Update, wird gewartet und danach neu geprüft
+    (dann ist meist schon alles aktuell)."""
+    async with update_lock:
+        if _restart_pending:
+            return "⏳ Ein Update ist schon installiert, der Bot startet gleich neu."
+        return await _check_github(manual)
+
+
+async def _check_github(manual: bool = False) -> str:
     repo = (cfg.get("update_repo") or "").strip()
     if not repo:
         return "Kein GitHub-Repository eingetragen (`update_repo` in config.json)."
@@ -4952,7 +4978,7 @@ async def check_github(manual: bool = False) -> str:
         if sha == state.data.get("failed_sha") and not manual:
             return "Letztes Update war fehlerhaft – warte auf eine neue Version."
         data = await updater.github_zip(session, repo, sha, token)
-    return await apply_update(data, "GitHub", sha, latest["message"].splitlines()[0] if latest["message"] else "")
+    return await _apply_update(data, "GitHub", sha, latest["message"].splitlines()[0] if latest["message"] else "")
 
 
 @tasks.loop(minutes=30)

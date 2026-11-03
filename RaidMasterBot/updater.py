@@ -261,9 +261,10 @@ def mirror_announce_removals(repo_files, base: str) -> list[str]:
 
 def install_zip(data: bytes, base: str, source: str, ref: str = "") -> dict:
     """Installiert eine Update-ZIP. Liefert Infos fürs Protokoll; wirft UpdateError bei Problemen."""
-    tmp = os.path.join(update_dir(base), "tmp")
-    shutil.rmtree(tmp, ignore_errors=True)
-    os.makedirs(tmp, exist_ok=True)
+    # eigener Ordner je Durchlauf (ab Bot 1.5.100): ein zweites Update kann den Ordner des ersten nicht mehr löschen
+    os.makedirs(update_dir(base), exist_ok=True)
+    shutil.rmtree(os.path.join(update_dir(base), "tmp"), ignore_errors=True)     # Rest älterer Bot-Versionen
+    tmp = tempfile.mkdtemp(prefix="tmp-", dir=update_dir(base))
     try:
         try:
             with zipfile.ZipFile(io.BytesIO(data)) as zf:

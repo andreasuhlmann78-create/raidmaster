@@ -164,7 +164,7 @@ Damit Raids, Charaktere und die DKP-Nachrichten erhalten bleiben:
 - Ist eine neue Addon-Version dabei, postet der Bot sie in **#raid-addon** und schickt allen
   registrierten Spielern eine Direktnachricht.
 - `config.json` und alle Daten (Raids, Charaktere, DKP) bleiben bei Updates unangetastet.
-- `/update` prüft sofort. `/update datei:<ZIP>` spielt ein Paket von Hand ein (z. B. ohne GitHub).
+- `/update` prüft sofort. Läuft gerade schon ein Update (z. B. die automatische Prüfung), wartet `/update`, bis es fertig ist (ab Bot 1.5.100; vorher konnten sich zwei gleichzeitige Updates stören: „[Errno 2] No such file or directory: …/update/tmp/…“). `/update datei:<ZIP>` spielt ein Paket von Hand ein (z. B. ohne GitHub).
 - `/raidmaster-status` zeigt Version, letzten Upload und Datenstand.
 
 Privates Repository: In `config.json` bei `update_token` einen GitHub-Token mit Leserecht eintragen.
