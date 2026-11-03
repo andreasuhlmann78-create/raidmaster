@@ -1,76 +1,48 @@
-OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.5)
+OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.6)
 =========================================================
-Stand: 3. November 2026, 09:20 · von der Prüf-Sitzung · Grundlage: download/AHSentinel-0.65.5.zip
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.65.4.
+Stand: 3. November 2026, 11:20 · von der Prüf-Sitzung · Grundlage: download/AHSentinel-0.65.6.zip
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.65.5.
 
-Erledigt in 0.65.5 (danke):
-- CurseForge-Doku richtiggestellt
-- Kommentar beim Raid-Vorrat
-- 5-Sekunden-Bremse nur noch auf dem modernen Weg
-- Zurücksetzen des gemerkten Rezepts bei TRADE_SKILL_CLOSE und DATA_SOURCE_CHANGED
-- Scan-Wunsch mit Wächter-Pause und abgelehnter Scan-Start als Signal
-Lua 5.1 fehlerfrei, neuer Locale-Text in allen 9 Sprachen, alte Clients unverändert, Addon-Prüfung OK.
+Erledigt in 0.65.6 (danke):
+- Chat-Flut bei scheiterndem Scan-Start behoben: höchstens 2–3 Zeilen, nach 3 Neuversuchen Schluss, Wächter läuft weiter
+- Rezept-Hook mit dem ausgeschriebenen Ereignisnamen
+- 15-Minuten-Pause wird hochgestuft
+- Dauer-Pause des Wächters begründet abgelehnt (sonst ruht er dauerhaft) – die Prüf-Sitzung ist einverstanden
+- TestRoutine.lua mit GoldSentinelTest, sauberen Nahtstellen (A:API, A:InCombat, A:Simulated, A.AH-Proxy) und Sandbox
+Prüfungen: Addon-Prüfung OK (auch der neue Ladetest), alle neuen Texte in allen 10 Sprachdateien, CHANGELOG EN/DE.
 
-Bitte als 0.65.6 veröffentlichen. Wie immer:
-- komplette Dateien, .json separat ausweisen
-- alte Clients nie brechen
-- alle Locale-Dateien, CHANGELOG EN/DE
-- vor dem Push: python3 addon-check/addon_check.py download/AHSentinel-0.65.6.zip  -> kein FEHLER
+Bitte mit der nächsten Version (0.65.7), spätestens vor dem Launch-Abend. Wie immer: komplette Dateien, .json separat
+ausweisen, alte Clients nie brechen, alle Locale-Dateien, CHANGELOG EN/DE, vor dem Push
+python3 addon-check/addon_check.py download/AHSentinel-0.65.7.zip -> kein FEHLER.
 
-1. CHAT-FLUT, WENN DER SCAN-START DAUERHAFT SCHEITERT (Schwere: MITTEL – neu in 0.65.5)
-   AHAnalyzerPro.lua:1641-1645 zusammen mit 1693-1697:
-   - Wirft pcall(A.AH.SendBrowseQuery, …) einen Fehler, kommt zuerst "Scan konnte nicht gestartet werden: …", danach WantScan(true).
-   - TryWantedScan hat scanWanted vorher auf nil gesetzt. Darum legt WantScan jedes Mal einen neuen Wunsch an.
-   - Der Ticker (0,5 s) ruft StartFullScan danach immer wieder auf.
-   Folge: Bei einem bleibenden Fehler (z. B. anderes Argumentformat im Forever-Client) kommt die Fehlermeldung 2 Minuten lang
-   alle 0,5 s, also rund 240 Zeilen im Chat.
-   Lösung:
-   - Neuversuche nach einer Ablehnung begrenzen, z. B. höchstens 3, mit mindestens 2 s Abstand.
-   - Die Meldung nur beim ersten Fehlschlag zeigen, z. B. mit StartFullScan(silent), das TryWantedScan setzt.
-   - Nach dem letzten Versuch einmal melden, dass der Scan nicht starten konnte, und den Wunsch verwerfen.
-   - In die Testroutine aufnehmen: SendBrowseQuery simuliert scheitern lassen (über das eigene A.AH, nie global ersetzen),
-     dann höchstens 1–2 Chatzeilen und der Wächter läuft danach weiter.
+1. TESTROUTINE VERVOLLSTÄNDIGEN (Schwere: NIEDRIG – Punkt 6 aus 0.65.5, teilweise)
+   Nach testroutine-ahsentinel.txt fehlen noch diese Fälle:
+   - Am wichtigsten:
+     - T30.xx: jede Option einmal an/aus
+     - T31.xx: jeder Chat-Befehl
+     - T26c–i: Zusatzfenster
+     - T89: Taschen ohne alte Funktionen
+     - T92: Addon-Info und Chat-Hilfen
+     - T94: Esc-Fenster im Kampf
+   - Bereich B: T24, T27, T28, T34, T37, T39, T42, T43, T44, T46, T50, T52, T53, T54, T55, T57, T59, T62, T63, T65, T66,
+     T69, T71, T77
+   - Bereich D: T98–T101
+   - Bereich E: T106–T108
+   - Bereich G: T119, T120
+   - Bereich H: T122, T124, T126
+   - Bereich I: T129
+   - Bereich J: T143, T146, T147, T148, T152
+   Die alten Selbsttest-Schritte unter den Ersatz-IDs S01 … können bleiben.
 
-2. WÄCHTER-PAUSE IN FOREVER (Schwere: NIEDRIG – teilweise, noch offen aus 0.65.4)
-   Neu pausiert der Wächter, wenn jemand den Scan startet und der Server ausgelastet ist. Bestellt war zusätzlich eine Pause,
-   SOLANGE A:IsScanReady() gilt und der Komplett-Scan noch nicht gelaufen ist. Das fehlt, und eine Begründung steht weder im
-   Changelog noch in den Kommentaren.
-   Bitte eines von beiden:
-   - ergänzen, oder
-   - dem Nutzer begründen, warum es wegfällt (z. B.: Sonst ruht der Wächter dauerhaft, wenn nie gescannt wird).
-   Im Client testen (Forever): Wächter an, Scan fällig -> der Scan startet und wird nicht vom Wächter blockiert.
+2. KLEINIGKEIT (Schwere: NIEDRIG)
+   TestRoutine.lua:436: A:Print("GoldSentinelTest.lua fehlt") ist nicht übersetzt. Über L[...] ausgeben und in allen
+   Locale-Dateien eintragen.
 
-3. REZEPT-AUSWAHL IM BERUFSFENSTER: DER HOOK GREIFT NIE (Schwere: NIEDRIG – Punkt 4b aus 0.65.4, teilweise)
-   Crafting.lua:644-646: ProfessionsRecipeListMixin.Event.OnRecipeSelected hat den Wert "OnRecipeSelected", weil
-   GenerateCallbackEvents Event[name] = name setzt. Blizzard löst aber den ausgeschriebenen Namen aus:
-       EventRegistry:TriggerEvent("ProfessionsRecipeListMixin.Event.OnRecipeSelected", recipeInfo, list)
-   (Blizzard-UI-Quellcode: Blizzard_ProfessionsRecipeList.lua, Blizzard_ProfessionsCrafting.lua).
-   Folge: Cr:OnRecipeSelected wird nie aufgerufen. Wählt man im Addon ein Rezept und danach im Blizzard-Fenster ein anderes, und
-   verrät das Fenster das Rezept nicht selbst, nimmt der Zutaten-Knopf das alte.
-   Lösung:
-   - Den Callback direkt registrieren:
-         EventRegistry:RegisterCallback("ProfessionsRecipeListMixin.Event.OnRecipeSelected",
-             function(_, info) Cr:OnRecipeSelected(info) end, Cr)
-   - Das geht schon beim Laden, ohne Prüfung auf das Mixin, weil EventRegistry unbekannte Ereignisse zulässt.
-   - In Era/TBC nur aufrufen, wenn EventRegistry existiert.
-   Im Forever-Client testen, ob derselbe Name ausgelöst wird: Rezept im Blizzard-Fenster wählen -> /dump zeigt lastModernRecipe.
+3. RAID-VORRAT (nach dem Launch)
+   Comfort.lua:392: prüfen, ob alle Item-IDs der Liste in Forever existieren, und bei Bedarf RAID_SETS.forever anlegen.
 
-4. WÄCHTER: 15-MINUTEN-PAUSE GEHT WÄHREND EINES SCAN-WUNSCHS VERLOREN (Schwere: NIEDRIG – neu)
-   Watcher.lua:312-316: Läuft die 2-Minuten-Pause des Scan-Wunschs und kommt dann AUCTION_HOUSE_THROTTLED_MESSAGE_DROPPED,
-   kehrt HoldForScan() ohne maxSeconds sofort zurück. Die 15-Minuten-Pause wird nicht gesetzt, und nach 120 s läuft der Wächter
-   wieder. Das heilt sich danach selbst, ist aber nicht gewollt.
-   Lösung: Bei maxSeconds == nil und vorhandenem h.max die Pause hochstufen (h.max = nil).
-
-5. RAID-VORRAT (Schwere: NIEDRIG – nach dem Launch)
-   Comfort.lua:390: Der Kommentar steht drin. Nach dem Launch prüfen, ob alle Item-IDs der Liste in Forever existieren, und
-   bei Bedarf RAID_SETS.forever anlegen.
-
-6. TESTROUTINE UND GoldSentinelTest.lua (noch nicht eingebaut)
-   0.65.5 enthält weder GoldSentinelTest.lua noch die neue Testroutine. Die .toc listet nur SelfTest.lua.
-   Bitte spätestens mit der Version vor dem Launch-Abend einbauen, nach testroutine-ahsentinel.txt und nachtrag-testroutinen.txt
-   (beide in diesem Ordner).
-   Die neuen Prüfregeln stehen in hinweis-neue-pruefregeln.txt. Bei SelfTest.lua besonders beachten:
-   - keine Blizzard-Funktion ersetzen, das ist jetzt ein FEHLER
-   - keine Käufe oder Auktionen direkt auslösen
+4. IM CLIENT PRÜFEN (Launch-Abend, im Testplan des Nutzers)
+   - Wächter an, Scan fällig -> der Scan startet und wird nicht blockiert.
+   - Rezept im Blizzard-Berufsfenster wählen -> /dump AHAnalyzerPro.Crafting.lastModernRecipe zeigt die ID.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
