@@ -14,8 +14,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 ## GuildSentinel-0.9.9.zip: OK (1 Warnungen)
 - **WARNUNG** GoldSentinelTest.lua fehlt (Testberichte und Fehlermeldungen an die Prüfung noch nicht eingebaut)
 
-## ProfessionSentinel-0.9.10.zip: OK (1 Warnungen)
-- **WARNUNG** GoldSentinelTest.lua fehlt (Testberichte und Fehlermeldungen an die Prüfung noch nicht eingebaut)
+## ProfessionSentinel-0.9.11.zip: OK
 
 ## RaidMaster-3.0.14.zip: OK (1 Warnungen)
 - **WARNUNG** GoldSentinelTest.lua fehlt (Testberichte und Fehlermeldungen an die Prüfung noch nicht eingebaut)
