@@ -1,0 +1,22 @@
+## Interface: 11508, 11509, 16001, 20505, 20506, 30405, 38002, 40402, 50504, 120105
+## Title: |cff__FARBE____ADDON__|r
+## Notes: __BESCHREIBUNG_EN__
+## Notes-deDE: __BESCHREIBUNG_DE__
+## Author: GoldSentinel
+## Version: 0.1.0
+## SavedVariables: __ADDON__DB
+## IconTexture: __ICON__
+## X-Category: __KATEGORIE__
+## X-License: All Rights Reserved (c) GoldSentinel
+
+# Gemeinsame Dateien zuerst (unverändert aus raidmaster/shared/ kopieren, nie selbst ändern)
+GoldSentinelGame.lua
+GoldSentinelTest.lua
+
+# Eigene Dateien
+Locales.lua
+Core.lua
+API.lua
+Options.lua
+UI.lua
+TestRoutine.lua

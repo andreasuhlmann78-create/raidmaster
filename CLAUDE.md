@@ -22,6 +22,11 @@ Die Prüf-Sitzung verteilt Anweisungen, Korrekturen und Hinweise für die Addon-
 Den Ordner `auftraege/` ändert nur die Prüf-Sitzung. Gemeinsame Dateien (`GoldSentinelGame.lua`, `GoldSentinelTest.lua`,
 `GoldSentinelDev.lua`) nur unverändert aus `shared/` kopieren, nie selbst ändern.
 
+## Neues Addon
+
+Neue GoldSentinel-Addons immer aus der Vorlage erstellen: `python3 shared/vorlage/neues_addon.py <Name> --slash <befehl>
+--en "…" --de "…" --zip` (Anleitung in `shared/vorlage/README.md`). Die Vorlage hält alle Regeln der Prüfung schon ein.
+
 ## Immer
 
 - Das Repo ist öffentlich: nie Tokens, Webhook-URLs, Passwörter oder Spielernamen in Dateien oder Commits.
