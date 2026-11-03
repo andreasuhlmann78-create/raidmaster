@@ -386,7 +386,10 @@ async def _ensure_category(guild, cat_def: dict, roles: dict, report: list, crea
         pool = guild.text_channels if kind == "text" else guild.voice_channels
         channel = find_channel(pool, name) if kind == "text" else _find(pool, name)
         ch_ow = _overwrites(mode, guild, roles) if mode else None
-        if channel:
+        if channel and channel.name.casefold() != name.casefold():
+            # von Hand umbenannter Kanal (CHANNEL_ALIASES): benutzen, aber nicht verschieben und Rechte nicht ändern
+            report.append(f"• #{channel.name} (für #{name}) war schon vorhanden")
+        elif channel:
             if channel.category_id != category.id:
                 await channel.edit(category=category, sync_permissions=False, reason=reason)
                 report.append(f"↪️ {'#' if kind == 'text' else '🔊 '}{name} in {cat_name} verschoben")

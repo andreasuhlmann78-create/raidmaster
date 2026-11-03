@@ -88,7 +88,7 @@ Ohne GitHub geht es auch: das RaidMaster-Paket per WinSCP auf den Server kopiere
 - **💬 ALLGEMEIN** (#handwerk-und-handel, #gruppensuche; #allgemein legt der Bot ab 1.5.95 nicht mehr an), **🗝️ DUNGEONS** (4 Sprachkanäle „Dungeon 1–4“, je 10 Plätze), **🔊 SPRACHE**, **🔒 OFFIZIERE** (#offiziere, **#befehlsliste**, #bot-befehle,
   **#bot-daten**, Sprachkanal nur für Offiziere)
 
-**Umbenannte Kanäle (ab Bot 1.5.95):** #regeln darf auch **#dkp-regeln** heißen, #gruppensuche auch **#gruppensuche-für-dungeons**. Der Bot findet sie unter beiden Namen, legt keinen zweiten Kanal an und verlinkt sie im Willkommenstext. Weitere Namen: `CHANNEL_ALIASES` in `server_setup.py`. In den Regeltexten (`guild_rules.json`) und in Ankündigungen werden Kanäle als `{#kanal}` geschrieben – der Bot macht daraus einen Link, auch zu umbenannten Kanälen.
+**Umbenannte Kanäle (ab Bot 1.5.95):** #regeln darf auch **#dkp-regeln** heißen, #gruppensuche auch **#gruppensuche-für-dungeons**. Der Bot findet sie unter beiden Namen, legt keinen zweiten Kanal an und verlinkt sie im Willkommenstext. Einen umbenannten Kanal verschiebt `/raidmaster-einrichten` nicht und ändert auch seine Rechte nicht. Weitere Namen: `CHANNEL_ALIASES` in `server_setup.py`. In den Regeltexten (`guild_rules.json`) und in Ankündigungen werden Kanäle als `{#kanal}` geschrieben – der Bot macht daraus einen Link, auch zu umbenannten Kanälen.
 
 **#befehlsliste** zeigt alle Bot-Befehle und hält sich bei jedem Update selbst aktuell. Dort schreibt nur
 der Bot – Offiziere können lesen, aber nichts posten.
