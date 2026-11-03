@@ -6,6 +6,7 @@ AHSentinel scannt das Auktionshaus, merkt sich für jedes Item den Preisverlauf 
 **🧭 So kommst du hin**
 • Auktionshaus öffnen – AHSentinel sitzt dort als **eigener Reiter**; ohne Auktionshaus öffnet `/ahs` oder der **Waagen-Knopf** an der Minikarte das Fenster
 • Fünf Reiter: **Übersicht · Kaufen · Verkaufen · Markt · Buchhaltung**
+• **Sniper** und **Wächter** schaltest du oben in der Kopfzeile an und aus, der **Preisverlauf** öffnet sich als eigenes Fenster
 • Unten **„Markt scannen“** – der Server erlaubt einen Scan alle 15 Minuten, danach kommt eine Meldung
 • **Rechtsklick** auf ein Item zeigt überall alle Möglichkeiten
 
@@ -27,13 +28,14 @@ AHSentinel scannt das Auktionshaus, merkt sich für jedes Item den Preisverlauf 
 • **Einkauf** – Kategorien, Filter für Stufe, iLvl und Seltenheit, **Favoriten**, Sofortkauf und Gebot
 • **Stapelware zusammengefasst** – gleicher Stückpreis = **eine Zeile mit der Summe** und dem Gesamtpreis; mit **Shift+Klick** mehrere Zeilen wählen und zusammen kaufen
 • **Sniper** – Ziel mit Max-Preis, Menge und Budget; beim Treffer ein Ton, **eine Mausrad-Raste kauft**
-• **Wächter** – findet nebenbei Kräuter, Erz, Stoff & Co. weit unter Marktwert – nur bei Items mit belastbarem Marktwert
+• **Wächter** – findet nebenbei Kräuter, Erz, Stoff & Co. weit unter Marktwert – nur bei Items mit belastbarem Marktwert, damit kein falscher Preis als Schnäppchen durchrutscht. Startest du den Markt-Scan, hat er Vorrang: Der Wächter pausiert so lange
 • **Schnäppchen** – unter Marktwert, Händler- oder Entzauberwert, Gebote und Flips, sortiert nach **Gewinn pro Tag**
 • **Raid-Vorrat** – Tränke, Fläschchen und Buff-Food für eine Raidwoche als Einkaufsliste (`/ahs raid`)
-• **Qualitätsstufen** (Retail) – Material in mehreren Stufen trägt das Stufen-Symbol hinter dem Namen
+• **Qualitätsstufen** (Retail) – Material und Hergestelltes in mehreren Stufen trägt das Stufen-Symbol hinter dem Namen
 
 **🏷️ Verkaufen**
 • Item anklicken – **Preisvorschlag**, Stapelgröße, Gebühr und Erlös stehen vorab da (in Retail auch aus der Reagenzientasche; auf WoW Forever mit der Einstellgebühr von mind. 1 Silber, die nie erstattet wird – günstige Items gehen dann eher zum Händler)
+• Nach dem Einstellen und Abbrechen steht im Fenster, was passiert ist
 • **Preisschutz** warnt, bevor du weit unter Wert einstellst; **Serie** stellt alles mit einem Klick pro Auktion ein
 • **Meine Auktionen** – unterboten? abbrechen und günstiger neu einstellen; **Neu einstellen** für Zurückgekommenes
 • **Meldung bei Verkauf** mit Erlös und Gewinn
@@ -51,13 +53,13 @@ Preis, Marktwert, Verlauf, Händlerpreis, Entzauberwert, Verkaufbarkeit und wie 
 • **Gold-Ziel** für alle Charaktere (`/ahs ziel 5000`) und **Tagesbilanz** beim Einloggen
 
 **🌍 Sprachen**
-Deutsch, Englisch, Französisch, Spanisch (EU und Lateinamerika), Portugiesisch, Italienisch, Russisch, Koreanisch, Chinesisch (vereinfacht und traditionell). Rund **33 000 Item-Namen** in jeder Sprache – suchen geht in jeder Sprache. In **Retail** kommen die Namen direkt vom Spiel.
+Deutsch, Englisch, Französisch, Spanisch (EU und Lateinamerika), Portugiesisch, Italienisch, Russisch, Koreanisch, Chinesisch (vereinfacht und traditionell). Rund **33 000 Item-Namen** in jeder Sprache – suchen geht in jeder Sprache, die Namen erscheinen in der eingestellten. In **Retail** kommen die Namen direkt vom Spiel.
 
 **⌨️ Wichtigste Befehle**
-`/ahs` Fenster · `/ahs scan` Markt-Scan · `/ahs heute` Heute tun · `/ahs sniper` Sniper an/aus · `/ahs bilanz` Tagesbilanz · `/ahs help` alle Befehle
+`/ahs` Fenster · `/ahs scan` Markt-Scan · `/ahs heute` Heute tun · `/ahs sniper` Sniper an/aus · `/ahs bilanz` Tagesbilanz · `/ahs help` **alle Befehle im Chat**
 
 **📥 Installieren**
-ZIP von **CurseForge** (AHSentinel) oder aus dem Discord herunterladen, entpacken und den Ordner `AHSentinel` nach `Interface/AddOns` kopieren. Deine Daten und Einstellungen bleiben bei jedem Update erhalten. Früher hieß das Addon „AH Analyzer Pro“ – die alten Daten werden beim ersten Start automatisch übernommen.
+Die ZIP liegt hier im Kanal (immer die neueste Version) und auf **CurseForge** (AHSentinel). Entpacken und den Ordner `AHSentinel` nach `Interface/AddOns` kopieren. Deine Daten und Einstellungen bleiben bei jedem Update erhalten. Früher hieß das Addon „AH Analyzer Pro“ – die alten Daten werden beim ersten Start automatisch übernommen. Liegt der alte Ordner `AHAnalyzerPro` noch in `AddOns`, sagt AHSentinel Bescheid: einfach löschen.
 
 **🐞 Fehler oder Ideen?**
 Einfach hier schreiben – am besten mit der Fehlermeldung und deiner WoW-Version. Gefällt dir das Addon? Knopf **Unterstützen** im Fenster oder `/ahs spenden`.
