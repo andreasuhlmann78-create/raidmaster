@@ -149,6 +149,29 @@ if blob[:2] == b"PK":
     p.write_bytes(blob)
     r = ladetest.load_test(p)
     check("ThreatSentinel 2.4.3 (lud im Spiel nicht) -> FEHLER", levels(r).count("FEHLER") == 2 and "Core.lua:702" in r[0][1], r)
+# --- Sprachtest (nur WoW Forever): Sprache nach GetLocale(), ohne Test-/Entwicklermodus -----------------------------
+HELP = ("local de = GetLocale() == 'deDE'\n"
+        "local T = de and {a='Befehle für das Fenster und die Einstellungen', b='Das Fenster wird mit diesem Befehl geöffnet', "
+        "c='Die Hilfe ist nicht mehr nötig und wird ausgeblendet'} or {a='Commands for the window and the settings', "
+        "b='The window is opened with this command', c='The help is not needed and you can hide it'}\n"
+        "SLASH_LANG1 = '/lang'\nSlashCmdList.LANG = function() print(T.a); print(T.b); print(T.c) end\n")
+r = ladetest.load_test(make("Lang", {"Core.lua": HELP}, interface="16001"))
+check("Sprache nach GetLocale -> keine Meldung", r == [], r)
+DE_ONLY = HELP.replace("local de = GetLocale() == 'deDE'", "local de = true")
+r = ladetest.load_test(make("Lang", {"Core.lua": DE_ONLY}, interface="16001"))
+check("nur Deutsch -> WARNUNG im englischen Client", any("Sprachtest" in t and "enUS" in t for _, t in r) and "FEHLER" not in levels(r), r)
+DEV_ONLY = HELP.replace("local de = GetLocale() == 'deDE'", "local dev = false\nlocal de = not dev or GetLocale() == 'deDE'")
+r = ladetest.load_test(make("Lang", {"Core.lua": DEV_ONLY}, interface="16001"))
+check("Englisch nur im Entwicklermodus -> WARNUNG", any("Sprachtest" in t and "enUS" in t for _, t in r), r)
+EN_ONLY = HELP.replace("local de = GetLocale() == 'deDE'", "local de = false")
+r = ladetest.load_test(make("Lang", {"Core.lua": EN_ONLY}, interface="16001"))
+check("nur Englisch -> WARNUNG im deutschen Client", any("Sprachtest" in t and "deDE" in t for _, t in r), r)
+r = ladetest.load_test(make("Lang", {"Core.lua": DE_ONLY}, interface="11508"))
+check("Sprachtest nur für WoW Forever", r == [], r)
+NAMES = HELP.replace("print(T.a); print(T.b); print(T.c)", "print('Defias-Schläger'); print('Höhlenspinne'); print('Murloc-Jäger'); print(T.a)")
+r = ladetest.load_test(make("Lang", {"Core.lua": NAMES}, interface="16001"))
+check("einzelne Namen mit Umlaut -> keine Meldung", r == [], r)
+
 for z in sorted((root / "download").glob("*.zip")):
     if "Uploader" in z.name:
         continue

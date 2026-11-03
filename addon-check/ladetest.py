@@ -17,6 +17,7 @@ damit fehlende Teile der Nachbildung keinen Alarm auslösen. Darum gilt:
     bitte ansehen).
 Ohne lupa wird der Ladetest übersprungen (der Discord-Bot hat lupa nicht immer).
 """
+import os
 import re
 import zipfile
 
@@ -85,7 +86,13 @@ function FrameMT:GetScale() return 1 end
 function FrameMT:GetEffectiveScale() return 1 end
 function FrameMT:GetChecked() return false end
 function FrameMT:GetText() return self._text or "" end
-function FrameMT:SetText(t) self._text = t end
+GS_TEXTS = {}
+function GS_Say(t) if type(t) == "string" and t ~= "" and #GS_TEXTS < 3000 then GS_TEXTS[#GS_TEXTS + 1] = t end end
+function FrameMT:SetText(t) self._text = t; GS_Say(t) end
+function FrameMT:SetFormattedText(f, ...) local ok, t = pcall(string.format, f, ...); if ok then self._text = t; GS_Say(t) end end
+function FrameMT:AddMessage(t) GS_Say(t) end
+function FrameMT:AddLine(t) GS_Say(t) end
+function FrameMT:AddDoubleLine(a, b) GS_Say(a); GS_Say(b) end
 function FrameMT:GetValue() return 0 end
 function FrameMT:GetNumPoints() return 1 end
 function FrameMT:GetObjectType() return self._kind or "Frame" end
@@ -128,7 +135,11 @@ function GS_Fire(ev, ...)
   end
 end
 
-print = function() end            -- Ausgaben der Addons nicht in den Prüfbericht
+print = function(...)              -- Ausgaben der Addons nicht in den Prüfbericht, nur für den Sprachtest merken
+  local t = {}
+  for i = 1, select("#", ...) do t[#t + 1] = tostring((select(i, ...))) end
+  GS_Say(table.concat(t, " "))
+end
 -- WoW-Lua-Zusätze
 function strsplit(sep, s, n)
   s = tostring(s or ""); local out, i = {}, 1
@@ -172,7 +183,8 @@ function hooksecurefunc(a, b, c)
 end
 function InCombatLockdown() return false end
 function UnitAffectingCombat() return false end
-function GetLocale() return "deDE" end
+GS_LOCALE = GS_LOCALE or "deDE"
+function GetLocale() return GS_LOCALE end
 function UnitName(u) return "Tester", nil end
 function UnitFullName(u) return "Tester", "Realm" end
 function GetRealmName() return "Realm" end
@@ -253,6 +265,24 @@ setmetatable(_G, { __index = function(t, k)
 end })
 """
 
+SLASH_RUNNER = r"""
+return function()
+  local n = 0
+  for key, fn in pairs(SlashCmdList) do
+    if type(fn) == "function" then
+      for _, arg in ipairs({ "help", "" }) do
+        local count = 0
+        debug.sethook(function() count = count + 1; if count > 100 then error("Zeitlimit") end end, "", 1000000)
+        pcall(fn, arg)
+        debug.sethook()
+        n = n + 1
+      end
+    end
+  end
+  return n
+end
+"""
+
 RUNNER = r"""
 return function(src, file, addon, ns)
   local f, err = loadstring(src, "@" .. file)
@@ -309,10 +339,110 @@ def _pick_toc(tocs, folder, suffixes):
     return main[0] if main else None
 
 
+def _load_one(z, lower, folder, flavor, meta, files, locale="deDE", talk=False):
+    """Addon einmal im nachgebauten Spiel laden. -> (Meldungen, gezeigte Texte oder None)."""
+    from lupa.lua51 import LuaRuntime
+    res = []
+    lua_files, xml_names = _expand(z, lower, folder, files)
+    lua = LuaRuntime(unpack_returned_tuples=True)
+    lua.execute(f'GS_LOCALE = "{locale}"')
+    lua.execute(MOCK)
+    lua.execute(FLAVOR_LUA[flavor])
+    own = set(re.findall(r"[A-Za-z_]\w*", meta.get("SavedVariables", "") + " " +
+                         meta.get("SavedVariablesPerCharacter", "")))
+    g = lua.globals()
+    g.GS_OWN = lua.table_from({k: True for k in own})
+    # eigene Namen und die gemeinsamen GoldSentinel-Dateien sind beim ersten Laden leer (nil), wie im Spiel
+    g.GS_PREFIX = lua.table_from([folder, "GoldSentinel"] + ([folder.replace("Sentinel", "")] if "Sentinel" in folder else []))
+    lua.execute(GLOBALS_GUARD.replace("local own, ownPrefix = ...", "local own, ownPrefix = GS_OWN, GS_PREFIX"))
+    for n in xml_names:                            # in XML angelegte Frames gibt es im Spiel schon
+        lua.execute(f'CreateFrame("Frame", "{n}")')
+    runner = lua.execute(RUNNER)
+    ns = lua.table()
+    label = f"{folder} ({flavor})"
+    broken = []                                    # Dateien, die mit "nil value" abbrechen
+    for f in lua_files:
+        r = runner(z.read(f).decode("utf-8", "replace"), f, folder, ns)
+        ok, err = r if isinstance(r, tuple) else (r, None)
+        if not ok:
+            msg = str(err)
+            if "Zeitlimit" in msg:
+                res.append(("WARNUNG", f"Ladetest {label}: {f} – {msg}"))
+            elif "nil value" in msg:
+                broken.append((f, msg))
+            else:
+                res.append(("WARNUNG", f"Ladetest {label}: {f} – {msg} (beim Laden; kann an der Nachbildung liegen)"))
+    if broken:
+        f, msg = broken[0]
+        more = f" Danach brechen {len(broken) - 1} weitere Dateien ab (Folgefehler: " + \
+               ", ".join(b[0].rsplit("/", 1)[-1] for b in broken[1:6]) + (" …" if len(broken) > 6 else "") + ")." \
+            if len(broken) > 1 else ""
+        res.append(("FEHLER", f"Ladetest {label}: {f} lädt nicht – {msg}. Im Spiel bricht die Datei hier ab "
+                              f"(oft: Funktion benutzt, bevor sie definiert ist, oder Datei in falscher Reihenfolge "
+                              f"in der .toc).{more}"))
+        return res, None                           # Start-Ereignisse sind dann ohnehin kaputt
+    for ev, args in (("ADDON_LOADED", f'"{folder}"'), ("PLAYER_LOGIN", ""), ("PLAYER_ENTERING_WORLD", "true, false")):
+        r = lua.execute(f"local ok, e = pcall(GS_Fire, '{ev}'{', ' + args if args else ''}); return ok, tostring(e)")
+        ok, err = r if isinstance(r, tuple) else (r, None)
+        if not ok:
+            res.append(("WARNUNG", f"Ladetest {label}: Fehler bei {ev} – {err} (nachgebautes Spiel; bitte ansehen)"))
+            return res, None
+    if not talk:
+        return res, None
+    try:
+        lua.execute(SLASH_RUNNER)()                # "/befehl help" und "/befehl" – zeigt Hilfe, Fenster, Chat
+    except Exception:
+        pass
+    texts = [str(t) for t in lua.globals().GS_TEXTS.values()]
+    return res, texts
+
+
+# ---------------------------------------------------------------------------
+# Sprachtest: Zeigt das Addon im englischen Client Englisch und im deutschen Deutsch – ohne Testmodus/Entwickler?
+# Gezählt wird, was das Addon beim Start und bei "/befehl help" bzw. "/befehl" in Chat, Fenster und Tooltips schreibt.
+# ---------------------------------------------------------------------------
+_CODES = re.compile(r"\|c[0-9a-fA-F]{8}|\|r|\|H[^|]*\|h|\|h|\|T[^|]*\|t|\|A[^|]*\|a")
+_DE = re.compile(r"[äöüÄÖÜß]|\b(und|nicht|oder|wird|werden|bitte|keine?|mit|für|aus|ein|eine|der|die|das|ist|sind|zum|zur|Fenster|"
+                 r"Befehle|Einstellungen|Hilfe|anzeigen|öffnen|schliessen|geladen|zeigen|ausblenden)\b")
+_EN = re.compile(r"\b(the|and|not|with|for|your|you|is|are|show|hide|open|close|loaded|commands|settings|help|window|click)\b", re.I)
+
+
+def _lang_of(text):
+    t = _CODES.sub("", text)
+    if len(re.findall(r"[^\W\d_]{2,}", t)) < 3:
+        return None                                # Namen, einzelne Wörter oder Zeichen: keine Aussage
+    de, en = len(_DE.findall(t)), len(_EN.findall(t))
+    if de > en:
+        return "de"
+    if en > de:
+        return "en"
+    return None
+
+
+def language_check(label, texts_de, texts_en):
+    """-> Liste (level, text). Nur Warnungen: die Erkennung ist eine Schätzung."""
+    out = []
+    if texts_de is None or texts_en is None:
+        return out
+    en_says = [t for t in texts_en if _lang_of(t) == "de"]
+    if len(en_says) >= 3:
+        ex = _CODES.sub("", en_says[0]).strip()[:70]
+        out.append(("WARNUNG", f"Sprachtest {label}: Im englischen Client (enUS) zeigt das Addon {len(en_says)} deutsche "
+                               f"Texte, z. B. \"{ex}\". Die Sprache muss sich nach GetLocale() richten – für alle Spieler, nicht "
+                               f"nur im Test- oder Entwicklermodus."))
+    de_de = [t for t in texts_de if _lang_of(t) == "de"]
+    de_en = [t for t in texts_de if _lang_of(t) == "en"]
+    if len(texts_de) >= 5 and not de_de and len(de_en) >= 3:
+        ex = _CODES.sub("", de_en[0]).strip()[:70]
+        out.append(("WARNUNG", f"Sprachtest {label}: Im deutschen Client (deDE) zeigt das Addon nur Englisch, z. B. \"{ex}\". "
+                               f"Deutsch ist Pflicht und muss ohne Test- oder Entwicklermodus erscheinen."))
+    return out
+
+
 def load_test(path):
     """-> Liste (level, text). Leere Liste, wenn alles lädt oder lupa fehlt (dann ("SKIP", grund))."""
     try:
-        from lupa.lua51 import LuaRuntime
+        from lupa.lua51 import LuaRuntime  # noqa: F401
     except ImportError:
         return [("SKIP", "lupa fehlt – Ladetest übersprungen")]
     res = []
@@ -334,47 +464,10 @@ def load_test(path):
             deps = meta.get("Dependencies", "") + "," + meta.get("RequiredDeps", "")
             if any(d.strip() and not d.strip().lower().startswith(("blizzard_",)) for d in deps.split(",")):
                 continue                                   # braucht ein anderes Addon: einzeln nicht ladbar
-            lua_files, xml_names = _expand(z, lower, folder, files)
-            lua = LuaRuntime(unpack_returned_tuples=True)
-            lua.execute(MOCK)
-            lua.execute(FLAVOR_LUA[flavor])
-            own = set(re.findall(r"[A-Za-z_]\w*", meta.get("SavedVariables", "") + " " +
-                                 meta.get("SavedVariablesPerCharacter", "")))
-            g = lua.globals()
-            g.GS_OWN = lua.table_from({k: True for k in own})
-            # eigene Namen und die gemeinsamen GoldSentinel-Dateien sind beim ersten Laden leer (nil), wie im Spiel
-            g.GS_PREFIX = lua.table_from([folder, "GoldSentinel"] + ([folder.replace("Sentinel", "")] if "Sentinel" in folder else []))
-            lua.execute(GLOBALS_GUARD.replace("local own, ownPrefix = ...", "local own, ownPrefix = GS_OWN, GS_PREFIX"))
-            for n in xml_names:                            # in XML angelegte Frames gibt es im Spiel schon
-                lua.execute(f'CreateFrame("Frame", "{n}")')
-            runner = lua.execute(RUNNER)
-            ns = lua.table()
-            label = f"{folder} ({flavor})"
-            broken = []                                    # Dateien, die mit "nil value" abbrechen
-            for f in lua_files:
-                r = runner(z.read(f).decode("utf-8", "replace"), f, folder, ns)
-                ok, err = r if isinstance(r, tuple) else (r, None)
-                if not ok:
-                    msg = str(err)
-                    if "Zeitlimit" in msg:
-                        res.append(("WARNUNG", f"Ladetest {label}: {f} – {msg}"))
-                    elif "nil value" in msg:
-                        broken.append((f, msg))
-                    else:
-                        res.append(("WARNUNG", f"Ladetest {label}: {f} – {msg} (beim Laden; kann an der Nachbildung liegen)"))
-            if broken:
-                f, msg = broken[0]
-                more = f" Danach brechen {len(broken) - 1} weitere Dateien ab (Folgefehler: " + \
-                       ", ".join(b[0].rsplit("/", 1)[-1] for b in broken[1:6]) + (" …" if len(broken) > 6 else "") + ")." \
-                    if len(broken) > 1 else ""
-                res.append(("FEHLER", f"Ladetest {label}: {f} lädt nicht – {msg}. Im Spiel bricht die Datei hier ab "
-                                      f"(oft: Funktion benutzt, bevor sie definiert ist, oder Datei in falscher Reihenfolge "
-                                      f"in der .toc).{more}"))
-                continue                                   # Start-Ereignisse sind dann ohnehin kaputt
-            for ev, args in (("ADDON_LOADED", f'"{folder}"'), ("PLAYER_LOGIN", ""), ("PLAYER_ENTERING_WORLD", "true, false")):
-                r = lua.execute(f"local ok, e = pcall(GS_Fire, '{ev}'{', ' + args if args else ''}); return ok, tostring(e)")
-                ok, err = r if isinstance(r, tuple) else (r, None)
-                if not ok:
-                    res.append(("WARNUNG", f"Ladetest {label}: Fehler bei {ev} – {err} (nachgebautes Spiel; bitte ansehen)"))
-                    break
+            talk = flavor == LOAD_FLAVORS[0][0] and not os.environ.get("ADDON_CHECK_NO_LANGTEST")
+            r, texts_de = _load_one(z, lower, folder, flavor, meta, files, "deDE", talk)
+            res += r
+            if talk and texts_de is not None:              # Sprachtest nur für WoW Forever
+                _, texts_en = _load_one(z, lower, folder, flavor, meta, files, "enUS", True)
+                res += language_check(f"{folder} ({flavor})", texts_de, texts_en)
     return res

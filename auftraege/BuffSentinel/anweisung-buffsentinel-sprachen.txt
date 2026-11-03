@@ -1,0 +1,35 @@
+ANWEISUNG BUFFSENTINEL: SPRACHEN NACH DEM SPIEL-CLIENT
+====================================================
+Stand: 3. November 2026, 21:20 · von der Prüf-Sitzung · gefunden mit dem neuen Sprachtest der Addon-Prüfung
+
+BEFUND (Schwere: HOCH – betrifft jeden Spieler ohne deutschen Client)
+BuffSentinel 0.9.6 hat keine Übersetzung. Alle Texte stehen deutsch direkt im Code, GetLocale() wird nur in
+Donate.lua benutzt. Ein englischer Client sieht z. B.:
+- Core.lua:1206 "geladen für WoW Forever."
+- Display.lua:90/95 "Fläche ziehen = ganze Gruppe", Display.lua:823 "Button ziehen = einzeln verschieben …"
+- dazu Optionen, Hilfe, Chatmeldungen, Tooltips.
+Die Addon-Prüfung meldet das ab jetzt als WARNUNG ("Sprachtest … Im englischen Client (enUS) zeigt das Addon 8
+deutsche Texte").
+
+REGEL (gilt für alle GoldSentinel-Addons)
+Die Sprache richtet sich beim Laden nach GetLocale() – für alle Spieler, nicht nur im Test- oder Entwicklermodus.
+Englisch ist der Standard für alle Clients ohne eigene Übersetzung, Deutsch ist Pflicht.
+
+UMSETZEN (mit der nächsten Version, 0.9.7)
+1. Locales.lua (vor allen anderen eigenen Dateien in der .toc, nach GoldSentinelGame.lua/GoldSentinelTest.lua):
+   Tabelle L wie in der Vorlage (raidmaster/shared/vorlage/__ADDON__/Locales.lua): Englisch als Standard, Deutsch
+   Pflicht, weitere Sprachen (frFR, esES, esMX, itIT, ptBR, ruRU, koKR, zhCN, zhTW) als Blöcke, die auf Englisch
+   zurückfallen. Ein unbekannter Schlüssel zeigt den Schlüssel statt eines Lua-Fehlers.
+2. Jeden sichtbaren Text im Code über L ausgeben: Chat (BS.Print), Optionen, Fenster, Raster, Tooltips, Hilfe zu
+   /bs, Hinweise beim Ziehen, Testroutine-Bericht. Nichts Deutsches mehr direkt im Code (Kommentare ausgenommen).
+   Zauber- und Itemnamen kommen aus dem Spiel (GetSpellInfo usw.), nicht aus eigenen Texten.
+3. Die anderen Sprachen mindestens mit Englisch füllen; echte Übersetzungen sind willkommen, aber kein Muss für 0.9.7.
+4. Testroutine: neuer Fall im Bereich F (Sprachen):
+   - jeder englische Schlüssel hat einen deutschen,
+   - Platzhalter (%d, %s) stimmen in jeder Sprache mit dem englischen Text überein,
+   - unter einem englischen Client (Locale tauschen wie in der Vorlage, ns.ApplyLocale) enthält die Hilfe keinen
+     deutschen Text.
+5. Vor dem Push: python3 addon-check/addon_check.py download/BuffSentinel-<Version>.zip -> kein FEHLER und keine
+   Sprachtest-WARNUNG mehr. CHANGELOG EN/DE.
+
+Ist etwas daran falsch oder nicht machbar, bitte dem Nutzer begründet zurückmelden.

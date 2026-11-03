@@ -33,6 +33,11 @@ veröffentlicht wurden (eine davon auf CurseForge).
   den nächsten 8 Zeilen. In Forever ist er im Kampf geheim. Kein Alarm, wenn die Datei `IsSecret`, `issecretvalue`
   oder `InCombatLockdown` benutzt. Zusammensetzen mit `..` und Weitergeben sind erlaubt.
 - Ladetest: andere Fehler beim Laden (z. B. Rechnen mit einem Wert der Nachbildung) und Fehler in den Start-Ereignissen
+- **Sprachtest** (ab 3. November, nur WoW Forever): Das Addon wird einmal als deutscher (deDE) und einmal als englischer
+  Client (enUS) geladen, ohne Test- oder Entwicklermodus. Gezählt wird, was es beim Start und bei `/befehl help` bzw.
+  `/befehl` in Chat, Fenster und Tooltips schreibt. Zeigt der englische Client mindestens 3 deutsche Sätze oder der
+  deutsche Client nur Englisch, kommt eine WARNUNG. Einzelne Namen und Wörter zählen nicht. Abschalten (nur zum
+  Untersuchen): `ADDON_CHECK_NO_LANGTEST=1`.
   `ADDON_LOADED`, `PLAYER_LOGIN`, `PLAYER_ENTERING_WORLD`. Diese können an der Nachbildung liegen, bitte ansehen.
   Unbekannte Blizzard-Funktionen sind in der Nachbildung harmlose Platzhalter: `Is…/Has…/Can…` geben «nein», Abfragen
   wie `Get…Num…`, `…Count`, `…Height` geben 0. Eigene Globals und SavedVariables sind beim Laden nil, wie im Spiel.

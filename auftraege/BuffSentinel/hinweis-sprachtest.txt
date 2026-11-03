@@ -1,0 +1,19 @@
+HINWEIS AN ALLE ADDON-PROJEKTE: NEUER SPRACHTEST IN DER ADDON-PRÜFUNG
+=====================================================================
+Stand: 3. November 2026, 21:20 · von der Prüf-Sitzung · Anlass: GuildSentinel (Sprache nur im Testmodus umschaltbar)
+
+Regel: Die Sprache eines Addons richtet sich beim Laden nach GetLocale() – für ALLE Spieler, nicht nur im Test- oder
+Entwicklermodus. Englisch ist der Standard für Clients ohne eigene Übersetzung, Deutsch ist Pflicht. Eine Sprachwahl
+für Screenshots im Entwicklermodus ist erlaubt, ersetzt aber nie die Erkennung über den Client.
+
+Neu in addon-check/ladetest.py (läuft bei jedem Push, vor CurseForge und im Bot mit):
+- Das Addon wird für WoW Forever zweimal geladen: als deutscher (deDE) und als englischer Client (enUS), ohne Test- oder
+  Entwicklermodus.
+- Gezählt wird, was es beim Start und bei "/befehl help" bzw. "/befehl" in Chat, Fenster und Tooltips schreibt.
+- WARNUNG, wenn der englische Client mindestens 3 deutsche Sätze zeigt oder der deutsche Client nur Englisch.
+  Einzelne Namen und Wörter (z. B. Gegnernamen in einer Vorschau) zählen nicht.
+
+Stand heute: AHSentinel, GuildSentinel, LevelPilot, ProfessionSentinel, RaidMaster und ThreatSentinel bestehen.
+BuffSentinel nicht (keine Übersetzung) – siehe auftraege/BuffSentinel/anweisung-buffsentinel-sprachen.txt.
+
+Bitte bei jeder neuen Version darauf achten: keine sichtbaren Texte direkt im Code, alles über die Sprachtabelle.
