@@ -94,6 +94,9 @@ GetSpellInfo GetSpellCooldown IsSpellKnown GetNumGuildMembers GetGuildRosterInfo
 SendChatMessage SendAddonMessage BuyMerchantItem RepairAllItems GetRepairAllCost CanMerchantRepair TakeTaxiNode
 SelectGossipOption AcceptQuest CompleteQuest GetQuestReward PlaySound PlaySoundFile CreateFrame
 GetAddOnMetadata IsAddOnLoaded LoadAddOn GetCursorPosition IsShiftKeyDown IsControlKeyDown IsAltKeyDown
+GetMerchantNumItems GetMerchantItemInfo GetMerchantItemLink GetMerchantItemID GetMerchantItemCostInfo
+GetMerchantItemCostItem GetFactionInfoByID GetFactionInfo GetContainerNumSlots GetContainerItemID GetContainerItemInfo
+GetContainerItemLink GetTradeSkillInfo GetNumTradeSkills GetProfessions GetProfessionInfo GetSkillLineInfo GetNumSkillLines
 """.split())
 _TARGET = r"(?:_G\s*\.\s*\w+|_G\s*\[\s*[\"']\w+[\"']\s*\]|C_\w+\s*[.:]\s*\w+|[A-Za-z_]\w*)"
 # Anweisungsanfang: Zeilenanfang, ; oder nach then/do/else/repeat (auch mehrere Ziele: A, B = …)
@@ -115,6 +118,7 @@ _SCOPE_TOKENS = re.compile(
 # Die nächste Version muss es beheben. Eintrag entfernen, sobald die Version aus download/ verschwunden ist.
 ALTLAST = {
     ("raidmaster", "3.0.14"),     # Test/Test.lua ersetzt GetServerTime, UnitExists, UnitIsPlayer, UnitName (offen-raidmaster.txt 1+2)
+    ("professionsentinel", "0.9.11"),  # TestRoutine.lua ersetzt über Stub() _G- und C_-Funktionen (offen-professionsentinel.txt 1)
 }
 
 # Testdateien (eigene Testroutinen der Addons, nicht shared/GoldSentinelTest.lua)
@@ -252,6 +256,53 @@ def _norm_target(t):
         ns_, fn = re.split(r"[.:]", t, 1)
         return ns_, f"{ns_}.{fn}"
     return None, t
+
+
+# sieht aus wie eine Blizzard-API-Funktion (für Hilfsfunktionen auf _G; eigene Globals wie AHAnalyzerPro zählen nicht)
+_BLIZZ_LIKE = re.compile(r"^(?:Get|Set|Is|Has|Can|Unit|Buy|Sell|Send|Pickup|Use|Cast|Take|Accept|Complete|Repair|Guild|Invite|Create)[A-Z]")
+_SETTER_DEF = re.compile(r"\bfunction\s+(?:[\w.]+[.:])?(\w+)\s*\(\s*(\w+)\s*,\s*(\w+)[^)]*\)")
+
+
+def setter_helpers(code):
+    """Eigene Hilfsfunktionen, die ihre ersten zwei Parameter als Tabelle und Schlüssel beschreiben (t[k] = v oder
+    rawset(t, k, …)), z. B. Stub(t, k, v). Wird so eine Funktion mit _G oder einer C_-Tabelle aufgerufen, ist das eine
+    Ersetzung auf Umweg. -> Menge der Funktionsnamen"""
+    names = set()
+    for m in _SETTER_DEF.finditer(code):
+        name, t, k = m.groups()
+        body = code[m.end():m.end() + 1500]
+        end = re.search(r"^\s*end\b", body, re.M)    # grob: bis zum ersten "end" am Zeilenanfang
+        body = body[:end.start()] if end else body
+        if re.search(r"\b" + t + r"\s*\[\s*" + k + r"\s*\]\s*=(?!=)|\brawset\s*\(\s*" + t + r"\s*,\s*" + k + r"\b", body):
+            names.add(name)
+    return names
+
+
+def blizz_overrides_indirect(code):
+    """Aufrufe einer Setzer-Hilfsfunktion mit _G oder C_X -> Liste (zeile, name, sicher).
+    sicher=False: Schlüssel ist eine Variable (Stub(_G, n, nil)) – welche Funktion, sieht die Prüfung nicht."""
+    found = []
+    helpers = setter_helpers(code)
+    if not helpers:
+        return found
+    call = re.compile(r"(?<![\w.:])(?:[\w.]+[.:])?(" + "|".join(map(re.escape, sorted(helpers))) +
+                      r")\s*\(\s*(_G|C_\w+)\s*,\s*(?:[\"'](\w+)[\"']|(\w+))")
+    for m in call.finditer(code):
+        if re.search(r"\bfunction\s*$", code[code.rfind("\n", 0, m.start()) + 1:m.start()]):
+            continue                    # die Definition selbst
+        base, lit, var = m.group(2), m.group(3), m.group(4)
+        if re.search(r"\blocal\s+" + base + r"\s*=\s*(?!" + base + r"\b)", code):
+            continue                    # eigene lokale Tabelle gleichen Namens
+        line = code.count("\n", 0, m.start()) + 1
+        if lit:
+            if base == "_G" and lit not in BLIZZ_GLOBALS and not lit.startswith("C_") and not _BLIZZ_LIKE.match(lit):
+                continue                # eigenes Global (z. B. ein anderes Addon) – kein Blizzard-Taint
+            found.append((line, f"{lit}" if base == "_G" else f"{base}.{lit}", True))
+        elif base.startswith("C_"):
+            found.append((line, f"{base}.<{var}>", True))
+        else:
+            found.append((line, f"_G[{var}]", False))
+    return found
 
 
 def blizz_overrides(code):
@@ -739,6 +790,11 @@ def check_zip(path, shared_ref=None, dev_max=None):
                 say(f"{n}:{line}: ersetzt die Blizzard-Funktion {name} – das taintet sie bis zum /reload "
                     f"(auch im Test und auch wenn sie danach zurückgesetzt wird). Eigene Funktion oder Ersatzwert verwenden."
                     + (" Schon veröffentlicht: in der nächsten Version beheben, sonst FEHLER." if old_release else ""))
+            for line, name, sure in blizz_overrides_indirect(blank):
+                (say if sure else warn)(
+                    f"{n}:{line}: ersetzt über eine Hilfsfunktion {'die Blizzard-Funktion ' + name if sure else name + ' (Name als Variable)'}"
+                    f" – das taintet sie bis zum /reload, auch mit Zurücksetzen. Nur eigene Tabellen ersetzen (z. B. ns.API)."
+                    + (" Schon veröffentlicht: in der nächsten Version beheben, sonst FEHLER." if old_release and sure else ""))
             if TEST_FILE.search(n):
                 for m in TEST_ACTIONS.finditer(blank):
                     if re.search(r"\bfunction\s*$", blank[blank.rfind("\n", 0, m.start()) + 1:m.start()]):

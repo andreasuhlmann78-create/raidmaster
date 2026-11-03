@@ -94,6 +94,26 @@ check("while do", taint("while x do local GetTime = 1 end\nGetTime = f") == ["Ge
 check("{ in String stört nicht", taint('local s = "{"\nUnitName = f') == ["UnitName"])
 check("viele Zeilen schnell", len(taint("GetTime = i\n" * 20000)) == 20000)
 
+# --- Ersetzung über eine Hilfsfunktion (ProfessionSentinel 0.9.11: Stub(_G, "GetItemInfo", nil)) ------------------
+def indirect(src):
+    return [(n, sure) for _, n, sure in a.blizz_overrides_indirect(a.lua_blank(src))]
+
+
+STUB = "local function Stub(t, k, v, label)\n  local o = rawget(t, k)\n  t[k] = v\n  return o\nend\n"
+check("Hilfsfunktion erkannt", a.setter_helpers(a.lua_blank(STUB)) == {"Stub"})
+check("rawset-Hilfsfunktion erkannt", a.setter_helpers(a.lua_blank("function M.Set(t, k, v) rawset(t, k, v) end")) == {"Set"})
+check("Leser ist keine Hilfsfunktion", a.setter_helpers(a.lua_blank("local function Get(t, k) return t[k] end")) == set())
+check("Stub(_G, Blizzard-Name)", indirect(STUB + 'Stub(_G, "GetItemInfo", nil)') == [("GetItemInfo", True)])
+check("Stub(_G, API-artiger Name)", indirect(STUB + 'Stub(_G, "GetMerchantItemCostItem", f)') == [("GetMerchantItemCostItem", True)])
+check("Stub(_G, C_-Tabelle)", indirect(STUB + 'Stub(_G, "C_Container", nil)') == [("C_Container", True)])
+check("Stub(C_X, Name)", indirect(STUB + 'Stub(C_TradeSkillUI, "GetRecipeInfo", nil)') == [("C_TradeSkillUI.GetRecipeInfo", True)])
+check("Stub(_G, Variable) nur unsicher", indirect(STUB + "for _, n in ipairs(l) do Stub(_G, n, nil) end") == [("_G[n]", False)])
+check("TR.Stub(...) auch erkannt", indirect(STUB + 'TR.Stub(_G, "UnitName", f)') == [("UnitName", True)])
+check("eigenes Global erlaubt", indirect(STUB + 'Stub(_G, "AHAnalyzerPro", nil)') == [])
+check("eigene Tabelle erlaubt", indirect(STUB + 'Stub(ns.Plan, "BuyItem", f)\nStub(TestDB, "x", 1)') == [])
+check("eigene lokale C_-Tabelle erlaubt", indirect(STUB + 'local C_Fake = {}\nStub(C_Fake, "Get", f)') == [])
+check("ohne Hilfsfunktion nichts", indirect('Stub(_G, "GetItemInfo", nil)') == [])
+
 # --- Aktionen in Testdateien -------------------------------------------------------------------------------------
 check("Testdatei Test.lua", a.TEST_FILE.search("GuildSentinel/Test.lua"))
 check("Testdatei SelfTest.lua", a.TEST_FILE.search("AHSentinel/SelfTest.lua"))
@@ -161,6 +181,11 @@ with tempfile.TemporaryDirectory() as d:
     check("Ersatz-Funktion im Test erlaubt", not any("direkt auf" in t for l, t in r))
     r = a.check_zip(make_zip(d, "ProbeAddon", "9.9.3", {"Core.lua": 'local n = UnitName("target")\nreturn t[n]\n'}))
     check("geheimer Name -> Warnung", any(l == "WARNUNG" and "Core.lua:2" in t and "geheim" in t for l, t in r))
+    r = a.check_zip(make_zip(d, "ProbeAddon", "9.9.7", {"Test.lua": STUB + 'Stub(_G, "GetItemInfo", nil)\n'}))
+    check("Hilfsfunktion mit Blizzard-Namen -> FEHLER", any(l == "FEHLER" and "Hilfsfunktion" in t for l, t in r))
+    r = a.check_zip(make_zip(d, "ProbeAddon", "9.9.8", {"Test.lua": STUB + "Stub(_G, name, nil)\n"}))
+    check("Hilfsfunktion mit Variable -> Warnung", any(l == "WARNUNG" and "Hilfsfunktion" in t for l, t in r)
+          and not any(l == "FEHLER" for l, t in r))
     a.ALTLAST.add(("probeaddon", "9.9.4"))
     r = a.check_zip(make_zip(d, "ProbeAddon", "9.9.4", {"Test.lua": mock}))
     check("Altlast -> nur Warnung", not any(l == "FEHLER" and "UnitName" in t for l, t in r)

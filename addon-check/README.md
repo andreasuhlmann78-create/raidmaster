@@ -18,6 +18,7 @@ veröffentlicht wurden (eine davon auf CurseForge).
 | Lua-Syntaxfehler in einer geladenen Datei (geprüft mit Lua 5.1 wie im Spiel) | Addon lädt nicht |
 | `GoldSentinelGame.lua` steht in der `.toc` nicht vor den eigenen Dateien | eigene Dateien finden die Erkennung nicht |
 | Code ersetzt eine Blizzard-Funktion (`UnitName = …`, `_G.GetServerTime = …`, `C_ChatInfo.SendChatMessage = …`, `function GetRealmName()`), auch nur im Test und auch mit Zurücksetzen (ab 3. November) | "Taint": Die Funktion bleibt bis zum /reload verseucht, Blizzard-Code, der sie danach aufruft, wird blockiert |
+| Dasselbe über eine eigene Hilfsfunktion, die `t[k] = v` macht (`Stub(_G, "GetItemInfo", nil)`, `Stub(C_TradeSkillUI, "GetRecipeInfo", f)`); mit einer Variable als Name nur Warnung | wie oben |
 
 **Warnungen** – Upload geht, aber bitte ansehen:
 

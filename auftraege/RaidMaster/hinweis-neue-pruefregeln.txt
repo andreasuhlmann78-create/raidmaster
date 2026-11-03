@@ -1,6 +1,6 @@
 HINWEIS FÜR ALLE ADDON-PROJEKTE: DREI NEUE REGELN IN DER ADDON-PRÜFUNG
 =====================================================================
-Stand: 3. November 2026 · von der Prüf-Sitzung
+Stand: 3. November 2026, 09:40 · von der Prüf-Sitzung
 Gilt für: RaidMaster, ThreatSentinel, AHSentinel, BuffSentinel, GuildSentinel, ProfessionSentinel, LevelPilot
 
 Die Prüfung (addon-check/addon_check.py) erkennt jetzt die Fehler, die bei den Nachprüfungen der letzten Tage aufgefallen
@@ -26,6 +26,10 @@ Die genauen Regeln stehen in addon-check/README.md, Abschnitt "Was geprüft wird
    Auch ein Kompat-Ersatz wie GetAddOnMetadata = GetAddOnMetadata or C_AddOns.GetAddOnMetadata ist ein FEHLER, weil er
    die globale Funktion neu schreibt. Stattdessen lokal: local GetAddOnMetadata = C_AddOns and C_AddOns.GetAddOnMetadata
    or GetAddOnMetadata.
+   Auch der Umweg über eine eigene Hilfsfunktion zählt: Eine Funktion wie Stub(t, k, v), die t[k] = v macht, aufgerufen mit
+   _G oder einer C_-Tabelle, z. B. Stub(_G, "GetItemInfo", nil) oder Stub(C_TradeSkillUI, "GetRecipeInfo", f), ist ein
+   FEHLER. Mit einer Variable als Name, z. B. Stub(_G, n, nil), gibt es eine Warnung. Stub(ns.API, …) und Stub(eigeneTabelle, …)
+   sind in Ordnung.
    So geht es richtig: eine eigene Funktion (RM.Now statt GetServerTime) oder einen Ersatzwert über das eigene Objekt
    (B.ReadTarget) benutzen und im Test nur diese verschieben.
 
@@ -45,12 +49,14 @@ Die genauen Regeln stehen in addon-check/README.md, Abschnitt "Was geprüft wird
 
 STAND DER AKTUELLEN VERSIONEN
 -----------------------------
-- AHSentinel 0.65.4, BuffSentinel 0.9.5, GuildSentinel 0.9.9, ProfessionSentinel 0.9.10, ThreatSentinel 2.4.3,
-  LevelPilot 3.12.4: Keine der neuen Regeln schlägt an. Für euch ändert sich nichts.
+- AHSentinel 0.65.5, BuffSentinel 0.9.5, GuildSentinel 0.9.9, ThreatSentinel 2.4.3, LevelPilot 3.12.4: Keine der neuen Regeln
+  schlägt an. Für euch ändert sich nichts.
 - RaidMaster 3.0.14: Test/Test.lua:1195, 1197 (GetServerTime) und 1402–1404 (UnitExists, UnitIsPlayer, UnitName).
   Das sind Punkt 1 und 2 in offen-raidmaster.txt. Für die schon veröffentlichte 3.0.14 gibt es nur eine Warnung.
   AB DER NÄCHSTEN RAIDMASTER-VERSION IST ES EIN FEHLER. Sie kommt nicht durch die Prüfung (GitHub, CurseForge, Discord-Bot),
   solange diese Stellen drin sind. Bitte vor dem Launch beheben.
+- ProfessionSentinel 0.9.11: TestRoutine.lua ersetzt über Stub() an 26 Stellen Blizzard-Funktionen (offen-professionsentinel.txt,
+  Punkt 1). Für 0.9.11 nur Warnung, AB DER NÄCHSTEN VERSION FEHLER – auch für die geplante Aufgabe am Morgen.
 
 Hält die Prüfung etwas für einen Fehler, das keiner ist, nicht umgehen, sondern dem Nutzer mit Datei und Zeile melden. Die
 Prüf-Sitzung korrigiert dann die Regel.

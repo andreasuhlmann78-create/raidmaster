@@ -1,38 +1,76 @@
-OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.4)
+OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.5)
 =========================================================
-Stand: 3. November 2026, 07:30 · von der Prüf-Sitzung · Grundlage: download/AHSentinel-0.65.4.zip
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist.
+Stand: 3. November 2026, 09:20 · von der Prüf-Sitzung · Grundlage: download/AHSentinel-0.65.5.zip
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.65.4.
 
-Erledigt in 0.65.4 (danke): Schutz vor dem alten AH Analyzer Pro (OldAddonGuard.lua), Wächter-Pause ändert Era/TBC nicht mehr,
-leere Rezeptliste, Zwischenspeicher der Schemata, Diagnose "Händler-Kosten lesbar". Lua 5.1 fehlerfrei, Locales vollständig.
-Bitte als 0.65.5 veröffentlichen. Wie immer: komplette Dateien, .json separat ausweisen, alte Clients nie brechen, alle
-Locale-Dateien, CHANGELOG EN/DE, vor dem Push python3 addon-check/addon_check.py download/AHSentinel-0.65.5.zip -> kein FEHLER.
+Erledigt in 0.65.5 (danke):
+- CurseForge-Doku richtiggestellt
+- Kommentar beim Raid-Vorrat
+- 5-Sekunden-Bremse nur noch auf dem modernen Weg
+- Zurücksetzen des gemerkten Rezepts bei TRADE_SKILL_CLOSE und DATA_SOURCE_CHANGED
+- Scan-Wunsch mit Wächter-Pause und abgelehnter Scan-Start als Signal
+Lua 5.1 fehlerfrei, neuer Locale-Text in allen 9 Sprachen, alte Clients unverändert, Addon-Prüfung OK.
 
-1. CURSEFORGE: FOREVER TAGGEN (Schwere: NIEDRIG – Korrektur der Prüf-Sitzung, 3. November 08:25)
-   Dieser Punkt war falsch gemeldet: Die Markierung funktioniert schon. CurseForge kennt die Spielversion "1.60.1".
-   pick_game_versions() wandelt 16001 in "1.60.1" um und findet sie. Alle Dateien von AHSentinel und GuildSentinel
-   tragen 1.60.1 bereits (im Autoren-Bereich geprüft).
-   Zu tun ist nur noch die Doku: Den Docstring in curseforge/upload.py:128-130 ("Interface-Nummern ohne Gegenstück
-   (z. B. WoW Forever) werden übersprungen") und curseforge/README.md:19 richtigstellen ("WoW Forever wird als 1.60.1
-   markiert"). Ändert sich die Forever-Nummer am Launch-Tag (z. B. 16002 → 1.60.2), prüfen, ob CurseForge diese Version
-   kennt. Sonst nimmt das Skript automatisch die höchste 1.60.x.
+Bitte als 0.65.6 veröffentlichen. Wie immer:
+- komplette Dateien, .json separat ausweisen
+- alte Clients nie brechen
+- alle Locale-Dateien, CHANGELOG EN/DE
+- vor dem Push: python3 addon-check/addon_check.py download/AHSentinel-0.65.6.zip  -> kein FEHLER
 
-2. WÄCHTER-PAUSE IN FOREVER (Schwere: NIEDRIG – teilweise)
-   Watcher.lua:303-325: Die Pause greift nur, wenn innerhalb von 60 s ein AUCTION_HOUSE_THROTTLED_MESSAGE_DROPPED kam. Bestellt
-   war zusätzlich: Pause, solange A:IsScanReady() gilt und der Komplett-Scan noch nicht gelaufen ist, sowie ein abgelehnter
-   Scan-Start als Signal. Bitte ergänzen oder dem Nutzer begründen, warum das Signal allein reicht.
+1. CHAT-FLUT, WENN DER SCAN-START DAUERHAFT SCHEITERT (Schwere: MITTEL – neu in 0.65.5)
+   AHAnalyzerPro.lua:1641-1645 zusammen mit 1693-1697:
+   - Wirft pcall(A.AH.SendBrowseQuery, …) einen Fehler, kommt zuerst "Scan konnte nicht gestartet werden: …", danach WantScan(true).
+   - TryWantedScan hat scanWanted vorher auf nil gesetzt. Darum legt WantScan jedes Mal einen neuen Wunsch an.
+   - Der Ticker (0,5 s) ruft StartFullScan danach immer wieder auf.
+   Folge: Bei einem bleibenden Fehler (z. B. anderes Argumentformat im Forever-Client) kommt die Fehlermeldung 2 Minuten lang
+   alle 0,5 s, also rund 240 Zeilen im Chat.
+   Lösung:
+   - Neuversuche nach einer Ablehnung begrenzen, z. B. höchstens 3, mit mindestens 2 s Abstand.
+   - Die Meldung nur beim ersten Fehlschlag zeigen, z. B. mit StartFullScan(silent), das TryWantedScan setzt.
+   - Nach dem letzten Versuch einmal melden, dass der Scan nicht starten konnte, und den Wunsch verwerfen.
+   - In die Testroutine aufnehmen: SendBrowseQuery simuliert scheitern lassen (über das eigene A.AH, nie global ersetzen),
+     dann höchstens 1–2 Chatzeilen und der Wächter läuft danach weiter.
+
+2. WÄCHTER-PAUSE IN FOREVER (Schwere: NIEDRIG – teilweise, noch offen aus 0.65.4)
+   Neu pausiert der Wächter, wenn jemand den Scan startet und der Server ausgelastet ist. Bestellt war zusätzlich eine Pause,
+   SOLANGE A:IsScanReady() gilt und der Komplett-Scan noch nicht gelaufen ist. Das fehlt, und eine Begründung steht weder im
+   Changelog noch in den Kommentaren.
+   Bitte eines von beiden:
+   - ergänzen, oder
+   - dem Nutzer begründen, warum es wegfällt (z. B.: Sonst ruht der Wächter dauerhaft, wenn nie gescannt wird).
    Im Client testen (Forever): Wächter an, Scan fällig -> der Scan startet und wird nicht vom Wächter blockiert.
 
-3. RAID-VORRAT (Schwere: NIEDRIG)
-   Comfort.lua:390: Den Kommentar "vorläufig – Classic-Liste, Abgleich mit Forever-Raids nach dem Launch" ergänzen. Nach dem
-   Launch prüfen, ob alle Item-IDs der Liste in Forever existieren, und bei Bedarf RAID_SETS.forever anlegen.
+3. REZEPT-AUSWAHL IM BERUFSFENSTER: DER HOOK GREIFT NIE (Schwere: NIEDRIG – Punkt 4b aus 0.65.4, teilweise)
+   Crafting.lua:644-646: ProfessionsRecipeListMixin.Event.OnRecipeSelected hat den Wert "OnRecipeSelected", weil
+   GenerateCallbackEvents Event[name] = name setzt. Blizzard löst aber den ausgeschriebenen Namen aus:
+       EventRegistry:TriggerEvent("ProfessionsRecipeListMixin.Event.OnRecipeSelected", recipeInfo, list)
+   (Blizzard-UI-Quellcode: Blizzard_ProfessionsRecipeList.lua, Blizzard_ProfessionsCrafting.lua).
+   Folge: Cr:OnRecipeSelected wird nie aufgerufen. Wählt man im Addon ein Rezept und danach im Blizzard-Fenster ein anderes, und
+   verrät das Fenster das Rezept nicht selbst, nimmt der Zutaten-Knopf das alte.
+   Lösung:
+   - Den Callback direkt registrieren:
+         EventRegistry:RegisterCallback("ProfessionsRecipeListMixin.Event.OnRecipeSelected",
+             function(_, info) Cr:OnRecipeSelected(info) end, Cr)
+   - Das geht schon beim Laden, ohne Prüfung auf das Mixin, weil EventRegistry unbekannte Ereignisse zulässt.
+   - In Era/TBC nur aufrufen, wenn EventRegistry existiert.
+   Im Forever-Client testen, ob derselbe Name ausgelöst wird: Rezept im Blizzard-Fenster wählen -> /dump zeigt lastModernRecipe.
 
-4. BERUFE-FENSTER (Schwere: NIEDRIG)
-   a) Crafting.lua:620-622: Die neue Bedingung "nur merken, wenn mehr als 0 Rezepte" gilt auch für den alten Weg
-      (TRADE_SKILL_UPDATE, CRAFT_UPDATE). Liefert Remember dort 0, läuft es bei jedem Ereignis ohne die 5-Sekunden-Bremse.
-      Lösung: die Bedingung nur bei Cr.kind == "modern" anwenden, sonst wie in 0.65.3.
-   b) Crafting.lua:176, 183: Der Rückfall auf Cr.lastModernRecipe kann ein veraltetes Rezept liefern (vorherige Sitzung,
-      anderes Rezept angeklickt). Lösung: bei TRADE_SKILL_CLOSE und DATA_SOURCE_CHANGED zurücksetzen und die Auswahl über ein
-      Ereignis bzw. einen Hook erfassen. Ist nichts gemerkt: wie bisher "Kein Rezept gewählt".
+4. WÄCHTER: 15-MINUTEN-PAUSE GEHT WÄHREND EINES SCAN-WUNSCHS VERLOREN (Schwere: NIEDRIG – neu)
+   Watcher.lua:312-316: Läuft die 2-Minuten-Pause des Scan-Wunschs und kommt dann AUCTION_HOUSE_THROTTLED_MESSAGE_DROPPED,
+   kehrt HoldForScan() ohne maxSeconds sofort zurück. Die 15-Minuten-Pause wird nicht gesetzt, und nach 120 s läuft der Wächter
+   wieder. Das heilt sich danach selbst, ist aber nicht gewollt.
+   Lösung: Bei maxSeconds == nil und vorhandenem h.max die Pause hochstufen (h.max = nil).
+
+5. RAID-VORRAT (Schwere: NIEDRIG – nach dem Launch)
+   Comfort.lua:390: Der Kommentar steht drin. Nach dem Launch prüfen, ob alle Item-IDs der Liste in Forever existieren, und
+   bei Bedarf RAID_SETS.forever anlegen.
+
+6. TESTROUTINE UND GoldSentinelTest.lua (noch nicht eingebaut)
+   0.65.5 enthält weder GoldSentinelTest.lua noch die neue Testroutine. Die .toc listet nur SelfTest.lua.
+   Bitte spätestens mit der Version vor dem Launch-Abend einbauen, nach testroutine-ahsentinel.txt und nachtrag-testroutinen.txt
+   (beide in diesem Ordner).
+   Die neuen Prüfregeln stehen in hinweis-neue-pruefregeln.txt. Bei SelfTest.lua besonders beachten:
+   - keine Blizzard-Funktion ersetzen, das ist jetzt ein FEHLER
+   - keine Käufe oder Auktionen direkt auslösen
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.

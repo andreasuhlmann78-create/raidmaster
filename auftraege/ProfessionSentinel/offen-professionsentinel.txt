@@ -1,0 +1,95 @@
+OFFENE PUNKTE PROFESSIONSENTINEL (nach der Nachprüfung von 0.9.11)
+=================================================================
+Stand: 3. November 2026, 09:40 · von der Prüf-Sitzung · Grundlage: download/ProfessionSentinel-0.9.11.zip
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist.
+
+Erledigt in 0.9.11 (danke): Die Testroutine ist vollständig umgesetzt. Alle 179 Testfälle T01–T179 sind da (Bereiche A–J).
+- GoldSentinelTest.lua ist byte-gleich mit der Vorlage und steht in allen vier TOCs an der richtigen Stelle.
+- Begin, Check, Skip, Client und Finish sind richtig verwendet. TrackErrors läuft bei ADDON_LOADED, ns.Try und
+  ns.CountError melden an GT.Error.
+- Die echten SavedVariables werden sauber gesichert und wiederhergestellt.
+- Der Smoketest lädt die neue Datei und endet mit Exit 0. run_offline.py: Forever 155 OK / 1 FEHLER, Era 137 / 0,
+  Retail 134 / 1.
+- Alle TOCs stehen auf 0.9.11, CHANGELOG EN/DE sind nachgeführt, die Datendateien sind unverändert.
+
+Bitte als 0.9.12 veröffentlichen, oder als nächste freie Nummer, falls die geplante Aufgabe schon eine veröffentlicht hat.
+Wie immer: komplette Dateien, alte Clients nie brechen, Locales EN/DE, CHANGELOG EN/DE. Vor dem Push:
+    python3 addon-check/addon_check.py download/ProfessionSentinel-<Version>.zip    -> kein FEHLER
+
+!! DRINGEND, HEUTE: Punkt 1 ist ab der nächsten Version ein FEHLER in der Addon-Prüfung. Die geplante Aufgabe
+!! "ProfessionSentinel Rezeptdaten-Update (Code)" läuft morgen um 07:21. Bringt sie neue Daten, baut sie 0.9.12 aus deinem
+!! Code. Die Prüfung blockiert dann die Discord-Veröffentlichung (das GitHub-Release wäre schon draussen). Bitte Punkt 1 vorher
+!! beheben und veröffentlichen.
+
+1. DER STANDARDLAUF ERSETZT BLIZZARD-FUNKTIONEN (TAINT) (Schwere: HOCH)
+   TestRoutine.lua: Die [api]-Fälle setzen echte Blizzard-Funktionen über Stub() kurz auf nil oder eine Attrappe.
+   Betroffene Stellen:
+   - Zeilen 2516-2518 (Without), 2553 (C_Container), 2586-2588 (C_TradeSkillUI.*), 2602 (C_CurrencyInfo)
+   - Zeilen 2718-2727, 3398-3410, 3424-3426 (GetMerchant*, C_MerchantFrame)
+   - Zeilen 3480-3487 (GetFactionInfoByID, C_Reputation)
+   Die Fälle laufen auch beim normalen /ps testroutine mit, weil der Filter nil alles nimmt (Zeilen 3881-3884). Im Bericht
+   steht dann "API-Simulation: ja · Modus: alles".
+   Das ist genau, was nachtrag-testroutinen.txt Punkt 1 verbietet: Auch mit Zurücksetzen bleiben die Funktionen bis zum
+   /reload "tainted". Betroffen sind Taschen, Händler, Berufsfenster und Ruf.
+   Die Addon-Prüfung erkennt das jetzt (26 Stellen, "ersetzt über eine Hilfsfunktion"). Für die schon veröffentlichte 0.9.11
+   bleibt es eine Warnung, ab der nächsten Version ist es ein FEHLER.
+   Lösung:
+   - Alle Zugriffe des Addons auf diese Funktionen über eine eigene Tabelle führen, z. B. ns.API:
+         ns.API.GetItemInfo = C_Item and C_Item.GetItemInfo or GetItemInfo
+     beim Laden; der Code ruft nur noch ns.API.GetItemInfo auf.
+   - Im Test nur ns.API-Einträge ersetzen: Stub(ns.API, "GetItemInfo", nil). Das ist erlaubt, die Prüfung meldet es nicht.
+   - Stub(_G, …) und Stub(C_…, …) für Blizzard-Funktionen ganz entfernen. Stub(_G, "AHAnalyzerPro", nil) ist in Ordnung
+     (ein Addon-Global).
+   - Bis der Umbau fertig ist, mindestens: die [api]-Fälle aus dem Standardlauf nehmen (nur bei /ps testroutine api), und
+     dort vor dem Start deutlich warnen, dass danach /reload nötig ist.
+
+2. ZENTRALE STELLE FÜR AKTIONEN MIT FOLGEN (Schwere: MITTEL – nachtrag-testroutinen.txt Punkt 2)
+   Aktionen werden heute direkt aufgerufen:
+   - Plan.lua:92 (BuyMerchantItem)
+   - Disenchant.lua:286 (SendChatMessage)
+   - Today.lua:186, 195 (CraftRecipe, DoTradeSkill)
+   - Waypoint.lua:83 (SetUserWaypoint)
+   Die Routine fängt stattdessen 15 Modulfunktionen ab. Ausserdem fehlt der verlangte Fall in Bereich I.
+   Lösung:
+   - Eine Stelle ns.Act(kind, …) einführen, über die alle Aktionen laufen und die im Test nur mitschreibt.
+   - Neuer Fall T180 (Bereich I): Gibt es irgendwo einen direkten Aufruf ausserhalb von ns.Act, ist das ein FEHLER.
+   - Dabei prüfen, ob Forever/Retail das globale SendChatMessage noch haben. Sonst C_ChatInfo.SendChatMessage als zweiten
+     Weg in ns.Act aufnehmen.
+
+3. T145 SPEICHER SCHEITERT (Schwere: NIEDRIG)
+   TestRoutine.lua:3259-3285: Offline wächst der Speicher in Forever um 2011 KB und in Retail um 1741 KB, erlaubt sind 1024 KB.
+   Im Client wird das wohl auch ein FEHLER. Dann wäre Vorbedingung 5 ("0 FEHLER") nicht erfüllt.
+   Lösung: die Messung prüfen (die Kopien des Laufs vor der Messung freigeben, collectgarbage("collect") zweimal), oder die
+   Grenze begründet anpassen.
+
+4. UNTERLÄUFE VON T20 UND T110 NEHMEN ALLE FÄLLE (Schwere: NIEDRIG)
+   TestRoutine.lua:886 und 2642: RunSub({ area = "F" }) übergibt area, NewRun wertet aber nur opts.filter aus (Zeilen
+   3881-3888). Der Unterlauf enthält deshalb alles, auch die [api]-Fälle. Er funktioniert nur, weil er nach Schritt 1 stoppt.
+   Lösung: { filter = "F" } übergeben.
+
+5. REALMS MIT BINDESTRICH (Schwere: NIEDRIG – Regression)
+   Core.lua:372 schneidet den Namen gierig ab: Aus "Thrall-Azjol-Nerub" wird "Thrall-Azjol" (in Lua 5.1 nachgeprüft).
+   Tooltip.lua:63 vergleicht das mit dem Kurznamen aus CharsFor. Folge: Der eigene Charakter erscheint im Tooltip bei den
+   anderen Charakteren (Retail-Realms wie Azjol-Nerub).
+   Lösung: playerName direkt aus UnitName("player") merken oder ^[^-]+ verwenden wie in CharsFor.
+
+6. KLEINIGKEITEN (Schwere: NIEDRIG)
+   a) TestRoutine.lua:4309: "Bitte /reload" kommt nur nach dem API-Teil. Laut Nachtrag Punkt 1 nach jedem Lauf.
+   b) TestRoutine.lua:4340 ("GoldSentinelTest/SavedVariables fehlen.") und AutoTest.lua:70 ("Erneut starten"/"Run again" über
+      ns.isGerman): über Locales führen, EN und DE.
+
+7. GEHEIME WERTE: ZUERST IsSecret FRAGEN (Schwere: NIEDRIG – im Client bestätigen)
+   Einige neue Prüfungen vergleichen zuerst mit == oder ~= und fragen erst danach IsSecret, z. B. Scan.lua:108,
+   Tooltip.lua:91, Disenchant.lua:229, Guild.lua:72. Ein Vergleich mit einem geheimen Wert kann im Kampf schon einen Lua-Fehler
+   werfen. Der Mock zeigt das nicht, weil die Attrappe kein __eq nachbildet.
+   Lösung: Überall zuerst G.IsSecret(x), dann vergleichen. Am Launch-Abend T113 in Forever laufen lassen.
+
+8. SMOKETEST UND GEPLANTE AUFGABE (Hinweis)
+   tests/run_smoketest.py zeigt FEHLER der Testroutine nur an und schlägt nicht fehl. Die geplante Aufgabe prüft nur damit.
+   Soll die Aufgabe bei FEHLER der Testroutine stoppen, z. B. mit run_offline.py ohne Bereich H, dem Nutzer melden. Die
+   Prüf-Sitzung führt dann die Anweisung der Aufgabe nach.
+
+Für den Launch-Abend bleiben die IM-CLIENT-PRÜFEN-Fälle (T30, T42, T50, T69, T85, T113, T115, T119, T144, T177) und ab dem
+5. November T169/T170. Sie stehen im Testplan für den Nutzer.
+
+Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
