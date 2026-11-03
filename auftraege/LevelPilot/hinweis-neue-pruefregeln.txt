@@ -23,6 +23,9 @@ Die genauen Regeln stehen in addon-check/README.md, Abschnitt "Was geprüft wird
    - eigene Felder wie RM.Now = ... oder ns.UnitName = ...
    - Felder in einer Tabelle wie { UnitName = ... }
    - hooksecurefunc
+   Auch ein Kompat-Ersatz wie GetAddOnMetadata = GetAddOnMetadata or C_AddOns.GetAddOnMetadata ist ein FEHLER, weil er
+   die globale Funktion neu schreibt. Stattdessen lokal: local GetAddOnMetadata = C_AddOns and C_AddOns.GetAddOnMetadata
+   or GetAddOnMetadata.
    So geht es richtig: eine eigene Funktion (RM.Now statt GetServerTime) oder einen Ersatzwert über das eigene Objekt
    (B.ReadTarget) benutzen und im Test nur diese verschieben.
 
