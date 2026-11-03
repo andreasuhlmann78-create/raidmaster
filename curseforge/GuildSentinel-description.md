@@ -10,6 +10,15 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.11
+
+- **Bank character: stock to Discord** (optional, off by default): tick "Bank character (stock to Discord)" under Settings > General on your guild's bank character. Opening the bank, the mailbox or – where the game has one – the guild bank then reads bags, bank, mail attachments and guild bank tabs (read only, never in combat, in small steps). The RaidMaster uploader sends the stock with its next upload, and the RaidMaster bot shows it in #gildenbank and with /bank. Guilds without the RaidMaster bot notice nothing.
+- **Alt notes with first and last names** (WoW Forever) on Korean and Chinese clients, where the name comes before the label ("Rokan Steinwacht의 부캐릭터"), are recognised again.
+- **Changing the main** now removes the old alt label completely – with first and last name and in the client language ("Alt: First Last", "Reroll de …") – instead of leaving parts of it in the note.
+- **Event sync**: one damaged entry no longer discards the other events of the same sync message.
+- All game functions GuildSentinel needs are now chosen in one place (API.lua, modern API first, old one as fallback). Nothing changes for players.
+- Developer test routine: real sends now count as an error in the report (T82), every action with consequences is checked to go through one place (T174), new cases for export, event announcements, first/last names and the bank character, and the cases that previously needed a replaced game function now run in the game too.
+
 ### Version 0.9.10
 
 - **Alt notes in your client language**: notes that GuildSentinel writes itself ("Reroll de …", "… 的分身" and so on) are recognised again on French, Spanish, Italian, Portuguese, Korean and Chinese clients. Where the label would not fit into the short guild note (Russian), GuildSentinel writes the short form "Alt: Name".
@@ -34,13 +43,6 @@ Fixes from the review:
 ### Version 0.9.7
 
 - Uses the shared game-version detection of all GoldSentinel addons (GoldSentinelGame.lua): Classic Era, WoW Forever and TBC are detected the same way everywhere, with the shared secret-value guard and first/last name comparison. `/gsgame` shows what was detected. Nothing changes for players.
-
-### Version 0.9.5
-
-- **WoW Forever hardening**: protection against secret values in combat (player tooltip, addon messages, cooldowns). Applicants who whisper during combat are added after combat instead of being lost.
-- **First and last names** (WoW Forever): names are capitalised correctly, notes like "Alt of Rokan Steinwacht" are recognised, and a unique first name alone is enough for alts, thanks and mentors.
-- Whispering a "First Last" name opens the whisper box for the full name.
-- Modern APIs are used first (C_ChatInfo, C_GuildInfo, C_SpellBook), with the old ones as fallback.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
@@ -140,8 +142,8 @@ Fixes from the review:
 
 | Addon | What GuildSentinel uses |
 |---|---|
-| **RaidMaster** | professions, alts, roles from talent specs, next raid in events, first kills as milestones |
-| **AH Analyzer Pro** | market value on the board and for profession cooldowns |
+| **RaidMaster** | professions, alts, roles from talent specs, next raid in events, first kills as milestones; optional **bank character**: GuildSentinel reads bank, mail and guild bank stock, and the RaidMaster uploader and bot show it on Discord |
+| **AHSentinel** (formerly AH Analyzer Pro) | market value on the board and for profession cooldowns |
 | **BuffSentinel** | detects your class services for the board |
 | **ThreatSentinel** | your role (tank stance / bear form) for composition and group finder |
 | **LevelPilot** | elite quests from your quest log as a group search, players with the same quest |
