@@ -1,60 +1,67 @@
-OFFENE PUNKTE THREATSENTINEL (nach der Nachprüfung von 2.4.2)
+OFFENE PUNKTE THREATSENTINEL (nach der Nachprüfung von 2.4.4)
 ============================================================
-Stand: 3. November 2026, 07:30 · von der Prüf-Sitzung · Grundlage: download/ThreatSentinel-2.4.2.zip
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Du brauchst keine andere Datei dazu.
+Stand: 3. November 2026, 10:50 · von der Prüf-Sitzung · Grundlage: download/ThreatSentinel-2.4.4.zip
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 2.4.3.
 
-Erledigt in 2.4.2 (danke): Hinweis nur bei eingeschaltetem Addon, Testzentrale übersteuert keine echte Sperre mehr,
-UnitIsUnit über ns:SameUnit, issecretvalue über ns.IsSecret. Lua 5.1 fehlerfrei, alte Clients unverändert.
+Erledigt in 2.4.4 (danke):
+- Punkt 1a–c (Erkennung, nur für diesen Kampf, ANZEIGE im Kampf)
+- Punkt 2 (Modus ANZEIGE ohne eigene Entscheidungen)
+- Punkt 3 (Blizzard-Anzeigen)
+- Punkt 4 (Client-Simulation)
+- Punkt 5 im Code
+- Testroutine mit 174 von 175 Fällen, sicherer Sandbox und ns.Act
+- GoldSentinelTest.lua eingebaut
+Prüfungen: Addon-Prüfung OK, Lua 5.1 fehlerfrei.
 
-Offen sind die Punkte 1–4 aus der Korrektur zu 2.4.1. Sie standen nicht in der Kurzfassung (neu-threatsentinel.txt), die du
-bekommen hast. Punkt 1 betrifft den ersten Kampf in WoW Forever und muss VOR DEM LAUNCH (5. November, 00:00 CH) raus.
-Bitte als 2.4.3 veröffentlichen. Im Changelog nur nennen, was wirklich drin ist.
-Wie immer: komplette Dateien liefern, alte Clients nie brechen, Locales en/de, vor dem Push
-python3 addon-check/addon_check.py download/ThreatSentinel-2.4.3.zip  -> kein FEHLER.
+WICHTIG ZUM LADEFEHLER (von der Prüf-Sitzung nachgeprüft):
+In 2.4.1, 2.4.2 und 2.4.3 ruft Core.lua in Zeile 702 ns:On auf, definiert wird die Funktion aber erst in Zeile 1017. Core.lua
+brach also schon beim Laden ab, und das Addon lief in diesen Versionen GAR NICHT. 2.4.4 behebt das (Core.lua:1061-1062).
+Folge: Die Punkte aus 2.4.3 wurden im Spiel nie getestet. Der erste echte Forever-Kampf am 5. November ist der erste Test
+überhaupt.
 
-1. ZUSTAND "unknown" IN FOREVER (Schwere: MITTEL – vor dem Launch)
-   a) Threat.lua:148
-          if apiFailed and ns.isModern and ns.threatAccess == "open" then ns.ThreatAccess:Set("secret") end
-      Der Wechsel auf "secret" passiert nur, wenn der Zustand vorher "open" war. Beim ersten Kampf nach dem Login ("unknown")
-      endet ein Fehlschlag weiter still.
-      Lösung:  ... and ns.threatAccess ~= "secret" and ns.threatAccess ~= "none" then ...
-   b) ThreatAccess.lua:119-122: Nach MAX_ATTEMPTS (40) leeren Versuchen wird nur checked = true gesetzt, der Zustand bleibt
-      "unknown". Lösung: Ist er dann noch "unknown", für DIESEN Kampf "none" setzen, ohne zu speichern. Beim nächsten Kampf wird
-      neu geprüft.
-   c) ThreatAccess.lua:37-46 (ns:ThreatMode): "unknown" ergibt "FULL". In Forever greift das Addon dadurch im Kampf an den
-      Plaketten herum, bevor die Prüfung ein Ergebnis hat.
-      Lösung: Gilt ns.isModern, ist der Zustand "unknown" und läuft ein Kampf, "DISPLAY" zurückgeben. Alte Clients bleiben "FULL".
+Bitte als 2.4.5 veröffentlichen. Wie immer: komplette Dateien, alte Clients nie brechen, Locales EN/DE, CHANGELOG EN/DE,
+vor dem Push python3 addon-check/addon_check.py download/ThreatSentinel-2.4.5.zip -> kein FEHLER.
 
-2. MODUS ANZEIGE: KEINE EIGENEN ENTSCHEIDUNGEN (Schwere: MITTEL)
-   Im Modus ANZEIGE kennt das Addon die Werte nicht. Trotzdem:
-   - Meter.lua:163-166 sortiert nach Status
-   - Meter.lua:206-209 zeigt "kein Vorsprung"
-   - Meter.lua:252 und DDView.lua:57-63 setzen Farben nach Schwellwerten
-   Lösung: Bei ns:ThreatMode() == "DISPLAY" nicht sortieren (feste Reihenfolge: Tank, dann Gruppe), keinen Vorsprung-Text, eine
-   neutrale Balkenfarbe. Die geschützten Werte weiter nur an SetValue/SetText durchreichen.
+1. ANKÜNDIGUNG UND CHANGELOG ZUM LADEFEHLER RICHTIGSTELLEN (Schwere: MITTEL)
+   announce/threatsentinel__threatsentinel-2.4.4.md und CHANGELOG*.md:4 schreiben nur "konnte einen Lua-Fehler melden".
+   Tatsächlich lud das Addon in 2.4.1–2.4.3 überhaupt nicht.
+   Lösung: In der Ankündigung zu 2.4.5 und im CHANGELOG klar schreiben: "2.4.1 bis 2.4.3 luden nicht – bitte unbedingt
+   aktualisieren." Den Kommentar in Core.lua:1058 ("seit 2.0.0") nur stehen lassen, wenn er belegt ist.
 
-3. BLIZZARD-ANZEIGEN BEI "IMMER NUR ANZEIGE" (Schwere: NIEDRIG)
-   ThreatAccess.lua:160: ApplyBlizzard läuft nur mit wantBlizzard. Das wird nur bei einer erkannten Sperre gesetzt.
-   Lösung: zusätzlich ns:ThreatMode() == "DISPLAY" als Auslöser nehmen. In den Optionen (O_BLIZZTHREAT) kurz vermerken:
-   "Für die Bedrohungsfarben der Plaketten gibt es keine Blizzard-Einstellung."
-   Dazu (neu): ThreatAccess.lua:75 setzt wantBlizzard nur bei eingeschaltetem Addon. Wird das Addon später in derselben Sitzung
-   eingeschaltet, kommen die Blizzard-Anzeigen erst nach dem nächsten Kampf. Lösung: wantBlizzard unabhängig von enabled setzen.
-   ApplyBlizzard prüft enabled ja selbst.
+2. NAHTSTELLE ns.API (Schwere: MITTEL – nachtrag-testroutinen.txt Punkt 1)
+   TestRoutine.lua:285, 839-843, 864-869: 36 Fälle in B, 11 in C und die Regressionstests T164 und T167 werden übersprungen,
+   "weil ns.API fehlt". Die Abnahme verlangt T164–T175 OK. Einige brauchen nicht einmal eine ersetzte Blizzard-Funktion,
+   z. B. T61 P:Inspect, T84 Sichtbarkeit, T90 Optionen an/aus.
+   Lösung: Eine Tabelle ns.API anlegen, für UnitDetailedThreatSituation, UnitName/UnitExists, InCombatLockdown, Zauber- und
+   Auren-Funktionen. Alle Aufrufe darüber führen und die Tests auf diese Tabelle stützen. Vorbild:
+   shared/vorlage/__ADDON__/API.lua.
 
-4. SELBSTTEST MIT G.SetTestFlavor (Schwere: NIEDRIG)
-   SetTestFlavor wird im Addon nirgends aufgerufen. Lösung: Knopf in der Testzentrale "Client simulieren: Forever / echt":
-   G.SetTestFlavor("forever") bzw. (nil), danach ns.isModern = G.IsModern neu setzen. Ausgabe: G.Status(), ns.isModern,
-   ns:ThreatMode(). Hinweis: Kampflog und Meter (Alerts.cleuAllowed, DM.allowed) gelten erst nach /reload.
-   (Teil der Testroutine, siehe testroutine-threatsentinel.txt, Bereich A.)
+3. STILLE FEHLER MELDEN (Schwere: MITTEL – testroutine-threatsentinel.txt Abschnitt 6.2)
+   Diese Stellen melden noch nichts an GoldSentinelTest.Error:
+   - Log intern (Log.lua: internalErrors, Guarded, Wrap)
+   - Nameplates RestoreFrame
+   - Mover-Ticks
+   - CVar setzen in ThreatAccess
+   - Notfall-Kurve in Alerts (emergFailed)
+   Lösung: Dort zusätzlich "if GoldSentinelTest then GoldSentinelTest.Error(ADDON, wo, msg) end" aufrufen, ohne den
+   eigenen errorCount zu erhöhen.
 
-5. KAMPFLOG UND METER IN DEN ALTEN CLIENTS (Entscheid des Nutzers, 3. November)
-   Der Nutzer hat entschieden: In TBC Anniversary bleiben Kampflog, Spott-Meldungen und Schadens-/Heilmeter AN. In den anderen
-   Classic-Versionen ebenso, sofern sie dort funktionieren.
-   Der Code macht das schon so: Alerts.lua:438 und DamageMeter.lua:23 (not ns.isModern) gelten für alle Clients mit alter API.
-   Nichts ändern, nur testen:
-   - Classic Era und TBC Anniversary (beide in der .toc): kein "Addon geblockt", Meter zählt, Spott-Meldung kommt.
-   - Ergebnis dem Nutzer melden. Funktioniert es in einem Client nicht, dort nur Kampflog und Meter abschalten (eigene Weiche
-     je Client) und die Bedrohungsanzeige laufen lassen.
-   - Wrath, Cata und MoP Classic stehen nicht in der .toc. Dafür ist nichts zu tun, solange der Nutzer sie nicht verlangt.
+4. EIN FEHLER BEIM ZURÜCKSETZEN LEGT DAS ADDON STILL (Schwere: MITTEL)
+   TestRoutine.lua:1364-1379 und 1449-1463: RestoreSandbox und Finish laufen ohne pcall. Wirft eines davon, bleiben
+   ns.routineRunning und ns.actLog gesetzt. Dann stehen alle Ticker still (Threat, Meter, Specs, Sync, Log), und echte
+   Aktionen (Chat, Töne, CVars) werden bis zum /reload nur noch mitgeschrieben.
+   Lösung: step in pcall packen. Im Fehlerfall immer routineRunning = false und actLog = nil setzen und den Fehler melden.
+
+5. KLEINIGKEITEN (Schwere: NIEDRIG)
+   a) T131 ("Keine neuen Globals": _G-Schlüssel vor und nach der Routine vergleichen) und T161 ("Fehlerzahl in der
+      Diagnose-Zeile L.D_ERRORS") fehlen.
+   b) Log.lua:349: pcall(Screenshot) direkt. Die Aktion über ns.Act führen: pcall(ns.Act, "shot", Screenshot).
+   c) TestMode.lua:665-688: "Alles testen" und die Knöpfe A–J sieht jeder Spieler, auch ohne GoldSentinelDev. Die Knöpfe nur
+      anlegen, wenn ns:RequireDev() erfüllt wäre (Prüfung ohne Ausgabe).
+
+6. IM CLIENT PRÜFEN (Launch-Abend, im Testplan des Nutzers)
+   - Entscheid des Nutzers zu TBC: In Era und TBC zählt der Meter, die Spott-Meldung kommt, und es gibt kein
+     "Addon geblockt" (T117).
+   - In Forever: erster echter Kampf mit den Punkten 1–3 aus 2.4.3, T154, T174, T177.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
