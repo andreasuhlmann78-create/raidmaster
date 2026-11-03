@@ -1,0 +1,47 @@
+ANWEISUNG RAIDMASTER (UPLOADER + BOT): GILDENBANK-BESTAND AUCH VON GUILDSENTINEL
+================================================================================
+Stand: 3. November 2026, 19:25 · von der Prüf-Sitzung · Wunsch des Nutzers
+Gehört zu: auftraege/GuildSentinel/anweisung-guildsentinel-gildenbank.txt (Addon-Seite)
+
+ZIEL
+GuildSentinel liest auf dem Bank-Charakter den Bestand in GuildSentinelDB.bank, im GLEICHEN Format wie RaidMasterDB.bank.
+Der Uploader auf dem PC des Nutzers schickt ihn mit, und der Bot zeigt ihn im GLEICHEN Kanal #gildenbank-bestand in
+DERSELBEN Nachricht wie heute (bank_channel(), BANK_CHANNEL = "gildenbank-bestand") und bei /bank.
+Kein neuer Kanal, keine neue .json, kein zweiter Webhook. #gildenbank bleibt der Regel-Kanal.
+
+1. UPLOADER (RaidMasterUploader/uploader.py, Version 1.7.0)
+   - Die GuildSentinel-Datei liegt im selben SavedVariables-Ordner: <Ordner von savedvariables_path>/GuildSentinel.lua.
+     Kein neuer Eintrag in uploader_config.json nötig. Optional "guildsentinel_path" zum Überschreiben.
+   - Hat sich GuildSentinel.lua geändert (mtime), mit dem nächsten Upload als zweiten Anhang schicken:
+     files[1] = "GuildSentinel.lua.gz". RaidMaster.lua.gz bleibt immer files[0], Screenshots danach.
+   - Nur hochladen, wenn darin ein Block ["bank"] steht (Abkürzung: re.search(rb'\["bank"\]\s*=\s*\{', raw)). Sonst
+     nichts schicken – Gildenmitglieder ohne Bank-Charakter laden so keine fremden Daten hoch.
+   - Hat sich nur GuildSentinel.lua geändert, trotzdem hochladen (RaidMaster.lua dann unverändert mitschicken, damit der
+     Bot wie bisher funktioniert).
+   - Fehlt GuildSentinel.lua: still weiter wie bisher.
+   - Dazu Punkt 7 aus offen-raidmaster.txt (Wechsel auf den Forever-Ordner, Version im Fenster, Hinweis "Ordner ersetzen").
+
+2. BOT (Version 1.5.96 oder höher)
+   - bot.py:4397 nimmt heute den ERSTEN .lua/.gz-Anhang. Das muss nach Dateinamen gehen:
+     RaidMaster.lua(.gz) -> wie bisher nach UPLOAD_PATH.
+     GuildSentinel.lua(.gz) -> neu nach DATA_DIR/GuildSentinel.lua, nur die Tabelle GuildSentinelDB.bank auslesen.
+     Ein alter Uploader schickt nur einen Anhang: unverändert funktionieren (alte Clients nie brechen).
+   - Bestand: raidmaster_data.guild_bank() für beide Quellen aufrufen und den Stand mit dem grösseren t nehmen.
+     In der Nachricht unten klein angeben, woher er kommt ("gelesen mit RaidMaster" / "gelesen mit GuildSentinel").
+   - post_guild_bank() und /bank arbeiten mit dem gewählten Stand. Nur dann neu schreiben, wenn sich t geändert hat
+     (bank_t wie heute).
+   - Gleiche Prüfung wie heute: nur vom erlaubten Webhook (bot.py:4394).
+   - Tests in RaidMasterBot/tests: Upload mit nur RaidMaster.lua, nur GuildSentinel.lua (plus RaidMaster.lua), beiden mit
+     verschiedenem t, GuildSentinel.lua ohne bank -> kein Fehler, alter Stand bleibt.
+
+3. ANLEITUNG
+   ANLEITUNG.md Abschnitt "Gildenbank" und LIESMICH.txt/README_EN.txt des Uploaders: Bank-Charakter in RaidMaster ODER in
+   GuildSentinel einstellen, der Bestand erscheint in #gildenbank-bestand. In der Gildenregel (guild_rules.json) den Satz
+   "liest ihn mit RaidMaster ein" auf "mit RaidMaster oder GuildSentinel" ändern.
+
+4. ABLAUF
+   Uploader und Bot können vor der GuildSentinel-Version fertig sein (ohne GuildSentinel.lua ändert sich nichts).
+   Vor dem Push die Bot-Tests (python3 -I -m unittest discover -s RaidMasterBot/tests) und
+   python3 addon-check/addon_check.py für jede neue ZIP -> kein FEHLER. CHANGELOG EN/DE.
+
+Ist etwas daran falsch oder nicht machbar, bitte dem Nutzer begründet zurückmelden.
