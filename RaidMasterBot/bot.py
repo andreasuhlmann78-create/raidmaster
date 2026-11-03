@@ -36,6 +36,7 @@ from discord.ext import tasks
 
 import raidmaster_data as rmd
 import guildbank
+import uploader_setup
 import render as rimg
 import server_setup
 import mc_tactics
@@ -322,7 +323,10 @@ class RaidBot(discord.Client):
             log.exception("Beitritt konnte nicht verarbeitet werden")
 
     async def on_message(self, message: discord.Message):
-        if cfg.get("data_channel_id") and message.channel.id == int(cfg["data_channel_id"]) and message.webhook_id:
+        route = uploader_setup.route_message(cfg, message.channel.id, message.webhook_id)
+        if route == "ignore":
+            return              # #testberichte: liest die Addon-Prüfung – nie auswerten, nie antworten, nie löschen
+        if route == "upload":
             try:
                 await receive_upload(message)
             except Exception:
@@ -4663,19 +4667,10 @@ async def uploader_cmd(inter: discord.Interaction, nur_programm: bool = False):
             "Berechtigungen → „Webhooks verwalten“ einschalten → speichern. Danach `/uploader` erneut.", ephemeral=True)
         return
     await inter.response.defer(ephemeral=True, thinking=True)
-    hook = None
-    for wh in await ch.webhooks():
-        if wh.name == "RaidMaster-Uploader" and wh.token:
-            hook = wh
-            break
-    if hook is None:
-        hook = await ch.create_webhook(name="RaidMaster-Uploader", reason=f"/uploader von {inter.user}")
-    ids = [int(x) for x in cfg.get("uploader_webhooks") or []]
-    if hook.id not in ids:
-        ids.append(hook.id)
-        cfg["uploader_webhooks"] = ids
-        save_config()
-    conf = {"webhook_url": hook.url, "bot_id": bot.user.id, "savedvariables_path": "", "check_seconds": 10}
+    # zwei Webhooks: #bot-daten (Spieldaten) und #testberichte (Testberichte der GoldSentinel-Addons)
+    data_url, test_url, notes = await uploader_setup.setup_uploader_hooks(ch.guild, ch, cfg, f"/uploader von {inter.user}")
+    save_config()
+    conf = uploader_setup.uploader_config(data_url, test_url, bot.user.id)
     conf_bytes = json.dumps(conf, indent=2).encode("utf-8")
     pkg = uploader_package()
     text = ("**Daten-Uploader einrichten** (auf dem PC, auf dem du WoW spielst):\n"
@@ -4684,7 +4679,8 @@ async def uploader_cmd(inter: discord.Interaction, nur_programm: bool = False):
             + "2. **uploader_config.json** in diesen Ordner legen.\n"
             "3. `uploader.bat` doppelklicken – beim ersten Start sucht er deine RaidMaster-Datei selbst.\n"
             "4. Fertig: Nach jedem `/reload` oder Ausloggen sind DKP, Einteilung, Skillungen und Erstkill-Screenshots nach wenigen Sekunden im Discord.\n"
-            "⚠️ uploader_config.json enthält einen geheimen Link – nicht weitergeben.")
+            "⚠️ uploader_config.json enthält geheime Links – nicht weitergeben."
+            + ("\n\n" + "\n".join("ℹ️ " + n for n in notes) if notes else ""))
 
     def files():
         out = [discord.File(io.BytesIO(conf_bytes), filename="uploader_config.json")]

@@ -18,6 +18,13 @@ Ab 1.7.0:
 - Gildenbank auch von GuildSentinel: GuildSentinel.lua aus demselben SavedVariables-Ordner geht als zweiter Anhang mit,
   wenn sie sich geändert hat und einen Gildenbank-Bestand enthält (["bank"]). Sonst wird sie nie geschickt.
   Pfad überschreiben: "guildsentinel_path" in uploader_config.json.
+
+Ab 1.8.0 – Testberichte der GoldSentinel-Addons (#testberichte):
+- Durchsucht alle *.lua im SavedVariables-Ordner nach Berichten ("GSTEST1…", geschrieben von GoldSentinelTest in
+  RaidMaster, ThreatSentinel, BuffSentinel …) und schickt neue gesammelt an den zweiten Webhook "test_webhook_url"
+  (Kanal #testberichte, liest die Addon-Prüfung). Nur diese Berichte, sonst nichts aus fremden SavedVariables.
+- Unabhängig vom Daten-Upload: ein Fehler beim einen verhindert das andere nie.
+- Fehlt test_webhook_url (ältere uploader_config.json): einmal Hinweis "/uploader erneut ausführen", sonst wie bisher.
 """
 
 from __future__ import annotations
@@ -35,7 +42,7 @@ import urllib.error
 import urllib.request
 import uuid
 
-VERSION = "1.7.0"
+VERSION = "1.8.0"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400
@@ -45,6 +52,14 @@ USER_AGENT = f"RaidMasterUploader (https://github.com, {VERSION})"
 RESCAN_SECONDS = 300              # so oft nach einer neueren RaidMaster.lua suchen (Wechsel in den Forever-Ordner)
 NEWER_BY_SECONDS = 60             # erst wechseln, wenn die gefundene Datei so viel neuer ist
 GS_BANK = re.compile(rb'\["bank"\]\s*=\s*\{')
+
+# Testberichte (GoldSentinelTest): gleiche Regeln wie addon-check/testberichte.py (Gegenstelle der Addon-Prüfung)
+TEST_PREFIX = "GSTEST1"
+TEST_STR = re.compile(r'"(' + TEST_PREFIX + r'(?:[^"\\]|\\.)*)"', re.S)
+TEST_MAX_JSON = 4 * 1024 * 1024        # entpackt höchstens so viel je Nachricht
+TEST_MAX_SENT_IDS = 500
+TEST_USERNAME = "GoldSentinel-Testberichte"
+TEST_STABLE_SECONDS = 2
 
 
 def log(msg: str):
@@ -184,6 +199,176 @@ def build_body(payload: dict, packed: bytes, gs_packed: bytes | None, shots: lis
     return boundary, b"".join(parts)
 
 
+# ---------------------------------------------------------------------------
+# Testberichte (#testberichte)
+# ---------------------------------------------------------------------------
+def lua_unescape(s: str) -> str:
+    """Lua-String aus SavedVariables zurückwandeln (wie testberichte.lua_unescape): \\" \\\\ \\n \\t \\r,
+    Backslash + Zeilenumbruch, \\ddd (Bytes, danach latin-1 -> UTF-8)."""
+    out, i = [], 0
+    while i < len(s):
+        c = s[i]
+        if c == "\\" and i + 1 < len(s):
+            n = s[i + 1]
+            if n.isdigit():
+                m = re.match(r"\d{1,3}", s[i + 1:])
+                out.append(chr(int(m.group(0))))
+                i += 1 + len(m.group(0))
+                continue
+            out.append({"n": "\n", "t": "\t", "r": "\r", "\\": "\\", '"': '"', "'": "'", "\n": "\n"}.get(n, n))
+            i += 2
+            continue
+        out.append(c)
+        i += 1
+    text = "".join(out)
+    try:
+        return text.encode("latin-1").decode("utf-8")
+    except (UnicodeEncodeError, UnicodeDecodeError):
+        return text
+
+
+def reports_in_text(text: str, source: str = "") -> list[dict]:
+    """Alle GSTEST1-Berichte in einem SavedVariables-Text. Kaputte werden mit Log-Zeile übersprungen."""
+    found = []
+    for m in TEST_STR.finditer(text):
+        raw = lua_unescape(m.group(1))[len(TEST_PREFIX):]
+        try:
+            rep = json.loads(raw)
+        except ValueError:
+            log(f"Testbericht in {source or 'Datei'} nicht lesbar – übersprungen.")
+            continue
+        if isinstance(rep, dict) and rep.get("id"):
+            found.append(rep)
+    return found
+
+
+class TestReportScanner:
+    """Merkt sich je *.lua im SavedVariables-Ordner die mtime und liest nur geänderte Dateien neu."""
+
+    def __init__(self, folder: str):
+        self.folder = folder
+        self.mtimes: dict[str, float] = {}
+
+    def scan(self, cfg: dict, now: float | None = None) -> list[dict]:
+        """Neue Berichte (id nicht in sent_test_ids), nach id entdoppelt."""
+        now = time.time() if now is None else now
+        sent = set(cfg.get("sent_test_ids") or [])
+        out, seen = [], set()
+        try:
+            names = sorted(fn for fn in os.listdir(self.folder) if fn.lower().endswith(".lua"))
+        except OSError:
+            return []
+        for fn in names:
+            full = os.path.join(self.folder, fn)
+            try:
+                mt = os.path.getmtime(full)
+            except OSError:
+                continue
+            if self.mtimes.get(fn) == mt or now - mt < TEST_STABLE_SECONDS:
+                continue                    # unverändert oder WoW schreibt noch
+            try:
+                with open(full, "r", encoding="utf-8", errors="replace") as f:
+                    text = f.read()
+            except OSError:
+                continue
+            self.mtimes[fn] = mt
+            if TEST_PREFIX not in text:
+                continue
+            for rep in reports_in_text(text, fn):
+                rid = str(rep.get("id"))
+                if rid in sent or rid in seen:
+                    continue
+                seen.add(rid)
+                out.append(rep)
+        return out
+
+
+def chunk_reports(reports: list[dict]) -> list[list[dict]]:
+    """In Gruppen aufteilen, die entpackt höchstens TEST_MAX_JSON gross sind. Einzelne zu grosse überspringen."""
+    chunks, cur, size = [], [], 2
+    for rep in reports:
+        n = len(json.dumps(rep, ensure_ascii=False).encode("utf-8")) + 2
+        if n + 2 > TEST_MAX_JSON:
+            log(f"Testbericht {rep.get('id')} ist zu gross ({n // 1024} KB) – übersprungen.")
+            continue
+        if cur and size + n > TEST_MAX_JSON:
+            chunks.append(cur)
+            cur, size = [], 2
+        cur.append(rep)
+        size += n
+    if cur:
+        chunks.append(cur)
+    return chunks
+
+
+def report_body(reports: list[dict]) -> tuple[str, bytes]:
+    payload = {"content": f"GoldSentinel-Testberichte: {len(reports)} neu", "username": TEST_USERNAME,
+               "allowed_mentions": {"parse": []}}
+    packed = gzip.compress(json.dumps(reports, ensure_ascii=False).encode("utf-8"), 9)
+    boundary = "----GSTest" + uuid.uuid4().hex
+    body = b"".join([
+        f"--{boundary}\r\n".encode(),
+        b'Content-Disposition: form-data; name="payload_json"\r\nContent-Type: application/json\r\n\r\n',
+        json.dumps(payload).encode("utf-8"), b"\r\n",
+        f"--{boundary}\r\n".encode(),
+        b'Content-Disposition: form-data; name="files[0]"; filename="testberichte.json.gz"\r\n'
+        b"Content-Type: application/gzip\r\n\r\n",
+        packed, b"\r\n",
+        f"--{boundary}--\r\n".encode(),
+    ])
+    return boundary, body
+
+
+def post_webhook(url: str, boundary: str, body: bytes, sleep=time.sleep) -> str:
+    """"ok", "invalid" (401/404), "error" (5xx, Verbindung, sonst). 429 wird abgewartet und wiederholt."""
+    full = url + ("&" if "?" in url else "?") + "wait=true"
+    req = urllib.request.Request(full, data=body, method="POST", headers={
+        "Content-Type": f"multipart/form-data; boundary={boundary}", "User-Agent": USER_AGENT})
+    for _ in range(3):
+        try:
+            with urllib.request.urlopen(req, timeout=60) as r:
+                r.read()
+            return "ok"
+        except urllib.error.HTTPError as e:
+            if e.code == 429:
+                try:
+                    wait = float(json.loads(e.read().decode()).get("retry_after", 5))
+                except (ValueError, AttributeError):
+                    wait = 5
+                sleep(min(wait, 60) + 0.5)
+                continue
+            if e.code in (401, 404):
+                return "invalid"
+            return "error"
+        except (urllib.error.URLError, OSError):
+            return "error"
+    return "error"
+
+
+def send_reports(cfg: dict, reports: list[dict], sleep=time.sleep) -> bool:
+    """Neue Berichte gesammelt an #testberichte. Erst nach Erfolg als gesendet merken. True = alles gesendet."""
+    url = cfg.get("test_webhook_url") or ""
+    if not url.startswith("https://") or not reports:
+        return not reports
+    all_ok = True
+    for chunk in chunk_reports(reports):
+        boundary, body = report_body(chunk)
+        result = post_webhook(url, boundary, body, sleep)
+        if result == "ok":
+            ids = list(cfg.get("sent_test_ids") or []) + [str(r.get("id")) for r in chunk]
+            cfg["sent_test_ids"] = ids[-TEST_MAX_SENT_IDS:]
+            save_config(cfg)
+            log(f"{len(chunk)} Testbericht(e) an #testberichte geschickt.")
+        else:
+            all_ok = False
+            if result == "invalid":
+                log("Webhook für #testberichte ungültig – /uploader erneut ausführen.")
+            else:
+                log("Testberichte konnten nicht geschickt werden – neuer Versuch später.")
+            break
+    return all_ok
+
+
 def screenshots_dir(path: str) -> str:
     """.../<WoW>/WTF/Account/<X>/SavedVariables/RaidMaster.lua -> .../<WoW>/Screenshots"""
     root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(path))))))
@@ -305,6 +490,13 @@ def main():
     log("Überwache: " + path)
     log("Fenster offen lassen. Nach /reload oder Ausloggen werden die Daten automatisch hochgeladen.")
     interval = max(3, int(cfg.get("check_seconds") or 10))
+    test_scanner = TestReportScanner(os.path.dirname(os.path.abspath(path)))
+    test_pending: list[dict] = []
+    test_failures = 0
+    test_next_try = 0.0
+    if not (cfg.get("test_webhook_url") or "").startswith("https://"):
+        log("Hinweis: Für Testberichte (#testberichte) in Discord /uploader erneut ausführen und die neue "
+            "uploader_config.json hineinlegen. Der Daten-Upload läuft trotzdem wie bisher.")
     last_sent = 0.0
     last_gs_seen = 0.0          # zuletzt gesehene Änderung von GuildSentinel.lua
     pending_gs = None           # GuildSentinel.lua mit Bestand, die noch mitgeschickt werden muss
@@ -318,6 +510,7 @@ def main():
             if new != path:
                 path = new
                 last_sent = 0.0
+                test_scanner = TestReportScanner(os.path.dirname(os.path.abspath(path)))
                 log("Überwache: " + path)
         gs_file = guildsentinel_path(cfg, path)
         try:
@@ -347,6 +540,21 @@ def main():
             else:
                 failures += 1
                 next_try = time.time() + min(600, 30 * failures)
+        # Testberichte: eigener Weg, eigene Wartezeit – Fehler hier stören den Daten-Upload nie
+        try:
+            if (cfg.get("test_webhook_url") or "").startswith("https://"):
+                known = {str(r.get("id")) for r in test_pending}
+                test_pending += [r for r in test_scanner.scan(cfg) if str(r.get("id")) not in known]
+                if test_pending and time.time() >= test_next_try:
+                    if send_reports(cfg, test_pending):
+                        test_pending, test_failures = [], 0
+                    else:
+                        sent = set(cfg.get("sent_test_ids") or [])
+                        test_pending = [r for r in test_pending if str(r.get("id")) not in sent]
+                        test_failures += 1
+                        test_next_try = time.time() + min(600, 30 * test_failures)
+        except Exception as e:  # noqa: BLE001
+            log(f"Testberichte: {e}")
         time.sleep(interval)
 
 

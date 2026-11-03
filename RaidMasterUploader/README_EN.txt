@@ -26,3 +26,12 @@ New in 1.7.0:
 - Guild bank with GuildSentinel too: if the bank character is set up in GuildSentinel, the uploader also sends
   GuildSentinel.lua from the same SavedVariables folder – only if it contains a guild bank inventory. It shows up in
   #gildenbank. If the file is somewhere else, set "guildsentinel_path" in uploader_config.json.
+
+New in 1.8.0 – test reports (#testberichte):
+- GoldSentinel addons (RaidMaster, ThreatSentinel, BuffSentinel …) store test reports and error messages in their
+  SavedVariables. The uploader finds them in the same folder and sends new ones to the channel #testberichte, where the
+  addon check reads them so bugs get fixed quickly.
+- Only these reports are sent (class, level, game version, language, result) – no names, no DKP, nothing else from
+  other addons' SavedVariables.
+- This needs a second link: run /uploader in Discord again and put the new uploader_config.json into the folder.
+  Without it, the data upload works as before and you only see a hint.

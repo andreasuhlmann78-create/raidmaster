@@ -210,6 +210,8 @@ BASE_BOTTOM = [
             ("text", "befehlsliste", "Alle Bot-Befehle – wird vom Bot automatisch aktuell gehalten", "officers_readonly"),
             ("text", "bot-befehle", "Zum Testen von Bot-Befehlen", None),
             ("text", "bot-daten", "Daten aus dem Spiel (Uploader) und Update-Meldungen – nur für den Bot", "hidden"),
+            ("text", "testberichte", "Testberichte der GoldSentinel-Addons (Uploader) – liest die Addon-Prüfung. Bitte nichts löschen.",
+             "hidden"),
             ("voice", "Offiziere", None, "officers"),
         ],
     },
@@ -867,6 +869,7 @@ async def run_setup(guild: discord.Guild, invoker: discord.Member, cfg: dict, dk
                          ("officer_channel_id", "offiziere"), ("addon_channel_id", "raid-addon"),
                          ("announce_channel_id", "ankündigungen"), ("pug_channel_id", "pug-anmeldung"),
                          ("data_channel_id", "bot-daten"), ("botcmd_channel_id", "bot-befehle"),
+                         ("testberichte_channel_id", "testberichte"),
                          ("welcome_channel_id", "willkommen"), ("command_list_channel_id", "befehlsliste"),
                          ("aktionshaus_channel_id", "aktionshaus")):
         if ch_name in created:

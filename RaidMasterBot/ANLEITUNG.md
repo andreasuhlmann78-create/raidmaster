@@ -86,7 +86,7 @@ Ohne GitHub geht es auch: das RaidMaster-Paket per WinSCP auf den Server kopiere
   **-taktik**, **-dkp** und **-loot**
 - **🎲 PUG**: #pug-anmeldung, #pug-chat, Sprachkanal PUG-Raid
 - **💬 ALLGEMEIN** (#handwerk-und-handel, #gruppensuche; #allgemein legt der Bot ab 1.5.95 nicht mehr an und löscht einen vorhandenen #allgemein einmal, wenn darin nur Bot-Beiträge stehen – sonst meldet er in #bot-befehle, warum er ihn behalten hat), **🗝️ DUNGEONS** (4 Sprachkanäle „Dungeon 1–4“, je 10 Plätze), **🔊 SPRACHE**, **🔒 OFFIZIERE** (#offiziere, **#befehlsliste**, #bot-befehle,
-  **#bot-daten**, Sprachkanal nur für Offiziere)
+  **#bot-daten**, **#testberichte**, Sprachkanal nur für Offiziere)
 
 **Umbenannte Kanäle (ab Bot 1.5.95):** #regeln darf auch **#dkp-regeln** heißen, #gruppensuche auch **#gruppensuche-für-dungeons**. Der Bot findet sie unter beiden Namen, legt keinen zweiten Kanal an und verlinkt sie im Willkommenstext. Einen umbenannten Kanal verschiebt `/raidmaster-einrichten` nicht und ändert auch seine Rechte nicht. Weitere Namen: `CHANNEL_ALIASES` in `server_setup.py`. In den Regeltexten (`guild_rules.json`) und in Ankündigungen werden Kanäle als `{#kanal}` geschrieben – der Bot macht daraus einen Link, auch zu umbenannten Kanälen.
 
@@ -96,7 +96,7 @@ der Bot – Offiziere können lesen, aber nichts posten.
 Die Rolle **Gast** sieht nur **INFO**, **RAID-ADDON** und **PUG** (mit Sprachkanal „PUG-Raid“). Gildenmitglieder
 sind davon nicht betroffen.
 
-**#bot-daten** sieht nur der Bot (und Admins). Dort landen die Uploads und die tägliche Datensicherung.
+**#bot-daten** sieht nur der Bot (und Admins). Dort landen die Uploads und die tägliche Datensicherung. **#testberichte** (ab 1.5.97) sieht ebenfalls nur der Bot (und Admins) – dort landen die Testberichte der Addons (siehe unten).
 In **#bot-befehle** meldet der Bot Updates.
 
 ## 6. PUG-Spieler einladen
@@ -123,6 +123,26 @@ Python (ist schon installiert).
 
 Nach jedem `/reload` oder Ausloggen sind die Daten nach wenigen Sekunden im Discord. Mehrere Offiziere
 können den Uploader nutzen – es zählt immer der neueste DKP-Stand.
+
+**Zwei Webhooks (ab Bot 1.5.97, Uploader 1.8.0):** `/uploader` legt neben dem Webhook in #bot-daten einen zweiten in
+**#testberichte** an (Kategorie 🔒 OFFIZIERE, nur Bot und Admins sehen ihn). Die uploader_config.json enthält dann
+`webhook_url` (Daten) und `test_webhook_url` (Testberichte). **Nach dem Update auf Uploader 1.8.0 `/uploader` einmal
+erneut ausführen** und die neue uploader_config.json in den Ordner legen – ohne sie läuft der Daten-Upload wie bisher,
+nur Testberichte bleiben aus. Fehlt dem Bot in #testberichte ein Recht (Kanäle verwalten, Webhooks verwalten), schickt
+er die Einrichtungsdatei trotzdem und sagt, welches Recht fehlt.
+Update des Uploaders: den Ordner **ersetzen** (nicht hineinentpacken), uploader_config.json vorher sichern und danach
+wieder hineinlegen.
+
+## Testberichte (#testberichte)
+
+- **Wozu:** Die GoldSentinel-Addons (RaidMaster, ThreatSentinel, BuffSentinel …) schreiben Testberichte und
+  Fehlermeldungen in ihre SavedVariables. Der Uploader findet sie und schickt neue gesammelt nach #testberichte
+  (Anhang testberichte.json.gz). So kommen Fehler aus dem Spiel ohne Umweg zur Addon-Prüfung.
+- **Wer liest:** nicht der Bot, sondern der GitHub-Workflow der Addon-Prüfung (liest die letzten 500 Nachrichten).
+  Der Bot wertet dort nichts aus, antwortet nicht und löscht nichts.
+- **Nicht löschen:** Bitte in #testberichte keine Nachrichten löschen und dort nichts schreiben.
+- **Datenschutz:** Die Berichte enthalten nur Klasse, Stufe, Spielversion, Sprache und Testergebnisse – keine Spieler-,
+  Gilden- oder Chatnamen. Aus fremden SavedVariables schickt der Uploader nur diese Berichte, sonst nichts.
 
 ## 8. Umzug vom PC auf den Server (nur wenn der Bot vorher auf deinem PC lief)
 
@@ -372,7 +392,7 @@ Der Bot führt im Kanal **#gildenname** eine Abstimmung (fehlt der Kanal, legt e
 | `/dkp`, `/dkpliste` | alle | DKP abfragen |
 | `/raidmaster-status` | Offiziere | Version, Uploads, Datenstand |
 | `/raidmaster-einrichten` | Admins | Server einrichten/ergänzen |
-| `/uploader` | Admins | Uploader-Programm + Einrichtungsdatei per Direktnachricht (`nur_programm`: nur das Programm) |
+| `/uploader` | Admins | Uploader-Programm + Einrichtungsdatei (Webhooks für #bot-daten und #testberichte) per Direktnachricht (`nur_programm`: nur das Programm) |
 | `/pug-einladung` | Offiziere | Einladungslink für PUG-Spieler (Rolle Gast) |
 | `/willkommen` | Admins | Willkommenstext neu eintragen, z. B. mit anderem Gildennamen (`gildenname:…`) – sonst macht es der Bot selbst |
 | `/update` | Admins | Update prüfen oder ZIP einspielen |
