@@ -88,6 +88,8 @@ Ohne GitHub geht es auch: das RaidMaster-Paket per WinSCP auf den Server kopiere
 - **💬 ALLGEMEIN**, **🗝️ DUNGEONS** (4 Sprachkanäle „Dungeon 1–4“, je 10 Plätze), **🔊 SPRACHE**, **🔒 OFFIZIERE** (#offiziere, **#befehlsliste**, #bot-befehle,
   **#bot-daten**, Sprachkanal nur für Offiziere)
 
+**Umbenannte Kanäle (ab Bot 1.5.95):** #regeln darf auch **#dkp-regeln** heißen, #gruppensuche auch **#gruppensuche-für-dungeons**. Der Bot findet sie unter beiden Namen, legt keinen zweiten Kanal an und verlinkt sie im Willkommenstext. Weitere Namen: `CHANNEL_ALIASES` in `server_setup.py`.
+
 **#befehlsliste** zeigt alle Bot-Befehle und hält sich bei jedem Update selbst aktuell. Dort schreibt nur
 der Bot – Offiziere können lesen, aber nichts posten.
 

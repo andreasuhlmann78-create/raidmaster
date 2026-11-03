@@ -3076,7 +3076,7 @@ async def ensure_dkp_rules() -> list[str]:
     """#regeln: DKP-Regeln und Raid-Regeln. Ändert sich ein Text (oder ein DKP-Wert im Addon), bearbeitet der Bot
     seine Beiträge; seine früheren Regel-Beiträge im Kanal werden übernommen statt doppelt gepostet."""
     guild = bot_guild()
-    ch = discord.utils.get(guild.text_channels, name="regeln") if guild else None
+    ch = server_setup.find_channel(guild.text_channels, "regeln") if guild else None
     if ch is None:
         return []
     settings = (bot.dkp_data or {}).get("settings") if isinstance((bot.dkp_data or {}).get("settings"), dict) else None

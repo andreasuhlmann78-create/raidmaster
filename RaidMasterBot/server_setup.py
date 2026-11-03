@@ -267,6 +267,39 @@ def _find(items, name: str):
     return None
 
 
+# Kanäle, die auf manchen Servern von Hand umbenannt wurden. Der Bot findet sie unter jedem dieser Namen,
+# legt keinen zweiten Kanal mit dem ursprünglichen Namen an und verlinkt sie im Willkommenstext.
+CHANNEL_ALIASES = {
+    "regeln": ("dkp-regeln",),
+    "gruppensuche": ("gruppensuche-für-dungeons",),
+}
+
+
+def channel_names(name: str) -> tuple:
+    """Ursprünglicher Name zuerst, danach die Aliase aus CHANNEL_ALIASES."""
+    return (name,) + tuple(CHANNEL_ALIASES.get(name, ()))
+
+
+def find_channel(items, name: str):
+    """Kanal über seinen Namen oder einen Alias finden (Groß-/Kleinschreibung egal)."""
+    for n in channel_names(name):
+        found = _find(items, n)
+        if found:
+            return found
+    return None
+
+
+def channel_id(channels: dict | None, name: str) -> int | None:
+    """ID aus {Kanalname: ID} über den Namen oder einen Alias (Groß-/Kleinschreibung egal)."""
+    if not channels:
+        return None
+    folded = {str(k).casefold(): v for k, v in channels.items()}
+    for n in channel_names(name):
+        if folded.get(n.casefold()):
+            return folded[n.casefold()]
+    return None
+
+
 def _bot_overwrite() -> discord.PermissionOverwrite:
     return discord.PermissionOverwrite(view_channel=True, send_messages=True, embed_links=True,
                                        attach_files=True, read_message_history=True)
@@ -351,7 +384,7 @@ async def _ensure_category(guild, cat_def: dict, roles: dict, report: list, crea
 
     for kind, name, topic, mode in cat_def["channels"]:
         pool = guild.text_channels if kind == "text" else guild.voice_channels
-        channel = _find(pool, name)
+        channel = find_channel(pool, name) if kind == "text" else _find(pool, name)
         ch_ow = _overwrites(mode, guild, roles) if mode else None
         if channel:
             if channel.category_id != category.id:
@@ -444,38 +477,42 @@ def _store_raid_channels(cfg: dict, raid_def: dict, created: dict):
 # ---------------------------------------------------------------------------
 
 def welcome_text(guild_name: str, channels: dict | None = None, officer_role_id: int | None = None) -> str:
-    """Einladender Willkommenstext für #willkommen. channels: {Kanalname: ID} für klickbare Verweise."""
+    """Einladender Willkommenstext für #willkommen (eine Nachricht, unter 2000 Zeichen).
+    channels: {Kanalname: ID} für klickbare Verweise; umbenannte Kanäle findet channel_id() über CHANNEL_ALIASES."""
     channels = channels or {}
 
     def ch(name: str) -> str:
-        return f"<#{channels[name]}>" if channels.get(name) else f"**#{name}**"
+        cid = channel_id(channels, name)
+        return f"<#{cid}>" if cid else f"**#{name}**"
 
     officer = f"<@&{officer_role_id}>" if officer_role_id else "**Offizier**"
     name = guild_name or "unserer Gilde"
     return (
         f"🏡 **Willkommen bei {name}!**\n\n"
-        "Schön, dass du den Weg zu uns gefunden hast! Wir sind eine Horde-Gilde auf WoW Forever – eine Gemeinschaft "
-        "von Leuten, die gern zusammen spielen, sich gegenseitig helfen und dabei viel lachen. Egal ob du gerade erst "
-        "losgelegt hast, einen Twink hochspielst oder längst Stufe 60 bist: Hier bist du richtig.\n\n"
+        "Schön, dass du da bist! Wir sind eine deutschsprachige Horde-Gilde auf WoW Forever – Spieler aus CH, DE und AT "
+        "sind herzlich willkommen. Wir spielen gern zusammen, helfen einander und lachen viel. Egal ob frisch gestartet, "
+        "Twink oder längst Stufe 60: Hier bist du richtig.\n\n"
         "🍻 **Was dich bei uns erwartet**\n"
-        f"• **Gemeinsam statt allein:** Quests, Dungeons und Elitegebiete machen zusammen mehr Spaß – Mitspieler findest du in {ch('gruppensuche')}.\n"
-        "• **Hilfe ohne schiefe Blicke:** Fragen sind ausdrücklich erwünscht, egal wie einfach sie dir vorkommen.\n"
-        f"• **Handwerk und Handel:** Rezepte und Materialien tauschen in {ch('handwerk-und-handel')}. Wer was herstellen "
-        "kann, verrät dir `/handwerk` – zum Beispiel `/handwerk Feuerschutz`.\n"
-        "• **Einfach mal reinschauen:** In den Sprachkanälen ist abends oft jemand zum Quatschen.\n"
+        f"• **Gemeinsam statt allein:** Quests, Dungeons und Elitegebiete – Mitspieler findest du in {ch('gruppensuche')}.\n"
+        "• **Welt-PvP:** Wir spielen auf einem PvP-Realm und halten einander den Rücken frei – wirst du angegriffen, "
+        "sag im Gildenchat Bescheid.\n"
+        "• **Hilfe ohne schiefe Blicke:** Fragen sind ausdrücklich erwünscht.\n"
+        f"• **Handwerk und Handel:** Rezepte und Materialien tauschen in {ch('handwerk-und-handel')}; wer was herstellen "
+        "kann, verrät dir `/handwerk`.\n"
         f"• **Zusammen feiern:** Jeder Erfolg der Gilde landet in {ch('ruhmeshalle')}.\n\n"
         "⚔️ **Und wenn du raiden willst**\n"
-        "Wir sind Casual-Raider: Wir raiden gemütlich und mit Spaß, ohne Druck und ohne Tryhard – von Molten Core bis zu den "
-        f"neuen Raids. Kein Muss, aber jederzeit willkommen. Angemeldet wird per Knopf, unser Addon RaidMaster aus {ch('raid-addon')} "
-        f"nimmt dir im Raid die Arbeit ab, und wie wir Punkte und Beute verteilen, steht in {ch('regeln')}.\n\n"
+        "Wir raiden gemütlich und ohne Druck – von Molten Core bis zu den neuen Raids. Kein Muss, aber jederzeit "
+        f"willkommen. Angemeldet wird per Knopf, unser Addon RaidMaster aus {ch('raid-addon')} nimmt dir im Raid die "
+        f"Arbeit ab, und wie wir Punkte und Beute verteilen, steht in {ch('regeln')}.\n\n"
         "👋 **So geht's los**\n"
-        f"**1.** Stell dich kurz in {ch('allgemein')} vor – wer bist du, was spielst du?\n"
+        f"**1.** Schreib einem {officer} deinen Charakternamen – hier im Discord oder im Spiel. Dann laden wir dich in "
+        "die Gilde ein.\n"
         f"**2.** Lies in {ch('verhaltensregeln')}, wie wir miteinander umgehen.\n"
-        "**3.** Registriere deinen Charakter einmal mit `/charakter` – dann kennt dich jeder und dein Name leuchtet in deiner Klassenfarbe.\n\n"
-        f"Fragen? Sprich einfach einen {officer} an – wir helfen gern, bei Problemen mit dem Addon auch in {ch('addon-hilfe')}.\n\n"
+        "**3.** Registriere deinen Charakter einmal mit `/charakter` – dann kennt dich jeder und dein Name leuchtet in "
+        "deiner Klassenfarbe.\n\n"
+        f"Probleme mit dem Addon? Frag in {ch('addon-hilfe')}.\n\n"
         "Schön, dass du da bist. Für die Horde! 🔥"
     )
-
 
 def _rules_text(s: dict) -> str:
     first = " (beim ersten Kill doppelt)" if s.get("firstKillDouble", True) else ""
