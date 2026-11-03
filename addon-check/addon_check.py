@@ -116,8 +116,7 @@ _SCOPE_TOKENS = re.compile(
 
 # Schon veröffentlichte Versionen, die eine neue FEHLER-Regel verletzen: Dort nur Warnung, damit nicht jeder Push rot wird.
 # Die nächste Version muss es beheben. Eintrag entfernen, sobald die Version aus download/ verschwunden ist.
-ALTLAST = {
-}
+ALTLAST = set()   # zurzeit keine Altlasten; Einträge: ("addon", "x.y.z")
 
 # Testdateien (eigene Testroutinen der Addons, nicht shared/GoldSentinelTest.lua)
 # Gross geschriebenes "Test" (SelfTest, TestMode, Test.lua) oder ein Ordner Test/ bzw. Tests/; nicht Latest.lua, Contest.lua
