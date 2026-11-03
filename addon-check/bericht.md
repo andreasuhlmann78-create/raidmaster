@@ -2,12 +2,13 @@
 
 Vorlage shared/GoldSentinelGame.lua: Version 2
 Vorlage shared/GoldSentinelTest.lua: Version 1
-Tests der gemeinsamen Datei: bestanden GoldSentinelGame-Tests: bestanden; GoldSentinelTest-Tests: bestanden (43/43); Vorlage-Tests: bestanden (75/75); 112/112 Prüfungen bestanden; Ladetest-Tests: 29/29 bestanden; Testberichte-Tests: bestanden (12/12)
+Tests der gemeinsamen Datei: bestanden GoldSentinelGame-Tests: bestanden; GoldSentinelTest-Tests: bestanden (43/43); Vorlage-Tests: bestanden (75/75); 112/112 Prüfungen bestanden; Ladetest-Tests: 35/35 bestanden; Testberichte-Tests: bestanden (12/12)
 Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## AHSentinel-0.65.7.zip: OK
 
-## BuffSentinel-0.9.6.zip: OK
+## BuffSentinel-0.9.6.zip: OK (1 Warnungen)
+- **WARNUNG** Sprachtest BuffSentinel (WoW Forever): Im englischen Client (enUS) zeigt das Addon 8 deutsche Texte, z. B. "BuffSentinel: geladen für WoW Forever.". Die Sprache muss sich nach GetLocale() richten – für alle Spieler, nicht nur im Test- oder Entwicklermodus.
 
 ## GuildSentinel-0.9.13.zip: OK
 
