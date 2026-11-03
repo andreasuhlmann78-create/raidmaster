@@ -81,6 +81,7 @@ GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mi
 
 **🤝 Vernetzt mit allen Addons von GoldSentinel** (alles freiwillig – GuildSentinel läuft auch allein)
 • **RaidMaster**: Berufe, Twinks (Discord `/twink` hat Vorrang), Rollen aus der Skillung, nächster Raid bei den Terminen, Erstkills als Meilensteine
+• **Bank-Charakter** (freiwillig): Häkchen auf dem Bank-Charakter – GuildSentinel liest Bank, Post und Gildenbank, der RaidMaster-Uploader schickt den Bestand mit, und er erscheint in #gildenbank und bei `/bank`
 • **AHSentinel**: Marktwert beim Brett und bei den Abklingzeiten
 • **ProfessionSentinel**: zeigt im Rezept-Tooltip, wer in der Gilde es herstellen kann
 • **BuffSentinel**: erkennt deine Klassen-Dienste fürs Brett
