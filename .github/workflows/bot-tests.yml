@@ -1,0 +1,67 @@
+name: Bot-Tests
+
+# Prüft den RaidMaster-Bot und den Uploader bei jeder Änderung, bevor der Bot sie auf dem Server holt:
+#  - jede .py-Datei in RaidMasterBot/ und RaidMasterUploader/ lässt sich übersetzen (wie der Updater es prüft)
+#  - bot.py lässt sich mit allen Modulen importieren (das prüft der Updater NICHT – ein Importfehler würde erst
+#    auf dem Server auffallen und den Bot auf die alte Version zurückfallen lassen)
+#  - alle Bot-Tests in RaidMasterBot/tests laufen
+#  - download/RaidMasterUploader.zip enthält dieselben Dateien wie der Ordner RaidMasterUploader/
+# Rot = Fehler. Gepflegt von der Prüf-Sitzung.
+on:
+  push:
+    branches: [main]
+    paths:
+      - "RaidMasterBot/**"
+      - "RaidMasterUploader/**"
+      - "download/RaidMasterUploader.zip"
+      - ".github/workflows/bot-tests.yml"
+  pull_request:
+    paths:
+      - "RaidMasterBot/**"
+      - "RaidMasterUploader/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: bot-tests
+  cancel-in-progress: true
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Abhängigkeiten
+        run: pip install -r RaidMasterBot/requirements.txt
+      - name: Übersetzen (wie der Updater)
+        run: python3 -m py_compile RaidMasterBot/*.py RaidMasterUploader/*.py
+      - name: Importieren (bot.py mit allen Modulen)
+        working-directory: RaidMasterBot
+        run: python3 -c "import importlib, sys; sys.argv=['bot.py']; [importlib.import_module(m) for m in ('raidmaster_data', 'server_setup', 'updater', 'launcher', 'guildbank')]; print('Module OK')"
+      - name: Bot-Tests
+        run: python3 -I -m unittest discover -s RaidMasterBot/tests -v
+      - name: Uploader-ZIP passt zum Ordner
+        run: |
+          python3 - <<'EOF'
+          import os, sys, zipfile
+          z = zipfile.ZipFile("download/RaidMasterUploader.zip")
+          bad = []
+          for name in sorted(os.listdir("RaidMasterUploader")):
+              p = os.path.join("RaidMasterUploader", name)
+              if not os.path.isfile(p) or name.startswith("."):
+                  continue
+              try:
+                  if z.read("RaidMasterUploader/" + name) != open(p, "rb").read():
+                      bad.append(name + " (anders)")
+              except KeyError:
+                  bad.append(name + " (fehlt in der ZIP)")
+          if bad:
+              print("::error::download/RaidMasterUploader.zip passt nicht zum Ordner: " + ", ".join(bad))
+              sys.exit(1)
+          print("Uploader-ZIP OK")
+          EOF

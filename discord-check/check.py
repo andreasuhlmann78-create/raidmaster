@@ -220,6 +220,13 @@ def main():
     bad = [e for e in report["ankuendigungen"] + report["addons"] if e["status"] not in ("ok", "wartet")]
     report["ok"] = not bad
     report["wartet"] = any(e["status"] == "wartet" for e in report["ankuendigungen"] + report["addons"])
+    # 3) Tut der Bot, was er soll? (nur Status, keine Inhalte – das Repo ist öffentlich)
+    try:
+        report["bot"] = bot_functions(all_channels, bot_messages)
+    except Exception as e:
+        report["bot"] = [{"pruefung": "Bot-Funktionen", "status": "fehler", "detail": str(e)[:200]}]
+    if any(b["status"] not in ("ok", "wartet") for b in report["bot"]):
+        report["ok"] = False
     return finish(report)
 
 
@@ -270,6 +277,89 @@ def write_channel_list(guild, all_channels, when):
         f.write("\n".join(md) + "\n")
 
 
+# ---------------------------------------------------------------------------
+# Bot-Funktionen: Stimmt im Discord, was der Bot laut Repo tun soll?
+# Jede Prüfung liefert nur ok/fehlt und einen kurzen Hinweis – keine Beitragstexte, keine Namen.
+# ---------------------------------------------------------------------------
+def _first_line(text):
+    t = re.sub(r"\{#[^}]+\}", "", text or "")
+    return next((ln.strip() for ln in t.splitlines() if ln.strip()), "")
+
+
+def _load_json(rel):
+    try:
+        with open(os.path.join(ROOT, rel), encoding="utf-8") as f:
+            return json.load(f)
+    except (OSError, ValueError):
+        return None
+
+
+def bot_functions(all_channels, bot_messages):
+    out = []
+    names = {c["name"].lower() for c in all_channels}
+
+    def add(pruefung, ok, detail="", status=None):
+        out.append({"pruefung": pruefung, "status": status or ("ok" if ok else "fehlt"), "detail": detail})
+
+    # a) Kanäle aus /raidmaster-einrichten
+    missing = [n for n in expected_channels() if n.lower() not in names]
+    add("Kanäle aus /raidmaster-einrichten", not missing, ("fehlen: " + ", ".join("#" + n for n in missing)) if missing else "alle da")
+
+    # b) Regel-Kanäle (guild_rules.json): Kanal da und jeder Beitrag (erste Zeile) vom Bot gepostet
+    rules = (_load_json("RaidMasterBot/guild_rules.json") or {}).get("channels") or []
+    for r in rules:
+        key = r.get("key")
+        if not key:
+            continue
+        if key.lower() not in names:
+            add(f"Regeln #{key}", False, "Kanal fehlt")
+            continue
+        msgs = bot_messages(key)
+        if msgs == "kein_zugriff":
+            add(f"Regeln #{key}", False, "Bot darf den Kanal nicht lesen", "kein_zugriff")
+            continue
+        texts = [m.get("content") or "" for m in (msgs or [])]
+        heads = [_first_line(p) for p in r.get("posts") or []]
+        miss = sum(1 for h in heads if h and not any(h in t for t in texts))
+        add(f"Regeln #{key}", miss == 0, f"{len(heads) - miss}/{len(heads)} Beiträge da" if heads else "keine Beiträge vorgesehen")
+
+    # c) Gildenbank: nur noch #gildenbank, oben Regeln, darunter der Bestand
+    if "gildenbank-bestand" in names:
+        add("Gildenbank: #gildenbank-bestand aufgelöst", False, "Kanal gibt es noch (löscht der Bot ab 1.5.96 nur, wenn darin nur Bot-Beiträge stehen)")
+    else:
+        add("Gildenbank: #gildenbank-bestand aufgelöst", True, "Kanal weg")
+    gb = bot_messages("gildenbank")
+    if gb is None:
+        add("Gildenbank: Bestand unter den Regeln", False, "#gildenbank fehlt")
+    elif gb == "kein_zugriff":
+        add("Gildenbank: Bestand unter den Regeln", False, "Bot darf #gildenbank nicht lesen", "kein_zugriff")
+    else:
+        rule_head = next((_first_line(p) for r in rules if r.get("key") == "gildenbank" for p in r.get("posts") or []), "")
+        # API liefert neueste zuerst
+        idx_bank = next((i for i, m in enumerate(gb) if (m.get("content") or "").startswith("📦 **Bestand der Gildenbank**")), None)
+        idx_rule = next((i for i, m in enumerate(gb) if rule_head and rule_head in (m.get("content") or "")), None)
+        if idx_bank is None:
+            add("Gildenbank: Bestand unter den Regeln", False, "kein Bestands-Beitrag in #gildenbank")
+        elif idx_rule is None:
+            add("Gildenbank: Bestand unter den Regeln", False, "Regel-Beitrag fehlt in #gildenbank")
+        else:
+            add("Gildenbank: Bestand unter den Regeln", idx_bank < idx_rule,
+                "Reihenfolge stimmt" if idx_bank < idx_rule else "Bestand steht über den Regeln")
+
+    # d) Raids von WoW Forever: Kanäle je Raid
+    raids = _load_json("RaidMasterBot/forever_raids.json") or {}
+    raids = raids.get("raids", raids) if isinstance(raids, dict) else raids
+    for r in raids if isinstance(raids, list) else []:
+        if not isinstance(r, dict) or not r.get("forever"):
+            continue
+        p = r.get("prefix") or r.get("key")
+        want = [f"{p}-anmeldung", f"{p}-taktik", f"{p}-dkp", f"{p}-loot", f"einteilung-{p}"]
+        want += [f"{p}-{e['name']}" for e in r.get("extra_channels") or [] if e.get("name")]
+        miss = [w for w in want if w.lower() not in names]
+        add(f"Raid {r.get('name') or p}", not miss, ("fehlen: " + ", ".join("#" + m for m in miss)) if miss else "alle Kanäle da")
+    return out
+
+
 def check_announcement(fn, channel, msgs):
     path = os.path.join(ROOT, "announce", fn)
     e = {"datei": "announce/" + fn, "kanal": channel, "seit_push_min": pushed_minutes(os.path.join("announce", fn))}
@@ -308,7 +398,7 @@ def settle(e):
     return e
 
 
-ICON = {"ok": "✅", "wartet": "⏳", "veraltet": "⚠️", "fehlt": "❌", "zip_fehlt": "❌", "kanal_fehlt": "❌", "kein_zugriff": "🔒"}
+ICON = {"fehler": "❌", "ok": "✅", "wartet": "⏳", "veraltet": "⚠️", "fehlt": "❌", "zip_fehlt": "❌", "kanal_fehlt": "❌", "kein_zugriff": "🔒"}
 
 
 def finish(report):
@@ -337,6 +427,10 @@ def finish(report):
         for e in report["ankuendigungen"]:
             if e.get("fehlende_zeilen"):
                 md += ["", f"**{e['datei']}** – fehlt im Discord:"] + [f"- `{z}`" for z in e["fehlende_zeilen"]]
+        if report.get("bot"):
+            md += ["", "## Bot-Funktionen (tut der Bot, was er soll?)", "", "| | Prüfung | Ergebnis |", "|---|---|---|"]
+            for b in report["bot"]:
+                md.append(f"| {ICON.get(b['status'], '?')} {b['status']} | {b['pruefung']} | {b.get('detail', '')} |")
         if report["info"]:
             md += ["", "## Nur zur Info (ohne Versionsnummer)", ""]
             for e in report["info"]:
