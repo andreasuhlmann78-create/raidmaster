@@ -180,7 +180,7 @@ BASE_BOTTOM = [
     {
         "name": "💬 ALLGEMEIN", "mode": None,
         "channels": [
-            ("text", "allgemein", "Plaudern über alles", None),
+            # #allgemein legt der Bot ab 1.5.95 nicht mehr an (wurde nicht genutzt); ein vorhandener Kanal bleibt.
             ("text", "handwerk-und-handel", "Berufe, Rezepte und Auktionshaus", None),
             ("text", "gruppensuche", "Dungeons, Quests und Twinks", None),
         ],
