@@ -1,4 +1,4 @@
-RaidMaster 3.0.16 – DKP, loot and raid leading tools
+RaidMaster 3.0.17 – DKP, loot and raid leading tools
 ====================================================
 
 INSTALLATION
@@ -22,6 +22,11 @@ MAIN FEATURES
   The boss's marker template is selected automatically when the encounter starts.
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
+
+WHAT'S NEW IN 3.0.17 – Discord channel names updated in the texts
+- The guild bank inventory is now in #gildenbank on Discord (below the rules) – texts on the guild bank page updated.
+- Assignments are in the raid's assignment channel (e.g. #einteilung-mc) – texts of the Discord guide updated.
+- No other changes.
 
 WHAT'S NEW IN 3.0.16 – Complete test routine, more protection in combat
 - Actions with real effects (chat, raid markers, invites, groups, looting, trade, ready check, countdown,

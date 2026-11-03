@@ -1923,7 +1923,7 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 	Place(ttCheck, page, x2, y2 - 126)
 	local bankCheck = UI.Check(page, L["Bank-Charakter (Bestand an Discord)"], function() return RM.db.config.bankScan end,
 		function(v) RM.db.config.bankScan = v end,
-		L["Beim Öffnen von Bank, Briefkasten (und Gildenbank, falls vorhanden) liest RaidMaster den Bestand aus.\nDer Uploader schickt ihn an Discord (#gildenbank-bestand, /bank).\nAuf diesem Charakter erscheint dann der Bereich Gildenbank."])
+		L["Beim Öffnen von Bank, Briefkasten (und Gildenbank, falls vorhanden) liest RaidMaster den Bestand aus.\nDer Uploader schickt ihn an Discord (#gildenbank, /bank).\nAuf diesem Charakter erscheint dann der Bereich Gildenbank."])
 	Place(bankCheck, page, x2 + 250, y2 - 100)
 	local recCheck = UI.Check(page, L["Erstkill-Feier und Bestzeiten"], function() return RM.db.config.records ~= false end,
 		function(v) RM.db.config.records = v end,
@@ -1969,7 +1969,7 @@ UI.AddPage("bank", L["Gildenbank"], function(page)
 	end, L["Liest Taschen und Bank (bei offener Bank) bzw. die Post (bei offenem Briefkasten) neu ein."])
 	Place(scanBtn, page, 580, -24)
 	local sendBtn = UI.Button(page, L["An Discord senden"], 150, 26, function() RM.Guide.SendNow() end,
-		L["Lädt die Oberfläche neu, damit WoW speichert – der Uploader schickt den Bestand nach #gildenbank-bestand."])
+		L["Lädt die Oberfläche neu, damit WoW speichert – der Uploader schickt den Bestand nach #gildenbank."])
 	Place(sendBtn, page, 580, -54)
 	sendBtn:SetAccent(true)
 

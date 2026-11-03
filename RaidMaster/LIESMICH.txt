@@ -1,4 +1,4 @@
-RaidMaster 3.0.16 – DKP, Loot und Raidleitung für WoW Forever
+RaidMaster 3.0.17 – DKP, Loot und Raidleitung für WoW Forever
 ===============================================================
 
 INSTALLATION
@@ -10,6 +10,11 @@ INSTALLATION
   Hat jemand im Raid oder in der Gilde eine neuere Version, zeigt das Addon einen Hinweis.
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
+
+NEU IN 3.0.17 – Discord-Kanäle in den Texten aktualisiert
+- Gildenbank-Bestand steht im Discord jetzt in #gildenbank (unter den Regeln) – Texte auf der Seite Gildenbank angepasst.
+- Die Einteilung steht im Einteilungs-Kanal des Raids (z. B. #einteilung-mc) – Texte der Discord-Anleitung angepasst.
+- Sonst keine Änderungen.
 
 NEU IN 3.0.16 – Testroutine vollständig, mehr Schutz im Kampf
 - Für euch: Aktionen mit Folgen (Chat, Symbole, Einladen, Gruppen, Plündern, Handel, Bereitschafts-Check,

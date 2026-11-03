@@ -27,6 +27,9 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
+**3.0.17** – Richtige Kanäle
+• Das Addon nennt jetzt die aktuellen Discord-Kanäle: Gildenbank in #gildenbank, Einteilung im Kanal des Raids (z. B. #einteilung-mc).
+
 **3.0.16** – Sicher im Kampf
 • Alles, was RaidMaster im Spiel auslöst (Chat, Symbole, Einladen, Plündern …), läuft jetzt über eine einzige Stelle – im Spiel ändert sich nichts, aber Fehler in WoW Forever werden besser abgefangen.
 
@@ -44,8 +47,5 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 
 **3.0.9** – Gemeinsame Versionserkennung
 • RaidMaster erkennt WoW Forever jetzt genauso wie alle anderen Addons von GoldSentinel – auch falls Blizzard zum Launch die Versionsnummer ändert. `/gsgame` zeigt, was erkannt wurde.
-
-**3.0.8** – Markieren im Kampf
-• In WoW Forever markiert RaidMaster im Kampf nichts mehr automatisch („Adds markieren“, Boss-Leiste) – dann einfach per Mouseover-Taste markieren. Vor dem Pull geht alles wie gewohnt.
 
 Ältere Neuerungen stehen im Addon in der Datei LIESMICH.txt.

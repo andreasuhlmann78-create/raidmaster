@@ -17,11 +17,11 @@ local CHECK = "|TInterface\\RaidFrame\\ReadyCheck-Ready:14:14|t "
 G.STEPS = {
 	{ group = 1, title = L["So funktioniert es"],
 	  text = L["RaidMaster speichert alle Daten (DKP, Loot, Einteilung, Skillungen) in einer Datei auf deinem PC. WoW schreibt diese Datei beim Ausloggen oder nach /reload."] .. "\n\n"
-		.. L["Der Uploader auf deinem PC schickt sie dann sofort an den Discord-Bot. Der Bot aktualisiert die DKP- und Loot-Kanäle jedes Raids, #einteilung und schickt Direktnachrichten."] .. "\n\n"
+		.. L["Der Uploader auf deinem PC schickt sie dann sofort an den Discord-Bot. Der Bot aktualisiert die DKP- und Loot-Kanäle jedes Raids, den Einteilungs-Kanal des Raids (z. B. #einteilung-mc) und schickt Direktnachrichten."] .. "\n\n"
 		.. L["Einrichten musst du das nur einmal (Schritte 2 bis 6). Danach reicht nach dem Raid ein Klick."] },
 	{ group = 1, title = L["Discord vorbereiten"],
 	  text = L["Ein Discord-Admin gibt einmal /raidmaster-einrichten ein."] .. "\n\n"
-		.. L["Der Bot legt dann alle Kanäle an: pro Raid einen DKP- und einen Loot-Kanal (z. B. #mc-dkp, #mc-loot), dazu #einteilung und #bot-daten. Ist das schon passiert, einfach weiter."] },
+		.. L["Der Bot legt dann alle Kanäle an: pro Raid einen DKP- und einen Loot-Kanal (z. B. #mc-dkp, #mc-loot), dazu je Raid einen Einteilungs-Kanal (z. B. #einteilung-mc) und #bot-daten. Ist das schon passiert, einfach weiter."] },
 	{ group = 1, title = L["Uploader herunterladen"],
 	  text = L["Der Uploader ist ein kleines Programm für den PC, auf dem du WoW spielst. Er braucht Python 3 (kostenlos auf python.org)."] .. "\n\n"
 		.. L["Link unten anklicken, mit Strg+C kopieren und im Browser öffnen. Die ZIP entpacken und den Ordner RaidMasterUploader z. B. nach Dokumente legen."],
@@ -48,7 +48,7 @@ G.STEPS = {
 	  page = "raid" },
 	{ group = 2, title = L["Einteilung verschicken"],
 	  text = L["Auf der Seite Einteilung die Aufgaben verteilen, dann unten \"Jetzt an Discord senden\" drücken."] .. "\n\n"
-		.. L["Der Bot postet die Übersicht in #einteilung und schickt jedem verknüpften Spieler seine Aufgabe als Direktnachricht."],
+		.. L["Der Bot postet die Übersicht im Einteilungs-Kanal des Raids (z. B. #einteilung-mc) und schickt jedem verknüpften Spieler seine Aufgabe als Direktnachricht."],
 	  page = "assign", reload = true },
 	{ group = 2, title = L["Nach dem Raid: DKP an Discord"],
 	  text = L["Auf der Seite Raid den Raid beenden. RaidMaster fragt dann, ob die Daten jetzt an Discord gehen sollen – mit Ja wird die Oberfläche kurz neu geladen."] .. "\n\n"
