@@ -78,6 +78,79 @@ TRAPS = [
     (r"\bissecretvalue\s*\(", r"GoldSentinelGame|function\s+\w*[Ii]s[Ss]ecret", "issecretvalue direkt benutzt -> GoldSentinelGame.IsSecret (sicher, auch wenn die Funktion fehlt)"),
 ]
 
+# Blizzard-Funktionen, die ein Addon nie ersetzen darf. Wer sie überschreibt (auch nur im Test und danach
+# zurückgesetzt), "taintet" sie bis zum /reload: Blizzard-Code, der sie danach aufruft, wird blockiert.
+# Dazu gilt jede Zuweisung an C_<Namensraum>.<Funktion>. Lokale Kopien (local UnitName = UnitName) sind erlaubt.
+BLIZZ_GLOBALS = set("""
+UnitName UnitFullName GetUnitName UnitGUID UnitClass UnitClassBase UnitLevel UnitRace UnitSex UnitFactionGroup UnitExists
+UnitIsPlayer UnitIsUnit UnitIsDead UnitIsDeadOrGhost UnitIsConnected UnitIsFriend UnitIsEnemy UnitCanAttack UnitReaction
+UnitHealth UnitHealthMax UnitPower UnitPowerMax UnitPowerType UnitAffectingCombat UnitInRaid UnitInParty UnitIsGroupLeader
+UnitIsGroupAssistant UnitGroupRolesAssigned UnitDetailedThreatSituation UnitThreatSituation UnitCastingInfo UnitChannelInfo
+UnitAura UnitBuff UnitDebuff UnitCreatureType UnitClassification UnitPosition
+GetServerTime GetTime GetGameTime GetRealmName GetNormalizedRealmName GetBuildInfo GetLocale GetGuildInfo
+GetNumGroupMembers GetNumSubgroupMembers GetRaidRosterInfo IsInGroup IsInRaid IsInGuild IsInInstance GetInstanceInfo
+GetZoneText GetRealZoneText GetSubZoneText GetMinimapZoneText InCombatLockdown GetMoney GetItemInfo GetItemCount
+GetSpellInfo GetSpellCooldown IsSpellKnown GetNumGuildMembers GetGuildRosterInfo GuildRoster
+SendChatMessage SendAddonMessage BuyMerchantItem RepairAllItems GetRepairAllCost CanMerchantRepair TakeTaxiNode
+SelectGossipOption AcceptQuest CompleteQuest GetQuestReward PlaySound PlaySoundFile CreateFrame
+GetAddOnMetadata IsAddOnLoaded LoadAddOn GetCursorPosition IsShiftKeyDown IsControlKeyDown IsAltKeyDown
+""".split())
+BLIZZ_ASSIGN = re.compile(
+    r"^[ \t;]*(?:_G\s*\.\s*(?P<g>[A-Za-z_]\w*)|_G\s*\[\s*\"(?P<s>[A-Za-z_]\w*)\"\s*\]|(?P<n>[A-Za-z_]\w*)"
+    r"|(?P<c>C_\w+\s*\.\s*\w+))\s*=(?!=)"
+    r"|^[ \t;]*function\s+(?P<f>(?:C_\w+\.)?[A-Za-z_]\w*)\s*\("
+    r"|\brawset\s*\(\s*_G\s*,\s*\"(?P<r>[A-Za-z_]\w*)\"", re.M)
+# Schon veröffentlichte Versionen, die eine neue FEHLER-Regel verletzen: Dort nur Warnung, damit nicht jeder Push rot wird.
+# Die nächste Version muss es beheben. Eintrag entfernen, sobald die Version aus download/ verschwunden ist.
+ALTLAST = {
+    ("raidmaster", "3.0.14"),     # Test/Test.lua ersetzt GetServerTime, UnitExists, UnitIsPlayer, UnitName (offen-raidmaster.txt 1+2)
+}
+
+# Testdateien (eigene Testroutinen der Addons, nicht shared/GoldSentinelTest.lua)
+TEST_FILE = re.compile(r"(?:^|/)(?:Test/[^/]+|[^/]*(?:SelfTest|AutoTest|TestMode|Test)\w*\.lua)$", re.I)
+# Aktionen mit Folgen: im Test nur mitschreiben, nie wirklich auslösen (nachtrag-testroutinen.txt)
+TEST_ACTIONS = re.compile(
+    r"(?<![\w.:])(?:C_ChatInfo\s*\.\s*)?(?:SendChatMessage|SendAddonMessage)\s*\("
+    r"|(?<![\w.:])(?:BuyMerchantItem|RepairAllItems|PickupMerchantItem|DoTradeSkill|DoCraft|TakeTaxiNode"
+    r"|PlaceAuctionBid|PostAuction|StartAuction|GuildInvite|GuildUninvite|GuildPromote|GuildDemote|InviteUnit"
+    r"|UninviteUnit|SetLootMethod|ConvertToRaid|DeleteCursorItem|SellCursorItem|AcceptQuest|CompleteQuest|GetQuestReward)\s*\("
+    r"|\bC_TradeSkillUI\s*\.\s*Craft\w*\s*\("
+    r"|\bC_AuctionHouse\s*\.\s*(?:PostItem|PostCommodity|PlaceBid|StartCommoditiesPurchase|ConfirmCommoditiesPurchase)\s*\("
+    r"|\bC_PartyInfo\s*\.\s*(?:InviteUnit|ConvertToRaid|LeaveParty)\s*\("
+    r"|\bC_GuildInfo\s*\.\s*(?:Invite|Uninvite|Promote|Demote|RemoveFromGuild)\w*\s*\("
+    r"|\bC_MerchantFrame\s*\.\s*(?:BuyItem|SellItem)\w*\s*\(")
+# Namen von Ziel, Boss, Fokus … sind in Forever im Kampf "secret": :lower(), Vergleiche und Tabellenschlüssel brechen dann
+# (Zusammensetzen mit .. und Weitergeben sind erlaubt, das Ergebnis bleibt geheim)
+SECRET_UNIT = r"[\"'](?:target|focus|mouseover|boss\d?|targettarget|arena\d|nameplate\d+)[\"']"
+SECRET_USE = re.compile(
+    r"\b(?:UnitName|GetUnitName|UnitFullName)\s*\(\s*" + SECRET_UNIT + r"[^()]*\)\s*(?::\s*\w+\s*\(|[=~]=\s*[\"']|\])"
+    r"|\[\s*(?:UnitName|GetUnitName|UnitFullName)\s*\(\s*" + SECRET_UNIT
+    + r"|\b(?:strlower|string\.lower|strupper|string\.upper|strsub|string\.sub|string\.find|strfind|string\.match|strmatch|gsub|string\.gsub)"
+    r"\s*\(\s*(?:UnitName|GetUnitName|UnitFullName)\s*\(\s*" + SECRET_UNIT)
+SECRET_LOCAL = re.compile(r"\blocal\s+(\w+)[\w\s,]*=\s*(?:UnitName|GetUnitName|UnitFullName)\s*\(\s*" + SECRET_UNIT)
+
+
+def secret_name_uses(code):
+    """Stellen, an denen der Name von Ziel/Boss/Fokus ungeschützt zerlegt, verglichen oder als Schlüssel benutzt wird.
+    Direkt (UnitName("target"):lower()) und über eine lokale Variable in den nächsten 8 Zeilen."""
+    hits = {code.count("\n", 0, m.start()) + 1 for m in SECRET_USE.finditer(code)}
+    lines = code.split("\n")
+    for m in SECRET_LOCAL.finditer(code):
+        v, start = m.group(1), code.count("\n", 0, m.start())
+        use = re.compile(r"\b" + v + r"\s*(?::\s*\w+\s*\(|[=~]=\s*[\"']|\])|\[\s*" + v + r"\s*\]"
+                         r"|\b(?:strlower|string\.lower|strupper|string\.upper|strsub|string\.sub|string\.find|strfind"
+                         r"|string\.match|strmatch|gsub|string\.gsub)\s*\(\s*" + v + r"\b")
+        for k in range(start + 1, min(start + 9, len(lines))):
+            if re.search(r"\blocal\s+" + v + r"\b", lines[k]):
+                break                   # Variable neu belegt
+            if use.search(lines[k]):
+                hits.add(k + 1)
+                break
+    return sorted(hits)
+
+
+SECRET_GUARD = re.compile(r"IsSecret|issecretvalue|canaccessvalue|GoldSentinelGame\s*\.\s*Safe|InCombatLockdown")
+
 GAME_TESTS = SHARED_DIR / "tests" / "test_goldsentinelgame.py"
 # alle Tests der gemeinsamen Dateien und des Prüfsystems (shared/tests/test_*.py, addon-check/test_*.py)
 ALL_TESTS = sorted((SHARED_DIR / "tests").glob("test_*.py")) + sorted(Path(__file__).resolve().parent.glob("test_*.py"))
@@ -114,6 +187,81 @@ def lua_version_const(text):
 def strip_lua_comments(text):
     text = re.sub(r"--\[(=*)\[.*?\]\1\]", "", text, flags=re.S)
     return re.sub(r"--[^\n]*", "", text)
+
+
+_LONG_COMMENT = re.compile(r"--\[(=*)\[")
+_LONG_OPEN = re.compile(r"\[(=*)\[")
+
+
+def lua_blank(text):
+    """Entfernt Kommentare und leert den Inhalt von Strings (Anführungszeichen bleiben, Zeilenumbrüche auch).
+    So stimmen die Zeilennummern, und Text in Strings löst keine Regel aus. Strings aus nur einem Wort ("target")
+    bleiben stehen, weil die Regeln sie brauchen."""
+    out, i, n = [], 0, len(text)
+    while i < n:
+        c = text[i]
+        if c == "-" and text.startswith("--", i):
+            m = _LONG_COMMENT.match(text, i)
+            if m:
+                end = text.find("]" + m.group(1) + "]", m.end())
+                end = n if end < 0 else end + len(m.group(1)) + 2
+            else:
+                end = text.find("\n", i)
+                end = n if end < 0 else end
+            out.append(re.sub(r"[^\n]", " ", text[i:end]))
+            i = end
+        elif c in "\"'":
+            j = i + 1
+            while j < n and text[j] != c and text[j] != "\n":
+                j += 2 if text[j] == "\\" else 1
+            body = text[i + 1:j]
+            body = body if re.fullmatch(r"\w+", body) else re.sub(r"[^\n]", " ", body)   # "target", "UnitName" bleiben
+            out.append(c + body + (c if j < n and text[j] == c else ""))
+            i = j + 1 if j < n and text[j] == c else j
+        elif c == "[" and _LONG_OPEN.match(text, i):
+            m = _LONG_OPEN.match(text, i)
+            end = text.find("]" + m.group(1) + "]", m.end())
+            end = n if end < 0 else end + len(m.group(1)) + 2
+            out.append('""' + re.sub(r"[^\n]", " ", text[i + 2:end]))
+            i = end
+        else:
+            out.append(c)
+            i += 1
+    return "".join(out)
+
+
+def brace_depth_at_lines(code):
+    """Tiefe der {}-Klammern am Anfang jeder Zeile (code ohne Strings/Kommentare). 0 = nicht in einem Tabellen-Konstruktor."""
+    depth, res = 0, [0]
+    for ch in code:
+        if ch == "{":
+            depth += 1
+        elif ch == "}":
+            depth = max(0, depth - 1)
+        elif ch == "\n":
+            res.append(depth)
+    return res
+
+
+def blizz_overrides(code):
+    """Zeilen, in denen eine Blizzard-Funktion ersetzt wird -> Liste (zeile, name)."""
+    depth = brace_depth_at_lines(code)
+    found = []
+    for m in BLIZZ_ASSIGN.finditer(code):
+        name = next(g for g in m.groups() if g)
+        name = re.sub(r"\s+", "", name)
+        line = code.count("\n", 0, m.start()) + 1
+        if depth[line - 1] > 0:
+            continue                    # Feld in einer Tabelle ({ UnitName = … }), kein Global
+        is_c = name.startswith("C_") and "." in name
+        if not is_c and name not in BLIZZ_GLOBALS:
+            continue
+        if not is_c and (re.search(r"\blocal\s+(?:function\s+)?(?:[\w\s,]*,\s*)?" + name + r"\b", code[:m.start()])
+                         or re.search(r"\bfunction\b[^(\n]*\([^)]*\b" + name + r"\b[^)]*\)", code)
+                         or re.search(r"\bfor\s+[\w\s,]*\b" + name + r"\b[\w\s,]*\bin\b", code)):
+            continue                    # lokale Variable oder Parameter gleichen Namens
+        found.append((line, name))
+    return found
 
 
 def zip_name_version(path: Path):
@@ -407,6 +555,7 @@ def check_zip(path, shared_ref=None, dev_max=None):
     from_announce = "__" in path.stem
     folders = sorted({n.split("/", 1)[0] for n in tocs if "/" in n})
     main_versions = set()
+    folder_versions = {}                # Ordner -> Versionen aus seinen .toc
     loaded = set()                      # Dateien, die das Spiel lädt (in einer .toc oder über eine geladene .xml)
 
     for folder in folders:
@@ -435,6 +584,7 @@ def check_zip(path, shared_ref=None, dev_max=None):
                 ", ".join(f"{k.split('/')[-1]}={v}" for k, v in sorted(versions.items())))
         if folder.lower() == zaddon.lower():
             main_versions |= vs
+        folder_versions[folder.lower()] = vs
         if 16001 not in interfaces and not any(16000 <= i <= 19999 for i in interfaces):
             warn(f"{folder}: keine Interface-Nummer für WoW Forever (16001) in der .toc")
     # .xml-Dateien, die geladen werden, laden ihrerseits <Script file="…"/> und <Include file="…"/>
@@ -513,6 +663,24 @@ def check_zip(path, shared_ref=None, dev_max=None):
                 else:
                     warn(f"Lua-Syntaxfehler in einer Datei, die das Spiel nicht lädt (Werkzeug?): {e} – "
                          f"am besten nicht in die ZIP packen")
+            blank = lua_blank(text)
+            base_addon = re.sub(r"-latest$", "", zaddon.lower())
+            old_release = (base_addon, ver or zver or "") in ALTLAST or any(
+                (base_addon, v) in ALTLAST for v in folder_versions.get(base_addon, ()))
+            say = err if n.lower() in loaded and not old_release else warn
+            for line, name in blizz_overrides(blank):
+                say(f"{n}:{line}: ersetzt die Blizzard-Funktion {name} – das taintet sie bis zum /reload "
+                    f"(auch im Test und auch wenn sie danach zurückgesetzt wird). Eigene Funktion oder Ersatzwert verwenden."
+                    + (" Schon veröffentlicht: in der nächsten Version beheben, sonst FEHLER." if old_release else ""))
+            if TEST_FILE.search(n):
+                for m in TEST_ACTIONS.finditer(blank):
+                    line = blank.count("\n", 0, m.start()) + 1
+                    warn(f"{n}:{line}: Testdatei ruft {re.sub(chr(92) + 's+', '', m.group(0)).rstrip('(')} direkt auf – "
+                         f"Aktionen mit Folgen im Test nur mitschreiben, nie auslösen (nachtrag-testroutinen.txt)")
+            if not SECRET_GUARD.search(blank):
+                for line in secret_name_uses(blank):
+                    warn(f"{n}:{line}: Name von Ziel/Boss/Fokus wird ohne Schutzprüfung weiterverarbeitet – in Forever ist er im "
+                         f"Kampf geheim (Lua-Fehler bei :lower(), Vergleich oder als Schlüssel). Vorher GoldSentinelGame.IsSecret prüfen.")
             code = strip_lua_comments(text)
             for pat, fallback, why in TRAPS:
                 if re.search(pat, code) and not re.search(fallback, code):

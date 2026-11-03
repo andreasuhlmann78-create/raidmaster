@@ -1,0 +1,53 @@
+HINWEIS FÜR ALLE ADDON-PROJEKTE: DREI NEUE REGELN IN DER ADDON-PRÜFUNG
+=====================================================================
+Stand: 3. November 2026 · von der Prüf-Sitzung
+Gilt für: RaidMaster, ThreatSentinel, AHSentinel, BuffSentinel, GuildSentinel, ProfessionSentinel, LevelPilot
+
+Die Prüfung (addon-check/addon_check.py) erkennt jetzt die Fehler, die bei den Nachprüfungen der letzten Tage aufgefallen
+sind, selbst. Vor dem Push wie immer: git pull --rebase, dann
+    python3 addon-check/addon_check.py download/<Addon>-<Version>.zip    -> kein FEHLER
+Die genauen Regeln stehen in addon-check/README.md, Abschnitt "Was geprüft wird".
+
+1. BLIZZARD-FUNKTION ERSETZT -> FEHLER (Veröffentlichung wird blockiert)
+   Gemeldet wird jede Zuweisung an eine Blizzard-Funktion, z. B.:
+       UnitName = function() ... end
+       _G.GetServerTime = ...
+       _G["UnitExists"] = ...
+       rawset(_G, "GetTime", ...)
+       function GetRealmName() ... end
+       C_ChatInfo.SendChatMessage = ...
+   Das gilt auch im Test und auch dann, wenn die Funktion danach zurückgesetzt wird: Beides kommt aus Addon-Code, die
+   Funktion bleibt bis zum /reload "tainted".
+   Erlaubt sind:
+   - lokale Kopien wie local UnitName = UnitName
+   - eigene Felder wie RM.Now = ... oder ns.UnitName = ...
+   - Felder in einer Tabelle wie { UnitName = ... }
+   - hooksecurefunc
+   So geht es richtig: eine eigene Funktion (RM.Now statt GetServerTime) oder einen Ersatzwert über das eigene Objekt
+   (B.ReadTarget) benutzen und im Test nur diese verschieben.
+
+2. AKTION MIT FOLGEN IN EINER TESTDATEI -> WARNUNG
+   Testdateien sind Test.lua, SelfTest.lua, AutoTest.lua, TestMode.lua und alles im Ordner Test/.
+   Ruft eine davon direkt eine Aktion mit Folgen auf, kommt eine Warnung. Gemeint sind: SendChatMessage, SendAddonMessage,
+   BuyMerchantItem, RepairAllItems, C_TradeSkillUI.Craft…, Auktionen, Gilden- und Gruppen-Einladungen, Quests annehmen oder
+   abgeben, TakeTaxiNode.
+   Im Test nur mitschreiben, nie auslösen (nachtrag-testroutinen.txt). Eine eigene Hülle wie TM:Send(...) ist in Ordnung.
+
+3. GEHEIMER NAME OHNE SCHUTZ -> WARNUNG
+   Gemeint sind die Namen von Ziel, Boss, Fokus und Mouseover, z. B. UnitName("target"). In Forever sind sie im Kampf geheim.
+   Eine Warnung kommt, wenn so ein Name zerlegt (:lower(), strlower), verglichen (== "...") oder als Tabellenschlüssel
+   benutzt wird. Das gilt direkt oder über eine lokale Variable in den nächsten 8 Zeilen.
+   Kein Alarm, wenn die Datei GoldSentinelGame.IsSecret (oder issecretvalue, InCombatLockdown) benutzt. Zusammensetzen mit
+   .. und einfaches Weitergeben sind erlaubt.
+
+STAND DER AKTUELLEN VERSIONEN
+-----------------------------
+- AHSentinel 0.65.4, BuffSentinel 0.9.5, GuildSentinel 0.9.9, ProfessionSentinel 0.9.10, ThreatSentinel 2.4.3,
+  LevelPilot 3.12.4: Keine der neuen Regeln schlägt an. Für euch ändert sich nichts.
+- RaidMaster 3.0.14: Test/Test.lua:1195, 1197 (GetServerTime) und 1402–1404 (UnitExists, UnitIsPlayer, UnitName).
+  Das sind Punkt 1 und 2 in offen-raidmaster.txt. Für die schon veröffentlichte 3.0.14 gibt es nur eine Warnung.
+  AB DER NÄCHSTEN RAIDMASTER-VERSION IST ES EIN FEHLER. Sie kommt nicht durch die Prüfung (GitHub, CurseForge, Discord-Bot),
+  solange diese Stellen drin sind. Bitte vor dem Launch beheben.
+
+Hält die Prüfung etwas für einen Fehler, das keiner ist, nicht umgehen, sondern dem Nutzer mit Datei und Zeile melden. Die
+Prüf-Sitzung korrigiert dann die Regel.

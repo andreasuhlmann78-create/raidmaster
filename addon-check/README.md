@@ -17,11 +17,19 @@ veröffentlicht wurden (eine davon auf CurseForge).
 | Datei steht in der `.toc`, fehlt aber in der ZIP | Lua-Fehler beim Laden |
 | Lua-Syntaxfehler in einer geladenen Datei (geprüft mit Lua 5.1 wie im Spiel) | Addon lädt nicht |
 | `GoldSentinelGame.lua` steht in der `.toc` nicht vor den eigenen Dateien | eigene Dateien finden die Erkennung nicht |
+| Code ersetzt eine Blizzard-Funktion (`UnitName = …`, `_G.GetServerTime = …`, `C_ChatInfo.SendChatMessage = …`, `function GetRealmName()`), auch nur im Test und auch mit Zurücksetzen (ab 3. November) | "Taint": Die Funktion bleibt bis zum /reload verseucht, Blizzard-Code, der sie danach aufruft, wird blockiert |
 
 **Warnungen** – Upload geht, aber bitte ansehen:
 
 - bekannte Fallen der modernen API (WoW Forever, Retail): alte Funktion ohne Ersatz in derselben Datei, z. B.
   `UnitAura` ohne `C_UnitAuras`, `GetMerchantNumItems` ohne `C_MerchantFrame`, Kampflog ohne Sperre
+- Testdatei (`Test.lua`, `SelfTest.lua`, `AutoTest.lua`, `TestMode.lua`, Ordner `Test/`) ruft eine Aktion mit
+  Folgen direkt auf: `SendChatMessage`, `BuyMerchantItem`, `RepairAllItems`, `C_TradeSkillUI.Craft…`, Auktionen,
+  Gilden- und Gruppen-Einladungen, Quests annehmen/abgeben. Im Test nur mitschreiben (`nachtrag-testroutinen.txt`).
+- Name von Ziel, Boss, Fokus oder Mouseover (`UnitName("target")` …) wird ohne Schutzprüfung zerlegt (`:lower()`,
+  `strlower`), verglichen (`== "…"`) oder als Tabellenschlüssel benutzt – direkt oder über eine lokale Variable in
+  den nächsten 8 Zeilen. In Forever ist er im Kampf geheim. Kein Alarm, wenn die Datei `IsSecret`, `issecretvalue`
+  oder `InCombatLockdown` benutzt. Zusammensetzen mit `..` und Weitergeben sind erlaubt.
 - `.lua`-Datei liegt in der ZIP, wird aber nie geladen (Werkzeug?) – Syntaxfehler dort nur als Warnung
 - keine Interface-Nummer für WoW Forever; `GoldSentinelGame.lua` fehlt oder ist veraltet
 
@@ -53,6 +61,11 @@ veröffentlicht wurden (eine davon auf CurseForge).
 ## Erweitern
 
 Neue Falle: Liste `TRAPS` in `addon_check.py` (Muster, Ersatz in derselben Datei, Erklärung).
+Weitere geschützte Blizzard-Funktion: Liste `BLIZZ_GLOBALS`. Weitere Aktion für Testdateien: `TEST_ACTIONS`.
+Strings und Kommentare blendet `lua_blank()` vorher aus, damit Hilfetexte keinen Alarm auslösen.
+Schon veröffentlichte Version, die eine neue FEHLER-Regel verletzt: in `ALTLAST` eintragen (dort nur Warnung, die
+nächste Version bekommt den Fehler). Eintrag entfernen, sobald die Version aus `download/` verschwunden ist.
+Tests der Regeln: `python3 addon-check/test_addon_check_regeln.py` (Treffer und Fehlalarm-Fälle je Regel).
 Neue gemeinsame Datei: Liste `SHARED` (Regel `exact` oder `version`).
 
 ## Testberichte aus dem Spiel (`shared/GoldSentinelTest.lua`)
