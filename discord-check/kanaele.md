@@ -1,6 +1,6 @@
 # Discord-Kanäle
 
-Stand: 2026-11-03T20:10:31Z, Server: Alpine Vanguard. Nur die Struktur – keine Beiträge, keine Mitglieder (das Repo ist öffentlich).
+Stand: 2026-11-03T20:34:23Z, Server: Alpine Vanguard. Nur die Struktur – keine Beiträge, keine Mitglieder (das Repo ist öffentlich).
 Erstellt von discord-check/check.py bei jeder Discord-Prüfung.
 
 
@@ -21,6 +21,7 @@ Erstellt von discord-check/check.py bei jeder Discord-Prüfung.
 
 ## 💬 ALLGEMEIN
 
+- 🔊 AFK (Sprache)
 - #Allgemein (Text)
 - #handwerk-und-handel (Text)
 - #gruppensuche-für-dungeons (Text)
@@ -103,7 +104,6 @@ Erstellt von discord-check/check.py bei jeder Discord-Prüfung.
 ## 🌋 HYJALGIPFEL
 
 - 🔊 🔊 Hyjalgipfel (Sprache)
-- 🔊 AFK (Sprache)
 - #hyjal-dkp (Text)
 - #hyjal-loot (Text)
 - #hyjal-anmeldung (Text)
