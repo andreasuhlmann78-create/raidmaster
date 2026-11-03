@@ -1,0 +1,33 @@
+ANWEISUNG PROFESSIONSENTINEL: MINIMAP-BUTTON
+===========================================
+Stand: 3. November 2026, 21:00 · von der Prüf-Sitzung · Wunsch des Nutzers
+
+BEFUND
+Alle GoldSentinel-Addons haben einen Button an der Minimap (AHSentinel, BuffSentinel, GuildSentinel, LevelPilot,
+RaidMaster, ThreatSentinel) – nur ProfessionSentinel 0.9.12 nicht. Man öffnet es heute nur mit /ps.
+
+UMSETZEN (mit der nächsten Version, zusammen mit offen-professionsentinel.txt)
+1. Button "ProfessionSentinelMinimapButton" an der Minimap, gleiches Aussehen und Verhalten wie bei den anderen Addons.
+   Vorbild: BuffSentinel/Options.lua (CreateMinimapButton / UpdateMinimapButton) oder GuildSentinel/UI.lua:1068-1140.
+   - Grösse 31x31, Rahmen Interface\Minimap\MiniMap-TrackingBorder, Hervorhebung UI-Minimap-ZoomButton-Highlight,
+     Symbol passend zu Berufen (z. B. Interface\Icons\Trade_BlackSmithing oder das Symbol, das ProfessionSentinel schon
+     im Fenster/Titel benutzt).
+   - Linksklick: Fenster öffnen/schliessen (wie /ps, ns.UI:Toggle()). Rechtsklick: Optionen. Ziehen: um die Minimap
+     verschieben, Winkel in ProfessionSentinelDB speichern (pro Konto, Standard z. B. 200°).
+   - Tooltip: "ProfessionSentinel", darunter Links-/Rechtsklick und Ziehen erklärt.
+   - Option "Minimap-Button anzeigen" (Standard an) in den Optionen und /ps minimap zum Ein-/Ausblenden.
+   - Alle neuen Texte in allen Locale-Dateien (EN/DE vollständig).
+2. Alte Clients nie brechen: Minimap gibt es in allen Clients; keine Bibliothek (kein LibDBIcon) nötig. Nichts im Kampf
+   neu anlegen oder verschieben, was geschützt ist (der Button ist kein geschützter Frame, darf also auch im Kampf
+   bleiben). Aktionen mit Folgen gibt es keine.
+3. Testroutine: neue Fälle
+   - Button existiert nach dem Laden, ist sichtbar (Standard), lässt sich ausblenden und wieder einblenden.
+   - Winkel wird gespeichert und nach /reload wiederhergestellt (Wert in der DB setzen, UpdateMinimapButton, Position
+     prüfen).
+   - Linksklick öffnet das Fenster, zweiter Klick schliesst es (über die Funktion, nicht über echte Mausklicks).
+   - IM CLIENT PRÜFEN: Button an der Minimap sichtbar, Ziehen funktioniert, Tooltip in der Sprache des Clients.
+4. CHANGELOG EN/DE, Version erhöhen (nächste freie Nummer – die geplante Aufgabe "Rezeptdaten-Update" vergibt auch
+   Nummern, vorher die Releases prüfen). Vor dem Push:
+   python3 addon-check/addon_check.py download/ProfessionSentinel-<Version>.zip -> kein FEHLER.
+
+Ist etwas daran falsch oder nicht machbar, bitte dem Nutzer begründet zurückmelden.
