@@ -12,6 +12,16 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.7
+
+- **Test routine (developer only):** many more checks – every option once on and off, every chat command, all extra
+  windows, main window and designs, size and position, buying and ledger maths, sniper targets and keys, watcher
+  settings, watchlist, bags without the old functions, chat helpers, Esc windows in combat, errors in background
+  tasks, transition from the old AH Analyzer Pro.
+- Bags, mail slots and price sync now look up the client functions through one place, so the test routine can
+  simulate missing functions without touching Blizzard's (no taint). Nothing changes in normal play.
+- Missing "GoldSentinelTest.lua" message is now translated.
+
 ### Version 0.65.6
 
 Fixes from the addon check:
@@ -61,12 +71,6 @@ Fixes from the addon check:
 
 - **The old "AHAnalyzerPro" folder is no longer included.** AHSentinel is the only folder now.
   If you have started AHSentinel at least once, your old data is already in it and you can delete the folder "AHAnalyzerPro" from Interface\AddOns.
-
-### Version 0.65.2
-
-- **GoldSentinelGame version 2:** the shared game version detection now also wins against early versions
-  that other GoldSentinel addons briefly shipped – no Lua errors when several addons are loaded together.
-- Vendor prices: if the game has no item link function at the merchant, the item ID is read another way.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

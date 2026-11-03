@@ -7,6 +7,16 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.7</h3>
+<ul>
+<li><strong>Test routine (developer only):</strong> many more checks – every option once on and off, every chat command, all extra
+  windows, main window and designs, size and position, buying and ledger maths, sniper targets and keys, watcher
+  settings, watchlist, bags without the old functions, chat helpers, Esc windows in combat, errors in background
+  tasks, transition from the old AH Analyzer Pro.</li>
+<li>Bags, mail slots and price sync now look up the client functions through one place, so the test routine can
+  simulate missing functions without touching Blizzard's (no taint). Nothing changes in normal play.</li>
+<li>Missing "GoldSentinelTest.lua" message is now translated.</li>
+</ul>
 <h3>Version 0.65.6</h3>
 <p>Fixes from the addon check:
 - <strong>Scan start keeps failing (WoW Forever, Retail):</strong> if the server rejects the scan start permanently, the chat is no
@@ -50,12 +60,6 @@
 <ul>
 <li><strong>The old "AHAnalyzerPro" folder is no longer included.</strong> AHSentinel is the only folder now.
   If you have started AHSentinel at least once, your old data is already in it and you can delete the folder "AHAnalyzerPro" from Interface\AddOns.</li>
-</ul>
-<h3>Version 0.65.2</h3>
-<ul>
-<li><strong>GoldSentinelGame version 2:</strong> the shared game version detection now also wins against early versions
-  that other GoldSentinel addons briefly shipped – no Lua errors when several addons are loaded together.</li>
-<li>Vendor prices: if the game has no item link function at the merchant, the item ID is read another way.</li>
 </ul>
 <p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
 <hr />
