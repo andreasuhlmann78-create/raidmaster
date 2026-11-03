@@ -2,12 +2,13 @@ ANWEISUNG RAIDMASTER (UPLOADER + BOT): GILDENBANK-BESTAND AUCH VON GUILDSENTINEL
 ================================================================================
 Stand: 3. November 2026, 19:25 · von der Prüf-Sitzung · Wunsch des Nutzers
 Gehört zu: auftraege/GuildSentinel/anweisung-guildsentinel-gildenbank.txt (Addon-Seite)
+NACHTRAG 19:35: Es gibt nur noch #gildenbank, siehe anweisung-raidmaster-gildenbank-ein-kanal.txt. 
 
 ZIEL
 GuildSentinel liest auf dem Bank-Charakter den Bestand in GuildSentinelDB.bank, im GLEICHEN Format wie RaidMasterDB.bank.
-Der Uploader auf dem PC des Nutzers schickt ihn mit, und der Bot zeigt ihn im GLEICHEN Kanal #gildenbank-bestand in
-DERSELBEN Nachricht wie heute (bank_channel(), BANK_CHANNEL = "gildenbank-bestand") und bei /bank.
-Kein neuer Kanal, keine neue .json, kein zweiter Webhook. #gildenbank bleibt der Regel-Kanal.
+Der Uploader auf dem PC des Nutzers schickt ihn mit, und der Bot zeigt ihn im GLEICHEN Kanal #gildenbank (unter den
+Regeln) in DERSELBEN Bestands-Nachricht wie RaidMaster (bank_channel()) und bei /bank.
+Kein neuer Kanal, keine neue .json, kein zweiter Webhook.
 
 1. UPLOADER (RaidMasterUploader/uploader.py, Version 1.7.0)
    - Die GuildSentinel-Datei liegt im selben SavedVariables-Ordner: <Ordner von savedvariables_path>/GuildSentinel.lua.
@@ -36,7 +37,7 @@ Kein neuer Kanal, keine neue .json, kein zweiter Webhook. #gildenbank bleibt der
 
 3. ANLEITUNG
    ANLEITUNG.md Abschnitt "Gildenbank" und LIESMICH.txt/README_EN.txt des Uploaders: Bank-Charakter in RaidMaster ODER in
-   GuildSentinel einstellen, der Bestand erscheint in #gildenbank-bestand. In der Gildenregel (guild_rules.json) den Satz
+   GuildSentinel einstellen, der Bestand erscheint in #gildenbank. In der Gildenregel (guild_rules.json) den Satz
    "liest ihn mit RaidMaster ein" auf "mit RaidMaster oder GuildSentinel" ändern.
 
 4. ABLAUF

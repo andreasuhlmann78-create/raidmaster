@@ -6,8 +6,8 @@ Gehört zu: auftraege/RaidMaster/anweisung-raidmaster-gildenbank-guildsentinel.t
 ZIEL
 GuildSentinel liest auf dem Bank-Charakter der Gilde den Bestand aus. Der RaidMaster-Uploader auf dem PC des Nutzers
 (gleicher Ordner, gleiche uploader_config.json, KEINE neue .json) schickt ihn mit an den Bot, und der Bot zeigt ihn in
-#gildenbank-bestand (Kategorie 🏦 GILDENBANK) und bei /bank <Suche>.
-#gildenbank ist der Regel-Kanal (Spenden/Entnahmen) – dort schreibt GuildSentinel nichts.
+#gildenbank (Kategorie 🏦 GILDENBANK, unter den Regeln) und bei /bank <Suche>.
+Es gibt nur noch den Kanal #gildenbank (Regeln oben, Bestand darunter), siehe auftraege/RaidMaster/anweisung-raidmaster-gildenbank-ein-kanal.txt.
 
 Richtung: nur GuildSentinel -> Discord. Nichts kommt aus Discord zurück ins Spiel.
 
@@ -46,7 +46,7 @@ Richtung: nur GuildSentinel -> Discord. Nichts kommt aus Discord zurück ins Spi
    - im Kampf geöffnet -> erst nach dem Kampf gelesen
    - Era-Client ohne C_Container -> alte Funktionen, kein Fehler
    - IM CLIENT PRÜFEN: Bank und Briefkasten auf dem Bank-Charakter öffnen, /reload, Bestand erscheint in
-     #gildenbank-bestand (sobald Uploader und Bot aus dem RaidMaster-Auftrag fertig sind)
+     #gildenbank (sobald Uploader und Bot aus dem RaidMaster-Auftrag fertig sind)
 
 5. ABLAUF
    Mit der nächsten Version (0.9.11), zusammen mit den Punkten aus offen-guildsentinel.txt. Wie immer: komplette Dateien,

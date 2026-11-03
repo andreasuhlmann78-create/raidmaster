@@ -1,0 +1,46 @@
+ANWEISUNG RAIDMASTER-BOT: GILDENBANK IN EINEN KANAL ZUSAMMENLEGEN
+================================================================
+Stand: 3. November 2026, 19:35 · von der Prüf-Sitzung · Entscheid des Nutzers
+Vorrang vor allen anderen Bot-Punkten. Gilt auch für anweisung-raidmaster-gildenbank-guildsentinel.txt: Überall, wo dort
+#gildenbank-bestand steht, ist ab jetzt #gildenbank gemeint.
+
+ENTSCHEID
+Es gibt nur noch EINEN Kanal: #gildenbank (Kategorie 🏦 GILDENBANK). Oben stehen die Regeln (Spenden, Entnahmen,
+Handwerker) aus guild_rules.json, darunter der Bestand vom Bank-Charakter (eine Nachricht bzw. wenige, die der Bot
+nachführt). #gildenbank-bestand wird vom Bot gelöscht.
+
+1. bot.py
+   - BANK_CHANNEL = "gildenbank". bank_channel() umdrehen: Gibt es #gildenbank-bestand noch, dort die Bestands-
+     Nachrichten (state.data["bank_messages"]) löschen, bank_t zurücksetzen, den Bestand in #gildenbank neu posten.
+   - #gildenbank-bestand danach LÖSCHEN, aber nur, wenn darin ausschliesslich Nachrichten des Bots stehen (history prüfen,
+     z. B. die letzten 200). Steht dort etwas von Menschen: nicht löschen, im Log und in #bot-log (bzw. dem Admin-Kanal,
+     den der Bot schon nutzt) melden "#gildenbank-bestand enthält Nachrichten von Mitgliedern – bitte von Hand löschen".
+     Nur einmal versuchen (Merker in state), nicht bei jedem Start.
+   - Reihenfolge in #gildenbank: zuerst die Regel-Nachricht(en), dann der Bestand. Wird die Regel neu gepostet (Text
+     geändert), danach den Bestand löschen und neu posten, damit er unten bleibt. Eine normale Bestands-Änderung
+     bearbeitet die Nachricht wie heute (kein Neu-Posten).
+   - #gildenbank bleibt für Mitglieder lesbar wie heute (Regel-Kanal). Schreiben wie bisher bei Regel-Kanälen.
+   - bot.py:3062 (Sonderfall "nur der Bot schreibt den Bestand") auf den neuen Kanal anpassen bzw. entfernen.
+   - /bank bleibt unverändert.
+
+2. guild_rules.json
+   - Eintrag "gildenbank-bestand" entfernen.
+   - Bei "gildenbank": topic z. B. "Regeln der Gildenbank und aktueller Bestand (aktualisiert der RaidMaster-Bot)".
+     Im Regeltext {#gildenbank-bestand} ersetzen durch "unten in diesem Kanal" o. ä.; "liest ihn mit RaidMaster ein" ->
+     "mit RaidMaster oder GuildSentinel".
+   - /raidmaster-einrichten darf #gildenbank-bestand nicht wieder anlegen.
+
+3. ANLEITUNG.md
+   Abschnitt Gildenbank: nur noch #gildenbank.
+
+4. TESTS (RaidMasterBot/tests)
+   - Server mit beiden Kanälen, #gildenbank-bestand nur mit Bot-Nachrichten -> Bestand in #gildenbank, Kanal gelöscht.
+   - #gildenbank-bestand mit einer Mitglieder-Nachricht -> nicht gelöscht, Meldung.
+   - Server nur mit #gildenbank -> nichts gelöscht, Bestand unter den Regeln.
+   - Regeltext geändert -> Regel neu, Bestand danach neu, Reihenfolge stimmt.
+
+5. ABLAUF
+   Mit der nächsten Bot-Version (1.5.96). Vor dem Push die Bot-Tests (python3 -I -m unittest discover -s
+   RaidMasterBot/tests) -> alle OK. CHANGELOG/ANLEITUNG nachführen.
+
+Ist etwas daran falsch oder nicht machbar, bitte dem Nutzer begründet zurückmelden.
