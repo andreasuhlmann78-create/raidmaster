@@ -217,6 +217,30 @@ def main():
         settle(e)
         report["addons"].append(e)
 
+    # 2b) RaidMaster: der Bot baut die ZIP selbst aus RaidMaster/ und postet sie in #raid-addon als RaidMaster-<v>.zip
+    try:
+        with open(os.path.join(ROOT, "RaidMaster", "RaidMaster.toc"), encoding="utf-8") as f:
+            rmv = next((m.group(1) for m in (re.match(r"##\s*Version:\s*(\S+)", ln) for ln in f) if m), None)
+    except OSError:
+        rmv = None
+    if rmv:
+        msgs = bot_messages("raid-addon")
+        e = {"addon": "RaidMaster", "version": rmv, "datei": "RaidMaster/RaidMaster.toc", "kanal": "raid-addon",
+             "seit_push_min": pushed_minutes("RaidMaster/RaidMaster.toc")}
+        if msgs is None:
+            e["status"] = "kanal_fehlt"
+        elif msgs == "kein_zugriff":
+            e["status"] = "kein_zugriff"
+        else:
+            want = f"RaidMaster-{rmv}.zip"
+            hit = next((m for m in msgs if any(a.get("filename") == want for a in m.get("attachments", []))), None)
+            e["status"] = "ok" if hit else "fehlt"
+            if hit:
+                e["gepostet"] = hit.get("timestamp", "")[:16].replace("T", " ") + " UTC"
+                e["anhang"] = [want]
+        settle(e)
+        report["addons"].append(e)
+
     bad = [e for e in report["ankuendigungen"] + report["addons"] if e["status"] not in ("ok", "wartet")]
     report["ok"] = not bad
     report["wartet"] = any(e["status"] == "wartet" for e in report["ankuendigungen"] + report["addons"])
