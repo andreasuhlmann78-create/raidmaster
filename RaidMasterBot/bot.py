@@ -3022,6 +3022,19 @@ async def sync_specs():
             pass
 
 
+def channel_links(text: str) -> str:
+    """{#kanal} in Regeltexten (guild_rules.json) als klickbaren Link; umbenannte Kanäle über CHANNEL_ALIASES.
+    Fehlt der Kanal, bleibt **#kanal** als fetter Text stehen."""
+    guild = bot_guild()
+
+    def chan(m_):
+        name = m_.group(1).strip().lstrip("#").lower()
+        c = server_setup.find_channel(guild.text_channels, name) if guild else None
+        return c.mention if c else "**#" + name + "**"
+
+    return re.sub(r"\{#([^{}]+)\}", chan, text)
+
+
 async def ensure_guild_rules() -> list[str]:
     """Kategorie 📜 REGELN (Zusammenleben in der Gilde) anlegen und die Regeltexte posten.
     Ändert sich ein Text in guild_rules.json, ersetzt der Bot seine Beiträge im Kanal."""
@@ -3038,7 +3051,7 @@ async def ensure_guild_rules() -> list[str]:
         if not ch:
             continue
         examples = server_setup.material_examples(rmd.raid_materials(lootdb.data))
-        posts = [p.replace("{material_beispiele}", examples) for p in rule.get("posts") or [] if p.strip()]
+        posts = [channel_links(p.replace("{material_beispiele}", examples)) for p in rule.get("posts") or [] if p.strip()]
         if not posts:
             continue                       # z. B. #gildenbank-bestand: dort schreibt nur der Bot den Bestand
         digest = str(zlib.crc32("\n".join(posts).encode("utf-8")))
@@ -3781,7 +3794,7 @@ async def resolve_announce_text(text: str) -> tuple[str, list[str]]:
 
     def chan(m_):
         name = m_.group(1).strip().lstrip("#").lower()
-        c = discord.utils.get(guild.text_channels, name=name) if guild else None
+        c = server_setup.find_channel(guild.text_channels, name) if guild else None
         if c:
             return c.mention
         missing.append("#" + name)
