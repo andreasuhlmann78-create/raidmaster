@@ -1,55 +1,62 @@
-OFFENE PUNKTE RAIDMASTER (nach der Nachprüfung von Bot 1.5.106; Addon 3.0.17 und Uploader 1.8.0 unverändert)
+OFFENE PUNKTE RAIDMASTER (nach der Nachprüfung von Bot 1.5.108; Addon 3.0.17 und Uploader 1.8.0 unverändert)
 =========================================================================================================
-Stand: 4. November 2026, 08:16 · von der Prüf-Sitzung
-Grundlage: download/RaidMaster-3.0.17.zip, RaidMasterBot 1.5.106, download/RaidMasterUploader.zip (1.8.0)
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand vom 4. November, 06:45.
+Stand: 4. November 2026, 20:15 · von der Prüf-Sitzung
+Grundlage: download/RaidMaster-3.0.17.zip, RaidMasterBot 1.5.108, download/RaidMasterUploader.zip (1.8.0)
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand vom 4. November, 08:16.
 
-Erledigt in Bot 1.5.102–1.5.106 (danke):
-- 1.5.102/1.5.103: #mc-dkp einmal leeren – streng einmalig (Kennung in state "cleared_channels"), nur bis
-  04.11.2026 12:00 und nur Nachrichten vor 07:00, angeheftete bleiben (server_setup.py:993, bot.py:4072)
-- 1.5.104: in den Addon-Kanälen bleibt nur der neueste Update-Text je Addon; Nachrichten mit Datei, Vorstellungen,
-  Übersichten, Hilfen und Beiträge anderer bleiben (server_setup.py plan_update_cleanup, bot.py tidy_addon_channels)
-- 1.5.105: ausgeblendete Raids werden nur noch über "forever": true in forever_raids.json eingeblendet;
-  /raid erstellen in einem nicht angekündigten Raid antwortet mit Hinweis statt Anmeldung (bot.py:807)
-- 1.5.106: #befehle für Mitglieder (nur Befehle mit "alle" in COMMAND_INFO, sicherer Standard), #befehlsliste und
-  #befehle werden nur angelegt, wenn es sie noch nicht gibt (server_setup.ensure_channel_if_missing)
-- forever_raids.json: Molten Core bleibt sichtbar (Entscheid Gildenleitung)
-Prüfungen: Bot-Tests 91/91 OK (python3 -I -m unittest discover -s RaidMasterBot/tests), py_compile aller Module OK,
-alle Bot-Module importierbar (bot.py bricht wie vorgesehen nur am fehlenden Token in config.json ab).
-Im Diff 1.5.101 -> 1.5.106 keine neuen Fehler gefunden.
+ACHTUNG: Bis Montag, 9. November, 05:00 gilt PAUSE-bis-9-november.txt. Die Punkte unten erst danach angehen
+(ausser ein echter Launch-Fehler blockiert Spieler).
+
+Erledigt in Bot 1.5.107–1.5.108 (danke, zu Recht als Launch-Fehler ausserhalb der Pause behoben):
+- 1.5.108: eigentliche Ursache der Neustart-Schleife behoben. updater._same_tree (updater.py:156) – Ordner wie tests/
+  gelten nur noch als geändert, wenn sich der Inhalt unterscheidet (updater.py:189); _check_github spielt den Commit,
+  der gerade installiert ist und startet (pending.json "ref"), nicht nochmals ein (bot.py:5089–5093).
+- 1.5.107: Intent-Stufen statt Endlosschleife (bot.py:6299 ff.: 1. ohne Members Intent, 2. ohne Message Content
+  Intent für 6 h, 3. Halt mit CONFIG_ERROR); Starter-Bremse launcher.py:51 restart_pause (mehr als 5 Sofort-Neustarts
+  in 10 Min. -> 5 Min. Pause).
+- neuer_token.sh: Token unsichtbar abgefragt, nirgends ausgegeben, config.json mit chmod 600.
+Prüfungen: Bot-Tests 101/101 OK (python3 -I -m unittest discover -s RaidMasterBot/tests, inkl. test_neustart_schleife
+und test_update_schleife), py_compile aller Module OK, alle Bot-Module importierbar (bot.py bricht wie vorgesehen nur am
+fehlenden Token in config.json ab), bash -n neuer_token.sh OK. Discord-Prüfung 04.11. 18:27 UTC: alles im Discord
+(der Bot ist mit dem neuen Token wieder online). Im Diff 1.5.106 -> 1.5.108 keine neuen Fehler gefunden.
+Testberichte: weiterhin keine (testberichte/status.md "Noch keine Berichte").
 
 Offene Punkte:
 
 1. NIEDRIG – Einmal-Leeren nach dem Zeitfenster aus dem Code nehmen
-   server_setup.py:993 CLEAR_CHANNELS_ONCE, Eintrag "mc-dkp" (gilt nur bis 04.11.2026 12:00).
-   Lösung: Mit der nächsten Bot-Version nach 12:00 den Eintrag entfernen (CLEAR_CHANNELS_ONCE = {}), wie es der
-   Kommentar dort selbst verlangt. clear_channels_once() und clear_allowed() dürfen bleiben.
+   server_setup.py:993 CLEAR_CHANNELS_ONCE, Eintrag "mc-dkp" (galt nur bis 04.11.2026 12:00 – das Fenster ist vorbei).
+   Lösung: Mit der nächsten Bot-Version den Eintrag entfernen (CLEAR_CHANNELS_ONCE = {}), wie es der Kommentar dort
+   selbst verlangt. clear_channels_once() und clear_allowed() dürfen bleiben.
 
 2. NIEDRIG – Importprüfung im GitHub-Lauf unvollständig
    .github/workflows/bot-tests.yml:45 importiert nur raidmaster_data, server_setup, updater, launcher, guildbank,
    uploader_setup. bot.py importiert aber auch render (bot.py:40, braucht Pillow) und mc_tactics (bot.py:42).
    Lösung: 'render' und 'mc_tactics' in die Liste beim Schritt "Importieren" aufnehmen.
 
-3. IM CLIENT PRÜFEN (Launch-Abend, im Testplan des Nutzers)
+3. NIEDRIG – Hinweistext "versucht es spätestens in 6 Stunden wieder" stimmt nicht ganz
+   bot.py:206–209: Der Bot prüft message_content_blocked() nur beim Start (bot.py:171). Ohne Update oder Neustart
+   läuft er beliebig lange ohne Message Content Intent weiter; die 6 Stunden sind nur die Sperrfrist.
+   Lösung: Text anpassen, z. B. "… der Bot versucht es beim nächsten Neustart nach frühestens 6 Stunden wieder
+   (oder sofort: sudo systemctl restart raidmaster, nachdem der Intent eingeschaltet ist)". Keine Logik ändern.
+
+4. IM CLIENT PRÜFEN (Launch-Abend, im Testplan des Nutzers)
    - die IM-CLIENT-PRÜFEN-Fälle der Testroutine, T54b
    - Erstkill-Screenshot -> #ruhmeshalle
    - Bank-Charakter in RaidMaster -> Bestand in #gildenbank unter den Regeln
 
-4. LIVE PRÜFEN (Discord)
+5. LIVE PRÜFEN (Server / Discord)
+   - Server-Protokoll nach 1.5.108: kein "[Starter] Neustart nach Update" mehr ohne neue Version; höchstens ein
+     Neustart je echtem Update. Prüfen mit: sudo journalctl -u raidmaster --since "-6h" | grep -c "Neustart nach Update"
+   - Meldung "⏳ … ist eben installiert worden und startet gerade" bei /update kurz nach einem Update ist normal.
    - #bot-befehle: Meldung "🧹 #mc-dkp einmalig geleert …" genau einmal; danach nie wieder.
-   - Addon-Kanäle: je Addon steht nur noch der neueste Update-Text; ZIP-Beiträge, Vorstellungen, Übersichten und
-     Hilfen sind noch da; kein Update wird neu gepostet.
-   - #befehle unter 💬 ALLGEMEIN: nur Befehle für alle, für Gäste unsichtbar; #befehlsliste bei den Offizieren
-     vollständig. Kein doppelter Kanal, wenn es schon einen gleichwertigen gab.
-   - Raids mit "forever": false (BWL, ZG, AQ20, AQ40, Naxx) sind für Mitglieder ausgeblendet, auch wenn sie früher
-     über /raid erstellen oder DKP freigeschaltet waren (cfg "raids_unlocked" wird ignoriert – so gewollt).
+   - Addon-Kanäle: je Addon nur der neueste Update-Text; ZIP-Beiträge, Vorstellungen, Übersichten und Hilfen bleiben.
+   - #befehle unter 💬 ALLGEMEIN: nur Befehle für alle, für Gäste unsichtbar; #befehlsliste bei den Offizieren.
+   - Raids mit "forever": false (BWL, ZG, AQ20, AQ40, Naxx) sind für Mitglieder ausgeblendet.
    - Uploader 1.8.0 beim Nutzer: "Wechsle zu: …" auf den Forever-Ordner nach dem ersten Login.
-   - Testberichte: Der Nutzer braucht für 1.8.0 eine neue uploader_config.json (/uploader in Discord erneut). Danach
-     kommen die GSTEST1-Berichte in #testberichte an, und der Workflow testberichte.yml legt sie unter testberichte/ ab.
-     Die Prüf-Sitzung kontrolliert das. (Stand 04.11. 07:14: testberichte/status.md meldet "Secret
-     DISCORD_BOT_TOKEN fehlt" – das GitHub-Secret muss der Nutzer selbst setzen.)
+   - Testberichte: Für 1.8.0 braucht der Nutzer eine neue uploader_config.json (/uploader in Discord erneut). Danach
+     kommen die GSTEST1-Berichte in #testberichte an und landen unter testberichte/. Die Prüf-Sitzung kontrolliert das.
 
-5. HINWEIS FÜR KÜNFTIGE VERSIONEN
+6. HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Neue Bot-Module in .github/workflows/bot-tests.yml beim Import-Schritt ergänzen.
    - download/RaidMasterUploader.zip muss zum Ordner RaidMasterUploader/ passen (prüft "Bot-Tests").
    - Jeder neue Slash-Befehl braucht einen Eintrag in COMMAND_INFO (prüft tests/test_befehle.py).
