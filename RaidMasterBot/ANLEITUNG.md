@@ -175,13 +175,13 @@ Betritt das Addon einen **neuen Raid**, legt es einen eigenen DKP-Topf an. Beim 
 erkennt der Bot ihn, legt **automatisch eine eigene Kategorie** an und meldet das in #ankündigungen.
 
 
-**Noch nicht spielbare Raids (ab Bot 1.5.99):** Raids aus `forever_raids.json` ohne `"forever": true` (BWL, ZG, AQ20,
-AQ40, Naxx) blendet der Bot für alle aus – nur Offiziere und der Bot sehen sie. Gelöscht wird nichts. Freigeschaltet
-(wieder für alle sichtbar, mit Hinweis in #ankündigungen) wird ein Raid, sobald
-- er in `forever_raids.json` `"forever": true` bekommt,
-- im Addon DKP in diesem Raid vergeben wurden, oder
-- ein Offizier mit `/raid erstellen` einen Raid dafür anlegt.
-Auf neuen Servern legt der Bot diese Kategorien erst beim Freischalten an. Ausschalten: `"hide_unreleased_raids": false`.
+**Noch nicht angekündigte Raids (ab Bot 1.5.99, ab 1.5.105 nur noch über die Ankündigung):** Raids aus
+`forever_raids.json` ohne `"forever": true` (BWL, ZG, AQ20, AQ40, Naxx) blendet der Bot für alle aus – nur Offiziere,
+Admins und der Bot sehen sie. Gelöscht wird nichts. Wieder eingeblendet (mit Hinweis in #ankündigungen) wird ein Raid
+**nur**, wenn Blizzard ihn für WoW Forever ankündigt: Dann setzt die tägliche Recherche-Aufgabe „Raids und Taktiken für
+WoW Forever“ in `forever_raids.json` `"forever": true`. `/raid erstellen` für einen ausgeblendeten Raid lehnt der Bot ab
+(PUG-Raids gehen). Ob alles ausgeblendet ist, zeigt die Discord-Prüfung (Abschnitt Bot-Funktionen).
+Auf neuen Servern legt der Bot diese Kategorien erst nach der Ankündigung an. Ausschalten: `"hide_unreleased_raids": false`.
 
 ## 11. Skillungen
 

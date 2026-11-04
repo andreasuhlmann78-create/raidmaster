@@ -1040,8 +1040,9 @@ async def ensure_dungeon_category(guild: discord.Guild) -> list[str]:
 # ---------------------------------------------------------------------------
 # Raids, die auf WoW Forever (noch) nicht spielbar sind (forever_raids.json ohne "forever": true), z. B. BWL, ZG, AQ,
 # Naxx: Ihre Kategorie wird für alle ausgeblendet (nicht gelöscht – Kanäle und Beiträge bleiben). Der Bot und die
-# Offiziere sehen sie weiter. Freigeschaltet wird ein Raid, sobald er "forever": true bekommt, im Addon DKP darin
-# vergeben wurden oder ein Offizier mit /raid erstellen einen Raid dafür anlegt (cfg "raids_unlocked").
+# Offiziere sehen sie weiter. Eingeblendet wird ein Raid NUR, wenn Blizzard ihn für WoW Forever ankündigt: Dann setzt
+# die tägliche Recherche-Aufgabe in forever_raids.json "forever": true (ab Bot 1.5.105; vorher schalteten auch
+# /raid erstellen und DKP im Addon einen Raid frei – das ist abgeschafft, cfg "raids_unlocked" wird ignoriert).
 # Ausschalten: "hide_unreleased_raids": false in config.json (ab Bot 1.5.99).
 # ---------------------------------------------------------------------------
 
@@ -1051,7 +1052,7 @@ def raid_released(key: str, cfg: dict) -> bool:
     if not cfg.get("hide_unreleased_raids", True):
         return True
     r = next((r for r in RAID_DEFS if r["key"] == key), None)
-    return r is None or r["forever"] or key in (cfg.get("raids_unlocked") or [])
+    return r is None or r["forever"]
 
 
 def raid_targets(category, prefix: str, ids) -> list:

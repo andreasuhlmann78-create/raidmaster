@@ -207,8 +207,8 @@ class RaidBot(discord.Client):
             try:
                 rep = await sync_raid_visibility()
                 if rep:
-                    await post_bot_log("🗂️ Raid-Kategorien: " + "; ".join(rep) + " (noch nicht spielbare Raids sehen nur "
-                                       "Offiziere; freigeschaltet wird mit /raid erstellen oder sobald DKP darin vergeben werden).")
+                    await post_bot_log("🗂️ Raid-Kategorien: " + "; ".join(rep) + " (noch nicht angekündigte Raids sehen nur "
+                                       "Offiziere; eingeblendet wird ein Raid, sobald Blizzard ihn für WoW Forever ankündigt).")
             except Exception:
                 log.exception("Sichtbarkeit der Raid-Kategorien konnte nicht abgeglichen werden")
             try:
@@ -804,10 +804,13 @@ async def raid_create(inter: discord.Interaction, titel: str, datum: str, uhrzei
     if softres and not softres_link:
         await inter.response.send_message("Das ist kein softres.it-Link. Beispiel: `https://softres.it/raid/abcd`", ephemeral=True)
         return
-    # Raid war ausgeblendet (auf WoW Forever noch nicht spielbar): ein Offizier plant ihn -> für alle einblenden
-    # (im Hintergrund: Discord erwartet die Antwort auf den Befehl innerhalb von 3 Sekunden)
-    if mode != "pug" and unlock_raid(pool, f"/raid erstellen von {inter.user}"):
-        asyncio.create_task(_sync_raid_visibility_logged())
+    # Raid für WoW Forever noch nicht angekündigt (Kategorie ausgeblendet): keine Anmeldung, die niemand sieht
+    if mode != "pug" and not server_setup.raid_released(pool, cfg):
+        await inter.response.send_message(
+            f"**{rmd.pool_name(pool, bot.dkp_data)}** ist für WoW Forever noch nicht angekündigt – die Kategorie ist für "
+            "Mitglieder ausgeblendet. Sie erscheint von selbst, sobald Blizzard den Raid ankündigt. "
+            "Bis dahin geht nur ein PUG-Raid (modus: PUG-Raid).", ephemeral=True)
+        return
     # Zielkanal: Anmeldung der Raid-Kategorie bzw. #pug-anmeldung
     target_id = cfg.get("pug_channel_id") if mode == "pug" else raid_channel(pool, "signup")
     target = await channel_by_id(target_id) if target_id else None
@@ -3339,27 +3342,14 @@ async def ensure_listed_raid_categories() -> list[str]:
     return made
 
 
-def unlock_raid(key: str, why: str) -> bool:
-    """Raid aus forever_raids.json freischalten (Kategorie wird beim nächsten sync_raid_visibility eingeblendet)."""
-    if server_setup.raid_released(key, cfg):
-        return False
-    cfg.setdefault("raids_unlocked", []).append(key)
-    save_config()
-    log.info("Raid %s freigeschaltet (%s).", key, why)
-    return True
-
-
 async def sync_raid_visibility() -> list[str]:
-    """Raids, die auf WoW Forever (noch) nicht spielbar sind, für alle ausblenden; freigeschaltete wieder einblenden.
+    """Raids, die für WoW Forever noch nicht angekündigt sind (forever_raids.json ohne "forever": true), für alle
+    ausblenden; angekündigte wieder einblenden.
     Gemerkt in state "hidden_raids" – eingeblendet wird nur, was der Bot selbst ausgeblendet hat."""
     guild = bot_guild()
     perms = guild.me.guild_permissions if guild is not None else None
     if perms is None or not (perms.manage_roles and perms.manage_channels):
         return []
-    # DKP aus dem Addon in einem bisher ausgeblendeten Raid = der Raid wird gespielt
-    for key in rmd.pool_list(bot.dkp_data):
-        if any(r["key"] == key for r in server_setup.RAID_DEFS):
-            unlock_raid(key, "DKP im Addon")
     hidden = state.data.setdefault("hidden_raids", {})
     report = []
     for r in server_setup.RAID_DEFS:
@@ -3389,15 +3379,6 @@ async def sync_raid_visibility() -> list[str]:
         except discord.HTTPException as e:
             report.append(f"⚠️ {r['name']}: Sichtbarkeit nicht geändert ({e})")
     return report
-
-
-async def _sync_raid_visibility_logged():
-    try:
-        rep = await sync_raid_visibility()
-        if rep:
-            await post_bot_log("🗂️ Raid-Kategorien: " + "; ".join(rep))
-    except Exception:  # noqa: BLE001
-        log.exception("Sichtbarkeit der Raid-Kategorien konnte nicht abgeglichen werden")
 
 
 async def ensure_new_raid_categories():

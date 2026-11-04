@@ -52,7 +52,8 @@ class RaidReleased(unittest.TestCase):
         self.assertTrue(server_setup.raid_released("mc", {}))
         self.assertTrue(server_setup.raid_released("hyjal", {}))
         self.assertFalse(server_setup.raid_released("bwl", {}))
-        self.assertTrue(server_setup.raid_released("bwl", {"raids_unlocked": ["bwl"]}))
+        # ab 1.5.105 nur noch über die Ankündigung ("forever": true) – frühere Freischaltungen zählen nicht mehr
+        self.assertFalse(server_setup.raid_released("bwl", {"raids_unlocked": ["bwl"]}))
         self.assertTrue(server_setup.raid_released("bwl", {"hide_unreleased_raids": False}))
         self.assertTrue(server_setup.raid_released("i409", {}))     # automatisch erkannter Raid: immer sichtbar
 
