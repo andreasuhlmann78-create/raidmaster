@@ -1,67 +1,58 @@
-OFFENE PUNKTE LEVELPILOT (nach der Nachprüfung von 3.12.5)
+OFFENE PUNKTE LEVELPILOT (nach der Nachprüfung von 3.12.6)
 =========================================================
-Stand: 3. November 2026, 11:40 · von der Prüf-Sitzung · Grundlage: announce/levelpilot__levelpilot-3.12.5.LevelPilot.zip
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 3.12.4.
-anweisung-levelpilot-automatiken.txt ist vollständig umgesetzt und entfällt.
+Stand: 4. November 2026, 08:17 · von der Prüf-Sitzung · Grundlage: announce/levelpilot__levelpilot-3.12.6.LevelPilot.zip
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 3.12.5.
 
-Erledigt in 3.12.5 (danke):
-- Automatiken nach dem Entscheid des Nutzers: Reparieren und Auto-Flug an, Nachkaufen und Belohnung aus, einmaliger Hinweis
-  pro Charakter über den Advisor mit "Später erinnern", Tipp in "Wo war ich?", 19 neue Texte in allen Sprachen
-- Punkte O1, O3, O4, O5, O6, O7, O2 teilweise
-- alle Aktionen mit Folgen über LP.Act.Call
-- Testroutine mit allen IDs, GoldSentinelTest, Sandbox
-Prüfungen: Addon-Prüfung OK ohne Warnung (auch der neue Ladetest), Datenpaket 1.6.0 stimmig, CHANGELOG EN/DE.
+Erledigt in 3.12.6 (danke):
+- Punkt 1 (Platzhalter): alle 213 Testfälle haben jetzt einen Test, einen Client-Fall oder einen begründeten Skip
+  (TestRoutine.lua: 199 IMPL, 5 SKIP mit Grund, T84/T180/T183 nur mit /lp testroutine reise). Zählung
+  "nicht automatisiert" im Bericht (TestRoutine.lua:3458-3461).
+- Punkt 2: CLIENT.T171, CLIENT.T195 und neu CLIENT.T213 für die Berufszauber (TestRoutine.lua:1859, 1916, 1917).
+- Punkt 3: Hints.lua:37-50 fragt bei false auch IsSpellKnown und IsPlayerSpell, true gewinnt.
+- Punkt 4a/4b: Calib.lua:285-407 und 409-433 – Kill bei der EP-Meldung (OnXPKill), Stück erst bei der eigenen
+  Beutemeldung (CHAT_MSG_LOOT, nur eigene Meldung, höchstens so viel wie im Beutefenster), jede Leiche nur einmal.
+  T196 und T212 prüfen das.
+- Punkt 5a: Virtual.lua:186-190 und 671-674, Backup.lua:382/386/396, Protocol.lua:511-530 melden über LP.Try bzw.
+  LP.Report (Core.lua:316-322) an GoldSentinelTest. 5b: "Wird auch automatisch gemeldet." in allen Locales
+  (esMX erbt von esES).
+- Punkt 6 teilweise: Belohnungs-Hinweis prüft nach einer Sekunde nochmals, wenn die Gegenstandsinfo fehlt (Supply.lua:176-188).
+- Neu: LP:PlayerXP (Core.lua:410) – EP-Anzeige, Zeit bis 60, Gruppe und Erholt rechnen nie mit geschützten EP;
+  beschädigte gespeicherte Einträge werden beim Laden übersprungen (Core.lua:439-484); Modul-Startfehler in der Diagnose;
+  Planungszeit der Reise ohne Pausen.
+Prüfungen: Addon-Prüfung OK ohne Warnung (Ladetest, Sprachtest), GoldSentinelGame.lua und GoldSentinelTest.lua
+byte-gleich mit shared/, neue Texte in allen Locale-Dateien mit gleichen Platzhaltern, CHANGELOG EN/DE, .toc 3.12.6,
+Datenpaket 1.6.0 unverändert. Offline nachgerechnet: die Muster für die eigene Beutemeldung (DE/EN, mit und ohne xN)
+erkennen eigene Beute und nicht die von anderen; LP.Try gibt auch nil-Werte vollständig zurück.
 
-Bitte mit der nächsten Version (3.12.6), die Testroutine spätestens vor dem Launch-Abend. Wie immer: komplette Dateien,
+Bitte mit der nächsten Version (3.12.7). Kein Punkt blockiert den Launch-Abend. Wie immer: komplette Dateien,
 alte Clients nie brechen, alle Locale-Dateien, CHANGELOG EN/DE, vor dem Push
-python3 addon-check/addon_check.py announce/levelpilot__levelpilot-3.12.6.LevelPilot.zip -> kein FEHLER.
+python3 addon-check/addon_check.py announce/levelpilot__levelpilot-3.12.7.LevelPilot.zip -> kein FEHLER.
 
-1. 96 TESTFÄLLE SIND NUR PLATZHALTER (Schwere: MITTEL)
-   TestRoutine.lua:16 und :1383: Bei 96 von 205 Fällen steht nur T:Skip("noch nicht automatisiert (3.12.5) – folgt"). Damit gilt
-   die Abnahme ("0 FEHLER im automatischen Teil") als bestanden, ohne dass geprüft wurde. Laut Vorgabe wird ein Testfall nicht
-   abgeschwächt.
-   Fehlende Fälle:
-   - B: T16 18 20-22 25 26 28 29 31-37 45 46 48 49 51-54 58 59 61 62 64 69-72 74 76 78 80 82-85
-   - C: T89 90 92-96 98 100 105 108-114
-   - E: T127-131
-   - F: T136 138
-   - G: T142 144
-   - H: T148 149 151-156
-   - I: T159 162 164
-   - J: T169 171 174 177 179-181 183 184 186 187 189 190 193 195 197 200 201
-   Lösung: die Fälle schrittweise umsetzen, zuerst C und J. Bis dahin im Bericht eine eigene Zählung
-   "nicht automatisiert: N" zeigen, damit es nicht als bestanden aussieht.
+1. TESTFÄLLE MELDEN "OK", OBWOHL IN DIESER LAGE NICHTS GEPRÜFT WURDE (Schwere: NIEDRIG)
+   Einige Fälle geben true zurück, wenn die Lage den Test nicht erlaubt. Sie zählen dann als bestanden:
+   - TestRoutine.lua:2133 und 2135 (T26: kein Schritt bzw. Schritt nicht überspringbar)
+   - TestRoutine.lua:2364 (T45: keine Eskortenquest im Bereich)
+   - TestRoutine.lua:608 (T50: kein Ziel)
+   - TestRoutine.lua:3304 (T152/T197: kein Weg, Drosselung nicht messbar)
+   - TestRoutine.lua:3395 (T164: Reise läuft)
+   - TestRoutine.lua:540, 1545, 1563 (T39, T74, T94: Level 60)
+   - TestRoutine.lua:388, 756, 1007, 2344, 2482, 3113 (T04, T86, T170, T45, T52, T130: kein Datenpaket)
+   Lösung: in diesen Fällen T:Skip(id, bereich, name, "<Grund> – in dieser Lage nicht prüfbar") statt OK, oder die Lage
+   in der Sandbox selbst herstellen (z. B. einen Testschritt bzw. ein Testziel setzen wie bei T196/T212). Dann stimmt die
+   Zählung im Bericht.
 
-2. CLIENT-FÄLLE FEHLEN (Schwere: NIEDRIG)
-   - T171 und T195 verlangt die Abnahme als "IM CLIENT PRÜFEN". Sie stehen nur als Platzhalter. CLIENT.T171 und CLIENT.T195
-     mit dem Text aus der Vorgabe ergänzen.
-   - Für O3 einen Client-Fall einbauen: /dump C_SpellBook.IsSpellKnown(3273) und /dump IsPlayerSpell(3273).
-
-3. BERUFSZAUBER: ZWEITE ABFRAGE (Schwere: NIEDRIG – Rest von O3)
-   Hints.lua:39-41: Antwortet C_SpellBook.IsSpellKnown mit false, wird IsPlayerSpell nicht mehr gefragt. Erkennt Forever
-   Berufszauber nur über IsPlayerSpell, kommt der falsche Hinweis zu Erste Hilfe/Kochen wieder.
-   Lösung: bei false zusätzlich IsPlayerSpell fragen; true gewinnt.
-
-4. DROP-MESSUNG (Schwere: NIEDRIG – Rest von O1 und O2)
-   a) Calib.lua:322-332: Die einfache Lösung ist drin. Ist die Tasche beim ersten Öffnen schon voll, zählen liegengebliebene
-      Gegenstände weiter als erhalten. Besser wäre, über CHAT_MSG_LOOT zu zählen.
-   b) Der Kill über CHAT_MSG_COMBAT_XP_GAIN fehlt: Leichen ohne Beute zählen nicht, die Rate wird zu hoch. T196 ist Skip.
-   c) Im Client prüfen: /dump GetLootSourceInfo(1)
-
-5. STILLE FEHLER MELDEN (Schwere: NIEDRIG – testroutine-levelpilot.txt Abschnitt 6.2 und 6.3)
-   a) Diese Stellen melden noch nicht an GoldSentinelTest:
-      - die Reisefehler in Virtual.lua (Note "error", Reiseschritt, Bericht)
-      - die stillen pcalls in Backup.lua:386 und :396 (SaveCopy)
-      - die Protocol-Prüfungen
-      Dort bei "not ok" LP.Report(...) aufrufen.
-   b) TestRoutine.lua:1555: Im Kopierfenster fehlt der Zusatz "Wird auch automatisch gemeldet." Bitte in allen Locales
-      ergänzen.
-
-6. IM CLIENT PRÜFEN (Launch-Abend, im Testplan des Nutzers)
-   - Punkt 2 und 4c oben
-   - Belohnungs-Hinweis bei QUEST_COMPLETE: Supply.lua:175 und 224-236 hängen an UpgradeValue(link). Ist die Gegenstandsinfo
-     noch nicht im Cache, kommt still kein Hinweis.
-   - Hinweis Nachkaufen beim echten Händler, also über MERCHANT_SHOW -> Restock(). T208 prüft heute nur CheckRestockHint
-     direkt.
+2. IM CLIENT PRÜFEN (Launch-Abend, im Testplan des Nutzers)
+   - Client-Fälle T171, T195 und T213: die /dump-Ergebnisse dem Nutzer zurückmelden.
+   - Drop-Messung: Der Kill bei der EP-Meldung braucht eine lesbare GUID des toten Ziels (Calib.lua:Ca:OnXPKill). Ist
+     UnitGUID("target") im Kampf geschützt, zählt die Leiche ohne Beute weiter nicht (T196 Schritt 4 zeigt das so).
+     Im Kampf einen Gegner töten, gleich danach /dump UnitGUID("target") – lesbar oder geschützt? Ergebnis zurückmelden.
+   - /dump GetLootSourceInfo(1) bei offenem Beutefenster (Rest von 4c aus 3.12.5).
+   - Belohnungs-Hinweis bei QUEST_COMPLETE mit einem Gegenstand, der noch nicht im Cache ist (Supply.lua:176-188):
+     kommt der Hinweis nach einer Sekunde?
+   - Hinweis Nachkaufen beim echten Händler, also über MERCHANT_SHOW -> Restock(). T208 prüft weiterhin nur
+     CheckRestockHint direkt.
+   - Nach dem Update auf 3.12.6 einmal einloggen: Diagnose und Datenzahlen (Quests, Wege, Dropraten) unverändert?
+     (neues Aufräumen beschädigter Einträge, Core.lua:439-484)
+   - /lp testroutine reise (T84, T180, T183) einmal ganz laufen lassen.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.

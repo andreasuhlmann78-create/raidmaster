@@ -1,39 +1,48 @@
-OFFENE PUNKTE BUFFSENTINEL (nach der Nachprüfung von 0.9.6)
+OFFENE PUNKTE BUFFSENTINEL (nach der Nachprüfung von 0.9.7)
 ==========================================================
-Stand: 3. November 2026, 11:15 · von der Prüf-Sitzung · Grundlage: download/BuffSentinel-0.9.6.zip
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.5.
+Stand: 4. November 2026, 08:20 · von der Prüf-Sitzung · Grundlage: download/BuffSentinel-0.9.7.zip
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.6 und
+anweisung-buffsentinel-sprachen.txt (erledigt, entfernt).
 
-Erledigt in 0.9.6 (danke):
-- Punkte 1–4 vollständig: Selbsttest mit SetTestFlavor, Texte in den Optionen für Forever, Kommentar NoteSecret, gemeinsame
-  Zählfunktion BS:TallyError, keine Kampfanzeige in Forever wie vom Nutzer entschieden
-- Testroutine mit allen 135 Fällen (A–J)
-- BS.API ohne Ersetzen von Blizzard-Funktionen, Sandbox mit Vergleich
-- GoldSentinelTest.lua eingebaut, TrackErrors beim Laden
-Prüfungen: Addon-Prüfung OK (auch der neue Ladetest), Lua 5.1 fehlerfrei, CHANGELOG EN/DE.
+Erledigt in 0.9.7 (danke):
+- Sprachen nach dem Spiel-Client (ganze Anweisung): Locales.lua in der .toc direkt nach den gemeinsamen Dateien,
+  Englisch Standard, Deutsch vollständig (811 Schlüssel in beiden Sprachen, keiner fehlt, keiner doppelt), Platzhalter
+  in allen Schlüsseln gleich, Blöcke für frFR, esES, esMX, itIT, ptBR, ruRU, koKR, zhCN, zhTW fallen auf Englisch zurück
+  (Locales.lua:1652), unbekannter Schlüssel zeigt den Schlüssel (Locales.lua:1674). Alle im Code benutzten Schlüssel sind
+  definiert, alle string.format-Aufrufe haben so viele Argumente wie Platzhalter. Keine sichtbaren deutschen Texte mehr im
+  Code (übrig sind nur Talentnamen zum Erkennen, Wortteile zum Umbrechen und Donate.lua mit eigener Sprachwahl).
+- /bsen help (Core.lua:1366), englische Kurzformen move/errors/donate, Notes und Notes-deDE in der .toc.
+- Testroutine Bereich F: T98 Hilfe unter enUS ohne Deutsch (SelfTest.lua:1965), T137 Schlüssel (:1984), T138 Platzhalter
+  (:1995).
+- Punkt 1 (Endzählung): echteAktionen im Finish und Zeile "echte Aktionen: %d" (SelfTest.lua:370-372), T136 in Bereich I
+  zählt über hooksecurefunc SendAddonMessage, SendChatMessage und Kanal betreten/verlassen (:359, :395-424).
+- Punkt 2: Bitte um /reload nach jedem Lauf (SelfTest.lua:376, :2446).
+- Punkt 3: T134 im Kampf-Bericht nur noch als Prüfung (SelfTest.lua:2436, Kommentar :2440).
+Prüfungen: Addon-Prüfung OK ohne Warnung (Ladetest und Sprachtest bestanden), Lua 5.1 fehlerfrei, GoldSentinelGame.lua und
+GoldSentinelTest.lua byte-gleich mit shared/, keine ersetzte Blizzard-Funktion. Eigener Ladetest Forever und Era: enUS zeigt
+beim Start und bei /bsen help keinen deutschen Text, deDE zeigt Deutsch. CHANGELOG EN/DE vorhanden.
 
-Nur noch Kleinigkeiten. Bitte mit der nächsten Version (0.9.7) erledigen. Wie immer: komplette Dateien, alte Clients nie
-brechen, vor dem Push python3 addon-check/addon_check.py download/BuffSentinel-0.9.7.zip -> kein FEHLER.
+Freigegeben. Nur noch Kleinigkeiten, bitte mit der nächsten Version (0.9.8). Wie immer: komplette Dateien, alte Clients nie
+brechen, vor dem Push python3 addon-check/addon_check.py download/BuffSentinel-0.9.8.zip -> kein FEHLER.
 
-1. ENDZÄHLUNG DER ECHTEN AKTIONEN (Schwere: NIEDRIG – nachtrag-testroutinen.txt Punkt 2)
-   SelfTest.lua:360: Selftest.sendCount wird nur in einzelnen Prüfungen ausgewertet (:1116, :1143, :1581).
-   Lösung:
-   - Bei Finish "echteAktionen = Selftest.sendCount" mitgeben, damit der Bericht die Zeile "echte Aktionen: 0" zeigt.
-   - Neuer Fall T136 (Bereich I): kein direkter Aufruf einer Aktion mit Folgen ausserhalb der einen Sende-Stelle.
+1. "ECHTE AKTIONEN" IM KAMPF-BERICHT WIRD NICHT GEZÄHLT (Schwere: NIEDRIG)
+   SelfTest.lua:2442 und :2447: Der Kampf-Bericht gibt Selftest.realActions aus. Gezählt wird aber nur, solange
+   Selftest.running wahr ist (:349, :357, :411), also nur im automatischen Lauf. Im Kampf-Teil steht deshalb immer der Wert
+   des letzten automatischen Laufs, oder 0, wenn in dieser Sitzung keiner lief (dann sind die Hooks gar nicht installiert,
+   :343).
+   Lösung: Beim Start des Kampf-Teils Selftest:InstallHooks() aufrufen, realActions auf 0 setzen und running bis zum Finish
+   wahr lassen (danach wieder falsch). Oder im Bericht ausdrücklich "im Kampf nicht gezählt" schreiben.
 
-2. "/RELOAD"-BITTE NACH JEDEM LAUF (Schwere: NIEDRIG – nachtrag-testroutinen.txt Punkt 1)
-   SelfTest.lua:359-365: Die Bitte erscheint nur, wenn Bereich C, D oder J lief. Bitte immer ausgeben.
-
-3. T134 DOPPELT IM KAMPF-BERICHT (Schwere: NIEDRIG)
-   SelfTest.lua:2360 und :2364: Derselbe Bericht enthält T134 einmal als Check und einmal als Client. Die Auswertung kann das
-   doppelt zählen.
-   Lösung: das Client dort weglassen (es steht schon im automatischen Lauf, :2286) oder eine eigene ID vergeben.
-
-4. HINWEIS LEISTUNG (kein Muss)
+2. HINWEIS LEISTUNG (kein Muss, unverändert)
    Jeder API.X-Zugriff läuft über eine __index-Funktion (Core.lua:133-143), auch in ScanAuras und Refresh. Das funktioniert,
    kostet aber etwas. Mit den H-Tests (T105ff) beobachten; bei Bedarf die Funktionen beim Laden einmal in BS.API ablegen.
 
-5. IM CLIENT PRÜFEN (Launch-Abend, im Testplan des Nutzers)
+3. IM CLIENT PRÜFEN (Launch-Abend, im Testplan des Nutzers)
    - T46, T55, T74, T99, T104, T106, T129, T133, T134, T135
-   - zwei Läufe der Testroutine, einer auf Forever und einer auf Era oder TBC, beide mit 0 FEHLER
+   - Sprache: einmal mit englischem Client (enUS) – Optionen, Gruppen-Raster, Tooltips, Minimap-Button, Warnungen auf den
+     Buttons und /bsen help ganz auf Englisch; ein deutscher Client unverändert Deutsch. Lange englische Warnungen
+     (z. B. "CLEARCASTING!") passen auf die Buttons? Der Umbruch an Wortfugen (Display.lua:282) kennt nur deutsche Wortteile.
+   - Gespeicherte Einstellungen nach dem Wechsel der Client-Sprache unverändert (Töne, Einträge, Zuordnungen).
+   - zwei Läufe der Testroutine, einer auf Forever und einer auf Era oder TBC, beide mit 0 FEHLER und "echte Aktionen: 0"
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
