@@ -4430,10 +4430,71 @@ async def ensure_addon_intro(ch, path: str, version: str) -> bool:
     return True
 
 
+class _Msg:
+    """Kurzform einer Discord-Nachricht für server_setup.plan_update_cleanup."""
+    __slots__ = ("id", "author_id", "content", "has_files", "created_at")
+
+    def __init__(self, m):
+        self.id, self.author_id, self.content = m.id, m.author.id, m.content or ""
+        self.has_files, self.created_at = bool(m.attachments), m.created_at
+
+
+async def tidy_addon_channels() -> list[str]:
+    """Addon-Kanäle (Kategorie "Addon's by GoldSentinel"): von den Update-Texten nur den neuesten je Addon stehen lassen
+    (ab Bot 1.5.104). Nachrichten mit Datei, Vorstellungen, Übersichten, Hilfen und Beiträge anderer bleiben.
+    Die Dateien in announce/ bleiben unberührt; gelöschte Beiträge gelten weiter als gepostet (kein Neuposten)."""
+    guild = bot_guild()
+    if guild is None or bot.user is None:
+        return []
+    want = _norm_category(server_setup.ADDON_CATEGORY)
+    cat = next((c for c in guild.categories if _norm_category(c.name) == want), None)
+    if cat is None:
+        return []
+    rec = state.data.setdefault("announce_msgs", {})
+    # Beiträge aus announce/, die keine Update-Texte sind (Vorstellung, Übersicht, Hilfe, ohne Versionsnummer): schützen
+    protected = {int(i) for r in rec.values() if not r.get("series") or announce_editable(r.get("series"))
+                 for i in r.get("ids") or []}
+    report = []
+    for ch in cat.text_channels:
+        if not ch.permissions_for(guild.me).read_message_history:
+            continue
+        try:
+            hist = [_Msg(m) async for m in ch.history(limit=300)]
+        except discord.HTTPException as e:
+            log.warning("#%s nicht lesbar: %s", ch.name, e)
+            continue
+        deleted = set()
+        for mid in server_setup.plan_update_cleanup(hist, bot.user.id, protected):
+            try:
+                await ch.get_partial_message(mid).delete()
+                deleted.add(mid)
+                await asyncio.sleep(0.4)
+            except discord.NotFound:
+                deleted.add(mid)
+            except discord.HTTPException as e:
+                log.warning("Alter Update-Text %s in #%s nicht gelöscht: %s", mid, ch.name, e)
+        if deleted:
+            # gespeicherte Beiträge dazu vergessen (bleiben in "announced": werden nicht neu gepostet)
+            for fn, r in list(rec.items()):
+                if any(int(i) in deleted for i in r.get("ids") or []):
+                    rec.pop(fn, None)
+            state.save()
+            report.append(f"#{ch.name}: {len(deleted)}")
+    return report
+
+
 async def check_addon_release():
     global _rm_cleaned
     await check_extra_releases()
     await check_announcements()
+    try:
+        rep = await tidy_addon_channels()
+        if rep:
+            log.info("Alte Update-Texte gelöscht: %s", ", ".join(rep))
+            await post_bot_log("🧹 Alte Update-Texte gelöscht (nur der neueste je Addon bleibt, Dateien bleiben): "
+                               + ", ".join(rep))
+    except Exception:  # noqa: BLE001 – Aufräumen darf das Veröffentlichen nie stören
+        log.exception("Addon-Kanäle konnten nicht aufgeräumt werden")
     pkg = find_addon_package("raidmaster")
     if not pkg:
         return

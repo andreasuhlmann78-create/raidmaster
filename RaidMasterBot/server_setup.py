@@ -924,6 +924,60 @@ DUNGEONS = "🗝️ DUNGEONS"
 
 GENERAL = "💬 ALLGEMEIN"
 
+# ---------------------------------------------------------------------------
+# Addon-Kanäle aufräumen (ab Bot 1.5.104): von den Update-Texten bleibt nur der neueste je Addon stehen.
+# Update-Text = Bot-Nachricht, deren erste Zeile mit "**<Addon> <Version>**" beginnt, z. B.
+#   📦 **ThreatSentinel 2.4.4** – Ladefehler behoben      📢 **LevelPilot 3.12.5** – …      🆕 **AHSentinel 0.65.7** ist da!
+# Nie gelöscht: Nachrichten mit Datei (ZIP, Bilder), Nachrichten anderer, Vorstellungen/Übersichten/Hilfen
+# (Kopfzeile ohne Version direkt hinter dem Namen, z. B. "**LevelPilot – was das Addon kann** (Stand 3.12.5)")
+# und alles, was der Aufrufer schützt (protected).
+# ---------------------------------------------------------------------------
+ADDON_CATEGORY = "Addon's by GoldSentinel"
+UPDATE_HEAD = re.compile(r"^\W{0,8}\*\*\s*([A-Za-z][A-Za-z0-9]*(?: [A-Za-z][A-Za-z0-9]*){0,2})\s+v?(\d+(?:\.\d+)+)\s*\*\*")
+# frühere Namen eines Addons: zählen wie der heutige Name
+UPDATE_NAME_ALIASES = {"ah analyzer pro": "ahsentinel"}
+
+
+def update_head(content: str):
+    """(Addon-Name klein, Versions-Tupel) aus der ersten Zeile eines Update-Texts, sonst None."""
+    m = UPDATE_HEAD.match((content or "").split("\n", 1)[0])
+    if not m:
+        return None
+    name = m.group(1).strip().casefold()
+    ver = tuple(int(x) for x in m.group(2).split("."))
+    return UPDATE_NAME_ALIASES.get(name, name), ver + (0,) * (4 - len(ver))   # 2.0 == 2.0.0
+
+
+def plan_update_cleanup(msgs, bot_id: int, protected=()) -> list:
+    """IDs der Nachrichten, die weg dürfen: ältere Update-Texte (ohne Datei) und ihre direkten Fortsetzungen
+    (Bot-Nachrichten ohne Datei und ohne eigene Kopfzeile, höchstens 20 s danach). msgs: Objekte mit id, author_id,
+    content, has_files, created_at (beliebige Reihenfolge)."""
+    protected = set(protected)
+    msgs = sorted(msgs, key=lambda m: m.created_at)
+    newest = {}
+    for m in msgs:
+        h = update_head(m.content) if m.author_id == bot_id else None
+        if h and (h[0] not in newest or h[1] > newest[h[0]]):
+            newest[h[0]] = h[1]
+    out, i = [], 0
+    while i < len(msgs):
+        m = msgs[i]
+        h = update_head(m.content) if m.author_id == bot_id else None
+        if not h or m.has_files or m.id in protected or h[1] >= newest[h[0]]:
+            i += 1
+            continue
+        out.append(m.id)
+        j = i + 1
+        while j < len(msgs):
+            n = msgs[j]
+            if (n.author_id != bot_id or n.has_files or n.id in protected or update_head(n.content)
+                    or (n.created_at - m.created_at).total_seconds() > 20):
+                break
+            out.append(n.id)
+            j += 1
+        i = j
+    return out
+
 # Einmal leeren – STRENG EINMALIG. Ein Eintrag wirkt nur innerhalb seines Zeitfensters ("until") und löscht nur
 # Nachrichten, die vor "before" geschrieben wurden. Nach "until" passiert nie mehr etwas, auch wenn die Bot-Daten
 # (state "cleared_channels") verloren gehen. Erledigte Einträge danach aus dem Code entfernen.
