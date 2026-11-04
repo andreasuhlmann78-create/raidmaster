@@ -1,62 +1,30 @@
-OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.10)
-============================================================
-Stand: 3. November 2026, 11:30 · von der Prüf-Sitzung · Grundlage: download/GuildSentinel-0.9.10.zip
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.9.
+OFFENE PUNKTE GUILDSENTINEL (nach der Kurzprüfung von 0.9.13)
+=============================================================
+Stand: 4. November 2026, 06:40 · von der Prüf-Sitzung · Grundlage: download/GuildSentinel-0.9.13.zip und Repo 5fa989e
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.10.
 
-Erledigt in 0.9.10 (danke):
-- Punkt 1: mehr als 30 Flüsternachrichten im Kampf werden gezählt und gemeldet
-- Punkt 2: Kommentar richtig
-- Punkt 3: README mit gcc
-- Testroutine mit 169 von 173 Fällen, ns.Act als einzige Stelle für Aktionen, Swap lehnt _G und C_-Tabellen ab, Köderwerte,
-  Sandbox
-- GoldSentinelTest.lua eingebaut, TrackErrors beim Laden, CHANGELOG.de.md neu
-Prüfungen:
-- Addon-Prüfung OK (auch der neue Ladetest)
-- alle Lua-Tests im Repo grün
-- Routine offline: Forever 137 OK / 0 FEHLER, Era/TBC 141 OK / 0 FEHLER
-- alle 10 Sprachdateien vollständig
-- CurseForge-Upload 0.9.10 erfolgt
+Erledigt in 0.9.11 bis 0.9.13 (danke):
+- Punkt 1: echte Sendungen sind in der Routine ein FEHLER (T82, TestRoutine.lua:2014)
+- Punkt 2: T31 Export, T45 Termin ansagen, T154 Vor- und Nachnamen, T174 Aktionen nur über ns.Act, ns.API mit den
+  früher übersprungenen Fällen
+- Punkt 3 und 5: Twink-Kennzeichnung mit Vor- und Nachnamen (koKR/zhCN/zhTW), Main-Wechsel entfernt alte Kennzeichnung ganz
+- Punkt 4: ein kaputter Termin verwirft nicht mehr das ganze Paket
+- anweisung-guildsentinel-gildenbank.txt: Bank-Charakter, Bestand im Format von RaidMaster, Uploader/Bot liefern nach
+  #gildenbank (Bot 1.5.96, Uploader 1.7.0)
+- 0.9.13: Sprache in den Einstellungen wählbar, Standard = Sprache des Spiel-Clients
+Prüfungen: Addon-Prüfung OK (Ladetest, Sprachtest ohne Warnung), Offline-Routine Forever und Era je 16 bestanden / 0 Fehler,
+Sprachtest-Skript enUS/enGB/deDE/frFR bestanden, alle 1114 Texte mit Englisch, Platzhalter in allen 10 Sprachen gleich.
 
-Bitte mit der nächsten Version (0.9.11), spätestens vor dem Launch-Abend. Wie immer: komplette Dateien, alte Clients nie
-brechen, alle Locale-Dateien, CHANGELOG EN/DE, die Tests unter test/ laufen lassen, vor dem Push
-python3 addon-check/addon_check.py download/GuildSentinel-0.9.11.zip -> kein FEHLER.
+Offen ist nur noch, was im Spiel geprüft werden muss. Neue Wünsche des Nutzers kommen als eigene anweisung-*.txt.
 
-1. ECHTE SENDUNGEN WERDEN NICHT ALS FEHLER GEWERTET (Schwere: MITTEL)
-   TestRoutine.lua:1685-1700: Die Routine zählt echte Sendungen (R.real), schreibt sie aber nur als Textzeile in den Bericht.
-   Bei R.real > 0 steht trotzdem "FEHLER 0". Nur der Offline-Test prüft das (test/run_routine.lua:50).
-   Lösung:
-   - In Finish bei R.real > 0 einen Eintrag RUN:Add("FEHLER", "T82", "B", "nichts gesendet", { ergebnis = … }) machen.
-   - Dazu die Bedingung Comm:Pending() == 0 aus der Anweisung prüfen.
-   - Das ist der fehlende Fall T82.
+1. IM CLIENT PRÜFEN (Launch-Abend, im Testplan des Nutzers)
+   - issecretvalue nach dem Kampf, voller Absender bei CHAT_MSG_ADDON, Build-Nummer (T168, /gs testroutine whisperq)
+   - Bank-Charakter: Option anhaken, Bank und Briefkasten öffnen, /reload -> Bestand erscheint in #gildenbank unter den
+     Regeln (mit Uploader 1.7.0); in Forever auch Gildenbank-Fächer, falls es sie gibt
+   - Sprachwahl: Standard folgt dem Client; eine andere Wahl gilt nach dem Neuladen, "wie der Spiel-Client" stellt zurück
 
-2. FEHLENDE TESTFÄLLE (Schwere: NIEDRIG)
-   - T31 Export, T45 Termin ansagen (Bereich B)
-   - T154 (Bereich J): Twink/Main, Danke und Pate mit Vor- und Nachname
-   - Bereich I: neuer Fall "direkter Aufruf einer Aktion mit Folgen ausserhalb ns.Act = FEHLER" (nachtrag-testroutinen.txt
-     Punkt 2)
-   - Optional: Eine Tabelle ns.API, damit die 8 Fälle T92, T93b, T96b, T97b, T99, T159, T161 und T166 auch im Spiel laufen.
-     Sie sind heute übersprungen mit "würde Blizzard-Funktion ersetzen"; offline sind sie abgedeckt. Vorbild:
-     shared/vorlage/__ADDON__/API.lua.
-
-3. KENNZEICHNUNG IN NOTIZEN BEI koKR/zhCN/zhTW MIT VOR- UND NACHNAME (Schwere: NIEDRIG)
-   Roster.lua:55: In diesen Sprachen steht der Name vor der Kennzeichnung, und das Muster erfasst nur das letzte Wort.
-   Beispiel: "Rokan Steinwacht의 부캐릭터" ergibt "steinwacht". Weder byName noch FindMember finden dann den Main, weil
-   ns.Same über den Vornamen vergleicht. Ein Twink in Forever bleibt so ohne Main.
-   Lösung: zwei Wörter erlauben wie bei NAME ("([^%s,;%.%(%)]+[ ]?[^%s,;%.%(%)]*)") und einen Fall in T152 ergänzen.
-
-4. EIN KAPUTTER TERMIN VERWIRFT DAS GANZE PAKET (Schwere: NIEDRIG)
-   Events.lua:127: Ist ein Eintrag in EVTS keine Tabelle, verwirft ein "return" alle folgenden gültigen Termine des Pakets.
-   Lösung: den Eintrag überspringen (if type(x) == "table" then … end).
-
-5. HINWEIS, SCHON VOR 0.9.10 VORHANDEN (Schwere: NIEDRIG)
-   Social.lua:210: Beim Main-Wechsel werden nur die deutschen und englischen Kennzeichnungen entfernt und bei "Alt:/Twink von"
-   nur ein Wort. Bei "Alt: Vorname Nachname" (ruRU) oder lokalen Kennzeichnungen ("Reroll de …") bleiben Reste stehen.
-   Bitte mit Punkt 3 zusammen angehen.
-
-6. IM CLIENT PRÜFEN (Launch-Abend, im Testplan des Nutzers)
-   - issecretvalue nach dem Kampf
-   - voller Absender bei CHAT_MSG_ADDON
-   - Build-Nummer
-   Dafür gibt es T168 und /gs testroutine whisperq.
+2. HINWEIS FÜR KÜNFTIGE VERSIONEN
+   - Die Sprache muss ohne Einstellung immer dem Client folgen (Sprachtest der Addon-Prüfung, hinweis-sprachtest.txt).
+   - Die Version muss höher sein als 0.9.13 (download/, announce/, CurseForge).
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
