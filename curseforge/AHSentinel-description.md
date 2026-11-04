@@ -4,7 +4,7 @@
 
 > ⚠️ **This addon is in beta.** It may still contain bugs. If you run into an error or unexpected behaviour in-game, please report it in the comments – ideally with the Lua error message (if any) and the WoW version you play on.
 
-> 🔁 **Formerly "AH Analyzer Pro".** Since version 0.62.0 the addon is called **AHSentinel**. Your saved data is taken over automatically on the first login – just install both folders from the zip. The new command is `/ahs` (`/ahp` still works).
+> 🔁 **Formerly "AH Analyzer Pro".** Since version 0.62.0 the addon is called **AHSentinel**. Your saved data is taken over automatically on the first login. The zip now contains only the folder `AHSentinel` – if the old folder `AHAnalyzerPro` is still in your AddOns, AHSentinel tells you once in the chat: just delete it. The new command is `/ahs` (`/ahp` still works).
 
 AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – **Overview, Buy, Sell, Market, Ledger** – can be used completely with the mouse and speaks the language of your WoW client.
 
@@ -112,7 +112,7 @@ In-game: the **Support** button in the addon window (or `/ahs donate`).
 
 ### Buying
 - **Sniper:** targets with max price, quantity, budget, rarity, item level and level filters – searches on its own while the auction house is open
-- **Bargain watcher:** herbs, ore, cloth, leather, enchanting, elemental, gems, cooking and more – anything at or below x % of market value (default 50 %); never weapons or armour
+- **Bargain watcher:** herbs, ore, cloth, leather, enchanting, elemental, gems, cooking and more – anything at or below x % of market value (default 50 %); never weapons or armour. When you start the full scan, it has priority: the watcher pauses until the scan has run
 - **One-notch buying** with the mouse wheel or your own key binding
 - **Stackable goods combined** (classic auction house): same unit price = one row with the sum and the total price; Shift+click several rows and buy them together
 - **Shopping lists** with quantities – check all prices at once or turn missing items into sniper targets; items already in your bags are subtracted
@@ -131,7 +131,7 @@ In-game: the **Support** button in the addon window (or `/ahs donate`).
 - **Buy → Bargains:** below market value, below vendor price or below disenchant value, bids and flip recommendations, sorted by realistic profit per day; flipping calculator
 - **Disenchanting learns together:** your disenchant results are shared with all AHSentinel players (or only your guild), so the drop chances match the server much sooner
 - **Professions:** material cost, value of the result and profit for every recipe, best recipes, materials straight to a shopping list
-- **Vendor prices** are learned automatically at every merchant
+- **Vendor prices** are learned automatically at every merchant – including items that cost a currency (e.g. Merchant's Favor on WoW Forever)
 - **Alts & gold:** gold, bags and bank of all your characters, gold history of the last 30 days
 - **CSV export**
 
@@ -141,6 +141,7 @@ In-game: the **Support** button in the addon window (or `/ahs donate`).
 - Item search by name in any language, by item ID or by shift-click, with suggestions while typing
 - Built-in item name list (~33,000 items in 10 languages, incl. The Burning Crusade); lists always show names in your chosen language
 - Help page for every tab, right-click menu on every item, minimap button
+- **Robust saved data:** a single damaged entry (e.g. after a crash while saving) is repaired on login instead of causing a Lua error
 
 ---
 

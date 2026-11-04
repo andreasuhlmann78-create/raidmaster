@@ -2,7 +2,7 @@
 <p><strong>Market analysis, sniper and gold-making toolkit for the auction house – for every WoW version.</strong></p>
 <blockquote>
 <p>⚠️ <strong>This addon is in beta.</strong> It may still contain bugs. If you run into an error or unexpected behaviour in-game, please report it in the comments – ideally with the Lua error message (if any) and the WoW version you play on.</p>
-<p>🔁 <strong>Formerly "AH Analyzer Pro".</strong> Since version 0.62.0 the addon is called <strong>AHSentinel</strong>. Your saved data is taken over automatically on the first login – just install both folders from the zip. The new command is <code>/ahs</code> (<code>/ahp</code> still works).</p>
+<p>🔁 <strong>Formerly "AH Analyzer Pro".</strong> Since version 0.62.0 the addon is called <strong>AHSentinel</strong>. Your saved data is taken over automatically on the first login. The zip now contains only the folder <code>AHSentinel</code> – if the old folder <code>AHAnalyzerPro</code> is still in your AddOns, AHSentinel tells you once in the chat: just delete it. The new command is <code>/ahs</code> (<code>/ahp</code> still works).</p>
 </blockquote>
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
@@ -67,7 +67,7 @@
 - <strong>Profession window (modern client):</strong> a recipe list that is still empty right after opening no longer blocks reading for 5 seconds;
   the ingredient button remembers the last chosen recipe; recipe details are read only once per profession (less stutter).
 - <code>/ahs debug</code> shows whether vendor costs in currency (e.g. Merchant's Favor) can be read in this client.</p>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
@@ -96,7 +96,7 @@
 <h3>Buying</h3>
 <ul>
 <li><strong>Sniper:</strong> targets with max price, quantity, budget, rarity, item level and level filters – searches on its own while the auction house is open</li>
-<li><strong>Bargain watcher:</strong> herbs, ore, cloth, leather, enchanting, elemental, gems, cooking and more – anything at or below x % of market value (default 50 %); never weapons or armour</li>
+<li><strong>Bargain watcher:</strong> herbs, ore, cloth, leather, enchanting, elemental, gems, cooking and more – anything at or below x % of market value (default 50 %); never weapons or armour. When you start the full scan, it has priority: the watcher pauses until the scan has run</li>
 <li><strong>One-notch buying</strong> with the mouse wheel or your own key binding</li>
 <li><strong>Stackable goods combined</strong> (classic auction house): same unit price = one row with the sum and the total price; Shift+click several rows and buy them together</li>
 <li><strong>Shopping lists</strong> with quantities – check all prices at once or turn missing items into sniper targets; items already in your bags are subtracted</li>
@@ -117,7 +117,7 @@
 <li><strong>Buy → Bargains:</strong> below market value, below vendor price or below disenchant value, bids and flip recommendations, sorted by realistic profit per day; flipping calculator</li>
 <li><strong>Disenchanting learns together:</strong> your disenchant results are shared with all AHSentinel players (or only your guild), so the drop chances match the server much sooner</li>
 <li><strong>Professions:</strong> material cost, value of the result and profit for every recipe, best recipes, materials straight to a shopping list</li>
-<li><strong>Vendor prices</strong> are learned automatically at every merchant</li>
+<li><strong>Vendor prices</strong> are learned automatically at every merchant – including items that cost a currency (e.g. Merchant's Favor on WoW Forever)</li>
 <li><strong>Alts &amp; gold:</strong> gold, bags and bank of all your characters, gold history of the last 30 days</li>
 <li><strong>CSV export</strong></li>
 </ul>
@@ -128,6 +128,7 @@
 <li>Item search by name in any language, by item ID or by shift-click, with suggestions while typing</li>
 <li>Built-in item name list (~33,000 items in 10 languages, incl. The Burning Crusade); lists always show names in your chosen language</li>
 <li>Help page for every tab, right-click menu on every item, minimap button</li>
+<li><strong>Robust saved data:</strong> a single damaged entry (e.g. after a crash while saving) is repaired on login instead of causing a Lua error</li>
 </ul>
 <hr />
 <h2>Supported game versions</h2>
