@@ -12,6 +12,17 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.8
+
+- **Damaged saved data is repaired on login:** single broken entries (price history, characters, sniper targets,
+  ledger, lists, recipes) are removed instead of causing a Lua error in a tab or tooltip. Healthy data stays untouched.
+- Developer test routine (only for the developer): two checks that always failed are fixed (watcher with the auction
+  house closed, `/ahs scan` during the routine); options and chat commands now run one per step (no "script ran too long");
+  many more checks (watcher candidates, sale message, ledger from the test mailbox, re-posting, vendor, professions,
+  disenchanting, characters, sync, data migration and damaged data, speed, protected AH calls) and, with the auction
+  house open, simulated commodity purchase, sniper pre-reservation, batch posting, undercut detection and scan slices.
+  Checks that cannot run in a client are now reported as skipped with a reason instead of OK.
+
 ### Version 0.65.7
 
 - **Test routine (developer only):** many more checks – every option once on and off, every chat command, all extra
@@ -66,11 +77,6 @@ Fixes from the addon check:
 - **Profession window (modern client):** a recipe list that is still empty right after opening no longer blocks reading for 5 seconds;
   the ingredient button remembers the last chosen recipe; recipe details are read only once per profession (less stutter).
 - `/ahs debug` shows whether vendor costs in currency (e.g. Merchant's Favor) can be read in this client.
-
-### Version 0.65.3
-
-- **The old "AHAnalyzerPro" folder is no longer included.** AHSentinel is the only folder now.
-  If you have started AHSentinel at least once, your old data is already in it and you can delete the folder "AHAnalyzerPro" from Interface\AddOns.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
