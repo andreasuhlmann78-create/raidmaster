@@ -399,6 +399,31 @@ def bot_functions(all_channels, bot_messages):
         want += [f"{p}-{e['name']}" for e in r.get("extra_channels") or [] if e.get("name")]
         miss = [w for w in want if w.lower() not in names]
         add(f"Raid {r.get('name') or p}", not miss, ("fehlen: " + ", ".join("#" + m for m in miss)) if miss else "alle Kanäle da")
+
+    # e) Raids, die auf WoW Forever noch nicht angekündigt sind (ohne "forever": true): für Mitglieder ausgeblendet?
+    #    Geprüft wird nur die Berechtigung "Kanal ansehen" für @everyone (Rollen-ID = Server-ID), keine Inhalte.
+    VIEW = 1 << 10
+    by_id = {c["id"]: c for c in all_channels}
+
+    def hidden(c):
+        gid = c.get("guild_id")
+        ow = next((o for o in c.get("permission_overwrites") or [] if o.get("id") == gid), None)
+        return bool(ow) and int(ow.get("deny") or 0) & VIEW != 0
+
+    for r in raids if isinstance(raids, list) else []:
+        if not isinstance(r, dict) or r.get("forever"):
+            continue
+        p = (r.get("prefix") or r.get("key") or "").lower()
+        kids = [c for c in all_channels if c["name"].lower().startswith(p + "-") and c.get("type") != 4]
+        if not kids:
+            continue                              # Kategorie gibt es nicht: nichts zu verstecken
+        cat = by_id.get(kids[0].get("parent_id"))
+        visible = [("#" if c.get("type") != 2 else "🔊 ") + c["name"] for c in kids if not hidden(c)]
+        if cat is not None and not hidden(cat):
+            visible.insert(0, "Kategorie")
+        add(f"Raid {r.get('name') or p} ausgeblendet (noch nicht angekündigt)", not visible,
+            ("für Mitglieder sichtbar: " + ", ".join(visible)) if visible else "für Mitglieder unsichtbar",
+            status=None if not visible else "sichtbar")
     return out
 
 
@@ -440,7 +465,7 @@ def settle(e):
     return e
 
 
-ICON = {"fehler": "❌", "ok": "✅", "wartet": "⏳", "veraltet": "⚠️", "fehlt": "❌", "zip_fehlt": "❌", "kanal_fehlt": "❌", "kein_zugriff": "🔒"}
+ICON = {"fehler": "❌", "ok": "✅", "wartet": "⏳", "veraltet": "⚠️", "fehlt": "❌", "zip_fehlt": "❌", "kanal_fehlt": "❌", "kein_zugriff": "🔒", "sichtbar": "⚠️"}
 
 
 def finish(report):
