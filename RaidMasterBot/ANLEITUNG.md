@@ -236,6 +236,10 @@ Alles, was im GitHub-Repository im Ordner **`announce`** landet, postet der Bot 
 - **Gleicher Titel ersetzt:** Beginnt eine neue Ankündigung mit derselben ersten Zeile wie ein älterer Bot-Beitrag
   im Kanal (z. B. eine überarbeitete Vorstellung), löscht der Bot den älteren Beitrag samt Fortsetzungen.
 - Ältere Kurzform: `raid-addon-….md` → #raid-addon. (`aktionshaus-….md` postet der Bot ab 1.5.98 nicht mehr – AHSentinel steht in #ahsentinel.)
+- **Addon-Kanäle aufgeräumt (ab Bot 1.5.104):** In „Addon's by GoldSentinel“ bleibt von den Update-Texten nur der
+  neueste je Addon stehen (Kopfzeile wie „📦 **ThreatSentinel 2.4.5** – …“). Nie gelöscht werden Nachrichten mit Datei
+  (ZIP, Bilder), Vorstellungen, Übersichten, Hilfen und Beiträge von Mitgliedern. Die Dateien in `announce/` bleiben
+  unberührt, gelöschte Beiträge werden nicht neu gepostet. Läuft nach jedem Update.
 - **Datei gelöscht = Beitrag gelöscht (ab Bot 1.5.95):** Wird eine Ankündigung im Repo gelöscht, entfernt der Bot nach
   dem nächsten GitHub-Update seine Beiträge dazu im Discord (nur eigene Nachrichten). Das gilt nur für Updates von
   GitHub, nicht für `/update datei:`. Schutz: Haben mehr als 5 davon noch Beiträge im Discord (ältere, längst ersetzte Fassungen einer Reihe zählen ab 1.5.101 nicht mit), löscht der Bot nichts und meldet die Liste
