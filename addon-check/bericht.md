@@ -7,8 +7,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## AHSentinel-0.65.8.zip: OK
 
-## BuffSentinel-0.9.6.zip: OK (1 Warnungen)
-- **WARNUNG** Sprachtest BuffSentinel (WoW Forever): Im englischen Client (enUS) zeigt das Addon 8 deutsche Texte, z. B. "BuffSentinel: geladen für WoW Forever.". Die Sprache muss sich nach GetLocale() richten – für alle Spieler, nicht nur im Test- oder Entwicklermodus.
+## BuffSentinel-0.9.7.zip: OK
 
 ## GuildSentinel-0.9.13.zip: OK
 
