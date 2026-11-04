@@ -1,6 +1,6 @@
 # Discord-Kanäle
 
-Stand: 2026-11-04T06:34:42Z, Server: Alpine Vanguard. Nur die Struktur – keine Beiträge, keine Mitglieder (das Repo ist öffentlich).
+Stand: 2026-11-04T13:53:33Z, Server: Alpine Vanguard. Nur die Struktur – keine Beiträge, keine Mitglieder (das Repo ist öffentlich).
 Erstellt von discord-check/check.py bei jeder Discord-Prüfung.
 
 
@@ -25,6 +25,7 @@ Erstellt von discord-check/check.py bei jeder Discord-Prüfung.
 - #Allgemein (Text)
 - #handwerk-und-handel (Text)
 - #gruppensuche-für-dungeons (Text)
+- #befehle (Text)
 
 ## 🗝️ DUNGEONS
 
