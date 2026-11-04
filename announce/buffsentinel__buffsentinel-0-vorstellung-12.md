@@ -51,6 +51,7 @@ BuffSentinel ist dein Klassen-Helfer für den Kampf: Es meldet sich genau dann, 
 • Classic Era / SoD / Hardcore, TBC, Wrath, Titan Reforged, Cataclysm und MoP Classic – mit vollem Umfang
 • **WoW Forever** und Retail (Midnight): Buff-Erinnerungen vor dem Pull und ausserhalb des Kampfes. Beide laufen auf dem modernen Client, der Buffs, Debuffs und Cooldowns im Kampf für Addons sperrt – für Procs im Kampf dort den Cooldown Manager des Spiels nutzen
 • Alle Klassen der jeweiligen Version, inklusive Todesritter und Mönch
+• **Deutsch und Englisch** – BuffSentinel spricht die Sprache deines Spiel-Clients
 
 **🎓 Lernt selbst dazu**
 • Trifft BuffSentinel auf einen **neuen Proc** oder eine **neue Fähigkeit**, die noch nicht in seinen Daten steht (z. B. neue Talente oder Fähigkeiten), nimmt es sie **automatisch** auf
