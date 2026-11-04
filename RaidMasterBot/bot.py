@@ -152,11 +152,23 @@ if isinstance(state.data.get("dkp_messages"), list):
 # ---------------------------------------------------------------------------
 
 
+# Verweigert Discord einen "Privileged Intent", startet der Bot ohne ihn neu – aber höchstens einmal je Intent
+# (ab Bot 1.5.107). Bis 1.5.106 konnte ein eingeschalteter Message Content Intent, der im Entwicklerportal aus ist,
+# eine endlose Sofort-Neustart-Schleife auslösen (jeder Versuch = eine Verbindung zu Discord; Discord setzt den
+# Token nach rund 1000 Verbindungen zurück).
+MESSAGE_CONTENT_RETRY = 6 * 3600     # danach einmal wieder mit Message Content Intent versuchen
+
+
+def message_content_blocked() -> bool:
+    t = state.data.get("message_content_intent_missing")
+    return bool(t) and time.time() - float(t) < MESSAGE_CONTENT_RETRY
+
+
 class RaidBot(discord.Client):
     def __init__(self):
         intents = discord.Intents.default()
         # nur nötig, falls Uploads trotz Erwähnung des Bots ohne Anhang ankommen (siehe ANLEITUNG)
-        intents.message_content = bool(cfg.get("message_content_intent", False))
+        intents.message_content = bool(cfg.get("message_content_intent", False)) and not message_content_blocked()
         # Beitritte erkennen (PUG-Einladungslink -> Rolle Gast); braucht den "Server Members Intent"
         intents.members = not state.data.get("members_intent_missing", False)
         intents.invites = True
@@ -188,6 +200,15 @@ class RaidBot(discord.Client):
 
     async def on_ready(self):
         log.info("Angemeldet als %s – bereit (Version %s).", self.user, updater.bot_version(BASE))
+        if cfg.get("message_content_intent") and not self.intents.message_content \
+                and not getattr(self, "_mc_warned", False):
+            self._mc_warned = True
+            try:
+                await post_bot_log("⚠️ Gestartet **ohne Message Content Intent**: Er steht in config.json auf true, ist im "
+                                   "Discord-Entwicklerportal aber aus (Bot → Privileged Gateway Intents). Bitte dort "
+                                   "einschalten – der Bot versucht es spätestens in 6 Stunden wieder.")
+            except Exception:  # noqa: BLE001
+                pass
         if not getattr(self, "_release_checked", False):
             self._release_checked = True
             try:
@@ -6270,10 +6291,22 @@ if __name__ == "__main__":
     try:
         bot.run(cfg["token"], log_handler=None)
     except discord.PrivilegedIntentsRequired:
-        # Server Members Intent im Entwicklerportal nicht eingeschaltet -> ohne Beitritts-Erkennung neu starten
-        log.error("Server Members Intent ist im Discord-Entwicklerportal nicht eingeschaltet – "
-                  "starte ohne PUG-Beitrittserkennung neu (siehe /pug-einladung).")
-        state.data["members_intent_missing"] = True
-        state.save()
-        sys.exit(updater.RESTART_CODE)
+        # Ein Intent ist im Entwicklerportal aus. Schritt für Schritt ohne ihn starten – nie endlos:
+        # 1. Server Members Intent weglassen, 2. Message Content Intent weglassen, 3. aufhören (kein Neustart).
+        if bot.intents.members:
+            log.error("Server Members Intent ist im Discord-Entwicklerportal nicht eingeschaltet – "
+                      "starte ohne PUG-Beitrittserkennung neu (siehe /pug-einladung).")
+            state.data["members_intent_missing"] = True
+            state.save()
+            sys.exit(updater.RESTART_CODE)
+        if bot.intents.message_content:
+            log.error("Message Content Intent ist im Discord-Entwicklerportal nicht eingeschaltet, in config.json aber "
+                      "\"message_content_intent\": true – starte ohne ihn neu (neuer Versuch frühestens in 6 Stunden).")
+            state.data["message_content_intent_missing"] = time.time()
+            state.save()
+            sys.exit(updater.RESTART_CODE)
+        log.error("Discord verweigert die Anmeldung wegen fehlender Intents, obwohl keine besonderen mehr verlangt "
+                  "werden – der Bot hält an. Bitte im Entwicklerportal unter Bot -> Privileged Gateway Intents prüfen "
+                  "und dann neu starten: sudo systemctl restart raidmaster")
+        sys.exit(CONFIG_ERROR)
     sys.exit(EXIT_CODE)

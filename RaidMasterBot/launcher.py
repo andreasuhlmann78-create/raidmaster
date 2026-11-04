@@ -40,8 +40,23 @@ def pip_install():
     subprocess.run([sys.executable, "-m", "pip", "install", "-q", "-r", req], cwd=BASE)
 
 
+# Schutz vor Neustart-Schleifen (ab Bot 1.5.107): Discord setzt den Token zurück, wenn sich ein Bot sehr oft in
+# kurzer Zeit anmeldet. Mehr als FAST_RESTARTS_MAX Sofort-Neustarts (Code 42) in FAST_RESTARTS_WINDOW Sekunden ->
+# vor dem nächsten Start FAST_RESTARTS_PAUSE Sekunden warten.
+FAST_RESTARTS_MAX = 5
+FAST_RESTARTS_WINDOW = 600
+FAST_RESTARTS_PAUSE = 300
+
+
+def restart_pause(history: list, now: float) -> int:
+    """Sekunden Pause vor einem Sofort-Neustart. history: Zeitpunkte bisheriger Sofort-Neustarts (wird ergänzt)."""
+    history[:] = [t for t in history if now - t < FAST_RESTARTS_WINDOW] + [now]
+    return FAST_RESTARTS_PAUSE if len(history) > FAST_RESTARTS_MAX else 0
+
+
 def main() -> int:
     fast_crashes = 0
+    quick_restarts: list = []
     while True:
         started = time.time()
         try:
@@ -54,6 +69,14 @@ def main() -> int:
             pending = updater.read_json(updater.pending_path(BASE)) or {}
             if pending.get("requirements"):
                 pip_install()
+            pause = restart_pause(quick_restarts, time.time())
+            if pause:
+                log(f"Zu viele Neustarts in kurzer Zeit ({len(quick_restarts)} in {FAST_RESTARTS_WINDOW // 60} Min.) – "
+                    f"warte {pause} s, damit Discord den Bot nicht sperrt.")
+                try:
+                    time.sleep(pause)
+                except KeyboardInterrupt:
+                    return 0
             log("Neustart nach Update ...")
             fast_crashes = 0
             continue
