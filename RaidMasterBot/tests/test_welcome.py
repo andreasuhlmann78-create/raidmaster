@@ -10,10 +10,10 @@ import server_setup  # noqa: E402
 
 # alle Kanäle unter den ursprünglichen Namen (neu eingerichteter Server)
 ORIGINAL = {"gruppensuche": 1, "handwerk-und-handel": 2, "ruhmeshalle": 3, "raid-addon": 4, "regeln": 5,
-            "verhaltensregeln": 6, "addon-hilfe": 7}
+            "verhaltensregeln": 6, "addon-hilfe": 7, "befehle": 8}
 # Server mit von Hand umbenannten Kanälen
 RENAMED = {"gruppensuche-für-dungeons": 11, "handwerk-und-handel": 2, "ruhmeshalle": 3, "raid-addon": 4,
-           "dkp-regeln": 15, "verhaltensregeln": 6, "addon-hilfe": 7}
+           "dkp-regeln": 15, "verhaltensregeln": 6, "addon-hilfe": 7, "befehle": 8}
 
 
 class Welcome(unittest.TestCase):

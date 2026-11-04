@@ -6069,6 +6069,25 @@ COMMAND_INFO = {
     "gildenname hinzufuegen": ("Gildenleitung", "Verwaltung"),
     "gildenname abschliessen": ("Gildenleitung", "Verwaltung"),
     "gildenname oeffnen": ("Gildenleitung", "Verwaltung"),
+    # ab Bot 1.5.106 vollständig (geprüft an den Rechteprüfungen im Code). Fehlt ein Befehl hier, steht er in
+    # #befehlsliste unter "Sonstiges", in #befehle für Mitglieder aber NICHT (sicherer Standard).
+    "raid testraid": ("Gildenleitung", "Raids"),
+    "raid-ereignisse": ("Gildenleitung", "Raids"),
+    "dkp-nachricht": ("alle", "Spieler"),
+    "twink hinzufügen": ("alle", "Spieler"),
+    "twink entfernen": ("alle", "Spieler"),
+    "twink wechseln": ("alle", "Spieler"),
+    "twink liste": ("alle", "Spieler"),
+    "handwerk": ("alle", "Spieler"),
+    "berufe": ("alle", "Spieler"),
+    "bank": ("alle", "Spieler"),
+    "rekorde": ("alle", "Spieler"),
+    "erfolge": ("alle", "Spieler"),
+    "raider-des-monats": ("alle", "Spieler"),
+    "beute boss": ("alle", "Spieler"),
+    "beute entfernen": ("Gildenleitung", "Verwaltung"),
+    "beute export": ("Gildenleitung", "Verwaltung"),
+    "beute tabellen": ("Gildenleitung", "Verwaltung"),
 }
 SECTION_ORDER = [("Raids", "⚔️"), ("Spieler", "👤"), ("Verwaltung", "🛠️")]
 
@@ -6097,14 +6116,7 @@ ADDON_COMMAND_BLOCKS = [
 
 def command_list_text() -> list[str]:
     """Liste aller Slash-Befehle aus dem Befehlsbaum – neue Befehle erscheinen automatisch."""
-    entries = []
-    for cmd in bot.tree.get_commands():
-        subs = getattr(cmd, "commands", None)
-        if subs:
-            for sub in subs:
-                entries.append((f"{cmd.name} {sub.name}", sub.description, [p.name for p in sub.parameters]))
-        else:
-            entries.append((cmd.name, cmd.description, [p.name for p in getattr(cmd, "parameters", [])]))
+    entries = _command_entries()
     blocks = [f"📖 **Alle Bot-Befehle** · RaidMaster-Bot {updater.bot_version(BASE)}\n"
               "Tipp `/` in den Chat und such dir einen Befehl aus der Liste aus. Diese Übersicht hält der Bot selbst aktuell."]
     by_section: dict[str, list[str]] = {}
@@ -6121,13 +6133,110 @@ def command_list_text() -> list[str]:
     return rmd.chunk_blocks(blocks)
 
 
+def _command_entries() -> list[tuple[str, str, list[str]]]:
+    entries = []
+    for cmd in bot.tree.get_commands():
+        subs = getattr(cmd, "commands", None)
+        if subs:
+            for sub in subs:
+                entries.append((f"{cmd.name} {sub.name}", sub.description, [p.name for p in sub.parameters]))
+        else:
+            entries.append((cmd.name, cmd.description, [p.name for p in getattr(cmd, "parameters", [])]))
+    return entries
+
+
+def member_command_list_text() -> list[str]:
+    """#befehle für alle Mitglieder: nur Befehle, die in COMMAND_INFO ausdrücklich für "alle" stehen (unbekannte nie),
+    dazu die Befehle im Spiel, die alle benutzen können. Ab Bot 1.5.106."""
+    lines = []
+    for name, desc, params in sorted(_command_entries()):
+        who, _section = COMMAND_INFO.get(name, (None, None))
+        if who != "alle":
+            continue
+        if name.startswith("gildenname ") and name_poll().get("closed"):
+            continue                                    # Abstimmung beendet: Befehl hilft niemandem mehr
+        opts = (" · " + " ".join(f"`{p}`" for p in params)) if params else ""
+        lines.append(f"**`/{name}`** – {desc}{opts}")
+    blocks = [f"📖 **Bot-Befehle für dich** · RaidMaster-Bot {updater.bot_version(BASE)}\n"
+              "Tipp `/` in irgendeinen Kanal und such dir einen Befehl aus. Die Antworten siehst meist nur du. "
+              "Diese Übersicht hält der Bot selbst aktuell.",
+              "👤 **Im Discord**\n" + "\n".join(lines)]
+    for block in ADDON_COMMAND_BLOCKS:
+        head, *rest = block.split("\n")
+        mine = [ln.replace(" _(alle)_", "") for ln in rest if ln.endswith("_(alle)_")]
+        if mine:
+            blocks.append(head + "\n" + "\n".join(mine))
+    blocks.append("_Fragen zum Addon RaidMaster? Ab damit in #addon-hilfe._")
+    return rmd.chunk_blocks(blocks)
+
+
+async def _post_list(channel, parts: list[str], key: str):
+    """Liste in einen Kanal schreiben: vorhandene Nachrichten bearbeiten, fehlende posten, überzählige löschen."""
+    old_ids = list(state.data.get(key) or [])
+    new_ids = []
+    no_ping = discord.AllowedMentions(roles=False, users=False, everyone=False)
+    for i, text in enumerate(parts):
+        if i < len(old_ids):
+            try:
+                await channel.get_partial_message(int(old_ids[i])).edit(content=text, allowed_mentions=no_ping)
+                new_ids.append(old_ids[i])
+                continue
+            except discord.HTTPException:
+                pass
+        msg = await channel.send(text, allowed_mentions=no_ping)
+        new_ids.append(msg.id)
+    for mid in old_ids[len(parts):]:
+        try:
+            await channel.get_partial_message(int(mid)).delete()
+        except discord.HTTPException:
+            pass
+    state.data[key] = new_ids
+    state.save()
+
+
+async def ensure_member_command_list() -> str:
+    """#befehle (💬 ALLGEMEIN): anlegen, nur wenn es ihn noch nicht gibt, und die Liste aktuell halten."""
+    guild = bot_guild()
+    if guild is None:
+        return "Befehle für Mitglieder: Server nicht gefunden."
+    channel = await channel_by_id(cfg.get("member_command_channel_id"))
+    if channel is None:
+        if not guild.me.guild_permissions.manage_channels:
+            channel = server_setup.find_channel(guild.text_channels, "befehle")
+        else:
+            channel, rep = await server_setup.ensure_channel_if_missing(guild, server_setup.GENERAL, "befehle",
+                                                                        "RaidMaster: Bot-Befehle für Mitglieder")
+            if rep:
+                await post_bot_log("📖 " + "; ".join(rep))
+        if channel is None:
+            return "Befehle für Mitglieder: Kanal #befehle fehlt."
+        cfg["member_command_channel_id"] = channel.id
+        save_config()
+    await _post_list(channel, member_command_list_text(), "member_command_list_messages")
+    return f"✅ Befehle für Mitglieder in {channel.mention} aktuell."
+
+
 async def ensure_command_list() -> str:
     guild = bot_guild()
     if guild is None:
         return "Befehlsliste: Server nicht gefunden."
-    channel = await channel_by_id(cfg.get("command_list_channel_id")) or discord.utils.get(guild.text_channels, name="befehlsliste")
+    channel = await channel_by_id(cfg.get("command_list_channel_id")) or server_setup.find_channel(guild.text_channels, "befehlsliste")
+    if channel is None and guild.me.guild_permissions.manage_channels:
+        # ab Bot 1.5.106: fehlt #befehlsliste, legt der Bot sie selbst an (🔒 OFFIZIERE) – nur wenn es sie nicht gibt
+        channel, rep = await server_setup.ensure_channel_if_missing(guild, "🔒 OFFIZIERE", "befehlsliste",
+                                                                    "RaidMaster: Befehlsliste für Offiziere")
+        if rep:
+            await post_bot_log("📖 " + "; ".join(rep))
+        if channel is not None:
+            cfg["command_list_channel_id"] = channel.id
+            save_config()
+    member = ""
+    try:
+        member = " " + await ensure_member_command_list()
+    except Exception:  # noqa: BLE001 – die Offiziersliste darf daran nie scheitern
+        log.exception("Befehle für Mitglieder konnten nicht gepostet werden")
     if channel is None:
-        return "Befehlsliste: Kanal #befehlsliste fehlt – `/raidmaster-einrichten` ausführen."
+        return "Befehlsliste: Kanal #befehlsliste fehlt – `/raidmaster-einrichten` ausführen." + member
     parts = command_list_text()
     old_ids = list(state.data.get("command_list_messages") or [])
     new_ids = []
@@ -6149,7 +6258,7 @@ async def ensure_command_list() -> str:
             pass
     state.data["command_list_messages"] = new_ids
     state.save()
-    return f"✅ Befehlsliste in {channel.mention} aktuell."
+    return f"✅ Befehlsliste in {channel.mention} aktuell." + member
 
 
 @dkp_loop.before_loop

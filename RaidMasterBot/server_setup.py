@@ -168,6 +168,8 @@ for _cat in BASE_TOP:
     if _cat["name"] == RAID_ORGA:
         _cat["channels"] = _assignment_channels() + [c for c in _cat["channels"] if not c[1].startswith("einteilung")]
 
+MEMBER_COMMANDS_TOPIC = "Bot-Befehle, die alle Mitglieder benutzen können – hält der Bot selbst aktuell"
+
 BASE_BOTTOM = [
     {
         "name": "🎲 PUG", "mode": None, "guest": True,
@@ -183,6 +185,7 @@ BASE_BOTTOM = [
             # #allgemein legt der Bot ab 1.5.95 nicht mehr an (wurde nicht genutzt); ein vorhandener Kanal bleibt.
             ("text", "handwerk-und-handel", "Berufe, Rezepte und Auktionshaus", None),
             ("text", "gruppensuche", "Dungeons, Quests und Twinks", None),
+            ("text", "befehle", MEMBER_COMMANDS_TOPIC, "botonly"),        # ab Bot 1.5.106: Befehle für Mitglieder
             # ab Bot 1.5.99: AFK hier statt in der Kategorie 🔊 SPRACHE (die mit "Allgemein"/"Raid" entfallen ist)
             ("voice", "AFK", None, None),
         ],
@@ -269,6 +272,7 @@ CHANNEL_ALIASES = {
     "regeln": ("dkp-regeln",),
     "ahsentinel": ("aktionshaus",),           # früherer Kanal von AHSentinel (bis Bot 1.5.97)
     "gruppensuche": ("gruppensuche-für-dungeons",),
+    "befehle": ("bot-befehle-mitglieder", "befehle-mitglieder", "commands"),
 }
 
 
@@ -510,7 +514,7 @@ def welcome_text(guild_name: str, channels: dict | None = None, officer_role_id:
         f"**2.** Lies in {ch('verhaltensregeln')}, wie wir miteinander umgehen.\n"
         "**3.** Registriere deinen Charakter einmal mit `/charakter` – dann kennt dich jeder und dein Name leuchtet in "
         "deiner Klassenfarbe.\n\n"
-        f"Probleme mit dem Addon? Frag in {ch('addon-hilfe')}.\n\n"
+        f"Alle Bot-Befehle für dich stehen in {ch('befehle')}, Fragen zum Addon RaidMaster in {ch('addon-hilfe')}.\n\n"
         "Schön, dass du da bist. Für die Horde! 🔥"
     )
 
@@ -1005,6 +1009,25 @@ async def clear_channel(channel, before, reason: str) -> int:
     """Nachrichten vor `before` löschen, ausser angehefteten. Liefert die Anzahl gelöschter Nachrichten."""
     deleted = await channel.purge(limit=None, before=before, check=lambda m: not m.pinned, reason=reason)
     return len(deleted)
+
+
+async def ensure_channel_if_missing(guild: discord.Guild, category_name: str, name: str, reason: str) -> tuple:
+    """Kanal aus der Struktur (BASE_TOP/BASE_BOTTOM) anlegen – NUR wenn es ihn unter seinem Namen oder einem Alias
+    noch nirgends gibt. Ein vorhandener Kanal wird nicht verschoben und nicht verändert. Liefert (Kanal, Meldungen)."""
+    found = find_channel(guild.text_channels, name)
+    if found is not None:
+        return found, []
+    cat_def = next((c for c in BASE_TOP + BASE_BOTTOM if c["name"] == category_name), None)
+    spec = next((c for c in (cat_def or {}).get("channels", []) if c[0] == "text" and c[1] == name), None)
+    if spec is None:
+        return None, []
+    one = {**cat_def, "channels": [spec]}
+    roles = _known_roles(guild)
+    report: list[str] = []
+    created: dict = {}
+    await _ensure_category(guild, one, roles, report, created, set(), reason)
+    await _hide_from_guests(guild, one, roles, created, report, reason)
+    return created.get(name), [r for r in report if r.startswith(("✅", "⚠️"))]
 
 
 async def move_afk_to_general(guild: discord.Guild) -> list[str]:
