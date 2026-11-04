@@ -924,16 +924,32 @@ DUNGEONS = "🗝️ DUNGEONS"
 
 GENERAL = "💬 ALLGEMEIN"
 
-# Einmal leeren (Kanalname -> Kennung): Läuft je Kennung genau einmal (state "cleared_channels"). Für einen neuen
-# Durchgang eine neue Kennung eintragen. Angeheftete Nachrichten bleiben stehen.
+# Einmal leeren – STRENG EINMALIG. Ein Eintrag wirkt nur innerhalb seines Zeitfensters ("until") und löscht nur
+# Nachrichten, die vor "before" geschrieben wurden. Nach "until" passiert nie mehr etwas, auch wenn die Bot-Daten
+# (state "cleared_channels") verloren gehen. Erledigte Einträge danach aus dem Code entfernen.
+# Ab Bot 1.5.103. Zeiten in Europe/Zurich.
+from datetime import datetime as _dt  # noqa: E402
+from zoneinfo import ZoneInfo as _Zone  # noqa: E402
+
+_ZH = _Zone("Europe/Zurich")
 CLEAR_CHANNELS_ONCE = {
-    "mc-dkp": "start-wow-forever-2026-11-04",    # Test-DKP vor dem Serverstart entfernen (Wunsch Gildenleitung)
+    # Test-DKP vor dem Serverstart von WoW Forever entfernen (Wunsch Gildenleitung, nur dieses eine Mal)
+    "mc-dkp": {"tag": "start-wow-forever-2026-11-04",
+               "before": _dt(2026, 11, 4, 7, 0, tzinfo=_ZH),
+               "until": _dt(2026, 11, 4, 12, 0, tzinfo=_ZH)},
 }
 
 
-async def clear_channel(channel, reason: str) -> int:
-    """Alle Nachrichten im Kanal löschen, ausser angehefteten. Liefert die Anzahl gelöschter Nachrichten."""
-    deleted = await channel.purge(limit=None, check=lambda m: not m.pinned, reason=reason)
+def clear_allowed(spec: dict, now, done_tag: str | None) -> bool:
+    """Darf dieser Eintrag jetzt noch leeren? Nur einmal (Kennung) und nur bis "until"."""
+    if not isinstance(spec, dict) or not spec.get("tag") or not spec.get("before") or not spec.get("until"):
+        return False
+    return done_tag != spec["tag"] and now < spec["until"]
+
+
+async def clear_channel(channel, before, reason: str) -> int:
+    """Nachrichten vor `before` löschen, ausser angehefteten. Liefert die Anzahl gelöschter Nachrichten."""
+    deleted = await channel.purge(limit=None, before=before, check=lambda m: not m.pinned, reason=reason)
     return len(deleted)
 
 

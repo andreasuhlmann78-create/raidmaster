@@ -4096,9 +4096,11 @@ async def clear_channels_once() -> list[str]:
         return []
     done = state.data.setdefault("cleared_channels", {})
     report = []
-    for name, tag in server_setup.CLEAR_CHANNELS_ONCE.items():
-        if done.get(name) == tag:
-            continue
+    now = datetime.now(ZoneInfo("Europe/Zurich"))
+    for name, spec in server_setup.CLEAR_CHANNELS_ONCE.items():
+        if not server_setup.clear_allowed(spec, now, done.get(name)):
+            continue                    # erledigt oder Zeitfenster vorbei: nie wieder leeren
+        tag = spec["tag"]
         ch = next((c for c in guild.text_channels if c.name.casefold() == name.casefold()), None)
         if ch is None:
             done[name] = tag
@@ -4109,9 +4111,10 @@ async def clear_channels_once() -> list[str]:
             report.append(f"⚠️ #{ch.name} nicht geleert – dem Bot fehlt dort „Nachrichten verwalten“.")
             continue
         try:
-            n = await server_setup.clear_channel(ch, "RaidMaster: Kanal einmal geleert (" + tag + ")")
+            n = await server_setup.clear_channel(ch, spec["before"], "RaidMaster: Kanal einmal geleert (" + tag + ")")
         except discord.HTTPException as e:
-            report.append(f"⚠️ #{ch.name} nicht vollständig geleert: {e} – ich versuche es beim nächsten Start nochmal.")
+            report.append(f"⚠️ #{ch.name} nicht vollständig geleert: {e} – nächster Versuch beim nächsten Start, "
+                          f"aber nur bis {spec['until']:%d.%m.%Y %H:%M}.")
             continue
         msgs = state.data.setdefault("dkp_messages", {})
         for pool in list(msgs):
@@ -4119,7 +4122,8 @@ async def clear_channels_once() -> list[str]:
                 msgs.pop(pool, None)
         done[name] = tag
         state.save()
-        report.append(f"🧹 #{ch.name} geleert ({n} Nachricht{'en' if n != 1 else ''}, angeheftete bleiben).")
+        report.append(f"🧹 #{ch.name} einmalig geleert ({n} Nachricht{'en' if n != 1 else ''} von vor "
+                      f"{spec['before']:%d.%m.%Y %H:%M}, angeheftete bleiben). Das passiert nie wieder.")
     return report
 
 
