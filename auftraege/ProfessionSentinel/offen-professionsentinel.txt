@@ -1,56 +1,29 @@
-OFFENE PUNKTE PROFESSIONSENTINEL (nach der Nachprüfung von 0.9.12)
-=================================================================
-Stand: 3. November 2026, 11:50 · von der Prüf-Sitzung · Grundlage: download/ProfessionSentinel-0.9.12.zip
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.11.
+OFFENE PUNKTE PROFESSIONSENTINEL (nach der Kurzprüfung von 0.9.13)
+==================================================================
+Stand: 4. November 2026, 06:50 · von der Prüf-Sitzung · Grundlage: download/ProfessionSentinel-0.9.13.zip und Repo 89e20e2
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.12.
 
-Erledigt in 0.9.12 (danke):
-- Punkt 1 (HOCH, Taint): Kein Blizzard-Global und keine C_-Tabelle wird mehr ersetzt. Alle Fälle laufen über ns.API
-  (Core.lua:40-82), die [api]-Fälle nur noch mit /ps testroutine api und mit Warnung vorher. Die Wächter nutzen
-  hooksecurefunc.
-- Punkt 2: ns.Act (Core.lua:99-160) mit C_ChatInfo.SendChatMessage als zweitem Weg, Fall T180, tests/check_actions.py
-- Punkt 3: T145 mit Aufwärmen und doppeltem collectgarbage (offline ohne FEHLER, im Client bestätigen)
-- Punkt 4: RunSub-Filter bei T20 und T110
-- Punkt 5: Realms mit Bindestrich über ns.NameFromKey / ns.PlayerName, Fall T181
-- Punkt 6: "Bitte /reload" nach jedem Lauf, Texte über Locales (EN/DE)
-- Punkt 7: IsSecret zuerst in Scan, Tooltip, Disenchant und Guild
-Prüfungen:
-- Addon-Prüfung OK ohne Warnung (auch der Ladetest)
-- run_offline.py: Forever 143 OK / 2 FEHLER (nur Zeitmessungen T139 und T143, siehe Punkt 3), Era 130 / 0, Retail 127 / 0
-- /ps testroutine api offline: Forever 16, Era 12, Retail 13 OK, je 0 FEHLER
-- GoldSentinelGame.lua und GoldSentinelTest.lua byte-gleich mit shared/, alle 4 TOCs und ns.VERSION auf 0.9.12,
-  CHANGELOG EN/DE, keine fehlenden Locale-Schlüssel
+Erledigt in 0.9.13 (danke):
+- anweisung-professionsentinel-minimap-button.txt: Minimap-Button (Linksklick Panel, Rechtsklick Optionen, Ziehen,
+  /ps minimap, Reparatur beschädigter Werte), Testfälle T182–T185 und T186 (im Client)
+- Punkt 1 aus 0.9.12: Kommentar zu /ps testroutine api stimmt jetzt
+- Punkt 2 aus 0.9.12 (Smoketest): entschieden – die geplante Aufgabe "Rezeptdaten-Update" prüft jetzt zusätzlich mit
+  tests/run_offline.py und liefert bei FEHLER nichts aus (Zeitmessungen T139–T145 ausgenommen)
+Prüfungen: Addon-Prüfung OK (Ladetest, Sprachtest ohne Warnung). run_offline.py: Forever 148 OK / 1 FEHLER (nur eine
+Zeitmessung aus Bereich H, zählt nicht), Era 134 / 0, Retail 131 / 0, Exit 0.
 
-0.9.12 ist freigegeben. Die folgenden Punkte bitte mit der nächsten Version. Achtung: Die geplante Aufgabe
-"ProfessionSentinel Rezeptdaten-Update (Code)" vergibt bei neuen Daten selbst die nächste Nummer. Vorher die Releases
-prüfen und die nächste freie Nummer nehmen. Wie immer: komplette Dateien, alte Clients nie brechen, Locales EN/DE,
-CHANGELOG EN/DE. Vor dem Push:
-    python3 addon-check/addon_check.py download/ProfessionSentinel-<Version>.zip    -> kein FEHLER
+Offen ist nur noch, was im Spiel geprüft werden muss. Neue Wünsche kommen als eigene anweisung-*.txt.
 
-1. KOMMENTAR VERALTET (Schwere: NIEDRIG)
-   TestRoutine.lua:10: "/ps testroutine api: only the cases that replace Blizzard functions for a moment" stimmt nicht
-   mehr. Es werden nur noch Einträge in ns.API ersetzt. Kommentar anpassen.
-
-2. SMOKETEST SCHLÄGT BEI FEHLERN NICHT FEHL (Hinweis, Entscheid beim Nutzer)
-   tests/run_smoketest.py / smoketest.lua:611 enden mit Exit 0, obwohl die Testroutine im reduzierten Mock
-   14 / 13 / 13 FEHLER meldet (Forever / Era / Retail). Das war schon in 0.9.11 so (16 / 14 / 14). Die geplante Aufgabe
-   prüft nur mit diesem Smoketest.
-   Bitte nichts umbauen, bis der Nutzer entschieden hat. Die Prüf-Sitzung klärt mit ihm, ob die Aufgabe bei FEHLER
-   stoppen soll (z. B. über run_offline.py ohne Bereich H), und führt dann die Anweisung der Aufgabe nach. Falls der
-   Smoketest dafür angepasst werden muss, kommt ein eigener Auftrag.
-
-3. ZEITMESSUNGEN KNAPP (Schwere: NIEDRIG – im Client bestätigen)
-   Offline in Forever: T139 16.4 ms bei Grenze 16 ms, T143 24.8 ms. Das hängt von der Maschine ab. Kommt es im Client
-   auch vor, ist die Vorbedingung "0 FEHLER" verfehlt. Dann bitte die teuren Schritte aufteilen (über mehrere Frames)
-   statt die Grenze zu erhöhen.
-
-4. HINWEIS, KEIN FEHLER
-   Einige lesende Blizzard-Aufrufe laufen nicht über ns.API: Waypoint.lua:15-16 (C_Map.GetMapInfo), Guild.lua:63-64
-   (Gildenliste), TestRoutine.lua:658 und 2451. Heute ersetzt sie kein Test, darum gibt es keinen Taint. Soll ein
-   späterer Test sie simulieren, zuerst in ns.API aufnehmen.
-
-5. IM CLIENT PRÜFEN (Launch-Abend, im Testplan des Nutzers)
-   - T145 (Speicher), die Messungen aus Bereich H (T139, T143), T113 (geheime Werte)
-   - die übrigen IM-CLIENT-PRÜFEN-Fälle: T30, T42, T50, T69, T85, T115, T119, T144, T177
+1. IM CLIENT PRÜFEN (Launch-Abend, im Testplan des Nutzers)
+   - T186 Minimap-Button: sichtbar, Ziehen, Tooltip in der Sprache des Clients
+   - T145 Speicher und die Zeitmessungen aus Bereich H (T139, T143). Kommt dort im Spiel ein FEHLER, bitte die teuren
+     Schritte über mehrere Frames verteilen statt die Grenze zu erhöhen.
+   - T113 geheime Werte, die übrigen IM-CLIENT-PRÜFEN-Fälle (T30, T42, T50, T69, T85, T115, T119, T144, T177)
    - ab dem 5. November T169/T170
+
+2. HINWEIS FÜR KÜNFTIGE VERSIONEN
+   - Die geplante Aufgabe vergibt bei neuen Rezeptdaten selbst die nächste Nummer: vorher die Releases prüfen.
+   - Lesende Blizzard-Aufrufe ausserhalb von ns.API (Waypoint.lua C_Map.GetMapInfo, Guild.lua Gildenliste): erst in
+     ns.API aufnehmen, wenn ein Test sie simulieren soll.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
