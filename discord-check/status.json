@@ -1,6 +1,6 @@
 {
-  "geprueft": "2026-11-04T06:15:30Z",
-  "commit": "3c48ddc",
+  "geprueft": "2026-11-04T06:31:13Z",
+  "commit": "ab1a313",
   "ok": true,
   "fehler": null,
   "hinweis": "Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 45 Minuten.",
@@ -8,140 +8,140 @@
     {
       "datei": "announce/ahsentinel__ahsentinel-0.65.8.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 23,
+      "seit_push_min": 39,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/ahsentinel__ahsentinel-0-vorstellung-1.7.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 645,
+      "seit_push_min": 661,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/ahsentinel__ahsentinel-hilfe-1.0.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 66,
+      "seit_push_min": 81,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/barrow-taktik__uebersicht-1.1.md",
       "kanal": "barrow-taktik",
-      "seit_push_min": 896,
+      "seit_push_min": 912,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/buffsentinel__buffsentinel-0.9.7.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 16,
+      "seit_push_min": 31,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/guildsentinel__guildsentinel-0.9.13.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 616,
+      "seit_push_min": 631,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/hyjal-taktik__uebersicht-1.1.md",
       "kanal": "hyjal-taktik",
-      "seit_push_min": 896,
+      "seit_push_min": 912,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/levelpilot__levelpilot-3.12.6.md",
       "kanal": "levelpilot",
-      "seit_push_min": 2,
+      "seit_push_min": 18,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/levelpilot__levelpilot-uebersicht-3.12.6.md",
       "kanal": "levelpilot",
-      "seit_push_min": 2,
+      "seit_push_min": 18,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/lore__alpine-vanguard-vorstellung-1.0.md",
       "kanal": "lore",
-      "seit_push_min": 4619,
+      "seit_push_min": 4635,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/mc-feuerresi__feuerresi-1.1.md",
       "kanal": "mc-feuerresi",
-      "seit_push_min": 896,
+      "seit_push_min": 912,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/onyxia-feuerresi__feuerresi-1.0.md",
       "kanal": "onyxia-feuerresi",
-      "seit_push_min": 10038,
+      "seit_push_min": 10053,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/onyxia-taktik__onyxia-video-1.0.md",
       "kanal": "onyxia-taktik",
-      "seit_push_min": 11462,
+      "seit_push_min": 11478,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/professionsentinel__professionsentinel-0.9.13.md",
       "kanal": "professionsentinel",
-      "seit_push_min": 588,
+      "seit_push_min": 604,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/professionsentinel__professionsentinel-0-vorstellung-1.25.md",
       "kanal": "professionsentinel",
-      "seit_push_min": 1356,
+      "seit_push_min": 1372,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/threatsentinel__threatsentinel-2.4.5.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 37,
+      "seit_push_min": 53,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/threatsentinel__threatsentinel-0-vorstellung-2.2.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 2324,
+      "seit_push_min": 2340,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-12.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 16,
+      "seit_push_min": 31,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-10.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 616,
+      "seit_push_min": 632,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/levelpilot__levelpilot-uebersicht.md",
       "kanal": "levelpilot",
-      "seit_push_min": 12288,
+      "seit_push_min": 12303,
       "abdeckung": 1.0,
       "status": "ok"
     }
@@ -152,7 +152,7 @@
       "version": "0.65.8",
       "datei": "download/AHSentinel-0.65.8.zip",
       "kanal": "ahsentinel",
-      "seit_push_min": 23,
+      "seit_push_min": 39,
       "status": "ok",
       "gepostet": "2026-11-04 05:53 UTC",
       "anhang": [
@@ -164,7 +164,7 @@
       "version": "3.0.17",
       "datei": "RaidMaster/RaidMaster.toc",
       "kanal": "raid-addon",
-      "seit_push_min": 596,
+      "seit_push_min": 612,
       "status": "ok",
       "gepostet": "2026-11-03 20:21 UTC",
       "anhang": [
@@ -176,7 +176,7 @@
     {
       "datei": "announce/threatsentinel__threatsentinel-0-vorstellung.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 11102,
+      "seit_push_min": 11118,
       "abdeckung": 1.0,
       "status": "ok",
       "nur_info": "ersetzt durch threatsentinel__threatsentinel-0-vorstellung-2.2.md"
@@ -244,6 +244,31 @@
       "pruefung": "Raid Hyjalgipfel",
       "status": "ok",
       "detail": "alle Kanäle da"
+    },
+    {
+      "pruefung": "Raid Pechschwingenhort ausgeblendet (noch nicht angekündigt)",
+      "status": "ok",
+      "detail": "für Mitglieder unsichtbar"
+    },
+    {
+      "pruefung": "Raid Zul'Gurub ausgeblendet (noch nicht angekündigt)",
+      "status": "ok",
+      "detail": "für Mitglieder unsichtbar"
+    },
+    {
+      "pruefung": "Raid Ruinen von Ahn'Qiraj ausgeblendet (noch nicht angekündigt)",
+      "status": "ok",
+      "detail": "für Mitglieder unsichtbar"
+    },
+    {
+      "pruefung": "Raid Tempel von Ahn'Qiraj ausgeblendet (noch nicht angekündigt)",
+      "status": "ok",
+      "detail": "für Mitglieder unsichtbar"
+    },
+    {
+      "pruefung": "Raid Naxxramas ausgeblendet (noch nicht angekündigt)",
+      "status": "ok",
+      "detail": "für Mitglieder unsichtbar"
     }
   ]
 }
