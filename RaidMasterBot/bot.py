@@ -5086,6 +5086,11 @@ async def _check_github(manual: bool = False) -> str:
         sha = latest["sha"]
         if not sha or sha == state.data.get("installed_sha"):
             return f"✅ Aktuell (Version {updater.bot_version(BASE)}, Commit `{sha[:7]}`)."
+        # gerade erst installiert und neu gestartet, aber noch nicht bestätigt (confirm_later nach 150 s): nicht noch
+        # einmal einspielen. Bis 1.5.107 entstand so eine Neustart-Schleife alle ~70 s (ab Bot 1.5.108).
+        pending = updater.read_json(updater.pending_path(BASE)) or {}
+        if sha == pending.get("ref"):
+            return f"⏳ Version {updater.bot_version(BASE)} (Commit `{sha[:7]}`) ist eben installiert worden und startet gerade."
         if sha == state.data.get("failed_sha") and not manual:
             return "Letztes Update war fehlerhaft – warte auf eine neue Version."
         data = await updater.github_zip(session, repo, sha, token)

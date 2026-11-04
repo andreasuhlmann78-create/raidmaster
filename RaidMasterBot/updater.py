@@ -153,6 +153,29 @@ def backup_current(base: str) -> str:
     return target
 
 
+def _same_tree(a: str, b: str) -> bool:
+    """Gleicher Inhalt zweier Ordner (ohne __pycache__)? Ab Bot 1.5.108."""
+    if not os.path.isdir(b):
+        return False
+    skip = {"__pycache__"}
+    na = sorted(n for n in os.listdir(a) if n not in skip)
+    nb = sorted(n for n in os.listdir(b) if n not in skip)
+    if na != nb:
+        return False
+    for n in na:
+        pa, pb = os.path.join(a, n), os.path.join(b, n)
+        if os.path.isdir(pa):
+            if not _same_tree(pa, pb):
+                return False
+        elif not os.path.isfile(pb):
+            return False
+        else:
+            with open(pa, "rb") as fa, open(pb, "rb") as fb:
+                if fa.read() != fb.read():
+                    return False
+    return True
+
+
 def _copy_new(src_dir: str, base: str) -> list[str]:
     changed = []
     for name in os.listdir(src_dir):
@@ -161,6 +184,10 @@ def _copy_new(src_dir: str, base: str) -> list[str]:
         src = os.path.join(src_dir, name)
         dst = os.path.join(base, name)
         if os.path.isdir(src):
+            # bis 1.5.107 galt jeder Ordner (z. B. tests/) immer als geändert -> jedes Update startete den Bot neu,
+            # und weil die Version erst nach 150 s als installiert galt, alle ~70 s wieder (Discord-Token-Reset)
+            if _same_tree(src, dst):
+                continue
             if os.path.isdir(dst):
                 shutil.rmtree(dst)
             shutil.copytree(src, dst, ignore=shutil.ignore_patterns("__pycache__"))
