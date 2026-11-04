@@ -3,6 +3,12 @@ OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.7)
 Stand: 3. November 2026, 12:45 · von der Prüf-Sitzung · Grundlage: download/AHSentinel-0.65.7.zip
 Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.65.6.
 
+ZUSTÄNDIG (Nachtrag 4. November, 06:30): die AHSentinel-Sitzung des Nutzers. 0.65.6 und 0.65.7 hat eine einmalige
+geplante Aufgabe gebaut, die fertig und abgeschaltet ist – sie ändert AHSentinel nicht mehr. Grundlage für 0.65.8 ist
+0.65.7: im Repo andreasuhlmann78-create/AHAnalyzerPro "git pull --rebase" (Commit f06b74a, ## Version: 0.65.7), identisch
+mit download/AHSentinel-0.65.7.zip. Erledigt sind auch: anweisung-ahsentinel-vorstellung.txt (Vorstellung 1.7 steht in
+#ahsentinel) und der Bot-Teil (Bot 1.5.98/1.5.101: Veröffentlichung und Hilfe in #ahsentinel, 0.65.7 dort gepostet).
+
 Erledigt in 0.65.7 (danke):
 - Punkt 1 zum grossen Teil: T24, T26c–i, T28, T30.01–T30.36, T31.01–T31.35 (T31.36 begründet übersprungen), T34, T39, T43,
   T44, T54, T62, T89, T92, T94, T129, T143/T143b. Alle Fälle aus "Am wichtigsten" sind da.
