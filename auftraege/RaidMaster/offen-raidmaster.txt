@@ -1,77 +1,37 @@
-OFFENE PUNKTE RAIDMASTER (nach der Nachprüfung von 3.0.15)
-=========================================================
-Stand: 3. November 2026, 18:50 · von der Prüf-Sitzung · Grundlage: download/RaidMaster-3.0.15.zip, Bot 1.5.95, Uploader 1.6.0
-(Bot 1.5.95 nachgeprüft: alle 25 Bot-Tests OK.)
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 3.0.14.
+OFFENE PUNKTE RAIDMASTER (nach der Kurzprüfung von 3.0.17, Bot 1.5.101, Uploader 1.8.0)
+=====================================================================================
+Stand: 4. November 2026, 06:45 · von der Prüf-Sitzung
+Grundlage: download/RaidMaster-3.0.17.zip, RaidMasterBot 1.5.101, download/RaidMasterUploader.zip (1.8.0)
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand vom 3. November, 18:50.
 
-Erledigt in 3.0.15 (danke):
-- Selbsttest ersetzt keine Blizzard-Funktionen mehr (B.ReadTarget, RM.IsSecret)
-- RM.Now() statt GetServerTime; der Testmodus verschiebt nur RM.timeOffset
-- Flüstern über RM.Whisper
-- geschützte Loot-GUID -> nil
-- !dkp mit Vor- und Nachnamen, Bot find_player
-- GoldSentinelTest.lua eingebaut, Testroutine mit Sandbox
-Prüfungen: Addon-Prüfung OK, Bot py_compile und Tests 6/6 OK, RaidMaster-latest.zip identisch mit 3.0.15.
+Erledigt (danke):
+- 3.0.16: Punkte 1–4 – Testroutine 101 Prüfungen in Forever / 105 in Era (vorher 47), RM.Act, RM.API, RM.InCombat,
+  Abschluss in pcall, Sandbox-Prüfung, geschützte Werte (GUID, Signup)
+- 3.0.17: veraltete Discord-Kanalnamen in den Texten
+- Uploader 1.7.0: Wechsel auf den Forever-Ordner, GuildSentinel-Bestand, Hinweis "Ordner ersetzen" (Punkt 7)
+- Uploader 1.8.0: Testberichte (GSTEST1) an #testberichte (Punkt 6)
+- Bot 1.5.96–1.5.101: Gildenbank in einem Kanal #gildenbank (Bestand auch von GuildSentinel), #gildenbank-bestand
+  aufgelöst, AHSentinel in #ahsentinel (Veröffentlichung und Hilfe), #testberichte angelegt, Sprachkanal "Raid" geklärt,
+  noch nicht spielbare Raids ausgeblendet, gleichzeitige Updates
+  -> anweisung-raidmaster-discord-kanaele.txt, -gildenbank-ein-kanal.txt, -gildenbank-guildsentinel.txt erledigt
+Prüfungen: Addon-Prüfung OK (Ladetest, Sprachtest ohne Warnung), GitHub "Bot-Tests" grün (alle Bot-Tests),
+Discord-Prüfung vom 3. Nov. 21:34: alles im Discord, alle Kanäle da, RaidMaster 3.0.17 in #raid-addon.
 
-Bitte als 3.0.16 veröffentlichen, wenn die Punkte unten umgesetzt sind. Wie immer:
-- komplette Dateien, alte Clients nie brechen
-- LIESMICH/README_EN
-- vor dem Push: python3 addon-check/addon_check.py download/RaidMaster-3.0.16.zip  -> kein FEHLER
-- Bot-Änderungen nur mit py_compile und bestandenen Tests (RaidMasterBot/tests)
+Offen ist nur noch, was im Spiel bzw. live geprüft werden muss. Neue Wünsche kommen als eigene anweisung-*.txt.
 
-1. TESTROUTINE VERVOLLSTÄNDIGEN (Schwere: MITTEL)
-   Test/Routine.lua prüft in Forever 46 Fälle automatisch, 7 im Client, und 60 sind übersprungen mit "folgt nach dem Launch".
-   Laut testroutine-raidmaster.txt wären rund 106 Fälle automatisch.
-   a) Die übersprungenen Fälle nachziehen, vor allem B (29 übersprungen), E (5), H (5) und J (9).
-      T14b und T59 fehlen ganz. T70 wird auf alten Clients gar nicht registriert, weder geprüft noch als übersprungen
-      gemeldet (Routine.lua:487-503).
-   b) Die Pflicht-Nahtstellen aus Abschnitt 2.4 einführen:
-      - RM.Act: einzige Stelle für Aktionen mit Folgen; im Test nur mitschreiben. Heute gibt es weiter direkte Aufrufe,
-        z. B. SendChatMessage in Ad.lua:177/179.
-      - RM.API: Blizzard-Funktionen über eine eigene Tabelle aufrufen.
-      - RM.InCombat()
-   c) T:Wait (asynchrones Warten) und den Knopf "Neu laden und melden" ergänzen.
-   Die Vorlage shared/vorlage/__ADDON__/API.lua und TestRoutine.lua zeigt, wie ns.API, ns.Act und eine Sandbox aussehen
-   können.
+1. IM CLIENT PRÜFEN (Launch-Abend, im Testplan des Nutzers)
+   - die IM-CLIENT-PRÜFEN-Fälle der Testroutine, T54b
+   - Erstkill-Screenshot -> #ruhmeshalle
+   - Bank-Charakter in RaidMaster -> Bestand in #gildenbank unter den Regeln
 
-2. ABSCHLUSS DER ROUTINE OHNE SCHUTZ (Schwere: NIEDRIG)
-   Routine.lua:812-840: R.running = false steht erst ganz am Ende und ausserhalb von pcall. Wirft Compare,
-   RestoreSnapshot oder ShowExport, bleibt R.running gesetzt. Bis zum /reload meldet die Routine dann "läuft schon", und
-   die Hooks zählen weiter.
-   Lösung: den Abschluss in pcall legen und R.running in jedem Fall zurücksetzen.
+2. LIVE PRÜFEN (Launch-Abend)
+   - Uploader 1.8.0 beim Nutzer: "Wechsle zu: …" auf den Forever-Ordner nach dem ersten Login.
+   - Testberichte: Der Nutzer braucht für 1.8.0 eine neue uploader_config.json (/uploader in Discord erneut). Danach
+     kommen die GSTEST1-Berichte in #testberichte an, und der Workflow testberichte.yml legt sie unter testberichte/ ab.
+     Die Prüf-Sitzung kontrolliert das.
 
-3. FALSCHER FEHLER IN DER SANDBOX-PRÜFUNG (Schwere: NIEDRIG)
-   Routine.lua:823: Die SB-Prüfung verlangt RaidMasterTestDB == nil. R.testDBnilBefore wird gemerkt, aber nie verwendet.
-   Gab es RaidMasterTestDB schon vor dem Lauf, entsteht ein falscher FEHLER.
-   Lösung: nur prüfen, wenn RaidMasterTestDB vor dem Lauf nil war.
-
-4. GESCHÜTZTE WERTE (Schwere: NIEDRIG)
-   a) Gaps.lua:641-644: msg und sender werden auf geschützte Werte geprüft, guid = select(10, ...) nicht. G.ClassOf
-      (Gaps.lua:163) macht damit "if guid and …".
-      Lösung: if RM.IsSecret(guid) then guid = nil end.
-   b) Signup.lua:88-93: Der Köder in T54 ist eine Tabelle, deshalb besteht der Fall schon durch type(msg) ~= "string".
-      Ein echter geschützter String käme durch, und danach wird das Ergebnis von msg:match geprüft.
-      Lösung: RM.IsSecret(msg) gleich am Anfang von S.OnSystemMessage prüfen; T54 zusätzlich als "im Client prüfen"
-      führen.
-
-5. IM CLIENT PRÜFEN (Launch-Abend, im Testplan des Nutzers)
-   - Loot-GUID im Kampf
-   - T51b, T135, T136, T146, T152
-   - auf alten Clients T71 und T75
-
-6. UPLOADER UND BOT FÜR #testberichte (noch offen aus testroutine-raidmaster.txt, Teil Uploader und Bot)
-   In 3.0.15 und Bot 1.5.94 nicht enthalten. Bauen und offline testen ist möglich. Ob die Berichte wirklich in Discord
-   ankommen, lässt sich erst prüfen, wenn der Nutzer das GitHub-Secret DISCORD_BOT_TOKEN eingetragen hat (verschoben).
-
-7. UPLOADER WECHSELT NICHT AUF DEN FOREVER-ORDNER (Schwere: MITTEL – vor dem Launch)
-   uploader.py choose_path(): Steht in uploader_config.json ein savedvariables_path und die Datei existiert, wird er immer
-   genommen. Wer RaidMaster schon im Anniversary-Client hatte (z. B. .../_anniversary_/WTF/.../RaidMaster.lua), lädt nach
-   dem Forever-Start weiter die alte Anniversary-Datei hoch – still, ohne Hinweis.
-   Lösung: Bei jedem Start zusätzlich find_saved_variables() aufrufen (oder nur, wenn der gespeicherte Pfad nicht im
-   Forever-Ordner liegt). Gibt es eine neuere RaidMaster.lua als die gespeicherte, im Fenster melden und auf die neueste
-   wechseln (mit Zeile "Wechsle zu: …"). Die Suche nur alle paar Minuten wiederholen, nicht bei jedem Takt.
-   Ausserdem in LIESMICH.txt / README_EN.txt ergänzen: Beim Update den Ordner ERSETZEN, nicht hineinentpacken (sonst
-   entsteht RaidMasterUploader/RaidMasterUploader und uploader.bat startet weiter die alte Version) – uploader_config.json
-   vorher sichern und danach wieder hineinlegen. Die Versionsnummer beim Start im Fenster anzeigen, falls noch nicht.
+3. HINWEIS FÜR KÜNFTIGE VERSIONEN
+   - Neue Bot-Module in .github/workflows/bot-tests.yml beim Import-Schritt ergänzen.
+   - download/RaidMasterUploader.zip muss zum Ordner RaidMasterUploader/ passen (prüft "Bot-Tests").
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
