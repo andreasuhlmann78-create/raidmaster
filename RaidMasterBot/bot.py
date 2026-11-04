@@ -3980,7 +3980,8 @@ def _announce_channel_quiet(fn: str):
 async def remove_deleted_announcements():
     """Ankündigungen, deren Datei im Repo gelöscht wurde: Der Updater legt sie bei einem GitHub-Update nach
     announce_entfernt/. Hier löscht der Bot seine Beiträge dazu im Discord (nur eigene Nachrichten) und danach
-    die Datei. Schutz: mehr als announce_delete_max (Standard 5) auf einmal -> nichts löschen, nur melden."""
+    die Datei. Schutz: Haben mehr als announce_delete_max (Standard 5) davon noch Beiträge im Discord -> nichts
+    löschen, nur melden. Ältere, längst ersetzte Fassungen einer Reihe zählen nicht mit (ab Bot 1.5.101)."""
     if not os.path.isdir(ANNOUNCE_REMOVED_DIR):
         return
     files = sorted(fn for fn in os.listdir(ANNOUNCE_REMOVED_DIR)
@@ -3988,13 +3989,15 @@ async def remove_deleted_announcements():
     if not files or bot_guild() is None:
         return
     limit = int(cfg.get("announce_delete_max", 5) or 0)
-    if len(files) > limit:
+    live = updater.announce_live(files, state.data.get("announced") or [], state.data.get("announce_msgs") or {},
+                                 announce_series)
+    if len(live) > limit:
         if state.data.get("announce_delete_warned") != files:
             state.data["announce_delete_warned"] = files
             state.save()
-            await post_bot_log(f"⚠️ **{len(files)} Ankündigungen** wurden im Repo gelöscht – mehr als {limit} auf einmal, "
-                               "darum lösche ich ihre Beiträge im Discord NICHT von selbst:\n"
-                               + "\n".join(f"• {fn}" for fn in files[:30])
+            await post_bot_log(f"⚠️ **{len(live)} Ankündigungen** mit Beiträgen im Discord wurden im Repo gelöscht – mehr "
+                               f"als {limit} auf einmal, darum lösche ich ihre Beiträge im Discord NICHT von selbst:\n"
+                               + "\n".join(f"• {fn}" for fn in live[:30])
                                + "\nWenn das so gewollt ist: in config.json `\"announce_delete_max\"` erhöhen und den Bot "
                                "neu starten.")
         return

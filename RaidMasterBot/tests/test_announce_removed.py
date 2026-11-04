@@ -69,5 +69,43 @@ class MirrorRemovals(unittest.TestCase):
         self.assertEqual(updater.mirror_announce_removals(["a.md"], self.base), [])
 
 
+import re  # noqa: E402
+
+_VER = re.compile(r"^(?P<series>.+?)[-_ ]v?(?P<ver>\d+(?:\.\d+)+)(?P<rest>.*)$")   # wie ANNOUNCE_VER in bot.py
+
+
+def series_of(fn):
+    stem = fn[:-3] if fn.endswith(".md") else fn
+    m = _VER.match(stem)
+    if "__" not in stem or not m or "__" not in m.group("series"):
+        return None, None
+    return m.group("series").lower(), tuple(int(x) for x in m.group("ver").split("."))
+
+
+class Live(unittest.TestCase):
+    """Schutz announce_delete_max zählt nur Dateien, die noch Beiträge im Discord haben (Bot 1.5.101)."""
+    HILFE = [f"addon-hilfe__ahanalyzerpro-hilfe-{v}.md"
+             for v in ("0.60.0", "0.60.1", "0.60.7", "0.60.10", "0.61.0", "0.62.0", "0.65.3")]
+
+    def test_sieben_fassungen_nur_neueste_zaehlt(self):
+        rec = {self.HILFE[-1]: {"ch": 1, "ids": [10, 11]}}
+        live = updater.announce_live(self.HILFE, self.HILFE, rec, series_of)
+        self.assertEqual(live, ["addon-hilfe__ahanalyzerpro-hilfe-0.65.3.md"])
+
+    def test_ohne_gespeicherte_ids_neueste_zaehlt(self):
+        # vor Bot 1.5.95 gepostet: keine IDs gespeichert, die neueste Fassung (0.60.10 > 0.60.7!) zählt trotzdem
+        files = self.HILFE[:4]
+        self.assertEqual(updater.announce_live(files, files, {}, series_of), ["addon-hilfe__ahanalyzerpro-hilfe-0.60.10.md"])
+
+    def test_ohne_version_und_nie_gepostet(self):
+        files = ["a__ohne-version.md", "b__nie-gepostet-1.0.md"]
+        self.assertEqual(updater.announce_live(files, ["a__ohne-version.md"], {}, series_of), ["a__ohne-version.md"])
+
+    def test_viele_eigene_beitraege_zaehlen_alle(self):
+        files = [f"k{i}__x-1.0.md" for i in range(7)]
+        rec = {f: {"ids": [i]} for i, f in enumerate(files)}
+        self.assertEqual(len(updater.announce_live(files, files, rec, series_of)), 7)
+
+
 if __name__ == "__main__":
     unittest.main()

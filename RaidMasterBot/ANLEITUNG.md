@@ -238,7 +238,7 @@ Alles, was im GitHub-Repository im Ordner **`announce`** landet, postet der Bot 
 - Ältere Kurzform: `raid-addon-….md` → #raid-addon. (`aktionshaus-….md` postet der Bot ab 1.5.98 nicht mehr – AHSentinel steht in #ahsentinel.)
 - **Datei gelöscht = Beitrag gelöscht (ab Bot 1.5.95):** Wird eine Ankündigung im Repo gelöscht, entfernt der Bot nach
   dem nächsten GitHub-Update seine Beiträge dazu im Discord (nur eigene Nachrichten). Das gilt nur für Updates von
-  GitHub, nicht für `/update datei:`. Schutz: Sind es mehr als 5 auf einmal, löscht der Bot nichts und meldet die Liste
+  GitHub, nicht für `/update datei:`. Schutz: Haben mehr als 5 davon noch Beiträge im Discord (ältere, längst ersetzte Fassungen einer Reihe zählen ab 1.5.101 nicht mit), löscht der Bot nichts und meldet die Liste
   in #bot-befehle – gewollt? In `config.json` `"announce_delete_max"` erhöhen und neu starten.
   Gelöscht ist gelöscht – der Text bleibt aber in der Git-Historie des Repos.
 

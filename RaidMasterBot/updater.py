@@ -231,6 +231,29 @@ def announce_stem(fn: str) -> str:
 ANNOUNCE_REMOVED_DIR = "announce_entfernt"
 
 
+def announce_live(files, announced, rec, series_of) -> list[str]:
+    """Welche der gelöschten Ankündigungen haben noch Beiträge im Discord? (für den Schutz announce_delete_max)
+    - mit gespeicherten Nachrichten (announce_msgs) -> ja
+    - ohne, aber gepostet und die neueste gepostete Fassung ihrer Reihe (bzw. ohne Versionsnummer) -> ja
+    - ältere Fassungen einer Reihe: deren Beiträge hat der Bot schon beim Posten der neueren ersetzt -> nein
+    series_of(fn) -> (Reihe, Versions-Tupel) oder (None, None)."""
+    newest = {}
+    for fn in announced:
+        s_, v_ = series_of(fn)
+        if s_ and (s_ not in newest or v_ > newest[s_]):
+            newest[s_] = v_
+    live = []
+    for fn in files:
+        r = rec.get(fn) or {}
+        if r.get("ids"):
+            live.append(fn)
+        elif fn in announced:
+            s_, v_ = series_of(fn)
+            if not s_ or newest.get(s_, v_) <= v_:
+                live.append(fn)
+    return live
+
+
 def mirror_announce_removals(repo_files, base: str) -> list[str]:
     """Ankündigungen, die im Repo gelöscht wurden, auch auf dem Server entfernen (nur bei einem vollständigen
     GitHub-Update aufrufen). Die .md-Datei und ihre Anhänge kommen nach announce_entfernt/ – der Bot löscht
