@@ -1,68 +1,38 @@
-OFFENE PUNKTE THREATSENTINEL (nach der Nachprüfung von 2.4.4)
+OFFENE PUNKTE THREATSENTINEL (nach der Nachprüfung von 2.4.5)
 ============================================================
-Stand: 3. November 2026, 10:50 · von der Prüf-Sitzung · Grundlage: download/ThreatSentinel-2.4.4.zip
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 2.4.3.
+Stand: 4. November 2026, 07:00 · von der Prüf-Sitzung · Grundlage: download/ThreatSentinel-2.4.5.zip
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 2.4.4.
 
-Erledigt in 2.4.4 (danke):
-- Punkt 1a–c (Erkennung, nur für diesen Kampf, ANZEIGE im Kampf)
-- Punkt 2 (Modus ANZEIGE ohne eigene Entscheidungen)
-- Punkt 3 (Blizzard-Anzeigen)
-- Punkt 4 (Client-Simulation)
-- Punkt 5 im Code
-- Testroutine mit 174 von 175 Fällen, sicherer Sandbox und ns.Act
-- GoldSentinelTest.lua eingebaut
-Prüfungen: Addon-Prüfung OK, Lua 5.1 fehlerfrei.
+Erledigt in 2.4.5 (danke):
+- Punkt 1: Ankündigung und CHANGELOG EN/DE sagen klar, dass 2.0.0 bis 2.4.3 nicht luden
+- Punkt 2: API.lua (ns.API, 56 Einträge, beim Laden aus _G übernommen, fehlende bleiben nil), in der .toc direkt nach
+  den gemeinsamen Dateien; alle Module rufen über "local API = ns.API" auf; keine Blizzard-Funktion ersetzt.
+  Dadurch laufen u. a. T164, T167, T166b, T15, T17–T19, T61, T84, T90, T98–T105, T107, T108, T113–T115, T150, T152, T156
+- Punkt 3: stille Fehler (Log, Plaketten, Mover, CVars, Notfall-Kurve) melden an GoldSentinelTest.Error
+- Punkt 4: jeder Schritt der Testroutine in pcall, im Fehlerfall immer zurückgesetzt
+- Punkt 5: T131, T161 neu, Bildschirmfoto über ns.Act, Testknöpfe nur für den Entwickler
+Prüfungen: Addon-Prüfung OK ohne Warnung (Ladetest Forever und Era, Sprachtest). Offline laut Sitzung Forever 119 OK,
+Era 124 OK ohne Lua-Fehler; die übrigen Fehlschläge (T02, T09, T20, T34, T39, T76, T133, T168, T169, CVar) gab es im
+Nachbau schon mit 2.4.4 – sie gelten als Schwäche des Nachbaus, das Spiel entscheidet.
 
-WICHTIG ZUM LADEFEHLER (von der Prüf-Sitzung mit dem neuen Ladetest nachgeprüft):
-ALLE Versionen von 2.0.0 bis 2.4.3 luden im Spiel nicht. Core.lua ruft ns:On auf (2.0.0: Zeile 678, 2.4.3: Zeile 702),
-definiert wird die Funktion aber erst weiter unten (2.0.0: Zeile 955, 2.4.3: Zeile 1017). Core.lua bricht dort ab, danach
-alle Module. 2.4.4 behebt das (Core.lua:1061-1062); der Kommentar "seit 2.0.0" in Core.lua:1058 stimmt.
-Folge: Alles, was seit 2.0.0 dazukam, wurde im Spiel nie getestet. Der erste echte Forever-Kampf am 5. November ist der erste
-Test überhaupt. Die Addon-Prüfung lädt ab jetzt jedes Addon einmal im nachgebauten Spiel und lässt so etwas nicht mehr durch.
+Bitte erst NACH dem Launch-Abend, mit den Ergebnissen aus dem Spiel, als 2.4.6. Vorher nur Fehlerbehebungen.
 
-Bitte als 2.4.5 veröffentlichen. Wie immer: komplette Dateien, alte Clients nie brechen, Locales EN/DE, CHANGELOG EN/DE,
-vor dem Push python3 addon-check/addon_check.py download/ThreatSentinel-2.4.5.zip -> kein FEHLER.
+1. ÜBERSPRUNGENE TESTFÄLLE (Schwere: MITTEL – nach dem Launch)
+   Etwa 33 Fälle in B sowie T97, T136, T138 und T153 laufen noch nicht, weil die Routine nachgebaute Plaketten und
+   Mobs über mehrere Module bräuchte. Lösung: eine kleine Test-Kulisse in der Testroutine (Test-Einheiten über
+   ns.API.UnitExists/UnitName/UnitGUID/UnitCanAttack/UnitDetailedThreatSituation, Plaketten über ns.API.C_NamePlate),
+   dann die Fälle schrittweise umsetzen. Bis dahin im Bericht "nicht automatisiert: N" zählen.
 
-1. ANKÜNDIGUNG UND CHANGELOG ZUM LADEFEHLER RICHTIGSTELLEN (Schwere: MITTEL)
-   announce/threatsentinel__threatsentinel-2.4.4.md und CHANGELOG*.md:4 schreiben nur "konnte einen Lua-Fehler melden".
-   Tatsächlich lud das Addon von 2.0.0 bis 2.4.3 überhaupt nicht.
-   Lösung: In der Ankündigung zu 2.4.5 und im CHANGELOG klar schreiben: "2.0.0 bis 2.4.3 luden nicht – bitte unbedingt
-   aktualisieren." Der Kommentar in Core.lua:1058 ("seit 2.0.0") ist belegt und kann bleiben.
+2. T106 UND DIE ÜBRIGEN C_-TABELLEN (Schwere: NIEDRIG)
+   T106 entfällt laut Sitzung, weil C_ChatInfo, C_CVar und C_AddOns nicht über ns.API laufen. Lösung: diese drei in
+   API.NAMES aufnehmen, die Aufrufe darauf umstellen und T106 wieder einführen (fehlende Tabelle simulieren).
 
-2. NAHTSTELLE ns.API (Schwere: MITTEL – nachtrag-testroutinen.txt Punkt 1)
-   TestRoutine.lua:285, 839-843, 864-869: 36 Fälle in B, 11 in C und die Regressionstests T164 und T167 werden übersprungen,
-   "weil ns.API fehlt". Die Abnahme verlangt T164–T175 OK. Einige brauchen nicht einmal eine ersetzte Blizzard-Funktion,
-   z. B. T61 P:Inspect, T84 Sichtbarkeit, T90 Optionen an/aus.
-   Lösung: Eine Tabelle ns.API anlegen, für UnitDetailedThreatSituation, UnitName/UnitExists, InCombatLockdown, Zauber- und
-   Auren-Funktionen. Alle Aufrufe darüber führen und die Tests auf diese Tabelle stützen. Vorbild:
-   shared/vorlage/__ADDON__/API.lua.
-
-3. STILLE FEHLER MELDEN (Schwere: MITTEL – testroutine-threatsentinel.txt Abschnitt 6.2)
-   Diese Stellen melden noch nichts an GoldSentinelTest.Error:
-   - Log intern (Log.lua: internalErrors, Guarded, Wrap)
-   - Nameplates RestoreFrame
-   - Mover-Ticks
-   - CVar setzen in ThreatAccess
-   - Notfall-Kurve in Alerts (emergFailed)
-   Lösung: Dort zusätzlich "if GoldSentinelTest then GoldSentinelTest.Error(ADDON, wo, msg) end" aufrufen, ohne den
-   eigenen errorCount zu erhöhen.
-
-4. EIN FEHLER BEIM ZURÜCKSETZEN LEGT DAS ADDON STILL (Schwere: MITTEL)
-   TestRoutine.lua:1364-1379 und 1449-1463: RestoreSandbox und Finish laufen ohne pcall. Wirft eines davon, bleiben
-   ns.routineRunning und ns.actLog gesetzt. Dann stehen alle Ticker still (Threat, Meter, Specs, Sync, Log), und echte
-   Aktionen (Chat, Töne, CVars) werden bis zum /reload nur noch mitgeschrieben.
-   Lösung: step in pcall packen. Im Fehlerfall immer routineRunning = false und actLog = nil setzen und den Fehler melden.
-
-5. KLEINIGKEITEN (Schwere: NIEDRIG)
-   a) T131 ("Keine neuen Globals": _G-Schlüssel vor und nach der Routine vergleichen) und T161 ("Fehlerzahl in der
-      Diagnose-Zeile L.D_ERRORS") fehlen.
-   b) Log.lua:349: pcall(Screenshot) direkt. Die Aktion über ns.Act führen: pcall(ns.Act, "shot", Screenshot).
-   c) TestMode.lua:665-688: "Alles testen" und die Knöpfe A–J sieht jeder Spieler, auch ohne GoldSentinelDev. Die Knöpfe nur
-      anlegen, wenn ns:RequireDev() erfüllt wäre (Prüfung ohne Ausgabe).
-
-6. IM CLIENT PRÜFEN (Launch-Abend, im Testplan des Nutzers)
-   - Entscheid des Nutzers zu TBC: In Era und TBC zählt der Meter, die Spott-Meldung kommt, und es gibt kein
-     "Addon geblockt" (T117).
-   - In Forever: erster echter Kampf mit den Punkten 1–3 aus 2.4.3, T154, T174, T177.
+3. IM CLIENT PRÜFEN (Launch-Abend, im Testplan des Nutzers)
+   - Forever: Interface-Nummer (/dump select(4, GetBuildInfo())), erster echter Kampf mit /ts bedrohung, T154 (Bericht
+     "Blocked: none"), T174 ("Fehler: 0"), T177
+   - Era und TBC: Meter zählt, "Spott widerstanden" kommt, kein "Addon geblockt" (T117)
+   - einmal /ts testroutine, Bericht kommt über den Uploader 1.8.0 nach #testberichte
+   - die Fälle, die nur im Nachbau fehlschlagen (T02, T09, T20, T34, T39, T76, T133, T168, T169, CVar): bestehen sie
+     im Spiel?
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
