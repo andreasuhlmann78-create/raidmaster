@@ -264,6 +264,12 @@ class RaidBot(discord.Client):
             except Exception:
                 log.exception("Sprachkanal AFK konnte nicht verschoben werden")
             try:
+                rep = await clear_channels_once()
+                if rep:
+                    await post_bot_log("\n".join(rep))
+            except Exception:
+                log.exception("Kanäle konnten nicht geleert werden")
+            try:
                 rep = await remove_unused_channels_once()
                 if rep:
                     await post_bot_log("\n".join(rep))
@@ -4080,6 +4086,41 @@ def _config_ids(value) -> set:
     elif isinstance(value, str) and value.isdigit():
         out.add(int(value))
     return out
+
+
+async def clear_channels_once() -> list[str]:
+    """Kanäle aus server_setup.CLEAR_CHANNELS_ONCE einmal leeren (z. B. #mc-dkp mit Test-DKP vor dem Serverstart).
+    Danach vergisst der Bot seine DKP-Liste in diesem Kanal: eine neue kommt erst mit neuen DKP-Daten aus dem Addon."""
+    guild = bot_guild()
+    if guild is None:
+        return []
+    done = state.data.setdefault("cleared_channels", {})
+    report = []
+    for name, tag in server_setup.CLEAR_CHANNELS_ONCE.items():
+        if done.get(name) == tag:
+            continue
+        ch = next((c for c in guild.text_channels if c.name.casefold() == name.casefold()), None)
+        if ch is None:
+            done[name] = tag
+            state.save()
+            continue
+        perms = ch.permissions_for(guild.me)
+        if not (perms.manage_messages and perms.read_message_history):
+            report.append(f"⚠️ #{ch.name} nicht geleert – dem Bot fehlt dort „Nachrichten verwalten“.")
+            continue
+        try:
+            n = await server_setup.clear_channel(ch, "RaidMaster: Kanal einmal geleert (" + tag + ")")
+        except discord.HTTPException as e:
+            report.append(f"⚠️ #{ch.name} nicht vollständig geleert: {e} – ich versuche es beim nächsten Start nochmal.")
+            continue
+        msgs = state.data.setdefault("dkp_messages", {})
+        for pool in list(msgs):
+            if dkp_channel_for(pool) == ch.id:
+                msgs.pop(pool, None)
+        done[name] = tag
+        state.save()
+        report.append(f"🧹 #{ch.name} geleert ({n} Nachricht{'en' if n != 1 else ''}, angeheftete bleiben).")
+    return report
 
 
 async def remove_unused_channels_once() -> list[str]:

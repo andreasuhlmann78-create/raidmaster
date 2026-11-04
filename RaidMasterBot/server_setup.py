@@ -924,6 +924,18 @@ DUNGEONS = "🗝️ DUNGEONS"
 
 GENERAL = "💬 ALLGEMEIN"
 
+# Einmal leeren (Kanalname -> Kennung): Läuft je Kennung genau einmal (state "cleared_channels"). Für einen neuen
+# Durchgang eine neue Kennung eintragen. Angeheftete Nachrichten bleiben stehen.
+CLEAR_CHANNELS_ONCE = {
+    "mc-dkp": "start-wow-forever-2026-11-04",    # Test-DKP vor dem Serverstart entfernen (Wunsch Gildenleitung)
+}
+
+
+async def clear_channel(channel, reason: str) -> int:
+    """Alle Nachrichten im Kanal löschen, ausser angehefteten. Liefert die Anzahl gelöschter Nachrichten."""
+    deleted = await channel.purge(limit=None, check=lambda m: not m.pinned, reason=reason)
+    return len(deleted)
+
 
 async def move_afk_to_general(guild: discord.Guild) -> list[str]:
     """Sprachkanal AFK nach 💬 ALLGEMEIN verschieben (ab Bot 1.5.99; die Kategorie 🔊 SPRACHE entfällt).

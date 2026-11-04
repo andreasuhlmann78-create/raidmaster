@@ -287,6 +287,7 @@ Für die Lua-Prüfung braucht der Bot `lupa` (steht in `requirements.txt`, wird 
   `/handwerk Feuerschutz` (wer kann das herstellen?) und `/berufe` (Übersicht) bzw. `/berufe Name`.
 - **DKP-Nachricht:** Nach jedem Raid bekommt jeder Teilnehmer mit Discord-Profil eine Direktnachricht: verdient,
   ausgegeben, gewonnene Items, neuer Stand. Abbestellen: `/dkp-nachricht aus`. Ganz ausschalten: `"raid_dms": false`.
+- **#mc-dkp vor dem Serverstart geleert (Bot 1.5.102):** einmalig, angeheftete Nachrichten bleiben. Eine neue DKP-Liste postet der Bot erst, wenn neue DKP-Daten aus dem Addon kommen. Weitere Kanäle einmal leeren: `CLEAR_CHANNELS_ONCE` in `server_setup.py`.
 - **Verfall:** 10 % jeden Mittwoch nach dem Raid-Reset (bucht das Addon). Die DKP-Liste im Discord zeigt
   „Verfall: 10 % jeden Mittwoch · zuletzt …“.
 
