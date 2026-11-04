@@ -27,6 +27,14 @@ Bitte erst NACH dem Launch-Abend, mit den Ergebnissen aus dem Spiel, als 2.4.6. 
    T106 entfällt laut Sitzung, weil C_ChatInfo, C_CVar und C_AddOns nicht über ns.API laufen. Lösung: diese drei in
    API.NAMES aufnehmen, die Aufrufe darauf umstellen und T106 wieder einführen (fehlende Tabelle simulieren).
 
+3a. ERGEBNIS IM SPIEL (5. Nov. 00:57, Forever 1.60.1 Build 70790, Interface 16001, deDE)
+   OK 127 · FEHLER 1 · übersprungen 50 · im Client prüfen 12. Sandbox, CVars, Tasten unverändert, echte Aktionen 0,
+   Fehlerzähler 0, gesperrte Aktionen 0. Bedrohung im Kampf: "secret" -> Modus ANZEIGE (wie vorgesehen erkannt und
+   gespeichert). Die 6 "Selbsttest"-Fehler sind absichtlich ausgelöst (Prüfung des Fehler-Abgriffs).
+   FEHLER T22 (Schwere: NIEDRIG): ns:FullName für den eigenen Charakter liefert nicht "<Name> ohne Realm".
+   Lösung: Bei UnitFullName("player") in Forever den Realm abschneiden bzw. wie die anderen Addons GoldSentinelGame
+   (Namen ohne Realm) benutzen; Fall T22 danach im Spiel erneut prüfen. Mit 2.4.6, nach der Pause.
+
 3. IM CLIENT PRÜFEN (Launch-Abend, im Testplan des Nutzers)
    - Forever: Interface-Nummer (/dump select(4, GetBuildInfo())), erster echter Kampf mit /ts bedrohung, T154 (Bericht
      "Blocked: none"), T174 ("Fehler: 0"), T177
