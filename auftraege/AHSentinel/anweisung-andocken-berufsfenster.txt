@@ -26,3 +26,11 @@ REGEL (für beide verbindlich)
 6. CHANGELOG EN/DE, vor dem Push python3 addon-check/addon_check.py <ZIP> -> kein FEHLER.
 
 Ist etwas daran falsch oder nicht machbar, bitte dem Nutzer begründet zurückmelden.
+
+NACHTRAG (5. November, 04:30 – Befund aus dem Spiel, gehört zur selben Ausnahme)
+Das AHSentinel-Gewinn-Fenster verdeckt die Reiter der Berufe, die WoW Forever rechts am Berufsfenster zeigt
+(senkrechte Symbolleiste: Schmiedekunst, Bergbau, Angeln, Kochen … – auf dem zweiten Bild des Nutzers sichtbar).
+Lösung: rechts NEBEN dieser Reiterleiste andocken, nicht direkt am Fensterrand: den äussersten sichtbaren Reiter bzw.
+dessen Container als Anker nehmen (rechte Kante + Abstand), ohne Reiter wie bisher. Die Reiter von Blizzard nie
+überdecken. ProfessionSentinel dockt dann wie vereinbart rechts an das AHSentinel-Fenster.
+IM CLIENT PRÜFEN: Berufsfenster öffnen – alle Berufsreiter sichtbar und anklickbar.
