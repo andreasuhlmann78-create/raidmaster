@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-05 12:00 UTC
+Ausgewertet: 2026-11-05 14:38 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -9,7 +9,7 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 | AHSentinel | 05.11.2026 02:35 UTC | 0.65.8 | forever 1.60.1 (Interface 16001) | 235 | 1 | 18 | 9 | 0 |
 | BuffSentinel | 05.11.2026 00:19 UTC | 0.9.7 | forever 1.60.1 (Interface 16001) | 120 | 1 | 10 | 11 | 0 |
 | GuildSentinel | 05.11.2026 00:14 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 153 | 4 | 23 | 5 | 0 |
-| LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 588 |
+| LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 847 |
 | ProfessionSentinel | 05.11.2026 00:17 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 144 | 6 | 9 | 13 | 0 |
 | RaidMaster | 05.11.2026 00:07 UTC | 3.0.17 | forever 1.60.1 (Interface 16001) | 98 | 3 | 10 | 12 | 0 |
 | ThreatSentinel | 05.11.2026 00:04 UTC | 2.4.5 | forever 1.60.1 (Interface 16001) | 127 | 1 | 50 | 12 | 12 |
@@ -113,7 +113,7 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 **Testlauf 3.12.6 · forever 1.60.1 (Interface 16001) · 05.11.2026 00:21 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
 
 **Fehler im Spiel (letzte 7 Tage)**
-- 588× `Protokoll CheckNav`: Interface/AddOns/LevelPilot/Protocol.lua:235: attempt to compare a secret number value (execution tainted by 'LevelPilot') – Version 3.12.6 · forever 1.60.1 (Interface 16001) · zuletzt 05.11.2026 02:22 UTC
+- 847× `Protokoll CheckNav`: Interface/AddOns/LevelPilot/Protocol.lua:235: attempt to compare a secret number value (execution tainted by 'LevelPilot') – Version 3.12.6 · forever 1.60.1 (Interface 16001) · zuletzt 05.11.2026 14:24 UTC
 
 ## ProfessionSentinel
 

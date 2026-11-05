@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-05T12:00:45Z",
+ "ausgewertet": "2026-11-05T14:38:42Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -114,7 +114,7 @@
    "fehler_spiel": []
   },
   "LevelPilot": {
-   "berichte": 7,
+   "berichte": 9,
    "letzter_test": {
     "id": "LevelPilot-1793838099-fe4a80-12",
     "version": "3.12.6",
@@ -133,7 +133,7 @@
      "art": "spiel",
      "wo": "Protokoll CheckNav",
      "msg": "Interface/AddOns/LevelPilot/Protocol.lua:235: attempt to compare a secret number value (execution tainted by 'LevelPilot')",
-     "anzahl": 588,
+     "anzahl": 847,
      "versionen": [
       "3.12.6"
      ],
@@ -447,7 +447,7 @@
    "art": "spiel",
    "wo": "Protokoll CheckNav",
    "msg": "Interface/AddOns/LevelPilot/Protocol.lua:235: attempt to compare a secret number value (execution tainted by 'LevelPilot')",
-   "anzahl": 588,
+   "anzahl": 847,
    "versionen": [
     "3.12.6"
    ],
