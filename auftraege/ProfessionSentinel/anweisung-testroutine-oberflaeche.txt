@@ -1,0 +1,28 @@
+ANWEISUNG: TESTROUTINE PRÜFT DIE OBERFLÄCHE IM ECHTEN CLIENT (alle Addons)
+=========================================================================
+Stand: 5. November 2026, 13:30 · von der Prüf-Sitzung · Wunsch des Nutzers: ab jetzt bei allen Addons
+Umsetzen NACH DER PAUSE (ab 9. Nov.), ausser die Sitzung arbeitet ohnehin gerade an einer Ausnahme.
+
+Anlass (Live-Test 5. Nov.): eigene Tooltips verdeckten Knöpfe (LevelPilot), Fenster lagen übereinander
+(AHSentinel/ProfessionSentinel am Berufsfenster), Anzeigen rechneten mit falschen Spielwerten (ProfessionSentinel
+Fertigkeit 0 statt 110). Die Offline-Tests konnten das nicht sehen. Die Testroutine soll es künftig selbst finden.
+
+Neue Fälle in /<befehl> testroutine (Bereich "UI im Client", eigene T-Nummern, im echten Client ausgeführt):
+1. KEIN VERDECKEN DURCH EIGENE TOOLTIPS: für jedes eigene Element mit OnEnter-Tooltip OnEnter auslösen, danach
+   GameTooltip:GetRect() mit den Rechtecken aller eigenen Knöpfe/Eingabefelder desselben Fensters vergleichen
+   (ausser dem Element selbst). Überschneidung -> FEHLER mit Namen von Element und Knopf. Danach OnLeave.
+2. KEIN ÜBERLAPPEN MIT ANDEREN FENSTERN: Rechteck jedes sichtbaren eigenen Fensters gegen Blizzard-Fenster, an die
+   es andockt (z. B. ProfessionsFrame/TradeSkillFrame, MerchantFrame, AuctionHouseFrame), und gegen sichtbare
+   Fenster der anderen GoldSentinel-Addons prüfen. Überschneidung -> FEHLER (angedockt nebeneinander ist erlaubt).
+3. INNERHALB DES BILDSCHIRMS: jedes sichtbare eigene Fenster und jeder eigene Tooltip liegt ganz in UIParent.
+4. TEXT PASST: eigene FontStrings mit fester Breite: GetStringWidth() <= GetWidth() bzw. keine ungewollte
+   zweite Zeile (z. B. Platzhalter in Suchfeldern). Zu lang -> WARNUNG-Fall (FEHLER nur bei abgeschnittenen Knöpfen).
+5. SPIELWERTE PLAUSIBEL: jeden Wert, den das Addon aus dem Spiel liest und anzeigt (Fertigkeit, Stufe, Position,
+   Questlog, Geld …), im echten Client gegen eine zweite Quelle bzw. Grenzen prüfen: z. B. Fertigkeit > 0, wenn
+   der Beruf gelernt ist; Questlog "N fertig" = Anzahl Einträge "Abgeben" in der eigenen Liste. Abweichung -> FEHLER.
+6. KEINE FEHLERSCHLEIFEN: nach dem Lauf GoldSentinelTest-Fehlerzähler prüfen – dieselbe Meldung mehr als 10× in
+   der Sitzung -> FEHLER (Anlass: LevelPilot 588× "secret number value").
+Fehlt das Fenster (z. B. Berufsfenster zu), den Fall begründet überspringen ("HALB: Berufsfenster öffnen …").
+Nur lesen, nichts verändern, Sandbox gilt. Locales EN/DE, CHANGELOG EN/DE, vor dem Push
+python3 addon-check/addon_check.py <ZIP> -> kein FEHLER.
+Die Prüf-Sitzung nimmt die Fälle 1–6 nach der Pause auch in die Vorlage (shared/vorlage) auf.
