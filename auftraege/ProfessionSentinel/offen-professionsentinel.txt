@@ -53,4 +53,11 @@ Offen ist nur noch, was im Spiel geprüft werden muss. Neue Wünsche kommen als 
    Zeilen danach neu zeichnen; Quelle des Fertigkeitswerts im modernen Client prüfen (aktuelle, nicht die
    Start-Fertigkeit). Testfall: Fertigkeit simuliert +1 -> Anzeige "N× bis Gelb" sinkt.
 
+5. STAND 0.9.14 (5. Nov. 06:45, Prüf-Sitzung): Addon-Prüfung OK. Andocken (GetDockFrame, Testfall T188) und T63
+   ("%" als "%%") umgesetzt. Die drei gemeldeten Abweichungen sind angenommen: angedockt nicht verschiebbar (frei nur
+   ohne Berufsfenster), Nachsuche sofort + 0,3 s, Neu-Andocken auch im Kampf (kein geschützter Frame). AHSentinel wird
+   gebeten, GetDockFrame(true) auch verborgen zu liefern – sobald da, die Nachsuche durch OnShow/OnHide ersetzen
+   (nach der Pause). Im Spiel offen: T188 und T63 erneut, sobald AHSentinel 0.65.9 installiert ist; Punkt 4 Lebenslinie
+   bleibt bis nach der Pause offen.
+
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.

@@ -34,3 +34,10 @@ Lösung: rechts NEBEN dieser Reiterleiste andocken, nicht direkt am Fensterrand:
 dessen Container als Anker nehmen (rechte Kante + Abstand), ohne Reiter wie bisher. Die Reiter von Blizzard nie
 überdecken. ProfessionSentinel dockt dann wie vereinbart rechts an das AHSentinel-Fenster.
 IM CLIENT PRÜFEN: Berufsfenster öffnen – alle Berufsreiter sichtbar und anklickbar.
+
+NACHTRAG (5. Nov. 06:45, nach ProfessionSentinel 0.9.14 – geprüft, OK)
+ProfessionSentinel ruft AHAnalyzerPro.Crafting:GetDockFrame() auf (UI.lua:1474-1483). Weil die Funktion nur den
+SICHTBAREN Frame liefert, sucht PS nach dem Öffnen zweimal nach (sofort und nach 0,3 s). Robuster, bitte in 0.65.9:
+- Name bleibt GetDockFrame() (PS nutzt genau diesen).
+- Zusätzlich GetDockFrame(true) -> den Frame auch verborgen zurückgeben, damit PS sich direkt an OnShow/OnHide hängen
+  kann. Ohne Argument wie bisher: sichtbarer Frame oder nil (alte Aufrufe bleiben gültig).
