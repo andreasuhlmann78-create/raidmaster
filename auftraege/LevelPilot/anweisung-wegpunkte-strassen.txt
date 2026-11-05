@@ -1,0 +1,24 @@
+ANWEISUNG: GENAUE WEGE STATT LUFTLINIE (Wunsch des Nutzers, 5. Nov. 16:56)
+=========================================================================
+Umsetzen NACH DER PAUSE (ab 9. Nov.). Die Sofortmassnahme aus der Ausnahme (Route in Forever notfalls aus) bleibt
+bis dahin gültig. Wichtigste Vorgabe des Nutzers: GENAU – die Route darf NIE ins Nirgendwo oder übers Gebirge führen.
+Lieber keine Linie als eine falsche.
+
+Hintergrund: Im Spiel gibt es keine API für Gelände oder Begehbarkeit. Die Route muss darum aus mitgelieferten,
+geprüften Wegpunkten bestehen.
+1. Wegnetz als Daten: pro Zone Knoten (Koordinaten auf der Zonenkarte, UiMapID) und Kanten entlang von Strassen,
+   Pfaden, Brücken, Pässen, Aufzügen (z. B. Thunder Bluff). Quelle: von Hand bzw. aus eigenen Aufzeichnungen im
+   Spiel (Punkt 3), Zonen-/Kartentabellen von wago.tools für UiMapID und Umrechnung. KEINE Spieldateien oder
+   Kartenbilder ins Addon kopieren (Blizzard-Nutzungsbedingungen) – nur eigene Koordinatenlisten.
+2. Route: vom nächsten Knoten des Spielers über das Netz (Dijkstra/A*) zum Knoten nächst dem Ziel; nur das letzte
+   Stück (< ca. 40 Yards, gleiche Höhe/offenes Gelände laut Netz) als Luftlinie. Liegt ein Ziel nicht am Netz
+   oder ist keine Verbindung bekannt: KEINE Linie zeichnen, nur Richtungspfeil + Text "Weg unbekannt".
+3. Aufzeichnen im Spiel (für den Nutzer, Befehl z. B. /lp weg aufnehmen): beim Laufen alle paar Yards die eigene
+   Position speichern; daraus werden geprüfte Kanten. Damit wächst das Netz nur aus wirklich gelaufenen Wegen.
+4. Genauigkeit prüfen: Zielkoordinaten aus dem Questdatenpaket gegen die Forever-Karte prüfen (siehe Befund
+   Mulgore); offensichtlich falsche Ziele nicht anzeigen.
+5. Testfälle: (a) Mulgore Fall 1 und 2 aus offen-levelpilot.txt -> Route über Strasse, nie übers Gebirge;
+   (b) Ziel ohne Netzanschluss -> keine Linie; (c) Thunder Bluff mit Aufzug.
+6. Anfang: zuerst die Startgebiete und die Zonen, die der Nutzer gerade spielt (Mulgore, Brachland, Thunder Bluff),
+   erst danach weitere.
+Locales und CHANGELOG EN/DE, vor dem Push python3 addon-check/addon_check.py <ZIP> -> kein FEHLER.
