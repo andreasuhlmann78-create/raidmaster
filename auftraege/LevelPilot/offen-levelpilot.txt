@@ -118,3 +118,19 @@ NACHTRAG (5. Nov. 17:33, LevelPilot-Protokoll 3.12.7 vom Nutzer, L11 Tauren, For
       Thunder-Bluff-Fälle aus a): Ziel in TB, Planung in Mulgore.
    Testfall: Spieler in Thunder Bluff mit 3 Aufgaben in TB und 6 in Mulgore -> nächste Aufgabe nach Weg, kein FOKUS-
    Eintrag; Klassentrainer in TB über den Aufzug.
+
+NACHTRAG ZU a) (5. Nov. 17:50, geprüft mit den Forever-Tabellen UiMap/UiMapAssignment/AreaTable, Build 1.60.1.70753
+   von wago.tools): In Forever haben die Städte KEINE Elternzone – ParentUiMapID ist der Kontinent (1414/1415), und
+   ihr Gebiet hat ParentAreaID 0. parentMapID hilft darum NICHT. Betroffen (eigene Karte, liegt in einer Zone):
+   - Thunder Bluff 1456 in Mulgore 1412
+   - Orgrimmar 1454 an Durotar 1411
+   - Undercity 1458 unter Tirisfal Glades 1420
+   - Stormwind City 1453 in Elwynn Forest 1429
+   - Ironforge 1455 in Dun Morogh 1426
+   - Darnassus 1457 in Teldrassil 1438
+   Neue Forever-Karten, im Spiel zu prüfen, wie sie angebunden sind: Mount Hyjal 2482, Shen'dralas 2652,
+   Riverglades 2548, Zephras Isle 2521/2665, Darkspear Islands 2524 (Typ 6).
+   Lösung allgemein statt Liste: alle Aufgaben auf demselben Kontinent über Weltkoordinaten vergleichen
+   (C_Map.GetWorldPosFromMapPos(uiMapID, pos) -> Kontinent + x/y) und nach Weg planen; die Zonengrenze ist für die
+   Reihenfolge egal. Eine kleine Tabelle Stadt -> Zone nur für die Anzeige ("in Mulgore") und für Übergänge
+   (Aufzug Thunder Bluff, Tor Orgrimmar, Undercity-Aufzug, Ironforge-Tor, Stormwind-Tor, Darnassus-Portal).
