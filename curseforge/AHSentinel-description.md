@@ -12,6 +12,14 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.13
+
+- **WoW Forever – profit next to the profession window:** the deposit (at least 1 silver per auction, never refunded)
+  is now deducted and shown as its own line: profit = value × 0.95 − materials − deposit (e.g. Copper Chain Pants 18c
+  instead of 1s 18c – the same as ProfessionSentinel). The best-recipes list is ranked with it.
+- **WoW Forever – bid deals** also deduct the deposit for re-selling.
+- Classic Era, TBC and other versions are unchanged (there the deposit comes back on sale).
+
 ### Version 0.65.12
 
 - **Profession window – clicking a recipe in "Best recipes" now always opens it:**
@@ -42,17 +50,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Profession window:** new interface `AHAnalyzerPro.Crafting:GetDockFrame()` – returns the visible AHSentinel profit
   window next to the profession window, otherwise nil. ProfessionSentinel uses it to dock to the right of it instead of
   lying on top of it. AHSentinel itself stays directly to the right of the Blizzard profession window.
-
-### Version 0.65.8
-
-- **Damaged saved data is repaired on login:** single broken entries (price history, characters, sniper targets,
-  ledger, lists, recipes) are removed instead of causing a Lua error in a tab or tooltip. Healthy data stays untouched.
-- Developer test routine (only for the developer): two checks that always failed are fixed (watcher with the auction
-  house closed, `/ahs scan` during the routine); options and chat commands now run one per step (no "script ran too long");
-  many more checks (watcher candidates, sale message, ledger from the test mailbox, re-posting, vendor, professions,
-  disenchanting, characters, sync, data migration and damaged data, speed, protected AH calls) and, with the auction
-  house open, simulated commodity purchase, sniper pre-reservation, batch posting, undercut detection and scan slices.
-  Checks that cannot run in a client are now reported as skipped with a reason instead of OK.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

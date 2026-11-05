@@ -7,6 +7,14 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.13</h3>
+<ul>
+<li><strong>WoW Forever – profit next to the profession window:</strong> the deposit (at least 1 silver per auction, never refunded)
+  is now deducted and shown as its own line: profit = value × 0.95 − materials − deposit (e.g. Copper Chain Pants 18c
+  instead of 1s 18c – the same as ProfessionSentinel). The best-recipes list is ranked with it.</li>
+<li><strong>WoW Forever – bid deals</strong> also deduct the deposit for re-selling.</li>
+<li>Classic Era, TBC and other versions are unchanged (there the deposit comes back on sale).</li>
+</ul>
 <h3>Version 0.65.12</h3>
 <ul>
 <li><strong>Profession window – clicking a recipe in "Best recipes" now always opens it:</strong></li>
@@ -38,18 +46,7 @@
   window next to the profession window, otherwise nil. ProfessionSentinel uses it to dock to the right of it instead of
   lying on top of it. AHSentinel itself stays directly to the right of the Blizzard profession window.</li>
 </ul>
-<h3>Version 0.65.8</h3>
-<ul>
-<li><strong>Damaged saved data is repaired on login:</strong> single broken entries (price history, characters, sniper targets,
-  ledger, lists, recipes) are removed instead of causing a Lua error in a tab or tooltip. Healthy data stays untouched.</li>
-<li>Developer test routine (only for the developer): two checks that always failed are fixed (watcher with the auction
-  house closed, <code>/ahs scan</code> during the routine); options and chat commands now run one per step (no "script ran too long");
-  many more checks (watcher candidates, sale message, ledger from the test mailbox, re-posting, vendor, professions,
-  disenchanting, characters, sync, data migration and damaged data, speed, protected AH calls) and, with the auction
-  house open, simulated commodity purchase, sniper pre-reservation, batch posting, undercut detection and scan slices.
-  Checks that cannot run in a client are now reported as skipped with a reason instead of OK.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
