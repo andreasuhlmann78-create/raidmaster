@@ -54,3 +54,10 @@ ERGÄNZUNG (5. Nov. 17:45, mit dem Nutzer besprochen)
     Testberichte – und schickt sie nach Discord #testberichte; GitHub legt sie im Repo ab, die Prüf-Sitzung wertet
     sie aus. Keine Namen (siehe Punkt 13). Option in den Einstellungen "Wegdaten automatisch senden" (Standard an,
     abschaltbar). Format mit der Prüf-Sitzung abstimmen (Vorbild GSTEST1 in shared/GoldSentinelTest.lua).
+
+FORMAT GSWEGE1 (abgestimmt mit der LevelPilot-Sitzung, 5. Nov. 18:51 – von der Prüf-Sitzung angenommen)
+   Muster wie GSTEST1: Kennung "GSWEGE1" direkt vor einem JSON-Text. Ablage LevelPilotDB.wegeExport (Liste, älteste
+   fallen zuerst weg). Felder: f, kind="wege", id, addon, version, time, env (Client, ohne Namen);
+   zones[]: map, name, edges[] { p = Koordinatenfolge x,y auf der Zonenkarte, src = selbst|geteilt, n = wie oft };
+   blocked[]: map, p, why, t;  npc[]: id, map, old, new, t.
+   Die Prüf-Sitzung erweitert addon-check/testberichte.py um GSWEGE1 (und GSDIAG1) und legt die Daten im Repo ab.
