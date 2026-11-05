@@ -197,6 +197,9 @@ def fetch_discord():
                         reports += from_bytes(fn, r.content)
                 if m.get("content", "").lstrip().startswith(PREFIX):
                     reports += from_text(m["content"])
+            for m in batch:
+                ext = sorted({(a.get("filename", "").rsplit(".", 1)[-1] or "?") for a in m.get("attachments", [])})
+                print(f"  Nachricht: Anhänge={ext or '-'}, Text={'GSTEST1' if m.get('content', '').lstrip().startswith(PREFIX) else (len(m.get('content', '')))}, Embeds={len(m.get('embeds', []))}")
             if len(batch) < 100:
                 break
     except PermissionError:
