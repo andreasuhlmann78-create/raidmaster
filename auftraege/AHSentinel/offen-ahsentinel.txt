@@ -151,7 +151,7 @@ NACHTRAG (5. Nov. 17:10, im Code geprüft; korrigiert 17:12) – MITTEL, nach de
    b) A:ExpectedDepositLoss (Heute-Liste Crafting.lua:624) und alle Stellen, die eine Erstattung bei Verkauf
       annehmen: in Forever gibt es nie eine Erstattung der Einstellgebühr; beim Abbrechen kommt nur von der Verkaufsgebühr anteilig etwas zurück. Prüfen und anpassen.
    c) Testfall: Einstellgebühr 20c -> 1s; 3s -> 3s; Gewinn = Wert × 0,95 - Material - Einstellgebühr.
-   d) EINSTELLGEBÜHR MESSEN (Wunsch des Nutzers, 5. Nov. 19:13): Eine belegte Formel gibt es im Netz nicht. Darum:
+   d) EINSTELLGEBÜHR MESSEN (Wunsch des Nutzers, 5. Nov. 19:13; BEGINN MONTAG 9. NOV. 06:00, auch a–c): Eine belegte Formel gibt es im Netz nicht. Darum:
       - Die Gebühr nie selbst schätzen, wenn das Spiel sie liefert: C_AuctionHouse.CalculateItemDeposit /
         CalculateCommodityDeposit (bei offenem AH) bzw. der zuletzt gemessene Wert für dieses Item.
       - Bei JEDEM Einstellen mitschreiben (vor allem teure Items): Item-ID, Händlerverkaufspreis, Menge/Stapel,
