@@ -12,6 +12,15 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.12
+
+- **Profession window – clicking a recipe in "Best recipes" now always opens it:**
+  - the list no longer rebuilds on every game event: events are collected and the list is rebuilt at most every
+    0.4 s, only when something changed, spread over several frames – a click is no longer lost during a rebuild;
+  - each row remembers its recipe; the click looks up the recipe again in the profession window, and if a search text,
+    filter or collapsed category hides it, these are reset and the recipe is opened anyway;
+  - if it still cannot be opened, a short message appears in the chat.
+
 ### Version 0.65.11
 
 - **Buy → categories like the Blizzard auction house:** every main category now has its sub-categories
@@ -44,16 +53,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   disenchanting, characters, sync, data migration and damaged data, speed, protected AH calls) and, with the auction
   house open, simulated commodity purchase, sniper pre-reservation, batch posting, undercut detection and scan slices.
   Checks that cannot run in a client are now reported as skipped with a reason instead of OK.
-
-### Version 0.65.7
-
-- **Test routine (developer only):** many more checks – every option once on and off, every chat command, all extra
-  windows, main window and designs, size and position, buying and ledger maths, sniper targets and keys, watcher
-  settings, watchlist, bags without the old functions, chat helpers, Esc windows in combat, errors in background
-  tasks, transition from the old AH Analyzer Pro.
-- Bags, mail slots and price sync now look up the client functions through one place, so the test routine can
-  simulate missing functions without touching Blizzard's (no taint). Nothing changes in normal play.
-- Missing "GoldSentinelTest.lua" message is now translated.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
