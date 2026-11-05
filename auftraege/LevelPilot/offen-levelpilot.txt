@@ -84,3 +84,11 @@ TESTROUTINE IM SPIEL (5. Nov. 01:21, Forever 1.60.1 Build 70790, deDE, Datenpake
    (Abgaben in der Nähe zuerst, kein Weg über Gebirge).
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
+
+NACHTRAG (5. Nov. 13:05, aus den automatisch eingegangenen Testberichten) – Schwere HOCH, gehört zur Ausnahme Route
+   588× Lua-Fehler im Spiel (3.12.6, Forever 16001, zuletzt 05.11. 02:22 UTC), Quelle "Protokoll CheckNav":
+   Interface/AddOns/LevelPilot/Protocol.lua:235: attempt to compare a secret number value (execution tainted by
+   'LevelPilot'). Ein geschützter ("secret") Zahlenwert wird verglichen – vermutlich Position/Richtung/Distanz aus
+   einer Blizzard-Funktion, die in Forever geheime Werte liefert. Lösung: vor jedem Vergleich mit issecretvalue()
+   (falls vorhanden) bzw. in pcall prüfen und bei geheimem Wert die Prüfung überspringen; die Fehlerschleife
+   (588×) muss weg. Mit 3.12.7 zusammen beheben; Testfall: geheimer Wert -> kein Fehler, CheckNav überspringt.
