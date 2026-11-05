@@ -97,9 +97,9 @@ NACHTRAG (5. Nov. 17:00, Screenshot Schmiedekunst 46/75 mit 0.9.18) – Schwere 
 
 NACHTRAG (5. Nov. 17:10, im Code geprüft; korrigiert 17:12) – NIEDRIG, nach der Pause
    REGEL IN WOW FOREVER (Angabe des Nutzers aus dem Spiel, 5. Nov. 17:11):
-   - Einstellgebühr = normale Einstellgebühr, mindestens 1 Silber (pro Auktion). Sie wird NICHT zurückerstattet,
-     auch bei Verkauf nicht.
-   - Wird eine Auktion ABGEBROCHEN, kommt ein Teil zurück – anteilig zur Zeit, die sie noch gelaufen wäre.
-   - Verkaufsgebühr 5 % vom Verkaufspreis, ohne Minimum.
+   - Einstellgebühr = normale Einstellgebühr, mindestens 1 Silber (pro Auktion). Sie wird NIE zurückerstattet –
+     weder bei Verkauf noch beim Abbrechen.
+   - Verkaufsgebühr 5 % vom Verkaufspreis, ohne Minimum. Wird eine Auktion ABGEBROCHEN, kommt von der
+     Verkaufsgebühr ein Teil zurück, anteilig zur Zeit, die sie noch gelaufen wäre (korrigiert 17:13).
    PS rechnet damit RICHTIG: Prices.lua:40-45/145 zieht die volle Einstellgebühr (mind. 1s) ab – so bleiben.
    Einziger Punkt: im Tooltip "davon Einstellgebühr" ausweisen, damit die Zahl nachvollziehbar ist.
