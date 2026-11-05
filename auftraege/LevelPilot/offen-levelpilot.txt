@@ -69,6 +69,12 @@ BEFUND AUS DEM SPIEL (5. Nov. 01:17, Forever 1.60.1 Build 70790, Mulgore, Taure 
    Pfade bzw. Flugrouten statt Luftlinie über Gebirge, Forever-Standorte prüfen (Kauth in Bloodhoof, Camp Narache).
    Darf trotz Pause als Ausnahme behoben werden, wenn der Nutzer es so entscheidet.
 
+ZWEITER FALL (5. Nov. 03:20, Mulgore, Stufe ~7): Spieler bei 39.3, 46.2 (westlich von Bloodhoof). Questlog:
+   [6] Sturzfliegerjagd und [7] Thunderhorn-Totem "Bereit zur Abgabe" (Abgabe in Bloodhoof, südöstlich), [7] Ritus
+   der Sicht (Wasser der Seher am Stammesfeuer in Bloodhoof), [11] Vertreibt sie. Die Route führt aber nach
+   NORDWESTEN ins Gebirge (Schleife bei ca. 30,30–35) statt nach Bloodhoof. Gleiches Muster wie Fall 1: nahe
+   Abgaben werden übergangen, Weg/Ziel liegen im unpassierbaren Gelände.
+
 TESTROUTINE IM SPIEL (5. Nov. 01:21, Forever 1.60.1 Build 70790, deDE, Datenpaket 1.6.0)
    OK 198 · FEHLER 1 · übersprungen 8 · im Client prüfen 6 · nicht automatisiert 0 · Sandbox OK · echte Aktionen 0.
    T128 (Schwere: NIEDRIG): alte Fassung mit Beispieldaten – ist "ergänzt true, gemessen true", soll "ergänzt, false,
