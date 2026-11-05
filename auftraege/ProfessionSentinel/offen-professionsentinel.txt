@@ -103,3 +103,15 @@ NACHTRAG (5. Nov. 17:10, im Code geprüft; korrigiert 17:12) – NIEDRIG, nach d
      Verkaufsgebühr ein Teil zurück, anteilig zur Zeit, die sie noch gelaufen wäre (korrigiert 17:13).
    PS rechnet damit RICHTIG: Prices.lua:40-45/145 zieht die volle Einstellgebühr (mind. 1s) ab – so bleiben.
    Einziger Punkt: im Tooltip "davon Einstellgebühr" ausweisen, damit die Zahl nachvollziehbar ist.
+
+NACHTRAG (5. Nov. 18:45, im Code geprüft: PS 0.9.20 vs. AHSentinel 0.65.14) – HOCH, Ausnahme
+   Im Spiel mit 0.9.20 weiterhin extrem langsam, bis das Berufsfenster zum Rezept springt. AHSentinel ist schnell.
+   Beleg: AHSentinel wählt zuerst über die Liste des Fensters: page.RecipeList:SelectRecipe(recipeInfo, true)
+   (Crafting.lua:235-238), OpenRecipe nur als Rückfall (:240). PS ruft NUR C_TradeSkillUI.OpenRecipe(id)
+   (UI.lua:531) – das springt in Forever offenbar erst sehr spät.
+   Zusätzlich: UI.lua:1927 verwirft die RecipeMap bei JEDEM Listen-Ereignis, danach liest der nächste Klick alle
+   Rezepte neu (GetRecipeInfo je Rezept, ByOutput ggf. GetRecipeSchematic je Rezept).
+   Lösung: 1) wie AHSentinel zuerst ProfessionsFrame.CraftingPage.RecipeList:SelectRecipe(
+   C_TradeSkillUI.GetRecipeInfo(id), true), dann OpenRecipe als Rückfall; 2) RecipeMap nur bei TRADE_SKILL_SHOW,
+   Berufswechsel oder neu gelerntem Rezept verwerfen, nicht bei jedem TRADE_SKILL_LIST_UPDATE. Testfall: Klick ->
+   Liste meldet Auswahl im selben Frame; 20 Listen-Ereignisse -> RecipeMap höchstens 1× neu gebaut.
