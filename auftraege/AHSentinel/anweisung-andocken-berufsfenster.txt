@@ -1,0 +1,28 @@
+ANWEISUNG AHSENTINEL + PROFESSIONSENTINEL: FENSTER AM BERUFSFENSTER ÜBERLAPPEN
+=============================================================================
+Stand: 5. November 2026, 02:10 · von der Prüf-Sitzung · Befund aus dem Spiel (Forever 1.60.1 Build 70790, Kochkunst)
+Gilt für beide Addons. Nach der Pause (ab Montag, 9. November), Schwere MITTEL.
+
+BEFUND
+Beim Öffnen eines Berufsfensters docken BEIDE Addons an derselben Stelle rechts am Blizzard-Berufsfenster an:
+- AHSentinel mit seinem Gewinn-Fenster ("AHSentinel – Gewinn", Knöpfe "Materialien als Einkaufsliste" und "Nur was mir
+  fehlt"),
+- ProfessionSentinel mit seinem Panel (Reiter Rezepte / Rangliste / Plan / Lehrer / Gunst).
+Die beiden liegen übereinander: Texte und Knöpfe von AHSentinel schauen durch bzw. über das ProfessionSentinel-Panel,
+Knöpfe überdecken Zeilen. Man kann keines der beiden sauber bedienen.
+
+REGEL (für beide verbindlich)
+1. AHSentinel dockt direkt rechts am Blizzard-Berufsfenster an (wie bisher).
+2. ProfessionSentinel dockt rechts an das AHSentinel-Fenster an, WENN dieses sichtbar ist
+   (_G["AHSentinel…"]-Frame bzw. die von AHSentinel bereitgestellte Funktion, siehe Punkt 4); sonst direkt rechts am
+   Berufsfenster. Wird das AHSentinel-Fenster ein-/ausgeblendet, setzt ProfessionSentinel seinen Anker neu (OnShow/
+   OnHide-Hook, kein Taint: nur eigene Frames verschieben, nichts im Kampf).
+3. Passt der Platz nicht (rechter Bildschirmrand), weicht ProfessionSentinel nach unten bzw. links aus – nie über ein
+   anderes Fenster legen. Hat der Nutzer ein Panel von Hand verschoben, bleibt es dort.
+4. AHSentinel stellt dafür eine kleine, stabile Schnittstelle bereit, z. B. AHAnalyzerPro.Crafting:GetDockFrame()
+   (gibt den sichtbaren Frame oder nil zurück). ProfessionSentinel nutzt nur diese, keine inneren Felder.
+5. Testroutinen: je ein Fall "kein Überlappen" (Rechtecke der beiden Frames schneiden sich nicht), Fall mit und ohne
+   das andere Addon; IM CLIENT PRÜFEN: Berufsfenster mit beiden Addons öffnen – nebeneinander, nichts verdeckt.
+6. CHANGELOG EN/DE, vor dem Push python3 addon-check/addon_check.py <ZIP> -> kein FEHLER.
+
+Ist etwas daran falsch oder nicht machbar, bitte dem Nutzer begründet zurückmelden.
