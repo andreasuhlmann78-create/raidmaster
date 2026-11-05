@@ -66,6 +66,6 @@ NACHTRAG (5. Nov. 13:31, Hinweis des Nutzers mit Screenshot, 0.65.10) – Schwer
 
 NACHTRAG (5. Nov. 13:56, Screenshot Verkaufen) – NIEDRIG, nach der Pause
    Feld Preis/Stück zeigt "78k" für 78 Kupfer. "k" wird als "tausend" gelesen (Nutzer las 78k als 78'000).
-   Lösung: im Feld keine Abkürzung "k" für Kupfer; Wert als Münzen (g/s/c bzw. Münzsymbole) anzeigen, z. B. "78c"
-   im enUS- und "78k"→"78 Kupfer" bzw. Münzsymbol im deDE-Client. Eingaben wie "78", "78c", "1s 20c", "1g" weiter
-   annehmen.
+   Lösung (Entscheid des Nutzers): im Feld immer "78c" schreiben, in allen Sprachen gleich wie sonst im Addon
+   ("3s 90c") – g/s/c, nie "k". Eingaben wie "78", "78c", "1s 20c", "1g" weiter annehmen ("78k" aus alten
+   Eingaben ebenfalls).
