@@ -45,4 +45,10 @@ brechen, vor dem Push python3 addon-check/addon_check.py download/BuffSentinel-0
    - Gespeicherte Einstellungen nach dem Wechsel der Client-Sprache unverändert (Töne, Einträge, Zuordnungen).
    - zwei Läufe der Testroutine, einer auf Forever und einer auf Era oder TBC, beide mit 0 FEHLER und "echte Aktionen: 0"
 
+ERGEBNIS IM SPIEL (5. Nov. 01:19, Forever 1.60.1 Build 70790, Interface 16001, deDE) – nach der Pause
+   OK 120 · FEHLER 1 · übersprungen 10 · im Client prüfen 11 · Sandbox OK · echte Aktionen 0.
+   T29 (Schwere: NIEDRIG–MITTEL): Das Ereignis LEARNED_SPELL_IN_TAB fehlt in WoW Forever. Neu gelernte Zauber werden
+   dann erst nach /reload erkannt. Lösung: im modernen Client zusätzlich LEARNED_SPELL_IN_SKILL_LINE bzw. SPELLS_CHANGED
+   anmelden (nur registrieren, was es gibt – C_EventUtils.IsEventValid, falls vorhanden), Fall T29 anpassen.
+
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
