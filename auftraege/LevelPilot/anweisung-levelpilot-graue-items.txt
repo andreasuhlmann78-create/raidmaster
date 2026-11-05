@@ -1,0 +1,26 @@
+ANWEISUNG LEVELPILOT: GRAUE ITEMS AUTOMATISCH VERKAUFEN, KEIN VERKAUFEN-KNOPF
+============================================================================
+Stand: 5. November 2026, 01:30 · von der Prüf-Sitzung · Wunsch des Nutzers (aus dem Spiel, Forever, Händlerfenster)
+Mit 3.12.7 nach der Pause (ab Montag, 9. November).
+
+BEFUND
+Am Händlerfenster zeigt LevelPilot unten einen Knopf "Verkaufen: 0 Items (0)". Er verdeckt den Reiter bzw. Knopf
+"Rückkauf" von Blizzard. Der Nutzer will keinen Knopf.
+
+UMSETZEN
+1. Den Verkaufen-Knopf am Händlerfenster ganz entfernen. Nichts mehr über oder neben die Blizzard-Reiter (Händler /
+   Rückkauf) legen.
+2. Graue Items (Qualität 0, Verkaufspreis > 0) automatisch verkaufen, sobald ein Händlerfenster öffnet (MERCHANT_SHOW).
+   - Neue Option "Graue Items automatisch verkaufen", ab Werk AN (Entscheid des Nutzers), in den Optionen und als
+     /lp-Befehl umschaltbar.
+   - Nur ausserhalb des Kampfes, in kleinen Schritten (z. B. ein Item pro Frame oder alle 0,2 s), stoppen bei
+     MERCHANT_CLOSED. Behälter über C_Container mit Rückfall auf die alten Funktionen.
+   - Nichts verkaufen, was nicht grau ist; gesperrte Gegenstände (IsLocked/isLocked) überspringen.
+   - Der Verkauf ist eine Aktion mit Folgen: über LP.Act.Call (im Test nur mitschreiben).
+   - Danach eine Chatzeile: "N graue Items verkauft für <Betrag>." (in allen Sprachen). Bei 0 Items keine Zeile.
+3. Testroutine: Fälle für Option an/aus, nur Qualität 0, Abbruch bei MERCHANT_CLOSED, im Kampf nichts, im Test nur
+   mitgeschrieben; IM CLIENT PRÜFEN: Händler öffnen -> graue Items weg, Chatzeile, Rückkauf-Reiter frei sichtbar.
+4. CHANGELOG EN/DE, alle Locale-Dateien. Vor dem Push
+   python3 addon-check/addon_check.py announce/levelpilot__levelpilot-3.12.7.LevelPilot.zip -> kein FEHLER.
+
+Ist etwas daran falsch oder nicht machbar, bitte dem Nutzer begründet zurückmelden.
