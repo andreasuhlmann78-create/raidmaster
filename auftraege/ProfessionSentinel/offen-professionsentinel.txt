@@ -80,3 +80,17 @@ NACHTRAG (5. Nov. 15:35, Screenshot Angeln 114/150 mit PS 0.9.15 + AHSentinel 0.
    und bei jedem Ein-/Ausblenden sowie bei jedem eigenen OnShow/Refresh neu andocken. Fehlt der Frame noch (nil),
    bei TRADE_SKILL_SHOW und beim nächsten Refresh erneut fragen. Alte AHSentinel-Versionen ohne Argument weiter wie
    bisher. Testfall: AHSentinel-Frame erscheint NACH dem PS-Panel -> PS dockt rechts daneben an, kein Überlappen.
+
+NACHTRAG (5. Nov. 17:00, Screenshot Schmiedekunst 46/75 mit 0.9.18) – Schwere HOCH (Rückfall)
+   Rangliste "Leveln – Material pro Skillpunkt" mit "Noch nicht gelernt" ist da (0.9.17, sieht richtig aus).
+   ABER: Seit 0.9.18 öffnet ein Klick auf ein Rezept es im Berufsfenster GAR NICHT mehr (vorher manchmal), und im
+   Chat erscheint ein Text (vermutlich L.SELECT_FAIL "Rezept konnte … nicht geöffnet werden" – vom Nutzer noch zu
+   bestätigen). UI.lua:443-453: im modernen Client nur pcall(ns.API.TradeSkillOpenRecipe, r.spell).
+   Verdacht: r.spell ist die Classic-Zauber-ID, C_TradeSkillUI.OpenRecipe erwartet die RecipeID des modernen
+   Clients – in Forever nicht immer gleich (AHSentinel hat dafür Cr:ModernRecipeID, Crafting.lua). Zudem gibt
+   OpenRecipe keinen Fehler zurück, wenn es nichts findet (pcall ok, aber nichts passiert).
+   Lösung: RecipeID über C_TradeSkillUI.GetAllRecipeIDs() + GetRecipeInfo (Name bzw. Ergebnis-Item) bzw. die
+   Zuordnung wie in AHSentinel ermitteln, damit öffnen; danach prüfen, ob die Auswahl stimmt
+   (ProfessionsFrame.CraftingPage.RecipeList:GetSelectedRecipeID o. ä.), sonst über die RecipeList selbst
+   auswählen (wie in 0.9.16, das ging manchmal). Den Linksklick beim Drücken (OnMouseDown) prüfen: Wird der Klick
+   doppelt (Drücken + Loslassen) ausgelöst? Testfall mit echter Zuordnung Zauber-ID -> RecipeID.
