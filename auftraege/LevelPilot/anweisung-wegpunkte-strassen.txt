@@ -30,8 +30,9 @@ ERGÄNZUNG (5. Nov. 17:45, mit dem Nutzer besprochen)
    WICHTIG (Vorgabe des Nutzers): AFK ist KEINE Sackgasse. "FEST" und "blockiert" nur werten, wenn der Spieler
    sich tatsächlich bewegt hat (Position ändert sich bzw. GetUnitSpeed("player") > 0 über den Zeitraum) und dabei
    nicht näher kommt. Nicht zählen bei: UnitIsAFK, stehen, tot/Geist, im Kampf, offenem Händler-/Post-/AH-/
-   Berufs-/Lehrerfenster, Flug (UnitOnTaxi), Ladebildschirm, nach /reload. Testfall: 10 min AFK -> kein FEST,
-   keine Kante blockiert; 4 min im Kreis laufen ohne Annäherung -> FEST.
+   Berufs-/Lehrerfenster, Flug (UnitOnTaxi), Ladebildschirm, nach /reload. Stehzeiten zählen NIE mit: die 4 Minuten für FEST sind reine Laufzeit (Uhr läuft nur, solange sich der Spieler
+   bewegt); 2 Minuten stehen und weiterlaufen setzt nichts in Gang. Testfall: 10 min AFK -> kein FEST,
+   keine Kante blockiert; 2 min stehen, dann 1 min laufen -> kein FEST; 4 min im Kreis laufen ohne Annäherung -> FEST.
 10. Echte NPC-Positionen merken: beim Anvisieren/Ansprechen eines Quest-NPCs Position speichern und das Ziel
     damit korrigieren (falsche Datenpaket-Koordinaten).
 11. Flugpunkte einbeziehen: bei langen Strecken prüfen, ob Fliegen schneller ist (bekannte Flugpunkte).
