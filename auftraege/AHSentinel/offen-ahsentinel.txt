@@ -54,16 +54,6 @@ ERGEBNIS IM SPIEL (5. Nov. 03:35, AHSentinel 0.65.8, Forever 1.60.1 Build 70790,
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
 
-NACHTRAG (5. Nov. 13:31, Hinweis des Nutzers mit Screenshot, 0.65.10) – Schwere MITTEL, nach der Pause
-   UNBESTÄTIGT (im Netz nicht belegt, erst im Spiel prüfen: Post "Auktion erfolgreich" zeigt die echte Gebühr):
-   WoW Forever stuft die AH-Gebühr unter 1 Silber evtl. auf 1 Silber auf. Erst umsetzen, wenn der Nutzer es bestätigt.
-   AHSentinel rechnet überall mit reinen 5 %: Verkaufen "Fischglas 5× 78c": AH-Gebühr 20c, Erlös 2s 70c – richtig
-   wäre Gebühr 1s, Erlös 3s 90c - 1s = 2s 90c; allgemein: Erlös = brutto - max(5 % von brutto, 100c).
-   Ebenso im Gewinn-Fenster am Berufsfenster (Fischglas: Gebühr 4c statt 1s, Gewinn 42c statt -54c) und in
-   "Beste Rezepte", Sniper, Serie, Vorschlag. Lösung: eine Funktion fee(brutto) = max(floor(brutto*0.05), 100)
-   nur in Forever (Era/TBC unverändert), überall nutzen. Prüfen, ob die Mindestgebühr pro Auktion (Stapel) gilt.
-   Testfall: brutto 390c -> Gebühr 100c; brutto 10000c -> 500c.
-
 NACHTRAG (5. Nov. 13:56, Screenshot Verkaufen) – NIEDRIG, nach der Pause
    Feld Preis/Stück zeigt "78k" für 78 Kupfer. "k" wird als "tausend" gelesen (Nutzer las 78k als 78'000).
    Lösung (Entscheid des Nutzers): im Feld immer "78c" schreiben, in allen Sprachen gleich wie sonst im Addon
