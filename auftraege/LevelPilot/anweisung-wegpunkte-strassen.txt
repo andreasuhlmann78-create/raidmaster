@@ -38,3 +38,12 @@ ERGÄNZUNG (5. Nov. 17:45, mit dem Nutzer besprochen)
 11. Flugpunkte einbeziehen: bei langen Strecken prüfen, ob Fliegen schneller ist (bekannte Flugpunkte).
 12. Später (Idee, nicht jetzt): Begehbarkeitsraster offline aus Höhendaten vorberechnen – nur nach Klärung, ob
     das unter die Blizzard-Nutzungsbedingungen fällt.
+13. AUSGABE ZUM EINSENDEN (Wunsch des Nutzers, 5. Nov. 17:50): Befehl z. B. /lp wege – öffnet ein Fenster mit
+    markierbarem Text (wie das Protokoll), damit der Nutzer ihn der Prüf-Sitzung schicken kann. Inhalt kompakt:
+    Version, Client, Datum; pro Zone (UiMapID + Name) die gelernten Kanten als Koordinatenfolgen (1 Nachkomma-
+    stelle, nur Punkte mit > 5 Yards Abstand), Herkunft (selbst/geteilt), wie oft gelaufen; blockierte Kanten mit
+    Grund und Zeit; korrigierte NPC-Positionen (NPC-ID, alt -> neu); FEST-Ereignisse der letzten 7 Tage.
+    KEINE Spieler- oder Charakternamen (die Daten landen im öffentlichen Repo), keine Gilden-Mitgliedernamen bei
+    geteilten Wegen (nur "geteilt"). Lang -> mehrere Seiten oder nur die gewählte Zone (/lp wege mulgore).
+    Die Prüf-Sitzung wertet die Daten aus (Abgleich mit den Zonen, Ausreisser, Lücken im Netz) und gibt
+    Korrekturen als Auftrag zurück.
