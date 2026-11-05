@@ -92,3 +92,10 @@ NACHTRAG (5. Nov. 13:05, aus den automatisch eingegangenen Testberichten) – Sc
    einer Blizzard-Funktion, die in Forever geheime Werte liefert. Lösung: vor jedem Vergleich mit issecretvalue()
    (falls vorhanden) bzw. in pcall prüfen und bei geheimem Wert die Prüfung überspringen; die Fehlerschleife
    (588×) muss weg. Mit 3.12.7 zusammen beheben; Testfall: geheimer Wert -> kein Fehler, CheckNav überspringt.
+
+NACHTRAG (5. Nov. 13:27, Screenshot Thunder Bluff, 3.12.6) – bitte mit 3.12.7 mitnehmen
+   a) (MITTEL) Der eigene Tooltip von LevelPilot verdeckt die Knöpfe im Fenster (Unterstützen, Zentrale, Normal,
+      Überspringen …). Tooltip so verankern, dass er neben bzw. unter dem Fenster erscheint (ANCHOR_NONE + SetPoint
+      ausserhalb des Fensters, am Bildschirmrand ausweichen), nie über den Knöpfen.
+   b) (zur Route) Kopfzeile "Questlog 8/40 (2 fertig)", aber in der Liste steht kein "Abgeben" – zuerst kommen
+      Annehmen/Erledigen. Abgabebereite Quests müssen oben stehen (gleiche Ursache wie die falsche Route?).
