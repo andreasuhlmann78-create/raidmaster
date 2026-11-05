@@ -99,3 +99,22 @@ NACHTRAG (5. Nov. 13:27, Screenshot Thunder Bluff, 3.12.6) – bitte mit 3.12.7 
       ausserhalb des Fensters, am Bildschirmrand ausweichen), nie über den Knöpfen.
    b) (zur Route) Kopfzeile "Questlog 8/40 (2 fertig)", aber in der Liste steht kein "Abgeben" – zuerst kommen
       Annehmen/Erledigen. Abgabebereite Quests müssen oben stehen (gleiche Ursache wie die falsche Route?).
+
+NACHTRAG (5. Nov. 17:33, LevelPilot-Protokoll 3.12.7 vom Nutzer, L11 Tauren, Forever) – HOCH
+   Gut: "Letzter Fehler: keiner" – die 588× secret-number-Schleife ist weg.
+   a) FOKUS-SCHLEIFE (HOCH, Hauptursache der falschen Routen): Thunder Bluff (UiMap 1456) und Mulgore (1412) werden
+      als getrennte Zonen geplant, und der Fokus liegt immer in der falschen:
+      "Planung in Mulgore, obwohl 3 Aufgabe(n) in Thunder Bluff warten" (×127, ×23, ×19 – Spieler in TB) und
+      "Planung in Thunder Bluff, obwohl 6 Aufgabe(n) in Mulgore warten" (×93, ×22, ×20 – Spieler in Mulgore).
+      Auch mit 3.12.7 noch (17:33, ×23). Diagnose: "Position: Thunder Bluff (1456) … Fokus: Mulgore".
+      Lösung: Unterkarten (Städte wie Thunder Bluff, Höhlen) mit der Elternzone zusammen planen
+      (C_Map.GetMapInfo(id).parentMapID; Koordinaten über C_Map.GetWorldPosFromMapPos bzw. die Zonenkarte umrechnen),
+      alle Aufgaben beider Karten nach echtem Weg sortieren; der Fokus folgt der Karte des Spielers, nie umgekehrt.
+      Der Fokus-Wächter darf nicht 127× melden, sondern muss den Fokus selbst korrigieren.
+   b) FEST (MITTEL): PRIO-Ziele weit weg und nicht erreichbar: "PRIO:Gahroot1413 noch 1309 Yards" (L5 Red Cloud Mesa),
+      "PRIO:PROF3273 noch 685 Yards", "PRIO:TRAIN:8 noch 675 Yards" (Klassentrainer in TB, Aufzug!), je "Weg: graph".
+      Nach "FEST" Ziel überspringen oder nur Richtungspfeil, PRIO-Ziele nicht vor nahe Abgaben stellen.
+   c) Schritte 25 min aktiv (Flugpunkt Tal 59 Yards, Abgabe Eyahn Eagletalon 105 Yards in TB) – das sind die
+      Thunder-Bluff-Fälle aus a): Ziel in TB, Planung in Mulgore.
+   Testfall: Spieler in Thunder Bluff mit 3 Aufgaben in TB und 6 in Mulgore -> nächste Aufgabe nach Weg, kein FOKUS-
+   Eintrag; Klassentrainer in TB über den Aufzug.
