@@ -7,6 +7,16 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.11</h3>
+<ul>
+<li><strong>Buy → categories like the Blizzard auction house:</strong> every main category now has its sub-categories
+  (Weapons → One-Handed Axes …, Armor → Cloth/Leather …, Consumables → Potions …), with the names and order of the
+  game. Sub-categories open under the selected main category. Until the auction house has been opened once, the
+  addon uses the item classes of the game.</li>
+<li><strong>Price field:</strong> always shows gold/silver/copper as g/s/c ("78c", "3s 90c") in every language – never "k", which
+  read like "thousand". Typing "78", "78c", "1s 20c", "1g" and the old "78k" still works.</li>
+<li>For ProfessionSentinel: <code>AHAnalyzerPro.Crafting:GetDockFrame(true)</code> also returns the profit window while it is hidden.</li>
+</ul>
 <h3>Version 0.65.10</h3>
 <ul>
 <li><strong>Profession window (WoW Forever):</strong> the AHSentinel profit window no longer covers the profession tabs on the right
@@ -40,27 +50,7 @@
   simulate missing functions without touching Blizzard's (no taint). Nothing changes in normal play.</li>
 <li>Missing "GoldSentinelTest.lua" message is now translated.</li>
 </ul>
-<h3>Version 0.65.6</h3>
-<p>Fixes from the addon check:
-- <strong>Scan start keeps failing (WoW Forever, Retail):</strong> if the server rejects the scan start permanently, the chat is no
-  longer flooded (before: about 240 lines in 2 minutes). The error is shown once, the addon retries at most 3 times
-  (at least 2 seconds apart), then says once that the scan could not start. The watcher continues right away.
-- <strong>Watcher:</strong> if the server drops requests during the short pause of a wanted scan, the watcher now pauses the full
-  15 minutes as intended (before it resumed after 2 minutes). Deliberately no pause just because a scan is allowed:
-  the watcher would otherwise rest forever for players who never scan.
-- <strong>Profession window (modern client):</strong> the recipe chosen in Blizzard's window is now really recognised (the event
-  name was wrong), so the ingredient button never uses an older recipe.
-- <strong>Mail to alts (WoW Forever):</strong> a rule with your own first name only ("Rokan" for "Rokan Steinwacht") no longer
-  plans mail to yourself.
-- <strong>WoW Forever, protected values:</strong> price sync, tooltip, mailbox errors, blocked actions and disenchant tracking
-  ignore protected ("secret") values instead of risking a Lua error.
-- Errors caught by the addon are now also counted for the addon check (GoldSentinelTest.lua); <code>/ahs debug</code> shows
-  "Errors since login · Reports pending". The chat messages stay as before. Sale messages no longer swallow errors silently.
-- Developer only: new test routine <code>/ahs testroutine</code> (areas a–j, <code>server</code>, <code>haendler</code>, <code>berufe</code>, <code>post</code>,
-  <code>gildenbank</code>, <code>kampf</code>) with saved report. Your real data is saved before and restored afterwards; buying, posting,
-  mail, vendor and price sync are only simulated. <code>/ahs test</code> and <code>/ahs test daten</code> are short forms.
-- Missing translations for the classic auction house added.</p>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
@@ -88,6 +78,7 @@
 </ul>
 <h3>Buying</h3>
 <ul>
+<li><strong>Categories like the Blizzard auction house:</strong> every main category with its sub-categories (Weapons → One-Handed Axes …, Armor → Cloth/Leather …), names and order straight from the game</li>
 <li><strong>Sniper:</strong> targets with max price, quantity, budget, rarity, item level and level filters – searches on its own while the auction house is open</li>
 <li><strong>Bargain watcher:</strong> herbs, ore, cloth, leather, enchanting, elemental, gems, cooking and more – anything at or below x % of market value (default 50 %); never weapons or armour. When you start the full scan, it has priority: the watcher pauses until the scan has run</li>
 <li><strong>One-notch buying</strong> with the mouse wheel or your own key binding</li>

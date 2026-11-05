@@ -12,6 +12,16 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.11
+
+- **Buy → categories like the Blizzard auction house:** every main category now has its sub-categories
+  (Weapons → One-Handed Axes …, Armor → Cloth/Leather …, Consumables → Potions …), with the names and order of the
+  game. Sub-categories open under the selected main category. Until the auction house has been opened once, the
+  addon uses the item classes of the game.
+- **Price field:** always shows gold/silver/copper as g/s/c ("78c", "3s 90c") in every language – never "k", which
+  read like "thousand". Typing "78", "78c", "1s 20c", "1g" and the old "78k" still works.
+- For ProfessionSentinel: `AHAnalyzerPro.Crafting:GetDockFrame(true)` also returns the profit window while it is hidden.
+
 ### Version 0.65.10
 
 - **Profession window (WoW Forever):** the AHSentinel profit window no longer covers the profession tabs on the right
@@ -44,28 +54,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - Bags, mail slots and price sync now look up the client functions through one place, so the test routine can
   simulate missing functions without touching Blizzard's (no taint). Nothing changes in normal play.
 - Missing "GoldSentinelTest.lua" message is now translated.
-
-### Version 0.65.6
-
-Fixes from the addon check:
-- **Scan start keeps failing (WoW Forever, Retail):** if the server rejects the scan start permanently, the chat is no
-  longer flooded (before: about 240 lines in 2 minutes). The error is shown once, the addon retries at most 3 times
-  (at least 2 seconds apart), then says once that the scan could not start. The watcher continues right away.
-- **Watcher:** if the server drops requests during the short pause of a wanted scan, the watcher now pauses the full
-  15 minutes as intended (before it resumed after 2 minutes). Deliberately no pause just because a scan is allowed:
-  the watcher would otherwise rest forever for players who never scan.
-- **Profession window (modern client):** the recipe chosen in Blizzard's window is now really recognised (the event
-  name was wrong), so the ingredient button never uses an older recipe.
-- **Mail to alts (WoW Forever):** a rule with your own first name only ("Rokan" for "Rokan Steinwacht") no longer
-  plans mail to yourself.
-- **WoW Forever, protected values:** price sync, tooltip, mailbox errors, blocked actions and disenchant tracking
-  ignore protected ("secret") values instead of risking a Lua error.
-- Errors caught by the addon are now also counted for the addon check (GoldSentinelTest.lua); `/ahs debug` shows
-  "Errors since login · Reports pending". The chat messages stay as before. Sale messages no longer swallow errors silently.
-- Developer only: new test routine `/ahs testroutine` (areas a–j, `server`, `haendler`, `berufe`, `post`,
-  `gildenbank`, `kampf`) with saved report. Your real data is saved before and restored afterwards; buying, posting,
-  mail, vendor and price sync are only simulated. `/ahs test` and `/ahs test daten` are short forms.
-- Missing translations for the classic auction house added.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
@@ -100,6 +88,7 @@ In-game: the **Support** button in the addon window (or `/ahs donate`).
 - Prices and a small price chart in **every item tooltip**, plus vendor price and disenchant value
 
 ### Buying
+- **Categories like the Blizzard auction house:** every main category with its sub-categories (Weapons → One-Handed Axes …, Armor → Cloth/Leather …), names and order straight from the game
 - **Sniper:** targets with max price, quantity, budget, rarity, item level and level filters – searches on its own while the auction house is open
 - **Bargain watcher:** herbs, ore, cloth, leather, enchanting, elemental, gems, cooking and more – anything at or below x % of market value (default 50 %); never weapons or armour. When you start the full scan, it has priority: the watcher pauses until the scan has run
 - **One-notch buying** with the mouse wheel or your own key binding
