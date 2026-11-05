@@ -43,4 +43,14 @@ Offen ist nur noch, was im Spiel geprüft werden muss. Neue Wünsche kommen als 
       (ProfessionSentinelAutoTestReportBg, …CloseButton, …Inset, …Portrait, …Text, …TitleText). Sie entstehen durch die
       Vorlage mit Namen. Lösung: Fenster ohne globalen Namen anlegen oder diese Namen in T132 als eigene erlauben.
 
+4. BEFUND AUS DEM SPIEL (5. Nov. 05:25, Kochkunst) – Schwere MITTEL
+   Die Lebenslinie im Blizzard-Berufsfenster ("45× bis Gelb" usw.) zählt beim Herstellen nicht herunter. Bei
+   Kochkunst 33/75 stand bei Verkohltes Wolfsfleisch "12× bis Gelb", bei 61/75 wieder "45× bis Gelb"; bei
+   Kräutergebackenes Ei, Geröstetes Eberfleisch und Glänzender Kleinfisch ebenfalls "45× bis Gelb" – offenbar mit
+   einem alten bzw. falschen Fertigkeitswert gerechnet und nach einem Skillpunkt nicht neu berechnet.
+   Lösung: Fertigkeit bei jedem Anstieg neu lesen (CHAT_MSG_SKILL, SKILL_LINES_CHANGED, TRADE_SKILL_LIST_UPDATE bzw.
+   die modernen Ereignisse in Forever, z. B. über C_TradeSkillUI.GetProfessionInfo/GetChildProfessionInfo) und die
+   Zeilen danach neu zeichnen; Quelle des Fertigkeitswerts im modernen Client prüfen (aktuelle, nicht die
+   Start-Fertigkeit). Testfall: Fertigkeit simuliert +1 -> Anzeige "N× bis Gelb" sinkt.
+
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
