@@ -61,7 +61,7 @@ FORMAT GSWEGE1 (abgestimmt mit der LevelPilot-Sitzung, 5. Nov. 18:51 – von der
    zones[]: map, name, edges[] { p = Koordinatenfolge x,y auf der Zonenkarte, src = selbst|geteilt, n = wie oft };
    blocked[]: map, p, why, t;  npc[]: id, map, old, new, t.
    Die Prüf-Sitzung erweitert addon-check/testberichte.py um GSWEGE1 (und GSDIAG1) und legt die Daten im Repo ab.
-15. MENÜ AM AUFGABEN-EINTRAG (Wunsch des Nutzers, 5. Nov. 19:00) – zusätzlich zu Zurückstellen/Ignorieren/Abbrechen:
+15. MENÜ AM AUFGABEN-EINTRAG (Wunsch des Nutzers, 5. Nov. 19:00) – ERST AUF KOMMANDO DES NUTZERS EINBAUEN, bis dahin nur vormerken – zusätzlich zu Zurückstellen/Ignorieren/Abbrechen:
     a) "Questgeber ist nicht hier": Ziel-NPC an diesem Ort als falsch markieren, Ziel nicht mehr anzeigen (nur
        Pfeil "Ort unbekannt"), Eintrag in GSWEGE1 npc[] mit new = nil und why = "nicht da".
     b) "Questgeber ist hier": eigene Position als richtigen NPC-Ort übernehmen (nur wenn der NPC in der Nähe
