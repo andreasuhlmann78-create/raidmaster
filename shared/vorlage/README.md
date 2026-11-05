@@ -35,6 +35,7 @@ Das fertige Addon lädt sofort im Spiel. Mit `/ls test` läuft die eingebaute Te
 | `Options.lua` | Seite im Einstellungsfenster (Settings-API, Rückfall InterfaceOptions), Beispiel-Optionen |
 | `UI.lua` | Hauptfenster (verschiebbar, Position gespeichert, Esc schliesst, Inhaltsbereich `ns.content`), Kopierfenster |
 | `Minimap.lua` | Button an der Minimap wie bei allen GoldSentinel-Addons: Linksklick Fenster, Rechtsklick Optionen, Ziehen verschiebt; Option und `/<befehl> minimap` zum Ausblenden |
+| `Diag.lua` | Diagnose-Protokoll wie bei LevelPilot: `ns.Diag(Art, Text, ms)`, `ns.Timed(Name, fn)` (über 16 ms -> LANGSAM), Fehler aus `ns.Try` automatisch als FEHLER (gleiche nur gezählt); `/<befehl> protokoll` zum Kopieren; beim Ausloggen `GSDIAG1`-Zeichenkette in `<Addon>DB.diagExport` für den Uploader; keine Namen. Testfälle T16/T17 |
 | `TestRoutine.lua` | Testroutine nach der Vorgabe der Prüf-Sitzung (Bereiche A–J), Sandbox, Bericht über GoldSentinelTest |
 | `CHANGELOG.md`, `CHANGELOG.de.md`, `LICENSE.txt` | Änderungen Englisch und Deutsch, Lizenz «All Rights Reserved (c) GoldSentinel» |
 

@@ -145,6 +145,30 @@ Case("T14", "B", "Minimap-Button: da, aus- und einblenden, Winkel bleibt", funct
         tostring(shown) .. "/" .. tostring(hidden) .. "/" .. tostring(back) .. ", Winkel " .. tostring(angle), "true/true/true, Winkel 90"
 end)
 
+Case("T16", "B", "Diagnose-Protokoll: Einträge, Zähler statt Schleife, Export GSDIAG1, keine Namen", function()
+    if not (ns.Diag and ns.DiagText and ns.DiagExport) then return false, "Diag.lua fehlt", "ns.Diag/DiagText/DiagExport" end
+    ns.db.diag = nil
+    ns.Diag("KLICK", "Testeintrag", 12.4)
+    for _ = 1, 50 do ns.Diag("FEHLER", "gleicher Fehler") end
+    ns.Timed("Test langsam", function() local t = (debugprofilestop and debugprofilestop() or 0) + 20
+        while debugprofilestop and debugprofilestop() < t do end end)
+    if ns.GT then Swap(ns.GT, "Error", function() end) end   -- absichtlicher Fehler nicht in den echten Fehlerbericht
+    ns.Try("T16 absichtlich", function() error("Testfehler (absichtlich)") end)
+    Undo()
+    local e = ns.db.diag.entries
+    local fehler
+    for _, x in ipairs(e) do if x.t == "gleicher Fehler" then fehler = x end end
+    local text, exp = ns.DiagText(), ns.DiagExport()
+    local who = UnitName and UnitName("player")
+    local noName = not (type(who) == "string" and who ~= "" and text:find(who, 1, true))
+    local slow = not debugprofilestop or text:find("LANGSAM", 1, true) ~= nil
+    local ok = fehler and fehler.n == 50 and #e <= 5 and exp:sub(1, 8) == "GSDIAG1|" and noName and slow
+        and text:find("T16 absichtlich", 1, true) ~= nil
+    return ok and true or false, string.format("%d Einträge, Zähler %s, Export %s, Name %s, langsam %s",
+        #e, fehler and fehler.n or "-", exp:sub(1, 8), noName and "nein" or "JA", tostring(slow)),
+        "≤5 Einträge, Zähler 50, Export GSDIAG1|, Name nein, langsam true"
+end)
+
 Case("T13", "B", "Aktionen laufen nur über ns.Act (im Test nur mitgeschrieben)", function()
     local n = #ns.actLog
     local done = ns.SendChat("Test", "SAY")
@@ -297,6 +321,8 @@ function ns.RunTests(filter)
     end
     -- Hinweise für den Launch-Abend: was nur im echten Client prüfbar ist
     if filter == "" or filter == "B" then
+        run:Client("T17", "B", "Diagnose-Protokoll im Spiel",
+            "/__SLASH__ protokoll öffnet ein Fenster mit markierbarem Text; nach /reload liegt __ADDON__DB.diagExport (beginnt mit GSDIAG1) in den SavedVariables")
         run:Client("T15", "B", "Minimap-Button im Spiel",
             "Button an der Minimap sichtbar, Tooltip in der Sprache des Clients, Ziehen verschiebt ihn, nach /reload am selben Ort")
     end

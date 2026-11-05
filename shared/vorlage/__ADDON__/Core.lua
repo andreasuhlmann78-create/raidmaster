@@ -38,6 +38,7 @@ ns.DEFAULTS = {
     window = { point = "CENTER", x = 0, y = 0, shown = false },
     minimapButton = true,       -- Button an der Minimap (Minimap.lua)
     minimapAngle = 200,         -- Position um die Minimap in Grad
+    diagSend = true,            -- Diagnose-Protokoll beim Ausloggen für den Uploader ablegen (Diag.lua)
 }
 
 local function CopyDefaults(src, dst)
@@ -80,6 +81,7 @@ function ns.Try(where, fn, ...)
     if not res[1] then
         ns.errorCount = ns.errorCount + 1
         if GT and GT.Error then GT.Error(ADDON, where, res[2]) end
+        if ns.Diag then ns.Diag("FEHLER", tostring(where) .. ": " .. tostring(res[2])) end
         if ns.db and ns.db.chat and not ns.testing then ns.Print("|cffff5555" .. tostring(where) .. ":|r " .. tostring(res[2])) end
     end
     return unpack(res)
@@ -145,6 +147,7 @@ end)
 
 ns:On("PLAYER_LOGIN", function()
     if ns.db and ns.db.chat then ns.Print(L.LOADED:format(ns.VERSION)) end
+    if ns.DiagSession and not ns.testing then ns.DiagSession() end
     if ns.OnLogin then ns.OnLogin() end
 end)
 
@@ -157,6 +160,7 @@ function ns.Help()
     ns.Print(L.HELP_CONFIG)
     ns.Print(L.HELP_MINIMAP)
     ns.Print(L.HELP_STATUS)
+    ns.Print(L.HELP_PROTOKOLL)
     ns.Print(L.HELP_TEST)
 end
 
@@ -169,6 +173,7 @@ ns.COMMANDS = {
     help     = ns.Help,
     config   = function() if ns.OpenOptions then ns.OpenOptions() end end,
     minimap  = function() if ns.ToggleMinimapButton then ns.ToggleMinimapButton() end end,
+    protokoll = function() if ns.ShowDiag then ns.ShowDiag() end end,
     status   = function() for line in ns.StatusText():gmatch("[^\n]+") do ns.Print(line) end end,
     test     = function(rest) if ns.RunTests then ns.RunTests(rest) end end,
 }
