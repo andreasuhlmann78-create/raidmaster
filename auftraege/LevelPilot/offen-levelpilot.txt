@@ -69,4 +69,12 @@ BEFUND AUS DEM SPIEL (5. Nov. 01:17, Forever 1.60.1 Build 70790, Mulgore, Taure 
    Pfade bzw. Flugrouten statt Luftlinie über Gebirge, Forever-Standorte prüfen (Kauth in Bloodhoof, Camp Narache).
    Darf trotz Pause als Ausnahme behoben werden, wenn der Nutzer es so entscheidet.
 
+TESTROUTINE IM SPIEL (5. Nov. 01:21, Forever 1.60.1 Build 70790, deDE, Datenpaket 1.6.0)
+   OK 198 · FEHLER 1 · übersprungen 8 · im Client prüfen 6 · nicht automatisiert 0 · Sandbox OK · echte Aktionen 0.
+   T128 (Schwere: NIEDRIG): alte Fassung mit Beispieldaten – ist "ergänzt true, gemessen true", soll "ergänzt, false,
+   kein Fehler". Die Migration markiert Beispieldaten als gemessen. Prüfen und Fall anpassen.
+   Fehlerzähler während der Routine 5 (vorher 0, eindeutig 0): prüfen, ob die Routine absichtliche Testfehler mitzählt.
+   Die Routine erkennt den Routenfehler aus Mulgore (siehe Befund oben) NICHT – dafür einen Fall ergänzen
+   (Abgaben in der Nähe zuerst, kein Weg über Gebirge).
+
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
