@@ -61,4 +61,19 @@ Offene Punkte:
    - download/RaidMasterUploader.zip muss zum Ordner RaidMasterUploader/ passen (prüft "Bot-Tests").
    - Jeder neue Slash-Befehl braucht einen Eintrag in COMMAND_INFO (prüft tests/test_befehle.py).
 
+ERGEBNIS IM SPIEL (5. Nov. 01:07, Forever 1.60.1 Build 70790, Interface 16001, deDE) – mit 3.0.18 nach der Pause
+   OK 98 · FEHLER 3 · übersprungen 10 · im Client prüfen 12 · Sandbox OK.
+   a) T142 (Schwere: MITTEL) – !dkp mit Doppelnamen (Forever-Weg): ist "[RaidMaster] Rokan: MC 40 · Ony 90",
+      soll "Rokan Steinwacht … 40". In Forever haben Charaktere Vor- und Nachnamen; die Antwort (und vermutlich die
+      Suche) nimmt nur das erste Wort. Lösung: Namen mit Leerzeichen vollständig behandeln (Suche und Ausgabe), Test
+      mit Doppelnamen ergänzen.
+   b) T122 (Schwere: NIEDRIG) – Doppelte Fehler: Diagnose 1 Eintrag, aber n = 6 statt 3. Vermutlich zählt der
+      Fehler-Abgriff doppelt (z. B. zwei Hooks, weil mehrere GoldSentinel-Addons geladen sind). Ursache prüfen; ein
+      Fehler darf nur einmal gezählt werden.
+   c) T43 (Schwere: NIEDRIG) – Test-Werkzeug (ony): "kein Item vergeben". Wahrscheinlich waren die Items kurz nach dem
+      ersten Login noch nicht im Cache (GetItemInfo leer). Lösung: auf GET_ITEM_INFO_RECEIVED warten bzw. Item vorher
+      anfordern (C_Item.RequestLoadItemDataByID) und erst dann prüfen; im Spiel erneut testen.
+   Hinweis: RaidMaster war beim ersten Versuch im Spiel nicht geladen ("Unbekannter Befehl") – beim Nutzer lag es an
+   der Installation, nicht am Code.
+
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
