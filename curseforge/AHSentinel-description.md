@@ -12,6 +12,13 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.14
+
+- **Profession window (modern client):** clicking a recipe in "Best recipes" selects it right away through the
+  recipe list of the profession window and scrolls it into view – in the same moment, without waiting for a timer.
+  Only if that is not possible the game's OpenRecipe is used; the addon checks every frame and reports in the chat
+  if the recipe is not shown within 0.5 seconds.
+
 ### Version 0.65.13
 
 - **WoW Forever – profit next to the profession window:** the deposit (at least 1 silver per auction, never refunded)
@@ -44,12 +51,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Profession window (WoW Forever):** the AHSentinel profit window no longer covers the profession tabs on the right
   side of the profession window – it now docks to the right of the tab bar. Without such a tab bar it sits where it
   always did.
-
-### Version 0.65.9
-
-- **Profession window:** new interface `AHAnalyzerPro.Crafting:GetDockFrame()` – returns the visible AHSentinel profit
-  window next to the profession window, otherwise nil. ProfessionSentinel uses it to dock to the right of it instead of
-  lying on top of it. AHSentinel itself stays directly to the right of the Blizzard profession window.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
