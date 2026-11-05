@@ -7,6 +7,12 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.9</h3>
+<ul>
+<li><strong>Profession window:</strong> new interface <code>AHAnalyzerPro.Crafting:GetDockFrame()</code> – returns the visible AHSentinel profit
+  window next to the profession window, otherwise nil. ProfessionSentinel uses it to dock to the right of it instead of
+  lying on top of it. AHSentinel itself stays directly to the right of the Blizzard profession window.</li>
+</ul>
 <h3>Version 0.65.8</h3>
 <ul>
 <li><strong>Damaged saved data is repaired on login:</strong> single broken entries (price history, characters, sniper targets,
@@ -56,17 +62,6 @@
 - <strong>Profession window:</strong> the old clients (Classic Era, TBC) read recipes at most every 5 seconds again, as in 0.65.3.
   In the modern client the chosen recipe is taken from the recipe list itself and forgotten when the window closes,
   so the ingredient button never uses an old recipe.</p>
-<h3>Version 0.65.4</h3>
-<p>Fixes from the addon check:
-- <strong>Old "AH Analyzer Pro" (up to 0.61) still installed:</strong> AHSentinel no longer loads next to it (both used the same
-  global table – double events, double commands, possible Lua errors). Instead it asks once in chat to delete the old
-  folder <code>AddOns\AHAnalyzerPro</code>. Your old data is saved for AHSentinel first. The old folder is no longer loaded before AHSentinel.
-- <strong>Watcher (Classic Era, TBC):</strong> back to the behaviour of 0.64.2 – it no longer pauses for up to 15 minutes when the
-  server reports "no full scan" (that can come from another addon).
-- <strong>Watcher (WoW Forever, Retail):</strong> if the full scan is due and the server drops requests, the watcher pauses until the scan has run (at most 15 minutes).
-- <strong>Profession window (modern client):</strong> a recipe list that is still empty right after opening no longer blocks reading for 5 seconds;
-  the ingredient button remembers the last chosen recipe; recipe details are read only once per profession (less stutter).
-- <code>/ahs debug</code> shows whether vendor costs in currency (e.g. Merchant's Favor) can be read in this client.</p>
 <p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>

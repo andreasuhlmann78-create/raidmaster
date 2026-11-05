@@ -12,6 +12,12 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.9
+
+- **Profession window:** new interface `AHAnalyzerPro.Crafting:GetDockFrame()` – returns the visible AHSentinel profit
+  window next to the profession window, otherwise nil. ProfessionSentinel uses it to dock to the right of it instead of
+  lying on top of it. AHSentinel itself stays directly to the right of the Blizzard profession window.
+
 ### Version 0.65.8
 
 - **Damaged saved data is repaired on login:** single broken entries (price history, characters, sniper targets,
@@ -64,19 +70,6 @@ Follow-up fixes from the addon check:
 - **Profession window:** the old clients (Classic Era, TBC) read recipes at most every 5 seconds again, as in 0.65.3.
   In the modern client the chosen recipe is taken from the recipe list itself and forgotten when the window closes,
   so the ingredient button never uses an old recipe.
-
-### Version 0.65.4
-
-Fixes from the addon check:
-- **Old "AH Analyzer Pro" (up to 0.61) still installed:** AHSentinel no longer loads next to it (both used the same
-  global table – double events, double commands, possible Lua errors). Instead it asks once in chat to delete the old
-  folder `AddOns\AHAnalyzerPro`. Your old data is saved for AHSentinel first. The old folder is no longer loaded before AHSentinel.
-- **Watcher (Classic Era, TBC):** back to the behaviour of 0.64.2 – it no longer pauses for up to 15 minutes when the
-  server reports "no full scan" (that can come from another addon).
-- **Watcher (WoW Forever, Retail):** if the full scan is due and the server drops requests, the watcher pauses until the scan has run (at most 15 minutes).
-- **Profession window (modern client):** a recipe list that is still empty right after opening no longer blocks reading for 5 seconds;
-  the ingredient button remembers the last chosen recipe; recipe details are read only once per profession (less stutter).
-- `/ahs debug` shows whether vendor costs in currency (e.g. Merchant's Favor) can be read in this client.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
