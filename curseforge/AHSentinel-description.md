@@ -12,6 +12,14 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.15
+
+- **Diagnostic log:** `/ahs protokoll` (or `/ahs log`) opens a window with a copyable log – version, client, sessions,
+  changed settings, open windows and where the profit window is docked, plus entries (newest first): CLICK (recipe,
+  recipe ID, way, milliseconds, success), BUILD (best-recipes list, trigger, time), SLOW (any step over 16 ms),
+  OVERLAP (another window covering the profit window) and ERROR (same error only counted). On logout it is also stored
+  as "GSDIAG1" for the addon check. No player, character, guild or realm names.
+
 ### Version 0.65.14
 
 - **Profession window (modern client):** clicking a recipe in "Best recipes" selects it right away through the
@@ -45,12 +53,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Price field:** always shows gold/silver/copper as g/s/c ("78c", "3s 90c") in every language – never "k", which
   read like "thousand". Typing "78", "78c", "1s 20c", "1g" and the old "78k" still works.
 - For ProfessionSentinel: `AHAnalyzerPro.Crafting:GetDockFrame(true)` also returns the profit window while it is hidden.
-
-### Version 0.65.10
-
-- **Profession window (WoW Forever):** the AHSentinel profit window no longer covers the profession tabs on the right
-  side of the profession window – it now docks to the right of the tab bar. Without such a tab bar it sits where it
-  always did.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
