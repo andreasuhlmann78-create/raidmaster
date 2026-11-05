@@ -68,3 +68,15 @@ Offen ist nur noch, was im Spiel geprüft werden muss. Neue Wünsche kommen als 
    kürzen oder abschneiden.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
+
+NACHTRAG (5. Nov. 15:35, Screenshot Angeln 114/150 mit PS 0.9.15 + AHSentinel 0.65.11)
+   ERLEDIGT in 0.9.15 (Bild): Fertigkeit stimmt jetzt – Plan "Von 114 bis 150", Fischglas "grau – keine Punkte mehr",
+   "Ab 114 bringt kein Rezept mehr Punkte". Punkt 4 ist im Spiel bestätigt behoben.
+   NEU (HOCH, Rückfall): Das AHSentinel-Gewinn-Fenster liegt wieder ÜBER dem ProfessionSentinel-Panel. PS hat sich
+   direkt rechts ans Berufsfenster gesetzt, AHSentinel ebenfalls (Strata HIGH) -> Überlappen. Die Nachsuche
+   (sofort und nach 0,3 s) hat das AHSentinel-Fenster nicht gefunden (es erscheint später, z. B. bei Rezeptwahl).
+   Lösung: AHSentinel 0.65.11 bietet jetzt AHAnalyzerPro.Crafting:GetDockFrame(true) (Frame auch verborgen,
+   Crafting.lua). Damit einmal HookScript("OnShow"/"OnHide") auf diesen Frame setzen (nur einmal pro Frame, merken)
+   und bei jedem Ein-/Ausblenden sowie bei jedem eigenen OnShow/Refresh neu andocken. Fehlt der Frame noch (nil),
+   bei TRADE_SKILL_SHOW und beim nächsten Refresh erneut fragen. Alte AHSentinel-Versionen ohne Argument weiter wie
+   bisher. Testfall: AHSentinel-Frame erscheint NACH dem PS-Panel -> PS dockt rechts daneben an, kein Überlappen.
