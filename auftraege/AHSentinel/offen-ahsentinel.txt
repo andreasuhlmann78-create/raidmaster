@@ -139,8 +139,15 @@ OFFENE PUNKTE (nach der Pause)
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
 
-NACHTRAG (5. Nov. 17:10, im Code geprüft) – NIEDRIG, nach der Pause
-   Gewinn-Fenster (Crafting.lua:249-254) rechnet Gewinn = Wert × 0,95 - Material, ohne Einstellgebühr; die eigene
-   Heute-Liste (Crafting.lua:624) zieht dagegen A:ExpectedDepositLoss ab, ProfessionSentinel die volle Gebühr. Bitte
-   im Gewinn-Fenster ebenfalls den erwarteten Verlust (ExpectedDepositLoss) abziehen bzw. als eigene Zeile zeigen,
-   damit AHSentinel und ProfessionSentinel dieselbe Zahl zeigen (PS übernimmt dieselbe Funktion).
+NACHTRAG (5. Nov. 17:10, im Code geprüft; korrigiert 17:12) – MITTEL, nach der Pause
+   REGEL IN WOW FOREVER (Angabe des Nutzers aus dem Spiel, 5. Nov. 17:11):
+   - Einstellgebühr = normale Einstellgebühr, mindestens 1 Silber (pro Auktion). Sie wird NICHT zurückerstattet,
+     auch bei Verkauf nicht.
+   - Wird eine Auktion ABGEBROCHEN, kommt ein Teil zurück – anteilig zur Zeit, die sie noch gelaufen wäre.
+   - Verkaufsgebühr 5 % vom Verkaufspreis, ohne Minimum.
+   a) Gewinn-Fenster am Berufsfenster (Crafting.lua:249-254) rechnet Gewinn = Wert × 0,95 - Material OHNE
+      Einstellgebühr -> zu hoch (Kupferne Kettenhose 1s 18c statt 18c wie in ProfessionSentinel). In Forever die
+      volle Einstellgebühr (mind. 1s pro Auktion) abziehen und als eigene Zeile zeigen; Era/TBC unverändert.
+   b) A:ExpectedDepositLoss (Heute-Liste Crafting.lua:624) und alle Stellen, die eine Erstattung bei Verkauf
+      annehmen: in Forever gibt es keine Erstattung bei Verkauf – nur beim Abbrechen anteilig. Prüfen und anpassen.
+   c) Testfall: Einstellgebühr 20c -> 1s; 3s -> 3s; Gewinn = Wert × 0,95 - Material - Einstellgebühr.
