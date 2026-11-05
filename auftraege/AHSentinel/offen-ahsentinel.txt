@@ -59,3 +59,11 @@ NACHTRAG (5. Nov. 13:56, Screenshot Verkaufen) – NIEDRIG, nach der Pause
    Lösung (Entscheid des Nutzers): im Feld immer "78c" schreiben, in allen Sprachen gleich wie sonst im Addon
    ("3s 90c") – g/s/c, nie "k". Eingaben wie "78", "78c", "1s 20c", "1g" weiter annehmen ("78k" aus alten
    Eingaben ebenfalls).
+
+NACHTRAG (5. Nov. 14:02, Hinweis des Nutzers) – MITTEL, nach der Pause
+   In den Kategorien von AHSentinel fehlen die Unterkategorien, wie sie das Blizzard-AH in Forever hat (z. B. Waffen ->
+   Einhandäxte …, Rüstung -> Stoff/Leder …, Verbrauchbares -> Tränke …). Nur bei Handwerkswaren stimmt die
+   Unterteilung schon. Lösung: Kategorien und Unterkategorien aus dem Spiel übernehmen (moderner Client:
+   AuctionCategories bzw. C_AuctionHouse/ItemClass+Subclass über C_Item.GetItemClassInfo/GetItemSubClassInfo), gleiche
+   Reihenfolge und Namen wie im Blizzard-AH, wie bei Handwerkswaren. Testfall: jede Hauptkategorie hat dieselben
+   Unterkategorien wie das Blizzard-AH.
