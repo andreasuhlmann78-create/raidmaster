@@ -82,3 +82,5 @@ NACHTRAG (5. Nov. 17:55, Wunsch des Nutzers) – nach der Pause
    RaidMasterUploader: neben GSTEST1-Testberichten auch GSWEGE1-Wegdaten aus LevelPilots SavedVariables
    (LevelPilot.lua, Feld wegeExport) beim /reload/Ausloggen nach #testberichte schicken (gleicher Weg, gleiche
    Grössenregeln, nur wenn neu). Die Prüf-Sitzung erweitert addon-check/testberichte.py um GSWEGE1 (Ablage im Repo).
+   Ergänzung (5. Nov. 18:35): ebenso "GSDIAG1"-Diagnoseprotokolle aus AHSentinel- und ProfessionSentinel-
+   SavedVariables mitschicken (gleicher Weg wie GSTEST1).
