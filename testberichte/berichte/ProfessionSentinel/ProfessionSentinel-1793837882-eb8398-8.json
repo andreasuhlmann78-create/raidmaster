@@ -1,0 +1,1419 @@
+{
+ "abgefangen": [
+  "Eingabe Marge ×18",
+  "Fenster Ziel Verzauberkunst ×19",
+  "Sniper-Ziele anlegen (AHSentinel) ×1",
+  "Today.BuyAH ×1",
+  "Today.BuyVendor ×1",
+  "Today.Craft ×1",
+  "Today.Sell ×1",
+  "VZ-Angebot flüstern ×1",
+  "Wegpunkt setzen ×229"
+ ],
+ "addon": "ProfessionSentinel",
+ "api_simulation": "nein",
+ "counts": {
+  "client": 13,
+  "fehler": 6,
+  "ok": 144,
+  "uebersprungen": 9
+ },
+ "dur_ms": 20426,
+ "echte_aenderungen": "0",
+ "env": {
+  "build": "70790",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 2,
+  "interface": 16001,
+  "level": 5,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [],
+ "f": 1,
+ "id": "ProfessionSentinel-1793837882-eb8398-8",
+ "kind": "test",
+ "leistung": {
+  "T139": 44.2,
+  "T140": 20.2,
+  "T141": 0.6,
+  "T142": 1.2,
+  "T143": 67.6,
+  "T145": 0
+ },
+ "modus": "alles",
+ "results": [
+  {
+   "bereich": "A",
+   "ergebnis": "20 Module",
+   "id": "T01",
+   "ms": "0.0",
+   "name": "Alle Dateien und Module geladen",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "toc 0.9.13 / Code 0.9.13",
+   "id": "T02",
+   "ms": "0.0",
+   "name": "Version .toc = Code",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "4 Prüfungen · forever 2211 Rezepte, Build 1.60.1.70753",
+   "id": "T05",
+   "ms": "0.0",
+   "name": "Datenpaket passt zum Client",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Launch: /dump select(4, GetBuildInfo()) – die Nummer muss in allen 4 TOCs stehen (Client 16001)",
+   "bereich": "A",
+   "id": "T06",
+   "name": "Interface-Nummer akzeptiert",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "13 Prüfungen",
+   "id": "T07",
+   "ms": "0.0",
+   "name": "GoldSentinelGame Version 2 und gleich erkannt",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "7 Weichen",
+   "id": "T08",
+   "ms": "0.0",
+   "name": "Weichen simuliert: forever",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "6 Weichen",
+   "id": "T09",
+   "ms": "0.0",
+   "name": "Weichen simuliert: era",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "9 Weichen",
+   "id": "T10",
+   "ms": "0.0",
+   "name": "Weichen simuliert: tbc und retail",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "forever",
+   "id": "T11",
+   "ms": "0.0",
+   "name": "Weichen wieder echt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Entwickler: TEST_HELP · Spieler: HELP",
+   "id": "T12",
+   "ms": "0.0",
+   "name": "/ps help mit und ohne Entwickler",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Schritte",
+   "id": "T13",
+   "ms": "0.0",
+   "name": "/ps und /professionsentinel (Panel umschalten)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true -> false -> true",
+   "id": "T14",
+   "ms": "0.0",
+   "name": "/ps line",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Modus ranking, Gruppe today true",
+   "id": "T15",
+   "ms": "0.0",
+   "name": "/ps heute",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true -> false -> true",
+   "id": "T16",
+   "ms": "0.0",
+   "name": "/ps alarm",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "false -> true -> false",
+   "id": "T17",
+   "ms": "0.0",
+   "name": "/ps kisten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Zielfrage abgefangen ×1",
+   "id": "T18",
+   "ms": "0.0",
+   "name": "/ps ziel",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "7 Befehle",
+   "id": "T19",
+   "ms": "0.0",
+   "name": "/ps test, selftest, autotest, testroutine ohne Freigabe",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "6 Schritte",
+   "id": "T20",
+   "ms": "0.0",
+   "name": "Testroutine: Doppelstart und Stopp",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "2211 Rezepte, 0 Abweichungen",
+   "id": "T21",
+   "ms": "0.0",
+   "name": "Indizes",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Felder",
+   "id": "T22",
+   "ms": "0.0",
+   "name": "Charakterdatensatz",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Prüfungen",
+   "id": "T23",
+   "ms": "0.0",
+   "name": "Namen und Sprache",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Prüfungen",
+   "id": "T24",
+   "ms": "0.0",
+   "name": "Berufs-Aliasse und Zuordnung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "all true · none false · echt true",
+   "id": "T25",
+   "ms": "0.0",
+   "name": "Gelernt-Zustand",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1 -> 1 Berufe",
+   "id": "T26",
+   "ms": "0.0",
+   "name": "Scan-Funktionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "kennen 1, fehlt 1",
+   "id": "T27",
+   "ms": "0.0",
+   "name": "Charaktere je Rezept (Scan:CharsFor)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "8 Fälle",
+   "id": "T28",
+   "ms": "0.0",
+   "name": "Lebenslinie-Mathematik",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "95/110/125",
+   "id": "T29",
+   "ms": "0.0",
+   "name": "Farbstufen je Version",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Berufsfenster öffnen, dann /ps testroutine b (Widget automatisch OK)",
+   "bereich": "B",
+   "id": "T30",
+   "name": "Lebenslinien-Widget und Hooks",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "6 Prüfungen",
+   "id": "T31",
+   "ms": "0.0",
+   "name": "Lehrer und Fundorte",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "3 Prüfungen",
+   "id": "T32",
+   "ms": "0.0",
+   "name": "Wegpunkt ohne Koordinaten und über TomTom-Attrappe",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "6 Fälle",
+   "id": "T33",
+   "ms": "0.0",
+   "name": "Preisrechnung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Quellen",
+   "id": "T34",
+   "ms": "0.0",
+   "name": "Preisquelle und Reihenfolge",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5.00 (Stapel 20)",
+   "id": "T35",
+   "ms": "0.0",
+   "name": "Einstellgebühr je Stück",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Texte",
+   "id": "T36",
+   "ms": "0.0",
+   "name": "Geldtexte",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "4 Ranglisten",
+   "id": "T37",
+   "ms": "0.0",
+   "name": "Ranglisten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "11 Hilfen",
+   "id": "T38",
+   "ms": "0.0",
+   "name": "Advisor-Hilfen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Fälle",
+   "id": "T39",
+   "ms": "0.0",
+   "name": "Levelplan und Einkaufsliste",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "225,300,150",
+   "id": "T40",
+   "ms": "0.0",
+   "name": "Planziel umschalten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "3 Prüfungen",
+   "id": "T41",
+   "ms": "0.0",
+   "name": "Plan bauen",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Rechtsklick im Panel auf ein fehlendes Rezept mit Händler: Pin muss gesetzt werden, danach selbst entfernen; bestätigen mit /ps testroutine ok T42",
+   "bereich": "B",
+   "id": "T42",
+   "name": "Echter Kartenpin (halbautomatisch)",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "2 Prüfungen · 0 Kandidaten",
+   "id": "T43",
+   "ms": "0.0",
+   "name": "Kandidaten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "12 Schritte",
+   "id": "T44",
+   "ms": "0.0",
+   "name": "Nächster Schritt (TD.Plan / StepText)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "12 Schritte",
+   "id": "T45",
+   "ms": "0.0",
+   "name": "Klick auf „Heute herstellen“ ohne echte Folge",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "4 Prüfungen · 0 Einträge",
+   "id": "T46",
+   "ms": "0.0",
+   "name": "ProfessionSentinelAPI (für AHSentinel „Heute tun“)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Aufrufe: 1,7",
+   "id": "T47",
+   "ms": "0.0",
+   "name": "Kauf-Logik Einzelstücke",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "3 Fälle",
+   "id": "T48",
+   "ms": "0.0",
+   "name": "Kauf-Logik Bündel und Begrenzung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Fälle",
+   "id": "T49",
+   "ms": "0.0",
+   "name": "Favor-Kosten, Reihenfolge",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Handelslager-Händler öffnen (Favor-Stand unbekannt), dann /ps testroutine b",
+   "bereich": "B",
+   "id": "T50",
+   "name": "Favor-Stand",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "6 Texte",
+   "id": "T51",
+   "ms": "0.0",
+   "name": "Kostentext",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "923 Prüfungen · 310 Favor-Rezepte",
+   "id": "T52",
+   "ms": "0.0",
+   "name": "Favor-Rezepte je Beruf",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "4 Fälle",
+   "id": "T53",
+   "ms": "0.0",
+   "name": "Favor-Planer",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "60 Fälle",
+   "id": "T54",
+   "ms": "0.0",
+   "name": "Kistenrechner",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne nil · mit 1",
+   "id": "T55",
+   "ms": "0.0",
+   "name": "Gildenblick Favor",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "grund": "nur Classic Era / Retail",
+   "id": "T56",
+   "name": "Händlergunst in anderen Versionen aus",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "6 Fälle",
+   "id": "T57",
+   "ms": "0.0",
+   "name": "Ziel und Rolle",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "4 Fälle",
+   "id": "T58",
+   "ms": "0.0",
+   "name": "Entzauberungswert",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "7 Fälle",
+   "id": "T59",
+   "ms": "0.0",
+   "name": "VZ-Preis, Marge, Sniper-Ziele",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Prüfungen",
+   "id": "T60",
+   "ms": "0.0",
+   "name": "Angebot flüstern ohne echtes Flüstern",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Regeln",
+   "id": "T61",
+   "ms": "0.0",
+   "name": "Kunde ermitteln",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "4 Prüfungen",
+   "id": "T62",
+   "ms": "0.0",
+   "name": "Zielfenster",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T63",
+   "lua": "...face/AddOns/Blizzard_StaticPopup_Game/GameDialog.lua:124: invalid option in `format'",
+   "ms": "0.0",
+   "name": "Eingabefenster Aufschlag, Mindestgewinn, Marge",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "4 Prüfungen",
+   "id": "T64",
+   "ms": "0.0",
+   "name": "AHSentinel-Daten für den Verzauberer-Reiter",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "2 Prüfungen",
+   "id": "T65",
+   "ms": "0.0",
+   "name": "Sniper übergeben",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Namen 2",
+   "id": "T66",
+   "ms": "0.0",
+   "name": "Wer braucht welches Rezept",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Fälle",
+   "id": "T67",
+   "ms": "0.0",
+   "name": "Alarm nach Scan",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1 frisch, Cache true",
+   "id": "T68",
+   "ms": "0.0",
+   "name": "Alarm aus aktuellen Preisen",
+   "status": "OK"
+  },
+  {
+   "anleitung": "ein Rezept-Item in die Taschen legen, dann /ps testroutine b",
+   "bereich": "B",
+   "id": "T69",
+   "name": "Rezepte in den Taschen",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "mit AHSentinel einen AH-Scan machen: Rezept-Alarm bzw. Gruppe „alerts“ im Panel erscheint (angemeldet: true)",
+   "bereich": "B",
+   "id": "T70",
+   "name": "Anbindung an den AHSentinel-Scan",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "neuer gewinnt: true, Available true",
+   "id": "T71",
+   "ms": "0.0",
+   "name": "Gildendaten zusammenführen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "7 Prüfungen",
+   "id": "T72",
+   "ms": "0.0",
+   "name": "Wer kann was",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "7 Prüfungen",
+   "id": "T73",
+   "ms": "0.0",
+   "name": "Abklingzeiten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "4 Prüfungen",
+   "id": "T74",
+   "ms": "0.0",
+   "name": "Online-Liste",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "4 Prüfungen",
+   "id": "T75",
+   "ms": "0.0",
+   "name": "Item-Tooltip Rezept",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "3 Prüfungen",
+   "id": "T76",
+   "ms": "0.0",
+   "name": "Item-Tooltip Material",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "6 Tooltips",
+   "id": "T77",
+   "ms": "0.0",
+   "name": "Panel-Tooltips",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "TooltipDataProcessor: 1× ProfessionSentinel-Zeile",
+   "id": "T78",
+   "ms": "0.0",
+   "name": "Nur ein Tooltip-Weg aktiv",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "45 Berufe",
+   "id": "T79",
+   "ms": "0.0",
+   "name": "Panel je Beruf",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "9 Reiter",
+   "id": "T80",
+   "ms": "0.0",
+   "name": "Reiter",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "950 Berufe × Ansichten",
+   "id": "T81",
+   "ms": "0.0",
+   "name": "Jede Ansicht aufbauen und bedienen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "72 Berufe",
+   "id": "T82",
+   "ms": "0.0",
+   "name": "Suche und Filter „nur fehlend“",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "612 Berufe",
+   "id": "T83",
+   "ms": "0.0",
+   "name": "Fertigkeits- und Gelernt-Simulation",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Titel „ProfessionSentinel“, Hinweis true, Zeilen 0",
+   "id": "T84",
+   "ms": "0.0",
+   "name": "Panel ohne Beruf",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Berufsfenster öffnen (Addons dürfen das nicht selbst), dann /ps testroutine b",
+   "bereich": "B",
+   "id": "T85",
+   "name": "Andocken und Hinweis „bester Rezept“",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "12 Optionen · guildShare ohne Wirkung (nur Lesen), panelOpen nur mit Berufsfenster prüfbar, planTarget siehe T40",
+   "id": "T86",
+   "ms": "0.0",
+   "name": "Jede Option an/aus",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "24 Prüfungen · 18 Knöpfe",
+   "id": "T87",
+   "ms": "0.0",
+   "name": "Testmodus-Fenster",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "68 Prüfungen, Zustand sauber",
+   "id": "T88",
+   "ms": "0.0",
+   "name": "Alter Selbsttest unverändert sauber",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "4 Befehle",
+   "id": "T89",
+   "ms": "0.0",
+   "name": "Autotest-Befehle",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "28 Aufrufe · 10 Frames",
+   "id": "T90",
+   "ms": "0.0",
+   "name": "Ereignis-Handler",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "20× TRADE_SKILL_LIST_UPDATE -> 1× UpdateProfessions",
+   "id": "T91",
+   "ms": "0.0",
+   "name": "Entprellung des Scans",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 Abweichungen",
+   "id": "T92",
+   "ms": "0.0",
+   "name": "Datenpakete inhaltlich",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "SendAddonMessage ×0, Präfix false",
+   "id": "T93",
+   "ms": "0.0",
+   "name": "Keine Addon-Kommunikation",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "known 1 -> 1, IsSecret gefragt ×1",
+   "id": "T94",
+   "ms": "0.0",
+   "name": "Gelerntes Rezept mit geschütztem Argument",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "ID nil, Zeilen 0 -> 0",
+   "id": "T95",
+   "ms": "0.0",
+   "name": "Tooltip mit geschützter Item-ID",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Schlüssel gleich",
+   "id": "T96",
+   "ms": "0.0",
+   "name": "Eigener Name und Fraktion im Kampf",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Kunde nil, gesendet false",
+   "id": "T97",
+   "ms": "0.0",
+   "name": "Kunde mit geschütztem Ziel-Namen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "übernommen false",
+   "id": "T98",
+   "ms": "0.0",
+   "name": "Gildenliste mit geschütztem Namen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "kein Fehler",
+   "id": "T99",
+   "ms": "0.0",
+   "name": "Chat-Ereignis mit geschütztem Argument",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "grund": "nur im alten Client prüfbar – siehe T120",
+   "id": "T108",
+   "name": "Alter Tooltip-Weg",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Hinweis ×2, Läufe 0",
+   "id": "T109",
+   "ms": "0.0",
+   "name": "Start im Kampf verweigert",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "5 Prüfungen",
+   "id": "T110",
+   "ms": "0.0",
+   "name": "Kampfbeginn bricht ab",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "7 Aktionen",
+   "id": "T111",
+   "ms": "0.0",
+   "name": "Keine Aktionen im Kampf",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "5 Frames (5 vorhanden, keine Secure-Vorlage im Addon)",
+   "id": "T112",
+   "ms": "0.0",
+   "name": "Keine geschützten Frames",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Panel offen und Rezept in den Taschen überfahren, dann einen Kampf beginnen und Tooltips ansehen: kein Lua-Fehler, kein ADDON_ACTION_BLOCKED",
+   "bereich": "C",
+   "id": "T113",
+   "name": "Panel und Tooltip im echten Kampf",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "10 Frames ohne Kampflog",
+   "id": "T114",
+   "ms": "0.0",
+   "name": "Kampflog nicht registriert",
+   "status": "OK"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur Classic Era",
+   "id": "T115",
+   "name": "Berufe auf dem alten Weg",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur Classic Era",
+   "id": "T117",
+   "name": "Händlergunst und Gebühr aus",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur Classic Era / Retail",
+   "id": "T118",
+   "name": "Reiter-Layout wie früher",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur Classic Era",
+   "id": "T119",
+   "name": "Lebenslinie im Blizzard-Fenster alt",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur Classic Era",
+   "id": "T120",
+   "name": "Tooltip-Weg im alten Client",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "kein TBC-Client in diesem Lauf (simuliert in T10/T172)",
+   "id": "T121",
+   "name": "TBC bleibt untätig",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur Retail",
+   "id": "T122",
+   "name": "Retail-Eigenheiten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "25 Prüfungen",
+   "id": "T123",
+   "ms": "0.0",
+   "name": "Neuinstallation",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "6 Prüfungen",
+   "id": "T124",
+   "ms": "0.0",
+   "name": "Migration aus 0.8.x",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "wish/goals table, Kosten 150",
+   "id": "T125",
+   "ms": "0.0",
+   "name": "Migration aus 0.9.2 (Favor ohne Wunschliste)",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "18 Prüfungen",
+   "id": "T126",
+   "ms": "0.0",
+   "name": "Beschädigte Einträge",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "3 Zeitstempel",
+   "id": "T127",
+   "ms": "0.0",
+   "name": "Gelernte Kosten mit Zeitstempel",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "373 Schlüssel, fehlend 0",
+   "id": "T128",
+   "ms": "0.0",
+   "name": "Alle benutzten Schlüssel vorhanden",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "377 Schlüssel, 0 Abweichungen",
+   "id": "T129",
+   "ms": "0.0",
+   "name": "Platzhalter gleich",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "16 Prüfungen",
+   "id": "T130",
+   "ms": "0.0",
+   "name": "Jede Sprache einmal aktiv",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "4 Prüfungen · andere: RaidMaster 3.0.17, AHSentinel 0.65.8, GuildSentinel 0.9.13, ThreatSentinel 2.4.5, BuffSentinel 0.9.7, LevelPilot 3.12.6",
+   "id": "T131",
+   "ms": "0.0",
+   "name": "Gemeinsame Dateien",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "17 Prüfungen, 1 Fehler: nicht erlaubt: ProfessionSentinelAutoTestReportBg, ProfessionSentinelAutoTestReportCloseButton, ProfessionSentinelAutoTestReportInset, ProfessionSentinelAutoTestReportPortrait, ProfessionSentinelAutoTestReportText, ProfessionSentinelAutoTestReportTitleText, ProfessionSentine…",
+   "erwartet": "0 Fehler",
+   "id": "T132",
+   "ms": "0.0",
+   "name": "Keine globalen Namen überschrieben",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "13 Prüfungen",
+   "id": "T133",
+   "ms": "0.0",
+   "name": "Ohne AHSentinel",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "18 Aufrufe",
+   "id": "T134",
+   "ms": "0.0",
+   "name": "Mit fehlerhaftem AHSentinel",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "4 Prüfungen",
+   "id": "T135",
+   "ms": "0.0",
+   "name": "Mit echtem AHSentinel",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "4 Prüfungen",
+   "id": "T136",
+   "ms": "0.0",
+   "name": "GuildSentinel und RaidMaster mit/ohne",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "3 Quellen",
+   "id": "T137",
+   "ms": "0.0",
+   "name": "TSM, Auctionator, TomTom",
+   "status": "OK"
+  },
+  {
+   "anleitung": "AHSentinel „Heute tun“ öffnen: Zeilen von ProfessionSentinel erscheinen dort",
+   "bereich": "G",
+   "id": "T138",
+   "name": "AHSentinel „Heute tun“ zeigt Herstellungen",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "6 Ansichten, 6 Fehler: recipes 36.1 ms · langsamste 44.2 ms (Lederverarbeitung)",
+   "erwartet": "< 16 ms",
+   "id": "T139",
+   "ms": "0.0",
+   "name": "Panel-Aufbau je Ansicht",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "20.2 ms",
+   "erwartet": "< 16 ms",
+   "id": "T140",
+   "ms": "0.0",
+   "name": "Bestes Rezept bei jedem Berufs-Ereignis",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Rezept 0.04 ms, Material 0.06 ms, Panel 0.6 ms",
+   "id": "T141",
+   "ms": "0.0",
+   "name": "Tooltips",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "1.2 ms (2211 Zauber)",
+   "id": "T142",
+   "ms": "0.0",
+   "name": "Passiver Rezept-Abgleich",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "6 Rechnungen, 2 Fehler: AD.Plan 1->300 67.6 ms",
+   "erwartet": "0 Fehler",
+   "id": "T143",
+   "ms": "0.0",
+   "name": "Teure Rechnungen",
+   "status": "FEHLER"
+  },
+  {
+   "anleitung": "Berufsfenster öffnen, dann /ps testroutine h",
+   "bereich": "H",
+   "id": "T144",
+   "name": "Lebenslinie im Blizzard-Fenster",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "registry true, offen 0",
+   "id": "T146",
+   "ms": "0.0",
+   "name": "Fehlerzählung angemeldet",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "gezählt ×1",
+   "id": "T147",
+   "ms": "0.0",
+   "name": "Abgefangener Fehler wird gezählt",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "gezählt (wo=Lua)",
+   "id": "T148",
+   "ms": "0.0",
+   "name": "Ungefangener Fehler wird gezählt",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "5 Teile",
+   "id": "T149",
+   "ms": "0.0",
+   "name": "Diagnose vollständig",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Version 2",
+   "id": "T150",
+   "ms": "0.0",
+   "name": "GoldSentinelGame unverändert, kein eigener Nachbau",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "beide forever",
+   "id": "T151",
+   "ms": "0.0",
+   "name": "Versionserkennung aus GoldSentinelGame",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "310 Favor-Rezepte, Ruf ≠ 2587: 0, mit Goldpreis: 0, Fraktionen true",
+   "id": "T152",
+   "ms": "0.0",
+   "name": "Favor-Rezepte ohne Goldpreis",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Favor-Zeilen 2, Ruf 1, Münz-Zeilen 0",
+   "id": "T153",
+   "ms": "0.0",
+   "name": "Panel-Tooltip zeigt Favor statt Gold",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "A 2586, H 2587",
+   "id": "T154",
+   "ms": "0.0",
+   "name": "Allianz bekommt ihre Fraktion",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "150,170,180",
+   "id": "T157",
+   "ms": "0.0",
+   "name": "Reihenfolge der Kosten",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "4 Varianten",
+   "id": "T159",
+   "ms": "0.0",
+   "name": "AHSentinel nur aufrufen, wenn vorhanden, in pcall",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "currency 3333, Stand nil",
+   "id": "T160",
+   "ms": "0.0",
+   "name": "Währungs-ID von AHSentinel für den Stand",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "4 Fälle",
+   "id": "T162",
+   "ms": "0.0",
+   "name": "Nur Händlergunst von AHSentinel",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "3 Fälle",
+   "id": "T164",
+   "ms": "0.0",
+   "name": "Hergestellte Kisten: günstiger von Kaufen und Herstellen",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "3 Fälle",
+   "id": "T165",
+   "ms": "0.0",
+   "name": "Beste Kiste in „Heute herstellen“ nur mit Option",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "18 Reiter",
+   "id": "T167",
+   "ms": "0.0",
+   "name": "Reiter-Verteilung nur in Forever",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Kosten 1, Ruf 1, aus 0",
+   "id": "T168",
+   "ms": "0.0",
+   "name": "Favor-Kosten im Item-Tooltip",
+   "status": "OK"
+  },
+  {
+   "anleitung": "/dump select(4, GetBuildInfo()) – Nummer in allen 4 TOCs (Client 16001)",
+   "bereich": "J",
+   "id": "T169",
+   "name": "Interface-Nummer nach dem Launch",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Daten 1.60.1.70753, Client 1.60.1.70790",
+   "id": "T170",
+   "ms": "0.0",
+   "name": "Daten aus dem Live-Build",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "23 Anmeldungen",
+   "id": "T171",
+   "ms": "0.0",
+   "name": "Nur bekannte Ereignisse angemeldet",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "4 Prüfungen",
+   "id": "T172",
+   "ms": "0.0",
+   "name": "Nicht unterstützte Versionen sagen es einmal",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "2 Prüfungen",
+   "id": "T173",
+   "ms": "0.0",
+   "name": "Nichts in den Gildenkanal, nur lesen",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "27 Aufrufe",
+   "id": "T174",
+   "ms": "0.0",
+   "name": "Echte Aktionen nur nach Klick",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Hinweis true, Öffnen ×0",
+   "id": "T175",
+   "ms": "0.0",
+   "name": "Berufsfenster wird nie selbst geöffnet",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "3 Prüfungen",
+   "id": "T176",
+   "ms": "0.0",
+   "name": "Vor- und Nachnamen in Forever",
+   "status": "OK"
+  },
+  {
+   "anleitung": "automatisch OK; nach dem RaidMaster-Fix: Gildenblick zeigt Einträge",
+   "bereich": "J",
+   "id": "T177",
+   "name": "Gildenblick bleibt leer, solange RaidMaster in Forever nichts einliest",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "3 Fälle",
+   "id": "T178",
+   "ms": "0.0",
+   "name": "Händlerpreise bei Lücke in AHSentinel",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja",
+   "id": "T179",
+   "ms": "0.0",
+   "name": "/gsgame zeigt die richtige API",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "7 Prüfungen · 4 Aktionswege, im Lauf 0 Aktionen mitgeschrieben",
+   "id": "T180",
+   "ms": "0.0",
+   "name": "Aktionen nur über ns.Act",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "6 Fälle",
+   "id": "T181",
+   "ms": "0.0",
+   "name": "Realm mit Bindestrich",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "7 Prüfungen · eigene Einstellung: an",
+   "id": "T182",
+   "ms": "0.0",
+   "name": "Minimap-Button da und sichtbar",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "9 Schritte",
+   "id": "T183",
+   "ms": "0.0",
+   "name": "Minimap-Button aus- und einblenden (/ps minimap)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "20 Prüfungen",
+   "id": "T184",
+   "ms": "0.0",
+   "name": "Minimap-Winkel: gespeichert, nach /reload gleich, Ziehen, Reparatur",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "13 Schritte",
+   "id": "T185",
+   "ms": "0.0",
+   "name": "Minimap-Klicks und Tooltip (über die Funktionen)",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Buch-Symbol an der Minimap sichtbar, Tooltip in der Sprache des Clients, Ziehen verschiebt ihn, nach /reload am selben Ort, Linksklick wie /ps, Rechtsklick listet die Optionen; bestätigen mit /ps testroutine ok T186",
+   "bereich": "B",
+   "id": "T186",
+   "name": "Minimap-Button im Spiel",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "20× Refresh: +0 KB · nach dem Lauf: +1230 KB",
+   "erwartet": "< 256 KB / < 1024 KB",
+   "id": "T145",
+   "ms": "0.0",
+   "name": "Speicher",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "geprüft gegen 11 Namen",
+   "id": "T158",
+   "ms": "0.0",
+   "name": "Keine Namen im Bericht",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "OK",
+   "id": "T04",
+   "ms": "0.0",
+   "name": "Sandbox: echte Daten unverändert",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "21 Wächter, alle 0",
+   "id": "T03",
+   "ms": "0.0",
+   "name": "Wächter: keine echte Folge im ganzen Lauf",
+   "status": "OK"
+  }
+ ],
+ "sandbox": "OK",
+ "speicher": {
+  "addon_kb": 14724,
+  "nachher_kb": 225995,
+  "vorher_kb": 224754
+ },
+ "time": 1793837861,
+ "version": "0.9.13",
+ "waechter": [],
+ "warnungen": []
+}

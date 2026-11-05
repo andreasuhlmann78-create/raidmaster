@@ -1,0 +1,133 @@
+{
+ "addon": "LevelPilot",
+ "bereich": "kurz",
+ "counts": {
+  "client": 0,
+  "fehler": 0,
+  "ok": 11,
+  "uebersprungen": 0
+ },
+ "datenpaket": "1.6.0",
+ "dur_ms": 19,
+ "env": {
+  "build": "70790",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 2,
+  "interface": 16001,
+  "level": 5,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [
+  {
+   "count": 57,
+   "first": 1793837214,
+   "last": 1793837984,
+   "msg": "Interface/AddOns/LevelPilot/Protocol.lua:235: attempt to compare a secret number value (execution tainted by 'LevelPilot')",
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:313: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:319: in function 'Try'\n[Interface/AddOns/LevelPilot/Protocol.lua]:525: in function <Interface/AddOns/LevelPilot/Protocol.lua:522>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:339: in function 'Safe'\n[Interface/AddOns/LevelPilot/Core.lua]:366: in function <Interface/AddOns/LevelPilot/Core.lua:366>\n",
+   "version": "3.12.6",
+   "wo": "Protokoll CheckNav"
+  }
+ ],
+ "f": 1,
+ "fehlerzaehler": "0",
+ "id": "LevelPilot-1793838096-6ee562-10",
+ "kind": "test",
+ "results": [
+  {
+   "bereich": "A",
+   "ergebnis": "31 Module",
+   "id": "T01",
+   "ms": "0.0",
+   "name": "alle Module gestartet",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "10 Übersetzungen",
+   "id": "T02",
+   "ms": "0.0",
+   "name": "Dateien ohne Modul geladen",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "3.12.6",
+   "id": "T03",
+   "ms": "0.0",
+   "name": "Version .toc = Code",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "1.6.0 / 1.6.0 / Format 1",
+   "id": "T04",
+   "ms": "0.0",
+   "name": "Version Datenpaket .toc = Code",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Version 2",
+   "id": "T06",
+   "ms": "0.0",
+   "name": "GoldSentinelGame Version 2",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Version 1 angemeldet",
+   "id": "T07",
+   "ms": "0.0",
+   "name": "GoldSentinelTest geladen und angemeldet",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja",
+   "id": "T08",
+   "ms": "0.0",
+   "name": "echte Erkennung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "10 Schritte, Zustand ok",
+   "id": "T39",
+   "ms": "15.6",
+   "name": "Planung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Weg 351 Yards",
+   "id": "T50",
+   "ms": "1.9",
+   "name": "Navigation",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Paket 3920, Start 0, eigene 11",
+   "id": "T56",
+   "ms": "0.4",
+   "name": "QuestDB",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "355 benutzte Schlüssel in allen Sprachen",
+   "id": "T133",
+   "ms": "0.9",
+   "name": "Schlüssel in jeder Sprache vorhanden",
+   "status": "OK"
+  }
+ ],
+ "spielsprache": "deDE",
+ "sprache": "de",
+ "time": 1793838096,
+ "version": "3.12.6"
+}

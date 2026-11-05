@@ -1,6 +1,644 @@
 {
- "ausgewertet": "2026-11-04T14:58:44Z",
+ "ausgewertet": "2026-11-05T12:00:45Z",
  "hinweis": null,
- "addons": {},
- "offen": []
+ "addons": {
+  "AHSentinel": {
+   "berichte": 1,
+   "letzter_test": {
+    "id": "AHSentinel-1793846154-ba3fc8-1",
+    "version": "0.65.8",
+    "time": 1793846140,
+    "counts": {
+     "client": 9,
+     "fehler": 1,
+     "ok": 235,
+     "uebersprungen": 18
+    }
+   },
+   "fehler_tests": [
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.8",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T130",
+     "name": "Verkaufs-Meldung: Fehler gemeldet statt verschluckt",
+     "detail": "ergebnis: kein Eintrag | erwartet: Eintrag \"Verkauft\"",
+     "bericht": "AHSentinel-1793846154-ba3fc8-1"
+    }
+   ],
+   "fehler_spiel": []
+  },
+  "BuffSentinel": {
+   "berichte": 1,
+   "letzter_test": {
+    "id": "BuffSentinel-1793837971-e2af59-9",
+    "version": "0.9.7",
+    "time": 1793837970,
+    "counts": {
+     "client": 11,
+     "fehler": 1,
+     "ok": 120,
+     "uebersprungen": 10
+    }
+   },
+   "fehler_tests": [
+    {
+     "addon": "BuffSentinel",
+     "art": "test",
+     "version": "0.9.7",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T29",
+     "name": "Ereignisse",
+     "detail": "ergebnis: fehlt: LEARNED_SPELL_IN_TAB · nach Kampfbeginn sichtbar: 0",
+     "bericht": "BuffSentinel-1793837971-e2af59-9"
+    }
+   ],
+   "fehler_spiel": []
+  },
+  "GuildSentinel": {
+   "berichte": 1,
+   "letzter_test": {
+    "id": "GuildSentinel-1793837669-0b2026-2",
+    "version": "0.9.13",
+    "time": 1793837661,
+    "counts": {
+     "client": 5,
+     "fehler": 4,
+     "ok": 153,
+     "uebersprungen": 23
+    }
+   },
+   "fehler_tests": [
+    {
+     "addon": "GuildSentinel",
+     "art": "test",
+     "version": "0.9.13",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T45",
+     "name": "Termin ansagen",
+     "detail": "ergebnis: [Test] false, Recorder 0 | erwartet: [Test], 0",
+     "bericht": "GuildSentinel-1793837669-0b2026-2"
+    },
+    {
+     "addon": "GuildSentinel",
+     "art": "test",
+     "version": "0.9.13",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T118",
+     "name": "beschädigte Gildendaten",
+     "detail": "ergebnis: progress>achv: Interface/AddOns/GuildSentinel/Chronicle.lua:131: attempt to index a number value | erwartet: 0 Fehler",
+     "bericht": "GuildSentinel-1793837669-0b2026-2"
+    },
+    {
+     "addon": "GuildSentinel",
+     "art": "test",
+     "version": "0.9.13",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T143",
+     "name": "Seiten mit 500 Mitgliedern",
+     "detail": "ergebnis: 202.9 ms (langsamste) | erwartet: < 16 ms",
+     "bericht": "GuildSentinel-1793837669-0b2026-2"
+    },
+    {
+     "addon": "GuildSentinel",
+     "art": "test",
+     "version": "0.9.13",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T154",
+     "name": "P2: Twink/Main, Danke, Pate mit Vor- und Nachname",
+     "detail": "ergebnis: Rokan Steinwacht|nil|Rokan Steinwacht | erwartet: Rokan Steinwacht ×3",
+     "bericht": "GuildSentinel-1793837669-0b2026-2"
+    }
+   ],
+   "fehler_spiel": []
+  },
+  "LevelPilot": {
+   "berichte": 7,
+   "letzter_test": {
+    "id": "LevelPilot-1793838099-fe4a80-12",
+    "version": "3.12.6",
+    "time": 1793838099,
+    "counts": {
+     "client": 0,
+     "fehler": 0,
+     "ok": 11,
+     "uebersprungen": 0
+    }
+   },
+   "fehler_tests": [],
+   "fehler_spiel": [
+    {
+     "addon": "LevelPilot",
+     "art": "spiel",
+     "wo": "Protokoll CheckNav",
+     "msg": "Interface/AddOns/LevelPilot/Protocol.lua:235: attempt to compare a secret number value (execution tainted by 'LevelPilot')",
+     "anzahl": 588,
+     "versionen": [
+      "3.12.6"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:313: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:319: in function 'Try'\n[Interface/AddOns/LevelPilot/Protocol.lua]:525: in function <Interface/AddOns/LevelPilot/Protocol.lua:522>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:339: in function 'Safe'\n[Interface/AddOns/LevelPilot/Core.lua]:366: in function <Interface/AddOns/LevelPilot/Core.lua:366>\n"
+    }
+   ]
+  },
+  "ProfessionSentinel": {
+   "berichte": 1,
+   "letzter_test": {
+    "id": "ProfessionSentinel-1793837882-eb8398-8",
+    "version": "0.9.13",
+    "time": 1793837861,
+    "counts": {
+     "client": 13,
+     "fehler": 6,
+     "ok": 144,
+     "uebersprungen": 9
+    }
+   },
+   "fehler_tests": [
+    {
+     "addon": "ProfessionSentinel",
+     "art": "test",
+     "version": "0.9.13",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T63",
+     "name": "Eingabefenster Aufschlag, Mindestgewinn, Marge",
+     "detail": "lua: ...face/AddOns/Blizzard_StaticPopup_Game/GameDialog.lua:124: invalid option in `format'",
+     "bericht": "ProfessionSentinel-1793837882-eb8398-8"
+    },
+    {
+     "addon": "ProfessionSentinel",
+     "art": "test",
+     "version": "0.9.13",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T132",
+     "name": "Keine globalen Namen überschrieben",
+     "detail": "ergebnis: 17 Prüfungen, 1 Fehler: nicht erlaubt: ProfessionSentinelAutoTestReportBg, ProfessionSentinelAutoTestReportCloseButton, ProfessionSentinelAutoTestReportInset, ProfessionSentinelAutoTestReportPortrait, ProfessionSentinelAutoTestReportText, ProfessionSentinelAutoTestReportTitleText, ProfessionSentine… | erwartet: 0 Fehler",
+     "bericht": "ProfessionSentinel-1793837882-eb8398-8"
+    },
+    {
+     "addon": "ProfessionSentinel",
+     "art": "test",
+     "version": "0.9.13",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T139",
+     "name": "Panel-Aufbau je Ansicht",
+     "detail": "ergebnis: 6 Ansichten, 6 Fehler: recipes 36.1 ms · langsamste 44.2 ms (Lederverarbeitung) | erwartet: < 16 ms",
+     "bericht": "ProfessionSentinel-1793837882-eb8398-8"
+    },
+    {
+     "addon": "ProfessionSentinel",
+     "art": "test",
+     "version": "0.9.13",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T140",
+     "name": "Bestes Rezept bei jedem Berufs-Ereignis",
+     "detail": "ergebnis: 20.2 ms | erwartet: < 16 ms",
+     "bericht": "ProfessionSentinel-1793837882-eb8398-8"
+    },
+    {
+     "addon": "ProfessionSentinel",
+     "art": "test",
+     "version": "0.9.13",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T143",
+     "name": "Teure Rechnungen",
+     "detail": "ergebnis: 6 Rechnungen, 2 Fehler: AD.Plan 1->300 67.6 ms | erwartet: 0 Fehler",
+     "bericht": "ProfessionSentinel-1793837882-eb8398-8"
+    },
+    {
+     "addon": "ProfessionSentinel",
+     "art": "test",
+     "version": "0.9.13",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T145",
+     "name": "Speicher",
+     "detail": "ergebnis: 20× Refresh: +0 KB · nach dem Lauf: +1230 KB | erwartet: < 256 KB / < 1024 KB",
+     "bericht": "ProfessionSentinel-1793837882-eb8398-8"
+    }
+   ],
+   "fehler_spiel": []
+  },
+  "RaidMaster": {
+   "berichte": 1,
+   "letzter_test": {
+    "id": "RaidMaster-1793837319-f8792f-1",
+    "version": "3.0.17",
+    "time": 1793837255,
+    "counts": {
+     "client": 12,
+     "fehler": 3,
+     "ok": 98,
+     "uebersprungen": 10
+    }
+   },
+   "fehler_tests": [
+    {
+     "addon": "RaidMaster",
+     "art": "test",
+     "version": "3.0.17",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T43",
+     "name": "Test-Werkzeug selbst (ony)",
+     "detail": "ergebnis: kein Item vergeben | erwartet: >= 1 (Items vom Server geladen?)",
+     "bericht": "RaidMaster-1793837319-f8792f-1"
+    },
+    {
+     "addon": "RaidMaster",
+     "art": "test",
+     "version": "3.0.17",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T122",
+     "name": "Doppelte Fehler",
+     "detail": "ergebnis: Diagnose 1 Einträge, n = 6 | erwartet: 1 Eintrag, n = 3",
+     "bericht": "RaidMaster-1793837319-f8792f-1"
+    },
+    {
+     "addon": "RaidMaster",
+     "art": "test",
+     "version": "3.0.17",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T142",
+     "name": "!dkp mit Doppelnamen (Forever-Weg)",
+     "detail": "ergebnis: [RaidMaster] Rokan: MC 40 · Ony 90 | erwartet: Rokan Steinwacht … 40",
+     "bericht": "RaidMaster-1793837319-f8792f-1"
+    }
+   ],
+   "fehler_spiel": []
+  },
+  "ThreatSentinel": {
+   "berichte": 2,
+   "letzter_test": {
+    "id": "ThreatSentinel-1793837066-9d3cd9-2",
+    "version": "2.4.5",
+    "time": 1793837066,
+    "counts": {
+     "client": 12,
+     "fehler": 1,
+     "ok": 127,
+     "uebersprungen": 50
+    }
+   },
+   "fehler_tests": [
+    {
+     "addon": "ThreatSentinel",
+     "art": "test",
+     "version": "2.4.5",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T22",
+     "name": "ns:FullName (eigener Charakter)",
+     "detail": "ergebnis: <Name> | erwartet: <Name> ohne Realm",
+     "bericht": "ThreatSentinel-1793837066-9d3cd9-2"
+    }
+   ],
+   "fehler_spiel": [
+    {
+     "addon": "ThreatSentinel",
+     "art": "spiel",
+     "wo": "Selbsttest",
+     "msg": "Interface/AddOns/ThreatSentinel/TestRoutine.lua:1447: TS-Selbsttest Handler",
+     "anzahl": 2,
+     "versionen": [
+      "2.4.5"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/Core.lua]:1058: in function 'Fire'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1451: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1444>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:224: in function 'Check'\n..."
+    },
+    {
+     "addon": "ThreatSentinel",
+     "art": "spiel",
+     "wo": "Selbsttest",
+     "msg": "TS-Selbsttest 1",
+     "anzahl": 2,
+     "versionen": [
+      "2.4.5"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1464: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1464>\n[C]: in function 'pcall'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:292: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:288>\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1464: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1458>\n..."
+    },
+    {
+     "addon": "ThreatSentinel",
+     "art": "spiel",
+     "wo": "Selbsttest",
+     "msg": "TS-Selbsttest",
+     "anzahl": 2,
+     "versionen": [
+      "2.4.5"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1421: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1418>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:224: in function 'Check'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:281: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:281>\n..."
+    },
+    {
+     "addon": "ThreatSentinel",
+     "art": "spiel",
+     "wo": "Selbsttest",
+     "msg": "ADDON_ACTION_BLOCKED: TestFunc",
+     "anzahl": 2,
+     "versionen": [
+      "2.4.5"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/Alerts.lua]:459: in function <Interface/AddOns/ThreatSentinel/Alerts.lua:456>\n[C]: in function 'pcall'\n[Interface/AddOns/ThreatSentinel/Core.lua]:1057: in function 'Fire'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1475: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1472>\n..."
+    },
+    {
+     "addon": "ThreatSentinel",
+     "art": "spiel",
+     "wo": "Selbsttest",
+     "msg": "Interface/AddOns/ThreatSentinel/TestRoutine.lua:1433: TS-Selbsttest DD",
+     "anzahl": 2,
+     "versionen": [
+      "2.4.5"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/Threat.lua]:330: in function <Interface/AddOns/ThreatSentinel/Threat.lua:328>\n[Interface/AddOns/ThreatSentinel/Threat.lua]:365: in function 'Tick'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1437: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1429>\n[C]: in function 'pcall'\n..."
+    },
+    {
+     "addon": "ThreatSentinel",
+     "art": "spiel",
+     "wo": "Selbsttest",
+     "msg": "TS-Selbsttest 2",
+     "anzahl": 2,
+     "versionen": [
+      "2.4.5"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1464: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1464>\n[C]: in function 'pcall'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:292: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:288>\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1464: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1458>\n..."
+    }
+   ]
+  }
+ },
+ "offen": [
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.8",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T130",
+   "name": "Verkaufs-Meldung: Fehler gemeldet statt verschluckt",
+   "detail": "ergebnis: kein Eintrag | erwartet: Eintrag \"Verkauft\"",
+   "bericht": "AHSentinel-1793846154-ba3fc8-1"
+  },
+  {
+   "addon": "BuffSentinel",
+   "art": "test",
+   "version": "0.9.7",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T29",
+   "name": "Ereignisse",
+   "detail": "ergebnis: fehlt: LEARNED_SPELL_IN_TAB · nach Kampfbeginn sichtbar: 0",
+   "bericht": "BuffSentinel-1793837971-e2af59-9"
+  },
+  {
+   "addon": "GuildSentinel",
+   "art": "test",
+   "version": "0.9.13",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T45",
+   "name": "Termin ansagen",
+   "detail": "ergebnis: [Test] false, Recorder 0 | erwartet: [Test], 0",
+   "bericht": "GuildSentinel-1793837669-0b2026-2"
+  },
+  {
+   "addon": "GuildSentinel",
+   "art": "test",
+   "version": "0.9.13",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T118",
+   "name": "beschädigte Gildendaten",
+   "detail": "ergebnis: progress>achv: Interface/AddOns/GuildSentinel/Chronicle.lua:131: attempt to index a number value | erwartet: 0 Fehler",
+   "bericht": "GuildSentinel-1793837669-0b2026-2"
+  },
+  {
+   "addon": "GuildSentinel",
+   "art": "test",
+   "version": "0.9.13",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T143",
+   "name": "Seiten mit 500 Mitgliedern",
+   "detail": "ergebnis: 202.9 ms (langsamste) | erwartet: < 16 ms",
+   "bericht": "GuildSentinel-1793837669-0b2026-2"
+  },
+  {
+   "addon": "GuildSentinel",
+   "art": "test",
+   "version": "0.9.13",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T154",
+   "name": "P2: Twink/Main, Danke, Pate mit Vor- und Nachname",
+   "detail": "ergebnis: Rokan Steinwacht|nil|Rokan Steinwacht | erwartet: Rokan Steinwacht ×3",
+   "bericht": "GuildSentinel-1793837669-0b2026-2"
+  },
+  {
+   "addon": "LevelPilot",
+   "art": "spiel",
+   "wo": "Protokoll CheckNav",
+   "msg": "Interface/AddOns/LevelPilot/Protocol.lua:235: attempt to compare a secret number value (execution tainted by 'LevelPilot')",
+   "anzahl": 588,
+   "versionen": [
+    "3.12.6"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:313: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:319: in function 'Try'\n[Interface/AddOns/LevelPilot/Protocol.lua]:525: in function <Interface/AddOns/LevelPilot/Protocol.lua:522>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:339: in function 'Safe'\n[Interface/AddOns/LevelPilot/Core.lua]:366: in function <Interface/AddOns/LevelPilot/Core.lua:366>\n"
+  },
+  {
+   "addon": "ProfessionSentinel",
+   "art": "test",
+   "version": "0.9.13",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T63",
+   "name": "Eingabefenster Aufschlag, Mindestgewinn, Marge",
+   "detail": "lua: ...face/AddOns/Blizzard_StaticPopup_Game/GameDialog.lua:124: invalid option in `format'",
+   "bericht": "ProfessionSentinel-1793837882-eb8398-8"
+  },
+  {
+   "addon": "ProfessionSentinel",
+   "art": "test",
+   "version": "0.9.13",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T132",
+   "name": "Keine globalen Namen überschrieben",
+   "detail": "ergebnis: 17 Prüfungen, 1 Fehler: nicht erlaubt: ProfessionSentinelAutoTestReportBg, ProfessionSentinelAutoTestReportCloseButton, ProfessionSentinelAutoTestReportInset, ProfessionSentinelAutoTestReportPortrait, ProfessionSentinelAutoTestReportText, ProfessionSentinelAutoTestReportTitleText, ProfessionSentine… | erwartet: 0 Fehler",
+   "bericht": "ProfessionSentinel-1793837882-eb8398-8"
+  },
+  {
+   "addon": "ProfessionSentinel",
+   "art": "test",
+   "version": "0.9.13",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T139",
+   "name": "Panel-Aufbau je Ansicht",
+   "detail": "ergebnis: 6 Ansichten, 6 Fehler: recipes 36.1 ms · langsamste 44.2 ms (Lederverarbeitung) | erwartet: < 16 ms",
+   "bericht": "ProfessionSentinel-1793837882-eb8398-8"
+  },
+  {
+   "addon": "ProfessionSentinel",
+   "art": "test",
+   "version": "0.9.13",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T140",
+   "name": "Bestes Rezept bei jedem Berufs-Ereignis",
+   "detail": "ergebnis: 20.2 ms | erwartet: < 16 ms",
+   "bericht": "ProfessionSentinel-1793837882-eb8398-8"
+  },
+  {
+   "addon": "ProfessionSentinel",
+   "art": "test",
+   "version": "0.9.13",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T143",
+   "name": "Teure Rechnungen",
+   "detail": "ergebnis: 6 Rechnungen, 2 Fehler: AD.Plan 1->300 67.6 ms | erwartet: 0 Fehler",
+   "bericht": "ProfessionSentinel-1793837882-eb8398-8"
+  },
+  {
+   "addon": "ProfessionSentinel",
+   "art": "test",
+   "version": "0.9.13",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T145",
+   "name": "Speicher",
+   "detail": "ergebnis: 20× Refresh: +0 KB · nach dem Lauf: +1230 KB | erwartet: < 256 KB / < 1024 KB",
+   "bericht": "ProfessionSentinel-1793837882-eb8398-8"
+  },
+  {
+   "addon": "RaidMaster",
+   "art": "test",
+   "version": "3.0.17",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T43",
+   "name": "Test-Werkzeug selbst (ony)",
+   "detail": "ergebnis: kein Item vergeben | erwartet: >= 1 (Items vom Server geladen?)",
+   "bericht": "RaidMaster-1793837319-f8792f-1"
+  },
+  {
+   "addon": "RaidMaster",
+   "art": "test",
+   "version": "3.0.17",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T122",
+   "name": "Doppelte Fehler",
+   "detail": "ergebnis: Diagnose 1 Einträge, n = 6 | erwartet: 1 Eintrag, n = 3",
+   "bericht": "RaidMaster-1793837319-f8792f-1"
+  },
+  {
+   "addon": "RaidMaster",
+   "art": "test",
+   "version": "3.0.17",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T142",
+   "name": "!dkp mit Doppelnamen (Forever-Weg)",
+   "detail": "ergebnis: [RaidMaster] Rokan: MC 40 · Ony 90 | erwartet: Rokan Steinwacht … 40",
+   "bericht": "RaidMaster-1793837319-f8792f-1"
+  },
+  {
+   "addon": "ThreatSentinel",
+   "art": "test",
+   "version": "2.4.5",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T22",
+   "name": "ns:FullName (eigener Charakter)",
+   "detail": "ergebnis: <Name> | erwartet: <Name> ohne Realm",
+   "bericht": "ThreatSentinel-1793837066-9d3cd9-2"
+  },
+  {
+   "addon": "ThreatSentinel",
+   "art": "spiel",
+   "wo": "Selbsttest",
+   "msg": "Interface/AddOns/ThreatSentinel/TestRoutine.lua:1447: TS-Selbsttest Handler",
+   "anzahl": 2,
+   "versionen": [
+    "2.4.5"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/Core.lua]:1058: in function 'Fire'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1451: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1444>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:224: in function 'Check'\n..."
+  },
+  {
+   "addon": "ThreatSentinel",
+   "art": "spiel",
+   "wo": "Selbsttest",
+   "msg": "TS-Selbsttest 1",
+   "anzahl": 2,
+   "versionen": [
+    "2.4.5"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1464: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1464>\n[C]: in function 'pcall'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:292: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:288>\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1464: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1458>\n..."
+  },
+  {
+   "addon": "ThreatSentinel",
+   "art": "spiel",
+   "wo": "Selbsttest",
+   "msg": "TS-Selbsttest",
+   "anzahl": 2,
+   "versionen": [
+    "2.4.5"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1421: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1418>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:224: in function 'Check'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:281: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:281>\n..."
+  },
+  {
+   "addon": "ThreatSentinel",
+   "art": "spiel",
+   "wo": "Selbsttest",
+   "msg": "ADDON_ACTION_BLOCKED: TestFunc",
+   "anzahl": 2,
+   "versionen": [
+    "2.4.5"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/Alerts.lua]:459: in function <Interface/AddOns/ThreatSentinel/Alerts.lua:456>\n[C]: in function 'pcall'\n[Interface/AddOns/ThreatSentinel/Core.lua]:1057: in function 'Fire'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1475: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1472>\n..."
+  },
+  {
+   "addon": "ThreatSentinel",
+   "art": "spiel",
+   "wo": "Selbsttest",
+   "msg": "Interface/AddOns/ThreatSentinel/TestRoutine.lua:1433: TS-Selbsttest DD",
+   "anzahl": 2,
+   "versionen": [
+    "2.4.5"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/Threat.lua]:330: in function <Interface/AddOns/ThreatSentinel/Threat.lua:328>\n[Interface/AddOns/ThreatSentinel/Threat.lua]:365: in function 'Tick'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1437: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1429>\n[C]: in function 'pcall'\n..."
+  },
+  {
+   "addon": "ThreatSentinel",
+   "art": "spiel",
+   "wo": "Selbsttest",
+   "msg": "TS-Selbsttest 2",
+   "anzahl": 2,
+   "versionen": [
+    "2.4.5"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1464: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1464>\n[C]: in function 'pcall'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:292: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:288>\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1464: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1458>\n..."
+  }
+ ]
 }

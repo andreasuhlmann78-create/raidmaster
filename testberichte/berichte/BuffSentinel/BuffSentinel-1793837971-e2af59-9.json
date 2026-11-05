@@ -1,0 +1,1113 @@
+{
+ "addon": "BuffSentinel",
+ "bsFehler": "keine Fehler",
+ "counts": {
+  "client": 11,
+  "fehler": 1,
+  "ok": 120,
+  "uebersprungen": 10
+ },
+ "dur_ms": 654,
+ "echteAktionen": "0",
+ "env": {
+  "build": "70790",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 2,
+  "interface": 16001,
+  "level": 5,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [],
+ "f": 1,
+ "flavorSimuliert": "ja",
+ "geheimSimuliert": "ja",
+ "id": "BuffSentinel-1793837971-e2af59-9",
+ "kind": "test",
+ "results": [
+  {
+   "bereich": "A",
+   "ergebnis": "13 Klassen, fehlt: ",
+   "id": "T01",
+   "ms": "0.0",
+   "name": "Alle Dateien geladen",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "0.9.7",
+   "id": "T02",
+   "ms": "0.0",
+   "name": "Version .toc = Code",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Version 2 fehlt: ",
+   "id": "T03",
+   "ms": "0.0",
+   "name": "GoldSentinelGame Version 2",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "flavor forever · exp 1 · family classic · restricted ja · Locked ja · Kampflog nein",
+   "id": "T04",
+   "ms": "0.0",
+   "name": "Echte Weichen",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "flavor forever · exp 1 · family classic · restricted ja · Locked ja · Kampflog nein",
+   "id": "T05",
+   "ms": "0.1",
+   "name": "Simuliert forever",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "flavor era · exp 1 · family classic · restricted nein · Locked nein · Kampflog ja",
+   "id": "T06",
+   "ms": "0.0",
+   "name": "Simuliert era",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "flavor tbc · exp 2 · family classic · restricted nein · Locked nein · Kampflog ja",
+   "id": "T07",
+   "ms": "0.0",
+   "name": "Simuliert tbc",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "flavor retail · exp 12 · family modern · restricted ja · Locked ja · Kampflog nein",
+   "id": "T08",
+   "ms": "0.0",
+   "name": "Simuliert retail",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "flavor forever · exp 1 · family classic · restricted ja · Locked ja · Kampflog nein",
+   "id": "T09",
+   "ms": "0.0",
+   "name": "Zurück auf echt",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "flavor forever · exp 1 · family classic · restricted ja · Locked ja · Kampflog nein",
+   "id": "T10",
+   "ms": "0.0",
+   "name": "Rückfall ohne GoldSentinelGame",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Name string, InRange nil",
+   "id": "T11",
+   "ms": "0.2",
+   "name": "API-Hilfen mit echten Werten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T12",
+   "ms": "0.0",
+   "name": "Kleine Helfer",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "13 Zauber, 3 Klassenzauber",
+   "id": "T13",
+   "ms": "0.7",
+   "name": "Zauberbuch",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Punkte 0, Baum 0, lesbar nein",
+   "id": "T14",
+   "ms": "0.0",
+   "name": "Talente / Spezialisierung",
+   "status": "OK"
+  },
+  {
+   "anleitung": "/dump BuffSentinel.talentsReadable, BuffSentinel.mainSpec – siehe T74",
+   "bereich": "B",
+   "id": "T14",
+   "name": "Talente in Forever lesbar?",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "21 Einträge, fehlerhaft: ",
+   "id": "T15",
+   "ms": "0.7",
+   "name": "Einträge auflösen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "aus ja, Modus ja, Klingel ja, Empfehlung ja",
+   "id": "T16",
+   "ms": "3.8",
+   "name": "Einstellungen pro Skillung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "world",
+   "id": "T17",
+   "ms": "0.0",
+   "name": "Zonen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "fehlgeschlagen: ",
+   "id": "T18",
+   "ms": "11.9",
+   "name": "Slash-Befehle",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0/1/0 Buttons, falsch: ",
+   "id": "T19",
+   "ms": "0.7",
+   "name": "Layout verteilt die Einträge",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true/false/false/false, Gruppe » Test",
+   "id": "T20",
+   "ms": "0.0",
+   "name": "EvalBuff",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true(5,3) false false true false true false",
+   "id": "T21",
+   "ms": "0.1",
+   "name": "EvalProc",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Töne aufgelöst: 1",
+   "id": "T22",
+   "ms": "0.2",
+   "name": "EvalCooldown und Aufleuchten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Vorschau falsch: 0",
+   "id": "T23",
+   "ms": "0.1",
+   "name": "Refresh und Vorschau",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "zu breite Wörter: 0",
+   "id": "T24",
+   "ms": "0.0",
+   "name": "Beschriftungen passen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Gruppe 0.5–2.0, gesamt 0.6–2.0, Abstand max 80",
+   "id": "T25",
+   "ms": "80.5",
+   "name": "Grösse, Abstand, Richtung, Positionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Buttons mit Zauber im Anordnen: 0",
+   "id": "T26",
+   "ms": "1.7",
+   "name": "Anordnen-Modus",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "27 Schritte, Fehler 0, Buttons mit Zauber 0, Einstellungen gleich ja",
+   "id": "T27",
+   "ms": "69.7",
+   "name": "Testmodus alle Klassen und Skillungen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "falsche Tooltips: 0",
+   "id": "T28",
+   "ms": "1.1",
+   "name": "Tooltips der Buttons",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "fehlt: LEARNED_SPELL_IN_TAB · nach Kampfbeginn sichtbar: 0",
+   "id": "T29",
+   "ms": "1.6",
+   "name": "Ereignisse",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1 Einheiten, fehlt bei 0",
+   "id": "T30",
+   "ms": "0.1",
+   "name": "Gruppenmitglieder und Gruppen-Buffs",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1 Zellen",
+   "id": "T31",
+   "ms": "0.9",
+   "name": "Gruppen-Raster",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "",
+   "id": "T32",
+   "ms": "0.0",
+   "name": "Reinigungszauber je Klasse",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "grund": "Reinigen-Raster in Forever/Retail aus",
+   "id": "T33",
+   "name": "Debuffs reinigen (Testdaten)",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Magie Magieschild, stehlbar Stehlbar, Wut Wut/2",
+   "id": "T34",
+   "ms": "0.1",
+   "name": "Gegner entzaubern",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "aufgenommen ja, max100 ja, eigener ja/ja, entfernt ja",
+   "id": "T35",
+   "ms": "4.1",
+   "name": "Aufnahme",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "gelernt ja, Eintrag ja, geteilt nein",
+   "id": "T36",
+   "ms": "0.9",
+   "name": "Proc automatisch lernen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ja ja ja ja ja ja",
+   "id": "T37",
+   "ms": "2.7",
+   "name": "Fähigkeit automatisch lernen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "geteilt übernommen ja",
+   "id": "T38",
+   "ms": "2.9",
+   "name": "AutoLearn ein/aus und geteilte Entdeckungen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "keine Talentliste/-position zum Zuordnen",
+   "id": "T39",
+   "ms": "0.6",
+   "name": "Namensindex und Übersetzung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "an 2, aus 0, gefiltert 1, echte Sendungen 0",
+   "id": "T40",
+   "ms": "0.0",
+   "name": "Senden (nur in die Senke)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Index: Talent ja, Zauber ja",
+   "id": "T41",
+   "ms": "0.1",
+   "name": "Empfangen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T42",
+   "ms": "0.1",
+   "name": "Kaputte Nachrichten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Join 1, Leave 1, Texte 5",
+   "id": "T43",
+   "ms": "0.0",
+   "name": "Server-Kanal (ohne beizutreten)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "58 Töne",
+   "id": "T44",
+   "ms": "0.0",
+   "name": "Tonliste und Einstellungen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "fehlend: ",
+   "id": "T45",
+   "ms": "0.0",
+   "name": "Töne auflösen (stumm)",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Optionen > Warntöne > Anhören je Zeile und 'Sounds testen' in der Anordnen-Leiste: alle 7 Töne hörbar",
+   "bereich": "B",
+   "id": "T46",
+   "name": "Töne hören",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Seiten mit Fehler: ",
+   "id": "T47",
+   "ms": "10.4",
+   "name": "Alle Seiten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "16 Schalter, falsch: ",
+   "id": "T48",
+   "ms": "13.2",
+   "name": "Jede Option einmal an/aus",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5,8,10,15,20,30,60,3",
+   "id": "T49",
+   "ms": "0.0",
+   "name": "Knöpfe der Seite Optionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T50",
+   "ms": "2.9",
+   "name": "Seite Skillung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "105/0 0/105 -105/0",
+   "id": "T51",
+   "ms": "0.8",
+   "name": "Minimap-Button",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T52",
+   "ms": "0.7",
+   "name": "Spendenfenster",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "geprüft: options,raster,testbar,arrangebar · falsch: ",
+   "id": "T53",
+   "ms": "0.1",
+   "name": "Fensterpositionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 Verstösse: ",
+   "id": "T54",
+   "ms": "1.5",
+   "name": "Datenformat aller Klassen",
+   "status": "OK"
+  },
+  {
+   "anleitung": "in Forever bestätigen – nicht aufgelöst: keine",
+   "bereich": "B",
+   "id": "T55",
+   "name": "Zauber-IDs im laufenden Client",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Hinweise: 1",
+   "id": "T56",
+   "ms": "0.1",
+   "name": "Eigene Auren geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Timer ''",
+   "id": "T57",
+   "ms": "0.1",
+   "name": "Procs mit geschützten Werten",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T58",
+   "ms": "0.0",
+   "name": "Abklingzeit geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T59",
+   "ms": "0.0",
+   "name": "Nutzbar / Reichweite geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Gegenprobe 10 % true",
+   "id": "T60",
+   "ms": "0.0",
+   "name": "Ziel-Lebenspunkte geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Zieltext » ?",
+   "id": "T61",
+   "ms": "0.1",
+   "name": "Gruppennamen und -klassen geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T62",
+   "ms": "0.2",
+   "name": "Debuff-Arten geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T63",
+   "ms": "0.0",
+   "name": "Zauber-Ereignis geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T64",
+   "ms": "0.0",
+   "name": "Addon-Nachricht mit geschützten Argumenten",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "geprüft: Button,Reinigen,Raster",
+   "id": "T65",
+   "ms": "1.1",
+   "name": "Tooltips mit geschütztem Namen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Short/CleanName/SameName geprüft; Safe/AnySecret erkennen den Köderwert nicht (issecretvalue wird nicht ersetzt) – geprüft in shared/tests",
+   "id": "T66",
+   "ms": "0.0",
+   "name": "GoldSentinelGame-Namen geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T67",
+   "ms": "0.2",
+   "name": "Auren ohne UnitBuff/UnitDebuff",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T68",
+   "ms": "0.0",
+   "name": "Zauber ohne GetSpellInfo, GetSpellCooldown, IsUsableSpell, IsSpellInRange",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T69",
+   "ms": "0.0",
+   "name": "Gegenstände ohne GetItemCount, GetItemIcon, GetItemInfo, GetItemInfoInstant",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "kein Hinweis an den Spieler, wenn das Zauberbuch nicht lesbar ist",
+   "id": "T70",
+   "ms": "0.2",
+   "name": "Zauberbuch ohne alte Funktionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T71",
+   "ms": "1.2",
+   "name": "Talente ohne alte Funktionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T72",
+   "ms": "0.0",
+   "name": "Kommunikation ohne alte Funktionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T73",
+   "ms": "0.1",
+   "name": "Sonstige alte Funktionen fehlen",
+   "status": "OK"
+  },
+  {
+   "anleitung": "/dump GetNumTalentTabs, GetTalentInfo, UnitBuff, GetSpellInfo, C_SpellBook ~= nil, ChatFrame_RemoveChannel, ChatFrameUtil, JoinTemporaryChannel",
+   "bereich": "C",
+   "id": "T74",
+   "name": "Welche alten Funktionen hat Forever wirklich?",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "geschützte Aufrufe: 0",
+   "id": "T75",
+   "ms": "0.1",
+   "name": "Keine geschützten Aktionen in der Sperre",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Auswertungen 0, sichtbar 0",
+   "id": "T76",
+   "ms": "0.0",
+   "name": "Forever im Kampf: alles aus",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T77",
+   "ms": "0.9",
+   "name": "Nachholen nach dem Kampf",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "echt registriert: nein",
+   "id": "T78",
+   "ms": "0.0",
+   "name": "Kampflog-Weiche",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T79",
+   "ms": "0.0",
+   "name": "Reaktive Fähigkeiten ohne Kampflog",
+   "status": "OK"
+  },
+  {
+   "bereich": "D",
+   "grund": "kein UnitBuff – moderner Client",
+   "id": "T80",
+   "name": "Auren auf dem alten Weg",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "kein UnitBuff – moderner Client",
+   "id": "T81",
+   "name": "Zauber auf dem alten Weg",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "kein UnitBuff – moderner Client",
+   "id": "T82",
+   "name": "Zauberbuch auf dem alten Weg",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "kein UnitBuff – moderner Client",
+   "id": "T83",
+   "name": "Gegenstände auf dem alten Weg",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "kein UnitBuff – moderner Client",
+   "id": "T84",
+   "name": "Kampflog-Auslöser",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "kein UnitBuff – moderner Client",
+   "id": "T85",
+   "name": "Hauptbaum nur in Cata",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "kein UnitBuff – moderner Client",
+   "id": "T87",
+   "name": "Alter Kampfweg unverändert",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur Classic Era",
+   "id": "T86",
+   "name": "Fraktion in Era",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "E",
+   "id": "T88",
+   "ms": "10.3",
+   "name": "Neuinstallation",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "id": "T89",
+   "ms": "0.1",
+   "name": "Migration aus 0.8.3",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "id": "T90",
+   "ms": "0.1",
+   "name": "Migration aus 0.8.6",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "id": "T91",
+   "ms": "0.1",
+   "name": "Migration ältere Felder",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "a–l ohne Fehler",
+   "id": "T92",
+   "ms": "0.0",
+   "name": "Beschädigte Einträge",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "Aufnahme 100, Kandidaten 40, Server-Warteschlange 40",
+   "id": "T93",
+   "ms": "1.8",
+   "name": "Grenzen",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "falsch: ",
+   "id": "T94",
+   "ms": "0.1",
+   "name": "Spendentexte in allen Sprachen",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "fehlt: ",
+   "id": "T95",
+   "ms": "0.0",
+   "name": "GoldSentinelGame/-Dev-Texte der Client-Sprache",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "id": "T96",
+   "ms": "0.0",
+   "name": "Formatierte Meldungen",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "Trennung: BLITZSCHLAG-/SCHILD!",
+   "id": "T97",
+   "ms": "0.1",
+   "name": "Umlaute und Trennung",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "7 Hilfezeilen, Deutsch unter enUS: 0",
+   "id": "T98",
+   "ms": "1.4",
+   "name": "Sprache umschalten (Hilfe unter enUS ohne Deutsch)",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "811 Schlüssel, fehlen: ",
+   "id": "T137",
+   "ms": "0.2",
+   "name": "Jeder englische Schlüssel hat einen deutschen Text",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "falsch: ",
+   "id": "T138",
+   "ms": "1.9",
+   "name": "Platzhalter (%d, %s) stimmen in jeder Sprache mit dem englischen Text überein",
+   "status": "OK"
+  },
+  {
+   "anleitung": "einmal mit enUS-Client: Optionen öffnen, alle Seiten, Testmodus – Klassennamen aus LOCALIZED_CLASS_NAMES_MALE, Zauber in Client-Sprache, kein Fehler",
+   "bereich": "F",
+   "id": "T99",
+   "name": "Nicht-deutscher Client",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "geladen: RaidMaster,ThreatSentinel,AHSentinel,BuffSentinel,GuildSentinel,ProfessionSentinel,LevelPilot",
+   "id": "T100",
+   "ms": "0.0",
+   "name": "Gemeinsame Dateien",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "id": "T101",
+   "ms": "0.0",
+   "name": "Eigene globale Namen",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "0 LSM-Töne",
+   "id": "T102",
+   "ms": "0.1",
+   "name": "LibSharedMedia mit und ohne",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "grund": "BuffSentinel hat keine Schnittstelle zu anderen GoldSentinel-Addons",
+   "id": "T103",
+   "name": "Andere Addons des Nutzers",
+   "status": "SKIP"
+  },
+  {
+   "anleitung": "BuffSentinel mit RaidMaster, GuildSentinel, ThreatSentinel, ProfessionSentinel laden: /gsgame eine Zeile, /reload ohne Lua-Fehler, /bsen fehler 'keine Fehler'",
+   "bereich": "G",
+   "id": "T104",
+   "name": "Mehrere GoldSentinel-Addons gleichzeitig",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Mittel 0.01 ms, max 0.01 ms",
+   "id": "T105",
+   "ms": "2.1",
+   "name": "Refresh (alle 0,1 s)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Mittel 0.01 ms, max 0.01 ms",
+   "id": "T106",
+   "ms": "0.6",
+   "name": "RefreshGroup (alle 0,5 s)",
+   "status": "OK"
+  },
+  {
+   "anleitung": "im Raid /bsen testroutine leistung – Mittel < 5 ms",
+   "bereich": "H",
+   "id": "T106",
+   "name": "RefreshGroup im Raid 40",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Mittel 0.04 ms, max 0.08 ms",
+   "id": "T107",
+   "ms": "3.9",
+   "name": "UNIT_AURA",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "FullScan 1.0, Layout 0.8, Optionen 1.5, ResolveEntries 0.6 ms",
+   "id": "T108",
+   "ms": "40.6",
+   "name": "Teure Neuberechnungen",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Reinigen 0.000, Nachricht 0.005, Pump 0.000, EvalProc 0.001 ms",
+   "id": "T109",
+   "ms": "0.4",
+   "name": "Kleine Pfade",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "vorher 227446 KB, nachher 226492 KB",
+   "id": "T110",
+   "ms": "175.2",
+   "name": "Speicher",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "id": "T111",
+   "ms": "0.1",
+   "name": "CountError zählt und meldet",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "id": "T112",
+   "ms": "0.0",
+   "name": "Fehler im Event-Handler",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "andere Auswertungen: 10",
+   "id": "T113",
+   "ms": "1.3",
+   "name": "Fehler in einem Button friert die anderen nicht ein",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "id": "T114",
+   "ms": "8.8",
+   "name": "Fehler in Scan, Optionen, Kommunikation",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "id": "T115",
+   "ms": "0.0",
+   "name": "Diagnose zeigt Fehler",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "id": "T116",
+   "ms": "0.7",
+   "name": "Lua-Fehler im normalen Spiel",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Weichen: Auren ja, Gruppe ja",
+   "id": "T117",
+   "ms": "0.0",
+   "name": "PB 1 / AU 1: Forever wie Retail gesperrt",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Hinweise 5",
+   "id": "T118",
+   "ms": "0.2",
+   "name": "PB 2 / AU 2: eigene Auren geschützt (je Feld)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "id": "T119",
+   "ms": "0.0",
+   "name": "PB 2 / AU 2: AutoLearn vergleicht keine geschützten Werte",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "id": "T120",
+   "ms": "0.0",
+   "name": "PB 3 / AU 6: geschützte Abklingzeit nie bereit, kein Aufleuchten beim Pull",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "id": "T121",
+   "ms": "0.0",
+   "name": "PB 4 / AU 3: Execute mit geschützten Lebenspunkten",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "id": "T122",
+   "ms": "0.1",
+   "name": "PB 5 / AU 4: Gruppen-Ziel-Text",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Zugriffe mit Testwert: 0",
+   "id": "T123",
+   "ms": "0.0",
+   "name": "PB 6 / AU 5: Debuff-Art geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "2 Einträge mit Auslöser",
+   "id": "T124",
+   "ms": "0.0",
+   "name": "PB 7 / AU 7: Kampflog aus, Überwältigen/Rache/Riposte über nutzbar",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "id": "T125",
+   "ms": "0.3",
+   "name": "PB 8 / AU 8: Fehler gezählt, Anzeige friert nicht ein",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "sichtbar: 0",
+   "id": "T126",
+   "ms": "1.0",
+   "name": "PB 9 / AU 9: unsichtbare Buttons vor dem Kampf versteckt",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "2 Zeilen",
+   "id": "T127",
+   "ms": "0.0",
+   "name": "KO 1: Selbsttest mit G.SetTestFlavor, BS:DetectFlavor",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "id": "T128",
+   "ms": "0.1",
+   "name": "KO 2: Fehler in Event-Handlern gezählt",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "id": "T129",
+   "ms": "0.1",
+   "name": "KO 3: Verstecken nachholen, wenn die Sperre schon aktiv war",
+   "status": "OK"
+  },
+  {
+   "anleitung": "im Kampf /reload, danach dorthin klicken, wo die Buttons waren: kein Zauber",
+   "bereich": "J",
+   "id": "T129",
+   "name": "Klicks nach /reload im Kampf",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "id": "T130",
+   "ms": "2.6",
+   "name": "KO 4: Hinweis WoW Forever in den Optionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "id": "T131",
+   "ms": "0.0",
+   "name": "GA: keine eigene Fassung von GoldSentinelGame",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Grundlage: T59, T67–T73, T75, T77 (falls gelaufen)",
+   "id": "T132",
+   "ms": "0.0",
+   "name": "AU Nicht ändern: Secure-Schutz, C_*-Rückfälle, IsUsable/InRange",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Grund: ",
+   "id": "T133",
+   "ms": "0.2",
+   "name": "AU Launch: Interface-Nummer",
+   "status": "OK"
+  },
+  {
+   "anleitung": "/dump select(4, GetBuildInfo()) – steht die Zahl in '## Interface' von BuffSentinel.toc? Addon nicht als 'veraltet'",
+   "bereich": "J",
+   "id": "T133",
+   "name": "Interface-Nummer im Client",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Buff-Erinnerung vor dem Pull · im Kampf kein Lua-Fehler · /reload, Fehlerliste leer (/bsen testroutine kampf)",
+   "bereich": "J",
+   "id": "T134",
+   "name": "Ablauf im Forever-Client",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Classic Era oder TBC Anniversary: Proc im Kampf, Execute unter 20 %, Dispel im Kampf, Cooldown beim Pull – alles wie vorher; /bsen fehler 'Sperren: nein'",
+   "bereich": "J",
+   "id": "T135",
+   "name": "Gegenprobe alter Client",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "echte Aktionen: 0, Haken: 5 von 5",
+   "id": "T136",
+   "ms": "0.0",
+   "name": "Keine echten Aktionen während des Tests (senden, Chat, Kanal betreten)",
+   "status": "OK"
+  }
+ ],
+ "sandbox": "OK",
+ "time": 1793837970,
+ "version": "0.9.7"
+}

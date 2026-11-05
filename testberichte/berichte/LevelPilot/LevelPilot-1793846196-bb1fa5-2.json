@@ -1,0 +1,32 @@
+{
+ "addon": "LevelPilot",
+ "counts": {},
+ "env": {
+  "build": "70790",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 2,
+  "interface": 16001,
+  "level": 9,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [
+  {
+   "count": 438,
+   "first": 1793838947,
+   "last": 1793845356,
+   "msg": "Interface/AddOns/LevelPilot/Protocol.lua:235: attempt to compare a secret number value (execution tainted by 'LevelPilot')",
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:313: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:319: in function 'Try'\n[Interface/AddOns/LevelPilot/Protocol.lua]:525: in function <Interface/AddOns/LevelPilot/Protocol.lua:522>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:339: in function 'Safe'\n[Interface/AddOns/LevelPilot/Core.lua]:366: in function <Interface/AddOns/LevelPilot/Core.lua:366>\n",
+   "version": "3.12.6",
+   "wo": "Protokoll CheckNav"
+  }
+ ],
+ "f": 1,
+ "id": "LevelPilot-1793846196-bb1fa5-2",
+ "kind": "fehler",
+ "time": 1793846196,
+ "version": "3.12.6"
+}

@@ -1,0 +1,2078 @@
+{
+ "addon": "AHSentinel",
+ "counts": {
+  "client": 9,
+  "fehler": 1,
+  "ok": 235,
+  "uebersprungen": 18
+ },
+ "dur_ms": 13805,
+ "env": {
+  "build": "70790",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 2,
+  "interface": 16001,
+  "level": 9,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [],
+ "f": 1,
+ "id": "AHSentinel-1793846154-ba3fc8-1",
+ "kind": "test",
+ "results": [
+  {
+   "bereich": "A",
+   "ergebnis": "alle da",
+   "id": "T01",
+   "ms": "0.0",
+   "name": "alle Module geladen",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "0.65.8",
+   "id": "T02",
+   "ms": "0.1",
+   "name": "Version .toc = Code",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Interface 16001, Grund ",
+   "id": "T03",
+   "ms": "0.0",
+   "name": "Addon nicht veraltet",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja",
+   "id": "T04",
+   "ms": "0.0",
+   "name": "gemeinsame Dateien",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "RaidSetKey für era/tbc folgt WOW_PROJECT_ID",
+   "id": "T05",
+   "ms": "0.1",
+   "name": "Weichen je Client simuliert",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "id": "T06",
+   "ms": "0.0",
+   "name": "Ladereihenfolge",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "modern",
+   "id": "T07",
+   "ms": "0.0",
+   "name": "AH-Weiche",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "modern",
+   "id": "T08",
+   "ms": "0.0",
+   "name": "Berufe-Weiche",
+   "status": "OK"
+  },
+  {
+   "anleitung": "/dump GetNumTradeSkills – muss nil sein, sonst liest das Addon die alte Liste",
+   "bereich": "A",
+   "id": "T08",
+   "name": "Berufe-Weiche (Forever)",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "TooltipDataProcessor+Set*",
+   "id": "T09",
+   "ms": "0.0",
+   "name": "Tooltip-Weg",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "id": "T10",
+   "ms": "0.0",
+   "name": "Chat-Befehle registriert",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "v0.65.8, Interface 16001, modernes AH, Sprache deDE",
+   "id": "S01",
+   "ms": "0.0",
+   "name": "Grundlagen: Version und Client",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "S02",
+   "ms": "0.0",
+   "name": "Grundlagen: Auktionshaus offen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "S03",
+   "ms": "0.0",
+   "name": "Grundlagen: Server-Funktionen vorhanden",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1s pro Auktion, nie erstattet (dieser Client: WoW Forever)",
+   "id": "T16",
+   "ms": "0.0",
+   "name": "Grundlagen: Einstellgebühr WoW Forever",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja",
+   "id": "S05",
+   "ms": "0.0",
+   "name": "Grundlagen: Spielversion (GoldSentinelGame)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "gespeicherte Daten: 293 Items, letzter Scan vor 0:46 (kein neuer Scan)",
+   "id": "T20",
+   "ms": "0.0",
+   "name": "Scan: Markt-Scan",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "293 Items, 293 mit Marktwert, 0 auffällig billig (werden ausgeblendet)",
+   "id": "T21",
+   "ms": "0.0",
+   "name": "Scan: Marktdaten plausibel",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "S08",
+   "ms": "0.0",
+   "name": "Oberfläche: Fenster öffnen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T25a",
+   "ms": "0.0",
+   "name": "Oberfläche: Reiter Übersicht",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T25b",
+   "ms": "0.0",
+   "name": "Oberfläche: Reiter Kaufen -> Einkauf",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T25c",
+   "ms": "0.0",
+   "name": "Oberfläche: Reiter Kaufen -> Sniper",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T25d",
+   "ms": "0.0",
+   "name": "Oberfläche: Reiter Kaufen -> Wächter",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T25e",
+   "ms": "0.0",
+   "name": "Oberfläche: Reiter Kaufen -> Schnäppchen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T25f",
+   "ms": "0.0",
+   "name": "Oberfläche: Reiter Verkaufen -> Einstellen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T25g",
+   "ms": "0.0",
+   "name": "Oberfläche: Reiter Verkaufen -> Meine Auktionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T25h",
+   "ms": "0.0",
+   "name": "Oberfläche: Reiter Markt -> Alle Preise",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T25i",
+   "ms": "0.0",
+   "name": "Oberfläche: Reiter Markt -> Watchlist",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T25j",
+   "ms": "0.0",
+   "name": "Oberfläche: Reiter Buchhaltung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Verdorbene Lederfetzen",
+   "id": "T26a",
+   "ms": "0.0",
+   "name": "Oberfläche: Preisverlauf-Fenster",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T26b",
+   "ms": "0.0",
+   "name": "Oberfläche: Optionen, Hilfe, Einkaufslisten",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "18 Wechsel ohne Fehler, zurück auf Automatisch (Deutsch). Fehlende Item-Namen: enUS 34/200, frFR 29/200, esES 29/200, esMX 29/200, ptBR 29/200, itIT 200/200, ruRU 29/200, koKR 29/200, zhCN 29/200, zhTW 29/200",
+   "id": "T112",
+   "ms": "0.0",
+   "name": "Oberfläche: Sprachwechsel (alle Sprachen, mehrfach)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "S22",
+   "ms": "0.0",
+   "name": "Oberfläche: Knopf an der Minikarte",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "293 Einträge",
+   "id": "S23",
+   "ms": "0.0",
+   "name": "Auswertungen: Marktliste",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Verdorbene Lederfetzen",
+   "id": "T15",
+   "ms": "0.0",
+   "name": "Auswertungen: Suche nach Namen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 Funde",
+   "id": "S25",
+   "ms": "0.0",
+   "name": "Auswertungen: Unter Händlerpreis",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 Funde",
+   "id": "S26",
+   "ms": "0.0",
+   "name": "Auswertungen: Unter Entzauberwert",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "75/20/5, 20 geteilte übernommen, Staub jetzt 78.3 %",
+   "id": "S27",
+   "ms": "0.0",
+   "name": "Auswertungen: Entzaubern: Startwerte und Teilen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 Funde",
+   "id": "S28",
+   "ms": "0.0",
+   "name": "Auswertungen: Gebote",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 Funde",
+   "id": "S29",
+   "ms": "0.0",
+   "name": "Auswertungen: Flips",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "13 Items, 59s 47k",
+   "id": "T60",
+   "ms": "0.0",
+   "name": "Auswertungen: Vermögen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Gestern: nichts gebucht   |   7 Tage: +0   |   Gold: 19 24",
+   "id": "S31",
+   "ms": "0.0",
+   "name": "Auswertungen: Tagesbilanz",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 Verkäufe, 0 Items in der Statistik",
+   "id": "S32",
+   "ms": "0.0",
+   "name": "Auswertungen: Buchhaltung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 Items, 0k",
+   "id": "S33",
+   "ms": "0.0",
+   "name": "Auswertungen: Händler-Verkauf (nur Liste)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Taschen-Item Kräutergebackenes Ei: 8 Zeilen (Weg: TooltipDataProcessor+Set*)",
+   "id": "T73",
+   "ms": "0.0",
+   "name": "Auswertungen: Tooltip",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "293 Items: 0 sicher, 293 unsicher (Mondpreise/selten), 1 vollständige Scans",
+   "id": "T14",
+   "ms": "0.0",
+   "name": "Auswertungen: Verkaufbarkeit",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Vorschläge, zusammen ca. 14s 88k, Kapital 5s 54k von 19s 24k",
+   "id": "T72",
+   "ms": "0.0",
+   "name": "Auswertungen: Heute tun",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "S38",
+   "ms": "0.0",
+   "name": "Server: Kein Scan im Hintergrund",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T32",
+   "ms": "0.0",
+   "name": "Server: Einkauf: Kategorie-Suche",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T33",
+   "ms": "0.0",
+   "name": "Server: Einkauf: Angebote eines Items",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Kräutergebackenes Ei: 0 Angebote, Vorschlag 5s (0.3 Sek.)",
+   "id": "T48",
+   "ms": "0.0",
+   "name": "Server: Verkaufen: Preisprüfung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Verdorbene Lederfetzen: 32 Angebote gelesen, kein Treffer (0.5 Sek.)",
+   "id": "T40",
+   "ms": "0.0",
+   "name": "Server: Sniper: Suche (kauft nichts)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Runde fertig in 4.9 Sek., 0 Schnäppchen gefunden",
+   "id": "T45",
+   "ms": "0.0",
+   "name": "Server: Wächter: eine Runde (kauft nichts)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 eigene Auktionen",
+   "id": "T51",
+   "ms": "0.0",
+   "name": "Server: Eigene Auktionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Kaufen/Einstellen gesperrt, Server-Befehle werden nur protokolliert",
+   "id": "S45",
+   "ms": "0.0",
+   "name": "Handel (simuliert): Schutz aktiv",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Beulengras: 1 Angebote (Ware)",
+   "id": "S46",
+   "ms": "0.0",
+   "name": "Handel (simuliert): Angebote laden",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "würde 1x Beulengras kaufen (Preisanfrage abgefangen)",
+   "id": "T35",
+   "ms": "0.0",
+   "name": "Handel (simuliert): Sofortkauf",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "grund": "Waren haben keine Gebote",
+   "id": "T36",
+   "name": "Handel (simuliert): Gebot",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "würde 2x Beulengras für 2s kaufen (abgefangen, 0.5 Sek.)",
+   "id": "T41",
+   "ms": "0.0",
+   "name": "Handel (simuliert): Sniper-Kauf",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "würde 1x Kräutergebackenes Ei für 5s einstellen (abgefangen)",
+   "id": "T49",
+   "ms": "0.0",
+   "name": "Handel (simuliert): Einstellen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "würde 1x Beulengras abbrechen (abgefangen, fiktive Auktion)",
+   "id": "T51b",
+   "ms": "0.0",
+   "name": "Handel (simuliert): Abbrechen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Befehle abgefangen, Gold unverändert",
+   "id": "S52",
+   "ms": "0.0",
+   "name": "Handel (simuliert): Nichts wirklich ausgeführt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "",
+   "id": "T11",
+   "ms": "0.0",
+   "name": "Geld anzeigen und lesen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1",
+   "id": "T12",
+   "ms": "0.1",
+   "name": "Ereignis-Bus",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "aktuell 300, Einträge 3, Marktwert 200",
+   "id": "T13",
+   "ms": "0.1",
+   "name": "Preis-Kern mit Testdaten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "13",
+   "id": "T17",
+   "ms": "0.0",
+   "name": "Händler-Verkaufspreis",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "modern 2/20/nil/currency:3001x2, alt 2/20/nil/currency:3001x2",
+   "id": "T18",
+   "ms": "0.1",
+   "name": "Händler-Scan mit Testhändler (moderner und alter Weg)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "800",
+   "id": "T22",
+   "ms": "0.0",
+   "name": "15-Minuten-Sperre",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T23",
+   "ms": "0.0",
+   "name": "Anfrage-Drossel",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "90",
+   "id": "T29",
+   "ms": "0.0",
+   "name": "Minikarten-Winkel",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "erst true, doppelt false",
+   "id": "T38",
+   "ms": "0.0",
+   "name": "Einkauf-Favoriten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "999",
+   "id": "T47",
+   "ms": "0.0",
+   "name": "Verkaufen rechnen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1",
+   "id": "T61",
+   "ms": "0.0",
+   "name": "Einkaufslisten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "50000000 / nil",
+   "id": "T68",
+   "ms": "0.0",
+   "name": "Gold-Ziel",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "11",
+   "id": "T70",
+   "ms": "0.2",
+   "name": "Raid-Vorrat",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Leinenstoff",
+   "id": "T74",
+   "ms": "0.0",
+   "name": "Item-Namen und Suche",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "heardScanTime +1",
+   "id": "T75",
+   "ms": "0.1",
+   "name": "Sync-Empfang (Testnachricht)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Rundlauf ok, A:Simulated() = true",
+   "id": "T76",
+   "ms": "0.0",
+   "name": "Sync senden nur simuliert, Kodierung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "false",
+   "id": "T78",
+   "ms": "0.0",
+   "name": "Testmodus während der Routine abgelehnt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "19 Zeilen",
+   "id": "T79",
+   "ms": "0.2",
+   "name": "Diagnose",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true/true/true, Design classic",
+   "id": "T24",
+   "ms": "44.5",
+   "name": "Hauptfenster und Designs",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "12 Seiten",
+   "id": "T26c",
+   "ms": "0.4",
+   "name": "Zusatzfenster Hilfe (jede Seite)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "öffnet und schließt",
+   "id": "T26d",
+   "ms": "4.3",
+   "name": "Zusatzfenster Einkaufslisten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "öffnet und schließt",
+   "id": "T26e",
+   "ms": "8.1",
+   "name": "Zusatzfenster Heute tun",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "öffnet und schließt",
+   "id": "T26f",
+   "ms": "1.3",
+   "name": "Zusatzfenster Post-Regeln",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "öffnet und schließt",
+   "id": "T26g",
+   "ms": "0.8",
+   "name": "Zusatzfenster Unterstützen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "öffnet und schließt",
+   "id": "T26h",
+   "ms": "0.9",
+   "name": "Zusatzfenster Textfenster",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Watchlist danach wie vorher",
+   "id": "T26i",
+   "ms": "50.7",
+   "name": "Zusatzfenster Item-Menü",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler, Werte zurück",
+   "id": "T28",
+   "ms": "2.9",
+   "name": "Größe, Zoom, Position",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "modern/classic",
+   "id": "T30.01",
+   "ms": "38.2",
+   "name": "Option Design",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ahIntegration: false -> true -> false",
+   "id": "T30.02",
+   "ms": "18.3",
+   "name": "Option Im AH anzeigen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "tooltipInfo: true -> false -> true",
+   "id": "T30.03",
+   "ms": "0.7",
+   "name": "Option Preis im Tooltip",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "30,0,1,7",
+   "id": "T30.04",
+   "ms": "0.9",
+   "name": "Option Preisverlauf im Tooltip",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "tooltipVendor: true -> false -> true",
+   "id": "T30.05",
+   "ms": "0.5",
+   "name": "Option Händlerpreis im Tooltip",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "tooltipChars: true -> false -> true",
+   "id": "T30.06",
+   "ms": "0.6",
+   "name": "Option Twinks im Tooltip",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "tooltipDE: true -> false -> true",
+   "id": "T30.07",
+   "ms": "0.6",
+   "name": "Option Entzauberwert im Tooltip",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Rückfrage true, geleert true",
+   "id": "T30.08",
+   "ms": "0.4",
+   "name": "Option Entzaubern zurücksetzen (Sandbox)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "mailButtons: true -> false -> true",
+   "id": "T30.09",
+   "ms": "0.6",
+   "name": "Option Knöpfe am Briefkasten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "saleAlert: true -> false -> true",
+   "id": "T30.10",
+   "ms": "0.6",
+   "name": "Option Meldung bei Verkauf",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "50,0,20,30,40",
+   "id": "T30.11",
+   "ms": "1.0",
+   "name": "Option Preisschutz",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "craftPanel: true -> false -> true",
+   "id": "T30.12",
+   "ms": "0.6",
+   "name": "Option Gewinn im Berufsfenster",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "auto -> enUS -> auto",
+   "id": "T30.13",
+   "ms": "31.9",
+   "name": "Option Sprache des Addons",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "12 Klicks bis zurück",
+   "id": "T30.14",
+   "ms": "2.6",
+   "name": "Option Item-Namen-Sprache",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "moneyStyle: false -> true -> false",
+   "id": "T30.15",
+   "ms": "1.1",
+   "name": "Option Geldanzeige",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1",
+   "id": "T30.16",
+   "ms": "1.8",
+   "name": "Option Fenstergröße",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1.00 -> 1.10 -> 1.00",
+   "id": "T30.17",
+   "ms": "2.0",
+   "name": "Option Schrift- und Inhaltsgröße",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "alertSound: true -> false -> true",
+   "id": "T30.18",
+   "ms": "0.7",
+   "name": "Option Ton",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "an/aus, Kanal-Beitritt/-Austritt 0",
+   "id": "T30.19",
+   "ms": "1.0",
+   "name": "Option Preise teilen (nur simuliert)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true",
+   "id": "T30.20",
+   "ms": "1.2",
+   "name": "Option nur Gilde",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 -> 1 -> 0",
+   "id": "T30.21",
+   "ms": "0.7",
+   "name": "Option Sniper-Intervall",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Mausrad",
+   "id": "T30.22",
+   "ms": "0.3",
+   "name": "Option Sniper-Taste (Mausrad)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Mausrad",
+   "id": "T30.23",
+   "ms": "0.3",
+   "name": "Option Wächter-Taste (Mausrad)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "umgeschaltet",
+   "id": "T30.24",
+   "ms": "1.0",
+   "name": "Option Tagesbilanz + Jetzt zeigen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "vendorButton: true -> false -> true",
+   "id": "T30.25",
+   "ms": "0.7",
+   "name": "Option Knopf beim Händler",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Regeln-Fenster",
+   "id": "T30.26",
+   "ms": "2.2",
+   "name": "Option Post an Twinks (Regeln)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "aus/an",
+   "id": "T30.27",
+   "ms": "0.8",
+   "name": "Option Minikarte",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "autoCollect: true -> false -> true",
+   "id": "T30.28",
+   "ms": "0.8",
+   "name": "Option Post automatisch abholen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "altClick: true -> false -> true",
+   "id": "T30.29",
+   "ms": "0.8",
+   "name": "Option Alt-Klick",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "tooltipChance: true -> false -> true",
+   "id": "T30.30",
+   "ms": "0.8",
+   "name": "Option Verkaufschance im Tooltip",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "expiryReminder: true -> false -> true",
+   "id": "T30.31",
+   "ms": "0.8",
+   "name": "Option Ablauf-Erinnerung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "gesetzt und gelöscht",
+   "id": "T30.32",
+   "ms": "0.1",
+   "name": "Option Gold-Ziel setzen/löschen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "sichtbar true",
+   "id": "T30.33",
+   "ms": "0.6",
+   "name": "Option Zeile Selbsttest nur für Dev",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Textfenster mit CSV",
+   "id": "T30.34",
+   "ms": "9.0",
+   "name": "Option CSV-Export",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "zurückgesetzt true, Werte danach zurück",
+   "id": "T30.35",
+   "ms": "2.1",
+   "name": "Option Positionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Fenster",
+   "id": "T30.36",
+   "ms": "1.4",
+   "name": "Option Unterstützen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.01",
+   "ms": "1.1",
+   "name": "Befehl /ahs ",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.02",
+   "ms": "1.1",
+   "name": "Befehl /ahs show",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.03",
+   "ms": "0.9",
+   "name": "Befehl /ahs scan",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.04",
+   "ms": "8.3",
+   "name": "Befehl /ahs export",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.05",
+   "ms": "1.3",
+   "name": "Befehl /ahs debug",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.06",
+   "ms": "2.2",
+   "name": "Befehl /ahs reset",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.07",
+   "ms": "1.2",
+   "name": "Befehl /ahs resetscan",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.08",
+   "ms": "1.3",
+   "name": "Befehl /ahs sync",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.09",
+   "ms": "1.3",
+   "name": "Befehl /ahs sync",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.10",
+   "ms": "1.8",
+   "name": "Befehl /ahs ahdebug",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.11",
+   "ms": "1.4",
+   "name": "Befehl /ahs ah",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.12",
+   "ms": "2.0",
+   "name": "Befehl /ahs sniper",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.13",
+   "ms": "1.8",
+   "name": "Befehl /ahs sniper",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.14",
+   "ms": "30.7",
+   "name": "Befehl /ahs design",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.15",
+   "ms": "32.9",
+   "name": "Befehl /ahs design",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.16",
+   "ms": "3.3",
+   "name": "Befehl /ahs optionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.17",
+   "ms": "2.7",
+   "name": "Befehl /ahs options",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.18",
+   "ms": "1.6",
+   "name": "Befehl /ahs spenden",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.19",
+   "ms": "1.2",
+   "name": "Befehl /ahs donate",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.20",
+   "ms": "0.8",
+   "name": "Befehl /ahs bilanz",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.21",
+   "ms": "0.9",
+   "name": "Befehl /ahs summary",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.22",
+   "ms": "1.0",
+   "name": "Befehl /ahs ziel 5000",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.23",
+   "ms": "0.9",
+   "name": "Befehl /ahs ziel",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.24",
+   "ms": "1.0",
+   "name": "Befehl /ahs ziel aus",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.25",
+   "ms": "11.1",
+   "name": "Befehl /ahs heute",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.26",
+   "ms": "15.2",
+   "name": "Befehl /ahs today",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.27",
+   "ms": "1.3",
+   "name": "Befehl /ahs minikarte",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.28",
+   "ms": "1.3",
+   "name": "Befehl /ahs minikarte",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.29",
+   "ms": "7.3",
+   "name": "Befehl /ahs raid",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.30",
+   "ms": "2.1",
+   "name": "Befehl /ahs twinks",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.31",
+   "ms": "19.0",
+   "name": "Befehl /ahs sprache",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.32",
+   "ms": "4.5",
+   "name": "Befehl /ahs listen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.33",
+   "ms": "1.9",
+   "name": "Befehl /ahs hilfe",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.34",
+   "ms": "1.9",
+   "name": "Befehl /ahs handbuch",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Fehler",
+   "id": "T31.35",
+   "ms": "2.0",
+   "name": "Befehl /ahs xyz",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "grund": "würde die laufende Routine stören",
+   "id": "T31.36",
+   "name": "Befehle test*/testmodus",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "950/nil/15/15/1050/77",
+   "id": "T34",
+   "ms": "0.0",
+   "name": "Einkauf rechnen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "gesetzt true, Rest 3, fertig false",
+   "id": "T39",
+   "ms": "0.4",
+   "name": "Sniper-Ziele",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Shift+Maustaste 4, Tasten bei geschlossenem AH: 0",
+   "id": "T43",
+   "ms": "0.0",
+   "name": "Sniper-Tasten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "nil",
+   "id": "T44",
+   "ms": "1.2",
+   "name": "Wächter-Einstellungen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Verkäufe +1, verkauft 1, Ø Kauf 100",
+   "id": "T54",
+   "ms": "0.1",
+   "name": "Buchhaltung rechnen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "hinzugefügt true",
+   "id": "T62",
+   "ms": "0.2",
+   "name": "Watchlist",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "C_Container: 13 Items, 16 frei · ohne alles: 0/0/0",
+   "id": "T89",
+   "ms": "1.2",
+   "name": "Taschen ohne alte Funktionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Senden true, ohne C_ChatInfo nil, ohne RemoveChannel false, Metadaten true",
+   "id": "T92",
+   "ms": "0.0",
+   "name": "Addon-Info und Chat-Hilfen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "0 Aufrufe im Kampf",
+   "id": "T94",
+   "ms": "0.0",
+   "name": "Esc-Fenster im Kampf",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "Eintrag da",
+   "id": "T129",
+   "ms": "0.0",
+   "name": "Fehler in Hintergrund-Aufgabe wird gemeldet",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "0 OptionalDeps, AHAnalyzerPro = AHSentinel",
+   "id": "T143",
+   "ms": "0.2",
+   "name": "Übergang vom alten AH Analyzer Pro",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Ordner AddOns\\AHAnalyzerPro (bis 0.61) zusätzlich aktivieren: genau eine Meldung 'Bitte den alten Ordner ... löschen', keine doppelten /ahs-Befehle, keine Lua-Fehler",
+   "bereich": "J",
+   "id": "T143b",
+   "name": "Alter Ordner AHAnalyzerPro zusätzlich vorhanden",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "C",
+   "id": "T80",
+   "ms": "0.0",
+   "name": "Systemmeldung \"verkauft\" geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T81",
+   "ms": "0.0",
+   "name": "Addon-Nachricht Sync geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T82",
+   "ms": "0.0",
+   "name": "Zauber-Ereignis Entzaubern geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T83",
+   "ms": "0.0",
+   "name": "Tooltip-Daten geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T84",
+   "ms": "0.0",
+   "name": "Fehlermeldung am Briefkasten geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "id": "T85",
+   "ms": "0.0",
+   "name": "Blockierte Aktion geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "true/false",
+   "id": "T86",
+   "ms": "0.0",
+   "name": "Forever-Namen: Post-Regel an sich selbst",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "0",
+   "id": "T87",
+   "ms": "0.0",
+   "name": "Händler ohne alte Funktionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "modern/trade",
+   "id": "T88",
+   "ms": "0.0",
+   "name": "Berufe ohne alte Funktionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "20",
+   "id": "T90",
+   "ms": "0.0",
+   "name": "Item-Aliase beim Laden",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Erst einen Briefkasten öffnen.",
+   "id": "T91",
+   "ms": "0.0",
+   "name": "Post ohne Funktionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "im Kampf true, danach false, Tasten 0",
+   "id": "T93",
+   "ms": "0.0",
+   "name": "Sniper-Tasten im Kampf",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "false",
+   "id": "T95",
+   "ms": "0.0",
+   "name": "Routine-Start im Kampf abgelehnt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "keiner",
+   "id": "T96",
+   "ms": "0.0",
+   "name": "Kampflog nicht benutzt",
+   "status": "OK"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur im alten Client",
+   "id": "T97",
+   "name": "Nachbildung altes AH",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "ergebnis": "classic",
+   "id": "T102",
+   "ms": "0.0",
+   "name": "Raid-Vorrat je Version",
+   "status": "OK"
+  },
+  {
+   "bereich": "D",
+   "ergebnis": "0 frühere Berichte (Vergleich macht die Prüf-Sitzung)",
+   "id": "T103",
+   "ms": "0.0",
+   "name": "keine Rückschritte zum letzten Bericht",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "4/true/true/auto",
+   "id": "T104",
+   "ms": "0.1",
+   "name": "Neuinstallation",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "2 Einträge",
+   "id": "T105",
+   "ms": "0.1",
+   "name": "Migration Datenbank 3 -> 4",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "id": "T109",
+   "ms": "0.0",
+   "name": "Abbruch mitten im Test (Wiederherstellung)",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "1372 Schlüssel je Sprache",
+   "id": "T110",
+   "ms": "1.5",
+   "name": "Text-Schlüssel vollständig",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "0 Abweichungen",
+   "id": "T111",
+   "ms": "30.9",
+   "name": "Formatplatzhalter",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "",
+   "id": "T113",
+   "ms": "2.2",
+   "name": "Text-Werte gültig, Hilfeseiten",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "Spielversion",
+   "id": "T114",
+   "ms": "0.0",
+   "name": "Texte der gemeinsamen Dateien",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "forever",
+   "id": "T115",
+   "ms": "0.0",
+   "name": "gemeinsame Dateien nach Simulation wieder echt",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "id": "T116",
+   "ms": "0.0",
+   "name": "globale Namen",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "id": "T117",
+   "ms": "14.6",
+   "name": "ProfessionSentinel liest AHSentinel (QuickBuy/QuickSell, Händler-Kosten)",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "id": "T118",
+   "ms": "9.3",
+   "name": "AHSentinel liest ProfessionSentinel (Stub, Fehler abgefangen)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Mittel 0.002 ms, höchstens 0.01 ms (293 Items)",
+   "id": "T121",
+   "ms": "0.2",
+   "name": "Takt-Funktionen (Sniper, Wächter)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Mittel 5.360 ms, höchstens 5.46 ms (293 Items)",
+   "id": "T123",
+   "ms": "16.1",
+   "name": "Heute tun (10)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Mittel 2.362 ms, höchstens 2.42 ms (293 Items)",
+   "id": "T123b",
+   "ms": "7.1",
+   "name": "Marktliste",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Mittel 0.002 ms, höchstens 0.01 ms (293 Items)",
+   "id": "T125",
+   "ms": "2.1",
+   "name": "Zauber-Ereignis im Raid",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "AHSentinel 94357 KB",
+   "id": "T127",
+   "ms": "51.4",
+   "name": "Speicher",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "Eintrag da",
+   "id": "T128",
+   "ms": "0.1",
+   "name": "Fehler in Ereignis-Zuhörer wird gemeldet",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "kein Eintrag",
+   "erwartet": "Eintrag \"Verkauft\"",
+   "id": "T130",
+   "ms": "0.0",
+   "name": "Verkaufs-Meldung: Fehler gemeldet statt verschluckt",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "I",
+   "id": "T132",
+   "ms": "0.0",
+   "name": "blockierte Aktion wird gemeldet",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "gezählt",
+   "id": "T131",
+   "ms": "0.0",
+   "name": "unbehandelter Lua-Fehler wird gezählt",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "classic",
+   "id": "T133",
+   "ms": "0.0",
+   "name": "Raid-Vorrat in Forever",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "keine Favor-Kosten gespeichert (Format über T18 geprüft)",
+   "id": "T136",
+   "ms": "0.0",
+   "name": "Favor-Kosten: Format stabil",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "1/50",
+   "id": "T137",
+   "ms": "0.0",
+   "name": "Artikelanzahl über C_MerchantFrame",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "nil",
+   "id": "T139",
+   "ms": "0.3",
+   "name": "Sniper ADDON_ACTION_BLOCKED",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "true/false",
+   "id": "T140",
+   "ms": "0.0",
+   "name": "Wächter-Pause wirkt (moderner Weg)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "false",
+   "id": "T141",
+   "ms": "0.0",
+   "name": "Pause ändert altes AH nicht",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Forever: Wächter an, Scan fällig -> /ahs scan startet den Scan",
+   "bereich": "J",
+   "id": "T142",
+   "name": "Scan nicht vom Wächter blockiert",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Forever: Wächter 2–3 Runden, dann /ahs scan: startet der Scan?",
+   "bereich": "J",
+   "id": "T138",
+   "name": "Wächter und Server-Limit",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "grund": "betrifft curseforge/upload.py im raidmaster-Repo, nicht das Addon – prüft die Prüf-Sitzung im Workflow",
+   "id": "T144",
+   "name": "CurseForge Forever-Tag",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "alle vorhanden",
+   "id": "T145",
+   "ms": "0.0",
+   "name": "Raid-Liste: alle Item-IDs vorhanden",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Passen die Schutztränke zu Barrow Deeps, Hyjalgipfel, Onyxia? (Punkt 5 nach dem Launch)",
+   "bereich": "J",
+   "id": "T145",
+   "name": "Raid-Vorrat passt zu Forever",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "/dump GetMerchantItemCostInfo, /dump GetMerchantItemCostItem – fehlen sie, liest das Addon keine Favor-Kosten",
+   "bereich": "J",
+   "id": "T149",
+   "name": "Händler-Währungsfunktionen",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "/dump select(4, GetBuildInfo()) – ist es nicht 16001, neue Nummer in AHSentinel.toc ergänzen",
+   "bereich": "J",
+   "id": "T151",
+   "name": "Interface-Nummer",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "id": "T150",
+   "ms": "0.0",
+   "name": "Erkennung über GoldSentinelGame",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "2 Chatzeilen, Wunsch false, Wächter-Pause false",
+   "id": "T153",
+   "ms": "0.1",
+   "name": "Scan-Start scheitert dauerhaft: höchstens 2 Chatzeilen, Wächter läuft weiter",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "120 -> nil",
+   "id": "T154",
+   "ms": "0.0",
+   "name": "15-Minuten-Pause während eines Scan-Wunschs",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Name true, angemeldet true",
+   "id": "T155",
+   "ms": "0.0",
+   "name": "Rezept-Auswahl im Berufsfenster: Ereignisname",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Rezept im Blizzard-Berufsfenster wählen -> /dump AHAnalyzerPro.Crafting.lastModernRecipe zeigt dessen ID",
+   "bereich": "J",
+   "id": "T155",
+   "name": "Rezept-Auswahl (Forever)",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "in der Liste true, Ziel danach weg",
+   "id": "T46",
+   "ms": "0.6",
+   "name": "Wächter-Kandidaten mit Testdaten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Item nil, verkauft nil, Meldung false",
+   "id": "T53",
+   "ms": "0.0",
+   "name": "Verkaufs-Meldung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "erster Lauf 2, zweiter 0",
+   "id": "T55",
+   "ms": "7.5",
+   "name": "Buchhaltung aus Test-Briefkasten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "zum Neu-Einstellen 1, Klick: Keine Items mit gemerktem Preis in den Taschen (erst einmal normal einstellen).",
+   "id": "T57",
+   "ms": "0.7",
+   "name": "Neu einstellen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 Kandidaten, ohne Händler abgelehnt true",
+   "id": "T59",
+   "ms": "0.4",
+   "name": "Händler-Verkauf (Kandidaten)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "grund": "HALB: Händler ansprechen, dann /ahs testroutine haendler",
+   "id": "T59b",
+   "name": "Händler-Verkauf simuliert",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Händler 50/true, Vorschlag 15|TInterface\\MoneyFrame\\UI-SilverIcon:0:0:2:0|t 50|TInterface\\MoneyFrame\\UI-CopperIcon:0:0:2:0|t, Liste true",
+   "id": "T63",
+   "ms": "0.2",
+   "name": "Berufe rechnen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "gelernt 0 -> 1, Gruppen 1, Wert 954",
+   "id": "T65",
+   "ms": "0.1",
+   "name": "Entzaubern lernen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Schlüssel Name-Realm, 7 Tage, Testcharakter entfernt true, eigener abgelehnt true",
+   "id": "T66",
+   "ms": "0.4",
+   "name": "Charaktere",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Chance nil",
+   "id": "T69",
+   "ms": "0.0",
+   "name": "Verkaufschance und Ablauf-Erinnerung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "nil",
+   "id": "T71",
+   "ms": "0.0",
+   "name": "Alt-Klick ohne Alt",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Alt+Klick auf ein Taschen-Item: Preisverlauf (AH zu) bzw. Einkauf (AH offen)",
+   "bereich": "B",
+   "id": "T71b",
+   "name": "Alt-Klick im Spiel",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Status Sync getrennt: 0 Mitspieler (1 Std.) -> Sync aus",
+   "id": "T77",
+   "ms": "0.3",
+   "name": "Sync an/aus/nur Gilde",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "grund": "HALB: Auktionshaus öffnen, dann /ahs testroutine server",
+   "id": "T27",
+   "name": "Einbindung ins Auktionshaus",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "HALB: Auktionshaus öffnen, dann /ahs testroutine server",
+   "id": "T37",
+   "name": "Warenkauf simuliert",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "HALB: Auktionshaus öffnen, dann /ahs testroutine server",
+   "id": "T42",
+   "name": "Sniper-Vorab-Reservierung kauft nie ohne Klick",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "HALB: Auktionshaus öffnen, dann /ahs testroutine server",
+   "id": "T50",
+   "name": "Serie einstellen",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "HALB: Auktionshaus öffnen, dann /ahs testroutine server",
+   "id": "T52",
+   "name": "Unterboten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "H",
+   "grund": "HALB: Auktionshaus öffnen, dann /ahs testroutine server",
+   "id": "T126",
+   "name": "Scan-Auswertung in Portionen",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur im alten Client (Classic Era, TBC)",
+   "id": "T98",
+   "name": "Server-Wege altes AH",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur im alten Client (Classic Era, TBC)",
+   "id": "T101",
+   "name": "Alter Taschen- und Tooltip-Weg",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur im alten Client (Classic Era, TBC)",
+   "id": "T99",
+   "name": "Alte Berufe-API",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur im alten Client (Classic Era, TBC)",
+   "id": "T100",
+   "name": "Alter Händler-Weg",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "übernommen true, Vermerk true, Hinweis true, zweites Mal false",
+   "id": "T106",
+   "ms": "0.1",
+   "name": "Übernahme aus AH Analyzer Pro",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "Sniper 0, Scan-Zeit 0, im AH false, Wächter-Pause 0",
+   "id": "T107",
+   "ms": "0.8",
+   "name": "kleine Migrationen",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "kein Lua-Fehler",
+   "id": "T108",
+   "ms": "3.4",
+   "name": "beschädigte Einträge",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "5 Zeilen in Heute tun",
+   "id": "T119",
+   "ms": "5.9",
+   "name": "echtes ProfessionSentinel geladen",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "grund": "HALB: Auctionator oder TSM aktiv und Auktionshaus offen",
+   "id": "T120",
+   "name": "fremde AH-Addons",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "0.64 ms je Aufruf",
+   "id": "T122",
+   "ms": "63.8",
+   "name": "Tooltip schnell",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "grund": "HALB: Berufsfenster öffnen, dann /ahs testroutine berufe",
+   "id": "T124",
+   "name": "Berufsliste (Zwischenspeicher)",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "leer nil, voll gesetzt",
+   "id": "T146",
+   "ms": "0.0",
+   "name": "KO 5a: leere Rezeptliste nicht gemerkt",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "6",
+   "id": "T147",
+   "ms": "0.0",
+   "name": "KO 5b: Zutaten-Knopf ohne SchematicForm",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "grund": "HALB: Berufsfenster (moderner Client) öffnen, dann /ahs testroutine berufe",
+   "id": "T148",
+   "name": "KO 5c: Zwischenspeicher bleibt bei Listen-Ereignissen",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "1 Meldungen, kein Lua-Fehler",
+   "id": "T152",
+   "ms": "0.3",
+   "name": "pcall um alle AH-Aufrufe",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "5 Befehle nur protokolliert, echte Aktionen: 0",
+   "id": "T157",
+   "ms": "0.0",
+   "name": "Nichts wirklich ausgeführt (Gold, Post, Händler, Sync, Kanal)",
+   "status": "OK"
+  }
+ ],
+ "sandbox": "FEHLER: 10 Pfade, wiederhergestellt: recipes.<Charakter>..list.1.prof, recipes.<Charakter>..list.2.prof, recipes.<Charakter>..list.3.prof, recipes.<Charakter>..list.4.prof, recipes.<Charakter>..list.5.prof, recipes.<Charakter>..list.6.prof, recipes.<Charakter>..list.7.prof, settings.ahZoom, watcher.…",
+ "speicher_kb": "66826",
+ "teil": "auto",
+ "time": 1793846140,
+ "version": "0.65.8"
+}

@@ -1,0 +1,1733 @@
+{
+ "addon": "LevelPilot",
+ "bereich": "alle",
+ "counts": {
+  "client": 6,
+  "fehler": 1,
+  "ok": 198,
+  "uebersprungen": 8
+ },
+ "datenpaket": "1.6.0",
+ "dur_ms": 9608,
+ "echteAktionen": "0",
+ "env": {
+  "build": "70790",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 2,
+  "interface": 16001,
+  "level": 5,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [],
+ "f": 1,
+ "fehlerEindeutig": "0",
+ "fehlerzaehler": "5",
+ "id": "LevelPilot-1793838101-7432cc-14",
+ "initFehler": "0",
+ "kind": "test",
+ "modus": "normal",
+ "nichtAutomatisiert": "0",
+ "results": [
+  {
+   "bereich": "A",
+   "ergebnis": "31 Module",
+   "id": "T01",
+   "ms": "0.0",
+   "name": "alle Module gestartet",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "10 Übersetzungen",
+   "id": "T02",
+   "ms": "0.0",
+   "name": "Dateien ohne Modul geladen",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "3.12.6",
+   "id": "T03",
+   "ms": "0.1",
+   "name": "Version .toc = Code",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "1.6.0 / 1.6.0 / Format 1",
+   "id": "T04",
+   "ms": "0.0",
+   "name": "Version Datenpaket .toc = Code",
+   "status": "OK"
+  },
+  {
+   "anleitung": "/dump select(4, GetBuildInfo()) – steht die Zahl in beiden .toc? Addon-Liste: LevelPilot nicht 'veraltet'",
+   "bereich": "A",
+   "id": "T05",
+   "name": "Interface-Nummer passt zum Client",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Version 2",
+   "id": "T06",
+   "ms": "0.0",
+   "name": "GoldSentinelGame Version 2",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Version 1 angemeldet",
+   "id": "T07",
+   "ms": "0.0",
+   "name": "GoldSentinelTest geladen und angemeldet",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja",
+   "id": "T08",
+   "ms": "0.0",
+   "name": "echte Erkennung",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Forever true, Questlog 40, Dungeon 0.36/1.50, grün 0.85",
+   "id": "T09",
+   "ms": "0.1",
+   "name": "Weichen mit SetTestFlavor(\"forever\")",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Forever false, Questlog 20, Dungeon 1.00/1.00, grün 1.00",
+   "id": "T10",
+   "ms": "0.0",
+   "name": "Weichen mit SetTestFlavor(\"era\")",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Forever false, Questlog 20, Dungeon 1.00/1.00, grün 1.00",
+   "id": "T11",
+   "ms": "0.0",
+   "name": "Weichen mit SetTestFlavor(\"tbc\")",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Forever false, Questlog 20, Dungeon 1.00/1.00, grün 1.00",
+   "id": "T12",
+   "ms": "0.0",
+   "name": "Weichen mit SetTestFlavor(\"retail\")",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "forever · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja",
+   "id": "T13",
+   "ms": "0.0",
+   "name": "SetTestFlavor(nil) stellt alles zurück",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "SafeValue true, SameName true",
+   "id": "T14",
+   "ms": "0.0",
+   "name": "ohne GoldSentinelGame",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "grund": "wird von addon-check geprüft",
+   "id": "T15",
+   "name": "Reihenfolge in der .toc",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Guide wechselt true, Zentrale true/true, kompakt gleich true",
+   "id": "T16",
+   "ms": "4.7",
+   "name": "Fenster-Befehle",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "speed true, normal true",
+   "id": "T17",
+   "ms": "31.5",
+   "name": "Modus-Befehle",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "way true, weg true",
+   "id": "T18",
+   "ms": "229.2",
+   "name": "Wegpunkt und Suche",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ohne Kürzel false, xx false",
+   "id": "T19",
+   "ms": "0.1",
+   "name": "Sprache per Befehl",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Gilde false: 0 mitgeschrieben, Teilen 0, Bilanz LevelPilot-Bilanz",
+   "id": "T20",
+   "ms": "0.1",
+   "name": "Teilen, Gruppe, Bilanz",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Kopierfenster true/true/true, Protokoll danach 0",
+   "id": "T21",
+   "ms": "52.1",
+   "name": "Protokoll, Diagnose, Messung, Selbsttest",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Reise aktiv false, Sandbox OK",
+   "id": "T22",
+   "ms": "34.1",
+   "name": "Reise-Befehle",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ReloadUI mitgeschrieben: 1",
+   "id": "T23",
+   "ms": "0.0",
+   "name": "Debug, Zurück, Reset",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true",
+   "id": "T24",
+   "ms": "0.5",
+   "name": "unbekannter Befehl",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Toggle zweimal gleich true, Text true",
+   "id": "T25",
+   "ms": "27.9",
+   "name": "Guide-Fenster LevelPilotFrame",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Menü true, übersprungen true, wieder geplant true, zurückgestellt true",
+   "id": "T26",
+   "ms": "36.4",
+   "name": "Schritt-Menü LevelPilotStepMenu",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T27",
+   "ms": "0.4",
+   "name": "Hinweise oben (Toasts) LevelPilotToasts",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "aus versteckt true, an sichtbar true",
+   "id": "T28",
+   "ms": "7.0",
+   "name": "Minimap-Button LevelPilotMinimapButton",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "aus versteckt true",
+   "id": "T29",
+   "ms": "6.0",
+   "name": "Pfeil LevelPilotArrow",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "8 Reiter, Escape true",
+   "id": "T30",
+   "ms": "31.8",
+   "name": "Zentrale LevelPilotCenter, alle 8 Reiter",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "65 Schalter, Fehler: keine, nicht zurück: keine, Kanal-Beitritt mitgeschrieben 0",
+   "id": "T31",
+   "ms": "495.2",
+   "name": "jede Option der Zentrale einmal an und aus",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "11 Stepper",
+   "id": "T32",
+   "ms": "2121.8",
+   "name": "alle 12 Stepper",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Knöpfe 10, anzeigbare Sprachen 9",
+   "id": "T33",
+   "ms": "14.4",
+   "name": "Sprachknöpfe",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Fehler 0, Reiseknöpfe 3 sichtbar von 3",
+   "id": "T34",
+   "ms": "55.0",
+   "name": "Zentrale » Daten: Knöpfe",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Pause→Weiter→Pause, Zuschauen→Schnell→Zuschauen, nach Stopp nur Bericht/Schliessen true, Bericht true",
+   "id": "T35",
+   "ms": "0.0",
+   "name": "Fenster der virtuellen Reise LevelPilotVirtualFrame",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Status zurück, Panel ohne Gruppe versteckt true",
+   "id": "T36",
+   "ms": "6.5",
+   "name": "Gruppen-Panel LevelPilotGroupPanel",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Makro 180 Zeichen, lang 248 Zeichen, Tasten true/true",
+   "id": "T37",
+   "ms": "0.2",
+   "name": "Aktionsleiste und Tastenbelegung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "LevelPilot",
+   "id": "T38",
+   "ms": "0.0",
+   "name": "Spenden-Fenster",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "10 Schritte, Zustand ok",
+   "id": "T39",
+   "ms": "15.7",
+   "name": "Planung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "12 Werte",
+   "id": "T40",
+   "ms": "0.0",
+   "name": "Planner:KillXPFormula – Werte",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "",
+   "id": "T41",
+   "ms": "0.0",
+   "name": "Planner:GreyLevel",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0.85 1.00 89.64 118.64",
+   "id": "T42",
+   "ms": "0.1",
+   "name": "Planner:GreenXPFactor / KillXP ohne Messung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0.36 auto · 0.50 set · 2.00 set",
+   "id": "T43",
+   "ms": "0.0",
+   "name": "Dungeon-Faktoren",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "18, 20",
+   "id": "T44",
+   "ms": "0.0",
+   "name": "Questlevel bei Quest-Kills",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "keine Eskortenquest im Bereich – Stufen 1–3 ohne Fehler, keine Klassenquest übersprungen: true",
+   "id": "T45",
+   "ms": "108.6",
+   "name": "Speedrun-Filter",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "19 Dungeons in der Übersicht",
+   "id": "T46",
+   "ms": "42.2",
+   "name": "Dungeon-Übersicht",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Diagnose 840 Zeichen",
+   "id": "T47",
+   "ms": "0.6",
+   "name": "Diagnose",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "WantQuest false, Dungeon false",
+   "id": "T48",
+   "ms": "0.0",
+   "name": "Engine-Funktionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Annehmen 1/0, Belohnung 0:1 1:1 2:0, Gossip zuerst SelectActiveQuest, ignoriert 0",
+   "id": "T49",
+   "ms": "0.3",
+   "name": "Automatik Annehmen/Abgeben/Gossip",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "kein Ziel (Schritt ohne Ort)",
+   "id": "T50",
+   "ms": "0.0",
+   "name": "Navigation",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Startwege 0 (Startdatenbank 0), Weg 4 Punkte, Knoten nah 0, neu 153/154",
+   "id": "T51",
+   "ms": "13.2",
+   "name": "Wegenetz Graph",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "mit Paket true, ohne false, Strecke false",
+   "id": "T52",
+   "ms": "0.1",
+   "name": "Gelände Terrain",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5/2/0 -> 6/3/0",
+   "id": "T53",
+   "ms": "0.1",
+   "name": "Höhlen Caves",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Weg-Kills 0, Mittel –",
+   "id": "T54",
+   "ms": "0.0",
+   "name": "Gefahr Danger",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Kontinent 1414, Name Durotar",
+   "id": "T55",
+   "ms": "0.0",
+   "name": "Geo",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Paket 3920, Start 0, eigene 11",
+   "id": "T56",
+   "ms": "0.4",
+   "name": "QuestDB",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "deDE geladen",
+   "id": "T57",
+   "ms": "0.0",
+   "name": "Namen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Eintrag true, (1234,nil)->(nil,1234), (3,1234)->(3,1234), ohne NPC nichts",
+   "id": "T58",
+   "ms": "0.2",
+   "name": "Recorder (Aufzeichnung)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Quest übernommen true, eigene nur bestätigt true, ungültig verworfen true, kaputt ohne Eintrag true",
+   "id": "T59",
+   "ms": "9.0",
+   "name": "Comm: Kodieren und Empfangen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "80: true, 81: false",
+   "id": "T60",
+   "ms": "0.0",
+   "name": "Comm: Begrenzung je Absender",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "mitgeschrieben 2, Präfix LvPilot2, Stats sent/recv 109/22",
+   "id": "T61",
+   "ms": "0.3",
+   "name": "Comm: Senden",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "mitgeschrieben 3",
+   "id": "T62",
+   "ms": "0.1",
+   "name": "Comm: Zonen-Abgleich",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Mitglied erkannt",
+   "id": "T63",
+   "ms": "0.0",
+   "name": "Gruppe (LvPilotG)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Teilen 3, Text nil, Partner an true, aus ignoriert true",
+   "id": "T64",
+   "ms": "0.1",
+   "name": "Social (Teilen, Gruppensuche, Partner)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1g 23s · 2s 50c · 5c",
+   "id": "T65",
+   "ms": "0.0",
+   "name": "Session",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Dur(59) 1 min, Reparieren mitgeschrieben 1",
+   "id": "T66",
+   "ms": "0.0",
+   "name": "Comfort",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1 Bedarf, Kauf mitgeschrieben 1",
+   "id": "T67",
+   "ms": "0.1",
+   "name": "Supply (Vorräte, Belohnung anlegen)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "3 Hinweis(e)",
+   "id": "T68",
+   "ms": "3.1",
+   "name": "Advisor (Assistent)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 Klassenquests",
+   "id": "T69",
+   "ms": "32.3",
+   "name": "Hints",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Gebiete 0, Fundstellen 0, verfügbar 26",
+   "id": "T70",
+   "ms": "0.8",
+   "name": "Pins (Karte, Fundstellen)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0 offene Ziele",
+   "id": "T71",
+   "ms": "0.1",
+   "name": "Plates (Namensplaketten)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Spieler nil, Questgegenstand keiner im Log, Hook über TooltipDataProcessor",
+   "id": "T72",
+   "ms": "0.3",
+   "name": "Tooltips",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "EP je Kill: gemessen 80 · grün 85 % (Annahme)",
+   "id": "T73",
+   "ms": "0.0",
+   "name": "Calib (Lernwerte)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "gemessen 1 (Verhältnis 1.00), erholt +0, Gruppe +0",
+   "id": "T74",
+   "ms": "0.1",
+   "name": "Calib: EP-Messung je Kill",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "neu: 1",
+   "id": "T75",
+   "ms": "0.0",
+   "name": "Protocol (Fehler-Protokoll)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Import true (Anzahlen true), kaputt false, Prüfsumme false, Kopie behalten true, wiederhergestellt true",
+   "id": "T76",
+   "ms": "6.5",
+   "name": "Backup (Sichern/Laden)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5754 Zeichen (Text nicht im Bericht)",
+   "id": "T77",
+   "ms": "1.2",
+   "name": "Measure (/lp messen)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Text 3 Module gestartet, Client de (deDE)",
+   "id": "T78",
+   "ms": "0.1",
+   "name": "Sprache: Hilfsfunktionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Bits true, Zonen true, Format true, Fire true",
+   "id": "T79",
+   "ms": "0.1",
+   "name": "Core-Hilfen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "42 Ereignisse",
+   "id": "T80",
+   "ms": "31.0",
+   "name": "alle Ereignisse einmal",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "13 Ticker",
+   "id": "T81",
+   "ms": "44.4",
+   "name": "alle Ticker einmal",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Navigation und Pins, Weltkarte zu (Hooks nicht geprüft)",
+   "id": "T82",
+   "ms": "0.2",
+   "name": "OnUpdate-Treiber",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "15 Schritte, Sandbox OK, danach LP.char echt true, Flugpunkte ohne Überlagerung true, API.Quests Original true",
+   "id": "T83",
+   "ms": "0.0",
+   "name": "virtuelle Reise kurz",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "grund": "nur mit /lp testroutine reise (Reise 1–60 in beiden Modi, dauert einige Minuten)",
+   "id": "T84",
+   "name": "virtuelle Reise 1–60, beide Modi",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "während: echter Charakter true, Flugpunkte ohne Überlagerung true · nach Abbruch zurück true",
+   "id": "T85",
+   "ms": "0.0",
+   "name": "Reise abbrechen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Quests 3920",
+   "id": "T86",
+   "ms": "0.3",
+   "name": "Datenpaket-Inhalt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "grund": "ausserhalb des Spiels",
+   "id": "T87",
+   "name": "Werkzeuge ausserhalb des Spiels (Tools/: Sicherung.ps1, Wiederherstellen.ps1, lp_sammeln.py …)",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Rückgabe 0",
+   "id": "T88",
+   "ms": "0.0",
+   "name": "API.ItemCooldown mit geschützten start/duration (Ruhestein)",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "geschützt +0, Gegenprobe +1",
+   "id": "T89",
+   "ms": "0.0",
+   "name": "Recorder:RecordService mit geschütztem UnitName(\"npc\")",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Zeilen 0",
+   "id": "T90",
+   "ms": "0.0",
+   "name": "Tooltip-Hook OnShow mit geschütztem GameTooltipTextLeft1:GetText() und geschütztem tt:GetUnit()",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Stück 0",
+   "id": "T91",
+   "ms": "0.0",
+   "name": "Calib:OnLoot mit geschütztem Beute-Text",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "geschützt Comm 0 Group 0 · Gegenprobe Comm 1 Group 1",
+   "id": "T92",
+   "ms": "0.0",
+   "name": "CHAT_MSG_ADDON mit geschütztem prefix/msg/sender (Comm und Group)",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "geschützt false, Gegenprobe true",
+   "id": "T93",
+   "ms": "0.0",
+   "name": "Plates:ForUnit mit geschütztem UnitName/UnitGUID",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Messungen: Level geschützt 0, EP geschützt 0",
+   "id": "T94",
+   "ms": "0.1",
+   "name": "Calib:ReadTarget / OnXPUpdate mit geschütztem UnitLevel/UnitXP",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "\"?\" statt des Werts",
+   "id": "T95",
+   "ms": "0.0",
+   "name": "Measure-Zeile mit geschütztem UnitClassification",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "GUID geschützt nichts, Level geschützt nichts, Gegenprobe gelernt",
+   "id": "T96",
+   "ms": "0.2",
+   "name": "Calib:ObserveUnit mit geschützter GUID und geschütztem Level",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "SameName false, Short nil",
+   "id": "T97",
+   "ms": "0.0",
+   "name": "Namensvergleich mit geschütztem Namen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "lesbar false, EP 0/1",
+   "id": "T98",
+   "ms": "0.3",
+   "name": "EP-Anzeige mit geschütztem UnitXP/UnitXPMax (UI-Ticker im Kampf)",
+   "status": "OK"
+  },
+  {
+   "anleitung": "/lp testroutine kampf, dann allein einen Gegner töten – Fehlerzähler vorher/nachher gleich",
+   "bereich": "C",
+   "id": "T99",
+   "name": "geschützte Werte im echten Kampf",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "0, 0 Ziele, nil, false, nil",
+   "id": "T100",
+   "ms": "0.0",
+   "name": "Questlog-Funktionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "5,7,10,13",
+   "id": "T101",
+   "ms": "0.0",
+   "name": "API.GreenRange ohne C_QuestLog.GetTrivialRange und GetQuestGreenRange",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "alle Rückfälle",
+   "id": "T102",
+   "ms": "0.0",
+   "name": "Händler",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "alle Rückfälle",
+   "id": "T103",
+   "ms": "0.0",
+   "name": "Gegenstände",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "alle Rückfälle",
+   "id": "T104",
+   "ms": "0.0",
+   "name": "Taschen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Punkte nil, Hinweis false, Diagnose nennt Talentpunkte",
+   "id": "T105",
+   "ms": "7.2",
+   "name": "Talentpunkte",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Rückgabe nil",
+   "id": "T106",
+   "ms": "0.0",
+   "name": "Hints Known ohne IsSpellKnown/IsPlayerSpell",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Zeile true, mitgeschrieben 1",
+   "id": "T107",
+   "ms": "0.2",
+   "name": "Gruppensuche ohne ChatFrame_OpenChat",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "frame:RemoveChannel 1×",
+   "id": "T108",
+   "ms": "0.0",
+   "name": "Addon-Kanal ohne ChatFrame_RemoveChannel",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Diagnose: Zufriedenheit true, Futter true",
+   "id": "T109",
+   "ms": "0.1",
+   "name": "Jäger ohne GetPetHappiness/GetPetFoodTypes",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "alt LevelPilot (1×), ohne beide LevelPilot",
+   "id": "T110",
+   "ms": "0.0",
+   "name": "Metadaten und AddOns",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "alt 1, ohne beide 0, Bilanz 0",
+   "id": "T111",
+   "ms": "0.1",
+   "name": "Senden ohne C_ChatInfo",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "14 Fälle ohne Fehler",
+   "id": "T112",
+   "ms": "0.7",
+   "name": "weitere alte Globals ohne Prüfung",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Laden zu Ende, collectgarbage warf",
+   "id": "T113",
+   "ms": "0.0",
+   "name": "Names: collectgarbage wirft",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "im Kampf: Schritt gelesen 0×, Knopf unverändert · danach 1 Aktualisierung",
+   "id": "T114",
+   "ms": "0.1",
+   "name": "Aktionsleiste im Kampf",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "mitgeschrieben 0",
+   "id": "T115",
+   "ms": "0.0",
+   "name": "Belohnung anlegen und Hinweis-Knöpfe im Kampf",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Start erlaubt: false",
+   "id": "T116",
+   "ms": "0.0",
+   "name": "Testroutine und Kampf",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "neu: 1",
+   "id": "T117",
+   "ms": "0.1",
+   "name": "ADDON_ACTION_BLOCKED für LevelPilot",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "angemeldet false",
+   "id": "T118",
+   "ms": "0.0",
+   "name": "Kampflog nicht angemeldet",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Classic Era mit 'Veraltete AddOns laden' starten, dann /lp testroutine – keine Lua-Fehler beim Laden, T01 OK",
+   "bereich": "D",
+   "id": "T119",
+   "name": "Laden in Classic Era",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "D",
+   "ergebnis": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja",
+   "id": "T120",
+   "ms": "0.0",
+   "name": "Hinweis \"für WoW Forever gebaut\"",
+   "status": "OK"
+  },
+  {
+   "bereich": "D",
+   "ergebnis": "API.modern true",
+   "id": "T121",
+   "ms": "0.0",
+   "name": "Weichen auf dem alten Weg",
+   "status": "OK"
+  },
+  {
+   "bereich": "D",
+   "grund": "LevelPilot nur für WoW Forever",
+   "id": "T122",
+   "name": "TBC und Retail",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "alle Standardwerte",
+   "id": "T123",
+   "ms": "0.3",
+   "name": "Neuinstallation (leere SavedVariables)",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "2, 3",
+   "id": "T124",
+   "ms": "0.5",
+   "name": "Migration Speedrun-Strenge (3.10)",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "auto",
+   "id": "T125",
+   "ms": "0.2",
+   "name": "Migration Sprache",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "drop",
+   "id": "T126",
+   "ms": "0.0",
+   "name": "Migration Protokoll",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "RealTaxiOf echt true, Konto echt true, Kopie ohne Reise-Einträge true",
+   "id": "T127",
+   "ms": "0.0",
+   "name": "Überlagerung der Flugpunkte nach einem Abbruch",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "ergänzt true, gemessen true",
+   "erwartet": "ergänzt, false, kein Fehler",
+   "id": "T128",
+   "ms": "37.2",
+   "name": "alte Fassung (Beispieldaten im Test)",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "alle Aufrufe ohne Fehler",
+   "id": "T129",
+   "ms": "40.2",
+   "name": "beschädigte Einträge (nil, falscher Typ)",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "fehlt true, Kurztest true, Format 2 true, 1.5.0 läuft mit einem Hinweis true/true, danach Paket true",
+   "id": "T130",
+   "ms": "1.4",
+   "name": "Datenpaket fehlt, falsches Format, zu alt",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "alt: Version zu alt (LPTest) · ohne Tabelle: Schnittstelle unvollständig",
+   "id": "T131",
+   "ms": "0.3",
+   "name": "QuestieDB vorhanden, aber zu alt oder unvollständig",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "Charakter true, Konto wieder true",
+   "id": "T132",
+   "ms": "0.2",
+   "name": "Einstellungen pro Charakter",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "442 benutzte Schlüssel in allen Sprachen",
+   "id": "T133",
+   "ms": "1.1",
+   "name": "Schlüssel in jeder Sprache vorhanden",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "keine Abweichung",
+   "id": "T134",
+   "ms": "24.8",
+   "name": "Formatplatzhalter",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "alle formatierbar",
+   "id": "T135",
+   "ms": "11.4",
+   "name": "Format mit Werten",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "9 Sprachen",
+   "id": "T136",
+   "ms": "935.7",
+   "name": "jede Sprache aktivieren, Hauptfenster öffnen",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "ok",
+   "id": "T137",
+   "ms": "0.1",
+   "name": "Sprachen ohne Schrift",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "deDE geladen",
+   "id": "T138",
+   "ms": "0.0",
+   "name": "Namen je Sprache",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "Spielversion",
+   "id": "T139",
+   "ms": "0.0",
+   "name": "Texte von GoldSentinelGame",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "geladen: GuildSentinel, RaidMaster, ThreatSentinel, BuffSentinel, ProfessionSentinel, AHSentinel",
+   "id": "T140",
+   "ms": "0.0",
+   "name": "gemeinsame Dateien mit anderen GoldSentinel-Addons",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "ok",
+   "id": "T141",
+   "ms": "0.0",
+   "name": "keine globalen Namen überschrieben",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "GoldSentinelTest 1, Protokoll 1 · ohne BugGrabber (Teil übersprungen)",
+   "id": "T142",
+   "ms": "0.6",
+   "name": "Fehler-Handler-Kette",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "grund": "keine Schnittstelle – LevelPilot nutzt keine anderen GoldSentinel-Addons",
+   "id": "T143",
+   "name": "Schnittstellen zu anderen GoldSentinel-Addons",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "ohne Questie: nicht installiert (Teil mit Questie übersprungen)",
+   "id": "T144",
+   "ms": "0.3",
+   "name": "Questie mit und ohne",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "true, true",
+   "id": "T145",
+   "ms": "0.0",
+   "name": "Addon-Präfixe angemeldet",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Median 0.13 ms, Höchstwert 0.23 ms",
+   "id": "T146",
+   "ms": "2.7",
+   "name": "UI:Refresh (Ticker 1 s)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Median 0.00 ms, Höchstwert 0.00 ms",
+   "id": "T147",
+   "ms": "0.0",
+   "name": "Engine:CheckSteps (Ticker 0,5 s)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Median 0.03 ms, Höchstwert 0.07 ms, Recalc(true) 4.28 ms",
+   "id": "T148",
+   "ms": "4.9",
+   "name": "Navigations-Treiber (OnUpdate alle 0,05 s: Nav:Recalc(false), Pfeil, Minikarte)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "OnUpdate Median 0.01 ms (max 0.07), Weltkarte 0.00 ms",
+   "id": "T149",
+   "ms": "0.3",
+   "name": "Pins-Treiber und Weltkarte",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Median 6.13 ms, Höchstwert 6.56 ms",
+   "id": "T150",
+   "ms": "30.6",
+   "name": "Planner:Replan(true) (Ticker 15 s und bei Ereignissen)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Median 5.10 ms, Höchstwert 63.82 ms",
+   "id": "T151",
+   "ms": "86.9",
+   "name": "Graph:Path für eine lange Route (Orgrimmar -> Wegkreuz)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "vom Weg ab: 1 Neuberechnungen in 1 s, auf dem Flug 0",
+   "id": "T152",
+   "ms": "9.0",
+   "name": "Drosselung bei \"vom Weg ab\"",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Plakette 0.002 ms, Tooltip 0.002 ms, Beobachtung 0.001 ms",
+   "id": "T153",
+   "ms": "0.2",
+   "name": "Plaketten, Tooltip und Beobachtung je Einheit",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Empfang 0.008 ms, Senden 0.001 ms",
+   "id": "T154",
+   "ms": "0.2",
+   "name": "Comm",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "14.49 ms je Planung (15)",
+   "id": "T155",
+   "ms": "0.0",
+   "name": "Planung je Reiseschritt",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "3 Ticker, Summe Median 0.14 ms, Höchstwert 0.33 ms",
+   "id": "T156",
+   "ms": "3.0",
+   "name": "alle 1-s-Ticker zusammen (ui, caves, recorder, session)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Zuwachs -2509 KB (ab dem Start der Prüfungen), LevelPilot 8286 KB",
+   "id": "T157",
+   "ms": "110.0",
+   "name": "Speicher",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "Rückgabe false, Zähler +1, GoldSentinelTest true",
+   "id": "T158",
+   "ms": "0.2",
+   "name": "absichtlicher Fehler über LP:Safe",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "GoldSentinelTest 1, Protokoll 2",
+   "id": "T159",
+   "ms": "0.2",
+   "name": "Lua-Fehler ausserhalb eines pcall",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "Zähler +1, übrige liefen true",
+   "id": "T160",
+   "ms": "0.4",
+   "name": "Fehler in einem Ereignis-Handler",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "Zähler +1, nächster lief true",
+   "id": "T161",
+   "ms": "0.0",
+   "name": "Fehler in einem LP:Fire-Listener",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "T01 meldet FEHLER true, Diagnose zeigt ihn true",
+   "id": "T162",
+   "ms": "0.6",
+   "name": "Modul-Startfehler in der Diagnose",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "Zähler +2",
+   "id": "T163",
+   "ms": "0.1",
+   "name": "Ticker-Fehler",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "Protokoll 5, GoldSentinelTest 5 (je Reise höchstens 5)",
+   "id": "T164",
+   "ms": "0.2",
+   "name": "Fehler der virtuellen Reise",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Version 2",
+   "id": "T167",
+   "ms": "0.0",
+   "name": "[V Schritt 1] GoldSentinelGame unverändert und vor allen eigenen Dateien",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Diagnose 870 Zeichen",
+   "id": "T168",
+   "ms": "0.5",
+   "name": "[V Schritt 1] G.Status() in der Diagnose",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "true, false, eigene Nachricht: Comm 0, Group +0",
+   "id": "T169",
+   "ms": "0.1",
+   "name": "[V Schritt 1] Namensvergleiche über G.SameName",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "1.6.0",
+   "id": "T170",
+   "ms": "0.0",
+   "name": "[V Schritt 2.1] Datenpaket-Version passt",
+   "status": "OK"
+  },
+  {
+   "anleitung": "/dump select(4, GetBuildInfo()) – Nummer in LevelPilot.toc und LevelPilot_Data.toc, 16001 bleibt drin",
+   "bereich": "J",
+   "id": "T171",
+   "name": "[V Launch] Interface-Nummer in beiden .toc",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "12 Werte",
+   "id": "T172",
+   "ms": "0.0",
+   "name": "[Z1a] EP je Kill nach Levelunterschied",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "0.85 / 3",
+   "id": "T173",
+   "ms": "0.0",
+   "name": "[Z1b] Abschlag für grüne Monster nur in Forever",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "30 Weg-Kills (Level 5–10), 63.1 EP je Kill ohne Erholt-Bonus (Grenze 94.9)",
+   "id": "T174",
+   "ms": "0.0",
+   "name": "[Z1c] Weg-Kills mit mittlerem Monsterlevel",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "18, 20",
+   "id": "T175",
+   "ms": "0.0",
+   "name": "[Z1d] Quest-Kills mit Questlevel",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "0.36 / 1.5",
+   "id": "T176",
+   "ms": "0.0",
+   "name": "[Z2] Dungeon-Werte Forever 0,36 / 1,5, Classic 1,0",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Level 5 – Messung auf Stufe -3 nicht möglich",
+   "id": "T177",
+   "ms": "0.1",
+   "name": "[Z3] Messung EP je Kill: geschützt, erholt, Gruppe",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Hinweis true",
+   "id": "T178",
+   "ms": "0.0",
+   "name": "[Z4] Gruppen-EP-Hinweis in Forever",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "angezeigt true, alle 10 Sprachen",
+   "id": "T179",
+   "ms": "1.8",
+   "name": "[Z5a] \"Zeit bis 60\" klar beschriftet",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "grund": "nur mit /lp testroutine reise (Reise 1–60 in beiden Modi, dauert einige Minuten)",
+   "id": "T180",
+   "name": "[Z5b] beide Modi vergleichen, echter Modus bleibt",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Zeile \"Werte: Kills/Min …\" vorhanden",
+   "id": "T181",
+   "ms": "0.0",
+   "name": "[Z5c] Reisebericht nennt die Herkunft der Werte",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "4084700 in 59 Einträgen",
+   "id": "T182",
+   "ms": "0.0",
+   "name": "[Z NICHT ÄNDERN] EP-Tabelle und Regeln unverändert",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "grund": "nur mit /lp testroutine reise (Reise 1–60 in beiden Modi, dauert einige Minuten)",
+   "id": "T183",
+   "name": "[Z Test 1] Zeiten 1–60 Normal und Speedrun",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Titel übersetzt true",
+   "id": "T184",
+   "ms": "0.7",
+   "name": "[K1] /lp reise bericht ohne Lua-Fehler (global L)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Rückgabe 0",
+   "id": "T185",
+   "ms": "0.0",
+   "name": "[K2] Ruhestein-Abklingzeit mit geschützten Werten",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "geschützt +0, Gegenprobe +1",
+   "id": "T186",
+   "ms": "0.0",
+   "name": "[K3] Recorder: geschützter NPC-Name",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Zeilen 0",
+   "id": "T187",
+   "ms": "0.0",
+   "name": "[K4] Tooltip-Titel und GetUnit geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Stück 0",
+   "id": "T188",
+   "ms": "0.0",
+   "name": "[K5] Calib:OnLoot geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "geschützt Comm 0 Group 0 · Gegenprobe Comm 1 Group 1",
+   "id": "T189",
+   "ms": "0.0",
+   "name": "[K6] CHAT_MSG_ADDON geschützt (Comm und Group)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Laden zu Ende, collectgarbage warf",
+   "id": "T190",
+   "ms": "0.0",
+   "name": "[K7] collectgarbage in Names mit pcall",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Rückgabe nil",
+   "id": "T191",
+   "ms": "0.0",
+   "name": "[K8] Hints Known ohne Rückgabe true",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Zeile true, mitgeschrieben 1",
+   "id": "T192",
+   "ms": "0.0",
+   "name": "[K9] Gruppen-Text ohne ChatFrame_OpenChat",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "frame:RemoveChannel 1×",
+   "id": "T193",
+   "ms": "0.0",
+   "name": "[K10] Kanal ausblenden ohne ChatFrame_RemoveChannel",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "5,7,10,13",
+   "id": "T194",
+   "ms": "0.0",
+   "name": "[K11] GreenRange mit UnitQuestTrivialLevelRange",
+   "status": "OK"
+  },
+  {
+   "anleitung": "/dump UnitCharacterPoints, /dump GetUnspentTalentPoints, /dump GetPetHappiness, /dump GetPetFoodTypes – Ergebnis zurückmelden (automatischer Teil OK: T105 true, T109 true)",
+   "bereich": "J",
+   "ergebnis": "T105 true, T109 true",
+   "id": "T195",
+   "ms": "13.4",
+   "name": "[K12] Talent- und Jägerfunktionen",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "ohne Beute 1/0 · geplündert 2/2 · liegen gelassen 2/2 · geschützt 2",
+   "id": "T196",
+   "ms": "0.2",
+   "name": "[K13] Dropraten ohne Kampflog",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "vom Weg ab: 1 Neuberechnungen in 1 s, auf dem Flug 0",
+   "id": "T197",
+   "ms": "6.7",
+   "name": "[K14] Navigation: 0,5 s Mindestpause auch bei \"off\", nicht neu rechnen auf Flügen",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "13 Ticker über LP:Ticker",
+   "id": "T198",
+   "ms": "0.0",
+   "name": "[K15] alle Ticker in LP:Safe",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Laden ohne Fehler",
+   "id": "T199",
+   "ms": "0.0",
+   "name": "[K16] Protokoll mit beschädigtem Eintrag startet",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "\"?\" statt des Werts",
+   "id": "T200",
+   "ms": "0.0",
+   "name": "[K17] Measure: UnitClassification geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "LP.API.IsQuestDone 2×",
+   "id": "T201",
+   "ms": "0.2",
+   "name": "[K18] Tooltips nutzen LP.API.IsQuestDone",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "forever true, era false",
+   "id": "T202",
+   "ms": "0.0",
+   "name": "[K19] eigene Erkennung auf LP.Game umgeleitet",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Mindestversion 1.6.0",
+   "id": "T203",
+   "ms": "0.0",
+   "name": "[K20] Mindestversion des Datenpakets",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "restock false, autoEquipRewards false, autoRepair true, autoFly true",
+   "id": "T204",
+   "ms": "0.0",
+   "name": "[K Frage] Standardwerte mit echten Folgen",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "grund": "vor dem Push mit addon-check",
+   "id": "T205",
+   "name": "[R] Datenpaket nur in der gemeinsamen ZIP",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "autoRepair true, autoFly true, restock false, autoEquipRewards false",
+   "id": "T206",
+   "ms": "0.2",
+   "name": "[A1] Neuinstallation: Reparieren/Flug an, Nachkaufen/Belohnung aus",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "autoRepair false, autoFly false, restock true",
+   "id": "T207",
+   "ms": "0.2",
+   "name": "[A1] Bestehende Einstellungen bleiben",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "erster Besuch true (1 Hinweis), zweiter false, gekauft 0",
+   "id": "T208",
+   "ms": "0.0",
+   "name": "[A2a] Hinweis Nachkaufen einmal, nichts gekauft",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "erste true (1 Hinweis), zweite false, gewählt/angelegt 0",
+   "id": "T209",
+   "ms": "0.0",
+   "name": "[A2b] Hinweis Belohnung einmal, nichts gewählt oder angelegt",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Hinweis false, gezeigt 0",
+   "id": "T210",
+   "ms": "0.0",
+   "name": "[A2c] Option an -> kein Hinweis",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "im Kampf 0, danach 1",
+   "id": "T211",
+   "ms": "0.0",
+   "name": "[A2d] Im Kampf -> kein Hinweis",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Kills 1, Stück 2",
+   "id": "T212",
+   "ms": "0.1",
+   "name": "[3.12.5-1] Drop-Messung: erneut geöffnete Leiche zählt nicht doppelt",
+   "status": "OK"
+  },
+  {
+   "anleitung": "/dump C_SpellBook.IsSpellKnown(3273) und /dump IsPlayerSpell(3273) – Erste Hilfe gelernt? Beide Antworten zurückmelden",
+   "bereich": "J",
+   "id": "T213",
+   "name": "[3.12.6-2] Berufszauber: C_SpellBook und IsPlayerSpell im Client",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "doppelt:  fehlend: ",
+   "id": "T166",
+   "ms": "0.1",
+   "name": "Testfall-IDs eindeutig und vollständig",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "Namen im Bericht: false, echte Aktionen: 0",
+   "id": "T165",
+   "ms": "7.0",
+   "name": "Bericht gespeichert und datenschutzkonform",
+   "status": "OK"
+  }
+ ],
+ "sandbox": "OK",
+ "spielsprache": "deDE",
+ "sprache": "de",
+ "time": 1793838092,
+ "version": "3.12.6"
+}
