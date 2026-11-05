@@ -12,6 +12,12 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.10
+
+- **Profession window (WoW Forever):** the AHSentinel profit window no longer covers the profession tabs on the right
+  side of the profession window – it now docks to the right of the tab bar. Without such a tab bar it sits where it
+  always did.
+
 ### Version 0.65.9
 
 - **Profession window:** new interface `AHAnalyzerPro.Crafting:GetDockFrame()` – returns the visible AHSentinel profit
@@ -60,16 +66,6 @@ Fixes from the addon check:
   `gildenbank`, `kampf`) with saved report. Your real data is saved before and restored afterwards; buying, posting,
   mail, vendor and price sync are only simulated. `/ahs test` and `/ahs test daten` are short forms.
 - Missing translations for the classic auction house added.
-
-### Version 0.65.5
-
-Follow-up fixes from the addon check:
-- **Full scan has priority (WoW Forever, Retail):** if you start the scan while the server is busy or a watcher search is
-  still running, the scan no longer fails – the watcher pauses and the scan starts by itself as soon as the server is ready
-  (at most 2 minutes). A rejected scan start works the same way. Classic Era and TBC are unchanged.
-- **Profession window:** the old clients (Classic Era, TBC) read recipes at most every 5 seconds again, as in 0.65.3.
-  In the modern client the chosen recipe is taken from the recipe list itself and forgotten when the window closes,
-  so the ingredient button never uses an old recipe.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
