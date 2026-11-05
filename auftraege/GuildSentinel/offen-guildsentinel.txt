@@ -27,4 +27,19 @@ Offen ist nur noch, was im Spiel geprüft werden muss. Neue Wünsche des Nutzers
    - Die Sprache muss ohne Einstellung immer dem Client folgen (Sprachtest der Addon-Prüfung, hinweis-sprachtest.txt).
    - Die Version muss höher sein als 0.9.13 (download/, announce/, CurseForge).
 
+3. ERGEBNIS IM SPIEL (5. Nov. 01:14, Forever 1.60.1 Build 70790, Interface 16001, deDE) – mit 0.9.14 nach der Pause
+   OK 153 · FEHLER 4 · übersprungen 23 · im Client prüfen 5 · Sandbox OK · Fehlerzähler 0 · 0 echte Sendungen.
+   a) T154 (Schwere: MITTEL) – Twink/Main, Danke, Pate mit Vor- und Nachname: ist "Rokan Steinwacht" und
+      "ilokan Steinwacht" (Zeilenumbruch, verstümmelter Name), soll "Rokan Steinwacht ×3". Im echten Client geht ein
+      Doppelname kaputt – offline lief der Fall. Ursache suchen (vermutlich gsub/Muster mit Leerzeichen oder ein
+      Unterschied zwischen UnitName und Gildenliste in Forever), Fall mit dem echten Client-Verhalten nachbauen.
+   b) T118 (Schwere: MITTEL) – beschädigte Gildendaten: Chronicle.lua:131 "attempt to index a number value"
+      (progress > achv). Ein Eintrag mit falschem Typ lässt die Chronik abstürzen. Lösung: type()-Prüfung vor dem
+      Zugriff, kaputte Einträge überspringen.
+   c) T143 (Schwere: MITTEL) – Seiten mit 500 Mitgliedern: 202,9 ms statt < 16 ms (Ruckler). Lösung: Liste in
+      Scheiben aufbauen bzw. nur sichtbare Zeilen füllen (Zeilen wiederverwenden), teure Sortierung zwischenspeichern.
+   d) T45 (Schwere: NIEDRIG) – Termin ansagen: ist "[Test] false, Recorder 0", soll "[Test], 0". Die Ansage liefert im
+      echten Client false. Prüfen, warum (Kanal/Gilde/Kampfsperre) – es wurde nichts gesendet, das ist richtig.
+   Speicher nach der Routine +5877 KB (zur Info).
+
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
