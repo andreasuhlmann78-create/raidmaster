@@ -138,3 +138,9 @@ OFFENE PUNKTE (nach der Pause)
    - /dump ERR_AUCTION_SOLD_S (Punkt 2). Nach der Routine /reload.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
+
+NACHTRAG (5. Nov. 17:10, im Code geprüft) – NIEDRIG, nach der Pause
+   Gewinn-Fenster (Crafting.lua:249-254) rechnet Gewinn = Wert × 0,95 - Material, ohne Einstellgebühr; die eigene
+   Heute-Liste (Crafting.lua:624) zieht dagegen A:ExpectedDepositLoss ab, ProfessionSentinel die volle Gebühr. Bitte
+   im Gewinn-Fenster ebenfalls den erwarteten Verlust (ExpectedDepositLoss) abziehen bzw. als eigene Zeile zeigen,
+   damit AHSentinel und ProfessionSentinel dieselbe Zahl zeigen (PS übernimmt dieselbe Funktion).

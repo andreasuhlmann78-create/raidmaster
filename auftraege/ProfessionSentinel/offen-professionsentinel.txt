@@ -94,3 +94,11 @@ NACHTRAG (5. Nov. 17:00, Screenshot Schmiedekunst 46/75 mit 0.9.18) – Schwere 
    (ProfessionsFrame.CraftingPage.RecipeList:GetSelectedRecipeID o. ä.), sonst über die RecipeList selbst
    auswählen (wie in 0.9.16, das ging manchmal). Den Linksklick beim Drücken (OnMouseDown) prüfen: Wird der Klick
    doppelt (Drücken + Loslassen) ausgelöst? Testfall mit echter Zuordnung Zauber-ID -> RecipeID.
+
+NACHTRAG (5. Nov. 17:10, im Code geprüft, 0.9.18 vs. AHSentinel 0.65.11) – MITTEL, nach der Pause
+   Kupferne Kettenhose: AHSentinel-Gewinn 1s 18c, PS "Heute herstellen" +18c je Stück. Ursache belegt: PS zieht in
+   Forever bei jeder Herstellung die Einstellgebühr als Verlust ab (Prices.lua:40-45 FeePerPiece = max(MIN_FEE 100c,
+   Händlerwert × Stapel × 15 %) / Stapel; Prices.lua:145 ahNet = brutto × 0,95 - Gebühr). Die Einstellgebühr kommt
+   bei Verkauf aber zurück – sie ist nur verloren, wenn nicht verkauft wird. Lösung: wie AHSentinel in seiner
+   Heute-Liste (Crafting.lua:624 A:ExpectedDepositLoss) nur den ERWARTETEN Verlust abziehen (AHSentinel-Funktion
+   nutzen, wenn vorhanden), sonst gar nicht; im Tooltip "davon Einstellgebühr" ausweisen. Gleiche Zahl in beiden Addons.
