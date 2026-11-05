@@ -134,3 +134,13 @@ NACHTRAG ZU a) (5. Nov. 17:50, geprüft mit den Forever-Tabellen UiMap/UiMapAssi
    (C_Map.GetWorldPosFromMapPos(uiMapID, pos) -> Kontinent + x/y) und nach Weg planen; die Zonengrenze ist für die
    Reihenfolge egal. Eine kleine Tabelle Stadt -> Zone nur für die Anzeige ("in Mulgore") und für Übergänge
    (Aufzug Thunder Bluff, Tor Orgrimmar, Undercity-Aufzug, Ironforge-Tor, Stormwind-Tor, Darnassus-Portal).
+
+NACHTRAG (5. Nov. 19:03, Screenshot Questlog, L11 in Mulgore 38.3/37.6) – HOCH, gehört zu 3.12.8
+   LevelPilot schickt ins Brachland, obwohl in Mulgore noch Quests offen sind: "Vertreibt sie" [11] (0/6, 0/4, 0/1),
+   "Riten der Erdenmutter" [14] (0/1), "Säuberung von Thunderhorn" [8]. Fertig im Brachland: "Die Oasen des
+   Brachlandes", "Sergra Darkthorn" (beide Crossroads), Klassenquest "Veteran Uzzek".
+   Regel: Zonenwechsel kosten viel Zeit. Erst die offenen, erreichbaren Quests der aktuellen Zone (inkl. Stadt, siehe
+   Fokus-Nachtrag) erledigen, DANN gesammelt in die nächste Zone zu den Abgaben. Ausnahme nur, wenn die offenen
+   Quests der Zone für die Stufe zu schwer sind (rot/orange über Grenze) oder blockiert. Abgaben in einer anderen
+   Zone sind kein Grund, die aktuelle Zone zu verlassen. Testfall: 3 offene Quests in Mulgore + 3 Abgaben im
+   Brachland -> erst Mulgore, dann Brachland.
