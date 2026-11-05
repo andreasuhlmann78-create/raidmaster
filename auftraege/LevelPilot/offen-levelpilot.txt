@@ -55,4 +55,18 @@ python3 addon-check/addon_check.py announce/levelpilot__levelpilot-3.12.7.LevelP
      (neues Aufräumen beschädigter Einträge, Core.lua:439-484)
    - /lp testroutine reise (T84, T180, T183) einmal ganz laufen lassen.
 
+BEFUND AUS DEM SPIEL (5. Nov. 01:17, Forever 1.60.1 Build 70790, Mulgore, Taure Stufe 5, Screenshot beim Nutzer)
+   (Schwere: HOCH für Spieler – führt in die Irre)
+   Spieler steht bei Red Cloud Mesa (54.1, 83.9). Questlog: [4] Die Kampfeber, [4] Ritus der Kraft, [5] Tötet
+   Spitzhauer! – alle "Bereit zur Abgabe" (Camp Narache, ganz in der Nähe); [5] Eine unvollendete Aufgabe – Bündel
+   Felle zu Gastwirt Kauth in Bloodhoof. Die LevelPilot-Route führt aber vom Spieler nach Norden quer über die
+   Berge (Bogen über ca. 50,35) nach Osten zu einem blauen "?" bei ca. 62,58 (Richtung Brachland).
+   Probleme: a) die drei abgabebereiten Quests in der Nähe werden übergangen (Reihenfolge: zuerst nahe Abgaben);
+   b) der Weg führt über unpassierbares Gebirge statt über die Strasse; c) das Ziel bei ca. 62,58 passt weder zu
+   Camp Narache noch zu Bloodhoof – möglicherweise stimmen in WoW Forever Koordinaten/NPC-Standorte nicht mit den
+   Classic-Daten (QuestieDB) überein.
+   Lösung: Ursache im Planer (Navigation.lua / Datenpaket) finden: Abgaben in Reichweite zuerst, Wege über bekannte
+   Pfade bzw. Flugrouten statt Luftlinie über Gebirge, Forever-Standorte prüfen (Kauth in Bloodhoof, Camp Narache).
+   Darf trotz Pause als Ausnahme behoben werden, wenn der Nutzer es so entscheidet.
+
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
