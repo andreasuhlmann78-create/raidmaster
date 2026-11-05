@@ -26,4 +26,21 @@ Offen ist nur noch, was im Spiel geprüft werden muss. Neue Wünsche kommen als 
    - Lesende Blizzard-Aufrufe ausserhalb von ns.API (Waypoint.lua C_Map.GetMapInfo, Guild.lua Gildenliste): erst in
      ns.API aufnehmen, wenn ein Test sie simulieren soll.
 
+3. ERGEBNIS IM SPIEL (5. Nov. 01:17, Forever 1.60.1 Build 70790, Interface 16001, deDE) – mit 0.9.14 nach der Pause
+   OK 144 · FEHLER 6 · übersprungen 9 · im Client prüfen 13 · Sandbox OK · Wächter: keine Aufrufe.
+   a) T63 (Schwere: HOCH – Lua-Fehler für Spieler): Eingabefenster Aufschlag/Mindestgewinn/Marge ->
+      Blizzard_StaticPopup_Game/GameDialog.lua:124 "invalid option in `format'". Der Text, den ProfessionSentinel an
+      StaticPopup gibt, enthält ein "%" (z. B. "Marge in %"), das Blizzard durch string.format schickt.
+      Lösung: im Popup-Text "%" als "%%" schreiben bzw. Werte über text_arg1/text_arg2 übergeben; Fall T63 für alle
+      drei Eingabefenster im Spiel erneut prüfen. Darf als Ausnahme von der Pause behoben werden.
+   b) T139/T140/T143 (Schwere: MITTEL – Ruckler): im echten Client Panel-Aufbau bis 44,2 ms (Lederverarbeitung,
+      Rezepte 36,1 ms), Bestes Rezept 20,2 ms, AD.Plan 1->300 67,6 ms; Grenze 16 ms. Lösung: teure Schritte über
+      mehrere Frames verteilen (Koroutine/C_Timer), Ergebnisse zwischenspeichern, nur sichtbare Zeilen füllen –
+      nicht die Grenze erhöhen.
+   c) T145 (Schwere: NIEDRIG): Speicher nach dem Lauf +1230 KB (Grenze 1024 KB), 20× Refresh +0 KB. Prüfen, was die
+      Routine selbst behält (Kopien, Berichte) und am Ende freigeben.
+   d) T132 (Schwere: NIEDRIG): "Keine globalen Namen überschrieben" zählt die Unter-Frames des Berichtsfensters
+      (ProfessionSentinelAutoTestReportBg, …CloseButton, …Inset, …Portrait, …Text, …TitleText). Sie entstehen durch die
+      Vorlage mit Namen. Lösung: Fenster ohne globalen Namen anlegen oder diese Namen in T132 als eigene erlauben.
+
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
