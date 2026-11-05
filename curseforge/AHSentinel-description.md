@@ -12,6 +12,14 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.16
+
+- **Protected values:** the recipe selection and the diagnostic log ignore protected game values instead of touching them.
+- Developer test routine (developer only), following the rules that proved themselves for LevelPilot: honest counting
+  (checks that cannot run in a client count as skipped, never as OK; the report states "not automated: N" and lists
+  everything to check in the game), each bug found in the game is its own test (recipe click without a previous click,
+  the 50-second delay), bait values for protected values, the test log goes to a sandbox, test IDs are unique.
+
 ### Version 0.65.15
 
 - **Diagnostic log:** `/ahs protokoll` (or `/ahs log`) opens a window with a copyable log – version, client, sessions,
@@ -43,16 +51,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   - each row remembers its recipe; the click looks up the recipe again in the profession window, and if a search text,
     filter or collapsed category hides it, these are reset and the recipe is opened anyway;
   - if it still cannot be opened, a short message appears in the chat.
-
-### Version 0.65.11
-
-- **Buy → categories like the Blizzard auction house:** every main category now has its sub-categories
-  (Weapons → One-Handed Axes …, Armor → Cloth/Leather …, Consumables → Potions …), with the names and order of the
-  game. Sub-categories open under the selected main category. Until the auction house has been opened once, the
-  addon uses the item classes of the game.
-- **Price field:** always shows gold/silver/copper as g/s/c ("78c", "3s 90c") in every language – never "k", which
-  read like "thousand". Typing "78", "78c", "1s 20c", "1g" and the old "78k" still works.
-- For ProfessionSentinel: `AHAnalyzerPro.Crafting:GetDockFrame(true)` also returns the profit window while it is hidden.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
