@@ -42,4 +42,14 @@ Prüfungen:
    - T143b: Mit zusätzlich aktivem altem Ordner AHAnalyzerPro kommt nur eine Meldung, keine doppelten Befehle.
    - Nach der Routine /reload.
 
+ERGEBNIS IM SPIEL (5. Nov. 03:35, AHSentinel 0.65.8, Forever 1.60.1 Build 70790, deDE) – nach der Pause
+   OK 235 · FEHLER 1 · übersprungen 18 · im Client prüfen 9.
+   a) SANDBOX (Schwere: MITTEL): "FEHLER: 10 Pfade, wiederhergestellt": recipes.<Charakter>..list.1–7.prof,
+      settings.ahZoom, watcher.… – die Routine hat echte Daten verändert. Sie wurden zwar zurückgesetzt, aber die
+      Routine darf echte Daten gar nicht anfassen. Lösung: Berufsliste (prof-Felder), ahZoom und Wächter-Felder nur in
+      der Sandbox-Kopie ändern; ermitteln, welcher Fall bzw. welches Ereignis (z. B. TRADE_SKILL_* während der Routine)
+      direkt in AHAnalyzerProDB schreibt.
+   b) T130 (Schwere: NIEDRIG): Verkaufs-Meldung – ist "kein Eintrag", soll Eintrag "Verkauft". Ein Fehler in der
+      Verkaufs-Meldung wird im echten Client nicht gemeldet. Prüfen und beheben.
+
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
