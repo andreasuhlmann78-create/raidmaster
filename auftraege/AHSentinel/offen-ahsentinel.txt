@@ -160,3 +160,14 @@ NACHTRAG (5. Nov. 17:10, im Code geprüft; korrigiert 17:12) – MITTEL, nach de
         im Export GSDIAG1, keine Namen.
       - Warnung beim Einstellen, wenn die Gebühr einen einstellbaren Anteil am Preis übersteigt (Standard 10 %).
       - Die Prüf-Sitzung leitet aus den Messungen die Forever-Formel ab und meldet sie zurück.
+
+NACHTRAG (5. Nov. 19:22, Wunsch des Nutzers) – MITTEL, Ausnahme (nach der laufenden Aufgabe)
+   "Heute tun": Angebote im AH, die UNTER dem Händlerverkaufspreis liegen, als eigene Zeile auflisten
+   ("Unter Händlerpreis: kaufen und beim Händler verkaufen").
+   - Quelle: letzter Scan bzw. aktuelle Suche; nur Angebote mit Preis pro Stück < Händlerverkaufspreis
+     (C_Item.GetItemInfo sellPrice bzw. eigener Händlerpreis-Speicher); Items ohne Händlerpreis nie.
+   - Gewinn = (Händlerpreis - Kaufpreis) × Menge; beim Kauf fällt keine AH-Gebühr an. Nur ab einem einstellbaren
+     Mindestgewinn (Standard 10 Silber pro Angebot), sortiert nach Gewinn, höchstens die besten 10.
+   - Klick: zum Kauf im AH (wie Sniper, kauft NIE ohne Klick), danach Hinweis "beim Händler verkaufen".
+   - Veraltete Angebote (älter als der letzte Scan, schon gekauft) ausblenden.
+   - Testfall: Angebot 50c, Händlerpreis 80c, Menge 5 -> Zeile mit +1s 50c; Angebot über Händlerpreis -> keine Zeile.
