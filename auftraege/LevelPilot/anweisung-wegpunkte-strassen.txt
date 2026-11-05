@@ -47,3 +47,10 @@ ERGÄNZUNG (5. Nov. 17:45, mit dem Nutzer besprochen)
     geteilten Wegen (nur "geteilt"). Lang -> mehrere Seiten oder nur die gewählte Zone (/lp wege mulgore).
     Die Prüf-Sitzung wertet die Daten aus (Abgleich mit den Zonen, Ausreisser, Lücken im Netz) und gibt
     Korrekturen als Auftrag zurück.
+14. AUTOMATISCH STATT BEFEHL (Wunsch des Nutzers, 5. Nov. 17:55): Zusätzlich zu /lp wege schreibt LevelPilot die
+    Wegdaten (Inhalt wie Punkt 13, nur neue/geänderte seit dem letzten Versand) als eine Zeichenkette mit Präfix
+    "GSWEGE1" in seine SavedVariables (eigenes Feld, z. B. LevelPilotDB.wegeExport, höchstens ca. 200 KB, ältestes
+    zuerst kürzen). Der RaidMasterUploader nimmt sie beim /reload oder Ausloggen mit – genau wie die GSTEST1-
+    Testberichte – und schickt sie nach Discord #testberichte; GitHub legt sie im Repo ab, die Prüf-Sitzung wertet
+    sie aus. Keine Namen (siehe Punkt 13). Option in den Einstellungen "Wegdaten automatisch senden" (Standard an,
+    abschaltbar). Format mit der Prüf-Sitzung abstimmen (Vorbild GSTEST1 in shared/GoldSentinelTest.lua).

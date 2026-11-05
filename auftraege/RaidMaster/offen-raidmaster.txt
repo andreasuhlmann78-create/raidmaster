@@ -77,3 +77,8 @@ ERGEBNIS IM SPIEL (5. Nov. 01:07, Forever 1.60.1 Build 70790, Interface 16001, d
    der Installation, nicht am Code.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
+
+NACHTRAG (5. Nov. 17:55, Wunsch des Nutzers) – nach der Pause
+   RaidMasterUploader: neben GSTEST1-Testberichten auch GSWEGE1-Wegdaten aus LevelPilots SavedVariables
+   (LevelPilot.lua, Feld wegeExport) beim /reload/Ausloggen nach #testberichte schicken (gleicher Weg, gleiche
+   Grössenregeln, nur wenn neu). Die Prüf-Sitzung erweitert addon-check/testberichte.py um GSWEGE1 (Ablage im Repo).
