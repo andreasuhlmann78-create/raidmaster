@@ -1,0 +1,32 @@
+{
+ "addon": "LevelPilot",
+ "counts": {},
+ "env": {
+  "build": "70790",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 2,
+  "interface": 16001,
+  "level": 11,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [
+  {
+   "count": 152,
+   "first": 1793994404,
+   "last": 1793995586,
+   "msg": "Interface/AddOns/LevelPilot/Session.lua:29: attempt to perform boolean test on a secret boolean value (execution tainted by 'LevelPilot')",
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:317: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:335: in function <Interface/AddOns/LevelPilot/Core.lua:330>\n[tail call]: ?\n[Interface/AddOns/LevelPilot/Core.lua]:344: in function 'Safe'\n[Interface/AddOns/LevelPilot/Core.lua]:370: in function <Interface/AddOns/LevelPilot/Core.lua:370>\n",
+   "version": "3.12.13",
+   "wo": "session"
+  }
+ ],
+ "f": 1,
+ "id": "LevelPilot-1793995991-065ebf-2",
+ "kind": "fehler",
+ "time": 1793995991,
+ "version": "3.12.13"
+}

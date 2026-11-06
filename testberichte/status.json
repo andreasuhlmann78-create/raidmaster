@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-05T14:38:42Z",
+ "ausgewertet": "2026-11-06T20:52:41Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -30,7 +30,7 @@
    "fehler_spiel": []
   },
   "BuffSentinel": {
-   "berichte": 1,
+   "berichte": 2,
    "letzter_test": {
     "id": "BuffSentinel-1793837971-e2af59-9",
     "version": "0.9.7",
@@ -54,7 +54,22 @@
      "bericht": "BuffSentinel-1793837971-e2af59-9"
     }
    ],
-   "fehler_spiel": []
+   "fehler_spiel": [
+    {
+     "addon": "BuffSentinel",
+     "art": "spiel",
+     "wo": "Event UNIT_AURA",
+     "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
+     "anzahl": 1,
+     "versionen": [
+      "0.9.7"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[Interface/AddOns/BuffSentinel/Core.lua]:1245: in function 'TallyError'\n[Interface/AddOns/BuffSentinel/Core.lua]:1175: in function <Interface/AddOns/BuffSentinel/Core.lua:1169>\n"
+    }
+   ]
   },
   "GuildSentinel": {
    "berichte": 1,
@@ -114,7 +129,7 @@
    "fehler_spiel": []
   },
   "LevelPilot": {
-   "berichte": 9,
+   "berichte": 10,
    "letzter_test": {
     "id": "LevelPilot-1793838099-fe4a80-12",
     "version": "3.12.6",
@@ -141,6 +156,20 @@
       "forever 1.60.1 (Interface 16001)"
      ],
      "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:313: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:319: in function 'Try'\n[Interface/AddOns/LevelPilot/Protocol.lua]:525: in function <Interface/AddOns/LevelPilot/Protocol.lua:522>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:339: in function 'Safe'\n[Interface/AddOns/LevelPilot/Core.lua]:366: in function <Interface/AddOns/LevelPilot/Core.lua:366>\n"
+    },
+    {
+     "addon": "LevelPilot",
+     "art": "spiel",
+     "wo": "session",
+     "msg": "Interface/AddOns/LevelPilot/Session.lua:29: attempt to perform boolean test on a secret boolean value (execution tainted by 'LevelPilot')",
+     "anzahl": 152,
+     "versionen": [
+      "3.12.13"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:317: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:335: in function <Interface/AddOns/LevelPilot/Core.lua:330>\n[tail call]: ?\n[Interface/AddOns/LevelPilot/Core.lua]:344: in function 'Safe'\n[Interface/AddOns/LevelPilot/Core.lua]:370: in function <Interface/AddOns/LevelPilot/Core.lua:370>\n"
     }
    ]
   },
@@ -403,6 +432,20 @@
    "bericht": "BuffSentinel-1793837971-e2af59-9"
   },
   {
+   "addon": "BuffSentinel",
+   "art": "spiel",
+   "wo": "Event UNIT_AURA",
+   "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
+   "anzahl": 1,
+   "versionen": [
+    "0.9.7"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[Interface/AddOns/BuffSentinel/Core.lua]:1245: in function 'TallyError'\n[Interface/AddOns/BuffSentinel/Core.lua]:1175: in function <Interface/AddOns/BuffSentinel/Core.lua:1169>\n"
+  },
+  {
    "addon": "GuildSentinel",
    "art": "test",
    "version": "0.9.13",
@@ -455,6 +498,20 @@
     "forever 1.60.1 (Interface 16001)"
    ],
    "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:313: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:319: in function 'Try'\n[Interface/AddOns/LevelPilot/Protocol.lua]:525: in function <Interface/AddOns/LevelPilot/Protocol.lua:522>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:339: in function 'Safe'\n[Interface/AddOns/LevelPilot/Core.lua]:366: in function <Interface/AddOns/LevelPilot/Core.lua:366>\n"
+  },
+  {
+   "addon": "LevelPilot",
+   "art": "spiel",
+   "wo": "session",
+   "msg": "Interface/AddOns/LevelPilot/Session.lua:29: attempt to perform boolean test on a secret boolean value (execution tainted by 'LevelPilot')",
+   "anzahl": 152,
+   "versionen": [
+    "3.12.13"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:317: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:335: in function <Interface/AddOns/LevelPilot/Core.lua:330>\n[tail call]: ?\n[Interface/AddOns/LevelPilot/Core.lua]:344: in function 'Safe'\n[Interface/AddOns/LevelPilot/Core.lua]:370: in function <Interface/AddOns/LevelPilot/Core.lua:370>\n"
   },
   {
    "addon": "ProfessionSentinel",

@@ -1,15 +1,15 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-05 14:38 UTC
+Ausgewertet: 2026-11-06 20:52 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
 | Addon | letzter Testlauf | Version | Client | OK | FEHLER | übersprungen | im Client prüfen | Fehler im Spiel (7 Tage) |
 |---|---|---|---|---|---|---|---|---|
 | AHSentinel | 05.11.2026 02:35 UTC | 0.65.8 | forever 1.60.1 (Interface 16001) | 235 | 1 | 18 | 9 | 0 |
-| BuffSentinel | 05.11.2026 00:19 UTC | 0.9.7 | forever 1.60.1 (Interface 16001) | 120 | 1 | 10 | 11 | 0 |
+| BuffSentinel | 05.11.2026 00:19 UTC | 0.9.7 | forever 1.60.1 (Interface 16001) | 120 | 1 | 10 | 11 | 1 |
 | GuildSentinel | 05.11.2026 00:14 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 153 | 4 | 23 | 5 | 0 |
-| LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 847 |
+| LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 999 |
 | ProfessionSentinel | 05.11.2026 00:17 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 144 | 6 | 9 | 13 | 0 |
 | RaidMaster | 05.11.2026 00:07 UTC | 3.0.17 | forever 1.60.1 (Interface 16001) | 98 | 3 | 10 | 12 | 0 |
 | ThreatSentinel | 05.11.2026 00:04 UTC | 2.4.5 | forever 1.60.1 (Interface 16001) | 127 | 1 | 50 | 12 | 12 |
@@ -72,6 +72,10 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 - [CLIENT] T134 J – Ablauf im Forever-Client (anleitung: Buff-Erinnerung vor dem Pull · im Kampf kein Lua-Fehler · /reload, Fehlerliste leer (/bsen testroutine kampf))
 - [CLIENT] T135 J – Gegenprobe alter Client (anleitung: Classic Era oder TBC Anniversary: Proc im Kampf, Execute unter 20 %, Dispel im Kampf, Cooldown beim Pull – alles wie vorher; /bsen fehler 'Sperren: nein')
 
+**Fehler im Spiel (letzte 7 Tage)**
+- 1× `Event UNIT_AURA`: GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'
+Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) · zuletzt 06.11.2026 19:46 UTC
+
 ## GuildSentinel
 
 **Testlauf 0.9.13 · forever 1.60.1 (Interface 16001) · 05.11.2026 00:14 UTC** – OK 153 · FEHLER 4 · übersprungen 23 · im Client prüfen 5 · Sandbox OK
@@ -114,6 +118,7 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 **Fehler im Spiel (letzte 7 Tage)**
 - 847× `Protokoll CheckNav`: Interface/AddOns/LevelPilot/Protocol.lua:235: attempt to compare a secret number value (execution tainted by 'LevelPilot') – Version 3.12.6 · forever 1.60.1 (Interface 16001) · zuletzt 05.11.2026 14:24 UTC
+- 152× `session`: Interface/AddOns/LevelPilot/Session.lua:29: attempt to perform boolean test on a secret boolean value (execution tainted by 'LevelPilot') – Version 3.12.13 · forever 1.60.1 (Interface 16001) · zuletzt 06.11.2026 20:06 UTC
 
 ## ProfessionSentinel
 

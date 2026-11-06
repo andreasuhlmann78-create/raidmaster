@@ -1,0 +1,32 @@
+{
+ "addon": "BuffSentinel",
+ "counts": {},
+ "env": {
+  "build": "70790",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 2,
+  "interface": 16001,
+  "level": 11,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [
+  {
+   "count": 1,
+   "first": 1793994404,
+   "last": 1793994404,
+   "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
+   "stack": "[Interface/AddOns/BuffSentinel/Core.lua]:1245: in function 'TallyError'\n[Interface/AddOns/BuffSentinel/Core.lua]:1175: in function <Interface/AddOns/BuffSentinel/Core.lua:1169>\n",
+   "version": "0.9.7",
+   "wo": "Event UNIT_AURA"
+  }
+ ],
+ "f": 1,
+ "id": "BuffSentinel-1793995991-ee4dfd-1",
+ "kind": "fehler",
+ "time": 1793995991,
+ "version": "0.9.7"
+}
