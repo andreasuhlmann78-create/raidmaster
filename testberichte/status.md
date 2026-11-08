@@ -1,12 +1,12 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-08 16:53 UTC
+Ausgewertet: 2026-11-08 18:14 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
 | Addon | letzter Testlauf | Version | Client | OK | FEHLER | übersprungen | im Client prüfen | Fehler im Spiel (7 Tage) |
 |---|---|---|---|---|---|---|---|---|
-| AHSentinel | 05.11.2026 02:35 UTC | 0.65.8 | forever 1.60.1 (Interface 16001) | 235 | 1 | 18 | 9 | 2 |
+| AHSentinel | 05.11.2026 02:35 UTC | 0.65.8 | forever 1.60.1 (Interface 16001) | 235 | 1 | 18 | 9 | 3 |
 | BuffSentinel | 05.11.2026 00:19 UTC | 0.9.7 | forever 1.60.1 (Interface 16001) | 120 | 1 | 10 | 11 | 1 |
 | GuildSentinel | 05.11.2026 00:14 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 153 | 4 | 23 | 5 | 4 |
 | LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 1316 |
@@ -47,7 +47,7 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 - [SKIP] T148 J – KO 5c: Zwischenspeicher bleibt bei Listen-Ereignissen (grund: HALB: Berufsfenster (moderner Client) öffnen, dann /ahs testroutine berufe)
 
 **Fehler im Spiel (letzte 7 Tage)**
-- 2× `ADDON_ACTION_BLOCKED`: UNKNOWN() – Version 0.65.16 · forever 1.60.1 (Interface 16001) · zuletzt 08.11.2026 15:31 UTC
+- 3× `ADDON_ACTION_BLOCKED`: UNKNOWN() – Version 0.65.16 · forever 1.60.1 (Interface 16001) · zuletzt 08.11.2026 17:09 UTC
 
 ## BuffSentinel
 
