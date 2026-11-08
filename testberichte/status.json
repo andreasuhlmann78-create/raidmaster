@@ -1,9 +1,9 @@
 {
- "ausgewertet": "2026-11-08T13:54:58Z",
+ "ausgewertet": "2026-11-08T16:53:39Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 2,
+   "berichte": 3,
    "letzter_test": {
     "id": "AHSentinel-1793846154-ba3fc8-1",
     "version": "0.65.8",
@@ -33,7 +33,7 @@
      "art": "spiel",
      "wo": "ADDON_ACTION_BLOCKED",
      "msg": "UNKNOWN()",
-     "anzahl": 1,
+     "anzahl": 2,
      "versionen": [
       "0.65.16"
      ],
@@ -456,7 +456,7 @@
    "art": "spiel",
    "wo": "ADDON_ACTION_BLOCKED",
    "msg": "UNKNOWN()",
-   "anzahl": 1,
+   "anzahl": 2,
    "versionen": [
     "0.65.16"
    ],
