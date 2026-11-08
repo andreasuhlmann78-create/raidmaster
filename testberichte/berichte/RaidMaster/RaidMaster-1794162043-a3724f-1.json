@@ -1,0 +1,32 @@
+{
+ "addon": "RaidMaster",
+ "counts": {},
+ "env": {
+  "build": "70862",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 2,
+  "interface": 16001,
+  "level": 20,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [
+  {
+   "count": 1,
+   "first": 1794162042,
+   "last": 1794162042,
+   "msg": "SetRaidTarget()",
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:397: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:390>\n[C]: in function 'SetRaidTarget'\n[Interface/AddOns/RaidMaster/Core.lua]:132: in function <Interface/AddOns/RaidMaster/Core.lua:132>\n[C]: in function 'pcall'\n[Interface/AddOns/RaidMaster/Markers.lua]:65: in function 'Mark'\n[Interface/AddOns/RaidMaster/Markers.lua]:304: in function <Interface/AddOns/RaidMaster/Markers.lua:303>\n",
+   "version": "3.0.17",
+   "wo": "ADDON_ACTION_FORBIDDEN"
+  }
+ ],
+ "f": 1,
+ "id": "RaidMaster-1794162043-a3724f-1",
+ "kind": "fehler",
+ "time": 1794162043,
+ "version": "3.0.17"
+}

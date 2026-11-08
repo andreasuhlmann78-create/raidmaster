@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-08 18:14 UTC
+Ausgewertet: 2026-11-08 18:54 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -11,7 +11,7 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 | GuildSentinel | 05.11.2026 00:14 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 153 | 4 | 23 | 5 | 4 |
 | LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 1316 |
 | ProfessionSentinel | 05.11.2026 00:17 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 144 | 6 | 9 | 13 | 0 |
-| RaidMaster | 05.11.2026 00:07 UTC | 3.0.17 | forever 1.60.1 (Interface 16001) | 98 | 3 | 10 | 12 | 0 |
+| RaidMaster | 05.11.2026 00:07 UTC | 3.0.17 | forever 1.60.1 (Interface 16001) | 98 | 3 | 10 | 12 | 1 |
 | ThreatSentinel | 05.11.2026 00:04 UTC | 2.4.5 | forever 1.60.1 (Interface 16001) | 127 | 1 | 50 | 12 | 12 |
 
 ## AHSentinel
@@ -186,6 +186,9 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 - [CLIENT] T152 J – Berufe-Knopf im Client (anleitung: Knopf 'Meine Berufe einlesen' mehrmals, dann /rm berufe)
 - [SKIP] T90 F – Fehlende Übersetzungen (grund: Grundsprache)
 - [SKIP] T70 D – Ganze Routine im alten Client (grund: nur im alten Client (Era/TBC): dort /rmtest testroutine)
+
+**Fehler im Spiel (letzte 7 Tage)**
+- 1× `ADDON_ACTION_FORBIDDEN`: SetRaidTarget() – Version 3.0.17 · forever 1.60.1 (Interface 16001) · zuletzt 08.11.2026 18:20 UTC
 
 ## ThreatSentinel
 

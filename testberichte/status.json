@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-08T18:14:06Z",
+ "ausgewertet": "2026-11-08T18:54:20Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -281,7 +281,7 @@
    "fehler_spiel": []
   },
   "RaidMaster": {
-   "berichte": 1,
+   "berichte": 2,
    "letzter_test": {
     "id": "RaidMaster-1793837319-f8792f-1",
     "version": "3.0.17",
@@ -325,7 +325,22 @@
      "bericht": "RaidMaster-1793837319-f8792f-1"
     }
    ],
-   "fehler_spiel": []
+   "fehler_spiel": [
+    {
+     "addon": "RaidMaster",
+     "art": "spiel",
+     "wo": "ADDON_ACTION_FORBIDDEN",
+     "msg": "SetRaidTarget()",
+     "anzahl": 1,
+     "versionen": [
+      "3.0.17"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:397: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:390>\n[C]: in function 'SetRaidTarget'\n[Interface/AddOns/RaidMaster/Core.lua]:132: in function <Interface/AddOns/RaidMaster/Core.lua:132>\n[C]: in function 'pcall'\n[Interface/AddOns/RaidMaster/Markers.lua]:65: in function 'Mark'\n[Interface/AddOns/RaidMaster/Markers.lua]:304: in function <Interface/AddOns/RaidMaster/Markers.lua:303>\n"
+    }
+   ]
   },
   "ThreatSentinel": {
    "berichte": 2,
@@ -660,6 +675,20 @@
    "name": "!dkp mit Doppelnamen (Forever-Weg)",
    "detail": "ergebnis: [RaidMaster] Rokan: MC 40 · Ony 90 | erwartet: Rokan Steinwacht … 40",
    "bericht": "RaidMaster-1793837319-f8792f-1"
+  },
+  {
+   "addon": "RaidMaster",
+   "art": "spiel",
+   "wo": "ADDON_ACTION_FORBIDDEN",
+   "msg": "SetRaidTarget()",
+   "anzahl": 1,
+   "versionen": [
+    "3.0.17"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:397: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:390>\n[C]: in function 'SetRaidTarget'\n[Interface/AddOns/RaidMaster/Core.lua]:132: in function <Interface/AddOns/RaidMaster/Core.lua:132>\n[C]: in function 'pcall'\n[Interface/AddOns/RaidMaster/Markers.lua]:65: in function 'Mark'\n[Interface/AddOns/RaidMaster/Markers.lua]:304: in function <Interface/AddOns/RaidMaster/Markers.lua:303>\n"
   },
   {
    "addon": "ThreatSentinel",
