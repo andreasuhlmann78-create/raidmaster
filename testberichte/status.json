@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-08T18:54:20Z",
+ "ausgewertet": "2026-11-08T21:17:54Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -45,7 +45,7 @@
    ]
   },
   "BuffSentinel": {
-   "berichte": 2,
+   "berichte": 3,
    "letzter_test": {
     "id": "BuffSentinel-1793837971-e2af59-9",
     "version": "0.9.7",
@@ -74,6 +74,20 @@
      "addon": "BuffSentinel",
      "art": "spiel",
      "wo": "Event UNIT_AURA",
+     "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
+     "anzahl": 3,
+     "versionen": [
+      "0.9.7"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[Interface/AddOns/BuffSentinel/Core.lua]:1245: in function 'TallyError'\n[Interface/AddOns/BuffSentinel/Core.lua]:1175: in function <Interface/AddOns/BuffSentinel/Core.lua:1169>\n"
+    },
+    {
+     "addon": "BuffSentinel",
+     "art": "spiel",
+     "wo": "Event PLAYER_REGEN_ENABLED",
      "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
      "anzahl": 1,
      "versionen": [
@@ -159,7 +173,7 @@
    ]
   },
   "LevelPilot": {
-   "berichte": 12,
+   "berichte": 13,
    "letzter_test": {
     "id": "LevelPilot-1793838099-fe4a80-12",
     "version": "3.12.6",
@@ -192,7 +206,7 @@
      "art": "spiel",
      "wo": "session",
      "msg": "Interface/AddOns/LevelPilot/Session.lua:29: attempt to perform boolean test on a secret boolean value (execution tainted by 'LevelPilot')",
-     "anzahl": 469,
+     "anzahl": 798,
      "versionen": [
       "3.12.13"
      ],
@@ -281,7 +295,7 @@
    "fehler_spiel": []
   },
   "RaidMaster": {
-   "berichte": 2,
+   "berichte": 3,
    "letzter_test": {
     "id": "RaidMaster-1793837319-f8792f-1",
     "version": "3.0.17",
@@ -331,7 +345,7 @@
      "art": "spiel",
      "wo": "ADDON_ACTION_FORBIDDEN",
      "msg": "SetRaidTarget()",
-     "anzahl": 1,
+     "anzahl": 2,
      "versionen": [
       "3.0.17"
      ],
@@ -495,6 +509,20 @@
    "art": "spiel",
    "wo": "Event UNIT_AURA",
    "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
+   "anzahl": 3,
+   "versionen": [
+    "0.9.7"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[Interface/AddOns/BuffSentinel/Core.lua]:1245: in function 'TallyError'\n[Interface/AddOns/BuffSentinel/Core.lua]:1175: in function <Interface/AddOns/BuffSentinel/Core.lua:1169>\n"
+  },
+  {
+   "addon": "BuffSentinel",
+   "art": "spiel",
+   "wo": "Event PLAYER_REGEN_ENABLED",
+   "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
    "anzahl": 1,
    "versionen": [
     "0.9.7"
@@ -577,7 +605,7 @@
    "art": "spiel",
    "wo": "session",
    "msg": "Interface/AddOns/LevelPilot/Session.lua:29: attempt to perform boolean test on a secret boolean value (execution tainted by 'LevelPilot')",
-   "anzahl": 469,
+   "anzahl": 798,
    "versionen": [
     "3.12.13"
    ],
@@ -681,7 +709,7 @@
    "art": "spiel",
    "wo": "ADDON_ACTION_FORBIDDEN",
    "msg": "SetRaidTarget()",
-   "anzahl": 1,
+   "anzahl": 2,
    "versionen": [
     "3.0.17"
    ],
