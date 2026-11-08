@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-08 03:31 UTC
+Ausgewertet: 2026-11-08 10:24 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -8,7 +8,7 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 |---|---|---|---|---|---|---|---|---|
 | AHSentinel | 05.11.2026 02:35 UTC | 0.65.8 | forever 1.60.1 (Interface 16001) | 235 | 1 | 18 | 9 | 1 |
 | BuffSentinel | 05.11.2026 00:19 UTC | 0.9.7 | forever 1.60.1 (Interface 16001) | 120 | 1 | 10 | 11 | 1 |
-| GuildSentinel | 05.11.2026 00:14 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 153 | 4 | 23 | 5 | 0 |
+| GuildSentinel | 05.11.2026 00:14 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 153 | 4 | 23 | 5 | 4 |
 | LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 1102 |
 | ProfessionSentinel | 05.11.2026 00:17 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 144 | 6 | 9 | 13 | 0 |
 | RaidMaster | 05.11.2026 00:07 UTC | 3.0.17 | forever 1.60.1 (Interface 16001) | 98 | 3 | 10 | 12 | 0 |
@@ -114,6 +114,9 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 - [SKIP] T171 J – K5: tools/luac5.1 -v (grund: Werkzeug im Repo (offline))
 - [SKIP] T172 J – RM2: Werkzeug nicht in der ZIP (grund: offline (unzip -l))
 - [SKIP] T173 J – N8: Offline-Test K2 (grund: offline (test/run_forever95.lua))
+
+**Fehler im Spiel (letzte 7 Tage)**
+- 4× `ADDON_ACTION_BLOCKED`: UNKNOWN() – Version 0.9.13 · forever 1.60.1 (Interface 16001) · zuletzt 08.11.2026 09:01 UTC
 
 ## LevelPilot
 

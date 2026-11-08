@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-08T03:31:04Z",
+ "ausgewertet": "2026-11-08T10:24:01Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -87,7 +87,7 @@
    ]
   },
   "GuildSentinel": {
-   "berichte": 1,
+   "berichte": 2,
    "letzter_test": {
     "id": "GuildSentinel-1793837669-0b2026-2",
     "version": "0.9.13",
@@ -141,7 +141,22 @@
      "bericht": "GuildSentinel-1793837669-0b2026-2"
     }
    ],
-   "fehler_spiel": []
+   "fehler_spiel": [
+    {
+     "addon": "GuildSentinel",
+     "art": "spiel",
+     "wo": "ADDON_ACTION_BLOCKED",
+     "msg": "UNKNOWN()",
+     "anzahl": 4,
+     "versionen": [
+      "0.9.13"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:397: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:390>\n[C]: ?\n[C]: in function 'pcall'\n[Interface/AddOns/GuildSentinel/Professions.lua]:346: in function 'OpenModern'\n[Interface/AddOns/GuildSentinel/Pages.lua]:1505: in function <Interface/AddOns/GuildSentinel/Pages.lua:1505>\n"
+    }
+   ]
   },
   "LevelPilot": {
    "berichte": 11,
@@ -513,6 +528,20 @@
    "name": "P2: Twink/Main, Danke, Pate mit Vor- und Nachname",
    "detail": "ergebnis: Rokan Steinwacht|nil|Rokan Steinwacht | erwartet: Rokan Steinwacht ×3",
    "bericht": "GuildSentinel-1793837669-0b2026-2"
+  },
+  {
+   "addon": "GuildSentinel",
+   "art": "spiel",
+   "wo": "ADDON_ACTION_BLOCKED",
+   "msg": "UNKNOWN()",
+   "anzahl": 4,
+   "versionen": [
+    "0.9.13"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:397: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:390>\n[C]: ?\n[C]: in function 'pcall'\n[Interface/AddOns/GuildSentinel/Professions.lua]:346: in function 'OpenModern'\n[Interface/AddOns/GuildSentinel/Pages.lua]:1505: in function <Interface/AddOns/GuildSentinel/Pages.lua:1505>\n"
   },
   {
    "addon": "LevelPilot",
