@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-07T14:48:03Z",
+ "ausgewertet": "2026-11-08T03:31:04Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -144,7 +144,7 @@
    "fehler_spiel": []
   },
   "LevelPilot": {
-   "berichte": 10,
+   "berichte": 11,
    "letzter_test": {
     "id": "LevelPilot-1793838099-fe4a80-12",
     "version": "3.12.6",
@@ -177,7 +177,7 @@
      "art": "spiel",
      "wo": "session",
      "msg": "Interface/AddOns/LevelPilot/Session.lua:29: attempt to perform boolean test on a secret boolean value (execution tainted by 'LevelPilot')",
-     "anzahl": 152,
+     "anzahl": 255,
      "versionen": [
       "3.12.13"
      ],
@@ -533,7 +533,7 @@
    "art": "spiel",
    "wo": "session",
    "msg": "Interface/AddOns/LevelPilot/Session.lua:29: attempt to perform boolean test on a secret boolean value (execution tainted by 'LevelPilot')",
-   "anzahl": 152,
+   "anzahl": 255,
    "versionen": [
     "3.12.13"
    ],
