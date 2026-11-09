@@ -5,14 +5,10 @@ Vorlage shared/GoldSentinelTest.lua: Version 1
 Tests der gemeinsamen Datei: bestanden GoldSentinelGame-Tests: bestanden; GoldSentinelSync-Tests: bestanden (41/41); GoldSentinelTest-Tests: bestanden (43/43); UICheck-Tests: bestanden (9/9); Vorlage-Tests: bestanden (76/76); 123/123 Prüfungen bestanden; Ladetest-Tests: 35/35 bestanden; Testberichte-Tests: bestanden (25/25); Wegdaten-Tests: bestanden (14/14)
 Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
-## AHSentinel-0.65.53.zip: OK (7 Warnungen)
-- **WARNUNG** AHSentinel/Sync.lua:102: Addon-Nachricht über einen eigenen Kanal ("CHANNEL") – kommt in WoW Forever nicht an (Server: NOT_ALLOWED_IN_CHANNEL). Über GUILD/PARTY/RAID/WHISPER senden (shared/wissen/kommunikation-forever.md, hinweis-sync-kanal.txt).
-- **WARNUNG** AHSentinel/Sync.lua:397: tritt einem eigenen Chat-Kanal bei – belegt einen der 10 Kanalplätze des Spielers. Künftig nur der gemeinsame GoldSentinel-Kanal (shared/GoldSentinelSync.lua), nur zum Finden von Mitspielern.
-- **WARNUNG** AHSentinel/TestRoutine.lua:1151: Addon-Nachricht über einen eigenen Kanal ("CHANNEL") – kommt in WoW Forever nicht an (Server: NOT_ALLOWED_IN_CHANNEL). Über GUILD/PARTY/RAID/WHISPER senden (shared/wissen/kommunikation-forever.md, hinweis-sync-kanal.txt).
-- **WARNUNG** AHSentinel/TestRoutine.lua:1758: Addon-Nachricht über einen eigenen Kanal ("CHANNEL") – kommt in WoW Forever nicht an (Server: NOT_ALLOWED_IN_CHANNEL). Über GUILD/PARTY/RAID/WHISPER senden (shared/wissen/kommunikation-forever.md, hinweis-sync-kanal.txt).
-- **WARNUNG** AHSentinel/TestRoutine.lua:1759: Addon-Nachricht über einen eigenen Kanal ("CHANNEL") – kommt in WoW Forever nicht an (Server: NOT_ALLOWED_IN_CHANNEL). Über GUILD/PARTY/RAID/WHISPER senden (shared/wissen/kommunikation-forever.md, hinweis-sync-kanal.txt).
-- **WARNUNG** AHSentinel/TestRoutine.lua:358: tritt einem eigenen Chat-Kanal bei – belegt einen der 10 Kanalplätze des Spielers. Künftig nur der gemeinsame GoldSentinel-Kanal (shared/GoldSentinelSync.lua), nur zum Finden von Mitspielern.
-- **WARNUNG** AHSentinel/TestRoutine.lua:1348: tritt einem eigenen Chat-Kanal bei – belegt einen der 10 Kanalplätze des Spielers. Künftig nur der gemeinsame GoldSentinel-Kanal (shared/GoldSentinelSync.lua), nur zum Finden von Mitspielern.
+## AHSentinel-0.65.55.zip: OK (3 Warnungen)
+- **WARNUNG** AHSentinel/TestRoutine.lua:1150: Addon-Nachricht über einen eigenen Kanal ("CHANNEL") – kommt in WoW Forever nicht an (Server: NOT_ALLOWED_IN_CHANNEL). Über GUILD/PARTY/RAID/WHISPER senden (shared/wissen/kommunikation-forever.md, hinweis-sync-kanal.txt).
+- **WARNUNG** AHSentinel/TestRoutine.lua:1754: Addon-Nachricht über einen eigenen Kanal ("CHANNEL") – kommt in WoW Forever nicht an (Server: NOT_ALLOWED_IN_CHANNEL). Über GUILD/PARTY/RAID/WHISPER senden (shared/wissen/kommunikation-forever.md, hinweis-sync-kanal.txt).
+- **WARNUNG** AHSentinel/TestRoutine.lua:1755: Addon-Nachricht über einen eigenen Kanal ("CHANNEL") – kommt in WoW Forever nicht an (Server: NOT_ALLOWED_IN_CHANNEL). Über GUILD/PARTY/RAID/WHISPER senden (shared/wissen/kommunikation-forever.md, hinweis-sync-kanal.txt).
 
 ## BuffSentinel-0.9.12.zip: OK (8 Warnungen)
 - **WARNUNG** BuffSentinel/GoldSentinelGame.lua: veraltete offizielle Fassung (Version 2) – auf shared/GoldSentinelGame.lua Version 3 aktualisieren
@@ -32,7 +28,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 - **WARNUNG** GuildSentinel/TestRoutine.lua:1021: Addon-Nachricht über einen eigenen Kanal ("CHANNEL") – kommt in WoW Forever nicht an (Server: NOT_ALLOWED_IN_CHANNEL). Über GUILD/PARTY/RAID/WHISPER senden (shared/wissen/kommunikation-forever.md, hinweis-sync-kanal.txt).
 - **WARNUNG** GuildSentinel/TestRoutine.lua:183: tritt einem eigenen Chat-Kanal bei – belegt einen der 10 Kanalplätze des Spielers. Künftig nur der gemeinsame GoldSentinel-Kanal (shared/GoldSentinelSync.lua), nur zum Finden von Mitspielern.
 
-## ProfessionSentinel-0.9.36.zip: OK
+## ProfessionSentinel-0.9.37.zip: OK
 
 ## RaidMaster-3.0.20.zip: OK
 
