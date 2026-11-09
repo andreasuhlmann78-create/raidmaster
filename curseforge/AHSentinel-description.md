@@ -12,6 +12,12 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.25
+
+- **Collecting mail:** "Mail collected" now shows the gold you really took (e.g. 1g 56s 26c) instead of 0. The game
+  often credits the gold only after the mailbox update; the addon now counts the amount of each mail it collects.
+- "1 new invoices" → "1 new invoice".
+
 ### Version 0.65.24
 
 - **Playtest S5** now only checks what it should: the profit window against the profession window and
@@ -54,31 +60,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   quantity, fee) to confirm the rule in the game. The deposit measuring of 0.65.17–0.65.20 is removed. The warning when the
   fee is more than 10 % of the price stays.
 - Era, TBC and Retail are unchanged (5 % on sale, deposit refunded on sale).
-
-### Version 0.65.20
-
-- **Profession window:** the "Best recipes" list is rebuilt at most every 2 seconds while you craft (it was rebuilt
-  up to 190 times in a session); opening and switching professions stay immediate.
-- **Sniper (WoW Forever):** the sniper no longer reserves commodities on its own without a key press. WoW Forever
-  blocked that call ("action blocked" once per session). Commodities are bought with 2 notches: the 1st reserves,
-  the 2nd buys. If WoW blocks it on another client, the addon remembers that for this client, also after /reload.
-- **Mail rules to alts:** a rule with a sub-category now also works after /reload at the mailbox without visiting the
-  auction house first. Rules from 0.65.11–0.65.17 are found again.
-- **Buy:** the category list keeps its scroll position while you type or search, and the selected category stays
-  visible. Until the auction house is opened once, Classic Era, TBC and WoW Forever show the classic order (with
-  Projectile, Quiver, Reagent).
-- **Sale message:** also works when the game text uses a numbered placeholder ("%1$s").
-- **Profession window:** without a tab bar the profit window docks directly next to the window (only over its
-  invisible border on the old window), never over visible parts. Clicking a recipe no longer turns on "show unlearned".
-  In Classic Era and TBC there is no empty line where the deposit line is (WoW Forever only).
-- **Deposit:** the warning says when the deposit is refunded on sale (Classic Era, TBC …). Measurements are not taken
-  in test mode, an estimate of the old auction house is never stored as a measurement, the money is checked again
-  shortly after posting, and the last 300 measurements go into the diagnostic log (numbers only, no names).
-  "Do today – craft" deducts the deposit for the whole crafted quantity.
-- Price field tooltip shows g/s/c in every language.
-- Developer test routine: new area K (interface in the real client: tooltips, overlapping windows, screen, labels,
-  plausible values, error loops, T191–T197) and tests T198–T202; saved recipes, window positions and watcher data stay
-  unchanged during the routine.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
