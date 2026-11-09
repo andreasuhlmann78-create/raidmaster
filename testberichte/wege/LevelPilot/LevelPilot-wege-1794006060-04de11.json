@@ -1,0 +1,41 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "70790",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 2,
+  "interface": 16001,
+  "level": 13,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 1,
+ "fest": [],
+ "id": "LevelPilot-wege-1794006060-04de11",
+ "kind": "wege",
+ "npc": [],
+ "time": 1794006060,
+ "version": "3.12.13",
+ "zones": [
+  {
+   "edges": [
+    {
+     "n": 1,
+     "p": [
+      47.1,
+      40.2,
+      47.3,
+      40.4
+     ],
+     "src": "geteilt"
+    }
+   ],
+   "map": 1413,
+   "name": "Das Brachland"
+  }
+ ]
+}

@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-09T04:22:18Z",
+ "ausgewertet": "2026-11-09T04:54:34Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -812,5 +812,23 @@
    ],
    "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1464: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1464>\n[C]: in function 'pcall'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:292: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:288>\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1464: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1458>\n..."
   }
- ]
+ ],
+ "extras": {
+  "diagnose": {
+   "AHSentinel": {
+    "anzahl": 1,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.16-94df3167eee4.txt"
+   },
+   "ProfessionSentinel": {
+    "anzahl": 1,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.22-54cb02b5b942.txt"
+   }
+  },
+  "wege": {
+   "LevelPilot": {
+    "anzahl": 51,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794197889-d47252.json"
+   }
+  }
+ }
 }

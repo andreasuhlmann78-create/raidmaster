@@ -1,0 +1,41 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "70862",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 2,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 1,
+ "fest": [],
+ "id": "LevelPilot-wege-1794059673-9ed0ee",
+ "kind": "wege",
+ "npc": [],
+ "time": 1794059673,
+ "version": "3.12.13",
+ "zones": [
+  {
+   "edges": [
+    {
+     "n": 8,
+     "p": [
+      63.9,
+      36.1,
+      62.9,
+      36.5
+     ],
+     "src": "selbst"
+    }
+   ],
+   "map": 1458,
+   "name": "Undercity"
+  }
+ ]
+}

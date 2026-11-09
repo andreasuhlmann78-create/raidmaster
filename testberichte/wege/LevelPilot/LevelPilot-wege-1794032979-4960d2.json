@@ -1,0 +1,58 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "70862",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 2,
+  "interface": 16001,
+  "level": 13,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 1,
+ "fest": [],
+ "id": "LevelPilot-wege-1794032979-4960d2",
+ "kind": "wege",
+ "npc": [
+  {
+   "id": 3309,
+   "map": 1454,
+   "new": [
+    49.6,
+    69.4
+   ],
+   "old": [
+    1454,
+    49.6,
+    69.1
+   ],
+   "t": 1794032811
+  }
+ ],
+ "time": 1794032979,
+ "version": "3.12.13",
+ "zones": [
+  {
+   "edges": [
+    {
+     "n": 12,
+     "p": [
+      49.7,
+      70.2,
+      50.2,
+      71,
+      50,
+      69.3
+     ],
+     "src": "selbst"
+    }
+   ],
+   "map": 1454,
+   "name": "Orgrimmar"
+  }
+ ]
+}

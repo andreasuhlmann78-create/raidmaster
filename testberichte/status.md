@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-09 04:22 UTC
+Ausgewertet: 2026-11-09 04:54 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -16,11 +16,16 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 ## Diagnose-Protokolle (GSDIAG1)
 
-Noch keine.
+| Addon | Anzahl | neueste Datei |
+|---|---|---|
+| AHSentinel | 1 | `testberichte/diagnose/AHSentinel/0.65.16-94df3167eee4.txt` |
+| ProfessionSentinel | 1 | `testberichte/diagnose/ProfessionSentinel/0.9.22-54cb02b5b942.txt` |
 
 ## Wegdaten (GSWEGE1)
 
-Noch keine.
+| Addon | Anzahl | neueste Datei |
+|---|---|---|
+| LevelPilot | 51 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794197889-d47252.json` |
 
 ## AHSentinel
 
