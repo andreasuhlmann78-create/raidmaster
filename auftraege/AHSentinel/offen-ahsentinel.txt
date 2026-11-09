@@ -202,3 +202,8 @@ NEU (9. Nov. 14:47, Entscheid des Nutzers 14:45) – Materialien mit ECHTEN Chan
    Testfälle: T-D1 Disenchantry geladen, kein Shift -> AHSentinel-Block sichtbar; T-D2 12 eigene Entzauberungen
               der Gruppe -> Kopf "echt, aus 12 Entzauberungen"; T-D3 keine eigenen -> "Tabelle"; T-D4 Modus "short"
               -> kein Block; Bereich K: Tooltip verdeckt nichts, Zeilen nicht abgeschnitten.
+
+NEU (9. Nov. 14:50, Entscheid des Nutzers 14:47) – Tooltip Variante A
+   Siehe anweisung-tooltip-variante-a.txt. Fasst die Nachträge 14:16/14:18 (Wert-Zeilen) und 14:47 (echte Chancen
+   ohne Shift) zusammen: ohne Shift genau drei Blöcke (Preis, Urteil, Materialien), alles andere hinter Shift.
+   Reihenfolge: nach anweisung-gebuehren-klassisch.txt, zusammen mit dem Sniper-Nachtrag.
