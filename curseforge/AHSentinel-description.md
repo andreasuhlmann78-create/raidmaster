@@ -12,6 +12,20 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.35
+
+- **AH fee in the profit window – one visible assumption:** the fee depends on how many pieces you post per auction
+  (at least 1s per auction). The window now says it: "at N pieces per auction (learned / chosen / cautious)".
+  Learned from your own postings (median of the last 10); without data 1 piece. Click it to switch 1 / 5 / 20 (stack)
+  / automatic, remembered per item. "Best recipes", "Do today" and other addons use the same assumption. The window
+  no longer switches between two calculations when item data loads late. (Example: 1 Bolt of Woolen Cloth at 3s 97c,
+  materials 3s 42c: fee 1s, loss 45c; at 20 per auction: 20c, profit 35c.)
+- **Selling: quantity = everything in your bags** (no longer the last quantity). You change the number yourself.
+- **Ledger (WoW Forever):** a sale is booked with the gold the mail really brings – the fee was already booked when
+  posting, so no second fee and no refund are deducted. The invoice values go to the diagnostic log (RECHNUNG).
+  Cancelling an auction now books the measured refund. Era/TBC unchanged.
+- Playtest: new check S10 – AHSentinel's AH fee equals Blizzard's "Deposit" for the same quantity.
+
 ### Version 0.65.34
 
 - **Bulk buying for disenchanting** (Buy tab → Buy): the button "Worth disenchanting" below the categories shows from
@@ -52,18 +66,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Vendor price as floor:** if a vendor pays more than the auction house after fees, the vendor price counts.
 - Other addons (ProfessionSentinel) can use the same values: `AHAnalyzerPro:RealPrice(itemID)` and
   `AHAnalyzerPro:RealValue(itemID, qty)`; the old `GetSalePrice` now returns the same value.
-
-### Version 0.65.30
-
-- **Prices per realm and faction:** AHSentinel now keeps a separate price list for every realm and auction house –
-  Horde, Alliance and the neutral auction houses (Booty Bay, Gadgetzan, Everlook). Your own scans and synced prices only
-  go into the list of the auction house you are at; tooltips and calculations use your faction's list (at a neutral
-  auction house the neutral one).
-- **Sync only from the same auction house:** price messages now carry a short code of realm and faction; prices from
-  another faction or realm, and old messages without the code, are dropped. (Please update – older versions no longer
-  exchange prices with 0.65.30.)
-- Your existing prices are kept for the current character's realm and faction. If you have characters on several
-  realms or factions, a note tells you that the old prices may be mixed – the next scan replaces them.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
