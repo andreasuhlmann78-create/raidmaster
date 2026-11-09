@@ -12,6 +12,18 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.47
+
+- **Cancel only when it pays:** an undercut auction is only suggested for cancelling when reposting earns more than
+  the lost deposit plus the new deposit's risk. A 1c undercut is now shown as grey "undercut – leave it" and
+  "Cancel next undercut" skips it (buyers take the cheapest pieces first anyway). The row tooltip shows the math.
+- **At most 90 searches per minute (WoW Forever):** all searches (sniper, watcher, scan, buy, price check) share one
+  60-second window below the server limit of 100; the sniper has priority.
+- **Neutral auction house (Booty Bay, Gadgetzan, Everlook): 15 % instead of 5 %** on sale – everywhere the cut is
+  used. A formula deposit there is marked "(uncertain)" until measured.
+- **Sniper:** if your max per piece is above the net sale value (last scan minus cut and deposit risk), a yellow hint
+  shows the expected loss per piece. Nothing is blocked.
+
 ### Version 0.65.46
 
 - **Minimum deposit is measured, not fixed (WoW Forever):** Blizzard announced lowering the minimum deposit per
@@ -59,23 +71,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   "slowly (~2 days)" or "hardly (often expires)"; without your own data the market sales per day as before.
 - Items that hardly sell for you are no longer suggested for flipping or crafting ("Do today"); the Sell tab shows
   "Often expires – post cheaper or keep it." (no automatic price change).
-
-### Version 0.65.42
-
-**Auction fees like in classic WoW (measured in WoW Forever) – this replaces the "max(5 %, 1s)" rule:**
-- **Posting:** deposit = vendor price × quantity × 5 % per 2 hours (2/8/24 h = 5/20/60 %), at least 1s per auction
-  in Forever. Blizzard's own value is used when the AH is open. **Selling:** 5 % of the price, the deposit comes back.
-  Expired auctions lose the deposit – values and profits include the expected loss (from your sell rate).
-- **Sell tab:** the deposit line is back, AH fee 5 %. **Profit window:** "AH fee 5 % + deposit (back on sale)".
-- **Ledger:** Forever invoices are read correctly (the "price" is the unit price, the quantity is computed from the
-  total). Sales booked by earlier versions are recalculated once at login ("Ledger: recalculated N sales"),
-  nothing is deleted. The raw invoice values go to the diagnostic log once per session (RECHNUNG-ROH, no names).
-- **Tooltip:** both ways with amount, the better one first: "Disenchant: 9s 35c" / "Sell: 8s 99c" (own items in your
-  bags: only these two lines; in the AH below the verdict).
-- **Best recipes no longer stutter:** rebuilt only while the profit window is visible, at most every 10 s while you
-  craft, and only when prices or the recipe list really changed; reading all recipes is spread over frames.
-- **For addon authors:** `AHAnalyzerPro:AuctionFee(total[, itemID, qty])` / `.AHFee` now return the expected selling
-  costs of one auction (5 % + expected deposit loss). New: `AHAnalyzerPro:ListingDeposit(itemID, qty, hours, auctions)`.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
