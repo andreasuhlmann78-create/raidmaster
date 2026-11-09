@@ -134,3 +134,9 @@ NEU (9. Nov. 22:15, Wunsch des Nutzers, NIEDRIG) – Testroutine abbrechen
    Bitte "/ahs testroutine stop" (auch "abbrechen") und einen Knopf "Abbrechen" im Ergebnisfenster während des Laufs:
    ruft TR:Abort("vom Nutzer abgebrochen") auf, stellt alles wieder her, Bericht mit "abgebrochen". Testfall: Lauf
    starten, Abbruch nach dem ersten Schritt -> running false, Sandbox OK, kein FEHLER-Eintrag ausser T000 "Abbruch".
+
+NEU (9. Nov. 22:25, Prüf-Sitzung) – Testroutine im Client mit 0.65.59 am AH: OK 342 · FEHLER 5 (vorher 14).
+   befund-testroutine-0659.txt: 1. Sandbox schreibt noch 9 echte Pfade (u. a. eine Buchung in ledger.entries und ein
+   Test-Item in seller.items) – HOCH; 2a–2d Tests korrigieren (T40 Treffer bei 1c ist richtig, T45 Wächter pausiert
+   durch Sniper-Ziele und wird danach fest ausgeschaltet, T33 Zeitüberschreitung ohne ist-Wert, T192 vom Nutzer
+   verschobene Fenster); 3. Tooltip 2,33 ms. Damit ist A4 geklärt (kein Geld-Fehler im Sniper).
