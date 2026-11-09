@@ -144,3 +144,13 @@ NACHTRAG (5. Nov. 19:03, Screenshot Questlog, L11 in Mulgore 38.3/37.6) – HOCH
    Quests der Zone für die Stufe zu schwer sind (rot/orange über Grenze) oder blockiert. Abgaben in einer anderen
    Zone sind kein Grund, die aktuelle Zone zu verlassen. Testfall: 3 offene Quests in Mulgore + 3 Abgaben im
    Brachland -> erst Mulgore, dann Brachland.
+
+BEFUND AUS DEN TESTBERICHTEN (9. Nov. 05:30, Prüf-Sitzung) – HOCH, sofort
+   798× Lua-Fehler im Spiel mit 3.12.13 (zuletzt 08.11. 20:41 UTC): Session.lua:29 "attempt to perform boolean test on
+   a secret boolean value (execution tainted by 'LevelPilot')". Zeile: if UnitIsAFK and UnitIsAFK("player") then …
+   UnitIsAFK liefert in Forever (zeitweise, z. B. im Kampf) einen geschützten Wahrheitswert.
+   Lösung: local afk = UnitIsAFK and UnitIsAFK("player"); if LP.Game.IsSecret(afk) then afk = nil end – bei geheimem
+   Wert nur den eigenen Leerlauf-Zähler (IDLE) nutzen. Alle übrigen Aufrufe von Unit*-Funktionen mit Wahrheits-
+   oder Zahlenwert ebenso prüfen (grep UnitIs, UnitAffecting, UnitHealth …). Testfall mit Köderwert (geheimer
+   Wahrheitswert) -> kein Fehler, IsAFK fällt auf den Leerlauf zurück. Der alte Fehler Protocol.lua:235 (847×) stammt
+   nur von 3.12.6 und ist seit 3.12.7 weg.
