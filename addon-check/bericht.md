@@ -12,7 +12,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## GuildSentinel-0.9.16.zip: OK
 
-## ProfessionSentinel-0.9.27.zip: OK
+## ProfessionSentinel-0.9.28.zip: OK
 
 ## RaidMaster-3.0.19.zip: OK
 
