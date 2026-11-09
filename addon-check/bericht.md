@@ -2,10 +2,11 @@
 
 Vorlage shared/GoldSentinelGame.lua: Version 3
 Vorlage shared/GoldSentinelTest.lua: Version 1
-Tests der gemeinsamen Datei: bestanden GoldSentinelGame-Tests: bestanden; GoldSentinelSync-Tests: bestanden (41/41); GoldSentinelTest-Tests: bestanden (43/43); OK 18 / FEHLER 0; UICheck-Tests: bestanden (9/9); Vorlage-Tests: bestanden (76/76); 123/123 Prüfungen bestanden; Ladetest-Tests: 35/35 bestanden; Testberichte-Tests: bestanden (25/25); Wegdaten-Tests: bestanden (14/14)
+Tests der gemeinsamen Datei: bestanden GoldSentinelGame-Tests: bestanden; GoldSentinelSync-Tests: bestanden (79/79); GoldSentinelTest-Tests: bestanden (43/43); OK 19 / FEHLER 0; UICheck-Tests: bestanden (9/9); Vorlage-Tests: bestanden (76/76); 123/123 Prüfungen bestanden; Ladetest-Tests: 35/35 bestanden; Testberichte-Tests: bestanden (25/25); Wegdaten-Tests: bestanden (14/14)
 Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
-## AHSentinel-0.65.56.zip: OK
+## AHSentinel-0.65.56.zip: OK (1 Warnungen)
+- **WARNUNG** AHSentinel/GoldSentinelSync.lua: veraltete offizielle Fassung (Version 1) – auf shared/GoldSentinelSync.lua Version 2 aktualisieren
 
 ## BuffSentinel-0.9.12.zip: OK (8 Warnungen)
 - **WARNUNG** BuffSentinel/GoldSentinelGame.lua: veraltete offizielle Fassung (Version 2) – auf shared/GoldSentinelGame.lua Version 3 aktualisieren
@@ -17,7 +18,8 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 - **WARNUNG** BuffSentinel/SelfTest.lua:425: tritt einem eigenen Chat-Kanal bei – belegt einen der 10 Kanalplätze des Spielers. Künftig nur der gemeinsame GoldSentinel-Kanal (shared/GoldSentinelSync.lua), nur zum Finden von Mitspielern.
 - **WARNUNG** BuffSentinel/SelfTest.lua:426: tritt einem eigenen Chat-Kanal bei – belegt einen der 10 Kanalplätze des Spielers. Künftig nur der gemeinsame GoldSentinel-Kanal (shared/GoldSentinelSync.lua), nur zum Finden von Mitspielern.
 
-## GuildSentinel-0.9.20.zip: OK
+## GuildSentinel-0.9.20.zip: OK (1 Warnungen)
+- **WARNUNG** GuildSentinel/GoldSentinelSync.lua: veraltete offizielle Fassung (Version 1) – auf shared/GoldSentinelSync.lua Version 2 aktualisieren
 
 ## ProfessionSentinel-0.9.37.zip: OK
 
