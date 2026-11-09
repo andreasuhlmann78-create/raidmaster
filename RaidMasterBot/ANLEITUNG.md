@@ -183,6 +183,11 @@ Damit Raids, Charaktere und die DKP-Nachrichten erhalten bleiben:
 
 Privates Repository: In `config.json` bei `update_token` einen GitHub-Token mit Leserecht eintragen.
 
+Gildenchef: In `config.json` bei `"guild_leader"` den Charakternamen des Gildenchefs eintragen (Vorlage:
+config.example.json, dort leer). Er darf dann im Discord alles wie die Offiziere. Ist der Eintrag leer, hat der
+Gildenchef nur Rechte als Server-Besitzer oder Offizier; der Bot schreibt das beim Start ins Protokoll (ab 1.5.112).
+Der Name gehört nur in die config.json auf dem Server, nie ins Repo.
+
 ## 10. Neue Raids – automatisch
 
 Betritt das Addon einen **neuen Raid**, legt es einen eigenen DKP-Topf an. Beim nächsten Upload

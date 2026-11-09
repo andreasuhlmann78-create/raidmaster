@@ -213,6 +213,11 @@ class RaidBot(discord.Client):
                                    "(oder sofort: `sudo systemctl restart raidmaster`, nachdem der Intent eingeschaltet ist).")
             except Exception:  # noqa: BLE001
                 pass
+        if not (cfg.get("guild_leader") or "").strip() and not getattr(self, "_leader_warned", False):
+            # ab 1.5.112: ohne Eintrag hat der Gildenchef nur Rechte als Server-Besitzer oder Offizier
+            self._leader_warned = True
+            log.warning("config.json: \"guild_leader\" ist leer – Charaktername des Gildenchefs eintragen "
+                        "(sonst Rechte nur als Server-Besitzer oder Offizier).")
         if not getattr(self, "_release_checked", False):
             self._release_checked = True
             try:
