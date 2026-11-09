@@ -1,0 +1,70 @@
+ANWEISUNG AN DIE GUILDSENTINEL-SITZUNG – Berufe und Rezepte vollautomatisch, Abgleich reparieren
+Prüf-Sitzung, 9. November 2026, 15:25. Ziel des Nutzers (15:17): "dass alles vollautomatisch abläuft".
+Ergänzt anweisung-berufe-leere-liste.txt (15:08). Keine Spielernamen in Code, Tests, Protokoll oder CHANGELOG.
+
+BEFUND IM SPIEL (0.9.18)
+   - Ein Gildenmitglied MIT GuildSentinel, Alchimie 150, hat sein Berufsfenster sicher geöffnet. Beim Nutzer steht
+     "Alchimie 0/2" – dessen Rezepte kommen nicht an.
+   - Umgekehrt sieht dieses Mitglied die Berufe des Nutzers, aber "sonst von keinem" (Aussage des Mitglieds).
+     -> Der Abgleich funktioniert nur in eine Richtung.
+   - Protokoll 14:06: "Gilden-Berufsliste: 14 Zeilen, 10 Kopfzeilen, … 4 Einträge, 2 Mitglieder" – das Spiel zählt
+     mehr (Alchimie 2, Bergbau 4, Kräuterkunde 3 …), lesbar sind nur 2 Mitglieder (wahrscheinlich nur die Online-Mitglieder).
+
+VERDÄCHTIGE STELLEN IM CODE (0.9.18) – bitte prüfen und beheben, was zutrifft
+   V1 Professions.lua SendMine: "if ns.RMI:Active() then return end -- RaidMaster verschickt die Berufe schon".
+      Wer RaidMaster installiert hat, schickt seine Berufe NIE über GuildSentinel. Kommt die RaidMaster-Nachricht beim
+      Empfänger nicht in GuildSentinels Speicher an (anderes Format, anderer Kanal, Empfänger ohne RaidMaster), sind
+      die Daten verloren. Lösung: GuildSentinel schickt seine Berufe IMMER selbst (doppelt schadet nicht, Receive
+      verwirft Älteres über t). RaidMaster-Daten zusätzlich übernehmen, wo vorhanden.
+   V2 Namen: Forever-Charaktere haben Vor- UND Nachnamen. Overview(), Craft.lua:68, Sync Answer filtern mit
+      ns.Roster.byName[who]. Kommt ein Name anders an (Realm-Zusatz, Kurzname, andere Gross-/Kleinschreibung,
+      nur Vorname), wird der Eintrag still aussortiert – beim Anzeigen UND beim Weitergeben. Lösung: Namen beim
+      Empfang (Receive, Comm-Absender) und beim Vergleich mit EINER Funktion normalisieren (ns.Short/ns.Proper/
+      ns.FindMember), Speicher-Schlüssel immer in der Form der Gildenliste. Bestehende Einträge einmalig umschlüsseln
+      (Migration, Schalter), doppelte zusammenführen (neueres t gewinnt).
+   V3 Sync.lua SREQ/SCLAIM: Es antwortet nur EIN Mitglied ("wer zuerst ich mach's sagt"). Hat dieses die Daten eines
+      Dritten nicht, bekommt der Anfragende sie nie. Lösung: Zusätzlich schickt JEDES Mitglied mit GuildSentinel nach
+      dem Einloggen (Zufallsverzögerung 10–60 s) seine EIGENEN Berufe an die Gilde, wenn sie seit dem letzten Senden
+      neu sind oder älter als 24 h (statt nur SendDaily einmal am Tag). Nach jedem Einlesen (ScheduleSend) wie heute.
+   V4 SendDaily verlangt Store()[ns.Me()] – stimmt der eigene Schlüssel nicht mit ns.Me() überein (V2), wird nie
+      gesendet. Mit V2 prüfen.
+
+PROTOKOLL (sofort, damit es messbar wird; ohne Namen, nur Zahlen)
+   - "BERUFE eingelesen: <Beruf> <N> Rezepte" nach jedem eigenen Einlesen.
+   - "BERUFE gesendet: eigene=<ja/nein> (Grund, z. B. RaidMaster aktiv / kein Eintrag / gesendet)"
+   - "BERUFE empfangen: <N> Einträge, angenommen <a>, älter verworfen <o>, Name unbekannt <u>"
+   - "BERUFE Anzeige: <N> Einträge im Speicher, <M> angezeigt, <K> aussortiert (Name nicht in Gildenliste)"
+   - in der Diagnose-Zusammenfassung: Anzahl Einträge im Speicher, davon mit Rezepten, davon nur Stufe (g).
+
+VOLLAUTOMATISCH – zusätzliche Wege (nach V1–V4)
+   A1 Gilden-Berufsliste des Spiels mit Offline-Mitgliedern lesen: vor dem Lesen die Einstellung "Offline-Mitglieder
+      anzeigen" (GetGuildRosterShowOffline / SetGuildRosterShowOffline) merken, einschalten, lesen, zurücksetzen.
+      Nur ausserhalb des Kampfes, ohne sichtbares Flackern. Protokoll: "… offline eingeblendet: ja/nein".
+   A2 Blizzards Gilden-Rezepte: Das Spiel kann je Beruf zeigen, wer in der Gilde welches Rezept kann (Gildenfenster
+      -> Berufe -> Beruf; modern: C_TradeSkillUI ... / ViewGuildRecipes, QueryGuildMembersForRecipe,
+      GetGuildRecipeMember usw. – was Forever 1.60.1 anbietet). Prüfen, ob der Aufruf OHNE Klick erlaubt ist:
+      - erlaubt: nach dem Einloggen (ausserhalb des Kampfes, gedrosselt, je Beruf einmal am Tag) alle Gilden-Rezepte
+        abfragen und als Einträge mit Quelle "Spiel" speichern (wie g, eigene Angaben eines Spielers haben Vorrang).
+      - nicht erlaubt: einlesen, sobald der Spieler diese Ansicht selbst öffnet (heute bewusst ausgeschlossen:
+        IsTradeSkillGuild – für diesen Fall gezielt einlesen, nicht als eigene Rezepte).
+      Protokoll: "GILDENREZEPTE Weg=<Funktion> ohne Klick=<ja/nein/blockiert> · Berufe <n> · Einträge <m>".
+   A3 Neue Rezepte sofort: Ereignis NEW_RECIPE_LEARNED (bzw. LEARNED_SPELL_IN_TAB / was Forever liefert) -> Rezept zum
+      eigenen Eintrag hinzufügen und ScheduleSend, ohne dass das Fenster offen sein muss.
+   A4 Rezepte ohne Fenster prüfen: mit der Rezeptliste von ProfessionSentinel (wenn geladen, sonst eigene kleine
+      Liste der Rezept-Zauber-IDs) nach dem Einloggen IsPlayerSpell/IsSpellKnown je Rezept des eigenen Berufs.
+      Nur übernehmen, wenn die Probe stimmt (bekanntes Rezept aus dem letzten Einlesen -> true, unbekanntes -> false);
+      sonst abschalten. Protokoll: "REZEPTPROBE Weg=<…> Probe=<ok/falsch> · gefunden <n>".
+   Reihenfolge: Protokoll + V1–V4 zuerst (das behebt den gemeldeten Fall wahrscheinlich), dann A1, A3, A2, A4.
+   Keine neue Option, kein neuer Knopf. Nie im Kampf, nichts Geschütztes ohne Klick.
+
+TESTFÄLLE (TestRoutine, Locales EN/DE, CHANGELOG EN/DE)
+   T-S1 RaidMaster aktiv -> eigene Berufe werden trotzdem gesendet (V1)
+   T-S2 Empfang mit Namen in anderer Schreibweise (Realm-Zusatz, Kleinschreibung) -> unter dem Gildennamen gespeichert
+        und angezeigt (V2); Migration führt doppelte Einträge zusammen
+   T-S3 Antwortendes Mitglied ohne Daten von C -> C sendet nach dem Einloggen selbst, Anfragender hat C (V3)
+   T-S4 Protokoll-Zeilen ohne Spielernamen
+   T-S5 Offline-Anzeige wird nach dem Lesen auf den alten Wert zurückgesetzt (A1)
+   T-S6 NEW_RECIPE_LEARNED -> Rezept im eigenen Eintrag, ScheduleSend (A3)
+   T-S7 Rezeptprobe falsch -> Weg A4 abgeschaltet, nichts übernommen
+   Platzhalter-Namen in den Tests (z. B. "Testa Beispiel").
+Wie immer: komplette Dateien, alte Clients nie brechen, addon_check.py ohne FEHLER.

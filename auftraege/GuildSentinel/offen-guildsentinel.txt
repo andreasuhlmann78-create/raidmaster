@@ -77,3 +77,10 @@ Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
 NEU (9. Nov. 15:08, Befund des Nutzers 15:03) – Berufe: gewählter Beruf ohne bekannte Rezepte zeigt eine leere Liste
    Siehe anweisung-berufe-leere-liste.txt: passender Leertext ("2 Gildenmitglieder haben Alchimie, Rezepte noch
    nicht bekannt …"), "0 von 2" statt "0/2", Mitglieder aus der Spielliste mit "Rezepte unbekannt" anzeigen.
+
+NEU (9. Nov. 15:25, Ziel des Nutzers: vollautomatisch) – Berufe-Abgleich reparieren und automatisieren
+   Siehe anweisung-berufe-automatisch.txt. Befund: Mitglied mit GuildSentinel und Alchimie 150 kommt beim Nutzer nicht
+   an, sieht selbst nur die Berufe des Nutzers -> Abgleich einseitig. Verdacht: SendMine schweigt bei geladenem
+   RaidMaster (V1), Namen mit Vor-/Nachname werden aussortiert (V2), nur ein Antwortender beim Abgleich (V3).
+   Zuerst Protokoll + V1–V4, dann Offline-Mitglieder (A1), neue Rezepte sofort (A3), Blizzard-Gildenrezepte (A2),
+   Rezeptprobe ohne Fenster (A4).
