@@ -7,6 +7,18 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.49</h3>
+<ul>
+<li><strong>Ledger → Return:</strong> new view with invested, earned, profit and return per business – flipping (buy and sell the
+  same item), crafting (crafted items against material cost), disenchanting (the existing report) and raw goods
+  (sold without buying). A sale counts to the business the item came from and to its day, not to when the mail arrives.</li>
+<li><strong>Gold per hour</strong> per business and in total, plus "Your hourly wage today". Only active time counts (stored locally):
+  at the AH and mailbox the time between your own actions, at most 2 min after the last one; crafting and
+  disenchanting from the first to the last of a series. Breaks over 2 min, AFK and automatic scans/sniper/watcher runs
+  do not count. Under 15 min measured: "too little data". Losses show red with a minus.</li>
+<li><strong>Raid start hint:</strong> from Nov 25 at most once a day when opening the AH: "Raid start Dec 9: buy/craft consumables
+  and their herbs cheaply now." Off after Dec 9.</li>
+</ul>
 <h3>Version 0.65.48</h3>
 <ul>
 <li><strong>Automatic minimum price when selling:</strong> the higher of the vendor price after the AH cut and your own cost per
@@ -50,24 +62,7 @@
   price is statistics only (Shift in the tooltip, yellow if more than 30 % below the market).</li>
 <li>Tooltip materials show the source ("scan" / "market").</li>
 </ul>
-<h3>Version 0.65.44</h3>
-<ul>
-<li><strong>Tooltip, clearer ("variant A"):</strong> without Shift exactly three blocks –</li>
-<li><strong>Price:</strong> "AHSentinel – Price 10s" (own items: market value), market value if different, "Sells: quickly (~3 h)".</li>
-<li><strong>Verdict:</strong> "Disenchanting pays off / does not pay" with profit, "Worth up to", then both ways with amount (better
-     one first). Own items: only the two ways. Not disenchantable: only "Sell:".</li>
-<li><strong>Materials:</strong> "Materials (real, from N disenchants)" or "(table)", one line each with chance × quantity and price
-     after fees – always, also when Disenchantry is installed (AHSentinel replaces it).
-  Everything else (real value with calculation, median, trend, sales per day, vendor price, your sell chance, alts)
-  with <strong>Shift</strong>. Setting "short" hides the materials, "everything" shows all without Shift.</li>
-<li><strong>Sniper:</strong> "Purchase sent" when you confirm; "Bought" only when the server confirms (no more "Bought" followed by
-  "failed – counter corrected"). "Price is being checked" only once per reservation. When the price is confirmed:
-  a short sound (option "sound on hits"), the Buy button blinks and "Buy now: mouse wheel" appears (never in combat).</li>
-<li><strong>Bulk buy for disenchanting:</strong> counted only when the purchase succeeds.</li>
-<li><strong>Profit window:</strong> the "AH fee" line shows only the 5 %; expected re-postings or "vendor pays more" in a grey line.</li>
-<li>Faster: the ledger is indexed per item instead of read completely for every price.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

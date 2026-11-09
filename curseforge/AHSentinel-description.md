@@ -12,6 +12,18 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.49
+
+- **Ledger → Return:** new view with invested, earned, profit and return per business – flipping (buy and sell the
+  same item), crafting (crafted items against material cost), disenchanting (the existing report) and raw goods
+  (sold without buying). A sale counts to the business the item came from and to its day, not to when the mail arrives.
+- **Gold per hour** per business and in total, plus "Your hourly wage today". Only active time counts (stored locally):
+  at the AH and mailbox the time between your own actions, at most 2 min after the last one; crafting and
+  disenchanting from the first to the last of a series. Breaks over 2 min, AFK and automatic scans/sniper/watcher runs
+  do not count. Under 15 min measured: "too little data". Losses show red with a minus.
+- **Raid start hint:** from Nov 25 at most once a day when opening the AH: "Raid start Dec 9: buy/craft consumables
+  and their herbs cheaply now." Off after Dec 9.
+
 ### Version 0.65.48
 
 - **Automatic minimum price when selling:** the higher of the vendor price after the AH cut and your own cost per
@@ -54,23 +66,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   replaced by the next real offer, and items missing from the last scan use the market median. Your own average sale
   price is statistics only (Shift in the tooltip, yellow if more than 30 % below the market).
 - Tooltip materials show the source ("scan" / "market").
-
-### Version 0.65.44
-
-- **Tooltip, clearer ("variant A"):** without Shift exactly three blocks –
-  1. **Price:** "AHSentinel – Price 10s" (own items: market value), market value if different, "Sells: quickly (~3 h)".
-  2. **Verdict:** "Disenchanting pays off / does not pay" with profit, "Worth up to", then both ways with amount (better
-     one first). Own items: only the two ways. Not disenchantable: only "Sell:".
-  3. **Materials:** "Materials (real, from N disenchants)" or "(table)", one line each with chance × quantity and price
-     after fees – always, also when Disenchantry is installed (AHSentinel replaces it).
-  Everything else (real value with calculation, median, trend, sales per day, vendor price, your sell chance, alts)
-  with **Shift**. Setting "short" hides the materials, "everything" shows all without Shift.
-- **Sniper:** "Purchase sent" when you confirm; "Bought" only when the server confirms (no more "Bought" followed by
-  "failed – counter corrected"). "Price is being checked" only once per reservation. When the price is confirmed:
-  a short sound (option "sound on hits"), the Buy button blinks and "Buy now: mouse wheel" appears (never in combat).
-- **Bulk buy for disenchanting:** counted only when the purchase succeeds.
-- **Profit window:** the "AH fee" line shows only the 5 %; expected re-postings or "vendor pays more" in a grey line.
-- Faster: the ledger is indexed per item instead of read completely for every price.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
