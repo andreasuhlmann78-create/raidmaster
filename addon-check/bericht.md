@@ -5,7 +5,7 @@ Vorlage shared/GoldSentinelTest.lua: Version 1
 Tests der gemeinsamen Datei: bestanden GoldSentinelGame-Tests: bestanden; GoldSentinelTest-Tests: bestanden (43/43); UICheck-Tests: bestanden (9/9); Vorlage-Tests: bestanden (75/75); 114/114 Prüfungen bestanden; Ladetest-Tests: 35/35 bestanden; Testberichte-Tests: bestanden (21/21); Wegdaten-Tests: bestanden (14/14)
 Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
-## AHSentinel-0.65.23.zip: OK
+## AHSentinel-0.65.24.zip: OK
 
 ## BuffSentinel-0.9.12.zip: OK
 
