@@ -10,6 +10,20 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.20
+
+- **Addon messages for all game versions**: GuildSentinel now uses the shared GoldSentinel sync file. It sends only through the guild, your group/raid and whispers – never through a custom chat channel (WoW Forever does not deliver addon messages there). Messages from older GuildSentinel versions of other players are still understood. Players using 0.9.19 or older will no longer receive messages from 0.9.20 – please update.
+  - The custom channel "GuildSentinelLFG" is no longer joined (it is left once if you are in it) – one chat channel slot is freed.
+  - Group finder: "Guild and group" replaces "whole server" – your search goes to the guild and to your current group or raid. The setting "Searches from the whole server" is gone.
+  - Recruitment ads: only Blizzard channels (General, Trade, LocalDefense, LookingForGroup …) can be selected; addon and player channels are hidden.
+  - "/gs sync test" shows who answers ("N replies (guild a, group b)"); the settings show the number of players with GuildSentinel in the last hour.
+- **Professions**: levelling up a profession with the window open no longer sends to the guild at every skill-up (at most every 5 minutes, and when you close the window); new recipes are still sent right away. The diagnostic log is no longer filled by it.
+- Guild profession list with offline members: GuildSentinel now always waits for the game before reading and switching the setting back.
+- Blizzard's guild recipes: opening the guild view restarts the queries at most every 10 minutes per profession, and no recipe is asked twice a day.
+- Profession data received from other players is checked in depth; broken data can no longer cause an error in tooltips or craft requests.
+- Diagnostic log: lines for addon messages (ways, players, sent/received/dropped, channel refused).
+- Developer test routine: T214–T224 new; test names are placeholders only.
+
 ### Version 0.9.19
 
 - **Professions arrive automatically in both directions**: a member's professions could get stuck on one side. Fixed:
@@ -46,11 +60,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 - **Professions of all members, automatically**: where the game itself knows the guild's professions (guild profession list), GuildSentinel now reads the skill levels of every member – also of members without GuildSentinel. Recipes still come only from players with GuildSentinel (or RaidMaster) who have opened their profession window once; their own data always wins over the guild list.
 - **New members**: whoever joins the guild while online now shares their professions right away instead of at the next login.
-
-### Version 0.9.15
-
-- **Diagnostic log**: GuildSentinel now records problems that only happen in the real game (slow pages, blocked actions with the calling place, error loops – never player, guild or realm names). Open it with `/gs protokoll` to copy it; after a logout or /reload it is also stored for the RaidMaster uploader, which sends it to the developer.
-- Developer test routine: T188 (diagnostic log) and T189 (in the game).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
@@ -96,7 +105,7 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 ## 🔎 Group finder
 
 - Pick a dungeon or activity, tick the roles you need, start the search
-- **Guild only or the whole server** – everyone with GuildSentinel sees your search, other guilds too
+- **Guild only or guild and group** – your search can also go to your group or raid, players of other guilds too
 - Players whose level and role fit get a notice in chat (optionally with sound), with the zone of the searcher
 - On WoW Forever: all new dungeons and the raids Barrow Deeps, Hyjal Summit and Onyxia's Lair
 - "I'll join" – one click, and the searcher invites you with one click; your **item level** goes along
