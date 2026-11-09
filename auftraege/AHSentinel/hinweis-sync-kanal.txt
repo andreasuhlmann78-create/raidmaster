@@ -15,7 +15,11 @@ SOFORT (nach deiner laufenden Arbeit) – kleine Änderung, kein eigener Umbau
    2. CHAT_MSG_CHANNEL_NOTICE mit NOT_ALLOWED_IN_CHANNEL erkennen und ins Diagnose-Protokoll schreiben.
    3. Protokoll: einmal je Sitzung "SYNC Weg=…" und alle 10 Min. "SYNC gesendet N, empfangen N, verworfen N (Grund)".
    4. Den eigenen Kanal vorerst noch NICHT verlassen (Rückfall für alte Versionen), aber nichts mehr darüber senden.
-
+   AHSentinel konkret: Sync.lua S:Target() nimmt "CHANNEL", sobald AHAPSync existiert, und sendet dann NIE über die
+   Gilde -> darum "0 Mitspieler", obwohl 2 Gildenmitglieder AHSentinel haben. Sofort: Daten über GUILD (und PARTY/RAID)
+   senden; AHAPSync nicht mehr zum Senden benutzen. Dazu /ahs sync test: sendet ein Ping über Gilde/Gruppe, jede neue
+   Version antwortet mit Pong; Ergebnis im Chat ("2 Antworten über Gilde"). Statusanzeige ehrlich: "Sync über Gilde:
+   N Mitspieler" bzw. "niemand mit AHSentinel online".
 
 DANACH (kommt als eigener Auftrag)
    Die Prüf-Sitzung baut eine gemeinsame Datei shared/GoldSentinelSync.lua (EIN Kanal "GoldSentinel" nur zum Finden von
