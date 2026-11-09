@@ -12,6 +12,23 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.38
+
+**Values you can trust – the remaining points:**
+- **Not selling costs money (WoW Forever):** every posting pays the AH fee, even if nothing sells. The real value
+  now subtracts the expected re-postings: from your own sell rate of the last 30 days (from 3 postings), otherwise
+  from the market (under 1 sale per day: up to one extra posting). Shift in the tooltip shows it
+  ("~2.0x posting (your sell rate)"). Era/TBC unchanged.
+- **Crafting:** materials you already own count at what you would get for them (real value after fees); missing
+  ones at the buy-now price; vendor goods at the vendor price. The product's value uses the same real-value function.
+- **Prediction vs. reality:** when posting, AHSentinel remembers its predicted price; when the sale arrives by mail it
+  compares. Ledger -> Statistics shows "Deviation: values on average N % too high/low", per item group and in total;
+  the diagnostic log gets a WERT entry (no names).
+- **Incomplete scans** (stopped early or timed out) are marked: missing items are never treated as gone and the scan
+  never counts as complete for sales estimates.
+- **Shared prices** count only if they fit your own picture (10–300 % of your median) or a second player reports a
+  similar price; until then they are stored as unconfirmed and do not count.
+
 ### Version 0.65.37
 
 - **Own small disenchant window** (`/ahs disenchant`, or Buy -> "Worth disenchanting" -> "Disenchant window"):
@@ -63,12 +80,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
     or in combat. Below 10 real disenchants of the group the value counts 10 % less.
   - Status line: "Bought N · paid · expected +profit". Only on your click/notch, never automatic; logged as KAUF
     (no names). No skill filter – in WoW Forever everything can be disenchanted from Enchanting 1.
-
-### Version 0.65.33
-
-- **AH fee in the profit window corrected:** the fee per piece assumed you always post a full stack (e.g. 20 Bolts of
-  Woolen Cloth) and split the 1s minimum fee by 20 – so 1 bolt at 3s 98c showed 20c instead of the real 1s. Now the fee
-  follows how many pieces you last posted of this item at once; without experience 1 piece (full 1s minimum fee).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

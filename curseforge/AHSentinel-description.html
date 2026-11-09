@@ -7,6 +7,21 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.38</h3>
+<p><strong>Values you can trust – the remaining points:</strong>
+- <strong>Not selling costs money (WoW Forever):</strong> every posting pays the AH fee, even if nothing sells. The real value
+  now subtracts the expected re-postings: from your own sell rate of the last 30 days (from 3 postings), otherwise
+  from the market (under 1 sale per day: up to one extra posting). Shift in the tooltip shows it
+  ("~2.0x posting (your sell rate)"). Era/TBC unchanged.
+- <strong>Crafting:</strong> materials you already own count at what you would get for them (real value after fees); missing
+  ones at the buy-now price; vendor goods at the vendor price. The product's value uses the same real-value function.
+- <strong>Prediction vs. reality:</strong> when posting, AHSentinel remembers its predicted price; when the sale arrives by mail it
+  compares. Ledger -&gt; Statistics shows "Deviation: values on average N % too high/low", per item group and in total;
+  the diagnostic log gets a WERT entry (no names).
+- <strong>Incomplete scans</strong> (stopped early or timed out) are marked: missing items are never treated as gone and the scan
+  never counts as complete for sales estimates.
+- <strong>Shared prices</strong> count only if they fit your own picture (10–300 % of your median) or a second player reports a
+  similar price; until then they are stored as unconfirmed and do not count.</p>
 <h3>Version 0.65.37</h3>
 <ul>
 <li><strong>Own small disenchant window</strong> (<code>/ahs disenchant</code>, or Buy -&gt; "Worth disenchanting" -&gt; "Disenchant window"):
@@ -59,13 +74,7 @@
 <li>Status line: "Bought N · paid · expected +profit". Only on your click/notch, never automatic; logged as KAUF
     (no names). No skill filter – in WoW Forever everything can be disenchanted from Enchanting 1.</li>
 </ul>
-<h3>Version 0.65.33</h3>
-<ul>
-<li><strong>AH fee in the profit window corrected:</strong> the fee per piece assumed you always post a full stack (e.g. 20 Bolts of
-  Woolen Cloth) and split the 1s minimum fee by 20 – so 1 bolt at 3s 98c showed 20c instead of the real 1s. Now the fee
-  follows how many pieces you last posted of this item at once; without experience 1 piece (full 1s minimum fee).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
