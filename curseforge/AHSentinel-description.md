@@ -12,6 +12,14 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.27
+
+- **Disenchant table corrected** (source: warcraft.wiki.gg, Classic disenchanting tables): green items up to item
+  level 15 give no shard – armor 80 % dust / 20 % essence, weapons 20 % / 80 %. Item level 21–25 now 75/15/10
+  (weapons 15/75/10), item level 51–65 weapons 22/75/3; the other levels stay 75/20/5.
+- Materials that cannot come from a group (e.g. a shard from item level 15) are no longer counted – neither your own
+  (wrongly detected) results nor shared ones.
+
 ### Version 0.65.26
 
 - **Disenchant in the tooltip, shorter:**
@@ -48,19 +56,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   - `/ahs playtest report` lists OK / ERROR / open and what you still need to do for the open ones. Results also go to
     the diagnostic log and to the test report for the addon check (area S). No names.
 - Removed a leftover file (TestRoutine.lua.orig) from the download.
-
-### Version 0.65.22
-
-- **Disenchanting in the tooltip – actual and estimated, clearly separated:**
-  - "Disenchant actual (avg of N)": only from real disenchants of this group (yours + shared): sum of the materials
-    you really got × current AH price from the last scan ÷ N. Below 10 disenchants it says "(little data)", without
-    any disenchant the line is left out.
-  - "Disenchant estimated (table)": the previous value (table blended with results).
-  - One line per material: chance (or actual frequency "x/N") × average amount · AH price from the last scan (with
-    age) · market value = share; below it "after fees" (WoW Forever: AH fee 5 %, at least 1s per auction).
-  - The tooltip says which value the disenchant bargains use: the actual average from 10 disenchants on, otherwise the
-    estimate.
-  - New option "Disenchant: per material" (on by default).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

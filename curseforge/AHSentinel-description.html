@@ -7,6 +7,14 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.27</h3>
+<ul>
+<li><strong>Disenchant table corrected</strong> (source: warcraft.wiki.gg, Classic disenchanting tables): green items up to item
+  level 15 give no shard – armor 80 % dust / 20 % essence, weapons 20 % / 80 %. Item level 21–25 now 75/15/10
+  (weapons 15/75/10), item level 51–65 weapons 22/75/3; the other levels stay 75/20/5.</li>
+<li>Materials that cannot come from a group (e.g. a shard from item level 15) are no longer counted – neither your own
+  (wrongly detected) results nor shared ones.</li>
+</ul>
 <h3>Version 0.65.26</h3>
 <ul>
 <li><strong>Disenchant in the tooltip, shorter:</strong></li>
@@ -44,20 +52,7 @@
     the diagnostic log and to the test report for the addon check (area S). No names.</li>
 <li>Removed a leftover file (TestRoutine.lua.orig) from the download.</li>
 </ul>
-<h3>Version 0.65.22</h3>
-<ul>
-<li><strong>Disenchanting in the tooltip – actual and estimated, clearly separated:</strong></li>
-<li>"Disenchant actual (avg of N)": only from real disenchants of this group (yours + shared): sum of the materials
-    you really got × current AH price from the last scan ÷ N. Below 10 disenchants it says "(little data)", without
-    any disenchant the line is left out.</li>
-<li>"Disenchant estimated (table)": the previous value (table blended with results).</li>
-<li>One line per material: chance (or actual frequency "x/N") × average amount · AH price from the last scan (with
-    age) · market value = share; below it "after fees" (WoW Forever: AH fee 5 %, at least 1s per auction).</li>
-<li>The tooltip says which value the disenchant bargains use: the actual average from 10 disenchants on, otherwise the
-    estimate.</li>
-<li>New option "Disenchant: per material" (on by default).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
