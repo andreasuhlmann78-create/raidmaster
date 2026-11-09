@@ -26,10 +26,14 @@ UMSETZUNG
         Mengenfeld) aus e.old2, amount wie von fixL2 berechnet (cut / 0,05, e.approx).
       - Sicherung e.old3, LEDGER_CHANGED, Chat einmal DE "Buchhaltung: N Verkäufe korrigiert (Menge und Stückpreis)."
         EN "Ledger: fixed N sales (quantity and unit price)." Protokoll "MIGRATION fixL3 N=…".
-   K3 Eigener Verkaufspreis (PriceInfo "sale") robuster: nur bei mindestens 3 Verkäufen in 14 Tagen, Median statt
-      Durchschnitt (je Stück, mengengewichtet), Verkäufe mit e.approx oder mehr als 30 % Abstand zum Markt-Median nicht
-      zählen. Sonst wie heute AH aktuell / Markt.
-   K4 Materialblock (Variante A): hinter dem Preis klein grau die Quelle: "Markt", "AH" oder "eig. Verkauf". Mit Shift
+   K3 Entscheid des Nutzers 15:37: Der eigene Ø-Verkaufspreis ist STATISTIK, kein Handelswert. PriceInfo/RealPrice
+      verwenden "sale" NICHT mehr als Wert. Wert für alle Rechnungen (Tooltip, Gewinn-Fenster, Entzauberungswert,
+      Materialien, Schnäppchen, Heute tun, ProfessionSentinel-Schnittstelle) = AH aktuell (günstigstes Angebot − 1c,
+      höchstens Markt-Median, Ausreisser-Regel wie heute), sonst Markt-Median.
+      Der eigene Ø-Verkaufspreis bleibt sichtbar: Buchhaltung -> Statistik und im Tooltip nur mit Shift
+      ("eigener Verkauf (14 Tage): 91c, 3 Verkäufe"). Er darf als Warnung dienen (Shift-Zeile gelb, wenn er > 30 % unter
+      dem Markt liegt), aber nie als Rechenwert. Verkaufschance und Verkaufsdauer aus den Buchungen bleiben.
+   K4 Materialblock (Variante A): hinter dem Preis klein grau die Quelle: "Markt" oder "AH". Mit Shift
       wie heute ausführlich.
 
 TESTFÄLLE (TestRoutine, CHANGELOG EN/DE)
@@ -38,8 +42,8 @@ TESTFÄLLE (TestRoutine, CHANGELOG EN/DE)
    T-R3 "Preis" 184, consignment 837, deposit 200, Post-Gold 16107 -> qty 184, amount 16744, Stückpreis 91
    T-R4 "Preis" 69, consignment 313, deposit 296, Post-Gold 6262 -> qty 69, amount 6279, Stückpreis 91
    T-M10 fixL3: Eintrag mit inv.price 184, qty 91, amount 16744 -> qty 184; läuft nur einmal
-   T-P1 eigener Verkaufspreis: 2 Verkäufe -> nicht benutzt; 3 Verkäufe 86/91/91 -> 91 (Median); Ausreisser 40 bei
-        Markt 87 -> nicht gezählt
+   T-P1 eigene Verkäufe 40c vorhanden, AH aktuell 84c, Markt 87c -> Rechenwert 83c (AH − 1c), Quelle "AH";
+        Shift-Zeile "eigener Verkauf" sichtbar und gelb
    T-P2 Materialblock zeigt Quelle
    Era/TBC unverändert.
 Reihenfolge: SOFORT, vor allem anderen Offenen.

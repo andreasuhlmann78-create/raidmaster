@@ -212,4 +212,4 @@ NEU (9. Nov. 15:40, HOCH) – KORREKTUR: Forever-Rechnung "Preis" ist die MENGE
    Siehe korrektur-rechnung-menge.txt. Irrtum der Prüf-Sitzung in anweisung-gebuehren-klassisch.txt (C1/D/T-R1):
    Menge und Stückpreis sind seit 0.65.42 vertauscht (47 × 86c, 184 × 91c, 69 × 91c belegt). Einnahmen stimmen,
    Ø-Verkaufspreis/Verkaufsdauer/Chance nicht (Materialblock: Staub 72c, Magieessenz 19c). K1 lesen richtig,
-   K2 Reparatur fixL3, K3 eigener Verkaufspreis robuster (mind. 3, Median, Ausreisser raus), K4 Quelle im Materialblock.
+   K2 Reparatur fixL3, K3 eigener Ø-Verkaufspreis nur noch Statistik, nie Rechenwert (Entscheid 15:37), K4 Quelle im Materialblock.
