@@ -109,6 +109,15 @@ NACHTRAG (9. Nov. 20:05, Prüf-Sitzung) – Rückmeldung zu GoldSentinelSync ang
    RaidMaster-Versionen unlesbar (DKP, Gebote, Einteilung), (2) gildeninterne Daten gehören nicht ins Flüster-Netz,
    (3) der gemeinsame Takt (0,2 s) verzögert Gebote. anweisung-gemeinsamer-sync.txt und anweisung-sync-version2.txt
    gelten für RaidMaster damit als ERLEDIGT (nicht zutreffend), bis auf den Entscheid unten.
-   Offen (Entscheid des Nutzers): GoldSentinelSync.lua nur MITBRINGEN (in der .toc, ohne eigene Register-Aufrufe für
-   RaidMaster-Daten), damit reine RaidMaster-Spieler über GoldSentinelTest 2 Fehler an den Sammler teilen können.
+   ENTSCHEID DES NUTZERS (9. Nov. 19:55): GoldSentinelSync.lua MITBRINGEN – nur dafür, dass reine RaidMaster-Spieler
+   über GoldSentinelTest 2 Fehler an den Sammler teilen können. Umsetzen (nach der laufenden Arbeit):
+   M1 shared/GoldSentinelSync.lua (Version 2) unverändert ins Addon kopieren, in allen .toc nach GoldSentinelGame.lua
+      und VOR GoldSentinelTest.lua.
+   M2 RaidMaster ruft GoldSentinelSync.Register NICHT auf und sendet DKP, Gebote, Einteilung usw. weiter genau wie
+      bisher (eigene Kennungen, eigener Takt, RAID/GUILD/WHISPER). Die Sync-Datei meldet nur ihre eigenen Kennungen
+      (GSSYNC1, GSREPORT1 über GoldSentinelTest) an und schickt alle 15 Min. ein kleines Lebenszeichen in die Gilde.
+   M3 Testfall T164 [J]: GoldSentinelSync.VERSION == 2 geladen; GoldSentinelSync.endpoints enthält keine RaidMaster-
+      Kennung; ein RaidMaster-Gebot geht weiter über den bisherigen Weg (nicht durch GoldSentinelSync.queue).
+   M4 CHANGELOG EN/DE: "Bringt GoldSentinelSync mit, damit Fehlerberichte (nur mit Zustimmung, /gstest) geteilt werden
+      können; RaidMaster-Daten unverändert."
    testroutine-raidmaster.txt ist bis 3.0.21 nachgeführt (Nachtrag 9. November).
