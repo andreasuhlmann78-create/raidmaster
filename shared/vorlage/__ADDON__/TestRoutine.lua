@@ -319,6 +319,34 @@ function ns.RunTests(filter)
             Undo()                                   -- falls ein Fall abgebrochen ist
         end
     end
+    -- Oberfläche im echten Client (UICheck.lua): ohne echten Client ehrlich übersprungen, nie als OK gezählt
+    if (filter == "" or filter == "K") and ns.UICheck then
+        local U = ns.UICheck
+        local wasShown = ns.window and ns.window:IsShown()
+        if ns.window and not wasShown and ns.ToggleWindow then ns.ToggleWindow() end   -- eigenes Fenster zum Prüfen öffnen
+        local function List(problems) return #problems == 0 and "keine" or table.concat(problems, "; ") end
+        local ui = {
+            { "T18", "Eigene Tooltips verdecken keine Knöpfe", U.TooltipsCoverNothing },
+            { "T19", "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern", U.WindowsOverlapNothing },
+            { "T20", "Fenster ganz im Bildschirm", U.InsideScreen },
+            { "T21", "Beschriftungen von Knöpfen nicht abgeschnitten", U.TextFits },
+            { "T22", "Angezeigte Spielwerte plausibel", U.ValuesPlausible, true },
+            { "T23", "Keine Fehlerschleife (gleiche Meldung > 10×)", U.NoErrorLoops, true },
+        }
+        for _, c in ipairs(ui) do
+            if not c[4] and not U.Available() then
+                run:Skip(c[1], "K", c[2], "nur im echten Client (Fenster, Rechtecke, Tooltip)")
+            else
+                run:Check(c[1], "K", c[2], function()
+                    local problems, tested, hints = c[3]()
+                    local info = List(problems) .. " · geprüft " .. tostring(tested)
+                        .. (hints and #hints > 0 and (" · Hinweise: " .. table.concat(hints, "; ")) or "")
+                    return #problems == 0, info, "keine"
+                end)
+            end
+        end
+        if ns.window and not wasShown and ns.window:IsShown() and ns.ToggleWindow then ns.ToggleWindow() end
+    end
     -- Hinweise für den Launch-Abend: was nur im echten Client prüfbar ist
     if filter == "" or filter == "B" then
         run:Client("T17", "B", "Diagnose-Protokoll im Spiel",

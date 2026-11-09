@@ -26,3 +26,9 @@ Fehlt das Fenster (z. B. Berufsfenster zu), den Fall begründet überspringen ("
 Nur lesen, nichts verändern, Sandbox gilt. Locales EN/DE, CHANGELOG EN/DE, vor dem Push
 python3 addon-check/addon_check.py <ZIP> -> kein FEHLER.
 Die Prüf-Sitzung nimmt die Fälle 1–6 nach der Pause auch in die Vorlage (shared/vorlage) auf.
+
+NACHTRAG (9. Nov. 06:00): Die Vorlage hat die Fälle 1–6 jetzt fertig: shared/vorlage/__ADDON__/UICheck.lua (T18–T23,
+Bereich K) mit ns.RegisterUI(frame, Name), ns.Plausible(Name, fn) und dem Ablauf in TestRoutine.lua. Am einfachsten
+UICheck.lua übernehmen (Präfix/Namen anpassen), eigene Fenster anmelden und je Addon eigene ns.Plausible-Prüfungen
+ergänzen (z. B. ProfessionSentinel Fertigkeit > 0, LevelPilot "N fertig" = Anzahl Abgeben). Ohne echten Client
+werden die Fälle übersprungen, nie als OK gezählt.

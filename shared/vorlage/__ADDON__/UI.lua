@@ -62,6 +62,7 @@ local function Build()
     win:Hide()
     if UISpecialFrames then table.insert(UISpecialFrames, win:GetName()) end   -- Esc schliesst
     ns.window = win
+    if ns.RegisterUI then ns.RegisterUI(win, ADDON .. " – Hauptfenster") end
 end
 
 function ns.ToggleWindow()
@@ -77,6 +78,7 @@ function ns.ShowCopy(text)
         copy:SetSize(560, 360)
         copy:SetPoint("CENTER")
         copy:SetFrameStrata("DIALOG")
+        if ns.RegisterUI then ns.RegisterUI(copy, ADDON .. " – Kopierfenster") end
         if copy.SetBackdrop then
             copy:SetBackdrop({ bgFile = "Interface\\DialogFrame\\UI-DialogBox-Background",
                                edgeFile = "Interface\\DialogFrame\\UI-DialogBox-Border",
