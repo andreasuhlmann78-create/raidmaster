@@ -1,0 +1,76 @@
+ANWEISUNG AN DIE AHSENTINEL-SITZUNG – Handel nach Regelwerk: Abbrechen, Suchgrenze, neutrales AH, Sniper-Grenze,
+Mindestpreis, Abläufe, Rendite, Raid-Hinweis
+Prüf-Sitzung, 9. November 2026, 16:00. Freigabe des Nutzers 15:56. Grundlage: Analyse von 0.65.44 gegen
+shared/wissen/wirtschaft-forever.md (bitte vorher lesen, Abschnitte 1, 3, 4, 8, 9).
+
+REIHENFOLGE (wichtig)
+   ZUERST die laufenden Korrekturen fertig machen und veröffentlichen: korrektur-rechnung-menge.txt (Menge aus der Post,
+   Rechenwert = letzter Scan) und Nachtrag "Mindest-Einzahlung 1c" in offen-ahsentinel.txt. Darauf bauen alle Zahlen
+   hier auf (Verkaufschance, Einzahlungsrisiko, Netto-Werte). Danach Block 1, dann Block 2, dann Block 3 – gern je
+   Block eine Version. Keine neuen Knöpfe, keine neuen Optionen ausser wo ausdrücklich genannt.
+
+======================================================================================================
+BLOCK 1 – Korrekturen ohne Nachteil
+======================================================================================================
+H1 Abbrechen nur, wenn es sich lohnt (Seller.lua CancelNextUndercut / Status "unterboten")
+   Befund: Jede um 1c unterbotene Auktion wird abgebrochen; beim Abbrechen ist die Einzahlung weg (Regelwerk 1).
+   Bei Waren kaufen Käufer ohnehin die billigsten Stücke zuerst.
+   Neu: Status "unterboten" nur zum Abbrechen vorschlagen, wenn
+     Mehrerlös durch neues Einstellen > verlorene Einzahlung + neue Einzahlung × (1 − p) / p
+     (Mehrerlös ≈ (eigener Preis − neuer Preis) ist bei 1c-Unterbietung negativ -> nie; sinnvoll ist Abbrechen fast nur,
+     wenn die Konkurrenz DEUTLICH billiger ist und die eigene Auktion sonst sicher abläuft).
+   Sonst Status "unterboten – liegen lassen" (grau) und der Knopf überspringt sie. Im Tooltip der Zeile die Rechnung.
+   Testfälle: T-H1a 1c unterboten, Einzahlung 1s -> nicht abbrechen; T-H1b Konkurrenz 40 % billiger, Ablauf sicher,
+   Einzahlung 1c -> abbrechen vorgeschlagen.
+H2 Höchstens 100 Suchen pro Minute (Forever, Hearthproof/Beta: "Search queries are restricted to 100 calls per minute")
+   Befund: GAP_MIN_THROTTLED = 0, GAP_MIN_FIXED = 0.2 -> bis 300/min möglich; Scan, Sniper, Wächter, Preis prüfen
+   teilen sich das Kontingent nicht.
+   Neu: EIN gemeinsames gleitendes Fenster (60 s) für alle Suchanfragen in A:CanQueryNow/NoteQuery, Obergrenze 90/min
+   (Reserve). Sniper hat Vorrang vor Wächter und Hintergrund-Scan. Protokoll: "SUCHEN max je Minute = …" einmal je
+   Sitzung und bei Erreichen der Grenze.
+   Testfall: T-H2 120 Anfragen in 30 s -> höchstens 90 gehen raus, Sniper-Anfragen zuerst.
+H3 Neutrales AH: 15 % statt 5 % (Beutebucht, Gadgetzan, Ewige Warte; Regelwerk 1, Quellen Wiki/AH Ledger)
+   Befund: AH_FEE_PCT 0.05 fest (auch Seller.lua AH_CUT). Preise werden bereits je "Server|Neutral" getrennt.
+   Neu: eine Funktion A:CutPct() – 0.15 wenn das offene/zuletzt benutzte AH neutral ist, sonst 0.05; überall statt der
+   Konstanten. Einzahlung neutral: Blizzard-Wert; Formel-Rückfall vorerst wie Fraktions-AH, aber als "unsicher"
+   markieren (nicht gemessen). Testfall T-H3.
+H4 Sniper-Kaufgrenze prüfen
+   Neu: Beim Ziel setzen und in der Zielliste: liegt Max/Stück über dem Netto-Verkaufswert (letzter Scan − 5 % −
+   Einzahlungsrisiko), gelber Hinweis "Max über Verkaufswert – jeder Kauf verliert ca. Xc/Stück". Kein Verbot.
+   Testfall T-H4.
+
+======================================================================================================
+BLOCK 2 – Mindestpreis und Abläufe (mit Entscheid beim Spieler)
+======================================================================================================
+H5 Automatischer Mindestpreis beim Verkaufen
+   Untergrenze je Item = das Höhere aus (a) Händlerpreis netto, (b) eigene Herstell-/Einkaufskosten je Stück (falls
+   bekannt, Buchhaltung bzw. Gewinn-Fenster) + Mindestgewinn %. Ein von Hand gesetzter Mindestpreis hat Vorrang.
+   Liegt die Konkurrenz darunter: Vorschlag = Untergrenze, dazu gelber Hinweis "Markt liegt unter deinem
+   Mindestpreis (Xc) – einstellen zum Mindestpreis oder warten". Der Spieler entscheidet (Einstellen geht trotzdem,
+   Preisfeld bleibt frei änderbar). Bei fallendem Trend (24 Std. < −10 %) zusätzlich "Preis fällt".
+   Testfälle T-H5a/b/c (Händler gewinnt, Herstellkosten gewinnen, Hand-Mindestpreis gewinnt).
+H6 Grenze für Abläufe
+   Je Item zählen: Einstellungen ohne Verkauf bis Ablauf (aus den Buchungen, nach der Korrektur der Post-Menge).
+   Ab 3 Abläufen in Folge beim Verkaufen gelber Hinweis: "3× abgelaufen – billiger einstellen (Vorschlag: X) oder an den
+   Händler (Y)". Die verlorenen Einzahlungen dazu anzeigen ("bisher verloren: Zc"). Nichts automatisch.
+   Testfall T-H6.
+
+======================================================================================================
+BLOCK 3 – Übersicht und Hinweis
+======================================================================================================
+H7 Rendite je Geschäftsart (Buchhaltung -> Statistik)
+   Geschäftsarten: Flippen (Kauf und Verkauf desselben Items), Herstellen (Verkauf hergestellter Items gegen
+   Materialkosten), Entzaubern (vorhandene Abrechnung), Rohstoffe (Verkauf ohne Kauf). Je Art: eingesetzt, erlöst,
+   Gewinn, Rendite %, Zeitraum wie die Buchhaltung. Nur eine zusätzliche Ansicht, keine neuen Knöpfe in anderen Reitern.
+   Testfall T-H7 (je Art ein Geschäft -> richtige Zuordnung und Summe).
+H8 Hinweis vor dem 9.12.2026 (Onyxia, Hyjal-Gipfel, Barrow Deeps öffnen; Regelwerk 9)
+   Ab 25.11. höchstens einmal am Tag beim Öffnen des AH eine Zeile im Chat: "Raid-Start 9.12.: Verbrauchsgüter und
+   ihre Kräuter jetzt günstig einkaufen/herstellen". Datum als Konstante mit Kommentar und Quelle; nach dem 9.12. aus.
+   Ausschaltbar über die vorhandene Hinweis-Einstellung, falls es eine gibt; sonst nur einmal am Tag.
+
+ALLGEMEIN
+   - Alle Beträge nach dem Regelwerk (5 % beim Verkauf, Einzahlung nach Händlerpreis × Laufzeit, Minimum nicht fest).
+   - Neue Texte DE/EN (andere Sprachen EN), CHANGELOG EN/DE, Bereich K (Hinweise nicht abgeschnitten, verdecken nichts).
+   - Era/TBC/andere Clients nicht brechen (H2/H3 nur wo zutreffend).
+   - Keine Spielernamen in Protokoll oder Tests.
+   - Vor dem Push addon_check.py ohne FEHLER. Danach kurz melden, was umgesetzt wurde.

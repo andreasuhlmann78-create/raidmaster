@@ -221,3 +221,9 @@ NEU (9. Nov. 16:05, Hinweis) – Mindest-Einzahlung wird auf 1c gesenkt (angekü
    den EINSTELLEN-Messungen erkennen (Formel < 1s -> abgezogen 1s oder weniger?) und im Protokoll "MINDESTEINZAHLUNG
    gemessen=<Wert>" melden. Laufzeit-Vorbelegung "24 Std. kostet gleich viel" muss danach automatisch wegfallen.
    Details: shared/wissen/wirtschaft-forever.md Abschnitt 1 und 9.
+
+NEU (9. Nov. 16:00, Freigabe des Nutzers 15:56) – Handel nach Regelwerk
+   Siehe anweisung-handel-strategie.txt. NACH korrektur-rechnung-menge.txt und dem 1c-Minimum-Nachtrag.
+   Block 1: Abbrechen nur wenn es sich lohnt (H1), max. 90 Suchen/Minute gemeinsam (H2), neutrales AH 15 % (H3),
+   Sniper-Warnung Max über Verkaufswert (H4). Block 2: automatischer Mindestpreis mit Hinweis statt stur (H5),
+   Hinweis nach 3 Abläufen (H6). Block 3: Rendite je Geschäftsart (H7), Hinweis vor dem Raid-Start 9.12. (H8).
