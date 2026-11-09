@@ -46,3 +46,10 @@ BEFUNDE AUS TESTBERICHTEN UND DIAGNOSE-PROTOKOLLEN (9. Nov. 06:10, Prüf-Sitzung
    a) MITTEL – 4× ADDON_ACTION_BLOCKED UNKNOWN() mit 0.9.13 (zuletzt 08.11. 09:01 UTC). Aufrufort ermitteln
       (Diagnose-Protokoll aus der Vorlage übernehmen: Diag.lua mit debugstack bei ADDON_ACTION_BLOCKED) und den
       geschützten Aufruf ausserhalb des Kampfs bzw. über einen sicheren Knopf ausführen.
+
+BEFUND AUS DEM TESTBERICHT (9. Nov. 08:30, Prüf-Sitzung, Testlauf im Spiel 9. Nov. 05:47 UTC, noch mit 0.9.13)
+   b) MITTEL – T82 "nichts gesendet": ergebnis "echt 1 (C_ChatInfo.SendAddonMessage 1), Warteschlange +0",
+      erwartet "echt 0". Während /gs testroutine ist im echten Spiel eine Addon-Nachricht hinausgegangen.
+      Mit 0.9.16 im Spiel erneut /gs testroutine; kommt T82 wieder: die Stelle über ns.Act/den Recorder finden
+      (realBy nennt nur die Funktion) und im Test nur mitschreiben. Gleicher Lauf: T45, T143 (206,5 ms), T154 wie oben.
+      Hinweis: der Lauf war mit 0.9.13 – im Spiel ist offenbar noch nicht 0.9.16 installiert.

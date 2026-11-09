@@ -49,3 +49,10 @@ BEFUNDE AUS TESTBERICHTEN UND DIAGNOSE-PROTOKOLLEN (9. Nov. 06:10, Prüf-Sitzung
    a) NIEDRIG – Die Fehler des Selbsttests (TestRoutine.lua:1433/1447 "TS-Selbsttest …", ADDON_ACTION_BLOCKED TestFunc)
       landen als "Fehler im Spiel" im Testbericht. Absichtliche Fehler der Testroutine nicht an GoldSentinelTest
       melden (wie in der Vorlage T80: nach dem Zählen wieder entfernen bzw. GT.Error im Test abfangen).
+
+BEFUND AUS DEM TESTBERICHT (9. Nov. 08:30, Prüf-Sitzung, Testlauf im Spiel 9. Nov. 05:49 UTC, noch mit 2.4.5)
+   b) MITTEL – neu: T139 "Protokoll-Auswertung" 44,98 ms (erwartet < 16 ms). Die Auswertung des Kampflogs
+      (TestRoutine.lua T139, in 2.5.0 Zeile 2493) ist im echten Client zu langsam – Ruckler beim Auswerten.
+      Lösung: Auswertung über mehrere Frames verteilen (Koroutine/C_Timer) bzw. nur neue Einträge auswerten, nicht
+      die Grenze erhöhen. Mit 2.5.0 im Spiel erneut prüfen. T22 (FullName) weiter offen wie oben.
+      Hinweis: der Lauf war mit 2.4.5 – im Spiel ist offenbar noch nicht 2.5.0 installiert.

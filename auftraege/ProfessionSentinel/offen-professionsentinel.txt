@@ -1,151 +1,71 @@
-OFFENE PUNKTE PROFESSIONSENTINEL (nach der Kurzprüfung von 0.9.13)
+OFFENE PUNKTE PROFESSIONSENTINEL (nach der Nachprüfung von 0.9.28)
 ==================================================================
-Stand: 4. November 2026, 06:50 · von der Prüf-Sitzung · Grundlage: download/ProfessionSentinel-0.9.13.zip und Repo 89e20e2
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.12.
+Stand: 9. November 2026, 08:30 · von der Prüf-Sitzung · Grundlage: download/ProfessionSentinel-0.9.28.zip und Repo 7062c12
+(verglichen mit 0.9.27 aus der git-Geschichte; die Punkte aus dem Stand vom 4. Nov. samt allen Nachträgen bis
+9. Nov. 06:21 wurden gegen 0.9.28 nachgeprüft)
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.13 samt allen
+Nachträgen. Weiter gilt zusätzlich: anweisung-spieltest.txt, nur noch der ZUSATZ "Händlerware in freier Menge kaufen"
+(9. Nov. 08:23) – der Rest dieser Anweisung ist erledigt. Entfernt, weil erledigt: anweisung-testroutine-oberflaeche.txt.
 
-Erledigt in 0.9.13 (danke):
-- anweisung-professionsentinel-minimap-button.txt: Minimap-Button (Linksklick Panel, Rechtsklick Optionen, Ziehen,
-  /ps minimap, Reparatur beschädigter Werte), Testfälle T182–T185 und T186 (im Client)
-- Punkt 1 aus 0.9.12: Kommentar zu /ps testroutine api stimmt jetzt
-- Punkt 2 aus 0.9.12 (Smoketest): entschieden – die geplante Aufgabe "Rezeptdaten-Update" prüft jetzt zusätzlich mit
-  tests/run_offline.py und liefert bei FEHLER nichts aus (Zeitmessungen T139–T145 ausgenommen)
-Prüfungen: Addon-Prüfung OK (Ladetest, Sprachtest ohne Warnung). run_offline.py: Forever 148 OK / 1 FEHLER (nur eine
-Zeitmessung aus Bereich H, zählt nicht), Era 134 / 0, Retail 131 / 0, Exit 0.
+Erledigt (danke)
+----------------
+- T63 "%" im Eingabefenster (0.9.14); Andocken neben AHSentinel mit GetDockFrame(true) und OnShow/OnHide (0.9.14/0.9.16);
+  Fertigkeit statt 0 in Plan und Lebenslinie (0.9.15, im Spiel bestätigt); Rangliste "Material pro Skillpunkt" (0.9.17);
+  Diagnose-Protokoll /ps protokoll + GSDIAG1 (0.9.21); Testroutine nach LevelPilot-Regeln (0.9.22); Klick über
+  RecipeList:SelectRecipe, RecipeMap nur bei Bedarf (0.9.23); Platzhalter im Suchfeld kürzer.
+- Ereignis-Sturm TRADE_SKILL_LIST_UPDATE (0.9.24).
+- Gebührenregel Forever (0.9.25, Prices.lua:26-60): max(5 %, 1s) pro Auktion ÷ Stapelgrösse, keine Einstellgebühr,
+  Tooltip "davon AH-Gebühr", T35. (Siehe aber Punkt 1: die AHSentinel-Funktion wird nie gefunden.)
+- UICheck aus der Vorlage, Bereich K T206–T211, ns.Plausible (0.9.26).
+- Leistung: ein Durchlauf rechnet jeden Wert einmal, T145 Zwischenspeicher freigeben, T132 Unterelemente (0.9.27, T212).
+- Spieltest /ps spieltest an|aus|bericht, S1–S8, GSTEST1 Bereich S, Diagnose SPIELTEST, eine Chat-Zeile je FEHLER,
+  im Kampf keine Oberflächen-Prüfung (0.9.28, Spieltest.lua, T213).
 
-Offen ist nur noch, was im Spiel geprüft werden muss. Neue Wünsche kommen als eigene anweisung-*.txt.
+Prüfungen: addon_check mit lupa (Lua 5.1) OK ohne Warnung. GoldSentinelGame.lua und GoldSentinelTest.lua byte-gleich
+mit shared/. python3 -I tests/run_offline.py ProfessionSentinel: Forever OK 169 / FEHLER 0, Era 152 / 0,
+Retail 151 / 0, Exit 0 (T143 offline 6,4 ms). Locales EN/DE für alle ST_-Schlüssel vorhanden. CHANGELOG EN/DE 0.9.28.
 
-1. IM CLIENT PRÜFEN (Launch-Abend, im Testplan des Nutzers)
-   - T186 Minimap-Button: sichtbar, Ziehen, Tooltip in der Sprache des Clients
-   - T145 Speicher und die Zeitmessungen aus Bereich H (T139, T143). Kommt dort im Spiel ein FEHLER, bitte die teuren
-     Schritte über mehrere Frames verteilen statt die Grenze zu erhöhen.
-   - T113 geheime Werte, die übrigen IM-CLIENT-PRÜFEN-Fälle (T30, T42, T50, T69, T85, T115, T119, T144, T177)
-   - ab dem 5. November T169/T170
+OFFENE PUNKTE
+-------------
+1. AHSENTINEL-GEBÜHRENFUNKTION WIRD NIE GEFUNDEN (Schwere: MITTEL) – seit 0.9.25, Spieltest S5 dadurch immer offen
+   Prices.lua:45 und Spieltest.lua:102 suchen AHAnalyzerPro.AuctionFee bzw. .AHFee. Beides gibt es in AHSentinel nicht
+   (auch nicht in 0.65.24); AHSentinel hat A:ForeverAuctionFee(auctionTotal) (AHAnalyzerPro.lua:1463, seit 0.65.21).
+   Folgen: (a) PS rechnet immer selbst, der CHANGELOG 0.9.25 verspricht "gleiche Zahl in beiden Addons";
+   (b) die eigene Rundung weicht ab: PS math.floor(price × 0,05) (Prices.lua:51, Spieltest.lua:105), AHSentinel
+   math.floor(price × 0,05 + 0,5) -> z. B. 2010c: PS 100c, AHSentinel 101c; (c) S5 meldet nie OK oder FEHLER.
+   T213 merkt es nicht, weil der Test ein erfundenes AHAnalyzerPro.AuctionFee einsetzt (TestRoutine.lua:3330).
+   Lösung: "ForeverAuctionFee" an erster Stelle in die Liste (Prices.lua:45, Spieltest.lua:102), Aufruf als Methode
+   (fn(A, price)), nur in Forever; eigene Rundung auf math.floor(x + 0,5) wie AHSentinel; alte Namen als Rückfall
+   lassen. Testfall mit dem echten Namen ForeverAuctionFee und 2010c (PS = AHS = 101c).
 
-2. HINWEIS FÜR KÜNFTIGE VERSIONEN
-   - Die geplante Aufgabe vergibt bei neuen Rezeptdaten selbst die nächste Nummer: vorher die Releases prüfen.
+2. SPIELTEST: "EINMAL JE LAGE" UND FEHLER BLEIBT (Schwere: MITTEL)
+   ST.Record (Spieltest.lua:42-53) überschreibt das Ergebnis bei jedem Aufruf. OnProfession läuft bei jedem
+   Neuaufbau (Scan.lua:192) und rechnet dabei jedes Mal ns.Plan.Build (Spieltest.lua:186-191) und schreibt einen
+   SPIELTEST-Eintrag ins Protokoll; OnDock läuft bei jedem Refresh (UI.lua:1587). Ein späteres OK löscht so einen
+   früheren FEHLER aus dem Bericht (nur die Chat-Zeile bleibt) – der Testbericht zeigt dann OK.
+   Lösung wie AHSentinel (Spieltest.lua P:Result): ein FEHLER bleibt stehen; ein OK wird nicht erneut geschrieben;
+   S2 nur bei neuer Lage (Beruf oder Fertigkeit geändert) prüfen, nicht bei jedem Refresh. Testfall: FEHLER, danach
+   OK -> Bericht FEHLER; 20 Refresh mit gleicher Fertigkeit -> 1 Eintrag SPIELTEST.
+
+3. ZUSATZ HÄNDLERWARE IN FREIER MENGE KAUFEN (Schwere: MITTEL – Wunsch des Nutzers, 9. Nov. 08:23)
+   Siehe anweisung-spieltest.txt, ZUSATZ: Mengenfeld + Knopf "Kaufen" je Händlerware in der Einkaufsliste,
+   BuyMerchantItem in Teilen bis GetMerchantItemMaxStack, Packungen aufrunden, nur auf Klick und nur bei offenem
+   Händler, im Test nur über ns.Act mitschreiben, Diagnose KAUF, Spieltest S9, Testfälle 16/50/Packung 12/Gold für 7.
+
+4. HINWEIS FÜR KÜNFTIGE VERSIONEN
+   - Die geplante Aufgabe "Rezeptdaten-Update" vergibt bei neuen Rezeptdaten selbst die nächste Nummer: vorher die
+     Releases prüfen. Nur eine Sitzung je Addon (raidmaster/CLAUDE.md).
    - Lesende Blizzard-Aufrufe ausserhalb von ns.API (Waypoint.lua C_Map.GetMapInfo, Guild.lua Gildenliste): erst in
      ns.API aufnehmen, wenn ein Test sie simulieren soll.
 
-3. ERGEBNIS IM SPIEL (5. Nov. 01:17, Forever 1.60.1 Build 70790, Interface 16001, deDE) – mit 0.9.14 nach der Pause
-   OK 144 · FEHLER 6 · übersprungen 9 · im Client prüfen 13 · Sandbox OK · Wächter: keine Aufrufe.
-   a) T63 (Schwere: HOCH – Lua-Fehler für Spieler): Eingabefenster Aufschlag/Mindestgewinn/Marge ->
-      Blizzard_StaticPopup_Game/GameDialog.lua:124 "invalid option in `format'". Der Text, den ProfessionSentinel an
-      StaticPopup gibt, enthält ein "%" (z. B. "Marge in %"), das Blizzard durch string.format schickt.
-      Lösung: im Popup-Text "%" als "%%" schreiben bzw. Werte über text_arg1/text_arg2 übergeben; Fall T63 für alle
-      drei Eingabefenster im Spiel erneut prüfen. Darf als Ausnahme von der Pause behoben werden.
-   b) T139/T140/T143 (Schwere: MITTEL – Ruckler): im echten Client Panel-Aufbau bis 44,2 ms (Lederverarbeitung,
-      Rezepte 36,1 ms), Bestes Rezept 20,2 ms, AD.Plan 1->300 67,6 ms; Grenze 16 ms. Lösung: teure Schritte über
-      mehrere Frames verteilen (Koroutine/C_Timer), Ergebnisse zwischenspeichern, nur sichtbare Zeilen füllen –
-      nicht die Grenze erhöhen.
-   c) T145 (Schwere: NIEDRIG): Speicher nach dem Lauf +1230 KB (Grenze 1024 KB), 20× Refresh +0 KB. Prüfen, was die
-      Routine selbst behält (Kopien, Berichte) und am Ende freigeben.
-   d) T132 (Schwere: NIEDRIG): "Keine globalen Namen überschrieben" zählt die Unter-Frames des Berichtsfensters
-      (ProfessionSentinelAutoTestReportBg, …CloseButton, …Inset, …Portrait, …Text, …TitleText). Sie entstehen durch die
-      Vorlage mit Namen. Lösung: Fenster ohne globalen Namen anlegen oder diese Namen in T132 als eigene erlauben.
-
-4. BEFUND AUS DEM SPIEL (5. Nov. 05:25, Kochkunst) – Schwere MITTEL
-   Die Lebenslinie im Blizzard-Berufsfenster ("45× bis Gelb" usw.) zählt beim Herstellen nicht herunter. Bei
-   Kochkunst 33/75 stand bei Verkohltes Wolfsfleisch "12× bis Gelb", bei 61/75 wieder "45× bis Gelb"; bei
-   Kräutergebackenes Ei, Geröstetes Eberfleisch und Glänzender Kleinfisch ebenfalls "45× bis Gelb" – offenbar mit
-   einem alten bzw. falschen Fertigkeitswert gerechnet und nach einem Skillpunkt nicht neu berechnet.
-   Lösung: Fertigkeit bei jedem Anstieg neu lesen (CHAT_MSG_SKILL, SKILL_LINES_CHANGED, TRADE_SKILL_LIST_UPDATE bzw.
-   die modernen Ereignisse in Forever, z. B. über C_TradeSkillUI.GetProfessionInfo/GetChildProfessionInfo) und die
-   Zeilen danach neu zeichnen; Quelle des Fertigkeitswerts im modernen Client prüfen (aktuelle, nicht die
-   Start-Fertigkeit). Testfall: Fertigkeit simuliert +1 -> Anzeige "N× bis Gelb" sinkt.
-
-5. STAND 0.9.14 (5. Nov. 06:45, Prüf-Sitzung): Addon-Prüfung OK. Andocken (GetDockFrame, Testfall T188) und T63
-   ("%" als "%%") umgesetzt. Die drei gemeldeten Abweichungen sind angenommen: angedockt nicht verschiebbar (frei nur
-   ohne Berufsfenster), Nachsuche sofort + 0,3 s, Neu-Andocken auch im Kampf (kein geschützter Frame). AHSentinel wird
-   gebeten, GetDockFrame(true) auch verborgen zu liefern – sobald da, die Nachsuche durch OnShow/OnHide ersetzen
-   (nach der Pause). Im Spiel offen: T188 und T63 erneut, sobald AHSentinel 0.65.9 installiert ist; Punkt 4 Lebenslinie
-   bleibt bis nach der Pause offen.
-   NACHTRAG (5. Nov. 13:15, Screenshot mit 0.9.14 + AHSentinel 0.65.10): Andocken funktioniert – AHSentinel rechts am
-   Berufsfenster, ProfessionSentinel rechts daneben, kein Überlappen (T188 OK). Der Befund ist BESTÄTIGT und genauer:
-   Bestätigt auch bei Angeln 114/150 (Fischglas: Plan "0 bis 20", "20× bis Grau"). Kochkunst 110/150, trotzdem zeigen Verkohltes Wolfsfleisch, Kräutergebackenes Ei, Geröstetes Eberfleisch und
-   Glänzender Kleinfisch alle "45× bis Gelb", und der Plan sagt "7 Abschnitte von 0 bis 75" / Levelplan "Von 0 bis 75".
-   PS liest die Fertigkeit offenbar als 0 (bzw. Startwert) statt 110 – derselbe Fehler in Lebenslinie und Plan.
-   Ausserdem (NIEDRIG): Platzhaltertext im Suchfeld des Plans bricht auf zwei Zeilen um ("…Gegenstände / suchen…") –
-   kürzen oder abschneiden.
+IM CLIENT PRÜFEN (mit 0.9.28 – die hochgeladenen Diagnose-Protokolle vom 9. Nov. stammen noch von 0.9.22)
+-----------------------------------------------------------------------------------------------------------
+- /ps spieltest an, Berufsfenster öffnen, 5 Rezepte anklicken, 5 Gegenstände herstellen, einen Skillpunkt holen,
+  /ps spieltest bericht: S1–S8 OK (S5 erst nach Punkt 1 möglich).
+- /ps protokoll beim Herstellen: AUFBAU höchstens ein paar pro Minute, kein LANGSAM über 16 ms (0.9.22 hatte noch
+  AUFBAU ×7450 – seit 0.9.24 behoben, im Spiel bestätigen); kein ÜBERLAPPT mit AHAnalyzerProCraftPanel.
+- Klick auf ein Rezept springt sofort (Protokoll KLICK: Weg "Liste", ausgewählt ja).
+- /ps testroutine im echten Client: T139/T140/T143 unter 16 ms, T145 Speicher, T132, Bereich K (T206–T211),
+  T186 Minimap-Button, T188 Andocken mit AHSentinel, T113, T144; ab dem 5. Nov. T169/T170.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
-
-NACHTRAG (5. Nov. 15:35, Screenshot Angeln 114/150 mit PS 0.9.15 + AHSentinel 0.65.11)
-   ERLEDIGT in 0.9.15 (Bild): Fertigkeit stimmt jetzt – Plan "Von 114 bis 150", Fischglas "grau – keine Punkte mehr",
-   "Ab 114 bringt kein Rezept mehr Punkte". Punkt 4 ist im Spiel bestätigt behoben.
-   NEU (HOCH, Rückfall): Das AHSentinel-Gewinn-Fenster liegt wieder ÜBER dem ProfessionSentinel-Panel. PS hat sich
-   direkt rechts ans Berufsfenster gesetzt, AHSentinel ebenfalls (Strata HIGH) -> Überlappen. Die Nachsuche
-   (sofort und nach 0,3 s) hat das AHSentinel-Fenster nicht gefunden (es erscheint später, z. B. bei Rezeptwahl).
-   Lösung: AHSentinel 0.65.11 bietet jetzt AHAnalyzerPro.Crafting:GetDockFrame(true) (Frame auch verborgen,
-   Crafting.lua). Damit einmal HookScript("OnShow"/"OnHide") auf diesen Frame setzen (nur einmal pro Frame, merken)
-   und bei jedem Ein-/Ausblenden sowie bei jedem eigenen OnShow/Refresh neu andocken. Fehlt der Frame noch (nil),
-   bei TRADE_SKILL_SHOW und beim nächsten Refresh erneut fragen. Alte AHSentinel-Versionen ohne Argument weiter wie
-   bisher. Testfall: AHSentinel-Frame erscheint NACH dem PS-Panel -> PS dockt rechts daneben an, kein Überlappen.
-
-NACHTRAG (5. Nov. 17:00, Screenshot Schmiedekunst 46/75 mit 0.9.18) – Schwere HOCH (Rückfall)
-   Rangliste "Leveln – Material pro Skillpunkt" mit "Noch nicht gelernt" ist da (0.9.17, sieht richtig aus).
-   ABER: Seit 0.9.18 öffnet ein Klick auf ein Rezept es im Berufsfenster GAR NICHT mehr (vorher manchmal), und im
-   Chat erscheint ein Text (vermutlich L.SELECT_FAIL "Rezept konnte … nicht geöffnet werden" – vom Nutzer noch zu
-   bestätigen). UI.lua:443-453: im modernen Client nur pcall(ns.API.TradeSkillOpenRecipe, r.spell).
-   Verdacht: r.spell ist die Classic-Zauber-ID, C_TradeSkillUI.OpenRecipe erwartet die RecipeID des modernen
-   Clients – in Forever nicht immer gleich (AHSentinel hat dafür Cr:ModernRecipeID, Crafting.lua). Zudem gibt
-   OpenRecipe keinen Fehler zurück, wenn es nichts findet (pcall ok, aber nichts passiert).
-   Lösung: RecipeID über C_TradeSkillUI.GetAllRecipeIDs() + GetRecipeInfo (Name bzw. Ergebnis-Item) bzw. die
-   Zuordnung wie in AHSentinel ermitteln, damit öffnen; danach prüfen, ob die Auswahl stimmt
-   (ProfessionsFrame.CraftingPage.RecipeList:GetSelectedRecipeID o. ä.), sonst über die RecipeList selbst
-   auswählen (wie in 0.9.16, das ging manchmal). Den Linksklick beim Drücken (OnMouseDown) prüfen: Wird der Klick
-   doppelt (Drücken + Loslassen) ausgelöst? Testfall mit echter Zuordnung Zauber-ID -> RecipeID.
-
-NACHTRAG (5. Nov. 17:10, im Code geprüft; korrigiert 17:12) – NIEDRIG, nach der Pause
-   REGEL IN WOW FOREVER (Angabe des Nutzers aus dem Spiel, 5. Nov. 17:11):
-   - Einstellgebühr = normale Einstellgebühr, mindestens 1 Silber (pro Auktion). Sie wird NIE zurückerstattet –
-     weder bei Verkauf noch beim Abbrechen.
-   - Verkaufsgebühr 5 % vom Verkaufspreis, ohne Minimum. Wird eine Auktion ABGEBROCHEN, kommt von der
-     Verkaufsgebühr ein Teil zurück, anteilig zur Zeit, die sie noch gelaufen wäre (korrigiert 17:13).
-   PS rechnet damit RICHTIG: Prices.lua:40-45/145 zieht die volle Einstellgebühr (mind. 1s) ab – so bleiben.
-   Einziger Punkt: im Tooltip "davon Einstellgebühr" ausweisen, damit die Zahl nachvollziehbar ist.
-
-NACHTRAG (5. Nov. 18:45, im Code geprüft: PS 0.9.20 vs. AHSentinel 0.65.14) – HOCH, Ausnahme
-   Im Spiel mit 0.9.20 weiterhin extrem langsam, bis das Berufsfenster zum Rezept springt. AHSentinel ist schnell.
-   Beleg: AHSentinel wählt zuerst über die Liste des Fensters: page.RecipeList:SelectRecipe(recipeInfo, true)
-   (Crafting.lua:235-238), OpenRecipe nur als Rückfall (:240). PS ruft NUR C_TradeSkillUI.OpenRecipe(id)
-   (UI.lua:531) – das springt in Forever offenbar erst sehr spät.
-   Zusätzlich: UI.lua:1927 verwirft die RecipeMap bei JEDEM Listen-Ereignis, danach liest der nächste Klick alle
-   Rezepte neu (GetRecipeInfo je Rezept, ByOutput ggf. GetRecipeSchematic je Rezept).
-   Lösung: 1) wie AHSentinel zuerst ProfessionsFrame.CraftingPage.RecipeList:SelectRecipe(
-   C_TradeSkillUI.GetRecipeInfo(id), true), dann OpenRecipe als Rückfall; 2) RecipeMap nur bei TRADE_SKILL_SHOW,
-   Berufswechsel oder neu gelerntem Rezept verwerfen, nicht bei jedem TRADE_SKILL_LIST_UPDATE. Testfall: Klick ->
-   Liste meldet Auswahl im selben Frame; 20 Listen-Ereignisse -> RecipeMap höchstens 1× neu gebaut.
-
-STAND 9. NOV. 05:55 (Prüf-Sitzung, Grundlage download/ProfessionSentinel-0.9.23.zip, Addon-Prüfung OK)
-   Erledigt und Anweisungen entfernt: Andocken (0.9.14/0.9.16), Fertigkeit (0.9.15), Rangliste "Material pro
-   Skillpunkt" (0.9.17), Diagnose-Protokoll /ps protokoll + GSDIAG1 (0.9.21), Testroutine nach LevelPilot-Regeln
-   (0.9.22), Klick über RecipeList:SelectRecipe, RecipeMap nur bei Bedarf (0.9.23).
-   Im Spiel zu bestätigen: Klick springt sofort (sonst /ps protokoll, Eintrag KLICK, schicken).
-   JETZT: Tooltip "davon Einstellgebühr" (falls noch nicht), anweisung-testroutine-oberflaeche.txt (UICheck.lua aus
-   der Vorlage, ns.Plausible: Fertigkeit > 0), dann die übrigen Punkte (T139/T140/T143 Leistung, T145, T132).
-
-BEFUNDE AUS TESTBERICHTEN UND DIAGNOSE-PROTOKOLLEN (9. Nov. 06:10, Prüf-Sitzung, Quelle testberichte/)
-   Diagnose-Protokoll 0.9.22 (testberichte/diagnose/ProfessionSentinel/0.9.22-54cb02b5b942.txt):
-   a) HOCH – Ereignis-Sturm: AUFBAU ×7450 durch TRADE_SKILL_LIST_UPDATE (12894 Anfragen, bis 78 ms), LANGSAM ×7346
-      UI:Refresh 101 ms, ×6420 AD.Update 39 ms. Das ist die eigentliche Ursache der Ruckler/Langsamkeit am Berufsfenster.
-      Lösung: TRADE_SKILL_LIST_UPDATE nur sammeln (höchstens 1 Neuaufbau je 0,5 s, nur wenn das Panel sichtbar ist),
-      AD.Update nur bei geänderter Fertigkeit/Taschen/Preisen, UI:Refresh nur sichtbare Zeilen; teure Teile über
-      Frames verteilen. Ziel im Protokoll: AUFBAU höchstens ein paar pro Minute, kein LANGSAM über 16 ms.
-   b) HOCH – ÜBERLAPPT ×691 "Panel überdeckt AHAnalyzerProCraftPanel": das Andocken greift im Spiel nicht immer
-      (0.9.22). Mit 0.9.23 im Spiel prüfen; tritt es weiter auf: bei jedem OnShow/OnSizeChanged des AHSentinel-Frames
-      und nach jedem eigenen Refresh neu andocken.
-   c) KLICK in 0.9.22 nur über OpenRecipe, oft "ausgewählt: nein" – in 0.9.23 über RecipeList:SelectRecipe behoben,
-      im Spiel bestätigen (Protokoll zeigt Weg "Liste").
-
-GEBÜHRENREGEL WOW FOREVER – GILT AB 9. NOV. 06:21 (Angabe des Nutzers) – ERSETZT ALLE FRÜHEREN GEBÜHREN-NACHTRÄGE
-   - Es gibt NUR EINE Gebühr: die AH-Gebühr = max(5 % vom Verkaufspreis der Auktion, 1 Silber), PRO AUKTION
-     (pro eingestelltem Stapel, nicht pro Stück).
-   - Sie wird BEIM EINSTELLEN bezahlt. Eine separate Einstellgebühr gibt es nicht.
-   - Beim Abbrechen kommt laut Nutzer ein Teil zurück (anteilig zur Restlaufzeit). Ob beim Ablaufen ohne Verkauf etwas
-     zurückkommt, ist noch nicht bestätigt – nicht annehmen.
-   - Beispiele: 5 × 78c = 3s 90c -> Gebühr 1s; 2s -> 1s; 1g -> 5s.
-   - Gewinn bei Verkauf = Verkaufspreis − Gebühr − Material.
-   Für ProfessionSentinel heisst das: Prices.lua FeePerPiece/ahNet ändern – keine Einstellgebühr aus dem Händlerwert
-   mehr, sondern Gebühr = max(5 % × Verkaufspreis der Auktion, 100c) ÷ Stapelgrösse pro Stück; netto = brutto − Gebühr.
-   Tooltip "davon AH-Gebühr". Ist AHSentinel geladen, dessen Gebührenfunktion verwenden (gleiche Zahl in beiden).
-   Testfälle wie bei AHSentinel. Era/TBC unverändert.
