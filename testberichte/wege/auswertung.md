@@ -4,7 +4,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Durotar (1411)
 
-- Wegstücke 321, Knoten 413, zusammenhängende Teile 16
+- Wegstücke 322, Knoten 413, zusammenhängende Teile 16
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 331 Knoten, Bereich 36–57 / 12–43
   - Teil 2: 33 Knoten, Bereich 43–55 / 47–69
@@ -13,7 +13,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
   - Teil 5: 3 Knoten, Bereich 46–48 / 44–44
   - Teil 6: 3 Knoten, Bereich 35–37 / 43–44
   - Teil 7: 2 Knoten, Bereich 53–54 / 58–62
-  - Teil 8: 2 Knoten, Bereich 64–64 / 15–15
+  - Teil 8: 2 Knoten, Bereich 64–65 / 15–16
 - **Ausreisser:** Wegstück 7: Sprung 5.3 % von 44.1,40.6 nach 48.3,43.9
 - **Ausreisser:** Wegstück 7: Sprung 4.4 % von 48.3,43.9 nach 51.1,47.3
 - **Ausreisser:** Wegstück 7: Sprung 4.0 % von 51.1,47.3 nach 52.1,51.2
@@ -100,16 +100,16 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Tirisfal (1420)
 
-- Wegstücke 166, Knoten 286, zusammenhängende Teile 34
+- Wegstücke 169, Knoten 290, zusammenhängende Teile 34
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 219 Knoten, Bereich 32–81 / 46–69
+  - Teil 1: 224 Knoten, Bereich 32–81 / 46–69
   - Teil 2: 7 Knoten, Bereich 81–84 / 46–53
   - Teil 3: 5 Knoten, Bereich 31–32 / 66–66
   - Teil 4: 5 Knoten, Bereich 33–34 / 63–64
   - Teil 5: 4 Knoten, Bereich 56–61 / 64–66
   - Teil 6: 3 Knoten, Bereich 25–26 / 60–60
-  - Teil 7: 3 Knoten, Bereich 56–60 / 63–67
-  - Teil 8: 2 Knoten, Bereich 36–38 / 57–58
+  - Teil 7: 2 Knoten, Bereich 36–38 / 57–58
+  - Teil 8: 2 Knoten, Bereich 33–34 / 60–61
 - **Ausreisser:** Wegstück 1: Sprung 4.1 % von 55.7,62.7 nach 51.7,61.9
 - **Ausreisser:** Wegstück 1: Sprung 4.8 % von 48.6,60.2 nach 45.0,57.1
 - **Ausreisser:** Wegstück 1: Sprung 5.2 % von 45.0,57.1 nach 41.8,53.0
@@ -177,9 +177,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Orgrimmar (1454)
 
-- Wegstücke 351, Knoten 238, zusammenhängende Teile 51
+- Wegstücke 360, Knoten 240, zusammenhängende Teile 49
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 82 Knoten, Bereich 42–63 / 48–77
+  - Teil 1: 86 Knoten, Bereich 42–63 / 48–77
   - Teil 2: 21 Knoten, Bereich 59–71 / 29–42
   - Teil 3: 19 Knoten, Bereich 49–59 / 35–46
   - Teil 4: 15 Knoten, Bereich 38–47 / 51–58
@@ -207,7 +207,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 - **Ausreisser:** Wegstück 27: Sprung 4.1 % von 47.4,76.8 nach 43.8,74.8
 - **Ausreisser:** Wegstück 27: Sprung 6.3 % von 43.8,74.8 nach 48.7,78.8
 - **Ausreisser:** Wegstück 28: Sprung 13.4 % von 52.6,87.5 nach 52.0,74.1
-- **Widerspruch:** gesperrt (FEST) bei 52.2,64.5, aber 123× gelaufen
+- **Widerspruch:** gesperrt (FEST) bei 52.2,64.5, aber 126× gelaufen
 - Gesperrte Wegstücke: 1
 
 ## Thunder Bluff (1456)
@@ -245,7 +245,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 592, Knoten 244, zusammenhängende Teile 63
+- Wegstücke 629, Knoten 244, zusammenhängende Teile 63
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 64 Knoten, Bereich 48–74 / 36–56
   - Teil 2: 20 Knoten, Bereich 44–53 / 65–80
