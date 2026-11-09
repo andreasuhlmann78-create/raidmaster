@@ -153,7 +153,7 @@ def main():
     check(export is not None, "kein Export")
     export = str(export or "")
     print(export)
-    check(export.startswith("GSDIAG1|GSMesstest|1|"), "Kopf GSDIAG1 falsch")
+    check(export.startswith("GSDIAG1|GSMesstest|2|"), "Kopf GSDIAG1 falsch")
     for n in NAMES + (OFFLINE,):
         check(n not in export, "Name im Ergebnis: " + n)
     check("T1 hin: gesendet 10" in export and "angekommen 10/10" in export, "T1 nicht vollständig")
@@ -164,6 +164,12 @@ def main():
     check("gleicher interner Realm" in export, "T4 Realm")
     check(not channel_members, "Kanal nicht verlassen")
     check("Lua-Fehler" not in export, "Lua-Fehler im Ablauf")
+    # zweiter Lauf: der Empfänger zählt je Lauf neu (Befund 9.11.: 20/10 nach zwei Läufen)
+    a.SlashCmdList.GSMESSTEST("t1")
+    pump(15)
+    a.SlashCmdList.GSMESSTEST("bericht")
+    second = str(a.GSMesstestDB.export)
+    check("angekommen 10/10" in second and "20/10" not in second, "zweiter Lauf zählt doppelt")
     check(not a.GSMesstest.busy, "busy bleibt gesetzt")
     # testberichte.py liest es
     sys.path.insert(0, str(ROOT / "addon-check"))

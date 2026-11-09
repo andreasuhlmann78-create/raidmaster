@@ -16,7 +16,7 @@
 -- <Ich>, <Partner>, <Offline>, <Unbekannt> ersetzt. Keine geschützten Aktionen, kein Kauf, kein Chat-Text an andere.
 
 local ADDON = "GSMesstest"
-local VERSION = "1"
+local VERSION = "2"
 local PREFIX = "GSMESS"
 local CHANNEL = "GSMessRealm"
 local FAKE = "Gsmesszqxv"          -- gibt es sehr wahrscheinlich nicht (Test "unbekannter Spieler")
@@ -82,6 +82,7 @@ local function After(sec, fn) M.tasks[#M.tasks + 1] = { at = Now() + sec, fn = f
 ---------------------------------------------------------------------------
 -- Lauf: n Nachrichten im Abstand gap (0 = alle im selben Frame), danach "E" und Warten auf "R"
 local function Run(id, label, n, gap, reverse)
+    id = id .. (M.nonce or "")
     local r = { id = id, label = label, n = n, gap = gap, sent = 0, ret = {}, t0 = Now(), back = 0, reverse = reverse }
     M.runs[id] = r
     local function one(i)
@@ -209,7 +210,8 @@ local function Report()
     local lines = { "GSMesstest " .. VERSION .. ", Client " .. tostring((GetBuildInfo and select(1, GetBuildInfo())) or "?") ..
         " (" .. tostring((GetBuildInfo and select(4, GetBuildInfo())) or "?") .. ")" }
     for _, id in ipairs({ "a", "b", "c", "d" }) do
-        if M.runs[id] then lines[#lines + 1] = Anon(RunText(M.runs[id])) end
+        local r = M.runs[id .. (M.nonce or "")]
+        if r then lines[#lines + 1] = Anon(RunText(r)) end
     end
     for _, s in ipairs(M.log) do lines[#lines + 1] = s end
     for _, s in ipairs(lines) do Print(s) end
@@ -224,6 +226,7 @@ local function RunAll(which)
     if M.busy then Print("Läuft schon.") return end
     if InCombatLockdown and InCombatLockdown() then Print("Nicht im Kampf.") return end
     M.busy, M.runs, M.log = true, {}, {}
+    M.nonce = string.format("%x", math.floor(Now() * 10) % 65536)   -- neue Lauf-Kennung: Empfänger zählt je Lauf neu
     Log("Start mit <Partner>. Bitte nichts anderes tun, ca. 1 Minute.")
     local t = 0
     for _, k in ipairs(which) do
@@ -245,8 +248,8 @@ local function OnAddon(prefix, msg, dist, sender)
         local r = M.recv[key] or { count = 0, first = Now() }
         r.count, r.last = r.count + 1, Now()
         M.recv[key] = r
-        local run = M.runs[id:sub(2)]
-        if id:sub(1, 1) == "r" and run then run.back = run.back + 1 end
+        local run = id:sub(1, 1) == "r" and M.runs[id:sub(2)]
+        if run then run.back = run.back + 1 end
     elseif kind == "E" then
         local r = M.recv[who .. ":" .. id] or { count = 0, first = Now(), last = Now() }
         Send(string.format("R:%s:%d:%d", id, r.count, math.floor(((r.last or r.first) - r.first) * 1000)), sender)

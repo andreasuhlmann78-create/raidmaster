@@ -23,6 +23,25 @@ Stand 9. November 2026. Gepflegt von der Prüf-Sitzung. Gilt für alle GoldSenti
    (Kanal verweigert? C_ChatInfo vorhanden? geschützte Werte?). Ob Kanal-Addon-Nachrichten in Retail oder Era
    ankommen, ist hier NICHT belegt – darum nie darauf verlassen.
 
+## Gemessen mit GSMesstest (9. November 2026, 19:05 und 19:11, zwei Spieler, Client 1.60.1)
+Werkzeug: `shared/messtest/GSMesstest`, Rohdaten vom Nutzer (SavedVariables), zwei vollständige Läufe nacheinander.
+
+| Befund | Messung | Stufe |
+|---|---|---|
+| **Addon-Flüstern kommt an, in beide Richtungen.** | 10/10 hin, 10/10 zurück, 200 Zeichen je Nachricht, zweimal | belegt |
+| **Keine Drossel bis mindestens 20/s und 30 Nachrichten im selben Frame** (je 200 Zeichen): nichts verloren. | 20 mit 10/s, 50 mit 20/s, 30 auf einmal – je zweimal vollständig (Zähler 40/20, 100/50, 60/30 = zwei Läufe) | belegt |
+| **Rückgabe von SendAddonMessage ist immer 0** – auch an Offline- und unbekannte Spieler. Sagt nichts über die Ankunft. | alle Sendungen "ret 0" | belegt |
+| **Flüstern an Offline- oder unbekannte Spieler** erzeugt beim Sender `CHAT_MSG_SYSTEM` "Momentan ist kein Spieler mit dem Namen '<Name>' online." (ERR_CHAT_PLAYER_NOT_FOUND_S). **Ein Chat-Filter kann sie ausblenden.** | beide Fälle, Filter griff | belegt |
+| **Charakternamen in Forever haben Vor- und Nachnamen mit Leerzeichen.** Flüstern nur mit dem Vornamen kommt nicht an; der ganze Name ("Vorname Nachname") funktioniert auch als Ziel von Addon-Flüstern. | Nutzer: Vorname allein nicht angekommen; Messung mit ganzem Namen | belegt |
+| **Ein Realm mit Layern** (z. B. "Europa PvP"). Kanal-Mitgliederliste zeigte beide Spieler; während des ersten Laufs wechselte der Layer (AutoLayer "1 -> 2") – alles kam trotzdem an. | T4 gleicher Kanal; Layerwechsel im Chat | belegt: Flüstern über einen Layerwechsel hinweg; vermutet: Flüstern zwischen verschiedenen Layern (Partner-Layer nicht bekannt) |
+
+Folgerungen für das Flüster-Netz von GoldSentinelSync:
+- Namen immer vollständig speichern und so verwenden, wie `CHAT_MSG_ADDON` sie liefert (mit Leerzeichen); nie am ersten
+  Leerzeichen abschneiden.
+- Erreichbarkeit nicht an der Rückgabe messen, sondern an der Systemmeldung "kein Spieler … online" (Offline merken,
+  Meldung ausblenden) und an Antworten.
+- Die Drossel von GoldSentinelSync (5/s für alle Addons) liegt weit unter dem Gemessenen und bleibt.
+
 ## Quellen
 - https://github.com/Offroads/WoWForeverRace/pull/48
 - https://github.com/Shtian/bff-wow/pull/133
