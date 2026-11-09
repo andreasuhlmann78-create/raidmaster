@@ -93,5 +93,8 @@ BEFUNDE AUS TESTBERICHTEN UND DIAGNOSE-PROTOKOLLEN (9. Nov. 06:10, Prüf-Sitzung
    d) NIEDRIG – Format npc[]: "old" ist [Karte, x, y], "new" [x, y]. Bitte einheitlich [x, y] (die Karte steht in "map";
       bei Kartenwechsel zusätzlich "oldMap"). Die Prüfung liest beides.
    e) Datenpaket deutlich falsch (aus den Korrekturen): NPC 10666 Tirisfal 43.1,54.7 -> 52.8,54.2; NPC 10881 Thunder
-      Bluff 44.3,58.8 -> 56.6,48.1; NPC 15350 im Datenpaket auf Karte 1413, steht in Thunder Bluff 58.0,76.7. Diese
-      Korrekturen fest ins Datenpaket übernehmen; 17 NPCs "nicht da" prüfen.
+      Bluff 44.3,58.8 -> 56.6,48.1. Diese Korrekturen fest ins Datenpaket übernehmen.
+      (9. Nov.: NPC 15350 ist erledigt – das Datenpaket hat Thunder Bluff 57.8,76.4 als 7. von 7 Orten, 3.12.19 sendet
+      jetzt den nächsten Ort derselben Karte. Die 17 "nicht da" waren ein Fehler von wege_check.py: NPCs ohne Ort im
+      Datenpaket; die Prüfung zeigt sie jetzt als "fehlt im Datenpaket" und liest "nopack". Gemessene Orte dieser
+      NPCs dürfen ins Datenpaket.)

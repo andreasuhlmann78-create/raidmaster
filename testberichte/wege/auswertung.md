@@ -281,9 +281,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 |---|---|---|---|---|
 | 2995 | 1456 | 47.0,49.8 -> 46.8,50.1 | 0.4 % | klein |
 | 3320 | 1454 | 49.1,69.6 -> 49.3,69.7 | 0.2 % | klein |
-| 3370 | 1454 | nicht da (Nutzer) | - | Ziel ausblenden |
+| 3370 | 1454 | kein Ort im Datenpaket -> 43.8,74.7 | - | fehlt im Datenpaket |
 | 4551 | 1458 | 63.3,48.6 -> 63.7,48.9 | 0.5 % | klein |
-| 5054 | 1456 | nicht da (Nutzer) | - | Ziel ausblenden |
+| 5054 | 1456 | kein Ort im Datenpaket -> 37.4,63.2 | - | fehlt im Datenpaket |
 | 8359 | 1456 | 45.8,55.8 -> 45.6,55.7 | 0.2 % | klein |
 | 11833 | 1456 | 70.1,29.5 -> 70.3,29.7 | 0.3 % | klein |
 | 1495 | 1420 | 65.5,60.3 -> 65.5,60.2 | 0.1 % | klein |
@@ -293,20 +293,20 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 | 1518 | 1420 | 59.5,52.4 -> 59.5,52.3 | 0.1 % | klein |
 | 1521 | 1420 | 61.9,52.7 -> 61.9,52.6 | 0.1 % | klein |
 | 1652 | 1420 | 60.9,52.0 -> 60.9,52.1 | 0.1 % | klein |
-| 1738 | 1420 | nicht da (Nutzer) | - | Ziel ausblenden |
+| 1738 | 1420 | kein Ort im Datenpaket -> 61.5,53.4 | - | fehlt im Datenpaket |
 | 1931 | 1420 | 62.0,51.3 -> 61.9,51.3 | 0.1 % | klein |
 | 3549 | 1420 | 65.4,60.1 -> 65.4,60.1 | 0.0 % | klein |
 | 4576 | 1458 | 70.8,30.7 -> 70.7,30.1 | 0.6 % | klein |
-| 5624 | 1458 | nicht da (Nutzer) | - | Ziel ausblenden |
+| 5624 | 1458 | kein Ort im Datenpaket -> 83.6,56.9 | - | fehlt im Datenpaket |
 | 5688 | 1420 | 61.7,52.1 -> 61.8,52.0 | 0.1 % | klein |
 | 10665 | 1420 | 57.4,48.9 -> 57.9,49.7 | 0.9 % | klein |
 | 10666 | 1420 | 43.1,54.7 -> 52.8,54.2 | 9.7 % | deutlich falsch |
 | 11049 | 1458 | 70.0,30.6 -> 70.4,30.1 | 0.6 % | klein |
 | 11067 | 1458 | 62.5,60.4 -> 62.3,60.5 | 0.2 % | klein |
-| 14990 | 1458 | nicht da (Nutzer) | - | Ziel ausblenden |
-| 246152 | 1420 | nicht da (Nutzer) | - | Ziel ausblenden |
-| 251001 | 1420 | nicht da (Nutzer) | - | Ziel ausblenden |
-| 275954 | 1420 | nicht da (Nutzer) | - | Ziel ausblenden |
+| 14990 | 1458 | kein Ort im Datenpaket -> 59.0,45.3 | - | fehlt im Datenpaket |
+| 246152 | 1420 | kein Ort im Datenpaket -> 60.3,52.6 | - | fehlt im Datenpaket |
+| 251001 | 1420 | kein Ort im Datenpaket -> 65.2,60.2 | - | fehlt im Datenpaket |
+| 275954 | 1420 | kein Ort im Datenpaket -> 32.0,46.4 | - | fehlt im Datenpaket |
 | 3309 | 1454 | 49.6,69.1 -> 49.6,69.4 | 0.3 % | klein |
 | 3391 | 1413 | 62.7,36.2 -> 62.7,36.3 | 0.1 % | klein |
 | 3442 | 1413 | 63.0,37.2 -> 63.0,37.3 | 0.1 % | klein |
@@ -314,7 +314,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 | 3453 | 1413 | 63.4,38.5 -> 63.3,38.4 | 0.1 % | klein |
 | 7161 | 1413 | 63.1,36.3 -> 63.1,36.4 | 0.1 % | klein |
 | 16227 | 1413 | 63.1,37.2 -> 63.1,37.2 | 0.0 % | klein |
-| 6491 | 1413 | nicht da (Nutzer) | - | Ziel ausblenden |
+| 6491 | 1413 | kein Ort im Datenpaket -> 50.7,32.6 | - | fehlt im Datenpaket |
 | 4047 | 1454 | 38.9,38.4 -> 38.7,38.3 | 0.2 % | klein |
 | 1383 | 1454 | 79.6,23.3 -> 79.7,23.4 | 0.1 % | klein |
 | 7230 | 1454 | 80.2,23.4 -> 80.2,23.2 | 0.2 % | klein |
@@ -331,33 +331,33 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 | 3339 | 1413 | 62.3,39.0 -> 62.3,39.0 | 0.0 % | klein |
 | 3443 | 1413 | 55.3,31.8 -> 55.3,31.8 | 0.0 % | klein |
 | 5878 | 1413 | 57.2,30.3 -> 57.2,30.4 | 0.1 % | klein |
-| 267310 | 1413 | nicht da (Nutzer) | - | Ziel ausblenden |
+| 267310 | 1413 | kein Ort im Datenpaket -> 52.6,29.1 | - | fehlt im Datenpaket |
 | 3354 | 1454 | 80.4,32.4 -> 80.1,32.4 | 0.3 % | klein |
 | 14726 | 1454 | 63.6,51.2 -> 63.4,51.1 | 0.2 % | klein |
 | 3665 | 1413 | 63.1,37.6 -> 63.0,37.6 | 0.1 % | klein |
-| 248197 | 1413 | nicht da (Nutzer) | - | Ziel ausblenden |
-| 256386 | 1413 | nicht da (Nutzer) | - | Ziel ausblenden |
+| 248197 | 1413 | kein Ort im Datenpaket -> 49.8,29.7 | - | fehlt im Datenpaket |
+| 256386 | 1413 | kein Ort im Datenpaket -> 50.1,29.4 | - | fehlt im Datenpaket |
 | 2998 | 1456 | 39.4,55.1 -> 39.4,55.3 | 0.2 % | klein |
 | 3001 | 1456 | 34.4,57.9 -> 34.5,57.6 | 0.3 % | klein |
-| 3084 | 1456 | nicht da (Nutzer) | - | Ziel ausblenden |
+| 3084 | 1456 | kein Ort im Datenpaket -> 44.9,61.0 | - | fehlt im Datenpaket |
 | 3389 | 1413 | 45.3,28.4 -> 45.4,28.4 | 0.1 % | klein |
 | 3419 | 1456 | 22.8,20.9 -> 23.0,21.0 | 0.2 % | klein |
 | 3428 | 1413 | 51.1,29.6 -> 51.1,29.6 | 0.0 % | klein |
 | 2934 | 1458 | 53.7,54.5 -> 53.8,54.1 | 0.4 % | klein |
-| 11835 | 1458 | nicht da (Nutzer) | - | Ziel ausblenden |
-| 266484 | 1458 | nicht da (Nutzer) | - | Ziel ausblenden |
+| 11835 | 1458 | kein Ort im Datenpaket -> 46.5,72.0 | - | fehlt im Datenpaket |
+| 266484 | 1458 | kein Ort im Datenpaket -> 58.0,89.7 | - | fehlt im Datenpaket |
 | 1937 | 1421 | 42.8,40.9 -> 42.9,40.8 | 0.1 % | klein |
 | 2055 | 1458 | 48.8,69.3 -> 48.5,69.3 | 0.3 % | klein |
 | 2121 | 1421 | 44.0,40.9 -> 44.0,40.9 | 0.0 % | klein |
 | 2226 | 1421 | 45.6,42.6 -> 45.6,42.5 | 0.1 % | klein |
-| 250686 | 1421 | nicht da (Nutzer) | - | Ziel ausblenden |
+| 250686 | 1421 | kein Ort im Datenpaket -> 44.6,43.0 | - | fehlt im Datenpaket |
 | 1952 | 1421 | 43.4,40.9 -> 43.4,40.9 | 0.0 % | klein |
 | 2055 | 1458 | 48.8,69.3 -> 48.6,69.7 | 0.4 % | klein |
 | 4556 | 1458 | 61.5,41.8 -> 61.7,42.1 | 0.4 % | klein |
 | 4593 | 1458 | 46.9,15.2 -> 47.0,15.3 | 0.1 % | klein |
 | 7825 | 1458 | 73.1,32.9 -> 73.3,32.6 | 0.4 % | klein |
 | 11870 | 1458 | 57.3,32.8 -> 57.4,32.5 | 0.3 % | klein |
-| 271613 | 1458 | nicht da (Nutzer) | - | Ziel ausblenden |
+| 271613 | 1458 | kein Ort im Datenpaket -> 46.0,62.3 | - | fehlt im Datenpaket |
 | 4721 | 1456 | 55.0,51.4 -> 55.1,51.3 | 0.1 % | klein |
 | 5769 | 1456 | 78.6,28.6 -> 78.4,28.5 | 0.2 % | klein |
 | 5770 | 1456 | 75.7,31.6 -> 75.6,31.2 | 0.4 % | klein |

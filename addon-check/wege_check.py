@@ -127,6 +127,10 @@ def analyse(exports):
             d = dist(o[0], w[0])
             npc_rows.append((n.get("id"), n.get("map"), f"{o[0][0]:.1f},{o[0][1]:.1f} -> {w[0][0]:.1f},{w[0][1]:.1f}",
                              f"{d:.1f} %", "deutlich falsch" if d > NPC_FAR else "klein"))
+        elif w and (n.get("nopack") or not o):
+            # kein Ort im Datenpaket (z. B. neue Forever-NPCs): gemessener Ort ist neu, kein "nicht da"
+            npc_rows.append((n.get("id"), n.get("map"), f"kein Ort im Datenpaket -> {w[0][0]:.1f},{w[0][1]:.1f}",
+                             "-", "fehlt im Datenpaket"))
         else:
             npc_rows.append((n.get("id"), n.get("map"), "nicht da (Nutzer)", "-", "Ziel ausblenden"))
     return report, npc_rows
