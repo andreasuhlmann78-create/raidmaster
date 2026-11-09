@@ -36,7 +36,7 @@ ERGÄNZUNG (5. Nov. 17:45, mit dem Nutzer besprochen)
 10. Echte NPC-Positionen merken: beim Anvisieren/Ansprechen eines Quest-NPCs Position speichern und das Ziel
     damit korrigieren (falsche Datenpaket-Koordinaten).
 11. Flugpunkte einbeziehen: bei langen Strecken prüfen, ob Fliegen schneller ist (bekannte Flugpunkte).
-12. Später (Idee, nicht jetzt): Begehbarkeitsraster offline aus Höhendaten vorberechnen – nur nach Klärung, ob
+12. GESTRICHEN (Rechtsprüfung 9. Nov., siehe unten). Nicht umsetzen. Bisherige Idee: Begehbarkeitsraster offline aus Höhendaten vorberechnen – nur nach Klärung, ob
     das unter die Blizzard-Nutzungsbedingungen fällt.
 13. AUSGABE ZUM EINSENDEN (Wunsch des Nutzers, 5. Nov. 17:50): Befehl z. B. /lp wege – öffnet ein Fenster mit
     markierbarem Text (wie das Protokoll), damit der Nutzer ihn der Prüf-Sitzung schicken kann. Inhalt kompakt:
@@ -68,3 +68,37 @@ FORMAT GSWEGE1 (abgestimmt mit der LevelPilot-Sitzung, 5. Nov. 18:51 – von der
        anvisierbar oder kürzlich angesprochen war, sonst nachfragen), Eintrag in npc[] (old -> new).
     c) "Weg hierhin ist unpassierbar": das aktuelle Wegstück sperren (blocked[] mit why = "Nutzer"), neu planen.
     Alles rückgängig machbar (Liste in den Einstellungen bzw. /lp korrekturen). Locales EN/DE, Testfälle je Eintrag.
+
+RECHTSFRAGE (Stand 9. Nov.)
+===========================
+Frage: Darf LevelPilot ein offline aus ADT/WMO-Höhendaten berechnetes Begehbarkeitsraster (nur ja/nein pro Feld)
+mitliefern?
+Ergebnis: UNKLAR, mit deutlichem Risiko -> Punkt 12 GESTRICHEN.
+
+Begründung:
+- Blizzard-EULA (Fassung vom 21. März 2024), Abschnitt 1.C.01 verbietet, "create derivative works based on or
+  related to the Platform", und ebenso "reverse engineer, derive source code from, modify, disassemble, decompile".
+  Ein aus den Geländedaten der Spieldateien berechnetes Raster ist sehr wahrscheinlich eine solche Ableitung.
+- EULA 1.C.06 (Data Mining): verboten ist "unauthorized process or software that intercepts, collects, reads".
+  Das Auslesen der ADT/WMO-Dateien mit eigenen Werkzeugen ist nicht ausdrücklich erlaubt.
+- EULA 1.C.02.ii (Bots): verboten sind Programme, die "the automated control of a Game" ermöglichen. LevelPilot
+  steuert nicht, aber ein Begehbarkeitsnetz aus ADT-Daten ist genau die Technik, mit der Bots navigieren
+  (Navmesh aus .adt). Risiko, dass das Raster als Bot-Hilfe gilt und weiterverwendet wird.
+- UI Add-On Development Policy, Regel 7: "All add-ons must follow the World of Warcraft Terms of Use."
+  Blizzard kann Funktionen jederzeit sperren ("reserves the right to disable any add-on functionality").
+- CurseForge-Moderationsregeln (Stand 22. Okt. 2026): "CurseForge follows game developers EULA and ToS";
+  Inhalte nur mit Lizenz oder "explicit permission". Ein Verstoss kann zur Entfernung bzw. Sperre führen.
+- Präzedenzfälle: Addons mit Koordinatenlisten (Questie, TomTom, HandyNotes) sind verbreitet; eine
+  ausdrückliche Erlaubnis von Blizzard dafür wurde in dieser Prüfung NICHT gefunden (Seiten nicht lesbar).
+  Koordinaten einzelner Punkte sind zudem etwas anderes als ein flächendeckendes Geländemodell.
+  Für Raster/Navmesh aus Spieldateien gibt es nur Belege aus der Bot-Szene, keinen zulässigen Addon-Präzedenzfall.
+- Keine Rechtsberatung: Wer es doch will, bräuchte eine schriftliche Erlaubnis von Blizzard (WoWUI@blizzard.com).
+
+Sichere Alternative (bleibt): das schon gebaute Netz aus selbst gelaufenen und geteilten Wegen (Punkte 3, 7, 8,
+9, 13, 14) plus Korrekturen durch die Prüf-Sitzung. Keine Spieldateien auslesen, nichts daraus ableiten.
+
+Quellen:
+- Blizzard EULA: https://www.blizzard.com/en-us/legal/fba4d00f-c7e4-4883-b8b9-1b4500a402ea/blizzard-end-user-license-agreement
+- UI Add-On Development Policy: https://us.forums.blizzard.com/en/wow/t/ui-add-on-development-policy/24534
+- CurseForge Moderation Policies: https://support.curseforge.com/support/solutions/articles/9000197279-moderation-policies
+- Navmesh aus ADT in der Bot-Szene (nur Titel geprüft): https://www.ownedcore.com/forums/world-of-warcraft/world-of-warcraft-bots-programs/wow-memory-editing/276410-building-navmesh-out-of-adts.html
