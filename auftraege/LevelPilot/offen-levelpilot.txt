@@ -1,156 +1,85 @@
-OFFENE PUNKTE LEVELPILOT (nach der Nachprüfung von 3.12.6)
-=========================================================
-Stand: 4. November 2026, 08:17 · von der Prüf-Sitzung · Grundlage: announce/levelpilot__levelpilot-3.12.6.LevelPilot.zip
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 3.12.5.
+OFFENE PUNKTE LEVELPILOT (nach der Nachprüfung von 3.12.14)
+==========================================================
+Stand: 9. November 2026, 05:50 · von der Prüf-Sitzung · Grundlage: announce/levelpilot__levelpilot-3.12.14.LevelPilot.zip
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 3.12.6 mit allen
+Nachträgen bis 9. Nov. 05:30.
 
-Erledigt in 3.12.6 (danke):
-- Punkt 1 (Platzhalter): alle 213 Testfälle haben jetzt einen Test, einen Client-Fall oder einen begründeten Skip
-  (TestRoutine.lua: 199 IMPL, 5 SKIP mit Grund, T84/T180/T183 nur mit /lp testroutine reise). Zählung
-  "nicht automatisiert" im Bericht (TestRoutine.lua:3458-3461).
-- Punkt 2: CLIENT.T171, CLIENT.T195 und neu CLIENT.T213 für die Berufszauber (TestRoutine.lua:1859, 1916, 1917).
-- Punkt 3: Hints.lua:37-50 fragt bei false auch IsSpellKnown und IsPlayerSpell, true gewinnt.
-- Punkt 4a/4b: Calib.lua:285-407 und 409-433 – Kill bei der EP-Meldung (OnXPKill), Stück erst bei der eigenen
-  Beutemeldung (CHAT_MSG_LOOT, nur eigene Meldung, höchstens so viel wie im Beutefenster), jede Leiche nur einmal.
-  T196 und T212 prüfen das.
-- Punkt 5a: Virtual.lua:186-190 und 671-674, Backup.lua:382/386/396, Protocol.lua:511-530 melden über LP.Try bzw.
-  LP.Report (Core.lua:316-322) an GoldSentinelTest. 5b: "Wird auch automatisch gemeldet." in allen Locales
-  (esMX erbt von esES).
-- Punkt 6 teilweise: Belohnungs-Hinweis prüft nach einer Sekunde nochmals, wenn die Gegenstandsinfo fehlt (Supply.lua:176-188).
-- Neu: LP:PlayerXP (Core.lua:410) – EP-Anzeige, Zeit bis 60, Gruppe und Erholt rechnen nie mit geschützten EP;
-  beschädigte gespeicherte Einträge werden beim Laden übersprungen (Core.lua:439-484); Modul-Startfehler in der Diagnose;
-  Planungszeit der Reise ohne Pausen.
+Erledigt in 3.12.7 bis 3.12.14 (danke):
+- 3.12.14: UnitIsAFK geschützt -> kein Lua-Fehler mehr (Session.lua:30 über LP.SafeValue, sonst Leerlauf-Zähler).
+  Ebenso UnitOnTaxi, UnitIsDeadOrGhost, UnitIsDead, UnitIsGhost, UnitAffectingCombat, UnitInVehicle, UnitExists,
+  UnitIsPlayer, UnitPlayerControlled, UnitInParty, UnitPowerType, UnitPosition (Geo.lua:114-116), GetXPExhaustion
+  (Session.lua:178, Virtual.lua:736-740) und EP über LP:PlayerXP (Core.lua:414). Testfall T223 mit Köderwert.
+- 3.12.7: 588× "secret number value" in Protocol.lua weg; nahe Abgaben zuerst; keine Linie übers Gebirge (T214-T216).
+- 3.12.8: Hauptstädte gehören zur Zone, Fokus folgt dem Spieler, Fokus-Wächter plant selbst neu, Vorrang-Ziele nie vor
+  nahen Abgaben, nach "FEST" nur Pfeil (T217).
+- 3.12.9-3.12.12 (anweisung-wegpunkte-strassen.txt Punkte 2, 3, 7-11, 13, 14): Wegnetz statt Luftlinie, "Weg
+  unbekannt" ohne Linie, FEST nur bei reiner Laufzeit, gesperrte Kanten, echte Orte der Questgeber, /lp wege und
+  GSWEGE1 (T218-T221).
+- 3.12.13: erst die offenen Quests der Zone, dann Zonenwechsel (T222).
+- anweisung-levelpilot-graue-items.txt: Verkaufen-Knopf am Händler weg, graue Items automatisch beim Händler
+  (Comfort.lua:59-91, Option autoSellGrey ab Werk an, Center.lua:500), Verkauf über LP.Act.Call, Chatzeile in allen
+  Sprachen. Die Datei ist entfernt; der Rest steht unten als Punkt 4.
 Prüfungen: Addon-Prüfung OK ohne Warnung (Ladetest, Sprachtest), GoldSentinelGame.lua und GoldSentinelTest.lua
-byte-gleich mit shared/, neue Texte in allen Locale-Dateien mit gleichen Platzhaltern, CHANGELOG EN/DE, .toc 3.12.6,
-Datenpaket 1.6.0 unverändert. Offline nachgerechnet: die Muster für die eigene Beutemeldung (DE/EN, mit und ohne xN)
-erkennen eigene Beute und nicht die von anderen; LP.Try gibt auch nil-Werte vollständig zurück.
+byte-gleich mit shared/, CHANGELOG EN/DE, .toc 3.12.14. Im Diff 3.12.13 -> 3.12.14 keine neuen Fehler gefunden.
+Testberichte: seit dem 9. Nov. 05:30 keine neuen.
 
-Bitte mit der nächsten Version (3.12.7). Kein Punkt blockiert den Launch-Abend. Wie immer: komplette Dateien,
-alte Clients nie brechen, alle Locale-Dateien, CHANGELOG EN/DE, vor dem Push
-python3 addon-check/addon_check.py announce/levelpilot__levelpilot-3.12.7.LevelPilot.zip -> kein FEHLER.
+Bitte mit der nächsten Version (3.12.15). Wie immer: komplette Dateien, alte Clients nie brechen, alle Locale-Dateien,
+CHANGELOG EN/DE, vor dem Push python3 addon-check/addon_check.py announce/levelpilot__levelpilot-3.12.15.LevelPilot.zip
+-> kein FEHLER.
 
-1. TESTFÄLLE MELDEN "OK", OBWOHL IN DIESER LAGE NICHTS GEPRÜFT WURDE (Schwere: NIEDRIG)
-   Einige Fälle geben true zurück, wenn die Lage den Test nicht erlaubt. Sie zählen dann als bestanden:
-   - TestRoutine.lua:2133 und 2135 (T26: kein Schritt bzw. Schritt nicht überspringbar)
-   - TestRoutine.lua:2364 (T45: keine Eskortenquest im Bereich)
-   - TestRoutine.lua:608 (T50: kein Ziel)
-   - TestRoutine.lua:3304 (T152/T197: kein Weg, Drosselung nicht messbar)
-   - TestRoutine.lua:3395 (T164: Reise läuft)
-   - TestRoutine.lua:540, 1545, 1563 (T39, T74, T94: Level 60)
-   - TestRoutine.lua:388, 756, 1007, 2344, 2482, 3113 (T04, T86, T170, T45, T52, T130: kein Datenpaket)
-   Lösung: in diesen Fällen T:Skip(id, bereich, name, "<Grund> – in dieser Lage nicht prüfbar") statt OK, oder die Lage
-   in der Sandbox selbst herstellen (z. B. einen Testschritt bzw. ein Testziel setzen wie bei T196/T212). Dann stimmt die
-   Zählung im Bericht.
+1. EIGENE TOOLTIPS VERDECKEN KNÖPFE (Schwere: MITTEL, Screenshot Thunder Bluff 5. Nov.)
+   Noch unverändert: UI.lua:83 ANCHOR_TOP, UI.lua:299 ANCHOR_LEFT, UI.lua:380 ANCHOR_BOTTOM, UI.lua:584 ANCHOR_TOPLEFT,
+   UI.lua:848 ANCHOR_LEFT, Navigation.lua:381 ANCHOR_BOTTOM. Der Tooltip liegt über den Knöpfen (Unterstützen,
+   Zentrale, Normal, Überspringen …).
+   Lösung: ANCHOR_NONE und SetPoint ausserhalb des Hauptfensters (daneben bzw. darunter, am Bildschirmrand ausweichen),
+   nie über den eigenen Knöpfen. Die Testroutine soll das selbst finden (Punkt 2, Fall 1).
 
-2. IM CLIENT PRÜFEN (Launch-Abend, im Testplan des Nutzers)
-   - Client-Fälle T171, T195 und T213: die /dump-Ergebnisse dem Nutzer zurückmelden.
-   - Drop-Messung: Der Kill bei der EP-Meldung braucht eine lesbare GUID des toten Ziels (Calib.lua:Ca:OnXPKill). Ist
-     UnitGUID("target") im Kampf geschützt, zählt die Leiche ohne Beute weiter nicht (T196 Schritt 4 zeigt das so).
-     Im Kampf einen Gegner töten, gleich danach /dump UnitGUID("target") – lesbar oder geschützt? Ergebnis zurückmelden.
-   - /dump GetLootSourceInfo(1) bei offenem Beutefenster (Rest von 4c aus 3.12.5).
-   - Belohnungs-Hinweis bei QUEST_COMPLETE mit einem Gegenstand, der noch nicht im Cache ist (Supply.lua:176-188):
-     kommt der Hinweis nach einer Sekunde?
-   - Hinweis Nachkaufen beim echten Händler, also über MERCHANT_SHOW -> Restock(). T208 prüft weiterhin nur
-     CheckRestockHint direkt.
-   - Nach dem Update auf 3.12.6 einmal einloggen: Diagnose und Datenzahlen (Quests, Wege, Dropraten) unverändert?
-     (neues Aufräumen beschädigter Einträge, Core.lua:439-484)
-   - /lp testroutine reise (T84, T180, T183) einmal ganz laufen lassen.
+2. TESTROUTINE PRÜFT DIE OBERFLÄCHE IM ECHTEN CLIENT (Schwere: MITTEL, anweisung-testroutine-oberflaeche.txt)
+   Noch nicht umgesetzt. Am einfachsten shared/vorlage/__ADDON__/UICheck.lua übernehmen (Fälle 1-6), eigene Fenster
+   anmelden und eigene Plausibel-Prüfungen ergänzen, z. B. Kopfzeile "Questlog N/40 (M fertig)" = Anzahl der Einträge
+   "Abgeben" in der Liste. Offline begründet überspringen, nie als OK zählen.
 
-BEFUND AUS DEM SPIEL (5. Nov. 01:17, Forever 1.60.1 Build 70790, Mulgore, Taure Stufe 5, Screenshot beim Nutzer)
-   (Schwere: HOCH für Spieler – führt in die Irre)
-   Spieler steht bei Red Cloud Mesa (54.1, 83.9). Questlog: [4] Die Kampfeber, [4] Ritus der Kraft, [5] Tötet
-   Spitzhauer! – alle "Bereit zur Abgabe" (Camp Narache, ganz in der Nähe); [5] Eine unvollendete Aufgabe – Bündel
-   Felle zu Gastwirt Kauth in Bloodhoof. Die LevelPilot-Route führt aber vom Spieler nach Norden quer über die
-   Berge (Bogen über ca. 50,35) nach Osten zu einem blauen "?" bei ca. 62,58 (Richtung Brachland).
-   Probleme: a) die drei abgabebereiten Quests in der Nähe werden übergangen (Reihenfolge: zuerst nahe Abgaben);
-   b) der Weg führt über unpassierbares Gebirge statt über die Strasse; c) das Ziel bei ca. 62,58 passt weder zu
-   Camp Narache noch zu Bloodhoof – möglicherweise stimmen in WoW Forever Koordinaten/NPC-Standorte nicht mit den
-   Classic-Daten (QuestieDB) überein.
-   Lösung: Ursache im Planer (Navigation.lua / Datenpaket) finden: Abgaben in Reichweite zuerst, Wege über bekannte
-   Pfade bzw. Flugrouten statt Luftlinie über Gebirge, Forever-Standorte prüfen (Kauth in Bloodhoof, Camp Narache).
-   Darf trotz Pause als Ausnahme behoben werden, wenn der Nutzer es so entscheidet.
+3. TESTFÄLLE MELDEN "OK", OBWOHL NICHTS GEPRÜFT WURDE (Schwere: NIEDRIG)
+   Noch unverändert (TestRoutine.lua): 2146 und 2148 (T26), 2357 (T45), 621 (T50), 3317 (T152), 3408 (T164),
+   553, 1558, 1576 (T39, T74, T94: Level 60), 401, 769, 1020, 2495, 3126 (T04, T86, T170, T52, T130: kein Datenpaket).
+   Lösung: T:Skip(id, bereich, name, "<Grund> – in dieser Lage nicht prüfbar") statt OK, oder die Lage in der Sandbox
+   selbst herstellen (wie bei T196/T212).
 
-ZWEITER FALL (5. Nov. 03:20, Mulgore, Stufe ~7): Spieler bei 39.3, 46.2 (westlich von Bloodhoof). Questlog:
-   [6] Sturzfliegerjagd und [7] Thunderhorn-Totem "Bereit zur Abgabe" (Abgabe in Bloodhoof, südöstlich), [7] Ritus
-   der Sicht (Wasser der Seher am Stammesfeuer in Bloodhoof), [11] Vertreibt sie. Die Route führt aber nach
-   NORDWESTEN ins Gebirge (Schleife bei ca. 30,30–35) statt nach Bloodhoof. Gleiches Muster wie Fall 1: nahe
-   Abgaben werden übergangen, Weg/Ziel liegen im unpassierbaren Gelände.
+4. GRAUE ITEMS – REST AUS DER ANWEISUNG (Schwere: NIEDRIG)
+   a) Testfälle fehlen (in TestRoutine.lua kein Fall für SellGrey): Option an/aus, nur Qualität 0, Abbruch, wenn das
+      Händlerfenster zugeht, im Test nur mitgeschrieben (LP.Act.Call "Sell").
+   b) Gesperrte Gegenstände überspringen (Comfort.lua:65: isLocked aus C_Container.GetContainerItemInfo bzw. dem
+      alten Rückgabewert prüfen).
+   c) /lp-Befehl zum Umschalten fehlt (Core.lua:618 ff.), z. B. /lp grau bzw. /lp grey; Text in allen Locales.
 
-TESTROUTINE IM SPIEL (5. Nov. 01:21, Forever 1.60.1 Build 70790, deDE, Datenpaket 1.6.0)
-   OK 198 · FEHLER 1 · übersprungen 8 · im Client prüfen 6 · nicht automatisiert 0 · Sandbox OK · echte Aktionen 0.
-   T128 (Schwere: NIEDRIG): alte Fassung mit Beispieldaten – ist "ergänzt true, gemessen true", soll "ergänzt, false,
-   kein Fehler". Die Migration markiert Beispieldaten als gemessen. Prüfen und Fall anpassen.
-   Fehlerzähler während der Routine 5 (vorher 0, eindeutig 0): prüfen, ob die Routine absichtliche Testfehler mitzählt.
-   Die Routine erkennt den Routenfehler aus Mulgore (siehe Befund oben) NICHT – dafür einen Fall ergänzen
-   (Abgaben in der Nähe zuerst, kein Weg über Gebirge).
+5. T128 ALTE FASSUNG (Schwere: NIEDRIG, Testroutine im Spiel 5. Nov.)
+   Unverändert seit 3.12.6 (TestRoutine.lua:3077). Ist "ergänzt true, gemessen true", soll "ergänzt, false, kein
+   Fehler". Die Migration markiert Beispieldaten als gemessen. Prüfen, ob die Migration oder der Fall falsch ist, und
+   anpassen. Dazu: Fehlerzähler stieg während der Routine um 5 – prüfen, ob absichtliche Testfehler mitgezählt werden.
+
+6. RESTLICHE ABFRAGEN OHNE SCHUTZ VOR GESCHÜTZTEN WERTEN (Schwere: NIEDRIG, Vorsorge zu 3.12.14)
+   Noch roh benutzt: GetPlayerFacing (Navigation.lua:406-407 "if facing", 475, 497), IsIndoors (Caves.lua:99, 187,
+   Navigation.lua:469, 493, Pins.lua:186), IsResting (Session.lua:196, Caves.lua:186), GetUnitSpeed (Measure.lua:87),
+   UnitLevel("player") in Vergleichen (Core.lua:410, Session.lua:201, 310, Group.lua:44, 118, Protocol.lua:283),
+   UnitLevel("pet") (Supply.lua:74). Ob Forever diese Werte schützt, ist offen (siehe IM CLIENT PRÜFEN).
+   Lösung: wie in 3.12.14 über LP.SafeValue lesen und bei nil auf den bisherigen Rückfall gehen. T223 um diese Fälle
+   erweitern.
+
+7. IM CLIENT PRÜFEN (Ergebnisse dem Nutzer melden)
+   - 3.12.14: Fehlerprotokoll nach einer Spielsitzung mit Kampf und AFK – kein "secret boolean" mehr (vorher 798×
+     Session.lua:29). Die automatischen Testberichte zeigen das; die Prüf-Sitzung kontrolliert sie.
+   - Route Mulgore/Thunder Bluff (Befunde 5. Nov. 01:17, 03:20, 17:33, 19:03): nahe Abgaben zuerst, keine Linie übers
+     Gebirge, Fokus in der Karte des Spielers, Klassentrainer in Thunder Bluff über den Aufzug, erst Mulgore fertig,
+     dann Brachland. Kopfzeile "(N fertig)" und "Abgeben" oben in der Liste.
+   - Graue Items: Händler öffnen -> graue Gegenstände weg, eine Chatzeile, Rückkauf-Reiter frei sichtbar.
+   - /dump GetPlayerFacing(), IsIndoors(), IsResting() im Kampf und in einer Instanz: Zahl/Wahrheitswert, nil oder
+     geschützt? (für Punkt 6)
+   - Aus 3.12.6: Client-Fälle T171, T195, T213; /dump UnitGUID("target") direkt nach einem Kill im Kampf;
+     /dump GetLootSourceInfo(1) bei offenem Beutefenster; Belohnungs-Hinweis bei QUEST_COMPLETE mit Gegenstand
+     nicht im Cache; Nachkaufen beim echten Händler (MERCHANT_SHOW -> Restock); /lp testroutine reise (T84, T180, T183).
+
+Weiter gültig: anweisung-wegpunkte-strassen.txt (Punkt 1/6 eigene Koordinatenlisten für Mulgore, Brachland,
+Thunder Bluff, sobald genug aufgezeichnet ist; Punkt 12 erst nach der Rechtsprüfung; Punkt 15 erst auf Kommando des
+Nutzers) und anweisung-testroutine-oberflaeche.txt (Punkt 2 oben).
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
-
-NACHTRAG (5. Nov. 13:05, aus den automatisch eingegangenen Testberichten) – Schwere HOCH, gehört zur Ausnahme Route
-   588× Lua-Fehler im Spiel (3.12.6, Forever 16001, zuletzt 05.11. 02:22 UTC), Quelle "Protokoll CheckNav":
-   Interface/AddOns/LevelPilot/Protocol.lua:235: attempt to compare a secret number value (execution tainted by
-   'LevelPilot'). Ein geschützter ("secret") Zahlenwert wird verglichen – vermutlich Position/Richtung/Distanz aus
-   einer Blizzard-Funktion, die in Forever geheime Werte liefert. Lösung: vor jedem Vergleich mit issecretvalue()
-   (falls vorhanden) bzw. in pcall prüfen und bei geheimem Wert die Prüfung überspringen; die Fehlerschleife
-   (588×) muss weg. Mit 3.12.7 zusammen beheben; Testfall: geheimer Wert -> kein Fehler, CheckNav überspringt.
-
-NACHTRAG (5. Nov. 13:27, Screenshot Thunder Bluff, 3.12.6) – bitte mit 3.12.7 mitnehmen
-   a) (MITTEL) Der eigene Tooltip von LevelPilot verdeckt die Knöpfe im Fenster (Unterstützen, Zentrale, Normal,
-      Überspringen …). Tooltip so verankern, dass er neben bzw. unter dem Fenster erscheint (ANCHOR_NONE + SetPoint
-      ausserhalb des Fensters, am Bildschirmrand ausweichen), nie über den Knöpfen.
-   b) (zur Route) Kopfzeile "Questlog 8/40 (2 fertig)", aber in der Liste steht kein "Abgeben" – zuerst kommen
-      Annehmen/Erledigen. Abgabebereite Quests müssen oben stehen (gleiche Ursache wie die falsche Route?).
-
-NACHTRAG (5. Nov. 17:33, LevelPilot-Protokoll 3.12.7 vom Nutzer, L11 Tauren, Forever) – HOCH
-   Gut: "Letzter Fehler: keiner" – die 588× secret-number-Schleife ist weg.
-   a) FOKUS-SCHLEIFE (HOCH, Hauptursache der falschen Routen): Thunder Bluff (UiMap 1456) und Mulgore (1412) werden
-      als getrennte Zonen geplant, und der Fokus liegt immer in der falschen:
-      "Planung in Mulgore, obwohl 3 Aufgabe(n) in Thunder Bluff warten" (×127, ×23, ×19 – Spieler in TB) und
-      "Planung in Thunder Bluff, obwohl 6 Aufgabe(n) in Mulgore warten" (×93, ×22, ×20 – Spieler in Mulgore).
-      Auch mit 3.12.7 noch (17:33, ×23). Diagnose: "Position: Thunder Bluff (1456) … Fokus: Mulgore".
-      Lösung: Unterkarten (Städte wie Thunder Bluff, Höhlen) mit der Elternzone zusammen planen
-      (C_Map.GetMapInfo(id).parentMapID; Koordinaten über C_Map.GetWorldPosFromMapPos bzw. die Zonenkarte umrechnen),
-      alle Aufgaben beider Karten nach echtem Weg sortieren; der Fokus folgt der Karte des Spielers, nie umgekehrt.
-      Der Fokus-Wächter darf nicht 127× melden, sondern muss den Fokus selbst korrigieren.
-   b) FEST (MITTEL): PRIO-Ziele weit weg und nicht erreichbar: "PRIO:Gahroot1413 noch 1309 Yards" (L5 Red Cloud Mesa),
-      "PRIO:PROF3273 noch 685 Yards", "PRIO:TRAIN:8 noch 675 Yards" (Klassentrainer in TB, Aufzug!), je "Weg: graph".
-      Nach "FEST" Ziel überspringen oder nur Richtungspfeil, PRIO-Ziele nicht vor nahe Abgaben stellen.
-   c) Schritte 25 min aktiv (Flugpunkt Tal 59 Yards, Abgabe Eyahn Eagletalon 105 Yards in TB) – das sind die
-      Thunder-Bluff-Fälle aus a): Ziel in TB, Planung in Mulgore.
-   Testfall: Spieler in Thunder Bluff mit 3 Aufgaben in TB und 6 in Mulgore -> nächste Aufgabe nach Weg, kein FOKUS-
-   Eintrag; Klassentrainer in TB über den Aufzug.
-
-NACHTRAG ZU a) (5. Nov. 17:50, geprüft mit den Forever-Tabellen UiMap/UiMapAssignment/AreaTable, Build 1.60.1.70753
-   von wago.tools): In Forever haben die Städte KEINE Elternzone – ParentUiMapID ist der Kontinent (1414/1415), und
-   ihr Gebiet hat ParentAreaID 0. parentMapID hilft darum NICHT. Betroffen (eigene Karte, liegt in einer Zone):
-   - Thunder Bluff 1456 in Mulgore 1412
-   - Orgrimmar 1454 an Durotar 1411
-   - Undercity 1458 unter Tirisfal Glades 1420
-   - Stormwind City 1453 in Elwynn Forest 1429
-   - Ironforge 1455 in Dun Morogh 1426
-   - Darnassus 1457 in Teldrassil 1438
-   Neue Forever-Karten, im Spiel zu prüfen, wie sie angebunden sind: Mount Hyjal 2482, Shen'dralas 2652,
-   Riverglades 2548, Zephras Isle 2521/2665, Darkspear Islands 2524 (Typ 6).
-   Lösung allgemein statt Liste: alle Aufgaben auf demselben Kontinent über Weltkoordinaten vergleichen
-   (C_Map.GetWorldPosFromMapPos(uiMapID, pos) -> Kontinent + x/y) und nach Weg planen; die Zonengrenze ist für die
-   Reihenfolge egal. Eine kleine Tabelle Stadt -> Zone nur für die Anzeige ("in Mulgore") und für Übergänge
-   (Aufzug Thunder Bluff, Tor Orgrimmar, Undercity-Aufzug, Ironforge-Tor, Stormwind-Tor, Darnassus-Portal).
-
-NACHTRAG (5. Nov. 19:03, Screenshot Questlog, L11 in Mulgore 38.3/37.6) – HOCH, gehört zu 3.12.8
-   LevelPilot schickt ins Brachland, obwohl in Mulgore noch Quests offen sind: "Vertreibt sie" [11] (0/6, 0/4, 0/1),
-   "Riten der Erdenmutter" [14] (0/1), "Säuberung von Thunderhorn" [8]. Fertig im Brachland: "Die Oasen des
-   Brachlandes", "Sergra Darkthorn" (beide Crossroads), Klassenquest "Veteran Uzzek".
-   Regel: Zonenwechsel kosten viel Zeit. Erst die offenen, erreichbaren Quests der aktuellen Zone (inkl. Stadt, siehe
-   Fokus-Nachtrag) erledigen, DANN gesammelt in die nächste Zone zu den Abgaben. Ausnahme nur, wenn die offenen
-   Quests der Zone für die Stufe zu schwer sind (rot/orange über Grenze) oder blockiert. Abgaben in einer anderen
-   Zone sind kein Grund, die aktuelle Zone zu verlassen. Testfall: 3 offene Quests in Mulgore + 3 Abgaben im
-   Brachland -> erst Mulgore, dann Brachland.
-
-BEFUND AUS DEN TESTBERICHTEN (9. Nov. 05:30, Prüf-Sitzung) – HOCH, sofort
-   798× Lua-Fehler im Spiel mit 3.12.13 (zuletzt 08.11. 20:41 UTC): Session.lua:29 "attempt to perform boolean test on
-   a secret boolean value (execution tainted by 'LevelPilot')". Zeile: if UnitIsAFK and UnitIsAFK("player") then …
-   UnitIsAFK liefert in Forever (zeitweise, z. B. im Kampf) einen geschützten Wahrheitswert.
-   Lösung: local afk = UnitIsAFK and UnitIsAFK("player"); if LP.Game.IsSecret(afk) then afk = nil end – bei geheimem
-   Wert nur den eigenen Leerlauf-Zähler (IDLE) nutzen. Alle übrigen Aufrufe von Unit*-Funktionen mit Wahrheits-
-   oder Zahlenwert ebenso prüfen (grep UnitIs, UnitAffecting, UnitHealth …). Testfall mit Köderwert (geheimer
-   Wahrheitswert) -> kein Fehler, IsAFK fällt auf den Leerlauf zurück. Der alte Fehler Protocol.lua:235 (847×) stammt
-   nur von 3.12.6 und ist seit 3.12.7 weg.

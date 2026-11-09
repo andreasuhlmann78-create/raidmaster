@@ -1,45 +1,43 @@
-OFFENE PUNKTE GUILDSENTINEL (nach der Kurzprüfung von 0.9.13)
+OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.14)
 =============================================================
-Stand: 4. November 2026, 06:40 · von der Prüf-Sitzung · Grundlage: download/GuildSentinel-0.9.13.zip und Repo 5fa989e
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.10.
+Stand: 9. November 2026, 05:50 · von der Prüf-Sitzung · Grundlage: download/GuildSentinel-0.9.14.zip und Repo 1e53a6a
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.13.
 
-Erledigt in 0.9.11 bis 0.9.13 (danke):
-- Punkt 1: echte Sendungen sind in der Routine ein FEHLER (T82, TestRoutine.lua:2014)
-- Punkt 2: T31 Export, T45 Termin ansagen, T154 Vor- und Nachnamen, T174 Aktionen nur über ns.Act, ns.API mit den
-  früher übersprungenen Fällen
-- Punkt 3 und 5: Twink-Kennzeichnung mit Vor- und Nachnamen (koKR/zhCN/zhTW), Main-Wechsel entfernt alte Kennzeichnung ganz
-- Punkt 4: ein kaputter Termin verwirft nicht mehr das ganze Paket
-- anweisung-guildsentinel-gildenbank.txt: Bank-Charakter, Bestand im Format von RaidMaster, Uploader/Bot liefern nach
-  #gildenbank (Bot 1.5.96, Uploader 1.7.0)
-- 0.9.13: Sprache in den Einstellungen wählbar, Standard = Sprache des Spiel-Clients
-Prüfungen: Addon-Prüfung OK (Ladetest, Sprachtest ohne Warnung), Offline-Routine Forever und Era je 16 bestanden / 0 Fehler,
-Sprachtest-Skript enUS/enGB/deDE/frFR bestanden, alle 1114 Texte mit Englisch, Platzhalter in allen 10 Sprachen gleich.
+Erledigt in 0.9.14 (danke):
+- T143 Ruckler bei 500 Mitgliedern: Zwischenspeicher je Seitenaufbau (Roster.lua:93 R:Memo, MainOf/AltsOf einmal je
+  Name, R:Forget bei jeder Änderung), Übersicht in einem Durchgang (PagesHome.lua:68-83), UI:Select und RefreshHeader
+  laufen über R:Memo (UI.lua:983, 1012). Offline (test/perf_pages.lua) langsamste Seite 5,0 ms. T143 nennt die
+  langsamste Seite.
+- T118 Chronik: Typprüfung (Chronicle.lua:131-132), Prof:All überspringt kaputte Einträge und gibt immer eine Kopie
+  zurück (Professions.lua:31-45).
+- T45 Termin ansagen: Comm.lua:343 nutzt ns.InGuild (im Testmodus nur "[Test]", gesendet wird nichts).
+- T154: Fall unabhängig von den Einstellungen des Spielers (Funktion "Danke", schon gedankt), bei FEHLER steht die
+  Ausgabe von GuildSentinel im Ergebnis (TestRoutine.lua:1827 ff.).
+- Berufe-Knopf in Forever: kein Aufruf von C_TradeSkillUI.OpenTradeSkill aus einem Timer mehr, nur ein Hinweis
+  (Pages.lua:1503-1510, neuer Text in allen 10 Sprachen); OpenModern prüft InCombatLockdown und läuft über ns.Act.
+- anweisung-testroutine-oberflaeche.txt: Bereich K (TestRoutine.lua:2135 R:AreaK) mit T182 Tooltips, T183 Überlappen,
+  T184 im Bildschirm, T185 Texte passen, T186 Spielwerte plausibel, T187 keine Fehlerschleifen. Offline werden T182-T185
+  begründet übersprungen, nie als OK gezählt. Die Anweisung ist damit für GuildSentinel erledigt und entfernt.
+Prüfungen: Addon-Prüfung OK ohne Warnung (Ladetest, Sprachtest), GoldSentinelGame.lua und GoldSentinelTest.lua
+byte-gleich mit shared/, CHANGELOG EN/DE, .toc 0.9.14. Offline-Routine Forever (16001) und Era (11508) je 16 bestanden /
+0 Fehler (Routine: OK 159 bzw. 164 · FEHLER 0), test/run.lua 73/73, run_uicheck 13/13, run_v914 7/7, run_lang 7/7,
+run_noguild 19/19, run_nilglobals 24/24. Im Diff 0.9.13 -> 0.9.14 keine neuen Fehler gefunden.
 
-Offen ist nur noch, was im Spiel geprüft werden muss. Neue Wünsche des Nutzers kommen als eigene anweisung-*.txt.
+Offen ist nur noch, was im Spiel geprüft werden muss.
 
-1. IM CLIENT PRÜFEN (Launch-Abend, im Testplan des Nutzers)
-   - issecretvalue nach dem Kampf, voller Absender bei CHAT_MSG_ADDON, Build-Nummer (T168, /gs testroutine whisperq)
-   - Bank-Charakter: Option anhaken, Bank und Briefkasten öffnen, /reload -> Bestand erscheint in #gildenbank unter den
-     Regeln (mit Uploader 1.7.0); in Forever auch Gildenbank-Fächer, falls es sie gibt
-   - Sprachwahl: Standard folgt dem Client; eine andere Wahl gilt nach dem Neuladen, "wie der Spiel-Client" stellt zurück
+1. IM CLIENT PRÜFEN (/gs testroutine im echten Client, Ergebnis dem Nutzer melden)
+   - T154: kommt jetzt "Rokan Steinwacht ×3"? Falls nicht, zeigt das Ergebnis die Ausgabe – Ursache des verstümmelten
+     Doppelnamens ("ilokan Steinwacht") dann im echten Client suchen. Der Fall ist offline nicht nachzubauen.
+   - T143: langsamste Seite mit echten Gildendaten < 16 ms?
+   - T45: "[Test], 0" statt "[Test] false".
+   - Bereich K (T182-T187) im echten Client: Tooltips, Überlappen, Bildschirm, Texte, Spielwerte, Fehlerschleifen.
+   - Berufe-Knopf in Forever: kein "Aktion blockiert" mehr; geht das Fenster nicht auf, kommt der Hinweis.
+   - Aus 0.9.13: issecretvalue nach dem Kampf, voller Absender bei CHAT_MSG_ADDON, Build-Nummer (T168, /gs testroutine
+     whisperq); Bank-Charakter -> Bestand in #gildenbank (Uploader ab 1.7.0); Sprachwahl folgt ohne Einstellung dem
+     Client, eine andere Wahl gilt nach /reload.
 
 2. HINWEIS FÜR KÜNFTIGE VERSIONEN
-   - Die Sprache muss ohne Einstellung immer dem Client folgen (Sprachtest der Addon-Prüfung, hinweis-sprachtest.txt).
-   - Die Version muss höher sein als 0.9.13 (download/, announce/, CurseForge).
-
-3. ERGEBNIS IM SPIEL (5. Nov. 01:14, Forever 1.60.1 Build 70790, Interface 16001, deDE) – mit 0.9.14 nach der Pause
-   OK 153 · FEHLER 4 · übersprungen 23 · im Client prüfen 5 · Sandbox OK · Fehlerzähler 0 · 0 echte Sendungen.
-   a) T154 (Schwere: MITTEL) – Twink/Main, Danke, Pate mit Vor- und Nachname: ist "Rokan Steinwacht" und
-      "ilokan Steinwacht" (Zeilenumbruch, verstümmelter Name), soll "Rokan Steinwacht ×3". Im echten Client geht ein
-      Doppelname kaputt – offline lief der Fall. Ursache suchen (vermutlich gsub/Muster mit Leerzeichen oder ein
-      Unterschied zwischen UnitName und Gildenliste in Forever), Fall mit dem echten Client-Verhalten nachbauen.
-   b) T118 (Schwere: MITTEL) – beschädigte Gildendaten: Chronicle.lua:131 "attempt to index a number value"
-      (progress > achv). Ein Eintrag mit falschem Typ lässt die Chronik abstürzen. Lösung: type()-Prüfung vor dem
-      Zugriff, kaputte Einträge überspringen.
-   c) T143 (Schwere: MITTEL) – Seiten mit 500 Mitgliedern: 202,9 ms statt < 16 ms (Ruckler). Lösung: Liste in
-      Scheiben aufbauen bzw. nur sichtbare Zeilen füllen (Zeilen wiederverwenden), teure Sortierung zwischenspeichern.
-   d) T45 (Schwere: NIEDRIG) – Termin ansagen: ist "[Test] false, Recorder 0", soll "[Test], 0". Die Ansage liefert im
-      echten Client false. Prüfen, warum (Kanal/Gilde/Kampfsperre) – es wurde nichts gesendet, das ist richtig.
-   Speicher nach der Routine +5877 KB (zur Info).
+   - Die Sprache muss ohne Einstellung immer dem Client folgen (hinweis-sprachtest.txt).
+   - Die Version muss höher sein als 0.9.14 (download/, announce/, CurseForge).
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.

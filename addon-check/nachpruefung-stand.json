@@ -1,15 +1,15 @@
 {
   "_info": "Stand der Nachprüfungen der Prüf-Sitzung: zuletzt nachgeprüfte Version je Addon. Die geplante Aufgabe 'Nachprüfung neuer Addon-Versionen' prüft jede neuere Version gegen auftraege/<Addon>/ und trägt sie hier ein.",
-  "geprueft": "2026-11-09T05:55+01:00",
+  "geprueft": "2026-11-09T05:50+01:00",
   "versionen": {
     "AHSentinel": "0.65.16",
     "BuffSentinel": "0.9.7",
-    "GuildSentinel": "0.9.13",
-    "LevelPilot": "3.12.13",
+    "GuildSentinel": "0.9.14",
+    "LevelPilot": "3.12.14",
     "ProfessionSentinel": "0.9.23",
     "RaidMaster": "3.0.17",
     "ThreatSentinel": "2.4.5",
-    "RaidMasterBot": "1.5.108",
-    "RaidMasterUploader": "1.8.0"
+    "RaidMasterBot": "1.5.109",
+    "RaidMasterUploader": "1.9.0"
   }
 }
