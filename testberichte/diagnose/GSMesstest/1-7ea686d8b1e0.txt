@@ -1,0 +1,18 @@
+09.11.2026 19:12
+GSMesstest 1, Client 1.60.1 (16001)
+T1 hin: gesendet 10 (Rückgabe ret 0 ×10) -> angekommen 20/10, Ankunft über 356.5 s; Rückweg angekommen 10/10
+T2 10/s: gesendet 20 (Rückgabe ret 0 ×20) -> angekommen 40/20, Ankunft über 356.2 s
+T2 20/s: gesendet 50 (Rückgabe ret 0 ×50) -> angekommen 100/50, Ankunft über 356.8 s
+T2 Stoss 30: gesendet 30 (Rückgabe ret 0 ×30) -> angekommen 60/30, Ankunft über 354.4 s
+Start mit <Partner>. Bitte nichts anderes tun, ca. 1 Minute.
+T1 Grundweg: 10 Nachrichten zu je 200 Zeichen, 4 pro Sekunde, danach 10 zurück
+T2 Drossel: 20 mit 10/s, 50 mit 20/s, 30 im selben Frame
+T3 Offline: 1 Nachricht an ein Offline-Gildenmitglied, dann an einen unbekannten Namen
+T3 an <Offline>: Rückgabe 0
+T3 an <Unbekannt>: Rückgabe 0
+T3 Systemmeldung: Momentan ist kein Spieler mit dem Namen '<Offline>' online.
+T3 Systemmeldung: Momentan ist kein Spieler mit dem Namen '<Unbekannt>' online.
+T3 Chat-Filter hat die Meldung abgefangen (ausblendbar): ja
+T4 Realm: beide treten Kanal GSMessRealm bei, dann Mitgliederliste
+T4 Liste enthält <Ich>: ja, <Partner>: ja
+T4 Ergebnis: gleicher interner Realm

@@ -259,16 +259,16 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 914, Knoten 255, zusammenhängende Teile 58
+- Wegstücke 943, Knoten 256, zusammenhängende Teile 57
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 70 Knoten, Bereich 48–74 / 36–56
+  - Teil 1: 77 Knoten, Bereich 48–74 / 36–56
   - Teil 2: 25 Knoten, Bereich 64–76 / 12–33
   - Teil 3: 20 Knoten, Bereich 44–53 / 65–80
   - Teil 4: 14 Knoten, Bereich 50–58 / 13–33
   - Teil 5: 12 Knoten, Bereich 59–72 / 60–65
   - Teil 6: 11 Knoten, Bereich 53–59 / 64–73
-  - Teil 7: 6 Knoten, Bereich 61–64 / 36–40
-  - Teil 8: 6 Knoten, Bereich 56–60 / 26–37
+  - Teil 7: 6 Knoten, Bereich 56–60 / 26–37
+  - Teil 8: 5 Knoten, Bereich 45–47 / 77–86
 - **Ausreisser:** Wegstück 1: Sprung 10.6 % von 46.4,72.8 nach 52.8,64.4
 - **Ausreisser:** Wegstück 2: Sprung 6.2 % von 46.4,72.8 nach 45.4,78.9
 - **Ausreisser:** Wegstück 3: Sprung 9.8 % von 46.4,72.8 nach 51.7,64.6
