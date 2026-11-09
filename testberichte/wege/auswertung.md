@@ -58,7 +58,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Das Brachland (1413)
 
-- Wegstücke 828, Knoten 626, zusammenhängende Teile 30
+- Wegstücke 829, Knoten 626, zusammenhängende Teile 30
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 568 Knoten, Bereich 38–66 / 3–58
   - Teil 2: 5 Knoten, Bereich 44–45 / 58–59
@@ -245,7 +245,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 545, Knoten 244, zusammenhängende Teile 63
+- Wegstücke 547, Knoten 244, zusammenhängende Teile 63
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 64 Knoten, Bereich 48–74 / 36–56
   - Teil 2: 20 Knoten, Bereich 44–53 / 65–80
