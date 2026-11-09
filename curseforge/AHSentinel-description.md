@@ -12,6 +12,21 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.17
+
+- **Deposit is measured:** every time you post, the addon notes item, vendor price, quantity, duration, your price
+  (per piece and total), the deposit the game reports and the deposit really taken from your gold, plus the ratio
+  deposit/price and deposit/vendor price – in the diagnostic log (`/ahs protokoll`, entry EINSTELLEN) and in the GSDIAG1
+  export, without any names. If the game does not report a deposit, the last measured one for that item is used –
+  never a guess.
+- **Deposit warning:** if the deposit is more than 10 % of the price, posting asks for a second click. The threshold
+  is adjustable in the options (off / 5 / 10 / 20 / 30 %).
+- **"Do today": below vendor price:** offers whose price per piece is below the vendor sell price (from the last scan
+  or your current search) are shown as "Below vendor price: buy and sell to a vendor" – profit = (vendor price −
+  purchase price) × quantity, no AH cut. Only from 10 silver profit per offer (adjustable: all / 5s / 10s / 50s / 1g),
+  the best 10, sorted by profit. Items without a vendor price never appear, offers that are gone are hidden. The
+  button buys only on your click, then tells you to sell to a vendor.
+
 ### Version 0.65.16
 
 - **Protected values:** the recipe selection and the diagnostic log ignore protected game values instead of touching them.
@@ -42,15 +57,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   instead of 1s 18c – the same as ProfessionSentinel). The best-recipes list is ranked with it.
 - **WoW Forever – bid deals** also deduct the deposit for re-selling.
 - Classic Era, TBC and other versions are unchanged (there the deposit comes back on sale).
-
-### Version 0.65.12
-
-- **Profession window – clicking a recipe in "Best recipes" now always opens it:**
-  - the list no longer rebuilds on every game event: events are collected and the list is rebuilt at most every
-    0.4 s, only when something changed, spread over several frames – a click is no longer lost during a rebuild;
-  - each row remembers its recipe; the click looks up the recipe again in the profession window, and if a search text,
-    filter or collapsed category hides it, these are reset and the recipe is opened anyway;
-  - if it still cannot be opened, a short message appears in the chat.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
