@@ -1,0 +1,49 @@
+ANWEISUNG: WERTE STIMMEN – AHSentinel
+====================================
+Stand: 9. November 2026, 10:45 · von der Prüf-Sitzung · Vorschlag vom Nutzer angenommen – JETZT umsetzen
+Ziel des Nutzers: Die Werte in AHSentinel müssen grundsätzlich stimmen.
+Reihenfolge: zuerst 1, 8, 10 (wichtigste), dann der Rest. Je Schritt eine Version.
+
+A. DATENBASIS
+ 1. Fraktion und Server: Preise (eigene Scans UND Sync) nur je Fraktion/AH (Horde, Allianz, neutral) und Server
+    speichern und verwenden. Sync-Nachrichten tragen Fraktion/Server-Kennung; fremde werden verworfen. Bestehende
+    Daten prüfen, ob sie gemischt sind, und gegebenenfalls trennen.
+ 2. Vollständigkeit: Ein abgebrochener oder halber Scan darf fehlende Items nicht als "weg" oder Preis 0 werten;
+    nur vollständige Scans aktualisieren "nicht mehr angeboten".
+ 3. Alter: Preise werden mit dem Alter schwächer gewichtet; älter als X Stunden (Standard 6) -> im Tooltip "Preis alt".
+ 4. Ausreisser/Manipulation: Preise unter 10 % oder über 300 % des Medians ignorieren (z. B. 22c für Grosse
+    Mystikeressenz); einzelne Lockangebote zählen nicht; Sync-Werte nur, wenn sie zum eigenen Bild passen bzw. von
+    mehreren Absendern bestätigt sind.
+
+B. ANGEBOT GEGEN VERKAUF (realer Wert)
+ 5. Reihenfolge der Quellen je Item: (1) eigene echte Verkäufe der letzten 14 Tage aus der Buchhaltung, (2) Sofortpreis
+    = knapp unter dem günstigsten aktuellen Angebot (höchstens der Median), (3) Median der Angebote. Die Quelle im
+    Tooltip angeben (mit Shift je Bestandteil).
+ 6. Nicht-Verkauf kostet: In Forever wird die Gebühr beim Einstellen bezahlt und nicht erstattet. Erwarteter Erlös =
+    Preis − Gebühr × erwartete Anzahl Einstellungen (aus der eigenen Verkaufsquote bzw. Verkäufen/Tag).
+ 7. Händlerpreis als Untergrenze: realer Wert = max(AH-Wert nach Gebühren, Händlerpreis).
+ Zusätzlich (aus dem Gespräch): Liquidität – bei wenigen Verkäufen pro Tag Abschlag; Gebühr bei Materialien pro Stapel
+ (Mindestgebühr 1s pro Auktion, nicht pro Stück).
+
+C. EINHEITLICH RECHNEN
+ 8. EINE Preisfunktion (z. B. A:RealValue(itemID, qty)) für alles: Tooltip, Gewinn-Fenster, Sniper, Schnäppchen,
+    Heute tun, Entzaubern (Materialblock UND Summe), Verkaufen, Vorschlag. ProfessionSentinel nutzt dieselbe Funktion
+    (bestehende Schnittstelle erweitern, alte Aufrufe bleiben gültig). Kein Fenster rechnet mehr selbst.
+ 9. Materialien beim Herstellen: eigene Materialien = realer Wert (was man beim Verkauf bekäme); Händlerware =
+    Händlerpreis.
+
+D. NACHPRÜFEN
+10. Vorhersage gegen Wirklichkeit: Beim Einstellen den vorhergesagten Erlös speichern; beim Verkauf (Buchhaltung)
+    mit dem echten Erlös vergleichen. Kennzahl "Abweichung" je Item-Gruppe und gesamt (z. B. "Werte im Schnitt 8 %
+    zu hoch"), sichtbar in der Buchhaltung und im Diagnose-Protokoll (Eintrag WERT, ohne Namen) – die Prüf-Sitzung
+    wertet sie über GSDIAG1 aus.
+
+E. ENTZAUBERN (aus dem Gespräch)
+11. Ergebnisse teilen: nach 10 neuen Entzauberungen ODER spätestens 2 Minuten nach der letzten, und beim Ausloggen.
+    Der eigene Durchschnitt aktualisiert sich wie bisher sofort.
+
+Testfälle: Sync mit fremder Fraktion verworfen; halber Scan löscht nichts; alter Preis markiert; Ausreisser ignoriert;
+Quellen-Reihenfolge (eigener Verkauf vor Sofortpreis vor Median); Nicht-Verkauf senkt den Erlös; Händlerpreis-Untergrenze;
+alle Fenster liefern für dasselbe Item denselben Wert; Abweichung richtig berechnet; Teilen nach 10 oder 2 Minuten.
+Era/TBC nie brechen (dort wird die Einstellgebühr bei Verkauf erstattet). Locales und CHANGELOG EN/DE,
+addon_check ohne FEHLER.
