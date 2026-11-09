@@ -109,3 +109,20 @@ IM CLIENT PRÜFEN (mit 0.65.24 – die hochgeladenen Diagnose-Protokolle vom 9. 
 - /dump ERR_AUCTION_SOLD_S auf Forever deDE; nach einem Verkauf die Meldung "Verkauft".
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
+
+WUNSCH DES NUTZERS (9. Nov. 08:41, Screenshot Verstärktes Leinencape / Wollcape mit 0.65.22) – MITTEL, JETZT
+   Die Aufschlüsselung im Tooltip ist zu lang. Neu:
+   1. Statt der ganzen Aufstellung nur EINE Zeile: "Entzaubern: erwarteter Gewinn ~<Betrag>" (Entzauberungswert nach
+      Gebühren). Dahinter klein der Vergleich mit dem Verkauf des Items selbst ("lohnt mehr als Verkauf" bzw.
+      "Verkauf bringt mehr", Vergleich: Wert nach Gebühren vs. Marktwert des Items nach Gebühren).
+      Quelle: "tatsächlich", sobald mindestens 10 Entzauberungen der Gruppe vorliegen, sonst "geschätzt (Tabelle)";
+      die Herkunft als kleines Zeichen (z. B. "(T)" = Tabelle, "(Ø 12)" = aus 12 Entzauberungen).
+      Die ganze Rechnung läuft im Hintergrund weiter; mit gedrückter Shift-Taste erscheint die bisherige
+      Aufstellung (tatsächlich/geschätzt, je Material, nach Gebühren) zur Kontrolle.
+   2. Darunter ein eigener Block im GLEICHEN AUSSEHEN wie der fremde Block "Mögliche Materialien (ungefähre Chancen)"
+      (der stammt nicht von GoldSentinel, nicht anfassen): Überschrift z. B. "Entzaubern – Materialien (AHSentinel)",
+      je Material eine Zeile: Icon · Name · Dropchance in % · Wert pro Stück (aktueller AH-Preis aus dem letzten Scan,
+      sonst Marktwert). Dropchance aus derselben Quelle wie in 1 (tatsächlich ab 10, sonst Tabelle).
+   3. Option "Entzauber-Details im Tooltip" (kurz / mit Materialien / alles), Standard "mit Materialien".
+   4. Testfälle: kurze Zeile = Summe der Anteile × 0,95 − Gebühr; Shift zeigt die Aufstellung; Materialblock hat je
+      Material Icon, Chance, Preis; Quelle wechselt bei 10 Entzauberungen.
