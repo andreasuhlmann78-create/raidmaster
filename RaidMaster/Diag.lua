@@ -37,18 +37,27 @@ end
 
 -- in den Fehler-Handler des Spiels einklinken (nach dem Einloggen noch einmal, falls ein
 -- Fehler-Addon wie BugGrabber den Handler danach ersetzt hat)
-local ours
+-- Ab 3.0.18: Hängt ein anderes Addon (z. B. der gemeinsame Abgriff von GoldSentinelTest aus einem anderen
+-- GoldSentinel-Addon) seinen Handler davor und reicht an unseren alten weiter, läge RaidMaster nach dem zweiten
+-- Einklinken zweimal in der Kette – jeder Fehler wurde doppelt gezählt (Testroutine T122: n = 6 statt 3).
+-- Darum zählt nur der zuletzt eingeklinkte Handler; ältere reichen nur noch weiter.
+local ours, generation = nil, 0
 local function Hook()
 	if not (seterrorhandler and geterrorhandler) then return end
 	local previous = geterrorhandler()
 	if previous == ours then return end
+	generation = generation + 1
+	local mine = generation
 	ours = function(msg, ...)
-		local text = tostring(msg)
-		if text:find("RaidMaster", 1, true) then D.Record(text) end
+		if mine == generation then
+			local text = tostring(msg)
+			if text:find("RaidMaster", 1, true) then D.Record(text) end
+		end
 		if previous then return previous(msg, ...) end
 	end
 	seterrorhandler(ours)
 end
+D.Hook = Hook
 Hook()
 RM.On("PLAYER_LOGIN", function() if C_Timer then C_Timer.After(5, Hook) end end)
 
@@ -172,7 +181,7 @@ end
 
 function D.Show()
 	if not D.window then
-		local f = UI.Frame(UIParent, 640, 500)
+		local f = UI.Frame(UIParent, 640, 500, "Diagnose")
 		f:SetFrameStrata("DIALOG")
 		f:SetClampedToScreen(true)
 		UI.Skin(f)

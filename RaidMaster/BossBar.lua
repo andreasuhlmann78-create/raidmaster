@@ -133,7 +133,7 @@ end
 ---------------------------------------------------------------------------
 local function Create()
 	local UI = RM.UI
-	local f = UI.Frame(UIParent, 330, 96)
+	local f = UI.Frame(UIParent, 330, 96, "Boss-Leiste")
 	f:SetFrameStrata("MEDIUM")
 	f:SetClampedToScreen(true)
 	UI.Skin(f, nil, UI.COLORS.accent)

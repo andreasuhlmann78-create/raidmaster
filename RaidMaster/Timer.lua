@@ -54,7 +54,7 @@ local function UpdateBar()
 	if not a then return end
 	if not bar then
 		local UI = RM.UI
-		bar = UI.Frame(UIParent, 220, 30)
+		bar = UI.Frame(UIParent, 220, 30, "Timer")
 		UI.Skin(bar, nil, UI.COLORS.accent)
 		bar:SetFrameStrata("HIGH")
 		UI.MakeMovable(bar, "timerBar", "TOP", 0, -140)

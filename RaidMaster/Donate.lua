@@ -38,7 +38,7 @@ local frame
 local function Build()
 	local UI = ns.UI
 	local C = UI.COLORS
-	local f = UI.Frame(UIParent, 470, 220)
+	local f = UI.Frame(UIParent, 470, 220, "Spenden")
 	f:SetFrameStrata("DIALOG")
 	f:SetToplevel(true)
 	f:SetClampedToScreen(true)

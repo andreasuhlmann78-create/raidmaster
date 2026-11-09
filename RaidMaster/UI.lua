@@ -27,9 +27,11 @@ local TEMPLATE = BackdropTemplateMixin and "BackdropTemplate" or nil
 ---------------------------------------------------------------------------
 -- Grundbausteine
 ---------------------------------------------------------------------------
-function UI.Frame(parent, w, h)
+-- name: eigene Fenster direkt auf UIParent werden für die Oberflächen-Prüfung angemeldet (UICheck.lua, ab 3.0.18)
+function UI.Frame(parent, w, h, name)
 	local f = CreateFrame("Frame", nil, parent, TEMPLATE)
 	if w and h then f:SetSize(w, h) end
+	if name and parent == UIParent and RM.RegisterUI then RM.RegisterUI(f, name) end
 	return f
 end
 
@@ -64,13 +66,57 @@ function UI.Header(parent, text)
 	return fs
 end
 
+-- Eigenes Fenster eines Elements (Vorfahre direkt auf UIParent)
+function UI.WindowOf(owner)
+	local f, n = owner, 0
+	while f and f.GetParent and n < 30 do
+		local p = f:GetParent()
+		if p == UIParent or p == nil then return f end
+		f, n = p, n + 1
+	end
+	return nil
+end
+
+-- Tooltip neben das ganze Fenster legen (rechts, sonst links), damit er keine Knöpfe desselben Fensters verdeckt
+-- (Live-Test 5. Nov.: Tooltips lagen über anderen Knöpfen). Passt er auf keiner Seite, bleibt er am Element.
+function UI.PlaceTooltip(owner, tip)
+	tip = tip or GameTooltip
+	pcall(function()
+		local win = UI.WindowOf(owner)
+		if not win or win == owner or not tip:IsShown() then return end
+		local wl, wr, wt = win:GetLeft(), win:GetRight(), win:GetTop()
+		local ot, tw = owner:GetTop(), tip:GetWidth()
+		local sr = UIParent:GetRight()
+		if not (wl and wr and wt and ot and tw and sr) then return end
+		local wes, oes, tes, ues = win:GetEffectiveScale(), owner:GetEffectiveScale(), tip:GetEffectiveScale(), UIParent:GetEffectiveScale()
+		local y = (ot * oes - wt * wes) / tes             -- auf Höhe des Elements
+		local gap = 4
+		tip:ClearAllPoints()
+		if wr * wes + (gap + tw) * tes <= sr * ues then
+			tip:SetPoint("TOPLEFT", win, "TOPRIGHT", gap * tes / wes, y * tes / wes)
+		elseif wl * wes - (gap + tw) * tes >= 0 then
+			tip:SetPoint("TOPRIGHT", win, "TOPLEFT", -gap * tes / wes, y * tes / wes)
+		else
+			tip:SetPoint("BOTTOMLEFT", owner, "TOPRIGHT")
+		end
+	end)
+end
+
+-- Tooltip zeigen: fill(GameTooltip) füllt ihn, danach neben das Fenster legen
+function UI.ShowTip(owner, fill)
+	GameTooltip:SetOwner(owner, "ANCHOR_RIGHT")
+	fill(GameTooltip)
+	GameTooltip:Show()
+	UI.PlaceTooltip(owner)
+end
+
 local function ShowTooltip(owner, text)
 	if not text then return end
-	GameTooltip:SetOwner(owner, "ANCHOR_RIGHT")
-	for line in tostring(text):gmatch("[^\n]+") do
-		GameTooltip:AddLine(line, 1, 1, 1, true)
-	end
-	GameTooltip:Show()
+	UI.ShowTip(owner, function(tt)
+		for line in tostring(text):gmatch("[^\n]+") do
+			tt:AddLine(line, 1, 1, 1, true)
+		end
+	end)
 end
 
 function UI.Button(parent, text, w, h, onClick, tooltip)
@@ -467,13 +513,9 @@ function UI.List(parent, width, height, columns, opts)
 			local d = L.data[self.index]
 			if not d then return end
 			if d.link then
-				GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-				GameTooltip:SetHyperlink(RM.ItemString(d.link) or d.link)
-				GameTooltip:Show()
+				UI.ShowTip(self, function(tt) tt:SetHyperlink(RM.ItemString(d.link) or d.link) end)
 			elseif d.tooltip then
-				GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-				d.tooltip(GameTooltip)
-				GameTooltip:Show()
+				UI.ShowTip(self, d.tooltip)
 			end
 		end)
 		row:SetScript("OnLeave", function() GameTooltip:Hide() end)
@@ -666,7 +708,7 @@ local exportFrame
 -- extra = { text, onClick } zeigt einen zusätzlichen Knopf unten links (z. B. "Neu laden und melden" der Testroutine)
 function UI.ShowExport(text, extra)
 	if not exportFrame then
-		local f = UI.Frame(UIParent, 620, 460)
+		local f = UI.Frame(UIParent, 620, 460, "Kopierfenster")
 		f:SetFrameStrata("DIALOG")
 		UI.Skin(f)
 		UI.MakeMovable(f, "export", "CENTER", 0, 0)
@@ -1021,7 +1063,7 @@ end
 
 local function CreateMain()
 	local size = RM.db.config.mainSize
-	local f = UI.Frame(UIParent, size and size[1] or UI.MAIN_W, size and size[2] or UI.MAIN_H)
+	local f = UI.Frame(UIParent, size and size[1] or UI.MAIN_W, size and size[2] or UI.MAIN_H, "Hauptfenster")
 	f:SetFrameStrata("HIGH")
 	f:SetToplevel(true)
 	f:SetClampedToScreen(true)
@@ -1173,15 +1215,16 @@ local function CreateMain()
 	end)
 	grip:SetScript("OnClick", function() UI.ResetMainSize() end)
 	grip:SetScript("OnEnter", function(self)
-		GameTooltip:SetOwner(self, "ANCHOR_TOPLEFT")
-		GameTooltip:AddLine(L["Fenstergröße"])
-		GameTooltip:AddLine(L["Ziehen: Größe ändern – Rechtsklick: Standardgröße"], 1, 1, 1, true)
-		GameTooltip:Show()
+		UI.ShowTip(self, function(tt)
+			tt:AddLine(L["Fenstergröße"])
+			tt:AddLine(L["Ziehen: Größe ändern – Rechtsklick: Standardgröße"], 1, 1, 1, true)
+		end)
 	end)
 	grip:SetScript("OnLeave", function() GameTooltip:Hide() end)
 	f:SetScript("OnSizeChanged", function(self) ApplyMainScale(self) end)
 
 	main = f
+	UI.main = f
 	-- Reiterleiste über den Seiten eines Bereichs
 	local tabBar = CreateFrame("Frame", nil, content)
 	tabBar:SetPoint("TOPLEFT", content, "TOPLEFT", 0, 0)

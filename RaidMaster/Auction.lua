@@ -220,7 +220,7 @@ local function AwardFrame()
 	if awardFrame then return awardFrame end
 	local UI = RM.UI
 	local COLORS = UI.COLORS
-	local f = UI.Frame(UIParent, 440, 120)
+	local f = UI.Frame(UIParent, 440, 120, "Vergabe")
 	f:SetFrameStrata("FULLSCREEN_DIALOG")
 	f:SetToplevel(true)
 	f:SetClampedToScreen(true)
@@ -482,7 +482,7 @@ end
 
 local function CreateBidFrame()
 	local UI = RM.UI
-	local f = UI.Frame(UIParent, 340, 196)
+	local f = UI.Frame(UIParent, 340, 196, "Bieten")
 	f:SetFrameStrata("DIALOG")
 	UI.Skin(f)
 	UI.MakeMovable(f, "bidFrame", "TOP", 0, -180)
@@ -502,9 +502,7 @@ local function CreateBidFrame()
 	icon.tex:SetAllPoints()
 	icon:SetScript("OnEnter", function(self)
 		if A.client and A.client.link then
-			GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-			GameTooltip:SetHyperlink(RM.ItemString(A.client.link) or A.client.link)
-			GameTooltip:Show()
+			RM.UI.ShowTip(self, function(tt) tt:SetHyperlink(RM.ItemString(A.client.link) or A.client.link) end)
 		end
 	end)
 	icon:SetScript("OnLeave", function() GameTooltip:Hide() end)

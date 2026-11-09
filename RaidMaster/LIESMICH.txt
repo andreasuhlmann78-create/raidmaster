@@ -11,6 +11,15 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.18 – Tooltips verdecken keine Knöpfe mehr, Fehler nur einmal gezählt
+- Tooltips der RaidMaster-Fenster erscheinen jetzt neben dem Fenster (rechts, sonst links) statt über anderen
+  Knöpfen desselben Fensters.
+- Diagnose: Ein Fehler wurde doppelt gezählt, wenn noch ein anderes GoldSentinel-Addon geladen war. Behoben.
+- Test-Werkzeug (nur Entwickler): neuer Bereich K "Oberfläche im Client" der Testroutine (/rm testroutine K):
+  Tooltips verdecken keine Knöpfe, kein Überlappen mit Blizzard- oder anderen GoldSentinel-Fenstern, alles im
+  Bildschirm, Beschriftungen nicht abgeschnitten, Spielwerte plausibel, keine Fehlerschleife. Der Durchlauf (T43)
+  wartet, bis die Beute vom Server geladen ist; der Fall mit Doppelnamen (T142) hängt nicht mehr von euren Daten ab.
+
 NEU IN 3.0.17 – Discord-Kanäle in den Texten aktualisiert
 - Gildenbank-Bestand steht im Discord jetzt in #gildenbank (unter den Regeln) – Texte auf der Seite Gildenbank angepasst.
 - Die Einteilung steht im Einteilungs-Kanal des Raids (z. B. #einteilung-mc) – Texte der Discord-Anleitung angepasst.

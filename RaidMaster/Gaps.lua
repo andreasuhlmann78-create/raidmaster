@@ -655,7 +655,7 @@ local function Create()
 	local UI = RM.UI
 	local COLORS = UI.COLORS
 	local W = 540
-	local f = UI.Frame(UIParent, W, 470)
+	local f = UI.Frame(UIParent, W, 470, "Lücken")
 	UI.Skin(f)
 	f:SetFrameStrata("HIGH")
 	f:SetClampedToScreen(true)

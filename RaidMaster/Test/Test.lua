@@ -1025,6 +1025,27 @@ local function ItemInfo(id)
 	return link, quality
 end
 
+-- Beute eines Topfs beim Server anfordern (ab 3.0.18). Kurz nach dem ersten Einloggen kennt der Client die Items
+-- noch nicht (GetItemInfo leer) – dann vergab der Durchlauf nichts (Testroutine T43). Liefert bekannt, gesamt.
+function T.PreloadLoot(poolKey)
+	local def = RM.Data.Pools[poolKey or T.pool]
+	local lt = LootTable(def)
+	if not lt then return 0, 0 end
+	local known, total = 0, 0
+	local request = C_Item and C_Item.RequestLoadItemDataByID
+	for _, b in ipairs(lt) do
+		for _, id in ipairs(b.i or {}) do
+			total = total + 1
+			if ItemInfo(id) then
+				known = known + 1
+			elseif request then
+				pcall(request, id)
+			end
+		end
+	end
+	return known, total
+end
+
 -- n zufällige Items, die das Spiel schon kennt (sonst beim nächsten Mal)
 local function Pick(ids, n)
 	local pool, out = {}, {}

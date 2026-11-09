@@ -234,7 +234,7 @@ UI.PAGE_ICONS.discord = "Interface\\Icons\\INV_Letter_15"
 ---------------------------------------------------------------------------
 function G.Show()
 	if not G.window then
-		local f = UI.Frame(UIParent, 830, 620)
+		local f = UI.Frame(UIParent, 830, 620, "Anleitung")
 		f:SetFrameStrata("DIALOG")
 		f:SetToplevel(true)
 		f:SetClampedToScreen(true)

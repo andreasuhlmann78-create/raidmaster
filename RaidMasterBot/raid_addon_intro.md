@@ -27,6 +27,9 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
+**3.0.18** – Tooltips am Rand
+• Tooltips erscheinen neben dem RaidMaster-Fenster statt über anderen Knöpfen. Fehler werden nur noch einmal gezählt, auch wenn weitere GoldSentinel-Addons laufen.
+
 **3.0.17** – Richtige Kanäle
 • Das Addon nennt jetzt die aktuellen Discord-Kanäle: Gildenbank in #gildenbank, Einteilung im Kanal des Raids (z. B. #einteilung-mc).
 
@@ -35,9 +38,6 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 
 **3.0.15** – Sicher in den Launch
 • `!dkp Vorname Nachname` und `!dkp Vorname` (wenn eindeutig) finden euch in WoW Forever. Flüstern und Addon-Nachrichten im Kampf lösen keine Fehler mehr aus.
-
-**3.0.14** – Fit für den Forever-Launch
-• Boss-Leiste, Beute-Datenbank und Betrachten laufen im Kampf im neuen Forever-Client ohne Fehler. Classic Era und TBC wie gehabt.
 
 **3.0.12 / 3.0.13** – Berufe in WoW Forever
 • „Meine Berufe einlesen“ funktioniert jetzt auch im neuen Forever-Client: Jeder Klick öffnet den nächsten Beruf und liest Rezepte und Zutaten – für `/handwerk` und `/berufe` hier im Discord.

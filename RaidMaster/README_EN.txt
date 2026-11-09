@@ -23,6 +23,15 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.18 – Tooltips no longer cover buttons, errors counted only once
+- Tooltips of RaidMaster windows now appear next to the window (right, otherwise left) instead of on top of other
+  buttons of the same window.
+- Diagnostics: an error was counted twice when another GoldSentinel addon was loaded as well. Fixed.
+- Test tool (developer only): new area K "UI in the client" in the test routine (/rm testroutine K): tooltips cover no
+  buttons, no overlap with Blizzard or other GoldSentinel windows, everything on screen, button labels not cut off,
+  game values plausible, no error loops. The test run (T43) waits until the loot is loaded from the server; the
+  double-name case (T142) no longer depends on your data.
+
 WHAT'S NEW IN 3.0.17 – Discord channel names updated in the texts
 - The guild bank inventory is now in #gildenbank on Discord (below the rules) – texts on the guild bank page updated.
 - Assignments are in the raid's assignment channel (e.g. #einteilung-mc) – texts of the Discord guide updated.

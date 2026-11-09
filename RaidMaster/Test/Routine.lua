@@ -29,8 +29,9 @@ R.LIMIT, R.LIMIT_LONG = 120, 240     -- Gesamtgrenze in Sekunden (normal / "lang
 R.GRACE = 10                         -- nach einem Abbruch: so lange werden Aktionen noch abgefangen
 
 local AREAS = { A = "Laden und Erkennung", B = "Funktionen", C = "Forever-Sonderfälle", D = "Alte Clients", E = "Daten",
-	F = "Sprachen", G = "Zusammenspiel", H = "Leistung", I = "Fehlerzählung", J = "Regressionstests" }
-local AREA_ORDER = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J" }
+	F = "Sprachen", G = "Zusammenspiel", H = "Leistung", I = "Fehlerzählung", J = "Regressionstests",
+	K = "Oberfläche im Client" }
+local AREA_ORDER = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K" }
 
 -- Teile von RaidMasterDB, die der Testmodus nicht sichert: jeder Bereich stellt sie selbst wieder her
 local EXTRA_KEYS = { "foreign", "pendingAwards", "lootdb", "records", "killlog", "shots", "shotList", "prof", "bank",
@@ -241,9 +242,12 @@ local function Wait(sec)
 end
 
 -- asynchrone Prüfung: der Körper darf warten; Ergebnis wie bei t:Check
+-- Ein Fall darf "ASYNC_SKIP", Grund liefern: dann ehrlich übersprungen statt OK (ab 3.0.18, z. B. T43 ohne Beute)
+local ASYNC_SKIP = {}
 local function AsyncCheck(t, id, area, name, fn)
 	R.current = id
 	local r = pack(Run(fn))
+	if r[1] and r[2] == ASYNC_SKIP then return t:Skip(id, area, name, tostring(r[3])) end
 	return t:Check(id, area, name, function()
 		if not r[1] then error(r[2], 0) end
 		return unpack(r, 2, r.n)
@@ -1525,6 +1529,14 @@ local function AreaB(t, G)
 			ClearAuction()
 			Swap(u, T, "autoAuction", true)
 			Swap(u, T, "pool", R.long and "mc" or "ony")
+			-- Beute vorher beim Server anfordern und warten, bis der Client sie kennt (höchstens 10 s, ab 3.0.18):
+			-- kurz nach dem ersten Einloggen war GetItemInfo leer und der Durchlauf vergab nichts
+			local known, total = 0, 0
+			if T.PreloadLoot then
+				known, total = T.PreloadLoot(T.pool)
+				local w = 0
+				while total > 0 and known < total and w < 10 do Wait(1); w = w + 1; known, total = T.PreloadLoot(T.pool) end
+			end
 			local since = RM.Now() - 1
 			local function items()
 				local n = 0
@@ -1562,7 +1574,10 @@ local function AreaB(t, G)
 				if not okStress then return false, "Stresstest mit neuen Fehlern", "neue Fehler: 0" end
 				stress = ", Stresstest: neue Fehler 0"
 			end
-			if n < 1 then return false, "kein Item vergeben", ">= 1 (Items vom Server geladen?)" end
+			if n < 1 then
+				if total > 0 and known == 0 then return ASYNC_SKIP, "Beute noch nicht vom Server geladen (" .. known .. "/" .. total .. ") – Fall später wiederholen" end
+				return false, "kein Item vergeben (Beute geladen " .. known .. "/" .. total .. ")", ">= 1"
+			end
 			if RM.db.testMode and RM.db.testMode.post then return false, "testMode.post gesetzt", "nil" end
 			return true, n .. " Items vergeben in " .. waited .. " s" .. stress
 		end, function() Undo(u); if T.IsRunning() then T.StopRun() end; T.SetTimeOffset(0); T.FillRoster(); RM.Loot.pendingBoss = nil end)
@@ -2386,27 +2401,49 @@ local function AreaJ(t, G)
 			end)
 		end)
 	end)
+	-- 3.0.18: eigene, sicher unbenutzte Namen. Im Spiel (5. Nov.) gab es in den Daten schon einen Spieler "Rokan" –
+	-- "!dkp rokan" antwortete darum richtig für genau diesen "Rokan" (gleicher Name geht vor), der Fall erwartete aber
+	-- "Rokan Steinwacht". Jetzt geprüft: Doppelname ganz, Vorname allein (eindeutig) und gleicher Name geht vor.
 	t:Check("T142", "J", "!dkp mit Doppelnamen (Forever-Weg)", function()
 		local DKP, cfg = RM.DKP, RM.db.config
 		local pool = RM.Test.pool or DKP.ActivePool()
+		local players = RM.db.data.players
+		local FULL, FIRST = "Zorvak Steinwacht", "Zorvak"
+		local saved = { [FULL] = players[FULL], [FIRST] = players[FIRST] }
+		for k in pairs(players) do
+			if type(k) == "string" and k:lower():match("^(%S+)") == "zorvak" and saved[k] == nil then saved[k] = players[k] end
+		end
 		local replies = {}
 		local origW, was = RM.Whisper, cfg.whisperReplies
+		local function Ask(text)
+			wipe(replies)
+			CallHandlers("CHAT_MSG_WHISPER", text, "Tank1")
+			return replies[1] or ""
+		end
 		return Guard(function()
 			cfg.whisperReplies = true
-			local p = DKP.EnsurePlayer("Rokan Steinwacht", "PRIEST")
-			p.d[pool] = 40
+			for k in pairs(saved) do players[k] = nil end
+			DKP.EnsurePlayer(FULL, "PRIEST").d[pool] = 40
 			RM.Whisper = function(msg) replies[#replies + 1] = msg end
 			return WithFlavor("forever", function()
-				CallHandlers("CHAT_MSG_WHISPER", "!dkp Rokan Steinwacht", "Tank1")
-				CallHandlers("CHAT_MSG_WHISPER", "!dkp rokan", "Tank1")
-				local s = DKP.Summary("rokan")
-				for i = 1, 2 do
-					local r = replies[i] or ""
-					if not (r:find("Rokan Steinwacht", 1, true) and r:find("40", 1, true)) then return false, r, "Rokan Steinwacht … 40" end
+				for _, q in ipairs({ "!dkp Zorvak Steinwacht", "!dkp zorvak steinwacht", "!dkp zorvak" }) do
+					local r = Ask(q)
+					if not (r:find(FULL, 1, true) and r:find("40", 1, true)) then return false, q .. " -> " .. r, FULL .. " … 40" end
 				end
+				local s = DKP.Summary("zorvak")
 				if not s:find("40", 1, true) then return false, s, "40 über den Vornamen" end
+				-- es gibt zusätzlich genau "Zorvak": gleicher Name geht vor, der Doppelname bleibt erreichbar
+				DKP.EnsurePlayer(FIRST, "WARRIOR").d[pool] = 25
+				local r1, r2 = Ask("!dkp zorvak"), Ask("!dkp Zorvak Steinwacht")
+				if not (r1:find("[RaidMaster] Zorvak:", 1, true) and r1:find("25", 1, true)) then return false, r1, "Zorvak … 25" end
+				if not (r2:find(FULL, 1, true) and r2:find("40", 1, true)) then return false, r2, FULL .. " … 40" end
+				return true, "Doppelname, Vorname, gleicher Name: ok"
 			end)
-		end, function() RM.Whisper = origW; cfg.whisperReplies = was end)
+		end, function()
+			RM.Whisper = origW; cfg.whisperReplies = was
+			players[FULL], players[FIRST] = nil, nil
+			for k, v in pairs(saved) do players[k] = v end
+		end)
 	end)
 	t:Check("T143", "J", "Betrachten: geschützte GUID", function()
 		TestRaid()
@@ -2522,7 +2559,80 @@ local function AreaJ(t, G)
 	end)
 end
 
-local RUNNERS = { A = AreaA, B = AreaB, C = AreaC, D = AreaD, E = AreaE, F = AreaF, G = AreaG, H = AreaH, I = AreaI, J = AreaJ }
+---------------------------------------------------------------------------
+-- K. Oberfläche im echten Client (UICheck.lua, ab 3.0.18) – nur lesen, nichts verändern
+-- Öffnet das Hauptfenster und zeigt jede erlaubte Seite einmal, damit ihre Knöpfe und Tooltips geprüft werden;
+-- danach Seite und Fenster wie vorher. Ohne echten Client ehrlich übersprungen, nie als OK gezählt.
+---------------------------------------------------------------------------
+local function AreaK(t)
+	local U, UI = RM.UICheck, RM.UI
+	local ui = {
+		{ "T155", "Eigene Tooltips verdecken keine Knöpfe", "TooltipsCoverNothing" },
+		{ "T156", "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern", "WindowsOverlapNothing" },
+		{ "T157", "Fenster und Tooltips ganz im Bildschirm", "InsideScreen" },
+		{ "T158", "Beschriftungen von Knöpfen nicht abgeschnitten", "TextFits" },
+		{ "T159", "Angezeigte Spielwerte plausibel", "ValuesPlausible", true },
+		{ "T160", "Keine Fehlerschleife (gleiche Meldung > 10×)", "NoErrorLoops", true },
+	}
+	if not U then
+		for _, c in ipairs(ui) do t:Skip(c[1], "K", c[2], "UICheck.lua fehlt") end
+		return
+	end
+	local main = UI.main
+	local wasShown = main and main:IsShown()
+	local wasPage = main and main.current
+	if not wasShown then pcall(UI.Open) end
+	main = UI.main
+	-- alle Seiten, die du sehen darfst: Probleme sammeln (je Fall), danach eine Zeile je Fall
+	local found, tested, hints, infos = {}, {}, {}, {}
+	for _, c in ipairs(ui) do found[c[1]], tested[c[1]], hints[c[1]] = {}, 0, {} end
+	local function Collect(c, prefix)
+		local ok, problems, n, extra = pcall(U[c[3]])
+		if not ok then problems, n = { "Lua-Fehler " .. tostring(problems) }, 0 end
+		for _, p in ipairs(problems or {}) do
+			local line = (prefix and (prefix .. ": ") or "") .. p
+			local dup = false
+			for _, q in ipairs(found[c[1]]) do if q == line then dup = true break end end
+			if not dup and #found[c[1]] < 25 then found[c[1]][#found[c[1]] + 1] = line end
+		end
+		tested[c[1]] = tested[c[1]] + (tonumber(n) or 0)
+		for _, h in ipairs(c[4] and {} or (extra or {})) do if #hints[c[1]] < 10 then hints[c[1]][#hints[c[1]] + 1] = h end end
+		if c[4] and extra then infos[c[1]] = extra end
+	end
+	local available = U.Available()
+	if available and main and UI.pageOrder then
+		for _, id in ipairs(UI.pageOrder) do
+			if UI.CanSeePage(id) and not RM.InCombat() then
+				pcall(UI.ShowPage, id)
+				for _, c in ipairs(ui) do if not c[4] then Collect(c, id) end end
+			end
+		end
+	end
+	for _, c in ipairs(ui) do if c[4] then Collect(c) end end
+	-- Seite und Fenster wie vorher
+	if main then
+		if wasPage then pcall(UI.ShowPage, wasPage) end
+		if not wasShown then main:Hide() end
+	end
+	if GameTooltip and GameTooltip.Hide then GameTooltip:Hide() end
+	for _, c in ipairs(ui) do
+		if not c[4] and not available then
+			t:Skip(c[1], "K", c[2], "nur im echten Client (Fenster, Rechtecke, Tooltip)")
+		elseif not c[4] and tested[c[1]] == 0 and #found[c[1]] == 0 then
+			t:Skip(c[1], "K", c[2], "nichts geprüft (kein sichtbares Fenster mit messbaren Rechtecken)")
+		else
+			t:Check(c[1], "K", c[2], function()
+				local p = found[c[1]]
+				local info = (#p == 0 and "keine" or table.concat(p, "; ")) .. " · geprüft " .. tested[c[1]]
+				if #hints[c[1]] > 0 then info = info .. " · Hinweise: " .. table.concat(hints[c[1]], "; ") end
+				if infos[c[1]] and #infos[c[1]] > 0 then info = info .. " · " .. table.concat(infos[c[1]], ", ") end
+				return #p == 0, info, "keine"
+			end)
+		end
+	end
+end
+
+local RUNNERS = { A = AreaA, B = AreaB, C = AreaC, D = AreaD, E = AreaE, F = AreaF, G = AreaG, H = AreaH, I = AreaI, J = AreaJ, K = AreaK }
 
 ---------------------------------------------------------------------------
 -- Ablauf
@@ -2616,7 +2726,7 @@ function R.Run(only)
 	only = only and only:upper() or nil
 	R.long = only == "LANG"
 	if only == "LANG" then only = nil end
-	if only and not RUNNERS[only] then Say("Bereich " .. only .. " gibt es nicht (A … J).") return end
+	if only and not RUNNERS[only] then Say("Bereich " .. only .. " gibt es nicht (A … K).") return end
 
 	HookActions()
 	wipe(realCount)

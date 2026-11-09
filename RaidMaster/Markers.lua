@@ -279,7 +279,7 @@ end
 
 local function CreateBar()
 	local UI = RM.UI
-	local f = UI.Frame(UIParent, 10, ICON_SIZE + PAD * 2)
+	local f = UI.Frame(UIParent, 10, ICON_SIZE + PAD * 2, "Markierungsleiste")
 	f:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8x8", edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 1 })
 	f:SetBackdropColor(0.03, 0.03, 0.04, 0.72)
 	f:SetBackdropBorderColor(0, 0, 0, 0.9)

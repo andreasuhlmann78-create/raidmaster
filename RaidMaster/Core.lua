@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "3.0.17"
-RM.VERSION_NUM = 30017
+RM.VERSION = "3.0.18"
+RM.VERSION_NUM = 30018
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -905,7 +905,7 @@ SlashCmdList["RAIDMASTER"] = function(msg)
 	elseif msg == "test" then
 		if RM.Test then RM.Test.Toggle() end
 	elseif msg:match("^testroutine") then
-		-- Testroutine (nur für den Entwickler, wie das Test-Werkzeug): /rm testroutine [A … J]
+		-- Testroutine (nur für den Entwickler, wie das Test-Werkzeug): /rm testroutine [A … K]
 		if RM.Test and RM.Test.Slash then RM.Test.Slash(msg) end
 	elseif msg:match("^beute") or msg:match("^loot%s") or msg == "loot" then
 		-- eigene Beute-Datenbank: /rm beute [Boss]

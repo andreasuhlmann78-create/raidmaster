@@ -320,9 +320,7 @@ UI.AddPage("auction", L["Versteigerung"], function(page)
 	itemHover:SetScript("OnEnter", function(self)
 		local link = RM.Auction.current and RM.Auction.current.link or (RM.Auction.client and RM.Auction.client.link)
 		if link then
-			GameTooltip:SetOwner(self, "ANCHOR_RIGHT")
-			GameTooltip:SetHyperlink(RM.ItemString(link) or link)
-			GameTooltip:Show()
+			UI.ShowTip(self, function(tt) tt:SetHyperlink(RM.ItemString(link) or link) end)
 		end
 	end)
 	itemHover:SetScript("OnLeave", function() GameTooltip:Hide() end)
@@ -1795,7 +1793,7 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 		local e = UI.EditBox(page, 60, 24, true)
 		Place(e, page, x + 175, y)
 		if tooltip then
-			e:SetScript("OnEnter", function(self) GameTooltip:SetOwner(self, "ANCHOR_RIGHT"); GameTooltip:AddLine(tooltip, 1, 1, 1, true); GameTooltip:Show() end)
+			e:SetScript("OnEnter", function(self) UI.ShowTip(self, function(tt) tt:AddLine(tooltip, 1, 1, 1, true) end) end)
 			e:SetScript("OnLeave", function() GameTooltip:Hide() end)
 		end
 		fields[#fields + 1] = { edit = e, get = getter, set = setter }

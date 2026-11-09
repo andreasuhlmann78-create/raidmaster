@@ -188,6 +188,7 @@ local pauseOwner
 local function CreatePauseBar()
 	local f = CreateFrame("Frame", "RaidMasterPauseBar", UIParent, BackdropTemplateMixin and "BackdropTemplate")
 	f:SetSize(300, 34)
+	if RM.RegisterUI then RM.RegisterUI(f, "Pausenleiste") end
 	f:SetPoint("TOP", UIParent, "TOP", 0, -140)
 	f:SetBackdrop({ bgFile = "Interface\\Buttons\\WHITE8x8", edgeFile = "Interface\\Buttons\\WHITE8x8", edgeSize = 1 })
 	f:SetBackdropColor(0.06, 0.07, 0.09, 0.92)

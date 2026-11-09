@@ -227,7 +227,7 @@ local win
 local function Create()
 	local UI = RM.UI
 	local W = 620
-	local f = UI.Frame(UIParent, W, 470)
+	local f = UI.Frame(UIParent, W, 470, "Bereitschaft")
 	UI.Skin(f)
 	f:SetFrameStrata("HIGH")
 	f:SetClampedToScreen(true)
