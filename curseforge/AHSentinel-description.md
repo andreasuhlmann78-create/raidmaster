@@ -12,6 +12,14 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.36
+
+- **Disenchant watcher:** while the AH is open and the bargain watcher is on, every other watcher round searches
+  weapons and armor and checks them with the same limits as "Worth disenchanting" (minimum return, at least 10c
+  profit). New finds are reported once: "N items with over X % return available" in chat and on screen – at most
+  once a minute, never in combat. It never buys; you buy in Buy -> "Worth disenchanting" as before.
+  Switch it off with the new button "Watcher alert: ON/OFF" there.
+
 ### Version 0.65.35
 
 - **AH fee in the profit window – one visible assumption:** the fee depends on how many pieces you post per auction
@@ -53,19 +61,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   table), not by required level.
 - The material block now shows the quantity range from the table ("1–2×"), from real disenchants the average.
 - **Disenchantry loaded:** AHSentinel shows no second material block.
-
-### Version 0.65.31
-
-- **One price for everything:** AHSentinel now values every item with ONE function – tooltip, profit window
-  (product and materials), bargains, flips, "Do today", disenchant (block and value), inventory value and the vendor
-  comparison all show the same value for the same item. Order of sources: your own sales of the last 14 days, then
-  just below the cheapest current offer (at most the median), then the 14-day median. Offers below 10 % or above 300 %
-  of the median don't count. For bargains and flips the cheap offer itself is not used as resale value.
-- **Real value in the tooltip:** new line "Real value (after fees)" with its source (own sales / AH now / market /
-  vendor) and "price old" after 6 hours; hold Shift to see each part (own sales, cheapest offer, median, fee).
-- **Vendor price as floor:** if a vendor pays more than the auction house after fees, the vendor price counts.
-- Other addons (ProfessionSentinel) can use the same values: `AHAnalyzerPro:RealPrice(itemID)` and
-  `AHAnalyzerPro:RealValue(itemID, qty)`; the old `GetSalePrice` now returns the same value.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
