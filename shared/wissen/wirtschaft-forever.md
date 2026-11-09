@@ -209,7 +209,7 @@ Spieler leveln noch). Jede Strategie mit der Frage: Was muss AHSentinel/Professi
   Server liegen, nicht am Addon.
 - **Preise Startwoche (Medianwerte US/EU, 7.11., timesaver.gg/AH Ledger):** Leinenstoff ~29c, Wollstoff ~1s 30–61c,
   Seidenstoff ~3s 40–90c, Magiestoff ~10–13s (Startwoche 32s, −64 %), Kupfererz ~71–86c, Eisenerz ~6–9s (−48 %),
-  Thoriumfreie Mittelstufe fällt; Seltsamer Staub ~97c, Geringe Magieessenz ~1s 42–58c, Grosse Magieessenz ~3s 35–78c,
+  Seltsamer Staub ~97c, Geringe Magieessenz ~1s 42–58c, Grosse Magieessenz ~3s 35–78c,
   Visionenstaub ~14–24s (Startwoche 57s, −67 %).
 - **Beobachtetes Muster (wichtig für Strategie):** Waren für Stufe 1–20 blieben stabil; Waren der Stufen 30–45 fielen
   in wenigen Tagen um 50–67 %, sobald mehr Spieler dort ankamen (Knappheitsprämie verschwindet). Kupfer und
