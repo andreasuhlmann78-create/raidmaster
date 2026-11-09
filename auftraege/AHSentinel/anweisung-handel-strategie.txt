@@ -65,10 +65,16 @@ H7 Rendite je Geschäftsart (Buchhaltung -> Statistik)
    Testfall T-H7 (je Art ein Geschäft -> richtige Zuordnung und Summe).
 H9 Gold pro Stunde (Wunsch des Nutzers 15:58: "messen, ob sich der Aufwand lohnt") – gehört zu H7
    Zeit messen (nur lokal, ohne Namen), je Tätigkeit:
-     - AH-Arbeit (Flippen, Verkaufen, Sniper): Zeit mit offenem Auktionshaus,
+     - AH-Arbeit (Flippen, Verkaufen, Sniper): NUR AKTIVE Zeit bei offenem Auktionshaus (Nutzer 16:00: AFK mit offenem
+       AH darf nicht zählen). Aktiv = Zeit zwischen eigenen Handlungen (Klick/Taste in AHSentinel oder Blizzard-AH:
+       Suchen, Kaufen, Einstellen, Abbrechen, Mausrad-Kauf, Preis prüfen, Reiter wechseln). Liegt zwischen zwei
+       Handlungen mehr als 2 Min., zählt nur bis 2 Min. nach der letzten Handlung. Automatische Scans, Sniper- und
+       Wächter-Läufe ohne Handlung des Spielers zählen NICHT. Sobald der Spieler AFK ist (UnitIsAFK / PLAYER_FLAGS_CHANGED),
+       stoppt die Messung sofort; die Zeit seit der letzten Handlung zählt dann nicht.
      - Herstellen: Zeit vom ersten bis zum letzten Herstellen einer Serie (Pausen > 2 Min. nicht mitzählen),
      - Entzaubern: Zeit im Entzauber-Fenster bzw. zwischen Entzauberungen einer Serie (Pausen > 2 Min. nicht),
-     - Briefkasten (Post abholen): Zeit mit offenem Briefkasten, der Tätigkeit des Geldes zugeordnet.
+     - Briefkasten (Post abholen): Zeit mit offenem Briefkasten, gleiche Aktiv-Regel, der Tätigkeit des Geldes zugeordnet.
+     - Für ALLE Tätigkeiten gilt: AFK-Markierung stoppt die Messung, Pausen über 2 Min. ohne Handlung zählen nicht.
    Gewinn je Tätigkeit aus H7 (dem GESCHÄFT zugeordnet, nicht dem Zeitpunkt, an dem die Post ankommt; ein Verkauf
    zählt zum Herstellen bzw. Flippen, aus dem das Item stammt).
    Anzeige in Buchhaltung -> Statistik, neben der Rendite: "Gold/Std." je Geschäftsart und gesamt für den gewählten
@@ -81,7 +87,9 @@ H9 Gold pro Stunde (Wunsch des Nutzers 15:58: "messen, ob sich der Aufwand lohnt
    eigene Zahlen; keine Behauptungen über "gute" Stundenlöhne ohne Daten.
    Testfälle T-H9a: 30 Min. AH offen, Gewinn Flippen 3g -> 6g/Std.; T-H9b: Herstellen mit 5 Min. Pause in der Serie
    -> Pause nicht gezählt; T-H9c: Verkauf kommt am Folgetag per Post -> zählt zum Herstellen des Vortags;
-   T-H9d: 10 Min. Daten -> "zu wenig Daten".
+   T-H9d: 10 Min. Daten -> "zu wenig Daten";
+   T-H9e: AH 30 Min. offen, letzte Handlung nach 5 Min., danach nichts -> 7 Min. gezählt; T-H9f: AFK-Markierung nach
+   3 Min. -> ab da nichts gezählt; T-H9g: automatischer Scan ohne Handlung -> keine Zeit.
 H8 Hinweis vor dem 9.12.2026 (Onyxia, Hyjal-Gipfel, Barrow Deeps öffnen; Regelwerk 9)
    Ab 25.11. höchstens einmal am Tag beim Öffnen des AH eine Zeile im Chat: "Raid-Start 9.12.: Verbrauchsgüter und
    ihre Kräuter jetzt günstig einkaufen/herstellen". Datum als Konstante mit Kommentar und Quelle; nach dem 9.12. aus.
