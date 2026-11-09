@@ -1,0 +1,64 @@
+ANWEISUNG AN DIE AHSENTINEL-SITZUNG – Sniper so schnell wie möglich, regelkonform
+Prüf-Sitzung, 9. November 2026, 17:35. Freigabe des Nutzers 17:33 (Zusammenstellung 17:29/17:31).
+Grundlage: Code AHSentinel 0.65.51 (Sniper.lua), Regelwerk shared/wissen/wirtschaft-forever.md (Abschnitte 8, 9).
+
+GRUNDSATZ (nicht verhandelbar)
+   Jeder Kauf braucht einen echten Tastendruck bzw. eine echte Mausrad-Raste des Spielers. Reservieren
+   (StartCommoditiesPurchase) und Kaufen (ConfirmCommoditiesPurchase/PlaceBid) laufen NIE aus Timer, OnUpdate,
+   Ereignis oder Schleife (Forever blockt es, AutoReserveBlocked). Keine Tastenwiederholung, keine Vervielfachung eines
+   Drucks, keine Hilfen für fremde Programme. Suchgrenze 90/min (Server 100) bleibt.
+
+BEFUND (warum Deals verpasst werden)
+   - Sniper wechselt sich mit dem Wächter ab (Tick: "abwechseln … kommt jetzt der Wächter") -> halbes Tempo.
+   - PRESS_DEBOUNCE = 0.3 s gilt auch fürs Bestätigen -> bis 0,3 s Verlust, obwohl beim Bestätigen kein Doppelkauf
+     möglich ist (pending wird geleert).
+   - RESULT_FRESH = 30 s -> bei Waren werden längst verkaufte Treffer reserviert (Rasten und Suchen verschwendet).
+   - Reserviert wird die ganze geplante Menge; kauft ein anderer einen Teil weg, steigt der Durchschnitt und der Kauf
+     bricht ab ("Preis ist inzwischen gestiegen").
+
+UMSETZUNG
+ A REAKTION
+   A1 Dauer-Scrollen: Jede Raste macht den nächsten möglichen Schritt (heute schon Sn:OnTrigger: bestätigen ->
+      kaufen/reservieren -> suchen). Sicherstellen, dass das in jeder Lage so bleibt und keine Raste "verloren" geht,
+      ausser in der Wartezeit (A3).
+   A2 Sperre getrennt: Reservieren/Kaufen-Start PRESS_DEBOUNCE 0,3 s wie heute; BESTÄTIGEN (pending.state == "ready")
+      0,05 s.
+   A3 Rasten während "waiting": still übergehen (keine Chat-Zeile, kein Ton), die erste Raste nach "ready" bestätigt.
+   A4 Im Sniper-Fenster eine Zeile: "Zum Kaufen einfach weiterscrollen – jede Raste macht den nächsten Schritt."
+ B HÄUFIGKEIT
+   B1 Wächter pausiert, solange der Sniper-Modus AN ist und offene Ziele hat (keine Abwechslung); Wächter läuft nur,
+      wenn der Sniper keine Ziele hat oder AUS ist. Wächter-Schnäppchen (extra) bleiben wie heute vorrangig prüfbar.
+   B2 Reihenfolge nach Ertrag: Ziele mit Treffern in den letzten 10 Min. öfter suchen (z. B. Gewicht 1 + Treffer),
+      Ziele ohne Treffer seit 10 Min. höchstens jede dritte Runde. Kein Ziel fällt ganz heraus.
+   B3 Gemeinsame Grenze 90/min wie in 0.65.47, Sniper Vorrang.
+ C TREFFSICHERHEIT
+   C1 Nur die Stücke reservieren, deren Stückpreis <= Max/Stück ist (Summe der Angebotsstufen unter dem Maximum),
+      höchstens Restmenge/Budget des Ziels.
+   C2 Waren-Treffer gelten nur 3 s als aktuell (RESULT_FRESH für Waren = 3; Ausrüstung/Einzelangebote wie heute).
+      Älter -> erst neu suchen, nicht reservieren.
+   C3 Teilkauf annehmen: Meldet COMMODITY_PRICE_UPDATED einen Stückpreis <= Max und Gesamt <= Budget, bestätigen
+      lassen (wie heute); liefert der Server weniger Menge, die tatsächlich gekaufte Menge buchen.
+ D MESSEN
+   D1 Je Treffer Zeiten (ms): Suche->Treffer, Treffer->Reservierung, Reservierung->bereit, bereit->bestätigt,
+      bestätigt->Kauf bestätigt; Ergebnis: gekauft / weg / Preis gestiegen / Server-Fehler / abgelaufen.
+      Protokoll gebündelt (eine Zeile je Minute, keine Namen).
+   D2 Anzeige im Sniper: "Heute: N Treffer · N gekauft · N verpasst · Ø Reaktion X s"; je Ziel Quote gekauft/Treffer.
+   D3 Ziel mit >= 10 Treffern und < 20 % gekauft: gelber Hinweis "Hier sind andere schneller – anderes Ziel wählen?"
+
+REIHENFOLGE
+   Zuerst D1/D2 aus offen-ahsentinel.txt (Nachtrag 17:30: doppelte Verkaufsbuchung HOCH, Diagnose-Zählung), dann diese
+   Anweisung. Gern eine Version für A+C (Tempo), eine für B+D.
+
+TESTFÄLLE (TestRoutine, Locales EN/DE, CHANGELOG EN/DE)
+   T-SN1 pending ready, zweite Raste 0,06 s nach der ersten -> bestätigt; Reservieren-Raste 0,1 s nach Kauf -> gesperrt
+   T-SN2 5 Rasten während waiting -> keine Chat-Zeile, kein Kauf; erste Raste nach ready -> bestätigt
+   T-SN3 Sniper AN mit Zielen -> Wächter macht keine Runde; Sniper AUS -> Wächter läuft
+   T-SN4 Ziel mit 3 Treffern in 10 Min. wird öfter gesucht als Ziel ohne Treffer; keines fällt heraus
+   T-SN5 Angebote 20@11c, 30@18c, 50@23c, Max 19c -> reserviert 50 Stück, nicht 100
+   T-SN6 Waren-Ergebnis 4 s alt -> neue Suche statt Reservierung
+   T-SN7 PRICE_UPDATED Stückpreis <= Max, kleinere Menge -> Kauf, gebuchte Menge = gekaufte
+   T-SN8 Messung: Ablauf Treffer->gekauft ergibt 5 Zeiten und Ergebnis "gekauft"; Anzeige zählt richtig
+   T-SN9 Kein Kauf/Reservieren ohne Tasten-/Mausrad-Ereignis (Aufruf aus Tick/Timer -> nicht erlaubt, Test schlägt an)
+   Bereich K: neue Zeilen nicht abgeschnitten.
+Wie immer: komplette Dateien, alte Clients nicht brechen (altes AH: Gebote/PrepareBuy unverändert), addon_check.py
+ohne FEHLER, danach kurz melden.
