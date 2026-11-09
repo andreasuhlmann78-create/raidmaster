@@ -187,3 +187,18 @@ IM CLIENT PRÜFEN (mit 0.65.30)
 - /dump ERR_AUCTION_SOLD_S auf Forever deDE; nach einem Verkauf die Meldung "Verkauft".
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
+
+BEFUND IM SPIEL (9. Nov. 11:31, drei Screenshots 10:30, Gewinn-Fenster am Berufsfenster, AHSentinel 0.65.27) – MITTEL
+   Leinenstoffballen, gleiche Minute, gleiche Werte (Materialkosten 44c, Wert des Ergebnisses 51c):
+   - Bild 1 und 3: "AH-Gebühr (5 %, mind. 1s) 5c", Gewinn +2c
+   - Bild 2:       "AH-Gebühr (5 %, mind. 1s) 1s", Gewinn −93c
+   Die Gebühr wird einmal pro Stück aus einem vollen 20er-Stapel gerechnet (max(5 % × 20 × 51c, 1s) ÷ 20 ≈ 5c), einmal
+   als eigene Auktion für 1 Stück (Minimum 1s). Beides ist für sich richtig, aber das Fenster wechselt ohne Hinweis –
+   der Spieler sieht für dasselbe Rezept einmal Gewinn, einmal Verlust.
+   Lösung: Eine feste Annahme, sichtbar beschriftet: Standard "Verkauf im vollen Stapel" (bei nicht stapelbaren Items
+   1 Stück); die Zeile heisst dann "AH-Gebühr (5 %, mind. 1s je Auktion, 20er-Stapel)". Folgt die Menge aus dem
+   Mengenfeld des Fensters (z. B. "1"), dann rechnen mit dieser Menge als EINE Auktion und das so beschriften.
+   In "Beste Rezepte" dieselbe Annahme wie im Fenster. Ermitteln, wodurch Bild 2 die andere Rechnung bekam (Mengenfeld?
+   Aufruf aus anderem Pfad?) und vereinheitlichen – gehört zu "Werte stimmen" Punkt 8 (eine Preisfunktion).
+   Testfall: Leinenstoffballen 51c, Stapel 20 -> 5c je Stück, Gewinn +2c; Menge 1 als eine Auktion -> 1s, −93c;
+   Fenster und "Beste Rezepte" zeigen bei gleicher Annahme dieselbe Zahl.
