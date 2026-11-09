@@ -434,6 +434,14 @@ def main(argv):
             print(f"Discord: {note}")
     st = evaluate(note)
     print(f"offen: {len(st['offen'])} (testberichte/status.md)")
+    if WEGE_OUT.exists() and any(WEGE_OUT.glob("*/*.json")):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("wege_check", Path(__file__).resolve().parent / "wege_check.py")
+        wc = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(wc)
+        rep, npc = wc.analyse(wc.load(WEGE_OUT))
+        wc.write(rep, npc, WEGE_OUT / "auswertung.md")
+        print(f"Wegdaten ausgewertet: {len(rep)} Zonen (testberichte/wege/auswertung.md)")
     return 0
 
 
