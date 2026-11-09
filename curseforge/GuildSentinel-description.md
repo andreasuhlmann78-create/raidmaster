@@ -10,6 +10,15 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.17
+
+- **New window "Guild management"** for guild leadership and officers: button "Management (GuildSentinel)" next to Blizzard's guild window (J stays as it is) and `/gs verwaltung`.
+  - Invite (name or current target), promote/demote (rank before -> after, never above your own rank), remove (with confirmation).
+  - Hand over guild leadership: Guild Master only, locked until the password is entered, then two confirmations.
+  - Every button follows your rights in the game. The Guild Master can add characters that may open the window on this computer (local list, never sent).
+  - Password: set in the game (enter twice), stored only as a salted checksum on this computer, masked input, 3 failed attempts lock it for 5 minutes, change only with the old password. It is a protection against accidental clicks – the real protection are your rights in the game.
+  - Actions only from your click, never in combat; in test mode nothing is executed. Option "Management button on the guild window".
+
 ### Version 0.9.16
 
 - **Professions of all members, automatically**: where the game itself knows the guild's professions (guild profession list), GuildSentinel now reads the skill levels of every member – also of members without GuildSentinel. Recipes still come only from players with GuildSentinel (or RaidMaster) who have opened their profession window once; their own data always wins over the guild list.
@@ -33,10 +42,6 @@ Fixes from the in-game test run on WoW Forever launch night:
 
 - **Language selectable for everyone**: Settings > General > "Language". On start GuildSentinel still uses the language of your game client; you can switch to German, English, French, Spanish (Spain/Mexico), Italian or Portuguese on any client (Russian, Korean and Chinese on a client in that language). GuildSentinel reloads after the change; "Same as the game client" goes back. Replaces the developer-only switch from 0.9.12.
 
-### Version 0.9.12
-
-- Developer only: under Settings > Test mode the language can be switched between German, English and the game client's language (for screenshots); GuildSentinel reloads after the change. Nothing changes for players – GuildSentinel always uses the language of the game client.
-
 *Older versions: see the changelog of each file in the **Files** tab.*
 
 ---
@@ -48,6 +53,7 @@ Fixes from the in-game test run on WoW Forever launch night:
 
 ## 🛡 Leadership (officers only)
 
+- **Guild management window**: button "Management (GuildSentinel)" next to the guild window (J) – invite, promote, demote, remove with confirmation; hand over leadership only as Guild Master and only with a password
 - **Probation**: online days, events attended and thanks since joining – then "Promote" or "Talk"
 - **Suggest mentor** based on matching online times
 - **Departures with reason**, **officer notes with history** (shared only between officers), **rank rights**

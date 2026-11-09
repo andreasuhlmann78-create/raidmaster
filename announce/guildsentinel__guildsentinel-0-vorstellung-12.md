@@ -31,6 +31,7 @@ GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mi
 • Auf WoW Forever: alle neuen Dungeons und die Raids Tiefengrabhügel, Hyjalgipfel und Onyxias Hort
 
 **🛡 Leitung** (nur Offiziere)
+• **Gildenverwaltung**: Knopf „Verwaltung (GuildSentinel)“ neben dem Gildenfenster (J) – einladen, befördern, degradieren, rauswerfen mit Rückfrage; Gildenleitung übergeben nur als Gildenmeister mit Passwort
 • **Probezeit** mit Online-Tagen, Terminen und Danke – danach „Befördern“ oder „Gespräch“
 • **Pate vorschlagen** nach gleichen Online-Zeiten, **Abgänge mit Grund**, **Offiziersnotizen** mit Verlauf (nur für Offiziere), **Rangrechte**
 • **Sammelaktionen**: Inaktive nach Regel entfernen oder mehrere Beförderungs-Vorschläge auf einmal – immer zuerst mit Prüfliste

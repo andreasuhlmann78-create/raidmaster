@@ -6,6 +6,15 @@
 </blockquote>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.9.17</h3>
+<ul>
+<li><strong>New window "Guild management"</strong> for guild leadership and officers: button "Management (GuildSentinel)" next to Blizzard's guild window (J stays as it is) and <code>/gs verwaltung</code>.</li>
+<li>Invite (name or current target), promote/demote (rank before -&gt; after, never above your own rank), remove (with confirmation).</li>
+<li>Hand over guild leadership: Guild Master only, locked until the password is entered, then two confirmations.</li>
+<li>Every button follows your rights in the game. The Guild Master can add characters that may open the window on this computer (local list, never sent).</li>
+<li>Password: set in the game (enter twice), stored only as a salted checksum on this computer, masked input, 3 failed attempts lock it for 5 minutes, change only with the old password. It is a protection against accidental clicks – the real protection are your rights in the game.</li>
+<li>Actions only from your click, never in combat; in test mode nothing is executed. Option "Management button on the guild window".</li>
+</ul>
 <h3>Version 0.9.16</h3>
 <ul>
 <li><strong>Professions of all members, automatically</strong>: where the game itself knows the guild's professions (guild profession list), GuildSentinel now reads the skill levels of every member – also of members without GuildSentinel. Recipes still come only from players with GuildSentinel (or RaidMaster) who have opened their profession window once; their own data always wins over the guild list.</li>
@@ -27,11 +36,7 @@
 <ul>
 <li><strong>Language selectable for everyone</strong>: Settings &gt; General &gt; "Language". On start GuildSentinel still uses the language of your game client; you can switch to German, English, French, Spanish (Spain/Mexico), Italian or Portuguese on any client (Russian, Korean and Chinese on a client in that language). GuildSentinel reloads after the change; "Same as the game client" goes back. Replaces the developer-only switch from 0.9.12.</li>
 </ul>
-<h3>Version 0.9.12</h3>
-<ul>
-<li>Developer only: under Settings &gt; Test mode the language can be switched between German, English and the game client's language (for screenshots); GuildSentinel reloads after the change. Nothing changes for players – GuildSentinel always uses the language of the game client.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>🏠 Overview</h2>
 <ul>
@@ -40,6 +45,7 @@
 </ul>
 <h2>🛡 Leadership (officers only)</h2>
 <ul>
+<li><strong>Guild management window</strong>: button "Management (GuildSentinel)" next to the guild window (J) – invite, promote, demote, remove with confirmation; hand over leadership only as Guild Master and only with a password</li>
 <li><strong>Probation</strong>: online days, events attended and thanks since joining – then "Promote" or "Talk"</li>
 <li><strong>Suggest mentor</strong> based on matching online times</li>
 <li><strong>Departures with reason</strong>, <strong>officer notes with history</strong> (shared only between officers), <strong>rank rights</strong></li>
