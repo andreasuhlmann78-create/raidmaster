@@ -7,6 +7,18 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.34</h3>
+<ul>
+<li><strong>Bulk buying for disenchanting</strong> (Buy tab → Buy): the button "Worth disenchanting" below the categories shows from
+  your search only items (armor/weapons) whose disenchant value exceeds the price by the minimum return, with at
+  least 10c profit per item – sorted by profit, with columns disenchant value, profit and return %.</li>
+<li>Every mouse wheel notch over the list, or "Buy next", buys the next item from the top (the first notch loads its
+    offers). Before each purchase: offer still there and not more expensive – otherwise skipped.</li>
+<li>Limits: "at most X gold" (default 5g) and "return from X %" (default 20 %). Stops at the limit, with full bags
+    or in combat. Below 10 real disenchants of the group the value counts 10 % less.</li>
+<li>Status line: "Bought N · paid · expected +profit". Only on your click/notch, never automatic; logged as KAUF
+    (no names). No skill filter – in WoW Forever everything can be disenchanted from Enchanting 1.</li>
+</ul>
 <h3>Version 0.65.33</h3>
 <ul>
 <li><strong>AH fee in the profit window corrected:</strong> the fee per piece assumed you always post a full stack (e.g. 20 Bolts of
@@ -48,20 +60,7 @@
 <li>Your existing prices are kept for the current character's realm and faction. If you have characters on several
   realms or factions, a note tells you that the old prices may be mixed – the next scan replaces them.</li>
 </ul>
-<h3>Version 0.65.29</h3>
-<ul>
-<li><strong>Disenchant value instead of "profit":</strong> the tooltip line is now called "Disenchant value ~X (T)" – it depends only
-  on the group (quality, item level, armor/weapon) and is the same for all items of that group. New below it:
-  "Profit when buying: value − purchase price" (green/red) with the price of the row you point at in the addon
-  (buy list, sniper, bargains), at a vendor his price, otherwise the cheapest current offer. In the buy list a mark
-  "[disenchanting pays]" appears only if value − price is positive.</li>
-<li><strong>Material block matches the value:</strong> block and value now use the same price per material – your own sales of the
-  last 14 days, otherwise just below the cheapest current offer (at most the median), otherwise the median. The source
-  is shown ("AH now" / "market" / "own sales"). Offers below 10 % or above 300 % of the median don't count ("offer
-  doubtful") – e.g. 22c for a Greater Mystic Essence.</li>
-<li><strong>Sharing disenchants:</strong> after 10 new ones, or at the latest 2 minutes after the last one, and on logout.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

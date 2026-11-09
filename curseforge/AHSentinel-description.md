@@ -12,6 +12,18 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.34
+
+- **Bulk buying for disenchanting** (Buy tab → Buy): the button "Worth disenchanting" below the categories shows from
+  your search only items (armor/weapons) whose disenchant value exceeds the price by the minimum return, with at
+  least 10c profit per item – sorted by profit, with columns disenchant value, profit and return %.
+  - Every mouse wheel notch over the list, or "Buy next", buys the next item from the top (the first notch loads its
+    offers). Before each purchase: offer still there and not more expensive – otherwise skipped.
+  - Limits: "at most X gold" (default 5g) and "return from X %" (default 20 %). Stops at the limit, with full bags
+    or in combat. Below 10 real disenchants of the group the value counts 10 % less.
+  - Status line: "Bought N · paid · expected +profit". Only on your click/notch, never automatic; logged as KAUF
+    (no names). No skill filter – in WoW Forever everything can be disenchanted from Enchanting 1.
+
 ### Version 0.65.33
 
 - **AH fee in the profit window corrected:** the fee per piece assumed you always post a full stack (e.g. 20 Bolts of
@@ -52,19 +64,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   exchange prices with 0.65.30.)
 - Your existing prices are kept for the current character's realm and faction. If you have characters on several
   realms or factions, a note tells you that the old prices may be mixed – the next scan replaces them.
-
-### Version 0.65.29
-
-- **Disenchant value instead of "profit":** the tooltip line is now called "Disenchant value ~X (T)" – it depends only
-  on the group (quality, item level, armor/weapon) and is the same for all items of that group. New below it:
-  "Profit when buying: value − purchase price" (green/red) with the price of the row you point at in the addon
-  (buy list, sniper, bargains), at a vendor his price, otherwise the cheapest current offer. In the buy list a mark
-  "[disenchanting pays]" appears only if value − price is positive.
-- **Material block matches the value:** block and value now use the same price per material – your own sales of the
-  last 14 days, otherwise just below the cheapest current offer (at most the median), otherwise the median. The source
-  is shown ("AH now" / "market" / "own sales"). Offers below 10 % or above 300 % of the median don't count ("offer
-  doubtful") – e.g. 22c for a Greater Mystic Essence.
-- **Sharing disenchants:** after 10 new ones, or at the latest 2 minutes after the last one, and on logout.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
