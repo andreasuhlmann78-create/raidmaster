@@ -7,6 +7,18 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.58</h3>
+<ul>
+<li><strong>Price sync reaches players outside your guild (GoldSentinelSync 2, whisper network):</strong> AHSentinel now uses
+  version 2 of the shared GoldSentinel sync file. Besides guild and group, it can reach other players with GoldSentinel
+  addons by whispering; they pass it on. Known players are remembered locally (AHSentinelDB.gsSync, names and times only).</li>
+<li><strong>What goes into the network:</strong> only prices after your own scan, bundled – the most traded items first, at most
+    20 messages and at most once every 30 minutes (the network sends at most 40 whispers per minute).</li>
+<li><strong>Guild/group only:</strong> the full price list, answers to price requests, item names and disenchant results.</li>
+<li>"Only guild" in the options keeps everything in the guild (nothing goes into the network).</li>
+<li><strong>GoldSentinelTest 2:</strong> share error reports with the developer (only with your consent, /gstest).</li>
+<li>Diagnostic log: new "NETZ" line (without player names).</li>
+</ul>
 <h3>Version 0.65.57</h3>
 <ul>
 <li><strong>One minimum profit for everything:</strong> the automatic minimum price when selling and AHSentinel.API.MinProfitPct now
@@ -45,19 +57,7 @@
   and buy rate. With 10+ hits and under 20 % bought: "Others are faster here – pick another target?" (yellow "!").
   The diagnostic log gets one SNIPER line per minute with the times per step (no names).</li>
 </ul>
-<h3>Version 0.65.53</h3>
-<ul>
-<li><strong>Faster sniper, still by the rules:</strong> every purchase still needs a real key press or mouse-wheel notch – the sniper
-  never reserves or buys from a timer (the old "instant buy" that reserved in advance without a key press is gone).</li>
-<li>Just keep scrolling: every notch does the next step. Notches while the price is being checked are ignored silently.</li>
-<li>Confirming is blocked for only 0.05 s (reserving still 0.3 s).</li>
-<li>Searches are spread evenly (at most 90 per minute) instead of bursting and then stalling.</li>
-<li>Commodity hits count as current for 3 s only; older ones are searched again instead of reserved.</li>
-<li>Only pieces at or below your max are reserved; if the server offers fewer pieces, exactly those are bought.</li>
-<li>Another AH error (e.g. a search) no longer cancels a purchase that is on its way.</li>
-<li>AH cut rounded down as measured (6279 → 313).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

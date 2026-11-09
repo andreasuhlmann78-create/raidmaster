@@ -12,6 +12,18 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.58
+
+- **Price sync reaches players outside your guild (GoldSentinelSync 2, whisper network):** AHSentinel now uses
+  version 2 of the shared GoldSentinel sync file. Besides guild and group, it can reach other players with GoldSentinel
+  addons by whispering; they pass it on. Known players are remembered locally (AHSentinelDB.gsSync, names and times only).
+  - **What goes into the network:** only prices after your own scan, bundled – the most traded items first, at most
+    20 messages and at most once every 30 minutes (the network sends at most 40 whispers per minute).
+  - **Guild/group only:** the full price list, answers to price requests, item names and disenchant results.
+  - "Only guild" in the options keeps everything in the guild (nothing goes into the network).
+- **GoldSentinelTest 2:** share error reports with the developer (only with your consent, /gstest).
+- Diagnostic log: new "NETZ" line (without player names).
+
 ### Version 0.65.57
 
 - **One minimum profit for everything:** the automatic minimum price when selling and AHSentinel.API.MinProfitPct now
@@ -49,18 +61,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Measured:** the sniper shows "Today: N hits · N bought · N missed · avg reaction X s"; the target tooltip shows hits
   and buy rate. With 10+ hits and under 20 % bought: "Others are faster here – pick another target?" (yellow "!").
   The diagnostic log gets one SNIPER line per minute with the times per step (no names).
-
-### Version 0.65.53
-
-- **Faster sniper, still by the rules:** every purchase still needs a real key press or mouse-wheel notch – the sniper
-  never reserves or buys from a timer (the old "instant buy" that reserved in advance without a key press is gone).
-  - Just keep scrolling: every notch does the next step. Notches while the price is being checked are ignored silently.
-  - Confirming is blocked for only 0.05 s (reserving still 0.3 s).
-  - Searches are spread evenly (at most 90 per minute) instead of bursting and then stalling.
-  - Commodity hits count as current for 3 s only; older ones are searched again instead of reserved.
-  - Only pieces at or below your max are reserved; if the server offers fewer pieces, exactly those are bought.
-  - Another AH error (e.g. a search) no longer cancels a purchase that is on its way.
-- AH cut rounded down as measured (6279 → 313).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
