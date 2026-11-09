@@ -133,16 +133,16 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Silberwald (1421)
 
-- Wegstücke 171, Knoten 245, zusammenhängende Teile 14
+- Wegstücke 231, Knoten 320, zusammenhängende Teile 16
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 139 Knoten, Bereich 34–57 / 8–45
-  - Teil 2: 33 Knoten, Bereich 43–51 / 49–74
-  - Teil 3: 22 Knoten, Bereich 64–77 / 32–36
-  - Teil 4: 14 Knoten, Bereich 55–58 / 45–50
-  - Teil 5: 11 Knoten, Bereich 77–80 / 22–30
-  - Teil 6: 5 Knoten, Bereich 58–62 / 8–14
-  - Teil 7: 5 Knoten, Bereich 57–58 / 14–18
-  - Teil 8: 3 Knoten, Bereich 56–58 / 35–36
+  - Teil 1: 140 Knoten, Bereich 34–57 / 8–45
+  - Teil 2: 69 Knoten, Bereich 55–65 / 57–78
+  - Teil 3: 33 Knoten, Bereich 43–51 / 49–74
+  - Teil 4: 22 Knoten, Bereich 64–77 / 32–36
+  - Teil 5: 14 Knoten, Bereich 55–58 / 45–50
+  - Teil 6: 11 Knoten, Bereich 77–80 / 22–30
+  - Teil 7: 5 Knoten, Bereich 58–62 / 8–14
+  - Teil 8: 5 Knoten, Bereich 57–58 / 14–18
 - **Ausreisser:** Wegstück 62: Sprung 6.0 % von 50.4,59.6 nach 49.5,53.7
 - **Ausreisser:** Wegstück 69: Sprung 4.8 % von 46.1,44.7 nach 48.1,49.1
 - **Ausreisser:** Wegstück 75: Sprung 4.2 % von 49.9,28.7 nach 49.7,32.9
@@ -245,7 +245,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 629, Knoten 244, zusammenhängende Teile 63
+- Wegstücke 687, Knoten 244, zusammenhängende Teile 63
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 64 Knoten, Bereich 48–74 / 36–56
   - Teil 2: 20 Knoten, Bereich 44–53 / 65–80
