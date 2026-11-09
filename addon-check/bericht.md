@@ -13,7 +13,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## ProfessionSentinel-0.9.27.zip: OK
 
-## RaidMaster-3.0.18.zip: OK
+## RaidMaster-3.0.19.zip: OK
 
 ## ThreatSentinel-2.5.0.zip: OK
 
