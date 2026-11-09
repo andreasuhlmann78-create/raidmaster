@@ -1,0 +1,107 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "70862",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 1,
+ "fest": [],
+ "id": "LevelPilot-wege-1794251450-9ac2c5",
+ "kind": "wege",
+ "npc": [],
+ "time": 1794251450,
+ "version": "3.12.19",
+ "zones": [
+  {
+   "edges": [
+    {
+     "n": 1,
+     "p": [
+      62.2,
+      38.2,
+      62.3,
+      38.1,
+      62.7,
+      38.1
+     ],
+     "src": "selbst"
+    },
+    {
+     "n": 1,
+     "p": [
+      62.1,
+      39.3,
+      62.2,
+      39.1,
+      61.9,
+      38.3,
+      62.3,
+      38.1,
+      62.4,
+      37.8,
+      62.7,
+      37.7
+     ],
+     "src": "geteilt"
+    },
+    {
+     "n": 4,
+     "p": [
+      63,
+      37.1,
+      63,
+      36.8,
+      62.7,
+      37.9,
+      62.1,
+      38.7,
+      62.1,
+      38.9
+     ],
+     "src": "geteilt"
+    },
+    {
+     "n": 2,
+     "p": [
+      63.2,
+      37.2,
+      63.1,
+      37.7,
+      62.9,
+      37.9
+     ],
+     "src": "geteilt"
+    }
+   ],
+   "map": 1413,
+   "name": "Das Brachland"
+  },
+  {
+   "edges": [
+    {
+     "n": 98,
+     "p": [
+      62.9,
+      51.3,
+      64.2,
+      52.3,
+      61.8,
+      51.4
+     ],
+     "src": "selbst"
+    }
+   ],
+   "map": 1458,
+   "name": "Undercity"
+  }
+ ]
+}

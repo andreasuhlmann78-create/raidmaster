@@ -1,30 +1,160 @@
 {
- "ausgewertet": "2026-11-09T19:00:00Z",
+ "ausgewertet": "2026-11-09T19:59:54Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 6,
+   "berichte": 7,
    "letzter_test": {
-    "id": "AHSentinel-1794208411-be649b-2",
-    "version": "0.65.23",
-    "time": 1794208411,
+    "id": "AHSentinel-1794250736-7db124-1",
+    "version": "0.65.56",
+    "time": 1794250686,
     "counts": {
-     "client": 1,
-     "fehler": 1,
-     "ok": 6,
-     "uebersprungen": 0
+     "client": 15,
+     "fehler": 14,
+     "ok": 329,
+     "uebersprungen": 18
     }
    },
    "fehler_tests": [
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.23",
+     "version": "0.65.56",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "S5",
-     "name": "Gewinn-Fenster überdeckt Berufsfenster und andere Addons nicht",
-     "detail": "ergebnis: Hauptfenster überdeckt AuctionHouseFrame; Hauptfenster überdeckt BuffSentinelAnchor_dispel (BuffSentinel); Hauptfenster überdeckt Guide (LevelPilot); Gewinn-Fenster überdeckt BuffSentinelAnchor_cd (BuffSentinel) | erwartet: nichts überdeckt",
-     "bericht": "AHSentinel-1794208411-be649b-2"
+     "id": "T112",
+     "name": "Oberfläche: Sprachwechsel (alle Sprachen, mehrfach)",
+     "detail": "ergebnis: enUS: Interface/AddOns/AHSentinel/SelfTest.lua:493: Tooltip nicht in enUS; deDE: Interface/AddOns/AHSentinel/SelfTest.lua:493: Tooltip nicht in deDE; frFR: Interface/AddOns/AHSentinel/SelfTest.lua:493: Tooltip nicht in frFR; esES: Interface/AddOns/AHSentinel/SelfTest.lua:493: Tooltip nicht in esES; … | erwartet: bestanden",
+     "bericht": "AHSentinel-1794250736-7db124-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.56",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T40",
+     "name": "Server: Sniper: Suche (kauft nichts)",
+     "detail": "ergebnis: Treffer bei Max-Preis 1 Kupfer - darf nicht sein | erwartet: bestanden",
+     "bericht": "AHSentinel-1794250736-7db124-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.56",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T81",
+     "name": "Addon-Nachricht Sync geschützt",
+     "detail": "ergebnis: Interface/AddOns/AHSentinel/TestRoutine.lua:1754: attempt to call a nil value | erwartet: kein Lua-Fehler",
+     "bericht": "AHSentinel-1794250736-7db124-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.56",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T123",
+     "name": "Heute tun (10)",
+     "detail": "ergebnis: Mittel 313.914 ms, höchstens 324.80 ms (5220 Items) | erwartet: < 16.00 ms",
+     "bericht": "AHSentinel-1794250736-7db124-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.56",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T123b",
+     "name": "Marktliste",
+     "detail": "ergebnis: Mittel 116.997 ms, höchstens 117.40 ms (5220 Items) | erwartet: < 16.00 ms",
+     "bericht": "AHSentinel-1794250736-7db124-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.56",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T53",
+     "name": "Verkaufs-Meldung",
+     "detail": "ergebnis: Item nil, verkauft nil, Meldung true | erwartet: lastSale.itemID gesetzt, o.sold, Meldung im Chat",
+     "bericht": "AHSentinel-1794250736-7db124-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.56",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T122",
+     "name": "Tooltip schnell",
+     "detail": "ergebnis: 2.16 ms je Aufruf | erwartet: < 2 ms",
+     "bericht": "AHSentinel-1794250736-7db124-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.56",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T124",
+     "name": "Berufsliste (Zwischenspeicher)",
+     "detail": "ergebnis: erstes Mal 9.3 ms, zweites Mal 2.4 ms | erwartet: zweites Mal < 2 ms",
+     "bericht": "AHSentinel-1794250736-7db124-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.56",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T160",
+     "name": "Gewinn-Fenster neben der Reiterleiste, nie darüber",
+     "detail": "ergebnis: mit Reitern +44 (links 647, Reiter rechts 644), ohne Rand -0, mit Rand 34 -30 | erwartet: linke Kante >= rechte Kante der Reiter; ohne Rand 0, mit Rand 34 -> x >= 0",
+     "bericht": "AHSentinel-1794250736-7db124-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.56",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T167",
+     "name": "Ereignisse gesammelt: höchstens 3 Neuaufbauten",
+     "detail": "ergebnis: 20 Ereignisse, 0 Aufbauten | erwartet: 1 bis 3",
+     "bericht": "AHSentinel-1794250736-7db124-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.56",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T264",
+     "name": "H9 Gold pro Stunde (T-H9a bis g): 6g/Std., Pause, Folgetag, zu wenig Daten, 7 Min., AFK, Scan ohne Handlung",
+     "detail": "lua: Interface/AddOns/AHSentinel/Activity.lua:96: attempt to compare nil with number",
+     "bericht": "AHSentinel-1794250736-7db124-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.56",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T266",
+     "name": "Schnittstelle AHSentinel.API v1 (T-API1 bis T-API7)",
+     "detail": "ergebnis: true true 1234scan true 180craft 500/450/0/table scan,ledger | erwartet: true true 1234scan true 180craft 500/450/0/table scan",
+     "bericht": "AHSentinel-1794250736-7db124-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.56",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T191",
+     "name": "Eigene Tooltips verdecken keine Knöpfe",
+     "detail": "ergebnis: 'Mit Auktionshaus' verdeckt Button; 'Testmodus starten' verdeckt Button; 'Einkaufslisten' verdeckt Button; 'Alle Seltenheiten' verdeckt ''; 'X' verdeckt ''; 'Ziel setzen' verdeckt Button; 'Sniper-Modus: AUS' verdeckt ''; 'Mausrad' verdeckt ''; 'Eigene Taste' verdeckt ''; Button verdeckt 'Unterstütz… | erwartet: keine",
+     "bericht": "AHSentinel-1794250736-7db124-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.56",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T192",
+     "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
+     "detail": "ergebnis: AHAnalyzerProSelfTest überdeckt ProfessionsFrame; AHAnalyzerProSelfTest überdeckt AuctionHouseFrame; AHAnalyzerProSelfTest überdeckt BuffSentinelAnchor_proc (BuffSentinel); AHAnalyzerProSelfTest überdeckt BuffSentinelAnchor_buff (BuffSentinel); AHAnalyzerProSelfTest überdeckt BuffSentinelAnchor… | erwartet: keine",
+     "bericht": "AHSentinel-1794250736-7db124-1"
     }
    ],
    "fehler_spiel": [
@@ -443,12 +573,142 @@
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.23",
+   "version": "0.65.56",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "S5",
-   "name": "Gewinn-Fenster überdeckt Berufsfenster und andere Addons nicht",
-   "detail": "ergebnis: Hauptfenster überdeckt AuctionHouseFrame; Hauptfenster überdeckt BuffSentinelAnchor_dispel (BuffSentinel); Hauptfenster überdeckt Guide (LevelPilot); Gewinn-Fenster überdeckt BuffSentinelAnchor_cd (BuffSentinel) | erwartet: nichts überdeckt",
-   "bericht": "AHSentinel-1794208411-be649b-2"
+   "id": "T112",
+   "name": "Oberfläche: Sprachwechsel (alle Sprachen, mehrfach)",
+   "detail": "ergebnis: enUS: Interface/AddOns/AHSentinel/SelfTest.lua:493: Tooltip nicht in enUS; deDE: Interface/AddOns/AHSentinel/SelfTest.lua:493: Tooltip nicht in deDE; frFR: Interface/AddOns/AHSentinel/SelfTest.lua:493: Tooltip nicht in frFR; esES: Interface/AddOns/AHSentinel/SelfTest.lua:493: Tooltip nicht in esES; … | erwartet: bestanden",
+   "bericht": "AHSentinel-1794250736-7db124-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.56",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T40",
+   "name": "Server: Sniper: Suche (kauft nichts)",
+   "detail": "ergebnis: Treffer bei Max-Preis 1 Kupfer - darf nicht sein | erwartet: bestanden",
+   "bericht": "AHSentinel-1794250736-7db124-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.56",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T81",
+   "name": "Addon-Nachricht Sync geschützt",
+   "detail": "ergebnis: Interface/AddOns/AHSentinel/TestRoutine.lua:1754: attempt to call a nil value | erwartet: kein Lua-Fehler",
+   "bericht": "AHSentinel-1794250736-7db124-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.56",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T123",
+   "name": "Heute tun (10)",
+   "detail": "ergebnis: Mittel 313.914 ms, höchstens 324.80 ms (5220 Items) | erwartet: < 16.00 ms",
+   "bericht": "AHSentinel-1794250736-7db124-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.56",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T123b",
+   "name": "Marktliste",
+   "detail": "ergebnis: Mittel 116.997 ms, höchstens 117.40 ms (5220 Items) | erwartet: < 16.00 ms",
+   "bericht": "AHSentinel-1794250736-7db124-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.56",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T53",
+   "name": "Verkaufs-Meldung",
+   "detail": "ergebnis: Item nil, verkauft nil, Meldung true | erwartet: lastSale.itemID gesetzt, o.sold, Meldung im Chat",
+   "bericht": "AHSentinel-1794250736-7db124-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.56",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T122",
+   "name": "Tooltip schnell",
+   "detail": "ergebnis: 2.16 ms je Aufruf | erwartet: < 2 ms",
+   "bericht": "AHSentinel-1794250736-7db124-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.56",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T124",
+   "name": "Berufsliste (Zwischenspeicher)",
+   "detail": "ergebnis: erstes Mal 9.3 ms, zweites Mal 2.4 ms | erwartet: zweites Mal < 2 ms",
+   "bericht": "AHSentinel-1794250736-7db124-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.56",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T160",
+   "name": "Gewinn-Fenster neben der Reiterleiste, nie darüber",
+   "detail": "ergebnis: mit Reitern +44 (links 647, Reiter rechts 644), ohne Rand -0, mit Rand 34 -30 | erwartet: linke Kante >= rechte Kante der Reiter; ohne Rand 0, mit Rand 34 -> x >= 0",
+   "bericht": "AHSentinel-1794250736-7db124-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.56",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T167",
+   "name": "Ereignisse gesammelt: höchstens 3 Neuaufbauten",
+   "detail": "ergebnis: 20 Ereignisse, 0 Aufbauten | erwartet: 1 bis 3",
+   "bericht": "AHSentinel-1794250736-7db124-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.56",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T264",
+   "name": "H9 Gold pro Stunde (T-H9a bis g): 6g/Std., Pause, Folgetag, zu wenig Daten, 7 Min., AFK, Scan ohne Handlung",
+   "detail": "lua: Interface/AddOns/AHSentinel/Activity.lua:96: attempt to compare nil with number",
+   "bericht": "AHSentinel-1794250736-7db124-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.56",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T266",
+   "name": "Schnittstelle AHSentinel.API v1 (T-API1 bis T-API7)",
+   "detail": "ergebnis: true true 1234scan true 180craft 500/450/0/table scan,ledger | erwartet: true true 1234scan true 180craft 500/450/0/table scan",
+   "bericht": "AHSentinel-1794250736-7db124-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.56",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T191",
+   "name": "Eigene Tooltips verdecken keine Knöpfe",
+   "detail": "ergebnis: 'Mit Auktionshaus' verdeckt Button; 'Testmodus starten' verdeckt Button; 'Einkaufslisten' verdeckt Button; 'Alle Seltenheiten' verdeckt ''; 'X' verdeckt ''; 'Ziel setzen' verdeckt Button; 'Sniper-Modus: AUS' verdeckt ''; 'Mausrad' verdeckt ''; 'Eigene Taste' verdeckt ''; Button verdeckt 'Unterstütz… | erwartet: keine",
+   "bericht": "AHSentinel-1794250736-7db124-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.56",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T192",
+   "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
+   "detail": "ergebnis: AHAnalyzerProSelfTest überdeckt ProfessionsFrame; AHAnalyzerProSelfTest überdeckt AuctionHouseFrame; AHAnalyzerProSelfTest überdeckt BuffSentinelAnchor_proc (BuffSentinel); AHAnalyzerProSelfTest überdeckt BuffSentinelAnchor_buff (BuffSentinel); AHAnalyzerProSelfTest überdeckt BuffSentinelAnchor… | erwartet: keine",
+   "bericht": "AHSentinel-1794250736-7db124-1"
   },
   {
    "addon": "AHSentinel",
@@ -756,8 +1016,8 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 36,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.56-41413c2fb969.txt"
+    "anzahl": 38,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.56-0adfe400f7f2.txt"
    },
    "BuffSentinel": {
     "anzahl": 20,
@@ -768,12 +1028,12 @@
     "neueste": "testberichte/diagnose/GSMesstest/1-7ea686d8b1e0.txt"
    },
    "GuildSentinel": {
-    "anzahl": 30,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.18-e13c3764b336.txt"
+    "anzahl": 32,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.19-137a602590d4.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 35,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.30-683fb43128c0.txt"
+    "anzahl": 37,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.37-352b02a1434d.txt"
    },
    "ThreatSentinel": {
     "anzahl": 20,
@@ -782,8 +1042,8 @@
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 78,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794214885-bf4796.json"
+    "anzahl": 80,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794250179-f504b7.json"
    }
   }
  }

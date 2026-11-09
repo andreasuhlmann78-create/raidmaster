@@ -58,9 +58,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Das Brachland (1413)
 
-- Wegstücke 923, Knoten 697, zusammenhängende Teile 29
+- Wegstücke 929, Knoten 698, zusammenhängende Teile 29
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 568 Knoten, Bereich 38–66 / 3–58
+  - Teil 1: 569 Knoten, Bereich 38–66 / 3–58
   - Teil 2: 79 Knoten, Bereich 41–50 / 45–59
   - Teil 3: 4 Knoten, Bereich 58–60 / 37–39
   - Teil 4: 4 Knoten, Bereich 58–59 / 21–22
@@ -191,9 +191,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Orgrimmar (1454)
 
-- Wegstücke 366, Knoten 242, zusammenhängende Teile 47
+- Wegstücke 374, Knoten 248, zusammenhängende Teile 46
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 93 Knoten, Bereich 41–63 / 48–77
+  - Teil 1: 100 Knoten, Bereich 41–63 / 48–77
   - Teil 2: 21 Knoten, Bereich 59–71 / 29–42
   - Teil 3: 19 Knoten, Bereich 49–59 / 35–46
   - Teil 4: 15 Knoten, Bereich 38–47 / 51–58
@@ -259,9 +259,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 943, Knoten 256, zusammenhängende Teile 57
+- Wegstücke 979, Knoten 261, zusammenhängende Teile 57
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 77 Knoten, Bereich 48–74 / 36–56
+  - Teil 1: 80 Knoten, Bereich 48–74 / 33–56
   - Teil 2: 25 Knoten, Bereich 64–76 / 12–33
   - Teil 3: 20 Knoten, Bereich 44–53 / 65–80
   - Teil 4: 14 Knoten, Bereich 50–58 / 13–33
