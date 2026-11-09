@@ -177,9 +177,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Orgrimmar (1454)
 
-- Wegstücke 349, Knoten 237, zusammenhängende Teile 51
+- Wegstücke 351, Knoten 238, zusammenhängende Teile 51
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 81 Knoten, Bereich 42–63 / 48–77
+  - Teil 1: 82 Knoten, Bereich 42–63 / 48–77
   - Teil 2: 21 Knoten, Bereich 59–71 / 29–42
   - Teil 3: 19 Knoten, Bereich 49–59 / 35–46
   - Teil 4: 15 Knoten, Bereich 38–47 / 51–58
@@ -245,7 +245,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 564, Knoten 244, zusammenhängende Teile 63
+- Wegstücke 592, Knoten 244, zusammenhängende Teile 63
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 64 Knoten, Bereich 48–74 / 36–56
   - Teil 2: 20 Knoten, Bereich 44–53 / 65–80
