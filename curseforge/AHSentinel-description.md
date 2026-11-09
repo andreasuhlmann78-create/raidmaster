@@ -12,6 +12,22 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.41
+
+**See at a glance whether it pays off – no calculating:**
+- **Tooltip – disenchant verdict:** instead of "Disenchant value" and "Profit when buying" there are two lines:
+  green "Disenchanting pays off +2s 85c", red "Disenchanting does not pay −65c" or grey "Disenchant: uncertain"
+  (a material price is missing or unreliable), and below "Worth up to 7s 79c" (= disenchant value / (1 + minimum
+  return, default 20 %), rounded down). Materials, chances and the calculation only with **Shift**. For your own items
+  in the bags: "Disenchanting is worth more than selling" or "Selling is worth more than disenchanting".
+- **Profit window – best way:**
+  - Materials over the cheapest way per reagent: AH, vendor, or crafting it yourself from a recipe you know
+    (e.g. Bolt of Linen Cloth from 2 Linen Cloth), up to 2 levels. A small grey line says where it comes from.
+    "Materials as shopping list" buys the reagents actually chosen (Linen Cloth instead of the bolt).
+  - Value = the better of selling (AH fee max(5 %, 1s) per auction) and disenchanting (only if disenchantable).
+  - "Profit" shows the best way, below "best way: disenchant/sell" and the other way with its amount.
+    "Best recipes" sorts by it, with "dis."/"sell" behind the amount.
+
 ### Version 0.65.40
 
 - **Ledger repair (WoW Forever, once):** sales booked before 0.65.35 still carried the AH share and deposit from the
@@ -72,14 +88,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   return %. A bought item is matched to its disenchant (same item, within 14 days). Own items you disenchant are
   shown separately (material value only), items bought but not yet disenchanted as "still open".
 - Tests and comments use invented character names only.
-
-### Version 0.65.36
-
-- **Disenchant watcher:** while the AH is open and the bargain watcher is on, every other watcher round searches
-  weapons and armor and checks them with the same limits as "Worth disenchanting" (minimum return, at least 10c
-  profit). New finds are reported once: "N items with over X % return available" in chat and on screen – at most
-  once a minute, never in combat. It never buys; you buy in Buy -> "Worth disenchanting" as before.
-  Switch it off with the new button "Watcher alert: ON/OFF" there.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
