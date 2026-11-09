@@ -7,6 +7,15 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.52</h3>
+<ul>
+<li><strong>Ledger fix (WoW Forever): sales no longer booked twice.</strong> After you took the gold, the same sale invoice was
+  read again as a new sale (quantity counted twice, income −5 %). The invoice key no longer contains the mail gold,
+  and an invoice without gold is never booked again if it was already booked. Total = field "bid" of the invoice
+  (cross-checked with gold + AH cut − deposit while the gold is still in the mail). Existing duplicates are removed
+  once at login ("Ledger: removed N duplicate sales") and kept as a backup.</li>
+<li>Diagnostic log: the item count of the price data now matches the status line (was 0 after logout).</li>
+</ul>
 <h3>Version 0.65.51</h3>
 <ul>
 <li><strong>Profit window and ProfessionSentinel:</strong> while the ProfessionSentinel panel is open, the AHSentinel profit window
@@ -45,19 +54,7 @@
 <li><strong>Expired 3× in a row:</strong> the sell tab shows a yellow hint with a cheaper suggestion, the vendor price and the
   deposits lost so far. Nothing happens automatically.</li>
 </ul>
-<h3>Version 0.65.47</h3>
-<ul>
-<li><strong>Cancel only when it pays:</strong> an undercut auction is only suggested for cancelling when reposting earns more than
-  the lost deposit plus the new deposit's risk. A 1c undercut is now shown as grey "undercut – leave it" and
-  "Cancel next undercut" skips it (buyers take the cheapest pieces first anyway). The row tooltip shows the math.</li>
-<li><strong>At most 90 searches per minute (WoW Forever):</strong> all searches (sniper, watcher, scan, buy, price check) share one
-  60-second window below the server limit of 100; the sniper has priority.</li>
-<li><strong>Neutral auction house (Booty Bay, Gadgetzan, Everlook): 15 % instead of 5 %</strong> on sale – everywhere the cut is
-  used. A formula deposit there is marked "(uncertain)" until measured.</li>
-<li><strong>Sniper:</strong> if your max per piece is above the net sale value (last scan minus cut and deposit risk), a yellow hint
-  shows the expected loss per piece. Nothing is blocked.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
