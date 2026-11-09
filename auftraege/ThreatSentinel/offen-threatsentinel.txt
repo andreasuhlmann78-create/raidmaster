@@ -56,3 +56,8 @@ BEFUND AUS DEM TESTBERICHT (9. Nov. 08:30, Prüf-Sitzung, Testlauf im Spiel 9. N
       Lösung: Auswertung über mehrere Frames verteilen (Koroutine/C_Timer) bzw. nur neue Einträge auswerten, nicht
       die Grenze erhöhen. Mit 2.5.0 im Spiel erneut prüfen. T22 (FullName) weiter offen wie oben.
       Hinweis: der Lauf war mit 2.4.5 – im Spiel ist offenbar noch nicht 2.5.0 installiert.
+
+NEU (9. Nov. 14:36, Wunsch des Nutzers) – Aggrometer nach Aggro sortieren, auch in Forever (Modus ANZEIGE)
+   Siehe anweisung-aggro-reihenfolge.txt: Platz 1 = wer die Aggro hat (Ziel des Mobs), dann Bedrohungsstufe, dann
+   Schätzung aus Schaden/Heilung mit "~"; Kopf "Reihenfolge: sicher / ~ geschätzt". Zuerst im Protokoll messen,
+   was in Forever lesbar ist. Balken unverändert (echte Werte), nur die Reihenfolge.

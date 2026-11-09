@@ -1,0 +1,46 @@
+ANWEISUNG AN DIE THREATSENTINEL-SITZUNG – Aggrometer nach Aggro sortieren, auch in WoW Forever
+Prüf-Sitzung, 9. November 2026, 14:36. Wunsch und Freigabe des Nutzers 14:31 / 14:34.
+
+WUNSCH DES NUTZERS
+   Im Aggrometer steht zuoberst, wer die meiste Aggro hat, darunter der Zweitmeiste usw.
+
+AUSGANGSLAGE (geprüft im Code von 2.5.0 und im Diagnose-Protokoll 9.11. 12:32)
+   - Forever: "Bedrohung: secret · Modus DISPLAY". Meter.lua sortiert im Modus ANZEIGE fest: Tank, dann Gruppe
+     (Zeile ~168), nicht nach Bedrohung – weil die Werte geschützt sind und sich nicht vergleichen lassen.
+   - Lesbare Werte (Era/TBC): schon richtig sortiert (tanking zuerst, dann pull absteigend). Nicht ändern.
+   - Modus "secret" ohne DISPLAY: sortiert nach status. Nicht ändern.
+
+UMSETZUNG – im Modus ANZEIGE die beste verfügbare Stufe nehmen
+   Stufe 1 (sicher): Platz 1 = wer die Aggro hat. Quelle: Ziel des Mobs (UnitIsUnit("<mob>target", u) für den
+           betrachteten Mob: target bzw. Fokus/Plakette wie heute), nur wenn das Ergebnis KEIN geschützter Wert ist
+           (ns.Safe / IsSecret prüfen). Fallback: isTanking, falls lesbar.
+   Stufe 2 (sicher, grob): danach nach Bedrohungsstufe (UnitThreatSituation 3/2/1/0 bzw. status aus
+           UnitDetailedThreatSituation), nur wenn lesbar.
+   Stufe 3 (geschätzt): innerhalb gleicher Stufe nach geschätzter Bedrohung aus Schaden und Heilung dieses Kampfs
+           (vorhandenes Schadens-/Heilmeter, Fallback ohne Kampflog wie heute): Schaden × Klassen-/Haltungsfaktor
+           + Heilung × 0,5 (geteilt durch Anzahl Gegner) – klassische Faustregeln (Krieger Verteidigung ×1,3,
+           Druide Bär ×1,3, Paladin mit Zorn der Gerechtigkeit Heilig-Schaden ×1,6, Schurke ×0,71, Priester Schatten-
+           Schaden mit Schattenaffinität ×0,75 …, nur was ThreatSentinel sicher erkennt; sonst ×1).
+   - Die Balken zeigen weiter die echten (geschützten) Werte über die StatusBar. Nur die REIHENFOLGE ändert sich.
+   - Rangwechsel mit Dämpfung: höchstens alle 0,5 s neu sortieren und erst tauschen, wenn die Schätzung > 10 %
+     auseinanderliegt (kein Flackern).
+   - Klein im Kopf des Aggrometers: "Reihenfolge: sicher" (nur Stufe 1/2 nötig gewesen) oder
+     "Reihenfolge: ~ geschätzt" (Stufe 3 benutzt). Geschätzte Namen mit "~" vor dem Namen.
+   - Testmodus/Vorschau: wie bisher.
+
+ZUERST MESSEN (Diagnose-Protokoll, einmal je Kampf, ohne Namen)
+   "LESBAR Ziel-des-Mobs=ja/nein · Stufe=ja/nein · isTanking=ja/nein · Schätzung=ja/nein"
+   Damit sieht die Prüf-Sitzung im nächsten Paket, welche Stufen in Forever wirklich gehen. Wenn Stufe 1 und 2 nicht
+   lesbar sind: nur Stufe 3 mit "~ geschätzt", Tank (Rolle) weiterhin zuerst, solange keine Schätzung vorliegt.
+
+KEINE neue Option, kein neuer Knopf. Era/TBC und Modus "secret" unverändert. Keine Spielernamen im Protokoll.
+
+TESTFÄLLE (TestRoutine, Locales EN/DE, CHANGELOG EN/DE)
+   T-A1 ANZEIGE, Ziel des Mobs lesbar = Spieler C -> C auf Platz 1, Kopf "sicher" wenn Rest über Stufe 2 sortierbar
+   T-A2 ANZEIGE, Stufen lesbar (A 2, B 1, D 0) -> A, B, D nach dem Aggro-Halter
+   T-A3 ANZEIGE, nichts lesbar, Schätzung A 3000, B 5000 -> B vor A, "~", Kopf "~ geschätzt"
+   T-A4 Dämpfung: Schätzungen 1000 vs 1050 -> kein Tausch; 1000 vs 1200 -> Tausch
+   T-A5 Era/TBC lesbar -> Reihenfolge wie 2.5.0 (unverändert)
+   T-A6 geschützter Wert beim Ziel des Mobs -> kein Lua-Fehler, Stufe 1 übersprungen, Protokoll "Ziel-des-Mobs=nein"
+   Bereich K: Kopfzeile nicht abgeschnitten.
+Wie immer: komplette Dateien, alte Clients nie brechen, addon_check.py ohne FEHLER.
