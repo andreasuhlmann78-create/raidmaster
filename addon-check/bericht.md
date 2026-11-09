@@ -7,7 +7,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## AHSentinel-0.65.20.zip: OK
 
-## BuffSentinel-0.9.10.zip: OK
+## BuffSentinel-0.9.11.zip: OK
 
 ## GuildSentinel-0.9.16.zip: OK
 
@@ -15,7 +15,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## RaidMaster-3.0.18.zip: OK
 
-## ThreatSentinel-2.4.7.zip: OK
+## ThreatSentinel-2.4.8.zip: OK
 
 ## levelpilot__levelpilot-3.12.19.LevelPilot.zip: OK
 
