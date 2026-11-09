@@ -39,6 +39,13 @@ MAX_FILE = 5 * 1024 * 1024
 MAX_REPORT = 512 * 1024
 SAFE = re.compile(r"[^A-Za-z0-9_.\-]")
 LUA_STR = re.compile(r'"(' + PREFIX + r'(?:[^"\\]|\\.)*)"', re.S)
+# Weitere Kennungen (gleicher Weg wie GSTEST1):
+#   GSDIAG1|<Addon>|<Version>|…|<Text>   Diagnose-Protokoll (Vorlage Diag.lua, ProfessionSentinel, AHSentinel, …)
+#   GSWEGE1{JSON}                        Wegdaten von LevelPilot (kind = "wege", Felder siehe auftraege/LevelPilot)
+DIAG_PREFIX, WEGE_PREFIX = "GSDIAG1", "GSWEGE1"
+DIAG_OUT, WEGE_OUT = OUT / "diagnose", OUT / "wege"
+LUA_EXTRA = re.compile(r'"((?:' + DIAG_PREFIX + "|" + WEGE_PREFIX + r')(?:[^"\\]|\\.)*)"', re.S)
+MAX_EXTRA = 512 * 1024
 
 
 # ---------------------------------------------------------------------------
@@ -125,6 +132,53 @@ def from_bytes(name, data):
     return from_text(data.decode("utf-8", "replace"))
 
 
+def extras_from_text(text):
+    """GSDIAG1-Protokolle und GSWEGE1-Wegdaten in einem Text (SavedVariables oder Discord-Nachricht)."""
+    diags, wege = [], []
+    raws = [lua_unescape(m.group(1)) for m in LUA_EXTRA.finditer(text)]
+    t = text.strip()
+    if not raws and (t.startswith(DIAG_PREFIX) or t.startswith(WEGE_PREFIX)):
+        raws = [t]
+    for raw in raws:
+        if len(raw) > MAX_EXTRA:
+            continue
+        if raw.startswith(DIAG_PREFIX + "|"):
+            parts = raw.split("|", 3)
+            if len(parts) >= 4 and parts[1] and len(parts[1]) <= 60:
+                diags.append({"addon": SAFE.sub("_", parts[1]), "version": SAFE.sub("_", parts[2])[:30], "text": raw})
+        elif raw.startswith(WEGE_PREFIX):
+            try:
+                w = json.loads(raw[len(WEGE_PREFIX):])
+            except ValueError:
+                continue
+            if isinstance(w, dict) and w.get("kind") == "wege" and w.get("addon") and w.get("id"):
+                w["addon"], w["id"] = SAFE.sub("_", str(w["addon"]))[:60], SAFE.sub("_", str(w["id"]))[:120]
+                wege.append(w)
+    return diags, wege
+
+
+def store_extras(diags, wege):
+    """Diagnose als Text (nach Inhalt einmalig), Wegdaten als JSON (nach id). Gibt (neu Diagnose, neu Wege)."""
+    import hashlib
+    nd = nw = 0
+    for d in diags:
+        h = hashlib.sha1(d["text"].encode("utf-8")).hexdigest()[:12]
+        p = DIAG_OUT / d["addon"] / f"{d['version']}-{h}.txt"
+        if not p.exists():
+            p.parent.mkdir(parents=True, exist_ok=True)
+            p.write_text(d["text"].split("|", 3)[3] if d["text"].count("|") >= 3 else d["text"], encoding="utf-8")
+            nd += 1
+    for w in wege:
+        p = WEGE_OUT / w["addon"] / f"{w['id']}.json"
+        if not p.exists():
+            body = json.dumps(w, ensure_ascii=False, indent=1, sort_keys=True)
+            if len(body) <= MAX_EXTRA:
+                p.parent.mkdir(parents=True, exist_ok=True)
+                p.write_text(body + "\n", encoding="utf-8")
+                nw += 1
+    return nd, nw
+
+
 def store(reports):
     new = 0
     for r in reports:
@@ -143,6 +197,19 @@ def store(reports):
 # ---------------------------------------------------------------------------
 # Discord lesen
 # ---------------------------------------------------------------------------
+def _add_extras(name, data):
+    if len(data) > MAX_FILE:
+        return
+    if name.endswith(".gz") or data[:2] == b"\x1f\x8b":
+        try:
+            data = gzip.GzipFile(fileobj=io.BytesIO(data)).read(MAX_FILE + 1)
+        except (OSError, EOFError, ValueError):
+            return
+    d, w = extras_from_text(data.decode("utf-8", "replace"))
+    fetch_discord.extras[0].extend(d)
+    fetch_discord.extras[1].extend(w)
+
+
 def fetch_discord():
     import requests
     token = os.environ.get("DISCORD_BOT_TOKEN", "").strip()
@@ -175,6 +242,7 @@ def fetch_discord():
     if not chans:
         return None, f"Kanal #{CHANNEL} gibt es (noch) nicht – der Bot legt ihn bei /uploader an."
     reports, before, seen = [], None, 0
+    fetch_discord.extras = ([], [])
     try:
         while seen < HISTORY:
             params = {"limit": 100}
@@ -195,11 +263,12 @@ def fetch_discord():
                     r = s.get(a["url"], timeout=60)
                     if r.ok:
                         reports += from_bytes(fn, r.content)
-                if m.get("content", "").lstrip().startswith(PREFIX):
-                    reports += from_text(m["content"])
-            for m in batch:
-                ext = sorted({(a.get("filename", "").rsplit(".", 1)[-1] or "?") for a in m.get("attachments", [])})
-                print(f"  Nachricht: Anhänge={ext or '-'}, Text={'GSTEST1' if m.get('content', '').lstrip().startswith(PREFIX) else (len(m.get('content', '')))}, Embeds={len(m.get('embeds', []))}")
+                        _add_extras(fn, r.content)
+                content = m.get("content", "").lstrip()
+                if content.startswith(PREFIX):
+                    reports += from_text(content)
+                if content.startswith(DIAG_PREFIX) or content.startswith(WEGE_PREFIX):
+                    _add_extras("nachricht.txt", content.encode("utf-8"))
             if len(batch) < 100:
                 break
     except PermissionError:
@@ -312,7 +381,21 @@ def evaluate(note=None):
             d.append("")
         status["addons"][addon] = st
         details += d
-    md += [""] + details
+    # Diagnose-Protokolle (GSDIAG1) und Wegdaten (GSWEGE1): je Addon Anzahl und neueste Datei
+    extra = []
+    for title, base in (("Diagnose-Protokolle (GSDIAG1)", DIAG_OUT), ("Wegdaten (GSWEGE1)", WEGE_OUT)):
+        rows = []
+        if base.exists():
+            for d in sorted(x for x in base.iterdir() if x.is_dir()):
+                files = sorted(d.iterdir(), key=lambda f: f.stat().st_mtime)
+                if files:
+                    rel = "testberichte/" + files[-1].relative_to(OUT).as_posix()
+                    rows.append(f"| {d.name} | {len(files)} | `{rel}` |")
+                    status.setdefault("extras", {}).setdefault(base.name, {})[d.name] = {"anzahl": len(files), "neueste": rel}
+        extra += [f"## {title}", ""]
+        extra += (["| Addon | Anzahl | neueste Datei |", "|---|---|---|"] + rows) if rows else ["Noch keine."]
+        extra.append("")
+    md += [""] + extra + details
     OUT.mkdir(parents=True, exist_ok=True)
     new_md = "\n".join(md).rstrip() + "\n"
     new_js = json.dumps(status, ensure_ascii=False, indent=1, default=list) + "\n"
@@ -334,15 +417,19 @@ def main(argv):
             if f.startswith("--"):
                 break
             p = Path(f)
-            reps = from_bytes(p.name, p.read_bytes())
+            raw = p.read_bytes()
+            reps = from_bytes(p.name, raw)
             n = store(reps)
             total += n
-            print(f"{p.name}: {len(reps)} Berichte gefunden, {n} neu")
+            nd, nw = store_extras(*extras_from_text(raw.decode("utf-8", "replace")))
+            print(f"{p.name}: {len(reps)} Berichte gefunden, {n} neu · Diagnose neu {nd} · Wegdaten neu {nw}")
         print(f"neu gespeichert: {total}")
     elif "--nur-auswerten" not in argv:
         reps, note = fetch_discord()
         if reps is not None:
             print(f"Discord: {len(reps)} Berichte gelesen, {store(reps)} neu")
+            nd, nw = store_extras(*getattr(fetch_discord, "extras", ([], [])))
+            print(f"Discord: Diagnose-Protokolle neu {nd} · Wegdaten neu {nw}")
         else:
             print(f"Discord: {note}")
     st = evaluate(note)

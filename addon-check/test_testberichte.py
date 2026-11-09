@@ -77,6 +77,7 @@ with tempfile.TemporaryDirectory() as tmp:
     tmp = Path(tmp)
     tb.OUT = tmp / "testberichte"
     tb.STORE = tb.OUT / "berichte"
+    tb.DIAG_OUT, tb.WEGE_OUT = tb.OUT / "diagnose", tb.OUT / "wege"
     (tmp / "BuffSentinel.lua").write_text(sv, encoding="utf-8")
 
     reps = tb.from_bytes("BuffSentinel.lua", (tmp / "BuffSentinel.lua").read_bytes())
@@ -91,6 +92,21 @@ with tempfile.TemporaryDirectory() as tmp:
     check("fremdes JSON verworfen", tb.from_text('[{"f":2,"kind":"test"}]'), [])
     check("Pfad-Angriff entschärft", tb.clean({"f": 1, "kind": "test", "addon": "../../x", "id": "a/b"})["addon"], ".._.._x")
 
+    # GSDIAG1 und GSWEGE1: aus SavedVariables (Lua-escaped) und als Nachrichtentext
+    sv = ('PSDB = {\n["diagExport"] = "GSDIAG1|ProfessionSentinel|0.9.21|forever|16001|09.11.2026|'
+          'ProfessionSentinel-Protokoll\\n[09.11. 05:00] KLICK Fischglas 12 ms \\195\\164",\n'
+          '["wegeExport"] = { "GSWEGE1{\\"f\\":1,\\"kind\\":\\"wege\\",\\"id\\":\\"w1\\",\\"addon\\":\\"LevelPilot\\",'
+          '\\"zones\\":[{\\"map\\":1412,\\"edges\\":[{\\"p\\":[38.1,61.1,40.0,60.0],\\"src\\":\\"selbst\\",\\"n\\":2}]}]}" },\n}')
+    d, w = tb.extras_from_text(sv)
+    check("GSDIAG1 erkannt", (len(d), d[0]["addon"] if d else None, d[0]["version"] if d else None), (1, "ProfessionSentinel", "0.9.21"))
+    check("GSDIAG1 Umlaut", d[0]["text"].endswith("12 ms ä") if d else False, True)
+    check("GSWEGE1 erkannt", (len(w), w[0]["zones"][0]["map"] if w else None), (1, 1412))
+    check("gespeichert", tb.store_extras(d, w), (1, 1))
+    check("nicht doppelt", tb.store_extras(d, w), (0, 0))
+    d2, w2 = tb.extras_from_text("GSDIAG1|../../x|1|text")
+    check("Pfad-Angriff Diagnose entschärft", d2[0]["addon"] if d2 else None, ".._.._x")
+    check("fremdes GSWEGE1 verworfen", tb.extras_from_text('GSWEGE1{"kind":"anders","addon":"a","id":"b"}'), ([], []))
+
     st = tb.evaluate()
     md = (tb.OUT / "status.md").read_text(encoding="utf-8")
     check("Tabelle", "| BuffSentinel |" in md, True)
@@ -98,6 +114,8 @@ with tempfile.TemporaryDirectory() as tmp:
     check("Sonderzeichen", "ä ö ü – kaputt" in md, True)
     check("offen: 2 Test-Fehler + 2 Spiel-Fehler",
           (sum(1 for o in st["offen"] if o["art"] == "test"), sum(1 for o in st["offen"] if o["art"] == "spiel")), (2, 2))
+    check("Abschnitt Diagnose", "## Diagnose-Protokolle (GSDIAG1)" in md and "ProfessionSentinel" in md, True)
+    check("Abschnitt Wegdaten", "## Wegdaten (GSWEGE1)" in md and "LevelPilot | 1 |" in md, True)
     check("Client erkannt", st["offen"][0]["client"].startswith("forever"), True)
 
 print(f"Testberichte-Tests: {'bestanden' if fails == 0 else 'FEHLGESCHLAGEN'} ({checks - fails}/{checks})")

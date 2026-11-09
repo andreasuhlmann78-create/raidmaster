@@ -29,3 +29,14 @@ Die Prüf-Sitzung kann Berichte auch direkt aus einer Datei übernehmen, z. B. w
 
 Datenschutz: Berichte enthalten keine Spieler-, Gilden- oder Chatnamen – nur Addon, Version, Client, Sprache, Klasse und
 Level. Geschützte Werte („secret values“) werden nie gelesen.
+
+## Diagnose-Protokolle und Wegdaten (seit 9. Nov. 2026)
+
+Auf demselben Weg (SavedVariables -> Uploader -> #testberichte -> hier) kommen auch:
+
+- `GSDIAG1|<Addon>|<Version>|…|<Text>` – Diagnose-Protokoll (Vorlage `Diag.lua`, `/<befehl> protokoll`).
+  Ablage: `testberichte/diagnose/<Addon>/<Version>-<Prüfsumme>.txt` (gleicher Inhalt nur einmal).
+- `GSWEGE1{JSON}` – Wegdaten von LevelPilot (`kind = "wege"`). Ablage: `testberichte/wege/<Addon>/<id>.json`.
+
+`status.md` zeigt je Addon die Anzahl und die neueste Datei. Keine Namen in den Daten – die Addons ersetzen sie.
+Der RaidMasterUploader muss die beiden Kennungen mitschicken (Auftrag an RaidMaster).

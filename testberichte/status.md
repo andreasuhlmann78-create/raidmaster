@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-08 21:17 UTC
+Ausgewertet: 2026-11-09 04:22 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -13,6 +13,14 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 | ProfessionSentinel | 05.11.2026 00:17 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 144 | 6 | 9 | 13 | 0 |
 | RaidMaster | 05.11.2026 00:07 UTC | 3.0.17 | forever 1.60.1 (Interface 16001) | 98 | 3 | 10 | 12 | 2 |
 | ThreatSentinel | 05.11.2026 00:04 UTC | 2.4.5 | forever 1.60.1 (Interface 16001) | 127 | 1 | 50 | 12 | 12 |
+
+## Diagnose-Protokolle (GSDIAG1)
+
+Noch keine.
+
+## Wegdaten (GSWEGE1)
+
+Noch keine.
 
 ## AHSentinel
 
