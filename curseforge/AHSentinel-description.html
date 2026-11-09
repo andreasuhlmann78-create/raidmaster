@@ -7,6 +7,21 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.42</h3>
+<p><strong>Auction fees like in classic WoW (measured in WoW Forever) – this replaces the "max(5 %, 1s)" rule:</strong>
+- <strong>Posting:</strong> deposit = vendor price × quantity × 5 % per 2 hours (2/8/24 h = 5/20/60 %), at least 1s per auction
+  in Forever. Blizzard's own value is used when the AH is open. <strong>Selling:</strong> 5 % of the price, the deposit comes back.
+  Expired auctions lose the deposit – values and profits include the expected loss (from your sell rate).
+- <strong>Sell tab:</strong> the deposit line is back, AH fee 5 %. <strong>Profit window:</strong> "AH fee 5 % + deposit (back on sale)".
+- <strong>Ledger:</strong> Forever invoices are read correctly (the "price" is the unit price, the quantity is computed from the
+  total). Sales booked by earlier versions are recalculated once at login ("Ledger: recalculated N sales"),
+  nothing is deleted. The raw invoice values go to the diagnostic log once per session (RECHNUNG-ROH, no names).
+- <strong>Tooltip:</strong> both ways with amount, the better one first: "Disenchant: 9s 35c" / "Sell: 8s 99c" (own items in your
+  bags: only these two lines; in the AH below the verdict).
+- <strong>Best recipes no longer stutter:</strong> rebuilt only while the profit window is visible, at most every 10 s while you
+  craft, and only when prices or the recipe list really changed; reading all recipes is spread over frames.
+- <strong>For addon authors:</strong> <code>AHAnalyzerPro:AuctionFee(total[, itemID, qty])</code> / <code>.AHFee</code> now return the expected selling
+  costs of one auction (5 % + expected deposit loss). New: <code>AHAnalyzerPro:ListingDeposit(itemID, qty, hours, auctions)</code>.</p>
 <h3>Version 0.65.41</h3>
 <p><strong>See at a glance whether it pays off – no calculating:</strong>
 - <strong>Tooltip – disenchant verdict:</strong> instead of "Disenchant value" and "Profit when buying" there are two lines:
@@ -62,25 +77,7 @@
   never counts as complete for sales estimates.
 - <strong>Shared prices</strong> count only if they fit your own picture (10–300 % of your median) or a second player reports a
   similar price; until then they are stored as unconfirmed and do not count.</p>
-<h3>Version 0.65.37</h3>
-<ul>
-<li><strong>Own small disenchant window</strong> (<code>/ahs disenchant</code>, or Buy -&gt; "Worth disenchanting" -&gt; "Disenchant window"):
-  icon and name of the next item, "N left to disenchant", buttons <strong>Disenchant</strong>, <strong>Skip</strong>, <strong>Statistics</strong>.
-  Movable, position remembered. Opens by itself once after a bulk buy when you close the AH.</li>
-<li>Order: items bought with the bulk buy first, then the other disenchantable items in your bags.</li>
-<li><strong>Disenchant</strong> is a secure button: one click = one item. Locked in combat, no taint.</li>
-<li>Protection: never items in an equipment set, quest items or items on your block list (right-click the icon:
-    "never disenchant"); only green to purple. Blue/purple items and items that clearly sell for more
-    (more than 1.5x the disenchant value) need a click on <strong>Release</strong> first.</li>
-<li>Statistics: disenchants today and in total, materials received, their value.</li>
-<li>If Disenchantry is loaded, the window does not open by itself (one-time hint).</li>
-<li><strong>Ledger -&gt; Disenchant:</strong> per day and in total: spent on bulk-bought items, value of the materials received
-  (real value after AH fee; material you already sold counts at the real proceeds), profit, number of items and
-  return %. A bought item is matched to its disenchant (same item, within 14 days). Own items you disenchant are
-  shown separately (material value only), items bought but not yet disenchanted as "still open".</li>
-<li>Tests and comments use invented character names only.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

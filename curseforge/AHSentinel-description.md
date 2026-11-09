@@ -12,6 +12,23 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.42
+
+**Auction fees like in classic WoW (measured in WoW Forever) – this replaces the "max(5 %, 1s)" rule:**
+- **Posting:** deposit = vendor price × quantity × 5 % per 2 hours (2/8/24 h = 5/20/60 %), at least 1s per auction
+  in Forever. Blizzard's own value is used when the AH is open. **Selling:** 5 % of the price, the deposit comes back.
+  Expired auctions lose the deposit – values and profits include the expected loss (from your sell rate).
+- **Sell tab:** the deposit line is back, AH fee 5 %. **Profit window:** "AH fee 5 % + deposit (back on sale)".
+- **Ledger:** Forever invoices are read correctly (the "price" is the unit price, the quantity is computed from the
+  total). Sales booked by earlier versions are recalculated once at login ("Ledger: recalculated N sales"),
+  nothing is deleted. The raw invoice values go to the diagnostic log once per session (RECHNUNG-ROH, no names).
+- **Tooltip:** both ways with amount, the better one first: "Disenchant: 9s 35c" / "Sell: 8s 99c" (own items in your
+  bags: only these two lines; in the AH below the verdict).
+- **Best recipes no longer stutter:** rebuilt only while the profit window is visible, at most every 10 s while you
+  craft, and only when prices or the recipe list really changed; reading all recipes is spread over frames.
+- **For addon authors:** `AHAnalyzerPro:AuctionFee(total[, itemID, qty])` / `.AHFee` now return the expected selling
+  costs of one auction (5 % + expected deposit loss). New: `AHAnalyzerPro:ListingDeposit(itemID, qty, hours, auctions)`.
+
 ### Version 0.65.41
 
 **See at a glance whether it pays off – no calculating:**
@@ -70,24 +87,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   never counts as complete for sales estimates.
 - **Shared prices** count only if they fit your own picture (10–300 % of your median) or a second player reports a
   similar price; until then they are stored as unconfirmed and do not count.
-
-### Version 0.65.37
-
-- **Own small disenchant window** (`/ahs disenchant`, or Buy -> "Worth disenchanting" -> "Disenchant window"):
-  icon and name of the next item, "N left to disenchant", buttons **Disenchant**, **Skip**, **Statistics**.
-  Movable, position remembered. Opens by itself once after a bulk buy when you close the AH.
-  - Order: items bought with the bulk buy first, then the other disenchantable items in your bags.
-  - **Disenchant** is a secure button: one click = one item. Locked in combat, no taint.
-  - Protection: never items in an equipment set, quest items or items on your block list (right-click the icon:
-    "never disenchant"); only green to purple. Blue/purple items and items that clearly sell for more
-    (more than 1.5x the disenchant value) need a click on **Release** first.
-  - Statistics: disenchants today and in total, materials received, their value.
-  - If Disenchantry is loaded, the window does not open by itself (one-time hint).
-- **Ledger -> Disenchant:** per day and in total: spent on bulk-bought items, value of the materials received
-  (real value after AH fee; material you already sold counts at the real proceeds), profit, number of items and
-  return %. A bought item is matched to its disenchant (same item, within 14 days). Own items you disenchant are
-  shown separately (material value only), items bought but not yet disenchanted as "still open".
-- Tests and comments use invented character names only.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
