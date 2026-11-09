@@ -122,3 +122,14 @@ OFFENE PUNKTE
    diese Werte zeigen.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
+   ERGÄNZUNG (9. Nov. 06:17, Entscheid des Nutzers): Der Spieler muss den TATSÄCHLICHEN Durchschnitt sehen, nicht nur
+   die Mischung aus Tabelle und Ergebnissen. Darum zwei klar getrennte Zeilen:
+   - "Entzaubern tatsächlich (Ø aus N)": nur aus echten Entzauberungen der Gruppe (eigene + geteilte):
+     Σ (tatsächlich erhaltene Menge je Material × aktueller AH-Preis aus dem letzten Scan) ÷ N.
+     N = Anzahl Entzauberungen; bei N < 10 Zusatz "(wenig Daten)"; N = 0 -> Zeile weglassen.
+   - "Entzaubern geschätzt (Tabelle)": die bisherige Formel (D:GetValue), deutlich als Schätzung bezeichnet.
+   - Die Aufschlüsselung je Material zeigt bei "tatsächlich" die echte Häufigkeit (x von N) und Ø-Menge.
+   - "nach Gebühren" für beide Werte (× 0,95 − Einstellgebühr).
+   - Gleiche Unterscheidung überall, wo der Entzauberungswert verwendet wird (Schnäppchen/FindDeals: mit welchem Wert
+     gerechnet wird, im Tooltip angeben).
+   - Testfall: 4 Entzauberungen mit bekannten Ergebnissen und Preisen -> tatsächlicher Ø genau nachgerechnet.
