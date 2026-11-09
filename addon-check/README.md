@@ -42,6 +42,7 @@ veröffentlicht wurden (eine davon auf CurseForge).
   Unbekannte Blizzard-Funktionen sind in der Nachbildung harmlose Platzhalter: `Is…/Has…/Can…` geben «nein», Abfragen
   wie `Get…Num…`, `…Count`, `…Height` geben 0. Eigene Globals und SavedVariables sind beim Laden nil, wie im Spiel.
   Addons mit `## Dependencies` werden übersprungen. Ohne lupa läuft der Ladetest nicht (z. B. im Discord-Bot).
+- Sicherungs- und Patch-Reste in der ZIP (`.orig`, `.rej`, `.bak`, `.tmp`, `.swp`, `~`), z. B. `TestRoutine.lua.orig` in AHSentinel 0.65.22 (ab 9. November)
 - `.lua`-Datei liegt in der ZIP, wird aber nie geladen (Werkzeug?) – Syntaxfehler dort nur als Warnung
 - keine Interface-Nummer für WoW Forever; `GoldSentinelGame.lua` fehlt oder ist veraltet
 

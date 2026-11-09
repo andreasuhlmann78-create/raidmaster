@@ -730,6 +730,10 @@ def check_zip(path, shared_ref=None, dev_max=None):
     for n in names:
         if n.lower().endswith(".lua") and "/" in n and n.lower() not in loaded:
             warn(f"{n}: liegt im Addon, wird aber nicht geladen (in keiner .toc/.xml) – gehört nicht in die ZIP?")
+    # Liegengebliebene Sicherungs- und Patch-Dateien (ab 9. November, AHSentinel 0.65.22: TestRoutine.lua.orig)
+    for n in names:
+        if re.search(r"(\.(orig|rej|bak|tmp|swp)|~)$", n.lower()):
+            warn(f"{n}: Sicherungs-/Patch-Rest (.orig/.rej/.bak/~) – gehört nicht in die ZIP")
 
     # Version: ZIP-Name, .toc, schon veröffentlicht
     if zver and main_versions and zver not in main_versions and not from_announce:

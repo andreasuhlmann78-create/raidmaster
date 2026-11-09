@@ -207,6 +207,12 @@ with tempfile.TemporaryDirectory() as d:
           and any(l == "WARNUNG" and "nächsten Version" in t for l, t in r))
     r = a.check_zip(make_zip(d, "ProbeAddon", "9.9.5", {"Test.lua": mock}))
     check("nächste Version nach Altlast -> wieder FEHLER", any(l == "FEHLER" and "UnitName" in t for l, t in r))
+    r = a.check_zip(make_zip(d, "ProbeAddon", "9.9.9", {"Core.lua": "local x = 1\n", "Core.lua.orig": "alt\n",
+                                                       "Notes.bak": "x\n"}))
+    rest = [t for l, t in r if l == "WARNUNG" and "Patch-Rest" in t]
+    check("Sicherungs-/Patch-Rest (.orig/.bak) -> Warnung", len(rest) == 2 and not any(l == "FEHLER" for l, t in r))
+    r = a.check_zip(make_zip(d, "ProbeAddon", "9.9.10", {"Core.lua": "local x = 1\n", "Origin.lua": "local y = 2\n"}))
+    check("kein Fehlalarm bei normalen Namen (Origin.lua)", not any("Patch-Rest" in t for l, t in r))
 
 print(f"{ok}/{ok + fail} Prüfungen bestanden")
 sys.exit(1 if fail else 0)
