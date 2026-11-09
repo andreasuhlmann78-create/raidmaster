@@ -126,3 +126,19 @@ WUNSCH DES NUTZERS (9. Nov. 08:41, Screenshot Verstärktes Leinencape / Wollcape
    3. Option "Entzauber-Details im Tooltip" (kurz / mit Materialien / alles), Standard "mit Materialien".
    4. Testfälle: kurze Zeile = Summe der Anteile × 0,95 − Gebühr; Shift zeigt die Aufstellung; Materialblock hat je
       Material Icon, Chance, Preis; Quelle wechselt bei 10 Entzauberungen.
+
+WUNSCH DES NUTZERS (9. Nov. 08:44) – ENTZAUBERN AUTOMATISCH MITZÄHLEN UND MIT ALLEN TEILEN – MITTEL, JETZT
+   Bestand (0.65.22): Disenchant.lua zählt eigene Ergebnisse (deStats) und nimmt geteilte an (deShared, :340-342);
+   Sync.lua sendet über GUILD oder einen öffentlichen Kanal (S.channelId, :85-92, JoinTemporaryChannel :346).
+   Neu bzw. sicherstellen:
+   a) Jedes Entzaubern wird automatisch gezählt – auf jedem Charakter (auch Twinks), ohne Knopf; Ergebnis einer
+      Entzauberung = Loot nach dem Zauber "Entzaubern" (Zauber-ID über ns.API, Forever und Era).
+   b) Die Ergebnisse gehen an ALLE, die AHSentinel nutzen (Entscheid des Nutzers): über den öffentlichen Sync-Kanal,
+      nicht nur an die Gilde. Ist "nur Gilde" eingestellt, bleibt es bei der Gilde (Option bleibt).
+   c) Schutz: je Absender höchstens N Entzauberungen pro Minute annehmen; unplausible Ergebnisse verwerfen (Material
+      passt nicht zur Gruppe/Qualität, Menge ausserhalb 1–5); doppelte Meldungen (gleiche ID) nur einmal zählen;
+      Absender nur als Kürzel/Hash speichern, keine Namen im Export oder Protokoll.
+   d) Eigene Twinks desselben Accounts zählen als "eigene" (nicht als "geteilt").
+   e) Anzeige der Quelle bleibt: "(Ø 12)" = 12 Entzauberungen; die Grenze für "tatsächlich" ist 10.
+   f) Testfälle: Entzaubern auf einem Twink zählt als eigen; Nachricht eines anderen Spielers kommt über den Kanal
+      an und zählt als geteilt; unplausible/doppelte Meldung wird verworfen; "nur Gilde" sendet nicht in den Kanal.
