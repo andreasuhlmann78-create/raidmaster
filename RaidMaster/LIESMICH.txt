@@ -11,6 +11,18 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.19 – Schlachtzugsymbole in WoW Forever wieder ohne Fehlermeldung
+- WoW Forever erlaubt Addons das Setzen von Schlachtzugsymbolen nur noch über "sichere" Knöpfe. Bisher kam beim
+  Klick auf die Symbol-Leiste die Meldung "Aktion blockiert". Jetzt sind dort die Symbol-Leiste (8 Symbole,
+  Rechtsklick entfernt, Auto, Alle aus) und eure RaidMaster-Tasten sichere Knöpfe – auch im Kampf. Eure
+  Tastenbelegung bleibt, wie sie ist.
+- "Adds markieren" und "Ansage + Symbole" der Boss-Leiste zeigen in WoW Forever einen Vorschlag (welches Symbol auf
+  welchen Gegner), setzen aber nichts selbst. /rm clear verweist auf "Alle aus" der Symbol-Leiste.
+- Im Kampf lässt sich die Symbol-Leiste nicht ein-/ausblenden oder verschieben (Regel des Spiels); das wird nach dem
+  Kampf nachgeholt. Auto setzt im Kampf die Symbole der Vorlage der Reihe nach.
+- Tooltips bei verkleinerten/vergrösserten Fenstern auf der richtigen Höhe.
+- Classic Era, TBC und die anderen Clients: alles wie bisher.
+
 NEU IN 3.0.18 – Tooltips verdecken keine Knöpfe mehr, Fehler nur einmal gezählt
 - Tooltips der RaidMaster-Fenster erscheinen jetzt neben dem Fenster (rechts, sonst links) statt über anderen
   Knöpfen desselben Fensters.

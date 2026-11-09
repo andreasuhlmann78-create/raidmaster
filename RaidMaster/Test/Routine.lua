@@ -1108,7 +1108,10 @@ local function AreaB(t, G)
 		local cfg = RM.db.config
 		local tpl = cfg.markerTemplate
 		cfg.markerTemplate = "standard"          -- Vorlage ohne NPC-Filter (Testmodus-Einstellung)
-		return Allow({ "SetRaidTarget" }, function()
+		-- Weg der alten Clients (Aufrufe über RM.Act, abgefangen); WoW Forever prüft T161
+		local secWas = M.simSecure
+		M.simSecure = false
+		return Guard(function() return Allow({ "SetRaidTarget" }, function()
 			return WithAPI(FakeUnits(units), nil, function()
 				if not (M.IsMarkerLead() and M.CanMark()) then return false, "keine Markierrechte im Test", "Raidleiter" end
 				M.ResetUsed()
@@ -1131,7 +1134,7 @@ local function AreaB(t, G)
 				cfg.markerTemplate = tpl
 				return true, (ActCount("SetRaidTarget") - n0) .. " Aufrufe über RM.Act (gezählt, nicht ausgeführt)"
 			end)
-		end)
+		end) end, function() M.simSecure = secWas; cfg.markerTemplate = tpl end)
 	end)
 
 	t:Check("T27", "B", "Boss-Leiste", function()
@@ -2291,6 +2294,7 @@ local function AreaJ(t, G)
 					}
 					local start = #R.actUnits
 					Swap(u, RM.db.config, "markerTemplate", "standard")    -- Vorlage ohne NPC-Filter
+					Swap(u, M, "simSecure", false)                          -- Weg mit RM.Act (WoW Forever: T161)
 					return Allow({ "SetRaidTarget" }, function()
 						return WithAPI(FakeUnits(units), nil, function()
 							M.ResetUsed()
@@ -2306,9 +2310,11 @@ local function AreaJ(t, G)
 			end, function() Undo(u) end)
 		end)
 	end)
-	t:Check("T133", "J", "Mark/SmartMark per Taste im Kampf", function()
+	-- ab 3.0.19: In WoW Forever gehen die RaidMaster-Tasten auf sichere Knöpfe (Makro /tm). Mark/SmartMark aus
+	-- Addon-Code setzen dort nie selbst ein Symbol (sonst ADDON_ACTION_FORBIDDEN), sondern geben einen Hinweis.
+	t:Check("T133", "J", "Mark/SmartMark im Kampf (Forever: nur sichere Tasten)", function()
 		TestRaid()
-		local M = RM.Markers
+		local M, L = RM.Markers, RM.L
 		local u = {}
 		return WithSecret(function(SECRET)
 			local units = { mouseover = { guid = "Creature-0-1-2-3-33333-0000000001", name = "Testgegner", icon = SECRET } }
@@ -2318,19 +2324,28 @@ local function AreaJ(t, G)
 					return WithAPI(fake, nil, function()
 						return Guard(function()
 							Swap(u, M, "simCombat", true)
+							Swap(u, M, "simSecure", nil)
+							if not M.SecureOnly() then return false, "SecureOnly", "true in Forever" end
 							local n0 = ActCount("SetRaidTarget")
 							M.ResetUsed()
-							M.Mark(8)
-							M.SmartMark()
+							local hints = WithPrints(function(lines)
+								M.Mark(8)
+								M.SmartMark()
+								local n = 0
+								for _, l in ipairs(lines) do if l == L[M.SECURE_HINT] then n = n + 1 end end
+								return n
+							end)
 							local n = ActCount("SetRaidTarget") - n0
-							if n ~= 2 then return false, n .. " Aufrufe", "je Taste ein Aufruf über RM.Act" end
+							if n ~= 0 then return false, n .. " Aufrufe", "0 (nur sichere Knöpfe)" end
+							if hints ~= 2 then return false, hints .. " Hinweise", "2" end
+							if M.MarkMacro(8) ~= "/tm [@mouseover,exists][] 8" then return false, M.MarkMacro(8), "/tm-Makro" end
 						end, function() Undo(u); M.ResetUsed() end)
 					end)
 				end)
 			end)
 		end)
 	end)
-	t:Client("T133b", "J", "Mouseover-Tasten im echten Kampf", "Forever: Trainingspuppe/Mob im Kampf per Mouseover-Taste markieren – Symbol da, Fehlerliste leer?")
+	t:Client("T133b", "J", "Mouseover-Tasten und Symbol-Leiste im echten Kampf", "Forever: Mob im Kampf per RaidMaster-Taste (Mouseover) und per Klick auf die Symbol-Leiste markieren, Rechtsklick entfernt, 'Alle aus' – Symbol da, Fehlerliste leer, kein 'Aktion blockiert'?")
 	t:Check("T134", "J", "Kernhunde-Hilfe ohne Kampflog", function()
 		local L = RM.L
 		local check = false
@@ -2556,6 +2571,59 @@ local function AreaJ(t, G)
 	end)
 	t:Check("T154", "J", "GoldSentinelGame Version", function()
 		if not G or (tonumber(G.version) or 0) < 2 then return false, tostring(G and G.version), ">= 2" end
+	end)
+	-- 3.0.19 (Testberichte 8. Nov.: 2× ADDON_ACTION_FORBIDDEN SetRaidTarget nach Klick auf die Leiste): In WoW Forever
+	-- ist SetRaidTarget geschützt. Kein Weg aus Addon-Code darf es dort aufrufen; Adds/Boss nur als Vorschlag.
+	t:Check("T161", "J", "Symbole in WoW Forever nur über sichere Knöpfe", function()
+		TestRaid()
+		local M, B, L = RM.Markers, RM.BossBar, RM.L
+		local u = {}
+		local units = {
+			target = { guid = "Creature-0-1-2-3-44444-0000000001", name = "Testboss" },
+			nameplate1 = { guid = "Creature-0-1-2-3-44444-0000000002", name = "Testgegner A" },
+			nameplate2 = { guid = "Creature-0-1-2-3-44444-0000000003", name = "Testgegner B" },
+		}
+		local mark0 = ActCount("SetRaidTarget")
+		return Allow({ "SetRaidTarget" }, function()
+			return WithAPI(FakeUnits(units), nil, function()
+				return Guard(function()
+					Swap(u, M, "simSecure", true)
+					Swap(u, B, "testTarget", nil)
+					Swap(u, RM.db.config, "markerTemplate", "standard")
+					local lines = WithPrints(function(l)
+						M.Mark(8); M.Mark(0); M.SmartMark(); M.ClearAll()
+						M.MarkAdds()
+						B.MarkBoss(RM.Data.Bosses[663])
+						return l
+					end)
+					Settle(1)
+					if ActCount("SetRaidTarget") ~= mark0 then return false, (ActCount("SetRaidTarget") - mark0) .. " Aufrufe", "0" end
+					local hint, suggest = 0, 0
+					local prefix = string.format(L["Vorschlag (Vorlage: %s): %s"], "\001", ""):match("^(.-)\001") or "?"
+					for _, l in ipairs(lines) do
+						if l == L[M.SECURE_HINT] then hint = hint + 1 end
+						if l:sub(1, #prefix) == prefix then suggest = suggest + 1 end
+					end
+					if hint ~= 4 then return false, hint .. " Hinweise", "4 (Mark, Entfernen, Auto, Alle aus)" end
+					if suggest < 1 then return false, suggest .. " Vorschläge", ">= 1 (Adds markieren)" end
+					local lines9 = select(2, M.CLEAR_ALL_MACRO:gsub("\n", "\n")) + 1
+					if lines9 ~= 9 or not M.CLEAR_ALL_MACRO:find("/tm [@player] 0", 1, true) then return false, "Alle-aus-Makro", "9 Zeilen, endet mit 0" end
+					local n = 0
+					for binding in pairs(M.KEY_MAP) do
+						n = n + 1
+						if type(_G["BINDING_NAME_" .. binding]) ~= "string" then return false, "Taste " .. binding, "in Bindings.xml" end
+					end
+					if n ~= 11 then return false, n .. " Tasten", "11 (8 Symbole, Entfernen, Auto, Alle aus)" end
+					-- im echten Forever-Client: die unsichtbaren Tasten-Knöpfe gibt es nach dem Einloggen
+					local kb = RM.IsModern and _G.RaidMasterKeyMark8
+					if type(kb) == "table" and type(kb.GetAttribute) == "function" then
+						local mt = kb:GetAttribute("macrotext")
+						if mt ~= nil and mt ~= M.MarkMacro(8) then return false, tostring(mt), M.MarkMacro(8) end
+					end
+					return true, "0 Aufrufe, " .. hint .. " Hinweise, " .. suggest .. " Vorschläge"
+				end, function() Undo(u); M.ResetUsed() end)
+			end)
+		end)
 	end)
 end
 

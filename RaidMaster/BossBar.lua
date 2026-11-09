@@ -88,7 +88,12 @@ function B.MarkBoss(boss)
 	for _, i in ipairs(template.order or {}) do if i == 8 then skullForAdds = true end end
 	local API = RM.API.Get
 	if not skullForAdds and API("UnitExists")("target") and not RM.Safe(API("GetRaidTargetIndex")("target")) then
-		RM.Act.SetRaidTarget("target", 8)
+		if RM.Markers.SecureOnly() then
+			-- WoW Forever: nur ein sicherer Knopf darf Symbole setzen – Vorschlag statt selbst markieren
+			RM.Print(string.format(L["Vorschlag: %s auf den Boss (Ziel)."], RM.Data.MarkerNames[8] or "8"))
+		else
+			RM.Act.SetRaidTarget("target", 8)
+		end
 	end
 	RM.Markers.MarkAdds()
 	RM.Fire("BOSSBAR_ACTION", "mark", boss.id)

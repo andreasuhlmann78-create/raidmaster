@@ -89,13 +89,14 @@ function UI.PlaceTooltip(owner, tip)
 		local sr = UIParent:GetRight()
 		if not (wl and wr and wt and ot and tw and sr) then return end
 		local wes, oes, tes, ues = win:GetEffectiveScale(), owner:GetEffectiveScale(), tip:GetEffectiveScale(), UIParent:GetEffectiveScale()
+		-- Verschiebungen in SetPoint gelten in der Skala des Tooltips (tes), nicht in der des Fensters (3.0.19)
 		local y = (ot * oes - wt * wes) / tes             -- auf Höhe des Elements
 		local gap = 4
 		tip:ClearAllPoints()
 		if wr * wes + (gap + tw) * tes <= sr * ues then
-			tip:SetPoint("TOPLEFT", win, "TOPRIGHT", gap * tes / wes, y * tes / wes)
+			tip:SetPoint("TOPLEFT", win, "TOPRIGHT", gap, y)
 		elseif wl * wes - (gap + tw) * tes >= 0 then
-			tip:SetPoint("TOPRIGHT", win, "TOPLEFT", -gap * tes / wes, y * tes / wes)
+			tip:SetPoint("TOPRIGHT", win, "TOPLEFT", -gap, y)
 		else
 			tip:SetPoint("BOTTOMLEFT", owner, "TOPRIGHT")
 		end
@@ -663,6 +664,8 @@ function UI.MakeMovable(f, key, point, x, y)
 	end
 	f:SetScript("OnDragStart", function(self)
 		if key == "markerBar" and RM.db.config.markerLocked then return end
+		-- WoW Forever: die Leiste hat sichere Knöpfe, im Kampf nicht verschieben (das Spiel blockiert es)
+		if key == "markerBar" and RM.Markers and RM.Markers.SecureOnly() and RM.InCombat() then return end
 		self:StartMoving()
 	end)
 	f:SetScript("OnDragStop", function(self)

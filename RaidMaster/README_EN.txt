@@ -23,6 +23,17 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.19 – Raid markers in WoW Forever without error messages again
+- WoW Forever only lets addons set raid markers through "secure" buttons. Until now clicking the marker bar showed
+  "action blocked". Now the marker bar (8 markers, right-click removes, Auto, Clear all) and your RaidMaster keys are
+  secure buttons – in combat too. Your key bindings stay as they are.
+- "Mark adds" and "Announce + markers" of the boss bar show a suggestion in WoW Forever (which marker on which enemy)
+  but set nothing themselves. /rm clear points to "Clear all" on the marker bar.
+- In combat the marker bar cannot be shown/hidden or moved (game rule); this is done after combat. In combat Auto
+  sets the markers of the template one after another.
+- Tooltips at the right height for scaled windows.
+- Classic Era, TBC and the other clients: everything as before.
+
 WHAT'S NEW IN 3.0.18 – Tooltips no longer cover buttons, errors counted only once
 - Tooltips of RaidMaster windows now appear next to the window (right, otherwise left) instead of on top of other
   buttons of the same window.

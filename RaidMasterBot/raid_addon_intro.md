@@ -27,6 +27,9 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 ===
 📜 **Updates**
 
+**3.0.19** – Symbole in WoW Forever
+• Symbol-Leiste und RaidMaster-Tasten funktionieren in WoW Forever wieder ohne „Aktion blockiert“ – auch im Kampf. „Adds markieren“ zeigt dort einen Vorschlag.
+
 **3.0.18** – Tooltips am Rand
 • Tooltips erscheinen neben dem RaidMaster-Fenster statt über anderen Knöpfen. Fehler werden nur noch einmal gezählt, auch wenn weitere GoldSentinel-Addons laufen.
 
@@ -35,9 +38,6 @@ Fragen, Probleme oder Wünsche? Ab damit in **#addon-hilfe** – wir helfen gern
 
 **3.0.16** – Sicher im Kampf
 • Alles, was RaidMaster im Spiel auslöst (Chat, Symbole, Einladen, Plündern …), läuft jetzt über eine einzige Stelle – im Spiel ändert sich nichts, aber Fehler in WoW Forever werden besser abgefangen.
-
-**3.0.15** – Sicher in den Launch
-• `!dkp Vorname Nachname` und `!dkp Vorname` (wenn eindeutig) finden euch in WoW Forever. Flüstern und Addon-Nachrichten im Kampf lösen keine Fehler mehr aus.
 
 **3.0.12 / 3.0.13** – Berufe in WoW Forever
 • „Meine Berufe einlesen“ funktioniert jetzt auch im neuen Forever-Client: Jeder Klick öffnet den nächsten Beruf und liest Rezepte und Zutaten – für `/handwerk` und `/berufe` hier im Discord.
