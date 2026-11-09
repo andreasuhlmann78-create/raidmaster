@@ -1,0 +1,28 @@
+ANWEISUNG: SAMMELKAUF ZUM ENTZAUBERN (einfach) – AHSentinel
+==========================================================
+Stand: 9. November 2026, 10:55 · von der Prüf-Sitzung · Wunsch und Entscheid des Nutzers – nach "Werte stimmen" Punkt 8
+(eine Preisfunktion), weil der Gewinn darauf beruht
+
+Ziel: mehrere nicht stapelbare Teile (Rüstung, Waffen) bequem zum Entzaubern kaufen. Bewusst EINFACH halten.
+In Forever muss jeder Einzelkauf aus einem Tastendruck kommen – darum eine Raste/ein Klick je Teil.
+
+1. Häkchen "Entzaubern lohnt" im Reiter Kaufen: zeigt nur Angebote mit Entzauberungswert − Kaufpreis ≥ Mindestgewinn,
+   sortiert nach Gewinn; neue Spalte "Gewinn". Qualität/Itemstufe über die vorhandene Suche.
+2. Kaufen wie beim Sniper: jede Mausrad-Raste (bzw. Klick auf "Nächstes kaufen") kauft das nächste Teil von oben.
+   Vor jedem Kauf prüfen: Angebot noch da, Preis unverändert – sonst überspringen.
+3. Grenzen (die einzigen Einstellungen): "höchstens X Gold" (Standard 5g) und "Mindestgewinn je Teil" (Standard 20c).
+   Stopp bei Grenze, vollen Taschen oder Kampf.
+4. Sicherheitsabschlag im Hintergrund: Bei weniger als 10 echten Entzauberungen der Gruppe wird der Entzauberungswert
+   für diese Rechnung um 10 % gesenkt.
+5. Statuszeile: "Gekauft N · <bezahlt> · erwartet +<Gewinn>".
+6. KEIN Fertigkeits-Filter: In WoW Forever kann man ab Verzauberkunst 1 alles entzaubern (wow-professions.com,
+   Forever Disenchanting Guide: "you can disenchant everything from Enchanting skill 1").
+7. Danach entzaubert der Spieler wie gewohnt mit dem bestehenden Entzauber-Fenster; Ergebnisse zählen sofort.
+8. Nur auf Klick/Raste, nie automatisch; im Test nur mitschreiben; Protokoll KAUF (ohne Namen).
+Testfälle: Filter zeigt nur Gewinn ≥ Mindestgewinn; Raste kauft das oberste; verschwundenes/teureres Angebot übersprungen;
+Stopp bei Gold-Grenze und vollen Taschen; Abschlag unter 10 Entzauberungen; Statuszeile stimmt.
+Locales, CHANGELOG EN/DE, nächste Version, addon_check ohne FEHLER.
+
+HINWEIS ZUR ENTZAUBER-TABELLE (prüfen): Der Forever-Guide von wow-professions.com ordnet die Materialien nach der
+BENÖTIGTEN STUFE des Gegenstands, AHSentinel (Disenchant.lua D:Prior) nach der ITEMSTUFE. Bitte klären, welche
+Grösse in Forever gilt, und die Gruppen ggf. umstellen (auch für den Splitter-Befund ≤ 15).
