@@ -233,3 +233,20 @@ BEFUNDE AUS TESTBERICHTEN UND DIAGNOSE-PROTOKOLLEN (9. Nov. 06:10, Prüf-Sitzung
    b) MITTEL – Fehler im Spiel: 3× ADDON_ACTION_BLOCKED UNKNOWN() mit 0.65.16 (zuletzt 08.11. 17:09 UTC). Welche
       geschützte Funktion? Im Protokoll den Aufrufort (debugstack) mitschreiben und den Aufruf aus dem Kampf bzw. aus
       tainted Code herausnehmen.
+
+NACHTRAG (9. Nov. 06:12, Wunsch des Nutzers, Screenshot Braune Leinenhose) – MITTEL
+   Im Item-Tooltip steht ein Block "Mögliche Materialien (ungefähre Chancen)" mit z. B. "Seltsamer Staub 1-2x 80%",
+   "Geringe Magieessenz 1-2x 20%" und "Erwarteter Entzauberungswert: Keine Daten". Dieser Block stammt NICHT von
+   einem GoldSentinel-Addon (in keinem ZIP enthalten) – fremdes Addon oder der Forever-Client selbst.
+   Wunsch: bei jedem Material den aktuellen AH-Preis aus dem letzten Scan sehen.
+   Lösung (fremde Zeilen nicht verändern): AHSentinel blendet unter seiner Zeile "Entzaubern (Ø …)" eine eigene
+   Aufschlüsselung ein, je Material eine Zeile:
+     <Material>  <Chance> × <Ø-Menge> · AH <aktueller Preis aus dem letzten Scan> (Markt <Median 14 T>)  = <Anteil>
+   - Preis: zuerst der aktuelle Preis aus dem letzten Scan (A:GetCurrent, mit Alter "vor X Min."), sonst Marktwert;
+     ohne Preis "kein Preis".
+   - Darunter eine Zeile "nach Gebühren": Ø-Wert × 0,95 − Einstellgebühr (D:MaterialFee, Forever).
+   - Option in den Einstellungen (Standard an), Locales EN/DE (und die übrigen Locale-Dateien).
+   - Testfall: zwei Materialien mit Preis -> Summe der Anteile = Ø-Wert; Material ohne Preis -> "kein Preis" und "+?".
+   Hinweis zur Formel (Disenchant.lua:116, D:Blend, D:GetValue): Ø = Σ Chance × Ø-Menge × Marktwert; Chance/Menge aus
+   der Tabelle (Gewicht 10) verrechnet mit eigenen und geteilten Entzauberungen. Die Aufschlüsselung muss genau
+   diese Werte zeigen.
