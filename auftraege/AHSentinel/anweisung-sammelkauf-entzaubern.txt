@@ -48,3 +48,24 @@ Knöpfe Entzaubern / Überspringen / Statistik / Voll) gehört NICHT zu AHSentin
 (UI/Compact.lua, MIT-Lizenz). AHSentinel hat kein solches Fenster. E2 darum ZURÜCKGESTELLT, bis der Nutzer entscheidet,
 ob er Disenchantry behält (dann nutzt er dessen Fenster, AHSentinel baut keines) oder ob AHSentinel ein eigenes,
 kleines Entzauber-Fenster bekommt. Bis dahin E2 nicht umsetzen.
+
+ENTSCHEID DES NUTZERS (9. Nov. 11:10): Variante b – ALLES IN AHSENTINEL. E2 ist wieder aktiv, mit eigenem Fenster.
+ E2 neu – EIGENES KLEINES ENTZAUBER-FENSTER:
+   - Kompaktes Fenster (Icon + Name des nächsten Teils, "noch N", Knöpfe "Entzaubern", "Überspringen", "Statistik"),
+     verschiebbar, Position gemerkt, öffnet sich nach einem Sammelkauf bzw. über /ahs entzaubern, ns.RegisterUI.
+   - Reihenfolge: zuerst die über den Sammelkauf gekauften Teile, dann übrige entzauberbare Teile aus den Taschen.
+   - "Entzaubern" ist ein sicherer Knopf (SecureActionButtonTemplate, type "spell" Entzaubern + Ziel-Taschenplatz),
+     ein Klick = ein Teil; nicht im Kampf (Knopf dann gesperrt mit Hinweis); kein Taint.
+   - SCHUTZ (wie Disenchantry): nie entzaubern: seelengebundene Teile mit Ausrüstungs-Set, aktuell angelegte, Quest-
+     und Ruf-Gegenstände, Teile auf einer Sperrliste (Rechtsklick "nie entzaubern"), blaue/violette nur nach
+     Bestätigung (Option). Wert-Prüfung: ist Verkauf deutlich mehr wert als Entzaubern -> Hinweis statt Vorschlag.
+   - "Statistik": Entzauberungen heute/gesamt, erhaltene Materialien, Wert (verbindet sich mit E4).
+ TABELLE: Die Entzauber-Tabelle von Disenchantry (DisenchantResults.lua, MIT-Lizenz, Copyright (c) 2026 x_Raven_x;
+   Quelle warcraft.wiki.gg "Disenchanting tables") übernehmen – Itemstufe 5–15 ohne Splitter 80/20, 21–25 Rüstung
+   75/15/10, 51–65 Waffen 75/22/3, Forever-Waffen 21–30 Grosse Magieessenz, Mengen min–max. Copyright-Vermerk und
+   MIT-Lizenztext in einer Datei (z. B. LICENSE-Disenchantry.txt) mitliefern und im Code-Kommentar nennen.
+   Behebt den Splitter-Befund (09:04).
+ ZUSAMMENSPIEL: Ist Disenchantry trotzdem geladen, zeigt AHSentinel keinen zweiten Materialblock und öffnet sein
+   Entzauber-Fenster nicht automatisch (Hinweis einmalig).
+ Testfälle: Reihenfolge gekauft -> übrige; geschützte Teile nie vorgeschlagen; Knopf im Kampf gesperrt; Tabelle für
+   Braune Leinenhose (2 Materialien 80/20), Itemstufe 23 Rüstung (75/15/10), Forever-Waffe 25 (Grosse Magieessenz).
