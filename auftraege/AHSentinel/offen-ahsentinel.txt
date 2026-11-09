@@ -226,3 +226,30 @@ BEFUND IM SPIEL (9. Nov. 11:41, Screenshot Verkaufen, Seltsamer Staub, AHSentine
    [id].qty) nicht mehr für die Vorbelegung verwenden. Bei Einzelangeboten (nicht stapelbar) bleibt 1. Im alten AH
    (Stapel) gilt: so viele volle Stapel wie im Bestand.
    Testfall: 184 in Taschen, letzte Menge 93 -> Feld zeigt 184.
+
+PRÜFUNG DER BUCHHALTUNG (9. Nov. 11:55, Prüf-Sitzung, im Code von AHSentinel 0.65.33, gegen die Regeln von heute)
+   Richtig:
+   - Beim Einstellen wird die TATSÄCHLICH abgezogene Gebühr gebucht (Ledger.lua:327-331, "deposit" mit p.measured =
+     Gold vorher − nachher). Jedes erneute Einstellen bucht die Gebühr erneut – passt zu "Nicht-Verkauf kostet".
+   - Abgelaufene Auktionen: keine Erstattung gebucht – passt zu Forever.
+   Fehler bzw. zu prüfen:
+   L1 (HOCH) Doppelte Gebühr möglich: Beim Verkauf bucht ScanInbox (Ledger.lua:117-119) aus der Rechnung
+      amount = Preis, cut = consignment (5 %) und refund = deposit. In Forever wird die einzige Gebühr schon beim
+      Einstellen bezahlt (und gebucht). Meldet die Forever-Rechnung trotzdem consignment > 0, zieht die Buchhaltung die
+      5 % ein zweites Mal ab; meldet sie deposit > 0, wird eine Erstattung gebucht, die es nicht gibt. Lösung: In
+      Forever den Erlös eines Verkaufs = Gold, das die Post wirklich bringt (GetInboxHeaderInfo money), buchen;
+      consignment/deposit der Rechnung nur anzeigen, nicht verrechnen. Im Diagnose-Protokoll einmal je Verkauf
+      "RECHNUNG Preis, consignment, deposit, Post-Gold" (ohne Namen) schreiben, damit die Prüf-Sitzung die echten
+      Forever-Werte sieht. Era/TBC unverändert (dort gibt es Anteil und Erstattung).
+   L2 (MITTEL) Abbrechen: Seller.lua:858-872 bricht ab, die Buchhaltung bucht aber nichts. Laut Nutzer kommt beim
+      Abbrechen ein Teil der Gebühr zurück (anteilig zur Restlaufzeit). Lösung: Gold vorher/nachher beim Abbrechen
+      messen und als "Erstattung beim Abbrechen" buchen (kind "refund", src "cancel"); gleichzeitig ins Protokoll, damit
+      die Regel bestätigt wird.
+   L3 (MITTEL) Post abgeholt 0 (Befund 08:19) betrifft nur die Meldung des Mailers, nicht die Buchungen (die kommen aus
+      den Rechnungen) – trotzdem mit L1 zusammen prüfen: Post-Gold = Summe der Verkäufe.
+   L4 (Hinweis) Noch nicht umgesetzt, bereits beauftragt: Abrechnung Entzauber-Geschäfte (Sammelkauf E4) und
+      Vorhersage gegen Wirklichkeit ("Werte stimmen" Punkt 10) – beide bauen auf den Buchungen auf, darum L1 zuerst.
+   L5 (Hinweis) Menge je Auktion lernen (Befund 11:31/11:32): aus den "deposit"-Buchungen (qty) den Median je Item
+      bilden – die Daten sind schon da.
+   Testfälle: Forever-Verkauf mit consignment 20c und deposit 1s in der Rechnung, Post-Gold 3s98 -> Erlös 3s98, keine
+   zweite Gebühr, keine Erstattung; Abbrechen mit gemessener Erstattung 40c -> Buchung 40c; Era-Verkauf unverändert.
