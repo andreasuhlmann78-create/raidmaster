@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-09T20:57:52Z",
+ "ausgewertet": "2026-11-09T21:53:58Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -447,40 +447,19 @@
    ]
   },
   "ThreatSentinel": {
-   "berichte": 3,
+   "berichte": 7,
    "letzter_test": {
-    "id": "ThreatSentinel-1794203375-053bd2-1",
-    "version": "2.4.5",
-    "time": 1794203374,
+    "id": "ThreatSentinel-1794252787-1a84bf-4",
+    "version": "2.5.2",
+    "time": 1794252787,
     "counts": {
-     "client": 12,
-     "fehler": 2,
-     "ok": 126,
-     "uebersprungen": 50
+     "client": 1,
+     "fehler": 0,
+     "ok": 5,
+     "uebersprungen": 1
     }
    },
-   "fehler_tests": [
-    {
-     "addon": "ThreatSentinel",
-     "art": "test",
-     "version": "2.4.5",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T22",
-     "name": "ns:FullName (eigener Charakter)",
-     "detail": "ergebnis: <Name> | erwartet: <Name> ohne Realm",
-     "bericht": "ThreatSentinel-1794203375-053bd2-1"
-    },
-    {
-     "addon": "ThreatSentinel",
-     "art": "test",
-     "version": "2.4.5",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T139",
-     "name": "Protokoll-Auswertung",
-     "detail": "ergebnis: 44.98 ms | erwartet: < 16 ms",
-     "bericht": "ThreatSentinel-1794203375-053bd2-1"
-    }
-   ],
+   "fehler_tests": [],
    "fehler_spiel": [
     {
      "addon": "ThreatSentinel",
@@ -910,26 +889,6 @@
   },
   {
    "addon": "ThreatSentinel",
-   "art": "test",
-   "version": "2.4.5",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T22",
-   "name": "ns:FullName (eigener Charakter)",
-   "detail": "ergebnis: <Name> | erwartet: <Name> ohne Realm",
-   "bericht": "ThreatSentinel-1794203375-053bd2-1"
-  },
-  {
-   "addon": "ThreatSentinel",
-   "art": "test",
-   "version": "2.4.5",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T139",
-   "name": "Protokoll-Auswertung",
-   "detail": "ergebnis: 44.98 ms | erwartet: < 16 ms",
-   "bericht": "ThreatSentinel-1794203375-053bd2-1"
-  },
-  {
-   "addon": "ThreatSentinel",
    "art": "spiel",
    "wo": "Selbsttest",
    "msg": "Interface/AddOns/ThreatSentinel/TestRoutine.lua:1447: TS-Selbsttest Handler",
@@ -1016,8 +975,8 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 38,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.56-2b5902d47c25.txt"
+    "anzahl": 39,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.56-1c97a1149b1f.txt"
    },
    "BuffSentinel": {
     "anzahl": 20,
@@ -1028,22 +987,22 @@
     "neueste": "testberichte/diagnose/GSMesstest/1-7ea686d8b1e0.txt"
    },
    "GuildSentinel": {
-    "anzahl": 32,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.18-e13c3764b336.txt"
+    "anzahl": 33,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.21-3909761c1198.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 37,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.32-60e8babc0ac1.txt"
+    "anzahl": 38,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.37-e1664c2a0711.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 20,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.0-dcb6a9b9a107.txt"
+    "anzahl": 21,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.2-4fbff7f728b6.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 80,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794229579-659d1b.json"
+    "anzahl": 81,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794258627-2d7ccc.json"
    }
   }
  }

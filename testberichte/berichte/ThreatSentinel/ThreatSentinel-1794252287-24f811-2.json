@@ -1,0 +1,354 @@
+{
+ "addon": "ThreatSentinel",
+ "bedrohung": "secret / DISPLAY / gespeichert: secret 2026-11-09 20:23 1.60.1 (70862)",
+ "blockiert": "0",
+ "counts": {
+  "client": 7,
+  "fehler": 1,
+  "ok": 31,
+  "uebersprungen": 1
+ },
+ "cvars": "OK",
+ "dur_ms": 47,
+ "echte_aktionen": "0",
+ "env": {
+  "build": "70862",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 22,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [],
+ "f": 1,
+ "fehlerzaehler": "0",
+ "id": "ThreatSentinel-1794252287-24f811-2",
+ "kind": "test",
+ "mitgeschrieben": "",
+ "nicht_automatisiert": "0",
+ "results": [
+  {
+   "anleitung": "Forever: Mob ohne Bedrohungsdaten bleibt IDLE (Diagnose 'Bedrohung am Ziel'), kein Leuchten",
+   "bereich": "J",
+   "id": "T148",
+   "name": "Kein Ersatz über das Ziel des Mobs (modern)",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Forever, erster Kampf: /ts bedrohung zeigt 'geschützt', Hinweis 1x",
+   "bereich": "J",
+   "id": "T149",
+   "name": "Kein stilles IDLE bei geschützten Werten",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "2 Einheiten, 0 Namen",
+   "id": "T150",
+   "ms": "0.0",
+   "name": "Geschützte Namen nie als Schlüssel",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Initial ''",
+   "id": "T151",
+   "ms": "0.0",
+   "name": "Textfunktionen ohne geschützte Werte",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "true false,false | false false,true",
+   "id": "T152",
+   "ms": "0.0",
+   "name": "Leere Aurenliste im Kampf = unbekannt",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "VOLL: normale 0, verbotene 0; ANZEIGE: 0",
+   "erwartet": "VOLL: normale >= 1, verbotene nie (GetUF nil); ANZEIGE: 0",
+   "id": "T153",
+   "ms": "0.2",
+   "name": "Blizzard-Plaketten im Kampf nicht anfassen (ANZEIGE, verbotene Plakette)",
+   "status": "FEHLER"
+  },
+  {
+   "anleitung": "Pull mit 3+ Mobs im Modus VOLL, danach /ts test > Bericht: 'Blocked: none'; kein 'ThreatSentinel hat eine Aktion blockiert'",
+   "bereich": "J",
+   "id": "T154",
+   "name": "Taint im Modus VOLL",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Bedrohung reicht",
+   "id": "T155",
+   "ms": "0.0",
+   "name": "Moderne API überall wie Retail",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "false fallback",
+   "id": "T156",
+   "ms": "0.0",
+   "name": "Sync-Kampfsperre (moderne API)",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Forever: zwei Kämpfe hintereinander, danach /ts bedrohung: 'zuletzt erkannt' mit Datum und Build",
+   "bereich": "J",
+   "id": "T157",
+   "name": "Erkennung einmal pro Kampf, Zustand gespeichert",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "geschützt/86.2/3",
+   "id": "T158",
+   "ms": "0.0",
+   "name": "Bedrohung prüfen zeigt geschützte Werte nie",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "ok",
+   "id": "T159",
+   "ms": "0.0",
+   "name": "'Voll' nicht erzwingbar",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Bedr.: lesbar/Bedr.: geschützt/Bedr.: keine",
+   "id": "T160",
+   "ms": "0.5",
+   "name": "Drei Zustände simulierbar (Knopftext)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Diagnose",
+   "id": "T161",
+   "ms": "0.0",
+   "name": "Fehlerzahl in der Diagnose (L.D_ERRORS)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Diagnose/Bericht/Bedrohung",
+   "id": "T162",
+   "ms": "0.4",
+   "name": "G.Status in Diagnose und Bericht",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Optionen gebaut",
+   "id": "T163",
+   "ms": "0.0",
+   "name": "Kein InterfaceOptions_AddCategory/EasyMenu",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "secret",
+   "id": "T164",
+   "ms": "0.0",
+   "name": "'unknown' + Fehlschlag -> 'secret'",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "40/unknown",
+   "id": "T165",
+   "ms": "0.1",
+   "name": "MAX_ATTEMPTS-Konstante und neuer Kampf",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "FULL",
+   "id": "T166",
+   "ms": "0.0",
+   "name": "'unknown' ausserhalb des Kampfs = VOLL",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "modern DISPLAY, alt FULL",
+   "id": "T166b",
+   "ms": "0.0",
+   "name": "'unknown' im Kampf ergibt ANZEIGE (nur modern)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "<Name>,<Name>,<Name> role",
+   "id": "T167",
+   "ms": "0.1",
+   "name": "Aggrometer im Modus ANZEIGE ohne lesbare Werte: Tank, dann Gruppe",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Lina,Anna,Torben,Grimbar sure",
+   "id": "T-A1",
+   "ms": "0.4",
+   "name": "ANZEIGE: wer die Aggro hat (Ziel des Mobs) steht oben",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Anna,Torben,Lina,Grimbar sure",
+   "id": "T-A2",
+   "ms": "0.3",
+   "name": "ANZEIGE: nach dem Aggro-Halter nach Bedrohungsstufe",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Lina,Torben,Anna,Grimbar est ~,~,~, | Zeile 1 '~Lina'",
+   "id": "T-A3",
+   "ms": "0.6",
+   "name": "ANZEIGE: nichts lesbar -> Schätzung mit '~'",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Torben / Torben / Lina",
+   "id": "T-A4",
+   "ms": "0.6",
+   "name": "ANZEIGE: Dämpfung (Tausch erst ab 10 %)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Anna,Lina,Grimbar,Torben false nil",
+   "id": "T-A5",
+   "ms": "0.2",
+   "name": "Lesbare Werte (Era/TBC, Modus VOLL): Reihenfolge wie 2.5.0",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Torben,Anna,Lina,Grimbar sure | LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=nein · Schätzung=nein | Fehler +0",
+   "id": "T-A6",
+   "ms": "0.3",
+   "name": "ANZEIGE: Ziel des Mobs geschützt -> Stufe 1 übersprungen, Protokoll 'nein'",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Vorsprung 'nil', Farbe 0.45,0.60,0.85",
+   "id": "T168",
+   "ms": "0.1",
+   "name": "Kein Vorsprung-Text im Modus ANZEIGE",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "0.45,0.60,0.85",
+   "id": "T169",
+   "ms": "0.0",
+   "name": "Neutrale Balkenfarbe der DD-Ansicht im Modus ANZEIGE",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "CVar 0x mitgeschrieben",
+   "id": "T170",
+   "ms": "0.1",
+   "name": "Blizzard-Anzeigen bei 'immer nur Anzeige' (mitgeschrieben)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "true/true",
+   "id": "T171",
+   "ms": "0.3",
+   "name": "Knopf 'Client simulieren: Forever / echt'",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "0x",
+   "id": "T172",
+   "ms": "0.0",
+   "name": "Ausgeschaltetes Addon meldet nichts",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "DISPLAY",
+   "id": "T173",
+   "ms": "0.0",
+   "name": "Simulation 'open' übersteuert keine echte Sperre",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Forever, Gruppe im Kampf: kein Lua-Fehler (Testzentrale-Diagnose 'Fehler: 0')",
+   "bereich": "J",
+   "id": "T174",
+   "name": "UnitIsUnit nur über ns:SameUnit",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "SECRET",
+   "id": "T175",
+   "ms": "0.0",
+   "name": "Log.lua und Specs.lua nutzen ns.IsSecret",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "moderne API: Kampflog aus (richtig)",
+   "id": "T176",
+   "ms": "0.0",
+   "name": "TBC Anniversary / Classic Era – Kampflog und Meter aktiv",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Classic Era und TBC Anniversary: Schadens-/Heilmeter zählt, widerstandener Spott wird gemeldet, kein 'Addon geblockt' – Ergebnis dem Nutzer melden",
+   "bereich": "J",
+   "id": "T176b",
+   "name": "Alter Client: Kampf in der Gruppe",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "/dump select(4, GetBuildInfo()); im ersten Kampf /ts bedrohung -> Modus im Bericht",
+   "bereich": "J",
+   "id": "T177",
+   "name": "Launch-Tag: Interface-Nummer und erster Kampf",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "grund": "vor dem Push mit addon_check.py (manuell)",
+   "id": "T178",
+   "name": "Lua-Syntaxprüfung",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "0",
+   "id": "SJ",
+   "ms": "0.0",
+   "name": "Stubs zurückgesetzt",
+   "status": "OK"
+  }
+ ],
+ "sandbox": "OK",
+ "simulationen": "OK",
+ "stubs": "OK",
+ "tasten": "OK",
+ "time": 1794252287,
+ "version": "2.5.2"
+}

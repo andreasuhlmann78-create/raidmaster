@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-09 20:57 UTC
+Ausgewertet: 2026-11-09 21:53 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -12,24 +12,24 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 | LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 1645 |
 | ProfessionSentinel | 09.11.2026 06:57 UTC | 0.9.28 | forever 1.60.1 (Interface 16001) | 5 | 2 | 1 | 0 | 0 |
 | RaidMaster | 05.11.2026 00:07 UTC | 3.0.17 | forever 1.60.1 (Interface 16001) | 98 | 3 | 10 | 12 | 2 |
-| ThreatSentinel | 09.11.2026 05:49 UTC | 2.4.5 | forever 1.60.1 (Interface 16001) | 126 | 2 | 50 | 12 | 18 |
+| ThreatSentinel | 09.11.2026 19:33 UTC | 2.5.2 | forever 1.60.1 (Interface 16001) | 5 | 0 | 1 | 1 | 18 |
 
 ## Diagnose-Protokolle (GSDIAG1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 38 | `testberichte/diagnose/AHSentinel/0.65.56-2b5902d47c25.txt` |
+| AHSentinel | 39 | `testberichte/diagnose/AHSentinel/0.65.56-1c97a1149b1f.txt` |
 | BuffSentinel | 20 | `testberichte/diagnose/BuffSentinel/0.9.12-7f8dfb5af187.txt` |
 | GSMesstest | 1 | `testberichte/diagnose/GSMesstest/1-7ea686d8b1e0.txt` |
-| GuildSentinel | 32 | `testberichte/diagnose/GuildSentinel/0.9.18-e13c3764b336.txt` |
-| ProfessionSentinel | 37 | `testberichte/diagnose/ProfessionSentinel/0.9.32-60e8babc0ac1.txt` |
-| ThreatSentinel | 20 | `testberichte/diagnose/ThreatSentinel/2.5.0-dcb6a9b9a107.txt` |
+| GuildSentinel | 33 | `testberichte/diagnose/GuildSentinel/0.9.21-3909761c1198.txt` |
+| ProfessionSentinel | 38 | `testberichte/diagnose/ProfessionSentinel/0.9.37-e1664c2a0711.txt` |
+| ThreatSentinel | 21 | `testberichte/diagnose/ThreatSentinel/2.5.2-4fbff7f728b6.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 80 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794229579-659d1b.json` |
+| LevelPilot | 81 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794258627-2d7ccc.json` |
 
 ## AHSentinel
 
@@ -334,6 +334,10 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 - [CLIENT] T176b J – Alter Client: Kampf in der Gruppe (anleitung: Classic Era und TBC Anniversary: Schadens-/Heilmeter zählt, widerstandener Spott wird gemeldet, kein 'Addon geblockt' – Ergebnis dem Nutzer melden)
 - [CLIENT] T177 J – Launch-Tag: Interface-Nummer und erster Kampf (anleitung: /dump select(4, GetBuildInfo()); im ersten Kampf /ts bedrohung -> Modus im Bericht)
 - [SKIP] T178 J – Lua-Syntaxprüfung (grund: vor dem Push mit addon_check.py (manuell))
+
+**Testlauf 2.5.2 · forever 1.60.1 (Interface 16001) · 09.11.2026 19:33 UTC** – OK 5 · FEHLER 0 · übersprungen 1 · im Client prüfen 1 · Sandbox OK
+- [SKIP] T134 G – Schnittstellen zu den anderen Addons (grund: keine Schnittstelle)
+- [CLIENT] T135 G – Mehrere GoldSentinel-Addons gleichzeitig (anleitung: Mit RaidMaster, GuildSentinel, BuffSentinel, ProfessionSentinel laden, /reload, /gsgame: eine Zeile, Version 2; /ts testroutine g)
 
 **Fehler im Spiel (letzte 7 Tage)**
 - 3× `Selbsttest`: Interface/AddOns/ThreatSentinel/TestRoutine.lua:1447: TS-Selbsttest Handler – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 05:49 UTC

@@ -1,0 +1,94 @@
+{
+ "addon": "ThreatSentinel",
+ "bedrohung": "secret / DISPLAY / gespeichert: secret 2026-11-09 20:32 1.60.1 (70862)",
+ "blockiert": "0",
+ "counts": {
+  "client": 1,
+  "fehler": 0,
+  "ok": 5,
+  "uebersprungen": 1
+ },
+ "cvars": "OK",
+ "dur_ms": 111,
+ "echte_aktionen": "0",
+ "env": {
+  "build": "70862",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 22,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [],
+ "f": 1,
+ "fehlerzaehler": "0",
+ "id": "ThreatSentinel-1794252787-1a84bf-4",
+ "kind": "test",
+ "mitgeschrieben": "",
+ "nicht_automatisiert": "0",
+ "results": [
+  {
+   "bereich": "G",
+   "ergebnis": "ok",
+   "id": "T130",
+   "ms": "0.0",
+   "name": "Globale Namen gehören ThreatSentinel",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "keine",
+   "id": "T131",
+   "ms": "47.8",
+   "name": "Keine neuen Globals durch die Routine",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "Version 3",
+   "id": "T132",
+   "ms": "0.0",
+   "name": "Gemeinsame GoldSentinelGame-Fassung",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "id": "T133",
+   "ms": "16.9",
+   "name": "Slash- und Prefix-Kollisionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "grund": "keine Schnittstelle",
+   "id": "T134",
+   "name": "Schnittstellen zu den anderen Addons",
+   "status": "SKIP"
+  },
+  {
+   "anleitung": "Mit RaidMaster, GuildSentinel, BuffSentinel, ProfessionSentinel laden, /reload, /gsgame: eine Zeile, Version 2; /ts testroutine g",
+   "bereich": "G",
+   "id": "T135",
+   "name": "Mehrere GoldSentinel-Addons gleichzeitig",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "0",
+   "id": "SG",
+   "ms": "0.0",
+   "name": "Stubs zurückgesetzt",
+   "status": "OK"
+  }
+ ],
+ "sandbox": "OK",
+ "simulationen": "OK",
+ "stubs": "OK",
+ "tasten": "OK",
+ "time": 1794252787,
+ "version": "2.5.2"
+}
