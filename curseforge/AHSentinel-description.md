@@ -12,6 +12,15 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.46
+
+- **Minimum deposit is measured, not fixed (WoW Forever):** Blizzard announced lowering the minimum deposit per
+  auction from 1s to 1c. AHSentinel no longer hard-codes 1s: the deposit always comes from Blizzard first, the formula
+  is only a fallback, and its minimum is learned when you post an auction whose formula deposit is under 1s
+  (diagnostic log "MINDESTEINZAHLUNG gemessen=…"). Once 1c is measured, the duration preselection "24 h costs the
+  same" drops out on its own.
+- Profit window: the AH fee line no longer adds a 1s minimum (only 5 % on sale – the deposit comes back).
+
 ### Version 0.65.45
 
 - **Ledger fix (WoW Forever):** in a Forever sale invoice the field read as "price" is the **quantity** – 0.65.42 to
@@ -67,22 +76,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   craft, and only when prices or the recipe list really changed; reading all recipes is spread over frames.
 - **For addon authors:** `AHAnalyzerPro:AuctionFee(total[, itemID, qty])` / `.AHFee` now return the expected selling
   costs of one auction (5 % + expected deposit loss). New: `AHAnalyzerPro:ListingDeposit(itemID, qty, hours, auctions)`.
-
-### Version 0.65.41
-
-**See at a glance whether it pays off – no calculating:**
-- **Tooltip – disenchant verdict:** instead of "Disenchant value" and "Profit when buying" there are two lines:
-  green "Disenchanting pays off +2s 85c", red "Disenchanting does not pay −65c" or grey "Disenchant: uncertain"
-  (a material price is missing or unreliable), and below "Worth up to 7s 79c" (= disenchant value / (1 + minimum
-  return, default 20 %), rounded down). Materials, chances and the calculation only with **Shift**. For your own items
-  in the bags: "Disenchanting is worth more than selling" or "Selling is worth more than disenchanting".
-- **Profit window – best way:**
-  - Materials over the cheapest way per reagent: AH, vendor, or crafting it yourself from a recipe you know
-    (e.g. Bolt of Linen Cloth from 2 Linen Cloth), up to 2 levels. A small grey line says where it comes from.
-    "Materials as shopping list" buys the reagents actually chosen (Linen Cloth instead of the bolt).
-  - Value = the better of selling (AH fee max(5 %, 1s) per auction) and disenchanting (only if disenchantable).
-  - "Profit" shows the best way, below "best way: disenchant/sell" and the other way with its amount.
-    "Best recipes" sorts by it, with "dis."/"sell" behind the amount.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
