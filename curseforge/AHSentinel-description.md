@@ -12,6 +12,21 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.28
+
+- **Opens with the auction house:** the AHSentinel window opens when you open the auction house and closes again
+  with it. If it was already open before, it stays open. Option "Open and close with the auction house" (on by
+  default). Never pops up in combat.
+- **Window always on screen:** the main window stays fully on screen – at most 90 % of the screen, position kept
+  inside the edges, also after changing UI scale or resolution.
+- **Sniper in WoW Forever:** commodities are bought with two notches – 1st notch reserves the price, 2nd notch buys
+  (WoW Forever allows the reservation only from a key press). The status line now says so ("1. … reserve price ·
+  2. … buy", then "reserved – again to buy (10 s)"), also while the sniper keeps searching; help and tooltips
+  updated. The total line under the list no longer disappears while searching. Era/TBC unchanged.
+- Playtest: new check S9 (window opens and closes with the auction house).
+- Developer test routine: checks that can't run in this client (no BugSack, missing item data, no real layout) are
+  counted as skipped, never as OK or ERROR.
+
 ### Version 0.65.27
 
 - **Disenchant table corrected** (source: warcraft.wiki.gg, Classic disenchanting tables): green items up to item
@@ -45,17 +60,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Playtest S5** now only checks what it should: the profit window against the profession window and
   ProfessionSentinel. Before, it also counted the main window over the auction house, LevelPilot and invisible
   anchors of other addons and reported a false ERROR.
-
-### Version 0.65.23
-
-- **Playtest:** `/ahs playtest on` (German: `/ahs spieltest an`) – AHSentinel checks the test checklist in the game
-  itself as soon as you create the situation, and only reports what is wrong (one chat line per check). It never
-  opens windows, buys, posts or crafts by itself, and does nothing in combat. Active until /reload or 2 hours.
-  - S1 fee in the Sell tab · S2 real fee after posting · S3 profit window · S4 disenchant in the tooltip ·
-    S5 profit window covers nothing · S6 vendor button · S7 rebuild while crafting 5 items · S8 no blocked actions.
-  - `/ahs playtest report` lists OK / ERROR / open and what you still need to do for the open ones. Results also go to
-    the diagnostic log and to the test report for the addon check (area S). No names.
-- Removed a leftover file (TestRoutine.lua.orig) from the download.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
