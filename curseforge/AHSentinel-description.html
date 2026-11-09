@@ -7,6 +7,19 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.21</h3>
+<ul>
+<li><strong>WoW Forever fee rule:</strong> Forever has only ONE fee – the AH fee = 5 % of the auction's price, at least 1 silver,
+  per auction (per stack), paid when posting. There is no separate deposit any more. Examples: 3s 90c → 1s,
+  2s → 1s, 1g → 5s, a stack of 20 at 1c each → 1s once.</li>
+<li>The row "Deposit (not refunded)" is gone from the profit window and the Sell tab; there is only "AH fee (5 %,
+  min. 1s)". The same rule is used everywhere: profit window, Sell tab, "Do today", bargains, flips, disenchant
+  values, vendor comparison, profit calculator.</li>
+<li>When posting, the fee really taken from your gold is written to the diagnostic log (entry EINSTELLEN: price,
+  quantity, fee) to confirm the rule in the game. The deposit measuring of 0.65.17–0.65.20 is removed. The warning when the
+  fee is more than 10 % of the price stays.</li>
+<li>Era, TBC and Retail are unchanged (5 % on sale, deposit refunded on sale).</li>
+</ul>
 <h3>Version 0.65.20</h3>
 <ul>
 <li><strong>Profession window:</strong> the "Best recipes" list is rebuilt at most every 2 seconds while you craft (it was rebuilt
@@ -65,15 +78,7 @@
   everything to check in the game), each bug found in the game is its own test (recipe click without a previous click,
   the 50-second delay), bait values for protected values, the test log goes to a sandbox, test IDs are unique.</li>
 </ul>
-<h3>Version 0.65.15</h3>
-<ul>
-<li><strong>Diagnostic log:</strong> <code>/ahs protokoll</code> (or <code>/ahs log</code>) opens a window with a copyable log – version, client, sessions,
-  changed settings, open windows and where the profit window is docked, plus entries (newest first): CLICK (recipe,
-  recipe ID, way, milliseconds, success), BUILD (best-recipes list, trigger, time), SLOW (any step over 16 ms),
-  OVERLAP (another window covering the profit window) and ERROR (same error only counted). On logout it is also stored
-  as "GSDIAG1" for the addon check. No player, character, guild or realm names.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

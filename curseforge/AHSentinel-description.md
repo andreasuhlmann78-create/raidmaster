@@ -12,6 +12,19 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.21
+
+- **WoW Forever fee rule:** Forever has only ONE fee – the AH fee = 5 % of the auction's price, at least 1 silver,
+  per auction (per stack), paid when posting. There is no separate deposit any more. Examples: 3s 90c → 1s,
+  2s → 1s, 1g → 5s, a stack of 20 at 1c each → 1s once.
+- The row "Deposit (not refunded)" is gone from the profit window and the Sell tab; there is only "AH fee (5 %,
+  min. 1s)". The same rule is used everywhere: profit window, Sell tab, "Do today", bargains, flips, disenchant
+  values, vendor comparison, profit calculator.
+- When posting, the fee really taken from your gold is written to the diagnostic log (entry EINSTELLEN: price,
+  quantity, fee) to confirm the rule in the game. The deposit measuring of 0.65.17–0.65.20 is removed. The warning when the
+  fee is more than 10 % of the price stays.
+- Era, TBC and Retail are unchanged (5 % on sale, deposit refunded on sale).
+
 ### Version 0.65.20
 
 - **Profession window:** the "Best recipes" list is rebuilt at most every 2 seconds while you craft (it was rebuilt
@@ -69,14 +82,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   (checks that cannot run in a client count as skipped, never as OK; the report states "not automated: N" and lists
   everything to check in the game), each bug found in the game is its own test (recipe click without a previous click,
   the 50-second delay), bait values for protected values, the test log goes to a sandbox, test IDs are unique.
-
-### Version 0.65.15
-
-- **Diagnostic log:** `/ahs protokoll` (or `/ahs log`) opens a window with a copyable log – version, client, sessions,
-  changed settings, open windows and where the profit window is docked, plus entries (newest first): CLICK (recipe,
-  recipe ID, way, milliseconds, success), BUILD (best-recipes list, trigger, time), SLOW (any step over 16 ms),
-  OVERLAP (another window covering the profit window) and ERROR (same error only counted). On logout it is also stored
-  as "GSDIAG1" for the addon check. No player, character, guild or realm names.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
