@@ -33,6 +33,11 @@ Entscheide der AHSentinel-Sitzung – von der Prüf-Sitzung BESTÄTIGT
 
 OFFENE PUNKTE
 -------------
+0. TESTROUTINE IM ECHTEN CLIENT: 14 FEHLER (Schwere: HOCH, zuerst) – befund-testroutine-0656.txt
+   A1 Lua-Fehler Activity.lua:96 (Gold/Std.), A2 Sandbox schreibt echte Daten, A3 "Heute tun" 314 ms / Marktliste 117 ms,
+   A4 Sniper-Treffer bei Max 1c klären; B1–B4 Verkaufs-Meldung, Gewinn-Fenster-Rand, Tooltips verdecken Knöpfe,
+   "Beste Rezepte" baut nicht auf; C1–C5 veraltete Tests (T81, T112, T192, T266, T122/T124).
+
 1. FEHLENDE BZW. NUR VORGETÄUSCHTE TESTFÄLLE (Schwere: MITTEL)
    a) T-S2 ist mit T269 (T-SN2: 5 Rasten in der stillen Wartezeit -> kein Bestätigen, keine Meldung) erledigt.
       Offen nur noch T-S1 über Sn:Confirm (Meldung "Kauf gesendet", Zähler unverändert), nicht über ein vorgesetztes

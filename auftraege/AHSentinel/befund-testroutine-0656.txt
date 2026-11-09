@@ -1,0 +1,67 @@
+BEFUND DER PRÜF-SITZUNG: TESTROUTINE IM ECHTEN CLIENT (AHSentinel 0.65.56)
+========================================================================
+Stand: 9. November 2026, 20:15 · Grundlage: Bericht des Nutzers "AHSentinel 0.65.56 – Testroutine · 09.11.2026 19:58"
+(WoW Forever 1.60.1 / 16001, deDE, Stufe 10, 5220 gescannte Items): OK 329 · FEHLER 14 · übersprungen 18 · im Client 15.
+Code geprüft gegen download/AHSentinel-0.65.57.zip.
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen, dann diese Punkte von oben nach unten.
+Wichtig: Die Meldung 18:50 sagte "Testroutine ohne FEHLER" – das galt für die Nachbildung. Im echten Client sind es 14.
+Bitte künftig "ohne FEHLER" nur nach einem Lauf im Client schreiben, sonst "Nachbildung ohne FEHLER".
+
+A. ECHTE FEHLER IM ADDON (HOCH)
+A1 T264 – Lua-Fehler in Activity.lua:96 "attempt to compare nil with number" (Gold pro Stunde, H9).
+   Act:Seconds -> DayKey(from) gibt nil zurück: DayKey (Activity.lua:42-45) baut den Tag mit time({ year, month, day,
+   hour = 0 … }). Kommt time(tabelle) im Client nil zurück (oder date("*t", t) mit einem ungültigen t), bricht jede
+   Rechnung mit Gold/Std. ab – auch im normalen Spiel (Buchhaltung -> Rendite).
+   Lösung: DayKey ohne time(tabelle): t - (t + Zeitzonen-Versatz) % 86400 bzw. mit date("%Y%m%d", t) als Schlüssel;
+   immer eine Zahl zurückgeben; Aufrufer mit nil absichern. Messauftrag an den Nutzer (optional): /dump time({year=2026,
+   month=11,day=9,hour=0,min=0,sec=0}). Testfall T-A1: DayKey(0), DayKey(Clock()), DayKey(nil) -> Zahl; T264 ohne Lua-Fehler.
+A2 Sandbox: "FEHLER: 13 Pfade, wiederhergestellt" – die Testroutine hat echte Daten geändert (activity.days, activity.crafts,
+   recipes.<Charakter>, settings.auctionSize, Preisverlauf mehrerer Items in markets.…). Wiederhergestellt ist gut, aber
+   die Sandbox muss das VERHINDERN, nicht hinterher reparieren (ein /reload oder Lua-Fehler mitten im Lauf hätte die
+   Änderungen gespeichert). Lösung: jeden der 13 Pfade dem Test zuordnen, der ihn schreibt, und dort über die Sandbox-
+   Datenbank schreiben (Activity.DB, Crafting-Rezepte, Einstellung auctionSize, Preisverlauf A:AddHistory im Test über
+   A.apiOverride/Ersatz-Markt). Ziel im Bericht: "Sandbox (echte Daten unverändert): OK".
+A3 T123 "Heute tun (10)" Mittel 314 ms, T123b "Marktliste" 117 ms bei 5220 Items (Soll < 16 ms). Das ist ein spürbares
+   Ruckeln bei jedem Öffnen. Lösung: Vorberechnung in Hintergrund-Portionen (wie die Scan-Auswertung), Ergebnis
+   zwischenspeichern und nur bei neuem Scan/Verkauf neu rechnen; Marktliste nur die sichtbaren Zeilen aufbauen
+   (FauxScroll/ScrollBox), Sortierung einmal je Datenstand. Testfall bleibt < 16 ms je Aufruf mit 5000+ Items.
+A4 T40 "Sniper: Suche (kauft nichts)" – "Treffer bei Max-Preis 1 Kupfer". SelfTest.lua:757 prüft Sn:HitWaiting() ohne
+   Bezug zum Test-Ziel. Zwei Möglichkeiten: (a) ein Treffer eines ANDEREN Ziels/Wächters war offen (Testfehler) oder
+   (b) der Sniper meldet einen Treffer über dem Max-Preis (echter Fehler, Geld!). Bitte klären: Treffer im Test nur für
+   ctx.snKey werten, dabei Preis, Max-Preis und Einheit (Stück/Gesamt) ins Ergebnis schreiben; prüfen, ob SetTarget(…,
+   1, 1, 1) den Max-Preis in Kupfer und je Stück setzt. Ist es (b): sofort beheben, Testfall mit Angebot 2c bei Max 1c ->
+   kein Treffer.
+
+B. FEHLER IM ADDON (MITTEL)
+B1 T53 Verkaufs-Meldung: "Item nil, verkauft nil, Meldung true" – die Systemmeldung wird gezeigt, aber lastSale/o.sold
+   werden nicht gesetzt. Vermutlich passt das Muster für ERR_AUCTION_SOLD_S (bzw. der Itemname/Link) in Forever nicht.
+   Bitte im Protokoll die rohe Meldung einmal ausgeben (ohne Namen) und das Muster aus der Blizzard-Konstante bauen.
+B2 T160 Gewinn-Fenster neben der Reiterleiste: "mit Rand 34 -> -30" (x < 0, ragt über den Rand). Lösung: Abstand mit
+   Rand berechnen (Rand einrechnen), Testfall wie gehabt.
+B3 T191 Eigene Tooltips verdecken Knöpfe ('Mit Auktionshaus', 'Testmodus starten', 'Einkaufslisten', 'Ziel setzen' …).
+   Tooltips der eigenen Fenster mit ANCHOR_RIGHT/ANCHOR_CURSOR neben das Fenster setzen (wie ProfessionSentinel 0.9.32).
+   Einträge ohne Namen ('X' verdeckt '') bitte im UICheck-Ergebnis mit Rahmenname ausgeben, damit man sie findet.
+B4 T167 "20 Ereignisse, 0 Aufbauten" (Soll 1–3): Nach der Bremse (G) baut "Beste Rezepte" beim Herstellen gar nicht
+   mehr auf? Prüfen, ob nach dem Herstellen die Liste spätestens nach CRAFT_GAP einmal neu rechnet. Neuer G2-Test aus
+   0.65.57 gegenprüfen; T167 entsprechend anpassen oder den Fehler beheben.
+
+C. TESTS VERALTET ODER FALSCH (NIEDRIG – Test anpassen, nicht abschwächen)
+C1 T81 TestRoutine.lua:1754 "attempt to call a nil value": S.frame hat seit 0.65.55 kein OnEvent mehr (Empfang über
+   GoldSentinelSync). Test über GoldSentinelSync.OnAddonMessage("AHAP1", SECRET, "GUILD", "Testpeer") bzw. über
+   S.api-Ersatz führen.
+C2 T112 Sprachwechsel "Tooltip nicht in …" (SelfTest.lua:489-493): sucht "Preis"/"Händlerpreis" – seit Tooltip Variante A
+   stehen diese Zeilen nur mit Shift. Auf die Zeilen ohne Shift prüfen ("Verkaufen:" bzw. die neue Kopfzeile).
+C3 T192: Das Ergebnisfenster der Testroutine selbst (AHAnalyzerProSelfTest) wird als Überlappung gezählt. Eigenes
+   Testfenster ausnehmen (oder während Bereich K ausblenden).
+C4 T266 API: ist "scan,ledger", soll "scan" – seit 0.65.57 liefert API.Price/Subscribe offenbar zusätzlich "ledger".
+   Erwartung an den Vertrag anpassen (und in API.md nennen), falls gewollt.
+C5 T122 Tooltip 2,16 ms (Soll < 2) und T124 Berufsliste zweites Mal 2,4 ms (Soll < 2): knapp; nach A3 erneut messen.
+   Bleibt es darüber: Zwischenspeicher je Item für die Tooltip-Werte (gültig bis zum nächsten Datenstand).
+
+D. IM CLIENT PRÜFEN (Nutzer)
+- Nach den Korrekturen: /ahs testroutine am AH (dann auch die HALB-Fälle mit "server"), danach /reload.
+- Optional: /dump time({year=2026,month=11,day=9,hour=0,min=0,sec=0}) (Messauftrag A1).
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
