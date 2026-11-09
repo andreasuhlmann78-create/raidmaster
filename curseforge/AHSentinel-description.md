@@ -12,6 +12,17 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.23
+
+- **Playtest:** `/ahs playtest on` (German: `/ahs spieltest an`) – AHSentinel checks the test checklist in the game
+  itself as soon as you create the situation, and only reports what is wrong (one chat line per check). It never
+  opens windows, buys, posts or crafts by itself, and does nothing in combat. Active until /reload or 2 hours.
+  - S1 fee in the Sell tab · S2 real fee after posting · S3 profit window · S4 disenchant in the tooltip ·
+    S5 profit window covers nothing · S6 vendor button · S7 rebuild while crafting 5 items · S8 no blocked actions.
+  - `/ahs playtest report` lists OK / ERROR / open and what you still need to do for the open ones. Results also go to
+    the diagnostic log and to the test report for the addon check (area S). No names.
+- Removed a leftover file (TestRoutine.lua.orig) from the download.
+
 ### Version 0.65.22
 
 - **Disenchanting in the tooltip – actual and estimated, clearly separated:**
@@ -72,21 +83,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   button stays off until you turn it on yourself in the options ("Button at vendors"). Your own setting always wins.
 - Test routine (developer only): T186 checks in game that the button covers no tab of the merchant window (otherwise
   FAIL), T187 checks the default with and without LevelPilot.
-
-### Version 0.65.17
-
-- **Deposit is measured:** every time you post, the addon notes item, vendor price, quantity, duration, your price
-  (per piece and total), the deposit the game reports and the deposit really taken from your gold, plus the ratio
-  deposit/price and deposit/vendor price – in the diagnostic log (`/ahs protokoll`, entry EINSTELLEN) and in the GSDIAG1
-  export, without any names. If the game does not report a deposit, the last measured one for that item is used –
-  never a guess.
-- **Deposit warning:** if the deposit is more than 10 % of the price, posting asks for a second click. The threshold
-  is adjustable in the options (off / 5 / 10 / 20 / 30 %).
-- **"Do today": below vendor price:** offers whose price per piece is below the vendor sell price (from the last scan
-  or your current search) are shown as "Below vendor price: buy and sell to a vendor" – profit = (vendor price −
-  purchase price) × quantity, no AH cut. Only from 10 silver profit per offer (adjustable: all / 5s / 10s / 50s / 1g),
-  the best 10, sorted by profit. Items without a vendor price never appear, offers that are gone are hidden. The
-  button buys only on your click, then tells you to sell to a vendor.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
