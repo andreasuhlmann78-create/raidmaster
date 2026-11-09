@@ -1,0 +1,19 @@
+HINWEIS: GEMEINSAME DATEI GoldSentinelGame.lua VERSION 3 – KEINE SPIELERNAMEN (alle Addons)
+=========================================================================================
+Stand: 9. November 2026, 12:30 · von der Prüf-Sitzung · Entscheid des Nutzers
+
+Im öffentlichen Repo stand der Name eines echten Charakters des Nutzers als Beispiel (in Kommentaren, Tests und
+Testberichten). Er wurde überall, wo die Prüf-Sitzung zuständig ist, durch den erfundenen Namen "Testa Beispiel"
+ersetzt. shared/GoldSentinelGame.lua ist darum jetzt Version 3 (nur Kommentare geändert, Code wie Version 2).
+Zu tun:
+1. shared/GoldSentinelGame.lua unverändert ins Addon kopieren (alte Kopie meldet addon_check als WARNUNG "veraltet").
+2. In eigenen Dateien (Code, Tests, Testdaten, Locales, CurseForge-Texte, LIESMICH) keine echten Spieler- oder
+   Charakternamen verwenden – für Tests "Testa Beispiel", "Testa", "Ersatz1" o. ä. Eigener Charakter im Test nur über
+   UnitName("player") und im Bericht als <Name>.
+3. Testergebnisse, die Namen enthalten, mit <Name> ausgeben (der Uploader-Weg ist öffentlich).
+Nächste Version, CHANGELOG EN/DE, addon_check ohne FEHLER.
+
+NUR RAIDMASTER/BOT: Der Name steht noch in RaidMaster/GoldSentinelGame.lua (alte Kopie), RaidMaster/LIESMICH.txt,
+RaidMaster/Test/Routine.lua, RaidMaster/Test/Test.lua, RaidMaster/Core.lua, RaidMaster/Pages.lua,
+RaidMasterBot/bot.py, RaidMasterBot/gildenname_vorschlaege.json, RaidMasterBot/tests/test_testberichte.py,
+RaidMasterBot/tests/test_find_player.py – überall durch erfundene Namen ersetzen (Tests konsistent anpassen).
