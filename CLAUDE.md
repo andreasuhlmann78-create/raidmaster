@@ -39,6 +39,12 @@ nicht wieder passieren, sonst überschreiben sie sich gegenseitig.
 Neue GoldSentinel-Addons immer aus der Vorlage erstellen: `python3 shared/vorlage/neues_addon.py <Name> --slash <befehl>
 --en "…" --de "…" --zip` (Anleitung in `shared/vorlage/README.md`). Die Vorlage hält alle Regeln der Prüfung schon ein.
 
+## Wirtschaft, Preise, Gebühren (Pflicht)
+
+Wer Preise, Gebühren, Gewinne oder Werte berechnet, prüft oder beauftragt, liest vorher
+`shared/wissen/wirtschaft-forever.md` und hält dessen Abschnitt 0 (zuerst messen, Zahlen müssen exakt aufgehen) und die
+Pflicht-Checkliste (Abschnitt 7) ein. Regeln nur als "belegt" weitergeben, sonst als Messauftrag.
+
 ## Immer
 
 - Das Repo ist öffentlich: nie Tokens, Webhook-URLs, Passwörter oder Spielernamen in Dateien oder Commits.
