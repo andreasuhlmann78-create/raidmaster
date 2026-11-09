@@ -1,30 +1,30 @@
 {
- "ausgewertet": "2026-11-09T06:43:51Z",
+ "ausgewertet": "2026-11-09T08:02:40Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 4,
+   "berichte": 6,
    "letzter_test": {
-    "id": "AHSentinel-1793846154-ba3fc8-1",
-    "version": "0.65.8",
-    "time": 1793846140,
+    "id": "AHSentinel-1794208411-be649b-2",
+    "version": "0.65.23",
+    "time": 1794208411,
     "counts": {
-     "client": 9,
+     "client": 1,
      "fehler": 1,
-     "ok": 235,
-     "uebersprungen": 18
+     "ok": 6,
+     "uebersprungen": 0
     }
    },
    "fehler_tests": [
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.8",
+     "version": "0.65.23",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T130",
-     "name": "Verkaufs-Meldung: Fehler gemeldet statt verschluckt",
-     "detail": "ergebnis: kein Eintrag | erwartet: Eintrag \"Verkauft\"",
-     "bericht": "AHSentinel-1793846154-ba3fc8-1"
+     "id": "S5",
+     "name": "Gewinn-Fenster überdeckt Berufsfenster und andere Addons nicht",
+     "detail": "ergebnis: Hauptfenster überdeckt AuctionHouseFrame; Hauptfenster überdeckt BuffSentinelAnchor_dispel (BuffSentinel); Hauptfenster überdeckt Guide (LevelPilot); Gewinn-Fenster überdeckt BuffSentinelAnchor_cd (BuffSentinel) | erwartet: nichts überdeckt",
+     "bericht": "AHSentinel-1794208411-be649b-2"
     }
    ],
    "fehler_spiel": [
@@ -218,78 +218,38 @@
    ]
   },
   "ProfessionSentinel": {
-   "berichte": 1,
+   "berichte": 2,
    "letzter_test": {
-    "id": "ProfessionSentinel-1793837882-eb8398-8",
-    "version": "0.9.13",
-    "time": 1793837861,
+    "id": "ProfessionSentinel-1794207475-66ab93-1",
+    "version": "0.9.28",
+    "time": 1794207475,
     "counts": {
-     "client": 13,
-     "fehler": 6,
-     "ok": 144,
-     "uebersprungen": 9
+     "client": 0,
+     "fehler": 2,
+     "ok": 5,
+     "uebersprungen": 1
     }
    },
    "fehler_tests": [
     {
      "addon": "ProfessionSentinel",
      "art": "test",
-     "version": "0.9.13",
+     "version": "0.9.28",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T63",
-     "name": "Eingabefenster Aufschlag, Mindestgewinn, Marge",
-     "detail": "lua: ...face/AddOns/Blizzard_StaticPopup_Game/GameDialog.lua:124: invalid option in `format'",
-     "bericht": "ProfessionSentinel-1793837882-eb8398-8"
+     "id": "S7",
+     "name": "Kein Neuaufbau-Sturm beim Herstellen",
+     "detail": "ergebnis: 0.2 Aufbau/s, 3 LANGSAM | erwartet: ≤ 2/s, 0 LANGSAM",
+     "bericht": "ProfessionSentinel-1794207475-66ab93-1"
     },
     {
      "addon": "ProfessionSentinel",
      "art": "test",
-     "version": "0.9.13",
+     "version": "0.9.28",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T132",
-     "name": "Keine globalen Namen überschrieben",
-     "detail": "ergebnis: 17 Prüfungen, 1 Fehler: nicht erlaubt: ProfessionSentinelAutoTestReportBg, ProfessionSentinelAutoTestReportCloseButton, ProfessionSentinelAutoTestReportInset, ProfessionSentinelAutoTestReportPortrait, ProfessionSentinelAutoTestReportText, ProfessionSentinelAutoTestReportTitleText, ProfessionSentine… | erwartet: 0 Fehler",
-     "bericht": "ProfessionSentinel-1793837882-eb8398-8"
-    },
-    {
-     "addon": "ProfessionSentinel",
-     "art": "test",
-     "version": "0.9.13",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T139",
-     "name": "Panel-Aufbau je Ansicht",
-     "detail": "ergebnis: 6 Ansichten, 6 Fehler: recipes 36.1 ms · langsamste 44.2 ms (Lederverarbeitung) | erwartet: < 16 ms",
-     "bericht": "ProfessionSentinel-1793837882-eb8398-8"
-    },
-    {
-     "addon": "ProfessionSentinel",
-     "art": "test",
-     "version": "0.9.13",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T140",
-     "name": "Bestes Rezept bei jedem Berufs-Ereignis",
-     "detail": "ergebnis: 20.2 ms | erwartet: < 16 ms",
-     "bericht": "ProfessionSentinel-1793837882-eb8398-8"
-    },
-    {
-     "addon": "ProfessionSentinel",
-     "art": "test",
-     "version": "0.9.13",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T143",
-     "name": "Teure Rechnungen",
-     "detail": "ergebnis: 6 Rechnungen, 2 Fehler: AD.Plan 1->300 67.6 ms | erwartet: 0 Fehler",
-     "bericht": "ProfessionSentinel-1793837882-eb8398-8"
-    },
-    {
-     "addon": "ProfessionSentinel",
-     "art": "test",
-     "version": "0.9.13",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T145",
-     "name": "Speicher",
-     "detail": "ergebnis: 20× Refresh: +0 KB · nach dem Lauf: +1230 KB | erwartet: < 256 KB / < 1024 KB",
-     "bericht": "ProfessionSentinel-1793837882-eb8398-8"
+     "id": "S8",
+     "name": "Oberflächen-Prüfung (Bereich K)",
+     "detail": "ergebnis: CheckButton verdeckt ProfessionSentinelPanelCloseButton; Button verdeckt ProfessionSentinelPanelCloseButton; CheckButton verdeckt Button; Button verdeckt ProfessionSentinelPanelCloseButton; Button verdeckt ProfessionSentinelPanelCloseButton; Button verdeckt ProfessionSentinelPanelCloseButton; Button… | erwartet: keine",
+     "bericht": "ProfessionSentinel-1794207475-66ab93-1"
     }
    ],
    "fehler_spiel": []
@@ -483,12 +443,12 @@
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.8",
+   "version": "0.65.23",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T130",
-   "name": "Verkaufs-Meldung: Fehler gemeldet statt verschluckt",
-   "detail": "ergebnis: kein Eintrag | erwartet: Eintrag \"Verkauft\"",
-   "bericht": "AHSentinel-1793846154-ba3fc8-1"
+   "id": "S5",
+   "name": "Gewinn-Fenster überdeckt Berufsfenster und andere Addons nicht",
+   "detail": "ergebnis: Hauptfenster überdeckt AuctionHouseFrame; Hauptfenster überdeckt BuffSentinelAnchor_dispel (BuffSentinel); Hauptfenster überdeckt Guide (LevelPilot); Gewinn-Fenster überdeckt BuffSentinelAnchor_cd (BuffSentinel) | erwartet: nichts überdeckt",
+   "bericht": "AHSentinel-1794208411-be649b-2"
   },
   {
    "addon": "AHSentinel",
@@ -627,62 +587,22 @@
   {
    "addon": "ProfessionSentinel",
    "art": "test",
-   "version": "0.9.13",
+   "version": "0.9.28",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T63",
-   "name": "Eingabefenster Aufschlag, Mindestgewinn, Marge",
-   "detail": "lua: ...face/AddOns/Blizzard_StaticPopup_Game/GameDialog.lua:124: invalid option in `format'",
-   "bericht": "ProfessionSentinel-1793837882-eb8398-8"
+   "id": "S7",
+   "name": "Kein Neuaufbau-Sturm beim Herstellen",
+   "detail": "ergebnis: 0.2 Aufbau/s, 3 LANGSAM | erwartet: ≤ 2/s, 0 LANGSAM",
+   "bericht": "ProfessionSentinel-1794207475-66ab93-1"
   },
   {
    "addon": "ProfessionSentinel",
    "art": "test",
-   "version": "0.9.13",
+   "version": "0.9.28",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T132",
-   "name": "Keine globalen Namen überschrieben",
-   "detail": "ergebnis: 17 Prüfungen, 1 Fehler: nicht erlaubt: ProfessionSentinelAutoTestReportBg, ProfessionSentinelAutoTestReportCloseButton, ProfessionSentinelAutoTestReportInset, ProfessionSentinelAutoTestReportPortrait, ProfessionSentinelAutoTestReportText, ProfessionSentinelAutoTestReportTitleText, ProfessionSentine… | erwartet: 0 Fehler",
-   "bericht": "ProfessionSentinel-1793837882-eb8398-8"
-  },
-  {
-   "addon": "ProfessionSentinel",
-   "art": "test",
-   "version": "0.9.13",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T139",
-   "name": "Panel-Aufbau je Ansicht",
-   "detail": "ergebnis: 6 Ansichten, 6 Fehler: recipes 36.1 ms · langsamste 44.2 ms (Lederverarbeitung) | erwartet: < 16 ms",
-   "bericht": "ProfessionSentinel-1793837882-eb8398-8"
-  },
-  {
-   "addon": "ProfessionSentinel",
-   "art": "test",
-   "version": "0.9.13",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T140",
-   "name": "Bestes Rezept bei jedem Berufs-Ereignis",
-   "detail": "ergebnis: 20.2 ms | erwartet: < 16 ms",
-   "bericht": "ProfessionSentinel-1793837882-eb8398-8"
-  },
-  {
-   "addon": "ProfessionSentinel",
-   "art": "test",
-   "version": "0.9.13",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T143",
-   "name": "Teure Rechnungen",
-   "detail": "ergebnis: 6 Rechnungen, 2 Fehler: AD.Plan 1->300 67.6 ms | erwartet: 0 Fehler",
-   "bericht": "ProfessionSentinel-1793837882-eb8398-8"
-  },
-  {
-   "addon": "ProfessionSentinel",
-   "art": "test",
-   "version": "0.9.13",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T145",
-   "name": "Speicher",
-   "detail": "ergebnis: 20× Refresh: +0 KB · nach dem Lauf: +1230 KB | erwartet: < 256 KB / < 1024 KB",
-   "bericht": "ProfessionSentinel-1793837882-eb8398-8"
+   "id": "S8",
+   "name": "Oberflächen-Prüfung (Bereich K)",
+   "detail": "ergebnis: CheckButton verdeckt ProfessionSentinelPanelCloseButton; Button verdeckt ProfessionSentinelPanelCloseButton; CheckButton verdeckt Button; Button verdeckt ProfessionSentinelPanelCloseButton; Button verdeckt ProfessionSentinelPanelCloseButton; Button verdeckt ProfessionSentinelPanelCloseButton; Button… | erwartet: keine",
+   "bericht": "ProfessionSentinel-1794207475-66ab93-1"
   },
   {
    "addon": "RaidMaster",
@@ -836,18 +756,30 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 6,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.16-a301a6824cf5.txt"
+    "anzahl": 15,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.22-3a8e34b90ba5.txt"
+   },
+   "BuffSentinel": {
+    "anzahl": 9,
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.12-f6ceb105f6b8.txt"
+   },
+   "GuildSentinel": {
+    "anzahl": 9,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.16-6c645a47990f.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 6,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.22-7814f9f2bcef.txt"
+    "anzahl": 15,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.27-9d3683e1cbde.txt"
+   },
+   "ThreatSentinel": {
+    "anzahl": 9,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.0-aa1c723dd277.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 52,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794203206-1b467a.json"
+    "anzahl": 57,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794207123-64b3e5.json"
    }
   }
  }

@@ -1,0 +1,76 @@
+forever 1.60.1 70862|16001|2026-11-09 08:55
+ProfessionSentinel 0.9.29 – Diagnose-Protokoll · 09.11.2026 08:55
+Client forever 1.60.1 (70862) · Interface 16001 · Sprache deDE
+Sitzungen: 86 (seit 05.11.2026)
+Geänderte Einstellungen: minimapAngle=155.43560587573, panelMode=ranking
+
+== Diagnose
+  Preisquelle: AHSentinel
+  Panel offen: nein
+  Angedockt an: –
+  Neuaufbauten: 27 angefragt, 21 ausgeführt
+  Lua-Fehler des Addons seit dem letzten Bericht: 0
+  Berichte, die noch gemeldet werden: 2
+
+== Einträge (61, neueste zuerst, höchstens 200)
+[09.11. 08:55:11] AUFBAU ×93 Scan · 93 Anfragen · 87.0 ms
+[09.11. 08:55:10] AUFBAU ×8260 TRADE_SKILL_LIST_UPDATE · 14459 Anfragen · 85.1 ms
+[09.11. 08:52:35] AUFBAU ×132 TRADE_SKILL_SHOW · 502 Anfragen · 51.1 ms
+[09.11. 08:52:34] LANGSAM ×8075 UI:Refresh · 101.1 ms
+[09.11. 08:52:34] LANGSAM ×5 UI:UpdateBest · 21.5 ms
+[09.11. 08:52:34] LANGSAM ×7131 AD.Update · 47.5 ms
+[09.11. 08:11:28] KLICK ×7 Wollcape · Zauber 2402 · RecipeID 2402 · Liste · ausgewählt: ja · 5.0 ms
+[09.11. 08:11:27] KLICK ×3 Perlenschnallenumhang · Zauber 6521 · RecipeID 6521 · Liste · ausgewählt: ja · 4.9 ms
+[09.11. 08:11:27] KLICK ×2 Wollstiefel · Zauber 2401 · RecipeID 2401 · Liste · ausgewählt: ja · 5.0 ms
+[09.11. 08:11:26] KLICK Grüne Leinenarmschienen · Zauber 3841 · RecipeID 3841 · Liste · ausgewählt: ja · 4.1 ms
+[09.11. 08:11:26] KLICK Leinenstiefel · Zauber 2386 · RecipeID 2386 · Liste · ausgewählt: ja · 4.8 ms
+[09.11. 08:11:25] KLICK Verstärktes Leinencape · Zauber 2397 · RecipeID 2397 · Liste · ausgewählt: ja · 4.6 ms
+[09.11. 08:11:25] KLICK ×2 Leinenschuhe mit weichen Sohlen · Zauber 3845 · RecipeID 3845 · Liste · ausgewählt: ja · 5.4 ms
+[09.11. 08:11:24] KLICK ×2 Schwere Wollhandschuhe · Zauber 3843 · RecipeID 3843 · Liste · ausgewählt: ja · 3.9 ms
+[09.11. 08:11:23] KLICK ×2 Grüne Wollweste · Zauber 2399 · RecipeID 2399 · Liste · ausgewählt: ja · 4.5 ms
+[09.11. 07:57:33] SPIELTEST ×37 S6 OK: 45 Rezepte
+[09.11. 07:57:33] SPIELTEST ×36 S4 OK: neben AHSentinel
+[09.11. 07:57:33] SPIELTEST ×4 S3 OK: 50 von 50 gesunken
+[09.11. 07:57:33] SPIELTEST S2 OK: Fertigkeit 89, Plan ab 89
+[09.11. 07:57:33] LANGSAM ×16 Plan · 45.9 ms
+[09.11. 07:57:32] SPIELTEST S7 FEHLER: 0.2 Aufbau/s, 3 LANGSAM
+[09.11. 07:57:25] SPIELTEST S2 OK: Fertigkeit 88, Plan ab 88
+[09.11. 07:57:17] SPIELTEST S2 OK: Fertigkeit 87, Plan ab 87
+[09.11. 07:57:09] SPIELTEST S2 OK: Fertigkeit 86, Plan ab 86
+[09.11. 07:56:50] SPIELTEST ×2 S1 OK: 5 von 5 sofort über die Liste
+[09.11. 07:56:50] SPIELTEST ×4 S2 OK: Fertigkeit 85, Plan ab 85
+[09.11. 07:55:43] SPIELTEST S8 FEHLER: CheckButton verdeckt ProfessionSentinelPanelCloseButton; Button verdeckt ProfessionSentinelPanelCloseButton; CheckButton verdeckt Button; Button verdeckt ProfessionSentinelPanelCloseButton; Button verdeckt ProfessionSentinelPanel
+[09.11. 07:53:56] LANGSAM ×9 UI:Refresh/disenchant · 95.1 ms
+[09.11. 07:38:43] LANGSAM UI:Refresh/recipes · 17.6 ms
+[08.11. 22:48:45] ÜBERLAPPT ×691 Panel überdeckt AHAnalyzerProCraftPanel
+[08.11. 18:55:34] KLICK ×2 Wollcape · Zauber 2402 · RecipeID 2402 · OpenRecipe · ausgewählt: nein · 0.3 ms
+[08.11. 07:37:28] KLICK Raue bronzene Gamaschen · Zauber 2668 · RecipeID 2668 · OpenRecipe · ausgewählt: ja · 8.0 ms
+[08.11. 07:36:03] KLICK ×8 Raue bronzene Stiefel · Zauber 7817 · RecipeID 7817 · OpenRecipe · ausgewählt: nein · 0.2 ms
+[08.11. 07:30:49] KLICK ×3 Raue bronzene Stiefel · Zauber 7817 · RecipeID 7817 · OpenRecipe · ausgewählt: ja · 15.1 ms
+[08.11. 07:20:00] KLICK ×3 Handschuhe des Beschützers · Zauber 1252259 · RecipeID 1252259 · OpenRecipe · ausgewählt: nein · 0.1 ms
+[08.11. 05:08:58] KLICK Perlenschnallenumhang · Zauber 6521 · RecipeID 6521 · OpenRecipe · ausgewählt: nein · 0.0 ms
+[08.11. 05:02:39] KLICK ×4 Leinenstiefel · Zauber 2386 · RecipeID 2386 · OpenRecipe · ausgewählt: nein · 0.1 ms
+[08.11. 05:00:47] KLICK ×4 Leinenstiefel · Zauber 2386 · RecipeID 2386 · OpenRecipe · ausgewählt: ja · 8.5 ms
+[08.11. 04:59:26] KLICK ×2 Schwere Leinenhandschuhe · Zauber 3840 · RecipeID 3840 · OpenRecipe · ausgewählt: ja · 7.7 ms
+[08.11. 04:59:22] KLICK ×2 Verstärktes Leinencape · Zauber 2397 · RecipeID 2397 · OpenRecipe · ausgewählt: ja · 6.6 ms
+[08.11. 04:58:59] KLICK Grüne Leinenarmschienen · Zauber 3841 · RecipeID 3841 · OpenRecipe · ausgewählt: ja · 6.7 ms
+[08.11. 04:58:51] KLICK ×5 Verstärktes Leinencape · Zauber 2397 · RecipeID 2397 · OpenRecipe · ausgewählt: nein · 0.3 ms
+[07.11. 13:05:32] KLICK ×2 Runenverzierter Kupfergürtel · Zauber 2666 · RecipeID 2666 · OpenRecipe · ausgewählt: ja · 10.3 ms
+[07.11. 13:05:30] KLICK ×4 Schweres Kupferbreitschwert · Zauber 3292 · RecipeID 3292 · OpenRecipe · ausgewählt: ja · 15.9 ms
+[07.11. 11:57:31] KLICK Runenverzierte Kupferarmschienen · Zauber 2664 · RecipeID 2664 · OpenRecipe · ausgewählt: ja · 8.6 ms
+[07.11. 11:56:49] KLICK ×15 Kupferner Kettengürtel · Zauber 2661 · RecipeID 2661 · OpenRecipe · ausgewählt: nein · 0.1 ms
+[07.11. 11:56:45] KLICK Schwerer Kupferschlägel · Zauber 7408 · RecipeID 7408 · OpenRecipe · ausgewählt: nein · 0.1 ms
+[07.11. 11:48:04] KLICK ×9 Rauer Schleifstein · Zauber 3320 · RecipeID 3320 · OpenRecipe · ausgewählt: ja · 4.8 ms
+[07.11. 11:47:45] KLICK ×6 Rauer Schleifstein · Zauber 3320 · RecipeID 3320 · OpenRecipe · ausgewählt: nein · 0.1 ms
+[05.11. 19:15:40] KLICK ×12 Kupferne Kettenweste · Zauber 3321 · RecipeID 3321 · OpenRecipe · ausgewählt: nein · 0.1 ms
+[05.11. 19:15:37] KLICK ×3 Raue Kupferweste · Zauber 12260 · RecipeID 12260 · OpenRecipe · ausgewählt: nein · 0.1 ms
+[05.11. 19:15:36] KLICK ×2 Kupferne Kettenhose · Zauber 2662 · RecipeID 2662 · OpenRecipe · ausgewählt: nein · 0.0 ms
+[05.11. 19:11:57] KLICK Kupferne Kettenweste · Zauber 3321 · RecipeID 3321 · OpenRecipe · ausgewählt: ja · 7.9 ms
+[05.11. 19:11:56] KLICK Raue Kupferweste · Zauber 12260 · RecipeID 12260 · OpenRecipe · ausgewählt: ja · 8.2 ms
+[05.11. 19:11:55] KLICK Kupferne Kettenhose · Zauber 2662 · RecipeID 2662 · OpenRecipe · ausgewählt: ja · 8.1 ms
+[05.11. 19:10:40] KLICK Kupferarmschienen · Zauber 2663 · RecipeID 2663 · OpenRecipe · ausgewählt: ja · 7.5 ms
+[05.11. 19:10:39] KLICK Rauer Gewichtsstein · Zauber 3115 · RecipeID 3115 · OpenRecipe · ausgewählt: ja · 8.8 ms
+[05.11. 19:09:12] KLICK ×2 Kupferarmschienen · Zauber 2663 · RecipeID 2663 · OpenRecipe · ausgewählt: nein · 0.1 ms
+[05.11. 19:09:12] KLICK ×3 Kupferstreitkolben · Zauber 2737 · RecipeID 2737 · OpenRecipe · ausgewählt: nein · 0.0 ms
+[05.11. 19:09:10] KLICK ×12 Rauer Wetzstein · Zauber 2660 · RecipeID 2660 · OpenRecipe · ausgewählt: nein · 0.1 ms
+[05.11. 19:07:13] KLICK ×4 Rauer Gewichtsstein · Zauber 3115 · RecipeID 3115 · OpenRecipe · ausgewählt: nein · 0.1 ms

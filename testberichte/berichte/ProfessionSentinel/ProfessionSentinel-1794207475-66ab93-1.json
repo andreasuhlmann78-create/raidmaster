@@ -1,0 +1,96 @@
+{
+ "addon": "ProfessionSentinel",
+ "counts": {
+  "client": 0,
+  "fehler": 2,
+  "ok": 5,
+  "uebersprungen": 1
+ },
+ "dur_ms": 0,
+ "env": {
+  "build": "70862",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 2,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [],
+ "f": 1,
+ "id": "ProfessionSentinel-1794207475-66ab93-1",
+ "kind": "test",
+ "modus": "spieltest",
+ "results": [
+  {
+   "bereich": "S",
+   "ergebnis": "5 von 5 sofort über die Liste",
+   "id": "S1",
+   "ms": "0.0",
+   "name": "Klick öffnet das Rezept sofort",
+   "status": "OK"
+  },
+  {
+   "bereich": "S",
+   "ergebnis": "Fertigkeit 89, Plan ab 89",
+   "id": "S2",
+   "ms": "0.0",
+   "name": "Fertigkeit und Plan-Start",
+   "status": "OK"
+  },
+  {
+   "bereich": "S",
+   "ergebnis": "50 von 50 gesunken",
+   "id": "S3",
+   "ms": "0.0",
+   "name": "Zähler sinkt nach einem Skillpunkt",
+   "status": "OK"
+  },
+  {
+   "bereich": "S",
+   "ergebnis": "neben AHSentinel",
+   "id": "S4",
+   "ms": "0.0",
+   "name": "Andocken ohne Überlappen",
+   "status": "OK"
+  },
+  {
+   "bereich": "S",
+   "grund": "5 Rezepte im Panel anklicken (Berufsfenster offen)",
+   "id": "S5",
+   "name": "Gleiche AH-Gebühr wie AHSentinel",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "S",
+   "ergebnis": "45 Rezepte",
+   "id": "S6",
+   "ms": "0.0",
+   "name": "Rangliste Leveln sortiert",
+   "status": "OK"
+  },
+  {
+   "bereich": "S",
+   "ergebnis": "0.2 Aufbau/s, 3 LANGSAM",
+   "erwartet": "≤ 2/s, 0 LANGSAM",
+   "id": "S7",
+   "ms": "0.0",
+   "name": "Kein Neuaufbau-Sturm beim Herstellen",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "S",
+   "ergebnis": "CheckButton verdeckt ProfessionSentinelPanelCloseButton; Button verdeckt ProfessionSentinelPanelCloseButton; CheckButton verdeckt Button; Button verdeckt ProfessionSentinelPanelCloseButton; Button verdeckt ProfessionSentinelPanelCloseButton; Button verdeckt ProfessionSentinelPanelCloseButton; Button…",
+   "erwartet": "keine",
+   "id": "S8",
+   "ms": "0.0",
+   "name": "Oberflächen-Prüfung (Bereich K)",
+   "status": "FEHLER"
+  }
+ ],
+ "time": 1794207475,
+ "version": "0.9.28"
+}

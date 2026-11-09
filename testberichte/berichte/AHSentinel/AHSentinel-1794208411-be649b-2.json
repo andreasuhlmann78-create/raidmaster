@@ -1,0 +1,88 @@
+{
+ "addon": "AHSentinel",
+ "counts": {
+  "client": 1,
+  "fehler": 1,
+  "ok": 6,
+  "uebersprungen": 0
+ },
+ "dur_ms": 0,
+ "env": {
+  "build": "70862",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 2,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [],
+ "f": 1,
+ "id": "AHSentinel-1794208411-be649b-2",
+ "kind": "test",
+ "results": [
+  {
+   "bereich": "S",
+   "ergebnis": "Gebühr 100 (Preis 299 × 1, 1 Auktion(en))",
+   "id": "S1",
+   "name": "Gebühr im Verkaufen-Reiter = max(5 % × Preis, 1s) pro Auktion, keine Zeile Einstellgebühr",
+   "status": "OK"
+  },
+  {
+   "bereich": "S",
+   "ergebnis": "abgezogen 100",
+   "id": "S2",
+   "name": "Gebühr echt: abgezogen = angezeigte Gebühr",
+   "status": "OK"
+  },
+  {
+   "bereich": "S",
+   "ergebnis": "Wert 80, netto 75, Material 61, Gewinn 14",
+   "id": "S3",
+   "name": "Gewinn-Fenster: Gebühr nach derselben Regel, Gewinn = Wert - Gebühr - Material",
+   "status": "OK"
+  },
+  {
+   "bereich": "S",
+   "ergebnis": "Summe Anteile 139, Ø 139, tatsächlich ja (N 3, Entzauberungen 3)",
+   "id": "S4",
+   "name": "Entzaubern im Tooltip - Summe der Anteile = Ø-Wert, \"tatsächlich\" nur mit Entzauberungen",
+   "status": "OK"
+  },
+  {
+   "bereich": "S",
+   "ergebnis": "Hauptfenster überdeckt AuctionHouseFrame; Hauptfenster überdeckt BuffSentinelAnchor_dispel (BuffSentinel); Hauptfenster überdeckt Guide (LevelPilot); Gewinn-Fenster überdeckt BuffSentinelAnchor_cd (BuffSentinel)",
+   "erwartet": "nichts überdeckt",
+   "id": "S5",
+   "name": "Gewinn-Fenster überdeckt Berufsfenster und andere Addons nicht",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "S",
+   "ergebnis": "unsichtbar, 0 Items, LevelPilot-Verkauf an",
+   "id": "S6",
+   "name": "Händler-Knopf: verdeckt keinen Reiter, unsichtbar ohne Ware, aus mit LevelPilot-Verkauf",
+   "status": "OK"
+  },
+  {
+   "anleitung": "5 Gegenstände herstellen",
+   "bereich": "S",
+   "id": "S7",
+   "name": "Neuaufbau beim Herstellen: höchstens 1 AUFBAU je 2 s, kein LANGSAM über 16 ms",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "S",
+   "ergebnis": "keins",
+   "id": "S8",
+   "name": "kein ADDON_ACTION_BLOCKED/FORBIDDEN mit AHSentinel",
+   "status": "OK"
+  }
+ ],
+ "spieltest": "true",
+ "time": 1794208411,
+ "version": "0.65.23"
+}

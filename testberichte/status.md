@@ -1,16 +1,16 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-09 06:43 UTC
+Ausgewertet: 2026-11-09 08:02 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
 | Addon | letzter Testlauf | Version | Client | OK | FEHLER | übersprungen | im Client prüfen | Fehler im Spiel (7 Tage) |
 |---|---|---|---|---|---|---|---|---|
-| AHSentinel | 05.11.2026 02:35 UTC | 0.65.8 | forever 1.60.1 (Interface 16001) | 235 | 1 | 18 | 9 | 3 |
+| AHSentinel | 09.11.2026 07:13 UTC | 0.65.23 | forever 1.60.1 (Interface 16001) | 6 | 1 | 0 | 1 | 3 |
 | BuffSentinel | 05.11.2026 00:19 UTC | 0.9.7 | forever 1.60.1 (Interface 16001) | 120 | 1 | 10 | 11 | 4 |
 | GuildSentinel | 09.11.2026 05:47 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 153 | 4 | 23 | 5 | 4 |
 | LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 1645 |
-| ProfessionSentinel | 05.11.2026 00:17 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 144 | 6 | 9 | 13 | 0 |
+| ProfessionSentinel | 09.11.2026 06:57 UTC | 0.9.28 | forever 1.60.1 (Interface 16001) | 5 | 2 | 1 | 0 | 0 |
 | RaidMaster | 05.11.2026 00:07 UTC | 3.0.17 | forever 1.60.1 (Interface 16001) | 98 | 3 | 10 | 12 | 2 |
 | ThreatSentinel | 09.11.2026 05:49 UTC | 2.4.5 | forever 1.60.1 (Interface 16001) | 126 | 2 | 50 | 12 | 18 |
 
@@ -18,14 +18,17 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 6 | `testberichte/diagnose/AHSentinel/0.65.16-a301a6824cf5.txt` |
-| ProfessionSentinel | 6 | `testberichte/diagnose/ProfessionSentinel/0.9.22-7814f9f2bcef.txt` |
+| AHSentinel | 15 | `testberichte/diagnose/AHSentinel/0.65.22-3a8e34b90ba5.txt` |
+| BuffSentinel | 9 | `testberichte/diagnose/BuffSentinel/0.9.12-f6ceb105f6b8.txt` |
+| GuildSentinel | 9 | `testberichte/diagnose/GuildSentinel/0.9.16-6c645a47990f.txt` |
+| ProfessionSentinel | 15 | `testberichte/diagnose/ProfessionSentinel/0.9.27-9d3683e1cbde.txt` |
+| ThreatSentinel | 9 | `testberichte/diagnose/ThreatSentinel/2.5.0-aa1c723dd277.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 52 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794203206-1b467a.json` |
+| LevelPilot | 57 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794207123-64b3e5.json` |
 
 ## AHSentinel
 
@@ -58,6 +61,10 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 - [SKIP] T120 G – fremde AH-Addons (grund: HALB: Auctionator oder TSM aktiv und Auktionshaus offen)
 - [SKIP] T124 H – Berufsliste (Zwischenspeicher) (grund: HALB: Berufsfenster öffnen, dann /ahs testroutine berufe)
 - [SKIP] T148 J – KO 5c: Zwischenspeicher bleibt bei Listen-Ereignissen (grund: HALB: Berufsfenster (moderner Client) öffnen, dann /ahs testroutine berufe)
+
+**Testlauf 0.65.23 · forever 1.60.1 (Interface 16001) · 09.11.2026 07:13 UTC** – OK 6 · FEHLER 1 · übersprungen 0 · im Client prüfen 1
+- [FEHLER] S5 S – Gewinn-Fenster überdeckt Berufsfenster und andere Addons nicht (ergebnis: Hauptfenster überdeckt AuctionHouseFrame; Hauptfenster überdeckt BuffSentinelAnchor_dispel (BuffSentinel); Hauptfenster überdeckt Guide (LevelPilot); Gewinn-Fenster überdeckt BuffSentinelAnchor_cd (BuffSentinel) | erwartet: nichts überdeckt)
+- [CLIENT] S7 S – Neuaufbau beim Herstellen: höchstens 1 AUFBAU je 2 s, kein LANGSAM über 16 ms (anleitung: 5 Gegenstände herstellen)
 
 **Fehler im Spiel (letzte 7 Tage)**
 - 3× `ADDON_ACTION_BLOCKED`: UNKNOWN() – Version 0.65.16 · forever 1.60.1 (Interface 16001) · zuletzt 08.11.2026 17:09 UTC
@@ -172,6 +179,11 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 - [CLIENT] T177 J – Gildenblick bleibt leer, solange RaidMaster in Forever nichts einliest (anleitung: automatisch OK; nach dem RaidMaster-Fix: Gildenblick zeigt Einträge)
 - [CLIENT] T186 B – Minimap-Button im Spiel (anleitung: Buch-Symbol an der Minimap sichtbar, Tooltip in der Sprache des Clients, Ziehen verschiebt ihn, nach /reload am selben Ort, Linksklick wie /ps, Rechtsklick listet die Optionen; bestätigen mit /ps testroutine ok T186)
 - [FEHLER] T145 H – Speicher (ergebnis: 20× Refresh: +0 KB · nach dem Lauf: +1230 KB | erwartet: < 256 KB / < 1024 KB)
+
+**Testlauf 0.9.28 · forever 1.60.1 (Interface 16001) · 09.11.2026 06:57 UTC** – OK 5 · FEHLER 2 · übersprungen 1 · im Client prüfen 0
+- [SKIP] S5 S – Gleiche AH-Gebühr wie AHSentinel (grund: 5 Rezepte im Panel anklicken (Berufsfenster offen))
+- [FEHLER] S7 S – Kein Neuaufbau-Sturm beim Herstellen (ergebnis: 0.2 Aufbau/s, 3 LANGSAM | erwartet: ≤ 2/s, 0 LANGSAM)
+- [FEHLER] S8 S – Oberflächen-Prüfung (Bereich K) (ergebnis: CheckButton verdeckt ProfessionSentinelPanelCloseButton; Button verdeckt ProfessionSentinelPanelCloseButton; CheckButton verdeckt Button; Button verdeckt ProfessionSentinelPanelCloseButton; Button verdeckt ProfessionSentinelPanelCloseButton; Button verdeckt ProfessionSentinelPanelCloseButton; Button… | erwartet: keine)
 
 ## RaidMaster
 
