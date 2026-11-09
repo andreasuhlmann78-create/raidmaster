@@ -6,6 +6,11 @@
 </blockquote>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.9.16</h3>
+<ul>
+<li><strong>Professions of all members, automatically</strong>: where the game itself knows the guild's professions (guild profession list), GuildSentinel now reads the skill levels of every member – also of members without GuildSentinel. Recipes still come only from players with GuildSentinel (or RaidMaster) who have opened their profession window once; their own data always wins over the guild list.</li>
+<li><strong>New members</strong>: whoever joins the guild while online now shares their professions right away instead of at the next login.</li>
+</ul>
 <h3>Version 0.9.15</h3>
 <ul>
 <li><strong>Diagnostic log</strong>: GuildSentinel now records problems that only happen in the real game (slow pages, blocked actions with the calling place, error loops – never player, guild or realm names). Open it with <code>/gs protokoll</code> to copy it; after a logout or /reload it is also stored for the RaidMaster uploader, which sends it to the developer.</li>
@@ -26,16 +31,7 @@
 <ul>
 <li>Developer only: under Settings &gt; Test mode the language can be switched between German, English and the game client's language (for screenshots); GuildSentinel reloads after the change. Nothing changes for players – GuildSentinel always uses the language of the game client.</li>
 </ul>
-<h3>Version 0.9.11</h3>
-<ul>
-<li><strong>Bank character: stock to Discord</strong> (optional, off by default): tick "Bank character (stock to Discord)" under Settings &gt; General on your guild's bank character. Opening the bank, the mailbox or – where the game has one – the guild bank then reads bags, bank, mail attachments and guild bank tabs (read only, never in combat, in small steps). The RaidMaster uploader sends the stock with its next upload, and the RaidMaster bot shows it in #gildenbank and with /bank. Guilds without the RaidMaster bot notice nothing.</li>
-<li><strong>Alt notes with first and last names</strong> (WoW Forever) on Korean and Chinese clients, where the name comes before the label ("Rokan Steinwacht의 부캐릭터"), are recognised again.</li>
-<li><strong>Changing the main</strong> now removes the old alt label completely – with first and last name and in the client language ("Alt: First Last", "Reroll de …") – instead of leaving parts of it in the note.</li>
-<li><strong>Event sync</strong>: one damaged entry no longer discards the other events of the same sync message.</li>
-<li>All game functions GuildSentinel needs are now chosen in one place (API.lua, modern API first, old one as fallback). Nothing changes for players.</li>
-<li>Developer test routine: real sends now count as an error in the report (T82), every action with consequences is checked to go through one place (T174), new cases for export, event announcements, first/last names and the bank character, and the cases that previously needed a replaced game function now run in the game too.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>🏠 Overview</h2>
 <ul>
@@ -122,6 +118,7 @@
 <h2>🔨 Professions</h2>
 <ul>
 <li>Guild-wide directory: who can craft what – search, "ask to craft" with one click</li>
+<li>Skill levels are read automatically – where the game provides the guild profession list, for <strong>every member, even without the addon</strong></li>
 <li>Reads the classic profession window (Classic Era, TBC) and the new profession window of <strong>WoW Forever</strong></li>
 <li><strong>Requests</strong>: crafters get a notice and take the request with one click</li>
 <li><strong>Gaps</strong>: important raid recipes nobody in the guild can craft</li>
