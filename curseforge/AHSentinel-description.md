@@ -12,6 +12,16 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.32
+
+- **Disenchant table from Disenchantry:** the table now follows Disenchantry 1.1.2 (MIT license, Copyright (c) 2026
+  x_Raven_x; license text in LICENSE-Disenchantry.txt), based on warcraft.wiki.gg: item level 5–15 without shards
+  (80/20), 21–25 armor 75/15/10, 51–65 weapons 75/22/3, **WoW Forever: green weapons item level 21–30 give Greater
+  Magic Essence**, blue items from item level 1 and up to 80, epics up to 88. Groups are by item level (as in the
+  table), not by required level.
+- The material block now shows the quantity range from the table ("1–2×"), from real disenchants the average.
+- **Disenchantry loaded:** AHSentinel shows no second material block.
+
 ### Version 0.65.31
 
 - **One price for everything:** AHSentinel now values every item with ONE function – tooltip, profit window
@@ -64,14 +74,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - Playtest: new check S9 (window opens and closes with the auction house).
 - Developer test routine: checks that can't run in this client (no BugSack, missing item data, no real layout) are
   counted as skipped, never as OK or ERROR.
-
-### Version 0.65.27
-
-- **Disenchant table corrected** (source: warcraft.wiki.gg, Classic disenchanting tables): green items up to item
-  level 15 give no shard – armor 80 % dust / 20 % essence, weapons 20 % / 80 %. Item level 21–25 now 75/15/10
-  (weapons 15/75/10), item level 51–65 weapons 22/75/3; the other levels stay 75/20/5.
-- Materials that cannot come from a group (e.g. a shard from item level 15) are no longer counted – neither your own
-  (wrongly detected) results nor shared ones.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
