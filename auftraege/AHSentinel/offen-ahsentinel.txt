@@ -300,3 +300,22 @@ NEU (9. Nov. 14:30, Freigabe des Nutzers 14:22) – GEBÜHREN WIE IM KLASSISCHEN
    Ursache der negativen Einnahmen war der Stückpreis als "Preis" in der Rechnung und count = 0.
    Inhalt: Rechnung richtig lesen (C), Buchhaltung einmalig neu berechnen fixL2 (D), Gebührenregel (B),
    "Beste Rezepte" bremsen (G, bis 1852 ms), Laufzeit-Vorbelegung (E), Verkaufsdauer messen (F).
+
+NEU (9. Nov. 14:30, Freigabe des Nutzers 14:28) – Sniper: Meldungen und zweite Raste (NACH anweisung-gebuehren-klassisch.txt)
+   Befund Screenshots 14:25 (0.65.41, Ziel Leinenstoff, max 19c): Ablauf mit zwei Rasten ist korrekt (Forever blockt
+   StartCommoditiesPurchase ohne Tastendruck, AutoReserveBlocked). Konkurrenz um 11c-Angebote ist normal. Aber:
+   S1 (HOCH) "Gekauft: 21x Leinenstoff für 2s 46c" und direkt danach "Kauf fehlgeschlagen (Angebot weg …) – Zähler
+      korrigiert" = derselbe Kauf. "Gekauft" kommt beim Abschicken (Sn:Confirm), nicht nach der Bestätigung.
+      Lösung: beim Abschicken nur "Kauf gesendet: 21x … " (grau); "Gekauft" erst bei COMMODITY_PURCHASE_SUCCEEDED
+      (bzw. Taschen-/Gold-Änderung als Rückfall nach 3 s), "Kauf fehlgeschlagen" wie heute. Zähler erst bei Erfolg
+      erhöhen statt erhöhen und wieder korrigieren.
+   S2 (MITTEL) "Preis wird noch geprüft ..." erscheint bei jeder weiteren Mausrad-Raste während der Wartezeit
+      (mehrfach im Chat). Lösung: einmal je Reservierung im Chat, danach nur im Sniper-Fenster als Status.
+   S3 (MITTEL) Zweite Raste verpasst: Wenn der Preis bestätigt ist ("ready"), hat der Spieler meist aufgehört zu
+      scrollen. Lösung: kurzer Ton (PlaySound, z. B. SOUNDKIT.AUCTION_WINDOW_OPEN oder ein kurzer Klick, abschaltbar
+      NUR über die vorhandenen Optionen, kein neuer Knopf) und der Kaufen-Knopf blinkt bis Kauf/Abbruch, dazu
+      grosser Text in der Bildschirmmitte "Jetzt kaufen: Mausrad" (UIErrorsFrame/RaidNotice, nie im Kampf).
+      Rasten, die WÄHREND der Wartezeit kommen, nicht als Kauf werten (Hardware-Ereignis muss beim Kauf selbst sein).
+   Testfälle: T-S1 Confirm -> Meldung "Kauf gesendet", Zähler unverändert; danach SUCCEEDED -> "Gekauft", Zähler +21;
+              danach FAILED -> "fehlgeschlagen", Zähler unverändert. T-S2 5 Rasten in der Wartezeit -> 1 Chat-Zeile.
+              T-S3 Übergang waiting -> ready -> Ton 1×, Knopf blinkt, Hinweis sichtbar; im Kampf kein Hinweis.
