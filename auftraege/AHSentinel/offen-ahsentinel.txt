@@ -185,3 +185,20 @@ IM CLIENT PRÜFEN (mit 0.65.41)
 - Post abholen mit Gold: Meldung nennt den Betrag; RECHNUNG-Zeile im Diagnose-Protokoll.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
+
+NEU (9. Nov. 14:47, Entscheid des Nutzers 14:45) – Materialien mit ECHTEN Chancen wieder OHNE Shift (NACH dem laufenden Auftrag)
+   Befund 14:43 (0.65.41): Die echten Entzauber-Chancen sind nicht mehr zu sehen. Gründe (Code 0.65.41, Tooltip.lua):
+   a) TT:AddDisenchantLines zeigt alles ausser dem Urteil nur mit Shift (Vorgabe der Prüf-Sitzung, zu knapp);
+   b) "if not A:DisenchantryLoaded()" – ist Disenchantry installiert, fehlt der AHSentinel-Materialblock ganz; der
+      Spieler sieht nur die feste Tabelle von Disenchantry ("ungefähre Chancen").
+   Entscheid: Disenchantry wird abgelöst, sobald in AHSentinel alles sauber läuft. Darum:
+   M1 Der AHSentinel-Materialblock steht IMMER, ohne Shift, unter dem Urteil und den Wert-Zeilen (Nachtrag 14:16/14:18),
+      auch wenn Disenchantry geladen ist (Abfrage DisenchantryLoaded hier entfernen).
+   M2 Kompakt, eine Zeile je Material: Symbol, Name, Chance %, × Ø-Menge, Preis rechts. Kopfzeile
+      "Materialien (echt, aus N Entzauberungen)" wenn die eigene Zählung für diese Gruppe benutzt wird, sonst
+      "Materialien (Tabelle)". Eigene Zählung wie heute (sofort mitgezählt, mit Tabelle gewichtet).
+   M3 Mit Shift zusätzlich wie heute: Rechenweg, Preisquellen (AH aktuell / Markt / eigener Verkauf), Realer Wert-Details.
+   M4 Einstellung tooltipDEMode bleibt ("short" = ohne Materialblock), Standard "mats" = mit Block ohne Shift.
+   Testfälle: T-D1 Disenchantry geladen, kein Shift -> AHSentinel-Block sichtbar; T-D2 12 eigene Entzauberungen
+              der Gruppe -> Kopf "echt, aus 12 Entzauberungen"; T-D3 keine eigenen -> "Tabelle"; T-D4 Modus "short"
+              -> kein Block; Bereich K: Tooltip verdeckt nichts, Zeilen nicht abgeschnitten.
