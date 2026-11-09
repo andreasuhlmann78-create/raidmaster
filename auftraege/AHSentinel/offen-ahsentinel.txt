@@ -232,3 +232,13 @@ NEU (9. Nov. 16:00, Freigabe des Nutzers 15:56) – Handel nach Regelwerk
 NEU (9. Nov. 16:50, Freigabe des Nutzers 16:42) – öffentliche Schnittstelle AHSentinel.API
    Siehe anweisung-schnittstelle-api.txt und shared/wissen/schnittstelle-ahsentinel-api.md. Reihenfolge: nach der
    laufenden Arbeit, VOR anweisung-handel-strategie.txt (ProfessionSentinel wartet darauf).
+
+NEU (9. Nov. 17:05, Entscheid des Nutzers 17:01) – Gewinn-Fenster und "Jetzt kaufen"-Hinweis (NACH der laufenden Arbeit)
+   G1 Gewinn-Fenster ausblenden, solange das ProfessionSentinel-Panel offen ist: Abfrage
+      ProfessionSentinel.IsPanelShown() (pcall, Funktion kann fehlen -> wie heute). Wieder einblenden, wenn das Panel
+      schliesst. Keine Option. ProfessionSentinel zeigt dieselben Zahlen über AHSentinel.API.
+   G2 Befund Screenshot 16:54 (0.65.45): "AHSentinel: Jetzt kaufen: Mausrad" steht ZWEIMAL übereinander in der
+      Bildschirmmitte und liegt über dem Berufsfenster. Nur EINMAL anzeigen (nicht RaidNotice UND UIErrorsFrame),
+      höchstens 2 s, und nicht über offenen Fenstern (z. B. oberhalb der Aktionsleisten oder am Sniper-Fenster).
+   Testfälle: T-G1 Panel offen -> Gewinn-Fenster weg, zu -> wieder da; ohne ProfessionSentinel -> wie heute.
+              T-G2 Übergang waiting -> ready -> genau 1 Hinweis.

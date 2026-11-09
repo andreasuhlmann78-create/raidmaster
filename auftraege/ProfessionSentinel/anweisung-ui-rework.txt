@@ -1,0 +1,72 @@
+ANWEISUNG AN DIE PROFESSIONSENTINEL-SITZUNG – UI-Rework: einfach und aufgeräumt
+Prüf-Sitzung, 9. November 2026, 17:05. Wunsch und Entscheide des Nutzers 16:50–17:01 (Screenshots 16:48 und 16:54).
+REIHENFOLGE: ERST den laufenden Auftrag (anweisung-werte-aus-ahsentinel.txt) fertig machen, veröffentlichen und
+melden. Danach dieses Rework. Gern in zwei Versionen (A: Panel, B: Berufsfenster/Tooltips/Hinweise).
+
+BEFUND (0.9.32 im Spiel)
+   - 6 Reiter (Rezepte, Rangliste, Plan, Lehrer, Verzauberer, Gunst), teils dieselbe Frage auf verschiedene Weise.
+   - Rezeptliste ungegliedert, nummeriert; 418 fehlende Rezepte in derselben Liste.
+   - Riesige Tooltips (Muster-Tooltip > 20 Zeilen) neben Blizzard- und AHSentinel-Tooltip.
+   - Rangliste und AHSentinels "Beste Rezepte" zeigen fast dasselbe mit anderen Zahlen.
+   - Im Blizzard-Berufsfenster: grauer Zusatztext ("keine Punkte mehr", "≈19× bis Grün") und Balken unter den Namen
+     überlappen Namen und Anzahl ("Schwere Leinenhandschuhe [38]"); Zeile "Bestes gelerntes Rezept: 7. Verstärktes
+     Leinencape (+…" abgeschnitten; Schrift zu klein/grau.
+   - Chat: "Muster: … fehlt: … / … und 235 weitere (Panel, Reiter Rezepte)".
+
+UMSETZUNG
+U1 NUR 3 REITER, je eine Frage
+   - "Rezepte" (Was kann ich, was gibt es?) – ersetzt Rezepte und Gunst.
+   - "Skillen" (Wie komme ich am günstigsten weiter?) – ersetzt Rangliste, Plan, Lehrer.
+   - "Gold" (Womit verdiene ich jetzt?) – ersetzt Verzauberer, Herstellen & Entzaubern, Schnäppchen.
+   Bestehende Funktionen bleiben erreichbar (nichts entfernen, nur zusammenführen). Alte Slash-Befehle bleiben gültig.
+U2 REITER "REZEPTE"
+   - Gruppen nach Platz wie im Spiel: Kopf, Schultern, Brust, Taille, Beine, Hände, Füsse, Umhang, Taschen, Stoffe und
+     Zwischenprodukte, Gebrauchsgegenstände, Sonstiges (je Beruf passende Gruppen, z. B. Schmiede: Waffen,
+     Rüstung nach Platz, Schlüssel/Werkzeug; Alchimie: Tränke, Elixiere, Fläschchen, Transmutation; Kochen nach Werten).
+     Quelle der Gruppe: Item-Ausrüstungsplatz (GetItemInfo equipLoc) bzw. Item-Klasse/Unterklasse, nicht Rezeptname.
+     Gruppen auf-/zuklappbar mit Anzahl; Zustand gemerkt.
+   - Filter-Knöpfe oben: Alle · Gelernt · Lernbar · Fehlt (mit Anzahl) + Suche. Standard: Gelernt + Lernbar.
+   - Zeile: Farbpunkt (Skillfarbe), Name, Status-Kennzeichen (gelernt/lernbar/fehlt), EINE Zahl rechts.
+   - Details unten beim Anklicken (statt grossem Tooltip): Materialien mit Herkunft (AH/Händler/aus …), Verkaufswert
+     netto, Gewinn, bester Weg (verk./ent.), Verkauft sich, Quelle des Rezepts (Lehrer, Händler, Händlergunst, Drop),
+     Knöpfe "Herstellen" und "Einkaufsliste".
+U3 DIE ZAHL IN DER LISTE (Entscheid 16:58)
+   - Reiter Rezepte und Gold: Gewinn mit "verk."/"ent." (Werte über den Preis-Vermittler).
+   - Reiter Skillen: MATERIAL PRO SKILLPUNKT (reine Menge im Grundmaterial, Zwischenprodukte in Barren/Stoff
+     umgerechnet – Rechnung wie die bestehende Rangliste LEVEL_MAT), kein Gold.
+   - ORANGE BEVORZUGEN: Orange vor Gelb vor Grün. Gelb nur vor Orange, wenn es weniger als die Hälfte Material pro
+     Punkt braucht. Kurz vor dem Umschlag ("noch 2× orange") schon das nächste orange Rezept im Plan zeigen.
+     Punkte je Herstellung wie bisher (orange 1, gelb 0,5, grün 0,25).
+U4 REITER "SKILLEN"
+   - Oben "Nächster Schritt" (aktuelle Fertigkeit -> nächste Stufe), darunter die Rezepte in Reihenfolge mit Anzahl
+     (z. B. "Schwere Wollhandschuhe ×19"), Material pro Punkt, "lernen" mit Kosten, falls nicht gelernt.
+   - Nächster Lehrer mit Ort und Wegpunkt-Knopf; Einkaufsliste für den ganzen Plan als ein Knopf.
+U5 REITER "GOLD"
+   - "Herstellen lohnt" (Menge nach Absatz ~2 Tage, Gewinn, verk./ent.), "Schnäppchen im AH", "Entzauber-Handel".
+   - Unten klein: "Herstellen: 1g 20s/Std." (nur wenn AHSentinel liefert) und "Mindestgewinn 20 %".
+U6 BLIZZARD-BERUFSFENSTER
+   - Je Rezeptzeile NUR ein kurzes Zeichen am rechten Rand: z. B. "19×" in der Farbe der nächsten Stufe; bei Grau
+     nichts. KEIN grauer Zusatztext, KEINE Balken unter dem Namen. Nie über Name oder Anzahl (Abstand prüfen).
+   - Zeile unten kurz: "Bestes: <Rezept>" (Kürzen mit "…" erst ab Fensterbreite), sonst ins Panel.
+   - Schrift mindestens so gross wie Blizzards Rezeptzeile, hell genug.
+U7 TOOLTIPS: höchstens 3–4 Zeilen von ProfessionSentinel (Status, Material/Punkt bzw. Gewinn, "Klick: Details").
+   Alles Weitere im Detailbereich. Keine doppelten Infos, die AHSentinel schon zeigt.
+U8 HINWEISE: keine langen Chat-Ausgaben. "Muster … fehlt … und N weitere" -> Zahl am Reiter "Rezepte" bzw. eine
+   Gruppe "Für die Gilde gesucht" im Reiter; im Chat höchstens eine kurze Zeile je Sitzung.
+U9 GEWINN-FENSTER VON AHSENTINEL (Entscheid 17:01): Ist das ProfessionSentinel-Panel offen, blendet AHSentinel sein
+   Gewinn-Fenster aus (AHSentinel setzt das um, siehe dortiger Nachtrag). ProfessionSentinel zeigt dieselben Zahlen
+   aus AHSentinel.API. Signal: ProfessionSentinel setzt/meldet seinen Panel-Zustand über eine öffentliche Funktion
+   ProfessionSentinel.IsPanelShown() und das Ereignis über ein globales Callback (oder AHSentinel fragt
+   ProfessionSentinel.IsPanelShown ab) – mit der AHSentinel-Sitzung über auftraege abgestimmt: Name genau so.
+
+TESTFÄLLE (TestRoutine, Bereich K, Locales EN/DE + EN in den übrigen, CHANGELOG EN/DE)
+   T-UI1 genau 3 Reiter; alte Slash-Befehle führen zum richtigen Reiter
+   T-UI2 Gruppierung: Braune Leinenhose -> "Beine", Wolltasche -> "Taschen", Leinenstoffballen -> "Stoffe und
+         Zwischenprodukte"
+   T-UI3 Filter: Standard Gelernt+Lernbar; "Fehlt" zeigt die fehlenden
+   T-UI4 Skillen: Orange vor Gelb; Gelb vor Orange nur bei < 50 % Material/Punkt
+   T-UI5 Berufsfenster: kein Element von ProfessionSentinel überlappt Name/Anzahl einer Rezeptzeile (Rechtecke prüfen)
+   T-UI6 Tooltip ProfessionSentinel höchstens 4 Zeilen
+   T-UI7 ProfessionSentinel.IsPanelShown() true/false passend
+   Bereich K: nichts abgeschnitten, nichts verdeckt Knöpfe, Fenster im Bildschirm.
+Wie immer: komplette Dateien, alte Clients nie brechen, addon_check.py ohne FEHLER, danach kurz melden.

@@ -89,3 +89,9 @@ NEU (9. Nov. 16:50, Freigabe des Nutzers 16:42, JETZT STARTEN) – Werte aus AHS
    (AHSentinel.API -> auxForever -> Auctionator -> Auctioneer -> eigene Rechnung), Gebühr/Werte/Materialwege/bester
    Weg/Entzaubern/Mengen nach Regelwerk (shared/wissen/wirtschaft-forever.md). Chat-Ausgabe "Muster … fehlt" erst mit
    dem UI-Rework.
+
+NEU (9. Nov. 17:05, Entscheide des Nutzers 16:50–17:01) – UI-Rework
+   Siehe anweisung-ui-rework.txt. ERST NACH anweisung-werte-aus-ahsentinel.txt. 3 Reiter (Rezepte/Skillen/Gold),
+   Rezepte nach Plätzen gegliedert mit Filtern, Details unten statt grosser Tooltips, Skillen = Material pro Punkt mit
+   Orange bevorzugt, Berufsfenster nur ein kurzes Zeichen je Zeile, keine langen Chat-Ausgaben, AHSentinels
+   Gewinn-Fenster aus, wenn das Panel offen ist (ProfessionSentinel.IsPanelShown()).
