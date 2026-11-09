@@ -177,9 +177,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Orgrimmar (1454)
 
-- Wegstücke 347, Knoten 236, zusammenhängende Teile 51
+- Wegstücke 349, Knoten 237, zusammenhängende Teile 51
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 80 Knoten, Bereich 42–63 / 48–77
+  - Teil 1: 81 Knoten, Bereich 42–63 / 48–77
   - Teil 2: 21 Knoten, Bereich 59–71 / 29–42
   - Teil 3: 19 Knoten, Bereich 49–59 / 35–46
   - Teil 4: 15 Knoten, Bereich 38–47 / 51–58
