@@ -142,3 +142,20 @@ WUNSCH DES NUTZERS (9. Nov. 08:44) – ENTZAUBERN AUTOMATISCH MITZÄHLEN UND MIT
    e) Anzeige der Quelle bleibt: "(Ø 12)" = 12 Entzauberungen; die Grenze für "tatsächlich" ist 10.
    f) Testfälle: Entzaubern auf einem Twink zählt als eigen; Nachricht eines anderen Spielers kommt über den Kanal
       an und zählt als geteilt; unplausible/doppelte Meldung wird verworfen; "nur Gilde" sendet nicht in den Kanal.
+
+BEFUND IM SPIEL (9. Nov. 09:04, Screenshot Braune Leinenhose, AHSentinel 0.65.26) – MITTEL
+   Tooltip "Entzaubern – Materialien (AHSentinel)" zeigt Seltsamer Staub 81 %, Geringe Magieessenz 15 % und
+   Kleiner gleissender Splitter 3.8 %. Der Block "Mögliche Materialien" darüber (und die Classic-Tabelle) nennt für
+   dieses Item nur Staub 80 % und Essenz 20 % – grüne Gegenstände bis Itemstufe 15 geben KEINE Splitter.
+   Ursache (belegt): Disenchant.lua:76-84 (D:Prior) hängt für ALLE grünen Stufen einen Splitter mit D.GREEN_SHARD an
+   (table.insert(out, { b[6], D.GREEN_SHARD, 1 })) und nimmt für alle Stufen dieselben Anteile (Kommentar "75 % Staub,
+   20 % Essenz, 5 % Splitter"). In Classic gilt für grüne Rüstung:
+     Itemstufe 5–15: 80 % Staub 1–2, 20 % Geringe Magieessenz 1–2, kein Splitter.
+     ab Itemstufe 16: 75 % / 20 % / 5 % Splitter (wie bisher).
+   Waffen gespiegelt (Essenz statt Staub als Hauptanteil). Lösung: Stufe 1 der Tabelle (UNCOMMON[1], ≤ 15) ohne
+   Splitter und mit 80/20; ab Stufe 2 unverändert. Gespeicherte bzw. geteilte Ergebnisse, die für diese Gruppe einen
+   Splitter melden, als unplausibel verwerfen (passt zum Schutz beim Teilen).
+   Testfall: Braune Leinenhose (grün, Itemstufe ≤ 15, Rüstung) -> genau 2 Materialien, 80 % / 20 %; Wollcape
+   (Itemstufe 16–20) -> 3 Materialien mit 5 % Splitter.
+   Hinweis: Itemstufen-Grenzen bitte gegen eine Quelle prüfen (z. B. Wowhead "Disenchanting" für Classic) und im
+   Kommentar mit Link festhalten.
