@@ -1,10 +1,16 @@
-OFFENE PUNKTE LEVELPILOT (nach der Nachprüfung von 3.12.15)
+OFFENE PUNKTE LEVELPILOT (nach der Nachprüfung von 3.12.16)
 ==========================================================
-Stand: 9. November 2026, 06:10 · von der Prüf-Sitzung · Grundlage: announce/levelpilot__levelpilot-3.12.15.LevelPilot.zip
+Stand: 9. November 2026, 06:25 · von der Prüf-Sitzung · Grundlage: announce/levelpilot__levelpilot-3.12.16.LevelPilot.zip
 Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 3.12.6 mit allen
 Nachträgen bis 9. Nov. 05:30.
 
-Erledigt in 3.12.7 bis 3.12.15 (danke):
+Erledigt in 3.12.7 bis 3.12.16 (danke):
+- 3.12.16: Rest der Anweisung graue Items – gesperrte Plätze bleiben (Compat.lua:346-351 locked, Comfort.lua:64-68
+  Sellable), Stopp bei MERCHANT_CLOSED und Kampfbeginn (Comfort.lua:330, 335, 104), /lp grau (Core.lua:667-669),
+  Tests T230-T234 (TestRoutine.lua:3820-3904). Testfälle, die in der Lage nicht prüfbar sind, zählen als
+  übersprungen mit Grund (TR.NA_SUFFIX, TestRoutine.lua:274) statt OK (früherer Punkt 1 aus 3.12.6).
+  Hinweis der LevelPilot-Sitzung stimmt: der Knopf "Verkaufen: 0 Items (0)" am Händler stammt von AHSentinel
+  (UI_Extras.lua:28-56) – als Auftrag an AHSentinel weitergegeben.
 - 3.12.15: anweisung-testroutine-oberflaeche.txt – UICheck.lua aus der Vorlage, alle Fenster angemeldet,
   Bereich K T224-T229 (TestRoutine.lua:3806-3840), Plausibel-Prüfungen "N fertig" = Abgeben, Questlog-Anzahl, Stufe,
   Position (UICheck.lua:240-286), Fehlerschleife je Sitzung ab PLAYER_LOGIN. T224-T227 offline begründet übersprungen.
@@ -22,14 +28,14 @@ Erledigt in 3.12.7 bis 3.12.15 (danke):
 - 3.12.13: erst die offenen Quests der Zone, dann Zonenwechsel (T222).
 - anweisung-levelpilot-graue-items.txt: Verkaufen-Knopf am Händler weg, graue Items automatisch beim Händler
   (Comfort.lua:59-91, Option autoSellGrey ab Werk an, Center.lua:500), Verkauf über LP.Act.Call, Chatzeile in allen
-  Sprachen. Die Datei ist entfernt; der Rest steht unten als Punkt 3.
+  Sprachen. Die Datei ist entfernt.
 Prüfungen: Addon-Prüfung OK ohne Warnung (Ladetest, Sprachtest), GoldSentinelGame.lua und GoldSentinelTest.lua
-byte-gleich mit shared/, CHANGELOG EN/DE, .toc 3.12.15 (mit UICheck.lua). Im Diff 3.12.13 -> 3.12.14 -> 3.12.15 keine
-neuen Fehler gefunden.
+byte-gleich mit shared/, CHANGELOG EN/DE, .toc 3.12.16 (mit UICheck.lua). Im Diff 3.12.13 -> 3.12.14 -> 3.12.15 ->
+3.12.16 keine neuen Fehler gefunden.
 Testberichte: seit dem 9. Nov. 05:30 keine neuen.
 
-Bitte mit der nächsten Version (3.12.16). Wie immer: komplette Dateien, alte Clients nie brechen, alle Locale-Dateien,
-CHANGELOG EN/DE, vor dem Push python3 addon-check/addon_check.py announce/levelpilot__levelpilot-3.12.16.LevelPilot.zip
+Bitte mit der nächsten Version (3.12.17). Wie immer: komplette Dateien, alte Clients nie brechen, alle Locale-Dateien,
+CHANGELOG EN/DE, vor dem Push python3 addon-check/addon_check.py announce/levelpilot__levelpilot-3.12.17.LevelPilot.zip
 -> kein FEHLER.
 
 1. EIGENE TOOLTIPS VERDECKEN KNÖPFE (Schwere: MITTEL, Screenshot Thunder Bluff 5. Nov.)
@@ -39,25 +45,12 @@ CHANGELOG EN/DE, vor dem Push python3 addon-check/addon_check.py announce/levelp
    Lösung: ANCHOR_NONE und SetPoint ausserhalb des Hauptfensters (daneben bzw. darunter, am Bildschirmrand ausweichen),
    nie über den eigenen Knöpfen. T224 (neu in 3.12.15) sollte das im echten Client jetzt als FEHLER zeigen.
 
-2. TESTFÄLLE MELDEN "OK", OBWOHL NICHTS GEPRÜFT WURDE (Schwere: NIEDRIG)
-   Noch unverändert (TestRoutine.lua): 2152 und 2154 (T26), 2363 (T45), 627 (T50), 3323 (T152), 3414 (T164),
-   559, 1564, 1582 (T39, T74, T94: Level 60), 407, 775, 1026, 2501, 3132 (T04, T86, T170, T52, T130: kein Datenpaket).
-   Lösung: T:Skip(id, bereich, name, "<Grund> – in dieser Lage nicht prüfbar") statt OK, oder die Lage in der Sandbox
-   selbst herstellen (wie bei T196/T212).
-
-3. GRAUE ITEMS – REST AUS DER ANWEISUNG (Schwere: NIEDRIG)
-   a) Testfälle fehlen (in TestRoutine.lua kein Fall für SellGrey): Option an/aus, nur Qualität 0, Abbruch, wenn das
-      Händlerfenster zugeht, im Test nur mitgeschrieben (LP.Act.Call "Sell").
-   b) Gesperrte Gegenstände überspringen (Comfort.lua:65: isLocked aus C_Container.GetContainerItemInfo bzw. dem
-      alten Rückgabewert prüfen).
-   c) /lp-Befehl zum Umschalten fehlt (Core.lua:618 ff.), z. B. /lp grau bzw. /lp grey; Text in allen Locales.
-
-4. T128 ALTE FASSUNG (Schwere: NIEDRIG, Testroutine im Spiel 5. Nov.)
-   Unverändert seit 3.12.6 (TestRoutine.lua:3083). Ist "ergänzt true, gemessen true", soll "ergänzt, false, kein
+2. T128 ALTE FASSUNG (Schwere: NIEDRIG, Testroutine im Spiel 5. Nov.)
+   Unverändert seit 3.12.6 (TestRoutine.lua:3096). Ist "ergänzt true, gemessen true", soll "ergänzt, false, kein
    Fehler". Die Migration markiert Beispieldaten als gemessen. Prüfen, ob die Migration oder der Fall falsch ist, und
    anpassen. Dazu: Fehlerzähler stieg während der Routine um 5 – prüfen, ob absichtliche Testfehler mitgezählt werden.
 
-5. RESTLICHE ABFRAGEN OHNE SCHUTZ VOR GESCHÜTZTEN WERTEN (Schwere: NIEDRIG, Vorsorge zu 3.12.14)
+3. RESTLICHE ABFRAGEN OHNE SCHUTZ VOR GESCHÜTZTEN WERTEN (Schwere: NIEDRIG, Vorsorge zu 3.12.14)
    Noch roh benutzt: GetPlayerFacing (Navigation.lua:406-407 "if facing", 475, 497), IsIndoors (Caves.lua:99, 187,
    Navigation.lua:469, 493, Pins.lua:186), IsResting (Session.lua:196, Caves.lua:186), GetUnitSpeed (Measure.lua:87),
    UnitLevel("player") in Vergleichen (Core.lua:410, Session.lua:201, 310, Group.lua:44, 118, Protocol.lua:283),
@@ -65,7 +58,7 @@ CHANGELOG EN/DE, vor dem Push python3 addon-check/addon_check.py announce/levelp
    Lösung: wie in 3.12.14 über LP.SafeValue lesen und bei nil auf den bisherigen Rückfall gehen. T223 um diese Fälle
    erweitern.
 
-6. IM CLIENT PRÜFEN (Ergebnisse dem Nutzer melden)
+4. IM CLIENT PRÜFEN (Ergebnisse dem Nutzer melden)
    - 3.12.15: /lp testroutine k im echten Client (T224-T229), Ergebnis melden – T224 sollte die Tooltips aus Punkt 1
      finden.
    - 3.12.14: Fehlerprotokoll nach einer Spielsitzung mit Kampf und AFK – kein "secret boolean" mehr (vorher 798×
@@ -73,9 +66,10 @@ CHANGELOG EN/DE, vor dem Push python3 addon-check/addon_check.py announce/levelp
    - Route Mulgore/Thunder Bluff (Befunde 5. Nov. 01:17, 03:20, 17:33, 19:03): nahe Abgaben zuerst, keine Linie übers
      Gebirge, Fokus in der Karte des Spielers, Klassentrainer in Thunder Bluff über den Aufzug, erst Mulgore fertig,
      dann Brachland. Kopfzeile "(N fertig)" und "Abgeben" oben in der Liste.
-   - Graue Items: Händler öffnen -> graue Gegenstände weg, eine Chatzeile, Rückkauf-Reiter frei sichtbar.
+   - Graue Items: Händler öffnen -> graue Gegenstände weg (nur ausserhalb des Kampfes), eine Chatzeile, /lp grau
+     schaltet um. Den Knopf "Verkaufen: N Items" am Händler zeigt AHSentinel (dort als Auftrag).
    - /dump GetPlayerFacing(), IsIndoors(), IsResting() im Kampf und in einer Instanz: Zahl/Wahrheitswert, nil oder
-     geschützt? (für Punkt 5)
+     geschützt? (für Punkt 3)
    - Aus 3.12.6: Client-Fälle T171, T195, T213; /dump UnitGUID("target") direkt nach einem Kill im Kampf;
      /dump GetLootSourceInfo(1) bei offenem Beutefenster; Belohnungs-Hinweis bei QUEST_COMPLETE mit Gegenstand
      nicht im Cache; Nachkaufen beim echten Händler (MERCHANT_SHOW -> Restock); /lp testroutine reise (T84, T180, T183).

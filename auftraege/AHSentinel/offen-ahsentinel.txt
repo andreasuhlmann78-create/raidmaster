@@ -212,3 +212,15 @@ OFFENE PUNKTE
    - Nach der Routine /reload.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
+
+NACHTRAG (9. Nov. 06:25, Prüf-Sitzung, aus der Nachprüfung LevelPilot 3.12.16) – MITTEL
+   Der Knopf "Verkaufen: 0 Items (0)" am Händlerfenster, den der Nutzer am 5. Nov. bemängelt hat (er verdeckt den
+   Reiter "Rückkauf" von Blizzard), stammt von AHSentinel, nicht von LevelPilot: UI_Extras.lua:19-58
+   UI:UpdateVendorButton, b:SetPoint("TOPRIGHT", MerchantFrame, "BOTTOMRIGHT", 0, -4), 250 breit, Strata HIGH.
+   Wunsch des Nutzers: kein Knopf über oder neben den Blizzard-Reitern (Händler / Rückkauf). LevelPilot verkauft graue
+   Gegenstände seit 3.12.16 ohnehin selbst beim Öffnen des Händlers.
+   Lösung: den Knopf so legen, dass er MerchantFrameTab1/Tab2 (und den Rahmen) nie überdeckt, z. B. in das
+   Händlerfenster selbst oder als Eintrag im AHSentinel-Fenster; zusätzlich ab Werk aus (settings.vendorButton,
+   UI_Main.lua:3336), solange LevelPilot mit autoSellGrey geladen ist. Ausblenden statt "0 Items", wenn nichts zu
+   verkaufen ist. Die Oberflächen-Prüfung (Punkt Testroutine Oberfläche) soll den Fall "eigener Knopf über
+   MerchantFrameTab" als FEHLER erkennen. Ist der Knopf so gewollt, bitte mit dem Nutzer klären und begründet melden.
