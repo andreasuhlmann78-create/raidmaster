@@ -98,3 +98,5 @@ BEFUNDE AUS TESTBERICHTEN UND DIAGNOSE-PROTOKOLLEN (9. Nov. 06:10, Prüf-Sitzung
       jetzt den nächsten Ort derselben Karte. Die 17 "nicht da" waren ein Fehler von wege_check.py: NPCs ohne Ort im
       Datenpaket; die Prüfung zeigt sie jetzt als "fehlt im Datenpaket" und liest "nopack". Gemessene Orte dieser
       NPCs dürfen ins Datenpaket.)
+
+NEU (9. Nov. 18:10, HOCH, nach der laufenden Arbeit) – Sync nicht über eigene Kanäle (siehe hinweis-sync-kanal.txt)

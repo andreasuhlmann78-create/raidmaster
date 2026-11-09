@@ -227,3 +227,5 @@ NEU (9. Nov. 17:50, NIEDRIG) – Gebühr abrunden statt runden
    passen zu beidem. AHSentinel rundet kaufmännisch (math.floor(x + 0.5): AHAnalyzerPro.lua ~1646, 1676, 1686,
    Seller.lua ~580). Lösung: math.floor(total * CutPct()) – wie ProfessionSentinel 0.9.33. Testfall: 6279 -> 313.
    Regelwerk Abschnitt 1 nachgeführt.
+
+NEU (9. Nov. 18:10, HOCH, nach der laufenden Arbeit) – Sync nicht über eigene Kanäle (siehe hinweis-sync-kanal.txt)
