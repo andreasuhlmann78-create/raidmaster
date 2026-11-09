@@ -7,6 +7,12 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.24</h3>
+<ul>
+<li><strong>Playtest S5</strong> now only checks what it should: the profit window against the profession window and
+  ProfessionSentinel. Before, it also counted the main window over the auction house, LevelPilot and invisible
+  anchors of other addons and reported a false ERROR.</li>
+</ul>
 <h3>Version 0.65.23</h3>
 <ul>
 <li><strong>Playtest:</strong> <code>/ahs playtest on</code> (German: <code>/ahs spieltest an</code>) – AHSentinel checks the test checklist in the game
@@ -69,17 +75,7 @@
   plausible values, error loops, T191–T197) and tests T198–T202; saved recipes, window positions and watcher data stay
   unchanged during the routine.</li>
 </ul>
-<h3>Version 0.65.18</h3>
-<ul>
-<li><strong>Vendor button no longer covers anything:</strong> the "Sell: … items" button sat below the merchant window and covered the
-  "Buyback" tab. It now sits above the merchant window, top right – never next to the "Merchant" / "Buyback" tabs.</li>
-<li><strong>Only when there is something to sell:</strong> instead of "Sell: 0 items (0)" the button is hidden.</li>
-<li><strong>Off by default with LevelPilot:</strong> if LevelPilot is loaded and sells grey items itself (on by default there), the
-  button stays off until you turn it on yourself in the options ("Button at vendors"). Your own setting always wins.</li>
-<li>Test routine (developer only): T186 checks in game that the button covers no tab of the merchant window (otherwise
-  FAIL), T187 checks the default with and without LevelPilot.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

@@ -12,6 +12,12 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.24
+
+- **Playtest S5** now only checks what it should: the profit window against the profession window and
+  ProfessionSentinel. Before, it also counted the main window over the auction house, LevelPilot and invisible
+  anchors of other addons and reported a false ERROR.
+
 ### Version 0.65.23
 
 - **Playtest:** `/ahs playtest on` (German: `/ahs spieltest an`) – AHSentinel checks the test checklist in the game
@@ -73,16 +79,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - Developer test routine: new area K (interface in the real client: tooltips, overlapping windows, screen, labels,
   plausible values, error loops, T191–T197) and tests T198–T202; saved recipes, window positions and watcher data stay
   unchanged during the routine.
-
-### Version 0.65.18
-
-- **Vendor button no longer covers anything:** the "Sell: … items" button sat below the merchant window and covered the
-  "Buyback" tab. It now sits above the merchant window, top right – never next to the "Merchant" / "Buyback" tabs.
-- **Only when there is something to sell:** instead of "Sell: 0 items (0)" the button is hidden.
-- **Off by default with LevelPilot:** if LevelPilot is loaded and sells grey items itself (on by default there), the
-  button stays off until you turn it on yourself in the options ("Button at vendors"). Your own setting always wins.
-- Test routine (developer only): T186 checks in game that the button covers no tab of the merchant window (otherwise
-  FAIL), T187 checks the default with and without LevelPilot.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
