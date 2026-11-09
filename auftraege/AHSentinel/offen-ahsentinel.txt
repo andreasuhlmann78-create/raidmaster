@@ -221,3 +221,9 @@ NEU (9. Nov. 17:35, Freigabe des Nutzers 17:33) – Sniper so schnell wie mögli
    Siehe anweisung-sniper-schneller.txt. NACH dem Nachtrag 17:30 (D1 doppelte Buchung). Dauer-Scrollen, Bestätigen-
    Sperre 0,05 s, Wächter pausiert bei aktivem Sniper, Ziele nach Ertrag, nur billige Stücke reservieren, Waren-Treffer
    3 s aktuell, Teilkauf, Zeiten und Quote messen. Jeder Kauf nur mit echter Raste/Taste.
+
+NEU (9. Nov. 17:50, NIEDRIG) – Gebühr abrunden statt runden
+   Gemessen: 6279 × 5 % = 313,95 -> Blizzard nimmt 313 (abgerundet; gerundet wären 314). Die übrigen drei Rechnungen
+   passen zu beidem. AHSentinel rundet kaufmännisch (math.floor(x + 0.5): AHAnalyzerPro.lua ~1646, 1676, 1686,
+   Seller.lua ~580). Lösung: math.floor(total * CutPct()) – wie ProfessionSentinel 0.9.33. Testfall: 6279 -> 313.
+   Regelwerk Abschnitt 1 nachgeführt.
