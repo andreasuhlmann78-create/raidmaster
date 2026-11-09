@@ -39,7 +39,8 @@ weitergegeben. Die Addons haben danach falsche Werte angezeigt. Das darf nicht w
 | **Angekündigt: Mindest-Einzahlung wird auf 1c gesenkt** (Rückkehr zur Klassik-Formel) | angekündigt, Datum offen | Kris Zierhut (Blizzard) im Interview, Seramate/Wowhead 6.11.: "we're changing it back to one copper" – "Not yet, but coming". Spieler im Forum: Patch am Dienstag (unbestätigt) |
 | Einzahlung hängt **nicht** vom AH-Preis ab | belegt | Staub 17s 80c vs. Ballen 11s: Staub billiger in der Einzahlung |
 | **Beim Verkauf: 5 % vom Verkaufspreis ab** (Auktionshausgebühr, "consignment") | belegt | 3 Rechnungen: 202 = 5 % von 4042, 837 = 5 % von 16744, 313 = 5 % von 6279 |
-| **Beim Verkauf: Einzahlung kommt zurück** (mit der Post) | belegt | Post-Gold = Gesamt − Gebühr + Einzahlung, 3× exakt |
+| **Beim Verkauf: Einzahlung kommt zurück** (mit der Post) | belegt | Post-Gold = Gesamt − Gebühr + Einzahlung, 4× exakt |
+| **Gebühr wird ABGERUNDET** (5 % auf ganze Kupfer nach unten) | belegt mit 1 unterscheidenden Fall, 3 verträglich | 6279 × 5 % = 313,95 -> 313 (gerundet wären 314); 4042 -> 202, 16744 -> 837, 8082 -> 404 |
 | Höhe der zurückerstatteten Einzahlung bei Waren (Teilverkäufe, Minimum 1s) – vermutlich nur die Formel-Einzahlung ohne Minimum | **vermutet / offen** | 38c, 200c, 296c erstattet – Zusammenhang mit gezahlter Einzahlung noch nicht belegt |
 | Abgelaufene Auktion: Einzahlung verloren | bestätigt durch Quellen | Spielerberichte 6.11. (timesaver.gg), Hearthproof |
 | Abgebrochene Auktion: Einzahlung verloren | bestätigt durch Quellen, im Spiel noch messen | Hearthproof (Forever = Classic), Spielerberichte 6.11. (timesaver.gg); Spieler meint "anteilig zurück" -> messen (AHSentinel L2) |
@@ -62,8 +63,8 @@ Kupfer-Niveau).
 ## 2. Die Verkaufs-Post (Rechnung) in Forever
 
 `GetInboxInvoiceInfo` liefert laut Doku: invoiceType, itemName, playerName, bid, buyout, deposit, consignment,
-moneyDelay, etaHour, etaMin, count, commerceAuction. **In Forever (1.60.1) belegt:** Das Feld, das als bid/buyout
-gelesen wird, enthält bei Warenverkäufen die **Menge**, und `count` kommt als 0 an.
+moneyDelay, etaHour, etaMin, count, commerceAuction. **In Forever (1.60.1) belegt:** buyout enthält bei Warenverkäufen
+die **Menge**, bid den **Gesamtpreis** (Rohzeile unten), `count` ist die Menge oder 0.
 
 - Gesamt = Post-Gold (GetInboxHeaderInfo money) + consignment − deposit
 - Menge = das "Preis"-Feld; Stückpreis = Gesamt / Menge
