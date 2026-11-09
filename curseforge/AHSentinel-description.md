@@ -12,6 +12,19 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.29
+
+- **Disenchant value instead of "profit":** the tooltip line is now called "Disenchant value ~X (T)" – it depends only
+  on the group (quality, item level, armor/weapon) and is the same for all items of that group. New below it:
+  "Profit when buying: value − purchase price" (green/red) with the price of the row you point at in the addon
+  (buy list, sniper, bargains), at a vendor his price, otherwise the cheapest current offer. In the buy list a mark
+  "[disenchanting pays]" appears only if value − price is positive.
+- **Material block matches the value:** block and value now use the same price per material – your own sales of the
+  last 14 days, otherwise just below the cheapest current offer (at most the median), otherwise the median. The source
+  is shown ("AH now" / "market" / "own sales"). Offers below 10 % or above 300 % of the median don't count ("offer
+  doubtful") – e.g. 22c for a Greater Mystic Essence.
+- **Sharing disenchants:** after 10 new ones, or at the latest 2 minutes after the last one, and on logout.
+
 ### Version 0.65.28
 
 - **Opens with the auction house:** the AHSentinel window opens when you open the auction house and closes again
@@ -54,12 +67,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Collecting mail:** "Mail collected" now shows the gold you really took (e.g. 1g 56s 26c) instead of 0. The game
   often credits the gold only after the mailbox update; the addon now counts the amount of each mail it collects.
 - "1 new invoices" → "1 new invoice".
-
-### Version 0.65.24
-
-- **Playtest S5** now only checks what it should: the profit window against the profession window and
-  ProfessionSentinel. Before, it also counted the main window over the auction house, LevelPilot and invisible
-  anchors of other addons and reported a false ERROR.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

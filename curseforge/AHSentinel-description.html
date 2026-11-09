@@ -7,6 +7,19 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.29</h3>
+<ul>
+<li><strong>Disenchant value instead of "profit":</strong> the tooltip line is now called "Disenchant value ~X (T)" – it depends only
+  on the group (quality, item level, armor/weapon) and is the same for all items of that group. New below it:
+  "Profit when buying: value − purchase price" (green/red) with the price of the row you point at in the addon
+  (buy list, sniper, bargains), at a vendor his price, otherwise the cheapest current offer. In the buy list a mark
+  "[disenchanting pays]" appears only if value − price is positive.</li>
+<li><strong>Material block matches the value:</strong> block and value now use the same price per material – your own sales of the
+  last 14 days, otherwise just below the cheapest current offer (at most the median), otherwise the median. The source
+  is shown ("AH now" / "market" / "own sales"). Offers below 10 % or above 300 % of the median don't count ("offer
+  doubtful") – e.g. 22c for a Greater Mystic Essence.</li>
+<li><strong>Sharing disenchants:</strong> after 10 new ones, or at the latest 2 minutes after the last one, and on logout.</li>
+</ul>
 <h3>Version 0.65.28</h3>
 <ul>
 <li><strong>Opens with the auction house:</strong> the AHSentinel window opens when you open the auction house and closes again
@@ -50,13 +63,7 @@
   often credits the gold only after the mailbox update; the addon now counts the amount of each mail it collects.</li>
 <li>"1 new invoices" → "1 new invoice".</li>
 </ul>
-<h3>Version 0.65.24</h3>
-<ul>
-<li><strong>Playtest S5</strong> now only checks what it should: the profit window against the profession window and
-  ProfessionSentinel. Before, it also counted the main window over the auction house, LevelPilot and invisible
-  anchors of other addons and reported a false ERROR.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
