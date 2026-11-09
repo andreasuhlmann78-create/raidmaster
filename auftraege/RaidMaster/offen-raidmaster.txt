@@ -102,3 +102,13 @@ NEU (9. Nov. 19:30, nach der laufenden Arbeit und nach anweisung-gemeinsamer-syn
 
 NEU (9. Nov. 19:55, nach der laufenden Arbeit) – GoldSentinelTest Version 2 kopieren (Berichte anderer Spieler an
    den Sammler, nur mit Zustimmung): anweisung-test-version2.txt (T1–T5, T-GT1–T-GT2).
+
+NACHTRAG (9. Nov. 20:05, Prüf-Sitzung) – Rückmeldung zu GoldSentinelSync angenommen
+   RaidMaster sendet nur über RAID/GUILD/WHISPER, nie über CHANNEL: hinweis-sync-kanal.txt erfüllt.
+   GoldSentinelSync für die RaidMaster-Daten NICHT übernehmen ist richtig begründet: (1) der Kopf "#S1:" wäre für ältere
+   RaidMaster-Versionen unlesbar (DKP, Gebote, Einteilung), (2) gildeninterne Daten gehören nicht ins Flüster-Netz,
+   (3) der gemeinsame Takt (0,2 s) verzögert Gebote. anweisung-gemeinsamer-sync.txt und anweisung-sync-version2.txt
+   gelten für RaidMaster damit als ERLEDIGT (nicht zutreffend), bis auf den Entscheid unten.
+   Offen (Entscheid des Nutzers): GoldSentinelSync.lua nur MITBRINGEN (in der .toc, ohne eigene Register-Aufrufe für
+   RaidMaster-Daten), damit reine RaidMaster-Spieler über GoldSentinelTest 2 Fehler an den Sammler teilen können.
+   testroutine-raidmaster.txt ist bis 3.0.21 nachgeführt (Nachtrag 9. November).

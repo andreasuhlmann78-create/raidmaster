@@ -864,3 +864,42 @@ B08 Der Bot importiert addon-check/testberichte.py nicht und hat keinen Handler,
 B09 find_player: "Testa Beispiel" exakt; "Testa" eindeutig -> gefunden; zwei "Testa ..." -> None; Era-Name exakt wie bisher.
 
 Ist ein Befund dieser Anweisung falsch oder nicht umsetzbar, bitte dem Nutzer begruendet zurueckmelden.
+
+======================================================================================================================
+NACHTRAG 9. NOVEMBER 2026 (RaidMaster 3.0.18–3.0.21, Bot 1.5.112, Uploader 2.0.1) – von der Prüf-Sitzung nachgeführt
+======================================================================================================================
+Grundlage: Meldung der RaidMaster-Sitzung (19:55) und download/RaidMaster-3.0.21.zip (addon_check OK; Testfälle in
+Test/Routine.lua gefunden; GoldSentinelTest.lua = shared/ Version 2; UICheck.lua aus der Vorlage übernommen und an
+RaidMaster angepasst). Offline laut Sitzung: Forever 106 OK / Era 110 OK, 0 FEHLER.
+
+K. OBERFLÄCHE IM CLIENT (neu, 3.0.18, UICheck.lua aus der Vorlage, alle Seiten des Hauptfensters)
+T155 [K] Eigene Tooltips verdecken keine Knöpfe – Client – alle
+T156 [K] Kein Überlappen mit Blizzard- oder anderen GoldSentinel-Fenstern – Client – alle
+T157 [K] Fenster und Tooltips ganz im Bildschirm (auch Fensterskalierung ≠ 100 %) – Client – alle
+T158 [K] Beschriftungen von Knöpfen nicht abgeschnitten – Client – alle
+T159 [K] Angezeigte Spielwerte plausibel (Stufe, eigener Name, Gilde, Berufsfertigkeit, Raidmitglieder) – Client – alle
+T160 [K] Keine Fehlerschleife (gleiche Meldung > 10×) – auto – alle
+     Ohne echten Client oder ohne Messbares: übersprungen, nie OK.
+
+J. REGRESSIONSTESTS (neu)
+T161 [J] Symbole in WoW Forever nur über sichere Knöpfe (3.0.19) – auto – F
+     Mark/SmartMark/ClearAll aus Addon-Code -> 0 SetRaidTarget-Aufrufe und ein Hinweis; MarkAdds/Boss-Leiste -> nur
+     Vorschlag; Makro /tm, Alle-aus-Makro 9 Zeilen, 11 Tasten.
+T162 [J] GoldSentinelTest Version 2 geladen (T-GT1, 3.0.21) – auto – alle
+T163 [J] Ohne Zustimmung nichts im Ausgang (T-GT2, 3.0.21) – auto – alle
+
+GEÄNDERT
+T43  (3.0.18) Beute vorher beim Server anfordern, bis 10 s warten; ohne geladene Beute übersprungen statt FEHLER.
+T122 (3.0.18) Diag.lua zählt nur im zuletzt eingeklinkten Handler -> n = 3 statt 6.
+T142 (3.0.18) eigene, sicher unbenutzte Namen; geprüft: Doppelname ganz, Vorname allein, gleicher Name geht vor.
+     Der Befund vom 5. Nov. war kein Codefehler (in den Daten gab es schon einen Spieler mit genau diesem Vornamen) –
+     von der Prüf-Sitzung angenommen.
+T133 (3.0.19) Forever-Weg – Mark/SmartMark im Kampf: 0 Aufrufe, 2 Hinweise (nur sichere Tasten).
+T26, T132 (3.0.19) prüfen den Weg der alten Clients über RM.Act (simSecure = false).
+T133b [J] (neu, Client, F) Mob im Kampf per RaidMaster-Taste (Mouseover) und per Klick auf die Symbol-Leiste markieren,
+     Rechtsklick entfernt, "Alle aus" – kein "Aktion blockiert".
+
+IM CLIENT PRÜFEN (Nutzer, mit 3.0.21)
+- /rm testroutine, danach /reload -> Bericht über Uploader 2.0.1 in #testberichte.
+- Bereich K (T155–T160) mit echten Fenstern, auch mit Fensterskalierung ≠ 100 %; T133b; Boss-Leiste in Forever zeigt nur
+  den Vorschlag.
