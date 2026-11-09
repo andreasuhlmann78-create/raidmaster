@@ -12,6 +12,10 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.56
+
+- Test routine: sync tests use guild messages only (no channel messages anywhere in the addon).
+
 ### Version 0.65.55
 
 - **Price sync works again (WoW Forever):** addon messages in custom chat channels never arrive in Forever (the server
@@ -53,13 +57,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   (cross-checked with gold + AH cut − deposit while the gold is still in the mail). Existing duplicates are removed
   once at login ("Ledger: removed N duplicate sales") and kept as a backup.
 - Diagnostic log: the item count of the price data now matches the status line (was 0 after logout).
-
-### Version 0.65.51
-
-- **Profit window and ProfessionSentinel:** while the ProfessionSentinel panel is open, the AHSentinel profit window
-  hides (ProfessionSentinel shows the same numbers via AHSentinel.API) and comes back when the panel closes.
-- **Sniper "Buy now" hint:** shown only once, for at most 2 seconds, above the action bars instead of twice in the
-  middle of the screen over open windows.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
