@@ -126,3 +126,21 @@ NACHTRAG (9. Nov. 20:35) – Bereich K im echten Client (/ts testroutine k, Char
         Prüfen, ob die Anker im normalen Spiel sichtbar und gross sind (dann ist es ein BuffSentinel-Befund, die
         Prüf-Sitzung meldet ihn dort) oder ob UICheck unsichtbare/leere Anker mitzählt (dann im Test nur sichtbare
         Rahmen mit Alpha > 0 und Inhalt zählen). Ergebnis bitte melden.
+
+NACHTRAG (9. Nov. 20:40) – Diagnose-Protokoll aus dem Dungeon (2.5.2, Krieger 22, Schaden, Gruppe, 15 Kämpfe):
+   Fehler 0, gesperrte Aktionen 0, sync=ok; threat/threatValues/mobAuras/combatlog/guid = fallback.
+   P1 (MITTEL) Modus springt INNERHALB eines Kampfs: 20:33 "KAMPF Beginn · DISPLAY · secret" -> "BEDROHUNG secret -> open"
+      -> "MODUS DISPLAY -> FULL" -> "BEDROHUNG open -> secret" -> "MODUS FULL -> DISPLAY" (alles in derselben Minute).
+      Im Kampf darf der Modus nicht zu FULL wechseln (Plaketten im Kampf anfassen = Taint-Gefahr, auch wenn diesmal nichts
+      blockiert wurde). Lösung: Ist in einem Kampf einmal "secret" erkannt, bleibt es bis Kampfende secret/DISPLAY;
+      Wechsel zu FULL nur ausserhalb des Kampfs und erst nach zwei übereinstimmenden Erkennungen. Testfall: Szene
+      "secret, dann im selben Kampf ein lesbarer Wert" -> Modus bleibt DISPLAY, kein Apply.
+   P2 (Info, für die Erkennung) "LESBAR" wechselt je Kampf zwischen zwei Mustern:
+      "Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein" (die meisten Kämpfe) und
+      "Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja" (20:25, 20:30, 20:32, 20:33).
+      Vermutung (bitte prüfen, nicht als belegt weitergeben): hängt davon ab, ob der Mob den Spieler selbst angreift bzw.
+      welche Einheit zuerst geprüft wird. Bitte im Protokoll mitschreiben, welche Einheit geprüft wurde (target/
+      mouseover/nameplate, greift mich an ja/nein – ohne Namen), damit die nächste Messung es belegt.
+   P3 (NIEDRIG) "Gruppe 6" in einer 5er-Gruppe: prüfen, was gezählt wird (Spieler doppelt? Begleiter?).
+   T135: /gsgame-Ausgabe vom Nutzer steht noch aus; der Prüftext nennt "Version 2", aktuell ist GoldSentinelGame Version 3 –
+      Text anpassen.
