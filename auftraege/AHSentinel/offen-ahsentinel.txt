@@ -202,3 +202,17 @@ BEFUND IM SPIEL (9. Nov. 11:31, drei Screenshots 10:30, Gewinn-Fenster am Berufs
    Aufruf aus anderem Pfad?) und vereinheitlichen – gehört zu "Werte stimmen" Punkt 8 (eine Preisfunktion).
    Testfall: Leinenstoffballen 51c, Stapel 20 -> 5c je Stück, Gewinn +2c; Menge 1 als eine Auktion -> 1s, −93c;
    Fenster und "Beste Rezepte" zeigen bei gleicher Annahme dieselbe Zahl.
+   NACHTRAG 11:32 (zwei weitere Screenshots, AHSentinel 0.65.30) – bestätigt und präzisiert, Schwere HOCH:
+   Blizzard "Auktionen einstellen", Wollstoffballen, Anzahl 1, 3s 98c: Blizzard verlangt "Einzahlen 1s". Gleichzeitig
+   zeigt das AHSentinel-Gewinn-Fenster für Wollstoffballen "AH-Gebühr 20c, Gewinn +35c" (= Gebühr je Stück aus einem
+   20er-Stapel: max(5 % × 20 × 3s97, 1s) ÷ 20). Der Spieler stellt aber EINZELN ein – real: 3s97 − 3s42 − 1s = −45c.
+   Die Stapel-Annahme macht Verlustgeschäfte zu Gewinnen (auch in "Beste Rezepte": Wollstoffballen +35).
+   Entscheid der Prüf-Sitzung (vorsichtig rechnen):
+   - Standard = so viele Stück je Auktion, wie der Spieler dieses Item tatsächlich einstellt (aus den eigenen
+     Einstellungen/Buchhaltung gelernt, Median der letzten 10); ohne Daten = 1 Stück (vorsichtig).
+   - Im Gewinn-Fenster sichtbar: "AH-Gebühr (5 %, mind. 1s je Auktion) bei 1 Stück je Auktion" mit einem kleinen
+     Umschalter 1 / 5 / 20 (Stapel), der die Annahme für dieses Item merkt.
+   - "Beste Rezepte", Heute tun, ProfessionSentinel (über die eine Preisfunktion) rechnen mit derselben Annahme.
+   - Blizzards Wert "Einzahlen" im Einstellen-Fenster ist die Kontrolle: Spieltest-Prüfung "angezeigte AH-Gebühr =
+     Einzahlen bei gleicher Menge".
+   Testfall: Wollstoffballen 3s97, Material 3s42: 1 Stück -> Gebühr 1s, −45c; 20er-Stapel -> 20c je Stück, +35c.
