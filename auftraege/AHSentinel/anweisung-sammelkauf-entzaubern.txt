@@ -42,3 +42,9 @@ ERGÄNZUNG (9. Nov. 10:56, Entscheid des Nutzers: Punkte 1, 2 und 4)
     Teile, die über den Sammelkauf gekauft und entzaubert wurden, werden einander zugeordnet (Item-ID + Zeitfenster).
  Testfälle: Wächter meldet einmal je Fund und nie im Kampf; Entzauber-Knopf nimmt zuerst die gekauften Teile;
  Abrechnung: 3 gekaufte Teile, bekannte Materialien -> Gewinn und Rendite richtig.
+
+KORREKTUR ZU E2 (9. Nov. 11:10, Prüf-Sitzung): Das kleine Entzauber-Fenster ("Nichts zum Entzaubern gefunden",
+Knöpfe Entzaubern / Überspringen / Statistik / Voll) gehört NICHT zu AHSentinel, sondern zum fremden Addon Disenchantry
+(UI/Compact.lua, MIT-Lizenz). AHSentinel hat kein solches Fenster. E2 darum ZURÜCKGESTELLT, bis der Nutzer entscheidet,
+ob er Disenchantry behält (dann nutzt er dessen Fenster, AHSentinel baut keines) oder ob AHSentinel ein eigenes,
+kleines Entzauber-Fenster bekommt. Bis dahin E2 nicht umsetzen.
