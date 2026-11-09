@@ -12,6 +12,20 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.26
+
+- **Disenchant in the tooltip, shorter:**
+  - One line "Disenchant: expected gain ~X" (value after fees) with a small comparison ("better than selling" /
+    "selling pays more") and the source: "(Ø 12)" = from 12 real disenchants (from 10 on), "(T)" = table.
+  - Below it a block "Disenchant – materials (AHSentinel)": icon, name, drop chance and value per piece (AH price from
+    the last scan, otherwise market value).
+  - Hold Shift to see the whole calculation (actual and estimated, per material, after fees).
+  - Option "Disenchant details in tooltip": short / with materials (default) / everything.
+- **Disenchant results shared with all AHSentinel users:** every disenchant on every character is counted
+  automatically (your alts count as your own) and shared over the public sync channel ("guild only" stays an option).
+  Protection: at most 6 messages per sender and minute, materials must match the group, 1–5 pieces per disenchant,
+  no jumps, duplicate messages count once. Senders are stored only as a short code, never by name.
+
 ### Version 0.65.25
 
 - **Collecting mail:** "Mail collected" now shows the gold you really took (e.g. 1g 56s 26c) instead of 0. The game
@@ -47,19 +61,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   - The tooltip says which value the disenchant bargains use: the actual average from 10 disenchants on, otherwise the
     estimate.
   - New option "Disenchant: per material" (on by default).
-
-### Version 0.65.21
-
-- **WoW Forever fee rule:** Forever has only ONE fee – the AH fee = 5 % of the auction's price, at least 1 silver,
-  per auction (per stack), paid when posting. There is no separate deposit any more. Examples: 3s 90c → 1s,
-  2s → 1s, 1g → 5s, a stack of 20 at 1c each → 1s once.
-- The row "Deposit (not refunded)" is gone from the profit window and the Sell tab; there is only "AH fee (5 %,
-  min. 1s)". The same rule is used everywhere: profit window, Sell tab, "Do today", bargains, flips, disenchant
-  values, vendor comparison, profit calculator.
-- When posting, the fee really taken from your gold is written to the diagnostic log (entry EINSTELLEN: price,
-  quantity, fee) to confirm the rule in the game. The deposit measuring of 0.65.17–0.65.20 is removed. The warning when the
-  fee is more than 10 % of the price stays.
-- Era, TBC and Retail are unchanged (5 % on sale, deposit refunded on sale).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
