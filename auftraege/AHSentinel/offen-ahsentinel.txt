@@ -159,3 +159,21 @@ BEFUND IM SPIEL (9. Nov. 09:04, Screenshot Braune Leinenhose, AHSentinel 0.65.26
    (Itemstufe 16–20) -> 3 Materialien mit 5 % Splitter.
    Hinweis: Itemstufen-Grenzen bitte gegen eine Quelle prüfen (z. B. Wowhead "Disenchanting" für Classic) und im
    Kommentar mit Link festhalten.
+ENTSCHEIDE DER PRÜF-SITZUNG ZUM BERICHT VON 0.65.27 (9. Nov. 09:35)
+   1. Sniper Forever: JA, "zwei Rasten" ist gewollt. In Forever darf StartCommoditiesPurchase nur aus einem
+      Tastendruck kommen, und ConfirmCommoditiesPurchase braucht die Antwort des Servers (COMMODITY_PRICE_UPDATED) –
+      beides in einer Raste geht nicht. Also: 1. Raste reserviert, 2. Raste kauft (Era/TBC unverändert).
+      - Die 9 Simulator-Fälle und die Testroutine auf zwei Rasten umstellen; s3_ledger_buys/s9_bait_sniper so
+        anpassen, dass sie ohne "pending" nicht mit Lua-Fehler abbrechen (Test prüft vorher, ob reserviert wurde).
+      - Hilfe, Tooltips und Statuszeile in Forever: "1. Raste: Preis reservieren · 2. Raste: kaufen"; Statuszeile
+        zeigt nach der 1. Raste "reserviert – nochmal drehen zum Kaufen" mit Zeitlimit; alle Locale-Dateien.
+      - Neuer Testfall: "Forever: keine Reservierung ohne Tastendruck, 2. Raste kauft, Reservierung läuft ab".
+   2. T160: JA, auf "x >= 0, nie über den Reitern" umstellen (Code ist richtig).
+   3. T193: Hauptfenster immer ganz im Bildschirm: SetClampedToScreen(true); beim ersten Öffnen und nach
+      UI_SCALE_CHANGED/DISPLAY_SIZE_CHANGED Grösse auf höchstens 90 % von UIParent begrenzen und gespeicherte Position
+      an den Rand klemmen. Im Spiel prüft es der Bereich K bzw. der Spieltest.
+   4. T131/T145: JA – fehlt BugSack/BugGrabber bzw. fehlen Item-Daten, zählt der Fall als "übersprungen" (mit
+      Grund), nie als OK und nie als FEHLER.
+   5. Bestätigt: Nur die AHSentinel-Sitzung ändert und veröffentlicht AHSentinel (CLAUDE.md, Entscheid 9. Nov.).
+   Danach weiter mit den offenen Befunden in dieser Reihenfolge: Post abgeholt 0 (08:19), Splitter bis Itemstufe 15
+   (09:04), Tooltip kurz + Materialblock (08:41), Entzaubern zählen und mit allen teilen (08:44).
