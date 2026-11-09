@@ -1,63 +1,93 @@
-OFFENE PUNKTE THREATSENTINEL (nach der Nachprüfung von 2.4.5)
-============================================================
-Stand: 4. November 2026, 07:00 · von der Prüf-Sitzung · Grundlage: download/ThreatSentinel-2.4.5.zip
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 2.4.4.
+OFFENE PUNKTE THREATSENTINEL (nach der Nachprüfung von 2.5.2)
+=============================================================
+Stand: 9. November 2026, 17:30 · von der Prüf-Sitzung · Grundlage: download/ThreatSentinel-2.5.2.zip
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 2.4.5 samt allen
+Nachträgen vom 9. November (Befunde a, b, Aggro-Reihenfolge).
 
-Erledigt in 2.4.5 (danke):
-- Punkt 1: Ankündigung und CHANGELOG EN/DE sagen klar, dass 2.0.0 bis 2.4.3 nicht luden
-- Punkt 2: API.lua (ns.API, 56 Einträge, beim Laden aus _G übernommen, fehlende bleiben nil), in der .toc direkt nach
-  den gemeinsamen Dateien; alle Module rufen über "local API = ns.API" auf; keine Blizzard-Funktion ersetzt.
-  Dadurch laufen u. a. T164, T167, T166b, T15, T17–T19, T61, T84, T90, T98–T105, T107, T108, T113–T115, T150, T152, T156
-- Punkt 3: stille Fehler (Log, Plaketten, Mover, CVars, Notfall-Kurve) melden an GoldSentinelTest.Error
-- Punkt 4: jeder Schritt der Testroutine in pcall, im Fehlerfall immer zurückgesetzt
-- Punkt 5: T131, T161 neu, Bildschirmfoto über ns.Act, Testknöpfe nur für den Entwickler
-Prüfungen: Addon-Prüfung OK ohne Warnung (Ladetest Forever und Era, Sprachtest). Offline laut Sitzung Forever 119 OK,
-Era 124 OK ohne Lua-Fehler; die übrigen Fehlschläge (T02, T09, T20, T34, T39, T76, T133, T168, T169, CVar) gab es im
-Nachbau schon mit 2.4.4 – sie gelten als Schwäche des Nachbaus, das Spiel entscheidet.
+Erledigt in 2.5.1–2.5.2 (danke):
+- Aggrometer nach Aggro auch im Modus ANZEIGE (anweisung-aggro-reihenfolge.txt): Stufe 1 Ziel des Mobs bzw.
+  isTanking, Stufe 2 Bedrohungsstufe, Stufe 3 Schätzung mit "~", Dämpfung 0,5 s / 10 % (Meter.lua:134–306),
+  Kopfzeile "Reihenfolge: …" (Meter.lua:49–55, 444–459; Locales.lua:150–152 EN, 757–759 DE), Messzeile LESBAR im
+  Diagnose-Protokoll ohne Namen (Meter.lua:308–315), Testfälle T-A1 bis T-A7 (TestRoutine.lua:2872–2949, 3071),
+  T167 angepasst, Era/TBC unverändert. Zwei Fehler in der Messung und im Kopf siehe Punkte 2 und 4.
+- Befund b) T139: Auswertung des Testprotokolls schrittweise und im Hintergrund (Log.lua:814–1101), T139 misst
+  Häppchen und Öffnen (TestRoutine.lua:2493). Ein Fehler nach /reload siehe Punkt 1.
+- hinweis-keine-spielernamen.txt: GoldSentinelGame.lua Version 3 (2.5.2); im Paket kein echter Name gefunden.
+Schon in 2.4.6–2.5.0 erledigt (in dieser Datei noch offen geführt, jetzt nachgeprüft):
+- Punkt 1 (übersprungene Fälle): Test-Kulisse, KN() wird nicht mehr aufgerufen (nur TestRoutine.lua:287),
+  Bericht "nicht automatisiert: N" (TestRoutine.lua:3146, 3158). Übrig: begründete Skips, siehe Punkt 5.
+- Punkt 2 (T106, C_ChatInfo/C_CVar/C_AddOns über ns.API): TestRoutine.lua:2128.
+- Punkt 3a (T22, Name ohne Realm): Core.lua:450–457, TestRoutine.lua:748. Im Spiel noch nicht bestätigt.
+- Befund a) (Selbsttest nicht als "Fehler im Spiel"): Core.lua:1126–1127, TestRoutine.lua:2521–2523.
+- anweisung-testroutine-oberflaeche.txt: UICheck.lua, Bereich K mit T180–T185 (TestRoutine.lua:3040–3062), T186.
 
-Bitte erst NACH dem Launch-Abend, mit den Ergebnissen aus dem Spiel, als 2.4.6. Vorher nur Fehlerbehebungen.
+Prüfungen: Addon-Prüfung OK ohne Warnung (Ladetest Forever und Era, Sprachtest). GoldSentinelGame.lua (Version 3) und
+GoldSentinelTest.lua (Version 1) byte-gleich mit shared/. Keine Blizzard-Funktion ersetzt (Tests nur über Swap auf
+eigene Tabellen, WithAPI/ns.API). Neue Texte in EN und DE, keine Platzhalter. CHANGELOG EN/DE für 2.5.1 und 2.5.2 da.
+Offline nachgebaut (lupa): Log-Auswertung in Häppchen = ganze Auswertung (3000 Einträge, ohne /reload); mit /reload
+in der Sitzung bleibt sie hängen (Punkt 1). Messzeile bei leerer Liste falsch (Punkt 2). Era: Reihenfolge wie 2.5.0,
+keine zweite Kopfzeile. Im Spiel: letzter Testlauf noch mit 2.4.5 (9. Nov. 05:49 UTC, OK 126, FEHLER T22 und T139,
+beide seither behoben); 20 Diagnose-Protokolle 2.5.0 bis 12:32: Fehler 0. Mit 2.5.x noch kein Testlauf im Spiel.
 
-1. ÜBERSPRUNGENE TESTFÄLLE (Schwere: MITTEL – nach dem Launch)
-   Etwa 33 Fälle in B sowie T97, T136, T138 und T153 laufen noch nicht, weil die Routine nachgebaute Plaketten und
-   Mobs über mehrere Module bräuchte. Lösung: eine kleine Test-Kulisse in der Testroutine (Test-Einheiten über
-   ns.API.UnitExists/UnitName/UnitGUID/UnitCanAttack/UnitDetailedThreatSituation, Plaketten über ns.API.C_NamePlate),
-   dann die Fälle schrittweise umsetzen. Bis dahin im Bericht "nicht automatisiert: N" zählen.
+1. LOG-AUSWERTUNG BLEIBT NACH /RELOAD HÄNGEN (Schwere: MITTEL)
+   Log.lua:826–829: Jede META-Zeile nach dem gemerkten Stand macht den Zwischenstand ungültig – auch "META cont=1",
+   die nach jedem /reload in dieselbe Sitzung geschrieben wird. Dann fängt jede Auswertung wieder bei der
+   Sitzung an. Nachgebaut: Sitzung mit 2002 Einträgen, /reload nach 1000: der Hintergrund (Log.lua:1093) liest
+   endlos die ersten 400 Einträge (n = 400 400 400 …), kommt nie weiter; Öffnen der Zusammenfassung
+   (Log.lua:1104) liest wieder alles auf einmal – also wieder bis 45 ms (T139). Ohne /reload geht es (400, 800 … 2001).
+   Lösung: Nur eine META-Zeile OHNE "cont=1" setzt zurück:
+       if ev[i]:find("|META|", 1, true) and not ev[i]:find("cont=1", 1, true) then valid = false break end
+   Dazu: self.scan = nil, wenn eine Option geändert wird, die die Auswertung benutzt (db.heldPlateAlpha,
+   colorWarn …), sonst gelten für schon gelesene Zeilen die alten Werte.
+   Testfall in T139 ergänzen: Protokoll mit "META cont=1" in der Mitte -> Häppchen kommen bis zum Ende voran,
+   Ergebnis gleich wie die ganze Auswertung.
 
-2. T106 UND DIE ÜBRIGEN C_-TABELLEN (Schwere: NIEDRIG)
-   T106 entfällt laut Sitzung, weil C_ChatInfo, C_CVar und C_AddOns nicht über ns.API laufen. Lösung: diese drei in
-   API.NAMES aufnehmen, die Aufrufe darauf umstellen und T106 wieder einführen (fehlende Tabelle simulieren).
+2. MESSZEILE "LESBAR" MISST AUCH EINE LEERE LISTE (Schwere: MITTEL)
+   Meter.lua:357–361 ruft OrderDisplay und MeasureOnce auch dann, wenn die Liste leer ist (Ziel angreifbar, aber
+   noch keine Bedrohung, z. B. vor dem Pull oder ein anderer Mob). Meter.lua:214 setzt seen.holder = true, sobald
+   UnitExists("targettarget") lesbar ist, auch ohne Eintrag. Nachgebaut: leere Liste -> Protokoll
+   "Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein"; danach mit echten Werten keine zweite
+   Messung (Meter.lua:309–310, nur einmal je Kampf). Die Messung ist aber die Grundlage für den nächsten Schritt
+   (anweisung-aggro-reihenfolge.txt, "Zuerst messen").
+   Lösung: MeasureOnce nur mit #list > 0 und im Kampf (ns.Safe(API.UnitAffectingCombat("player"), false));
+   M.measured erst dann setzen. Testfall zu T-A6: leere Liste -> keine Zeile; nächste volle Liste -> eine Zeile.
 
-3a. ERGEBNIS IM SPIEL (5. Nov. 00:57, Forever 1.60.1 Build 70790, Interface 16001, deDE)
-   OK 127 · FEHLER 1 · übersprungen 50 · im Client prüfen 12. Sandbox, CVars, Tasten unverändert, echte Aktionen 0,
-   Fehlerzähler 0, gesperrte Aktionen 0. Bedrohung im Kampf: "secret" -> Modus ANZEIGE (wie vorgesehen erkannt und
-   gespeichert). Die 6 "Selbsttest"-Fehler sind absichtlich ausgelöst (Prüfung des Fehler-Abgriffs).
-   FEHLER T22 (Schwere: NIEDRIG): ns:FullName für den eigenen Charakter liefert nicht "<Name> ohne Realm".
-   Lösung: Bei UnitFullName("player") in Forever den Realm abschneiden bzw. wie die anderen Addons GoldSentinelGame
-   (Namen ohne Realm) benutzen; Fall T22 danach im Spiel erneut prüfen. Mit 2.4.6, nach der Pause.
+3. STUFE 3 (SCHÄTZUNG) HAT IN WOW FOREVER KEINE QUELLE (Schwere: MITTEL)
+   Modus ANZEIGE gibt es nur im modernen Client (ThreatAccess.lua:45–49). Dort ist das Kampflog aus
+   (DamageMeter.lua:24 DM.allowed = not ns.isModern), M:Estimates (Meter.lua:152–158) bekommt also nie Werte.
+   Folge: "~ geschätzt" erscheint in keinem echten Client; sind Stufe 1 und 2 in Forever nicht lesbar, bleibt es bei
+   "Tank zuerst" wie in 2.5.0. Die Ankündigung 2.5.1/2.5.2 und der CHANGELOG versprechen die Schätzung aber
+   ausdrücklich für WoW Forever.
+   Lösung: Punkt 2 zuerst beheben und die Messzeile aus dem Spiel abwarten. Bis eine lesbare Quelle für Schaden und
+   Heilung in Forever gemessen ist, im CHANGELOG EN/DE der nächsten Version richtigstellen ("Schätzung nur, wenn das
+   Spiel Schaden und Heilung liefert – in WoW Forever derzeit nicht"). Keine Quelle annehmen: Kommt eine in Frage,
+   zuerst im Diagnose-Protokoll messen (lesbar ja/nein) und der Prüf-Sitzung melden.
 
-3. IM CLIENT PRÜFEN (Launch-Abend, im Testplan des Nutzers)
-   - Forever: Interface-Nummer (/dump select(4, GetBuildInfo())), erster echter Kampf mit /ts bedrohung, T154 (Bericht
-     "Blocked: none"), T174 ("Fehler: 0"), T177
-   - Era und TBC: Meter zählt, "Spott widerstanden" kommt, kein "Addon geblockt" (T117)
-   - einmal /ts testroutine, Bericht kommt über den Uploader 1.8.0 nach #testberichte
-   - die Fälle, die nur im Nachbau fehlschlagen (T02, T09, T20, T34, T39, T76, T133, T168, T169, CVar): bestehen sie
-     im Spiel?
+4. KOPF "REIHENFOLGE: SICHER", OBWOHL NUR NACH ROLLE SORTIERT (Schwere: NIEDRIG)
+   Meter.lua:203–214, 299–300: Ist das Ziel des Mobs lesbar, aber nicht vorhanden oder niemand aus der Gruppe, und
+   sind die Stufen nicht lesbar, ist kind = "sure", die Reihenfolge kommt aber nur aus Tank-Rolle und Gruppe.
+   Nachgebaut: kein Ziel des Mobs, nichts lesbar -> "sure". Die Anweisung verlangt "sicher" nur, wenn Stufe 1/2
+   die Reihenfolge wirklich bestimmt haben.
+   Lösung: seen.holder nur, wenn ein Eintrag holder == true hat; "sure" nur dann oder wenn alle Stufen lesbar sind;
+   sonst "role". Testfall T-A8 (kein Ziel des Mobs, nichts lesbar -> "Reihenfolge: Tank zuerst").
+
+5. ÜBERSPRUNGENE FÄLLE MIT "NOCH NICHT" (Schwere: NIEDRIG)
+   T128 "Sprachumschaltung (devLocale) ist noch nicht eingebaut" (TestRoutine.lua:2351) zählt als fehlend.
+   T122 ist laut testroutine-threatsentinel.txt "auto", wird aber übersprungen (TestRoutine.lua:2298).
+   Lösung: T128 wie in testroutine-threatsentinel.txt (devLocale nur mit GoldSentinelDev, ns:ApplyLocale, danach
+   löschen) als Halbfall. T122: Typprüfung in Migrate an einer Kopie der Einstellungen prüfen, ohne Modul-Inits;
+   geht das nicht, dem Nutzer begründet melden. Die übrigen Skips (T117 nur Era/TBC, T126, T134, T147, T178) sind
+   begründet und bleiben.
+
+IM CLIENT PRÜFEN
+   - Einmal /ts testroutine mit der aktuellen Version, Bericht über den Uploader nach #testberichte. Besonders:
+     T22 (Name ohne Realm), T139 (Häppchen und Öffnen < 16 ms, auch nach /reload mit Testprotokoll), T-A7
+     (Kopfzeile bei kleinster Breite), Bereich K (T180–T186).
+   - Forever, Gruppenkampf im Modus ANZEIGE: Diagnose-Zeile "LESBAR …" (nach Punkt 2) – welche Stufen gehen
+     wirklich? Kopfzeile und Reihenfolge im Aggrometer, kein Flackern beim Zielwechsel des Mobs.
+   - Era und TBC: Aggrometer wie bisher, keine zweite Kopfzeile; Meter zählt, "Spott widerstanden" kommt, kein
+     "Addon geblockt" (T117, T176b).
+   - Aus dem letzten Bericht noch offen: T11 und T177 (Interface-Nummer), T46, T109, T110, T148, T149, T154
+     ("Blocked: none"), T157, T174 ("Fehler: 0").
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
-
-BEFUNDE AUS TESTBERICHTEN UND DIAGNOSE-PROTOKOLLEN (9. Nov. 06:10, Prüf-Sitzung, Quelle testberichte/)
-   a) NIEDRIG – Die Fehler des Selbsttests (TestRoutine.lua:1433/1447 "TS-Selbsttest …", ADDON_ACTION_BLOCKED TestFunc)
-      landen als "Fehler im Spiel" im Testbericht. Absichtliche Fehler der Testroutine nicht an GoldSentinelTest
-      melden (wie in der Vorlage T80: nach dem Zählen wieder entfernen bzw. GT.Error im Test abfangen).
-
-BEFUND AUS DEM TESTBERICHT (9. Nov. 08:30, Prüf-Sitzung, Testlauf im Spiel 9. Nov. 05:49 UTC, noch mit 2.4.5)
-   b) MITTEL – neu: T139 "Protokoll-Auswertung" 44,98 ms (erwartet < 16 ms). Die Auswertung des Kampflogs
-      (TestRoutine.lua T139, in 2.5.0 Zeile 2493) ist im echten Client zu langsam – Ruckler beim Auswerten.
-      Lösung: Auswertung über mehrere Frames verteilen (Koroutine/C_Timer) bzw. nur neue Einträge auswerten, nicht
-      die Grenze erhöhen. Mit 2.5.0 im Spiel erneut prüfen. T22 (FullName) weiter offen wie oben.
-      Hinweis: der Lauf war mit 2.4.5 – im Spiel ist offenbar noch nicht 2.5.0 installiert.
-
-NEU (9. Nov. 14:36, Wunsch des Nutzers) – Aggrometer nach Aggro sortieren, auch in Forever (Modus ANZEIGE)
-   Siehe anweisung-aggro-reihenfolge.txt: Platz 1 = wer die Aggro hat (Ziel des Mobs), dann Bedrohungsstufe, dann
-   Schätzung aus Schaden/Heilung mit "~"; Kopf "Reihenfolge: sicher / ~ geschätzt". Zuerst im Protokoll messen,
-   was in Forever lesbar ist. Balken unverändert (echte Werte), nur die Reihenfolge.
