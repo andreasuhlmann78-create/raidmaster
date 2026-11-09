@@ -253,3 +253,9 @@ PRÜFUNG DER BUCHHALTUNG (9. Nov. 11:55, Prüf-Sitzung, im Code von AHSentinel 0
       bilden – die Daten sind schon da.
    Testfälle: Forever-Verkauf mit consignment 20c und deposit 1s in der Rechnung, Post-Gold 3s98 -> Erlös 3s98, keine
    zweite Gebühr, keine Erstattung; Abbrechen mit gemessener Erstattung 40c -> Buchung 40c; Era-Verkauf unverändert.
+
+NEU (9. Nov. 13:05, Entscheid des Nutzers 13:02) – Entzauber-Urteil im Tooltip und bester Weg im Gewinn-Fenster
+   Siehe anweisung-entzauber-urteil.txt. Kurz: farbiger Kasten "Entzaubern lohnt sich/nicht" + "Lohnt bis" im Tooltip
+   (Details nur mit Shift); Gewinn-Fenster rechnet Materialien über den günstigsten Weg (AH, Händler, selbst aus
+   bekanntem Rezept) und den Wert über das Bessere aus Verkaufen und Entzaubern. Keine neuen Fenster/Knöpfe/Optionen.
+   Reihenfolge: nach L1. L1 BESTÄTIGT: Screenshot 11:52 (0.65.30) Buchhaltung Einnahmen −40s 97c bei 17 Verkäufen.
