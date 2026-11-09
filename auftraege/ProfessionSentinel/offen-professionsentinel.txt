@@ -74,3 +74,6 @@ IM CLIENT PRÜFEN (mit 0.9.36 und AHSentinel 0.65.54)
 
 Wie immer: komplette Dateien, Era/TBC/Retail nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
+
+NEU (9. Nov. 19:30) – GoldSentinelSync Version 2 (Flüster-Netz): betrifft ProfessionSentinel nicht, solange es keine
+   Addon-Nachrichten sendet. Falls später Datenaustausch kommt: nur über GoldSentinelSync 2, nie über eigene Kanäle.

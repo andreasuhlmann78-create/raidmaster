@@ -1,0 +1,44 @@
+ANWEISUNG DER PRÜF-SITZUNG FÜR ThreatSentinel: GOLDSENTINELSYNC VERSION 2 (FLÜSTER-NETZ)
+=====================================================================================
+Stand: 9. November 2026, 19:30 · vom Nutzer freigegeben
+
+REIHENFOLGE: Erst die laufenden Aufgaben fertig machen. Dann zuerst anweisung-gemeinsamer-sync.txt (falls noch offen),
+dann diese Anweisung. Wer GoldSentinelSync noch nicht eingebaut hat, baut gleich Version 2 ein.
+
+WARUM
+Der Nutzer will, dass der normale Sync ALLE Spieler mit dem Addon erreicht, nicht nur Gilde und Gruppe. Eigene Kanäle
+gehen in Forever nicht. Gemessen am 9.11. (shared/wissen/kommunikation-forever.md, Abschnitt "Gemessen mit GSMesstest"):
+Addon-Flüstern kommt an (beide Richtungen, bis 20/s ohne Verlust), Flüstern an Offline-Spieler gibt eine Systemmeldung,
+die sich ausblenden lässt, Namen in Forever sind "Vorname Nachname" (immer den ganzen Namen verwenden).
+GoldSentinelSync 2 baut darauf ein Flüster-Netz: Jeder Client merkt sich Mitspieler mit Sync 2, schickt Nachrichten an
+3 von ihnen ausserhalb der eigenen Gilde, die geben sie in ihre Gilde/Gruppe und an 3 weitere weiter (höchstens 2-mal).
+Listen bekannter Mitspieler werden ausgetauscht, so wächst das Netz über alle Gilden.
+
+UMSETZEN
+S1 shared/GoldSentinelSync.lua (VERSION 2) unverändert ins Addon kopieren (ersetzt Version 1). Byte-gleich, nie ändern.
+   addon_check meldet Version 1 jetzt als WARNUNG "veraltete offizielle Fassung".
+S2 Nach dem Laden der SavedVariables (ADDON_LOADED bzw. PLAYER_LOGIN) einmal: ep:UseStorage(<EuerAddonDB>)
+   -> bekannte Mitspieler überstehen /reload (in <AddonDB>.gsSync; nur Namen, Zeiten, Version; nur lokal).
+S3 ep:Send(text) geht jetzt zusätzlich ins Netz. Nachrichten, die nur Gilde oder Gruppe betreffen (z. B. Raid-Einladung,
+   Gruppenabsprachen, gildeninterne Listen): ep:Send(text, { net = false }) bzw. { scope = "guild" } / { scope = "group" }
+   (scope "guild"/"group" geht nie ins Netz). Bitte jede Send-Stelle einmal prüfen und im CHANGELOG nennen, was ins Netz
+   geht.
+S4 Datenmenge: Das Netz schickt höchstens 40 Flüsternachrichten pro Minute je Client und nur, wenn Gilde/Gruppe nichts
+   zu senden haben. Häufige Nachrichten (z. B. viele Preise nach einem Scan) bündeln und selten senden; was verworfen
+   wird, steht in GoldSentinelSync.DiagLines() ("netqueue"). Keine Nachricht öfter als nötig wiederholen.
+S5 Diagnose-Protokoll: GoldSentinelSync.DiagLines() – die neue Zeile "NETZ …" (ohne Namen) gehört hinein.
+S6 Nichts zeigt Spielernamen aus dem Netz im Chat an und nichts schreibt sie in Testberichte oder Diagnose.
+
+TESTFÄLLE (Testroutine)
+T-N1 GoldSentinelSync.VERSION == 2 nach dem Laden (auch wenn ein anderes Addon noch Version 1 mitbringt).
+T-N2 ep:UseStorage: nach Learn eines Namens steht er in <AddonDB>.gsSync.book.
+T-N3 ep:Send(..., { net = false }) und scope "guild": keine WHISPER-Nachricht in der Warteschlange (S.api.send ersetzen,
+     nie Blizzard-Funktionen).
+T-N4 DiagLines enthält "NETZ" und keinen Spielernamen.
+
+IM SPIEL (Spieltest)
+- Zwei Spieler in verschiedenen Gilden, kurz in einer Gruppe -> danach Gruppe verlassen -> ein Wert aus Gilde A kommt in
+  Gilde B an (dort im Diagnose-Protokoll: "weitergegeben" > 0).
+
+Wie immer: komplette Dateien, alle Spielversionen (Era, TBC, Mists, Retail, Forever) nicht brechen, Locales und
+CHANGELOG EN/DE, addon_check.py ohne FEHLER. Danach dem Nutzer kurz melden. Ist etwas falsch, begründet zurückmelden.
