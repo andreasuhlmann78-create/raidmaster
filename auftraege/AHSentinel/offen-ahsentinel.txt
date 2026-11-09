@@ -1,206 +1,189 @@
-OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.24)
+OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.30)
 ==========================================================
-Stand: 9. November 2026, 08:30 · von der Prüf-Sitzung · Grundlage: download/AHSentinel-0.65.24.zip
-(verglichen mit 0.65.22 aus der git-Geschichte; die Punkte aus dem Stand 0.65.20 wurden gegen 0.65.24 nachgeprüft)
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand vom 9. Nov. 07:40 (0.65.20)
-samt allen Nachträgen (Entzaubern 06:12/06:17, Gebührenregel 06:21, Befund Post 08:19).
-Entfernt, weil erledigt: anweisung-spieltest.txt, anweisung-testroutine-oberflaeche.txt, hinweis-fremddatei-orig.txt.
+Stand: 9. November 2026, 11:30 · von der Prüf-Sitzung · Grundlage: download/AHSentinel-0.65.30.zip
+(verglichen mit 0.65.24 aus der git-Geschichte; alle Punkte aus dem Stand 0.65.24 samt Nachträgen 08:41, 08:44, 09:04,
+09:35, 10:31 wurden gegen 0.65.30 nachgeprüft)
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand vom 9. Nov. 08:30 (0.65.24)
+samt allen Nachträgen. Zusätzlich gelten weiter: anweisung-werte-stimmen.txt (Punkte 1 und 11 erledigt, Rest offen,
+siehe unten), anweisung-sammelkauf-entzaubern.txt (ganz offen, kam nach 0.65.30), testroutine-ahsentinel.txt,
+nachtrag-testroutinen.txt, hinweis-*.txt.
 
 Regel seit 9. Nov.: Nur die AHSentinel-Sitzung ändert und veröffentlicht AHSentinel (raidmaster/CLAUDE.md).
 
-Erledigt in 0.65.21 bis 0.65.24 (danke)
+Erledigt in 0.65.25 bis 0.65.30 (danke)
 ---------------------------------------
-- Gebührenregel Forever (0.65.21): A:ForeverAuctionFee = max(floor(5 % + 0,5), 100c) pro Auktion, A:SaleFee,
-  A:FeePerPiece (AHAnalyzerPro.lua:1463-1497); A:ExpectedDepositLoss = 0 in Forever (:1507); Zeile Einstellgebühr in
-  Forever ausgeblendet (UI_Sell.lua:369, Crafting.lua:528); Protokoll EINSTELLEN mit Gebühr erwartet/abgezogen
-  (Seller.lua:495-506); Warnung über 10 % bleibt (Seller.lua:472, UI_Sell.lua:407). Testfälle 390c/200c/10000c/
-  Stapel 20 × 1c (TestRoutine.lua:3164-3172). Era/TBC unverändert.
-- Entzaubern tatsächlich/geschätzt getrennt, je Material mit AH-Preis, "nach Gebühren", Hinweis womit die Schnäppchen
-  rechnen, Option "Entzaubern: je Material" (0.65.22, Tooltip.lua:294-338). Testfall T203 (4 Entzauberungen genau).
-- Spieltest-Begleitmodus /ahs spieltest an|aus|bericht, S1–S8, Bericht GSTEST1 Bereich S, Diagnose SPIELTEST,
-  eine Chat-Zeile je FEHLER, im Kampf keine Prüfung (0.65.23, Spieltest.lua). Testfälle T204–T212 (je OK- und
-  FEHLER-Lage, Ablauf). S5 nur Gewinn-Fenster gegen Berufsfenster und ProfessionSentinel (0.65.24, T213).
-- TestRoutine.lua.orig ist aus der ZIP entfernt (0.65.23).
-- UICheck aus der Vorlage (Bereich K, T191–T196) war schon in 0.65.20.
+- Post abgeholt meldet das Gold (0.65.25): Betrag beim TakeInboxMoney mitgezählt (Mailer.lua:202), Meldung
+  max(Gold-Differenz, gezählter Betrag) (Mailer.lua:180-182). "1 neue Rechnung" Einzahl (Ledger.lua:137-138, alle
+  10 Locale-Dateien). Testfall T214 (TestRoutine.lua:3539-3567) – siehe aber Punkt 1 (Taint im Test).
+- Entzaubern-Tooltip kurz (0.65.26/0.65.29): eine Zeile "Entzauberungswert ~X (T)/(Ø n)" mit Vergleich zum Verkauf
+  (Tooltip.lua:348-373), "Gewinn beim Kauf: Wert − Kaufpreis" grün/rot mit Kaufpreis aus Zeile/Händler/günstigstem
+  Angebot (Tooltip.lua:364-389, UI_Main.lua:841-846), Materialblock mit Icon, Chance, Ø-Menge, Preis und Quelle
+  (Tooltip.lua:430-456), Shift = ganze Rechnung (:415-421), Option kurz/mit Materialien/alles (UI_Main.lua:3195-3203,
+  Tooltip.lua:400-407, alte Einstellung übernommen). Testfälle T215, T223.
+- Block = Summe (0.65.29): Materialblock und Summe nehmen denselben Preis D:MatPrice -> A:PriceInfo
+  (Disenchant.lua:672-680, AHAnalyzerPro.lua:1063-1104), Ausreisser unter 10 % / über 300 % des Medians "Angebot
+  unsicher". Testfall T223.
+- Entzaubern zählen und mit allen teilen (0.65.26/0.65.29): Twinks zählen als eigen (Disenchant.lua D:IsOwnChar),
+  öffentlicher Kanal ausser "nur Gilde" (Sync.lua:84-98 S:Target), Schutz: 6 Nachrichten/Min. je Absender, Material
+  muss zur Gruppe passen, 1–5 Stück, keine Sprünge, Doppeltes einmal, Absender nur als Kürzel "#…" (D:SenderKey,
+  Migration alter Namen D:MigrateShared und AHAnalyzerPro.lua:547-548 für sync.peers). Teilen nach 10 neuen oder 2 Min.
+  nach der letzten und beim Ausloggen (D:ShareIfQuiet, PLAYER_LOGOUT mit S.SendNow). Testfälle T216, T222.
+- Entzauber-Tabelle (0.65.27): grün bis Itemstufe 15 ohne Splitter 80/20 (Waffen 20/80), 21–25 75/15/10, 51–65 Waffen
+  22/75/3 (Disenchant.lua:58-75 D.GREEN_P, D:GreenPrior), unmögliche Materialien verworfen (:185). Quelle
+  warcraft.wiki.gg im Kommentar. Testfall T217. Die Frage "Itemstufe oder benötigte Stufe" ist damit geklärt:
+  Disenchantry und warcraft.wiki.gg rechnen mit der (Basis-)Itemstufe – so bleibt es.
+- Entscheide 09:35: Sniper Forever zwei Rasten mit Statuszeile "Treffer! 1. …: Preis reservieren · 2. …: kaufen" und
+  "Reserviert – nochmal … zum Kaufen (n s)" (Sniper.lua:1388-1404, alle 10 Locale-Dateien), Hilfe/Tooltips angepasst
+  (UI_Main.lua:3605, 3650, 3751 und EN), Testfall T218. T160 auf x >= 0 (TestRoutine.lua:2810-2815). T193: Fenster
+  höchstens 90 % und an den Rand geklemmt, auch nach UI_SCALE_CHANGED/DISPLAY_SIZE_CHANGED (UI_Main.lua:3045-3087),
+  Testfall T220. T131/T145 übersprungen statt FEHLER (TestRoutine.lua:2096-2103, 2187-2192). UICheck erkennt
+  Offline-Nachbauten (UICheck.lua:48-68, U.LayoutReal).
+- Mit dem Auktionshaus öffnen und schliessen (0.65.28): UI_Main.lua:4199-4232, Option ab Werk an (:3186-3192), nie im
+  Kampf, vorher offen bleibt offen. Testfall T219, Spieltest S9 (Spieltest.lua:49-50, 156-169, 284-298).
+- Werte stimmen Punkt 1 (0.65.30): Preise je Server und Fraktion/AH, neutrale Auktionshäuser eigen
+  (AHAnalyzerPro.lua:2266-2360), Sync-Nachrichten "G/P/S" mit Kennung, fremde und alte ("H/D/R") verworfen
+  (Sync.lua:142-145, 188, 291-310), bestehende Daten übernommen mit Hinweis "evtl. gemischt" (AHAnalyzerPro.lua:2320-
+  2336, 2394-2396). Testfall T225. Werte stimmen Punkt 11 (Teilen nach 10/2 Min./Logout) ebenfalls erledigt.
+- CHANGELOG EN/DE für 0.65.25 bis 0.65.30 vorhanden.
 
-Prüfungen: addon_check mit lupa (Lua 5.1) OK ohne Warnung (Syntax, Ladetest, Sprachtest). GoldSentinelGame.lua und
-GoldSentinelTest.lua byte-gleich mit shared/. Alle 16 Namen/Lagen des Spieltests (L[c.name], L[c.need]) in allen
-10 Locale-Dateien vorhanden. CHANGELOG EN/DE 0.65.23 und 0.65.24 vorhanden. Gebühr im Spieltest (S1/S3) rechnet mit
-derselben Rundung wie A:ForeverAuctionFee. Die Testroutine selbst ist offline nicht lauffähig – nicht ausgeführt.
+Prüfungen: addon_check mit lupa (Lua 5.1) OK ohne FEHLER und ohne WARNUNG (Syntax, Ladetest, Sprachtest).
+GoldSentinelGame.lua und GoldSentinelTest.lua byte-gleich mit shared/. Alle 26 neuen L["…"]-Schlüssel sowie die
+Spieltest-Namen S9 und die Option "Mit dem Auktionshaus öffnen und schliessen" in allen 10 Locale-Dateien;
+Platzhalter (%d/%s) in allen Locale-Dateien gleich. Neue Aufrufe von Blizzard-Funktionen im Addon-Code laufen über
+A:API (UnitFactionGroup, GetRealmName, C_Map, IsShiftKeyDown). Era/TBC: neue Wege nutzen nur Funktionen, die es dort
+gibt; Sniper-Ablauf dort unverändert. Die Testroutine selbst ist offline nicht lauffähig – nicht ausgeführt.
+Testberichte seit dem letzten Stand: Diagnose 0.65.26/0.65.27 (Forever deDE) ohne Lua-Fehler; Spieltest S5 FEHLER von
+0.65.23 (08:10) ist mit 0.65.24 (S5 nur Gewinn-Fenster gegen Berufsfenster/ProfessionSentinel) behoben.
 
 OFFENE PUNKTE
 -------------
-1. POST ABGEHOLT MELDET 0 (Schwere: MITTEL) – Befund im Spiel 9. Nov. 08:19 mit 0.65.22, in 0.65.24 unverändert
-   Chat: "[AHSentinel] Post abgeholt: 0 (Kupfer), 0 Items", direkt danach vom Spiel "Erhalten: 1g 56s 26c".
-   Mailer.lua:177 rechnet GetMoney() − startMoney beim Stop. Nach TakeInboxMoney (:199) kommt MAIL_INBOX_UPDATE
-   (:236 waiting = nil) VOR PLAYER_MONEY; der nächste Step findet keine Post mehr und stoppt sofort -> 0.
-   self.money (:135) wird nie hochgezählt.
-   Lösung: beim TakeInboxMoney den Betrag aus GetInboxHeaderInfo (money) zu self.money addieren und diesen melden;
-   vor dem Stop höchstens 1 s auf PLAYER_MONEY warten bzw. max(self.money, GetMoney-Differenz). Buchhaltung/Ledger
-   gleich prüfen. Nebenbei Ledger.lua:137 "%d neue Rechnungen" -> Einzahl/Mehrzahl (alle Locale-Dateien).
-   Testfall: Post mit 1g 56s 26c, MAIL_INBOX_UPDATE vor PLAYER_MONEY -> Meldung "1g 56s 26c".
+1. TESTROUTINE ERSETZT BLIZZARD-FUNKTIONEN UND -FENSTER (Schwere: HOCH – Taint im echten Spiel)
+   Gegen nachtrag-testroutinen.txt Punkt 1 ("keine Blizzard-Funktionen überschreiben"):
+   a) T214 (neu in 0.65.25) TestRoutine.lua:3548-3549 setzt _G.MailFrame auf eine Tabelle und _G.TakeInboxMoney auf
+      eine leere Funktion, stellt sie in :3557 zurück. Damit sind TakeInboxMoney und MailFrame für die ganze Sitzung
+      von AHSentinel geschrieben (Taint); Briefkasten und Post-Addons können "Aktion blockiert" melden.
+   b) T216 (neu in 0.65.26) TestRoutine.lua:3662-3667 ersetzt _G.IsInGuild.
+   c) T213 (seit 0.65.24, offener Punkt 2 vom Stand 0.65.24) TestRoutine.lua:3517-3530 schreibt _G.ProfessionsFrame
+      (im modernen Client ein Blizzard-Fenster).
+   Lösung: im Addon-Code über Nahtstellen gehen und im Test nur diese ersetzen:
+   - Mailer.lua: TakeInboxMoney und MailFrame über A:API("TakeInboxMoney") bzw. eine eigene Funktion M:MailOpen()
+     aufrufen; T214 setzt A.apiOverride = { TakeInboxMoney = function() end } und ersetzt M.MailOpen.
+   - Sync.lua S:Target: IsInGuild über A:API("IsInGuild"); T216 über A.apiOverride.
+   - Spieltest.lua:311 P.S5_BLIZZARD im Test vorübergehend auf { "AHSentinelTestProfFrame" } setzen und nur
+     _G.AHSentinelTestProfFrame anlegen und wieder auf nil setzen (oder S5Data das Fenster als Argument geben).
+   Testfall (Bereich I): nach einem ganzen Lauf sind _G.TakeInboxMoney, _G.MailFrame, _G.IsInGuild,
+   _G.ProfessionsFrame dieselben Werte wie vorher und issecurevariable(…) unverändert (wo vorhanden).
 
-2. T213 ERSETZT _G.ProfessionsFrame (Schwere: MITTEL – Taint) – neu in 0.65.24
-   TestRoutine.lua:3498-3511 schreibt im Spiel einen Ersatz in die Blizzard-Variable ProfessionsFrame und stellt sie
-   danach zurück. Die .toc lädt auch im modernen Client (Interface 120105), dort ist ProfessionsFrame ein Blizzard-
-   Fenster: auch das Zurückschreiben hinterlässt die Variable als von AHSentinel geschrieben (Taint) bis /reload.
-   Lösung: keine Blizzard-Variable schreiben. Nahtstelle nutzen: im Test P.S5_BLIZZARD vorübergehend auf einen
-   eigenen Namen setzen (z. B. { "AHSentinelTestProfFrame" }) und nur _G.AHSentinelTestProfFrame anlegen und wieder
-   auf nil setzen, oder S5Data das Berufsfenster als Argument geben. Gleiches für alle künftigen Tests.
+2. WERTE STIMMEN – REST (Schwere: MITTEL) – anweisung-werte-stimmen.txt
+   Stand 0.65.30: Punkt 1 und 11 erledigt. Teilweise: A:PriceInfo (AHAnalyzerPro.lua:1074-1099) hat die
+   Quellen-Reihenfolge (Punkt 5), das Alter (Punkt 3, Feld old) und die Ausreisser (Punkt 4), wird aber NUR vom
+   Entzaubern benutzt (Disenchant.lua:677). Tooltip, Gewinn-Fenster (Crafting.lua, UI_Profit.lua), Sniper, Watcher,
+   Heute tun, Verkaufen (Seller.lua, UI_Sell.lua) rechnen weiter mit GetMarketValue/GetSalePrice.
+   Offen in der vorgegebenen Reihenfolge:
+   - Punkt 8: EINE Preisfunktion (z. B. A:RealValue(itemID, qty), aufbauend auf A:PriceInfo) für alle Fenster;
+     ProfessionSentinel über die bestehende Schnittstelle (alte Aufrufe bleiben gültig). Testfall: dasselbe Item
+     liefert in Tooltip, Gewinn-Fenster, Sniper, Schnäppchen, Heute tun und Verkaufen denselben Wert.
+   - Punkt 10: Vorhersage gegen Wirklichkeit (beim Einstellen vorhergesagten Erlös speichern, beim Verkauf
+     vergleichen, Kennzahl "Abweichung", Diagnose-Eintrag WERT ohne Namen).
+   - Punkt 2: halber/abgebrochener Scan setzt nichts auf "weg" oder 0.
+   - Punkt 3: Tooltip "Preis alt" (über 6 Std.) – PriceInfo.old wird noch nirgends angezeigt.
+   - Punkt 4: Ausreisser auch beim Speichern des Scans und bei Sync-Werten (nur bestätigte).
+   - Punkt 6: Nicht-Verkauf kostet (Forever: Gebühr × erwartete Anzahl Einstellungen); Punkt 7: Händlerpreis als
+     Untergrenze; Punkt 9: Materialien beim Herstellen; Liquiditäts-Abschlag; Gebühr pro Stapel.
 
-3. SPIELTEST: TEXTE NICHT ÜBER DIE SPRACHTABELLE (Schwere: NIEDRIG)
-   Die Messwerte und Erwartungen (ist/soll) stehen deutsch im Code (Spieltest.lua:73-75, 80, 98-100, 108-110, 117,
-   131-133, 149-150, 156) und gehen so in die Chat-Zeile bei FEHLER (:209) und in den Bericht (:429-433, dort auch
-   "OK"/"FEHLER" fest). Auf einem englischen Client steht also ein deutscher Satz.
-   Lösung: Format-Texte über L (alle 10 Locale-Dateien, Platzhalter gleich); im GSTEST1-Bericht dürfen sie deutsch
-   bleiben.
+3. ENTZAUBER-TABELLE: FOREVER-WAFFEN 21–30 UND LIZENZ (Schwere: MITTEL) – anweisung-sammelkauf-entzaubern.txt
+   "TABELLE" (Entscheid 11:10)
+   Disenchant.lua:30-43 gibt grünen Waffen Itemstufe 21–25 Geringe Astralessenz (10998) und 26–30 Grosse
+   Astralessenz (11082). Laut Disenchantry (auftraege/AHSentinel/quelle-disenchantry/DisenchantResults.lua, Forever-
+   Zweig "uncommon weapons ilvl 21-30 yield Greater Magic Essence") gibt es in Forever dort Grosse Magieessenz (10939).
+   Ausserdem fehlt der MIT-Vermerk: Wird die Tabelle aus Disenchantry übernommen, LICENSE-Disenchantry.txt (Text aus
+   quelle-disenchantry/LICENSE) mitliefern und im Kommentar von Disenchant.lua "Copyright (c) 2026 x_Raven_x, MIT"
+   nennen. Mengen min–max nach Disenchantry übernehmen (Ø-Werte stimmen heute schon überein).
+   Lösung: in Forever (A:IsForever()) bei Waffen Stufe 3 und 4 das Essenz-Material auf 10939 setzen; unplausibel-
+   Prüfung (AllowedMats) folgt automatisch. Testfall: Forever-Waffe Itemstufe 25 -> Grosse Magieessenz; Era-Waffe 25
+   -> Geringe Astralessenz.
 
-4. SPIELTEST S7 ZÄHLT JEDEN ZAUBER (Schwere: NIEDRIG)
-   Spieltest.lua:374-380 zählt jedes UNIT_SPELLCAST_SUCCEEDED des Spielers als Herstellen, solange das Gewinn-Fenster
-   sichtbar ist (auch Reittier, Buff, Angeln). Lösung: nur Zauber zählen, die ein Rezept des offenen Berufs sind
-   (Zauber-ID über die Rezeptliste von Crafting.lua), geschützte Werte vorher mit IsSecret prüfen.
+4. SAMMELKAUF ZUM ENTZAUBERN (Schwere: MITTEL, nach Punkt 2/Werte stimmen 8) – anweisung-sammelkauf-entzaubern.txt
+   Ganz offen (Anweisung kam nach 0.65.30): Filter "Entzaubern lohnt" mit Rendite ≥ Mindestrendite (20 %) und ≥ 10c,
+   Kaufen je Raste, Grenzen, Sicherheitsabschlag unter 10 Entzauberungen, Statuszeile, E1 Entzauber-Wächter,
+   E2 eigenes kleines Entzauber-Fenster (Variante b, sicherer Knopf, Schutzregeln, kein zweiter Block neben
+   Disenchantry), E4 Abrechnung in der Buchhaltung. Einzelheiten und Testfälle in der Anweisung.
 
-5. TEIL-LISTE IN DEN MELDUNGEN (Schwere: NIEDRIG)
-   TestRoutine.lua:7 und :436, Locale.lua:1502 und :1505 nennen "a-j" bzw. "a ... j"; es fehlen Teil k (UICheck)
-   und der Spieltest (Bereich S, /ahs spieltest). Locale-Schlüssel in allen 10 Sprachen ändern.
+5. SPIELTEST: TEXTE NICHT ÜBER DIE SPRACHTABELLE (Schwere: NIEDRIG) – aus 0.65.24, unverändert
+   Messwerte und Erwartungen stehen deutsch im Code (Spieltest.lua:76-78, 83, 101-103, 111, 120, 134, 152, 165 – neu
+   auch S9) und gehen so in die Chat-Zeile bei FEHLER und in die Liste (:462-466). Auf einem englischen Client steht
+   ein deutscher Satz. Lösung: Format-Texte über L (alle 10 Locale-Dateien, Platzhalter gleich); im GSTEST1-Bericht
+   dürfen sie deutsch bleiben.
 
-6. DRITTE EBENE IM BLIZZARD-AH (Schwere: NIEDRIG, IM CLIENT PRÜFEN) – seit 0.65.11
-   Buy.lua übernimmt nur eine Unterebene. Hat Forever bei Waffen eine Zwischenebene (Einhand -> Einhandäxte), zeigt
-   AHSentinel nur "Einhand"; der CHANGELOG 0.65.11 verspricht "Weapons -> One-Handed Axes". T179 fragt das im Spiel ab.
-   Falls drei Ebenen: dritte Ebene übernehmen oder Text anpassen. Ausserdem T161 um einen Fall für den Rückfall-Weg
-   ergänzen (Nahtstelle z. B. B.testCategories statt _G.AuctionCategories).
+6. SPIELTEST S7 ZÄHLT JEDEN ZAUBER (Schwere: NIEDRIG) – aus 0.65.24, unverändert
+   Spieltest.lua:407-413 zählt jedes UNIT_SPELLCAST_SUCCEEDED des Spielers als Herstellen, solange das Gewinn-Fenster
+   sichtbar ist. Lösung: nur Zauber-IDs zählen, die ein Rezept des offenen Berufs sind; geschützte Werte vorher mit
+   IsSecret prüfen.
 
-7. "UNTER HÄNDLERPREIS" AUS DEM SCAN (Schwere: NIEDRIG) – seit 0.65.17
-   AHAnalyzerPro.lua:1577 (A:VendorFlipOffers, math.min(qty or 1, 10)): GetCurrent liefert die Gesamtmenge aller
-   Preisstufen, bis 10 Stück werden mit dem günstigsten Preis gerechnet. Der Kauf ist sicher, die Gewinnanzeige kann
-   zu hoch sein. Beim Scan die Menge der günstigsten Stufe mitspeichern oder mit 1 Stück rechnen.
+7. TEIL-LISTE IN DEN MELDUNGEN (Schwere: NIEDRIG) – aus 0.65.24, unverändert
+   TestRoutine.lua:7 und :436, Locale.lua:1528 und :1531 nennen "a-j" bzw. "a ... j"; es fehlen Teil k (UICheck) und
+   der Spieltest (/ahs spieltest). Locale-Schlüssel in allen 10 Sprachen ändern.
 
-8. POST-REGELN: AUSWAHLMENÜ (Schwere: NIEDRIG)
+8. OPTIONS-TOOLTIP NENNT NOCH "ERWARTETER GEWINN" (Schwere: NIEDRIG) – neu
+   UI_Main.lua:3203 (Locale.lua:1473 und alle Sprachen): "kurz: nur \"Entzaubern: erwarteter Gewinn\"". Seit 0.65.29
+   heisst die Zeile "Entzauberungswert". Text anpassen, auch der unbenutzte Schlüssel Locale.lua:1465 kann weg.
+
+9. TEILEN: NACHRICHTEN-GRENZE KANN GROSSE STATISTIKEN ABSCHNEIDEN (Schwere: NIEDRIG) – neu, prüfen
+   D.SHARE_MSGS_PER_MIN = 6 (Disenchant.lua, HandleShared) zählt jede Nachricht. D:BroadcastStats teilt die
+   Statistik in mehrere Teilstücke; wer viele Gruppen hat (mehr als 6 Teilstücke), dessen Rest wird beim Empfänger
+   verworfen, bei jedem Teilen wieder derselbe Rest. Lösung: Grenze je Sendung (Teilstücke einer Sendung mit gleicher
+   Zeit zählen als 1) oder Grenze an die Teilstück-Zahl anpassen. Testfall: 10 Teilstücke einer Sendung kommen an,
+   eine zweite Sendung in derselben Minute wird verworfen.
+
+10. DRITTE EBENE IM BLIZZARD-AH (Schwere: NIEDRIG, IM CLIENT PRÜFEN) – seit 0.65.11
+   Buy.lua übernimmt nur eine Unterebene; CHANGELOG 0.65.11 verspricht "Weapons -> One-Handed Axes". T179 fragt das im
+   Spiel ab. Falls drei Ebenen: dritte Ebene übernehmen oder Text anpassen. T161 um einen Fall für den Rückfall-Weg
+   ergänzen (Nahtstelle B.testCategories statt _G.AuctionCategories).
+
+11. "UNTER HÄNDLERPREIS" AUS DEM SCAN (Schwere: NIEDRIG) – seit 0.65.17
+   AHAnalyzerPro.lua:1633 (A:VendorFlipOffers, math.min(qty or 1, 10)): Gesamtmenge aller Preisstufen wird mit dem
+   günstigsten Preis gerechnet; Gewinnanzeige kann zu hoch sein. Menge der günstigsten Stufe speichern oder mit 1
+   Stück rechnen.
+
+12. POST-REGELN: AUSWAHLMENÜ (Schwere: NIEDRIG)
    UI_Extras.lua:127-139 (r.cat): Durchklicken geht durch alle Unterkategorien (moderner Client über 50). Besser ein
    Menü.
 
-9. PREISFELD-RÜCKFRAGE (Schwere: NIEDRIG)
+13. PREISFELD-RÜCKFRAGE (Schwere: NIEDRIG)
    Zahl ohne Zeichen = Gold ("78" -> 78g). Im Verkaufen-Fenster eine Rückfrage, wenn der Preis über dem 100-fachen
    des Marktwerts liegt.
 
-10. RAID-VORRAT (Schwere: NIEDRIG, nach dem Launch) – aus 0.65.8
-   Comfort.lua (K.RAID_SETS, K:RaidSetKey): prüfen, ob alle Item-IDs in Forever existieren (T145c im Spiel).
+14. RAID-VORRAT (Schwere: NIEDRIG, nach dem Launch) – aus 0.65.8
+   Comfort.lua (K.RAID_SETS): prüfen, ob alle Item-IDs in Forever existieren (T145c im Spiel).
 
-11. HINWEIS (kein Muss) – aus 0.65.8
-   A:RepairDB prüft im Preisverlauf nur den ersten und den letzten Eintrag. Lesende Stellen sollen weiter mit
-   fehlendem e.p rechnen können.
+15. HINWEISE (kein Muss)
+   a) A:RepairDB prüft im Preisverlauf nur den ersten und letzten Eintrag; lesende Stellen sollen weiter mit fehlendem
+      e.p rechnen können.
+   b) ProfessionSentinel sucht AHAnalyzerPro.AuctionFee bzw. .AHFee; AHSentinel hat A:ForeverAuctionFee. Wer will,
+      bietet A.AuctionFee = A.ForeverAuctionFee als stabilen Namen an (dann CHANGELOG-Zeile).
+   c) 0.65.30 legt beim Ausloggen db.marketData = {} ab (A:ParkMarket). Wer auf 0.65.29 oder älter zurückgeht, sieht
+      keine Preise mehr bis zum nächsten Scan. Im CHANGELOG/Hilfe erwähnen genügt.
+   d) Diagnose 0.65.27: "AUFBAU Beste Rezepte" durch DATA_CHANGED etwa alle 2 s über Minuten (×44), auch ohne
+      Herstellen. Die Grenze von S7 hält, aber DATA_CHANGED aus Sync/Scan könnte das Gewinn-Fenster nur bei
+      betroffenen Items neu aufbauen.
 
-12. HINWEIS ZUR SCHNITTSTELLE MIT PROFESSIONSENTINEL (kein Muss für AHSentinel)
-   ProfessionSentinel 0.9.28 sucht AHAnalyzerPro.AuctionFee bzw. .AHFee (Prices.lua:45, Spieltest.lua:102) – beides
-   gibt es nicht, AHSentinel hat A:ForeverAuctionFee. Der Fehler wird bei ProfessionSentinel behoben. Wer will, kann
-   zusätzlich A.AuctionFee = A.ForeverAuctionFee als stabilen Namen anbieten (dann CHANGELOG-Zeile).
-
-IM CLIENT PRÜFEN (mit 0.65.24 – die hochgeladenen Diagnose-Protokolle vom 9. Nov. stammen noch von 0.65.16)
----------------------------------------------------------------------------------------------------------------
-- /ahs spieltest an, normal spielen, /ahs spieltest bericht: S1–S8 OK, kein FEHLER; Bericht kommt in testberichte/.
+IM CLIENT PRÜFEN (mit 0.65.30)
+------------------------------
 - Ganzer Lauf /ahs testroutine auf Forever: 0 FEHLER, "Sandbox OK", kein "script ran too long"; danach /reload.
-- /ahs testroutine k mit offenem Berufsfenster (mit und ohne ProfessionSentinel), offenem Händler und offenem AH.
-- Herstellen von 20 Stück: /ahs protokoll zeigt AUFBAU nur alle paar Sekunden, kein LANGSAM über 16 ms
-  (0.65.16 im Protokoll noch AUFBAU ×599 durch TRADE_SKILL_LIST_UPDATE – sollte seit 0.65.20 weg sein).
-- Einstellen in Forever: EINSTELLEN mit "Gebühr erwartet" = "abgezogen" (Regel max(5 %, 1s) pro Auktion bestätigen).
-- Sniper 30 min auf eine Ware: kein ADDON_ACTION_BLOCKED, Kauf mit 2 Rasten.
-- Händler: Knopf oben rechts über dem Fenster, nie bei den Reitern, mit LevelPilot ab Werk aus.
-- Post abholen mit Gold: Meldung nennt den Betrag (nach Punkt 1).
+- /ahs spieltest an, normal spielen, Auktionshaus öffnen/schliessen (S9), /ahs spieltest bericht: alle OK.
+- Mit dem AH öffnen: Hauptfenster überdeckt das Blizzard-Auktionshaus nicht (S5-Befund 08:10 nannte noch
+  "Hauptfenster überdeckt AuctionHouseFrame"); /ahs testroutine k mit offenem AH.
+- Preise je Fraktion: an einem neutralen Auktionator (Beutebucht, Gadgetzan, Ewige Warte) /dump AHAnalyzerPro.marketKey
+  zeigt "…|Neutral"; danach in der Hauptstadt wieder Horde/Allianz. /dump UnitFactionGroup("npc") am neutralen
+  Auktionator notieren.
+- Sync zwischen zwei Spielern derselben Fraktion auf 0.65.30: Preise kommen an (Sync-Zähler steigt); mit einem Spieler
+  auf 0.65.29 kommen keine an (erwartet).
+- Sniper Forever: 1. Raste reserviert, 2. Raste kauft, Status "Reserviert – nochmal … (n s)", kein ADDON_ACTION_BLOCKED.
+- Entzaubern: Braune Leinenhose -> Block 2 Materialien 80/20; Item der Gruppe 36–40 aus der Kaufliste -> "Gewinn beim
+  Kauf" je nach Kaufpreis verschieden.
+- Ausloggen nach 1–9 Entzauberungen: beim nächsten Einloggen eines Mitspielers sind sie angekommen (SendAddonMessage
+  beim PLAYER_LOGOUT).
+- Post abholen mit Gold: Meldung nennt den Betrag.
 - /dump ERR_AUCTION_SOLD_S auf Forever deDE; nach einem Verkauf die Meldung "Verkauft".
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
-
-WUNSCH DES NUTZERS (9. Nov. 08:41, Screenshot Verstärktes Leinencape / Wollcape mit 0.65.22) – MITTEL, JETZT
-   Die Aufschlüsselung im Tooltip ist zu lang. Neu:
-   1. Statt der ganzen Aufstellung nur EINE Zeile: "Entzaubern: erwarteter Gewinn ~<Betrag>" (Entzauberungswert nach
-      Gebühren). Dahinter klein der Vergleich mit dem Verkauf des Items selbst ("lohnt mehr als Verkauf" bzw.
-      "Verkauf bringt mehr", Vergleich: Wert nach Gebühren vs. Marktwert des Items nach Gebühren).
-      Quelle: "tatsächlich", sobald mindestens 10 Entzauberungen der Gruppe vorliegen, sonst "geschätzt (Tabelle)";
-      die Herkunft als kleines Zeichen (z. B. "(T)" = Tabelle, "(Ø 12)" = aus 12 Entzauberungen).
-      Die ganze Rechnung läuft im Hintergrund weiter; mit gedrückter Shift-Taste erscheint die bisherige
-      Aufstellung (tatsächlich/geschätzt, je Material, nach Gebühren) zur Kontrolle.
-   2. Darunter ein eigener Block im GLEICHEN AUSSEHEN wie der fremde Block "Mögliche Materialien (ungefähre Chancen)"
-      (der stammt nicht von GoldSentinel, nicht anfassen): Überschrift z. B. "Entzaubern – Materialien (AHSentinel)",
-      je Material eine Zeile: Icon · Name · Dropchance in % · Wert pro Stück (aktueller AH-Preis aus dem letzten Scan,
-      sonst Marktwert). Dropchance aus derselben Quelle wie in 1 (tatsächlich ab 10, sonst Tabelle).
-   3. Option "Entzauber-Details im Tooltip" (kurz / mit Materialien / alles), Standard "mit Materialien".
-   4. Testfälle: kurze Zeile = Summe der Anteile × 0,95 − Gebühr; Shift zeigt die Aufstellung; Materialblock hat je
-      Material Icon, Chance, Preis; Quelle wechselt bei 10 Entzauberungen.
-
-WUNSCH DES NUTZERS (9. Nov. 08:44) – ENTZAUBERN AUTOMATISCH MITZÄHLEN UND MIT ALLEN TEILEN – MITTEL, JETZT
-   Bestand (0.65.22): Disenchant.lua zählt eigene Ergebnisse (deStats) und nimmt geteilte an (deShared, :340-342);
-   Sync.lua sendet über GUILD oder einen öffentlichen Kanal (S.channelId, :85-92, JoinTemporaryChannel :346).
-   Neu bzw. sicherstellen:
-   a) Jedes Entzaubern wird automatisch gezählt – auf jedem Charakter (auch Twinks), ohne Knopf; Ergebnis einer
-      Entzauberung = Loot nach dem Zauber "Entzaubern" (Zauber-ID über ns.API, Forever und Era).
-   b) Die Ergebnisse gehen an ALLE, die AHSentinel nutzen (Entscheid des Nutzers): über den öffentlichen Sync-Kanal,
-      nicht nur an die Gilde. Ist "nur Gilde" eingestellt, bleibt es bei der Gilde (Option bleibt).
-   c) Schutz: je Absender höchstens N Entzauberungen pro Minute annehmen; unplausible Ergebnisse verwerfen (Material
-      passt nicht zur Gruppe/Qualität, Menge ausserhalb 1–5); doppelte Meldungen (gleiche ID) nur einmal zählen;
-      Absender nur als Kürzel/Hash speichern, keine Namen im Export oder Protokoll.
-   d) Eigene Twinks desselben Accounts zählen als "eigene" (nicht als "geteilt").
-   e) Anzeige der Quelle bleibt: "(Ø 12)" = 12 Entzauberungen; die Grenze für "tatsächlich" ist 10.
-   f) Testfälle: Entzaubern auf einem Twink zählt als eigen; Nachricht eines anderen Spielers kommt über den Kanal
-      an und zählt als geteilt; unplausible/doppelte Meldung wird verworfen; "nur Gilde" sendet nicht in den Kanal.
-
-BEFUND IM SPIEL (9. Nov. 09:04, Screenshot Braune Leinenhose, AHSentinel 0.65.26) – MITTEL
-   Tooltip "Entzaubern – Materialien (AHSentinel)" zeigt Seltsamer Staub 81 %, Geringe Magieessenz 15 % und
-   Kleiner gleissender Splitter 3.8 %. Der Block "Mögliche Materialien" darüber (und die Classic-Tabelle) nennt für
-   dieses Item nur Staub 80 % und Essenz 20 % – grüne Gegenstände bis Itemstufe 15 geben KEINE Splitter.
-   Ursache (belegt): Disenchant.lua:76-84 (D:Prior) hängt für ALLE grünen Stufen einen Splitter mit D.GREEN_SHARD an
-   (table.insert(out, { b[6], D.GREEN_SHARD, 1 })) und nimmt für alle Stufen dieselben Anteile (Kommentar "75 % Staub,
-   20 % Essenz, 5 % Splitter"). In Classic gilt für grüne Rüstung:
-     Itemstufe 5–15: 80 % Staub 1–2, 20 % Geringe Magieessenz 1–2, kein Splitter.
-     ab Itemstufe 16: 75 % / 20 % / 5 % Splitter (wie bisher).
-   Waffen gespiegelt (Essenz statt Staub als Hauptanteil). Lösung: Stufe 1 der Tabelle (UNCOMMON[1], ≤ 15) ohne
-   Splitter und mit 80/20; ab Stufe 2 unverändert. Gespeicherte bzw. geteilte Ergebnisse, die für diese Gruppe einen
-   Splitter melden, als unplausibel verwerfen (passt zum Schutz beim Teilen).
-   Testfall: Braune Leinenhose (grün, Itemstufe ≤ 15, Rüstung) -> genau 2 Materialien, 80 % / 20 %; Wollcape
-   (Itemstufe 16–20) -> 3 Materialien mit 5 % Splitter.
-   Hinweis: Itemstufen-Grenzen bitte gegen eine Quelle prüfen (z. B. Wowhead "Disenchanting" für Classic) und im
-   Kommentar mit Link festhalten.
-ENTSCHEIDE DER PRÜF-SITZUNG ZUM BERICHT VON 0.65.27 (9. Nov. 09:35)
-   1. Sniper Forever: JA, "zwei Rasten" ist gewollt. In Forever darf StartCommoditiesPurchase nur aus einem
-      Tastendruck kommen, und ConfirmCommoditiesPurchase braucht die Antwort des Servers (COMMODITY_PRICE_UPDATED) –
-      beides in einer Raste geht nicht. Also: 1. Raste reserviert, 2. Raste kauft (Era/TBC unverändert).
-      - Die 9 Simulator-Fälle und die Testroutine auf zwei Rasten umstellen; s3_ledger_buys/s9_bait_sniper so
-        anpassen, dass sie ohne "pending" nicht mit Lua-Fehler abbrechen (Test prüft vorher, ob reserviert wurde).
-      - Hilfe, Tooltips und Statuszeile in Forever: "1. Raste: Preis reservieren · 2. Raste: kaufen"; Statuszeile
-        zeigt nach der 1. Raste "reserviert – nochmal drehen zum Kaufen" mit Zeitlimit; alle Locale-Dateien.
-      - Neuer Testfall: "Forever: keine Reservierung ohne Tastendruck, 2. Raste kauft, Reservierung läuft ab".
-   2. T160: JA, auf "x >= 0, nie über den Reitern" umstellen (Code ist richtig).
-   3. T193: Hauptfenster immer ganz im Bildschirm: SetClampedToScreen(true); beim ersten Öffnen und nach
-      UI_SCALE_CHANGED/DISPLAY_SIZE_CHANGED Grösse auf höchstens 90 % von UIParent begrenzen und gespeicherte Position
-      an den Rand klemmen. Im Spiel prüft es der Bereich K bzw. der Spieltest.
-   4. T131/T145: JA – fehlt BugSack/BugGrabber bzw. fehlen Item-Daten, zählt der Fall als "übersprungen" (mit
-      Grund), nie als OK und nie als FEHLER.
-   5. Bestätigt: Nur die AHSentinel-Sitzung ändert und veröffentlicht AHSentinel (CLAUDE.md, Entscheid 9. Nov.).
-   Danach weiter mit den offenen Befunden in dieser Reihenfolge: Post abgeholt 0 (08:19), Splitter bis Itemstufe 15
-   (09:04), Tooltip kurz + Materialblock (08:41), Entzaubern zählen und mit allen teilen (08:44).
-   6. NEU (Wunsch des Nutzers, 9. Nov. 09:26): Das AHSentinel-Hauptfenster öffnet sich automatisch, wenn das
-      Auktionshaus geöffnet wird (AUCTION_HOUSE_SHOW), und schliesst sich, wenn es geschlossen wird
-      (AUCTION_HOUSE_CLOSED). War das Fenster schon vorher offen, bleibt es nach dem Schliessen des AH offen.
-      Option "Mit dem Auktionshaus öffnen und schliessen" (Standard an). Nicht im Kampf aufdrängen; überdeckt das
-      Blizzard-AH nicht (andocken bzw. Bereich K). Era/TBC: gleiche Ereignisse (AUCTION_HOUSE_SHOW/CLOSED gibt es
-      dort auch). Testfälle: AH auf -> Fenster auf; AH zu -> Fenster zu; vorher offen -> bleibt offen; Option aus ->
-      nichts passiert. Spieltest-Prüfung dazu.
-
-BEFUND IM SPIEL (9. Nov. 10:31, drei Screenshots AH-Kaufliste, AHSentinel 0.65.27) – MITTEL
-   Welkenring (26s), Königliche Schärpe (38s) und Zauberhexerhandschuhe (40s) zeigen alle
-   "Entzaubern: erwarteter Gewinn ~22s 55c (T)". Der Nutzer erwartet bei verschiedenen Kaufpreisen verschiedene Gewinne.
-   a) Ursache 1 (Bezeichnung, Fehler der Prüf-Sitzung im Auftrag vom 08:41): Die Zeile zeigt den Entzauberungswert
-      nach Gebühren – der hängt nur von der Gruppe ab (grün, Itemstufe 36–40, Rüstung) und ist darum überall gleich.
-      Das ist kein Gewinn. Neu:
-      - Tooltip-Zeile heisst "Entzauberungswert ~22s 55c (T)".
-      - Ist ein Kaufpreis bekannt (AH-Angebot in Kaufliste/Sniper/Schnäppchen, Händlerpreis beim Händler), zusätzlich
-        "Gewinn beim Kauf: Wert − Kaufpreis" (grün positiv, rot negativ), z. B. Welkenring 22s 55c − 26s = −3s 45c.
-      - In der Kaufliste eine Spalte bzw. Markierung "Entzaubern lohnt" nur, wenn Wert − Kaufpreis > 0.
-      - "Verkauf bringt mehr / lohnt mehr als Verkauf" bleibt der Vergleich mit dem Marktwert des Items.
-   b) Ursache 2 (prüfen): Die Zeilen im Materialblock passen nicht zur Summe. Angezeigt: Visionsstaub 75 % · 11s 95c,
-      Grosse Mystikeressenz 20 % · 22c, Grosser leuchtender Splitter 5 % · 37s 74c. Mit Ø-Menge 1,5 (Tabelle, Stufe ≤ 40)
-      ergibt das brutto etwa 0,75×1,5×11s95 + 0,2×1,5×22c + 0,05×1×37s74 ≈ 15s 40c – angezeigt sind 22s 55c NACH Gebühren.
-      Entweder rechnet die Summe mit anderen Preisen (Marktwert statt AH-Preis des Blocks) oder anderen Mengen. Gleiche
-      Quelle für Block und Summe verwenden und den Preis im Block so beschriften (AH aktuell / Markt). Zudem wirkt 22c
-      für Grosse Mystikeressenz unplausibel (Scan-Ausreisser?) – Preise unter 10 % des Marktwerts als unsicher markieren.
-   c) Testfälle: gleicher Wert bei verschiedenen Items derselben Gruppe, aber verschiedener "Gewinn beim Kauf";
-      Summe der Block-Anteile = angezeigter Wert (±1c).

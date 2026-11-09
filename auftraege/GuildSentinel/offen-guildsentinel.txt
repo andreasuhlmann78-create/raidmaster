@@ -1,55 +1,85 @@
-OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.14)
+OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.17)
 =============================================================
-Stand: 9. November 2026, 05:50 · von der Prüf-Sitzung · Grundlage: download/GuildSentinel-0.9.14.zip und Repo 1e53a6a
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.13.
+Stand: 9. November 2026, 11:25 · von der Prüf-Sitzung · Grundlage: download/GuildSentinel-0.9.17.zip und Repo 27220bf
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.14.
 
-Erledigt in 0.9.14 (danke):
-- T143 Ruckler bei 500 Mitgliedern: Zwischenspeicher je Seitenaufbau (Roster.lua:93 R:Memo, MainOf/AltsOf einmal je
-  Name, R:Forget bei jeder Änderung), Übersicht in einem Durchgang (PagesHome.lua:68-83), UI:Select und RefreshHeader
-  laufen über R:Memo (UI.lua:983, 1012). Offline (test/perf_pages.lua) langsamste Seite 5,0 ms. T143 nennt die
-  langsamste Seite.
-- T118 Chronik: Typprüfung (Chronicle.lua:131-132), Prof:All überspringt kaputte Einträge und gibt immer eine Kopie
-  zurück (Professions.lua:31-45).
-- T45 Termin ansagen: Comm.lua:343 nutzt ns.InGuild (im Testmodus nur "[Test]", gesendet wird nichts).
-- T154: Fall unabhängig von den Einstellungen des Spielers (Funktion "Danke", schon gedankt), bei FEHLER steht die
-  Ausgabe von GuildSentinel im Ergebnis (TestRoutine.lua:1827 ff.).
-- Berufe-Knopf in Forever: kein Aufruf von C_TradeSkillUI.OpenTradeSkill aus einem Timer mehr, nur ein Hinweis
-  (Pages.lua:1503-1510, neuer Text in allen 10 Sprachen); OpenModern prüft InCombatLockdown und läuft über ns.Act.
-- anweisung-testroutine-oberflaeche.txt: Bereich K (TestRoutine.lua:2135 R:AreaK) mit T182 Tooltips, T183 Überlappen,
-  T184 im Bildschirm, T185 Texte passen, T186 Spielwerte plausibel, T187 keine Fehlerschleifen. Offline werden T182-T185
-  begründet übersprungen, nie als OK gezählt. Die Anweisung ist damit für GuildSentinel erledigt und entfernt.
+Erledigt in 0.9.17 (danke):
+- anweisung-gildenverwaltung.txt komplett umgesetzt (die Anweisung ist damit entfernt):
+  1. Zugang: Knopf "Verwaltung (GuildSentinel)" als eigener Frame, nur geankert, Blizzard-Fenster nur per HookScript,
+     Communities/GuildUI beim Laden angehängt (Admin.lua:533-599); /gs verwaltung (Core.lua:789); Fenster erst bei
+     Bedarf gebaut (Admin.lua:289).
+  2. Rechte über ns.API (Admin.lua:131-150, neu API.CanGuildDemote API.lua:54); ohne Rechte gesperrt mit Hinweis
+     (Admin.lua:507, 521, 556). Zugriffsliste nur in GuildSentinelDB.admin, nie gesendet, nicht im Protokoll (T198).
+  3. Einladen mit Name oder Ziel, Befördern/Degradieren mit Rang vorher -> nachher, nie über den eigenen Rang,
+     Rauswerfen mit Rückfrage, Leitung übergeben nur Gildenmeister + Passwort + zwei Rückfragen (Admin.lua:186-275,
+     316-407).
+  4. Passwort: zweimal eingeben, nur Prüfsumme mit Salz (Admin.lua:63-126), maskiert (Admin.lua:385, UI.lua:762 ff.),
+     3 Fehlversuche -> 5 Minuten Sperre, ändern nur mit dem alten, nie ausgegeben.
+  5. Aktionen nur aus dem Klick bzw. der Bestätigung (UI.lua:811 ruft synchron auf), Guard gegen Kampf (Admin.lua:211),
+     alles über ns.Act; Diagnose VERWALTUNG ohne Namen.
+  6. ns.RegisterUI (UI.lua), Bereich K kennt die neuen Fenster (TestRoutine.lua, uiFrames), alle 51 neuen Texte in allen
+     10 Locale-Dateien, Platzhalter gleich; Option "Verwaltungsknopf auf der Gildenseite"; alte Funktionen als Rückfall.
+  7. Testfälle T192-T198 offline alle OK, T199 im Spiel; Recorder kennt GuildDemote/GuildSetLeader und
+     C_GuildInfo.Demote/SetLeader (TestRoutine.lua:182-189).
 Prüfungen: Addon-Prüfung OK ohne Warnung (Ladetest, Sprachtest), GoldSentinelGame.lua und GoldSentinelTest.lua
-byte-gleich mit shared/, CHANGELOG EN/DE, .toc 0.9.14. Offline-Routine Forever (16001) und Era (11508) je 16 bestanden /
-0 Fehler (Routine: OK 159 bzw. 164 · FEHLER 0), test/run.lua 73/73, run_uicheck 13/13, run_v914 7/7, run_lang 7/7,
-run_noguild 19/19, run_nilglobals 24/24. Im Diff 0.9.13 -> 0.9.14 keine neuen Fehler gefunden.
+byte-gleich mit shared/, CHANGELOG EN/DE, LIESMICH/README, .toc 0.9.17, Repo = ZIP. Offline-Routine Forever (16001)
+und Era (11508) je 16 bestanden / 0 Fehler (Routine: OK 168 bzw. 173 · FEHLER 0), test/run.lua 73/73,
+run_admin 24/24, run_uicheck 13/13, run_lang 7/7, run_noguild 19/19, run_nilglobals 24/24.
+Im Diff 0.9.16 -> 0.9.17 keine Lua-Fehler, kein Taint und keine ungeschützten Aktionen gefunden.
 
-Offen ist nur noch, was im Spiel geprüft werden muss.
+1. MITTEL – Gilden-Berufsliste (0.9.16, T190/T191) liefert im Spiel keine Mitglieder
+   Beleg: alle 13 Diagnose-Protokolle mit 0.9.16 (testberichte/diagnose/GuildSentinel/0.9.16-*, 09.11. 07:30-09:58)
+   zeigen "Gilden-Berufsliste: 10 Zeilen, 0 Einträge, 0 Mitglieder". Professions.lua:443-481.
+   Vermutung (im Client bestätigen): Die 10 Zeilen sind nur die Kopfzeilen der Berufe und zugeklappt (2. Rückgabewert
+   von GetGuildTradeSkillInfo = isCollapsed). Die Zeilen der Mitglieder kommen erst nach dem Aufklappen.
+   Lösung:
+   - Kopfzeilen und zugeklappte Kopfzeilen zählen und in die Diagnose-Zeile schreiben
+     ("10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 Einträge").
+   - Ist eine Kopfzeile zugeklappt: über ns.API ExpandGuildTradeSkillHeader(skillID) (nur wenn vorhanden, nicht im
+     Kampf, nicht während Blizzards Gildenfenster offen ist), danach lesen und den alten Zustand wiederherstellen
+     (CollapseGuildTradeSkillHeader). Gibt es das nicht: Anzahl je Beruf (numPlayers, 7. Rückgabewert) anzeigen.
+   - Die Diagnose-Zeile nicht nur beim ersten Lesen schreiben (Professions.lua:478 guildListTold), sondern auch
+     beim ersten Lesen mit Einträgen – das erste Lesen kann vor den Daten kommen.
+   - Testfall: zugeklappte Kopfzeilen -> wird aufgeklappt, Einträge gefunden, Zustand wiederhergestellt.
 
-1. IM CLIENT PRÜFEN (/gs testroutine im echten Client, Ergebnis dem Nutzer melden)
-   - T154: kommt jetzt "Rokan Steinwacht ×3"? Falls nicht, zeigt das Ergebnis die Ausgabe – Ursache des verstümmelten
-     Doppelnamens ("ilokan Steinwacht") dann im echten Client suchen. Der Fall ist offline nicht nachzubauen.
-   - T143: langsamste Seite mit echten Gildendaten < 16 ms?
-   - T45: "[Test], 0" statt "[Test] false".
-   - Bereich K (T182-T187) im echten Client: Tooltips, Überlappen, Bildschirm, Texte, Spielwerte, Fehlerschleifen.
-   - Berufe-Knopf in Forever: kein "Aktion blockiert" mehr; geht das Fenster nicht auf, kommt der Hinweis.
-   - Aus 0.9.13: issecretvalue nach dem Kampf, voller Absender bei CHAT_MSG_ADDON, Build-Nummer (T168, /gs testroutine
-     whisperq); Bank-Charakter -> Bestand in #gildenbank (Uploader ab 1.7.0); Sprachwahl folgt ohne Einstellung dem
-     Client, eine andere Wahl gilt nach /reload.
+2. NIEDRIG – Gilden-Aktionen und Ränge nicht über ns.API
+   Admin.lua:206-209 (Fn: C_GuildInfo.Invite/Promote/Demote/Uninvite/SetLeader bzw. GuildInvite …),
+   Admin.lua:167 GuildControlGetNumRanks, Admin.lua:175 GuildControlGetRankName greifen direkt zu. Kein Taint (nur
+   lesen), aber die Anweisung (Punkt 3d) verlangt ns.API, und die Testroutine kann den Rückfall alt/modern nicht
+   nachstellen.
+   Lösung: Einträge in API.lua (modern und alt je Aktion, GuildControlGetNumRanks, GuildControlGetRankName), Admin.lua
+   nutzt nur diese. Testfall wie T97b: C_GuildInfo.SetLeader fehlt -> GuildSetLeader wird mitgeschrieben.
 
-2. HINWEIS FÜR KÜNFTIGE VERSIONEN
+3. NIEDRIG – GuildFrame doppelt gehookt
+   Admin.lua:533 hat GuildFrame schon in HOSTS (Hook in 580-586), Admin.lua:589-593 hängt OnShow/OnHide nochmals an.
+   Folge nur: UpdateButton zweimal je Öffnen. Lösung: Block 589-593 entfernen.
+
+4. NIEDRIG – Knopf rechts am Gildenfenster und Blizzards Detailfenster
+   Admin.lua:553 setzt den Knopf an TOPRIGHT (+2, -28) des Gildenfensters. Genau dort öffnet Blizzard das Fenster mit
+   den Mitglieder-Einzelheiten (alter Client: GuildMemberDetailFrame; Communities: CommunitiesFrame.GuildMemberDetailFrame)
+   und das Rang-Fenster (GuildControlPopupFrame). Bereich K kennt diese nicht (TestRoutine.lua U.OTHER_WINDOWS).
+   Lösung: diese Fenster in U.OTHER_WINDOWS aufnehmen; überdeckt der Knopf sie, den Knopf ausweichen lassen
+   (z. B. unten rechts am Gildenfenster oder ausblenden, solange das Detailfenster offen ist).
+
+IM CLIENT PRÜFEN (/gs testroutine im echten Client mit 0.9.17, Ergebnis dem Nutzer melden)
+   - T199: J drücken -> Knopf "Verwaltung (GuildSentinel)" rechts neben dem Gildenfenster (Forever: Communities;
+     Era/TBC: Reiter Gilde im Freundesfenster); ohne Rechte grau mit Hinweis; /gs verwaltung öffnet das Fenster.
+     Passwort festlegen, falsch/richtig entsperren; Mitglied anklicken -> Detailfenster und Knopf überdecken sich nicht.
+   - Echte Aktion einmal mit einem Test-Twink: Einladen, Befördern, Degradieren, Entfernen – kein "Aktion blockiert".
+   - Punkt 1: /dump GetGuildTradeSkillInfo(1) und /dump GetGuildTradeSkillInfo(2) – ist der 2. Wert true (zugeklappt)?
+   - T82 "nichts gesendet": im letzten Lauf im Spiel (noch 0.9.13, 09.11. 05:47 UTC) echt 1
+     (C_ChatInfo.SendAddonMessage). Mit 0.9.17 erneut /gs testroutine; kommt T82 wieder: Stelle über ns.Act bzw. den
+     Recorder finden und im Test nur mitschreiben.
+   - Aus 0.9.13/0.9.14: T154 "Rokan Steinwacht ×3", T143 langsamste Seite mit echten Daten < 16 ms (letzter Lauf
+     206,5 ms mit 0.9.13), T118, T45 "[Test], 0", Bereich K (T182-T187), Berufe-Knopf in Forever ohne "Aktion
+     blockiert", issecretvalue nach dem Kampf, T168 (/gs testroutine whisperq), Bank-Charakter -> #gildenbank,
+     Sprachwahl folgt ohne Einstellung dem Client.
+   - ADDON_ACTION_BLOCKED UNKNOWN() (4× mit 0.9.13, zuletzt 08.11. 09:01 UTC): in 13 Sitzungen mit 0.9.16 meldet das
+     Diagnose-Protokoll 0 Fehler. Weiter beobachten; kommt es wieder, Aufrufort aus dem Diagnose-Protokoll
+     (debugstack) nehmen.
+
+HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Die Sprache muss ohne Einstellung immer dem Client folgen (hinweis-sprachtest.txt).
-   - Die Version muss höher sein als 0.9.14 (download/, announce/, CurseForge).
+   - Die Version muss höher sein als 0.9.17 (download/, announce/, CurseForge).
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
-
-BEFUNDE AUS TESTBERICHTEN UND DIAGNOSE-PROTOKOLLEN (9. Nov. 06:10, Prüf-Sitzung, Quelle testberichte/)
-   a) MITTEL – 4× ADDON_ACTION_BLOCKED UNKNOWN() mit 0.9.13 (zuletzt 08.11. 09:01 UTC). Aufrufort ermitteln
-      (Diagnose-Protokoll aus der Vorlage übernehmen: Diag.lua mit debugstack bei ADDON_ACTION_BLOCKED) und den
-      geschützten Aufruf ausserhalb des Kampfs bzw. über einen sicheren Knopf ausführen.
-
-BEFUND AUS DEM TESTBERICHT (9. Nov. 08:30, Prüf-Sitzung, Testlauf im Spiel 9. Nov. 05:47 UTC, noch mit 0.9.13)
-   b) MITTEL – T82 "nichts gesendet": ergebnis "echt 1 (C_ChatInfo.SendAddonMessage 1), Warteschlange +0",
-      erwartet "echt 0". Während /gs testroutine ist im echten Spiel eine Addon-Nachricht hinausgegangen.
-      Mit 0.9.16 im Spiel erneut /gs testroutine; kommt T82 wieder: die Stelle über ns.Act/den Recorder finden
-      (realBy nennt nur die Funktion) und im Test nur mitschreiben. Gleicher Lauf: T45, T143 (206,5 ms), T154 wie oben.
-      Hinweis: der Lauf war mit 0.9.13 – im Spiel ist offenbar noch nicht 0.9.16 installiert.
