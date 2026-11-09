@@ -12,6 +12,25 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.39
+
+- **Categories with three levels** like in the Blizzard AH (e.g. Weapons -> One-Handed -> Axes) in Buy; the third
+  level appears under the chosen second one.
+- **Mail rules:** the category is now chosen from a menu (expand a main category, then pick) instead of clicking
+  through more than 50 entries.
+- **Selling:** a price more than 100x the market value asks for a second click ("typo? a number without unit = gold").
+- **Do today -> below vendor price:** from a scan or search only the cheapest price is known, so the profit is shown
+  for 1 piece (the exact quantity comes with the item's listings). No more inflated profits.
+- **Sharing disenchant results:** all parts of one sending count as one message (large statistics are no longer cut
+  off); a second sending from the same player within a minute is ignored.
+- **Playtest:** S7 counts only spells that are a recipe of the open profession; all playtest texts are translated.
+- Test routine: no longer replaces any Blizzard function or frame during the tests (TakeInboxMoney, MailFrame,
+  IsInGuild, ProfessionsFrame) – new check T242. Command help lists part k and /ahs playtest.
+- Options tooltip: "short" now names the line "Disenchant value".
+- For other addons: `AHAnalyzerPro:AuctionFee(total)` (also `.AHFee`) = AH fee of one auction in WoW Forever.
+- Note: since 0.65.30 prices are kept per realm and faction; going back to 0.65.29 or older shows no prices until
+  the next scan.
+
 ### Version 0.65.38
 
 **Values you can trust – the remaining points:**
@@ -68,18 +87,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   posting, so no second fee and no refund are deducted. The invoice values go to the diagnostic log (RECHNUNG).
   Cancelling an auction now books the measured refund. Era/TBC unchanged.
 - Playtest: new check S10 – AHSentinel's AH fee equals Blizzard's "Deposit" for the same quantity.
-
-### Version 0.65.34
-
-- **Bulk buying for disenchanting** (Buy tab → Buy): the button "Worth disenchanting" below the categories shows from
-  your search only items (armor/weapons) whose disenchant value exceeds the price by the minimum return, with at
-  least 10c profit per item – sorted by profit, with columns disenchant value, profit and return %.
-  - Every mouse wheel notch over the list, or "Buy next", buys the next item from the top (the first notch loads its
-    offers). Before each purchase: offer still there and not more expensive – otherwise skipped.
-  - Limits: "at most X gold" (default 5g) and "return from X %" (default 20 %). Stops at the limit, with full bags
-    or in combat. Below 10 real disenchants of the group the value counts 10 % less.
-  - Status line: "Bought N · paid · expected +profit". Only on your click/notch, never automatic; logged as KAUF
-    (no names). No skill filter – in WoW Forever everything can be disenchanted from Enchanting 1.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
