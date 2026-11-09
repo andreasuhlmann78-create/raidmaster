@@ -12,6 +12,19 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.31
+
+- **One price for everything:** AHSentinel now values every item with ONE function – tooltip, profit window
+  (product and materials), bargains, flips, "Do today", disenchant (block and value), inventory value and the vendor
+  comparison all show the same value for the same item. Order of sources: your own sales of the last 14 days, then
+  just below the cheapest current offer (at most the median), then the 14-day median. Offers below 10 % or above 300 %
+  of the median don't count. For bargains and flips the cheap offer itself is not used as resale value.
+- **Real value in the tooltip:** new line "Real value (after fees)" with its source (own sales / AH now / market /
+  vendor) and "price old" after 6 hours; hold Shift to see each part (own sales, cheapest offer, median, fee).
+- **Vendor price as floor:** if a vendor pays more than the auction house after fees, the vendor price counts.
+- Other addons (ProfessionSentinel) can use the same values: `AHAnalyzerPro:RealPrice(itemID)` and
+  `AHAnalyzerPro:RealValue(itemID, qty)`; the old `GetSalePrice` now returns the same value.
+
 ### Version 0.65.30
 
 - **Prices per realm and faction:** AHSentinel now keeps a separate price list for every realm and auction house –
@@ -59,20 +72,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   (weapons 15/75/10), item level 51–65 weapons 22/75/3; the other levels stay 75/20/5.
 - Materials that cannot come from a group (e.g. a shard from item level 15) are no longer counted – neither your own
   (wrongly detected) results nor shared ones.
-
-### Version 0.65.26
-
-- **Disenchant in the tooltip, shorter:**
-  - One line "Disenchant: expected gain ~X" (value after fees) with a small comparison ("better than selling" /
-    "selling pays more") and the source: "(Ø 12)" = from 12 real disenchants (from 10 on), "(T)" = table.
-  - Below it a block "Disenchant – materials (AHSentinel)": icon, name, drop chance and value per piece (AH price from
-    the last scan, otherwise market value).
-  - Hold Shift to see the whole calculation (actual and estimated, per material, after fees).
-  - Option "Disenchant details in tooltip": short / with materials (default) / everything.
-- **Disenchant results shared with all AHSentinel users:** every disenchant on every character is counted
-  automatically (your alts count as your own) and shared over the public sync channel ("guild only" stays an option).
-  Protection: at most 6 messages per sender and minute, materials must match the group, 1–5 pieces per disenchant,
-  no jumps, duplicate messages count once. Senders are stored only as a short code, never by name.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
