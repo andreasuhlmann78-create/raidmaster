@@ -65,3 +65,9 @@ Offene Punkte:
    - Die Version muss höher sein als 3.0.18 (download/, RaidMaster-latest.zip, CurseForge).
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
+
+BEFUNDE AUS TESTBERICHTEN UND DIAGNOSE-PROTOKOLLEN (9. Nov. 06:10, Prüf-Sitzung, Quelle testberichte/)
+   a) MITTEL – 2× ADDON_ACTION_FORBIDDEN SetRaidTarget() mit 3.0.17 (zuletzt 08.11. 19:36 UTC). SetRaidTarget ist in
+      Forever geschützt (nur aus einer Hardware-Aktion, nicht aus Ereignissen/Timern). Lösung: Markieren nur über einen
+      Knopf (Klick des Spielers) bzw. sicheren Makro-Knopf; automatische Markierung als Vorschlag anzeigen.
+   b) Uploader: GSDIAG1 und GSWEGE1 kommen schon an (2 Protokolle, 51 Wegdaten am 9. Nov.) – danke.

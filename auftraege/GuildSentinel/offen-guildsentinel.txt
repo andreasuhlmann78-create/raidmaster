@@ -41,3 +41,8 @@ Offen ist nur noch, was im Spiel geprüft werden muss.
    - Die Version muss höher sein als 0.9.14 (download/, announce/, CurseForge).
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
+
+BEFUNDE AUS TESTBERICHTEN UND DIAGNOSE-PROTOKOLLEN (9. Nov. 06:10, Prüf-Sitzung, Quelle testberichte/)
+   a) MITTEL – 4× ADDON_ACTION_BLOCKED UNKNOWN() mit 0.9.13 (zuletzt 08.11. 09:01 UTC). Aufrufort ermitteln
+      (Diagnose-Protokoll aus der Vorlage übernehmen: Diag.lua mit debugstack bei ADDON_ACTION_BLOCKED) und den
+      geschützten Aufruf ausserhalb des Kampfs bzw. über einen sicheren Knopf ausführen.

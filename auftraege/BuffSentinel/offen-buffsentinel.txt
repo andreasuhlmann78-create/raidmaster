@@ -52,3 +52,10 @@ ERGEBNIS IM SPIEL (5. Nov. 01:19, Forever 1.60.1 Build 70790, Interface 16001, d
    anmelden (nur registrieren, was es gibt – C_EventUtils.IsEventValid, falls vorhanden), Fall T29 anpassen.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
+
+BEFUNDE AUS TESTBERICHTEN UND DIAGNOSE-PROTOKOLLEN (9. Nov. 06:10, Prüf-Sitzung, Quelle testberichte/)
+   a) HOCH – 4× "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'"
+      (UNIT_AURA, PLAYER_REGEN_ENABLED, 0.9.7). In Forever sind Auren im Kampf geschützt. Lösung: Auren nicht im Kampf
+      und nicht aus tainted Code lesen; C_UnitAuras.GetAuraDataByIndex nur ausserhalb des Kampfs, Werte mit
+      issecretvalue/G.IsSecret prüfen, sonst überspringen; nach PLAYER_REGEN_ENABLED einen Frame warten. Testfall mit
+      Köderwert.

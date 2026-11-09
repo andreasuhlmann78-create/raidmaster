@@ -224,3 +224,12 @@ NACHTRAG (9. Nov. 06:25, Prüf-Sitzung, aus der Nachprüfung LevelPilot 3.12.16)
    UI_Main.lua:3336), solange LevelPilot mit autoSellGrey geladen ist. Ausblenden statt "0 Items", wenn nichts zu
    verkaufen ist. Die Oberflächen-Prüfung (Punkt Testroutine Oberfläche) soll den Fall "eigener Knopf über
    MerchantFrameTab" als FEHLER erkennen. Ist der Knopf so gewollt, bitte mit dem Nutzer klären und begründet melden.
+
+BEFUNDE AUS TESTBERICHTEN UND DIAGNOSE-PROTOKOLLEN (9. Nov. 06:10, Prüf-Sitzung, Quelle testberichte/)
+   Diagnose-Protokoll 0.65.16 (testberichte/diagnose/AHSentinel/0.65.16-94df3167eee4.txt):
+   a) MITTEL – Ereignis-Sturm: AUFBAU "Beste Rezepte" ×192, ×158, ×103 durch TRADE_SKILL_LIST_UPDATE, bis 81 ms;
+      LANGSAM Hintergrund-Aufgabe scan 28 ms, ui-refresh 22 ms. Lösung: Ereignisse sammeln, höchstens 1 Neuaufbau je
+      0,5 s und nur bei sichtbarem Gewinn-Fenster; Ergebnis zwischenspeichern; Aufgaben unter 16 ms je Frame.
+   b) MITTEL – Fehler im Spiel: 3× ADDON_ACTION_BLOCKED UNKNOWN() mit 0.65.16 (zuletzt 08.11. 17:09 UTC). Welche
+      geschützte Funktion? Im Protokoll den Aufrufort (debugstack) mitschreiben und den Aufruf aus dem Kampf bzw. aus
+      tainted Code herausnehmen.

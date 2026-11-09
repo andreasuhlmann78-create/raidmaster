@@ -123,3 +123,16 @@ STAND 9. NOV. 05:55 (Prüf-Sitzung, Grundlage download/ProfessionSentinel-0.9.23
    Im Spiel zu bestätigen: Klick springt sofort (sonst /ps protokoll, Eintrag KLICK, schicken).
    JETZT: Tooltip "davon Einstellgebühr" (falls noch nicht), anweisung-testroutine-oberflaeche.txt (UICheck.lua aus
    der Vorlage, ns.Plausible: Fertigkeit > 0), dann die übrigen Punkte (T139/T140/T143 Leistung, T145, T132).
+
+BEFUNDE AUS TESTBERICHTEN UND DIAGNOSE-PROTOKOLLEN (9. Nov. 06:10, Prüf-Sitzung, Quelle testberichte/)
+   Diagnose-Protokoll 0.9.22 (testberichte/diagnose/ProfessionSentinel/0.9.22-54cb02b5b942.txt):
+   a) HOCH – Ereignis-Sturm: AUFBAU ×7450 durch TRADE_SKILL_LIST_UPDATE (12894 Anfragen, bis 78 ms), LANGSAM ×7346
+      UI:Refresh 101 ms, ×6420 AD.Update 39 ms. Das ist die eigentliche Ursache der Ruckler/Langsamkeit am Berufsfenster.
+      Lösung: TRADE_SKILL_LIST_UPDATE nur sammeln (höchstens 1 Neuaufbau je 0,5 s, nur wenn das Panel sichtbar ist),
+      AD.Update nur bei geänderter Fertigkeit/Taschen/Preisen, UI:Refresh nur sichtbare Zeilen; teure Teile über
+      Frames verteilen. Ziel im Protokoll: AUFBAU höchstens ein paar pro Minute, kein LANGSAM über 16 ms.
+   b) HOCH – ÜBERLAPPT ×691 "Panel überdeckt AHAnalyzerProCraftPanel": das Andocken greift im Spiel nicht immer
+      (0.9.22). Mit 0.9.23 im Spiel prüfen; tritt es weiter auf: bei jedem OnShow/OnSizeChanged des AHSentinel-Frames
+      und nach jedem eigenen Refresh neu andocken.
+   c) KLICK in 0.9.22 nur über OpenRecipe, oft "ausgewählt: nein" – in 0.9.23 über RecipeList:SelectRecipe behoben,
+      im Spiel bestätigen (Protokoll zeigt Weg "Liste").

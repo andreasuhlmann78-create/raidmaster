@@ -79,3 +79,19 @@ Thunder Bluff, sobald genug aufgezeichnet ist; Punkt 12 erst nach der Rechtsprü
 Nutzers).
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
+
+BEFUNDE AUS TESTBERICHTEN UND DIAGNOSE-PROTOKOLLEN (9. Nov. 06:10, Prüf-Sitzung, Quelle testberichte/)
+   Auswertung der Wegdaten (testberichte/wege/auswertung.md, 51 Exporte, 12 Zonen):
+   a) MITTEL – Netz zerfällt in viele Teile (Durotar 20, Mulgore 29, Brachland 32, Tirisfal 38, Orgrimmar 54,
+      Thunder Bluff 56, Undercity 69): Endpunkte neuer Wegstücke werden nicht mit bestehenden Knoten verbunden.
+      Lösung: beim Speichern Anfang/Ende eines Wegstücks an den nächsten Knoten innerhalb ca. 10 Yards anhängen
+      (gleiche Knoten-ID), Wegstücke an Kreuzungen teilen.
+   b) MITTEL – Sprünge von 4–7 % der Zonenkarte innerhalb eines Wegstücks (z. B. Durotar 52.1,51.2 -> 53.4,58.2):
+      Punkte zu selten gespeichert. Lösung: Punkt mindestens alle ca. 25 Yards und bei jeder Richtungsänderung > 30°.
+   c) NIEDRIG – Wegstücke auf der Kontinentkarte Kalimdor (1414, 87 Stück): beim Fliegen/Taxi nicht aufzeichnen
+      (UnitOnTaxi) bzw. nur auf Zonenkarten.
+   d) NIEDRIG – Format npc[]: "old" ist [Karte, x, y], "new" [x, y]. Bitte einheitlich [x, y] (die Karte steht in "map";
+      bei Kartenwechsel zusätzlich "oldMap"). Die Prüfung liest beides.
+   e) Datenpaket deutlich falsch (aus den Korrekturen): NPC 10666 Tirisfal 43.1,54.7 -> 52.8,54.2; NPC 10881 Thunder
+      Bluff 44.3,58.8 -> 56.6,48.1; NPC 15350 im Datenpaket auf Karte 1413, steht in Thunder Bluff 58.0,76.7. Diese
+      Korrekturen fest ins Datenpaket übernehmen; 17 NPCs "nicht da" prüfen.
