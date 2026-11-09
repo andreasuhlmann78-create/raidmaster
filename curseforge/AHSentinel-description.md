@@ -12,6 +12,13 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.51
+
+- **Profit window and ProfessionSentinel:** while the ProfessionSentinel panel is open, the AHSentinel profit window
+  hides (ProfessionSentinel shows the same numbers via AHSentinel.API) and comes back when the panel closes.
+- **Sniper "Buy now" hint:** shown only once, for at most 2 seconds, above the action bars instead of twice in the
+  middle of the screen over open windows.
+
 ### Version 0.65.50
 
 - **For addon authors – public interface `AHSentinel.API` (version 1):** global `AHSentinel.API`, alias
@@ -54,15 +61,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   used. A formula deposit there is marked "(uncertain)" until measured.
 - **Sniper:** if your max per piece is above the net sale value (last scan minus cut and deposit risk), a yellow hint
   shows the expected loss per piece. Nothing is blocked.
-
-### Version 0.65.46
-
-- **Minimum deposit is measured, not fixed (WoW Forever):** Blizzard announced lowering the minimum deposit per
-  auction from 1s to 1c. AHSentinel no longer hard-codes 1s: the deposit always comes from Blizzard first, the formula
-  is only a fallback, and its minimum is learned when you post an auction whose formula deposit is under 1s
-  (diagnostic log "MINDESTEINZAHLUNG gemessen=…"). Once 1c is measured, the duration preselection "24 h costs the
-  same" drops out on its own.
-- Profit window: the AH fee line no longer adds a 1s minimum (only 5 % on sale – the deposit comes back).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
