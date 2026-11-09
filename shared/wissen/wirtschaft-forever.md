@@ -33,16 +33,23 @@ weitergegeben. Die Addons haben danach falsche Werte angezeigt. Das darf nicht w
 
 | Regel | Status | Beleg |
 |---|---|---|
-| Laufzeiten **2 / 8 / 24 Std.** | belegt | Einstellen-Fenster 9.11. 13:28 |
+| Laufzeiten **2 / 8 / 24 Std.** | belegt | Einstellen-Fenster 9.11. 13:28 (Beta zeigte 12/24/48 – im Live-Spiel gemessen 2/8/24) |
 | **Einzahlung** beim Einstellen = Händlerpreis (Verkaufspreis an Händler) × Menge × **5 % je 2 Std.** → 2 Std. 5 %, 8 Std. 20 %, 24 Std. 60 % | belegt | Leinenstoffballen (Händler 40c, 20 Stk.): 1s / 1s 60c / 4s 80c; Seltsamer Staub (Händler 1c, 20 Stk.): 1s / 1s / 1s; Schwarzmaulöl 18 Stk. 2 Std.: 1s |
-| **Mindest-Einzahlung 1s je Auktion** | belegt | alle obigen Fälle unter 1s -> 1s |
+| **Mindest-Einzahlung 1s je Auktion** (Stand 9.11.) | belegt | alle obigen Fälle unter 1s -> 1s; Wowhead 5.11.: "always incurs a deposit of at least 1 silver" |
+| **Angekündigt: Mindest-Einzahlung wird auf 1c gesenkt** (Rückkehr zur Klassik-Formel) | angekündigt, Datum offen | Kris Zierhut (Blizzard) im Interview, Seramate/Wowhead 6.11.: "we're changing it back to one copper" – "Not yet, but coming". Spieler im Forum: Patch am Dienstag (unbestätigt) |
 | Einzahlung hängt **nicht** vom AH-Preis ab | belegt | Staub 17s 80c vs. Ballen 11s: Staub billiger in der Einzahlung |
 | **Beim Verkauf: 5 % vom Verkaufspreis ab** (Auktionshausgebühr, "consignment") | belegt | 3 Rechnungen: 202 = 5 % von 4042, 837 = 5 % von 16744, 313 = 5 % von 6279 |
 | **Beim Verkauf: Einzahlung kommt zurück** (mit der Post) | belegt | Post-Gold = Gesamt − Gebühr + Einzahlung, 3× exakt |
-| Höhe der zurückerstatteten Einzahlung bei Waren (Teilverkäufe, Minimum 1s) | **vermutet / offen** | 38c, 200c, 296c erstattet – Zusammenhang mit gezahlter Einzahlung noch nicht belegt |
-| Abgelaufene Auktion: Einzahlung verloren | vermutet (klassisch) | Wiki; in Forever noch messen |
-| Abgebrochene Auktion: Einzahlung verloren | vermutet (klassisch) | Wiki; Spieler meint "anteilig zurück" -> messen (AHSentinel L2) |
+| Höhe der zurückerstatteten Einzahlung bei Waren (Teilverkäufe, Minimum 1s) – vermutlich nur die Formel-Einzahlung ohne Minimum | **vermutet / offen** | 38c, 200c, 296c erstattet – Zusammenhang mit gezahlter Einzahlung noch nicht belegt |
+| Abgelaufene Auktion: Einzahlung verloren | bestätigt durch Quellen | Spielerberichte 6.11. (timesaver.gg), Hearthproof |
+| Abgebrochene Auktion: Einzahlung verloren | bestätigt durch Quellen, im Spiel noch messen | Hearthproof (Forever = Classic), Spielerberichte 6.11. (timesaver.gg); Spieler meint "anteilig zurück" -> messen (AHSentinel L2) |
 | Neutrales AH (Beutebucht, Gadgetzan, Ewige Warte): 15 % Gebühr, höhere Einzahlung | vermutet (klassisch) | Wiki; in Forever nicht gemessen |
+
+**Wichtig wegen der angekündigten Änderung:** Das Minimum NIE fest einbauen. Einzahlung immer zuerst über Blizzard
+(API / "Einzahlen"), Formel nur als Rückfall; das Minimum aus Messungen erkennen (z. B. Einstellung, bei der die
+Formel < 1s ergibt: abgezogen 1s oder weniger?) und im Protokoll melden. Sobald 1c gilt, fällt der Vorteil
+"24 Std. kostet gleich viel" bei billigen Waren weg (dann kostet 24 Std. 12× so viel wie 2 Std., aber auf
+Kupfer-Niveau).
 
 **Folgerungen für die Rechnung**
 - Kosten eines **erfolgreichen** Verkaufs = 5 % vom Verkaufspreis (die Einzahlung kommt zurück).
@@ -187,6 +194,43 @@ Spieler leveln noch). Jede Strategie mit der Frage: Was muss AHSentinel/Professi
   Leveling-Waren.
 - Alles mit Belegen nach Abschnitt 0 – keine Strategie-Regel ohne Messung im Spiel.
 
+## 9. Der Forever-Markt (aus Quellen, mit Datum)
+
+- **Start 4.11.2026**, Client 1.60.1 (Build 70862). Onyxia, Hyjal-Gipfel und Barrow Deeps öffnen am **9.12.2026**
+  (Hearthproof) -> Vorräte für Raid-Verbrauchsgüter vorher anlegen.
+- **Ein Markt je Regelwerk und Region** (Normal / PvP / RP / RP-PvP), realmlos; jede Fraktion hat ihr AH, dazu
+  neutrale AHs (Gadgetzan, Beutebucht, Ewige Warte) mit höherem Anteil (Blizzard-Q&A, AH Ledger).
+- **Waren (stapelbar) werden je Stück gehandelt**: Käufer gibt eine Menge ein und bekommt die billigsten Stücke zuerst,
+  auch von mehreren Verkäufern (wie Retail). Ausrüstung: ein Stück je Angebot.
+- **Suchgrenze: 100 Suchen pro Minute** (Beta) -> Scans und Sniper müssen darunter bleiben.
+- **Kaufen, Bieten, Einstellen, Abbrechen sind für Addons geschützt** (nur mit Klick/Taste) – deckt sich mit dem
+  Sniper-Befund (zwei Rasten).
+- **AH-Störungen** in der ersten Woche ("The item was not found" bei Sofortkäufen, 6./7.11.) – Fehlkäufe können am
+  Server liegen, nicht am Addon.
+- **Preise Startwoche (Medianwerte US/EU, 7.11., timesaver.gg/AH Ledger):** Leinenstoff ~29c, Wollstoff ~1s 30–61c,
+  Seidenstoff ~3s 40–90c, Magiestoff ~10–13s (Startwoche 32s, −64 %), Kupfererz ~71–86c, Eisenerz ~6–9s (−48 %),
+  Thoriumfreie Mittelstufe fällt; Seltsamer Staub ~97c, Geringe Magieessenz ~1s 42–58c, Grosse Magieessenz ~3s 35–78c,
+  Visionenstaub ~14–24s (Startwoche 57s, −67 %).
+- **Beobachtetes Muster (wichtig für Strategie):** Waren für Stufe 1–20 blieben stabil; Waren der Stufen 30–45 fielen
+  in wenigen Tagen um 50–67 %, sobald mehr Spieler dort ankamen (Knappheitsprämie verschwindet). Kupfer und
+  Friedensblume stiegen (+38–55 %). Kleinere Regelwerke (RP, RP-PvP) haben 1,6–1,9× höhere Preise (weniger Verkäufer).
+
+## 10. Gelernte Strategien für Forever (aus den Abschnitten 8 und 9)
+
+1. **Knappheit früh verkaufen, nicht lagern:** Waren einer Stufe, die gerade erst erreicht wird, sind am Anfang teuer
+   und fallen rasch. Eigene Funde der nächsten Stufe sofort verkaufen; für Eigenbedarf später kaufen.
+2. **Billige Grundwaren (Kupfer, Leinen, Kräuter Stufe 1–20) sind stabil und dauernd gefragt** (Berufe-Leveling,
+   immer neue Charaktere) -> sicheres Volumen, kleine Marge, Stapel, 24 Std.
+3. **Entzauber-Handel jetzt besonders gut:** viele Leveler verkaufen grüne Teile; Staub/Essenzen halten den Preis
+   (Staub −3 %), während die Ausrüstung billig ist.
+4. **Vor dem 9.12. (Onyxia/Hyjal/Barrow Deeps):** Raid-Verbrauchsgüter und ihre Kräuter rechtzeitig günstig kaufen
+   bzw. herstellen, zum Start verkaufen.
+5. **Nach dem 1c-Minimum-Patch:** Einzelstücke und kleine Mengen werden billiger einzustellen; Stapel-Vorteil und
+   "24 Std. gratis" fallen weg -> Laufzeit wieder nach Verkaufsdauer wählen.
+6. **Konkurrenz und Server-Störungen einrechnen:** Sniper-Treffer verschwinden oft; nie mehr als das Budget, Käufe
+   erst nach Server-Bestätigung zählen.
+7. **Messen statt glauben:** jede Strategie in der Buchhaltung je Geschäftsart mit Rendite prüfen.
+
 ## Quellen
 
 - Messungen im Spiel (Screenshots und Diagnose-Protokolle 9.11.2026, testberichte/diagnose/AHSentinel)
@@ -197,4 +241,9 @@ Spieler leveln noch). Jede Strategie mit der Frage: Was muss AHSentinel/Professi
 - Blizzard-Support, Auktionshausgebühr: https://eu.battle.net/support/en/article/180541
 - Icy Veins, WoW Classic Goldmaking Guide: https://www.icy-veins.com/wow-classic/goldmaking-guide-the-best-ways-to-make-gold
 - Warcraft Tavern, Gold and Trading Guide: https://www.warcrafttavern.com/wow-classic/guides/gold-and-trading-guide/
+- Seramate (nach Wowhead), Minimum Deposit 1 Copper, 6.11.2026: https://seramate.com/news/forever/2026/11/06/forever-ah-minimum-deposit-copper-11353d96
+- Blizzard-Forum, "AH deposit fix when?": https://us.forums.blizzard.com/en/wow/t/ah-deposit-fix-when/2405657
+- timesaver.gg, WoW Forever AH Prices Week 1 (7.11.2026): https://timesaver.gg/blog/wow-forever-auction-house-prices-week-1
+- Hearthproof, WoW Forever Auction House: https://hearthproof.com/economy/auction-house/
+- AH Ledger, WoW Forever: https://ahledger.com/wow-forever
 - TradeSkillMaster, Auctioning Operations: https://support.tradeskillmaster.com/tsm-addon-documentation/1072146-tsm-addon-auctioning-operations

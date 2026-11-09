@@ -213,3 +213,11 @@ NEU (9. Nov. 15:40, HOCH) – KORREKTUR: Forever-Rechnung "Preis" ist die MENGE
    Menge und Stückpreis sind seit 0.65.42 vertauscht (47 × 86c, 184 × 91c, 69 × 91c belegt). Einnahmen stimmen,
    Ø-Verkaufspreis/Verkaufsdauer/Chance nicht (Materialblock: Staub 72c, Magieessenz 19c). K1 lesen richtig,
    K2 Reparatur fixL3, K3 Rechenwert = günstigstes Angebot aus dem LETZTEN SCAN (Entscheid 15:39), eigener Ø nur Statistik, K4 Quelle im Materialblock.
+
+NEU (9. Nov. 16:05, Hinweis) – Mindest-Einzahlung wird auf 1c gesenkt (angekündigt, Datum offen)
+   Blizzard (Kris Zierhut, Interview, Wowhead/Seramate 6.11.): Minimum geht von 1s zurück auf 1c ("not yet, but coming";
+   Spieler erwarten den Dienstags-Patch). Darum: FOREVER_MIN_FEE bzw. das 1s-Minimum NIE fest einbauen. Einzahlung immer
+   zuerst über Blizzard (CalculateCommodityDeposit/CalculateItemDeposit, "Einzahlen"), Formel nur Rückfall; Minimum aus
+   den EINSTELLEN-Messungen erkennen (Formel < 1s -> abgezogen 1s oder weniger?) und im Protokoll "MINDESTEINZAHLUNG
+   gemessen=<Wert>" melden. Laufzeit-Vorbelegung "24 Std. kostet gleich viel" muss danach automatisch wegfallen.
+   Details: shared/wissen/wirtschaft-forever.md Abschnitt 1 und 9.
