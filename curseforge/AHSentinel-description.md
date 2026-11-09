@@ -12,6 +12,18 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.30
+
+- **Prices per realm and faction:** AHSentinel now keeps a separate price list for every realm and auction house –
+  Horde, Alliance and the neutral auction houses (Booty Bay, Gadgetzan, Everlook). Your own scans and synced prices only
+  go into the list of the auction house you are at; tooltips and calculations use your faction's list (at a neutral
+  auction house the neutral one).
+- **Sync only from the same auction house:** price messages now carry a short code of realm and faction; prices from
+  another faction or realm, and old messages without the code, are dropped. (Please update – older versions no longer
+  exchange prices with 0.65.30.)
+- Your existing prices are kept for the current character's realm and faction. If you have characters on several
+  realms or factions, a note tells you that the old prices may be mixed – the next scan replaces them.
+
 ### Version 0.65.29
 
 - **Disenchant value instead of "profit":** the tooltip line is now called "Disenchant value ~X (T)" – it depends only
@@ -61,12 +73,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   automatically (your alts count as your own) and shared over the public sync channel ("guild only" stays an option).
   Protection: at most 6 messages per sender and minute, materials must match the group, 1–5 pieces per disenchant,
   no jumps, duplicate messages count once. Senders are stored only as a short code, never by name.
-
-### Version 0.65.25
-
-- **Collecting mail:** "Mail collected" now shows the gold you really took (e.g. 1g 56s 26c) instead of 0. The game
-  often credits the gold only after the mailbox update; the addon now counts the amount of each mail it collects.
-- "1 new invoices" → "1 new invoice".
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
