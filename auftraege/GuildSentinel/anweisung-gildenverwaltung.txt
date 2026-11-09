@@ -1,0 +1,35 @@
+ANWEISUNG: EIGENES FENSTER "GILDENVERWALTUNG" – GuildSentinel
+===========================================================
+Stand: 9. November 2026, 10:25 · von der Prüf-Sitzung · Wunsch und Entscheid des Nutzers – JETZT umsetzen
+
+1. ZUGANG (Entscheid a): Blizzards Gildenseite (Taste J, Communities/Gildenfenster) bekommt einen Knopf
+   "Verwaltung (GuildSentinel)". J bleibt unverändert. Zusätzlich /gs verwaltung. Knopf ohne Taint anhängen
+   (eigener Frame, an das Blizzard-Fenster geankert; nichts überschreiben; Fenster wird bei Bedarf erst geladen).
+2. BERECHTIGUNG: nur Gildenleitung und Offiziere.
+   - Grundlage ist der Gildenrang im Spiel: Gildenmeister (IsGuildLeader) und Ränge mit Rechten zum Einladen /
+     Befördern / Entfernen (C_GuildInfo.CanEditOfficerNote, CanGuildInvite, CanGuildPromote, CanGuildDemote,
+     CanGuildRemove bzw. GuildControlGetRankFlags – über ns.API). Jeder Knopf nur aktiv, wenn das Spiel dieses Recht gibt.
+   - Zusätzlich kann der Gildenmeister im Fenster eine eigene Zugriffsliste pflegen (Charaktere, die das Fenster
+     sehen dürfen). Diese Liste nur lokal in den SavedVariables, NIE ins Repo, nie in Testberichte oder Protokolle.
+     KEINE Spielernamen in Code, Tests oder Dateien des Repos (öffentlich).
+   - Alle anderen: Knopf und Fenster gesperrt (Hinweis "nur für Gildenleitung und Offiziere").
+3. FUNKTIONEN (jede nur auf Klick, mit Bestätigung):
+   a) Einladen: Name eingeben oder aktuelles Ziel übernehmen -> C_GuildInfo.Invite bzw. GuildInvite.
+   b) Befördern / Degradieren: Mitglied aus Liste (Suche, Rang, online) -> GuildPromote / GuildDemote; Rang vorher/
+      nachher anzeigen; nicht über den eigenen Rang.
+   c) Rauswerfen: Rückfrage "Wirklich <Name> entfernen?" -> GuildUninvite.
+   d) Gildenleitung übergeben: nur für den Gildenmeister; gesperrt, bis das Passwort richtig eingegeben ist;
+      danach zweite Rückfrage mit dem Namen -> GuildSetLeader (bzw. moderne Entsprechung über ns.API).
+4. PASSWORT (Schutz gegen versehentliche Klicks, kein echter Sicherheitsschutz – der echte Schutz sind die Rechte im
+   Spiel): Der Gildenmeister legt es im Spiel fest (zweimal eingeben). Gespeichert wird nur eine Prüfsumme mit Salz
+   (kein Klartext), nur lokal. Eingabefeld maskiert; nach 3 Fehlversuchen 5 Minuten Sperre. Passwort ändern nur mit
+   dem alten Passwort. Nie im Chat, Protokoll oder Testbericht ausgeben.
+5. Geschützte Funktionen nur direkt aus dem Klick (Hardware-Ereignis), nicht im Kampf, nie aus Timern. Im Test nur
+   mitschreiben (ns.Act), nichts echt ausführen. Diagnose-Protokoll: VERWALTUNG Aktion, Erfolg ja/nein (ohne Namen).
+6. Fenster: ns.RegisterUI, überdeckt nichts (Bereich K), Locales EN/DE, Option "Verwaltungsknopf auf der Gildenseite".
+   Era/TBC: alte Gildenfunktionen (GuildInvite, GuildPromote, GuildDemote, GuildUninvite, GuildSetLeader) – alte
+   Clients nie brechen.
+7. Testfälle: Knopf nur mit Rechten aktiv; ohne Rechte gesperrt; Einladen/Befördern/Degradieren/Rauswerfen werden
+   (im Test) mit dem richtigen Namen mitgeschrieben; Leitung übergeben ohne/mit falschem/richtigem Passwort; 3
+   Fehlversuche -> Sperre; Passwort nur als Prüfsumme gespeichert; keine Namen im Export.
+CHANGELOG EN/DE, nächste Version, addon_check ohne FEHLER.
