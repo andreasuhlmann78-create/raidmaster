@@ -12,6 +12,16 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.43
+
+- **Sell tab – duration preselected (WoW Forever):** 24 h when it costs no more than 2 h (minimum deposit, e.g. dust,
+  cloth, herbs); otherwise by how fast the item usually sells for you (under 2 h -> 2 h, under 8 h -> 8 h); without data
+  24 h if it costs hardly more, else 8 h. The reason is shown below the buttons; you can still change it.
+- **How fast it sells:** measured from your ledger (posted -> sold, expired). Tooltip line "Sells: quickly (~3 h)",
+  "slowly (~2 days)" or "hardly (often expires)"; without your own data the market sales per day as before.
+- Items that hardly sell for you are no longer suggested for flipping or crafting ("Do today"); the Sell tab shows
+  "Often expires – post cheaper or keep it." (no automatic price change).
+
 ### Version 0.65.42
 
 **Auction fees like in classic WoW (measured in WoW Forever) – this replaces the "max(5 %, 1s)" rule:**
@@ -70,23 +80,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - For other addons: `AHAnalyzerPro:AuctionFee(total)` (also `.AHFee`) = AH fee of one auction in WoW Forever.
 - Note: since 0.65.30 prices are kept per realm and faction; going back to 0.65.29 or older shows no prices until
   the next scan.
-
-### Version 0.65.38
-
-**Values you can trust – the remaining points:**
-- **Not selling costs money (WoW Forever):** every posting pays the AH fee, even if nothing sells. The real value
-  now subtracts the expected re-postings: from your own sell rate of the last 30 days (from 3 postings), otherwise
-  from the market (under 1 sale per day: up to one extra posting). Shift in the tooltip shows it
-  ("~2.0x posting (your sell rate)"). Era/TBC unchanged.
-- **Crafting:** materials you already own count at what you would get for them (real value after fees); missing
-  ones at the buy-now price; vendor goods at the vendor price. The product's value uses the same real-value function.
-- **Prediction vs. reality:** when posting, AHSentinel remembers its predicted price; when the sale arrives by mail it
-  compares. Ledger -> Statistics shows "Deviation: values on average N % too high/low", per item group and in total;
-  the diagnostic log gets a WERT entry (no names).
-- **Incomplete scans** (stopped early or timed out) are marked: missing items are never treated as gone and the scan
-  never counts as complete for sales estimates.
-- **Shared prices** count only if they fit your own picture (10–300 % of your median) or a second player reports a
-  similar price; until then they are stored as unconfirmed and do not count.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
