@@ -180,11 +180,11 @@ class Uploader(unittest.TestCase):
         self.assertNotIn("ch.send", body)
 
     def test_b09_find_player(self):
-        r = [{"name": "Tank1", "dkp": 1}, {"name": "Rokan Steinwacht", "dkp": 2}]
-        self.assertEqual(rmd.find_player(r, "Rokan Steinwacht")[1]["name"], "Rokan Steinwacht")
-        self.assertEqual(rmd.find_player(r, "Rokan")[1]["name"], "Rokan Steinwacht")
-        self.assertIsNone(rmd.find_player(r + [{"name": "Rokan Eisen", "dkp": 3}], "Rokan"))
-        self.assertEqual(rmd.find_player([{"name": "Rokan", "dkp": 1}], "rokan")[1]["name"], "Rokan")
+        r = [{"name": "Tank1", "dkp": 1}, {"name": "Testa Beispiel", "dkp": 2}]
+        self.assertEqual(rmd.find_player(r, "Testa Beispiel")[1]["name"], "Testa Beispiel")
+        self.assertEqual(rmd.find_player(r, "Testa")[1]["name"], "Testa Beispiel")
+        self.assertIsNone(rmd.find_player(r + [{"name": "Testa Eisen", "dkp": 3}], "Testa"))
+        self.assertEqual(rmd.find_player([{"name": "Testa", "dkp": 1}], "testa")[1]["name"], "Testa")
 
 
 if __name__ == "__main__":

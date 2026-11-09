@@ -38,6 +38,7 @@ import raidmaster_data as rmd
 import guildbank
 import uploader_setup
 import invites
+import tb_aufraeumen
 import render as rimg
 import server_setup
 import mc_tactics
@@ -62,7 +63,7 @@ DEFAULT_CONFIG = {
     "guild_id": 0,
     "timezone": "Europe/Zurich",
     "raid_creator_roles": ["Offizier", "Raidleitung"],
-    "guild_leader": "Rokan Steinwacht",   # Gildenchef: darf wie die Offiziere alles im Discord verändern
+    "guild_leader": "",   # Gildenchef (Charaktername, steht in config.json): darf wie die Offiziere alles im Discord verändern
     "reminder_minutes": 60,
     "close_after_hours": 6,
     "savedvariables_path": "",
@@ -198,6 +199,7 @@ class RaidBot(discord.Client):
         icon_map_loop.start()
         monthly_loop.start()
         test_cleanup_loop.start()
+        tb_cleanup_loop.start()
 
     async def on_ready(self):
         log.info("Angemeldet als %s – bereit (Version %s).", self.user, updater.bot_version(BASE))
@@ -409,15 +411,15 @@ bot = RaidBot()
 # ---------------------------------------------------------------------------
 
 
-# Wer im Discord etwas verändern darf: nur der Gildenchef (config "guild_leader", Standard Rokan Steinwacht)
+# Wer im Discord etwas verändern darf: nur der Gildenchef (config "guild_leader", Charaktername aus config.json)
 # und die Rolle Offizier. Der Server-Besitzer bleibt als Notfall-Zugang erlaubt, damit sich niemand aussperrt.
 def is_guild_leader(member) -> bool:
     if not isinstance(member, discord.Member):
         return False
-    leader = (cfg.get("guild_leader") or "Rokan Steinwacht").strip().lower()
+    leader = (cfg.get("guild_leader") or "").strip().lower()
     if not leader:
         return False
-    uid = book.user_for_char(cfg.get("guild_leader") or "Rokan Steinwacht")
+    uid = book.user_for_char(cfg.get("guild_leader"))
     if uid and int(uid) == member.id:
         return True
     for cand in (getattr(member, "nick", None), getattr(member, "global_name", None), member.name):
@@ -5101,6 +5103,40 @@ async def _check_github(manual: bool = False) -> str:
             return "Letztes Update war fehlerhaft – warte auf eine neue Version."
         data = await updater.github_zip(session, repo, sha, token)
     return await _apply_update(data, "GitHub", sha, latest["message"].splitlines()[0] if latest["message"] else "")
+
+
+@tasks.loop(minutes=30)
+async def tb_cleanup_loop():
+    """#testberichte: nur Nachrichten löschen, die die Abholung verarbeitet hat (testberichte/abgeholt.json im Repo)
+    und die älter als 1 Stunde sind (ab Bot 1.5.111). Sonst wird dort nichts gelesen, beantwortet oder gepostet."""
+    repo = cfg.get("update_repo")
+    guild = bot_guild()
+    if not repo or guild is None:
+        return
+    try:
+        import aiohttp
+        async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=20)) as session:
+            async with session.get(tb_aufraeumen.raw_url(repo)) as resp:
+                if resp.status != 200:
+                    return
+                ids = tb_aufraeumen.parse_ids(await resp.text())
+        done = state.data.setdefault("tb_deleted", [])
+        n, note = await tb_aufraeumen.cleanup(guild, ids, done)
+        state.save()
+        if n:
+            log.info("#testberichte: %d abgeholte Nachricht(en) gelöscht", n)
+        if note and not state.data.get("tb_note_shown"):
+            state.data["tb_note_shown"] = True
+            state.save()
+            await post_bot_log("🧹 " + note)
+    except Exception as e:  # noqa: BLE001 – Netz usw., nächster Versuch in 30 Minuten
+        log.warning("#testberichte aufräumen: %s", e)
+
+
+@tb_cleanup_loop.before_loop
+async def before_tb_cleanup():
+    await bot.wait_until_ready()
+    await asyncio.sleep(120)
 
 
 @tasks.loop(minutes=30)

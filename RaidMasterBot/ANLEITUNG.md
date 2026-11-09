@@ -145,11 +145,16 @@ wieder hineinlegen.
 ## Testberichte (#testberichte)
 
 - **Wozu:** Die GoldSentinel-Addons (RaidMaster, ThreatSentinel, BuffSentinel …) schreiben Testberichte und
-  Fehlermeldungen in ihre SavedVariables. Der Uploader findet sie und schickt neue gesammelt nach #testberichte
-  (Anhang testberichte.json.gz). So kommen Fehler aus dem Spiel ohne Umweg zur Addon-Prüfung.
+  Fehlermeldungen in ihre SavedVariables. Der Uploader findet sie und schickt ab Uploader 2.0.0 nur noch Neues,
+  höchstens alle 15 Minuten in EINER Nachricht (Anhang paket-<Zeit>.json.gz). So kommen Fehler aus dem Spiel ohne
+  Umweg zur Addon-Prüfung.
 - **Wer liest:** nicht der Bot, sondern der GitHub-Workflow der Addon-Prüfung (liest die letzten 500 Nachrichten).
-  Der Bot wertet dort nichts aus, antwortet nicht und löscht nichts.
-- **Nicht löschen:** Bitte in #testberichte keine Nachrichten löschen und dort nichts schreiben.
+  Der Bot wertet dort nichts aus und antwortet nicht.
+- **Aufräumen (ab Bot 1.5.111):** Die Abholung schreibt die IDs der verarbeiteten Nachrichten nach
+  testberichte/abgeholt.json im Repo. Der Bot liest die Datei alle 30 Minuten und löscht in #testberichte nur diese
+  Nachrichten, und erst wenn sie älter als 1 Stunde sind – nie in anderen Kanälen. Dafür braucht er in #testberichte das
+  Recht **Nachrichten verwalten** (fehlt es, meldet er das einmal in #bot-befehle).
+- **Nicht von Hand löschen:** Bitte in #testberichte selbst nichts löschen und dort nichts schreiben.
 - **Kanal anlegen:** Fehlt #testberichte, legt der Bot ihn ab 1.5.98 beim Start selbst an (🔒 OFFIZIERE, nur Bot und
   Admins) und meldet das in #bot-befehle – `/raidmaster-einrichten` ist dafür nicht nötig.
 - **Datenschutz:** Die Berichte enthalten nur Klasse, Stufe, Spielversion, Sprache und Testergebnisse – keine Spieler-,
