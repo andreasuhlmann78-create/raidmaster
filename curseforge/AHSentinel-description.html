@@ -7,6 +7,16 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.48</h3>
+<ul>
+<li><strong>Automatic minimum price when selling:</strong> the higher of the vendor price after the AH cut and your own cost per
+  piece (purchases of the last 30 days, otherwise crafting cost) + 5 %. A minimum you set by hand still wins. If the
+  competition is below it, the suggestion is the minimum and a yellow hint says "Market is below your minimum price –
+  post at the minimum or wait" (plus "price falling" when the 24 h trend is below −10 %). You decide – the price field
+  stays free.</li>
+<li><strong>Expired 3× in a row:</strong> the sell tab shows a yellow hint with a cheaper suggestion, the vendor price and the
+  deposits lost so far. Nothing happens automatically.</li>
+</ul>
 <h3>Version 0.65.47</h3>
 <ul>
 <li><strong>Cancel only when it pays:</strong> an undercut auction is only suggested for cancelling when reposting earns more than
@@ -57,17 +67,7 @@
 <li><strong>Profit window:</strong> the "AH fee" line shows only the 5 %; expected re-postings or "vendor pays more" in a grey line.</li>
 <li>Faster: the ledger is indexed per item instead of read completely for every price.</li>
 </ul>
-<h3>Version 0.65.43</h3>
-<ul>
-<li><strong>Sell tab – duration preselected (WoW Forever):</strong> 24 h when it costs no more than 2 h (minimum deposit, e.g. dust,
-  cloth, herbs); otherwise by how fast the item usually sells for you (under 2 h -&gt; 2 h, under 8 h -&gt; 8 h); without data
-  24 h if it costs hardly more, else 8 h. The reason is shown below the buttons; you can still change it.</li>
-<li><strong>How fast it sells:</strong> measured from your ledger (posted -&gt; sold, expired). Tooltip line "Sells: quickly (~3 h)",
-  "slowly (~2 days)" or "hardly (often expires)"; without your own data the market sales per day as before.</li>
-<li>Items that hardly sell for you are no longer suggested for flipping or crafting ("Do today"); the Sell tab shows
-  "Often expires – post cheaper or keep it." (no automatic price change).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

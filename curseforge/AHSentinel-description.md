@@ -12,6 +12,16 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.48
+
+- **Automatic minimum price when selling:** the higher of the vendor price after the AH cut and your own cost per
+  piece (purchases of the last 30 days, otherwise crafting cost) + 5 %. A minimum you set by hand still wins. If the
+  competition is below it, the suggestion is the minimum and a yellow hint says "Market is below your minimum price –
+  post at the minimum or wait" (plus "price falling" when the 24 h trend is below −10 %). You decide – the price field
+  stays free.
+- **Expired 3× in a row:** the sell tab shows a yellow hint with a cheaper suggestion, the vendor price and the
+  deposits lost so far. Nothing happens automatically.
+
 ### Version 0.65.47
 
 - **Cancel only when it pays:** an undercut auction is only suggested for cancelling when reposting earns more than
@@ -61,16 +71,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Bulk buy for disenchanting:** counted only when the purchase succeeds.
 - **Profit window:** the "AH fee" line shows only the 5 %; expected re-postings or "vendor pays more" in a grey line.
 - Faster: the ledger is indexed per item instead of read completely for every price.
-
-### Version 0.65.43
-
-- **Sell tab – duration preselected (WoW Forever):** 24 h when it costs no more than 2 h (minimum deposit, e.g. dust,
-  cloth, herbs); otherwise by how fast the item usually sells for you (under 2 h -> 2 h, under 8 h -> 8 h); without data
-  24 h if it costs hardly more, else 8 h. The reason is shown below the buttons; you can still change it.
-- **How fast it sells:** measured from your ledger (posted -> sold, expired). Tooltip line "Sells: quickly (~3 h)",
-  "slowly (~2 days)" or "hardly (often expires)"; without your own data the market sales per day as before.
-- Items that hardly sell for you are no longer suggested for flipping or crafting ("Do today"); the Sell tab shows
-  "Often expires – post cheaper or keep it." (no automatic price change).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
