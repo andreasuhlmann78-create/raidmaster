@@ -37,6 +37,7 @@ from discord.ext import tasks
 import raidmaster_data as rmd
 import guildbank
 import uploader_setup
+import invites
 import render as rimg
 import server_setup
 import mc_tactics
@@ -297,6 +298,10 @@ class RaidBot(discord.Client):
                     await post_bot_log("\n".join(rep))
             except Exception:
                 log.exception("Ungenutzte Kanäle konnten nicht geprüft werden")
+            try:
+                await post_welcome_invite_once()
+            except Exception:
+                log.exception("Einladung für #willkommen konnte nicht gemeldet werden")
             try:
                 rep = await ensure_channel_texts()
                 if rep:
@@ -5401,6 +5406,36 @@ async def pug_invite_cmd(inter: discord.Interaction):
         "oder du trägst ihn auf der Seite **Werbung** ein.", ephemeral=True)
 
 
+@bot.tree.command(name="einladung", description="Dauerhafter Einladungslink für #willkommen (nur Gildenleitung)")
+async def welcome_invite_cmd(inter: discord.Interaction):
+    if not is_creator(inter.user):
+        await inter.response.send_message("Das dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
+        return
+    await inter.response.defer(ephemeral=True, thinking=True)
+    res = await invites.ensure_welcome_invite(inter.guild, state.data, bot.fetch_invite, str(inter.user))
+    state.save()
+    await inter.followup.send(invites.invite_text(res), ephemeral=True)
+
+
+async def post_welcome_invite_once() -> str | None:
+    """Einmalig (ab Bot 1.5.110): Link für #willkommen erstellen bzw. prüfen und EINMAL in #befehlsliste posten.
+    Nur dort; fehlt #befehlsliste, wird beim nächsten Start erneut versucht."""
+    if state.data.get("welcome_invite_posted"):
+        return None
+    guild = bot_guild()
+    if guild is None:
+        return None
+    channel = await channel_by_id(cfg.get("command_list_channel_id")) or server_setup.find_channel(guild.text_channels, "befehlsliste")
+    if channel is None:
+        return None
+    res = await invites.ensure_welcome_invite(guild, state.data, bot.fetch_invite, "Bot-Start")
+    state.save()
+    await channel.send(invites.invite_text(res), allowed_mentions=discord.AllowedMentions.none())
+    state.data["welcome_invite_posted"] = True
+    state.save()
+    return "🔗 Dauerhafte Einladung für #willkommen in #befehlsliste gemeldet."
+
+
 OLD_WELCOME_START = "**Willkommen in unserer Gilde!**"
 
 
@@ -6081,6 +6116,7 @@ COMMAND_INFO = {
     "raid export": ("Gildenleitung", "Raids"),
     "raid taktik": ("Gildenleitung", "Raids"),
     "pug-einladung": ("Gildenleitung", "Raids"),
+    "einladung": ("Gildenleitung", "Server"),
     "charakter": ("alle", "Spieler"),
     "dkp": ("alle", "Spieler"),
     "dkpliste": ("alle", "Spieler"),
@@ -6116,7 +6152,7 @@ COMMAND_INFO = {
     "beute export": ("Gildenleitung", "Verwaltung"),
     "beute tabellen": ("Gildenleitung", "Verwaltung"),
 }
-SECTION_ORDER = [("Raids", "⚔️"), ("Spieler", "👤"), ("Verwaltung", "🛠️")]
+SECTION_ORDER = [("Raids", "⚔️"), ("Spieler", "👤"), ("Verwaltung", "🛠️"), ("Server", "🔗")]
 
 
 # Befehle im Spiel (Addon RaidMaster) – stehen unter den Bot-Befehlen

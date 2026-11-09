@@ -107,6 +107,13 @@ In **#bot-befehle** meldet der Bot Updates.
 automatisch die Rolle **Gast**, sieht nur INFO und PUG und erhält eine Begrüßung mit Anleitung.
 Über eure normalen Einladungslinks kommt man wie bisher auf den ganzen Server.
 
+**Dauerhafte Einladung für #willkommen (ab Bot 1.5.110):** `/einladung` (Offiziere) zeigt EINEN Einladungslink, der nie
+abläuft und beliebig oft benutzt werden kann (führt in #willkommen). Gibt es den gespeicherten Link noch, wird kein
+neuer erstellt. Der Bot prüft den Link danach bei Discord (Server, Kanal, „läuft ab: nie“) und zeigt das Ergebnis.
+Beim ersten Start mit 1.5.110 meldet er den Link einmal in #befehlsliste. Der Code steht in den Bot-Daten (state),
+nicht in der config.json. Der Bot löscht oder ändert nie Einladungen und postet nichts in #willkommen.
+Fehlt das Recht **Einladung erstellen**, sagt der Bot, wo es einzuschalten ist.
+
 Werbung im Spiel: Addon-Seite **Werbung** – postet einen Text mit dem Link in den Welt-/Handelskanal.
 Der Link kommt beim Import eines PUG-Raids automatisch ins Addon.
 
@@ -412,6 +419,7 @@ Der Bot führt im Kanal **#gildenname** eine Abstimmung (fehlt der Kanal, legt e
 | `/raidmaster-einrichten` | Admins | Server einrichten/ergänzen |
 | `/uploader` | Admins | Uploader-Programm + Einrichtungsdatei (Webhooks für #bot-daten und #testberichte) per Direktnachricht (`nur_programm`: nur das Programm) |
 | `/pug-einladung` | Offiziere | Einladungslink für PUG-Spieler (Rolle Gast) |
+| `/einladung` | Offiziere | Dauerhafter Einladungslink für #willkommen (ab Bot 1.5.110) |
 | `/willkommen` | Admins | Willkommenstext neu eintragen, z. B. mit anderem Gildennamen (`gildenname:…`) – sonst macht es der Bot selbst |
 | `/update` | Admins | Update prüfen oder ZIP einspielen |
 | `/daten-import` | Admins | Daten aus einer Sicherung übernehmen |
