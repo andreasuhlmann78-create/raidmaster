@@ -21,6 +21,15 @@ SOFORT (nach deiner laufenden Arbeit) – kleine Änderung, kein eigener Umbau
    Version antwortet mit Pong; Ergebnis im Chat ("2 Antworten über Gilde"). Statusanzeige ehrlich: "Sync über Gilde:
    N Mitspieler" bzw. "niemand mit AHSentinel online".
 
+ALLE SPIELVERSIONEN (Nutzer 18:09: "alle User in allen Versionen – Retail, Classic Era usw. – müssen funktionieren")
+   - Nicht nach Spielversion verzweigen, sondern nach Fähigkeit: Wege GUILD, PARTY/RAID, WHISPER gibt es in allen
+     Versionen (Era, TBC/Anniversary, Mists, Retail, Forever) – sie sind der Standard überall.
+   - Ob ein Kanal Addon-Nachrichten annimmt, wird zur Laufzeit erkannt (NOT_ALLOWED_IN_CHANNEL), nicht angenommen.
+   - Beide Schnittstellen unterstützen: C_ChatInfo.SendAddonMessage/RegisterAddonMessagePrefix und die alten globalen
+     Funktionen; geschützte Werte (Forever, Retail ab Midnight) mit GoldSentinelGame.AnySecret prüfen.
+   - Alte Versionen anderer Spieler nicht abhängen: weiter empfangen, was sie senden.
+   - Testfälle je Version in der TestRoutine (Era, TBC, Retail, Forever simuliert): gleicher Weg, gleiche Nachrichten.
+
 DANACH (kommt als eigener Auftrag)
    Die Prüf-Sitzung baut eine gemeinsame Datei shared/GoldSentinelSync.lua (EIN Kanal "GoldSentinel" nur zum Finden von
    Mitspielern, Daten über Gilde/Gruppe/Flüstern, Drossel, geschützte Absender, Messung, Ping/Pong). Sobald sie da ist,

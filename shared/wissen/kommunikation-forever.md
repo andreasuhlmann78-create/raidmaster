@@ -18,6 +18,10 @@ Stand 9. November 2026. Gepflegt von der Prüf-Sitzung. Gilt für alle GoldSenti
 3. `NOT_ALLOWED_IN_CHANNEL` auswerten und den Kanal für die Sitzung als "verweigert" markieren.
 4. Senden mit 0 als Rückgabe heisst nur "angenommen", nicht "angekommen" – Ankunft nur durch Antwort (Ping/Pong) belegbar.
 5. Ein gemeinsamer Kanal für alle GoldSentinel-Addons statt vier (Kanalplätze).
+6. **Alle Spielversionen müssen gehen** (Era, TBC/Anniversary, Mists, Retail, Forever): GUILD, PARTY/RAID und WHISPER
+   gibt es überall – sie sind der Standardweg. Nicht nach Version verzweigen, sondern Fähigkeiten zur Laufzeit erkennen
+   (Kanal verweigert? C_ChatInfo vorhanden? geschützte Werte?). Ob Kanal-Addon-Nachrichten in Retail oder Era
+   ankommen, ist hier NICHT belegt – darum nie darauf verlassen.
 
 ## Quellen
 - https://github.com/Offroads/WoWForeverRace/pull/48
