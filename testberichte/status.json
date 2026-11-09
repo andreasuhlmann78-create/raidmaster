@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-09T10:29:21Z",
+ "ausgewertet": "2026-11-09T11:10:57Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -141,7 +141,7 @@
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "T154",
      "name": "P2: Twink/Main, Danke, Pate mit Vor- und Nachname",
-     "detail": "ergebnis: Rokan Steinwacht|nil|Rokan Steinwacht | erwartet: Rokan Steinwacht ×3",
+     "detail": "ergebnis: <Name>|nil|<Name> | erwartet: <Name> ×3",
      "bericht": "GuildSentinel-1794203247-f4dd4b-1"
     },
     {
@@ -295,7 +295,7 @@
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "T142",
      "name": "!dkp mit Doppelnamen (Forever-Weg)",
-     "detail": "ergebnis: [RaidMaster] Rokan: MC 40 · Ony 90 | erwartet: Rokan Steinwacht … 40",
+     "detail": "ergebnis: [RaidMaster] <Name>: MC 40 · Ony 90 | erwartet: <Name> … 40",
      "bericht": "RaidMaster-1793837319-f8792f-1"
     }
    ],
@@ -529,7 +529,7 @@
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "T154",
    "name": "P2: Twink/Main, Danke, Pate mit Vor- und Nachname",
-   "detail": "ergebnis: Rokan Steinwacht|nil|Rokan Steinwacht | erwartet: Rokan Steinwacht ×3",
+   "detail": "ergebnis: <Name>|nil|<Name> | erwartet: <Name> ×3",
    "bericht": "GuildSentinel-1794203247-f4dd4b-1"
   },
   {
@@ -631,7 +631,7 @@
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "T142",
    "name": "!dkp mit Doppelnamen (Forever-Weg)",
-   "detail": "ergebnis: [RaidMaster] Rokan: MC 40 · Ony 90 | erwartet: Rokan Steinwacht … 40",
+   "detail": "ergebnis: [RaidMaster] <Name>: MC 40 · Ony 90 | erwartet: <Name> … 40",
    "bericht": "RaidMaster-1793837319-f8792f-1"
   },
   {
@@ -761,25 +761,25 @@
    },
    "BuffSentinel": {
     "anzahl": 15,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.12-9013338d4969.txt"
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.12-0b1ce6a7ecb5.txt"
    },
    "GuildSentinel": {
     "anzahl": 15,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.16-7364b704ee99.txt"
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.17-ea81fb986e75.txt"
    },
    "ProfessionSentinel": {
     "anzahl": 21,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.30-fbf802f879f6.txt"
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.30-683fb43128c0.txt"
    },
    "ThreatSentinel": {
     "anzahl": 15,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.0-ef45aa58c5e3.txt"
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.0-8dc36aeaca45.txt"
    }
   },
   "wege": {
    "LevelPilot": {
     "anzahl": 62,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794217486-1337d4.json"
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794219097-801618.json"
    }
   }
  }

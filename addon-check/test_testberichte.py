@@ -107,6 +107,11 @@ with tempfile.TemporaryDirectory() as tmp:
     check("Pfad-Angriff Diagnose entschärft", d2[0]["addon"] if d2 else None, ".._.._x")
     check("fremdes GSWEGE1 verworfen", tb.extras_from_text('GSWEGE1{"kind":"anders","addon":"a","id":"b"}'), ([], []))
 
+    # Namen schwärzen (Liste kommt im Betrieb aus dem Secret REDACT_NAMES)
+    tb._REDACT = ["Testa Beispielname", "Testa"]
+    check("schwärzen", tb.redact("Testa Beispielname: MC 40 · Testa · Testarossa"), "<Name>: MC 40 · <Name> · Testarossa")
+    tb._REDACT = []
+
     st = tb.evaluate()
     md = (tb.OUT / "status.md").read_text(encoding="utf-8")
     check("Tabelle", "| BuffSentinel |" in md, True)

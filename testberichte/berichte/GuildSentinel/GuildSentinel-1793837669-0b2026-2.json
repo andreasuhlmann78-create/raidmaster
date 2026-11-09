@@ -74,7 +74,7 @@
   },
   {
    "bereich": "A",
-   "ergebnis": "Proper=Rokan Steinwacht",
+   "ergebnis": "Proper=<Name>",
    "id": "T07",
    "ms": "0.0",
    "name": "Simulation Forever",
@@ -233,7 +233,7 @@
   },
   {
    "bereich": "B",
-   "ergebnis": "Rokan,Mira,Grom",
+   "ergebnis": "<Name>,Mira,Grom",
    "id": "T26",
    "ms": "0.0",
    "name": "Twinks aus Notiz",
@@ -265,7 +265,7 @@
   },
   {
    "bereich": "B",
-   "ergebnis": "Durok,Rokan,Rokan,Rokwar | Brann",
+   "ergebnis": "Durok,<Name>,<Name>,Rokwar | Brann",
    "id": "T30",
    "ms": "0.1",
    "name": "Listen",
@@ -289,7 +289,7 @@
   },
   {
    "bereich": "B",
-   "ergebnis": "Rokan / Lowbie",
+   "ergebnis": "<Name> / Lowbie",
    "id": "T33",
    "ms": "0.0",
    "name": "Paten",
@@ -305,7 +305,7 @@
   },
   {
    "bereich": "B",
-   "ergebnis": "Twink von Rokan",
+   "ergebnis": "Twink von <Name>",
    "id": "T35",
    "ms": "0.0",
    "name": "Gildennotiz",
@@ -1283,7 +1283,7 @@
   },
   {
    "bereich": "J",
-   "ergebnis": "Rokan Steinwacht|Rokan Steinwacht",
+   "ergebnis": "<Name>|<Name>",
    "id": "T151",
    "ms": "0.0",
    "name": "P2: ns.Proper Vor- und Nachname",
@@ -1291,7 +1291,7 @@
   },
   {
    "bereich": "J",
-   "ergebnis": "Rokan Steinwacht|Rokan Steinwacht|nil|Rokan Steinwacht",
+   "ergebnis": "<Name>|<Name>|nil|<Name>",
    "id": "T152",
    "ms": "0.1",
    "name": "P2: Notiz mit zwei Wörtern",
@@ -1307,8 +1307,8 @@
   },
   {
    "bereich": "J",
-   "ergebnis": "Rokan Steinwacht|nil|Rokan Steinwacht",
-   "erwartet": "Rokan Steinwacht ×3",
+   "ergebnis": "<Name>|nil|<Name>",
+   "erwartet": "<Name> ×3",
    "id": "T154",
    "ms": "0.3",
    "name": "P2: Twink/Main, Danke, Pate mit Vor- und Nachname",

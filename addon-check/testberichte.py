@@ -46,6 +46,19 @@ DIAG_PREFIX, WEGE_PREFIX = "GSDIAG1", "GSWEGE1"
 DIAG_OUT, WEGE_OUT = OUT / "diagnose", OUT / "wege"
 LUA_EXTRA = re.compile(r'"((?:' + DIAG_PREFIX + "|" + WEGE_PREFIX + r')(?:[^"\\]|\\.)*)"', re.S)
 MAX_EXTRA = 512 * 1024
+# Namen schwärzen: Das Repo ist öffentlich. Spieler-/Charakternamen, die Addons versehentlich mitschicken, werden vor
+# dem Speichern durch "<Name>" ersetzt. Die Liste kommt NUR aus dem GitHub-Secret REDACT_NAMES (Komma-getrennt) –
+# nie Namen in diese Datei oder ins Repo schreiben.
+_REDACT = sorted({n.strip() for n in os.environ.get("REDACT_NAMES", "").split(",") if len(n.strip()) >= 3},
+                 key=len, reverse=True)
+
+
+def redact(text):
+    if not _REDACT or not isinstance(text, str):
+        return text
+    for n in _REDACT:
+        text = re.sub(r"(?<![\wÄÖÜäöüß])" + re.escape(n) + r"(?![\wÄÖÜäöüß])", "<Name>", text)
+    return text
 
 
 # ---------------------------------------------------------------------------
@@ -166,12 +179,12 @@ def store_extras(diags, wege):
         p = DIAG_OUT / d["addon"] / f"{d['version']}-{h}.txt"
         if not p.exists():
             p.parent.mkdir(parents=True, exist_ok=True)
-            p.write_text(d["text"].split("|", 3)[3] if d["text"].count("|") >= 3 else d["text"], encoding="utf-8")
+            p.write_text(redact(d["text"].split("|", 3)[3] if d["text"].count("|") >= 3 else d["text"]), encoding="utf-8")
             nd += 1
     for w in wege:
         p = WEGE_OUT / w["addon"] / f"{w['id']}.json"
         if not p.exists():
-            body = json.dumps(w, ensure_ascii=False, indent=1, sort_keys=True)
+            body = redact(json.dumps(w, ensure_ascii=False, indent=1, sort_keys=True))
             if len(body) <= MAX_EXTRA:
                 p.parent.mkdir(parents=True, exist_ok=True)
                 p.write_text(body + "\n", encoding="utf-8")
@@ -185,7 +198,7 @@ def store(reports):
         p = STORE / r["addon"] / f"{r['id']}.json"
         if p.exists():
             continue
-        body = json.dumps(r, ensure_ascii=False, indent=1, sort_keys=True)
+        body = redact(json.dumps(r, ensure_ascii=False, indent=1, sort_keys=True))
         if len(body) > MAX_REPORT:
             continue
         p.parent.mkdir(parents=True, exist_ok=True)
@@ -397,8 +410,8 @@ def evaluate(note=None):
         extra.append("")
     md += [""] + extra + details
     OUT.mkdir(parents=True, exist_ok=True)
-    new_md = "\n".join(md).rstrip() + "\n"
-    new_js = json.dumps(status, ensure_ascii=False, indent=1, default=list) + "\n"
+    new_md = redact("\n".join(md).rstrip() + "\n")
+    new_js = redact(json.dumps(status, ensure_ascii=False, indent=1, default=list) + "\n")
     # nur schreiben, wenn sich ausser der Zeit etwas geändert hat (sonst alle 30 Minuten ein leerer Commit)
     stamp = re.compile(r"^(Ausgewertet: .*|  \"ausgewertet\": .*|\s*\"ausgewertet\": .*)$", re.M)
     old_md = (OUT / "status.md").read_text(encoding="utf-8") if (OUT / "status.md").exists() else ""
@@ -408,8 +421,24 @@ def evaluate(note=None):
     return status
 
 
+def scrub_all():
+    """Bereits gespeicherte Dateien nachträglich schwärzen (läuft bei jedem Lauf, nur wenn REDACT_NAMES gesetzt)."""
+    if not _REDACT or not OUT.exists():
+        return 0
+    n = 0
+    for f in OUT.rglob("*"):
+        if f.is_file() and f.suffix in (".json", ".txt", ".md"):
+            t = f.read_text(encoding="utf-8", errors="replace")
+            r = redact(t)
+            if r != t:
+                f.write_text(r, encoding="utf-8")
+                n += 1
+    return n
+
+
 def main(argv):
     note = None
+    print(f"geschwärzt: {scrub_all()} Dateien")
     if "--import" in argv:
         i = argv.index("--import")
         total = 0

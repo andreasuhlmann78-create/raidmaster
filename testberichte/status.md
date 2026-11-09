@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-09 10:29 UTC
+Ausgewertet: 2026-11-09 11:10 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -19,16 +19,16 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
 | AHSentinel | 21 | `testberichte/diagnose/AHSentinel/0.65.27-a5ee3c07b6eb.txt` |
-| BuffSentinel | 15 | `testberichte/diagnose/BuffSentinel/0.9.12-9013338d4969.txt` |
-| GuildSentinel | 15 | `testberichte/diagnose/GuildSentinel/0.9.16-7364b704ee99.txt` |
-| ProfessionSentinel | 21 | `testberichte/diagnose/ProfessionSentinel/0.9.30-fbf802f879f6.txt` |
-| ThreatSentinel | 15 | `testberichte/diagnose/ThreatSentinel/2.5.0-ef45aa58c5e3.txt` |
+| BuffSentinel | 15 | `testberichte/diagnose/BuffSentinel/0.9.12-0b1ce6a7ecb5.txt` |
+| GuildSentinel | 15 | `testberichte/diagnose/GuildSentinel/0.9.17-ea81fb986e75.txt` |
+| ProfessionSentinel | 21 | `testberichte/diagnose/ProfessionSentinel/0.9.30-683fb43128c0.txt` |
+| ThreatSentinel | 15 | `testberichte/diagnose/ThreatSentinel/2.5.0-8dc36aeaca45.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 62 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794217486-1337d4.json` |
+| LevelPilot | 62 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794219097-801618.json` |
 
 ## AHSentinel
 
@@ -124,7 +124,7 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 - [SKIP] T137 G – ProfessionSentinel (grund: GuildSentinel nutzt keine Schnittstelle von ProfessionSentinel)
 - [FEHLER] T143 H – Seiten mit 500 Mitgliedern (ergebnis: 206.5 ms (langsamste) | erwartet: < 16 ms)
 - [SKIP] T145 H – Speicher (grund: Messung im Bericht unten (collectgarbage vor/nach))
-- [FEHLER] T154 J – P2: Twink/Main, Danke, Pate mit Vor- und Nachname (ergebnis: Rokan Steinwacht|nil|Rokan Steinwacht | erwartet: Rokan Steinwacht ×3)
+- [FEHLER] T154 J – P2: Twink/Main, Danke, Pate mit Vor- und Nachname (ergebnis: <Name>|nil|<Name> | erwartet: <Name> ×3)
 - [SKIP] T156 J – P4a: Bewerber-Flüstern im Kampf (grund: wie T85)
 - [SKIP] T157 J – P4b: Addon-Nachricht im Kampf (grund: wie T84)
 - [SKIP] T158 J – P4c: Abklingzeit im Kampf (grund: wie T86)
@@ -207,7 +207,7 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 - [CLIENT] T133b J – Mouseover-Tasten im echten Kampf (anleitung: Forever: Trainingspuppe/Mob im Kampf per Mouseover-Taste markieren – Symbol da, Fehlerliste leer?)
 - [CLIENT] T135 J – Skillungen in Forever (anleitung: /dump GetTalentTabInfo(1) und /dump GetTalentInfo(1,1); Gildenmitglied betrachten)
 - [CLIENT] T136b J – Plündermeister vorhanden (anleitung: /dump GiveMasterLoot ~= nil, GetMasterLootCandidate ~= nil; /dump C_PartyInfo and C_PartyInfo.GetLootMethod())
-- [FEHLER] T142 J – !dkp mit Doppelnamen (Forever-Weg) (ergebnis: [RaidMaster] Rokan: MC 40 · Ony 90 | erwartet: Rokan Steinwacht … 40)
+- [FEHLER] T142 J – !dkp mit Doppelnamen (Forever-Weg) (ergebnis: [RaidMaster] <Name>: MC 40 · Ony 90 | erwartet: <Name> … 40)
 - [CLIENT] T146 J – Bereitschafts-Check in alten Clients (anleitung: Era/Anniversary mit Fläschchen: /rm bereit – erkannt?)
 - [SKIP] T147 J – Berufe-Knopf übersetzt (grund: offline geprüft (Locales))
 - [CLIENT] T152 J – Berufe-Knopf im Client (anleitung: Knopf 'Meine Berufe einlesen' mehrmals, dann /rm berufe)
