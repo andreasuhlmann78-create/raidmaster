@@ -12,6 +12,16 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.54
+
+- **Sniper at full speed:** while sniper mode is ON with open targets, the watcher pauses (no more taking turns).
+  The watcher runs when the sniper is off or has no targets; watcher bargains can still be bought as before.
+- **Targets by yield:** targets with hits in the last 10 minutes are searched more often; targets without hits at most
+  every third round. No target drops out.
+- **Measured:** the sniper shows "Today: N hits · N bought · N missed · avg reaction X s"; the target tooltip shows hits
+  and buy rate. With 10+ hits and under 20 % bought: "Others are faster here – pick another target?" (yellow "!").
+  The diagnostic log gets one SNIPER line per minute with the times per step (no names).
+
 ### Version 0.65.53
 
 - **Faster sniper, still by the rules:** every purchase still needs a real key press or mouse-wheel notch – the sniper
@@ -48,18 +58,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   once per 2 s). Every function is safe (never a Lua error, `nil` if unknown), amounts in copper. Details in `API.md`.
   The old functions (RealPrice, RealValue, AuctionFee, AHFee, ForeverAuctionFee, GetMarketValue, GetCurrent) stay.
 - Automatic minimum price when selling: minimum profit now 20 % (same default as the interface).
-
-### Version 0.65.49
-
-- **Ledger → Return:** new view with invested, earned, profit and return per business – flipping (buy and sell the
-  same item), crafting (crafted items against material cost), disenchanting (the existing report) and raw goods
-  (sold without buying). A sale counts to the business the item came from and to its day, not to when the mail arrives.
-- **Gold per hour** per business and in total, plus "Your hourly wage today". Only active time counts (stored locally):
-  at the AH and mailbox the time between your own actions, at most 2 min after the last one; crafting and
-  disenchanting from the first to the last of a series. Breaks over 2 min, AFK and automatic scans/sniper/watcher runs
-  do not count. Under 15 min measured: "too little data". Losses show red with a minus.
-- **Raid start hint:** from Nov 25 at most once a day when opening the AH: "Raid start Dec 9: buy/craft consumables
-  and their herbs cheaply now." Off after Dec 9.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
