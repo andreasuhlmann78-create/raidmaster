@@ -7,7 +7,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## AHSentinel-0.65.22.zip: OK
 
-## BuffSentinel-0.9.11.zip: OK
+## BuffSentinel-0.9.12.zip: OK
 
 ## GuildSentinel-0.9.16.zip: OK
 
