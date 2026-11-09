@@ -172,9 +172,9 @@ T05 [A] Weichen fuer jeden Client simuliert – auto – alle
     Wie: fuer f in {"forever","era","tbc","retail"}: G.SetTestFlavor(f); RM.SetGameFlags(); pruefen; am Ende
     G.SetTestFlavor(nil); RM.SetGameFlags() (Schutzblock). Erwartung je f:
       forever: GAME.key forever, IsForever, IsModern, nicht IsClassicEra, nicht IsRetail,
-               RM.SameName("Rokan Steinwacht","rokan") true, RM.SameName("Rokan Steinwacht","Rokan Eisen") false,
+               RM.SameName("Testa Beispiel","testa") true, RM.SameName("Testa Beispiel","Testa Eisen") false,
                M.CombatBlocked() == G.InCombat()
-      era:     GAME.key era, IsClassicEra, nicht IsModern, SameName("Rokan Steinwacht","Rokan") false, CombatBlocked false
+      era:     GAME.key era, IsClassicEra, nicht IsModern, SameName("Testa Beispiel","Testa") false, CombatBlocked false
       tbc:     GAME.key tbc, nicht IsModern, nicht IsClassicEra, CombatBlocked false
       retail:  GAME.key retail, IsRetail, IsModern
       nil:     GAME.key, IsModern, IsClassicEra wieder wie vor dem Test; G.flavor echt.
@@ -270,10 +270,10 @@ T21 [B] Loot-Regeln und Verteilung – auto – alle
     Erwartung: Klassen wie angegeben; Spion GiveMasterLoot/ClickTradeButton 0.
 T22 [B] Anmeldungen importieren und abgleichen – auto – alle
     Wie: Text mit "RAIDMASTER-ANMELDUNG", "Raid: MC", "Datum: 05.11.", "Modus: dkp", "Topf: mc", "Max: 40", "Start: <ts>",
-    Eintraegen "Tank1;WARRIOR;Tank;angemeldet", "Rokan Steinwacht;PRIEST;Heal;angemeldet", "Ersatz1;WARRIOR;DD;ersatz",
+    Eintraegen "Tank1;WARRIOR;Tank;angemeldet", "Testa Beispiel;PRIEST;Heal;angemeldet", "Ersatz1;WARRIOR;DD;ersatz",
     "GRP;Tank1;1", "BANK;Ersatz1", "ALT;Twinky;Tank1" -> S.Parse: 3 Eintraege, groups, bench, alts, start, pool, max;
     S.Parse("Hallo") -> nil + Fehlertext; S.Import(text) -> RM.db.signup; S.Compare(); S.Clear().
-    Erwartung: Felder exakt, Name mit Leerzeichen bleibt "Rokan Steinwacht".
+    Erwartung: Felder exakt, Name mit Leerzeichen bleibt "Testa Beispiel".
 T23 [B] Einladen und Gruppen (simuliert) – auto (async) – alle
     Wie: S.InviteAll(false) im Test -> T.SimInvite je Eintrag; nach 4 s: invited/declined/notfound/full Zustaende vorhanden
     (S.InviteState), RaidSize/MemberCount/Capacity/CapacityText; S.ArrangeGroups() -> T.SimArrange; S.StopInvites();
@@ -463,7 +463,7 @@ T73 [D] Kampflog-Weg unveraendert – auto – E T
     Wie: Caps.combatLog true, Ereignis registriert (T58), Raid.AnnounceSkinners("Kernhund") -> T.ShowChat.
     Erwartung: Ansage wie bisher.
 T74 [D] Namen exakt – auto – E T
-    Wie: RM.SameName("Rokan","rokan") true, ("Rokan Steinwacht","Rokan") false; Comm/Signup mit exakten Namen.
+    Wie: RM.SameName("Testa","testa") true, ("Testa Beispiel","Testa") false; Comm/Signup mit exakten Namen.
     Erwartung: wie angegeben (alter Weg: nur exakter Name, Core.lua SameName).
 T75 [D] Pluendermeister-Weg – halb – E T
     Wie: in einer Gruppe mit Pluendermeister: RM.Caps.masterLoot true, RM.GetLootMethod() == "master"; Loot.GiveFromWindow
@@ -639,8 +639,8 @@ T136 [J] Pluendermeister vorhanden oder Tauschliste ([UE] 8.6, [AW] Aufgabe 6) �
     /dump GiveMasterLoot ~= nil, GetMasterLootCandidate ~= nil, C_PartyInfo and C_PartyInfo.GetLootMethod().
     Erwartung: Rueckfall greift; Client-Ergebnis an die Pruef-Sitzung.
 T137 [J] Namen mit Leerzeichen ([AW] Aufgabe 7) – auto – alle
-    Wie: Signup.Parse mit "Rokan Steinwacht" (T22); Fluestern "!bid 20" von "Rokan Steinwacht" -> Gebot unter diesem Namen;
-    Fluestern "inv" von "Rokan Steinwacht" nach Werbung -> SimInvite("Rokan Steinwacht"); G.SameName im Forever-Weg.
+    Wie: Signup.Parse mit "Testa Beispiel" (T22); Fluestern "!bid 20" von "Testa Beispiel" -> Gebot unter diesem Namen;
+    Fluestern "inv" von "Testa Beispiel" nach Werbung -> SimInvite("Testa Beispiel"); G.SameName im Forever-Weg.
     Erwartung: Name bleibt vollstaendig, kein Abschneiden am Leerzeichen.
 T138 [J] Bosse Barrow Deeps und Hyjalgipfel ([UE] 8.7, [AW] Aufgabe 8, [K13] Termine) – auto (datumsabhaengig) – F
     Wie: vor dem 9.12.2026: Data.Pools.barrow/hyjal.bosses leer erlaubt (T:Skip "ab 9. Dezember"); ab RM.Now() >= 9.12.2026:
@@ -659,9 +659,9 @@ T141 [J] Beute-Datenbank: geschuetzte Boss-GUIDs ([K13] Punkt 2) – auto – al
     in der Sandbox (Recording voruebergehend wahr, Store auf Testtabelle) -> Kill ueber encounterID zugeordnet.
     Erwartung: kein Fehler, Kill gespeichert (Rueckfall encounterID).
 T142 [J] !dkp mit Doppelnamen ([K13] Punkt 3) – auto – alle
-    Wie: Spieler "Rokan Steinwacht" mit 40 DKP; Fluestern "!dkp Rokan Steinwacht" und "!dkp rokan" (eindeutiger Vorname,
-    Forever-Weg) an DKP.lua:793-807 mit RM.Whisper-Spion; DKP.Summary("rokan") findet ihn ueber G.SameName.
-    Erwartung: Antwort enthaelt "Rokan Steinwacht" und 40. Heute FEHLER: DKP.lua:801 nimmt nur das erste Wort ((%S+)),
+    Wie: Spieler "Testa Beispiel" mit 40 DKP; Fluestern "!dkp Testa Beispiel" und "!dkp testa" (eindeutiger Vorname,
+    Forever-Weg) an DKP.lua:793-807 mit RM.Whisper-Spion; DKP.Summary("testa") findet ihn ueber G.SameName.
+    Erwartung: Antwort enthaelt "Testa Beispiel" und 40. Heute FEHLER: DKP.lua:801 nimmt nur das erste Wort ((%S+)),
     DKP.Summary sucht nur exakt. Bot-Teil: B09.
 T143 [J] Betrachten: geschuetzte GUID ([K13] Punkt 4a) – auto – alle
     Wie: scan.current gesetzt, RM.API.over UnitGUID = SECRET; OnInspectReady("Player-1") und OnInspectReady(SECRET).
@@ -861,6 +861,6 @@ B07 parse_saved_variables auf einer RaidMaster.lua mit gsTest = { reports = { "G
     data unveraendert gelesen, DKP-Verarbeitung wie ohne gsTest.
 B08 Der Bot importiert addon-check/testberichte.py nicht und hat keinen Handler, der #testberichte auswertet oder dorthin
     postet (ausser dem Webhook des Uploaders).
-B09 find_player: "Rokan Steinwacht" exakt; "Rokan" eindeutig -> gefunden; zwei "Rokan ..." -> None; Era-Name exakt wie bisher.
+B09 find_player: "Testa Beispiel" exakt; "Testa" eindeutig -> gefunden; zwei "Testa ..." -> None; Era-Name exakt wie bisher.
 
 Ist ein Befund dieser Anweisung falsch oder nicht umsetzbar, bitte dem Nutzer begruendet zurueckmelden.

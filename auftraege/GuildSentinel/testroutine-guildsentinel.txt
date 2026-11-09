@@ -185,9 +185,9 @@ T06 | A | echte Weichen | auto: Game.FOREVER == G.IsForever, Game.TBC == G.IsTBC
       Game.MODERN_PROFESSIONS == Game.FOREVER, Game.toc == G.toc; je Client: F -> flavor "forever", MODERN true, HasSecrets
       true; E -> "era", MODERN false; T -> "tbc", MODERN false | wie angegeben | F E T
 T07 | A | Simulation Forever | auto: G.SetTestFlavor("forever"); Game:Refresh() -> FOREVER, MODERN, MODERN_PROFESSIONS,
-      BOTH_HYBRIDS true; ns.Proper("rokan steinwacht") == "Rokan Steinwacht"; G.Status() enthält "[Test]" | ja | F E T
-T08 | A | Simulation Era | auto: SetTestFlavor("era") + Refresh -> FOREVER, MODERN false; ns.Proper("rokan steinwacht") ==
-      "Rokansteinwacht" (G.CleanName entfernt Leerzeichen, GoldSentinelGame.lua:170-171); ns.Same("Rokan","Rokan Steinwacht")
+      BOTH_HYBRIDS true; ns.Proper("testa beispiel") == "Testa Beispiel"; G.Status() enthält "[Test]" | ja | F E T
+T08 | A | Simulation Era | auto: SetTestFlavor("era") + Refresh -> FOREVER, MODERN false; ns.Proper("testa beispiel") ==
+      "Testabeispiel" (G.CleanName entfernt Leerzeichen, GoldSentinelGame.lua:170-171); ns.Same("Testa","Testa Beispiel")
       false | ja | F E T
 T09 | A | Simulation TBC | auto: SetTestFlavor("tbc") + Refresh -> TBC true, MODERN false, BOTH_HYBRIDS true. Inhalte
       (MAX_LEVEL, Cd.LIST, Attune.LIST) -> ÜBERSPRUNGEN "beim Laden festgelegt, siehe D / offline 20505" | ja | F E T
@@ -203,7 +203,7 @@ T13 | B | nur Entwickler (0.9.1) | auto: GoldSentinelDev.IsDev kurz durch functi
       ns.Feature("dev") false, Reiter "test" unsichtbar, SlashCmdList.GUILDSENTINEL("test") ändert T.active nicht | ja | F E T
 T14 | B | Test-Ereignisse (13) | auto: T:Trigger je Schlüssel, danach: event -> g.events["trig<n>"] da; remind -> Erinnerung
       gedruckt, zweiter CheckReminders-Lauf druckt nicht erneut; market -> passendes Angebot gemeldet; chat -> Text beginnt mit
-      "[Grom]"; online -> Text enthält L["Twink von %s"] mit Rokan; lfg -> g.lfg["trig<n>"]; thanks -> g.thanks neu, to == ich;
+      "[Grom]"; online -> Text enthält L["Twink von %s"] mit Testa; lfg -> g.lfg["trig<n>"]; thanks -> g.thanks neu, to == ich;
       level -> eine Figur +1 Stufe; milestone -> neuer Schlüssel in g.miles; applicant -> g.apps["Wanderer<n>"]; poll ->
       g.polls neu; cooldown -> g.cds.Thalia bereit; free -> Free.list.Mira | je Ereignis OK | F E T
 -- Fenster, Seiten, Reiter
@@ -228,32 +228,32 @@ T23 | B | /gs danke | auto: "danke" leer -> Hinweis; "danke Niemand" -> "%s ist 
 T24 | B | /gs weg | auto: "weg 3 Urlaub" -> g.away[ich].u ≈ jetzt + 3 Tage, note "Urlaub"; "weg" -> u == 0 | ja | F E T
 -- Mitglieder, Twinks, Verlauf (Roster.lua)
 T25 | B | Roster:Scan | auto: nach Scan #list == #T.members, byName für alle, scans +1, GS_ROSTER gefeuert | ja | F E T
-T26 | B | Twinks aus Notiz | auto: MainOf("Rokwar") == "Rokan", MainOf("Mirabank") == "Mira", MainOf("Gromsham") == "Grom";
-      AltsOf("Rokan") enthält "Rokwar"; IsAlt("Rokan") false | ja | F E T
+T26 | B | Twinks aus Notiz | auto: MainOf("Rokwar") == "Testa", MainOf("Mirabank") == "Mira", MainOf("Gromsham") == "Grom";
+      AltsOf("Testa") enthält "Rokwar"; IsAlt("Testa") false | ja | F E T
 T27 | B | SetMain/SetMyMain | auto: SetMain("Durok","grom",true) -> MainOf == "Grom" (Gross/klein egal); SetMain("Durok","")
       -> nil; SetMyMain(ich) -> g.alts[ich].m == ""; Recorder ns.SendAddonMessage 0 | ja | F E T
 T28 | B | Verlauf | auto: T:Kick("Neuling") -> g.log[1].k == "leave"; T:Promote("Durok") -> "promote"; Stufe auf MAX gehoben ->
       "maxlevel"; #g.log <= 400 | ja | F E T
 T29 | B | Systemmeldungen live | auto: string.format(ERR_GUILD_JOIN_S, "Testneu") an den CHAT_MSG_SYSTEM-Weg (ns.eventFrame)
       -> Roster.liveJoin["Testneu"]; fehlt ERR_GUILD_*_S (nil) -> kein Fehler | ja | F E T
-T30 | B | Listen | auto: R:Ranks(), R:Classes(), R:Stats(), R:Filtered mit Suchtext "rok" (enthält Rokan, Rokwar), R:Inactive
+T30 | B | Listen | auto: R:Ranks(), R:Classes(), R:Stats(), R:Filtered mit Suchtext "rok" (enthält Testa, Rokwar), R:Inactive
       (Brann mit 45 Tagen dabei) | ja | F E T
 T31 | B | Export | auto: Reiter members > export: Text nicht leer, Zeilenzahl >= #Roster.list | ja | F E T
 -- Social (Abwesenheit, Paten, Notizen, Chat, Danke)
 T32 | B | Abwesenheit | auto: SetAway(nil,3,"x"); IsAway(Twink eines Abwesenden) liefert den Eintrag; SetAway("Ylva",2,"")
       als Offizier ok; mit IsOfficer = false -> Hinweis, g.away unverändert | ja | F E T
-T33 | B | Paten | auto: SetMentor("Neuling","rokan") -> MentorOf == "Rokan"; Mentees("Rokan") enthält "Neuling"; ohne
+T33 | B | Paten | auto: SetMentor("Neuling","testa") -> MentorOf == "Testa"; Mentees("Testa") enthält "Neuling"; ohne
       Offiziersrecht abgelehnt | ja | F E T
 T34 | B | Danke | auto: Thank("Mira","Hilfe") -> neuer Eintrag; zweites Mal am selben Tag -> "heute schon gedankt"; Thank(ich) ->
-      abgelehnt; ThanksTop(7)[1].name == "Rokan" | ja | F E T
-T35 | B | Gildennotiz | auto: NoteWithMain("", "Rokan") == string.format(L["Twink von %s"],"Rokan"); Länge <= NOTE_MAX;
+      abgelehnt; ThanksTop(7)[1].name == "Testa" | ja | F E T
+T35 | B | Gildennotiz | auto: NoteWithMain("", "Testa") == string.format(L["Twink von %s"],"Testa"); Länge <= NOTE_MAX;
       WriteNote("Rokwar") im Testmodus -> Recorder GuildRosterSetPublicNote 0, [Test]-Ausgabe; WriteAllNotes zählt | ja | F E T
 T36 | B | Gildenchat mit Main | auto: So.ChatFilter(nil,"CHAT_MSG_GUILD","hi","Gromsham-Test") -> 2. Rückgabe beginnt mit
       "[Grom]"; Option chatMain aus -> false | ja | F E T
 T37 | B | "ist online" mit Main | auto: So.SystemFilter mit ERR_FRIEND_ONLINE_SS für Rokwar -> enthält Twink-Hinweis; Ylva ->
       "abwesend gemeldet"; onlineMain aus -> false | ja | F E T
 -- Tooltip
-T38 | B | Tooltip-Zeilen | auto: Tooltip:Lines("Rokwar")[1] enthält "Rokan"; Lines("Fremdling") = Bewerber-Zeile;
+T38 | B | Tooltip-Zeilen | auto: Tooltip:Lines("Rokwar")[1] enthält "Testa"; Lines("Fremdling") = Bewerber-Zeile;
       Lines("Niemand") nil; Tooltip:Add mit Ersatz-Tooltip (Tabelle mit AddLine-Zähler, Show) -> Zeilen > 0; Option tooltip
       aus -> 0 | ja | F E T
 T39 | B | Tooltip-Haken | auto: Tooltip.hooked true; hookWay == "tdp" auf F, "script" wo TooltipDataProcessor fehlt | ja | F E T
@@ -291,10 +291,10 @@ T53 | B | Herstellung | auto: Craft.IMPORTANT nicht leer; WhoCanCraft(IMPORTANT[
 T54 | B | Abklingzeiten | auto: Cd:Mine() ohne Fehler; Cd:List() enthält Thalia/transmute; ReadyText für bereit, 30 Min.,
       5 Std., 2 Tage; Ask -> nur [Test] | ja | F E T
 -- Fortschritt, Ziele, Chronik, Aufstellung
-T55 | B | Leveling-Rennen | auto: Race:Ranking(7) nicht leer, Race:First() == Rokan; MilestoneText; GS_LEVEL live für Stufe
+T55 | B | Leveling-Rennen | auto: Race:Ranking(7) nicht leer, Race:First() == Testa; MilestoneText; GS_LEVEL live für Stufe
       20 -> Ansage nur als [Test] (über ns.Claim, Recorder 0) | ja | F E T
-T56 | B | Jubiläen | auto: Jubilee:JoinDate("Rokan") ≈ jetzt - 400 Tage; Due() liefert Liste; StepText | ja | F E T
-T57 | B | Zugänge | auto: Attune:Mine(), Scan(), Status("Rokan", LIST[1].key) true, Summary, Rows, Groups | ja | F E T
+T56 | B | Jubiläen | auto: Jubilee:JoinDate("Testa") ≈ jetzt - 400 Tage; Due() liefert Liste; StepText | ja | F E T
+T57 | B | Zugänge | auto: Attune:Mine(), Scan(), Status("Testa", LIST[1].key) true, Summary, Rows, Groups | ja | F E T
 T58 | B | Ziele | auto: Goals:WeekStart() < jetzt; Target/SetTarget(30); WeekLevels > 0; CheckWeek; CheckMiles nach Trigger
       milestone -> neuer Meilenstein | ja | F E T
 T59 | B | Chronik | auto: Timeline nicht leer; ExportText; Achievements; WeekStats; ReviewText; CheckReview mit annReview an ->
@@ -385,7 +385,7 @@ T97 | C | Offiziers-Globals nil | auto: CanEditOfficerNote/CanGuildRemove/CanGui
 T98 | C | Zauber-Globals nil | auto: IsSpellKnown/IsPlayerSpell nil -> Links:KnowsSpell über C_SpellBook.IsSpellKnown; alles nil
       -> false; BuffSentinel-Ersatz (T124) zuerst | ja | F E T
 T99 | C | Quest-Global nil | auto: IsQuestFlaggedCompleted nil -> Attune-QuestDone über C_QuestLog.IsQuestFlaggedCompleted | ja | F E T
-T100 | C | ChatFrame_SendTell / ChatFrame_OpenChat nil | auto: Testmodus kurz aus, ns.OpenWhisper("Rokan Steinwacht","x") ohne
+T100 | C | ChatFrame_SendTell / ChatFrame_OpenChat nil | auto: Testmodus kurz aus, ns.OpenWhisper("Testa Beispiel","x") ohne
       SendTell -> kein Fehler (Rückfall auf OpenChat oder still); beide nil -> kein Fehler | ja | F E T
 T101 | C | ChatFrame_AddMessageEventFilter / ChatFrame_RemoveChannel nil | auto: Social.chatHooked = false, HookChat() -> kein
       Fehler; Group:HideChannel() -> kein Fehler | ja | F E T
@@ -405,7 +405,7 @@ T107 | C | Kampflog nicht benutzt | auto: ns.eventFrame:IsEventRegistered("COMBA
 
 D. ALTE CLIENTS (echter Era- bzw. TBC-Client, sonst ÜBERSPRUNGEN "nicht dieser Client")
 T108 | D | ganzer Bereich B auf altem Weg | auto: B läuft ohne SetTestFlavor auf E/T: 0 FEHLER | 0 FEHLER | E T
-T109 | D | Namen alt | auto: ns.Proper("aRTHAS-Realm") == "Arthas"; ns.Same("Rokan","Rokan Steinwacht") false; Twink-Notiz mit
+T109 | D | Namen alt | auto: ns.Proper("aRTHAS-Realm") == "Arthas"; ns.Same("Testa","Testa Beispiel") false; Twink-Notiz mit
       einem Wort wie bisher | ja | E T
 T110 | D | Flüstern alt | auto: Testmodus kurz aus, Recorder ChatFrame_OpenChat: ns.OpenWhisper("Andreas","Hallo!") ->
       "/w Andreas Hallo!" (wie run_forever95.lua:81) | ja | E T
@@ -502,18 +502,18 @@ Aufgaben 1-6 und Schritt 1), K = korrektur-guildsentinel-0.9.8.txt (Punkte 1-6),
 (GuildSentinel-Teil).
 T150 | J | P1/A1: Tooltip-Fehler im Kampf (Tooltip.lua:64 -> ns.Short -> gsub) | auto: wie T83 mit Flavor forever und echtem
       InCombatLockdown = false, Name geschützt -> kein Lua-Fehler | ja | F E T
-T151 | J | P2/A2a: ns.Proper Vor- und Nachname | auto (forever): ns.Proper("rokan steinwacht") == "Rokan Steinwacht",
-      ns.Proper("Rokan Steinwacht-WoWForever") == "Rokan Steinwacht" | ja | F E T
-T152 | J | P2/A2c: NOTE_PATTERNS zwei Wörter | auto (forever, eigener Mini-Roster mit "Rokan Steinwacht", "Mira Sonnenkind",
-      "Mira Dunkelfeder"): MainFromNote für "Twink von Rokan Steinwacht", "alt of rokan steinwacht", "Main: Rokan Steinwacht",
-      "Twink von Rokan" -> "Rokan Steinwacht"; "Twink von Mira" -> nil (mehrdeutig) | ja | F E T
-T153 | J | P2/A2b: ns.Same Vorname | auto (forever): Same("Rokan","Rokan Steinwacht") true; Same("Mira","Mira Sonnenkind") false;
-      Same("Rokan Steinwacht","Rokan Felsbart") false; (era): Same("Rokan","Rokan Steinwacht") false | ja | F E T
-T154 | J | P2/A2d: Twink/Main, Danke, Pate mit Vor-+Nachname | auto (forever, Mini-Roster): SetMain("Kurztwink","rokan") ->
-      MainOf == "Rokan Steinwacht"; Thank("rokan steinwacht") -> to == "Rokan Steinwacht"; SetMentor(x,"Rokan") -> Pate
-      "Rokan Steinwacht" | ja | F E T
+T151 | J | P2/A2a: ns.Proper Vor- und Nachname | auto (forever): ns.Proper("testa beispiel") == "Testa Beispiel",
+      ns.Proper("Testa Beispiel-WoWForever") == "Testa Beispiel" | ja | F E T
+T152 | J | P2/A2c: NOTE_PATTERNS zwei Wörter | auto (forever, eigener Mini-Roster mit "Testa Beispiel", "Mira Sonnenkind",
+      "Mira Dunkelfeder"): MainFromNote für "Twink von Testa Beispiel", "alt of testa beispiel", "Main: Testa Beispiel",
+      "Twink von Testa" -> "Testa Beispiel"; "Twink von Mira" -> nil (mehrdeutig) | ja | F E T
+T153 | J | P2/A2b: ns.Same Vorname | auto (forever): Same("Testa","Testa Beispiel") true; Same("Mira","Mira Sonnenkind") false;
+      Same("Testa Beispiel","Testa Felsbart") false; (era): Same("Testa","Testa Beispiel") false | ja | F E T
+T154 | J | P2/A2d: Twink/Main, Danke, Pate mit Vor-+Nachname | auto (forever, Mini-Roster): SetMain("Kurztwink","testa") ->
+      MainOf == "Testa Beispiel"; Thank("testa beispiel") -> to == "Testa Beispiel"; SetMentor(x,"Testa") -> Pate
+      "Testa Beispiel" | ja | F E T
 T155 | J | P3/A3: Flüstern mit Leerzeichen (Core.lua:389-390 alt) | auto: Testmodus kurz aus, Recorder: OpenWhisper
-      ("Rokan Steinwacht","Hallo") -> ChatFrame_SendTell("Rokan Steinwacht"), Text eingefügt; ohne Leerzeichen alter Weg
+      ("Testa Beispiel","Hallo") -> ChatFrame_SendTell("Testa Beispiel"), Text eingefügt; ohne Leerzeichen alter Weg
       "/w Name Text" | ja | F E T
 T156 | J | P4/A4a: Bewerber-Flüstern im Kampf (Recruit.lua:330 alt) | auto: wie T85 | ja | F E T
 T157 | J | P4/A4b: Addon-Nachricht im Kampf (Comm.lua:212 alt) | auto: wie T84 | ja | F E T
@@ -536,9 +536,9 @@ T167 | J | K2: Kampf-Flüstern bleibt geschützt | auto: Warteschlange mit 2 ges
 T168 | J | K2 im echten Kampf | halb: siehe Teil 4 Schritt 5 (wird der Wert nach dem Kampf lesbar?) | IM CLIENT PRÜFEN | F
 T169 | J | K3: Tooltip-Kampfsperre an MODERN (Tooltip.lua:63) | auto: SetTestFlavor("retail") + Refresh, InCombatLockdown -> true:
       OnUnit fügt nichts hinzu; SetTestFlavor("era"): Sperre greift nicht (alter Weg wie bisher) | ja | F E T
-T170 | J | K4: Absender exakt (Social.lua:109 AWAY, Social.lua:339 THX) | auto (forever, Mini-Roster mit eindeutigem Rokan):
-      TestDispatch AWAY { n = "Rokan Steinwacht" } von Absender "Rokan" (Rang 3) -> NICHT gespeichert; THX { from = "Rokan
-      Steinwacht" } von "Rokan" -> NICHT gespeichert; gleicher voller Name -> gespeichert; (era) Ergebnis wie bisher | ja | F E T
+T170 | J | K4: Absender exakt (Social.lua:109 AWAY, Social.lua:339 THX) | auto (forever, Mini-Roster mit eindeutigem Testa):
+      TestDispatch AWAY { n = "Testa Beispiel" } von Absender "Testa" (Rang 3) -> NICHT gespeichert; THX { from = "Testa
+      Beispiel" } von "Testa" -> NICHT gespeichert; gleicher voller Name -> gespeichert; (era) Ergebnis wie bisher | ja | F E T
 T171 | J | K5/RM1: tools/luac5.1 -v ohne Lua 5.1 | ÜBERSPRUNGEN im Spiel "Werkzeug im Repo"; offline: LUA51=/nicht/da
       tools/luac5.1 -v -> Exit 1 und "lua51 fehlt"; Pfad mit Hochkomma wird geprüft | offline grün | -
 T172 | J | RM2: Werkzeug nicht in der ZIP | ÜBERSPRUNGEN im Spiel; offline: unzip -l download/GuildSentinel-<v>.zip enthält kein

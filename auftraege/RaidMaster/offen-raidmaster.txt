@@ -6,7 +6,7 @@ Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetz
 
 Erledigt (danke):
 - Addon 3.0.18, Ergebnis im Spiel 5. Nov.:
-  a) T142 Doppelnamen: Begründung angenommen – in den Daten gab es schon einen Spieler "Rokan", die Antwort war für ihn
+  a) T142 Doppelnamen: Begründung angenommen – in den Daten gab es schon einen Spieler "Testa", die Antwort war für ihn
      richtig. Der Fall nutzt jetzt eigene, sicher unbenutzte Namen und prüft Doppelname ganz, klein geschrieben,
      Vorname allein und "gleicher Name geht vor" (Test/Routine.lua:2404-2446), danach Daten zurück.
   b) T122 doppelte Fehler: nur der zuletzt eingeklinkte Handler zählt, ältere reichen nur weiter (Diag.lua:40-60).

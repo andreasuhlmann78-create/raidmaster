@@ -425,9 +425,9 @@ T84 | C | Fehlermeldung am Briefkasten | AUTO | M.evt-OnEvent("UI_ERROR_MESSAGE"
     (Mailer.lua:233-238) | kein Fehler, Mailer läuft weiter | F/R
 T85 | C | Blockierte Aktion | AUTO | Sn:OnEvent("ADDON_ACTION_BLOCKED", <geschützt>, <geschützt>) (Sniper.lua:1001-1012) |
     kein Fehler, instantFailed unverändert | F/R
-T86 | C | Forever-Namen (Vor- und Nachname) | AUTO | G.SetTestFlavor("forever"), eigener Name als "Rokan Steinwacht"
-    (Testwert über die Nahtstelle bzw. Parameter): Post-Regel an "Rokan" darf NICHT an sich selbst gehen (Extras.lua:407-417
-    vergleicht heute nur den Teil vor "-"; Lösung über G.SameName); Sync IsMe("Rokan Steinwacht-Realm") true
+T86 | C | Forever-Namen (Vor- und Nachname) | AUTO | G.SetTestFlavor("forever"), eigener Name als "Testa Beispiel"
+    (Testwert über die Nahtstelle bzw. Parameter): Post-Regel an "Testa" darf NICHT an sich selbst gehen (Extras.lua:407-417
+    vergleicht heute nur den Teil vor "-"; Lösung über G.SameName); Sync IsMe("Testa Beispiel-Realm") true
     (Sync.lua:185-188) | erfüllt; heute vermutlich FEHLER bei der Post-Regel -> beheben | F
 (2) Fehlende alte Funktionen – über A.apiOverride (bevorzugt) bzw. Abschnitt 2.6; danach wiederherstellen.
 T87 | C | Händler ohne alte Funktionen | AUTO | GetMerchantNumItems, GetMerchantItemInfo, GetMerchantItemLink = fehlt, modern

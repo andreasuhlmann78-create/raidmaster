@@ -23,7 +23,7 @@
 --   G.AnySecret(a, b, ...)   -- true, wenn einer der Werte geschuetzt ist
 --   G.Safe(v)                -- v, oder nil wenn geschuetzt
 --   G.InCombat()             -- InCombatLockdown(), sicher
---   G.Short(name)            -- Name ohne Realm ("Rokan-Server" -> "Rokan"), nil bei geschuetztem Namen
+--   G.Short(name)            -- Name ohne Realm ("Testa-Server" -> "Testa"), nil bei geschuetztem Namen
 --   G.CleanName(name)        -- Name saeubern und gross schreiben (Forever: Vor- und Nachname behalten)
 --   G.SameName(a, b)         -- gleicher Charakter? (Forever: Vorname allein passt, wenn eine Seite nur ihn kennt)
 --   G.Status()               -- Text fuer die Diagnose
@@ -135,7 +135,7 @@ function G.InCombat()
 end
 
 ---------------------------------------------------------------------------
--- Namen (WoW Forever: Charaktere haben Vor- und Nachnamen, z. B. "Rokan Steinwacht")
+-- Namen (WoW Forever: Charaktere haben Vor- und Nachnamen, z. B. "Testa Beispiel")
 ---------------------------------------------------------------------------
 -- Name ohne Realm. Geschuetzte oder ungueltige Namen -> nil (nie mit ihnen rechnen!)
 function G.Short(name)
@@ -158,7 +158,7 @@ function G.CleanName(name)
 end
 
 -- Gleicher Charakter? Gross/klein und Realm egal. In Forever passt auch der Vorname allein, wenn eine Seite
--- nur den Vornamen kennt ("Rokan" = "Rokan Steinwacht"). Zwei verschiedene volle Namen passen nie.
+-- nur den Vornamen kennt ("Testa" = "Testa Beispiel"). Zwei verschiedene volle Namen passen nie.
 -- (Wie RM.SameName in RaidMaster.)
 function G.SameName(a, b)
     a, b = G.Short(a), G.Short(b)

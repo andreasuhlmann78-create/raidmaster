@@ -620,6 +620,13 @@ def official_old(name):
         m = re.search(r"-v(\d+)\.lua$", p.name)
         if m:
             out[sha(p.read_bytes())] = int(m.group(1))
+    # zusätzlich nur als Prüfsumme festgehaltene Fassungen (Datei geändert, z. B. Namen entfernt)
+    hp = SHARED_DIR / "tests" / "variants" / "hashes.txt"
+    if hp.exists():
+        for line in hp.read_text(encoding="utf-8").splitlines():
+            parts = line.split()
+            if len(parts) == 3 and not line.startswith("#") and parts[0] == stem and parts[1].isdigit():
+                out.setdefault(parts[2], int(parts[1]))
     return out
 
 

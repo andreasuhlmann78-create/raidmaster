@@ -12,7 +12,7 @@
 --   GoldSentinelGame.IsModern        moderner Client mit Addon-Sperren (Forever oder Retail; Kern: issecretvalue vorhanden)
 --   GoldSentinelGame.IsSecret(v)     true, wenn v ein "secret value" ist (false, wenn es issecretvalue nicht gibt)
 --   GoldSentinelGame.Safe(v)         v, oder nil wenn secret
---   GoldSentinelGame.ProperName(n)   "rokan steinwacht" -> "Rokan Steinwacht" (jedes Wort gross, Realm weg)
+--   GoldSentinelGame.ProperName(n)   "testa beispiel" -> "Testa Beispiel" (jedes Wort gross, Realm weg)
 --   GoldSentinelGame.SameName(a, b, isUnique)
 --                                    gleicher Spieler? Forever: Vorname allein passt, wenn eindeutig
 --                                    (isUnique(vorname) optional, z. B. Prüfung gegen die Gildenliste)

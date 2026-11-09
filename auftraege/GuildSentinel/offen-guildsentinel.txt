@@ -70,7 +70,7 @@ IM CLIENT PRÜFEN (/gs testroutine im echten Client mit 0.9.17, Ergebnis dem Nut
    - T82 "nichts gesendet": im letzten Lauf im Spiel (noch 0.9.13, 09.11. 05:47 UTC) echt 1
      (C_ChatInfo.SendAddonMessage). Mit 0.9.17 erneut /gs testroutine; kommt T82 wieder: Stelle über ns.Act bzw. den
      Recorder finden und im Test nur mitschreiben.
-   - Aus 0.9.13/0.9.14: T154 "Rokan Steinwacht ×3", T143 langsamste Seite mit echten Daten < 16 ms (letzter Lauf
+   - Aus 0.9.13/0.9.14: T154 "Testa Beispiel ×3", T143 langsamste Seite mit echten Daten < 16 ms (letzter Lauf
      206,5 ms mit 0.9.13), T118, T45 "[Test], 0", Bereich K (T182-T187), Berufe-Knopf in Forever ohne "Aktion
      blockiert", issecretvalue nach dem Kampf, T168 (/gs testroutine whisperq), Bank-Charakter -> #gildenbank,
      Sprachwahl folgt ohne Einstellung dem Client.

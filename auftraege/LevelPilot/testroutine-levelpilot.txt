@@ -256,7 +256,7 @@ T13 | A | SetTestFlavor(nil) stellt alles zurück | auto | F, E
       Läuft auch, wenn T09 bis T12 mit Lua-Fehler enden (Wiederherstellung in jeder T:Check, siehe 2.2).
 T14 | A | ohne GoldSentinelGame | auto | F, E
       LP.Game vorübergehend nil (Addon-Feld, kein Taint).
-      Erwartung: LP.SafeValue(5) == 5. LP.SameName("Rokan-Realm", "Rokan") == true und ("Rokan-Realm", "rokan") == false
+      Erwartung: LP.SafeValue(5) == 5. LP.SameName("Testa-Realm", "Testa") == true und ("Testa-Realm", "testa") == false
       (der Rückfall Core.lua:279-281 vergleicht genau). API.Forever() folgt der Einstellung "forever". Planner:DiagLines()
       enthält "GoldSentinelGame.lua fehlt" (Planner.lua:1664). Danach LP.Game zurück.
 T15 | A | Reihenfolge in der .toc | manuell (addon-check) | –
@@ -852,7 +852,7 @@ T167 | J [V Schritt 1] GoldSentinelGame unverändert und vor allen eigenen Datei
 T168 | J [V Schritt 1] G.Status() in der Diagnose | auto | F, E
       Erwartung: Planner:DiagLines() und Measure:Text() enthalten G.Status() (Planner.lua:1664, Measure.lua:70).
 T169 | J [V Schritt 1] Namensvergleiche über G.SameName | auto (sb) | F
-      Erwartung: Forever: LP.SameName("Rokan", "Rokan Steinwacht") == true, ("Rokan Steinwacht", "Rokan Eisenfaust") == false. Eine
+      Erwartung: Forever: LP.SameName("Testa", "Testa Beispiel") == true, ("Testa Beispiel", "Testa Eisenfaust") == false. Eine
       eigene CHAT_MSG_ADDON (sender = eigener Name mit Realm) wird von Comm (Comm.lua:483) und Group ignoriert.
 T170 | J [V Schritt 2.1] Datenpaket-Version passt | auto | F, E   (wie T04, T130) Erwartung: LevelPilotData.version >= "1.6.0".
 T171 | J [V Launch] Interface-Nummer in beiden .toc | halb | F

@@ -28,21 +28,21 @@ function issecretvalue(v) return rawequal(v, SECRET) end
 run("Classic Era", "function GetBuildInfo() return '1.15.9','70576','x',11509 end",
     [("GoldSentinelGame.flavor","era"),("GoldSentinelGame.IsModern",False),("GoldSentinelGame.IsOldAPI",True),
      ("GoldSentinelGame.HasSecrets",False),("GoldSentinelGame.IsSecret('x')",False),
-     ("GoldSentinelGame.SameName('Rokan','rokan-Server')",True),("GoldSentinelGame.SameName('Rokan','Rokan Steinwacht')",False),
-     ("GoldSentinelGame.CleanName(' rok an ')","Rokan")])
+     ("GoldSentinelGame.SameName('Testa','testa-Server')",True),("GoldSentinelGame.SameName('Testa','Testa Beispiel')",False),
+     ("GoldSentinelGame.CleanName(' tes ta ')","Testa")])
 run("Forever per TOC", SECRET + "function GetBuildInfo() return '1.60.1','70707','x',16001 end",
     [("GoldSentinelGame.flavor","forever"),("GoldSentinelGame.IsForever",True),("GoldSentinelGame.IsModern",True),
      ("GoldSentinelGame.IsOldAPI",False),("GoldSentinelGame.HasSecrets",True),
      ("GoldSentinelGame.IsSecret(S)",True),("GoldSentinelGame.IsSecret(5)",False),("GoldSentinelGame.AnySecret(1,nil,S)",True),
      ("GoldSentinelGame.AnySecret(1,2)",False),("GoldSentinelGame.Safe(S)",None),("GoldSentinelGame.Safe(7)",7),
-     ("GoldSentinelGame.Short(S)",None),("GoldSentinelGame.SameName(S,'Rokan')",False),("GoldSentinelGame.CleanName(S)",None),
-     ("GoldSentinelGame.SameName('Rokan','Rokan Steinwacht')",True),("GoldSentinelGame.SameName('rokan steinwacht-Server','Rokan Steinwacht')",True),
-     ("GoldSentinelGame.SameName('Rokan Steinwacht','Rokan Eisenfaust')",False),("GoldSentinelGame.SameName('Rokan','Rokana')",False),
-     ("GoldSentinelGame.CleanName('  rokan   steinwacht ')","Rokan Steinwacht")])
+     ("GoldSentinelGame.Short(S)",None),("GoldSentinelGame.SameName(S,'Testa')",False),("GoldSentinelGame.CleanName(S)",None),
+     ("GoldSentinelGame.SameName('Testa','Testa Beispiel')",True),("GoldSentinelGame.SameName('testa beispiel-Server','Testa Beispiel')",True),
+     ("GoldSentinelGame.SameName('Testa Beispiel','Testa Eisenfaust')",False),("GoldSentinelGame.SameName('Testa','Testaa')",False),
+     ("GoldSentinelGame.CleanName('  testa   beispiel ')","Testa Beispiel")])
 run("Forever per Projekt, TOC 16002", "WOW_PROJECT_ID=99; WOW_PROJECT_CAMELOT=99; function GetBuildInfo() return '1.60.2','1','x',16002 end",
     [("GoldSentinelGame.flavor","forever"),("GoldSentinelGame.IsModern",True)])
 run("Retail", SECRET + "function GetBuildInfo() return '12.1.5','70688','x',120105 end",
-    [("GoldSentinelGame.flavor","retail"),("GoldSentinelGame.IsModern",True),("GoldSentinelGame.SameName('Rokan','Rokan Steinwacht')",False)])
+    [("GoldSentinelGame.flavor","retail"),("GoldSentinelGame.IsModern",True),("GoldSentinelGame.SameName('Testa','Testa Beispiel')",False)])
 run("TBC Anniversary", "function GetBuildInfo() return '2.5.6','1','x',20506 end",
     [("GoldSentinelGame.flavor","tbc"),("GoldSentinelGame.IsModern",False)])
 run("Titan", "function GetBuildInfo() return '3.8.0','1','x',38002 end",
@@ -55,7 +55,7 @@ run("Testmodus", "function GetBuildInfo() return '1.15.9','1','x',11509 end",
 run("Neueste Version gewinnt", "GoldSentinelGame={version=5, marker='alt'}; function GetBuildInfo() return '1.15.9','1','x',11509 end",
     [("GoldSentinelGame.marker","alt"),("GoldSentinelGame.flavor",None)])
 run("Ältere wird ersetzt", "GoldSentinelGame={version=0, marker='alt'}; function GetBuildInfo() return '1.60.1','1','x',16001 end",
-    [("GoldSentinelGame.version",2),("GoldSentinelGame.flavor","forever")])
+    [("GoldSentinelGame.version",3),("GoldSentinelGame.flavor","forever")])
 run("Status + Slash", "function GetBuildInfo() return '1.60.1','1','x',16001 end; WOW_PROJECT_ID=1",
     [("(function() SlashCmdList.GOLDSENTINELGAME() return LAST end)()",
       "|cffffb238GoldSentinel|r: Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: nein")])
@@ -63,13 +63,13 @@ run("ohne GetBuildInfo", "", [("GoldSentinelGame.flavor","unknown"),("GoldSentin
 
 # ---------- Version 2: Ersatznamen ----------
 run("V2 Ersatznamen Forever", SECRET + "function GetBuildInfo() return '1.60.1','70707','x',16001 end",
-    [("GoldSentinelGame.version",2),("GoldSentinelGame.apiVersion",2),("GoldSentinelGame.interface",16001),
-     ("GoldSentinelGame.IsClassic",False),("GoldSentinelGame.ProperName('rokan  steinwacht-Server')","Rokan Steinwacht"),
+    [("GoldSentinelGame.version",3),("GoldSentinelGame.apiVersion",3),("GoldSentinelGame.interface",16001),
+     ("GoldSentinelGame.IsClassic",False),("GoldSentinelGame.ProperName('testa  beispiel-Server')","Testa Beispiel"),
      ("GoldSentinelGame.ProperName('ömer')","ömer"),("GoldSentinelGame.ProperName(S)",None),
-     ("GoldSentinelGame.ShortName(' Rokan Steinwacht-X ')","Rokan Steinwacht"),("GoldSentinelGame.NormName('Rokan   STEINWACHT')","rokan steinwacht"),
-     ("GoldSentinelGame.SameName('Rokan','Rokan Steinwacht', function(v) return v=='rokan' end)",True),
-     ("GoldSentinelGame.SameName('Rokan','Rokan Steinwacht', function(v) return false end)",False),
-     ("GoldSentinelGame.SameName('Rokan','Rokan Steinwacht', function(v) error('x') end)",False),
+     ("GoldSentinelGame.ShortName(' Testa Beispiel-X ')","Testa Beispiel"),("GoldSentinelGame.NormName('Testa   BEISPIEL')","testa beispiel"),
+     ("GoldSentinelGame.SameName('Testa','Testa Beispiel', function(v) return v=='testa' end)",True),
+     ("GoldSentinelGame.SameName('Testa','Testa Beispiel', function(v) return false end)",False),
+     ("GoldSentinelGame.SameName('Testa','Testa Beispiel', function(v) error('x') end)",False),
      ("GoldSentinelGame:Status() ~= nil",True)])
 run("V2 IsClassic TBC", "function GetBuildInfo() return '2.5.6','1','x',20506 end", [("GoldSentinelGame.IsClassic",True)])
 run("V2 IsClassic unbekannt", "", [("GoldSentinelGame.IsClassic",False)])
@@ -94,9 +94,9 @@ def run_order(label, first, second, checks, env):
         if not ok: fails += 1
         (None if ok and '-v' not in sys.argv else print(f"{'OK ' if ok else 'FEHLER'} [{label}] {expr} = {got!r}" + ("" if ok else f" (erwartet {want!r})")))
 ENV = SECRET + "WOW_PROJECT_ID=99; WOW_PROJECT_CAMELOT=99; function GetBuildInfo() return '1.60.1','70707','x',16001 end"
-COMPAT = [("GoldSentinelGame.version",2),("GoldSentinelGame.flavor","forever"),("GoldSentinelGame.IsModern",True),
-          ("type(GoldSentinelGame.CleanName)","function"),("GoldSentinelGame.CleanName('rokan steinwacht')","Rokan Steinwacht"),
-          ("GoldSentinelGame.SameName('Rokan','Rokan Steinwacht')",True),("GoldSentinelGame.IsSecret(S)",True),
+COMPAT = [("GoldSentinelGame.version",3),("GoldSentinelGame.flavor","forever"),("GoldSentinelGame.IsModern",True),
+          ("type(GoldSentinelGame.CleanName)","function"),("GoldSentinelGame.CleanName('testa beispiel')","Testa Beispiel"),
+          ("GoldSentinelGame.SameName('Testa','Testa Beispiel')",True),("GoldSentinelGame.IsSecret(S)",True),
           ("GoldSentinelGame.AnySecret(1,S)",True),("GoldSentinelGame.InCombat()",False),
           ("type(GoldSentinelGame.ProperName)","function"),("type(GoldSentinelGame.ShortName)","function"),
           ("type(GoldSentinelGame.NormName)","function"),("GoldSentinelGame.interface",16001),("GoldSentinelGame:Status() ~= nil",True)]
