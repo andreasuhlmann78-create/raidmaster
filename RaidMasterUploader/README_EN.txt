@@ -47,3 +47,13 @@ New in 1.9.0 – diagnostic logs and route data (#testberichte):
 Version 1.9.1:
 - Diagnostic logs or route data that are too large (over 512 KB) are reported only once and no longer retried again
   and again.
+
+New in 2.0.0 – fewer messages in #testberichte:
+- Only new things: every test report once (also after /reload, relog or restarting the uploader), diagnostic logs
+  only when new entries were added, route data once. An error that was already reported only comes as a counter
+  ("now 12×").
+- Everything new goes into ONE message with ONE attachment (paket-<time>.json.gz).
+- At most every 15 minutes: after a /reload the uploader waits and collects; several /reloads in a row give one
+  package. When you close the uploader window the rest is sent right away.
+- What was already sent is remembered in uploader_state.json (next to the uploader). uploader_config.json stays
+  unchanged. Replace the whole folder as usual (back up uploader_config.json first); uploader_state.json may stay.

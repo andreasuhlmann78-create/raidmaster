@@ -53,3 +53,14 @@ Ab Version 1.9.0 – Diagnose-Protokolle und Wegdaten (#testberichte):
 Version 1.9.1:
 - Zu grosse Diagnose-Protokolle oder Wegdaten (über 512 KB) werden nur noch einmal gemeldet und danach nicht immer
   wieder neu versucht.
+
+Ab Version 2.0.0 – weniger Meldungen in #testberichte:
+- Nur noch Neues: jeder Testbericht nur einmal (auch nach /reload, Neu-Einloggen oder Neustart des Uploaders),
+  Diagnose-Protokolle nur, wenn neue Einträge dazugekommen sind, Wegdaten nur einmal. Ein Fehler, der schon
+  gemeldet wurde, kommt nur noch als Zähler ("jetzt 12×").
+- Alles Neue kommt in EINER Nachricht mit EINEM Anhang (paket-<Zeit>.json.gz).
+- Höchstens alle 15 Minuten: Nach einem /reload wartet der Uploader und sammelt; mehrere /reload kurz hintereinander
+  ergeben ein gemeinsames Paket. Beim Schliessen des Uploader-Fensters wird der Rest sofort geschickt.
+- Was schon geschickt wurde, merkt sich der Uploader in uploader_state.json (neben dem Uploader). Die
+  uploader_config.json bleibt unverändert. Ordner wie gewohnt ganz ersetzen, uploader_config.json vorher sichern;
+  uploader_state.json darf bleiben.

@@ -1,4 +1,4 @@
-"""Offline-Tests für den RaidMaster-Uploader (1.7.0 / 1.8.0 / 1.9.0). Keine Verbindung nach aussen: urlopen ist nachgebaut.
+"""Offline-Tests für den RaidMaster-Uploader (1.7.0 und 2.0.0). Keine Verbindung nach aussen: urlopen ist nachgebaut.
 Start: python3 -I RaidMasterUploader/tests/test_uploader.py"""
 import gzip
 import io
@@ -151,169 +151,21 @@ class Uploader17(Base):
 
 
 # --- 1.8.0: Testberichte ---------------------------------------------------------------------------------
-class TestReports(Base):
-    def test_u01_findet_berichte_in_allen_lua(self):
-        self.write("RaidMaster.lua", sv_with("RaidMasterDB", [report("rm-1")], junk=["kein Präfix"]))
-        self.write("ThreatSentinel.lua", sv_with("ThreatSentinelDB", [report("ts-1", "ThreatSentinel")]))
-        self.write("BuffSentinel.lua", sv_with("BuffSentinelDB", [report("bs-1", "BuffSentinel")]))
-        self.write("RaidMaster.lua.bak", sv_with("RaidMasterDB", [report("bak-1")]))
-        self.write("RaidMaster.lua", sv_with("RaidMasterDB", [report("fremd-1")]), folder=os.path.join(self.d, "anders"))
-        ids = sorted(r["id"] for r in up.TestReportScanner(self.sv).scan(self.cfg()))
-        self.assertEqual(ids, ["bs-1", "rm-1", "ts-1"])
-
-    def test_u02_escapes_wie_testberichte(self):
-        vectors = [r'a\"b', r'x\\y', r'z\nq', 'zeile\\\nzwei', r'\195\164\195\182', r'\9tab\13', r'Ende\\']
-        for v in vectors:
-            self.assertEqual(up.lua_unescape(v), testberichte.lua_unescape(v), v)
-        self.assertEqual(up.lua_unescape(r'\195\164'), "ä")
-        rep = report("u-1", extra=' mit "Zitat", Backslash \\ und Zeile\nzwei, Umlaut äöü')
-        text = sv_with("RaidMasterDB", [rep])
-        self.assertEqual(up.reports_in_text(text), [rep])
-        self.assertEqual([r["id"] for r in testberichte.from_text(text)], ["u-1"])
-
-    def test_u03_kaputter_bericht_uebersprungen(self):
-        text = sv_with("RaidMasterDB", [report("ok-1"), report("ok-2")], junk=['GSTEST1{"f":1,"id":"kaputt"'])
-        self.write("RaidMaster.lua", text)
-        ids = [r["id"] for r in up.TestReportScanner(self.sv).scan(self.cfg())]
-        self.assertEqual(sorted(ids), ["ok-1", "ok-2"])
-        self.assertTrue(any("nicht lesbar" in l for l in self.logs))
-
-    def test_u04_doppelte_ids(self):
-        self.write("RaidMaster.lua", sv_with("RaidMasterDB", [report("d-1"), report("d-1"), report("d-2")]))
-        self.write("ThreatSentinel.lua", sv_with("ThreatSentinelDB", [report("d-1")]))
-        cfg = self.cfg(sent_test_ids=["d-2"])
-        self.assertEqual([r["id"] for r in up.TestReportScanner(self.sv).scan(cfg)], ["d-1"])
-
-    def test_u05_sent_ids_begrenzt_andere_schluessel_bleiben(self):
-        up.urllib.request.urlopen = Net(204)
-        cfg = self.cfg(sent_test_ids=[f"alt-{i}" for i in range(499)], sent_shots=["s1"], savedvariables_path="P")
-        self.assertTrue(up.send_reports(cfg, [report("n-1"), report("n-2")]))
-        saved = json.load(open(up.CONFIG, encoding="utf-8"))
-        self.assertEqual(len(saved["sent_test_ids"]), 500)
-        self.assertEqual(saved["sent_test_ids"][-2:], ["n-1", "n-2"])
-        self.assertNotIn("alt-0", saved["sent_test_ids"])
-        for k in ("webhook_url", "bot_id", "savedvariables_path", "sent_shots", "test_webhook_url"):
-            self.assertEqual(saved[k], cfg[k])
-
-    def test_u06_nachricht(self):
-        net = Net(204)
-        up.urllib.request.urlopen = net
-        self.assertTrue(up.send_reports(self.cfg(), [report("a"), report("b"), report("c")]))
-        req = net.calls[0]
-        self.assertTrue(req.full_url.startswith("https://discord.invalid/test"))
-        payload = json.loads(req.data.split(b"\r\n\r\n", 1)[1].split(b"\r\n--", 1)[0])
-        self.assertEqual(payload["content"], "GoldSentinel-Testberichte: 3 neu")
-        self.assertEqual(payload["username"], "GoldSentinel-Testberichte")
-        self.assertEqual(payload["allowed_mentions"], {"parse": []})
-        data = json.loads(gzip.decompress(attachment(req.data, "testberichte.json.gz")))
-        self.assertEqual([r["id"] for r in data], ["a", "b", "c"])
-
-    def test_u07_aufteilen(self):
-        net = Net()
-        up.urllib.request.urlopen = net
-        big = "x" * (1024 * 1024 + 300 * 1024)               # ca. 1,3 MB je Bericht
-        reps = [report(f"g-{i}", extra=big) for i in range(5)]
-        reps.append(report("zu-gross", extra="y" * (5 * 1024 * 1024)))
-        self.assertTrue(up.send_reports(self.cfg(), reps))
-        self.assertGreaterEqual(len(net.calls), 2)
-        ids = []
-        for req in net.calls:
-            packed = attachment(req.data, "testberichte.json.gz")
-            raw = gzip.decompress(packed)
-            self.assertLessEqual(len(raw), up.TEST_MAX_JSON)
-            self.assertLess(len(packed), 5 * 1024 * 1024)
-            ids += [r["id"] for r in json.loads(raw)]
-        self.assertEqual(ids, [f"g-{i}" for i in range(5)])
-        self.assertTrue(any("zu gross" in l for l in self.logs))
-
-    def test_u08_http(self):
-        sleeps = []
-        cfg = self.cfg()
-        up.urllib.request.urlopen = Net(204)
-        self.assertTrue(up.send_reports(cfg, [report("h-1")], sleeps.append))
-        up.urllib.request.urlopen = Net(429, 204)
-        self.assertTrue(up.send_reports(cfg, [report("h-2")], sleeps.append))
-        self.assertEqual(len(sleeps), 1)
-        for answer in (500, "conn", 404):
-            up.urllib.request.urlopen = Net(answer)
-            self.assertFalse(up.send_reports(cfg, [report(f"h-{answer}")], sleeps.append))
-        self.assertEqual(cfg["sent_test_ids"], ["h-1", "h-2"])
-        self.assertTrue(any("ungültig" in l for l in self.logs))
-        # nächster Durchgang schickt die nicht gemerkten erneut
-        up.urllib.request.urlopen = Net(204)
-        self.assertTrue(up.send_reports(cfg, [report("h-500")], sleeps.append))
-        self.assertIn("h-500", cfg["sent_test_ids"])
-
-    def test_u09_alte_konfiguration(self):
-        cfg = self.cfg()
-        del cfg["test_webhook_url"]
-        net = Net()
-        up.urllib.request.urlopen = net
-        self.assertFalse(up.send_reports(cfg, [report("o-1")]))
-        self.assertEqual(net.calls, [])
-        rm = self.write("RaidMaster.lua", "RaidMasterDB = {}")
-        self.assertTrue(up.upload(cfg, rm))                  # Daten-Upload wie bisher
-        self.assertEqual(len(net.calls), 1)
-
-    def test_u10_nur_threatsentinel_geaendert(self):
-        self.write("RaidMaster.lua", "RaidMasterDB = {}")
-        sc = up.TestReportScanner(self.sv)
-        self.assertEqual(sc.scan(self.cfg()), [])
-        self.write("ThreatSentinel.lua", sv_with("ThreatSentinelDB", [report("t-1", "ThreatSentinel")]))
-        self.assertEqual([r["id"] for r in sc.scan(self.cfg())], ["t-1"])
-        # RaidMaster.lua unverändert -> wird nicht neu gelesen (mtime)
-        self.assertNotIn("RaidMaster.lua", [k for k, v in sc.mtimes.items() if v is None])
-        self.assertEqual(sc.scan(self.cfg()), [])
-        # gerade geschrieben (jünger als 2 s) -> noch nicht lesen
-        self.write("BuffSentinel.lua", sv_with("BuffSentinelDB", [report("b-1", "BuffSentinel")]), age=0)
-        self.assertEqual(sc.scan(self.cfg()), [])
-
-    def test_u11_daten_upload_unveraendert(self):
-        net = Net()
-        up.urllib.request.urlopen = net
-        rm = self.write("RaidMaster.lua", sv_with("RaidMasterDB", [report("r-1")]))
-        self.assertTrue(up.upload(self.cfg(), rm))
-        req = net.calls[0]
-        self.assertTrue(req.full_url.startswith("https://discord.invalid/data"))
-        names = [n.decode() for n in re.findall(rb'filename="([^"]+)"', req.data)]
-        self.assertEqual(names, ["RaidMaster.lua.gz"])
-        self.assertIn(b"RaidMaster-Daten", req.data)
-        net2 = Net()
-        up.urllib.request.urlopen = net2
-        up.send_reports(self.cfg(), [report("r-1")])
-        self.assertTrue(net2.calls[0].full_url.startswith("https://discord.invalid/test"))
-
-    def test_u12_nur_berichte(self):
-        secret = 'ThreatSentinelDB = {\n["geheim"] = "Spielername Gildenname",\n'
-        self.write("ThreatSentinel.lua", secret + sv_with("X", [report("p-1", "ThreatSentinel")]).split("\n", 1)[1])
-        net = Net()
-        up.urllib.request.urlopen = net
-        up.send_reports(self.cfg(), up.TestReportScanner(self.sv).scan(self.cfg()))
-        raw = gzip.decompress(attachment(net.calls[0].data, "testberichte.json.gz"))
-        self.assertNotIn(b"Spielername", raw)
-        self.assertNotIn(b"Spielername", net.calls[0].data)
-        self.assertEqual([r["id"] for r in json.loads(raw)], ["p-1"])
-
-    def test_u13_gegenprobe_auswertung(self):
-        net = Net()
-        up.urllib.request.urlopen = net
-        reps = [report("x-1"), report("x-2", "ThreatSentinel", kind="fehler")]
-        up.send_reports(self.cfg(), reps)
-        packed = attachment(net.calls[0].data, "testberichte.json.gz")
-        back = testberichte.from_bytes("testberichte.json.gz", packed)
-        self.assertEqual(sorted(r["id"] for r in back), ["x-1", "x-2"])
+# --- 2.0.0: nur noch Neues, ein Paket, höchstens alle 15 Minuten ----------------------------------------------
+def diag_text(addon, entries, stamp="09.11. 10:01", sessions=1):
+    head = [f"{addon}-Protokoll v1.0 · {stamp}", "Client deDE · Spielversion: WoW Forever", f"Sitzungen: {sessions}"]
+    head += [f"  09.11. 0{i}:00 L10 PRIEST forever v1.0" for i in range(sessions)]
+    body = ["", "== Diagnose", "  Fehler in dieser Sitzung: 0", "", f"== Einträge ({len(entries)}, neueste zuerst)"]
+    return f"GSDIAG1|{addon}|1.0|" + "\n".join(head + body + list(entries))
 
 
-# --- 1.9.0: Diagnose-Protokolle (GSDIAG1) und Wegdaten (GSWEGE1) --------------------------------------------
-DIAG = "GSDIAG1|ProfessionSentinel|0.9.23|forever|16001|09.11.2026|FEHLER x3 \"Zitat\" Umlaut äö\nzweite Zeile"
-WEG = 'GSWEGE1' + json.dumps({"f": 1, "kind": "wege", "id": "w-1", "addon": "LevelPilot",
-                              "zones": [{"map": 1412, "pts": [[1, 2]]}]})
-
-
-def sv_extras(var, diag=None, wege=(), secret=True):
+def sv_all(var, reports=(), diag=None, wege=(), secret=True):
     lines = [f"{var} = {{"]
     if secret:
-        lines.append('\t["chars"] = { ["Spielername-Realm"] = { ["gold"] = 12345 } },')
+        lines.append('\t["chars"] = { ["Testa Beispiel-Realm"] = { ["gold"] = 12345 } },')
+    lines += ['\t["gsTest"] = {', '\t\t["reports"] = {']
+    lines += ["\t\t\t" + lua_str("GSTEST1" + json.dumps(r, ensure_ascii=False)) + "," for r in reports]
+    lines += ["\t\t},", "\t},"]
     if diag:
         lines.append('\t["diagExport"] = ' + lua_str(diag) + ",")
     if wege:
@@ -324,94 +176,187 @@ def sv_extras(var, diag=None, wege=(), secret=True):
     return "\n".join(lines) + "\n"
 
 
-class Extras(Base):
-    def test_x01_findet_diag_und_wege(self):
-        self.write("ProfessionSentinel.lua", sv_extras("ProfessionSentinelDB", DIAG.replace("Profession", "Profession")))
-        self.write("AHSentinel.lua", sv_extras("AHSentinelDB", DIAG.replace("ProfessionSentinel", "AHSentinel")))
-        self.write("LevelPilot.lua", sv_extras("LevelPilotDB", wege=[WEG]))
-        self.write("RaidMaster.lua", "RaidMasterDB = {}")
-        sc = up.TestReportScanner(self.sv)
-        self.assertEqual(sc.scan(self.cfg()), [])                 # keine GSTEST1
-        self.assertEqual(sorted(x["kind"] for x in sc.extras), ["diag", "diag", "wege"])
-        sc.scan(self.cfg())                                        # unverändert -> nicht doppelt
-        self.assertEqual(len(sc.extras), 3)
+def fehler(rid, msg="x.lua:1: kaputt", count=1, addon="RaidMaster", t=100):
+    return {"f": 1, "kind": "fehler", "id": rid, "addon": addon, "version": "1.0", "time": t, "env": {},
+            "errors": [{"msg": msg, "count": count, "wo": "Lua", "stack": "a.lua:1\nb.lua:2", "version": "1.0"}]}
 
-    def test_x02_nur_wenn_neu(self):
-        self.write("LevelPilot.lua", sv_extras("LevelPilotDB", wege=[WEG]))
-        net = Net()
-        up.urllib.request.urlopen = net
-        cfg = self.cfg()
-        sc = up.TestReportScanner(self.sv)
-        sc.scan(cfg)
-        self.assertTrue(up.send_extras(cfg, sc.extras))
-        self.assertEqual(len(cfg["sent_extra_ids"]), 1)
-        # neuer Weg dazu, alter bleibt in der Liste: nur der neue geht mit
-        weg2 = WEG.replace('"w-1"', '"w-2"')
-        self.write("LevelPilot.lua", sv_extras("LevelPilotDB", wege=[WEG, weg2]), age=5)
-        sc2 = up.TestReportScanner(self.sv)
-        sc2.scan(cfg)
-        self.assertEqual(len(sc2.extras), 1)
-        self.assertIn('"w-2"', up.lua_unescape(sc2.extras[0]["raw"]))
 
-    def test_x03_gegenprobe_auswertung_und_keine_namen(self):
-        self.write("ProfessionSentinel.lua", sv_extras("ProfessionSentinelDB", DIAG))
-        self.write("LevelPilot.lua", sv_extras("LevelPilotDB", wege=[WEG]))
-        net = Net()
-        up.urllib.request.urlopen = net
-        sc = up.TestReportScanner(self.sv)
-        sc.scan(self.cfg())
-        self.assertTrue(up.send_extras(self.cfg(), sc.extras))
-        req = net.calls[0]
+WEG = 'GSWEGE1' + json.dumps({"f": 1, "kind": "wege", "id": "w-1", "addon": "LevelPilot",
+                              "zones": [{"map": 1412, "pts": [[1, 2]]}]})
+
+
+class Paket(Base):
+    def setUp(self):
+        super().setUp()
+        up.STATE = os.path.join(self.d, "uploader_state.json")
+        self.net = Net()
+        up.urllib.request.urlopen = self.net
+
+    def items(self, call=0):
+        name = re.search(rb'filename="(paket-[^"]+)"', self.net.calls[call].data).group(1).decode()
+        return name, json.loads(gzip.decompress(attachment(self.net.calls[call].data, name)))["items"]
+
+    def reporter(self, st=None):
+        return up.Reporter(self.cfg(), self.sv, st if st is not None else up.load_state({}), sleep=lambda s: None)
+
+    def test_p01_gleicher_bericht_zweimal_einmal_gesendet(self):
+        self.write("RaidMaster.lua", sv_all("RaidMasterDB", [report("t-1")]))
+        r = self.reporter()
+        r.tick(now=1000)
+        self.assertEqual(r.flush(now=2000), "ok")
+        self.assertEqual(len(self.net.calls), 1)
+        # /reload: dieselbe Datei neu geschrieben, Bericht noch drin; auch nach Neustart (Stand aus Datei)
+        self.write("RaidMaster.lua", sv_all("RaidMasterDB", [report("t-1")]) + "-- neu\n", age=5)
+        r2 = up.Reporter(self.cfg(), self.sv, up.load_state({}), sleep=lambda s: None)
+        self.assertEqual(r2.flush(now=5000), "leer")
+        self.assertEqual(len(self.net.calls), 1)
+        self.assertIn("t-1", json.load(open(up.STATE, encoding="utf-8"))["sent_test_ids"])
+
+    def test_p02_protokoll_ohne_neue_eintraege_nichts(self):
+        d1 = diag_text("AHSentinel", ["[09.11. 06:33] AUFBAU ×3 Liste · 2 ms"])
+        self.write("AHSentinel.lua", sv_all("AHSentinelDB", diag=d1))
+        r = self.reporter()
+        self.assertEqual(r.flush(now=1000), "ok")
+        # nur Kopfzeile/Uhrzeit/Sitzungen anders -> nichts
+        d2 = diag_text("AHSentinel", ["[09.11. 06:33] AUFBAU ×3 Liste · 2 ms"], stamp="09.11. 11:45", sessions=3)
+        self.write("AHSentinel.lua", sv_all("AHSentinelDB", diag=d2), age=5)
+        self.assertEqual(r.flush(now=2000), "leer")
+        self.assertEqual(len(self.net.calls), 1)
+
+    def test_p03_neuer_eintrag_ein_paket(self):
+        d1 = diag_text("AHSentinel", ["[09.11. 06:33] AUFBAU ×3 Liste · 2 ms"])
+        self.write("AHSentinel.lua", sv_all("AHSentinelDB", diag=d1))
+        r = self.reporter()
+        r.flush(now=1000)
+        d2 = diag_text("AHSentinel", ["[09.11. 06:40] LANGSAM scan · 29 ms", "[09.11. 06:33] AUFBAU ×3 Liste · 2 ms"])
+        self.write("AHSentinel.lua", sv_all("AHSentinelDB", diag=d2), age=5)
+        self.assertEqual(r.flush(now=2000), "ok")
+        name, items = self.items(1)
+        self.assertTrue(name.startswith("paket-") and name.endswith(".json.gz"))
+        self.assertEqual(len(items), 1)
+        self.assertTrue(items[0].startswith("GSDIAG1|AHSentinel|"))
+        # gestiegener Zähler gilt auch als neu
+        d3 = d2.replace("AUFBAU ×3", "AUFBAU ×4")
+        self.write("AHSentinel.lua", sv_all("AHSentinelDB", diag=d3), age=3)
+        self.assertEqual(r.flush(now=3000), "ok")
+
+    def test_p04_drei_reload_ein_paket_nach_15_minuten(self):
+        r = self.reporter()
+        t0 = 100000.0
+        for i in range(3):                                    # drei /reload in 5 Minuten, jedes Mal etwas Neues
+            self.write("RaidMaster.lua", sv_all("RaidMasterDB", [report(f"t-{j}") for j in range(i + 1)]), age=0)
+            os.utime(os.path.join(self.sv, "RaidMaster.lua"), (t0 + i * 120 - 10 + i, t0 + i * 120 - 10 + i))
+            self.assertIsNone(r.tick(now=t0 + i * 120))
+        self.assertEqual(self.net.calls, [])
+        self.assertIsNone(r.tick(now=t0 + 14 * 60))         # Frist noch nicht um
+        self.assertEqual(r.tick(now=t0 + 15 * 60 + 1), "ok")
+        self.assertEqual(len(self.net.calls), 1)
+        _, items = self.items(0)
+        self.assertEqual(len(items), 3)                      # alle drei Berichte in EINEM Paket
+        self.assertIsNone(r.tick(now=t0 + 16 * 60))
+
+    def test_p05_gleicher_fehler_dreimal_eine_meldung_mit_zaehler(self):
+        reps = [fehler("f-1", t=1), fehler("f-2", t=2), fehler("f-3", t=3)]
+        self.write("RaidMaster.lua", sv_all("RaidMasterDB", reps))
+        r = self.reporter()
+        r.flush(now=1000)
+        _, items = self.items(0)
+        self.assertEqual(len(items), 1)
+        rep = json.loads(items[0][len("GSTEST1"):])
+        self.assertEqual(len(rep["errors"]), 1)
+        self.assertEqual(rep["errors"][0]["count"], 3)
+        self.assertNotIn("nur_zaehler", rep["errors"][0])
+        # nächstes Mal derselbe Fehler (neuer Bericht): nur noch Zähler, ohne Stapel
+        self.write("RaidMaster.lua", sv_all("RaidMasterDB", reps + [fehler("f-4", count=9, t=4)]), age=5)
+        r.flush(now=2000)
+        _, items = self.items(1)
+        e = json.loads(items[0][len("GSTEST1"):])["errors"][0]
+        self.assertEqual((e["count"], e["nur_zaehler"], e["vorher"]), (12, True, 3))
+        self.assertNotIn("stack", e)
+        # Gegenprobe: die Abholung liest das Paket
+        name, _ = self.items(1)
+        back = testberichte.from_bytes(name, attachment(self.net.calls[1].data, name))
+        self.assertEqual([x["id"] for x in back], ["f-4"])
+
+    def test_p06_alles_in_einer_nachricht_und_keine_namen(self):
+        self.write("RaidMaster.lua", sv_all("RaidMasterDB", [report("t-1", extra=' "Zitat" äö\nzwei')]))
+        self.write("ThreatSentinel.lua", sv_all("ThreatSentinelDB", [fehler("f-1", addon="ThreatSentinel")]))
+        self.write("AHSentinel.lua", sv_all("AHSentinelDB", diag=diag_text("AHSentinel", ["[09.11.] X a"])))
+        self.write("LevelPilot.lua", sv_all("LevelPilotDB", wege=[WEG]))
+        r = self.reporter()
+        self.assertEqual(r.flush(now=1000), "ok")
+        self.assertEqual(len(self.net.calls), 1)
+        req = self.net.calls[0]
         self.assertTrue(req.full_url.startswith("https://discord.invalid/test"))
-        packed = attachment(req.data, "gsextras.lua.gz")
-        raw = gzip.decompress(packed)
-        self.assertNotIn(b"Spielername", raw)
-        self.assertNotIn(b"Spielername", req.data)
-        text = raw.decode("utf-8")
-        d, w = testberichte.extras_from_text(text)
-        self.assertEqual([(x["addon"], x["version"]) for x in d], [("ProfessionSentinel", "0.9.23")])
-        self.assertEqual(d[0]["text"], DIAG)                       # Umlaute, Zitat und Zeilenumbruch unverändert
+        self.assertEqual(len(re.findall(rb'filename="', req.data)), 1)
+        name, items = self.items(0)
+        self.assertEqual(len(items), 4)
+        self.assertNotIn(b"Testa Beispiel", req.data)
+        self.assertNotIn("Testa", json.dumps(items))
+        packed = attachment(req.data, name)
+        self.assertEqual(sorted(x["id"] for x in testberichte.from_bytes(name, packed)), ["f-1", "t-1"])
+        d, w = testberichte.extras_from_text(gzip.decompress(packed).decode("utf-8"))
+        self.assertEqual([x["addon"] for x in d], ["AHSentinel"])
         self.assertEqual([x["id"] for x in w], ["w-1"])
-        self.assertEqual(testberichte.from_bytes("gsextras.lua.gz", packed), [])   # kein Testbericht
+        self.assertIn("Zitat", json.loads(items[[i for i, x in enumerate(items) if "t-1" in x][0]][7:])["text"])
         payload = json.loads(req.data.split(b"\r\n\r\n", 1)[1].split(b"\r\n--", 1)[0])
         self.assertEqual(payload["allowed_mentions"], {"parse": []})
+        self.assertIn("GoldSentinel-Paket", payload["content"])
+        # Wegdaten nur einmal
+        self.write("LevelPilot.lua", sv_all("LevelPilotDB", wege=[WEG]) + "--\n", age=5)
+        self.assertEqual(r.flush(now=2000), "leer")
 
-    def test_x04_grenzen_und_fehler(self):
-        big = DIAG + "x" * (600 * 1024)
-        cfg = self.cfg()
-        net = Net(500)
-        up.urllib.request.urlopen = net
-        xs = up.extras_in_text(sv_extras("A", big)) + up.extras_in_text(sv_extras("B", wege=[WEG]))
-        self.assertFalse(up.send_extras(cfg, xs))                   # 500 -> Weg nicht gemerkt
-        self.assertEqual(cfg["sent_extra_ids"], [xs[0]["id"]])      # nur die zu grosse (nie sendbar)
+    def test_p07_fehler_beim_senden_spaeter_ohne_doppelt(self):
+        self.write("RaidMaster.lua", sv_all("RaidMasterDB", [report("t-1")]))
+        r = self.reporter()
+        up.urllib.request.urlopen = Net(500)
+        self.assertEqual(r.flush(now=1000), "error")
+        self.assertFalse(os.path.exists(up.STATE) and "t-1" in open(up.STATE).read())
+        up.urllib.request.urlopen = self.net
+        self.assertEqual(r.flush(now=2000), "ok")
+        self.assertEqual(r.flush(now=3000), "leer")
+        self.assertEqual(len(self.net.calls), 1)
+
+    def test_p08_stand_nie_in_config(self):
+        cfg_path = up.CONFIG
+        with open(cfg_path, "w", encoding="utf-8") as f:
+            json.dump(self.cfg(sent_test_ids=["alt-1"]), f)
+        before = open(cfg_path, "rb").read()
+        self.write("RaidMaster.lua", sv_all("RaidMasterDB", [report("alt-1"), report("neu-1")]))
+        cfg = up.load_config()
+        st = up.load_state(cfg)                               # Übernahme der alten Kennungen (nur lesen)
+        r = up.Reporter(cfg, self.sv, st, sleep=lambda s: None)
+        r.flush(now=1000)
+        _, items = self.items(0)
+        self.assertEqual([json.loads(x[7:])["id"] for x in items], ["neu-1"])
+        self.assertEqual(open(cfg_path, "rb").read(), before)
+        self.assertTrue(os.path.exists(up.STATE))
+
+    def test_p09_zu_gross_uebersprungen_ohne_test_webhook_nichts(self):
+        big = diag_text("AHSentinel", ["[x] " + "y" * (600 * 1024)])
+        self.write("AHSentinel.lua", sv_all("AHSentinelDB", diag=big))
+        r = self.reporter()
+        self.assertEqual(r.flush(now=1000), "leer")
         self.assertTrue(any("zu gross" in l for l in self.logs))
-        up.urllib.request.urlopen = Net(204)
-        self.assertTrue(up.send_extras(cfg, xs))
-        # 1.9.1: die zu grosse Diagnose gilt als erledigt (gemerkt, nie gesendet), der Weg als gesendet
-        self.assertEqual(len(cfg["sent_extra_ids"]), 2)
-        del cfg["test_webhook_url"]
-        net3 = Net()
-        up.urllib.request.urlopen = net3
-        self.assertFalse(up.send_extras(cfg, xs))
-        self.assertEqual(net3.calls, [])
+        r2 = up.Reporter(self.cfg(test_webhook_url=""), self.sv, up.load_state({}))
+        self.assertIsNone(r2.flush(now=1000))
+        self.assertIsNone(r2.tick(now=1000))
 
-    def test_x05_zu_gross_nur_einmal_gemeldet(self):
-        big = DIAG + "x" * (600 * 1024)
-        self.write("AHSentinel.lua", sv_extras("AHSentinelDB", big))
-        up.urllib.request.urlopen = Net()
-        cfg = self.cfg()
-        sc = up.TestReportScanner(self.sv)
-        sc.scan(cfg)
-        self.assertEqual(len(sc.extras), 1)
-        self.assertTrue(up.send_extras(cfg, sc.extras))
-        sc.extras = []
-        n = sum("zu gross" in l for l in self.logs)
-        self.assertEqual(n, 1)
-        # dieselbe Datei ändert sich (anderer Inhalt daneben), die grosse Diagnose bleibt gleich: nicht nochmals
-        self.write("AHSentinel.lua", sv_extras("AHSentinelDB", big) + "-- neu\n", age=4)
-        sc.scan(cfg)
-        self.assertEqual(sc.extras, [])
-        self.assertEqual(sum("zu gross" in l for l in self.logs), 1)
+    def test_p10_daten_upload_unveraendert(self):
+        rm = self.write("RaidMaster.lua", sv_all("RaidMasterDB", [report("r-1")]))
+        self.assertTrue(up.upload(self.cfg(), rm))
+        req = self.net.calls[0]
+        self.assertTrue(req.full_url.startswith("https://discord.invalid/data"))
+        names = [n.decode() for n in re.findall(rb'filename="([^"]+)"', req.data)]
+        self.assertEqual(names, ["RaidMaster.lua.gz"])
+
+    def test_p11_escapes_und_kaputte(self):
+        vectors = [r'a\"b', r'x\\y', r'z\nq', 'zeile\\\nzwei', r'\195\164\195\182', r'\9tab\13', r'Ende\\']
+        for v in vectors:
+            self.assertEqual(up.lua_unescape(v), testberichte.lua_unescape(v), v)
+        text = sv_with("RaidMasterDB", [report("ok-1")], junk=['GSTEST1{"f":1,"id":"kaputt"'])
+        self.assertEqual([x["id"] for x in up.reports_in_text(text)], ["ok-1"])
+        self.assertTrue(any("nicht lesbar" in l for l in self.logs))
 
 
 if __name__ == "__main__":
