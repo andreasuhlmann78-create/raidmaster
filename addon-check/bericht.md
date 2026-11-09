@@ -11,11 +11,11 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## GuildSentinel-0.9.16.zip: OK
 
-## ProfessionSentinel-0.9.26.zip: OK
+## ProfessionSentinel-0.9.27.zip: OK
 
 ## RaidMaster-3.0.18.zip: OK
 
-## ThreatSentinel-2.4.9.zip: OK
+## ThreatSentinel-2.5.0.zip: OK
 
 ## levelpilot__levelpilot-3.12.19.LevelPilot.zip: OK
 
