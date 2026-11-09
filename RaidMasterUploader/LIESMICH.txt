@@ -64,3 +64,8 @@ Ab Version 2.0.0 – weniger Meldungen in #testberichte:
 - Was schon geschickt wurde, merkt sich der Uploader in uploader_state.json (neben dem Uploader). Die
   uploader_config.json bleibt unverändert. Ordner wie gewohnt ganz ersetzen, uploader_config.json vorher sichern;
   uploader_state.json darf bleiben.
+
+Version 2.0.1:
+- Zu grosse Diagnose-Protokolle oder Wegdaten werden wieder nur einmal gemeldet (auch nach einem Neustart).
+- Sehr grosse Pakete in mehreren Teilen: Jeder gesendete Teil wird sofort gemerkt; schlägt ein späterer Teil fehl,
+  kommt der frühere beim nächsten Versuch nicht nochmals.

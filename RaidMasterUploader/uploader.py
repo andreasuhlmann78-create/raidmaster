@@ -56,7 +56,7 @@ import urllib.error
 import urllib.request
 import uuid
 
-VERSION = "2.0.0"
+VERSION = "2.0.1"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400
@@ -379,7 +379,8 @@ class Collector:
         sent = set(st.get("sent_test_ids") or [])
         known_err = dict(st.get("errors") or {})
         known_wege = set(st.get("wege") or [])
-        items, new_ids, wege_ids, diag_state, err_state = [], [], [], {}, {}
+        items, marks, rest = [], [], {"ids": []}      # je Item, was nach dem Senden gemerkt wird (ab 2.0.1 je Teil)
+        new_ids, wege_ids, diag_state, err_state = [], [], {}, {}
         counts = {"test": 0, "fehler": 0, "zaehler": 0, "diag": 0, "wege": 0}
         fehler: dict[str, dict] = {}         # je Addon ein zusammengefasster Fehlerbericht
         seen = set()
@@ -393,10 +394,12 @@ class Collector:
                 new_ids.append(rid)
                 if rep.get("kind") != "fehler":
                     items.append(TEST_PREFIX + json.dumps(rep, ensure_ascii=False, separators=(",", ":")))
+                    marks.append({"ids": [rid]})
                     counts["test"] += 1
                     continue
                 addon = str(rep.get("addon") or "?")
-                box = fehler.setdefault(addon, {"rep": rep, "errors": {}})
+                box = fehler.setdefault(addon, {"rep": rep, "errors": {}, "ids": []})
+                box["ids"].append(rid)
                 if (rep.get("time") or 0) >= (box["rep"].get("time") or 0):
                     box["rep"] = rep
                 for e in rep.get("errors") or []:
@@ -418,24 +421,38 @@ class Collector:
                         cur["count"] = int(cur.get("count") or 0) + n
         for addon, box in sorted(fehler.items()):
             if not box["errors"]:
+                rest["ids"] += box["ids"]
                 continue
             rep = dict(box["rep"])
             rep["errors"] = list(box["errors"].values())
             items.append(TEST_PREFIX + json.dumps(rep, ensure_ascii=False, separators=(",", ":")))
+            mark = {"ids": list(box["ids"]), "errors": {}}
             for sig, e in box["errors"].items():
                 err_state[sig] = int(e.get("count") or 0)
+                mark["errors"][sig] = err_state[sig]
                 counts["zaehler" if e.get("nur_zaehler") else "fehler"] += 1
+            marks.append(mark)
         for fn in sorted(self.texts):
             for x in extras_in_text(self.texts[fn]):
                 raw = lua_unescape(x["raw"])
                 if len(raw.encode("utf-8")) > EXTRA_MAX_ONE:
-                    log(f"{'Diagnose' if x['kind'] == 'diag' else 'Wegdaten'} zu gross – übersprungen.")
+                    # ab 2.0.1 nur beim ersten Mal melden (Prüfwert in uploader_state.json "zu_gross")
+                    big = st.setdefault("zu_gross", [])
+                    if x["id"] not in big:
+                        big.append(x["id"])
+                        del big[:-200]
+                        log(f"{'Diagnose' if x['kind'] == 'diag' else 'Wegdaten'} zu gross – übersprungen.")
+                        try:
+                            save_state(st)
+                        except OSError:
+                            pass
                     continue
                 if x["kind"] == "wege":
                     if x["id"] in known_wege or x["id"] in wege_ids:
                         continue
                     wege_ids.append(x["id"])
                     items.append(raw)
+                    marks.append({"wege": [x["id"]]})
                     counts["wege"] += 1
                     continue
                 parts = raw.split("|", 3)
@@ -448,17 +465,28 @@ class Collector:
                     continue
                 diag_state[addon] = entries
                 items.append(raw)
+                marks.append({"diag": {addon: entries}})
                 counts["diag"] += 1
-        return {"items": items, "ids": new_ids, "wege": wege_ids, "diag": diag_state, "errors": err_state,
-                "counts": counts}
+        return {"items": items, "marks": marks, "rest": rest, "ids": new_ids, "wege": wege_ids, "diag": diag_state,
+                "errors": err_state, "counts": counts}
 
 
-def commit(st: dict, pkg: dict, now: float | None = None):
-    """Nach erfolgreichem Senden (oder wenn nichts zu senden war) den Stand merken."""
-    st["sent_test_ids"] = list(st.get("sent_test_ids") or []) + pkg["ids"]
-    st["wege"] = list(st.get("wege") or []) + pkg["wege"]
-    st.setdefault("diag", {}).update(pkg["diag"])
-    st.setdefault("errors", {}).update(pkg["errors"])
+def commit(st: dict, pkg: dict, now: float | None = None, marks: list[dict] | None = None):
+    """Nach erfolgreichem Senden (oder wenn nichts zu senden war) den Stand merken.
+    marks = nur diese Teile (ab 2.0.1: je gesendetem Teil eines grossen Pakets), sonst alles."""
+    if marks is None:
+        marks = list(pkg.get("marks") or []) + [pkg.get("rest") or {}]
+        if "marks" not in pkg:          # (älterer Aufbau ohne marks)
+            marks = [{"ids": pkg["ids"], "wege": pkg["wege"], "diag": pkg["diag"], "errors": pkg["errors"]}]
+    known = set(st.get("sent_test_ids") or [])
+    st["sent_test_ids"] = list(st.get("sent_test_ids") or [])
+    st["wege"] = list(st.get("wege") or [])
+    for m in marks:
+        st["sent_test_ids"] += [i for i in m.get("ids") or [] if i not in known]
+        known.update(m.get("ids") or [])
+        st["wege"] += [w for w in m.get("wege") or [] if w not in st["wege"]]
+        st.setdefault("diag", {}).update(m.get("diag") or {})
+        st.setdefault("errors", {}).update(m.get("errors") or {})
     if pkg["items"]:
         st["last_sent"] = time.time() if now is None else now
     save_state(st)
@@ -477,12 +505,12 @@ def package_bodies(pkg: dict, now: float | None = None) -> list[tuple[str, bytes
     """Normalfall EINE Nachricht; nur wenn das Paket entpackt über 4 MB wäre, mehrere Teile."""
     now = time.time() if now is None else now
     chunks, cur, size = [], [], 0
-    for it in pkg["items"]:
+    for idx, it in enumerate(pkg["items"]):
         n = len(it.encode("utf-8")) + 4
         if cur and size + n > TEST_MAX_JSON:
             chunks.append(cur)
             cur, size = [], 0
-        cur.append(it)
+        cur.append(idx)
         size += n
     if cur:
         chunks.append(cur)
@@ -492,7 +520,8 @@ def package_bodies(pkg: dict, now: float | None = None) -> list[tuple[str, bytes
         name = f"paket-{stamp}.json.gz" if len(chunks) == 1 else f"paket-{stamp}-{i}.json.gz"
         content = package_summary(pkg["counts"]) + ("" if len(chunks) == 1 else f" (Teil {i}/{len(chunks)})")
         payload = {"content": content, "username": TEST_USERNAME, "allowed_mentions": {"parse": []}}
-        packed = gzip.compress(json.dumps({"items": chunk}, ensure_ascii=False).encode("utf-8"), 9)
+        packed = gzip.compress(json.dumps({"items": [pkg["items"][i] for i in chunk]}, ensure_ascii=False)
+                               .encode("utf-8"), 9)
         boundary = "----GSPaket" + uuid.uuid4().hex
         body = b"".join([
             f"--{boundary}\r\n".encode(),
@@ -504,7 +533,7 @@ def package_bodies(pkg: dict, now: float | None = None) -> list[tuple[str, bytes
             packed, b"\r\n",
             f"--{boundary}--\r\n".encode(),
         ])
-        out.append((boundary, body))
+        out.append((boundary, body, chunk))
     return out
 
 
@@ -516,11 +545,18 @@ def send_package(cfg: dict, st: dict, pkg: dict, sleep=time.sleep, now: float | 
     url = cfg.get("test_webhook_url") or ""
     if not url.startswith("https://"):
         return "invalid"
-    for boundary, body in package_bodies(pkg, now):
+    marks = pkg.get("marks") or []
+    first = True
+    for boundary, body, chunk in package_bodies(pkg, now):
         result = post_webhook(url, boundary, body, sleep)
         if result != "ok":
             return result
-    commit(st, pkg, now)
+        # ab 2.0.1: jeden gesendeten Teil sofort merken – schlägt Teil 2 fehl, kommt Teil 1 nicht nochmals
+        part = [marks[i] for i in chunk if i < len(marks)]
+        if first:
+            part.append(pkg.get("rest") or {})
+            first = False
+        commit(st, pkg, now, part)
     log(package_summary(pkg["counts"]) + " – an #testberichte geschickt.")
     return "ok"
 

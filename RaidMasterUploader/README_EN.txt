@@ -57,3 +57,8 @@ New in 2.0.0 – fewer messages in #testberichte:
   package. When you close the uploader window the rest is sent right away.
 - What was already sent is remembered in uploader_state.json (next to the uploader). uploader_config.json stays
   unchanged. Replace the whole folder as usual (back up uploader_config.json first); uploader_state.json may stay.
+
+Version 2.0.1:
+- Diagnostic logs or route data that are too large are reported only once again (also after a restart).
+- Very large packages in several parts: each part that was sent is remembered right away; if a later part fails, the
+  earlier one is not sent again on the next try.

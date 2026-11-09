@@ -338,6 +338,12 @@ class Paket(Base):
         r = self.reporter()
         self.assertEqual(r.flush(now=1000), "leer")
         self.assertTrue(any("zu gross" in l for l in self.logs))
+        # 2.0.1: zweite Änderung (und neuer Start) -> keine zweite Meldung
+        self.write("AHSentinel.lua", sv_all("AHSentinelDB", diag=big) + "-- neu\n", age=5)
+        r.tick(now=1100)
+        r.flush(now=1200)
+        up.Reporter(self.cfg(), self.sv, up.load_state({}), sleep=lambda s: None).flush(now=1300)
+        self.assertEqual(sum("zu gross" in l for l in self.logs), 1)
         r2 = up.Reporter(self.cfg(test_webhook_url=""), self.sv, up.load_state({}))
         self.assertIsNone(r2.flush(now=1000))
         self.assertIsNone(r2.tick(now=1000))
@@ -357,6 +363,24 @@ class Paket(Base):
         text = sv_with("RaidMasterDB", [report("ok-1")], junk=['GSTEST1{"f":1,"id":"kaputt"'])
         self.assertEqual([x["id"] for x in up.reports_in_text(text)], ["ok-1"])
         self.assertTrue(any("nicht lesbar" in l for l in self.logs))
+
+    def test_p12_teil_zwei_fehlgeschlagen_teil_eins_nicht_nochmals(self):
+        old = up.TEST_MAX_JSON
+        up.TEST_MAX_JSON = 200                                # jeder Bericht ein eigener Teil
+        try:
+            self.write("RaidMaster.lua", sv_all("RaidMasterDB", [report("a-1", extra="x" * 150),
+                                                                 report("a-2", extra="y" * 150)]))
+            r = self.reporter()
+            up.urllib.request.urlopen = Net(204, *([500] * 10))
+            self.assertEqual(r.flush(now=1000), "error")
+            st = json.load(open(up.STATE, encoding="utf-8"))
+            self.assertEqual(st["sent_test_ids"], ["a-1"])     # Teil 1 gemerkt, Teil 2 nicht
+            up.urllib.request.urlopen = self.net
+            self.assertEqual(r.flush(now=2000), "ok")
+            _, items = self.items(0)
+            self.assertEqual([json.loads(x[7:])["id"] for x in items], ["a-2"])   # nur Teil 2 nochmals
+        finally:
+            up.TEST_MAX_JSON = old
 
 
 if __name__ == "__main__":
