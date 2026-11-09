@@ -12,6 +12,12 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.33
+
+- **AH fee in the profit window corrected:** the fee per piece assumed you always post a full stack (e.g. 20 Bolts of
+  Woolen Cloth) and split the 1s minimum fee by 20 – so 1 bolt at 3s 98c showed 20c instead of the real 1s. Now the fee
+  follows how many pieces you last posted of this item at once; without experience 1 piece (full 1s minimum fee).
+
 ### Version 0.65.32
 
 - **Disenchant table from Disenchantry:** the table now follows Disenchantry 1.1.2 (MIT license, Copyright (c) 2026
@@ -59,21 +65,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   is shown ("AH now" / "market" / "own sales"). Offers below 10 % or above 300 % of the median don't count ("offer
   doubtful") – e.g. 22c for a Greater Mystic Essence.
 - **Sharing disenchants:** after 10 new ones, or at the latest 2 minutes after the last one, and on logout.
-
-### Version 0.65.28
-
-- **Opens with the auction house:** the AHSentinel window opens when you open the auction house and closes again
-  with it. If it was already open before, it stays open. Option "Open and close with the auction house" (on by
-  default). Never pops up in combat.
-- **Window always on screen:** the main window stays fully on screen – at most 90 % of the screen, position kept
-  inside the edges, also after changing UI scale or resolution.
-- **Sniper in WoW Forever:** commodities are bought with two notches – 1st notch reserves the price, 2nd notch buys
-  (WoW Forever allows the reservation only from a key press). The status line now says so ("1. … reserve price ·
-  2. … buy", then "reserved – again to buy (10 s)"), also while the sniper keeps searching; help and tooltips
-  updated. The total line under the list no longer disappears while searching. Era/TBC unchanged.
-- Playtest: new check S9 (window opens and closes with the auction house).
-- Developer test routine: checks that can't run in this client (no BugSack, missing item data, no real layout) are
-  counted as skipped, never as OK or ERROR.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
