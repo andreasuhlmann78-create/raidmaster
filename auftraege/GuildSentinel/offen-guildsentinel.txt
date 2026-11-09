@@ -73,3 +73,7 @@ HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Die Version muss höher sein als 0.9.18 (download/, announce/, CurseForge).
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
+
+NEU (9. Nov. 15:08, Befund des Nutzers 15:03) – Berufe: gewählter Beruf ohne bekannte Rezepte zeigt eine leere Liste
+   Siehe anweisung-berufe-leere-liste.txt: passender Leertext ("2 Gildenmitglieder haben Alchimie, Rezepte noch
+   nicht bekannt …"), "0 von 2" statt "0/2", Mitglieder aus der Spielliste mit "Rezepte unbekannt" anzeigen.
