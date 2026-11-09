@@ -12,6 +12,15 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.50
+
+- **For addon authors – public interface `AHSentinel.API` (version 1):** global `AHSentinel.API`, alias
+  `AHAnalyzerPro.API`. Functions: `Price`, `NetSale`, `Deposit`, `CutPct`, `MaterialCost`, `DisenchantValue`, `BestWay`,
+  `SellSpeed`, `MinProfitPct`, `GoldPerHour`, `LastScan`, `Subscribe` (calls `fn("scan"/"ledger"/"settings")`, at most
+  once per 2 s). Every function is safe (never a Lua error, `nil` if unknown), amounts in copper. Details in `API.md`.
+  The old functions (RealPrice, RealValue, AuctionFee, AHFee, ForeverAuctionFee, GetMarketValue, GetCurrent) stay.
+- Automatic minimum price when selling: minimum profit now 20 % (same default as the interface).
+
 ### Version 0.65.49
 
 - **Ledger → Return:** new view with invested, earned, profit and return per business – flipping (buy and sell the
@@ -54,18 +63,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   (diagnostic log "MINDESTEINZAHLUNG gemessen=…"). Once 1c is measured, the duration preselection "24 h costs the
   same" drops out on its own.
 - Profit window: the AH fee line no longer adds a 1s minimum (only 5 % on sale – the deposit comes back).
-
-### Version 0.65.45
-
-- **Ledger fix (WoW Forever):** in a Forever sale invoice the field read as "price" is the **quantity** – 0.65.42 to
-  0.65.44 swapped quantity and unit price (e.g. 91 pieces at 1s 84c instead of 184 pieces at 91c). Income was right,
-  but average sale price, sell rate and speed were wrong. Fixed when reading invoices, and existing sales are
-  corrected once at login ("Ledger: fixed N sales (quantity and unit price)"). Nothing is deleted.
-- **Values come from your last scan:** the value of an item is the cheapest offer of your last scan (or a newer
-  search) – no 1c off, no cap at the median. Only two safeguards: an obvious outlier (e.g. 1 piece for 1c) is
-  replaced by the next real offer, and items missing from the last scan use the market median. Your own average sale
-  price is statistics only (Shift in the tooltip, yellow if more than 30 % below the market).
-- Tooltip materials show the source ("scan" / "market").
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

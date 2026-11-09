@@ -7,6 +7,15 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.50</h3>
+<ul>
+<li><strong>For addon authors – public interface <code>AHSentinel.API</code> (version 1):</strong> global <code>AHSentinel.API</code>, alias
+  <code>AHAnalyzerPro.API</code>. Functions: <code>Price</code>, <code>NetSale</code>, <code>Deposit</code>, <code>CutPct</code>, <code>MaterialCost</code>, <code>DisenchantValue</code>, <code>BestWay</code>,
+  <code>SellSpeed</code>, <code>MinProfitPct</code>, <code>GoldPerHour</code>, <code>LastScan</code>, <code>Subscribe</code> (calls <code>fn("scan"/"ledger"/"settings")</code>, at most
+  once per 2 s). Every function is safe (never a Lua error, <code>nil</code> if unknown), amounts in copper. Details in <code>API.md</code>.
+  The old functions (RealPrice, RealValue, AuctionFee, AHFee, ForeverAuctionFee, GetMarketValue, GetCurrent) stay.</li>
+<li>Automatic minimum price when selling: minimum profit now 20 % (same default as the interface).</li>
+</ul>
 <h3>Version 0.65.49</h3>
 <ul>
 <li><strong>Ledger → Return:</strong> new view with invested, earned, profit and return per business – flipping (buy and sell the
@@ -50,19 +59,7 @@
   same" drops out on its own.</li>
 <li>Profit window: the AH fee line no longer adds a 1s minimum (only 5 % on sale – the deposit comes back).</li>
 </ul>
-<h3>Version 0.65.45</h3>
-<ul>
-<li><strong>Ledger fix (WoW Forever):</strong> in a Forever sale invoice the field read as "price" is the <strong>quantity</strong> – 0.65.42 to
-  0.65.44 swapped quantity and unit price (e.g. 91 pieces at 1s 84c instead of 184 pieces at 91c). Income was right,
-  but average sale price, sell rate and speed were wrong. Fixed when reading invoices, and existing sales are
-  corrected once at login ("Ledger: fixed N sales (quantity and unit price)"). Nothing is deleted.</li>
-<li><strong>Values come from your last scan:</strong> the value of an item is the cheapest offer of your last scan (or a newer
-  search) – no 1c off, no cap at the median. Only two safeguards: an obvious outlier (e.g. 1 piece for 1c) is
-  replaced by the next real offer, and items missing from the last scan use the market median. Your own average sale
-  price is statistics only (Shift in the tooltip, yellow if more than 30 % below the market).</li>
-<li>Tooltip materials show the source ("scan" / "market").</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
