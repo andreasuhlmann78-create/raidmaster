@@ -1,182 +1,214 @@
-OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.11)
+OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.17)
 ==========================================================
-Stand: 5. November 2026, 15:40 · von der Prüf-Sitzung · Grundlage: download/AHSentinel-0.65.11.zip
-(Vergleich mit 0.65.10 aus Commit 329b61c, Testbericht 0.65.8 in testberichte/status.md)
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.65.8.
-PAUSE BIS 9. NOVEMBER GILT: Nichts hier ist HOCH. Alle Punkte erst nach der Pause.
+Stand: 9. November 2026, 06:20 · von der Prüf-Sitzung · Grundlage: download/AHSentinel-0.65.17.zip (Commit e5fccc1)
+Vergleich: 0.65.10 (Commit 329b61c) -> 0.65.16 (Commit 8565974) -> 0.65.17, jede geänderte Zeile gelesen.
+Spiel-Daten: testberichte/status.md (Testlauf 0.65.8) und testberichte/berichte/AHSentinel/*.json (Fehler 0.65.16).
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.65.11/0.65.16.
+Die Pause ist vorbei (seit 9. Nov.). Punkt 1 ist HOCH und kommt zuerst, danach die MITTEL-Punkte.
 
-Erledigt in 0.65.9 / 0.65.10 (Ausnahme Andocken, nachgeprüft):
-- Cr:GetDockFrame() als Schnittstelle für ProfessionSentinel (Crafting.lua:340-350).
-- Gewinn-Fenster rechts neben der Reiterleiste von Forever, nie darüber: Cr:RightOverhang/Cr:Dock (Crafting.lua:479-528),
-  nur lesend (GetChildren/GetRect in pcall), kein Taint; Testfall T160 mit eigenem Testrahmen (TestRoutine.lua:2700-2731).
+ERGEBNIS: NICHT FREIGEGEBEN – wegen Punkt 1 (HOCH, aus dem Spiel, auch in 0.65.17 unverändert).
+Die Änderungen 0.65.11–0.65.17 selbst sind sauber (kein neuer Fehler HOCH im Diff).
 
-Erledigt in 0.65.11 (danke):
-- GetDockFrame(true): liefert den Rahmen auch verborgen, ohne Argument wie bisher sichtbar oder nil, nil solange
-  noch nicht gebaut (Crafting.lua:343-350). Alte Aufrufe von ProfessionSentinel bleiben gültig. Test T163
-  (TestRoutine.lua:2735-2751) prüft alle vier Fälle und stellt den Zustand zurück.
-- Preisfeld immer g/s/c: A.INPUT_LETTERS = { "g", "s", "c" } und A:FormatMoneyInput (AHAnalyzerPro.lua:345-357),
-  zusätzlich deutsche Buchstaben-Anzeige "c" statt "k" (AHAnalyzerPro.lua:270), "k" bleibt als Eingabe (AHAnalyzerPro.lua:281-284),
-  Tooltip-Text in allen 10 Locale-Dateien angepasst. Offline mit lupa (Lua 5.1) nachgerechnet:
-  "78" -> 780000 (= 78g, wie bisher: Zahl ohne Zeichen = Gold), "78c" -> 78, "1s 20c" -> 120, "1g" -> 10000,
-  "78k" -> 78, "3s 90c" -> 390, "1.5" -> 15000, "1s20k" -> 120, "abc"/"0" -> nil.
-  FormatMoneyInput(78) = "78c", (390) = "3s 90c" in deDE, enUS, frFR, ruRU gleich. Test T162 (TestRoutine.lua:2754-2772).
-- Unterkategorien wie im Blizzard-AH: B:BuildCategories (Buy.lua:99-153) liest aus dem Spiel, nicht von Hand:
-  Quelle 1 _G.AuctionCategories (Namen, Filter und Reihenfolge des Blizzard-AH, Buy.lua:117-132), Quelle 2
-  C_Item.GetItemClassInfo/GetItemSubClassInfo + C_AuctionHouse.GetAuctionItemSubClasses bzw. GetAuctionItemSubClasses
-  (Buy.lua:71-96, 133-147). Neu gelesen bei PLAYER_LOGIN, ADDON_LOADED Blizzard_AuctionHouseUI/Blizzard_AuctionUI und
-  AUCTION_HOUSE_SHOW (Buy.lua:872-879). Unterkategorien klappen unter der gewählten Hauptkategorie auf (B:VisibleCats,
-  Buy.lua:162-172). Filter mit inventoryType gehen an beide AH-Wege (Buy.lua:249-257, LegacyAH.lua:307-315).
-  Nur lesend, kein Taint, keine Daten geschrieben. Test T161 (TestRoutine.lua:2774-2808).
-Prüfungen 0.65.11:
-- addon_check (mit lupa, Lua 5.1): OK, keine Warnung (Syntax, Ladetest Era/Forever, Sprachtest).
-- Diff 0.65.10 -> 0.65.11 Zeile für Zeile gelesen: keine Blizzard-Funktion ersetzt, kein neues hooksecurefunc, keine
-  Aktion mit Folgen, nichts im Kampf. Era/TBC: alle neuen Aufrufe in pcall bzw. mit Rückfall (GetItemClassInfo,
-  GetAuctionItemSubClasses, AuctionCategories aus Blizzard_AuctionUI), feste Liste B.BASE_CATS bleibt als Rückfall.
+Erledigt in 0.65.11 bis 0.65.17 (nachgeprüft, danke)
+---------------------------------------------------
+- 0.65.11 Unterkategorien wie im Blizzard-AH: aus dem Spiel gelesen, nicht von Hand. B:BuildCategories
+  (Buy.lua:99-153): Quelle 1 _G.AuctionCategories (Namen, Filter, Reihenfolge des Blizzard-AH, Buy.lua:117-132),
+  Quelle 2 C_Item.GetItemClassInfo/GetItemSubClassInfo (Buy.lua:90-94) mit C_AuctionHouse.GetAuctionItemSubClasses
+  bzw. GetAuctionItemSubClasses (Buy.lua:71-84) in CLASS_ORDER (Buy.lua:62). Unterkategorien nur unter der gewählten
+  Hauptkategorie (B:VisibleCats, Buy.lua:162-172). Nur lesend, alles in pcall. Test T161.
+- 0.65.11 Preisfeld immer g/s/c: A.INPUT_LETTERS (AHAnalyzerPro.lua:351-361), deDE-Anzeige "c" (AHAnalyzerPro.lua:274),
+  "k" bleibt als Eingabe (AHAnalyzerPro.lua:286). Mit lupa (Lua 5.1) nachgerechnet: "78" -> 780000 (78g),
+  "78c" -> 78, "1s 20c" -> 120, "1g" -> 10000, "78k" -> 78, "3s 90c" -> 390, "1.5" -> 15000, "12,5" -> 125000,
+  "4pa 85pc" -> 485, "abc"/"0"/"1g 5" -> nil; FormatMoneyInput(78) = "78c", (390) = "3s 90c", (123456) = "12g 34s 56c".
+  Test T162.
+- 0.65.11 GetDockFrame(true): Crafting.lua:418-424 (verborgen mit true, ohne Argument nur sichtbar, nil solange nicht
+  gebaut). Alte Aufrufe von ProfessionSentinel bleiben gültig. Test T163.
+- 0.65.12/0.65.14 Rezept-Klick: Cr:SelectRecipe (Crafting.lua:613-660) sucht die Zeile neu (find), setzt Filter
+  zurück (reveal), wählt im selben Frame über die Rezeptliste, OpenRecipe nur als Rückfall, Entscheidung spätestens
+  nach 0,5 s mit Chat-Meldung. Neuaufbau gesammelt (RequestRefresh 0,4 s, Crafting.lua:585-594) und über A:Job
+  verteilt. Tests T164-T168, T171, T173.
+- 0.65.13 NACHTRAG 17:10 a+c: Forever zieht die Einstellgebühr im Gewinn-Fenster ab und zeigt sie als eigene Zeile
+  (Crafting.lua:326, 459, RefreshDetail ab 521), Era/TBC unverändert (Zeile verborgen, Gebühr 0). Gebots-Schnäppchen
+  ebenso (AHAnalyzerPro.lua:800). Test T170 rechnet 20c -> 1s, 3s -> 3s, Forever 8s, Era 9s.
+- NACHTRAG 17:10 b: A:ExpectedDepositLoss nimmt in Forever immer die ganze Gebühr (AHAnalyzerPro.lua:1482-1485),
+  benutzt von Heute tun (Comfort.lua:648), Extras.lua:289, UI_Profit.lua:252, Crafting.lua:811. Keine Stelle nimmt
+  in Forever eine Erstattung an. (Rest siehe Punkt 9c.)
+- 0.65.15 Diagnose-Protokoll /ahs protokoll + GSDIAG1 (Diag.lua), ohne Namen (Test T172), in der Testroutine nur
+  Sandbox (Diag.lua:32-46).
+- 0.65.16 ehrliche Zählung (TR:Check mit "SKIP", TestRoutine.lua:386-395), eindeutige IDs (T174), Köderwerte (T180),
+  IsSecret in Cr:OnRecipeSelected (Crafting.lua:904-909) und Diag:Add.
+- 0.65.17 NACHTRAG 17:10 d (Einstellgebühr messen): Gebühr zuerst aus dem Spiel vor dem Einstellen
+  (Seller.lua:600-609), sonst der zuletzt gemessene Wert (Se:MeasuredDeposit, Seller.lua:464-471), Messung Gold vorher/
+  nachher (Seller.lua:893-899), Eintrag EINSTELLEN mit Item-ID, Händlerpreis, Menge, Laufzeit, Preis, Gebühr Spiel/
+  gemessen, beiden Verhältnissen, ohne Namen (Se:RecordDeposit, Seller.lua:496-513), Warnung ab 10 % mit zweitem Klick
+  (Seller.lua:610-620, UI_Sell.lua:402-408), Option aus/5/10/20/30 %. Tests T181-T183, T30.37.
+- 0.65.17 NACHTRAG 19:22 (Heute tun: unter Händlerpreis): A:VendorFlipOffers (AHAnalyzerPro.lua:1542-1605) aus Scan,
+  Suche und aktuellen Angeboten, nur mit Händlerpreis, Mindestgewinn 10s einstellbar, beste 10 sortiert; Kauf nur auf
+  Klick mit Höchstpreis Händlerpreis - 1 (Comfort.lua:568-590), danach "Beim Händler verkaufen" (Today.lua:355).
+  Tests T184 (50c/80c/5 Stück -> +1s 50c; über Händlerpreis -> keine Zeile), T185, T30.38.
+
+Prüfungen 0.65.17
+-----------------
+- addon_check mit lupa (Lua 5.1): OK, kein FEHLER, keine WARNUNG (Syntax, Ladetest Era/Forever, Sprachtest).
+  0.65.16 ebenfalls OK.
+- Taint: keine Blizzard-Funktion ersetzt. hooksecurefunc nur wie bisher (unverändert seit 0.65.10, alles Nach-Hooks).
+  Neu: Aufrufe von Blizzard-Funktionen im Berufsfenster (siehe Punkt 11). Nichts im Kampf.
+- Era/TBC: alle neuen Aufrufe mit Prüfung bzw. pcall (SetTradeSkill*Filter, FauxScrollFrame_SetOffset,
+  ExpandCraftSkillLine). Forever-Weichen über A:IsForever (GoldSentinelGame).
 - Gemeinsame Dateien: GoldSentinelGame.lua und GoldSentinelTest.lua byte-gleich mit shared/, GoldSentinelDev.lua
-  (Version 1) gleich wie die Kopie in RaidMaster/.
-- Locales: alle 1215 L["…"]-Schlüssel des Codes in Locale.lua (EN), alle 9 weiteren Locale-Dateien vollständig.
-- CHANGELOG.md und CHANGELOG.de.md haben 0.65.11. .toc: 11509, 16001, 20506, 30405, 38002, 40402, 50504, 120105.
-- Geld: AH-Anteil 5 % (Seller.lua:25, Crafting.lua:21, Comfort.lua:20, Extras.lua:23), Einstellgebühr Forever
-  mindestens 1 Silber pro Auktion und nie erstattet (AHAnalyzerPro.lua:1427-1469). Rechnung stimmt.
-- Ergebnis: FREIGEGEBEN. Kein Befund HOCH.
+  byte-gleich mit RaidMaster/GoldSentinelDev.lua.
+- Locales: alle 1225 L["…"]-Schlüssel des Codes in Locale.lua (EN) und in allen 9 weiteren Locale-Dateien.
+- CHANGELOG.md und CHANGELOG.de.md haben 0.65.11 bis 0.65.17. .toc: 11509, 16001, 20506, 30405, 38002, 40402, 50504,
+  120105, Version 0.65.17 = A.version.
+- Geld: AH-Anteil 5 % (Crafting.lua:21, Seller.lua, Comfort.lua, Extras.lua), Einstellgebühr Forever mindestens
+  1 Silber pro Auktion und nie erstattet (AHAnalyzerPro.lua:1430-1486, Seller.lua:452-460). Rechnung stimmt.
+- Optionen-Fenster: 35 von 36 Plätzen belegt (UI_Main.lua:3051-3076, zwei Spalten à 18). Die nächste neue Option
+  braucht eine dritte Spalte oder ein grösseres Fenster, sonst liegt sie über "Ton bei Treffern".
 
-OFFENE PUNKTE (nach der Pause)
-------------------------------
-1. SANDBOX: ROUTINE SCHREIBT IN ECHTE DATEN (Schwere: MITTEL) – aus dem Spiel, Testlauf 0.65.8, in 0.65.11 unverändert
-   Bericht: "Sandbox FEHLER: 10 Pfade, wiederhergestellt: recipes.<Charakter>..list.1–7.prof, settings.ahZoom, watcher.…".
-   Ursachen im Code gefunden:
-   a) Crafting.lua:596-602 Cr:KnownRecipes() schreibt r.prof = prof direkt in die gespeicherten Rezept-Einträge
-      (AHSentinelDB.recipes). Jede Auswertung (TodaySuggestions, Heute tun, Testfälle) verändert damit echte Daten.
-      Lösung: Kopie zurückgeben statt schreiben, z. B. local c = {}; for k, v in pairs(r) do c[k] = v end; c.prof = prof.
-   b) TestRoutine.lua:1213-1222 (T28): UI:SetAHZoom(UI:AHZoom()) schreibt settings.ahZoom (UI_Main.lua:2698); die
-      Rückgabe "for k, v in pairs(saved) do st[k] = v end" überspringt nil-Werte. War ahZoom (oder windowPos,
-      windowSize, buttonPos, minimapAngle, minimapHide) vorher nil, bleibt der neue Wert stehen. Gleiches Muster in
-      TestRoutine.lua:1367-1373 (T30.35). Lösung: über eine feste Schlüsselliste zurückschreiben, auch nil
-      (for _, k in ipairs(KEYS) do st[k] = saved[k] end), wie es T30 schon in TestRoutine.lua:1393-1394 macht.
-   c) watcher.…: Pfad im Bericht gekürzt. Den Fall finden, der A.db.watcher schreibt (vermutlich die Wächter-Fälle
-      T44 bzw. T30 Wächter-Optionen), und nur in der Sandbox-Kopie ändern.
-   Test: danach ganzer Lauf -> "Sandbox OK".
+OFFENE PUNKTE
+-------------
+1. SNIPER: VORAB-RESERVIERUNG WIRD IM SPIEL GEBLOCKT (Schwere: HOCH) – neu aus dem Spiel, 0.65.16, in 0.65.17 gleich
+   Belege: testberichte/berichte/AHSentinel/AHSentinel-1794060075-…, -1794155585-…, -1794161296-…json: 3 Sitzungen
+   (Forever 1.60.1, deDE, 8. Nov.), je 1× ADDON_ACTION_BLOCKED "UNKNOWN()", Stapel Sniper.lua:817 (Reserve) <-
+   Sniper.lua:1264 (Tick) <- Sniper.lua:1294 (OnUpdate).
+   Ursache: Sn:Tick ruft im OnUpdate ohne Tastendruck Sn:Reserve(plan, true) auf (Sniper.lua:1259-1266), das ruft
+   C_AuctionHouse.StartCommoditiesPurchase (Sniper.lua:817). In Forever ist das nur mit Tastendruck/Klick erlaubt.
+   pcall meldet Erfolg, erst ADDON_ACTION_BLOCKED schaltet den Sofortkauf ab (Sn:OnEvent, Sniper.lua:1004-1016) –
+   aber nur bis zum nächsten /reload: instantFailed wird nicht gespeichert. Folge: in JEDER Sitzung eine geblockte
+   Aktion (rote Meldung "Aktion wegen eines AddOns fehlgeschlagen", Eintrag im Fehlerbericht) und die irreführende
+   Chat-Zeile "keine Preisbestätigung vom Server" (Sniper.lua:885).
+   Lösung: Vorab-Reservierung nur mit Tastendruck. Entweder (a) Reserve(plan, true) im Tick ganz streichen und die
+   Ware wie bisher mit 2 Rasten kaufen, oder (b) auf Clients mit geschütztem StartCommoditiesPurchase (Forever,
+   Retail: GoldSentinelGame "Kampf-Sperren"/IsForever) gar nicht erst automatisch reservieren und die Erkennung
+   dauerhaft speichern (z. B. A.db.sniper.instantBlocked = Interface-Nummer). Die Chat-Meldung bei Blockade
+   anpassen ("WoW erlaubt das nur mit Tastendruck"). Alte Clients (Era/TBC, kein Warenkauf) unverändert.
+   Test: T42 erweitern – in Forever (SetTestFlavor) ruft Sn:Tick mit frischem Treffer KEIN StartCommoditiesPurchase
+   (Handels-Protokoll 0 Einträge); neuer Fall: nach simuliertem ADDON_ACTION_BLOCKED bleibt der Sofortkauf auch nach
+   erneutem Laden der Einstellungen aus. IM SPIEL PRÜFEN: Sniper 30 min auf Ware, /ahs protokoll ohne FEHLER,
+   kein ADDON_ACTION_BLOCKED im Bericht.
 
-2. T130 VERKAUFS-MELDUNG (Schwere: NIEDRIG) – aus dem Spiel, in 0.65.11 unverändert
-   TestRoutine.lua:2000-2011, Seller.lua:897-904 und 952-963. Im deDE-Client von Forever kommt kein Eintrag "Verkauft".
-   Wahrscheinlichste Ursache: ERR_AUCTION_SOLD_S enthält dort kein einfaches "%s" (z. B. "%1$s"). Dann liefert
-   SoldPattern() nil, und die Verkaufs-Meldung funktioniert für Spieler gar nicht – nicht nur der Test.
-   Lösung: Muster auch für "%1$s"/"%d$s" bauen (s:gsub("%%%d?%$?s", "(.+)")); im Test bei SoldPattern() == nil
-   FEHLER "Muster fehlt" statt "kein Eintrag". IM CLIENT PRÜFEN: /dump ERR_AUCTION_SOLD_S auf Forever deDE.
-   Zweite mögliche Ursache: gsTest.errors voll (GoldSentinelTest MAX_ERRORS) – vor T130 ClearTestErrors aufrufen.
+2. SANDBOX: ROUTINE SCHREIBT IN ECHTE DATEN (Schwere: MITTEL) – aus dem Testlauf 0.65.8, in 0.65.17 unverändert
+   Bericht: "Sandbox FEHLER: 10 Pfade: recipes.<Charakter>..list.1–7.prof, settings.ahZoom, watcher.…".
+   a) Crafting.lua:783-790 Cr:KnownRecipes schreibt r.prof = prof in die gespeicherten Rezepte (A.db.recipes).
+      Lösung: Kopie zurückgeben (local c = {}; for k, v in pairs(r) do c[k] = v end; c.prof = prof).
+   b) TestRoutine.lua:1244-1256 (T28) und TestRoutine.lua:1404: "for k, v in pairs(saved) do st[k] = v end"
+      überspringt nil-Werte; war ahZoom (bzw. windowPos, windowSize, buttonPos, minimapAngle, minimapHide) vorher nil,
+      bleibt der neue Wert stehen. Lösung: wie T30 (TestRoutine.lua:1434-1435) über alle Schlüssel inkl. nil.
+   c) watcher.…: Den Fall finden, der A.db.watcher schreibt. Kandidat: T152 (TestRoutine.lua:3229-3255) startet
+      W:StartRound mit Fehler-AH und stellt nur watcher.mode zurück; ebenso T44 (TestRoutine.lua:1555-1569) prüfen.
+      Lösung: ganzes A.db.watcher sichern und mit Replace zurückschreiben.
+   Test: ganzer Lauf -> "Sandbox OK".
 
-3. KATEGORIE-SCHLÜSSEL NICHT STABIL -> POST-REGELN GREIFEN NICHT (Schwere: MITTEL) – neu in 0.65.11
-   Buy.lua:64-69 (CatKey) und 122-129: Die Schlüssel hängen von der Quelle ab. Aus AuctionCategories bekommt z. B.
-   Rüstung -> Stoff den Schlüssel "c4_1_<Platz>_<n>" (Filter mit inventoryType, mehrere Filter), aus dem Rückfall
-   (Item-Klassen, vor dem ersten AH-Besuch) "c4_1". Klassen wie Projektil, Köcher, Reagenz (Era/TBC/Forever) gibt
-   es nur in AuctionCategories. Folge: Eine Post-Regel (Extras.lua:372-406), die mit offenem AH gewählt wurde, findet
-   nach /reload am Briefkasten (ohne AH-Besuch) ihre Kategorie nicht: Anzeige "?" (UI_Extras.lua:121-122), RuleMatches
-   liefert false, Items werden nicht verschickt – ohne Meldung. Ebenso umgekehrt.
-   Lösung: Schlüssel nur aus Klasse/Unterklasse bilden, nie aus inventoryType oder der Filter-Anzahl (gleich in beiden
-   Quellen), bei Gruppen mit mehreren Unterklassen aus der sortierten Liste der Unterklassen; zusätzlich in der Regel
-   die Filter selbst speichern (rule.filters) und RuleMatches darauf zurückfallen lassen, wenn CatByKey nil liefert.
-   Testfall: Schlüssel jeder Kategorie aus AuctionCategories auch im Rückfall vorhanden; Regel mit Unterkategorie
-   greift nach Umschalten der Quelle.
+3. T130 VERKAUFS-MELDUNG (Schwere: NIEDRIG, IM CLIENT PRÜFEN) – aus dem Testlauf 0.65.8, in 0.65.17 unverändert
+   Seller.lua:980-987 (SoldPattern), Seller.lua:1036-1045, TestRoutine.lua:2041-2052.
+   - Muster auch für "%1$s" bauen: s:gsub("%%%d?%$?s", "(.+)") statt nur "%s"; sonst funktioniert die
+     Verkaufs-Meldung für Spieler in diesem Client gar nicht.
+   - Seit 0.65.16 zählt T130 "SKIP" ("Client ohne ERR_AUCTION_SOLD_S"), wenn das Muster fehlt. Das versteckt genau
+     diesen Fehler: Ist ERR_AUCTION_SOLD_S vorhanden und SoldPattern() trotzdem nil -> FEHLER "Muster fehlt".
+   - Zweite mögliche Ursache: GoldSentinelTest speichert höchstens 50 verschiedene Fehler (MAX_ERRORS); vor T130
+     ClearTestErrors aufrufen.
+   IM CLIENT: /dump ERR_AUCTION_SOLD_S auf Forever deDE.
 
-4. KATEGORIE-LISTE SPRINGT NACH OBEN (Schwere: MITTEL) – neu in 0.65.11
-   UI_Buy.lua:641-645: p:Refresh() ruft bei jedem Aufruf self.cats:SetData(...) ohne keepOffset; SetData setzt dann
-   offset = 0 (UI_Main.lua:1161-1166). Refresh läuft bei jeder Taste im Suchfeld (UI_Buy.lua:75) und alle 0,5 s, solange
-   eine Suche läuft (UI_Buy.lua:815-821). Mit den neuen Unterkategorien ist die Liste länger als die Spalte: Wer nach
-   unten scrollt (z. B. Rezepte, Verschiedenes), springt während der Suche immer wieder nach oben.
-   Lösung: SetData(list, true) und nur neu setzen, wenn sich die sichtbare Liste ändert; die gewählte Kategorie in den
-   sichtbaren Bereich scrollen. Testfall: offset bleibt nach Refresh gleich.
+4. KATEGORIE-SCHLÜSSEL NICHT STABIL -> POST-REGELN GREIFEN NICHT (Schwere: MITTEL) – seit 0.65.11, unverändert
+   Buy.lua:64-69 (CatKey) und 122-129: Schlüssel hängen von der Quelle ab (AuctionCategories mit inventoryType und
+   Filter-Anzahl, z. B. "c4_1_<Platz>_<n>", Rückfall "c4_1"). Eine Post-Regel (Extras.lua:372-406), die mit offenem AH
+   gewählt wurde, findet nach /reload am Briefkasten (ohne AH-Besuch) ihre Kategorie nicht: Anzeige "?"
+   (UI_Extras.lua:121-122), RuleMatches false, nichts wird verschickt, ohne Meldung.
+   Lösung: Schlüssel nur aus Klasse/Unterklasse (bei mehreren Unterklassen aus der sortierten Liste), nie aus
+   inventoryType oder Filter-Anzahl; in der Regel zusätzlich rule.filters speichern und RuleMatches darauf zurückfallen
+   lassen. Test: jeder Schlüssel aus AuctionCategories auch im Rückfall vorhanden; Regel greift nach Quellenwechsel.
 
-5. RÜCKFALL-REIHENFOLGE FÜR ALTE CLIENTS (Schwere: NIEDRIG) – neu in 0.65.11
-   Buy.lua:62 CLASS_ORDER ist die Reihenfolge des modernen Retail-AH (Edelsteine, Gegenstandsverbesserung, Glyphen,
-   Kampfhaustiere). Bis zum ersten AH-Besuch zeigt Era/TBC/Forever damit Kategorien, die es dort nicht gibt, und es
-   fehlen Reagenz, Projektil, Köcher. Lösung: Hauptklassen ohne Unterklassen überspringen bzw. eigene Reihenfolge je
-   Spielversion (GoldSentinelGame-Flavor). Nur Anzeige vor dem ersten AH-Besuch.
+5. KATEGORIE-LISTE SPRINGT NACH OBEN (Schwere: MITTEL) – seit 0.65.11, unverändert
+   UI_Buy.lua:644: p:Refresh() ruft self.cats:SetData(...) ohne keepOffset -> offset = 0 (UI_Main.lua:1161-1166).
+   Refresh läuft bei jeder Taste im Suchfeld (UI_Buy.lua:75) und alle 0,5 s während einer Suche. Wer in der langen
+   Liste nach unten scrollt, springt immer wieder nach oben.
+   Lösung: SetData(list, true), nur bei geänderter Liste neu setzen, gewählte Kategorie in den sichtbaren Bereich
+   scrollen. Test: offset bleibt nach Refresh gleich.
 
-6. DRITTE EBENE IM BLIZZARD-AH (Schwere: NIEDRIG, IM CLIENT PRÜFEN) – neu in 0.65.11
-   Buy.lua:98 übernimmt nur eine Unterebene. Hat das Forever-AH bei Waffen eine Zwischenebene (Einhand -> Einhandäxte),
-   zeigt AHSentinel nur "Einhand", nicht "Einhandäxte" (CHANGELOG verspricht "Weapons -> One-Handed Axes").
-   IM CLIENT PRÜFEN: Einkauf -> Waffen aufklappen und mit dem Blizzard-AH vergleichen. Falls drei Ebenen: entweder die
-   dritte Ebene übernehmen oder den CHANGELOG-Text anpassen.
-   Hinweis zu T161: Der Test vergleicht mit derselben Quelle (AuctionCategories), aus der die Liste gebaut wird – er
-   findet Bau-Fehler, aber keinen Unterschied zum sichtbaren Blizzard-AH. Den Rückfall-Weg (Item-Klassen) prüft kein Test:
-   bitte einen Fall ergänzen (AuctionCategories über eine Nahtstelle wie B.testCategories ausblenden, kein _G ändern).
+6. TESTROUTINE OBERFLÄCHE (Schwere: MITTEL) – anweisung-testroutine-oberflaeche.txt, noch nicht umgesetzt
+   Die Vorlage hat die Fälle jetzt fertig: shared/vorlage/__ADDON__/UICheck.lua (T18–T23, Bereich K). Übernehmen
+   (Präfix anpassen, eigene T-Nummern ab T186), Fenster anmelden: Hauptfenster, Gewinn-Fenster am Berufsfenster,
+   Optionen, Verkaufen, Heute tun, Protokoll-Fenster; ns.Plausible z. B. Gewinn-Fenster Zeile Einstellgebühr nur in
+   Forever sichtbar, "Unter Händlerpreis"-Zeilen nur mit Händlerpreis > Kaufpreis.
+   Dazu: Cr:Dock setzt ohne Reiterleiste x = -30 (Crafting.lua:707): das Gewinn-Fenster liegt 30 Punkte über dem
+   Blizzard-Berufsfenster. Prüfen, ob nur der durchsichtige Rand betroffen ist, sonst x >= 0. Und der Fall "kein
+   Überlappen mit dem echten ProfessionSentinel-Panel" (Rechtecke schneiden sich nicht, mit und ohne PS).
 
-7. KLEINIGKEITEN (Schwere: NIEDRIG)
-   a) AHAnalyzerPro.lua:366 Kommentar nennt noch "g/s/k".
-   b) Tooltip des Preisfelds in fr/es/it/ru/ko/zh zeigt Landes-Kürzel (z. B. "4pa 85pc"), das Feld selbst schreibt jetzt
-      g/s/c. Beides wird verstanden; für Einheitlichkeit die Beispiele in g/s/c schreiben oder beide Formen nennen.
-   c) Post-Regeln: Durchklicken (UI_Extras.lua:77-86) geht jetzt durch alle Unterkategorien (moderner Client weit über
-      50 Einträge). Besser ein Auswahlmenü.
-   d) Zahl ohne Zeichen = Gold ("78" -> 78g). Wer im Feld "78c" das "c" löscht, bekommt 78 Gold. So gewollt, aber im
-      Verkaufen-Fenster eine Rückfrage zeigen, wenn der Preis mehr als das 100-fache des Marktwerts beträgt.
-   e) AHSentinel.toc: Die Vorlage (shared/vorlage) nennt zusätzlich 11508 und 20505. Ergänzen schadet nicht.
+7. RÜCKFALL-REIHENFOLGE FÜR ALTE CLIENTS (Schwere: NIEDRIG) – seit 0.65.11, unverändert
+   Buy.lua:62 CLASS_ORDER ist die Reihenfolge des modernen AH (Edelsteine, Glyphen, Kampfhaustiere …). Bis zum ersten
+   AH-Besuch zeigt Era/TBC/Forever Kategorien, die es dort nicht gibt; Reagenz, Projektil, Köcher fehlen.
+   Lösung: Hauptklassen ohne Unterklassen überspringen bzw. Reihenfolge je Spielversion (GoldSentinelGame-Flavor).
 
-8. RAID-VORRAT (Schwere: NIEDRIG, nach dem Launch) – aus 0.65.8
-   Comfort.lua:388-410 (K:RaidSetKey, RAID_SETS ab Comfort.lua:352): prüfen, ob alle Item-IDs der Liste in Forever existieren, bei Bedarf RAID_SETS.forever anlegen.
+8. DRITTE EBENE IM BLIZZARD-AH (Schwere: NIEDRIG, IM CLIENT PRÜFEN) – seit 0.65.11, unverändert
+   Buy.lua:98 übernimmt nur eine Unterebene. Hat Forever bei Waffen eine Zwischenebene (Einhand -> Einhandäxte),
+   zeigt AHSentinel nur "Einhand"; der CHANGELOG verspricht "Weapons -> One-Handed Axes". T179 fragt das im Spiel ab.
+   Falls drei Ebenen: dritte Ebene übernehmen oder CHANGELOG anpassen. T161 vergleicht mit derselben Quelle, aus der
+   gebaut wird; den Rückfall-Weg (Item-Klassen) prüft kein Test: Fall mit Nahtstelle (z. B. B.testCategories) ergänzen.
 
-9. HINWEIS (kein Muss) – aus 0.65.8
-   A:RepairDB prüft im Preisverlauf nur den ersten und den letzten Eintrag (AHAnalyzerPro.lua:545-548). Die Stellen, die
+9. EINSTELLGEBÜHR UND "UNTER HÄNDLERPREIS" – NACHARBEIT ZU 0.65.17 (Schwere: NIEDRIG)
+   a) Messung im Testmodus: Der Testmodus simuliert das Einstellen und löst AUCTION_HOUSE_AUCTION_CREATED aus
+      (SelfTest.lua:1387-1400). Ist Se.pendingPost dann noch gesetzt, schreibt Se:RecordDeposit (Seller.lua:496-513)
+      in die echte A.db.depositLog und ins echte Protokoll (die Diag-Sandbox gilt nur für die Testroutine).
+      Lösung: in RecordDeposit "if A:Simulated() then return end".
+   b) Alter AH-Weg (Era/TBC): A.AH.CalculateItemDeposit ist dort die eigene Schätzung (LegacyAH.lua:581-583), wird
+      aber als "Gebühr Spiel" protokolliert (Seller.lua:606-607). Den Wert als "Schätzung" kennzeichnen oder im alten
+      Weg CalculateAuctionDeposit direkt lesen (wie LearnDeposit, LegacyAH.lua:586-603). CHANGELOG sagt "nie geschätzt".
+   c) Heute tun "Herstellen": Crafting.lua:811 zieht ExpectedDepositLoss(r.productID, 1) ab, verkauft aber
+      sale × r.made; im Gewinn-Fenster (Crafting.lua:326) steht made. Einheitlich made nehmen.
+   d) Gemessene Werte: A.db.depositLog behält nur den letzten Wert je Item, das Protokoll höchstens 200 Einträge
+      (Diag.lua:23). Für die Formel bitte zusätzlich eine Liste der letzten 300 Messungen (ohne Namen) in den GSDIAG1-
+      Export.
+   e) Warnung Einstellgebühr gilt jetzt auch in Era/TBC, wo die Gebühr beim Verkauf zurückkommt. Dort im Text
+      "(wird beim Verkauf erstattet)" ergänzen oder Standard nur in Forever.
+   f) "Unter Händlerpreis" aus dem Scan: GetCurrent liefert die Gesamtmenge aller Preisstufen; bis 10 Stück werden mit
+      dem günstigsten Preis gerechnet (AHAnalyzerPro.lua:1553). Der Kauf ist durch maxUnit = Händlerpreis - 1 sicher,
+      die Gewinnanzeige kann aber zu hoch sein. Wenn möglich nur die Menge der günstigsten Stufe nehmen.
+   g) T181 prüft nur Se:MeasuredDeposit direkt; den Rückfall in Se:Deposit (Spiel liefert nil -> gemessen) mit dem
+      eigenen A.AH-Proxy prüfen.
+   IM SPIEL PRÜFEN (Forever): einmal Ware und einmal Einzel-Item einstellen -> /ahs protokoll zeigt EINSTELLEN mit
+   "gemessen" > 0 (falls dort "-": GetMoney ist beim Ereignis noch nicht abgebucht, dann bei PLAYER_MONEY messen).
+
+10. KLEINIGKEITEN (Schwere: NIEDRIG)
+   a) Kommentare nennen noch "g/s/k": AHAnalyzerPro.lua:371 und 469.
+   b) Tooltip des Preisfelds in fr/es/it/ru/ko/zh zeigt Landes-Kürzel ("4pa 85pc"), das Feld schreibt g/s/c. Beispiele
+      in g/s/c schreiben oder beide Formen nennen.
+   c) Post-Regeln: Durchklicken (UI_Extras.lua:77-86) geht durch alle Unterkategorien (über 50 Einträge). Auswahlmenü.
+   d) Zahl ohne Zeichen = Gold ("78" -> 78g). Im Verkaufen-Fenster Rückfrage, wenn der Preis über dem 100-fachen des
+      Marktwerts liegt.
+   e) AHSentinel.toc: die Vorlage nennt zusätzlich 11508 und 20505 (shared/vorlage/__ADDON__/__ADDON__.toc:1).
+   f) Zwei Testfälle zählen noch OK statt übersprungen: TestRoutine.lua:1075 (T38 "Favoriten fast voll") und 1092
+      (T61 "Liste gab es schon") -> "SKIP", Grund.
+   g) Diagnose-Protokoll ist nur Deutsch (Diag.lua:121-170), auch im englischen Client sichtbar (/ahs protokoll).
+      Für die Prüfung so lassen, aber Überschrift/Hinweis "Diagnose für die Addon-Prüfung (Deutsch)" über L.
+   h) Era: Die Zeile Einstellgebühr ist verborgen, das Gewinn-Fenster aber 16 Punkte höher (Crafting.lua:431, 459-466):
+      in Era/TBC eine leere Zeile zwischen AH-Gebühr und Gewinn. Zeilen ohne Gebühr nachrücken.
+
+11. BERUFSFENSTER: AUFRUFE IN BLIZZARD-RAHMEN (Schwere: NIEDRIG, IM CLIENT PRÜFEN) – neu in 0.65.12/0.65.14
+   Crafting.lua:238 ruft ProfessionsFrame.CraftingPage.RecipeList:SelectRecipe aus Addon-Code, Crafting.lua:76-93
+   (alt) TradeSkillFrameEditBox:SetText, FauxScrollFrame_SetOffset, Set…Filter. Das ist kein Ersetzen von Funktionen,
+   aber die Auswahl läuft dann "tainted" weiter. Herstellen ist nicht geschützt, sollte also gehen.
+   IM SPIEL PRÜFEN: Rezept in "Beste Rezepte" anklicken, dann im Blizzard-Fenster "Herstellen" -> kein
+   ADDON_ACTION_BLOCKED, /ahs protokoll ohne FEHLER. Ausserdem setzt reveal (Crafting.lua:257-266) im modernen Client
+   auch "Ungelernte zeigen" an – das ändert die Filter des Spielers dauerhaft. Nur Suchtext und die Filter
+   zurücksetzen, die das Rezept wirklich verstecken.
+
+12. RAID-VORRAT (Schwere: NIEDRIG, nach dem Launch) – aus 0.65.8
+   Comfort.lua:352-410 (K.RAID_SETS, K:RaidSetKey): prüfen, ob alle Item-IDs in Forever existieren (T145c im Spiel),
+   bei Bedarf RAID_SETS.forever anlegen.
+
+13. HINWEIS (kein Muss) – aus 0.65.8
+   A:RepairDB (AHAnalyzerPro.lua:538) prüft im Preisverlauf nur den ersten und den letzten Eintrag. Die Stellen, die
    den Verlauf lesen, sollen weiter mit fehlendem e.p rechnen können.
 
-10. TESTROUTINE OBERFLÄCHE (Schwere: MITTEL) – anweisung-testroutine-oberflaeche.txt, noch nicht umgesetzt
-    Fälle 1–6 ("UI im Client") fehlen in TestRoutine.lua. Achtung beim Fall 2: Cr:Dock setzt ohne Reiterleiste x = -30
-    (Crafting.lua:524-526), das Gewinn-Fenster liegt also 30 Punkte über dem Blizzard-Berufsfenster. Prüfen, ob das nur
-    den durchsichtigen Rand trifft; sonst x >= 0.
-    Aus anweisung-andocken-berufsfenster.txt Punkt 5 fehlt ausserdem der Fall "kein Überlappen" mit dem echten
-    ProfessionSentinel-Panel (Rechtecke schneiden sich nicht, mit und ohne PS).
-
-11. IM CLIENT PRÜFEN (Testplan des Nutzers)
-   - Ganzer Lauf /ahs testroutine auf Forever: 0 FEHLER, "Sandbox OK", kein "script ran too long".
+14. IM CLIENT PRÜFEN (Testplan des Nutzers, mit 0.65.17 – der letzte volle Testlauf ist 0.65.8)
+   - Ganzer Lauf /ahs testroutine auf Forever: 0 FEHLER, "Sandbox OK", kein "script ran too long",
+     "Nicht automatisiert: N" mit Liste.
    - Teile server (AH offen), haendler, berufe je einmal: T27, T37, T42, T50, T52, T126, T59b, T124, T148, T161.
-   - Einkauf: Kategorien und Unterkategorien gleich wie im Blizzard-AH (Namen, Reihenfolge), Suche in einer
-     Unterkategorie liefert nur deren Items; dasselbe einmal in Era/TBC (alter AH-Weg mit inventoryType-Filtern).
-   - Verkaufen: Preis/Stück zeigt "78c", Eingabe "1s 20c" übernimmt 1s 20c.
-   - Berufsfenster mit AHSentinel und ProfessionSentinel: nebeneinander, alle Berufsreiter sichtbar und anklickbar.
-   - Rezept wählen -> /dump AHAnalyzerPro.Crafting.lastModernRecipe zeigt die ID.
-   - Einloggen mit grossen Daten: kein Halt; /dump AHAnalyzerPro.repairedDB ist 0.
-   - T92: globaler SendAddonMessage bzw. Rückfall C_ChatInfo; T94: keine Taste hängt; T143b: eine Meldung.
-   - /dump ERR_AUCTION_SOLD_S (Punkt 2). Nach der Routine /reload.
+   - T175–T179 im Spiel (Klick aus ProfessionSentinel, Suchtext, nebeneinander ohne ÜBERLAPPT, Kupferne Kettenhose
+     18c mit Zeile Einstellgebühr 1s, Waffen-Unterkategorien).
+   - Verkaufen: "78c", Eingabe "1s 20c" -> 1s 20c; Einstellgebühr-Warnung bei billigem Item mit 1s Gebühr.
+   - Heute tun: Zeile "Unter Händlerpreis", Klick kauft nur bis Händlerpreis, danach "Beim Händler verkaufen".
+   - Punkt 1 (Sniper), Punkt 3 (/dump ERR_AUCTION_SOLD_S), Punkt 9 (EINSTELLEN gemessen), Punkt 11 (Herstellen).
+   - Nach der Routine /reload.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
-
-NACHTRAG (5. Nov. 17:10, im Code geprüft; korrigiert 17:12) – MITTEL, nach der Pause
-   REGEL IN WOW FOREVER (Angabe des Nutzers aus dem Spiel, 5. Nov. 17:11):
-   - Einstellgebühr = normale Einstellgebühr, mindestens 1 Silber (pro Auktion). Sie wird NIE zurückerstattet –
-     weder bei Verkauf noch beim Abbrechen.
-   - Verkaufsgebühr 5 % vom Verkaufspreis, ohne Minimum. Wird eine Auktion ABGEBROCHEN, kommt von der
-     Verkaufsgebühr ein Teil zurück, anteilig zur Zeit, die sie noch gelaufen wäre (korrigiert 17:13).
-   a) Gewinn-Fenster am Berufsfenster (Crafting.lua:249-254) rechnet Gewinn = Wert × 0,95 - Material OHNE
-      Einstellgebühr -> zu hoch (Kupferne Kettenhose 1s 18c statt 18c wie in ProfessionSentinel). In Forever die
-      volle Einstellgebühr (mind. 1s pro Auktion) abziehen und als eigene Zeile zeigen; Era/TBC unverändert.
-   b) A:ExpectedDepositLoss (Heute-Liste Crafting.lua:624) und alle Stellen, die eine Erstattung bei Verkauf
-      annehmen: in Forever gibt es nie eine Erstattung der Einstellgebühr; beim Abbrechen kommt nur von der Verkaufsgebühr anteilig etwas zurück. Prüfen und anpassen.
-   c) Testfall: Einstellgebühr 20c -> 1s; 3s -> 3s; Gewinn = Wert × 0,95 - Material - Einstellgebühr.
-   d) EINSTELLGEBÜHR MESSEN (Wunsch des Nutzers, 5. Nov. 19:13; BEGINN MONTAG 9. NOV. 06:00, auch a–c): Eine belegte Formel gibt es im Netz nicht. Darum:
-      - Die Gebühr nie selbst schätzen, wenn das Spiel sie liefert: C_AuctionHouse.CalculateItemDeposit /
-        CalculateCommodityDeposit (bei offenem AH) bzw. der zuletzt gemessene Wert für dieses Item.
-      - Bei JEDEM Einstellen mitschreiben (vor allem teure Items): Item-ID, Händlerverkaufspreis, Menge/Stapel,
-        Laufzeit, eigener Preis pro Stück und gesamt, tatsächlich abgezogene Einstellgebühr (Geld vorher/nachher bzw.
-        API-Wert), Verhältnis Gebühr/Preis und Gebühr/Händlerpreis. Im Diagnose-Protokoll als Eintrag EINSTELLEN und
-        im Export GSDIAG1, keine Namen.
-      - Warnung beim Einstellen, wenn die Gebühr einen einstellbaren Anteil am Preis übersteigt (Standard 10 %).
-      - Die Prüf-Sitzung leitet aus den Messungen die Forever-Formel ab und meldet sie zurück.
-
-NACHTRAG (5. Nov. 19:22, Wunsch des Nutzers) – MITTEL, Ausnahme (nach der laufenden Aufgabe)
-   "Heute tun": Angebote im AH, die UNTER dem Händlerverkaufspreis liegen, als eigene Zeile auflisten
-   ("Unter Händlerpreis: kaufen und beim Händler verkaufen").
-   - Quelle: letzter Scan bzw. aktuelle Suche; nur Angebote mit Preis pro Stück < Händlerverkaufspreis
-     (C_Item.GetItemInfo sellPrice bzw. eigener Händlerpreis-Speicher); Items ohne Händlerpreis nie.
-   - Gewinn = (Händlerpreis - Kaufpreis) × Menge; beim Kauf fällt keine AH-Gebühr an. Nur ab einem einstellbaren
-     Mindestgewinn (Standard 10 Silber pro Angebot), sortiert nach Gewinn, höchstens die besten 10.
-   - Klick: zum Kauf im AH (wie Sniper, kauft NIE ohne Klick), danach Hinweis "beim Händler verkaufen".
-   - Veraltete Angebote (älter als der letzte Scan, schon gekauft) ausblenden.
-   - Testfall: Angebot 50c, Händlerpreis 80c, Menge 5 -> Zeile mit +1s 50c; Angebot über Händlerpreis -> keine Zeile.
-
-STAND 9. NOV. 05:55 (Prüf-Sitzung, Grundlage download/AHSentinel-0.65.16.zip, Addon-Prüfung OK)
-   Erledigt und Anweisungen entfernt: Andocken mit GetDockFrame()/GetDockFrame(true) (0.65.10/0.65.11), Klick auf
-   Rezept über die Liste, Prüfung je Frame (0.65.14), Diagnose-Protokoll /ahs protokoll + GSDIAG1 (0.65.15),
-   Testroutine nach LevelPilot-Regeln mit Köderwerten (0.65.16).
-   Im Spiel zu bestätigen: Klick öffnet sofort; Gewinn-Fenster und ProfessionSentinel liegen nebeneinander.
-   JETZT (ab 9. Nov. 06:00): NACHTRAG 17:10/17:13 a–d (Einstellgebühr abziehen, aus dem Spiel lesen, messen,
-   Warnung), danach NACHTRAG 19:22 (Heute tun: unter Händlerpreis), dann anweisung-testroutine-oberflaeche.txt
-   (UICheck.lua aus der Vorlage), dann die übrigen Punkte (Sandbox, T130, Preisfeld g/s/c, Raid-Vorrat).
