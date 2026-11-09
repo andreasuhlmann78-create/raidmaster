@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-09 04:54 UTC
+Ausgewertet: 2026-11-09 05:41 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -25,7 +25,7 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 51 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794197889-d47252.json` |
+| LevelPilot | 51 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794165757-6b8d3a.json` |
 
 ## AHSentinel
 
