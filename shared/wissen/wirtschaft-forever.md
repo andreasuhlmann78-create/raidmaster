@@ -203,6 +203,12 @@ Spieler leveln noch). Jede Strategie mit der Frage: Was muss AHSentinel/Professi
 - **Waren (stapelbar) werden je Stück gehandelt**: Käufer gibt eine Menge ein und bekommt die billigsten Stücke zuerst,
   auch von mehreren Verkäufern (wie Retail). Ausrüstung: ein Stück je Angebot.
 - **Suchgrenze: 100 Suchen pro Minute** (Beta) -> Scans und Sniper müssen darunter bleiben.
+- **Vollscan höchstens alle 15 Minuten** (Angabe auxForever auf CurseForge, Stand 19.10.2026; vermutlich die
+  Blizzard-Grenze für den Gesamtscan) – vermutet, im Spiel bestätigen.
+- **Andere AH-Addons für Forever auf CurseForge (Stand 9.11.2026):** Auctionator (Forever-Variante, 12.1.5 vom
+  13.10.), Auctioneer (Forever) 4.0.x von crediar (mit Enchantrix für Entzauberwerte), auxForever 0.7.1.1 (Beta, mit
+  dokumentierter Schnittstelle AuxForeverAPI: GetLatestPrice, GetUsualPrice), AHledger 0.9.6 (Preise aus Datei bzw.
+  ahledger.com, keine Schnittstelle). TradeSkillMaster: keine Forever-Version.
 - **Kaufen, Bieten, Einstellen, Abbrechen sind für Addons geschützt** (nur mit Klick/Taste) – deckt sich mit dem
   Sniper-Befund (zwei Rasten).
 - **AH-Störungen** in der ersten Woche ("The item was not found" bei Sofortkäufen, 6./7.11.) – Fehlkäufe können am
