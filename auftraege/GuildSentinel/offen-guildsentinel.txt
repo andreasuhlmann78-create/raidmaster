@@ -1,91 +1,103 @@
-OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.19)
+OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.21)
 =============================================================
-Stand: 9. November 2026, 17:30 · von der Prüf-Sitzung · Grundlage: download/GuildSentinel-0.9.19.zip und Repo 68178e3
-(verglichen mit 0.9.18 aus der git-Geschichte)
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.18.
+Stand: 9. November 2026, 20:24 · von der Prüf-Sitzung · Grundlage: download/GuildSentinel-0.9.21.zip und Repo 1d14ade
+(verglichen mit 0.9.19 aus der git-Geschichte; 0.9.20 liegt dazwischen)
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.19.
 
-Erledigt in 0.9.19 (danke):
-- Punkt 1 aus 0.9.18 (Kreislauf Aufklappen/Lesen): Aufklappen und Offline-Einblenden höchstens alle 5 Minuten
-  (Professions.lua:965, 1035), eigenes Auf-/Zuklappen wird bei GUILD_TRADESKILL_UPDATE übergangen (glSelf/glOpened,
-  Professions.lua:998-1006, 1105-1108), Diagnose zählt "aufgeklappt (n-mal)".
-- Punkt 2 aus 0.9.18: Befördern aus der Aktivität und Sammelaktion über ns.GuildFn, modern zuerst (API.lua:150,
-  Activity.lua:209, Bulk.lua:94, 98); Testfall T213.
-- anweisung-berufe-leere-liste.txt (B1-B3): Leertext je Zustand und "+n weitere laut Spiel" (Professions.lua:1213-1232,
-  Pages.lua:1609-1627, UI.lua:596-601), Spalte "Wer" "1 von 4" und 76 breit (Professions.lua:1206, Pages.lua:1234),
-  Mitglieder nur aus der Spielliste mit "Rezepte unbekannt" und Anflüstern (Pages.lua:1274); T208-T212 (= T-B1-T-B5).
-- anweisung-berufe-automatisch.txt: Protokoll (eingelesen/gesendet/empfangen/Anzeige, Zusammenfassung Diag.lua:120);
-  V1 GuildSentinel sendet auch mit RaidMaster (Professions.lua:302ff., 515); V2 ein Schlüssel je Spieler P.Key mit
-  Umschlüsseln und Zusammenführen (Professions.lua:45, 100, 547); V3 jedes Mitglied sendet 10-60 s nach dem Einloggen,
-  wenn neu oder älter als 24 h (Professions.lua:584, 600); V4 eigener Schlüssel MyKey; A1 Offline-Anzeige ein/zurück
-  (Professions.lua:1008ff., siehe Punkt 2); A2 Gilden-Rezepte über QueryGuildMembersForRecipe, gedrosselt, mit
-  Abschaltung bei ADDON_ACTION_BLOCKED (Professions.lua:830-927); A3 NEW_RECIPE_LEARNED (Professions.lua:707, 735);
-  A4 Rezeptprobe mit IsPlayerSpell (Professions.lua:749; Liste aus den Gildendaten statt ProfessionSentinel, begründet);
-  T201-T207 (= T-S1-T-S7), Platzhalter-Namen.
-  Im Spiel wirkt der Abgleich: Protokoll 0.9.19 (16:06-16:16) "empfangen: 2 Einträge, angenommen 2, Name unbekannt 0",
-  Zusammenfassung "4 Einträge im Speicher, davon 4 mit Rezepten".
-Prüfungen: Addon-Prüfung OK ohne Warnung (Ladetest, Sprachtest), GoldSentinelGame.lua und GoldSentinelTest.lua
-byte-gleich mit shared/, neue Texte in allen 10 Locale-Dateien, Platzhalter gleich, CHANGELOG EN/DE, .toc und
-ns.version 0.9.19, Repo = ZIP.
-Offline-Routine mit Lua 5.1: Forever (16001) OK 182 · FEHLER 0 · übersprungen 27 · im Client prüfen 8; Era (11508) und
-TBC (20505) je OK 187 · FEHLER 0 · übersprungen 21 · im Client prüfen 9; run_routine je 16/16. Kein Testfall nur als
-T:Skip("noch nicht …"). test/run.lua 73/73, run_admin 26/26, run_uicheck 13/13, run_lang 7/7, run_noguild 19/19,
-run_nilglobals 24/24, run_profsync 14/14, run_profauto 8/8.
-Im Diff 0.9.18 -> 0.9.19 keine Lua-Fehler, kein Taint (neue Funktionen nur über ns.API/pick, Tests ersetzen nur
-ns.API-, ns- und ns.Prof-Einträge), Senden im Test nur mitgeschrieben (ns.Comm.Send abgefangen), neue Ereignisse über
-ns:On mit pcall (alte Clients ohne NEW_RECIPE_LEARNED/GUILD_RECIPE_KNOWN_BY_MEMBERS laufen weiter).
+Erledigt in 0.9.20/0.9.21 (danke):
+- Punkt 1 aus 0.9.19 (Berufe bei jedem Stufenaufstieg gesendet): Neue Rezepte nach 4 s, nur Stufe höchstens alle
+  5 Minuten bzw. beim Schliessen des Fensters (Professions.lua:360-372, 390-416, 441 TRADE_SKILL_CLOSE/CRAFT_CLOSE),
+  Zeile "eingelesen" nur bei geänderter Rezeptzahl (Professions.lua:377-384); Testfall T214.
+- Punkt 2 aus 0.9.19 (Offline-Mitglieder sofort gelesen und zurückgesetzt): Nach dem Einblenden wird immer gewartet,
+  bis GUILD_TRADESKILL_UPDATE kommt oder P.GL_WAIT vorbei ist (Professions.lua:1161-1179, 1205-1211); Diagnose zählt
+  "vor dem Einblenden n"; T205 mit verzögerter Offline-Zeile.
+- Punkt 3 aus 0.9.19 (Gilden-Rezepte bei jedem Öffnen neu): höchstens alle 10 Minuten je Beruf (P.GR_VIEW_EVERY,
+  Professions.lua:887), heute schon gefragte Rezepte nicht noch einmal (grAsked, Professions.lua:922), Zahl der
+  Abfragen in der GILDENREZEPTE-Zeile (Professions.lua:899); T216.
+- Punkt 4 aus 0.9.19 (Berufsdaten nicht in der Tiefe geprüft): P.CleanProf beim Empfang (Professions.lua:590, 620),
+  WhoCanCraft prüft jeden Wert (Craft.lua:70-78); T215.
+- Punkt 5 aus 0.9.19 (Vorname im Test): ersetzt durch Platzhalter (TestRoutine.lua:1483, test/).
+- hinweis-sync-kanal.txt: kein Senden mehr über GuildSentinelLFG, Weg nur Gilde/Gruppe/Flüstern, NOT_ALLOWED_IN_CHANNEL
+  ins Protokoll (Diag.lua:196-201), "SYNC …" einmal je Sitzung und alle 10 Minuten (Diag.lua:183-195), Werbung nur in
+  Blizzard-Kanälen (Recruit.lua:128-171); T217-T219, T223.
+- anweisung-gemeinsamer-sync.txt: shared/GoldSentinelSync.lua in der .toc vor den eigenen Dateien, Senden/Empfangen
+  über ep:Send/ep:OnMessage mit alter Kennung "GuildSentinel" (Comm.lua:100-122, 283-285), Absender nil vertragen
+  (Comm.noSender), eigener Kanal einmal verlassen und nie mehr betreten (Group.lua:323-341), keine eigene Warteschlange
+  mehr, "Mitspieler" über ep:Peers (Pages.lua:1928), "/gs sync test" (Comm.lua:320, Core.lua:792), DiagLines in der
+  Zusammenfassung (Diag.lua:121); T217, T220-T222, T224.
+- anweisung-sync-version2.txt (S1-S3, S5, S6): GoldSentinelSync 2 byte-gleich, ep:UseStorage(GuildSentinelDB) nach
+  PLAYER_LOGIN (Comm.lua:289-292), ins Netz nur die Gruppensuche "ganzer Server" (Comm.lua:110-117 Opts, Group.lua:153,
+  184), alles andere scope "guild"/net = false, im CHANGELOG EN/DE genannt, Zeile "NETZ …" ohne Namen; T225-T228.
+  S4 siehe Punkt 1.
+- anweisung-test-version2.txt: GoldSentinelTest 2 byte-gleich, TrackErrors nach ADDON_LOADED (Core.lua:713-714),
+  CHANGELOG EN/DE; T229, T230.
+Prüfungen: Addon-Prüfung OK ohne Warnung (EXIT 0; Ladetest, Sprachtest; Tests der gemeinsamen Dateien bestanden).
+GoldSentinelGame.lua, GoldSentinelSync.lua (Version 2) und GoldSentinelTest.lua (Version 2) byte-gleich mit shared/.
+Neue Texte (9) in allen 10 Locale-Dateien, Platzhalter gleich. CHANGELOG EN/DE für 0.9.20 und 0.9.21, LIESMICH und
+README_EN nachgeführt, .toc und ns.version 0.9.21. Repo 1d14ade = ZIP (alle Dateien gleich).
+Offline-Routine mit Lua 5.1: Forever (16001) OK 199 · FEHLER 0 · übersprungen 27 · im Client prüfen 8; Era (11508) und
+TBC (20505) je OK 204 · FEHLER 0 · übersprungen 21 · im Client prüfen 9; run_routine je 16/16 (Sandbox OK, Recorder 0,
+nichts gesendet, GuildSentinelDB unverändert). Kein Testfall nur als T:Skip("noch nicht …"). test/run.lua 73/73,
+run_admin 26/26, run_uicheck 13/13, run_lang 7/7, run_noguild 19/19, run_nilglobals 24/24, run_profsync 16/16,
+run_profauto 8/8, run_diag 11/11.
+Im Diff 0.9.19 -> 0.9.21 keine Lua-Fehler, kein Taint (Tests ersetzen nur Einträge von GoldSentinelSync.api,
+Sync.book/netQueue, ns.API, ns und ns.Prof, nie Blizzard-Funktionen), Senden in der Testroutine über Comm.TestHold
+abgefangen, neue Ereignisse über ns:On (alte Clients laufen weiter).
+Diagnose-Protokolle 0.9.19 (5 neue, testberichte/diagnose/GuildSentinel/0.9.19-*.txt): 0 Lua-Fehler. In jedem 90-98-mal
+"BERUFE gesendet: eigene=ja", bis 15-mal in einer Minute (0.9.19-546777ad4ad2.txt, 17:35) – das ist Punkt 1 aus 0.9.19,
+in 0.9.20 behoben. Belegt im Spiel: A2 "GILDENREZEPTE Weg=QueryGuildMembersForRecipe ohne Klick=ja"
+(0.9.19-b01502edc69d.txt, 17:44), A4 "REZEPTPROBE Weg=IsPlayerSpell Probe=ok", überall "Name unbekannt 0".
 
-1. MITTEL – Berufe gehen bei jedem Stufenaufstieg an die Gilde, das Protokoll läuft voll
-   Beleg: testberichte/diagnose/GuildSentinel/0.9.19-0a9cb3f835fe.txt. Von 16:04 bis 16:28 steht rund 100-mal
-   "eingelesen: Schneiderei 20 Rezepte" und direkt danach "gesendet: eigene=ja" – alle 10-30 Sekunden, bei gleicher
-   Rezeptzahl. Das ist das Hochleveln eines Berufs bei offenem Fenster: Jeder Stufenaufstieg zählt als Änderung.
-   Die 200 Plätze des Protokolls (Diag.lua:22) sind damit voll. Die Zeilen "Gilden-Berufsliste …", GILDENREZEPTE und
-   REZEPTPROBE dieser Sitzung sind verdrängt, A1/A2/A4 lassen sich so nicht messen.
-   Stellen: Professions.lua:360-368 (changed auch bei old.r ~= rank -> ScheduleSend), 372 (Zeile bei jedem Lesen),
-   378-397 (UpdateLevels bei SKILL_LINES_CHANGED -> ScheduleSend), 499-505 (Senden nach 4 s).
-   Lösung: Neue Rezepte wie heute nach 4 s senden. Ändert sich nur die Stufe: höchstens alle 5 Minuten senden (oder
-   beim Schliessen des Berufsfensters), Zeit merken wie glLast. Die Zeile "eingelesen" nur schreiben, wenn sich die
-   Rezeptzahl ändert, sonst nur zählen. Testfall: 10 Stufenaufstiege in 2 Minuten -> 1 Senden; ein neues Rezept ->
-   Senden nach 4 s; Protokoll hat dabei höchstens 2 neue BERUFE-Zeilen.
+1. MITTEL – Gruppensuche geht bei jeder Gruppenänderung erneut ins Flüster-Netz (S4)
+   Group.lua:354-360: GROUP_ROSTER_UPDATE ruft höchstens alle 30 s G:SendServer auf. SendServer (Group.lua:317-320)
+   sendet mit "NET", also an Gilde, Gruppe UND ins Flüster-Netz (je 3 Flüsternachrichten, bis zu 2-mal weitergegeben,
+   in jede erreichte Gilde gebracht). Beim Aufbau einer Gruppe oder eines Raids kommt GROUP_ROSTER_UPDATE laufend:
+   eine Suche von 60 Minuten kann so bis zu 120-mal ins Netz gehen. Jede Wiederholung hat eine neue Kennung und wird
+   nicht als Dublette verworfen. Gleiches für die Antwort auf LFGQ (Group.lua:345-351).
+   anweisung-sync-version2.txt S4: "Keine Nachricht öfter als nötig wiederholen."
+   Lösung: In Group.lua:350 und 359 nur an die Gruppe senden: ns.Comm:Send("LFG", G:Wire(s), "GROUP"). Ins Netz nur
+   beim Start (Group.lua:153) und beim Beenden (Group.lua:184). Testfall: Suche "ganzer Server", 5-mal
+   GROUP_ROSTER_UPDATE in 3 Minuten -> 0 neue Einträge in Sync.netQueue, die Gruppe bekommt LFG.
 
-2. MITTEL – Offline-Mitglieder (A1): Es wird sofort gelesen und gleich zurückgesetzt
-   Professions.lua:1031 schaltet "Offline-Mitglieder anzeigen" ein, 1043 liest sofort neu. Nur wenn dabei 0 Einträge
-   kommen, wartet 1074 zwei Sekunden. Sonst setzt 1078 (Restore) die Einstellung gleich zurück. Liefert das Spiel die
-   Offline-Mitglieder erst nach einer Antwort des Servers, sind die Online-Mitglieder schon da (found > 0). Dann
-   werden die Offline-Mitglieder nie gelesen. Offline lässt sich das nicht prüfen. T205 stellt nur den Fall nach, in dem
-   die Liste sofort umschaltet.
-   Lösung: Nach dem Einschalten immer warten (P.GL_WAIT oder bis GUILD_TRADESKILL_UPDATE kommt, höchstens 5 s), dann
-   lesen und zurücksetzen. In der Diagnose-Zeile die Mitglieder vor und nach dem Einblenden zählen. Testfall wie T205,
-   aber der Ersatz liefert die Offline-Zeile erst nach dem Warten -> gelesen, Einstellung danach wieder aus.
+2. NIEDRIG – Fremde Suche lässt sich mit einem Namen in den Daten beenden
+   Group.lua:250-254 (LFGX): Seit 0.9.21 reicht d.by == s.by, egal wer sendet. Jeder kann damit die Suche eines
+   anderen schliessen (auch eine Gildensuche), wenn er dessen Namen und die Kennung kennt. Vorher musste der Absender
+   der Suchende sein.
+   Lösung: d.by nur bei Suchen mit s.scope == "server" annehmen (nur die kommen über das Netz, mit Absender = Weitergeber);
+   bei Gildensuchen weiter sender == s.by verlangen. Testfall: LFGX mit fremdem Absender und d.by = Suchender für eine
+   Gildensuche -> bleibt offen; für eine Server-Suche -> geschlossen.
 
-3. NIEDRIG – Gilden-Rezepte (A2): viele Abfragen bei jedem Öffnen der Gilden-Ansicht
-   Professions.lua:951 setzt grDay[prof] bei jedem Öffnen von Blizzards Gilden-Ansicht zurück. 830-856 stellen dann bis
-   zu 300 Abfragen in die Warteschlange (P.GR_MAX, Professions.lua:813), eine je 1,5 s. Wer die Ansicht mehrmals öffnet,
-   startet das jedes Mal neu.
-   Lösung: Neustart aus der Gilden-Ansicht höchstens alle 10 Minuten je Beruf. Nur Rezepte abfragen, die noch nicht
-   gefragt wurden. In der GILDENREZEPTE-Zeile die Zahl der Abfragen ausgeben.
+3. NIEDRIG – Offline-Mitglieder (A1): im Spiel nie eingeblendet, Grund nicht messbar
+   Alle 5 neuen Forever-Protokolle (0.9.19) zeigen "offline eingeblendet: nein" und 3-4 Mitglieder bei 10 Einträgen in
+   der Gildenliste (z. B. 0.9.19-54260c911ab7.txt 18:55 und 19:06; 0.9.19-76baf2cd8475.txt 18:46). Warum, sagt das
+   Protokoll nicht: Professions.lua:1116-1122 blendet nur ein, wenn GetGuildRosterShowOffline genau false liefert
+   (Funktion fehlt? Einstellung schon an? Wert nil oder geschützt? 5-Minuten-Sperre?). Dazu: Kommt beim zweiten Lesen
+   (again) GuildRows() leer zurück, endet ReadGuildList in Professions.lua:1100-1101 vor Restore – die Einstellung
+   "Offline-Mitglieder anzeigen" bliebe dann an.
+   Lösung: In die Zeile "Gilden-Berufsliste …" den Grund schreiben (z. B. "offline: an vorher / Funktion fehlt /
+   Wert <Typ>"). Bei again vor jedem frühen return Restore(self.glOpened, self.glOffline) aufrufen und glToken
+   löschen. Testfall: again mit GetNumGuildTradeSkill = nil -> Einstellung wieder aus.
 
-4. NIEDRIG – Empfangene Berufsdaten werden nicht in der Tiefe geprüft
-   Professions.lua:573 speichert d.p aus der Addon-Nachricht ungeprüft. P:Find und P:Overview prüfen seit 0.9.19 jeden
-   Wert (type(v) == "table", type(n) == "string"). Craft.lua:70-72 (WhoCanCraft) tut das nicht: v.n bei v ~= table und
-   n:lower() bei n ~= string werfen einen Lua-Fehler (Tooltip/Herstellen-Anfrage).
-   Lösung: Gleiche Prüfungen in Craft.lua:70-72 wie in P:Find; beim Empfang Einträge ohne Tabelle verwerfen. Testfall
-   wie T118: Eintrag mit p = { X = 5 } und n = { 7 } -> WhoCanCraft ohne Fehler.
-
-5. NIEDRIG – Vorname im Test
-   GuildSentinel/TestRoutine.lua:1478 (in der ZIP) ns.OpenWhisper("Andreas", …), dazu test/run_routine.lua und weitere
-   Dateien in test/ (Gildenliste der Testläufe). Das Repo ist öffentlich (hinweis-keine-spielernamen.txt).
-   Lösung: Platzhalter wie "Testa Beispiel" oder "Ersatz1" verwenden. Ist das kein echter Name, bitte dem Nutzer
-   begründet zurückmelden.
-
-IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.19 bzw. 0.9.20, Ergebnis dem Nutzer melden)
+IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.21, Ergebnis dem Nutzer melden)
+   - Hochleveln: Beruf bei offenem Fenster 10 Stufen steigern -> im Protokoll höchstens 1-2 Zeilen "BERUFE gesendet"
+     in 5 Minuten, beim Schliessen eine. Neues Rezept -> sofort gesendet.
+   - Sync: Zeilen "SYNC GoldSentinelSync … Wege …", "SYNC gesendet …" und "NETZ …" im Protokoll, ohne Namen.
+     "/gs sync test" gibt "N Antworten (Gilde a, Gruppe b)" aus. Einmal "alten Kanal der Gruppensuche verlassen",
+     danach ist GuildSentinelLFG nicht mehr in der Kanalliste. Kein "Aktion blockiert".
+   - Flüster-Netz: Zwei Spieler in verschiedenen Gilden, kurz in einer Gruppe, dann Gruppe verlassen. Suche "ganzer
+     Server" in Gilde A -> erscheint in Gilde B (dort im Protokoll "weitergegeben" > 0). Die Systemmeldung "kein Spieler
+     … online" erscheint nicht im Chat.
+   - Werbung (Rekrutierung -> Werbung -> Kanäle) im deutschen Forever-Client: Allgemein, Handel, LokaleVerteidigung,
+     SucheNachGruppe werden angeboten (EnumerateServerChannels/instanceID), AHAPSync, LevelPilotNet usw. nicht.
+   - GoldSentinelTest 2: /gstest zeigt die einmalige Frage; ohne Zustimmung geht nichts hinaus.
    - Berufe-Abgleich mit dem Mitglied aus dem Befund (Alchimie 150): Seite Berufe zeigt dessen Rezepte, und das
-     Mitglied sieht weitere Gildenmitglieder (nicht nur den Nutzer). Protokoll: "empfangen …, Name unbekannt 0".
-   - A1: Diagnose-Zeile "Gilden-Berufsliste: … offline eingeblendet: ja, … Mitglieder" (mehr Mitglieder als die
-     Online-Mitglieder?). Danach ist "Offline-Mitglieder anzeigen" im Gildenfenster wieder wie vorher.
-   - A2: Zeile "GILDENREZEPTE Weg=… ohne Klick=ja/nein/blockiert". Kein "Aktion blockiert". Bei offenem Berufsfenster
-     öffnet sich während der Abfragen kein Blizzard-Fenster "Gildenmitglieder mit diesem Rezept".
+     Mitglied sieht weitere Gildenmitglieder (nicht nur den Nutzer). Protokoll: "empfangen …, Name unbekannt 0"
+     (mit 0.9.19 bei 5 Protokollen so gemessen).
+   - A1: Zeile "Gilden-Berufsliste: … offline eingeblendet: ja, … Mitglieder (vor dem Einblenden n)" – mehr Mitglieder
+     als vorher? Danach ist "Offline-Mitglieder anzeigen" wieder wie vorher (siehe Punkt 3).
+   - A2: weitere Zeilen "GILDENREZEPTE … Abfragen n · Einträge m"; kein "Aktion blockiert"; bei offenem Berufsfenster
+     öffnet sich kein Blizzard-Fenster "Gildenmitglieder mit diesem Rezept".
    - A3: Ein neues Rezept lernen (Lehrer oder Rezeptbuch) ohne offenes Fenster -> Zeile "neues Rezept: <Beruf>, jetzt n".
-   - A4: Zeile "REZEPTPROBE Weg=IsPlayerSpell Probe=ok/falsch". Bei "falsch" bleibt der Weg bis zur nächsten Version aus.
    - Kreislauf: Kommt GUILD_TRADESKILL_UPDATE nach dem Aufklappen weiter alle 5 Sekunden? (/etrace) Blizzards
      Gilden-Berufsliste (J -> Berufe) danach im selben Zustand (zugeklappt) wie vorher?
    - Seite Berufe: "1 von 4", Leertext und "+n weitere laut Spiel" nicht abgeschnitten (Bereich K).
@@ -95,7 +107,7 @@ IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.19
    - Echte Aktion einmal mit einem Test-Twink: Einladen, Befördern (auch aus der Aktivität und als Sammelaktion),
      Degradieren, Entfernen – kein "Aktion blockiert".
    - Letzter Testlauf im Spiel ist noch 0.9.13 (09.11. 05:47 UTC): T82 "echt 1" (C_ChatInfo.SendAddonMessage), T118
-     Chronicle.lua:131, T143 206,5 ms, T154. Offline sind alle vier in 0.9.19 bestanden. Mit 0.9.19 erneut
+     Chronicle.lua:131, T143 206,5 ms, T154. Offline sind alle vier in 0.9.21 bestanden. Mit 0.9.21 erneut
      /gs testroutine. Kommt T82 wieder: Stelle über ns.Act bzw. den Recorder finden und im Test nur mitschreiben.
      Dazu T45 "[Test], 0", Bereich K (T182-T187), Berufe-Knopf in Forever ohne "Aktion blockiert", issecretvalue
      nach dem Kampf, T168 (/gs testroutine whisperq), Bank-Charakter -> #gildenbank, Sprachwahl folgt ohne
@@ -106,17 +118,7 @@ IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.19
 HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Die Sprache muss ohne Einstellung immer dem Client folgen (hinweis-sprachtest.txt).
    - Keine echten Spieler- oder Charakternamen (hinweis-keine-spielernamen.txt).
-   - Die Version muss höher sein als 0.9.19 (download/, announce/, CurseForge).
+   - Gemeinsame Dateien nur unverändert aus shared/ kopieren.
+   - Die Version muss höher sein als 0.9.21 (download/, announce/, CurseForge).
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
-
-NEU (9. Nov. 18:10, HOCH, nach der laufenden Arbeit) – Sync nicht über eigene Kanäle (siehe hinweis-sync-kanal.txt)
-
-NEU (9. Nov. 18:40) – gemeinsame Sync-Datei übernehmen (anweisung-gemeinsamer-sync.txt), nach hinweis-sync-kanal.txt
-
-NEU (9. Nov. 19:30, nach der laufenden Arbeit und nach anweisung-gemeinsamer-sync.txt) – GoldSentinelSync Version 2
-   (Flüster-Netz) übernehmen: anweisung-sync-version2.txt (S1–S6, T-N1–T-N4). Wer Sync noch nicht eingebaut hat, nimmt
-   gleich Version 2.
-
-NEU (9. Nov. 19:55, nach der laufenden Arbeit) – GoldSentinelTest Version 2 kopieren (Berichte anderer Spieler an
-   den Sammler, nur mit Zustimmung): anweisung-test-version2.txt (T1–T5, T-GT1–T-GT2).

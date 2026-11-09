@@ -1,111 +1,124 @@
-OFFENE PUNKTE LEVELPILOT (nach der Nachprüfung von 3.12.16)
+OFFENE PUNKTE LEVELPILOT (nach der Nachprüfung von 3.12.21)
 ==========================================================
-Stand: 9. November 2026, 06:25 · von der Prüf-Sitzung · Grundlage: announce/levelpilot__levelpilot-3.12.16.LevelPilot.zip
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 3.12.6 mit allen
-Nachträgen bis 9. Nov. 05:30.
+Stand: 9. November 2026, 20:24 · von der Prüf-Sitzung · Grundlage: announce/levelpilot__levelpilot-3.12.21.LevelPilot.zip
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 3.12.16 mit allen
+Nachträgen bis 9. Nov. 19:55 (Sync, GoldSentinelTest 2, Spielernamen). Geprüft: Diff 3.12.19 -> 3.12.20 -> 3.12.21,
+dazu die Punkte aus 3.12.17 bis 3.12.19 im Code von 3.12.21.
 
-Erledigt in 3.12.7 bis 3.12.16 (danke):
-- 3.12.16: Rest der Anweisung graue Items – gesperrte Plätze bleiben (Compat.lua:346-351 locked, Comfort.lua:64-68
-  Sellable), Stopp bei MERCHANT_CLOSED und Kampfbeginn (Comfort.lua:330, 335, 104), /lp grau (Core.lua:667-669),
-  Tests T230-T234 (TestRoutine.lua:3820-3904). Testfälle, die in der Lage nicht prüfbar sind, zählen als
-  übersprungen mit Grund (TR.NA_SUFFIX, TestRoutine.lua:274) statt OK (früherer Punkt 1 aus 3.12.6).
-  Hinweis der LevelPilot-Sitzung stimmt: der Knopf "Verkaufen: 0 Items (0)" am Händler stammt von AHSentinel
-  (UI_Extras.lua:28-56) – als Auftrag an AHSentinel weitergegeben.
-- 3.12.15: anweisung-testroutine-oberflaeche.txt – UICheck.lua aus der Vorlage, alle Fenster angemeldet,
-  Bereich K T224-T229 (TestRoutine.lua:3806-3840), Plausibel-Prüfungen "N fertig" = Abgeben, Questlog-Anzahl, Stufe,
-  Position (UICheck.lua:240-286), Fehlerschleife je Sitzung ab PLAYER_LOGIN. T224-T227 offline begründet übersprungen.
-  Die Anweisung ist damit für LevelPilot erledigt und entfernt.
-- 3.12.14: UnitIsAFK geschützt -> kein Lua-Fehler mehr (Session.lua:30 über LP.SafeValue, sonst Leerlauf-Zähler).
-  Ebenso UnitOnTaxi, UnitIsDeadOrGhost, UnitIsDead, UnitIsGhost, UnitAffectingCombat, UnitInVehicle, UnitExists,
-  UnitIsPlayer, UnitPlayerControlled, UnitInParty, UnitPowerType, UnitPosition (Geo.lua:114-116), GetXPExhaustion
-  (Session.lua:178, Virtual.lua:736-740) und EP über LP:PlayerXP (Core.lua:414). Testfall T223 mit Köderwert.
-- 3.12.7: 588× "secret number value" in Protocol.lua weg; nahe Abgaben zuerst; keine Linie übers Gebirge (T214-T216).
-- 3.12.8: Hauptstädte gehören zur Zone, Fokus folgt dem Spieler, Fokus-Wächter plant selbst neu, Vorrang-Ziele nie vor
-  nahen Abgaben, nach "FEST" nur Pfeil (T217).
-- 3.12.9-3.12.12 (anweisung-wegpunkte-strassen.txt Punkte 2, 3, 7-11, 13, 14): Wegnetz statt Luftlinie, "Weg
-  unbekannt" ohne Linie, FEST nur bei reiner Laufzeit, gesperrte Kanten, echte Orte der Questgeber, /lp wege und
-  GSWEGE1 (T218-T221).
-- 3.12.13: erst die offenen Quests der Zone, dann Zonenwechsel (T222).
-- anweisung-levelpilot-graue-items.txt: Verkaufen-Knopf am Händler weg, graue Items automatisch beim Händler
-  (Comfort.lua:59-91, Option autoSellGrey ab Werk an, Center.lua:500), Verkauf über LP.Act.Call, Chatzeile in allen
-  Sprachen. Die Datei ist entfernt.
-Prüfungen: Addon-Prüfung OK ohne Warnung (Ladetest, Sprachtest), GoldSentinelGame.lua und GoldSentinelTest.lua
-byte-gleich mit shared/, CHANGELOG EN/DE, .toc 3.12.16 (mit UICheck.lua). Im Diff 3.12.13 -> 3.12.14 -> 3.12.15 ->
-3.12.16 keine neuen Fehler gefunden.
-Testberichte: seit dem 9. Nov. 05:30 keine neuen.
+Erledigt in 3.12.17 bis 3.12.21 (danke):
+- 3.12.21 hinweis-sync-kanal.txt, anweisung-gemeinsamer-sync.txt, anweisung-sync-version2.txt: GoldSentinelSync.lua
+  Version 2 byte-gleich, in der .toc nach GoldSentinelGame.lua. Kein eigener Kanal, keine eigene Warteschlange, kein
+  eigener Takt mehr (Comm.lua:156-211). LevelPilotNet wird nur noch einmal verlassen (Comm.lua:481-489, 586).
+  Kennungen LvPilot2/LvPilotG bleiben (alte Nachrichten ohne Kopf werden verstanden, T246). ep:UseStorage(LevelPilotDB)
+  (Comm.lua:531). Beute- und Gegnerwerte nur Gilde/Gruppe (Comm.lua:553, 559), Gruppenmodus nur Gruppe
+  (Group.lua:26-30). Absender geschützt/nil wird vertragen (Comm.lua:146, 292, 305, 356; Group.lua:156).
+  /lp sync test (Core.lua:702, Comm.lua:622-633), Mitspieler über ep:Peers (Center.lua:294), Diagnose SYNC/NETZ
+  (Comm.lua:592-598, 635-640; Protocol.lua:438-441). Frühere Absendernamen in LevelPilotDB nur noch als Prüfsumme
+  (Comm.lua:513-523). Tests T242-T251.
+- 3.12.21 anweisung-test-version2.txt: GoldSentinelTest.lua Version 2 byte-gleich, TrackErrors nach ADDON_LOADED
+  (Core.lua:567-568), CHANGELOG EN/DE, Tests T252 und T253.
+- 3.12.20 hinweis-keine-spielernamen.txt: GoldSentinelGame.lua Version 3 byte-gleich; Entwickler-Charakter nur als
+  Prüfsumme (Core.lua:245-266); Tests mit "Testa Beispiel" (TestRoutine.lua:521, 1938-1939). Kein echter Name mehr
+  im Paket gefunden.
+- 3.12.19 (früher Punkt 3): GetPlayerFacing, IsIndoors, IsResting, GetUnitSpeed, UnitLevel über LP.SafeValue
+  (Core.lua:414-437), Begleiter-Stufe (Supply.lua:74), T241. T128 neu gefasst, absichtliche Testfehler nicht mehr
+  mitgezählt (ForgetTestErrors, TestRoutine.lua:1203-1262) – früher Punkt 2, Bestätigung im Client unten.
+- 3.12.18 (früher Punkt 1): Tooltips über UI.TipAnchor mit ANCHOR_NONE neben dem Fenster (UI.lua:37-54, auch
+  Navigation.lua:381, Actions.lua:93), T240. Übrig sind nur ANCHOR_LEFT am Minikarten-Knopf (UI.lua:895) und
+  ANCHOR_RIGHT an Kartenpins (Navigation.lua:564, Pins.lua:232) – dort liegen keine eigenen Knöpfe darunter.
+- 3.12.17 (Befunde Wegdaten b–e): Punkte alle 25 Yards und bei > 30° – in den 26 Exporten von 3.12.19 haben von 55
+  neuen Wegstücken nur 1 (geteilt) einen Sprung > 4 %; keine Wegstücke mehr auf der Kontinentkarte; npc[] old/new
+  als [x, y] mit oldMap und nopack (Graph.lua:717-728); NPC 10666 und 10881 im Datenpaket 1.6.1 korrigiert
+  (LevelPilot_Data/Data/Npcs.lua:4947, 5004). Befund a (Netz verbinden) ist eingebaut (T235-T239); die Wirkung zeigt
+  erst eine Auswertung neuer Exporte (siehe IM CLIENT PRÜFEN).
+Prüfungen: Addon-Prüfung OK, kein FEHLER, keine WARNUNG (Ladetest, Sprachtest). GoldSentinelGame.lua (3),
+GoldSentinelTest.lua (2) und GoldSentinelSync.lua (2) byte-gleich mit shared/. CHANGELOG EN/DE für 3.12.20 und
+3.12.21, .toc 3.12.21, neue Texte in allen Locale-Dateien (esMX fällt auf esES zurück), Platzhalter gleich.
+Testroutine: alle 205 IDs aus testroutine-levelpilot.txt vorhanden, alle 253 Fälle haben eine Umsetzung (kein
+"noch nicht automatisiert"). Offline im nachgebauten Spiel (Lua 5.1/lupa, WoW Forever) laufen T92, T108, T111,
+T169 und die neuen T242-T253 alle OK; über alle Fälle 184 OK, die übrigen scheitern an der Nachbildung genau wie
+schon bei 3.12.19 (keine neue Abweichung, T61 jetzt OK). Keine Blizzard-Funktion ersetzt (Tests ändern nur
+GoldSentinelSync.api und setfenv auf eigene Funktionen).
+Testberichte: kein Lua-Fehler von LevelPilot seit 3.12.14 (letzter: 3.12.13, 8. Nov. 20:41).
 
-Bitte mit der nächsten Version (3.12.17). Wie immer: komplette Dateien, alte Clients nie brechen, alle Locale-Dateien,
-CHANGELOG EN/DE, vor dem Push python3 addon-check/addon_check.py announce/levelpilot__levelpilot-3.12.17.LevelPilot.zip
+Bitte mit der nächsten Version (3.12.22). Wie immer: komplette Dateien, alte Clients nie brechen, alle Locale-Dateien,
+CHANGELOG EN/DE, vor dem Push python3 addon-check/addon_check.py announce/levelpilot__levelpilot-3.12.22.LevelPilot.zip
 -> kein FEHLER.
 
-1. EIGENE TOOLTIPS VERDECKEN KNÖPFE (Schwere: MITTEL, Screenshot Thunder Bluff 5. Nov.)
-   Noch unverändert: UI.lua:83 ANCHOR_TOP, UI.lua:299 ANCHOR_LEFT, UI.lua:380 ANCHOR_BOTTOM, UI.lua:584 ANCHOR_TOPLEFT,
-   UI.lua:848 ANCHOR_LEFT, Navigation.lua:381 ANCHOR_BOTTOM. Der Tooltip liegt über den Knöpfen (Unterstützen,
-   Zentrale, Normal, Überspringen …).
-   Lösung: ANCHOR_NONE und SetPoint ausserhalb des Hauptfensters (daneben bzw. darunter, am Bildschirmrand ausweichen),
-   nie über den eigenen Knöpfen. T224 (neu in 3.12.15) sollte das im echten Client jetzt als FEHLER zeigen.
+1. NETZ-NACHRICHTEN: "sender" IST DER WEITERGEBER, NICHT DER URHEBER (Schwere: MITTEL)
+   Zonen-Anfragen "Z" (Comm.lua:222, Empfang 360-362) und die Elite-Mitspielersuche "E" (Social.lua:167, Empfang
+   Comm.lua:418-420) gehen jetzt ins Flüster-Netz. GoldSentinelSync gibt Netz-Nachrichten weiter und stellt sie mit
+   dem Absender der letzten Station zu (shared/GoldSentinelSync.lua:580-582, 603). Folgen:
+   - Comm:ReplyZone (Comm.lua:265-287) flüstert bis zu 30 Quests, 60 Wege und 20 Höhlen an den Weitergeber statt an
+     den Fragenden; jeder in dessen Gilde kann antworten. Der Fragende bekommt nichts.
+   - Social:OnMessage (Social.lua:170-178) merkt den Weitergeber als Mitspieler mit der Elite-Quest; der Hinweis
+     zeigt dessen Namen und "Einladen" lädt ihn ein (Social.lua:201-210) – falsche Person.
+   Lösung: "Z" und "E" mit { net = false } senden (nur Gilde/Gruppe, dort ist der Absender der Urheber), z. B.
+   Comm:Queue(msg, nil, true) bzw. Broadcast(..., nil, true). Im CHANGELOG nennen. Testfall: Netz-Nachricht "#S2:…"
+   mit "E"/"Z" über TR.Deliver von einem Weitergeber -> kein Partner-Eintrag bzw. keine Antwort an ihn; eigenes
+   Senden von "E"/"Z" -> nichts in GoldSentinelSync.netQueue.
 
-2. T128 ALTE FASSUNG (Schwere: NIEDRIG, Testroutine im Spiel 5. Nov.)
-   Unverändert seit 3.12.6 (TestRoutine.lua:3096). Ist "ergänzt true, gemessen true", soll "ergänzt, false, kein
-   Fehler". Die Migration markiert Beispieldaten als gemessen. Prüfen, ob die Migration oder der Fall falsch ist, und
-   anpassen. Dazu: Fehlerzähler stieg während der Routine um 5 – prüfen, ob absichtliche Testfehler mitgezählt werden.
+2. EINSTELLUNGEN GILDE / GRUPPE / NETZ WERDEN NICHT EINGEHALTEN (Schwere: MITTEL)
+   Comm.lua:161-171 (Scope). Offline nachgestellt (in Gilde und Gruppe, ein Netz-Mitspieler bekannt):
+     Gilde aus, Gruppe aus, Netz an  -> GUILD + PARTY + Netz   (Gilde und Gruppe sind ausgeschaltet!)
+     Gilde an,  Gruppe aus, Netz an  -> nur GUILD             (Netz fehlt)
+     Gilde aus, Gruppe an,  Netz an  -> nur PARTY             (Netz fehlt)
+   Ursache: {} heisst bei GoldSentinelSync "alle Wege", und { scope = "guild" } / "group" geht nie ins Netz.
+   Lösung: nur senden, was eingeschaltet ist, z. B. je eingeschaltetem Weg einzeln: Gilde -> ep:Send(msg,
+   { scope = "guild" }), Gruppe -> ep:Send(msg, { scope = "group" }), Netz ohne Gilde/Gruppe -> nur ins Netz (dafür
+   bei der Prüf-Sitzung einen Umfang "net" für GoldSentinelSync anfragen – die gemeinsame Datei nicht selbst ändern;
+   bis dahin bei Gilde oder Gruppe aus kein Netz). T243 um diese drei Fälle erweitern.
 
-3. RESTLICHE ABFRAGEN OHNE SCHUTZ VOR GESCHÜTZTEN WERTEN (Schwere: NIEDRIG, Vorsorge zu 3.12.14)
-   Noch roh benutzt: GetPlayerFacing (Navigation.lua:406-407 "if facing", 475, 497), IsIndoors (Caves.lua:99, 187,
-   Navigation.lua:469, 493, Pins.lua:186), IsResting (Session.lua:196, Caves.lua:186), GetUnitSpeed (Measure.lua:87),
-   UnitLevel("player") in Vergleichen (Core.lua:410, Session.lua:201, 310, Group.lua:44, 118, Protocol.lua:283),
-   UnitLevel("pet") (Supply.lua:74). Ob Forever diese Werte schützt, ist offen (siehe IM CLIENT PRÜFEN).
-   Lösung: wie in 3.12.14 über LP.SafeValue lesen und bei nil auf den bisherigen Rückfall gehen. T223 um diese Fälle
-   erweitern.
+3. ZONEN-ANTWORT FÜLLT DIE GEMEINSAME WARTESCHLANGE (Schwere: MITTEL, anweisung-sync-version2.txt S4)
+   Comm:ReplyZone legt bis zu 30 Quests (je 1 + Zielorte), 60 Wege und 20 Höhlen in einem Zug ab (Comm.lua:28-29,
+   275-285) – leicht über 100 Nachrichten. Seit 3.12.21 ist das die gemeinsame Warteschlange aller GoldSentinel-Addons
+   (QUEUE_MAX 300, eine Nachricht je 0,2 s): eine Antwort blockiert AHSentinel, GuildSentinel usw. für 20 s und mehr,
+   zwei bis drei Antworten lassen die ältesten Nachrichten anderer Addons fallen ("queue").
+   Lösung: Antwort klein halten (z. B. höchstens 25 Nachrichten je Antwort, Rest bei der nächsten Anfrage) und nicht
+   antworten, solange #GoldSentinelSync.queue über ca. 50 liegt. Testfall: ReplyZone mit vielen Daten -> höchstens N
+   eigene Einträge in der Warteschlange.
 
-4. IM CLIENT PRÜFEN (Ergebnisse dem Nutzer melden)
-   - 3.12.15: /lp testroutine k im echten Client (T224-T229), Ergebnis melden – T224 sollte die Tooltips aus Punkt 1
-     finden.
-   - 3.12.14: Fehlerprotokoll nach einer Spielsitzung mit Kampf und AFK – kein "secret boolean" mehr (vorher 798×
-     Session.lua:29). Die automatischen Testberichte zeigen das; die Prüf-Sitzung kontrolliert sie.
-   - Route Mulgore/Thunder Bluff (Befunde 5. Nov. 01:17, 03:20, 17:33, 19:03): nahe Abgaben zuerst, keine Linie übers
-     Gebirge, Fokus in der Karte des Spielers, Klassentrainer in Thunder Bluff über den Aufzug, erst Mulgore fertig,
-     dann Brachland. Kopfzeile "(N fertig)" und "Abgeben" oben in der Liste.
-   - Graue Items: Händler öffnen -> graue Gegenstände weg (nur ausserhalb des Kampfes), eine Chatzeile, /lp grau
-     schaltet um. Den Knopf "Verkaufen: N Items" am Händler zeigt AHSentinel (dort als Auftrag).
+4. BROADCAST MERKT "GESENDET", AUCH WENN NICHTS GESENDET WURDE (Schwere: NIEDRIG)
+   Comm.lua:191-197: sentThisSession[key] wird vor dem Senden gesetzt. Gibt Comm:Queue false zurück (kein Weg, Austausch
+   aus, GoldSentinelSync fehlt), geht diese Quest bzw. Höhle in der ganzen Sitzung nicht mehr hinaus. Bis 3.12.19
+   wurde der Schlüssel nur für einen vorhandenen Weg gesetzt.
+   Lösung: Schlüssel erst setzen, wenn mindestens ein Queue(...) true ergab.
+
+5. TESTROUTINE SENDET FREMDE NACHRICHTEN OHNE DROSSEL (Schwere: NIEDRIG)
+   Comm.SendNext ruft GoldSentinelSync.Pump(true) (Comm.lua:201-204). T61 (3×, TestRoutine.lua:2721), T62 (5×, 2744)
+   und T154 (Bench, 20×, 3452) holen damit die ersten Nachrichten der gemeinsamen Warteschlange – auch die anderer
+   Addons – und senden sie sofort ohne den 0,2-s-Abstand. Eigene Nachrichten von vor dem Test gehen dabei nur ins
+   Mitschreiben (SyncDry) und sind verloren.
+   Lösung: im Test GoldSentinelSync.queue und .netQueue vorübergehend durch eigene leere Tabellen ersetzen (Felder der
+   gemeinsamen Tabelle, keine Blizzard-Funktion), nur Testnachrichten pumpen, danach die echten Tabellen zurück.
+
+IM CLIENT PRÜFEN (Ergebnisse dem Nutzer melden)
+   - 3.12.21: /lp sync test -> Zeile "N Antworten (Gilde a, Gruppe b)". Diagnose-Protokoll: SYNC- und NETZ-Zeilen ohne
+     Namen, "Kanal verweigert 0", bei "verworfen" kein "toolong" (Wegnachrichten "P" mit 12 Punkten liegen nahe an
+     230 Zeichen). Der Kanal LevelPilotNet ist nach dem Einloggen weg (Chat-Kanalliste).
+   - 3.12.21 (aus anweisung-sync-version2.txt): Zwei Spieler in verschiedenen Gilden, kurz in einer Gruppe, dann Gruppe
+     verlassen -> eine neue Aufzeichnung aus Gilde A kommt in Gilde B an (dort im Diagnose-Protokoll "weitergegeben" > 0).
+   - 3.12.21: /gstest – einmalige Frage; ohne Zustimmung geht nichts hinaus (T253 im echten Client).
+   - Hinweis: LevelPilot bis 3.12.20 versteht die neuen Nachrichten mit Kopf "#S1:" nicht (kein Fehler, nur kein
+     Empfang). Mitspieler sollen aktualisieren.
+   - /lp testroutine im echten Client, besonders T224-T229 (Tooltips/Überlappen), T240, T241, T242-T253 und T128 ("ergänzt,
+     false, kein Fehler"; Fehlerzähler steigt während der Routine nicht mehr).
+   - Fehlerprotokoll nach einer Spielsitzung mit Kampf und AFK: kein "secret boolean/number" (die automatischen
+     Testberichte zeigen das; die Prüf-Sitzung kontrolliert sie).
    - /dump GetPlayerFacing(), IsIndoors(), IsResting() im Kampf und in einer Instanz: Zahl/Wahrheitswert, nil oder
-     geschützt? (für Punkt 3)
+     geschützt? (Rückfall seit 3.12.19 vorhanden – nur zur Bestätigung.)
+   - Wegdaten ab 3.12.17: Die Prüf-Sitzung wertet nur Exporte ab 3.12.17 getrennt aus (Netz verbunden? Teile pro Zone).
+     Bisher mischt testberichte/wege/auswertung.md alte und neue Exporte.
+   - Route Mulgore/Thunder Bluff (Befunde 5. Nov.): nahe Abgaben zuerst, keine Linie übers Gebirge, Fokus in der Karte
+     des Spielers, Klassentrainer in Thunder Bluff über den Aufzug, erst Mulgore fertig, dann Brachland. Kopfzeile
+     "(N fertig)" und "Abgeben" oben in der Liste.
+   - Graue Items: Händler öffnen -> graue Gegenstände weg (nur ausserhalb des Kampfes), eine Chatzeile, /lp grau
+     schaltet um.
    - Aus 3.12.6: Client-Fälle T171, T195, T213; /dump UnitGUID("target") direkt nach einem Kill im Kampf;
      /dump GetLootSourceInfo(1) bei offenem Beutefenster; Belohnungs-Hinweis bei QUEST_COMPLETE mit Gegenstand
      nicht im Cache; Nachkaufen beim echten Händler (MERCHANT_SHOW -> Restock); /lp testroutine reise (T84, T180, T183).
 
 Weiter gültig: anweisung-wegpunkte-strassen.txt (Punkt 1/6 eigene Koordinatenlisten für Mulgore, Brachland,
-Thunder Bluff, sobald genug aufgezeichnet ist; Punkt 12 erst nach der Rechtsprüfung; Punkt 15 erst auf Kommando des
-Nutzers).
+Thunder Bluff, sobald genug aufgezeichnet ist; Punkt 12 gestrichen; Punkt 15 erst auf Kommando des Nutzers).
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
-
-BEFUNDE AUS TESTBERICHTEN UND DIAGNOSE-PROTOKOLLEN (9. Nov. 06:10, Prüf-Sitzung, Quelle testberichte/)
-   Auswertung der Wegdaten (testberichte/wege/auswertung.md, 51 Exporte, 12 Zonen):
-   a) MITTEL – Netz zerfällt in viele Teile (Durotar 20, Mulgore 29, Brachland 32, Tirisfal 38, Orgrimmar 54,
-      Thunder Bluff 56, Undercity 69): Endpunkte neuer Wegstücke werden nicht mit bestehenden Knoten verbunden.
-      Lösung: beim Speichern Anfang/Ende eines Wegstücks an den nächsten Knoten innerhalb ca. 10 Yards anhängen
-      (gleiche Knoten-ID), Wegstücke an Kreuzungen teilen.
-   b) MITTEL – Sprünge von 4–7 % der Zonenkarte innerhalb eines Wegstücks (z. B. Durotar 52.1,51.2 -> 53.4,58.2):
-      Punkte zu selten gespeichert. Lösung: Punkt mindestens alle ca. 25 Yards und bei jeder Richtungsänderung > 30°.
-   c) NIEDRIG – Wegstücke auf der Kontinentkarte Kalimdor (1414, 87 Stück): beim Fliegen/Taxi nicht aufzeichnen
-      (UnitOnTaxi) bzw. nur auf Zonenkarten.
-   d) NIEDRIG – Format npc[]: "old" ist [Karte, x, y], "new" [x, y]. Bitte einheitlich [x, y] (die Karte steht in "map";
-      bei Kartenwechsel zusätzlich "oldMap"). Die Prüfung liest beides.
-   e) Datenpaket deutlich falsch (aus den Korrekturen): NPC 10666 Tirisfal 43.1,54.7 -> 52.8,54.2; NPC 10881 Thunder
-      Bluff 44.3,58.8 -> 56.6,48.1. Diese Korrekturen fest ins Datenpaket übernehmen.
-      (9. Nov.: NPC 15350 ist erledigt – das Datenpaket hat Thunder Bluff 57.8,76.4 als 7. von 7 Orten, 3.12.19 sendet
-      jetzt den nächsten Ort derselben Karte. Die 17 "nicht da" waren ein Fehler von wege_check.py: NPCs ohne Ort im
-      Datenpaket; die Prüfung zeigt sie jetzt als "fehlt im Datenpaket" und liest "nopack". Gemessene Orte dieser
-      NPCs dürfen ins Datenpaket.)
-
-NEU (9. Nov. 18:10, HOCH, nach der laufenden Arbeit) – Sync nicht über eigene Kanäle (siehe hinweis-sync-kanal.txt)
-
-NEU (9. Nov. 18:40) – gemeinsame Sync-Datei übernehmen (anweisung-gemeinsamer-sync.txt), nach hinweis-sync-kanal.txt
-
-NEU (9. Nov. 19:30, nach der laufenden Arbeit und nach anweisung-gemeinsamer-sync.txt) – GoldSentinelSync Version 2
-   (Flüster-Netz) übernehmen: anweisung-sync-version2.txt (S1–S6, T-N1–T-N4). Wer Sync noch nicht eingebaut hat, nimmt
-   gleich Version 2.
-
-NEU (9. Nov. 19:55, nach der laufenden Arbeit) – GoldSentinelTest Version 2 kopieren (Berichte anderer Spieler an
-   den Sammler, nur mit Zustimmung): anweisung-test-version2.txt (T1–T5, T-GT1–T-GT2).

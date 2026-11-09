@@ -1,80 +1,82 @@
-OFFENE PUNKTE RAIDMASTER (nach der Nachprüfung von Addon 3.0.20, Bot 1.5.111 und Uploader 2.0.0)
+OFFENE PUNKTE RAIDMASTER (nach der Nachprüfung von Addon 3.0.22, Bot 1.5.112 und Uploader 2.0.1)
 ================================================================================================
-Stand: 9. November 2026, 14:30 · von der Prüf-Sitzung
-Grundlage: download/RaidMaster-3.0.20.zip, RaidMasterBot 1.5.111, download/RaidMasterUploader.zip (2.0.0)
-(verglichen mit Addon 3.0.18/3.0.19, Bot 1.5.109/1.5.110 und Uploader 1.9.0/1.9.1 aus der git-Geschichte)
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand vom 9. November, 06:10.
+Stand: 9. November 2026, 20:21 · von der Prüf-Sitzung
+Grundlage: download/RaidMaster-3.0.22.zip, RaidMasterBot 1.5.112, download/RaidMasterUploader.zip (2.0.1)
+(verglichen mit Addon 3.0.20/3.0.21, Bot 1.5.111 und Uploader 2.0.0 aus der git-Geschichte)
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach Addon 3.0.20,
+Bot 1.5.111 und Uploader 2.0.0 (14:30, mit den Nachträgen bis 20:05).
 
-Erledigt (danke):
-- Addon 3.0.19: Schlachtzugsymbole in WoW Forever nur noch über sichere Knöpfe (Markers.lua:29-33 M.SecureOnly,
-  Markers.lua:324 ff. SecureActionButtonTemplate); automatische Markierung zeigt in Forever nur einen Vorschlag
-  (BossBar.lua:90-95). Damit ist der Befund ADDON_ACTION_FORBIDDEN SetRaidTarget() aus den Testberichten erledigt.
-- Addon 3.0.19: Tooltip-Lage bei skalierten Fenstern – Verschiebung jetzt in der Skala des Tooltips
-  (UI.lua:92-93, y = (ot * oes - wt * wes) / tes). Bisher Punkt 1.
-- Uploader 1.9.1: zu grosse Diagnose-/Wegdaten nur einmal melden (bisher Punkt 2) – in 2.0.0 neu gebaut, siehe Punkt 2.
-- Addon 3.0.20 (hinweis-keine-spielernamen.txt): GoldSentinelGame.lua Version 3 byte-gleich mit shared/;
-  Beispiele, Kommentare, Testroutine und Test-Werkzeug nur mit erfundenen Namen (Core.lua, Pages.lua, Test/Routine.lua,
-  Test/Test.lua, LIESMICH.txt). Im Ordner RaidMaster/, RaidMasterBot/ und RaidMasterUploader/ steht kein echter
-  Charaktername mehr. LIESMICH/README_EN mit 3.0.20 (DE/EN).
-- Bot 1.5.111 (anweisung-uploader-nur-neues.txt Punkt 5): tb_aufraeumen.py liest testberichte/abgeholt.json
-  (raw.githubusercontent, alle 30 Minuten, bot.py tb_cleanup_loop), löscht nur diese IDs, nur im Kanal, der genau
-  "testberichte" heisst, nur älter als 1 Stunde, höchstens 100 je Durchgang; ohne Recht einmal ein Hinweis
-  (tb_aufraeumen.py:57-87). Modul im Import-Schritt (.github/workflows/bot-tests.yml). Tests t01-t07.
-  Spielernamen aus bot.py, gildenname_vorschlaege.json und den Tests entfernt.
-- Uploader 2.0.0 (anweisung-uploader-nur-neues.txt Punkte 1-4 und 6):
-  1. Testberichte je Kennung einmal, Stand in uploader_state.json (uploader.py:286, 298-323), uploader_config.json
-     wird nur gelesen.
-  2. Diagnose-Protokolle nur bei neuen Einträgen bzw. gestiegenem Zähler, ohne Kopfzeilen/Uhrzeit (uploader.py:326-336,
-     436-447).
-  3. Gleiche Fehler zusammengefasst, danach nur Zähler mit "vorher" (uploader.py:388-421). Passt zu
-     GoldSentinelTest.lua (Fehlerliste wird nach jedem Bericht geleert, Zähler je Bericht).
-  4. Alles Neue in EINER Nachricht, EIN Anhang paket-<Zeit>.json.gz (uploader.py:476-508); die Abholung liest das
-     Format (Test p05/p06).
-  6. Sammeln, höchstens alle 15 Minuten (uploader.py:287, 542-545), Rest beim Beenden (uploader.py:718-754).
-  Die Anweisung anweisung-uploader-nur-neues.txt ist darum entfernt.
-Prüfungen: Addon-Prüfung RaidMaster-3.0.20.zip OK ohne Warnung (Ladetest, Sprachtest); GoldSentinelGame.lua und
-GoldSentinelTest.lua byte-gleich mit shared/; RaidMaster/ gleich wie die ZIP; RaidMaster-latest.zip = 3.0.20.
-Bot-Tests 116/116 OK, Import aller Bot-Module (inkl. tb_aufraeumen) OK, py_compile bot.py OK. Uploader-Tests 14/14 OK,
-download/RaidMasterUploader.zip passt zum Ordner (ohne tests/).
-Im Diff keine Lua- oder Python-Fehler gefunden.
-Testberichte (9. Nov. 10:30 bis 12:38 UTC): keine neuen Testläufe, nur Diagnose-Protokolle und Wegdaten, darin
-0 Lua-Fehler; für RaidMaster keine neuen Fehler aus dem Spiel. Die Protokolle kamen noch mehrfach fast gleich an
-(Uploader 1.9.x) – mit 2.0.0 sollte das aufhören (Punkt 4).
+Erledigt in 3.0.21 / 3.0.22, Bot 1.5.112 und Uploader 2.0.1 (danke):
+- Addon 3.0.21 (anweisung-test-version2.txt T1–T5): GoldSentinelTest.lua Version 2 byte-gleich mit shared/;
+  GT.TrackErrors weiter nach ADDON_LOADED (Core.lua:842); keine Frame-Zählung über GoldSentinelTestFrame in der
+  Testroutine; LIESMICH.txt:18-22 und README_EN.txt:30-34. Testfälle T162 (T-GT1) und T163 (T-GT2) in
+  Test/Routine.lua:2576-2603 (Zustimmung kurz aus, danach wie vorher; Ausgang unverändert).
+- Addon 3.0.22 (Entscheid des Nutzers M1–M4):
+  M1 GoldSentinelSync.lua Version 2 byte-gleich mit shared/, RaidMaster.toc:21 nach GoldSentinelGame.lua und vor
+     GoldSentinelTest.lua.
+  M2 Kein GoldSentinelSync.Register in RaidMaster; Comm.lua sendet weiter über RM.PREFIX "RaidMstr",
+     RAID/GUILD/WHISPER, eigener Takt (Comm.lua:99-135). Kein SendAddonMessage über "CHANNEL".
+  M3 T164 (Test/Routine.lua:2606-2636): Sync >= 2 geladen, keine RaidMaster-Kennung in endpoints, Gebot über
+     RaidMstr/WHISPER und nicht in GoldSentinelSync.queue. Ersetzt wird nur RM.SendAddonMessage (Tabellenfeld,
+     keine Blizzard-Funktion), nach dem Fall zurückgesetzt.
+  M4 LIESMICH.txt:14-16, README_EN.txt:26-28 (DE/EN).
+  Damit sind anweisung-gemeinsamer-sync.txt, anweisung-sync-version2.txt (für RaidMaster nicht zutreffend, siehe
+  Nachtrag 20:05) und anweisung-test-version2.txt erledigt; hinweis-sync-kanal.txt ist erfüllt.
+- Bot 1.5.112 (bisher Punkt 1): "guild_leader": "" in config.example.json:6, Abschnitt in ANLEITUNG.md:186-189,
+  einmalige Warnung im Protokoll bei leerem Eintrag (bot.py:216-220). Ob der Name in der config.json auf dem Server
+  steht, bleibt Live-Prüfung (Punkt 3).
+- Uploader 2.0.1 (bisher Punkt 2): zu Grosses nur einmal melden, Prüfwert in uploader_state.json "zu_gross"
+  (uploader.py:438-450, höchstens 200 Einträge); Test p09 um zweite Änderung und Neustart ergänzt
+  (tests/test_uploader.py:335-350).
+- Uploader 2.0.1 (bisher Punkt 3): Pakete in mehreren Teilen – jeder gesendete Teil wird sofort gemerkt
+  (send_package uploader.py:540-561, commit mit marks uploader.py:474-492); Test p12 (tests/test_uploader.py:367-383).
+  LIESMICH/README_EN des Uploaders mit 2.0.1.
+
+Prüfungen: Addon-Prüfung RaidMaster-3.0.22.zip OK, kein FEHLER, keine Warnung (Ladetest; Sync-Tests 79/79,
+GoldSentinelTest-Tests 65/65, UICheck 9/9). GoldSentinelGame.lua, GoldSentinelTest.lua und GoldSentinelSync.lua
+byte-gleich mit shared/. RaidMaster/ gleich wie die ZIP; RaidMaster-latest.zip = 3.0.22.
+Bot-Tests 116/116 OK, Import aller Bot-Module (wie .github/workflows/bot-tests.yml) OK, py_compile bot.py OK.
+Uploader-Tests 15/15 OK; download/RaidMasterUploader.zip passt zum Ordner (ohne tests/).
+Im Diff keine Lua- oder Python-Fehler, kein Taint, keine Spielernamen gefunden.
+Testberichte seit 14:30: kein neuer RaidMaster-Testlauf (letzter 3.0.17 vom 5. Nov.), keine neuen RaidMaster-Fehler
+im Spiel (nur die bekannten 2× SetRaidTarget aus 3.0.17, in 3.0.19 behoben).
 
 Offene Punkte:
 
-1. BOT: GILDENCHEF OHNE EINTRAG IN config.json (Schwere: NIEDRIG, auf dem Server prüfen)
-   bot.py:66 "guild_leader" ist ab 1.5.111 leer; ohne Eintrag in config.json gibt is_guild_leader() immer False zurück
-   (bot.py:416-421). Der Gildenchef hat dann nur noch Rechte, wenn er Besitzer des Servers oder Offizier ist.
-   Wahrscheinlich steht der Name schon in config.json (save_config schreibt alle Werte zurück) – bitte prüfen.
-   Lösung: "guild_leader": "" in config.example.json und ANLEITUNG.md aufnehmen; beim Start einmal ins Protokoll
-   schreiben, wenn guild_leader leer ist. config.json selbst nicht ins Repo.
+1. UPLOADER: Prüfwert "zu_gross" über den ganzen Inhalt (Schwere: NIEDRIG)
+   uploader.py:440-442 merkt x["id"]; das ist der Prüfwert des GANZEN Textes (extras_in_text, uploader.py:263-272),
+   bei Diagnose-Protokollen also mit Kopfzeilen und Uhrzeit der Ausgabe. Schreibt ein Addon dasselbe zu grosse
+   Protokoll neu aus (neue Uhrzeit), kommt die Meldung wieder – nicht mehr bei jedem tick, aber je neuer Ausgabe.
+   Lösung: für "diag" den Prüfwert aus diag_entries() bilden (wie beim Senden, uploader.py:461-465), für "wege" so
+   lassen. Test p09: gleiches Protokoll mit anderer Uhrzeit -> keine zweite Meldung.
 
-2. UPLOADER: "zu gross – übersprungen" wieder bei jeder Änderung (Schwere: NIEDRIG)
-   uploader.py:430-433 (Meldung Zeile 432): Collector.build() meldet zu grosse Diagnose-/Wegdaten bei jedem Aufruf. build() läuft bei jeder
-   Änderung (tick, uploader.py:547-557) und nochmals beim Senden (_send). Die Korrektur aus 1.9.1 (nur einmal melden)
-   ist damit wieder weg. Lösung: Prüfwert der übersprungenen Daten in uploader_state.json merken (z. B. "zu_gross")
-   und nur beim ersten Mal melden. Test p09 um "zweite Änderung -> keine zweite Meldung" ergänzen.
+2. UPLOADER: Kommentar und Typangabe passen nicht mehr (Schwere: NIEDRIG)
+   uploader.py:378 "Verändert st NICHT" – build() schreibt jetzt "zu_gross" in st und speichert (uploader.py:440-448).
+   uploader.py:504 "-> list[tuple[str, bytes]]" – package_bodies gibt jetzt (boundary, body, chunk) zurück.
+   Lösung: Kommentar und Typangabe anpassen (keine Funktionsänderung).
 
-3. UPLOADER: Paket in mehreren Teilen (Schwere: NIEDRIG)
-   uploader.py:519-522: Ist ein Paket über 4 MB und schlägt Teil 2 fehl, wird nichts gemerkt; beim nächsten Versuch kommt
-   Teil 1 nochmals. Lösung: nach jedem erfolgreichen Teil dessen Kennungen merken oder je Teil commit.
-
-4. LIVE PRÜFEN (Server / Discord / Uploader beim Nutzer)
-   - Uploader 2.0.0: nach mehreren /reload innerhalb von 15 Minuten genau EINE Nachricht "GoldSentinel-Paket: …" mit
-     paket-<Zeit>.json.gz in #testberichte; unveränderte Diagnose-Protokolle kommen nicht nochmals. Die Prüf-Sitzung
-     kontrolliert das in testberichte/.
-   - Bot 1.5.111: Recht "Nachrichten verwalten" nur in #testberichte; abgeholte Nachrichten verschwinden nach > 1 Stunde;
+3. LIVE PRÜFEN (Server / Discord / Uploader beim Nutzer)
+   - Uploader 2.0.1: nach mehreren /reload innerhalb von 15 Minuten genau EINE Nachricht "GoldSentinel-Paket: …" mit
+     paket-<Zeit>.json.gz in #testberichte; unveränderte Diagnose-Protokolle kommen nicht nochmals; "zu gross" höchstens
+     einmal je Protokoll im Uploader-Fenster. Die Prüf-Sitzung kontrolliert das in testberichte/.
+   - Bot 1.5.112: steht im Protokoll beim Start "guild_leader ist leer", den Charakternamen des Gildenchefs in die
+     config.json auf dem Server eintragen (nie ins Repo). Danach hat der Gildenchef wieder seine Rechte.
+   - Bot: Recht "Nachrichten verwalten" nur in #testberichte; abgeholte Nachrichten verschwinden nach > 1 Stunde;
      sonst wird nichts gelöscht. Ein fehlendes Recht meldet der Bot einmal in #bot-befehle.
-   - Bot 1.5.111: Gildenchef hat weiterhin seine Rechte (Punkt 1).
    - Server-Protokoll: höchstens ein Neustart je echtem Update
      (sudo journalctl -u raidmaster --since "-6h" | grep -c "Neustart nach Update").
    - Addon-Kanäle: je Addon nur der neueste Update-Text; ZIP-Beiträge, Vorstellungen, Übersichten und Hilfen bleiben.
    - #befehle unter 💬 ALLGEMEIN: nur Befehle für alle, für Gäste unsichtbar; #befehlsliste bei den Offizieren.
    - Raids mit "forever": false (BWL, ZG, AQ20, AQ40, Naxx) sind für Mitglieder ausgeblendet.
 
-5. IM CLIENT PRÜFEN (im Testplan des Nutzers)
-   - /rm testroutine im echten Client mit 3.0.20: T142, T122 (n = 3), T43 und Bereich K (T155-T160), Ergebnis melden.
+4. IM CLIENT PRÜFEN (im Testplan des Nutzers, mit 3.0.22)
+   - /rm testroutine im echten Client: T162, T163, T164 OK; dazu T142, T122 (n = 3), T43 und Bereich K (T155-T160),
+     T133b; danach /reload -> Bericht über Uploader 2.0.1 in #testberichte.
+   - Nur RaidMaster geladen (kein anderes GoldSentinel-Addon), Sammler des Nutzers online in der Gilde: die Frage
+     nach der Zustimmung kommt einmal; ohne Zustimmung geht nichts weg, mit Zustimmung kommt ein Fehlerbericht beim
+     Sammler an ("fremder Spieler" in testberichte/); keine Lua-Fehler nach /reload.
+   - RaidMaster zusammen mit einem Addon, das GoldSentinelSync 2 selbst anmeldet (z. B. AHSentinel): Gebote, DKP und
+     Einteilung kommen bei Mitspielern mit älteren RaidMaster-Versionen weiter an.
    - Schlachtzugsymbole in WoW Forever: sichere Knöpfe/Makro setzen Symbole ohne ADDON_ACTION_FORBIDDEN; Boss-Leiste
      zeigt in Forever nur den Vorschlag.
    - Tooltips bei Fensterskalierung ≠ 100 %: neben dem Fenster und auf Höhe des Elements.
@@ -82,42 +84,14 @@ Offene Punkte:
    - Erstkill-Screenshot -> #ruhmeshalle
    - Bank-Charakter in RaidMaster -> Bestand in #gildenbank unter den Regeln
 
-6. HINWEIS FÜR KÜNFTIGE VERSIONEN
+5. HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Neue Bot-Module in .github/workflows/bot-tests.yml beim Import-Schritt ergänzen.
    - download/RaidMasterUploader.zip muss zum Ordner RaidMasterUploader/ passen (prüft "Bot-Tests").
    - Jeder neue Slash-Befehl braucht einen Eintrag in COMMAND_INFO (prüft tests/test_befehle.py).
    - Keine echten Spieler- oder Charakternamen in Code, Tests, Beispielen und Texten (hinweis-keine-spielernamen.txt).
-   - Die Version muss höher sein als 3.0.20 (download/, RaidMaster-latest.zip, CurseForge), Bot höher als 1.5.111,
-     Uploader höher als 2.0.0.
+   - GoldSentinelGame.lua, GoldSentinelTest.lua und GoldSentinelSync.lua nur unverändert aus shared/ kopieren.
+     RaidMaster ruft GoldSentinelSync.Register weiterhin NICHT auf (Entscheid des Nutzers 9. Nov.).
+   - Die Version muss höher sein als 3.0.22 (download/, RaidMaster-latest.zip, CurseForge), Bot höher als 1.5.112,
+     Uploader höher als 2.0.1.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
-
-NEU (9. Nov. 18:10, HOCH, nach der laufenden Arbeit) – Sync nicht über eigene Kanäle (siehe hinweis-sync-kanal.txt)
-
-NEU (9. Nov. 18:40) – gemeinsame Sync-Datei übernehmen (anweisung-gemeinsamer-sync.txt), nach hinweis-sync-kanal.txt
-
-NEU (9. Nov. 19:30, nach der laufenden Arbeit und nach anweisung-gemeinsamer-sync.txt) – GoldSentinelSync Version 2
-   (Flüster-Netz) übernehmen: anweisung-sync-version2.txt (S1–S6, T-N1–T-N4). Wer Sync noch nicht eingebaut hat, nimmt
-   gleich Version 2.
-
-NEU (9. Nov. 19:55, nach der laufenden Arbeit) – GoldSentinelTest Version 2 kopieren (Berichte anderer Spieler an
-   den Sammler, nur mit Zustimmung): anweisung-test-version2.txt (T1–T5, T-GT1–T-GT2).
-
-NACHTRAG (9. Nov. 20:05, Prüf-Sitzung) – Rückmeldung zu GoldSentinelSync angenommen
-   RaidMaster sendet nur über RAID/GUILD/WHISPER, nie über CHANNEL: hinweis-sync-kanal.txt erfüllt.
-   GoldSentinelSync für die RaidMaster-Daten NICHT übernehmen ist richtig begründet: (1) der Kopf "#S1:" wäre für ältere
-   RaidMaster-Versionen unlesbar (DKP, Gebote, Einteilung), (2) gildeninterne Daten gehören nicht ins Flüster-Netz,
-   (3) der gemeinsame Takt (0,2 s) verzögert Gebote. anweisung-gemeinsamer-sync.txt und anweisung-sync-version2.txt
-   gelten für RaidMaster damit als ERLEDIGT (nicht zutreffend), bis auf den Entscheid unten.
-   ENTSCHEID DES NUTZERS (9. Nov. 19:55): GoldSentinelSync.lua MITBRINGEN – nur dafür, dass reine RaidMaster-Spieler
-   über GoldSentinelTest 2 Fehler an den Sammler teilen können. Umsetzen (nach der laufenden Arbeit):
-   M1 shared/GoldSentinelSync.lua (Version 2) unverändert ins Addon kopieren, in allen .toc nach GoldSentinelGame.lua
-      und VOR GoldSentinelTest.lua.
-   M2 RaidMaster ruft GoldSentinelSync.Register NICHT auf und sendet DKP, Gebote, Einteilung usw. weiter genau wie
-      bisher (eigene Kennungen, eigener Takt, RAID/GUILD/WHISPER). Die Sync-Datei meldet nur ihre eigenen Kennungen
-      (GSSYNC1, GSREPORT1 über GoldSentinelTest) an und schickt alle 15 Min. ein kleines Lebenszeichen in die Gilde.
-   M3 Testfall T164 [J]: GoldSentinelSync.VERSION == 2 geladen; GoldSentinelSync.endpoints enthält keine RaidMaster-
-      Kennung; ein RaidMaster-Gebot geht weiter über den bisherigen Weg (nicht durch GoldSentinelSync.queue).
-   M4 CHANGELOG EN/DE: "Bringt GoldSentinelSync mit, damit Fehlerberichte (nur mit Zustimmung, /gstest) geteilt werden
-      können; RaidMaster-Daten unverändert."
-   testroutine-raidmaster.txt ist bis 3.0.21 nachgeführt (Nachtrag 9. November).

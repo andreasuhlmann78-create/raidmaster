@@ -1,82 +1,113 @@
-OFFENE PUNKTE PROFESSIONSENTINEL (nach der Prüfung von 0.9.36)
-==============================================================
-Stand: 9. November 2026, 18:35 · von der Prüf-Sitzung · Grundlage: download/ProfessionSentinel-0.9.36.zip
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.33 (17:30).
+OFFENE PUNKTE PROFESSIONSENTINEL (nach der Nachprüfung von 0.9.37)
+===================================================================
+Stand: 9. November 2026, 20:23 · von der Prüf-Sitzung · Grundlage: download/ProfessionSentinel-0.9.37.zip
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.36 (18:35).
 
 REIHENFOLGE: Erst die laufende Arbeit fertig machen, dann die Punkte unten von oben nach unten.
 
-Erledigt (danke)
-----------------
-- 0.9.33: Preis-Vermittler und Gebühren nach Regelwerk (anweisung-werte-aus-ahsentinel.txt V1–V10).
-- 0.9.34: UI-Rework Teil A – U1 drei Reiter, U2 Gruppen nach Platz und Filter, U3 Orange zuerst, U5 Reiter Gold,
-  U9 ProfessionSentinel.IsPanelShown().
-- 0.9.35: alle sieben Punkte der Nachprüfung von 0.9.33 (Händlerpreis kein AH-Preis, MaterialCost nicht je Zutat,
-  Entzaubern nur für Verzauberer, Einkaufslisten mit Grundmaterial, "Heute tun" nach Absatz, Aufschlag des
-  Verzauberer-Dienstes, Kleineres 7a–7e). Alle Befunde hat die Sitzung als richtig bestätigt.
-- 0.9.36: U7 Tooltip Variante A (drei Blöcke, eine Gewinnzahl = Gold-Rangliste, Rest mit Shift).
+Erledigt in 0.9.37 (danke) – UI-Rework Teil B ist damit vollständig
+--------------------------------------------------------------------
+- U6 Blizzard-Berufsfenster: je Zeile nur ein Zeichen "19×" in der Farbe der nächsten Stufe, bei Grau nichts, kein
+  Balken mehr, Schrift der Zeile, nur wenn es Name/Anzahl nicht berührt (Lifeline.lua 184–262: LL.RowSign,
+  LL.TextEnd, LL.SignFits, DecorateRow). Zeile "Bestes: <Rezept>" hell, Breite bis zum Knopf (UI.lua 2124–2160).
+  Era TradeSkillFrame/CraftFrame und modernes Fenster. Testfälle T239, T240, T242 (Bereich K, im Client).
+- U2 Details im Reiter "Rezepte": Materialien mit Herkunft, Bestand und Preis, Verkauf netto, Gewinn mit bestem Weg,
+  Absatz, Quelle des Rezepts, Knöpfe "Herstellen" und "Einkaufsliste" (UI.lua 1154–1320); Gewinn aus UI.Profit wie
+  Tooltip und Gold-Rangliste (T243).
+- U3 eine Zahl je Zeile (UI.lua 989–1027), Plan ohne Preise bevorzugt Orange (Advisor.lua 522–525), nächstes
+  oranges Rezept kurz vor dem Umschlag (UI.NextOrange, UI.lua 1692–1703).
+- U4 "Nächster Schritt" mit Rezept, Material pro Punkt, "lernen" und Lernort mit Wegpunkt (UI.lua 1716–1743; T244).
+  Die Einkaufsliste für den ganzen Plan gab es schon.
+- U8 Rezept-Alarm: höchstens eine kurze Chatzeile je Sitzung, Zahl am Reiter "Rezepte" (Alerts.lua 97–104,
+  UI.lua 1319–1324; T241, T67 angepasst).
+- CHANGELOG EN/DE, Locales EN/DE vollständig, Platzhalter gleich.
 
-Geprüft (0.9.36): addon_check OK ohne Warnung, GoldSentinelGame.lua byte-gleich mit shared/.
+Prüfungen (0.9.37)
+------------------
+- addon_check: OK, 0 FEHLER, 1 WARNUNG: GoldSentinelTest.lua ist Version 1 (siehe Punkt 2).
+- GoldSentinelGame.lua byte-gleich mit shared/. GoldSentinelTest.lua byte-gleich mit der alten shared-Fassung 1.
+- Quell-Repo (Commit 078a949) entspricht der ZIP Datei für Datei.
+- tests/run_offline.py: Forever OK 198 / FEHLER 1 (T143, Zeitmessung – zählt offline nicht), Era OK 181 / FEHLER 0,
+  Retail OK 180 / FEHLER 0. Neue Fälle T239, T240, T241, T243, T244 überall OK; T242 nur im echten Client.
+  TBC: kein Lauf (ProfessionSentinel hat keine TBC-TOC – wie bisher).
+- Sync weiterhin nicht zutreffend: 0.9.37 sendet keine Addon-Nachrichten (kein SendAddonMessage, kein Präfix, kein
+  Kanal). hinweis-sync-kanal.txt und anweisung-gemeinsamer-sync.txt gelten nicht. Falls später Datenaustausch kommt:
+  nur über GoldSentinelSync 2 (shared/wissen/kommunikation-forever.md), nie über eigene Kanäle.
 
-Angenommen (Begründung der Sitzung richtig)
--------------------------------------------
-- hinweis-sync-kanal.txt und anweisung-gemeinsamer-sync.txt gelten für ProfessionSentinel NICHT: Es sendet keine
-  Addon-Nachrichten (kein SendAddonMessage, kein Präfix, kein Kanal – geprüft: der Name kommt nur in TestRoutine.lua als
-  Wächter vor, T-Fall "0, nicht registriert"). Gildendaten kommen aus den SavedVariables von GuildSentinel/RaidMaster.
-  GoldSentinelSync.lua wird nicht eingebaut. Falls ProfessionSentinel später Daten austauschen soll: nur über
-  GoldSentinelSync (shared/wissen/kommunikation-forever.md), nie über eigene Kanäle.
-- Hinweis Rundung an AHSentinel: ist bereits erledigt. AHSentinel 0.65.54 rundet den 5-%-Anteil ab
-  (A:SaleFee und A.AuctionFee: math.floor(total × CutPct), Selbsttest 4042 -> 202). S5 sollte keine 1c-Abweichung mehr
-  zeigen. Zeigt S5 mit AHSentinel 0.65.54 trotzdem eine Abweichung, bitte Item, Preis und Menge melden.
+Diagnose aus dem Client (testberichte/diagnose/ProfessionSentinel/0.9.37-ac188a4404e9.txt)
+------------------------------------------------------------------------------------------
+- "SPIELTEST S7 FEHLER: 0.2 Aufbau/s, 3 LANGSAM" und "SPIELTEST S8 FEHLER: CheckButton verdeckt
+  ProfessionSentinelPanelCloseButton; …" sind KEINE neuen Ergebnisse: Beide Zeilen stammen vom Spieltest mit 0.9.28
+  (9. Nov. 07:55 und 07:57). Sie stehen seit den 0.9.28-Berichten unverändert in jedem Bericht (auch 0.9.29–0.9.34),
+  weil das Protokoll alte Einträge behält. Seither lief kein Spieltest mehr. Beide waren Punkte 1 und 2 der
+  Nachprüfung von 0.9.28 und wurden in 0.9.29–0.9.32 behoben (Tooltips neben dem Panel: UI.TooltipBeside,
+  UI.GuardTemplateTooltip). /ps spieltest an setzt die Ergebnisse zurück (Spieltest.lua 308–315).
+- Das passive Protokoll von 0.9.37 zeigt aber weiterhin LANGSAM -> Punkt 1. S7 würde damit wieder FEHLER melden.
 
-OFFENE PUNKTE (UI-Rework Teil B, anweisung-ui-rework.txt)
---------------------------------------------------------
-1. U6 BLIZZARD-BERUFSFENSTER (MITTEL)
-   - Je Rezeptzeile nur ein kurzes Zeichen am rechten Rand, z. B. "19×" in der Farbe der nächsten Stufe; bei Grau
-     nichts. Kein grauer Zusatztext, keine Balken unter dem Namen. Nie über Name oder Anzahl (Abstand prüfen).
-   - Unten eine kurze Zeile "Bestes: <Rezept>" (Kürzen mit "…" erst ab Fensterbreite), alles andere ins Panel.
-   - Schrift mindestens so gross wie Blizzards Rezeptzeile, hell genug (Befund aus den Screenshots: teils nicht lesbar).
-   - Alle Versionen: Era/TBC TradeSkillFrame/CraftFrame, Retail ProfessionsFrame; fehlt ein Rahmen, nichts zeichnen.
-   Testfälle: T-UI5 (genau ein Zeichen je Zeile, keins bei Grau, kein Überlappen mit Name/Anzahl), T-UI6 (Zeile
-   "Bestes:" kürzt erst ab Fensterbreite).
+OFFENE PUNKTE
+-------------
+1. NEUAUFBAU IMMER NOCH LANGSAM (MITTEL) – Diagnose 0.9.37 (9. Nov. 18:46–18:54, Werte nur mit v0.9.37)
+   - UI:Refresh 76.1 ms (zuletzt 42.0 ms), UI:Refresh/plan 61.1 ms, Plan 57.4 ms, UI:Aufbau (Teil 1) 53.1 ms
+     (zuletzt 26.0 ms, ×216 insgesamt), UI:Refresh/recipes 42.8 ms, UI:UpdateBest 26.2 ms, AD.Update 26.1 ms.
+     Erwartet: nichts über 16 ms. (0.9.34 hatte noch 392 ms – besser, aber nicht gut.)
+   - Ursachen im Code:
+     a) Ein direkter Neuaufbau (Klick, Reiter, Suche, Einstellung) läuft am Stück, ohne Portionen
+        (UI.lua 2329–2336: UI:Refresh ausserhalb der Coroutine -> DoRefresh direkt).
+     b) Der erste Teil des portionierten Aufbaus beginnt mit UpdateBest -> AD.UpdateCached -> AD.Update
+        (UI.lua 2339–2341, Advisor.lua 310–340). AD.Ranking und AD.GoldRanking laufen je am Stück; Yield gibt es nur
+        dazwischen. Ist der Cache kalt, ist Teil 1 allein deshalb über 16 ms.
+     c) Plan: PL.Build läuft am Stück. Neu in 0.9.37 rechnet UI.NextOrange kurz vor dem Umschlag AD.MatRanking über
+        ALLE Rezepte des Berufs mit AD.Evaluate neu (UI.lua 1700, ohne vorhandene Einträge) – AD.current.mat bzw.
+        den Parameter "entries" wiederverwenden. Offline zeigt T143 dasselbe Bild ("AD.Plan 1->300 20.0 ms").
+   - Lösung: direkten Refresh ebenfalls portionieren (oder nur den sichtbaren Reiter sofort zeichnen, den Rest im
+     nächsten Frame); in den Schleifen von AD.Ranking/AD.GoldRanking/PL.Build alle N Rezepte UI.Yield();
+     den Plan cachen, bis sich Fertigkeit, Preise oder gelernte Rezepte ändern; NextOrange aus vorhandenen Werten.
+   - Testfall: neuer Fall (Bereich H): simulierter Beruf mit 300 Rezepten, Wechsel in den Reiter "Skillen" und Klick
+     auf eine Zeile -> kein einzelner Schritt über 16 ms (bzw. UI.FRAME_BUDGET je Portion). Im Client: S7 OK.
 
-2. U2 DETAILS BEIM ANKLICKEN im Reiter "Rezepte" (MITTEL)
-   - Klick auf eine Zeile zeigt unten: Materialien mit Herkunft (AH/Händler/aus …), Verkaufswert netto, Gewinn,
-     bester Weg (verk./ent.), Verkauft sich, Quelle des Rezepts (Lehrer, Händler, Händlergunst, Drop), Knöpfe
-     "Herstellen" und "Einkaufsliste". Werte aus denselben Funktionen wie Tooltip und Rangliste (eine Zahl, T-TT3).
-   - Zeile: Farbpunkt, Name, Status-Kennzeichen, EINE Zahl rechts – bitte bestätigen oder nachziehen.
-   Testfall: T-UI8 (Detailbereich zeigt denselben Gewinn wie Tooltip und Gold-Rangliste).
+2. GOLDSENTINELTEST VERSION 2 (MITTEL, klein) – anweisung-test-version2.txt
+   - T1: shared/GoldSentinelTest.lua (VERSION 2) unverändert kopieren; addon_check meldet sonst die WARNUNG
+     "veraltete offizielle Fassung (Version 1)".
+   - T3 ist schon erfüllt (Core.lua 614: GT.TrackErrors nach ADDON_LOADED). T2/T4: sonst nichts ändern; die
+     TestRoutine zählt GoldSentinelTestFrame nicht (geprüft).
+   - T5: CHANGELOG EN/DE "GoldSentinelTest 2: Fehlerberichte an den Entwickler teilen (nur mit Zustimmung, /gstest)".
+   - Testfälle T-GT1 (GoldSentinelTest.version == 2), T-GT2 (ohne Zustimmung bleibt db.gsTest.share.outbox leer).
+   - Ohne GoldSentinelSync 2 im Client ruht das Senden von selbst; ProfessionSentinel baut KEIN GoldSentinelSync ein.
 
-3. U8 KEINE LANGEN CHAT-AUSGABEN (NIEDRIG)
-   - "Muster … fehlt … und N weitere" nicht mehr im Chat, sondern als Zahl am Reiter "Rezepte" bzw. Gruppe
-     "Für die Gilde gesucht"; im Chat höchstens eine kurze Zeile je Sitzung.
-   Testfall: T-UI9 (Anmeldung mit vielen fehlenden Mustern -> höchstens eine Chatzeile).
+3. DETAILS NUR IM REITER "REZEPTE" (NIEDRIG) – bitte bestätigen oder nachziehen
+   a) Der Klick auf eine Zeile ruft UI.ShowDetails ohne Prüfung des Reiters (UI.lua 1045). Die Zeilen der Reiter
+      "Gold" und "Skillen" nutzen dieselbe Funktion: Dort erscheinen die Details auch und verkleinern die Liste.
+      Erst der nächste Neuaufbau (UpdateTabs, UI.lua 1313–1318) blendet sie aus; bei nicht gelernten Rezepten (kein
+      SelectInBlizzard) bleiben sie stehen. Lösung: ShowDetails nur, wenn UI.GroupOfMode(Mode()) == "recipes" –
+      oder bewusst überall zeigen und dann in UpdateTabs nicht ausblenden. T243 um den Fall "Klick im Reiter Gold"
+      ergänzen.
+   b) Status-Kennzeichen: Gelernte Zeilen haben kein Kennzeichen (nur blasser), lernbar/fehlt schon
+      (UI.lua 1016–1018). U2 wollte gelernt/lernbar/fehlt. Bitte bestätigen, dass "kein Zeichen = gelernt" so
+      gewollt ist (Filter "Gelernt" zeigt es ja), sonst nachziehen.
 
-4. U3/U4 REST – bitte prüfen und nur fehlendes nachziehen (NIEDRIG)
-   - U3: Kurz vor dem Umschlag ("noch 2× orange") schon das nächste orange Rezept im Plan zeigen. In 0.9.36 nicht
-     gefunden.
-   - U4: Oben im Reiter "Skillen" "Nächster Schritt" (aktuelle Fertigkeit -> nächste Stufe), Rezepte mit Anzahl
-     ("Schwere Wollhandschuhe ×19"), Material pro Punkt, "lernen" mit Kosten; nächster Lehrer mit Wegpunkt-Knopf;
-     ein Knopf Einkaufsliste für den ganzen Plan. Ist das schon so, im Bericht kurz bestätigen.
-
-IM CLIENT PRÜFEN (mit 0.9.36 und AHSentinel 0.65.54)
-----------------------------------------------------
-- Panel und Tooltip zeigen "Preise: AHSentinel"; Gewinn im Tooltip = Gold-Rangliste = AHSentinel-Gewinn-Fenster.
+IM CLIENT PRÜFEN (mit 0.9.37 und aktuellem AHSentinel)
+------------------------------------------------------
+- Berufsfenster (Era TradeSkillFrame und CraftFrame/Verzauberkunst, Forever, Retail): je Zeile höchstens ein
+  Zeichen am rechten Rand, nie über Name oder "[38]", kein Balken; Zeile "Bestes:" hell und lesbar, gekürzt erst ab
+  Fensterbreite; /ps testroutine k -> T242 OK.
+- Reiter "Rezepte": Klick zeigt die Details; "Herstellen" stellt her; "Einkaufsliste" kauft beim offenen Händler und
+  legt AH-Zutaten in AHSentinels Sniper.
+- Reiter "Skillen": "Nächster Schritt", kurz vor Gelb das nächste orange Rezept, Lernort mit Wegpunkt.
+- Rezept-Alarm: höchstens eine Chatzeile je Sitzung, die Zahl am Reiter "Rezepte".
+- Diagnose "ÜBERLAPPT Panel überdeckt AHAnalyzerProCraftPanel": ×691 in den 0.9.32-Berichten (zuletzt 8. Nov.),
+  ×762 im 0.9.37-Bericht (zuletzt 9. Nov. 18:36, noch mit 0.9.36). Mit 0.9.37 und aktuellem AHSentinel prüfen, dass
+  AHSentinel sein Gewinn-Fenster ausblendet, solange das Panel offen ist (U9). Zählt der Eintrag weiter hoch:
+  Versionen beider Addons melden.
+- Panel und Tooltip zeigen "Preise: AHSentinel"; Gewinn im Tooltip = Details = Gold-Rangliste = AHSentinel-Gewinn.
 - Tooltip: ohne Shift drei Blöcke, Shift drücken/loslassen zeichnet neu; Muster-Tooltip "Muster · fehlt/lernbar ab …".
 - Ohne AHSentinel, nur auxForever / nur Auctionator / nur Auctioneer (+ Enchantrix): Quelle stimmt, Preise kommen,
   keine "Funktion nicht gefunden"-Zeile.
-- Nach einem AH-Scan mit offenem Panel: Werte einmal neu (Abo), kein Ruckeln; AHSentinel blendet sein Gewinn-Fenster
-  aus, solange das Panel offen ist.
-- /ps protokoll beim Öffnen des Berufsfensters und beim Wechsel der Reiter: kein LANGSAM über 16 ms.
-- /ps spieltest an: S5 (ohne 1c-Abweichung), S7, S8, S10.
+- Nach einem AH-Scan mit offenem Panel: Werte einmal neu (Abo), kein Ruckeln.
+- /ps protokoll beim Öffnen des Berufsfensters und beim Wechsel der Reiter: kein LANGSAM über 16 ms (nach Punkt 1).
+- /ps spieltest an (setzt die alten Ergebnisse zurück): S5 (ohne 1c-Abweichung), S7 (nach Punkt 1), S8, S10.
 - Mengenfenster: Esc schliesst nach Mausklick ins Fenster; volle Taschen mit angebrochenem Stapel kauft den Rest.
-- /ps testroutine im echten Client: T139/T140/T143/T219 unter 16 ms, T145 Speicher, Bereich K (T206–T211, T235),
-  T188 Andocken mit AHSentinel, T113, T144, T169/T170, T228–T238.
+- /ps testroutine im echten Client: T139/T140/T143/T219 unter 16 ms, T145 Speicher, Bereich K (T206–T211, T235,
+  T242), T188 Andocken mit AHSentinel, T113, T144, T169/T170, T228–T238.
 
 Wie immer: komplette Dateien, Era/TBC/Retail nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
-
-NEU (9. Nov. 19:30) – GoldSentinelSync Version 2 (Flüster-Netz): betrifft ProfessionSentinel nicht, solange es keine
-   Addon-Nachrichten sendet. Falls später Datenaustausch kommt: nur über GoldSentinelSync 2, nie über eigene Kanäle.
-
-NEU (9. Nov. 19:55, nach der laufenden Arbeit) – GoldSentinelTest Version 2 kopieren (Berichte anderer Spieler an
-   den Sammler, nur mit Zustimmung): anweisung-test-version2.txt (T1–T5, T-GT1–T-GT2).
