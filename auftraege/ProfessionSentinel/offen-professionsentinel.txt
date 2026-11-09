@@ -1,151 +1,76 @@
-OFFENE PUNKTE PROFESSIONSENTINEL (nach der Nachprüfung von 0.9.33)
-==================================================================
-Stand: 9. November 2026, 17:30 · von der Prüf-Sitzung · Grundlage: download/ProfessionSentinel-0.9.33.zip
-(gleich Repo afa58bb; verglichen mit 0.9.32 aus der raidmaster-Geschichte, Commit 9fc6fc8; Schnittstelle geprüft gegen
-download/AHSentinel-0.65.51.zip, API.lua)
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.32.
-anweisung-werte-aus-ahsentinel.txt gilt weiter (Fehler daraus: Punkte 1–6 unten). anweisung-werte-entzaubern.txt ist
-erledigt bzw. durch anweisung-werte-aus-ahsentinel.txt überholt. anweisung-ui-rework.txt kommt NACH 0.9.34.
+OFFENE PUNKTE PROFESSIONSENTINEL (nach der Prüfung von 0.9.36)
+==============================================================
+Stand: 9. November 2026, 18:35 · von der Prüf-Sitzung · Grundlage: download/ProfessionSentinel-0.9.36.zip
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.33 (17:30).
 
-Erledigt in 0.9.33 (danke)
---------------------------
-- V1 Preis-Vermittler PriceSource.lua: AHSentinel.API (Version 1) -> alte AHSentinel-Funktionen -> auxForever ->
-  Auctionator -> Auctioneer -> TSM -> eigene Rechnung; alles mit pcall und Typprüfung (PriceSource.lua:55-64),
-  "PREISQUELLE <Addon>: Funktion nicht gefunden" einmal je Sitzung (PriceSource.lua:43-51). Quelle im Panel und im
-  Tooltip über UI.PriceLine (UI.lua:328-334, 454, 1290, 1540).
-- V2 Gebühr nach Regelwerk: 5 % beim Verkauf ohne Minimum, abgerundet (PriceSource.lua:276-278 – passt exakt zu den drei
-  gemessenen Rechnungen 202/4042, 837/16744, 313/6279); Einzahlung Händlerpreis × Menge × 5 % je 2 Std., Forever-Minimum
-  über AHSentinel (MinDeposit), sonst 1s (PriceSource.lua:280-312); Einzahlungsrisiko Einzahlung × (1 − p)/p nur in
-  Forever (PriceSource.lua:316-322). P.MIN_FEE und ForeverAuctionFee entfernt, P.AuctionFee = 5 %-Anteil, alter Name
-  OwnAuctionFee bleibt als Verweis (Prices.lua:35-38).
-  T35 = T-PS4 (TestRoutine.lua:1183-1210): 4s 80c, 1s 60c, 1s, 202 von 4042.
-- V3 Verkaufswert über API.NetSale bzw. RealValue, keine zweite Gebühr (Prices.lua:182-198, PriceSource.lua:344-377).
-- V5 bester Weg mit "verk."/"ent." (Prices.lua:248-259, Advisor.lua:80-82, UI.lua:922-927).
-- V6 Entzauberungswert aus API.DisenchantValue (Prices.lua:202-212); eigener Wert nur ohne AHSentinel.
-- V8 Mindestgewinn aus API.MinProfitPct (PriceSource.lua:502-510); V9 Gold pro Stunde nur aus AHSentinel
-  (UI.lua:331-332); V10 Abo über API.Subscribe mit Rückfall nach 5 s (PriceSource.lua:524-548).
-- Testfälle T220–T227 (T-PS1 bis T-PS9), Locales EN/DE für alle neuen Schlüssel, CHANGELOG EN/DE 0.9.33, Version in
-  Core.lua und allen vier .toc, PriceSource.lua in allen vier .toc.
+REIHENFOLGE: Erst die laufende Arbeit fertig machen, dann die Punkte unten von oben nach unten.
 
-Prüfungen: addon_check mit lupa OK ohne Warnung (Ladetest und Sprachtest). GoldSentinelGame.lua und
-GoldSentinelTest.lua byte-gleich mit shared/. ZIP gleich Repo afa58bb. python3 -I tests/run_offline.py
-ProfessionSentinel: Forever OK 182 / FEHLER 1 (nur T143 Zeitmessung), Era 166 / 0, Retail 165 / 0, TBC ohne Lua-Fehler,
-Exit 0. Mit echtem Lua 5.1 (lupa.lua51): Forever 181 / 2 (T139, T143 Zeit), Era 166 / 0, Retail 164 / 1 (T143 Zeit) –
-nur Zeitmessungen. Kein Taint: keine Blizzard-Funktion oder C_-Tabelle ersetzt; die Tests ersetzen nur Tabellen anderer
-Addons (AHSentinel, Auctionator …) und stellen sie im selben Fall zurück. Keine Spielernamen gefunden.
+Erledigt (danke)
+----------------
+- 0.9.33: Preis-Vermittler und Gebühren nach Regelwerk (anweisung-werte-aus-ahsentinel.txt V1–V10).
+- 0.9.34: UI-Rework Teil A – U1 drei Reiter, U2 Gruppen nach Platz und Filter, U3 Orange zuerst, U5 Reiter Gold,
+  U9 ProfessionSentinel.IsPanelShown().
+- 0.9.35: alle sieben Punkte der Nachprüfung von 0.9.33 (Händlerpreis kein AH-Preis, MaterialCost nicht je Zutat,
+  Entzaubern nur für Verzauberer, Einkaufslisten mit Grundmaterial, "Heute tun" nach Absatz, Aufschlag des
+  Verzauberer-Dienstes, Kleineres 7a–7e). Alle Befunde hat die Sitzung als richtig bestätigt.
+- 0.9.36: U7 Tooltip Variante A (drei Blöcke, eine Gewinnzahl = Gold-Rangliste, Rest mit Shift).
 
-OFFENE PUNKTE
--------------
-1. API.Price LIEFERT AUCH DEN HÄNDLERPREIS – WIRD ALS AH-PREIS VERWENDET (Schwere: HOCH)
-   AHSentinel.API.Price gibt ohne AH-Daten den Händler-VERKAUFSPREIS mit Quelle "vendor" zurück (AHSentinel 0.65.51
-   API.lua:41-42). PriceSource.lua:129-135 nimmt jeden Preis > 0 und gibt ihn als AH-Preis weiter; PS.Price
-   (PriceSource.lua:245-253) -> P.AH (Prices.lua:88-92) -> P.BuyAH (Prices.lua:116-121) -> OwnUnit
-   (PriceSource.lua:393-396). Folgen: Händlerware ohne AH-Angebot (z. B. Grober Faden) kostet dann den Betrag, den der
-   Händler beim Ankauf zahlt, statt den Kaufpreis beim Händler -> Materialkosten zu tief, Gewinn zu hoch. Ausserdem
-   kommen auxForever/Auctionator nie dran ("fehlt ein Wert in einer Quelle, nächste Quelle" gilt nicht).
-   Lösung: In der AHSentinel-Quelle kind == "vendor" wie "kein AH-Preis" behandeln (nil zurück, nächste Quelle); der
-   Händlerwert kommt nur über VendorSell/VendorBuy. Testfall: API-Attrappe Price -> (25, "vendor") -> P.AH == nil,
-   Material über VendorBuy, nächste Quelle wird gefragt.
+Geprüft (0.9.36): addon_check OK ohne Warnung, GoldSentinelGame.lua byte-gleich mit shared/.
 
-2. API.MaterialCost FALSCH VERSTANDEN (Schwere: HOCH)
-   AHSentinel.API.MaterialCost(itemID, qty) liefert die Materialkosten, um itemID HERZUSTELLEN (API.lua:76-93:
-   Rezept von itemID, Liste je Zutat). PS.MaterialUnit (PriceSource.lua:423-447, aufgerufen für jede Zutat aus
-   Prices.lua:141-142) fragt damit den Preis einer ZUTAT ab. Folgen: Für herstellbare Zutaten (Leinenstoffballen,
-   Bronzebarren …) kommt immer der Herstellpreis, auch wenn AH oder Händler billiger ist; Herkunft "ah" statt "craft",
-   kein "aus …"; bei Rezepten mit mehreren Stück je Herstellung zählt eine ganze Herstellung pro Stück
-   (ceil(1/made)). Für alle anderen Zutaten kommt nil und der eigene Weg – also zwei verschiedene Rechnungen.
-   T220 prüft das nicht, weil die Attrappe (TestRoutine.lua:4475) die Zutaten-Bedeutung hat.
-   Lösung: Für Zutaten den eigenen günstigsten Weg (OwnUnit) mit den Preisen der Quelle rechnen, ODER
-   API.MaterialCost(r.out, Menge je Herstellung) einmal je Rezept fragen und die Liste (itemID, qty, source, cost)
-   auf res.parts abbilden ("craft" -> Herkunft "aus …"). Attrappe in T220 an die echte Bedeutung anpassen; Testfall:
-   MaterialCost(Zutat) wird nie gefragt bzw. Ballen 25c AH, Herstellen 16c -> 16c "aus Leinenstoff", Ballen 10c AH ->
-   10c "ah".
+Angenommen (Begründung der Sitzung richtig)
+-------------------------------------------
+- hinweis-sync-kanal.txt und anweisung-gemeinsamer-sync.txt gelten für ProfessionSentinel NICHT: Es sendet keine
+  Addon-Nachrichten (kein SendAddonMessage, kein Präfix, kein Kanal – geprüft: der Name kommt nur in TestRoutine.lua als
+  Wächter vor, T-Fall "0, nicht registriert"). Gildendaten kommen aus den SavedVariables von GuildSentinel/RaidMaster.
+  GoldSentinelSync.lua wird nicht eingebaut. Falls ProfessionSentinel später Daten austauschen soll: nur über
+  GoldSentinelSync (shared/wissen/kommunikation-forever.md), nie über eigene Kanäle.
+- Hinweis Rundung an AHSentinel: ist bereits erledigt. AHSentinel 0.65.54 rundet den 5-%-Anteil ab
+  (A:SaleFee und A.AuctionFee: math.floor(total × CutPct), Selbsttest 4042 -> 202). S5 sollte keine 1c-Abweichung mehr
+  zeigen. Zeigt S5 mit AHSentinel 0.65.54 trotzdem eine Abweichung, bitte Item, Preis und Menge melden.
 
-3. ENTZAUBERN IM BESTEN WEG OHNE VERZAUBERER-PRÜFUNG (Schwere: MITTEL)
-   AD.GoldRanking rechnet jetzt immer mit Entzaubern (Advisor.lua:257, AD.Evaluate(..., true, true)). Die Wege über
-   AHSentinel (PS.DisenchantValue, Prices.lua:202-212; PS.BestWay, Prices.lua:250) und Enchantrix (Prices.lua:214-217)
-   prüfen DE.WantsGold() nicht – nur der eigene Weg DE.Value (Disenchant.lua:424). Ein Schneider ohne Verzauberkunst
-   (und jeder Retail-Spieler mit AHSentinel/Enchantrix) bekommt "ent." und Entzauberungswerte in der Gold-Rangliste.
-   Bisher galt (geprüft und richtig): Entzauberwert nur für Verzauberer.
-   Lösung: DisenchantValue, BestWay und Enchantrix nur, wenn DE.WantsGold() (Retail nie); sonst bester Weg = Verkaufen.
-   Testfall: Nicht-Verzauberer mit API-Attrappe BestWay "disenchant" -> Rangliste "verk.".
+OFFENE PUNKTE (UI-Rework Teil B, anweisung-ui-rework.txt)
+--------------------------------------------------------
+1. U6 BLIZZARD-BERUFSFENSTER (MITTEL)
+   - Je Rezeptzeile nur ein kurzes Zeichen am rechten Rand, z. B. "19×" in der Farbe der nächsten Stufe; bei Grau
+     nichts. Kein grauer Zusatztext, keine Balken unter dem Namen. Nie über Name oder Anzahl (Abstand prüfen).
+   - Unten eine kurze Zeile "Bestes: <Rezept>" (Kürzen mit "…" erst ab Fensterbreite), alles andere ins Panel.
+   - Schrift mindestens so gross wie Blizzards Rezeptzeile, hell genug (Befund aus den Screenshots: teils nicht lesbar).
+   - Alle Versionen: Era/TBC TradeSkillFrame/CraftFrame, Retail ProfessionsFrame; fehlt ein Rahmen, nichts zeichnen.
+   Testfälle: T-UI5 (genau ein Zeichen je Zeile, keins bei Grau, kein Überlappen mit Name/Anzahl), T-UI6 (Zeile
+   "Bestes:" kürzt erst ab Fensterbreite).
 
-4. HERKUNFT "craft" IN EINKAUFS- UND SNIPER-LISTEN (Schwere: MITTEL)
-   Neue Herkunft "craft" wird überall wie "AH" behandelt: Plan.lua:294 (Sniper-Ziele), Today.lua:86, 157, 169
-   (Heute tun: AH-Kauf), Disenchant.lua:622-629 (Sammelkauf). Folge: Das Zwischenprodukt (Leinenstoffballen) kommt mit
-   Höchstpreis = Herstellkosten (16c × 1,1) auf die AH-Liste; der Leinenstoff, den man wirklich braucht, nicht.
-   Lösung: "craft"-Zutaten in ihr Grundmaterial auflösen (wie AHSentinel Cr:ExpandNeed, Crafting.lua:373-383) und das
-   kaufen; das Zwischenprodukt als "selbst herstellen" anzeigen. Testfall: Ballen "craft" -> Liste enthält Leinenstoff
-   (2 je Ballen), nicht den Ballen.
+2. U2 DETAILS BEIM ANKLICKEN im Reiter "Rezepte" (MITTEL)
+   - Klick auf eine Zeile zeigt unten: Materialien mit Herkunft (AH/Händler/aus …), Verkaufswert netto, Gewinn,
+     bester Weg (verk./ent.), Verkauft sich, Quelle des Rezepts (Lehrer, Händler, Händlergunst, Drop), Knöpfe
+     "Herstellen" und "Einkaufsliste". Werte aus denselben Funktionen wie Tooltip und Rangliste (eine Zahl, T-TT3).
+   - Zeile: Farbpunkt, Name, Status-Kennzeichen, EINE Zahl rechts – bitte bestätigen oder nachziehen.
+   Testfall: T-UI8 (Detailbereich zeigt denselben Gewinn wie Tooltip und Gold-Rangliste).
 
-5. MENGE NACH ABSATZ NUR IN DER RANGLISTE (V7/V8 teilweise) (Schwere: MITTEL)
-   "≤N" und "kaum" stehen in der Gold-Rangliste (UI.lua:922-927) und im Tooltip (UI.lua:449-453). "Heute tun"
-   (Today.lua:58-62) schlägt aber weiter bis TD.TODAY_MAX = 5 Herstellungen vor, ohne SellCap, auch bei "kaum" und unter
-   dem Mindestgewinn. e.recommend und e.belowMin (Advisor.lua:263-266) werden berechnet, aber nirgends angezeigt.
-   Lösung: In TD.Candidates count = min(…, PS.SellCap(r.out)) und "kaum"/unter Mindestgewinn auslassen; in der Rangliste
-   belowMin kennzeichnen (z. B. grau). PS.MinProfitPct einmal je Rangliste statt je Rezept holen. Testfall: SellCap 3,
-   Heute tun schlägt höchstens 3 vor; "kaum" fehlt in Heute tun.
+3. U8 KEINE LANGEN CHAT-AUSGABEN (NIEDRIG)
+   - "Muster … fehlt … und N weitere" nicht mehr im Chat, sondern als Zahl am Reiter "Rezepte" bzw. Gruppe
+     "Für die Gilde gesucht"; im Chat höchstens eine kurze Zeile je Sitzung.
+   Testfall: T-UI9 (Anmeldung mit vielen fehlenden Mustern -> höchstens eine Chatzeile).
 
-6. AUFSCHLAG DES VERZAUBERER-DIENSTES ÜBERSCHRIEBEN (Schwere: MITTEL)
-   DE.SellPrice nimmt jetzt immer AHSentinels MinProfitPct (Disenchant.lua:165) – das ist der Mindestgewinn im AH,
-   nicht der Aufschlag, den der Spieler für Verzauberungen als Dienst verlangt (ns.db.vzMarkup, Core.lua:389). Die
-   Einstellungszeile zeigt weiter den eigenen Wert (UI.lua:1531), gerechnet wird mit dem anderen (UI.lua:421): Ändert
-   der Spieler den Aufschlag, ändert sich nichts.
-   Lösung: Für den Dienstpreis (SellPrice, VZ_SURCHARGE, Flüstern) wieder ns.db.vzMarkup; MinProfitPct nur für
-   AH-Herstellen/Rangliste. Testfall: vzMarkup 30, AHSentinel 20 -> Dienstpreis mit 30 %.
+4. U3/U4 REST – bitte prüfen und nur fehlendes nachziehen (NIEDRIG)
+   - U3: Kurz vor dem Umschlag ("noch 2× orange") schon das nächste orange Rezept im Plan zeigen. In 0.9.36 nicht
+     gefunden.
+   - U4: Oben im Reiter "Skillen" "Nächster Schritt" (aktuelle Fertigkeit -> nächste Stufe), Rezepte mit Anzahl
+     ("Schwere Wollhandschuhe ×19"), Material pro Punkt, "lernen" mit Kosten; nächster Lehrer mit Wegpunkt-Knopf;
+     ein Knopf Einkaufsliste für den ganzen Plan. Ist das schon so, im Bericht kurz bestätigen.
 
-7. KLEINERES (Schwere: NIEDRIG)
-   a) Spieltest S5 (Spieltest.lua:106-121) rechnet AHSentinels Anteil selbst nach (floor(x × pct + 0,5)), PS rundet ab
-      (PriceSource.lua:276-278, belegt). Im Spiel gibt S5 darum bei rund jedem zweiten Preis FEHLER (6279c: PS 313,
-      "AHS" 314). AHSentinel rundet in A:SaleFee tatsächlich kaufmännisch (AHAnalyzerPro.lua:1683-1687) – das meldet
-      die Prüf-Sitzung AHSentinel. Für PS: S5 mit AHSentinels echter Zahl vergleichen (API.NetSale(itemID, qty), 2. Wert
-      .cut), nicht nachrechnen; die T213-Attrappe (TestRoutine.lua:3350-3353) rundet ab und zeigt den Fall nicht.
-   b) Tooltip "Verkauf im AH" zeigt den Händlerwert, wenn AHSentinel keinen AH-Preis hat: API.NetSale gibt dann
-      gross = Händlerwert (API.lua:51-53), Prices.lua:188-193 setzt daraus valueAH. Lösung: valueAH nur mit echtem
-      AH-Preis (nicht bei vendorWins und cut == 0).
-   c) Bereich K: Kein Fall prüft, dass die Zeile "Preise: … · Herstellen: …/Std." (summary, UI.lua:1294-1296) nicht
-      abgeschnitten ist; T209 prüft nur Knopf-Beschriftungen.
-   d) Diagnose: LANGSAM merkt nur den Höchstwert seit Beginn (Diagnose.lua:132). In den 0.9.32-Berichten steigen die
-      Zähler weiter (15:13:44 beim Öffnen des Berufsfensters: UI:Refresh ×8147 -> ×8153, AD.Update ×7145 -> ×7151,
-      UI:UpdateBest 19 -> 25, UI:Aufbau (Teil 1) 6 -> 11, Höchstwert 20,9 ms), aber die Dauer in 0.9.32 ist nicht
-      ablesbar. Lösung: Höchstwert je Version (oder letzter Wert) mitschreiben. 0.9.33 rechnet je Rezept mehr
-      (SellCap, BestWay, Entzaubern für alle): im Spiel messen (IM CLIENT PRÜFEN).
-   e) tests/run_offline.py:12 läuft weiter nur mit LuaJIT. Option für lupa.lua51 (mit kleiner bit-Attrappe) einbauen –
-      WoW ist Lua 5.1 ("attempt to yield across C-call boundary" zeigt nur 5.1). Hier mit 5.1 geprüft: OK.
-   f) Hinweise bleiben: Die geplante Aufgabe "Rezeptdaten-Update" vergibt bei neuen Daten selbst die nächste Nummer –
-      vorher die Releases prüfen, nur eine Sitzung je Addon (raidmaster/CLAUDE.md). Lesende Blizzard-Aufrufe ausserhalb
-      von ns.API (Waypoint.lua C_Map.GetMapInfo, Guild.lua, Plan.lua MerchantMaxStack/Money) erst in ns.API aufnehmen,
-      wenn ein Test sie simulieren soll.
-
-DANACH: UI-REWORK (anweisung-ui-rework.txt)
-   Nach 0.9.34 mit den Punkten 1–6. Die Zahlen im neuen Reiter "Gold" und im Detailbereich kommen dann schon richtig
-   aus dem Preis-Vermittler. ProfessionSentinel.IsPanelShown() (U9) mit der AHSentinel-Sitzung über auftraege abstimmen.
-
-IM CLIENT PRÜFEN (mit 0.9.33)
------------------------------
-- Mit AHSentinel 0.65.51: Panel und Tooltip zeigen "Preise: AHSentinel"; Produktwert im Tooltip gleich wie im
-  AHSentinel-Gewinn-Fenster (Verkauf netto, Anteil, Einzahlungsverlust); kein Lua-Fehler; /ps protokoll ohne
-  PREISQUELLE-Zeilen.
-- Ohne AHSentinel, nur auxForever / nur Auctionator / nur Auctioneer (+ Enchantrix): Quelle stimmt, Preise kommen, keine
-  "Funktion nicht gefunden"-Zeile (die Namen GetLatestPrice, Auctionator.API.v1.GetAuctionPriceByItemID,
-  Auctioneer:Statistics/stat:Best, Enchantrix.Storage.GetItemDisenchantTotals sind hier nicht prüfbar).
-- Nach einem AH-Scan mit offenem Panel: Werte einmal neu (Abo), kein Ruckeln.
-- /ps protokoll beim Öffnen des Berufsfensters und beim Wechsel auf "Gold": kein LANGSAM über 16 ms (UI:Refresh,
-  AD.Update, UI:UpdateBest, UI:Aufbau).
-- /ps spieltest an: S5 (nach Punkt 7a), S7 (5 Gegenstände herstellen: kein LANGSAM), S8 (der Bericht von 0.9.28
-  "Knöpfe verdecken ProfessionSentinelPanelCloseButton" sollte mit den Tooltips neben dem Panel aus 0.9.32 weg sein –
-  bisher kein S8 mit 0.9.32/0.9.33), S10.
+IM CLIENT PRÜFEN (mit 0.9.36 und AHSentinel 0.65.54)
+----------------------------------------------------
+- Panel und Tooltip zeigen "Preise: AHSentinel"; Gewinn im Tooltip = Gold-Rangliste = AHSentinel-Gewinn-Fenster.
+- Tooltip: ohne Shift drei Blöcke, Shift drücken/loslassen zeichnet neu; Muster-Tooltip "Muster · fehlt/lernbar ab …".
+- Ohne AHSentinel, nur auxForever / nur Auctionator / nur Auctioneer (+ Enchantrix): Quelle stimmt, Preise kommen,
+  keine "Funktion nicht gefunden"-Zeile.
+- Nach einem AH-Scan mit offenem Panel: Werte einmal neu (Abo), kein Ruckeln; AHSentinel blendet sein Gewinn-Fenster
+  aus, solange das Panel offen ist.
+- /ps protokoll beim Öffnen des Berufsfensters und beim Wechsel der Reiter: kein LANGSAM über 16 ms.
+- /ps spieltest an: S5 (ohne 1c-Abweichung), S7, S8, S10.
 - Mengenfenster: Esc schliesst nach Mausklick ins Fenster; volle Taschen mit angebrochenem Stapel kauft den Rest.
-- /ps testroutine im echten Client: T139/T140/T143/T219 unter 16 ms, T145 Speicher, Bereich K (T206–T211), T188
-  Andocken mit AHSentinel, T113, T144; T169/T170.
+- /ps testroutine im echten Client: T139/T140/T143/T219 unter 16 ms, T145 Speicher, Bereich K (T206–T211, T235),
+  T188 Andocken mit AHSentinel, T113, T144, T169/T170, T228–T238.
 
+Wie immer: komplette Dateien, Era/TBC/Retail nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
-
-NEU (9. Nov. 18:00, Entscheid des Nutzers 17:55) – Tooltip Variante A (Teil B des UI-Reworks)
-   anweisung-ui-rework.txt U7 neu: drei Blöcke wie AHSentinel (Kopf, Urteil mit EINER Gewinnzahl + Verkaufen/
-   Entzaubern/Händler/Skillen, Materialien mit Herkunft und Bestand), Rest mit Shift, Ranglistenplätze und Erklärtexte
-   weg. Befund: Wollcape zeigt −2s 10c, −2s 7c und −2s 83c/Pkt für dasselbe – künftig eine Zahl aus einer Funktion.
-
-NEU (9. Nov. 18:10, HOCH, nach der laufenden Arbeit) – Sync nicht über eigene Kanäle (siehe hinweis-sync-kanal.txt)
-
-NEU (9. Nov. 18:40) – gemeinsame Sync-Datei übernehmen (anweisung-gemeinsamer-sync.txt), nach hinweis-sync-kanal.txt
