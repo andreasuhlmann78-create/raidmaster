@@ -20,21 +20,17 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 - **WARNUNG** BuffSentinel/SelfTest.lua:425: tritt einem eigenen Chat-Kanal bei – belegt einen der 10 Kanalplätze des Spielers. Künftig nur der gemeinsame GoldSentinel-Kanal (shared/GoldSentinelSync.lua), nur zum Finden von Mitspielern.
 - **WARNUNG** BuffSentinel/SelfTest.lua:426: tritt einem eigenen Chat-Kanal bei – belegt einen der 10 Kanalplätze des Spielers. Künftig nur der gemeinsame GoldSentinel-Kanal (shared/GoldSentinelSync.lua), nur zum Finden von Mitspielern.
 
-## GuildSentinel-0.9.20.zip: OK (2 Warnungen)
-- **WARNUNG** GuildSentinel/GoldSentinelTest.lua: veraltete offizielle Fassung (Version 1) – auf shared/GoldSentinelTest.lua Version 2 aktualisieren
-- **WARNUNG** GuildSentinel/GoldSentinelSync.lua: veraltete offizielle Fassung (Version 1) – auf shared/GoldSentinelSync.lua Version 2 aktualisieren
+## GuildSentinel-0.9.21.zip: OK
 
 ## ProfessionSentinel-0.9.37.zip: OK (1 Warnungen)
 - **WARNUNG** ProfessionSentinel/GoldSentinelTest.lua: veraltete offizielle Fassung (Version 1) – auf shared/GoldSentinelTest.lua Version 2 aktualisieren
 
-## RaidMaster-3.0.20.zip: OK (1 Warnungen)
-- **WARNUNG** RaidMaster/GoldSentinelTest.lua: veraltete offizielle Fassung (Version 1) – auf shared/GoldSentinelTest.lua Version 2 aktualisieren
+## RaidMaster-3.0.21.zip: OK
 
 ## ThreatSentinel-2.5.2.zip: OK (1 Warnungen)
 - **WARNUNG** ThreatSentinel/GoldSentinelTest.lua: veraltete offizielle Fassung (Version 1) – auf shared/GoldSentinelTest.lua Version 2 aktualisieren
 
-## levelpilot__levelpilot-3.12.19.LevelPilot.zip: OK (8 Warnungen)
-- **WARNUNG** LevelPilot/GoldSentinelGame.lua: veraltete offizielle Fassung (Version 2) – auf shared/GoldSentinelGame.lua Version 3 aktualisieren
+## levelpilot__levelpilot-3.12.20.LevelPilot.zip: OK (7 Warnungen)
 - **WARNUNG** LevelPilot/Comm.lua:164: Addon-Nachricht über einen eigenen Kanal ("CHANNEL") – kommt in WoW Forever nicht an (Server: NOT_ALLOWED_IN_CHANNEL). Über GUILD/PARTY/RAID/WHISPER senden (shared/wissen/kommunikation-forever.md, hinweis-sync-kanal.txt).
 - **WARNUNG** LevelPilot/Comm.lua:190: Addon-Nachricht über einen eigenen Kanal ("CHANNEL") – kommt in WoW Forever nicht an (Server: NOT_ALLOWED_IN_CHANNEL). Über GUILD/PARTY/RAID/WHISPER senden (shared/wissen/kommunikation-forever.md, hinweis-sync-kanal.txt).
 - **WARNUNG** LevelPilot/Comm.lua:191: Addon-Nachricht über einen eigenen Kanal ("CHANNEL") – kommt in WoW Forever nicht an (Server: NOT_ALLOWED_IN_CHANNEL). Über GUILD/PARTY/RAID/WHISPER senden (shared/wissen/kommunikation-forever.md, hinweis-sync-kanal.txt).
