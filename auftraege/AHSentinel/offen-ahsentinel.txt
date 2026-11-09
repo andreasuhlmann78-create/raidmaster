@@ -128,3 +128,9 @@ IM CLIENT PRÜFEN (mit 0.65.58 bzw. der nächsten Version)
 
 Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
+
+NEU (9. Nov. 22:15, Wunsch des Nutzers, NIEDRIG) – Testroutine abbrechen
+   Es gibt keinen Befehl zum Abbrechen; heute bricht nur ein Kampfbeginn sauber ab (TR:Abort, Daten wiederhergestellt).
+   Bitte "/ahs testroutine stop" (auch "abbrechen") und einen Knopf "Abbrechen" im Ergebnisfenster während des Laufs:
+   ruft TR:Abort("vom Nutzer abgebrochen") auf, stellt alles wieder her, Bericht mit "abgebrochen". Testfall: Lauf
+   starten, Abbruch nach dem ersten Schritt -> running false, Sandbox OK, kein FEHLER-Eintrag ausser T000 "Abbruch".
