@@ -24,7 +24,7 @@ GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mi
 
 **🔎 Gruppensuche – besser als der Dungeonfinder**
 • Dungeon wählen, gesuchte Rollen anhaken, Suche starten
-• **Nur Gilde oder Gilde und Gruppe**: Auf Wunsch geht deine Suche auch an deine Gruppe bzw. deinen Raid – auch an Spieler anderer Gilden
+• **Nur Gilde oder ganzer Server**: Auf Wunsch geht deine Suche an Gilde, Gruppe und über das Flüster-Netz der GoldSentinel-Addons auch an Spieler anderer Gilden
 • Wer von Stufe und Rolle passt, bekommt einen Hinweis im Chat
 • „Ich komme mit“ – ein Klick, und der Suchende sieht dich in seiner Liste, **mit Gegenstandsstufe und Zone**, und lädt dich mit einem Klick ein
 • **Wer ist frei**: Mit einem Klick meldest du dich frei für Dungeon, Raid, Quest-Gruppe oder PvP (1, 2 oder 4 Stunden). In Dungeons, Raids und Schlachtfeldern giltst du automatisch als beschäftigt

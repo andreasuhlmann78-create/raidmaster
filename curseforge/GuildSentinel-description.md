@@ -10,6 +10,16 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.21
+
+- **GoldSentinelSync 2 (whisper network)**: the shared sync file now also reaches players with GoldSentinel addons outside your guild and group, by whispering through other players who have it (throttled, no chat spam; "no player named … is online" is hidden).
+  - **What goes into the network**: only the group finder for the whole server (new search and closing it). Everything else stays inside the guild (professions, events, board, polls, thanks, attunements …), in the group or in a whisper to one player.
+  - Group finder: "whole server" is back – your search goes to the guild, your group and the network.
+  - Known players of the network are kept across /reload (GuildSentinelDB.gsSync: names, times, version only; stays on your PC).
+- **GoldSentinelTest 2**: share error reports with the developer (only with your consent, /gstest).
+- Diagnostic log: new line "NETZ …" (no names).
+- Developer test routine: T225–T230 new.
+
 ### Version 0.9.20
 
 - **Addon messages for all game versions**: GuildSentinel now uses the shared GoldSentinel sync file. It sends only through the guild, your group/raid and whispers – never through a custom chat channel (WoW Forever does not deliver addon messages there). Messages from older GuildSentinel versions of other players are still understood. Players using 0.9.19 or older will no longer receive messages from 0.9.20 – please update.
@@ -56,11 +66,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
   - Password: set in the game (enter twice), stored only as a salted checksum on this computer, masked input, 3 failed attempts lock it for 5 minutes, change only with the old password. It is a protection against accidental clicks – the real protection are your rights in the game.
   - Actions only from your click, never in combat; in test mode nothing is executed. Option "Management button on the guild window".
 
-### Version 0.9.16
-
-- **Professions of all members, automatically**: where the game itself knows the guild's professions (guild profession list), GuildSentinel now reads the skill levels of every member – also of members without GuildSentinel. Recipes still come only from players with GuildSentinel (or RaidMaster) who have opened their profession window once; their own data always wins over the guild list.
-- **New members**: whoever joins the guild while online now shares their professions right away instead of at the next login.
-
 *Older versions: see the changelog of each file in the **Files** tab.*
 
 ---
@@ -105,7 +110,7 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 ## 🔎 Group finder
 
 - Pick a dungeon or activity, tick the roles you need, start the search
-- **Guild only or guild and group** – your search can also go to your group or raid, players of other guilds too
+- **Guild only or the whole server** – through the whisper network of the GoldSentinel addons your search also reaches players of other guilds
 - Players whose level and role fit get a notice in chat (optionally with sound), with the zone of the searcher
 - On WoW Forever: all new dungeons and the raids Barrow Deeps, Hyjal Summit and Onyxia's Lair
 - "I'll join" – one click, and the searcher invites you with one click; your **item level** goes along
