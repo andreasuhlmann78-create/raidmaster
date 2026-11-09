@@ -12,6 +12,23 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.44
+
+- **Tooltip, clearer ("variant A"):** without Shift exactly three blocks –
+  1. **Price:** "AHSentinel – Price 10s" (own items: market value), market value if different, "Sells: quickly (~3 h)".
+  2. **Verdict:** "Disenchanting pays off / does not pay" with profit, "Worth up to", then both ways with amount (better
+     one first). Own items: only the two ways. Not disenchantable: only "Sell:".
+  3. **Materials:** "Materials (real, from N disenchants)" or "(table)", one line each with chance × quantity and price
+     after fees – always, also when Disenchantry is installed (AHSentinel replaces it).
+  Everything else (real value with calculation, median, trend, sales per day, vendor price, your sell chance, alts)
+  with **Shift**. Setting "short" hides the materials, "everything" shows all without Shift.
+- **Sniper:** "Purchase sent" when you confirm; "Bought" only when the server confirms (no more "Bought" followed by
+  "failed – counter corrected"). "Price is being checked" only once per reservation. When the price is confirmed:
+  a short sound (option "sound on hits"), the Buy button blinks and "Buy now: mouse wheel" appears (never in combat).
+- **Bulk buy for disenchanting:** counted only when the purchase succeeds.
+- **Profit window:** the "AH fee" line shows only the 5 %; expected re-postings or "vendor pays more" in a grey line.
+- Faster: the ledger is indexed per item instead of read completely for every price.
+
 ### Version 0.65.43
 
 - **Sell tab – duration preselected (WoW Forever):** 24 h when it costs no more than 2 h (minimum deposit, e.g. dust,
@@ -61,25 +78,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   invoice, so the fee was deducted twice (e.g. "Today" income below zero). They are corrected once at login
   (share and refund set to 0, the old values are kept as a backup, nothing is deleted). Chat: "Ledger: fixed N old
   sales". Era/TBC unchanged.
-
-### Version 0.65.39
-
-- **Categories with three levels** like in the Blizzard AH (e.g. Weapons -> One-Handed -> Axes) in Buy; the third
-  level appears under the chosen second one.
-- **Mail rules:** the category is now chosen from a menu (expand a main category, then pick) instead of clicking
-  through more than 50 entries.
-- **Selling:** a price more than 100x the market value asks for a second click ("typo? a number without unit = gold").
-- **Do today -> below vendor price:** from a scan or search only the cheapest price is known, so the profit is shown
-  for 1 piece (the exact quantity comes with the item's listings). No more inflated profits.
-- **Sharing disenchant results:** all parts of one sending count as one message (large statistics are no longer cut
-  off); a second sending from the same player within a minute is ignored.
-- **Playtest:** S7 counts only spells that are a recipe of the open profession; all playtest texts are translated.
-- Test routine: no longer replaces any Blizzard function or frame during the tests (TakeInboxMoney, MailFrame,
-  IsInGuild, ProfessionsFrame) – new check T242. Command help lists part k and /ahs playtest.
-- Options tooltip: "short" now names the line "Disenchant value".
-- For other addons: `AHAnalyzerPro:AuctionFee(total)` (also `.AHFee`) = AH fee of one auction in WoW Forever.
-- Note: since 0.65.30 prices are kept per realm and faction; going back to 0.65.29 or older shows no prices until
-  the next scan.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

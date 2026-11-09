@@ -7,6 +7,23 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.44</h3>
+<ul>
+<li><strong>Tooltip, clearer ("variant A"):</strong> without Shift exactly three blocks –</li>
+<li><strong>Price:</strong> "AHSentinel – Price 10s" (own items: market value), market value if different, "Sells: quickly (~3 h)".</li>
+<li><strong>Verdict:</strong> "Disenchanting pays off / does not pay" with profit, "Worth up to", then both ways with amount (better
+     one first). Own items: only the two ways. Not disenchantable: only "Sell:".</li>
+<li><strong>Materials:</strong> "Materials (real, from N disenchants)" or "(table)", one line each with chance × quantity and price
+     after fees – always, also when Disenchantry is installed (AHSentinel replaces it).
+  Everything else (real value with calculation, median, trend, sales per day, vendor price, your sell chance, alts)
+  with <strong>Shift</strong>. Setting "short" hides the materials, "everything" shows all without Shift.</li>
+<li><strong>Sniper:</strong> "Purchase sent" when you confirm; "Bought" only when the server confirms (no more "Bought" followed by
+  "failed – counter corrected"). "Price is being checked" only once per reservation. When the price is confirmed:
+  a short sound (option "sound on hits"), the Buy button blinks and "Buy now: mouse wheel" appears (never in combat).</li>
+<li><strong>Bulk buy for disenchanting:</strong> counted only when the purchase succeeds.</li>
+<li><strong>Profit window:</strong> the "AH fee" line shows only the 5 %; expected re-postings or "vendor pays more" in a grey line.</li>
+<li>Faster: the ledger is indexed per item instead of read completely for every price.</li>
+</ul>
 <h3>Version 0.65.43</h3>
 <ul>
 <li><strong>Sell tab – duration preselected (WoW Forever):</strong> 24 h when it costs no more than 2 h (minimum deposit, e.g. dust,
@@ -53,26 +70,7 @@
   (share and refund set to 0, the old values are kept as a backup, nothing is deleted). Chat: "Ledger: fixed N old
   sales". Era/TBC unchanged.</li>
 </ul>
-<h3>Version 0.65.39</h3>
-<ul>
-<li><strong>Categories with three levels</strong> like in the Blizzard AH (e.g. Weapons -&gt; One-Handed -&gt; Axes) in Buy; the third
-  level appears under the chosen second one.</li>
-<li><strong>Mail rules:</strong> the category is now chosen from a menu (expand a main category, then pick) instead of clicking
-  through more than 50 entries.</li>
-<li><strong>Selling:</strong> a price more than 100x the market value asks for a second click ("typo? a number without unit = gold").</li>
-<li><strong>Do today -&gt; below vendor price:</strong> from a scan or search only the cheapest price is known, so the profit is shown
-  for 1 piece (the exact quantity comes with the item's listings). No more inflated profits.</li>
-<li><strong>Sharing disenchant results:</strong> all parts of one sending count as one message (large statistics are no longer cut
-  off); a second sending from the same player within a minute is ignored.</li>
-<li><strong>Playtest:</strong> S7 counts only spells that are a recipe of the open profession; all playtest texts are translated.</li>
-<li>Test routine: no longer replaces any Blizzard function or frame during the tests (TakeInboxMoney, MailFrame,
-  IsInGuild, ProfessionsFrame) – new check T242. Command help lists part k and /ahs playtest.</li>
-<li>Options tooltip: "short" now names the line "Disenchant value".</li>
-<li>For other addons: <code>AHAnalyzerPro:AuctionFee(total)</code> (also <code>.AHFee</code>) = AH fee of one auction in WoW Forever.</li>
-<li>Note: since 0.65.30 prices are kept per realm and faction; going back to 0.65.29 or older shows no prices until
-  the next scan.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
