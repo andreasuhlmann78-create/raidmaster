@@ -7,6 +7,31 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.20</h3>
+<ul>
+<li><strong>Profession window:</strong> the "Best recipes" list is rebuilt at most every 2 seconds while you craft (it was rebuilt
+  up to 190 times in a session); opening and switching professions stay immediate.</li>
+<li><strong>Sniper (WoW Forever):</strong> the sniper no longer reserves commodities on its own without a key press. WoW Forever
+  blocked that call ("action blocked" once per session). Commodities are bought with 2 notches: the 1st reserves,
+  the 2nd buys. If WoW blocks it on another client, the addon remembers that for this client, also after /reload.</li>
+<li><strong>Mail rules to alts:</strong> a rule with a sub-category now also works after /reload at the mailbox without visiting the
+  auction house first. Rules from 0.65.11–0.65.17 are found again.</li>
+<li><strong>Buy:</strong> the category list keeps its scroll position while you type or search, and the selected category stays
+  visible. Until the auction house is opened once, Classic Era, TBC and WoW Forever show the classic order (with
+  Projectile, Quiver, Reagent).</li>
+<li><strong>Sale message:</strong> also works when the game text uses a numbered placeholder ("%1$s").</li>
+<li><strong>Profession window:</strong> without a tab bar the profit window docks directly next to the window (only over its
+  invisible border on the old window), never over visible parts. Clicking a recipe no longer turns on "show unlearned".
+  In Classic Era and TBC there is no empty line where the deposit line is (WoW Forever only).</li>
+<li><strong>Deposit:</strong> the warning says when the deposit is refunded on sale (Classic Era, TBC …). Measurements are not taken
+  in test mode, an estimate of the old auction house is never stored as a measurement, the money is checked again
+  shortly after posting, and the last 300 measurements go into the diagnostic log (numbers only, no names).
+  "Do today – craft" deducts the deposit for the whole crafted quantity.</li>
+<li>Price field tooltip shows g/s/c in every language.</li>
+<li>Developer test routine: new area K (interface in the real client: tooltips, overlapping windows, screen, labels,
+  plausible values, error loops, T191–T197) and tests T198–T202; saved recipes, window positions and watcher data stay
+  unchanged during the routine.</li>
+</ul>
 <h3>Version 0.65.18</h3>
 <ul>
 <li><strong>Vendor button no longer covers anything:</strong> the "Sell: … items" button sat below the merchant window and covered the
@@ -48,14 +73,7 @@
   OVERLAP (another window covering the profit window) and ERROR (same error only counted). On logout it is also stored
   as "GSDIAG1" for the addon check. No player, character, guild or realm names.</li>
 </ul>
-<h3>Version 0.65.14</h3>
-<ul>
-<li><strong>Profession window (modern client):</strong> clicking a recipe in "Best recipes" selects it right away through the
-  recipe list of the profession window and scrolls it into view – in the same moment, without waiting for a timer.
-  Only if that is not possible the game's OpenRecipe is used; the addon checks every frame and reports in the chat
-  if the recipe is not shown within 0.5 seconds.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
