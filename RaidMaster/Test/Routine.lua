@@ -2572,6 +2572,37 @@ local function AreaJ(t, G)
 	t:Check("T154", "J", "GoldSentinelGame Version", function()
 		if not G or (tonumber(G.version) or 0) < 2 then return false, tostring(G and G.version), ">= 2" end
 	end)
+	-- 3.0.21: GoldSentinelTest 2 (Berichte an den Sammler nur mit Zustimmung, anweisung-test-version2.txt)
+	t:Check("T162", "J", "GoldSentinelTest Version 2 geladen (T-GT1)", function()
+		local v = GoldSentinelTest and GoldSentinelTest.version
+		if v ~= 2 and not ((tonumber(v) or 0) > 2) then return false, tostring(v), "2" end
+		return true, "Version " .. tostring(v)
+	end)
+	t:Check("T163", "J", "Ohne Zustimmung nichts im Ausgang (T-GT2)", function()
+		local GT = GoldSentinelTest
+		if not (GT and GT.Outbox and GT.registry) then return false, "Outbox fehlt", "GoldSentinelTest 2" end
+		-- Zustimmung in allen angemeldeten Datenbanken kurz auf "nein", danach wie vorher
+		local saved = {}
+		for name, reg in pairs(GT.registry) do
+			local st = type(reg.db) == "table" and type(reg.db.gsTest) == "table" and reg.db.gsTest.share
+			if type(st) == "table" then saved[name] = { st, st.consent } end
+		end
+		local share = RaidMasterDB.gsTest and RaidMasterDB.gsTest.share
+		local before = share and share.outbox and #share.outbox or 0
+		return Guard(function()
+			for _, v in pairs(saved) do v[1].consent = false end
+			if GT.Setting("consent") == true then return false, "Zustimmung noch da", "aus" end
+			GT.Outbox(RaidMasterDB, { kind = "fehler", addon = "RaidMaster", version = RM.VERSION, time = 0, env = {},
+				errors = { { wo = "Lua", msg = "RaidMaster-Testfehler T163", count = 1 } } })
+			local sh = RaidMasterDB.gsTest and RaidMasterDB.gsTest.share
+			local after = sh and sh.outbox and #sh.outbox or 0
+			if after ~= before then return false, after .. " im Ausgang", before .. " (unverändert)" end
+			return true, "Ausgang unverändert (" .. after .. ")"
+		end, function()
+			for _, v in pairs(saved) do v[1].consent = v[2] end
+		end)
+	end)
+
 	-- 3.0.19 (Testberichte 8. Nov.: 2× ADDON_ACTION_FORBIDDEN SetRaidTarget nach Klick auf die Leiste): In WoW Forever
 	-- ist SetRaidTarget geschützt. Kein Weg aus Addon-Code darf es dort aufrufen; Adds/Boss nur als Vorschlag.
 	t:Check("T161", "J", "Symbole in WoW Forever nur über sichere Knöpfe", function()

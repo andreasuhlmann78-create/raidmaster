@@ -11,6 +11,12 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.21 – Fehlerberichte teilen (nur mit Zustimmung)
+- GoldSentinelTest 2: Fehlerberichte an den Entwickler teilen (nur mit Zustimmung, /gstest). Geteilt werden nur kurze
+  Zusammenfassungen von Lua-Fehlern und fehlgeschlagenen Testfällen, ohne Namen. Ohne Zustimmung wird nichts geteilt.
+  Das Teilen läuft über GoldSentinelSync 2, das ein anderes GoldSentinel-Addon mitbringt; RaidMaster selbst
+  verschickt seine Raid- und DKP-Daten weiterhin nur an Gilde, Raid und einzelne Spieler (kein Kanal, kein Netz).
+
 NEU IN 3.0.20 – Keine echten Spielernamen in Beispielen und Tests
 - Beispiele, Kommentare und die Testroutine verwenden nur noch erfundene Namen ("Testa Beispiel"); die gemeinsame
   Datei GoldSentinelGame.lua ist auf Version 3 (nur Kommentare geändert, gleiche Funktion).

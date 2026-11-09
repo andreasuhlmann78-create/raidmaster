@@ -23,6 +23,12 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.21 – Share error reports (only with your consent)
+- GoldSentinelTest 2: share error reports with the developer (only with consent, /gstest). Only short summaries of Lua
+  errors and failed test cases are shared, without names. Without consent nothing is shared. Sharing runs over
+  GoldSentinelSync 2, which another GoldSentinel addon brings along; RaidMaster itself still sends its raid and DKP data
+  only to guild, raid and single players (no channel, no network).
+
 WHAT'S NEW IN 3.0.20 – No real player names in examples and tests
 - Examples, comments and the test routine only use made-up names ("Testa Beispiel"); the shared file
   GoldSentinelGame.lua is now version 3 (only comments changed, same behaviour).

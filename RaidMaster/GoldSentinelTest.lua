@@ -23,9 +23,18 @@ Check: die Funktion gibt ok, ergebnis, erwartet zurück. Kein Rückgabewert = OK
 
 Datenschutz: Keine Spieler-, Gilden- oder Chatnamen in Berichte schreiben. Geschützte Werte ("secret values") werden
 nie gelesen, sondern als "<geschützt>" vermerkt.
+
+Berichte anderer Spieler (ab Version 2, braucht GoldSentinelSync 2 im selben Client – sonst ruht es):
+    Ein Spieler mit "/gstest sammler an" ist Sammler. Er meldet sich über den Sync (Gilde, Gruppe, Flüster-Netz).
+    Clients, deren Spieler zugestimmt haben ("/gstest teilen an" oder Ja in der einmaligen Frage), schicken ihm kurze
+    Zusammenfassungen ihrer Fehler im Spiel und Testläufe (nur FEHLER-Zeilen, keine Namen) per Flüstern. Der Sammler
+    legt sie als GSTEST1-Bericht mit "fremd = true" in seinen SavedVariables ab (db.gsTest.fremd) – von dort holt sie
+    der RaidMasterUploader wie die eigenen. Ohne Zustimmung wird nichts gesendet. Höchstens 3 Berichte je Addon und Tag,
+    gleiche Fehler höchstens einmal in 7 Tagen, nicht im Kampf.
+    /gstest – Stand anzeigen · /gstest teilen an|aus · /gstest sammler an|aus
 ]]
 
-local VERSION = 1
+local VERSION = 2
 
 local existing = _G.GoldSentinelTest
 if type(existing) == "table" and type(existing.version) == "number" and existing.version >= VERSION then return end
@@ -192,6 +201,7 @@ local function Save(db, report)
     if not s then return false end
     s.reports[#s.reports + 1] = T.PREFIX .. Encode(report)
     while #s.reports > T.MAX_REPORTS do table.remove(s.reports, 1) end
+    if T.Outbox then pcall(T.Outbox, db, report) end          -- Kurzfassung für den Sammler (nur mit Zustimmung)
     return true
 end
 T.Save = Save
@@ -413,6 +423,19 @@ function T.TrackErrors(addon, version, db)
         end
         f:SetScript("OnEvent", OnEvent)
     end
+    -- Takt für das Teilen von Berichten (Version 2) am selben Rahmen; ruft immer die neueste Fassung
+    local f = _G.GoldSentinelTestFrame
+    if f and not _G.GoldSentinelTestShareOn and f.SetScript then
+        _G.GoldSentinelTestShareOn = true
+        local acc = -60                                  -- erste Runde eine Minute nach dem Laden
+        f:SetScript("OnUpdate", function(_, dt)
+            acc = acc + (dt or 0)
+            if acc < 5 then return end
+            acc = 0
+            local GT = _G.GoldSentinelTest
+            if GT and GT.ShareTick then pcall(GT.ShareTick) end
+        end)
+    end
     return true
 end
 
@@ -420,4 +443,309 @@ end
 function T.Pending(db)
     local s = Store(db)
     return s and #s.reports or 0
+end
+
+------------------------------------------------------------------------
+-- Berichte anderer Spieler über GoldSentinelSync (Version 2)
+------------------------------------------------------------------------
+T.SHARE_PREFIX = "GSREPORT1"
+T.SHARE_PER_DAY = 3          -- Berichte je Addon und Tag
+T.SHARE_LINES = 20           -- Zeilen je Bericht (Fehler + FEHLER-Zeilen)
+T.SHARE_ANNOUNCE = 1800      -- Sekunden zwischen zwei Meldungen des Sammlers
+T.SHARE_FREMD_MAX = 40       -- fremde Berichte beim Sammler
+T.SHARE_OUTBOX = 6           -- wartende Kurzfassungen je Addon
+T.inbox = (type(existing) == "table" and existing.inbox) or {}
+
+local DE = type(GetLocale) == "function" and GetLocale() == "deDE"
+local function L(de, en) return DE and de or en end
+local function Say(text)
+    local f = _G.DEFAULT_CHAT_FRAME
+    if f and f.AddMessage then pcall(f.AddMessage, f, "|cff33ccffGoldSentinel:|r " .. text) end
+end
+
+-- Einstellungen stehen in jeder registrierten Datenbank (db.gsTest.share); gelesen wird die erste mit Wert
+local function Share(db)
+    local s = Store(db)
+    if not s then return nil end
+    if type(s.share) ~= "table" then s.share = {} end
+    if type(s.share.sent) ~= "table" then s.share.sent = {} end
+    if type(s.share.outbox) ~= "table" then s.share.outbox = {} end
+    if type(s.share.day) ~= "table" then s.share.day = {} end
+    return s.share
+end
+local function Setting(key)
+    for _, reg in pairs(T.registry) do
+        local sh = Share(reg.db)
+        if sh and sh[key] ~= nil then return sh[key] end
+    end
+    return nil
+end
+local function SetSetting(key, value)
+    for _, reg in pairs(T.registry) do
+        local sh = Share(reg.db)
+        if sh then sh[key] = value end
+    end
+end
+T.Setting, T.SetSetting = Setting, SetSetting
+
+-- Text für eine Nachricht: kurz, ohne Trennzeichen und Farbcodes
+local function Field(v, max)
+    local t = Str(v, max or 80) or ""
+    t = t:gsub("|c%x%x%x%x%x%x%x%x", ""):gsub("|r", ""):gsub("[|~\r\n]", "/")
+    return t
+end
+
+local function Day() return math.floor(Now() / 86400) end
+
+-- Kurzfassung eines gespeicherten Berichts in den Ausgang (nur Fehler und FEHLER-Zeilen; ohne Zustimmung nichts)
+function T.Outbox(db, report)
+    if type(report) ~= "table" or report.fremd then return end
+    if Setting("consent") ~= true or Setting("collector") == true then return end
+    local sh = Share(db)
+    if not sh then return end
+    local lines, sent = {}, sh.sent
+    local now = Now()
+    for _, e in ipairs(report.errors or {}) do
+        if #lines >= T.SHARE_LINES then break end
+        local key = tostring(report.version) .. "|" .. Field(e.wo, 40) .. "|" .. Field(e.msg, 100)
+        if not sent[key] or sent[key] < now - 7 * 86400 then
+            sent[key] = now
+            lines[#lines + 1] = "E~" .. (tonumber(e.count) or 1) .. "~" .. Field(e.wo, 40) .. "~" .. Field(e.msg, 150)
+        end
+    end
+    for _, r in ipairs(report.results or {}) do
+        if #lines >= T.SHARE_LINES then break end
+        if r.status == "FEHLER" then
+            lines[#lines + 1] = "F~" .. Field(r.id, 20) .. "~" .. Field(r.bereich, 20) .. "~" .. Field(r.name, 60) .. "~" ..
+                Field(r.lua or r.ergebnis, 60) .. "~" .. Field(r.erwartet, 40)
+        end
+    end
+    if #lines == 0 and report.kind ~= "test" then return end
+    local env, c = report.env or {}, report.counts or {}
+    local head = table.concat({ "R", Field(report.kind, 10), Field(report.addon, 40), Field(report.version, 20),
+        Field(env.client, 12), Field(env.build, 10), tostring(tonumber(env.interface) or ""), Field(env.flavor, 12),
+        Field(env.locale, 6), Field(env.class, 12), tostring(tonumber(env.level) or ""),
+        tostring(tonumber(c.ok) or ""), tostring(tonumber(c.fehler) or ""), tostring(tonumber(report.time) or now) }, "~")
+    local ob = sh.outbox
+    ob[#ob + 1] = { head = head, lines = lines, tries = 0 }
+    while #ob > T.SHARE_OUTBOX do table.remove(ob, 1) end
+end
+
+local function Endpoint()
+    if T.ep then return T.ep end
+    local S = _G.GoldSentinelSync
+    if type(S) ~= "table" or (tonumber(S.VERSION) or 0) < 2 or type(S.Register) ~= "function" then return nil end
+    local ok, ep = pcall(S.Register, "GoldSentinelTest", T.SHARE_PREFIX, tostring(VERSION))
+    if not ok or not ep then return nil end
+    T.ep = ep
+    ep:OnMessage(function(msg, sender, dist)
+        local GT = _G.GoldSentinelTest
+        if GT and GT.OnShareMessage then pcall(GT.OnShareMessage, msg, sender, dist) end
+    end)
+    return ep
+end
+T.Endpoint = Endpoint
+
+local function MyName()
+    if type(UnitName) ~= "function" then return nil end
+    local ok, n = pcall(UnitName, "player")
+    if not ok or IsSecret(n) or type(n) ~= "string" then return nil end
+    return n
+end
+
+-- Sammler meldet sich (Gilde, Gruppe, Netz)
+function T.Announce()
+    local ep = Endpoint()
+    local me = MyName()
+    if not ep or not me or Setting("collector") ~= true then return false end
+    T.lastAnnounce = (type(GetTime) == "function" and GetTime()) or 0
+    return ep:Send("C~" .. me) and true or false
+end
+
+-- einmalige Frage, ob Berichte geteilt werden dürfen
+function T.AskConsent()
+    if Setting("consent") ~= nil or T.asked then return end
+    T.asked = true
+    local text = L("GoldSentinel-Addons: Fehlermeldungen und Testergebnisse (ohne Namen) an den Sammler der Entwickler "
+        .. "schicken? Das hilft, Fehler schneller zu beheben. Ändern: /gstest teilen an|aus",
+        "GoldSentinel addons: send error messages and test results (no names) to the developers' collector? This helps "
+        .. "fix bugs faster. Change later: /gstest teilen an|aus")
+    local SD, show = _G.StaticPopupDialogs, _G.StaticPopup_Show
+    if type(SD) == "table" and type(show) == "function" then
+        SD.GOLDSENTINEL_SHARE = SD.GOLDSENTINEL_SHARE or {
+            text = text, button1 = _G.YES or "Ja", button2 = _G.NO or "Nein", timeout = 0, whileDead = true,
+            hideOnEscape = true,
+            OnAccept = function() _G.GoldSentinelTest.SetSetting("consent", true) end,
+            OnCancel = function(_, _, reason)
+                if reason == "clicked" then _G.GoldSentinelTest.SetSetting("consent", false) end
+            end,
+        }
+        pcall(show, "GOLDSENTINEL_SHARE")
+    else
+        Say(text)
+    end
+end
+
+-- wartende Kurzfassungen an den Sammler schicken
+function T.SendPending()
+    local ep, col = Endpoint(), T.collectorName
+    if not ep or not col or Setting("consent") ~= true or Setting("collector") == true then return 0 end
+    if type(InCombatLockdown) == "function" and InCombatLockdown() then return 0 end
+    local n, day = 0, Day()
+    for addon, reg in pairs(T.registry) do
+        local sh = Share(reg.db)
+        if sh then
+            if sh.day.d ~= day then sh.day.d, sh.day.n = day, 0 end
+            local i = 1
+            while i <= #sh.outbox do
+                local it = sh.outbox[i]
+                if (sh.day.n or 0) >= T.SHARE_PER_DAY then break end
+                it.rid = it.rid or string.format("%06x%04x", math.random and math.random(0, 0xFFFFFF) or 0, Now() % 65536)
+                it.tries = (it.tries or 0) + 1
+                if it.tries > 3 then
+                    table.remove(sh.outbox, i)
+                else
+                    ep:Send(it.head:gsub("^R~", "R~" .. it.rid .. "~"), { target = col })
+                    for _, line in ipairs(it.lines) do ep:Send(line:sub(1, 1) .. "~" .. it.rid .. line:sub(2), { target = col }) end
+                    ep:Send("X~" .. it.rid .. "~" .. #it.lines, { target = col })
+                    sh.day.n = (sh.day.n or 0) + 1
+                    n = n + 1
+                    i = i + 1
+                end
+            end
+        end
+    end
+    return n
+end
+
+-- Sammler: Kurzfassung wieder zu einem Bericht machen und speichern
+local function SplitTilde(msg)
+    local t = {}
+    for part in (msg .. "~"):gmatch("(.-)~") do t[#t + 1] = part end
+    return t
+end
+
+local function CollectorDb(addon)
+    local reg = T.registry[addon]
+    if reg then return reg.db end
+    for _, r in pairs(T.registry) do return r.db end
+    return nil
+end
+
+local function StoreForeign(it)
+    local h = it.head
+    local rep = {
+        f = 1, id = "fremd-" .. Field(h[3], 40) .. "-" .. it.rid, kind = (h[2] == "test") and "test" or "fehler",
+        addon = Field(h[3], 40), version = Field(h[4], 20), fremd = true, time = tonumber(h[15]) or Now(),
+        env = { client = h[5], build = h[6], interface = tonumber(h[7]), flavor = h[8], locale = h[9], class = h[10],
+                level = tonumber(h[11]) },
+        counts = { ok = tonumber(h[12]) or 0, fehler = tonumber(h[13]) or 0, uebersprungen = 0, client = 0 },
+        results = {}, errors = {},
+    }
+    for _, line in ipairs(it.lines) do
+        local p = SplitTilde(line)
+        if p[1] == "E" then
+            rep.errors[#rep.errors + 1] = { count = tonumber(p[3]) or 1, wo = p[4], msg = p[5], version = rep.version }
+        elseif p[1] == "F" then
+            rep.results[#rep.results + 1] = { status = "FEHLER", id = p[3], bereich = p[4], name = p[5],
+                                              ergebnis = p[6] ~= "" and p[6] or nil, erwartet = p[7] ~= "" and p[7] or nil }
+        end
+    end
+    local db = CollectorDb(rep.addon)
+    local s = Store(db)
+    if not s then return false end
+    if type(s.fremd) ~= "table" then s.fremd = {} end
+    s.fremd[#s.fremd + 1] = T.PREFIX .. Encode(rep)
+    while #s.fremd > T.SHARE_FREMD_MAX do table.remove(s.fremd, 1) end
+    T.received = (T.received or 0) + 1
+    return true
+end
+T.StoreForeign = StoreForeign
+
+function T.OnShareMessage(msg, sender, dist)
+    if type(msg) ~= "string" or IsSecret(msg) then return end
+    local p = SplitTilde(msg)
+    local kind = p[1]
+    if kind == "C" then
+        -- ein Sammler hat sich gemeldet
+        local name = p[2]
+        if name and name ~= "" and name ~= MyName() and not name:find("[,:|]") then
+            T.collectorName = name
+            local S = _G.GoldSentinelSync
+            if S and S.Learn then pcall(S.Learn, name, "net", 2) end
+            if Setting("consent") == nil and Setting("collector") ~= true then T.AskConsent() end
+        end
+    elseif kind == "A" then
+        -- Bestätigung des Sammlers: Kurzfassung aus dem Ausgang nehmen
+        for _, reg in pairs(T.registry) do
+            local sh = Share(reg.db)
+            if sh then
+                for i = #sh.outbox, 1, -1 do
+                    if sh.outbox[i].rid == p[2] then table.remove(sh.outbox, i) end
+                end
+            end
+        end
+    elseif Setting("collector") == true and sender and not IsSecret(sender) then
+        local rid = p[2]
+        if not rid or #rid > 12 then return end
+        local key = sender .. "/" .. rid
+        local it = T.inbox[key]
+        if kind == "R" then
+            local head = { "R" }
+            for i = 3, #p do head[#head + 1] = p[i] end
+            T.inbox[key] = { rid = rid, head = head, lines = {}, t = Now() }
+        elseif it and (kind == "E" or kind == "F") and #it.lines < T.SHARE_LINES then
+            local rest = {}
+            for i = 3, #p do rest[#rest + 1] = p[i] end
+            it.lines[#it.lines + 1] = kind .. "~" .. rid .. "~" .. table.concat(rest, "~")
+        elseif it and kind == "X" then
+            T.inbox[key] = nil
+            if StoreForeign(it) and T.ep then T.ep:Send("A~" .. rid, { target = sender }) end
+        end
+        -- alte, unvollständige Eingänge aufräumen
+        for k, v in pairs(T.inbox) do if (v.t or 0) < Now() - 600 then T.inbox[k] = nil end end
+    end
+end
+
+-- Takt: Sammler meldet sich alle 30 Minuten; sonst wartende Kurzfassungen schicken (eine Minute nach dem Laden)
+function T.ShareTick()
+    if not Endpoint() then return end
+    local now = (type(GetTime) == "function" and GetTime()) or 0
+    if Setting("collector") == true then
+        if not T.lastAnnounce or now - T.lastAnnounce >= T.SHARE_ANNOUNCE then T.Announce() end
+    elseif T.collectorName and now - (T.lastShare or -1000) >= 300 then
+        T.lastShare = now
+        T.SendPending()
+    end
+end
+
+function T.ShareStatus()
+    local out, waiting, fremd = {}, 0, 0
+    for _, reg in pairs(T.registry) do
+        local sh = Share(reg.db)
+        if sh then waiting = waiting + #sh.outbox end
+        local s = Store(reg.db)
+        if s and type(s.fremd) == "table" then fremd = fremd + #s.fremd end
+    end
+    local c = Setting("consent")
+    out[#out + 1] = L("Teilen: ", "Sharing: ") .. (c == true and L("an", "on") or c == false and L("aus", "off") or L("noch nicht gefragt", "not asked yet"))
+        .. " · " .. L("Sammler: ", "Collector: ") .. (Setting("collector") == true and L("ich", "me") or (T.collectorName and L("bekannt", "known") or L("keiner bekannt", "none known")))
+    out[#out + 1] = L("Wartend: ", "Waiting: ") .. waiting .. " · " .. L("fremde Berichte gespeichert: ", "foreign reports stored: ") .. fremd
+        .. (Endpoint() and "" or L(" · (kein GoldSentinelSync 2 – Teilen ruht)", " · (no GoldSentinelSync 2 – sharing idle)"))
+    return out
+end
+
+if type(SlashCmdList) == "table" and not SlashCmdList.GOLDSENTINELTEST then
+    _G.SLASH_GOLDSENTINELTEST1 = "/gstest"
+    SlashCmdList.GOLDSENTINELTEST = function(arg)
+        local GT = _G.GoldSentinelTest
+        local a, b = tostring(arg or ""):lower():match("^%s*(%S*)%s*(%S*)")
+        if a == "teilen" or a == "share" then
+            GT.SetSetting("consent", b == "an" or b == "on")
+        elseif a == "sammler" or a == "collector" then
+            GT.SetSetting("collector", b == "an" or b == "on")
+            if b == "an" or b == "on" then GT.lastAnnounce = nil; pcall(GT.Announce) end
+        end
+        for _, line in ipairs(GT.ShareStatus()) do Say(line) end
+    end
 end
