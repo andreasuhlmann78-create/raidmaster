@@ -43,3 +43,7 @@ New in 1.9.0 – diagnostic logs and route data (#testberichte):
 - Only these strings are sent, nothing else from the SavedVariables. The addons write no names into them.
 - No new uploader_config.json needed (the link from 1.8.0 is enough). Replace the whole folder as usual (back up
   uploader_config.json first).
+
+Version 1.9.1:
+- Diagnostic logs or route data that are too large (over 512 KB) are reported only once and no longer retried again
+  and again.

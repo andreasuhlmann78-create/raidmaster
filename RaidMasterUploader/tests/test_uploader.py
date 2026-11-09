@@ -382,17 +382,36 @@ class Extras(Base):
         net = Net(500)
         up.urllib.request.urlopen = net
         xs = up.extras_in_text(sv_extras("A", big)) + up.extras_in_text(sv_extras("B", wege=[WEG]))
-        self.assertFalse(up.send_extras(cfg, xs))                   # 500 -> nichts gemerkt
-        self.assertNotIn("sent_extra_ids", cfg)
+        self.assertFalse(up.send_extras(cfg, xs))                   # 500 -> Weg nicht gemerkt
+        self.assertEqual(cfg["sent_extra_ids"], [xs[0]["id"]])      # nur die zu grosse (nie sendbar)
         self.assertTrue(any("zu gross" in l for l in self.logs))
         up.urllib.request.urlopen = Net(204)
         self.assertTrue(up.send_extras(cfg, xs))
-        self.assertEqual(len(cfg["sent_extra_ids"]), 1)             # nur der Weg, die zu grosse Diagnose nie
+        # 1.9.1: die zu grosse Diagnose gilt als erledigt (gemerkt, nie gesendet), der Weg als gesendet
+        self.assertEqual(len(cfg["sent_extra_ids"]), 2)
         del cfg["test_webhook_url"]
         net3 = Net()
         up.urllib.request.urlopen = net3
         self.assertFalse(up.send_extras(cfg, xs))
         self.assertEqual(net3.calls, [])
+
+    def test_x05_zu_gross_nur_einmal_gemeldet(self):
+        big = DIAG + "x" * (600 * 1024)
+        self.write("AHSentinel.lua", sv_extras("AHSentinelDB", big))
+        up.urllib.request.urlopen = Net()
+        cfg = self.cfg()
+        sc = up.TestReportScanner(self.sv)
+        sc.scan(cfg)
+        self.assertEqual(len(sc.extras), 1)
+        self.assertTrue(up.send_extras(cfg, sc.extras))
+        sc.extras = []
+        n = sum("zu gross" in l for l in self.logs)
+        self.assertEqual(n, 1)
+        # dieselbe Datei ändert sich (anderer Inhalt daneben), die grosse Diagnose bleibt gleich: nicht nochmals
+        self.write("AHSentinel.lua", sv_extras("AHSentinelDB", big) + "-- neu\n", age=4)
+        sc.scan(cfg)
+        self.assertEqual(sc.extras, [])
+        self.assertEqual(sum("zu gross" in l for l in self.logs), 1)
 
 
 if __name__ == "__main__":

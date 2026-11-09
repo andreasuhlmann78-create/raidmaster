@@ -49,7 +49,7 @@ import urllib.error
 import urllib.request
 import uuid
 
-VERSION = "1.9.0"
+VERSION = "1.9.1"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400
@@ -421,12 +421,16 @@ def extras_body(extras: list[dict]) -> tuple[str, bytes]:
     return boundary, body
 
 
-def chunk_extras(extras: list[dict]) -> list[list[dict]]:
+def chunk_extras(extras: list[dict], skipped: list[dict] | None = None) -> list[list[dict]]:
+    """In Nachrichten aufteilen. Zu grosse kommen nach `skipped` (ab 1.9.1 gemerkt, damit sie nicht immer wieder
+    auftauchen)."""
     chunks, cur, size = [], [], 0
     for x in extras:
         n = len(x["raw"].encode("utf-8")) + 3
         if n > EXTRA_MAX_ONE:
             log(f"{'Diagnose' if x['kind'] == 'diag' else 'Wegdaten'} zu gross ({n // 1024} KB) – übersprungen.")
+            if skipped is not None:
+                skipped.append(x)
             continue
         if cur and size + n > TEST_MAX_JSON:
             chunks.append(cur)
@@ -443,7 +447,15 @@ def send_extras(cfg: dict, extras: list[dict], sleep=time.sleep) -> bool:
     url = cfg.get("test_webhook_url") or ""
     if not url.startswith("https://") or not extras:
         return not extras
-    for chunk in chunk_extras(extras):
+    skipped: list[dict] = []
+    chunks = chunk_extras(extras, skipped)
+    if skipped:
+        # zu gross: nie sendbar – als erledigt merken, sonst meldet jeder neue Durchgang sie wieder (ab 1.9.1)
+        known = list(cfg.get("sent_extra_ids") or [])
+        ids = known + [x["id"] for x in skipped if x["id"] not in known]
+        cfg["sent_extra_ids"] = ids[-EXTRA_MAX_SENT_IDS:]
+        save_config(cfg)
+    for chunk in chunks:
         boundary, body = extras_body(chunk)
         result = post_webhook(url, boundary, body, sleep)
         if result != "ok":

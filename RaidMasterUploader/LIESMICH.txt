@@ -49,3 +49,7 @@ Ab Version 1.9.0 – Diagnose-Protokolle und Wegdaten (#testberichte):
   hinein.
 - Keine neue uploader_config.json nötig (der Link aus 1.8.0 reicht). Ordner wie gewohnt ganz ersetzen
   (uploader_config.json vorher sichern).
+
+Version 1.9.1:
+- Zu grosse Diagnose-Protokolle oder Wegdaten (über 512 KB) werden nur noch einmal gemeldet und danach nicht immer
+  wieder neu versucht.
