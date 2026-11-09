@@ -37,7 +37,7 @@ local function NeedOfficer()
 	return false
 end
 
--- Namen säubern; nur WoW Forever hat Vor- und Nachnamen ("Rokan Steinwacht"), dort Leerzeichen behalten
+-- Namen säubern; nur WoW Forever hat Vor- und Nachnamen ("Testa Beispiel"), dort Leerzeichen behalten
 local function CapName(name)
 	if RM.G then return RM.G.CleanName(name or "") or "" end
 	if RM.GAME.key == "forever" then

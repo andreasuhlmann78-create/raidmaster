@@ -470,12 +470,12 @@ local function AreaA(t, G)
 		local function expect(f, cond, what) if not cond then errs[#errs + 1] = f .. ": " .. what end end
 		WithFlavor("forever", function()
 			expect("forever", RM.GAME.key == "forever" and RM.IsForever and RM.IsModern and not RM.IsClassicEra and not RM.IsRetail, "Flaggen")
-			expect("forever", RM.SameName("Rokan Steinwacht", "rokan") and not RM.SameName("Rokan Steinwacht", "Rokan Eisen"), "SameName")
+			expect("forever", RM.SameName("Testa Beispiel", "testa") and not RM.SameName("Testa Beispiel", "Testa Eisen"), "SameName")
 			expect("forever", RM.Markers.CombatBlocked() == G.InCombat(), "CombatBlocked")
 		end)
 		WithFlavor("era", function()
 			expect("era", RM.GAME.key == "era" and RM.IsClassicEra and not RM.IsModern, "Flaggen")
-			expect("era", not RM.SameName("Rokan Steinwacht", "Rokan"), "SameName")
+			expect("era", not RM.SameName("Testa Beispiel", "Testa"), "SameName")
 			expect("era", RM.Markers.CombatBlocked() == false, "CombatBlocked")
 		end)
 		WithFlavor("tbc", function()
@@ -980,12 +980,12 @@ local function AreaB(t, G)
 
 	t:Check("T22", "B", "Anmeldungen importieren (Parse)", function()
 		local text = table.concat({ "RAIDMASTER-ANMELDUNG", "Raid: MC", "Datum: 05.11.", "Modus: dkp", "Topf: mc", "Max: 40",
-			"Start: 1793901600", "Tank1;WARRIOR;Tank;angemeldet", "Rokan Steinwacht;PRIEST;Heal;angemeldet",
+			"Start: 1793901600", "Tank1;WARRIOR;Tank;angemeldet", "Testa Beispiel;PRIEST;Heal;angemeldet",
 			"Ersatz1;WARRIOR;DD;ersatz", "GRP;Tank1;1", "BANK;Ersatz1", "ALT;Twinky;Tank1" }, "\n")
 		local r = RM.Signup.Parse(text)
 		if not r then return false, "nil", "Ergebnis" end
 		if #r.list ~= 3 then return false, #r.list .. " Einträge", 3 end
-		if r.list[2].name ~= "Rokan Steinwacht" then return false, tostring(r.list[2].name), "Rokan Steinwacht" end
+		if r.list[2].name ~= "Testa Beispiel" then return false, tostring(r.list[2].name), "Testa Beispiel" end
 		if r.pool ~= "mc" or r.max ~= 40 or r.start ~= 1793901600 then return false, tostring(r.pool) .. "/" .. tostring(r.max), "mc/40/Start" end
 		if not (r.groups and r.groups.Tank1 == 1 and r.bench and r.bench.Ersatz1 and r.alts and r.alts.Twinky == "Tank1") then
 			return false, "GRP/BANK/ALT fehlen", "vorhanden"
@@ -1830,7 +1830,7 @@ local function AreaD(t)
 		if not RM.Caps.combatLog then return false, "combatLog false", "true" end
 	end)
 	t:Check("T74", "D", "Namen exakt", function()
-		if not RM.SameName("Rokan", "rokan") or RM.SameName("Rokan Steinwacht", "Rokan") then return false, "SameName", "nur exakt" end
+		if not RM.SameName("Testa", "testa") or RM.SameName("Testa Beispiel", "Testa") then return false, "SameName", "nur exakt" end
 	end)
 	t:Client("T71", "D", "Auren auf dem alten Client", "mit Fläschchen/Elixier: /rm bereit – wird es erkannt?")
 	t:Client("T75", "D", "Plündermeister-Weg", "in einer Gruppe mit Plündermeister: /dump RaidMaster.GetLootMethod()")
@@ -2377,8 +2377,8 @@ local function AreaJ(t, G)
 	end)
 	t:Client("T136b", "J", "Plündermeister vorhanden", "/dump GiveMasterLoot ~= nil, GetMasterLootCandidate ~= nil; /dump C_PartyInfo and C_PartyInfo.GetLootMethod()")
 	t:Check("T137", "J", "Namen mit Leerzeichen (Anmeldung)", function()
-		local r = RM.Signup.Parse("RAIDMASTER-ANMELDUNG\nRokan Steinwacht;PRIEST;Heal;angemeldet")
-		if not r or r.list[1].name ~= "Rokan Steinwacht" then return false, r and tostring(r.list[1].name), "Rokan Steinwacht" end
+		local r = RM.Signup.Parse("RAIDMASTER-ANMELDUNG\nTesta Beispiel;PRIEST;Heal;angemeldet")
+		if not r or r.list[1].name ~= "Testa Beispiel" then return false, r and tostring(r.list[1].name), "Testa Beispiel" end
 	end)
 	t:Check("T138", "J", "Bosse Barrow Deeps und Hyjalgipfel", function()
 		local due = RM.Now() >= time({ year = 2026, month = 12, day = 9, hour = 0 })
@@ -2416,14 +2416,14 @@ local function AreaJ(t, G)
 			end)
 		end)
 	end)
-	-- 3.0.18: eigene, sicher unbenutzte Namen. Im Spiel (5. Nov.) gab es in den Daten schon einen Spieler "Rokan" –
-	-- "!dkp rokan" antwortete darum richtig für genau diesen "Rokan" (gleicher Name geht vor), der Fall erwartete aber
-	-- "Rokan Steinwacht". Jetzt geprüft: Doppelname ganz, Vorname allein (eindeutig) und gleicher Name geht vor.
+	-- 3.0.18: eigene, sicher unbenutzte Namen. Im Spiel (5. Nov.) gab es in den Daten schon einen Spieler mit genau
+	-- dem Vornamen des Testnamens – "!dkp <Vorname>" antwortete darum richtig für genau diesen (gleicher Name geht vor).
+	-- Jetzt geprüft: Doppelname ganz, Vorname allein (eindeutig) und gleicher Name geht vor.
 	t:Check("T142", "J", "!dkp mit Doppelnamen (Forever-Weg)", function()
 		local DKP, cfg = RM.DKP, RM.db.config
 		local pool = RM.Test.pool or DKP.ActivePool()
 		local players = RM.db.data.players
-		local FULL, FIRST = "Zorvak Steinwacht", "Zorvak"
+		local FULL, FIRST = "Zorvak Felsgrund", "Zorvak"
 		local saved = { [FULL] = players[FULL], [FIRST] = players[FIRST] }
 		for k in pairs(players) do
 			if type(k) == "string" and k:lower():match("^(%S+)") == "zorvak" and saved[k] == nil then saved[k] = players[k] end
@@ -2441,7 +2441,7 @@ local function AreaJ(t, G)
 			DKP.EnsurePlayer(FULL, "PRIEST").d[pool] = 40
 			RM.Whisper = function(msg) replies[#replies + 1] = msg end
 			return WithFlavor("forever", function()
-				for _, q in ipairs({ "!dkp Zorvak Steinwacht", "!dkp zorvak steinwacht", "!dkp zorvak" }) do
+				for _, q in ipairs({ "!dkp Zorvak Felsgrund", "!dkp zorvak felsgrund", "!dkp zorvak" }) do
 					local r = Ask(q)
 					if not (r:find(FULL, 1, true) and r:find("40", 1, true)) then return false, q .. " -> " .. r, FULL .. " … 40" end
 				end
@@ -2449,7 +2449,7 @@ local function AreaJ(t, G)
 				if not s:find("40", 1, true) then return false, s, "40 über den Vornamen" end
 				-- es gibt zusätzlich genau "Zorvak": gleicher Name geht vor, der Doppelname bleibt erreichbar
 				DKP.EnsurePlayer(FIRST, "WARRIOR").d[pool] = 25
-				local r1, r2 = Ask("!dkp zorvak"), Ask("!dkp Zorvak Steinwacht")
+				local r1, r2 = Ask("!dkp zorvak"), Ask("!dkp Zorvak Felsgrund")
 				if not (r1:find("[RaidMaster] Zorvak:", 1, true) and r1:find("25", 1, true)) then return false, r1, "Zorvak … 25" end
 				if not (r2:find(FULL, 1, true) and r2:find("40", 1, true)) then return false, r2, FULL .. " … 40" end
 				return true, "Doppelname, Vorname, gleicher Name: ok"

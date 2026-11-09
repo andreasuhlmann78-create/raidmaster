@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "3.0.19"
-RM.VERSION_NUM = 30019
+RM.VERSION = "3.0.20"
+RM.VERSION_NUM = 30020
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -661,7 +661,7 @@ function RM.MainLeader()
 end
 
 -- Namen vergleichen. Nur im Client WoW Forever haben Charaktere Vor- und Nachnamen
--- ("Rokan Steinwacht"); dort passt der Name auch, wenn eine Seite nur den Vornamen kennt.
+-- ("Testa Beispiel"); dort passt der Name auch, wenn eine Seite nur den Vornamen kennt.
 -- In allen anderen Versionen gilt nur der exakte Name.
 function RM.SameName(a, b)
 	if RM.G then return RM.G.SameName(a, b) end

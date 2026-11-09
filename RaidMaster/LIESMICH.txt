@@ -11,6 +11,11 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.20 – Keine echten Spielernamen in Beispielen und Tests
+- Beispiele, Kommentare und die Testroutine verwenden nur noch erfundene Namen ("Testa Beispiel"); die gemeinsame
+  Datei GoldSentinelGame.lua ist auf Version 3 (nur Kommentare geändert, gleiche Funktion).
+- Sonst keine Änderung für euch im Spiel.
+
 NEU IN 3.0.19 – Schlachtzugsymbole in WoW Forever wieder ohne Fehlermeldung
 - WoW Forever erlaubt Addons das Setzen von Schlachtzugsymbolen nur noch über "sichere" Knöpfe. Bisher kam beim
   Klick auf die Symbol-Leiste die Meldung "Aktion blockiert". Jetzt sind dort die Symbol-Leiste (8 Symbole,
@@ -374,7 +379,7 @@ RECHTE IM RAID (neu in 2.2.0)
 - Assistenten: Raid-Seiten und Symbolleiste (z. B. Mobs markieren), keine DKP-Rechte.
 - Raidmitglieder: DKP-Stände und Versteigerung (bieten).
 - Im Raid zählt der Gildenrang für deine eigenen Rechte nicht mehr (keine Offiziere im Raid).
-- Die Sonderrechte für "Rokan Steinwacht" aus 2.1.2 sind wieder entfernt.
+- Die Sonderrechte für einen einzelnen Charakter aus 2.1.2 sind wieder entfernt.
 - Test-Tool: Ansichten Raidmitglied / Assistent / Plündermeister / Raidleiter.
 
 TESTMODUS SICHTBAR, RECHTE SICHER ZURÜCK (neu in 2.1.1)

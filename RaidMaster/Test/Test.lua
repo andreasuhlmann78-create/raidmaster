@@ -1415,11 +1415,11 @@ function T.SelfTest()
 				G.SetTestFlavor("forever")
 				RM.SetGameFlags()
 				local f = G.IsModern and RM.IsModern and RM.IsForever and not RM.IsClassicEra
-					and RM.SameName("Rokan Steinwacht", "rokan") and not RM.SameName("Rokan Steinwacht", "Rokan Eisen")
+					and RM.SameName("Testa Beispiel", "testa") and not RM.SameName("Testa Beispiel", "Testa Eisen")
 					and RM.Markers.CombatBlocked() == G.InCombat()
 				G.SetTestFlavor("era")
 				RM.SetGameFlags()
-				local e = not G.IsModern and RM.IsClassicEra and not RM.IsForever and not RM.SameName("Rokan Steinwacht", "Rokan")
+				local e = not G.IsModern and RM.IsClassicEra and not RM.IsForever and not RM.SameName("Testa Beispiel", "Testa")
 					and RM.Markers.CombatBlocked() == false
 				assert(f, "Forever-Weg falsch")
 				assert(e, "Era-Weg falsch")

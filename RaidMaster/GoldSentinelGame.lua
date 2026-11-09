@@ -23,7 +23,7 @@
 --   G.AnySecret(a, b, ...)   -- true, wenn einer der Werte geschuetzt ist
 --   G.Safe(v)                -- v, oder nil wenn geschuetzt
 --   G.InCombat()             -- InCombatLockdown(), sicher
---   G.Short(name)            -- Name ohne Realm ("Rokan-Server" -> "Rokan"), nil bei geschuetztem Namen
+--   G.Short(name)            -- Name ohne Realm ("Testa-Server" -> "Testa"), nil bei geschuetztem Namen
 --   G.CleanName(name)        -- Name saeubern und gross schreiben (Forever: Vor- und Nachname behalten)
 --   G.SameName(a, b)         -- gleicher Charakter? (Forever: Vorname allein passt, wenn eine Seite nur ihn kennt)
 --   G.Status()               -- Text fuer die Diagnose
@@ -31,13 +31,14 @@
 --
 -- Fuer Selbsttests: G.SetTestFlavor("forever") erzwingt eine Version, G.SetTestFlavor(nil) hebt das wieder auf.
 --
+-- Version 3: nur Kommentare/Beispiele geändert (keine Spielernamen im öffentlichen Repo), Code wie Version 2
 -- Version 2: setzt sich gegen fruehe, zurueckgenommene Fassungen durch, die ebenfalls "Version 1" hiessen
 -- (GuildSentinel 0.9.6, ThreatSentinel 2.3.0, BuffSentinel 0.9.2, ProfessionSentinel 0.9.3), und bringt deren
 -- Funktionsnamen als Ersatz mit (G.ProperName, G.ShortName, G.NormName, G.IsClassic, G.interface, G.apiVersion,
 -- G.SameName mit drittem Parameter isUnique), damit Addons mit so einer Fassung keine Lua-Fehler bekommen.
 -- Fuer neuen Code bitte nur die oben beschriebenen Namen benutzen.
 
-local VERSION = 2
+local VERSION = 3
 
 -- Vorhandene Fassung pruefen. "version" ist hier die Dateiversion (Zahl). Eine fruehe Fassung nutzte dafuer
 -- "apiVersion" und speicherte in "version" die Spielversion als Text ("1.60.1") - beides beachten und nie
@@ -152,7 +153,7 @@ function G.InCombat()
 end
 
 ---------------------------------------------------------------------------
--- Namen (WoW Forever: Charaktere haben Vor- und Nachnamen, z. B. "Rokan Steinwacht")
+-- Namen (WoW Forever: Charaktere haben Vor- und Nachnamen, z. B. "Testa Beispiel")
 ---------------------------------------------------------------------------
 -- Name ohne Realm. Geschuetzte oder ungueltige Namen -> nil (nie mit ihnen rechnen!)
 function G.Short(name)
@@ -175,7 +176,7 @@ function G.CleanName(name)
 end
 
 -- Gleicher Charakter? Gross/klein und Realm egal. In Forever passt auch der Vorname allein, wenn eine Seite
--- nur den Vornamen kennt ("Rokan" = "Rokan Steinwacht"). Zwei verschiedene volle Namen passen nie.
+-- nur den Vornamen kennt ("Testa" = "Testa Beispiel"). Zwei verschiedene volle Namen passen nie.
 -- (Wie RM.SameName in RaidMaster.)
 function G.SameName(a, b, isUnique)
     a, b = G.Short(a), G.Short(b)

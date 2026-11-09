@@ -23,6 +23,11 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.20 – No real player names in examples and tests
+- Examples, comments and the test routine only use made-up names ("Testa Beispiel"); the shared file
+  GoldSentinelGame.lua is now version 3 (only comments changed, same behaviour).
+- Nothing else changes for you in the game.
+
 WHAT'S NEW IN 3.0.19 – Raid markers in WoW Forever without error messages again
 - WoW Forever only lets addons set raid markers through "secure" buttons. Until now clicking the marker bar showed
   "action blocked". Now the marker bar (8 markers, right-click removes, Auto, Clear all) and your RaidMaster keys are
