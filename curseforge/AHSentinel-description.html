@@ -7,6 +7,20 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.60</h3>
+<ul>
+<li><strong>Main window opens beside the auction house</strong> instead of over it, as long as you have not moved it yourself
+  (and there is room on the screen).</li>
+<li><strong>Faster item tooltips:</strong> the AHSentinel lines are cached per item for a few seconds (price data, Shift, settings,
+  watchlist and bags are part of the key); the Shift part is only calculated while Shift is held.</li>
+<li><strong>Test routine can be cancelled:</strong> <code>/ahs testroutine stop</code> (or <code>abbrechen</code>) and the "Cancel" button in the result
+  window stop the run; all data is restored and the report says "cancelled by user".</li>
+<li>Test routine: no real data is changed any more (owned auctions, seller entry, ledger, sniper day counter,
+  disenchant log – each test now works on its own copy); sniper and watcher pause during the server searches and are
+  restored to your own setting afterwards; a timeout now says why (queries per minute, search, sniper, watcher);
+  sniper test sets the max below the cheapest offer; the overlap check only reports windows AHSentinel placed itself
+  (windows you moved and invisible frames of other addons are hints).</li>
+</ul>
 <h3>Version 0.65.59</h3>
 <ul>
 <li><strong>Fix: Ledger → Return (gold per hour) stopped with a Lua error</strong> ("compare nil with number"): the start of a day is
@@ -52,18 +66,7 @@
 <ul>
 <li>Test routine: sync tests use guild messages only (no channel messages anywhere in the addon).</li>
 </ul>
-<h3>Version 0.65.55</h3>
-<ul>
-<li><strong>Price sync works again (WoW Forever):</strong> addon messages in custom chat channels never arrive in Forever (the server
-  refuses them). AHSentinel no longer uses its own channel "AHAPSync" – it leaves it once (frees a channel slot) and
-  shares prices, item names and disenchant results only via <strong>guild and group/raid</strong>, in all game versions. It uses the
-  shared GoldSentinel file GoldSentinelSync.lua (same as the other GoldSentinel addons); messages from older
-  AHSentinel versions are still understood.</li>
-<li>Honest status: "Sync via guild: N players" or "nobody with AHSentinel online".</li>
-<li>New: <strong>/ahs sync test</strong> – pings guild and group and shows "N replies (guild a, group b)".</li>
-<li>Diagnostic log: sync path, sent/received/dropped and refused channel messages.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

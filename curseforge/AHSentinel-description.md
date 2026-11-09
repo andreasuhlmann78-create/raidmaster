@@ -12,6 +12,20 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.60
+
+- **Main window opens beside the auction house** instead of over it, as long as you have not moved it yourself
+  (and there is room on the screen).
+- **Faster item tooltips:** the AHSentinel lines are cached per item for a few seconds (price data, Shift, settings,
+  watchlist and bags are part of the key); the Shift part is only calculated while Shift is held.
+- **Test routine can be cancelled:** `/ahs testroutine stop` (or `abbrechen`) and the "Cancel" button in the result
+  window stop the run; all data is restored and the report says "cancelled by user".
+- Test routine: no real data is changed any more (owned auctions, seller entry, ledger, sniper day counter,
+  disenchant log – each test now works on its own copy); sniper and watcher pause during the server searches and are
+  restored to your own setting afterwards; a timeout now says why (queries per minute, search, sniper, watcher);
+  sniper test sets the max below the cheapest offer; the overlap check only reports windows AHSentinel placed itself
+  (windows you moved and invisible frames of other addons are hints).
+
 ### Version 0.65.59
 
 - **Fix: Ledger → Return (gold per hour) stopped with a Lua error** ("compare nil with number"): the start of a day is
@@ -56,17 +70,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 ### Version 0.65.56
 
 - Test routine: sync tests use guild messages only (no channel messages anywhere in the addon).
-
-### Version 0.65.55
-
-- **Price sync works again (WoW Forever):** addon messages in custom chat channels never arrive in Forever (the server
-  refuses them). AHSentinel no longer uses its own channel "AHAPSync" – it leaves it once (frees a channel slot) and
-  shares prices, item names and disenchant results only via **guild and group/raid**, in all game versions. It uses the
-  shared GoldSentinel file GoldSentinelSync.lua (same as the other GoldSentinel addons); messages from older
-  AHSentinel versions are still understood.
-- Honest status: "Sync via guild: N players" or "nobody with AHSentinel online".
-- New: **/ahs sync test** – pings guild and group and shows "N replies (guild a, group b)".
-- Diagnostic log: sync path, sent/received/dropped and refused channel messages.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
