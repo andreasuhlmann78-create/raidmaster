@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-09 05:41 UTC
+Ausgewertet: 2026-11-09 06:43 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -8,24 +8,24 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 |---|---|---|---|---|---|---|---|---|
 | AHSentinel | 05.11.2026 02:35 UTC | 0.65.8 | forever 1.60.1 (Interface 16001) | 235 | 1 | 18 | 9 | 3 |
 | BuffSentinel | 05.11.2026 00:19 UTC | 0.9.7 | forever 1.60.1 (Interface 16001) | 120 | 1 | 10 | 11 | 4 |
-| GuildSentinel | 05.11.2026 00:14 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 153 | 4 | 23 | 5 | 4 |
+| GuildSentinel | 09.11.2026 05:47 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 153 | 4 | 23 | 5 | 4 |
 | LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 1645 |
 | ProfessionSentinel | 05.11.2026 00:17 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 144 | 6 | 9 | 13 | 0 |
 | RaidMaster | 05.11.2026 00:07 UTC | 3.0.17 | forever 1.60.1 (Interface 16001) | 98 | 3 | 10 | 12 | 2 |
-| ThreatSentinel | 05.11.2026 00:04 UTC | 2.4.5 | forever 1.60.1 (Interface 16001) | 127 | 1 | 50 | 12 | 12 |
+| ThreatSentinel | 09.11.2026 05:49 UTC | 2.4.5 | forever 1.60.1 (Interface 16001) | 126 | 2 | 50 | 12 | 18 |
 
 ## Diagnose-Protokolle (GSDIAG1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 1 | `testberichte/diagnose/AHSentinel/0.65.16-94df3167eee4.txt` |
-| ProfessionSentinel | 1 | `testberichte/diagnose/ProfessionSentinel/0.9.22-54cb02b5b942.txt` |
+| AHSentinel | 6 | `testberichte/diagnose/AHSentinel/0.65.16-a301a6824cf5.txt` |
+| ProfessionSentinel | 6 | `testberichte/diagnose/ProfessionSentinel/0.9.22-7814f9f2bcef.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 51 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794165757-6b8d3a.json` |
+| LevelPilot | 52 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794203206-1b467a.json` |
 
 ## AHSentinel
 
@@ -96,9 +96,8 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 
 ## GuildSentinel
 
-**Testlauf 0.9.13 · forever 1.60.1 (Interface 16001) · 05.11.2026 00:14 UTC** – OK 153 · FEHLER 4 · übersprungen 23 · im Client prüfen 5 · Sandbox OK
+**Testlauf 0.9.13 · forever 1.60.1 (Interface 16001) · 09.11.2026 05:47 UTC** – OK 153 · FEHLER 4 · übersprungen 23 · im Client prüfen 5 · Sandbox OK
 - [SKIP] T09b A – Simulation TBC: Inhalte (grund: beim Laden festgelegt, siehe D / offline 20505)
-- [FEHLER] T45 B – Termin ansagen (ergebnis: [Test] false, Recorder 0 | erwartet: [Test], 0)
 - [CLIENT] T52 B – Berufsfenster einlesen (anleitung: Jedes eigene Berufsfenster einmal öffnen, dann /gs testroutine b: Seite Berufe zeigt die eigenen Rezepte)
 - [CLIENT] T180 B – Bank-Charakter im Spiel (anleitung: Einstellungen > Allgemein: 'Bank-Charakter' anhaken, Bank und Briefkasten öffnen, /reload: Bestand erscheint in #gildenbank (sobald Uploader und Bot aus dem RaidMaster-Auftrag fertig sind))
 - [CLIENT] T106 C – echte Kampfsperre (anleitung: Berufe-Seite offen, Kampf beginnen: kein ADDON_ACTION_BLOCKED für GuildSentinel, nach dem Kampf ist der Knopf wieder da)
@@ -116,7 +115,7 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 - [SKIP] T123 F – alle Schlüssel vorhanden (grund: Client-Sprache ist de (Schlüssel bzw. Locales.lua))
 - [CLIENT] T136 G – Guild Roster Manager (anleitung: mit installiertem GRM: Leitung > GRM-Import zeigt Zahlen; ohne: kein Fehler)
 - [SKIP] T137 G – ProfessionSentinel (grund: GuildSentinel nutzt keine Schnittstelle von ProfessionSentinel)
-- [FEHLER] T143 H – Seiten mit 500 Mitgliedern (ergebnis: 202.9 ms (langsamste) | erwartet: < 16 ms)
+- [FEHLER] T143 H – Seiten mit 500 Mitgliedern (ergebnis: 206.5 ms (langsamste) | erwartet: < 16 ms)
 - [SKIP] T145 H – Speicher (grund: Messung im Bericht unten (collectgarbage vor/nach))
 - [FEHLER] T154 J – P2: Twink/Main, Danke, Pate mit Vor- und Nachname (ergebnis: Rokan Steinwacht|nil|Rokan Steinwacht | erwartet: Rokan Steinwacht ×3)
 - [SKIP] T156 J – P4a: Bewerber-Flüstern im Kampf (grund: wie T85)
@@ -129,6 +128,7 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 - [SKIP] T171 J – K5: tools/luac5.1 -v (grund: Werkzeug im Repo (offline))
 - [SKIP] T172 J – RM2: Werkzeug nicht in der ZIP (grund: offline (unzip -l))
 - [SKIP] T173 J – N8: Offline-Test K2 (grund: offline (test/run_forever95.lua))
+- [FEHLER] T82 B – nichts gesendet (ergebnis: echt 1 (C_ChatInfo.SendAddonMessage 1), Warteschlange +0 | erwartet: echt 0, Warteschlange +0)
 
 **Fehler im Spiel (letzte 7 Tage)**
 - 4× `ADDON_ACTION_BLOCKED`: UNKNOWN() – Version 0.9.13 · forever 1.60.1 (Interface 16001) · zuletzt 08.11.2026 09:01 UTC
@@ -207,7 +207,7 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 
 ## ThreatSentinel
 
-**Testlauf 2.4.5 · forever 1.60.1 (Interface 16001) · 05.11.2026 00:04 UTC** – OK 127 · FEHLER 1 · übersprungen 50 · im Client prüfen 12 · Sandbox OK
+**Testlauf 2.4.5 · forever 1.60.1 (Interface 16001) · 09.11.2026 05:49 UTC** – OK 126 · FEHLER 2 · übersprungen 50 · im Client prüfen 12 · Sandbox OK
 - [CLIENT] T11 A – Interface-Nummer des Clients in der .toc (anleitung: Interface steht in der Kopfzeile des Berichts; die Prüf-Sitzung vergleicht sie mit ## Interface (am Launch-Tag /dump select(4, GetBuildInfo())))
 - [FEHLER] T22 B – ns:FullName (eigener Charakter) (ergebnis: <Name> | erwartet: <Name> ohne Realm)
 - [CLIENT] T46 B – Bedrohung prüfen – im Kampf (anleitung: Mob angreifen, im Kampf /ts bedrohung: Status und Prozent (oder 'geschützt') erscheinen, kein Lua-Fehler)
@@ -261,6 +261,7 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 - [CLIENT] T135 G – Mehrere GoldSentinel-Addons gleichzeitig (anleitung: Mit RaidMaster, GuildSentinel, BuffSentinel, ProfessionSentinel laden, /reload, /gsgame: eine Zeile, Version 2; /ts testroutine g)
 - [SKIP] T136 H – T:Tick mit 10/40 Testmobs (grund: braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert (Testmobs))
 - [SKIP] T138 H – Bildweise OnUpdate (grund: braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert (Testplaketten))
+- [FEHLER] T139 H – Protokoll-Auswertung (ergebnis: 44.98 ms | erwartet: < 16 ms)
 - [SKIP] T147 I – Lua-Fehler ausserhalb von pcall (grund: würde einen echten Fehler im Fehlerfenster/BugSack des Spielers auslösen; GoldSentinelTest.TrackErrors ist angemeldet (siehe Core.lua))
 - [CLIENT] T148 J – Kein Ersatz über das Ziel des Mobs (modern) (anleitung: Forever: Mob ohne Bedrohungsdaten bleibt IDLE (Diagnose 'Bedrohung am Ziel'), kein Leuchten)
 - [CLIENT] T149 J – Kein stilles IDLE bei geschützten Werten (anleitung: Forever, erster Kampf: /ts bedrohung zeigt 'geschützt', Hinweis 1x)
@@ -273,9 +274,9 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 - [SKIP] T178 J – Lua-Syntaxprüfung (grund: vor dem Push mit addon_check.py (manuell))
 
 **Fehler im Spiel (letzte 7 Tage)**
-- 2× `Selbsttest`: Interface/AddOns/ThreatSentinel/TestRoutine.lua:1447: TS-Selbsttest Handler – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 05.11.2026 00:04 UTC
-- 2× `Selbsttest`: TS-Selbsttest 1 – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 05.11.2026 00:04 UTC
-- 2× `Selbsttest`: TS-Selbsttest – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 05.11.2026 00:04 UTC
-- 2× `Selbsttest`: ADDON_ACTION_BLOCKED: TestFunc – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 05.11.2026 00:04 UTC
-- 2× `Selbsttest`: Interface/AddOns/ThreatSentinel/TestRoutine.lua:1433: TS-Selbsttest DD – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 05.11.2026 00:04 UTC
-- 2× `Selbsttest`: TS-Selbsttest 2 – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 05.11.2026 00:04 UTC
+- 3× `Selbsttest`: Interface/AddOns/ThreatSentinel/TestRoutine.lua:1447: TS-Selbsttest Handler – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 05:49 UTC
+- 3× `Selbsttest`: TS-Selbsttest 1 – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 05:49 UTC
+- 3× `Selbsttest`: TS-Selbsttest – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 05:49 UTC
+- 3× `Selbsttest`: ADDON_ACTION_BLOCKED: TestFunc – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 05:49 UTC
+- 3× `Selbsttest`: Interface/AddOns/ThreatSentinel/TestRoutine.lua:1433: TS-Selbsttest DD – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 05:49 UTC
+- 3× `Selbsttest`: TS-Selbsttest 2 – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 05:49 UTC

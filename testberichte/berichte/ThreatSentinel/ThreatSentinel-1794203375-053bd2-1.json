@@ -1,0 +1,1547 @@
+{
+ "addon": "ThreatSentinel",
+ "bedrohung": "secret / DISPLAY / gespeichert: secret 2026-11-08 22:29 1.60.1 (70862)",
+ "blockiert": "0",
+ "counts": {
+  "client": 12,
+  "fehler": 2,
+  "ok": 126,
+  "uebersprungen": 50
+ },
+ "cvars": "OK",
+ "dur_ms": 748,
+ "echte_aktionen": "0",
+ "env": {
+  "build": "70862",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 2,
+  "interface": 16001,
+  "level": 22,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [
+  {
+   "count": 1,
+   "first": 1794203375,
+   "last": 1794203375,
+   "msg": "Interface/AddOns/ThreatSentinel/TestRoutine.lua:1447: TS-Selbsttest Handler",
+   "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/Core.lua]:1058: in function 'Fire'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1451: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1444>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:224: in function 'Check'\n...",
+   "version": "2.4.5",
+   "wo": "Selbsttest"
+  },
+  {
+   "count": 1,
+   "first": 1794203375,
+   "last": 1794203375,
+   "msg": "TS-Selbsttest 1",
+   "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1464: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1464>\n[C]: in function 'pcall'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:292: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:288>\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1464: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1458>\n...",
+   "version": "2.4.5",
+   "wo": "Selbsttest"
+  },
+  {
+   "count": 1,
+   "first": 1794203375,
+   "last": 1794203375,
+   "msg": "TS-Selbsttest",
+   "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1421: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1418>\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:224: in function 'Check'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:281: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:281>\n...",
+   "version": "2.4.5",
+   "wo": "Selbsttest"
+  },
+  {
+   "count": 1,
+   "first": 1794203375,
+   "last": 1794203375,
+   "msg": "ADDON_ACTION_BLOCKED: TestFunc",
+   "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/Alerts.lua]:459: in function <Interface/AddOns/ThreatSentinel/Alerts.lua:456>\n[C]: in function 'pcall'\n[Interface/AddOns/ThreatSentinel/Core.lua]:1057: in function 'Fire'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1475: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1472>\n...",
+   "version": "2.4.5",
+   "wo": "Selbsttest"
+  },
+  {
+   "count": 1,
+   "first": 1794203375,
+   "last": 1794203375,
+   "msg": "Interface/AddOns/ThreatSentinel/TestRoutine.lua:1433: TS-Selbsttest DD",
+   "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/Threat.lua]:330: in function <Interface/AddOns/ThreatSentinel/Threat.lua:328>\n[Interface/AddOns/ThreatSentinel/Threat.lua]:365: in function 'Tick'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1437: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1429>\n[C]: in function 'pcall'\n...",
+   "version": "2.4.5",
+   "wo": "Selbsttest"
+  },
+  {
+   "count": 1,
+   "first": 1794203375,
+   "last": 1794203375,
+   "msg": "TS-Selbsttest 2",
+   "stack": "[Interface/AddOns/ThreatSentinel/Core.lua]:1084: in function <Interface/AddOns/ThreatSentinel/Core.lua:1076>\n[Interface/AddOns/ThreatSentinel/Log.lua]:548: in function 'ReportError'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1464: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1464>\n[C]: in function 'pcall'\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:292: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:288>\n[Interface/AddOns/ThreatSentinel/TestRoutine.lua]:1464: in function <Interface/AddOns/ThreatSentinel/TestRoutine.lua:1458>\n...",
+   "version": "2.4.5",
+   "wo": "Selbsttest"
+  }
+ ],
+ "f": 1,
+ "fehlerzaehler": "0",
+ "id": "ThreatSentinel-1794203375-053bd2-1",
+ "kind": "test",
+ "mitgeschrieben": "cvar=1 reload=2 sound=1",
+ "results": [
+  {
+   "bereich": "A",
+   "ergebnis": "#modules=16",
+   "id": "T01",
+   "ms": "0.0",
+   "name": "Alle Dateien und Module geladen",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "2.4.5",
+   "id": "T02",
+   "ms": "0.1",
+   "name": "Version .toc = Code",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "ns.Game",
+   "id": "T03",
+   "ms": "0.0",
+   "name": "GoldSentinelGame Version 2",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "modern/forever",
+   "id": "T04",
+   "ms": "0.0",
+   "name": "Erkennung echt",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "ok",
+   "id": "T05",
+   "ms": "0.1",
+   "name": "Simulation G.SetTestFlavor – GoldSentinelGame",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "ok",
+   "id": "T06",
+   "ms": "0.0",
+   "name": "Simulation – Weichen des Addons (ohne Kampfsperre-Teile)",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Kampflog/Meter: Simulation erst nach /reload",
+   "id": "T07",
+   "ms": "0.0",
+   "name": "Beim Laden festgelegte Weichen bleiben",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "true",
+   "id": "T08",
+   "ms": "0.0",
+   "name": "Weichen wieder echt",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "false",
+   "id": "T09",
+   "ms": "0.1",
+   "name": "Ereignisse angemeldet",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "ok",
+   "id": "T10",
+   "ms": "0.0",
+   "name": "Befehle angemeldet",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Interface steht in der Kopfzeile des Berichts; die Prüf-Sitzung vergleicht sie mit ## Interface (am Launch-Tag /dump select(4, GetBuildInfo()))",
+   "bereich": "A",
+   "id": "T11",
+   "name": "Interface-Nummer des Clients in der .toc",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "0",
+   "id": "SA",
+   "ms": "0.0",
+   "name": "Stubs zurückgesetzt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true false false false | 0 true | 5 false | Köder true",
+   "id": "T12",
+   "ms": "0.0",
+   "name": "ns.IsSecret / ns.Safe",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ok/off",
+   "id": "T13",
+   "ms": "0.0",
+   "name": "ns:Compat / ResetCompat",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "355",
+   "id": "T14",
+   "ms": "0.0",
+   "name": "ns.SpellName / ns.SpellIcon",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "8.0 ok / 0 / 4.0 fallback / 8.0",
+   "id": "T15",
+   "ms": "0.1",
+   "name": "ReadCooldown / ns.SpellCD (über ns.API)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "7/nil",
+   "id": "T16",
+   "ms": "0.0",
+   "name": "ns:BaseCooldown (gelernter Wert hat Vorrang)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true/false/true/false/nil/nil off",
+   "id": "T17",
+   "ms": "0.0",
+   "name": "ns.SpellInRange (über ns.API)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true,true,true,true,false,true,false,false | true,true,true,true,false,true,false,false | Fehler false,false",
+   "id": "T18",
+   "ms": "0.1",
+   "name": "ns.Aura / ns:FindAura (alter und moderner Weg)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true / plate:tsfake1 false fallback",
+   "id": "T19",
+   "ms": "0.0",
+   "name": "ns:MobKey (über ns.API)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true/false",
+   "id": "T20",
+   "ms": "0.0",
+   "name": "ns:SameUnit (echte Einheiten)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "false/false",
+   "id": "T21",
+   "ms": "0.0",
+   "name": "ns:SpellbookHas mit leerem Namen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "<Name>",
+   "erwartet": "<Name> ohne Realm",
+   "id": "T22",
+   "ms": "0.0",
+   "name": "ns:FullName (eigener Charakter)",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Text",
+   "id": "T23",
+   "ms": "0.0",
+   "name": "ns:FormName / ns:SpecName",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "TestSpott/hostile",
+   "id": "T24",
+   "ms": "0.6",
+   "name": "ns:UpdateSpells mit eigenem Spott",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "false",
+   "id": "T26",
+   "ms": "0.0",
+   "name": "IsTankStance liefert einen Wahrheitswert",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "player",
+   "id": "T27",
+   "ms": "0.0",
+   "name": "TankUnit / PetTankActive",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "falsefalsetruefalse",
+   "id": "T28",
+   "ms": "0.0",
+   "name": "IsActive / IsMemberMode",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "HEALER/DAMAGER/DAMAGER",
+   "id": "T31",
+   "ms": "0.0",
+   "name": "MyRole / GetRole",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ReloadUI 2x mitgeschrieben",
+   "id": "T32",
+   "ms": "0.1",
+   "name": "Profile: geteiltes Profil (ReloadUI nur mitgeschrieben)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ok",
+   "id": "T33",
+   "ms": "0.5",
+   "name": "Voreinstellungen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T34",
+   "ms": "0.1",
+   "name": "Positionen zurücksetzen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "false",
+   "id": "T35",
+   "ms": "0.0",
+   "name": "ns:IsBossFight ohne Fehler",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ok",
+   "id": "T36",
+   "ms": "0.0",
+   "name": "Slash-Unterbefehle",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ok",
+   "id": "T37",
+   "ms": "0.0",
+   "name": "ns:ThreatMode – Tabelle (ausserhalb des Kampfs)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T38",
+   "ms": "0.0",
+   "name": "TA:ModeText",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "falsefalsefalse",
+   "id": "T39",
+   "ms": "0.0",
+   "name": "TA:Read ohne Ziel (echte API)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0/secret",
+   "id": "T40",
+   "ms": "0.0",
+   "name": "TA:Probe ohne Kampf ohne Wirkung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "secret, Hinweis 1x, 2026-11-09 06:49",
+   "id": "T42",
+   "ms": "0.0",
+   "name": "TA:Set / Store",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "false/0/false",
+   "id": "T43",
+   "ms": "0.0",
+   "name": "Neuer Kampf setzt die Prüfung zurück",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "blizzThreat aus: 0 CVar",
+   "id": "T44",
+   "ms": "0.0",
+   "name": "ApplyBlizzard nur mitgeschrieben",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Zeilen",
+   "id": "T45",
+   "ms": "0.0",
+   "name": "Bedrohung prüfen – ausserhalb des Kampfs",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Mob angreifen, im Kampf /ts bedrohung: Status und Prozent (oder 'geschützt') erscheinen, kein Lua-Fehler",
+   "bereich": "B",
+   "id": "T46",
+   "name": "Bedrohung prüfen – im Kampf",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ok",
+   "id": "T47",
+   "ms": "0.0",
+   "name": "TA:Login übernimmt den gespeicherten Zustand",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "3,2,4,5,1",
+   "id": "T51",
+   "ms": "0.0",
+   "name": "Reihenfolge loser Mobs (SortLoose)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "G|Ä|||",
+   "id": "T60",
+   "ms": "0.0",
+   "name": "Initial",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "none -> nil, Ton mitgeschrieben 1x",
+   "id": "T62",
+   "ms": "0.1",
+   "name": "Töne: Liste und Play (nur mitgeschrieben)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "tr-test/true",
+   "id": "T63",
+   "ms": "0.2",
+   "name": "Meldung in der Mitte: Vorrang",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Chat 0x, Test-Zeilen 6",
+   "id": "T64",
+   "ms": "0.4",
+   "name": "Chat-Kanäle gehen nie hinaus",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true/true/true",
+   "id": "T73",
+   "ms": "0.0",
+   "name": "Sync:Handle",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "nil/nil/0",
+   "id": "T74",
+   "ms": "0.0",
+   "name": "Sync:Send (nur mitgeschrieben)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true/true/0",
+   "id": "T75",
+   "ms": "0.0",
+   "name": "Tank-Liste",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true/true",
+   "id": "T76",
+   "ms": "0.0",
+   "name": "Addon-Nachrichten: falscher Prefix und geschützter Absender",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "TANK/HEALER/FERAL/DAMAGER/nil",
+   "id": "T81",
+   "ms": "0.0",
+   "name": "Rolle aus Talentpunkten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "999/1.2k/12k/2.5M allowed=false",
+   "id": "T86",
+   "ms": "0.0",
+   "name": "Schadensmeter: Kurzzahlen und Weiche",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "2.5/0.5",
+   "id": "T87",
+   "ms": "0.1",
+   "name": "Anzeigen verschieben: Grösse begrenzt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T89",
+   "ms": "15.8",
+   "name": "Einstellungsfenster und alle Seiten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ok",
+   "id": "T93",
+   "ms": "45.2",
+   "name": "Testzentrale: Texte und Zugriff-Simulation",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "SECRET/1/1.23/-/5",
+   "id": "T94",
+   "ms": "0.0",
+   "name": "Testprotokoll: Werte",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "de/en verschieden",
+   "id": "T95",
+   "ms": "0.0",
+   "name": "Spenden-Knopf: Sprache",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ok",
+   "id": "T96",
+   "ms": "0.0",
+   "name": "/gsgame und /gsdev aufrufbar",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Tabelle, Grösse 1, Ebene MEDIUM / nil / nil",
+   "id": "T61",
+   "ms": "0.0",
+   "name": "P:Inspect (Vorschau-Plakette über ns.API)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "zeigt,weg,weg,weg,weg,weg,weg,weg,0/1/0",
+   "id": "T84",
+   "ms": "0.7",
+   "name": "Aggrometer und DD-Ansicht: Sichtbarkeit",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "43 Schalter + Auswahl myRole/threatMode, Fehler +0",
+   "id": "T90",
+   "ms": "14.7",
+   "name": "Jede Option einmal an/aus",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T25",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T29",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T30",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T41",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T48",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T49",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T50",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T52",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T53",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T54",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T55",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T56",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T57",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T58",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T59",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T65",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T66",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T67",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T68",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T69",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T70",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T71",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T72",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T77",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T78",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T79",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T80",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T82",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T83",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T85",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T88",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T91",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert",
+   "id": "T92",
+   "name": "Funktionsprüfung mit Test-Einheiten/Plaketten",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0",
+   "id": "SB",
+   "ms": "0.0",
+   "name": "Stubs zurückgesetzt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Fehler +0",
+   "id": "T102",
+   "ms": "0.0",
+   "name": "Chat-Argumente geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "false",
+   "id": "T111",
+   "ms": "0.0",
+   "name": "Kampflog auf der modernen API nicht angemeldet",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert (5 Testmobs mit Plaketten; Teile in T164, T167-T169)",
+   "id": "T97",
+   "name": "Bedrohung geschützt, ganzer Durchlauf",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "3 Einheiten, 2 Namen, SECRET-Schlüssel false, plate:tsfake1",
+   "id": "T98",
+   "ms": "0.1",
+   "name": "Namen und GUIDs geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "false/false",
+   "id": "T99",
+   "ms": "0.0",
+   "name": "Auren geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "6.0 / 6.0 fallback",
+   "id": "T100",
+   "ms": "0.0",
+   "name": "Abklingzeiten geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "0 Kandidaten, Plakette nil",
+   "id": "T101",
+   "ms": "0.0",
+   "name": "Ziel und Mausziel geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "nil",
+   "id": "T103",
+   "ms": "0.0",
+   "name": "Reichweite geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Name nil, CD 0, Reichweite nil",
+   "id": "T104",
+   "ms": "0.0",
+   "name": "Zauber-Funktionen fehlen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "TSAura/2/71",
+   "id": "T105",
+   "ms": "0.0",
+   "name": "Auren-Funktionen fehlen -> C_UnitAuras",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "grund": "C_ChatInfo/C_CVar/C_AddOns laufen nicht über ns.API (nur Sendewege, über ns.Act mitgeschrieben)",
+   "id": "T106",
+   "name": "Chat-, CVar- und Addon-Funktionen fehlen",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "fehlt true, none, OFF",
+   "id": "T107",
+   "ms": "0.1",
+   "name": "Bedrohungs-Funktionen fehlen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "kein Fehler",
+   "id": "T108",
+   "ms": "0.0",
+   "name": "Rollen-, Gestalt- und Spezialisierungs-Funktionen fehlen",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Im Kampf: Einstellungen öffnen (Hinweis 'nicht im Kampf'), /ts move (verweigert); danach /ts test > Bericht: Blocked: none",
+   "bereich": "C",
+   "id": "T109",
+   "name": "Keine geschützten Aktionen im Kampf",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Forever, Modus ANZEIGE: Pull mit 3+ Mobs – nichts leuchtet, Plaketten unverändert; nach dem Kampf wieder normal",
+   "bereich": "C",
+   "id": "T110",
+   "name": "Plaketten im Kampf in ANZEIGE/AUS",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "0",
+   "id": "SC",
+   "ms": "0.0",
+   "name": "Stubs zurückgesetzt",
+   "status": "OK"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur Classic Era / TBC",
+   "id": "T112",
+   "name": "Alter Client",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur Classic Era / TBC",
+   "id": "T113",
+   "name": "Alter Client",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur Classic Era / TBC",
+   "id": "T114",
+   "name": "Alter Client",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur Classic Era / TBC",
+   "id": "T115",
+   "name": "Alter Client",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur Classic Era / TBC",
+   "id": "T116",
+   "name": "Alter Client",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur Classic Era / TBC",
+   "id": "T117",
+   "name": "Gegenprobe im echten Spiel",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "ergebnis": "0",
+   "id": "SD",
+   "ms": "0.0",
+   "name": "Stubs zurückgesetzt",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "id": "T118",
+   "ms": "0.2",
+   "name": "Neuinstallation",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "id": "T119",
+   "ms": "0.1",
+   "name": "Migration aus Schema 1",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "fx_engel/fx_frosch/quest",
+   "id": "T120",
+   "ms": "0.1",
+   "name": "Migration aus Schema 5 und 9",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "id": "T121",
+   "ms": "0.1",
+   "name": "Alte gespeicherte Bedrohungs-Erkennung",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "grund": "nicht automatisch: InitDB mit falschen Typen würde Login-Teile der Module auf echten Rahmen auslösen; Typprüfung in Migrate ist ein eigener Auftrag",
+   "id": "T122",
+   "name": "Beschädigte Einträge",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "0",
+   "id": "SE",
+   "ms": "0.0",
+   "name": "Stubs zurückgesetzt",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "585 Schlüssel",
+   "id": "T123",
+   "ms": "0.1",
+   "name": "Gleiche Schlüssel in en und de",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "71 Schlüssel",
+   "id": "T124",
+   "ms": "0.1",
+   "name": "Zusammengesetzte Schlüssel vorhanden",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "id": "T125",
+   "ms": "1.6",
+   "name": "Formatplatzhalter gleich",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "grund": "vor dem Push per Skript geprüft (manuell)",
+   "id": "T126",
+   "name": "Im Code benutzte Schlüssel",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "deDE",
+   "id": "T127",
+   "ms": "45.7",
+   "name": "Aktive Sprache: Hauptfenster",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "grund": "Sprachumschaltung (devLocale) ist noch nicht eingebaut",
+   "id": "T128",
+   "name": "Andere Sprache aktivieren",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "Status",
+   "id": "T129",
+   "ms": "0.0",
+   "name": "Gemeinsame Dateien liefern Text",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "0",
+   "id": "SF",
+   "ms": "0.0",
+   "name": "Stubs zurückgesetzt",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "ok",
+   "id": "T130",
+   "ms": "0.0",
+   "name": "Globale Namen gehören ThreatSentinel",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "keine",
+   "id": "T131",
+   "ms": "46.0",
+   "name": "Keine neuen Globals durch die Routine",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "Version 2",
+   "id": "T132",
+   "ms": "0.0",
+   "name": "Gemeinsame GoldSentinelGame-Fassung",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "id": "T133",
+   "ms": "15.3",
+   "name": "Slash- und Prefix-Kollisionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "grund": "keine Schnittstelle",
+   "id": "T134",
+   "name": "Schnittstellen zu den anderen Addons",
+   "status": "SKIP"
+  },
+  {
+   "anleitung": "Mit RaidMaster, GuildSentinel, BuffSentinel, ProfessionSentinel laden, /reload, /gsgame: eine Zeile, Version 2; /ts testroutine g",
+   "bereich": "G",
+   "id": "T135",
+   "name": "Mehrere GoldSentinel-Addons gleichzeitig",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "0",
+   "id": "SG",
+   "ms": "0.0",
+   "name": "Stubs zurückgesetzt",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert (Testmobs)",
+   "id": "T136",
+   "name": "T:Tick mit 10/40 Testmobs",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Meter 0.00, DD 0.00, HUD 0.00, DmgMeter 0.01, CheckCC 0.00, Specs 0.00 ms",
+   "id": "T137",
+   "ms": "0.6",
+   "name": "Anzeigen (echter Zustand, je 50x)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert (Testplaketten)",
+   "id": "T138",
+   "name": "Bildweise OnUpdate",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "44.98 ms",
+   "erwartet": "< 16 ms",
+   "id": "T139",
+   "ms": "224.9",
+   "name": "Protokoll-Auswertung",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "-763 KB",
+   "id": "T140",
+   "ms": "176.1",
+   "name": "Speicher bei T:Tick",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "0",
+   "id": "SH",
+   "ms": "0.0",
+   "name": "Stubs zurückgesetzt",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "true/true",
+   "id": "T141",
+   "ms": "0.1",
+   "name": "Absichtlicher Fehler wird gezählt",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "Fehler +1, Meter 1x (aktiv false)",
+   "id": "T142",
+   "ms": "0.1",
+   "name": "Fehler in einem Teil hält den Durchlauf nicht an",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "Fehler +1, übrige true",
+   "id": "T143",
+   "ms": "0.0",
+   "name": "Fehler in einem Ereignis-Handler",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "1x",
+   "id": "T144",
+   "ms": "0.1",
+   "name": "Hinweis einmal pro Sitzung",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "blocked +1",
+   "id": "T145",
+   "ms": "0.0",
+   "name": "Gesperrte Aktion wird gezählt",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "vorhanden",
+   "id": "T146",
+   "ms": "0.0",
+   "name": "Fehlerschritt im Testassistenten",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "grund": "würde einen echten Fehler im Fehlerfenster/BugSack des Spielers auslösen; GoldSentinelTest.TrackErrors ist angemeldet (siehe Core.lua)",
+   "id": "T147",
+   "name": "Lua-Fehler ausserhalb von pcall",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "0",
+   "id": "SI",
+   "ms": "0.0",
+   "name": "Stubs zurückgesetzt",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Forever: Mob ohne Bedrohungsdaten bleibt IDLE (Diagnose 'Bedrohung am Ziel'), kein Leuchten",
+   "bereich": "J",
+   "id": "T148",
+   "name": "Kein Ersatz über das Ziel des Mobs (modern)",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Forever, erster Kampf: /ts bedrohung zeigt 'geschützt', Hinweis 1x",
+   "bereich": "J",
+   "id": "T149",
+   "name": "Kein stilles IDLE bei geschützten Werten",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "2 Einheiten, 0 Namen",
+   "id": "T150",
+   "ms": "0.0",
+   "name": "Geschützte Namen nie als Schlüssel",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Initial ''",
+   "id": "T151",
+   "ms": "0.0",
+   "name": "Textfunktionen ohne geschützte Werte",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "true false,false | false false,true",
+   "id": "T152",
+   "ms": "0.0",
+   "name": "Leere Aurenliste im Kampf = unbekannt",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "grund": "braucht nachgebaute Test-Plaketten/-Einheiten über mehrere Module – noch nicht automatisiert (siehe T110 im Client)",
+   "id": "T153",
+   "name": "Blizzard-Plaketten im Kampf nicht anfassen",
+   "status": "SKIP"
+  },
+  {
+   "anleitung": "Pull mit 3+ Mobs im Modus VOLL, danach /ts test > Bericht: 'Blocked: none'; kein 'ThreatSentinel hat eine Aktion blockiert'",
+   "bereich": "J",
+   "id": "T154",
+   "name": "Taint im Modus VOLL",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Bedrohung reicht",
+   "id": "T155",
+   "ms": "0.0",
+   "name": "Moderne API überall wie Retail",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "false fallback",
+   "id": "T156",
+   "ms": "0.0",
+   "name": "Sync-Kampfsperre (moderne API)",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Forever: zwei Kämpfe hintereinander, danach /ts bedrohung: 'zuletzt erkannt' mit Datum und Build",
+   "bereich": "J",
+   "id": "T157",
+   "name": "Erkennung einmal pro Kampf, Zustand gespeichert",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "geschützt/86.2/3",
+   "id": "T158",
+   "ms": "0.0",
+   "name": "Bedrohung prüfen zeigt geschützte Werte nie",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "ok",
+   "id": "T159",
+   "ms": "0.0",
+   "name": "'Voll' nicht erzwingbar",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Bedr.: lesbar/Bedr.: geschützt/Bedr.: keine",
+   "id": "T160",
+   "ms": "0.9",
+   "name": "Drei Zustände simulierbar (Knopftext)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Diagnose",
+   "id": "T161",
+   "ms": "0.0",
+   "name": "Fehlerzahl in der Diagnose (L.D_ERRORS)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Diagnose/Bericht/Bedrohung",
+   "id": "T162",
+   "ms": "41.8",
+   "name": "G.Status in Diagnose und Bericht",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Optionen gebaut",
+   "id": "T163",
+   "ms": "0.0",
+   "name": "Kein InterfaceOptions_AddCategory/EasyMenu",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "secret",
+   "id": "T164",
+   "ms": "0.0",
+   "name": "'unknown' + Fehlschlag -> 'secret'",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "40/unknown",
+   "id": "T165",
+   "ms": "0.0",
+   "name": "MAX_ATTEMPTS-Konstante und neuer Kampf",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "FULL",
+   "id": "T166",
+   "ms": "0.0",
+   "name": "'unknown' ausserhalb des Kampfs = VOLL",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "modern DISPLAY, alt FULL",
+   "id": "T166b",
+   "ms": "0.0",
+   "name": "'unknown' im Kampf ergibt ANZEIGE (nur modern)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "<Name>,<Name>,<Name>",
+   "id": "T167",
+   "ms": "0.1",
+   "name": "Aggrometer sortiert im Modus ANZEIGE nicht",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Vorsprung 'nil', Farbe 0.45,0.60,0.85",
+   "id": "T168",
+   "ms": "0.1",
+   "name": "Kein Vorsprung-Text im Modus ANZEIGE",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "0.45,0.60,0.85",
+   "id": "T169",
+   "ms": "0.0",
+   "name": "Neutrale Balkenfarbe der DD-Ansicht im Modus ANZEIGE",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "CVar 0x mitgeschrieben",
+   "id": "T170",
+   "ms": "0.1",
+   "name": "Blizzard-Anzeigen bei 'immer nur Anzeige' (mitgeschrieben)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "true/true",
+   "id": "T171",
+   "ms": "0.3",
+   "name": "Knopf 'Client simulieren: Forever / echt'",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "0x",
+   "id": "T172",
+   "ms": "0.0",
+   "name": "Ausgeschaltetes Addon meldet nichts",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "DISPLAY",
+   "id": "T173",
+   "ms": "0.0",
+   "name": "Simulation 'open' übersteuert keine echte Sperre",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Forever, Gruppe im Kampf: kein Lua-Fehler (Testzentrale-Diagnose 'Fehler: 0')",
+   "bereich": "J",
+   "id": "T174",
+   "name": "UnitIsUnit nur über ns:SameUnit",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "SECRET",
+   "id": "T175",
+   "ms": "0.0",
+   "name": "Log.lua und Specs.lua nutzen ns.IsSecret",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "moderne API: Kampflog aus (richtig)",
+   "id": "T176",
+   "ms": "0.0",
+   "name": "TBC Anniversary / Classic Era – Kampflog und Meter aktiv",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Classic Era und TBC Anniversary: Schadens-/Heilmeter zählt, widerstandener Spott wird gemeldet, kein 'Addon geblockt' – Ergebnis dem Nutzer melden",
+   "bereich": "J",
+   "id": "T176b",
+   "name": "Alter Client: Kampf in der Gruppe",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "/dump select(4, GetBuildInfo()); im ersten Kampf /ts bedrohung -> Modus im Bericht",
+   "bereich": "J",
+   "id": "T177",
+   "name": "Launch-Tag: Interface-Nummer und erster Kampf",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "grund": "vor dem Push mit addon_check.py (manuell)",
+   "id": "T178",
+   "name": "Lua-Syntaxprüfung",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "0",
+   "id": "SJ",
+   "ms": "0.0",
+   "name": "Stubs zurückgesetzt",
+   "status": "OK"
+  }
+ ],
+ "sandbox": "OK",
+ "simulationen": "OK",
+ "stubs": "OK",
+ "tasten": "OK",
+ "time": 1794203374,
+ "version": "2.4.5"
+}

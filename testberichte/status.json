@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-09T05:41:24Z",
+ "ausgewertet": "2026-11-09T06:43:51Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -101,11 +101,11 @@
    ]
   },
   "GuildSentinel": {
-   "berichte": 2,
+   "berichte": 3,
    "letzter_test": {
-    "id": "GuildSentinel-1793837669-0b2026-2",
+    "id": "GuildSentinel-1794203247-f4dd4b-1",
     "version": "0.9.13",
-    "time": 1793837661,
+    "time": 1794203239,
     "counts": {
      "client": 5,
      "fehler": 4,
@@ -119,20 +119,10 @@
      "art": "test",
      "version": "0.9.13",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T45",
-     "name": "Termin ansagen",
-     "detail": "ergebnis: [Test] false, Recorder 0 | erwartet: [Test], 0",
-     "bericht": "GuildSentinel-1793837669-0b2026-2"
-    },
-    {
-     "addon": "GuildSentinel",
-     "art": "test",
-     "version": "0.9.13",
-     "client": "forever 1.60.1 (Interface 16001)",
      "id": "T118",
      "name": "beschädigte Gildendaten",
      "detail": "ergebnis: progress>achv: Interface/AddOns/GuildSentinel/Chronicle.lua:131: attempt to index a number value | erwartet: 0 Fehler",
-     "bericht": "GuildSentinel-1793837669-0b2026-2"
+     "bericht": "GuildSentinel-1794203247-f4dd4b-1"
     },
     {
      "addon": "GuildSentinel",
@@ -141,8 +131,8 @@
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "T143",
      "name": "Seiten mit 500 Mitgliedern",
-     "detail": "ergebnis: 202.9 ms (langsamste) | erwartet: < 16 ms",
-     "bericht": "GuildSentinel-1793837669-0b2026-2"
+     "detail": "ergebnis: 206.5 ms (langsamste) | erwartet: < 16 ms",
+     "bericht": "GuildSentinel-1794203247-f4dd4b-1"
     },
     {
      "addon": "GuildSentinel",
@@ -152,7 +142,17 @@
      "id": "T154",
      "name": "P2: Twink/Main, Danke, Pate mit Vor- und Nachname",
      "detail": "ergebnis: Rokan Steinwacht|nil|Rokan Steinwacht | erwartet: Rokan Steinwacht ×3",
-     "bericht": "GuildSentinel-1793837669-0b2026-2"
+     "bericht": "GuildSentinel-1794203247-f4dd4b-1"
+    },
+    {
+     "addon": "GuildSentinel",
+     "art": "test",
+     "version": "0.9.13",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T82",
+     "name": "nichts gesendet",
+     "detail": "ergebnis: echt 1 (C_ChatInfo.SendAddonMessage 1), Warteschlange +0 | erwartet: echt 0, Warteschlange +0",
+     "bericht": "GuildSentinel-1794203247-f4dd4b-1"
     }
    ],
    "fehler_spiel": [
@@ -357,15 +357,15 @@
    ]
   },
   "ThreatSentinel": {
-   "berichte": 2,
+   "berichte": 3,
    "letzter_test": {
-    "id": "ThreatSentinel-1793837066-9d3cd9-2",
+    "id": "ThreatSentinel-1794203375-053bd2-1",
     "version": "2.4.5",
-    "time": 1793837066,
+    "time": 1794203374,
     "counts": {
      "client": 12,
-     "fehler": 1,
-     "ok": 127,
+     "fehler": 2,
+     "ok": 126,
      "uebersprungen": 50
     }
    },
@@ -378,7 +378,17 @@
      "id": "T22",
      "name": "ns:FullName (eigener Charakter)",
      "detail": "ergebnis: <Name> | erwartet: <Name> ohne Realm",
-     "bericht": "ThreatSentinel-1793837066-9d3cd9-2"
+     "bericht": "ThreatSentinel-1794203375-053bd2-1"
+    },
+    {
+     "addon": "ThreatSentinel",
+     "art": "test",
+     "version": "2.4.5",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T139",
+     "name": "Protokoll-Auswertung",
+     "detail": "ergebnis: 44.98 ms | erwartet: < 16 ms",
+     "bericht": "ThreatSentinel-1794203375-053bd2-1"
     }
    ],
    "fehler_spiel": [
@@ -387,7 +397,7 @@
      "art": "spiel",
      "wo": "Selbsttest",
      "msg": "Interface/AddOns/ThreatSentinel/TestRoutine.lua:1447: TS-Selbsttest Handler",
-     "anzahl": 2,
+     "anzahl": 3,
      "versionen": [
       "2.4.5"
      ],
@@ -401,7 +411,7 @@
      "art": "spiel",
      "wo": "Selbsttest",
      "msg": "TS-Selbsttest 1",
-     "anzahl": 2,
+     "anzahl": 3,
      "versionen": [
       "2.4.5"
      ],
@@ -415,7 +425,7 @@
      "art": "spiel",
      "wo": "Selbsttest",
      "msg": "TS-Selbsttest",
-     "anzahl": 2,
+     "anzahl": 3,
      "versionen": [
       "2.4.5"
      ],
@@ -429,7 +439,7 @@
      "art": "spiel",
      "wo": "Selbsttest",
      "msg": "ADDON_ACTION_BLOCKED: TestFunc",
-     "anzahl": 2,
+     "anzahl": 3,
      "versionen": [
       "2.4.5"
      ],
@@ -443,7 +453,7 @@
      "art": "spiel",
      "wo": "Selbsttest",
      "msg": "Interface/AddOns/ThreatSentinel/TestRoutine.lua:1433: TS-Selbsttest DD",
-     "anzahl": 2,
+     "anzahl": 3,
      "versionen": [
       "2.4.5"
      ],
@@ -457,7 +467,7 @@
      "art": "spiel",
      "wo": "Selbsttest",
      "msg": "TS-Selbsttest 2",
-     "anzahl": 2,
+     "anzahl": 3,
      "versionen": [
       "2.4.5"
      ],
@@ -537,20 +547,10 @@
    "art": "test",
    "version": "0.9.13",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T45",
-   "name": "Termin ansagen",
-   "detail": "ergebnis: [Test] false, Recorder 0 | erwartet: [Test], 0",
-   "bericht": "GuildSentinel-1793837669-0b2026-2"
-  },
-  {
-   "addon": "GuildSentinel",
-   "art": "test",
-   "version": "0.9.13",
-   "client": "forever 1.60.1 (Interface 16001)",
    "id": "T118",
    "name": "beschädigte Gildendaten",
    "detail": "ergebnis: progress>achv: Interface/AddOns/GuildSentinel/Chronicle.lua:131: attempt to index a number value | erwartet: 0 Fehler",
-   "bericht": "GuildSentinel-1793837669-0b2026-2"
+   "bericht": "GuildSentinel-1794203247-f4dd4b-1"
   },
   {
    "addon": "GuildSentinel",
@@ -559,8 +559,8 @@
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "T143",
    "name": "Seiten mit 500 Mitgliedern",
-   "detail": "ergebnis: 202.9 ms (langsamste) | erwartet: < 16 ms",
-   "bericht": "GuildSentinel-1793837669-0b2026-2"
+   "detail": "ergebnis: 206.5 ms (langsamste) | erwartet: < 16 ms",
+   "bericht": "GuildSentinel-1794203247-f4dd4b-1"
   },
   {
    "addon": "GuildSentinel",
@@ -570,7 +570,17 @@
    "id": "T154",
    "name": "P2: Twink/Main, Danke, Pate mit Vor- und Nachname",
    "detail": "ergebnis: Rokan Steinwacht|nil|Rokan Steinwacht | erwartet: Rokan Steinwacht ×3",
-   "bericht": "GuildSentinel-1793837669-0b2026-2"
+   "bericht": "GuildSentinel-1794203247-f4dd4b-1"
+  },
+  {
+   "addon": "GuildSentinel",
+   "art": "test",
+   "version": "0.9.13",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T82",
+   "name": "nichts gesendet",
+   "detail": "ergebnis: echt 1 (C_ChatInfo.SendAddonMessage 1), Warteschlange +0 | erwartet: echt 0, Warteschlange +0",
+   "bericht": "GuildSentinel-1794203247-f4dd4b-1"
   },
   {
    "addon": "GuildSentinel",
@@ -726,14 +736,24 @@
    "id": "T22",
    "name": "ns:FullName (eigener Charakter)",
    "detail": "ergebnis: <Name> | erwartet: <Name> ohne Realm",
-   "bericht": "ThreatSentinel-1793837066-9d3cd9-2"
+   "bericht": "ThreatSentinel-1794203375-053bd2-1"
+  },
+  {
+   "addon": "ThreatSentinel",
+   "art": "test",
+   "version": "2.4.5",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T139",
+   "name": "Protokoll-Auswertung",
+   "detail": "ergebnis: 44.98 ms | erwartet: < 16 ms",
+   "bericht": "ThreatSentinel-1794203375-053bd2-1"
   },
   {
    "addon": "ThreatSentinel",
    "art": "spiel",
    "wo": "Selbsttest",
    "msg": "Interface/AddOns/ThreatSentinel/TestRoutine.lua:1447: TS-Selbsttest Handler",
-   "anzahl": 2,
+   "anzahl": 3,
    "versionen": [
     "2.4.5"
    ],
@@ -747,7 +767,7 @@
    "art": "spiel",
    "wo": "Selbsttest",
    "msg": "TS-Selbsttest 1",
-   "anzahl": 2,
+   "anzahl": 3,
    "versionen": [
     "2.4.5"
    ],
@@ -761,7 +781,7 @@
    "art": "spiel",
    "wo": "Selbsttest",
    "msg": "TS-Selbsttest",
-   "anzahl": 2,
+   "anzahl": 3,
    "versionen": [
     "2.4.5"
    ],
@@ -775,7 +795,7 @@
    "art": "spiel",
    "wo": "Selbsttest",
    "msg": "ADDON_ACTION_BLOCKED: TestFunc",
-   "anzahl": 2,
+   "anzahl": 3,
    "versionen": [
     "2.4.5"
    ],
@@ -789,7 +809,7 @@
    "art": "spiel",
    "wo": "Selbsttest",
    "msg": "Interface/AddOns/ThreatSentinel/TestRoutine.lua:1433: TS-Selbsttest DD",
-   "anzahl": 2,
+   "anzahl": 3,
    "versionen": [
     "2.4.5"
    ],
@@ -803,7 +823,7 @@
    "art": "spiel",
    "wo": "Selbsttest",
    "msg": "TS-Selbsttest 2",
-   "anzahl": 2,
+   "anzahl": 3,
    "versionen": [
     "2.4.5"
    ],
@@ -816,18 +836,18 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 1,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.16-94df3167eee4.txt"
+    "anzahl": 6,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.16-a301a6824cf5.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 1,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.22-54cb02b5b942.txt"
+    "anzahl": 6,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.22-7814f9f2bcef.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 51,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794165757-6b8d3a.json"
+    "anzahl": 52,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794203206-1b467a.json"
    }
   }
  }
