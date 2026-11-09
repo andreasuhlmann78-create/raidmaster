@@ -6,6 +6,23 @@
 </blockquote>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.9.19</h3>
+<ul>
+<li><strong>Professions arrive automatically in both directions</strong>: a member's professions could get stuck on one side. Fixed:</li>
+<li>GuildSentinel now always sends your own professions itself, also when RaidMaster is installed (before, it stayed silent and relied on RaidMaster).</li>
+<li>Names are matched in one way everywhere (realm suffix, upper/lower case, first name alone on WoW Forever): data is stored and shown under the name from the guild roster. Older entries under another spelling are merged once (newer data wins).</li>
+<li>Every member with GuildSentinel sends their own professions 10–60 seconds after logging in when they are new or older than 24 hours – no longer only through the one member who answers the sync.</li>
+<li><strong>Fully automatic</strong> (no option, no button, never in combat):</li>
+<li>The game's guild profession list is read with offline members too (the "Show offline members" setting is switched on briefly and set back).</li>
+<li>New recipes are added right away when you learn them – no need to open the profession window.</li>
+<li>Recipe check without the window: recipes your guild already knows are checked with the game's spell check, only if a test check gives the right answers.</li>
+<li>Blizzard's guild recipes (who in the guild knows which recipe) are queried where the game allows it, once a day per profession; otherwise they are read when you open that view yourself.</li>
+<li><strong>Professions page</strong>: a selected profession without known data now says how many members have it ("2 guild members have Alchemy …") instead of the general hint. The "Who" column shows "1 of 4"; members known only from the game's list appear with "Recipes unknown" and can be whispered; "+2 more according to the game" below the list.</li>
+<li>Guild list: opening collapsed professions happens at most every 5 minutes, and the update this causes no longer starts a new read (no loop).</li>
+<li>Promote from the activity list and the bulk actions now use the modern game function first (like guild management).</li>
+<li>Diagnostic log: lines for read, sent, received, shown and filtered professions (numbers only, no player names) and a summary.</li>
+<li>Developer test routine: T201–T213 new.</li>
+</ul>
 <h3>Version 0.9.18</h3>
 <ul>
 <li><strong>Professions of all members</strong>: the game can send its guild profession list with collapsed professions, and then GuildSentinel found no names. It now opens collapsed professions briefly, reads them and closes them again (only outside combat and while Blizzard's guild window is closed). Where the game cannot do that, the Professions page shows how many members have each profession (e.g. "2/5": 2 known to GuildSentinel, 5 according to the game).</li>
@@ -31,14 +48,7 @@
 <li><strong>Diagnostic log</strong>: GuildSentinel now records problems that only happen in the real game (slow pages, blocked actions with the calling place, error loops – never player, guild or realm names). Open it with <code>/gs protokoll</code> to copy it; after a logout or /reload it is also stored for the RaidMaster uploader, which sends it to the developer.</li>
 <li>Developer test routine: T188 (diagnostic log) and T189 (in the game).</li>
 </ul>
-<h3>Version 0.9.14</h3>
-<p>Fixes from the in-game test run on WoW Forever launch night:
-- <strong>Big guilds</strong>: the Overview and Leadership pages no longer stutter with hundreds of members (main/alt lookups are now done once per page build – about 25× faster with 500 members).
-- <strong>Professions button (WoW Forever)</strong>: no more "action blocked" message. If the profession window does not open, GuildSentinel now asks you to open it yourself once instead of calling a protected function.
-- <strong>Achievements/Chronicle</strong>: damaged profession data no longer breaks the page.
-- <strong>Event announcement</strong> in test mode also works for characters without a guild (only "[Test]" in your chat, nothing is sent).
-- Developer test routine: new area K checks the interface in the real client (tooltips covering buttons, overlapping windows, windows off screen, cut-off texts, plausible game values, error loops); clearer results for first/last names and slow pages.</p>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>🏠 Overview</h2>
 <ul>
@@ -127,6 +137,7 @@
 <ul>
 <li>Guild-wide directory: who can craft what – search, "ask to craft" with one click</li>
 <li>Skill levels are read automatically – where the game provides the guild profession list, for <strong>every member, even without the addon</strong></li>
+<li><strong>Fully automatic</strong>: your own professions are sent after logging in, new recipes the moment you learn them, the guild profession list is read with offline members too – no button, never in combat</li>
 <li>Reads the classic profession window (Classic Era, TBC) and the new profession window of <strong>WoW Forever</strong></li>
 <li><strong>Requests</strong>: crafters get a notice and take the request with one click</li>
 <li><strong>Gaps</strong>: important raid recipes nobody in the guild can craft</li>
