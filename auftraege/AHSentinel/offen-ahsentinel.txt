@@ -242,3 +242,24 @@ NEU (9. Nov. 17:05, Entscheid des Nutzers 17:01) – Gewinn-Fenster und "Jetzt k
       höchstens 2 s, und nicht über offenen Fenstern (z. B. oberhalb der Aktionsleisten oder am Sniper-Fenster).
    Testfälle: T-G1 Panel offen -> Gewinn-Fenster weg, zu -> wieder da; ohne ProfessionSentinel -> wie heute.
               T-G2 Übergang waiting -> ready -> genau 1 Hinweis.
+
+NEU (9. Nov. 17:30, Freigabe des Nutzers 17:23) – Buchhaltung: Verkaufs-Post doppelt gebucht (HOCH) + Diagnose-Zählung
+   D1 (HOCH) Befund Protokoll 0.65.44 (15:28:52): dieselbe Schwarzmaulöl-Rechnung zweimal – einmal mit Post-Gold 7778,
+      einmal mit Post-Gold 0 (Gold schon abgeholt). Ursache auch in 0.65.51 (Ledger ScanInbox): Der Forever-Schlüssel
+      fbase enthält das Post-Gold ("|m" .. money); nach dem Abholen ist money 0 -> neuer Schlüssel -> zweite Buchung
+      (amount 0, volle Menge). Folge: verkaufte Stückzahlen doppelt, Verkaufschance/Verkaufsdauer/Ø-Preis verfälscht.
+      Lösung:
+      - Schlüssel OHNE Post-Gold: invoiceType|itemName|bid|buyout|consignment|deposit (+ Stunde wie heute). Alte
+        Schlüssel mit "|m…" weiter als gesehen werten.
+      - Feldlage (RECHNUNG-ROH 15:28, Regelwerk Abschnitt 2): bid (Feld 4) = GESAMTPREIS (8082), buyout (Feld 5) =
+        Menge (18), count (Feld 11) = Menge oder 0. Gesamt = bid, wenn bid > 0; Kontrolle bid = Post-Gold +
+        consignment − deposit, solange Post-Gold > 0 (sonst nur bid). Menge = count, sonst buyout.
+      - Eine Rechnung mit Post-Gold 0, deren Schlüssel schon gesehen ist, nie neu buchen.
+      - Einmalige Reparatur fixL4 (nur Forever): Verkäufe mit inv.money == 0 und amount 0, zu denen es in derselben
+        Stunde eine Buchung gleichen Items mit gleichem consignment/deposit gibt -> löschen (Sicherung e.old4 in einer
+        Liste db.ledger.removed, nicht wegwerfen). Chat einmal: "Buchhaltung: N doppelte Verkäufe entfernt."
+        Protokoll "MIGRATION fixL4 N=…".
+      Testfälle: T-D1a dieselbe Rechnung zuerst mit money 7778, dann mit money 0 -> genau 1 Buchung (amount 8082,
+      qty 18); T-D1b bid 8082, buyout 18, count 18, money 7778 -> amount 8082, Stück 449; T-D1c fixL4 entfernt das Duplikat.
+   D2 (NIEDRIG) Diagnose-Zusammenfassung "Preisquelle: Markt-Scan … 0 Items" obwohl die Statuszeile 5115 Items zeigt
+      (Diag.lua ~125): dieselbe Zählung wie die Statuszeile verwenden.
