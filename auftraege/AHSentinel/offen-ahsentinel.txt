@@ -264,3 +264,18 @@ NEU (9. Nov. 13:20, Entscheid des Nutzers 13:17) – alte Verkaufsbuchungen einm
    Siehe anweisung-buchhaltung-reparatur.txt. L1 ist seit 0.65.35 umgesetzt; die vorher gebuchten Forever-Verkäufe
    (ohne "inv") haben noch cut/refund aus der Rechnung -> einmalig auf 0 setzen, Sicherung in e.old, Chat-Meldung.
    Nicht löschen. Reihenfolge: zuerst diese Reparatur, dann anweisung-entzauber-urteil.txt.
+
+NEU (9. Nov. 14:16, Entscheid des Nutzers 14:14) – Tooltip eigener Items: Beträge zeigen (Nachtrag zu anweisung-entzauber-urteil.txt)
+   Befund 14:13 (0.65.41, Braune Leinenhose in den Taschen): Tooltip zeigt nur "Entzaubern lohnt mehr als Verkauf"
+   ohne Betrag (so hatte die Prüf-Sitzung es vorgegeben – zu knapp; der Nutzer vermisst den Gewinn).
+   Neu in TT:AddVerdictLines, Zweig bagItem: ZWEI Zeilen, der bessere Weg zuerst, jeweils mit Betrag nach Gebühr:
+     Entzaubern besser:  Zeile 1 grün  ICON_GOOD "Entzaubern:"  <Entzauberungswert r.net>
+                         Zeile 2 grau  "Verkaufen:"             <r.sellNet>
+     Verkaufen besser:   Zeile 1 orange ICON_BAD "Verkaufen bringt mehr:" <r.sellNet>
+                         Zeile 2 grau  "Entzaubern:"            <r.net>
+   (AddDoubleLine, Betrag rechts.) Beispiel: "Verkaufen bringt mehr: 1s 50c" / "Entzaubern: 1s 21c".
+   Ohne Shift genau diese 2 Zeilen; mit Shift wie bisher zusätzlich Materialien/Rechnung. Fehlt r.sellNet: nur
+   "Entzaubern:" mit Betrag. Locales EN/DE, CHANGELOG EN/DE.
+   Testfälle: T-E5 eigenes Item net 1s 21c, sellNet 99c -> grün "Entzaubern: 1s 21c", grau "Verkaufen: 99c";
+              T-E6 net 1s 21c, sellNet 1s 50c -> orange "Verkaufen bringt mehr: 1s 50c", grau "Entzaubern: 1s 21c";
+              T-E4 anpassen (eigenes Item: 2 Zeilen).
