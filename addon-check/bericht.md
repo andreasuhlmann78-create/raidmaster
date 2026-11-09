@@ -7,15 +7,15 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## AHSentinel-0.65.18.zip: OK
 
-## BuffSentinel-0.9.8.zip: OK
+## BuffSentinel-0.9.9.zip: OK
 
 ## GuildSentinel-0.9.15.zip: OK
 
-## ProfessionSentinel-0.9.23.zip: OK
+## ProfessionSentinel-0.9.24.zip: OK
 
 ## RaidMaster-3.0.18.zip: OK
 
 ## ThreatSentinel-2.4.5.zip: OK
 
-## levelpilot__levelpilot-3.12.17.LevelPilot.zip: OK
+## levelpilot__levelpilot-3.12.18.LevelPilot.zip: OK
 
