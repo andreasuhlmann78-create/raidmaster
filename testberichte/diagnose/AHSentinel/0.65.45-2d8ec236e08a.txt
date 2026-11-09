@@ -1,0 +1,223 @@
+AHSentinel-Protokoll v0.65.45 · 09.11. 18:55:43
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  09.11. 18:46:32 L10 ? v0.65.45
+  09.11. 18:12:28 L10 ? v0.65.45
+  09.11. 17:41:53 L10 ? v0.65.45
+  09.11. 17:04:28 L10 ? v0.65.45
+  09.11. 16:28:07 L10 ? v0.65.45
+  09.11. 15:57:42 L10 ? v0.65.44
+  09.11. 15:20:40 L10 ? v0.65.44
+  09.11. 14:09:14 L10 ? v0.65.41
+  09.11. 14:06:27 L10 ? v0.65.41
+  09.11. 13:11:22 L10 ? v0.65.36
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 28 Min., 0 Items, Preis-Sync an
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Gewinn-Fenster angedockt an ProfessionsFrame (Versatz 59)
+  Einstellungen geändert: helpSeen=true, minimapAngle=18.1, theme=modern, tooltipDEDetail=true
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[09.11. 18:46:44] AUFBAU Beste Rezepte (2 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 14 ms
+[09.11. 18:46:41] AUFBAU Beste Rezepte (6 Rezepte) · Auslöser DATA_CHANGED · 57 ms
+[09.11. 18:35:31] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 34 ms
+[09.11. 18:33:29] AUFBAU ×4 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 36 ms
+[09.11. 18:27:47] LANGSAM Hintergrund-Aufgabe scan · 59 ms
+[09.11. 18:27:27] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 16 ms
+[09.11. 18:27:03] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 51 ms
+[09.11. 18:19:03] AUFBAU Beste Rezepte (5 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 112 ms
+[09.11. 18:19:03] LANGSAM Hintergrund-Aufgabe craft-top · 18 ms
+[09.11. 18:19:02] AUFBAU Beste Rezepte (1 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 43 ms
+[09.11. 18:12:40] KLICK Rezept Braune Leinenhose · Rezept-ID 3914 · Weg Liste · gewählt · 5 ms
+[09.11. 18:12:33] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 86 ms
+[09.11. 17:59:06] RECHNUNG Item 10940 · Menge 49 (Feld "Preis" 49, count 0) · consignment 215 · deposit 33 · Post-Gold 0 · gesamt 0 · Stück 0
+[09.11. 17:59:06] WERT Gruppe 7 · Item 10940 · vorhergesagt 79 · echt 1 · Abweichung +7800 %
+[09.11. 17:59:06] RECHNUNG Item 10938 · Menge 25 (Feld "Preis" 25, count 0) · consignment 110 · deposit 100 · Post-Gold 2190 · gesamt 2200 · Stück 88
+[09.11. 17:59:06] WERT Gruppe 7 · Item 10938 · vorhergesagt 90 · echt 1 · Abweichung +8900 %
+[09.11. 17:59:06] RECHNUNG Item 10940 · Menge 49 (Feld "Preis" 49, count 0) · consignment 215 · deposit 33 · Post-Gold 4130 · gesamt 4312 · Stück 88
+[09.11. 17:59:06] WERT Gruppe 7 · Item 10940 · vorhergesagt 79 · echt 1 · Abweichung +7800 %
+[09.11. 17:59:06] RECHNUNG-ROH 1=seller, 2=Seltsamer Staub, 4=4312, 5=49, 6=33, 7=215, 8=0, 9=0, 10=0, 11=49, 12=false
+[09.11. 17:58:45] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 16 ms
+[09.11. 17:58:44] EINSTELLEN Item 10938 · Menge 36 · Auktionen 1 · Laufzeit 3 · Preis 89/Stück, 3204 gesamt · Gebühr erwartet 100, abgezogen 100 (3.12 % vom Preis)
+[09.11. 17:58:40] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 16 ms
+[09.11. 17:58:38] EINSTELLEN Item 10940 · Menge 149 · Auktionen 1 · Laufzeit 3 · Preis 78/Stück, 11622 gesamt · Gebühr erwartet 100, abgezogen 100 (0.86 % vom Preis)
+[09.11. 17:58:28] AUFBAU ×9 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 38 ms
+[09.11. 17:43:30] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 15 ms
+[09.11. 17:43:28] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 17 ms
+[09.11. 17:43:24] AUFBAU Beste Rezepte (2 Rezepte) · Auslöser Öffnen · 15 ms
+[09.11. 17:42:01] AUFBAU Beste Rezepte (2 Rezepte) · Auslöser DATA_CHANGED · 1 ms
+[09.11. 17:41:58] AUFBAU Beste Rezepte (8 Rezepte) · Auslöser DATA_CHANGED · 54 ms
+[09.11. 17:41:32] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 66 ms
+[09.11. 17:39:31] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 20 ms
+[09.11. 17:39:29] LANGSAM Hintergrund-Aufgabe scan · 24 ms
+[09.11. 17:39:00] AUFBAU ×7 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 39 ms
+[09.11. 17:25:33] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 15 ms
+[09.11. 17:25:02] AUFBAU ×3 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 74 ms
+[09.11. 17:22:26] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 34 ms
+[09.11. 17:18:25] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 64 ms
+[09.11. 17:18:06] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 17 ms
+[09.11. 17:17:42] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 16 ms
+[09.11. 17:16:22] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 18 ms
+[09.11. 17:14:08] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 17 ms
+[09.11. 17:13:09] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 16 ms
+[09.11. 17:12:36] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 16 ms
+[09.11. 17:12:07] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 16 ms
+[09.11. 17:12:04] AUFBAU ×3 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 20 ms
+[09.11. 17:09:47] AUFBAU ×2 Beste Rezepte (2 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 13 ms
+[09.11. 17:09:25] LANGSAM Hintergrund-Aufgabe scan · 23 ms
+[09.11. 17:09:07] AUFBAU ×2 Beste Rezepte (2 Rezepte) · Auslöser DATA_CHANGED · 1 ms
+[09.11. 17:04:47] AUFBAU Beste Rezepte (2 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 1 ms
+[09.11. 17:04:38] AUFBAU Beste Rezepte (11 Rezepte) · Auslöser DATA_CHANGED · 73 ms
+[09.11. 17:03:21] AUFBAU ×7 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 67 ms
+[09.11. 16:52:59] RECHNUNG Item 10938 · Menge 84 (Feld "Preis" 84, count 0) · consignment 365 · deposit 298 · Post-Gold 0 · gesamt 0 · Stück 0
+[09.11. 16:52:59] WERT Gruppe 7 · Item 10938 · vorhergesagt 89 · echt 1 · Abweichung +8800 %
+[09.11. 16:52:57] RECHNUNG Item 11135 · Menge 1 (Feld "Preis" 1, count 0) · consignment 104 · deposit 100 · Post-Gold 2095 · gesamt 2099 · Stück 2099
+[09.11. 16:52:57] WERT Gruppe 7 · Item 11135 · vorhergesagt 1 · echt 1 · Abweichung +0 %
+[09.11. 16:52:57] RECHNUNG Item 11137 · Menge 2 (Feld "Preis" 2, count 0) · consignment 98 · deposit 100 · Post-Gold 1980 · gesamt 1978 · Stück 989
+[09.11. 16:52:57] WERT Gruppe 7 · Item 11137 · vorhergesagt 11 · echt 1 · Abweichung +1000 %
+[09.11. 16:52:57] RECHNUNG Item 10940 · Menge 151 (Feld "Preis" 151, count 0) · consignment 649 · deposit 95 · Post-Gold 0 · gesamt 0 · Stück 0
+[09.11. 16:52:57] WERT Gruppe 7 · Item 10940 · vorhergesagt 89 · echt 1 · Abweichung +8800 %
+[09.11. 16:52:57] RECHNUNG Item 10938 · Menge 84 (Feld "Preis" 84, count 0) · consignment 365 · deposit 298 · Post-Gold 7241 · gesamt 7308 · Stück 87
+[09.11. 16:52:57] WERT Gruppe 7 · Item 10938 · vorhergesagt 89 · echt 1 · Abweichung +8800 %
+[09.11. 16:52:57] RECHNUNG Item 10940 · Menge 88 (Feld "Preis" 88, count 0) · consignment 365 · deposit 97 · Post-Gold 7036 · gesamt 7304 · Stück 83
+[09.11. 16:52:57] WERT Gruppe 7 · Item 10940 · vorhergesagt 89 · echt 1 · Abweichung +8800 %
+[09.11. 16:52:57] RECHNUNG Item 10940 · Menge 151 (Feld "Preis" 151, count 0) · consignment 649 · deposit 95 · Post-Gold 12432 · gesamt 12986 · Stück 86
+[09.11. 16:52:57] WERT Gruppe 7 · Item 10940 · vorhergesagt 89 · echt 1 · Abweichung +8800 %
+[09.11. 16:52:57] RECHNUNG-ROH 1=seller, 2=Seltsamer Staub, 4=12986, 5=151, 6=95, 7=649, 8=0, 9=0, 10=0, 11=151, 12=false
+[09.11. 16:52:50] EINSTELLEN Item 10938 · Menge 25 · Auktionen 1 · Laufzeit 3 · Preis 88/Stück, 2200 gesamt · Gebühr erwartet 100, abgezogen 100 (4.55 % vom Preis)
+[09.11. 16:52:43] EINSTELLEN Item 10940 · Menge 144 · Auktionen 1 · Laufzeit 3 · Preis 88/Stück, 12672 gesamt · Gebühr erwartet 100, abgezogen 100 (0.79 % vom Preis)
+[09.11. 16:47:14] AUFBAU ×7 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 76 ms
+[09.11. 16:37:11] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 17 ms
+[09.11. 16:35:04] AUFBAU ×3 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 112 ms
+[09.11. 16:28:07] MIGRATION fixL3 N=126
+[09.11. 16:27:01] AUFBAU ×20 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 107 ms
+[09.11. 15:45:04] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 30 ms
+[09.11. 15:43:06] AUFBAU ×3 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 35 ms
+[09.11. 15:39:03] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 34 ms
+[09.11. 15:37:04] AUFBAU ×4 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 65 ms
+[09.11. 15:30:44] LANGSAM Hintergrund-Aufgabe scan · 19 ms
+[09.11. 15:30:28] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 15 ms
+[09.11. 15:30:15] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 82 ms
+[09.11. 15:29:30] EINSTELLEN Item 11137 · Menge 2 · Auktionen 1 · Laufzeit 3 · Preis 989/Stück, 1978 gesamt · Gebühr erwartet 100, abgezogen 100 (5.06 % vom Preis)
+[09.11. 15:29:27] EINSTELLEN Item 11135 · Menge 1 · Auktionen 1 · Laufzeit 3 · Preis 2099/Stück, 2099 gesamt · Gebühr erwartet 100, abgezogen 100 (4.76 % vom Preis)
+[09.11. 15:29:22] EINSTELLEN Item 10938 · Menge 25 · Auktionen 1 · Laufzeit 3 · Preis 87/Stück, 2175 gesamt · Gebühr erwartet 100, abgezogen 100 (4.60 % vom Preis)
+[09.11. 15:28:52] RECHNUNG Item 6370 · Menge 1 (Rechnung 0) · Preis 18 · consignment 404 · deposit 100 · Post-Gold 0 · gesamt 18
+[09.11. 15:28:52] RECHNUNG Item 6370 · Menge 449 (Rechnung 0) · Preis 18 · consignment 404 · deposit 100 · Post-Gold 7778 · gesamt 8082
+[09.11. 15:28:52] RECHNUNG-ROH 1=seller, 2=Schwarzmaulöl, 4=8082, 5=18, 6=100, 7=404, 8=0, 9=0, 10=0, 11=18, 12=false
+[09.11. 15:28:47] EINSTELLEN Item 10938 · Menge 23 · Auktionen 1 · Laufzeit 3 · Preis 87/Stück, 2001 gesamt · Gebühr erwartet 100, abgezogen 100 (5.00 % vom Preis)
+[09.11. 15:28:42] EINSTELLEN Item 10940 · Menge 88 · Auktionen 1 · Laufzeit 3 · Preis 83/Stück, 7304 gesamt · Gebühr erwartet 100, abgezogen 100 (1.37 % vom Preis)
+[09.11. 15:20:40] MIGRATION fixL2 N=124, ungefähr=119
+[09.11. 15:20:30] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 48 ms
+[09.11. 15:20:28] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 124 ms
+[09.11. 15:20:26] AUFBAU ×23 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 132 ms
+[09.11. 15:19:40] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 94 ms
+[09.11. 15:19:38] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 99 ms
+[09.11. 15:19:34] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 99 ms
+[09.11. 15:19:32] AUFBAU ×43 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 133 ms
+[09.11. 15:18:06] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 105 ms
+[09.11. 15:18:04] AUFBAU ×26 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 131 ms
+[09.11. 15:17:12] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 98 ms
+[09.11. 15:17:10] AUFBAU ×4 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 128 ms
+[09.11. 15:17:02] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 105 ms
+[09.11. 15:17:00] AUFBAU ×12 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 104 ms
+[09.11. 15:16:36] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 95 ms
+[09.11. 15:16:34] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 102 ms
+[09.11. 15:16:30] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 94 ms
+[09.11. 15:16:28] AUFBAU ×4 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 103 ms
+[09.11. 15:16:20] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 102 ms
+[09.11. 15:16:18] AUFBAU ×7 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 105 ms
+[09.11. 15:16:04] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 87 ms
+[09.11. 15:16:02] AUFBAU ×4 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 103 ms
+[09.11. 15:15:54] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 101 ms
+[09.11. 15:15:52] AUFBAU ×4 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 145 ms
+[09.11. 15:15:44] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 97 ms
+[09.11. 15:15:42] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 99 ms
+[09.11. 15:15:40] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 139 ms
+[09.11. 15:15:36] AUFBAU ×4 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 103 ms
+[09.11. 15:15:28] AUFBAU ×3 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 122 ms
+[09.11. 15:15:22] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 101 ms
+[09.11. 15:15:18] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 105 ms
+[09.11. 15:15:16] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 102 ms
+[09.11. 15:15:12] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 85 ms
+[09.11. 15:15:10] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 100 ms
+[09.11. 15:15:08] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 95 ms
+[09.11. 15:15:06] AUFBAU ×7 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 103 ms
+[09.11. 15:14:52] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 99 ms
+[09.11. 15:14:50] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 132 ms
+[09.11. 15:14:46] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 85 ms
+[09.11. 15:14:44] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 106 ms
+[09.11. 15:14:42] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 101 ms
+[09.11. 15:14:40] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 101 ms
+[09.11. 15:14:36] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 99 ms
+[09.11. 15:14:34] AUFBAU ×4 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 133 ms
+[09.11. 15:14:26] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 103 ms
+[09.11. 15:14:23] AUFBAU ×4 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 158 ms
+[09.11. 15:14:15] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 88 ms
+[09.11. 15:14:13] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 101 ms
+[09.11. 15:14:09] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 120 ms
+[09.11. 15:14:07] AUFBAU ×13 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 130 ms
+[09.11. 15:11:36] LANGSAM Hintergrund-Aufgabe scan · 26 ms
+[09.11. 15:00:56] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 47 ms
+[09.11. 15:00:54] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 47 ms
+[09.11. 15:00:50] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 44 ms
+[09.11. 15:00:48] AUFBAU ×4 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 47 ms
+[09.11. 15:00:40] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 52 ms
+[09.11. 15:00:38] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 48 ms
+[09.11. 15:00:34] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 45 ms
+[09.11. 15:00:32] AUFBAU ×3 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 45 ms
+[09.11. 15:00:26] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 45 ms
+[09.11. 15:00:24] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 45 ms
+[09.11. 15:00:23] EINSTELLEN Item 10938 · Menge 36 · Auktionen 1 · Laufzeit 1 · Preis 87/Stück, 3132 gesamt · Gebühr erwartet 157, abgezogen 100 (3.19 % vom Preis)
+[09.11. 15:00:22] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 44 ms
+[09.11. 15:00:18] EINSTELLEN Item 10940 · Menge 151 · Auktionen 1 · Laufzeit 1 · Preis 86/Stück, 12986 gesamt · Gebühr erwartet 649, abgezogen 100 (0.77 % vom Preis)
+[09.11. 15:00:18] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 133 ms
+[09.11. 15:00:16] AUFBAU ×4 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 47 ms
+[09.11. 15:00:08] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 46 ms
+[09.11. 15:00:06] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 43 ms
+[09.11. 15:00:04] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 47 ms
+[09.11. 15:00:02] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 44 ms
+[09.11. 15:00:00] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 49 ms
+[09.11. 14:59:58] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 43 ms
+[09.11. 14:59:56] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 44 ms
+[09.11. 14:59:54] AUFBAU ×12 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 58 ms
+[09.11. 14:59:30] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 47 ms
+[09.11. 14:59:28] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 43 ms
+[09.11. 14:59:26] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 52 ms
+[09.11. 14:59:24] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 44 ms
+[09.11. 14:59:22] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 53 ms
+[09.11. 14:59:20] AUFBAU ×5 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 46 ms
+[09.11. 14:59:10] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 62 ms
+[09.11. 14:59:06] AUFBAU ×3 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 54 ms
+[09.11. 14:59:00] AUFBAU ×3 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 44 ms
+[09.11. 14:58:54] AUFBAU ×20 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 134 ms
+[09.11. 14:58:14] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 98 ms
+[09.11. 14:58:12] AUFBAU ×12 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 131 ms
+[09.11. 14:57:48] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 145 ms
+[09.11. 14:57:46] AUFBAU ×4 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 101 ms
+[09.11. 14:57:38] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 99 ms
+[09.11. 14:57:36] AUFBAU ×27 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 116 ms
+[09.11. 14:56:42] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 97 ms
+[09.11. 14:56:40] AUFBAU ×13 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 164 ms
+[09.11. 14:56:14] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 99 ms
+[09.11. 14:56:12] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 101 ms
+[09.11. 14:56:10] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 100 ms
+[09.11. 14:56:08] AUFBAU ×13 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 106 ms
+[09.11. 14:55:42] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 85 ms
+[09.11. 14:55:40] AUFBAU ×34 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 105 ms
+[09.11. 14:54:32] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 98 ms
+[09.11. 14:54:30] AUFBAU ×10 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 133 ms
+[09.11. 14:54:10] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 106 ms
+[09.11. 14:54:06] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 99 ms
+[09.11. 14:54:04] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 92 ms
+[09.11. 14:54:02] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 101 ms
+[09.11. 14:53:59] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 132 ms
+[09.11. 14:53:55] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 99 ms
+[09.11. 14:53:53] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 93 ms
+[09.11. 14:53:51] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 100 ms
+[09.11. 14:53:50] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 105 ms
+[09.11. 14:53:48] AUFBAU ×47 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 162 ms
+[09.11. 14:52:13] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 97 ms
+[09.11. 14:52:11] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 99 ms
