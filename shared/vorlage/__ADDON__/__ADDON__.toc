@@ -11,6 +11,7 @@
 
 # Gemeinsame Dateien zuerst (unverändert aus raidmaster/shared/ kopieren, nie selbst ändern)
 GoldSentinelGame.lua
+GoldSentinelSync.lua
 GoldSentinelTest.lua
 
 # Eigene Dateien

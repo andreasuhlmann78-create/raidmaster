@@ -1,0 +1,35 @@
+ANWEISUNG AN ALLE ADDON-SITZUNGEN – gemeinsame Sync-Datei shared/GoldSentinelSync.lua übernehmen
+Prüf-Sitzung, 9. November 2026, 18:40. Freigabe des Nutzers 18:17 ("los baue").
+REIHENFOLGE: Erst die laufenden Aufgaben fertig machen und veröffentlichen, dann hinweis-sync-kanal.txt (falls noch
+nicht gemacht), dann diese Anweisung. Gilt nur für Addons, die Daten mit anderen Spielern austauschen.
+
+WAS ES IST (Details: shared/wissen/kommunikation-forever.md, Abschnitt "Die gemeinsame Datei")
+   Eine gemeinsame Datei für alle Addons, getestet (41 Fälle). Sendet nur über Gilde, Gruppe/Raid und Flüstern, nie
+   über einen Kanal; erkennt Dubletten und eigene Nachrichten; zählt Mitspieler ohne Namen; Ping/Pong; Diagnose.
+   Funktioniert in allen Spielversionen (C_ChatInfo oder alte Funktionen).
+
+UMSETZUNG
+   1. shared/GoldSentinelSync.lua UNVERÄNDERT ins Addon kopieren (Prüfung "exact" – jede Änderung ist FEHLER) und in
+      der .toc nach GoldSentinelGame.lua, vor den eigenen Dateien eintragen.
+   2. Eigene Sende-/Empfangswege ersetzen:
+        local ep = GoldSentinelSync.Register("<Addon>", "<bisherige Kennung>", <Version>)
+        ep:OnMessage(function(text, sender, dist) ... end)     -- sender kann nil sein (geschützt)
+        ep:Send(text)  bzw. ep:Send(text, { scope = "guild" | "group" })  bzw. ep:Send(text, { target = Name })
+      Bisherige Kennung (Prefix) behalten -> alte Versionen anderer Spieler werden weiter verstanden.
+      Nachrichten höchstens GoldSentinelSync.MAX_PAYLOAD (230) Zeichen, längere selbst teilen.
+   3. Den eigenen Kanal (AHAPSync, GuildSentinelLFG, LevelPilotNet, BuffSentinelSync) NICHT mehr betreten; einmalig
+      verlassen, falls betreten (LeaveChannelByName) – frei werdende Kanalplätze. GuildSentinel: Gruppensuche über
+      Gilde/Gruppe statt GuildSentinelLFG.
+   4. Anzeige "Mitspieler" über ep:Peers(3600); Test-Befehl "/<befehl> sync test" über GoldSentinelSync.Ping(<Addon>, fn)
+      mit Ausgabe "N Antworten (Gilde a, Gruppe b)".
+   5. Diagnose-Protokoll: GoldSentinelSync.DiagLines() in die Zusammenfassung.
+   6. Kein eigener Takt, keine eigene Warteschlange mehr für Addon-Nachrichten.
+
+TESTFÄLLE (TestRoutine; Tests ersetzen nur GoldSentinelSync.api-Einträge, nie Blizzard-Funktionen)
+   T-GS1 Senden geht über ep:Send, nie "CHANNEL" (addon_check warnt sonst)
+   T-GS2 Empfang über ep:OnMessage, sender nil wird vertragen
+   T-GS3 alte Nachricht ohne Kopf (alte Version eines Mitspielers) wird verstanden
+   T-GS4 kein Beitritt zu einem eigenen Kanal mehr
+   T-GS5 /<befehl> sync test gibt eine Zeile aus
+Wie immer: komplette Dateien, alte Clients nie brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER und
+ohne die Kanal-Warnungen, danach kurz melden.

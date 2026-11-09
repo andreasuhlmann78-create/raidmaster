@@ -24,7 +24,7 @@ HERE = Path(__file__).resolve().parent
 TEMPLATE = HERE / "__ADDON__"
 SHARED = HERE.parent
 ROOT = SHARED.parent
-COMMON = ["GoldSentinelGame.lua", "GoldSentinelTest.lua"]
+COMMON = ["GoldSentinelGame.lua", "GoldSentinelSync.lua", "GoldSentinelTest.lua"]
 TEXT_SUFFIXES = {".lua", ".toc", ".md", ".txt", ".xml"}
 LEFTOVER = re.compile(r"__[A-Z][A-Z_]*__")
 

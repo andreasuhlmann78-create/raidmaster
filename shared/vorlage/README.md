@@ -56,8 +56,10 @@ Das fertige Addon lädt sofort im Spiel. Mit `/ls test` läuft die eingebaute Te
   `shared/wissen/kommunikation-forever.md`:
   - Nie Daten über einen eigenen Chat-Kanal (`"CHANNEL"`) senden – in WoW Forever kommen sie nicht an.
   - Standardweg überall: `GUILD`, `PARTY`/`RAID`, `WHISPER` an bekannte Mitspieler (gedrosselt).
-  - Keinem eigenen Kanal beitreten (max. 10 Kanalplätze). Sobald es `shared/GoldSentinelSync.lua` gibt, nur diese
-    gemeinsame Datei benutzen (unverändert kopieren, wie GoldSentinelGame.lua).
+  - Keinem eigenen Kanal beitreten (max. 10 Kanalplätze). Für Sync nur die gemeinsame Datei `GoldSentinelSync.lua`
+    benutzen (liegt in jedem neuen Addon, unverändert aus `shared/`): `local ep = GoldSentinelSync.Register(ADDON,
+    "PRAEFIX1", Version)`, `ep:OnMessage(fn)`, `ep:Send(text[, { scope = "guild"|"group" } | { target = Name }])`,
+    `ep:Peers(3600)`, `GoldSentinelSync.Ping(ADDON, fn)`, `GoldSentinelSync.DiagLines()` ins Diagnose-Protokoll.
   - Fähigkeiten zur Laufzeit erkennen (C_ChatInfo oder alte Funktionen, Kanal verweigert?), nicht nach Version raten;
     Absender mit `G.IsSecret`/`AnySecret` prüfen; was gesendet, empfangen, verworfen wurde ins Diagnose-Protokoll.
   - Die Addon-Prüfung warnt bei `"CHANNEL"`-Addon-Nachrichten und beim Beitreten eigener Kanäle.

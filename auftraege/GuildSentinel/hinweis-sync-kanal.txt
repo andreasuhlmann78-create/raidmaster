@@ -29,7 +29,7 @@ ALLE SPIELVERSIONEN (Nutzer 18:09: "alle User in allen Versionen – Retail, Cla
    - Alte Versionen anderer Spieler nicht abhängen: weiter empfangen, was sie senden.
    - Testfälle je Version in der TestRoutine (Era, TBC, Retail, Forever simuliert): gleicher Weg, gleiche Nachrichten.
 
-DANACH (kommt als eigener Auftrag)
+DANACH (jetzt da: anweisung-gemeinsamer-sync.txt)
    Die Prüf-Sitzung baut eine gemeinsame Datei shared/GoldSentinelSync.lua (EIN Kanal "GoldSentinel" nur zum Finden von
    Mitspielern, Daten über Gilde/Gruppe/Flüstern, Drossel, geschützte Absender, Messung, Ping/Pong). Sobald sie da ist,
    übernimmt jedes Addon sie unverändert und verlässt seinen alten Kanal. Bis dahin keinen eigenen grossen Sync-Umbau.
