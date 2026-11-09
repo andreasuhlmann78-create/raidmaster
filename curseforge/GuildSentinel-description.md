@@ -10,6 +10,12 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.18
+
+- **Professions of all members**: the game can send its guild profession list with collapsed professions, and then GuildSentinel found no names. It now opens collapsed professions briefly, reads them and closes them again (only outside combat and while Blizzard's guild window is closed). Where the game cannot do that, the Professions page shows how many members have each profession (e.g. "2/5": 2 known to GuildSentinel, 5 according to the game).
+- **Guild management**: actions and rank names now always use the right game function on every client (Classic Era, TBC Anniversary, WoW Forever). The management button moves below the guild window while Blizzard's member details or rank window are open, so it never covers them.
+- Developer test routine: T190 extended (collapsed professions), new T200 (old clients without C_GuildInfo); area K also checks Blizzard's guild pop-ups.
+
 ### Version 0.9.17
 
 - **New window "Guild management"** for guild leadership and officers: button "Management (GuildSentinel)" next to Blizzard's guild window (J stays as it is) and `/gs verwaltung`.
@@ -38,10 +44,6 @@ Fixes from the in-game test run on WoW Forever launch night:
 - **Event announcement** in test mode also works for characters without a guild (only "[Test]" in your chat, nothing is sent).
 - Developer test routine: new area K checks the interface in the real client (tooltips covering buttons, overlapping windows, windows off screen, cut-off texts, plausible game values, error loops); clearer results for first/last names and slow pages.
 
-### Version 0.9.13
-
-- **Language selectable for everyone**: Settings > General > "Language". On start GuildSentinel still uses the language of your game client; you can switch to German, English, French, Spanish (Spain/Mexico), Italian or Portuguese on any client (Russian, Korean and Chinese on a client in that language). GuildSentinel reloads after the change; "Same as the game client" goes back. Replaces the developer-only switch from 0.9.12.
-
 *Older versions: see the changelog of each file in the **Files** tab.*
 
 ---
@@ -69,7 +71,7 @@ Fixes from the in-game test run on WoW Forever launch night:
 ## 👥 Members
 
 - List with level, class, rank, zone or "last online" – search, filter, show or hide alts
-- **Alts** are detected from the public note ("Alt: Rokan", "Alt of Rokan" – on WoW Forever also with first and last name) or set by hand
+- **Alts** are detected from the public note ("Alt: Testa", "Alt of Testa" – on WoW Forever also with first and last name) or set by hand
 - **Who's where**: all online members grouped by zone – for meeting up, summoning and world bosses
 - **History**: who joined, left, got promoted or reached level 60
 - **Inactive list** (14/30/60/90 days) – only if none of the player's alts were online either

@@ -6,6 +6,12 @@
 </blockquote>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.9.18</h3>
+<ul>
+<li><strong>Professions of all members</strong>: the game can send its guild profession list with collapsed professions, and then GuildSentinel found no names. It now opens collapsed professions briefly, reads them and closes them again (only outside combat and while Blizzard's guild window is closed). Where the game cannot do that, the Professions page shows how many members have each profession (e.g. "2/5": 2 known to GuildSentinel, 5 according to the game).</li>
+<li><strong>Guild management</strong>: actions and rank names now always use the right game function on every client (Classic Era, TBC Anniversary, WoW Forever). The management button moves below the guild window while Blizzard's member details or rank window are open, so it never covers them.</li>
+<li>Developer test routine: T190 extended (collapsed professions), new T200 (old clients without C_GuildInfo); area K also checks Blizzard's guild pop-ups.</li>
+</ul>
 <h3>Version 0.9.17</h3>
 <ul>
 <li><strong>New window "Guild management"</strong> for guild leadership and officers: button "Management (GuildSentinel)" next to Blizzard's guild window (J stays as it is) and <code>/gs verwaltung</code>.</li>
@@ -32,11 +38,7 @@
 - <strong>Achievements/Chronicle</strong>: damaged profession data no longer breaks the page.
 - <strong>Event announcement</strong> in test mode also works for characters without a guild (only "[Test]" in your chat, nothing is sent).
 - Developer test routine: new area K checks the interface in the real client (tooltips covering buttons, overlapping windows, windows off screen, cut-off texts, plausible game values, error loops); clearer results for first/last names and slow pages.</p>
-<h3>Version 0.9.13</h3>
-<ul>
-<li><strong>Language selectable for everyone</strong>: Settings &gt; General &gt; "Language". On start GuildSentinel still uses the language of your game client; you can switch to German, English, French, Spanish (Spain/Mexico), Italian or Portuguese on any client (Russian, Korean and Chinese on a client in that language). GuildSentinel reloads after the change; "Same as the game client" goes back. Replaces the developer-only switch from 0.9.12.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>🏠 Overview</h2>
 <ul>
@@ -61,7 +63,7 @@
 <h2>👥 Members</h2>
 <ul>
 <li>List with level, class, rank, zone or "last online" – search, filter, show or hide alts</li>
-<li><strong>Alts</strong> are detected from the public note ("Alt: Rokan", "Alt of Rokan" – on WoW Forever also with first and last name) or set by hand</li>
+<li><strong>Alts</strong> are detected from the public note ("Alt: Testa", "Alt of Testa" – on WoW Forever also with first and last name) or set by hand</li>
 <li><strong>Who's where</strong>: all online members grouped by zone – for meeting up, summoning and world bosses</li>
 <li><strong>History</strong>: who joined, left, got promoted or reached level 60</li>
 <li><strong>Inactive list</strong> (14/30/60/90 days) – only if none of the player's alts were online either</li>

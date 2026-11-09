@@ -8,7 +8,7 @@ GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mi
 
 **👥 Mitglieder**
 • Liste mit Stufe, Klasse, Rang, Zone oder „zuletzt online“ – suchen, filtern, Twinks ein- und ausblenden
-• Twinks erkennt das Addon an der Notiz („Twink von Rokan“, auf WoW Forever auch mit Vor- und Nachnamen) oder ihr legt sie fest
+• Twinks erkennt das Addon an der Notiz („Twink von Testa“, auf WoW Forever auch mit Vor- und Nachnamen) oder ihr legt sie fest
 • Verlauf: wer beigetreten ist, wer gegangen ist, wer befördert wurde, wer Stufe 60 erreicht hat
 • **Wer ist wo**: alle Online-Mitglieder nach Zone – zum Treffen, Beschwören und für Weltbosse
 • Inaktiv: wer seit 14, 30, 60 oder 90 Tagen nicht online war (nur wenn auch kein Twink online war)
@@ -74,7 +74,7 @@ GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mi
 • Haben mehrere das Addon, sagt nur einer an – kein Doppel-Spam im Gildenchat
 
 **🔨 Berufe**
-• Die Stufen der Berufe liest GuildSentinel automatisch (wo das Spiel die Gilden-Berufsliste kennt, für alle Mitglieder – auch ohne Addon). Jeder öffnet seine Berufsfenster einmal – danach weiß die ganze Gilde, wer was herstellen kann. Funktioniert mit dem klassischen Berufsfenster und dem **neuen Berufsfenster von WoW Forever**
+• Die Stufen der Berufe liest GuildSentinel automatisch (wo das Spiel die Gilden-Berufsliste kennt, für alle Mitglieder – auch ohne Addon; zugeklappte Berufe klappt es dafür kurz auf, sonst zeigt es die Anzahl je Beruf). Jeder öffnet seine Berufsfenster einmal – danach weiß die ganze Gilde, wer was herstellen kann. Funktioniert mit dem klassischen Berufsfenster und dem **neuen Berufsfenster von WoW Forever**
 • Suche nach Rezept, „Herstellen anfragen“ mit einem Klick (auch an den Twink, der gerade online ist)
 • **Nachfrage**: Wünsche eintragen – wer es herstellen kann, bekommt einen Hinweis und übernimmt mit einem Klick
 • **Lücken**: Welche wichtigen Raid-Rezepte (Schutztränke, Fläschchen, Transmutation, Mondstoff …) kann niemand in der Gilde?
