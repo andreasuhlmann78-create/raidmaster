@@ -49,8 +49,32 @@ U6 BLIZZARD-BERUFSFENSTER
      nichts. KEIN grauer Zusatztext, KEINE Balken unter dem Namen. Nie über Name oder Anzahl (Abstand prüfen).
    - Zeile unten kurz: "Bestes: <Rezept>" (Kürzen mit "…" erst ab Fensterbreite), sonst ins Panel.
    - Schrift mindestens so gross wie Blizzards Rezeptzeile, hell genug.
-U7 TOOLTIPS: höchstens 3–4 Zeilen von ProfessionSentinel (Status, Material/Punkt bzw. Gewinn, "Klick: Details").
-   Alles Weitere im Detailbereich. Keine doppelten Infos, die AHSentinel schon zeigt.
+U7 TOOLTIPS – VARIANTE A (Entscheid des Nutzers 17:55, ersetzt "3–4 Zeilen"; gleiche Logik wie AHSentinel-Tooltip)
+   Befund 17:43 (0.9.34, Wollcape): über 25 Zeilen; dieselbe Sache dreimal mit verschiedenen Zahlen ("Netto pro
+   Herstellung −2s 10c", "Gold verdienen: Platz 49 · −2s 7c", "Rangliste: Platz 17 · −2s 83c/Pkt" – −2s 10c und −2s 7c
+   widersprechen sich); ganze Rechnung offen; Erklärtext "Orange bringt jedes Mal …" in jedem Tooltip.
+   NEU ohne Shift genau drei Blöcke, getrennt durch eine dünne Linie/Leerzeile:
+   Block 1 KOPF: Name (Blizzard), darunter eine Zeile "Platz · Status" links (z. B. "Umhang · gelernt" / "lernbar" /
+     "fehlt"), rechts Skillfarbe als Punkt + "grün ≈13×" (Anzahl bis zur nächsten Farbe; grau: "grau").
+   Block 2 URTEIL:
+     - Symbol + "Herstellen lohnt sich" (grün) / "Herstellen lohnt nicht" (rot) / "unsicher" (grau), rechts der EINE
+       Gewinn je Herstellung (bester Weg, nach Regelwerk, aus dem Preis-Vermittler) – dieselbe Zahl wie im Panel.
+     - "Verkaufen" rechts Netto-Erlös; "Entzaubern" rechts Wert (nur wenn entzauberbar); der bessere Weg zuerst/farbig.
+     - "Händler" grau rechts Händlerwert (nur wenn er höher als 0 ist).
+     - "Skillen" rechts Material pro Punkt im Grundmaterial, z. B. "1,3 Wollstoff/Pkt" (grau bei grau).
+   Block 3 MATERIALIEN: Kopf klein grau "Materialien · <Summe>", je Zutat eine Zeile: Name + klein grau Herkunft
+     ("aus Wollstoff" / "Händler" / "AH"), rechts Preis je Herstellung und Bestand "2/1" (grün genug, rot fehlt).
+   Letzte Zeile klein grau: "Shift: Rechnung · Quellen · Gilde".
+   NUR MIT SHIFT: ganze Rechnung (Kosten, Verkauf brutto, Anteil 5 % abgerundet, Einzahlungsrisiko, Erlös, Händler),
+     Fertigkeitsstufen (80/97/115), Chance bei der aktuellen Farbe, Quellen (Lehrer, Händler, Händlergunst, Drop),
+     "Gilde kann herstellen", Preisquelle ("Preise: AHSentinel").
+   GANZ WEG aus dem Tooltip: Ranglisten-Platz ("Platz 17", "Platz 49") und Erklärtexte (stehen im Panel).
+   EINE Zahl: Gewinn je Herstellung im Tooltip = Zahl in Rangliste/Gold/Panel (gleiche Funktion, keine zweite Rechnung).
+   Muster-/Rezept-Items (Tooltip eines nicht gelernten Musters): Block 1 "Muster · fehlt/lernbar ab <Fertigkeit>",
+     Block 2 Urteil des hergestellten Items, Block 3 entfällt; Shift wie oben.
+   Testfälle: T-TT1 ohne Shift Wollcape: Kopf, 1 Urteilszeile mit −2s 10c, Verkaufen 1s 90c, Händler 1s 42c, Skillen,
+     Materialien 2 Zeilen mit Herkunft und Bestand; keine Zeile "Platz", keine Erklärtexte; T-TT2 mit Shift: Rechnung,
+     Stufen, Quellen, Gilde; T-TT3 Gewinn im Tooltip == Gewinn im Panel/Rangliste (gleiche Funktion); T-TT4 Muster-Tooltip.
 U8 HINWEISE: keine langen Chat-Ausgaben. "Muster … fehlt … und N weitere" -> Zahl am Reiter "Rezepte" bzw. eine
    Gruppe "Für die Gilde gesucht" im Reiter; im Chat höchstens eine kurze Zeile je Sitzung.
 U9 GEWINN-FENSTER VON AHSENTINEL (Entscheid 17:01): Ist das ProfessionSentinel-Panel offen, blendet AHSentinel sein
@@ -66,7 +90,7 @@ TESTFÄLLE (TestRoutine, Bereich K, Locales EN/DE + EN in den übrigen, CHANGELO
    T-UI3 Filter: Standard Gelernt+Lernbar; "Fehlt" zeigt die fehlenden
    T-UI4 Skillen: Orange vor Gelb; Gelb vor Orange nur bei < 50 % Material/Punkt
    T-UI5 Berufsfenster: kein Element von ProfessionSentinel überlappt Name/Anzahl einer Rezeptzeile (Rechtecke prüfen)
-   T-UI6 Tooltip ProfessionSentinel höchstens 4 Zeilen
+   T-UI6 Tooltip nach Variante A (T-TT1 bis T-TT4)
    T-UI7 ProfessionSentinel.IsPanelShown() true/false passend
    Bereich K: nichts abgeschnitten, nichts verdeckt Knöpfe, Fenster im Bildschirm.
 Wie immer: komplette Dateien, alte Clients nie brechen, addon_check.py ohne FEHLER, danach kurz melden.
