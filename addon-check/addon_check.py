@@ -163,6 +163,33 @@ def secret_name_uses(code):
     return sorted(hits)
 
 
+# Addon-Kommunikation (shared/wissen/kommunikation-forever.md): Addon-Nachrichten über eigene Chat-Kanäle kommen in
+# WoW Forever nicht an; eigene Kanäle belegen knappe Kanalplätze (max. 10). Nur WARNUNG, bis alle umgestellt haben.
+ADDON_SEND = re.compile(r"\bSendAddonMessage(?:Logged)?\b")
+CHANNEL_LIT = re.compile(r"[\"']CHANNEL[\"']")
+CHANNEL_JOIN = re.compile(r"\b(?:JoinTemporaryChannel|JoinChannelByName|JoinPermanentChannel)\b")
+
+
+def addon_channel_uses(blank):
+    """Zeilen, an denen Addon-Nachrichten über "CHANNEL" laufen (nur in Dateien mit SendAddonMessage; Zeilen mit
+    SendChatMessage – normaler Chat, z. B. Gildenwerbung – zählen nicht). Rückgabe: Liste Zeilennummern."""
+    if not ADDON_SEND.search(blank):
+        return []
+    out = set()
+    for m in CHANNEL_LIT.finditer(blank):
+        ls = blank.rfind("\n", 0, m.start()) + 1
+        le = blank.find("\n", m.end())
+        line_txt = blank[ls:le if le >= 0 else len(blank)]
+        if "SendChatMessage" in line_txt:
+            continue
+        out.add(blank.count("\n", 0, m.start()) + 1)
+    return sorted(out)
+
+
+def channel_joins(blank):
+    return sorted({blank.count("\n", 0, m.start()) + 1 for m in CHANNEL_JOIN.finditer(blank)})
+
+
 SECRET_GUARD = re.compile(r"IsSecret|issecretvalue|canaccessvalue|GoldSentinelGame\s*\.\s*Safe|InCombatLockdown")
 
 GAME_TESTS = SHARED_DIR / "tests" / "test_goldsentinelgame.py"
@@ -827,6 +854,13 @@ def check_zip(path, shared_ref=None, dev_max=None):
                     line = blank.count("\n", 0, m.start()) + 1
                     warn(f"{n}:{line}: Testdatei ruft {re.sub(chr(92) + 's+', '', m.group(0)).rstrip('(')} direkt auf – "
                          f"Aktionen mit Folgen im Test nur mitschreiben, nie auslösen (nachtrag-testroutinen.txt)")
+            for line in addon_channel_uses(blank)[:3]:
+                warn(f"{n}:{line}: Addon-Nachricht über einen eigenen Kanal (\"CHANNEL\") – kommt in WoW Forever nicht an "
+                     f"(Server: NOT_ALLOWED_IN_CHANNEL). Über GUILD/PARTY/RAID/WHISPER senden "
+                     f"(shared/wissen/kommunikation-forever.md, hinweis-sync-kanal.txt).")
+            for line in channel_joins(blank)[:2]:
+                warn(f"{n}:{line}: tritt einem eigenen Chat-Kanal bei – belegt einen der 10 Kanalplätze des Spielers. "
+                     f"Künftig nur der gemeinsame GoldSentinel-Kanal (shared/GoldSentinelSync.lua), nur zum Finden von Mitspielern.")
             if not SECRET_GUARD.search(blank):
                 for line in secret_name_uses(blank):
                     warn(f"{n}:{line}: Name von Ziel/Boss/Fokus wird ohne Schutzprüfung weiterverarbeitet – in Forever ist er im "

@@ -52,6 +52,15 @@ Das fertige Addon lädt sofort im Spiel. Mit `/ls test` läuft die eingebaute Te
 - **Geschützte Werte:** Namen von Ziel, Boss oder Fokus und andere Kampfwerte vor dem Vergleichen, Zerlegen oder Benutzen
   als Schlüssel mit `G.IsSecret` prüfen, oder gleich `ns.SafeUnitName` benutzen.
 - **Kampflog** nur auf der alten API registrieren (`if G.IsOldAPI then …`). Im modernen Client ist es für Addons zu.
+- **Addon-Kommunikation (Sync) – für ALLE Spielversionen** (Era, TBC/Anniversary, Mists, Retail, Forever), siehe
+  `shared/wissen/kommunikation-forever.md`:
+  - Nie Daten über einen eigenen Chat-Kanal (`"CHANNEL"`) senden – in WoW Forever kommen sie nicht an.
+  - Standardweg überall: `GUILD`, `PARTY`/`RAID`, `WHISPER` an bekannte Mitspieler (gedrosselt).
+  - Keinem eigenen Kanal beitreten (max. 10 Kanalplätze). Sobald es `shared/GoldSentinelSync.lua` gibt, nur diese
+    gemeinsame Datei benutzen (unverändert kopieren, wie GoldSentinelGame.lua).
+  - Fähigkeiten zur Laufzeit erkennen (C_ChatInfo oder alte Funktionen, Kanal verweigert?), nicht nach Version raten;
+    Absender mit `G.IsSecret`/`AnySecret` prüfen; was gesendet, empfangen, verworfen wurde ins Diagnose-Protokoll.
+  - Die Addon-Prüfung warnt bei `"CHANNEL"`-Addon-Nachrichten und beim Beitreten eigener Kanäle.
 - **Fehler** mit `ns.Try` abfangen. Sie werden gezählt und über GoldSentinelTest an die Prüf-Sitzung gemeldet.
 - **Texte** nur über `L`. Jeden neuen Schlüssel in Englisch und Deutsch anlegen, die Testroutine (Bereich F) prüft das.
 - **Einstellungen:** Neue Felder in `ns.DEFAULTS` anlegen. Umbauten über `ns.MIGRATIONS` mit höherer `ns.DB_VERSION`,

@@ -37,6 +37,23 @@ def actions(src):
     return [m.group(0) for m in a.TEST_ACTIONS.finditer(a.lua_blank(src))]
 
 
+# --- Addon-Kommunikation über eigene Kanäle -------------------------------------------------------------------------
+def chan(src):
+    return a.addon_channel_uses(a.lua_blank(src))
+
+
+check("Kanal: SendAddonMessage mit CHANNEL", chan('C_ChatInfo.SendAddonMessage("P", m, "CHANNEL", id)') == [1])
+check("Kanal: Ziel über Funktion", chan('local function T() return "CHANNEL", 5 end\nC_ChatInfo.SendAddonMessage("P", m, T())') == [1])
+check("Kanal: Gildenwerbung per SendChatMessage zählt nicht",
+      chan('SendChatMessage(t, "CHANNEL", nil, 2)\nC_ChatInfo.SendAddonMessage("P", m, "GUILD")') == [])
+check("Kanal: ohne SendAddonMessage nichts", chan('local k = "CHANNEL"') == [])
+check("Kanal: GUILD ist ok", chan('C_ChatInfo.SendAddonMessage("P", m, "GUILD")') == [])
+check("Kanal: Kommentar zählt nicht", chan('-- "CHANNEL"\nC_ChatInfo.SendAddonMessage("P", m, "GUILD")') == [])
+check("Kanal: Funktion als Variable", chan('local send = C_ChatInfo.SendAddonMessage\nlocal function T() return "CHANNEL", 5 end') == [2])
+check("Kanal beitreten als Variable", a.channel_joins(a.lua_blank('local join = JoinTemporaryChannel or JoinChannelByName')) == [1])
+check("Kanal beitreten erkannt", a.channel_joins(a.lua_blank('JoinTemporaryChannel("X")')) == [1])
+
+
 # --- lua_blank ---------------------------------------------------------------------------------------------------
 src = 'local x = "a -- b" -- UnitName = 1\n--[==[\nUnitName = f\n]==]\nlocal s = [[\nUnitName = f\n]]\ny = "target"\n'
 b = a.lua_blank(src)
