@@ -150,3 +150,14 @@ GEBÜHRENREGEL WOW FOREVER – GILT AB 9. NOV. 06:21 (Angabe des Nutzers) – ER
       beim Einstellen nur noch die tatsächlich abgezogene Gebühr ins Protokoll (EINSTELLEN: Preis, Menge, Gebühr), damit
       die Regel im Spiel bestätigt wird; Warnung, wenn die Gebühr mehr als 10 % vom Preis ausmacht (einstellbar), bleibt.
    c) Era/TBC unverändert. Testfälle: 390c -> 100c; 200c -> 100c; 10000c -> 500c; Stapel 20 Stück zu 1c -> 100c einmal.
+
+BEFUND IM SPIEL (9. Nov. 08:19, Screenshot Undercity, AHSentinel 0.65.22) – MITTEL
+   Chat: "[AHSentinel] Post abgeholt: 0 (Kupfer), 0 Items", direkt danach vom Spiel "Erhalten: 1g 56s 26c".
+   Ursache (im Code belegt): Mailer.lua:176-178 rechnet das abgeholte Gold als GetMoney() − startMoney beim Stop.
+   Nach TakeInboxMoney (Mailer.lua:199) kommt MAIL_INBOX_UPDATE (setzt waiting = nil, :236) VOR der Gutschrift
+   (PLAYER_MONEY). Der nächste Step findet keine Post mehr und ruft sofort Stop – GetMoney hat sich noch nicht
+   geändert -> 0. self.money wird zwar angelegt (:131), aber nie hochgezählt.
+   Lösung: beim TakeInboxMoney den Betrag aus GetInboxHeaderInfo (money) zu self.money addieren und diesen Wert
+   melden; zusätzlich vor dem Stop auf PLAYER_MONEY warten (höchstens 1 s) bzw. max(self.money, GetMoney-Differenz).
+   Gleiches für Buchhaltung/Ledger prüfen. Nebenbei: "1 neue Rechnungen" -> Einzahl/Mehrzahl (Locale mit %d).
+   Testfall: Post mit 1g 56s 26c, MAIL_INBOX_UPDATE vor PLAYER_MONEY -> Meldung "1g 56s 26c".
