@@ -22,6 +22,18 @@ Die Prüf-Sitzung verteilt Anweisungen, Korrekturen und Hinweise für die Addon-
 Den Ordner `auftraege/` ändert nur die Prüf-Sitzung. Gemeinsame Dateien (`GoldSentinelGame.lua`, `GoldSentinelTest.lua`,
 `GoldSentinelDev.lua`) nur unverändert aus `shared/` kopieren, nie selbst ändern.
 
+## Nur eine Sitzung je Addon (Entscheid des Nutzers, 9. November 2026)
+
+Am 9.11. haben zwei Sitzungen gleichzeitig AHSentinel geändert und veröffentlicht (0.65.18 bis 0.65.20). Das darf
+nicht wieder passieren, sonst überschreiben sie sich gegenseitig.
+
+- **AHSentinel ändert und veröffentlicht nur noch EINE Sitzung:** die AHSentinel-Sitzung des Nutzers.
+  Alle anderen Sitzungen, die Prüf-Sitzung und geplante Aufgaben ändern AHSentinel nicht und veröffentlichen nichts
+  davon (Repo AHAnalyzerPro, `download/AHSentinel-*`, `announce/ahsentinel__*`). Sie melden Befunde nur über
+  `auftraege/AHSentinel/` bzw. dem Nutzer.
+- Gilt sinngemäss für jedes Addon: je Addon arbeitet nur seine eigene Sitzung daran.
+- Vor jeder Veröffentlichung trotzdem `git pull --rebase` und die höchste schon veröffentlichte Version prüfen.
+
 ## Neues Addon
 
 Neue GoldSentinel-Addons immer aus der Vorlage erstellen: `python3 shared/vorlage/neues_addon.py <Name> --slash <befehl>
