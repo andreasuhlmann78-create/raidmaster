@@ -28,3 +28,17 @@ Locales, CHANGELOG EN/DE, nächste Version, addon_check ohne FEHLER.
 HINWEIS ZUR ENTZAUBER-TABELLE (prüfen): Der Forever-Guide von wow-professions.com ordnet die Materialien nach der
 BENÖTIGTEN STUFE des Gegenstands, AHSentinel (Disenchant.lua D:Prior) nach der ITEMSTUFE. Bitte klären, welche
 Grösse in Forever gilt, und die Gruppen ggf. umstellen (auch für den Splitter-Befund ≤ 15).
+
+ERGÄNZUNG (9. Nov. 10:56, Entscheid des Nutzers: Punkte 1, 2 und 4)
+ E1 ENTZAUBER-WÄCHTER: Der Wächter (bei offenem AH, regelmässiger Scan) prüft auch "Entzaubern lohnt" mit denselben
+    Grenzen (Mindestrendite, 10c) und meldet einmal je neuem Fund: "N Teile mit über X % Rendite verfügbar" (Chat +
+    Bildschirmmeldung, abschaltbar; nicht öfter als einmal pro Minute; kauft NICHT selbst).
+ E2 EIN KNOPF ZUM ENTZAUBERN: Das bestehende Entzauber-Fenster nimmt nach dem Sammelkauf automatisch die gekauften
+    Teile der Reihe nach (zuerst diese, dann übrige). Ein Klick = ein Teil (sicherer Knopf mit Makro/Attribut
+    "spell Entzaubern" + Ziel-Taschenplatz, kein Taint; nicht im Kampf). Anzeige "noch N zum Entzaubern".
+ E3 (Punkt 3 "Materialien gleich wieder einstellen" ist NICHT gewünscht.)
+ E4 ABRECHNUNG IN DER BUCHHALTUNG: Je Tag und gesamt: ausgegeben für Entzauber-Teile, Wert der erhaltenen Materialien
+    (zum realen Wert der Preisfunktion bzw. – wenn verkauft – zum echten Erlös), Gewinn, Anzahl Teile, Rendite in %.
+    Teile, die über den Sammelkauf gekauft und entzaubert wurden, werden einander zugeordnet (Item-ID + Zeitfenster).
+ Testfälle: Wächter meldet einmal je Fund und nie im Kampf; Entzauber-Knopf nimmt zuerst die gekauften Teile;
+ Abrechnung: 3 gekaufte Teile, bekannte Materialien -> Gewinn und Rendite richtig.
