@@ -221,7 +221,8 @@ BEFUND IM SPIEL (9. Nov. 11:41, Screenshot Verkaufen, Seltsamer Staub, AHSentine
    "In Taschen: 184" (stimmt: 6 + 3 Stapel Staub = 184), aber Menge ist mit 93 vorbelegt. Ursache (belegt, auch in
    0.65.33): UI_Sell.lua:279 setzt bei Waren qty = min(Bestand, letzte eingestellte Menge) – "wie beim letzten Mal".
    Für den Spieler sieht das aus, als würde AHSentinel die Menge in den Taschen falsch lesen.
-   Lösung: Standard = ALLES aus den Taschen (Bestand). "Wie beim letzten Mal" nur als Option (Standard aus) bzw. als
-   Knopf "Letzte Menge (93)" neben "Alle". Bei Einzelangeboten (nicht stapelbar) bleibt 1. Ist eine andere Menge
-   vorbelegt, Hinweis daneben ("letzte Menge – Alle: 184").
-   Testfall: 184 in Taschen, letzte Menge 93 -> Feld zeigt 184; Option an -> 93 mit Hinweis.
+   Lösung (Entscheid des Nutzers 11:49): Menge IMMER mit allem aus den Taschen vorbelegen (Bestand). Keine Option und
+   kein Knopf "letzte Menge" – der Spieler ändert die Zahl selbst im Feld. Die gemerkte letzte Menge (A.db.seller.items
+   [id].qty) nicht mehr für die Vorbelegung verwenden. Bei Einzelangeboten (nicht stapelbar) bleibt 1. Im alten AH
+   (Stapel) gilt: so viele volle Stapel wie im Bestand.
+   Testfall: 184 in Taschen, letzte Menge 93 -> Feld zeigt 184.
