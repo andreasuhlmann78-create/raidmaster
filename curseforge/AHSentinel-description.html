@@ -7,6 +7,22 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.59</h3>
+<ul>
+<li><strong>Fix: Ledger → Return (gold per hour) stopped with a Lua error</strong> ("compare nil with number"): the start of a day is
+  now calculated without time(table), which returns nothing in the client for "all time". Same fix for the ledger
+  periods, the gold chart, the sniper day counter and the raid hint.</li>
+<li><strong>Faster:</strong> the market list and "Today" no longer freeze for a moment with 5000+ items – they are kept in a cache and
+  recalculated in the background in small portions after a scan or data change (the window updates itself).</li>
+<li><strong>Profit window and best recipes:</strong> "Best recipes" rebuilds again after crafting (bag contents count as a change);
+  the profit window never overlaps the profession window, not even its invisible border.</li>
+<li><strong>Tooltips of the AHSentinel windows</strong> appear next to the window instead of over its buttons.</li>
+<li>Sale message: the game's text template is written to the diagnostic log once (no names).</li>
+<li>Test routine: no real data is changed any more during a run (activity, remembered recipes, auction size); sniper
+  test only counts its own target and shows price, max and unit; new tests (offer 2c at max 1c -&gt; no hit; start of day
+  without time(table)); outdated tests adjusted (sale message with "%1$s", sync reception, tooltip check per language,
+  own test window ignored in the overlap check, API events).</li>
+</ul>
 <h3>Version 0.65.58</h3>
 <ul>
 <li><strong>Price sync reaches players outside your guild (GoldSentinelSync 2, whisper network):</strong> AHSentinel now uses
@@ -47,17 +63,7 @@
 <li>New: <strong>/ahs sync test</strong> – pings guild and group and shows "N replies (guild a, group b)".</li>
 <li>Diagnostic log: sync path, sent/received/dropped and refused channel messages.</li>
 </ul>
-<h3>Version 0.65.54</h3>
-<ul>
-<li><strong>Sniper at full speed:</strong> while sniper mode is ON with open targets, the watcher pauses (no more taking turns).
-  The watcher runs when the sniper is off or has no targets; watcher bargains can still be bought as before.</li>
-<li><strong>Targets by yield:</strong> targets with hits in the last 10 minutes are searched more often; targets without hits at most
-  every third round. No target drops out.</li>
-<li><strong>Measured:</strong> the sniper shows "Today: N hits · N bought · N missed · avg reaction X s"; the target tooltip shows hits
-  and buy rate. With 10+ hits and under 20 % bought: "Others are faster here – pick another target?" (yellow "!").
-  The diagnostic log gets one SNIPER line per minute with the times per step (no names).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

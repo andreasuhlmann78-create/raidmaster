@@ -12,6 +12,22 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.59
+
+- **Fix: Ledger → Return (gold per hour) stopped with a Lua error** ("compare nil with number"): the start of a day is
+  now calculated without time(table), which returns nothing in the client for "all time". Same fix for the ledger
+  periods, the gold chart, the sniper day counter and the raid hint.
+- **Faster:** the market list and "Today" no longer freeze for a moment with 5000+ items – they are kept in a cache and
+  recalculated in the background in small portions after a scan or data change (the window updates itself).
+- **Profit window and best recipes:** "Best recipes" rebuilds again after crafting (bag contents count as a change);
+  the profit window never overlaps the profession window, not even its invisible border.
+- **Tooltips of the AHSentinel windows** appear next to the window instead of over its buttons.
+- Sale message: the game's text template is written to the diagnostic log once (no names).
+- Test routine: no real data is changed any more during a run (activity, remembered recipes, auction size); sniper
+  test only counts its own target and shows price, max and unit; new tests (offer 2c at max 1c -> no hit; start of day
+  without time(table)); outdated tests adjusted (sale message with "%1$s", sync reception, tooltip check per language,
+  own test window ignored in the overlap check, API events).
+
 ### Version 0.65.58
 
 - **Price sync reaches players outside your guild (GoldSentinelSync 2, whisper network):** AHSentinel now uses
@@ -51,16 +67,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - Honest status: "Sync via guild: N players" or "nobody with AHSentinel online".
 - New: **/ahs sync test** – pings guild and group and shows "N replies (guild a, group b)".
 - Diagnostic log: sync path, sent/received/dropped and refused channel messages.
-
-### Version 0.65.54
-
-- **Sniper at full speed:** while sniper mode is ON with open targets, the watcher pauses (no more taking turns).
-  The watcher runs when the sniper is off or has no targets; watcher bargains can still be bought as before.
-- **Targets by yield:** targets with hits in the last 10 minutes are searched more often; targets without hits at most
-  every third round. No target drops out.
-- **Measured:** the sniper shows "Today: N hits · N bought · N missed · avg reaction X s"; the target tooltip shows hits
-  and buy rate. With 10+ hits and under 20 % bought: "Others are faster here – pick another target?" (yellow "!").
-  The diagnostic log gets one SNIPER line per minute with the times per step (no names).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
