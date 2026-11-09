@@ -114,3 +114,15 @@ Krieger 22, Schaden): OK 31 · FEHLER 1 · Sandbox OK · echte Aktionen 0 · Feh
    melden. Testfall bleibt, nicht abschwächen.
    Ausstehend vom Nutzer: ganzer Lauf /ts testroutine (alle Bereiche), Bereich K, T154 (Pull 3+ Mobs, /ts test
    "Blocked: none"), Gruppen-Sync im Dungeon (in Forever-Instanzen noch nicht gemessen).
+
+NACHTRAG (9. Nov. 20:35) – Bereich K im echten Client (/ts testroutine k, Charakterfenster und Testzentrale offen):
+   OK 6 · FEHLER 2.
+   T180 "Frame verdeckt 'G'; Frame verdeckt 'G'": Die Meldung nennt keinen Rahmennamen – bitte im Ergebnis den Namen
+        bzw. den Pfad des verdeckenden Rahmens und des verdeckten Knopfs ausgeben (z. B. GetDebugName()), sonst ist der
+        Befund nicht auffindbar. Dann beheben (eigene Tooltips neben das Fenster, ANCHOR_RIGHT/ANCHOR_CURSOR).
+   T181 "Testzentrale überdeckt CharacterFrame" (echt: die Testzentrale öffnet über dem Charakterfenster – neben offene
+        Blizzard-Fenster setzen oder an einer freien Stelle öffnen) und "überdeckt BuffSentinelAnchor_proc/_buff/_cd/
+        _dispel (BuffSentinel)": Das sind die Anker von BuffSentinel. Dieselben Anker meldet auch AHSentinel (T192).
+        Prüfen, ob die Anker im normalen Spiel sichtbar und gross sind (dann ist es ein BuffSentinel-Befund, die
+        Prüf-Sitzung meldet ihn dort) oder ob UICheck unsichtbare/leere Anker mitzählt (dann im Test nur sichtbare
+        Rahmen mit Alpha > 0 und Inhalt zählen). Ergebnis bitte melden.
