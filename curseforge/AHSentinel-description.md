@@ -12,6 +12,18 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.53
+
+- **Faster sniper, still by the rules:** every purchase still needs a real key press or mouse-wheel notch – the sniper
+  never reserves or buys from a timer (the old "instant buy" that reserved in advance without a key press is gone).
+  - Just keep scrolling: every notch does the next step. Notches while the price is being checked are ignored silently.
+  - Confirming is blocked for only 0.05 s (reserving still 0.3 s).
+  - Searches are spread evenly (at most 90 per minute) instead of bursting and then stalling.
+  - Commodity hits count as current for 3 s only; older ones are searched again instead of reserved.
+  - Only pieces at or below your max are reserved; if the server offers fewer pieces, exactly those are bought.
+  - Another AH error (e.g. a search) no longer cancels a purchase that is on its way.
+- AH cut rounded down as measured (6279 → 313).
+
 ### Version 0.65.52
 
 - **Ledger fix (WoW Forever): sales no longer booked twice.** After you took the gold, the same sale invoice was
@@ -48,16 +60,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   do not count. Under 15 min measured: "too little data". Losses show red with a minus.
 - **Raid start hint:** from Nov 25 at most once a day when opening the AH: "Raid start Dec 9: buy/craft consumables
   and their herbs cheaply now." Off after Dec 9.
-
-### Version 0.65.48
-
-- **Automatic minimum price when selling:** the higher of the vendor price after the AH cut and your own cost per
-  piece (purchases of the last 30 days, otherwise crafting cost) + 5 %. A minimum you set by hand still wins. If the
-  competition is below it, the suggestion is the minimum and a yellow hint says "Market is below your minimum price –
-  post at the minimum or wait" (plus "price falling" when the 24 h trend is below −10 %). You decide – the price field
-  stays free.
-- **Expired 3× in a row:** the sell tab shows a yellow hint with a cheaper suggestion, the vendor price and the
-  deposits lost so far. Nothing happens automatically.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
