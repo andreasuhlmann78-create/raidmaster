@@ -20,6 +20,20 @@ abfangen. Die Prüf-Sitzung wertet sie aus und schreibt daraus Korrektur-Anweisu
 | `status.json` | dasselbe maschinenlesbar; `offen` = alles, was die Prüf-Sitzung ansehen muss |
 | `berichte/<Addon>/<id>.json` | jeder Bericht einmal, unverändert |
 
+## Berichte anderer Spieler (ab GoldSentinelTest 2, 9. Nov. 2026)
+
+Nur auf dem PC des Nutzers läuft der Uploader. Damit auch Fehler von Gildenmitgliedern und anderen Spielern ankommen:
+
+1. Der Nutzer schaltet auf seinem Charakter `/gstest sammler an` ein. Der Sammler meldet sich alle 30 Minuten über
+   GoldSentinelSync 2 (Gilde, Gruppe, Flüster-Netz).
+2. Andere Spieler werden einmal gefragt (oder `/gstest teilen an|aus`). Nur mit Zustimmung schicken ihre Clients kurze
+   Zusammenfassungen per Flüstern an den Sammler: Fehler im Spiel und FEHLER-Zeilen von Testläufen, keine Namen,
+   höchstens 3 je Addon und Tag, gleiche Fehler höchstens einmal in 7 Tagen.
+3. Der Sammler legt sie als `GSTEST1`-Bericht mit `"fremd": true` in `<AddonDB>.gsTest.fremd` ab -> Uploader -> hier.
+   In `status.md` stehen sie mit „fremder Spieler“ beim Client; sie zählen nie als „letzter Testlauf“.
+
+Fremde Berichte sind Hinweise, keine Belege: Jeder könnte sich als Sammler melden oder Berichte erfinden.
+
 ## Ohne Discord
 
 Die Prüf-Sitzung kann Berichte auch direkt aus einer Datei übernehmen, z. B. wenn der Nutzer die SavedVariables-Datei

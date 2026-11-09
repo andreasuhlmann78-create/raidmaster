@@ -1,0 +1,32 @@
+ANWEISUNG DER PRÜF-SITZUNG FÜR ProfessionSentinel: GOLDSENTINELTEST VERSION 2 (BERICHTE ANDERER SPIELER)
+==========================================================================================
+Stand: 9. November 2026, 19:55 · vom Nutzer freigegeben
+
+REIHENFOLGE: Erst die laufenden Aufgaben fertig machen. Diese Anweisung ist klein und kann zusammen mit
+anweisung-sync-version2.txt kommen (falls das Addon Sync hat).
+
+WARUM
+Bisher kommen Testberichte und Fehler im Spiel nur vom PC des Nutzers (RaidMasterUploader). Der Nutzer will auch die
+Fehler seiner Mitspieler sehen. GoldSentinelTest 2 schickt – nur mit Zustimmung des Spielers – kurze Zusammenfassungen
+(Fehler im Spiel, FEHLER-Zeilen von Testläufen, keine Namen) über GoldSentinelSync 2 an einen "Sammler" (der Nutzer,
+"/gstest sammler an"). Der Sammler speichert sie, der Uploader bringt sie nach testberichte/ ("fremder Spieler").
+Ablauf und Grenzen: testberichte/README.md, Abschnitt "Berichte anderer Spieler".
+
+UMSETZEN
+T1 shared/GoldSentinelTest.lua (VERSION 2) unverändert ins Addon kopieren (ersetzt Version 1). Byte-gleich, nie ändern.
+   addon_check meldet Version 1 jetzt als WARNUNG "veraltete offizielle Fassung".
+T2 Sonst nichts ändern: Der Befehl /gstest, die einmalige Frage und das Senden stecken in der gemeinsamen Datei.
+   Es ruht von selbst, wenn im Client kein GoldSentinelSync 2 geladen ist (dann bringt es ein anderes GoldSentinel-Addon).
+T3 GT.TrackErrors(...) muss wie bisher nach ADDON_LOADED aufgerufen werden (darüber kennt GoldSentinelTest die
+   SavedVariables des Addons; dort liegen Zustimmung, Ausgang und – beim Sammler – die fremden Berichte).
+T4 Wer in einer Testroutine Frames zählt oder GoldSentinelTestFrame prüft: der Frame hat jetzt zusätzlich ein OnUpdate
+   (Takt alle 5 s, erste Runde nach 60 s).
+T5 Locales: nichts nötig (die gemeinsame Datei bringt DE/EN mit). CHANGELOG EN/DE: "GoldSentinelTest 2: Fehlerberichte
+   an den Entwickler teilen (nur mit Zustimmung, /gstest)".
+
+TESTFÄLLE
+T-GT1 GoldSentinelTest.version == 2 nach dem Laden.
+T-GT2 Ohne Zustimmung (GoldSentinelTest.Setting("consent") ~= true) ist db.gsTest.share.outbox nach einem Fehler leer.
+
+Wie immer: komplette Dateien, alle Spielversionen nicht brechen, CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden. Ist etwas falsch, begründet zurückmelden.

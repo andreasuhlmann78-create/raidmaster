@@ -329,7 +329,8 @@ def ts(t):
 
 def client_of(r):
     e = r.get("env", {})
-    return f"{e.get('flavor') or '?'} {e.get('client') or ''} (Interface {e.get('interface') or '?'})".strip()
+    fremd = " · fremder Spieler" if r.get("fremd") else ""
+    return f"{e.get('flavor') or '?'} {e.get('client') or ''} (Interface {e.get('interface') or '?'}){fremd}".strip()
 
 
 def evaluate(note=None):
@@ -351,7 +352,8 @@ def evaluate(note=None):
     for addon in sorted(data):
         lst = data[addon]
         tests = [r for r in lst if r.get("kind") == "test"]
-        last = tests[-1] if tests else None
+        own = [r for r in tests if not r.get("fremd")]          # fremde Kurzfassungen (über den Sammler) nie als "letzter Testlauf"
+        last = (own or tests)[-1] if tests else None
         # Fehler im Spiel der letzten 7 Tage, zusammengefasst
         agg = {}
         for r in lst:
@@ -378,8 +380,8 @@ def evaluate(note=None):
         # letzter Testlauf je Client (Forever und alter Client getrennt)
         per_client = {}
         for r in tests:
-            per_client[(r.get("env", {}).get("flavor"), r.get("version"))] = r
-        for (flavor, ver), r in sorted(per_client.items(), key=lambda x: x[1].get("time") or 0)[-4:]:
+            per_client[(r.get("env", {}).get("flavor"), r.get("version"), bool(r.get("fremd")))] = r
+        for (flavor, ver, _fremd), r in sorted(per_client.items(), key=lambda x: x[1].get("time") or 0)[-4:]:
             cc = r.get("counts", {})
             d.append(f"**Testlauf {ver} · {client_of(r)} · {ts(r.get('time'))}** – OK {cc.get('ok')} · "
                      f"FEHLER {cc.get('fehler')} · übersprungen {cc.get('uebersprungen')} · im Client prüfen {cc.get('client')}"

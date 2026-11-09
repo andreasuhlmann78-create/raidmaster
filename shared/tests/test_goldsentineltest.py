@@ -34,7 +34,7 @@ FRAMES = {}
 function CreateFrame()
   local f = {events = {}}
   function f:RegisterEvent(e) self.events[e] = true end
-  function f:SetScript(_, fn) self.onevent = fn end
+  function f:SetScript(k, fn) if k == 'OnEvent' then self.onevent = fn else self[k] = fn end end
   FRAMES[#FRAMES + 1] = f
   return f
 end
@@ -173,7 +173,7 @@ check("BugGrabber-Fehler gezählt", lua.eval("DB.gsTest.errors['Lua|Interface/Ad
 lua = new_lua("GoldSentinelTest = { version = 5, marker = 'neu' }")
 check("neuere bleibt", lua.eval("GoldSentinelTest.marker"), "neu")
 lua = new_lua("GoldSentinelTest = { version = 0, registry = { Alt = { version = '1', db = {} } } }")
-check("ältere ersetzt", lua.eval("GoldSentinelTest.version"), 1)
+check("ältere ersetzt", lua.eval("GoldSentinelTest.version"), 2)
 check("Register übernommen", lua.eval("GoldSentinelTest.registry.Alt.version"), "1")
 
 # 7. ohne SavedVariables, ohne GoldSentinelGame, alter Client
@@ -199,6 +199,102 @@ check("Uploader findet den Bericht", back == raw, True)
 rep = json.loads(back[len("GSTEST1"):])
 check("Sonderzeichen unverändert", (rep["results"][0]["name"], rep["results"][0]["ergebnis"]),
       ('Zeichen "x" \\ und\nZeile', "ä ö ü – €"))
+
+
+# 7. Berichte anderer Spieler über GoldSentinelSync 2 (Sammler)
+SYNC = (HERE.parent / "GoldSentinelSync.lua").read_text(encoding="utf-8")
+
+
+def share_client(name):
+    lua = LuaRuntime(unpack_returned_tuples=True)
+    lua.execute(STUB)
+    lua.execute(GAME)
+    lua.execute(f"""
+NOWT = 100
+function GetTime() return NOWT end
+function UnitName() return "{name}" end
+function IsInGuild() return true end
+function IsInRaid() return false end
+function IsInGroup() return false end
+function InCombatLockdown() return false end
+OUT = {{}}
+CHAT = {{}}
+DEFAULT_CHAT_FRAME = {{ AddMessage = function(_, m) CHAT[#CHAT + 1] = m end }}
+C_ChatInfo = {{ SendAddonMessage = function(p, m, d, t) OUT[#OUT + 1] = {{ p, m, d, t }}; return true end,
+               RegisterAddonMessagePrefix = function() return true end }}
+""")
+    lua.execute(SYNC)
+    lua.execute(SRC)
+    lua.execute("DB = {}; GoldSentinelTest.TrackErrors('TestAddon', '1.0', DB)")
+    return lua
+
+
+def flush_out(lua):
+    lua.execute("for i = 1, 500 do if not GoldSentinelSync.Pump(true) then break end end")
+    out = lua_to_py(lua.eval("OUT")) or []
+    lua.execute("OUT = {}")
+    return [tuple(list(o) + [None] * (4 - len(o))) for o in out]
+
+
+def route(src, src_name, others):
+    """Gilde: an alle; Flüstern: an das Ziel. others = {Name: lua}"""
+    for p, m, d, tgt in flush_out(src):
+        for n, l in others.items():
+            if d == "GUILD" or (d == "WHISPER" and tgt == n):
+                l.globals().Fire("CHAT_MSG_ADDON", p, m, d, src_name)
+
+
+K, P = share_client("Kai Sammler"), share_client("Pia Spielerin")
+check("Teilen: Endpunkt mit Sync 2", P.eval("GoldSentinelTest.Endpoint() ~= nil"), True)
+K.execute("SlashCmdList.GOLDSENTINELTEST('sammler an')")
+route(K, "Kai Sammler", {"Pia Spielerin": P})
+check("Teilen: Sammler bekannt", P.eval("GoldSentinelTest.collectorName"), "Kai Sammler")
+check("Teilen: einmal gefragt (ohne Popup im Chat)", P.eval("#CHAT >= 1 and GoldSentinelTest.asked"), True)
+# ohne Zustimmung: nichts im Ausgang, nichts gesendet
+P.execute("FireError('Interface/AddOns/TestAddon/Core.lua:5: boom'); GoldSentinelTest.Flush()")
+check("Teilen: ohne Zustimmung kein Ausgang", P.eval("#DB.gsTest.share.outbox"), 0)
+check("Teilen: ohne Zustimmung nichts gesendet", P.eval("GoldSentinelTest.SendPending()"), 0)
+# mit Zustimmung
+P.execute("SlashCmdList.GOLDSENTINELTEST('teilen an')")
+P.execute("FireError('Interface/AddOns/TestAddon/Core.lua:9: kaputt'); GoldSentinelTest.Flush()")
+check("Teilen: Kurzfassung im Ausgang", P.eval("#DB.gsTest.share.outbox"), 1)
+P.execute("local r = GoldSentinelTest.Begin('TestAddon', '1.0', DB); r:Check('T1', 'A', 'geht', function() return false, 'x', 'y' end); r:Finish()")
+check("Teilen: Testlauf auch im Ausgang", P.eval("#DB.gsTest.share.outbox"), 2)
+check("Teilen: gesendet", P.eval("GoldSentinelTest.SendPending()"), 2)
+out = flush_out(P)
+check("Teilen: nur Flüstern an den Sammler", sorted({(d, t) for _, _, d, t in out}), [("WHISPER", "Kai Sammler")])
+check("Teilen: keine Namen in den Nachrichten", any("Pia" in m for _, m, _, _ in out), False)
+for p_, m, d, tgt in out:
+    K.globals().Fire("CHAT_MSG_ADDON", p_, m, d, "Pia Spielerin")
+fremd = lua_to_py(K.eval("DB.gsTest.fremd")) or []
+check("Sammler: 2 fremde Berichte", len(fremd), 2)
+reps = [json.loads(f[len("GSTEST1"):]) for f in fremd]
+check("Sammler: fremd markiert", [r.get("fremd") for r in reps], [True, True])
+check("Sammler: Fehlertext da", any("kaputt" in (e.get("msg") or "") for r in reps for e in r.get("errors", [])), True)
+check("Sammler: FEHLER-Zeile aus Testlauf", any(x.get("id") == "T1" for r in reps for x in r.get("results", [])), True)
+check("Sammler: keine Namen gespeichert", any(n in "".join(fremd) for n in ("Pia", "Kai")), False)
+sys.path.insert(0, str(HERE.parents[1] / "addon-check"))
+import testberichte  # noqa: E402
+lua_text = 'DB = { gsTest = { fremd = { "%s" } } }' % fremd[0].replace("\\", "\\\\").replace('"', '\\"')
+found = [testberichte.clean(r) for r in testberichte.from_text(lua_text)]
+check("Uploader/Auswertung liest fremden Bericht", bool(found and found[0] and found[0].get("fremd")), True)
+# Bestätigung leert den Ausgang
+route(K, "Kai Sammler", {"Pia Spielerin": P})
+check("Teilen: Bestätigung leert den Ausgang", P.eval("#DB.gsTest.share.outbox"), 0)
+# gleicher Fehler nicht nochmals in 7 Tagen; höchstens 3 je Tag
+P.execute("FireError('Interface/AddOns/TestAddon/Core.lua:9: kaputt'); GoldSentinelTest.Flush()")
+check("Teilen: gleicher Fehler nicht nochmals", P.eval("#DB.gsTest.share.outbox"), 0)
+for i in range(4):
+    P.execute(f"FireError('Interface/AddOns/TestAddon/Core.lua:{20 + i}: neu{i}'); GoldSentinelTest.Flush()")
+check("Teilen: höchstens 1 weiterer heute (3 je Tag)", P.eval("GoldSentinelTest.SendPending()"), 1)
+# Sammler schickt eigene Berichte nicht
+K.execute("FireError('Interface/AddOns/TestAddon/Core.lua:1: eigen'); GoldSentinelTest.Flush()")
+check("Sammler: eigene Fehler nicht im Ausgang", K.eval("#(DB.gsTest.share.outbox or {})"), 0)
+# ohne GoldSentinelSync ruht es
+lua = new_lua("DB = {}")
+lua.execute("GoldSentinelTest.TrackErrors('TestAddon', '1.0', DB)")
+check("ohne Sync: kein Endpunkt", lua.eval("GoldSentinelTest.Endpoint() == nil"), True)
+check("ohne Sync: Status sagt es", "ruht" in "".join(lua_to_py(lua.eval("GoldSentinelTest.ShareStatus()"))), True)
 
 print(f"GoldSentinelTest-Tests: {'bestanden' if fails == 0 else 'FEHLGESCHLAGEN'} ({checks - fails}/{checks})")
 sys.exit(1 if fails else 0)
