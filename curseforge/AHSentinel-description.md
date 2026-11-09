@@ -12,6 +12,19 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.57
+
+- **One minimum profit for everything:** the automatic minimum price when selling and AHSentinel.API.MinProfitPct now
+  use your setting "minimum return" (same as "Worth up to" in the tooltip, default 20 %).
+- For addon authors: API.Price reports "scan" only when the value really comes from the last scan ("market" when an
+  outlier was replaced by the median). API.md matches the clarified contract (MaterialCost = crafting cost of the product,
+  "vendor" is not an AH price).
+- Texts: cancelling an auction loses the deposit (also in WoW Forever); the "per auction" tooltip in the profit window
+  shows the measured minimum deposit instead of a fixed 1s.
+- Test routine: new tests for the whole tooltip (with/without Shift, not disenchantable), "real from 12 disenchants",
+  price source in the materials block, "Purchase sent" via the real confirm path, no flip suggestion for items that rarely
+  sell, and at most 3 rebuilds of "Best recipes" while crafting.
+
 ### Version 0.65.56
 
 - Test routine: sync tests use guild messages only (no channel messages anywhere in the addon).
@@ -48,15 +61,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   - Only pieces at or below your max are reserved; if the server offers fewer pieces, exactly those are bought.
   - Another AH error (e.g. a search) no longer cancels a purchase that is on its way.
 - AH cut rounded down as measured (6279 → 313).
-
-### Version 0.65.52
-
-- **Ledger fix (WoW Forever): sales no longer booked twice.** After you took the gold, the same sale invoice was
-  read again as a new sale (quantity counted twice, income −5 %). The invoice key no longer contains the mail gold,
-  and an invoice without gold is never booked again if it was already booked. Total = field "bid" of the invoice
-  (cross-checked with gold + AH cut − deposit while the gold is still in the mail). Existing duplicates are removed
-  once at login ("Ledger: removed N duplicate sales") and kept as a backup.
-- Diagnostic log: the item count of the price data now matches the status line (was 0 after logout).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

@@ -7,6 +7,19 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.57</h3>
+<ul>
+<li><strong>One minimum profit for everything:</strong> the automatic minimum price when selling and AHSentinel.API.MinProfitPct now
+  use your setting "minimum return" (same as "Worth up to" in the tooltip, default 20 %).</li>
+<li>For addon authors: API.Price reports "scan" only when the value really comes from the last scan ("market" when an
+  outlier was replaced by the median). API.md matches the clarified contract (MaterialCost = crafting cost of the product,
+  "vendor" is not an AH price).</li>
+<li>Texts: cancelling an auction loses the deposit (also in WoW Forever); the "per auction" tooltip in the profit window
+  shows the measured minimum deposit instead of a fixed 1s.</li>
+<li>Test routine: new tests for the whole tooltip (with/without Shift, not disenchantable), "real from 12 disenchants",
+  price source in the materials block, "Purchase sent" via the real confirm path, no flip suggestion for items that rarely
+  sell, and at most 3 rebuilds of "Best recipes" while crafting.</li>
+</ul>
 <h3>Version 0.65.56</h3>
 <ul>
 <li>Test routine: sync tests use guild messages only (no channel messages anywhere in the addon).</li>
@@ -44,16 +57,7 @@
 <li>Another AH error (e.g. a search) no longer cancels a purchase that is on its way.</li>
 <li>AH cut rounded down as measured (6279 → 313).</li>
 </ul>
-<h3>Version 0.65.52</h3>
-<ul>
-<li><strong>Ledger fix (WoW Forever): sales no longer booked twice.</strong> After you took the gold, the same sale invoice was
-  read again as a new sale (quantity counted twice, income −5 %). The invoice key no longer contains the mail gold,
-  and an invoice without gold is never booked again if it was already booked. Total = field "bid" of the invoice
-  (cross-checked with gold + AH cut − deposit while the gold is still in the mail). Existing duplicates are removed
-  once at login ("Ledger: removed N duplicate sales") and kept as a backup.</li>
-<li>Diagnostic log: the item count of the price data now matches the status line (was 0 after logout).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
