@@ -13,11 +13,11 @@ GoldSentinel-Addons) benutzen sie. Rechenregeln: shared/wissen/wirtschaft-foreve
 ## Funktionen (Version 1)
 | Funktion | Rückgabe |
 |---|---|
-| `API.Price(itemID)` | Preis je Stück, Quelle (`"scan"`, `"market"`, `"vendor"`), Alter in Sekunden |
+| `API.Price(itemID)` | Preis je Stück, Quelle (`"scan"`, `"market"`, `"vendor"`), Alter in Sekunden. **`"vendor"` ist KEIN AH-Preis** (nur Händler-Ankaufpreis, wenn keine AH-Daten da sind) – wer einen AH-Preis braucht, fragt dann die nächste Quelle. `"scan"` nur, wenn der Wert wirklich aus dem letzten Scan stammt (bei Ausreisser-Ersatz durch den Median: `"market"`). |
 | `API.NetSale(itemID, qty)` | Netto-Erlös gesamt für qty Stück nach 5 % (bzw. 15 % neutral) und erwartetem Einzahlungsverlust, mindestens Händlerwert; 2. Wert Tabelle `{ gross, cut, depositRisk, vendorWins }` |
 | `API.Deposit(itemID, qty, hours)` | Einzahlung (Blizzard-Wert, sonst Formel nach Regelwerk, Minimum gemessen statt fest) |
 | `API.CutPct()` | 0.05 (Fraktions-AH) oder 0.15 (neutral) |
-| `API.MaterialCost(itemID, qty)` | Kosten gesamt über den günstigsten Weg; 2. Wert Liste `{ { itemID, qty, source = "ah"/"vendor"/"craft", cost } }` |
+| `API.MaterialCost(itemID, qty)` | **Herstellkosten des Items `itemID`** (das hergestellte Produkt, nicht eine Zutat) für `qty` Stück, gesamt, über den günstigsten Weg je Zutat; 2. Wert Liste der Zutaten `{ { itemID, qty, source = "ah"/"vendor"/"craft", cost } }`. Für den Preis EINER Zutat `API.Price` benutzen. (Klarstellung 9.11.2026) |
 | `API.DisenchantValue(itemID)` | Wert brutto je Entzauberung, Wert netto, Anzahl eigene Entzauberungen der Gruppe, Quelle (`"own"`, `"table"`); `nil` wenn nicht entzauberbar |
 | `API.BestWay(itemID)` | `"sell"` oder `"disenchant"`, Netto-Wert dieses Wegs |
 | `API.SellSpeed(itemID)` | Zustand (`"fast"`, `"slow"`, `"rare"`, `nil`), Median-Stunden bis Verkauf, Absatz pro Tag am Markt |

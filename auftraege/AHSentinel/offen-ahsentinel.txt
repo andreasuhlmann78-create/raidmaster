@@ -1,112 +1,42 @@
-OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.51)
-==========================================================
-Stand: 9. November 2026, 17:30 · von der Prüf-Sitzung · Grundlage: download/AHSentinel-0.65.51.zip
-(verglichen mit 0.65.41 aus der git-Geschichte des Repos AHAnalyzerPro, e84f5e3 -> 7014dc2; die ZIP ist byte-gleich mit
-7014dc2. Zwischenversionen 0.65.42 bis 0.65.50 über den Diff und das CHANGELOG mitgeprüft. Alle Punkte aus dem Stand
-14:30 (0.65.41) samt den Nachträgen 14:47, 14:50, 15:40, 16:00, 16:05, 16:50 und 17:05 wurden gegen 0.65.51 nachgeprüft,
-dazu die Diagnose-Protokolle 0.65.41 (14:09, 15:20) und 0.65.44 (15:57, 16:28).)
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand vom 9. Nov. 14:30 (0.65.41)
-samt allen Nachträgen. Zusätzlich gelten weiter: testroutine-ahsentinel.txt, nachtrag-testroutinen.txt, hinweis-*.txt.
-Die Aufträge in anweisung-gebuehren-klassisch.txt, korrektur-rechnung-menge.txt, anweisung-tooltip-variante-a.txt,
-anweisung-handel-strategie.txt, anweisung-schnittstelle-api.txt und anweisung-entzauber-urteil.txt sind im Code
-umgesetzt. Was davon noch fehlt (nur Testfälle), steht unten in Punkt 2.
-
+OFFENE PUNKTE AHSENTINEL (nach der Prüfung von 0.65.56)
+=======================================================
+Stand: 9. November 2026, 20:00 · von der Prüf-Sitzung · Grundlage: download/AHSentinel-0.65.56.zip und der Bericht der
+AHSentinel-Sitzung (18:50, 0.65.52–0.65.56)
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.65.51 (17:30).
 Regel seit 9. Nov.: Nur die AHSentinel-Sitzung ändert und veröffentlicht AHSentinel (raidmaster/CLAUDE.md).
 
-Erledigt in 0.65.42–0.65.51 (danke)
------------------------------------
-- Gebühren wie im klassischen WoW (anweisung-gebuehren-klassisch.txt, B): A:DepositRefunded() = true
-  (AHAnalyzerPro.lua:1634), SaleFee = 5 %, A:ListingDeposit zuerst Blizzard, sonst Händlerpreis × 5 % je 2 Std.
-  (:1651), erwartete Kosten über ExpectedDepositLoss/FeePerPiece (:1744, :1767), AuctionFee/AHFee = 5 % +
-  Einzahlungsrisiko (:1673-1680), Hinweis für Addon-Autoren im CHANGELOG. T181 (T-G1 bis T-G4).
-- Rechnung lesen und Buchhaltung (C, D und Korrektur 15:40 K1, K2): Feld "Preis" = Menge, Gesamt = Post-Gold +
-  consignment − deposit, Plausibilität 5 % (Ledger.lua:136-171), RECHNUNG-ROH einmal je Sitzung (:113-121),
-  fixL2 (:413) und fixL3 (:455) einmalig mit Sicherung e.old2/e.old3. T250, T255 (T-R1 bis T-R4, T-M7 bis T-M10).
-  Offline nachgerechnet: T-R1 47 Stück / 4042 / 86c, T-R3 184 / 16744 / 91c, T-R4 69 / 6279 / 91c – exakt.
-- Rechenwert = letzter Scan (K3): A:PriceInfo mit Ausreisser-Schutz und Markt-Rückfall, eigener Ø nur Statistik
-  (AHAnalyzerPro.lua:1080-1130). Quelle "Scan"/"Markt" im Materialblock (K4, Tooltip.lua:661-665). T255 (T-P1, T-P3).
-- Laufzeit-Vorbelegung und Verkaufsdauer (E, F): A:DefaultDuration (AHAnalyzerPro.lua:1170), Grund im Verkaufen-
-  Fenster (UI_Sell.lua:240-244, 283-289), Le:SellSpeed/SellSpeedText (Ledger.lua:503, 584), Zeile "Verkauft sich"
-  im Tooltip (Tooltip.lua:278-286), "kaum" nicht mehr vorgeschlagen (Comfort.lua:743, Extras.lua:286), Hinweis
-  "Läuft oft ab" (UI_Sell.lua:417-420). T251.
-- "Beste Rezepte" bremsen (G): nur bei sichtbarem Fenster, Sammeln 1,5 s, beim Herstellen höchstens alle 10 s,
-  Prüfsumme, Rezeptliste nur in der Hintergrund-Arbeit (Crafting.lua:789-880, 308-325). Im Protokoll 0.65.44 nach
-  dem Update deutlich weniger AUFBAU als mit 0.65.41 (siehe IM CLIENT PRÜFEN).
-- Mindest-Einzahlung gemessen statt fest (Hinweis 16:05): A:MinDeposit (AHAnalyzerPro.lua:1602), Se:MeasureMinDeposit
-  mit Protokoll MINDESTEINZAHLUNG (Seller.lua:559-576). T256. Offline: bei 1c gemessen fällt "24 Std. kostet gleich
-  viel" weg (1c × 20, 24 Std. = 12c).
-- Sniper S1–S3 (alter Punkt A): "Kauf gesendet", "Gekauft" erst bei COMMODITY_PURCHASE_SUCCEEDED bzw. Gold-Rückfall
-  nach 3 s, Zähler erst bei Erfolg (Sniper.lua:871-944), "Preis wird noch geprüft" einmal je Reservierung (:875-881),
-  Ton, Knopf blinkt (UI_Sniper.lua:321-331), Hinweis nie im Kampf (Sniper.lua:947-955). T252.
-- G2 (17:05): "Jetzt kaufen" nur einmal, eigene Zeile oberhalb der Aktionsleisten, höchstens 2 s (Sniper.lua:960-990).
-  G1: Gewinn-Fenster aus, solange ProfessionSentinel.IsPanelShown() wahr ist, mit pcall (Crafting.lua:1012-1042). T267.
-- Tooltip Variante A samt Nachträgen 14:16/14:18/14:47 (alter Punkt 1, M1–M4): ohne Shift Preis, Urteil mit beiden
-  Wegen, Materialblock auch mit Disenchantry (Tooltip.lua:234-330, 335-347, 515-540, 612-669), alles andere mit Shift.
-  T215, T228, T248 (T-E1 bis T-E7, T-D1, T-D3, T-D4, T-V4, T-V6). Fehlende Testfälle: Punkt 2.
-- Gewinn-Fenster "AH-Gebühr" (alter Punkt 2): nur noch 5 % (Crafting.lua:439, 732), graue Zeile "erwartete
-  Neu-Einstellungen" bzw. "Händler zahlt mehr" (:766-772). T254.
-- Leistung (alter Punkt 3): Index je itemID Le:EntriesFor (Ledger.lua:734-756), Caches für SellSpeed/PostRate. T253.
-- Sammelkauf zählt erst nach Bestätigung (alter Punkt 4): DEBuy.lua:140-171, BUY_PURCHASE_RESULT (Buy.lua:849-861). T253.
-- Handel nach Regelwerk (anweisung-handel-strategie.txt): H1 Abbrechen nur wenn es lohnt (Seller.lua:906-938,
-  UI_Auctions.lua), H2 90 Suchen je Minute, Sniper zuerst (AHAnalyzerPro.lua:2060-2105), H3 neutrales AH 15 %
-  (:1611), H4 Sniper-Grenze (Sniper.lua:124), H5 automatischer Mindestpreis (Seller.lua:416-468), H6 Abläufe
-  (Ledger.lua:553, UI_Sell.lua:430-440), H7/H9 Rendite und Gold pro Stunde nur aktive Zeit (Activity.lua, neu),
-  H8 Raid-Hinweis (Activity.lua:363). T257 bis T265.
-- Schnittstelle AHSentinel.API v1 (anweisung-schnittstelle-api.txt): API.lua und API.md, Alias AHAnalyzerPro.API,
-  alter Aufruf AHAnalyzerPro:API(name) geht weiter (API.lua:16), alle Funktionen mit pcall, Abschnitt "Für
-  Addon-Autoren" im CHANGELOG EN/DE. T266. Offline: unbekanntes Item und nil -> nil, kein Lua-Fehler.
-- Alter Hinweis 6e: Das Protokoll 0.65.44 (15:28:52) enthält eine Verkaufsrechnung: 7778 + 404 − 100 = 8082 =
-  18 × 449c (EINSTELLEN 13:43:58: 18 Stück, 8082 gesamt), 404 = 5 % von 8082. Forever zieht beim Verkauf genau 5 % ab
-  und erstattet die Einzahlung – vierter exakter Beleg. RECHNUNG-ROH zeigt dazu: Feld 4 = 8082 (Gesamt), Feld 5 = 18
-  (Menge), Feld 10 (count) = 0, Feld 11 = 18.
-- CHANGELOG EN/DE für 0.65.42 bis 0.65.51 vorhanden, Version 0.65.51 in .toc und AHAnalyzerPro.lua.
+REIHENFOLGE: Erst die laufende Arbeit fertig machen, dann von oben nach unten.
 
-Prüfungen: addon_check mit lupa (Lua 5.1) OK ohne FEHLER und ohne WARNUNG (Syntax, Ladetest Forever und Era,
-Sprachtest). GoldSentinelGame.lua und GoldSentinelTest.lua byte-gleich mit shared/ (cmp). Alle 1441 L["…"]-Schlüssel
-aus dem Code in allen 10 Locale-Dateien (1646 bzw. 1647 Einträge), Platzhalter %d/%s überall gleich. Keine neue
-Zuweisung an Blizzard-Funktionen, -Fenster oder C_-Tabellen, auch nicht im Test (Tests ersetzen nur A.apiOverride und
-eigene Felder). Neue sichtbare Texte über L. A:API heisst jetzt A:Global; keine alten Aufrufe übrig. Era/TBC: neue Wege
-nur für Forever (DefaultDuration, MinDeposit, RaidHint, H2-Grenze) oder mit Rückfall; GLOBAL_MOUSE_DOWN mit pcall.
-Offline mit der Ladetest-Nachbildung ausgeführt: Rechnung T-R1/R3/R4, Einzahlung 40c × 20 = 100/160/480, Staub
-100/100/100, SaleFee 4042 = 202 (neutral 606), API mit unbekanntem Item – alles wie erwartet. Dabei Punkt 1 gefunden.
-Die Testroutine selbst ist offline nicht lauffähig (C_Timer, Frames) – nicht ausgeführt.
+Erledigt in 0.65.52–0.65.56 (danke)
+-----------------------------------
+- D1/D2 und offener Punkt 1 (Doppelbuchung): Schlüssel ohne Post-Gold, alte Schlüssel gelten weiter, HasPaidTwin, fixL4
+  mit Sicherung in db.ledger.removed, A:MarketItemCount; Gegenprobe "Feld 4 = Gesamt: ja/nein" im Protokoll (Hinweis 7f).
+- Sniper A–D (anweisung-sniper-schneller.txt): Kauf/Reservieren/Bestätigen nur mit Tastendruck (Sn:HardwareOK),
+  CONFIRM_DEBOUNCE 0,05 s, RESULT_FRESH_COMMODITY 3 s (Sniper.lua:44/46 geprüft), Teilkauf, Wächter pausiert bei
+  eigenen Zielen, gewichtete Ziele, Messung und Tageszahlen.
+- Offener Punkt 3 (fremder AH-Fehler verwirft Kauf): Entscheid über SUCCEEDED/FAILED bzw. Gold-Rückfall.
+- 5 % abgerundet (Nachtrag 17:50, offener Punkt 4c): SaleFee/AuctionFee mit math.floor, T270.
+- hinweis-sync-kanal.txt und anweisung-gemeinsamer-sync.txt: GoldSentinelSync (Version 1, byte-gleich), Kennung AHAP1,
+  kein Kanal-Beitritt, AHAPSync einmal verlassen, /ahs sync test, Diagnose mit DiagLines; T272.
+- Testfälle T268–T272, angepasste T05/T204/T232/T250/T255/T198/T252/T77/T92/T81 nachvollziehbar begründet.
+Geprüft: addon_check OK; GoldSentinelSync.lua = offizielle Version 1 (jetzt Warnung "veraltet", siehe Punkt 6).
+
+Entscheide der AHSentinel-Sitzung – von der Prüf-Sitzung BESTÄTIGT
+-----------------------------------------------------------------
+- Sofortkauf entfernt, auch in Era/Retail 2 Rasten für Waren: richtig (Kauf nie aus einem Timer, überall gleich).
+- Suchen gleichmässig verteilt (höchstens 1 je 0,67 s, 90/Min.): richtig – sonst wären 3-s-Treffer immer alt.
+- B1 nur bei Sniper-Modus AN mit eigenen Zielen; sonst Wechsel mit dem Wächter: richtig.
+- B2 als glatt gewichtete Reihenfolge (ohne Treffer Gewicht 1/3): richtig.
+- fixL4 verschiebt nach db.ledger.removed statt zu löschen: richtig (umkehrbar).
+- Alter Kanal einmal verlassen; ältere AHSentinel-Versionen nur noch über die Gilde: richtig (über den Kanal kam in
+  Forever ohnehin nichts an).
 
 OFFENE PUNKTE
 -------------
-1. DOPPELBUCHUNG EINER VERKAUFSRECHNUNG, WENN DAS GOLD SCHON ABGEHOLT IST (Schwere: HOCH) – neu, belegt im
-   Protokoll 0.65.44 und offline mit 0.65.51 nachgestellt
-   Befund: Protokoll 0.65.44, 15:28:52 – dieselbe Rechnung (Schwarzmaulöl, Feld "Preis" 18, consignment 404,
-   deposit 100) wurde zweimal gebucht: einmal mit Post-Gold 7778, einmal mit Post-Gold 0.
-   Ursache: Ledger.lua:132-136. In Forever enthält der Schlüssel das Post-Gold ("|m7778"). Nach dem Abholen liegt die
-   Rechnung mit Gold 0 noch im Briefkasten, der Schlüssel "|m0" ist neu, seenAt(base) greift nicht (der Schlüssel ohne
-   Gold wird in Forever nie geschrieben). Folge in 0.65.51 (offline nachgestellt): zweite Buchung qty 18, amount 0,
-   cut 404, refund 100 -> Einnahmen −404c, Gebühren −100c, 18 Stück zu viel verkauft (Verkaufschance, Verkaufsdauer,
-   Ø-Preis, Rendite H7 und Gold pro Stunde H9 falsch). Beim Spieler steht die Doppelbuchung aus 0.65.44 schon in der
-   Buchhaltung (nach fixL3: 18 Stück, amount 18, cut 404 -> Einnahmen −386c).
-   Lösung:
-   a) Forever-Verkaufsrechnung mit Post-Gold 0 (bzw. nil) nicht buchen, wenn zur selben Rechnung (base ohne Gold,
-      Stunde ±1) schon eine Buchung mit Gold > 0 gesehen wurde. Einfach: beim Buchen zusätzlich db.seen[base|hour]
-      setzen und eine Rechnung mit Gold 0 nur buchen, wenn seenAt(base) leer ist. Zwei echte Verkäufe gleicher Menge
-      in derselben Stunde (beide mit Gold > 0) bleiben über "|m<Gold>" getrennt. Eine Rechnung mit Gold 0 ohne frühere
-      Buchung: buchen mit Gesamt = Feld 4 (bid, laut RECHNUNG-ROH = Gesamt), e.approx = true, Protokoll "RECHNUNG ohne
-      Gold".
-   b) Einmalige Reparatur fixL4 (nur Forever, Schalter db.ledger.fixL4): Verkäufe mit inv.money == 0, zu denen es eine
-      Buchung desselben Items mit inv.money > 0, gleichem inv.price und gleichem cut/deposit innerhalb von 2 Std. gibt,
-      als Doppelbuchung markieren (e.dup = true, Sicherung e.old4) und in Summary, ByItem, Stats, SellSpeed, PostRate,
-      AverageSalePrice, ExpiryStreak, Business überspringen (oder löschen – nach Entscheid der AHSentinel-Sitzung).
-      Chat einmal DE "Buchhaltung: N doppelte Verkäufe entfernt." / EN "Ledger: removed N duplicate sales.",
-      Protokoll "MIGRATION fixL4 N=…", LEDGER_CHANGED.
-   Testfälle: T-R5 Rechnung mit Gold 7778 buchen, dieselbe Rechnung mit Gold 0 erneut lesen -> genau 1 Buchung,
-              Einnahmen 7678 (8082 − 404); T-R6 zwei Verkäufe 18 Stück in derselben Stunde mit Gold 7778 und 7700 ->
-              2 Buchungen; T-R7 Rechnung nur mit Gold 0 -> 1 Buchung, amount 8082, approx; T-M11 fixL4 markiert die
-              Doppelbuchung aus 0.65.44 (inv.money 0, amount 18, cut 404) und läuft nur einmal; Summary danach ohne sie.
-
-2. FEHLENDE BZW. NUR VORGETÄUSCHTE TESTFÄLLE (Schwere: MITTEL)
-   a) T-S2 (Sniper, "Preis wird noch geprüft" nur einmal): TestRoutine.lua:4750-4752 setzt "m1, m2 = true, nil" fest
-      und prüft damit nichts – Sn:Confirm wird nie aufgerufen. Lösung: Sn.pending = { state = "waiting" }, 5× Sn:Confirm()
-      -> genau 1 Rückgabe mit Text, 4× Text nil, kein Kauf (A.AH über eine eigene Ersatztabelle, nie
-      ConfirmCommoditiesPurchase). Ebenso T-S1 über Sn:Confirm (Meldung "Kauf gesendet", Zähler unverändert), nicht nur
-      über ein vorgesetztes Sn.inFlight.
+1. FEHLENDE BZW. NUR VORGETÄUSCHTE TESTFÄLLE (Schwere: MITTEL)
+   a) T-S2 ist mit T269 (T-SN2: 5 Rasten in der stillen Wartezeit -> kein Bestätigen, keine Meldung) erledigt.
+      Offen nur noch T-S1 über Sn:Confirm (Meldung "Kauf gesendet", Zähler unverändert), nicht über ein vorgesetztes
+      Sn.inFlight.
    b) Variante A, ganzer Tooltip (anweisung-tooltip-variante-a.txt): kein Test ruft TT:AddLines (Tooltip.lua:234) auf.
       Fehlend: T-V1 (AH-Item ohne Shift: genau Block 1–3, keine Zeile "Realer Wert", "Trend 24 Std.", "Händlerpreis"),
       T-V2 (mit Shift zusätzlich Realer Wert, Trend, ~/Tag, Händlerpreis, Rechenweg), T-V5 (nicht entzauberbares Item:
@@ -119,122 +49,58 @@ OFFENE PUNKTE
    f) G2 (anweisung-gebuehren-klassisch.txt) beim Herstellen: 30 Ereignisse in 20 s mit Cr.craftingUntil gesetzt ->
       höchstens 3 Aufbauten (CRAFT_GAP 10 s). Der alte Test (TestRoutine.lua:3003) prüft nur 20 Ereignisse in 1 s.
 
-3. SNIPER: FREMDER AH-FEHLER VERWIRFT EINEN LAUFENDEN KAUF (Schwere: NIEDRIG)
-   Sniper.lua:1178-1183 nimmt jedes AUCTION_HOUSE_SHOW_ERROR innerhalb von 10 s als Fehlschlag des gesendeten
-   Warenkaufs und löscht self.inFlight. Kommt der Fehler von etwas anderem (z. B. einer Suche, "Datenbank beschäftigt")
-   und danach COMMODITY_PURCHASE_SUCCEEDED, wird der echte Kauf weder gezählt (Menge/Budget des Ziels) noch gebucht
-   (SNIPER_PURCHASE_DONE), und der Chat meldet "Kauf fehlgeschlagen". Der Gold-Rückfall nach 3 s läuft dann auch nicht.
-   Lösung: bei AUCTION_HOUSE_SHOW_ERROR nur Kauf-Fehler werten (Fehlernummer prüfen) oder inFlight bis SUCCEEDED/
-   COMMODITY_PURCHASE_FAILED bzw. bis zum Gold-Rückfall behalten. Testfall: inFlight, fremder Fehler, dann SUCCEEDED
-   -> gezählt, "Gekauft".
-
-4. SCHNITTSTELLE: KLEINE ABWEICHUNGEN VOM VERTRAG (Schwere: NIEDRIG)
+2. SCHNITTSTELLE: KLEINE ABWEICHUNGEN VOM VERTRAG (Schwere: NIEDRIG)
    a) API.MinProfitPct (API.lua:126-130) liefert den festen Wert Se.MIN_PROFIT_PCT (Seller.lua:421), das Urteil "Lohnt
       bis" im Tooltip rechnet mit der Einstellung deBuyRoi (Tooltip.lua:446, DEBuy.lua:37). Ändert der Spieler die
       Mindestrendite, zeigen ProfessionSentinel und AHSentinel verschiedene Grenzen. Vertrag: "eingestellter
       Mindestgewinn". Lösung: API.MinProfitPct = DEBuy:MinRoi() (Standard 20); H5 (Se.MIN_PROFIT_PCT) ebenso.
    b) API.Price (API.lua:39) meldet "scan", sobald das Item im letzten Scan ist – auch wenn RealPrice wegen eines
       Ausreissers den Median nimmt (info.source "market"). Lösung: Quelle aus info.source ("ah" -> "scan").
-   c) A:SaleFee (AHAnalyzerPro.lua:1683-1687) und A:AuctionFee (:1676) runden kaufmännisch (+0.5). Gemessen ist
-      abgerundet: 69 × 91c = 6279 -> Anteil 313 (shared/wissen/wirtschaft-forever.md Zeile 41/71); AHSentinel rechnet
-      314. Lösung: math.floor(total * CutPct) ohne +0.5; Testfall mit 6279 -> 313 und 4042 -> 202.
-   d) Vertrag in shared/wissen/schnittstelle-ahsentinel-api.md mehrdeutig (Befund aus der ProfessionSentinel-
-      Nachprüfung): API.MaterialCost liefert die Herstellkosten des Items (API.lua:76-93), ProfessionSentinel fragt
-      damit Zutatenpreise ab; API.Price liefert ohne AH-Daten den Händlerpreis mit Quelle "vendor". Lösung: in API.md
-      klar schreiben, was MaterialCost liefert (Herstellkosten je Herstellung oder je Stück) und dass "vendor" kein
-      AH-Preis ist. Die Datei in shared/ ändert nur die Prüf-Sitzung – bitte die Klarstellung in API.md und dem
-      Nutzer melden.
+   c) Vertrag: Die Prüf-Sitzung hat shared/wissen/schnittstelle-ahsentinel-api.md klargestellt (MaterialCost =
+      Herstellkosten des Produkts; "vendor" ist kein AH-Preis; "scan" nur aus dem letzten Scan). Bitte API.md im Addon
+      gleich formulieren und 2b danach richten.
 
-5. ALTE GEBÜHREN-TEXTE (Schwere: NIEDRIG)
+3. ALTE GEBÜHREN-TEXTE (Schwere: NIEDRIG)
    UI_Auctions.lua:59 und :120 (Forever): "von der AH-Gebühr kommt nur ein Teil zurück" – passt nicht mehr zur
    klassischen Regel (beim Abbrechen ist die Einzahlung weg bzw. wird gemessen, Seller.lua:1045-1047).
    Crafting.lua:642: "Mindest-Einzahlung (1s je Auktion)" fest im Text – mit A:MinDeposit() formatieren (1c-Hinweis
    16:05). Locales und CHANGELOG EN/DE.
 
-6. RAID-VORRAT (Schwere: NIEDRIG, nach dem Launch) – aus 0.65.8, unverändert
+4. RAID-VORRAT (Schwere: NIEDRIG, nach dem Launch) – aus 0.65.8, unverändert
    Comfort.lua:351 (K.RAID_SETS): prüfen, ob alle Item-IDs in Forever existieren (T145c im Spiel).
 
-7. HINWEISE (kein Muss)
+5. HINWEISE (kein Muss)
    a) A:RepairDB (AHAnalyzerPro.lua:541) prüft im Preisverlauf nur den ersten und letzten Eintrag; lesende Stellen
       sollen weiter mit fehlendem e.p rechnen können.
-   d) DATA_CHANGED aus Sync/Scan erhöht A.priceVersion bei jedem Preis (AHAnalyzerPro.lua:849) und löst damit über die
+   b) DATA_CHANGED aus Sync/Scan erhöht A.priceVersion bei jedem Preis (AHAnalyzerPro.lua:849) und löst damit über die
       Prüfsumme (Crafting.lua:808, 844-849) einen Neuaufbau aus, auch wenn kein Rezept-Item betroffen ist. Besser: nur
       neu rechnen, wenn ein Produkt oder eine Zutat der Rezeptliste betroffen ist.
-   f) Neu: RECHNUNG-ROH belegt Feld 4 = Gesamt (8082). Als Gegenprobe zur Rechnung Gesamt = Post-Gold + consignment −
-      deposit ins Protokoll schreiben ("Feld 4 = Gesamt: ja/nein"). Bei drei weiteren exakten Belegen kann Feld 4 der
-      Rückfall sein, wenn das Gold schon abgeholt ist (Punkt 1a).
 
-IM CLIENT PRÜFEN (mit 0.65.51 bzw. der nächsten Version)
+6. GOLDSENTINELSYNC VERSION 2 UND GOLDSENTINELTEST VERSION 2 (Schwere: MITTEL, nach der laufenden Arbeit)
+   anweisung-sync-version2.txt (S1–S6, T-N1–T-N4): Flüster-Netz, ep:UseStorage(AHAnalyzerProDB bzw. eure DB), jede
+   ep:Send-Stelle prüfen (Preise nach einem Scan bündeln, Netz höchstens 40 Flüsternachrichten/Min.).
+   anweisung-test-version2.txt (T1–T5, T-GT1–T-GT2): GoldSentinelTest.lua Version 2 kopieren.
+
+IM CLIENT PRÜFEN (mit 0.65.56 bzw. der nächsten Version)
 -------------------------------------------------------
-- Ganzer Lauf /ahs testroutine auf Forever: 0 FEHLER, "Sandbox OK", kein "script ran too long"; danach /reload.
-- Einloggen nach dem Update von 0.65.44 oder älter: einmal "Buchhaltung: N Verkäufe korrigiert (Menge und
-  Stückpreis)", beim zweiten Einloggen nicht mehr; Ø-Verkaufspreis Seltsamer Staub um 86–91c, nicht 47c/72c.
-- Briefkasten: Verkaufspost mit Gold öffnen und abholen, Briefkasten schliessen und wieder öffnen -> nur EINE Buchung
-  (Punkt 1). Diagnose-Paket mit RECHNUNG und RECHNUNG-ROH mitschicken.
-- Tooltip Variante A: AH-Item (Zänkerhandschuhe 10s), eigenes Taschen-Item (Braune Leinenhose), nicht entzauberbares
-  Item, Disenchantry geladen, mit/ohne Shift; Symbole sichtbar, nichts abgeschnitten, Quelle "Scan"/"Markt".
-- Sniper Forever: 1. Raste reserviert, "Preis wird noch geprüft" nur einmal; Preis bestätigt -> Ton, Knopf blinkt,
-  "Jetzt kaufen" einmal oberhalb der Aktionsleisten, 2 s, verdeckt kein offenes Fenster; 2. Raste kauft;
-  "Kauf gesendet" grau, "Gekauft" erst danach; kein ADDON_ACTION_BLOCKED.
-- Sammelkauf in Forever: Statuszeile und Gold-Grenze stimmen mit dem echten Kauf überein; gescheiterter Kauf zählt nicht.
-- Verkaufen: Laufzeit vorbelegt mit Grund; Einzahlung je Laufzeit = Blizzard "Einzahlen" (Spieltest S10); Protokoll
-  MINDESTEINZAHLUNG nach einer Einstellung mit Formel unter 1s.
-- Gewinn-Fenster Braune Leinenhose: "AH-Gebühr 5 % + Einzahlung" zeigt nur 5 %, graue Zeile Neu-Einstellungen bzw.
-  "Händler zahlt mehr"; Beschriftung nicht abgeschnitten (/ahs testroutine k).
-- Beim Herstellen von 5–10 Teilen: höchstens 1 AUFBAU je 10 s, kein LANGSAM über 16 ms (Spieltest S7).
-- G1: wirkt erst, wenn ProfessionSentinel ProfessionSentinel.IsPanelShown() anbietet (in ProfessionSentinel 0.9.33 noch
-  nicht vorhanden). Dann: Panel auf -> Gewinn-Fenster weg, Panel zu -> wieder da.
-- Auktionen: 1c unterboten -> grau "unterboten – liegen lassen", "Nächste unterbotene abbrechen" überspringt sie.
-- Neutrales AH (Beutebucht/Gadgetzan): /dump AHAnalyzerPro.marketKey zeigt "…|Neutral", AH-Gebühr 15 %,
-  Formel-Einzahlung "(unsicher)".
-- Suchgrenze: im Protokoll einmal "SUCHEN max je Minute = 90"; bei Sniper + Wächter + Scan kein "Datenbank beschäftigt".
-- Buchhaltung -> Rendite: Werte je Geschäftsart plausibel; AFK-Markierung stoppt die Zeit; unter 15 Min. "zu wenig Daten".
-- Raid-Hinweis ab 25.11. einmal am Tag beim Öffnen des AH (Punkt H8).
-- Raid-Vorrat T145c (Punkt 6).
+- Ganzer Lauf /ahs testroutine auf Forever: 0 FEHLER (T268–T272 neu), "Sandbox OK", danach /reload.
+- Einloggen: einmal "Buchhaltung: N doppelte Verkäufe entfernt." (falls vorhanden), beim zweiten Mal nicht; Protokoll
+  "MIGRATION fixL4 N=…".
+- Briefkasten: Verkaufspost mit Gold öffnen, Gold abholen, schliessen, wieder öffnen -> nur EINE Buchung; RECHNUNG-Zeile
+  "Feld 4 = Gesamt: ja". Diagnose-Paket mit RECHNUNG und RECHNUNG-ROH (offen: warum nur 38c statt 1s erstattet).
+- Sniper Forever: Dauer-Scrollen kauft (1. Raste reserviert, nächste bestätigt), Rasten in der Wartezeit ohne Chat, kein
+  ADDON_ACTION_BLOCKED; Statuszeile "Heute: … Treffer · … gekauft · … verpasst · Ø Reaktion"; Protokoll SNIPER 1×/Min.;
+  Wächter "Sniper hat Ziele – Wächter pausiert"; Teilkauf bucht die gekaufte Menge.
+- Suchgrenze: bei Sniper + Wächter + Scan kein "Datenbank beschäftigt".
+- Sync: /ahs sync test mit Gildenmitgliedern ("N Antworten (Gilde a, Gruppe b)"); AHAPSync nicht mehr in der Kanalliste;
+  Diagnose mit "SYNC Weg=GUILD".
+- Verkaufen: 5 % abgerundet (3s 90c -> 19c); Laufzeit vorbelegt; Einzahlung je Laufzeit = Blizzard "Einzahlen" (S10).
+- Tooltip Variante A: AH-Item, eigenes Taschen-Item, nicht entzauberbares Item, mit/ohne Shift; nichts abgeschnitten.
+- Gewinn-Fenster: verschwindet, solange das ProfessionSentinel-Panel offen ist (ProfessionSentinel 0.9.34+ hat
+  ProfessionSentinel.IsPanelShown()).
+- Neutrales AH: marketKey "…|Neutral", AH-Gebühr 15 %.
+- Buchhaltung -> Rendite: Gold/Std. nur aktive Zeit, AFK stoppt; unter 15 Min. "zu wenig Daten".
+- Raid-Hinweis ab 25.11. einmal am Tag beim Öffnen des AH (H8); Raid-Vorrat T145c (Punkt 4).
 
-NACHTRAG DER PRÜF-SITZUNG (17:30, gleichzeitig zu dieser Nachprüfung eingetragen) – D1 ist derselbe Befund wie
-Punkt 1; für D1 gilt die ausführlichere Lösung unten (Schlüssel ohne Post-Gold, fixL4 mit Sicherung). D2 gilt zusätzlich.
-NEU (9. Nov. 17:30, Freigabe des Nutzers 17:23) – Buchhaltung: Verkaufs-Post doppelt gebucht (HOCH) + Diagnose-Zählung
-   D1 (HOCH) Befund Protokoll 0.65.44 (15:28:52): dieselbe Schwarzmaulöl-Rechnung zweimal – einmal mit Post-Gold 7778,
-      einmal mit Post-Gold 0 (Gold schon abgeholt). Ursache auch in 0.65.51 (Ledger ScanInbox): Der Forever-Schlüssel
-      fbase enthält das Post-Gold ("|m" .. money); nach dem Abholen ist money 0 -> neuer Schlüssel -> zweite Buchung
-      (amount 0, volle Menge). Folge: verkaufte Stückzahlen doppelt, Verkaufschance/Verkaufsdauer/Ø-Preis verfälscht.
-      Lösung:
-      - Schlüssel OHNE Post-Gold: invoiceType|itemName|bid|buyout|consignment|deposit (+ Stunde wie heute). Alte
-        Schlüssel mit "|m…" weiter als gesehen werten.
-      - Feldlage (RECHNUNG-ROH 15:28, Regelwerk Abschnitt 2): bid (Feld 4) = GESAMTPREIS (8082), buyout (Feld 5) =
-        Menge (18), count (Feld 11) = Menge oder 0. Gesamt = bid, wenn bid > 0; Kontrolle bid = Post-Gold +
-        consignment − deposit, solange Post-Gold > 0 (sonst nur bid). Menge = count, sonst buyout.
-      - Eine Rechnung mit Post-Gold 0, deren Schlüssel schon gesehen ist, nie neu buchen.
-      - Einmalige Reparatur fixL4 (nur Forever): Verkäufe mit inv.money == 0 und amount 0, zu denen es in derselben
-        Stunde eine Buchung gleichen Items mit gleichem consignment/deposit gibt -> löschen (Sicherung e.old4 in einer
-        Liste db.ledger.removed, nicht wegwerfen). Chat einmal: "Buchhaltung: N doppelte Verkäufe entfernt."
-        Protokoll "MIGRATION fixL4 N=…".
-      Testfälle: T-D1a dieselbe Rechnung zuerst mit money 7778, dann mit money 0 -> genau 1 Buchung (amount 8082,
-      qty 18); T-D1b bid 8082, buyout 18, count 18, money 7778 -> amount 8082, Stück 449; T-D1c fixL4 entfernt das Duplikat.
-   D2 (NIEDRIG) Diagnose-Zusammenfassung "Preisquelle: Markt-Scan … 0 Items" obwohl die Statuszeile 5115 Items zeigt
-      (Diag.lua ~125): dieselbe Zählung wie die Statuszeile verwenden.
-
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
-
-NEU (9. Nov. 17:35, Freigabe des Nutzers 17:33) – Sniper so schnell wie möglich, regelkonform
-   Siehe anweisung-sniper-schneller.txt. NACH dem Nachtrag 17:30 (D1 doppelte Buchung). Dauer-Scrollen, Bestätigen-
-   Sperre 0,05 s, Wächter pausiert bei aktivem Sniper, Ziele nach Ertrag, nur billige Stücke reservieren, Waren-Treffer
-   3 s aktuell, Teilkauf, Zeiten und Quote messen. Jeder Kauf nur mit echter Raste/Taste.
-
-NEU (9. Nov. 17:50, NIEDRIG) – Gebühr abrunden statt runden
-   Gemessen: 6279 × 5 % = 313,95 -> Blizzard nimmt 313 (abgerundet; gerundet wären 314). Die übrigen drei Rechnungen
-   passen zu beidem. AHSentinel rundet kaufmännisch (math.floor(x + 0.5): AHAnalyzerPro.lua ~1646, 1676, 1686,
-   Seller.lua ~580). Lösung: math.floor(total * CutPct()) – wie ProfessionSentinel 0.9.33. Testfall: 6279 -> 313.
-   Regelwerk Abschnitt 1 nachgeführt.
-
-NEU (9. Nov. 18:10, HOCH, nach der laufenden Arbeit) – Sync nicht über eigene Kanäle (siehe hinweis-sync-kanal.txt)
-
-NEU (9. Nov. 18:40) – gemeinsame Sync-Datei übernehmen (anweisung-gemeinsamer-sync.txt), nach hinweis-sync-kanal.txt
-
-NEU (9. Nov. 19:30, nach der laufenden Arbeit und nach anweisung-gemeinsamer-sync.txt) – GoldSentinelSync Version 2
-   (Flüster-Netz) übernehmen: anweisung-sync-version2.txt (S1–S6, T-N1–T-N4). Wer Sync noch nicht eingebaut hat, nimmt
-   gleich Version 2.
-
-NEU (9. Nov. 19:55, nach der laufenden Arbeit) – GoldSentinelTest Version 2 kopieren (Berichte anderer Spieler an
-   den Sammler, nur mit Zustimmung): anweisung-test-version2.txt (T1–T5, T-GT1–T-GT2).
