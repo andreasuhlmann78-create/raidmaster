@@ -10,6 +10,15 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.14
+
+Fixes from the in-game test run on WoW Forever launch night:
+- **Big guilds**: the Overview and Leadership pages no longer stutter with hundreds of members (main/alt lookups are now done once per page build – about 25× faster with 500 members).
+- **Professions button (WoW Forever)**: no more "action blocked" message. If the profession window does not open, GuildSentinel now asks you to open it yourself once instead of calling a protected function.
+- **Achievements/Chronicle**: damaged profession data no longer breaks the page.
+- **Event announcement** in test mode also works for characters without a guild (only "[Test]" in your chat, nothing is sent).
+- Developer test routine: new area K checks the interface in the real client (tooltips covering buttons, overlapping windows, windows off screen, cut-off texts, plausible game values, error loops); clearer results for first/last names and slow pages.
+
 ### Version 0.9.13
 
 - **Language selectable for everyone**: Settings > General > "Language". On start GuildSentinel still uses the language of your game client; you can switch to German, English, French, Spanish (Spain/Mexico), Italian or Portuguese on any client (Russian, Korean and Chinese on a client in that language). GuildSentinel reloads after the change; "Same as the game client" goes back. Replaces the developer-only switch from 0.9.12.
@@ -35,14 +44,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 - More robust against damaged data: malformed event sync messages and broken event or thanks entries no longer cause errors.
 - Test mode (developer only): no longer joins or leaves the server channel, sends nothing delayed after "Stop test mode" and leaves the real settings (last ad, free status, My week) untouched.
 - New for the developer: `/gs testroutine` (button "Test everything" under Settings > Test mode) checks every feature and saves a report for the GoldSentinel review; the diagnosis shows the error counter. Nothing changes for players.
-
-### Version 0.9.9
-
-Fixes from the review:
-- **Officer rights**: players who may only read officer notes no longer count as officers.
-- **Applicant whispers in combat** (WoW Forever): if a message stays protected after combat, GuildSentinel reports once how many could not be read instead of losing them silently.
-- **Player tooltip**: the combat lock applies to every modern client (WoW Forever, Retail).
-- Absence and thanks messages from other players are only accepted when the sender matches exactly.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
