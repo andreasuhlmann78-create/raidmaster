@@ -20,7 +20,7 @@ Die Prüf-Sitzung verteilt Anweisungen, Korrekturen und Hinweise für die Addon-
 5. Dem Nutzer melden, was umgesetzt wurde. Ist ein Befund falsch, begründet zurückmelden.
 
 Den Ordner `auftraege/` ändert nur die Prüf-Sitzung. Gemeinsame Dateien (`GoldSentinelGame.lua`, `GoldSentinelTest.lua`,
-`GoldSentinelDev.lua`) nur unverändert aus `shared/` kopieren, nie selbst ändern.
+`GoldSentinelSync.lua`, `GoldSentinelDev.lua`) nur unverändert aus `shared/` kopieren, nie selbst ändern.
 
 ## Nur eine Sitzung je Addon (Entscheid des Nutzers, 9. November 2026)
 

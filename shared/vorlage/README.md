@@ -60,6 +60,10 @@ Das fertige Addon lädt sofort im Spiel. Mit `/ls test` läuft die eingebaute Te
     benutzen (liegt in jedem neuen Addon, unverändert aus `shared/`): `local ep = GoldSentinelSync.Register(ADDON,
     "PRAEFIX1", Version)`, `ep:OnMessage(fn)`, `ep:Send(text[, { scope = "guild"|"group" } | { target = Name }])`,
     `ep:Peers(3600)`, `GoldSentinelSync.Ping(ADDON, fn)`, `GoldSentinelSync.DiagLines()` ins Diagnose-Protokoll.
+  - **Flüster-Netz (ab GoldSentinelSync 2):** `ep:Send(text)` erreicht auch Spieler ausserhalb von Gilde und Gruppe
+    (über bekannte Mitspieler, die weitergeben). Nach dem Laden der SavedVariables einmal `ep:UseStorage(<AddonDB>)`
+    aufrufen, damit die bekannten Mitspieler ein `/reload` überstehen. Nachrichten, die nur Gilde/Gruppe betreffen:
+    `ep:Send(text, { net = false })`.
   - Fähigkeiten zur Laufzeit erkennen (C_ChatInfo oder alte Funktionen, Kanal verweigert?), nicht nach Version raten;
     Absender mit `G.IsSecret`/`AnySecret` prüfen; was gesendet, empfangen, verworfen wurde ins Diagnose-Protokoll.
   - Die Addon-Prüfung warnt bei `"CHANNEL"`-Addon-Nachrichten und beim Beitreten eigener Kanäle.

@@ -33,7 +33,7 @@ Werkzeug: `shared/messtest/GSMesstest`, Rohdaten vom Nutzer (SavedVariables), zw
 | **Rückgabe von SendAddonMessage ist immer 0** – auch an Offline- und unbekannte Spieler. Sagt nichts über die Ankunft. | alle Sendungen "ret 0" | belegt |
 | **Flüstern an Offline- oder unbekannte Spieler** erzeugt beim Sender `CHAT_MSG_SYSTEM` "Momentan ist kein Spieler mit dem Namen '<Name>' online." (ERR_CHAT_PLAYER_NOT_FOUND_S). **Ein Chat-Filter kann sie ausblenden.** | beide Fälle, Filter griff | belegt |
 | **Charakternamen in Forever haben Vor- und Nachnamen mit Leerzeichen.** Flüstern nur mit dem Vornamen kommt nicht an; der ganze Name ("Vorname Nachname") funktioniert auch als Ziel von Addon-Flüstern. | Nutzer: Vorname allein nicht angekommen; Messung mit ganzem Namen | belegt |
-| **Ein Realm mit Layern** (z. B. "Europa PvP"). Kanal-Mitgliederliste zeigte beide Spieler; während des ersten Laufs wechselte der Layer (AutoLayer "1 -> 2") – alles kam trotzdem an. | T4 gleicher Kanal; Layerwechsel im Chat | belegt: Flüstern über einen Layerwechsel hinweg; vermutet: Flüstern zwischen verschiedenen Layern (Partner-Layer nicht bekannt) |
+| **Ein Realm mit Layern** (z. B. "Europa PvP"). Kanal-Mitgliederliste zeigte beide Spieler (gleicher Kanal). Die Meldung "Layer changed 1 -> 2" des Addons AutoLayer während der Messung war laut Nutzer eine **Falschmeldung** – kein Layerwechsel belegt. | T4 gleicher Kanal | belegt: gleicher Kanal; **offen (Messauftrag):** Flüstern zwischen verschiedenen Layern – mit einem Partner wiederholen, der sicher auf einem anderen Layer ist |
 
 Folgerungen für das Flüster-Netz von GoldSentinelSync:
 - Namen immer vollständig speichern und so verwenden, wie `CHAT_MSG_ADDON` sie liefert (mit Leerzeichen); nie am ersten
@@ -41,6 +41,20 @@ Folgerungen für das Flüster-Netz von GoldSentinelSync:
 - Erreichbarkeit nicht an der Rückgabe messen, sondern an der Systemmeldung "kein Spieler … online" (Offline merken,
   Meldung ausblenden) und an Antworten.
 - Die Drossel von GoldSentinelSync (5/s für alle Addons) liegt weit unter dem Gemessenen und bleibt.
+
+## GoldSentinelSync 2 – Flüster-Netz (gebaut 9. November 2026)
+- Jeder Client merkt sich Mitspieler mit Sync 2 (aus Gilde, Gruppe, Flüstern, Listen anderer Clients), nur lokal, nur
+  Namen und Zeiten (`ep:UseStorage(DB)` -> `DB.gsSync`).
+- `ep:Send(text)`: Gilde + Gruppe wie bisher, dazu Flüstern an 3 Netz-Mitspieler ausserhalb der eigenen Gilde
+  (Kopf `#S2:<sid>:<n>:<Weitergabe>:`). Wer sie bekommt, bringt sie in seine Gilde/Gruppe (`#S1`, gleiche Kennung) und
+  gibt sie an 3 weitere (höchstens 2-mal). Dubletten über die Kennung.
+- Alle 10 Minuten eine Liste mit bis zu 8 Namen an 2 Mitspieler; neue Namen werden per Flüstern vorgestellt (höchstens
+  2 alle 30 s), danach kennen sich beide direkt. So wächst das Netz über alle Gilden.
+- Gedrosselt: 40 Netz-Flüsternachrichten pro Minute, nur wenn Gilde/Gruppe nichts zu senden haben, nicht im Kampf.
+- Offline: "kein Spieler … online" nach eigenem Flüstern -> Spieler 15 Minuten Pause, Meldung ausgeblendet; nach 5 Fehlschlägen
+  oder 30 Tagen ohne Lebenszeichen vergessen.
+- Clients mit Sync 1 bekommen nie `#S2` (nur Mitspieler, die "~sync=2" gemeldet haben).
+- Grenze: Das Netz erreicht nur, wer irgendwann über Gilde, Gruppe oder eine Liste mit dem Netz in Kontakt kam.
 
 ## Quellen
 - https://github.com/Offroads/WoWForeverRace/pull/48
