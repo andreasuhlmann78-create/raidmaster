@@ -11,6 +11,10 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.22 – GoldSentinelSync dabei
+- Bringt GoldSentinelSync mit, damit Fehlerberichte (nur mit Zustimmung, /gstest) geteilt werden können;
+  RaidMaster-Daten unverändert (DKP, Gebote, Einteilung weiter nur an Gilde, Raid und einzelne Spieler).
+
 NEU IN 3.0.21 – Fehlerberichte teilen (nur mit Zustimmung)
 - GoldSentinelTest 2: Fehlerberichte an den Entwickler teilen (nur mit Zustimmung, /gstest). Geteilt werden nur kurze
   Zusammenfassungen von Lua-Fehlern und fehlgeschlagenen Testfällen, ohne Namen. Ohne Zustimmung wird nichts geteilt.

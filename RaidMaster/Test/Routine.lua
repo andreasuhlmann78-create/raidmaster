@@ -2603,6 +2603,38 @@ local function AreaJ(t, G)
 		end)
 	end)
 
+	-- 3.0.22 (Entscheid des Nutzers 9. Nov.): GoldSentinelSync wird nur mitgebracht (für GoldSentinelTest 2);
+	-- RaidMaster meldet nichts an, Gebote/DKP laufen weiter über den eigenen Weg (RAID/GUILD/WHISPER, eigener Takt)
+	AsyncCheck(t, "T164", "J", "GoldSentinelSync nur mitgebracht, RaidMaster-Daten wie bisher", function()
+		local S = GoldSentinelSync
+		if type(S) ~= "table" or (tonumber(S.VERSION) or 0) < 2 then return false, tostring(S and S.VERSION), ">= 2" end
+		for prefix, ep in pairs(S.endpoints or {}) do
+			if prefix == RM.PREFIX or (type(ep) == "table" and ep.addon == "RaidMaster") then
+				return false, "angemeldet: " .. tostring(prefix), "keine RaidMaster-Kennung"
+			end
+		end
+		local u, sent = {}, {}
+		local q0 = #(S.queue or {})
+		return Guard(function()
+			-- nur mitschreiben, nichts wirklich senden
+			Swap(u, RM, "SendAddonMessage", function(prefix, msg, dist, target)
+				sent[#sent + 1] = { prefix = prefix, msg = msg, dist = dist }
+				return true
+			end)
+			RM.Comm.Send("BID", { a = 0, v = 1, g = 0 }, "WHISPER", "Tank1", true)
+			Wait(math.max(0.5, RM.Comm.Pending() * 0.15 + 0.3))
+			local ok = false
+			for _, m in ipairs(sent) do
+				if m.prefix == RM.PREFIX and m.dist == "WHISPER" and tostring(m.msg):find("^BID\t") then ok = true end
+			end
+			if not ok then return false, #sent .. " gesendet", "BID über RaidMstr/WHISPER" end
+			for _, item in ipairs(S.queue or {}) do
+				if item.prefix == RM.PREFIX then return false, "Gebot in GoldSentinelSync.queue", "eigener Weg" end
+			end
+			return true, "Sync " .. S.VERSION .. ", keine Anmeldung, Gebot über RaidMstr (Warteschlange Sync " .. q0 .. ")"
+		end, function() Undo(u) end)
+	end)
+
 	-- 3.0.19 (Testberichte 8. Nov.: 2× ADDON_ACTION_FORBIDDEN SetRaidTarget nach Klick auf die Leiste): In WoW Forever
 	-- ist SetRaidTarget geschützt. Kein Weg aus Addon-Code darf es dort aufrufen; Adds/Boss nur als Vorschlag.
 	t:Check("T161", "J", "Symbole in WoW Forever nur über sichere Knöpfe", function()

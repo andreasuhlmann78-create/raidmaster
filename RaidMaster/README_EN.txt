@@ -23,6 +23,10 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.22 – GoldSentinelSync included
+- Brings GoldSentinelSync along so error reports (only with consent, /gstest) can be shared; RaidMaster data
+  unchanged (DKP, bids, assignments still only to guild, raid and single players).
+
 WHAT'S NEW IN 3.0.21 – Share error reports (only with your consent)
 - GoldSentinelTest 2: share error reports with the developer (only with consent, /gstest). Only short summaries of Lua
   errors and failed test cases are shared, without names. Without consent nothing is shared. Sharing runs over
