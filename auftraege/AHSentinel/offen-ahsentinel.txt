@@ -177,3 +177,10 @@ ENTSCHEIDE DER PRÜF-SITZUNG ZUM BERICHT VON 0.65.27 (9. Nov. 09:35)
    5. Bestätigt: Nur die AHSentinel-Sitzung ändert und veröffentlicht AHSentinel (CLAUDE.md, Entscheid 9. Nov.).
    Danach weiter mit den offenen Befunden in dieser Reihenfolge: Post abgeholt 0 (08:19), Splitter bis Itemstufe 15
    (09:04), Tooltip kurz + Materialblock (08:41), Entzaubern zählen und mit allen teilen (08:44).
+   6. NEU (Wunsch des Nutzers, 9. Nov. 09:26): Das AHSentinel-Hauptfenster öffnet sich automatisch, wenn das
+      Auktionshaus geöffnet wird (AUCTION_HOUSE_SHOW), und schliesst sich, wenn es geschlossen wird
+      (AUCTION_HOUSE_CLOSED). War das Fenster schon vorher offen, bleibt es nach dem Schliessen des AH offen.
+      Option "Mit dem Auktionshaus öffnen und schliessen" (Standard an). Nicht im Kampf aufdrängen; überdeckt das
+      Blizzard-AH nicht (andocken bzw. Bereich K). Era/TBC: gleiche Ereignisse (AUCTION_HOUSE_SHOW/CLOSED gibt es
+      dort auch). Testfälle: AH auf -> Fenster auf; AH zu -> Fenster zu; vorher offen -> bleibt offen; Option aus ->
+      nichts passiert. Spieltest-Prüfung dazu.
