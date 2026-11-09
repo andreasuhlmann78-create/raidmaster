@@ -40,3 +40,18 @@ PROFESSIONSENTINEL – Prüfungen
 Testfälle offline: Spieltest-Ablauf mit nachgestellten Lagen (je Prüfung ein OK- und ein FEHLER-Fall).
 Locales EN/DE, CHANGELOG EN/DE, nächste Version, addon_check ohne FEHLER (PS zusätzlich run_offline.py Exit 0).
 Die Prüf-Sitzung übernimmt den Begleitmodus danach in die Vorlage, damit alle Addons ihn bekommen.
+
+ZUSATZ NUR FÜR PROFESSIONSENTINEL (9. Nov. 08:23, Wunsch des Nutzers) – HÄNDLERWARE IN FREIER MENGE KAUFEN
+   - In der Einkaufsliste bekommt jede Zeile mit Händlerware (z. B. Leere Phiole, Grober Faden) ein Mengenfeld,
+     vorbelegt mit der fehlenden Menge, frei änderbar, und einen Knopf "Kaufen".
+   - Kauft auf Klick GENAU diese Menge, auch über mehrere Stapel: BuyMerchantItem in Teilen (volle Stapel bis
+     GetMerchantItemMaxStack, dann der Rest); Händlerpackungen (z. B. 5 Stück) -> auf ganze Packungen aufrunden und das
+     anzeigen.
+   - Nur bei offenem Händlerfenster, nur auf Klick (nie automatisch), Gesamtpreis vor dem Kauf im Tooltip/Knopf;
+     zu wenig Gold oder volle Taschen -> nur so viel wie möglich, Meldung im Chat.
+   - Im Test nur mitschreiben (ns.Act), nichts echt kaufen. Diagnose-Protokoll: KAUF Material, gewünscht, gekauft, Preis.
+   - Spieltest: S9 "gekaufte Menge = eingegebene Menge (bzw. ganze Packungen)".
+   - Testfälle: 16 bei Stapel 20 -> 1 Kauf; 50 bei Stapel 20 -> 20+20+10; Packung 5, Eingabe 12 -> 15 mit Hinweis;
+     Gold reicht für 7 -> 7 und Meldung.
+   - Offen beim Nutzer: ob es zusätzlich im normalen Händlerfenster (Rechtsklick auf ein Material) gehen soll – erst
+     auf Kommando.
