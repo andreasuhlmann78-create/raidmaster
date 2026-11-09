@@ -102,3 +102,15 @@ NEU (9. Nov. 19:30, nach der laufenden Arbeit und nach anweisung-gemeinsamer-syn
 
 NEU (9. Nov. 19:55, nach der laufenden Arbeit) – GoldSentinelTest Version 2 kopieren (Berichte anderer Spieler an
    den Sammler, nur mit Zustimmung): anweisung-test-version2.txt (T1–T5, T-GT1–T-GT2).
+
+NEU (9. Nov. 20:25, Prüf-Sitzung) – Testroutine im echten Client (2.5.2, /ts testroutine j nach einem Dungeon-Kampf,
+Krieger 22, Schaden): OK 31 · FEHLER 1 · Sandbox OK · echte Aktionen 0 · Fehlerzähler 0 · gesperrte Aktionen 0.
+   Belegt im Client: "Bedrohung: secret / DISPLAY / gespeichert: secret 2026-11-09 1.60.1 (70862)" – in Forever sind die
+   Bedrohungswerte geschützt, ThreatSentinel läuft richtig im Modus ANZEIGE und hat das gespeichert (T157 damit belegt).
+   T153 FEHLER "VOLL: normale 0, verbotene 0; ANZEIGE: 0" (Soll VOLL normale >= 1): vermutlich ein Testfehler – die im
+   echten Client gespeicherte Erkennung "secret" (ns.db) überstimmt ns.simAccess = "open", darum wendet die Szene im Modus
+   VOLL nichts an. Lösung: im Test auch den gespeicherten Zustand (und ggf. den Modus-Zwischenspeicher) für die Szene
+   ersetzen und danach zurücksetzen; ist es KEIN Testfehler (VOLL wendet in Forever-Szenen nie an), bitte begründet
+   melden. Testfall bleibt, nicht abschwächen.
+   Ausstehend vom Nutzer: ganzer Lauf /ts testroutine (alle Bereiche), Bereich K, T154 (Pull 3+ Mobs, /ts test
+   "Blocked: none"), Gruppen-Sync im Dungeon (in Forever-Instanzen noch nicht gemessen).
