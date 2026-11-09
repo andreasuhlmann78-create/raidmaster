@@ -216,3 +216,12 @@ BEFUND IM SPIEL (9. Nov. 11:31, drei Screenshots 10:30, Gewinn-Fenster am Berufs
    - Blizzards Wert "Einzahlen" im Einstellen-Fenster ist die Kontrolle: Spieltest-Prüfung "angezeigte AH-Gebühr =
      Einzahlen bei gleicher Menge".
    Testfall: Wollstoffballen 3s97, Material 3s42: 1 Stück -> Gebühr 1s, −45c; 20er-Stapel -> 20c je Stück, +35c.
+
+BEFUND IM SPIEL (9. Nov. 11:41, Screenshot Verkaufen, Seltsamer Staub, AHSentinel 0.65.30) – MITTEL
+   "In Taschen: 184" (stimmt: 6 + 3 Stapel Staub = 184), aber Menge ist mit 93 vorbelegt. Ursache (belegt, auch in
+   0.65.33): UI_Sell.lua:279 setzt bei Waren qty = min(Bestand, letzte eingestellte Menge) – "wie beim letzten Mal".
+   Für den Spieler sieht das aus, als würde AHSentinel die Menge in den Taschen falsch lesen.
+   Lösung: Standard = ALLES aus den Taschen (Bestand). "Wie beim letzten Mal" nur als Option (Standard aus) bzw. als
+   Knopf "Letzte Menge (93)" neben "Alle". Bei Einzelangeboten (nicht stapelbar) bleibt 1. Ist eine andere Menge
+   vorbelegt, Hinweis daneben ("letzte Menge – Alle: 184").
+   Testfall: 184 in Taschen, letzte Menge 93 -> Feld zeigt 184; Option an -> 93 mit Hinweis.
