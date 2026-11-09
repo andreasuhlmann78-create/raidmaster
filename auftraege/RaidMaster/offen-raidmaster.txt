@@ -1,73 +1,93 @@
-OFFENE PUNKTE RAIDMASTER (nach der Nachprüfung von Addon 3.0.18, Bot 1.5.109 und Uploader 1.9.0)
-===============================================================================================
-Stand: 9. November 2026, 06:10 · von der Prüf-Sitzung
-Grundlage: download/RaidMaster-3.0.18.zip, RaidMasterBot 1.5.109, download/RaidMasterUploader.zip (1.9.0)
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand vom 4. November, 20:15.
+OFFENE PUNKTE RAIDMASTER (nach der Nachprüfung von Addon 3.0.20, Bot 1.5.111 und Uploader 2.0.0)
+================================================================================================
+Stand: 9. November 2026, 14:30 · von der Prüf-Sitzung
+Grundlage: download/RaidMaster-3.0.20.zip, RaidMasterBot 1.5.111, download/RaidMasterUploader.zip (2.0.0)
+(verglichen mit Addon 3.0.18/3.0.19, Bot 1.5.109/1.5.110 und Uploader 1.9.0/1.9.1 aus der git-Geschichte)
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand vom 9. November, 06:10.
 
 Erledigt (danke):
-- Addon 3.0.18, Ergebnis im Spiel 5. Nov.:
-  a) T142 Doppelnamen: Begründung angenommen – in den Daten gab es schon einen Spieler "Testa", die Antwort war für ihn
-     richtig. Der Fall nutzt jetzt eigene, sicher unbenutzte Namen und prüft Doppelname ganz, klein geschrieben,
-     Vorname allein und "gleicher Name geht vor" (Test/Routine.lua:2404-2446), danach Daten zurück.
-  b) T122 doppelte Fehler: nur der zuletzt eingeklinkte Handler zählt, ältere reichen nur weiter (Diag.lua:40-60).
-  c) T43: Beute vorher anfordern (Test/Test.lua:1030 T.PreloadLoot, C_Item.RequestLoadItemDataByID), bis 10 s warten;
-     ist nichts geladen, ehrlich übersprungen statt FEHLER (Test/Routine.lua:245-250, 1532-1580).
-- Addon 3.0.18, anweisung-testroutine-oberflaeche.txt: UICheck.lua, Fenster über UI.Frame(…, Name) angemeldet,
-  Bereich K T155-T160 (Test/Routine.lua:2567 ff.), jede erlaubte Seite einmal geöffnet, danach Seite und Fenster wie
-  vorher; ohne echten Client übersprungen. Tooltips neben dem Fenster statt über den Knöpfen (UI.lua:82-111
-  UI.PlaceTooltip/UI.ShowTip, alle GameTooltip-Stellen umgestellt). Die Anweisung ist für RaidMaster entfernt.
-- Bot 1.5.109: CLEAR_CHANNELS_ONCE leer (server_setup.py:993), Import-Schritt mit render und mc_tactics
-  (.github/workflows/bot-tests.yml:45), Hinweistext Intent (bot.py:206-209).
-- Uploader 1.9.0: GSDIAG1 und GSWEGE1 nach #testberichte (uploader.py:256, 403-457, 644-651), nur wenn neu,
-  Grössenregeln; LIESMICH/README_EN; download/RaidMasterUploader.zip passt zum Ordner.
-Prüfungen: Addon-Prüfung RaidMaster-3.0.18.zip OK ohne Warnung (Ladetest, Sprachtest); GoldSentinelGame.lua und
-GoldSentinelTest.lua byte-gleich mit shared/; RaidMaster/ gleich wie die ZIP; RaidMaster-latest.zip = 3.0.18;
-LIESMICH/README_EN mit 3.0.18 (DE/EN). Bot-Tests 101/101, Uploader-Tests 20/20, py_compile OK, Import-Schritt lokal OK.
-Im Diff 3.0.17 -> 3.0.18, Bot 1.5.108 -> 1.5.109 und Uploader 1.8.0 -> 1.9.0 keine Lua- oder Python-Fehler gefunden.
-Testberichte: seit dem 9. Nov. 05:30 keine neuen.
+- Addon 3.0.19: Schlachtzugsymbole in WoW Forever nur noch über sichere Knöpfe (Markers.lua:29-33 M.SecureOnly,
+  Markers.lua:324 ff. SecureActionButtonTemplate); automatische Markierung zeigt in Forever nur einen Vorschlag
+  (BossBar.lua:90-95). Damit ist der Befund ADDON_ACTION_FORBIDDEN SetRaidTarget() aus den Testberichten erledigt.
+- Addon 3.0.19: Tooltip-Lage bei skalierten Fenstern – Verschiebung jetzt in der Skala des Tooltips
+  (UI.lua:92-93, y = (ot * oes - wt * wes) / tes). Bisher Punkt 1.
+- Uploader 1.9.1: zu grosse Diagnose-/Wegdaten nur einmal melden (bisher Punkt 2) – in 2.0.0 neu gebaut, siehe Punkt 2.
+- Addon 3.0.20 (hinweis-keine-spielernamen.txt): GoldSentinelGame.lua Version 3 byte-gleich mit shared/;
+  Beispiele, Kommentare, Testroutine und Test-Werkzeug nur mit erfundenen Namen (Core.lua, Pages.lua, Test/Routine.lua,
+  Test/Test.lua, LIESMICH.txt). Im Ordner RaidMaster/, RaidMasterBot/ und RaidMasterUploader/ steht kein echter
+  Charaktername mehr. LIESMICH/README_EN mit 3.0.20 (DE/EN).
+- Bot 1.5.111 (anweisung-uploader-nur-neues.txt Punkt 5): tb_aufraeumen.py liest testberichte/abgeholt.json
+  (raw.githubusercontent, alle 30 Minuten, bot.py tb_cleanup_loop), löscht nur diese IDs, nur im Kanal, der genau
+  "testberichte" heisst, nur älter als 1 Stunde, höchstens 100 je Durchgang; ohne Recht einmal ein Hinweis
+  (tb_aufraeumen.py:57-87). Modul im Import-Schritt (.github/workflows/bot-tests.yml). Tests t01-t07.
+  Spielernamen aus bot.py, gildenname_vorschlaege.json und den Tests entfernt.
+- Uploader 2.0.0 (anweisung-uploader-nur-neues.txt Punkte 1-4 und 6):
+  1. Testberichte je Kennung einmal, Stand in uploader_state.json (uploader.py:286, 298-323), uploader_config.json
+     wird nur gelesen.
+  2. Diagnose-Protokolle nur bei neuen Einträgen bzw. gestiegenem Zähler, ohne Kopfzeilen/Uhrzeit (uploader.py:326-336,
+     436-447).
+  3. Gleiche Fehler zusammengefasst, danach nur Zähler mit "vorher" (uploader.py:388-421). Passt zu
+     GoldSentinelTest.lua (Fehlerliste wird nach jedem Bericht geleert, Zähler je Bericht).
+  4. Alles Neue in EINER Nachricht, EIN Anhang paket-<Zeit>.json.gz (uploader.py:476-508); die Abholung liest das
+     Format (Test p05/p06).
+  6. Sammeln, höchstens alle 15 Minuten (uploader.py:287, 542-545), Rest beim Beenden (uploader.py:718-754).
+  Die Anweisung anweisung-uploader-nur-neues.txt ist darum entfernt.
+Prüfungen: Addon-Prüfung RaidMaster-3.0.20.zip OK ohne Warnung (Ladetest, Sprachtest); GoldSentinelGame.lua und
+GoldSentinelTest.lua byte-gleich mit shared/; RaidMaster/ gleich wie die ZIP; RaidMaster-latest.zip = 3.0.20.
+Bot-Tests 116/116 OK, Import aller Bot-Module (inkl. tb_aufraeumen) OK, py_compile bot.py OK. Uploader-Tests 14/14 OK,
+download/RaidMasterUploader.zip passt zum Ordner (ohne tests/).
+Im Diff keine Lua- oder Python-Fehler gefunden.
+Testberichte (9. Nov. 10:30 bis 12:38 UTC): keine neuen Testläufe, nur Diagnose-Protokolle und Wegdaten, darin
+0 Lua-Fehler; für RaidMaster keine neuen Fehler aus dem Spiel. Die Protokolle kamen noch mehrfach fast gleich an
+(Uploader 1.9.x) – mit 2.0.0 sollte das aufhören (Punkt 4).
 
 Offene Punkte:
 
-1. TOOLTIP-LAGE BEI SKALIERTEN FENSTERN (Schwere: NIEDRIG, im Client bestätigen)
-   UI.lua:82-104 UI.PlaceTooltip rechnet die y-Verschiebung als y * tes / wes (Skala des Fensters). Die Verschiebung in
-   tip:SetPoint gilt aber in der Skala des Tooltips (tes); richtig wäre (ot * oes - wt * wes) / tes ohne Umrechnung,
-   ebenso gap. Bei RaidMaster-Fenstern mit eigener Skalierung (≠ GameTooltip) liegt der Tooltip dann zu hoch bzw. zu
-   tief. Er bleibt neben dem Fenster (kein Verdecken), nur nicht auf Höhe des Elements. Bitte im Client mit einer
-   Fensterskalierung ≠ 100 % ansehen und gegebenenfalls korrigieren.
+1. BOT: GILDENCHEF OHNE EINTRAG IN config.json (Schwere: NIEDRIG, auf dem Server prüfen)
+   bot.py:66 "guild_leader" ist ab 1.5.111 leer; ohne Eintrag in config.json gibt is_guild_leader() immer False zurück
+   (bot.py:416-421). Der Gildenchef hat dann nur noch Rechte, wenn er Besitzer des Servers oder Offizier ist.
+   Wahrscheinlich steht der Name schon in config.json (save_config schreibt alle Werte zurück) – bitte prüfen.
+   Lösung: "guild_leader": "" in config.example.json und ANLEITUNG.md aufnehmen; beim Start einmal ins Protokoll
+   schreiben, wenn guild_leader leer ist. config.json selbst nicht ins Repo.
 
-2. UPLOADER (Schwere: NIEDRIG)
-   Zu grosse Diagnose- bzw. Wegdaten (> 512 KB) werden nie als gesendet gemerkt (uploader.py:427-430 chunk_extras
-   überspringt, send_extras merkt nur gesendete). Nach erfolgreichem Senden leert main() die Liste (uploader.py:646);
-   ändert sich dieselbe SavedVariables-Datei, findet scan() den Eintrag wieder und meldet erneut "zu gross –
-   übersprungen". Lösung: übersprungene Prüfwerte ebenfalls merken (sent_extra_ids oder eigene Liste). Test ergänzen.
+2. UPLOADER: "zu gross – übersprungen" wieder bei jeder Änderung (Schwere: NIEDRIG)
+   uploader.py:430-433 (Meldung Zeile 432): Collector.build() meldet zu grosse Diagnose-/Wegdaten bei jedem Aufruf. build() läuft bei jeder
+   Änderung (tick, uploader.py:547-557) und nochmals beim Senden (_send). Die Korrektur aus 1.9.1 (nur einmal melden)
+   ist damit wieder weg. Lösung: Prüfwert der übersprungenen Daten in uploader_state.json merken (z. B. "zu_gross")
+   und nur beim ersten Mal melden. Test p09 um "zweite Änderung -> keine zweite Meldung" ergänzen.
 
-3. IM CLIENT PRÜFEN (im Testplan des Nutzers)
-   - /rm testroutine im echten Client mit 3.0.18: T142, T122 (n = 3), T43 und Bereich K (T155-T160), Ergebnis melden.
-   - die übrigen IM-CLIENT-PRÜFEN-Fälle der Testroutine, T54b
-   - Tooltips: neben dem Fenster, auf Höhe des Elements (Punkt 1)
-   - Erstkill-Screenshot -> #ruhmeshalle
-   - Bank-Charakter in RaidMaster -> Bestand in #gildenbank unter den Regeln
+3. UPLOADER: Paket in mehreren Teilen (Schwere: NIEDRIG)
+   uploader.py:519-522: Ist ein Paket über 4 MB und schlägt Teil 2 fehl, wird nichts gemerkt; beim nächsten Versuch kommt
+   Teil 1 nochmals. Lösung: nach jedem erfolgreichen Teil dessen Kennungen merken oder je Teil commit.
 
-4. LIVE PRÜFEN (Server / Discord)
-   - Uploader 1.9.0 beim Nutzer: nach /reload kommen GSDIAG1 (AHSentinel, ProfessionSentinel) und GSWEGE1 (LevelPilot)
-     als Anhang gsextras.lua.gz in #testberichte an und landen unter testberichte/. Die Prüf-Sitzung kontrolliert das.
-   - Bot 1.5.109 ist auf dem Server: #bot-befehle zeigt keine Meldung "🧹 #mc-dkp einmalig geleert" mehr.
+4. LIVE PRÜFEN (Server / Discord / Uploader beim Nutzer)
+   - Uploader 2.0.0: nach mehreren /reload innerhalb von 15 Minuten genau EINE Nachricht "GoldSentinel-Paket: …" mit
+     paket-<Zeit>.json.gz in #testberichte; unveränderte Diagnose-Protokolle kommen nicht nochmals. Die Prüf-Sitzung
+     kontrolliert das in testberichte/.
+   - Bot 1.5.111: Recht "Nachrichten verwalten" nur in #testberichte; abgeholte Nachrichten verschwinden nach > 1 Stunde;
+     sonst wird nichts gelöscht. Ein fehlendes Recht meldet der Bot einmal in #bot-befehle.
+   - Bot 1.5.111: Gildenchef hat weiterhin seine Rechte (Punkt 1).
    - Server-Protokoll: höchstens ein Neustart je echtem Update
      (sudo journalctl -u raidmaster --since "-6h" | grep -c "Neustart nach Update").
    - Addon-Kanäle: je Addon nur der neueste Update-Text; ZIP-Beiträge, Vorstellungen, Übersichten und Hilfen bleiben.
    - #befehle unter 💬 ALLGEMEIN: nur Befehle für alle, für Gäste unsichtbar; #befehlsliste bei den Offizieren.
    - Raids mit "forever": false (BWL, ZG, AQ20, AQ40, Naxx) sind für Mitglieder ausgeblendet.
 
-5. HINWEIS FÜR KÜNFTIGE VERSIONEN
+5. IM CLIENT PRÜFEN (im Testplan des Nutzers)
+   - /rm testroutine im echten Client mit 3.0.20: T142, T122 (n = 3), T43 und Bereich K (T155-T160), Ergebnis melden.
+   - Schlachtzugsymbole in WoW Forever: sichere Knöpfe/Makro setzen Symbole ohne ADDON_ACTION_FORBIDDEN; Boss-Leiste
+     zeigt in Forever nur den Vorschlag.
+   - Tooltips bei Fensterskalierung ≠ 100 %: neben dem Fenster und auf Höhe des Elements.
+   - die übrigen IM-CLIENT-PRÜFEN-Fälle der Testroutine, T54b
+   - Erstkill-Screenshot -> #ruhmeshalle
+   - Bank-Charakter in RaidMaster -> Bestand in #gildenbank unter den Regeln
+
+6. HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Neue Bot-Module in .github/workflows/bot-tests.yml beim Import-Schritt ergänzen.
    - download/RaidMasterUploader.zip muss zum Ordner RaidMasterUploader/ passen (prüft "Bot-Tests").
    - Jeder neue Slash-Befehl braucht einen Eintrag in COMMAND_INFO (prüft tests/test_befehle.py).
-   - Die Version muss höher sein als 3.0.18 (download/, RaidMaster-latest.zip, CurseForge).
+   - Keine echten Spieler- oder Charakternamen in Code, Tests, Beispielen und Texten (hinweis-keine-spielernamen.txt).
+   - Die Version muss höher sein als 3.0.20 (download/, RaidMaster-latest.zip, CurseForge), Bot höher als 1.5.111,
+     Uploader höher als 2.0.0.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
-
-BEFUNDE AUS TESTBERICHTEN UND DIAGNOSE-PROTOKOLLEN (9. Nov. 06:10, Prüf-Sitzung, Quelle testberichte/)
-   a) MITTEL – 2× ADDON_ACTION_FORBIDDEN SetRaidTarget() mit 3.0.17 (zuletzt 08.11. 19:36 UTC). SetRaidTarget ist in
-      Forever geschützt (nur aus einer Hardware-Aktion, nicht aus Ereignissen/Timern). Lösung: Markieren nur über einen
-      Knopf (Klick des Spielers) bzw. sicheren Makro-Knopf; automatische Markierung als Vorschlag anzeigen.
-   b) Uploader: GSDIAG1 und GSWEGE1 kommen schon an (2 Protokolle, 51 Wegdaten am 9. Nov.) – danke.

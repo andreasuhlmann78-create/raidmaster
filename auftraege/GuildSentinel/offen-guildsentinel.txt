@@ -1,85 +1,75 @@
-OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.17)
+OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.18)
 =============================================================
-Stand: 9. November 2026, 11:25 · von der Prüf-Sitzung · Grundlage: download/GuildSentinel-0.9.17.zip und Repo 27220bf
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.14.
+Stand: 9. November 2026, 14:30 · von der Prüf-Sitzung · Grundlage: download/GuildSentinel-0.9.18.zip und Repo b52e690
+(verglichen mit 0.9.17 aus der git-Geschichte)
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.17.
 
-Erledigt in 0.9.17 (danke):
-- anweisung-gildenverwaltung.txt komplett umgesetzt (die Anweisung ist damit entfernt):
-  1. Zugang: Knopf "Verwaltung (GuildSentinel)" als eigener Frame, nur geankert, Blizzard-Fenster nur per HookScript,
-     Communities/GuildUI beim Laden angehängt (Admin.lua:533-599); /gs verwaltung (Core.lua:789); Fenster erst bei
-     Bedarf gebaut (Admin.lua:289).
-  2. Rechte über ns.API (Admin.lua:131-150, neu API.CanGuildDemote API.lua:54); ohne Rechte gesperrt mit Hinweis
-     (Admin.lua:507, 521, 556). Zugriffsliste nur in GuildSentinelDB.admin, nie gesendet, nicht im Protokoll (T198).
-  3. Einladen mit Name oder Ziel, Befördern/Degradieren mit Rang vorher -> nachher, nie über den eigenen Rang,
-     Rauswerfen mit Rückfrage, Leitung übergeben nur Gildenmeister + Passwort + zwei Rückfragen (Admin.lua:186-275,
-     316-407).
-  4. Passwort: zweimal eingeben, nur Prüfsumme mit Salz (Admin.lua:63-126), maskiert (Admin.lua:385, UI.lua:762 ff.),
-     3 Fehlversuche -> 5 Minuten Sperre, ändern nur mit dem alten, nie ausgegeben.
-  5. Aktionen nur aus dem Klick bzw. der Bestätigung (UI.lua:811 ruft synchron auf), Guard gegen Kampf (Admin.lua:211),
-     alles über ns.Act; Diagnose VERWALTUNG ohne Namen.
-  6. ns.RegisterUI (UI.lua), Bereich K kennt die neuen Fenster (TestRoutine.lua, uiFrames), alle 51 neuen Texte in allen
-     10 Locale-Dateien, Platzhalter gleich; Option "Verwaltungsknopf auf der Gildenseite"; alte Funktionen als Rückfall.
-  7. Testfälle T192-T198 offline alle OK, T199 im Spiel; Recorder kennt GuildDemote/GuildSetLeader und
-     C_GuildInfo.Demote/SetLeader (TestRoutine.lua:182-189).
+Erledigt in 0.9.18 (danke):
+- Punkt 1 (Gilden-Berufsliste ohne Mitglieder), offline umgesetzt: Zeilen werden mit Kopfzeile, Zustand "zugeklappt"
+  und Anzahl je Beruf gelesen (Professions.lua:444-461); zugeklappte Berufe werden über ns.API aufgeklappt, nur ohne
+  Kampf und bei geschlossenem Gildenfenster, danach wieder zugeklappt (Professions.lua:483-491, 518-521); Anzahl je
+  Beruf auf der Seite Berufe als "2/5" mit Tooltip (Professions.lua:599-613, Pages.lua:1236-1248); Diagnose-Zeile mit
+  Kopfzeilen/zugeklappt/aufgeklappt und auch beim ersten Lesen mit Einträgen (Professions.lua:526-535); API-Einträge
+  API.lua:94-95; T190 erweitert. Ob es im Spiel wirkt: siehe IM CLIENT PRÜFEN.
+- Punkt 2: Gilden-Aktionen und Ränge über ns.API (API.lua:97-111, Admin.lua:166-183, 209-213); T200 (alter Client ohne
+  C_GuildInfo) neu.
+- Punkt 3: doppelter Hook auf GuildFrame entfernt (Admin.lua, früher 589-593).
+- Punkt 4: Detail-, Rang- und Info-Fenster in Bereich K (TestRoutine.lua U.OTHER_WINDOWS); der Knopf weicht unter das
+  Gildenfenster aus, solange eines davon offen ist (Admin.lua:541-558, 578-583, Hooks 618-626).
+- hinweis-keine-spielernamen.txt: GoldSentinelGame.lua Version 3 übernommen; der echte Name ist aus Code, Tests,
+  Locales, CHANGELOG und curseforge/ entfernt (Testname "Testa Beispiel").
 Prüfungen: Addon-Prüfung OK ohne Warnung (Ladetest, Sprachtest), GoldSentinelGame.lua und GoldSentinelTest.lua
-byte-gleich mit shared/, CHANGELOG EN/DE, LIESMICH/README, .toc 0.9.17, Repo = ZIP. Offline-Routine Forever (16001)
-und Era (11508) je 16 bestanden / 0 Fehler (Routine: OK 168 bzw. 173 · FEHLER 0), test/run.lua 73/73,
-run_admin 24/24, run_uicheck 13/13, run_lang 7/7, run_noguild 19/19, run_nilglobals 24/24.
-Im Diff 0.9.16 -> 0.9.17 keine Lua-Fehler, kein Taint und keine ungeschützten Aktionen gefunden.
+byte-gleich mit shared/, neuer Text in allen 10 Locale-Dateien, CHANGELOG EN/DE, .toc 0.9.18, Repo = ZIP.
+Offline-Routine Forever (16001), Era (11508) und TBC (20505) je 16 bestanden / 0 Fehler (Routine 16001: OK 169 ·
+FEHLER 0; 11508: OK 174 · FEHLER 0), test/run.lua 73/73, run_admin 26/26, run_uicheck 13/13, run_lang 7/7,
+run_noguild 19/19, run_nilglobals 24/24.
+Im Diff 0.9.17 -> 0.9.18 keine Lua-Fehler, kein Taint (nur HookScript, rawget) und keine ungeschützten Aktionen gefunden.
+Diagnose-Protokolle: 7 Sitzungen mit 0.9.17 (09.11. 10:44-12:32) zeigen weiter "10 Zeilen, 0 Einträge, 0 Mitglieder",
+0 Fehler. Von 0.9.18 gibt es noch keine Protokolle.
 
-1. MITTEL – Gilden-Berufsliste (0.9.16, T190/T191) liefert im Spiel keine Mitglieder
-   Beleg: alle 13 Diagnose-Protokolle mit 0.9.16 (testberichte/diagnose/GuildSentinel/0.9.16-*, 09.11. 07:30-09:58)
-   zeigen "Gilden-Berufsliste: 10 Zeilen, 0 Einträge, 0 Mitglieder". Professions.lua:443-481.
-   Vermutung (im Client bestätigen): Die 10 Zeilen sind nur die Kopfzeilen der Berufe und zugeklappt (2. Rückgabewert
-   von GetGuildTradeSkillInfo = isCollapsed). Die Zeilen der Mitglieder kommen erst nach dem Aufklappen.
-   Lösung:
-   - Kopfzeilen und zugeklappte Kopfzeilen zählen und in die Diagnose-Zeile schreiben
-     ("10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 Einträge").
-   - Ist eine Kopfzeile zugeklappt: über ns.API ExpandGuildTradeSkillHeader(skillID) (nur wenn vorhanden, nicht im
-     Kampf, nicht während Blizzards Gildenfenster offen ist), danach lesen und den alten Zustand wiederherstellen
-     (CollapseGuildTradeSkillHeader). Gibt es das nicht: Anzahl je Beruf (numPlayers, 7. Rückgabewert) anzeigen.
-   - Die Diagnose-Zeile nicht nur beim ersten Lesen schreiben (Professions.lua:478 guildListTold), sondern auch
-     beim ersten Lesen mit Einträgen – das erste Lesen kann vor den Daten kommen.
-   - Testfall: zugeklappte Kopfzeilen -> wird aufgeklappt, Einträge gefunden, Zustand wiederhergestellt.
+1. MITTEL – Möglicher Kreislauf: Aufklappen/Zuklappen löst neues Lesen aus
+   Professions.lua:488 und 520 klappen auf und wieder zu. Löst das im Spiel GUILD_TRADESKILL_UPDATE aus, startet
+   Professions.lua:545 (GuildListLater) nach 5 Sekunden ein neues Lesen, das wieder auf- und zuklappt – dann alle
+   5 Sekunden, solange man in der Gilde ist (GUILD_ROSTER_UPDATE ist auf 5 Minuten gedrosselt, GUILD_TRADESKILL_UPDATE
+   nicht). Ob das Ereignis kommt, ist offline nicht prüfbar.
+   Lösung: Während des eigenen Auf-/Zuklappens und 2 Sekunden danach GUILD_TRADESKILL_UPDATE nicht beachten (Merker
+   P.glSelf), und höchstens alle 5 Minuten aufklappen (Zeit merken wie P.glLast). Diagnose-Zeile zählt, wie oft
+   aufgeklappt wurde. Testfall: das nachgestellte Expand/Collapse feuert GUILD_TRADESKILL_UPDATE -> kein zweites
+   Aufklappen innerhalb von 5 Minuten.
 
-2. NIEDRIG – Gilden-Aktionen und Ränge nicht über ns.API
-   Admin.lua:206-209 (Fn: C_GuildInfo.Invite/Promote/Demote/Uninvite/SetLeader bzw. GuildInvite …),
-   Admin.lua:167 GuildControlGetNumRanks, Admin.lua:175 GuildControlGetRankName greifen direkt zu. Kein Taint (nur
-   lesen), aber die Anweisung (Punkt 3d) verlangt ns.API, und die Testroutine kann den Rückfall alt/modern nicht
-   nachstellen.
-   Lösung: Einträge in API.lua (modern und alt je Aktion, GuildControlGetNumRanks, GuildControlGetRankName), Admin.lua
-   nutzt nur diese. Testfall wie T97b: C_GuildInfo.SetLeader fehlt -> GuildSetLeader wird mitgeschrieben.
+2. NIEDRIG – Zwei weitere Gilden-Aktionen nicht über ns.API, alter Weg zuerst
+   Activity.lua:209 (GuildPromote or C_GuildInfo.Promote), Bulk.lua:94 (GuildUninvite …) und Bulk.lua:98
+   (GuildPromote …) greifen direkt zu und nehmen die alte Funktion vor der modernen. Kein Taint, aber anders als
+   Admin.lua (Punkt 2 aus 0.9.17), und die Testroutine kann den Rückfall dort nicht nachstellen.
+   Lösung: Admin.Fn bzw. ns.API.C_GuildPromote/GuildPromote und C_GuildUninvite/GuildUninvite verwenden (modern
+   zuerst). Testfall wie T200 für Befördern aus der Aktivität und für die Sammelaktion.
 
-3. NIEDRIG – GuildFrame doppelt gehookt
-   Admin.lua:533 hat GuildFrame schon in HOSTS (Hook in 580-586), Admin.lua:589-593 hängt OnShow/OnHide nochmals an.
-   Folge nur: UpdateButton zweimal je Öffnen. Lösung: Block 589-593 entfernen.
-
-4. NIEDRIG – Knopf rechts am Gildenfenster und Blizzards Detailfenster
-   Admin.lua:553 setzt den Knopf an TOPRIGHT (+2, -28) des Gildenfensters. Genau dort öffnet Blizzard das Fenster mit
-   den Mitglieder-Einzelheiten (alter Client: GuildMemberDetailFrame; Communities: CommunitiesFrame.GuildMemberDetailFrame)
-   und das Rang-Fenster (GuildControlPopupFrame). Bereich K kennt diese nicht (TestRoutine.lua U.OTHER_WINDOWS).
-   Lösung: diese Fenster in U.OTHER_WINDOWS aufnehmen; überdeckt der Knopf sie, den Knopf ausweichen lassen
-   (z. B. unten rechts am Gildenfenster oder ausblenden, solange das Detailfenster offen ist).
-
-IM CLIENT PRÜFEN (/gs testroutine im echten Client mit 0.9.17, Ergebnis dem Nutzer melden)
+IM CLIENT PRÜFEN (/gs testroutine im echten Client mit 0.9.18, Ergebnis dem Nutzer melden)
+   - Punkt 1 aus 0.9.17: Diagnose-Zeile "Gilden-Berufsliste: … Kopfzeilen, … zugeklappt, … aufgeklappt, … Einträge"
+     ansehen. Stehen dort "aufgeklappt > 0" und trotzdem "0 Einträge", liefert das Spiel die Mitglieder erst später
+     (Server) – dann nach dem Aufklappen auf GUILD_TRADESKILL_UPDATE warten, erst dann lesen und zuklappen. Seite Berufe:
+     erscheint "x/y" bei den Berufen?
+   - Kreislauf (Punkt 1 oben): /etrace oder Diagnose: kommt GUILD_TRADESKILL_UPDATE alle 5 Sekunden?
+   - Blizzards Gilden-Berufsliste (J -> Berufe) danach im selben Zustand (zugeklappt) wie vorher?
    - T199: J drücken -> Knopf "Verwaltung (GuildSentinel)" rechts neben dem Gildenfenster (Forever: Communities;
      Era/TBC: Reiter Gilde im Freundesfenster); ohne Rechte grau mit Hinweis; /gs verwaltung öffnet das Fenster.
-     Passwort festlegen, falsch/richtig entsperren; Mitglied anklicken -> Detailfenster und Knopf überdecken sich nicht.
+     Passwort festlegen, falsch/richtig entsperren; Mitglied anklicken -> Knopf rutscht unter das Gildenfenster und
+     überdeckt das Detailfenster nicht; Rangfenster ebenso.
    - Echte Aktion einmal mit einem Test-Twink: Einladen, Befördern, Degradieren, Entfernen – kein "Aktion blockiert".
-   - Punkt 1: /dump GetGuildTradeSkillInfo(1) und /dump GetGuildTradeSkillInfo(2) – ist der 2. Wert true (zugeklappt)?
    - T82 "nichts gesendet": im letzten Lauf im Spiel (noch 0.9.13, 09.11. 05:47 UTC) echt 1
-     (C_ChatInfo.SendAddonMessage). Mit 0.9.17 erneut /gs testroutine; kommt T82 wieder: Stelle über ns.Act bzw. den
+     (C_ChatInfo.SendAddonMessage). Mit 0.9.18 erneut /gs testroutine; kommt T82 wieder: Stelle über ns.Act bzw. den
      Recorder finden und im Test nur mitschreiben.
    - Aus 0.9.13/0.9.14: T154 "Testa Beispiel ×3", T143 langsamste Seite mit echten Daten < 16 ms (letzter Lauf
      206,5 ms mit 0.9.13), T118, T45 "[Test], 0", Bereich K (T182-T187), Berufe-Knopf in Forever ohne "Aktion
      blockiert", issecretvalue nach dem Kampf, T168 (/gs testroutine whisperq), Bank-Charakter -> #gildenbank,
      Sprachwahl folgt ohne Einstellung dem Client.
-   - ADDON_ACTION_BLOCKED UNKNOWN() (4× mit 0.9.13, zuletzt 08.11. 09:01 UTC): in 13 Sitzungen mit 0.9.16 meldet das
-     Diagnose-Protokoll 0 Fehler. Weiter beobachten; kommt es wieder, Aufrufort aus dem Diagnose-Protokoll
+   - ADDON_ACTION_BLOCKED UNKNOWN() (4× mit 0.9.13, zuletzt 08.11. 09:01 UTC): in 20 Sitzungen mit 0.9.16/0.9.17 meldet
+     das Diagnose-Protokoll 0 Fehler. Weiter beobachten; kommt es wieder, Aufrufort aus dem Diagnose-Protokoll
      (debugstack) nehmen.
 
 HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Die Sprache muss ohne Einstellung immer dem Client folgen (hinweis-sprachtest.txt).
-   - Die Version muss höher sein als 0.9.17 (download/, announce/, CurseForge).
+   - Keine echten Spieler- oder Charakternamen (hinweis-keine-spielernamen.txt).
+   - Die Version muss höher sein als 0.9.18 (download/, announce/, CurseForge).
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.

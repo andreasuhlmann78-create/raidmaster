@@ -1,110 +1,84 @@
-OFFENE PUNKTE PROFESSIONSENTINEL (nach der Nachprüfung von 0.9.30)
+OFFENE PUNKTE PROFESSIONSENTINEL (nach der Nachprüfung von 0.9.32)
 ==================================================================
-Stand: 9. November 2026, 11:25 · von der Prüf-Sitzung · Grundlage: download/ProfessionSentinel-0.9.30.zip und Repo 4f72ac6
-(verglichen mit 0.9.28 aus der git-Geschichte; dazu die Diagnose-Protokolle 0.9.28–0.9.30 und der Spieltest-Bericht
-0.9.28 vom 9. Nov.)
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.28.
-Entfernt, weil erledigt: anweisung-spieltest.txt (ZUSATZ Händlerware in 0.9.29 umgesetzt; die Spieltest-Befunde
-stehen unten) und anweisung-mengenfenster-haendler.txt (0.9.30).
+Stand: 9. November 2026, 14:30 · von der Prüf-Sitzung · Grundlage: download/ProfessionSentinel-0.9.32.zip und Repo fdf1283
+(verglichen mit 0.9.30 aus dem Repo, Commit 4f72ac6 – die raidmaster-Geschichte vor dem 9. Nov., 10:51 UTC, ist
+nicht mehr da; 0.9.31 ist im Vergleich enthalten)
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.30.
+anweisung-werte-entzaubern.txt bleibt: Teil A ist erledigt, Teil B ist jetzt fällig (Punkt 1 unten).
 
-Erledigt in 0.9.29 und 0.9.30 (danke)
+Erledigt in 0.9.31 und 0.9.32 (danke)
 -------------------------------------
-- 0.9.29 Händlerware in freier Menge kaufen: Mengenfeld + "Kaufen" in der Einkaufsliste (UI.lua:708-772, 1247),
-  PL.PlanPurchase/BuyAmount (Plan.lua:182-248): volle Stapel, dann der Rest; Packungen aufgerundet; Gold, Taschen,
-  begrenzte Ware; nur auf Klick, nur bei offenem Händler, über ns.Act; Diagnose KAUF; Spieltest S9; T214.
-  Im Spiel bestätigt: "KAUF Grober Faden · gewünscht 47 · gekauft 47" (Diagnose 9. Nov. 09:06, drei Käufe).
-- 0.9.30 Mengenfenster am Händler (MerchantQty.lua): nur hooksecurefunc auf MerchantItemButton_OnModifiedClick
-  (MerchantQty.lua:204-210), Blizzard-Dialog nur ausgeblendet, Chat-Feld aktiv -> nur Link, nur im Kauf-Reiter,
-  nicht im Kampf, angedockt rechts am MerchantFrame, ns.RegisterUI, Enter/Esc/Mausrad, Option /ps menge (Standard an,
-  auch im Minimap-Menü), schliesst bei MERCHANT_CLOSED, gleiche Kauf-Funktion, Spieltest S10, T215. In allen vier
-  .toc-Dateien eingetragen. Kein Taint gefunden: keine Blizzard-Funktion oder C_-Tabelle ersetzt.
-- Im Spiel bestätigt (Diagnose 0.9.28–0.9.30): Klick springt über die Liste (KLICK "Liste · ausgewählt: ja",
-  4–5 ms, Spieltest S1 OK); S2 Fertigkeit, S3 Zähler, S4 Andocken neben AHSentinel, S6 Rangliste OK; seit 08.11.
-  kein ÜBERLAPPT mit AHAnalyzerProCraftPanel mehr.
+- 0.9.31 Anweisung "Entzaubern und Preise richtig rechnen", Teil A:
+  A1 Tabelle aus Disenchantry 1.1.2 (Disenchant.lua:318-345, 393-416), Lizenz LICENSE-Disenchantry.txt liegt bei;
+     Werte mit quelle-disenchantry/DisenchantResults.lua verglichen: gleich (grün 5–15 80/20 ohne Splitter, 21–25
+     75/15/10, Waffen 51–65 22/75/3, Forever-Waffen 21–30 Grosse Magieessenz nur mit ns.IsForever, blau 56–80 mit
+     Nexuskristall 0,5 %, episch min–max).
+  A2 "Entzauberungswert (Ø)", "Entzauberungswert nach Gebühren", Gewinn nur "Herstellen & Entzaubern: Gewinn"
+     (Locales.lua, UI.lua:394-417, 1549).
+  A3 Sicherheitsabschlag 10 % unter 10 Entzauberungen, Tooltip "(geschätzt)" (Prices.lua:285-291, UI.lua:393-396).
+  A4 beobachteter Händlerpreis vor Datenpaket (Prices.lua:159-170).
+  A5 Zutaten zum Kaufen mit GetCurrent, höchstens 3 h alt, sonst Markt; Quelle im Tooltip (Prices.lua:172-189,
+     UI.lua:357-359). Testfall T216.
+- 0.9.32 alle Punkte aus dem Stand nach 0.9.30:
+  1 Herstellen ohne Neuaufbau: nur sichtbare Zeilen nachführen (UI.UpdateVisibleRows), höchstens 1 Aufbau je 2 s,
+    Aufbau in Portionen per Coroutine (UI.lua:1695-1862), Entzauber-Reiter 30 s zwischengespeichert
+    (Disenchant.lua:465-495), Advisor setzt Ergebnisse erst am Ende (Advisor.lua:301-325). Testfall T219.
+  2 Tooltips neben dem Panel (UI.TooltipBeside/PlaceTooltip, UI.lua:253-318), auch Vorlagen-Tooltips der Reiter
+    und des Kästchens (HookScript, nichts ersetzt). Testfall T218.
+  3 ForeverAuctionFee als Methode, nur in Forever, alte Namen als Rückfall, Rundung floor(x + 0,5)
+    (Prices.lua:40-70, Spieltest.lua:105-113); T35 mit 2010c -> 101c (TestRoutine.lua:1192-1204). Passt zu
+    AHSentinel 0.65.41 (AHAnalyzerPro.lua:1572).
+  4 Spieltest: FEHLER bleibt, OK nur einmal, S2 nur bei neuer Lage (Spieltest.lua:41-50, 191-198). Testfall T217.
+  5a Esc über UISpecialFrames (nur angehängt), 5b BagRoom mit angebrochenen Stapeln und Reagenzientasche
+    (Plan.lua:168-214), 5c S10 erst nach beiden Fällen und FEHLER bei offenem Fenster im Chat-Fall
+    (MerchantQty.lua:182-190, Spieltest.lua:269-286), 5d T215 über das echte MERCHANT_CLOSED (TestRoutine.lua:3486).
+- GoldSentinelGame.lua Version 3; keine echten Spielernamen gefunden (Diagnose ersetzt Namen durch <Name>).
 
-Prüfungen: addon_check mit lupa (Lua 5.1) OK ohne Warnung. GoldSentinelGame.lua und GoldSentinelTest.lua byte-gleich
-mit shared/. python3 -I tests/run_offline.py ProfessionSentinel: Forever OK 170 / FEHLER 1 (nur T143 Zeitmessung
-16,5 ms, zählt nicht), Era 154 / 0, Retail 153 / 0, TBC ohne Lua-Fehler, keine echten Aktionen im Mock, Exit 0.
-Locales EN/DE für alle neuen Schlüssel (PLAN_BUY_*, PLAN_LIMIT_*, MQ_*, ST_S9/S10, ST_HINT_BUY/SHIFT), Platzhalter
-gleich. CHANGELOG EN/DE 0.9.29 und 0.9.30. Version in Core.lua und allen vier .toc = 0.9.30.
+Prüfungen: addon_check mit lupa OK ohne Warnung (Ladetest und Sprachtest). GoldSentinelGame.lua und
+GoldSentinelTest.lua byte-gleich mit shared/. ZIP gleich Repo fdf1283. python3 -I tests/run_offline.py
+ProfessionSentinel: Forever OK 173 / FEHLER 2 (nur T139 und T143 Zeitmessung, zählen nicht), Era 158 / 0, Retail
+157 / 0, TBC ohne Lua-Fehler, Exit 0. Zusätzlich mit echtem Lua 5.1 statt LuaJIT gelaufen (wichtig für die Coroutine:
+LuaJIT darf über pcall hinweg yielden, WoW nicht): Forever 174 / 1, Era 158 / 0, Retail 156 / 1 – nur T143
+Zeitmessung, T219 OK. Locales EN/DE für alle neuen Schlüssel (DE_SAFETY, DE_ESTIMATED, PRICE_CURRENT/MARKET,
+NET_DE …). CHANGELOG EN/DE 0.9.31 und 0.9.32. Version in Core.lua und allen vier .toc = 0.9.32. Kein Taint:
+keine Blizzard-Funktion oder C_-Tabelle ersetzt, UISpecialFrames nur ergänzt.
 
 OFFENE PUNKTE
 -------------
-1. NEUAUFBAU BEIM HERSTELLEN ZU LANGSAM – SPIELTEST S7 FEHLER (Schwere: MITTEL)
-   Spieltest 0.9.28 (9. Nov. 07:57): S7 FEHLER "0.2 Aufbau/s, 3 LANGSAM" (erwartet 0 LANGSAM über 16 ms). Der Sturm
-   ist weg (0,2/s), aber jeder Neuaufbau ist viel zu teuer. Diagnose 0.9.30 (9. Nov. 09:47): UI:Refresh bis 131,5 ms,
-   UI:Refresh/disenchant ×63 bis 131,2 ms (in 0.9.28 noch ×9, 95,1 ms), AUFBAU TRADE_SKILL_LIST_UPDATE 131,7 ms,
-   AD.Update 47,5 ms. 0.9.29/0.9.30 ändern daran nichts – jeder hergestellte Gegenstand ruckelt.
-   Lösung: Beim Herstellen (Listen-Ereignis nach eigenem Craft) nur die Zähler der betroffenen Rezepte nachführen,
-   keinen ganzen Neuaufbau; Reiter "Entzaubern" (RefreshDisenchant) und Advisor (AD.Update) zwischenspeichern und nur
-   bei geänderten Taschen/Preisen neu rechnen; was bleibt, in Portionen auf mehrere Frames verteilen (≤ 16 ms je
-   Frame). Testfall: 5× Herstellen nachgestellt -> höchstens 1 AUFBAU je 2 s und jeder Aufbau unter 16 ms im Mock
-   (wie T143, als eigener Fall in Bereich H). Im Spiel: S7 OK.
+1. WERTE ÜBER AHSENTINELS PREISFUNKTION (anweisung-werte-entzaubern.txt TEIL B) – JETZT FÄLLIG (Schwere: MITTEL)
+   AHSentinel hat seit 0.65.31 die eine Preisfunktion: A:RealPrice(itemID, opts) (Wert pro Stück brutto, 2. Wert
+   PriceInfo mit .source) und A:RealValue(itemID, qty, opts) (Wert nach Gebühren, mindestens Händlerpreis, in Forever
+   mit Kosten für erneutes Einstellen) – AHAnalyzerPro.lua:1110-1145 in 0.65.41. ProfessionSentinel 0.9.32 ruft sie
+   nirgends auf (grep RealPrice/RealValue: nichts); Verkaufswert der Produkte, Wert eigener Materialien und
+   Entzauberwert laufen weiter über P.AH (Median) und eigene Gebühr. Damit zeigen beide Addons verschiedene Zahlen.
+   Lösung: B1 – mit AHSentinel (A.RealPrice/A.RealValue vorhanden, pcall) Produktwert und Entzauberwert über
+   RealValue (schon nach Gebühren: die eigene Gebühr dann NICHT nochmals abziehen) bzw. RealPrice; Quelle aus
+   PriceInfo.source im Tooltip. Ohne AHSentinel oder alte Version: bisheriger Weg als Rückfall. B2 Gebühr bleibt
+   wie in 0.9.32. Testfall: AHSentinel-Attrappe mit RealValue -> gleicher Produktwert und keine doppelte Gebühr;
+   ohne RealValue -> alter Weg; RealValue wirft Fehler -> Rückfall ohne Lua-Fehler. Era/TBC nie brechen.
 
-2. TOOLTIPS VERDECKEN DEN SCHLIESSEN-KNOPF – SPIELTEST S8 / T206 FEHLER (Schwere: MITTEL)
-   Spieltest 0.9.28 (9. Nov. 07:55): S8 FEHLER "CheckButton verdeckt ProfessionSentinelPanelCloseButton; Button
-   verdeckt ProfessionSentinelPanelCloseButton; CheckButton verdeckt Button; …". Die Tooltips der Zeilen und Knöpfe
-   gehen mit GameTooltip:SetOwner(self, "ANCHOR_RIGHT") über den oberen rechten Rand des Panels und liegen über dem
-   Schliessen-Knopf bzw. über anderen Knöpfen (UI.lua:253, 412, 660, 760, 918; neu auch der "Kaufen"-Tooltip
-   UI.lua:757-771). In 0.9.29/0.9.30 unverändert.
-   Lösung: Tooltips von Elementen im Panel neben das Panel setzen: SetOwner(self, "ANCHOR_NONE") und
-   SetPoint("TOPLEFT", panel, "TOPRIGHT", 4, 0) – passt es rechts nicht in den Bildschirm, links an "TOPLEFT" des Panels
-   (bzw. neben den AHSentinel-Docker, nicht darüber). Eine Hilfsfunktion für alle Stellen. Danach /ps testroutine K
-   und Spieltest S8 im Client: keine.
+2. HINWEIS FÜR KÜNFTIGE VERSIONEN (Schwere: NIEDRIG)
+   a) Portionierter Aufbau: UI.Yield darf nur direkt aus dem Aufbau laufen, nie unter einem pcall, securecall,
+      table.sort-Vergleich oder einem Blizzard-Callback (WoW = Lua 5.1: "attempt to yield across C-call boundary").
+      Die Testroutine läuft offline mit LuaJIT, das solche Fehler nicht zeigt. Vorschlag: tests/run_offline.py mit
+      einer Option für lupa.lua51 (dazu eine kleine bit.band-Attrappe, die LuaJIT mitbringt) – so ist es hier geprüft.
+   b) Die geplante Aufgabe "Rezeptdaten-Update" vergibt bei neuen Rezeptdaten selbst die nächste Nummer: vorher die
+      Releases prüfen. Nur eine Sitzung je Addon (raidmaster/CLAUDE.md).
+   c) Lesende Blizzard-Aufrufe ausserhalb von ns.API (Waypoint.lua C_Map.GetMapInfo, Guild.lua Gildenliste,
+      PL.MerchantMaxStack/PL.Money in Plan.lua): erst in ns.API aufnehmen, wenn ein Test sie simulieren soll.
 
-3. AHSENTINEL-GEBÜHRENFUNKTION WIRD NIE GEFUNDEN (Schwere: MITTEL) – seit 0.9.25, Spieltest S5 dadurch immer offen
-   Prices.lua:45 und Spieltest.lua:102-103 suchen AHAnalyzerPro.AuctionFee bzw. .AHFee. Beides gibt es in AHSentinel
-   nicht (auch nicht in 0.65.30); AHSentinel hat A:ForeverAuctionFee(auctionTotal) (AHAnalyzerPro.lua:1522 in 0.65.30).
-   Folgen: (a) PS rechnet immer selbst, der CHANGELOG 0.9.25 verspricht "gleiche Zahl in beiden Addons";
-   (b) die eigene Rundung weicht ab: PS math.floor(price × 0,05) (Prices.lua:51, Spieltest.lua:105), AHSentinel
-   math.floor(price × 0,05 + 0,5) -> z. B. 2010c: PS 100c, AHSentinel 101c; (c) S5 meldet nie OK oder FEHLER.
-   T213 merkt es nicht, weil die Tests ein erfundenes AHAnalyzerPro.AuctionFee einsetzen (TestRoutine.lua:1190,
-   3333, 3335).
-   Lösung: "ForeverAuctionFee" an erster Stelle in die Liste (Prices.lua:45, Spieltest.lua:102), Aufruf als Methode
-   (fn(A, price)), nur in Forever; eigene Rundung auf math.floor(x + 0,5) wie AHSentinel; alte Namen als Rückfall
-   lassen. Testfall mit dem echten Namen ForeverAuctionFee und 2010c (PS = AHS = 101c).
-
-4. SPIELTEST: "EINMAL JE LAGE" UND FEHLER BLEIBT (Schwere: MITTEL)
-   ST.Record (Spieltest.lua:42-53) überschreibt das Ergebnis bei jedem Aufruf. OnProfession läuft bei jedem
-   Neuaufbau (Scan.lua:192) und rechnet dabei jedes Mal ns.Plan.Build und schreibt einen SPIELTEST-Eintrag ins
-   Protokoll; OnDock läuft bei jedem Refresh (UI.lua:1655). Belegt im Diagnose-Protokoll 0.9.30: "SPIELTEST ×37 S6 OK",
-   "×36 S4 OK". Ein späteres OK löscht so einen früheren FEHLER aus dem Bericht (nur die Chat-Zeile bleibt) – das
-   gilt jetzt auch für S9 und S10.
-   Lösung wie AHSentinel (Spieltest.lua P:Result): ein FEHLER bleibt stehen; ein OK wird nicht erneut geschrieben;
-   S2 nur bei neuer Lage (Beruf oder Fertigkeit geändert) prüfen, nicht bei jedem Refresh. Testfall: FEHLER, danach
-   OK -> Bericht FEHLER; 20 Refresh mit gleicher Fertigkeit -> 1 Eintrag SPIELTEST.
-
-5. MENGENFENSTER UND KAUFEN: KLEINIGKEITEN (Schwere: NIEDRIG)
-   a) Esc schliesst das Mengenfenster nur, solange das Mengenfeld den Fokus hat (MerchantQty.lua:102); nach einem
-      Mausklick ins Fenster bleibt es offen. Lösung: Fenster mit Namen anlegen und in UISpecialFrames eintragen (oder
-      OnKeyDown ESCAPE mit SetPropagateKeyboardInput).
-   b) PL.BagRoom (Plan.lua:169-179) zählt nur freie Plätze in Taschen 0–4: angebrochene Stapel desselben Items und die
-      Reagenzientasche fehlen -> bei vollen Taschen "Taschen voll", obwohl es noch passt. Lösung: Platz in vorhandenen
-      Stapeln dazuzählen (Stapelgrösse − Anzahl) und, wo es sie gibt, die Reagenzientasche.
-   c) S10 "Chat-Link geht weiter" kann nie FEHLER werden (MerchantQty.lua:180 meldet immer ok = true), und S10 wird
-      schon ohne den Chat-Fall OK (Spieltest.lua:270-273). Lösung: Im Chat-Fall prüfen, dass das Mengenfenster zu
-      ist; S10 erst OK, wenn beide Fälle gesehen wurden (sonst "noch nicht geprüft" mit Hinweis).
-   d) T215 "Händler schliessen -> Fenster zu" ruft MQ.Close() direkt (TestRoutine.lua, Ende von T215) statt den
-      Ereignis-Handler mit MERCHANT_CLOSED. Lösung: f:GetScript("OnEvent")(f, "MERCHANT_CLOSED") aufrufen.
-
-6. HINWEIS FÜR KÜNFTIGE VERSIONEN
-   - Die geplante Aufgabe "Rezeptdaten-Update" vergibt bei neuen Rezeptdaten selbst die nächste Nummer: vorher die
-     Releases prüfen. Nur eine Sitzung je Addon (raidmaster/CLAUDE.md).
-   - Lesende Blizzard-Aufrufe ausserhalb von ns.API (Waypoint.lua C_Map.GetMapInfo, Guild.lua Gildenliste; neu
-     PL.MerchantMaxStack/PL.Money mit GetMerchantItemMaxStack/GetMoney, Plan.lua:99-100): erst in ns.API aufnehmen,
-     wenn ein Test sie simulieren soll.
-
-IM CLIENT PRÜFEN (mit 0.9.30)
+IM CLIENT PRÜFEN (mit 0.9.32)
 -----------------------------
-- Mengenfenster: Shift+Klick auf Grober Faden beim Händler -> unser Fenster rechts am Händlerfenster, Blizzards
-  Mengen-Dialog zu; Chat-Eingabe offen + Shift+Klick -> nur Link im Chat, kein Fenster (gibt es
-  ChatEdit_GetActiveWindow in Forever? /dump ChatEdit_GetActiveWindow); Rechtsklick kauft 1, Linksklick nimmt auf;
-  60 eingeben -> 60 in den Taschen; Rückkauf-Reiter: Shift+Klick öffnet nichts; Classic Era gleich.
-- Mengenfenster und andere Addons am Händlerfenster (AHSentinel-Händler-Knopf, LevelPilot-Verkauf): nichts verdeckt
-  (/ps testroutine K, T207).
-- /ps spieltest an: S7, S8, S9, S10 nach den Punkten 1, 2 und 5c; S5 erst nach Punkt 3.
-- /ps protokoll beim Herstellen: kein LANGSAM über 16 ms (Punkt 1).
-- /ps testroutine im echten Client: T139/T140/T143 unter 16 ms, T145 Speicher, T132, Bereich K (T206–T211),
-  T186 Minimap-Button, T188 Andocken mit AHSentinel, T113, T144; ab dem 5. Nov. T169/T170.
+- /ps spieltest an: S7 (5 Gegenstände herstellen: kein LANGSAM, Zähler sinken trotzdem), S8 (Tooltips neben dem
+  Panel, auch neben dem angedockten AHSentinel-Fenster), S5 (jetzt mit ForeverAuctionFee: OK erwartet), S10 (beide
+  Fälle: Fenster offen; mit Chat-Eingabe nur Link).
+- Herstellen mit offenem Panel: kein Lua-Fehler aus der Coroutine (UI:Aufbau im /ps protokoll), Liste nach dem
+  Herstellen einmal neu, kein halb gefülltes Panel sichtbar; während des Aufbaus Reiter wechseln -> sofort richtig.
+- /ps protokoll beim Herstellen: kein LANGSAM über 16 ms, auch nicht "UI:Aufbau (Teil n)" oder "UI:Zeilen".
+- Entzaubern-Reiter: "Entzauberungswert", Abschlag und "(geschätzt)" im Tooltip, Zutaten mit "(AH aktuell)" bzw.
+  "(Markt)"; Braune Leinenhose ohne AHSentinel 2 Materialien 80/20.
+- Mengenfenster: Esc schliesst nach Mausklick ins Fenster; volle Taschen mit angebrochenem Stapel kauft den Rest.
+- /ps testroutine im echten Client: T139/T140/T143/T219 unter 16 ms, T145 Speicher, Bereich K (T206–T211), T188
+  Andocken mit AHSentinel, T113, T144; ab dem 5. Nov. T169/T170.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
