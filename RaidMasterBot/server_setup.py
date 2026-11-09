@@ -990,11 +990,8 @@ from datetime import datetime as _dt  # noqa: E402
 from zoneinfo import ZoneInfo as _Zone  # noqa: E402
 
 _ZH = _Zone("Europe/Zurich")
-CLEAR_CHANNELS_ONCE = {
-    # Test-DKP vor dem Serverstart von WoW Forever entfernen (Wunsch Gildenleitung, nur dieses eine Mal)
-    "mc-dkp": {"tag": "start-wow-forever-2026-11-04",
-               "before": _dt(2026, 11, 4, 7, 0, tzinfo=_ZH),
-               "until": _dt(2026, 11, 4, 12, 0, tzinfo=_ZH)},
+CLEAR_CHANNELS_ONCE: dict = {
+    # leer: "mc-dkp" (Test-DKP vor dem Serverstart, Fenster bis 04.11.2026 12:00) ist erledigt – entfernt in Bot 1.5.109
 }
 
 

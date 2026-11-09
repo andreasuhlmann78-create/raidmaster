@@ -206,7 +206,8 @@ class RaidBot(discord.Client):
             try:
                 await post_bot_log("⚠️ Gestartet **ohne Message Content Intent**: Er steht in config.json auf true, ist im "
                                    "Discord-Entwicklerportal aber aus (Bot → Privileged Gateway Intents). Bitte dort "
-                                   "einschalten – der Bot versucht es spätestens in 6 Stunden wieder.")
+                                   "einschalten – der Bot versucht es beim nächsten Neustart nach frühestens 6 Stunden wieder "
+                                   "(oder sofort: `sudo systemctl restart raidmaster`, nachdem der Intent eingeschaltet ist).")
             except Exception:  # noqa: BLE001
                 pass
         if not getattr(self, "_release_checked", False):

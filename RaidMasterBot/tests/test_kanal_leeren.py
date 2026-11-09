@@ -1,4 +1,4 @@
-"""Offline-Test (Bot 1.5.103): Kanal STRENG EINMALIG leeren (#mc-dkp vor dem Serverstart von WoW Forever).
+"""Offline-Test (Bot 1.5.103, ab 1.5.109 ohne aktiven Eintrag): Kanal STRENG EINMALIG leeren.
 - nur einmal je Kennung, nur bis "until" (auch wenn die Bot-Daten verloren gehen), nur Nachrichten vor "before"
 - angeheftete Nachrichten bleiben
 Start: python3 -I -m unittest discover -s RaidMasterBot/tests"""
@@ -14,7 +14,10 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import server_setup  # noqa: E402
 
 ZH = ZoneInfo("Europe/Zurich")
-SPEC = server_setup.CLEAR_CHANNELS_ONCE["mc-dkp"]
+# Muster-Eintrag wie der frühere "mc-dkp" (Bot 1.5.103–1.5.108); im Code ist seit 1.5.109 kein Eintrag mehr aktiv
+SPEC = {"tag": "start-wow-forever-2026-11-04",
+        "before": datetime(2026, 11, 4, 7, 0, tzinfo=ZH),
+        "until": datetime(2026, 11, 4, 12, 0, tzinfo=ZH)}
 
 
 def at(h, m=0, day=4):
@@ -35,8 +38,9 @@ class FakeChannel:
 
 
 class StrengEinmalig(unittest.TestCase):
-    def test_nur_mc_dkp(self):
-        self.assertEqual(list(server_setup.CLEAR_CHANNELS_ONCE), ["mc-dkp"])
+    def test_kein_eintrag_mehr_aktiv(self):
+        # "mc-dkp" galt nur bis 04.11.2026 12:00 und ist entfernt (offen-raidmaster.txt Punkt 1)
+        self.assertEqual(server_setup.CLEAR_CHANNELS_ONCE, {})
 
     def test_zeitfenster(self):
         self.assertTrue(server_setup.clear_allowed(SPEC, at(7, 20), None))
