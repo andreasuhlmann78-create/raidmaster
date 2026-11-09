@@ -1,4 +1,4 @@
-"""Offline-Tests für den RaidMaster-Uploader (1.7.0 / 1.8.0). Keine Verbindung nach aussen: urlopen ist nachgebaut.
+"""Offline-Tests für den RaidMaster-Uploader (1.7.0 / 1.8.0 / 1.9.0). Keine Verbindung nach aussen: urlopen ist nachgebaut.
 Start: python3 -I RaidMasterUploader/tests/test_uploader.py"""
 import gzip
 import io
@@ -302,6 +302,97 @@ class TestReports(Base):
         packed = attachment(net.calls[0].data, "testberichte.json.gz")
         back = testberichte.from_bytes("testberichte.json.gz", packed)
         self.assertEqual(sorted(r["id"] for r in back), ["x-1", "x-2"])
+
+
+# --- 1.9.0: Diagnose-Protokolle (GSDIAG1) und Wegdaten (GSWEGE1) --------------------------------------------
+DIAG = "GSDIAG1|ProfessionSentinel|0.9.23|forever|16001|09.11.2026|FEHLER x3 \"Zitat\" Umlaut äö\nzweite Zeile"
+WEG = 'GSWEGE1' + json.dumps({"f": 1, "kind": "wege", "id": "w-1", "addon": "LevelPilot",
+                              "zones": [{"map": 1412, "pts": [[1, 2]]}]})
+
+
+def sv_extras(var, diag=None, wege=(), secret=True):
+    lines = [f"{var} = {{"]
+    if secret:
+        lines.append('\t["chars"] = { ["Spielername-Realm"] = { ["gold"] = 12345 } },')
+    if diag:
+        lines.append('\t["diagExport"] = ' + lua_str(diag) + ",")
+    if wege:
+        lines.append('\t["wegeExport"] = {')
+        lines += ["\t\t" + lua_str(w) + "," for w in wege]
+        lines.append("\t},")
+    lines.append("}")
+    return "\n".join(lines) + "\n"
+
+
+class Extras(Base):
+    def test_x01_findet_diag_und_wege(self):
+        self.write("ProfessionSentinel.lua", sv_extras("ProfessionSentinelDB", DIAG.replace("Profession", "Profession")))
+        self.write("AHSentinel.lua", sv_extras("AHSentinelDB", DIAG.replace("ProfessionSentinel", "AHSentinel")))
+        self.write("LevelPilot.lua", sv_extras("LevelPilotDB", wege=[WEG]))
+        self.write("RaidMaster.lua", "RaidMasterDB = {}")
+        sc = up.TestReportScanner(self.sv)
+        self.assertEqual(sc.scan(self.cfg()), [])                 # keine GSTEST1
+        self.assertEqual(sorted(x["kind"] for x in sc.extras), ["diag", "diag", "wege"])
+        sc.scan(self.cfg())                                        # unverändert -> nicht doppelt
+        self.assertEqual(len(sc.extras), 3)
+
+    def test_x02_nur_wenn_neu(self):
+        self.write("LevelPilot.lua", sv_extras("LevelPilotDB", wege=[WEG]))
+        net = Net()
+        up.urllib.request.urlopen = net
+        cfg = self.cfg()
+        sc = up.TestReportScanner(self.sv)
+        sc.scan(cfg)
+        self.assertTrue(up.send_extras(cfg, sc.extras))
+        self.assertEqual(len(cfg["sent_extra_ids"]), 1)
+        # neuer Weg dazu, alter bleibt in der Liste: nur der neue geht mit
+        weg2 = WEG.replace('"w-1"', '"w-2"')
+        self.write("LevelPilot.lua", sv_extras("LevelPilotDB", wege=[WEG, weg2]), age=5)
+        sc2 = up.TestReportScanner(self.sv)
+        sc2.scan(cfg)
+        self.assertEqual(len(sc2.extras), 1)
+        self.assertIn('"w-2"', up.lua_unescape(sc2.extras[0]["raw"]))
+
+    def test_x03_gegenprobe_auswertung_und_keine_namen(self):
+        self.write("ProfessionSentinel.lua", sv_extras("ProfessionSentinelDB", DIAG))
+        self.write("LevelPilot.lua", sv_extras("LevelPilotDB", wege=[WEG]))
+        net = Net()
+        up.urllib.request.urlopen = net
+        sc = up.TestReportScanner(self.sv)
+        sc.scan(self.cfg())
+        self.assertTrue(up.send_extras(self.cfg(), sc.extras))
+        req = net.calls[0]
+        self.assertTrue(req.full_url.startswith("https://discord.invalid/test"))
+        packed = attachment(req.data, "gsextras.lua.gz")
+        raw = gzip.decompress(packed)
+        self.assertNotIn(b"Spielername", raw)
+        self.assertNotIn(b"Spielername", req.data)
+        text = raw.decode("utf-8")
+        d, w = testberichte.extras_from_text(text)
+        self.assertEqual([(x["addon"], x["version"]) for x in d], [("ProfessionSentinel", "0.9.23")])
+        self.assertEqual(d[0]["text"], DIAG)                       # Umlaute, Zitat und Zeilenumbruch unverändert
+        self.assertEqual([x["id"] for x in w], ["w-1"])
+        self.assertEqual(testberichte.from_bytes("gsextras.lua.gz", packed), [])   # kein Testbericht
+        payload = json.loads(req.data.split(b"\r\n\r\n", 1)[1].split(b"\r\n--", 1)[0])
+        self.assertEqual(payload["allowed_mentions"], {"parse": []})
+
+    def test_x04_grenzen_und_fehler(self):
+        big = DIAG + "x" * (600 * 1024)
+        cfg = self.cfg()
+        net = Net(500)
+        up.urllib.request.urlopen = net
+        xs = up.extras_in_text(sv_extras("A", big)) + up.extras_in_text(sv_extras("B", wege=[WEG]))
+        self.assertFalse(up.send_extras(cfg, xs))                   # 500 -> nichts gemerkt
+        self.assertNotIn("sent_extra_ids", cfg)
+        self.assertTrue(any("zu gross" in l for l in self.logs))
+        up.urllib.request.urlopen = Net(204)
+        self.assertTrue(up.send_extras(cfg, xs))
+        self.assertEqual(len(cfg["sent_extra_ids"]), 1)             # nur der Weg, die zu grosse Diagnose nie
+        del cfg["test_webhook_url"]
+        net3 = Net()
+        up.urllib.request.urlopen = net3
+        self.assertFalse(up.send_extras(cfg, xs))
+        self.assertEqual(net3.calls, [])
 
 
 if __name__ == "__main__":

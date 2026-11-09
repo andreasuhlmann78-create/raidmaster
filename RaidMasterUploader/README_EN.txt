@@ -35,3 +35,11 @@ New in 1.8.0 – test reports (#testberichte):
   other addons' SavedVariables.
 - This needs a second link: run /uploader in Discord again and put the new uploader_config.json into the folder.
   Without it, the data upload works as before and you only see a hint.
+
+New in 1.9.0 – diagnostic logs and route data (#testberichte):
+- AHSentinel and ProfessionSentinel store a diagnostic log on logout ("GSDIAG1"), LevelPilot its route data
+  ("GSWEGE1"). After /reload or logout the uploader sends them to #testberichte the same way as the test reports –
+  only when they are new.
+- Only these strings are sent, nothing else from the SavedVariables. The addons write no names into them.
+- No new uploader_config.json needed (the link from 1.8.0 is enough). Replace the whole folder as usual (back up
+  uploader_config.json first).

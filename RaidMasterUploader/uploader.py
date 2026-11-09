@@ -25,6 +25,13 @@ Ab 1.8.0 – Testberichte der GoldSentinel-Addons (#testberichte):
   (Kanal #testberichte, liest die Addon-Prüfung). Nur diese Berichte, sonst nichts aus fremden SavedVariables.
 - Unabhängig vom Daten-Upload: ein Fehler beim einen verhindert das andere nie.
 - Fehlt test_webhook_url (ältere uploader_config.json): einmal Hinweis "/uploader erneut ausführen", sonst wie bisher.
+
+Ab 1.9.0 – Diagnose-Protokolle und Wegdaten (gleicher Weg, gleicher Kanal #testberichte):
+- "GSDIAG1|…"-Diagnoseprotokolle (z. B. AHSentinelDB.diagExport, ProfessionSentinelDB.diagExport) und
+  "GSWEGE1{…}"-Wegdaten (LevelPilotDB.wegeExport) aus den SavedVariables nach /reload oder Ausloggen mitschicken.
+- Nur diese Zeichenketten, genau so wie sie in den SavedVariables stehen (Anhang gsextras.lua.gz), nichts sonst.
+- Nur wenn neu: gemerkt wird ein Prüfwert des Inhalts (sent_extra_ids, höchstens 500). Grössenregeln wie bei
+  den Testberichten (je Nachricht höchstens 4 MB entpackt, einzelne über 512 KB werden übersprungen).
 """
 
 from __future__ import annotations
@@ -42,7 +49,7 @@ import urllib.error
 import urllib.request
 import uuid
 
-VERSION = "1.8.0"
+VERSION = "1.9.0"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400
@@ -60,6 +67,10 @@ TEST_MAX_JSON = 4 * 1024 * 1024        # entpackt höchstens so viel je Nachrich
 TEST_MAX_SENT_IDS = 500
 TEST_USERNAME = "GoldSentinel-Testberichte"
 TEST_STABLE_SECONDS = 2
+EXTRA_PREFIXES = ("GSDIAG1", "GSWEGE1")
+EXTRA_STR = re.compile(r'"((?:GSDIAG1\||GSWEGE1\{)(?:[^"\\]|\\.)*)"', re.S)
+EXTRA_MAX_ONE = 512 * 1024              # so wertet die Addon-Prüfung höchstens aus (testberichte.MAX_EXTRA)
+EXTRA_MAX_SENT_IDS = 500
 
 
 def log(msg: str):
@@ -242,17 +253,32 @@ def reports_in_text(text: str, source: str = "") -> list[dict]:
     return found
 
 
+def extras_in_text(text: str) -> list[dict]:
+    """GSDIAG1-/GSWEGE1-Zeichenketten in einem SavedVariables-Text, unverändert (noch Lua-escaped).
+    id = Prüfwert des Inhalts, kind = "diag" oder "wege"."""
+    import hashlib
+    out = []
+    for m in EXTRA_STR.finditer(text):
+        raw = m.group(1)
+        out.append({"id": "x-" + hashlib.sha1(raw.encode("utf-8")).hexdigest()[:16],
+                    "kind": "diag" if raw.startswith("GSDIAG1") else "wege", "raw": raw})
+    return out
+
+
 class TestReportScanner:
-    """Merkt sich je *.lua im SavedVariables-Ordner die mtime und liest nur geänderte Dateien neu."""
+    """Merkt sich je *.lua im SavedVariables-Ordner die mtime und liest nur geänderte Dateien neu.
+    scan() liefert neue Testberichte; neue Diagnose-/Wegdaten (ab 1.9.0) landen beim selben Durchgang in .extras."""
 
     def __init__(self, folder: str):
         self.folder = folder
         self.mtimes: dict[str, float] = {}
+        self.extras: list[dict] = []
 
     def scan(self, cfg: dict, now: float | None = None) -> list[dict]:
         """Neue Berichte (id nicht in sent_test_ids), nach id entdoppelt."""
         now = time.time() if now is None else now
         sent = set(cfg.get("sent_test_ids") or [])
+        sent_x = set(cfg.get("sent_extra_ids") or []) | {x["id"] for x in self.extras}
         out, seen = [], set()
         try:
             names = sorted(fn for fn in os.listdir(self.folder) if fn.lower().endswith(".lua"))
@@ -272,6 +298,11 @@ class TestReportScanner:
             except OSError:
                 continue
             self.mtimes[fn] = mt
+            if any(p in text for p in EXTRA_PREFIXES):
+                for x in extras_in_text(text):
+                    if x["id"] not in sent_x:
+                        sent_x.add(x["id"])
+                        self.extras.append(x)
             if TEST_PREFIX not in text:
                 continue
             for rep in reports_in_text(text, fn):
@@ -367,6 +398,63 @@ def send_reports(cfg: dict, reports: list[dict], sleep=time.sleep) -> bool:
                 log("Testberichte konnten nicht geschickt werden – neuer Versuch später.")
             break
     return all_ok
+
+
+def extras_body(extras: list[dict]) -> tuple[str, bytes]:
+    """Eine Nachricht mit Anhang gsextras.lua.gz: je Zeile eine Zeichenkette wie in den SavedVariables ("…")."""
+    nd = sum(1 for x in extras if x["kind"] == "diag")
+    payload = {"content": f"GoldSentinel-Diagnose/Wegdaten: {nd} Diagnose, {len(extras) - nd} Wegdaten",
+               "username": TEST_USERNAME, "allowed_mentions": {"parse": []}}
+    text = "".join('"' + x["raw"] + '"\n' for x in extras)
+    packed = gzip.compress(text.encode("utf-8"), 9)
+    boundary = "----GSExtra" + uuid.uuid4().hex
+    body = b"".join([
+        f"--{boundary}\r\n".encode(),
+        b'Content-Disposition: form-data; name="payload_json"\r\nContent-Type: application/json\r\n\r\n',
+        json.dumps(payload).encode("utf-8"), b"\r\n",
+        f"--{boundary}\r\n".encode(),
+        b'Content-Disposition: form-data; name="files[0]"; filename="gsextras.lua.gz"\r\n'
+        b"Content-Type: application/gzip\r\n\r\n",
+        packed, b"\r\n",
+        f"--{boundary}--\r\n".encode(),
+    ])
+    return boundary, body
+
+
+def chunk_extras(extras: list[dict]) -> list[list[dict]]:
+    chunks, cur, size = [], [], 0
+    for x in extras:
+        n = len(x["raw"].encode("utf-8")) + 3
+        if n > EXTRA_MAX_ONE:
+            log(f"{'Diagnose' if x['kind'] == 'diag' else 'Wegdaten'} zu gross ({n // 1024} KB) – übersprungen.")
+            continue
+        if cur and size + n > TEST_MAX_JSON:
+            chunks.append(cur)
+            cur, size = [], 0
+        cur.append(x)
+        size += n
+    if cur:
+        chunks.append(cur)
+    return chunks
+
+
+def send_extras(cfg: dict, extras: list[dict], sleep=time.sleep) -> bool:
+    """Neue Diagnose-/Wegdaten an #testberichte. Erst nach Erfolg merken. True = alles gesendet."""
+    url = cfg.get("test_webhook_url") or ""
+    if not url.startswith("https://") or not extras:
+        return not extras
+    for chunk in chunk_extras(extras):
+        boundary, body = extras_body(chunk)
+        result = post_webhook(url, boundary, body, sleep)
+        if result != "ok":
+            log("Webhook für #testberichte ungültig – /uploader erneut ausführen." if result == "invalid"
+                else "Diagnose/Wegdaten konnten nicht geschickt werden – neuer Versuch später.")
+            return False
+        ids = list(cfg.get("sent_extra_ids") or []) + [x["id"] for x in chunk]
+        cfg["sent_extra_ids"] = ids[-EXTRA_MAX_SENT_IDS:]
+        save_config(cfg)
+        log(f"{len(chunk)} Diagnose-/Wegdaten an #testberichte geschickt.")
+    return True
 
 
 def screenshots_dir(path: str) -> str:
@@ -551,6 +639,14 @@ def main():
                     else:
                         sent = set(cfg.get("sent_test_ids") or [])
                         test_pending = [r for r in test_pending if str(r.get("id")) not in sent]
+                        test_failures += 1
+                        test_next_try = time.time() + min(600, 30 * test_failures)
+                if test_scanner.extras and time.time() >= test_next_try:
+                    if send_extras(cfg, test_scanner.extras):
+                        test_scanner.extras = []
+                    else:
+                        sent_x = set(cfg.get("sent_extra_ids") or [])
+                        test_scanner.extras = [x for x in test_scanner.extras if x["id"] not in sent_x]
                         test_failures += 1
                         test_next_try = time.time() + min(600, 30 * test_failures)
         except Exception as e:  # noqa: BLE001

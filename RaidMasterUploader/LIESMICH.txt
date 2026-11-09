@@ -40,3 +40,12 @@ Ab Version 1.8.0 – Testberichte (#testberichte):
   nichts anderes aus fremden SavedVariables.
 - Dafür braucht der Uploader einen zweiten Link: In Discord /uploader erneut ausführen und die neue
   uploader_config.json in den Ordner legen. Ohne sie läuft der Daten-Upload wie bisher, es kommt nur ein Hinweis.
+
+Ab Version 1.9.0 – Diagnose-Protokolle und Wegdaten (#testberichte):
+- AHSentinel und ProfessionSentinel speichern beim Ausloggen ein Diagnose-Protokoll ("GSDIAG1"), LevelPilot seine
+  Wegdaten ("GSWEGE1"). Der Uploader schickt sie nach /reload oder Ausloggen auf dem gleichen Weg wie die
+  Testberichte an #testberichte – nur wenn sie neu sind.
+- Geschickt werden nur diese Zeichenketten, nichts anderes aus den SavedVariables. Die Addons schreiben keine Namen
+  hinein.
+- Keine neue uploader_config.json nötig (der Link aus 1.8.0 reicht). Ordner wie gewohnt ganz ersetzen
+  (uploader_config.json vorher sichern).
