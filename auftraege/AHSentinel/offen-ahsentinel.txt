@@ -279,3 +279,15 @@ NEU (9. Nov. 14:16, Entscheid des Nutzers 14:14) – Tooltip eigener Items: Betr
    Testfälle: T-E5 eigenes Item net 1s 21c, sellNet 99c -> grün "Entzaubern: 1s 21c", grau "Verkaufen: 99c";
               T-E6 net 1s 21c, sellNet 1s 50c -> orange "Verkaufen bringt mehr: 1s 50c", grau "Entzaubern: 1s 21c";
               T-E4 anpassen (eigenes Item: 2 Zeilen).
+
+NEU (9. Nov. 14:18, Nutzer 14:16) – Ergänzung zum Nachtrag 14:16: dieselben zwei Wert-Zeilen auch im AH
+   Die zwei Zeilen "Entzaubern: <r.net>" / "Verkaufen: <r.sellNet>" (besserer Weg zuerst, farbig wie im Nachtrag
+   14:16, der andere grau) erscheinen IMMER, also auch bei Items im Auktionshaus (Zweig r.buy und "unsicher") –
+   dort UNTER dem Urteil:
+     Zeile 1  ICON "Entzaubern lohnt sich/nicht"  +/−Gewinn   (wie 0.65.41)
+     Zeile 2  "Lohnt bis"                         Höchstpreis (wie 0.65.41)
+     Zeile 3  besserer Weg mit Betrag             (z. B. grün "Entzaubern: 9s 35c")
+     Zeile 4  anderer Weg grau mit Betrag         (z. B. "Verkaufen: 8s 99c")
+   Eigene Taschen-Items: nur Zeilen 3–4 (Nachtrag 14:16). Ohne Shift genau diese Zeilen, mit Shift wie bisher mehr.
+   Fehlt r.sellNet: Zeile 4 weglassen. Testfall T-E7: AH-Item Kaufpreis 10s, net 9s 35c, sellNet 8s 99c ->
+   rot "Entzaubern lohnt nicht −65c", "Lohnt bis 7s 79c", grün "Entzaubern: 9s 35c", grau "Verkaufen: 8s 99c".
