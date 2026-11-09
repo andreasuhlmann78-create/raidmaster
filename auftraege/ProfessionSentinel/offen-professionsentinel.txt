@@ -136,3 +136,16 @@ BEFUNDE AUS TESTBERICHTEN UND DIAGNOSE-PROTOKOLLEN (9. Nov. 06:10, Prüf-Sitzung
       und nach jedem eigenen Refresh neu andocken.
    c) KLICK in 0.9.22 nur über OpenRecipe, oft "ausgewählt: nein" – in 0.9.23 über RecipeList:SelectRecipe behoben,
       im Spiel bestätigen (Protokoll zeigt Weg "Liste").
+
+GEBÜHRENREGEL WOW FOREVER – GILT AB 9. NOV. 06:21 (Angabe des Nutzers) – ERSETZT ALLE FRÜHEREN GEBÜHREN-NACHTRÄGE
+   - Es gibt NUR EINE Gebühr: die AH-Gebühr = max(5 % vom Verkaufspreis der Auktion, 1 Silber), PRO AUKTION
+     (pro eingestelltem Stapel, nicht pro Stück).
+   - Sie wird BEIM EINSTELLEN bezahlt. Eine separate Einstellgebühr gibt es nicht.
+   - Beim Abbrechen kommt laut Nutzer ein Teil zurück (anteilig zur Restlaufzeit). Ob beim Ablaufen ohne Verkauf etwas
+     zurückkommt, ist noch nicht bestätigt – nicht annehmen.
+   - Beispiele: 5 × 78c = 3s 90c -> Gebühr 1s; 2s -> 1s; 1g -> 5s.
+   - Gewinn bei Verkauf = Verkaufspreis − Gebühr − Material.
+   Für ProfessionSentinel heisst das: Prices.lua FeePerPiece/ahNet ändern – keine Einstellgebühr aus dem Händlerwert
+   mehr, sondern Gebühr = max(5 % × Verkaufspreis der Auktion, 100c) ÷ Stapelgrösse pro Stück; netto = brutto − Gebühr.
+   Tooltip "davon AH-Gebühr". Ist AHSentinel geladen, dessen Gebührenfunktion verwenden (gleiche Zahl in beiden).
+   Testfälle wie bei AHSentinel. Era/TBC unverändert.

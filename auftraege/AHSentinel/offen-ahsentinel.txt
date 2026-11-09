@@ -133,3 +133,20 @@ Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
    - Gleiche Unterscheidung überall, wo der Entzauberungswert verwendet wird (Schnäppchen/FindDeals: mit welchem Wert
      gerechnet wird, im Tooltip angeben).
    - Testfall: 4 Entzauberungen mit bekannten Ergebnissen und Preisen -> tatsächlicher Ø genau nachgerechnet.
+
+GEBÜHRENREGEL WOW FOREVER – GILT AB 9. NOV. 06:21 (Angabe des Nutzers) – ERSETZT ALLE FRÜHEREN GEBÜHREN-NACHTRÄGE
+   - Es gibt NUR EINE Gebühr: die AH-Gebühr = max(5 % vom Verkaufspreis der Auktion, 1 Silber), PRO AUKTION
+     (pro eingestelltem Stapel, nicht pro Stück).
+   - Sie wird BEIM EINSTELLEN bezahlt. Eine separate Einstellgebühr gibt es nicht.
+   - Beim Abbrechen kommt laut Nutzer ein Teil zurück (anteilig zur Restlaufzeit). Ob beim Ablaufen ohne Verkauf etwas
+     zurückkommt, ist noch nicht bestätigt – nicht annehmen.
+   - Beispiele: 5 × 78c = 3s 90c -> Gebühr 1s; 2s -> 1s; 1g -> 5s.
+   - Gewinn bei Verkauf = Verkaufspreis − Gebühr − Material.
+   Für AHSentinel heisst das:
+   a) Die Zeile "Einstellgebühr (nicht erstattet)" im Gewinn-Fenster und beim Verkaufen entfällt; nur noch eine Zeile
+      "AH-Gebühr (5 %, mind. 1s)" mit max(5 %, 100c) pro Auktion. Überall gleich: Gewinn-Fenster, Verkaufen, Heute
+      tun, Sniper/Schnäppchen, Entzauber-Werte "nach Gebühren", A:ExpectedDepositLoss/D:MaterialFee/FeePerPiece.
+   b) Der Auftrag "Einstellgebühr messen / Faktor herausfinden" (Punkt d im Nachtrag 17:10) ist GESTRICHEN. Stattdessen
+      beim Einstellen nur noch die tatsächlich abgezogene Gebühr ins Protokoll (EINSTELLEN: Preis, Menge, Gebühr), damit
+      die Regel im Spiel bestätigt wird; Warnung, wenn die Gebühr mehr als 10 % vom Preis ausmacht (einstellbar), bleibt.
+   c) Era/TBC unverändert. Testfälle: 390c -> 100c; 200c -> 100c; 10000c -> 500c; Stapel 20 Stück zu 1c -> 100c einmal.
