@@ -1,10 +1,14 @@
-OFFENE PUNKTE LEVELPILOT (nach der Nachprüfung von 3.12.14)
+OFFENE PUNKTE LEVELPILOT (nach der Nachprüfung von 3.12.15)
 ==========================================================
-Stand: 9. November 2026, 05:50 · von der Prüf-Sitzung · Grundlage: announce/levelpilot__levelpilot-3.12.14.LevelPilot.zip
+Stand: 9. November 2026, 06:10 · von der Prüf-Sitzung · Grundlage: announce/levelpilot__levelpilot-3.12.15.LevelPilot.zip
 Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 3.12.6 mit allen
 Nachträgen bis 9. Nov. 05:30.
 
-Erledigt in 3.12.7 bis 3.12.14 (danke):
+Erledigt in 3.12.7 bis 3.12.15 (danke):
+- 3.12.15: anweisung-testroutine-oberflaeche.txt – UICheck.lua aus der Vorlage, alle Fenster angemeldet,
+  Bereich K T224-T229 (TestRoutine.lua:3806-3840), Plausibel-Prüfungen "N fertig" = Abgeben, Questlog-Anzahl, Stufe,
+  Position (UICheck.lua:240-286), Fehlerschleife je Sitzung ab PLAYER_LOGIN. T224-T227 offline begründet übersprungen.
+  Die Anweisung ist damit für LevelPilot erledigt und entfernt.
 - 3.12.14: UnitIsAFK geschützt -> kein Lua-Fehler mehr (Session.lua:30 über LP.SafeValue, sonst Leerlauf-Zähler).
   Ebenso UnitOnTaxi, UnitIsDeadOrGhost, UnitIsDead, UnitIsGhost, UnitAffectingCombat, UnitInVehicle, UnitExists,
   UnitIsPlayer, UnitPlayerControlled, UnitInParty, UnitPowerType, UnitPosition (Geo.lua:114-116), GetXPExhaustion
@@ -18,13 +22,14 @@ Erledigt in 3.12.7 bis 3.12.14 (danke):
 - 3.12.13: erst die offenen Quests der Zone, dann Zonenwechsel (T222).
 - anweisung-levelpilot-graue-items.txt: Verkaufen-Knopf am Händler weg, graue Items automatisch beim Händler
   (Comfort.lua:59-91, Option autoSellGrey ab Werk an, Center.lua:500), Verkauf über LP.Act.Call, Chatzeile in allen
-  Sprachen. Die Datei ist entfernt; der Rest steht unten als Punkt 4.
+  Sprachen. Die Datei ist entfernt; der Rest steht unten als Punkt 3.
 Prüfungen: Addon-Prüfung OK ohne Warnung (Ladetest, Sprachtest), GoldSentinelGame.lua und GoldSentinelTest.lua
-byte-gleich mit shared/, CHANGELOG EN/DE, .toc 3.12.14. Im Diff 3.12.13 -> 3.12.14 keine neuen Fehler gefunden.
+byte-gleich mit shared/, CHANGELOG EN/DE, .toc 3.12.15 (mit UICheck.lua). Im Diff 3.12.13 -> 3.12.14 -> 3.12.15 keine
+neuen Fehler gefunden.
 Testberichte: seit dem 9. Nov. 05:30 keine neuen.
 
-Bitte mit der nächsten Version (3.12.15). Wie immer: komplette Dateien, alte Clients nie brechen, alle Locale-Dateien,
-CHANGELOG EN/DE, vor dem Push python3 addon-check/addon_check.py announce/levelpilot__levelpilot-3.12.15.LevelPilot.zip
+Bitte mit der nächsten Version (3.12.16). Wie immer: komplette Dateien, alte Clients nie brechen, alle Locale-Dateien,
+CHANGELOG EN/DE, vor dem Push python3 addon-check/addon_check.py announce/levelpilot__levelpilot-3.12.16.LevelPilot.zip
 -> kein FEHLER.
 
 1. EIGENE TOOLTIPS VERDECKEN KNÖPFE (Schwere: MITTEL, Screenshot Thunder Bluff 5. Nov.)
@@ -32,32 +37,27 @@ CHANGELOG EN/DE, vor dem Push python3 addon-check/addon_check.py announce/levelp
    UI.lua:848 ANCHOR_LEFT, Navigation.lua:381 ANCHOR_BOTTOM. Der Tooltip liegt über den Knöpfen (Unterstützen,
    Zentrale, Normal, Überspringen …).
    Lösung: ANCHOR_NONE und SetPoint ausserhalb des Hauptfensters (daneben bzw. darunter, am Bildschirmrand ausweichen),
-   nie über den eigenen Knöpfen. Die Testroutine soll das selbst finden (Punkt 2, Fall 1).
+   nie über den eigenen Knöpfen. T224 (neu in 3.12.15) sollte das im echten Client jetzt als FEHLER zeigen.
 
-2. TESTROUTINE PRÜFT DIE OBERFLÄCHE IM ECHTEN CLIENT (Schwere: MITTEL, anweisung-testroutine-oberflaeche.txt)
-   Noch nicht umgesetzt. Am einfachsten shared/vorlage/__ADDON__/UICheck.lua übernehmen (Fälle 1-6), eigene Fenster
-   anmelden und eigene Plausibel-Prüfungen ergänzen, z. B. Kopfzeile "Questlog N/40 (M fertig)" = Anzahl der Einträge
-   "Abgeben" in der Liste. Offline begründet überspringen, nie als OK zählen.
-
-3. TESTFÄLLE MELDEN "OK", OBWOHL NICHTS GEPRÜFT WURDE (Schwere: NIEDRIG)
-   Noch unverändert (TestRoutine.lua): 2146 und 2148 (T26), 2357 (T45), 621 (T50), 3317 (T152), 3408 (T164),
-   553, 1558, 1576 (T39, T74, T94: Level 60), 401, 769, 1020, 2495, 3126 (T04, T86, T170, T52, T130: kein Datenpaket).
+2. TESTFÄLLE MELDEN "OK", OBWOHL NICHTS GEPRÜFT WURDE (Schwere: NIEDRIG)
+   Noch unverändert (TestRoutine.lua): 2152 und 2154 (T26), 2363 (T45), 627 (T50), 3323 (T152), 3414 (T164),
+   559, 1564, 1582 (T39, T74, T94: Level 60), 407, 775, 1026, 2501, 3132 (T04, T86, T170, T52, T130: kein Datenpaket).
    Lösung: T:Skip(id, bereich, name, "<Grund> – in dieser Lage nicht prüfbar") statt OK, oder die Lage in der Sandbox
    selbst herstellen (wie bei T196/T212).
 
-4. GRAUE ITEMS – REST AUS DER ANWEISUNG (Schwere: NIEDRIG)
+3. GRAUE ITEMS – REST AUS DER ANWEISUNG (Schwere: NIEDRIG)
    a) Testfälle fehlen (in TestRoutine.lua kein Fall für SellGrey): Option an/aus, nur Qualität 0, Abbruch, wenn das
       Händlerfenster zugeht, im Test nur mitgeschrieben (LP.Act.Call "Sell").
    b) Gesperrte Gegenstände überspringen (Comfort.lua:65: isLocked aus C_Container.GetContainerItemInfo bzw. dem
       alten Rückgabewert prüfen).
    c) /lp-Befehl zum Umschalten fehlt (Core.lua:618 ff.), z. B. /lp grau bzw. /lp grey; Text in allen Locales.
 
-5. T128 ALTE FASSUNG (Schwere: NIEDRIG, Testroutine im Spiel 5. Nov.)
-   Unverändert seit 3.12.6 (TestRoutine.lua:3077). Ist "ergänzt true, gemessen true", soll "ergänzt, false, kein
+4. T128 ALTE FASSUNG (Schwere: NIEDRIG, Testroutine im Spiel 5. Nov.)
+   Unverändert seit 3.12.6 (TestRoutine.lua:3083). Ist "ergänzt true, gemessen true", soll "ergänzt, false, kein
    Fehler". Die Migration markiert Beispieldaten als gemessen. Prüfen, ob die Migration oder der Fall falsch ist, und
    anpassen. Dazu: Fehlerzähler stieg während der Routine um 5 – prüfen, ob absichtliche Testfehler mitgezählt werden.
 
-6. RESTLICHE ABFRAGEN OHNE SCHUTZ VOR GESCHÜTZTEN WERTEN (Schwere: NIEDRIG, Vorsorge zu 3.12.14)
+5. RESTLICHE ABFRAGEN OHNE SCHUTZ VOR GESCHÜTZTEN WERTEN (Schwere: NIEDRIG, Vorsorge zu 3.12.14)
    Noch roh benutzt: GetPlayerFacing (Navigation.lua:406-407 "if facing", 475, 497), IsIndoors (Caves.lua:99, 187,
    Navigation.lua:469, 493, Pins.lua:186), IsResting (Session.lua:196, Caves.lua:186), GetUnitSpeed (Measure.lua:87),
    UnitLevel("player") in Vergleichen (Core.lua:410, Session.lua:201, 310, Group.lua:44, 118, Protocol.lua:283),
@@ -65,7 +65,9 @@ CHANGELOG EN/DE, vor dem Push python3 addon-check/addon_check.py announce/levelp
    Lösung: wie in 3.12.14 über LP.SafeValue lesen und bei nil auf den bisherigen Rückfall gehen. T223 um diese Fälle
    erweitern.
 
-7. IM CLIENT PRÜFEN (Ergebnisse dem Nutzer melden)
+6. IM CLIENT PRÜFEN (Ergebnisse dem Nutzer melden)
+   - 3.12.15: /lp testroutine k im echten Client (T224-T229), Ergebnis melden – T224 sollte die Tooltips aus Punkt 1
+     finden.
    - 3.12.14: Fehlerprotokoll nach einer Spielsitzung mit Kampf und AFK – kein "secret boolean" mehr (vorher 798×
      Session.lua:29). Die automatischen Testberichte zeigen das; die Prüf-Sitzung kontrolliert sie.
    - Route Mulgore/Thunder Bluff (Befunde 5. Nov. 01:17, 03:20, 17:33, 19:03): nahe Abgaben zuerst, keine Linie übers
@@ -73,13 +75,13 @@ CHANGELOG EN/DE, vor dem Push python3 addon-check/addon_check.py announce/levelp
      dann Brachland. Kopfzeile "(N fertig)" und "Abgeben" oben in der Liste.
    - Graue Items: Händler öffnen -> graue Gegenstände weg, eine Chatzeile, Rückkauf-Reiter frei sichtbar.
    - /dump GetPlayerFacing(), IsIndoors(), IsResting() im Kampf und in einer Instanz: Zahl/Wahrheitswert, nil oder
-     geschützt? (für Punkt 6)
+     geschützt? (für Punkt 5)
    - Aus 3.12.6: Client-Fälle T171, T195, T213; /dump UnitGUID("target") direkt nach einem Kill im Kampf;
      /dump GetLootSourceInfo(1) bei offenem Beutefenster; Belohnungs-Hinweis bei QUEST_COMPLETE mit Gegenstand
      nicht im Cache; Nachkaufen beim echten Händler (MERCHANT_SHOW -> Restock); /lp testroutine reise (T84, T180, T183).
 
 Weiter gültig: anweisung-wegpunkte-strassen.txt (Punkt 1/6 eigene Koordinatenlisten für Mulgore, Brachland,
 Thunder Bluff, sobald genug aufgezeichnet ist; Punkt 12 erst nach der Rechtsprüfung; Punkt 15 erst auf Kommando des
-Nutzers) und anweisung-testroutine-oberflaeche.txt (Punkt 2 oben).
+Nutzers).
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
