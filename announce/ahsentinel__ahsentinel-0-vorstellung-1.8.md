@@ -42,7 +42,7 @@ AHSentinel scannt das Auktionshaus, merkt sich für jedes Item den Preisverlauf 
 
 **📬 Briefkasten und Händler**
 • Die **Auktionspost holt sich selbst ab**, sobald du den Briefkasten öffnest – normale Briefe bleiben liegen
-• **Post an Twinks** nach deinen Regeln, **Schrott-Knopf** beim Händler
+• **Post an Twinks** nach deinen Regeln, **Schrott-Knopf** beim Händler (oben über dem Händlerfenster; mit LevelPilot ab Werk aus, weil LevelPilot graue Items schon selbst verkauft)
 
 **🔍 Maus drüber – Tooltip**
 Preis, Marktwert, Verlauf, Händlerpreis, Entzauberwert, Verkaufbarkeit und wie viele Stück **deine Twinks** haben. Der **Entzauberwert lernt mit**: aus jeder Entzauberung – deiner und der aller Spieler mit AHSentinel (Startwerte grün: 75 % Staub, 20 % Essenz, 5 % Splitter). Dazu **Preisverlauf** von 24 Stunden bis „alles“, **Watchlist** mit Alarm und **Preis-Sync** mit Mitspielern oder nur mit deiner Gilde.

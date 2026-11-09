@@ -12,6 +12,16 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.18
+
+- **Vendor button no longer covers anything:** the "Sell: … items" button sat below the merchant window and covered the
+  "Buyback" tab. It now sits above the merchant window, top right – never next to the "Merchant" / "Buyback" tabs.
+- **Only when there is something to sell:** instead of "Sell: 0 items (0)" the button is hidden.
+- **Off by default with LevelPilot:** if LevelPilot is loaded and sells grey items itself (on by default there), the
+  button stays off until you turn it on yourself in the options ("Button at vendors"). Your own setting always wins.
+- Test routine (developer only): T186 checks in game that the button covers no tab of the merchant window (otherwise
+  FAIL), T187 checks the default with and without LevelPilot.
+
 ### Version 0.65.17
 
 - **Deposit is measured:** every time you post, the addon notes item, vendor price, quantity, duration, your price
@@ -49,14 +59,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   recipe list of the profession window and scrolls it into view – in the same moment, without waiting for a timer.
   Only if that is not possible the game's OpenRecipe is used; the addon checks every frame and reports in the chat
   if the recipe is not shown within 0.5 seconds.
-
-### Version 0.65.13
-
-- **WoW Forever – profit next to the profession window:** the deposit (at least 1 silver per auction, never refunded)
-  is now deducted and shown as its own line: profit = value × 0.95 − materials − deposit (e.g. Copper Chain Pants 18c
-  instead of 1s 18c – the same as ProfessionSentinel). The best-recipes list is ranked with it.
-- **WoW Forever – bid deals** also deduct the deposit for re-selling.
-- Classic Era, TBC and other versions are unchanged (there the deposit comes back on sale).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
