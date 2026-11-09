@@ -12,6 +12,18 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.45
+
+- **Ledger fix (WoW Forever):** in a Forever sale invoice the field read as "price" is the **quantity** – 0.65.42 to
+  0.65.44 swapped quantity and unit price (e.g. 91 pieces at 1s 84c instead of 184 pieces at 91c). Income was right,
+  but average sale price, sell rate and speed were wrong. Fixed when reading invoices, and existing sales are
+  corrected once at login ("Ledger: fixed N sales (quantity and unit price)"). Nothing is deleted.
+- **Values come from your last scan:** the value of an item is the cheapest offer of your last scan (or a newer
+  search) – no 1c off, no cap at the median. Only two safeguards: an obvious outlier (e.g. 1 piece for 1c) is
+  replaced by the next real offer, and items missing from the last scan use the market median. Your own average sale
+  price is statistics only (Shift in the tooltip, yellow if more than 30 % below the market).
+- Tooltip materials show the source ("scan" / "market").
+
 ### Version 0.65.44
 
 - **Tooltip, clearer ("variant A"):** without Shift exactly three blocks –
@@ -71,13 +83,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   - Value = the better of selling (AH fee max(5 %, 1s) per auction) and disenchanting (only if disenchantable).
   - "Profit" shows the best way, below "best way: disenchant/sell" and the other way with its amount.
     "Best recipes" sorts by it, with "dis."/"sell" behind the amount.
-
-### Version 0.65.40
-
-- **Ledger repair (WoW Forever, once):** sales booked before 0.65.35 still carried the AH share and deposit from the
-  invoice, so the fee was deducted twice (e.g. "Today" income below zero). They are corrected once at login
-  (share and refund set to 0, the old values are kept as a backup, nothing is deleted). Chat: "Ledger: fixed N old
-  sales". Era/TBC unchanged.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

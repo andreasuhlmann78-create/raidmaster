@@ -7,6 +7,18 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.45</h3>
+<ul>
+<li><strong>Ledger fix (WoW Forever):</strong> in a Forever sale invoice the field read as "price" is the <strong>quantity</strong> – 0.65.42 to
+  0.65.44 swapped quantity and unit price (e.g. 91 pieces at 1s 84c instead of 184 pieces at 91c). Income was right,
+  but average sale price, sell rate and speed were wrong. Fixed when reading invoices, and existing sales are
+  corrected once at login ("Ledger: fixed N sales (quantity and unit price)"). Nothing is deleted.</li>
+<li><strong>Values come from your last scan:</strong> the value of an item is the cheapest offer of your last scan (or a newer
+  search) – no 1c off, no cap at the median. Only two safeguards: an obvious outlier (e.g. 1 piece for 1c) is
+  replaced by the next real offer, and items missing from the last scan use the market median. Your own average sale
+  price is statistics only (Shift in the tooltip, yellow if more than 30 % below the market).</li>
+<li>Tooltip materials show the source ("scan" / "market").</li>
+</ul>
 <h3>Version 0.65.44</h3>
 <ul>
 <li><strong>Tooltip, clearer ("variant A"):</strong> without Shift exactly three blocks –</li>
@@ -63,14 +75,7 @@
   - Value = the better of selling (AH fee max(5 %, 1s) per auction) and disenchanting (only if disenchantable).
   - "Profit" shows the best way, below "best way: disenchant/sell" and the other way with its amount.
     "Best recipes" sorts by it, with "dis."/"sell" behind the amount.</p>
-<h3>Version 0.65.40</h3>
-<ul>
-<li><strong>Ledger repair (WoW Forever, once):</strong> sales booked before 0.65.35 still carried the AH share and deposit from the
-  invoice, so the fee was deducted twice (e.g. "Today" income below zero). They are corrected once at login
-  (share and refund set to 0, the old values are kept as a backup, nothing is deleted). Chat: "Ledger: fixed N old
-  sales". Era/TBC unchanged.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
