@@ -7,6 +7,17 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.55</h3>
+<ul>
+<li><strong>Price sync works again (WoW Forever):</strong> addon messages in custom chat channels never arrive in Forever (the server
+  refuses them). AHSentinel no longer uses its own channel "AHAPSync" – it leaves it once (frees a channel slot) and
+  shares prices, item names and disenchant results only via <strong>guild and group/raid</strong>, in all game versions. It uses the
+  shared GoldSentinel file GoldSentinelSync.lua (same as the other GoldSentinel addons); messages from older
+  AHSentinel versions are still understood.</li>
+<li>Honest status: "Sync via guild: N players" or "nobody with AHSentinel online".</li>
+<li>New: <strong>/ahs sync test</strong> – pings guild and group and shows "N replies (guild a, group b)".</li>
+<li>Diagnostic log: sync path, sent/received/dropped and refused channel messages.</li>
+</ul>
 <h3>Version 0.65.54</h3>
 <ul>
 <li><strong>Sniper at full speed:</strong> while sniper mode is ON with open targets, the watcher pauses (no more taking turns).
@@ -45,16 +56,7 @@
 <li><strong>Sniper "Buy now" hint:</strong> shown only once, for at most 2 seconds, above the action bars instead of twice in the
   middle of the screen over open windows.</li>
 </ul>
-<h3>Version 0.65.50</h3>
-<ul>
-<li><strong>For addon authors – public interface <code>AHSentinel.API</code> (version 1):</strong> global <code>AHSentinel.API</code>, alias
-  <code>AHAnalyzerPro.API</code>. Functions: <code>Price</code>, <code>NetSale</code>, <code>Deposit</code>, <code>CutPct</code>, <code>MaterialCost</code>, <code>DisenchantValue</code>, <code>BestWay</code>,
-  <code>SellSpeed</code>, <code>MinProfitPct</code>, <code>GoldPerHour</code>, <code>LastScan</code>, <code>Subscribe</code> (calls <code>fn("scan"/"ledger"/"settings")</code>, at most
-  once per 2 s). Every function is safe (never a Lua error, <code>nil</code> if unknown), amounts in copper. Details in <code>API.md</code>.
-  The old functions (RealPrice, RealValue, AuctionFee, AHFee, ForeverAuctionFee, GetMarketValue, GetCurrent) stay.</li>
-<li>Automatic minimum price when selling: minimum profit now 20 % (same default as the interface).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

@@ -12,6 +12,17 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.55
+
+- **Price sync works again (WoW Forever):** addon messages in custom chat channels never arrive in Forever (the server
+  refuses them). AHSentinel no longer uses its own channel "AHAPSync" – it leaves it once (frees a channel slot) and
+  shares prices, item names and disenchant results only via **guild and group/raid**, in all game versions. It uses the
+  shared GoldSentinel file GoldSentinelSync.lua (same as the other GoldSentinel addons); messages from older
+  AHSentinel versions are still understood.
+- Honest status: "Sync via guild: N players" or "nobody with AHSentinel online".
+- New: **/ahs sync test** – pings guild and group and shows "N replies (guild a, group b)".
+- Diagnostic log: sync path, sent/received/dropped and refused channel messages.
+
 ### Version 0.65.54
 
 - **Sniper at full speed:** while sniper mode is ON with open targets, the watcher pauses (no more taking turns).
@@ -49,15 +60,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   hides (ProfessionSentinel shows the same numbers via AHSentinel.API) and comes back when the panel closes.
 - **Sniper "Buy now" hint:** shown only once, for at most 2 seconds, above the action bars instead of twice in the
   middle of the screen over open windows.
-
-### Version 0.65.50
-
-- **For addon authors – public interface `AHSentinel.API` (version 1):** global `AHSentinel.API`, alias
-  `AHAnalyzerPro.API`. Functions: `Price`, `NetSale`, `Deposit`, `CutPct`, `MaterialCost`, `DisenchantValue`, `BestWay`,
-  `SellSpeed`, `MinProfitPct`, `GoldPerHour`, `LastScan`, `Subscribe` (calls `fn("scan"/"ledger"/"settings")`, at most
-  once per 2 s). Every function is safe (never a Lua error, `nil` if unknown), amounts in copper. Details in `API.md`.
-  The old functions (RealPrice, RealValue, AuctionFee, AHFee, ForeverAuctionFee, GetMarketValue, GetCurrent) stay.
-- Automatic minimum price when selling: minimum profit now 20 % (same default as the interface).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
