@@ -69,6 +69,11 @@ gelesen wird, enthält bei Warenverkäufen die **Menge**, und `count` kommt als 
 - Menge = das "Preis"-Feld; Stückpreis = Gesamt / Menge
 - Kontrolle: consignment ≈ 5 % von Gesamt (± 1c je Auktion), Stückpreis ≈ Marktpreis
 - Belegt mit: 47 × 86c = 4042 · 184 × 91c = 16744 · 69 × 91c = 6279 (alle exakt)
+- **RECHNUNG-ROH (1. Rohzeile, 9.11. 15:28, Schwarzmaulöl, 18 Stück zu 449c):** 4 (bid) = 8082 = **Gesamtpreis**,
+  5 (buyout) = 18 = **Menge**, 6 = 100 Einzahlung, 7 = 404 Gebühr (5 %), 11 (count) = 18 = Menge, Post-Gold 7778 =
+  8082 − 404 + 100. Also: bid = Gesamt, buyout = Menge, count = Menge oder 0. Gesamt aus bid ist auch dann bekannt,
+  wenn das Gold schon aus der Post genommen ist (Post-Gold dann 0). Feldlage bid = Gesamt: 1 Rohbeleg, mit den 3
+  abgeleiteten Fällen verträglich – weitere Rohzeilen sammeln.
 - Rohwerte (RECHNUNG-ROH) im Diagnose-Protokoll behalten, bis die Feldlage für alle Fälle (Einzelstücke, Gebote,
   Käufe) belegt ist.
 
