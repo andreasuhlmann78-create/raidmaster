@@ -111,8 +111,19 @@ def analyse(exports):
     npc_rows = []
     for n in npcs:
         old, new = n.get("old"), n.get("new")
+        # LevelPilot schreibt "old" als [Karte, x, y], "new" als [x, y] – Karte vorne entfernen
+        other_map = None
+        if isinstance(old, list) and len(old) == 3:
+            if old[0] != n.get("map"):
+                other_map = old[0]
+            old = old[1:]
+        if isinstance(new, list) and len(new) == 3 and new[0] == n.get("map"):
+            new = new[1:]
         o, w = pts(old), pts(new)
-        if o and w:
+        if other_map is not None and w:
+            npc_rows.append((n.get("id"), n.get("map"), f"Karte {other_map} -> {n.get('map')} {w[0][0]:.1f},{w[0][1]:.1f}",
+                             "-", "andere Karte (Datenpaket falsch)"))
+        elif o and w:
             d = dist(o[0], w[0])
             npc_rows.append((n.get("id"), n.get("map"), f"{o[0][0]:.1f},{o[0][1]:.1f} -> {w[0][0]:.1f},{w[0][1]:.1f}",
                              f"{d:.1f} %", "deutlich falsch" if d > NPC_FAR else "klein"))

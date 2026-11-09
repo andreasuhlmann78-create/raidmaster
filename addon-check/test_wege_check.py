@@ -31,7 +31,8 @@ exports = [{
     ]}],
     "blocked": [{"map": 1412, "p": [41.0, 60.5], "why": "FEST", "t": 1}],          # gesperrt, aber 5× gelaufen
     "npc": [{"id": 3233, "map": 1412, "old": [62.0, 58.0], "new": [47.5, 58.4], "t": 1},
-            {"id": 9999, "map": 1412, "old": [10.0, 10.0], "new": None, "t": 1}],
+            {"id": 9999, "map": 1412, "old": [10.0, 10.0], "new": None, "t": 1},
+            {"id": 2995, "map": 1456, "new": [46.8, 50.1], "old": [1456, 47, 49.8], "t": 1}],
 }]
 
 rep, npc = wc.analyse(exports)
@@ -43,6 +44,7 @@ check("ausserhalb erkannt", any("ausserhalb" in o for o in m["outliers"]), True)
 check("Widerspruch gesperrt/gelaufen", len(m["conflicts"]), 1)
 check("NPC deutlich falsch", npc[0][4], "deutlich falsch")
 check("NPC nicht da", npc[1][2], "nicht da (Nutzer)")
+check("NPC mit Karte im alten Ort", (npc[2][3], npc[2][4]), ("0.4 %", "klein"))
 
 with tempfile.TemporaryDirectory() as tmp:
     out = wc.write(rep, npc, Path(tmp) / "auswertung.md")
