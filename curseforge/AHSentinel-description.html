@@ -7,6 +7,19 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.22</h3>
+<ul>
+<li><strong>Disenchanting in the tooltip – actual and estimated, clearly separated:</strong></li>
+<li>"Disenchant actual (avg of N)": only from real disenchants of this group (yours + shared): sum of the materials
+    you really got × current AH price from the last scan ÷ N. Below 10 disenchants it says "(little data)", without
+    any disenchant the line is left out.</li>
+<li>"Disenchant estimated (table)": the previous value (table blended with results).</li>
+<li>One line per material: chance (or actual frequency "x/N") × average amount · AH price from the last scan (with
+    age) · market value = share; below it "after fees" (WoW Forever: AH fee 5 %, at least 1s per auction).</li>
+<li>The tooltip says which value the disenchant bargains use: the actual average from 10 disenchants on, otherwise the
+    estimate.</li>
+<li>New option "Disenchant: per material" (on by default).</li>
+</ul>
 <h3>Version 0.65.21</h3>
 <ul>
 <li><strong>WoW Forever fee rule:</strong> Forever has only ONE fee – the AH fee = 5 % of the auction's price, at least 1 silver,
@@ -70,15 +83,7 @@
   the best 10, sorted by profit. Items without a vendor price never appear, offers that are gone are hidden. The
   button buys only on your click, then tells you to sell to a vendor.</li>
 </ul>
-<h3>Version 0.65.16</h3>
-<ul>
-<li><strong>Protected values:</strong> the recipe selection and the diagnostic log ignore protected game values instead of touching them.</li>
-<li>Developer test routine (developer only), following the rules that proved themselves for LevelPilot: honest counting
-  (checks that cannot run in a client count as skipped, never as OK; the report states "not automated: N" and lists
-  everything to check in the game), each bug found in the game is its own test (recipe click without a previous click,
-  the 50-second delay), bait values for protected values, the test log goes to a sandbox, test IDs are unique.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

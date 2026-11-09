@@ -12,6 +12,19 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.22
+
+- **Disenchanting in the tooltip – actual and estimated, clearly separated:**
+  - "Disenchant actual (avg of N)": only from real disenchants of this group (yours + shared): sum of the materials
+    you really got × current AH price from the last scan ÷ N. Below 10 disenchants it says "(little data)", without
+    any disenchant the line is left out.
+  - "Disenchant estimated (table)": the previous value (table blended with results).
+  - One line per material: chance (or actual frequency "x/N") × average amount · AH price from the last scan (with
+    age) · market value = share; below it "after fees" (WoW Forever: AH fee 5 %, at least 1s per auction).
+  - The tooltip says which value the disenchant bargains use: the actual average from 10 disenchants on, otherwise the
+    estimate.
+  - New option "Disenchant: per material" (on by default).
+
 ### Version 0.65.21
 
 - **WoW Forever fee rule:** Forever has only ONE fee – the AH fee = 5 % of the auction's price, at least 1 silver,
@@ -74,14 +87,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   purchase price) × quantity, no AH cut. Only from 10 silver profit per offer (adjustable: all / 5s / 10s / 50s / 1g),
   the best 10, sorted by profit. Items without a vendor price never appear, offers that are gone are hidden. The
   button buys only on your click, then tells you to sell to a vendor.
-
-### Version 0.65.16
-
-- **Protected values:** the recipe selection and the diagnostic log ignore protected game values instead of touching them.
-- Developer test routine (developer only), following the rules that proved themselves for LevelPilot: honest counting
-  (checks that cannot run in a client count as skipped, never as OK; the report states "not automated: N" and lists
-  everything to check in the game), each bug found in the game is its own test (recipe click without a previous click,
-  the 50-second delay), bait values for protected values, the test log goes to a sandbox, test IDs are unique.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
