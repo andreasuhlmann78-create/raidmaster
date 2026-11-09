@@ -1,0 +1,135 @@
+ANWEISUNG AN DIE AHSENTINEL-SITZUNG – Gebühren wie im klassischen WoW, Rechnung richtig lesen, Buchhaltung
+wiederherstellen, Laufzeit und Verkaufsdauer, "Beste Rezepte" bremsen
+Prüf-Sitzung, 9. November 2026, 14:30. Freigabe des Nutzers 14:22. Grundlage: Diagnose-Protokoll 0.65.41 (14:19) und
+Screenshots 13:28–13:37 (Einstellen-Fenster, Leinenstoffballen und Seltsamer Staub, je 2/8/24 Std.).
+
+DIESE ANWEISUNG ERSETZT die bisherige Forever-Gebührenregel "eine Gebühr max(5 %, 1s) je Auktion beim Einstellen,
+nie erstattet" (offen-ahsentinel.txt, mehrere Stellen) und korrigiert anweisung-buchhaltung-reparatur.txt (13:20).
+Die Prüf-Sitzung hat sich dort geirrt – die Messwerte unten sind eindeutig.
+
+======================================================================================================
+A. MESSWERTE (belegt)
+======================================================================================================
+A1 Einzahlung beim Einstellen hängt vom HÄNDLERPREIS und der LAUFZEIT ab, nicht vom AH-Preis:
+   Leinenstoffballen (Händler 40c), 20 Stück zu 55c (11s):   2 Std. 1s 0c · 8 Std. 1s 60c · 24 Std. 4s 80c
+   Seltsamer Staub (Händler 1c), 20 Stück zu 89c (17s 80c):   2 Std. 1s    · 8 Std. 1s    · 24 Std. 1s
+   -> Einzahlung = Händlerpreis × Menge × 5 % je 2 Std. (2 Std. 5 %, 8 Std. 20 %, 24 Std. 60 %), mindestens 1s je
+      Auktion. Laufzeiten in Forever: 2 / 8 / 24 Std.
+   Protokoll 13:43:58: EINSTELLEN Item 6370 · Menge 18 · Laufzeit 1 · 8082 gesamt · "Gebühr erwartet 404,
+   abgezogen 100" -> AHSentinel erwartet heute 5 % vom Preis, Blizzard nimmt 1s (Händlerwert-Regel + Minimum).
+A2 Beim Verkauf: 5 % vom Verkaufspreis ab, Einzahlung zurück (Protokoll 14:19:00):
+   RECHNUNG Item 10940 · Menge 0 · Preis 47 · consignment 202 · deposit 38 · Post-Gold 3878
+   86 × 47c = 4042; − 202 (5 % von 4042) + 38 = 3878 = Post-Gold. Exakt.
+   -> "Preis" ist in Forever der STÜCKPREIS, "Menge" kommt als 0 an (Feldlage der Rechnung anders).
+A3 Offen: Erstattet wurden 38c, bezahlt wurde mindestens 1s je Auktion. Entweder wird nur die rechnerische
+   Einzahlung (ohne Minimum) erstattet, oder es waren Teilverkäufe mehrerer Auktionen. Weiter messen (siehe G).
+A4 Abgelaufene Auktion: Einzahlung verloren (klassisch, noch nicht gemessen). Abbrechen: klassisch verloren; der Nutzer
+   meinte "anteilig zurück" – die Messung aus L2 (refund src "cancel") entscheidet.
+
+======================================================================================================
+B. GEBÜHRENREGEL IM CODE
+======================================================================================================
+B1 Forever rechnet wie Era: A:DepositRefunded() = true. SaleFee = 5 % vom Verkaufspreis (beim Verkauf).
+   Kein FOREVER_MIN_FEE auf den Verkaufspreis mehr.
+B2 Einzahlung: zuerst Blizzards eigener Wert (C_AuctionHouse.CalculateCommodityDeposit / CalculateItemDeposit bzw.
+   altes AH), sonst Formel A1 mit Händlerpreis (GetItemInfo sellPrice) und Minimum 1s je Auktion.
+   Neue Funktion A:ListingDeposit(itemID, qty, hours, auctions).
+B3 Erwartete Kosten eines Verkaufs je Stück (realer Wert, Gewinn-Fenster, Entzauberungswert der Materialien,
+   Tooltip, Kaufen, "Heute tun"):
+      Kosten = 5 % × Preis + Einzahlung × (1 − p) / p   (p = Verkaufschance je Einstellung, eigene Quote, sonst Markt;
+                                                        vorhandenes ExpectedDepositLoss – gilt jetzt auch in Forever)
+   Die Mindest-Einzahlung 1s verteilt sich auf die Stück je Auktion (A:AuctionSize, wie heute).
+B4 Schnittstelle für andere Addons: AHAnalyzerPro.AuctionFee/AHFee bleiben erhalten (ProfessionSentinel ruft sie),
+   liefern ab jetzt die erwarteten Verkaufskosten EINER Auktion nach B3 (5 % + erwarteter Einzahlungsverlust).
+   Zusätzlich neu: AHAnalyzerPro.ListingDeposit. Im CHANGELOG für Addon-Autoren erwähnen. Die Prüf-Sitzung
+   informiert ProfessionSentinel.
+B5 Anzeigen anpassen: "AH-Gebühr (5 %, mind. 1s je Auktion)" im Gewinn-Fenster wird
+   "AH-Gebühr 5 % + Einzahlung (zurück bei Verkauf)". Spieltest S10 prüft weiterhin "Einzahlen" = AHSentinel-Wert.
+
+======================================================================================================
+C. RECHNUNG RICHTIG LESEN (Ledger ScanInbox)
+======================================================================================================
+C1 Forever-Verkauf: Gesamt = Post-Gold + consignment − deposit. Menge = round(Gesamt / Preis), wenn count fehlt oder
+   0 ist und Preis > 0 (Preis ist dann Stückpreis). Plausibilität: Menge >= 1, sonst Menge 1 und e.approx = true.
+C2 Buchung wie Era: amount = Gesamt, cut = consignment, refund = deposit, qty = Menge, inv wie heute.
+   Damit stimmen Einnahmen (amount − cut), Gebühren (Einzahlungen − Erstattungen) und Stückzahlen.
+C3 Im Diagnose-Protokoll zusätzlich EINMAL je Sitzung alle Rückgabewerte von GetInboxInvoiceInfo als Liste
+   ("RECHNUNG-ROH 1=…, 2=…, …"), ohne Spielernamen (Feld 3 auslassen), damit die Feldlage belegt ist.
+C4 Folge: "Verkaufschance (deine) 0 % (0/1877)" im Tooltip (13:37) kommt von qty = 0 bei Verkäufen. Nach C1 prüfen,
+   dass eingestellt und verkauft dieselbe Einheit (Stück) zählen.
+
+======================================================================================================
+D. BUCHHALTUNG WIEDERHERSTELLEN (einmalig, Schalter db.ledger.fixL2, nur Forever)
+======================================================================================================
+D1 Einträge mit e.old (von fixL1, 0.65.40): cut = e.old.cut, refund = e.old.refund zurücksetzen.
+   amount war dort der Stückpreis (Ursache der negativen Einnahmen): Gesamt = round(cut / 0.05) (± 19c, e.approx = true);
+   ist cut 0, amount × max(qty, 1). qty = round(Gesamt / alter amount), mindestens 1.
+D2 Einträge mit inv (0.65.35–0.65.41): amount = inv.money + inv.cut − inv.deposit, cut = inv.cut,
+   refund = inv.deposit, qty nach C1.
+D3 Alte Werte vorher in e.old2 sichern. Danach LEDGER_CHANGED. Chat einmal: DE "Buchhaltung: N Verkäufe neu berechnet
+   (Gebühren wie im klassischen WoW)." / EN "Ledger: recalculated N sales (classic auction fees)."
+   Protokoll "MIGRATION fixL2 N=…, ungefähr=…".
+D4 Käufe, Einzahlungen, Abbruch-Erstattungen, Entzauber-Daten, seen: nicht anfassen.
+
+======================================================================================================
+E. LAUFZEIT (Verkaufen) – ohne neue Knöpfe
+======================================================================================================
+E1 Vorbelegung der Dauer, Reihenfolge:
+   - kostet 24 Std. nicht mehr als 2 Std. (Minimum 1s greift, z. B. Staub, Stoff, Kräuter) -> 24 Std.
+   - sonst nach gemessener Verkaufsdauer (F1): meist unter 2 Std. -> 2 Std., unter 8 Std. -> 8 Std., sonst 24 Std.
+   - ohne Messung -> 24 Std., wenn die Mehrkosten unter 5 % des Preises liegen, sonst 8 Std.
+   Neben dem Feld klein grau der Grund, z. B. "24 Std. kostet gleich viel" oder "verkauft sich meist in ~3 Std.".
+   Der Spieler kann die Dauer wie bisher selbst ändern; seine Wahl gilt für diese Einstellung.
+E2 Einzahlung im Verkaufen-Fenster je gewählter Dauer nach B2 anzeigen.
+
+======================================================================================================
+F. VERKAUFSDAUER MESSEN UND DARAUF REAGIEREN
+======================================================================================================
+F1 Je Item aus der Buchhaltung: Einstellen (deposit, src post) und Verkauf (sale) zuordnen (zuerst eingestellt, zuerst
+   verkauft). Median der Stunden bis Verkauf, Anteil abgelaufen (Einstellungen ohne Verkauf nach Laufzeit). Die
+   vorhandene K:SellChance/FormatDelay weiterverwenden (liefert heute schon "unter 1 Std.").
+F2 Tooltip, eine Zeile: grün "Verkauft sich: schnell (~3 Std.)", gelb "langsam (~2 Tage)", rot "kaum (läuft oft ab)".
+   Ohne eigene Daten: aus dem Markt-Absatz (perDay) "~N/Tag", wie heute.
+F3 Kaufen, Herstellen, "Heute tun", Sammelkauf: Mengen höchstens so viel, wie in etwa 2 Tagen verkauft wird.
+   Bei "kaum" wird nichts mehr als lohnend vorgeschlagen.
+F4 Verkaufen: Menge bleibt "alles" (Entscheid des Nutzers). Bei "kaum" gelber Hinweis
+   "Läuft oft ab – billiger einstellen oder liegen lassen." KEINE automatische Preisänderung.
+
+======================================================================================================
+G. "BESTE REZEPTE" BREMSEN (Protokoll 13:43–14:19)
+======================================================================================================
+G1 Beim Herstellen wird "Beste Rezepte" etwa alle 2 Sekunden neu aufgebaut (DATA_CHANGED, TRADE_SKILL_LIST_UPDATE),
+   meist 45–100 ms, einmal 1852 ms (14:08:56) – spürbares Ruckeln.
+   - Nur aufbauen, wenn das Gewinn-Fenster sichtbar ist.
+   - Ereignisse sammeln: frühestens 1,5 s nach dem letzten Ereignis, während Herstellen läuft (UNIT_SPELLCAST_*)
+     höchstens alle 10 s.
+   - Nur neu rechnen, wenn sich Preise oder die Rezeptliste wirklich geändert haben (Prüfsumme).
+   - Teure Arbeit über mehrere Frames verteilen (höchstens 16 ms je Frame, wie die vorhandene Hintergrund-Arbeit).
+G2 Testfall: 30 Ereignisse in 20 s beim Herstellen -> höchstens 3 Aufbauten; kein Aufbau über 50 ms in einem Frame.
+
+======================================================================================================
+REIHENFOLGE
+======================================================================================================
+   1. C + D (Rechnung, Buchhaltung) – die Buchhaltung ist heute falsch.
+   2. B (Gebührenregel) – betrifft alle Gewinn- und Wertanzeigen.
+   3. G (Ruckeln).
+   4. E + F (Laufzeit, Verkaufsdauer).
+   Der Nachtrag 14:16/14:18 (Wert-Zeilen im Tooltip) kann vorher oder zusammen mit B kommen.
+
+TESTFÄLLE (TestRoutine, Locales EN/DE, CHANGELOG EN/DE)
+   T-G1 Leinenstoffballen Händler 40c, 20 Stück: 2 Std. 100, 8 Std. 160, 24 Std. 480
+   T-G2 Seltsamer Staub Händler 1c, 20 Stück: 2/8/24 Std. jeweils 100
+   T-G3 SaleFee(Forever, 4042 gesamt) = 202
+   T-G4 Erwartete Kosten bei p = 1: nur 5 %; bei p = 0,5: 5 % + Einzahlung
+   T-R1 Rechnung Preis 47, count 0, consignment 202, deposit 38, Post-Gold 3878 -> amount 4042, cut 202, refund 38, qty 86
+   T-R2 Era-Rechnung unverändert
+   T-M7 fixL2: Eintrag mit e.old {cut 202, refund 38}, amount 47 -> amount 4040 (approx), cut 202, refund 38, qty 86
+   T-M8 fixL2: Eintrag mit inv {price 47, cut 202, deposit 38, money 3878} -> amount 4042, qty 86
+   T-M9 fixL2 läuft nur einmal; Summary danach: Einnahmen nie negativ
+   T-L1 Staub (24 Std. kostet gleich viel) -> Vorbelegung 24 Std. mit Grund
+   T-L2 Item mit Verkaufsdauer-Median 1 Std. und teurer Einzahlung -> 2 Std.
+   T-V1 3 Einstellungen, 3 Verkäufe nach 2/3/4 Std. -> "schnell (~3 Std.)"
+   T-V2 5 Einstellungen, 0 Verkäufe nach Ablauf -> "kaum", Kaufen schlägt nichts vor
+   G2 siehe oben. Bereich K (Oberfläche) für die neuen Zeilen.
+
+Wie immer: komplette Dateien, alte Clients nicht brechen (Era/TBC-Verhalten unverändert), addon_check.py ohne FEHLER.

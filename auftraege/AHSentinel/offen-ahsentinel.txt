@@ -291,3 +291,12 @@ NEU (9. Nov. 14:18, Nutzer 14:16) – Ergänzung zum Nachtrag 14:16: dieselben z
    Eigene Taschen-Items: nur Zeilen 3–4 (Nachtrag 14:16). Ohne Shift genau diese Zeilen, mit Shift wie bisher mehr.
    Fehlt r.sellNet: Zeile 4 weglassen. Testfall T-E7: AH-Item Kaufpreis 10s, net 9s 35c, sellNet 8s 99c ->
    rot "Entzaubern lohnt nicht −65c", "Lohnt bis 7s 79c", grün "Entzaubern: 9s 35c", grau "Verkaufen: 8s 99c".
+
+NEU (9. Nov. 14:30, Freigabe des Nutzers 14:22) – GEBÜHREN WIE IM KLASSISCHEN WOW (ersetzt die bisherige Forever-Regel)
+   Siehe anweisung-gebuehren-klassisch.txt. Belegt durch Messungen im Spiel und RECHNUNG 14:19:
+   Einzahlung beim Einstellen = Händlerpreis × Menge × 5 % je 2 Std. (Laufzeiten 2/8/24), mind. 1s je Auktion;
+   beim Verkauf 5 % vom Preis ab und Einzahlung zurück. Die frühere Regel "eine Gebühr max(5 %, 1s), nie erstattet"
+   und die Begründung in anweisung-buchhaltung-reparatur.txt (13:20) sind ÜBERHOLT – Irrtum der Prüf-Sitzung.
+   Ursache der negativen Einnahmen war der Stückpreis als "Preis" in der Rechnung und count = 0.
+   Inhalt: Rechnung richtig lesen (C), Buchhaltung einmalig neu berechnen fixL2 (D), Gebührenregel (B),
+   "Beste Rezepte" bremsen (G, bis 1852 ms), Laufzeit-Vorbelegung (E), Verkaufsdauer messen (F).
