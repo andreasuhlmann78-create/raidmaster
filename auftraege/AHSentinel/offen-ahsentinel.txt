@@ -184,3 +184,23 @@ ENTSCHEIDE DER PRÜF-SITZUNG ZUM BERICHT VON 0.65.27 (9. Nov. 09:35)
       Blizzard-AH nicht (andocken bzw. Bereich K). Era/TBC: gleiche Ereignisse (AUCTION_HOUSE_SHOW/CLOSED gibt es
       dort auch). Testfälle: AH auf -> Fenster auf; AH zu -> Fenster zu; vorher offen -> bleibt offen; Option aus ->
       nichts passiert. Spieltest-Prüfung dazu.
+
+BEFUND IM SPIEL (9. Nov. 10:31, drei Screenshots AH-Kaufliste, AHSentinel 0.65.27) – MITTEL
+   Welkenring (26s), Königliche Schärpe (38s) und Zauberhexerhandschuhe (40s) zeigen alle
+   "Entzaubern: erwarteter Gewinn ~22s 55c (T)". Der Nutzer erwartet bei verschiedenen Kaufpreisen verschiedene Gewinne.
+   a) Ursache 1 (Bezeichnung, Fehler der Prüf-Sitzung im Auftrag vom 08:41): Die Zeile zeigt den Entzauberungswert
+      nach Gebühren – der hängt nur von der Gruppe ab (grün, Itemstufe 36–40, Rüstung) und ist darum überall gleich.
+      Das ist kein Gewinn. Neu:
+      - Tooltip-Zeile heisst "Entzauberungswert ~22s 55c (T)".
+      - Ist ein Kaufpreis bekannt (AH-Angebot in Kaufliste/Sniper/Schnäppchen, Händlerpreis beim Händler), zusätzlich
+        "Gewinn beim Kauf: Wert − Kaufpreis" (grün positiv, rot negativ), z. B. Welkenring 22s 55c − 26s = −3s 45c.
+      - In der Kaufliste eine Spalte bzw. Markierung "Entzaubern lohnt" nur, wenn Wert − Kaufpreis > 0.
+      - "Verkauf bringt mehr / lohnt mehr als Verkauf" bleibt der Vergleich mit dem Marktwert des Items.
+   b) Ursache 2 (prüfen): Die Zeilen im Materialblock passen nicht zur Summe. Angezeigt: Visionsstaub 75 % · 11s 95c,
+      Grosse Mystikeressenz 20 % · 22c, Grosser leuchtender Splitter 5 % · 37s 74c. Mit Ø-Menge 1,5 (Tabelle, Stufe ≤ 40)
+      ergibt das brutto etwa 0,75×1,5×11s95 + 0,2×1,5×22c + 0,05×1×37s74 ≈ 15s 40c – angezeigt sind 22s 55c NACH Gebühren.
+      Entweder rechnet die Summe mit anderen Preisen (Marktwert statt AH-Preis des Blocks) oder anderen Mengen. Gleiche
+      Quelle für Block und Summe verwenden und den Preis im Block so beschriften (AH aktuell / Markt). Zudem wirkt 22c
+      für Grosse Mystikeressenz unplausibel (Scan-Ausreisser?) – Preise unter 10 % des Marktwerts als unsicher markieren.
+   c) Testfälle: gleicher Wert bei verschiedenen Items derselben Gruppe, aber verschiedener "Gewinn beim Kauf";
+      Summe der Block-Anteile = angezeigter Wert (±1c).
