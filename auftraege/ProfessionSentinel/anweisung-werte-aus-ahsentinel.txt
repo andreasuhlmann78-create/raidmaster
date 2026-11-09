@@ -1,0 +1,77 @@
+ANWEISUNG AN DIE PROFESSIONSENTINEL-SITZUNG – Werte aus AHSentinel und anderen AH-Addons, Regelwerk Wirtschaft
+Prüf-Sitzung, 9. November 2026, 16:50. Freigabe des Nutzers 16:42 ("mach die Liste fertig und lass ihn starten").
+Vorher lesen: shared/wissen/wirtschaft-forever.md (Pflicht laut CLAUDE.md), shared/wissen/schnittstelle-ahsentinel-api.md.
+Ersetzt Punkt 1 ("Werte über AHSentinels Preisfunktion, Teil B") in offen-professionsentinel.txt.
+
+BEFUND (ProfessionSentinel 0.9.32 gegen Regelwerk und AHSentinel 0.65.47)
+   1 Gebühr nach der ALTEN, falschen Regel: P.OwnAuctionFee = max(5 %, 1s) je Auktion, keine Einzahlung (Prices.lua 20–78).
+   2 P.AuctionFee ruft AHSentinels ForeverAuctionFee – liefert seit AHSentinel 0.65.42 nur noch 5 %. Mit AHSentinel fehlt
+     das Einzahlungsrisiko (zu optimistisch), ohne AHSentinel gilt das alte 1s-Minimum (zu pessimistisch).
+   3 Verkaufswert der Produkte aus dem Median (P.AH -> GetMarketValue). Regel (Entscheid des Nutzers): Rechenwert =
+     günstigstes Angebot aus dem LETZTEN SCAN.
+   4 AHSentinels Preisfunktionen (RealPrice/RealValue) nirgends benutzt -> beide Addons zeigen verschiedene Zahlen.
+   5 Materialkosten nur AH oder Händler; kein günstigster Weg über selbst hergestellte Zwischenprodukte
+     (Leinenstoffballen aus Leinenstoff).
+   6 Verkaufen und Entzaubern getrennt angezeigt; kein "bester Weg".
+   7 Eigener Entzauberungswert (Tabelle + 10 % Abschlag) weicht von AHSentinels Rechnung ab.
+   8 "Alle erstellen [55]" schlägt Mengen ohne Rücksicht auf den Absatz vor.
+   9 Eigener Mindestgewinn statt dem aus AHSentinel.
+  10 Gold pro Stunde beim Herstellen: misst künftig AHSentinel (H9) – nicht doppelt messen.
+
+UMSETZUNG
+ V1 PREIS-VERMITTLER (neue Datei, z. B. PriceSource.lua) – EINE Stelle, über die ProfessionSentinel alle Werte holt.
+    Reihenfolge, die erste verfügbare Quelle gewinnt (je Wert; fehlt ein Wert in einer Quelle, nächste Quelle):
+    1. AHSentinel.API (Vertrag Version 1, shared/wissen/schnittstelle-ahsentinel-api.md): Price, NetSale, Deposit,
+       CutPct, MaterialCost, DisenchantValue, BestWay, SellSpeed, MinProfitPct, GoldPerHour. Bis AHSentinel die API
+       veröffentlicht: Rückfall auf die vorhandenen öffentlichen Funktionen von AHSentinel (global AHAnalyzerPro:
+       RealPrice, RealValue, AuctionFee(gesamt, itemID, menge) mit NEUER Bedeutung = 5 % + Einzahlungsrisiko,
+       GetCurrent, GetMarketValue) – NICHT mehr ForeverAuctionFee als Gebühr.
+    2. auxForever: dokumentierte Schnittstelle AuxForeverAPI mit GetLatestPrice und GetUsualPrice (CurseForge-Seite,
+       docs/api.md im Projekt). Parameter und Rückgabe im Code von auxForever prüfen, bevor sie benutzt werden; nur
+       Preise.
+    3. Auctionator: öffentliche Schnittstelle laut Projekt (Auctionator.API.v1 …) – Namen und Parameter im Code von
+       Auctionator prüfen; nur Preise.
+    4. Auctioneer (Forever): Marktwert über die Auctioneer-API, Entzauberungswerte über Enchantrix – nur nach Prüfung
+       im Code; nur Preise/Entzauberwerte.
+    5. Ohne AH-Addon: eigene Rechnung nach dem Regelwerk (Händlerpreis, Datenpaket).
+    Unbelegte Funktionsnamen nie raten: Wenn eine Funktion im Code des Addons nicht gefunden wird, diese Quelle weglassen
+    und im Protokoll "PREISQUELLE <Addon>: Funktion nicht gefunden" melden. Alles mit pcall und Typprüfung.
+    Ohne AHSentinel rechnet ProfessionSentinel Gebühr, Materialwege und Entzauberungswert SELBST nach denselben Formeln
+    (Regelwerk Abschnitte 1 und 4), mit den Preisen der gewählten Quelle.
+    Anzeige der Quelle: im Tooltip und im Panel klein "Preise: AHSentinel" / "auxForever" / "Auctionator" /
+    "Auctioneer" / "eigene".
+ V2 GEBÜHR nach Regelwerk (ersetzt P.MIN_FEE/OwnAuctionFee): 5 % (neutral 15 %) beim Verkauf + Einzahlungsrisiko
+    Einzahlung × (1 − p)/p; Einzahlung = Händlerpreis × Menge × 5 % je 2 Std., Minimum NICHT fest (bis zur Messung 1s,
+    Blizzard senkt es angekündigt auf 1c; mit AHSentinel dessen Deposit). Era/TBC unverändert.
+ V3 WERTE: Verkaufswert = NetSale bzw. eigener Rückfall mit Preis aus dem letzten Scan (Quelle 1–4) statt Median.
+    Eigene Gebühr nicht ein zweites Mal abziehen, wenn NetSale schon netto ist.
+ V4 MATERIALKOSTEN über MaterialCost (AHSentinel) bzw. eigener günstigster Weg: AH, Händler, selbst herstellen aus
+    bekanntem Rezept (höchstens 2 Stufen, keine Schleifen). Herkunft im Tooltip ("aus Leinenstoff").
+ V5 BESTER WEG je Rezept: Wert = das Bessere aus Verkaufen und Entzaubern (BestWay); Rangliste/Gewinn danach, mit
+    "verk."/"ent." wie in AHSentinel.
+ V6 ENTZAUBERUNGSWERT aus AHSentinel (DisenchantValue), wenn vorhanden; eigener Wert nur ohne AHSentinel.
+ V7 MENGEN nach Absatz: Vorschläge "Alle erstellen" bzw. Empfehlungen höchstens so viele, wie in ~2 Tagen verkauft
+    werden (SellSpeed/Absatz pro Tag); bei "kaum" keine Gewinn-Empfehlung. "Alle erstellen" selbst bleibt (Spieler
+    entscheidet), nur der Hinweis/Rang ändert sich.
+ V8 MINDESTGEWINN aus AHSentinel (MinProfitPct), sonst eigener Wert.
+ V9 GOLD PRO STUNDE: nur anzeigen, wenn AHSentinel ihn liefert (GoldPerHour("craft")), z. B. im Panel-Kopf
+    "Herstellen: 1g 20s/Std."; nicht selbst messen.
+ V10 Abonnieren: AHSentinel.API.Subscribe -> nach Scan/Buchung Werte neu, gedrosselt, kein Ruckeln (wie 0.9.32).
+
+NICHT JETZT (kommt mit dem UI-Rework, der Nutzer meldet sich dazu)
+   - Chat-Ausgabe "Muster: … fehlt: … und N weitere (Panel, Reiter Rezepte)" – vorerst nicht ändern.
+
+TESTFÄLLE (TestRoutine, Locales EN/DE + EN in den übrigen, CHANGELOG EN/DE)
+   T-PS1 AHSentinel.API-Attrappe: Price/NetSale/MaterialCost/DisenchantValue -> Panel zeigt genau diese Werte, Quelle
+         "AHSentinel", keine doppelte Gebühr
+   T-PS2 nur alte AHSentinel-Funktionen (RealValue, AuctionFee neu) -> gleiche Werte wie T-PS1
+   T-PS3 nur auxForever-Attrappe -> Preise aus GetLatestPrice, Gebühr/Wege/Entzaubern selbst, Quelle "auxForever"
+   T-PS4 kein AH-Addon -> eigene Rechnung nach Regelwerk: Leinenstoffballen 20 Stk., 24 Std., Händler 40c -> Einzahlung
+         4s 80c; Verkauf 4042 gesamt -> 5 % = 202
+   T-PS5 Quelle wirft Fehler -> nächste Quelle, kein Lua-Fehler, Protokoll-Zeile
+   T-PS6 Materialweg: Ballen 25c im AH, Leinenstoff 8c, Rezept bekannt -> 16c "aus Leinenstoff"
+   T-PS7 Bester Weg: Verkaufen 1s 90c netto, Entzaubern 93c -> "verk." 
+   T-PS8 Absatz 3/Tag -> Empfehlung höchstens 6
+   T-PS9 Funktionsname in Attrappe fehlt -> Quelle weggelassen, "Funktion nicht gefunden"
+   Bereich K: Quellen-Text nicht abgeschnitten.
+Wie immer: komplette Dateien, alte Clients nie brechen (Era/TBC/Retail), addon_check.py ohne FEHLER, danach melden.

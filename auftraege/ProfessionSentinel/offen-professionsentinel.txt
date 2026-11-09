@@ -82,3 +82,10 @@ IM CLIENT PRÜFEN (mit 0.9.32)
   Andocken mit AHSentinel, T113, T144; ab dem 5. Nov. T169/T170.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
+
+NEU (9. Nov. 16:50, Freigabe des Nutzers 16:42, JETZT STARTEN) – Werte aus AHSentinel und anderen AH-Addons
+   Siehe anweisung-werte-aus-ahsentinel.txt (ersetzt Punkt 1 oben). Gebühr nach der alten Regel (max(5 %, 1s)) ist
+   falsch, Median statt letzter Scan, ForeverAuctionFee liefert seit AHSentinel 0.65.42 nur 5 %. Neu: Preis-Vermittler
+   (AHSentinel.API -> auxForever -> Auctionator -> Auctioneer -> eigene Rechnung), Gebühr/Werte/Materialwege/bester
+   Weg/Entzaubern/Mengen nach Regelwerk (shared/wissen/wirtschaft-forever.md). Chat-Ausgabe "Muster … fehlt" erst mit
+   dem UI-Rework.

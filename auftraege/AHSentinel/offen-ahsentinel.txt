@@ -228,3 +228,7 @@ NEU (9. Nov. 16:00, Freigabe des Nutzers 15:56) – Handel nach Regelwerk
    Sniper-Warnung Max über Verkaufswert (H4). Block 2: automatischer Mindestpreis mit Hinweis statt stur (H5),
    Hinweis nach 3 Abläufen (H6). Block 3: Rendite je Geschäftsart (H7) mit Gold pro Stunde je Tätigkeit (H9, Wunsch 15:58), Hinweis vor dem
    Raid-Start 9.12. (H8).
+
+NEU (9. Nov. 16:50, Freigabe des Nutzers 16:42) – öffentliche Schnittstelle AHSentinel.API
+   Siehe anweisung-schnittstelle-api.txt und shared/wissen/schnittstelle-ahsentinel-api.md. Reihenfolge: nach der
+   laufenden Arbeit, VOR anweisung-handel-strategie.txt (ProfessionSentinel wartet darauf).
