@@ -259,3 +259,8 @@ NEU (9. Nov. 13:05, Entscheid des Nutzers 13:02) – Entzauber-Urteil im Tooltip
    (Details nur mit Shift); Gewinn-Fenster rechnet Materialien über den günstigsten Weg (AH, Händler, selbst aus
    bekanntem Rezept) und den Wert über das Bessere aus Verkaufen und Entzaubern. Keine neuen Fenster/Knöpfe/Optionen.
    Reihenfolge: nach L1. L1 BESTÄTIGT: Screenshot 11:52 (0.65.30) Buchhaltung Einnahmen −40s 97c bei 17 Verkäufen.
+
+NEU (9. Nov. 13:20, Entscheid des Nutzers 13:17) – alte Verkaufsbuchungen einmalig reparieren
+   Siehe anweisung-buchhaltung-reparatur.txt. L1 ist seit 0.65.35 umgesetzt; die vorher gebuchten Forever-Verkäufe
+   (ohne "inv") haben noch cut/refund aus der Rechnung -> einmalig auf 0 setzen, Sicherung in e.old, Chat-Meldung.
+   Nicht löschen. Reihenfolge: zuerst diese Reparatur, dann anweisung-entzauber-urteil.txt.

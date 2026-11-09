@@ -68,9 +68,8 @@ NICHT ÄNDERN
    - Keine neue Option, kein neuer Knopf, kein neues Fenster.
 
 REIHENFOLGE
-   Nach L1 (doppelte Gebühr in der Buchhaltung). BESTÄTIGT durch Screenshot 11:52 (0.65.30): Buchhaltung "Heute"
-   zeigt Einnahmen −40s 97c bei 17 Verkäufen – Einnahmen können nicht negativ sein. Bitte mit L1 prüfen.
-   Danach dieser Auftrag, dann der Rest aus offen-ahsentinel.txt.
+   L1 ist seit 0.65.35 umgesetzt (geprüft 13:15 im Code von 0.65.38). Zuerst die einmalige Reparatur der alten
+   Buchungen (anweisung-buchhaltung-reparatur.txt, klein), dann dieser Auftrag.
 
 TESTFÄLLE (TestRoutine, Locales EN/DE, CHANGELOG EN/DE)
    T-E1 Entzauberungswert 9s 35c, Mindestgewinn 20 %, Kaufpreis 10s  -> rot, −65c, "Lohnt bis 7s 79c"
