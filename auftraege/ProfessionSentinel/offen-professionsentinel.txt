@@ -115,3 +115,11 @@ NACHTRAG (5. Nov. 18:45, im Code geprüft: PS 0.9.20 vs. AHSentinel 0.65.14) –
    C_TradeSkillUI.GetRecipeInfo(id), true), dann OpenRecipe als Rückfall; 2) RecipeMap nur bei TRADE_SKILL_SHOW,
    Berufswechsel oder neu gelerntem Rezept verwerfen, nicht bei jedem TRADE_SKILL_LIST_UPDATE. Testfall: Klick ->
    Liste meldet Auswahl im selben Frame; 20 Listen-Ereignisse -> RecipeMap höchstens 1× neu gebaut.
+
+STAND 9. NOV. 05:55 (Prüf-Sitzung, Grundlage download/ProfessionSentinel-0.9.23.zip, Addon-Prüfung OK)
+   Erledigt und Anweisungen entfernt: Andocken (0.9.14/0.9.16), Fertigkeit (0.9.15), Rangliste "Material pro
+   Skillpunkt" (0.9.17), Diagnose-Protokoll /ps protokoll + GSDIAG1 (0.9.21), Testroutine nach LevelPilot-Regeln
+   (0.9.22), Klick über RecipeList:SelectRecipe, RecipeMap nur bei Bedarf (0.9.23).
+   Im Spiel zu bestätigen: Klick springt sofort (sonst /ps protokoll, Eintrag KLICK, schicken).
+   JETZT: Tooltip "davon Einstellgebühr" (falls noch nicht), anweisung-testroutine-oberflaeche.txt (UICheck.lua aus
+   der Vorlage, ns.Plausible: Fertigkeit > 0), dann die übrigen Punkte (T139/T140/T143 Leistung, T145, T132).

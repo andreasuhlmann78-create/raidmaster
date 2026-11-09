@@ -171,3 +171,12 @@ NACHTRAG (5. Nov. 19:22, Wunsch des Nutzers) – MITTEL, Ausnahme (nach der lauf
    - Klick: zum Kauf im AH (wie Sniper, kauft NIE ohne Klick), danach Hinweis "beim Händler verkaufen".
    - Veraltete Angebote (älter als der letzte Scan, schon gekauft) ausblenden.
    - Testfall: Angebot 50c, Händlerpreis 80c, Menge 5 -> Zeile mit +1s 50c; Angebot über Händlerpreis -> keine Zeile.
+
+STAND 9. NOV. 05:55 (Prüf-Sitzung, Grundlage download/AHSentinel-0.65.16.zip, Addon-Prüfung OK)
+   Erledigt und Anweisungen entfernt: Andocken mit GetDockFrame()/GetDockFrame(true) (0.65.10/0.65.11), Klick auf
+   Rezept über die Liste, Prüfung je Frame (0.65.14), Diagnose-Protokoll /ahs protokoll + GSDIAG1 (0.65.15),
+   Testroutine nach LevelPilot-Regeln mit Köderwerten (0.65.16).
+   Im Spiel zu bestätigen: Klick öffnet sofort; Gewinn-Fenster und ProfessionSentinel liegen nebeneinander.
+   JETZT (ab 9. Nov. 06:00): NACHTRAG 17:10/17:13 a–d (Einstellgebühr abziehen, aus dem Spiel lesen, messen,
+   Warnung), danach NACHTRAG 19:22 (Heute tun: unter Händlerpreis), dann anweisung-testroutine-oberflaeche.txt
+   (UICheck.lua aus der Vorlage), dann die übrigen Punkte (Sandbox, T130, Preisfeld g/s/c, Raid-Vorrat).
