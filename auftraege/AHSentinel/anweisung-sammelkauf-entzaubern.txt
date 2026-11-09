@@ -6,11 +6,13 @@ Stand: 9. November 2026, 10:55 · von der Prüf-Sitzung · Wunsch und Entscheid 
 Ziel: mehrere nicht stapelbare Teile (Rüstung, Waffen) bequem zum Entzaubern kaufen. Bewusst EINFACH halten.
 In Forever muss jeder Einzelkauf aus einem Tastendruck kommen – darum eine Raste/ein Klick je Teil.
 
-1. Häkchen "Entzaubern lohnt" im Reiter Kaufen: zeigt nur Angebote mit Entzauberungswert − Kaufpreis ≥ Mindestgewinn,
-   sortiert nach Gewinn; neue Spalte "Gewinn". Qualität/Itemstufe über die vorhandene Suche.
+1. Häkchen "Entzaubern lohnt" im Reiter Kaufen: zeigt nur Angebote mit Rendite = (Entzauberungswert − Kaufpreis) ÷
+   Kaufpreis ≥ Mindestrendite, sortiert nach Gewinn; Spalten "Gewinn" und "Rendite %". Qualität/Itemstufe über die vorhandene Suche.
 2. Kaufen wie beim Sniper: jede Mausrad-Raste (bzw. Klick auf "Nächstes kaufen") kauft das nächste Teil von oben.
    Vor jedem Kauf prüfen: Angebot noch da, Preis unverändert – sonst überspringen.
-3. Grenzen (die einzigen Einstellungen): "höchstens X Gold" (Standard 5g) und "Mindestgewinn je Teil" (Standard 20c).
+3. Grenzen (die einzigen Einstellungen): "höchstens X Gold" (Standard 5g) und "Mindestrendite in %" (Standard 20 %,
+   Entscheid des Nutzers 9. Nov. 10:53). Zusätzlich fest im Hintergrund: mindestens 10c Gewinn je Teil (keine
+   Kleinstgeschäfte, z. B. 20 % von 20c).
    Stopp bei Grenze, vollen Taschen oder Kampf.
 4. Sicherheitsabschlag im Hintergrund: Bei weniger als 10 echten Entzauberungen der Gruppe wird der Entzauberungswert
    für diese Rechnung um 10 % gesenkt.
@@ -19,7 +21,7 @@ In Forever muss jeder Einzelkauf aus einem Tastendruck kommen – darum eine Ras
    Forever Disenchanting Guide: "you can disenchant everything from Enchanting skill 1").
 7. Danach entzaubert der Spieler wie gewohnt mit dem bestehenden Entzauber-Fenster; Ergebnisse zählen sofort.
 8. Nur auf Klick/Raste, nie automatisch; im Test nur mitschreiben; Protokoll KAUF (ohne Namen).
-Testfälle: Filter zeigt nur Gewinn ≥ Mindestgewinn; Raste kauft das oberste; verschwundenes/teureres Angebot übersprungen;
+Testfälle: Filter zeigt nur Rendite ≥ Mindestrendite und Gewinn ≥ 10c; Raste kauft das oberste; verschwundenes/teureres Angebot übersprungen;
 Stopp bei Gold-Grenze und vollen Taschen; Abschlag unter 10 Entzauberungen; Statuszeile stimmt.
 Locales, CHANGELOG EN/DE, nächste Version, addon_check ohne FEHLER.
 
