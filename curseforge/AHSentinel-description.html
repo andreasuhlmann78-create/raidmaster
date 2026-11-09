@@ -7,6 +7,24 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.37</h3>
+<ul>
+<li><strong>Own small disenchant window</strong> (<code>/ahs disenchant</code>, or Buy -&gt; "Worth disenchanting" -&gt; "Disenchant window"):
+  icon and name of the next item, "N left to disenchant", buttons <strong>Disenchant</strong>, <strong>Skip</strong>, <strong>Statistics</strong>.
+  Movable, position remembered. Opens by itself once after a bulk buy when you close the AH.</li>
+<li>Order: items bought with the bulk buy first, then the other disenchantable items in your bags.</li>
+<li><strong>Disenchant</strong> is a secure button: one click = one item. Locked in combat, no taint.</li>
+<li>Protection: never items in an equipment set, quest items or items on your block list (right-click the icon:
+    "never disenchant"); only green to purple. Blue/purple items and items that clearly sell for more
+    (more than 1.5x the disenchant value) need a click on <strong>Release</strong> first.</li>
+<li>Statistics: disenchants today and in total, materials received, their value.</li>
+<li>If Disenchantry is loaded, the window does not open by itself (one-time hint).</li>
+<li><strong>Ledger -&gt; Disenchant:</strong> per day and in total: spent on bulk-bought items, value of the materials received
+  (real value after AH fee; material you already sold counts at the real proceeds), profit, number of items and
+  return %. A bought item is matched to its disenchant (same item, within 14 days). Own items you disenchant are
+  shown separately (material value only), items bought but not yet disenchanted as "still open".</li>
+<li>Tests and comments use invented character names only.</li>
+</ul>
 <h3>Version 0.65.36</h3>
 <ul>
 <li><strong>Disenchant watcher:</strong> while the AH is open and the bargain watcher is on, every other watcher round searches
@@ -47,17 +65,7 @@
   Woolen Cloth) and split the 1s minimum fee by 20 – so 1 bolt at 3s 98c showed 20c instead of the real 1s. Now the fee
   follows how many pieces you last posted of this item at once; without experience 1 piece (full 1s minimum fee).</li>
 </ul>
-<h3>Version 0.65.32</h3>
-<ul>
-<li><strong>Disenchant table from Disenchantry:</strong> the table now follows Disenchantry 1.1.2 (MIT license, Copyright (c) 2026
-  x_Raven_x; license text in LICENSE-Disenchantry.txt), based on warcraft.wiki.gg: item level 5–15 without shards
-  (80/20), 21–25 armor 75/15/10, 51–65 weapons 75/22/3, <strong>WoW Forever: green weapons item level 21–30 give Greater
-  Magic Essence</strong>, blue items from item level 1 and up to 80, epics up to 88. Groups are by item level (as in the
-  table), not by required level.</li>
-<li>The material block now shows the quantity range from the table ("1–2×"), from real disenchants the average.</li>
-<li><strong>Disenchantry loaded:</strong> AHSentinel shows no second material block.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

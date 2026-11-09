@@ -12,6 +12,24 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.37
+
+- **Own small disenchant window** (`/ahs disenchant`, or Buy -> "Worth disenchanting" -> "Disenchant window"):
+  icon and name of the next item, "N left to disenchant", buttons **Disenchant**, **Skip**, **Statistics**.
+  Movable, position remembered. Opens by itself once after a bulk buy when you close the AH.
+  - Order: items bought with the bulk buy first, then the other disenchantable items in your bags.
+  - **Disenchant** is a secure button: one click = one item. Locked in combat, no taint.
+  - Protection: never items in an equipment set, quest items or items on your block list (right-click the icon:
+    "never disenchant"); only green to purple. Blue/purple items and items that clearly sell for more
+    (more than 1.5x the disenchant value) need a click on **Release** first.
+  - Statistics: disenchants today and in total, materials received, their value.
+  - If Disenchantry is loaded, the window does not open by itself (one-time hint).
+- **Ledger -> Disenchant:** per day and in total: spent on bulk-bought items, value of the materials received
+  (real value after AH fee; material you already sold counts at the real proceeds), profit, number of items and
+  return %. A bought item is matched to its disenchant (same item, within 14 days). Own items you disenchant are
+  shown separately (material value only), items bought but not yet disenchanted as "still open".
+- Tests and comments use invented character names only.
+
 ### Version 0.65.36
 
 - **Disenchant watcher:** while the AH is open and the bargain watcher is on, every other watcher round searches
@@ -51,16 +69,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **AH fee in the profit window corrected:** the fee per piece assumed you always post a full stack (e.g. 20 Bolts of
   Woolen Cloth) and split the 1s minimum fee by 20 – so 1 bolt at 3s 98c showed 20c instead of the real 1s. Now the fee
   follows how many pieces you last posted of this item at once; without experience 1 piece (full 1s minimum fee).
-
-### Version 0.65.32
-
-- **Disenchant table from Disenchantry:** the table now follows Disenchantry 1.1.2 (MIT license, Copyright (c) 2026
-  x_Raven_x; license text in LICENSE-Disenchantry.txt), based on warcraft.wiki.gg: item level 5–15 without shards
-  (80/20), 21–25 armor 75/15/10, 51–65 weapons 75/22/3, **WoW Forever: green weapons item level 21–30 give Greater
-  Magic Essence**, blue items from item level 1 and up to 80, epics up to 88. Groups are by item level (as in the
-  table), not by required level.
-- The material block now shows the quantity range from the table ("1–2×"), from real disenchants the average.
-- **Disenchantry loaded:** AHSentinel shows no second material block.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
