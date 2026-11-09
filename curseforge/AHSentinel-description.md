@@ -12,6 +12,13 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.40
+
+- **Ledger repair (WoW Forever, once):** sales booked before 0.65.35 still carried the AH share and deposit from the
+  invoice, so the fee was deducted twice (e.g. "Today" income below zero). They are corrected once at login
+  (share and refund set to 0, the old values are kept as a backup, nothing is deleted). Chat: "Ledger: fixed N old
+  sales". Era/TBC unchanged.
+
 ### Version 0.65.39
 
 - **Categories with three levels** like in the Blizzard AH (e.g. Weapons -> One-Handed -> Axes) in Buy; the third
@@ -73,20 +80,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   profit). New finds are reported once: "N items with over X % return available" in chat and on screen – at most
   once a minute, never in combat. It never buys; you buy in Buy -> "Worth disenchanting" as before.
   Switch it off with the new button "Watcher alert: ON/OFF" there.
-
-### Version 0.65.35
-
-- **AH fee in the profit window – one visible assumption:** the fee depends on how many pieces you post per auction
-  (at least 1s per auction). The window now says it: "at N pieces per auction (learned / chosen / cautious)".
-  Learned from your own postings (median of the last 10); without data 1 piece. Click it to switch 1 / 5 / 20 (stack)
-  / automatic, remembered per item. "Best recipes", "Do today" and other addons use the same assumption. The window
-  no longer switches between two calculations when item data loads late. (Example: 1 Bolt of Woolen Cloth at 3s 97c,
-  materials 3s 42c: fee 1s, loss 45c; at 20 per auction: 20c, profit 35c.)
-- **Selling: quantity = everything in your bags** (no longer the last quantity). You change the number yourself.
-- **Ledger (WoW Forever):** a sale is booked with the gold the mail really brings – the fee was already booked when
-  posting, so no second fee and no refund are deducted. The invoice values go to the diagnostic log (RECHNUNG).
-  Cancelling an auction now books the measured refund. Era/TBC unchanged.
-- Playtest: new check S10 – AHSentinel's AH fee equals Blizzard's "Deposit" for the same quantity.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
