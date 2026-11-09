@@ -10,7 +10,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 ## BuffSentinel-0.9.12.zip: OK (1 Warnungen)
 - **WARNUNG** BuffSentinel/GoldSentinelGame.lua: veraltete offizielle Fassung (Version 2) – auf shared/GoldSentinelGame.lua Version 3 aktualisieren
 
-## GuildSentinel-0.9.18.zip: OK
+## GuildSentinel-0.9.19.zip: OK
 
 ## ProfessionSentinel-0.9.32.zip: OK
 
