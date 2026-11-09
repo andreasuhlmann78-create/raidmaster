@@ -6,6 +6,11 @@
 </blockquote>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.9.15</h3>
+<ul>
+<li><strong>Diagnostic log</strong>: GuildSentinel now records problems that only happen in the real game (slow pages, blocked actions with the calling place, error loops – never player, guild or realm names). Open it with <code>/gs protokoll</code> to copy it; after a logout or /reload it is also stored for the RaidMaster uploader, which sends it to the developer.</li>
+<li>Developer test routine: T188 (diagnostic log) and T189 (in the game).</li>
+</ul>
 <h3>Version 0.9.14</h3>
 <p>Fixes from the in-game test run on WoW Forever launch night:
 - <strong>Big guilds</strong>: the Overview and Leadership pages no longer stutter with hundreds of members (main/alt lookups are now done once per page build – about 25× faster with 500 members).
@@ -30,16 +35,7 @@
 <li>All game functions GuildSentinel needs are now chosen in one place (API.lua, modern API first, old one as fallback). Nothing changes for players.</li>
 <li>Developer test routine: real sends now count as an error in the report (T82), every action with consequences is checked to go through one place (T174), new cases for export, event announcements, first/last names and the bank character, and the cases that previously needed a replaced game function now run in the game too.</li>
 </ul>
-<h3>Version 0.9.10</h3>
-<ul>
-<li><strong>Alt notes in your client language</strong>: notes that GuildSentinel writes itself ("Reroll de …", "… 的分身" and so on) are recognised again on French, Spanish, Italian, Portuguese, Korean and Chinese clients. Where the label would not fit into the short guild note (Russian), GuildSentinel writes the short form "Alt: Name".</li>
-<li><strong>AHSentinel</strong> (formerly AH Analyzer Pro) is recognised under its new folder name (Addons page, market values).</li>
-<li><strong>Applicant whispers in combat</strong> (WoW Forever): more than 30 whispers during one fight are now counted in the notice too instead of being dropped silently.</li>
-<li>More robust against damaged data: malformed event sync messages and broken event or thanks entries no longer cause errors.</li>
-<li>Test mode (developer only): no longer joins or leaves the server channel, sends nothing delayed after "Stop test mode" and leaves the real settings (last ad, free status, My week) untouched.</li>
-<li>New for the developer: <code>/gs testroutine</code> (button "Test everything" under Settings &gt; Test mode) checks every feature and saves a report for the GoldSentinel review; the diagnosis shows the error counter. Nothing changes for players.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>🏠 Overview</h2>
 <ul>
