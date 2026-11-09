@@ -107,6 +107,17 @@ with tempfile.TemporaryDirectory() as tmp:
     check("Pfad-Angriff Diagnose entschärft", d2[0]["addon"] if d2 else None, ".._.._x")
     check("fremdes GSWEGE1 verworfen", tb.extras_from_text('GSWEGE1{"kind":"anders","addon":"a","id":"b"}'), ([], []))
 
+    # Paket vom Uploader (eine Nachricht, ein Anhang, Liste aller Zeichenketten)
+    import json as _j
+    paket = _j.dumps({"items": ["GSDIAG1|AHSentinel|0.65.40|x|Protokoll\nKLICK ä",
+                                "GSWEGE1" + _j.dumps({"kind": "wege", "addon": "LevelPilot", "id": "p1"}),
+                                "GSTEST1" + _j.dumps({"f": 1, "kind": "test", "addon": "AHSentinel", "id": "p1"})]})
+    d3, w3 = tb.extras_from_text(paket)
+    check("Paket: Diagnose/Wege/Test", (len(d3), len(w3), len(tb.from_text(paket))), (1, 1, 1))
+    check("Paket: Umlaut", d3[0]["text"].endswith("ä") if d3 else False, True)
+    gz = gzip.compress(paket.encode("utf-8"))
+    check("Paket als .json.gz", len(tb.from_bytes("paket.json.gz", gz)), 1)
+
     # Namen schwärzen (Liste kommt im Betrieb aus dem Secret REDACT_NAMES)
     tb._REDACT = ["Testa Beispielname", "Testa"]
     check("schwärzen", tb.redact("Testa Beispielname: MC 40 · Testa · Testarossa"), "<Name>: MC 40 · <Name> · Testarossa")

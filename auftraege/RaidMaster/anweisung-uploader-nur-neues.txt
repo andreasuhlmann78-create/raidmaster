@@ -22,12 +22,11 @@ UPLOADER (RaidMasterUploader)
  - Webhook-Grenzen beachten (Grösse, Rate); bei Fehler später erneut, ohne doppelt zu senden.
 
 BOT (RaidMasterBot)
- 5. Aufräumen in #testberichte: Nachrichten, die GitHub bereits abgeholt hat, löschen. Signal: Die Abholung
-    (addon-check/testberichte.py) schreibt die Discord-Nachrichten-IDs, die sie verarbeitet hat, nach
-    testberichte/abgeholt.json (macht die Prüf-Sitzung). Der Bot liest diese Datei aus dem Repo (raw, öffentlich) oder
-    – einfacher – reagiert auf eine ✅-Reaktion, die die Abholung nicht setzen kann (sie liest nur)… darum: Datei.
-    Der Bot löscht nur eigene/Webhook-Nachrichten in #testberichte, die in abgeholt.json stehen und älter als 1 Stunde
-    sind; nie andere Kanäle; Rechte: Nachrichten verwalten nur in #testberichte.
+ 5. Aufräumen in #testberichte: Die Abholung (addon-check/testberichte.py) schreibt nach jedem Lauf die IDs der
+    Discord-Nachrichten, die sie verarbeitet hat, nach testberichte/abgeholt.json (nur IDs, sonst nichts – macht die
+    Prüf-Sitzung). Der Bot liest diese Datei aus dem öffentlichen Repo (raw.githubusercontent.com) z. B. alle 30 Minuten
+    und löscht in #testberichte nur Nachrichten, deren ID dort steht und die älter als 1 Stunde sind. Nie andere
+    Kanäle; Recht "Nachrichten verwalten" nur für #testberichte.
 
 Testfälle: gleicher Bericht zweimal -> einmal gesendet; Protokoll ohne neue Einträge -> nichts; neuer Eintrag -> ein
 Paket; drei /reload in 5 Minuten -> ein Paket nach 15 Minuten; gleicher Fehler 3× -> eine Meldung + Zähler; Bot

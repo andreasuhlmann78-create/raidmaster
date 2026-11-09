@@ -122,6 +122,8 @@ def from_text(text):
             t = t[len(PREFIX):]
         try:
             data = json.loads(t)
+            if isinstance(data, dict) and isinstance(data.get("items"), list):
+                data = data["items"]
             items = data if isinstance(data, list) else [data]
             for x in items:
                 if isinstance(x, str) and x.startswith(PREFIX):
@@ -148,8 +150,17 @@ def from_bytes(name, data):
 def extras_from_text(text):
     """GSDIAG1-Protokolle und GSWEGE1-Wegdaten in einem Text (SavedVariables oder Discord-Nachricht)."""
     diags, wege = [], []
-    raws = [lua_unescape(m.group(1)) for m in LUA_EXTRA.finditer(text)]
+    raws = []
     t = text.strip()
+    if t[:1] in "[{":
+        try:
+            data = json.loads(t)
+            items = data if isinstance(data, list) else (data.get("items") if isinstance(data, dict) else None) or []
+            raws = [x for x in items if isinstance(x, str) and (x.startswith(DIAG_PREFIX) or x.startswith(WEGE_PREFIX))]
+        except ValueError:
+            raws = []
+    if not raws:
+        raws = [lua_unescape(m.group(1)) for m in LUA_EXTRA.finditer(text)]
     if not raws and (t.startswith(DIAG_PREFIX) or t.startswith(WEGE_PREFIX)):
         raws = [t]
     for raw in raws:
@@ -256,6 +267,7 @@ def fetch_discord():
         return None, f"Kanal #{CHANNEL} gibt es (noch) nicht – der Bot legt ihn bei /uploader an."
     reports, before, seen = [], None, 0
     fetch_discord.extras = ([], [])
+    fetch_discord.ids = []
     try:
         while seen < HISTORY:
             params = {"limit": 100}
@@ -267,6 +279,7 @@ def fetch_discord():
             seen += len(batch)
             before = batch[-1]["id"]
             for m in batch:
+                fetch_discord.ids.append(str(m.get("id", "")))
                 for a in m.get("attachments", []):
                     fn = a.get("filename", "")
                     if not re.search(r"\.(json|json\.gz|lua|gz)$", fn) or a.get("size", 0) > MAX_FILE:
@@ -459,6 +472,10 @@ def main(argv):
             print(f"Discord: {len(reps)} Berichte gelesen, {store(reps)} neu")
             nd, nw = store_extras(*getattr(fetch_discord, "extras", ([], [])))
             print(f"Discord: Diagnose-Protokolle neu {nd} · Wegdaten neu {nw}")
+            ids = sorted({i for i in getattr(fetch_discord, "ids", []) if i.isdigit()})
+            OUT.mkdir(parents=True, exist_ok=True)
+            # nur IDs: der Bot löscht danach verarbeitete Nachrichten in #testberichte
+            (OUT / "abgeholt.json").write_text(json.dumps({"ids": ids[-1000:]}, indent=0) + "\n", encoding="utf-8")
         else:
             print(f"Discord: {note}")
     st = evaluate(note)
