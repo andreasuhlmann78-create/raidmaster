@@ -1,147 +1,155 @@
 {
-  "geprueft": "2026-11-09T22:13:19Z",
-  "commit": "805c619",
+  "geprueft": "2026-11-10T06:30:30Z",
+  "commit": "7293823",
   "ok": true,
   "fehler": null,
   "hinweis": "Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 45 Minuten.",
   "ankuendigungen": [
     {
-      "datei": "announce/ahsentinel__ahsentinel-0.65.60.md",
+      "datei": "announce/ahsentinel__ahsentinel-0.65.65.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 35,
-      "abdeckung": 1.0,
-      "status": "ok"
+      "seit_push_min": 4,
+      "abdeckung": 0.167,
+      "status": "wartet",
+      "fehlende_zeilen": [
+        "📦 **AHSentinel 0.65.65** – Ausrüstung einstellen geht wieder + Befehlsliste ⌨️",
+        "• **Ausrüstung einstellen:** Der „Interner Auktion-Fehler“ ist weg – Einzelstücke werden jetzt in ganzen Silber eingestellt (Waren weiter mit Kupfer).",
+        "• **Staub und Essenzen** gelten nicht mehr fälschlich als „verkauft sich kaum“.",
+        "• **Neu:** Tipp im Chat `/ahs` – darüber erscheinen alle Befehle, die meistbenutzten oben. Klick führt aus.",
+        "• „Heute tun“ stockt nicht mehr."
+      ],
+      "status_eigentlich": "veraltet"
     },
     {
       "datei": "announce/ahsentinel__ahsentinel-0-vorstellung-1.8.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 1026,
+      "seit_push_min": 1523,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/ahsentinel__ahsentinel-hilfe-1.0.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 8223,
+      "seit_push_min": 8721,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/barrow-taktik__uebersicht-1.1.md",
       "kanal": "barrow-taktik",
-      "seit_push_min": 9054,
+      "seit_push_min": 9551,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/buffsentinel__buffsentinel-0.9.12.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 970,
+      "seit_push_min": 1467,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/guildsentinel__guildsentinel-0.9.21.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 206,
+      "seit_push_min": 704,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/hyjal-taktik__uebersicht-1.1.md",
       "kanal": "hyjal-taktik",
-      "seit_push_min": 9054,
+      "seit_push_min": 9551,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/levelpilot__levelpilot-3.12.21.md",
       "kanal": "levelpilot",
-      "seit_push_min": 195,
+      "seit_push_min": 692,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/levelpilot__levelpilot-uebersicht-3.12.21.md",
       "kanal": "levelpilot",
-      "seit_push_min": 195,
+      "seit_push_min": 692,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/lore__alpine-vanguard-vorstellung-1.0.md",
       "kanal": "lore",
-      "seit_push_min": 12777,
+      "seit_push_min": 13274,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/mc-feuerresi__feuerresi-1.1.md",
       "kanal": "mc-feuerresi",
-      "seit_push_min": 9054,
+      "seit_push_min": 9551,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/onyxia-feuerresi__feuerresi-1.0.md",
       "kanal": "onyxia-feuerresi",
-      "seit_push_min": 18195,
+      "seit_push_min": 18693,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/onyxia-taktik__onyxia-video-1.0.md",
       "kanal": "onyxia-taktik",
-      "seit_push_min": 19620,
+      "seit_push_min": 20117,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/professionsentinel__professionsentinel-0.9.37.md",
       "kanal": "professionsentinel",
-      "seit_push_min": 275,
+      "seit_push_min": 772,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/professionsentinel__professionsentinel-0-vorstellung-1.25.md",
       "kanal": "professionsentinel",
-      "seit_push_min": 9514,
+      "seit_push_min": 10011,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/threatsentinel__threatsentinel-2.5.3.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 71,
+      "seit_push_min": 568,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/threatsentinel__threatsentinel-0-vorstellung-2.2.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 10482,
+      "seit_push_min": 10979,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-12.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 8173,
+      "seit_push_min": 8671,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-16.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 206,
+      "seit_push_min": 704,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/levelpilot__levelpilot-uebersicht.md",
       "kanal": "levelpilot",
-      "seit_push_min": 20445,
+      "seit_push_min": 20943,
       "abdeckung": 1.0,
       "status": "ok"
     }
@@ -149,22 +157,19 @@
   "addons": [
     {
       "addon": "AHSentinel",
-      "version": "0.65.60",
-      "datei": "download/AHSentinel-0.65.60.zip",
+      "version": "0.65.65",
+      "datei": "download/AHSentinel-0.65.65.zip",
       "kanal": "ahsentinel",
-      "seit_push_min": 35,
-      "status": "ok",
-      "gepostet": "2026-11-09 21:47 UTC",
-      "anhang": [
-        "AHSentinel-0.65.60.zip"
-      ]
+      "seit_push_min": 4,
+      "status": "wartet",
+      "status_eigentlich": "fehlt"
     },
     {
       "addon": "RaidMaster",
       "version": "3.0.22",
       "datei": "RaidMaster/RaidMaster.toc",
       "kanal": "raid-addon",
-      "seit_push_min": 195,
+      "seit_push_min": 692,
       "status": "ok",
       "gepostet": "2026-11-09 19:18 UTC",
       "anhang": [
@@ -176,14 +181,14 @@
     {
       "datei": "announce/threatsentinel__threatsentinel-0-vorstellung.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 19260,
+      "seit_push_min": 19757,
       "abdeckung": 1.0,
       "status": "ok",
       "nur_info": "ersetzt durch threatsentinel__threatsentinel-0-vorstellung-2.2.md"
     }
   ],
   "server": "Alpine Vanguard",
-  "wartet": false,
+  "wartet": true,
   "bot": [
     {
       "pruefung": "Kanäle aus /raidmaster-einrichten",
