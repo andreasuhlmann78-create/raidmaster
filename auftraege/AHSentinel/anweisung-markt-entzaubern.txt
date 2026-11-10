@@ -21,8 +21,12 @@ E4 FILTER:
    a) nur Items, die der Charakter entzaubern kann (Fertigkeit, nicht gebunden, Seltenheit grün; blau/violett nur mit
       der bestehenden Bestätigung);
    b) MINDESTGEWINN 20 % nach Gebühren (Entscheid des Nutzers) – fest als Standard, in den Optionen änderbar (10–50 %);
-   c) Menge begrenzt durch den Absatz der Materialien: erzeugte Materialmenge ≤ Absatz × 2 Tage je Material (sonst Menge
-      kürzen; eigene Lager- und AH-Bestände des Materials abziehen);
+   c) Menge begrenzt durch den Absatz der Materialien – NUR als Sicherheitsnetz: Beobachtung des Nutzers (16:16):
+      "Materialien aus dem Entzaubern verkaufen sich gewöhnlich innert Minuten." Darum greift die Grenze erst, wenn die
+      erzeugte Menge (plus eigenes Lager und eigene AH-Bestände) mehr als einen TAG Absatz des Materials ausmacht; dann
+      kürzen und gelb "Material verkauft sich langsamer als deine Menge" zeigen. Für schnelle Materialien also keine
+      spürbare Kürzung. Die Messung (Vollscan, Prognose-Journal) soll die Beobachtung belegen: Ø-Dauer bis Verkauf je
+      Material im Testbericht.
    d) Budget: alle Markt-Vorschläge zusammen höchstens 25 % des Golds (K1);
    e) nicht bei Preissturz/Flutung des Materials (H2) und nicht bei Hinweis "frisch gestiegen" für das wichtigste Material
       ohne Warnung (Zeile gelb: "Wert hängt an frisch gestiegenem Preis von <Material>").
@@ -37,7 +41,7 @@ TESTFÄLLE
 T-ME1 Bronzene Stulpen 10s (94 Stück), Materialien Seelenstaub 6s 77c / Astralessenz 13s 69c / Splitter 37s, Chancen
       67,6/21,8/10,6, Mengen 1,46/1,52/1,0 -> Wert netto ≈ 12,9–13,5s -> Gewinn ≥ 20 % -> Zeile da, "lohnt bis ≈ 10s 9xc".
 T-ME2 Gleiches Item zu 17s -> keine Zeile.
-T-ME3 Seelenstaub-Absatz 30/Tag, eigener Bestand 40 -> Menge so gekürzt, dass erzeugter Staub ≤ 60 − 40.
+T-ME3 Seelenstaub-Absatz 300/Tag, 50 Teile (≈ 75 Staub) -> keine Kürzung. Absatz 30/Tag, Bestand 40 -> gekürzt, gelber Hinweis.
 T-ME4 Gold 15g -> Summe Kapitalbedarf aller Markt-Vorschläge ≤ 3g 75s.
 T-ME5 Item nicht entzauberbar (gebunden / Fertigkeit zu niedrig) -> keine Zeile.
 T-ME6 Option Mindestgewinn 30 % -> Zeilen mit 20–29 % fallen weg.

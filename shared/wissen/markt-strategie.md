@@ -91,6 +91,8 @@ geteilte Daten anderer Spieler (Sync, ohne Namen) als Zweites, Markt-Schätzung 
   Essenz 21,8 % / Splitter 10,6 % (Ø-Menge 1,46 / 1,52 / 1,0) – Splitter klar über den 3–5 % des Forever-Leitfadens.
   Entzauber-Käufe (72): 68 % mit Gewinn, Beute im Median 10 % unter der Vorhersage. Erste "gemessene" Absätze waren
   10–20× zu hoch (Teilkäufe von Waren, Hochrechnung aus 23 Min.) – Messmethode für Waren: Menge je Preisstufe.
+- **Beobachtung des Nutzers 10.11. 16:16 (vermutet, Messung läuft):** Entzauber-Materialien (Staub, Essenzen, Splitter)
+  verkaufen sich in Forever gewöhnlich innert Minuten – Absatz-Grenzen beim Entzaubern nur als Sicherheitsnetz.
 - **Schein-Flip 10.11. 12:41 (0.65.76):** Heute empfahl "Instabiles Magiepartikel kaufen bis 45s 97c, wieder
   einstellen um 2g 3s" – Marktwert (Median 14 Tage) 2g 3s, aber 855 Stück im AH zu 46–50s. Lehre: Wiederverkaufspreis
   nie aus dem Marktwert allein, sondern aus Preisleiter + Absatz (wo komme ich in der Laufzeit dran?).
