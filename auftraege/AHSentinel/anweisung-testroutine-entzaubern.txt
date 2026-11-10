@@ -1,0 +1,55 @@
+ANWEISUNG DER PRÜF-SITZUNG FÜR AHSENTINEL: ENTZAUBERN VOLLSTÄNDIG IN DIE TESTROUTINE
+==================================================================================
+Stand: 10. November 2026, 09:20 · Wunsch des Nutzers (10.11. 09:12): "das ganze mit dem Entzaubern in die bestehenden
+Tests aufnehmen". Gehört zu befund-entzaubern-zaehlen.txt (Z5 wird hiermit ersetzt und erweitert).
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen. Zusammen mit befund-entzaubern-zaehlen.txt umsetzen.
+
+BESTAND (TestRoutine.lua 0.65.68): Entzaubern ist schon teilweise drin – Tooltip-Zeilen, Materialblock (T228),
+Tabelle T227, D:Record mit Ersatz-deLog (~Zeile 4009), Entzauber-Fenster, DisenchantReport. ES FEHLT: die ganze Kette
+"Zauber -> Beute -> gezählt", die Lernrechnung mit festen Zahlen und ein Blick auf die ECHTEN Daten des Nutzers.
+
+TEIL 1 – AUTOMATISCH (wie bisher in der Sandbox: deStats/deShared/deLog/deBuys gesichert und zurückgesetzt)
+E1 Kette Taschen-Klick: SpellIsTargeting + UseContainerItem-Hook -> UNIT_SPELLCAST_SUCCEEDED(player, 13262) ->
+   LOOT_READY und danach LOOT_OPENED mit derselben Beute -> genau +1 in deStats und deLog (nicht +2).
+E2 Kette eigenes Fenster: D:NoteCandidate -> SUCCEEDED -> LOOT_READY -> +1.
+E3 Kette Makro/fremdes Addon (Z1): KEIN Hook-Aufruf, nur Taschen-Differenz (Item-Anzahl -1) -> +1 mit Weg "Taschen".
+E4 Menge: Beute { Staub ×2 } -> times +1, total +2. Beute { Splitter ×1 } -> eigener Zähler.
+E5 Anderer Zauber oder abgebrochen: SUCCEEDED mit anderer Zauber-ID / ohne SUCCEEDED -> nichts gezählt, kein Rest
+   "pending", der die nächste Beute (z. B. Kiste, Kürschnern) falsch zuordnet.
+E6 Plündern ohne Entzaubern (Mob, Kiste) innerhalb von 10 s nach einem Entzaubern ohne Beute -> nicht gezählt.
+E7 Material ausserhalb der Gruppe (Z2) -> nicht in deStats, deLog mit abgelehnt=Grund, Protokoll DE-ABGELEHNT.
+E8 Lernrechnung mit festen Zahlen (W = 10): Gruppe 2:1:a (80/20), 10 Ergebnisse 9× Staub, 1× Essenz ->
+   Staub 85 %, Essenz 15 % (genau, nicht nur "ungefähr"); Ø-Menge Staub bei total 15 aus 9: (0,8×10×1,5 + 15)/(8 + 9)
+   = 27/17 = 1,588. Summe der Chancen = 100 % ±0,1.
+E9 Startwerte Forever (anweisung-entzauber-chancen-forever.txt): 2:3:a = 0,75/0,20/0,05, 2:3:w = 0,20/0,75/0,05,
+   2:1:a = 0,80/0,20/0; Era unverändert. T227 an die neuen Werte anpassen (prüft heute noch 75/15/10).
+E10 Geteilte Ergebnisse: fremde Zahlen (deShared) werden eingerechnet, eigene + geteilte getrennt gezählt, gleicher
+   Absender ersetzt statt addiert (zweimal dieselbe Sendung -> N unverändert).
+E11 Tooltip: Kopf "Tabelle" ohne Ergebnisse, "Tabelle + N eigene" (bzw. "+ M geteilt") mit Ergebnissen; Prozente im
+   Block = D:Yield; Ø-Menge statt fest "1–2" (Z4).
+E12 Wert: D:GetValue = Σ Chance × Ø-Menge × Preis, D:ActualValue = Σ total × Preis / N – mit festen Preisen nachrechnen.
+
+TEIL 2 – ECHTE DATEN DES NUTZERS (nur lesen, nichts ändern) -> eigener Abschnitt im Testbericht
+E13 "ENTZAUBER-STAND" je Gruppe mit eigenen Ergebnissen, OHNE Namen:
+      Gruppe (z. B. "grün 26-30 Rüstung"), N eigene, N geteilt,
+      je Material: wie oft (times), Menge (total), Rate = times/N, Tabelle (Startwert), Ø-Menge
+      Abweichung markieren, wenn die Rate ausserhalb des 95-%-Bereichs der Tabelle liegt (Binomial, ab N ≥ 20):
+      z. B. "Splitter 9/70 = 12,9 % – Tabelle 5 % – auffällig (erwartet 1–7)".
+E14 Zählkontrolle: deLog-Einträge heute vs. deStats-Zuwachs heute (müssen gleich sein), dazu DE-VERPASST und
+   DE-ABGELEHNT heute. Unterschied -> FEHLER im Bericht.
+E15 Plausibilität der gespeicherten Daten: keine Gruppe mit Material ausserhalb ihrer Tabelle, keine Menge > 5,
+   times ≤ N je Material, Summe times je Gruppe ≈ N (grün: genau 1 Material je Entzaubern).
+
+AUSGABE
+   Teil 1 als normale Prüfungen (Kennung T-…, Bereich J). Teil 2 als Abschnitt "Entzaubern (echte Daten)" im
+   Testbericht und im GSTEST1-Export, damit die Prüf-Sitzung ihn über testberichte/ sieht. Keine Spielernamen.
+
+TESTFÄLLE
+T-TE1 Testroutine mit leerem deLog -> Teil 2 "keine eigenen Ergebnisse", kein Fehler.
+T-TE2 Daten wie beim Nutzer am 10.11. (70× grün 26-30 Rüstung: 73 Seelenstaub, 13 Grosse Astralessenz, 9 Splitter
+      als Mengen) -> Teil 2 zeigt die Gruppe, Splitter-Rate und markiert sie gegen 5 % als auffällig.
+T-TE3 Nach dem Lauf sind deStats/deShared/deLog/deBuys exakt wie vorher (Sandbox-Prüfung meldet keinen Pfad).
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden.

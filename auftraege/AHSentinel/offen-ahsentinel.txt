@@ -178,3 +178,9 @@ NEU (10. Nov. 09:15, HOCH) – befund-buchhaltung-menge-und-gebuehren.txt
    B1 "verkauft 800/22000" bei Einzelteilen: Menge = Preis in Kupfer (Fallback Feld 5) + Reparatur alter Buchungen.
    B2 positive Gebühren: Erstattung gebucht, Einzahlung nicht (nur Tab Verkaufen bucht) -> jede Einstellung buchen,
    fehlende Einzahlung aus der Erstattung nachbuchen, Reparatur. T-BM1–T-BM6.
+
+NEU (10. Nov. 09:20, Wunsch des Nutzers, HOCH) – anweisung-testroutine-entzaubern.txt
+   Entzaubern vollständig in die Testroutine: Teil 1 automatisch (E1–E12: alle Erkennungswege, doppelte Loot-Ereignisse,
+   Mengen, Ablehnung, Lernrechnung mit festen Zahlen, Forever-Startwerte, T227 anpassen, geteilte Daten, Tooltip, Wert).
+   Teil 2 echte Daten (E13–E15): Abschnitt "Entzaubern (echte Daten)" im Testbericht – Raten je Gruppe gegen die
+   Tabelle, Zählkontrolle, Plausibilität. Ersetzt Z5 aus befund-entzaubern-zaehlen.txt. T-TE1–T-TE3.
