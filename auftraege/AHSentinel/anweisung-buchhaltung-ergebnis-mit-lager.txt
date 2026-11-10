@@ -1,0 +1,41 @@
+ANWEISUNG DER PRÜF-SITZUNG FÜR AHSENTINEL: BUCHHALTUNG – ERGEBNIS MIT LAGER (Herstellen und Entzaubern)
+=====================================================================================================
+Stand: 10. November 2026, 07:05 · Screenshots des Nutzers 10.11. 06:51–06:53 (0.65.62), vom Nutzer freigegeben
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen, dann diese Anweisung.
+
+FALL DES NUTZERS (Buchhaltung, Heute)
+   Einnahmen 79s 42c (95 Staub, AH-Anteil 4s 18c) · Ausgaben 42s 15c (231 Leinenstoff) · Gebühren 1s 35c ·
+   "Gewinn" 35s 92c. Pro Item: Leinenstoff "Gewinn −42s 15c".
+   Alle Zahlen gehen exakt auf (danke). Aber: Der Nutzer kauft Leinenstoff, stellt Braune Leinenhosen her und
+   ENTZAUBERT sie (Staub/Essenzen). Der Stoff ist kein Verlust, sondern liegt danach als Staub/Essenz im Lager
+   (162 Staub à "Verkaufen 76c", 35 Essenzen à 92c). Die Kachel "Gewinn" ist in Wahrheit ein Kassensaldo und
+   unterschätzt das Ergebnis des Tages stark.
+
+UMSETZEN (einfach halten – keine Kettenverfolgung je Stück)
+B1 Kachel "Gewinn" heisst "Kasse" (Einnahmen − Ausgaben − Gebühren, wie heute). Tooltip: "Gekaufte Materialien zählen
+   hier als Ausgabe, auch wenn sie noch im Lager liegen."
+B2 Neue Kachel "Ergebnis mit Lager" = Kasse + (Lagerwert jetzt − Lagerwert zu Beginn des Zeitraums).
+   Lagerwert = A.Extras:InventoryValue() dieses Charakters (Taschen, Bank, eigene laufende Auktionen), bewertet wie
+   "Verkaufen:" (RealValue, also nach Gebühren und mit Angebot/Absatz aus 0.65.63).
+   Dafür je Charakter und Tag einen Stand speichern: beim ersten Einloggen des Tages und beim Ausloggen
+   (db.ledger.stock[Tag] = { start = …, last = … }, nur Zahlen). Zeitraum "Heute": Start des Tages; "7/30 Tage": Start des
+   ersten Tages im Zeitraum; fehlt ein Stand -> "–" mit Tooltip "Noch kein Lagerstand für den Beginn".
+   Item-Preise ändern sich – der Lagerwert zu Beginn wird mit den Preisen von DAMALS gespeichert, nicht neu gerechnet.
+B3 "Pro Item": Spalte "im Lager" (Stück jetzt) – dann sieht man bei Leinenstoff 0, bei Staub 162; kein Umbuchen nötig.
+B4 Kachel Einnahmen: "1 Verkäufe" -> Einzahl/Mehrzahl ("1 Verkauf", "2 Verkäufe"); Locales mit Einzahl-Schlüssel.
+B5 Nur prüfen (Tooltip Regenbogenflossenthunfisch, 0.65.62): "Preis 17c" · "Marktwert 22c" · "Verkaufen: 21c".
+   Verkaufen nach Gebühr kann nicht über dem Preis liegen, mit dem gerechnet wird. Vermutlich war das 17c-Angebot nicht
+   im letzten Scan (A:PriceInfo nimmt dann den Median 22c – richtig nach Regelwerk). Dann darf der Tooltip die Zeile
+   "Preis 17c" nicht ohne Kennzeichen zeigen: entweder den Rechenwert zeigen oder "Preis 17c (alt)". Wenn es doch im
+   Scan war: Fehler suchen und beheben.
+
+TESTFÄLLE
+T-BL1 Kauf 231 Leinenstoff 42s 15c, Lager zu Beginn 10s, Lager jetzt 1g 55s, Kasse 35s 92c -> Ergebnis mit Lager
+      = 35s 92c + 1g 45s = 1g 80s 92c.
+T-BL2 Kein Lagerstand für den Beginn -> "–", kein Lua-Fehler.
+T-BL3 "1 Verkauf" / "2 Verkäufe" (deDE, enUS).
+T-BL4 Preis nicht im letzten Scan -> Tooltip kennzeichnet ihn bzw. zeigt den Rechenwert; Verkaufen <= Rechenwert.
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden.
