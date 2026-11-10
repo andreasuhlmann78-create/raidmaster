@@ -43,6 +43,23 @@ H6 Händler, Lücken, Überfüllt, Trends zeigen alle "0 Zeilen – Gerade nicht
    7 Tage Verlauf, noch 3 Tage" / "kein Sofortkauf unter Händlerpreis im letzten Scan").
 H7 Der Detailbereich rechts bleibt beim Wechsel der Ansicht auf dem zuletzt gewählten Item stehen (hier "Rolle der
    Beweglichkeit III" in allen Ansichten). Beim Ansichtswechsel leeren oder die erste Zeile der neuen Ansicht zeigen.
+H8 (HOCH) ENTZAUBER-KÄUFE MIT VERLUST (Meldung des Nutzers 10.11. 12:55): "für 5 Gold Items gekauft, laut Tooltip
+   30 % Gewinn, nach 50 Entzauberungen Verlust". Zahlen vom 10.11. (Buchhaltung + Entzauber-Statistik): 70 Teile grün
+   26–30 Rüstung für 9g 82s (Ø 14s), Beute 73 Seelenstaub, 13 Grosse Astralessenz, 9 Splitter = 8g 72s brutto (Ø 12,5s),
+   verkauft wurde Seelenstaub zu 6s 77c, Astralessenz 13s 69c, Splitter 37s 47c (Meine Auktionen 12:46).
+   Nachrechnung mit diesen ERZIELTEN Preisen: 0,75 × 1,5 × 6,77 + 0,20 × 1,5 × 13,69 + 0,05 × 1 × 37,47 = 13,58s brutto,
+   nach 5 % ≈ 12,9s – also schon VOR dem Kauf unter 14s. +30 % gehen nur mit deutlich höheren Materialpreisen
+   (Marktwert statt erzielbarer Preis) und/oder 10 % Splitter. Zusätzlich drückt die eigene Menge den Preis: 73
+   Seelenstaub auf einmal sind ein Vielfaches des Tagesabsatzes.
+   Lösung: Entzauberwert, "Entzaubern lohnt", Sammelkauf und Entzauber-Schnäppchen rechnen jedes Material mit dem
+   REALISTISCHEN Verkaufspreis aus H1 (Preisleiter + Absatz), mal 0,95, minus erwarteten Einzahlungsverlust, und
+   berücksichtigen die eigene Menge: Wer N Teile kauft, erzeugt N × Ø-Menge Material – liegt das über
+   Absatz × 2 Tage, den Materialpreis entsprechend senken (eine Stufe tiefer in der Preisleiter je weitere
+   Tagesmenge). Tooltip: "Gewinn nach Verkauf der Materialien: X (Y %)" statt Bruttowert. Prognose-Journal:
+   Entzauber-Kauf-Trefferquote mit diesen echten Ergebnissen füttern (Kauf -> Beute -> erzielter Verkaufspreis).
+T-HF8 Testfall mit den Zahlen oben: Kaufpreis 14s, Materialpreise 6s 77c / 13s 69c / 37s 47c, Chancen 75/20/5,
+      Ø-Menge 1,5 -> "lohnt nicht" (Verlust ≈ 1s je Teil). Gleicher Fall bei Kauf von 70 Teilen und Absatz Seelenstaub
+      20/Tag -> Materialpreis Seelenstaub tiefer, Verlust grösser.
 T-HF5 Überfüllt mit Testdaten (Menge 855, Absatz 52/Tag, Laufzeit 2 Std.) -> Zeile da, auch ohne gemessenen Absatz
       ("geschätzt"). T-HF6 leere Ansicht nennt den Grund. T-HF7 Ansichtswechsel leert/wechselt den Detailbereich.
 

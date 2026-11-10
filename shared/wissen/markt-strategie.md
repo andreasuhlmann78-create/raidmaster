@@ -78,6 +78,9 @@ geteilte Daten anderer Spieler (Sync, ohne Namen) als Zweites, Markt-Schätzung 
 - **Entzaubern 10.11.:** 70× grün Itemstufe 26–30 Rüstung -> 73 Seelenstaub, 13 Grosse Astralessenz, **9 Grosse
   gleissende Splitter** (≈ 13 % der Entzauberungen). Forever-Leitfaden sagt 3–5 % -> bei 5 % wären ≥ 9 Splitter sehr
   unwahrscheinlich (≈ 1 %). Vorläufig: Splitter-Rate eher ~10 %. Weiter beobachten (Testbericht E13).
+- **Entzauber-Einkauf mit Verlust (10.11., Nachrechnung 13:15):** mit den erzielten Preisen (Seelenstaub 6s 77c,
+  Astralessenz 13s 69c, Splitter 37s 47c) ist ein grünes 26–30-Teil netto ≈ 12,9s wert – Kauf zu 14s war schon vorher
+  Verlust; der Tooltip zeigte +30 %. Lehre: Materialwert immer zum erzielbaren Preis und mit der eigenen Menge rechnen.
 - **Entzauber-Einkauf mit Verlust (10.11.):** 70 Teile für 9g 82s (Ø 14s), Material ≈ 8g 72s (Ø 12,5s) -> Verlust vor
   Gebühren. Die Kaufgrenze war zu optimistisch -> Sicherheitsmarge nötig (Abschnitt 6.6).
 - **Schein-Flip 10.11. 12:41 (0.65.76):** Heute empfahl "Instabiles Magiepartikel kaufen bis 45s 97c, wieder
