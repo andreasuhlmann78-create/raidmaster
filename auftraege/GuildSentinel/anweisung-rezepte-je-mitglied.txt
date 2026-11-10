@@ -1,0 +1,51 @@
+ANWEISUNG DER PRÜF-SITZUNG FÜR GUILDSENTINEL: BERUFE – REZEPTE JE MITGLIED, NACH ART GEFILTERT
+============================================================================================
+Stand: 10. November 2026, 14:00 · WUNSCH DES NUTZERS (10.11. 13:43): "Im Berufe-Fenster der Gildenmitglieder soll nicht
+nur stehen, wie viele Rezepte die Leute können, sondern auch welche – gefiltert je nach Beruf: beim Schmied z. B. Kopf,
+Brust …, beim Alchimisten Elixiere, Reagenzien, Erholungstränke usw."
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen. Dann dies (MITTEL). So einfach wie möglich bedienbar.
+
+BESTAND (0.9.21): G.prof[Name].p[Beruf] = { r, m, n = { Rezeptnamen }, i = { Item-IDs }, s = { Rezept-IDs } } wird schon
+gesammelt und geteilt. Seite Berufe: links Berufsliste, rechts Liste "N Rezepte · Wer · Beruf · Stufe · Status";
+Suche (P:Find) findet Rezepte über alle. Es fehlt: Rezepte EINES Mitglieds anzeigen und nach Art filtern.
+
+UMSETZEN
+R1 Klick auf ein Mitglied (Zeile "N Rezepte") öffnet rechts dessen Rezeptliste für diesen Beruf (Zurück-Knopf oben),
+   sortiert nach Art, dann Name. Je Zeile: Rezeptname (Item-Link, Tooltip mit dem Item), Art, ggf. benötigte Stufe.
+   Knopf "Anfragen" wie bisher (P:AskCraft) für das gewählte Rezept.
+R2 Filterleiste über der Liste mit den Arten DIESES Berufs (nur Arten, die vorkommen, mit Anzahl), "Alle" zuerst.
+   Beispiele:
+   - Schmiedekunst / Lederverarbeitung / Schneiderei: Kopf, Hals, Schultern, Brust, Rücken, Handgelenke, Hände, Taille,
+     Beine, Füsse, Schild, Waffen (Einhand/Zweihand), Taschen, Sonstiges, Reagenzien/Material.
+   - Alchemie: Heiltränke, Manatränke, Erholungstränke (Heilung + Mana), Schutztränke, Elixiere, Fläschchen, Öle,
+     Transmutationen, Reagenzien, Sonstiges.
+   - Ingenieurskunst: Bomben/Sprengstoff, Geräte, Zielfernrohre, Munition, Brillen/Kopf, Teile, Sonstiges.
+   - Verzauberkunst (keine Items, nur Zauber): nach Ziel-Platz aus dem Namen ("Verzaubern: Brust – …", "Armschiene",
+     "Umhang", "Stiefel", "Handschuhe", "Waffe", "Zweihandwaffe", "Schild") + Stäbe/Öle/Sonstiges.
+   - Kochen, Erste Hilfe: Essen (Werte), Essen (normal), Verbände, Sonstiges.
+R3 Art bestimmen OHNE neue Sync-Daten (alte Clients nicht brechen): lokal aus der Item-ID (i[k]) mit
+   GetItemInfoInstant / C_Item.GetItemInfoInstant -> classID, subclassID, equipLoc (Rüstungsplatz) und Waffentyp;
+   Verbrauchsgüter: subclassID (modern: Trank/Elixier/Fläschchen …), sonst Namensmuster je Sprache in den Locales
+   ("Elixier", "Trank", "Fläschchen", "Öl", "Transmutieren"; enGB "Elixir", "Potion", "Flask", "Oil", "Transmute"),
+   Erholung = Name enthält Heil- UND Mana-Wort bzw. bekannte Item-IDs (Tabelle). Verzauberkunst: Namensmuster.
+   Unbekannt -> "Sonstiges". Ergebnis je Item-ID im Speicher zwischenlagern (kein Rechnen je Frame).
+R4 Optional, nur wo es das Spiel liefert (Forever, eigenes Fenster): Blizzard-Kategorie des Rezepts
+   (C_TradeSkillUI.GetRecipeInfo(id).categoryID -> GetCategoryInfo) beim Einlesen merken und als NEUES optionales
+   Feld k = { Kategorie-Namen } mitsenden; Empfänger ohne k nutzen R3. Ältere Versionen übergehen k (wie s).
+R5 Suche im Mitglied: Suchfeld filtert auch die Rezeptliste des Mitglieds; Filter + Suche kombinierbar.
+R6 Leer: "Rezepte noch nicht bekannt – erscheinen, sobald <Mitglied> mit GuildSentinel das Berufsfenster öffnet."
+R7 Bereich K der Testroutine: Filterleiste bricht um, nichts abgeschnitten/überlagert (Klassisch/Modern, deDE/enGB).
+
+TESTFÄLLE
+T-RM1 Mitglied mit Schmiedekunst, Items Kopf/Brust/Hände/Waffe -> Filter "Kopf 1 · Brust 1 · Hände 1 · Waffen 1"; Klick
+      "Brust" -> nur das Brust-Rezept.
+T-RM2 Alchemie mit "Elixier der Löwenstärke", "Geringer Heiltrank", "Erholungstrank", "Transmutieren: Arkanit" ->
+      Elixiere / Heiltränke / Erholungstränke / Transmutationen.
+T-RM3 Verzauberkunst "Verzaubern: Brust – Geringe Gesundheit" -> Brust.
+T-RM4 Daten ohne Item-ID (alter Sender) -> "Sonstiges", kein Lua-Fehler.
+T-RM5 Feld k vorhanden -> Blizzard-Kategorie wird genutzt; fehlt k -> R3.
+T-RM6 Alte Version empfängt Daten mit k -> unverändert lesbar (Sync-Test).
+
+Wie immer: komplette Dateien, alte Clients nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden.

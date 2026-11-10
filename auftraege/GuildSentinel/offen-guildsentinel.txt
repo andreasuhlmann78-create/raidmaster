@@ -122,3 +122,8 @@ HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Die Version muss höher sein als 0.9.21 (download/, announce/, CurseForge).
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
+
+NEU (10. Nov. 14:00, WUNSCH DES NUTZERS, MITTEL) – anweisung-rezepte-je-mitglied.txt
+   Berufe: Klick auf ein Mitglied zeigt seine Rezepte, Filterleiste nach Art (Schmied: Kopf/Brust/…, Alchemie:
+   Elixiere/Heiltränke/Erholungstränke/…, Verzauberkunst nach Platz). Art lokal aus Item-ID (kein neues Pflichtfeld),
+   optional Feld k mit Blizzard-Kategorie. T-RM1–T-RM6.
