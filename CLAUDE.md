@@ -45,6 +45,11 @@ Wer Preise, Gebühren, Gewinne oder Werte berechnet, prüft oder beauftragt, lie
 `shared/wissen/wirtschaft-forever.md` und hält dessen Abschnitt 0 (zuerst messen, Zahlen müssen exakt aufgehen) und die
 Pflicht-Checkliste (Abschnitt 7) ein. Regeln nur als "belegt" weitergeben, sonst als Messauftrag.
 
+## Marktstrategie und Prognosen (Pflicht)
+
+Wer an Preisen, Absatz, Empfehlungen, Sniper, "Heute tun", Markt-Reiter oder Prognosen arbeitet oder Aufträge dazu
+schreibt, liest vorher `shared/wissen/markt-strategie.md` (Ziel, Datenlage, Methoden, Erkenntnisse, Messaufträge).
+
 ## Addon-Kommunikation (Pflicht)
 
 Wer Sync, Addon-Nachrichten oder Kanäle baut oder beauftragt, liest vorher `shared/wissen/kommunikation-forever.md`.
