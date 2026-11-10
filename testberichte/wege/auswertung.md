@@ -167,7 +167,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Ashenvale (1440)
 
-- Wegstücke 1, Knoten 1, zusammenhängende Teile 1
+- Wegstücke 2, Knoten 36, zusammenhängende Teile 1
 
 ## Steinkrallengebirge (1442)
 
@@ -249,7 +249,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 1283, Knoten 667, zusammenhängende Teile 2
+- Wegstücke 1285, Knoten 667, zusammenhängende Teile 2
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 665 Knoten, Bereich 44–86 / 1–96
   - Teil 2: 2 Knoten, Bereich 83–84 / 15–16

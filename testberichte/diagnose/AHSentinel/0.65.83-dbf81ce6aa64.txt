@@ -1,0 +1,225 @@
+AHSentinel-Protokoll v0.65.83 · 10.11. 16:46:14
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  10.11. 16:34:36 L10 ? v0.65.83
+  10.11. 16:19:22 L10 ? v0.65.82
+  10.11. 16:00:25 L10 ? v0.65.81
+  10.11. 15:55:37 L10 ? v0.65.80
+  10.11. 15:42:36 L10 ? v0.65.80
+  10.11. 14:35:08 L24 ? v0.65.80
+  10.11. 14:34:49 L24 ? v0.65.80
+  10.11. 14:33:09 L24 ? v0.65.80
+  10.11. 14:32:55 L24 ? v0.65.80
+  10.11. 14:32:45 L24 ? v0.65.80
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 7 Min., 5654 Items, Preis-Sync an
+  SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 2, GoldSentinelTest 2, GuildSentinel 2, LevelPilot 1, LevelPilotG 1
+  SYNC gesendet 294 · empfangen 50 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 5 (mit Sync 2: 5, pausiert 2) · gesendet 27 · weitergegeben 0 · offline 2 · Listen 4 · Warteschlange 0 · gespeichert ja
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, minimapAngle=18.1, priceGuard=20, theme=modern, tooltipDEDetail=true, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[10.11. 16:44:35] SYNC gesendet 276, empfangen 0, verworfen 0 · Kanal verweigert 0
+[10.11. 16:40:14] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · 27 ms
+[10.11. 16:39:58] M2 Ware: auctionID:n,containsAccountItem:b,containsOwnerItem:b,itemID:n,numOwnerItems:n,owners,quantity:n,timeLeftSeconds:n,totalNumberOfOwners:n,unitPrice:n
+[10.11. 16:39:40] ABSATZ-UNPLAUSIBEL Item 13057 · 6.4/Tag · Quelle geschätzt
+[10.11. 16:39:39] ABSATZ-UNPLAUSIBEL Item 4248 · 23.7/Tag · Quelle geschätzt
+[10.11. 16:39:39] ABSATZ-UNPLAUSIBEL Item 4874 · 17.1/Tag · Quelle geschätzt
+[10.11. 16:39:39] ABSATZ-UNPLAUSIBEL Item 249865 · 70.7/Tag · Quelle geschätzt
+[10.11. 16:39:39] ABSATZ-UNPLAUSIBEL Item 3303 · 6.4/Tag · Quelle geschätzt
+[10.11. 16:39:39] ABSATZ-UNPLAUSIBEL Item 4364 · 463.6/Tag · Quelle geschätzt
+[10.11. 16:39:39] ABSATZ-UNPLAUSIBEL Item 3220 · 41.8/Tag · Quelle geschätzt
+[10.11. 16:39:39] ABSATZ-UNPLAUSIBEL Item 264077 · 6.4/Tag · Quelle geschätzt
+[10.11. 16:39:39] ABSATZ-UNPLAUSIBEL Item 4321 · 21.3/Tag · Quelle geschätzt
+[10.11. 16:39:39] ABSATZ-UNPLAUSIBEL Item 15992 · 7.7/Tag · Quelle geschätzt
+[10.11. 16:39:39] ABSATZ-UNPLAUSIBEL Item 252671 · 8.5/Tag · Quelle geschätzt
+[10.11. 16:39:39] ABSATZ-UNPLAUSIBEL Item 18662 · 33.6/Tag · Quelle geschätzt
+[10.11. 16:39:36] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · 29 ms
+[10.11. 16:39:33] ABSATZ-UNPLAUSIBEL Item 3843 · 17.7/Tag · Quelle geschätzt
+[10.11. 16:39:32] LANGSAM Hintergrund-Aufgabe sync-send · 0 Schritte · 18 ms
+[10.11. 16:39:28] LANGSAM ×2 Hintergrund-Aufgabe fullscan · 0 Schritte · 21 ms
+[10.11. 16:39:26] VOLLSCAN M1d 270006 Auktionen gelesen (269995 gültig) · 2534 ms in 496 Portionen · längster Frame 5.4 ms · 5084 Items
+[10.11. 16:39:11] VOLLSCAN M1c Abstand 1143 s · neue Liste · 270006 Auktionen · Antwort nach 25.6 s
+[10.11. 16:39:08] ABSATZ Item 11084 · Q 0 (vollscan) · S 56.4 (market, Deckel) · S roh 203.7 · Deckel 56.4 · eigene Quote - · Laufzeit 24 Std. · W 0.0 · N 1.0
+[10.11. 16:38:36] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=1 · Minimum jetzt 100
+[10.11. 16:38:36] EINSTELLEN Item 11083 · Menge 24 · Auktionen 1 · Laufzeit 1 · Preis 520/Stück, 12480 gesamt · Gebühr erwartet 100, abgezogen 100 (0.80 % vom Preis)
+[10.11. 16:38:36] AHS-POST PostCommodity: arg2=1 arg3=24 arg4=520 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/2
+[10.11. 16:38:32] ABSATZ Item 11083 · Q 68 (vollscan) · S 1375.3 (market) · S roh 1375.3 · Deckel 1631.6 · eigene Quote 7/3 · Laufzeit 24 Std. · W 0.1 · N 1.0
+[10.11. 16:38:32] ABSATZ Item 279972 · Q 214 (scan, Q gesamt) · S 42.8 (market, Deckel) · S roh 128.0 · Deckel 42.8 · eigene Quote - · Laufzeit 24 Std. · W 5.0 · N 6.0
+[10.11. 16:38:32] ABSATZ Item 2592 · Q 0 (vollscan) · S 3748.8 (market, Deckel) · S roh 4683.2 · Deckel 3748.8 · eigene Quote - · Laufzeit 24 Std. · W 0.0 · N 1.0
+[10.11. 16:38:32] ABSATZ Item 2997 · Q 0 (vollscan) · S 266.8 (market, Deckel) · S roh 742.7 · Deckel 266.8 · eigene Quote - · Laufzeit 24 Std. · W 0.0 · N 1.0
+[10.11. 16:38:32] EIGENE Ware Item 11082 · buyout 1350 · Menge 12 · als Stückpreis gelesen
+[10.11. 16:38:32] ABSATZ Item 5572 · Q 745 (vollscan) · S 153.6 (market, Deckel) · S roh 332.7 · Deckel 153.6 · eigene Quote - · Laufzeit 2 Std. · W 4.9 · N 7.0
+[10.11. 16:38:32] ABSATZ Item 5571 · Q 687 (vollscan) · S 141.6 (market, Deckel) · S roh 304.3 · Deckel 141.6 · eigene Quote - · Laufzeit 2 Std. · W 4.9 · N 7.0
+[10.11. 16:38:32] ABSATZ Item 2320 · Q 5231 (scan, Q gesamt) · S 1046.2 (market, Deckel) · S roh 2458.2 · Deckel 1046.2 · eigene Quote - · Laufzeit 24 Std. · W 5.0 · N 6.0
+[10.11. 16:38:32] ABSATZ Item 2589 · Q 0 (vollscan) · S 5765.4 (market, Deckel) · S roh 10398.1 · Deckel 5765.4 · eigene Quote - · Laufzeit 24 Std. · W 0.0 · N 1.0
+[10.11. 16:38:32] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[10.11. 16:38:32] EINSTELLEN Item 11082 · Menge 12 · Auktionen 1 · Laufzeit 1 · Preis 1350/Stück, 16200 gesamt · Gebühr erwartet 100, abgezogen 100 (0.62 % vom Preis)
+[10.11. 16:38:31] AHS-POST PostCommodity: arg2=1 arg3=12 arg4=1350 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/1
+[10.11. 16:38:27] ABSATZ Item 11082 · Q 116 (vollscan) · S 191.8 (market, Deckel) · S roh 348.9 · Deckel 191.8 · eigene Quote - · Laufzeit 24 Std. · W 0.6 · N 1.0
+[10.11. 16:38:16] SNIPER Treffer 1 · gekauft 1 · Ø Suche>Treffer 151 ms, Treffer>Reserv. 1296 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms, bestätigt>gekauft 0 ms
+[10.11. 16:38:08] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 16:38:04] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11082×1
+[10.11. 16:38:00] DE-GEZÄHLT ×3 Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 16:37:47] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[10.11. 16:37:43] DE-GEZÄHLT ×2 Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 16:37:34] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 16:37:30] DE-GEZÄHLT ×2 Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11082×1
+[10.11. 16:37:21] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 16:37:17] DE-GEZÄHLT ×2 Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[10.11. 16:37:09] DE-GEZÄHLT ×2 Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 16:37:00] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[10.11. 16:36:56] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 16:36:51] DE-GEZÄHLT ×2 Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 16:36:43] SNIPER Treffer 2 · gekauft 2 · Ø Suche>Treffer 115 ms, Treffer>Reserv. 638 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms, bestätigt>gekauft 0 ms
+[10.11. 16:36:43] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 16:36:39] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11082×1
+[10.11. 16:36:34] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 16:35:48] M2 Ausrüstung: auctionID:n,bidAmount:n,bidder,buyoutAmount:n,containsAccountItem:b,containsOwnerItem:b,containsSocketedItem:b,itemKey:t,itemLink:s,minBid:n,owners,quantity:n,timeLeft:n,totalNumberOfOwners:n
+[10.11. 16:35:45] ABSATZ Item 3380 · Q 5 (scan, Q gesamt) · S 1.0 (market, Deckel) · S roh 1.5 · Deckel 1.0 · eigene Quote - · Laufzeit 2 Std. · W 6.0 · N 7.0
+[10.11. 16:35:45] ABSATZ Item 1803 · Q 1 (scan, Q gesamt) · S 0.2 (market, Deckel) · S roh 1.5 · Deckel 0.2 · eigene Quote - · Laufzeit 2 Std. · W 10.0 · N 7.0 · kaum
+[10.11. 16:35:45] ABSATZ Item 3381 · Q 6 (scan, Q gesamt) · S 1.2 (market, Deckel) · S roh 2.1 · Deckel 1.2 · eigene Quote - · Laufzeit 2 Std. · W 5.8 · N 7.0
+[10.11. 16:35:45] ABSATZ Item 1780 · Q 5 (scan, Q gesamt) · S 1.0 (market, Deckel) · S roh 2.8 · Deckel 1.0 · eigene Quote - · Laufzeit 2 Std. · W 6.0 · N 7.0
+[10.11. 16:35:45] ABSATZ Item 1785 · Q 7 (scan, Q gesamt) · S 1.4 (market, Deckel) · S roh 4.1 · Deckel 1.4 · eigene Quote - · Laufzeit 2 Std. · W 5.7 · N 7.0
+[10.11. 16:35:44] ABSATZ Item 1756 · Q 5 (scan, Q gesamt) · S 1.0 (market, Deckel) · S roh 1.9 · Deckel 1.0 · eigene Quote - · Laufzeit 2 Std. · W 6.0 · N 7.0
+[10.11. 16:35:43] SNIPER Treffer 6 · gekauft 6 · Ø Suche>Treffer 506 ms, Treffer>Reserv. 772 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms, bestätigt>gekauft 0 ms
+[10.11. 16:35:38] ABSATZ Item 1420 · Q 8 (scan, Q gesamt) · S 1.6 (market, Deckel) · S roh 2.9 · Deckel 1.6 · eigene Quote - · Laufzeit 24 Std. · W 5.6 · N 6.0
+[10.11. 16:35:38] ABSATZ Item 3365 · Q 1 (scan, Q gesamt) · S 0.2 (market, Deckel) · S roh 2.4 · Deckel 0.2 · eigene Quote - · Laufzeit 24 Std. · W 10.0 · N 7.0 · kaum
+[10.11. 16:35:37] ABSATZ Item 1423 · Q 7 (scan, Q gesamt) · S 1.4 (market, Deckel) · S roh 3.9 · Deckel 1.4 · eigene Quote - · Laufzeit 24 Std. · W 5.7 · N 6.0
+[10.11. 16:35:36] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[10.11. 16:35:32] ENTZAUBERWERT Item 7048 · eigene Ø aus 217 · 11083 71% × 1.51 à 496, 11082 21% × 1.49 à 1283, 11084 9% × 1.00 à 3325 · brutto 1279 · netto 1215
+[10.11. 16:35:32] DE-CHANCEN Gruppe 2:4:a · Tabelle 11083 75%/11082 20%/11084 5% · echt 11083 71%/11082 21%/11084 9% (217)
+[10.11. 16:35:32] ABSATZ Item 7048 · Q 7 (vollscan) · S 27.0 (market, Deckel) · S roh 76.3 · Deckel 27.0 · eigene Quote - · Laufzeit 2 Std. · W 0.3 · N 4.0
+[10.11. 16:35:11] KAUF-DOPPELT ×4 Kauf-Ereignis ohne passende eigene Kaufmeldung (Buchung über die Rechnung)
+[10.11. 16:34:51] ABSATZ-UNPLAUSIBEL Item 17033 · 11.5/Tag · Quelle geschätzt
+[10.11. 16:34:51] ABSATZ-UNPLAUSIBEL Item 264089 · 7.8/Tag · Quelle geschätzt
+[10.11. 16:34:50] KAUF-DOPPELT ×6 Kauf-Ereignis ohne passende eigene Kaufmeldung (Buchung über die Rechnung)
+[10.11. 16:34:43] SNIPER Treffer 1 · gekauft 1 · Ø Suche>Treffer 109 ms, Treffer>Reserv. 1232 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms, bestätigt>gekauft 0 ms
+[10.11. 16:34:42] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[10.11. 16:34:41] SYNC Weg=GUILD
+[10.11. 16:31:40] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[10.11. 16:31:40] EINSTELLEN Item 11084 · Menge 1 · Auktionen 1 · Laufzeit 1 · Preis 3499/Stück, 3499 gesamt · Gebühr erwartet 100, abgezogen 100 (2.86 % vom Preis)
+[10.11. 16:31:39] AHS-POST PostCommodity: arg2=1 arg3=1 arg4=3499 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/3
+[10.11. 16:31:36] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[10.11. 16:31:36] EINSTELLEN Item 11082 · Menge 6 · Auktionen 1 · Laufzeit 1 · Preis 1350/Stück, 8100 gesamt · Gebühr erwartet 100, abgezogen 100 (1.23 % vom Preis)
+[10.11. 16:31:35] AHS-POST PostCommodity: arg2=1 arg3=6 arg4=1350 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/1
+[10.11. 16:31:31] ABSATZ Item 279972 · Q 86 (vollscan) · S 41.8 (market, Deckel) · S roh 128.0 · Deckel 41.8 · eigene Quote - · Laufzeit 24 Std. · W 2.1 · N 3.0
+[10.11. 16:31:31] ABSATZ Item 2592 · Q 4 (vollscan) · S 3479.2 (market, Deckel) · S roh 4683.2 · Deckel 3479.2 · eigene Quote - · Laufzeit 24 Std. · W 0.0 · N 1.0
+[10.11. 16:31:31] ABSATZ Item 2997 · Q 4 (vollscan) · S 212.8 (market, Deckel) · S roh 742.7 · Deckel 212.8 · eigene Quote - · Laufzeit 24 Std. · W 0.0 · N 1.0
+[10.11. 16:31:31] ABSATZ Item 5572 · Q 745 (vollscan) · S 151.8 (market, Deckel) · S roh 332.7 · Deckel 151.8 · eigene Quote - · Laufzeit 2 Std. · W 4.9 · N 7.0
+[10.11. 16:31:31] ABSATZ Item 5571 · Q 687 (vollscan) · S 140.0 (market, Deckel) · S roh 304.3 · Deckel 140.0 · eigene Quote - · Laufzeit 2 Std. · W 4.9 · N 7.0
+[10.11. 16:31:31] ABSATZ Item 2320 · Q 227 (vollscan) · S 751.2 (market, Deckel) · S roh 2458.2 · Deckel 751.2 · eigene Quote - · Laufzeit 24 Std. · W 0.3 · N 1.0
+[10.11. 16:31:31] EIGENE Ware Item 11083 · buyout 521 · Menge 63 · als Stückpreis gelesen
+[10.11. 16:31:31] ABSATZ Item 2589 · Q 1779 (vollscan) · S 5484.0 (market, Deckel) · S roh 10398.1 · Deckel 5484.0 · eigene Quote - · Laufzeit 24 Std. · W 0.3 · N 1.0
+[10.11. 16:31:31] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=3 · Minimum jetzt 100
+[10.11. 16:31:31] EINSTELLEN Item 11083 · Menge 63 · Auktionen 1 · Laufzeit 1 · Preis 521/Stück, 32823 gesamt · Gebühr erwartet 100, abgezogen 100 (0.30 % vom Preis)
+[10.11. 16:31:30] AHS-POST PostCommodity: arg2=1 arg3=63 arg4=521 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/2
+[10.11. 16:31:17] ABSATZ Item 4604 · Q 216 (search) · S 51.4 (market, Deckel) · S roh 139.9 · Deckel 51.4 · eigene Quote - · Laufzeit 24 Std. · W 4.2 · N 5.0
+[10.11. 16:31:16] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[10.11. 16:31:12] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 16:31:07] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11082×1
+[10.11. 16:31:03] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11084×1
+[10.11. 16:30:59] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 16:30:54] DE-GEZÄHLT ×3 Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 16:30:42] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[10.11. 16:30:38] DE-GEZÄHLT ×2 Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 16:30:29] DE-GEZÄHLT ×3 Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 16:30:19] SNIPER Treffer 2 · gekauft 2 · Ø Suche>Treffer 122 ms, Treffer>Reserv. 2149 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms, bestätigt>gekauft 0 ms
+[10.11. 16:30:17] DE-GEZÄHLT ×3 Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 16:30:05] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 16:30:01] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 16:29:56] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 16:29:22] SYNC gesendet 272, empfangen 1, verworfen 0 · Kanal verweigert 0
+[10.11. 16:29:18] SNIPER Treffer 1 · gekauft 1 · Ø Suche>Treffer 100 ms, Treffer>Reserv. 102023 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms, bestätigt>gekauft 0 ms
+[10.11. 16:29:17] ENTZAUBERWERT Item 9945 · Tabelle · 11176 75% × 1.50 à 1805, 11175 20% × 1.50 à 8135, 11178 5% × 1.00 à 18028 · brutto 5665 · netto 5372
+[10.11. 16:29:17] ABSATZ Item 9945 · Q 2 (vollscan) · S 1.0 (market, Deckel) · S roh 1.6 · Deckel 1.0 · eigene Quote - · Laufzeit 2 Std. · W 3.0 · N 7.0
+[10.11. 16:29:17] ENTZAUBERWERT Item 9941 · Tabelle · 11176 75% × 1.50 à 1805, 11175 20% × 1.50 à 8135, 11178 5% × 1.00 à 18028 · brutto 5665 · netto 5372
+[10.11. 16:29:17] ABSATZ Item 9941 · Q 2 (vollscan) · S 0.4 (market, Deckel) · S roh 0.8 · Deckel 0.4 · eigene Quote - · Laufzeit 2 Std. · W 7.5 · N 7.0 · kaum
+[10.11. 16:29:16] ENTZAUBERWERT Item 9939 · Tabelle · 11176 75% × 1.50 à 1805, 11175 20% × 1.50 à 8135, 11178 5% × 1.00 à 18028 · brutto 5665 · netto 5372
+[10.11. 16:29:16] ABSATZ Item 9939 · Q 2 (vollscan) · S 0.8 (market, Deckel) · S roh 1.1 · Deckel 0.8 · eigene Quote - · Laufzeit 2 Std. · W 3.8 · N 7.0
+[10.11. 16:29:15] ENTZAUBERWERT Item 9944 · Tabelle · 11176 75% × 3.50 à 1805, 16202 20% × 1.50 à 8341, 14343 5% × 1.00 à 11774 · brutto 8278 · netto 7829
+[10.11. 16:29:15] DE-CHANCEN Gruppe 2:9:a · Tabelle 11176 75%/16202 20%/14343 5% · echt 11176 -/16202 -/14343 - (0)
+[10.11. 16:29:15] ABSATZ Item 9944 · Q 1 (vollscan) · S ? (-, unsicher) · S roh - · Deckel - · eigene Quote - · Laufzeit 2 Std. · W ? · N 1.0
+[10.11. 16:29:15] ENTZAUBERWERT Item 9942 · Tabelle · 11176 75% × 1.50 à 1805, 11175 20% × 1.50 à 8135, 11178 5% × 1.00 à 18028 · brutto 5665 · netto 5372
+[10.11. 16:29:15] ABSATZ Item 9942 · Q 3 (vollscan) · S 0.6 (market, Deckel) · S roh 1.1 · Deckel 0.6 · eigene Quote - · Laufzeit 2 Std. · W 6.7 · N 7.0
+[10.11. 16:29:15] ENTZAUBERWERT Item 9940 · Tabelle · 11176 75% × 1.50 à 1805, 11175 20% × 1.50 à 7865, 11178 5% × 1.00 à 18038 · brutto 5665 · netto 5292
+[10.11. 16:29:15] DE-CHANCEN Gruppe 2:8:a · Tabelle 11176 75%/11175 20%/11178 5% · echt 11176 -/11175 -/11178 - (0)
+[10.11. 16:29:15] ABSATZ Item 9940 · Q 2 (vollscan) · S 0.3 (market) · S roh 0.3 · Deckel 2.0 · eigene Quote - · Laufzeit 2 Std. · W 8.8 · N 7.0 · kaum
+[10.11. 16:28:15] SNIPER Treffer 1 · gekauft 1 · Ø Suche>Treffer 100 ms, Treffer>Reserv. 5891 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms, bestätigt>gekauft 0 ms
+[10.11. 16:27:21] ENTZAUBERWERT Item 6600 · eigene Ø aus 197 · 11083 70% × 1.50 à 496, 11082 21% × 1.48 à 1235, 11084 9% × 1.00 à 3561 · brutto 1297 · netto 1232
+[10.11. 16:27:21] ABSATZ Item 6600 · Q 4 (vollscan) · S 4.8 (market, Deckel) · S roh 13.1 · Deckel 4.8 · eigene Quote - · Laufzeit 2 Std. · W 1.0 · N 7.0
+[10.11. 16:27:21] ENTZAUBERWERT Item 6602 · eigene Ø aus 197 · 11083 70% × 1.50 à 496, 11082 21% × 1.48 à 1235, 11084 9% × 1.00 à 3561 · brutto 1297 · netto 1232
+[10.11. 16:27:21] ABSATZ Item 6602 · Q 3 (vollscan) · S 2.6 (market, Deckel) · S roh 8.7 · Deckel 2.6 · eigene Quote - · Laufzeit 2 Std. · W 1.5 · N 7.0
+[10.11. 16:27:15] SNIPER Treffer 8 · gekauft 8 · Ø Suche>Treffer 97 ms, Treffer>Reserv. 604 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms, bestätigt>gekauft 0 ms
+[10.11. 16:26:39] KAUF-DOPPELT ×14 Kauf-Ereignis ohne passende eigene Kaufmeldung (Buchung über die Rechnung)
+[10.11. 16:26:15] SNIPER Treffer 1 · gekauft 1 · Ø Suche>Treffer 92 ms, Treffer>Reserv. 12797 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms, bestätigt>gekauft 0 ms
+[10.11. 16:26:04] ABSATZ Item 11084 · Q 39 (vollscan) · S 49.2 (market, Deckel) · S roh 207.2 · Deckel 49.2 · eigene Quote - · Laufzeit 24 Std. · W 0.8 · N 1.0
+[10.11. 16:26:04] ABSATZ Item 11137 · Q 212 (vollscan) · S 340.0 (market, Deckel) · S roh 644.9 · Deckel 340.0 · eigene Quote - · Laufzeit 24 Std. · W 0.6 · N 1.0
+[10.11. 16:26:04] ABSATZ Item 4339 · Q 2 (vollscan) · S 213.0 (market, Deckel) · S roh 371.0 · Deckel 213.0 · eigene Quote 4/4 · Laufzeit 2 Std. · W 0.0 · N 1.0
+[10.11. 16:26:04] ENTZAUBERWERT Item 4052 · Tabelle · 11083 75% × 3.50 à 496, 11134 20% × 1.50 à 564, 11138 5% × 1.00 à 1137 · brutto 1640 · netto 1528
+[10.11. 16:26:04] DE-CHANCEN Gruppe 2:5:a · Tabelle 11083 75%/11134 20%/11138 5% · echt 11083 -/11134 -/11138 - (0)
+[10.11. 16:26:04] ABSATZ Item 4052 · Q 11 (vollscan) · S 2.8 (market, Deckel) · S roh 13.2 · Deckel 2.8 · eigene Quote - · Laufzeit 2 Std. · W 4.3 · N 7.0
+[10.11. 16:26:04] ABSATZ Item 2770 · Q 52 (vollscan) · S 1723.6 (market, Deckel) · S roh 3327.3 · Deckel 1723.6 · eigene Quote - · Laufzeit 24 Std. · W 0.0 · N 1.0
+[10.11. 16:26:04] ABSATZ Item 6358 · Q 113 (vollscan) · S 599.0 (market, Deckel) · S roh 1384.8 · Deckel 599.0 · eigene Quote 3/3 · Laufzeit 24 Std. · W 0.2 · N 1.0
+[10.11. 16:26:04] ABSATZ Item 4305 · Q 177 (vollscan) · S 263.0 (market, Deckel) · S roh 492.6 · Deckel 263.0 · eigene Quote 3/3 · Laufzeit 2 Std. · W 0.7 · N 1.0
+[10.11. 16:26:04] ABSATZ Item 6370 · Q 63 (vollscan) · S 208.4 (market, Deckel) · S roh 411.0 · Deckel 208.4 · eigene Quote - · Laufzeit 24 Std. · W 0.3 · N 1.0
+[10.11. 16:26:04] ABSATZ Item 3820 · Q 1 (vollscan) · S 1196.6 (market, Deckel) · S roh 1429.4 · Deckel 1196.6 · eigene Quote 4/6 · Laufzeit 24 Std. · W 0.0 · N 1.5
+[10.11. 16:26:04] ABSATZ Item 2672 · Q 9 (vollscan) · S 373.2 (market, Deckel) · S roh 781.9 · Deckel 373.2 · eigene Quote - · Laufzeit 24 Std. · W 0.0 · N 1.0
+[10.11. 16:26:01] ABSATZ Item 11082 · Q 3 (vollscan) · S 139.4 (market, Deckel) · S roh 351.6 · Deckel 139.4 · eigene Quote - · Laufzeit 24 Std. · W 0.0 · N 1.0
+[10.11. 16:25:55] ABSATZ Item 11083 · Q 68 (vollscan) · S 1324.8 (market) · S roh 1324.8 · Deckel 1396.0 · eigene Quote 7/3 · Laufzeit 24 Std. · W 0.1 · N 1.0
+[10.11. 16:25:54] ABSATZ Item 4238 · Q 685 (vollscan) · S 188.8 (market, Deckel) · S roh 703.7 · Deckel 188.8 · eigene Quote - · Laufzeit 2 Std. · W 3.6 · N 7.0
+[10.11. 16:25:48] DE-GEZÄHLT Item 14378 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 16:25:25] ENTZAUBERWERT Item 14378 · eigene Ø aus 196 · 11083 69% × 1.51 à 496, 11082 21% × 1.48 à 1235, 11084 9% × 1.00 à 3561 · brutto 1301 · netto 1236
+[10.11. 16:25:25] ABSATZ Item 14378 · Q 23 (vollscan) · S 4.8 (market, Deckel) · S roh 6.3 · Deckel 4.8 · eigene Quote - · Laufzeit 2 Std. · W 5.0 · N 7.0
+[10.11. 16:25:13] ABSATZ Item 10938 · Q 4 (vollscan) · S 330.2 (market, Deckel) · S roh 2763.3 · Deckel 330.2 · eigene Quote 28/10 · Laufzeit 24 Std. · W 0.0 · N 1.0
+[10.11. 16:25:13] ABSATZ Item 10940 · Q 292 (vollscan) · S 889.6 (market, Deckel) · S roh 3197.9 · Deckel 889.6 · eigene Quote 33/17 · Laufzeit 24 Std. · W 0.3 · N 1.0
+[10.11. 16:25:05] ABSATZ-UNPLAUSIBEL Item 4321 · 21.1/Tag · Quelle geschätzt
+[10.11. 16:20:48] ENTZAUBERWERT Item 15334 · eigene Ø aus 196 · 11083 69% × 1.51 à 496, 11082 21% × 1.48 à 1235, 11084 9% × 1.00 à 3561 · brutto 1301 · netto 1236
+[10.11. 16:20:48] ABSATZ Item 15334 · Q 2 (vollscan) · S 8.6 (market, Deckel) · S roh 12.7 · Deckel 8.6 · eigene Quote - · Laufzeit 2 Std. · W 0.3 · N 5.0
+[10.11. 16:20:48] ENTZAUBERWERT Item 4307 · eigene Ø aus 15 · 10940 80% × 1.08 à 83, 10938 20% × 1.67 à 124 · brutto 119 · netto 113
+[10.11. 16:20:48] DE-CHANCEN Gruppe 2:1:a · Tabelle 10940 80%/10938 20% · echt 10940 80%/10938 20% (15)
+[10.11. 16:20:40] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · 26 ms
+[10.11. 16:20:38] M2 Ausrüstung: auctionID:n,buyoutAmount:n,containsAccountItem:b,containsOwnerItem:b,containsSocketedItem:b,itemKey:t,itemLink:s,owners,quantity:n,timeLeft:n,totalNumberOfOwners:n
+[10.11. 16:20:34] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[10.11. 16:20:34] ENTZAUBERWERT Item 7048 · eigene Ø aus 196 · 11083 69% × 1.51 à 496, 11082 21% × 1.48 à 1235, 11084 9% × 1.00 à 3561 · brutto 1301 · netto 1236
+[10.11. 16:20:34] DE-CHANCEN Gruppe 2:4:a · Tabelle 11083 75%/11082 20%/11084 5% · echt 11083 69%/11082 21%/11084 9% (196)
+[10.11. 16:20:34] ABSATZ Item 7048 · Q 7 (vollscan) · S 22.4 (market, Deckel) · S roh 76.9 · Deckel 22.4 · eigene Quote - · Laufzeit 2 Std. · W 0.4 · N 5.0
+[10.11. 16:20:29] VOLLSCAN M1d 264739 Auktionen gelesen (264728 gültig) · 2506 ms in 491 Portionen · längster Frame 5.5 ms · 5066 Items
+[10.11. 16:20:27] ABSATZ Item 1420 · Q 8 (scan, Q gesamt) · S 1.6 (market, Deckel) · S roh 2.9 · Deckel 1.6 · eigene Quote - · Laufzeit 24 Std. · W 5.6 · N 6.0
+[10.11. 16:20:27] ABSATZ Item 1423 · Q 5 (scan, Q gesamt) · S 1.0 (market, Deckel) · S roh 4.0 · Deckel 1.0 · eigene Quote - · Laufzeit 24 Std. · W 6.0 · N 6.0
+[10.11. 16:20:27] ABSATZ Item 1378 · Q 1 (scan, Q gesamt) · S ? (-, unsicher) · S roh - · Deckel - · eigene Quote - · Laufzeit 24 Std. · W ? · N 1.0
+[10.11. 16:20:27] ABSATZ Item 1419 · Q 11 (scan, Q gesamt) · S 2.2 (market, Deckel) · S roh 3.8 · Deckel 2.2 · eigene Quote - · Laufzeit 24 Std. · W 5.5 · N 6.0
+[10.11. 16:20:27] ABSATZ Item 1425 · Q 9 (scan, Q gesamt) · S 1.8 (market, Deckel) · S roh 4.9 · Deckel 1.8 · eigene Quote - · Laufzeit 24 Std. · W 5.6 · N 6.0
+[10.11. 16:20:27] ABSATZ Item 1732 · Q 15 (scan, Q gesamt) · S 3.0 (market, Deckel) · S roh 11.9 · Deckel 3.0 · eigene Quote - · Laufzeit 24 Std. · W 5.3 · N 6.0
+[10.11. 16:20:27] ABSATZ Item 3365 · Q 1 (scan, Q gesamt) · S 0.2 (market, Deckel) · S roh 2.5 · Deckel 0.2 · eigene Quote - · Laufzeit 24 Std. · W 10.0 · N 7.0 · kaum
+[10.11. 16:20:27] ABSATZ Item 1734 · Q 27 (scan, Q gesamt) · S 5.4 (market, Deckel) · S roh 8.6 · Deckel 5.4 · eigene Quote - · Laufzeit 24 Std. · W 5.2 · N 6.0
+[10.11. 16:20:27] ABSATZ Item 4307 · Q 368 (vollscan) · S 75.2 (market, Deckel) · S roh 236.2 · Deckel 75.2 · eigene Quote - · Laufzeit 24 Std. · W 4.9 · N 5.0
+[10.11. 16:20:13] VOLLSCAN M1c Abstand 1045 s · neue Liste · 264739 Auktionen · Antwort nach 29.5 s
+[10.11. 16:19:48] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · 17 ms
+[10.11. 16:19:39] ABSATZ-UNPLAUSIBEL Item 279943 · 34.8/Tag · Quelle geschätzt
+[10.11. 16:19:38] ABSATZ-UNPLAUSIBEL Item 17033 · 11.5/Tag · Quelle geschätzt
+[10.11. 16:19:38] ABSATZ-UNPLAUSIBEL Item 264089 · 7.8/Tag · Quelle geschätzt
+[10.11. 16:19:38] ABSATZ-UNPLAUSIBEL Item 5472 · 663.5/Tag · Quelle geschätzt
+[10.11. 16:19:31] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[10.11. 16:19:28] SYNC Weg=GUILD
+[10.11. 16:12:24] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · 23 ms
+[10.11. 16:12:12] ENTZAUBERWERT Item 14188 · eigene Ø aus 196 · 11083 69% × 1.51 à 498, 11082 21% × 1.48 à 1284, 11084 9% × 1.00 à 2388 · brutto 1207 · netto 1147
+[10.11. 16:12:12] ABSATZ Item 14188 · Q 3 (vollscan) · S 8.4 (market, Deckel) · S roh 15.4 · Deckel 8.4 · eigene Quote - · Laufzeit 2 Std. · W 0.5 · N 6.0
+[10.11. 16:12:12] ENTZAUBERWERT Item 14187 · eigene Ø aus 196 · 11083 69% × 1.51 à 498, 11082 21% × 1.48 à 1284, 11084 9% × 1.00 à 2388 · brutto 1207 · netto 1147
+[10.11. 16:12:12] ABSATZ Item 14187 · Q 5 (vollscan) · S 4.4 (market, Deckel) · S roh 8.6 · Deckel 4.4 · eigene Quote - · Laufzeit 2 Std. · W 1.4 · N 7.0
+[10.11. 16:12:12] ENTZAUBERWERT Item 4828 · eigene Ø aus 196 · 11083 69% × 1.51 à 498, 11082 21% × 1.48 à 1284, 11084 9% × 1.00 à 2388 · brutto 1207 · netto 1147
+[10.11. 16:12:12] ABSATZ Item 4828 · Q 16 (vollscan) · S 4.0 (market, Deckel) · S roh 8.1 · Deckel 4.0 · eigene Quote - · Laufzeit 2 Std. · W 4.2 · N 7.0
+[10.11. 16:12:12] ENTZAUBERWERT Item 4247 · eigene Ø aus 196 · 11083 69% × 1.51 à 498, 11082 21% × 1.48 à 1284, 11084 9% × 1.00 à 2388 · brutto 1207 · netto 1147
+[10.11. 16:12:12] ABSATZ Item 4247 · Q 533 (vollscan) · S 112.6 (market, Deckel) · S roh 201.9 · Deckel 112.6 · eigene Quote - · Laufzeit 2 Std. · W 4.7 · N 7.0
+[10.11. 16:12:12] ENTZAUBERWERT Item 14185 · eigene Ø aus 196 · 11083 69% × 1.51 à 498, 11082 21% × 1.48 à 1284, 11084 9% × 1.00 à 2388 · brutto 1207 · netto 1147
+[10.11. 16:12:12] ABSATZ Item 14185 · Q 4 (vollscan) · S 8.2 (market, Deckel) · S roh 14.1 · Deckel 8.2 · eigene Quote - · Laufzeit 2 Std. · W 0.6 · N 7.0
+[10.11. 16:12:12] ENTZAUBERWERT Item 4827 · eigene Ø aus 196 · 11083 69% × 1.51 à 498, 11082 21% × 1.48 à 1284, 11084 9% × 1.00 à 2388 · brutto 1207 · netto 1147
+[10.11. 16:12:12] ABSATZ Item 4827 · Q 5 (vollscan) · S 1.4 (market, Deckel) · S roh 4.9 · Deckel 1.4 · eigene Quote - · Laufzeit 2 Std. · W 4.3 · N 7.0
+[10.11. 16:12:12] ENTZAUBERWERT Item 4715 · eigene Ø aus 196 · 11083 69% × 1.51 à 498, 11082 21% × 1.48 à 1284, 11084 9% × 1.00 à 2388 · brutto 1207 · netto 1147
+[10.11. 16:12:12] ABSATZ Item 4715 · Q 32 (vollscan) · S 6.6 (market, Deckel) · S roh 9.8 · Deckel 6.6 · eigene Quote - · Laufzeit 2 Std. · W 5.0 · N 7.0
+[10.11. 16:12:12] ABSATZ Item 2580 · Q 935 (vollscan) · S 191.4 (market, Deckel) · S roh 470.8 · Deckel 191.4 · eigene Quote - · Laufzeit 24 Std. · W 4.9 · N 5.0
+[10.11. 16:11:46] SNIPER Treffer 3 · gekauft 2, weg 1 · Ø Suche>Treffer 251 ms, Treffer>Reserv. 1166 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms, bestätigt>gekauft 0 ms
