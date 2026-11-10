@@ -20,6 +20,12 @@ E3 Wert nach Entzaubern = Σ Chance × Ø-Menge × realistischer Verkaufspreis d
 E4 FILTER:
    a) nur Items, die der Charakter entzaubern kann (Fertigkeit, nicht gebunden, Seltenheit grün; blau/violett nur mit
       der bestehenden Bestätigung);
+   a2) HINWEIS DES NUTZERS (16:44): "Zauberstäbe kann man nicht verzaubern/entzaubern" – Zauberstäbe (Waffe, Unterklasse
+      Zauberstab) und Verzauberer-Ruten in WoW Forever NICHT vorschlagen (auch nicht im Entzauber-Fenster, "Entzaubern
+      lohnt"-Filter, Sniper-Vorschlag, Tooltip-Urteil). Allgemein robust machen: Scheitert ein Entzaubern mit der
+      Spielmeldung "kann nicht entzaubert werden" (UI_ERROR_MESSAGE), die Item-ID bzw. Klasse/Unterklasse dauerhaft als
+      "nicht entzauberbar (Forever)" merken und überall ausschliessen; Protokoll DE-NICHT-MOEGLICH (Item-ID, Klasse/
+      Unterklasse). Status: vom Nutzer beobachtet – mit dem Protokoll belegen.
    b) MINDESTGEWINN 20 % nach Gebühren (Entscheid des Nutzers) – fest als Standard, in den Optionen änderbar (10–50 %);
    c) Menge begrenzt durch den Absatz der Materialien – NUR als Sicherheitsnetz: Beobachtung des Nutzers (16:16):
       "Materialien aus dem Entzaubern verkaufen sich gewöhnlich innert Minuten." Darum greift die Grenze erst, wenn die
@@ -47,6 +53,8 @@ T-ME2 Gleiches Item zu 17s -> keine Zeile.
 T-ME3 Seelenstaub-Absatz 300/Tag, 50 Teile (≈ 75 Staub) -> keine Kürzung. Absatz 30/Tag, Bestand 40 -> gekürzt, gelber Hinweis.
 T-ME4 Gold 15g -> Summe Kapitalbedarf aller Markt-Vorschläge ≤ 3g 75s.
 T-ME5 Item nicht entzauberbar (gebunden / Fertigkeit zu niedrig) -> keine Zeile.
+T-ME8 Zauberstab (Waffe/Zauberstab) mit hohem Materialwert -> keine Zeile, Tooltip ohne "Entzaubern lohnt".
+T-ME9 Entzaubern scheitert mit "kann nicht entzaubert werden" -> Item danach überall ausgeschlossen, Protokollzeile.
 T-ME7 Zeile wählen, Menge 50 -> Fusszeile "50 Stück · 5g · erwarteter Gewinn … · ≈ 73 Seelenstaub …", keine Summe aller Zeilen.
 T-ME6 Option Mindestgewinn 30 % -> Zeilen mit 20–29 % fallen weg.
 

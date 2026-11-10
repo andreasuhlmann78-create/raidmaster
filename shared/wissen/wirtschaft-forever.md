@@ -280,3 +280,7 @@ Auftrag: auftraege/AHSentinel/anweisung-markt-kapital-25.txt.
 Die Markt-Ansicht "Entzaubern" schlägt nur Teile mit mindestens 20 % Gewinn nach Gebühren vor (zum aktuellen Markt).
 Auftrag: auftraege/AHSentinel/anweisung-markt-entzaubern.txt.
 
+## Beobachtung des Nutzers 10.11.2026 16:44: Zauberstäbe nicht entzauberbar (Forever)
+
+Zauberstäbe lassen sich in WoW Forever nicht entzaubern (vom Nutzer beobachtet, Beleg über Protokoll DE-NICHT-MOEGLICH).
+
