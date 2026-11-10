@@ -1,225 +1,142 @@
-OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.66)
+OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.72)
 ===========================================================
-Stand: 10. November 2026, 08:40 · von der Prüf-Sitzung · Grundlage: download/AHSentinel-0.65.66.zip (dazwischen 0.65.59 bis
-0.65.65), Diff gegen 0.65.58 und 0.65.65, Client-Lauf 0.65.65 (befund-testroutine-0665.txt), Diagnose-Protokolle bis 0.65.64
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.65.58 samt allen
-"NEU"-Nachträgen vom 9. und 10. November.
+Stand: 10. November 2026, 11:20 · von der Prüf-Sitzung · Grundlage: download/AHSentinel-0.65.72.zip (dazwischen 0.65.67
+bis 0.65.71), Diff gegen 0.65.66, Client-Lauf 0.65.69 (befund-testroutine-0669.txt), Diagnose-Protokolle 0.65.64 bis
+0.65.69
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.65.66 samt allen
+"NEU"-Nachträgen vom 10. November.
 Regel seit 9. Nov.: Nur die AHSentinel-Sitzung ändert und veröffentlicht AHSentinel (raidmaster/CLAUDE.md).
 
-REIHENFOLGE: Punkt 1 (HOCH) zuerst, dann von oben nach unten.
+REIHENFOLGE (Freigabe des Nutzers 10.11. 10:45, verbindlich): Punkt 1 (Rest der Befunde, klein) -> Punkt 2 Vollscan ->
+Stufe 2 -> Stufe 3 -> Gesamtprüfung. Die NIEDRIG-Punkte nebenbei, wenn die Datei ohnehin offen ist.
 
-Erledigt in 0.65.59–0.65.66 (danke)
+Erledigt in 0.65.67–0.65.72 (danke)
 -----------------------------------
-- Testroutine-Befunde 0.65.56 (14 FEHLER) und 0.65.59 (5 FEHLER): im Client-Lauf 0.65.65 nicht mehr rot (A1 Gold/Std.
-  ohne time(tabelle) mit T279, A3 Heute tun/Marktliste zwischengespeichert, A4 Sniper geklärt mit T278, B1–B4, C1–C4,
-  Sandbox von 13 auf 1 Pfad). Rest siehe Punkte 7 und 8. Dateien befund-testroutine-0656/0659 entfernt.
-- Testroutine abbrechen: /ahs testroutine stop|abbrechen und Knopf (0.65.60, T281).
-- R1 (0.65.66): Gewinn-Fenster zeigt in Forever die Einzahlung je Auktion mit der Standard-Laufzeit, "zurück bei
-  Verkauf" (Crafting.lua:448–458, 731–733, 762). R2: T107 über WithTestDB/SmallCopy (TestRoutine.lua:2690–2694).
-  R4: leere Rahmen anderer Addons nur Hinweis (UICheck.lua:186–239). R5: T33 immer mit Ist-Wert (SelfTest.lua:724–734).
-  R7: T52 prüft "unterboten" und "liegen" (TestRoutine.lua:883 ff.). R8: T27 nennt den Grund (TestRoutine.lua:742).
-- befund-einstellen-ausruestung.txt E1–E6: Diagnose BLIZZARD-POST/AHS-POST (hooksecurefunc, kein Ersatz), echte
-  Fehlermeldung (Se:ErrorText), EINSTELLEN-FEHLER, leeres Mengenfeld = 1, WERT echt = Gesamt/Menge (T282), Heute tun in
-  Portionen. F2: Einzelstücke ganze Silber, "−1 Silber" (Se:RoundPrice Seller.lua:85, T290). Datei entfernt.
-- befund-meine-auktionen-waren.txt O1–O3: aktive Waren als Stückpreis gelesen (Se:OwnedPrice Seller.lua:950, Protokoll
-  EIGENE). Testfälle fehlen noch (Punkt 6). Datei entfernt.
-- befund-absatz-und-silber.txt F1: S aus dem Markt, eigene Verkäufe nur Untergrenze, selbst verkauft nie "kaum"
-  (AHAnalyzerPro.lua:1319–1341, 1367; T289). F3 siehe IM CLIENT PRÜFEN. Datei entfernt.
-- befund-absatz-zu-hoch.txt G1, G2, G4, P2, P4, P5: eigene Quote zuerst (ab 3 Einstellungen), Deckel 20 % der
-  Scan-Menge (SELL_CAP), Protokoll ABSATZ mit S roh/Deckel/Quote/Laufzeit, ENTZAUBERWERT-Zeile (Tooltip.lua:363),
-  Gewinn-Fenster mit erwarteten Einstellungen (T291). Offen: G3, G5 (Punkt 4).
-- befund-heute-tun-haendler.txt H1: Waren im modernen AH = eine Auktion, kein Stapel-Deckel (A:AuctionSize
-  AHAnalyzerPro.lua:1906–1932, T292). H2: Zeilen-Klick mit Ziel oder Meldung, Fehler ins Protokoll HEUTE-KLICK
-  (UI_Overview.lua:193–211). Testfälle teilweise (Punkt 6). Datei entfernt.
-- anweisung-buchhaltung-ergebnis-mit-lager.txt B1–B5: Kasse, Ergebnis mit Lager, Spalte im Lager, Einzahl/Mehrzahl,
-  Preis "(alt)" (T286, T287). Datei entfernt.
-- anweisung-angebot-und-absatz.txt A1–A7 (0.65.63, T285), anweisung-tooltip-gesamtwert.txt (0.65.62, T283; die Zeile
-  erscheint im Spiel aber nicht – Punkt 2), anweisung-befehlsliste-im-chat.txt L1–L8 (CmdHint.lua, nur HookScript,
-  kein SetText/Insert, T288), anweisung-laufzeit-2-stunden.txt D1–D4 (Option, UI_Sell.lua:20/283, Serie Seller.lua:898,
-  Heute tun Today.lua:266). Bei allen fehlen noch einzelne Testfälle (Punkt 6); D5 siehe Punkt 1.
+- Standard-Laufzeit 2 Std. (alter Punkt 1, HOCH): Bewertung mit 24 Std., wenn das gleich viel kostet (A:EvalHours
+  AHAnalyzerPro.lua:1239, T295 mit T-D5a–c). Shift nennt die Laufzeit.
+- Tooltip "N in den Taschen" (alter Punkt 2): stapelbar über A:StackSize, Ersatzwert, Protokoll GESAMTWERT (T294).
+- Sofortkauf (alter Punkt 2b) K1–K4 und K6: genaue Meldung, totes Angebot gesperrt und aus der Liste (Buy.lua:803,
+  863–905), Mindestgebot nur mit Bieter +5 % (B:MinBid Buy.lua:820, T296), KAUF-FEHLER, DETAIL-LEER mit zweitem
+  Versuch ohne Itemstufe/Suffix (Buy.lua:667–685). Testfälle fehlen noch (Punkt 3).
+- API.Price "scan" nur mit inScan (alter Punkt 3, API.lua:41).
+- R3 Knopf-Namen mit Text und Lage (UICheck). Tooltip-Text des Mengen-Knopfs im Gewinn-Fenster (Crafting.lua:652/736, alle
+  Locale-Dateien). Rest siehe Punkt 7.
+- Entzauber-Chancen Forever C1–C6 und Kennzeichnung "Tabelle + N eigene", DE-CHANCEN (T293). Datei entfernt.
+- Buchhaltung B1/B2 (T297), Entzaubern zählen Z1–Z5 (T298), Optionen O1/O2 (T299), Schutz der Entzauber-Daten,
+  Testroutine Entzaubern E1–E15 (T300, T301, Abschnitt "Entzaubern (echte Daten)"), N1–N4 (T302, D:Reset/D:RestoreBackup
+  Disenchant.lua:424–445, Tooltip-Profil TestRoutine.lua:2897, HALB-Zeile TestRoutine.lua:698).
+  Dateien befund-entzaubern-zaehlen, befund-buchhaltung-menge-und-gebuehren, befund-optionen-ueberlagert,
+  befund-testroutine-0665, befund-testroutine-0669, befund-tooltip-gesamtwert-fehlt, befund-sofortkauf-fehlgeschlagen,
+  anweisung-testroutine-entzaubern entfernt – die Reste stehen hier.
+- Stufe 1 Prognose-Journal P1–P7 (Forecast.lua, neue Tabellen db.forecast/forecastStats/forecastHours, nur lesend auf
+  Buchhaltung/Entzauber-Daten; Testmodus schreibt nur in Fc.testStore; T303–T307; Abschnitt "Prognose-Güte" im Bericht
+  und im GSTEST1-Export; M1 nur Existenz, nie aufgerufen). anweisung-prognose-stufe1.txt bleibt als Grundlage für
+  Stufe 2 und den Vollscan liegen (wird von dort zitiert).
 
-Prüfungen: addon_check 0.65.66 OK (0 FEHLER, 0 WARNUNGEN; Ladetest Forever und Era, Sprachtest, Tests der gemeinsamen
-Dateien). GoldSentinelGame/Sync/Test byte-gleich mit shared/. Keine Blizzard-Funktion ersetzt (nur hooksecurefunc,
-HookScript; der eigene Slash-Handler wird umhüllt). CHANGELOG EN/DE für 0.65.59–0.65.66 da. Die Testroutine selbst läuft
-nur im Client; T283–T292 sind dort mit 0.65.66 noch nicht gelaufen.
+Prüfungen: addon_check 0.65.72 OK (0 FEHLER, 0 WARNUNGEN; Ladetest Forever und Era, Sprachtest, Tests der gemeinsamen
+Dateien). GoldSentinelGame/Sync/Test byte-gleich mit shared/, GoldSentinelDev gleiche Version. Im Diff keine
+Blizzard-Funktion und keine C_-Tabelle ersetzt (auch nicht in der Testroutine; T295 ersetzt nur das eigene
+A.ListingDeposit und stellt es zurück). Alle neuen sichtbaren Texte über L[], in allen Locale-Dateien. CHANGELOG EN/DE
+für 0.65.67–0.65.72 da. Client-Lauf 0.65.69: OK 365 · FEHLER 1 (T122 Tooltip 2,10 ms) · Sandbox OK. Diagnose 0.65.67
+und 0.65.69: "Fehler in dieser Sitzung: 0". Die Testroutine selbst läuft nur im Client; T293–T307 sind dort noch nicht
+gelaufen.
 
 OFFENE PUNKTE
 -------------
-1. STANDARD-LAUFZEIT 2 STD. TREIBT DIE ERWARTETEN EINSTELLUNGEN AUF DAS MAXIMUM (Schwere: HOCH, Fehler in MEINER
-   Anweisung D5)
-   AHAnalyzerPro.lua:1362: N = min(RELIST_MAX, aufrunden(W / (Laufzeit/24))). Mit der neuen Standard-Laufzeit 2 Std.
-   (StandardDurationStep = 1, DefaultDuration :1219–1233 gibt 2 zurück) ist schon ab W > 0,58 Tage N = 7. Der
-   erwartete Verlust (ExpectedDepositLoss :1976–1998) ist dann 6 × Einzahlung (mind. 6 × 1s) – je Auktion.
-   Beispiel Seltsamer Staub (Tooltip des Nutzers: "Verkauft sich: langsam (~13 Std.)", W ~0,54 Tage):
-     24 Std. -> N 1, kein Abzug · 2 Std. -> N = aufrunden(0,54 × 12) = 7 -> −6s.
-   RealValue(Staub, 1) = 79c − 6s < 0 -> "Händler" mit dem Händlerpreis (klein oder 0). Ohne eigene Quote (G1) kippen damit
-   Tooltip "Verkaufen:", Gewinn-Fenster, Beste Rezepte, Heute tun (Händler-Tipps) und der Entzauberwert für fast alle
-   Items, die sich nicht innerhalb von 14 Std. verkaufen. Das ist derselbe Fehler wie H1 (kostet Gold, wenn der Nutzer
-   dem Rat folgt). D5 ("Rechnungen mit der Standard-Laufzeit") war falsch.
-   Lösung (Vorschlag der Prüf-Sitzung): Die Einstellung bleibt 2 Std. für das Fenster (D1–D4). Für die BEWERTUNG
-   (SellOutlook, ExpectedDepositLoss, RealValue) die Laufzeit nehmen, die bei gleicher Wartezeit am wenigsten Einzahlung
-   verliert: kostet 24 Std. gleich viel wie die Standard-Laufzeit (Mindesteinzahlung, DefaultDuration gibt dann schon
-   "24 Std. kostet gleich viel"), mit 24 Std. rechnen; sonst mit der Standard-Laufzeit. Im Tooltip mit Shift die benutzte
-   Laufzeit nennen ("bei 24 Std. je Einstellung"). Ist der Nutzer anderer Meinung, gilt sein Entscheid.
-   Testfälle: T-D5a Standard 2 Std., Mindesteinzahlung, W 0,54 -> N 1, kein Abzug. T-D5b Standard 2 Std., Einzahlung
-   2 Std. 1s, 24 Std. 5s -> Rechnung mit 2 Std., N nach Wartezeit. T-D5c Era: unverändert.
+1. REST DER BEFUNDE VOM 10. NOV. (Schwere: NIEDRIG)
+   a) 82 gegen 86 (N1/O3): Bitte im Testbericht EINE Zeile, die erklärt, warum "Entzaubern gelernt" (Summe deStats.n)
+      und die Entzauber-Statistik (deLog) verschieden sind (z. B. geteilt/abgelehnt/vor 0.65.69 ohne deLog). Nur
+      MELDEN, nichts angleichen (Schutz der Entzauber-Daten). Heute steht im Abschnitt "Entzaubern (echte Daten)" nur die
+      Zählkontrolle für HEUTE (TestRoutine.lua:282–295).
+   b) K5 Gegenprobe Sofortkauf nur, falls KAUF-FEHLER zeigt, dass das Angebot NICHT weg war – bisher keine KAUF-FEHLER-
+      Zeile in den Protokollen, also nichts zu tun, bis eine kommt.
 
-2. ZEILE "N IN DEN TASCHEN" ERSCHEINT NICHT (Schwere: MITTEL) – befund-tooltip-gesamtwert-fehlt.txt (G1–G3, T-GF1–T-GF5)
-   Zusatz der Nachprüfung: TT:IsStackable (Tooltip.lua:423–426) ruft das GLOBALE GetItemInfo. Tooltip.lua ist die einzige
-   Datei ohne den lokalen Ersatz "local GetItemInfo = GetItemInfo or (C_Item and C_Item.GetItemInfo)" (alle anderen
-   haben ihn). Fehlt das globale GetItemInfo im Client, ist nichts "stapelbar" und die Zeile fehlt immer (U2).
-   Lösung: A:StackSize(itemID) > 1 benutzen (AHAnalyzerPro.lua:1833, mit Ersatz). Ausserdem prüfen, ob RealValue(id, n)
-   wegen Punkt 1 einen negativen bzw. Händlerwert 0 liefert (dann sähe die Zeile "0c" aus) – G2 (Ersatzwert, Protokoll
-   GESAMTWERT) bleibt nötig.
+2. VOLLSCAN MIT EINZELAUKTIONEN (Schwere: MITTEL – nächster Auftrag, kein Fehler)
+   anweisung-vollscan-einzelauktionen.txt V1–V6, T-VS1–T-VS7. Damit erledigen sich die alten Punkte G3 (Restzeit,
+   verschwundene "kurz"/"mittel"-Auktionen nicht als Verkauf) und G5 (Warteschlange nur zum eigenen Preis,
+   A:SellQueue AHAnalyzerPro.lua Quelle "scan") aus befund-absatz-zu-hoch.txt – bitte in V2/V4 ausdrücklich lösen und
+   im CHANGELOG nennen. Danach Stufe 2 (anweisung-lernen-stufe2.txt L1–L11), Stufe 3 (anweisung-markt-stufe3.txt
+   M1–M6), Gesamtprüfung (anweisung-gesamtpruefung.txt G1–G7), Ausrüstung-Silber-Messreihe
+   (anweisung-ausruestung-silber-entscheid.txt S1–S5). Jede Stufe als eigenes Release.
 
-2b. SOFORTKAUF FEHLGESCHLAGEN (Schwere: MITTEL) – befund-sofortkauf-fehlgeschlagen.txt (10. Nov. 08:45, nach 0.65.66)
-   Sofortkauf Azurblaue Seidenkapuze 9s mehrfach "fehlgeschlagen", Blizzard: "höheres Gebot liegt vor", danach "Keine
-   Angebote". K1 genaue Meldung, K2 totes Angebot aus Liste/Knopf sperren, K3 Mindestgebot +5 % nur mit Bieter,
-   K4 Protokoll KAUF-FEHLER, K5 Gegenprobe Blizzard. T-SK1–T-SK5.
+3. FEHLENDE TESTFÄLLE ZU DEN NEUEN BEFUNDEN (Schwere: MITTEL beim Sofortkauf, sonst NIEDRIG)
+   a) Sofortkauf: Nur T-SK3/T-SK4 sind da (T296). Es fehlen T-SK1 (Fehlschlag "höheres Gebot" -> Meldung "Angebot ist
+      weg", listing.dead, Zeile aus der Liste, zweiter Klick abgewiesen – B:PurchaseFailed Buy.lua:865 mit simuliertem
+      Fehlercode aufrufen), T-SK2 (zu wenig Gold -> "Nicht genug Gold." vor dem Aufruf, Buy.lua:802), T-SK5 (KAUF-FEHLER
+      vollständig, ohne Namen), T-SK6/T-SK7 (Detail leer mit Suffix-itemKey -> genau EIN zweiter Versuch mit
+      MakeItemKey, dann DETAIL-LEER und Zeile weg, Buy.lua:667–685). Gerade der K6-Weg läuft heute ungeprüft.
+   b) Buchhaltung T-BM6 (abgelaufen/abgebrochen über Blizzard-Fenster -> Einzahlung als verloren gebucht).
+   c) Optionen T-OÜ2 (Klassisch, 130 %, enGB) und T-OÜ3 (neue Test-Option landet in freier Zeile).
+   d) Entzaubern T-DZ1 (10× über fremdes Fenster, Weg Taschen, +10), T-DZ3 (Rechtsklick, Weg Hook), T-DZ4 (2:1:a mit
+      9× Staub/1× Essenz -> Tooltip 85 %/15 %, Kopf "Tabelle + 10 eigene"); T298/T300 prüfen Teile davon, aber nicht die
+      Zählung über 10 Durchgänge und nicht den Tooltip-Kopf.
 
-3. API.PRICE MELDET "scan" AUCH FÜR ALTE PREISE (Schwere: NIEDRIG) – unverändert offen
-   API.lua:40 prüft nur info.source == "ah" (der neue Kommentar stimmt nicht mit dem Code überein). A:PriceInfo setzt
-   "ah" auch ohne Median für ein Angebot, das nicht im letzten Scan war (AHAnalyzerPro.lua:1155–1156, info.inScan =
-   false). Lösung: (info.inScan and info.source == "ah") and "scan" or "market"; Testfall in T266.
-
-4. ABSATZ: RESTZEIT UND WARTESCHLANGE ZUM PREIS (Schwere: NIEDRIG) – befund-absatz-zu-hoch.txt G3 und P3/G5
-   G3: Liefert der Scan je Auktion eine Restzeit? Wenn ja: verschwundene Auktionen mit "kurz"/"mittel" zählen nicht als
-   Verkauf. Wenn nein: dem Nutzer melden ("G3 nicht möglich, G2 allein"). Testfall T-AB13 bzw. Begründung.
-   G5: A:SellQueue Quelle "scan" (AHAnalyzerPro.lua:1295–1301) zählt die ganze Menge des Items, nicht nur die Stück zum
-   eigenen Preis. Beim Scan je Item die Menge zum günstigsten Preis bzw. bis "Markt + 5 %" mitspeichern und für Q nehmen.
+4. PROGNOSE-AUSWERTUNG IM TOOLTIP-PFAD (Schwere: NIEDRIG)
+   Tooltip.lua:443–447 ruft mit Shift Fc:TooltipLine -> Fc:Eval (Forecast.lua:565–609). Der Zwischenspeicher gilt nur
+   eine Minute und bis zum nächsten neuen Eintrag; danach dekodiert Eval ALLE Einträge (bis 3000) und ruft für jeden
+   offenen Kauf A:RealValue. Das trifft genau den Tooltip (T122 ist schon knapp über 2 ms).
+   Lösung: Gruppen-Zähler bei Add/OnSale/OnCancel/Close nachführen bzw. Eval als Hintergrund-Aufgabe (A:PCall-Portionen)
+   rechnen; TooltipLine liest nur den Zwischenspeicher. Testfall: 3000 Einträge im testStore, Shift-Tooltip < 2 ms.
 
 5. TEIL-PREISE AUS DEM NETZ BREMSEN DEN VOLLEN GILDEN-SYNC (Schwere: NIEDRIG) – unverändert offen
    Ins Netz gehen nur die ersten 20 Nachrichten eines Scans, der Kopf kündigt aber alle Items an. Ein Empfänger setzt
-   heardScanTime (Sync.lua:335/337) und lastScanTimeReceived (Sync.lua:271–272): (a) ein Gildenmitglied mit vollem Scan
+   heardScanTime (Sync.lua:335) und lastScanTimeReceived (Sync.lua:271–272): (a) ein Gildenmitglied mit vollem Scan
    antwortet nicht mehr (Sync.lua:289), (b) die eigene Anfrage fragt erst ab diesem Zeitpunkt (Sync.lua:195).
    Lösung: Für das Netz einen eigenen Kopf mit der Zahl der wirklich gesendeten Items, beim Empfänger die Zeiten nur bei
    (fast) vollständigem Empfang setzen. Testfall: Kopf mit 1000 angekündigt, 3 Preise empfangen -> HandleRequest
    antwortet weiter.
 
-6. FEHLENDE TESTFÄLLE (Schwere: NIEDRIG – bitte nachziehen, nicht abschwächen)
-   a) Meine Auktionen T-O1–T-O5: Se:OwnedPrice (aktiv/verkauft/Einzelstück), Status "gleich"/"unterboten", Kopfzeile
-      1g 61s 23c. Heute gibt es keinen Testfall dazu.
-   b) Heute tun H1/H2: T292 prüft nur A:AuctionSize. Fehlen: T-H1 (349 Leinenstoffballen 53c, Händler 40c -> kein
-      Händler-Tipp), T-H2 (Era: Stapel-Deckel), T-H3 (gelernte Grösse geht vor), T-H4 (Einzelstück 1) und der
-      Zeilen-Klick (jede Zeilenart -> Wechsel oder Meldung, Fenster bleibt ohne Ziel offen).
+6. ÄLTERE FEHLENDE TESTFÄLLE (Schwere: NIEDRIG – bitte nachziehen, nicht abschwächen) – unverändert
+   a) Meine Auktionen T-O1–T-O5: Se:OwnedPrice (aktiv/verkauft/Einzelstück), Status "gleich"/"unterboten", Kopfzeile.
+   b) Heute tun H1/H2: T-H1 (349 Leinenstoffballen 53c, Händler 40c -> kein Händler-Tipp), T-H2 (Era: Stapel-Deckel),
+      T-H3 (gelernte Grösse geht vor), T-H4 (Einzelstück 1) und der Zeilen-Klick. (Gibt es Stufe 3, dort prüfen.)
    c) Laufzeit T-D2 (von Hand 24 Std., nächstes Item wieder Standard), T-D3 (8 Std. in Serie/Neu einstellen/Heute tun),
-      T-D4 (Era/TBC kürzeste Stufe) – T292 prüft nur die gespeicherte Stufe. Dazu T-D5a–c aus Punkt 1.
+      T-D4 (Era/TBC kürzeste Stufe).
    d) Angebot und Absatz T-AB5 (Tooltip, Gewinn-Fenster, Beste Rezepte, API.BestWay: derselbe beste Weg), T-AB9/T-AB12
-      (Entzauberwert der Braunen Leinenhose mit Staub 76c/Essenz 92c bleibt ~1s 19c).
-   e) Befehlsliste T-BL3 (Klick ruft den Handler und zählt +1), T-BL4 (Quelltext: kein SetText/Insert auf ein
-      Eingabefeld), T-BL5 (im Kampf keine Liste), T-BL6 (Option aus), T-BL7 (Bereich K: ganz im Bild, nichts abgeschnitten).
-      Achtung: Die Namen T-BL1–T-BL4 gibt es auch in der Buchhaltung – im Testfall-Text bitte "Befehlsliste" dazuschreiben.
+      (Entzauberwert der Braunen Leinenhose mit Staub 76c/Essenz 92c).
+   e) Befehlsliste T-BL3 (Klick ruft den Handler, zählt +1), T-BL4 (Quelltext: kein SetText/Insert), T-BL7 (Bereich K).
+      Die Namen T-BL1–T-BL4 gibt es auch in der Buchhaltung – im Testfall-Text "Befehlsliste" dazuschreiben.
    f) Tooltip-Gesamtwert T-GW4 (Händler besser -> "Händler:" und Gesamt = Händlerwert × Menge), T-GW6 (Bereich K).
-   g) T277 robuster: T-N2 (TestRoutine.lua:5832–5834) prüft A.db.gsSync.book – GoldSentinelSync nimmt den Speicher des
-      ERSTEN Addons, das UseStorage ruft; besser GoldSentinelSync.store.book prüfen. T-GT2 (:5866–5873): beim Sammler
-      kehrt GT.Outbox sofort zurück – während des Tests auch collector = false setzen und zurücksetzen.
+   g) T277: T-N2 (TestRoutine.lua:5954–5956) prüft A.db.gsSync.book – besser GoldSentinelSync.store.book. T-GT2: beim
+      Sammler kehrt GT.Outbox sofort zurück – während des Tests collector = false setzen und zurücksetzen.
 
-7. TESTROUTINE-REST AUS DEM CLIENT-LAUF 0.65.65 (Schwere: NIEDRIG) – befund-testroutine-0665.txt R3, R6
-   R3: In 0.65.66 sind die Tooltips im Ergebnisfenster neben das Fenster gesetzt (SelfTest.lua:1233–1236). Die Meldung
-   nennt aber weiter nur "Button in AHAnalyzerProSelfTest": UICheck Name (UICheck.lua:100–115) liest f.tooltip/GetText,
-   nicht den Text der Schrift im Knopf. Bitte wie ThreatSentinel 2.5.3 die erste sichtbare Schrift (FontString) und die
-   Lage im Fenster ausgeben.
-   R6: T122 Tooltip 2,09 ms, T124 Berufsliste 2,8 ms (Soll < 2) – unverändert; Zwischenspeicher weiter nutzen.
+7. VERALTETE TEXTE ZUR GEBÜHR (Schwere: NIEDRIG, Rest)
+   - AHAnalyzerPro.lua:1905–1909: Kommentar "AH-Gebühr pro Stück = max(5 % …) / Stapelgröße", "ohne Erfahrung 1 Stück",
+     "Nie mehr als ein voller Stapel" stimmt nicht mehr (H1, Mindest-Einzahlung).
+   - Nicht mehr benutzte Schlüssel in Locale.lua (:1516 "…danach richtet sich die AH-Gebühr…", :1569 ", keine Zeile
+     Einstellgebühr", :1623 und :1696 "…sonst 1 Stück…") und denselben Schlüsseln in allen Locale-Dateien – entfernen.
+     Der CHANGELOG 0.65.68 sagt "veraltete Gebühren-Texte entfernt"; sie stehen aber noch in den Locale-Dateien.
 
-8. VERALTETE TEXTE ZUR GEBÜHR (Schwere: NIEDRIG, Rest von R1)
-   - AHAnalyzerPro.lua:1891–1895: Kommentar "AH-Gebühr pro Stück = max(5 %, 1 Silber) / Stapelgrösse", "ohne Erfahrung
-     1 Stück", "nie mehr als ein voller Stapel" – gilt seit H1 und der Gebühren-Regel nicht mehr.
-   - Crafting.lua:652 und :736: Tooltip des Knopfs "… sonst 1 Stück. Klick: 1 / 5 / 20 (Stapel)" – im modernen AH ist
-     der Standard jetzt "eine Auktion" (ganze Menge). Text anpassen (alle Locale-Dateien), A:CycleAuctionSize
-     (AHAnalyzerPro.lua:1934) im modernen AH mit "ganze Menge" als Stufe.
-   - Locale.lua:1439 und alle Locale-Dateien: Schlüssel "Gebühr im Verkaufen-Reiter = max(5 % × Preis, 1s) pro Auktion,
-     keine Zeile Einstellgebühr" wird nicht mehr benutzt – entfernen.
+8. RAID-VORRAT (Schwere: NIEDRIG, nach dem Launch) – unverändert
+   Comfort.lua K.RAID_SETS: prüfen, ob alle Item-IDs in Forever existieren (T145c im Spiel).
 
-9. ENTZAUBER-CHANCEN (Schwere: NIEDRIG, kam nach 0.65.66)
-   a) anweisung-entzauber-chancen-forever.txt C1–C6, T-DC1–T-DC5 (Disenchant.lua:67–73 noch nach warcraft.wiki.gg).
-   b) Kennzeichnung (Prüf-Sitzung 10.11. 08:20): Kopf "Materialien (Tabelle)" nur, wenn nur die Tabelle zählt, sonst
-      "Materialien (Tabelle + N eigene)"; mit Shift die Quelle der Chancen (zusammen mit C5); Protokoll einmal je Gruppe
-      und Tag "DE-CHANCEN Gruppe <k:a/w> · Tabelle … · echt … (N)".
+9. HINWEISE (kein Muss)
+   a) A:RepairDB prüft im Preisverlauf nur den ersten und letzten Eintrag; lesende Stellen sollen mit fehlendem e.p
+      rechnen können.
+   b) DATA_CHANGED aus Sync/Scan löst "Beste Rezepte" neu aus, auch ohne betroffenes Rezept-Item (höchstens alle 30 s).
+   c) Diagnose 0.65.69: "REPARATUR-MENGE ×2" – dieselben drei Reparaturen zweimal in derselben Sekunde (eine mit
+      "Item ?"). Bitte prüfen, ob die Reparatur doppelt läuft (Zeile wird nur doppelt geschrieben?) und warum ein Eintrag
+      ohne itemID repariert wird. Daten sind laut Protokoll richtig (neu 1).
+   d) Daten des Nutzers (DE-CHANCEN 09:31, Gruppe 2:4:a, 70 eigene): Splitter 13 % statt 5 %, Essenz 14 % statt 20 %.
+      Kein Fehler – genau dafür ist das Lernen da. Der Bericht markiert das als "auffällig"; nicht in die Tabelle
+      übernehmen, bevor Stufe 2 (Schrumpfen) da ist.
 
-10. RAID-VORRAT (Schwere: NIEDRIG, nach dem Launch) – aus 0.65.8, unverändert
-    Comfort.lua K.RAID_SETS: prüfen, ob alle Item-IDs in Forever existieren (T145c im Spiel).
-
-11. HINWEISE (kein Muss)
-    a) A:RepairDB prüft im Preisverlauf nur den ersten und letzten Eintrag; lesende Stellen sollen mit fehlendem e.p
-       rechnen können.
-    b) DATA_CHANGED aus Sync/Scan erhöht A.priceVersion bei jedem Preis und löst über die Prüfsumme einen Neuaufbau von
-       "Beste Rezepte" aus, auch wenn kein Rezept-Item betroffen ist (seit 0.65.61 höchstens alle 30 s – gut). Besser nur
-       neu rechnen, wenn ein Produkt oder eine Zutat der Rezeptliste betroffen ist.
-
-IM CLIENT PRÜFEN (mit 0.65.66 bzw. der nächsten Version)
+IM CLIENT PRÜFEN (mit 0.65.72 bzw. der nächsten Version)
 --------------------------------------------------------
-- Ganzer Lauf /ahs testroutine am AH auf Forever, dann /ahs testroutine server: T283–T292 neu, T195 (Zeile Einzahlung,
-  Kupferne Kettenhose 1s), T191 (R3), T192, T33, T52, T27; "Sandbox (echte Daten unverändert): OK".
-- Halbautomatisch: Berufsfenster offen -> /ahs testroutine berufe (T124, T147, T148); Händler -> /ahs testroutine
-  haendler (T59b, T186); danach /reload.
-- Tooltip Seltsamer Staub / Leinenstoff mit 2+ Stück: Zeile "N in den Taschen:" (Punkt 2); /dump GetItemInfo ~= nil.
-- Tooltip und "Heute tun" nach Punkt 1: Staub/Essenz nicht "Händler", keine neuen Händler-Tipps für Waren.
-- Protokoll: LANGSAM cache:today und cache:warm-today unter 16 ms je Portion (F3); ABSATZ-Zeilen mit Deckel; ENTZAUBERWERT.
-- Befehlsliste: /ahs tippen -> Liste über dem Chat-Feld; Klick führt aus (geht der Klick, oder schliesst der
-  Fokusverlust die Liste vorher?); danach /cast-Makro ohne "Aktion blockiert"; im Kampf keine Liste.
-- Ausrüstung einstellen mit Kupferpreis -> auf Silber abgerundet, erstellt; Unterbieten "−1 Silber".
-- "Meine Auktionen": aktive Waren mit richtigem Stückpreis, Status "gleich"/"unterboten".
-- Verkaufen-Reiter steht bei jedem neuen Item auf 2 Std.; Hinweis "24 Std. kostet gleich viel".
-- Flüster-Netz (Spieltest, anweisung-sync-version2.txt), /gstest (Zustimmung, Sammler), Briefkasten (nur EINE Buchung),
-  Sniper Forever, Suchgrenze, Neutrales AH (15 %), Raid-Hinweis ab 25.11., Raid-Vorrat T145c – wie im Stand nach 0.65.58.
+- Ganzer Lauf /ahs testroutine am AH auf Forever, dann /ahs testroutine server: T293–T307 neu; T122 Tooltip < 2 ms
+  (mit dem Profil je Block aus 0.65.71); "Sandbox (echte Daten unverändert): OK"; Abschnitte "Entzaubern (echte Daten)"
+  und "Prognose-Güte" im Bericht und im GSTEST1-Export; M1-Ergebnis (ReplicateItems da?) und M2-Felder.
+- Halbautomatisch: Berufsfenster -> /ahs testroutine berufe; Händler -> /ahs testroutine haendler; danach /reload.
+- Prognose: nach einem Tag Einstellen/Verkaufen im Bericht "Fälle gesamt / mit Ergebnis / offen" > 0; Speicher < 300 KB;
+  Shift-Tooltip bleibt flüssig (Punkt 4).
+- Sofortkauf eines schon gekauften Angebots: Meldung "Angebot ist weg (vermutlich schon gekauft)", Knopf gesperrt, Zeile
+  aus der Liste, Protokoll KAUF-FEHLER. Weisenhandschuhe o. ä. mit Suffix: Detail zeigt Angebote, sonst DETAIL-LEER.
+- Tooltip Seltsamer Staub/Leinenstoff mit 2+ Stück: Zeile "N in den Taschen:"; Staub/Essenz nicht "Händler".
+- Optionen: keine überlagerten Zeilen; Knopf "Zurücksetzen" fragt mit Zahl, danach "Wiederherstellen" bringt alles zurück.
+- Buchhaltung: keine "verkauft 22000" mehr; Gebühren bei Verkäufen über Blizzard-Fenster netto 0.
+- Weiter aus dem Stand nach 0.65.66: Befehlsliste (Klick, Kampf, /cast-Makro ohne "Aktion blockiert"), Ausrüstung mit
+  Kupferpreis -> ganze Silber, "Meine Auktionen" Waren-Stückpreis, Verkaufen-Reiter 2 Std., Flüster-Netz, /gstest,
+  Briefkasten (nur EINE Buchung), Sniper Forever, Neutrales AH (15 %), Raid-Vorrat T145c.
 
 Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
-   Nachtrag 08:45: K6 Detailsuche "0 Angebote" bei Weisenhandschuhe (~31 in der Liste), Sniper kauft auch nicht –
-   Verdacht itemKey/Suffix. T-SK6, T-SK7.
-
-NEU (10. Nov. 09:00, HOCH) – befund-entzaubern-zaehlen.txt
-   Zählen/Lernen geprüft: Rechnung richtig. Z1 Entzaubern über fremdes Warteschlangen-Fenster/Makro wird NICHT gezählt
-   (Kandidat nur aus UseContainerItem-Hook) -> Ersatz über Taschen-Differenz. Z2 still verworfene Ergebnisse ->
-   DE-ABGELEHNT. Z3 Protokoll DE-GEZÄHLT/DE-VERPASST. Z4 Tooltip-Kopf und Ø-Menge. Z5 Testroutine. T-DZ1–T-DZ5.
-   Nachtrag 09:05: anderes Entzauber-Addon beim Nutzer deinstalliert – Z1 jetzt MITTEL, Rest unverändert.
-
-NEU (10. Nov. 09:15, HOCH) – befund-buchhaltung-menge-und-gebuehren.txt
-   B1 "verkauft 800/22000" bei Einzelteilen: Menge = Preis in Kupfer (Fallback Feld 5) + Reparatur alter Buchungen.
-   B2 positive Gebühren: Erstattung gebucht, Einzahlung nicht (nur Tab Verkaufen bucht) -> jede Einstellung buchen,
-   fehlende Einzahlung aus der Erstattung nachbuchen, Reparatur. T-BM1–T-BM6.
-
-NEU (10. Nov. 09:20, Wunsch des Nutzers, HOCH) – anweisung-testroutine-entzaubern.txt
-   Entzaubern vollständig in die Testroutine: Teil 1 automatisch (E1–E12: alle Erkennungswege, doppelte Loot-Ereignisse,
-   Mengen, Ablehnung, Lernrechnung mit festen Zahlen, Forever-Startwerte, T227 anpassen, geteilte Daten, Tooltip, Wert).
-   Teil 2 echte Daten (E13–E15): Abschnitt "Entzaubern (echte Daten)" im Testbericht – Raten je Gruppe gegen die
-   Tabelle, Zählkontrolle, Plausibilität. Ersetzt Z5 aus befund-entzaubern-zaehlen.txt. T-TE1–T-TE3.
-
-NEU (10. Nov. 09:20, MITTEL) – befund-optionen-ueberlagert.txt
-   Optionen rechte Spalte: oberste drei Zeilen doppelt belegt (Selbsttest/Standard-Laufzeit, Daten/Befehlsliste,
-   Unterstützen/-). O1 Zeilen per Zähler, O2 Überlappungsprüfung in UICheck/Bereich K für alle Fenster, O3 86 gelernt
-   vs. 82 im deLog prüfen. T-OÜ1–T-OÜ3.
-
-NEU (10. Nov. 09:30, ENTSCHEID DES NUTZERS, PFLICHT FÜR ALLES) – Schutz der echten Entzauber-Daten
-   deStats/deLog/deShared/deBuys des Nutzers nie zurücksetzen, löschen, umrechnen oder migrieren. Neue Felder nur für
-   neue Einträge, Startwerte ändern nur die Tabelle, Testroutine nur in Ersatztabellen mit Vorher/Nachher-Vergleich,
-   Knopf "Zurücksetzen" nur mit Rückfrage und Sicherung, 82 vs. 86 nur melden. Steht in allen Entzauber-Aufträgen.
-
-NEU (10. Nov. 09:45, ZIEL DES NUTZERS, HOCH – nach den HOCH-Befunden) – anweisung-prognose-stufe1.txt
-   Stufe 1: Prognose-Journal (Einstellen, Kaufen, Entzaubern), Ergebnis zuordnen (zensierte Fälle mitzählen), Güte
-   messen (Zuverlässigkeit, Brier, Dauer, Erlös, Kauf-Trefferquote je Strategie), Zusammenfassung, Messaufträge M1–M3,
-   Testroutine Teil A/B ("Prognose-Güte" im Testbericht), eine Shift-Zeile. Stufe 2/3 NICHT vorgreifen.
-   Pflichtlektüre: shared/wissen/markt-strategie.md. T-PG1–T-PG9.
-
-NEU (10. Nov. 10:15, HOCH – zusammen mit Stufe 1) – anweisung-vollscan-einzelauktionen.txt
-   MESSUNG BELEGT: ReplicateItems liefert in Forever 180'368 Einzelauktionen in 14 s, mit Restzeit, ohne Besitzer,
-   ohne auctionID. V1 Messaufträge M1b (Restzeit-Stufen), M1c (Drosselung), M1d (Kosten). V2 Vollscan mit
-   Preisleiter und exakter Warteschlange. V3 nur Zusammenfassung speichern. V4 Verfolgung zwischen zwei Vollscans
-   ("vorzeitig weg" = gekauft/abgebrochen) -> gemessener Absatz. V5 einsetzen, alte Annahmen nur Rückfall.
-   V6 Testroutine/Testbericht. T-VS1–T-VS7.
-
-NEU (10. Nov. 10:20, ENTSCHEID DES NUTZERS, NIEDRIG) – anweisung-ausruestung-silber-entscheid.txt
-   Ausrüstung einstellen bleibt wie jetzt (ganze Silber, −1 Silber). Kein neues Preisfeld, kein Gleichziehen.
-   Testroutine (Server-Teil, mit Zustimmung) misst, wann der Server Kupfer ablehnt (S1–S5). T-AS1–T-AS3.
-
-NEU (10. Nov. 10:25) – befund-testroutine-0669.txt (Nachprüfung 0.65.69: B1, B2, Z1–Z4 umgesetzt)
-   N1 HOCH abgelehnte Entzauberungen zählen in Statistik/Abrechnung/Activity mit -> Leser unterscheiden, "davon
-   abgelehnt". N2 HOCH Reset ohne Sicherung -> Sicherung, Rückfrage mit Zahl, Wiederherstellen. N3 T122 Tooltip
-   2,10 ms -> Profil je Block. N4 HALB-Teile in einer Zeile erklären. T-N1–T-N3.
-
-NEU (10. Nov. 10:45, FREIGABE DES NUTZERS) – Stufen 2 und 3 und Gesamtprüfung
-   Reihenfolge verbindlich: offene Befunde (N1, N3, N4) -> Stufe 1 Prognose (anweisung-prognose-stufe1.txt) ->
-   Vollscan (anweisung-vollscan-einzelauktionen.txt) -> Stufe 2 Lern-Datenbank (anweisung-lernen-stufe2.txt, L1–L11)
-   -> Stufe 3 Markt-Reiter ersetzt Heute tun (anweisung-markt-stufe3.txt, M1–M6) -> Gesamtprüfung
-   (anweisung-gesamtpruefung.txt, G1–G7: "/ahs testroutine alles", Abdeckung aller Aufträge, Sandbox, Tempo).
-   Ausserdem offen: Ausrüstung-Silber Messreihe (anweisung-ausruestung-silber-entscheid.txt, S1–S5).

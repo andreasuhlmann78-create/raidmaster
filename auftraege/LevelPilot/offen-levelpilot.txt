@@ -1,114 +1,87 @@
-OFFENE PUNKTE LEVELPILOT (nach der Nachprüfung von 3.12.21)
+OFFENE PUNKTE LEVELPILOT (nach der Nachprüfung von 3.12.22)
 ==========================================================
-Stand: 9. November 2026, 20:24 · von der Prüf-Sitzung · Grundlage: announce/levelpilot__levelpilot-3.12.21.LevelPilot.zip
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 3.12.16 mit allen
-Nachträgen bis 9. Nov. 19:55 (Sync, GoldSentinelTest 2, Spielernamen). Geprüft: Diff 3.12.19 -> 3.12.20 -> 3.12.21,
-dazu die Punkte aus 3.12.17 bis 3.12.19 im Code von 3.12.21.
+Stand: 10. November 2026, 11:20 · von der Prüf-Sitzung · Grundlage: announce/levelpilot__levelpilot-3.12.22.LevelPilot.zip
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 3.12.21
+(9. Nov. 20:24). Geprüft: Diff 3.12.21 -> 3.12.22 (Comm.lua, Social.lua, Protocol.lua, TestRoutine.lua, Core.lua,
+.toc, CHANGELOG EN/DE), dazu die neuen Wegdaten-Exporte vom 10. Nov.
 
-Erledigt in 3.12.17 bis 3.12.21 (danke):
-- 3.12.21 hinweis-sync-kanal.txt, anweisung-gemeinsamer-sync.txt, anweisung-sync-version2.txt: GoldSentinelSync.lua
-  Version 2 byte-gleich, in der .toc nach GoldSentinelGame.lua. Kein eigener Kanal, keine eigene Warteschlange, kein
-  eigener Takt mehr (Comm.lua:156-211). LevelPilotNet wird nur noch einmal verlassen (Comm.lua:481-489, 586).
-  Kennungen LvPilot2/LvPilotG bleiben (alte Nachrichten ohne Kopf werden verstanden, T246). ep:UseStorage(LevelPilotDB)
-  (Comm.lua:531). Beute- und Gegnerwerte nur Gilde/Gruppe (Comm.lua:553, 559), Gruppenmodus nur Gruppe
-  (Group.lua:26-30). Absender geschützt/nil wird vertragen (Comm.lua:146, 292, 305, 356; Group.lua:156).
-  /lp sync test (Core.lua:702, Comm.lua:622-633), Mitspieler über ep:Peers (Center.lua:294), Diagnose SYNC/NETZ
-  (Comm.lua:592-598, 635-640; Protocol.lua:438-441). Frühere Absendernamen in LevelPilotDB nur noch als Prüfsumme
-  (Comm.lua:513-523). Tests T242-T251.
-- 3.12.21 anweisung-test-version2.txt: GoldSentinelTest.lua Version 2 byte-gleich, TrackErrors nach ADDON_LOADED
-  (Core.lua:567-568), CHANGELOG EN/DE, Tests T252 und T253.
-- 3.12.20 hinweis-keine-spielernamen.txt: GoldSentinelGame.lua Version 3 byte-gleich; Entwickler-Charakter nur als
-  Prüfsumme (Core.lua:245-266); Tests mit "Testa Beispiel" (TestRoutine.lua:521, 1938-1939). Kein echter Name mehr
-  im Paket gefunden.
-- 3.12.19 (früher Punkt 3): GetPlayerFacing, IsIndoors, IsResting, GetUnitSpeed, UnitLevel über LP.SafeValue
-  (Core.lua:414-437), Begleiter-Stufe (Supply.lua:74), T241. T128 neu gefasst, absichtliche Testfehler nicht mehr
-  mitgezählt (ForgetTestErrors, TestRoutine.lua:1203-1262) – früher Punkt 2, Bestätigung im Client unten.
-- 3.12.18 (früher Punkt 1): Tooltips über UI.TipAnchor mit ANCHOR_NONE neben dem Fenster (UI.lua:37-54, auch
-  Navigation.lua:381, Actions.lua:93), T240. Übrig sind nur ANCHOR_LEFT am Minikarten-Knopf (UI.lua:895) und
-  ANCHOR_RIGHT an Kartenpins (Navigation.lua:564, Pins.lua:232) – dort liegen keine eigenen Knöpfe darunter.
-- 3.12.17 (Befunde Wegdaten b–e): Punkte alle 25 Yards und bei > 30° – in den 26 Exporten von 3.12.19 haben von 55
-  neuen Wegstücken nur 1 (geteilt) einen Sprung > 4 %; keine Wegstücke mehr auf der Kontinentkarte; npc[] old/new
-  als [x, y] mit oldMap und nopack (Graph.lua:717-728); NPC 10666 und 10881 im Datenpaket 1.6.1 korrigiert
-  (LevelPilot_Data/Data/Npcs.lua:4947, 5004). Befund a (Netz verbinden) ist eingebaut (T235-T239); die Wirkung zeigt
-  erst eine Auswertung neuer Exporte (siehe IM CLIENT PRÜFEN).
-Prüfungen: Addon-Prüfung OK, kein FEHLER, keine WARNUNG (Ladetest, Sprachtest). GoldSentinelGame.lua (3),
-GoldSentinelTest.lua (2) und GoldSentinelSync.lua (2) byte-gleich mit shared/. CHANGELOG EN/DE für 3.12.20 und
-3.12.21, .toc 3.12.21, neue Texte in allen Locale-Dateien (esMX fällt auf esES zurück), Platzhalter gleich.
-Testroutine: alle 205 IDs aus testroutine-levelpilot.txt vorhanden, alle 253 Fälle haben eine Umsetzung (kein
-"noch nicht automatisiert"). Offline im nachgebauten Spiel (Lua 5.1/lupa, WoW Forever) laufen T92, T108, T111,
-T169 und die neuen T242-T253 alle OK; über alle Fälle 184 OK, die übrigen scheitern an der Nachbildung genau wie
-schon bei 3.12.19 (keine neue Abweichung, T61 jetzt OK). Keine Blizzard-Funktion ersetzt (Tests ändern nur
-GoldSentinelSync.api und setfenv auf eigene Funktionen).
-Testberichte: kein Lua-Fehler von LevelPilot seit 3.12.14 (letzter: 3.12.13, 8. Nov. 20:41).
+Erledigt in 3.12.22 (danke):
+- Punkt 1 (Netz: Absender = Weitergeber): "Z" und "E" gehen nur an Gilde/Gruppe (Comm.lua:255, Social.lua:170) und
+  tragen eine Prüfsumme des Urhebers (Comm.lua:153-174, 254, Social.lua:162-163). Empfang nur, wenn die Prüfsumme
+  zum Absender passt bzw. ohne Prüfsumme nicht geflüstert (Comm.lua:420, 478). T254 offline OK
+  ("weitergegeben 0, 0 · vom Urheber 1, 1 · eigene ins Netz 0").
+- Punkt 2 (Einstellungen Gilde/Gruppe/Netz): Scope liefert nur die eingeschalteten Wege, Netz nur bei Gilde UND
+  Gruppe (Comm.lua:187-195, Queue 200-216). T243 um die drei Fälle erweitert, offline OK
+  ("nur Netz: nichts · Gilde+Netz: GUILD · Gruppe+Netz: PARTY · alles: GUILD+PARTY+NETZ").
+- Punkt 3 (Zonen-Antwort füllt die gemeinsame Warteschlange): höchstens 25 Nachrichten je Antwort, Rest ab der
+  nächsten Anfrage, keine Antwort bei mehr als 50 Einträgen in GoldSentinelSync.queue (Comm.lua:298-346). T255 OK.
+- Punkt 4 (Broadcast merkt "gesendet" zu früh): Schlüssel erst nach erfolgreichem Queue (Comm.lua:220-230). T256 OK.
+- Punkt 5 (Testroutine pumpt fremde Nachrichten): eigene leere queue/netQueue während der Routine, danach zurück,
+  fremde Einträge aus der Zwischenzeit werden übernommen (TestRoutine.lua:4753-4775, 4849, 4947, 4969). T257 (nur in
+  der ganzen Routine prüfbar, siehe IM CLIENT PRÜFEN).
+- Zusätzlich: Diagnose-Protokoll ruhiger – kein SCHRITT-Eintrag beim Stehen in der Hauptstadt und im Dungeon
+  (Protocol.lua:291-329), kein FOKUS, wenn der aktuelle Schritt in der Zone des Spielers liegt (Protocol.lua:205-226),
+  keine Zonen-Meldung auf Kontinentkarte/Höhle (Protocol.lua:188-192), GetRealZoneText über LP.SafeValue. T258 OK.
+Prüfungen: Addon-Prüfung OK, kein FEHLER, keine WARNUNG (Ladetest Forever und Era, Sprachtest). GoldSentinelGame.lua
+(3), GoldSentinelTest.lua (2) und GoldSentinelSync.lua (2) byte-gleich mit shared/. CHANGELOG EN/DE für 3.12.22,
+.toc und LP.version 3.12.22. Keine neuen sichtbaren Texte (keine neuen L[...]-Schlüssel). Keine Blizzard-Funktion
+und keine C_-Tabelle ersetzt (Tests ändern nur Felder von GoldSentinelSync, LevelPilot-Funktionen und Testdaten).
+Testroutine: 258 Fälle, alle mit Umsetzung (kein "noch nicht automatisiert"). Offline im nachgebauten Spiel
+(Lua 5.1/lupa, WoW Forever) jeden Fall einzeln: 3.12.21 173 OK, 3.12.22 177 OK, kein Fall schlechter als vorher;
+T243 und T254-T256, T258 OK, T257 nur in der ganzen Routine.
+Testberichte: kein Lua-Fehler von LevelPilot seit 3.12.14 (letzter: 3.12.13, 8. Nov. 20:41). Neue Wegdaten vom
+10. Nov. (8 Exporte, alle 3.12.21, Undercity, Durotar, Orgrimmar): keine FEST-Ereignisse, keine Sperren.
 
-Bitte mit der nächsten Version (3.12.22). Wie immer: komplette Dateien, alte Clients nie brechen, alle Locale-Dateien,
-CHANGELOG EN/DE, vor dem Push python3 addon-check/addon_check.py announce/levelpilot__levelpilot-3.12.22.LevelPilot.zip
+Bitte mit der nächsten Version (3.12.23). Wie immer: komplette Dateien, alte Clients nie brechen, alle Locale-Dateien,
+CHANGELOG EN/DE, vor dem Push python3 addon-check/addon_check.py announce/levelpilot__levelpilot-3.12.23.LevelPilot.zip
 -> kein FEHLER.
 
-1. NETZ-NACHRICHTEN: "sender" IST DER WEITERGEBER, NICHT DER URHEBER (Schwere: MITTEL)
-   Zonen-Anfragen "Z" (Comm.lua:222, Empfang 360-362) und die Elite-Mitspielersuche "E" (Social.lua:167, Empfang
-   Comm.lua:418-420) gehen jetzt ins Flüster-Netz. GoldSentinelSync gibt Netz-Nachrichten weiter und stellt sie mit
-   dem Absender der letzten Station zu (shared/GoldSentinelSync.lua:580-582, 603). Folgen:
-   - Comm:ReplyZone (Comm.lua:265-287) flüstert bis zu 30 Quests, 60 Wege und 20 Höhlen an den Weitergeber statt an
-     den Fragenden; jeder in dessen Gilde kann antworten. Der Fragende bekommt nichts.
-   - Social:OnMessage (Social.lua:170-178) merkt den Weitergeber als Mitspieler mit der Elite-Quest; der Hinweis
-     zeigt dessen Namen und "Einladen" lädt ihn ein (Social.lua:201-210) – falsche Person.
-   Lösung: "Z" und "E" mit { net = false } senden (nur Gilde/Gruppe, dort ist der Absender der Urheber), z. B.
-   Comm:Queue(msg, nil, true) bzw. Broadcast(..., nil, true). Im CHANGELOG nennen. Testfall: Netz-Nachricht "#S2:…"
-   mit "E"/"Z" über TR.Deliver von einem Weitergeber -> kein Partner-Eintrag bzw. keine Antwort an ihn; eigenes
-   Senden von "E"/"Z" -> nichts in GoldSentinelSync.netQueue.
+1. ALTE "Z"/"E" OHNE PRÜFSUMME KOMMEN ÜBER DIE GILDE DES WEITERGEBERS DOCH AN (Schwere: NIEDRIG, Übergangszeit)
+   LevelPilot bis 3.12.21 schickt "Z" und "E" ohne Prüfsumme ins Netz. Ein Weitergeber bringt Netz-Nachrichten als
+   "#S1:" in seine Gilde/Gruppe (shared/GoldSentinelSync.lua:579-580); dort kommt sie mit dist "GUILD"/"PARTY" und
+   dem Weitergeber als Absender an. Comm.FromOrigin (Comm.lua:169-174) nimmt Nachrichten ohne Prüfsumme an, wenn
+   nicht geflüstert -> Antwort bzw. Mitspieler-Hinweis wieder an den Falschen, solange noch 3.12.21 im Umlauf ist.
+   Lösung: "Z" und "E" ohne Prüfsumme gar nicht mehr annehmen (Comm.lua:420, 478; FromOrigin bei leerem Feld false).
+   Folge nur: Spieler mit 3.12.21 bekommen keine Zonen-Antwort und keinen Mitspieler-Hinweis, bis sie aktualisieren.
+   Im CHANGELOG nennen. T254 um den Fall "#S1 ohne Prüfsumme in GUILD vom Weitergeber -> 0" erweitern.
 
-2. EINSTELLUNGEN GILDE / GRUPPE / NETZ WERDEN NICHT EINGEHALTEN (Schwere: MITTEL)
-   Comm.lua:161-171 (Scope). Offline nachgestellt (in Gilde und Gruppe, ein Netz-Mitspieler bekannt):
-     Gilde aus, Gruppe aus, Netz an  -> GUILD + PARTY + Netz   (Gilde und Gruppe sind ausgeschaltet!)
-     Gilde an,  Gruppe aus, Netz an  -> nur GUILD             (Netz fehlt)
-     Gilde aus, Gruppe an,  Netz an  -> nur PARTY             (Netz fehlt)
-   Ursache: {} heisst bei GoldSentinelSync "alle Wege", und { scope = "guild" } / "group" geht nie ins Netz.
-   Lösung: nur senden, was eingeschaltet ist, z. B. je eingeschaltetem Weg einzeln: Gilde -> ep:Send(msg,
-   { scope = "guild" }), Gruppe -> ep:Send(msg, { scope = "group" }), Netz ohne Gilde/Gruppe -> nur ins Netz (dafür
-   bei der Prüf-Sitzung einen Umfang "net" für GoldSentinelSync anfragen – die gemeinsame Datei nicht selbst ändern;
-   bis dahin bei Gilde oder Gruppe aus kein Netz). T243 um diese drei Fälle erweitern.
-
-3. ZONEN-ANTWORT FÜLLT DIE GEMEINSAME WARTESCHLANGE (Schwere: MITTEL, anweisung-sync-version2.txt S4)
-   Comm:ReplyZone legt bis zu 30 Quests (je 1 + Zielorte), 60 Wege und 20 Höhlen in einem Zug ab (Comm.lua:28-29,
-   275-285) – leicht über 100 Nachrichten. Seit 3.12.21 ist das die gemeinsame Warteschlange aller GoldSentinel-Addons
-   (QUEUE_MAX 300, eine Nachricht je 0,2 s): eine Antwort blockiert AHSentinel, GuildSentinel usw. für 20 s und mehr,
-   zwei bis drei Antworten lassen die ältesten Nachrichten anderer Addons fallen ("queue").
-   Lösung: Antwort klein halten (z. B. höchstens 25 Nachrichten je Antwort, Rest bei der nächsten Anfrage) und nicht
-   antworten, solange #GoldSentinelSync.queue über ca. 50 liegt. Testfall: ReplyZone mit vielen Daten -> höchstens N
-   eigene Einträge in der Warteschlange.
-
-4. BROADCAST MERKT "GESENDET", AUCH WENN NICHTS GESENDET WURDE (Schwere: NIEDRIG)
-   Comm.lua:191-197: sentThisSession[key] wird vor dem Senden gesetzt. Gibt Comm:Queue false zurück (kein Weg, Austausch
-   aus, GoldSentinelSync fehlt), geht diese Quest bzw. Höhle in der ganzen Sitzung nicht mehr hinaus. Bis 3.12.19
-   wurde der Schlüssel nur für einen vorhandenen Weg gesetzt.
-   Lösung: Schlüssel erst setzen, wenn mindestens ein Queue(...) true ergab.
-
-5. TESTROUTINE SENDET FREMDE NACHRICHTEN OHNE DROSSEL (Schwere: NIEDRIG)
-   Comm.SendNext ruft GoldSentinelSync.Pump(true) (Comm.lua:201-204). T61 (3×, TestRoutine.lua:2721), T62 (5×, 2744)
-   und T154 (Bench, 20×, 3452) holen damit die ersten Nachrichten der gemeinsamen Warteschlange – auch die anderer
-   Addons – und senden sie sofort ohne den 0,2-s-Abstand. Eigene Nachrichten von vor dem Test gehen dabei nur ins
-   Mitschreiben (SyncDry) und sind verloren.
-   Lösung: im Test GoldSentinelSync.queue und .netQueue vorübergehend durch eigene leere Tabellen ersetzen (Felder der
-   gemeinsamen Tabelle, keine Blizzard-Funktion), nur Testnachrichten pumpen, danach die echten Tabellen zurück.
+2. WEGSTÜCKE MIT GROSSEN LÜCKEN ZWISCHEN ZWEI PUNKTEN (Schwere: NIEDRIG, bitte prüfen)
+   Die Vorgabe aus 3.12.17 ist "Punkte höchstens alle 25 Yards". R.KeyPoints (Recorder.lua:279-296) behält aber nur
+   aufgezeichnete Punkte; liegen zwei Aufzeichnungen weiter auseinander (bis JUMP_DIST 80 Yards, Recorder.lua:236,
+   z. B. beritten), bleibt die ganze Lücke eine gerade Linie, und bei nur 2 Punkten (Recorder.lua:281) wird gar nicht
+   geteilt. Neue Exporte vom 10. Nov. (3.12.21) zeigen in Orgrimmar 2-Punkt-Wegstücke mit 9-11 % der Karte
+   (testberichte/wege/LevelPilot/LevelPilot-wege-1794303378-f51c93.json: 61.5,44.6 -> 59.8,53.8; 52.3,88.9 ->
+   53.1,77.4). Daran können spätere Wege nicht anschliessen (Lücken-Teile in testberichte/wege/auswertung.md).
+   Lösung: beim Aufzeichnen öfter Punkte nehmen, solange schnell gelaufen/geritten wird (z. B. Zeit-Abtastung
+   zusätzlich zur Strecke), oder lange gerade Stücke nur dann mit Zwischenpunkten füllen, wenn die beiden Enden
+   direkt nacheinander aufgezeichnet wurden (keine erfundenen Punkte über unbekanntes Gelände). Testfall:
+   Aufzeichnung mit zwei 70 Yards entfernten Punkten -> Wegstück mit Punkten <= 25 Yards Abstand oder bewusst
+   verworfen. Ist die Lücke in Orgrimmar ein Aufzug/Tor/Teleport, bitte begründet zurückmelden.
 
 IM CLIENT PRÜFEN (Ergebnisse dem Nutzer melden)
+   - 3.12.22: /lp testroutine im echten Client: T257 "eigene Warteschlange true, fremde Einträge darin 0"; danach
+     /gssync bzw. Diagnose: Nachrichten anderer GoldSentinel-Addons, die während der Routine eingereiht wurden, gehen
+     danach normal hinaus (keine "verworfen"-Spitze).
+   - 3.12.22: Diagnose-Protokoll nach einer Spielsitzung mit Bank/AH in Orgrimmar oder Thunder Bluff und einem Dungeon:
+     kein "Schritt seit 25 min aktiv" beim Stehen, keine FOKUS-Meldung beim Abarbeiten der eigenen Zone.
+   - 3.12.22: Zwei Spieler in derselben Gilde, Einstellungen Gilde an / Gruppe aus / Netz an: Zonen-Anfrage kommt an,
+     Antwort höchstens 25 Nachrichten (Diagnose SYNC), nichts im Netz.
    - 3.12.21: /lp sync test -> Zeile "N Antworten (Gilde a, Gruppe b)". Diagnose-Protokoll: SYNC- und NETZ-Zeilen ohne
-     Namen, "Kanal verweigert 0", bei "verworfen" kein "toolong" (Wegnachrichten "P" mit 12 Punkten liegen nahe an
-     230 Zeichen). Der Kanal LevelPilotNet ist nach dem Einloggen weg (Chat-Kanalliste).
+     Namen, "Kanal verweigert 0", bei "verworfen" kein "toolong". Der Kanal LevelPilotNet ist nach dem Einloggen weg.
    - 3.12.21 (aus anweisung-sync-version2.txt): Zwei Spieler in verschiedenen Gilden, kurz in einer Gruppe, dann Gruppe
      verlassen -> eine neue Aufzeichnung aus Gilde A kommt in Gilde B an (dort im Diagnose-Protokoll "weitergegeben" > 0).
    - 3.12.21: /gstest – einmalige Frage; ohne Zustimmung geht nichts hinaus (T253 im echten Client).
-   - Hinweis: LevelPilot bis 3.12.20 versteht die neuen Nachrichten mit Kopf "#S1:" nicht (kein Fehler, nur kein
-     Empfang). Mitspieler sollen aktualisieren.
-   - /lp testroutine im echten Client, besonders T224-T229 (Tooltips/Überlappen), T240, T241, T242-T253 und T128 ("ergänzt,
-     false, kein Fehler"; Fehlerzähler steigt während der Routine nicht mehr).
+   - Hinweis: LevelPilot bis 3.12.20 versteht die Nachrichten mit Kopf "#S1:" nicht; bis 3.12.21 fehlt die Prüfsumme
+     in "Z"/"E". Mitspieler sollen aktualisieren.
+   - /lp testroutine im echten Client, besonders T224-T229 (Tooltips/Überlappen), T240, T241, T242-T258 und T128
+     ("ergänzt, false, kein Fehler"; Fehlerzähler steigt während der Routine nicht).
    - Fehlerprotokoll nach einer Spielsitzung mit Kampf und AFK: kein "secret boolean/number" (die automatischen
      Testberichte zeigen das; die Prüf-Sitzung kontrolliert sie).
    - /dump GetPlayerFacing(), IsIndoors(), IsResting() im Kampf und in einer Instanz: Zahl/Wahrheitswert, nil oder
      geschützt? (Rückfall seit 3.12.19 vorhanden – nur zur Bestätigung.)
    - Wegdaten ab 3.12.17: Die Prüf-Sitzung wertet nur Exporte ab 3.12.17 getrennt aus (Netz verbunden? Teile pro Zone).
-     Bisher mischt testberichte/wege/auswertung.md alte und neue Exporte.
+     testberichte/wege/auswertung.md mischt noch alte und neue Exporte (z. B. "Widerspruch: gesperrt bei 52.2,64.5 in
+     Orgrimmar" stammt nicht aus 3.12.21 – dort keine Sperren).
    - Route Mulgore/Thunder Bluff (Befunde 5. Nov.): nahe Abgaben zuerst, keine Linie übers Gebirge, Fokus in der Karte
      des Spielers, Klassentrainer in Thunder Bluff über den Aufzug, erst Mulgore fertig, dann Brachland. Kopfzeile
      "(N fertig)" und "Abgeben" oben in der Liste.

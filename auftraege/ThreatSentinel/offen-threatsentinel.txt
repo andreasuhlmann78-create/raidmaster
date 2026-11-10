@@ -1,113 +1,88 @@
-OFFENE PUNKTE THREATSENTINEL (nach der Nachprüfung von 2.5.3)
+OFFENE PUNKTE THREATSENTINEL (nach der Nachprüfung von 2.5.4)
 =============================================================
-Stand: 10. November 2026, 08:35 · von der Prüf-Sitzung · Grundlage: download/ThreatSentinel-2.5.3.zip, Diff gegen 2.5.2,
-Diagnose-Protokolle 2.5.3 (testberichte/diagnose/ThreatSentinel/2.5.3-*.txt)
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 2.5.2 samt allen
-Nachträgen vom 9. November (Testroutine 2.5.2, Bereich K, Diagnose aus dem Dungeon).
+Stand: 10. November 2026, 11:20 · von der Prüf-Sitzung · Grundlage: download/ThreatSentinel-2.5.4.zip, Diff gegen 2.5.3,
+Diagnose-Protokolle 2.5.4 (testberichte/diagnose/ThreatSentinel/2.5.4-*.txt), Testroutine 2.5.4 beim Nutzer
+(befund-testroutine-254.txt) und Gruppen-Protokoll 2.5.4 vom 10.11.
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 2.5.3 samt den
+Nachträgen vom 10. November. Einzelheiten zu Q1–Q5 stehen weiter in befund-testroutine-254.txt.
 
-Erledigt in 2.5.3 (danke):
-- P1 Modus springt im Kampf: Ein lesbarer Wert im Kampf wird nur gemerkt (ThreatAccess.lua:99–107), VOLL erst nach zwei
-  Kämpfen ohne Geschütztes und nur nach Kampfende (ThreatAccess.lua:70–96, 193, 246). Testfall T-P1 (TestRoutine.lua:2910)
-  spielt "secret, dann lesbar im selben Kampf" und zwei lesbare Kämpfe nach.
-- T153 (Testfehler): Die Test-Kulisse setzt ns.threatAccess immer auf "open" und stellt den echten Zustand wieder her
-  (TestRoutine.lua:457, 476–479).
-- P2 Diagnose: Zeile LESBAR mit "Einheit" und "greift-mich-an" (ja/nein/geschützt/kein Ziel), ohne Namen (Meter.lua:198–207,
-  321–322).
-- P3: "Gruppe N Spieler + M Begleiter" (Diag.lua:102–108), Testfall T-P3.
-- T180/T181: Meldungen nennen den Pfad, die Beschriftung und die Lage (UICheck.lua:75–114); eigene Tooltips neben dem
-  Fenster (ns.TipBeside UICheck.lua:116, TestMode.lua:685, 791, 808); Testzentrale und Einstellungen öffnen neben offenen Blizzard-Fenstern
-  (ns.UIAvoidBlizzard UICheck.lua:133, TestMode.lua:868, Options.lua:870); leere Anker anderer Addons zählen nicht (U.ReallyVisible,
-  UICheck.lua:162–184, 245). Damit ist auch die Frage zu den BuffSentinel-Ankern für ThreatSentinel beantwortet.
-- T135-Text nennt jetzt GoldSentinelGame Version 3; T03 akzeptiert Version 2 oder neuer.
-- hinweis-sync-kanal.txt (soweit für ThreatSentinel nötig): Sync nur über PARTY/RAID, Protokoll "SYNC Weg=PARTY/RAID"
-  einmal je Sitzung und Zähler alle 10 Min. (Diag.lua:116, 171–178, Sync.lua:39–75). Im Protokoll vom 10.11. belegt.
-- anweisung-test-version2.txt: GoldSentinelTest 2 byte-gleich, T-GT1/T-GT2 (TestRoutine.lua:2597–2618), CHANGELOG.
-  Datei entfernt.
+Erledigt in 2.5.4 (danke):
+- Alt 1 Log nach /reload: Nur META ohne "cont=1" setzt zurück (Log.lua:829); ns:ApplySettings verwirft den
+  Zwischenstand (Core.lua:1081). Testfall T139b (TestRoutine.lua:2571).
+- Alt 2 LESBAR nur mit Liste: MeasureOnce misst nur mit #list > 0 und im Kampf, measured erst danach
+  (Meter.lua:324–328, 378). Testfall T-A6b (TestRoutine.lua:3061). Die Protokolle 2.5.4 zeigen nur noch Kampf-Zeilen.
+- Alt 3 Stufe 3: CHANGELOG EN/DE 2.5.4 stellt richtig, dass es die Schätzung in WoW Forever derzeit nicht gibt.
+- Alt 4 Kopf "sicher": nur mit Aggro-Halter aus der Gruppe oder lesbaren Stufen (Meter.lua:223–227, 311–317).
+  Testfall T-A8 (TestRoutine.lua:3081).
+- Alt 5 /reload im Kampf: TA:Set fragt den Kampf direkt beim Spiel nach (ThreatAccess.lua:102–110, Kern :104). Testfall T-P1b.
+- Alt 6 (Teil) T-SY2: ohne Gruppe nichts senden, Zähler "kein Weg" (Sync.lua:55, 60; TestRoutine.lua:2454).
+- Alt 7 T122: Typprüfung an einer Kopie (MergeDefaults ersetzt falsche Typen, ns:SanitizeRoot, Core.lua:221–231,
+  936–951; TestRoutine.lua:2304). T128 ist jetzt ein Halbfall mit /ts testroutine sprache (siehe aber Punkt 1).
+- Gruppen-Protokoll 2.5.4 (Nutzer): kein Moduswechsel im Kampf (P1 bestätigt), Gruppe richtig, Fehler 0, gesperrte
+  Aktionen 0, Sync in der Gruppe läuft (gesendet/empfangen > 0).
+- anweisung-aggro-reihenfolge.txt ist damit abgeschlossen (Stufe 1/2 umgesetzt, Stufe 3 in Forever ohne Quelle und
+  richtiggestellt; der Rest ist Q4). Datei entfernt.
 
-Prüfungen: addon_check 2.5.3 OK (0 FEHLER, 0 WARNUNGEN; Ladetest Forever und Era, Sprachtest). GoldSentinelGame.lua (3)
-und GoldSentinelTest.lua (2) byte-gleich mit shared/. Keine Blizzard-Funktion ersetzt, Tests nur über eigene Tabellen.
-Keine neuen sichtbaren Texte (Diagnose-Zeilen wie bisher deutsch). CHANGELOG EN/DE für 2.5.3 da.
-Diagnose 2.5.3 (4 Protokolle bis 10.11. 06:47): Fehler 0, gesperrte Aktionen 0, Sync gesendet 0 / empfangen 0 /
-verworfen 0. Mit 2.5.3 gab es noch KEINEN Kampf – P1 und die neue LESBAR-Zeile sind im Spiel noch nicht bestätigt.
+Prüfungen: addon_check 2.5.4 OK (0 FEHLER, 0 WARNUNGEN; Ladetest Forever und Era, Sprachtest). GoldSentinelGame.lua (3)
+und GoldSentinelTest.lua (2) byte-gleich mit shared/. Neue Texte TR_LOCALE_SET/TR_LOCALE_DONE in EN und DE, Platzhalter
+gleich. CHANGELOG EN/DE für 2.5.4 da. Keine Blizzard-Funktion ersetzt (Tests über WithAPI/Swap auf eigene Tabellen).
+Diagnose 2.5.4 (4 Protokolle, 10.11. bis 10:36): Fehler 0, gesperrte Aktionen 0.
 
-1. LOG-AUSWERTUNG BLEIBT NACH /RELOAD HÄNGEN (Schwere: MITTEL) – unverändert offen
-   Log.lua ist seit 2.5.2 unverändert. Log.lua:826–828: Jede META-Zeile nach dem gemerkten Stand macht den Zwischenstand
-   ungültig – auch "META cont=1", die nach jedem /reload in dieselbe Sitzung geschrieben wird. Folge (nachgebaut): der
-   Hintergrund liest endlos die ersten 400 Einträge, das Öffnen der Zusammenfassung liest wieder alles (bis 45 ms, T139).
-   Lösung: Nur eine META-Zeile OHNE "cont=1" setzt zurück:
-       if ev[i]:find("|META|", 1, true) and not ev[i]:find("cont=1", 1, true) then valid = false break end
-   Dazu self.scan = nil, wenn eine Option geändert wird, die die Auswertung benutzt (db.heldPlateAlpha, colorWarn …).
-   Testfall in T139: Protokoll mit "META cont=1" in der Mitte -> Häppchen kommen bis zum Ende voran, Ergebnis gleich wie
-   die ganze Auswertung.
+1. SPRACHTEST LEGT DAS ADDON STILL (Schwere: HOCH, nur beim Entwickler) – neu
+   Core.lua:1181 ruft GoldSentinelDev.IsDev() mit Punkt statt Doppelpunkt. Dev:IsDev braucht self
+   (GoldSentinelDev.lua:57 "self.tagSeen = ..."). Nach /ts testroutine sprache und /reload ist der Merker "known" leer,
+   IsDev läuft bis Zeile 57 -> Lua-Fehler "attempt to index a nil value (local 'self')" in ADDON_LOADED. Der pcall im
+   Ereignis-Rahmen fängt ihn, aber die Modul-Inits (Core.lua:1188–1190) laufen nicht mehr: ThreatSentinel ist bei
+   jedem Laden tot, solange devLocale gespeichert ist – und /ts testroutine f kann es nicht mehr löschen.
+   Nachgebaut mit lupa: GoldSentinelDev.IsDev() -> Fehler, GoldSentinelDev:IsDev() -> geht.
+   Lösung: GoldSentinelDev:IsDev() (Doppelpunkt), am besten über ns:RequireDev-ähnliche Hilfsfunktion ohne Chat
+   (ns:IsDev() mit pcall). Ausserdem: ist IsDev beim Laden noch falsch (Battle.net nicht bereit), devLocale NICHT
+   löschen, aber die Spielsprache nehmen. Testfall T-L1: devLocale gesetzt, GoldSentinelDev da -> kein Lua-Fehler,
+   Module initialisiert; T-L2: IsDev wirft -> Addon lädt trotzdem.
 
-2. MESSZEILE "LESBAR" MISST AUCH EINE LEERE LISTE (Schwere: MITTEL) – unverändert offen
-   Meter.lua:364–369 ruft OrderDisplay und MeasureOnce auch bei leerer Liste; seen.holder wird gesetzt, sobald
-   UnitExists("targettarget") lesbar ist (OrderDisplay). Danach im selben Kampf keine zweite Messung (Meter.lua:317–319).
-   Die Protokolle vom 9.11. zeigen genau das Muster "Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein" in fast jedem
-   Kampf – es ist offen, ob das eine echte Messung oder die leere Liste vor dem Pull ist.
-   Lösung: MeasureOnce nur mit #list > 0 und im Kampf (ns.Safe(API.UnitAffectingCombat("player"), false)); M.measured
-   erst dann setzen. Testfall zu T-A6: leere Liste -> keine Zeile; nächste volle Liste -> eine Zeile.
+2. AGGRO-WARNUNG MIT LESBAREM isTanking/STATUS (Schwere: MITTEL) – Q4 aus befund-testroutine-254.txt
+   Im Gruppen-Protokoll sind für player gegen target Stufe und isTanking lesbar, nur Prozente und Ziel des Mobs
+   geschützt. DDView:Update reicht im Modus ANZEIGE nur ShowSecret(scaled, status) durch (DDView.lua:151, 156).
+   Lösung: Ist isTanking bzw. status lesbar, Aggro-Warnung zeigen ("Du hast Aggro!" / Stufe 2–3 farbig), auch wenn die
+   Prozente geschützt sind. Keine eigenen Schwellwerte auf geheimen Werten. Testfall T-Q4.
 
-3. STUFE 3 (SCHÄTZUNG) HAT IN WOW FOREVER KEINE QUELLE (Schwere: MITTEL) – unverändert offen
-   Modus ANZEIGE gibt es nur im modernen Client, dort ist das Kampflog aus (DamageMeter.lua:24), M:Estimates bekommt nie
-   Werte. Die Protokolle belegen es: "Schätzung=nein" in allen Kämpfen. CHANGELOG 2.5.1/2.5.2 versprechen die Schätzung
-   aber für WoW Forever.
-   Lösung: Im CHANGELOG EN/DE der nächsten Version richtigstellen ("Schätzung nur, wenn das Spiel Schaden und Heilung
-   liefert – in WoW Forever derzeit nicht"). Keine Quelle annehmen; kommt eine in Frage, zuerst im Diagnose-Protokoll
-   messen und der Prüf-Sitzung melden.
+3. "KEIN WEG" ZÄHLT ALS VERWORFEN (Schwere: NIEDRIG) – neu
+   Sync.lua:60: Drop("kein Weg") bei jedem Sendeversuch ohne Gruppe. Die Protokolle 2.5.4 zeigen solo alle 10 Min.
+   "verworfen 31 (kein Weg 31)" bzw. 61. Damit gehen echte Verluste (Kampf, Fehler) in der Zahl unter.
+   Lösung: "ohne Gruppe" als eigenen Zähler führen (nicht in "verworfen"), ohne Gruppe gar nicht erst Herzschlag
+   senden; im Protokoll "SYNC ohne Gruppe N". T-SY2 entsprechend anpassen.
 
-4. KOPF "REIHENFOLGE: SICHER", OBWOHL NUR NACH ROLLE SORTIERT (Schwere: NIEDRIG) – unverändert offen
-   Meter.lua:309 (OrderDisplay, kind = "sure"): Ist das Ziel des Mobs lesbar, aber niemand aus der Gruppe hält ihn, und
-   sind die Stufen nicht lesbar, steht "sicher", obwohl nur nach Tank-Rolle sortiert wurde.
-   Lösung: seen.holder nur, wenn ein Eintrag holder == true hat; "sure" nur dann oder wenn alle Stufen lesbar sind;
-   sonst "role". Testfall T-A8 (kein Ziel des Mobs, nichts lesbar -> "Reihenfolge: Tank zuerst").
+4. LESBAR-ZEILE MISST "ZIEL DES MOBS" NICHT MEHR (Schwere: NIEDRIG) – neu
+   Seit 2.5.4 ist seen.holder nur wahr, wenn der Halter aus der Gruppe ist (Meter.lua:227). MeasureOnce schreibt aber
+   weiter yn(seen.holder) als "Ziel-des-Mobs" (Meter.lua:331). Greift der Mob einen Begleiter oder Fremden an, steht
+   "nein", obwohl das Ziel lesbar war – die Messung wird ungenau.
+   Lösung: in der LESBAR-Zeile seen.holderReadable für "Ziel-des-Mobs" nehmen und "Halter-in-Gruppe=ja/nein" anhängen.
 
-5. P1-RESTFALL: /RELOAD IM KAMPF (Schwere: NIEDRIG) – neu
-   TA.inFight wird nur bei PLAYER_REGEN_DISABLED gesetzt (ThreatAccess.lua:193). Nach einem /reload mitten im Kampf kommt
-   dieses Ereignis nicht; TA.checked ist nach dem Laden false (ThreatAccess.lua:32), TA:Probe läuft (prüft nur
-   UnitAffectingCombat, :157) und TA:Set("open") schaltet dann sofort auf VOLL – im Kampf, ohne zwei Erkennungen.
-   Lösung: In TA:Set die Sperre zusätzlich an ns.Safe(API.UnitAffectingCombat("player"), false) bzw.
-   API.InCombatLockdown() hängen (oder inFight beim Laden aus UnitAffectingCombat setzen). Testfall zu T-P1: inFight =
-   false, UnitAffectingCombat = true, lesbarer Wert -> Modus bleibt DISPLAY, openSeen = true.
+5. TESTROUTINE: T144 FALSCHER ALARM, SIMULATIONEN, HINWEISZEILE (Schwere: NIEDRIG) – Q1–Q3 aus befund-testroutine-254.txt
+   Q1 T144: TM.IsTesting für die Prüfung auf false stubben (Testzentrale offen -> 1x). Q2 "Simulationen
+   zurückgesetzt" (TestRoutine.lua:3367): Zustand vor/nach vergleichen, abweichenden Schalter nennen. Q3: Hinweiszeile
+   am Anfang, wenn Testmodus/Verschiebe-Modus/Testzentrale schon aktiv. Testfälle T-Q1, T-Q2, T-Q3.
 
-6. GEMEINSAMER SYNC (Schwere: NIEDRIG für ThreatSentinel)
-   anweisung-gemeinsamer-sync.txt und anweisung-sync-version2.txt sind noch nicht umgesetzt (GoldSentinelSync.lua fehlt im
-   Paket). ThreatSentinel sendet nur in Gruppe/Schlachtzug und nie über einen Kanal – darum nicht dringend. Bitte
-   entweder umsetzen (S1–S6, T-N1–T-N4; Gruppenwerte mit scope "group", nichts ins Netz) oder dem Nutzer begründet
-   melden, dass ThreatSentinel die gemeinsame Datei nicht braucht. Hinweis: GoldSentinelTest 2 schickt Berichte nur,
-   wenn ein anderes Addon im Client GoldSentinelSync 2 mitbringt.
-   Ausserdem aus hinweis-sync-kanal.txt noch ohne Testfall: T-SY2 (in Gruppe -> PARTY/RAID, ohne Gruppe -> nichts senden,
-   Protokoll "kein Weg").
+6. SYNC IM KAMPF NACHHOLEN (Schwere: NIEDRIG) – Q5 aus befund-testroutine-254.txt
+   Sync.lua:62 verwirft im Kampf. Lösung: letzten Stand je Art merken und nach dem Kampf einmal senden; Diagnose
+   "nachgeholt N". Oder begründet melden, warum Verwerfen nötig ist.
 
-7. ÜBERSPRUNGENE FÄLLE MIT "NOCH NICHT" (Schwere: NIEDRIG) – unverändert offen
-   T128 "Sprachumschaltung (devLocale) ist noch nicht eingebaut" (TestRoutine.lua:2357) zählt als fehlend.
-   T122 ist laut testroutine-threatsentinel.txt "auto", wird aber übersprungen (TestRoutine.lua:2304).
-   Lösung: T128 als Halbfall (devLocale nur mit GoldSentinelDev, ns:ApplyLocale, danach löschen). T122: Typprüfung in
-   Migrate an einer Kopie der Einstellungen prüfen, ohne Modul-Inits; geht das nicht, dem Nutzer begründet melden.
-   Die übrigen Skips (T117 nur Era/TBC, T126, T134, T147, T178) sind begründet und bleiben.
+7. GEMEINSAMER SYNC (Schwere: NIEDRIG für ThreatSentinel) – unverändert offen
+   anweisung-gemeinsamer-sync.txt und anweisung-sync-version2.txt sind nicht umgesetzt (GoldSentinelSync.lua fehlt im
+   Paket). ThreatSentinel sendet nur in Gruppe/Schlachtzug, darum nicht dringend. Bitte umsetzen (S1–S6, T-N1–T-N4;
+   Gruppenwerte mit scope "group", nichts ins Netz) oder dem Nutzer begründet melden, dass ThreatSentinel die
+   gemeinsame Datei nicht braucht.
 
 IM CLIENT PRÜFEN
-   - Forever, Gruppenkampf (Dungeon): Diagnose-Protokoll mit 2.5.3 – kein "MODUS DISPLAY -> FULL" innerhalb eines
-     Kampfs (P1); ggf. "BEDROHUNG lesbar erkannt 1/2"; LESBAR-Zeilen mit Einheit und greift-mich-an (P2) – damit lässt
-     sich das Muster "Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja" erklären; Gruppenzeile "5 Spieler + N Begleiter";
-     SYNC-Zähler in der Gruppe > 0.
-   - /ts testroutine ganz (alle Bereiche), dann Bereich K mit offenem Charakterfenster: T153, T-P1, T180, T181 grün?
-     Öffnet die Testzentrale neben dem Charakterfenster? Stehen die Tooltips neben dem Fenster?
-   - T22 (Name ohne Realm), T139 (Häppchen und Öffnen < 16 ms, auch nach /reload – siehe Punkt 1), T-A7.
-   - T135: /gsgame mit allen GoldSentinel-Addons -> eine Zeile, Version 3.
-   - T154: Pull mit 3+ Mobs, danach /ts test -> "Blocked: none".
+   - Nach Punkt 1: /ts testroutine sprache, /reload -> Addon lädt (Aggrometer, /ts geht), englische Texte;
+     /ts testroutine f -> T128 OK, nach /reload wieder Deutsch. VOR der Korrektur NICHT ausführen (Addon fällt aus;
+     Abhilfe dann: /run ThreatSentinelDB.devLocale=nil und /reload).
+   - Forever, zwei lesbare Kämpfe hintereinander (falls es sie je gibt): "BEDROHUNG lesbar erkannt 2/2" und danach
+     Wechsel zu VOLL erst nach Kampfende (TA:Set prüft jetzt auch UnitAffectingCombat).
+   - /reload mitten im Kampf: kein "MODUS DISPLAY -> FULL" im selben Kampf (T-P1b im Spiel).
+   - T139/T139b im Spiel nach /reload: Häppchen und Öffnen < 16 ms.
+   - Bereich K mit Blizzard-Fenstern (T186), T135 /gsgame (Version 3), T154 Pull mit 3+ Mobs ("Blocked: none").
    - Era und TBC: Aggrometer wie bisher, keine zweite Kopfzeile; "Spott widerstanden"; kein "Addon geblockt" (T117, T176b).
-   - Aus älteren Berichten noch offen: T11 und T177 (Interface-Nummer), T46, T109, T110, T148, T149, T157, T174.
+   - Aus älteren Berichten noch offen: T11 und T177 (Interface-Nummer), T46, T109, T110, T148, T149, T157, T174, T188.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
-
-NACHTRAG (10. Nov. 11:10) – Testroutine 2.5.4 Bereich K beim Nutzer: OK 7, FEHLER 1 (T181 "Testzentrale überdeckt
-   BuffSentinelAnchor_cd"). Ursache bei BuffSentinel (schwebende Anker in der gemeinsamen Liste) – dort beauftragt
-   (befund-anker-gemeinsame-liste.txt). Für ThreatSentinel nichts zu tun. T186 (mit offenen Blizzard-Fenstern) bleibt
-   im Client zu prüfen.
-
-NEU (10. Nov. 11:20, NIEDRIG) – befund-testroutine-254.txt
-   Testroutine ganz 2.5.4: OK 191, FEHLER 1. Q1 T144 falscher Alarm (Testzentrale offen -> IsTesting wahr) -> IsTesting
-   stubben. Q2 "Simulationen zurückgesetzt: FEHLER" -> vorher/nachher vergleichen, Schalter nennen. Q3 Hinweiszeile.
-   Nachtrag 11:25: Gruppen-Protokoll gut (P1 behoben, Sync läuft). Q4 MITTEL: lesbares isTanking/status für die
-   Aggro-Warnung der DD-Ansicht nutzen, auch wenn Prozente geschützt sind. Q5: Sync im Kampf nachholen statt verwerfen.
