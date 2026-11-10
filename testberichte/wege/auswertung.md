@@ -137,9 +137,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Silberwald (1421)
 
-- Wegstücke 291, Knoten 377, zusammenhängende Teile 15
+- Wegstücke 324, Knoten 395, zusammenhängende Teile 15
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 228 Knoten, Bereich 34–57 / 8–74
+  - Teil 1: 246 Knoten, Bereich 34–57 / 8–74
   - Teil 2: 71 Knoten, Bereich 55–65 / 57–78
   - Teil 3: 22 Knoten, Bereich 64–77 / 32–36
   - Teil 4: 14 Knoten, Bereich 55–58 / 45–50
@@ -259,16 +259,16 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 1008, Knoten 262, zusammenhängende Teile 52
+- Wegstücke 1028, Knoten 269, zusammenhängende Teile 44
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 110 Knoten, Bereich 48–76 / 7–56
+  - Teil 1: 151 Knoten, Bereich 46–76 / 7–60
   - Teil 2: 20 Knoten, Bereich 44–53 / 65–80
-  - Teil 3: 14 Knoten, Bereich 50–58 / 13–33
-  - Teil 4: 12 Knoten, Bereich 59–72 / 60–65
-  - Teil 5: 11 Knoten, Bereich 53–59 / 64–73
-  - Teil 6: 6 Knoten, Bereich 56–60 / 26–37
-  - Teil 7: 5 Knoten, Bereich 45–47 / 77–86
-  - Teil 8: 5 Knoten, Bereich 55–58 / 90–96
+  - Teil 3: 12 Knoten, Bereich 59–72 / 60–65
+  - Teil 4: 11 Knoten, Bereich 53–59 / 64–73
+  - Teil 5: 5 Knoten, Bereich 45–47 / 77–86
+  - Teil 6: 5 Knoten, Bereich 55–58 / 90–96
+  - Teil 7: 5 Knoten, Bereich 76–79 / 52–55
+  - Teil 8: 5 Knoten, Bereich 44–50 / 56–61
 - **Ausreisser:** Wegstück 1: Sprung 10.6 % von 46.4,72.8 nach 52.8,64.4
 - **Ausreisser:** Wegstück 2: Sprung 6.2 % von 46.4,72.8 nach 45.4,78.9
 - **Ausreisser:** Wegstück 3: Sprung 9.8 % von 46.4,72.8 nach 51.7,64.6
@@ -385,3 +385,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 | 5768 | 1414 | 46.0,35.7 -> 51.9,55.4 | 20.6 % | deutlich falsch |
 | 11868 | 1454 | 81.7,19.6 -> 81.6,19.4 | 0.2 % | klein |
 | 4551 | 1458 | 63.3,48.6 -> 63.0,48.5 | 0.3 % | klein |
+| 1938 | 1421 | 44.2,39.8 -> 44.2,39.9 | 0.1 % | klein |
+| 4594 | 1458 | 48.3,16.0 -> 48.1,15.8 | 0.3 % | klein |
+| 8385 | 1421 | 42.9,42.0 -> 43.0,42.0 | 0.1 % | klein |
+| 260093 | 1458 | kein Ort im Datenpaket -> 47.6,14.8 | - | fehlt im Datenpaket |

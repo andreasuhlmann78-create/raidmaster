@@ -1,0 +1,223 @@
+GuildSentinel-Protokoll v0.9.21 · 10.11. 12:25
+Client deDE · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  10.11. 12:25 L24 ? v0.9.21 forever
+  10.11. 11:31 L23 ? v0.9.21 forever
+  10.11. 11:00 L23 ? v0.9.21 forever
+  10.11. 10:49 L23 ? v0.9.21 forever
+  10.11. 10:36 L23 ? v0.9.21 forever
+  10.11. 10:28 L23 ? v0.9.21 forever
+  10.11. 10:07 L10 ? v0.9.21 forever
+  10.11. 09:56 L10 ? v0.9.21 forever
+  10.11. 09:51 L10 ? v0.9.21 forever
+  10.11. 09:43 L10 ? v0.9.21 forever
+
+== Diagnose
+  Fehler in dieser Sitzung: 0
+  Gildenliste: 11 Einträge · Sprache de · Testmodus false
+  SYNC GoldSentinelSync 2 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 1, GuildSentinel 1, LevelPilot 0, LevelPilotG 0
+  SYNC gesendet 5 · empfangen 0 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 3 (mit Sync 2: 1, pausiert 0) · gesendet 0 · weitergegeben 0 · offline 0 · Listen 0 · Warteschlange 0 · gespeichert ja
+  Berufe: 9 Einträge im Speicher, davon 5 mit Rezepten, 4 nur Stufe (Spiel)
+
+== Einträge (200, neueste zuerst)
+[10.11. 12:25] BERUFE Gilden-Berufsliste: 16 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (1-mal), offline eingeblendet: nein, 6 Einträge, 3 Mitglieder
+[10.11. 12:11] SYNC gesendet 1832 · empfangen 759 · verworfen: duplicate 12 · Warteschlange 0 · Kanal verweigert 0
+[10.11. 12:01] SYNC gesendet 1503 · empfangen 663 · verworfen: duplicate 11 · Warteschlange 0 · Kanal verweigert 0
+[10.11. 11:52] BERUFE empfangen: 3 Einträge, angenommen 3, älter verworfen 0, Name unbekannt 0
+[10.11. 11:51] SYNC gesendet 1083 · empfangen 537 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+[10.11. 11:51] BERUFE ×13 empfangen: 3 Einträge, angenommen 3, älter verworfen 0, Name unbekannt 0
+[10.11. 11:41] SYNC gesendet 789 · empfangen 1 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+[10.11. 11:33] REZEPTPROBE Weg=IsPlayerSpell Probe=ok · gefunden 0
+[10.11. 11:32] SYNC gesendet 132 · empfangen 1 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+[10.11. 11:32] SYNC GoldSentinelSync 2 · Wege: GUILD+PARTY · Mitspieler (1 Std.): AHSentinel 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 1
+[10.11. 11:32] BERUFE gesendet: eigene=nein (unverändert, gesendet vor weniger als 24 h)
+[10.11. 11:32] BERUFE Gilden-Berufsliste: 16 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (1-mal), offline eingeblendet: nein, 6 Einträge, 3 Mitglieder
+[10.11. 11:30] SYNC gesendet 1287 · empfangen 1 · verworfen: 0 · Warteschlange 2 · Kanal verweigert 0
+[10.11. 11:20] SYNC gesendet 867 · empfangen 1 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+[10.11. 11:10] SYNC gesendet 473 · empfangen 1 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+[10.11. 11:09] BLOCKIERT fn() @ Core.lua:302 < Core.lua:183 < Core.lua:191 < Recruit.lua:258
+[10.11. 11:01] SYNC gesendet 109 · empfangen 0 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+[10.11. 11:01] SYNC GoldSentinelSync 2 · Wege: GUILD+PARTY · Mitspieler (1 Std.): AHSentinel 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0
+[10.11. 11:01] BERUFE gesendet: eigene=nein (unverändert, gesendet vor weniger als 24 h)
+[10.11. 11:00] BERUFE Gilden-Berufsliste: 14 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (1-mal), offline eingeblendet: nein, 4 Einträge, 2 Mitglieder
+[10.11. 11:00] BERUFE Gilden-Berufsliste: 10 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 0 aufgeklappt (0-mal), offline eingeblendet: nein, 0 Einträge, 0 Mitglieder
+[10.11. 10:59] SYNC gesendet 558 · empfangen 0 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+[10.11. 10:50] REZEPTPROBE Weg=IsPlayerSpell Probe=ok · gefunden 0
+[10.11. 10:50] SYNC gesendet 115 · empfangen 0 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+[10.11. 10:50] SYNC GoldSentinelSync 2 · Wege: GUILD+PARTY · Mitspieler (1 Std.): AHSentinel 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0
+[10.11. 10:50] BERUFE gesendet: eigene=nein (unverändert, gesendet vor weniger als 24 h)
+[10.11. 10:49] BERUFE Gilden-Berufsliste: 14 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (1-mal), offline eingeblendet: nein, 4 Einträge, 2 Mitglieder
+[10.11. 10:46] SYNC gesendet 698 · empfangen 13 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+[10.11. 10:37] BERUFE empfangen: 1 Einträge, angenommen 1, älter verworfen 0, Name unbekannt 0
+[10.11. 10:37] REZEPTPROBE Weg=IsPlayerSpell Probe=ok · gefunden 0
+[10.11. 10:37] SYNC gesendet 117 · empfangen 13 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+[10.11. 10:37] SYNC GoldSentinelSync 2 · Wege: GUILD+PARTY · Mitspieler (1 Std.): AHSentinel 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0
+[10.11. 10:37] BERUFE gesendet: eigene=nein (unverändert, gesendet vor weniger als 24 h)
+[10.11. 10:36] BERUFE Gilden-Berufsliste: 14 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (1-mal), offline eingeblendet: nein, 4 Einträge, 2 Mitglieder
+[10.11. 10:30] GILDENREZEPTE Weg=QueryGuildMembersForRecipe ohne Klick=ja · Berufe 1 · Abfragen 2 · Einträge 0
+[10.11. 10:29] REZEPTPROBE Weg=IsPlayerSpell Probe=ok · gefunden 0
+[10.11. 10:29] SYNC gesendet 107 · empfangen 22 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 1
+[10.11. 10:29] SYNC GoldSentinelSync 2 · Wege: GUILD+PARTY · Mitspieler (1 Std.): AHSentinel 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0
+[10.11. 10:28] BERUFE empfangen: 1 Einträge, angenommen 1, älter verworfen 0, Name unbekannt 0
+[10.11. 10:28] BERUFE gesendet: eigene=nein (unverändert, gesendet vor weniger als 24 h)
+[10.11. 10:28] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 10:28] BERUFE Gilden-Berufsliste: 14 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (1-mal), offline eingeblendet: nein, 4 Einträge, 2 Mitglieder
+[10.11. 10:27] SYNC ×2 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 10:27] SYNC gesendet 15 · empfangen 104 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 24
+[10.11. 10:26] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 10:26] BERUFE empfangen: 1 Einträge, angenommen 1, älter verworfen 0, Name unbekannt 0
+[10.11. 10:25] SYNC ×4 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 10:22] BERUFE empfangen: 1 Einträge, angenommen 1, älter verworfen 0, Name unbekannt 0
+[10.11. 10:22] SYNC ×4 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 10:18] BERUFE empfangen: 1 Einträge, angenommen 1, älter verworfen 0, Name unbekannt 0
+[10.11. 10:18] SYNC ×3 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 10:17] SYNC gesendet 13 · empfangen 65 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 12
+[10.11. 10:17] SYNC ×3 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 10:14] BERUFE empfangen: 1 Einträge, angenommen 1, älter verworfen 0, Name unbekannt 0
+[10.11. 10:14] SYNC ×2 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 10:12] BERUFE empfangen: 1 Einträge, angenommen 1, älter verworfen 0, Name unbekannt 0
+[10.11. 10:12] SYNC ×3 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 10:10] BERUFE empfangen: 1 Einträge, angenommen 1, älter verworfen 0, Name unbekannt 0
+[10.11. 10:10] SYNC ×2 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 10:09] BERUFE empfangen: 1 Einträge, angenommen 1, älter verworfen 0, Name unbekannt 0
+[10.11. 10:08] REZEPTPROBE Weg=IsPlayerSpell Probe=ok · gefunden 0
+[10.11. 10:08] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 10:08] SYNC gesendet 11 · empfangen 13 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 1
+[10.11. 10:08] SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0
+[10.11. 10:08] BERUFE empfangen: 1 Einträge, angenommen 1, älter verworfen 0, Name unbekannt 0
+[10.11. 10:07] BERUFE gesendet: eigene=nein (unverändert, gesendet vor weniger als 24 h)
+[10.11. 10:07] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 10:07] BERUFE Gilden-Berufsliste: 14 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (1-mal), offline eingeblendet: nein, 4 Einträge, 2 Mitglieder
+[10.11. 10:06] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 10:06] SYNC gesendet 13 · empfangen 117 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 11
+[10.11. 10:05] SYNC ×3 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 10:03] BERUFE ×2 empfangen: 3 Einträge, angenommen 3, älter verworfen 0, Name unbekannt 0
+[10.11. 10:02] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 10:02] BERUFE empfangen: 3 Einträge, angenommen 3, älter verworfen 0, Name unbekannt 0
+[10.11. 10:01] SYNC ×5 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:58] REZEPTPROBE Weg=IsPlayerSpell Probe=ok · gefunden 0
+[10.11. 09:57] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:57] SYNC gesendet 11 · empfangen 0 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 1
+[10.11. 09:57] SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0
+[10.11. 09:57] BERUFE gesendet: eigene=nein (unverändert, gesendet vor weniger als 24 h)
+[10.11. 09:57] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:57] BERUFE Gilden-Berufsliste: 14 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (1-mal), offline eingeblendet: nein, 4 Einträge, 2 Mitglieder
+[10.11. 09:56] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:56] BERUFE empfangen: 2 Einträge, angenommen 2, älter verworfen 0, Name unbekannt 0
+[10.11. 09:55] BERUFE empfangen: 3 Einträge, angenommen 3, älter verworfen 0, Name unbekannt 0
+[10.11. 09:55] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:55] BERUFE empfangen: 3 Einträge, angenommen 3, älter verworfen 0, Name unbekannt 0
+[10.11. 09:54] SYNC ×2 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:53] REZEPTPROBE Weg=IsPlayerSpell Probe=ok · gefunden 0
+[10.11. 09:52] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:52] SYNC gesendet 11 · empfangen 0 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 2
+[10.11. 09:52] SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0
+[10.11. 09:52] BERUFE gesendet: eigene=nein (unverändert, gesendet vor weniger als 24 h)
+[10.11. 09:52] SYNC ×2 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:51] BERUFE Gilden-Berufsliste: 14 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (1-mal), offline eingeblendet: nein, 4 Einträge, 2 Mitglieder
+[10.11. 09:51] SYNC ×5 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:47] BERUFE empfangen: 2 Einträge, angenommen 2, älter verworfen 0, Name unbekannt 0
+[10.11. 09:46] SYNC ×4 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:44] REZEPTPROBE Weg=IsPlayerSpell Probe=ok · gefunden 0
+[10.11. 09:44] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:44] SYNC gesendet 11 · empfangen 0 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 1
+[10.11. 09:44] SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0
+[10.11. 09:44] BERUFE gesendet: eigene=nein (unverändert, gesendet vor weniger als 24 h)
+[10.11. 09:43] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:43] BERUFE Gilden-Berufsliste: 14 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (1-mal), offline eingeblendet: nein, 4 Einträge, 2 Mitglieder
+[10.11. 09:43] SYNC ×2 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:42] BERUFE Gilden-Berufsliste: 14 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (1-mal), offline eingeblendet: nein, 4 Einträge, 2 Mitglieder
+[10.11. 09:42] SYNC ×3 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:40] SYNC gesendet 15 · empfangen 2 · verworfen: nopath 2, secret 1 · Warteschlange 0 · Kanal verweigert 10
+[10.11. 09:39] SYNC ×8 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:31] REZEPTPROBE Weg=IsPlayerSpell Probe=ok · gefunden 0
+[10.11. 09:31] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:31] SYNC gesendet 11 · empfangen 0 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 1
+[10.11. 09:31] SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0
+[10.11. 09:31] BERUFE gesendet: eigene=nein (unverändert, gesendet vor weniger als 24 h)
+[10.11. 09:30] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:30] BERUFE Gilden-Berufsliste: 14 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (1-mal), offline eingeblendet: nein, 4 Einträge, 2 Mitglieder
+[10.11. 09:30] SYNC ×11 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:22] SYNC gesendet 258 · empfangen 26 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 10
+[10.11. 09:21] SYNC ×4 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:18] BERUFE empfangen: 1 Einträge, angenommen 1, älter verworfen 0, Name unbekannt 0
+[10.11. 09:17] SYNC ×2 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:15] BERUFE empfangen: 1 Einträge, angenommen 1, älter verworfen 0, Name unbekannt 0
+[10.11. 09:15] SYNC ×2 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:13] BERUFE gesendet: eigene=ja (gesendet)
+[10.11. 09:13] REZEPTPROBE Weg=IsPlayerSpell Probe=ok · gefunden 4
+[10.11. 09:13] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:13] SYNC gesendet 11 · empfangen 0 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 1
+[10.11. 09:13] SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0
+[10.11. 09:12] BERUFE gesendet: eigene=nein (unverändert, gesendet vor weniger als 24 h)
+[10.11. 09:12] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:12] BERUFE Gilden-Berufsliste: 14 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (1-mal), offline eingeblendet: nein, 4 Einträge, 2 Mitglieder
+[10.11. 09:12] SYNC ×4 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:10] SYNC gesendet 283 · empfangen 142 · verworfen: 0 · Warteschlange 1 · Kanal verweigert 63
+[10.11. 09:09] BERUFE empfangen: 3 Einträge, angenommen 3, älter verworfen 0, Name unbekannt 0
+[10.11. 09:09] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:08] BERUFE empfangen: 2 Einträge, angenommen 2, älter verworfen 0, Name unbekannt 0
+[10.11. 09:08] SYNC ×6 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:03] BERUFE empfangen: 1 Einträge, angenommen 1, älter verworfen 0, Name unbekannt 0
+[10.11. 09:02] SYNC ×2 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:00] BERUFE empfangen: 1 Einträge, angenommen 1, älter verworfen 0, Name unbekannt 0
+[10.11. 09:00] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 09:00] SYNC gesendet 281 · empfangen 51 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 53
+[10.11. 08:59] BERUFE empfangen: 2 Einträge, angenommen 2, älter verworfen 0, Name unbekannt 0
+[10.11. 08:59] SYNC ×36 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 08:51] BERUFE empfangen: 2 Einträge, angenommen 2, älter verworfen 0, Name unbekannt 0
+[10.11. 08:51] SYNC ×2 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 08:50] SYNC gesendet 272 · empfangen 0 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 15
+[10.11. 08:49] BERUFE gesendet: eigene=ja (gesendet)
+[10.11. 08:49] SYNC ×8 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 08:45] BERUFE gesendet: eigene=ja (gesendet)
+[10.11. 08:45] SYNC ×4 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 08:41] REZEPTPROBE Weg=IsPlayerSpell Probe=ok · gefunden 0
+[10.11. 08:41] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 08:41] SYNC gesendet 133 · empfangen 0 · verworfen: 0 · Warteschlange 122 · Kanal verweigert 2
+[10.11. 08:41] SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0
+[10.11. 08:40] BERUFE gesendet: eigene=nein (unverändert, gesendet vor weniger als 24 h)
+[10.11. 08:40] BERUFE gesendet: eigene=ja (gesendet)
+[10.11. 08:40] SYNC ×2 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 08:40] BERUFE Gilden-Berufsliste: 14 Zeilen, 10 Kopfzeilen, 10 zugeklappt, 10 aufgeklappt (1-mal), offline eingeblendet: nein, 4 Einträge, 2 Mitglieder
+[10.11. 08:40] BERUFE eingelesen: Schneiderei 20 Rezepte
+[10.11. 08:39] BERUFE gesendet: eigene=ja (gesendet)
+[10.11. 08:38] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 08:38] SYNC gesendet 643 · empfangen 2 · verworfen: nopath 2, secret 1 · Warteschlange 0 · Kanal verweigert 70
+[10.11. 08:38] BERUFE gesendet: eigene=ja (gesendet)
+[10.11. 08:37] SYNC ×4 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 08:34] BERUFE gesendet: eigene=ja (gesendet)
+[10.11. 08:33] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 08:33] BERUFE gesendet: eigene=ja (gesendet)
+[10.11. 08:32] SYNC ×6 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 08:29] BERUFE gesendet: eigene=ja (gesendet)
+[10.11. 08:28] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 08:28] SYNC gesendet 615 · empfangen 2 · verworfen: nopath 2, secret 1 · Warteschlange 0 · Kanal verweigert 58
+[10.11. 08:28] BERUFE gesendet: eigene=ja (gesendet)
+[10.11. 08:27] SYNC ×4 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 08:24] BERUFE gesendet: eigene=ja (gesendet)
+[10.11. 08:23] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 08:23] BERUFE gesendet: eigene=ja (gesendet)
+[10.11. 08:22] SYNC ×5 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 08:19] BERUFE gesendet: eigene=ja (gesendet)
+[10.11. 08:18] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 08:18] SYNC gesendet 349 · empfangen 2 · verworfen: nopath 2, secret 1 · Warteschlange 0 · Kanal verweigert 47
+[10.11. 08:18] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 08:18] BERUFE gesendet: eigene=ja (gesendet)
+[10.11. 08:17] SYNC ×6 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 08:14] BERUFE gesendet: eigene=ja (gesendet)
+[10.11. 08:13] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 08:13] BERUFE gesendet: eigene=ja (gesendet)
+[10.11. 08:12] SYNC ×4 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 08:09] BERUFE gesendet: eigene=ja (gesendet)
+[10.11. 08:08] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 08:08] SYNC gesendet 317 · empfangen 2 · verworfen: nopath 2, secret 1 · Warteschlange 2 · Kanal verweigert 34
+[10.11. 08:08] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 08:08] BERUFE gesendet: eigene=ja (gesendet)
+[10.11. 08:07] SYNC ×4 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 08:04] BERUFE gesendet: eigene=ja (gesendet)
+[10.11. 08:03] SYNC Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 08:03] BERUFE gesendet: eigene=ja (gesendet)
+[10.11. 08:02] SYNC ×5 Kanal verweigert Addon-Nachrichten (NOT_ALLOWED_IN_CHANNEL)
+[10.11. 07:59] BERUFE gesendet: eigene=ja (gesendet)
