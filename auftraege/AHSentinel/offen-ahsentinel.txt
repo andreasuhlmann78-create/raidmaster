@@ -160,3 +160,8 @@ NEU (10. Nov. 16:10, ENTSCHEID DES NUTZERS, HOCH) – anweisung-markt-kapital-25
 NEU (10. Nov. 16:20, WUNSCH + ENTSCHEID DES NUTZERS, HOCH) – anweisung-markt-entzaubern.txt
    Markt: neue Ansicht "Entzaubern" (lohnende Teile zum aktuellen Markt, MINDESTGEWINN 20 %, Menge durch Material-
    Absatz begrenzt, 25 %-Budget, Knopf -> Sniper-Ziel). Nach H9/aktueller Markt und K1. T-ME1–T-ME6.
+
+NEU (10. Nov. 16:30, HOCH) – befund-sniper-reagiert-nicht.txt (0.65.82)
+   Sniper findet nichts trotz passender Angebote: S1 Zufalls-Suffix-Varianten werden nicht gesucht, S2 Selbst-Suchlauf
+   startet nicht ("Noch nichts gesucht" bei Modus AN), S3 Verlust-Warnung widerspricht dem Tooltip, S4 Protokoll.
+   T-SR1–T-SR4.

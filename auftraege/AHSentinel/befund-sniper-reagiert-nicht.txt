@@ -1,0 +1,41 @@
+BEFUND DER PRÜF-SITZUNG FÜR AHSENTINEL: SNIPER REAGIERT NICHT (0.65.82)
+=====================================================================
+Stand: 10. November 2026, 16:30 · Meldung des Nutzers (16:23, vier Bildschirmfotos 16:21): "Der Sniper reagiert nicht mehr,
+obwohl Items im AH sind, die dem Preis entsprechen."
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen. Dann dies (HOCH – Kernfunktion).
+
+BEOBACHTUNG
+   Sniper-Modus AN ("sucht selbstständig"), Kaufen mit Mausrad. Ziele: Azurblaue Seidenkapuze max 10s, 0/1000 gekauft,
+   Budget 5g; Zänkerhandschuhe max 10s, 0/100, Budget 5g. Rechts: "Noch nichts gesucht – Sniper-Modus einschalten oder
+   'Jetzt suchen' klicken", obwohl der Modus AN ist. Kaufen -> Einkauf (Scan vor 2 Min.): "Azurblaue Seidenkapuze
+   [Entzaubern lohnt] · Verfügbar ~112 · 9s · 90 %". Im Hintergrund der Liste schimmern Varianten "… Seidenkapuze des
+   Walfischs …" (Zufalls-Suffix). Heute: 49 Treffer · 33 gekauft · 14 verpasst.
+
+VERDACHT
+S1 Zufalls-Suffix: Die günstigen Angebote sind Varianten mit Suffix ("des Walfischs", "des Zauberers" …). Das Ziel ist
+   auf die Grund-ID bzw. den Grundnamen gesetzt; die Sniper-Suche (itemKey mit itemSuffix 0 bzw. exakter Name) findet die
+   Varianten nicht -> keine Treffer, obwohl der Scan "~112 zu 9s" zeigt (dort sind Varianten zusammengefasst, "~").
+   Gleiches Muster wie K6 (befund-sofortkauf: Detail "0 Angebote" bei Weisenhandschuhe ~31).
+S2 Der Selbst-Suchlauf startet nicht: "Noch nichts gesucht" trotz Modus AN. Läuft der Zeitgeber nach einem Reload / nach
+   dem Umschalten der Ziele? Wird er durch die 15-Min.-Vollscan-Sperre oder den Wächter blockiert?
+
+UMSETZEN
+S1 Ziele für Ausrüstung mit Zufalls-Suffix: Suche über den Grundnamen (SendBrowseQuery/ C_AuctionHouse.SendSearchQuery mit
+   itemKey ohne Suffix UND Durchsuchen aller itemKeys mit gleicher itemID) – alle Varianten zählen als Treffer, sofern der
+   Preis passt. Option je Ziel "auch Varianten (des …)" Standard AN für Entzauber-Ziele (für Entzaubern ist das Suffix egal).
+S2 Selbst-Suchlauf: Zustand im Fenster zeigen ("nächste Suche in 12 s · zuletzt vor 40 s: 0 Treffer / 5 Treffer"),
+   nach Reload und beim Öffnen des AH sofort starten, Sperrgrund nennen ("wartet: Vollscan-Sperre noch 3 Min.").
+S3 Warnung "Max über Verkaufswert – jeder Kauf verliert ca. 5s 45c/Stück" widerspricht dem Tooltip im selben Bild
+   ("Entzaubern +3s 36c (+37 %), lohnt bis 10s 30c" bei Max 10s). Die Warnung muss denselben Wert nutzen wie der Tooltip
+   (bei Entzauber-Zielen den Entzauberwert, sonst den realistischen Verkaufspreis); hier also KEINE Warnung.
+S4 Protokoll SNIPER-SUCHE (ohne Namen): Ziel-ItemID, Suffix-Varianten gefunden, Treffer ≤ Max, gekauft, Sperrgrund.
+
+TESTFÄLLE
+T-SR1 Ziel Grund-ID, AH nur Varianten "des Walfischs" zu 9s -> Treffer, Kauf per Mausrad.
+T-SR2 Modus AN nach /reload -> Suche startet ohne Klick, Statuszeile zeigt Zeit bis zur nächsten Suche.
+T-SR3 Entzauber-Ziel Max 10s, Entzauberwert 12s 36c -> keine Verlust-Warnung.
+T-SR4 Vollscan-Sperre aktiv -> Statuszeile nennt sie; Sniper-Suche läuft trotzdem (Item-Suche ist nicht der Vollscan).
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden.
