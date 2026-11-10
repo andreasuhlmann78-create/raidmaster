@@ -1,0 +1,52 @@
+ANWEISUNG DER PRÜF-SITZUNG FÜR AHSENTINEL: STUFE 3 – MARKT-REITER ERSETZT "HEUTE TUN"
+=====================================================================================
+Stand: 10. November 2026, 10:45 · ENTSCHEIDE DES NUTZERS: Die Liste aller Items "braucht niemand" – Daten bleiben im
+Hintergrund (09:19); der Markt-Reiter soll "Heute tun" ablösen; alles "so einfach wie möglich zu handhaben und zu
+verstehen" (09:22). Stufe 3 freigegeben am 10.11. 10:38.
+
+PFLICHTLEKTÜRE: shared/wissen/markt-strategie.md. REIHENFOLGE: nach Stufe 2 (siehe anweisung-lernen-stufe2.txt).
+
+PFLICHT – NICHTS GEHT VERLOREN: Alles, was "Heute tun" heute kann, bleibt: Zeilen-Arten (Händler, Flip, Entzaubern,
+Bieten, Verkaufen, Neu einstellen, Herstellen), der Knopf je Zeile mit dem nächsten Schritt (Prüfen -> Kaufen ->
+Einstellen, nie ohne Klick), die Schnittstelle für ProfessionSentinel (Today:QuickBuy / Today:QuickSell, Zeilen oben),
+/ahs heute, Pausen gegen Ruckler (FindDeals in Portionen). Andere Addons, die A.Today nutzen, laufen unverändert.
+
+---------------------------------------------------------------------------------------------------------------
+M1 EIN REITER "MARKT" mit einer Leiste oben (6 Knöpfe), Standard "Heute":
+   HEUTE    – das bisherige Heute tun: oben deine Sachen (einstellen, neu einstellen, entzaubern, herstellen, Post),
+              darunter die besten 5–10 Chancen aus den anderen Ansichten. Das ist der Normalfall.
+   FLIPPEN  – unter Kaufgrenze (Stufe 2 L7), sortiert nach Gewinn pro Gold Einsatz pro Tag.
+   HÄNDLER  – Sofortkauf unter Händlerpreis (sicherer Gewinn).
+   LÜCKEN   – wenig Angebot, stetiger gemessener Absatz, Preis steigt; zuerst Items, die du im Lager hast.
+   ÜBERFÜLLT– Angebot ≫ Absatz × Laufzeit: Warnung "nicht einstellen", Tage bis verkauft, Einzahlungsrisiko.
+   TRENDS   – echte Bewegungen 7/30 Tage (nur wenn stabil, sonst nicht zeigen); fallende Leveling-Waren früh melden.
+   Jede Ansicht: kurze Erklärzeile (ein Satz), höchstens 20 Zeilen, je Zeile Item, eine Zahl (Gewinn bzw. Warnung),
+   Sicherheit als Farbe (grün/gelb/grau), ein Knopf.
+M2 DIE ALTE LISTE ALLER ITEMS verschwindet aus der Anzeige. Daten bleiben (alle Ansichten rechnen damit).
+   Nachschlagen nur über das Suchfeld oben: Name tippen -> rechts Detailbereich.
+M3 DETAILBEREICH RECHTS (bei Klick auf eine Zeile oder Suche): Preisverlauf und Angebotsverlauf übereinander,
+   Preisleiter (aus Vollscan), eigene Geschichte (gekauft/verkauft/Quote), gelernte Preisgrenzen Min/Normal/Max,
+   EINE Empfehlung ("kaufen bis X" / "einstellen für Y" / "liegen lassen") mit Begründung in einem Satz, Knöpfe
+   Watchlist / Einkaufsliste / Sniper-Ziel mit vorgeschlagenen Grenzen.
+M4 LAGE-ZEILE OBEN: Preis-Index aus einem Korb typischer Waren (Stoffe, Erze, Kräuter, Staub/Essenzen, Leder) –
+   "Markt heute +3 % (7 Tage +8 %)". Nur Anzeige.
+M5 NACHSCHUB (mit ProfessionSentinel, wenn geladen): in HEUTE Zeile "Stelle 5 × X her – verkauft sich (gemessen),
+   Gewinn Y, fehlt: …" aus Stufe-2-Daten; ohne ProfessionSentinel aus AHSentinels eigener Rezeptliste.
+M6 EINFACHHEIT: Keine neuen Optionen ausser "Standard-Ansicht" (Heute). Erklärungen nur in der einen Zeile und im
+   Tooltip. Bereich K der Testroutine: nichts abgeschnitten/überlagert (alle 6 Ansichten, Klassisch/Modern,
+   100/130 %, enGB/deDE).
+
+TESTROUTINE (Bereich "Markt")
+   Teil A: jede Ansicht mit Testdaten (richtige Auswahl, Sortierung, Knopf-Schritt), Detailbereich, Suche, /ahs heute
+   öffnet Markt -> Heute, QuickBuy/QuickSell-Zeilen erscheinen oben (ProfessionSentinel-Schnittstelle), Pausen
+   (kein Frame > 8 ms), Bereich K. Teil B: Anzahl Zeilen je Ansicht mit echten Daten, Index-Wert.
+
+TESTFÄLLE
+T-M1 /ahs heute -> Markt/Heute. T-M2 ProfessionSentinel ruft QuickSell -> Zeile oben mit Knopf.
+T-M3 Händler-Ansicht: Item mit Sofortkauf 3c, Händler 5c -> erscheint, Knopf "Prüfen".
+T-M4 Überfüllt: Angebot 552, Absatz 2/Tag -> Warnung, keine Einstellen-Empfehlung.
+T-M5 Suche "Seltsamer Staub" -> Detailbereich mit Empfehlung. T-M6 alte Item-Liste nicht mehr sichtbar.
+T-M7 Bereich K ohne Überlagerung in allen Ansichten.
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden.

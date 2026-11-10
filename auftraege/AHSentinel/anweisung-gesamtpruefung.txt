@@ -1,0 +1,26 @@
+ANWEISUNG DER PRÜF-SITZUNG FÜR AHSENTINEL: GESAMTPRÜFUNG NACH ALLEN STUFEN
+=========================================================================
+Stand: 10. November 2026, 10:45 · WUNSCH DES NUTZERS (10.11. 10:38): "Nachdem alles fertig ist, soll die Testroutine
+alles prüfen."
+
+WANN: Als letzter Schritt nach Stufe 3 (Reihenfolge in anweisung-lernen-stufe2.txt). Eigenes Release.
+
+G1 TESTROUTINE ALLES: ein Befehl "/ahs testroutine alles" führt nacheinander aus: automatischer Teil, Server-Teil
+   (Auktionshaus offen), Berufe-Teil (Berufsfenster offen), Händler-Teil (Händler offen) – fehlt ein Fenster, sagt
+   die Routine in EINER Zeile, was zu öffnen ist, wartet bis 2 Min. und macht dann weiter (kein Neustart nötig).
+G2 ABDECKUNG: Jede Zeile der offenen Aufträge (offen-ahsentinel.txt) und jeder T-Testfall der Anweisungen vom 9. und
+   10.11. hat eine Prüfung oder ist begründet "im Client prüfen". Liste "Abdeckung" im Testbericht: Auftrag ->
+   Prüfungen -> Ergebnis. Fehlende Abdeckung = FEHLER.
+G3 ECHTE-DATEN-ABSCHNITTE vollständig im Testbericht und im GSTEST1-Export: Entzaubern (echte Daten), Prognose-Güte,
+   Vollscan, Lern-Datenbank, Markt – je mit Kennzahlen und "zu wenig Daten (N)" statt Prozenten, wo nötig.
+G4 SCHUTZ: Sandbox-Vergleich aller echten Tabellen vor/nach dem Lauf (Buchhaltung, Entzauber-Daten, Journal,
+   Lern-Datenbank, Preisverlauf, Einstellungen) – jede Abweichung FEHLER.
+G5 TEMPO/SPEICHER: Tooltip < 2 ms, kein Frame > 8 ms bei Vollscan-Auswertung und Markt-Ansichten, gespeicherte Daten
+   gesamt im Bericht, Ladezeit beim Einloggen.
+G6 BEREICH K: alle Fenster ohne Überlagerung/Abschneiden (Klassisch/Modern, 100/130 %, enGB/deDE).
+G7 ZUSAMMENFASSUNG für den Nutzer oben im Bericht in 5 Zeilen: OK/FEHLER, was er im Spiel noch tun muss, die drei
+   wichtigsten Kennzahlen (Prognose-Trefferquote, gemessener Absatz verfügbar für N Items, Speicher).
+
+TESTFÄLLE T-G1 … T-G7 (je Punkt).
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden und den Testbericht hochladen lassen – die Prüf-Sitzung holt ihn selbst.

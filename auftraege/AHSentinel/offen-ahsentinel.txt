@@ -216,3 +216,10 @@ NEU (10. Nov. 10:25) – befund-testroutine-0669.txt (Nachprüfung 0.65.69: B1, 
    N1 HOCH abgelehnte Entzauberungen zählen in Statistik/Abrechnung/Activity mit -> Leser unterscheiden, "davon
    abgelehnt". N2 HOCH Reset ohne Sicherung -> Sicherung, Rückfrage mit Zahl, Wiederherstellen. N3 T122 Tooltip
    2,10 ms -> Profil je Block. N4 HALB-Teile in einer Zeile erklären. T-N1–T-N3.
+
+NEU (10. Nov. 10:45, FREIGABE DES NUTZERS) – Stufen 2 und 3 und Gesamtprüfung
+   Reihenfolge verbindlich: offene Befunde (N1, N3, N4) -> Stufe 1 Prognose (anweisung-prognose-stufe1.txt) ->
+   Vollscan (anweisung-vollscan-einzelauktionen.txt) -> Stufe 2 Lern-Datenbank (anweisung-lernen-stufe2.txt, L1–L11)
+   -> Stufe 3 Markt-Reiter ersetzt Heute tun (anweisung-markt-stufe3.txt, M1–M6) -> Gesamtprüfung
+   (anweisung-gesamtpruefung.txt, G1–G7: "/ahs testroutine alles", Abdeckung aller Aufträge, Sandbox, Tempo).
+   Ausserdem offen: Ausrüstung-Silber Messreihe (anweisung-ausruestung-silber-entscheid.txt, S1–S5).
