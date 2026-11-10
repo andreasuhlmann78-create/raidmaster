@@ -74,6 +74,7 @@ GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mi
 • Haben mehrere das Addon, sagt nur einer an – kein Doppel-Spam im Gildenchat
 
 **🔨 Berufe**
+• **Rezepte je Mitglied**: Klick auf ein Mitglied zeigt, welche Rezepte es kann – mit Filter nach Art (Schmied: Kopf, Brust, Hände, Waffen …; Alchemie: Elixiere, Heiltränke, Erholungstränke, Transmutationen …; Verzauberkunst nach Platz)
 • Die Stufen der Berufe liest GuildSentinel automatisch (wo das Spiel die Gilden-Berufsliste kennt, für alle Mitglieder – auch ohne Addon; zugeklappte Berufe klappt es dafür kurz auf, sonst zeigt es die Anzahl je Beruf). Jeder öffnet seine Berufsfenster einmal – danach weiß die ganze Gilde, wer was herstellen kann. Neue Rezepte kommen sofort dazu, und jeder schickt seine Berufe nach dem Einloggen selbst – vollautomatisch. Funktioniert mit dem klassischen Berufsfenster und dem **neuen Berufsfenster von WoW Forever**
 • Suche nach Rezept, „Herstellen anfragen“ mit einem Klick (auch an den Twink, der gerade online ist)
 • **Nachfrage**: Wünsche eintragen – wer es herstellen kann, bekommt einen Hinweis und übernimmt mit einem Klick

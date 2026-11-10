@@ -6,6 +6,16 @@
 </blockquote>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.9.22</h3>
+<ul>
+<li><strong>Recipes of each member</strong>: on the Professions page, click a member to see WHICH recipes they know for that profession – with a back button, item links and tooltips, and "Request craft" for the selected recipe.</li>
+<li><strong>Filter bar by type</strong>, only types that occur, with counts and "All" first: Blacksmithing, Leatherworking, Tailoring by slot (Head, Chest, Hands, Weapons …), Alchemy by Healing/Mana/Rejuvenation/Protection potions, Elixirs, Flasks, Oils, Transmutes, Reagents, Engineering by Explosives, Devices, Scopes, Enchanting by target slot, Cooking/First Aid by Food and Bandages. The bar wraps when space runs out.</li>
+<li>The type is worked out on your own PC from the item (slot, class) or the recipe name – nothing new has to be sent, so data from older versions works too ("Other" if unknown).</li>
+<li>On WoW Forever, Blizzard's recipe category is sent along as a new optional field; older versions simply ignore it.</li>
+<li>The search box also filters a member's recipes; filter and search can be combined.</li>
+<li>Group finder "whole server": group changes and replies to questions now go to the group only; the whisper network gets a search only when it starts and when it ends.</li>
+<li>Developer test routine: T231–T238 new.</li>
+</ul>
 <h3>Version 0.9.21</h3>
 <ul>
 <li><strong>GoldSentinelSync 2 (whisper network)</strong>: the shared sync file now also reaches players with GoldSentinel addons outside your guild and group, by whispering through other players who have it (throttled, no chat spam; "no player named … is online" is hidden).</li>
@@ -53,16 +63,7 @@
 <li><strong>Guild management</strong>: actions and rank names now always use the right game function on every client (Classic Era, TBC Anniversary, WoW Forever). The management button moves below the guild window while Blizzard's member details or rank window are open, so it never covers them.</li>
 <li>Developer test routine: T190 extended (collapsed professions), new T200 (old clients without C_GuildInfo); area K also checks Blizzard's guild pop-ups.</li>
 </ul>
-<h3>Version 0.9.17</h3>
-<ul>
-<li><strong>New window "Guild management"</strong> for guild leadership and officers: button "Management (GuildSentinel)" next to Blizzard's guild window (J stays as it is) and <code>/gs verwaltung</code>.</li>
-<li>Invite (name or current target), promote/demote (rank before -&gt; after, never above your own rank), remove (with confirmation).</li>
-<li>Hand over guild leadership: Guild Master only, locked until the password is entered, then two confirmations.</li>
-<li>Every button follows your rights in the game. The Guild Master can add characters that may open the window on this computer (local list, never sent).</li>
-<li>Password: set in the game (enter twice), stored only as a salted checksum on this computer, masked input, 3 failed attempts lock it for 5 minutes, change only with the old password. It is a protection against accidental clicks – the real protection are your rights in the game.</li>
-<li>Actions only from your click, never in combat; in test mode nothing is executed. Option "Management button on the guild window".</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>🏠 Overview</h2>
 <ul>
@@ -151,6 +152,7 @@
 <ul>
 <li>Guild-wide directory: who can craft what – search, "ask to craft" with one click</li>
 <li>Skill levels are read automatically – where the game provides the guild profession list, for <strong>every member, even without the addon</strong></li>
+<li><strong>Recipes of each member</strong>: click a member to see which recipes they know, with a filter bar by type (Blacksmithing: Head, Chest, Hands, Weapons …; Alchemy: Elixirs, Healing potions, Transmutes …; Enchanting by slot)</li>
 <li><strong>Fully automatic</strong>: your own professions are sent after logging in, new recipes the moment you learn them, the guild profession list is read with offline members too – no button, never in combat</li>
 <li>Reads the classic profession window (Classic Era, TBC) and the new profession window of <strong>WoW Forever</strong></li>
 <li><strong>Requests</strong>: crafters get a notice and take the request with one click</li>
