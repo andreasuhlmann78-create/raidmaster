@@ -12,6 +12,21 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.69
+
+- **Fix: ledger showed the price as quantity** (e.g. "sold 22000" for ONE cap): on some WoW Forever invoices field 5 is
+  the price, not the quantity. It now only counts as quantity if it plausibly is one (never for gear). Saved sales are
+  repaired once (backup kept, diagnostic log REPARATUR-MENGE).
+- **Fix: positive fees in the ledger:** a refund on sale without a booked deposit (posted via Blizzard's window, another
+  addon or before AHSentinel) is now covered by a matching deposit – net 0, like in the game. Postings through
+  Blizzard's window or other addons are booked too. Old data is repaired once.
+- **Disenchanting is counted on every way:** besides bag clicks and AHSentinel's window, macros and other addons
+  (/use bag slot) are now recognised from the bag contents. Results with a material outside the table are no longer
+  dropped silently (log DE-ABGELEHNT); every disenchant writes DE-GEZÄHLT or DE-VERPASST. Statistics: "today counted N
+  · missed M".
+- **Tooltip materials:** learned average quantity ("Ø 1.4"), the table range only with Shift; own and shared results
+  named separately.
+
 ### Version 0.65.68
 
 - **Fix (0.65.66): with the 2-hour default duration almost everything looked unsellable** – the valuation counted up to
@@ -71,18 +86,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **New: command list while typing:** type /ahs in chat and all commands appear above the input box – the ones you
   use most at the top; keep typing to filter, click to run. AHSentinel never writes into the chat box. Can be turned off
   in the options ("Command list while typing").
-
-### Version 0.65.64
-
-- **Ledger: "Profit" is now called "Cash"** – it is income minus spending minus fees. Bought materials count as
-  spending even if they are still in stock (e.g. cloth turned into dust by crafting and disenchanting).
-- **New tile "Result incl. stock":** cash plus the change in stock value during the period (bags, bank and active
-  auctions of this character, valued like "Sell:" in the tooltip). A stock value is saved at the first login of the day
-  and at logout, with the prices of that time. Without a starting value it shows "–".
-- **"Per item" has a column "in stock"** (pieces now).
-- "1 sale" / "1 purchase" instead of "1 sales".
-- **Tooltip:** a price that was not in the last scan is marked "(old)"; if a scan price was replaced as an outlier,
-  the value used for the calculation is shown next to it.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

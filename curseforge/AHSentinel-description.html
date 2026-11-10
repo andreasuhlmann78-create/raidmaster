@@ -7,6 +7,21 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.69</h3>
+<ul>
+<li><strong>Fix: ledger showed the price as quantity</strong> (e.g. "sold 22000" for ONE cap): on some WoW Forever invoices field 5 is
+  the price, not the quantity. It now only counts as quantity if it plausibly is one (never for gear). Saved sales are
+  repaired once (backup kept, diagnostic log REPARATUR-MENGE).</li>
+<li><strong>Fix: positive fees in the ledger:</strong> a refund on sale without a booked deposit (posted via Blizzard's window, another
+  addon or before AHSentinel) is now covered by a matching deposit – net 0, like in the game. Postings through
+  Blizzard's window or other addons are booked too. Old data is repaired once.</li>
+<li><strong>Disenchanting is counted on every way:</strong> besides bag clicks and AHSentinel's window, macros and other addons
+  (/use bag slot) are now recognised from the bag contents. Results with a material outside the table are no longer
+  dropped silently (log DE-ABGELEHNT); every disenchant writes DE-GEZÄHLT or DE-VERPASST. Statistics: "today counted N
+  · missed M".</li>
+<li><strong>Tooltip materials:</strong> learned average quantity ("Ø 1.4"), the table range only with Shift; own and shared results
+  named separately.</li>
+</ul>
 <h3>Version 0.65.68</h3>
 <ul>
 <li><strong>Fix (0.65.66): with the 2-hour default duration almost everything looked unsellable</strong> – the valuation counted up to
@@ -67,19 +82,7 @@
   use most at the top; keep typing to filter, click to run. AHSentinel never writes into the chat box. Can be turned off
   in the options ("Command list while typing").</li>
 </ul>
-<h3>Version 0.65.64</h3>
-<ul>
-<li><strong>Ledger: "Profit" is now called "Cash"</strong> – it is income minus spending minus fees. Bought materials count as
-  spending even if they are still in stock (e.g. cloth turned into dust by crafting and disenchanting).</li>
-<li><strong>New tile "Result incl. stock":</strong> cash plus the change in stock value during the period (bags, bank and active
-  auctions of this character, valued like "Sell:" in the tooltip). A stock value is saved at the first login of the day
-  and at logout, with the prices of that time. Without a starting value it shows "–".</li>
-<li><strong>"Per item" has a column "in stock"</strong> (pieces now).</li>
-<li>"1 sale" / "1 purchase" instead of "1 sales".</li>
-<li><strong>Tooltip:</strong> a price that was not in the last scan is marked "(old)"; if a scan price was replaced as an outlier,
-  the value used for the calculation is shown next to it.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
