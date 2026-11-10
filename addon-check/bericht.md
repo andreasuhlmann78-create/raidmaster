@@ -18,14 +18,15 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 - **WARNUNG** BuffSentinel/SelfTest.lua:425: tritt einem eigenen Chat-Kanal bei – belegt einen der 10 Kanalplätze des Spielers. Künftig nur der gemeinsame GoldSentinel-Kanal (shared/GoldSentinelSync.lua), nur zum Finden von Mitspielern.
 - **WARNUNG** BuffSentinel/SelfTest.lua:426: tritt einem eigenen Chat-Kanal bei – belegt einen der 10 Kanalplätze des Spielers. Künftig nur der gemeinsame GoldSentinel-Kanal (shared/GoldSentinelSync.lua), nur zum Finden von Mitspielern.
 
-## GuildSentinel-0.9.22.zip: OK
+## GuildSentinel-0.9.23.zip: OK (1 Warnungen)
+- **WARNUNG** GuildSentinel/Core.lua:574: Addon-Nachricht über einen eigenen Kanal ("CHANNEL") – kommt in WoW Forever nicht an (Server: NOT_ALLOWED_IN_CHANNEL). Über GUILD/PARTY/RAID/WHISPER senden (shared/wissen/kommunikation-forever.md, hinweis-sync-kanal.txt).
 
 ## ProfessionSentinel-0.9.37.zip: OK (1 Warnungen)
 - **WARNUNG** ProfessionSentinel/GoldSentinelTest.lua: veraltete offizielle Fassung (Version 1) – auf shared/GoldSentinelTest.lua Version 2 aktualisieren
 
 ## RaidMaster-3.0.22.zip: OK
 
-## ThreatSentinel-2.5.6.zip: OK
+## ThreatSentinel-2.5.8.zip: OK
 
 ## levelpilot__levelpilot-3.12.24.LevelPilot.zip: OK
 
