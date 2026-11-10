@@ -207,3 +207,7 @@ NEU (10. Nov. 10:15, HOCH – zusammen mit Stufe 1) – anweisung-vollscan-einze
    Preisleiter und exakter Warteschlange. V3 nur Zusammenfassung speichern. V4 Verfolgung zwischen zwei Vollscans
    ("vorzeitig weg" = gekauft/abgebrochen) -> gemessener Absatz. V5 einsetzen, alte Annahmen nur Rückfall.
    V6 Testroutine/Testbericht. T-VS1–T-VS7.
+
+NEU (10. Nov. 10:20, ENTSCHEID DES NUTZERS, NIEDRIG) – anweisung-ausruestung-silber-entscheid.txt
+   Ausrüstung einstellen bleibt wie jetzt (ganze Silber, −1 Silber). Kein neues Preisfeld, kein Gleichziehen.
+   Testroutine (Server-Teil, mit Zustimmung) misst, wann der Server Kupfer ablehnt (S1–S5). T-AS1–T-AS3.

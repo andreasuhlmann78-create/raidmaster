@@ -1,0 +1,32 @@
+ENTSCHEID DES NUTZERS UND AUFTRAG FÜR AHSENTINEL: AUSRÜSTUNG – PREIS IN GANZEN SILBERN
+=====================================================================================
+Stand: 10. November 2026, 10:20 · ENTSCHEID DES NUTZERS (10.11. 10:15)
+
+ENTSCHEID: Das Einstellen von Ausrüstung bleibt, wie es jetzt ist (0.65.6x: Preis auf ganze Silber, Unterbieten
+"−1 Silber"). KEIN neues Preisfeld, KEIN Gleichziehen. Stattdessen soll die Testroutine der Sache auf die Spur kommen:
+Warum lehnt der Server bei Ausrüstung Kupferbeträge ab ("Interner Auktion-Fehler" bei 199c, 200c geht), Waren aber nicht?
+
+REIHENFOLGE: Erst die laufende Arbeit und die HOCH-Befunde. Klein, mit einem der nächsten Releases.
+
+UMSETZEN (Testroutine, Server-Teil "/ahs testroutine server", nur mit Zustimmung im Spiel – es wird echt eingestellt
+und sofort wieder abgebrochen; Kosten = Einzahlungen, vorher anzeigen)
+S1 Messreihe mit EINEM billigen Ausrüstungsteil (grau/weiss, Händlerwert klein, vom Spieler bestätigt):
+   Sofortkauf 1s 00c, 1s 01c, 1s 50c, 1s 99c, 2s 00c, 10s 50c, 1g 00s 01c – je PostItem, Ergebnis (erstellt /
+   Fehlertext des Spiels), gleich danach abbrechen. Dazu einmal mit Gebot (Mindestgebot) 1s 50c und Sofortkauf 2s.
+   Ziel: Gilt "nur ganze Silber" für Sofortkauf, für Gebot, für beides? Gilt es auch über 1 Gold (ganze Silber oder
+   ganze Gold)? Hängt es vom Händlerwert ab?
+S2 Gegenprobe Ware: 1 Stück einer Ware (stapelbar) mit 1s 99c -> erwartet "erstellt".
+S3 Blizzard-Vergleich (nur Anleitung im Bericht, der Nutzer macht es von Hand): gleiches Teil im Blizzard-Fenster
+   mit 1s 99c – lässt das Fenster Kupfer überhaupt zu, und was meldet der Server?
+S4 Ergebnis als Tabelle ins Protokoll (AUSRUESTUNG-PREIS) und in den Testbericht ("Einstellen Ausrüstung: Messreihe"),
+   ohne Namen. Danach die Rundung in Seller.lua nur anpassen, wenn die Messung eine andere Regel BELEGT
+   (z. B. Rundung nur auf Silber beim Sofortkauf, Gebot frei) – sonst unverändert lassen.
+S5 Kosten-Schutz: höchstens 10 Einstellungen je Lauf, Gesamtkosten vorher anzeigen, Abbruch jederzeit.
+
+TESTFÄLLE
+T-AS1 Messreihe läuft nur nach Bestätigung, jede Einstellung wird abgebrochen, Protokoll vollständig.
+T-AS2 Ohne Zustimmung: nichts eingestellt ("übersprungen").
+T-AS3 Bestehendes Verhalten (ganze Silber, −1 Silber) unverändert, solange S4 nichts anderes belegt.
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden.
