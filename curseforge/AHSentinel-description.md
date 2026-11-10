@@ -12,6 +12,16 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.61
+
+- **Fix: "Today" could miss suggestions and freeze for a moment after login** (diagnostic log: 413 ms in one frame).
+  Background calculations could not pause inside a protected call (Lua 5.1), so "below vendor price" and flip
+  suggestions were silently dropped and the rest ran in one go. They now pause correctly and nothing is lost.
+- **Fix: Ledger → "Values right?" (forecast vs. sale) was wrong on WoW Forever:** the real price per piece was taken
+  from the quantity field of the invoice ("real 1", +7800 %). Now total / quantity; existing sales are recalculated once.
+- **Profit window, "Best recipes":** new prices from the sniper or sync alone rebuild the list at most every 30 seconds
+  (before: every 2 seconds while sniping). Opening, switching professions, bags and ledger still update at once.
+
 ### Version 0.65.60
 
 - **Main window opens beside the auction house** instead of over it, as long as you have not moved it yourself
@@ -66,10 +76,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - Test routine: new tests for the whole tooltip (with/without Shift, not disenchantable), "real from 12 disenchants",
   price source in the materials block, "Purchase sent" via the real confirm path, no flip suggestion for items that rarely
   sell, and at most 3 rebuilds of "Best recipes" while crafting.
-
-### Version 0.65.56
-
-- Test routine: sync tests use guild messages only (no channel messages anywhere in the addon).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
