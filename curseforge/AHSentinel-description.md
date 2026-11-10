@@ -12,6 +12,22 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.73
+
+- **Fast full scan (new option, off by default):** in the modern auction house (WoW Forever) the scan button can read
+  all single auctions at once with their time left (ReplicateItems) instead of browsing page by page. Read in small
+  portions, so the game stays smooth; at most every 15 minutes, otherwise the normal scan runs. `/ahs vollscan` starts
+  it once. Prices, market value and history are fed exactly as before (lowest price, quantity; bait offers don't count).
+- **Exact queue:** "how many are in front of me" now counts only the pieces at your price or cheaper (price ladder
+  from the full scan) instead of all pieces of the item.
+- **Real market sales measured:** between two full scans AHSentinel compares the auctions (quantity and buyout, no
+  names): gone early with a long time left = bought or cancelled, gone with a short time left = expired (not a sale).
+  After 3 days of data the tooltip (Shift) shows "~12/day (measured, 5 days)" instead of the old estimate; until then
+  "(estimated)". Your own auctions are used as a cross-check (share of cancels).
+- Era/TBC: unchanged (the old auction house has no full scan).
+- Test routine: new part "v" (full scan) with fixed numbers; report and GSTEST1 get a section "Full scan" (timing per
+  frame, throttling, meaning of the time-left stages, measured sales).
+
 ### Version 0.65.72
 
 - **Forecast journal (step 1 of "check every forecast"):** whenever you post, buy or disenchant, AHSentinel now notes
@@ -66,22 +82,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   · missed M".
 - **Tooltip materials:** learned average quantity ("Ø 1.4"), the table range only with Shift; own and shared results
   named separately.
-
-### Version 0.65.68
-
-- **Fix (0.65.66): with the 2-hour default duration almost everything looked unsellable** – the valuation counted up to
-  six lost deposits for anything that does not sell within 14 hours (e.g. dust showed "vendor"). The Sell tab keeps
-  2 hours; the valuation uses 24 hours when that costs the same deposit (minimum deposit), otherwise the default
-  duration. With Shift the tooltip shows the duration used.
-- **Buyout failed – clear message:** "offer is gone (probably already bought)" instead of "offer gone or not enough
-  gold"; the game's message is shown, gold is only mentioned when you really lack it. A gone offer is marked, its
-  button locked, and it leaves the shopping list. Diagnostic log line KAUF-FEHLER (no names).
-- **Minimum bid:** +5 % only when someone has already bid; without a bidder the starting bid is the minimum. If no bid
-  below the buyout is possible, the bid field is hidden.
-- **Detail search finds nothing although the scan listed the item:** AHSentinel retries once without item level/suffix;
-  if it stays empty the row leaves the shopping list (log line DETAIL-LEER).
-- Interface for other addons: price source "scan" only if the price really was in the last scan.
-- Test routine: button names with text and position; outdated fee texts removed.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
