@@ -45,7 +45,7 @@ weitergegeben. Die Addons haben danach falsche Werte angezeigt. Das darf nicht w
 | Abgelaufene Auktion: Einzahlung verloren | bestätigt durch Quellen | Spielerberichte 6.11. (timesaver.gg), Hearthproof |
 | Abgebrochene Auktion: Einzahlung verloren | bestätigt durch Quellen, im Spiel noch messen | Hearthproof (Forever = Classic), Spielerberichte 6.11. (timesaver.gg); Spieler meint "anteilig zurück" -> messen (AHSentinel L2) |
 | Neutrales AH (Beutebucht, Gadgetzan, Ewige Warte): 15 % Gebühr, höhere Einzahlung | vermutet (klassisch) | Wiki; in Forever nicht gemessen |
-| Ausrüstung (Einzelstücke) einstellen: Blizzards Fenster geht; AHSentinel mit `C_AuctionHouse.PostItem(loc, dauer, 1, nil, preis)` -> "Interner Auktion-Fehler" (auch mit ganzen Silbern). **Ganze Silber sind NICHT die Ursache.** Welche Werte Blizzard schickt (Startgebot?), wird gemessen | belegt (Fehler) / offen (Ursache) | Nutzer 9.11. 22:25 und 10.11. 06:04–06:07, Braune Leinenhose 1s 99c und 2s |
+| **Ausrüstung (Einzelstücke): Preis nur in ganzen Silbern.** 199c -> "Interner Auktion-Fehler" (2×, AHSentinel); 200c -> erstellt (Blizzard-Fenster UND AHSentinel, gleicher Aufruf `PostItem(loc, dauer, 1, nil, 200)`). Waren (stapelbar) gehen mit Kupfer (83c, 84c, 97c). | **fast belegt** (Bestätigung: 1s 99c mit AHSentinel 0.65.63 -> Fehler im Protokoll) | Nutzer 9.11. 22:25, 10.11. 06:04–07:00, Protokoll BLIZZARD-POST/AHS-POST |
 
 **Wichtig wegen der angekündigten Änderung:** Das Minimum NIE fest einbauen. Einzahlung immer zuerst über Blizzard
 (API / "Einzahlen"), Formel nur als Rückfall; das Minimum aus Messungen erkennen (z. B. Einstellung, bei der die

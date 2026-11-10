@@ -165,3 +165,8 @@ NEU (10. Nov. 07:05, Wunsch des Nutzers, MITTEL) – Buchhaltung: Ergebnis mit L
    Lagerwert-Änderung, Tagesstände speichern); Spalte "im Lager"; "1 Verkauf"; Tooltip "Preis 17c / Verkaufen 21c"
    prüfen. T-BL1–T-BL4. (Angebot/Absatz, Gesamtwert, Meine Auktionen, Einstellen-Diagnose: in 0.65.61–0.65.63 erledigt –
    Nachprüfung folgt.)
+
+NEU (10. Nov. 07:15, Prüf-Sitzung) – befund-absatz-und-silber.txt
+   F1 (HOCH, Fehler der Prüf-Sitzung in A2): Absatz S nur aus dem Markt, eigene Verkäufe nur als Untergrenze – sonst
+   stehen Staub/Essenzen auf "kaum" und der Entzauberwert fällt. F2 Einzelstücke nur ganze Silber (199c scheitert 2×,
+   200c geht über Blizzard und AHSentinel) – abrunden, "−1 Silber". F3 LANGSAM cache:today bis 393 ms bleibt.
