@@ -12,6 +12,16 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.71
+
+- **Disenchant statistics:** rejected results (material outside the table) count as disenchanted and their loot counts,
+  but they are shown separately: "(of which rejected N)". They never count for learning.
+- **Restore disenchant results:** after a reset the button in the options becomes "Restore" and brings back the last
+  backup exactly.
+- **Faster tooltip:** the price chart under the tooltip is only redrawn when the item or its data changed.
+- **Test routine:** the tooltip speed check shows the time per block; at the end of the report one line says what to
+  do for the skipped parts (e.g. "open the auction house, then /ahs testroutine server").
+
 ### Version 0.65.70
 
 - **Fix: options overlapped** (e.g. "Self-test" over "Default duration"): there were more options than fit in two
@@ -67,26 +77,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   Other game versions keep the table from warcraft.wiki.gg.
 - **Tooltip:** "Materials (table + N own)" when your own disenchant results are included; with Shift the source of the
   chances. Diagnostic log: one line DE-CHANCEN per group and day (table vs. real results).
-
-### Version 0.65.66
-
-- **New option "Default duration" (standard: 2 hours on WoW Forever):** every new item in the Sell tab starts with it;
-  a duration you pick by hand applies only to that posting. Series, repost and "Today" use it too, and so do all
-  calculations. "24 h costs the same" remains only a hint.
-- **Fix: "Today" told you to sell commodities to a vendor** (e.g. linen bolts) because it assumed 1 piece per auction:
-  in the modern auction house a commodity is posted as ONE auction for any quantity – the minimum deposit is paid once.
-  The old auction house (Era/TBC) keeps stacks.
-- **Sales estimate for crowded items:** auctions on WoW Forever run at most 24 hours, so almost everything disappears
-  every day even without a sale. The market sales rate is now capped at 20 % of the quantity in the last scan per day
-  (assumption, checked in the diagnostic log). Your own experience (posted vs. sold, from 3 postings) comes first –
-  the same number in tooltip, profit window and log.
-- **Profit window:** shows the deposit per auction on WoW Forever (back on sale) and the expected number of listings
-  with the expected deposit loss.
-- **"Today": clicking a row** always does something visible – or shows a hint; errors are no longer swallowed.
-- Diagnostic log: ABSATZ with raw rate, cap, own rate and duration; new ENTZAUBERWERT line (materials, chances, net).
-- Test routine: watcher setting no longer touched (sandbox), result tooltips beside the window, T33 always with a
-  reason, T52 checks "undercut" and "leave it" separately, T27 names the real reason, empty frames of other addons
-  are only a hint.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
