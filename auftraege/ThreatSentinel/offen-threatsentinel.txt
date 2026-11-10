@@ -109,3 +109,5 @@ NACHTRAG (10. Nov. 11:10) – Testroutine 2.5.4 Bereich K beim Nutzer: OK 7, FEH
 NEU (10. Nov. 11:20, NIEDRIG) – befund-testroutine-254.txt
    Testroutine ganz 2.5.4: OK 191, FEHLER 1. Q1 T144 falscher Alarm (Testzentrale offen -> IsTesting wahr) -> IsTesting
    stubben. Q2 "Simulationen zurückgesetzt: FEHLER" -> vorher/nachher vergleichen, Schalter nennen. Q3 Hinweiszeile.
+   Nachtrag 11:25: Gruppen-Protokoll gut (P1 behoben, Sync läuft). Q4 MITTEL: lesbares isTanking/status für die
+   Aggro-Warnung der DD-Ansicht nutzen, auch wenn Prozente geschützt sind. Q5: Sync im Kampf nachholen statt verwerfen.
