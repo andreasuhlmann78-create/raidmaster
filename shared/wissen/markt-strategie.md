@@ -21,6 +21,9 @@ Abschnitt 0: **belegt** nur mit Messung, sonst **vermutet** mit Messauftrag.
 
 ---
 
+**Entscheid des Nutzers 10.11. 15:54:** Gerechnet wird mit dem aktuellen Markt (Kaufpreis jetzt, Verkaufswert aus
+aktueller Preisleiter + Absatz). Der Durchschnitt ist nur Warnlampe ("frisch gestiegen" / "eingebrochen").
+
 ## 1. Grundsatz: Vorhersage -> Ergebnis -> Korrektur
 
 Ein Addon, das schätzt, aber nie nachprüft, kann nicht besser werden. Darum gilt für jede Zahl, die eine Zukunft

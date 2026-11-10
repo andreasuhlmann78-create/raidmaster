@@ -1,0 +1,29 @@
+ENTSCHEID DES NUTZERS UND AUFTRAG FÜR AHSENTINEL: GERECHNET WIRD MIT DEM AKTUELLEN MARKT
+=====================================================================================
+Stand: 10. November 2026, 16:05 · ENTSCHEID DES NUTZERS (10.11. 15:54): "ja bitte" auf die Frage der Prüf-Sitzung
+"Gerechnet wird nur mit dem aktuellen Markt, der Durchschnitt und 'frisch gestiegen/eingebrochen' sind nur Hinweise?"
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen. Dann dies – zusammen mit H9 (befund-markt-heute-flip.txt), HOCH.
+
+GRUNDREGEL (gilt für Tooltip, Markt-Reiter, Sniper/Wächter-Grenzen, Entzauber- und Herstellwert, Verkaufen-Vorschlag)
+A1 KAUFEN: Es zählt der echte Preis jetzt (das Angebot, das man bezahlt; Lockangebote wie bisher aussortiert).
+A2 VERKAUFSWERT: Es zählt, wofür man in der Laufzeit realistisch verkaufen kann – aus der AKTUELLEN Preisleiter (Vollscan
+   bzw. Detailsuche) und dem Absatz: der Preis, zu dem die Warteschlange davor ≤ Absatz × Laufzeit ist. Kein Deckel mit
+   dem Marktwert, kein Mischen mit dem Durchschnitt.
+A3 DURCHSCHNITT (Marktwert, Median 14 Tage) wird NICHT mehr für Werte gerechnet, nur noch als Warnlampe im Tooltip/Detail:
+   - aktueller Preis > 150 % des Marktwerts und jünger als 24 Std.: "Preis frisch gestiegen (seit X Std.)"
+   - aktueller Preis < 60 % des Marktwerts: "Preis eingebrochen (seit X Std.)"
+   - sonst nichts. Die Zahl wird dabei NICHT verändert. (Ersetzt den Vorschlag "höchstens Marktwert × 1,5" aus H9/T-HF11.)
+A4 BESCHRIFTUNG ehrlich: "Scan" nur mit Scan-Wert; Quelle mit Shift ("Preisleiter, 311 Stück, Absatz ~20/Tag").
+A5 Rückfall nur, wenn kein Scan der letzten 2 Std. vorliegt: letzter Scan-Preis mit Hinweis "alt (vor X Std.)"; der
+   Marktwert nur, wenn es gar keinen Scan gibt, dann grau "geschätzt".
+A6 Selbstkorrektur (L10) und Kaufmarge (L7) bleiben – sie schützen gegen Preisrückfälle zwischen Kauf und Verkauf.
+
+TESTFÄLLE
+T-AM1 Splitter: Scan 37s (311 Stück, Absatz 20/Tag), Marktwert 16,7s, seit 1 Std. -> Wert 37s, Hinweis "frisch gestiegen".
+T-AM2 Magiepartikel: Leiter 45s 97c: 256 · 45s 98c: 424 …, Absatz 52/Tag, Marktwert 2g 3s -> Wert ≈ 46s, kein Flip.
+T-AM3 Preis 50 % des Marktwerts seit 3 Std. -> Wert = aktueller Preis, Hinweis "eingebrochen".
+T-AM4 Letzter Scan vor 5 Std. -> Wert aus dem letzten Scan, Hinweis "alt (vor 5 Std.)".
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden.

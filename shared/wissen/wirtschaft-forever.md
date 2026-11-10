@@ -263,3 +263,10 @@ Spieler leveln noch). Jede Strategie mit der Frage: Was muss AHSentinel/Professi
 - Hearthproof, WoW Forever Auction House: https://hearthproof.com/economy/auction-house/
 - AH Ledger, WoW Forever: https://ahledger.com/wow-forever
 - TradeSkillMaster, Auctioning Operations: https://support.tradeskillmaster.com/tsm-addon-documentation/1072146-tsm-addon-auctioning-operations
+
+## Entscheid des Nutzers 10.11.2026 15:54: Gerechnet wird mit dem aktuellen Markt
+
+Kaufen: echter Preis jetzt. Verkaufswert: aus der aktuellen Preisleiter und dem Absatz (wo komme ich in der Laufzeit dran).
+Der Durchschnitt (Marktwert) wird nicht mehr für Werte gerechnet, nur als Hinweis "frisch gestiegen" (> 150 %, < 24 Std.)
+bzw. "eingebrochen" (< 60 %). Auftrag: auftraege/AHSentinel/anweisung-aktueller-markt-entscheid.txt.
+
