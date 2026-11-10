@@ -12,6 +12,23 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.76
+
+- **Full check after all steps:** `/ahs testroutine alles` runs the automatic part and then the server, professions
+  and vendor parts one after the other. If a window is missing, one line says what to open; it waits up to 2 minutes
+  and then continues.
+- **Test report:** five summary lines at the top (OK/errors, what is left to do in the game, forecast hit rate,
+  measured sales available for N items, storage). A coverage list maps every task and test case to its checks or
+  says why it can only be checked in the game. Sections with real data: disenchanting, forecast quality, full scan,
+  learning database, market tab, gear measurement. The sandbox compares all real tables (also journal, learning, full
+  scan); storage sizes and loading time are in the report.
+- **Measurement "gear in whole silver"** (`/ahs messreihe`, only with your agreement): with a few cheap grey/white gear
+  items it posts at 1s 00c, 1s 01c, 1s 50c, 1s 99c, 2s, 10s 50c, 1g 00s 01c and once with a bid, plus one commodity at
+  1s 99c – every posting is cancelled right away, every step is one click, at most 10 postings, costs shown first.
+  The result goes into the log and the test report. The price rounding stays as it is until the measurement proves
+  otherwise.
+- Price sync: a partial price list from the network no longer stops a guild member with a full scan from answering.
+
 ### Version 0.65.75
 
 - **New "Market" tab replaces "Today" (step 3):** one bar with 6 views – **Today** (the former "Today" list: your
@@ -82,16 +99,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   "Forecast quality" from your real data (read only).
 - Measurements: which replicate functions exist (only checked, never called), which fields the item search returns,
   and the lowest price/quantity per hour of the day for items you trade or watch (evaluated later).
-
-### Version 0.65.71
-
-- **Disenchant statistics:** rejected results (material outside the table) count as disenchanted and their loot counts,
-  but they are shown separately: "(of which rejected N)". They never count for learning.
-- **Restore disenchant results:** after a reset the button in the options becomes "Restore" and brings back the last
-  backup exactly.
-- **Faster tooltip:** the price chart under the tooltip is only redrawn when the item or its data changed.
-- **Test routine:** the tooltip speed check shows the time per block; at the end of the report one line says what to
-  do for the skipped parts (e.g. "open the auction house, then /ahs testroutine server").
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

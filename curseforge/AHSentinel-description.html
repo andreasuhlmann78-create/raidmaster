@@ -7,6 +7,23 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.76</h3>
+<ul>
+<li><strong>Full check after all steps:</strong> <code>/ahs testroutine alles</code> runs the automatic part and then the server, professions
+  and vendor parts one after the other. If a window is missing, one line says what to open; it waits up to 2 minutes
+  and then continues.</li>
+<li><strong>Test report:</strong> five summary lines at the top (OK/errors, what is left to do in the game, forecast hit rate,
+  measured sales available for N items, storage). A coverage list maps every task and test case to its checks or
+  says why it can only be checked in the game. Sections with real data: disenchanting, forecast quality, full scan,
+  learning database, market tab, gear measurement. The sandbox compares all real tables (also journal, learning, full
+  scan); storage sizes and loading time are in the report.</li>
+<li><strong>Measurement "gear in whole silver"</strong> (<code>/ahs messreihe</code>, only with your agreement): with a few cheap grey/white gear
+  items it posts at 1s 00c, 1s 01c, 1s 50c, 1s 99c, 2s, 10s 50c, 1g 00s 01c and once with a bid, plus one commodity at
+  1s 99c – every posting is cancelled right away, every step is one click, at most 10 postings, costs shown first.
+  The result goes into the log and the test report. The price rounding stays as it is until the measurement proves
+  otherwise.</li>
+<li>Price sync: a partial price list from the network no longer stops a guild member with a full scan from answering.</li>
+</ul>
 <h3>Version 0.65.75</h3>
 <ul>
 <li><strong>New "Market" tab replaces "Today" (step 3):</strong> one bar with 6 views – <strong>Today</strong> (the former "Today" list: your
@@ -78,17 +95,7 @@
 <li>Measurements: which replicate functions exist (only checked, never called), which fields the item search returns,
   and the lowest price/quantity per hour of the day for items you trade or watch (evaluated later).</li>
 </ul>
-<h3>Version 0.65.71</h3>
-<ul>
-<li><strong>Disenchant statistics:</strong> rejected results (material outside the table) count as disenchanted and their loot counts,
-  but they are shown separately: "(of which rejected N)". They never count for learning.</li>
-<li><strong>Restore disenchant results:</strong> after a reset the button in the options becomes "Restore" and brings back the last
-  backup exactly.</li>
-<li><strong>Faster tooltip:</strong> the price chart under the tooltip is only redrawn when the item or its data changed.</li>
-<li><strong>Test routine:</strong> the tooltip speed check shows the time per block; at the end of the report one line says what to
-  do for the skipped parts (e.g. "open the auction house, then /ahs testroutine server").</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
