@@ -173,3 +173,8 @@ NEU (10. Nov. 09:00, HOCH) – befund-entzaubern-zaehlen.txt
    (Kandidat nur aus UseContainerItem-Hook) -> Ersatz über Taschen-Differenz. Z2 still verworfene Ergebnisse ->
    DE-ABGELEHNT. Z3 Protokoll DE-GEZÄHLT/DE-VERPASST. Z4 Tooltip-Kopf und Ø-Menge. Z5 Testroutine. T-DZ1–T-DZ5.
    Nachtrag 09:05: anderes Entzauber-Addon beim Nutzer deinstalliert – Z1 jetzt MITTEL, Rest unverändert.
+
+NEU (10. Nov. 09:15, HOCH) – befund-buchhaltung-menge-und-gebuehren.txt
+   B1 "verkauft 800/22000" bei Einzelteilen: Menge = Preis in Kupfer (Fallback Feld 5) + Reparatur alter Buchungen.
+   B2 positive Gebühren: Erstattung gebucht, Einzahlung nicht (nur Tab Verkaufen bucht) -> jede Einstellung buchen,
+   fehlende Einzahlung aus der Erstattung nachbuchen, Reparatur. T-BM1–T-BM6.
