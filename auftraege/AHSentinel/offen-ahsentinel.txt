@@ -211,3 +211,8 @@ NEU (10. Nov. 10:15, HOCH – zusammen mit Stufe 1) – anweisung-vollscan-einze
 NEU (10. Nov. 10:20, ENTSCHEID DES NUTZERS, NIEDRIG) – anweisung-ausruestung-silber-entscheid.txt
    Ausrüstung einstellen bleibt wie jetzt (ganze Silber, −1 Silber). Kein neues Preisfeld, kein Gleichziehen.
    Testroutine (Server-Teil, mit Zustimmung) misst, wann der Server Kupfer ablehnt (S1–S5). T-AS1–T-AS3.
+
+NEU (10. Nov. 10:25) – befund-testroutine-0669.txt (Nachprüfung 0.65.69: B1, B2, Z1–Z4 umgesetzt)
+   N1 HOCH abgelehnte Entzauberungen zählen in Statistik/Abrechnung/Activity mit -> Leser unterscheiden, "davon
+   abgelehnt". N2 HOCH Reset ohne Sicherung -> Sicherung, Rückfrage mit Zahl, Wiederherstellen. N3 T122 Tooltip
+   2,10 ms -> Profil je Block. N4 HALB-Teile in einer Zeile erklären. T-N1–T-N3.
