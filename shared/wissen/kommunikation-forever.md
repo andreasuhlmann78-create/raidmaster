@@ -61,7 +61,14 @@ Folgerungen für das Flüster-Netz von GoldSentinelSync:
   8.x) sind SAY/YELL für Addon-Nachrichten ausserhalb von Instanzen gesperrt (vermutet, nicht für Forever gemessen).
 - Wenn ja: Entdeckung neuer Netz-Mitspieler am Auktionshaus/in Städten möglich (nur Kennung "habe Sync 2" rufen, Rest
   per Flüstern). Wenn nein: Entdeckung bleibt bei Gilde, Gruppe, Listen und normalen Kontakten.
-- Ergebnis: (noch offen)
+- **Ergebnis 10.11. 18:19 (GSMesstest 4, Undercity am AH, Client 1.60.1): BELEGT – geht NICHT.**
+  SendAddonMessage mit "YELL" und mit "SAY" gibt **4 zurück = Enum.SendAddonMessageResult.InvalidChatType**: der
+  Client lehnt den Weg schon beim Senden ab (wie bei Blizzard ausserhalb von Instanzen). Kein eigenes Echo, keine
+  Antwort, und seit dem Einloggen keine einzige fremde Addon-Nachricht über SAY/YELL.
+- Folge: Entdeckung über Rufweite ist in Forever nicht möglich. Neue Netz-Mitspieler nur über Gilde, Gruppe/Raid,
+  Flüstern und die Listen anderer Clients (Sync 2). Ideen dafür: gemeinsames GoldSentinel-Adressbuch aller Addons,
+  Kontakte aus normalem Spiel (Handel, Flüstern, Post, Einladung) als Kandidaten per Addon-Flüstern anfragen.
+  Nicht prüfen: Instanzen (dort könnte SAY/YELL erlaubt sein) – für ein AH-Netz ohne Nutzen.
 
 ## Quellen
 - https://github.com/Offroads/WoWForeverRace/pull/48
