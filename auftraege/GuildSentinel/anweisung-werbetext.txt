@@ -1,0 +1,36 @@
+ANWEISUNG DER PRÜF-SITZUNG FÜR GUILDSENTINEL: NEUER STANDARD-WERBETEXT (Wunsch des Nutzers, 10.11. 18:15)
+=======================================================================================================
+Erst laufende Arbeit fertig machen.
+
+Heute (Standardtext, Vorschau beim Nutzer):
+   "{gilde} sucht Mitstreiter! {gesucht} Raids, Dungeons und eine entspannte Gemeinschaft. {discord} Flüstert mich an:
+    /w {name} gilde"
+
+Neu (deDE):
+   "{gilde} ({fraktion}) sucht {gesucht} für Dungeons und Raids – entspannt, hilfsbereit, deutschsprachig.
+    Discord: {discord} – flüstert mir: /w {name} gilde"
+Neu (enGB/enUS):
+   "{gilde} ({fraktion}) is looking for {gesucht} for dungeons and raids – relaxed and helpful.
+    Discord: {discord} – whisper me: /w {name} guild"
+Andere Sprachen: sinngemäss übersetzen, ohne "deutschsprachig".
+
+Regeln
+W1 Platzhalter bleiben austauschbar (der Nutzer: "{name} ist ja im Addon austauschbar, je nachdem wer es ingame macht").
+   Im Code und im Repo NIE echte Gilden-, Spieler- oder Discord-Namen/Links (Repo öffentlich).
+W2 Neuer Platzhalter {fraktion}: aus UnitFactionGroup("player"), lokalisiert (Horde/Allianz bzw. Horde/Alliance).
+   In der Liste der Platzhalter auf der Seite ergänzen.
+W3 {gesucht} liefert nur die Klassenliste ("Heiler, Krieger und Magier", letztes Glied mit "und"/"and") ohne das
+   Wort "Gesucht:". Leer -> "neue Mitglieder" / "new members".
+W4 {discord} liefert nur den Link. Ohne Discord-Link fällt der ganze Teil "Discord: … – " weg (kein "Discord: –").
+W5 Länge: Ergebnis ≤ 255 − #("/<Kanal> ") Zeichen (siehe offen-guildsentinel.txt Punkt 1); bei echten Werten des
+   Nutzers ca. 205 Zeichen.
+W6 Nur der STANDARD ändert sich. Hat der Spieler einen eigenen Werbetext gespeichert, bleibt er unverändert.
+   Wer den alten Standard nie geändert hat (Feld leer), bekommt automatisch den neuen.
+W7 Locales alle Sprachen, CHANGELOG EN/DE.
+
+Testfälle
+T-WT1 gilde "<Testgilde>", fraktion Horde, gesucht Heiler/Krieger/Magier, discord "https://discord.gg/test", name
+      "Testname" -> genau der neue deDE-Text mit "Heiler, Krieger und Magier".
+T-WT2 ohne Discord -> kein "Discord:" im Text, kein doppeltes Leerzeichen/Strich.
+T-WT3 eigener gespeicherter Text bleibt nach dem Update unverändert.
+T-WT4 Länge ≤ 255 − #("/1 ") auch mit langen Werten (wird sonst sauber gekürzt).

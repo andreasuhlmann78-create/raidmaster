@@ -49,6 +49,11 @@ API- und Group-Einträge), Era/TBC nicht gebrochen.
    OpenChannelChat schon nach Recruit.lua verschoben (db38b08); mit 0.9.24 bitte prüfen, dass die Warnung weg ist.
    Nichts weiter zu tun.
 
+NEU (10. Nov. 18:20, Wunsch des Nutzers) – anweisung-werbetext.txt
+   Neuer Standard-Werbetext mit Platzhaltern ({gilde} ({fraktion}) sucht {gesucht} für Dungeons und Raids – …
+   Discord: {discord} – flüstert mir: /w {name} gilde), neuer Platzhalter {fraktion}, ohne Discord fällt der Teil weg,
+   eigene Texte bleiben. T-WT1–T-WT4.
+
 IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.23, Ergebnis dem Nutzer melden)
    - Werbung (neu): "Werbung vorbereiten" -> "/5 <Text>" steht in der Chat-Eingabe, die Eingabe ist im Kanal-Modus
      (Kopf "[5. Handel]" o. ä.), mit Enter gesendet, KEIN "Aktion blockiert". Danach: "zuletzt gepostet" und die
