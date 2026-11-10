@@ -12,6 +12,20 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.70
+
+- **Fix: options overlapped** (e.g. "Self-test" over "Default duration"): there were more options than fit in two
+  columns of 18 rows. Each option now gets its own place (20 per column, more columns if needed).
+- **Your disenchant results are protected:** "Reset" (Options → Disenchant learned) asks with the number of results
+  and saves a backup first. The test routine checks that disenchant data is unchanged after the run (count and
+  quantity sums) and reports any difference.
+- **Disenchanting:** loot without a single disenchant material (mob, chest, skinning) is never counted as a
+  disenchant; the loot must arrive within 5 seconds.
+- **Test routine:** new report section "Disenchanting (real data)" – per group own/shared results, rate per material
+  against the table (unusual values marked), daily count check and plausibility; also in the GSTEST1 export. New checks
+  for the whole chain (spell → loot → counted), learning formula with fixed numbers, shared results and values.
+- Tooltip: chance source for disenchant group "up to 15" named correctly.
+
 ### Version 0.65.69
 
 - **Fix: ledger showed the price as quantity** (e.g. "sold 22000" for ONE cap): on some WoW Forever invoices field 5 is
@@ -73,19 +87,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - Test routine: watcher setting no longer touched (sandbox), result tooltips beside the window, T33 always with a
   reason, T52 checks "undercut" and "leave it" separately, T27 names the real reason, empty frames of other addons
   are only a hint.
-
-### Version 0.65.65
-
-- **Fix: posting gear failed with "Internal auction error"** on WoW Forever: the server accepts single items (gear)
-  only in whole silver. AHSentinel now rounds the price of single items down to whole silver (at least 1s) and shows it
-  in the field; undercutting single items uses "−1 silver". Commodities keep copper prices.
-- **Fix: dust and essences were "hardly selling"** (0.65.63): the sales rate now always comes from the market; your own
-  sales only raise it, and anything you sell yourself regularly is never "hardly sells".
-- **"Today" no longer stutters:** the disenchant deals loop now pauses in small portions; the diagnostic log shows the
-  steps per frame for slow background tasks.
-- **New: command list while typing:** type /ahs in chat and all commands appear above the input box – the ones you
-  use most at the top; keep typing to filter, click to run. AHSentinel never writes into the chat box. Can be turned off
-  in the options ("Command list while typing").
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

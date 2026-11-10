@@ -7,6 +7,20 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.70</h3>
+<ul>
+<li><strong>Fix: options overlapped</strong> (e.g. "Self-test" over "Default duration"): there were more options than fit in two
+  columns of 18 rows. Each option now gets its own place (20 per column, more columns if needed).</li>
+<li><strong>Your disenchant results are protected:</strong> "Reset" (Options → Disenchant learned) asks with the number of results
+  and saves a backup first. The test routine checks that disenchant data is unchanged after the run (count and
+  quantity sums) and reports any difference.</li>
+<li><strong>Disenchanting:</strong> loot without a single disenchant material (mob, chest, skinning) is never counted as a
+  disenchant; the loot must arrive within 5 seconds.</li>
+<li><strong>Test routine:</strong> new report section "Disenchanting (real data)" – per group own/shared results, rate per material
+  against the table (unusual values marked), daily count check and plausibility; also in the GSTEST1 export. New checks
+  for the whole chain (spell → loot → counted), learning formula with fixed numbers, shared results and values.</li>
+<li>Tooltip: chance source for disenchant group "up to 15" named correctly.</li>
+</ul>
 <h3>Version 0.65.69</h3>
 <ul>
 <li><strong>Fix: ledger showed the price as quantity</strong> (e.g. "sold 22000" for ONE cap): on some WoW Forever invoices field 5 is
@@ -69,20 +83,7 @@
   reason, T52 checks "undercut" and "leave it" separately, T27 names the real reason, empty frames of other addons
   are only a hint.</li>
 </ul>
-<h3>Version 0.65.65</h3>
-<ul>
-<li><strong>Fix: posting gear failed with "Internal auction error"</strong> on WoW Forever: the server accepts single items (gear)
-  only in whole silver. AHSentinel now rounds the price of single items down to whole silver (at least 1s) and shows it
-  in the field; undercutting single items uses "−1 silver". Commodities keep copper prices.</li>
-<li><strong>Fix: dust and essences were "hardly selling"</strong> (0.65.63): the sales rate now always comes from the market; your own
-  sales only raise it, and anything you sell yourself regularly is never "hardly sells".</li>
-<li><strong>"Today" no longer stutters:</strong> the disenchant deals loop now pauses in small portions; the diagnostic log shows the
-  steps per frame for slow background tasks.</li>
-<li><strong>New: command list while typing:</strong> type /ahs in chat and all commands appear above the input box – the ones you
-  use most at the top; keep typing to filter, click to run. AHSentinel never writes into the chat box. Can be turned off
-  in the options ("Command list while typing").</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
