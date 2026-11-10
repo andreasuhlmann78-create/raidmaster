@@ -88,6 +88,7 @@ die **Menge**, bid den **Gesamtpreis** (Rohzeile unten), `count` ist die Menge o
 - **Händlerpreis = Untergrenze** dessen, was ein Item sicher wert ist.
 - Anzeigen sagen immer, woher ein Preis kommt ("Scan", "Markt"), wenn er von anderen Stellen abweichen kann.
 
+- **Entzauber-Chancen grüner Rüstung (vermutet, nicht in Forever gemessen):** warcraft.wiki.gg (Classic, nach Itemstufe): 5–15 Staub 80 % / Essenz 20 %; 16–20 75/20/Splitter 5; 21–25 75/15/Splitter 10; 26–30 75/20/5. Ein Forever-Leitfaden (wow-professions.com/forever) nennt allgemein 75/20/3–5. Belegen über die eigenen Entzauber-Ergebnisse (AHSentinel "echt aus N").
 - **Absatz schätzen (vermutet):** "Verschwunden zwischen zwei Scans" ist in Forever KEIN Verkaufsmass – Auktionen laufen höchstens 24 Std., der ganze Bestand verschwindet täglich (Handschuhe 10.11.: 222 im AH, 294 "verschwunden"/Tag). Eigene Verkaufsquote (verkauft/eingestellt) zuerst; sonst Markt-Absatz deckeln (Annahme: <= 20 % des Bestands pro Tag).
 
 ## 4. Formeln

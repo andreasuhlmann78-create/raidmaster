@@ -193,3 +193,16 @@ NEU (10. Nov. 07:40, Wunsch des Nutzers, NIEDRIG) – anweisung-laufzeit-2-stund
 NEU (10. Nov. 07:50, Prüf-Sitzung) – befund-testroutine-0665.txt (Client-Lauf 0.65.65: OK 354 · FEHLER 6)
    R1 Gewinn-Fenster versteckt die Einstellgebühr (Crafting.lua:448, veraltete Regel "9. Nov."), R2 Sandbox
    watcher.interval, R3 Knöpfe im Testfenster überlappen, R4 BuffSentinel-Anker als Hinweis, R5 T33 ohne Grund, R6 Tempo.
+
+NEU (10. Nov. 08:20, Prüf-Sitzung, NIEDRIG) – Entzauber-Chancen im Tooltip klar kennzeichnen
+   Nutzer zweifelt die Chancen an (Befestigter Umhang, Itemstufe 22: Staub 75 % · Geringe Astralessenz 15 % · Kleiner
+   gleissender Splitter 10 %). Geprüft: Das ist genau warcraft.wiki.gg "Disenchanting tables" (Classic, Itemstufe 21–25,
+   Summe 100 %), Disenchant.lua D.GREEN_P[3]. Ein Forever-Leitfaden (wow-professions.com/forever) nennt allgemein
+   Rüstung 75 % / 20 % / Splitter 3–5 % – die Quellen widersprechen sich, in Forever NICHT gemessen.
+   Bitte:
+   a) Kopf "Materialien (Tabelle)" nur, wenn wirklich nur die Tabelle zählt. Sind eigene Ergebnisse eingerechnet
+      (z. B. Verstärktes Leinencape: Kopf "ungefähre Chancen" 80/20, Tabelle-Zeilen 85/15), dann "Materialien (Tabelle +
+      N eigene)" – sonst sieht es wie ein Widerspruch aus.
+   b) Mit Shift die Quelle der Chancen zeigen ("Tabelle warcraft.wiki.gg, Classic" bzw. "echt aus N").
+   c) Im Protokoll einmal je Gruppe und Tag "DE-CHANCEN Gruppe <k:a/w> · Tabelle … · echt … (N)" – damit wir die
+      Forever-Werte belegen können, sobald genug Entzauberungen da sind.
