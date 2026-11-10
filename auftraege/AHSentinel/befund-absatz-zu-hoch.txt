@@ -41,3 +41,27 @@ T-AB13 Restzeit "kurz" verschwunden -> zählt nicht als Verkauf (nur mit Daten a
 
 Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
 Danach dem Nutzer kurz melden.
+
+NACHPRÜFUNG DER ZAHLEN (10. Nov. 07:40, Prüf-Sitzung, Code 0.65.64 Zeile für Zeile nachgerechnet)
+P1 S 293.8 ist genau der Deckel aus GetLiquidity (AHAnalyzerPro.lua:1693–1694): perDay = min(drops × 0,5 / Tage,
+   avgQty × 0,5). 293,8 = 0,5 × 587,6 -> der 14-Tage-Durchschnitt (LIQ_DAYS 14) liegt bei ~588 Handschuhen (der Nutzer sah
+   früher 552), heute sind es 222. Der Deckel nimmt also an, dass jeden Tag die HÄLFTE des alten Durchschnittsbestands
+   verkauft wird – und der rohe Wert (drops) war noch höher. Der Deckel ist zu grosszügig und hängt am alten Bestand.
+P2 Korrektur zu G2/T-AB10: S = 0,2 × 222 = 44,4/Tag -> W = (222 + 1) / 44,4 = 5,02 Tage -> N = aufrunden(5,02) = 6
+   Einstellungen (nicht 5). Verlust = 5 × 1s (Mindesteinzahlung; Formel 29c × 60 % = 17c < 1s) = 5s -> Verkaufen netto
+   1s 90c − 5s < 0 -> RealValue nimmt den Händler (29c); Urteil Entzaubern (1s 21c). W < 7 Tage -> nicht "kaum".
+   T-AB10 bitte mit N = 6 und "Händler 29c / Entzaubern bester Weg" prüfen.
+P3 Warteschlange aus dem Scan (A:SellQueue, Quelle "scan", AHAnalyzerPro.lua:1282–1288) zählt die GANZE Menge des
+   Items, nicht nur die Stück zu meinem Preis oder billiger (die Bedingung "<= Preis" gilt nur für die Quelle "search").
+   Bei den Handschuhen egal (alle zu 2s), bei Staub (Q 10886) zählt auch Teures mit. G5: Beim Scan je Item die Menge zum
+   günstigsten Preis bzw. bis "Markt + 5 %" mitspeichern und für Q nehmen; sonst wie heute (im Protokoll "Q gesamt").
+P4 Unstimmigkeit, bitte im Client prüfen: ABSATZ für die Braune Leinenhose (4343) sagt seit 06:58 "N 2", das Gewinn-
+   Fenster zeigte um 07:04 (0.65.63) aber "Gewinn 92c", nur "AH-Gebühr 10c" und keine Zeile für erwartete Neu-
+   Einstellungen – mit N 2 wären es 1s weniger. Crafting.lua:442 ruft RealValue(productID, made) mit made = Durchschnitt
+   der hergestellten Menge (hier 1) – gleiche Rechnung wie das Protokoll erwartet. Bitte klären, woher der Unterschied
+   kommt (Zwischenspeicher outlookCache/Stempel? Preis-Argument? eigene Quote aus Le:PostRate?) und im Gewinn-Fenster
+   die benutzte N als Zeile zeigen ("bei 1 Stück je Auktion: ~2 Einstellungen −1s"). T-AB5 im echten Client wiederholen.
+P5 Entzauberwert 1s 21c (Handschuhe) konnte ich mit den Werten im Tooltip nicht exakt nachrechnen: Staub 81c, Essenz 91c
+   (Scan), 85 %/15 % × 1–2 -> brutto 1s 24c, nach 5 % (abgerundet) ~1s 18c; mit 80 %/20 % brutto 1s 25c / netto
+   ~1s 19c. Vermutlich gehen eigene Entzauber-Ergebnisse (Ø aus N) ein. Bitte im Protokoll einmal je Item und Tag
+   "ENTZAUBERWERT Item <ID> · Chancen · Ø Menge · Materialpreise netto · Ergebnis" schreiben, damit es nachprüfbar ist.
