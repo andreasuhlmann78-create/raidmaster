@@ -65,6 +65,19 @@ H8 (HOCH) ENTZAUBER-KÄUFE MIT VERLUST (Meldung des Nutzers 10.11. 12:55): "für
    (Kaufpreis, Beute, davon verkauft zu X, Lager zu Y, Gebühren) und dem Nutzer eine klare Zeile "Charge 10.11.:
    bezahlt 5g, verkauft Xg, Lager Yg, Gebühren Zg, Ergebnis ±Wg" zeigen. H8 bleibt richtig (Materialwert realistisch,
    eigene Menge), nur das Beispiel ist anders.
+H9 (HOCH) MATERIALPREIS IM ENTZAUBER-TOOLTIP ≠ SCAN (Bildschirmfotos 14:07/14:10, 0.65.78)
+   Tooltip Bronzene Stulpen: "Großer gleißender Splitter 9,2 % × Ø 1,0 – 15s 92c Scan". Kaufen -> Verzauberkunst im selben
+   Augenblick (Scan vor 3 Min.): Großer gleißender Splitter – verfügbar 311, Preis/Stück 37s, "221 % Markt" (Marktwert
+   also ≈ 16,7s). Der Tooltip nennt "Scan", rechnet aber mit ~Marktwert – bei einem Material, das seit Stunden zu 37s
+   verkauft wird (Nutzer verkaufte 2 × 37s 47c). Folge: Entzauberwert ≈ 2s je Teil zu tief, "lohnt nicht −39 %".
+   Gleichzeitig galt am Morgen das Umgekehrte (Marktwert über erzielbarem Preis). Das Problem ist dasselbe wie H1: es
+   gibt keinen EINEN realistischen Verkaufspreis.
+   Lösung (mit H1 zusammen): Materialpreis = realistischer Verkaufspreis aus Preisleiter + Absatz; die Quelle im Tooltip
+   ehrlich nennen ("Scan 37s, 311 Stück" / "Marktwert" / "gelernt"); wenn Scan und Marktwert > 50 % auseinander liegen,
+   den Wert grau "unsicher" markieren und im Shift-Tooltip beide zeigen. Kein Wert mit Label "Scan", der nicht aus dem
+   Scan stammt.
+T-HF9 Splitter Scan 37s (311 Stück), Marktwert 16,7s, Absatz ≥ 20/Tag -> Materialpreis ≈ 37s (realistisch), Label "Scan".
+
 T-HF8 Testfall mit den Zahlen oben (Kaufpreis 14s = Morgen-Durchschnitt): Kaufpreis 14s, Materialpreise 6s 77c / 13s 69c / 37s 47c, Chancen 75/20/5,
       Ø-Menge 1,5 -> "lohnt nicht" (Verlust ≈ 1s je Teil). Gleicher Fall bei Kauf von 70 Teilen und Absatz Seelenstaub
       20/Tag -> Materialpreis Seelenstaub tiefer, Verlust grösser.
