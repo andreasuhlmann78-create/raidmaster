@@ -12,6 +12,26 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.81
+
+- **Fix (important): honest material prices for disenchanting.** The material price is the realistic sell price from
+  the price ladder and sales (no longer capped at the market value). The tooltip says where it comes from: "Scan" only
+  for scan values, otherwise "Market" or "price just rose (for N h)". If scan and market value are more than 50 % apart
+  the price is grey "unsure"; with Shift both values are shown. A fresh jump (< 24 h) counts at most 1.5× the market
+  value; after 24 h the ladder price counts (log MARKTWERT-CHECK). Bait offers (1–2 pieces far below the median) no
+  longer pull down the market value from the price history.
+- **Disenchant block list with a way back:** right-click asks first ("Yes / Skip just this once / Cancel"). New button
+  "Blocked (N)" with a list to unblock single items or all. The empty window says how many items are blocked/skipped.
+  `/ahs entzaubern freigeben` unblocks all.
+- Speed: the full forecast evaluation no longer runs in the tooltip or after ledger changes; it is computed in the
+  background in portions, the tooltip reads the cache.
+- Full scan: "/ahs vollscan messen" measures a shorter interval once per session (asks first); the wait message no
+  longer claims a server limit ("as a precaution, not measured yet").
+- Buy forecast "resell" uses the realistic resale price. Sync: old scan announcements are cleaned up.
+- Removed outdated fee texts and unused keys.
+- Test routine: T369–T383 (T-HF9–11, H5, T-SK1/2/5, T-SP1–4, background check ≥ 16 ms, 3000-entry tooltip check),
+  explanation line "learned vs. history" in the disenchant report.
+
 ### Version 0.65.80
 
 - **Fix (important): ledger stock.** "Result with stock" showed −9g 60s and "Stock −8s 22c" although about 4.7g of goods
@@ -73,23 +93,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   ("estimated"); an empty view says why. Switching views clears the details (or shows the first row).
 - **My Auctions:** total of sold goods in the summary line (gross and after the AH cut).
 - Test routine: T344–T350 (T-HF1–T-HF7).
-
-### Version 0.65.76
-
-- **Full check after all steps:** `/ahs testroutine alles` runs the automatic part and then the server, professions
-  and vendor parts one after the other. If a window is missing, one line says what to open; it waits up to 2 minutes
-  and then continues.
-- **Test report:** five summary lines at the top (OK/errors, what is left to do in the game, forecast hit rate,
-  measured sales available for N items, storage). A coverage list maps every task and test case to its checks or
-  says why it can only be checked in the game. Sections with real data: disenchanting, forecast quality, full scan,
-  learning database, market tab, gear measurement. The sandbox compares all real tables (also journal, learning, full
-  scan); storage sizes and loading time are in the report.
-- **Measurement "gear in whole silver"** (`/ahs messreihe`, only with your agreement): with a few cheap grey/white gear
-  items it posts at 1s 00c, 1s 01c, 1s 50c, 1s 99c, 2s, 10s 50c, 1g 00s 01c and once with a bid, plus one commodity at
-  1s 99c – every posting is cancelled right away, every step is one click, at most 10 postings, costs shown first.
-  The result goes into the log and the test report. The price rounding stays as it is until the measurement proves
-  otherwise.
-- Price sync: a partial price list from the network no longer stops a guild member with a full scan from answering.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
