@@ -12,6 +12,19 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.84
+
+- **Sniper searches by itself again:** the quick full scan (ReplicateItems) no longer blocks the sniper's item search;
+  a running shopping search or price check blocks at most 20 s. Opening the AH (also after /reload) starts a search
+  right away. Instead of "Nothing searched yet" the sniper shows its state: "next search in 12 s · last 40 s ago:
+  5 hits" or "waiting: market scan running", plus "full scan lock N min left (sniper searches anyway)". Log
+  SNIPER-SUCHE (target ID, offers, hits ≤ max, bought, block reason; no names).
+- **"Purchase failed" only once:** the same offer is reported once; further failures within 30 s become one summary
+  line. The failed offer is marked "gone" and never retried – the next wheel tick buys the next matching offer; if
+  none is left, a new search starts.
+- The warning "Max above sell value" uses the same value as the tooltip (for disenchant items the disenchant value).
+- Test routine: T399–T402 (T-SR2–T-SR5).
+
 ### Version 0.65.83
 
 - **New market view "Disenchant":** items that bring at least 20 % profit after disenchanting – at the current market,
@@ -78,20 +91,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   even if the amount differs (the invoice amount counts, log KAUF-DOPPELT). `/ahs doppelt` lists possible old double
   entries; `/ahs doppelt bereinigen` cleans up clear pairs with a backup (`/ahs doppelt zurück` undoes it).
 - Test routine: T364–T368 (T-LG1–T-LG5).
-
-### Version 0.65.79
-
-- **Test routine never touches your disenchant data:** reset and restore tests (and the option test "reset
-  disenchanting") now run only on substitute tables – including the backup `deBackup`.
-- **Measured sales from the full scan were far too high (10–20×):** for goods (stackable), a partial purchase created a
-  new signature, so the whole old stack counted as "gone". Goods are now compared by quantity per unit price (only price
-  levels up to the lowest price + 2 %, re-listings at the same price are offset). Sales per day are only extrapolated
-  after at least 6 hours of coverage; until then "too short". A plausibility limit (at most 2× the average quantity on
-  offer) marks and logs implausible values. Rates from earlier versions (too short pairs) are no longer used.
-- Full scan reading: the clock is checked every 25 entries with 5 ms per frame (goal: longest frame ≤ 8 ms).
-- Test routine: the ranking check (T169) measures only the ranking job; other jobs are named. The disenchant count
-  check only compares entries since counting started (no false alarm).
-- Test routine: T360–T363 (T-W1, T-W2, T-W5).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
