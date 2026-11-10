@@ -65,7 +65,7 @@ GuildSentinel bringt alles rund um die Gilde in ein Fenster: **wer ist wer** (mi
 • **Gildenerfolge**, **Chronik** (Export für Discord) und ein **Wochenrückblick** im Gildenchat
 
 **📣 Rekrutierung und Gildenleben**
-• Werbetext mit Vorschau – jeder Klick postet in den nächsten Kanal (Welt, Gruppensuche, Handel)
+• Werbetext mit Vorschau – jeder Klick legt ihn für den nächsten Kanal in die Chat-Eingabe (Gruppensuche, Handel …), du sendest mit Enter
 • **Die Werbung weiß, was fehlt**: `{gesucht}` wird z. B. zu „Gesucht: Schamanen, Tanks, Hexenmeister.“, `{berufe}` zu den Berufen, die der Gilde fehlen
 • Bewerber aus Flüsternachrichten sammeln, automatisch antworten und **Bewerbungsfragen stellen** (Klasse, Raid-Erfahrung, Spielzeiten …) – die Antworten stehen beim Bewerber
 • Mit einem Klick einladen

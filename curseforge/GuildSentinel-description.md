@@ -10,6 +10,13 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.23
+
+- **Recruitment ad no longer blocked**: WoW Forever blocks addons from writing into chat channels ("action blocked"), even from a click. The button is now "Prepare ad": it puts "/<channel> <text>" into the chat input and you send it with Enter (all game versions). The ad only counts as posted (wait times, "last posted", reminder) once your text appears in the channel.
+- Group finder: a guild search can only be closed by the searcher; for "whole server" searches the searcher's name in the data is enough (they arrive passed on through the network).
+- Guild profession list: the diagnostic line now says why offline members were or were not shown (already on, no function, combat, guild window open, 5-minute lock …); if the list can no longer be read on the second read, the settings are still put back.
+- Developer test routine: T239–T241 new.
+
 ### Version 0.9.22
 
 - **Recipes of each member**: on the Professions page, click a member to see WHICH recipes they know for that profession – with a back button, item links and tooltips, and "Request craft" for the selected recipe.
@@ -60,12 +67,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 - Promote from the activity list and the bulk actions now use the modern game function first (like guild management).
 - Diagnostic log: lines for read, sent, received, shown and filtered professions (numbers only, no player names) and a summary.
 - Developer test routine: T201–T213 new.
-
-### Version 0.9.18
-
-- **Professions of all members**: the game can send its guild profession list with collapsed professions, and then GuildSentinel found no names. It now opens collapsed professions briefly, reads them and closes them again (only outside combat and while Blizzard's guild window is closed). Where the game cannot do that, the Professions page shows how many members have each profession (e.g. "2/5": 2 known to GuildSentinel, 5 according to the game).
-- **Guild management**: actions and rank names now always use the right game function on every client (Classic Era, TBC Anniversary, WoW Forever). The management button moves below the guild window while Blizzard's member details or rank window are open, so it never covers them.
-- Developer test routine: T190 extended (collapsed professions), new T200 (old clients without C_GuildInfo); area K also checks Blizzard's guild pop-ups.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
@@ -147,7 +148,7 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## 📣 Recruitment
 
-- Ad text with placeholders and preview – each click posts into the next channel
+- Ad text with placeholders and preview – each click puts it into the chat input for the next channel, you send it with Enter
 - **The ad knows what's missing**: `{wanted}` becomes e.g. "Looking for: Shamans, Tanks, Warlocks.", `{crafters}` lists missing professions
 - Collect applicants from whispers, reply automatically and ask **application questions**
 - Welcome new members, celebrate anniversaries
