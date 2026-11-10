@@ -31,9 +31,12 @@ E4 FILTER:
    e) nicht bei Preissturz/Flutung des Materials (H2) und nicht bei Hinweis "frisch gestiegen" für das wichtigste Material
       ohne Warnung (Zeile gelb: "Wert hängt an frisch gestiegenem Preis von <Material>").
 E5 Detailbereich rechts: Materialien mit Chance, Ø-Menge, aktuellem Preis und Hinweis; eigene Ergebnisse der Gruppe (N,
-   Raten); "lohnt bis X" (Kaufpreis bei genau 20 % Gewinn); Abrechnung der letzten Entzauber-Charge dieser Gruppe.
-E6 Fusszeile: Summe der Vorschläge (Kosten, erwarteter Gewinn, Materialmengen je Material) und Kapitalbedarf "von Gold
-   (höchstens 25 %)".
+   Raten); "lohnt bis X" (Kaufpreis bei genau 20 % Gewinn).
+E6 Fusszeile (Entscheid des Nutzers 16:17: "es soll das stehen, was man gerade an Menge kauft, und nicht mehr"):
+   NUR der aktuelle Kauf – die gewählte Zeile bzw. die Zeilen, für die gerade gekauft wird (Sniper-Ziel/Sammelkauf aus
+   dieser Ansicht): Menge, Kosten, erwarteter Gewinn, erzeugte Materialmenge. Keine Summe aller Vorschläge, keine
+   Abrechnung früherer Käufe in dieser Ansicht (die steht in Buchhaltung -> Entzaubern). Ohne Auswahl leer bzw.
+   "Zeile wählen".
 E7 "Heute" zeigt die beste Entzauber-Zeile weiter (wie bisher), mit denselben Zahlen (H3: Liste = Detail).
 E8 Bereich K und Tempo: kein Frame > 8 ms beim Aufbau (Portionen), nichts abgeschnitten.
 
@@ -44,6 +47,7 @@ T-ME2 Gleiches Item zu 17s -> keine Zeile.
 T-ME3 Seelenstaub-Absatz 300/Tag, 50 Teile (≈ 75 Staub) -> keine Kürzung. Absatz 30/Tag, Bestand 40 -> gekürzt, gelber Hinweis.
 T-ME4 Gold 15g -> Summe Kapitalbedarf aller Markt-Vorschläge ≤ 3g 75s.
 T-ME5 Item nicht entzauberbar (gebunden / Fertigkeit zu niedrig) -> keine Zeile.
+T-ME7 Zeile wählen, Menge 50 -> Fusszeile "50 Stück · 5g · erwarteter Gewinn … · ≈ 73 Seelenstaub …", keine Summe aller Zeilen.
 T-ME6 Option Mindestgewinn 30 % -> Zeilen mit 20–29 % fallen weg.
 
 Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
