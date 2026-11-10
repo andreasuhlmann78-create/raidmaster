@@ -28,6 +28,20 @@ K4 Protokoll-Zeile KAUF-FEHLER (ohne Namen): Item-ID, auctionID, Preis, buyout, 
 K5 Gegenprobe (nur falls K4 zeigt, dass das Angebot NICHT weg war): gleiche Sofortkauf-Situation (Gebot = Sofortkauf)
    im Blizzard-Fenster – klappt es dort, ist AHSentinels Aufruf falsch. Ergebnis melden.
 
+NACHTRAG 08:45 (zweite Meldung des Nutzers 08:38, Bildschirmfotos)
+   Liste (Scan vor 18 Min.): Weisenhandschuhe [Entzaubern lohnt], 10s, Verfügbar "~31", 91 %. Klick -> Detail
+   "0 Angebote, geladen vor 1 Sek." -> "Keine Angebote". Sniper kauft es auch nicht. Die Azurblaue Seidenkapuze steht
+   weiter in der Liste, obwohl sie weg ist (K2). Ein anderer Kauf (Dokebi-Kordel) hat geklappt.
+   31 Stück in 18 Min. alle weg ist unwahrscheinlich. Verdacht:
+K6 Die Detailsuche findet das Item nicht, obwohl es da ist – z. B. falscher itemKey (Itemstufe/Suffix/Variante
+   weicht vom Scan ab; grüne Items mit Zufalls-Suffix "… des Affen" usw.), oder die Liste führt Angebote, die der Scan
+   nur geschätzt hat ("~"). Prüfen: itemKey aus dem Scan = itemKey der Detailsuche? Bei 0 Treffern einmal mit
+   C_AuctionHouse.MakeItemKey(itemID) bzw. Suche über den Namen nachladen, und Ergebnis ins Protokoll (DETAIL-LEER:
+   Item-ID, itemKey Scan/Detail, Treffer). Liste: "~"-Einträge, die die Detailsuche nicht findet, entfernen.
+   Gegenprobe beim Nutzer: dasselbe Item im Blizzard-Fenster suchen – zeigt Blizzard Angebote, ist es K6.
+T-SK6 Item mit Zufalls-Suffix im Scan -> Detail zeigt alle Angebote (alle Suffixe), Sofortkauf und Sniper kaufen.
+T-SK7 Detail findet 0 -> Eintrag verschwindet aus der Einkaufsliste, Protokoll DETAIL-LEER.
+
 TESTFÄLLE
 T-SK1 Angebot vor dem Kauf von anderem gekauft -> Meldung "Angebot ist weg (vermutlich schon gekauft)", Zeile aus der
       Liste, Knopf gesperrt. T-SK2 Gold zu wenig -> "Nicht genug Gold" (vor dem Aufruf).
