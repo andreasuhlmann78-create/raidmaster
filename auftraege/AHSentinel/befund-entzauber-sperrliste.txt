@@ -1,0 +1,30 @@
+BEFUND DER PRÜF-SITZUNG FÜR AHSENTINEL: ENTZAUBER-SPERRLISTE – KEIN WEG ZURÜCK (0.65.76)
+=====================================================================================
+Stand: 10. November 2026, 14:10 · Meldung des Nutzers (13:59): Bronzene Stulpen per Rechtsklick im Entzauber-Fenster
+"aus Versehen rausgemacht" – Fenster zeigt "Nichts zum Entzaubern", 5 Stulpen liegen in der Tasche.
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen. Dann dies (MITTEL – Bedienfalle).
+
+BEFUND (DEWindow.lua:318–325, 80–89)
+   Rechtsklick auf das Symbol -> DW:ToggleBlock(itemID) -> A.db.deBlock[itemID] = true, ohne Rückfrage und dauerhaft.
+   Gesperrte Items erscheinen nie mehr im Fenster -> der Rechtsklick zum Freigeben ist unmöglich. Keine andere Stelle
+   (Optionen, Statistik, Befehl) zeigt oder leert die Sperrliste. Umgehung für den Nutzer:
+   /run AHSentinelDB.deBlock=nil; AHAnalyzerPro.DEWindow:Refresh()
+
+UMSETZEN
+SP1 Rechtsklick fragt nach: "<Item> nie mehr entzaubern? [Ja] [Nur diesmal überspringen] [Abbrechen]" (Popup, kein
+    Rechtsklick ohne Bestätigung). "Nur diesmal" = DW:Skip().
+SP2 Sperrliste sichtbar und bearbeitbar: im Entzauber-Fenster unter "Statistik" bzw. eigener Knopf "Gesperrt (N)" mit
+    Liste der gesperrten Items (Symbol, Name) und je Zeile "Freigeben"; dazu "Alle freigeben".
+SP3 Hinweis im leeren Fenster: Steht "Nichts zum Entzaubern", aber es liegen gesperrte/übersprungene entzauberbare Items
+    in der Tasche: "Nichts zum Entzaubern – 5 gesperrt, 0 übersprungen [Anzeigen]".
+SP4 Befehl /ahs entzaubern freigeben (alle) als Rettungsweg; in der Befehlsliste.
+SP5 Tooltip des Symbols: "Rechtsklick: nie entzaubern (mit Rückfrage)".
+
+TESTFÄLLE
+T-SP1 Rechtsklick -> Popup; "Nur diesmal" -> nicht in deBlock. T-SP2 Gesperrtes Item in "Gesperrt (1)" -> Freigeben ->
+erscheint wieder. T-SP3 Fenster leer mit 5 gesperrten Items in der Tasche -> Hinweis mit Zahl. T-SP4 Befehl leert
+deBlock. Testroutine: nur Ersatztabellen (deBlock gehört zu den geschützten Daten).
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden.
