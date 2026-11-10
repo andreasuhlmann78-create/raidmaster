@@ -1,0 +1,32 @@
+ANWEISUNG DER PRÜF-SITZUNG FÜR AHSENTINEL: STANDARD-LAUFZEIT BEIM VERKAUFEN = 2 STUNDEN
+=====================================================================================
+Stand: 10. November 2026, 07:40 · Wunsch des Nutzers (10.11. 07:25), vom Nutzer freigegeben
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen. Klein – kann mit dem nächsten Release kommen.
+
+WUNSCH
+Im Reiter Verkaufen soll die Auktionsdauer standardmässig auf 2 Stunden stehen (heute: Vorbelegung 24 Std., "wenn es
+nicht mehr kostet", bzw. die zuletzt gewählte Dauer db.duration).
+
+UMSETZEN
+D1 Neue Einstellung "Standard-Laufzeit" (2 / 8 / 24 Std.), Standard 2 Std. (Optionen, Locales DE/EN und alle anderen).
+   In WoW Forever entspricht 2 Std. der Stufe 1 (Laufzeiten 2/8/24, belegt im Regelwerk). In Era/TBC/Retail die
+   kürzeste Stufe des jeweiligen AH (z. B. 12 Std.) – Beschriftung aus dem Spiel, nicht fest.
+D2 Beim Öffnen des Verkaufen-Reiters und bei jedem neuen Item steht die Dauer auf der Standard-Laufzeit – NICHT mehr auf
+   der zuletzt gewählten Dauer und nicht mehr auf der automatischen 24-Std.-Vorbelegung. Wählt der Nutzer von Hand eine
+   andere Dauer, gilt sie für dieses Einstellen; beim nächsten Item wieder die Standard-Laufzeit.
+D3 Der Hinweis "24 Std. kostet gleich viel" darf als Hinweis unter den Knöpfen bleiben (keine automatische Umstellung).
+D4 Serien-Einstellen, Neu einstellen und Heute tun benutzen dieselbe Standard-Laufzeit.
+D5 Rechnungen (A:DefaultDuration -> SellOutlook, ExpectedDepositLoss, Einzahlung im Tooltip/Gewinn-Fenster) rechnen mit
+   der Standard-Laufzeit. Wichtig: Bei 2 Std. heisst "Wartezeit W Tage" W × 12 Einstellungen – die Deckelung RELIST_MAX
+   (7) bleibt; das Absatz-Urteil ("kaum" ab 7 Tagen) hängt an der Wartezeit, nicht an der Laufzeit. Im Tooltip mit Shift
+   die Einstellungen mit der tatsächlich benutzten Laufzeit zeigen.
+
+TESTFÄLLE
+T-D1 Neuer Spielstand -> Verkaufen-Reiter steht auf 2 Std.; Einzahlung im Fenster = Formel/Blizzard für Stufe 1.
+T-D2 Von Hand 24 Std. gewählt, eingestellt, nächstes Item -> wieder 2 Std.
+T-D3 Einstellung auf 8 Std. -> alle Wege (Serie, Neu einstellen, Heute tun) 8 Std.
+T-D4 Era/TBC: kürzeste Stufe des alten AH, kein Lua-Fehler.
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden.
