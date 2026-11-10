@@ -34,6 +34,18 @@ H4 Flip-Gewinn ehrlich: (realistischer Verkaufspreis × 0,95 − Kaufpreis − e
 H5 Prognose-Journal: dieser Fall als Testfall – Kauf-Prognose "Wiederverkauf 2g 3s" wäre mit dem Ergebnis grob falsch;
    die Kauf-Trefferquote je Strategie "Flip" muss das später zeigen.
 
+NACHTRAG 13:00 (weitere Bildschirmfotos 12:44, 0.65.76)
+H6 Händler, Lücken, Überfüllt, Trends zeigen alle "0 Zeilen – Gerade nichts in dieser Ansicht", obwohl es klare Fälle
+   gibt (z. B. Instabiles Magiepartikel: 855 Stück, Absatz ~52/Tag; Schwere Leinenhandschuhe 552 Stück – beides
+   gehört in ÜBERFÜLLT). Vermutlich warten die Ansichten auf den GEMESSENEN Absatz (Vollscan-Verfolgung braucht Tage).
+   Lösung: bis gemessene Daten da sind, mit dem geschätzten Absatz rechnen und die Zeile grau ("geschätzt")
+   markieren – nie leer, wenn es Daten gibt. Ist eine Ansicht wirklich leer, den GRUND nennen ("Trends: braucht
+   7 Tage Verlauf, noch 3 Tage" / "kein Sofortkauf unter Händlerpreis im letzten Scan").
+H7 Der Detailbereich rechts bleibt beim Wechsel der Ansicht auf dem zuletzt gewählten Item stehen (hier "Rolle der
+   Beweglichkeit III" in allen Ansichten). Beim Ansichtswechsel leeren oder die erste Zeile der neuen Ansicht zeigen.
+T-HF5 Überfüllt mit Testdaten (Menge 855, Absatz 52/Tag, Laufzeit 2 Std.) -> Zeile da, auch ohne gemessenen Absatz
+      ("geschätzt"). T-HF6 leere Ansicht nennt den Grund. T-HF7 Ansichtswechsel leert/wechselt den Detailbereich.
+
 TESTFÄLLE
 T-HF1 Item mit Marktwert 2g 3s, Preisleiter 45s 97c: 256 · 45s 98c: 424 · 49s 99c: 65 · 50s: 158 · 2g 2s 98c: 3, Absatz
       52/Tag, Laufzeit 2 Std. -> realistischer Verkaufspreis ≈ 45–46s -> KEIN Flip, Heute ohne Kaufzeile.
