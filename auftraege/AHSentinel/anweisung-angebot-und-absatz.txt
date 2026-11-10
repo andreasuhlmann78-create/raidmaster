@@ -1,0 +1,56 @@
+ANWEISUNG DER PRÜF-SITZUNG FÜR AHSENTINEL: VERKAUFEN NACH ANGEBOT UND ABSATZ BEWERTEN
+====================================================================================
+Stand: 10. November 2026, 06:30 · Wunsch des Nutzers (10.11. 06:21), vom Nutzer freigegeben
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen. Danach befund-einstellen-ausruestung.txt (E1, HOCH), dann diese
+Anweisung, dann anweisung-tooltip-gesamtwert.txt (beide betreffen Block 2 des Tooltips – zusammen umsetzen ist gut).
+
+FALL DES NUTZERS (Screenshot 10.11. 06:18)
+Braune Leinenhose: ~150 Stück im AH, Marktwert 2s, Händler 60c. Tooltip: "✗ Verkaufen bringt mehr: 1s 90c",
+"Entzaubern: 1s 19c". Der Abstand ist 71c – eine einzige Auktion ohne Verkauf kostet in Forever mindestens 1s
+Einzahlung (Regelwerk, belegt). Bei 150 Stück vor einem verkauft man realistisch nicht in den ersten Runden; der
+Nutzer bezweifelt zu Recht, dass Verkaufen mehr bringt. Typisches Launch-Muster: Schneider skillen mit Leinenhosen,
+der Markt ist überschwemmt.
+
+HEUTE (Code 0.65.60)
+- A:GetLiquidity (AHAnalyzerPro.lua:1518) kennt avgQty (Stück je Scan) und perDay (verschwundene Stück × 0,5 je Tag).
+- A:ExpectedListings (:1207) nutzt davon nur perDay < 1 und rechnet höchstens 2 Einstellungen. Die Menge VOR dem
+  eigenen Angebot spielt keine Rolle -> bei 150 Stück wird Verkaufen massiv überschätzt.
+
+NEU (Regelwerk shared/wissen/wirtschaft-forever.md Abschnitt 0 und 7 einhalten)
+A1 Warteschlange Q: Stück im letzten Scan mit Preis <= dem eigenen Verkaufspreis (Vorschlag/Markt), ohne Lockangebote
+   (A:MarkBait) und ohne eigene Auktionen. Beim Scan je Item speichern (Menge je Preisstufe reicht: Stück <= Markt,
+   Stück gesamt).
+A2 Absatz pro Tag S: wie bisher aus GetLiquidity (perDay). Weniger als 6 Scans oder weniger als 1 Tag Daten -> "unsicher".
+   Hat der Nutzer eigene Verkäufe des Items (Ledger), diese bevorzugen.
+A3 Wartezeit W = (Q + Menge des Nutzers) / S Tage. Erwartete Einstellungen N = max(1, aufrunden(W / Laufzeit in Tagen))
+   (24 Std. = 1 Tag; Laufzeit-Vorbelegung beachten), gedeckelt bei RELIST_MAX.
+A4 Verkaufswert = Netto nach 5 % − (N − 1) × Einzahlung je Auktion (mit Minimum, Blizzard-Wert zuerst).
+   Ist W > 7 Tage oder S unbekannt bei Q >= 20: "Verkauft sich: kaum" -> Verkaufen zählt nicht als bester Weg; das
+   Urteil vergleicht dann Entzaubern mit Händler.
+A5 Urteil im Tooltip ändert sich von selbst (gleiche Funktion für Tooltip, Gewinn-Fenster, Beste Rezepte, Heute tun,
+   ProfessionSentinel über API.BestWay/NetSale – EINE Zahl überall). Ohne Shift keine neue Zeile; mit Shift eine kurze
+   Begründung: "150 im AH · ~5/Tag · ~30 Tage · 4 Einstellungen". Ist die Schätzung unsicher (A2), mit Shift "unsicher
+   (wenig Scans)".
+A6 Gewinn-Fenster "bester Weg" und "Beste Rezepte" nutzen dieselbe Rechnung (heute zeigt das Gewinn-Fenster für die
+   Hose "bester Weg: verkaufen" und 92c Gewinn).
+A7 Kein Wert als "belegt" ausgeben: Der Faktor 0,5 (verschwunden = halb verkauft) ist eine Annahme. Im Protokoll einmal je
+   Item und Tag "ABSATZ Item <ID> · Q · S · W · N" schreiben (ohne Namen), damit wir die Annahme mit echten Verkäufen
+   des Nutzers vergleichen können.
+
+TESTFÄLLE
+T-AB1 Q 150, S 5/Tag, Netto 1s 90c, Einzahlung 1s, Entzaubern 1s 19c -> N > 1, Verkaufen < Entzaubern, Urteil Entzaubern.
+T-AB2 Q 3, S 10/Tag -> N = 1, Verkaufen unverändert (Netto).
+T-AB3 S unbekannt, Q 40 -> "kaum", Verkaufen nicht bester Weg.
+T-AB4 Lockangebote und eigene Auktionen zählen nicht zu Q.
+T-AB5 Tooltip, Gewinn-Fenster, Beste Rezepte und API.BestWay zeigen für dasselbe Item denselben besten Weg.
+T-AB6 Shift-Zeile mit Begründung, ohne Shift keine zusätzliche Zeile (Variante A bleibt kurz).
+
+HINWEIS ZUM TOOLTIP (gleicher Screenshot)
+Im Block "Materialien (Tabelle)" steht als dritte Zeile "<Charakter> 7" (Bestand je Charakter). Ohne Überschrift sieht
+es aus wie ein Material. Bitte als eigene Zeile mit Überschrift (z. B. "Im Besitz: 7") und mit
+anweisung-tooltip-gesamtwert.txt zusammenführen ("7 in den Taschen: 13s 30c"). Namen stehen dort nur im eigenen Spiel,
+nie in Protokoll oder Berichten.
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden.

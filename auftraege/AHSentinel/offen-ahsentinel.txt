@@ -149,3 +149,8 @@ NEU (10. Nov. 06:20, Prüf-Sitzung, HOCH) – Ausrüstung lässt sich mit AHSent
 NEU (10. Nov. 06:25, Wunsch des Nutzers, MITTEL) – Gesamtwert stapelbarer Items im Tooltip
    anweisung-tooltip-gesamtwert.txt: unter "Verkaufen:" eine Zeile "386 in den Taschen: 2g 0s 72c" (alle Stapel, ohne
    Bank, A:RealValue(id, anzahl)), nur stapelbar und ab 2 Stück; T-GW1–T-GW6. Nach E1 (Ausrüstung einstellen).
+
+NEU (10. Nov. 06:30, Wunsch des Nutzers, MITTEL) – Verkaufen nach Angebot und Absatz bewerten
+   anweisung-angebot-und-absatz.txt: Menge im AH vor dem eigenen Angebot (Q) und Absatz/Tag (S) -> Wartezeit ->
+   Einstellungen -> Einzahlungsverlust; ab 7 Tagen "kaum" (Leinenhose: 150 im AH -> Entzaubern statt Verkaufen);
+   eine Zahl für Tooltip/Gewinn-Fenster/Beste Rezepte/API; T-AB1–T-AB6. Dazu: Bestandszeile im Tooltip mit Überschrift.
