@@ -1,0 +1,37 @@
+ANWEISUNG DER PRÜF-SITZUNG FÜR AHSENTINEL: GESAMTWERT STAPELBARER ITEMS IM TOOLTIP
+=================================================================================
+Stand: 10. November 2026, 06:25 · Wunsch des Nutzers (10.11. 06:13), vom Nutzer freigegeben
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen. Danach befund-einstellen-ausruestung.txt (E1, HOCH), dann dies.
+
+WUNSCH
+Bei stapelbaren Items in den Taschen zeigt der Tooltip nur den Preis je Stück ("Verkaufen: 52c"). Der Nutzer will
+zusätzlich den Gesamtwert ALLER Stücke dieses Items in seinen Taschen – über alle Stapel hinweg.
+
+SO SOLL ES AUSSEHEN (Tooltip Variante A, Block 2 – ohne Shift)
+    Verkaufen:                     52c
+    386 in den Taschen:      2g 0s 72c
+- Zweite Zeile nur, wenn das Item stapelbar ist (maximale Stapelgrösse > 1) UND mindestens 2 Stück in den Taschen sind.
+  Bei einem einzelnen Stück oder bei Ausrüstung: keine zweite Zeile (Tooltip bleibt so kurz wie bisher).
+- Anzahl: alle Taschen zusammen (GetItemCount(itemID) ohne Bank). Die Bank NICHT mitzählen (Wunsch "in der Tasche").
+- Betrag: A:RealValue(itemID, anzahl) – dieselbe Rechnung wie "Verkaufen:" (netto nach 5 % AH-Gebühr, Einzahlung,
+  Händler als Untergrenze), nur mit der ganzen Menge. NICHT einfach Stückpreis × Anzahl, falls RealValue mengenabhängig
+  rechnet (Einzahlung je Auktion, erwarteter Einzahlungsverlust).
+- Ist der bessere Weg "Händler" (vendorWins), heisst die erste Zeile wie bisher "Händler:", die zweite zeigt den
+  Händlerwert der ganzen Menge.
+- Gilt überall, wo der Tooltip "Verkaufen:"/"Händler:" zeigt (Taschen, Auktionshaus, Berufsfenster), sobald man
+  mindestens 2 Stück in den Taschen hat. Farbe wie die "Verkaufen:"-Zeile (grau/weiss), kein Symbol.
+- Bei Entzauber-Items (nicht stapelbar) ändert sich nichts.
+- Zwischenspeicher (0.65.60): Die Anzahl in den Taschen gehört in den Schlüssel bzw. BAG_UPDATE macht ihn ungültig,
+  sonst zeigt die Zeile nach Kauf/Verkauf eine alte Anzahl.
+- Locales: neuer Schlüssel "%d in den Taschen:" in allen Locale-Dateien (EN "%d in your bags:").
+
+TESTFÄLLE
+T-GW1 386 Leinenstoffballen in 20 Stapeln, Preis 52c -> zweite Zeile "386 in den Taschen:" mit A:RealValue(id, 386).
+T-GW2 1 Stück stapelbar -> keine zweite Zeile. T-GW3 2 Ausrüstungsteile (nicht stapelbar) -> keine zweite Zeile.
+T-GW4 Händler besser -> "Händler:" und Gesamt = Händlerwert × Menge.
+T-GW5 Anzahl ändert sich (BAG_UPDATE) -> nächster Tooltip zeigt die neue Anzahl (Zwischenspeicher).
+T-GW6 Bereich K: Zeile nicht abgeschnitten (lange Beträge, enGB/deDE).
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden.

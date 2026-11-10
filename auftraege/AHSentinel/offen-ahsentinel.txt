@@ -145,3 +145,7 @@ NEU (10. Nov. 06:20, Prüf-Sitzung, HOCH) – Ausrüstung lässt sich mit AHSent
    befund-einstellen-ausruestung.txt: E1 PostItem scheitert mit "Interner Auktion-Fehler" (Blizzard-Fenster geht) –
    zuerst den Blizzard-Aufruf mitschreiben (hooksecurefunc), dann gleich bauen; E2 echte Fehlermeldung zeigen; E3
    Fehlversuch ins Protokoll; E4 leeres Mengenfeld mit grauer 1; E5 WERT-Prüfung nimmt "echt 1"; E6 cache:today 413 ms.
+
+NEU (10. Nov. 06:25, Wunsch des Nutzers, MITTEL) – Gesamtwert stapelbarer Items im Tooltip
+   anweisung-tooltip-gesamtwert.txt: unter "Verkaufen:" eine Zeile "386 in den Taschen: 2g 0s 72c" (alle Stapel, ohne
+   Bank, A:RealValue(id, anzahl)), nur stapelbar und ab 2 Stück; T-GW1–T-GW6. Nach E1 (Ausrüstung einstellen).
