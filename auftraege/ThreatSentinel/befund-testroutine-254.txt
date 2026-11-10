@@ -1,0 +1,30 @@
+BEFUND DER PRÜF-SITZUNG FÜR THREATSENTINEL: TESTROUTINE 2.5.4 BEIM NUTZER (10.11. 11:05)
+======================================================================================
+Stand: 10. November 2026, 11:20 · Testroutine ganz: OK 191 · FEHLER 1 · übersprungen 10 · im Client 15 · Sandbox OK,
+aber "Simulationen zurückgesetzt: FEHLER". Forever, WARRIOR 23, deDE. Vorher (10:59) Bereich K: T181 – Ursache bei
+BuffSentinel, dort beauftragt (für ThreatSentinel nichts zu tun).
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen. Dann dies (NIEDRIG – Testroutine, nicht das Addon).
+
+Q1 T144 "Hinweis einmal pro Sitzung" – ist 0x, soll 1x: FALSCHER ALARM DER PRÜFUNG
+   ns:ReportError zeigt den Hinweis nur, wenn TM:IsTesting() falsch ist (Core.lua:1155). IsTesting ist wahr bei
+   ns.testMode, ns.liveTest, ns.routineRunning ODER sichtbarer Testzentrale (TestMode.lua:35). T144 setzt nur
+   routineRunning = false – beim Nutzer war die Testzentrale offen (Bereich K verlangt das), also kam kein Hinweis.
+   Lösung: in T144 TM.IsTesting für die Dauer der Prüfung auf "false" stubben (über den Stub-Mechanismus der Routine,
+   danach zurück) statt nur routineRunning umzuschalten. Testfall: Testzentrale offen -> T144 = 1x.
+Q2 "Simulationen zurückgesetzt: FEHLER" ohne Ort
+   simOk = not testMode and not liveTest and not moveMode and simSecret == Startwert (TestRoutine.lua:3367). War einer
+   davon schon VOR dem Lauf an (z. B. Testmodus oder Verschiebe-Modus vom Spieler), meldet die Routine FEHLER,
+   obwohl sie nichts verändert hat. Lösung: Zustand vor dem Lauf merken und mit dem Zustand danach vergleichen; den
+   abweichenden Schalter nennen ("FEHLER (moveMode an)"), wie bei sandbox/cvars/tasten. War er vorher schon an:
+   "OK (Testmodus war schon an)".
+Q3 Hinweiszeile: Die Routine soll am Anfang in einer Zeile sagen, wenn Testmodus/Verschiebe-Modus/Testzentrale schon
+   aktiv sind ("Testmodus ist an – Ergebnisse I/K können abweichen").
+
+Offen im Spiel (Nutzer): T46/T149/T157 Bedrohung im Kampf, T109/T110/T154 Pull mit 3+ Mobs, T135 /gsgame, T174 Gruppe,
+T186 Bereich K mit Blizzard-Fenstern, T188 /ts protokoll, T128 Sprache – siehe offen-threatsentinel.txt.
+
+TESTFÄLLE T-Q1 (Testzentrale offen -> T144 OK), T-Q2 (Verschiebe-Modus vor dem Lauf an -> "OK (… war schon an)"),
+T-Q3 (Hinweiszeile).
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden.
