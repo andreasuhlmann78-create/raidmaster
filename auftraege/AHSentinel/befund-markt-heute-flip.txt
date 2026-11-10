@@ -1,0 +1,45 @@
+BEFUND DER PRÜF-SITZUNG FÜR AHSENTINEL: MARKT/HEUTE EMPFIEHLT EINEN SCHEIN-FLIP (0.65.76)
+=======================================================================================
+Stand: 10. November 2026, 12:55 · Bildschirmfotos des Nutzers (12:41), Markt -> Heute und Kaufen-Detail.
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen. Dann dies (HOCH – führt direkt zu Verlustkäufen).
+
+BEOBACHTUNG
+   Heute, Zeile 1 (Zahl 5g 63s 52c, ganz oben): "Kaufe 4x Instabiles Magiepartikel bis 45s 97c, wieder einstellen um
+   2g 3s (verkauft sich ~52.3/Tag)". Detailbereich rechts zum selben Item: Preis 45s 97c, Marktwert 2g 3s, Menge 912,
+   Preisleiter 45s 97c: 256 · 45s 98c: 424 · 49s 99c …, Warteschlange 256, Absatz ~52.3/Tag – Empfehlung
+   "LIEGEN LASSEN – Preis 45s 97c über deiner Kaufgrenze 30s 14c".
+   Kaufen-Detail: 10 Angebote, 855 verfügbar, fast alles zwischen 45s 97c und 50s; nur 3 Stück bei 2g 2s 98c.
+   -> Die Liste empfiehlt KAUFEN mit 5,6 Gold Gewinn, der Detailbereich sagt LIEGEN LASSEN. Wer klickt, kauft 4 Stück
+   für 1g 84s und muss hinter ~850 Stück zu 46–50s für 2g wieder einstellen – das verkauft sich nicht.
+
+URSACHE (Code 0.65.76)
+   Comfort.lua Heute/Flips: Wiederverkaufspreis d.ref aus A.Extras:GetFlipDeals = Marktwert (Median der Mindestpreise
+   14 Tage) = 2g 3s. Die Kaufgrenze L7 wird aus d.ref gerechnet (≈ 2g 3s × 0,95 × (1 − Marge) ≈ 1g 5x) – 45s liegt
+   darunter, also "ok". Der Detailbereich rechnet die Kaufgrenze anders (30s 14c) – vermutlich aus dem realistischen
+   Verkaufspreis. Der Marktwert ist hier ein ANGEBOTSPREIS aus Zeiten mit wenig Angebot (markt-strategie.md
+   Abschnitt 2: Marktwert ≠ Verkaufspreis); jetzt liegt das Angebot dauerhaft bei 46–50s.
+
+UMSETZEN
+H1 EIN Wiederverkaufspreis für alle Stellen (Heute, Flippen-Ansicht, Detail, Wächter, Sniper, Sammelkauf):
+   realistischer Verkaufspreis = der Preis, zu dem die Warteschlange davor kleiner ist als Absatz × Laufzeit
+   (Preisleiter aus dem Vollscan bzw. Kaufen-Detail), höchstens der gelernte Normalpreis (L4), höchstens der
+   Marktwert. Gibt es keine Preisleiter: min(Marktwert, aktueller Mindestpreis × 1,15).
+H2 Preissturz/Flutung: Liegt der aktuelle Mindestpreis seit ≥ 6 Std. unter 60 % des Marktwerts (A:IsCrashed) ODER ist
+   die Menge ≥ 3× der 14-Tage-Ø-Menge, dann KEIN Flip (der Marktwert ist veraltet). Zeile ggf. in "Überfüllt".
+H3 Liste und Detail dürfen sich nie widersprechen: Heute zeigt eine Kaufzeile nur, wenn der Detailbereich für dasselbe
+   Item "kaufen bis X" sagt (gleiche Funktion, gleiche Zahlen).
+H4 Flip-Gewinn ehrlich: (realistischer Verkaufspreis × 0,95 − Kaufpreis − erwarteter Einzahlungsverlust) × Menge;
+   Menge höchstens Absatz × Laufzeit × eigener Anteil, nicht Absatz/Tag des ganzen Markts.
+H5 Prognose-Journal: dieser Fall als Testfall – Kauf-Prognose "Wiederverkauf 2g 3s" wäre mit dem Ergebnis grob falsch;
+   die Kauf-Trefferquote je Strategie "Flip" muss das später zeigen.
+
+TESTFÄLLE
+T-HF1 Item mit Marktwert 2g 3s, Preisleiter 45s 97c: 256 · 45s 98c: 424 · 49s 99c: 65 · 50s: 158 · 2g 2s 98c: 3, Absatz
+      52/Tag, Laufzeit 2 Std. -> realistischer Verkaufspreis ≈ 45–46s -> KEIN Flip, Heute ohne Kaufzeile.
+T-HF2 Gleiches Item, Detailbereich -> "liegen lassen" (wie heute). Liste und Detail stimmen überein.
+T-HF3 Echter Flip: Marktwert 1s, Leiter 50c: 5 · 95c: 40, Absatz 30/Tag -> Verkaufspreis ≈ 94c, Flip 5 Stück ok.
+T-HF4 Menge 3× Ø -> kein Flip, Zeile in Überfüllt.
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden.

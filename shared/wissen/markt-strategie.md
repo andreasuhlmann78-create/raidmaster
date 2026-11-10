@@ -80,6 +80,9 @@ geteilte Daten anderer Spieler (Sync, ohne Namen) als Zweites, Markt-Schätzung 
   unwahrscheinlich (≈ 1 %). Vorläufig: Splitter-Rate eher ~10 %. Weiter beobachten (Testbericht E13).
 - **Entzauber-Einkauf mit Verlust (10.11.):** 70 Teile für 9g 82s (Ø 14s), Material ≈ 8g 72s (Ø 12,5s) -> Verlust vor
   Gebühren. Die Kaufgrenze war zu optimistisch -> Sicherheitsmarge nötig (Abschnitt 6.6).
+- **Schein-Flip 10.11. 12:41 (0.65.76):** Heute empfahl "Instabiles Magiepartikel kaufen bis 45s 97c, wieder
+  einstellen um 2g 3s" – Marktwert (Median 14 Tage) 2g 3s, aber 855 Stück im AH zu 46–50s. Lehre: Wiederverkaufspreis
+  nie aus dem Marktwert allein, sondern aus Preisleiter + Absatz (wo komme ich in der Laufzeit dran?).
 - **Buchhaltung 10.11.:** Menge = Preis in Kupfer bei Einzelteilen (Feld 5); Erstattung ohne gebuchte Einzahlung
   (Einstellen über Blizzard-Fenster) -> positive Gebühren. Befund befund-buchhaltung-menge-und-gebuehren.txt.
 
