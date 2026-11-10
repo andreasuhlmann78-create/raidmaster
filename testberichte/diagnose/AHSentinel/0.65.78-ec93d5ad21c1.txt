@@ -1,0 +1,226 @@
+AHSentinel-Protokoll v0.65.78 · 10.11. 14:03:15
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  10.11. 13:54:47 L10 ? v0.65.78
+  10.11. 12:31:27 L10 ? v0.65.76
+  10.11. 12:28:57 L10 ? v0.65.69
+  10.11. 12:25:12 L24 ? v0.65.69
+  10.11. 11:31:55 L23 ? v0.65.69
+  10.11. 11:00:14 L23 ? v0.65.69
+  10.11. 10:49:42 L23 ? v0.65.69
+  10.11. 10:36:23 L23 ? v0.65.69
+  10.11. 10:28:06 L23 ? v0.65.69
+  10.11. 10:07:19 L10 ? v0.65.69
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 17 Min., 5589 Items, Preis-Sync an
+  SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 1, GoldSentinelTest 1, GuildSentinel 1, LevelPilot 0, LevelPilotG 0
+  SYNC gesendet 23 · empfangen 60 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 4 (mit Sync 2: 3, pausiert 2) · gesendet 2 · weitergegeben 0 · offline 2 · Listen 0 · Warteschlange 0 · gespeichert ja
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Gewinn-Fenster angedockt an ProfessionsFrame (Versatz 59)
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, minimapAngle=18.1, priceGuard=20, theme=modern, tooltipDEDetail=true, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[10.11. 14:02:58] AUFBAU Beste Rezepte (2 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 1 ms
+[10.11. 14:02:52] AUFBAU Beste Rezepte (4 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 14 ms
+[10.11. 14:02:49] AUFBAU Beste Rezepte (16 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 45 ms
+[10.11. 14:02:48] AUFBAU Beste Rezepte (2 Rezepte) · Auslöser Öffnen · 12 ms
+[10.11. 14:02:45] AUFBAU Beste Rezepte (2 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 1 ms
+[10.11. 14:02:36] AUFBAU Beste Rezepte (0 Rezepte) · Auslöser DATA_CHANGED · 19 ms
+[10.11. 13:55:02] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[10.11. 13:55:01] ENTZAUBERWERT Item 3483 · eigene Ø aus 191 · 11083 69% × 1.50 à 463, 11082 21% × 1.49 à 1297, 11084 9% × 1.00 à 1592 · brutto 1099 · netto 1044
+[10.11. 13:55:01] DE-CHANCEN Gruppe 2:4:a · Tabelle 11083 75%/11082 20%/11084 5% · echt 11083 69%/11082 21%/11084 9% (191)
+[10.11. 13:55:01] ABSATZ Item 3483 · Q 31 (vollscan) · S 2.2 (market, Deckel) · S roh 51.4 · Deckel 2.2 · eigene Quote - · Laufzeit 2 Std. · W 14.5 · N 7.0 · kaum
+[10.11. 13:55:01] ENTZAUBERWERT Item 4307 · eigene Ø aus 15 · 10940 80% × 1.08 à 78, 10938 20% × 1.67 à 83 · brutto 100 · netto 95
+[10.11. 13:55:01] DE-CHANCEN Gruppe 2:1:a · Tabelle 10940 80%/10938 20% · echt 10940 80%/10938 20% (15)
+[10.11. 13:55:01] ABSATZ Item 4307 · Q 298 (vollscan) · S 59.6 (market, Deckel) · S roh 251.2 · Deckel 59.6 · eigene Quote - · Laufzeit 24 Std. · W 5.0 · N 6.0
+[10.11. 13:55:00] ABSATZ Item 4238 · Q 738 (vollscan) · S 188.0 (market, Deckel) · S roh 827.3 · Deckel 188.0 · eigene Quote - · Laufzeit 2 Std. · W 3.9 · N 7.0
+[10.11. 13:54:52] SYNC Weg=GUILD
+[10.11. 13:53:46] SNIPER Treffer 1 · gekauft 1 · Ø Suche>Treffer 64 ms, Treffer>Reserv. 6113 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms, bestätigt>gekauft 0 ms
+[10.11. 13:53:24] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[10.11. 13:53:24] EINSTELLEN Item 11082 · Menge 9 · Auktionen 1 · Laufzeit 1 · Preis 1364/Stück, 12276 gesamt · Gebühr erwartet 100, abgezogen 100 (0.81 % vom Preis)
+[10.11. 13:53:23] AHS-POST PostCommodity: arg2=1 arg3=9 arg4=1364 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/1
+[10.11. 13:53:19] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=1 · Minimum jetzt 100
+[10.11. 13:53:19] EINSTELLEN Item 11083 · Menge 34 · Auktionen 1 · Laufzeit 1 · Preis 580/Stück, 19720 gesamt · Gebühr erwartet 100, abgezogen 100 (0.51 % vom Preis)
+[10.11. 13:53:19] AHS-POST PostCommodity: arg2=1 arg3=34 arg4=580 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/2
+[10.11. 13:52:56] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 13:52:52] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 13:52:47] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11082×1
+[10.11. 13:52:43] DE-GEZÄHLT ×4 Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 13:52:22] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 13:52:18] DE-GEZÄHLT ×3 Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 13:52:06] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 13:52:02] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[10.11. 13:51:58] DE-GEZÄHLT ×3 Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 13:51:45] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[10.11. 13:51:41] DE-GEZÄHLT ×2 Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11082×1
+[10.11. 13:51:33] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 13:51:29] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 13:51:27] SYNC gesendet 1225, empfangen 17, verworfen nopath 1, queue 27 · Kanal verweigert 0
+[10.11. 13:51:24] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 13:51:20] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[10.11. 13:51:16] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 13:51:12] DE-GEZÄHLT ×2 Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 13:48:47] SNIPER Treffer 2 · gekauft 2 · Ø Suche>Treffer 84 ms, Treffer>Reserv. 300 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms, bestätigt>gekauft 0 ms
+[10.11. 13:47:47] SNIPER Treffer 1 · gekauft 1 · Ø Suche>Treffer 74 ms, Treffer>Reserv. 5394 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms, bestätigt>gekauft 0 ms
+[10.11. 13:47:12] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[10.11. 13:47:12] EINSTELLEN Item 11084 · Menge 3 · Auktionen 1 · Laufzeit 1 · Preis 3699/Stück, 11097 gesamt · Gebühr erwartet 100, abgezogen 100 (0.90 % vom Preis)
+[10.11. 13:47:11] AHS-POST PostCommodity: arg2=1 arg3=3 arg4=3699 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/2
+[10.11. 13:47:08] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[10.11. 13:47:08] EINSTELLEN Item 11082 · Menge 5 · Auktionen 1 · Laufzeit 1 · Preis 1366/Stück, 6830 gesamt · Gebühr erwartet 100, abgezogen 100 (1.46 % vom Preis)
+[10.11. 13:47:08] AHS-POST PostCommodity: arg2=1 arg3=5 arg4=1366 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/1
+[10.11. 13:47:05] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=1 · Minimum jetzt 100
+[10.11. 13:47:05] EINSTELLEN Item 11083 · Menge 26 · Auktionen 1 · Laufzeit 1 · Preis 586/Stück, 15236 gesamt · Gebühr erwartet 100, abgezogen 100 (0.66 % vom Preis)
+[10.11. 13:47:05] AHS-POST PostCommodity: arg2=1 arg3=26 arg4=586 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/3
+[10.11. 13:46:56] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 13:46:52] DE-GEZÄHLT ×2 Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 13:46:43] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 13:46:39] DE-GEZÄHLT ×2 Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 13:46:30] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11082×1
+[10.11. 13:46:26] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11084×1
+[10.11. 13:46:22] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 13:46:17] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[10.11. 13:46:17] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · 34 ms
+[10.11. 13:46:13] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 13:46:10] VOLLSCAN M1d 227645 Auktionen gelesen (227636 gültig) · 2181 ms in 294 Portionen · längster Frame 8.3 ms · 4992 Items
+[10.11. 13:46:04] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 13:46:02] VOLLSCAN M1c Abstand 1526 s · neue Liste · 227645 Auktionen · Antwort nach 14.7 s
+[10.11. 13:45:56] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 13:45:52] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 13:45:48] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11082×1
+[10.11. 13:45:43] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 13:45:39] DE-GEZÄHLT ×2 Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11084×1
+[10.11. 13:45:31] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11082×1
+[10.11. 13:45:25] DE-GEZÄHLT ×3 Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 13:45:11] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 13:44:21] SNIPER Treffer 1 · gekauft 1 · Ø Suche>Treffer 83 ms, Treffer>Reserv. 758 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms, bestätigt>gekauft 0 ms
+[10.11. 13:44:00] RECHNUNG Item 11082 · Menge 15 (Feld 5 15, Feld 11 15) · Feld 4 20535 · consignment 1026 · deposit 98 · Post-Gold 19607 · gesamt 20535 · Stück 1369 · Feld 4 = Gesamt: ja
+[10.11. 13:44:00] WERT Gruppe 7 · Item 11082 · vorhergesagt 1363 · echt 1369 · Abweichung +0 %
+[10.11. 13:44:00] RECHNUNG Item 11083 · Menge 24 (Feld 5 24, Feld 11 24) · Feld 4 16248 · consignment 812 · deposit 99 · Post-Gold 15535 · gesamt 16248 · Stück 677 · Feld 4 = Gesamt: ja
+[10.11. 13:44:00] WERT Gruppe 7 · Item 11083 · vorhergesagt 589 · echt 677 · Abweichung -13 %
+[10.11. 13:41:27] SYNC gesendet 975, empfangen 17, verworfen nopath 1, queue 27 · Kanal verweigert 0
+[10.11. 13:31:27] SYNC gesendet 973, empfangen 15, verworfen queue 27 · Kanal verweigert 0
+[10.11. 13:28:55] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[10.11. 13:28:55] EINSTELLEN Item 11084 · Menge 4 · Auktionen 1 · Laufzeit 1 · Preis 3578/Stück, 14312 gesamt · Gebühr erwartet 100, abgezogen 100 (0.70 % vom Preis)
+[10.11. 13:28:54] AHS-POST PostCommodity: arg2=1 arg3=4 arg4=3578 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/1
+[10.11. 13:28:50] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=1 · Minimum jetzt 100
+[10.11. 13:28:50] EINSTELLEN Item 11083 · Menge 20 · Auktionen 1 · Laufzeit 1 · Preis 588/Stück, 11760 gesamt · Gebühr erwartet 100, abgezogen 100 (0.85 % vom Preis)
+[10.11. 13:28:49] AHS-POST PostCommodity: arg2=1 arg3=20 arg4=588 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/2
+[10.11. 13:28:45] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[10.11. 13:28:45] EINSTELLEN Item 11082 · Menge 16 · Auktionen 1 · Laufzeit 1 · Preis 1362/Stück, 21792 gesamt · Gebühr erwartet 100, abgezogen 100 (0.46 % vom Preis)
+[10.11. 13:28:45] AHS-POST PostCommodity: arg2=1 arg3=16 arg4=1362 arg5=nil, ItemLocation gültig ja, Bag/Slot 2/4
+[10.11. 13:28:14] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[10.11. 13:28:07] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 13:28:03] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 13:27:58] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[10.11. 13:27:54] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 13:27:48] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 13:27:42] DE-GEZÄHLT ×2 Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[10.11. 13:27:30] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11084×1
+[10.11. 13:27:23] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 13:27:17] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 13:27:11] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 13:27:07] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[10.11. 13:27:03] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 13:26:55] DE-GEZÄHLT ×2 Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11082×1
+[10.11. 13:26:43] DE-GEZÄHLT ×2 Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 13:26:31] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 13:26:27] DE-GEZÄHLT ×3 Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 13:26:13] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11084×1
+[10.11. 13:26:08] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[10.11. 13:26:02] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11084×1
+[10.11. 13:25:58] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 13:25:52] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[10.11. 13:21:27] SYNC gesendet 901, empfangen 15, verworfen queue 27 · Kanal verweigert 0
+[10.11. 13:20:51] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · 52 ms
+[10.11. 13:20:47] LANGSAM Hintergrund-Aufgabe fullscan · 3352 Schritte · 17 ms
+[10.11. 13:20:45] LANGSAM Hintergrund-Aufgabe fullscan · 0 Schritte · 17 ms
+[10.11. 13:20:45] VOLLSCAN M1d 224659 Auktionen gelesen (224649 gültig) · 2188 ms in 295 Portionen · längster Frame 15.0 ms · 4952 Items
+[10.11. 13:20:36] VOLLSCAN M1c Abstand 1429 s · neue Liste · 224659 Auktionen · Antwort nach 14.6 s
+[10.11. 13:20:34] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11084×1
+[10.11. 13:11:52] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[10.11. 13:11:52] EINSTELLEN Item 11084 · Menge 2 · Auktionen 1 · Laufzeit 1 · Preis 3699/Stück, 7398 gesamt · Gebühr erwartet 100, abgezogen 100 (1.35 % vom Preis)
+[10.11. 13:11:51] AHS-POST PostCommodity: arg2=1 arg3=2 arg4=3699 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/2
+[10.11. 13:11:49] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[10.11. 13:11:49] EINSTELLEN Item 11082 · Menge 4 · Auktionen 1 · Laufzeit 1 · Preis 1367/Stück, 5468 gesamt · Gebühr erwartet 100, abgezogen 100 (1.83 % vom Preis)
+[10.11. 13:11:48] AHS-POST PostCommodity: arg2=1 arg3=4 arg4=1367 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/1
+[10.11. 13:11:45] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=1 · Minimum jetzt 100
+[10.11. 13:11:45] EINSTELLEN Item 11083 · Menge 23 · Auktionen 1 · Laufzeit 1 · Preis 597/Stück, 13731 gesamt · Gebühr erwartet 100, abgezogen 100 (0.73 % vom Preis)
+[10.11. 13:11:45] AHS-POST PostCommodity: arg2=1 arg3=23 arg4=597 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/3
+[10.11. 13:11:27] SYNC gesendet 723, empfangen 15, verworfen queue 27 · Kanal verweigert 0
+[10.11. 13:11:24] DE-GEZÄHLT ×4 Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 13:11:07] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 13:09:05] DE-GEZÄHLT ×2 Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11084×1
+[10.11. 13:08:52] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 13:08:47] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 13:08:43] DE-GEZÄHLT ×2 Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 13:08:35] DE-GEZÄHLT ×2 Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 13:08:26] DE-GEZÄHLT ×2 Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 13:08:18] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[10.11. 13:08:13] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 13:07:43] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[10.11. 13:07:39] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[10.11. 13:07:35] DE-GEZÄHLT Item 3483 · Itemstufe 27 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[10.11. 13:06:20] SNIPER Treffer 1 · gekauft 1 · Ø Suche>Treffer 146 ms, Treffer>Reserv. 1679 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms, bestätigt>gekauft 0 ms
+[10.11. 13:04:54] ENTZAUBERWERT Item 14217 · Tabelle · 11137 75% × 1.50 à 971, 11135 20% × 1.50 à 1798, 11139 5% × 1.00 à 3559 · brutto 1957 · netto 1810
+[10.11. 13:04:54] ABSATZ Item 14217 · Q 1 (vollscan) · S 3.4 (market, Deckel) · S roh 6.0 · Deckel 3.4 · eigene Quote - · Laufzeit 2 Std. · W 0.6 · N 7.0
+[10.11. 13:04:51] ENTZAUBERWERT Item 14220 · Tabelle · 11137 75% × 1.50 à 971, 11135 20% × 1.50 à 1798, 11139 5% × 1.00 à 3559 · brutto 1957 · netto 1810
+[10.11. 13:04:51] DE-CHANCEN Gruppe 2:6:a · Tabelle 11137 75%/11135 20%/11139 5% · echt 11137 -/11135 -/11139 - (0)
+[10.11. 13:04:51] ABSATZ Item 14220 · Q 1 (vollscan) · S 0.6 (market, Deckel) · S roh 1.6 · Deckel 0.6 · eigene Quote - · Laufzeit 2 Std. · W 3.3 · N 7.0
+[10.11. 13:02:57] SNIPER Treffer 1 · gekauft 1 · Ø Suche>Treffer 110 ms, Treffer>Reserv. 448 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms, bestätigt>gekauft 0 ms
+[10.11. 13:02:17] ABSATZ Item 118 · Q 4 (vollscan) · S 229.8 (market, Deckel) · S roh 421.0 · Deckel 229.8 · eigene Quote - · Laufzeit 24 Std. · W 0.0 · N 1.0
+[10.11. 13:01:27] SYNC gesendet 721, empfangen 15, verworfen queue 27 · Kanal verweigert 0
+[10.11. 12:57:12] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · 22 ms
+[10.11. 12:57:10] LANGSAM Hintergrund-Aufgabe sync-send · 0 Schritte · 16 ms
+[10.11. 12:57:05] LANGSAM Hintergrund-Aufgabe fullscan · 3365 Schritte · 17 ms
+[10.11. 12:57:01] LANGSAM Hintergrund-Aufgabe fullscan · 0 Schritte · 16 ms
+[10.11. 12:57:01] VOLLSCAN M1d 218849 Auktionen gelesen (218839 gültig) · 2176 ms in 299 Portionen · längster Frame 9.3 ms · 4942 Items
+[10.11. 12:56:47] VOLLSCAN M1c Abstand 1459 s · neue Liste · 218849 Auktionen · Antwort nach 15.3 s
+[10.11. 12:52:30] ENTZAUBERWERT Item 6600 · eigene Ø aus 94 · 11083 69% × 1.49 à 645, 11082 21% × 1.35 à 1302, 11084 10% × 1.00 à 3561 · brutto 1453 · netto 1380
+[10.11. 12:52:30] ABSATZ Item 6600 · Q 2 (vollscan) · S 5.6 (market, Deckel) · S roh 13.8 · Deckel 5.6 · eigene Quote - · Laufzeit 2 Std. · W 0.5 · N 7.0
+[10.11. 12:52:27] ENTZAUBERWERT Item 14580 · eigene Ø aus 94 · 11083 69% × 1.49 à 645, 11082 21% × 1.35 à 1302, 11084 10% × 1.00 à 3561 · brutto 1453 · netto 1380
+[10.11. 12:52:27] ABSATZ Item 14580 · Q 16 (vollscan) · S 3.6 (market, Deckel) · S roh 9.9 · Deckel 3.6 · eigene Quote - · Laufzeit 2 Std. · W 4.7 · N 7.0
+[10.11. 12:52:27] ENTZAUBERWERT Item 15347 · eigene Ø aus 94 · 11083 69% × 1.49 à 645, 11082 21% × 1.35 à 1302, 11084 10% × 1.00 à 3561 · brutto 1453 · netto 1380
+[10.11. 12:52:27] ABSATZ Item 15347 · Q 3 (vollscan) · S 2.6 (market, Deckel) · S roh 6.1 · Deckel 2.6 · eigene Quote - · Laufzeit 2 Std. · W 1.5 · N 7.0
+[10.11. 12:52:27] ENTZAUBERWERT Item 14194 · eigene Ø aus 94 · 11083 69% × 1.49 à 645, 11082 21% × 1.35 à 1302, 11084 10% × 1.00 à 3561 · brutto 1453 · netto 1380
+[10.11. 12:52:27] ABSATZ Item 14194 · Q 3 (vollscan) · S 4.4 (market, Deckel) · S roh 14.5 · Deckel 4.4 · eigene Quote - · Laufzeit 2 Std. · W 0.9 · N 7.0
+[10.11. 12:52:27] ENTZAUBERWERT Item 6393 · eigene Ø aus 94 · 11083 69% × 1.49 à 645, 11082 21% × 1.35 à 1302, 11084 10% × 1.00 à 3561 · brutto 1453 · netto 1380
+[10.11. 12:52:27] ABSATZ Item 6393 · Q 11 (vollscan) · S 8.2 (market, Deckel) · S roh 11.2 · Deckel 8.2 · eigene Quote - · Laufzeit 2 Std. · W 1.5 · N 7.0
+[10.11. 12:52:27] ENTZAUBERWERT Item 4714 · eigene Ø aus 94 · 11083 69% × 1.49 à 645, 11082 21% × 1.35 à 1302, 11084 10% × 1.00 à 3561 · brutto 1453 · netto 1380
+[10.11. 12:52:27] ABSATZ Item 4714 · Q 14 (vollscan) · S 5.0 (market, Deckel) · S roh 15.7 · Deckel 5.0 · eigene Quote - · Laufzeit 2 Std. · W 3.0 · N 7.0
+[10.11. 12:52:27] ENTZAUBERWERT Item 6613 · eigene Ø aus 94 · 11083 69% × 1.49 à 645, 11082 21% × 1.35 à 1302, 11084 10% × 1.00 à 3561 · brutto 1453 · netto 1380
+[10.11. 12:52:27] ABSATZ Item 6613 · Q 10 (vollscan) · S 4.4 (market, Deckel) · S roh 8.0 · Deckel 4.4 · eigene Quote - · Laufzeit 2 Std. · W 2.5 · N 7.0
+[10.11. 12:52:27] ENTZAUBERWERT Item 6615 · eigene Ø aus 94 · 11083 69% × 1.49 à 645, 11082 21% × 1.35 à 1302, 11084 10% × 1.00 à 3561 · brutto 1453 · netto 1380
+[10.11. 12:52:27] ABSATZ Item 6615 · Q 3 (vollscan) · S 8.4 (market, Deckel) · S roh 16.1 · Deckel 8.4 · eigene Quote - · Laufzeit 2 Std. · W 0.5 · N 6.0
+[10.11. 12:52:27] ENTZAUBERWERT Item 15334 · eigene Ø aus 94 · 11083 69% × 1.49 à 645, 11082 21% × 1.35 à 1302, 11084 10% × 1.00 à 3561 · brutto 1453 · netto 1380
+[10.11. 12:52:27] ABSATZ Item 15334 · Q 2 (vollscan) · S 5.6 (market, Deckel) · S roh 12.5 · Deckel 5.6 · eigene Quote - · Laufzeit 2 Std. · W 0.5 · N 7.0
+[10.11. 12:52:27] ENTZAUBERWERT Item 14378 · eigene Ø aus 94 · 11083 69% × 1.49 à 645, 11082 21% × 1.35 à 1302, 11084 10% × 1.00 à 3561 · brutto 1453 · netto 1380
+[10.11. 12:52:27] ABSATZ Item 14378 · Q 12 (vollscan) · S 2.8 (market, Deckel) · S roh 6.7 · Deckel 2.8 · eigene Quote - · Laufzeit 2 Std. · W 4.6 · N 7.0
+[10.11. 12:52:27] ENTZAUBERWERT Item 6602 · eigene Ø aus 94 · 11083 69% × 1.49 à 645, 11082 21% × 1.35 à 1302, 11084 10% × 1.00 à 3561 · brutto 1453 · netto 1380
+[10.11. 12:52:27] ABSATZ Item 6602 · Q 7 (vollscan) · S 4.0 (market, Deckel) · S roh 9.4 · Deckel 4.0 · eigene Quote - · Laufzeit 2 Std. · W 2.0 · N 7.0
+[10.11. 12:51:27] SYNC gesendet 477, empfangen 15, verworfen queue 27 · Kanal verweigert 0
+[10.11. 12:44:43] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · 21 ms
+[10.11. 12:43:47] DETAIL-LEER Item 7540 · itemKey Scan 47/0 · Detail 47/0 · Treffer 0
+[10.11. 12:43:45] DETAIL-LEER Item 127 · itemKey Scan 1/0 · Detail 1/0 · Treffer 0
+[10.11. 12:43:44] DETAIL-LEER Item 9286 · itemKey Scan 44/0 · Detail 44/0 · Treffer 0
+[10.11. 12:41:27] SYNC gesendet 477, empfangen 15, verworfen queue 27 · Kanal verweigert 0
+[10.11. 12:40:14] LANGSAM ×4 Hintergrund-Aufgabe cache:today:10 · 0 Schritte · 26 ms
+[10.11. 12:40:08] M2 Ware: auctionID:n,containsAccountItem:b,containsOwnerItem:b,itemID:n,numOwnerItems:n,owners,quantity:n,timeLeftSeconds:n,totalNumberOfOwners:n,unitPrice:n
+[10.11. 12:40:03] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · 22 ms
+[10.11. 12:39:51] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[10.11. 12:39:51] EINSTELLEN Item 11084 · Menge 2 · Auktionen 1 · Laufzeit 1 · Preis 3747/Stück, 7494 gesamt · Gebühr erwartet 100, abgezogen 100 (1.33 % vom Preis)
+[10.11. 12:39:50] AHS-POST PostCommodity: arg2=1 arg3=2 arg4=3747 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/3
+[10.11. 12:39:42] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=1 · Minimum jetzt 100
+[10.11. 12:39:42] EINSTELLEN Item 11083 · Menge 24 · Auktionen 1 · Laufzeit 1 · Preis 677/Stück, 16248 gesamt · Gebühr erwartet 100, abgezogen 100 (0.62 % vom Preis)
+[10.11. 12:39:41] AHS-POST PostCommodity: arg2=1 arg3=24 arg4=677 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/5
+[10.11. 12:39:32] EIGENE Ware Item 11082 · buyout 1369 · Menge 15 · als Stückpreis gelesen
+[10.11. 12:39:32] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[10.11. 12:39:32] EINSTELLEN Item 11082 · Menge 15 · Auktionen 1 · Laufzeit 1 · Preis 1369/Stück, 20535 gesamt · Gebühr erwartet 100, abgezogen 100 (0.49 % vom Preis)
+[10.11. 12:39:31] AHS-POST PostCommodity: arg2=1 arg3=15 arg4=1369 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/4
+[10.11. 12:39:08] ABSATZ Item 2320 · Q 957 (vollscan) · S 833.6 (market, Deckel) · S roh 2389.8 · Deckel 833.6 · eigene Quote - · Laufzeit 24 Std. · W 1.1 · N 2.0
+[10.11. 12:38:50] ENTZAUBERWERT Item 809 · Tabelle · 11178 100% × 3.00 à 18050 · brutto 57000 · netto 54150
+[10.11. 12:38:50] DE-CHANCEN Gruppe 4:2 · Tabelle 11178 100% · echt 11178 - (0)
+[10.11. 12:38:50] ABSATZ Item 809 · Q 1 (vollscan) · S ? (-, unsicher) · S roh - · Deckel - · eigene Quote - · Laufzeit 2 Std. · W ? · N 1.0

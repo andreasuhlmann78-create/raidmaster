@@ -1,30 +1,30 @@
 {
- "ausgewertet": "2026-11-10T13:08:57Z",
+ "ausgewertet": "2026-11-10T14:20:01Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 11,
+   "berichte": 12,
    "letzter_test": {
-    "id": "AHSentinel-1794299548-8eccef-1",
-    "version": "0.65.69",
-    "time": 1794299517,
+    "id": "AHSentinel-1794314177-2f3288-1",
+    "version": "0.65.76",
+    "time": 1794314138,
     "counts": {
-     "client": 15,
+     "client": 16,
      "fehler": 1,
-     "ok": 365,
-     "uebersprungen": 21
+     "ok": 408,
+     "uebersprungen": 22
     }
    },
    "fehler_tests": [
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.69",
+     "version": "0.65.76",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T122",
-     "name": "Tooltip schnell",
-     "detail": "ergebnis: 2.10 ms je Aufruf | erwartet: < 2 ms",
-     "bericht": "AHSentinel-1794299548-8eccef-1"
+     "id": "T169",
+     "name": "Aufbau der Rangliste < 16 ms pro Frame",
+     "detail": "ergebnis: längste Portion 59.0 ms | erwartet: < 16 ms",
+     "bericht": "AHSentinel-1794314177-2f3288-1"
     }
    ],
    "fehler_spiel": [
@@ -447,12 +447,12 @@
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.69",
+   "version": "0.65.76",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T122",
-   "name": "Tooltip schnell",
-   "detail": "ergebnis: 2.10 ms je Aufruf | erwartet: < 2 ms",
-   "bericht": "AHSentinel-1794299548-8eccef-1"
+   "id": "T169",
+   "name": "Aufbau der Rangliste < 16 ms pro Frame",
+   "detail": "ergebnis: längste Portion 59.0 ms | erwartet: < 16 ms",
+   "bericht": "AHSentinel-1794314177-2f3288-1"
   },
   {
    "addon": "AHSentinel",
@@ -764,8 +764,8 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 54,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.69-18e6db192b68.txt"
+    "anzahl": 57,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.78-ec93d5ad21c1.txt"
    },
    "BuffSentinel": {
     "anzahl": 20,
@@ -776,22 +776,22 @@
     "neueste": "testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt"
    },
    "GuildSentinel": {
-    "anzahl": 48,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.21-aea34d9c789b.txt"
+    "anzahl": 51,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.21-0688338dea67.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 45,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.37-b69a2ad3e0a7.txt"
+    "anzahl": 46,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.37-aedb06ad2442.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 36,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.4-6191344fc78e.txt"
+    "anzahl": 39,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.6-ddc574f140a3.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 96,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794304809-b364b5.json"
+    "anzahl": 100,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794315795-cd792a.json"
    }
   }
  }

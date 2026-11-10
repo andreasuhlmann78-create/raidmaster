@@ -4,16 +4,16 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Durotar (1411)
 
-- Wegstücke 392, Knoten 428, zusammenhängende Teile 15
+- Wegstücke 753, Knoten 755, zusammenhängende Teile 8
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 348 Knoten, Bereich 36–64 / 12–43
-  - Teil 2: 33 Knoten, Bereich 43–55 / 47–69
-  - Teil 3: 21 Knoten, Bereich 51–55 / 8–12
-  - Teil 4: 5 Knoten, Bereich 52–55 / 43–51
-  - Teil 5: 3 Knoten, Bereich 46–48 / 44–44
-  - Teil 6: 3 Knoten, Bereich 35–37 / 43–44
-  - Teil 7: 2 Knoten, Bereich 53–54 / 58–62
-  - Teil 8: 2 Knoten, Bereich 44–45 / 38–40
+  - Teil 1: 724 Knoten, Bereich 35–66 / 8–69
+  - Teil 2: 8 Knoten, Bereich 34–37 / 42–44
+  - Teil 3: 6 Knoten, Bereich 54–55 / 89–91
+  - Teil 4: 5 Knoten, Bereich 46–48 / 44–44
+  - Teil 5: 4 Knoten, Bereich 44–45 / 38–40
+  - Teil 6: 4 Knoten, Bereich 40–42 / 44–44
+  - Teil 7: 2 Knoten, Bereich 42–43 / 43–44
+  - Teil 8: 2 Knoten, Bereich 43–44 / 44–44
 - **Ausreisser:** Wegstück 7: Sprung 5.3 % von 44.1,40.6 nach 48.3,43.9
 - **Ausreisser:** Wegstück 7: Sprung 4.4 % von 48.3,43.9 nach 51.1,47.3
 - **Ausreisser:** Wegstück 7: Sprung 4.0 % von 51.1,47.3 nach 52.1,51.2
@@ -37,16 +37,16 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Mulgore (1412)
 
-- Wegstücke 152, Knoten 295, zusammenhängende Teile 42
+- Wegstücke 447, Knoten 1134, zusammenhängende Teile 22
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 131 Knoten, Bereich 39–62 / 41–65
-  - Teil 2: 64 Knoten, Bereich 38–55 / 18–36
-  - Teil 3: 7 Knoten, Bereich 53–55 / 51–54
-  - Teil 4: 5 Knoten, Bereich 51–52 / 72–74
-  - Teil 5: 5 Knoten, Bereich 56–59 / 29–30
-  - Teil 6: 4 Knoten, Bereich 46–46 / 65–68
-  - Teil 7: 4 Knoten, Bereich 47–47 / 48–50
-  - Teil 8: 4 Knoten, Bereich 35–37 / 54–57
+  - Teil 1: 578 Knoten, Bereich 33–64 / 41–82
+  - Teil 2: 165 Knoten, Bereich 37–55 / 18–36
+  - Teil 3: 103 Knoten, Bereich 43–60 / 18–47
+  - Teil 4: 88 Knoten, Bereich 42–60 / 78–90
+  - Teil 5: 46 Knoten, Bereich 44–49 / 77–88
+  - Teil 6: 37 Knoten, Bereich 30–35 / 32–37
+  - Teil 7: 31 Knoten, Bereich 45–51 / 46–50
+  - Teil 8: 22 Knoten, Bereich 37–39 / 60–67
 - **Ausreisser:** Wegstück 1: Sprung 4.6 % von 40.3,44.2 nach 40.4,48.8
 - **Ausreisser:** Wegstück 1: Sprung 6.3 % von 47.2,57.8 nach 48.2,64.0
 - **Ausreisser:** Wegstück 18: Sprung 6.4 % von 40.1,45.0 nach 40.9,51.4
@@ -58,16 +58,16 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Das Brachland (1413)
 
-- Wegstücke 1127, Knoten 706, zusammenhängende Teile 29
+- Wegstücke 1923, Knoten 973, zusammenhängende Teile 22
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 577 Knoten, Bereich 38–66 / 3–58
-  - Teil 2: 79 Knoten, Bereich 41–50 / 45–59
-  - Teil 3: 4 Knoten, Bereich 58–60 / 37–39
-  - Teil 4: 4 Knoten, Bereich 58–59 / 21–22
-  - Teil 5: 3 Knoten, Bereich 58–59 / 40–42
-  - Teil 6: 3 Knoten, Bereich 54–54 / 44–46
-  - Teil 7: 2 Knoten, Bereich 54–54 / 33–34
-  - Teil 8: 2 Knoten, Bereich 64–64 / 3–4
+  - Teil 1: 932 Knoten, Bereich 38–66 / 3–59
+  - Teil 2: 5 Knoten, Bereich 58–59 / 40–42
+  - Teil 3: 4 Knoten, Bereich 64–64 / 3–4
+  - Teil 4: 3 Knoten, Bereich 54–54 / 44–46
+  - Teil 5: 3 Knoten, Bereich 64–64 / 6–6
+  - Teil 6: 3 Knoten, Bereich 58–58 / 42–43
+  - Teil 7: 3 Knoten, Bereich 63–63 / 10–10
+  - Teil 8: 2 Knoten, Bereich 48–49 / 41–41
 - **Ausreisser:** Wegstück 53: Sprung 5.7 % von 52.8,31.2 nach 56.7,35.4
 - **Ausreisser:** Wegstück 345: Sprung 5.1 % von 55.7,20.8 nach 53.5,25.4
 - **Ausreisser:** Wegstück 345: Sprung 4.7 % von 46.2,29.3 nach 44.5,33.7
@@ -80,16 +80,10 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Alteracgebirge (1416)
 
-- Wegstücke 2, Knoten 16, zusammenhängende Teile 9
+- Wegstücke 6, Knoten 52, zusammenhängende Teile 2
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 5 Knoten, Bereich 34–36 / 11–14
-  - Teil 2: 2 Knoten, Bereich 30–31 / 36–38
-  - Teil 3: 2 Knoten, Bereich 32–33 / 8–9
-  - Teil 4: 2 Knoten, Bereich 35–36 / 24–27
-  - Teil 5: 1 Knoten, Bereich 32–32 / 31–31
-  - Teil 6: 1 Knoten, Bereich 34–34 / 28–28
-  - Teil 7: 1 Knoten, Bereich 21–21 / 11–11
-  - Teil 8: 1 Knoten, Bereich 26–26 / 10–10
+  - Teil 1: 41 Knoten, Bereich 21–36 / 8–27
+  - Teil 2: 11 Knoten, Bereich 30–34 / 28–38
 - **Ausreisser:** Wegstück 1: Sprung 4.9 % von 30.8,35.9 nach 32.0,31.2
 - **Ausreisser:** Wegstück 1: Sprung 4.1 % von 32.0,31.2 nach 34.4,27.9
 - **Ausreisser:** Wegstück 2: Sprung 4.6 % von 21.2,10.8 nach 25.8,10.3
@@ -100,20 +94,20 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Arathihochland (1417)
 
-- Wegstücke 2, Knoten 6, zusammenhängende Teile 1
+- Wegstücke 4, Knoten 11, zusammenhängende Teile 1
 
 ## Tirisfal (1420)
 
-- Wegstücke 292, Knoten 336, zusammenhängende Teile 30
+- Wegstücke 481, Knoten 639, zusammenhängende Teile 23
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 274 Knoten, Bereich 31–81 / 33–69
-  - Teil 2: 7 Knoten, Bereich 81–84 / 46–53
-  - Teil 3: 5 Knoten, Bereich 31–32 / 66–66
-  - Teil 4: 5 Knoten, Bereich 33–34 / 63–64
-  - Teil 5: 4 Knoten, Bereich 56–61 / 64–66
+  - Teil 1: 584 Knoten, Bereich 31–84 / 21–76
+  - Teil 2: 5 Knoten, Bereich 31–32 / 66–66
+  - Teil 3: 5 Knoten, Bereich 33–34 / 63–64
+  - Teil 4: 5 Knoten, Bereich 36–38 / 57–58
+  - Teil 5: 4 Knoten, Bereich 58–60 / 81–82
   - Teil 6: 3 Knoten, Bereich 25–26 / 60–60
-  - Teil 7: 2 Knoten, Bereich 36–38 / 57–58
-  - Teil 8: 2 Knoten, Bereich 33–34 / 60–61
+  - Teil 7: 3 Knoten, Bereich 32–32 / 64–65
+  - Teil 8: 3 Knoten, Bereich 32–32 / 59–60
 - **Ausreisser:** Wegstück 1: Sprung 4.1 % von 55.7,62.7 nach 51.7,61.9
 - **Ausreisser:** Wegstück 1: Sprung 4.8 % von 48.6,60.2 nach 45.0,57.1
 - **Ausreisser:** Wegstück 1: Sprung 5.2 % von 45.0,57.1 nach 41.8,53.0
@@ -137,16 +131,16 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Silberwald (1421)
 
-- Wegstücke 324, Knoten 395, zusammenhängende Teile 15
+- Wegstücke 464, Knoten 695, zusammenhängende Teile 9
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 246 Knoten, Bereich 34–57 / 8–74
-  - Teil 2: 71 Knoten, Bereich 55–65 / 57–78
-  - Teil 3: 22 Knoten, Bereich 64–77 / 32–36
-  - Teil 4: 14 Knoten, Bereich 55–58 / 45–50
-  - Teil 5: 11 Knoten, Bereich 77–80 / 22–30
-  - Teil 6: 5 Knoten, Bereich 58–62 / 8–14
-  - Teil 7: 5 Knoten, Bereich 57–58 / 14–18
-  - Teil 8: 5 Knoten, Bereich 45–46 / 84–85
+  - Teil 1: 525 Knoten, Bereich 34–80 / 5–74
+  - Teil 2: 118 Knoten, Bereich 55–65 / 57–78
+  - Teil 3: 17 Knoten, Bereich 55–58 / 45–50
+  - Teil 4: 11 Knoten, Bereich 58–61 / 8–14
+  - Teil 5: 8 Knoten, Bereich 57–58 / 14–18
+  - Teil 6: 6 Knoten, Bereich 56–58 / 35–36
+  - Teil 7: 5 Knoten, Bereich 45–46 / 84–85
+  - Teil 8: 3 Knoten, Bereich 50–51 / 40–42
 - **Ausreisser:** Wegstück 62: Sprung 6.0 % von 50.4,59.6 nach 49.5,53.7
 - **Ausreisser:** Wegstück 69: Sprung 4.8 % von 46.1,44.7 nach 48.1,49.1
 - **Ausreisser:** Wegstück 75: Sprung 4.2 % von 49.9,28.7 nach 49.7,32.9
@@ -164,43 +158,37 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Vorgebirge von Hillsbrad (1424)
 
-- Wegstücke 3, Knoten 12, zusammenhängende Teile 4
+- Wegstücke 7, Knoten 22, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 5 Knoten, Bereich 60–62 / 19–22
-  - Teil 2: 3 Knoten, Bereich 62–62 / 32–34
-  - Teil 3: 2 Knoten, Bereich 62–62 / 39–40
-  - Teil 4: 2 Knoten, Bereich 63–64 / 39–39
+  - Teil 1: 11 Knoten, Bereich 62–62 / 32–40
+  - Teil 2: 9 Knoten, Bereich 60–62 / 19–22
+  - Teil 3: 2 Knoten, Bereich 63–64 / 39–39
 - **Ausreisser:** Wegstück 1: Sprung 5.2 % von 61.8,39.2 nach 62.0,34.0
 
 ## Steinkrallengebirge (1442)
 
-- Wegstücke 79, Knoten 117, zusammenhängende Teile 5
+- Wegstücke 129, Knoten 192, zusammenhängende Teile 5
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 77 Knoten, Bereich 60–84 / 79–98
-  - Teil 2: 23 Knoten, Bereich 53–56 / 71–76
-  - Teil 3: 10 Knoten, Bereich 45–49 / 59–63
-  - Teil 4: 5 Knoten, Bereich 35–37 / 70–75
-  - Teil 5: 2 Knoten, Bereich 45–45 / 62–63
+  - Teil 1: 137 Knoten, Bereich 60–84 / 79–98
+  - Teil 2: 28 Knoten, Bereich 53–56 / 71–76
+  - Teil 3: 16 Knoten, Bereich 45–49 / 59–62
+  - Teil 4: 8 Knoten, Bereich 35–37 / 70–75
+  - Teil 5: 3 Knoten, Bereich 45–45 / 62–63
 
 ## Desolace (1443)
 
-- Wegstücke 12, Knoten 37, zusammenhängende Teile 2
+- Wegstücke 19, Knoten 65, zusammenhängende Teile 2
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 25 Knoten, Bereich 22–28 / 67–76
-  - Teil 2: 12 Knoten, Bereich 45–53 / 61–68
+  - Teil 1: 43 Knoten, Bereich 22–28 / 67–76
+  - Teil 2: 22 Knoten, Bereich 45–53 / 61–68
 
 ## Orgrimmar (1454)
 
-- Wegstücke 471, Knoten 275, zusammenhängende Teile 30
+- Wegstücke 695, Knoten 661, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 183 Knoten, Bereich 41–82 / 19–94
-  - Teil 2: 19 Knoten, Bereich 49–59 / 35–46
-  - Teil 3: 15 Knoten, Bereich 38–47 / 51–58
-  - Teil 4: 9 Knoten, Bereich 45–53 / 48–52
-  - Teil 5: 8 Knoten, Bereich 32–42 / 37–40
-  - Teil 6: 4 Knoten, Bereich 48–51 / 78–80
-  - Teil 7: 4 Knoten, Bereich 44–46 / 38–43
-  - Teil 8: 3 Knoten, Bereich 38–38 / 74–76
+  - Teil 1: 656 Knoten, Bereich 32–82 / 19–95
+  - Teil 2: 3 Knoten, Bereich 38–40 / 28–30
+  - Teil 3: 2 Knoten, Bereich 35–35 / 86–88
 - **Ausreisser:** Wegstück 2: Sprung 5.9 % von 52.0,68.2 nach 52.0,74.1
 - **Ausreisser:** Wegstück 3: Sprung 5.9 % von 52.0,68.2 nach 54.7,63.0
 - **Ausreisser:** Wegstück 3: Sprung 4.7 % von 54.7,63.0 nach 52.8,67.3
@@ -221,21 +209,19 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 - **Ausreisser:** Wegstück 27: Sprung 4.1 % von 47.4,76.8 nach 43.8,74.8
 - **Ausreisser:** Wegstück 27: Sprung 6.3 % von 43.8,74.8 nach 48.7,78.8
 - **Ausreisser:** Wegstück 28: Sprung 13.4 % von 52.6,87.5 nach 52.0,74.1
-- **Widerspruch:** gesperrt (FEST) bei 52.2,64.5, aber 176× gelaufen
+- **Widerspruch:** gesperrt (FEST) bei 52.2,64.5, aber 215× gelaufen
 - Gesperrte Wegstücke: 1
 
 ## Thunder Bluff (1456)
 
-- Wegstücke 236, Knoten 171, zusammenhängende Teile 44
+- Wegstücke 431, Knoten 519, zusammenhängende Teile 6
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 63 Knoten, Bereich 33–59 / 44–64
-  - Teil 2: 29 Knoten, Bereich 23–31 / 20–41
-  - Teil 3: 9 Knoten, Bereich 69–78 / 29–34
-  - Teil 4: 5 Knoten, Bereich 46–49 / 39–43
-  - Teil 5: 4 Knoten, Bereich 68–70 / 29–32
-  - Teil 6: 4 Knoten, Bereich 55–60 / 32–35
-  - Teil 7: 4 Knoten, Bereich 40–46 / 39–45
-  - Teil 8: 4 Knoten, Bereich 58–61 / 82–87
+  - Teil 1: 502 Knoten, Bereich 23–78 / 14–87
+  - Teil 2: 5 Knoten, Bereich 26–31 / 2–4
+  - Teil 3: 4 Knoten, Bereich 13–18 / 29–31
+  - Teil 4: 3 Knoten, Bereich 11–13 / 24–29
+  - Teil 5: 3 Knoten, Bereich 17–21 / 33–34
+  - Teil 6: 2 Knoten, Bereich 47–48 / 34–36
 - **Ausreisser:** Wegstück 1: Sprung 6.5 % von 34.4,73.5 nach 32.3,67.3
 - **Ausreisser:** Wegstück 2: Sprung 4.4 % von 33.3,71.6 nach 32.3,67.3
 - **Ausreisser:** Wegstück 3: Sprung 5.3 % von 32.3,67.3 nach 32.4,62.0
@@ -259,16 +245,10 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 1028, Knoten 269, zusammenhängende Teile 44
+- Wegstücke 1283, Knoten 667, zusammenhängende Teile 2
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 151 Knoten, Bereich 46–76 / 7–60
-  - Teil 2: 20 Knoten, Bereich 44–53 / 65–80
-  - Teil 3: 12 Knoten, Bereich 59–72 / 60–65
-  - Teil 4: 11 Knoten, Bereich 53–59 / 64–73
-  - Teil 5: 5 Knoten, Bereich 45–47 / 77–86
-  - Teil 6: 5 Knoten, Bereich 55–58 / 90–96
-  - Teil 7: 5 Knoten, Bereich 76–79 / 52–55
-  - Teil 8: 5 Knoten, Bereich 44–50 / 56–61
+  - Teil 1: 665 Knoten, Bereich 44–86 / 1–96
+  - Teil 2: 2 Knoten, Bereich 83–84 / 15–16
 - **Ausreisser:** Wegstück 1: Sprung 10.6 % von 46.4,72.8 nach 52.8,64.4
 - **Ausreisser:** Wegstück 2: Sprung 6.2 % von 46.4,72.8 nach 45.4,78.9
 - **Ausreisser:** Wegstück 3: Sprung 9.8 % von 46.4,72.8 nach 51.7,64.6
