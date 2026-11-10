@@ -1,0 +1,76 @@
+ANWEISUNG DER PRÜF-SITZUNG FÜR AHSENTINEL: BUCHHALTUNG NEU – WIE DIE PROFIS (Entscheid des Nutzers 10.11. 18:56)
+=============================================================================================================
+Erst laufende Arbeit fertig machen. Pflichtlektüre vorher: shared/wissen/buchhaltung.md (Kostenbasis, realisierter
+Gewinn, Entzaubern als Umbuchung, Abstimmung mit dem Gold) und wirtschaft-forever.md Abschnitt 0.
+
+Entscheid des Nutzers (wörtlich sinngemäss): "So machen es die Profis: mach das so. Setz die Buchhaltung zurück, und
+zwar komplett. Im Hintergrund können die Daten noch sein, aber sie dürfen die Buchhaltung nicht beeinflussen. Nur
+noch wie es die Profis machen." Dazu früher (18:45): "Es muss nicht alles optisch dargestellt werden – das Endergebnis
+zählt."
+
+Anlass: 0.65.86 zeigt "Kasse −6g 32s / Ergebnis mit Lager −2g 43s", der Nutzer macht nach eigenem Erleben deutlich
+Plus. Diagnose in buchhaltung.md Abschnitt 4 (Cash-Sicht, Verkäufe erst ab Rechnung aber Käufe sofort, Lager zum
+Marktpreis, andere Charaktere im Lager-Beginn).
+
+BP1 NEUSTART (Stichtag)
+   - Beim ersten Start der neuen Version: Stichtag = jetzt. Alle bisherigen Buchungen (db.ledger.entries, stock, ...)
+     wandern unverändert nach db.ledger.archive (nur lesen, für Statistik/Absatz/Prognose weiter nutzbar).
+     Sie fliessen NIE in die neue Buchhaltung (keine Summe, kein Zeitraum, kein Lager-Beginn).
+   - NICHT ANFASSEN: Entzauber-Daten (deStats, deShared, deLog, deBuys, deBackup), Lern-Datenbank, Prognose-Journal,
+     Vollscan-Daten. Die bleiben genau wie sie sind (Schutz-Entscheid des Nutzers).
+   - Eröffnungsbestand: alles, was zum Stichtag in Taschen, Bank, Post und eigenen Auktionen liegt (je Charakter, beim
+     ersten Login des Charakters nach dem Update), bekommt als Kostenbasis den damaligen realistischen Netto-Wert
+     (A:ResalePrice nach Gebühren, mind. Händlerpreis; Aufkauf-Material D6 zum Preis vor dem Aufkauf). So zählt der
+     Verkauf von altem Bestand nicht als reiner Gewinn und nicht als Verlust.
+   - Befehl "/ahs buchhaltung neu" (mit Rückfrage) setzt einen neuen Stichtag, gleiches Verfahren.
+
+BP2 KOSTENBASIS JE ITEM UND CHARAKTER (gleitender Durchschnitt)
+   - Kauf (Sniper, Einkauf, Sammelkauf, Rechnung "gekauft"): Menge und Kosten dazu.
+   - Verkauf (AH, Händler): Entnahme zum Durchschnitt; Gewinn = Erlös nach 5 % − Kostenbasis.
+   - Unbekannte Zugänge nach dem Stichtag (Beute, Quest, Post von anderen): Kostenbasis 0, als "ohne Einkauf"
+     gekennzeichnet (im Tooltip getrennt ausweisbar).
+   - Post zwischen eigenen Charakteren: Kostenbasis wandert mit (kein Gewinn, kein Verlust).
+
+BP3 ENTZAUBERN UND HERSTELLEN = UMBUCHUNG
+   - Entzaubern: Kostenbasis des Teils verteilt sich auf die erhaltenen Materialien nach ihrem relativen Verkaufswert
+     im Moment des Entzauberns (relative sales value). Kein Gewinn, kein Verlust beim Entzaubern selbst.
+   - Herstellen: Kostenbasis der Zutaten -> Produkt.
+   - Die bestehende Entzauber-Abrechnung je Einkauf (Le:DisenchantCharges) darf bleiben, rechnet aber mit derselben
+     Kostenbasis.
+
+BP4 VERKAUF SOFORT ALS "AUSSTEHEND"
+   - Bei "Es wurde ein Käufer für Eure Auktion gefunden: X" (Systemmeldung) bzw. wenn die eigene Auktion als verkauft
+     erkannt wird: sofort buchen (Erlös = Sofortkauf × Menge × 0,95, Einzahlung zurück), Status "ausstehend".
+   - Kommt die Rechnung: bestätigen (Abgleich über Item, Menge, Preis, Zeit) – NIE doppelt. Abweichung -> Rechnung gilt.
+   - Messauftrag B1: Zeit zwischen Käufer-Meldung und Geld in der Post in Forever messen und im Testbericht melden.
+
+BP5 EIN ENDERGEBNIS
+   - Kopf der Buchhaltung: GROSS nur "Gewinn" (realisiert) für den gewählten Zeitraum (Heute / 7 Tage / 30 Tage / Seit
+     Neustart). Darunter klein höchstens: Verkauft (Erlös), Eingesetzt (Kostenbasis des Verkauften), Gebühren.
+   - Alles Weitere NUR im Tooltip des Gewinns: Kasse (Geld rein/raus), Lager zum Einstandspreis, Lager zum Marktwert
+     und unrealisierter Gewinn (mit Aufkauf-Schutz D6), ausstehende Verkäufe, Abstimmung (BP6).
+   - Liste "Pro Item": Spalten Verkauft, Erlös, Eingesetzt, Gewinn, Gewinn %. Keine weiteren neuen Spalten.
+   - Die alten Kacheln Einnahmen/Ausgaben/Kasse/Ergebnis mit Lager entfallen im Kopf.
+
+BP6 ABSTIMMUNG MIT DEM GOLD
+   - Gold je Charakter beim Login, beim Logout und bei jedem Öffnen der Buchhaltung mitschreiben.
+   - Im Tooltip: "Gold seit Stichtag/Tagesbeginn: +X · Buchhaltung erklärt: Y · nicht gebucht: X − Y" (Quests,
+     Händlerkäufe, Reparatur, Porto usw.). Grosse Differenz -> Protokoll BUCHHALTUNG-DIFFERENZ (ohne Namen).
+
+BP7 SPRACHEN, CHANGELOG, HILFE
+   - Alle Locale-Dateien, CHANGELOG EN/DE mit klarer Erklärung für Spieler ("Buchhaltung neu: Gewinn wie bei Profis –
+     Einkauf ist kein Verlust, Gewinn entsteht beim Verkauf; alte Daten bleiben im Hintergrund").
+
+TESTS (Sandbox: nur Ersatztabellen, echte Daten unverändert)
+   T-BP1 Neustart: alte Einträge im Archiv, neue Summen 0, Entzauber-/Lern-/Prognose-Daten byte-gleich.
+   T-BP2 Kauf 10 Stulpen à 10s -> Gewinn 0, Lager zum Einstandspreis 1g.
+   T-BP3 Entzaubern 1 Stulpe (10s) -> 2 Seelenstaub (Wert je 5s) + 1 Essenz (Wert 13s): Kostenbasis Staub je 10×10/23
+         = 2,17s (gerundet, Summe genau 10s), Essenz 5,65s; Gewinn 0.
+   T-BP4 Verkauf 2 Staub à 5s -> Gewinn = 2 × 5s × 0,95 − 2 × Kostenbasis − Gebühr (exakt in Kupfer).
+   T-BP5 Käufer-Meldung -> "ausstehend" gebucht; Rechnung danach -> bestätigt, Summe unverändert, kein Doppel.
+   T-BP6 Eröffnungsbestand 36 Seelenstaub (Wert 4s 70c nach Gebühren) -> Verkauf zu 4s 94c ergibt Gewinn nur aus dem
+         Unterschied, nicht 36 × 4s 94c.
+   T-BP7 Post an eigenen Twink: Kostenbasis wandert, Gewinn 0.
+   T-BP8 Abstimmung: Gold +50s, Buchhaltung +45s -> "nicht gebucht 5s".
+   T-BP9 Beispiel des Nutzers 10.11. nachgestellt (246 Teile gekauft ~30g, Materialien teils verkauft, teils im AH):
+         Einkaufstag zeigt keinen Verlust aus dem Einkauf; Gewinn = nur aus Verkäufen.
