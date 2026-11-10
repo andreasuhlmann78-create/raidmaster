@@ -1,0 +1,58 @@
+BEFUND DER PRÜF-SITZUNG: AUSRÜSTUNG LÄSST SICH MIT AHSENTINEL NICHT EINSTELLEN (0.65.59 und 0.65.60)
+=================================================================================================
+Stand: 10. November 2026, 06:20 · Grundlage: Messungen des Nutzers 9.11. 22:25 und 10.11. 06:04–06:08 (Screenshots,
+Diagnose-Protokoll 0.65.60). Code geprüft in download/AHSentinel-0.65.60.zip.
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen. Dann E1 zuerst (HOCH), danach der Rest.
+
+E1 (HOCH) AUSRÜSTUNG EINSTELLEN SCHEITERT – BLIZZARD-FENSTER GEHT
+   Gemessen: Braune Leinenhose (Ausrüstung, nicht Ware) über AHSentinel "Verkaufen" -> Blizzard-Meldung
+   "Interner Auktion-Fehler", Gold unverändert, keine Auktion. Mit Preis 1s 99c UND mit 2s (Menge 1, 24 Std.). Dieselbe
+   Hose im Blizzard-Verkaufsfenster: geht ohne Probleme (Nutzer, 10.11. 06:07).
+   Das Protokoll zeigt seit dem 9.11. NUR erfolgreiche EINSTELLEN-Zeilen für Waren (10938, 10940, 11135, 11137) – mit
+   AHSentinel wurde in Forever offenbar noch nie Ausrüstung erfolgreich eingestellt.
+   Der Aufruf (Seller.lua:734): C.PostItem(loc, duration, 1, nil, unitPrice). Blizzards eigenes Fenster schickt etwas
+   anderes. Vermutungen (NICHT belegt): Forever verlangt bei Ausrüstung ein Startgebot (Ausrüstung hat in Forever Gebote,
+   Waren nicht – T36 "Waren haben keine Gebote"), oder eine andere Reihenfolge/Art der Werte, oder das ItemLocation aus
+   entry.slots[1].loc zeigt nicht auf das Item.
+   ZUERST MESSEN, nicht raten:
+   a) Diagnose-Haken: hooksecurefunc(C_AuctionHouse, "PostItem", ...) und dasselbe für PostCommodity – ins Protokoll
+      eine Zeile "BLIZZARD-POST PostItem: arg2=<Dauer> arg3=<Menge> arg4=<Gebot oder nil> arg5=<Sofortkauf oder nil>,
+      ItemLocation gültig ja/nein, Bag/Slot" (nur Typen und Zahlen, keine Namen). Der Nutzer stellt danach einmal über
+      Blizzards Fenster ein -> die Zeile zeigt, womit Blizzard den Server ruft.
+   b) Dieselbe Zeile für den eigenen Aufruf ("AHS-POST …") und bei Misserfolg die Fehlermeldung (E2).
+   c) Danach den eigenen Aufruf genau wie Blizzard bauen. Testfall T-E1: Nachbildung des gemessenen Blizzard-Aufrufs ->
+      Se:Post für ein Einzelstück ruft PostItem mit denselben Argumenten (Typen und Reihenfolge).
+   d) Falls Forever wirklich ein Startgebot verlangt: Gebot im Verkaufen-Reiter (Standard = Sofortkauf, wenn nicht
+      kleiner erlaubt: Sofortkauf − 1 Silber), in Einstellungen/Locales, und der Unterbieten-Vorschlag beachtet es.
+
+E2 (MITTEL) FALSCHE FEHLERMELDUNG
+   Bei Misserfolg steht "Einstellen fehlgeschlagen (zu wenig Gold für die Einstellgebühr oder Item nicht verfügbar)",
+   obwohl genug Gold da war. Bitte die echte Meldung des Spiels zeigen (UI_ERROR_MESSAGE / AUCTION_HOUSE_POST_ERROR bzw.
+   die Fehlerkonstante, hier "Interner Auktion-Fehler") und nur, wenn keine kommt, einen allgemeinen Text.
+
+E3 (MITTEL) MISSLUNGENES EINSTELLEN FEHLT IM PROTOKOLL
+   Im Protokoll von 06:07 steht keine Zeile zu den drei Fehlversuchen. Bitte "EINSTELLEN-FEHLER Item <ID> · Ware ja/nein ·
+   Menge · Dauer · Preis · Meldung" schreiben.
+
+E4 (MITTEL) MENGENFELD LEER, ZEIGT ABER EINE GRAUE "1"
+   Nach dem Eintippen eines Preises (Ausrüstung, 2 in den Taschen) meldet AHSentinel "Menge muss mindestens 1 sein.",
+   im Feld steht eine graue 1 (Platzhalter), Einstellgebühr/Erlös zeigen "–". Leeres Mengenfeld = 1 (Platzhalter als
+   Wert nehmen) oder den Platzhalter nicht zeigen. Testfall: leeres Mengenfeld, Preis 2s -> Post mit Menge 1.
+
+E5 (NIEDRIG) "WERT Gruppe 7 · vorhergesagt 79 · echt 1 · Abweichung +7800 %" bei jeder RECHNUNG
+   Die Wert-Prüfung nimmt als "echt" offenbar noch das alte Feld (1) statt des Stückpreises der Rechnung (z. B. 88).
+   Seit dem Wechsel auf Feld 4 = Gesamt / Feld 5 = Menge (0.65.52) ist echt = Gesamt / Menge. Sonst lernt das Addon
+   falsche Werte. Testfall mit der RECHNUNG von 05:51 (8360 / 95 -> 88).
+
+E6 (NIEDRIG) "LANGSAM Hintergrund-Aufgabe cache:today:10 · 413 ms" (10.11. 05:51, auch 9.11. 22:16 mit 420 ms)
+   Die Hintergrund-Rechnung für "Heute tun" läuft in einem Stück statt in Portionen (Ziel < 16 ms je Frame).
+   Portion verkleinern bzw. die teure Schleife teilen. Testfall T123 misst nur den Abruf, bitte auch die Portion messen.
+
+DATEN FÜR DAS REGELWERK (aus dem Protokoll, für die Prüf-Sitzung – keine Arbeit für AHSentinel)
+   Erstattung der Einzahlung bei Teilverkäufen (Waren, gezahlt je Auktion 1s = 100c): 4 von 36 Stück -> 11c; 25 von 25
+   -> 100c; 49 von 149 -> 33c. Passt zu "anteilig nach verkaufter Menge, gerundet". Abweichungen (88 von 88 -> 97c,
+   149 -> 96c) noch ungeklärt.
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.

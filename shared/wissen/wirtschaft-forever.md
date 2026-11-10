@@ -41,10 +41,11 @@ weitergegeben. Die Addons haben danach falsche Werte angezeigt. Das darf nicht w
 | **Beim Verkauf: 5 % vom Verkaufspreis ab** (Auktionshausgebühr, "consignment") | belegt | 3 Rechnungen: 202 = 5 % von 4042, 837 = 5 % von 16744, 313 = 5 % von 6279 |
 | **Beim Verkauf: Einzahlung kommt zurück** (mit der Post) | belegt | Post-Gold = Gesamt − Gebühr + Einzahlung, 4× exakt |
 | **Gebühr wird ABGERUNDET** (5 % auf ganze Kupfer nach unten) | belegt mit 1 unterscheidenden Fall, 3 verträglich | 6279 × 5 % = 313,95 -> 313 (gerundet wären 314); 4042 -> 202, 16744 -> 837, 8082 -> 404 |
-| Höhe der zurückerstatteten Einzahlung bei Waren (Teilverkäufe, Minimum 1s) – vermutlich nur die Formel-Einzahlung ohne Minimum | **vermutet / offen** | 38c, 200c, 296c erstattet – Zusammenhang mit gezahlter Einzahlung noch nicht belegt |
+| Höhe der zurückerstatteten Einzahlung bei Waren (Teilverkäufe, Minimum 1s) – **etwa anteilig nach verkaufter Menge** (gezahlte Einzahlung × verkauft / eingestellt, gerundet) | **vermutet / offen** | Protokoll 9./10.11. (Staub/Essenzen, gezahlt je 100c): 4 von 36 -> 11c, 25 von 25 -> 100c, 49 von 149 -> 33c; ungeklärt: 88 von 88 -> 97c, 149 -> 96c; früher 38c, 200c, 296c |
 | Abgelaufene Auktion: Einzahlung verloren | bestätigt durch Quellen | Spielerberichte 6.11. (timesaver.gg), Hearthproof |
 | Abgebrochene Auktion: Einzahlung verloren | bestätigt durch Quellen, im Spiel noch messen | Hearthproof (Forever = Classic), Spielerberichte 6.11. (timesaver.gg); Spieler meint "anteilig zurück" -> messen (AHSentinel L2) |
 | Neutrales AH (Beutebucht, Gadgetzan, Ewige Warte): 15 % Gebühr, höhere Einzahlung | vermutet (klassisch) | Wiki; in Forever nicht gemessen |
+| Ausrüstung (Einzelstücke) einstellen: Blizzards Fenster geht; AHSentinel mit `C_AuctionHouse.PostItem(loc, dauer, 1, nil, preis)` -> "Interner Auktion-Fehler" (auch mit ganzen Silbern). **Ganze Silber sind NICHT die Ursache.** Welche Werte Blizzard schickt (Startgebot?), wird gemessen | belegt (Fehler) / offen (Ursache) | Nutzer 9.11. 22:25 und 10.11. 06:04–06:07, Braune Leinenhose 1s 99c und 2s |
 
 **Wichtig wegen der angekündigten Änderung:** Das Minimum NIE fest einbauen. Einzahlung immer zuerst über Blizzard
 (API / "Einzahlen"), Formel nur als Rückfall; das Minimum aus Messungen erkennen (z. B. Einstellung, bei der die

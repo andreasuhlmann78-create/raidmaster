@@ -140,3 +140,8 @@ NEU (9. Nov. 22:25, Prüf-Sitzung) – Testroutine im Client mit 0.65.59 am AH: 
    Test-Item in seller.items) – HOCH; 2a–2d Tests korrigieren (T40 Treffer bei 1c ist richtig, T45 Wächter pausiert
    durch Sniper-Ziele und wird danach fest ausgeschaltet, T33 Zeitüberschreitung ohne ist-Wert, T192 vom Nutzer
    verschobene Fenster); 3. Tooltip 2,33 ms. Damit ist A4 geklärt (kein Geld-Fehler im Sniper).
+
+NEU (10. Nov. 06:20, Prüf-Sitzung, HOCH) – Ausrüstung lässt sich mit AHSentinel nicht einstellen
+   befund-einstellen-ausruestung.txt: E1 PostItem scheitert mit "Interner Auktion-Fehler" (Blizzard-Fenster geht) –
+   zuerst den Blizzard-Aufruf mitschreiben (hooksecurefunc), dann gleich bauen; E2 echte Fehlermeldung zeigen; E3
+   Fehlversuch ins Protokoll; E4 leeres Mengenfeld mit grauer 1; E5 WERT-Prüfung nimmt "echt 1"; E6 cache:today 413 ms.
