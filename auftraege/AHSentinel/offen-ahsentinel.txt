@@ -162,3 +162,8 @@ NEU (10. Nov. 13:50) – befund-testroutine-0676.txt (Gesamtprüfung 0.65.76: 40
    W1 HOCH Testroutine verändert echte deBackup (Sandbox FEHLER). W2 HOCH gemessener Absatz 10–20× zu hoch
    (Teilkäufe bei Waren zählen ganze Menge, Hochrechnung aus 23 Min.). W3 T169 59 ms. W4 Vollscan-Frame 15 ms.
    W5 Zählkontrolle falscher Alarm. W6 M1b/M1c kürzer messen. W7 Splitter 10,6 % – Entscheid des Nutzers abwarten.
+
+NEU (10. Nov. 14:05, HOCH) – befund-buchhaltung-lager.txt
+   Lagerwert −8s 22c trotz ~4,7g Ware im Lager; Material in aktiven Auktionen zählt nirgends -> "Ergebnis mit Lager"
+   −9g 60s irreführend. LG1 Lager nie negativ, inkl. aktive Auktionen; LG2 "davon im AH"; LG3 Entzauber-Abrechnung;
+   LG4 Spalte "im AH". T-LG1–T-LG3.

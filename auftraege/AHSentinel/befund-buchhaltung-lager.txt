@@ -1,0 +1,36 @@
+BEFUND DER PRÜF-SITZUNG FÜR AHSENTINEL: BUCHHALTUNG – LAGERWERT NEGATIV, ERGEBNIS IRREFÜHREND (0.65.76)
+====================================================================================================
+Stand: 10. November 2026, 14:05 · Bildschirmfoto des Nutzers (13:50, Buchhaltung -> Heute -> Pro Item)
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen. Dann dies (HOCH – der Nutzer hält seinen Handel für Verlust).
+
+BEOBACHTUNG
+   Kopf: Einnahmen 16g 46s 69c · Ausgaben 25g 79s 34c (261 Käufe) · Gebühren 19s 62c · Kasse −9g 52s 27c ·
+   ERGEBNIS MIT LAGER −9g 60s 49c, darunter "Lager −8s 22c".
+   Pro Item "im Lager": Seelenstaub 14, Grosser gleissender Splitter 3, Leinenstoff 5, Bronzene Stulpen mit Versilberung 26
+   (gekauft heute 163 für 20g 50s).
+   -> Der Lagerwert ist NEGATIV, obwohl rund 26 × ~10s + 14 × 6s 77c + 3 × 37s 47c + 5 × Leinenstoff ≈ 4,7g im Lager liegen.
+   Ausserdem fehlen Materialien, die gerade im Auktionshaus angeboten werden: aus 142 eigenen Entzauberungen kamen
+   140 Seelenstaub / 47 Astralessenz / 15 Splitter; verkauft + Lager sind nur 111 / 27 / 10 – der Rest liegt vermutlich
+   in aktiven Auktionen und zählt nirgends.
+
+UMSETZEN
+LG1 Lagerwert nie negativ: Wert = Σ Menge × realistischer Verkaufspreis (H1, mindestens Händlerpreis) für Tasche + Bank +
+    Twinks (soweit bekannt) + AKTIVE EIGENE AUKTIONEN (zum Angebotspreis × 0,95, Einzahlung schon bezahlt).
+    Herausfinden, woher −8s 22c kommt (vermutlich Gebühren/Einzahlungen offener Auktionen im Lager verbucht) und
+    beheben.
+LG2 Kopf zeigt "Lager X (davon im AH Y)" und einen Satz in der Kachel: "Ergebnis, wenn alles zum heutigen Preis
+    verkauft wird".
+LG3 Entzauber-Abrechnung (Knopf Entzaubern): Kaufpreis der entzauberten Teile, Wert der Beute (verkauft / im AH / Lager),
+    Ergebnis – damit der Nutzer sieht, ob die Entzauber-Käufe sich lohnen (siehe befund-markt-heute-flip.txt H8,
+    Abrechnung je Charge).
+LG4 Pro Item: Spalte "im AH" neben "im Lager".
+
+TESTFÄLLE
+T-LG1 26 Stulpen (Markt 10s), 14 Seelenstaub (6s 77c), 3 Splitter (37s 47c) im Lager, keine offenen Auktionen ->
+      Lager ≈ 2g 60s + 94s 78c + 1g 12s 41c (× 0,95 je nach Regel), positiv.
+T-LG2 10 Astralessenz aktiv im AH zu 13s 69c -> "davon im AH 1g 30s" (× 0,95), Ergebnis mit Lager steigt entsprechend.
+T-LG3 Entzauber-Abrechnung zeigt Kauf, Beute (verkauft/im AH/Lager) und Ergebnis.
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden.
