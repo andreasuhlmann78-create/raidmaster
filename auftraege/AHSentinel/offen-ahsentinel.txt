@@ -154,3 +154,8 @@ NEU (10. Nov. 06:30, Wunsch des Nutzers, MITTEL) – Verkaufen nach Angebot und 
    anweisung-angebot-und-absatz.txt: Menge im AH vor dem eigenen Angebot (Q) und Absatz/Tag (S) -> Wartezeit ->
    Einstellungen -> Einzahlungsverlust; ab 7 Tagen "kaum" (Leinenhose: 150 im AH -> Entzaubern statt Verkaufen);
    eine Zahl für Tooltip/Gewinn-Fenster/Beste Rezepte/API; T-AB1–T-AB6. Dazu: Bestandszeile im Tooltip mit Überschrift.
+
+NEU (10. Nov. 06:45, Prüf-Sitzung, HOCH) – "Meine Auktionen": aktive Waren-Auktionen falsch gerechnet
+   befund-meine-auktionen-waren.txt: GetOwnedAuctionInfo liefert bei aktiven Waren den Stückpreis, Seller.lua:893 teilt
+   trotzdem durch die Menge (Essenz 43 Stk. -> 2c statt 97c, Staub 144 -> 0c). Folge: Unterbieten wird bei Waren nie
+   erkannt, Wert falsch. O1–O3, T-O1–T-O5. Zusammen mit E1 (Seller.lua).
