@@ -186,3 +186,8 @@ HINWEIS DES NUTZERS (10. Nov. 16:48): Sobald alle offenen Punkte umgesetzt und g
    "alles umgesetzt – bereit für den Test", mit Version.
    Nachtrag 17:00: S6 totes Angebot kommt nach "weg" wieder als "kaufbar" – je auctionID für die Sitzung sperren,
    neue auctionID zum gleichen Preis bleibt kaufbar. T-SR6.
+
+VORGEMERKT (10. Nov. 17:05, NACH DEM GROSSEN TEST – Entscheid des Nutzers, jetzt NICHT umsetzen)
+   Schnell-Vollscan: Das Spiel hängt beim Nutzer 10–15 Sekunden (0.65.84), obwohl die Testroutine "längster Frame 15 ms"
+   meldet – vermutlich der Abruf/das Einlesen ausserhalb der gemessenen Portionen (ReplicateItems-Antwort selbst,
+   Speicher, Verdichtung, Verfolgung V4 oder Neuaufbau der Ansichten danach). Wird nach dem Testlauf beauftragt.
