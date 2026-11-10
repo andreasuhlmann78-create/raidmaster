@@ -7,6 +7,18 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.62</h3>
+<ul>
+<li><strong>Item tooltip shows the value of everything in your bags:</strong> for stackable items with at least 2 in your bags, a
+  second line under "Sell:" shows the total of all stacks (e.g. "386 in your bags: 2g 0s 72c"), calculated like "Sell:"
+  for the whole quantity (or the vendor value if the vendor pays more). The bank is not counted.</li>
+<li><strong>Posting gear (single items) – diagnosis:</strong> on WoW Forever posting gear through AHSentinel fails with "Internal
+  auction error" while Blizzard's window works. AHSentinel now records in the diagnostic log what Blizzard's window
+  sends to the server and what AHSentinel sends (types and numbers only, no names), so the call can be built the same way.</li>
+<li><strong>Real error message when posting fails:</strong> the game's own message is shown (e.g. "Internal auction error") instead of
+  "not enough gold or item not available"; failed attempts are written to the diagnostic log.</li>
+<li><strong>Sell tab:</strong> an empty quantity field counts as 1 (it showed a grey 1 but refused to post).</li>
+</ul>
 <h3>Version 0.65.61</h3>
 <ul>
 <li><strong>Fix: "Today" could miss suggestions and freeze for a moment after login</strong> (diagnostic log: 413 ms in one frame).
@@ -59,20 +71,7 @@
 <li><strong>GoldSentinelTest 2:</strong> share error reports with the developer (only with your consent, /gstest).</li>
 <li>Diagnostic log: new "NETZ" line (without player names).</li>
 </ul>
-<h3>Version 0.65.57</h3>
-<ul>
-<li><strong>One minimum profit for everything:</strong> the automatic minimum price when selling and AHSentinel.API.MinProfitPct now
-  use your setting "minimum return" (same as "Worth up to" in the tooltip, default 20 %).</li>
-<li>For addon authors: API.Price reports "scan" only when the value really comes from the last scan ("market" when an
-  outlier was replaced by the median). API.md matches the clarified contract (MaterialCost = crafting cost of the product,
-  "vendor" is not an AH price).</li>
-<li>Texts: cancelling an auction loses the deposit (also in WoW Forever); the "per auction" tooltip in the profit window
-  shows the measured minimum deposit instead of a fixed 1s.</li>
-<li>Test routine: new tests for the whole tooltip (with/without Shift, not disenchantable), "real from 12 disenchants",
-  price source in the materials block, "Purchase sent" via the real confirm path, no flip suggestion for items that rarely
-  sell, and at most 3 rebuilds of "Best recipes" while crafting.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

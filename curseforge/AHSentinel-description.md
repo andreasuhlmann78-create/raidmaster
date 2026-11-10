@@ -12,6 +12,18 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.62
+
+- **Item tooltip shows the value of everything in your bags:** for stackable items with at least 2 in your bags, a
+  second line under "Sell:" shows the total of all stacks (e.g. "386 in your bags: 2g 0s 72c"), calculated like "Sell:"
+  for the whole quantity (or the vendor value if the vendor pays more). The bank is not counted.
+- **Posting gear (single items) – diagnosis:** on WoW Forever posting gear through AHSentinel fails with "Internal
+  auction error" while Blizzard's window works. AHSentinel now records in the diagnostic log what Blizzard's window
+  sends to the server and what AHSentinel sends (types and numbers only, no names), so the call can be built the same way.
+- **Real error message when posting fails:** the game's own message is shown (e.g. "Internal auction error") instead of
+  "not enough gold or item not available"; failed attempts are written to the diagnostic log.
+- **Sell tab:** an empty quantity field counts as 1 (it showed a grey 1 but refused to post).
+
 ### Version 0.65.61
 
 - **Fix: "Today" could miss suggestions and freeze for a moment after login** (diagnostic log: 413 ms in one frame).
@@ -63,19 +75,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   - "Only guild" in the options keeps everything in the guild (nothing goes into the network).
 - **GoldSentinelTest 2:** share error reports with the developer (only with your consent, /gstest).
 - Diagnostic log: new "NETZ" line (without player names).
-
-### Version 0.65.57
-
-- **One minimum profit for everything:** the automatic minimum price when selling and AHSentinel.API.MinProfitPct now
-  use your setting "minimum return" (same as "Worth up to" in the tooltip, default 20 %).
-- For addon authors: API.Price reports "scan" only when the value really comes from the last scan ("market" when an
-  outlier was replaced by the median). API.md matches the clarified contract (MaterialCost = crafting cost of the product,
-  "vendor" is not an AH price).
-- Texts: cancelling an auction loses the deposit (also in WoW Forever); the "per auction" tooltip in the profit window
-  shows the measured minimum deposit instead of a fixed 1s.
-- Test routine: new tests for the whole tooltip (with/without Shift, not disenchantable), "real from 12 disenchants",
-  price source in the materials block, "Purchase sent" via the real confirm path, no flip suggestion for items that rarely
-  sell, and at most 3 rebuilds of "Best recipes" while crafting.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
