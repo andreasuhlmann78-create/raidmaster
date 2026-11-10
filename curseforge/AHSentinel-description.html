@@ -7,6 +7,28 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.74</h3>
+<ul>
+<li><strong>Learning database (step 2, invisible):</strong> AHSentinel now learns in the background from your own results – nothing
+  new to operate, only better numbers in what you already use. Option "Learning" (on) switches it all off again.</li>
+<li>Chance to sell per price level (price ÷ market value) and duration; expired and cancelled auctions count as "not
+    sold" (never left out). Few own cases are pulled towards the item group, then towards shared numbers of all
+    players (sync, counts only, no names), then a start value.</li>
+<li>Price limits per item: the Sell tab suggests the learned normal price when nobody competes or the competition is
+    above your maximum; the minimum includes fee and expected deposit losses.</li>
+<li>Sell tab: "only ~N sell in this duration – keep the rest in your bags". My Auctions: "higher possible" when the
+    cheaper competition is gone (cancel only by your click).</li>
+<li>Safer buying: watcher, bulk buy, flips and disenchant deals use a safety margin from the measured error (20 % until
+    20 buys, then at least 10 %) and a daily budget per strategy (10 % of your gold) while its hit rate is below 60 %.</li>
+<li>Today: a hint when something you bought fell more than 25 % in value ("sell now brings X, waiting expects Y").</li>
+<li>Rare items: own sales estimated with Croston; market sales use a learned factor per group (from the full scan)
+    instead of the fixed 20 % cap.</li>
+<li>Self-correction every week or 50 new results (damped ±30 %, log "LERNEN"); rhythm (cheap/expensive hour and
+    weekday) after 21 days, only when stable.</li>
+<li>Option "Try higher (+5 %)" (off): every 10th posting suggests 5 % more to learn the price sensitivity.</li>
+<li>Tooltip (Shift): "Chance to sell at market value: 72 % (learned from 23 own sales)", rhythm if known.</li>
+<li>Test routine: new part "l" (learning) with fixed numbers; report and GSTEST1 get a section "Learning database".</li>
+</ul>
 <h3>Version 0.65.73</h3>
 <ul>
 <li><strong>Fast full scan (new option, off by default):</strong> in the modern auction house (WoW Forever) the scan button can read
@@ -63,22 +85,7 @@
   for the whole chain (spell → loot → counted), learning formula with fixed numbers, shared results and values.</li>
 <li>Tooltip: chance source for disenchant group "up to 15" named correctly.</li>
 </ul>
-<h3>Version 0.65.69</h3>
-<ul>
-<li><strong>Fix: ledger showed the price as quantity</strong> (e.g. "sold 22000" for ONE cap): on some WoW Forever invoices field 5 is
-  the price, not the quantity. It now only counts as quantity if it plausibly is one (never for gear). Saved sales are
-  repaired once (backup kept, diagnostic log REPARATUR-MENGE).</li>
-<li><strong>Fix: positive fees in the ledger:</strong> a refund on sale without a booked deposit (posted via Blizzard's window, another
-  addon or before AHSentinel) is now covered by a matching deposit – net 0, like in the game. Postings through
-  Blizzard's window or other addons are booked too. Old data is repaired once.</li>
-<li><strong>Disenchanting is counted on every way:</strong> besides bag clicks and AHSentinel's window, macros and other addons
-  (/use bag slot) are now recognised from the bag contents. Results with a material outside the table are no longer
-  dropped silently (log DE-ABGELEHNT); every disenchant writes DE-GEZÄHLT or DE-VERPASST. Statistics: "today counted N
-  · missed M".</li>
-<li><strong>Tooltip materials:</strong> learned average quantity ("Ø 1.4"), the table range only with Shift; own and shared results
-  named separately.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

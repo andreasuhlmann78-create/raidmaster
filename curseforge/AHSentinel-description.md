@@ -12,6 +12,28 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.74
+
+- **Learning database (step 2, invisible):** AHSentinel now learns in the background from your own results – nothing
+  new to operate, only better numbers in what you already use. Option "Learning" (on) switches it all off again.
+  - Chance to sell per price level (price ÷ market value) and duration; expired and cancelled auctions count as "not
+    sold" (never left out). Few own cases are pulled towards the item group, then towards shared numbers of all
+    players (sync, counts only, no names), then a start value.
+  - Price limits per item: the Sell tab suggests the learned normal price when nobody competes or the competition is
+    above your maximum; the minimum includes fee and expected deposit losses.
+  - Sell tab: "only ~N sell in this duration – keep the rest in your bags". My Auctions: "higher possible" when the
+    cheaper competition is gone (cancel only by your click).
+  - Safer buying: watcher, bulk buy, flips and disenchant deals use a safety margin from the measured error (20 % until
+    20 buys, then at least 10 %) and a daily budget per strategy (10 % of your gold) while its hit rate is below 60 %.
+  - Today: a hint when something you bought fell more than 25 % in value ("sell now brings X, waiting expects Y").
+  - Rare items: own sales estimated with Croston; market sales use a learned factor per group (from the full scan)
+    instead of the fixed 20 % cap.
+  - Self-correction every week or 50 new results (damped ±30 %, log "LERNEN"); rhythm (cheap/expensive hour and
+    weekday) after 21 days, only when stable.
+  - Option "Try higher (+5 %)" (off): every 10th posting suggests 5 % more to learn the price sensitivity.
+- Tooltip (Shift): "Chance to sell at market value: 72 % (learned from 23 own sales)", rhythm if known.
+- Test routine: new part "l" (learning) with fixed numbers; report and GSTEST1 get a section "Learning database".
+
 ### Version 0.65.73
 
 - **Fast full scan (new option, off by default):** in the modern auction house (WoW Forever) the scan button can read
@@ -67,21 +89,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   against the table (unusual values marked), daily count check and plausibility; also in the GSTEST1 export. New checks
   for the whole chain (spell → loot → counted), learning formula with fixed numbers, shared results and values.
 - Tooltip: chance source for disenchant group "up to 15" named correctly.
-
-### Version 0.65.69
-
-- **Fix: ledger showed the price as quantity** (e.g. "sold 22000" for ONE cap): on some WoW Forever invoices field 5 is
-  the price, not the quantity. It now only counts as quantity if it plausibly is one (never for gear). Saved sales are
-  repaired once (backup kept, diagnostic log REPARATUR-MENGE).
-- **Fix: positive fees in the ledger:** a refund on sale without a booked deposit (posted via Blizzard's window, another
-  addon or before AHSentinel) is now covered by a matching deposit – net 0, like in the game. Postings through
-  Blizzard's window or other addons are booked too. Old data is repaired once.
-- **Disenchanting is counted on every way:** besides bag clicks and AHSentinel's window, macros and other addons
-  (/use bag slot) are now recognised from the bag contents. Results with a material outside the table are no longer
-  dropped silently (log DE-ABGELEHNT); every disenchant writes DE-GEZÄHLT or DE-VERPASST. Statistics: "today counted N
-  · missed M".
-- **Tooltip materials:** learned average quantity ("Ø 1.4"), the table range only with Shift; own and shared results
-  named separately.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
