@@ -1,0 +1,35 @@
+ANWEISUNG DER PRÜF-SITZUNG FÜR AHSENTINEL: ENTZAUBER-CHANCEN GRÜNER ITEMS NACH FOREVER-LEITFADEN
+==============================================================================================
+Stand: 10. November 2026, 08:25 · ENTSCHEID DES NUTZERS (10.11. 08:17): Werte des Forever-Leitfadens übernehmen.
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen. Klein – mit dem nächsten Release.
+
+QUELLE
+   wow-professions.com/forever/disenchanting-guide (Abschnitt "What You Get", grüne Items):
+   Rüstung: Staub 75 %, Essenz 20 %, Splitter 3–5 % · Waffen: Staub 20 %, Essenz 75 %, Splitter 3–5 %.
+   Bisher (Disenchant.lua D.GREEN_P, nach warcraft.wiki.gg Classic): Itemstufe 21–25 Rüstung 75/15/10, Waffe 15/75/10.
+   Der Nutzer zweifelt die 10 % Splitter an und hat entschieden, die Forever-Werte zu nehmen.
+
+UMSETZEN
+C1 D.GREEN_P: Stufen MIT Splitter (alle grünen Stufen ausser "bis 15"):
+     Rüstung a = { 0.75, 0.20, 0.05 }, Waffe w = { 0.20, 0.75, 0.05 }
+   (Splitter 5 % = oberes Ende von 3–5 %, damit die Summe 100 % ergibt.) Das gilt auch für Stufe 3 (21–25), die bisher
+   75/15/10 bzw. 15/75/10 hatte. Stufen 9–11 (Waffe 22/75/3) ebenfalls auf 20/75/5 – eine Regel für alle.
+C2 Stufe "bis 15" (kein Splitter, im Spiel am 9.11. bestätigt) bleibt 80/20 bzw. 20/80.
+C3 Materialien und Mengen je Itemstufe (UNCOMMON-Tabelle) bleiben unverändert – geändert werden nur die Chancen.
+   Forever-Sonderfall Waffen 21–30 -> Grosse Magieessenz bleibt.
+C4 Eigene Ergebnisse ("echt aus N", Lernen je Gruppe) wiegen wie bisher stärker als die Startwerte; die neuen Werte
+   sind nur die Startwerte.
+C5 Quelle im Code-Kommentar und mit Shift im Tooltip nennen: "Chancen: Forever-Leitfaden (wow-professions.com), Rüstung
+   75/20/5, Waffe 20/75/5" bzw. "echt aus N".
+C6 Gilt nur für WoW Forever (A:IsForever()). Era/TBC/Retail behalten ihre Tabelle (warcraft.wiki.gg).
+
+TESTFÄLLE
+T-DC1 Forever, grüne Rüstung Itemstufe 22 -> Chancen 0.75 / 0.20 / 0.05 (Staub 4–6, Geringe Astralessenz 1–2, Kleiner
+      gleissender Splitter 1). T-DC2 grüne Waffe Itemstufe 22 -> 0.20 / 0.75 / 0.05 (Essenz: Grosse Magieessenz).
+T-DC3 Itemstufe 10 Rüstung -> 0.80 / 0.20 / kein Splitter. T-DC4 Era -> Tabelle unverändert (75/15/10 bei 21–25).
+T-DC5 Entzauberwert Befestigter Umhang mit Staub 81c, Astralessenz 3s 86c, Splitter 1s 8c:
+      0,75 × 5 × 81 + 0,20 × 1,5 × 386 + 0,05 × 1 × 108 = 303,75 + 115,8 + 5,4 = 424,95c brutto (vor 5 %).
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden.
