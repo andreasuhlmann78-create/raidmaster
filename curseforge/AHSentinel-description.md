@@ -12,6 +12,21 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.80
+
+- **Fix (important): ledger stock.** "Result with stock" showed −9g 60s and "Stock −8s 22c" although about 4.7g of goods
+  were in the bags. The stock value is now never negative: bags and bank at the realistic sell price after fees (at
+  least the vendor price) plus your running auctions (listing price × 0.95, deposit already paid). The start of the
+  day is saved as a list of items and valued at today's price too, so the tile shows the "result if everything is sold
+  at today's price". The tile shows "Stock X (of which in AH Y)"; Per item has a new column "in AH".
+- Disenchant settlement: per batch and in total – purchase, loot sold / in AH / stock, fees, result.
+- **Fix (important): purchases booked exactly once.** A purchase event only books the purchase with the same
+  auction ID (a late event could book a different purchase before); every auction at most once. Purchase invoices in
+  Forever: quantity never 0, total from the invoice. Invoice and purchase message are matched by item and quantity
+  even if the amount differs (the invoice amount counts, log KAUF-DOPPELT). `/ahs doppelt` lists possible old double
+  entries; `/ahs doppelt bereinigen` cleans up clear pairs with a backup (`/ahs doppelt zurück` undoes it).
+- Test routine: T364–T368 (T-LG1–T-LG5).
+
 ### Version 0.65.79
 
 - **Test routine never touches your disenchant data:** reset and restore tests (and the option test "reset
@@ -75,23 +90,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   The result goes into the log and the test report. The price rounding stays as it is until the measurement proves
   otherwise.
 - Price sync: a partial price list from the network no longer stops a guild member with a full scan from answering.
-
-### Version 0.65.75
-
-- **New "Market" tab replaces "Today" (step 3):** one bar with 6 views – **Today** (the former "Today" list: your
-  things first, then the best chances), **Flip** (below your buy limit, by profit per gold and day), **Vendor**
-  (buyout below vendor price), **Gaps** (low supply, steady sales, rising price – your stock first), **Crowded**
-  (don't post: far more supply than sales, days until sold, deposit risk) and **Trends** (stable 7/30-day moves,
-  falling levelling goods first). Each view: one explanation line, at most 20 rows, one number, confidence as colour,
-  one button – the button works exactly as before (check -> buy -> post, never without your click).
-- **Details on the right:** click a row or search an item at the top: price and supply over 14 days, price ladder,
-  your own history, learned price limits and ONE recommendation ("buy up to X" / "post for Y" / "leave it") with the
-  reason; buttons Watchlist, Shopping list, Sniper (with the suggested limit), price history.
-- **Market today:** a price index of typical goods at the top ("Market today +3 % (7 days +8 %)").
-- The list of all items is gone from the tab bar (the data stays and all views use it); look items up via the search.
-- `/ahs heute`, the Today button and other addons (ProfessionSentinel QuickBuy/QuickSell rows on top) open the Market
-  tab on "Today". New option: "Market: default view".
-- Test routine: new part "m" (market) and a section "Market tab" in the report.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

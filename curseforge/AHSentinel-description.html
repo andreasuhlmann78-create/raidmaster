@@ -7,6 +7,21 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.80</h3>
+<ul>
+<li><strong>Fix (important): ledger stock.</strong> "Result with stock" showed −9g 60s and "Stock −8s 22c" although about 4.7g of goods
+  were in the bags. The stock value is now never negative: bags and bank at the realistic sell price after fees (at
+  least the vendor price) plus your running auctions (listing price × 0.95, deposit already paid). The start of the
+  day is saved as a list of items and valued at today's price too, so the tile shows the "result if everything is sold
+  at today's price". The tile shows "Stock X (of which in AH Y)"; Per item has a new column "in AH".</li>
+<li>Disenchant settlement: per batch and in total – purchase, loot sold / in AH / stock, fees, result.</li>
+<li><strong>Fix (important): purchases booked exactly once.</strong> A purchase event only books the purchase with the same
+  auction ID (a late event could book a different purchase before); every auction at most once. Purchase invoices in
+  Forever: quantity never 0, total from the invoice. Invoice and purchase message are matched by item and quantity
+  even if the amount differs (the invoice amount counts, log KAUF-DOPPELT). <code>/ahs doppelt</code> lists possible old double
+  entries; <code>/ahs doppelt bereinigen</code> cleans up clear pairs with a backup (<code>/ahs doppelt zurück</code> undoes it).</li>
+<li>Test routine: T364–T368 (T-LG1–T-LG5).</li>
+</ul>
 <h3>Version 0.65.79</h3>
 <ul>
 <li><strong>Test routine never touches your disenchant data:</strong> reset and restore tests (and the option test "reset
@@ -71,24 +86,7 @@
   otherwise.</li>
 <li>Price sync: a partial price list from the network no longer stops a guild member with a full scan from answering.</li>
 </ul>
-<h3>Version 0.65.75</h3>
-<ul>
-<li><strong>New "Market" tab replaces "Today" (step 3):</strong> one bar with 6 views – <strong>Today</strong> (the former "Today" list: your
-  things first, then the best chances), <strong>Flip</strong> (below your buy limit, by profit per gold and day), <strong>Vendor</strong>
-  (buyout below vendor price), <strong>Gaps</strong> (low supply, steady sales, rising price – your stock first), <strong>Crowded</strong>
-  (don't post: far more supply than sales, days until sold, deposit risk) and <strong>Trends</strong> (stable 7/30-day moves,
-  falling levelling goods first). Each view: one explanation line, at most 20 rows, one number, confidence as colour,
-  one button – the button works exactly as before (check -&gt; buy -&gt; post, never without your click).</li>
-<li><strong>Details on the right:</strong> click a row or search an item at the top: price and supply over 14 days, price ladder,
-  your own history, learned price limits and ONE recommendation ("buy up to X" / "post for Y" / "leave it") with the
-  reason; buttons Watchlist, Shopping list, Sniper (with the suggested limit), price history.</li>
-<li><strong>Market today:</strong> a price index of typical goods at the top ("Market today +3 % (7 days +8 %)").</li>
-<li>The list of all items is gone from the tab bar (the data stays and all views use it); look items up via the search.</li>
-<li><code>/ahs heute</code>, the Today button and other addons (ProfessionSentinel QuickBuy/QuickSell rows on top) open the Market
-  tab on "Today". New option: "Market: default view".</li>
-<li>Test routine: new part "m" (market) and a section "Market tab" in the report.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
