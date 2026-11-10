@@ -1,0 +1,31 @@
+BEFUND DER PRÜF-SITZUNG FÜR AHSENTINEL: "UNTERBIETUNG PRÜFEN" FRIERT DAS SPIEL 3–4 S EIN (0.65.84)
+===============================================================================================
+Stand: 10. November 2026, 16:55 · Meldung des Nutzers (16:48, Bildschirmfoto Verkaufen -> Meine Auktionen)
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen. Dann dies (HOCH – Spiel friert ein).
+
+BEOBACHTUNG
+   Meine Auktionen: 1 aktiv (Großer gleißender Splitter), 4 verkauft. Klick auf "Unterbietung prüfen" -> das Spiel hängt
+   mindestens 3–4 Sekunden. Bei nur EINER aktiven Auktion darf das keine spürbare Zeit brauchen.
+
+VERDACHT
+   Die Prüfung macht mehr als nötig in einem Frame: z. B. alle eigenen Auktionen + alle Items aus Meine Auktionen
+   (auch verkaufte) neu suchen, die ganze Vollscan-Liste (220'000 Einträge) synchron durchgehen, Preisleiter/Lern-Daten
+   für alle Items neu berechnen, oder die Liste nach jedem Suchergebnis komplett neu aufbauen.
+
+UMSETZEN
+U1 Nur AKTIVE eigene Auktionen prüfen (verkaufte/abgelaufene nie), je Item genau eine Suche, Ergebnisse
+   ereignisgesteuert verarbeiten (ITEM_SEARCH_RESULTS_UPDATED / COMMODITY_SEARCH_RESULTS_UPDATED), Liste einmal am Ende
+   aktualisieren.
+U2 Nie über die ganze Vollscan-Liste laufen; falls Daten aus dem Vollscan genutzt werden: Index je ItemID (einmal beim
+   Einlesen gebaut), Zugriff O(1).
+U3 Zeitbudget ≤ 8 ms je Frame (Portionen), Fortschritt im Knopf ("Prüfe 1 Item …" gibt es schon – soll ohne Hänger laufen).
+U4 Diagnose LANGSAM mit Zeitmessung je Schritt der Unterbietungsprüfung (Suche, Auswertung, Neuaufbau), Testroutine:
+   Unterbietungsprüfung mit 1 und mit 30 aktiven Auktionen -> kein Frame > 16 ms, Gesamtzeit ohne Server-Wartezeit
+   < 50 ms.
+
+TESTFÄLLE T-UP1 (1 aktive Auktion, 200 verkaufte in der Liste -> 1 Suche, kein Hänger), T-UP2 (30 aktive -> Portionen,
+kein Frame > 16 ms), T-UP3 (LANGSAM-Zeile nur, wenn > 50 ms).
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden.

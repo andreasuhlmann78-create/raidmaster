@@ -176,3 +176,11 @@ NEU (10. Nov. 16:50, HOCH) – befund-schein-flip-0683.txt (0.65.83)
    Nachtrag 16:55 (Hinweis des Nutzers): Zauberstäbe sind in Forever nicht entzauberbar – überall ausschliessen;
    gescheitertes Entzaubern ("kann nicht entzaubert werden") dauerhaft merken. In anweisung-markt-entzaubern.txt
    (a2, T-ME8, T-ME9).
+
+NEU (10. Nov. 16:55, HOCH) – befund-unterbietung-prüfen-lag.txt (0.65.84)
+   "Unterbietung prüfen" friert das Spiel 3–4 s ein (bei 1 aktiver Auktion). U1 nur aktive prüfen, ereignisgesteuert,
+   U2 kein Lauf über die Vollscan-Liste, U3 ≤ 8 ms je Frame, U4 Zeitmessung + Testroutine. T-UP1–T-UP3.
+
+HINWEIS DES NUTZERS (10. Nov. 16:48): Sobald alle offenen Punkte umgesetzt und gepusht sind, macht der Nutzer einen
+   grossen Test im Spiel ("/ahs testroutine alles"). Bitte nach dem letzten Release dem Nutzer ausdrücklich melden:
+   "alles umgesetzt – bereit für den Test", mit Version.
