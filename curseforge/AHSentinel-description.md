@@ -12,6 +12,22 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.68
+
+- **Fix (0.65.66): with the 2-hour default duration almost everything looked unsellable** – the valuation counted up to
+  six lost deposits for anything that does not sell within 14 hours (e.g. dust showed "vendor"). The Sell tab keeps
+  2 hours; the valuation uses 24 hours when that costs the same deposit (minimum deposit), otherwise the default
+  duration. With Shift the tooltip shows the duration used.
+- **Buyout failed – clear message:** "offer is gone (probably already bought)" instead of "offer gone or not enough
+  gold"; the game's message is shown, gold is only mentioned when you really lack it. A gone offer is marked, its
+  button locked, and it leaves the shopping list. Diagnostic log line KAUF-FEHLER (no names).
+- **Minimum bid:** +5 % only when someone has already bid; without a bidder the starting bid is the minimum. If no bid
+  below the buyout is possible, the bid field is hidden.
+- **Detail search finds nothing although the scan listed the item:** AHSentinel retries once without item level/suffix;
+  if it stays empty the row leaves the shopping list (log line DETAIL-LEER).
+- Interface for other addons: price source "scan" only if the price really was in the last scan.
+- Test routine: button names with text and position; outdated fee texts removed.
+
 ### Version 0.65.67
 
 - **Fix: the line "110 in your bags: …" did not appear** (e.g. Strange Dust): the tooltip checked "stackable" with a
@@ -67,20 +83,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - "1 sale" / "1 purchase" instead of "1 sales".
 - **Tooltip:** a price that was not in the last scan is marked "(old)"; if a scan price was replaced as an outlier,
   the value used for the calculation is shown next to it.
-
-### Version 0.65.63
-
-- **Selling is judged by supply and sales:** how many pieces are on the AH at your price or cheaper (without bait
-  offers and your own auctions) and how many sell per day give the waiting time and the expected number of listings;
-  every listing without a sale costs the deposit on WoW Forever. If it would take more than 7 days, the item "hardly
-  sells" – selling is then not the best way (vendor or disenchant). One number everywhere: tooltip, profit window,
-  best recipes, "Today" and the API. With Shift the tooltip shows the reason, e.g. "150 on the AH · ~5/day · ~30 days ·
-  hardly sells". The sales estimate (disappeared = half sold) is an assumption and is checked in the diagnostic log.
-- **Fix: "My auctions" showed wrong prices for active commodity auctions** (e.g. 0c or 2c per piece): the game reports
-  the price per piece for active commodity auctions. Price, total, the "value" in the header and undercut detection
-  are now correct.
-- **Tooltip with Shift:** what you own has its own heading ("Owned:"), with the value in your bags and the stock of
-  your other characters.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
