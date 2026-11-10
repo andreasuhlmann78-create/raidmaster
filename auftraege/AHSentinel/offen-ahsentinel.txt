@@ -189,3 +189,7 @@ NEU (10. Nov. 07:35, Prüf-Sitzung) – befund-heute-tun-haendler.txt
 NEU (10. Nov. 07:40, Wunsch des Nutzers, NIEDRIG) – anweisung-laufzeit-2-stunden.txt
    Standard-Laufzeit beim Verkaufen 2 Std. (Einstellung 2/8/24), jedes neue Item wieder auf Standard, alle Wege und
    Rechnungen mit derselben Laufzeit. T-D1–T-D4.
+
+NEU (10. Nov. 07:50, Prüf-Sitzung) – befund-testroutine-0665.txt (Client-Lauf 0.65.65: OK 354 · FEHLER 6)
+   R1 Gewinn-Fenster versteckt die Einstellgebühr (Crafting.lua:448, veraltete Regel "9. Nov."), R2 Sandbox
+   watcher.interval, R3 Knöpfe im Testfenster überlappen, R4 BuffSentinel-Anker als Hinweis, R5 T33 ohne Grund, R6 Tempo.

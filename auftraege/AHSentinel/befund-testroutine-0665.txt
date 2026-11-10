@@ -1,0 +1,36 @@
+BEFUND DER PRÜF-SITZUNG: TESTROUTINE IM CLIENT (AHSentinel 0.65.65)
+==================================================================
+Stand: 10. November 2026, 07:50 · Bericht des Nutzers "AHSentinel 0.65.65 – Testroutine · 10.11.2026 07:39" (Forever,
+deDE): OK 354 · FEHLER 6 · übersprungen 19 · im Client 14 · 35,5 s. Code geprüft in download/AHSentinel-0.65.65.zip.
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen. Dann R1 (Regel-Fehler) und R2, danach der Rest.
+
+R1 (MITTEL) GEWINN-FENSTER VERSTECKT DIE EINSTELLGEBÜHR – VERALTETE REGEL IM CODE (T195)
+   T195: "Gewinn-Fenster: Zeile Einstellgebühr nur in Forever: verborgen (erwartet sichtbar)".
+   Crafting.lua:448: r.deposit = 0 -- "Forever: keine separate Einstellgebühr (Regel vom 9. Nov.)". Diese Regel (max(5 %,
+   1s), nie erstattet) war FALSCH und ist seit dem 9. Nov. 14:30 ersetzt (anweisung-gebuehren-klassisch.txt, Regelwerk):
+   In Forever gibt es eine Einzahlung je Auktion (Händlerpreis × 5 % je 2 Std., mind. 1s), beim Verkauf zurück, bei
+   Ablauf/Abbruch verloren (Abbruch belegt 10.11. 07:12). Bitte die Zeile "Einstellgebühr" im Gewinn-Fenster zeigen
+   (A:ListingDeposit mit der Standard-Laufzeit, "zurück bei Verkauf") und den Code-Kommentar korrigieren. Alle anderen
+   Stellen mit dem Kommentar "Regel vom 9. Nov." bzw. max(5 %, 1s) bitte suchen und entfernen. T178 im Client
+   (Kupferne Kettenhose: Zeile Einstellgebühr 1s) danach erneut.
+R2 (MITTEL) SANDBOX: watcher.interval wird im echten Speicher geändert
+   "Sandbox … FEHLER: 1 Pfade, wiederhergestellt: watcher.interval". TestRoutine.lua:2661 setzt db.watcher.interval = 20
+   (Watcher.lua:186 löscht 20 wieder) – bitte über die Sandbox-Kopie.
+R3 (NIEDRIG) T191 "Button in AHAnalyzerProSelfTest verdeckt Button in AHAnalyzerProSelfTest" (mehrfach): Im
+   Ergebnisfenster der Testroutine liegen Knöpfe übereinander – vermutlich der neue Knopf "Abbrechen" (0.65.60) über den
+   bisherigen Knöpfen. Knöpfe nebeneinander anordnen; die Meldung bitte mit den Knopf-Texten statt "Button".
+R4 (NIEDRIG) T192: "Gewinn-Fenster überdeckt BuffSentinelAnchor_cd (BuffSentinel)" zählt als FEHLER, die anderen
+   Überlappungen mit Rahmen anderer Addons als Hinweis. Für das Gewinn-Fenster dieselbe Regel: unsichtbare/leere Rahmen
+   anderer Addons = Hinweis. (Klärung der BuffSentinel-Anker läuft bei BuffSentinel.)
+R5 (NIEDRIG) T33 "Einkauf: Angebote eines Items" weiterhin rot OHNE ist-Wert (0.65.60 sollte den Grund nennen). Bitte
+   prüfen, warum der ist-Text fehlt (wird der Grund nur bei Zeitüberschreitung gesetzt, nicht bei "keine Angebote"?), und
+   den Fall im Client klären.
+R6 (NIEDRIG) Tempo: T122 Tooltip 2,09 ms (Soll < 2), T124 Berufsliste zweites Mal 2,8 ms (Soll < 2) – knapp; mit dem
+   Zwischenspeicher je Item weiter senken.
+
+Gut: Sandbox fast dicht (1 Pfad statt 9), T40 jetzt richtig übersprungen ("günstigstes Angebot 1c – Treffer bei Max 1c
+wäre richtig"), keine Lua-Fehler, Sniper/Wächter pausieren während der Server-Schritte.
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden.
