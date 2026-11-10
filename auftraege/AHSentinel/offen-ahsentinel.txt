@@ -194,3 +194,9 @@ NEU (10. Nov. 09:30, ENTSCHEID DES NUTZERS, PFLICHT FÜR ALLES) – Schutz der e
    deStats/deLog/deShared/deBuys des Nutzers nie zurücksetzen, löschen, umrechnen oder migrieren. Neue Felder nur für
    neue Einträge, Startwerte ändern nur die Tabelle, Testroutine nur in Ersatztabellen mit Vorher/Nachher-Vergleich,
    Knopf "Zurücksetzen" nur mit Rückfrage und Sicherung, 82 vs. 86 nur melden. Steht in allen Entzauber-Aufträgen.
+
+NEU (10. Nov. 09:45, ZIEL DES NUTZERS, HOCH – nach den HOCH-Befunden) – anweisung-prognose-stufe1.txt
+   Stufe 1: Prognose-Journal (Einstellen, Kaufen, Entzaubern), Ergebnis zuordnen (zensierte Fälle mitzählen), Güte
+   messen (Zuverlässigkeit, Brier, Dauer, Erlös, Kauf-Trefferquote je Strategie), Zusammenfassung, Messaufträge M1–M3,
+   Testroutine Teil A/B ("Prognose-Güte" im Testbericht), eine Shift-Zeile. Stufe 2/3 NICHT vorgreifen.
+   Pflichtlektüre: shared/wissen/markt-strategie.md. T-PG1–T-PG9.

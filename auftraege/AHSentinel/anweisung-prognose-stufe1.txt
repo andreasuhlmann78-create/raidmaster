@@ -1,0 +1,107 @@
+ANWEISUNG DER PRÜF-SITZUNG FÜR AHSENTINEL: STUFE 1 – JEDE VORHERSAGE AUFZEICHNEN UND NACHPRÜFEN
+==============================================================================================
+Stand: 10. November 2026, 09:45 · ZIEL DES NUTZERS (10.11. 09:22–09:28): AHSentinel soll das beste Auktionshaus-Addon
+werden. Jede Vorhersage wird nachgeprüft, die Trefferquote gemessen und im Testbericht gezeigt; eine unsichtbare
+Lern-Datenbank soll dem Spieler extrem viel nützen. Bedienung so einfach wie möglich.
+
+PFLICHTLEKTÜRE VORHER: shared/wissen/markt-strategie.md (Abschnitte 1–3, 6.1–6.4) und wirtschaft-forever.md.
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen und die offenen HOCH-Befunde (Buchhaltung Menge/Gebühren,
+Entzauber-Zählung). Dann diese Stufe. Stufe 2 (Lern-Datenbank) und Stufe 3 (Markt-Reiter ersetzt "Heute tun")
+beauftragt die Prüf-Sitzung erst, wenn der Testbericht von Stufe 1 vorliegt – NICHT vorgreifen.
+
+SCHUTZ: Bestehende Daten (Buchhaltung, Entzauber-Daten deStats/deLog/deShared/deBuys, Preisverlauf) werden nicht
+geändert. Stufe 1 legt nur NEUE Tabellen an. Testroutine nur mit Ersatztabellen + Vorher/Nachher-Vergleich.
+
+SICHTBAR FÜR DEN SPIELER IN STUFE 1: fast nichts. Nur mit Shift im Tooltip eine Zeile, sobald es genug Fälle gibt
+(siehe P7). Keine neuen Fenster, keine neuen Optionen ausser einem Schalter im Testbericht-Teil (nicht nötig).
+
+---------------------------------------------------------------------------------------------------------------
+P1 PROGNOSE-JOURNAL (neu: db.forecast)
+   Bei jeder ENTSCHEIDUNG einen kompakten Eintrag schreiben (ohne Namen):
+   a) EINSTELLEN (jede Einstellung, egal über welches Fenster – siehe Befund B2 Buchhaltung):
+      t, itemID, Menge, Anzahl Auktionen, Stückpreis, Marktwert zu diesem Zeitpunkt, rel = Preis/Marktwert,
+      Laufzeit (2/8/24), Warteschlange Q (und Quelle), Absatz S (und Quelle: own/market/Deckel), Sicherheit,
+      VORHERSAGE: p = Verkaufschance innerhalb der Laufzeit, W = erwartete Stunden bis Verkauf, N = erwartete
+      Einstellungen, Netto-Erlös erwartet. Dazu Version des Addons.
+      p ist heute nicht direkt da: p = min(1, Laufzeit in Tagen / W) bzw. 1/N – genau so, wie AHSentinel heute
+      rechnet. Wir messen die HEUTIGE Logik, nicht eine neue.
+   b) KAUFEN (Sofortkauf, Sniper, Wächter, Sammelkauf, Heute tun): t, itemID, Menge, Preis, geplanter Weg
+      (einstellen/entzaubern/herstellen/Händler), erwarteter Netto-Wert je Stück zu diesem Zeitpunkt, Quelle.
+   c) ENTZAUBERN: erwarteter Wert (D:DealValue) vor dem Entzaubern, Gruppe, Quelle (Tabelle/echt aus N).
+   Kompakt: Felder als kurze Schlüssel oder Zahlen-Arrays; Ringpuffer höchstens 3000 Einträge; älter als 60 Tage ->
+   nur noch in die Zusammenfassung (P4).
+
+P2 ERGEBNIS ZUORDNEN
+   a) Einstellen: Verkaufsrechnung (Ledger sale) -> verkauft, Stunden bis Verkauf, erzielter Stückpreis, Menge;
+      zurückgekommen (abgelaufen) -> nicht verkauft innerhalb der Laufzeit (zensiert, siehe Wissen 6.1 – NICHT
+      weglassen); abgebrochen -> zensiert mit Grund "abgebrochen". Zuordnung: gleiches Item, älteste offene
+      Einstellung zuerst (FIFO), Teilverkäufe anteilig. Nach 7 Tagen ohne Ergebnis: "unbekannt" (nicht als Verkauf).
+   b) Kaufen: Ergebnis = was aus der Ware wurde (verkauft für X netto / entzaubert -> Beute-Wert zum Zeitpunkt der
+      Beute / noch im Lager mit heutigem Wert, Status "offen"). Realisierter Gewinn je Kauf.
+   c) Entzaubern: Beute-Wert (gleiche Preise wie bei der Vorhersage, Zeitpunkt der Beute) vs. Vorhersage.
+
+P3 GÜTE MESSEN (Methoden: Wissen 6.2)
+   a) Verkaufschance: Zuverlässigkeits-Tabelle mit Klassen p 0–20/20–40/40–60/60–80/80–100 % -> Fälle, vorhergesagt
+      Ø, tatsächlich verkauft %; Brier-Score gesamt und je Warengruppe.
+   b) Dauer: Median (tatsächliche Stunden / vorhergesagte Stunden) der verkauften Fälle; Anteil "später als W".
+   c) Erlös: Median (erzielter Stückpreis / vorhergesagter Stückpreis).
+   d) Kaufen: Trefferquote "mit Gewinn abgeschlossen", Ø realisierter Gewinn je Gold Einsatz, getrennt nach Strategie
+      (Flip / Entzaubern / Händler / Herstellen) und nach Quelle (Sniper, Wächter, Sammelkauf, Heute tun).
+   e) Entzaubern: Median (Beute-Wert / vorhergesagter Wert) je Gruppe; Anteil Entzauberungen mit Verlust gegenüber
+      dem Kaufpreis.
+   Warengruppen: Staub/Essenz/Splitter, Stoff, Leder, Erz/Barren/Stein, Kräuter, Tränke/Verbrauch, Ausrüstung grün,
+   Ausrüstung blau+, Sonstiges (aus classID/subClassID, keine Namen).
+
+P4 ZUSAMMENFASSUNG (bleibt dauerhaft, klein)
+   db.forecastStats je Warengruppe und Klasse: Zähler (Fälle, verkauft, Summe p, Summe (p−y)², Dauer-Verhältnisse
+   als kleine Histogramm-Zähler). Damit bleiben die Kennzahlen erhalten, auch wenn der Ringpuffer ausdünnt.
+   Speicher-Ziel: db.forecast + db.forecastStats zusammen < 300 KB; Testbericht zeigt die Grösse.
+
+P5 MESSAUFTRÄGE (nur messen, Ergebnis ins Protokoll und in den Testbericht, ohne Namen)
+   M1 Gibt es C_AuctionHouse.ReplicateItems / GetNumReplicateItems / GetReplicateItemInfo im Forever-Client?
+      (nur Existenz prüfen – NICHT aufrufen, solange nicht freigegeben)
+   M2 Item-Suche (Detail): liefert jedes Ergebnis auctionID und timeLeft (Ausrüstung) bzw. Menge je Preisstufe (Waren)?
+      Ein Beispiel je Art ins Protokoll (Felder, keine Namen).
+   M3 Ab jetzt je gescanntem Item und Stunde des Tages einen gleitenden Mindestpreis/Menge sammeln (24 Werte je Item
+      nur für Items, die der Spieler in 30 Tagen gehandelt hat ODER die auf Watchlist/Sniper stehen – nicht alle 5400).
+      Erst nach 3 Wochen auswerten (Stufe 2).
+
+P6 TESTROUTINE (Bereich "Prognose")
+   Teil A automatisch (Ersatztabellen): Journal-Eintrag beim Einstellen über Tab Verkaufen UND über Blizzard-Fenster
+   (simulierte Ereignisse); Zuordnung Verkauf/Ablauf/Abbruch/Teilverkauf (FIFO); zensierte Fälle zählen als "nicht
+   verkauft innerhalb der Laufzeit"; Brier-Score mit festen Zahlen (z. B. p = 0,8, 0,8, 0,2, Ergebnis 1, 0, 0 ->
+   (0,04 + 0,64 + 0,04) / 3 = 0,24); Zuverlässigkeits-Tabelle mit festen Zahlen; Ringpuffer/Ausdünnen; Speichergrösse;
+   Kauf-Ergebnis (verkauft / entzaubert / offen); keine Namen in db.forecast.
+   Teil B echte Daten (nur lesen): Abschnitt "Prognose-Güte" im Testbericht und im GSTEST1-Export:
+      Fälle gesamt / mit Ergebnis / offen; Zuverlässigkeits-Tabelle; Brier gesamt und je Warengruppe (ab 10 Fällen);
+      Dauer-Verhältnis; Erlös-Verhältnis; Kauf-Trefferquote je Strategie; Entzauber-Verhältnis; M1/M2-Ergebnis;
+      Speichergrösse. Wenige Fälle -> "zu wenig Daten (N)" statt Prozenten.
+
+P7 EINZIGE SICHTBARE ZEILE (Tooltip mit Shift, ab 20 eigenen Fällen der Warengruppe)
+   "Prognosen bei dir: 72 % zutreffend (N 34)" – wobei "zutreffend" = 1 − Brier/0,25 auf 0–100 % begrenzt, oder
+   einfacher: Anteil Fälle, bei denen "verkauft innerhalb Laufzeit" richtig vorhergesagt wurde (p ≥ 50 % ↔ verkauft).
+   Keine weiteren Anzeigen in Stufe 1.
+
+---------------------------------------------------------------------------------------------------------------
+AUSBLICK (NICHT umsetzen – nur damit die Daten von Stufe 1 dafür taugen)
+   Stufe 2 Lern-Datenbank: Verkaufschance je Preislage (Survival mit Zensur), Schrumpfen Item <- Gruppe <- alle
+   Spieler (Sync), Croston für seltene Items, selbst gelernte Preisgrenzen Min/Normal/Max, Post-Cap aus Absatz ×
+   Laufzeit, "nicht mehr einstellen nach N Ablauf", teurer neu einstellen ab Mindestdifferenz, Sicherheitsmarge beim
+   Kaufen aus dem gemessenen Fehler, Tagesbudget je Strategie, Rhythmus (M3).
+   Stufe 3 Markt-Reiter ersetzt "Heute tun": Ansichten Heute / Flippen / Händler / Lücken / Überfüllt / Trends, je
+   Zeile ein Knopf (wie heute Heute tun), Detailbereich mit Empfehlung, Liste aller Items nur noch über die Suche,
+   /ahs heute bleibt. Alles von "Heute tun" (Knöpfe, ProfessionSentinel-Schnittstelle QuickBuy/QuickSell) bleibt.
+
+TESTFÄLLE
+T-PG1 Einstellen 20 Staub (Tab Verkaufen) -> 1 Journal-Eintrag mit p, W, N, rel; Verkauf nach 5 Std. -> Ergebnis
+      verkauft, Dauer 5, Verhältnis 5/W.
+T-PG2 Einstellen über Blizzard-Fenster -> ebenfalls Journal-Eintrag.
+T-PG3 Abgelaufen -> nicht verkauft (zensiert), zählt in Brier mit y = 0.
+T-PG4 Teilverkauf 10 von 20 -> anteilig. T-PG5 Abgebrochen -> zensiert "abgebrochen", nicht als Verkauf.
+T-PG6 Kauf 70 Entzauber-Teile, Beute-Wert 87 % des Kaufpreises -> Kauf-Trefferquote Entzaubern zeigt Verlust.
+T-PG7 Brier/Zuverlässigkeit mit festen Zahlen (P6). T-PG8 Speicher < 300 KB bei 3000 Einträgen.
+T-PG9 Nach dem Testlauf: alle echten Tabellen unverändert (Sandbox).
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden – und den ersten Testbericht mit Abschnitt "Prognose-Güte" hochladen lassen.
