@@ -1,0 +1,46 @@
+ANWEISUNG DER PRÜF-SITZUNG FÜR AHSENTINEL: BEFEHLSLISTE BEIM TIPPEN VON /ahs (meistbenutzte oben)
+================================================================================================
+Stand: 10. November 2026, 07:25 · Wunsch des Nutzers (10.11. 07:13), vom Nutzer freigegeben
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen. Danach befund-absatz-und-silber.txt (F1 HOCH, F2), dann dies.
+
+WUNSCH
+Sobald der Nutzer im Chat-Eingabefeld "/ahs" tippt, erscheint direkt eine Liste aller /ahs-Befehle (wie die Liste von
+"/ahs hilfe", A.COMMANDS). AHSentinel merkt sich, welche Befehle am häufigsten benutzt werden; diese stehen oben.
+
+SO SOLL ES SEIN
+L1 Auslöser: Text im Chat-Eingabefeld beginnt mit "/ahs" (auch "/ahsentinel", "/ahp", "/ahanalyzer"; Gross/klein egal).
+   Die Liste erscheint direkt über dem Eingabefeld, im Stil des Addons, höchstens 10 Zeilen (Rest mit Mausrad).
+   Jede Zeile: Befehl ("/ahs protokoll") und Kurzbeschreibung (L[...] aus A.COMMANDS), Sprache wie /ahs hilfe.
+L2 Filtern beim Weitertippen: "/ahs pr" zeigt nur Befehle, deren Wort mit "pr" beginnt (deutsch UND englisch, z. B.
+   "protokoll"/"log"); ohne Treffer: "Kein Befehl – /ahs hilfe".
+L3 Reihenfolge: zuerst nach Anzahl Benutzungen (meiste oben), bei Gleichstand wie in A.COMMANDS. Gezählt wird bei
+   JEDER Ausführung im SlashCmdList-Handler (getippt oder angeklickt), je Befehlswort, in den SavedVariables
+   (A.db.settings.cmdUse[wort] = n; Konto-weit reicht). Testbefehle (test*) nur für den Entwickler zeigen, wie heute.
+L4 Auswahl: Klick auf eine Zeile führt den Befehl SOFORT aus (SlashCmdList["AHANALYZERPRO"](wort)) und schliesst die
+   Liste. Pfeiltasten/Tab zum Auswählen sind ein Plus, aber nur, wenn es OHNE Schreiben ins Eingabefeld geht.
+L5 SICHERHEIT (Pflicht – Taint): Das Chat-Eingabefeld NIE beschreiben (kein SetText, kein Insert, kein eigenes
+   OnEnterPressed, kein Ersetzen von Blizzard-Funktionen). Nur lesen: ChatFrame1EditBox bzw. alle Eingabefelder mit
+   HookScript("OnTextChanged", …) und HookScript("OnHide"/"OnEditFocusLost", …) zum Schliessen. Grund: Ein vom Addon
+   geschriebenes Eingabefeld ist "befleckt" – danach können /cast-Makros und geschützte Chat-Befehle mit "Aktion
+   blockiert" scheitern. Nach dem Klick auf eine Zeile ChatEdit_DeactivateChat bzw. das Schliessen dem Spieler
+   überlassen (Esc), falls das Schliessen per Code nicht sicher geht.
+L6 Im Kampf: Liste ausblenden (nichts im Kampf aufbauen). Nicht im Weg: Schliesst sich bei Esc, Leerem Feld, Fokusverlust.
+L7 Ausschalten: Option "Befehlsliste beim Tippen" (Standard an), Locales DE/EN und alle anderen Locale-Dateien.
+L8 Alle Spielversionen: Forever, Era/TBC (ChatFrameEditBox-Namen dort prüfen), Retail (ChatFrame1EditBox). Fehlt das
+   Eingabefeld: nichts tun, kein Lua-Fehler.
+
+TESTFÄLLE
+T-BL1 Text "/ahs" -> Liste mit allen (für Nicht-Entwickler ohne test*) Befehlen; "/ahs pro" -> nur protokoll.
+T-BL2 Zähler: 3× "protokoll", 1× "scan" -> protokoll vor scan; Gleichstand -> Reihenfolge von A.COMMANDS.
+T-BL3 Klick auf eine Zeile ruft den Handler mit dem Wort auf und zählt +1.
+T-BL4 Kein SetText/Insert auf ein Eingabefeld (Quelltext-Prüfung im Test, wie die Taint-Prüfungen in T157/T174).
+T-BL5 Im Kampf (InCombatLockdown) keine Liste. T-BL6 Option aus -> keine Liste.
+T-BL7 Bereich K: Liste ganz im Bildschirm, verdeckt keine Knöpfe, Text nicht abgeschnitten.
+
+HINWEIS
+Gefällt es dem Nutzer, kommt es danach als gemeinsamer Baustein in die Vorlage (shared/vorlage) für alle Addons –
+darum bitte als eigene Datei bauen (z. B. CmdHint.lua), die nur A.COMMANDS und den Handler braucht.
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden.
