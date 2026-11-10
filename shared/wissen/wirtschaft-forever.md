@@ -275,3 +275,8 @@ bzw. "eingebrochen" (< 60 %). Auftrag: auftraege/AHSentinel/anweisung-aktueller-
 Alle Kaufvorschläge im Markt zusammen höchstens 25 % des aktuellen Golds (Option, nie über 50 %).
 Auftrag: auftraege/AHSentinel/anweisung-markt-kapital-25.txt.
 
+## Entscheid des Nutzers 10.11.2026 16:15: Entzauber-Käufe mit mindestens 20 % Gewinn
+
+Die Markt-Ansicht "Entzaubern" schlägt nur Teile mit mindestens 20 % Gewinn nach Gebühren vor (zum aktuellen Markt).
+Auftrag: auftraege/AHSentinel/anweisung-markt-entzaubern.txt.
+
