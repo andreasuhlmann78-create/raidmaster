@@ -12,6 +12,21 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.83
+
+- **New market view "Disenchant":** items that bring at least 20 % profit after disenchanting – at the current market,
+  after fees. Per row: item (level), price now and quantity up to "worth it up to", value after disenchanting, profit
+  per piece and %, safety (green = real results, grey = table). The "Buy" button sets a sniper target (max = worth it
+  up to, quantity, budget) – nothing is bought without a click.
+- Filters: only items your character can disenchant (enchanting skill), minimum profit 20 % (option 10–50 %), market
+  budget (25 % of gold), no row if the main material crashed or is flooded; yellow if the value depends on a freshly
+  risen material price. Material sales only as a safety net (more than one day of sales incl. your stock → shortened,
+  yellow note).
+- Detail on the right: materials with chance, average quantity, current price and hint; your own group results;
+  "worth it up to". Footer: only the current purchase (selected row) – no sum of all rows.
+- Test report: median time until sale per material (forecast journal).
+- Test routine: T392–T398 (T-ME1–T-ME7).
+
 ### Version 0.65.82
 
 - **Prices from the current market (your decision):** values come from the current price ladder and sales only – no cap
@@ -77,23 +92,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - Test routine: the ranking check (T169) measures only the ranking job; other jobs are named. The disenchant count
   check only compares entries since counting started (no false alarm).
 - Test routine: T360–T363 (T-W1, T-W2, T-W5).
-
-### Version 0.65.78
-
-- **Fix (important): disenchant buys are valued realistically.** Material prices now use the same realistic resale
-  price as flips (price ladder and sales per day), after the AH cut and expected deposit losses. Buying many pieces
-  lowers the price: if your materials exceed two days of sales, each further day of sales counts one step lower on
-  the ladder. Applies to the disenchant value, "Disenchanting pays", bulk buy and disenchant bargains.
-- Tooltip: the verdict shows the profit with percent; with Shift "Profit after selling the materials: X (Y %)".
-- Ledger -> Disenchant: settlement per purchase batch, e.g. "Batch 10.11.: paid 5g, sold Xg, stock Yg, fees Zg,
-  result ±Wg" (mouse over shows all batches).
-- **My Auctions:** "8 sold (4g 42s 77c, received 4g 20s 60c)" – received = per auction total × 0.95, rounded down.
-  A footer shows the totals of the list per status; with Shift the summary tooltip shows today's total from the ledger.
-- **Sniper:** "Result is outdated – bought in this search: 23 for 2g 30s · missed 13 – new search needed." The target
-  row shows "50/100 bought · budget 5g used up" (or "budget left …") in full. When the budget is used up you get one
-  chat message and a header line; the target stays in the list. The target tooltip explains how many pieces the
-  budget allows.
-- Test routine: T351–T359 (T-HF8, T-MS1–3, T-SN1–3).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
