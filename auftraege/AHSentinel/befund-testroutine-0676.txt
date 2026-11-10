@@ -1,0 +1,46 @@
+BEFUND DER PRÜF-SITZUNG FÜR AHSENTINEL: GESAMTPRÜFUNG 0.65.76 BEIM NUTZER (10.11. 13:35)
+=====================================================================================
+Stand: 10. November 2026, 13:50 · "/ahs testroutine alles": OK 408 · FEHLER 1 · übersprungen 22 · im Client 16.
+Abdeckungsliste vollständig – sehr gute Arbeit. Folgende Punkte:
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen. W1 und W2 HOCH, Rest danach.
+
+W1 HOCH – SANDBOX: "echte Daten unverändert: FEHLER: 1 Pfade, wiederhergestellt: deBackup"
+   Die Testroutine hat die ECHTE Sicherung db.deBackup verändert (vermutlich T302/T-N2 "Reset im Test -> Sicherung
+   angelegt"). Sie wurde zwar wiederhergestellt, aber das darf nach dem Schutz-Entscheid des Nutzers gar nicht passieren.
+   Reset-/Wiederherstellen-Tests nur mit Ersatztabellen für deStats/deShared/deLog/deBuys UND deBackup. Sandbox-Prüfung
+   danach muss OK sein. Testfall: Lauf -> "Sandbox: OK" (kein Pfad).
+
+W2 HOCH – GEMESSENER ABSATZ VIEL ZU HOCH (Vollscan-Verfolgung)
+   Vergleich im Bericht (zwei Vollscans 23–24 Min. auseinander): Leichtes Leder (2318) gemessen 159'186/Tag vs.
+   geschätzt 8'192; Seltsamer Staub (10940) 28'765 vs. 3'300; Geringe Magieessenz (10938) 33'514 vs. 2'877; Seelenstaub
+   (11083) 26'845 vs. 1'144. Das ist um Faktor 10–20 zu hoch – nicht nur "zu kurz".
+   Verdacht: Bei WAREN (stapelbar) verschwindet die Signatur (Menge, Sofortkauf), sobald jemand einen TEIL kauft (die
+   Restmenge ergibt eine neue Signatur) -> die ganze alte Menge zählt als "vorzeitig weg". Ausserdem werden 23 Min. auf
+   24 Std. hochgerechnet (×62), was jeden Zählfehler vervielfacht.
+   Lösung: Waren je (ItemID, Stückpreis) als MENGE vergleichen: weg = max(0, Menge_A − Menge_B) je Preisstufe, nur für
+   Preisstufen ≤ Mindestpreis_B + Toleranz (Käufer kaufen von unten); Neueinstellungen zum gleichen Preis gegenrechnen
+   (Menge_B darf steigen). Ausrüstung weiter über Signatur. Hochrechnen erst ab ≥ 6 Std. Abdeckung (Summe der Paare),
+   vorher "zu kurz" und NICHT verwenden. Plausibilitätsgrenze: gemessen ≤ 2 × Ø-Menge pro Tag, sonst als "unplausibel"
+   markieren und protokollieren. Gegenprobe mit eigenen verkauften Auktionen (Abdeckung).
+   Hinweis M2: Die Waren-Suche liefert timeLeftSeconds und owners/numOwnerItems – für gehandelte Items als Gegenprobe
+   nutzbar.
+   Testfall T-W2: Ware 1000 Stück zu 80c in A, in B 950 Stück zu 80c (Teilkauf) -> weg 50, nicht 1000.
+
+W3 MITTEL – T169 Rangliste: längste Portion 59 ms (Soll < 16 ms). Portion verkleinern / über Frames verteilen.
+W4 MITTEL – Vollscan M1d: längster Frame 15 ms (Ziel ≤ 8 ms) bei 295 Portionen à ~760 Einträge. Portionen halbieren
+   oder nach Zeit (≤ 6 ms je Frame) statt nach Anzahl schneiden.
+W5 NIEDRIG – Zählkontrolle Entzaubern: "Verlauf 154 · gezählt 72 – FEHLER (ungleich; gezählt erst ab 0.65.69)".
+   Nur Einträge seit Einführung der Zählung vergleichen (Zeitstempel ab 0.65.69), sonst falscher Alarm.
+W6 MESSAUFTRÄGE offen: M1b (Restzeit-Stufen über eigene Auktion) und M1c mit kürzeren Abständen (5/10 Min.) – bisher
+   nur 23–24 Min. gemessen. Der Hinweis "erst wieder in 5 Min. (Server-Grenze)" ist noch nicht belegt.
+W7 HINWEIS Entzaubern grün 26–30 Rüstung: eigene 142 Ergebnisse: Staub 67,6 % · Essenz 21,8 % · Splitter 10,6 %
+   (Tabelle 5 %, "auffällig"). Die Lernrechnung übernimmt das schon (Gewicht 10). Ob die Forever-Startwerte geändert
+   werden, entscheidet der Nutzer – bitte NICHTS ändern, bis ein Auftrag kommt.
+W8 HINWEIS Prognose: Entzauber-Käufe 72 – 68 % mit Gewinn, Median Beute/Vorhersage 0,90 (10 % zu optimistisch) –
+   genau das soll die Selbstkorrektur (L10) aufnehmen; im nächsten Bericht prüfen, ob der Faktor greift.
+
+TESTFÄLLE T-W1 (Sandbox OK), T-W2 (Teilkauf Ware), T-W3 (Rangliste < 16 ms), T-W4 (Frame ≤ 8 ms), T-W5 (Zählkontrolle
+nur ab 0.65.69).
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden.

@@ -83,6 +83,11 @@ geteilte Daten anderer Spieler (Sync, ohne Namen) als Zweites, Markt-Schätzung 
   Verlust; der Tooltip zeigte +30 %. Lehre: Materialwert immer zum erzielbaren Preis und mit der eigenen Menge rechnen.
 - **Entzauber-Einkauf mit Verlust (10.11.):** 70 Teile für 9g 82s (Ø 14s), Material ≈ 8g 72s (Ø 12,5s) -> Verlust vor
   Gebühren. Die Kaufgrenze war zu optimistisch -> Sicherheitsmarge nötig (Abschnitt 6.6).
+- **Gesamtprüfung 0.65.76 (10.11. 13:35):** Vollscan 224'659 Auktionen / 4'952 Items in ~2,2 s Lesezeit; ReplicateItems
+  lieferte nach 23–24 Min. jeweils eine neue Liste. Entzaubern grün 26–30 Rüstung, 142 eigene: Staub 67,6 % /
+  Essenz 21,8 % / Splitter 10,6 % (Ø-Menge 1,46 / 1,52 / 1,0) – Splitter klar über den 3–5 % des Forever-Leitfadens.
+  Entzauber-Käufe (72): 68 % mit Gewinn, Beute im Median 10 % unter der Vorhersage. Erste "gemessene" Absätze waren
+  10–20× zu hoch (Teilkäufe von Waren, Hochrechnung aus 23 Min.) – Messmethode für Waren: Menge je Preisstufe.
 - **Schein-Flip 10.11. 12:41 (0.65.76):** Heute empfahl "Instabiles Magiepartikel kaufen bis 45s 97c, wieder
   einstellen um 2g 3s" – Marktwert (Median 14 Tage) 2g 3s, aber 855 Stück im AH zu 46–50s. Lehre: Wiederverkaufspreis
   nie aus dem Marktwert allein, sondern aus Preisleiter + Absatz (wo komme ich in der Laufzeit dran?).

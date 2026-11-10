@@ -157,3 +157,8 @@ NEU (10. Nov. 13:05, Wunsch des Nutzers, NIEDRIG) – anweisung-meine-auktionen-
 NEU (10. Nov. 13:15, Wunsch des Nutzers, NIEDRIG) – anweisung-sniper-anzeige.txt
    Sniper: gekaufte Stückzahl und Summe beim Hinweis "Ergebnis ist veraltet" (SN1), Zielzeile "50/100 gekauft · Budget
    aufgebraucht" ohne Abschneiden (SN2), Hinweis bei aufgebrauchtem Budget (SN3), Deckel erklären (SN4). T-SN1–T-SN3.
+
+NEU (10. Nov. 13:50) – befund-testroutine-0676.txt (Gesamtprüfung 0.65.76: 408 OK, 1 FEHLER)
+   W1 HOCH Testroutine verändert echte deBackup (Sandbox FEHLER). W2 HOCH gemessener Absatz 10–20× zu hoch
+   (Teilkäufe bei Waren zählen ganze Menge, Hochrechnung aus 23 Min.). W3 T169 59 ms. W4 Vollscan-Frame 15 ms.
+   W5 Zählkontrolle falscher Alarm. W6 M1b/M1c kürzer messen. W7 Splitter 10,6 % – Entscheid des Nutzers abwarten.
