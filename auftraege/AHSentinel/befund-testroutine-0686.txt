@@ -98,3 +98,10 @@ HINWEIS ZUM GROSSEN TEST
    (Auktionshaus öffnen -> /ahs testroutine alles; danach Händler, Berufsfenster).
 
 Abdeckung: Bitte die Testfälle T-X1–T-X8 in die Abdeckungsliste der Testroutine aufnehmen (befund-testroutine-0686).
+
+NACHTRAG 17:30 – zweiter Lauf beim Nutzer (17:27, gleiche Version)
+   Gleiche 5 FEHLER mit gleichen Werten (T373 jetzt 16,0 ms) -> die Fehler sind reproduzierbar, kein Zufall.
+   Sandbox diesmal: "wiederhergestellt: sniper.stats.missed" -> gleiche Ursache wie X6: der echte Sniper lief während
+   der Routine im Hintergrund weiter und hat gezählt. Zu X6 ergänzen: Sniper, Wächter und Sync während der Testroutine
+   anhalten (danach wieder an) oder ihre Zähler (sniper.stats.*, gsSync.book.*.seen) von der Sandbox-Prüfung ausnehmen.
+   T-X6b: Sniper aktiv, Testroutine starten -> Sandbox OK, Sniper danach wieder aktiv.
