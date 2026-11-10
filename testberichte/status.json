@@ -1,17 +1,17 @@
 {
- "ausgewertet": "2026-11-10T16:29:17Z",
+ "ausgewertet": "2026-11-10T17:29:35Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 13,
+   "berichte": 15,
    "letzter_test": {
-    "id": "AHSentinel-1794314177-2f3288-1",
-    "version": "0.65.76",
-    "time": 1794314138,
+    "id": "AHSentinel-1794328095-5ef958-1",
+    "version": "0.65.86",
+    "time": 1794328051,
     "counts": {
      "client": 16,
-     "fehler": 1,
-     "ok": 408,
+     "fehler": 5,
+     "ok": 467,
      "uebersprungen": 22
     }
    },
@@ -19,12 +19,52 @@
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.76",
+     "version": "0.65.86",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T169",
-     "name": "Aufbau der Rangliste < 16 ms pro Frame",
-     "detail": "ergebnis: längste Portion 59.0 ms | erwartet: < 16 ms",
-     "bericht": "AHSentinel-1794314177-2f3288-1"
+     "id": "T373",
+     "name": "Keine Hintergrund-Aufgabe ≥ 16 ms je Frame (während des Ranglisten-Aufbaus)",
+     "detail": "ergebnis: zu lang: cache:today:10 16.0 ms | erwartet: alle < 16 ms",
+     "bericht": "AHSentinel-1794328095-5ef958-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.86",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T203",
+     "name": "Entzaubern tatsächlich: 4 bekannte Entzauberungen -> Ø genau, Aufschlüsselung = geschätzter Wert",
+     "detail": "ergebnis: tatsächlich 211 aus 4, geschätzt 177 = Summe 177, ohne Daten nil · Entzaubern tatsächlich (Ø aus 4) (wenig Daten) 2|TInterface\\MoneyFrame\\UI-SilverIcon:0:0:2:0|t 11|TInterface\\MoneyFrame\\UI-CopperIcon:0:0:2:0|t |    Seltsamer Staub  4/4 × Ø 1.8 · AH 99|TInterface\\MoneyFrame\\UI-CopperIcon:0:0… | erwartet: 250 aus 4 ((7×100 + 1×300) / 4), Summe der Anteile = geschätzter Wert, ohne Daten keine Zeile",
+     "bericht": "AHSentinel-1794328095-5ef958-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.86",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T223",
+     "name": "Entzauberungswert gleich je Gruppe, Gewinn beim Kauf je Kaufpreis, Block-Anteile = Wert, Ausreisser zählt nicht",
+     "detail": "ergebnis: Wert 128/128, Gewinn 28/-872, Summe 135 = 135, Essenz 2 (ah, unsicher true) | erwartet: gleicher Wert, Gewinn = Wert - Kaufpreis, Summe = Wert, 2c-Angebot ignoriert (Markt 300c)",
+     "bericht": "AHSentinel-1794328095-5ef958-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.86",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T230",
+     "name": "Sammelkauf: nur Rendite >= Mindestrendite und >= 10c Gewinn, sortiert; Abschlag 10 % unter 10 Entzauberungen",
+     "detail": "ergebnis: 0 Kandidaten, oben nil (+nil), danach +nil, Wert ab 10 Entzauberungen 1000 | erwartet: 2, oben +600, dann +400, Wert 1000",
+     "bericht": "AHSentinel-1794328095-5ef958-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.86",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T364",
+     "name": "T-LG1 26 Stulpen, 14 Seelenstaub, 3 Splitter im Lager, keine Auktionen -> Lager positiv (≈ 4g 67s)",
+     "detail": "ergebnis: Lager 5|TInterface\\MoneyFrame\\UI-GoldIcon:0:0:2:0|t 43|TInterface\\MoneyFrame\\UI-CopperIcon:0:0:2:0|t (im AH 33|TInterface\\MoneyFrame\\UI-SilverIcon:0:0:2:0|t 24|TInterface\\MoneyFrame\\UI-CopperIcon:0:0:2:0|t) | erwartet: 4|TInterface\\MoneyFrame\\UI-GoldIcon:0:0:2:0|t 67|TInterface\\MoneyFrame\\UI-SilverIcon:0:0:2:0|t 19|TInterface\\MoneyFrame\\UI-CopperIcon:0:0:2:0|t, im AH 0",
+     "bericht": "AHSentinel-1794328095-5ef958-1"
     }
    ],
    "fehler_spiel": [
@@ -461,12 +501,52 @@
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.76",
+   "version": "0.65.86",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T169",
-   "name": "Aufbau der Rangliste < 16 ms pro Frame",
-   "detail": "ergebnis: längste Portion 59.0 ms | erwartet: < 16 ms",
-   "bericht": "AHSentinel-1794314177-2f3288-1"
+   "id": "T373",
+   "name": "Keine Hintergrund-Aufgabe ≥ 16 ms je Frame (während des Ranglisten-Aufbaus)",
+   "detail": "ergebnis: zu lang: cache:today:10 16.0 ms | erwartet: alle < 16 ms",
+   "bericht": "AHSentinel-1794328095-5ef958-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.86",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T203",
+   "name": "Entzaubern tatsächlich: 4 bekannte Entzauberungen -> Ø genau, Aufschlüsselung = geschätzter Wert",
+   "detail": "ergebnis: tatsächlich 211 aus 4, geschätzt 177 = Summe 177, ohne Daten nil · Entzaubern tatsächlich (Ø aus 4) (wenig Daten) 2|TInterface\\MoneyFrame\\UI-SilverIcon:0:0:2:0|t 11|TInterface\\MoneyFrame\\UI-CopperIcon:0:0:2:0|t |    Seltsamer Staub  4/4 × Ø 1.8 · AH 99|TInterface\\MoneyFrame\\UI-CopperIcon:0:0… | erwartet: 250 aus 4 ((7×100 + 1×300) / 4), Summe der Anteile = geschätzter Wert, ohne Daten keine Zeile",
+   "bericht": "AHSentinel-1794328095-5ef958-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.86",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T223",
+   "name": "Entzauberungswert gleich je Gruppe, Gewinn beim Kauf je Kaufpreis, Block-Anteile = Wert, Ausreisser zählt nicht",
+   "detail": "ergebnis: Wert 128/128, Gewinn 28/-872, Summe 135 = 135, Essenz 2 (ah, unsicher true) | erwartet: gleicher Wert, Gewinn = Wert - Kaufpreis, Summe = Wert, 2c-Angebot ignoriert (Markt 300c)",
+   "bericht": "AHSentinel-1794328095-5ef958-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.86",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T230",
+   "name": "Sammelkauf: nur Rendite >= Mindestrendite und >= 10c Gewinn, sortiert; Abschlag 10 % unter 10 Entzauberungen",
+   "detail": "ergebnis: 0 Kandidaten, oben nil (+nil), danach +nil, Wert ab 10 Entzauberungen 1000 | erwartet: 2, oben +600, dann +400, Wert 1000",
+   "bericht": "AHSentinel-1794328095-5ef958-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.86",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T364",
+   "name": "T-LG1 26 Stulpen, 14 Seelenstaub, 3 Splitter im Lager, keine Auktionen -> Lager positiv (≈ 4g 67s)",
+   "detail": "ergebnis: Lager 5|TInterface\\MoneyFrame\\UI-GoldIcon:0:0:2:0|t 43|TInterface\\MoneyFrame\\UI-CopperIcon:0:0:2:0|t (im AH 33|TInterface\\MoneyFrame\\UI-SilverIcon:0:0:2:0|t 24|TInterface\\MoneyFrame\\UI-CopperIcon:0:0:2:0|t) | erwartet: 4|TInterface\\MoneyFrame\\UI-GoldIcon:0:0:2:0|t 67|TInterface\\MoneyFrame\\UI-SilverIcon:0:0:2:0|t 19|TInterface\\MoneyFrame\\UI-CopperIcon:0:0:2:0|t, im AH 0",
+   "bericht": "AHSentinel-1794328095-5ef958-1"
   },
   {
    "addon": "AHSentinel",
@@ -792,34 +872,34 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 61,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.81-1fdfc1de7594.txt"
+    "anzahl": 63,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.86-bdffe8f44a96.txt"
    },
    "BuffSentinel": {
     "anzahl": 20,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.12-7f8dfb5af187.txt"
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.12-9013338d4969.txt"
    },
    "GSMesstest": {
-    "anzahl": 3,
-    "neueste": "testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt"
+    "anzahl": 4,
+    "neueste": "testberichte/diagnose/GSMesstest/4-5afd5b25be28.txt"
    },
    "GuildSentinel": {
-    "anzahl": 55,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.23-86b6ccd399c1.txt"
+    "anzahl": 57,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.23-355e89d96ba6.txt"
    },
    "ProfessionSentinel": {
     "anzahl": 47,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.30-683fb43128c0.txt"
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.37-b69a2ad3e0a7.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 43,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.8-a683843bdbd5.txt"
+    "anzahl": 45,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.8-dadd08f2acdb.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 104,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794323958-a98759.json"
+    "anzahl": 105,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794327254-1256be.json"
    }
   }
  }
