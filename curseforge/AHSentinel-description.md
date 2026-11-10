@@ -12,6 +12,20 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.79
+
+- **Test routine never touches your disenchant data:** reset and restore tests (and the option test "reset
+  disenchanting") now run only on substitute tables – including the backup `deBackup`.
+- **Measured sales from the full scan were far too high (10–20×):** for goods (stackable), a partial purchase created a
+  new signature, so the whole old stack counted as "gone". Goods are now compared by quantity per unit price (only price
+  levels up to the lowest price + 2 %, re-listings at the same price are offset). Sales per day are only extrapolated
+  after at least 6 hours of coverage; until then "too short". A plausibility limit (at most 2× the average quantity on
+  offer) marks and logs implausible values. Rates from earlier versions (too short pairs) are no longer used.
+- Full scan reading: the clock is checked every 25 entries with 5 ms per frame (goal: longest frame ≤ 8 ms).
+- Test routine: the ranking check (T169) measures only the ranking job; other jobs are named. The disenchant count
+  check only compares entries since counting started (no false alarm).
+- Test routine: T360–T363 (T-W1, T-W2, T-W5).
+
 ### Version 0.65.78
 
 - **Fix (important): disenchant buys are valued realistically.** Material prices now use the same realistic resale
@@ -78,28 +92,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - `/ahs heute`, the Today button and other addons (ProfessionSentinel QuickBuy/QuickSell rows on top) open the Market
   tab on "Today". New option: "Market: default view".
 - Test routine: new part "m" (market) and a section "Market tab" in the report.
-
-### Version 0.65.74
-
-- **Learning database (step 2, invisible):** AHSentinel now learns in the background from your own results – nothing
-  new to operate, only better numbers in what you already use. Option "Learning" (on) switches it all off again.
-  - Chance to sell per price level (price ÷ market value) and duration; expired and cancelled auctions count as "not
-    sold" (never left out). Few own cases are pulled towards the item group, then towards shared numbers of all
-    players (sync, counts only, no names), then a start value.
-  - Price limits per item: the Sell tab suggests the learned normal price when nobody competes or the competition is
-    above your maximum; the minimum includes fee and expected deposit losses.
-  - Sell tab: "only ~N sell in this duration – keep the rest in your bags". My Auctions: "higher possible" when the
-    cheaper competition is gone (cancel only by your click).
-  - Safer buying: watcher, bulk buy, flips and disenchant deals use a safety margin from the measured error (20 % until
-    20 buys, then at least 10 %) and a daily budget per strategy (10 % of your gold) while its hit rate is below 60 %.
-  - Today: a hint when something you bought fell more than 25 % in value ("sell now brings X, waiting expects Y").
-  - Rare items: own sales estimated with Croston; market sales use a learned factor per group (from the full scan)
-    instead of the fixed 20 % cap.
-  - Self-correction every week or 50 new results (damped ±30 %, log "LERNEN"); rhythm (cheap/expensive hour and
-    weekday) after 21 days, only when stable.
-  - Option "Try higher (+5 %)" (off): every 10th posting suggests 5 % more to learn the price sensitivity.
-- Tooltip (Shift): "Chance to sell at market value: 72 % (learned from 23 own sales)", rhythm if known.
-- Test routine: new part "l" (learning) with fixed numbers; report and GSTEST1 get a section "Learning database".
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

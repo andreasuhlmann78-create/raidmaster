@@ -7,6 +7,20 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.79</h3>
+<ul>
+<li><strong>Test routine never touches your disenchant data:</strong> reset and restore tests (and the option test "reset
+  disenchanting") now run only on substitute tables – including the backup <code>deBackup</code>.</li>
+<li><strong>Measured sales from the full scan were far too high (10–20×):</strong> for goods (stackable), a partial purchase created a
+  new signature, so the whole old stack counted as "gone". Goods are now compared by quantity per unit price (only price
+  levels up to the lowest price + 2 %, re-listings at the same price are offset). Sales per day are only extrapolated
+  after at least 6 hours of coverage; until then "too short". A plausibility limit (at most 2× the average quantity on
+  offer) marks and logs implausible values. Rates from earlier versions (too short pairs) are no longer used.</li>
+<li>Full scan reading: the clock is checked every 25 entries with 5 ms per frame (goal: longest frame ≤ 8 ms).</li>
+<li>Test routine: the ranking check (T169) measures only the ranking job; other jobs are named. The disenchant count
+  check only compares entries since counting started (no false alarm).</li>
+<li>Test routine: T360–T363 (T-W1, T-W2, T-W5).</li>
+</ul>
 <h3>Version 0.65.78</h3>
 <ul>
 <li><strong>Fix (important): disenchant buys are valued realistically.</strong> Material prices now use the same realistic resale
@@ -74,29 +88,7 @@
   tab on "Today". New option: "Market: default view".</li>
 <li>Test routine: new part "m" (market) and a section "Market tab" in the report.</li>
 </ul>
-<h3>Version 0.65.74</h3>
-<ul>
-<li><strong>Learning database (step 2, invisible):</strong> AHSentinel now learns in the background from your own results – nothing
-  new to operate, only better numbers in what you already use. Option "Learning" (on) switches it all off again.</li>
-<li>Chance to sell per price level (price ÷ market value) and duration; expired and cancelled auctions count as "not
-    sold" (never left out). Few own cases are pulled towards the item group, then towards shared numbers of all
-    players (sync, counts only, no names), then a start value.</li>
-<li>Price limits per item: the Sell tab suggests the learned normal price when nobody competes or the competition is
-    above your maximum; the minimum includes fee and expected deposit losses.</li>
-<li>Sell tab: "only ~N sell in this duration – keep the rest in your bags". My Auctions: "higher possible" when the
-    cheaper competition is gone (cancel only by your click).</li>
-<li>Safer buying: watcher, bulk buy, flips and disenchant deals use a safety margin from the measured error (20 % until
-    20 buys, then at least 10 %) and a daily budget per strategy (10 % of your gold) while its hit rate is below 60 %.</li>
-<li>Today: a hint when something you bought fell more than 25 % in value ("sell now brings X, waiting expects Y").</li>
-<li>Rare items: own sales estimated with Croston; market sales use a learned factor per group (from the full scan)
-    instead of the fixed 20 % cap.</li>
-<li>Self-correction every week or 50 new results (damped ±30 %, log "LERNEN"); rhythm (cheap/expensive hour and
-    weekday) after 21 days, only when stable.</li>
-<li>Option "Try higher (+5 %)" (off): every 10th posting suggests 5 % more to learn the price sensitivity.</li>
-<li>Tooltip (Shift): "Chance to sell at market value: 72 % (learned from 23 own sales)", rhythm if known.</li>
-<li>Test routine: new part "l" (learning) with fixed numbers; report and GSTEST1 get a section "Learning database".</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
