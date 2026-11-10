@@ -152,3 +152,7 @@ NEU (10. Nov. 16:00, MITTEL) – befund-buchhaltung-kopf.txt (0.65.80)
 NEU (10. Nov. 16:05, ENTSCHEID DES NUTZERS, HOCH – mit H9) – anweisung-aktueller-markt-entscheid.txt
    Gerechnet wird mit dem aktuellen Markt (Kaufpreis jetzt, Verkaufswert aus aktueller Preisleiter + Absatz); der
    Durchschnitt ist nur noch Warnlampe ("frisch gestiegen" / "eingebrochen"), ersetzt "Marktwert × 1,5". T-AM1–T-AM4.
+
+NEU (10. Nov. 16:10, ENTSCHEID DES NUTZERS, HOCH) – anweisung-markt-kapital-25.txt
+   K1 Markt-Kaufvorschläge zusammen höchstens 25 % des Golds (Option, max. 50 %). K2 Absatz unplausibel ("Geprägte
+   Lederhandschuhe ~2346/Tag") – Plausibilitätsgrenze, Quelle zeigen, gemessen erst ab 3 Tagen. K3 Flip-Menge begrenzt.

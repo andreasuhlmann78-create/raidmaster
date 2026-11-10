@@ -270,3 +270,8 @@ Kaufen: echter Preis jetzt. Verkaufswert: aus der aktuellen Preisleiter und dem 
 Der Durchschnitt (Marktwert) wird nicht mehr für Werte gerechnet, nur als Hinweis "frisch gestiegen" (> 150 %, < 24 Std.)
 bzw. "eingebrochen" (< 60 %). Auftrag: auftraege/AHSentinel/anweisung-aktueller-markt-entscheid.txt.
 
+## Entscheid des Nutzers 10.11.2026 15:59: Markt rechnet mit höchstens 25 % des Goldes
+
+Alle Kaufvorschläge im Markt zusammen höchstens 25 % des aktuellen Golds (Option, nie über 50 %).
+Auftrag: auftraege/AHSentinel/anweisung-markt-kapital-25.txt.
+

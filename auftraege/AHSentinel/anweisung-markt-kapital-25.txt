@@ -1,0 +1,33 @@
+ENTSCHEID DES NUTZERS UND BEFUND FÜR AHSENTINEL: MARKT – HÖCHSTENS 25 % DES GOLDES, ABSATZ UNPLAUSIBEL (0.65.80)
+==========================================================================================================
+Stand: 10. November 2026, 16:10 · ENTSCHEID DES NUTZERS (15:59): "Im Markt darf nur mit maximal 25 % des Goldes vom
+Spieler gerechnet werden und nicht mehr – das verändert das Angebot." Bildschirmfoto Markt -> Heute (15:58).
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen. Dann dies (HOCH).
+
+BEOBACHTUNG
+   Fusszeile: "8 Vorschläge, zusammen ca. 5g 51s 86c | Kapitalbedarf: 6g 50s 60c von 15g 52s 74c (höchstens die Hälfte)".
+   Zeilen: "Kaufe 181x Geprägte Lederhandschuhe bis 1s, wieder einstellen um 1s 99c (verkauft sich ~2346.6/Tag)",
+   "Kaufe 175x Geringes Blutsteinerz bis 1s 77c …". Detail Tigerfleisch: Absatz ~300.8/Tag bei Menge 1504.
+
+K1 KAPITAL 25 % (Entscheid): Alle Kaufvorschläge im Markt (Heute, Flippen, Händler, Lücken) zusammen höchstens 25 % des
+   aktuellen Golds des Charakters (GetMoney()). Je Vorschlag die Menge so kürzen, dass die Summe passt (beste Gewinn/Gold
+   zuerst); Vorschläge, die nicht mehr hineinpassen, fallen weg. Fusszeile "Kapitalbedarf X von Y (höchstens 25 %)".
+   Gilt auch für das Tagesbudget je Strategie (L7): Standard 25 % statt bisher "Hälfte"/10 %. In den Optionen als Zahl
+   einstellbar (Standard 25 %), nie über 50 %.
+K2 ABSATZ UNPLAUSIBEL: "Geprägte Lederhandschuhe verkauft sich ~2346/Tag" ist für ein Ausrüstungsteil unmöglich (Tigerfleisch
+   ~300/Tag ebenso fraglich). Der gemessene Absatz (Vollscan-Verfolgung) ist trotz 0.65.79 noch zu hoch oder wird zu früh
+   verwendet. Bitte: Quelle des Werts im Detail/Tooltip nennen (gemessen/geschätzt, Zeitraum), Plausibilitätsgrenze
+   gemessen ≤ 2 × Ø-Menge pro Tag und ≤ 25 % des aktuellen Angebots pro Std.; gemessene Werte erst ab ≥ 6 Std. Abdeckung
+   UND 3 Tagen verwenden (W2). Ausrüstung (nicht stapelbar): Verschwinden nur zählen, wenn die Restzeit-Stufe lang war;
+   Abbruch-Faktor anwenden. Protokoll ABSATZ-UNPLAUSIBEL (Item-ID, Wert, Quelle).
+K3 Menge je Flip höchstens Absatz × Laufzeit × eigener Anteil (H4) – 181 Stück eines Ausrüstungsteils dürfen bei ehrlichem
+   Absatz nie vorgeschlagen werden.
+
+TESTFÄLLE
+T-K1 Gold 15g 52s, Vorschläge mit Bedarf 6g 50s -> gekürzt auf ≤ 3g 88s, Fusszeile "von 15g 52s (höchstens 25 %)".
+T-K2 Ausrüstung, Absatz gemessen 2346/Tag, Ø-Menge 200 -> unplausibel, Rückfall auf Schätzung, Protokollzeile.
+T-K3 Option 25 % -> 40 %: Bedarf darf bis 40 %; Eingabe 80 % -> auf 50 % begrenzt.
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden.
