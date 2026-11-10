@@ -7,6 +7,23 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.82</h3>
+<ul>
+<li><strong>Prices from the current market (your decision):</strong> values come from the current price ladder and sales only – no cap
+  and no mixing with the market value (average). The market value is only a warning: "price just rose (for N h)",
+  "price dropped (for N h)", "old (N h ago)" when the last scan is older than 2 h, "estimated" without any scan. The
+  number itself is not changed. With Shift the source: "price ladder, 311 pcs, sales ~20/day · market value …".</li>
+<li><strong>Market uses at most 25 % of your gold (your decision):</strong> all buy suggestions (Today, Flips, Vendor) together at
+  most this share; the best profit per gold first, a suggestion that does not fit is shortened, otherwise dropped.
+  Footer "Capital needed X of Y (at most 25 %)". Option "Market: at most % of gold" (default 25, at most 50); the
+  daily budget per strategy follows it.</li>
+<li><strong>Implausible sales:</strong> at most 2× the average quantity per day and 25 % of the current offer per hour; measured
+  values above that are not used (log ABSATZ-UNPLAUSIBEL). Flip texts say "estimated" or "measured, N days".</li>
+<li><strong>Ledger header:</strong> the stock tile shows "Stock X (in AH Y) − at start Z"; the tooltip computes "Cash + stock − stock
+  at start = result". Purchases used for professions (trade goods bought and gone) are shown separately: "Trade ±A ·
+  professions −B". Running own auctions also count from the forecast journal when the AH was not queried.</li>
+<li>Test routine: T371 (T-AM1), T384–T391 (T-AM3/4, T-K1–3, T-LG6–8).</li>
+</ul>
 <h3>Version 0.65.81</h3>
 <ul>
 <li><strong>Fix (important): honest material prices for disenchanting.</strong> The material price is the realistic sell price from
@@ -73,23 +90,7 @@
   budget allows.</li>
 <li>Test routine: T351–T359 (T-HF8, T-MS1–3, T-SN1–3).</li>
 </ul>
-<h3>Version 0.65.77</h3>
-<ul>
-<li><strong>Fix (important): no more fake flips.</strong> "Today" suggested e.g. "buy 4x Unstable Magic Particle up to 45s 97c, post
-  again for 2g 3s" – but 855 pieces were on offer at 46–50s; 2g 3s was an outdated offer price. Now ONE realistic
-  resale price is used everywhere (Today, Flip, details, watcher): the price at which fewer pieces wait in front of you
-  than sell during your duration (price ladder of the full scan or the search), at most the learned normal price and
-  the market value; without a ladder at most 15 % above the current lowest price.</li>
-<li>No flip during a price crash or when the supply is flooded (3× the usual amount) – such items show up in "Crowded".</li>
-<li>List and details never contradict each other: a buy row only appears if the details say "buy up to X" too.</li>
-<li>Honest flip profit: after the AH cut and expected deposit losses, quantity at most what you can sell in your share
-  of the market.</li>
-<li>Market views no longer stay empty while sales are not yet measured: estimated sales are used and marked grey
-  ("estimated"); an empty view says why. Switching views clears the details (or shows the first row).</li>
-<li><strong>My Auctions:</strong> total of sold goods in the summary line (gross and after the AH cut).</li>
-<li>Test routine: T344–T350 (T-HF1–T-HF7).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

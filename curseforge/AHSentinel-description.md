@@ -12,6 +12,23 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.82
+
+- **Prices from the current market (your decision):** values come from the current price ladder and sales only – no cap
+  and no mixing with the market value (average). The market value is only a warning: "price just rose (for N h)",
+  "price dropped (for N h)", "old (N h ago)" when the last scan is older than 2 h, "estimated" without any scan. The
+  number itself is not changed. With Shift the source: "price ladder, 311 pcs, sales ~20/day · market value …".
+- **Market uses at most 25 % of your gold (your decision):** all buy suggestions (Today, Flips, Vendor) together at
+  most this share; the best profit per gold first, a suggestion that does not fit is shortened, otherwise dropped.
+  Footer "Capital needed X of Y (at most 25 %)". Option "Market: at most % of gold" (default 25, at most 50); the
+  daily budget per strategy follows it.
+- **Implausible sales:** at most 2× the average quantity per day and 25 % of the current offer per hour; measured
+  values above that are not used (log ABSATZ-UNPLAUSIBEL). Flip texts say "estimated" or "measured, N days".
+- **Ledger header:** the stock tile shows "Stock X (in AH Y) − at start Z"; the tooltip computes "Cash + stock − stock
+  at start = result". Purchases used for professions (trade goods bought and gone) are shown separately: "Trade ±A ·
+  professions −B". Running own auctions also count from the forecast journal when the AH was not queried.
+- Test routine: T371 (T-AM1), T384–T391 (T-AM3/4, T-K1–3, T-LG6–8).
+
 ### Version 0.65.81
 
 - **Fix (important): honest material prices for disenchanting.** The material price is the realistic sell price from
@@ -77,22 +94,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   chat message and a header line; the target stays in the list. The target tooltip explains how many pieces the
   budget allows.
 - Test routine: T351–T359 (T-HF8, T-MS1–3, T-SN1–3).
-
-### Version 0.65.77
-
-- **Fix (important): no more fake flips.** "Today" suggested e.g. "buy 4x Unstable Magic Particle up to 45s 97c, post
-  again for 2g 3s" – but 855 pieces were on offer at 46–50s; 2g 3s was an outdated offer price. Now ONE realistic
-  resale price is used everywhere (Today, Flip, details, watcher): the price at which fewer pieces wait in front of you
-  than sell during your duration (price ladder of the full scan or the search), at most the learned normal price and
-  the market value; without a ladder at most 15 % above the current lowest price.
-- No flip during a price crash or when the supply is flooded (3× the usual amount) – such items show up in "Crowded".
-- List and details never contradict each other: a buy row only appears if the details say "buy up to X" too.
-- Honest flip profit: after the AH cut and expected deposit losses, quantity at most what you can sell in your share
-  of the market.
-- Market views no longer stay empty while sales are not yet measured: estimated sales are used and marked grey
-  ("estimated"); an empty view says why. Switching views clears the details (or shows the first row).
-- **My Auctions:** total of sold goods in the summary line (gross and after the AH cut).
-- Test routine: T344–T350 (T-HF1–T-HF7).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
