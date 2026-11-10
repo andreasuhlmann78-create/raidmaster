@@ -1,9 +1,9 @@
 {
- "ausgewertet": "2026-11-10T14:20:01Z",
+ "ausgewertet": "2026-11-10T15:25:53Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 12,
+   "berichte": 13,
    "letzter_test": {
     "id": "AHSentinel-1794314177-2f3288-1",
     "version": "0.65.76",
@@ -41,6 +41,20 @@
       "forever 1.60.1 (Interface 16001)"
      ],
      "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:397: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:390>\n[C]: ?\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/Sniper.lua]:817: in function 'Reserve'\n[Interface/AddOns/AHSentinel/Sniper.lua]:1264: in function 'Tick'\n[Interface/AddOns/AHSentinel/Sniper.lua]:1294: in function <Interface/AddOns/AHSentinel/Sniper.lua:1290>\n"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "spiel",
+     "wo": "Lua",
+     "msg": "Interface/AddOns/AHSentinel/Seller.lua:1433: attempt to index local 'msg' (a secret string value, while execution tainted by 'AHSentinel')",
+     "anzahl": 1,
+     "versionen": [
+      "0.65.80"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/Seller.lua]:1433: in function <Interface/AddOns/AHSentinel/Seller.lua:1425>\n"
     }
    ]
   },
@@ -469,6 +483,20 @@
    "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:397: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:390>\n[C]: ?\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/Sniper.lua]:817: in function 'Reserve'\n[Interface/AddOns/AHSentinel/Sniper.lua]:1264: in function 'Tick'\n[Interface/AddOns/AHSentinel/Sniper.lua]:1294: in function <Interface/AddOns/AHSentinel/Sniper.lua:1290>\n"
   },
   {
+   "addon": "AHSentinel",
+   "art": "spiel",
+   "wo": "Lua",
+   "msg": "Interface/AddOns/AHSentinel/Seller.lua:1433: attempt to index local 'msg' (a secret string value, while execution tainted by 'AHSentinel')",
+   "anzahl": 1,
+   "versionen": [
+    "0.65.80"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/Seller.lua]:1433: in function <Interface/AddOns/AHSentinel/Seller.lua:1425>\n"
+  },
+  {
    "addon": "BuffSentinel",
    "art": "test",
    "version": "0.9.7",
@@ -764,8 +792,8 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 57,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.78-ec93d5ad21c1.txt"
+    "anzahl": 59,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.80-d29461ae5e97.txt"
    },
    "BuffSentinel": {
     "anzahl": 20,
@@ -776,22 +804,22 @@
     "neueste": "testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt"
    },
    "GuildSentinel": {
-    "anzahl": 51,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.21-0688338dea67.txt"
+    "anzahl": 53,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.22-91ca3fd52d1d.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 46,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.37-aedb06ad2442.txt"
+    "anzahl": 47,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.37-100c2a486401.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 39,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.6-ddc574f140a3.txt"
+    "anzahl": 41,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.6-a4875e20a10d.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 100,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794315795-cd792a.json"
+    "anzahl": 101,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794322533-f6e46f.json"
    }
   }
  }

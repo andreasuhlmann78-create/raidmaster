@@ -165,6 +165,10 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
   - Teil 3: 2 Knoten, Bereich 63–64 / 39–39
 - **Ausreisser:** Wegstück 1: Sprung 5.2 % von 61.8,39.2 nach 62.0,34.0
 
+## Ashenvale (1440)
+
+- Wegstücke 1, Knoten 1, zusammenhängende Teile 1
+
 ## Steinkrallengebirge (1442)
 
 - Wegstücke 129, Knoten 192, zusammenhängende Teile 5
@@ -184,9 +188,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Orgrimmar (1454)
 
-- Wegstücke 695, Knoten 661, zusammenhängende Teile 3
+- Wegstücke 703, Knoten 662, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 656 Knoten, Bereich 32–82 / 19–95
+  - Teil 1: 657 Knoten, Bereich 32–82 / 19–95
   - Teil 2: 3 Knoten, Bereich 38–40 / 28–30
   - Teil 3: 2 Knoten, Bereich 35–35 / 86–88
 - **Ausreisser:** Wegstück 2: Sprung 5.9 % von 52.0,68.2 nach 52.0,74.1
@@ -209,7 +213,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 - **Ausreisser:** Wegstück 27: Sprung 4.1 % von 47.4,76.8 nach 43.8,74.8
 - **Ausreisser:** Wegstück 27: Sprung 6.3 % von 43.8,74.8 nach 48.7,78.8
 - **Ausreisser:** Wegstück 28: Sprung 13.4 % von 52.6,87.5 nach 52.0,74.1
-- **Widerspruch:** gesperrt (FEST) bei 52.2,64.5, aber 215× gelaufen
+- **Widerspruch:** gesperrt (FEST) bei 52.2,64.5, aber 218× gelaufen
 - Gesperrte Wegstücke: 1
 
 ## Thunder Bluff (1456)
