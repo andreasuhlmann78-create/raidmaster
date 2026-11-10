@@ -1,0 +1,37 @@
+BEFUND/ANWEISUNG DER PRÜF-SITZUNG FÜR AHSENTINEL: "ERGEBNIS MIT LAGER" – WARE IM AH ALS ERWARTETEN ERLÖS
+=====================================================================================================
+Stand: 10. November 2026, 18:50 · Grundlage: Bild der Buchhaltung "Heute" beim Nutzer (0.65.86, 18:32) und Wunsch
+des Nutzers (18:42/18:45). Erst laufende Arbeit fertig machen.
+
+Wunsch des Nutzers: "Es muss nicht alles optisch dargestellt werden – das Endergebnis zählt." und "Die Dinge, die im AH
+ohnehin schon als verkauft gelten, könnte man zu diesem Wert dazunehmen."
+
+Lage (Bild): Einnahmen 25g 43s 59c, Ausgaben 31g 48s 96c, Gebühren 26s 82c, Kasse −6g 32s 19c,
+"Ergebnis mit Lager −2g 43s 36c · Lager 5g 40s 12c (davon im AH 4g 53s 23c) · zu Beginn 2g 16s 97c".
+Einnahmen und Ausgaben stimmen genau mit der Liste "Pro Item" (nachgerechnet).
+
+LG9 HOCH – WARE IM AH = ERWARTETER ERLÖS (nicht nur Angebotswert)
+   Eigene laufende Auktionen zählen im Ergebnis mit dem ERWARTETEN Netto-Erlös:
+   Wert = Angebotspreis × Menge × 0,95 × Verkaufs-Wahrscheinlichkeit in der Restlaufzeit (aus der Prognose).
+   - "Verkauft sich schnell" (z. B. Seelenstaub, Essenzen; Prognose ≥ 90 % in der Restzeit, Angebot noch das
+     günstigste oder höchstens gleich) -> zählt voll als verkauft (× 0,95).
+   - Unterboten oder langsam -> × Wahrscheinlichkeit; der Rest mit dem Wert, den die Ware nach dem Ablauf im Lager hat
+     (aktueller Preis, Einzahlung ist verloren).
+   - Material mit Aufkauf-Kennzeichen (D6): höchstens zum Preis vor dem Aufkauf.
+   - Solange die Prognose nicht kalibriert ist (X7), für "schnell" nur Items mit gemessener Dauer bis Verkauf
+     (Median ≤ 2 Std., mind. 3 eigene Verkäufe) voll zählen, sonst × 0,8.
+LG10 HOCH – EIN ENDERGEBNIS, KEINE NEUEN SPALTEN
+   Sichtbar bleibt nur die Kachel "Ergebnis mit Lager" (Name darf "Ergebnis" heissen). Keine neuen Spalten, keine neuen
+   Ansichten. Die Rechnung nur im Tooltip der Kachel:
+   Kasse + erwarteter Erlös im AH + Lager (Taschen/Bank) − Lager zu Beginn = Ergebnis.
+LG11 MITTEL – RECHNUNG GEHT HEUTE NICHT AUF
+   Mit den angezeigten Zahlen: −6g 32s 19c + 5g 40s 12c − 2g 16s 97c = −3g 09s 04c; angezeigt −2g 43s 36c
+   (Unterschied 65s 68c). Ursache finden (Gebühren doppelt/fehlend? Lager zu Beginn anders bewertet als heute? X2:
+   alte Einträge als "im AH"?) und so korrigieren, dass Tooltip-Rechnung und Kachel auf den Kupfer gleich sind.
+   Regel aus wirtschaft-forever.md Abschnitt 0: Zahlen müssen exakt aufgehen.
+Tests
+   T-LG9a: 36 Seelenstaub im AH zu 4s 94c, günstigstes Angebot, Median Verkauf 0,1 Std. (≥ 3 Verkäufe) ->
+           Wert = 36 × 494 × 0,95 = 16'895c.
+   T-LG9b: 18 Schwerer Stein, unterboten, Prognose 40 % -> 0,4 × Erlös + 0,6 × Lagerwert.
+   T-LG10: Tooltip-Rechnung = Kachel auf den Kupfer (mit X2-Lage: Abfrage leer -> im AH 0).
+   T-LG11: Beispiel des Nutzers nachgestellt -> Kasse + AH + Lager − Beginn = Ergebnis exakt.
