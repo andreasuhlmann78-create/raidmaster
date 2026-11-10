@@ -1,8 +1,9 @@
 OFFENE PUNKTE THREATSENTINEL (nach der Nachprüfung von 2.5.6)
 =============================================================
-Stand: 10. November 2026, 12:55 · von der Prüf-Sitzung · Grundlage: download/ThreatSentinel-2.5.6.zip, Diff gegen 2.5.4
-(2.5.5 dazwischen), Meldung der ThreatSentinel-Sitzung vom 10.11., 12:50.
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 2.5.4 (11:20).
+Stand: 10. November 2026, 14:35 · von der Prüf-Sitzung · Grundlage: download/ThreatSentinel-2.5.6.zip, Diff gegen 2.5.4
+(2.5.5 dazwischen), Meldung der ThreatSentinel-Sitzung vom 10.11., 12:50. Nachtrag 14:35: neue Testberichte aus dem
+Spiel (2.5.4, 10.11. 09:58 und 10:05 UTC): Punkt 3 und eine Client-Prüfung (T144).
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand von 12:55.
 
 Erledigt in 2.5.5 und 2.5.6 (danke):
 - Alt 1 HOCH Sprachtest: ADDON_LOADED ruft pcall(ns.ApplyDevLocale, ns) (Core.lua:1181–1182). ApplyDevLocale ruft
@@ -39,7 +40,20 @@ und GoldSentinelTest.lua (2) byte-gleich mit shared/, GoldSentinelDev.lua unver�
    anweisung-gemeinsamer-sync.txt und anweisung-sync-version2.txt bleiben, bis der Nutzer entschieden hat. Nichts tun,
    solange kein Entscheid kommt.
 
+3. TESTZENTRALE ÜBERDECKT DEN BUFFSENTINEL-ANKER (Schwere: NIEDRIG) – neu aus dem Spiel
+   Testbericht 2.5.4 (testberichte/berichte/ThreatSentinel/ThreatSentinel-1794304732-3fd218-1.json und
+   ThreatSentinel-1794305177-608ad8-2.json): T181 FEHLER "Testzentrale überdeckt BuffSentinelAnchor_cd (BuffSentinel)".
+   Area.K öffnet die Testzentrale und ruft ns.UIAvoidBlizzard (TestRoutine.lua:3383-3386); das weicht offenbar nur
+   Blizzard-Fenstern aus, nicht den Ankern anderer GoldSentinel-Addons. In 2.5.6 unverändert.
+   Lösung: beim Platzieren der Testzentrale auch sichtbare Fenster anderer GoldSentinel-Addons meiden (dieselbe Liste,
+   die UICheck.WindowsOverlapNothing prüft), oder die Testzentrale an eine freie Stelle setzen. Ist ein Anker von
+   BuffSentinel bewusst ausgenommen (verschiebbares Symbol), bitte begründet zurückmelden – dann gehört die Ausnahme
+   in die Prüfung, nicht ins Addon.
+
 IM CLIENT PRÜFEN
+   - T144 (aus dem Testbericht 2.5.4 vom 10.11. 10:05 UTC, ThreatSentinel-1794305150-9f81fe-1.json): "0x" statt "1x".
+     In 2.5.6 setzt NoticeCount errorNoticed zurück und ersetzt IsTesting für die Prüfung (TestRoutine.lua:2740-2755,
+     Q1) – sollte damit behoben sein. Mit 2.5.6 zweimal hintereinander /ts testroutine i: beide Male T144 "1x".
    - Sprachtest mit 2.5.6: /ts testroutine sprache, /reload -> Addon lädt, englische Texte; /ts testroutine f -> T128,
      T-L1, T-L2 OK; nach /reload wieder Deutsch.
    - Forever-Dungeon als DD: "Du hast Aggro!" bei lesbarem isTanking, orange Warnung bei Stufe 1, Ton nur einmal.

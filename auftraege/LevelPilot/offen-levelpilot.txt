@@ -1,64 +1,60 @@
-OFFENE PUNKTE LEVELPILOT (nach der Nachprüfung von 3.12.22)
+OFFENE PUNKTE LEVELPILOT (nach der Nachprüfung von 3.12.23)
 ==========================================================
-Stand: 10. November 2026, 11:20 · von der Prüf-Sitzung · Grundlage: announce/levelpilot__levelpilot-3.12.22.LevelPilot.zip
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 3.12.21
-(9. Nov. 20:24). Geprüft: Diff 3.12.21 -> 3.12.22 (Comm.lua, Social.lua, Protocol.lua, TestRoutine.lua, Core.lua,
-.toc, CHANGELOG EN/DE), dazu die neuen Wegdaten-Exporte vom 10. Nov.
+Stand: 10. November 2026, 14:35 · von der Prüf-Sitzung · Grundlage: announce/levelpilot__levelpilot-3.12.23.LevelPilot.zip
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 3.12.22
+(10. Nov. 11:20). Geprüft: Diff 3.12.22 -> 3.12.23 (Comm.lua, Recorder.lua, Graph.lua, TestRoutine.lua, Core.lua,
+.toc, CHANGELOG EN/DE), dazu die neuen Wegdaten-Exporte vom 10. Nov. (4 Stück, 3.12.21 und 3.12.22).
 
-Erledigt in 3.12.22 (danke):
-- Punkt 1 (Netz: Absender = Weitergeber): "Z" und "E" gehen nur an Gilde/Gruppe (Comm.lua:255, Social.lua:170) und
-  tragen eine Prüfsumme des Urhebers (Comm.lua:153-174, 254, Social.lua:162-163). Empfang nur, wenn die Prüfsumme
-  zum Absender passt bzw. ohne Prüfsumme nicht geflüstert (Comm.lua:420, 478). T254 offline OK
-  ("weitergegeben 0, 0 · vom Urheber 1, 1 · eigene ins Netz 0").
-- Punkt 2 (Einstellungen Gilde/Gruppe/Netz): Scope liefert nur die eingeschalteten Wege, Netz nur bei Gilde UND
-  Gruppe (Comm.lua:187-195, Queue 200-216). T243 um die drei Fälle erweitert, offline OK
-  ("nur Netz: nichts · Gilde+Netz: GUILD · Gruppe+Netz: PARTY · alles: GUILD+PARTY+NETZ").
-- Punkt 3 (Zonen-Antwort füllt die gemeinsame Warteschlange): höchstens 25 Nachrichten je Antwort, Rest ab der
-  nächsten Anfrage, keine Antwort bei mehr als 50 Einträgen in GoldSentinelSync.queue (Comm.lua:298-346). T255 OK.
-- Punkt 4 (Broadcast merkt "gesendet" zu früh): Schlüssel erst nach erfolgreichem Queue (Comm.lua:220-230). T256 OK.
-- Punkt 5 (Testroutine pumpt fremde Nachrichten): eigene leere queue/netQueue während der Routine, danach zurück,
-  fremde Einträge aus der Zwischenzeit werden übernommen (TestRoutine.lua:4753-4775, 4849, 4947, 4969). T257 (nur in
-  der ganzen Routine prüfbar, siehe IM CLIENT PRÜFEN).
-- Zusätzlich: Diagnose-Protokoll ruhiger – kein SCHRITT-Eintrag beim Stehen in der Hauptstadt und im Dungeon
-  (Protocol.lua:291-329), kein FOKUS, wenn der aktuelle Schritt in der Zone des Spielers liegt (Protocol.lua:205-226),
-  keine Zonen-Meldung auf Kontinentkarte/Höhle (Protocol.lua:188-192), GetRealZoneText über LP.SafeValue. T258 OK.
-Prüfungen: Addon-Prüfung OK, kein FEHLER, keine WARNUNG (Ladetest Forever und Era, Sprachtest). GoldSentinelGame.lua
-(3), GoldSentinelTest.lua (2) und GoldSentinelSync.lua (2) byte-gleich mit shared/. CHANGELOG EN/DE für 3.12.22,
-.toc und LP.version 3.12.22. Keine neuen sichtbaren Texte (keine neuen L[...]-Schlüssel). Keine Blizzard-Funktion
-und keine C_-Tabelle ersetzt (Tests ändern nur Felder von GoldSentinelSync, LevelPilot-Funktionen und Testdaten).
-Testroutine: 258 Fälle, alle mit Umsetzung (kein "noch nicht automatisiert"). Offline im nachgebauten Spiel
-(Lua 5.1/lupa, WoW Forever) jeden Fall einzeln: 3.12.21 173 OK, 3.12.22 177 OK, kein Fall schlechter als vorher;
-T243 und T254-T256, T258 OK, T257 nur in der ganzen Routine.
-Testberichte: kein Lua-Fehler von LevelPilot seit 3.12.14 (letzter: 3.12.13, 8. Nov. 20:41). Neue Wegdaten vom
-10. Nov. (8 Exporte, alle 3.12.21, Undercity, Durotar, Orgrimmar): keine FEST-Ereignisse, keine Sperren.
+Erledigt in 3.12.23 (danke):
+- Punkt 1 (alte "Z"/"E" ohne Prüfsumme über die Gilde des Weitergebers): Comm.FromOrigin nimmt ohne Prüfsumme nichts
+  mehr an (Comm.lua:168-173), gilt für Zonen-Anfrage und Mitspielersuche (Comm.lua:419, 477). Im CHANGELOG EN/DE
+  genannt (Spieler mit 3.12.21 bekommen bis zum Update keine Antworten). T254 um "#S1 ohne Prüfsumme in GUILD vom
+  Weitergeber" erweitert (TestRoutine.lua:4327-4330), offline OK ("weitergegeben 0, 0 · vom Urheber 1, 1 · eigene
+  ins Netz 0").
+- Punkt 2 (Wegstücke mit grossen Lücken): Abtastung alle 0,5 s (Recorder.lua:241, 455), eine Lücke über 25 Yards
+  trennt die Spur (Recorder.lua:239, 341). Einmalig nach dem Update teilt Graph:Densify alte gerade Stücke über
+  25 Yards in Stücke <= 25 Yards, danach nochmals lose Enden verbinden (Graph.lua:86-91, 96-137). Nur Zonenkarten,
+  nur gelaufene/Netz-/Schwimm-Kanten, statische Daten bleiben unberührt, Knoten-Obergrenze beachtet.
+  T259 und T260 neu (TestRoutine.lua:4443-4498). Offline mit nachgebauter Karte: T259 "Spur 1 Punkt, Kanten über die
+  Lücke 0 · gelaufen 5 Punkte" OK, T260 "geteilt 1, 4 Stücke, längstes 25.0 Yards, Weg durchgehend true" OK.
+Prüfungen: Addon-Prüfung OK, kein FEHLER, keine WARNUNG (Ladetest Forever und Era, Sprachtest). Gemeinsame Dateien
+unverändert (byte-gleich mit shared/). CHANGELOG EN/DE für 3.12.23, .toc und LP.version 3.12.23. Keine neuen
+sichtbaren Texte (keine neuen L[...]-Schlüssel). Keine Blizzard-Funktion und keine C_-Tabelle ersetzt.
+Offline im nachgebauten Spiel (Lua 5.1/lupa, WoW Forever): T243, T254, T255, T256, T258, T259, T260 OK, kein Fall
+schlechter als in 3.12.22.
+Testberichte: kein Lua-Fehler von LevelPilot. Neue Wegdaten vom 10. Nov. (4 Exporte, 3.12.21/3.12.22): keine
+FEST-Ereignisse, keine Sperren; die Netze wachsen zusammen (z. B. 57 -> 44 Teile, 34 -> 30 Teile in
+testberichte/wege/auswertung.md).
 
-Bitte mit der nächsten Version (3.12.23). Wie immer: komplette Dateien, alte Clients nie brechen, alle Locale-Dateien,
-CHANGELOG EN/DE, vor dem Push python3 addon-check/addon_check.py announce/levelpilot__levelpilot-3.12.23.LevelPilot.zip
+Bitte mit der nächsten Version (3.12.24). Wie immer: komplette Dateien, alte Clients nie brechen, alle Locale-Dateien,
+CHANGELOG EN/DE, vor dem Push python3 addon-check/addon_check.py announce/levelpilot__levelpilot-3.12.24.LevelPilot.zip
 -> kein FEHLER.
 
-1. ALTE "Z"/"E" OHNE PRÜFSUMME KOMMEN ÜBER DIE GILDE DES WEITERGEBERS DOCH AN (Schwere: NIEDRIG, Übergangszeit)
-   LevelPilot bis 3.12.21 schickt "Z" und "E" ohne Prüfsumme ins Netz. Ein Weitergeber bringt Netz-Nachrichten als
-   "#S1:" in seine Gilde/Gruppe (shared/GoldSentinelSync.lua:579-580); dort kommt sie mit dist "GUILD"/"PARTY" und
-   dem Weitergeber als Absender an. Comm.FromOrigin (Comm.lua:169-174) nimmt Nachrichten ohne Prüfsumme an, wenn
-   nicht geflüstert -> Antwort bzw. Mitspieler-Hinweis wieder an den Falschen, solange noch 3.12.21 im Umlauf ist.
-   Lösung: "Z" und "E" ohne Prüfsumme gar nicht mehr annehmen (Comm.lua:420, 478; FromOrigin bei leerem Feld false).
-   Folge nur: Spieler mit 3.12.21 bekommen keine Zonen-Antwort und keinen Mitspieler-Hinweis, bis sie aktualisieren.
-   Im CHANGELOG nennen. T254 um den Fall "#S1 ohne Prüfsumme in GUILD vom Weitergeber -> 0" erweitern.
+1. DENSIFY MACHT AUCH ALTE SPRUNG-KANTEN ANSCHLUSSFÄHIG (Schwere: NIEDRIG, bitte prüfen)
+   Ab 3.12.17 hält R.KeyPoints höchstens 25 Yards zwischen behaltenen Punkten, ausser zwei Aufzeichnungen lagen
+   selbst weiter auseinander (bis JUMP_DIST 80 Yards in 3.12.17-3.12.22). Eine gespeicherte Kante über 25 Yards aus
+   diesen Versionen ist darum meist eine Lücke über unbekanntes Gelände (Ruckler, schnell, Teleport). Graph:Densify
+   (Graph.lua:100-137) teilt auch diese Kanten; danach hängt JoinLooseEnds (Graph.lua:91) neue lose Enden an die
+   erfundenen Zwischenpunkte. Vorgabe des Nutzers (anweisung-wegpunkte-strassen.txt): "Lieber keine Linie als eine
+   falsche."
+   Lösung (eine davon): Kanten, die nicht aus der alten RDP-Vereinfachung (vor 3.12.17) stammen können, nicht teilen,
+   sondern als unsicher markieren (höheres Gewicht e[4] oder Sperre bis sie nochmals gelaufen werden); oder nur Kanten
+   teilen, die an beiden Enden weitere Kanten in ähnlicher Richtung haben. Ist das Teilen hier bewusst so gewählt
+   (Kanten waren ohnehin schon im Netz), bitte begründet zurückmelden – dann nur in den Wegdaten beobachten.
 
-2. WEGSTÜCKE MIT GROSSEN LÜCKEN ZWISCHEN ZWEI PUNKTEN (Schwere: NIEDRIG, bitte prüfen)
-   Die Vorgabe aus 3.12.17 ist "Punkte höchstens alle 25 Yards". R.KeyPoints (Recorder.lua:279-296) behält aber nur
-   aufgezeichnete Punkte; liegen zwei Aufzeichnungen weiter auseinander (bis JUMP_DIST 80 Yards, Recorder.lua:236,
-   z. B. beritten), bleibt die ganze Lücke eine gerade Linie, und bei nur 2 Punkten (Recorder.lua:281) wird gar nicht
-   geteilt. Neue Exporte vom 10. Nov. (3.12.21) zeigen in Orgrimmar 2-Punkt-Wegstücke mit 9-11 % der Karte
-   (testberichte/wege/LevelPilot/LevelPilot-wege-1794303378-f51c93.json: 61.5,44.6 -> 59.8,53.8; 52.3,88.9 ->
-   53.1,77.4). Daran können spätere Wege nicht anschliessen (Lücken-Teile in testberichte/wege/auswertung.md).
-   Lösung: beim Aufzeichnen öfter Punkte nehmen, solange schnell gelaufen/geritten wird (z. B. Zeit-Abtastung
-   zusätzlich zur Strecke), oder lange gerade Stücke nur dann mit Zwischenpunkten füllen, wenn die beiden Enden
-   direkt nacheinander aufgezeichnet wurden (keine erfundenen Punkte über unbekanntes Gelände). Testfall:
-   Aufzeichnung mit zwei 70 Yards entfernten Punkten -> Wegstück mit Punkten <= 25 Yards Abstand oder bewusst
-   verworfen. Ist die Lücke in Orgrimmar ein Aufzug/Tor/Teleport, bitte begründet zurückmelden.
+2. VERWAISTER KNOTEN, WENN SPLITEDGE SCHEITERT (Schwere: NIEDRIG)
+   Graph:Densify legt den Zwischenknoten an (Graph.lua:122-129), bevor Graph:SplitEdge die Kante teilt
+   (Graph.lua:130). Liefert SplitEdge false (Graph.lua:323-327), bleibt ein Knoten ohne Kante zurück und zählt in
+   G.count bzw. G.netCount.
+   Lösung: zuerst prüfen (G.edges[EdgeKey(cur[1], cur[2])] == cur), sonst abbrechen, bevor der Knoten angelegt wird;
+   oder den Knoten bei false wieder entfernen (G.nodes, nodes, Gitter, Zähler).
 
 IM CLIENT PRÜFEN (Ergebnisse dem Nutzer melden)
+   - 3.12.23: Nach dem ersten Einloggen mit 3.12.23 keine Lua-Fehler, kein spürbares Stocken (Densify einmalig über
+     alle Kanten). /lp testroutine: T259 und T260 OK (offline nur mit nachgebauter Karte geprüft).
+   - 3.12.23: Ritt durch Orgrimmar/Brachland mit Wegaufzeichnung: neue Wegstücke ohne gerade Linien über 25 Yards;
+     im nächsten Wegdaten-Export keine 2-Punkt-Stücke mit grossem Abstand.
+   - 3.12.23: Mitspieler mit 3.12.21 in der Gilde: keine Lua-Fehler, deren Anfragen werden still verworfen.
    - 3.12.22: /lp testroutine im echten Client: T257 "eigene Warteschlange true, fremde Einträge darin 0"; danach
      /gssync bzw. Diagnose: Nachrichten anderer GoldSentinel-Addons, die während der Routine eingereiht wurden, gehen
      danach normal hinaus (keine "verworfen"-Spitze).
@@ -72,16 +68,15 @@ IM CLIENT PRÜFEN (Ergebnisse dem Nutzer melden)
      verlassen -> eine neue Aufzeichnung aus Gilde A kommt in Gilde B an (dort im Diagnose-Protokoll "weitergegeben" > 0).
    - 3.12.21: /gstest – einmalige Frage; ohne Zustimmung geht nichts hinaus (T253 im echten Client).
    - Hinweis: LevelPilot bis 3.12.20 versteht die Nachrichten mit Kopf "#S1:" nicht; bis 3.12.21 fehlt die Prüfsumme
-     in "Z"/"E". Mitspieler sollen aktualisieren.
-   - /lp testroutine im echten Client, besonders T224-T229 (Tooltips/Überlappen), T240, T241, T242-T258 und T128
+     in "Z"/"E" (ab 3.12.23 werden diese verworfen). Mitspieler sollen aktualisieren.
+   - /lp testroutine im echten Client, besonders T224-T229 (Tooltips/Überlappen), T240, T241, T242-T260 und T128
      ("ergänzt, false, kein Fehler"; Fehlerzähler steigt während der Routine nicht).
    - Fehlerprotokoll nach einer Spielsitzung mit Kampf und AFK: kein "secret boolean/number" (die automatischen
      Testberichte zeigen das; die Prüf-Sitzung kontrolliert sie).
    - /dump GetPlayerFacing(), IsIndoors(), IsResting() im Kampf und in einer Instanz: Zahl/Wahrheitswert, nil oder
      geschützt? (Rückfall seit 3.12.19 vorhanden – nur zur Bestätigung.)
    - Wegdaten ab 3.12.17: Die Prüf-Sitzung wertet nur Exporte ab 3.12.17 getrennt aus (Netz verbunden? Teile pro Zone).
-     testberichte/wege/auswertung.md mischt noch alte und neue Exporte (z. B. "Widerspruch: gesperrt bei 52.2,64.5 in
-     Orgrimmar" stammt nicht aus 3.12.21 – dort keine Sperren).
+     testberichte/wege/auswertung.md mischt noch alte und neue Exporte.
    - Route Mulgore/Thunder Bluff (Befunde 5. Nov.): nahe Abgaben zuerst, keine Linie übers Gebirge, Fokus in der Karte
      des Spielers, Klassentrainer in Thunder Bluff über den Aufzug, erst Mulgore fertig, dann Brachland. Kopfzeile
      "(N fertig)" und "Abgeben" oben in der Liste.
