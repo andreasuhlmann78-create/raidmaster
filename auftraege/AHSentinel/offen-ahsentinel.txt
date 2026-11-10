@@ -181,6 +181,15 @@ NEU (10. Nov. 16:55, HOCH) – befund-unterbietung-prüfen-lag.txt (0.65.84)
    "Unterbietung prüfen" friert das Spiel 3–4 s ein (bei 1 aktiver Auktion). U1 nur aktive prüfen, ereignisgesteuert,
    U2 kein Lauf über die Vollscan-Liste, U3 ≤ 8 ms je Frame, U4 Zeitmessung + Testroutine. T-UP1–T-UP3.
 
+NEU (10. Nov. 17:40, HOCH) – befund-testroutine-0686.txt (Testroutine 0.65.86 beim Nutzer, 5 FEHLER)
+   X1 HOCH echter Fehler: Ausreisser im Scan (2c) drückt den Materialwert (D:MatPrice-Deckel mit rohem GetCurrent).
+   X2 HOCH echter Fehler: leere eigene Auktionen -> Rückfall auf alte ownedEnds/Journal, Lager zu hoch.
+   X3/X4 Tests T203/T230 ersetzen die neuen Preisquellen nicht (rechnen mit echten Daten); X4 zusätzlich nParts prüfen.
+   X5 T373 16,2 ms. X6 Sandbox meldet echten Sync, Bericht nennt einen Spielernamen (anonymisieren).
+   X7 HOCH Messung: Prognose 99 % vorhergesagt, 30 % verkauft – Ergebnis-Zuordnung prüfen, Selbstkorrektur bis dahin
+   nicht mit diesen Fällen lernen. X8 Entzaubern 0,83 der Vorhersage in Chancen/Menge/Preis zerlegen. T-X1–T-X8.
+   Reihenfolge: zuerst U1–U4 und VM1–VM3 fertig (für den grossen Test), dann X1, X2, X7, dann der Rest.
+
 HINWEIS DES NUTZERS (10. Nov. 16:48): Sobald alle offenen Punkte umgesetzt und gepusht sind, macht der Nutzer einen
    grossen Test im Spiel ("/ahs testroutine alles"). Bitte nach dem letzten Release dem Nutzer ausdrücklich melden:
    "alles umgesetzt – bereit für den Test", mit Version.

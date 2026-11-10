@@ -1,0 +1,100 @@
+BEFUND DER PRÜF-SITZUNG FÜR AHSENTINEL: TESTROUTINE 0.65.86 BEIM NUTZER (10.11. 17:17)
+======================================================================================
+Stand: 10. November 2026, 17:40 · "/ahs testroutine" (ohne offenes Auktionshaus): OK 467 · FEHLER 5 · übersprungen 22 ·
+im Client 16. Grundlage: Bericht des Nutzers und download/AHSentinel-0.65.86.zip (TestRoutine.lua, Disenchant.lua,
+DEBuy.lua, Ledger.lua).
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen (U1–U4 Unterbietung, VM1–VM3 Vollscan-Messung sind noch NICHT
+veröffentlicht – siehe offen-ahsentinel.txt). Dann X1 und X2 (HOCH, echte Fehler), dann X3–X5 (Tests an die Entscheide
+anpassen), X6–X8 danach.
+
+GEMEINSAME URSACHE von T203, T223, T230, T364: Seit H8/H9, LG8 und dem Entscheid "aktueller Markt" lesen die Rechnungen
+neue Quellen (Preisleiter über D:RealisticCap/A:ResalePrice, D.BatchNet, A.db.ownedEnds, Le:JournalRunning). Die Tests
+ersetzen nur die alten Quellen (GetCurrent, GetMarketValue, Se.owned). Dadurch rechnen sie mit ECHTEN Spieldaten und
+ihr Ergebnis hängt vom Markt des Nutzers ab. Regel für alle Tests: Wer Preise oder Bestände vorgibt, ersetzt ALLE
+Quellen, die die Rechnung liest (Scan, Marktwert, PriceInfo, Preisleiter/ResalePrice, Verlauf, BatchNet, eigene
+Auktionen, ownedEnds, Journal) – sonst ist es kein Test.
+
+X1 HOCH – ECHTER FEHLER: EIN AUSREISSER IM SCAN DRÜCKT DEN MATERIALWERT (T223)
+   Disenchant.lua D:MatPrice: "if lp and cur and lp > cur then lp = cur end" deckelt den Preis aus der Preisleiter mit
+   dem ROHEN aktuellen Scan-Wert A:GetCurrent. Liegt im Scan ein einzelnes 2c-Angebot (Lockangebot, Fehleinstellung),
+   wird der Essenz-Wert 2c (Test: "Essenz 2 (ah, unsicher true)"). Folge im Spiel: Entzauberwerte brechen ein,
+   Markt "Entzaubern" und Sammelkauf zeigen nichts, obwohl sich der Kauf lohnt. Ein Angebot, das ein Sniper sofort
+   wegkauft, bestimmt nicht unseren Verkaufspreis.
+   Lösung: für den Deckel nur einen bereinigten Scan-Wert verwenden (A:PriceInfo, Ausreisser unter 10 % bzw. über 300 %
+   des Medians aussortiert, oder die Preisleiter ohne Stufen, deren Menge zusammen < 5 % des Tagesabsatzes ist). Ohne
+   bereinigten Wert: Leiter-Wert ohne Deckel, Quelle "market", unsicher.
+   T-X1: Essenz-Leiter 300c, Scan-Minimum 2c (1 Stück) -> Wert 300c (nicht 2c), unsicher = true, Summe = Wert.
+
+X2 HOCH – ECHTER FEHLER: LEERE EIGENE AUKTIONEN WERDEN DURCH ALTE DATEN ERSETZT (T364)
+   Ledger.lua Le:StockParts: Ist Se.owned eine LEERE Liste (Abfrage gemacht, keine Auktionen mehr – z. B. alles
+   verkauft), fällt die Rechnung auf A.db.ownedEnds und LG8 Le:JournalRunning zurück und zählt alte Einstellungen als
+   "im AH". Test: "Lager 5g 0s 43c (im AH 33s 24c)" statt 4g 67s 19c, im AH 0 – der Taschenteil stimmt genau, die 33s 24c
+   kommen aus den echten Daten. Im Spiel: Lager und "davon im AH" zu hoch, Buchhaltung falsch.
+   Lösung: "nie abgefragt" (Se.owned == nil bzw. Abfrage älter als die letzte AH-Sitzung) von "abgefragt, leer"
+   (Se.owned == {} mit Zeitstempel) unterscheiden. Nur im ersten Fall die Rückfälle ownedEnds/Journal verwenden.
+   Der Test ersetzt zusätzlich A.db.ownedEnds und das Journal (WithStock).
+   T-X2a: Abfrage leer (frisch), ownedEnds und Journal mit alten Einträgen -> im AH 0.
+   T-X2b: nie abgefragt, Journal mit 2 laufenden Einstellungen -> beide im AH (LG8 bleibt).
+
+X3 MITTEL – T203 AN DEN ENTSCHEID "AKTUELLER MARKT" ANPASSEN
+   Ist: tatsächlich 211 aus 4, geschätzt 177, Staub "AH 99". Der Test ersetzt die Preisleiter nicht -> echte Leiter.
+   99 statt 100 ist nach dem Entscheid richtig (Verkauf 1c unter dem günstigsten Angebot), wenn das so gewollt ist –
+   dann die Erwartung im Test aus derselben Regel ableiten (nicht 100 fest), und die Leiter für Staub/Essenz im Test
+   vorgeben. Weiter gilt: "tatsächlich" und "geschätzt" rechnen mit DEMSELBEN Materialpreis; Summe der Anteile = Wert.
+   T-X3: Leiter Staub 100c (viel Menge), Essenz 300c -> tatsächlich = (7 × Pstaub + 1 × Pessenz) / 4 mit P aus der
+   Verkaufsregel, unabhängig von den echten Daten (zweimal laufen lassen mit anderer echter Leiter: gleiches Ergebnis).
+
+X4 MITTEL – T230 SAMMELKAUF: 0 KANDIDATEN
+   DB:Value ruft seit H8 D.BatchNet(itemID, nParts) mit nParts = Höchstens / Preis (50000/300 = 166 Teile). BatchNet
+   ist im Test nicht ersetzt und rechnet mit der echten Staub-Leiter -> Wert fällt, alle Zeilen unter der Mindestrendite.
+   Lösung im Test: BatchNet ersetzen (bzw. nParts = 1) für T230; H8 bekommt einen eigenen Test.
+   Zusätzlich prüfen (echter Fehler?): Bei 166 Teilen wird der Wert für JEDES Teil mit der Menge des ganzen Budgets
+   gesenkt. Der Sammelkauf kauft aber von oben nach unten und stoppt – die Menge sollte die tatsächlich geplante
+   Kaufmenge sein (Kandidaten mit Preis ≤ Wert), nicht Budget/Preis des einzelnen Teils.
+   T-X4a: T230 unverändert grün mit ersetzter BatchNet. T-X4b: 3 Kandidaten zu 300c, Budget 50000 -> nParts = 3.
+
+X5 MITTEL – T373 RANGLISTE 16,2 MS (Grenze 16)
+   "cache:today:10" knapp über der Grenze. Portion halbieren oder die Zeit je Portion messen und bei > 8 ms abbrechen
+   und im nächsten Frame weitermachen (wie W4 beim Vollscan). T-X5: längste Portion ≤ 8 ms bei 300 Zeilen.
+
+X6 MITTEL – SANDBOX: "gsSync.book.<Spieler>.seen" verändert
+   Das ist kein Test, sondern der echte Sync, der während der 62 s im Hintergrund lief. Zwei Punkte:
+   a) Die Sandbox-Prüfung meldet echte Hintergrund-Änderungen als FEHLER. Während der Testroutine den Sync-Empfang in
+      eine Warteschlange stellen (danach abarbeiten) ODER gsSync.book.*.seen/last von der Prüfung ausnehmen.
+   b) DATENSCHUTZ: Die Zeile nennt den Namen eines Mitspielers (Schlüssel des Adressbuchs). Der Bericht geht über den
+      Uploader in das öffentliche Repo. Pfade im Bericht anonymisieren: gsSync.book.<Spieler>.seen
+      (hinweis-keine-spielernamen.txt). Gilt für ALLE Ausgaben der Testroutine, die Schlüssel aus Tabellen ausgeben.
+   T-X6: Sync-Nachricht während der Routine -> Sandbox OK, Bericht ohne Namen.
+
+X7 HOCH (Messung) – PROGNOSE-TREFFER UNPLAUSIBEL
+   "80–100 %: 13 Fälle, vorhergesagt Ø 99 %, verkauft 30 %", Brier 0.632, zutreffend 36 % (N 14), alles in der Gruppe
+   Staub/Essenz/Splitter. Gleichzeitig: Materialien verkaufen sich laut Nutzer in Minuten, Dauer bis Verkauf Median
+   0,1 Std. Beides zusammen passt nicht. Vermutet (nicht belegt): falsche Ergebnis-Zuordnung, z. B.
+   - Fall gilt als "nicht verkauft", wenn das Material gar nicht eingestellt wurde (selbst verwendet, behalten);
+   - Teilverkauf eines Stapels zählt als "nicht verkauft";
+   - eine Neueinstellung (abgelaufen, wieder eingestellt) beendet den Fall als "nicht verkauft";
+   - Verkauf wird über Post/Rechnung nicht dem Fall zugeordnet.
+   Lösung: P-Diagnose in der Testroutine: je Fall (ohne Namen) Item-ID, vorhergesagt %, eingestellt ja/nein, Menge
+   eingestellt/verkauft, Ergebnis, WOHER das Ergebnis kommt (Rechnung, Ablauf, Abbruch, Zeitlimit). Fälle ohne
+   Einstellung zählen nicht in die Trefferquote. Teilverkauf = Anteil verkauft (Brier mit Anteil). Erst danach die
+   Prognose korrigieren – die Selbstkorrektur (ab 10 Fällen je Gruppe) darf bis dahin NICHT mit diesen 14 Fällen lernen.
+   T-X7a: 10 Staub eingestellt, 6 verkauft, Rest abgelaufen -> Ergebnis 0,6, nicht 0.
+   T-X7b: Material entzaubert und behalten (nie eingestellt) -> Fall "ohne Einstellung", zählt nicht.
+
+X8 MITTEL (Messung) – ENTZAUBERN: BEUTE NUR 0,83 DER VORHERSAGE, 35 % MIT VERLUST
+   "Median Beute/Vorhersage 2:4:a 0.83 (170)". Gesamt aber Gewinn je Gold 0,32 und 65 % mit Gewinn. Die Vorhersage ist im
+   Median um 17 % zu hoch. Bitte in drei Faktoren zerlegen und im Bericht zeigen (je Gruppe):
+   Chancen-Faktor (gemessene Anteile / Tabelle), Mengen-Faktor (gemessene Ø Menge / angenommene Ø Menge), Preis-Faktor
+   (Preis beim Verkauf / Preis bei der Vorhersage). Gemessen 2:4:a: Staub 70 % (Tabelle 75), Essenz 22,1 % (20),
+   Splitter 7,9 % (5); Ø Menge Staub 1,52, Essenz 1,49, Splitter 1,00. Die Startwerte bleiben (Entscheid des Nutzers);
+   die gelernten Werte wirken wie bisher. Ergebnis nur MESSEN und melden, nichts von Hand umstellen.
+   T-X8: Bericht zeigt je Gruppe die drei Faktoren; Produkt ≈ Median Beute/Vorhersage (± 0,05).
+
+HINWEIS ZUM GROSSEN TEST
+   Dieser Lauf war OHNE offenes Auktionshaus – die Teile server, haendler, berufe und die Vollscan-Messung (VM1–VM3) sind
+   nicht gelaufen. Für den grossen Test fehlen ausserdem noch U1–U4 und VM1–VM3. Bitte nach dem nächsten Release dem
+   Nutzer ausdrücklich melden: "alles umgesetzt – bereit für den Test", mit Version und der Schrittfolge
+   (Auktionshaus öffnen -> /ahs testroutine alles; danach Händler, Berufsfenster).
+
+Abdeckung: Bitte die Testfälle T-X1–T-X8 in die Abdeckungsliste der Testroutine aufnehmen (befund-testroutine-0686).
