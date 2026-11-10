@@ -57,7 +57,15 @@ H8 (HOCH) ENTZAUBER-KÄUFE MIT VERLUST (Meldung des Nutzers 10.11. 12:55): "für
    Absatz × 2 Tage, den Materialpreis entsprechend senken (eine Stufe tiefer in der Preisleiter je weitere
    Tagesmenge). Tooltip: "Gewinn nach Verkauf der Materialien: X (Y %)" statt Bruttowert. Prognose-Journal:
    Entzauber-Kauf-Trefferquote mit diesen echten Ergebnissen füttern (Kauf -> Beute -> erzielter Verkaufspreis).
-T-HF8 Testfall mit den Zahlen oben: Kaufpreis 14s, Materialpreise 6s 77c / 13s 69c / 37s 47c, Chancen 75/20/5,
+   KORREKTUR 13:20: Der Nutzer sagt, diese Käufe (≈ 5 Gold, ≈ 50 Teile) kosteten 10s je Teil – nicht 14s (14s war der
+   Schnitt aller 70 Teile vom Morgen inkl. Kordeln 20s und Stulpen 13,5s). Mit 10s ist der erwartete Gewinn ≈ +29 %
+   (12,9s netto) – das passt zum Tooltip. Der gemeldete VERLUST muss dann anders entstehen: Material noch nicht
+   verkauft (Kasse minus, Lager), Verkauf unter den genannten Preisen, verlorene Einzahlungen durch Neueinstellen, oder
+   die Entzauber-Abrechnung (Buchhaltung -> Entzaubern) rechnet falsch. BITTE PRÜFEN: Abrechnung je Kauf-Charge
+   (Kaufpreis, Beute, davon verkauft zu X, Lager zu Y, Gebühren) und dem Nutzer eine klare Zeile "Charge 10.11.:
+   bezahlt 5g, verkauft Xg, Lager Yg, Gebühren Zg, Ergebnis ±Wg" zeigen. H8 bleibt richtig (Materialwert realistisch,
+   eigene Menge), nur das Beispiel ist anders.
+T-HF8 Testfall mit den Zahlen oben (Kaufpreis 14s = Morgen-Durchschnitt): Kaufpreis 14s, Materialpreise 6s 77c / 13s 69c / 37s 47c, Chancen 75/20/5,
       Ø-Menge 1,5 -> "lohnt nicht" (Verlust ≈ 1s je Teil). Gleicher Fall bei Kauf von 70 Teilen und Absatz Seelenstaub
       20/Tag -> Materialpreis Seelenstaub tiefer, Verlust grösser.
 T-HF5 Überfüllt mit Testdaten (Menge 855, Absatz 52/Tag, Laufzeit 2 Std.) -> Zeile da, auch ohne gemessenen Absatz
