@@ -1,3 +1,8 @@
+KRITISCH NEU (10. Nov. 14:40) – befund-lag-cpu-beim-einloggen.txt – ZUERST
+   Auf dem Krieger (Stufe 23) friert das Spiel ein (kein Schritt möglich, CPU 134 %), auf dem Priester nicht; der Nutzer
+   hat LevelPilot als Ursache bestätigt. L1 Zeitbudget je Frame, L2 Notbremse, L3 Zeitmessung je Modul, L4 Ursache
+   beheben, L5 Last-Test. T-LAG1–T-LAG4.
+
 OFFENE PUNKTE LEVELPILOT (nach der Nachprüfung von 3.12.23)
 ==========================================================
 Stand: 10. November 2026, 14:35 · von der Prüf-Sitzung · Grundlage: announce/levelpilot__levelpilot-3.12.23.LevelPilot.zip

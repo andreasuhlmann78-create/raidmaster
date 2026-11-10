@@ -1,0 +1,40 @@
+BEFUND DER PRÜF-SITZUNG FÜR LEVELPILOT: SPIEL FRIERT EIN, CPU > 100 % – NUR AUF EINEM CHARAKTER
+============================================================================================
+Stand: 10. November 2026, 14:40 · Meldung des Nutzers (14:29–14:35), Forever 1.60.1
+
+REIHENFOLGE: SOFORT – vor allem anderen (KRITISCH: Spiel unbenutzbar). Erst die laufende Änderung sauber abschliessen
+oder zurückstellen, dann dies.
+
+BEOBACHTUNG
+   Beim Umloggen auf den Krieger (Stufe 23–24) laggt das Spiel so stark, dass der Charakter keinen Schritt machen kann;
+   die CPU-Last des Spiels steigt zeitweise auf 134 %. Auf dem Priester (Stufe 10, Tirisfal) tritt es nicht auf. Beide
+   Charaktere sind in derselben Gilde. Der Nutzer hat alle Addons einzeln geprüft: "es ist definitiv LevelPilot"
+   (ohne LevelPilot kein Lag).
+   Hinweis: Seit dem 8.11. sind keine LevelPilot-Testberichte/Diagnosen mehr im Repo angekommen
+   (testberichte/berichte/LevelPilot, letzter 3.12.13) – bitte auch prüfen, ob der Diagnose-Export noch geschrieben wird.
+
+VERDACHT (bitte belegen – Code liegt der Prüf-Sitzung nicht vor)
+   Etwas skaliert mit dem Charakter: grösserer Questlog / mehr Quests in der Zone, Routenplanung (Reihenfolge über alle
+   Ziele), Wegnetz-Aufbau aus vielen aufgezeichneten Punkten (Zone des Kriegers), Verarbeitung empfangener Netz-/
+   Gilden-Daten (Wege, Dropraten, Mob-Level) beim Einloggen, oder eine OnUpdate-Schleife, die bei einer Bedingung (z. B.
+   Ziel unerreichbar, Pfad nicht gefunden) jedes Frame neu rechnet.
+
+UMSETZEN
+L1 Sofort-Schutz: Jede schwere Arbeit (Routen, Wegnetz, Netz-Daten, Questauswertung) in Portionen mit Zeitbudget
+   (≤ 4 ms je Frame, debugprofilestop), nie in einer Schleife über alle Daten in einem Frame. Nichts jedes Frame neu
+   berechnen, wenn sich nichts geändert hat (Zwischenspeicher, Ereignis-gesteuert, höchstens alle 0,5–1 s).
+L2 Notbremse: Dauert ein Aufruf > 50 ms oder summiert sich in 5 s > 1 s Rechenzeit, die Funktion für 60 s aussetzen,
+   EINE Chatzeile "LevelPilot: Routenberechnung pausiert (zu aufwendig)" und Diagnose-Zeile LANGSAM (Funktion, ms,
+   Anzahl Ziele/Punkte, Zone-ID) – ohne Namen.
+L3 Diagnose: Zeitmessung je Modul (Route, Wegnetz, Netz-Empfang, Quests, UI) im Diagnose-Protokoll; die ersten 60 s
+   nach dem Einloggen getrennt ausweisen. Diagnose-Export (GSDIAG1) wieder zuverlässig schreiben.
+L4 Ursache finden und beheben (mit L3 auf dem Charakter des Nutzers): welche Funktion, welche Datenmenge. Ergebnis
+   dem Nutzer und der Prüf-Sitzung melden.
+L5 Testroutine: Last-Test mit vielen Zielen (z. B. 40 Quests, 2000 Wegpunkte, 500 empfangene Netz-Einträge):
+   kein Frame > 16 ms, Summe der ersten 60 s < 1 s. Simulation einer unerreichbaren Route: keine Endlosschleife.
+
+TESTFÄLLE T-LAG1 (Krieger des Nutzers: Einloggen ohne Lag, CPU normal), T-LAG2 (Notbremse greift bei künstlich teurer
+Funktion), T-LAG3 (Last-Test L5), T-LAG4 (Diagnose zeigt Zeiten je Modul).
+
+Wie immer: komplette Dateien, alte Clients nie brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer melden.
