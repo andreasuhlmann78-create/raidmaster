@@ -1,0 +1,12 @@
+10.11.2026 10:06
+GSMesstest 3, Client 1.60.1 (16001)
+A1 Auktionen: Auktionshaus offen: ja
+A1 C_AuctionHouse: table
+A1 Funktionen: ReplicateItems=ja, GetNumReplicateItems=ja, GetReplicateItemInfo=ja, GetReplicateItemLink=ja, GetReplicateItemTimeLeft=ja, GetReplicateItemBattlePetInfo=ja, SendBrowseQuery=ja, SendSearchQuery=ja, GetItemSearchResultInfo=ja, GetCommoditySearchResultInfo=ja, GetNumItemSearchResults=ja
+A1 ReplicateItems aufgerufen: ohne Fehler
+A1 Ergebnis (Ereignis REPLICATE_ITEM_LIST_UPDATE, nach 14.2 s): Einzelauktionen 180368
+A1 angesehen 2005 (jede 90.), verschiedene Items 998, Menge Summe 16468, mit Sofortkauf 2005, alle Infos 1618
+A1 Restzeit-Stufen (Wert:Anzahl): 1:94, 2:310, 3:1359, 4:242
+A1 Beispiel 0: Felder 18, Menge 1, Mindestgebot 0, Sofortkauf 600, Gebot 0, Status 0, ItemID 2865, alle Infos true, Restzeit 3, Besitzer bekannt nein
+A1 Beispiel 90184: Felder 18, Menge 1, Mindestgebot 0, Sofortkauf 500, Gebot 0, Status 0, ItemID 16646, alle Infos true, Restzeit 3, Besitzer bekannt nein
+A1 Beispiel 180367: Felder 18, Menge 3, Mindestgebot 0, Sofortkauf 1467, Gebot 0, Status 0, ItemID 8169, alle Infos true, Restzeit 2, Besitzer bekannt nein
