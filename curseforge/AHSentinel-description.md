@@ -12,6 +12,20 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.63
+
+- **Selling is judged by supply and sales:** how many pieces are on the AH at your price or cheaper (without bait
+  offers and your own auctions) and how many sell per day give the waiting time and the expected number of listings;
+  every listing without a sale costs the deposit on WoW Forever. If it would take more than 7 days, the item "hardly
+  sells" – selling is then not the best way (vendor or disenchant). One number everywhere: tooltip, profit window,
+  best recipes, "Today" and the API. With Shift the tooltip shows the reason, e.g. "150 on the AH · ~5/day · ~30 days ·
+  hardly sells". The sales estimate (disappeared = half sold) is an assumption and is checked in the diagnostic log.
+- **Fix: "My auctions" showed wrong prices for active commodity auctions** (e.g. 0c or 2c per piece): the game reports
+  the price per piece for active commodity auctions. Price, total, the "value" in the header and undercut detection
+  are now correct.
+- **Tooltip with Shift:** what you own has its own heading ("Owned:"), with the value in your bags and the stock of
+  your other characters.
+
 ### Version 0.65.62
 
 - **Item tooltip shows the value of everything in your bags:** for stackable items with at least 2 in your bags, a
@@ -63,18 +77,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   test only counts its own target and shows price, max and unit; new tests (offer 2c at max 1c -> no hit; start of day
   without time(table)); outdated tests adjusted (sale message with "%1$s", sync reception, tooltip check per language,
   own test window ignored in the overlap check, API events).
-
-### Version 0.65.58
-
-- **Price sync reaches players outside your guild (GoldSentinelSync 2, whisper network):** AHSentinel now uses
-  version 2 of the shared GoldSentinel sync file. Besides guild and group, it can reach other players with GoldSentinel
-  addons by whispering; they pass it on. Known players are remembered locally (AHSentinelDB.gsSync, names and times only).
-  - **What goes into the network:** only prices after your own scan, bundled – the most traded items first, at most
-    20 messages and at most once every 30 minutes (the network sends at most 40 whispers per minute).
-  - **Guild/group only:** the full price list, answers to price requests, item names and disenchant results.
-  - "Only guild" in the options keeps everything in the guild (nothing goes into the network).
-- **GoldSentinelTest 2:** share error reports with the developer (only with your consent, /gstest).
-- Diagnostic log: new "NETZ" line (without player names).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
