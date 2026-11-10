@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-10T09:04:01Z",
+ "ausgewertet": "2026-11-10T09:05:13Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -716,7 +716,7 @@
   "diagnose": {
    "AHSentinel": {
     "anzahl": 47,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.64-3ffbdfdfba72.txt"
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.60-1ef0658d52b5.txt"
    },
    "BuffSentinel": {
     "anzahl": 20,
@@ -736,13 +736,13 @@
    },
    "ThreatSentinel": {
     "anzahl": 29,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.0-dcb6a9b9a107.txt"
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.4-3d106e48e06e.txt"
    }
   },
   "wege": {
    "LevelPilot": {
     "anzahl": 88,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794299432-6d0f3a.json"
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794296397-e684fd.json"
    }
   }
  }
