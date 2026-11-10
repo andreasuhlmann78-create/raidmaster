@@ -2,6 +2,18 @@ ANWEISUNG DER PRÜF-SITZUNG FÜR AHSENTINEL: ENTZAUBER-CHANCEN GRÜNER ITEMS NAC
 ==============================================================================================
 Stand: 10. November 2026, 08:25 · ENTSCHEID DES NUTZERS (10.11. 08:17): Werte des Forever-Leitfadens übernehmen.
 
+SCHUTZ DER ECHTEN ENTZAUBER-DATEN (Entscheid des Nutzers 10.11. 09:25, PFLICHT, gilt für jede Änderung)
+   Die bisher gesammelten Entzauber-Ergebnisse des Nutzers (db.deStats, db.deLog, db.deShared, db.deBuys – Stand heute:
+   82 im Protokoll, 86 gelernt, 3 Gruppen) dürfen NICHT angefasst werden:
+   - kein Zurücksetzen, kein Löschen, kein Umrechnen, keine "Reparatur", keine Migration, die sie ändert;
+   - neue Felder (Weg, abgelehnt, …) nur bei NEUEN Einträgen, alte bleiben, wie sie sind;
+   - neue Startwerte (Forever-Leitfaden) ändern nur die Tabelle, nie die gespeicherten Ergebnisse;
+   - Testroutine/Selbsttest: nur Ersatztabellen, danach Sandbox-Prüfung "deStats/deLog/deShared/deBuys unverändert"
+     (Zahl der Einträge und Summe der Mengen vor und nach dem Lauf vergleichen, Abweichung = FEHLER);
+   - Knopf "Zurücksetzen" (Optionen -> Entzaubern gelernt): nur mit Rückfrage "Wirklich alle N Ergebnisse löschen?"
+     und vorher Sicherung (db.deBackup mit Datum), damit ein Fehlklick nichts zerstört;
+   - Abweichungen zwischen deStats und deLog (82 vs. 86) nur MELDEN (Testbericht E14), nicht automatisch angleichen.
+
 REIHENFOLGE: Erst die laufende Arbeit fertig machen. Klein – mit dem nächsten Release.
 
 QUELLE

@@ -189,3 +189,8 @@ NEU (10. Nov. 09:20, MITTEL) – befund-optionen-ueberlagert.txt
    Optionen rechte Spalte: oberste drei Zeilen doppelt belegt (Selbsttest/Standard-Laufzeit, Daten/Befehlsliste,
    Unterstützen/-). O1 Zeilen per Zähler, O2 Überlappungsprüfung in UICheck/Bereich K für alle Fenster, O3 86 gelernt
    vs. 82 im deLog prüfen. T-OÜ1–T-OÜ3.
+
+NEU (10. Nov. 09:30, ENTSCHEID DES NUTZERS, PFLICHT FÜR ALLES) – Schutz der echten Entzauber-Daten
+   deStats/deLog/deShared/deBuys des Nutzers nie zurücksetzen, löschen, umrechnen oder migrieren. Neue Felder nur für
+   neue Einträge, Startwerte ändern nur die Tabelle, Testroutine nur in Ersatztabellen mit Vorher/Nachher-Vergleich,
+   Knopf "Zurücksetzen" nur mit Rückfrage und Sicherung, 82 vs. 86 nur melden. Steht in allen Entzauber-Aufträgen.
