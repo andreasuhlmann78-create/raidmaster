@@ -214,3 +214,8 @@ NEU (10. Nov. 08:25, Entscheid des Nutzers, NIEDRIG) – anweisung-entzauber-cha
 NEU (10. Nov. 08:35, MITTEL) – befund-tooltip-gesamtwert-fehlt.txt
    Zeile "N in den Taschen:" (0.65.62) erscheint im Spiel nicht (Seltsamer Staub, 110 Stück, 0.65.65). AddBagTotal
    schluckt Fehler still. G1 Ursache beheben, G2 Ersatzwert + Protokoll GESAMTWERT, G3 Testfall. T-GF1–T-GF5.
+
+NEU (10. Nov. 08:45, MITTEL) – befund-sofortkauf-fehlgeschlagen.txt
+   Sofortkauf Azurblaue Seidenkapuze 9s mehrfach "fehlgeschlagen", Blizzard: "höheres Gebot liegt vor", danach "Keine
+   Angebote". K1 genaue Meldung, K2 totes Angebot aus Liste/Knopf sperren, K3 Mindestgebot +5 % nur mit Bieter,
+   K4 Protokoll KAUF-FEHLER, K5 Gegenprobe Blizzard. T-SK1–T-SK5.

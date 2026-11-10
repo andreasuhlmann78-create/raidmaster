@@ -1,0 +1,38 @@
+BEFUND DER PRÜF-SITZUNG FÜR AHSENTINEL: SOFORTKAUF FEHLGESCHLAGEN – UNKLARE MELDUNG
+=================================================================================
+Stand: 10. November 2026, 08:45 · Meldung des Nutzers (10.11. 08:30, drei Bildschirmfotos, Version 0.65.65)
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen. Dann dies (MITTEL).
+
+BEOBACHTUNG
+   Kaufen -> Einkauf, Rüstung, iLvl bis 29, Liste aus dem Scan vor 10 Min. ("grau = noch nicht bestätigt").
+   Azurblaue Seidenkapuze [Entzaubern lohnt], 9s, 90 % Markt. Detail: 1 Angebot, Sofortkauf 9s, Gebot 9s, Mindestgebot
+   9s 45c. "Bestätigen: 9s" mehrfach -> Chat "Kauf fehlgeschlagen (Angebot weg oder nicht genug Gold)", Blizzard-Fehler
+   oben: "Es liegt bereits ein höheres Gebot für diesen Gegenstand vor." Nach dem Neuladen: "Keine Angebote."
+   Gold genug (14g). Wahrscheinlichste Ursache: Ein anderer Spieler hat das Angebot vorher gekauft (Liste 10 Min. alt,
+   Entzauber-Schnäppchen sind begehrt). Ganz sicher ist das nicht – darum die Punkte unten.
+
+UMSETZEN
+K1 Fehlermeldung genau: Den Text von AUCTION_HOUSE_SHOW_ERROR bzw. UI_ERROR_MESSAGE (Blizzard-Fehler) in die eigene
+   Meldung übernehmen statt immer "Angebot weg oder nicht genug Gold". Bei "höheres Gebot"/"nicht gefunden":
+   "Angebot ist weg (vermutlich schon gekauft)". Gold nur nennen, wenn GetMoney() < Preis.
+K2 Nach einem Fehlschlag das Angebot sofort aus der Einkaufsliste nehmen bzw. als "weg" markieren (nicht nur im
+   Detail neu laden), damit es nicht ein zweites Mal angeklickt wird. Mehrfaches Klicken auf dasselbe tote Angebot
+   vermeiden (Knopf bis zum Neuladen sperren).
+K3 Mindestgebot: B:MinBid rechnet +5 % auf l.bid, sobald l.bid > 0 – auch wenn noch NIEMAND geboten hat (dann ist
+   l.bid das Startgebot, und das Mindestgebot ist genau das Startgebot). Hier ergab das 9s 45c, obwohl Gebot =
+   Sofortkauf = 9s. Unterscheiden: gibt es einen Bieter (modern: bidder/ minBid aus GetItemSearchResultInfo; alt:
+   highBidder)? Nur dann +5 %. Bei Mindestgebot ≥ Sofortkauf: Feld "Dein Gebot" ausblenden, nur Sofortkauf.
+K4 Protokoll-Zeile KAUF-FEHLER (ohne Namen): Item-ID, auctionID, Preis, buyout, bid, minBid, Fehlertext, Alter der
+   Liste in Sekunden – damit ein echter Fehler von "schon weg" unterscheidbar ist.
+K5 Gegenprobe (nur falls K4 zeigt, dass das Angebot NICHT weg war): gleiche Sofortkauf-Situation (Gebot = Sofortkauf)
+   im Blizzard-Fenster – klappt es dort, ist AHSentinels Aufruf falsch. Ergebnis melden.
+
+TESTFÄLLE
+T-SK1 Angebot vor dem Kauf von anderem gekauft -> Meldung "Angebot ist weg (vermutlich schon gekauft)", Zeile aus der
+      Liste, Knopf gesperrt. T-SK2 Gold zu wenig -> "Nicht genug Gold" (vor dem Aufruf).
+T-SK3 Startgebot 9s, kein Bieter, Sofortkauf 9s -> Mindestgebot 9s, kein Gebotsfeld. T-SK4 Bieter mit 9s, Sofortkauf
+      20s -> Mindestgebot 9s 45c. T-SK5 Protokoll KAUF-FEHLER vollständig, ohne Namen.
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden.
