@@ -34,3 +34,16 @@ Ohne Partner, am offenen Auktionshaus:
   `REPLICATE_ITEM_LIST_UPDATE` und meldet: Anzahl Einzelauktionen, verschiedene Items, Restzeit-Stufen, drei Beispiele
   (Menge, Gebote, Sofortkauf, Status, ItemID, Restzeit, "Besitzer bekannt ja/nein"). **Keine Namen** (Item-, Spieler-,
   Bieter-Namen werden nie ausgegeben). Bei Blizzard nur etwa alle 15 Min. erlaubt.
+
+## A2 Rufen (Version 4, Messauftrag M5 aus `shared/wissen/kommunikation-forever.md`)
+
+Frage: Kommen Addon-Nachrichten über `YELL` und `SAY` bei Spielern in der Nähe an (auch ausserhalb von Gilde und
+Gruppe)? Dann könnten Addons wie AHSentinel andere Nutzer z. B. am Auktionshaus finden.
+
+- `/gsmess rufen` – sendet je eine **unsichtbare** Addon-Nachricht über YELL und SAY (kein Chat-Text, niemand sieht
+  etwas). Jeder Client in Rufweite mit GSMesstest antwortet per Addon-Flüstern. Nach 30 s Ergebnis:
+  Rückgabewert je Weg, eigenes Echo ja/nein, Anzahl Antworten je Weg, und nebenbei alle fremden Addon-Nachrichten über
+  SAY/YELL seit dem Einloggen (nur Präfix, z. B. von anderen Addons – zeigt, ob der Weg überhaupt Nachrichten trägt).
+- Geht auch allein: Echo und fremde Präfixe sagen schon viel. Mit zweitem Spieler (beide GSMesstest 4, nahe
+  beieinander, nicht in derselben Gruppe nötig) ist es belegt.
+- Keine Namen im Ergebnis.

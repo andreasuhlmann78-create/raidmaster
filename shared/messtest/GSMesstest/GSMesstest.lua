@@ -10,6 +10,11 @@
 --   A1 Auktionen  – (ohne Partner, am offenen Auktionshaus) gibt es C_AuctionHouse.ReplicateItems (alle Einzelauktionen
 --                   auf einmal)? "/gsmess auktionen" prüft nur, ob es die Funktionen gibt; "/gsmess auktionen holen" ruft
 --                   ReplicateItems EINMAL auf (nur lesen) und misst Anzahl, Felder und Restzeit. Keine Namen.
+--   A2 Rufen      – (ohne festen Partner) kommen Addon-Nachrichten über "YELL" und "SAY" an Spieler in der Nähe an?
+--                   "/gsmess rufen" sendet je eine unsichtbare Addon-Nachricht über YELL und SAY. Jeder Client in der Nähe
+--                   mit GSMesstest antwortet per Addon-Flüstern. Gezählt werden: Rückgabewerte, eigenes Echo, Antworten je
+--                   Weg, und nebenbei fremde Addon-Nachrichten über YELL/SAY (nur Präfix, keine Namen). Für die
+--                   Entdeckung von AHSentinel-Nutzern ausserhalb von Gilde und Gruppe (z. B. am Auktionshaus).
 --
 -- Beide Spieler brauchen dieses Addon. Ablauf: /gsmess partner <Name>, dann /gsmess alle (nur einer der beiden).
 -- Das Ergebnis steht danach im Chat und als "GSDIAG1"-Zeichenkette in den SavedVariables (GSMesstestDB). Nach /reload
@@ -19,7 +24,7 @@
 -- <Ich>, <Partner>, <Offline>, <Unbekannt> ersetzt. Keine geschützten Aktionen, kein Kauf, kein Chat-Text an andere.
 
 local ADDON = "GSMesstest"
-local VERSION = "3"
+local VERSION = "4"
 local PREFIX = "GSMESS"
 local CHANNEL = "GSMessRealm"
 local FAKE = "Gsmesszqxv"          -- gibt es sehr wahrscheinlich nicht (Test "unbekannter Spieler")
@@ -307,6 +312,65 @@ local function AuctionFetch()
     After(60, function() ReplicateResult("Zeitlimit 60 s") end)
 end
 
+---------------------------------------------------------------------------
+-- A2 Rufen (Messauftrag M5, shared/wissen/kommunikation-forever.md): Addon-Nachrichten über YELL/SAY?
+---------------------------------------------------------------------------
+-- Passiv: fremde Addon-Nachrichten über SAY/YELL zählen (nur Weg und Präfix, nie Namen)
+M.heard = { SAY = 0, YELL = 0, prefixes = {} }
+local function Heard(prefix, dist)
+    if dist ~= "SAY" and dist ~= "YELL" then return end
+    M.heard[dist] = (M.heard[dist] or 0) + 1
+    if type(prefix) == "string" and prefix ~= PREFIX then M.heard.prefixes[prefix] = true end
+end
+
+local function SendDist(msg, dist)
+    local CI = _G.C_ChatInfo
+    local f = (CI and CI.SendAddonMessage) or _G.SendAddonMessage
+    if not f then return "keine Funktion" end
+    local ok, r = pcall(f, PREFIX, msg, dist)
+    if not ok then return "Lua-Fehler: " .. tostring(r) end
+    return "Rückgabe " .. tostring(r)
+end
+
+local function YellResult()
+    local y = M.yell
+    if not y then return end
+    for _, dist in ipairs({ "YELL", "SAY" }) do
+        local n = 0
+        for _ in pairs(y.answers[dist]) do n = n + 1 end
+        Log(string.format("A2 %s: gesendet (%s), eigenes Echo: %s, Antworten von %d Spieler(n) in 30 s",
+            dist, y.ret[dist] or "?", y.echo[dist] and "ja" or "nein", n))
+    end
+    local pre = {}
+    for k in pairs(M.heard.prefixes) do pre[#pre + 1] = k end
+    table.sort(pre)
+    Log(string.format("A2 fremde Addon-Nachrichten seit dem Einloggen: SAY %d, YELL %d, Präfixe: %s",
+        M.heard.SAY or 0, M.heard.YELL or 0, #pre > 0 and table.concat(pre, ", ") or "keine"))
+    local any = false
+    for _, dist in ipairs({ "YELL", "SAY" }) do if next(y.answers[dist]) then any = true end end
+    if any then
+        Log("A2 Ergebnis: Addon-Nachrichten über YELL/SAY kommen bei anderen an (belegt)")
+    elseif y.echo.YELL or y.echo.SAY or (M.heard.SAY or 0) + (M.heard.YELL or 0) > 0 then
+        Log("A2 Ergebnis: der Weg geht (Echo bzw. fremde Nachrichten), aber niemand mit GSMesstest hat geantwortet")
+    else
+        Log("A2 Ergebnis: kein Echo, keine Antwort, keine fremden Nachrichten – YELL/SAY trägt vermutlich keine Addon-Nachrichten")
+    end
+    M.yell = nil
+    Report()
+end
+
+local function Rufen()
+    if M.busy then Print("Läuft schon.") return end
+    if InCombatLockdown and InCombatLockdown() then Print("Nicht im Kampf.") return end
+    M.busy, M.runs, M.log = true, {}, {}
+    local nonce = string.format("%x", math.floor(Now() * 10) % 65536)
+    M.yell = { nonce = nonce, ret = {}, echo = {}, answers = { YELL = {}, SAY = {} } }
+    Log("A2 Rufen: sende je eine unsichtbare Addon-Nachricht über YELL und SAY, warte 30 s auf Antworten")
+    M.yell.ret.YELL = SendDist("Y:" .. nonce .. ":YELL", "YELL")
+    After(1, function() if M.yell then M.yell.ret.SAY = SendDist("Y:" .. nonce .. ":SAY", "SAY") end end)
+    After(31, YellResult)
+end
+
 Report = function()
     local lines = { "GSMesstest " .. VERSION .. ", Client " .. tostring((GetBuildInfo and select(1, GetBuildInfo())) or "?") ..
         " (" .. tostring((GetBuildInfo and select(4, GetBuildInfo())) or "?") .. ")" }
@@ -341,10 +405,30 @@ end
 -- Empfänger (läuft bei beiden Spielern)
 ---------------------------------------------------------------------------
 local function OnAddon(prefix, msg, dist, sender)
+    if dist == "SAY" or dist == "YELL" then
+        if prefix ~= PREFIX then Heard(prefix, dist); return end
+    end
     if prefix ~= PREFIX or type(msg) ~= "string" then return end
     local who = Short(sender)
     local kind, id, a, b = msg:match("^(%u):?([^:]*):?([^:]*):?([^:]*)")
-    if kind == "M" then
+    if kind == "Y" then
+        -- A2: Ruf über YELL/SAY empfangen
+        if who == MyName() then
+            if M.yell and M.yell.nonce == id then M.yell.echo[dist] = true end
+            return
+        end
+        M.yellSeen = M.yellSeen or {}
+        local key = who .. ":" .. id .. ":" .. tostring(dist)
+        if M.yellSeen[key] then return end
+        M.yellSeen[key] = true
+        Send("Z:" .. id .. ":" .. tostring(dist), sender)
+        Print("Ruf eines anderen Messtests über " .. tostring(dist) .. " empfangen – Antwort gesendet")
+        return
+    elseif kind == "Z" then
+        local y = M.yell
+        if y and y.nonce == id and y.answers[a] then y.answers[a][who] = true end
+        return
+    elseif kind == "M" then
         local key = who .. ":" .. id
         local r = M.recv[key] or { count = 0, first = Now() }
         r.count, r.last = r.count + 1, Now()
@@ -448,6 +532,7 @@ SlashCmdList.GSMESSTEST = function(arg)
         Print("Partner gesetzt. Der Partner braucht GSMesstest auch. Dann: /gsmess alle")
     elseif cmd == "auktionen" then
         if rest:lower() == "holen" then AuctionFetch() else AuctionCheck(); Report() end
+    elseif cmd == "rufen" then Rufen()
     elseif cmd == "alle" then RunAll({ "t1", "t2", "t3", "t4" })
     elseif T[cmd] then RunAll({ cmd })
     elseif cmd == "bericht" then Report()
@@ -456,5 +541,6 @@ SlashCmdList.GSMESSTEST = function(arg)
         Print("/gsmess alle – alle vier Messungen (ca. 1 Minute), danach Ergebnis")
         Print("/gsmess t1 | t2 | t3 | t4 – einzeln; /gsmess bericht – Ergebnis nochmals zeigen")
         Print("/gsmess auktionen – gibt es alle Einzelauktionen? (ohne Partner, Auktionshaus offen); dann /gsmess auktionen holen")
+        Print("/gsmess rufen – kommen Addon-Nachrichten über YELL/SAY bei Spielern in der Nähe an? (30 s, ohne Partner)")
     end
 end

@@ -113,7 +113,10 @@ def drain():
         rt.execute("outbox = {}")
         for it in items:
             kind, who = it[1], str(it[2])
-            if kind == "send":
+            if kind == "send" and str(it[5]) in ("YELL", "SAY"):
+                for c in clients:          # Rufweite: alle simulierten Clients, auch der Sender selbst (Echo)
+                    pending.append((c, it[3], it[4], str(it[5]), who))
+            elif kind == "send":
                 prefix, msg, target = it[3], it[4], str(it[6])
                 if target in clients:
                     pending.append((target, prefix, msg, "WHISPER", who))
@@ -143,7 +146,7 @@ def pump(seconds):
         while pending or pending_sys or pending_list:
             if pending:
                 target, prefix, msg, dist, sender = pending.pop(0)
-                clients[target].globals().Fire("CHAT_MSG_ADDON", prefix, msg, "WHISPER", sender)
+                clients[target].globals().Fire("CHAT_MSG_ADDON", prefix, msg, dist, sender)
             if pending_sys:
                 who, text = pending_sys.pop(0)
                 clients[who].globals().Fire("CHAT_MSG_SYSTEM", text)
@@ -168,7 +171,7 @@ def main():
     check(export is not None, "kein Export")
     export = str(export or "")
     print(export)
-    check(export.startswith("GSDIAG1|GSMesstest|3|"), "Kopf GSDIAG1 falsch")
+    check(export.startswith("GSDIAG1|GSMesstest|4|"), "Kopf GSDIAG1 falsch")
     for n in NAMES + (OFFLINE,):
         check(n not in export, "Name im Ergebnis: " + n)
     check("T1 hin: gesendet 10" in export and "angekommen 10/10" in export, "T1 nicht vollständig")
@@ -199,6 +202,28 @@ def main():
     check("Besitzername" not in e2 and "Item1 " not in e2, "A1 Name im Ergebnis")
     check("Besitzer bekannt ja" in e2, "A1 Besitzer-Feld nicht gemeldet")
     check(not a.GSMesstest.busy, "A1 busy bleibt gesetzt")
+    # A2 Rufen (Messauftrag M5): YELL/SAY, Antwort per Flüstern, fremde Präfixe passiv
+    b = clients[NAMES[1]].globals()
+    b.Fire("CHAT_MSG_ADDON", "FremdAddon", "hallo", "YELL", NAMES[0] + "-Forever")
+    a.Fire("CHAT_MSG_ADDON", "FremdAddon", "hallo", "SAY", NAMES[1])
+    a.SlashCmdList.GSMESSTEST("rufen")
+    pump(35)
+    e3 = str(a.GSMesstestDB.export)
+    print(e3)
+    check("A2 YELL: gesendet (Rückgabe 0), eigenes Echo: ja, Antworten von 1 Spieler(n)" in e3, "A2 YELL fehlt")
+    check("A2 SAY: gesendet (Rückgabe 0), eigenes Echo: ja, Antworten von 1 Spieler(n)" in e3, "A2 SAY fehlt")
+    check("SAY 1, YELL 0, Präfixe: FremdAddon" in e3, "A2 fremde Nachrichten falsch")
+    check("(belegt)" in e3, "A2 Ergebnis fehlt")
+    for n in NAMES:
+        check(n not in e3, "A2 Name im Ergebnis: " + n)
+    check(not a.GSMesstest.busy, "A2 busy bleibt gesetzt")
+    # ohne Antwort: B ist nicht in Rufweite (Antworten verschluckt)
+    a.SlashCmdList.GSMESSTEST("rufen")
+    clients[NAMES[1]].execute("C_ChatInfo.SendAddonMessage = function() return 9 end")
+    pump(35)
+    e4 = str(a.GSMesstestDB.export)
+    check("Antworten von 0 Spieler(n)" in e4 and "niemand mit GSMesstest hat geantwortet" in e4, "A2 ohne Antwort falsch")
+    check("Lua-Fehler" not in e4, "A2 Lua-Fehler")
     # testberichte.py liest es
     sys.path.insert(0, str(ROOT / "addon-check"))
     import testberichte

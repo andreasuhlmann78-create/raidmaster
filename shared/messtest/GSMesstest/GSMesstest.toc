@@ -1,9 +1,9 @@
 ## Interface: 11508, 11509, 16001, 20505, 20506, 30405, 38002, 40402, 50504, 120105
 ## Title: |cff33ccffGSMesstest|r
-## Notes: Measuring tool of the GoldSentinel review session (addon whispers, throttle, offline, realm, auctions)
-## Notes-deDE: Messwerkzeug der GoldSentinel-Prüfung (Addon-Flüstern, Drossel, Offline, Realm, Auktionen)
+## Notes: Measuring tool of the GoldSentinel review session (addon whispers, throttle, offline, realm, auctions, yell)
+## Notes-deDE: Messwerkzeug der GoldSentinel-Prüfung (Addon-Flüstern, Drossel, Offline, Realm, Auktionen, Rufen)
 ## Author: GoldSentinel
-## Version: 3
+## Version: 4
 ## SavedVariables: GSMesstestDB
 
 GSMesstest.lua

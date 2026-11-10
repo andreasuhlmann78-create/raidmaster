@@ -56,6 +56,13 @@ Folgerungen für das Flüster-Netz von GoldSentinelSync:
 - Clients mit Sync 1 bekommen nie `#S2` (nur Mitspieler, die "~sync=2" gemeldet haben).
 - Grenze: Das Netz erreicht nur, wer irgendwann über Gilde, Gruppe oder eine Liste mit dem Netz in Kontakt kam.
 
+## Messauftrag M5 – Addon-Nachrichten über YELL/SAY (offen, Werkzeug: GSMesstest 4, `/gsmess rufen`)
+- Frage: Tragen YELL/SAY Addon-Nachrichten an Spieler in der Nähe, auch ohne Gilde/Gruppe? Bei Blizzard (Retail ab
+  8.x) sind SAY/YELL für Addon-Nachrichten ausserhalb von Instanzen gesperrt (vermutet, nicht für Forever gemessen).
+- Wenn ja: Entdeckung neuer Netz-Mitspieler am Auktionshaus/in Städten möglich (nur Kennung "habe Sync 2" rufen, Rest
+  per Flüstern). Wenn nein: Entdeckung bleibt bei Gilde, Gruppe, Listen und normalen Kontakten.
+- Ergebnis: (noch offen)
+
 ## Quellen
 - https://github.com/Offroads/WoWForeverRace/pull/48
 - https://github.com/Shtian/bff-wow/pull/133
