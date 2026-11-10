@@ -12,6 +12,14 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.86
+
+- **Sniper: dead offers stay gone.** An offer whose purchase failed (e.g. "a higher bid already exists") is locked by
+  its auction ID for 10 minutes: if the server delivers it again, it stays "gone" (red) and is never tried again. A
+  new auction at the same price stays buyable. Goods without an auction ID: the same price and quantity are skipped
+  for 60 s. Log SNIPER-SUCHE counts "dead delivered again".
+- Test routine: T409 (T-SR6).
+
 ### Version 0.65.85
 
 - **Fix (important): no more fake flips.** The resale price never uses the estimated price of the part above the stored
@@ -67,26 +75,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   at start = result". Purchases used for professions (trade goods bought and gone) are shown separately: "Trade ±A ·
   professions −B". Running own auctions also count from the forecast journal when the AH was not queried.
 - Test routine: T371 (T-AM1), T384–T391 (T-AM3/4, T-K1–3, T-LG6–8).
-
-### Version 0.65.81
-
-- **Fix (important): honest material prices for disenchanting.** The material price is the realistic sell price from
-  the price ladder and sales (no longer capped at the market value). The tooltip says where it comes from: "Scan" only
-  for scan values, otherwise "Market" or "price just rose (for N h)". If scan and market value are more than 50 % apart
-  the price is grey "unsure"; with Shift both values are shown. A fresh jump (< 24 h) counts at most 1.5× the market
-  value; after 24 h the ladder price counts (log MARKTWERT-CHECK). Bait offers (1–2 pieces far below the median) no
-  longer pull down the market value from the price history.
-- **Disenchant block list with a way back:** right-click asks first ("Yes / Skip just this once / Cancel"). New button
-  "Blocked (N)" with a list to unblock single items or all. The empty window says how many items are blocked/skipped.
-  `/ahs entzaubern freigeben` unblocks all.
-- Speed: the full forecast evaluation no longer runs in the tooltip or after ledger changes; it is computed in the
-  background in portions, the tooltip reads the cache.
-- Full scan: "/ahs vollscan messen" measures a shorter interval once per session (asks first); the wait message no
-  longer claims a server limit ("as a precaution, not measured yet").
-- Buy forecast "resell" uses the realistic resale price. Sync: old scan announcements are cleaned up.
-- Removed outdated fee texts and unused keys.
-- Test routine: T369–T383 (T-HF9–11, H5, T-SK1/2/5, T-SP1–4, background check ≥ 16 ms, 3000-entry tooltip check),
-  explanation line "learned vs. history" in the disenchant report.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
