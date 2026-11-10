@@ -10,6 +10,11 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.24
+
+- Recruitment ad: a long ad no longer gets cut off by the chat input and then never counts as posted. The ad text is limited to 251 characters (room for "/<channel> "), the counter shows "(n/251)", and the text in the chat input is exactly the one that counts once it appears in the channel. Umlauts and other special characters are never cut in half.
+- Developer test routine: T242–T243 new.
+
 ### Version 0.9.23
 
 - **Recruitment ad no longer blocked**: WoW Forever blocks addons from writing into chat channels ("action blocked"), even from a click. The button is now "Prepare ad": it puts "/<channel> <text>" into the chat input and you send it with Enter (all game versions). The ad only counts as posted (wait times, "last posted", reminder) once your text appears in the channel.
@@ -50,23 +55,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 - Profession data received from other players is checked in depth; broken data can no longer cause an error in tooltips or craft requests.
 - Diagnostic log: lines for addon messages (ways, players, sent/received/dropped, channel refused).
 - Developer test routine: T214–T224 new; test names are placeholders only.
-
-### Version 0.9.19
-
-- **Professions arrive automatically in both directions**: a member's professions could get stuck on one side. Fixed:
-  - GuildSentinel now always sends your own professions itself, also when RaidMaster is installed (before, it stayed silent and relied on RaidMaster).
-  - Names are matched in one way everywhere (realm suffix, upper/lower case, first name alone on WoW Forever): data is stored and shown under the name from the guild roster. Older entries under another spelling are merged once (newer data wins).
-  - Every member with GuildSentinel sends their own professions 10–60 seconds after logging in when they are new or older than 24 hours – no longer only through the one member who answers the sync.
-- **Fully automatic** (no option, no button, never in combat):
-  - The game's guild profession list is read with offline members too (the "Show offline members" setting is switched on briefly and set back).
-  - New recipes are added right away when you learn them – no need to open the profession window.
-  - Recipe check without the window: recipes your guild already knows are checked with the game's spell check, only if a test check gives the right answers.
-  - Blizzard's guild recipes (who in the guild knows which recipe) are queried where the game allows it, once a day per profession; otherwise they are read when you open that view yourself.
-- **Professions page**: a selected profession without known data now says how many members have it ("2 guild members have Alchemy …") instead of the general hint. The "Who" column shows "1 of 4"; members known only from the game's list appear with "Recipes unknown" and can be whispered; "+2 more according to the game" below the list.
-- Guild list: opening collapsed professions happens at most every 5 minutes, and the update this causes no longer starts a new read (no loop).
-- Promote from the activity list and the bulk actions now use the modern game function first (like guild management).
-- Diagnostic log: lines for read, sent, received, shown and filtered professions (numbers only, no player names) and a summary.
-- Developer test routine: T201–T213 new.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
