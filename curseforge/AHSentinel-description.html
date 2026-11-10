@@ -7,6 +7,18 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.64</h3>
+<ul>
+<li><strong>Ledger: "Profit" is now called "Cash"</strong> – it is income minus spending minus fees. Bought materials count as
+  spending even if they are still in stock (e.g. cloth turned into dust by crafting and disenchanting).</li>
+<li><strong>New tile "Result incl. stock":</strong> cash plus the change in stock value during the period (bags, bank and active
+  auctions of this character, valued like "Sell:" in the tooltip). A stock value is saved at the first login of the day
+  and at logout, with the prices of that time. Without a starting value it shows "–".</li>
+<li><strong>"Per item" has a column "in stock"</strong> (pieces now).</li>
+<li>"1 sale" / "1 purchase" instead of "1 sales".</li>
+<li><strong>Tooltip:</strong> a price that was not in the last scan is marked "(old)"; if a scan price was replaced as an outlier,
+  the value used for the calculation is shown next to it.</li>
+</ul>
 <h3>Version 0.65.63</h3>
 <ul>
 <li><strong>Selling is judged by supply and sales:</strong> how many pieces are on the AH at your price or cheaper (without bait
@@ -57,23 +69,7 @@
   sniper test sets the max below the cheapest offer; the overlap check only reports windows AHSentinel placed itself
   (windows you moved and invisible frames of other addons are hints).</li>
 </ul>
-<h3>Version 0.65.59</h3>
-<ul>
-<li><strong>Fix: Ledger → Return (gold per hour) stopped with a Lua error</strong> ("compare nil with number"): the start of a day is
-  now calculated without time(table), which returns nothing in the client for "all time". Same fix for the ledger
-  periods, the gold chart, the sniper day counter and the raid hint.</li>
-<li><strong>Faster:</strong> the market list and "Today" no longer freeze for a moment with 5000+ items – they are kept in a cache and
-  recalculated in the background in small portions after a scan or data change (the window updates itself).</li>
-<li><strong>Profit window and best recipes:</strong> "Best recipes" rebuilds again after crafting (bag contents count as a change);
-  the profit window never overlaps the profession window, not even its invisible border.</li>
-<li><strong>Tooltips of the AHSentinel windows</strong> appear next to the window instead of over its buttons.</li>
-<li>Sale message: the game's text template is written to the diagnostic log once (no names).</li>
-<li>Test routine: no real data is changed any more during a run (activity, remembered recipes, auction size); sniper
-  test only counts its own target and shows price, max and unit; new tests (offer 2c at max 1c -&gt; no hit; start of day
-  without time(table)); outdated tests adjusted (sale message with "%1$s", sync reception, tooltip check per language,
-  own test window ignored in the overlap check, API events).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

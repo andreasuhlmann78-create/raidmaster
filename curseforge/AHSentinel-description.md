@@ -12,6 +12,18 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.64
+
+- **Ledger: "Profit" is now called "Cash"** – it is income minus spending minus fees. Bought materials count as
+  spending even if they are still in stock (e.g. cloth turned into dust by crafting and disenchanting).
+- **New tile "Result incl. stock":** cash plus the change in stock value during the period (bags, bank and active
+  auctions of this character, valued like "Sell:" in the tooltip). A stock value is saved at the first login of the day
+  and at logout, with the prices of that time. Without a starting value it shows "–".
+- **"Per item" has a column "in stock"** (pieces now).
+- "1 sale" / "1 purchase" instead of "1 sales".
+- **Tooltip:** a price that was not in the last scan is marked "(old)"; if a scan price was replaced as an outlier,
+  the value used for the calculation is shown next to it.
+
 ### Version 0.65.63
 
 - **Selling is judged by supply and sales:** how many pieces are on the AH at your price or cheaper (without bait
@@ -61,22 +73,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   restored to your own setting afterwards; a timeout now says why (queries per minute, search, sniper, watcher);
   sniper test sets the max below the cheapest offer; the overlap check only reports windows AHSentinel placed itself
   (windows you moved and invisible frames of other addons are hints).
-
-### Version 0.65.59
-
-- **Fix: Ledger → Return (gold per hour) stopped with a Lua error** ("compare nil with number"): the start of a day is
-  now calculated without time(table), which returns nothing in the client for "all time". Same fix for the ledger
-  periods, the gold chart, the sniper day counter and the raid hint.
-- **Faster:** the market list and "Today" no longer freeze for a moment with 5000+ items – they are kept in a cache and
-  recalculated in the background in small portions after a scan or data change (the window updates itself).
-- **Profit window and best recipes:** "Best recipes" rebuilds again after crafting (bag contents count as a change);
-  the profit window never overlaps the profession window, not even its invisible border.
-- **Tooltips of the AHSentinel windows** appear next to the window instead of over its buttons.
-- Sale message: the game's text template is written to the diagnostic log once (no names).
-- Test routine: no real data is changed any more during a run (activity, remembered recipes, auction size); sniper
-  test only counts its own target and shows price, max and unit; new tests (offer 2c at max 1c -> no hit; start of day
-  without time(table)); outdated tests adjusted (sale message with "%1$s", sync reception, tooltip check per language,
-  own test window ignored in the overlap check, API events).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
