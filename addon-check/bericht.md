@@ -25,7 +25,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## RaidMaster-3.0.22.zip: OK
 
-## ThreatSentinel-2.5.3.zip: OK
+## ThreatSentinel-2.5.4.zip: OK
 
 ## levelpilot__levelpilot-3.12.21.LevelPilot.zip: OK
 
