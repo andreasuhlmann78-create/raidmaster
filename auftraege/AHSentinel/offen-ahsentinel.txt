@@ -143,7 +143,8 @@ NEU (10. Nov. 18:10, HOCH) – befund-markt-entzaubern-menge.txt (Bild des Nutze
    Markt "Entzaubern": "40x zu 9s, Gewinn 3g 91s" – aber nur 1 Teil kostet 9s, der Rest 12s/14s. D1 Kosten und Gewinn
    je Stufe der Preisleiter summieren, D2 25-%-Grenze auf echte Kosten und Sniper-Budget (heute upto × Menge = 43 % des
    Goldes), D3 Wert sinkt mit der Menge (eine Funktion mit Sammelkauf), D4 Sicherheit höchstens "mittel" bei frisch
-   gestiegenem Hauptmaterial, D5 Menge Zeile/Fusszeile gleich, "Stufe ?". T-MD1–T-MD5. Vor dem grossen Test.
+   gestiegenem Hauptmaterial, D5 Menge Zeile/Fusszeile gleich, "Stufe ?", D6 HOCH Aufkauf erkennen (Material aufgekauft ->
+   Kaufen mit altem Preis, Verkaufen mit aktuellem + Hinweis). T-MD1–T-MD6. Vor dem grossen Test.
 
 HINWEIS DES NUTZERS (10. Nov. 16:48): Sobald alle offenen Punkte umgesetzt und gepusht sind, macht der Nutzer einen
 grossen Test im Spiel ("/ahs testroutine alles"). Bitte nach dem letzten Release dem Nutzer ausdrücklich melden:

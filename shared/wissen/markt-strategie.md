@@ -224,7 +224,19 @@ aus. Schnäppchen-Wächter legt vorübergehende Ziele an.
    festhalten -> Ergebnis messen -> Kaufgrenzen je Strategie aus der echten Trefferquote nachstellen.
 7. **Konkurrenz:** Wird man laufend unterboten (Unterbietungs-Häufigkeit je Item), lieber seltener und mit mehr
    Abstand einstellen oder das Item meiden; Preiskriege kosten in Forever jedes Mal die Einzahlung.
-8. **Verlustgrenze:** Fällt der Markt eines gekauften Items deutlich, nüchtern rechnen: jetzt billiger verkaufen vs.
+9. **Aufkauf (Squeeze) – Kaufen und Verkaufen getrennt bewerten (Erkenntnis 10.11. 17:59, belegt im Spiel):**
+   Jemand kaufte alle günstigen Großen gleißenden Splitter auf. Danach lag nur noch Teures im AH (1g 15s, "frisch
+   gestiegen seit 10 Std."). AHSentinel bewertete Entzauber-Teile mit diesem Preis und zeigte "Azurblaue Seidenkapuze
+   +106 %" – ein Schein-Geschäft: Der Aufkäufer stellt selbst zum hohen Preis ein, neue Verkäufer kommen nach, der Preis
+   fällt zurück, bevor unsere Ware fertig ist. Regel (asymmetrisch):
+   - **Kaufen** (Einkauf, Markt, Sammelkauf, Sniper "lohnt bis"): Material mit Aufkauf-Kennzeichen höchstens zum Preis
+     VOR dem Aufkauf bewerten (Marktwert bzw. Preis vor dem Sprung).
+   - **Verkaufen** (eigenes Lager): aktueller Preis – jetzt ist die beste Zeit, eigene Bestände dieses Materials zu
+     verkaufen (Hinweis "Preis künstlich hoch – jetzt verkaufen").
+   - **Erkennen** aus dem Vollscan (alle ~23 Min.): Angebotsmenge in kurzer Zeit stark gesunken UND Mindestpreis stark
+     gestiegen. Kennzeichen hält, bis Menge oder Preis wieder normal sind. Schwellen messen (Auftrag D6).
+   Das verfeinert den Entscheid "aktueller Markt" nur für Kaufentscheide bei erkanntem Aufkauf; sonst gilt er unverändert.
+10. **Verlustgrenze:** Fällt der Markt eines gekauften Items deutlich, nüchtern rechnen: jetzt billiger verkaufen vs.
    warten (Zeit × Risiko × Einzahlungen). Kein "es kommt schon zurück".
 
 ## 9. Pflege dieser Datei

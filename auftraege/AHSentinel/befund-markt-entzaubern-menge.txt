@@ -52,4 +52,27 @@ D5 KLEIN
       Laden der Item-Daten (Ereignis GET_ITEM_INFO_RECEIVED) neu zeichnen. Der Einkauf zeigt iLvl 29.
    T-MD5: Item ohne geladene Info -> nach dem Ereignis steht die Stufe in der Zeile.
 
-Abdeckung: T-MD1–T-MD5 in die Abdeckungsliste (befund-markt-entzaubern-menge).
+D6 HOCH – AUFKAUF ERKENNEN: KAUFEN UND VERKAUFEN GETRENNT BEWERTEN (Nachtrag 18:20, Hinweis des Nutzers 17:59)
+   Der Nutzer: Jemand hat alle Großen gleißenden Splitter aufgekauft; danach lag nur noch Teures im AH und AHSentinel
+   hielt die Kapuze für ein gutes Geschäft. Tooltip: "Großer gleißender Splitter 1g 15s 73c Scan, Preis frisch
+   gestiegen (seit 10 Std.), unsicher". Der Splitter trägt über die Hälfte des Werts (8,2 % × 1g 16s ≈ 9s 50c von
+   18s 55c). Fällt der Preis zurück, bleibt beim Einkauf zu 12s kaum Gewinn.
+   Regel (shared/wissen/markt-strategie.md Abschnitt 8 Punkt 9):
+   a) Erkennen aus dem Vollscan: je Material Angebotsmenge und Mindestpreis über die letzten Vollscans. "Aufkauf", wenn
+      die Menge innerhalb weniger Stunden stark sinkt UND der Mindestpreis deutlich steigt (Startwerte: Menge −70 % in
+      ≤ 6 Std., Preis ≥ +50 % über dem Marktwert; vermutet, nicht belegt – die Werte im Bericht messen und melden).
+      Kennzeichen bleibt, bis Menge ≥ 50 % des Normalen oder Preis ≤ 120 % des Marktwerts ist.
+   b) KAUFEN (Markt-Entzaubern, Heute, Flippen, Sammelkauf, Sniper "lohnt bis", Tooltip "Lohnt bis"): Material mit
+      Kennzeichen höchstens zum Preis vor dem Aufkauf (Marktwert bzw. letzter Preis vor dem Sprung) bewerten. Zeile
+      zeigt "Aufkauf bei <Material> – mit altem Preis gerechnet".
+   c) VERKAUFEN (eigenes Lager, Verkaufen-Reiter, Tooltip "Verkaufen"): aktueller Preis wie bisher, dazu Hinweis
+      "Preis künstlich hoch – eigene Bestände jetzt verkaufen".
+   d) Gilt nur bei erkanntem Aufkauf; sonst bleibt der Entscheid "aktueller Markt" unverändert. Ein normaler, langsamer
+      Preisanstieg ohne Mengeneinbruch ist kein Aufkauf.
+   e) Testroutine-Bericht (echte Daten): Liste der Materialien mit Kennzeichen (ItemID, Menge vorher/nachher, Preis
+      vorher/nachher, seit wann) – damit messen wir die Schwellen.
+   T-MD6a: Splitter Menge 120 -> 8 in 2 Std., Preis 40s -> 1g 15s -> Kennzeichen; Kapuze im Markt mit 40s gerechnet
+   (keine Zeile bei < 20 %), Verkaufen-Tooltip des Splitters mit 1g 15s und Hinweis "jetzt verkaufen".
+   T-MD6b: Preis steigt über 3 Tage langsam von 40s auf 60s, Menge gleich -> kein Kennzeichen.
+
+Abdeckung: T-MD1–T-MD6 in die Abdeckungsliste (befund-markt-entzaubern-menge).
