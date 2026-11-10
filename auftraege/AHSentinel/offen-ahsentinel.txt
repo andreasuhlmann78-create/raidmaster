@@ -139,6 +139,12 @@ OFFENE PUNKTE
    e) NEU: Sn.dead und Sn.deadCommodity (Sniper.lua:663–664) werden nie aufgeräumt; Sn:ApplyDead (Sniper.lua:676)
       könnte abgelaufene Einträge gleich löschen. Klein, nur je Sitzung.
 
+NEU (10. Nov. 18:10, HOCH) – befund-markt-entzaubern-menge.txt (Bild des Nutzers, 0.65.86)
+   Markt "Entzaubern": "40x zu 9s, Gewinn 3g 91s" – aber nur 1 Teil kostet 9s, der Rest 12s/14s. D1 Kosten und Gewinn
+   je Stufe der Preisleiter summieren, D2 25-%-Grenze auf echte Kosten und Sniper-Budget (heute upto × Menge = 43 % des
+   Goldes), D3 Wert sinkt mit der Menge (eine Funktion mit Sammelkauf), D4 Sicherheit höchstens "mittel" bei frisch
+   gestiegenem Hauptmaterial, D5 Menge Zeile/Fusszeile gleich, "Stufe ?". T-MD1–T-MD5. Vor dem grossen Test.
+
 HINWEIS DES NUTZERS (10. Nov. 16:48): Sobald alle offenen Punkte umgesetzt und gepusht sind, macht der Nutzer einen
 grossen Test im Spiel ("/ahs testroutine alles"). Bitte nach dem letzten Release dem Nutzer ausdrücklich melden:
 "alles umgesetzt – bereit für den Test", mit Version. Für den Test nötig: Punkte 1, 2 und 3; Punkt 4–6 dürfen folgen.

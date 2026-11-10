@@ -1,0 +1,55 @@
+BEFUND DER PRÜF-SITZUNG FÜR AHSENTINEL: MARKT "ENTZAUBERN" RECHNET DIE GANZE MENGE ZUM GÜNSTIGSTEN PREIS (0.65.86)
+==============================================================================================================
+Stand: 10. November 2026, 18:10 · Grundlage: zwei Bilder des Nutzers (17:56/17:57, Undercity) und
+download/AHSentinel-0.65.86.zip (UI_MarketView.lua MV:DEOffer, MV:BuyDE, MV:DEFooter).
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen. D1 und D2 HOCH, Rest danach. Gehört vor den grossen Test.
+
+LAGE IM SPIEL
+   Markt -> Entzaubern: "Azurblaue Seidenkapuze (Stufe ?): 40x zu 9s · Wert 18s 55c · Gewinn 9s 55c (106 %) · echt aus
+   269 · Wert hängt an frisch gestiegenem Preis von Großer gleißender Splitter · Sicherheit: hoch".
+   Fusszeile: "41 Stück · 3g 69s · erwarteter Gewinn 3g 91s 55c · ≈ 3 Großer gleißender Splitter · ≈ 44 Seelenstaub".
+   Echte Angebote im Einkauf (80 Angebote): 1 × 9s, danach viele zu 12s, dann 14s ...
+   -> Nur EIN Teil kostet 9s. Kosten, Gewinn und 106 % gelten nur für dieses eine Teil.
+
+URSACHE (Code)
+   MV:DEOffer zählt die Menge richtig über die Preisleiter (alle Stufen ≤ "lohnt bis" 15s 43c), rechnet dann aber
+   gold = (net − price) × qty und die Fusszeile r.price × r.qty mit price = GÜNSTIGSTES Angebot (A:GetCurrent).
+   MV:BuyDE setzt das Sniper-Budget auf upto × qty (15s 43c × 41 ≈ 6g 32s) – das sind 43 % von 14g 51s Gold.
+
+D1 HOCH – KOSTEN UND GEWINN ÜBER DIE PREISLEITER SUMMIEREN
+   Je Stufe der Leiter bis "lohnt bis": Kosten += Preis × Menge, Gewinn += (Wert − Preis) × Menge. Zeile und Fusszeile
+   zeigen: Menge, Gesamtkosten, Ø-Preis, Gesamtgewinn, Rendite = Gesamtgewinn / Gesamtkosten. Sortierung (E2) nach
+   dieser Gesamtrendite, nicht nach der Rendite des günstigsten Teils.
+   Text z. B.: "40x bis 15s 43c (Ø 12s 20c) · Wert 18s 55c · Gewinn 2g 54s (52 %)".
+   T-MD1: Leiter 1×9s, 30×12s, 9×14s, Wert 18s 55c -> Kosten 4g 95s, Gewinn 2g 47s 00c (Rechnung je Stufe), nicht
+   3g 91s 55c.
+
+D2 HOCH – 25-%-GRENZE (K1) AUF DIE ECHTEN KOSTEN UND AUF DAS SNIPER-BUDGET
+   Die Menge wird von unten nach oben über die Leiter aufgefüllt, bis die Summe der Preise 25 % des Goldes (Option
+   max. 50 %) erreicht. Der Sniper bekommt als Budget genau diese Summe (nicht upto × qty) und als Höchstpreis "lohnt
+   bis". Entscheid des Nutzers: Kaufvorschläge des Markts zusammen höchstens 25 % des Goldes.
+   T-MD2: Gold 14g 51s, Leiter wie T-MD1 -> Menge so, dass Kosten ≤ 3g 62s 75c; Sniper-Budget = diese Kosten.
+
+D3 MITTEL – WERT SINKT MIT DER EIGENEN MENGE (wie H8 / D.BatchNet)
+   41 Teile ergeben ≈ 3 Splitter und ≈ 44 Seelenstaub zusätzlich zum Lager. Der Wert je Teil muss mit derselben
+   Rechnung wie im Sammelkauf (D.BatchNet, Menge = geplante Kaufmenge aus D2) sinken – EINE Funktion für Markt,
+   Sammelkauf und Tooltip. Der Absatz-Deckel E4c bleibt nur Sicherheitsnetz (Materialien verkaufen sich in Minuten).
+   Siehe auch X4 in befund-testroutine-0686.txt (nParts = geplante Kaufmenge, nicht Budget / Preis).
+   T-MD3: 41 Teile -> Wert je Teil ≤ Wert bei 1 Teil; Zeile, Detail und Sammelkauf zeigen denselben Wert.
+
+D4 MITTEL – "SICHERHEIT: HOCH" TROTZ FRISCH GESTIEGENEM HAUPTMATERIAL
+   Hier hängt über die Hälfte des Werts am Splitter (8,2 % × 1g 25s ≈ 10s von 18s 55c), dessen Preis frisch gestiegen
+   ist. Sicherheit "hoch" kommt nur aus "echte Chancen". Regel: frisch gestiegen beim Hauptmaterial -> höchstens
+   "mittel"; zusätzlich im Tooltip den Wert "ohne den Anstieg" (Hauptmaterial zum Marktwert) zeigen, damit der Nutzer
+   sieht, wie viel am Anstieg hängt. Die Rechnung bleibt beim aktuellen Markt (Entscheid des Nutzers); das ist nur
+   eine Anzeige.
+   T-MD4: Hauptmaterial frisch gestiegen, echte Chancen -> Sicherheit "mittel", Zeile "ohne Anstieg: X".
+
+D5 KLEIN
+   a) Zeile "40x", Fusszeile "41 Stück": beide aus derselben Menge (nach D2).
+   b) "Stufe ?": GetItemInfo noch nicht im Speicher. Gegenstandsstufe aus der Preisleiter/dem Vollscan oder nach
+      Laden der Item-Daten (Ereignis GET_ITEM_INFO_RECEIVED) neu zeichnen. Der Einkauf zeigt iLvl 29.
+   T-MD5: Item ohne geladene Info -> nach dem Ereignis steht die Stufe in der Zeile.
+
+Abdeckung: T-MD1–T-MD5 in die Abdeckungsliste (befund-markt-entzaubern-menge).
