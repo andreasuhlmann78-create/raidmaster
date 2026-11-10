@@ -12,6 +12,26 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.66
+
+- **New option "Default duration" (standard: 2 hours on WoW Forever):** every new item in the Sell tab starts with it;
+  a duration you pick by hand applies only to that posting. Series, repost and "Today" use it too, and so do all
+  calculations. "24 h costs the same" remains only a hint.
+- **Fix: "Today" told you to sell commodities to a vendor** (e.g. linen bolts) because it assumed 1 piece per auction:
+  in the modern auction house a commodity is posted as ONE auction for any quantity – the minimum deposit is paid once.
+  The old auction house (Era/TBC) keeps stacks.
+- **Sales estimate for crowded items:** auctions on WoW Forever run at most 24 hours, so almost everything disappears
+  every day even without a sale. The market sales rate is now capped at 20 % of the quantity in the last scan per day
+  (assumption, checked in the diagnostic log). Your own experience (posted vs. sold, from 3 postings) comes first –
+  the same number in tooltip, profit window and log.
+- **Profit window:** shows the deposit per auction on WoW Forever (back on sale) and the expected number of listings
+  with the expected deposit loss.
+- **"Today": clicking a row** always does something visible – or shows a hint; errors are no longer swallowed.
+- Diagnostic log: ABSATZ with raw rate, cap, own rate and duration; new ENTZAUBERWERT line (materials, chances, net).
+- Test routine: watcher setting no longer touched (sandbox), result tooltips beside the window, T33 always with a
+  reason, T52 checks "undercut" and "leave it" separately, T27 names the real reason, empty frames of other addons
+  are only a hint.
+
 ### Version 0.65.65
 
 - **Fix: posting gear failed with "Internal auction error"** on WoW Forever: the server accepts single items (gear)
@@ -62,16 +82,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Real error message when posting fails:** the game's own message is shown (e.g. "Internal auction error") instead of
   "not enough gold or item not available"; failed attempts are written to the diagnostic log.
 - **Sell tab:** an empty quantity field counts as 1 (it showed a grey 1 but refused to post).
-
-### Version 0.65.61
-
-- **Fix: "Today" could miss suggestions and freeze for a moment after login** (diagnostic log: 413 ms in one frame).
-  Background calculations could not pause inside a protected call (Lua 5.1), so "below vendor price" and flip
-  suggestions were silently dropped and the rest ran in one go. They now pause correctly and nothing is lost.
-- **Fix: Ledger → "Values right?" (forecast vs. sale) was wrong on WoW Forever:** the real price per piece was taken
-  from the quantity field of the invoice ("real 1", +7800 %). Now total / quantity; existing sales are recalculated once.
-- **Profit window, "Best recipes":** new prices from the sniper or sync alone rebuild the list at most every 30 seconds
-  (before: every 2 seconds while sniping). Opening, switching professions, bags and ledger still update at once.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
