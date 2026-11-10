@@ -31,6 +31,18 @@ S3 Warnung "Max über Verkaufswert – jeder Kauf verliert ca. 5s 45c/Stück" wi
    (bei Entzauber-Zielen den Entzauberwert, sonst den realistischen Verkaufspreis); hier also KEINE Warnung.
 S4 Protokoll SNIPER-SUCHE (ohne Namen): Ziel-ItemID, Suffix-Varianten gefunden, Treffer ≤ Max, gekauft, Sperrgrund.
 
+NACHTRAG 16:35 (Bildschirmfoto 16:26): Nach "Jetzt suchen" fand der Sniper die Kapuzen (103 Angebote, 44/100 gekauft zu
+9s, Rest 11–13s "zu teuer"). S1 (Suffix) ist damit NICHT belegt – bitte nur prüfen, nicht umbauen, wenn kein Fall
+gefunden wird. S2 (Selbst-Suchlauf startet nicht von allein) bleibt.
+S5 (HOCH, Wunsch des Nutzers 16:28): "Kauf fehlgeschlagen soll nur EINMAL kommen, danach soll sich der Sniper wieder auf
+   sein Ziel konzentrieren." Im Chat kamen mehrere "Kauf fehlgeschlagen (Angebot weg oder nicht genug Gold) – Zähler
+   korrigiert" hintereinander. Umsetzen: Fehlschlag desselben Angebots (auctionID) nur einmal melden; weitere
+   Fehlschläge im selben Suchlauf zusammenfassen ("3 Angebote waren schon weg") und höchstens alle 30 s eine Zeile.
+   Nach einem Fehlschlag das Angebot sofort aus der Liste (Status "weg"), NICHT erneut versuchen, sofort zum nächsten
+   passenden Angebot springen (nächste Raste kauft das nächste); ist keins mehr da: neue Suche anstossen. Keine
+   Blockade des Mausrads durch den Fehlschlag.
+T-SR5 Drei Angebote weg -> genau eine Chatzeile (bzw. eine Sammelzeile), nächste Raste kauft das nächste passende Angebot.
+
 TESTFÄLLE
 T-SR1 Ziel Grund-ID, AH nur Varianten "des Walfischs" zu 9s -> Treffer, Kauf per Mausrad.
 T-SR2 Modus AN nach /reload -> Suche startet ohne Klick, Statuszeile zeigt Zeit bis zur nächsten Suche.
