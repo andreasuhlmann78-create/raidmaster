@@ -26,6 +26,16 @@ LG3 Entzauber-Abrechnung (Knopf Entzaubern): Kaufpreis der entzauberten Teile, W
     Abrechnung je Charge).
 LG4 Pro Item: Spalte "im AH" neben "im Lager".
 
+NACHTRAG 14:15 – KÄUFE VERMUTLICH DOPPELT ODER FALSCH BEWERTET (HOCH)
+LG5 Der Nutzer sagt: JEDE Bronzene Stulpe kostete 10s (Sniper Max 10s, Chat "Gekauft: 1x … für 10s"). Buchhaltung:
+    163 gekauft für 20g 50s (Ø 12,6s). Gegenrechnung: Entzauber-Statistik grün 26–30 Rüstung gesamt 142 (davon 30 Kapuzen/
+    Kordeln) -> höchstens ~112 Stulpen entzaubert + 26 in der Tasche = ~138 Stulpen erhalten, nicht 163.
+    Verdacht: Kauf doppelt gebucht (Sniper/Kaufen-Ereignis UND Rechnung im Briefkasten) und/oder Betrag falsch
+    (Gesamt statt Stückpreis, Gebot statt Sofortkauf). Bitte prüfen: Jeder Kauf genau EINMAL (Abgleich über auctionID /
+    Zeit + Item + Preis zwischen eigener Kaufmeldung und Rechnung), Stückpreis aus der Rechnung. Reparatur alter
+    Doppelbuchungen nur mit Sicherung und nur bei eindeutigem Paar. Protokoll KAUF-DOPPELT.
+T-LG4 Sniper-Kauf 1× 10s + Rechnung 1× 10s -> genau 1 Kauf, 10s. T-LG5 50 Sniper-Käufe à 10s -> Pro Item 50 / 5g.
+
 TESTFÄLLE
 T-LG1 26 Stulpen (Markt 10s), 14 Seelenstaub (6s 77c), 3 Splitter (37s 47c) im Lager, keine offenen Auktionen ->
       Lager ≈ 2g 60s + 94s 78c + 1g 12s 41c (× 0,95 je nach Regel), positiv.
