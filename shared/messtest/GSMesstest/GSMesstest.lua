@@ -7,6 +7,9 @@
 --                   ausblenden?
 --   T4 Realm      – ist der Partner auf demselben internen Realm (gemeinsamer Kanal)? Zusammen mit T1: geht Flüstern
 --                   zwischen den internen Realms?
+--   A1 Auktionen  – (ohne Partner, am offenen Auktionshaus) gibt es C_AuctionHouse.ReplicateItems (alle Einzelauktionen
+--                   auf einmal)? "/gsmess auktionen" prüft nur, ob es die Funktionen gibt; "/gsmess auktionen holen" ruft
+--                   ReplicateItems EINMAL auf (nur lesen) und misst Anzahl, Felder und Restzeit. Keine Namen.
 --
 -- Beide Spieler brauchen dieses Addon. Ablauf: /gsmess partner <Name>, dann /gsmess alle (nur einer der beiden).
 -- Das Ergebnis steht danach im Chat und als "GSDIAG1"-Zeichenkette in den SavedVariables (GSMesstestDB). Nach /reload
@@ -16,7 +19,7 @@
 -- <Ich>, <Partner>, <Offline>, <Unbekannt> ersetzt. Keine geschützten Aktionen, kein Kauf, kein Chat-Text an andere.
 
 local ADDON = "GSMesstest"
-local VERSION = "2"
+local VERSION = "3"
 local PREFIX = "GSMESS"
 local CHANNEL = "GSMessRealm"
 local FAKE = "Gsmesszqxv"          -- gibt es sehr wahrscheinlich nicht (Test "unbekannter Spieler")
@@ -117,6 +120,7 @@ local function RunText(r)
 end
 
 local T = {}
+local Report          -- weiter unten
 
 function T.t1()
     Log("T1 Grundweg: 10 Nachrichten zu je 200 Zeichen, 4 pro Sekunde, danach 10 zurück")
@@ -206,7 +210,104 @@ function T.t4()
     return 14
 end
 
-local function Report()
+
+---------------------------------------------------------------------------
+-- A1 Auktionen (Messauftrag M1, shared/wissen/markt-strategie.md): alle Einzelauktionen auf einmal?
+---------------------------------------------------------------------------
+local AH_FUNCS = { "ReplicateItems", "GetNumReplicateItems", "GetReplicateItemInfo", "GetReplicateItemLink",
+    "GetReplicateItemTimeLeft", "GetReplicateItemBattlePetInfo", "SendBrowseQuery", "SendSearchQuery",
+    "GetItemSearchResultInfo", "GetCommoditySearchResultInfo", "GetNumItemSearchResults" }
+
+local function AHOpen()
+    if AuctionHouseFrame and AuctionHouseFrame.IsShown and AuctionHouseFrame:IsShown() then return true end
+    if AuctionFrame and AuctionFrame.IsShown and AuctionFrame:IsShown() then return true end
+    return false
+end
+
+local function AuctionCheck()
+    M.log, M.runs = {}, {}
+    local C = _G.C_AuctionHouse
+    Log("A1 Auktionen: Auktionshaus offen: " .. (AHOpen() and "ja" or "NEIN (bitte am Auktionator öffnen)"))
+    Log("A1 C_AuctionHouse: " .. type(C))
+    if type(C) == "table" then
+        local have = {}
+        for _, k in ipairs(AH_FUNCS) do have[#have + 1] = k .. "=" .. (type(C[k]) == "function" and "ja" or "nein") end
+        Log("A1 Funktionen: " .. table.concat(have, ", "))
+    end
+    return C
+end
+
+-- Felder von GetReplicateItemInfo (Retail-Reihenfolge): 1 Name, 2 Symbol, 3 Menge, 4 Qualität, 5 benutzbar, 6 Stufe,
+-- 7 Stufenart, 8 Mindestgebot, 9 Erhöhung, 10 Sofortkauf, 11 Gebot, 12 Höchstbieter?, 13 Bieter, 14 Besitzer,
+-- 15 Besitzer voll, 16 Verkaufsstatus, 17 ItemID, 18 alle Infos. Namen (1, 13, 14, 15) werden NIE ausgegeben.
+local function ReplicateResult(reason)
+    if not M.replWait then return end
+    M.replWait = nil
+    local C = _G.C_AuctionHouse
+    local n = 0
+    local okN, rn = pcall(C.GetNumReplicateItems)
+    if okN and type(rn) == "number" then n = rn end
+    Log(string.format("A1 Ergebnis (%s, nach %.1f s): Einzelauktionen %d", reason, Now() - (M.replT0 or Now()), n))
+    if n > 0 then
+        local items, qty, withBuyout, withTime, allInfo = {}, 0, 0, 0, 0
+        local tl = {}
+        local step = math.max(1, math.floor(n / 2000))       -- höchstens ~2000 ansehen (kein Stocken)
+        local seen = 0
+        for i = 0, n - 1, step do
+            local ok, t = pcall(function() return { C.GetReplicateItemInfo(i) } end)
+            if ok and t then
+                seen = seen + 1
+                if t[17] then items[t[17]] = true end
+                qty = qty + (tonumber(t[3]) or 0)
+                if (tonumber(t[10]) or 0) > 0 then withBuyout = withBuyout + 1 end
+                if t[18] then allInfo = allInfo + 1 end
+                if C.GetReplicateItemTimeLeft then
+                    local okT, v = pcall(C.GetReplicateItemTimeLeft, i)
+                    if okT and v ~= nil then withTime = withTime + 1; tl[tostring(v)] = (tl[tostring(v)] or 0) + 1 end
+                end
+            end
+        end
+        local ni = 0
+        for _ in pairs(items) do ni = ni + 1 end
+        local tls = {}
+        for k, v in pairs(tl) do tls[#tls + 1] = k .. ":" .. v end
+        table.sort(tls)
+        Log(string.format("A1 angesehen %d (jede %d.), verschiedene Items %d, Menge Summe %d, mit Sofortkauf %d, alle Infos %d",
+            seen, step, ni, qty, withBuyout, allInfo))
+        Log("A1 Restzeit-Stufen (Wert:Anzahl): " .. (#tls > 0 and table.concat(tls, ", ") or "keine Restzeit geliefert"))
+        for _, i in ipairs({ 0, math.floor(n / 2), n - 1 }) do
+            local ok, t = pcall(function() return { C.GetReplicateItemInfo(i) } end)
+            if ok and t then
+                local okT, v = pcall(function() return C.GetReplicateItemTimeLeft and C.GetReplicateItemTimeLeft(i) end)
+                Log(string.format("A1 Beispiel %d: Felder %d, Menge %s, Mindestgebot %s, Sofortkauf %s, Gebot %s, Status %s, ItemID %s, alle Infos %s, Restzeit %s, Besitzer bekannt %s",
+                    i, #t, tostring(t[3]), tostring(t[8]), tostring(t[10]), tostring(t[11]), tostring(t[16]), tostring(t[17]),
+                    tostring(t[18]), okT and tostring(v) or "Fehler", (type(t[14]) == "string" and t[14] ~= "") and "ja" or "nein"))
+            end
+        end
+    else
+        Log("A1: keine Einzelauktionen – Funktion gesperrt, gedrosselt (bei Blizzard etwa alle 15 Min.) oder ohne Wirkung")
+    end
+    Report()
+end
+
+local function AuctionFetch()
+    local C = AuctionCheck()
+    if type(C) ~= "table" or type(C.ReplicateItems) ~= "function" then
+        Log("A1: ReplicateItems gibt es nicht – nichts abgerufen")
+        Report()
+        return
+    end
+    if not AHOpen() then Log("A1: Auktionshaus ist zu – bitte öffnen und nochmals"); Report(); return end
+    if InCombatLockdown and InCombatLockdown() then Print("Nicht im Kampf."); return end
+    M.busy = true
+    M.replWait, M.replT0 = true, Now()
+    local ok, err = pcall(C.ReplicateItems)
+    Log("A1 ReplicateItems aufgerufen: " .. (ok and "ohne Fehler" or ("Lua-Fehler " .. tostring(err))))
+    Print("Warte bis 60 s auf die Liste (das Spiel kann kurz stocken) ...")
+    After(60, function() ReplicateResult("Zeitlimit 60 s") end)
+end
+
+Report = function()
     local lines = { "GSMesstest " .. VERSION .. ", Client " .. tostring((GetBuildInfo and select(1, GetBuildInfo())) or "?") ..
         " (" .. tostring((GetBuildInfo and select(4, GetBuildInfo())) or "?") .. ")" }
     for _, id in ipairs({ "a", "b", "c", "d" }) do
@@ -304,6 +405,7 @@ f:RegisterEvent("PLAYER_LOGIN")
 f:RegisterEvent("CHAT_MSG_ADDON")
 f:RegisterEvent("CHAT_MSG_SYSTEM")
 f:RegisterEvent("CHAT_MSG_CHANNEL_LIST")
+pcall(f.RegisterEvent, f, "REPLICATE_ITEM_LIST_UPDATE")
 f:SetScript("OnEvent", function(_, ev, a1, a2, a3, a4, ...)
     if ev == "PLAYER_LOGIN" then
         local CI = _G.C_ChatInfo
@@ -314,6 +416,8 @@ f:SetScript("OnEvent", function(_, ev, a1, a2, a3, a4, ...)
         OnAddon(a1, a2, a3, a4)
     elseif ev == "CHAT_MSG_SYSTEM" then
         if M.sysOn and #M.sys < 10 then M.sys[#M.sys + 1] = Anon(a1) end
+    elseif ev == "REPLICATE_ITEM_LIST_UPDATE" then
+        if M.replWait then After(2, function() ReplicateResult("Ereignis REPLICATE_ITEM_LIST_UPDATE") end) end
     elseif ev == "CHAT_MSG_CHANNEL_LIST" then
         if M.busy and IsOurChannel(a2, a3, a4, ...) then
             M.listText = (M.listText or "") .. " " .. tostring(a1)
@@ -342,6 +446,8 @@ SlashCmdList.GSMESSTEST = function(arg)
     if cmd == "partner" and rest ~= "" then
         M.partner = Short(rest)
         Print("Partner gesetzt. Der Partner braucht GSMesstest auch. Dann: /gsmess alle")
+    elseif cmd == "auktionen" then
+        if rest:lower() == "holen" then AuctionFetch() else AuctionCheck(); Report() end
     elseif cmd == "alle" then RunAll({ "t1", "t2", "t3", "t4" })
     elseif T[cmd] then RunAll({ cmd })
     elseif cmd == "bericht" then Report()
@@ -349,5 +455,6 @@ SlashCmdList.GSMESSTEST = function(arg)
         Print("/gsmess partner <Name> – zweiter Spieler mit diesem Addon (online)")
         Print("/gsmess alle – alle vier Messungen (ca. 1 Minute), danach Ergebnis")
         Print("/gsmess t1 | t2 | t3 | t4 – einzeln; /gsmess bericht – Ergebnis nochmals zeigen")
+        Print("/gsmess auktionen – gibt es alle Einzelauktionen? (ohne Partner, Auktionshaus offen); dann /gsmess auktionen holen")
     end
 end

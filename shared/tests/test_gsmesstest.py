@@ -52,6 +52,16 @@ C_ChatInfo = {
   RegisterAddonMessagePrefix = function() return true end,
   SendAddonMessage = function(p, m, d, t) outbox[#outbox + 1] = { "send", me, p, m, d, t }; return 0 end,
 }
+local repl = {}
+for i = 1, 3000 do repl[i] = { "Item" .. i, 1, (i % 20) + 1, 1, true, 1, 0, 50, 5, 100 + i, 0, false, nil, "Besitzername", "Besitzername-Realm", 0, 2000 + (i % 400), true } end
+C_AuctionHouse = {
+  ReplicateItems = function() outbox[#outbox + 1] = { "repl", me } end,
+  GetNumReplicateItems = function() return #repl end,
+  GetReplicateItemInfo = function(i) local t = repl[i + 1]; if not t then return nil end return unpack(t, 1, 18) end,
+  GetReplicateItemTimeLeft = function(i) return (i % 4) + 1 end,
+  SendBrowseQuery = function() end,
+}
+AuctionHouseFrame = { IsShown = function() return true end }
 function JoinTemporaryChannel(n) outbox[#outbox + 1] = { "join", me } end
 function LeaveChannelByName(n) outbox[#outbox + 1] = { "leave", me } end
 function ListChannelByName(n) outbox[#outbox + 1] = { "list", me } end
@@ -76,7 +86,7 @@ function Tick() for _, f in ipairs(frames) do if f.sc.OnUpdate then f.sc.OnUpdat
 """
 
 
-pending, pending_sys, pending_list = [], [], []
+pending, pending_sys, pending_list, pending_repl = [], [], [], []
 
 
 def boot():
@@ -113,6 +123,8 @@ def drain():
                 channel_members.add(who)
             elif kind == "leave":
                 channel_members.discard(who)
+            elif kind == "repl":
+                pending_repl.append(who)
             elif kind == "list":
                 pending_list.append((who, ", ".join(sorted(channel_members))))
 
@@ -125,6 +137,9 @@ def pump(seconds):
             rt.globals().NOW = clock["t"]
             rt.globals().Tick()
         drain()
+        while pending_repl:
+            who = pending_repl.pop(0)
+            clients[who].globals().Fire("REPLICATE_ITEM_LIST_UPDATE")
         while pending or pending_sys or pending_list:
             if pending:
                 target, prefix, msg, dist, sender = pending.pop(0)
@@ -153,7 +168,7 @@ def main():
     check(export is not None, "kein Export")
     export = str(export or "")
     print(export)
-    check(export.startswith("GSDIAG1|GSMesstest|2|"), "Kopf GSDIAG1 falsch")
+    check(export.startswith("GSDIAG1|GSMesstest|3|"), "Kopf GSDIAG1 falsch")
     for n in NAMES + (OFFLINE,):
         check(n not in export, "Name im Ergebnis: " + n)
     check("T1 hin: gesendet 10" in export and "angekommen 10/10" in export, "T1 nicht vollständig")
@@ -171,6 +186,19 @@ def main():
     second = str(a.GSMesstestDB.export)
     check("angekommen 10/10" in second and "20/10" not in second, "zweiter Lauf zählt doppelt")
     check(not a.GSMesstest.busy, "busy bleibt gesetzt")
+    # A1 Auktionen (Messauftrag M1): ohne Partner, nur Existenz, dann holen
+    a.SlashCmdList.GSMESSTEST("auktionen")
+    e1 = str(a.GSMesstestDB.export)
+    check("ReplicateItems=ja" in e1 and "GetReplicateItemTimeLeft=ja" in e1, "A1 Funktionen nicht erkannt")
+    a.SlashCmdList.GSMESSTEST("auktionen holen")
+    pump(5)
+    e2 = str(a.GSMesstestDB.export)
+    print(e2)
+    check("Einzelauktionen 3000" in e2, "A1 Anzahl fehlt")
+    check("Restzeit-Stufen" in e2 and "1:" in e2, "A1 Restzeit fehlt")
+    check("Besitzername" not in e2 and "Item1 " not in e2, "A1 Name im Ergebnis")
+    check("Besitzer bekannt ja" in e2, "A1 Besitzer-Feld nicht gemeldet")
+    check(not a.GSMesstest.busy, "A1 busy bleibt gesetzt")
     # testberichte.py liest es
     sys.path.insert(0, str(ROOT / "addon-check"))
     import testberichte

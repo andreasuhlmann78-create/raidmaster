@@ -23,3 +23,14 @@ Am aussagekräftigsten: einmal mit einem Gildenmitglied, einmal mit einem Spiele
 sieht (anderer interner Realm).
 
 Keine Namen im Ergebnis (`<Ich>`, `<Partner>`, `<Offline>`, `<Unbekannt>`). Offline-Test: `shared/tests/test_gsmesstest.py`.
+
+
+## A1 Auktionen (Version 3, Messauftrag M1 aus `shared/wissen/markt-strategie.md`)
+
+Ohne Partner, am offenen Auktionshaus:
+
+- `/gsmess auktionen` – prüft nur, ob es `C_AuctionHouse.ReplicateItems` und die zugehörigen Funktionen gibt.
+- `/gsmess auktionen holen` – ruft `ReplicateItems` **einmal** auf (nur lesen, kauft nichts), wartet bis 60 s auf
+  `REPLICATE_ITEM_LIST_UPDATE` und meldet: Anzahl Einzelauktionen, verschiedene Items, Restzeit-Stufen, drei Beispiele
+  (Menge, Gebote, Sofortkauf, Status, ItemID, Restzeit, "Besitzer bekannt ja/nein"). **Keine Namen** (Item-, Spieler-,
+  Bieter-Namen werden nie ausgegeben). Bei Blizzard nur etwa alle 15 Min. erlaubt.
