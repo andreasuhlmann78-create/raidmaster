@@ -12,6 +12,19 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.65
+
+- **Fix: posting gear failed with "Internal auction error"** on WoW Forever: the server accepts single items (gear)
+  only in whole silver. AHSentinel now rounds the price of single items down to whole silver (at least 1s) and shows it
+  in the field; undercutting single items uses "−1 silver". Commodities keep copper prices.
+- **Fix: dust and essences were "hardly selling"** (0.65.63): the sales rate now always comes from the market; your own
+  sales only raise it, and anything you sell yourself regularly is never "hardly sells".
+- **"Today" no longer stutters:** the disenchant deals loop now pauses in small portions; the diagnostic log shows the
+  steps per frame for slow background tasks.
+- **New: command list while typing:** type /ahs in chat and all commands appear above the input box – the ones you
+  use most at the top; keep typing to filter, click to run. AHSentinel never writes into the chat box. Can be turned off
+  in the options ("Command list while typing").
+
 ### Version 0.65.64
 
 - **Ledger: "Profit" is now called "Cash"** – it is income minus spending minus fees. Bought materials count as
@@ -59,20 +72,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   from the quantity field of the invoice ("real 1", +7800 %). Now total / quantity; existing sales are recalculated once.
 - **Profit window, "Best recipes":** new prices from the sniper or sync alone rebuild the list at most every 30 seconds
   (before: every 2 seconds while sniping). Opening, switching professions, bags and ledger still update at once.
-
-### Version 0.65.60
-
-- **Main window opens beside the auction house** instead of over it, as long as you have not moved it yourself
-  (and there is room on the screen).
-- **Faster item tooltips:** the AHSentinel lines are cached per item for a few seconds (price data, Shift, settings,
-  watchlist and bags are part of the key); the Shift part is only calculated while Shift is held.
-- **Test routine can be cancelled:** `/ahs testroutine stop` (or `abbrechen`) and the "Cancel" button in the result
-  window stop the run; all data is restored and the report says "cancelled by user".
-- Test routine: no real data is changed any more (owned auctions, seller entry, ledger, sniper day counter,
-  disenchant log – each test now works on its own copy); sniper and watcher pause during the server searches and are
-  restored to your own setting afterwards; a timeout now says why (queries per minute, search, sniper, watcher);
-  sniper test sets the max below the cheapest offer; the overlap check only reports windows AHSentinel placed itself
-  (windows you moved and invisible frames of other addons are hints).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
