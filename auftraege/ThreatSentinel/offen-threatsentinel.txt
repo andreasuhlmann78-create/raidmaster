@@ -1,68 +1,76 @@
-OFFENE PUNKTE THREATSENTINEL (nach der Nachprüfung von 2.5.6)
+OFFENE PUNKTE THREATSENTINEL (nach der Nachprüfung von 2.5.8)
 =============================================================
-Stand: 10. November 2026, 14:35 · von der Prüf-Sitzung · Grundlage: download/ThreatSentinel-2.5.6.zip, Diff gegen 2.5.4
-(2.5.5 dazwischen), Meldung der ThreatSentinel-Sitzung vom 10.11., 12:50. Nachtrag 14:35: neue Testberichte aus dem
-Spiel (2.5.4, 10.11. 09:58 und 10:05 UTC): Punkt 3 und eine Client-Prüfung (T144).
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand von 12:55.
+Stand: 10. November 2026, 17:25 · von der Prüf-Sitzung · Grundlage: download/ThreatSentinel-2.5.8.zip, Diff gegen 2.5.6
+(2.5.7 dazwischen), Diagnose-Protokoll 2.5.8 vom 10.11. 16:00 (testberichte/diagnose/ThreatSentinel/2.5.8-bc24f3cfd8d1.txt).
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand von 14:35.
 
-Erledigt in 2.5.5 und 2.5.6 (danke):
-- Alt 1 HOCH Sprachtest: ADDON_LOADED ruft pcall(ns.ApplyDevLocale, ns) (Core.lua:1181–1182). ApplyDevLocale ruft
-  d.IsDev mit self und in pcall (Core.lua:1258–1267), ns:IsDev ebenso (Core.lua:1249–1254). Bei Fehler: Spielsprache,
-  Module laden weiter. Testfälle T-L1, T-L2 (TestRoutine.lua:2398, 2409), T-L2 prüft auch den Punkt-Aufruf.
-- Alt 2 Q4 Aggro-Warnung: ShowSecret nutzt lesbares isTanking bzw. lesbare Stufe (DDView.lua:55–78): Stufe 2–3 oder
-  isTanking -> "Du hast Aggro!" (rot, Ton einmal), Stufe 1 -> "Über dem Tank - gleich Aggro!" (orange), sonst neutral.
-  Keine Schwellwerte auf geschützten Prozenten. Testfall T-Q4 (TestRoutine.lua:2484), T169 prüft den geschützten Fall.
-  DD_OVER_TANK in EN und DE.
-- Alt 3 "ohne Gruppe": eigener Zähler statt "verworfen" (Sync.lua:65–69), kein Hello ohne Gruppe (Sync.lua:115).
-- Alt 4 LESBAR-Zeile: "Ziel-des-Mobs" aus seen.holderReadable, dazu "Halter-in-Gruppe" (Meter.lua:330–333).
-- Alt 5 Q1–Q3: Testfälle T-Q1, T-Q2, T-Q3 (TestRoutine.lua:2761, 2772, 2780), neue Texte TR_SW_*/TR_PRE_ACTIVE in EN
-  und DE, Platzhalter gleich.
-- Alt 6 Q5 Sync im Kampf: H: (Rolle/Version) wird gemerkt und nach dem Kampf einmal gesendet (Sync.lua:72–80, 270–288),
-  T:/R:/X: werden als "Kampf, veraltet" verworfen. Diagnose "nachgeholt N". Testfall T-Q5 (TestRoutine.lua:2508).
-- Alt 7 Gemeinsamer Sync: begründet nicht eingebaut (nur zeitkritische Tank-Absprachen über PARTY/RAID). Begründung
-  angenommen, siehe Punkt 2.
-- befund-testroutine-254.txt ist damit abgeschlossen (Q1–Q5). Datei entfernt.
+Erledigt in 2.5.7 und 2.5.8 (danke):
+- Alt 1 "nachgeholt" zählt nur Gesendetes: S:Flush zählt nur noch "self:Send(msg) == true" (Sync.lua:275). S:Send liefert
+  nil (Sync aus / ohne Gruppe), false (im Kampf gemerkt, abgelehnt) oder true (gesendet) (Sync.lua:62–96). T-Q5 prüft
+  den Fall "nach dem Kampf ohne Gruppe -> nachgeholt 0" (TestRoutine.lua:2508 ff.).
+- Alt 3 Testzentrale überdeckt den BuffSentinel-Anker: ns.UIAvoidBlizzard meidet jetzt auch sichtbare Fenster anderer
+  GoldSentinel-Addons aus GoldSentinelUIFrames, leere Anker zählen über U.ReallyVisible nicht (UICheck.lua:135–187);
+  bis zu 4 Versuche, sonst die Lage mit der wenigsten Überdeckung. Gilt für Testzentrale (TestMode.lua:869,
+  TestRoutine.lua:3459) und Einstellungen (Options.lua:871). Neuer Testfall T-K2 (siehe aber Punkt 1).
+- Zusätzlich (2.5.7): Messung "LESBAR-PLAKETTEN" einmal je Kampf im Modus ANZEIGE, nur Zahlen, keine Namen
+  (Threat.lua:409, 439–475, Testfall T-M1 TestRoutine.lua:3243); Spott-Fehlgründe aus UI_ERROR_MESSAGE, beide
+  Reihenfolgen, Trennzeichen entfernt (Log.lua:245, 719–755, Zusammenfassung mit SUM_TAUNT_WHY EN/DE, Testfall T-W1
+  TestRoutine.lua:2649); Testassistent überspringt Plaketten-/HUD-/Rückhol-Schritte im Modus ANZEIGE (Guide.lua:61–87,
+  Testfall T-G1 TestRoutine.lua:3261).
 
-Prüfungen: addon_check 2.5.6 OK (0 FEHLER, 0 WARNUNGEN; Ladetest Forever und Era, Sprachtest). GoldSentinelGame.lua (3)
-und GoldSentinelTest.lua (2) byte-gleich mit shared/, GoldSentinelDev.lua unverändert. CHANGELOG EN/DE für 2.5.5 und
-2.5.6 da. Keine Blizzard-Funktion ersetzt. Kein Testfall nur als T:Skip("noch nicht ...").
+Prüfungen: addon_check 2.5.8 OK (0 FEHLER, 0 WARNUNGEN; Ladetest, Sprachtest). GoldSentinelGame.lua (3) und
+GoldSentinelTest.lua (2) byte-gleich mit shared/, GoldSentinelDev.lua unverändert. CHANGELOG EN/DE für 2.5.7 und 2.5.8
+da. Neuer Text SUM_TAUNT_WHY in EN und DE, Platzhalter gleich (%s). Keine Blizzard-Funktion ersetzt (Tests nur über
+WithAPI/ns.API und Swap auf ns). Kein Testfall nur als T:Skip("noch nicht ..."). Diagnose 2.5.8 aus dem Spiel: 0 Fehler,
+0 gesperrte Aktionen; mit 2.5.8 noch kein Kampf protokolliert (keine LESBAR-PLAKETTEN-Zeile).
 
-1. "NACHGEHOLT" ZÄHLT AUCH NICHT GESENDETE NACHRICHTEN (Schwere: NIEDRIG) – neu
-   S:Flush zählt jede Nachricht, für die S:Send nicht false liefert (Sync.lua:274). S:Send liefert aber nil, wenn Sync
-   aus ist oder keine Gruppe da ist (Sync.lua:63, 65–69). Verlässt man nach dem Kampf die Gruppe, steht die Nachricht
-   im Protokoll als "nachgeholt" und zugleich als "ohne Gruppe".
-   Lösung: in Flush nur "if self:Send(msg) == true then n = n + 1 end". T-Q5 um den Fall "nach dem Kampf ohne Gruppe
-   -> nachgeholt 0" ergänzen.
+1. T-K2 SCHLÄGT IM ECHTEN CLIENT IMMER FEHL (Schwere: MITTEL) – neu
+   Das "fremde" Testfenster wird an der Testzentrale selbst verankert: o:SetPoint("CENTER", tf, "CENTER")
+   (TestRoutine.lua:3514). Verschiebt UIAvoidOthers die Testzentrale, wandert das Testfenster mit; die Überdeckung danach
+   (TestRoutine.lua:3518) ist nie 0 -> falscher FEHLER in jedem Testbericht.
+   Lösung: das Testfenster an UIParent auf die aktuelle Lage der Testzentrale setzen, z. B.
+       local cx, cy = tf:GetCenter(); local s = tf:GetEffectiveScale() / UIParent:GetEffectiveScale()
+       o:SetPoint("CENTER", UIParent, "BOTTOMLEFT", cx * s, cy * s)
+   Dann prüft der Fall wirklich, dass die Testzentrale ausweicht.
 
-2. GEMEINSAMER SYNC (Hinweis, Entscheid des Nutzers)
+2. T-G1 SCHLÄGT IN WOW FOREVER FEHL (Schwere: MITTEL) – neu
+   Für den Teil "VOLL: 0 übersprungen" setzt T-G1 nur ns.simAccess = "open" (TestRoutine.lua:3271). ns:ThreatMode()
+   macht aus simAccess "open" bei echter Sperre (threatAccess "secret") trotzdem "DISPLAY" (ThreatAccess.lua:43), ebenso
+   bei der Einstellung "immer nur Anzeige" (ThreatAccess.lua:49). In Forever werden dann alle 8 Schritte auch "in VOLL"
+   übersprungen -> falscher FEHLER.
+   Lösung: im Test zusätzlich ns.threatAccess = "open" und ns.db.threatMode = nil setzen und danach zurück (wie T170,
+   TestRoutine.lua:3391), oder NoPlates im Test über Swap(ns, "ThreatMode", …) auf "FULL" bzw. "DISPLAY" stellen.
+
+3. SPOTT-GRUND OHNE FILTER (Schwere: NIEDRIG) – neu
+   Log.lua:719–744 nimmt jede UI_ERROR_MESSAGE, die 0,5 s vor/nach einem fehlgeschlagenen Spott kommt, als Grund ins
+   Protokoll und in die Zusammenfassung (Testberichte sind öffentlich). Fehlermeldungen des Spiels können Namen enthalten
+   (z. B. "%s ist beschäftigt"), und nicht jede Meldung gehört zum Spott.
+   Lösung: nur Meldungen übernehmen, deren Text in einer kleinen Liste bekannter Spell-Fehler steht (z. B.
+   ERR_OUT_OF_RANGE, SPELL_FAILED_NOT_READY, SPELL_FAILED_OUT_OF_RANGE, SPELL_FAILED_BAD_TARGETS, ERR_SPELL_COOLDOWN,
+   ERR_OUT_OF_RAGE – lokalisierte Globals des Clients, mit "or nil" für alte Clients), sonst "anderer Grund".
+   Kleinigkeit dabei: der Kommentar "-- Wechsel VOLL <-> ANZEIGE ..." steht jetzt über dem Messblock statt über
+   T:ModeChanged (Threat.lua:432), T.measureFight wird nicht benutzt (Threat.lua:439).
+
+4. GEMEINSAMER SYNC (Hinweis, Entscheid des Nutzers) – unverändert
    Die Begründung ist richtig: ThreatSentinel braucht keine gemeinsame Warteschlange, kein GUILD und kein Netz.
    Offener Nachteil: Testberichte teilt GoldSentinelTest 2 nur, wenn ein anderes Addon GoldSentinelSync 2 mitbringt.
    anweisung-gemeinsamer-sync.txt und anweisung-sync-version2.txt bleiben, bis der Nutzer entschieden hat. Nichts tun,
    solange kein Entscheid kommt.
 
-3. TESTZENTRALE ÜBERDECKT DEN BUFFSENTINEL-ANKER (Schwere: NIEDRIG) – neu aus dem Spiel
-   Testbericht 2.5.4 (testberichte/berichte/ThreatSentinel/ThreatSentinel-1794304732-3fd218-1.json und
-   ThreatSentinel-1794305177-608ad8-2.json): T181 FEHLER "Testzentrale überdeckt BuffSentinelAnchor_cd (BuffSentinel)".
-   Area.K öffnet die Testzentrale und ruft ns.UIAvoidBlizzard (TestRoutine.lua:3383-3386); das weicht offenbar nur
-   Blizzard-Fenstern aus, nicht den Ankern anderer GoldSentinel-Addons. In 2.5.6 unverändert.
-   Lösung: beim Platzieren der Testzentrale auch sichtbare Fenster anderer GoldSentinel-Addons meiden (dieselbe Liste,
-   die UICheck.WindowsOverlapNothing prüft), oder die Testzentrale an eine freie Stelle setzen. Ist ein Anker von
-   BuffSentinel bewusst ausgenommen (verschiebbares Symbol), bitte begründet zurückmelden – dann gehört die Ausnahme
-   in die Prüfung, nicht ins Addon.
-
 IM CLIENT PRÜFEN
-   - T144 (aus dem Testbericht 2.5.4 vom 10.11. 10:05 UTC, ThreatSentinel-1794305150-9f81fe-1.json): "0x" statt "1x".
-     In 2.5.6 setzt NoticeCount errorNoticed zurück und ersetzt IsTesting für die Prüfung (TestRoutine.lua:2740-2755,
-     Q1) – sollte damit behoben sein. Mit 2.5.6 zweimal hintereinander /ts testroutine i: beide Male T144 "1x".
-   - Sprachtest mit 2.5.6: /ts testroutine sprache, /reload -> Addon lädt, englische Texte; /ts testroutine f -> T128,
-     T-L1, T-L2 OK; nach /reload wieder Deutsch.
-   - Forever-Dungeon als DD: "Du hast Aggro!" bei lesbarem isTanking, orange Warnung bei Stufe 1, Ton nur einmal.
-   - Diagnose-Protokoll: LESBAR mit "Halter-in-Gruppe", SYNC mit "nachgeholt" und "ohne Gruppe" (solo kein "verworfen").
-   - Ganze /ts testroutine: T-Q1–T-Q5 OK.
-   - /reload mitten im Kampf: kein "MODUS DISPLAY -> FULL" im selben Kampf (T-P1b im Spiel).
-   - T139/T139b im Spiel nach /reload: Häppchen und Öffnen < 16 ms.
-   - Bereich K mit Blizzard-Fenstern (T186), T135 /gsgame (Version 3), T154 Pull mit 3+ Mobs ("Blocked: none").
-   - Era und TBC: Aggrometer wie bisher, keine zweite Kopfzeile; "Spott widerstanden"; kein "Addon geblockt" (T117, T176b).
+   - Forever-Dungeon im Modus ANZEIGE: einmal je Kampf eine Zeile LESBAR-PLAKETTEN im Diagnose-Protokoll, ohne Namen.
+     Damit entscheidet sich, ob eine Tank-Aggrowarnung in Forever möglich ist (isTanking/Stufe für alle Plaketten lesbar?).
+   - Spott, der fehlschlägt (zu weit, Abklingzeit): Zusammenfassung zeigt "Gründe: …" (Klartext der Spielmeldung).
+   - Testassistent in Forever: Plaketten-, HUD- und Rückhol-Schritte "n/a", nicht "fehlgeschlagen".
+   - Bereich K mit sichtbarer BuffSentinel-Leiste und offenen Blizzard-Fenstern: T181 ohne Überlappen (T186);
+     T-K2 erst nach Punkt 1 aussagekräftig.
+   - T144 zweimal hintereinander /ts testroutine i: beide Male "1x" (seit 2.5.6 erwartet behoben).
+   - Sprachtest: /ts testroutine sprache, /reload -> englisch; /ts testroutine f -> T128, T-L1, T-L2 OK; danach Deutsch.
+   - Diagnose-Protokoll: SYNC "nachgeholt" steigt nach Kampf in Gruppe, solo nicht.
+   - /reload mitten im Kampf: kein "MODUS DISPLAY -> FULL" im selben Kampf (T-P1b). T139/T139b < 16 ms.
+   - T135 /gsgame (Version 3), T154 Pull mit 3+ Mobs ("Blocked: none").
+   - Era und TBC: Aggrometer wie bisher, keine zweite Kopfzeile; "Spott widerstanden"; kein "Addon geblockt" (T117, T176b);
+     Spott-Grund kommt auch dort (UI_ERROR_MESSAGE mit Text im 2. Argument).
    - Aus älteren Berichten noch offen: T11 und T177 (Interface-Nummer), T46, T109, T110, T148, T149, T157, T174, T188.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
