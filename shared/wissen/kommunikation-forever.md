@@ -68,6 +68,7 @@ Folgerungen für das Flüster-Netz von GoldSentinelSync:
 - Folge: Entdeckung über Rufweite ist in Forever nicht möglich. Neue Netz-Mitspieler nur über Gilde, Gruppe/Raid,
   Flüstern und die Listen anderer Clients (Sync 2). Ideen dafür: gemeinsames GoldSentinel-Adressbuch aller Addons,
   Kontakte aus normalem Spiel (Handel, Flüstern, Post, Einladung) als Kandidaten per Addon-Flüstern anfragen.
+  Entscheid des Nutzers 10.11. 18:22: Es bleibt so – kein Adressbuch, keine Kontakt-Anfragen beauftragen.
   Nicht prüfen: Instanzen (dort könnte SAY/YELL erlaubt sein) – für ein AH-Netz ohne Nutzen.
 
 ## Quellen
