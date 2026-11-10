@@ -12,6 +12,22 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.77
+
+- **Fix (important): no more fake flips.** "Today" suggested e.g. "buy 4x Unstable Magic Particle up to 45s 97c, post
+  again for 2g 3s" – but 855 pieces were on offer at 46–50s; 2g 3s was an outdated offer price. Now ONE realistic
+  resale price is used everywhere (Today, Flip, details, watcher): the price at which fewer pieces wait in front of you
+  than sell during your duration (price ladder of the full scan or the search), at most the learned normal price and
+  the market value; without a ladder at most 15 % above the current lowest price.
+- No flip during a price crash or when the supply is flooded (3× the usual amount) – such items show up in "Crowded".
+- List and details never contradict each other: a buy row only appears if the details say "buy up to X" too.
+- Honest flip profit: after the AH cut and expected deposit losses, quantity at most what you can sell in your share
+  of the market.
+- Market views no longer stay empty while sales are not yet measured: estimated sales are used and marked grey
+  ("estimated"); an empty view says why. Switching views clears the details (or shows the first row).
+- **My Auctions:** total of sold goods in the summary line (gross and after the AH cut).
+- Test routine: T344–T350 (T-HF1–T-HF7).
+
 ### Version 0.65.76
 
 - **Full check after all steps:** `/ahs testroutine alles` runs the automatic part and then the server, professions
@@ -83,22 +99,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - Era/TBC: unchanged (the old auction house has no full scan).
 - Test routine: new part "v" (full scan) with fixed numbers; report and GSTEST1 get a section "Full scan" (timing per
   frame, throttling, meaning of the time-left stages, measured sales).
-
-### Version 0.65.72
-
-- **Forecast journal (step 1 of "check every forecast"):** whenever you post, buy or disenchant, AHSentinel now notes
-  in the background what it predicted at that moment (chance to sell within the duration, expected hours, number of
-  postings, net value; for buys the planned way and value; for disenchanting the expected material value). Later it
-  matches the result: sale invoices (oldest posting first, partial sales count proportionally), expired and cancelled
-  auctions (counted as "not sold", never left out), loot from disenchanting, what became of bought items.
-  No names, compact (at most 3000 entries, older than 60 days only in a small summary). Your ledger, disenchant
-  results and price history are only read, never changed.
-- **Tooltip (Shift):** once there are 20 own results in the item's group: "Forecasts for you: X % correct (N …)".
-- **Test routine:** new part "p" (forecast) with fixed-number checks (Brier score, reliability table, FIFO, partial
-  sale, expiry, cancel, ring buffer, size < 300 KB, no names); the report and the GSTEST1 export get a section
-  "Forecast quality" from your real data (read only).
-- Measurements: which replicate functions exist (only checked, never called), which fields the item search returns,
-  and the lowest price/quantity per hour of the day for items you trade or watch (evaluated later).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
