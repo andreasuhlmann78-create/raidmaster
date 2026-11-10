@@ -1,0 +1,32 @@
+BEFUND DER PRÜF-SITZUNG FÜR AHSENTINEL: OPTIONEN – ZEILEN ÜBERLAGERN SICH
+=======================================================================
+Stand: 10. November 2026, 09:20 · Meldung des Nutzers (10.11. 09:13, Bildschirmfoto, Version 0.65.68, Design Modern,
+Schrift 100 %)
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen. Dann dies (MITTEL – Einstellungen kaum bedienbar).
+
+BEOBACHTUNG (Fenster Optionen, rechte Spalte, die obersten drei Zeilen)
+   Zeile 1: Beschriftungen "Selbsttest" und "Standard-Laufzeit" übereinander; Knöpfe "2 Std." und "Test öffnen"
+            übereinander.
+   Zeile 2: "Befehlsliste beim Tippen" und "Daten" übereinander; Knöpfe "CSV-Export" und ein zweiter Knopf übereinander,
+            daneben "Positionen".
+   Zeile 3: "Addon unterstützen" und "Fehlergrösse"/ähnlich übereinander; Knopf "Unterstützen" liegt auf einem "-"-Knopf.
+   Ursache vermutlich: die neuen Zeilen (Standard-Laufzeit 0.65.66, Befehlsliste beim Tippen 0.65.6x, …) wurden an
+   feste Positionen gesetzt, die schon belegt sind (Zeilenzähler der rechten Spalte nicht weitergezählt).
+
+UMSETZEN
+O1 Jede Option eine eigene Zeile; Zeilen der Spalten aus einer Liste aufbauen (Zähler), keine festen y-Werte. Passt
+   es nicht mehr: Fenster höher oder eine dritte Spalte/Seite ("Mehr"), nichts abschneiden.
+O2 UICheck/Testroutine Bereich K: Überlappungsprüfung für das Optionen-Fenster – kein Paar Beschriftung/Knopf darf sich
+   überschneiden (GetLeft/Right/Top/Bottom), bei Schrift 100 % und 130 %, Design Klassisch und Modern, enGB und deDE.
+   Das hätte die Testroutine finden müssen – bitte für ALLE Fenster prüfen, die Zeilen haben.
+O3 Nebenbei aufgefallen: "Entzaubern gelernt: 86 in 3 Gruppen", Entzauber-Statistik (deLog) zeigte 82 Minuten
+   vorher. Wenn in der Zwischenzeit nicht 4 Mal entzaubert wurde, zählen deStats und deLog verschieden –
+   siehe anweisung-testroutine-entzaubern.txt E14 (Zählkontrolle). Bitte mitprüfen.
+
+TESTFÄLLE
+T-OÜ1 Optionen öffnen (Modern, 100 %) -> keine zwei Elemente überlagern sich (Prüfung O2 = OK).
+T-OÜ2 Dasselbe Klassisch, 130 %, enGB -> OK. T-OÜ3 Neue Option hinzufügen (Test) -> landet in einer freien Zeile.
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden.

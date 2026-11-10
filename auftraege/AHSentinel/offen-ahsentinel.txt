@@ -184,3 +184,8 @@ NEU (10. Nov. 09:20, Wunsch des Nutzers, HOCH) – anweisung-testroutine-entzaub
    Mengen, Ablehnung, Lernrechnung mit festen Zahlen, Forever-Startwerte, T227 anpassen, geteilte Daten, Tooltip, Wert).
    Teil 2 echte Daten (E13–E15): Abschnitt "Entzaubern (echte Daten)" im Testbericht – Raten je Gruppe gegen die
    Tabelle, Zählkontrolle, Plausibilität. Ersetzt Z5 aus befund-entzaubern-zaehlen.txt. T-TE1–T-TE3.
+
+NEU (10. Nov. 09:20, MITTEL) – befund-optionen-ueberlagert.txt
+   Optionen rechte Spalte: oberste drei Zeilen doppelt belegt (Selbsttest/Standard-Laufzeit, Daten/Befehlsliste,
+   Unterstützen/-). O1 Zeilen per Zähler, O2 Überlappungsprüfung in UICheck/Bereich K für alle Fenster, O3 86 gelernt
+   vs. 82 im deLog prüfen. T-OÜ1–T-OÜ3.
