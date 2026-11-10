@@ -12,6 +12,22 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.72
+
+- **Forecast journal (step 1 of "check every forecast"):** whenever you post, buy or disenchant, AHSentinel now notes
+  in the background what it predicted at that moment (chance to sell within the duration, expected hours, number of
+  postings, net value; for buys the planned way and value; for disenchanting the expected material value). Later it
+  matches the result: sale invoices (oldest posting first, partial sales count proportionally), expired and cancelled
+  auctions (counted as "not sold", never left out), loot from disenchanting, what became of bought items.
+  No names, compact (at most 3000 entries, older than 60 days only in a small summary). Your ledger, disenchant
+  results and price history are only read, never changed.
+- **Tooltip (Shift):** once there are 20 own results in the item's group: "Forecasts for you: X % correct (N …)".
+- **Test routine:** new part "p" (forecast) with fixed-number checks (Brier score, reliability table, FIFO, partial
+  sale, expiry, cancel, ring buffer, size < 300 KB, no names); the report and the GSTEST1 export get a section
+  "Forecast quality" from your real data (read only).
+- Measurements: which replicate functions exist (only checked, never called), which fields the item search returns,
+  and the lowest price/quantity per hour of the day for items you trade or watch (evaluated later).
+
 ### Version 0.65.71
 
 - **Disenchant statistics:** rejected results (material outside the table) count as disenchanted and their loot counts,
@@ -66,17 +82,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   if it stays empty the row leaves the shopping list (log line DETAIL-LEER).
 - Interface for other addons: price source "scan" only if the price really was in the last scan.
 - Test routine: button names with text and position; outdated fee texts removed.
-
-### Version 0.65.67
-
-- **Fix: the line "110 in your bags: …" did not appear** (e.g. Strange Dust): the tooltip checked "stackable" with a
-  game function that is missing on WoW Forever. It now works with every bag addon. If the total cannot be calculated,
-  "Sell:" × quantity is shown instead and the diagnostic log gets one line GESAMTWERT.
-- **Disenchant chances of green items on WoW Forever** follow the Forever guide (wow-professions.com): armor 75/20/5,
-  weapons 20/75/5 (dust/essence/shard); up to item level 15 stays 80/20 without shard. Your own results still count more.
-  Other game versions keep the table from warcraft.wiki.gg.
-- **Tooltip:** "Materials (table + N own)" when your own disenchant results are included; with Shift the source of the
-  chances. Diagnostic log: one line DE-CHANCEN per group and day (table vs. real results).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

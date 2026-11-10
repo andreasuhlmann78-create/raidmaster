@@ -7,6 +7,22 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.72</h3>
+<ul>
+<li><strong>Forecast journal (step 1 of "check every forecast"):</strong> whenever you post, buy or disenchant, AHSentinel now notes
+  in the background what it predicted at that moment (chance to sell within the duration, expected hours, number of
+  postings, net value; for buys the planned way and value; for disenchanting the expected material value). Later it
+  matches the result: sale invoices (oldest posting first, partial sales count proportionally), expired and cancelled
+  auctions (counted as "not sold", never left out), loot from disenchanting, what became of bought items.
+  No names, compact (at most 3000 entries, older than 60 days only in a small summary). Your ledger, disenchant
+  results and price history are only read, never changed.</li>
+<li><strong>Tooltip (Shift):</strong> once there are 20 own results in the item's group: "Forecasts for you: X % correct (N …)".</li>
+<li><strong>Test routine:</strong> new part "p" (forecast) with fixed-number checks (Brier score, reliability table, FIFO, partial
+  sale, expiry, cancel, ring buffer, size &lt; 300 KB, no names); the report and the GSTEST1 export get a section
+  "Forecast quality" from your real data (read only).</li>
+<li>Measurements: which replicate functions exist (only checked, never called), which fields the item search returns,
+  and the lowest price/quantity per hour of the day for items you trade or watch (evaluated later).</li>
+</ul>
 <h3>Version 0.65.71</h3>
 <ul>
 <li><strong>Disenchant statistics:</strong> rejected results (material outside the table) count as disenchanted and their loot counts,
@@ -62,18 +78,7 @@
 <li>Interface for other addons: price source "scan" only if the price really was in the last scan.</li>
 <li>Test routine: button names with text and position; outdated fee texts removed.</li>
 </ul>
-<h3>Version 0.65.67</h3>
-<ul>
-<li><strong>Fix: the line "110 in your bags: …" did not appear</strong> (e.g. Strange Dust): the tooltip checked "stackable" with a
-  game function that is missing on WoW Forever. It now works with every bag addon. If the total cannot be calculated,
-  "Sell:" × quantity is shown instead and the diagnostic log gets one line GESAMTWERT.</li>
-<li><strong>Disenchant chances of green items on WoW Forever</strong> follow the Forever guide (wow-professions.com): armor 75/20/5,
-  weapons 20/75/5 (dust/essence/shard); up to item level 15 stays 80/20 without shard. Your own results still count more.
-  Other game versions keep the table from warcraft.wiki.gg.</li>
-<li><strong>Tooltip:</strong> "Materials (table + N own)" when your own disenchant results are included; with Shift the source of the
-  chances. Diagnostic log: one line DE-CHANCEN per group and day (table vs. real results).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
