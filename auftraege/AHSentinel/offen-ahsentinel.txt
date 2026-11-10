@@ -146,6 +146,10 @@ NEU (10. Nov. 18:10, HOCH) – befund-markt-entzaubern-menge.txt (Bild des Nutze
    gestiegenem Hauptmaterial, D5 Menge Zeile/Fusszeile gleich, "Stufe ?", D6 HOCH Aufkauf erkennen (Material aufgekauft ->
    Kaufen mit altem Preis, Verkaufen mit aktuellem + Hinweis). T-MD1–T-MD6. Vor dem grossen Test.
 
+NEU (10. Nov. 18:30, HOCH, Wunsch des Nutzers) – befund-sniper-reagiert-nicht.txt S7
+   Totes Angebot (nicht kaufbar, verschwindet nicht; Sniper zeigt "9s weg" und "Günstigstes: 9s") komplett ignorieren
+   und ausblenden: je auctionID bis sie vom Server verschwindet, zählt nirgends (Günstigstes, GetCurrent, Preisleiter,
+   % Markt), nur Hinweis "1 totes Angebot ausgeblendet". T-SR7a–c. Vor dem grossen Test.
 HINWEIS DES NUTZERS (10. Nov. 16:48): Sobald alle offenen Punkte umgesetzt und gepusht sind, macht der Nutzer einen
 grossen Test im Spiel ("/ahs testroutine alles"). Bitte nach dem letzten Release dem Nutzer ausdrücklich melden:
 "alles umgesetzt – bereit für den Test", mit Version. Für den Test nötig: Punkte 1, 2 und 3; Punkt 4–6 dürfen folgen.

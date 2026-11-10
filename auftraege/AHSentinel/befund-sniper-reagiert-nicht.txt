@@ -1,0 +1,24 @@
+
+S7 HOCH – TOTES ANGEBOT KOMPLETT IGNORIEREN UND AUSBLENDEN (Wunsch des Nutzers 10.11. 18:24, Bild 0.65.86)
+   Lage: Sniper-Ziel Azurblaue Seidenkapuze, Max 9s. Oberste Zeile "9s · 100 % · weg" (rot) bleibt in der Liste
+   stehen, darunter 10s/13s "zu teuer". Statuszeile: "Nichts Passendes unter deinem Max-Preis. Günstigstes: 9s".
+   Das 9s-Angebot lässt sich nicht kaufen und verschwindet nicht (gleiches Angebot wie in S6, schon im Einkauf als
+   "9s, Gebot 9s" zu sehen).
+   Wunsch des Nutzers: "Wenn es wieder so ein Item gibt, das nicht verschwindet und man es auch nicht kaufen kann, soll
+   er es komplett ignorieren, am besten ausblenden."
+   a) Ein Angebot, dessen Kauf fehlschlug oder das der Server nach "weg" wieder liefert (S6), wird je auctionID
+      AUSGEBLENDET: nicht im Sniper, nicht im Einkauf, nicht in Schnäppchen/Markt. Nicht nur 10 Minuten, sondern bis
+      die auctionID aus den Server-Antworten verschwunden ist (bzw. für die ganze Sitzung, gespeichert höchstens
+      48 Std.). Eine NEUE auctionID zum gleichen Preis bleibt sichtbar und kaufbar (wie S6).
+   b) Es zählt nirgends: nicht als "Günstigstes" in der Statuszeile, nicht im aktuellen Preis/Scan-Minimum
+      (A:GetCurrent, Preisleiter, Vollscan-Auswertung), nicht in "% Markt", nicht im Sammelkauf. Sonst rechnen Tooltip,
+      Markt und Entzauberwert mit einem Preis, den es nicht gibt.
+   c) Waren ohne auctionID: dieselbe Kombination aus Preis und Menge nach 2 Fehlschlägen für die Sitzung ausblenden.
+   d) Sichtbar bleibt nur ein kleiner Hinweis in der Statuszeile: "1 totes Angebot ausgeblendet" (Klick/Tooltip: Preis
+      und Grund). Protokoll SNIPER-TOT-AUSGEBLENDET mit ItemID, Preis, Grund (ohne Namen).
+   e) Wiederholt sich der Fehlschlag beim gleichen Item mit verschiedenen auctionIDs (≥ 3), Item für 10 Min. pausieren
+      und im Protokoll melden – dann stimmt etwas anderes nicht (Messung, kein Raten).
+   T-SR7a: Kauf schlägt fehl, Server liefert dieselbe auctionID wieder -> Zeile nicht sichtbar, Statuszeile
+           "Günstigstes: 10s" + "1 totes Angebot ausgeblendet".
+   T-SR7b: Neue auctionID zum gleichen Preis -> sichtbar, kaufbar.
+   T-SR7c: Totes 9s-Angebot verändert A:GetCurrent/Preisleiter/% Markt nicht.
