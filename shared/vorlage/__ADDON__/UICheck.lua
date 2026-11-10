@@ -7,6 +7,9 @@
 --
 -- Benutzung im eigenen Code:
 --   ns.RegisterUI(frame, "Name")                 -- jedes eigene Fenster anmelden (UI.lua macht das für Haupt-/Kopierfenster)
+--   ns.RegisterUI(frame, "Name", "hud")          -- frei verschiebbare Kampfanzeige (Leisten, Symbole, Anker): wird
+--                                                   selbst geprüft, kommt aber NICHT in die gemeinsame Liste – andere
+--                                                   Addons sollen sich nicht an Kampfanzeigen stossen (wie ThreatSentinel)
 --   ns.Plausible("Fertigkeit", function() return skill > 0, skill, "> 0" end)   -- Spielwert-Prüfung für T22
 -- Andere GoldSentinel-Addons melden ihre Fenster in der globalen Liste GoldSentinelUIFrames an (T19 prüft gegeneinander).
 
@@ -22,12 +25,15 @@ ns.UI_BLIZZARD = { "ProfessionsFrame", "TradeSkillFrame", "CraftFrame", "Merchan
 
 GoldSentinelUIFrames = GoldSentinelUIFrames or {}
 
-function ns.RegisterUI(frame, name)
+function ns.RegisterUI(frame, name, kind)
     if not frame then return end
     for _, e in ipairs(ns.uiFrames) do if e.frame == frame then return end end
-    local e = { frame = frame, name = name or (frame.GetName and frame:GetName()) or ADDON }
+    local e = { frame = frame, name = name or (frame.GetName and frame:GetName()) or ADDON, hud = (kind == "hud") }
     ns.uiFrames[#ns.uiFrames + 1] = e
-    GoldSentinelUIFrames[#GoldSentinelUIFrames + 1] = { frame = frame, name = e.name, addon = ADDON }
+    -- Kampfanzeigen nicht in die gemeinsame Liste (Befund 10.11.: BuffSentinel-Anker galten bei anderen als "überdeckt")
+    if not e.hud then
+        GoldSentinelUIFrames[#GoldSentinelUIFrames + 1] = { frame = frame, name = e.name, addon = ADDON }
+    end
 end
 
 function ns.Plausible(name, fn) ns.plausible[#ns.plausible + 1] = { name = name, fn = fn } end
@@ -117,7 +123,7 @@ end
 function U.WindowsOverlapNothing()
     local problems, tested = {}, 0
     for _, e in ipairs(ns.uiFrames) do
-        local mine = Shown(e.frame) and U.Rect(e.frame)
+        local mine = not e.hud and Shown(e.frame) and U.Rect(e.frame)   -- Kampfanzeigen werden frei platziert
         if mine then
             for _, bn in ipairs(ns.UI_BLIZZARD) do
                 local bf = _G[bn]

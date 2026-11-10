@@ -77,3 +77,7 @@ NEU (9. Nov. 20:35, Prüf-Sitzung, zur Klärung) – Anker im Weg?
    Verschieben-Modus sichtbar, gross oder mausaktiv? Dann ausserhalb des Verschieben-Modus ausblenden bzw. auf die
    Grösse des Inhalts setzen (leer = 0 × 0 oder Hide). Sind sie unsichtbar, kurz melden – dann passt die Prüf-Sitzung
    die gemeinsame Oberflächen-Prüfung (UICheck der Vorlage) an.
+
+NEU (10. Nov. 11:10) – befund-anker-gemeinsame-liste.txt (beantwortet "Anker im Weg?")
+   Schwebende Anker nicht in GoldSentinelUIFrames (A1), leere Anker klein/aus (A2), Testfall (A3). Anlass: ThreatSentinel
+   T181 "Testzentrale überdeckt BuffSentinelAnchor_cd".

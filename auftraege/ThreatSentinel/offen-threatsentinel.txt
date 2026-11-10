@@ -100,3 +100,8 @@ IM CLIENT PRÜFEN
    - Aus älteren Berichten noch offen: T11 und T177 (Interface-Nummer), T46, T109, T110, T148, T149, T157, T174.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
+
+NACHTRAG (10. Nov. 11:10) – Testroutine 2.5.4 Bereich K beim Nutzer: OK 7, FEHLER 1 (T181 "Testzentrale überdeckt
+   BuffSentinelAnchor_cd"). Ursache bei BuffSentinel (schwebende Anker in der gemeinsamen Liste) – dort beauftragt
+   (befund-anker-gemeinsame-liste.txt). Für ThreatSentinel nichts zu tun. T186 (mit offenen Blizzard-Fenstern) bleibt
+   im Client zu prüfen.

@@ -1,0 +1,23 @@
+BEFUND DER PRÜF-SITZUNG FÜR BUFFSENTINEL: ANKER GEHÖREN NICHT IN DIE GEMEINSAME FENSTERLISTE
+=========================================================================================
+Stand: 10. November 2026, 11:10 · Anlass: ThreatSentinel 2.5.4 Testroutine Bereich K beim Nutzer (10.11. 10:59):
+"[FEHLER] T181 – Testzentrale überdeckt BuffSentinelAnchor_cd (BuffSentinel)". Beantwortet die offene Frage
+"Anker im Weg?" (offen-buffsentinel.txt, 9.11. 20:35) aus dem Code von 0.9.12.
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen. Klein.
+
+BEFUND (Display.lua:74–76, UICheck.lua:31–37 in 0.9.12)
+   Die vier Anker (proc/buff/cd/dispel) sind immer gezeigt (340 × Höhe), ausserhalb des Verschieben-Modus nur ohne
+   Hintergrund/Text und nicht mausaktiv – aber mit Inhalt (Symbole, z. B. Abklingzeiten des Kriegers). Sie werden mit
+   BS.RegisterUI(f, …, true) als "schwebend" angemeldet, landen aber trotzdem in der GEMEINSAMEN Liste
+   GoldSentinelUIFrames. Andere Addons (ThreatSentinel T181, AHSentinel T192) melden dann ihre eigenen Fenster als
+   "überdeckt BuffSentinelAnchor_…". Kampfanzeigen dürfen frei liegen; ThreatSentinel hält seine Kampfanzeigen
+   ("hud") deshalb aus der gemeinsamen Liste. Die Vorlage (shared/vorlage/__ADDON__/UICheck.lua) tut das ab heute auch.
+
+UMSETZEN
+A1 BS.RegisterUI: Ist floating == true, den Eintrag NICHT in GoldSentinelUIFrames aufnehmen (eigene Prüfung bleibt).
+A2 Leere Anker (kein Symbol): auf Inhaltsgrösse setzen oder ausblenden, solange nicht im Verschieben-Modus.
+A3 Testfall: Anker angemeldet -> nicht in GoldSentinelUIFrames; eigene Fenster (Optionen, Testzentrale) weiter drin.
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden.
