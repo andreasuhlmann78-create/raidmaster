@@ -41,6 +41,14 @@ S5 (HOCH, Wunsch des Nutzers 16:28): "Kauf fehlgeschlagen soll nur EINMAL kommen
    Nach einem Fehlschlag das Angebot sofort aus der Liste (Status "weg"), NICHT erneut versuchen, sofort zum nächsten
    passenden Angebot springen (nächste Raste kauft das nächste); ist keins mehr da: neue Suche anstossen. Keine
    Blockade des Mausrads durch den Fehlschlag.
+S6 (HOCH, Meldung 16:49, 0.65.84): Das fehlgeschlagene 9s-Angebot steht nach dem Fehler auf "weg", erscheint aber beim
+   nächsten Suchlauf wieder als "kaufbar" (Blizzard-Meldung oben: "Es liegt bereits ein höheres Gebot für diesen
+   Gegenstand vor."). Unterscheiden: gleiche auctionID (der Server liefert das tote Angebot aus dem Zwischenspeicher
+   noch einmal) -> für diese Sitzung sperren (Liste "tot" je auctionID, 10 Min.), nicht mehr als kaufbar zeigen und nicht
+   wieder versuchen; andere auctionID zum gleichen Preis (neu eingestellt) -> normal kaufbar. Ohne auctionID (Waren):
+   gleiche Kombination Preis+Menge für 60 s überspringen. Diagnose zählt "tot wieder geliefert N".
+T-SR6 Angebot A (auctionID 123) schlägt fehl, nächste Suche liefert wieder 123 -> bleibt "weg"; Suche liefert 456 zum
+      gleichen Preis -> "kaufbar".
 T-SR5 Drei Angebote weg -> genau eine Chatzeile (bzw. eine Sammelzeile), nächste Raste kauft das nächste passende Angebot.
 
 TESTFÄLLE
