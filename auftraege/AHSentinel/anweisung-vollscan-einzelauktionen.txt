@@ -1,0 +1,68 @@
+ANWEISUNG DER PRÜF-SITZUNG FÜR AHSENTINEL: VOLLSCAN MIT EINZELAUKTIONEN (ReplicateItems) – ECHTER MARKT-ABSATZ
+=============================================================================================================
+Stand: 10. November 2026, 10:15 · Messergebnis M1 (GSMesstest 3 beim Nutzer, 10.11. 10:06) · gehört zum Ziel des
+Nutzers "bestes Auktionshaus-Addon" (anweisung-prognose-stufe1.txt, shared/wissen/markt-strategie.md Abschnitt 2/7).
+
+REIHENFOLGE: Erst die laufende Arbeit und die HOCH-Befunde. Dann ZUSAMMEN mit Stufe 1 (Prognose-Journal) – beides
+liefert die Daten für Stufe 2. Teil V1–V3 sind Messung/Grundlage, V4–V6 Verfolgung. Nichts davon ändert bestehende Daten.
+
+MESSERGEBNIS (belegt, Forever 1.60.1, Fraktions-AH Undercity, am offenen Auktionshaus)
+   C_AuctionHouse.ReplicateItems() ohne Fehler -> REPLICATE_ITEM_LIST_UPDATE nach 14,2 s -> GetNumReplicateItems() =
+   180'368 Einzelauktionen. GetReplicateItemInfo(i) liefert 18 Felder; Stichprobe 2005: 998 Items, Ø Menge 8,2,
+   alle mit Sofortkauf (Feld 10), Mindestgebot/Gebot 0, Feld 18 "alle Infos" bei 81 % (ItemID Feld 17 immer da),
+   Besitzer (14/15) LEER, KEINE auctionID. GetReplicateItemTimeLeft(i): Stufen 1/2/3/4 = 4,7/15,5/67,8/12,1 %.
+
+V1 MESSAUFTRÄGE ZUERST (im Diagnose-Protokoll, ohne Namen)
+   M1b Bedeutung der Restzeit-Stufen in Forever (2/8/24 Std.): eigene Auktion 2 Std. und 24 Std. einstellen, danach
+       Replicate lesen, eigene Auktion über Signatur finden (ItemID, Menge, Sofortkauf) -> Stufe notieren; nach
+       1 Std./6 Std. erneut. Ergebnis als Tabelle Stufe -> Restzeit-Bereich.
+   M1c Drosselung: zweiter Aufruf nach 1, 5, 10, 15 Min. – kommt neue Liste, alte Liste oder nichts? (Ereignis,
+       Anzahl, Zeitstempel). Daraus die erlaubte Taktung.
+   M1d Kosten: Lesedauer aller 180'000 Einträge in Portionen (z. B. 3000 je Frame), Spitzen-ms je Frame, Speicher
+       der Zusammenfassung. Ziel: kein Frame > 8 ms, Spiel bleibt flüssig.
+
+V2 VOLLSCAN-QUELLE (nach M1c/M1d, als Option "Schnell-Vollscan", Standard an, wenn M1d gut)
+   Statt bzw. neben SendBrowseQuery: Replicate lesen und je ItemID verdichten: Mindestpreis, Gesamtmenge, Zahl der
+   Auktionen, PREISLEITER (Stück bis 100/105/110/125/150 % des Mindestpreises – oder 6 Stufen), Stück je Restzeit-
+   Stufe. Daraus wie bisher Preisverlauf/Marktwert füttern (Mindestpreis, Menge) – die bisherigen Funktionen bleiben,
+   bekommen nur bessere Eingaben. Lockangebote (1 Stück ganz unten) wie bisher aussortieren.
+   Exakte Warteschlange: Q(Preis) = Stück zu diesem Preis oder billiger aus der Preisleiter (ersetzt die Schätzung
+   "alle Stück minus eigene"). Eigene Auktionen über Meine Auktionen abziehen (Signatur).
+
+V3 SPEICHER: nur die Zusammenfassung je Item speichern (nicht 180'000 Einträge). Die Signaturliste für V4 nur im
+   Arbeitsspeicher bzw. höchstens die letzte Liste kompakt (je Item: Signatur -> Anzahl, Stufe) für Items, die
+   der Spieler handelt / auf Watchlist / Sniper / Einkaufsliste hat, plus die 500 umsatzstärksten.
+
+V4 VERFOLGUNG ZWISCHEN ZWEI VOLLSCANS (das Kernstück)
+   Je Item Multimenge der Signaturen (Menge, Sofortkauf) mit Restzeit-Stufe. Zwischen Scan A und B (Abstand d):
+   - verschwunden UND in A Restzeit-Stufe "lang genug" (laut M1b sicher länger als d) -> "vorzeitig weg" =
+     gekauft ODER abgebrochen (zählt als Kandidat Verkauf);
+   - verschwunden mit kurzer Restzeit -> "abgelaufen" (zählt NICHT als Verkauf);
+   - neu in B -> neu eingestellt.
+   Absatz S_gemessen je Item/Tag = Σ Stück "vorzeitig weg" / Zeit, über mehrere Scan-Paare geglättet (EWMA,
+   Halbwertszeit 3 Tage; seltene Items: Croston, markt-strategie.md 6.3).
+   Abbrüche verfälschen nach oben: Abbruch-Anteil aus den EIGENEN Auktionen schätzen (eigene Abbrüche/eigene
+   vorzeitig-weg) und als Faktor anwenden; im Testbericht ausweisen.
+   Sicherheit je Item: Zahl der Scan-Paare, Stück gesamt.
+
+V5 EINSETZEN (erst wenn V4 ≥ 3 Tage Daten hat): S in A:SellOutlook bevorzugt aus S_gemessen (Quelle "gemessen"),
+   sonst wie bisher. Die alten Annahmen ("halb verkauft", SELL_CAP 20 %) nur noch als Rückfall und klar "geschätzt".
+   Im Tooltip (Shift) die Quelle: "Absatz ~12/Tag (gemessen, 5 Tage)".
+
+V6 PRÜFEN (Testroutine + Prognose-Journal)
+   Teil A automatisch: Verdichtung mit Testdaten (Preisleiter, Q, Lockangebot), Verfolgung mit zwei Test-Listen
+   (vorzeitig weg / abgelaufen / neu / gleiche Signatur mehrfach), Portionen ohne Frame > 8 ms (simuliert), keine Namen.
+   Teil B echte Daten: Abschnitt "Vollscan" im Testbericht – Auktionen, Items, Dauer, M1b/M1c/M1d, Items mit
+   S_gemessen, Vergleich S_gemessen vs. alte Schätzung für die 20 meistgehandelten Items, Abbruch-Faktor.
+   Gegenprobe: eigene verkaufte Auktionen müssen in V4 als "vorzeitig weg" auftauchen (Trefferquote).
+
+TESTFÄLLE
+T-VS1 Replicate-Liste 3 Auktionen Staub (20×80c, 20×80c, 40×90c) -> Mindestpreis 80, Menge 80, Q(85c) = 40.
+T-VS2 Scan A: Signatur (20, 1600) ×2, Stufe 3; Scan B nach 30 Min.: ×1 -> 20 Stück "vorzeitig weg".
+T-VS3 Scan A Stufe 1, Scan B weg -> "abgelaufen", kein Verkauf. T-VS4 neue Signatur -> "neu".
+T-VS5 180'000 Einträge in Portionen -> kein Frame > 8 ms (Messung im Spiel M1d).
+T-VS6 Eigene Auktion verkauft (Rechnung) -> in V4 als vorzeitig weg gefunden.
+T-VS7 Keine Namen im Speicher und im Testbericht.
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen (dort gibt es ReplicateItems nicht – Funktion prüfen, sonst alter
+Weg), Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER. Danach dem Nutzer kurz melden.

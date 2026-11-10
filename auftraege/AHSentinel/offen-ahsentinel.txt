@@ -200,3 +200,10 @@ NEU (10. Nov. 09:45, ZIEL DES NUTZERS, HOCH – nach den HOCH-Befunden) – anwe
    messen (Zuverlässigkeit, Brier, Dauer, Erlös, Kauf-Trefferquote je Strategie), Zusammenfassung, Messaufträge M1–M3,
    Testroutine Teil A/B ("Prognose-Güte" im Testbericht), eine Shift-Zeile. Stufe 2/3 NICHT vorgreifen.
    Pflichtlektüre: shared/wissen/markt-strategie.md. T-PG1–T-PG9.
+
+NEU (10. Nov. 10:15, HOCH – zusammen mit Stufe 1) – anweisung-vollscan-einzelauktionen.txt
+   MESSUNG BELEGT: ReplicateItems liefert in Forever 180'368 Einzelauktionen in 14 s, mit Restzeit, ohne Besitzer,
+   ohne auctionID. V1 Messaufträge M1b (Restzeit-Stufen), M1c (Drosselung), M1d (Kosten). V2 Vollscan mit
+   Preisleiter und exakter Warteschlange. V3 nur Zusammenfassung speichern. V4 Verfolgung zwischen zwei Vollscans
+   ("vorzeitig weg" = gekauft/abgebrochen) -> gemessener Absatz. V5 einsetzen, alte Annahmen nur Rückfall.
+   V6 Testroutine/Testbericht. T-VS1–T-VS7.

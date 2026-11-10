@@ -45,7 +45,7 @@ eigene Entzauber-Beute. Alles aus dem Scan ist indirekt.
 | Marktwert = gewichteter Median der **Mindestpreise** (Halbwertszeit 3 Tage) = **Angebotspreis, nicht Verkaufspreis** | belegt (Code). TSM sagt dasselbe über seinen DBMarket: spiegelt Angebote, nicht Verkäufe |
 | **"Verschwunden" ist nicht "verkauft":** Bei 24-Std.-Auktionen läuft der ganze Bestand täglich ab | belegt (Befund 10.11. 07:30: Schwere Leinenhandschuhe, S = Deckel) |
 | Einzelauktionen mit auctionID/Restzeit gibt es nur bei der **Item-Suche** (Detail), bei Waren nur Menge je Preisstufe | vermutet – Messauftrag M2 |
-| Gibt es in Forever `C_AuctionHouse.ReplicateItems` (alle Einzelauktionen auf einmal)? | **Funktion vorhanden (10.11.), Daten noch ungemessen – M1**. Wenn ja: Auktions-Verfolgung möglich (verschwindet eine Auktion lange vor Ablauf -> gekauft oder abgebrochen) |
+| Gibt es in Forever `C_AuctionHouse.ReplicateItems` (alle Einzelauktionen auf einmal)? | **belegt 10.11.: 180'368 Auktionen in 14 s, mit Restzeit, ohne Besitzer, ohne auctionID – M1**. Wenn ja: Auktions-Verfolgung möglich (verschwindet eine Auktion lange vor Ablauf -> gekauft oder abgebrochen) |
 | Rechnungen: Verkauf, Kauf, abgelaufen/abgebrochen kommen per Post | belegt (Ledger) |
 
 Folge: **Markt-Absatz ist immer eine Schätzung.** Der einzige exakte Absatz ist der eigene. Darum: eigene Daten zuerst,
@@ -163,6 +163,19 @@ Um zu erfahren, ob ein höherer Preis noch verkauft, gelegentlich leicht höher 
   GetReplicateItemInfo, GetReplicateItemLink, GetReplicateItemTimeLeft, dazu SendSearchQuery, GetItemSearchResultInfo,
   GetCommoditySearchResultInfo, GetNumItemSearchResults. Offen: liefert der Aufruf wirklich Daten (Anzahl, Restzeit,
   Drosselung)? -> `/gsmess auktionen holen` am offenen Auktionshaus.
+  **10.11. 10:06 GEMESSEN (GSMesstest 3, Undercity, Fraktions-AH): ReplicateItems LIEFERT DATEN.**
+  - **180'368 Einzelauktionen**, Antwort nach **14,2 s** (Ereignis REPLICATE_ITEM_LIST_UPDATE), ohne Lua-Fehler.
+  - Stichprobe 2005 (jede 90.): 998 verschiedene Items, Ø Menge 8,2 je Auktion (hochgerechnet ≈ 1,5 Mio. Stück),
+    alle mit Sofortkauf, Mindestgebot 0 / Gebot 0 (keine Gebote gesehen), "alle Infos" bei 81 % (Rest: Item noch nicht
+    im Cache – ItemID trotzdem da).
+  - **Restzeit je Auktion vorhanden:** Stufe 1: 4,7 %, 2: 15,5 %, 3: 67,8 %, 4: 12,1 %. Bedeutung der Stufen in Forever
+    (2/8/24 Std.) noch nicht belegt -> Messauftrag M1b.
+  - **Besitzer wird NICHT geliefert** ("Besitzer bekannt nein") – keine Namen, gut für den Datenschutz.
+  - **Keine auctionID** in den Replicate-Daten -> Verfolgung über Signatur (ItemID, Menge, Sofortkauf) und Zählen.
+  - Offen: Wie oft erlaubt (Blizzard: ca. alle 15 Min.)? -> M1c. Lesedauer/Speicher im Addon -> M1d.
+  **Folge:** Echter Vollscan mit Einzelauktionen und Restzeit ist möglich: Preisleiter je Item (Stück je Preis),
+  exakte Warteschlange Q, und **Verschwinden mit langer Restzeit = gekauft oder abgebrochen** -> Markt-Absatz kann
+  gemessen statt geschätzt werden (ersetzt "verschwunden = halb verkauft" und den 20-%-Deckel).
 - **M2:** Liefert die Item-Suche (Detail) je Auktion auctionID und Restzeit (Ausrüstung) bzw. Menge je Preis (Waren)?
   Dann für die gehandelten Items Auktions-Verfolgung zwischen zwei Suchen.
 - **M3:** Wochentag/Tageszeit-Muster: Mindestpreis und Menge je Stunde über 3 Wochen sammeln (kompakt: je Item und
