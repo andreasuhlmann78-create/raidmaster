@@ -1,17 +1,17 @@
 {
- "ausgewertet": "2026-11-10T07:53:02Z",
+ "ausgewertet": "2026-11-10T08:53:44Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 8,
+   "berichte": 11,
    "letzter_test": {
-    "id": "AHSentinel-1794258851-4d914b-1",
-    "version": "0.65.59",
-    "time": 1794258699,
+    "id": "AHSentinel-1794299548-8eccef-1",
+    "version": "0.65.69",
+    "time": 1794299517,
     "counts": {
      "client": 15,
-     "fehler": 5,
-     "ok": 342,
+     "fehler": 1,
+     "ok": 365,
      "uebersprungen": 21
     }
    },
@@ -19,52 +19,12 @@
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.59",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T33",
-     "name": "Server: Einkauf: Angebote eines Items",
-     "detail": "erwartet: bestanden",
-     "bericht": "AHSentinel-1794258851-4d914b-1"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.59",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T40",
-     "name": "Server: Sniper: Suche (kauft nichts)",
-     "detail": "ergebnis: Treffer bei Max-Preis 1c je Stück: Plan 1x für 1c (günstigstes Angebot 1c je Stück) | erwartet: bestanden",
-     "bericht": "AHSentinel-1794258851-4d914b-1"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.59",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T45",
-     "name": "Server: Wächter: eine Runde (kauft nichts)",
-     "detail": "ergebnis: keine Antwort | erwartet: Antwort in 120 s",
-     "bericht": "AHSentinel-1794258851-4d914b-1"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.59",
+     "version": "0.65.69",
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "T122",
      "name": "Tooltip schnell",
-     "detail": "ergebnis: 2.33 ms je Aufruf | erwartet: < 2 ms",
-     "bericht": "AHSentinel-1794258851-4d914b-1"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.59",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T192",
-     "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
-     "detail": "ergebnis: Hauptfenster überdeckt AuctionHouseFrame; Hauptfenster überdeckt BuffSentinelAnchor_dispel (BuffSentinel); Hauptfenster überdeckt Guide (LevelPilot) · geprüft 7 | erwartet: keine",
-     "bericht": "AHSentinel-1794258851-4d914b-1"
+     "detail": "ergebnis: 2.10 ms je Aufruf | erwartet: < 2 ms",
+     "bericht": "AHSentinel-1794299548-8eccef-1"
     }
    ],
    "fehler_spiel": [
@@ -462,52 +422,12 @@
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.59",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T33",
-   "name": "Server: Einkauf: Angebote eines Items",
-   "detail": "erwartet: bestanden",
-   "bericht": "AHSentinel-1794258851-4d914b-1"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.59",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T40",
-   "name": "Server: Sniper: Suche (kauft nichts)",
-   "detail": "ergebnis: Treffer bei Max-Preis 1c je Stück: Plan 1x für 1c (günstigstes Angebot 1c je Stück) | erwartet: bestanden",
-   "bericht": "AHSentinel-1794258851-4d914b-1"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.59",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T45",
-   "name": "Server: Wächter: eine Runde (kauft nichts)",
-   "detail": "ergebnis: keine Antwort | erwartet: Antwort in 120 s",
-   "bericht": "AHSentinel-1794258851-4d914b-1"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.59",
+   "version": "0.65.69",
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "T122",
    "name": "Tooltip schnell",
-   "detail": "ergebnis: 2.33 ms je Aufruf | erwartet: < 2 ms",
-   "bericht": "AHSentinel-1794258851-4d914b-1"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.59",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T192",
-   "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
-   "detail": "ergebnis: Hauptfenster überdeckt AuctionHouseFrame; Hauptfenster überdeckt BuffSentinelAnchor_dispel (BuffSentinel); Hauptfenster überdeckt Guide (LevelPilot) · geprüft 7 | erwartet: keine",
-   "bericht": "AHSentinel-1794258851-4d914b-1"
+   "detail": "ergebnis: 2.10 ms je Aufruf | erwartet: < 2 ms",
+   "bericht": "AHSentinel-1794299548-8eccef-1"
   },
   {
    "addon": "AHSentinel",
@@ -795,34 +715,34 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 44,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.64-a4455e6a99b4.txt"
+    "anzahl": 47,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.65-c70fe8f98807.txt"
    },
    "BuffSentinel": {
     "anzahl": 20,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.12-f70451cd1e83.txt"
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.12-7f8dfb5af187.txt"
    },
    "GSMesstest": {
-    "anzahl": 1,
-    "neueste": "testberichte/diagnose/GSMesstest/1-7ea686d8b1e0.txt"
+    "anzahl": 2,
+    "neueste": "testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt"
    },
    "GuildSentinel": {
-    "anzahl": 38,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.21-3d7b476e31cd.txt"
+    "anzahl": 41,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.21-7c05b4782e2c.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 43,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.37-49e7efaf069a.txt"
+    "anzahl": 45,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.37-b3d9df206f8d.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 26,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.3-c3a026b589c6.txt"
+    "anzahl": 29,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.3-99bcd8be2e7c.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 85,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794292734-7f15d7.json"
+    "anzahl": 88,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794296397-e684fd.json"
    }
   }
  }
