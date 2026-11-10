@@ -7,6 +7,23 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.75</h3>
+<ul>
+<li><strong>New "Market" tab replaces "Today" (step 3):</strong> one bar with 6 views – <strong>Today</strong> (the former "Today" list: your
+  things first, then the best chances), <strong>Flip</strong> (below your buy limit, by profit per gold and day), <strong>Vendor</strong>
+  (buyout below vendor price), <strong>Gaps</strong> (low supply, steady sales, rising price – your stock first), <strong>Crowded</strong>
+  (don't post: far more supply than sales, days until sold, deposit risk) and <strong>Trends</strong> (stable 7/30-day moves,
+  falling levelling goods first). Each view: one explanation line, at most 20 rows, one number, confidence as colour,
+  one button – the button works exactly as before (check -&gt; buy -&gt; post, never without your click).</li>
+<li><strong>Details on the right:</strong> click a row or search an item at the top: price and supply over 14 days, price ladder,
+  your own history, learned price limits and ONE recommendation ("buy up to X" / "post for Y" / "leave it") with the
+  reason; buttons Watchlist, Shopping list, Sniper (with the suggested limit), price history.</li>
+<li><strong>Market today:</strong> a price index of typical goods at the top ("Market today +3 % (7 days +8 %)").</li>
+<li>The list of all items is gone from the tab bar (the data stays and all views use it); look items up via the search.</li>
+<li><code>/ahs heute</code>, the Today button and other addons (ProfessionSentinel QuickBuy/QuickSell rows on top) open the Market
+  tab on "Today". New option: "Market: default view".</li>
+<li>Test routine: new part "m" (market) and a section "Market tab" in the report.</li>
+</ul>
 <h3>Version 0.65.74</h3>
 <ul>
 <li><strong>Learning database (step 2, invisible):</strong> AHSentinel now learns in the background from your own results – nothing
@@ -71,21 +88,7 @@
 <li><strong>Test routine:</strong> the tooltip speed check shows the time per block; at the end of the report one line says what to
   do for the skipped parts (e.g. "open the auction house, then /ahs testroutine server").</li>
 </ul>
-<h3>Version 0.65.70</h3>
-<ul>
-<li><strong>Fix: options overlapped</strong> (e.g. "Self-test" over "Default duration"): there were more options than fit in two
-  columns of 18 rows. Each option now gets its own place (20 per column, more columns if needed).</li>
-<li><strong>Your disenchant results are protected:</strong> "Reset" (Options → Disenchant learned) asks with the number of results
-  and saves a backup first. The test routine checks that disenchant data is unchanged after the run (count and
-  quantity sums) and reports any difference.</li>
-<li><strong>Disenchanting:</strong> loot without a single disenchant material (mob, chest, skinning) is never counted as a
-  disenchant; the loot must arrive within 5 seconds.</li>
-<li><strong>Test routine:</strong> new report section "Disenchanting (real data)" – per group own/shared results, rate per material
-  against the table (unusual values marked), daily count check and plausibility; also in the GSTEST1 export. New checks
-  for the whole chain (spell → loot → counted), learning formula with fixed numbers, shared results and values.</li>
-<li>Tooltip: chance source for disenchant group "up to 15" named correctly.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

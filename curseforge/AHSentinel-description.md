@@ -12,6 +12,23 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.75
+
+- **New "Market" tab replaces "Today" (step 3):** one bar with 6 views – **Today** (the former "Today" list: your
+  things first, then the best chances), **Flip** (below your buy limit, by profit per gold and day), **Vendor**
+  (buyout below vendor price), **Gaps** (low supply, steady sales, rising price – your stock first), **Crowded**
+  (don't post: far more supply than sales, days until sold, deposit risk) and **Trends** (stable 7/30-day moves,
+  falling levelling goods first). Each view: one explanation line, at most 20 rows, one number, confidence as colour,
+  one button – the button works exactly as before (check -> buy -> post, never without your click).
+- **Details on the right:** click a row or search an item at the top: price and supply over 14 days, price ladder,
+  your own history, learned price limits and ONE recommendation ("buy up to X" / "post for Y" / "leave it") with the
+  reason; buttons Watchlist, Shopping list, Sniper (with the suggested limit), price history.
+- **Market today:** a price index of typical goods at the top ("Market today +3 % (7 days +8 %)").
+- The list of all items is gone from the tab bar (the data stays and all views use it); look items up via the search.
+- `/ahs heute`, the Today button and other addons (ProfessionSentinel QuickBuy/QuickSell rows on top) open the Market
+  tab on "Today". New option: "Market: default view".
+- Test routine: new part "m" (market) and a section "Market tab" in the report.
+
 ### Version 0.65.74
 
 - **Learning database (step 2, invisible):** AHSentinel now learns in the background from your own results – nothing
@@ -75,20 +92,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Faster tooltip:** the price chart under the tooltip is only redrawn when the item or its data changed.
 - **Test routine:** the tooltip speed check shows the time per block; at the end of the report one line says what to
   do for the skipped parts (e.g. "open the auction house, then /ahs testroutine server").
-
-### Version 0.65.70
-
-- **Fix: options overlapped** (e.g. "Self-test" over "Default duration"): there were more options than fit in two
-  columns of 18 rows. Each option now gets its own place (20 per column, more columns if needed).
-- **Your disenchant results are protected:** "Reset" (Options → Disenchant learned) asks with the number of results
-  and saves a backup first. The test routine checks that disenchant data is unchanged after the run (count and
-  quantity sums) and reports any difference.
-- **Disenchanting:** loot without a single disenchant material (mob, chest, skinning) is never counted as a
-  disenchant; the loot must arrive within 5 seconds.
-- **Test routine:** new report section "Disenchanting (real data)" – per group own/shared results, rate per material
-  against the table (unusual values marked), daily count check and plausibility; also in the GSTEST1 export. New checks
-  for the whole chain (spell → loot → counted), learning formula with fixed numbers, shared results and values.
-- Tooltip: chance source for disenchant group "up to 15" named correctly.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
