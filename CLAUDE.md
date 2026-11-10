@@ -45,6 +45,11 @@ Wer Preise, Gebühren, Gewinne oder Werte berechnet, prüft oder beauftragt, lie
 `shared/wissen/wirtschaft-forever.md` und hält dessen Abschnitt 0 (zuerst messen, Zahlen müssen exakt aufgehen) und die
 Pflicht-Checkliste (Abschnitt 7) ein. Regeln nur als "belegt" weitergeben, sonst als Messauftrag.
 
+## Buchhaltung (Pflicht)
+
+Wer an Buchhaltung, Gewinn, Kasse oder Lagerwert arbeitet oder Aufträge dazu schreibt, liest vorher
+`shared/wissen/buchhaltung.md` (Kostenbasis, realisierter Gewinn, Entzaubern als Umbuchung, Abstimmung mit dem Gold).
+
 ## Marktstrategie und Prognosen (Pflicht)
 
 Wer an Preisen, Absatz, Empfehlungen, Sniper, "Heute tun", Markt-Reiter oder Prognosen arbeitet oder Aufträge dazu
