@@ -144,3 +144,7 @@ IM CLIENT PRÜFEN (mit 0.65.80 bzw. der nächsten Version)
 
 Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
+
+NEU (10. Nov. 16:00, MITTEL) – befund-buchhaltung-kopf.txt (0.65.80)
+   LG6 Kopf nachrechenbar (Kasse −10g 95s + Lager 1g 47s ≠ Ergebnis −10g 99s), LG7 Berufe-Verbrauch getrennt,
+   LG8 "im AH" zählt eigene aktive Auktionen? T-LG6–T-LG8.
