@@ -190,4 +190,17 @@ HINWEIS DES NUTZERS (10. Nov. 16:48): Sobald alle offenen Punkte umgesetzt und g
 VORGEMERKT (10. Nov. 17:05, NACH DEM GROSSEN TEST – Entscheid des Nutzers, jetzt NICHT umsetzen)
    Schnell-Vollscan: Das Spiel hängt beim Nutzer 10–15 Sekunden (0.65.84), obwohl die Testroutine "längster Frame 15 ms"
    meldet – vermutlich der Abruf/das Einlesen ausserhalb der gemessenen Portionen (ReplicateItems-Antwort selbst,
-   Speicher, Verdichtung, Verfolgung V4 oder Neuaufbau der Ansichten danach). Wird nach dem Testlauf beauftragt.
+   Speicher, Verdichtung, Verfolgung V4 oder Neuaufbau der Ansichten danach). Die BEHEBUNG wird nach dem Testlauf
+   beauftragt.
+   JETZT SCHON (Entscheid des Nutzers 17:05, VOR dem grossen Test): die MESSUNG in die Testroutine einbauen, damit der
+   Testlauf zeigt, wo die Zeit steckt:
+   VM1 Server-Teil der Testroutine ("/ahs testroutine server" bzw. "alles"): einen echten Schnell-Vollscan auslösen (nur
+       lesen, mit Hinweis "Spiel kann kurz hängen") und messen: Zeit bis REPLICATE_ITEM_LIST_UPDATE, Dauer des Ereignis-
+       Aufrufs selbst (Blizzard-Code ausserhalb unserer Portionen), Einlesen (Summe und längster Frame), Verdichtung je
+       Item, Verfolgung V4, Neuaufbau Markt/Tooltip-Zwischenspeicher danach, Speicher vorher/nachher (collectgarbage
+       "count"), Garbage-Collection-Pausen. Zusätzlich die echte Hängezeit: Abstand zwischen zwei OnUpdate-Aufrufen
+       (längste Lücke in Sekunden) während des ganzen Vollscans.
+   VM2 Ergebnis als Abschnitt "Vollscan-Messung" im Testbericht und im GSTEST1-Export (ohne Namen): je Schritt ms, längste
+       Lücke, Anzahl Auktionen/Items, Speicher. Ein Schritt > 1 s oder Lücke > 1 s = FEHLER mit Name des Schritts.
+   VM3 Nichts am Vollscan selbst ändern (ausser der Zeitmessung) – die Behebung folgt nach dem Test.
+   T-VM1 Bericht enthält alle Schritte mit ms und die längste Lücke; T-VM2 Lücke > 1 s -> FEHLER mit Schrittname.
