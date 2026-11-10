@@ -167,3 +167,8 @@ Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
    Nachtrag 08:45: K6 Detailsuche "0 Angebote" bei Weisenhandschuhe (~31 in der Liste), Sniper kauft auch nicht –
    Verdacht itemKey/Suffix. T-SK6, T-SK7.
+
+NEU (10. Nov. 09:00, HOCH) – befund-entzaubern-zaehlen.txt
+   Zählen/Lernen geprüft: Rechnung richtig. Z1 Entzaubern über fremdes Warteschlangen-Fenster/Makro wird NICHT gezählt
+   (Kandidat nur aus UseContainerItem-Hook) -> Ersatz über Taschen-Differenz. Z2 still verworfene Ergebnisse ->
+   DE-ABGELEHNT. Z3 Protokoll DE-GEZÄHLT/DE-VERPASST. Z4 Tooltip-Kopf und Ø-Menge. Z5 Testroutine. T-DZ1–T-DZ5.

@@ -1,0 +1,52 @@
+BEFUND DER PRÜF-SITZUNG FÜR AHSENTINEL: ENTZAUBER-ERGEBNISSE ZÄHLEN UND CHANCEN ANPASSEN
+=======================================================================================
+Stand: 10. November 2026, 09:00 · Wunsch des Nutzers (10.11. 08:43): prüfen, ob AHSentinel jedes Entzaubern richtig
+zählt und den Chancen-Block richtig anpasst. Code-Prüfung 0.65.66 (Disenchant.lua, Tooltip.lua) + Bildschirmfotos.
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen. Dann dies (HOCH – ohne Zählung lernt nichts).
+
+WAS STIMMT (Code geprüft)
+   - Je Entzaubern genau EIN Eintrag: LOOT_READY und LOOT_OPENED kommen beide, das erste nimmt "pending" weg.
+   - Menge je Material aus GetLootSlotInfo (3. Wert) – 2 Staub zählen als 2.
+   - Rechnung D:Blend: Chance = (Tabelle × 10 + gesehen) / (10 + N), Ø Menge entsprechend – richtig.
+     Beispiel im Spiel: Gruppe grün bis Itemstufe 15 Rüstung zeigt 85 % / 15 % statt 80/20 – passt z. B. zu
+     N = 10 (9× Staub, 1× Essenz): (8 + 9) / 20 = 85 %.
+   - Eigene Ergebnisse werden roh gespeichert (deStats): die neuen Forever-Startwerte (anweisung-entzauber-chancen-
+     forever.txt) ändern nichts an den gezählten Ergebnissen.
+
+BEFUNDE
+Z1 HOCH – Entzaubern über ANDERE Addons/Makros wird nicht erkannt.
+   Erkennung: Kandidat nur aus hooksecurefunc(UseContainerItem/PickupContainerItem) bei SpellIsTargeting oder aus dem
+   eigenen Entzauber-Fenster (D:NoteCandidate). Der Nutzer entzaubert mit einem Warteschlangen-Fenster eines anderen
+   Addons ("Entzaubern (19)", Queue, Bildschirmfotos 08:22/08:30) – das arbeitet per sicherem Makro
+   (/cast + /use Tasche Platz). Ein /use im Makro ruft die Lua-Funktion UseContainerItem NICHT auf -> kein Kandidat ->
+   UNIT_SPELLCAST_SUCCEEDED setzt pending = nil -> das Ergebnis wird NICHT gezählt (still).
+   UMSETZEN: Ersatz-Erkennung über die Taschen: bei UNIT_SPELLCAST_START/SENT von Entzaubern (oder spätestens beim
+   SUCCEEDED) Bestand aller entzauberbaren Items der Taschen merken; beim Plündern das Item bestimmen, dessen Anzahl um 1
+   gesunken ist (BAG_UPDATE_DELAYED/ITEM_LOCK_CHANGED, Fenster 10 s). Eindeutig -> zählen; nicht eindeutig -> nicht
+   zählen, aber protokollieren. Der bisherige Weg bleibt der erste.
+Z2 MITTEL – Ganze Entzauberung wird still verworfen, wenn ein Material nicht in der Tabelle der Gruppe steht
+   (D:Record: MATERIALS/AllowedMats -> return false). Gedacht gegen falsch erkannte Items – aber so lernt AHSentinel
+   NIE, wenn Forever anders verteilt (z. B. anderes Essenz-Material bei Waffen), und niemand merkt es.
+   UMSETZEN: weiter nicht in deStats zählen, aber in deLog mit "abgelehnt=Grund" und eine Protokoll-Zeile
+   DE-ABGELEHNT (Item-ID, Itemstufe, Gruppe, Beute) – damit wir echte Forever-Abweichungen sehen.
+Z3 MITTEL – Nachprüfbarkeit: je Entzaubern eine Protokoll-Zeile (ohne Namen):
+   DE-GEZÄHLT  Item-ID, Itemstufe, Gruppe, Weg (Hook/Fenster/Taschen), Beute "id×Menge"
+   DE-VERPASST Entzaubern gewirkt, aber kein Item zugeordnet (Grund: kein Kandidat / nicht eindeutig / Wert geschützt)
+   Dazu im Entzauber-Fenster -> Statistik: "heute gezählt N · verpasst M".
+Z4 NIEDRIG – Chancen-Block im Tooltip: Kopf "Materialien (Tabelle)" auch wenn schon N Ergebnisse eingerechnet sind
+   (schon in offen 08:20: "Tabelle + N eigene"). Zusätzlich die Menge: statt fest "× 1–2" die gelernte Ø-Menge
+   ("× Ø 1,4"), Bereich nur mit Shift. Geteilte Ergebnisse anderer Spieler getrennt nennen ("+ M geteilt").
+Z5 Testroutine: (a) Bag-Klick-Weg, (b) eigenes Fenster, (c) Makro-Weg OHNE UseContainerItem-Aufruf (nur Taschen-
+   Differenz) – alle drei zählen genau 1; (d) Beute 2× Staub -> total +2; (e) Material ausserhalb der Tabelle ->
+   nicht in deStats, DE-ABGELEHNT im Protokoll; (f) zwei gleiche Items in der Tasche, eins weg -> eindeutig (gleiche
+   ID); zwei verschiedene weg -> DE-VERPASST "nicht eindeutig".
+
+TESTFÄLLE
+T-DZ1 10× Entzaubern über das fremde Warteschlangen-Fenster -> Statistik +10, 10 Zeilen DE-GEZÄHLT (Weg Taschen).
+T-DZ2 10× über AHSentinels Fenster -> +10 (Weg Fenster). T-DZ3 Rechtsklick in der Tasche -> +1 (Weg Hook).
+T-DZ4 Gruppe 2:1:a mit 9× Staub, 1× Essenz -> Tooltip 85 % / 15 %, Kopf "Tabelle + 10 eigene".
+T-DZ5 Unbekanntes Material -> DE-ABGELEHNT, Chancen unverändert.
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden.
