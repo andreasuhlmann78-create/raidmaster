@@ -1,8 +1,8 @@
 # Discord-Prüfung
 
-Geprüft: 2026-11-10T06:30:30Z (Commit 7293823), Server: Alpine Vanguard
+Geprüft: 2026-11-10T08:56:43Z (Commit e120840), Server: Alpine Vanguard
 
-**Ergebnis: ⏳ alles da oder unterwegs (Bot hat noch nicht abgeholt)**
+**Ergebnis: ✅ alles im Discord**
 
 Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 45 Minuten.
 
@@ -10,40 +10,33 @@ Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 4
 
 | | Addon | Version | Kanal | Gepostet | seit Push |
 |---|---|---|---|---|---|
-| ⏳ wartet | AHSentinel | 0.65.65 | #ahsentinel | - | 4 Min. |
-| ✅ ok | RaidMaster | 3.0.22 | #raid-addon | 2026-11-09 19:18 UTC | 11 Std. |
+| ✅ ok | AHSentinel | 0.65.69 | #ahsentinel | 2026-11-10 08:47 UTC | 35 Min. |
+| ✅ ok | RaidMaster | 3.0.22 | #raid-addon | 2026-11-09 19:18 UTC | 13 Std. |
 
 ## Ankündigungen (announce/, neueste Fassung je Reihe)
 
 | | Datei | Kanal | Abdeckung | seit Push |
 |---|---|---|---|---|
-| ⏳ wartet | ahsentinel__ahsentinel-0.65.65.md | #ahsentinel | 16 % | 4 Min. |
-| ✅ ok | ahsentinel__ahsentinel-0-vorstellung-1.8.md | #ahsentinel | 100 % | 25 Std. |
+| ✅ ok | ahsentinel__ahsentinel-0.65.69.md | #ahsentinel | 100 % | 35 Min. |
+| ✅ ok | ahsentinel__ahsentinel-0-vorstellung-1.8.md | #ahsentinel | 100 % | 27 Std. |
 | ✅ ok | ahsentinel__ahsentinel-hilfe-1.0.md | #ahsentinel | 100 % | 6 Tage |
 | ✅ ok | barrow-taktik__uebersicht-1.1.md | #barrow-taktik | 100 % | 6 Tage |
-| ✅ ok | buffsentinel__buffsentinel-0.9.12.md | #buffsentinel | 100 % | 24 Std. |
-| ✅ ok | guildsentinel__guildsentinel-0.9.21.md | #guildsentinel | 100 % | 11 Std. |
+| ✅ ok | buffsentinel__buffsentinel-0.9.12.md | #buffsentinel | 100 % | 26 Std. |
+| ✅ ok | guildsentinel__guildsentinel-0.9.21.md | #guildsentinel | 100 % | 14 Std. |
 | ✅ ok | hyjal-taktik__uebersicht-1.1.md | #hyjal-taktik | 100 % | 6 Tage |
-| ✅ ok | levelpilot__levelpilot-3.12.21.md | #levelpilot | 100 % | 11 Std. |
-| ✅ ok | levelpilot__levelpilot-uebersicht-3.12.21.md | #levelpilot | 100 % | 11 Std. |
+| ✅ ok | levelpilot__levelpilot-3.12.21.md | #levelpilot | 100 % | 13 Std. |
+| ✅ ok | levelpilot__levelpilot-uebersicht-3.12.21.md | #levelpilot | 100 % | 13 Std. |
 | ✅ ok | lore__alpine-vanguard-vorstellung-1.0.md | #lore | 100 % | 9 Tage |
 | ✅ ok | mc-feuerresi__feuerresi-1.1.md | #mc-feuerresi | 100 % | 6 Tage |
-| ✅ ok | onyxia-feuerresi__feuerresi-1.0.md | #onyxia-feuerresi | 100 % | 12 Tage |
-| ✅ ok | onyxia-taktik__onyxia-video-1.0.md | #onyxia-taktik | 100 % | 13 Tage |
-| ✅ ok | professionsentinel__professionsentinel-0.9.37.md | #professionsentinel | 100 % | 12 Std. |
-| ✅ ok | professionsentinel__professionsentinel-0-vorstellung-1.25.md | #professionsentinel | 100 % | 6 Tage |
-| ✅ ok | threatsentinel__threatsentinel-2.5.3.md | #threatsentinel | 100 % | 9 Std. |
+| ✅ ok | onyxia-feuerresi__feuerresi-1.0.md | #onyxia-feuerresi | 100 % | 13 Tage |
+| ✅ ok | onyxia-taktik__onyxia-video-1.0.md | #onyxia-taktik | 100 % | 14 Tage |
+| ✅ ok | professionsentinel__professionsentinel-0.9.37.md | #professionsentinel | 100 % | 15 Std. |
+| ✅ ok | professionsentinel__professionsentinel-0-vorstellung-1.25.md | #professionsentinel | 100 % | 7 Tage |
+| ✅ ok | threatsentinel__threatsentinel-2.5.4.md | #threatsentinel | 100 % | 67 Min. |
 | ✅ ok | threatsentinel__threatsentinel-0-vorstellung-2.2.md | #threatsentinel | 100 % | 7 Tage |
 | ✅ ok | buffsentinel__buffsentinel-0-vorstellung-12.md | #buffsentinel | 100 % | 6 Tage |
-| ✅ ok | guildsentinel__guildsentinel-0-vorstellung-16.md | #guildsentinel | 100 % | 11 Std. |
+| ✅ ok | guildsentinel__guildsentinel-0-vorstellung-16.md | #guildsentinel | 100 % | 14 Std. |
 | ✅ ok | levelpilot__levelpilot-uebersicht.md | #levelpilot | 100 % | 14 Tage |
-
-**announce/ahsentinel__ahsentinel-0.65.65.md** – fehlt im Discord:
-- `📦 **AHSentinel 0.65.65** – Ausrüstung einstellen geht wieder + Befehlsliste ⌨️`
-- `• **Ausrüstung einstellen:** Der „Interner Auktion-Fehler“ ist weg – Einzelstücke werden jetzt in ganzen Silber eingestellt (Waren weiter mit Kupfer).`
-- `• **Staub und Essenzen** gelten nicht mehr fälschlich als „verkauft sich kaum“.`
-- `• **Neu:** Tipp im Chat `/ahs` – darüber erscheinen alle Befehle, die meistbenutzten oben. Klick führt aus.`
-- `• „Heute tun“ stockt nicht mehr.`
 
 ## Bot-Funktionen (tut der Bot, was er soll?)
 
