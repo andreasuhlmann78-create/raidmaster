@@ -43,7 +43,7 @@ weitergegeben. Die Addons haben danach falsche Werte angezeigt. Das darf nicht w
 | **Gebühr wird ABGERUNDET** (5 % auf ganze Kupfer nach unten) | belegt mit 1 unterscheidenden Fall, 3 verträglich | 6279 × 5 % = 313,95 -> 313 (gerundet wären 314); 4042 -> 202, 16744 -> 837, 8082 -> 404 |
 | Höhe der zurückerstatteten Einzahlung bei Waren (Teilverkäufe, Minimum 1s) – **etwa anteilig nach verkaufter Menge** (gezahlte Einzahlung × verkauft / eingestellt, gerundet) | **vermutet / offen** | Protokoll 9./10.11. (Staub/Essenzen, gezahlt je 100c): 4 von 36 -> 11c, 25 von 25 -> 100c, 49 von 149 -> 33c; ungeklärt: 88 von 88 -> 97c, 149 -> 96c; früher 38c, 200c, 296c |
 | Abgelaufene Auktion: Einzahlung verloren | bestätigt durch Quellen | Spielerberichte 6.11. (timesaver.gg), Hearthproof |
-| Abgebrochene Auktion: Einzahlung verloren | bestätigt durch Quellen, im Spiel noch messen | Hearthproof (Forever = Classic), Spielerberichte 6.11. (timesaver.gg); Spieler meint "anteilig zurück" -> messen (AHSentinel L2) |
+| **Abgebrochene Auktion: Einzahlung verloren** (nichts zurück) | **belegt** | AHSentinel-Protokoll 10.11. 07:12 "ABBRUCH Item 10938 · Menge 43 · Erstattung 0" (gezahlt 1s); dazu Hearthproof, Spielerberichte 6.11. |
 | Neutrales AH (Beutebucht, Gadgetzan, Ewige Warte): 15 % Gebühr, höhere Einzahlung | vermutet (klassisch) | Wiki; in Forever nicht gemessen |
 | **Ausrüstung (Einzelstücke): Preis nur in ganzen Silbern.** 199c -> "Interner Auktion-Fehler" (2×, AHSentinel); 200c -> erstellt (Blizzard-Fenster UND AHSentinel, gleicher Aufruf `PostItem(loc, dauer, 1, nil, 200)`). Waren (stapelbar) gehen mit Kupfer (83c, 84c, 97c). | **fast belegt** (Bestätigung: 1s 99c mit AHSentinel 0.65.63 -> Fehler im Protokoll) | Nutzer 9.11. 22:25, 10.11. 06:04–07:00, Protokoll BLIZZARD-POST/AHS-POST |
 
@@ -87,6 +87,8 @@ die **Menge**, bid den **Gesamtpreis** (Rohzeile unten), `count` ist die Menge o
 - **Eigener Ø-Verkaufspreis = nur Statistik**, nie Rechenwert (Buchhaltung, Tooltip mit Shift).
 - **Händlerpreis = Untergrenze** dessen, was ein Item sicher wert ist.
 - Anzeigen sagen immer, woher ein Preis kommt ("Scan", "Markt"), wenn er von anderen Stellen abweichen kann.
+
+- **Absatz schätzen (vermutet):** "Verschwunden zwischen zwei Scans" ist in Forever KEIN Verkaufsmass – Auktionen laufen höchstens 24 Std., der ganze Bestand verschwindet täglich (Handschuhe 10.11.: 222 im AH, 294 "verschwunden"/Tag). Eigene Verkaufsquote (verkauft/eingestellt) zuerst; sonst Markt-Absatz deckeln (Annahme: <= 20 % des Bestands pro Tag).
 
 ## 4. Formeln
 

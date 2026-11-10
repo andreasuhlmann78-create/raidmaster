@@ -1,0 +1,43 @@
+BEFUND DER PRÜF-SITZUNG: ABSATZ BEI ÜBERFÜLLTEN ITEMS VIEL ZU HOCH (0.65.64)
+==========================================================================
+Stand: 10. November 2026, 07:30 · Grundlage: Diagnose-Protokoll 0.65.64 vom 10.11. 07:17 und Screenshot 07:13
+(Schwere Leinenhandschuhe, 222 im AH, Tooltip "✗ Verkaufen bringt mehr: 1s 90c", Entzaubern 1s 21c).
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen. Zusammen mit befund-absatz-und-silber.txt F1 umsetzen (gleiche
+Stelle: A:SellOutlook / A:ExpectedListings / A:GetLiquidity).
+
+GEMESSEN
+   ABSATZ Item 4307 (Schwere Leinenhandschuhe) · Q 222 · S 293.8 (market) · W 0.8 · N 1
+   ABSATZ Item 4604 · Q 112 · S 184.4 (market) · W 0.6 · N 1
+   ABSATZ Item 2589 (Leinenstoff) · Q 19272 · S 13719.3 (market) · W 1.4 · N 2
+   -> Laut Schätzung verkaufen sich mehr Handschuhe pro Tag (294), als überhaupt im AH liegen (222). Das ist kein
+      Absatz, das ist Umschlag: In WoW Forever dauert eine Auktion höchstens 24 Std. (Regelwerk, belegt) – JEDE Auktion
+      verschwindet also innerhalb eines Tages, auch ohne Verkauf (abgelaufen, abgebrochen, billiger neu eingestellt).
+      "Verschwunden = halb verkauft" (GetLiquidity, perDay = drops × 0,5 / Tage) ist bei überfüllten Items weit daneben.
+      Die Grenze perDay <= avgQty × 0,5 greift nicht, weil avgQty über die ganze Zeit gemittelt ist.
+   Folge: N = 1, Verkaufen = volles Netto 1s 90c, Urteil "Verkaufen bringt mehr" – falsch. Mit nur einer verlorenen
+   Einzahlung (1s) wären es 90c < Entzaubern 1s 21c.
+
+LÖSUNG (Annahmen im Regelwerk als "vermutet" führen, im Protokoll prüfbar machen)
+G1 Eigene Erfahrung zuerst: Hat der Nutzer das Item >= 3× eingestellt (Le:PostRate), gilt seine Verkaufsquote
+   (verkauft / eingestellt) – das macht ExpectedListings schon; SellOutlook, "kaum" und Tooltip müssen dieselbe Quelle
+   nehmen (heute nimmt SellOutlook OwnSalesPerDay, siehe F1).
+G2 Ohne eigene Erfahrung: Markt-Absatz deckeln: S <= 20 % der Menge im LETZTEN Scan pro Tag (Q_jetzt × 0,2).
+   Begründung: Bei 24-Std.-Auktionen verschwindet täglich fast der ganze Bestand; was davon verkauft wird, ist unbekannt –
+   vorsichtig rechnen ist billiger (eine Einzahlung) als falsch "Verkaufen" zu empfehlen. Der Wert 0,2 ist eine Annahme
+   (vermutet) und wird mit G4 überprüft.
+   Beispiel Handschuhe: S <= 44/Tag -> W ~5 Tage -> N 5 -> Verkaufen < Entzaubern (Urteil Entzaubern bzw. Händler).
+G3 Wo der Scan je Auktion die Restlaufzeit kennt: Verschwindet eine Auktion, die zuletzt mit "kurz" (< 30 Min.) oder
+   "mittel" stand, zählt sie als abgelaufen, nicht als verkauft. Nur Auktionen mit "lang"/"sehr lang" Restzeit, die
+   verschwinden, zählen (zur Hälfte) als Verkauf. Liefert der Scan keine Restzeit: G2 allein.
+G4 Protokoll: ABSATZ-Zeile zusätzlich mit "S roh" (vor dem Deckel), "Deckel" und – falls vorhanden – eigener
+   Verkaufsquote, damit wir 0,2 mit echten Verkäufen des Nutzers vergleichen können.
+
+TESTFÄLLE
+T-AB10 Q 222, drops 600/Tag, keine eigene Erfahrung -> S = 44,4, N >= 5, Verkaufen (2s) < Entzaubern (1s 21c).
+T-AB11 Eigene Erfahrung 10 eingestellt, 9 verkauft -> N aus 9/10, Deckel G2 gilt nicht.
+T-AB12 Staub (eigene Verkaufsquote hoch) -> kein "kaum", Entzauberwert der Hose ~1s 19c (wie T-AB9).
+T-AB13 Restzeit "kurz" verschwunden -> zählt nicht als Verkauf (nur mit Daten aus dem Scan).
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden.

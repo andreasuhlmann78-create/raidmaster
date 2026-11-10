@@ -175,3 +175,8 @@ NEU (10. Nov. 07:25, Wunsch des Nutzers, MITTEL) – Befehlsliste beim Tippen vo
    anweisung-befehlsliste-im-chat.txt: Liste aller /ahs-Befehle über dem Chat-Eingabefeld, filtert beim Tippen,
    meistbenutzte oben (Zähler in den SavedVariables), Klick führt aus; Eingabefeld NIE beschreiben (Taint). T-BL1–T-BL7.
    Erledigt seit dem letzten Stand: 0.65.64 Buchhaltung "Kasse"/"Ergebnis mit Lager"/"im Lager"/"1 Verkauf"/"(alt)".
+
+NEU (10. Nov. 07:30, Prüf-Sitzung, HOCH) – befund-absatz-zu-hoch.txt
+   Absatz bei überfüllten Items viel zu hoch (Handschuhe: Q 222, S 294/Tag -> N 1 -> "Verkaufen bringt mehr"). Bei
+   24-Std.-Auktionen verschwindet alles täglich. G1 eigene Verkaufsquote zuerst, G2 Deckel S <= 20 % von Q, G3 Restzeit,
+   G4 Protokoll. Zusammen mit F1 (befund-absatz-und-silber.txt).
