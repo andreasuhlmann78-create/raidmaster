@@ -7,6 +7,23 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.78</h3>
+<ul>
+<li><strong>Fix (important): disenchant buys are valued realistically.</strong> Material prices now use the same realistic resale
+  price as flips (price ladder and sales per day), after the AH cut and expected deposit losses. Buying many pieces
+  lowers the price: if your materials exceed two days of sales, each further day of sales counts one step lower on
+  the ladder. Applies to the disenchant value, "Disenchanting pays", bulk buy and disenchant bargains.</li>
+<li>Tooltip: the verdict shows the profit with percent; with Shift "Profit after selling the materials: X (Y %)".</li>
+<li>Ledger -&gt; Disenchant: settlement per purchase batch, e.g. "Batch 10.11.: paid 5g, sold Xg, stock Yg, fees Zg,
+  result ±Wg" (mouse over shows all batches).</li>
+<li><strong>My Auctions:</strong> "8 sold (4g 42s 77c, received 4g 20s 60c)" – received = per auction total × 0.95, rounded down.
+  A footer shows the totals of the list per status; with Shift the summary tooltip shows today's total from the ledger.</li>
+<li><strong>Sniper:</strong> "Result is outdated – bought in this search: 23 for 2g 30s · missed 13 – new search needed." The target
+  row shows "50/100 bought · budget 5g used up" (or "budget left …") in full. When the budget is used up you get one
+  chat message and a header line; the target stays in the list. The target tooltip explains how many pieces the
+  budget allows.</li>
+<li>Test routine: T351–T359 (T-HF8, T-MS1–3, T-SN1–3).</li>
+</ul>
 <h3>Version 0.65.77</h3>
 <ul>
 <li><strong>Fix (important): no more fake flips.</strong> "Today" suggested e.g. "buy 4x Unstable Magic Particle up to 45s 97c, post
@@ -79,23 +96,7 @@
 <li>Tooltip (Shift): "Chance to sell at market value: 72 % (learned from 23 own sales)", rhythm if known.</li>
 <li>Test routine: new part "l" (learning) with fixed numbers; report and GSTEST1 get a section "Learning database".</li>
 </ul>
-<h3>Version 0.65.73</h3>
-<ul>
-<li><strong>Fast full scan (new option, off by default):</strong> in the modern auction house (WoW Forever) the scan button can read
-  all single auctions at once with their time left (ReplicateItems) instead of browsing page by page. Read in small
-  portions, so the game stays smooth; at most every 15 minutes, otherwise the normal scan runs. <code>/ahs vollscan</code> starts
-  it once. Prices, market value and history are fed exactly as before (lowest price, quantity; bait offers don't count).</li>
-<li><strong>Exact queue:</strong> "how many are in front of me" now counts only the pieces at your price or cheaper (price ladder
-  from the full scan) instead of all pieces of the item.</li>
-<li><strong>Real market sales measured:</strong> between two full scans AHSentinel compares the auctions (quantity and buyout, no
-  names): gone early with a long time left = bought or cancelled, gone with a short time left = expired (not a sale).
-  After 3 days of data the tooltip (Shift) shows "~12/day (measured, 5 days)" instead of the old estimate; until then
-  "(estimated)". Your own auctions are used as a cross-check (share of cancels).</li>
-<li>Era/TBC: unchanged (the old auction house has no full scan).</li>
-<li>Test routine: new part "v" (full scan) with fixed numbers; report and GSTEST1 get a section "Full scan" (timing per
-  frame, throttling, meaning of the time-left stages, measured sales).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
