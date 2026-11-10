@@ -45,7 +45,7 @@ eigene Entzauber-Beute. Alles aus dem Scan ist indirekt.
 | Marktwert = gewichteter Median der **Mindestpreise** (Halbwertszeit 3 Tage) = **Angebotspreis, nicht Verkaufspreis** | belegt (Code). TSM sagt dasselbe über seinen DBMarket: spiegelt Angebote, nicht Verkäufe |
 | **"Verschwunden" ist nicht "verkauft":** Bei 24-Std.-Auktionen läuft der ganze Bestand täglich ab | belegt (Befund 10.11. 07:30: Schwere Leinenhandschuhe, S = Deckel) |
 | Einzelauktionen mit auctionID/Restzeit gibt es nur bei der **Item-Suche** (Detail), bei Waren nur Menge je Preisstufe | vermutet – Messauftrag M2 |
-| Gibt es in Forever `C_AuctionHouse.ReplicateItems` (alle Einzelauktionen auf einmal)? | **unbekannt – Messauftrag M1**. Wenn ja: Auktions-Verfolgung möglich (verschwindet eine Auktion lange vor Ablauf -> gekauft oder abgebrochen) |
+| Gibt es in Forever `C_AuctionHouse.ReplicateItems` (alle Einzelauktionen auf einmal)? | **Funktion vorhanden (10.11.), Daten noch ungemessen – M1**. Wenn ja: Auktions-Verfolgung möglich (verschwindet eine Auktion lange vor Ablauf -> gekauft oder abgebrochen) |
 | Rechnungen: Verkauf, Kauf, abgelaufen/abgebrochen kommen per Post | belegt (Ledger) |
 
 Folge: **Markt-Absatz ist immer eine Schätzung.** Der einzige exakte Absatz ist der eigene. Darum: eigene Daten zuerst,
@@ -159,6 +159,10 @@ Um zu erfahren, ob ein höherer Preis noch verkauft, gelegentlich leicht höher 
 
 - **M1:** Gibt es in WoW Forever `C_AuctionHouse.ReplicateItems` / `GetNumReplicateItems` / `GetReplicateItemInfo`?
   Wie oft erlaubt? Nur Existenz und Grösse ins Protokoll, keine Namen.
+  **10.11. 09:44 (GSMesstest 3, Forever 1.60.1): Die Funktionen GIBT ES** – ReplicateItems, GetNumReplicateItems,
+  GetReplicateItemInfo, GetReplicateItemLink, GetReplicateItemTimeLeft, dazu SendSearchQuery, GetItemSearchResultInfo,
+  GetCommoditySearchResultInfo, GetNumItemSearchResults. Offen: liefert der Aufruf wirklich Daten (Anzahl, Restzeit,
+  Drosselung)? -> `/gsmess auktionen holen` am offenen Auktionshaus.
 - **M2:** Liefert die Item-Suche (Detail) je Auktion auctionID und Restzeit (Ausrüstung) bzw. Menge je Preis (Waren)?
   Dann für die gehandelten Items Auktions-Verfolgung zwischen zwei Suchen.
 - **M3:** Wochentag/Tageszeit-Muster: Mindestpreis und Menge je Stunde über 3 Wochen sammeln (kompakt: je Item und
