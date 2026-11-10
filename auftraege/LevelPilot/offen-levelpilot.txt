@@ -1,110 +1,58 @@
-OFFENE PUNKTE LEVELPILOT (nach der Nachprüfung von 3.12.24)
+OFFENE PUNKTE LEVELPILOT (nach der Nachprüfung von 3.12.25)
 ==========================================================
-Stand: 10. November 2026, 17:25 · von der Prüf-Sitzung · Grundlage: announce/levelpilot__levelpilot-3.12.24.LevelPilot.zip
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 3.12.23
-(10. Nov. 14:35) und den KRITISCH-Hinweis von 14:40. Geprüft: Diff 3.12.23 -> 3.12.24 (neu Perf.lua; Graph.lua,
-Navigation.lua, Planner.lua, Terrain.lua, Comm.lua, Core.lua, Protocol.lua, TestRoutine.lua, alle Locale-Dateien,
-.toc, CHANGELOG EN/DE).
+Stand: 10. November 2026, 20:25 · von der Prüf-Sitzung · Grundlage: announce/levelpilot__levelpilot-3.12.25.LevelPilot.zip
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 3.12.24.
+Geprüft: Diff 3.12.24 -> 3.12.25 (Perf.lua, Graph.lua, Planner.lua, Protocol.lua, Core.lua, TestRoutine.lua, .toc,
+CHANGELOG EN/DE).
 
-Erledigt in 3.12.24 (danke):
-- befund-lag-cpu-beim-einloggen.txt (KRITISCH), im Code umgesetzt:
-  L1 Arbeit in Portionen: LP.Jobs (Perf.lua:166-245), höchstens 4 ms je Bild, Coroutine je Auftrag. Wegsuche der
-     Navigation (Navigation.lua:200-218), automatische Neuplanung (Planner.lua:1430-1442), einmalige Aufbereitung
-     des Wegnetzes (Graph.lua:91-97), Geländefeld (Terrain.lua:114-116, 319-322) geben nach dem Budget ab.
-     Abseits des Weges nach einer teuren Suche bis 10 s warten (Navigation.lua:187, 217). Empfangene Quests lösen
-     höchstens alle 20 s eine Neuplanung aus (Comm.lua:452) und leeren den Gelände-Zwischenspeicher nicht mehr
-     (Terrain.lua:341-347).
-  L2 Notbremse: Perf.Check (Perf.lua:64-86): > 50 ms oder > 1 s in 5 s -> 60 s Pause, eine Chatzeile je Teil,
-     Eintrag LANGSAM ohne Namen (Teil, ms, Ziele/Wegpunkte, Zone). Siehe aber Punkt 1.
-  L3 Zeitmessung je Modul mit den ersten 60 s getrennt (Perf.lua:44-54, 113-132; Core.lua:575, 590). Diagnose-
-     Export GSDIAG1 wieder in LevelPilotDB.diagExport beim Ausloggen/Reload (Protocol.lua:562-574, 583); der
-     Uploader nimmt GSDIAG1 aus jeder Speicherdatei mit.
-  L4 Ursache benannt und behoben: Die Wegsuche verband jeden Suchschritt per Luftlinie mit hunderten Wegpunkten und
-     prüfte jede Linie gegen das Gelände. Neu höchstens 2 Wegpunkte je 100-Yards-Feld, zwischengespeichert
-     (Graph.lua:255-288, 621-634); die Planung prüft den ersten Weg nur mit einer kurzen Suche (Planner.lua:1356,
-     1366-1372).
-  L5 Testfälle T261-T264 (T-LAG1-T-LAG4) und T265 (TestRoutine.lua:4522-4675); T263 ist der Last-Test (2000
-     Wegpunkte, 500 Netz-Einträge, unerreichbares Ziel, Portionen <= 16 ms).
-- Punkt 1 (Densify macht alte Sprung-Kanten anschlussfähig): geteilt wird nur noch über 80 Yards; 25-80 Yards
-  werden nur als unsicher markiert (e.u, Graph.lua:105-108, 128-131), kosten 25 % mehr (Graph.lua:509) und werden
-  beim nochmaligen Laufen wieder sicher (Graph.lua:333); SplitEdge gibt die Markierung weiter (Graph.lua:396).
-  Siehe Punkt 4 für Spieler, die 3.12.23 schon gestartet haben.
-- Punkt 2 (verwaister Knoten): zuerst prüfen, dann den Knoten anlegen (Graph.lua:140). T265 prüft "ohne Kante 0".
+Erledigt in 3.12.25 (danke – alle sechs Punkte):
+- Punkt 1 (Notbremse zählte die Gesamtzeit des Hintergrund-Auftrags): Jobs.Step merkt die längste Portion je Auftrag
+  (j.max, Jobs.lastMax, Perf.lua:250, 256); der done-Rückruf der Neuplanung prüft nur noch diese
+  (Perf.CheckSlice, Perf.lua:89-92; Planner.lua:1434). In der Pause verworfene Planungen werden gezählt und nach der
+  Pause einmal nachgeholt (Skip, Perf.lua:97-110; Perf.after.route, Perf.lua:181). T262 erweitert (Portionen 4 ms ->
+  keine Pause, Portion 60 ms -> Pause, verworfen 1, Nachholen vorgemerkt; TestRoutine.lua:4566-4584).
+- Punkt 2 (Graph.expandLimit blieb nach Abbruch auf 1200): Die Grenze geht als Parameter maxExpand an Graph:Path und
+  PathRaw (Graph.lua:680, 755-787), Planner.lua:1368-1369 übergibt P.PATH_CHECK_EXPAND je Suche. Keine globale
+  Variable mehr. Testfall T266 (TestRoutine.lua:4694).
+- Punkt 3 (LANGSAM-Einträge der Notbremse wurden gelöscht): eigene Art "brake" (Perf.lua:82, Protocol.lua:45, Code
+  weiter "LANGSAM"). Testfall T268 (TestRoutine.lua:4738).
+- Punkt 4 (Spieler mit 3.12.23): Graph:MarkSplitGaps (Graph.lua:188-232) findet von Densify gelegte Ketten (Punkte auf
+  einer Linie, gleiche Abstände, 25-80 Yards) und markiert sie als unsicher, nichts wird gelöscht; läuft einmal bei
+  joinVer 2 (Graph.lua:94-103, danach joinVer 3). Testfall T267 (TestRoutine.lua:4717).
+- Punkt 5 (neue Aufträge während Jobs.Step): Namen werden vorher in eine Liste kopiert (Perf.lua:241-244). T268.
+- Punkt 6 (in der Pause verworfene Netz-Nachrichten): gezählt, Zeile "ZEIT in Pausen verworfen: …" (Perf.lua:152-155).
 Prüfungen: Addon-Prüfung OK, kein FEHLER, keine WARNUNG (Ladetest, Sprachtest). Gemeinsame Dateien
-GoldSentinelGame.lua, GoldSentinelTest.lua, GoldSentinelSync.lua byte-gleich mit shared/. Perf.lua steht in der
-.toc (Zeile 36, nach den Locale-Dateien). CHANGELOG EN/DE für 3.12.24, .toc und LP.version 3.12.24. 10 neue
-Sprachschlüssel in allen Locale-Dateien (esMX erbt von esES, wie bisher). Keine Blizzard-Funktion und keine
-C_-Tabelle ersetzt (Perf.Wrap ummantelt nur eigene Tabellen).
-Offline nachgestellt (lua5.1, Perf.lua allein): Portionen laufen, Fehler in einer Portion kommen als done(false, err)
-an, neue Aufträge aus einer Portion heraus brechen nichts. Perf.Check("route", 300 ms) -> Pause, Chatzeile, LANGSAM
-(bestätigt Punkt 1). Die ganze Testroutine (T261-T265) lief offline nicht (braucht Entwickler-Charakter und
-Datenpaket) -> IM CLIENT PRÜFEN.
+GoldSentinelGame.lua, GoldSentinelTest.lua, GoldSentinelSync.lua byte-gleich mit shared/. CHANGELOG EN/DE für 3.12.25,
+.toc und LP.version 3.12.25. Keine neuen sichtbaren Spieltexte (Diagnose-Zeilen sind wie die übrigen ZEIT-Zeilen
+deutsch, Testnamen in Protocol.lua:301-304). Keine Blizzard-Funktion und keine C_-Tabelle ersetzt (T266 ersetzt nur
+LP.Graph.PathRaw und stellt es zurück; T267 schreibt Testwege ins Wegnetz, die Sandbox stellt es zurück).
+Die Testroutine (T262, T266-T268) lief offline nicht (braucht Entwickler-Charakter und Datenpaket) -> IM CLIENT PRÜFEN.
 
-Bitte mit der nächsten Version (3.12.25). Wie immer: komplette Dateien, alte Clients nie brechen, alle Locale-Dateien,
-CHANGELOG EN/DE, vor dem Push python3 addon-check/addon_check.py announce/levelpilot__levelpilot-3.12.25.LevelPilot.zip
--> kein FEHLER.
+Keine neuen Befunde im Code. Offen bleibt nur:
 
-1. NOTBREMSE DER ROUTENBERECHNUNG ZÄHLT DIE GESAMTZEIT DES HINTERGRUND-AUFTRAGS (Schwere: MITTEL)
-   Die automatische Neuplanung läuft in Portionen zu höchstens 4 ms. Nach dem Ende ruft der done-Rückruf
-   Perf.Check("route", LP.Jobs.lastCpu) (Planner.lua:1436); lastCpu ist die Summe ALLER Portionen
-   (Perf.lua:219). Eine Planung von 300 ms, verteilt auf 75 Bilder, stockt das Spiel nicht, löst aber die Notbremse
-   aus (offline nachgestellt). Jede automatische Planung über 50 ms Rechenzeit pausiert damit die Route 60 s.
-   In der Pause verwirft der Mantel jeden Aufruf von Replan ohne Nachholen (Perf.lua:90, 151); der Ticker plant nur
-   alle 15 s neu (Planner.lua:1829). Folge: Nach einer abgegebenen Quest bleibt die Route bis zu 60 s alt.
-   Lösung: Bei Arbeit in Portionen nur die längste Portion bewerten (Notbremse, wenn eine Portion > 50 ms dauert),
-   nicht die Gesamtzeit. Während einer Pause den Wunsch merken (replanPending) und nach der Pause einmal nachplanen.
-   T262 um einen Fall ergänzen: Hintergrund-Planung mit 300 ms in Portionen <= 4 ms -> keine Pause.
-
-2. GRAPH.EXPANDLIMIT BLEIBT NACH ABBRUCH AUF 1200 STEHEN (Schwere: MITTEL)
-   Planner.lua:1367-1372 setzt das globale LP.Graph.expandLimit auf 1200 und stellt es erst nach der Suche zurück.
-   Im Hintergrund gibt Graph:Path dazwischen ab (Graph.lua:607). (a) In diesen Bildern läuft auch die Wegsuche der
-   Navigation ("navpath") mit nur 1200 statt 8000 Schritten (Graph.lua:20, 606). (b) Bricht ein Klick des Nutzers
-   den Auftrag ab (Jobs.Cancel("replan"), Planner.lua:1445) oder wirft Path im Auftrag einen Fehler (ohne pcall,
-   Planner.lua:1370), wird das Limit nie zurückgestellt: Bis zum Reload sucht jede Wegsuche nur 1200 Schritte (lange
-   Wege finden dann keinen Weg bzw. nur eine Luftlinie).
-   Lösung: Das Limit als Parameter an Graph:Path/PathRaw geben (lokal je Suche) statt über eine globale Variable.
-
-3. LANGSAM-EINTRÄGE DER NOTBREMSE WERDEN GELÖSCHT (Schwere: NIEDRIG)
-   Protocol.lua:348-354 (WrapReplan) löscht bei einer langsamen Planung ALLE Einträge mit k == "slow". Perf.Check
-   schreibt LANGSAM mit derselben Art "slow" (Perf.lua:82). Eine langsame Planung (Klick des Nutzers, am Stück) löscht
-   damit die LANGSAM-Zeilen der Notbremse aus dem Diagnose-Protokoll.
-   Lösung: Eigene Art für die Notbremse (z. B. "brake") oder in WrapReplan nur die eigenen Planungs-Einträge löschen.
-
-4. SPIELER MIT 3.12.23: KANTEN 25-80 YARDS SCHON GETEILT (Schwere: NIEDRIG, bitte prüfen)
-   Die einmalige Aufbereitung läuft nur bei G.joinVer < 2 (Graph.lua:91). Wer 3.12.23 schon gestartet hat, hat
-   joinVer = 2 und seine 25-80-Yards-Kanten wurden dort schon geteilt (ohne Markierung "unsicher"). 3.12.24 korrigiert
-   das nicht. Ist der Aufwand zu gross (3.12.23 war nur kurz veröffentlicht) oder lässt es sich nicht mehr erkennen,
-   bitte begründet zurückmelden – dann nur in den Wegdaten beobachten.
-
-5. NEUE AUFTRÄGE WÄHREND JOBS.STEP (Schwere: NIEDRIG)
-   Jobs.Step läuft mit pairs über Jobs.list (Perf.lua:209). Startet eine Portion einen neuen Auftrag, entsteht ein
-   neuer Schlüssel während der Schleife (z. B. Neuplanung -> PLAN_CHANGED -> N:Recalc(true) -> Jobs.Start("navpath"),
-   Planner.lua:1510, Navigation.lua:714). Das ist in Lua nicht festgelegt (Auftrag übersprungen oder doppelt im
-   selben Bild). Offline kein Fehler, nur unsauber.
-   Lösung: Zu Beginn von Jobs.Step die Namen in eine Liste kopieren und über diese Liste laufen.
-
-6. WÄHREND DER PAUSE VERWORFENE NETZ-NACHRICHTEN NICHT GEZÄHLT (Schwere: NIEDRIG)
-   Comm.Receive steht unter Notbremse (Perf.lua:153). In der Pause gehen empfangene Nachrichten still verloren
-   (Perf.lua:90).
-   Lösung: im Diagnose-Protokoll zählen ("Netz-Empfang pausiert: N verworfen"), damit Lücken in den Daten erklärbar
-   sind.
+1. WEGPUNKTE UND STRASSEN (anweisung-wegpunkte-strassen.txt) – weiter gültig
+   Punkt 1/6 eigene Koordinatenlisten für Mulgore, Brachland, Thunder Bluff, sobald genug aufgezeichnet ist; Punkt 12
+   gestrichen; Punkt 15 erst auf Kommando des Nutzers.
 
 IM CLIENT PRÜFEN (Ergebnisse dem Nutzer melden)
-   - 3.12.24 (T-LAG1, wichtigster Test): Mit dem Krieger einloggen: sofort laufen können, CPU normal, kein Stocken.
-     /lp diag: Zeile "ZEIT erste 60 s nach dem Einloggen" unter 1000 ms; Zeile "ZEIT Notbremse N×" – steht dort
-     bei normalem Spiel mehr als 0 (Routenberechnung), bestätigt das Punkt 1.
-   - 3.12.24: /lp testroutine: T261-T265 OK, T148 (Portionen); T263 "je Portion und Eintrag <= 16 ms, Suche endet".
+   - 3.12.25: /lp testroutine: T262 und T266-T268 OK; T261-T265 (T-LAG1-T-LAG4) weiter OK.
+   - 3.12.25: /lp diag nach einer normalen Spielsitzung: "ZEIT Notbremse 0×" (oder nur bei echten Spitzen über 50 ms je
+     Portion), Zeile "ZEIT in Pausen verworfen: nichts". Quest abgeben ohne zu klicken -> Route springt in wenigen
+     Sekunden auf das nächste Ziel.
+   - 3.12.25: Wer 3.12.23 gespielt hat: beim ersten Einloggen mit 3.12.25 kein Stocken (MarkSplitGaps gibt ab), keine
+     Lua-Fehler; Wege durch Orgrimmar/Brachland danach unverändert brauchbar.
+   - 3.12.24 (T-LAG1, wichtig): Mit dem Krieger einloggen: sofort laufen können, CPU normal, kein Stocken.
+     /lp diag: Zeile "ZEIT erste 60 s nach dem Einloggen" unter 1000 ms.
    - 3.12.24: Nach /reload bzw. Ausloggen steht LevelPilotDB.diagExport (GSDIAG1) in der Speicherdatei, ohne Namen;
-     der nächste Testbericht enthält eine LevelPilot-Diagnose (letzter im Repo: 3.12.13).
-   - 3.12.24: Quest abgeben, ohne zu klicken: die Route springt innerhalb weniger Sekunden auf das nächste Ziel (nicht
-     erst nach 60 s). Langer Weg (z. B. Orgrimmar -> Crossroads) nach einem Klick auf "Neu planen" mitten in einer
-     Planung: Pfeil/Minikarte zeigen weiterhin einen Weg (Punkt 2).
+     der nächste Testbericht enthält eine LevelPilot-Diagnose (bisher keine im Repo: testberichte/diagnose/ hat keinen
+     Ordner LevelPilot; letzter Testlauf im Repo ist 3.12.6).
+   - Langer Weg (z. B. Orgrimmar -> Crossroads) nach einem Klick auf "Neu planen" mitten in einer Planung: Pfeil und
+     Minikarte zeigen weiterhin einen Weg.
    - 3.12.23: Ritt durch Orgrimmar/Brachland mit Wegaufzeichnung: neue Wegstücke ohne gerade Linien über 25 Yards;
      im nächsten Wegdaten-Export keine 2-Punkt-Stücke mit grossem Abstand.
    - 3.12.23: Mitspieler mit 3.12.21 in der Gilde: keine Lua-Fehler, deren Anfragen werden still verworfen.
    - 3.12.22: /lp testroutine im echten Client: T257 "eigene Warteschlange true, fremde Einträge darin 0"; danach
-     /gssync bzw. Diagnose: Nachrichten anderer GoldSentinel-Addons, die während der Routine eingereiht wurden, gehen
-     danach normal hinaus (keine "verworfen"-Spitze).
+     /gssync bzw. Diagnose: Nachrichten anderer GoldSentinel-Addons gehen danach normal hinaus.
    - 3.12.22: Diagnose-Protokoll nach einer Spielsitzung mit Bank/AH in Orgrimmar oder Thunder Bluff und einem Dungeon:
      kein "Schritt seit 25 min aktiv" beim Stehen, keine FOKUS-Meldung beim Abarbeiten der eigenen Zone.
    - 3.12.22: Zwei Spieler in derselben Gilde, Einstellungen Gilde an / Gruppe aus / Netz an: Zonen-Anfrage kommt an,
@@ -112,14 +60,13 @@ IM CLIENT PRÜFEN (Ergebnisse dem Nutzer melden)
    - 3.12.21: /lp sync test -> Zeile "N Antworten (Gilde a, Gruppe b)". Diagnose-Protokoll: SYNC- und NETZ-Zeilen ohne
      Namen, "Kanal verweigert 0", bei "verworfen" kein "toolong". Der Kanal LevelPilotNet ist nach dem Einloggen weg.
    - 3.12.21 (aus anweisung-sync-version2.txt): Zwei Spieler in verschiedenen Gilden, kurz in einer Gruppe, dann Gruppe
-     verlassen -> eine neue Aufzeichnung aus Gilde A kommt in Gilde B an (dort im Diagnose-Protokoll "weitergegeben" > 0).
+     verlassen -> eine neue Aufzeichnung aus Gilde A kommt in Gilde B an (dort "weitergegeben" > 0).
    - 3.12.21: /gstest – einmalige Frage; ohne Zustimmung geht nichts hinaus (T253 im echten Client).
    - Hinweis: LevelPilot bis 3.12.20 versteht die Nachrichten mit Kopf "#S1:" nicht; bis 3.12.21 fehlt die Prüfsumme
      in "Z"/"E" (ab 3.12.23 werden diese verworfen). Mitspieler sollen aktualisieren.
-   - /lp testroutine im echten Client, besonders T224-T229 (Tooltips/Überlappen), T240, T241, T242-T265 und T128
+   - /lp testroutine im echten Client, besonders T224-T229 (Tooltips/Überlappen), T240, T241, T242-T268 und T128
      ("ergänzt, false, kein Fehler"; Fehlerzähler steigt während der Routine nicht).
-   - Fehlerprotokoll nach einer Spielsitzung mit Kampf und AFK: kein "secret boolean/number" (die automatischen
-     Testberichte zeigen das; die Prüf-Sitzung kontrolliert sie).
+   - Fehlerprotokoll nach einer Spielsitzung mit Kampf und AFK: kein "secret boolean/number".
    - /dump GetPlayerFacing(), IsIndoors(), IsResting() im Kampf und in einer Instanz: Zahl/Wahrheitswert, nil oder
      geschützt? (Rückfall seit 3.12.19 vorhanden – nur zur Bestätigung.)
    - Wegdaten ab 3.12.17: Die Prüf-Sitzung wertet nur Exporte ab 3.12.17 getrennt aus (Netz verbunden? Teile pro Zone).
@@ -133,7 +80,9 @@ IM CLIENT PRÜFEN (Ergebnisse dem Nutzer melden)
      /dump GetLootSourceInfo(1) bei offenem Beutefenster; Belohnungs-Hinweis bei QUEST_COMPLETE mit Gegenstand
      nicht im Cache; Nachkaufen beim echten Händler (MERCHANT_SHOW -> Restock); /lp testroutine reise (T84, T180, T183).
 
-Weiter gültig: anweisung-wegpunkte-strassen.txt (Punkt 1/6 eigene Koordinatenlisten für Mulgore, Brachland,
-Thunder Bluff, sobald genug aufgezeichnet ist; Punkt 12 gestrichen; Punkt 15 erst auf Kommando des Nutzers).
+HINWEIS FÜR KÜNFTIGE VERSIONEN
+   - Keine echten Spieler- oder Charakternamen (hinweis-keine-spielernamen.txt).
+   - Gemeinsame Dateien nur unverändert aus shared/ kopieren.
+   - Die Version muss höher sein als 3.12.25.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.

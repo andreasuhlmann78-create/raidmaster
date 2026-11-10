@@ -1,82 +1,69 @@
-OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.23)
+OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.24)
 =============================================================
-Stand: 10. November 2026, 17:25 · von der Prüf-Sitzung · Grundlage: download/GuildSentinel-0.9.23.zip
-(verglichen mit 0.9.22 aus der git-Geschichte). Das Repo ist schon weiter (db38b08, unveröffentlicht, kommt mit 0.9.24);
-geprüft wurde der Inhalt der ZIP.
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.22.
+Stand: 10. November 2026, 20:25 · von der Prüf-Sitzung · Grundlage: download/GuildSentinel-0.9.24.zip
+(verglichen mit 0.9.23 aus der git-Geschichte; Repo GuildSentinel ce39c7e = Inhalt der ZIP).
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.23.
 
-Erledigt in 0.9.23 (danke):
-- Punkt 1 aus 0.9.22 (HOCH, "Werbung posten" in Forever blockiert): GuildSentinel sendet nicht mehr selbst in einen
-  Kanal. ns.OpenChannelChat (Core.lua:572-578) öffnet über ns.Act die Chat-Eingabe mit "/<Kanal> <Text>"; Rc:Post
-  (Recruit.lua:245-271) merkt sich den Text nur als "vorbereitet"; als gepostet zählt er erst, wenn der eigene Text
-  im richtigen Kanal erscheint (Rc.OnChannel über CHAT_MSG_CHANNEL, Recruit.lua:284-297, geschützte Werte werden
-  übergangen; Rc:Posted setzt lastPost/lastAdTime/Erinnerung, Recruit.lua:274-282). Knopf "Werbung vorbereiten",
-  Hinweis "Steht im Chat für %s – mit Enter senden." (Pages.lua:917, 1147-1167), Erinnerungstext angepasst
-  (Recruit.lua:306), alle 10 Locale-Dateien, LIESMICH/README_EN, CHANGELOG EN/DE. Gilt in allen Spielversionen.
-  Testfall T239 (TestRoutine.lua:2489): Eingabe 1 mit "/5 GSTest Werbung", gesendet 0.
-- Punkt 2 aus 0.9.22 (LFGX): Gildensuchen schliesst nur der Suchende selbst, d.by reicht nur bei scope "server"
-  (Group.lua:252-256). Testfall T240 (TestRoutine.lua:2512).
-- Punkt 3 aus 0.9.22 (A1 Offline-Mitglieder): Beim zweiten Lesen ohne lesbare Liste wird trotzdem zurückgesetzt und
-  der Zeitgeber gelöscht (Abort, Professions.lua:1121-1131). Die Zeile "Gilden-Berufsliste …" nennt jetzt den Grund
-  (keine Funktion, Sperre 5 Min., Abfrage fehlgeschlagen, geschützter Wert, schon an (…), Kampf, Gildenfenster offen,
-  Einschalten fehlgeschlagen; Professions.lua:1143-1164, 1229-1236) und erscheint auch, wenn sich nur der Grund ändert.
-  Testfall T241 (TestRoutine.lua:2533).
-Prüfungen: Addon-Prüfung OK, 1 Warnung (siehe Punkt 2 – ein Fehlalarm). GoldSentinelGame.lua (3),
-GoldSentinelSync.lua (2) und GoldSentinelTest.lua (2) byte-gleich mit shared/, GoldSentinelDev.lua unverändert.
-5 neue/geänderte Texte in allen 10 Locale-Dateien, Platzhalter gleich, alte Schlüssel entfernt. CHANGELOG EN/DE für
-0.9.23, .toc und ns.version 0.9.23.
-Offline-Routine mit Lua 5.1 (ZIP-Inhalt im Test-Gerüst des Repos): Forever (16001) OK 210 · FEHLER 0 · übersprungen 27 ·
-im Client prüfen 8; Era (11508) und TBC (20505) je OK 215 · FEHLER 0 · übersprungen 21 · im Client prüfen 9;
-run_routine je 16/16. test/run.lua 75/75, run_admin 26/26, run_uicheck 13/13, run_lang 7/7, run_noguild 19/19,
-run_nilglobals 24/24, run_profsync 23/23, run_profauto 8/8, run_diag 11/11, run_rm 17/17.
-Im Diff 0.9.22 -> 0.9.23 keine Lua-Fehler, keine nil-Zugriffe, kein Taint (Tests ersetzen nur ns-, Recruit-, Prof-,
-API- und Group-Einträge), Era/TBC nicht gebrochen.
+Erledigt in 0.9.24 (danke):
+- Punkt 1 aus 0.9.23 (MITTEL, lange Werbung wird in der Chat-Eingabe abgeschnitten und zählt nie): Der Werbetext ist
+  auf Rc.AD_MAX = 251 Bytes begrenzt (Recruit.lua:119, 259). ns.OpenChannelChat (jetzt Recruit.lua:246-255) kürzt
+  "/<Kanal> <Text>" zusätzlich auf 255 und gibt den Text so zurück, wie er in der Eingabe steht; Rc:Post merkt sich
+  genau diesen Text (prepared.text = shown, Recruit.lua:285). Neues ns.CutBytes (Core.lua:167-178) zerschneidet keine
+  UTF-8-Zeichen. Zähler "(n/251)" (Pages.lua:1053). CHANGELOG EN/DE, LIESMICH/README_EN.
+  Testfälle T242 (TestRoutine.lua:2512: 300 Bytes mit Umlauten -> Eingabe <= 255, gemerkt = Eingabe, gezählt) und
+  T243 (TestRoutine.lua:2535: CutBytes ganze Zeichen).
+- Punkt 2 aus 0.9.23 (Warnung der Addon-Prüfung Core.lua:574, Fehlalarm): ns.OpenChannelChat steht jetzt in
+  Recruit.lua, die Warnung ist weg (addon_check 0.9.24: 0 WARNUNGEN).
+- Aus den Diagnose-Protokollen 0.9.23/0.9.24 (10.11. 16:00-18:41): A1 beantwortet – die Zeile lautet "offline
+  eingeblendet: nein (schon an (true))": Offline-Mitglieder waren schon eingeblendet, der Grund wird angezeigt.
 
-1. MITTEL – Lange Werbung: Chat-Eingabe kürzt, die Werbung zählt dann nie als gepostet
-   Rc:AdText kürzt auf 255 Zeichen (Recruit.lua:118), ns.OpenChannelChat setzt aber "/<Kanal> " davor
-   (Core.lua:576). Die Chat-Eingabe nimmt höchstens 255 Zeichen: Bei einem Text mit mehr als ca. 251 Zeichen fehlen
-   nach dem Umschalten in den Kanal die letzten Zeichen. Der gesendete Text ist dann nicht mehr gleich p.text
-   (Recruit.lua:293), Rc:Posted wird nie aufgerufen – Wartezeiten, "zuletzt gepostet" und Erinnerung zählen nicht,
-   und der Spieler sendet eine abgeschnittene Werbung.
-   Lösung: Beim Vorbereiten den Text auf 255 - #("/" .. id .. " ") Zeichen kürzen (gleich wie AdText mit "..."), und
-   genau diesen Text in prepared.text speichern. Die Anzeige "(n/255)" auf der Seite (Pages.lua:1052) entsprechend
-   anpassen oder einen Hinweis geben. Testfall: Werbetext mit 255 Zeichen -> Eingabe höchstens 255 Zeichen,
-   CHAT_MSG_CHANNEL mit dem gekürzten Text -> als gepostet gezählt.
+Prüfungen: Addon-Prüfung OK, 0 FEHLER, 0 WARNUNGEN (Ladetest, Sprachtest). GoldSentinelGame.lua, GoldSentinelSync.lua
+und GoldSentinelTest.lua byte-gleich mit shared/, GoldSentinelDev.lua unverändert gegenüber 0.9.23. Keine neuen
+Sprachschlüssel (der Zähler ist ein reines Zahlenformat). CHANGELOG EN/DE für 0.9.24, .toc und ns.version 0.9.24.
+Offline-Routine mit Lua 5.1: Forever (16001) OK 212 · FEHLER 0 · übersprungen 27 · im Client prüfen 8; Era (11508)
+und TBC (20505) je OK 217 · FEHLER 0 · übersprungen 21 · im Client prüfen 9; run_routine je 16/16. test/run.lua 75/75,
+run_admin 26/26, run_uicheck 13/13, run_lang 7/7, run_noguild 19/19, run_nilglobals 24/24, run_profsync 23/23,
+run_rm 17/17.
+Im Diff 0.9.23 -> 0.9.24 keine Lua-Fehler, keine nil-Zugriffe (Rc.AD_MAX wird erst zur Laufzeit gelesen), kein Taint
+(T242 ersetzt nur Recruit-Einträge über With), Era/TBC nicht gebrochen. Diagnose-Protokolle 0.9.23/0.9.24 aus dem
+Spiel: 0 Fehler; die einzige BLOCKIERT-Zeile ist vom 10.11. 11:09 (Recruit.lua:258 aus 0.9.22, in 0.9.23 behoben).
 
-2. NIEDRIG – Warnung der Addon-Prüfung Core.lua:574 ist ein Fehlalarm
-   Die Prüfung meldet "Addon-Nachricht über einen eigenen Kanal (\"CHANNEL\")". Gemeint ist nur der Testeintrag
-   ns.Test:Log("CHANNEL", …) in ns.OpenChannelChat – es wird nichts gesendet. Kein Fehler im Addon. Im Repo ist
-   OpenChannelChat schon nach Recruit.lua verschoben (db38b08); mit 0.9.24 bitte prüfen, dass die Warnung weg ist.
-   Nichts weiter zu tun.
+1. MITTEL – Neuer Standard-Werbetext (anweisung-werbetext.txt, Wunsch des Nutzers vom 10.11. 18:15) – noch offen
+   In 0.9.24 nicht umgesetzt: kein Platzhalter {fraktion} (Recruit.lua:101-111), {discord} liefert weiter
+   "Discord: <Link>" (Recruit.lua:105), Standardtext unverändert.
+   Lösung: wie in anweisung-werbetext.txt (W1-W7): neuer Standardtext deDE/enGB, andere Sprachen sinngemäss;
+   {fraktion} aus UnitFactionGroup("player") lokalisiert und in der Platzhalter-Liste (Pages.lua:881 und Hinweis Pages.lua:1050) ergänzen;
+   {gesucht} nur die Klassenliste mit "und"/"and", leer -> "neue Mitglieder"; ohne Discord fällt "Discord: … – " ganz
+   weg; eigene gespeicherte Texte bleiben. Länge: Rc.AD_MAX (251) reicht für W5. Testfälle T-WT1 bis T-WT4.
 
-NEU (10. Nov. 18:20, Wunsch des Nutzers) – anweisung-werbetext.txt
-   Neuer Standard-Werbetext mit Platzhaltern ({gilde} ({fraktion}) sucht {gesucht} für Dungeons und Raids – …
-   Discord: {discord} – flüstert mir: /w {name} gilde), neuer Platzhalter {fraktion}, ohne Discord fällt der Teil weg,
-   eigene Texte bleiben. T-WT1–T-WT4.
+2. NIEDRIG – Zähler zeigt nicht, dass gekürzt wurde
+   Pages.lua:1053 zählt die Länge des schon gekürzten Textes (Rc:Build kürzt in Recruit.lua:119). Ein zu langer Text
+   zeigt deshalb nur "(251/251)" und endet mit "..." – der Spieler merkt kaum, dass der Schluss fehlt. Gezählt werden
+   ausserdem Bytes (ein Umlaut zählt 2).
+   Lösung: Länge vor dem Kürzen messen (z. B. Rc:Build gibt als zweiten Wert die volle Länge zurück) und bei mehr als
+   Rc.AD_MAX den Zähler rot färben plus kurzen Hinweis "wird gekürzt" (über L[], alle Locale-Dateien). Optional im
+   Hinweistext "Bytes" statt "Zeichen" erklären.
 
-IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.23, Ergebnis dem Nutzer melden)
-   - Werbung (neu): "Werbung vorbereiten" -> "/5 <Text>" steht in der Chat-Eingabe, die Eingabe ist im Kanal-Modus
+IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.24, Ergebnis dem Nutzer melden)
+   - Werbung: "Werbung vorbereiten" -> "/5 <Text>" steht in der Chat-Eingabe, die Eingabe ist im Kanal-Modus
      (Kopf "[5. Handel]" o. ä.), mit Enter gesendet, KEIN "Aktion blockiert". Danach: "zuletzt gepostet" und die
-     Wartezeit des Kanals sind gesetzt (CHAT_MSG_CHANNEL erkannt). Ist der Absender in Forever ein geschützter Wert,
-     zählt die Werbung nie – dann melden. Erinnerung (adInterval) zählt danach richtig. In Era/TBC gleich.
+     Wartezeit des Kanals sind gesetzt (CHAT_MSG_CHANNEL erkannt). Neu mit 0.9.24: einen langen Text (über 251 Zeichen,
+     mit Umlauten) vorbereiten -> Eingabe vollständig mit "..." am Ende, nach Enter zählt er als gepostet. Ist der
+     Absender in Forever ein geschützter Wert, zählt die Werbung nie – dann melden. In Era/TBC gleich.
      Kanäle-Auswahl im deutschen Forever-Client: Allgemein, Handel, LokaleVerteidigung, SucheNachGruppe werden
-     angeboten, AHAPSync, LevelPilotNet usw. nicht.
-   - A1: Zeile "Gilden-Berufsliste: … offline eingeblendet: ja/nein (<Grund>) …" – welcher Grund steht dort? Mehr
-     Mitglieder als vorher? Danach ist "Offline-Mitglieder anzeigen" wieder wie vorher.
+     angeboten, AHAPSync, LevelPilotNet usw. nicht. (In den Protokollen bis 18:41 noch keine Werbung gesendet.)
    - Rezepte je Mitglied: Seite Berufe -> Beruf -> Klick auf "N Rezepte" eines Mitglieds: Liste mit Item-Links,
-     Tooltips; Filterleiste mit Arten und Anzahl, bricht um, nichts abgeschnitten (deDE und enGB, T237 im Spiel);
-     "Herstellen anfragen" öffnet das Flüstern mit Rezept-Link. In Forever im eigenen Berufsfenster: werden
-     Blizzard-Kategorien (Feld k) gelesen und angezeigt?
+     Tooltips; Filterleiste bricht um, nichts abgeschnitten (deDE und enGB, T237 im Spiel); "Herstellen anfragen"
+     öffnet das Flüstern mit Rezept-Link. In Forever: werden Blizzard-Kategorien (Feld k) gelesen und angezeigt?
    - Gruppensuche "ganzer Server": eine Gruppe aufbauen -> im Protokoll keine neuen "NETZ"-Sendungen pro
      Gruppenänderung, die Gruppe bekommt die Suche. Beenden schliesst die Suche auch in der anderen Gilde.
    - Hochleveln: Beruf bei offenem Fenster 10 Stufen steigern -> höchstens 1-2 Zeilen "BERUFE gesendet" in 5 Minuten,
      beim Schliessen eine. Neues Rezept -> sofort gesendet.
-   - Sync: Zeilen "SYNC GoldSentinelSync … Wege …", "SYNC gesendet …" und "NETZ …" im Protokoll, ohne Namen.
-     "/gs sync test" gibt "N Antworten (Gilde a, Gruppe b)" aus. Kommt "SYNC Kanal verweigert Addon-Nachrichten
-     (NOT_ALLOWED_IN_CHANNEL)" wieder, melden, von welchem Weg.
+   - Sync: "/gs sync test" gibt "N Antworten (Gilde a, Gruppe b)" aus. Kommt "SYNC Kanal verweigert Addon-Nachrichten
+     (NOT_ALLOWED_IN_CHANNEL)" wieder, melden, von welchem Weg. (Protokolle 0.9.23/0.9.24: Kanal verweigert 0.)
    - Flüster-Netz: Zwei Spieler in verschiedenen Gilden, kurz in einer Gruppe, dann Gruppe verlassen. Suche "ganzer
-     Server" in Gilde A -> erscheint in Gilde B (dort im Protokoll "weitergegeben" > 0). Die Systemmeldung "kein Spieler
-     … online" erscheint nicht im Chat.
+     Server" in Gilde A -> erscheint in Gilde B (dort im Protokoll "weitergegeben" > 0; bisher immer 0). Die
+     Systemmeldung "kein Spieler … online" erscheint nicht im Chat.
    - GoldSentinelTest 2: /gstest zeigt die einmalige Frage; ohne Zustimmung geht nichts hinaus.
    - A2: weitere Zeilen "GILDENREZEPTE … Abfragen n · Einträge m"; kein "Aktion blockiert"; bei offenem Berufsfenster
      öffnet sich kein Blizzard-Fenster "Gildenmitglieder mit diesem Rezept".
@@ -88,15 +75,14 @@ IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.23
    - Echte Aktion einmal mit einem Test-Twink: Einladen, Befördern (auch aus der Aktivität und als Sammelaktion),
      Degradieren, Entfernen – kein "Aktion blockiert".
    - Letzter vollständiger Testlauf im Spiel ist noch 0.9.13 (09.11. 05:47 UTC): T82, T118, T143, T154 waren dort
-     FEHLER, offline seit 0.9.21 bestanden. Mit 0.9.23 erneut /gs testroutine. Dazu T45 "[Test], 0", Bereich K
-     (T182-T187, T237), T239-T241, Berufe-Knopf in Forever ohne "Aktion blockiert", issecretvalue nach dem Kampf,
+     FEHLER, offline seit 0.9.21 bestanden. Mit 0.9.24 erneut /gs testroutine. Dazu T45 "[Test], 0", Bereich K
+     (T182-T187, T237), T239-T243, Berufe-Knopf in Forever ohne "Aktion blockiert", issecretvalue nach dem Kampf,
      T168 (/gs testroutine whisperq), Bank-Charakter -> #gildenbank, Sprachwahl folgt ohne Einstellung dem Client.
 
 HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Die Sprache muss ohne Einstellung immer dem Client folgen (hinweis-sprachtest.txt).
-   - Keine echten Spieler- oder Charakternamen (hinweis-keine-spielernamen.txt). T240 nutzt "Mira Sonnenkind" und
-     "Testa Beispiel" – erfundene Namen, in Ordnung.
+   - Keine echten Spieler-, Gilden- oder Charakternamen und keine Discord-Links (hinweis-keine-spielernamen.txt).
    - Gemeinsame Dateien nur unverändert aus shared/ kopieren.
-   - Die Version muss höher sein als 0.9.23 (download/, announce/, CurseForge).
+   - Die Version muss höher sein als 0.9.24 (download/, announce/, CurseForge).
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
