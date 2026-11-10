@@ -7,6 +7,17 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.85</h3>
+<ul>
+<li><strong>Fix (important): no more fake flips.</strong> The resale price never uses the estimated price of the part above the stored
+  price ladder (the "11s 39c" for a box that sells at 4s came from there). Without a current price ladder there is no
+  flip suggestion. The buy quantity is at most what is really offered up to the buy price.</li>
+<li>A flip row in Today/Flips appears only if the detail area says "buy up to X" with exactly the same calculation;
+  otherwise it is dropped (log FLIP-WIDERSPRUCH). Clicking a row in Today now also shows it in the detail area.</li>
+<li><strong>Wands are never suggested for disenchanting</strong> (not possible in WoW Forever). If disenchanting fails with "cannot be
+  disenchanted", the item (and its class) is excluded everywhere from then on (log DE-NICHT-MOEGLICH).</li>
+<li>Test routine: T403–T408 (T-F1–T-F4, T-ME8, T-ME9).</li>
+</ul>
 <h3>Version 0.65.84</h3>
 <ul>
 <li><strong>Sniper searches by itself again:</strong> the quick full scan (ReplicateItems) no longer blocks the sniper's item search;
@@ -72,22 +83,7 @@
 <li>Test routine: T369–T383 (T-HF9–11, H5, T-SK1/2/5, T-SP1–4, background check ≥ 16 ms, 3000-entry tooltip check),
   explanation line "learned vs. history" in the disenchant report.</li>
 </ul>
-<h3>Version 0.65.80</h3>
-<ul>
-<li><strong>Fix (important): ledger stock.</strong> "Result with stock" showed −9g 60s and "Stock −8s 22c" although about 4.7g of goods
-  were in the bags. The stock value is now never negative: bags and bank at the realistic sell price after fees (at
-  least the vendor price) plus your running auctions (listing price × 0.95, deposit already paid). The start of the
-  day is saved as a list of items and valued at today's price too, so the tile shows the "result if everything is sold
-  at today's price". The tile shows "Stock X (of which in AH Y)"; Per item has a new column "in AH".</li>
-<li>Disenchant settlement: per batch and in total – purchase, loot sold / in AH / stock, fees, result.</li>
-<li><strong>Fix (important): purchases booked exactly once.</strong> A purchase event only books the purchase with the same
-  auction ID (a late event could book a different purchase before); every auction at most once. Purchase invoices in
-  Forever: quantity never 0, total from the invoice. Invoice and purchase message are matched by item and quantity
-  even if the amount differs (the invoice amount counts, log KAUF-DOPPELT). <code>/ahs doppelt</code> lists possible old double
-  entries; <code>/ahs doppelt bereinigen</code> cleans up clear pairs with a backup (<code>/ahs doppelt zurück</code> undoes it).</li>
-<li>Test routine: T364–T368 (T-LG1–T-LG5).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

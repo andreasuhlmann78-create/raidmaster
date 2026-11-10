@@ -12,6 +12,17 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.85
+
+- **Fix (important): no more fake flips.** The resale price never uses the estimated price of the part above the stored
+  price ladder (the "11s 39c" for a box that sells at 4s came from there). Without a current price ladder there is no
+  flip suggestion. The buy quantity is at most what is really offered up to the buy price.
+- A flip row in Today/Flips appears only if the detail area says "buy up to X" with exactly the same calculation;
+  otherwise it is dropped (log FLIP-WIDERSPRUCH). Clicking a row in Today now also shows it in the detail area.
+- **Wands are never suggested for disenchanting** (not possible in WoW Forever). If disenchanting fails with "cannot be
+  disenchanted", the item (and its class) is excluded everywhere from then on (log DE-NICHT-MOEGLICH).
+- Test routine: T403–T408 (T-F1–T-F4, T-ME8, T-ME9).
+
 ### Version 0.65.84
 
 - **Sniper searches by itself again:** the quick full scan (ReplicateItems) no longer blocks the sniper's item search;
@@ -76,21 +87,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - Removed outdated fee texts and unused keys.
 - Test routine: T369–T383 (T-HF9–11, H5, T-SK1/2/5, T-SP1–4, background check ≥ 16 ms, 3000-entry tooltip check),
   explanation line "learned vs. history" in the disenchant report.
-
-### Version 0.65.80
-
-- **Fix (important): ledger stock.** "Result with stock" showed −9g 60s and "Stock −8s 22c" although about 4.7g of goods
-  were in the bags. The stock value is now never negative: bags and bank at the realistic sell price after fees (at
-  least the vendor price) plus your running auctions (listing price × 0.95, deposit already paid). The start of the
-  day is saved as a list of items and valued at today's price too, so the tile shows the "result if everything is sold
-  at today's price". The tile shows "Stock X (of which in AH Y)"; Per item has a new column "in AH".
-- Disenchant settlement: per batch and in total – purchase, loot sold / in AH / stock, fees, result.
-- **Fix (important): purchases booked exactly once.** A purchase event only books the purchase with the same
-  auction ID (a late event could book a different purchase before); every auction at most once. Purchase invoices in
-  Forever: quantity never 0, total from the invoice. Invoice and purchase message are matched by item and quantity
-  even if the amount differs (the invoice amount counts, log KAUF-DOPPELT). `/ahs doppelt` lists possible old double
-  entries; `/ahs doppelt bereinigen` cleans up clear pairs with a backup (`/ahs doppelt zurück` undoes it).
-- Test routine: T364–T368 (T-LG1–T-LG5).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
