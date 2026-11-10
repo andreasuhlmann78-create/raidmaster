@@ -1,0 +1,226 @@
+AHSentinel-Protokoll v0.65.64 · 10.11. 07:11:41
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  10.11. 07:11:06 L10 ? v0.65.64
+  10.11. 06:55:51 L10 ? v0.65.63
+  10.11. 06:37:34 L10 ? v0.65.62
+  10.11. 05:50:51 L10 ? v0.65.60
+  09.11. 22:10:38 L10 ? v0.65.59
+  09.11. 20:11:03 L22 ? v0.65.56
+  09.11. 19:49:43 L10 ? v0.65.56
+  09.11. 19:14:27 L10 ? v0.65.56
+  09.11. 19:06:44 L10 ? v0.65.56
+  09.11. 18:55:47 L10 ? v0.65.56
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 23 Min., 5418 Items, Preis-Sync an
+  SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0
+  SYNC gesendet 25 · empfangen 0 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 2
+  NETZ an · bekannt 1 (mit Sync 2: 0, pausiert 0) · gesendet 0 · weitergegeben 0 · offline 0 · Listen 0 · Warteschlange 0 · gespeichert ja
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Gewinn-Fenster angedockt an ProfessionsFrame (Versatz 59)
+  Einstellungen geändert: helpSeen=true, minimapAngle=18.1, theme=modern, tooltipDEDetail=true
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[10.11. 07:11:39] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 30 ms
+[10.11. 07:11:22] ABSATZ Item 4307 · Q 222 (scan) · S 293.8 (market) · W 0.8 · N 1
+[10.11. 07:11:21] LANGSAM Hintergrund-Aufgabe cache:warm-today · 167 ms
+[10.11. 07:11:19] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 16 ms
+[10.11. 07:11:18] KLICK Rezept Schwere Leinenhandschuhe · Rezept-ID 3840 · Weg Liste · gewählt · 5 ms
+[10.11. 07:11:15] EIGENE Ware Item 10938 · buyout 97 · Menge 43 · als Stückpreis gelesen
+[10.11. 07:11:12] SYNC Weg=GUILD
+[10.11. 07:11:10] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 142 ms
+[10.11. 07:10:59] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 15 ms
+[10.11. 07:10:50] ABSATZ Item 4604 · Q 112 (scan) · S 184.4 (market) · W 0.6 · N 1
+[10.11. 07:10:49] AUFBAU ×30 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 66 ms
+[10.11. 07:05:51] SYNC gesendet 2, empfangen 0, verworfen 0 · Kanal verweigert 15
+[10.11. 07:05:49] AUFBAU ×5 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 18 ms
+[10.11. 07:04:59] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser Öffnen · 64 ms
+[10.11. 07:00:48] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 32 ms
+[10.11. 07:00:47] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=36 · Minimum jetzt 100
+[10.11. 07:00:47] EINSTELLEN Item 4343 · Menge 1 · Auktionen 1 · Laufzeit 3 · Preis 200/Stück, 200 gesamt · Gebühr erwartet 100, abgezogen 100 (50.00 % vom Preis)
+[10.11. 07:00:46] AHS-POST PostItem: arg2=3 arg3=1 arg4=nil arg5=200, ItemLocation gültig ja, Bag/Slot 0/16
+[10.11. 06:59:49] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 18 ms
+[10.11. 06:59:19] BLIZZARD-POST PostItem: arg2=1 arg3=1 arg4=nil arg5=200, ItemLocation gültig ja, Bag/Slot 0/6
+[10.11. 06:59:04] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 15 ms
+[10.11. 06:58:55] ABSATZ Item 4343 · Q 156 (scan) · S 79.8 (market) · W 2.0 · N 2
+[10.11. 06:58:55] ABSATZ Item 1378 · Q 1 (scan) · S ? (-, unsicher) · W ? · N 1
+[10.11. 06:58:53] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 15 ms
+[10.11. 06:58:40] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 63 ms
+[10.11. 06:58:33] ABSATZ Item 2996 · Q 2581 (scan) · S 1091.2 (market) · W 2.4 · N 3
+[10.11. 06:58:33] ABSATZ Item 2320 · Q 1895 (scan) · S 2497.9 (market) · W 0.8 · N 1
+[10.11. 06:58:24] AUFBAU ×10 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 49 ms
+[10.11. 06:56:49] ABSATZ Item 118 · Q 394 (scan) · S 429.1 (market) · W 0.9 · N 1
+[10.11. 06:56:44] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 70 ms
+[10.11. 06:56:34] ABSATZ Item 2589 · Q 19272 (scan) · S 13719.3 (market) · W 1.4 · N 2
+[10.11. 06:56:14] RECHNUNG Item 10938 · Menge 32 (Feld 5 32, Feld 11 32) · Feld 4 2848 · consignment 142 · deposit 88 · Post-Gold 2794 · gesamt 2848 · Stück 89 · Feld 4 = Gesamt: ja
+[10.11. 06:56:14] WERT Gruppe 7 · Item 10938 · vorhergesagt 98 · echt 89 · Abweichung +10 %
+[10.11. 06:56:14] RECHNUNG-ROH 1=seller, 2=Geringe Magieessenz, 4=2848, 5=32, 6=88, 7=142, 8=0, 9=0, 10=0, 11=32, 12=false
+[10.11. 06:56:10] ABSATZ Item 4238 · Q 1002 (scan) · S 998.4 (market) · W 1.0 · N 4
+[10.11. 06:56:06] LANGSAM Hintergrund-Aufgabe cache:warm-today · 161 ms
+[10.11. 06:56:05] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=97 · Minimum jetzt 100
+[10.11. 06:56:05] EINSTELLEN Item 10940 · Menge 162 · Auktionen 1 · Laufzeit 3 · Preis 84/Stück, 13608 gesamt · Gebühr erwartet 100, abgezogen 100 (0.73 % vom Preis)
+[10.11. 06:56:05] AHS-POST PostCommodity: arg2=3 arg3=162 arg4=84 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/3
+[10.11. 06:56:01] ABSATZ Item 2997 · Q 1185 (scan) · S 1.3 (own) · W 922.4 · N 7 · kaum
+[10.11. 06:56:01] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[10.11. 06:55:58] ABSATZ Item 10938 · Q 2835 (scan) · S 77.9 (own) · W 36.4 · N 7 · kaum
+[10.11. 06:55:57] SYNC Weg=GUILD
+[10.11. 06:55:56] ABSATZ Item 10940 · Q 10886 (scan) · S 332.7 (own) · W 32.7 · N 7 · kaum
+[10.11. 06:55:55] EIGENE Ware Item 10938 · buyout 97 · Menge 43 · als Stückpreis gelesen
+[10.11. 06:53:06] AUFBAU ×20 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 35 ms
+[10.11. 06:49:28] AUFBAU ×3 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 17 ms
+[10.11. 06:48:58] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 14 ms
+[10.11. 06:48:54] LANGSAM Hintergrund-Aufgabe cache:today:10 · 187 ms
+[10.11. 06:48:52] LANGSAM Hintergrund-Aufgabe scan · 62 ms
+[10.11. 06:48:48] AUFBAU ×8 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 33 ms
+[10.11. 06:47:33] SYNC gesendet 2, empfangen 0, verworfen 0 · Kanal verweigert 12
+[10.11. 06:47:28] AUFBAU ×13 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 35 ms
+[10.11. 06:45:28] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 14 ms
+[10.11. 06:45:23] AUFBAU ×33 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 36 ms
+[10.11. 06:40:14] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 59 ms
+[10.11. 06:38:48] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[10.11. 06:37:49] LANGSAM Hintergrund-Aufgabe cache:warm-today · 165 ms
+[10.11. 06:37:39] SYNC Weg=GUILD
+[10.11. 06:37:34] MIGRATION fixL5 N=10
+[10.11. 06:37:08] AUFBAU ×10 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 35 ms
+[10.11. 06:35:36] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 14 ms
+[10.11. 06:35:32] AUFBAU ×5 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 35 ms
+[10.11. 06:34:37] AUFBAU Beste Rezepte (19 Rezepte) · Auslöser DATA_CHANGED · 16 ms
+[10.11. 06:33:05] LANGSAM Hintergrund-Aufgabe cache:today:10 · 393 ms
+[10.11. 06:31:36] AUFBAU ×5 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 16 ms
+[10.11. 06:30:51] SYNC gesendet 486, empfangen 0, verworfen 0 · Kanal verweigert 52
+[10.11. 06:30:46] AUFBAU ×9 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 54 ms
+[10.11. 06:29:25] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=25 · Minimum jetzt 100
+[10.11. 06:29:25] EINSTELLEN Item 10938 · Menge 43 · Auktionen 1 · Laufzeit 3 · Preis 97/Stück, 4171 gesamt · Gebühr erwartet 100, abgezogen 100 (2.40 % vom Preis)
+[10.11. 06:29:23] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 17 ms
+[10.11. 06:29:21] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=90 · Minimum jetzt 100
+[10.11. 06:29:21] EINSTELLEN Item 10940 · Menge 151 · Auktionen 1 · Laufzeit 3 · Preis 83/Stück, 12533 gesamt · Gebühr erwartet 100, abgezogen 100 (0.80 % vom Preis)
+[10.11. 06:29:20] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 13 ms
+[10.11. 06:29:17] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 12 ms
+[10.11. 06:29:12] AUFBAU ×30 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 36 ms
+[10.11. 06:20:51] SYNC gesendet 486, empfangen 0, verworfen 0 · Kanal verweigert 40
+[10.11. 06:16:37] AUFBAU ×5 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 52 ms
+[10.11. 06:15:47] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 66 ms
+[10.11. 06:15:06] AUFBAU ×4 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 57 ms
+[10.11. 06:14:27] AUFBAU Beste Rezepte (19 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 12 ms
+[10.11. 06:14:27] LANGSAM Hintergrund-Aufgabe cache:today:10 · 343 ms
+[10.11. 06:14:24] LANGSAM Hintergrund-Aufgabe scan · 44 ms
+[10.11. 06:14:17] AUFBAU ×4 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 33 ms
+[10.11. 06:10:51] SYNC gesendet 252, empfangen 0, verworfen 0 · Kanal verweigert 28
+[10.11. 06:09:32] AUFBAU ×8 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 17 ms
+[10.11. 06:06:43] SNIPER Treffer 1 · weg 1 · Ø Suche>Treffer 141 ms
+[10.11. 06:05:44] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 14 ms
+[10.11. 06:05:43] SNIPER Treffer 1 · weg 1 · Ø Suche>Treffer 100 ms
+[10.11. 06:05:12] AUFBAU ×7 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 33 ms
+[10.11. 06:04:38] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 14 ms
+[10.11. 06:04:28] AUFBAU ×3 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 16 ms
+[10.11. 06:03:56] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 14 ms
+[10.11. 06:03:43] AUFBAU ×5 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 37 ms
+[10.11. 06:03:19] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 33 ms
+[10.11. 06:03:08] AUFBAU ×13 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 40 ms
+[10.11. 06:01:37] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 13 ms
+[10.11. 06:01:26] AUFBAU ×3 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 14 ms
+[10.11. 06:01:14] SNIPER Treffer 1 · weg 1 · Ø Suche>Treffer 58 ms
+[10.11. 06:01:10] AUFBAU ×4 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 17 ms
+[10.11. 06:00:51] SYNC gesendet 252, empfangen 0, verworfen 0 · Kanal verweigert 12
+[10.11. 06:00:49] AUFBAU ×6 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 14 ms
+[10.11. 06:00:14] SNIPER Treffer 1 · weg 1 · Ø Suche>Treffer 75 ms
+[10.11. 06:00:12] AUFBAU ×3 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 25 ms
+[10.11. 05:59:43] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[10.11. 05:59:35] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 21 ms
+[10.11. 05:59:24] AUFBAU ×5 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 14 ms
+[10.11. 05:58:59] SNIPER Treffer 1 · weg 1 · Ø Suche>Treffer 117 ms
+[10.11. 05:58:58] AUFBAU ×8 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 17 ms
+[10.11. 05:57:58] SNIPER Treffer 1 · weg 1 · Ø Suche>Treffer 142 ms
+[10.11. 05:57:57] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 15 ms
+[10.11. 05:57:46] AUFBAU ×9 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 16 ms
+[10.11. 05:56:58] SNIPER Treffer 2 · weg 2 · Ø Suche>Treffer 93 ms
+[10.11. 05:56:54] AUFBAU ×7 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 17 ms
+[10.11. 05:55:58] SNIPER Treffer 1 · weg 1 · Ø Suche>Treffer 151 ms
+[10.11. 05:55:55] AUFBAU ×10 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 17 ms
+[10.11. 05:55:03] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 14 ms
+[10.11. 05:54:56] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 18 ms
+[10.11. 05:54:46] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 45 ms
+[10.11. 05:54:35] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 20 ms
+[10.11. 05:54:17] SNIPER Treffer 3 · gekauft 3 · Ø Suche>Treffer 89 ms, Treffer>Reserv. 1628 ms, Reserv.>bereit 219 ms, bereit>bestätigt 108 ms, bestätigt>gekauft 307 ms
+[10.11. 05:54:11] AUFBAU ×11 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 18 ms
+[10.11. 05:53:17] SNIPER Treffer 1 · gekauft 1 · Ø Suche>Treffer 84 ms, Treffer>Reserv. 56476 ms, Reserv.>bereit 105 ms, bereit>bestätigt 186 ms, bestätigt>gekauft 234 ms
+[10.11. 05:53:15] AUFBAU ×8 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 15 ms
+[10.11. 05:52:18] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 16 ms
+[10.11. 05:52:13] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 21 ms
+[10.11. 05:51:58] AUFBAU Beste Rezepte (0 Rezepte) · Auslöser DATA_CHANGED · 11 ms
+[10.11. 05:51:48] LANGSAM Hintergrund-Aufgabe cache:today:10 · 413 ms
+[10.11. 05:51:45] LANGSAM Hintergrund-Aufgabe scan · 27 ms
+[10.11. 05:51:35] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[10.11. 05:51:06] LANGSAM Hintergrund-Aufgabe cache:warm-today · 19 ms
+[10.11. 05:51:00] RECHNUNG Item 10940 · Menge 95 (Feld 5 95, Feld 11 95) · Feld 4 8360 · consignment 418 · deposit 65 · Post-Gold 8007 · gesamt 8360 · Stück 88 · Feld 4 = Gesamt: ja
+[10.11. 05:51:00] WERT Gruppe 7 · Item 10940 · vorhergesagt 79 · echt 1 · Abweichung +7800 %
+[10.11. 05:51:00] RECHNUNG-ROH 1=seller, 2=Seltsamer Staub, 4=8360, 5=95, 6=65, 7=418, 8=0, 9=0, 10=0, 11=95, 12=false
+[10.11. 05:50:57] SYNC Weg=GUILD
+[09.11. 22:27:51] SUCHEN Grenze erreicht: 83 in 60 s (max je Minute = 90)
+[09.11. 22:27:20] LANGSAM Hintergrund-Aufgabe ui-refresh · 16 ms
+[09.11. 22:24:48] SNIPER Treffer 1 · abgelaufen 1 · Ø Suche>Treffer 59 ms, Treffer>Reserv. 11682 ms, Reserv.>bereit 127 ms, bereit>bestätigt 1564 ms
+[09.11. 22:23:48] SNIPER Treffer 1 · weg 1 · Ø Suche>Treffer 472 ms
+[09.11. 22:21:26] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 6 ms
+[09.11. 22:21:26] KLICK Rezept Wollcape · Rezept-ID 2402 · Weg Liste · gewählt · 5 ms
+[09.11. 22:21:25] KLICK Rezept Leinenstiefel · Rezept-ID 2386 · Weg Liste · gewählt · 4 ms
+[09.11. 22:21:25] KLICK Rezept Leinenschuhe mit weichen Sohlen · Rezept-ID 3845 · Weg Liste · gewählt · 6 ms
+[09.11. 22:21:24] KLICK Rezept Verstärktes Leinencape · Rezept-ID 2397 · Weg Liste · gewählt · 6 ms
+[09.11. 22:21:23] KLICK Rezept Braune Leinenhose · Rezept-ID 3914 · Weg Liste · gewählt · 10 ms
+[09.11. 22:21:22] KLICK Rezept Schwere Leinenhandschuhe · Rezept-ID 3840 · Weg Liste · gewählt · 11 ms
+[09.11. 22:21:17] AUFBAU ×3 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 37 ms
+[09.11. 22:20:45] AUFBAU Beste Rezepte (19 Rezepte) · Auslöser DATA_CHANGED · 20 ms
+[09.11. 22:20:38] SYNC gesendet 254, empfangen 38, verworfen nopath 1 · Kanal verweigert 1
+[09.11. 22:16:22] LANGSAM Hintergrund-Aufgabe cache:today:10 · 420 ms
+[09.11. 22:15:25] AUFBAU ×3 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 17 ms
+[09.11. 22:15:02] SNIPER Treffer 1 · abgelaufen 1 · Ø Suche>Treffer 167 ms, Treffer>Reserv. 100 ms
+[09.11. 22:14:55] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 19 ms
+[09.11. 22:14:45] AUFBAU Beste Rezepte (0 Rezepte) · Auslöser Öffnen · 16 ms
+[09.11. 22:14:13] LANGSAM Hintergrund-Aufgabe cache:today:10 · 132 ms
+[09.11. 22:11:09] SNIPER Treffer 1 · gekauft 1 · Ø Suche>Treffer 91 ms, Treffer>Reserv. 9690 ms, Reserv.>bereit 322 ms, bereit>bestätigt 15 ms, bestätigt>gekauft 3874 ms
+[09.11. 22:10:55] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[09.11. 22:10:44] SYNC Weg=GUILD
+[09.11. 22:09:56] AUFBAU Beste Rezepte (27 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 69 ms
+[09.11. 22:09:54] AUFBAU Beste Rezepte (27 Rezepte) · Auslöser Öffnen · 69 ms
+[09.11. 22:09:11] AUFBAU Beste Rezepte (27 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 73 ms
+[09.11. 22:09:09] AUFBAU Beste Rezepte (27 Rezepte) · Auslöser Öffnen · 70 ms
+[09.11. 22:04:39] AUFBAU Beste Rezepte (27 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 27 ms
+[09.11. 22:04:31] AUFBAU Beste Rezepte (5 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 17 ms
+[09.11. 22:04:29] AUFBAU Beste Rezepte (5 Rezepte) · Auslöser DATA_CHANGED · 18 ms
+[09.11. 22:01:03] SYNC gesendet 2, empfangen 0, verworfen 0 · Kanal verweigert 1
+[09.11. 21:58:51] AUFBAU ×2 Beste Rezepte (5 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 33 ms
+[09.11. 21:51:03] SYNC ×10 gesendet 2, empfangen 0, verworfen 0 · Kanal verweigert 1
+[09.11. 20:11:09] SYNC Weg=GUILD
+[09.11. 20:09:43] SYNC gesendet 267, empfangen 1, verworfen nopath 1 · Kanal verweigert 3
+[09.11. 19:59:43] SNIPER Treffer 1 · abgelaufen 1 · Ø Suche>Treffer 92 ms, Treffer>Reserv. 166 ms
+[09.11. 19:59:43] SYNC gesendet 267, empfangen 1, verworfen nopath 1 · Kanal verweigert 2
+[09.11. 19:57:43] SNIPER Treffer 2 · weg 1, gestiegen 1 · Ø Suche>Treffer 105 ms, Treffer>Reserv. 509 ms
+[09.11. 19:56:43] SNIPER Treffer 1 · gekauft 1 · Ø Suche>Treffer 60 ms, Treffer>Reserv. 496 ms, Reserv.>bereit 128 ms, bereit>bestätigt 29 ms, bestätigt>gekauft 3000 ms
+[09.11. 19:54:37] SNIPER Treffer 5 · gekauft 1, gestiegen 4 · Ø Suche>Treffer 108 ms, Treffer>Reserv. 223 ms, Reserv.>bereit 444 ms, bereit>bestätigt 65 ms, bestätigt>gekauft 3630 ms
+[09.11. 19:53:37] SNIPER Treffer 3 · gekauft 1, gestiegen 2 · Ø Suche>Treffer 124 ms, Treffer>Reserv. 365 ms, Reserv.>bereit 574 ms, bereit>bestätigt 57 ms, bestätigt>gekauft 2606 ms
+[09.11. 19:52:37] SNIPER Treffer 1 · gekauft 1 · Ø Suche>Treffer 87 ms, Treffer>Reserv. 2368 ms, Reserv.>bereit 187 ms, bereit>bestätigt 577 ms, bestätigt>gekauft 965 ms
+[09.11. 19:52:33] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[09.11. 19:49:49] SYNC Weg=GUILD
+[09.11. 19:44:27] SYNC gesendet 2, empfangen 57, verworfen 0 · Kanal verweigert 4
+[09.11. 19:34:34] SNIPER Treffer 5 · gekauft 4, gestiegen 1 · Ø Suche>Treffer 117 ms, Treffer>Reserv. 303 ms, Reserv.>bereit 329 ms, bereit>bestätigt 107 ms, bestätigt>gekauft 3138 ms
+[09.11. 19:34:27] SYNC gesendet 2, empfangen 57, verworfen 0 · Kanal verweigert 4
+[09.11. 19:34:21] RECHNUNG Item 10938 · Menge 4 (Feld 5 4, Feld 11 4) · Feld 4 356 · consignment 17 · deposit 11 · Post-Gold 350 · gesamt 356 · Stück 89 · Feld 4 = Gesamt: ja
+[09.11. 19:34:21] WERT Gruppe 7 · Item 10938 · vorhergesagt 90 · echt 1 · Abweichung +8900 %
+[09.11. 19:34:21] RECHNUNG Item 10940 · Menge 149 (Feld 5 149, Feld 11 149) · Feld 4 11622 · consignment 581 · deposit 96 · Post-Gold 11137 · gesamt 11622 · Stück 78 · Feld 4 = Gesamt: ja
+[09.11. 19:34:21] WERT Gruppe 7 · Item 10940 · vorhergesagt 79 · echt 1 · Abweichung +7800 %
+[09.11. 19:34:21] RECHNUNG-ROH 1=seller, 2=Seltsamer Staub, 4=11622, 5=149, 6=96, 7=581, 8=0, 9=0, 10=0, 11=149, 12=false
+[09.11. 19:33:34] SNIPER Treffer 7 · gekauft 1, gestiegen 5, Fehler 1 · Ø Suche>Treffer 116 ms, Treffer>Reserv. 177 ms, Reserv.>bereit 481 ms, bereit>bestätigt 48 ms, bestätigt>gekauft 4316 ms
+[09.11. 19:32:34] SNIPER Treffer 8 · gekauft 4, gestiegen 1, Fehler 3 · Ø Suche>Treffer 130 ms, Treffer>Reserv. 131 ms, Reserv.>bereit 516 ms, bereit>bestätigt 131 ms, bestätigt>gekauft 3068 ms
+[09.11. 19:31:34] SNIPER Treffer 1 · gekauft 1 · Ø Suche>Treffer 117 ms, Treffer>Reserv. 485 ms, Reserv.>bereit 159 ms, bereit>bestätigt 503 ms, bestätigt>gekauft 170 ms
+[09.11. 19:30:31] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[09.11. 19:24:27] SYNC gesendet 2, empfangen 0, verworfen 0 · Kanal verweigert 3
+[09.11. 19:14:33] SYNC ×2 Weg=GUILD
+[09.11. 19:05:47] SYNC gesendet 2, empfangen 0, verworfen 0 · Kanal verweigert 3
+[09.11. 18:55:53] SYNC Weg=GUILD
+[09.11. 18:55:53] SYNC alter Kanal verlassen
+[09.11. 18:55:47] MIGRATION fixL4 N=5
+[09.11. 18:46:44] AUFBAU Beste Rezepte (2 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 14 ms
+[09.11. 18:46:41] AUFBAU Beste Rezepte (6 Rezepte) · Auslöser DATA_CHANGED · 57 ms
+[09.11. 18:35:31] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 34 ms
