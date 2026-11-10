@@ -1,0 +1,225 @@
+AHSentinel-Protokoll v0.65.69 · 10.11. 09:56:55
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  10.11. 09:51:52 L10 ? v0.65.69
+  10.11. 09:43:42 L10 ? v0.65.69
+  10.11. 09:42:53 L10 ? v0.65.69
+  10.11. 09:30:37 L10 ? v0.65.69
+  10.11. 09:12:28 L10 ? v0.65.68
+  10.11. 08:40:02 L10 ? v0.65.67
+  10.11. 07:38:59 L10 ? v0.65.65
+  10.11. 07:11:45 L10 ? v0.65.64
+  10.11. 07:11:06 L10 ? v0.65.64
+  10.11. 06:55:51 L10 ? v0.65.63
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 42 Min., 5468 Items, Preis-Sync an
+  SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GoldSentinelTest 0, GuildSentinel 0, LevelPilot 0, LevelPilotG 0
+  SYNC gesendet 13 · empfangen 104 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 7
+  NETZ an · bekannt 1 (mit Sync 2: 0, pausiert 0) · gesendet 0 · weitergegeben 0 · offline 0 · Listen 0 · Warteschlange 0 · gespeichert ja
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Einstellungen geändert: cmdHint=true, helpSeen=true, minimapAngle=18.1, priceGuard=20, theme=modern, tooltipDEDetail=true, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[10.11. 09:52:12] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[10.11. 09:52:06] EIGENE Ware Item 11084 · buyout 3763 · Menge 2 · als Stückpreis gelesen
+[10.11. 09:51:57] SYNC Weg=GUILD
+[10.11. 09:45:53] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[10.11. 09:45:53] EINSTELLEN Item 11084 · Menge 2 · Auktionen 1 · Laufzeit 1 · Preis 3763/Stück, 7526 gesamt · Gebühr erwartet 100, abgezogen 100 (1.33 % vom Preis)
+[10.11. 09:45:52] AHS-POST PostCommodity: arg2=1 arg3=2 arg4=3763 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/3
+[10.11. 09:45:50] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[10.11. 09:45:50] EINSTELLEN Item 11082 · Menge 6 · Auktionen 1 · Laufzeit 1 · Preis 1388/Stück, 8328 gesamt · Gebühr erwartet 100, abgezogen 100 (1.20 % vom Preis)
+[10.11. 09:45:50] ABSATZ Item 279972 · Q 205 (scan, Q gesamt) · S 41.0 (market, Deckel) · S roh 129.4 · Deckel 41.0 · eigene Quote - · Laufzeit 24 Std. · W 5.0 · N 6.0
+[10.11. 09:45:50] ABSATZ Item 2997 · Q 943 (scan, Q gesamt) · S 188.6 (market, Deckel) · S roh 876.5 · Deckel 188.6 · eigene Quote - · Laufzeit 24 Std. · W 5.0 · N 6.0
+[10.11. 09:45:50] ABSATZ Item 2320 · Q 4350 (scan, Q gesamt) · S 870.0 (market, Deckel) · S roh 2384.4 · Deckel 870.0 · eigene Quote - · Laufzeit 24 Std. · W 5.0 · N 6.0
+[10.11. 09:45:49] AHS-POST PostCommodity: arg2=1 arg3=6 arg4=1388 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/4
+[10.11. 09:45:27] ABBRUCH Item 11084 · Menge 2 · Erstattung 0
+[10.11. 09:45:26] ABBRUCH Item 11082 · Menge 6 · Erstattung 0
+[10.11. 09:45:26] ABSATZ Item 11084 · Q 20 (search) · S 69.2 (market, Deckel) · S roh 212.4 · Deckel 69.2 · eigene Quote - · Laufzeit 24 Std. · W 0.3 · N 1.0
+[10.11. 09:45:25] ABSATZ Item 11082 · Q 50 (search) · S 215.6 (market, Deckel) · S roh 363.4 · Deckel 215.6 · eigene Quote - · Laufzeit 24 Std. · W 0.2 · N 1.0
+[10.11. 09:45:12] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[10.11. 09:45:07] EIGENE Ware Item 11082 · buyout 1391 · Menge 6 · als Stückpreis gelesen
+[10.11. 09:43:48] SYNC ×2 Weg=GUILD
+[10.11. 09:41:12] ABSATZ Item 118 · Q 707 (scan, Q gesamt) · S 141.4 (market, Deckel) · S roh 415.1 · Deckel 141.4 · eigene Quote - · Laufzeit 24 Std. · W 5.0 · N 6.0
+[10.11. 09:40:36] SYNC gesendet 4, empfangen 2, verworfen nopath 1 · Kanal verweigert 10
+[10.11. 09:31:02] ENTZAUBERWERT Item 7048 · eigene Ø aus 70 · 11083 73% × 1.43 à 408, 11082 14% × 1.30 à 1251, 11084 13% × 1.00 à 3411 · brutto 1190 · netto 1096
+[10.11. 09:31:02] DE-CHANCEN Gruppe 2:4:a · Tabelle 11083 75%/11082 20%/11084 5% · echt 11083 73%/11082 14%/11084 13% (70)
+[10.11. 09:31:02] ABSATZ Item 7048 · Q 18 (scan, Q gesamt) · S 3.6 (market, Deckel) · S roh 84.0 · Deckel 3.6 · eigene Quote - · Laufzeit 2 Std. · W 5.3 · N 7.0
+[10.11. 09:30:53] ABSATZ Item 1419 · Q 4 (scan, Q gesamt) · S 0.8 (market, Deckel) · S roh 4.4 · Deckel 0.8 · eigene Quote - · Laufzeit 24 Std. · W 6.2 · N 7.0
+[10.11. 09:30:49] EIGENE Ware Item 11082 · buyout 1391 · Menge 6 · als Stückpreis gelesen
+[10.11. 09:30:48] ABSATZ Item 279972 · Q 205 (scan, Q gesamt) · S 41.0 (market, Deckel) · S roh 129.4 · Deckel 41.0 · eigene Quote - · Laufzeit 24 Std. · W 5.0 · N 6.0
+[10.11. 09:30:48] ABSATZ Item 2997 · Q 809 (scan, Q gesamt) · S 161.8 (market, Deckel) · S roh 876.5 · Deckel 161.8 · eigene Quote - · Laufzeit 24 Std. · W 5.0 · N 6.0
+[10.11. 09:30:48] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[10.11. 09:30:48] ABSATZ Item 2320 · Q 4530 (scan, Q gesamt) · S 906.0 (market, Deckel) · S roh 2384.4 · Deckel 906.0 · eigene Quote - · Laufzeit 24 Std. · W 5.0 · N 6.0
+[10.11. 09:30:42] SYNC Weg=GUILD
+[10.11. 09:30:37] MIGRATION fixL7 N=11
+[10.11. 09:30:37] REPARATUR-MENGE ×2 Item 9763 · alt 400 · neu 1
+[10.11. 09:30:37] REPARATUR-MENGE ×2 Item 4052 · alt 11000 · neu 1
+[10.11. 09:30:37] REPARATUR-MENGE ×2 Item ? · alt 400 · neu 1
+[10.11. 09:29:30] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[10.11. 09:29:30] EINSTELLEN Item 11084 · Menge 3 · Auktionen 1 · Laufzeit 1 · Preis 3765/Stück, 11295 gesamt · Gebühr erwartet 100, abgezogen 100 (0.89 % vom Preis)
+[10.11. 09:29:30] AHS-POST PostCommodity: arg2=1 arg3=3 arg4=3765 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/4
+[10.11. 09:29:28] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[10.11. 09:29:28] EINSTELLEN Item 11082 · Menge 8 · Auktionen 1 · Laufzeit 1 · Preis 1391/Stück, 11128 gesamt · Gebühr erwartet 100, abgezogen 100 (0.90 % vom Preis)
+[10.11. 09:29:27] AHS-POST PostCommodity: arg2=1 arg3=8 arg4=1391 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/3
+[10.11. 09:29:25] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=1 · Minimum jetzt 100
+[10.11. 09:29:25] EINSTELLEN Item 11083 · Menge 38 · Auktionen 1 · Laufzeit 1 · Preis 428/Stück, 16264 gesamt · Gebühr erwartet 100, abgezogen 100 (0.61 % vom Preis)
+[10.11. 09:29:24] AHS-POST PostCommodity: arg2=1 arg3=38 arg4=428 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/5
+[10.11. 09:29:21] ABSATZ Item 2320 · Q 4530 (scan, Q gesamt) · S 906.0 (market, Deckel) · S roh 2384.4 · Deckel 906.0 · eigene Quote - · Laufzeit 24 Std. · W 5.0 · N 6.0
+[10.11. 09:29:21] ABSATZ Item 2997 · Q 809 (scan, Q gesamt) · S 161.8 (market, Deckel) · S roh 876.5 · Deckel 161.8 · eigene Quote - · Laufzeit 24 Std. · W 5.0 · N 6.0
+[10.11. 09:29:21] ABSATZ Item 279972 · Q 267 (scan, Q gesamt) · S 53.4 (market, Deckel) · S roh 129.4 · Deckel 53.4 · eigene Quote - · Laufzeit 24 Std. · W 5.0 · N 6.0
+[10.11. 09:29:05] ABBRUCH Item 11082 · Menge 7 · Erstattung 0
+[10.11. 09:29:01] ABBRUCH Item 11082 · Menge 1 · Erstattung 0
+[10.11. 09:29:00] ABBRUCH Item 11083 · Menge 38 · Erstattung 0
+[10.11. 09:28:48] ABBRUCH Item 11084 · Menge 2 · Erstattung 0
+[10.11. 09:22:30] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[10.11. 09:22:28] SYNC gesendet 239, empfangen 0, verworfen 0 · Kanal verweigert 10
+[10.11. 09:15:14] ABSATZ Item 2244 · Q 2 (scan, Q gesamt) · S 0.4 (market, Deckel) · S roh 0.7 · Deckel 0.4 · eigene Quote - · Laufzeit 2 Std. · W 7.5 · N 7.0 · kaum
+[10.11. 09:15:14] ENTZAUBERWERT Item 2291 · Tabelle · 11178 100% × 3.00 à 19540 · brutto 61800 · netto 58620
+[10.11. 09:15:14] ABSATZ Item 2291 · Q 2 (scan, Q gesamt) · S ? (-, unsicher) · S roh - · Deckel - · eigene Quote - · Laufzeit 2 Std. · W ? · N 1.0
+[10.11. 09:15:14] ENTZAUBERWERT Item 868 · Tabelle · 11177 100% × 3.00 à 5765 · brutto 18300 · netto 17295
+[10.11. 09:15:14] ABSATZ Item 868 · Q 8 (scan, Q gesamt) · S 1.6 (market, Deckel) · S roh 2.5 · Deckel 1.6 · eigene Quote - · Laufzeit 2 Std. · W 5.6 · N 7.0
+[10.11. 09:15:14] ENTZAUBERWERT Item 2824 · Tabelle · 14343 100% × 3.00 à 12320 · brutto 39000 · netto 36960
+[10.11. 09:15:14] ABSATZ Item 2824 · Q 1 (scan, Q gesamt) · S 0.2 (market, Deckel) · S roh 0.4 · Deckel 0.2 · eigene Quote - · Laufzeit 2 Std. · W 10.0 · N 7.0 · kaum
+[10.11. 09:15:14] ENTZAUBERWERT Item 14551 · Tabelle · 11178 100% × 3.00 à 19540 · brutto 61800 · netto 58620
+[10.11. 09:15:14] ABSATZ Item 14551 · Q 4 (scan, Q gesamt) · S 0.8 (market, Deckel) · S roh 1.3 · Deckel 0.8 · eigene Quote - · Laufzeit 2 Std. · W 6.2 · N 7.0
+[10.11. 09:15:14] ENTZAUBERWERT Item 867 · Tabelle · 11177 100% × 3.00 à 5765 · brutto 18300 · netto 17295
+[10.11. 09:15:14] ABSATZ Item 867 · Q 6 (scan, Q gesamt) · S 1.2 (market, Deckel) · S roh 2.1 · Deckel 1.2 · eigene Quote - · Laufzeit 2 Std. · W 5.8 · N 7.0
+[10.11. 09:15:14] ENTZAUBERWERT Item 810 · Tabelle · 14343 100% × 3.00 à 12320 · brutto 39000 · netto 36960
+[10.11. 09:15:14] ABSATZ Item 810 · Q 1 (scan, Q gesamt) · S ? (-, unsicher) · S roh - · Deckel - · eigene Quote - · Laufzeit 2 Std. · W ? · N 1.0
+[10.11. 09:15:14] ENTZAUBERWERT Item 812 · Tabelle · 14343 100% × 3.00 à 12320 · brutto 39000 · netto 36960
+[10.11. 09:15:14] ABSATZ Item 812 · Q 1 (scan, Q gesamt) · S ? (-, unsicher) · S roh - · Deckel - · eigene Quote - · Laufzeit 2 Std. · W ? · N 1.0
+[10.11. 09:15:14] ENTZAUBERWERT Item 869 · Tabelle · 11177 100% × 3.00 à 5765 · brutto 18300 · netto 17295
+[10.11. 09:15:14] ABSATZ Item 869 · Q 5 (scan, Q gesamt) · S 1.0 (market, Deckel) · S roh 2.1 · Deckel 1.0 · eigene Quote - · Laufzeit 2 Std. · W 6.0 · N 7.0
+[10.11. 09:15:14] ENTZAUBERWERT Item 3075 · Tabelle · 14343 100% × 3.00 à 11750 · brutto 39000 · netto 35250
+[10.11. 09:15:14] DE-CHANCEN Gruppe 4:3 · Tabelle 14343 100% · echt 14343 - (0)
+[10.11. 09:15:14] ABSATZ Item 3075 · Q 1 (scan, Q gesamt) · S 0.2 (market, Deckel, unsicher) · S roh 0.5 · Deckel 0.2 · eigene Quote - · Laufzeit 2 Std. · W 10.0 · N 7.0 · kaum
+[10.11. 09:15:14] ENTZAUBERWERT Item 870 · Tabelle · 11177 100% × 3.00 à 5765 · brutto 18300 · netto 17295
+[10.11. 09:15:14] ABSATZ Item 870 · Q 6 (scan, Q gesamt) · S 1.2 (market, Deckel) · S roh 2.6 · Deckel 1.2 · eigene Quote - · Laufzeit 2 Std. · W 5.8 · N 7.0
+[10.11. 09:15:14] ENTZAUBERWERT Item 1981 · Tabelle · 11177 100% × 3.00 à 5765 · brutto 18300 · netto 17295
+[10.11. 09:15:14] ABSATZ Item 1981 · Q 7 (scan, Q gesamt) · S 1.4 (market, Deckel) · S roh 1.6 · Deckel 1.4 · eigene Quote - · Laufzeit 2 Std. · W 5.7 · N 7.0
+[10.11. 09:15:14] ENTZAUBERWERT Item 1204 · Tabelle · 11177 100% × 3.00 à 5765 · brutto 18300 · netto 17295
+[10.11. 09:15:14] ABSATZ Item 1204 · Q 4 (scan, Q gesamt) · S 0.8 (market, Deckel) · S roh 2.0 · Deckel 0.8 · eigene Quote - · Laufzeit 2 Std. · W 6.2 · N 7.0
+[10.11. 09:15:14] ENTZAUBERWERT Item 2164 · Tabelle · 11177 100% × 3.00 à 5765 · brutto 18300 · netto 17295
+[10.11. 09:15:14] ABSATZ Item 2164 · Q 5 (scan, Q gesamt) · S 1.0 (market, Deckel) · S roh 1.8 · Deckel 1.0 · eigene Quote - · Laufzeit 2 Std. · W 6.0 · N 7.0
+[10.11. 09:15:14] ENTZAUBERWERT Item 2825 · Tabelle · 11177 100% × 3.00 à 5765 · brutto 18300 · netto 17295
+[10.11. 09:15:14] DE-CHANCEN Gruppe 4:1 · Tabelle 11177 100% · echt 11177 - (0)
+[10.11. 09:15:14] ABSATZ Item 2825 · Q 1 (scan, Q gesamt) · S 0.2 (market, Deckel) · S roh 1.7 · Deckel 0.2 · eigene Quote - · Laufzeit 2 Std. · W 10.0 · N 7.0 · kaum
+[10.11. 09:15:14] ENTZAUBERWERT Item 809 · Tabelle · 11178 100% × 3.00 à 19540 · brutto 61800 · netto 58620
+[10.11. 09:15:14] ABSATZ Item 809 · Q 1 (scan, Q gesamt) · S ? (-, unsicher) · S roh - · Deckel - · eigene Quote - · Laufzeit 2 Std. · W ? · N 1.0
+[10.11. 09:14:31] ABSATZ Item 3770 · Q 1095 (scan, Q gesamt) · S 219.0 (market, Deckel) · S roh 316.9 · Deckel 219.0 · eigene Quote - · Laufzeit 24 Std. · W 5.0 · N 6.0
+[10.11. 09:14:30] ABSATZ Item 16043 · Q 8 (scan, Q gesamt) · S ? (-, unsicher) · S roh - · Deckel - · eigene Quote - · Laufzeit 2 Std. · W ? · N 1.0
+[10.11. 09:14:30] ENTZAUBERWERT Item 286995 · Tabelle · 11138 100% × 1.00 à 1172 · brutto 1265 · netto 1172
+[10.11. 09:14:30] DE-CHANCEN Gruppe 3:3 · Tabelle 11138 100% · echt 11138 - (0)
+[10.11. 09:14:30] ABSATZ Item 286995 · Q 1 (scan, Q gesamt) · S 0.2 (market, Deckel) · S roh 2.3 · Deckel 0.2 · eigene Quote - · Laufzeit 2 Std. · W 10.0 · N 7.0 · kaum
+[10.11. 09:14:30] ABSATZ Item 8179 · Q 1 (scan, Q gesamt) · S 0.2 (market, Deckel) · S roh 0.7 · Deckel 0.2 · eigene Quote - · Laufzeit 24 Std. · W 10.0 · N 7.0 · kaum
+[10.11. 09:14:30] ABSATZ Item 5081 · Q 112 (scan, Q gesamt) · S 22.4 (market, Deckel) · S roh 70.0 · Deckel 22.4 · eigene Quote - · Laufzeit 2 Std. · W 5.0 · N 7.0
+[10.11. 09:14:30] ABSATZ Item 5083 · Q 1 (scan, Q gesamt) · S 0.2 (market, Deckel) · S roh 8.9 · Deckel 0.2 · eigene Quote - · Laufzeit 24 Std. · W 10.0 · N 7.0 · kaum
+[10.11. 09:14:30] ENTZAUBERWERT Item 15140 · Tabelle · 11083 75% × 3.50 à 442, 11134 20% × 1.50 à 752, 11138 5% × 1.00 à 1172 · brutto 1529 · netto 1444
+[10.11. 09:14:30] ABSATZ Item 15140 · Q 11 (scan, Q gesamt) · S 2.2 (market, Deckel) · S roh 4.6 · Deckel 2.2 · eigene Quote - · Laufzeit 2 Std. · W 5.5 · N 7.0
+[10.11. 09:14:30] ENTZAUBERWERT Item 11996 · Tabelle · 11083 75% × 3.50 à 442, 11134 20% × 1.50 à 277, 11138 5% × 1.00 à 1172 · brutto 1529 · netto 1301
+[10.11. 09:14:30] DE-CHANCEN Gruppe 2:5:a · Tabelle 11083 75%/11134 20%/11138 5% · echt 11083 -/11134 -/11138 - (0)
+[10.11. 09:14:30] ABSATZ Item 11996 · Q 27 (scan, Q gesamt) · S 5.4 (market, Deckel) · S roh 22.0 · Deckel 5.4 · eigene Quote - · Laufzeit 2 Std. · W 5.2 · N 7.0
+[10.11. 09:14:30] ABSATZ Item 249872 · Q 47 (scan, Q gesamt) · S 9.4 (market, Deckel) · S roh 37.4 · Deckel 9.4 · eigene Quote - · Laufzeit 24 Std. · W 5.1 · N 6.0
+[10.11. 09:14:30] ABSATZ Item 4335 · Q 14 (scan, Q gesamt) · S 2.8 (market, Deckel) · S roh 4.9 · Deckel 2.8 · eigene Quote - · Laufzeit 2 Std. · W 5.4 · N 7.0
+[10.11. 09:14:30] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[10.11. 09:14:29] ABSATZ Item 53 · Q 4 (scan, Q gesamt) · S 0.8 (market, Deckel) · S roh 3.8 · Deckel 0.8 · eigene Quote - · Laufzeit 24 Std. · W 6.2 · N 7.0
+[10.11. 09:14:29] ABSATZ Item 4354 · Q 9 (scan, Q gesamt) · S 1.8 (market) · S roh 1.8 · Deckel 1.8 · eigene Quote - · Laufzeit 2 Std. · W 5.7 · N 7.0
+[10.11. 09:14:29] ENTZAUBERWERT Item 940 · Tabelle · 11178 100% × 3.00 à 13650 · brutto 45000 · netto 40950
+[10.11. 09:14:29] DE-CHANCEN Gruppe 4:2 · Tabelle 11178 100% · echt 11178 - (0)
+[10.11. 09:14:29] ABSATZ Item 940 · Q 3 (scan, Q gesamt) · S 0.6 (market, Deckel) · S roh 1.3 · Deckel 0.6 · eigene Quote - · Laufzeit 2 Std. · W 6.7 · N 7.0
+[10.11. 09:14:29] ENTZAUBERWERT Item 6592 · eigene Ø aus 70 · 11083 73% × 1.43 à 442, 11082 14% × 1.30 à 1254, 11084 13% × 1.00 à 3186 · brutto 1243 · netto 1103
+[10.11. 09:14:29] DE-CHANCEN Gruppe 2:4:a · Tabelle 11083 75%/11082 20%/11084 5% · echt 11083 73%/11082 14%/11084 13% (70)
+[10.11. 09:14:29] ABSATZ Item 6592 · Q 25 (scan, Q gesamt) · S 5.0 (market, Deckel) · S roh 11.3 · Deckel 5.0 · eigene Quote - · Laufzeit 2 Std. · W 5.2 · N 7.0
+[10.11. 09:14:29] ENTZAUBERWERT Item 16607 · eigene Ø aus 15 · 10940 80% × 1.08 à 80, 10938 20% × 1.67 à 85 · brutto 102 · netto 97
+[10.11. 09:14:29] ABSATZ Item 1793 · Q 6 (scan, Q gesamt) · S 1.2 (market, Deckel) · S roh 11.2 · Deckel 1.2 · eigene Quote - · Laufzeit 2 Std. · W 5.8 · N 7.0
+[10.11. 09:14:29] ABSATZ Item 211853 · Q 231 (scan, Q gesamt) · S 46.2 (market, Deckel) · S roh 188.2 · Deckel 46.2 · eigene Quote - · Laufzeit 24 Std. · W 5.0 · N 6.0
+[10.11. 09:14:29] ENTZAUBERWERT Item 277058 · eigene Ø aus 15 · 10940 80% × 1.08 à 80, 10938 20% × 1.67 à 85 · brutto 102 · netto 97
+[10.11. 09:14:29] ABSATZ Item 277058 · Q 1 (scan, Q gesamt) · S ? (-, unsicher) · S roh - · Deckel - · eigene Quote - · Laufzeit 24 Std. · W ? · N 1.0
+[10.11. 09:14:29] ENTZAUBERWERT Item 4307 · eigene Ø aus 15 · 10940 80% × 1.08 à 80, 10938 20% × 1.67 à 85 · brutto 102 · netto 97
+[10.11. 09:14:29] ABSATZ Item 4307 · Q 155 (scan, Q gesamt) · S 31.0 (market, Deckel) · S roh 277.0 · Deckel 31.0 · eigene Quote - · Laufzeit 24 Std. · W 5.0 · N 6.0
+[10.11. 09:14:29] ENTZAUBERWERT Item 4793 · Tabelle · 10940 75% × 5.00 à 80, 10998 20% × 1.50 à 384, 10978 5% × 1.00 à -292 · brutto 463 · netto 400
+[10.11. 09:14:29] DE-CHANCEN Gruppe 2:3:a · Tabelle 10940 75%/10998 20%/10978 5% · echt 10940 -/10998 -/10978 - (0)
+[10.11. 09:14:29] ABSATZ Item 4793 · Q 1 (scan, Q gesamt) · S 0.2 (market, Deckel) · S roh 1.3 · Deckel 0.2 · eigene Quote - · Laufzeit 2 Std. · W 10.0 · N 7.0 · kaum
+[10.11. 09:14:29] ENTZAUBERWERT Item 2580 · eigene Ø aus 15 · 10940 80% × 1.08 à 80, 10938 20% × 1.67 à 85 · brutto 102 · netto 97
+[10.11. 09:14:29] DE-CHANCEN Gruppe 2:1:a · Tabelle 10940 80%/10938 20% · echt 10940 80%/10938 20% (15)
+[10.11. 09:14:29] ABSATZ Item 2580 · Q 710 (scan, Q gesamt) · S 142.0 (market, Deckel) · S roh 507.0 · Deckel 142.0 · eigene Quote - · Laufzeit 24 Std. · W 5.0 · N 6.0
+[10.11. 09:14:29] ABSATZ Item 264065 · Q 24 (scan, Q gesamt) · S 4.8 (market, Deckel) · S roh 9.8 · Deckel 4.8 · eigene Quote - · Laufzeit 24 Std. · W 5.2 · N 6.0
+[10.11. 09:14:29] ABSATZ Item 7392 · Q 265 (scan, Q gesamt) · S 53.0 (market, Deckel) · S roh 80.3 · Deckel 53.0 · eigene Quote - · Laufzeit 2 Std. · W 5.0 · N 7.0
+[10.11. 09:14:29] ENTZAUBERWERT Item 14235 · Tabelle · 11137 75% × 1.50 à 951, 11135 20% × 1.50 à 1399, 11139 5% × 1.00 à 3109 · brutto 2015 · netto 1646
+[10.11. 09:14:29] DE-CHANCEN Gruppe 2:6:a · Tabelle 11137 75%/11135 20%/11139 5% · echt 11137 -/11135 -/11139 - (0)
+[10.11. 09:14:29] ABSATZ Item 14235 · Q 1 (scan, Q gesamt) · S 0.2 (market, Deckel) · S roh 3.1 · Deckel 0.2 · eigene Quote - · Laufzeit 2 Std. · W 10.0 · N 7.0 · kaum
+[10.11. 09:14:22] ABSATZ Item 11083 · Q 1350 (scan, Q gesamt) · S 277.6 (market, Deckel) · S roh 1050.3 · Deckel 277.6 · eigene Quote 3/3 · Laufzeit 24 Std. · W 4.9 · N 1.0
+[10.11. 09:14:20] ABSATZ Item 11082 · Q 886 (scan, Q gesamt) · S 178.8 (market, Deckel) · S roh 361.2 · Deckel 178.8 · eigene Quote - · Laufzeit 24 Std. · W 5.0 · N 5.0
+[10.11. 09:14:20] ABSATZ Item 11084 · Q 297 (scan, Q gesamt) · S 59.4 (market, Deckel) · S roh 213.8 · Deckel 59.4 · eigene Quote - · Laufzeit 24 Std. · W 5.0 · N 6.0
+[10.11. 09:12:48] EIGENE Ware Item 11083 · buyout 467 · Menge 38 · als Stückpreis gelesen
+[10.11. 09:12:34] SYNC Weg=GUILD
+[10.11. 09:10:01] SYNC gesendet 248, empfangen 0, verworfen 0 · Kanal verweigert 63
+[10.11. 09:09:57] ABSATZ Item 818 · Q 697 (scan, Q gesamt) · S 139.4 (market, Deckel) · S roh 293.2 · Deckel 139.4 · eigene Quote - · Laufzeit 2 Std. · W 5.0 · N 7.0
+[10.11. 09:09:57] ABSATZ Item 4496 · Q 289 (scan, Q gesamt) · S 57.8 (market, Deckel) · S roh 260.7 · Deckel 57.8 · eigene Quote - · Laufzeit 2 Std. · W 5.0 · N 7.0
+[10.11. 09:09:57] ABSATZ Item 249410 · Q 1703 (scan, Q gesamt) · S 340.6 (market, Deckel) · S roh 504.2 · Deckel 340.6 · eigene Quote - · Laufzeit 2 Std. · W 5.0 · N 7.0
+[10.11. 09:09:57] ENTZAUBERWERT Item 4312 · Tabelle · 10940 77% × 2.44 à 80, 10939 18% × 1.50 à -64, 10978 5% × 1.00 à -392 · brutto 236 · netto 115
+[10.11. 09:09:57] DE-CHANCEN Gruppe 2:2:a · Tabelle 10940 75%/10939 20%/10978 5% · echt 10940 100%/10939 -/10978 - (1)
+[10.11. 09:09:57] ABSATZ Item 4312 · Q 113 (scan, Q gesamt) · S 22.6 (market, Deckel) · S roh 53.1 · Deckel 22.6 · eigene Quote - · Laufzeit 2 Std. · W 5.0 · N 7.0
+[10.11. 09:09:57] ABSATZ Item 6662 · Q 308 (scan, Q gesamt) · S 61.6 (market, Deckel) · S roh 471.5 · Deckel 61.6 · eigene Quote - · Laufzeit 2 Std. · W 5.0 · N 7.0
+[10.11. 09:09:57] ENTZAUBERWERT Item 2868 · Tabelle · 10940 75% × 5.00 à 80, 10998 20% × 1.50 à 384, 10978 5% × 1.00 à -392 · brutto 463 · netto 395
+[10.11. 09:09:57] ABSATZ Item 2868 · Q 710 (scan, Q gesamt) · S 142.0 (market, Deckel) · S roh 497.6 · Deckel 142.0 · eigene Quote - · Laufzeit 2 Std. · W 5.0 · N 7.0
+[10.11. 09:09:57] ABSATZ Item 6661 · Q 57 (scan, Q gesamt) · S 11.4 (market, Deckel) · S roh 33.4 · Deckel 11.4 · eigene Quote - · Laufzeit 2 Std. · W 5.1 · N 7.0
+[10.11. 09:09:57] ENTZAUBERWERT Item 6418 · Tabelle · 11137 75% × 1.50 à 935, 11135 20% × 1.50 à 1299, 11139 5% × 1.00 à 3009 · brutto 2015 · netto 1592
+[10.11. 09:09:57] ABSATZ Item 6418 · Q 14 (scan, Q gesamt) · S 2.8 (market, Deckel) · S roh 10.5 · Deckel 2.8 · eigene Quote - · Laufzeit 2 Std. · W 5.4 · N 7.0
+[10.11. 09:09:57] ENTZAUBERWERT Item 6040 · Tabelle · 11137 75% × 1.50 à 935, 11135 20% × 1.50 à 1299, 11139 5% × 1.00 à 3009 · brutto 2015 · netto 1592
+[10.11. 09:09:57] DE-CHANCEN Gruppe 2:6:a · Tabelle 11137 75%/11135 20%/11139 5% · echt 11137 -/11135 -/11139 - (0)
+[10.11. 09:09:57] ABSATZ Item 6040 · Q 67 (scan, Q gesamt) · S 13.4 (market, Deckel) · S roh 76.1 · Deckel 13.4 · eigene Quote - · Laufzeit 2 Std. · W 5.1 · N 7.0
+[10.11. 09:07:09] ABSATZ Item 2770 · Q 5403 (scan, Q gesamt) · S 1080.6 (market, Deckel) · S roh 3587.2 · Deckel 1080.6 · eigene Quote - · Laufzeit 2 Std. · W 5.0 · N 7.0
+[10.11. 09:07:09] ABSATZ Item 6358 · Q 2226 (scan, Q gesamt) · S 445.2 (market, Deckel) · S roh 1297.3 · Deckel 445.2 · eigene Quote 3/3 · Laufzeit 2 Std. · W 5.0 · N 1.0
+[10.11. 09:07:09] ABSATZ Item 4305 · Q 579 (scan, Q gesamt) · S 115.8 (market, Deckel) · S roh 476.1 · Deckel 115.8 · eigene Quote - · Laufzeit 2 Std. · W 5.0 · N 7.0
+[10.11. 09:07:09] ABSATZ Item 6370 · Q 721 (scan, Q gesamt) · S 144.2 (market, Deckel) · S roh 361.2 · Deckel 144.2 · eigene Quote - · Laufzeit 2 Std. · W 5.0 · N 7.0
+[10.11. 09:07:09] ABSATZ Item 3820 · Q 3508 (scan, Q gesamt) · S 701.6 (market, Deckel) · S roh 978.2 · Deckel 701.6 · eigene Quote 4/5 · Laufzeit 2 Std. · W 5.0 · N 1.2
+[10.11. 09:07:09] ABSATZ Item 2672 · Q 1536 (scan, Q gesamt) · S 307.2 (market, Deckel) · S roh 857.9 · Deckel 307.2 · eigene Quote - · Laufzeit 2 Std. · W 5.0 · N 7.0
+[10.11. 09:05:32] ABSATZ Item 2589 · Q 9779 (scan, Q gesamt) · S 1955.8 (market, Deckel) · S roh 9669.9 · Deckel 1955.8 · eigene Quote - · Laufzeit 2 Std. · W 5.0 · N 7.0
+[10.11. 09:00:01] SYNC gesendet 247, empfangen 0, verworfen 0 · Kanal verweigert 53
+[10.11. 08:59:39] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[10.11. 08:59:39] EINSTELLEN Item 11082 · Menge 1 · Auktionen 1 · Laufzeit 1 · Preis 1398/Stück, 1398 gesamt · Gebühr erwartet 100, abgezogen 100 (7.15 % vom Preis)
+[10.11. 08:59:39] AHS-POST PostCommodity: arg2=1 arg3=1 arg4=1398 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/10
+[10.11. 08:59:35] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[10.11. 08:59:35] EINSTELLEN Item 11083 · Menge 4 · Auktionen 1 · Laufzeit 1 · Preis 465/Stück, 1860 gesamt · Gebühr erwartet 100, abgezogen 100 (5.38 % vom Preis)
+[10.11. 08:59:35] AHS-POST PostCommodity: arg2=1 arg3=4 arg4=465 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/3
+[10.11. 08:59:31] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[10.11. 08:59:31] EINSTELLEN Item 11084 · Menge 1 · Auktionen 1 · Laufzeit 1 · Preis 3882/Stück, 3882 gesamt · Gebühr erwartet 100, abgezogen 100 (2.58 % vom Preis)
+[10.11. 08:59:30] AHS-POST PostCommodity: arg2=1 arg3=1 arg4=3882 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/4
+[10.11. 08:59:19] ENTZAUBERWERT Item 15334 · eigene Ø aus 70 · 11083 73% × 1.43 à 443, 11082 14% × 1.30 à 1243, 11084 13% × 1.00 à 3489 · brutto 1245 · netto 1141
+[10.11. 08:59:19] ABSATZ Item 15334 · Q 13 (scan, Q gesamt) · S 2.6 (market, Deckel) · S roh 12.5 · Deckel 2.6 · eigene Quote - · Laufzeit 2 Std. · W 5.4 · N 7.0
+[10.11. 08:58:02] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[10.11. 08:58:02] EINSTELLEN Item 11084 · Menge 3 · Auktionen 1 · Laufzeit 1 · Preis 1544/Stück, 4632 gesamt · Gebühr erwartet 100, abgezogen 100 (2.16 % vom Preis)
+[10.11. 08:58:01] AHS-POST PostCommodity: arg2=1 arg3=3 arg4=1544 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/4
+[10.11. 08:57:59] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[10.11. 08:57:59] EINSTELLEN Item 11082 · Menge 7 · Auktionen 1 · Laufzeit 1 · Preis 1398/Stück, 9786 gesamt · Gebühr erwartet 100, abgezogen 100 (1.02 % vom Preis)
+[10.11. 08:57:58] AHS-POST PostCommodity: arg2=1 arg3=7 arg4=1398 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/3
+[10.11. 08:57:56] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=1 · Minimum jetzt 100
+[10.11. 08:57:56] EINSTELLEN Item 11083 · Menge 31 · Auktionen 1 · Laufzeit 1 · Preis 465/Stück, 14415 gesamt · Gebühr erwartet 100, abgezogen 100 (0.69 % vom Preis)
+[10.11. 08:57:55] AHS-POST PostCommodity: arg2=1 arg3=31 arg4=465 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/5
+[10.11. 08:56:54] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[10.11. 08:55:17] SNIPER Treffer 3 · gekauft 2, weg 1 · Ø Suche>Treffer 132 ms, Treffer>Reserv. 11758 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms, bestätigt>gekauft 0 ms
+[10.11. 08:54:17] SNIPER Treffer 3 · gekauft 3 · Ø Suche>Treffer 118 ms, Treffer>Reserv. 222 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms, bestätigt>gekauft 0 ms
+[10.11. 08:53:17] SNIPER Treffer 1 · gekauft 1 · Ø Suche>Treffer 162 ms, Treffer>Reserv. 518 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms, bestätigt>gekauft 0 ms
+[10.11. 08:52:56] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[10.11. 08:52:56] EINSTELLEN Item 11082 · Menge 5 · Auktionen 1 · Laufzeit 1 · Preis 1399/Stück, 6995 gesamt · Gebühr erwartet 100, abgezogen 100 (1.43 % vom Preis)
+[10.11. 08:52:55] AHS-POST PostCommodity: arg2=1 arg3=5 arg4=1399 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/19
+[10.11. 08:52:52] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[10.11. 08:52:52] EINSTELLEN Item 11084 · Menge 5 · Auktionen 1 · Laufzeit 1 · Preis 3884/Stück, 19420 gesamt · Gebühr erwartet 100, abgezogen 100 (0.51 % vom Preis)
+[10.11. 08:52:51] AHS-POST PostCommodity: arg2=1 arg3=5 arg4=3884 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/20
+[10.11. 08:52:48] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=7 · Minimum jetzt 100
+[10.11. 08:52:48] EINSTELLEN Item 10938 · Menge 142 · Auktionen 1 · Laufzeit 1 · Preis 88/Stück, 12496 gesamt · Gebühr erwartet 100, abgezogen 100 (0.80 % vom Preis)
+[10.11. 08:52:47] AHS-POST PostCommodity: arg2=1 arg3=142 arg4=88 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/3
+[10.11. 08:52:44] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=10 · Minimum jetzt 100
+[10.11. 08:52:44] EINSTELLEN Item 10940 · Menge 205 · Auktionen 1 · Laufzeit 1 · Preis 83/Stück, 17015 gesamt · Gebühr erwartet 100, abgezogen 100 (0.59 % vom Preis)
+[10.11. 08:52:43] AHS-POST PostCommodity: arg2=1 arg3=205 arg4=83 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/4
+[10.11. 08:52:39] ABSATZ Item 11082 · Q 807 (scan, Q gesamt) · S 161.4 (market, Deckel) · S roh 361.2 · Deckel 161.4 · eigene Quote - · Laufzeit 2 Std. · W 5.0 · N 7.0
+[10.11. 08:52:39] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=1 · Minimum jetzt 100
+[10.11. 08:52:39] EINSTELLEN Item 11083 · Menge 38 · Auktionen 1 · Laufzeit 1 · Preis 467/Stück, 17746 gesamt · Gebühr erwartet 100, abgezogen 100 (0.56 % vom Preis)
+[10.11. 08:52:39] EIGENE Ware Item 11083 · buyout 467 · Menge 38 · als Stückpreis gelesen
+[10.11. 08:52:38] AHS-POST PostCommodity: arg2=1 arg3=38 arg4=467 arg5=nil, ItemLocation gültig ja, Bag/Slot 1/1
+[10.11. 08:52:34] ABSATZ Item 11084 · Q 183 (scan, Q gesamt) · S 36.6 (market, Deckel) · S roh 213.8 · Deckel 36.6 · eigene Quote - · Laufzeit 2 Std. · W 5.0 · N 7.0
+[10.11. 08:52:27] ENTZAUBERWERT Item 15347 · eigene Ø aus 33 · 11083 73% × 1.58 à 449, 11084 15% × 1.00 à 3101, 11082 12% × 1.25 à 1265 · brutto 1350 · netto 1179

@@ -1,0 +1,190 @@
+ThreatSentinel-Protokoll v2.5.4 · 10.11. 09:56
+Client deDE · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  10.11. 09:51 L10 PRIEST forever v2.5.4
+  10.11. 09:43 L10 PRIEST forever v2.5.4
+  10.11. 09:42 L10 PRIEST forever v2.5.4
+  10.11. 09:30 L10 PRIEST forever v2.5.4
+  10.11. 09:12 L10 PRIEST forever v2.5.4
+  10.11. 08:40 L10 PRIEST forever v2.5.3
+  10.11. 07:38 L10 PRIEST forever v2.5.3
+  10.11. 07:11 L10 PRIEST forever v2.5.3
+  10.11. 07:11 L10 PRIEST forever v2.5.3
+  10.11. 06:55 L10 PRIEST forever v2.5.3
+
+== Diagnose
+  Fehler in dieser Sitzung: 0
+  Bedrohung: secret · Modus DISPLAY · gespeichert secret 2026-11-09 21:28 1.60.1 (70862)
+  Rolle HEALER · Tankhaltung false · Gruppe 1 Spieler + 0 Begleiter · Spott nein (nil)
+  Funktionen: combatlog=fallback
+  Gesperrte Aktionen: 0
+  Sync (PARTY/RAID): gesendet 0, empfangen 0, verworfen 17 (kein Weg 17)
+
+== Einträge (167, neueste zuerst)
+[10.11. 09:51] SYNC ×3 Weg=PARTY/RAID (kein eigener Kanal)
+[10.11. 09:40] SYNC gesendet 0, empfangen 0, verworfen 31 (kein Weg 31)
+[10.11. 09:30] SYNC Weg=PARTY/RAID (kein eigener Kanal)
+[10.11. 09:22] SYNC gesendet 0, empfangen 0, verworfen 31 (kein Weg 31)
+[10.11. 09:12] SYNC Weg=PARTY/RAID (kein eigener Kanal)
+[10.11. 09:10] SYNC ×3 gesendet 0, empfangen 0, verworfen 0
+[10.11. 08:40] SYNC Weg=PARTY/RAID (kein eigener Kanal)
+[10.11. 08:38] SYNC ×6 gesendet 0, empfangen 0, verworfen 0
+[10.11. 07:38] SYNC Weg=PARTY/RAID (kein eigener Kanal)
+[10.11. 07:31] SYNC ×2 gesendet 0, empfangen 0, verworfen 0
+[10.11. 07:11] SYNC ×2 Weg=PARTY/RAID (kein eigener Kanal)
+[10.11. 07:05] SYNC gesendet 0, empfangen 0, verworfen 0
+[10.11. 06:55] SYNC Weg=PARTY/RAID (kein eigener Kanal)
+[10.11. 06:47] SYNC gesendet 0, empfangen 0, verworfen 0
+[10.11. 06:37] SYNC Weg=PARTY/RAID (kein eigener Kanal)
+[10.11. 06:30] SYNC ×4 gesendet 0, empfangen 0, verworfen 0
+[10.11. 05:50] SYNC Weg=PARTY/RAID (kein eigener Kanal)
+[09.11. 22:20] SYNC gesendet 0, empfangen 0, verworfen 0
+[09.11. 22:10] SYNC Weg=PARTY/RAID (kein eigener Kanal)
+[09.11. 21:30] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 21:30] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:28] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein
+[09.11. 21:28] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:28] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein
+[09.11. 21:28] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:27] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein
+[09.11. 21:27] MODUS FULL -> DISPLAY
+[09.11. 21:27] BEDROHUNG open -> secret
+[09.11. 21:27] KAMPF Beginn · Modus FULL · Bedrohung open
+[09.11. 21:26] MODUS DISPLAY -> FULL
+[09.11. 21:26] BEDROHUNG secret -> open
+[09.11. 21:26] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:25] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 21:25] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:25] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 21:25] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:23] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 21:23] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:22] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 21:22] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:22] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 21:22] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:20] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 21:20] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:19] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein
+[09.11. 21:19] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:18] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 21:18] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:17] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 21:17] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:15] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 21:15] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:14] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 21:14] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:13] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 21:13] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:13] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 21:13] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:12] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 21:12] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:11] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 21:11] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:10] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 21:10] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:09] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 21:09] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:08] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 21:08] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:07] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 21:07] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:06] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein
+[09.11. 21:06] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:06] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 21:06] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:06] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 21:05] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:05] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 21:05] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:03] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein
+[09.11. 21:03] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:01] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 21:01] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 21:01] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:58] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:54] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein
+[09.11. 20:54] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:52] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:52] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:51] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:51] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:51] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:51] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:50] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:50] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:47] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:47] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:47] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:47] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:46] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein
+[09.11. 20:46] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:46] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:46] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:44] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:44] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:44] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:44] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:43] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:43] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:40] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:40] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:39] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:39] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:39] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:38] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:38] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein
+[09.11. 20:38] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:37] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:37] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:36] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:36] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:36] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:36] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:35] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:35] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:35] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein
+[09.11. 20:35] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:34] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:34] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:34] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:34] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:33] MODUS FULL -> DISPLAY
+[09.11. 20:33] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein
+[09.11. 20:33] BEDROHUNG open -> secret
+[09.11. 20:33] MODUS DISPLAY -> FULL
+[09.11. 20:33] BEDROHUNG secret -> open
+[09.11. 20:33] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:32] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein
+[09.11. 20:32] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:31] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein
+[09.11. 20:31] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:31] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:31] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:30] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:30] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:30] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein
+[09.11. 20:30] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:29] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:29] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:28] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:28] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:28] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:28] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:27] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:27] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:27] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:27] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:25] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:25] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:25] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein
+[09.11. 20:25] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:23] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:23] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:21] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:21] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:20] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
+[09.11. 20:20] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[09.11. 20:18] LESBAR Ziel-des-Mobs=ja · Stufe=nein · isTanking=nein · Schätzung=nein
