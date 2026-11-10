@@ -1,0 +1,223 @@
+ThreatSentinel-Protokoll v2.5.8 · 10.11. 18:20
+Client deDE · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  10.11. 17:49 L10 PRIEST forever v2.5.8
+  10.11. 17:20 L10 PRIEST forever v2.5.8
+  10.11. 17:19 L10 PRIEST forever v2.5.8
+  10.11. 17:14 L10 PRIEST forever v2.5.8
+  10.11. 16:46 L10 PRIEST forever v2.5.8
+  10.11. 16:34 L10 PRIEST forever v2.5.8
+  10.11. 16:19 L10 PRIEST forever v2.5.8
+  10.11. 16:00 L10 PRIEST forever v2.5.8
+  10.11. 15:55 L10 PRIEST forever v2.5.8
+  10.11. 15:42 L10 PRIEST forever v2.5.6
+
+== Diagnose
+  Fehler in dieser Sitzung: 0
+  Bedrohung: secret · Modus DISPLAY · gespeichert secret 2026-11-10 15:31 1.60.1 (70862)
+  Rolle HEALER · Tankhaltung false · Gruppe 1 Spieler + 0 Begleiter · Spott nein (nil)
+  Funktionen: combatlog=fallback guid=ok
+  Gesperrte Aktionen: 0
+  Sync (PARTY/RAID): gesendet 0, empfangen 0, nachgeholt 0, ohne Gruppe 0, verworfen 0
+
+== Einträge (200, neueste zuerst)
+[10.11. 18:19] SYNC ×3 gesendet 0, empfangen 0, nachgeholt 0, ohne Gruppe 0, verworfen 0
+[10.11. 17:49] SYNC Weg=PARTY/RAID (kein eigener Kanal)
+[10.11. 17:40] SYNC ×2 gesendet 0, empfangen 0, nachgeholt 0, ohne Gruppe 0, verworfen 0
+[10.11. 17:20] SYNC ×3 Weg=PARTY/RAID (kein eigener Kanal)
+[10.11. 17:06] SYNC ×2 gesendet 0, empfangen 0, nachgeholt 0, ohne Gruppe 0, verworfen 0
+[10.11. 16:46] SYNC Weg=PARTY/RAID (kein eigener Kanal)
+[10.11. 16:44] SYNC gesendet 0, empfangen 0, nachgeholt 0, ohne Gruppe 0, verworfen 0
+[10.11. 16:34] SYNC Weg=PARTY/RAID (kein eigener Kanal)
+[10.11. 16:29] SYNC gesendet 0, empfangen 0, nachgeholt 0, ohne Gruppe 0, verworfen 0
+[10.11. 16:19] SYNC Weg=PARTY/RAID (kein eigener Kanal)
+[10.11. 16:10] SYNC gesendet 0, empfangen 0, nachgeholt 0, ohne Gruppe 0, verworfen 0
+[10.11. 16:00] SYNC ×2 Weg=PARTY/RAID (kein eigener Kanal)
+[10.11. 15:52] SYNC gesendet 0, empfangen 0, nachgeholt 0, ohne Gruppe 0, verworfen 0
+[10.11. 15:42] SYNC Weg=PARTY/RAID (kein eigener Kanal)
+[10.11. 15:35] SYNC gesendet 147, empfangen 258, nachgeholt 45, ohne Gruppe 0, verworfen 39 (Kampf, veraltet 37, abgelehnt 2)
+[10.11. 15:31] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:31] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:30] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:30] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:29] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:29] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:28] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:28] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:28] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:28] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:27] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:27] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:26] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:26] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:26] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:26] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:25] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:25] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:25] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:25] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:25] SYNC gesendet 119, empfangen 214, nachgeholt 36, ohne Gruppe 0, verworfen 31 (Kampf, veraltet 29, abgelehnt 2)
+[10.11. 15:24] LESBAR ×2 Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:23] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:21] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:19] LESBAR Ziel-des-Mobs=ja · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=kein Ziel
+[10.11. 15:19] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:18] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:18] KAMPF ×2 Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:16] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:16] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:15] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:15] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:15] SYNC gesendet 92, empfangen 170, nachgeholt 30, ohne Gruppe 0, verworfen 20 (Kampf, veraltet 19, abgelehnt 1)
+[10.11. 15:14] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:14] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:14] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:14] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:13] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:13] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:13] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:13] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:11] LESBAR Ziel-des-Mobs=ja · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=kein Ziel
+[10.11. 15:10] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:10] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:09] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:09] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:09] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:09] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:08] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:08] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:07] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:07] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:06] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:06] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:06] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:06] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:05] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:05] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:05] SYNC gesendet 73, empfangen 138, nachgeholt 17, ohne Gruppe 0, verworfen 15 (Kampf, veraltet 14, abgelehnt 1)
+[10.11. 15:04] LESBAR ×2 Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:04] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:03] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:03] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:02] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:02] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:01] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:01] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:00] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:00] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 15:00] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 15:00] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 14:59] LESBAR Ziel-des-Mobs=ja · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=kein Ziel
+[10.11. 14:58] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 14:58] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 14:56] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 14:56] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 14:55] SYNC gesendet 52, empfangen 104, nachgeholt 7, ohne Gruppe 0, verworfen 5 (Kampf, veraltet 4, abgelehnt 1)
+[10.11. 14:54] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 14:54] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 14:54] LESBAR ×2 Ziel-des-Mobs=ja · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=kein Ziel
+[10.11. 14:53] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 14:52] LESBAR Ziel-des-Mobs=nein · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 14:52] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 14:45] SYNC gesendet 18, empfangen 38, nachgeholt 3, ohne Gruppe 0, verworfen 0
+[10.11. 14:44] LESBAR Ziel-des-Mobs=ja · Halter-in-Gruppe=ja · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=ja
+[10.11. 14:44] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 14:43] LESBAR Ziel-des-Mobs=ja · Halter-in-Gruppe=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=kein Ziel
+[10.11. 14:43] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 14:42] LESBAR Ziel-des-Mobs=ja · Halter-in-Gruppe=ja · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=ja
+[10.11. 14:42] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 14:42] LESBAR Ziel-des-Mobs=ja · Halter-in-Gruppe=ja · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=ja
+[10.11. 14:42] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 14:41] LESBAR Ziel-des-Mobs=ja · Halter-in-Gruppe=ja · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=ja
+[10.11. 14:41] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 14:35] SYNC ×3 Weg=PARTY/RAID (kein eigener Kanal)
+[10.11. 14:13] SYNC gesendet 0, empfangen 0, nachgeholt 0, ohne Gruppe 0, verworfen 0
+[10.11. 14:03] SYNC ×2 Weg=PARTY/RAID (kein eigener Kanal)
+[10.11. 13:51] SYNC gesendet 16, empfangen 33, nachgeholt 0, verworfen 225 (kein Weg 225)
+[10.11. 13:41] SYNC gesendet 16, empfangen 33, nachgeholt 0, verworfen 195 (kein Weg 195)
+[10.11. 13:31] SYNC gesendet 16, empfangen 33, nachgeholt 0, verworfen 165 (kein Weg 165)
+[10.11. 13:21] SYNC gesendet 16, empfangen 33, nachgeholt 0, verworfen 135 (kein Weg 135)
+[10.11. 13:11] SYNC gesendet 16, empfangen 33, nachgeholt 0, verworfen 105 (kein Weg 105)
+[10.11. 13:01] SYNC gesendet 16, empfangen 33, nachgeholt 0, verworfen 75 (kein Weg 75)
+[10.11. 12:51] SYNC gesendet 16, empfangen 33, nachgeholt 0, verworfen 45 (kein Weg 45)
+[10.11. 12:41] SYNC gesendet 16, empfangen 33, nachgeholt 0, verworfen 15 (kein Weg 15)
+[10.11. 12:31] SYNC ×3 Weg=PARTY/RAID (kein eigener Kanal)
+[10.11. 12:11] SYNC gesendet 132, empfangen 257, verworfen 1 (Kampf 1)
+[10.11. 12:01] SYNC gesendet 100, empfangen 193, verworfen 1 (Kampf 1)
+[10.11. 11:51] SYNC gesendet 67, empfangen 129, verworfen 1 (Kampf 1)
+[10.11. 11:41] SYNC gesendet 36, empfangen 68, verworfen 1 (Kampf 1)
+[10.11. 11:32] LESBAR Ziel-des-Mobs=ja · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=ja
+[10.11. 11:32] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:31] SYNC Weg=PARTY/RAID (kein eigener Kanal)
+[10.11. 11:30] SYNC gesendet 26, empfangen 60, verworfen 66 (Kampf 66)
+[10.11. 11:28] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:28] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:27] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:27] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:26] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:26] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:26] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:26] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:25] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:25] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:24] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:24] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:24] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:24] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:23] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=kein Ziel
+[10.11. 11:23] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:22] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:22] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:21] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:21] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:20] SYNC gesendet 18, empfangen 39, verworfen 44 (Kampf 44)
+[10.11. 11:20] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:20] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:18] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:18] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:18] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:18] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:17] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:17] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:16] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:16] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:15] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:15] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:13] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:13] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:12] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=kein Ziel
+[10.11. 11:12] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:11] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:11] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:11] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:11] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:10] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:10] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:10] SYNC gesendet 10, empfangen 20, verworfen 22 (Kampf 22)
+[10.11. 11:09] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:09] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:08] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:08] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:08] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:08] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:07] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:07] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:06] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:06] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:06] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:05] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:04] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:04] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:04] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:04] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:02] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:02] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:01] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:01] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:01] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:01] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:00] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:00] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:00] LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=ja · Schätzung=nein · Einheit=target · greift-mich-an=geschützt
+[10.11. 11:00] KAMPF Beginn · Modus DISPLAY · Bedrohung secret
+[10.11. 11:00] SYNC Weg=PARTY/RAID (kein eigener Kanal)
