@@ -34,3 +34,14 @@ wäre richtig"), keine Lua-Fehler, Sniper/Wächter pausieren während der Server
 
 Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
 Danach dem Nutzer kurz melden.
+
+NACHTRAG 07:55 – Server-Lauf (/ahs testroutine server, 0.65.65, AH offen): OK 55 · FEHLER 1 · übersprungen 4
+   (T33 diesmal grün.)
+R7 (NIEDRIG) T52 "Unterboten": ist "Status liegen, Abbrechen-Befehle im Protokoll 0", soll "unterboten". Seit H1
+   (CancelWorth, nur abbrechen, wenn es sich lohnt) und den Absatz-Änderungen ist "liegen" für die fiktive Auktion eine
+   richtige Antwort, wenn Abbrechen + Einzahlung sich nicht lohnt. Test so bauen, dass er beide Fälle prüft:
+   (a) grosser Abstand (z. B. eigene 10g, fremd 5g) -> "unterboten" und genau 1 Abbrechen-Befehl im Protokoll;
+   (b) kleiner Abstand (1c bei 1s Einzahlung) -> "liegen", 0 Befehle. Nicht abschwächen.
+R8 (NIEDRIG) T27 "Einbindung nicht möglich (kein AH-Rahmen)" übersprungen, obwohl das Auktionshaus offen war. Prüfen,
+   welcher Rahmen gesucht wird (AuctionHouseFrame in Forever vorhanden?) bzw. ob die Option "AH-Einbindung" aus ist –
+   dann "übersprungen: Einbindung in den Optionen aus" schreiben.
