@@ -7,6 +7,17 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.67</h3>
+<ul>
+<li><strong>Fix: the line "110 in your bags: …" did not appear</strong> (e.g. Strange Dust): the tooltip checked "stackable" with a
+  game function that is missing on WoW Forever. It now works with every bag addon. If the total cannot be calculated,
+  "Sell:" × quantity is shown instead and the diagnostic log gets one line GESAMTWERT.</li>
+<li><strong>Disenchant chances of green items on WoW Forever</strong> follow the Forever guide (wow-professions.com): armor 75/20/5,
+  weapons 20/75/5 (dust/essence/shard); up to item level 15 stays 80/20 without shard. Your own results still count more.
+  Other game versions keep the table from warcraft.wiki.gg.</li>
+<li><strong>Tooltip:</strong> "Materials (table + N own)" when your own disenchant results are included; with Shift the source of the
+  chances. Diagnostic log: one line DE-CHANCEN per group and day (table vs. real results).</li>
+</ul>
 <h3>Version 0.65.66</h3>
 <ul>
 <li><strong>New option "Default duration" (standard: 2 hours on WoW Forever):</strong> every new item in the Sell tab starts with it;
@@ -66,19 +77,7 @@
 <li><strong>Tooltip with Shift:</strong> what you own has its own heading ("Owned:"), with the value in your bags and the stock of
   your other characters.</li>
 </ul>
-<h3>Version 0.65.62</h3>
-<ul>
-<li><strong>Item tooltip shows the value of everything in your bags:</strong> for stackable items with at least 2 in your bags, a
-  second line under "Sell:" shows the total of all stacks (e.g. "386 in your bags: 2g 0s 72c"), calculated like "Sell:"
-  for the whole quantity (or the vendor value if the vendor pays more). The bank is not counted.</li>
-<li><strong>Posting gear (single items) – diagnosis:</strong> on WoW Forever posting gear through AHSentinel fails with "Internal
-  auction error" while Blizzard's window works. AHSentinel now records in the diagnostic log what Blizzard's window
-  sends to the server and what AHSentinel sends (types and numbers only, no names), so the call can be built the same way.</li>
-<li><strong>Real error message when posting fails:</strong> the game's own message is shown (e.g. "Internal auction error") instead of
-  "not enough gold or item not available"; failed attempts are written to the diagnostic log.</li>
-<li><strong>Sell tab:</strong> an empty quantity field counts as 1 (it showed a grey 1 but refused to post).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

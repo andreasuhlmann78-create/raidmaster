@@ -12,6 +12,17 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.67
+
+- **Fix: the line "110 in your bags: …" did not appear** (e.g. Strange Dust): the tooltip checked "stackable" with a
+  game function that is missing on WoW Forever. It now works with every bag addon. If the total cannot be calculated,
+  "Sell:" × quantity is shown instead and the diagnostic log gets one line GESAMTWERT.
+- **Disenchant chances of green items on WoW Forever** follow the Forever guide (wow-professions.com): armor 75/20/5,
+  weapons 20/75/5 (dust/essence/shard); up to item level 15 stays 80/20 without shard. Your own results still count more.
+  Other game versions keep the table from warcraft.wiki.gg.
+- **Tooltip:** "Materials (table + N own)" when your own disenchant results are included; with Shift the source of the
+  chances. Diagnostic log: one line DE-CHANCEN per group and day (table vs. real results).
+
 ### Version 0.65.66
 
 - **New option "Default duration" (standard: 2 hours on WoW Forever):** every new item in the Sell tab starts with it;
@@ -70,18 +81,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   are now correct.
 - **Tooltip with Shift:** what you own has its own heading ("Owned:"), with the value in your bags and the stock of
   your other characters.
-
-### Version 0.65.62
-
-- **Item tooltip shows the value of everything in your bags:** for stackable items with at least 2 in your bags, a
-  second line under "Sell:" shows the total of all stacks (e.g. "386 in your bags: 2g 0s 72c"), calculated like "Sell:"
-  for the whole quantity (or the vendor value if the vendor pays more). The bank is not counted.
-- **Posting gear (single items) – diagnosis:** on WoW Forever posting gear through AHSentinel fails with "Internal
-  auction error" while Blizzard's window works. AHSentinel now records in the diagnostic log what Blizzard's window
-  sends to the server and what AHSentinel sends (types and numbers only, no names), so the call can be built the same way.
-- **Real error message when posting fails:** the game's own message is shown (e.g. "Internal auction error") instead of
-  "not enough gold or item not available"; failed attempts are written to the diagnostic log.
-- **Sell tab:** an empty quantity field counts as 1 (it showed a grey 1 but refused to post).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
