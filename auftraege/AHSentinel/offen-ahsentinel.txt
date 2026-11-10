@@ -180,3 +180,8 @@ NEU (10. Nov. 07:30, Prüf-Sitzung, HOCH) – befund-absatz-zu-hoch.txt
    Absatz bei überfüllten Items viel zu hoch (Handschuhe: Q 222, S 294/Tag -> N 1 -> "Verkaufen bringt mehr"). Bei
    24-Std.-Auktionen verschwindet alles täglich. G1 eigene Verkaufsquote zuerst, G2 Deckel S <= 20 % von Q, G3 Restzeit,
    G4 Protokoll. Zusammen mit F1 (befund-absatz-und-silber.txt).
+
+NEU (10. Nov. 07:35, Prüf-Sitzung) – befund-heute-tun-haendler.txt
+   H1 (HOCH) Waren: Auktionsgrösse 1 als Standard (und Deckel bei der Stapelgrösse) macht jedes Stück 1s teuer – Heute tun
+   rät, 349 Leinenstoffballen beim Händler zu verkaufen (~35s Verlust). Modernes AH: eine Auktion = ganze Menge (belegt:
+   162 Staub in 1 Auktion). H2 Zeilen-Klick in Heute tun schliesst nur das Fenster.

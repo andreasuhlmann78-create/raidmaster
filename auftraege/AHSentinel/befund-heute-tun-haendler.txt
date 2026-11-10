@@ -1,0 +1,39 @@
+BEFUND DER PRÜF-SITZUNG: "HEUTE TUN" – WAREN BEIM HÄNDLER VERKAUFEN IST FALSCH; ZEILEN-KLICK OHNE WIRKUNG (0.65.64)
+==================================================================================================================
+Stand: 10. November 2026, 07:35 · Screenshots des Nutzers 07:21 (Heute tun, Gewinn-Fenster, Tooltip).
+
+REIHENFOLGE: Erst die laufende Arbeit fertig machen. H1 ist HOCH (kostet Gold) – zusammen mit den Absatz-Befunden.
+
+H1 (HOCH) WAREN: "AUKTIONSGRÖSSE 1" ANNAHME MACHT DAS AH UNRENTABEL
+   Heute tun: "Verkaufe 349x Leinenstoffballen beim Händler (die AH-Mindestgebühr von 1s frisst den AH-Gewinn)" –
+   1g 39s 60c (349 × 40c). Das Gewinn-Fenster zeigt bei Leinenstoffballen "bei 1 Stück je Auktion (vorsichtig)" und
+   "bester Weg: Händler, Händler zahlt mehr: 40c".
+   Code: A:AuctionSize (AHAnalyzerPro.lua:1869) nimmt ohne eigene Daten 1 Stück je Auktion und deckelt zusätzlich bei der
+   Stapelgrösse (20). Damit kostet JEDES Stück 1s Mindesteinzahlung.
+   Belegt im Protokoll des Nutzers: Waren werden in WoW Forever (modernes AH) als EINE Auktion mit beliebiger Menge
+   eingestellt – "EINSTELLEN Item 10940 · Menge 162 · Auktionen 1 … Gebühr 100" (Stapelgrösse von Staub ist 20),
+   ebenso 151, 149, 144 und 43 Stück. Die Mindesteinzahlung (1s) fällt also EINMAL je Einstellen an, nicht je Stück.
+   Rechnung Leinenstoffballen: 349 × 53c = 1g 84s 97c, minus 5 % (9s 24c), minus 1s Einzahlung (zurück bei Verkauf)
+   -> ~1g 75s gegen 1g 39s 60c beim Händler. Der Tipp kostet den Nutzer ~35s (vor Absatz-Abzug; Absatz siehe Befunde).
+   Lösung:
+   - Modernes AH, Waren: Standard-Auktionsgrösse = ganze Menge, die man einstellt (eine Auktion), KEIN Deckel bei der
+     Stapelgrösse. Eigene Einstellung/gelernte Grösse aus PostSizes geht vor. Der Deckel bei der Stapelgrösse nur im
+     alten AH (Era/TBC, LegacyAH) – dort gibt es Stapel.
+   - "vorsichtig 1 Stück je Auktion" nur noch für Einzelstücke (Ausrüstung) bzw. altes AH.
+   - Heute tun / Gewinn-Fenster / Tooltip / Beste Rezepte: dieselbe Rechnung (eine Zahl).
+   Testfälle: T-H1 modernes AH, Ware, 349 Stück, Preis 53c, Händler 40c -> Verkaufen (AH) > Händler, kein Händler-Tipp.
+   T-H2 altes AH (Era): Deckel bei der Stapelgrösse bleibt. T-H3 gelernte Grösse (PostSizes) geht vor.
+   T-H4 Einzelstück: Grösse 1 wie bisher.
+
+H2 (MITTEL) KLICK AUF EINE ZEILE IN "HEUTE TUN": FENSTER ZU, SONST NICHTS
+   Der Nutzer wählt einen Tipp und klickt links auf die Zeile -> "Heute tun" schliesst sich, sonst passiert sichtbar
+   nichts. UI_Overview.lua: onClick = function(r) if r.run then w:Hide(); pcall(r.run) end end – Fehler in r.run werden
+   verschluckt, und ohne r.run passiert gar nichts (Tooltip verspricht aber "Klick auf die Zeile: dorthin wechseln").
+   Lösung: Jede Zeile hat ein Ziel (Händler-Tipp: Hinweis "Geh zu einem Händler – dort verkauft der Knopf rechts";
+   Herstellen: Berufsfenster bzw. ProfessionSentinel/Rezept wählen; Kaufen: Reiter Kaufen mit dem Item; Einstellen:
+   Verkaufen mit dem Item). Ohne Ziel das Fenster NICHT schliessen und eine kurze Meldung zeigen. Fehler aus r.run ins
+   Diagnose-Protokoll ("HEUTE-KLICK Fehler …"), nicht verschlucken. Testfall: jede Art von Zeile -> sichtbarer Wechsel
+   oder Meldung; kein stilles Schliessen.
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Danach dem Nutzer kurz melden.
