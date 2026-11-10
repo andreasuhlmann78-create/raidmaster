@@ -210,3 +210,7 @@ NEU (10. Nov. 08:20, Prüf-Sitzung, NIEDRIG) – Entzauber-Chancen im Tooltip kl
 NEU (10. Nov. 08:25, Entscheid des Nutzers, NIEDRIG) – anweisung-entzauber-chancen-forever.txt
    Forever: Chancen grüner Items nach dem Forever-Leitfaden – Rüstung 75/20/5, Waffe 20/75/5 (bis Itemstufe 15
    unverändert 80/20 ohne Splitter). Nur Startwerte; eigene Ergebnisse gehen vor. T-DC1–T-DC5.
+
+NEU (10. Nov. 08:35, MITTEL) – befund-tooltip-gesamtwert-fehlt.txt
+   Zeile "N in den Taschen:" (0.65.62) erscheint im Spiel nicht (Seltsamer Staub, 110 Stück, 0.65.65). AddBagTotal
+   schluckt Fehler still. G1 Ursache beheben, G2 Ersatzwert + Protokoll GESAMTWERT, G3 Testfall. T-GF1–T-GF5.
