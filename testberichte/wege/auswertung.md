@@ -4,16 +4,16 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Durotar (1411)
 
-- Wegstücke 335, Knoten 415, zusammenhängende Teile 16
+- Wegstücke 392, Knoten 428, zusammenhängende Teile 15
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 332 Knoten, Bereich 36–57 / 12–43
+  - Teil 1: 348 Knoten, Bereich 36–64 / 12–43
   - Teil 2: 33 Knoten, Bereich 43–55 / 47–69
   - Teil 3: 21 Knoten, Bereich 51–55 / 8–12
   - Teil 4: 5 Knoten, Bereich 52–55 / 43–51
-  - Teil 5: 3 Knoten, Bereich 64–65 / 15–16
-  - Teil 6: 3 Knoten, Bereich 46–48 / 44–44
-  - Teil 7: 3 Knoten, Bereich 35–37 / 43–44
-  - Teil 8: 2 Knoten, Bereich 53–54 / 58–62
+  - Teil 5: 3 Knoten, Bereich 46–48 / 44–44
+  - Teil 6: 3 Knoten, Bereich 35–37 / 43–44
+  - Teil 7: 2 Knoten, Bereich 53–54 / 58–62
+  - Teil 8: 2 Knoten, Bereich 44–45 / 38–40
 - **Ausreisser:** Wegstück 7: Sprung 5.3 % von 44.1,40.6 nach 48.3,43.9
 - **Ausreisser:** Wegstück 7: Sprung 4.4 % von 48.3,43.9 nach 51.1,47.3
 - **Ausreisser:** Wegstück 7: Sprung 4.0 % von 51.1,47.3 nach 52.1,51.2
@@ -104,9 +104,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Tirisfal (1420)
 
-- Wegstücke 169, Knoten 290, zusammenhängende Teile 34
+- Wegstücke 292, Knoten 336, zusammenhängende Teile 30
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 224 Knoten, Bereich 32–81 / 46–69
+  - Teil 1: 274 Knoten, Bereich 31–81 / 33–69
   - Teil 2: 7 Knoten, Bereich 81–84 / 46–53
   - Teil 3: 5 Knoten, Bereich 31–32 / 66–66
   - Teil 4: 5 Knoten, Bereich 33–34 / 63–64
@@ -137,16 +137,16 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Silberwald (1421)
 
-- Wegstücke 246, Knoten 328, zusammenhängende Teile 18
+- Wegstücke 291, Knoten 377, zusammenhängende Teile 15
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 141 Knoten, Bereich 34–57 / 8–45
+  - Teil 1: 228 Knoten, Bereich 34–57 / 8–74
   - Teil 2: 71 Knoten, Bereich 55–65 / 57–78
-  - Teil 3: 34 Knoten, Bereich 43–51 / 49–74
-  - Teil 4: 22 Knoten, Bereich 64–77 / 32–36
-  - Teil 5: 14 Knoten, Bereich 55–58 / 45–50
-  - Teil 6: 11 Knoten, Bereich 77–80 / 22–30
-  - Teil 7: 5 Knoten, Bereich 58–62 / 8–14
-  - Teil 8: 5 Knoten, Bereich 57–58 / 14–18
+  - Teil 3: 22 Knoten, Bereich 64–77 / 32–36
+  - Teil 4: 14 Knoten, Bereich 55–58 / 45–50
+  - Teil 5: 11 Knoten, Bereich 77–80 / 22–30
+  - Teil 6: 5 Knoten, Bereich 58–62 / 8–14
+  - Teil 7: 5 Knoten, Bereich 57–58 / 14–18
+  - Teil 8: 5 Knoten, Bereich 45–46 / 84–85
 - **Ausreisser:** Wegstück 62: Sprung 6.0 % von 50.4,59.6 nach 49.5,53.7
 - **Ausreisser:** Wegstück 69: Sprung 4.8 % von 46.1,44.7 nach 48.1,49.1
 - **Ausreisser:** Wegstück 75: Sprung 4.2 % von 49.9,28.7 nach 49.7,32.9
@@ -259,16 +259,16 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 1004, Knoten 261, zusammenhängende Teile 57
+- Wegstücke 1008, Knoten 262, zusammenhängende Teile 52
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 80 Knoten, Bereich 48–74 / 33–56
-  - Teil 2: 25 Knoten, Bereich 64–76 / 12–33
-  - Teil 3: 20 Knoten, Bereich 44–53 / 65–80
-  - Teil 4: 14 Knoten, Bereich 50–58 / 13–33
-  - Teil 5: 12 Knoten, Bereich 59–72 / 60–65
-  - Teil 6: 11 Knoten, Bereich 53–59 / 64–73
-  - Teil 7: 6 Knoten, Bereich 56–60 / 26–37
-  - Teil 8: 5 Knoten, Bereich 45–47 / 77–86
+  - Teil 1: 110 Knoten, Bereich 48–76 / 7–56
+  - Teil 2: 20 Knoten, Bereich 44–53 / 65–80
+  - Teil 3: 14 Knoten, Bereich 50–58 / 13–33
+  - Teil 4: 12 Knoten, Bereich 59–72 / 60–65
+  - Teil 5: 11 Knoten, Bereich 53–59 / 64–73
+  - Teil 6: 6 Knoten, Bereich 56–60 / 26–37
+  - Teil 7: 5 Knoten, Bereich 45–47 / 77–86
+  - Teil 8: 5 Knoten, Bereich 55–58 / 90–96
 - **Ausreisser:** Wegstück 1: Sprung 10.6 % von 46.4,72.8 nach 52.8,64.4
 - **Ausreisser:** Wegstück 2: Sprung 6.2 % von 46.4,72.8 nach 45.4,78.9
 - **Ausreisser:** Wegstück 3: Sprung 9.8 % von 46.4,72.8 nach 51.7,64.6
@@ -384,3 +384,4 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 | 5767 | 1414 | 46.0,35.7 -> 51.9,55.4 | 20.6 % | deutlich falsch |
 | 5768 | 1414 | 46.0,35.7 -> 51.9,55.4 | 20.6 % | deutlich falsch |
 | 11868 | 1454 | 81.7,19.6 -> 81.6,19.4 | 0.2 % | klein |
+| 4551 | 1458 | 63.3,48.6 -> 63.0,48.5 | 0.3 % | klein |

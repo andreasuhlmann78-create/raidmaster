@@ -1,0 +1,1745 @@
+{
+ "addon": "ThreatSentinel",
+ "bedrohung": "secret / DISPLAY / gespeichert: secret 2026-11-10 11:04 1.60.1 (70862)",
+ "blockiert": "0",
+ "counts": {
+  "client": 15,
+  "fehler": 1,
+  "ok": 191,
+  "uebersprungen": 10
+ },
+ "cvars": "OK",
+ "dur_ms": 668,
+ "echte_aktionen": "0",
+ "env": {
+  "build": "70862",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 23,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [],
+ "f": 1,
+ "fehlerzaehler": "0",
+ "id": "ThreatSentinel-1794305150-9f81fe-1",
+ "kind": "test",
+ "mitgeschrieben": "addonmsg=1 binding=3 cvar=2 popup=1 reload=2 sound=1",
+ "nicht_automatisiert": "0",
+ "results": [
+  {
+   "bereich": "A",
+   "ergebnis": "#modules=16",
+   "id": "T01",
+   "ms": "0.0",
+   "name": "Alle Dateien und Module geladen",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "2.5.4",
+   "id": "T02",
+   "ms": "0.1",
+   "name": "Version .toc = Code",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "ns.Game",
+   "id": "T03",
+   "ms": "0.0",
+   "name": "GoldSentinelGame Version 2 oder neuer (Funktionen)",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "modern/forever",
+   "id": "T04",
+   "ms": "0.0",
+   "name": "Erkennung echt",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "ok",
+   "id": "T05",
+   "ms": "0.1",
+   "name": "Simulation G.SetTestFlavor – GoldSentinelGame",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "ok",
+   "id": "T06",
+   "ms": "0.1",
+   "name": "Simulation – Weichen des Addons (ohne Kampfsperre-Teile)",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "Kampflog/Meter: Simulation erst nach /reload",
+   "id": "T07",
+   "ms": "0.0",
+   "name": "Beim Laden festgelegte Weichen bleiben",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "true",
+   "id": "T08",
+   "ms": "0.0",
+   "name": "Weichen wieder echt",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "false",
+   "id": "T09",
+   "ms": "0.2",
+   "name": "Ereignisse angemeldet",
+   "status": "OK"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "ok",
+   "id": "T10",
+   "ms": "0.0",
+   "name": "Befehle angemeldet",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Interface steht in der Kopfzeile des Berichts; die Prüf-Sitzung vergleicht sie mit ## Interface (am Launch-Tag /dump select(4, GetBuildInfo()))",
+   "bereich": "A",
+   "id": "T11",
+   "name": "Interface-Nummer des Clients in der .toc",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "A",
+   "ergebnis": "0",
+   "id": "SA",
+   "ms": "0.0",
+   "name": "Stubs zurückgesetzt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true false false false | 0 true | 5 false | Köder true",
+   "id": "T12",
+   "ms": "0.1",
+   "name": "ns.IsSecret / ns.Safe",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ok/off",
+   "id": "T13",
+   "ms": "0.0",
+   "name": "ns:Compat / ResetCompat",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "355",
+   "id": "T14",
+   "ms": "0.0",
+   "name": "ns.SpellName / ns.SpellIcon",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "8.0 ok / 0 / 4.0 fallback / 8.0",
+   "id": "T15",
+   "ms": "0.1",
+   "name": "ReadCooldown / ns.SpellCD (über ns.API)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "7/nil",
+   "id": "T16",
+   "ms": "0.0",
+   "name": "ns:BaseCooldown (gelernter Wert hat Vorrang)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true/false/true/false/nil/nil off",
+   "id": "T17",
+   "ms": "0.1",
+   "name": "ns.SpellInRange (über ns.API)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true,true,true,true,false,true,false,false | true,true,true,true,false,true,false,false | Fehler false,false",
+   "id": "T18",
+   "ms": "0.1",
+   "name": "ns.Aura / ns:FindAura (alter und moderner Weg)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true / plate:tsfake1 false fallback",
+   "id": "T19",
+   "ms": "0.0",
+   "name": "ns:MobKey (über ns.API)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true/false",
+   "id": "T20",
+   "ms": "0.0",
+   "name": "ns:SameUnit (echte Einheiten)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "false/false",
+   "id": "T21",
+   "ms": "0.0",
+   "name": "ns:SpellbookHas mit leerem Namen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "<Name> | TSIch Torben Lina-TSFremd Grimbar",
+   "id": "T22",
+   "ms": "0.0",
+   "name": "ns:FullName (eigener Charakter und Realm)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Text",
+   "id": "T23",
+   "ms": "0.0",
+   "name": "ns:FormName / ns:SpecName",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "TestSpott/hostile",
+   "id": "T24",
+   "ms": "0.7",
+   "name": "ns:UpdateSpells mit eigenem Spott",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "false",
+   "id": "T26",
+   "ms": "0.0",
+   "name": "IsTankStance liefert einen Wahrheitswert",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "player",
+   "id": "T27",
+   "ms": "0.0",
+   "name": "TankUnit / PetTankActive",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "falsefalsetruefalse",
+   "id": "T28",
+   "ms": "0.0",
+   "name": "IsActive / IsMemberMode",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "HEALER/DAMAGER/DAMAGER",
+   "id": "T31",
+   "ms": "0.0",
+   "name": "MyRole / GetRole",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ReloadUI 2x mitgeschrieben",
+   "id": "T32",
+   "ms": "0.1",
+   "name": "Profile: geteiltes Profil (ReloadUI nur mitgeschrieben)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ok",
+   "id": "T33",
+   "ms": "0.4",
+   "name": "Voreinstellungen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T34",
+   "ms": "0.1",
+   "name": "Positionen zurücksetzen",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "false",
+   "id": "T35",
+   "ms": "0.0",
+   "name": "ns:IsBossFight ohne Fehler",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ok",
+   "id": "T36",
+   "ms": "0.0",
+   "name": "Slash-Unterbefehle",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ok",
+   "id": "T37",
+   "ms": "0.0",
+   "name": "ns:ThreatMode – Tabelle (ausserhalb des Kampfs)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T38",
+   "ms": "0.0",
+   "name": "TA:ModeText",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "falsefalsefalse",
+   "id": "T39",
+   "ms": "0.1",
+   "name": "TA:Read ohne Ziel (echte API)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "2/secret",
+   "id": "T40",
+   "ms": "0.0",
+   "name": "TA:Probe ohne Kampf ohne Wirkung",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "secret, Hinweis 1x, 2026-11-10 11:05",
+   "id": "T42",
+   "ms": "0.0",
+   "name": "TA:Set / Store",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "false/0/false",
+   "id": "T43",
+   "ms": "0.1",
+   "name": "Neuer Kampf setzt die Prüfung zurück",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "blizzThreat aus: 0 CVar",
+   "id": "T44",
+   "ms": "0.0",
+   "name": "ApplyBlizzard nur mitgeschrieben",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Zeilen",
+   "id": "T45",
+   "ms": "0.0",
+   "name": "Bedrohung prüfen – ausserhalb des Kampfs",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Mob angreifen, im Kampf /ts bedrohung: Status und Prozent (oder 'geschützt') erscheinen, kein Lua-Fehler",
+   "bereich": "B",
+   "id": "T46",
+   "name": "Bedrohung prüfen – im Kampf",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ok",
+   "id": "T47",
+   "ms": "0.0",
+   "name": "TA:Login übernimmt den gespeicherten Zustand",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "3,2,4,5,1",
+   "id": "T51",
+   "ms": "0.0",
+   "name": "Reihenfolge loser Mobs (SortLoose)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "G|Ä|||",
+   "id": "T60",
+   "ms": "0.0",
+   "name": "Initial",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "none -> nil, Ton mitgeschrieben 1x",
+   "id": "T62",
+   "ms": "0.1",
+   "name": "Töne: Liste und Play (nur mitgeschrieben)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "tr-test/true",
+   "id": "T63",
+   "ms": "0.3",
+   "name": "Meldung in der Mitte: Vorrang",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Chat 0x, Test-Zeilen 6",
+   "id": "T64",
+   "ms": "0.5",
+   "name": "Chat-Kanäle gehen nie hinaus",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true/true/true",
+   "id": "T73",
+   "ms": "0.1",
+   "name": "Sync:Handle",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "nil/true/1",
+   "id": "T74",
+   "ms": "0.0",
+   "name": "Sync:Send (nur mitgeschrieben)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true/true/0",
+   "id": "T75",
+   "ms": "0.1",
+   "name": "Tank-Liste",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true/true",
+   "id": "T76",
+   "ms": "0.0",
+   "name": "Addon-Nachrichten: falscher Prefix und geschützter Absender",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "TANK/HEALER/FERAL/DAMAGER/nil",
+   "id": "T81",
+   "ms": "0.0",
+   "name": "Rolle aus Talentpunkten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "999/1.2k/12k/2.5M allowed=false",
+   "id": "T86",
+   "ms": "0.0",
+   "name": "Schadensmeter: Kurzzahlen und Weiche",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "2.5/0.5",
+   "id": "T87",
+   "ms": "0.1",
+   "name": "Anzeigen verschieben: Grösse begrenzt",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "id": "T89",
+   "ms": "20.6",
+   "name": "Einstellungsfenster und alle Seiten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ok",
+   "id": "T93",
+   "ms": "9.8",
+   "name": "Testzentrale: Texte und Zugriff-Simulation",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "SECRET/1/1.23/-/5",
+   "id": "T94",
+   "ms": "0.0",
+   "name": "Testprotokoll: Werte",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "de/en verschieden",
+   "id": "T95",
+   "ms": "0.0",
+   "name": "Spenden-Knopf: Sprache",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "ok",
+   "id": "T96",
+   "ms": "0.0",
+   "name": "/gsgame und /gsdev aufrufbar",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Tabelle, Grösse 1, Ebene MEDIUM / nil / nil",
+   "id": "T61",
+   "ms": "0.0",
+   "name": "P:Inspect (Vorschau-Plakette über ns.API)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "zeigt,weg,weg,weg,weg,weg,weg,weg,0/1/0",
+   "id": "T84",
+   "ms": "0.4",
+   "name": "Aggrometer und DD-Ansicht: Sichtbarkeit",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "44 Schalter + Auswahl myRole/threatMode, Fehler +0",
+   "id": "T90",
+   "ms": "31.0",
+   "name": "Jede Option einmal an/aus",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true true false true fallback false false",
+   "id": "T25",
+   "ms": "0.0",
+   "name": "HasSealOfFury / TauntUsable",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "false true true true false false false",
+   "id": "T29",
+   "ms": "0.2",
+   "name": "LooksLikeTank / HasBearForm / CouldTank",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "player,party1,partypet1,party2 | party1 true nil / 5 Einheiten, 4 Namen, raid4=raid4",
+   "id": "T30",
+   "ms": "0.2",
+   "name": "UpdateGroup (Gruppe mit Pet, Schlachtzug)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "erstes target, 3 Einträge, ohne Kampf drin false, geschützt drin false",
+   "id": "T41",
+   "ms": "0.1",
+   "name": "TA:Candidates",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "HELD,WARN,OTHERTANK,LOOSE,LOOSE,PETHELD,IDLE | Torben/DAMAGER HEALER | Grimbar Grimbar | OnLoose 2",
+   "id": "T48",
+   "ms": "0.9",
+   "name": "Zustände eines Mobs (Evaluate)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "OnLoose 1, übernommen Grimbar (1), stumm true (1), OnRegain 1, OnWarn 1",
+   "id": "T49",
+   "ms": "0.7",
+   "name": "LOOSE: Meldung, Übernahme, Besitzer",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true true true true true true true",
+   "id": "T50",
+   "ms": "0.1",
+   "name": "Hinweistext (BuildHint)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "VOLL 5/5, ANZEIGE 0/0 Wechsel 1, inaktiv Restore 5",
+   "id": "T52",
+   "ms": "0.7",
+   "name": "T:Tick (aktiv, Modus, Wechsel, inaktiv)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1/1/1/1",
+   "id": "T53",
+   "ms": "0.4",
+   "name": "T:EvalOne",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "hinzu true, weg true, Fehler +0",
+   "id": "T54",
+   "ms": "0.3",
+   "name": "Plaketten-Ereignisse",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Anführer Grimbar, nach 15 s nil",
+   "id": "T55",
+   "ms": "1.1",
+   "name": "Gruppen-Ansicht: Aggro-Anführer",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "nil nil nil true nil",
+   "id": "T56",
+   "ms": "0.0",
+   "name": "GetUF",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "HELD ok, WARN ok, LOOSE-DD ok, LOOSE-Heiler ok, übernommen ok, IDLE ok",
+   "id": "T57",
+   "ms": "0.6",
+   "name": "P:Apply je Zustand",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "zurück true [Grösse 1.00/1.00, MEDIUM/MEDIUM, Rahmen false], Aufblinken true",
+   "id": "T59",
+   "ms": "0.3",
+   "name": "RestoreFrame / Flash",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Tank 2 (Text true), ohne Haltung 0",
+   "id": "T70",
+   "ms": "0.1",
+   "name": "Meldungen anderer Tanks",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "2 Sendungen, H:DAMAGER:2.5.4",
+   "id": "T77",
+   "ms": "0.0",
+   "name": "Sync:Hello",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Anna,Lina,Mira,Torben,Grimbar,Rolf, Pull true",
+   "id": "T83",
+   "ms": "0.2",
+   "name": "Aggrometer Collect (offene Werte)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "5 Zeilen, Kopf true, Symbol true, sichtbar true, Gruppen-Ansicht weg true, aus weg true",
+   "id": "T85",
+   "ms": "0.5",
+   "name": "HUD",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "effectGlow true/false, looseFire true/false, loosePulse true/false, showHints true/false",
+   "id": "T58",
+   "ms": "1.0",
+   "name": "Plaketten-Optionen an/aus",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Heiler/DD, Test still, kein Warnton, Zurück still, Zurück Ton+Text, Selbst-Aggro",
+   "id": "T65",
+   "ms": "0.2",
+   "name": "OnLoose / OnWarn / OnRegain",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "25/100/nil",
+   "id": "T67",
+   "ms": "0.0",
+   "name": "Leben (HealthPercent)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Flächenspott 2, Notfall 2, Ton 1, Heiler-Zeilen 2/0/0",
+   "id": "T66",
+   "ms": "0.3",
+   "name": "Alerts:Evaluate (Flächenspott, Notfall, Heiler-Reichweite)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "selbst true, Ersatz true, Test gesendet 0, echt gesendet 1 (R:Creature-0-0-0-0-91001-0000000001)",
+   "id": "T68",
+   "ms": "0.2",
+   "name": "Spott widerstanden (OnResist)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "X:TSBetäubt, keine Wiederholung, zu kurz still, Gruppen-Ansicht still, X:",
+   "id": "T69",
+   "ms": "0.2",
+   "name": "Tank kontrolliert (CheckCC)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "draussen nichts, Taste belegt, Kampf später, Hinweis 1x",
+   "id": "T71",
+   "ms": "0.0",
+   "name": "Hinweis Spott-Taste (CheckKeyHint)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "moderne API: Kampflog gesperrt (siehe T85)",
+   "id": "T72",
+   "ms": "0.0",
+   "name": "Kampflog-Spott (nur alte API)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Abklingzeit 10 s, gelernt 10, Spott 2x, Zerreissen 5, Siegel 30 s, nach Richturteil 0",
+   "id": "T78",
+   "ms": "0.2",
+   "name": "Eigene Zauber (Abklingzeit, Spott, Zerreissen, Siegel)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Kopfnuss true, sofort true, Schaden bricht true, Verwandlung bleibt true, vergessen true",
+   "id": "T79",
+   "ms": "0.2",
+   "name": "Kontrolle der Gruppe (Tracker)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "1/1 threat",
+   "id": "T80",
+   "ms": "0.2",
+   "name": "Widerstand ohne Kampflog (über die Bedrohung)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "TANK nil nil DAMAGER nil, im Kampf betrachtet 0, Liste true",
+   "id": "T82",
+   "ms": "0.2",
+   "name": "Spezialisierung und Betrachten",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "true true true true true, zurück true",
+   "id": "T88",
+   "ms": "0.1",
+   "name": "Spott-Knöpfe (Makros, Tastenbelegung)",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "Farbe übernommen true, abgebrochen true, Tonauswahl true/true, Popups 4",
+   "id": "T91",
+   "ms": "1.0",
+   "name": "Ton- und Farbwahl, Popups",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "an/aus true/true, Winkel 0/220 und Tooltip ohne Fehler",
+   "id": "T92",
+   "ms": "0.7",
+   "name": "Minimap-Knopf",
+   "status": "OK"
+  },
+  {
+   "bereich": "B",
+   "ergebnis": "0",
+   "id": "SB",
+   "ms": "0.0",
+   "name": "Stubs zurückgesetzt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Fehler +0",
+   "id": "T102",
+   "ms": "0.0",
+   "name": "Chat-Argumente geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "false",
+   "id": "T111",
+   "ms": "0.0",
+   "name": "Kampflog auf der modernen API nicht angemeldet",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Modus DISPLAY, Zugriff secret, Plaketten 0, HUD-Zeilen 0, Hinweis 1x, Fehler +0",
+   "id": "T97",
+   "ms": "1.3",
+   "name": "Bedrohung geschützt, ganzer Durchlauf",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "3 Einheiten, 2 Namen, SECRET-Schlüssel false, plate:tsfake1",
+   "id": "T98",
+   "ms": "0.0",
+   "name": "Namen und GUIDs geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "false/false",
+   "id": "T99",
+   "ms": "0.0",
+   "name": "Auren geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "6.0 / 6.0 fallback",
+   "id": "T100",
+   "ms": "0.0",
+   "name": "Abklingzeiten geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "0 Kandidaten, Plakette nil",
+   "id": "T101",
+   "ms": "0.0",
+   "name": "Ziel und Mausziel geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "nil",
+   "id": "T103",
+   "ms": "0.0",
+   "name": "Reichweite geschützt",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Name nil, CD 0, Reichweite nil",
+   "id": "T104",
+   "ms": "0.0",
+   "name": "Zauber-Funktionen fehlen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "TSAura/2/71",
+   "id": "T105",
+   "ms": "0.0",
+   "name": "Auren-Funktionen fehlen -> C_UnitAuras",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "Senden/CVar/CVar: false nil nil, Sync fallback",
+   "id": "T106",
+   "ms": "0.0",
+   "name": "Chat-, CVar- und Addon-Funktionen fehlen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "fehlt true, none, OFF",
+   "id": "T107",
+   "ms": "0.0",
+   "name": "Bedrohungs-Funktionen fehlen",
+   "status": "OK"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "kein Fehler",
+   "id": "T108",
+   "ms": "0.0",
+   "name": "Rollen-, Gestalt- und Spezialisierungs-Funktionen fehlen",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Im Kampf: Einstellungen öffnen (Hinweis 'nicht im Kampf'), /ts move (verweigert); danach /ts test > Bericht: Blocked: none",
+   "bereich": "C",
+   "id": "T109",
+   "name": "Keine geschützten Aktionen im Kampf",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Forever, Modus ANZEIGE: Pull mit 3+ Mobs – nichts leuchtet, Plaketten unverändert; nach dem Kampf wieder normal",
+   "bereich": "C",
+   "id": "T110",
+   "name": "Plaketten im Kampf in ANZEIGE/AUS",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "C",
+   "ergebnis": "0",
+   "id": "SC",
+   "ms": "0.0",
+   "name": "Stubs zurückgesetzt",
+   "status": "OK"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur Classic Era / TBC",
+   "id": "T112",
+   "name": "Alter Client",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur Classic Era / TBC",
+   "id": "T113",
+   "name": "Alter Client",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur Classic Era / TBC",
+   "id": "T114",
+   "name": "Alter Client",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur Classic Era / TBC",
+   "id": "T115",
+   "name": "Alter Client",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur Classic Era / TBC",
+   "id": "T116",
+   "name": "Alter Client",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "grund": "nur Classic Era / TBC",
+   "id": "T117",
+   "name": "Gegenprobe im echten Spiel",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "D",
+   "ergebnis": "0",
+   "id": "SD",
+   "ms": "0.0",
+   "name": "Stubs zurückgesetzt",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "id": "T118",
+   "ms": "0.2",
+   "name": "Neuinstallation",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "id": "T119",
+   "ms": "0.1",
+   "name": "Migration aus Schema 1",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "fx_engel/fx_frosch/quest",
+   "id": "T120",
+   "ms": "0.1",
+   "name": "Migration aus Schema 5 und 9",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "id": "T121",
+   "ms": "0.1",
+   "name": "Alte gespeicherte Bedrohungs-Erkennung",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "alles repariert, kein Lua-Fehler",
+   "id": "T122",
+   "ms": "0.9",
+   "name": "Beschädigte Einträge (an einer Kopie)",
+   "status": "OK"
+  },
+  {
+   "bereich": "E",
+   "ergebnis": "0",
+   "id": "SE",
+   "ms": "0.0",
+   "name": "Stubs zurückgesetzt",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "594 Schlüssel",
+   "id": "T123",
+   "ms": "0.1",
+   "name": "Gleiche Schlüssel in en und de",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "71 Schlüssel",
+   "id": "T124",
+   "ms": "0.1",
+   "name": "Zusammengesetzte Schlüssel vorhanden",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "id": "T125",
+   "ms": "1.3",
+   "name": "Formatplatzhalter gleich",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "grund": "vor dem Push per Skript geprüft (manuell)",
+   "id": "T126",
+   "name": "Im Code benutzte Schlüssel",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "deDE",
+   "id": "T127",
+   "ms": "13.2",
+   "name": "Aktive Sprache: Hauptfenster",
+   "status": "OK"
+  },
+  {
+   "anleitung": "/ts testroutine sprache, dann /reload, dann /ts testroutine f (Popups und Tastenbelegungs-Namen bleiben in der Spielsprache)",
+   "bereich": "F",
+   "id": "T128",
+   "name": "Andere Sprache aktivieren",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "Status",
+   "id": "T129",
+   "ms": "0.0",
+   "name": "Gemeinsame Dateien liefern Text",
+   "status": "OK"
+  },
+  {
+   "bereich": "F",
+   "ergebnis": "0",
+   "id": "SF",
+   "ms": "0.0",
+   "name": "Stubs zurückgesetzt",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "ok",
+   "id": "T130",
+   "ms": "0.0",
+   "name": "Globale Namen gehören ThreatSentinel",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "keine",
+   "id": "T131",
+   "ms": "47.4",
+   "name": "Keine neuen Globals durch die Routine",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "Version 3",
+   "id": "T132",
+   "ms": "0.0",
+   "name": "Gemeinsame GoldSentinelGame-Fassung",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "PARTY / RAID / nil, gesendet 0",
+   "id": "T-SY2",
+   "ms": "0.0",
+   "name": "Sync-Weg: in Gruppe PARTY/RAID, ohne Gruppe nichts senden ('kein Weg')",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "id": "T133",
+   "ms": "15.8",
+   "name": "Slash- und Prefix-Kollisionen",
+   "status": "OK"
+  },
+  {
+   "bereich": "G",
+   "grund": "keine Schnittstelle",
+   "id": "T134",
+   "name": "Schnittstellen zu den anderen Addons",
+   "status": "SKIP"
+  },
+  {
+   "anleitung": "Mit RaidMaster, GuildSentinel, BuffSentinel, ProfessionSentinel laden, /reload, /gsgame: eine Zeile, Version 3; /ts testroutine g",
+   "bereich": "G",
+   "id": "T135",
+   "name": "Mehrere GoldSentinel-Addons gleichzeitig",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "G",
+   "ergebnis": "0",
+   "id": "SG",
+   "ms": "0.0",
+   "name": "Stubs zurückgesetzt",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "10 Mobs 0.88 ms, 40 Mobs 3.34 ms",
+   "id": "T136",
+   "ms": "92.3",
+   "name": "T:Tick mit 10 und 40 Testmobs (Modus VOLL)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Meter 0.00, DD 0.00, HUD 0.00, DmgMeter 0.01, CheckCC 0.00, Specs 0.03 ms",
+   "id": "T137",
+   "ms": "2.1",
+   "name": "Anzeigen (echter Zustand, je 50x)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Flammen (10 Plaketten) 0.014 ms, Testzentrale 0.06 ms, Meldung 0.001 ms",
+   "id": "T138",
+   "ms": "2.7",
+   "name": "Bildweise OnUpdate (Flammen, Testzentrale, Meldung)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "Ende erreicht true in 4 Häppchen, gleich wie ganz true",
+   "id": "T139b",
+   "ms": "11.5",
+   "name": "Protokoll-Auswertung nach /reload ('META cont=1' in der Mitte)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "5485 Einträge: Häppchen 3.49 ms, Öffnen 0.05 ms",
+   "id": "T139",
+   "ms": "9.3",
+   "name": "Protokoll-Auswertung (Häppchen und nur neue Einträge)",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "-918 KB",
+   "id": "T140",
+   "ms": "224.9",
+   "name": "Speicher bei T:Tick",
+   "status": "OK"
+  },
+  {
+   "bereich": "H",
+   "ergebnis": "0",
+   "id": "SH",
+   "ms": "0.0",
+   "name": "Stubs zurückgesetzt",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "true/true",
+   "id": "T141",
+   "ms": "0.1",
+   "name": "Absichtlicher Fehler wird gezählt",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "Fehler +1, Meter 1x (aktiv true)",
+   "id": "T142",
+   "ms": "0.1",
+   "name": "Fehler in einem Teil hält den Durchlauf nicht an",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "Fehler +1, übrige true",
+   "id": "T143",
+   "ms": "0.0",
+   "name": "Fehler in einem Ereignis-Handler",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "0x",
+   "erwartet": "1x",
+   "id": "T144",
+   "ms": "0.0",
+   "name": "Hinweis einmal pro Sitzung",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "blocked +1",
+   "id": "T145",
+   "ms": "0.0",
+   "name": "Gesperrte Aktion wird gezählt",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "vorhanden",
+   "id": "T146",
+   "ms": "0.0",
+   "name": "Fehlerschritt im Testassistenten",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "2",
+   "id": "T-GT1",
+   "ms": "0.0",
+   "name": "GoldSentinelTest Version 2 geladen",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "0 -> 0",
+   "id": "T-GT2",
+   "ms": "0.0",
+   "name": "Ohne Zustimmung bleibt der Ausgang (Fehlerberichte teilen) leer",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "Rolle DAMAGER · Tankhaltung false · Gruppe 5 Spieler + 1 Begleiter · Spott ja (hostile)",
+   "id": "T-P3",
+   "ms": "0.1",
+   "name": "Diagnose: Gruppe zählt Spieler und Begleiter getrennt",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "3 Einträge, Fehler ×50, Export GSDIAG1|ThreatSentinel, Name im Text false, geschützt true",
+   "id": "T187",
+   "ms": "2.2",
+   "name": "Diagnose-Protokoll: Einträge, Zähler statt Schleife, Export GSDIAG1, keine Namen",
+   "status": "OK"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "198 -> 198",
+   "id": "T189",
+   "ms": "0.0",
+   "name": "Diagnose-Protokoll schreibt nicht während der Testroutine",
+   "status": "OK"
+  },
+  {
+   "anleitung": "/ts protokoll öffnet ein Fenster mit markierbarem Text; nach /reload liegt ThreatSentinelDB.diagExport (beginnt mit GSDIAG1) in den SavedVariables und geht mit dem Uploader nach #testberichte",
+   "bereich": "I",
+   "id": "T188",
+   "name": "Diagnose-Protokoll im Spiel",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "I",
+   "grund": "würde einen echten Fehler im Fehlerfenster/BugSack des Spielers auslösen; GoldSentinelTest.TrackErrors ist angemeldet (siehe Core.lua)",
+   "id": "T147",
+   "name": "Lua-Fehler ausserhalb von pcall",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "I",
+   "ergebnis": "0",
+   "id": "SI",
+   "ms": "0.0",
+   "name": "Stubs zurückgesetzt",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Forever: Mob ohne Bedrohungsdaten bleibt IDLE (Diagnose 'Bedrohung am Ziel'), kein Leuchten",
+   "bereich": "J",
+   "id": "T148",
+   "name": "Kein Ersatz über das Ziel des Mobs (modern)",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "Forever, erster Kampf: /ts bedrohung zeigt 'geschützt', Hinweis 1x",
+   "bereich": "J",
+   "id": "T149",
+   "name": "Kein stilles IDLE bei geschützten Werten",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "2 Einheiten, 0 Namen",
+   "id": "T150",
+   "ms": "0.0",
+   "name": "Geschützte Namen nie als Schlüssel",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Initial ''",
+   "id": "T151",
+   "ms": "0.0",
+   "name": "Textfunktionen ohne geschützte Werte",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "true false,false | false false,true",
+   "id": "T152",
+   "ms": "0.0",
+   "name": "Leere Aurenliste im Kampf = unbekannt",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "VOLL: normale 1, verbotene 0; ANZEIGE: 0",
+   "id": "T153",
+   "ms": "1.1",
+   "name": "Blizzard-Plaketten im Kampf nicht anfassen (ANZEIGE, verbotene Plakette)",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Pull mit 3+ Mobs im Modus VOLL, danach /ts test > Bericht: 'Blocked: none'; kein 'ThreatSentinel hat eine Aktion blockiert'",
+   "bereich": "J",
+   "id": "T154",
+   "name": "Taint im Modus VOLL",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Bedrohung reicht",
+   "id": "T155",
+   "ms": "0.0",
+   "name": "Moderne API überall wie Retail",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "false fallback",
+   "id": "T156",
+   "ms": "0.1",
+   "name": "Sync-Kampfsperre (moderne API)",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Forever: zwei Kämpfe hintereinander, danach /ts bedrohung: 'zuletzt erkannt' mit Datum und Build",
+   "bereich": "J",
+   "id": "T157",
+   "name": "Erkennung einmal pro Kampf, Zustand gespeichert",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "geschützt/86.2/3",
+   "id": "T158",
+   "ms": "0.0",
+   "name": "Bedrohung prüfen zeigt geschützte Werte nie",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "ok",
+   "id": "T159",
+   "ms": "0.0",
+   "name": "'Voll' nicht erzwingbar",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Bedr.: lesbar/Bedr.: geschützt/Bedr.: keine",
+   "id": "T160",
+   "ms": "1.0",
+   "name": "Drei Zustände simulierbar (Knopftext)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Diagnose",
+   "id": "T161",
+   "ms": "0.0",
+   "name": "Fehlerzahl in der Diagnose (L.D_ERRORS)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Diagnose/Bericht/Bedrohung",
+   "id": "T162",
+   "ms": "0.3",
+   "name": "G.Status in Diagnose und Bericht",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Optionen gebaut",
+   "id": "T163",
+   "ms": "0.0",
+   "name": "Kein InterfaceOptions_AddCategory/EasyMenu",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "secret",
+   "id": "T164",
+   "ms": "0.0",
+   "name": "'unknown' + Fehlschlag -> 'secret'",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "40/unknown",
+   "id": "T165",
+   "ms": "0.1",
+   "name": "MAX_ATTEMPTS-Konstante und neuer Kampf",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "FULL",
+   "id": "T166",
+   "ms": "0.0",
+   "name": "'unknown' ausserhalb des Kampfs = VOLL",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "modern DISPLAY, alt FULL",
+   "id": "T166b",
+   "ms": "0.0",
+   "name": "'unknown' im Kampf ergibt ANZEIGE (nur modern)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "<Name>,<Name>,<Name> role",
+   "id": "T167",
+   "ms": "0.1",
+   "name": "Aggrometer im Modus ANZEIGE ohne lesbare Werte: Tank, dann Gruppe",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "im Kampf secret/DISPLAY/0, secret/DISPLAY/0, secret/DISPLAY/0 | danach 0 secret; 1 secret; open FULL",
+   "id": "T-P1",
+   "ms": "0.4",
+   "name": "Kein Wechsel zu VOLL im Kampf; VOLL erst nach zwei lesbaren Kämpfen",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "unknown/DISPLAY, gemerkt true, im Kampf true",
+   "id": "T-P1b",
+   "ms": "0.2",
+   "name": "/reload im Kampf: kein Wechsel zu VOLL ohne PLAYER_REGEN_DISABLED",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "0 false | 0 false | 1 true",
+   "id": "T-A6b",
+   "ms": "0.0",
+   "name": "LESBAR: leere Liste misst nicht, erste volle Liste im Kampf misst einmal",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Anna,Grimbar,Torben,Lina role | Kopf 'Reihenfolge: Tank zuerst'",
+   "id": "T-A8",
+   "ms": "0.7",
+   "name": "ANZEIGE: Mob greift niemanden aus der Gruppe an, nichts lesbar -> 'Tank zuerst'",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Lina,Anna,Torben,Grimbar sure",
+   "id": "T-A1",
+   "ms": "0.4",
+   "name": "ANZEIGE: wer die Aggro hat (Ziel des Mobs) steht oben",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Anna,Torben,Lina,Grimbar sure",
+   "id": "T-A2",
+   "ms": "0.4",
+   "name": "ANZEIGE: nach dem Aggro-Halter nach Bedrohungsstufe",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Lina,Torben,Anna,Grimbar est ~,~,~, | Zeile 1 '~Lina'",
+   "id": "T-A3",
+   "ms": "0.6",
+   "name": "ANZEIGE: nichts lesbar -> Schätzung mit '~'",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Torben / Torben / Lina",
+   "id": "T-A4",
+   "ms": "0.6",
+   "name": "ANZEIGE: Dämpfung (Tausch erst ab 10 %)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Anna,Lina,Grimbar,Torben false nil",
+   "id": "T-A5",
+   "ms": "0.2",
+   "name": "Lesbare Werte (Era/TBC, Modus VOLL): Reihenfolge wie 2.5.0",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Torben,Anna,Lina,Grimbar sure | LESBAR Ziel-des-Mobs=nein · Stufe=ja · isTanking=nein · Schätzung=nein · Einheit=target · greift-mich-an=geschützt | Fehler +0",
+   "id": "T-A6",
+   "ms": "0.4",
+   "name": "ANZEIGE: Ziel des Mobs geschützt -> Stufe 1 übersprungen, Protokoll 'nein'",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "Vorsprung 'nil', Farbe 0.45,0.60,0.85",
+   "id": "T168",
+   "ms": "0.1",
+   "name": "Kein Vorsprung-Text im Modus ANZEIGE",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "0.45,0.60,0.85",
+   "id": "T169",
+   "ms": "0.0",
+   "name": "Neutrale Balkenfarbe der DD-Ansicht im Modus ANZEIGE",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "CVar 0x mitgeschrieben",
+   "id": "T170",
+   "ms": "0.1",
+   "name": "Blizzard-Anzeigen bei 'immer nur Anzeige' (mitgeschrieben)",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "true/true",
+   "id": "T171",
+   "ms": "0.2",
+   "name": "Knopf 'Client simulieren: Forever / echt'",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "0x",
+   "id": "T172",
+   "ms": "0.0",
+   "name": "Ausgeschaltetes Addon meldet nichts",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "DISPLAY",
+   "id": "T173",
+   "ms": "0.0",
+   "name": "Simulation 'open' übersteuert keine echte Sperre",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Forever, Gruppe im Kampf: kein Lua-Fehler (Testzentrale-Diagnose 'Fehler: 0')",
+   "bereich": "J",
+   "id": "T174",
+   "name": "UnitIsUnit nur über ns:SameUnit",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "SECRET",
+   "id": "T175",
+   "ms": "0.0",
+   "name": "Log.lua und Specs.lua nutzen ns.IsSecret",
+   "status": "OK"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "moderne API: Kampflog aus (richtig)",
+   "id": "T176",
+   "ms": "0.0",
+   "name": "TBC Anniversary / Classic Era – Kampflog und Meter aktiv",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Classic Era und TBC Anniversary: Schadens-/Heilmeter zählt, widerstandener Spott wird gemeldet, kein 'Addon geblockt' – Ergebnis dem Nutzer melden",
+   "bereich": "J",
+   "id": "T176b",
+   "name": "Alter Client: Kampf in der Gruppe",
+   "status": "CLIENT"
+  },
+  {
+   "anleitung": "/dump select(4, GetBuildInfo()); im ersten Kampf /ts bedrohung -> Modus im Bericht",
+   "bereich": "J",
+   "id": "T177",
+   "name": "Launch-Tag: Interface-Nummer und erster Kampf",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "J",
+   "grund": "vor dem Push mit addon_check.py (manuell)",
+   "id": "T178",
+   "name": "Lua-Syntaxprüfung",
+   "status": "SKIP"
+  },
+  {
+   "bereich": "J",
+   "ergebnis": "0",
+   "id": "SJ",
+   "ms": "0.0",
+   "name": "Stubs zurückgesetzt",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 50",
+   "id": "T180",
+   "ms": "8.4",
+   "name": "Eigene Tooltips verdecken keine Knöpfe",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 0",
+   "id": "T181",
+   "ms": "0.1",
+   "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 2",
+   "id": "T182",
+   "ms": "0.0",
+   "name": "Fenster ganz im Bildschirm",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 95",
+   "id": "T183",
+   "ms": "0.5",
+   "name": "Beschriftungen von Knöpfen nicht abgeschnitten",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 6",
+   "id": "T184",
+   "ms": "0.1",
+   "name": "Angezeigte Spielwerte plausibel",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 0",
+   "id": "T185",
+   "ms": "0.0",
+   "name": "Keine Fehlerschleife (gleiche Meldung > 10×)",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "passt",
+   "id": "T-A7",
+   "ms": "0.1",
+   "name": "Aggrometer: Kopfzeile 'Reihenfolge' nicht abgeschnitten (auch bei kleinster Breite)",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Charakterfenster, Karte, Händler oder Post öffnen, dazu Testzentrale und Einstellungen; dann /ts testroutine k: T181 ohne Überlappen",
+   "bereich": "K",
+   "id": "T186",
+   "name": "Oberfläche mit offenen Blizzard-Fenstern",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "0",
+   "id": "SK",
+   "ms": "0.0",
+   "name": "Stubs zurückgesetzt",
+   "status": "OK"
+  }
+ ],
+ "sandbox": "OK",
+ "simulationen": "FEHLER",
+ "stubs": "OK",
+ "tasten": "OK",
+ "time": 1794305150,
+ "version": "2.5.4"
+}

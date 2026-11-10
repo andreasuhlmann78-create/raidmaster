@@ -1,0 +1,32 @@
+{
+ "addon": "GuildSentinel",
+ "counts": {},
+ "env": {
+  "build": "70862",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 23,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [
+  {
+   "count": 1,
+   "first": 1794305357,
+   "last": 1794305357,
+   "msg": "fn()",
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:407: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:400>\n[C]: in function 'fn'\n[Interface/AddOns/GuildSentinel/Core.lua]:183: in function 'Act'\n[Interface/AddOns/GuildSentinel/Core.lua]:191: in function 'Chat'\n[Interface/AddOns/GuildSentinel/Recruit.lua]:258: in function 'Post'\n...",
+   "version": "0.9.21",
+   "wo": "ADDON_ACTION_BLOCKED"
+  }
+ ],
+ "f": 1,
+ "id": "GuildSentinel-1794306711-ed9e93-3",
+ "kind": "fehler",
+ "time": 1794306711,
+ "version": "0.9.21"
+}

@@ -1,0 +1,113 @@
+{
+ "addon": "ThreatSentinel",
+ "bedrohung": "secret / DISPLAY / gespeichert: secret 2026-11-10 11:04 1.60.1 (70862)",
+ "blockiert": "0",
+ "counts": {
+  "client": 1,
+  "fehler": 1,
+  "ok": 7,
+  "uebersprungen": 0
+ },
+ "cvars": "OK",
+ "dur_ms": 57,
+ "echte_aktionen": "0",
+ "env": {
+  "build": "70862",
+  "class": "WARRIOR",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 23,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [],
+ "f": 1,
+ "fehlerzaehler": "0",
+ "id": "ThreatSentinel-1794305177-608ad8-2",
+ "kind": "test",
+ "mitgeschrieben": "",
+ "nicht_automatisiert": "0",
+ "results": [
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 50",
+   "id": "T180",
+   "ms": "7.6",
+   "name": "Eigene Tooltips verdecken keine Knöpfe",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "Testzentrale überdeckt BuffSentinelAnchor_cd (BuffSentinel) · geprüft 2",
+   "erwartet": "keine",
+   "id": "T181",
+   "ms": "0.1",
+   "name": "Kein Überlappen mit Blizzard- oder GoldSentinel-Fenstern",
+   "status": "FEHLER"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 2",
+   "id": "T182",
+   "ms": "0.0",
+   "name": "Fenster ganz im Bildschirm",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 95",
+   "id": "T183",
+   "ms": "0.9",
+   "name": "Beschriftungen von Knöpfen nicht abgeschnitten",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 6",
+   "id": "T184",
+   "ms": "0.1",
+   "name": "Angezeigte Spielwerte plausibel",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "keine · geprüft 0",
+   "id": "T185",
+   "ms": "0.0",
+   "name": "Keine Fehlerschleife (gleiche Meldung > 10×)",
+   "status": "OK"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "passt",
+   "id": "T-A7",
+   "ms": "0.1",
+   "name": "Aggrometer: Kopfzeile 'Reihenfolge' nicht abgeschnitten (auch bei kleinster Breite)",
+   "status": "OK"
+  },
+  {
+   "anleitung": "Charakterfenster, Karte, Händler oder Post öffnen, dazu Testzentrale und Einstellungen; dann /ts testroutine k: T181 ohne Überlappen",
+   "bereich": "K",
+   "id": "T186",
+   "name": "Oberfläche mit offenen Blizzard-Fenstern",
+   "status": "CLIENT"
+  },
+  {
+   "bereich": "K",
+   "ergebnis": "0",
+   "id": "SK",
+   "ms": "0.0",
+   "name": "Stubs zurückgesetzt",
+   "status": "OK"
+  }
+ ],
+ "sandbox": "OK",
+ "simulationen": "FEHLER",
+ "stubs": "OK",
+ "tasten": "OK",
+ "time": 1794305176,
+ "version": "2.5.4"
+}
