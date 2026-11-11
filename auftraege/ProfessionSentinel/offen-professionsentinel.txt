@@ -1,38 +1,29 @@
-OFFENE PUNKTE PROFESSIONSENTINEL (nach der Nachprüfung von 0.9.37)
+OFFENE PUNKTE PROFESSIONSENTINEL (nach der Nachprüfung von 0.9.38)
 ===================================================================
-Stand: 9. November 2026, 20:23 · von der Prüf-Sitzung · Grundlage: download/ProfessionSentinel-0.9.37.zip
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.36 (18:35).
+Stand: 11. November 2026, 08:20 · von der Prüf-Sitzung · Grundlage: download/ProfessionSentinel-0.9.38.zip
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.37.
 
 REIHENFOLGE: Erst die laufende Arbeit fertig machen, dann die Punkte unten von oben nach unten.
 
-Erledigt in 0.9.37 (danke) – UI-Rework Teil B ist damit vollständig
---------------------------------------------------------------------
-- U6 Blizzard-Berufsfenster: je Zeile nur ein Zeichen "19×" in der Farbe der nächsten Stufe, bei Grau nichts, kein
-  Balken mehr, Schrift der Zeile, nur wenn es Name/Anzahl nicht berührt (Lifeline.lua 184–262: LL.RowSign,
-  LL.TextEnd, LL.SignFits, DecorateRow). Zeile "Bestes: <Rezept>" hell, Breite bis zum Knopf (UI.lua 2124–2160).
-  Era TradeSkillFrame/CraftFrame und modernes Fenster. Testfälle T239, T240, T242 (Bereich K, im Client).
-- U2 Details im Reiter "Rezepte": Materialien mit Herkunft, Bestand und Preis, Verkauf netto, Gewinn mit bestem Weg,
-  Absatz, Quelle des Rezepts, Knöpfe "Herstellen" und "Einkaufsliste" (UI.lua 1154–1320); Gewinn aus UI.Profit wie
-  Tooltip und Gold-Rangliste (T243).
-- U3 eine Zahl je Zeile (UI.lua 989–1027), Plan ohne Preise bevorzugt Orange (Advisor.lua 522–525), nächstes
-  oranges Rezept kurz vor dem Umschlag (UI.NextOrange, UI.lua 1692–1703).
-- U4 "Nächster Schritt" mit Rezept, Material pro Punkt, "lernen" und Lernort mit Wegpunkt (UI.lua 1716–1743; T244).
-  Die Einkaufsliste für den ganzen Plan gab es schon.
-- U8 Rezept-Alarm: höchstens eine kurze Chatzeile je Sitzung, Zahl am Reiter "Rezepte" (Alerts.lua 97–104,
-  UI.lua 1319–1324; T241, T67 angepasst).
-- CHANGELOG EN/DE, Locales EN/DE vollständig, Platzhalter gleich.
+Erledigt in 0.9.38 (danke)
+--------------------------
+- 0.9.38 ist ein reines Rezeptdaten-Update der geplanten Aufgabe (Commit 41e045f): Data_Forever.lua (2211 -> 2315
+  Rezepte mit bekannter Quelle, neue Händler und Drop-Quellen, ein Kochlehrer-Eintrag weniger), in Data_Era.lua und
+  Data_Retail.lua nur Kopfzeile und ns.DataMeta (Build/QuestieDB, count unverändert 1267 bzw. 10172).
+  Dazu Version in Core.lua und den vier .toc, CHANGELOG EN/DE. Kein Programmcode geändert – richtig so, die geplante
+  Aufgabe ändert keinen Code. Die offenen Punkte 1-3 bleiben deshalb unverändert offen.
 
-Prüfungen (0.9.37)
+Prüfungen (0.9.38)
 ------------------
 - addon_check: OK, 0 FEHLER, 1 WARNUNG: GoldSentinelTest.lua ist Version 1 (siehe Punkt 2).
-- GoldSentinelGame.lua byte-gleich mit shared/. GoldSentinelTest.lua byte-gleich mit der alten shared-Fassung 1.
-- Quell-Repo (Commit 078a949) entspricht der ZIP Datei für Datei.
-- tests/run_offline.py: Forever OK 198 / FEHLER 1 (T143, Zeitmessung – zählt offline nicht), Era OK 181 / FEHLER 0,
-  Retail OK 180 / FEHLER 0. Neue Fälle T239, T240, T241, T243, T244 überall OK; T242 nur im echten Client.
-  TBC: kein Lauf (ProfessionSentinel hat keine TBC-TOC – wie bisher).
-- Sync weiterhin nicht zutreffend: 0.9.37 sendet keine Addon-Nachrichten (kein SendAddonMessage, kein Präfix, kein
-  Kanal). hinweis-sync-kanal.txt und anweisung-gemeinsamer-sync.txt gelten nicht. Falls später Datenaustausch kommt:
-  nur über GoldSentinelSync 2 (shared/wissen/kommunikation-forever.md), nie über eigene Kanäle.
+- GoldSentinelGame.lua byte-gleich mit shared/. GoldSentinelTest.lua und GoldSentinelDev.lua unverändert gegenüber
+  0.9.37.
+- Quell-Repo (Commit 41e045f) entspricht der ZIP Datei für Datei.
+- tests/run_offline.py: Forever OK 198 / FEHLER 1 (T143, Zeitmessung "AD.Plan 1->300 20.2 ms" – zählt offline nicht,
+  gehört zu Punkt 1), Era OK 181 / FEHLER 0, Retail OK 180 / FEHLER 0 – gleich wie 0.9.37.
+- Sync weiterhin nicht zutreffend: keine Addon-Nachrichten. Falls später Datenaustausch kommt: nur über
+  GoldSentinelSync 2 (shared/wissen/kommunikation-forever.md), nie über eigene Kanäle.
+- Keine neuen Testberichte aus dem Spiel seit der letzten Nachprüfung.
 
 Diagnose aus dem Client (testberichte/diagnose/ProfessionSentinel/0.9.37-ac188a4404e9.txt)
 ------------------------------------------------------------------------------------------
@@ -85,7 +76,7 @@ OFFENE PUNKTE
       (UI.lua 1016–1018). U2 wollte gelernt/lernbar/fehlt. Bitte bestätigen, dass "kein Zeichen = gelernt" so
       gewollt ist (Filter "Gelernt" zeigt es ja), sonst nachziehen.
 
-IM CLIENT PRÜFEN (mit 0.9.37 und aktuellem AHSentinel)
+IM CLIENT PRÜFEN (mit 0.9.38 und aktuellem AHSentinel)
 ------------------------------------------------------
 - Berufsfenster (Era TradeSkillFrame und CraftFrame/Verzauberkunst, Forever, Retail): je Zeile höchstens ein
   Zeichen am rechten Rand, nie über Name oder "[38]", kein Balken; Zeile "Bestes:" hell und lesbar, gekürzt erst ab
@@ -94,6 +85,8 @@ IM CLIENT PRÜFEN (mit 0.9.37 und aktuellem AHSentinel)
   legt AH-Zutaten in AHSentinels Sniper.
 - Reiter "Skillen": "Nächster Schritt", kurz vor Gelb das nächste orange Rezept, Lernort mit Wegpunkt.
 - Rezept-Alarm: höchstens eine Chatzeile je Sitzung, die Zahl am Reiter "Rezepte".
+- Neu mit 0.9.38: Forever-Rezepte mit neuer Quelle (z. B. Goldener Schuppenkürass, Brustplatte des scharlachroten
+  Soldaten) zeigen Händler bzw. Drop im Tooltip und in den Details; keine "Quelle unbekannt".
 - Diagnose "ÜBERLAPPT Panel überdeckt AHAnalyzerProCraftPanel": ×691 in den 0.9.32-Berichten (zuletzt 8. Nov.),
   ×762 im 0.9.37-Bericht (zuletzt 9. Nov. 18:36, noch mit 0.9.36). Mit 0.9.37 und aktuellem AHSentinel prüfen, dass
   AHSentinel sein Gewinn-Fenster ausblendet, solange das Panel offen ist (U9). Zählt der Eintrag weiter hoch:

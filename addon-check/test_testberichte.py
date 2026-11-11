@@ -6,6 +6,7 @@ import importlib.util
 import json
 import sys
 import tempfile
+import time
 from pathlib import Path
 
 from lupa.lua51 import LuaRuntime
@@ -30,13 +31,15 @@ def check(label, got, want):
 
 
 lua = LuaRuntime(unpack_returned_tuples=True)
+# Zeit der Testberichte = jetzt (evaluate zählt Fehler im Spiel nur der letzten 7 Tage; eine feste Zeit
+# lässt den Test nach 7 Tagen fehlschlagen)
 lua.execute("""
 function GetBuildInfo() return '1.60.1','70707','x',16001 end
 function UnitClass() return 'Magier','MAGE' end
 function UnitLevel() return 12 end
-local t = 1793750400
+local t = %d
 function time() t = t + 1 return t end
-""")
+""" % (int(time.time()) - 3600))
 lua.execute((ROOT / "shared" / "GoldSentinelGame.lua").read_text(encoding="utf-8"))
 lua.execute((ROOT / "shared" / "GoldSentinelTest.lua").read_text(encoding="utf-8"))
 lua.execute(r"""

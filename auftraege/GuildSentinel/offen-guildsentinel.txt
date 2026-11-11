@@ -1,57 +1,74 @@
-OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.24)
+OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.25)
 =============================================================
-Stand: 10. November 2026, 20:25 · von der Prüf-Sitzung · Grundlage: download/GuildSentinel-0.9.24.zip
-(verglichen mit 0.9.23 aus der git-Geschichte; Repo GuildSentinel ce39c7e = Inhalt der ZIP).
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.23.
+Stand: 11. November 2026, 08:20 · von der Prüf-Sitzung · Grundlage: download/GuildSentinel-0.9.25.zip
+(verglichen mit 0.9.24 aus der git-Geschichte; Repo GuildSentinel 488600b = Inhalt der ZIP).
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.24.
+anweisung-werbetext.txt ist erledigt und entfernt.
 
-Erledigt in 0.9.24 (danke):
-- Punkt 1 aus 0.9.23 (MITTEL, lange Werbung wird in der Chat-Eingabe abgeschnitten und zählt nie): Der Werbetext ist
-  auf Rc.AD_MAX = 251 Bytes begrenzt (Recruit.lua:119, 259). ns.OpenChannelChat (jetzt Recruit.lua:246-255) kürzt
-  "/<Kanal> <Text>" zusätzlich auf 255 und gibt den Text so zurück, wie er in der Eingabe steht; Rc:Post merkt sich
-  genau diesen Text (prepared.text = shown, Recruit.lua:285). Neues ns.CutBytes (Core.lua:167-178) zerschneidet keine
-  UTF-8-Zeichen. Zähler "(n/251)" (Pages.lua:1053). CHANGELOG EN/DE, LIESMICH/README_EN.
-  Testfälle T242 (TestRoutine.lua:2512: 300 Bytes mit Umlauten -> Eingabe <= 255, gemerkt = Eingabe, gezählt) und
-  T243 (TestRoutine.lua:2535: CutBytes ganze Zeichen).
-- Punkt 2 aus 0.9.23 (Warnung der Addon-Prüfung Core.lua:574, Fehlalarm): ns.OpenChannelChat steht jetzt in
-  Recruit.lua, die Warnung ist weg (addon_check 0.9.24: 0 WARNUNGEN).
-- Aus den Diagnose-Protokollen 0.9.23/0.9.24 (10.11. 16:00-18:41): A1 beantwortet – die Zeile lautet "offline
-  eingeblendet: nein (schon an (true))": Offline-Mitglieder waren schon eingeblendet, der Grund wird angezeigt.
+Erledigt in 0.9.25 (danke):
+- Punkt 1 aus 0.9.24 (MITTEL, neuer Standard-Werbetext, anweisung-werbetext.txt W1-W7):
+  W1 Platzhalter bleiben austauschbar, keine echten Namen/Links (Tests mit "<Testgilde>", "Testname",
+     "https://discord.gg/test").
+  W2 {fraktion}/{faction} aus UnitFactionGroup("player"), lokalisiert, geschützte Werte abgefangen (Recruit.lua:101-110),
+     in der Platzhalter-Liste (Pages.lua:881) und im Hinweis für unbekannte Platzhalter (Pages.lua:1052).
+     Leere Fraktion: "()" wird entfernt (Recruit.lua:156).
+  W3 {gesucht} = nur die Liste mit "und"/"and", Chinesisch mit "、", leer -> "neue Mitglieder" (Comp.lua:174-185);
+     Seite Gilde > Zusammensetzung zeigt dasselbe (Pages.lua:534-535).
+  W4 {discord} direkt nach "Discord:" nur der Link; ohne Link fällt "Discord: … – " ganz weg, auch "Discord :" (fr)
+     und "Discord：" (zh) (Recruit.lua:112-128, 132-142). Antwort und Willkommen wie bisher "Discord: <Link>".
+  W5 Länge: Rc.AD_MAX bleibt, T247 prüft <= 252 mit langen Werten.
+  W6 Eigener gespeicherter Text bleibt, leeres Feld = neuer Standard (Recruit.lua:21-25, 31-33).
+  W7 neue Schlüssel ("Horde", "Allianz", "neue Mitglieder", "und", "wird gekürzt", Platzhalter-Hinweis) in Locales.lua
+     und allen 9 Locale-Dateien; CHANGELOG EN/DE, LIESMICH/README_EN.
+  Testfälle T244-T247 = T-WT1-T-WT4, dazu T248 (TestRoutine.lua:2555-2588).
+- Punkt 2 aus 0.9.24 (NIEDRIG, Zähler zeigt Kürzen): Rc:AdRaw misst vor dem Kürzen (Recruit.lua:164-166); über
+  Rc.AD_MAX rot mit "wird gekürzt" (Pages.lua:1053-1060).
 
 Prüfungen: Addon-Prüfung OK, 0 FEHLER, 0 WARNUNGEN (Ladetest, Sprachtest). GoldSentinelGame.lua, GoldSentinelSync.lua
-und GoldSentinelTest.lua byte-gleich mit shared/, GoldSentinelDev.lua unverändert gegenüber 0.9.23. Keine neuen
-Sprachschlüssel (der Zähler ist ein reines Zahlenformat). CHANGELOG EN/DE für 0.9.24, .toc und ns.version 0.9.24.
-Offline-Routine mit Lua 5.1: Forever (16001) OK 212 · FEHLER 0 · übersprungen 27 · im Client prüfen 8; Era (11508)
-und TBC (20505) je OK 217 · FEHLER 0 · übersprungen 21 · im Client prüfen 9; run_routine je 16/16. test/run.lua 75/75,
-run_admin 26/26, run_uicheck 13/13, run_lang 7/7, run_noguild 19/19, run_nilglobals 24/24, run_profsync 23/23,
-run_rm 17/17.
-Im Diff 0.9.23 -> 0.9.24 keine Lua-Fehler, keine nil-Zugriffe (Rc.AD_MAX wird erst zur Laufzeit gelesen), kein Taint
-(T242 ersetzt nur Recruit-Einträge über With), Era/TBC nicht gebrochen. Diagnose-Protokolle 0.9.23/0.9.24 aus dem
-Spiel: 0 Fehler; die einzige BLOCKIERT-Zeile ist vom 10.11. 11:09 (Recruit.lua:258 aus 0.9.22, in 0.9.23 behoben).
+und GoldSentinelTest.lua byte-gleich mit shared/, GoldSentinelDev.lua unverändert gegenüber 0.9.24. CHANGELOG EN/DE,
+.toc und ns.version 0.9.25.
+Offline-Routine mit Lua 5.1: Forever (16001) OK 217 · FEHLER 0 · übersprungen 27 · im Client prüfen 8; Era (11508)
+und TBC (20505) je OK 222 · FEHLER 0 · übersprungen 21 · im Client prüfen 9 (je +5 gegenüber 0.9.24 = T244-T248);
+run_routine je 16/16, auch mit enUS. test/run.lua 75/75, run_admin 26/26, run_uicheck 13/13, run_lang 7/7,
+run_noguild 19/19, run_nilglobals 24/24, run_profsync 23/23, run_rm 17/17.
+Im Diff 0.9.24 -> 0.9.25 keine Lua-Fehler, keine nil-Zugriffe (UnitFactionGroup wird geprüft, ns.Comp wird geprüft),
+kein Taint (Tests ersetzen nur Addon-Einträge über With), Era/TBC nicht gebrochen. gsub-Mehrfachrückgaben
+(dd, escaped) werden richtig auf den ersten Wert beschränkt; "%" im Discord-Link wird maskiert.
+Keine neuen Testberichte aus dem Spiel seit der letzten Nachprüfung.
 
-1. MITTEL – Neuer Standard-Werbetext (anweisung-werbetext.txt, Wunsch des Nutzers vom 10.11. 18:15) – noch offen
-   In 0.9.24 nicht umgesetzt: kein Platzhalter {fraktion} (Recruit.lua:101-111), {discord} liefert weiter
-   "Discord: <Link>" (Recruit.lua:105), Standardtext unverändert.
-   Lösung: wie in anweisung-werbetext.txt (W1-W7): neuer Standardtext deDE/enGB, andere Sprachen sinngemäss;
-   {fraktion} aus UnitFactionGroup("player") lokalisiert und in der Platzhalter-Liste (Pages.lua:881 und Hinweis Pages.lua:1050) ergänzen;
-   {gesucht} nur die Klassenliste mit "und"/"and", leer -> "neue Mitglieder"; ohne Discord fällt "Discord: … – " ganz
-   weg; eigene gespeicherte Texte bleiben. Länge: Rc.AD_MAX (251) reicht für W5. Testfälle T-WT1 bis T-WT4.
+1. NIEDRIG – Ohne Discord beginnt der Satz klein
+   Ohne Discord-Link entfernt DropDiscord (Recruit.lua:115-128) "Discord: {discord} – ". Übrig bleibt
+   "… deutschsprachig. flüstert mir: /w …" bzw. "… relaxed and helpful. whisper me: /w …" (nachgerechnet mit Lua 5.1).
+   Lösung: nach dem Entfernen den ersten Buchstaben hinter ". " gross schreiben (nur ASCII a-z, sonst lassen), oder im
+   Standardtext ohne Discord "– flüstert mir" an den vorigen Satz hängen. T245 um "kein Kleinbuchstabe nach '. '"
+   ergänzen.
 
-2. NIEDRIG – Zähler zeigt nicht, dass gekürzt wurde
-   Pages.lua:1053 zählt die Länge des schon gekürzten Textes (Rc:Build kürzt in Recruit.lua:119). Ein zu langer Text
-   zeigt deshalb nur "(251/251)" und endet mit "..." – der Spieler merkt kaum, dass der Schluss fehlt. Gezählt werden
-   ausserdem Bytes (ein Umlaut zählt 2).
-   Lösung: Länge vor dem Kürzen messen (z. B. Rc:Build gibt als zweiten Wert die volle Länge zurück) und bei mehr als
-   Rc.AD_MAX den Zähler rot färben plus kurzen Hinweis "wird gekürzt" (über L[], alle Locale-Dateien). Optional im
-   Hinweistext "Bytes" statt "Zeichen" erklären.
+2. NIEDRIG – Alte Standardtexte, die gespeichert wurden, ergeben jetzt holprige Sätze
+   Wer den alten Standard (oder eine kleine Änderung davon) gespeichert hat, behält ihn (W6, richtig). Weil {gesucht}
+   jetzt ohne "Gesucht:" kommt, steht dort z. B. "sucht Mitstreiter! Heiler, Krieger und Magier Raids, Dungeons …".
+   Der CHANGELOG erwähnt es. Lösung (empfohlen): Ist ns.db.adText genau gleich dem alten Standardtext (alter
+   Schlüssel in der Sprache des Clients oder deDE), einmalig beim Laden leeren -> neuer Standard. Sonst nichts ändern.
+   Testfall: gespeicherter alter Standard -> neuer Standard; leicht geänderter Text bleibt.
 
-IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.24, Ergebnis dem Nutzer melden)
+3. NIEDRIG – T248 heisst "Zähler zeigt Kürzen", prüft den Zähler aber nicht
+   TestRoutine.lua:2582-2588 prüft nur Comp:WantedList. Der Zähler (Pages.lua:1053-1060) wird nirgends getestet
+   (T247 prüft nur AdRaw > AdText). Lösung: Namen anpassen oder R:Preview mit langem Text aufrufen und prüfen, dass
+   self.length "wird gekürzt" enthält (mit kurzem Text nicht).
+
+IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.25, Ergebnis dem Nutzer melden)
+   - Neu mit 0.9.25: Seite Rekrutierung mit leerem Werbetext -> Vorschau zeigt den neuen Standard mit der richtigen
+     Fraktion (Horde/Allianz in der Sprache des Clients), {gesucht} als Liste mit "und" bzw. "neue Mitglieder",
+     Discord-Link nach "Discord:" ohne doppeltes "Discord:". Discord-Link löschen -> "Discord: … –" verschwindet.
+     Zähler: langer Text -> rot "(n/251) wird gekürzt". Eigener Text bleibt nach dem Update unverändert.
+     Seite Gilde > Zusammensetzung: "Für die Werbung: Heiler, Krieger und Magier" bzw. "{gesucht} wird zu „neue
+     Mitglieder“". In Forever: liefert UnitFactionGroup einen geschützten Wert (dann bleibt die Klammer weg)?
    - Werbung: "Werbung vorbereiten" -> "/5 <Text>" steht in der Chat-Eingabe, die Eingabe ist im Kanal-Modus
      (Kopf "[5. Handel]" o. ä.), mit Enter gesendet, KEIN "Aktion blockiert". Danach: "zuletzt gepostet" und die
-     Wartezeit des Kanals sind gesetzt (CHAT_MSG_CHANNEL erkannt). Neu mit 0.9.24: einen langen Text (über 251 Zeichen,
-     mit Umlauten) vorbereiten -> Eingabe vollständig mit "..." am Ende, nach Enter zählt er als gepostet. Ist der
-     Absender in Forever ein geschützter Wert, zählt die Werbung nie – dann melden. In Era/TBC gleich.
+     Wartezeit des Kanals sind gesetzt (CHAT_MSG_CHANNEL erkannt). Langer Text (über 251 Zeichen, mit Umlauten) ->
+     Eingabe vollständig mit "..." am Ende, nach Enter zählt er als gepostet. Ist der Absender in Forever ein
+     geschützter Wert, zählt die Werbung nie – dann melden. In Era/TBC gleich.
      Kanäle-Auswahl im deutschen Forever-Client: Allgemein, Handel, LokaleVerteidigung, SucheNachGruppe werden
-     angeboten, AHAPSync, LevelPilotNet usw. nicht. (In den Protokollen bis 18:41 noch keine Werbung gesendet.)
+     angeboten, AHAPSync, LevelPilotNet usw. nicht.
    - Rezepte je Mitglied: Seite Berufe -> Beruf -> Klick auf "N Rezepte" eines Mitglieds: Liste mit Item-Links,
      Tooltips; Filterleiste bricht um, nichts abgeschnitten (deDE und enGB, T237 im Spiel); "Herstellen anfragen"
      öffnet das Flüstern mit Rezept-Link. In Forever: werden Blizzard-Kategorien (Feld k) gelesen und angezeigt?
@@ -60,7 +77,7 @@ IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.24
    - Hochleveln: Beruf bei offenem Fenster 10 Stufen steigern -> höchstens 1-2 Zeilen "BERUFE gesendet" in 5 Minuten,
      beim Schliessen eine. Neues Rezept -> sofort gesendet.
    - Sync: "/gs sync test" gibt "N Antworten (Gilde a, Gruppe b)" aus. Kommt "SYNC Kanal verweigert Addon-Nachrichten
-     (NOT_ALLOWED_IN_CHANNEL)" wieder, melden, von welchem Weg. (Protokolle 0.9.23/0.9.24: Kanal verweigert 0.)
+     (NOT_ALLOWED_IN_CHANNEL)" wieder, melden, von welchem Weg.
    - Flüster-Netz: Zwei Spieler in verschiedenen Gilden, kurz in einer Gruppe, dann Gruppe verlassen. Suche "ganzer
      Server" in Gilde A -> erscheint in Gilde B (dort im Protokoll "weitergegeben" > 0; bisher immer 0). Die
      Systemmeldung "kein Spieler … online" erscheint nicht im Chat.
@@ -75,14 +92,14 @@ IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.24
    - Echte Aktion einmal mit einem Test-Twink: Einladen, Befördern (auch aus der Aktivität und als Sammelaktion),
      Degradieren, Entfernen – kein "Aktion blockiert".
    - Letzter vollständiger Testlauf im Spiel ist noch 0.9.13 (09.11. 05:47 UTC): T82, T118, T143, T154 waren dort
-     FEHLER, offline seit 0.9.21 bestanden. Mit 0.9.24 erneut /gs testroutine. Dazu T45 "[Test], 0", Bereich K
-     (T182-T187, T237), T239-T243, Berufe-Knopf in Forever ohne "Aktion blockiert", issecretvalue nach dem Kampf,
+     FEHLER, offline seit 0.9.21 bestanden. Mit 0.9.25 erneut /gs testroutine. Dazu T45 "[Test], 0", Bereich K
+     (T182-T187, T237), T239-T248, Berufe-Knopf in Forever ohne "Aktion blockiert", issecretvalue nach dem Kampf,
      T168 (/gs testroutine whisperq), Bank-Charakter -> #gildenbank, Sprachwahl folgt ohne Einstellung dem Client.
 
 HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Die Sprache muss ohne Einstellung immer dem Client folgen (hinweis-sprachtest.txt).
    - Keine echten Spieler-, Gilden- oder Charakternamen und keine Discord-Links (hinweis-keine-spielernamen.txt).
    - Gemeinsame Dateien nur unverändert aus shared/ kopieren.
-   - Die Version muss höher sein als 0.9.24 (download/, announce/, CurseForge).
+   - Die Version muss höher sein als 0.9.25 (download/, announce/, CurseForge).
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
