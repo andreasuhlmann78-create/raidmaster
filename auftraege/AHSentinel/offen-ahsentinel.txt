@@ -73,9 +73,13 @@ MP1. (MITTEL) – URSACHE "MATERIALPREISE 25 STD. ALT TROTZ SCAN" NOCH NICHT BEH
    (VS.lastCommodities ~= nil) – auch wenn der letzte Scan ein normaler war. Die Scan-Art des letzten Scans beim
    SCAN_FINISHED mitgeben.
 
-JK. (MITTEL, NACH DEM GROSSEN TEST) – anweisung-jetzt-kaufen-verkaufen.txt (Entscheid des Nutzers 11.11. 20:07)
-   JK1–JK5 noch nicht begonnen (kam nach 0.65.95). Erst L1b und MP1, denn ohne frische Preise kein Signal (JK3).
-   Tests T-JK1–T-JK6.
+JK. ERLEDIGT in 0.65.96 (Nachtrag Prüf-Sitzung 20:50, addon_check OK, gemeinsame Dateien byte-gleich): JK1–JK5
+   umgesetzt (Tests T477–T483). Detailprüfung des Codes folgt mit der nächsten geplanten Nachprüfung.
+
+Q. (HOCH, NEU 11.11. 20:40) – anweisung-strategie-entzaubern-grenzen.txt (Analyse mit echten Preisleitern)
+   26–30 kaufen ≤ 8s 75c (AHS zeigte 13s 55c), 36–40 ≤ 18s 96c (AHS 25–27s und "[Entzaubern lohnt]" bei 21–28s).
+   ST1 Referenz-Nachrechnung in der Testroutine (> 5 % = FEHLER), ST2 "[Entzaubern lohnt]" nur unter der Grenze mit
+   frischen Preisen, ST3 Sniper-Ziele aus der Grenze (passen sich an). Nach PD1/PD5/MP1. T-ST1–T-ST3.
 
 L2b. (NIEDRIG) – ZUSAMMENFÜHREN: KOSTENBASIS BEI ENTZAUBERN UND HERSTELLEN DER ANDEREN SEITE
    Merge.lua:191–200 behandelt buy/sale/de/xfer. Ein "de" der anderen Seite zieht das entzauberte Item ab, legt die
