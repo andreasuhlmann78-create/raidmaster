@@ -1,0 +1,40 @@
+BEFUND DER PRÜF-SITZUNG FÜR AHSENTINEL: GROSSER TEST, TEIL SERVER MIT VOLLSCAN-MESSUNG (0.65.88, 11.11. 15:59)
+============================================================================================================
+Grundlage: SavedVariables AHSentinel.lua vom Nutzer (Laptop), GSTEST1-Bericht teil=server, time 1794408380:
+OK 57 · FEHLER 2 · übersprungen 3 · Sandbox FEHLER (1 Pfad). Davor zwei Läufe "auto": OK 499 · FEHLER 1 (T21).
+Erst laufende Arbeit fertig machen.
+
+ERGEBNIS VOLLSCAN-MESSUNG (VM1–VM3, belegt, 290'738 Auktionen, 5'450 Items)
+   Schritt (Summe ms / längster Frame ms):
+     Warten auf Server 15'889 / 77 · Ereignis-Aufruf 0 / 2 · Einlesen 11'854 / 33 · Verdichtung 680 / 63 ·
+     Verfolgung V4 2'264 / 39 · Preisverlauf+Neuaufbau 1'080 / 154 · Nachlauf 0 / 144
+   Längste Lücke zwischen zwei Frames: 154 ms (Preisverlauf+Neuaufbau). Kein Hänger > 1 s. M1c: neue Liste in 15,9 s.
+   Speicher (collectgarbage "count", ganzer Lua-Speicher): 496'756 -> 539'649 KB (+42 MB), 3 Speicherbereinigungen.
+   Deutung: Das "Einfrieren 10–15 s" von 0.65.84 tritt in 0.65.88 nicht mehr als Standbild auf. Es bleiben ~16 s
+   Verarbeitung mit 33–154 ms je Frame (fühlt sich als Ruckeln an: 7–30 Bilder/s) und +42 MB Müll mit 3 GC-Pausen.
+
+VF1 HOCH – VOLLSCAN GLATTER (der VORGEMERKTE Fix, jetzt freigegeben mit diesen Messwerten)
+   a) Jeder Schritt höchstens 8 ms je Frame, auch Preisverlauf+Neuaufbau (154 ms), Nachlauf (144 ms), Verdichtung
+      (63 ms), Einlesen (33 ms): Portionen nach gemessener Zeit schneiden (wie W4), nicht nach fester Anzahl.
+   b) Müll vermeiden: Tabellen je Auktion/Item wiederverwenden, keine Zeichenketten-Verkettung in der Schleife,
+      Leiter-Strings erst am Ende einmal bauen. Ziel: Zuwachs ≤ 10 MB, höchstens 1 GC je Vollscan.
+   c) Neuaufbau (Markt, Tooltip-Zwischenspeicher) nach dem Vollscan nur EINMAL und ebenfalls in Portionen.
+   d) Messung bleibt (VM1–VM3). Zusätzlich AHSentinels eigener Speicher (UpdateAddOnMemoryUsage + GetAddOnMemoryUsage
+      "AHSentinel") vor/nach – der ganze Lua-Speicher von ~500 MB ist sehr gross; zeigen, welcher Anteil AHSentinel ist.
+   Tests: T-VF1 Bericht: kein Schritt mit längstem Frame > 16 ms (FEHLER), Ziel ≤ 8 ms; T-VF2 Zuwachs ≤ 10 MB.
+
+VF2 HOCH – T52 "Unterboten": EIN ABBRUCH-VERSUCH BEI STATUS "LIEGEN"
+   ist: "Status liegen, Abbrechen-Versuche 1 (Selbsttest läuft - Kaufen und Einstellen sind gesperrt.) · fest: 10g
+   gegen 5g unterboten, 1c Abstand liegen" – soll: "liegen, 0 Befehl(e)".
+   Der Selbsttest-Riegel hat den Abbruch verhindert. Im echten Spiel wäre eine Auktion abgebrochen worden, die liegen
+   bleiben soll -> Einzahlung verloren. Prüfen, welcher Weg bei "liegen" CancelAuction auslöst (Unterbietung prüfen
+   nach U1–U4? Wächter?). Bei "liegen" darf NIE abgebrochen werden. Test T52 grün, dazu T-VF3: 30 eigene Auktionen,
+   alle "liegen" -> 0 Abbrüche, auch nach "Unterbietung prüfen".
+
+VF3 MITTEL – SANDBOX: "sniper.targets.i:6418.checked" wiederhergestellt
+   Der Sniper prüft während der Routine weiter Ziele (X6 betraf Treffer, nicht "checked"). Sniper während der Routine
+   ganz anhalten oder sniper.targets.*.checked von der Sandbox-Prüfung ausnehmen. T-X6b im Client erneut.
+
+VF4 NIEDRIG – T21 "2 Marktwerte <= 0" (siehe offen H): ItemIDs im Bericht nennen, Ursache, nil statt 0 speichern.
+
+Daten vom Laptop (zweiter Rechner) – Entzauber-Teil darum klein; Abgleich der Rechner: anweisung-sync-zusammenfuehren.txt.

@@ -22,6 +22,11 @@ Prüfungen: addon_check 0.65.90 OK (0 FEHLER). GoldSentinelGame/Sync/Test byte-g
 
 OFFENE PUNKTE
 -------------
+J. NEU (11. Nov. 16:15, HOCH) – befund-grosser-test-0688.txt (Teil server mit Vollscan-Messung, belegt)
+   Vollscan: kein Hänger > 1 s, aber Frames bis 154 ms und +42 MB Müll/3 GC -> VF1 glätten (≤ 8 ms je Frame, Müll
+   vermeiden, Neuaufbau einmal) = der VORGEMERKTE Fix, jetzt freigegeben. VF2 HOCH: T52 – bei "liegen" ein
+   Abbruch-Versuch (im Spiel Einzahlung weg) – nie abbrechen. VF3 Sandbox sniper.targets.*.checked. VF4 = H.
+
 H. T21 "Scan: Marktdaten plausibel" (Schwere: NIEDRIG): "5610 Items, 5610 mit Marktwert, 2 Marktwerte <= 0".
    Welche zwei Items (ItemID im Bericht), warum <= 0 (Händlerpreis 0? Lockangebot?), und Marktwert <= 0 beim Speichern
    verhindern (nil statt 0). Testfall T-H21.
@@ -65,8 +70,7 @@ HINWEIS DES NUTZERS (10. Nov. 16:48): Sobald alle offenen Punkte umgesetzt und g
 grossen Test im Spiel ("/ahs testroutine alles"). Bitte nach dem letzten Release dem Nutzer ausdrücklich melden:
 "alles umgesetzt – bereit für den Test", mit Version. Für den Test nötig: erledigt; E–H dürfen folgen.
 
-VORGEMERKT (NACH DEM GROSSEN TEST – jetzt NICHT umsetzen): Behebung des Vollscan-Hängers (10–15 s beim Nutzer mit
-0.65.84). Wird nach dem Testlauf mit den Messwerten aus Punkt 2 beauftragt.
+VORGEMERKT Vollscan-Hänger: jetzt beauftragt als J/VF1 (Messwerte 11.11.).
 
 IM CLIENT PRÜFEN (mit 0.65.87 bzw. der nächsten Version)
 --------------------------------------------------------
