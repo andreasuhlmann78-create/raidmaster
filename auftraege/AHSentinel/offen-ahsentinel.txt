@@ -76,6 +76,13 @@ MP1. (MITTEL) – URSACHE "MATERIALPREISE 25 STD. ALT TROTZ SCAN" NOCH NICHT BEH
 JK. ERLEDIGT in 0.65.96 (Nachtrag Prüf-Sitzung 20:50, addon_check OK, gemeinsame Dateien byte-gleich): JK1–JK5
    umgesetzt (Tests T477–T483). Detailprüfung des Codes folgt mit der nächsten geplanten Nachprüfung.
 
+AB. (HOCH, NEU 11.11. 22:15) – befund-bilder-2205.txt (Bilder 0.65.96 + Daten 22:07)
+   AB1 Abbrechen geht laut Nutzer nicht sauber; aktive Auktionen bleiben Status "?" -> nichts "unterboten".
+   AB2 Lua-Fehler "bad argument #1 ... PostCommodity" nach erfolgreichem Einstellen. AB3 Preis 27s29 statt 27s26.
+   AB4 Seelenstaub-Aufkauf (12s98 statt ~4s): Aufkauf-Schutz für Entzauber-Wert, Chance für "Jetzt verkaufen".
+   AB5 altes Material (87s35, vor 25 Std.) floss in Betrag und "Lohnt bis" (0.65.94) – in 0.65.96 bestätigen.
+   Reihenfolge: AB2 und AB1 vor allem anderen (Nutzer verliert sonst Zeit beim Handeln).
+
 Q. (HOCH, NEU 11.11. 20:40) – anweisung-strategie-entzaubern-grenzen.txt (Analyse mit echten Preisleitern)
    26–30 kaufen ≤ 8s 75c (AHS zeigte 13s 55c), 36–40 ≤ 18s 96c (AHS 25–27s und "[Entzaubern lohnt]" bei 21–28s).
    ST1 Referenz-Nachrechnung in der Testroutine (> 5 % = FEHLER), ST2 "[Entzaubern lohnt]" nur unter der Grenze mit

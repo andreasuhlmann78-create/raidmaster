@@ -1,0 +1,50 @@
+BEFUND AHSENTINEL – Bilder des Nutzers 11.11. 19:31 (0.65.94) und 22:05/22:06 (0.65.96), Daten 22:07
+=========================================================================================================
+Von der Prüf-Sitzung. Erst laufende Arbeit fertig machen, dann diesen Befund.
+Daten: privates Daten-Repo (Uploader-Lieferung 22:07, Hauptrechner), Vollscan-Leiter von 22:07.
+
+AB1 – Abbrechen von Auktionen geht laut Nutzer "immer noch nicht sauber" (0.65.96, trotz VF5-Behebung in 0.65.93).
+  Bild 22:05, Verkaufen > Meine Auktionen: die zwei AKTIVEN Auktionen (17x Große Mystikeressenz 27s29, 3x Großer
+  leuchtender Splitter 34s31) haben Status "?" und Günstigstes "-", Kopf "0 unterboten", "prüfe Preise ... (5 offen)".
+  Solange der Status "?" bleibt, kann "Nächste unterbotene abbrechen" nichts finden.
+  Auftrag:
+  - Status der aktiven Auktionen muss nach der Preisprüfung feststehen (liegen / unterboten), nie dauerhaft "?".
+    Kann die Prüfung nicht laufen (AH zu, Drosselung), steht der Grund in der Zeile statt "?".
+  - Abbrechen (X und Knopf) Schritt für Schritt protokollieren (Testlog): gewählte Zeile, auctionID, Menge,
+    Ergebnis-Ereignis (AUCTION_CANCELED / Fehlermeldung des Servers). Nach dem Abbrechen verschwindet die Zeile sofort,
+    die Ware wird als zurück in der Post gebucht.
+  - Testroutine: Teilverkauf + Abbrechen der Restmenge, zwei Auktionen desselben Items mit verschiedenem Preis,
+    Abbrechen während "prüfe Preise" läuft.
+  Genaue Beschreibung des Nutzers folgt (was er klickt, was passiert) – wird nachgetragen.
+
+AB2 – Einstellen meldet einen Lua-Fehler nach erfolgreichem Einstellen (0.65.96, 22:06).
+  Chat: "[AHSentinel] Eingestellt: 17x Große Mystikeressenz für 27s26/Stück (Einstellgebühr 1s). Auktion erstellt."
+  Danach im Fenster rot: "Einstellen fehlgeschlagen: bad argument #1 to '?' (Usage: local needsConfirmation =
+  C_AuctionHouse.PostCommodity(item, duration, quantity, unitPrice))", rechts "Nicht mehr in deinen Taschen",
+  "Auktionen à 1 Stück (von 0)", Menge 17 bleibt stehen.
+  Ursache vermutet: ein zweiter Aufruf (zweiter Klick, Serie oder Wiederholung) mit leerer ItemLocation, weil die
+  Ware schon eingestellt ist.
+  Auftrag: vor PostCommodity/PostItem prüfen, dass die ItemLocation gültig ist und die Menge in den Taschen
+  vorhanden ist; sonst nicht aufrufen und verständlich melden ("Schon eingestellt" / "Nicht mehr in den Taschen").
+  Knopf "Einstellen" nach Erfolg sperren, bis ein Item gewählt ist. Nie die rohe Lua-Meldung zeigen. Test dazu.
+
+AB3 – Preis in der Liste weicht vom eingestellten Preis ab (prüfen).
+  Eingestellt 27s26/Stück (Chat), in "Meine Auktionen" steht 27s29. Klären, woher die 3 Kupfer kommen (Rundung,
+  Gesamt / Menge, anderer Eintrag). Die Liste zeigt genau den Preis, den der Server führt.
+
+AB4 – Seelenstaub: Aufkauf im Gange (Daten 22:07).
+  Leiter Vollscan 22:07: Seelenstaub (11083) günstigstes Angebot 12s98 (303 Stk. bis 12s99, 2360 gesamt). Der Nutzer
+  hat kurz vorher Seelenstaub zu 4s04 verkauft; 11.11. ~16:00 lag er bei 3s95. Das ist ein Aufkauf (Faktor 3).
+  Große Astralessenz 13s18, Großer gleißender Splitter 21s71 – normal.
+  Auftrag: Das Aufkauf-Kennzeichen (MP3, db.buyouts) muss hier greifen: Entzauber-Wert, "Lohnt bis", Markt
+  "Entzaubern" und Sniper rechnen Seelenstaub mit dem Preis vor dem Aufkauf (um 4s), nicht 12s98. Zum Verkaufen
+  ist der hohe Preis dagegen eine Chance: "Jetzt verkaufen" für Seelenstaub im Lager (JK), mit Hinweis "Aufkauf –
+  Preis kann schnell fallen". Bitte mit diesen echten Daten prüfen, ob 0.65.96 das schon tut, und im Testlog zeigen.
+
+AB5 – Alter Materialpreis im Tooltip (Bild 19:31, noch 0.65.94 – in 0.65.96 nachprüfen).
+  Azurblaue Seidenkapuze: Großer gleißender Splitter "87s35 geschätzt, alt (vor 25 Std.), unsicher", trotzdem
+  "Entzaubern 16s27 (+81 %)" und "Lohnt bis 13s55". Mit echten Preisen (22:07) ist das Teil beim Entzaubern rund
+  9s50 wert (Staub 1,5 × 71 % zu 4s, Essenz 1,5 × 20 % zu 13s18, Splitter 8,3 % zu 21s71, minus 5 %), also etwa
+  Marktwert 9s – kein Gewinn. Seit MP2 (0.65.95) darf bei Hauptmaterial älter als 6 Std. kein Betrag und kein
+  "Lohnt bis" mehr erscheinen. Bitte bestätigen, dass ein "alt (vor X Std.)"-Material nie in einen Betrag eingeht,
+  auch nicht als Nebenmaterial mit grossem Anteil am Wert (hier Splitter = 1/3 des berechneten Werts).
