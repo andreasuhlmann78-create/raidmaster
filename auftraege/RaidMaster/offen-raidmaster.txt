@@ -134,3 +134,11 @@ NEU (11. Nov. 21:55, HOCH, beim Nutzer) – DATEN-LIEFERUNG SCHLÄGT FEHL: "Prü
    ssl.create_default_context() mit load_default_certs); ungültiger Header -> Token-Prüfung (T-DU7); Proxy ->
    urllib ProxyHandler wie im Discord-Weg. (c) Ein Knopf/Befehl "Daten-Verbindung testen" (GET /repos/<repo>, zeigt
    Ergebnis). Test T-DU9: jede Ausnahmeart -> eigene, verständliche Meldung, nie der Token.
+   BELEGT 21:56 (Test beim Nutzer, Python 3.15 aus dem Python-Installationsmanager, pythoncore-3.15-64):
+   urlopen('https://api.github.com') -> ssl.SSLCertVerificationError CERTIFICATE_VERIFY_FAILED "unable to get local
+   issuer certificate". Discord geht (anderes Stammzertifikat). Ursache: Windows lädt fehlende Stammzertifikate erst nach,
+   wenn ein Windows-Programm (Edge/Chrome) die Seite öffnet; Python liest nur die vorhandene Ablage.
+   Für T-DU9: bei CERTIFICATE_VERIFY_FAILED die Meldung "Zertifikat für GitHub fehlt in Windows – einmal
+   https://api.github.com im Browser (Edge) öffnen, dann Uploader neu starten" ausgeben; zusätzlich prüfen, ob der
+   Uploader beim Start (Windows) einen Abruf über die Windows-Zertifikatsprüfung anstossen kann (z. B. PowerShell
+   Invoke-WebRequest https://api.github.com einmal im Hintergrund), bevor er aufgibt. Keine Prüfung abschalten.
