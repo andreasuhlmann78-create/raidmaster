@@ -202,6 +202,11 @@ Um zu erfahren, ob ein höherer Preis noch verkauft, gelegentlich leicht höher 
 
 ---
 
+- **M-Woche (neu 11.11.):** Preise und Angebotsmenge der 20 wichtigsten Waren je Wochentag und Tageszeit aus den
+  Vollscans (Daten-Repo, 7 Tages-Stände) – prüft 8e Nr. 14 für Forever. Auswertung durch die Prüf-Sitzung.
+- **M-Aufkauf (neu 11.11.):** Seelenstaub ab 11.11. 22:07 (12s98, sonst ~4s): wie viele Stunden bis unter 6s? Prüft
+  8e Nr. 13 und gibt die Zeit, die "Jetzt verkaufen" bei einem Aufkauf hat.
+
 ## 8. Sniping, Flippen, Handel – Grundsätze (Wunsch des Nutzers 10.11. 09:28: "in allen Bereichen der Beste")
 
 Sniper heute (Sniper.lua): Ziele mit Höchstpreis/Menge/Budget, sucht selbst der Reihe nach, kauft nur per Tastendruck
@@ -349,10 +354,17 @@ sagt, ob sie in WoW Forever schon gemessen ist (belegt) oder noch zu messen ist 
 | 9 | **Streuen, nicht horten:** nie zu viel Gold in einer Ware; ein Konkurrent oder ein Angebotsschock kann den Preis zerstören. | Q1, Q4 | **belegt** (Splitter-Aufkauf 10.11.) -> 25 % gesamt, Vorschlag 10 % je Item |
 | 10 | **Snipen nur unter der eigenen Grenze;** Fehl-Einstellungen und Ausverkäufe sind die besten Käufe. | Q1, Q4, Q6 | belegt (Sniper-Käufe 11.11.), Grenze muss stimmen (8d) |
 | 11 | **Kapital und Buchführung sind Pflicht** für Handel im grösseren Stil; mit wenig Gold zuerst sammeln/entzaubern. | Q4, Q5 | – (Buchhaltung neu, BP) |
+| 12 | **Grüne zum Entzaubern nur kaufen, wenn Materialwert (nach Gebühren) > Kaufpreis; Obergrenze je Stufenband aus dem aktuellen Staub-/Essenzpreis ableiten**, nicht fest. Ausbeute schwankt (1–2 Staub) – mit Durchschnitt rechnen. | Q7, Q4, eigene Analyse 8d | **belegt** (Entzauber-Ergebnisse N 326, Grenzen 8d) |
+| 13 | **Aufkauf von Massenware hält nur kurz:** Konkurrenten stellen knapp darunter ein, bei viel Angebot ist der Preis in Stunden zurück. -> In einen Aufkauf hinein VERKAUFEN, nie dazu kaufen; Entzauber-Rechnung mit dem Preis vor dem Aufkauf. | Q8, eigene Messung | **belegt** (Splitter 10.11.: Spitze 1g15, wenige Messpunkte später 23–24s; Seelenstaub 11.11. 22:07 12s98 statt ~4s – Verlauf messen) |
+| 14 | **Einkauf zum Wochenbeginn, Verkauf gegen das Wochenende bzw. vor den Raidabenden;** Sonntagabend/Montag fallen die Preise (Wochenend-Beute wird eingestellt). | Q9, Q2, Q4 | vermutet – Forever-Rhythmus mit Vollscans je Wochentag messen (Messauftrag M-Woche) |
+| 15 | **Gewinn pro Zeit statt Gewinn pro Stück:** jeden Kauf an (Netto-Gewinn ÷ erwartete Haltezeit) messen; schnell drehende Ware mit kleiner Marge schlägt langsame mit grosser. Gebundenes Gold begrenzen. | Q10, Q11, Q1 | teils belegt (Material verkauft in Minuten, grüne Teile langsam) |
+| 16 | **Alterung mit Stufen und Boden:** Ware, die nach der erwarteten Zeit nicht verkauft ist, zuerst Preis prüfen (Konkurrenz?), dann stufenweise senken – nie unter den Boden (Break-even nach Gebühren); danach anderer Weg (Händler, Entzaubern, Herstellen). | Q10, Q11 | vermutet – Schwellen für Forever aus Verkaufszeiten ableiten |
 
 Nicht aufgenommen (nur eine Quelle oder nicht übertragbar): neutrale AH-Häuser mit 15 % (in Forever nicht geprüft),
 "Wettbewerber offline abwarten" (Q2, spätes Spiel), Preis-Wucher durch Aufkauf (ethisch fraglich, Q1 – AHSentinel
-macht das nicht).
+macht das nicht). Weiterbildung 11.11. 22:30, nur eine Quelle: kleine Grüne an andere Verzauberer über 1,5 × Staubpreis
+verkaufen (Q7); kleinen Vorrat häufig gehandelter Materialien gegen kurze Preisspitzen halten (Q2); Markt selbst
+"zurücksetzen" durch Aufkauf (Q8 – Risiko gebundenes Gold, AHSentinel macht das nicht).
 
 Quellen: Q1 [Warcraft Tavern – Gold and Trading Guide](https://www.warcrafttavern.com/wow-classic/guides/gold-and-trading-guide/) ·
 Q2 [Engadget – What days should you buy or sell on the AH](https://www.engadget.com/2012/02/07/what-days-should-you-buy-or-sell-on-the-auction-house/) ·
@@ -360,6 +372,11 @@ Q3 [AccountShark – WoW Forever gold making guide](https://accountshark.net/blo
 Q4 [Timesaver – Classic Era AH flipping](https://timesaver.gg/blog/wow-classic-era-auction-house-flipping-gold) ·
 Q5 [AccountShark – Forever, Abschnitt Timing (9.12.)](https://accountshark.net/blog/wow-forever-gold-making-guide) ·
 Q6 [TSM-Grundlagen (Engadget Gold Capped)](https://www.engadget.com/2011-03-21-gold-capped-tradeskillmaster-advanced-guide.html) ·
+Q7 [Engadget – Selling vs. Disenchanting](https://www.engadget.com/2009-03-14-time-is-money-selling-vs-disenchanting.html) ·
+Q8 [Dealmaker's Den – Resetting AH prices](https://dealmakers-den.blogspot.com/2011/07/how-to-reset-auction-house-prices.html) ·
+Q9 [Almar's Guides – Classic Auction House](https://almarsguides.com/WoW/Farming/Classic/AuctionHouse/) ·
+Q10 [Underpriced – Inventory turnover for resellers](https://www.underpriced.app/blog/inventory-turnover-guide-for-resellers-2026) ·
+Q11 [Red Stag – Slow-moving inventory](https://redstagfulfillment.com/how-to-identify-slow-moving-inventory) ·
 dazu Icy Veins (Abschnitt 5 dieser Datei). Hinweis: Q3 und Q5 sind dieselbe Seite – zählen als EINE Quelle.
 
 ## 9. Pflege dieser Datei

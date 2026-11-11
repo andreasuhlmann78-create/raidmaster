@@ -92,6 +92,13 @@ Q. (HOCH, NEU 11.11. 20:40) – anweisung-strategie-entzaubern-grenzen.txt (Anal
    ST1 Referenz-Nachrechnung in der Testroutine (> 5 % = FEHLER), ST2 "[Entzaubern lohnt]" nur unter der Grenze mit
    frischen Preisen, ST3 Sniper-Ziele aus der Grenze (passen sich an). Nach PD1/PD5/MP1. T-ST1–T-ST3.
 
+R. (NIEDRIG, NEU 11.11. 22:40) – neue geprüfte Strategien markt-strategie.md 8e Nr. 15/16 (je 2+ Quellen)
+   R1 Kauf-Empfehlungen (Markt, Sniper, Heute) zusätzlich nach Gewinn pro Stunde Haltezeit ordnen (Netto-Gewinn ÷
+      erwartete Verkaufszeit), nicht nur nach Gewinn je Stück.
+   R2 Alterung eigener Auktionen: nach der erwarteten Verkaufszeit zuerst Konkurrenz prüfen, dann stufenweise
+      senken, nie unter den Boden (Break-even nach Gebühren); danach Händler/Entzaubern vorschlagen.
+   Erst nach AB und Q.
+
 L2b. (NIEDRIG) – ZUSAMMENFÜHREN: KOSTENBASIS BEI ENTZAUBERN UND HERSTELLEN DER ANDEREN SEITE
    Merge.lua:191–200 behandelt buy/sale/de/xfer. Ein "de" der anderen Seite zieht das entzauberte Item ab, legt die
    Materialien aber nicht dazu (das Log hat keine Material-Zeilen); "craft" wird gar nicht nachgebucht (Zutaten ab,
