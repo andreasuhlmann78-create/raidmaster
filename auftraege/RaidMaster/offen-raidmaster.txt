@@ -109,3 +109,12 @@ HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Versionen höher als Addon 3.0.22, Bot 1.5.113, Uploader 2.1.1.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
+
+PRÜFUNG 11. Nov. 20:00 – Uploader 2.1.1 / Bot 1.5.113 (Abgleich PC/Laptop), Meldung der Sitzung 19:50 gelesen
+   Tests im Repo grün (RaidMasterUploader/tests: 24 passed). Schnittstelle AHSentinelMerge passt zu AHSentinel 0.65.91+
+   (db wird gelesen); Feldnamen von/zeit vs. from/t – Anpassung bei AHSentinel beauftragt (offen-ahsentinel N).
+   Hinweise: (1) Gewinner je Datei nach mtime – laufen die Uhren der Rechner auseinander, gewinnt die falsche Datei;
+   bitte zusätzlich die Upload-Reihenfolge (seq) berücksichtigen bzw. bei < 10 Min. Unterschied als Konflikt behandeln.
+   (2) Daten liegen unverschlüsselt im privaten Kanal – vom Nutzer zu entscheiden (siehe unten).
+   Entscheide des Nutzers zu "_retail_ ausschliessen" und "Jetzt-abgleichen.bat" folgen.
+
