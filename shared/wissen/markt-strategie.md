@@ -299,6 +299,38 @@ nur geht." Ablauf, immer gleich:
 Messgrösse "so gut wie es geht": Trefferquoten je Empfehlungsart ≥ 60–70 %, Buchhaltung geht auf den Kupfer auf,
 Entzauber-Beute/Vorhersage ≈ 1,0, keine Ruckler > 16 ms, keine Datenverluste.
 
+## 8d. Strategie Entzaubern – genaue Einkaufsgrenzen (Analyse der Prüf-Sitzung, 11.11. 20:35)
+
+Ziel des Nutzers (20:29): "bei jedem Trade oder Entzaubern dick Gold verdienen". Gold beim Entzaubern entsteht beim
+EINKAUF: wer nur unter der Grenze kauft, verdient sicher; wer darüber kauft, verliert auch bei guter Beute.
+Grundlage: Vollscan Laptop 11.11. ~16:00 (290'738 Auktionen), Preisleiter je Material; Verkauf = günstigstes Angebot
+−1c, davon 95 % (AH-Anteil); Chancen/Mengen gemessen (deStats) bzw. Forever-Tabelle (vermutet).
+
+| Material | günstigst | Menge bis +1 % |
+|---|---|---|
+| Seelenstaub 11083 | 3s 95c | ~570 |
+| Große Astralessenz 11082 | 14s 20c | ~120 |
+| Großer gleißender Splitter 11084 | 27s 79c | ~150 (der "1g 15s"/"87s" waren Aufkauf bzw. alte Preise) |
+| Visionenstaub 11137 | 11s 93c | ~580 |
+| Große Mystikeressenz 11135 | 31s 22c | ~130 |
+| Großer leuchtender Splitter 11139 | 37s 86c | ~130 |
+| Geringe Mystikeressenz 11134 | 9s 22c | – |
+| Kleiner leuchtender Splitter 11138 | 12s 54c | – |
+
+| Grüne Rüstung | Wert je Teil (netto) | **Kaufen höchstens (20 % Gewinn)** | Grundlage |
+|---|---|---|---|
+| Stufe 26–30 | 10s 50c | **8s 75c** | gemessen 71/21/8,5 %, Ø 1,52/1,49/1,0 (N 312) |
+| Stufe 31–35 | 13s 05c | **10s 87c** | Tabelle 75/20/5 %, Seelenstaub Ø 3,5 (vermutet) |
+| Stufe 36–40 | 22s 75c | **18s 96c** | gemessen 72,9/20/7,1 %, Ø 1,52/1,29/1,0 (N 85) |
+
+**Befund:** AHSentinel zeigte am 11.11. für Stufe 36–40 "Lohnt bis" 25s 42c bzw. 26s 90c (Materialpreise alt: Visionenstaub
+16s 56c statt 11s 93c, Mystikeressenz 30s 38c, Splitter 36s 94c) und markierte Teile zu 21–28s als "[Entzaubern lohnt]"
+– nach den echten Preisen sind diese Käufe Verlust oder Nullsummen. Für Stufe 26–30 zeigte es 13s 55c (Splitter 87s).
+-> Die grösste Goldquelle ist hier nicht eine neue Funktion, sondern KORREKTE Grenzen (Punkt L/MP, PD).
+**Regeln:** Grenzen gelten für Rüstung; Waffen haben 20/75/5 (Essenz-lastig) und eigene Grenzen. Grenzen ändern sich
+mit den Materialpreisen – immer aus frischer Leiter rechnen; beim Kauf vieler Teile sinkt der Materialpreis (eigene
+Menge in die Leiter einrechnen, D3). Bei Aufkauf eines Materials mit dem Preis davor rechnen (D6).
+
 ## 9. Pflege dieser Datei
 
 - Neue Messung oder Entscheid des Nutzers -> hier eintragen (mit Datum), Status belegt/vermutet.

@@ -1,0 +1,27 @@
+ANWEISUNG DER PRÜF-SITZUNG FÜR AHSENTINEL: ENTZAUBERN – GRENZEN MÜSSEN STIMMEN (Analyse 11.11. 20:35)
+==================================================================================================
+Erst laufende Arbeit fertig machen. Gehört zu L (MP1–MP3) und P (PD1, PD5). Pflichtlektüre: markt-strategie.md 8d.
+
+Ziel des Nutzers: "bei jedem Trade oder Entzaubern dick Gold verdienen". Unabhängige Nachrechnung der Prüf-Sitzung
+aus dem Vollscan 11.11. ~16:00 (echte Preisleitern, Verkauf = günstigstes −1c, × 0,95, gemessene Chancen):
+   Stufe 26–30 Rüstung: Wert 10s 50c -> kaufen höchstens 8s 75c   (AHSentinel zeigte 13s 55c)
+   Stufe 31–35 Rüstung: Wert 13s 05c -> kaufen höchstens 10s 87c  (Tabelle, vermutet)
+   Stufe 36–40 Rüstung: Wert 22s 75c -> kaufen höchstens 18s 96c  (AHSentinel zeigte 25s 42c / 26s 90c und markierte
+                        Teile zu 21–28s als "[Entzaubern lohnt]" – Verlust)
+Ursache: alte/Aufkauf-Materialpreise (Visionenstaub 16s 56c statt 11s 93c, Splitter 87s statt 27s 79c).
+
+ST1 HOCH – REFERENZ-PRÜFUNG IN DER TESTROUTINE (Teil server und auto mit Vollscan-Daten)
+   Die Testroutine rechnet für die Gruppen 2:4:a, 2:5:a, 2:6:a (und Waffen 2:x:w) den Wert aus der Vollscan-Leiter
+   UNABHÄNGIG nach (eigene kleine Rechnung: günstigstes −1c × 0,95 × Chance × Ø Menge) und vergleicht mit dem Wert, den
+   Tooltip/"Lohnt bis"/Markt/Sniper verwenden. Abweichung > 5 % = FEHLER mit Angabe, welches Material abweicht und
+   woher dessen Preis stammt (Quelle, Alter). Im Bericht eine Zeile je Gruppe: "26–30: Wert 10s 50c · lohnt bis
+   8s 75c · Quelle frisch (3 Min.)".
+ST2 HOCH – "[ENTZAUBERN LOHNT]" NUR UNTER DER GRENZE
+   Die Markierung im Einkauf und im Markt nur, wenn Preis ≤ Lohnt bis (20 %) mit frischen Preisen. Sonst keine
+   Markierung (auch nicht "unsicher lohnt").
+ST3 MITTEL – SNIPER-ZIELE AUS GRENZEN
+   "Ziel aus Entzaubern" setzt den Höchstpreis = Lohnt bis der Gruppe (frisch), nicht aus dem Item-Marktwert. Ändert
+   sich die Grenze um > 5 % (neue Materialpreise), passt der Sniper das Ziel an und meldet es einmal im Chat.
+Tests: T-ST1 Vollscan-Nachbildung mit obigen Leitern -> Wert 26–30 = 1050c ± 2 %, 36–40 = 2275c ± 2 %;
+       T-ST2 Materialpreis 25 Std. alt -> keine "[Entzaubern lohnt]"-Markierung; T-ST3 Grenze sinkt 10 % -> Sniper-Ziel
+       angepasst + eine Chat-Zeile.
