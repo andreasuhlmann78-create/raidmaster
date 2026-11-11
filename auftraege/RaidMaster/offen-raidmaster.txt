@@ -122,3 +122,15 @@ NEU (11. Nov. 21:40, HOCH, beim Einrichten beim Nutzer) – daten_config.json vo
    Anführungszeichen „ " " ersetzen; (d) Daten-Repo-einrichten.bat: Token-Eingabe sichtbar maskiert (Sternchen) oder
    Hinweis "Rechtsklick zum Einfügen" (siehe Punkt T-DU7). Test T-DU8: Datei mit BOM -> geladen; ohne token -> Meldung
    "token fehlt".
+
+NEU (11. Nov. 21:55, HOCH, beim Nutzer) – DATEN-LIEFERUNG SCHLÄGT FEHL: "Prüfung: kein Netz oder GitHub nicht erreichbar"
+   Uploader 2.3.0, daten_config.json wird jetzt gelesen ("liefert nach jedem /reload …"). Jeder Versuch (21:47:47,
+   21:50:48) endet nach 5–10 s mit "kein Netz oder GitHub nicht erreichbar", gleichzeitig klappen Discord-Upload und
+   Abgleich (Netz ist da). Schon Daten-Repo-einrichten.bat meldete dasselbe. Repo ist privat, nicht leer (README).
+   daten.py :130 fasst URLError, OSError und ValueError zu einer Meldung zusammen – die Ursache ist so nicht sichtbar.
+   Lösung: (a) die echte Ursache melden, ohne Token: Typ und Text der Ausnahme (z. B. "SSL: CERTIFICATE_VERIFY_FAILED",
+   "Invalid header value", "getaddrinfo failed", "timed out"), bei URLError e.reason. (b) Je nach Ursache beheben:
+   SSL -> Zertifikate wie beim Discord-Weg (gleicher SSL-Kontext; ggf. certifi-freie Windows-Zertifikatsablage
+   ssl.create_default_context() mit load_default_certs); ungültiger Header -> Token-Prüfung (T-DU7); Proxy ->
+   urllib ProxyHandler wie im Discord-Weg. (c) Ein Knopf/Befehl "Daten-Verbindung testen" (GET /repos/<repo>, zeigt
+   Ergebnis). Test T-DU9: jede Ausnahmeart -> eigene, verständliche Meldung, nie der Token.
