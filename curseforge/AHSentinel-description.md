@@ -12,6 +12,23 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.96
+
+- **AHSentinel now tells you when to buy and when to sell – but only when it knows it from its own measurements.**
+  One tooltip line, only if proven: "Cheap now – buy (−x % below usual)", "Falling – wait", "Expensive now – sell
+  (+x % above usual)" or (your own goods / Sell tab) "Don't sell now – better at <hour> (+x %)". Otherwise no line.
+  The same line appears in the Buy and Sniper details and in the Sell tab (there only the selling variants).
+- **Rhythm for all items from the scan:** once per hour each item's lowest price and quantity (sales = quantity drop)
+  are stored compactly per hour of day and weekday (own weekly rhythm, e.g. raid days from 9.12.). Items without
+  offers for 14 days are removed; even 5,000 items stay below 2 MB.
+- **Honest:** only with a fresh price (≤ 30 min), never with a buyout flag or outdated material prices, only from
+  ≥ 7 days of data and ≥ 3 values for this hour, and only if the deviation is ≥ 10 % and outside the item's normal
+  fluctuation. "Buy" never into a fall: if the daily price has been falling for 2 days, it says "Falling – wait".
+- **Every line is checked afterwards** (24 hours later or at the named time). A signal type with less than 60 % hits
+  (from 20 cases) is hidden until it is better again. Hit rates are in the test report. With Shift and too little data:
+  "Rhythm: N more days of measuring".
+- Tests T477–T483 (T-JK1–T-JK6).
+
 ### Version 0.65.95
 
 - **"Worth up to" in every tooltip of a disenchantable item** – also in your bags, bank, mail, chat links, at the
@@ -68,16 +85,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - Market values of 0 or less are no longer possible (a price of 0 is not stored); the self-test names the items.
 - Test routine: the sniper's "last checked" time no longer counts as a sandbox error.
 - Tests T458–T460 (T-VF1–T-VF3).
-
-### Version 0.65.91
-
-- **Merge data from two computers.** If you played on two computers without syncing in between, the GoldSentinel
-  uploader can hand AHSentinel the other computer's data (saved variable `AHSentinelMerge`). On the next login
-  AHSentinel merges it once and empties it: disenchant results are combined without counting anything twice (only
-  missing results are added – nothing is ever lost), purchases, bookings and forecast cases are combined, price
-  history is combined per item, the newer full scan and character data win, and your settings on this computer stay.
-  Chat: "Data from the other computer merged: …".
-- Tests T454–T457 (T-ZM1–T-ZM4).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
