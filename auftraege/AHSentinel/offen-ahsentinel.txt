@@ -1,61 +1,30 @@
-OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.87)
+OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.90)
 ===========================================================
-Stand: 11. November 2026, 14:25 · von der Prüf-Sitzung · Grundlage: download/AHSentinel-0.65.87.zip (Diff gegen 0.65.86).
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.65.86 samt allen
-"NEU"-Nachträgen vom 10. und 11. November.
+Stand: 11. November 2026, 15:55 · von der Prüf-Sitzung · Grundlage: download/AHSentinel-0.65.88/0.65.89/0.65.90.zip.
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.65.87.
 Regel seit 9. Nov.: Nur die AHSentinel-Sitzung ändert und veröffentlicht AHSentinel (raidmaster/CLAUDE.md).
 
-REIHENFOLGE (bis zum grossen Test): A X3–X8 (befund-testroutine-0686) -> B D1–D6 (befund-markt-entzaubern-menge) ->
-C S8 (Einkauf "~"-Zeilen) -> D BP1–BP7 (anweisung-buchhaltung-profi, zuerst shared/wissen/buchhaltung.md lesen) -> Rest.
-Danach dem Nutzer melden: "alles umgesetzt – bereit für den Test" (mit Version).
+STAND: Alle Punkte für den grossen Test sind umgesetzt (danke). Der Nutzer macht jetzt den grossen Test
+("/ahs testroutine alles" am offenen AH bzw. "/ahs testroutine server"). Bitte bis zur Auswertung keine grösseren
+Umbauten; nur noch E–G nebenbei.
 
-Erledigt in 0.65.87 (danke)
----------------------------
-- Punkt 0 Lua-Fehler "secret string": saleFrame prüft G.AnySecret vor jedem Zugriff (Seller.lua:1488–1491), weitere
-  Ereignis-Empfänger ebenso (laut CHANGELOG: Kauf, Post, Einstellen, altes AH). T-0.
-- Punkt 1 Unterbietung U1–U4: nur aktive, je Item eine Suche, EIN Neuaufbau am Ende, LANGSAM > 50 ms. T-UP1–T-UP3.
-- Punkt 2 Vollscan-Messung VM1–VM3: Messung je Schritt, längste Frame-Lücke, Speicher/GC, Abschnitt "Vollscan-Messung"
-  im Teil server, Schritt/Lücke > 1 s = FEHLER. Am Vollscan sonst nichts geändert. T-VM1/T-VM2.
-- X1 Deckel der Preisleiter nur mit bereinigtem Scan-Preis (Disenchant.lua D:MatPrice), sonst "market, unsicher". T-X1.
-- X2 "abgefragt, leer" = nichts im AH (Ledger.lua:1198–1203, Se.ownedTime); Rückfall nur wenn nie abgefragt. T-X2a/b.
-- S7 tote Angebote je auctionID ausgeblendet (bis 48 Std.), zählen nirgends, Statuszeile + SNIPER-TOT-AUSGEBLENDET,
-  SNIPER-PAUSE nach 3 Fehlschlägen. T-SR7a–c.
-- Punkt 3 "nicht entzauberbar": Klassen nur fest (Zauberstab "2:19", Disenchant.lua:103), gelernt je Item, Klasse erst
-  ab 3 Items; deNever in "Gesperrt (N)" mit Freigeben. T-ME10/T-ME11.
-Prüfungen: addon_check 0.65.87 OK (0 FEHLER). GoldSentinelGame/Sync/Test byte-gleich mit shared/. Testfälle T410–T424
-im Client noch nicht gelaufen.
+Erledigt in 0.65.87 (Punkt 0, U1–U4, VM1–VM3, X1, X2, S7, Punkt 3 – siehe frühere Fassung)
+Erledigt in 0.65.88: X3–X8 (Tests mit allen Preisquellen, nParts = geplante Menge, Sandbox ohne echten Sync/Sniper,
+  keine Namen im Bericht, Rechnungen der Prognose wieder zugeordnet, Entzauber-Prognose zerlegt), D1–D6 (Preisleiter-
+  Summen, 25 % auf echte Kosten und Sniper-Budget, Wert sinkt mit Menge, Sicherheit "mittel" + "ohne Anstieg",
+  "Stufe ?", Aufkauf-Kennzeichen), S8 (itemKey über Browse, leere Detailsuche nimmt die Zeile raus). T425–T440.
+Erledigt in 0.65.89: BP1–BP7 Buchhaltung neu (Books.lua: Stichtag, alte Buchungen nur Statistik, Kostenbasis je Item
+  und Charakter, Entzaubern/Post als Umbuchung, Verkauf "ausstehend" über die eigene Auktionsliste, EIN Endergebnis
+  "Gewinn", Tooltip mit Abstimmung). Entzauber-/Lern-/Prognose-/Vollscan-Daten nicht angefasst (geprüft). T441–T449.
+Erledigt in 0.65.90: D2 goldenes Signal bei Sniper-Treffer (SG1–SG5). T450–T453.
+Prüfungen: addon_check 0.65.90 OK (0 FEHLER). GoldSentinelGame/Sync/Test byte-gleich mit shared/. Testroutine
+0.65.88 beim Nutzer (zweiter Rechner, 15:43): OK 499 · FEHLER 1 (T21, siehe H) · Sandbox OK.
 
 OFFENE PUNKTE
 -------------
-A. TESTROUTINE 0.65.86: X3–X8 (Schwere: HOCH für X7, sonst MITTEL) – befund-testroutine-0686.txt
-   X3/X4 Tests T203/T230 ersetzen die neuen Preisquellen nicht (alle Quellen ersetzen; X4 nParts = geplante Kaufmenge);
-   X5 T373 16 ms; X6 Sandbox meldet echten Sync/Sniper (während der Routine anhalten oder ausnehmen) und nennt einen
-   Spielernamen (anonymisieren); X7 Prognose 99 % vorhergesagt, 30 % verkauft – Zuordnung je Fall offenlegen,
-   Selbstkorrektur bis dahin nicht mit diesen Fällen lernen; X8 Entzauber-Beute 0,83 in Chancen/Menge/Preis zerlegen.
-   T-X3–T-X8.
-
-B. MARKT "ENTZAUBERN" – D1–D6 (Schwere: HOCH) – befund-markt-entzaubern-menge.txt
-   D1 Kosten/Gewinn je Stufe der Preisleiter, D2 25-%-Grenze auf echte Kosten und Sniper-Budget, D3 Wert sinkt mit der
-   Menge (eine Funktion mit Sammelkauf), D4 Sicherheit höchstens "mittel" bei frisch gestiegenem Hauptmaterial,
-   D5 Menge Zeile/Fusszeile gleich und "Stufe ?", D6 Aufkauf erkennen (Kaufen mit altem Preis, Verkaufen aktuell +
-   Hinweis). T-MD1–T-MD6.
-
-C. EINKAUF: "~"-ZEILEN, DETAIL IMMER LEER – S8 (Schwere: HOCH) – befund-sniper-reagiert-nicht.txt
-   Erst messen (Quelle, itemKey Zeile/Detail, Alter, Browse-Gegenprobe in DETAIL-LEER), dann veraltete Scan-Zeilen raus
-   bzw. itemKey aus GetBrowseResults; leere Detailsuche nimmt die Zeile sofort raus. T-SR8a/b.
-
-D. BUCHHALTUNG NEU "WIE DIE PROFIS" – BP1–BP7 (Schwere: HOCH, Entscheid des Nutzers) – anweisung-buchhaltung-profi.txt
-   Zuerst shared/wissen/buchhaltung.md lesen. Neustart mit Stichtag (alte Daten ins Archiv, Entzauber-/Lern-/Prognose-/
-   Vollscan-Daten NICHT anfassen), Kostenbasis je Item, Entzaubern/Herstellen als Umbuchung, Verkauf sofort "ausstehend",
-   EIN Endergebnis "Gewinn", Rest im Tooltip, Abstimmung mit dem Gold. T-BP1–T-BP9.
-   NEU zu BP4: In Forever ist die Verkaufs-Meldung im Chat für Addons geschützt ("secret", Punkt 0 – sie wird jetzt
-   übersprungen). Dann den Verkauf über die eigene Auktionsliste erkennen (eigene Auktion verschwindet vor Ablauf ->
-   "ausstehend", OWNED_AUCTIONS_UPDATED bzw. Abfrage beim Öffnen des AH) und mit der Rechnung bestätigen. Im Protokoll
-   messen, wie oft die Meldung geschützt ist (VERKAUF-MELDUNG geschützt/lesbar).
-
-D2. NEU (11. Nov. 15:25, Wunsch des Nutzers) – SIGNAL BEI SNIPER-TREFFER – anweisung-sniper-signal.txt
-   Nach BP1–BP7: Bildschirmrand pulsiert in GOLD (wie Low-Life-Glühen) bei echtem Sniper-Treffer, aus bei Kauf/Weiter
-   oder nach 4 s, nicht bei toten Angeboten/im Kampf/AH zu, Option an/aus + Farbe + Ton. T-SG1–T-SG4.
+H. T21 "Scan: Marktdaten plausibel" (Schwere: NIEDRIG): "5610 Items, 5610 mit Marktwert, 2 Marktwerte <= 0".
+   Welche zwei Items (ItemID im Bericht), warum <= 0 (Händlerpreis 0? Lockangebot?), und Marktwert <= 0 beim Speichern
+   verhindern (nil statt 0). Testfall T-H21.
 
 E. ABDECKUNGSLISTE (G2) UND ÄLTERE FEHLENDE TESTFÄLLE (Schwere: NIEDRIG – bitte nachziehen, nicht abschwächen)
    a) COVERAGE nutzt für "offen 6a" bis "offen 11" weiter die Nummern einer älteren Fassung (TestRoutine.lua:633–640,
@@ -90,7 +59,7 @@ G. HINWEISE (kein Muss)
 
 HINWEIS DES NUTZERS (10. Nov. 16:48): Sobald alle offenen Punkte umgesetzt und gepusht sind, macht der Nutzer einen
 grossen Test im Spiel ("/ahs testroutine alles"). Bitte nach dem letzten Release dem Nutzer ausdrücklich melden:
-"alles umgesetzt – bereit für den Test", mit Version. Für den Test nötig: A–D; E–G dürfen folgen.
+"alles umgesetzt – bereit für den Test", mit Version. Für den Test nötig: erledigt; E–H dürfen folgen.
 
 VORGEMERKT (NACH DEM GROSSEN TEST – jetzt NICHT umsetzen): Behebung des Vollscan-Hängers (10–15 s beim Nutzer mit
 0.65.84). Wird nach dem Testlauf mit den Messwerten aus Punkt 2 beauftragt.
