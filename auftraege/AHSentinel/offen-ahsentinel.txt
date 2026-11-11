@@ -53,6 +53,10 @@ D. BUCHHALTUNG NEU "WIE DIE PROFIS" – BP1–BP7 (Schwere: HOCH, Entscheid des 
    "ausstehend", OWNED_AUCTIONS_UPDATED bzw. Abfrage beim Öffnen des AH) und mit der Rechnung bestätigen. Im Protokoll
    messen, wie oft die Meldung geschützt ist (VERKAUF-MELDUNG geschützt/lesbar).
 
+D2. NEU (11. Nov. 15:25, Wunsch des Nutzers) – SIGNAL BEI SNIPER-TREFFER – anweisung-sniper-signal.txt
+   Nach BP1–BP7: Bildschirmrand pulsiert in GOLD (wie Low-Life-Glühen) bei echtem Sniper-Treffer, aus bei Kauf/Weiter
+   oder nach 4 s, nicht bei toten Angeboten/im Kampf/AH zu, Option an/aus + Farbe + Ton. T-SG1–T-SG4.
+
 E. ABDECKUNGSLISTE (G2) UND ÄLTERE FEHLENDE TESTFÄLLE (Schwere: NIEDRIG – bitte nachziehen, nicht abschwächen)
    a) COVERAGE nutzt für "offen 6a" bis "offen 11" weiter die Nummern einer älteren Fassung (TestRoutine.lua:633–640,
       z. B. "offen 8 Texte", "offen 10 Raid-Vorrat"). Bitte auf diese Datei abgleichen (Punkte A–G hier).

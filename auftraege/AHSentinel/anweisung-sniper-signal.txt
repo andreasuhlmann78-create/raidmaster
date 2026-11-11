@@ -1,0 +1,25 @@
+ANWEISUNG DER PRÜF-SITZUNG FÜR AHSENTINEL: OPTISCHES SIGNAL BEI SNIPER-TREFFER (Wunsch des Nutzers 11.11. 15:23)
+==========================================================================================================
+Erst laufende Arbeit fertig machen (BP1–BP7 Buchhaltung zuerst). Danach umsetzen.
+
+Wunsch des Nutzers: "Wenn der Sniper anschlägt, ein optisches Signal wie bei Low Life in WoW." Entscheid: in GOLD.
+
+SG1 Signal: Bei einem echten Sniper-Treffer pulsiert der Bildschirmrand 2–3 Mal (je ca. 0,6 s) in Gold (z. B. 1,
+    0,82, 0, Alpha bis 0,7). Bild: das Bildschirmrand-Glühen des Spiels (Interface\FullScreenTextures\LowHealth bzw.
+    was der Client hat; vorher prüfen, ob die Datei in Forever/Era/TBC vorhanden ist, sonst ein eigener weicher Rand aus
+    4 Texturen mit Farbverlauf). Eigener Frame im Vollbild, nicht klickbar (EnableMouse false), Strata
+    FULLSCREEN_DIALOG bzw. darunter, nie Blizzard-Frames verändern, nie UIParent-Bildschirmeffekte ersetzen.
+SG2 Ende: sofort aus bei Kauf, Weiterscrollen/nächstem Schritt oder Schliessen des AH; sonst nach spätestens 4 s.
+    Ein neuer Treffer startet das Signal neu, nicht mehrfach übereinander.
+SG3 Nur echte Treffer: kein Signal für tote/ausgeblendete Angebote (S7), für pausierte Items, im Kampf
+    (InCombatLockdown) oder wenn das AH zu ist. Höchstens 1 Signal je 3 s (keine Dauerblinkerei).
+SG4 Option (Optionen, Bereich Sniper): "Signal bei Treffer" an/aus (Standard AN), Farbe (Standard Gold; Auswahl
+    Gold/Grün/Blau), dazu "Ton bei Treffer" an/aus (bestehender Ton, falls vorhanden, sonst ein kurzer Spiel-Ton über
+    PlaySound). Optionen ohne überlagerte Zeilen (UICheck/Bereich K).
+SG5 Locales alle Sprachen, CHANGELOG EN/DE.
+Tests
+   T-SG1 Treffer -> Signal-Frame sichtbar, Farbe Gold, versteckt nach Kauf bzw. nach ≤ 4 s.
+   T-SG2 totes Angebot / im Kampf / AH zu -> kein Signal.
+   T-SG3 zwei Treffer in 1 s -> ein Signal; Option aus -> kein Signal.
+   T-SG4 Frame nimmt keine Maus an (EnableMouse false), verändert keinen Blizzard-Frame.
+   Im Client: Sniper-Treffer am AH -> goldenes Rand-Leuchten sichtbar, stört nicht beim Klicken.
