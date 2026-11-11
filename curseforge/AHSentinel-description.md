@@ -12,6 +12,22 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.92
+
+- **Smoother fast full scan.** Processing after the full scan now uses a time budget per frame (default 4 ms,
+  option 2/4/6/8 ms next to "Fast full scan" – smaller = smoother but longer). The tables per item are reused between
+  scans and the digest no longer creates garbage per item, so there is far less memory churn. Everything that is
+  rebuilt after the scan (market lists, caches) now runs in portions instead of all in one frame. The option text
+  warns that it can still stutter until the next measurement.
+- **Measurement extended:** frames per second per step, share of frames over 33 ms, and AHSentinel's own memory
+  before/after (test report section "Full scan measurement"). New checks: no step with a frame over 16 ms, memory
+  growth ≤ 10 MB.
+- "Cancel next undercut" only ever cancels auctions with status "undercut", never "keep"; the test routine only
+  touches its own test auction.
+- Market values of 0 or less are no longer possible (a price of 0 is not stored); the self-test names the items.
+- Test routine: the sniper's "last checked" time no longer counts as a sandbox error.
+- Tests T458–T460 (T-VF1–T-VF3).
+
 ### Version 0.65.91
 
 - **Merge data from two computers.** If you played on two computers without syncing in between, the GoldSentinel
@@ -76,33 +92,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - Test routine: the real sync address book and a running sniper hit no longer count as sandbox errors; report paths
   never contain player names. Price tests replace all price sources. Batch buy uses the planned quantity.
 - Tests T425–T440 (T-X3–T-X8, T-MD1–T-MD6, T-SR8a/b).
-
-### Version 0.65.87
-
-- **Fix: Lua error on sale messages in WoW Forever.** Protected ("secret") chat and event values are never read any
-  more (sale message, purchase, mail, posting and legacy AH events).
-- **"Check undercuts" no longer freezes the game.** Only active auctions are checked, one search per item, without
-  rebuilding the list after every item: the list is redrawn ONCE at the end. Every step is timed; steps over 50 ms
-  appear in the log as LANGSAM.
-- **Full scan measurement (for the big test).** The fast full scan now times every step (wait for the server, event,
-  reading, digest, tracking, price history/rebuild), the longest gap between two frames (the real freeze), memory
-  and garbage collections. The test routine part "server" starts one real fast full scan (read only) and reports it
-  in the section "Full scan measurement"; a step or gap over 1 s is an ERROR naming the step. Nothing else changed in
-  the full scan.
-- **Fix: a single 2c offer no longer crushes material values.** The price ladder is capped only by the cleaned scan
-  price, never by the raw minimum; without a cleaned price the ladder value counts as "market, unsure".
-- **Fix: stock value too high after everything sold.** An empty list of own auctions (queried, all sold) now means
-  "nothing in the AH"; old end times and the forecast journal are used only if the auctions were never queried.
-- **Sniper: dead offers are hidden completely.** An offer whose purchase failed or that the server delivers again
-  after "gone" disappears for the session (by auction ID, at most 48 h): not in the sniper, shopping list, undercut
-  check, current price, price ladder from searches, "% market" or batch buying. Goods without auction ID: after 2
-  failures. The status line shows "1 dead offer hidden (price, reason)", log SNIPER-TOT-AUSGEBLENDET. After 3 failed
-  different auctions of the same item the item pauses for 10 minutes (log SNIPER-PAUSE). A new auction at the same
-  price stays buyable.
-- **"Cannot be disenchanted" no longer blocks a whole class.** Learned blocks are per item; a class (e.g. leather
-  armor) only after 3 different items failed. Such items now show in "Blocked (N)" as "cannot be disenchanted
-  (Forever)" with Release; `/ahs entzaubern freigeben` releases them too.
-- Test routine: T410–T424 (T-0, T-UP1–3, T-VM1/2, T-X1, T-X2a/b, T-SR7a–c, T-ME10/11), coverage list extended.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
