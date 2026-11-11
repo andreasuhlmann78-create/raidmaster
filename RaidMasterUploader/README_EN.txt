@@ -62,3 +62,18 @@ Version 2.0.1:
 - Diagnostic logs or route data that are too large are reported only once again (also after a restart).
 - Very large packages in several parts: each part that was sent is remembered right away; if a later part fails, the
   earlier one is not sent again on the next try.
+
+New in 2.1.0 – sync addon data between PC and laptop:
+- If you play on two computers, each one has the latest state of ALL addon data (all SavedVariables of your account
+  and characters). Nothing to copy by hand.
+- Setup (once): run /uploader in Discord. You also get sync_config.json (secret like uploader_config.json). Put both
+  files into the uploader folder – on BOTH computers.
+- From now on start WoW with GoldSentinel-WoW.bat (in the uploader folder) instead of the WoW shortcut: it fetches the
+  latest state from the other computer first and then starts WoW.
+- Keep uploader.bat running as usual: after WoW is closed (and 2 minutes of quiet) it uploads the state.
+- If WoW is running and the other computer has newer data: nothing is overwritten, you get a notice.
+- Played on both without syncing in between: per file the newer one wins, the other stays as a backup in
+  WTF\Account\<account>\_sync_backup and is reported. AHSentinel additionally gets the older version to merge.
+- Before taking over anything the uploader backs up your files in _sync_backup (last 5 backups kept).
+- Stored only in your private Discord channel #sync-daten (only you and the bot see it), at most 10 versions.
+

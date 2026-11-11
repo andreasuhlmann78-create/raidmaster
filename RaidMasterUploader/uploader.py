@@ -56,7 +56,10 @@ import urllib.error
 import urllib.request
 import uuid
 
-VERSION = "2.0.1"
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import sync  # noqa: E402  (Abgleich PC/Laptop, ab 2.1.0)
+
+VERSION = "2.1.0"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400
@@ -790,7 +793,55 @@ def _flush_on_exit(reporter: "Reporter"):
                 pass
 
 
+SYNC_TICK = 60                       # so oft den Abgleich prüfen (Sekunden)
+SYNC_STATUS_EVERY = 600              # Statuszeile spätestens so oft zeigen
+
+
+def make_sync(st: dict, path: str) -> "sync.Sync | None":
+    """Abgleich nur, wenn sync_config.json da ist (kommt mit /uploader ab Bot 1.5.113)."""
+    conf = sync.load_sync_config(HERE)
+    if not conf:
+        return None
+    store = sync.WebhookStore(conf["sync_webhook_url"], conf["sync_index_id"])
+    return sync.Sync(store, sync.account_dir(path), st, lambda: save_state(st), sync.machine_name(conf), log,
+                     notify=sync.notify_windows)
+
+
+def wow_start():
+    """GoldSentinel-WoW.bat: neuesten Stand holen, dann WoW starten (S3 b)."""
+    log(f"GoldSentinel-Abgleich {VERSION} – vor dem WoW-Start")
+    cfg = load_config()
+    path = cfg.get("savedvariables_path") or ""
+    if not os.path.isfile(path):
+        path = choose_path(cfg)
+    st = load_state(cfg)
+    sy = make_sync(st, path)
+    if sy is None:
+        log("Abgleich nicht eingerichtet (sync_config.json fehlt) – in Discord /uploader ausführen.")
+    elif sy.is_wow_running():
+        log("WoW läuft schon – nichts übernommen.")
+    else:
+        sy.pull()
+        log(sy.status_line())
+    exe = sync.find_wow_exe(sync.account_dir(path))
+    if not exe:
+        log("WoW-Programm nicht gefunden – bitte WoW selbst starten.")
+        input("Enter zum Beenden ...")
+        return
+    log("Starte " + os.path.basename(exe) + " ...")
+    try:
+        os.startfile(exe)  # type: ignore[attr-defined]  (nur Windows)
+    except Exception as e:  # noqa: BLE001
+        log(f"WoW konnte nicht gestartet werden: {e}")
+        input("Enter zum Beenden ...")
+        return
+    time.sleep(3)
+
+
 def main():
+    if "--wow-start" in sys.argv:
+        wow_start()
+        return
     log(f"RaidMaster-Uploader {VERSION}")
     cfg = load_config()
     stored = cfg.get("savedvariables_path") or ""
@@ -805,6 +856,17 @@ def main():
     interval = max(3, int(cfg.get("check_seconds") or 10))
     reporter = Reporter(cfg, os.path.dirname(os.path.abspath(path)))
     _flush_on_exit(reporter)
+    syncer = make_sync(reporter.st, path)
+    if syncer is None:
+        log("Abgleich PC/Laptop: nicht eingerichtet (in Discord /uploader ausführen, sync_config.json hineinlegen).")
+    else:
+        try:
+            if not syncer.is_wow_running():
+                syncer.pull()                    # beim Start des Uploaders, wenn WoW nicht läuft
+            log(syncer.status_line())
+        except Exception as e:  # noqa: BLE001
+            log(f"Abgleich: {e}")
+    next_sync, last_status, status_text = time.time() + SYNC_TICK, time.time(), ""
     if not (cfg.get("test_webhook_url") or "").startswith("https://"):
         log("Hinweis: Für Testberichte (#testberichte) in Discord /uploader erneut ausführen und die neue "
             "uploader_config.json hineinlegen. Der Daten-Upload läuft trotzdem wie bisher.")
@@ -822,6 +884,8 @@ def main():
                 path = new
                 last_sent = 0.0
                 reporter.set_folder(os.path.dirname(os.path.abspath(path)))
+                if syncer is not None:
+                    syncer.acc = sync.account_dir(path)
                 log("Überwache: " + path)
         gs_file = guildsentinel_path(cfg, path)
         try:
@@ -857,6 +921,17 @@ def main():
             reporter.tick()
         except Exception as e:  # noqa: BLE001
             log(f"Testberichte: {e}")
+        # Abgleich PC/Laptop (S3): eigene Wartezeit, Fehler stören den Daten-Upload nie
+        if syncer is not None and time.time() >= next_sync:
+            next_sync = time.time() + SYNC_TICK
+            try:
+                syncer.tick()
+                line = syncer.status_line()
+                if line != status_text or time.time() - last_status >= SYNC_STATUS_EVERY:
+                    log(line)
+                    status_text, last_status = line, time.time()
+            except Exception as e:  # noqa: BLE001
+                log(f"Abgleich: {e}")
         time.sleep(interval)
 
 

@@ -69,3 +69,24 @@ Version 2.0.1:
 - Zu grosse Diagnose-Protokolle oder Wegdaten werden wieder nur einmal gemeldet (auch nach einem Neustart).
 - Sehr grosse Pakete in mehreren Teilen: Jeder gesendete Teil wird sofort gemerkt; schlägt ein späterer Teil fehl,
   kommt der frühere beim nächsten Versuch nicht nochmals.
+
+Ab Version 2.1.0 – Addon-Daten zwischen PC und Laptop abgleichen:
+- Spielst du abwechselnd an zwei Rechnern, hast du an jedem den neuesten Stand ALLER Addon-Daten (alle SavedVariables
+  deines Kontos und deiner Charaktere). Du musst nichts von Hand kopieren.
+- Einrichten (einmal): In Discord /uploader ausführen. Du bekommst zusätzlich sync_config.json (geheim wie
+  uploader_config.json). Beide Dateien in den Uploader-Ordner legen – auf BEIDEN Rechnern (am zweiten Rechner den
+  Uploader-Ordner ebenso einrichten).
+- WoW künftig mit GoldSentinel-WoW.bat (im Uploader-Ordner) starten statt mit der WoW-Verknüpfung: Sie holt vorher den
+  neuesten Stand vom anderen Rechner und startet dann WoW. Tipp: Verknüpfung davon auf den Desktop legen.
+- uploader.bat wie gewohnt laufen lassen: Nach dem Beenden von WoW (und 2 Minuten Ruhe) lädt er den Stand hoch.
+- Läuft WoW und der andere Rechner hat Neueres: nichts wird überschrieben, es kommt ein Hinweis
+  ("Neuerer Stand vom Laptop – WoW beenden, dann übernehmen").
+- An beiden Rechnern gespielt ohne Abgleich dazwischen: Je Datei gewinnt die neuere, die andere bleibt als Sicherung in
+  WTF\Account\<Konto>\_sync_backup und wird im Fenster gemeldet. AHSentinel bekommt die ältere Fassung zusätzlich
+  zum Zusammenführen (beim nächsten Login).
+- Vor jedem Übernehmen sichert der Uploader deine Dateien in _sync_backup (die letzten 5 Sicherungen bleiben).
+- Gespeichert wird nur in deinem privaten Discord-Kanal #sync-daten (nur du und der Bot sehen ihn), höchstens 10
+  Fassungen. Nichts davon kommt in #testberichte oder ins öffentliche Repo.
+- Im Fenster steht: "Abgleich: zuletzt hochgeladen … · neuester Stand: … · dieser Rechner aktuell". Fehler (z. B. kein
+  Netz) stehen dort ebenfalls.
+
