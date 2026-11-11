@@ -1,0 +1,41 @@
+BEFUND DER PRÜF-SITZUNG FÜR AHSENTINEL: MATERIALPREISE "ALT (VOR 25 STD.)" TROTZ SCAN VOR 2 MIN. (0.65.94)
+=====================================================================================================
+Stand: 11. November 2026, 19:45 · Grundlage: zwei Bilder des Nutzers (19:31, Undercity, AH offen) und
+download/AHSentinel-0.65.94.zip. Erst laufende Arbeit fertig machen.
+
+LAGE
+   Tooltip Azurblaue Seidenkapuze (Preis 9s): "Entzaubern: unsicher +7s 27c (+81 %) · Lohnt bis 13s 55c ·
+   Entzaubern 16s 27c". Materialien (echt, aus 326 Entzauberungen):
+     Seelenstaub 71 % × Ø 1,5 – 4s 73c "geschätzt, alt (vor 25 Std.), unsicher"
+     Große Astralessenz 20 % × Ø 1,5 – 12s 47c "geschätzt, alt (vor 25 Std.), unsicher"
+     Großer gleißender Splitter 8,3 % × Ø 1,0 – 87s 35c "geschätzt, alt (vor 25 Std.), unsicher"
+   Statuszeile gleichzeitig: "letzter Scan vor 2 Min. · 5710 Items"; Sniper: "Vollscan-Sperre noch 13 Min.".
+   Der Sniper hat 3 Kapuzen zu 9s gekauft (Ziel "lohnt bis" aus diesen Werten).
+   Der Splitter-Preis 87s 35c ist der alte Aufkauf-Preis (10.11.: Aufkauf, der Nutzer verkaufte zu 29s). Über die Hälfte
+   des Entzauberwerts (8,3 % × 87s ≈ 7s 25c von 16s 27c) hängt an einem 25 Std. alten Preis.
+
+MP1 HOCH – WARUM SIND DIE MATERIALPREISE NACH EINEM SCAN VOR 2 MIN. 25 STD. ALT?
+   A:PriceHints nimmt das Alter aus A:GetCurrent(itemID) (t). Der Scan vor 2 Min. hat Seelenstaub, Astralessenz und
+   Splitter offenbar nicht aktualisiert. Messen und melden (Protokoll PREIS-ALT, ohne Namen): welche Scan-Art lief
+   (normal/Vollscan), ob Waren (Commodities) darin vorkommen, und für die drei ItemIDs die Zeit von GetCurrent vor/nach
+   dem Scan. Vermutet (nicht belegt): Die Scan-Art übernimmt Waren-Preise nicht in GetCurrent (nur Ausrüstung bzw. nur
+   Absatz-Verfolgung).
+   Lösung: Jeder Scan (normal und Vollscan) aktualisiert den aktuellen Preis auch für Waren. Zusätzlich: Vor einer
+   Entzauber-Bewertung am offenen AH die Preise der Entzauber-Materialien (≤ 15 ItemIDs) frisch holen, wenn sie älter
+   als 30 Min. sind (eine Waren-Suche je Item, gedrosselt).
+MP2 HOCH – KEINE KAUF-ENTSCHEIDUNG MIT VERALTETEN MATERIALPREISEN
+   Ist der Preis des Materials, das den grössten Anteil am Entzauberwert trägt, älter als 6 Std.:
+   - Tooltip: statt "Lohnt bis" -> "Lohnt bis: Preise veraltet – erst scannen" (kein Betrag), Urteil "unsicher".
+   - Sniper-Ziele mit "lohnt bis" aus Entzauberwert: nicht kaufen, Hinweis "Materialpreise veraltet".
+   - Markt "Entzaubern" / Sammelkauf: Zeile nicht anbieten.
+   Verkaufen-Werte (eigenes Lager) dürfen den alten Preis mit dem Hinweis "alt" weiter zeigen.
+MP3 MITTEL – AUFKAUF-KENNZEICHEN BLEIBT, BIS ES WIDERLEGT IST
+   Ein Material mit Aufkauf (D6) behält beim Kaufen den Preis vor dem Aufkauf, solange kein neuerer Scan zeigt, dass
+   Menge und Preis wieder normal sind – auch über Sitzungen und Tage hinweg. Hier wurde mit 87s 35c gerechnet.
+TESTS
+   T-MP1: Scan mit Waren -> GetCurrent-Zeit der Waren = Scanzeit.
+   T-MP2: Hauptmaterial 25 Std. alt -> Tooltip ohne Betrag bei "Lohnt bis", Sniper kauft nicht, Markt ohne Zeile.
+   T-MP3: Aufkauf gestern, seither kein Scan des Materials -> Kaufwert mit Preis vor dem Aufkauf.
+
+HINWEIS (kein Fehler): "Lohnt bis" fehlt im Tooltip eines Items in den eigenen Taschen – so gewollt (Tooltip.lua
+   AddVerdictLines: eigenes Item zeigt nur die zwei Wege Entzaubern/Verkaufen; "Lohnt bis" ist eine Kaufgrenze).
