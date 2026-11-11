@@ -10,6 +10,15 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.25
+
+- **New default recruitment ad**: "{gilde} ({fraktion}) is looking for {gesucht} for dungeons and raids – relaxed and helpful. Discord: {discord} – whisper me: /w {name} guild" (in every language; the German one adds "deutschsprachig"). If you saved your own ad text, it stays as it is; an empty field uses the new default.
+  - New placeholder **{fraktion}** ({faction}): Horde or Alliance in the language of the game.
+  - **{gesucht}** is now just the list ("Healers, Warriors and Mages"); nothing missing: "new members". If your own text used "{gesucht}" on its own, write "Wanted:" in front yourself.
+  - **{discord}**: without a Discord link, the whole "Discord: … – " part disappears. Right after "Discord:" it gives only the link; anywhere else (your own texts, reply, welcome) still "Discord: <link>" as before.
+- The length counter counts before shortening and turns red with "will be shortened" when the ad is longer than 251 characters.
+- Developer test routine: T244–T248 new.
+
 ### Version 0.9.24
 
 - Recruitment ad: a long ad no longer gets cut off by the chat input and then never counts as posted. The ad text is limited to 251 characters (room for "/<channel> "), the counter shows "(n/251)", and the text in the chat input is exactly the one that counts once it appears in the channel. Umlauts and other special characters are never cut in half.
@@ -41,20 +50,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 - **GoldSentinelTest 2**: share error reports with the developer (only with your consent, /gstest).
 - Diagnostic log: new line "NETZ …" (no names).
 - Developer test routine: T225–T230 new.
-
-### Version 0.9.20
-
-- **Addon messages for all game versions**: GuildSentinel now uses the shared GoldSentinel sync file. It sends only through the guild, your group/raid and whispers – never through a custom chat channel (WoW Forever does not deliver addon messages there). Messages from older GuildSentinel versions of other players are still understood. Players using 0.9.19 or older will no longer receive messages from 0.9.20 – please update.
-  - The custom channel "GuildSentinelLFG" is no longer joined (it is left once if you are in it) – one chat channel slot is freed.
-  - Group finder: "Guild and group" replaces "whole server" – your search goes to the guild and to your current group or raid. The setting "Searches from the whole server" is gone.
-  - Recruitment ads: only Blizzard channels (General, Trade, LocalDefense, LookingForGroup …) can be selected; addon and player channels are hidden.
-  - "/gs sync test" shows who answers ("N replies (guild a, group b)"); the settings show the number of players with GuildSentinel in the last hour.
-- **Professions**: levelling up a profession with the window open no longer sends to the guild at every skill-up (at most every 5 minutes, and when you close the window); new recipes are still sent right away. The diagnostic log is no longer filled by it.
-- Guild profession list with offline members: GuildSentinel now always waits for the game before reading and switching the setting back.
-- Blizzard's guild recipes: opening the guild view restarts the queries at most every 10 minutes per profession, and no recipe is asked twice a day.
-- Profession data received from other players is checked in depth; broken data can no longer cause an error in tooltips or craft requests.
-- Diagnostic log: lines for addon messages (ways, players, sent/received/dropped, channel refused).
-- Developer test routine: T214–T224 new; test names are placeholders only.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
