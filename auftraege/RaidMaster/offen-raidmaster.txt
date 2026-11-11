@@ -1,99 +1,84 @@
-OFFENE PUNKTE RAIDMASTER (nach der Nachprüfung von Bot 1.5.113 und Uploader 2.1.1; Addon 3.0.22)
+OFFENE PUNKTE RAIDMASTER (nach der Nachprüfung von Uploader 2.2.0, Bot 1.5.114 und Addon 3.0.23)
 ================================================================================================
-Stand: 11. November 2026, 17:30 · von der Prüf-Sitzung (geplante Nachprüfung)
-Grundlage: RaidMasterBot 1.5.113, RaidMasterUploader 2.1.1 (Ordner und download/RaidMasterUploader.zip), verglichen mit
-Bot 1.5.112 und Uploader 2.0.1 aus der git-Geschichte. Addon unverändert 3.0.22.
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand vom 9. Nov. 20:21 mit dem
-Nachtrag vom 11. Nov. 16:05.
+Stand: 11. November 2026, 20:25 · von der Prüf-Sitzung (geplante Nachprüfung)
+Grundlage: RaidMasterUploader 2.2.0 (Ordner und download/RaidMasterUploader.zip), RaidMasterBot 1.5.114,
+download/RaidMaster-3.0.23.zip, verglichen mit Uploader 2.1.1, Bot 1.5.113 und Addon 3.0.22 aus der git-Geschichte
+(Commit a0b2612).
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand vom 11. Nov. 17:30 mit den
+Nachträgen 20:00 und 20:05. anweisung-uploader-sync-rechner.txt (S1–S8) ist umgesetzt und entfernt; was nur live
+geprüft werden kann, steht unten.
 
-Erledigt in Uploader 2.1.0/2.1.1 und Bot 1.5.113 (danke) – anweisung-uploader-sync-rechner.txt:
-- S1 Speicher: privater Kanal #sync-daten je Nutzer, Webhook + Index-Nachricht (uploader_setup.py setup_sync), Bot
-  liest dort nichts (route_message "ignore"), sync_config.json mit /uploader (bot.py:4921–4946), .gitignore für
-  sync_config.json und _sync_backup/. Höchstens 10 Fassungen (sync.py push, VERSIONS_KEEP), nur HTTPS.
-- S2 nur *.lua aus SavedVariables von Konto und Charakteren, alle Spielversionen/Konten (find_roots, _safe_rel).
-- S3 Hochladen nach WoW-Ende + 2 Min. Ruhe (tick), Starter GoldSentinel-WoW.bat (wow_start), Herunterladen beim Start
-  des Uploaders, nie bei laufendem WoW (zweimal geprüft vor dem Schreiben), Sicherung vor jedem Übernehmen.
-- S4 Konflikt bei bekannter Basis: neuere gewinnt, ältere gesichert und gemeldet, AHSentinelMerge als eigener Block
-  (add_merge_block, AHSentinelDB unverändert). S5 Statuszeile. S6 Tests T-SY1–T-SY6, Webhook-Weg, find_roots.
-  S7 LIESMICH/README_EN, Autostart-einrichten.bat.
-Prüfungen: Bot-Tests 120/120 OK, Import aller Bot-Module (wie bot-tests.yml) OK, py_compile bot.py OK. Uploader-Tests
-24/24 OK. download/RaidMasterUploader.zip byte-gleich mit dem Ordner (ohne tests/). Keine Tokens, Webhook-URLs oder
-Spielernamen im Diff. Keine neuen Testberichte seit dem letzten Stand.
+Erledigt in Uploader 2.2.0 / Bot 1.5.114 / Addon 3.0.23 (danke):
+- S8 a Hochladen ≤ 15 s nach WoW-Ende (QUIET_SECONDS 10, Hauptschleife 5 s, sync.py:77, uploader.py:811), im
+  Charakter-Menü nach 60 s Ruhe nur lesen (sync.py:1063–1066). S8 b Index alle 30 s, 429/X-RateLimit -> warten
+  (sync.py:79, :654–655). S8 c Übernahme bei frischem WoW-Start vor dem Einloggen (sync.py:918–958), nur bis 45 s nach
+  dem Start und nur wenn seit dem Start nichts geschrieben wurde; Beleg über RaidMasterSyncProbe ->
+  RaidMasterDB.syncProbe (Core.lua RM.ReadSyncProbe, TOC SavedVariables, T165), nach Fehlschlag nie wieder und
+  AHSentinelMerge aus der Kopie (sync.py:960–1012). S8 d kein Jetzt-abgleichen.bat, LIESMICH/Bot-Text: einziger
+  Schritt Autostart-einrichten.bat (bot.py:4935–4939). S8 e Index v2 je Spielversion/Konto, 14 Tage unverändert nur
+  einmal, Retail nur wenn gespielt, Index v1 wird umgestellt (sync.py:609–613, :804–814, T-SY14/15). S8 f Basis =
+  letzter Abgleich, Discord-Uhr, < 10 Min. = Konflikt (sync.py:719–733, T-SY10/16).
+- offen 1 noch nie abgeglichen und verschieden = Konflikt, AHSentinelMerge immer (sync.py:714–751, T-SY11);
+  Konflikt-/Übernahme-Sicherungen 30 Tage (sync.py:74–75, :634–644); alte Sicherungen einmal zusammenführen
+  (merge_old_backups, T-SY11b) – siehe aber Punkt 1. offen 2 Sperre _sync.lock (sync.py:135–162, uploader.py:841–853,
+  T-SY12). offen 3 Form AHSentinelMerge in LIESMICH und Code (sync.py:300–302). offen 4 Sicherungsort im LIESMICH.
+  offen 5 Hash nur bei geänderter Grösse/Zeit (sync.py:582–603, T-SY13). offen 6 zu_gross-Prüfwert aus den
+  Diagnose-Einträgen (uploader.py:450–459). offen 7 Kommentar/Typangabe (uploader.py:386–388, :521–523). offen 8
+  Administratoren sehen #sync-daten (ANLEITUNG.md, /uploader-Text).
+Prüfungen: Addon-Prüfung RaidMaster-3.0.23.zip OK (0 FEHLER, 0 WARNUNG, Ladetest und Sprachtest). Bot-Tests 120/120 OK,
+Import der Bot-Module wie bot-tests.yml OK, py_compile Bot und Uploader OK. Uploader-Tests 38/38 OK (test_sync T-SY1–
+T-SY16, test_uploader). download/RaidMasterUploader.zip byte-gleich mit dem Ordner (ohne tests/). LIESMICH/README_EN
+von Addon und Uploader ergänzt. Keine Tokens, Webhook-URLs oder Spielernamen im Diff. Neue Testberichte seit dem
+letzten Stand (3 Diagnose-Protokolle AHSentinel 0.65.94, GuildSentinel 0.9.24, ThreatSentinel 2.5.9): je 0 Fehler.
 
 OFFENE PUNKTE
 -------------
-1. NEU (HOCH) – ERSTER ABGLEICH ÜBERSCHREIBT DIE ÄLTERE LOKALE DATEI OHNE ZUSAMMENFÜHRUNG
-   sync.py:479: "if lsha == base or base is None and cur['mtime'] <= remote mtime" – hat ein Rechner noch keine Basis
-   (erster Abgleich, oder nach dem Wechsel 2.1.0 -> 2.1.1, weil die Schlüssel jetzt "<Spielversion>/<KONTO>/…" sind),
-   gilt seine ältere Datei als "hier nicht geändert" und wird ersetzt – ohne AHSentinelMerge, nur mit Sicherung.
-   Das ist genau ZM4 (Laptop 85 Entzauberungen, PC 256, nie abgeglichen): Nachgestellt mit den Test-Helfern aus
-   tests/test_sync.py (Laptop AHSentinel.lua älter, PC lädt zuerst hoch, Laptop pull) -> Laptop-Datei = PC-Stand,
-   kein AHSentinelMerge, Meldung nur "1 Datei(en) vom PC übernommen". Die 85 Entzauberungen liegen dann nur noch in
-   _sync_backup, und das behält nur die letzten 5 Sicherungen (BACKUPS_KEEP, sync.py:48, _backup :407) – nach fünf
-   weiteren Übernahmen sind sie weg.
-   Lösung: a) base is None und lsha != rsha -> wie "an beiden Rechnern geändert" behandeln (neuere gewinnt, ältere
-   gesichert, gemeldet; bei AHSentinel.lua IMMER AHSentinelMerge). b) Sicherungen aus Konflikten (tag "konflikt")
-   nicht mit den gewöhnlichen 5 rotieren, sondern z. B. 30 Tage behalten. c) Einmalig für die heutige Lage: Liegt in
-   _sync_backup eine AHSentinel.lua, die nie zusammengeführt wurde, beim nächsten Abgleich als AHSentinelMerge
-   anhängen (oder Knopf/Befehl "Sicherung zusammenführen"). Test T-SY7: beide Rechner mit Daten, nie abgeglichen,
-   ältere Seite pull -> AHSentinelMerge mit der älteren AHSentinelDB, Meldung "beide geändert".
+1. NEU (MITTEL) – SICHERUNGEN AUS UPLOADER 2.1.0 WERDEN NICHT ZUSAMMENGEFÜHRT
+   merge_old_backups (sync.py:1015–1042) sucht nur in _sync_backup im Uploader-Ordner (backup_dir, sync.py:1019). Uploader
+   2.1.0 legte die Sicherungen aber in WTF\Account\<Konto>\_sync_backup ab (2.1.0 sync.py:360), und die Pfade darin
+   haben noch kein "<Spielversion>/<KONTO>/" davor – _safe_rel/_path lehnen sie ab. Lag der Stand mit den
+   Laptop-Entzauberungen (ZM4) in einer 2.1.0-Sicherung, wird er nie zusammengeführt; legacy_merge_done sperrt danach
+   jeden weiteren Lauf. Ausserdem nimmt die Funktion je Datei nur die neueste "vor-abgleich"-Sicherung.
+   Lösung: zusätzlich jedes <Konto>\_sync_backup der gefundenen Spielversionen durchsuchen und die alte Pfadform
+   ("SavedVariables/AHSentinel.lua") dem Konto des Ordners zuordnen; je Datei jede Sicherung anhängen, deren
+   AHSentinelDB sich vom aktuellen Stand unterscheidet (AHSentinel führt doppelt nichts zusammen, ZM2) – oder
+   mindestens alle in eine Liste melden. Test T-SY11c: Sicherung im 2.1.0-Ort -> AHSentinelMerge wird angehängt.
 
-2. NEU (MITTEL) – STARTER UND LAUFENDER UPLOADER ÜBERSCHREIBEN SICH DEN ZUSTAND
-   GoldSentinel-WoW.bat startet einen zweiten Prozess (uploader.py --wow-start, uploader.py:815–846). Läuft der
-   Uploader schon (Autostart empfohlen), lesen beide uploader_state.json; der Starter übernimmt einen neuen Stand und
-   speichert sync.seq/sync.files (sync.py:525), der laufende Uploader speichert danach seinen alten Zustand darüber
-   (save_state uploader.py:320–326 schreibt das ganze Dict). Folge: Der laufende Uploader hält den übernommenen Stand
-   für neu -> während des Spiels Windows-Hinweis "Neuerer Stand vom … – WoW beenden" (falsch) und nach WoW-Ende
-   unnötige Konflikte/Sicherungen/AHSentinelMerge. Beide Prozesse können ausserdem gleichzeitig Dateien schreiben.
-   Lösung: Sperrdatei (z. B. _sync.lock mit PID); der Starter übernimmt nur, wenn kein Uploader läuft, sonst bittet er
-   ihn über eine Signaldatei um den Abgleich und wartet auf dessen Meldung. Mindestens: Sync liest st["sync"] vor
-   jedem pull/push frisch aus der Datei und speichert nur diesen Teil zusammengeführt. Test T-SY8: zwei Sync-Objekte
-   auf derselben Zustandsdatei -> kein falscher Hinweis, kein Konflikt.
+2. NEU (NIEDRIG) – UPLOADER-START PRÜFT DIE SPERRE NICHT
+   main() schreibt _sync.lock ohne lock_active zu prüfen (uploader.py:895) und gleicht danach sofort ab. Startet der
+   Nutzer GoldSentinel-WoW.bat, während der Uploader gerade per Autostart hochfährt, gleichen kurz beide ab.
+   Lösung: Ist die Sperre eines anderen Prozesses frisch, mit dem ersten pull warten, bis sie weg oder älter als
+   LOCK_FRESH ist. Test: Sperre eines anderen Prozesses -> main() übernimmt nichts, bis sie frei ist.
 
-3. NEU (NIEDRIG) – FELDNAMEN IM ZUSAMMENFÜHRUNGS-PAKET
-   add_merge_block schreibt { v, von, zeit, grund, db }; AHSentinel (Merge.lua:264) liest from und t. Funktioniert
-   (db passt), nur das Protokoll zeigt "Quelle ?". Die AHSentinel-Sitzung liest künftig beide Namen
-   (offen-ahsentinel.txt L3). Hier bitte nichts umbenennen, nur in LIESMICH/Code-Kommentar die Form festhalten.
-
-4. NEU (NIEDRIG) – TEXT ZUR SICHERUNG VERALTET
-   LIESMICH.txt:84–85 und README_EN.txt:75–76 nennen noch WTF\Account\<Konto>\_sync_backup; seit 2.1.1 liegt die
-   Sicherung im Uploader-Ordner (make_sync uploader.py, backup_dir). Text angleichen.
-
-5. NEU (NIEDRIG) – JEDE MINUTE ALLE DATEIEN LESEN
-   sync.py:398 local_changes liest und hasht bei nicht laufendem WoW jede Minute alle SavedVariables aller Konten und
-   Spielversionen (AHSentinel.lua ist gross). Lösung: Grösse + mtime merken, nur bei Änderung hashen.
-
-6. UPLOADER: Prüfwert "zu_gross" über den ganzen Inhalt (Schwere: NIEDRIG) – unverändert
-   uploader.py:442–444 merkt x["id"], den Prüfwert des GANZEN Textes (mit Kopfzeilen und Uhrzeit). Schreibt ein Addon
-   dasselbe zu grosse Protokoll neu aus, kommt die Meldung wieder. Lösung: für "diag" den Prüfwert aus diag_entries()
-   bilden (wie beim Senden), für "wege" so lassen. Test p09: gleiches Protokoll mit anderer Uhrzeit -> keine zweite
-   Meldung.
-
-7. UPLOADER: Kommentar und Typangabe passen nicht mehr (Schwere: NIEDRIG) – unverändert
-   uploader.py:381 "Verändert st NICHT" – build() schreibt "zu_gross" in st und speichert. uploader.py:507
-   "-> list[tuple[str, bytes]]" – package_bodies gibt (boundary, body, chunk) zurück. Kommentar/Typangabe anpassen.
-
-8. HINWEIS (kein Muss)
-   #sync-daten liegt in der Offiziers-Kategorie mit eigenen Rechten (uploader_setup.py:151); Mitglieder mit der
-   Discord-Berechtigung "Administrator" sehen jeden Kanal trotzdem – also auch Gold- und Charakterdaten. In
-   ANLEITUNG.md und im /uploader-Text einen Satz dazu.
+3. NEU (HINWEIS, kein Muss) – ZUSAMMENFÜHRUNGS-BLOCK WIRD MIT HOCHGELADEN
+   push liest die Datei nur ohne den Prüfblock (_clean, sync.py:576–580, :855). Ein AHSentinelMerge-Block, der hier noch
+   nicht eingelesen ist, geht deshalb mit hoch, und der andere Rechner führt dieselben Daten ebenfalls zusammen. Das
+   ist nur dann richtig, wenn AHSentinel dabei nichts doppelt zählt (ZM2; die AHSentinel-Sitzung arbeitet gerade an
+   Doppelbuchungen, offen-ahsentinel.txt L1b). Bitte im LIESMICH-Kommentar festhalten, dass das gewollt ist, oder den
+   Block vor dem Hochladen entfernen, solange er hier noch offen ist.
 
 LIVE PRÜFEN (Server / Discord / Uploader beim Nutzer)
-   - Abgleich: /uploader -> #sync-daten nur für den Nutzer sichtbar, sync_config.json kommt mit. Am PC nach WoW-Ende
-     + 2 Min. "Stand N hochgeladen"; am Laptop GoldSentinel-WoW.bat -> "… vom PC übernommen", dann startet WoW
-     Forever. Statuszeile "dieser Rechner aktuell". Mit laufendem WoW: nichts überschrieben, ein Hinweis.
-   - ERST NACH PUNKT 1: heutige Laptop-Entzauberungen (85) mit dem PC zusammenführen (AHSentinel-Chatzeile).
-   - Uploader 2.0.1: nach mehreren /reload innerhalb von 15 Minuten genau EINE Nachricht "GoldSentinel-Paket: …";
-     "zu gross" höchstens einmal je Protokoll.
+   - Abgleich 2.2.0: an beiden Rechnern Autostart eingerichtet. Am PC WoW beenden -> innert 15 s "Stand N hochgeladen";
+     am Laptop (WoW zu) innert 45 s "… vom PC übernommen". Laptop: WoW normal starten -> Windows-Hinweis "bitte noch
+     nicht einloggen …", dann "fertig – du kannst einloggen"; nach dem ersten Ausloggen "Messung: … gelesen (x s nach
+     dem WoW-Start). Beleg 1/2". Kommt "Übernahme … kam zu spät": melden (dann übernimmt der Uploader nur noch nach
+     WoW-Ende).
+   - Erster Lauf von 2.2.0: Meldung "gesicherter AHSentinel-Stand … wird beim nächsten Login zusammengeführt"? Danach in
+     AHSentinel prüfen, ob die 85 Laptop-Entzauberungen da sind (sonst Punkt 1).
+   - Mit laufendem Uploader GoldSentinel-WoW.bat starten -> "Der Uploader läuft – er gleicht ab. Starte nur WoW."
+   - Uploader 2.0.1+: nach mehreren /reload innerhalb von 15 Minuten genau EINE Nachricht "GoldSentinel-Paket: …";
+     "zu gross" höchstens einmal je Protokoll, auch nach neuer Ausgabe.
    - Bot: steht im Protokoll "guild_leader ist leer", den Charakternamen in die config.json auf dem Server (nie ins
      Repo). Recht "Nachrichten verwalten" nur in #testberichte. Höchstens ein Neustart je echtem Update
      (sudo journalctl -u raidmaster --since "-6h" | grep -c "Neustart nach Update").
    - Addon-Kanäle: je Addon nur der neueste Update-Text. #befehle für alle, #befehlsliste bei den Offizieren.
      Raids mit "forever": false für Mitglieder ausgeblendet.
 
-IM CLIENT PRÜFEN (mit 3.0.22) – unverändert
-   - /rm testroutine: T162, T163, T164 OK; T142, T122 (n = 3), T43, Bereich K (T155–T160), T133b; danach /reload ->
-     Bericht in #testberichte.
+IM CLIENT PRÜFEN (mit 3.0.23)
+   - /rm testroutine: T165 (neu), T162, T163, T164 OK; T142, T122 (n = 3), T43, Bereich K (T155–T160), T133b; danach
+     /reload -> Bericht in #testberichte.
+   - Nach einer Übernahme vor dem Einloggen: RaidMasterDB.syncProbe gesetzt, RaidMasterSyncProbe nach dem Ausloggen
+     nicht mehr in RaidMaster.lua.
    - Nur RaidMaster geladen, Sammler online: Zustimmungsfrage einmal; ohne Zustimmung geht nichts weg.
    - RaidMaster mit einem Addon, das GoldSentinelSync 2 anmeldet (AHSentinel): Gebote, DKP, Einteilung kommen bei
      älteren RaidMaster-Versionen an.
@@ -106,19 +91,6 @@ HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Jeder neue Slash-Befehl braucht einen Eintrag in COMMAND_INFO (tests/test_befehle.py).
    - Keine echten Spieler- oder Charakternamen in Code, Tests, Beispielen und Texten. Abgleich-Daten nie ins Repo.
    - GoldSentinelGame/Test/Sync nur unverändert aus shared/. RaidMaster ruft GoldSentinelSync.Register NICHT auf.
-   - Versionen höher als Addon 3.0.22, Bot 1.5.113, Uploader 2.1.1.
+   - Versionen höher als Addon 3.0.23, Bot 1.5.114, Uploader 2.2.0.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
-
-PRÜFUNG 11. Nov. 20:00 – Uploader 2.1.1 / Bot 1.5.113 (Abgleich PC/Laptop), Meldung der Sitzung 19:50 gelesen
-   Tests im Repo grün (RaidMasterUploader/tests: 24 passed). Schnittstelle AHSentinelMerge passt zu AHSentinel 0.65.91+
-   (db wird gelesen); Feldnamen von/zeit vs. from/t – Anpassung bei AHSentinel beauftragt (offen-ahsentinel N).
-   Hinweise: (1) Gewinner je Datei nach mtime – laufen die Uhren der Rechner auseinander, gewinnt die falsche Datei;
-   bitte zusätzlich die Upload-Reihenfolge (seq) berücksichtigen bzw. bei < 10 Min. Unterschied als Konflikt behandeln.
-   (2) Daten liegen unverschlüsselt im privaten Kanal – vom Nutzer zu entscheiden (siehe unten).
-   Entscheide des Nutzers zu "_retail_ ausschliessen" und "Jetzt-abgleichen.bat" folgen.
-NEU (11. Nov. 20:05, HOCH, Entscheid des Nutzers) – anweisung-uploader-sync-rechner.txt Nachtrag S8
-   Abgleich SOFORT und OHNE Klick: Upload ≤ 15 s nach WoW-Ende, anderer Rechner prüft alle 30 s, WoW ohne Starter ->
-   Übernahme vor dem Einloggen (erst messen), kein Jetzt-abgleichen.bat, alte Spielversionen nicht immer neu, Gewinner
-   nicht nur nach Uhrzeit. T-SY7–T-SY10.
-

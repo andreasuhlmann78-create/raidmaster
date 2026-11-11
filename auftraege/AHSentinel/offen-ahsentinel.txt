@@ -1,80 +1,82 @@
-OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.93)
+OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.95)
 ===========================================================
-Stand: 11. November 2026, 17:30 · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/AHSentinel-0.65.91/
-0.65.92/0.65.93.zip, verglichen mit 0.65.90 aus der git-Geschichte.
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.65.90 (15:55, mit den
-Nachträgen J und K bis 17:20).
+Stand: 11. November 2026, 20:20 · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/AHSentinel-0.65.94/
+0.65.95.zip, verglichen mit 0.65.93 aus der git-Geschichte.
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.65.93 (17:30).
 Regel seit 9. Nov.: Nur die AHSentinel-Sitzung ändert und veröffentlicht AHSentinel (raidmaster/CLAUDE.md).
 
-STAND: Der Nutzer macht den grossen Test. Bitte bis zur Auswertung keine grösseren Umbauten; zuerst L1, dann L2, K.
+STAND: Der Nutzer macht den grossen Test. Bitte bis zur Auswertung keine grösseren Umbauten; zuerst L1b, dann MP1.
 
-Erledigt in 0.65.91 (danke): ZM1–ZM4 Zusammenführen von zwei Rechnern (Merge.lua neu, TOC SavedVariables
-  AHSentinelMerge): deLog über Kennung, nur fehlende Ergebnisse in deStats (Warteschlange deMergeQueue), deBuys,
-  deShared, Prognose, Buchungen, Ledger, Preisverlauf je Item in Portionen, Vollscan/Charaktere der neuere Stand,
-  Einstellungen bleiben, Paket wird vor dem Zusammenführen geleert (Merge.lua:286–322). Tests T454–T457.
-Erledigt in 0.65.92: VF1 a–g Vollscan glätter (Zeitbudget je Frame einstellbar, Standard 4 ms, Vollscan.lua:317–327,
-  UI_Main.lua:3402–3409; Tabellen-Pool und TrimRead Vollscan.lua:328–349; Verdichtung ohne Müll je Item
-  Vollscan.lua:427–440; A:FireSpread für SCAN_FINISHED/DATA_CHANGED AHAnalyzerPro.lua:135–163; Messung Bilder/s,
-  Frames > 33 ms, eigener Speicher Vollscan.lua:176–252 und 1001–1015; Hinweis "Kann ruckeln" in allen Locales).
-  VF2: Ursache gefunden – die Testroutine rief Se:CancelNextUndercut() ohne Einschränkung auf und traf eine ECHTE
-  unterbotene Auktion des Spielers; jetzt nur die Test-Auktion (onlyID) und nie verkaufte Einträge (Seller.lua:1151–
-  1159). Kein Weg bricht "liegen" ab. VF3 Sandbox nimmt sniper.targets.*.checked aus (TestRoutine.lua:162).
-  VF4/H: kein Preis <= 0 mehr (RecordPrice AHAnalyzerPro.lua:903–904, Marktwert nil statt 0 :1101–1141), Selbsttest
-  nennt die Items (SelfTest.lua:363–376). Tests T458–T460.
-Erledigt in 0.65.93: VF5 Teilverkäufe – Se:OwnedActive und Se:Cancel(auctionID, entry) nehmen den aktiven Eintrag
-  (Seller.lua:1121–1149), X in der Zeile gibt den eigenen Eintrag mit (UI_Auctions.lua:128), Books-Kennung
-  auctionID + Menge + Betrag + laufende Nummer (Books.lua:172–182, 433–450). Tests T461–T462.
-Erledigt ausserdem: G e) Sn.dead/Sn.deadCommodity werden aufgeräumt (Sniper.lua:766–770).
-Prüfungen: addon_check 0.65.93 OK (0 FEHLER, 0 WARNUNG, Ladetest und Sprachtest). GoldSentinelGame/Sync/Test
-byte-gleich mit shared/. CHANGELOG EN/DE mit 0.65.91–0.65.93. Kein Taint, keine Blizzard-Funktion ersetzt, keine
-Spielernamen im Diff. Keine neuen Testberichte seit 0.65.88 (letzter Stand siehe befund-grosser-test-0688.txt).
+Erledigt in 0.65.94 (danke): BE1–BE3 (anweisung-buchhaltung-ehrlich.txt, entfernt) – Rendite im Kopf nur mit Ware mit
+  Einkauf (Books.lua:348–350, BK:RoiText :370–373, UI_Ledger.lua:509–513), "davon ohne Einkauf" getrennt
+  (Books.lua:322–329), Geschäftsart der Kostenbasis bt in Put/Take/Umbuchung (Books.lua:99–111, 174, 191, 270, 281,
+  292–294), "Wo du Geld verlierst" im Tooltip des Gewinns (BK:LossLines Books.lua:362–369, UI_Ledger.lua:129–130).
+  Tests T463–T466.
+Erledigt in 0.65.95: LB1–LB4 (anweisung-lohnt-bis-ueberall.txt, entfernt) – "Lohnt bis" auch im Taschen-Tooltip
+  über den zwei Wegen (Tooltip.lua:683–688), eine Funktion TT:AddLimitLine (:707–714), Kurz-Modus ruft
+  AddVerdictLines immer (:795), nicht an den Beruf gebunden. Tests T467–T470.
+  MP2 – Hauptmaterial > 6 Std. oder ohne Preis: D:StaleMain (Disenchant.lua:1239–1254); Tooltip ohne Betrag, Urteil
+  unsicher (Tooltip.lua:629–632); Markt "Entzaubern"/Sammelkauf ohne Zeile (Disenchant.lua:1259–1261,
+  UI_MarketView.lua:402); Sniper kauft nicht und sagt warum (Sniper.lua:1014–1037, 727–728; Ziel aus dem Markt mit
+  de = true UI_MarketView.lua:572). MP3 – Aufkauf-Kennzeichen bleibt bis widerlegt, in db.buyouts
+  (AHAnalyzerPro.lua:1705–1730). MP1 Teil – Messung PREIS-ALT und Nachholen der Materialpreise am offenen AH
+  (Disenchant.lua:1381–1427, über Seller:CheckPrice -> VerifyPrice). Tests T471–T473.
+  L1a – alte Kennung seenSold[auctionID] wird für den ersten Eintrag übernommen (Books.lua:521–526), T474.
+  L2 – Kostenbasis beim Zusammenführen: Buchungen der anderen Seite in Zeitfolge (Merge.lua:178–201), T476.
+  L3 – Uploader-Feldnamen von/zeit (Merge.lua:291, Kopf :8–9). L4 – "Ergebnisse ohne Verlauf" gezählt und gemeldet
+  (Merge.lua:62–66, 338–339).
+  Damit erledigt und entfernt: anweisung-sync-zusammenfuehren.txt (ZM1–ZM4, L2–L4), befund-grosser-test-0688.txt
+  (VF1–VF5; Prüfung im Client bleibt unten).
+Prüfungen: addon_check 0.65.95 OK (0 FEHLER, 0 WARNUNG, Ladetest und Sprachtest). GoldSentinelGame/Sync/Test
+byte-gleich mit shared/. Alle 13 neuen Texte in allen 10 Locale-Dateien, Platzhalter gleich. CHANGELOG EN/DE mit
+0.65.94 und 0.65.95. Kein Taint, keine Blizzard-Funktion ersetzt (die Tests ersetzen nur eigene Funktionen und
+stellen sie zurück), keine Spielernamen im Diff.
 
 OFFENE PUNKTE
 -------------
-L1. NEU (MITTEL) – VF5 BUCHT NACH DEM UPDATE SCHON GEBUCHTE TEILVERKÄUFE NOCHMALS
-   Books.lua:443–445: Die Kennung in seenSold ist jetzt "auctionID:Menge:Betrag#n". Verkäufe, die 0.65.90–0.65.92
-   schon unter der alten Kennung seenSold[auctionID] gebucht hat und die noch als "verkauft" in der Auktionsliste
-   stehen (Rechnung noch nicht da, bis ~1 Std.), gelten nach dem Update als neu -> zweite "ausstehend"-Buchung und
-   zweites Take() aus der Kostenbasis. Genau der Fall des Nutzers (Mystikeressenz 4× und 1× verkauft, 16:31).
-   Die Rechnung bestätigt nur EINE der beiden (OnInvoice Books.lua:191–214); die zweite bleibt "ausstehend" oder
-   passt später fälschlich zu einer anderen Rechnung.
-   Lösung: a) In CheckOwned: steht seenSold[o.auctionID] (alte Kennung) und ist es der erste Eintrag dieser auctionID,
-   die neue Kennung als gesehen übernehmen statt neu buchen. b) Einmalige Reparatur: "ausstehend"-Buchungen mit
-   gleicher a, id, q und rev innerhalb weniger Sekunden doppelt -> die zweite entfernen und ihre Kostenbasis
-   zurückgeben; Protokoll BUCHHALTUNG mit Anzahl. Test T-VF5c: seenSold[7] gesetzt, owned verkauft 4 id=7 ->
-   keine neue Buchung; T-VF5d: doppelte Buchung wird repariert, Kostenbasis wieder richtig.
+L1b. (MITTEL) – DIE REPARATUR DER DOPPELTEN "AUSSTEHEND"-BUCHUNGEN GREIFT IM ECHTEN FALL NICHT
+   Books.lua:463–485 (BK:RepairDoubles) sucht eine Buchung MIT neuer Kennung (e.sk endet auf "#1") neben einer ohne.
+   Das Feld sk wird aber erst seit 0.65.95 gespeichert (Books.lua:195). Die echten Doppel entstanden in 0.65.93/0.65.94
+   (alte Buchung aus 0.65.92 + zweite Buchung aus 0.65.93) – BEIDE ohne sk. Die Reparatur findet sie nicht, und
+   db.repairedL1 = true (Books.lua:549–550) verhindert jeden weiteren Lauf. T475 bildet den Fall falsch nach (die zweite
+   Buchung bekommt dort "7:4:12496#1" mit).
+   Lösung: neue Kennzeichnung (z. B. db.repairedL1b), und Doppel unabhängig von sk erkennen: "ausstehend"-Buchungen
+   (st = "p") je (a, id, q, rev) gruppieren; erlaubt sind so viele, wie seenSold Schlüssel "a:q:Betrag#n" für diese
+   Gruppe hat (mindestens 1); jede weitere – die spätere – entfernen und ihre Kostenbasis zurückgeben (mit bt).
+   Protokoll BUCHHALTUNG mit Anzahl. Test T-VF5e: alte Buchung ohne sk + zweite Buchung ohne sk, seenSold[7] und
+   seenSold["7:4:12496#1"] gesetzt -> 1 entfernt, Lager zurück; zwei echte Teilverkäufe gleicher Grösse (#1 und #2) ->
+   nichts entfernt.
 
-L2. NEU (MITTEL) – ZM2 KOSTENBASIS NUR TEILWEISE
-   Merge.lua:171–174 nimmt die Kostenbasis je Charakter von der Seite mit der neueren Buchung. Hat derselbe Charakter
-   an beiden Rechnern eingekauft (genau der Konfliktfall: gleicher Account an PC und Laptop), fehlt die Kostenbasis
-   der anderen Seite -> späterer Gewinn zu hoch. Anweisung ZM2: "Kostenbasis je Item/Charakter neu rechnen".
-   Lösung: nach dem Vereinigen von books.log die Kostenbasis je Charakter aus dem vereinigten Log ab Stichtag neu
-   aufbauen (Eröffnung + Käufe/Umbuchungen − Verkäufe in Zeitfolge), oder mindestens die Käufe der anderen Seite, die
-   hier fehlen, zur Kostenbasis addieren. Test T-ZM5: Charakter X kauft am PC 5 und am Laptop 3 Stück -> nach dem
-   Zusammenführen 8 Stück mit der Summe beider Kosten.
+MP1. (MITTEL) – URSACHE "MATERIALPREISE 25 STD. ALT TROTZ SCAN" NOCH NICHT BEHOBEN (befund-materialpreise-alt.txt)
+   0.65.95 misst (PREIS-ALT) und holt die Preise am offenen AH nach – das ist der Zusatz. Der Hauptteil der Lösung
+   fehlt: "Jeder Scan (normal und Vollscan) aktualisiert den aktuellen Preis auch für Waren." Vollscan.lua:782–785
+   zählt nur, wie viele Waren im Vollscan stecken.
+   Lösung: Nach dem ersten Bericht mit PREIS-ALT die Ursache benennen (Waren im Vollscan ja/nein, GetCurrent-Zeit vor/
+   nach) und beheben; Test T-MP1 dann auf "Scan mit Waren -> GetCurrent-Zeit = Scanzeit" (heute prüft T471 nur das
+   Nachholen).
+   Dazu NIEDRIG: Disenchant.lua:1418 schreibt "letzter Scan Vollscan", sobald in der Sitzung irgendein Vollscan lief
+   (VS.lastCommodities ~= nil) – auch wenn der letzte Scan ein normaler war. Die Scan-Art des letzten Scans beim
+   SCAN_FINISHED mitgeben.
 
-L3. NEU (NIEDRIG) – SCHNITTSTELLE MIT DEM UPLOADER: FELDNAMEN
-   Der Uploader (RaidMasterUploader/sync.py add_merge_block) schreibt AHSentinelMerge = { v, von, zeit, grund, db };
-   Merge.lua:264 liest pkg.from und pkg.t -> im Protokoll steht immer "Quelle ?". Bitte beide Namen lesen
-   (pkg.from or pkg.von, pkg.t or pkg.zeit) und den Kopf-Kommentar Merge.lua:6–8 anpassen.
-   Wichtig zum Wissen: Der Uploader legt beim ERSTEN Abgleich eines Rechners heute noch KEIN Paket an (Befund an die
-   RaidMaster-Sitzung, offen-raidmaster.txt Punkt 1). Die 85 Entzauberungen vom Laptop kommen darum erst über den
-   behobenen Uploader bzw. aus dessen Sicherung zusammen – AHSentinel muss nichts ändern.
+JK. (MITTEL, NACH DEM GROSSEN TEST) – anweisung-jetzt-kaufen-verkaufen.txt (Entscheid des Nutzers 11.11. 20:07)
+   JK1–JK5 noch nicht begonnen (kam nach 0.65.95). Erst L1b und MP1, denn ohne frische Preise kein Signal (JK3).
+   Tests T-JK1–T-JK6.
 
-L4. NEU (NIEDRIG) – ENTZAUBERN: deStats ohne deLog
-   Merge.lua:42–58 zählt nur Ergebnisse, die im deLog der anderen Seite stehen. deLog ist auf 2000 begrenzt
-   (Disenchant.lua:429), und ältere Versionen haben evtl. nicht alles geloggt. Ergebnisse, die nur in deStats der
-   anderen Seite stecken, gehen beim Zusammenführen nicht mit. Lösung: je Schlüssel src.deStats[key].n mit der Zahl
-   der src.deLog-Einträge dieses Schlüssels vergleichen; Rest ins Protokoll SYNC-ZUSAMMENGEFUEHRT ("N Ergebnisse
-   ohne Verlauf nicht übernommen") – nie raten, nie doppelt zählen.
+L2b. (NIEDRIG) – ZUSAMMENFÜHREN: KOSTENBASIS BEI ENTZAUBERN UND HERSTELLEN DER ANDEREN SEITE
+   Merge.lua:191–200 behandelt buy/sale/de/xfer. Ein "de" der anderen Seite zieht das entzauberte Item ab, legt die
+   Materialien aber nicht dazu (das Log hat keine Material-Zeilen); "craft" wird gar nicht nachgebucht (Zutaten ab,
+   Produkt dazu). Folge: späterer Verkauf dieser Materialien/Produkte zählt als "ohne Einkauf". Lösung: im de-/craft-
+   Log die Teile mitschreiben (loot bzw. reagents) und beim Zusammenführen nachbuchen; alte Einträge ohne Teile ins
+   Protokoll ("N Umbuchungen ohne Teile"), nie raten.
 
-K. (MITTEL, Entscheid des Nutzers 17:16) – anweisung-buchhaltung-ehrlich.txt
-   BE1 Rendite % neben dem Gewinn, BE2 "wo du Geld verlierst" (Geschäftsart + Item) im Tooltip, BE3 Gewinn aus Ware
-   ohne Einkauf getrennt, Rendite nur mit Einkauf. Kein weiterer Schnickschnack. T-BE1–T-BE4.
+BE2b. (NIEDRIG) – GESCHÄFTSART "HÄNDLERWARE" WIRD NIE GESETZT
+   Books.lua:100 nennt "vendor", aber kein Aufruf von Put gibt "vendor" mit (Händlerkäufe werden nicht gebucht).
+   Entweder Händlerkäufe buchen (MERCHANT, Kosten = Preis) oder "Händlerware" aus TYPE_LABELS nehmen, damit die
+   Anzeige nichts verspricht, was nie vorkommt.
 
 E. ABDECKUNGSLISTE (G2) UND ÄLTERE FEHLENDE TESTFÄLLE (Schwere: NIEDRIG – bitte nachziehen, nicht abschwächen)
    a) COVERAGE nutzt für "offen 6a" bis "offen 11" weiter die Nummern einer älteren Fassung (TestRoutine.lua:649–656,
-      z. B. "offen 8 Texte", "offen 10 Raid-Vorrat"). Bitte auf diese Datei abgleichen (Punkte L, K, E–G hier).
+      z. B. "offen 8 Texte", "offen 10 Raid-Vorrat"). Bitte auf diese Datei abgleichen (Punkte L1b, MP1, JK, E–G).
    b) Weiter nur "im Spiel" oder einer Prüfung zugeordnet, die sie nicht enthält, obwohl offline nachzubilden:
       - Sofortkauf T-SK6/T-SK7 (Detail leer mit Suffix-itemKey -> genau EIN zweiter Versuch, dann DETAIL-LEER;
         TestRoutine.lua:642). (MITTEL)
@@ -87,48 +89,56 @@ E. ABDECKUNGSLISTE (G2) UND ÄLTERE FEHLENDE TESTFÄLLE (Schwere: NIEDRIG – bi
         TestRoutine.lua:650.
       - Laufzeit T-D2–T-D4, Angebot/Absatz T-AB5 und T-AB9/T-AB12, Befehlsliste T-BL3/T-BL4/T-BL7, Tooltip-Gesamtwert
         T-GW4/T-GW6 (TestRoutine.lua:624–636).
-      - T277: T-N2 auf GoldSentinelSync.store.book prüfen; T-GT2 mit collector = false (TestRoutine.lua:6498).
+      - T277: T-N2 auf GoldSentinelSync.store.book prüfen; T-GT2 mit collector = false.
+      - T468 heisst "ohne Verzauberkunst", setzt aber keinen Spieler ohne Beruf auf – bitte den Beruf im Test wirklich
+        weglassen (Prüfung, dass kein Beruf abgefragt wird).
 
 F. RAID-VORRAT (Schwere: NIEDRIG, nach dem Launch) – unverändert
    Comfort.lua K.RAID_SETS: prüfen, ob alle Item-IDs in Forever existieren (T145c im Spiel).
 
 G. HINWEISE (kein Muss)
    a) A:RepairDB prüft im Preisverlauf nur den ersten und letzten Eintrag; lesende Stellen sollen mit fehlendem e.p
-      rechnen können. (Alte Einträge mit p = 0 bleiben im Verlauf; GetMarketValue überspringt sie jetzt.)
+      rechnen können.
    b) DATA_CHANGED aus Sync/Scan löst "Beste Rezepte" neu aus, auch ohne betroffenes Rezept-Item (höchstens alle 30 s).
    c) Diagnose 0.65.69 "REPARATUR-MENGE ×2" (dieselben drei Reparaturen zweimal, eine mit "Item ?") – bitte prüfen.
    d) W8: Prognose Entzauber-Käufe Median Beute/Vorhersage 0,90 – im nächsten Bericht prüfen, ob L10 greift.
-   e) NEU: VF1b – "Verfolgung V4" baut je Auktion noch Zeichenketten (Sigs Vollscan.lua:547–551, "q:b") und je Item
-      eine kleine Tabelle (TrackedSet :540). War 2'264 ms der Messung; falls T459 (≤ 10 MB) im Client nicht grün
-      wird, hier ansetzen (Zahlen-Schlüssel q*2^32+b statt Strings).
-   f) NEU: VS.pool hält die Auktionsdaten des letzten Vollscans dauerhaft im Speicher (gewollt gegen Müll). Im Bericht
-      "Speicher AHSentinel" vorher/nachher zeigt, wie viel das ist; bei > 20 MB nach dem Vollscan leeren.
-   g) NEU: A:FireSpread ruft jeden Empfänger ohne Pause darin auf (yieldOK = false). Ein einzelner langsamer
-      Empfänger bleibt ein langer Frame – die LANGSAM-Zeile "Empfänger … von SCAN_FINISHED" zeigt welcher.
+   e) VF1b – "Verfolgung V4" baut je Auktion noch Zeichenketten (Sigs Vollscan.lua, "q:b") und je Item eine kleine
+      Tabelle; falls T459 (≤ 10 MB) im Client nicht grün wird, hier ansetzen.
+   f) VS.pool hält die Auktionsdaten des letzten Vollscans dauerhaft im Speicher; bei > 20 MB nach dem Vollscan leeren.
+   g) A:FireSpread ruft jeden Empfänger ohne Pause darin auf; die LANGSAM-Zeile zeigt welcher.
+   h) NEU: D:StaleMain läuft bei jedem Tooltip (PerPartMats + MatPrice je Material). T122 (< 2 ms) im Client beachten;
+      sonst je Item kurz zwischenspeichern (priceVersion).
+   i) NEU: D:RefreshMats stellt bis zu 15 Preisprüfungen in die Verkaufen-Warteschlange (Seller.queue). Prüfen, dass
+      der Verkaufen-Reiter dadurch nicht "Prüfe Preis …" für Items zeigt, die der Spieler nicht angeklickt hat.
+   j) NEU: Sn.staleBlock (Sniper.lua:1034) wird gesetzt, aber nirgends gelesen – entfernen oder nutzen.
+   k) NEU: Ohne je gescannten Materialpreis (Era/TBC ohne AH-Daten) zeigt jeder Entzauber-Tooltip "Preise veraltet –
+      erst scannen". Ehrlich und so gewollt (MP2); nur zur Kenntnis.
 
 HINWEIS DES NUTZERS (10. Nov. 16:48): Nach dem letzten Release dem Nutzer ausdrücklich melden: "alles umgesetzt –
 bereit für den Test", mit Version.
 
-IM CLIENT PRÜFEN (mit 0.65.93 bzw. der nächsten Version)
+IM CLIENT PRÜFEN (mit 0.65.95 bzw. der nächsten Version)
 --------------------------------------------------------
-- Vollscan (VF1): "/ahs testroutine server" -> T458 (kein Schritt > 16 ms), T459 (≤ 10 MB, ≤ 1 GC), Zeile "Bilder/s
-  vorher … · Frames über 33 ms …" und "Speicher AHSentinel …"; LANGSAM-Zeilen "Empfänger … von SCAN_FINISHED". Und vor
-  allem: Nutzer spürt beim Vollscan kein Ruckeln (Budget 4 ms, notfalls 2 ms probieren).
-- VF5: teilweise verkaufte Mystikeressenz/Splitter mit X und "Nächste unterbotene abbrechen" abbrechbar; in der
-  Buchhaltung je Teilverkauf GENAU EINE "ausstehend"-Buchung (siehe L1).
-- VF2/VF3: T52 "liegen, 0 Befehl(e)", Sandbox OK (T-X6b).
+- MP1: Diagnose-Zeile PREIS-ALT nach einem Scan und beim Öffnen des AH (Scan-Art, Waren im Vollscan, Alter der drei
+  Hauptmaterialien, "N frisch geholt"); danach im Tooltip der Azurblauen Seidenkapuze keine "alt (vor 25 Std.)" mehr.
+  Zeile an die Prüf-Sitzung.
+- LB: "Lohnt bis" in Taschen, Bank, Post, Chat-Link, Händler, fremder Ausrüstung, Beutefenster; Kurz-Modus; Bereich K:
+  nichts abgeschnitten (enGB/deDE).
+- MP2: Sniper-Entzauberziel mit veraltetem Material -> "Materialpreise veraltet – erst scannen", kein Kauf.
+- Buchhaltung: Kopf "Gewinn X  Rendite Y %", Tooltip "Verlust bei …"/"Grösster Verlust …" bzw. "Kein Verlust-Geschäft";
+  je Teilverkauf GENAU EINE "ausstehend"-Buchung (L1b), alte Doppel weg.
+- Vollscan (VF1): "/ahs testroutine server" -> T458 (kein Schritt > 16 ms), T459 (≤ 10 MB, ≤ 1 GC), "Bilder/s …",
+  "Speicher AHSentinel …"; Nutzer spürt kein Ruckeln (Budget 4 ms, notfalls 2 ms).
 - Zusammenführen (ZM): nach dem ersten echten Abgleich über den Uploader Chat-Zeile "Daten vom anderen Rechner
-  übernommen: …", Protokoll SYNC-ZUSAMMENGEFUEHRT, Entzauber-Zahl = PC + Laptop ohne Doppel.
-- /ahs testroutine alles am AH auf Forever: T308–T462; "Sandbox (echte Daten unverändert): OK"; T122 Tooltip < 2 ms;
-  T169/T373; T372.
-- Schnell-Vollscan: M1b Restzeit-Stufen, M1c (/ahs vollscan messen); Absatz nach ≥ 6 Std. plausibel.
-- Markt: Heute ohne Schein-Flip, Fusszeile "(höchstens 25 %)", Ansicht "Entzaubern"; Überfüllt/Händler/Lücken/Trends.
-- Entzaubern: Tooltip-Quelle, Sperrliste, DE-NICHT-MOEGLICH-Zeilen.
-- Sniper: sucht ohne Klick, "Kauf fehlgeschlagen" nur einmal, totes Angebot bleibt "weg", goldenes Signal (SG).
-- Buchhaltung: Kopf nachrechenbar (Tooltip), "davon im AH"; /ahs doppelt (Zahl an die Prüf-Sitzung).
-- Messreihe Ausrüstung (/ahs messreihe): Ergebnis an die Prüf-Sitzung (anweisung-ausruestung-silber-entscheid.txt).
-- Weiter aus früheren Ständen: Halbautomatisch Berufe/Händler, Sofortkauf eines schon gekauften Angebots, Optionen ohne
-  überlagerte Zeilen, Befehlsliste ohne "Aktion blockiert", Briefkasten nur EINE Buchung, Raid-Vorrat T145c.
+  übernommen: …", Protokoll SYNC-ZUSAMMENGEFUEHRT mit "Quelle Rechner" (nicht "?"), Entzauber-Zahl = PC + Laptop ohne
+  Doppel, Kostenbasis desselben Charakters von beiden Rechnern.
+- /ahs testroutine alles am AH auf Forever: T308–T476; "Sandbox (echte Daten unverändert): OK" (neu: db.buyouts);
+  T122 Tooltip < 2 ms; T169/T373; T372.
+- Weiter aus früheren Ständen: VF2/VF3 (T52 "liegen, 0 Befehl(e)", Sandbox T-X6b), Schnell-Vollscan M1b/M1c, Markt
+  (Heute ohne Schein-Flip, Ansicht "Entzaubern"), Entzaubern (Tooltip-Quelle, Sperrliste), Sniper (sucht ohne Klick,
+  goldenes Signal), /ahs doppelt, Messreihe Ausrüstung (anweisung-ausruestung-silber-entscheid.txt), Halbautomatisch
+  Berufe/Händler, Optionen ohne überlagerte Zeilen, Befehlsliste ohne "Aktion blockiert", Briefkasten nur EINE
+  Buchung, Raid-Vorrat T145c.
 
 Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
