@@ -1,48 +1,31 @@
-OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.26)
+OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.27)
 =============================================================
-Stand: 11. November 2026, 11:16 · von der Prüf-Sitzung · Grundlage: download/GuildSentinel-0.9.26.zip
-(verglichen mit 0.9.25 aus der git-Geschichte; Repo GuildSentinel 62890e4 = Inhalt der ZIP).
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.25.
+Stand: 11. November 2026, 14:35 · von der Prüf-Sitzung · Grundlage: download/GuildSentinel-0.9.27.zip
+(verglichen mit 0.9.26 aus der git-Geschichte; Repo GuildSentinel 4984d77 = Inhalt der ZIP).
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.26.
 
-Erledigt in 0.9.26 (danke):
-- Punkt 1 aus 0.9.25 (NIEDRIG, ohne Discord beginnt der Satz klein): DropDiscord schreibt nach ". ", "! ", "? " den
-  ersten Buchstaben a-z gross (Recruit.lua:137-139). Nachgerechnet mit Lua 5.1 für alle 10 Locale-Texte: deDE
-  "… deutschsprachig. Flüstert mir: …", enUS "… relaxed and helpful. Whisper me: …"; es/it/pt/fr ebenfalls gross.
-  T245 prüft "[%.!%?] %l" (TestRoutine.lua:2565-2566). Ausnahme ruRU, siehe Punkt 1 unten.
-- Punkt 2 aus 0.9.25 (NIEDRIG, alter gespeicherter Standardtext): Rc.OLD_DEFAULT_DE und Rc:IsOldDefault vergleichen
-  mit dem alten deutschen Text und dessen Übersetzung in der Client-Sprache; Rc:MigrateAdText leert ns.db.adText
-  beim PLAYER_LOGIN (Recruit.lua:30-46). Der alte Schlüssel steht wieder in Locales.lua und allen 9 Locale-Dateien;
-  die Übersetzungen sind byte-gleich mit 0.9.24 (geprüft), der Vergleich trifft also auch fremdsprachige alte Texte.
-  ns.db ist beim PLAYER_LOGIN schon gesetzt (Core.lua:720-727). T250 neu (TestRoutine.lua:2608-2619).
-- Punkt 3 aus 0.9.25 (NIEDRIG, T248 prüft den Zähler nicht): T248 umbenannt; T249 neu ruft page:Preview mit kurzem
-  und langem Text auf und prüft "wird gekürzt" in page.length (TestRoutine.lua:2590-2605).
-- CHANGELOG EN/DE, LIESMICH/README_EN, .toc und ns.version 0.9.26.
+Erledigt in 0.9.27 (danke):
+- Punkt 1 aus 0.9.26 (NIEDRIG, Russisch klein nach weggelassenem Discord): Locales_ruRU.lua:81 schreibt jetzt
+  "Пишите мне". Mit DropDiscord (Recruit.lua:133-147) ergibt das "… без напряга. Пишите мне: /w …", mit Discord
+  "… – Пишите мне: …". Beides richtig.
+- Punkt 2 aus 0.9.26 (NIEDRIG, T250 nur deutsch): T250 setzt zusätzlich den alten Standard in der Sprache des Clients
+  (L[alter Schlüssel] .. " ") und prüft MigrateAdText -> true, adText nil (TestRoutine.lua:2613-2623).
+- CHANGELOG EN/DE, LIESMICH/README_EN, .toc und ns.version 0.9.27.
 
 Prüfungen: Addon-Prüfung OK, 0 FEHLER, 0 WARNUNGEN (Ladetest, Sprachtest). GoldSentinelGame.lua, GoldSentinelSync.lua
-und GoldSentinelTest.lua byte-gleich mit shared/, GoldSentinelDev.lua unverändert gegenüber 0.9.25.
+und GoldSentinelTest.lua byte-gleich mit shared/.
 Offline-Routine mit Lua 5.1: Forever (16001) OK 219 · FEHLER 0 · übersprungen 27 · im Client prüfen 8; Era (11508)
-und TBC (20505) je OK 224 · FEHLER 0 · übersprungen 21 · im Client prüfen 9 (je +2 gegenüber 0.9.25 = T249, T250);
-run_routine je 16/16, auch mit enUS. test/run.lua 75/75, run_admin 26/26, run_uicheck 13/13, run_lang 7/7,
-run_noguild 19/19, run_nilglobals 24/24, run_profsync 23/23, run_rm 17/17.
-Im Diff 0.9.25 -> 0.9.26 keine Lua-Fehler, keine nil-Zugriffe (IsOldDefault prüft type, MigrateAdText prüft ns.db),
-kein Taint (T250 ersetzt nur ns.db.adText über With und stellt ihn wieder her), Era/TBC nicht gebrochen.
+und TBC (20505) je OK 224 · FEHLER 0 · übersprungen 21 · im Client prüfen 9; Forever mit ruRU OK 220 · FEHLER 0.
+run_routine je 16/16. test/run.lua 75/75, run_lang 7/7, run_uicheck 13/13.
+Im Diff 0.9.26 -> 0.9.27 nur ein Locale-Text, T250 und Texte/Versionen: keine Lua-Fehler, keine nil-Zugriffe, kein Taint,
+Platzhalter im ruRU-Text unverändert, Era/TBC nicht gebrochen.
 Keine neuen Testberichte aus dem Spiel seit der letzten Nachprüfung.
 
-1. NIEDRIG – Russisch: nach weggelassenem Discord bleibt "пишите мне" klein
-   DropDiscord schreibt nur a-z gross (Recruit.lua:137-139, so auch empfohlen). Im ruRU-Text
-   (Locales_ruRU.lua:81) steht nach "– " ein kyrillisches Kleinwort. Ohne Discord ergibt das
-   "… дружно и без напряга. пишите мне: /w …". T245 merkt es nicht, weil %l kein Kyrillisch kennt.
-   Lösung (einfach): in Locales_ruRU.lua:81 "Пишите мне" gross schreiben – mit Discord steht es nach "– " und ist
-   auch dort richtig. Sonst nichts ändern. Kein neuer Testfall nötig; wer mag, prüft in T245 zusätzlich mit
-   Rc.DropDiscord den ruRU-Text auf ". п".
+Keine offenen Punkte aus der Code-Prüfung. Freigegeben. Offen bleibt nur die Prüfung im Client (unten).
 
-2. NIEDRIG – T250 prüft nur den deutschen alten Standard
-   TestRoutine.lua:2608-2619 setzt nur Rc.OLD_DEFAULT_DE. Der Zweig mit der Übersetzung
-   (Recruit.lua:37, L[alter Schlüssel]) wird nicht geprüft. Lösung: in T250 zusätzlich
-   ns.db.adText = L[<alter Schlüssel>] (mit Leerzeichen am Ende, wegen Trim) -> MigrateAdText gibt true, adText nil.
-
-IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.26, Ergebnis dem Nutzer melden)
-   - Neu mit 0.9.26: Wer bisher den alten Standard-Werbetext gespeichert hatte: nach dem Einloggen zeigt die Seite
+IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.27, Ergebnis dem Nutzer melden)
+   - Neu mit 0.9.27: Russischer Client, Discord-Link leer -> Vorschau "… без напряга. Пишите мне: /w …" (gross).
+   - Aus 0.9.26: Wer bisher den alten Standard-Werbetext gespeichert hatte: nach dem Einloggen zeigt die Seite
      Rekrutierung den neuen Standard (Feld leer). Ein eigener, abweichender Text bleibt. Discord-Link löschen ->
      Vorschau "… deutschsprachig. Flüstert mir: …" (gross). Zähler: langer Text -> rot "(n/251) wird gekürzt" (T249).
    - Aus 0.9.25: Seite Rekrutierung mit leerem Werbetext -> Vorschau zeigt den neuen Standard mit der richtigen
@@ -80,7 +63,7 @@ IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.26
    - Echte Aktion einmal mit einem Test-Twink: Einladen, Befördern (auch aus der Aktivität und als Sammelaktion),
      Degradieren, Entfernen – kein "Aktion blockiert".
    - Letzter vollständiger Testlauf im Spiel ist noch 0.9.13 (09.11. 05:47 UTC): T82, T118, T143, T154 waren dort
-     FEHLER, offline seit 0.9.21 bestanden. Mit 0.9.26 erneut /gs testroutine. Dazu T45 "[Test], 0", Bereich K
+     FEHLER, offline seit 0.9.21 bestanden. Mit 0.9.27 erneut /gs testroutine. Dazu T45 "[Test], 0", Bereich K
      (T182-T187, T237), T239-T250, Berufe-Knopf in Forever ohne "Aktion blockiert", issecretvalue nach dem Kampf,
      T168 (/gs testroutine whisperq), Bank-Charakter -> #gildenbank, Sprachwahl folgt ohne Einstellung dem Client.
 
@@ -88,6 +71,6 @@ HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Die Sprache muss ohne Einstellung immer dem Client folgen (hinweis-sprachtest.txt).
    - Keine echten Spieler-, Gilden- oder Charakternamen und keine Discord-Links (hinweis-keine-spielernamen.txt).
    - Gemeinsame Dateien nur unverändert aus shared/ kopieren.
-   - Die Version muss höher sein als 0.9.26 (download/, announce/, CurseForge).
+   - Die Version muss höher sein als 0.9.27 (download/, announce/, CurseForge).
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
