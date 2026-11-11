@@ -38,3 +38,15 @@ VF3 MITTEL – SANDBOX: "sniper.targets.i:6418.checked" wiederhergestellt
 VF4 NIEDRIG – T21 "2 Marktwerte <= 0" (siehe offen H): ItemIDs im Bericht nennen, Ursache, nil statt 0 speichern.
 
 Daten vom Laptop (zweiter Rechner) – Entzauber-Teil darum klein; Abgleich der Rechner: anweisung-sync-zusammenfuehren.txt.
+
+NACHTRAG 16:10 – RÜCKMELDUNG DES NUTZERS: "Ja, es hat geruckelt, und zwar sehr."
+   Die Messung (längste Lücke 154 ms) unterschätzt das Gefühl. Rund 30 s lang (16 s Warten + 16 s Verarbeiten) liegen
+   die Frames vermutlich dauernd bei 30–80 ms (12–30 Bilder/s), dazu GC-Pausen bei ~500 MB Lua-Speicher.
+   VF1 ergänzt:
+   e) Zusätzlich messen: Bilder/s (GetFramerate) vor dem Vollscan und Mittel/Minimum während jedes Schritts,
+      Anteil der Frames > 33 ms. Auch während "Warten auf Server" (77 ms Spitze: liegt es am Server-Abruf selbst,
+      d. h. am Spiel, oder an AHSentinel-Arbeit in dieser Zeit?).
+   f) Ziel ist ein Vollscan, den der Spieler nicht spürt: lieber länger (z. B. 60 s) mit ≤ 4 ms je Frame als 30 s mit
+      Ruckeln. Budget je Frame einstellbar machen, Standard 4 ms.
+   g) Bis VF1 fertig ist: Hinweis im Optionstext "Schnell-Vollscan: kann ruckeln" (Locales).
+   T-VF4: Bericht zeigt Bilder/s je Schritt; im Client nach VF1: Nutzer spürt kein Ruckeln.
