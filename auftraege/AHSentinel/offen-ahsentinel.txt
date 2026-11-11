@@ -26,6 +26,8 @@ J. NEU (11. Nov. 16:15, HOCH) – befund-grosser-test-0688.txt (Teil server mit 
    Vollscan: kein Hänger > 1 s, aber Frames bis 154 ms und +42 MB Müll/3 GC -> VF1 glätten (≤ 8 ms je Frame, Müll
    vermeiden, Neuaufbau einmal) = der VORGEMERKTE Fix, jetzt freigegeben. VF2 HOCH: T52 – bei "liegen" ein
    Abbruch-Versuch (im Spiel Einzahlung weg) – nie abbrechen. VF3 Sandbox sniper.targets.*.checked. VF4 = H.
+   VF5 HOCH (Bild 16:31): teilweise verkaufte Waren-Auktionen nicht abbrechbar ("schon verkauft") – Se:Cancel nimmt
+   den letzten Eintrag mit gleicher auctionID (verkaufter Teil); auctionID bei Waren nicht eindeutig. T-VF5a/b.
 
 H. T21 "Scan: Marktdaten plausibel" (Schwere: NIEDRIG): "5610 Items, 5610 mit Marktwert, 2 Marktwerte <= 0".
    Welche zwei Items (ItemID im Bericht), warum <= 0 (Händlerpreis 0? Lockangebot?), und Marktwert <= 0 beim Speichern

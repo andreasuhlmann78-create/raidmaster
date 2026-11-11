@@ -50,3 +50,19 @@ NACHTRAG 16:10 – RÜCKMELDUNG DES NUTZERS: "Ja, es hat geruckelt, und zwar seh
       Ruckeln. Budget je Frame einstellbar machen, Standard 4 ms.
    g) Bis VF1 fertig ist: Hinweis im Optionstext "Schnell-Vollscan: kann ruckeln" (Locales).
    T-VF4: Bericht zeigt Bilder/s je Schritt; im Client nach VF1: Nutzer spürt kein Ruckeln.
+
+VF5 HOCH – TEILWEISE VERKAUFTE AUKTIONEN LASSEN SICH NICHT ABBRECHEN (Bild des Nutzers 11.11. 16:31, 0.65.88)
+   Lage: Meine Auktionen: Große Mystikeressenz 9× aktiv (dazu verkauft 4× und 1×, gleicher Preis 31s 24c) und Großer
+   leuchtender Splitter 2× aktiv (dazu 1× verkauft, 37s 87c). Abbrechen per X und "Nächste unterbotene abbrechen"
+   meldet immer "Diese Auktion ist schon verkauft." – egal was der Nutzer klickt.
+   Ursache (Code, Seller.lua Se:Cancel ~1118–1126): Bei Waren bleibt nach einem Teilverkauf dieselbe auctionID; die
+   verkauften Teile stehen als eigene Einträge mit derselben auctionID in Se.owned. Die Schleife
+   "for _, x in ipairs(self.owned) do if x.auctionID == auctionID then o = x end end" nimmt den LETZTEN Treffer – das
+   ist ein verkaufter Teil -> o.sold -> Abbruch verweigert. Genau die zwei Auktionen mit Teilverkauf sind betroffen.
+   Lösung: Beim Suchen den NICHT verkauften Eintrag mit dieser auctionID nehmen (verkaufte überspringen); die Zeile
+   gibt am besten ihren eigenen Eintrag (Index/Objekt) an Se:Cancel weiter statt nur die auctionID. Gleich prüfen:
+   Unterbietung, Status, Summen, Buchhaltung "ausstehend" (Books: SOLD_KEEP je auctionID!) – überall, wo auctionID als
+   eindeutig gilt, Teilverkäufe von Waren beachten (Schlüssel auctionID + Status bzw. + Menge).
+   Tests: T-VF5a: owned = {aktiv 9 id=7, verkauft 4 id=7, verkauft 1 id=7} -> Se:Cancel(7) bricht die aktive ab.
+          T-VF5b: Books bucht den Teilverkauf als "ausstehend" und die aktive Restmenge NICHT als verkauft.
+   Bis dahin: Abbrechen über das Blizzard-Fenster (Reiter "Auktionen") geht.
