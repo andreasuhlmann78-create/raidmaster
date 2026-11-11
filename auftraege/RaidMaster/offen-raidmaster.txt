@@ -1,102 +1,111 @@
-OFFENE PUNKTE RAIDMASTER (nach der Nachprüfung von Addon 3.0.22, Bot 1.5.112 und Uploader 2.0.1)
+OFFENE PUNKTE RAIDMASTER (nach der Nachprüfung von Bot 1.5.113 und Uploader 2.1.1; Addon 3.0.22)
 ================================================================================================
-Stand: 9. November 2026, 20:21 · von der Prüf-Sitzung
-Grundlage: download/RaidMaster-3.0.22.zip, RaidMasterBot 1.5.112, download/RaidMasterUploader.zip (2.0.1)
-(verglichen mit Addon 3.0.20/3.0.21, Bot 1.5.111 und Uploader 2.0.0 aus der git-Geschichte)
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach Addon 3.0.20,
-Bot 1.5.111 und Uploader 2.0.0 (14:30, mit den Nachträgen bis 20:05).
+Stand: 11. November 2026, 17:30 · von der Prüf-Sitzung (geplante Nachprüfung)
+Grundlage: RaidMasterBot 1.5.113, RaidMasterUploader 2.1.1 (Ordner und download/RaidMasterUploader.zip), verglichen mit
+Bot 1.5.112 und Uploader 2.0.1 aus der git-Geschichte. Addon unverändert 3.0.22.
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand vom 9. Nov. 20:21 mit dem
+Nachtrag vom 11. Nov. 16:05.
 
-Erledigt in 3.0.21 / 3.0.22, Bot 1.5.112 und Uploader 2.0.1 (danke):
-- Addon 3.0.21 (anweisung-test-version2.txt T1–T5): GoldSentinelTest.lua Version 2 byte-gleich mit shared/;
-  GT.TrackErrors weiter nach ADDON_LOADED (Core.lua:842); keine Frame-Zählung über GoldSentinelTestFrame in der
-  Testroutine; LIESMICH.txt:18-22 und README_EN.txt:30-34. Testfälle T162 (T-GT1) und T163 (T-GT2) in
-  Test/Routine.lua:2576-2603 (Zustimmung kurz aus, danach wie vorher; Ausgang unverändert).
-- Addon 3.0.22 (Entscheid des Nutzers M1–M4):
-  M1 GoldSentinelSync.lua Version 2 byte-gleich mit shared/, RaidMaster.toc:21 nach GoldSentinelGame.lua und vor
-     GoldSentinelTest.lua.
-  M2 Kein GoldSentinelSync.Register in RaidMaster; Comm.lua sendet weiter über RM.PREFIX "RaidMstr",
-     RAID/GUILD/WHISPER, eigener Takt (Comm.lua:99-135). Kein SendAddonMessage über "CHANNEL".
-  M3 T164 (Test/Routine.lua:2606-2636): Sync >= 2 geladen, keine RaidMaster-Kennung in endpoints, Gebot über
-     RaidMstr/WHISPER und nicht in GoldSentinelSync.queue. Ersetzt wird nur RM.SendAddonMessage (Tabellenfeld,
-     keine Blizzard-Funktion), nach dem Fall zurückgesetzt.
-  M4 LIESMICH.txt:14-16, README_EN.txt:26-28 (DE/EN).
-  Damit sind anweisung-gemeinsamer-sync.txt, anweisung-sync-version2.txt (für RaidMaster nicht zutreffend, siehe
-  Nachtrag 20:05) und anweisung-test-version2.txt erledigt; hinweis-sync-kanal.txt ist erfüllt.
-- Bot 1.5.112 (bisher Punkt 1): "guild_leader": "" in config.example.json:6, Abschnitt in ANLEITUNG.md:186-189,
-  einmalige Warnung im Protokoll bei leerem Eintrag (bot.py:216-220). Ob der Name in der config.json auf dem Server
-  steht, bleibt Live-Prüfung (Punkt 3).
-- Uploader 2.0.1 (bisher Punkt 2): zu Grosses nur einmal melden, Prüfwert in uploader_state.json "zu_gross"
-  (uploader.py:438-450, höchstens 200 Einträge); Test p09 um zweite Änderung und Neustart ergänzt
-  (tests/test_uploader.py:335-350).
-- Uploader 2.0.1 (bisher Punkt 3): Pakete in mehreren Teilen – jeder gesendete Teil wird sofort gemerkt
-  (send_package uploader.py:540-561, commit mit marks uploader.py:474-492); Test p12 (tests/test_uploader.py:367-383).
-  LIESMICH/README_EN des Uploaders mit 2.0.1.
+Erledigt in Uploader 2.1.0/2.1.1 und Bot 1.5.113 (danke) – anweisung-uploader-sync-rechner.txt:
+- S1 Speicher: privater Kanal #sync-daten je Nutzer, Webhook + Index-Nachricht (uploader_setup.py setup_sync), Bot
+  liest dort nichts (route_message "ignore"), sync_config.json mit /uploader (bot.py:4921–4946), .gitignore für
+  sync_config.json und _sync_backup/. Höchstens 10 Fassungen (sync.py push, VERSIONS_KEEP), nur HTTPS.
+- S2 nur *.lua aus SavedVariables von Konto und Charakteren, alle Spielversionen/Konten (find_roots, _safe_rel).
+- S3 Hochladen nach WoW-Ende + 2 Min. Ruhe (tick), Starter GoldSentinel-WoW.bat (wow_start), Herunterladen beim Start
+  des Uploaders, nie bei laufendem WoW (zweimal geprüft vor dem Schreiben), Sicherung vor jedem Übernehmen.
+- S4 Konflikt bei bekannter Basis: neuere gewinnt, ältere gesichert und gemeldet, AHSentinelMerge als eigener Block
+  (add_merge_block, AHSentinelDB unverändert). S5 Statuszeile. S6 Tests T-SY1–T-SY6, Webhook-Weg, find_roots.
+  S7 LIESMICH/README_EN, Autostart-einrichten.bat.
+Prüfungen: Bot-Tests 120/120 OK, Import aller Bot-Module (wie bot-tests.yml) OK, py_compile bot.py OK. Uploader-Tests
+24/24 OK. download/RaidMasterUploader.zip byte-gleich mit dem Ordner (ohne tests/). Keine Tokens, Webhook-URLs oder
+Spielernamen im Diff. Keine neuen Testberichte seit dem letzten Stand.
 
-Prüfungen: Addon-Prüfung RaidMaster-3.0.22.zip OK, kein FEHLER, keine Warnung (Ladetest; Sync-Tests 79/79,
-GoldSentinelTest-Tests 65/65, UICheck 9/9). GoldSentinelGame.lua, GoldSentinelTest.lua und GoldSentinelSync.lua
-byte-gleich mit shared/. RaidMaster/ gleich wie die ZIP; RaidMaster-latest.zip = 3.0.22.
-Bot-Tests 116/116 OK, Import aller Bot-Module (wie .github/workflows/bot-tests.yml) OK, py_compile bot.py OK.
-Uploader-Tests 15/15 OK; download/RaidMasterUploader.zip passt zum Ordner (ohne tests/).
-Im Diff keine Lua- oder Python-Fehler, kein Taint, keine Spielernamen gefunden.
-Testberichte seit 14:30: kein neuer RaidMaster-Testlauf (letzter 3.0.17 vom 5. Nov.), keine neuen RaidMaster-Fehler
-im Spiel (nur die bekannten 2× SetRaidTarget aus 3.0.17, in 3.0.19 behoben).
+OFFENE PUNKTE
+-------------
+1. NEU (HOCH) – ERSTER ABGLEICH ÜBERSCHREIBT DIE ÄLTERE LOKALE DATEI OHNE ZUSAMMENFÜHRUNG
+   sync.py:479: "if lsha == base or base is None and cur['mtime'] <= remote mtime" – hat ein Rechner noch keine Basis
+   (erster Abgleich, oder nach dem Wechsel 2.1.0 -> 2.1.1, weil die Schlüssel jetzt "<Spielversion>/<KONTO>/…" sind),
+   gilt seine ältere Datei als "hier nicht geändert" und wird ersetzt – ohne AHSentinelMerge, nur mit Sicherung.
+   Das ist genau ZM4 (Laptop 85 Entzauberungen, PC 256, nie abgeglichen): Nachgestellt mit den Test-Helfern aus
+   tests/test_sync.py (Laptop AHSentinel.lua älter, PC lädt zuerst hoch, Laptop pull) -> Laptop-Datei = PC-Stand,
+   kein AHSentinelMerge, Meldung nur "1 Datei(en) vom PC übernommen". Die 85 Entzauberungen liegen dann nur noch in
+   _sync_backup, und das behält nur die letzten 5 Sicherungen (BACKUPS_KEEP, sync.py:48, _backup :407) – nach fünf
+   weiteren Übernahmen sind sie weg.
+   Lösung: a) base is None und lsha != rsha -> wie "an beiden Rechnern geändert" behandeln (neuere gewinnt, ältere
+   gesichert, gemeldet; bei AHSentinel.lua IMMER AHSentinelMerge). b) Sicherungen aus Konflikten (tag "konflikt")
+   nicht mit den gewöhnlichen 5 rotieren, sondern z. B. 30 Tage behalten. c) Einmalig für die heutige Lage: Liegt in
+   _sync_backup eine AHSentinel.lua, die nie zusammengeführt wurde, beim nächsten Abgleich als AHSentinelMerge
+   anhängen (oder Knopf/Befehl "Sicherung zusammenführen"). Test T-SY7: beide Rechner mit Daten, nie abgeglichen,
+   ältere Seite pull -> AHSentinelMerge mit der älteren AHSentinelDB, Meldung "beide geändert".
 
-Offene Punkte:
+2. NEU (MITTEL) – STARTER UND LAUFENDER UPLOADER ÜBERSCHREIBEN SICH DEN ZUSTAND
+   GoldSentinel-WoW.bat startet einen zweiten Prozess (uploader.py --wow-start, uploader.py:815–846). Läuft der
+   Uploader schon (Autostart empfohlen), lesen beide uploader_state.json; der Starter übernimmt einen neuen Stand und
+   speichert sync.seq/sync.files (sync.py:525), der laufende Uploader speichert danach seinen alten Zustand darüber
+   (save_state uploader.py:320–326 schreibt das ganze Dict). Folge: Der laufende Uploader hält den übernommenen Stand
+   für neu -> während des Spiels Windows-Hinweis "Neuerer Stand vom … – WoW beenden" (falsch) und nach WoW-Ende
+   unnötige Konflikte/Sicherungen/AHSentinelMerge. Beide Prozesse können ausserdem gleichzeitig Dateien schreiben.
+   Lösung: Sperrdatei (z. B. _sync.lock mit PID); der Starter übernimmt nur, wenn kein Uploader läuft, sonst bittet er
+   ihn über eine Signaldatei um den Abgleich und wartet auf dessen Meldung. Mindestens: Sync liest st["sync"] vor
+   jedem pull/push frisch aus der Datei und speichert nur diesen Teil zusammengeführt. Test T-SY8: zwei Sync-Objekte
+   auf derselben Zustandsdatei -> kein falscher Hinweis, kein Konflikt.
 
-1. UPLOADER: Prüfwert "zu_gross" über den ganzen Inhalt (Schwere: NIEDRIG)
-   uploader.py:440-442 merkt x["id"]; das ist der Prüfwert des GANZEN Textes (extras_in_text, uploader.py:263-272),
-   bei Diagnose-Protokollen also mit Kopfzeilen und Uhrzeit der Ausgabe. Schreibt ein Addon dasselbe zu grosse
-   Protokoll neu aus (neue Uhrzeit), kommt die Meldung wieder – nicht mehr bei jedem tick, aber je neuer Ausgabe.
-   Lösung: für "diag" den Prüfwert aus diag_entries() bilden (wie beim Senden, uploader.py:461-465), für "wege" so
-   lassen. Test p09: gleiches Protokoll mit anderer Uhrzeit -> keine zweite Meldung.
+3. NEU (NIEDRIG) – FELDNAMEN IM ZUSAMMENFÜHRUNGS-PAKET
+   add_merge_block schreibt { v, von, zeit, grund, db }; AHSentinel (Merge.lua:264) liest from und t. Funktioniert
+   (db passt), nur das Protokoll zeigt "Quelle ?". Die AHSentinel-Sitzung liest künftig beide Namen
+   (offen-ahsentinel.txt L3). Hier bitte nichts umbenennen, nur in LIESMICH/Code-Kommentar die Form festhalten.
 
-2. UPLOADER: Kommentar und Typangabe passen nicht mehr (Schwere: NIEDRIG)
-   uploader.py:378 "Verändert st NICHT" – build() schreibt jetzt "zu_gross" in st und speichert (uploader.py:440-448).
-   uploader.py:504 "-> list[tuple[str, bytes]]" – package_bodies gibt jetzt (boundary, body, chunk) zurück.
-   Lösung: Kommentar und Typangabe anpassen (keine Funktionsänderung).
+4. NEU (NIEDRIG) – TEXT ZUR SICHERUNG VERALTET
+   LIESMICH.txt:84–85 und README_EN.txt:75–76 nennen noch WTF\Account\<Konto>\_sync_backup; seit 2.1.1 liegt die
+   Sicherung im Uploader-Ordner (make_sync uploader.py, backup_dir). Text angleichen.
 
-3. LIVE PRÜFEN (Server / Discord / Uploader beim Nutzer)
-   - Uploader 2.0.1: nach mehreren /reload innerhalb von 15 Minuten genau EINE Nachricht "GoldSentinel-Paket: …" mit
-     paket-<Zeit>.json.gz in #testberichte; unveränderte Diagnose-Protokolle kommen nicht nochmals; "zu gross" höchstens
-     einmal je Protokoll im Uploader-Fenster. Die Prüf-Sitzung kontrolliert das in testberichte/.
-   - Bot 1.5.112: steht im Protokoll beim Start "guild_leader ist leer", den Charakternamen des Gildenchefs in die
-     config.json auf dem Server eintragen (nie ins Repo). Danach hat der Gildenchef wieder seine Rechte.
-   - Bot: Recht "Nachrichten verwalten" nur in #testberichte; abgeholte Nachrichten verschwinden nach > 1 Stunde;
-     sonst wird nichts gelöscht. Ein fehlendes Recht meldet der Bot einmal in #bot-befehle.
-   - Server-Protokoll: höchstens ein Neustart je echtem Update
+5. NEU (NIEDRIG) – JEDE MINUTE ALLE DATEIEN LESEN
+   sync.py:398 local_changes liest und hasht bei nicht laufendem WoW jede Minute alle SavedVariables aller Konten und
+   Spielversionen (AHSentinel.lua ist gross). Lösung: Grösse + mtime merken, nur bei Änderung hashen.
+
+6. UPLOADER: Prüfwert "zu_gross" über den ganzen Inhalt (Schwere: NIEDRIG) – unverändert
+   uploader.py:442–444 merkt x["id"], den Prüfwert des GANZEN Textes (mit Kopfzeilen und Uhrzeit). Schreibt ein Addon
+   dasselbe zu grosse Protokoll neu aus, kommt die Meldung wieder. Lösung: für "diag" den Prüfwert aus diag_entries()
+   bilden (wie beim Senden), für "wege" so lassen. Test p09: gleiches Protokoll mit anderer Uhrzeit -> keine zweite
+   Meldung.
+
+7. UPLOADER: Kommentar und Typangabe passen nicht mehr (Schwere: NIEDRIG) – unverändert
+   uploader.py:381 "Verändert st NICHT" – build() schreibt "zu_gross" in st und speichert. uploader.py:507
+   "-> list[tuple[str, bytes]]" – package_bodies gibt (boundary, body, chunk) zurück. Kommentar/Typangabe anpassen.
+
+8. HINWEIS (kein Muss)
+   #sync-daten liegt in der Offiziers-Kategorie mit eigenen Rechten (uploader_setup.py:151); Mitglieder mit der
+   Discord-Berechtigung "Administrator" sehen jeden Kanal trotzdem – also auch Gold- und Charakterdaten. In
+   ANLEITUNG.md und im /uploader-Text einen Satz dazu.
+
+LIVE PRÜFEN (Server / Discord / Uploader beim Nutzer)
+   - Abgleich: /uploader -> #sync-daten nur für den Nutzer sichtbar, sync_config.json kommt mit. Am PC nach WoW-Ende
+     + 2 Min. "Stand N hochgeladen"; am Laptop GoldSentinel-WoW.bat -> "… vom PC übernommen", dann startet WoW
+     Forever. Statuszeile "dieser Rechner aktuell". Mit laufendem WoW: nichts überschrieben, ein Hinweis.
+   - ERST NACH PUNKT 1: heutige Laptop-Entzauberungen (85) mit dem PC zusammenführen (AHSentinel-Chatzeile).
+   - Uploader 2.0.1: nach mehreren /reload innerhalb von 15 Minuten genau EINE Nachricht "GoldSentinel-Paket: …";
+     "zu gross" höchstens einmal je Protokoll.
+   - Bot: steht im Protokoll "guild_leader ist leer", den Charakternamen in die config.json auf dem Server (nie ins
+     Repo). Recht "Nachrichten verwalten" nur in #testberichte. Höchstens ein Neustart je echtem Update
      (sudo journalctl -u raidmaster --since "-6h" | grep -c "Neustart nach Update").
-   - Addon-Kanäle: je Addon nur der neueste Update-Text; ZIP-Beiträge, Vorstellungen, Übersichten und Hilfen bleiben.
-   - #befehle unter 💬 ALLGEMEIN: nur Befehle für alle, für Gäste unsichtbar; #befehlsliste bei den Offizieren.
-   - Raids mit "forever": false (BWL, ZG, AQ20, AQ40, Naxx) sind für Mitglieder ausgeblendet.
+   - Addon-Kanäle: je Addon nur der neueste Update-Text. #befehle für alle, #befehlsliste bei den Offizieren.
+     Raids mit "forever": false für Mitglieder ausgeblendet.
 
-4. IM CLIENT PRÜFEN (im Testplan des Nutzers, mit 3.0.22)
-   - /rm testroutine im echten Client: T162, T163, T164 OK; dazu T142, T122 (n = 3), T43 und Bereich K (T155-T160),
-     T133b; danach /reload -> Bericht über Uploader 2.0.1 in #testberichte.
-   - Nur RaidMaster geladen (kein anderes GoldSentinel-Addon), Sammler des Nutzers online in der Gilde: die Frage
-     nach der Zustimmung kommt einmal; ohne Zustimmung geht nichts weg, mit Zustimmung kommt ein Fehlerbericht beim
-     Sammler an ("fremder Spieler" in testberichte/); keine Lua-Fehler nach /reload.
-   - RaidMaster zusammen mit einem Addon, das GoldSentinelSync 2 selbst anmeldet (z. B. AHSentinel): Gebote, DKP und
-     Einteilung kommen bei Mitspielern mit älteren RaidMaster-Versionen weiter an.
-   - Schlachtzugsymbole in WoW Forever: sichere Knöpfe/Makro setzen Symbole ohne ADDON_ACTION_FORBIDDEN; Boss-Leiste
-     zeigt in Forever nur den Vorschlag.
-   - Tooltips bei Fensterskalierung ≠ 100 %: neben dem Fenster und auf Höhe des Elements.
-   - die übrigen IM-CLIENT-PRÜFEN-Fälle der Testroutine, T54b
-   - Erstkill-Screenshot -> #ruhmeshalle
-   - Bank-Charakter in RaidMaster -> Bestand in #gildenbank unter den Regeln
+IM CLIENT PRÜFEN (mit 3.0.22) – unverändert
+   - /rm testroutine: T162, T163, T164 OK; T142, T122 (n = 3), T43, Bereich K (T155–T160), T133b; danach /reload ->
+     Bericht in #testberichte.
+   - Nur RaidMaster geladen, Sammler online: Zustimmungsfrage einmal; ohne Zustimmung geht nichts weg.
+   - RaidMaster mit einem Addon, das GoldSentinelSync 2 anmeldet (AHSentinel): Gebote, DKP, Einteilung kommen bei
+     älteren RaidMaster-Versionen an.
+   - Schlachtzugsymbole in Forever ohne ADDON_ACTION_FORBIDDEN; Tooltips bei Skalierung ≠ 100 %; T54b;
+     Erstkill-Screenshot -> #ruhmeshalle; Bank-Charakter -> #gildenbank.
 
-5. HINWEIS FÜR KÜNFTIGE VERSIONEN
+HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Neue Bot-Module in .github/workflows/bot-tests.yml beim Import-Schritt ergänzen.
    - download/RaidMasterUploader.zip muss zum Ordner RaidMasterUploader/ passen (prüft "Bot-Tests").
-   - Jeder neue Slash-Befehl braucht einen Eintrag in COMMAND_INFO (prüft tests/test_befehle.py).
-   - Keine echten Spieler- oder Charakternamen in Code, Tests, Beispielen und Texten (hinweis-keine-spielernamen.txt).
-   - GoldSentinelGame.lua, GoldSentinelTest.lua und GoldSentinelSync.lua nur unverändert aus shared/ kopieren.
-     RaidMaster ruft GoldSentinelSync.Register weiterhin NICHT auf (Entscheid des Nutzers 9. Nov.).
-   - Die Version muss höher sein als 3.0.22 (download/, RaidMaster-latest.zip, CurseForge), Bot höher als 1.5.112,
-     Uploader höher als 2.0.1.
+   - Jeder neue Slash-Befehl braucht einen Eintrag in COMMAND_INFO (tests/test_befehle.py).
+   - Keine echten Spieler- oder Charakternamen in Code, Tests, Beispielen und Texten. Abgleich-Daten nie ins Repo.
+   - GoldSentinelGame/Test/Sync nur unverändert aus shared/. RaidMaster ruft GoldSentinelSync.Register NICHT auf.
+   - Versionen höher als Addon 3.0.22, Bot 1.5.113, Uploader 2.1.1.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
-
-NEU (11. Nov. 16:05, HOCH, Entscheid des Nutzers) – anweisung-uploader-sync-rechner.txt
-   Uploader gleicht die Addon-Daten (SavedVariables) zwischen PC und Laptop ab: privater Speicher (nie das öffentliche
-   Repo), Hochladen nach WoW-Ende, Herunterladen vor dem Start (Starter), nie bei laufendem WoW überschreiben,
-   Konflikte mit Sicherung + AHSentinel-Zusammenführungs-Paket. T-SY1–T-SY5.
