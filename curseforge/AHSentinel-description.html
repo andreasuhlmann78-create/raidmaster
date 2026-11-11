@@ -7,6 +7,27 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.95</h3>
+<ul>
+<li><strong>"Worth up to" in every tooltip of a disenchantable item</strong> – also in your bags, bank, mail, chat links, at the
+  vendor and in other windows (other players' gear, loot). It is shown to everyone, with or without Enchanting, and in
+  the short tooltip mode too. In the bags it stands right above the two ways (disenchant / sell). The existing option
+  "Disench.: on/off" switches the whole disenchant part off together.</li>
+<li><strong>Never decide with outdated material prices.</strong> If the material that carries most of the disenchant value has no
+  price newer than 6 hours: tooltip "Worth up to: Prices outdated – scan first" (no amount, verdict "unsure"), Sniper
+  disenchant targets do not buy ("Material prices outdated – scan first"), and the Market "Disenchant" view offers no
+  row. Sell values of your own stock still show the old price with the "old" hint.</li>
+<li><strong>Fresh material prices at the open AH:</strong> after a scan and when you open the AH, the disenchant materials (up to 15,
+  most used first) whose price is older than 30 minutes are fetched one by one (throttled). The diagnostic log notes
+  the scan type, how many commodities the full scan contained and the price age of the three main materials (PREIS-ALT).</li>
+<li><strong>Buyout flag stays until disproven:</strong> a material flagged as bought out keeps the price from before the buyout
+  across sessions and days, until a newer scan shows the quantity back at ≥ 50 % or the price back at ≤ 120 %.</li>
+<li><strong>Bookkeeping fixes:</strong> partial sales of the same auction booked by 0.65.92 or older are no longer booked a second time
+  (existing doubles are repaired once at login, cost basis restored). Sync merge: positions of the same character
+  bought on two computers are now added up (5 + 3 = 8 with both costs). The merge package also reads the older field
+  names, and the merge report counts disenchants without a log entry.</li>
+<li>Tests T467–T476 (T-LB1–T-LB4, T-MP1–T-MP3, T-VF5c/d, T-ZM5).</li>
+</ul>
 <h3>Version 0.65.94</h3>
 <ul>
 <li><strong>Bookkeeping: return next to the profit.</strong> The head now shows "Profit X · Return Y %" (profit of goods you bought ÷
@@ -53,15 +74,7 @@
   Chat: "Data from the other computer merged: …".</li>
 <li>Tests T454–T457 (T-ZM1–T-ZM4).</li>
 </ul>
-<h3>Version 0.65.90</h3>
-<ul>
-<li><strong>Sniper hit signal.</strong> When the sniper finds a real hit, the screen edge glows gold 3 times (like the low-health
-  glow). It stops when you buy, when the hit is gone, when you close the auction house, or after 4 s at the latest.
-  No signal for dead offers, paused items, in combat or with the auction house closed; at most one signal every 3 s.
-  Options: "Signal" on/off and colour (gold, green, blue) next to "Sound on hits". The glow never takes mouse clicks.</li>
-<li>Tests T450–T453 (T-SG1–T-SG4).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
