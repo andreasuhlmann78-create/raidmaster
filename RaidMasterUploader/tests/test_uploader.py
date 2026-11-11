@@ -348,6 +348,24 @@ class Paket(Base):
         self.assertIsNone(r2.flush(now=1000))
         self.assertIsNone(r2.tick(now=1000))
 
+    def test_p13_zu_gross_neue_uhrzeit_keine_zweite_meldung(self):
+        # 2.2.0 (offen 6): dasselbe zu grosse Protokoll, neu ausgegeben mit anderer Uhrzeit -> keine zweite Meldung
+        entries = ["[x] " + "y" * (600 * 1024)]
+        self.write("AHSentinel.lua", sv_all("AHSentinelDB", diag=diag_text("AHSentinel", entries, "09.11. 10:01")))
+        r = self.reporter()
+        r.flush(now=1000)
+        self.write("AHSentinel.lua", sv_all("AHSentinelDB", diag=diag_text("AHSentinel", entries, "11.11. 21:30",
+                                                                          sessions=2)), age=5)
+        r.tick(now=1100)
+        r.flush(now=1200)
+        self.assertEqual(sum("zu gross" in l for l in self.logs), 1)
+        # ein neuer Eintrag ist ein anderes Protokoll -> wieder eine Meldung
+        self.write("AHSentinel.lua", sv_all("AHSentinelDB", diag=diag_text("AHSentinel", entries + ["[z] neu"])),
+                   age=3)
+        r.tick(now=1300)
+        r.flush(now=1400)
+        self.assertEqual(sum("zu gross" in l for l in self.logs), 2)
+
     def test_p10_daten_upload_unveraendert(self):
         rm = self.write("RaidMaster.lua", sv_all("RaidMasterDB", [report("r-1")]))
         self.assertTrue(up.upload(self.cfg(), rm))

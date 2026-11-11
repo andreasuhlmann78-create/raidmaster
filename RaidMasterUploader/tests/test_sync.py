@@ -1,4 +1,4 @@
-"""Offline-Tests Uploader 2.1.0: Abgleich der Addon-Daten zwischen zwei Rechnern (T-SY1 … T-SY5).
+"""Offline-Tests Uploader 2.1.0–2.2.0: Abgleich der Addon-Daten zwischen zwei Rechnern (T-SY1 … T-SY16).
 Zwei Ordner spielen PC und Laptop, ein Ersatz-Speicher spielt #sync-daten. Kein Netz.
 Start: python3 -I RaidMasterUploader/tests/test_sync.py"""
 import io
@@ -20,6 +20,7 @@ class FakeStore:
 
     def __init__(self):
         self.index, self.parts, self.next, self.online, self.deleted = {}, {}, 1000, True, []
+        self.reads, self.gets = 0, 0
 
     def _net(self):
         if not self.online:
@@ -27,6 +28,7 @@ class FakeStore:
 
     def read_index(self):
         self._net()
+        self.reads += 1
         return json.loads(json.dumps(self.index))
 
     def write_index(self, index):
@@ -41,6 +43,7 @@ class FakeStore:
 
     def get_part(self, mid):
         self._net()
+        self.gets += 1
         if mid not in self.parts:
             raise sync.StoreError("Paket nicht mehr vorhanden")
         return self.parts[mid]
@@ -55,13 +58,14 @@ AH_LAPTOP = 'AHSentinelDB = {\n\t["deLog"] = {\n\t\t{ ["t"] = 1, ["i"] = 200 },\
 
 
 class Machine:
-    def __init__(self, root, name, store):
+    def __init__(self, root, name, store, clock=None):
         self.acc = os.path.join(root, name, "WTF", "Account", "KONTO")
         os.makedirs(os.path.join(self.acc, "SavedVariables"))
         os.makedirs(os.path.join(self.acc, "Realm", "Figur", "SavedVariables"))
         self.st, self.logs, self.notes, self.running = {}, [], [], False
         self.sync = sync.Sync(store, self.acc, self.st, lambda: None, name, self.logs.append,
-                              is_wow_running=lambda: self.running, notify=self.notes.append)
+                              is_wow_running=lambda: self.running, notify=self.notes.append,
+                              clock_offset=(lambda: clock) if clock is not None else None)
 
     def write(self, rel, text, mtime):
         fn = os.path.join(self.acc, *rel.split("/"))
@@ -101,17 +105,18 @@ class Abgleich(unittest.TestCase):
         self.pc.write("Realm/Figur/SavedVariables/Buff.lua", "BuffDB = {}\n", T0)
         self.lap.write("SavedVariables/RaidMaster.lua", "RaidMasterDB = { [\"v\"] = 1 }\n", T0 - 3600)
         self.lap.sync.s["seq"] = 0
-        # 2 Minuten Ruhe abwarten, dann hoch
-        self.pc.sync.tick(now=T0 + 60)
+        # 2.2.0: 10 s Ruhe abwarten, dann hoch
+        self.pc.sync.tick(now=T0 + 5)
         self.assertEqual(self.store.index, {})
-        self.pc.sync.tick(now=T0 + 200)
+        self.pc.sync.tick(now=T0 + 15)
         self.assertEqual(self.store.index["seq"], 1)
         self.assertEqual(self.store.index["machine"], "PC")
         # Laptop holt vor dem Start; lokale Datei vorher gesichert
         self.assertTrue(self.lap.sync.pull(now=T0 + 300))
         self.assertIn('"v"] = 2', self.lap.read("SavedVariables/RaidMaster.lua"))
         self.assertEqual(self.lap.read("Realm/Figur/SavedVariables/Buff.lua"), "BuffDB = {}\n")
-        self.assertTrue(any(b.endswith("SavedVariables/RaidMaster.lua") for b in self.lap.backups()))
+        # noch nie abgeglichen und verschieden: Konflikt (offen 1 a) – Laptop-Stand gesichert
+        self.assertTrue(any(b.endswith("SavedVariables/RaidMaster.lua.lokal") for b in self.lap.backups()))
         self.assertIn("aktuell", self.lap.sync.status_line())
         self.assertNotIn("NICHT", self.lap.sync.status_line())
         # Laptop ändert etwas -> nach Ruhe hoch, PC holt es
@@ -194,7 +199,7 @@ class Abgleich(unittest.TestCase):
         self.pc.write("Realm/Figur/macros-cache.txt", "x\n", T0)
         self.pc.write("Realm/Figur/bindings-cache.wtf", "x\n", T0)
         self.pc.sync.push(now=T0 + 200)
-        blob = b"".join(self.store.parts[p] for p in self.store.index["parts"])
+        blob = b"".join(self.store.parts[p] for p in sync.index_parts(self.store.index))
         with tarfile.open(fileobj=io.BytesIO(blob), mode="r:gz") as tar:
             names = sorted(m.name for m in tar.getmembers())
         self.assertEqual(names, ["files/SavedVariables/RaidMaster.lua", "manifest.json"])
@@ -225,9 +230,316 @@ class Abgleich(unittest.TestCase):
         for i in range(13):
             self.pc.write("SavedVariables/A.lua", f"A = {i}\n", T0 + i * 1000)
             self.assertTrue(self.pc.sync.push(now=T0 + i * 1000 + 200))
-        self.assertEqual(len(self.store.index["history"]), sync.VERSIONS_KEEP)
+        self.assertEqual(len(self.store.index["h"]) + 1, sync.VERSIONS_KEEP)     # aktueller Stand + 9 ältere
         self.assertEqual(len(self.store.parts), sync.VERSIONS_KEEP)
         self.assertEqual(len(self.store.deleted), 3)
+
+
+class Sofort(unittest.TestCase):
+    """2.2.0 (S8): sofort und ohne Klick – T-SY7 … T-SY10; offene Punkte 1, 2, 5 – T-SY11 … T-SY13."""
+
+    def setUp(self):
+        self.d = tempfile.mkdtemp()
+        self.store = FakeStore()
+        self.pc = Machine(self.d, "PC", self.store)
+        self.lap = Machine(self.d, "Laptop", self.store)
+
+    def tearDown(self):
+        shutil.rmtree(self.d, ignore_errors=True)
+
+    def test_sy7_wow_beendet_hoch_in_15s(self):
+        pc = self.pc
+        pc.running = True
+        pc.sync.tick(now=T0)                                    # WoW läuft
+        pc.write("SavedVariables/AHSentinel.lua", AH_PC, T0 + 100)  # beim Beenden geschrieben
+        pc.running = False                                      # Prozess weg bei T0+101
+        done = None
+        for t in range(101, 140, 5):                            # Hauptschleife alle 5 s
+            pc.sync.tick(now=T0 + t)
+            if self.store.index.get("seq"):
+                done = t
+                break
+        self.assertIsNotNone(done)
+        self.assertLessEqual(done - 101, 15)
+        # Ausloggen ins Charakter-Menü (WoW bleibt offen): nach 60 s Ruhe hoch, nichts geschrieben
+        pc.running = True
+        pc.sync.tick(now=T0 + 300)
+        fn = pc.write("SavedVariables/AHSentinel.lua", AH_PC.replace("256", "257"), T0 + 310)
+        before = os.path.getmtime(fn)
+        pc.sync.tick(now=T0 + 340)
+        self.assertEqual(self.store.index["seq"], 1)
+        pc.sync.tick(now=T0 + 375)
+        self.assertEqual(self.store.index["seq"], 2)
+        self.assertEqual(os.path.getmtime(fn), before)
+
+    def test_sy8_anderer_rechner_holt_in_45s_nur_index(self):
+        lap = self.lap
+        for t in range(0, 61, 5):
+            lap.sync.tick(now=T0 + t)
+        self.assertEqual(self.store.gets, 0)                    # nichts Neues: nur die Index-Nachricht
+        self.assertLessEqual(self.store.reads, 3)               # alle 30 s, nicht alle 5 s
+        self.pc.write("SavedVariables/RaidMaster.lua", "RaidMasterDB = { 9 }\n", T0 + 50)
+        self.assertTrue(self.pc.sync.push(now=T0 + 62))
+        got = None
+        for t in range(65, 130, 5):
+            lap.sync.tick(now=T0 + t)
+            if os.path.exists(os.path.join(lap.acc, "SavedVariables", "RaidMaster.lua")):
+                got = t
+                break
+        self.assertIsNotNone(got)
+        self.assertLessEqual(got - 62, 45)
+
+    def _start_wow_lap(self, t):
+        self.lap.running = False
+        self.lap.sync.tick(now=T0 + t)                          # kurz vorher: kein WoW
+        self.pc.sync.push(now=T0 + t + 2)
+        self.lap.running = True
+        self.lap.sync.tick(now=T0 + t + 5)                      # neuer WoW-Prozess
+
+    def test_sy9_wow_ohne_starter_uebernahme_vor_dem_einloggen(self):
+        self.pc.write("SavedVariables/RaidMaster.lua", 'RaidMasterDB = {\n\t["v"] = 2,\n}\n', T0)
+        self.pc.write("SavedVariables/AHSentinel.lua", AH_PC, T0)
+        self.lap.write("SavedVariables/RaidMaster.lua", 'RaidMasterDB = {\n\t["v"] = 1,\n}\n', T0 - 900)
+        self._start_wow_lap(90)
+        text = self.lap.read("SavedVariables/RaidMaster.lua")
+        self.assertIn('["v"] = 2', text)
+        self.assertIn("RaidMasterSyncProbe", text)              # Prüfblock für den Beleg
+        self.assertIn(AH_PC, self.lap.read("SavedVariables/AHSentinel.lua"))
+        self.assertIn("bitte noch nicht einloggen", self.lap.notes[0])
+        self.assertIn("du kannst einloggen", self.lap.notes[-1])
+        self.assertTrue(any(b.endswith("RaidMaster.lua") for b in self.lap.backups()))
+        # Prüfblock zählt nicht als Änderung (nicht hochladen)
+        self.assertEqual(self.lap.sync.local_changes(now=T0 + 200)[0], [])
+        # RaidMaster 3.0.23 merkt beim Einloggen den Prüfblock, WoW speichert beim Beenden
+        seq = self.lap.sync.s["probe"]["seq"]
+        self.lap.write("SavedVariables/RaidMaster.lua", 'RaidMasterDB = {\n\t["v"] = 2,\n\t["syncProbe"] = {\n'
+                       '\t\t["seq"] = %d,\n\t\t["von"] = "Laptop",\n\t\t["geladen"] = %d,\n\t},\n}\n'
+                       % (seq, T0 + 120), T0 + 400)
+        self.lap.running = False
+        self.lap.sync.tick(now=T0 + 405)
+        msg = [l for l in self.lap.logs if "Messung" in l]
+        self.assertEqual(len(msg), 1)
+        self.assertIn("25 s nach dem WoW-Start", msg[0])
+        self.assertIn("Beleg 1/2", msg[0])
+        self.assertNotIn("probe", self.lap.sync.s)
+        # nach 2 Belegen still
+        self.lap.sync.s["proofs"], self.lap.sync.s["takeover_armed"] = 2, True
+        self.pc.write("SavedVariables/RaidMaster.lua", 'RaidMasterDB = {\n\t["v"] = 3,\n}\n', T0 + 1500)
+        n = len(self.lap.notes)
+        self._start_wow_lap(1600)
+        self.assertIn('["v"] = 3', self.lap.read("SavedVariables/RaidMaster.lua"))
+        self.assertEqual(len(self.lap.notes), n)
+
+    def test_sy9b_nicht_sicher_nur_hinweis(self):
+        self.pc.write("SavedVariables/RaidMaster.lua", "RaidMasterDB = { 2 }\n", T0)
+        self.lap.write("SavedVariables/RaidMaster.lua", "RaidMasterDB = { 1 }\n", T0 - 900)
+        # Uploader startet, während WoW schon läuft (Start unbekannt): nichts überschreiben
+        self.pc.sync.push(now=T0 + 10)
+        self.lap.running = True
+        self.lap.sync.tick(now=T0 + 20)
+        self.lap.sync.tick(now=T0 + 200)
+        self.assertEqual(self.lap.read("SavedVariables/RaidMaster.lua"), "RaidMasterDB = { 1 }\n")
+        self.assertIn("WoW beenden, dann übernehmen", self.lap.notes[-1])
+        # neuer Start, aber seit dem Start schon gespeichert (z. B. Ausloggen): nichts überschreiben
+        store2 = FakeStore()
+        pc2 = Machine(os.path.join(self.d, "2"), "PC", store2)
+        lap2 = Machine(os.path.join(self.d, "2"), "Laptop", store2)
+        lap2.write("SavedVariables/RaidMaster.lua", "RaidMasterDB = { 1 }\n", T0 - 900)
+        lap2.sync.tick(now=T0 + 300)
+        lap2.running = True
+        lap2.sync.tick(now=T0 + 305)
+        lap2.write("SavedVariables/RaidMaster.lua", "RaidMasterDB = { 5 }\n", T0 + 310)
+        pc2.write("SavedVariables/RaidMaster.lua", "RaidMasterDB = { 2 }\n", T0 + 311)
+        pc2.sync.push(now=T0 + 312)
+        lap2.sync.next_remote = 0
+        lap2.sync.tick(now=T0 + 315)
+        self.assertEqual(lap2.read("SavedVariables/RaidMaster.lua"), "RaidMasterDB = { 5 }\n")
+        self.assertIn("WoW beenden", lap2.notes[-1])
+
+    def test_sy9c_beleg_fehlgeschlagen(self):
+        self.pc.write("SavedVariables/RaidMaster.lua", 'RaidMasterDB = {\n\t["v"] = 2,\n}\n', T0)
+        self.pc.write("SavedVariables/AHSentinel.lua", AH_PC, T0)
+        self.lap.write("SavedVariables/RaidMaster.lua", 'RaidMasterDB = {\n\t["v"] = 1,\n}\n', T0 - 900)
+        self.lap.write("SavedVariables/AHSentinel.lua", AH_LAPTOP, T0 - 900)
+        self._start_wow_lap(90)
+        # WoW hatte den alten Stand schon gelesen und schreibt ihn beim Beenden zurück
+        self.lap.write("SavedVariables/RaidMaster.lua", 'RaidMasterDB = {\n\t["v"] = 1,\n}\n', T0 + 400)
+        self.lap.write("SavedVariables/AHSentinel.lua", AH_LAPTOP, T0 + 400)
+        self.lap.running = False
+        self.lap.sync.tick(now=T0 + 405)
+        self.assertTrue(self.lap.sync.s.get("takeover_failed"))
+        self.assertIn("zu spät", self.lap.notes[-1])
+        blocks = sync.top_blocks(self.lap.read("SavedVariables/AHSentinel.lua"))
+        self.assertIn('["n"] = 256', blocks.get("AHSentinelMerge", ""))      # PC-Stand wird zusammengeführt
+        # nie wieder bei laufendem WoW übernehmen
+        self.pc.write("SavedVariables/RaidMaster.lua", "RaidMasterDB = { 7 }\n", T0 + 500)
+        self._start_wow_lap(600)
+        self.assertNotIn("{ 7 }", self.lap.read("SavedVariables/RaidMaster.lua"))
+
+    def test_sy10_uhr_20_min_falsch(self):
+        store = FakeStore()
+        pc = Machine(os.path.join(self.d, "u"), "PC", store)
+        lap = Machine(os.path.join(self.d, "u"), "Laptop", store, clock=-1200)   # Laptop-Uhr 20 Min. vor
+        pc.write("SavedVariables/A.lua", "A = 1\n", T0)
+        pc.write("SavedVariables/AHSentinel.lua", AH_PC.replace("256", "1"), T0)
+        pc.sync.push(now=T0 + 200)
+        lap.sync.pull(now=T0 + 1450)
+        # Laptop ändert um echte T0+1000 (seine Uhr: T0+2200), PC um echte T0+2000
+        lap.write("SavedVariables/A.lua", "A = 2\n", T0 + 2200)
+        lap.sync.push(now=T0 + 2300)
+        pc.write("SavedVariables/A.lua", "A = 3\n", T0 + 2000)
+        pc.sync.pull(now=T0 + 2100)
+        self.assertEqual(pc.read("SavedVariables/A.lua"), "A = 3\n")          # nach Datei-Zeit hätte der Laptop gewonnen
+        self.assertTrue(any(b.endswith("A.lua.Laptop") for b in pc.backups()))
+        pc.sync.push(now=T0 + 2150)
+        lap.sync.pull(now=T0 + 3400)
+        # weniger als 10 Min. auseinander -> Konflikt: schon hochgeladener Stand gewinnt, AHSentinel führt zusammen
+        lap.write("SavedVariables/AHSentinel.lua", AH_LAPTOP, T0 + 4200)       # echte T0+3000
+        lap.sync.push(now=T0 + 4300)
+        pc.write("SavedVariables/AHSentinel.lua", AH_PC, T0 + 3300)
+        pc.sync.pull(now=T0 + 3400)
+        blocks = sync.top_blocks(pc.read("SavedVariables/AHSentinel.lua"))
+        self.assertIn('["n"] = 85', blocks["AHSentinelDB"])
+        self.assertIn('["n"] = 256', blocks["AHSentinelMerge"])
+        self.assertTrue(any("innerhalb von 10 Min." in l for l in pc.logs))
+
+    def test_sy11_erster_abgleich_beide_mit_daten(self):
+        self.pc.write("SavedVariables/AHSentinel.lua", AH_PC, T0 + 5000)
+        self.lap.write("SavedVariables/AHSentinel.lua", AH_LAPTOP, T0 + 1000)
+        self.pc.sync.push(now=T0 + 5200)
+        self.assertTrue(self.lap.sync.pull(now=T0 + 5300))
+        blocks = sync.top_blocks(self.lap.read("SavedVariables/AHSentinel.lua"))
+        self.assertIn('["n"] = 256', blocks["AHSentinelDB"])
+        self.assertIn('["n"] = 85', blocks["AHSentinelMerge"])
+        self.assertTrue(any("beide geändert (noch nie abgeglichen)" in l for l in self.lap.logs))
+        # Konflikt-Sicherung bleibt, auch nach vielen gewöhnlichen Sicherungen – aber nicht länger als 30 Tage
+        for i in range(7):
+            self.lap.sync._backup({"SavedVariables/X.lua": b"x"}, T0 + 6000 + i, "vor-abgleich")
+        root = os.path.join(self.lap.acc, sync.BACKUP_DIR)
+        dirs = os.listdir(root)
+        self.assertEqual(sum(d.endswith("vor-abgleich") for d in dirs), sync.BACKUPS_KEEP)
+        self.assertEqual(sum(d.endswith("konflikt") for d in dirs), 1)
+        self.lap.sync._backup({"SavedVariables/X.lua": b"x"}, T0 + 31 * 86400, "vor-abgleich")
+        self.assertFalse(any(d.endswith("konflikt") for d in os.listdir(root)))
+
+    def test_sy11b_alte_sicherung_einmal_zusammenfuehren(self):
+        self.lap.write("SavedVariables/AHSentinel.lua", AH_PC, T0)
+        old = os.path.join(self.lap.acc, sync.BACKUP_DIR, "20261111-150000-vor-abgleich", "SavedVariables")
+        os.makedirs(old)
+        with open(os.path.join(old, "AHSentinel.lua"), "w", encoding="utf-8") as f:
+            f.write(AH_LAPTOP)
+        self.assertEqual(self.lap.sync.merge_old_backups(now=T0 + 10), 1)
+        self.assertIn('["n"] = 85', sync.top_blocks(self.lap.read("SavedVariables/AHSentinel.lua"))["AHSentinelMerge"])
+        self.assertEqual(self.lap.sync.merge_old_backups(now=T0 + 20), 0)
+
+    def test_sy12_nur_ein_prozess_gleicht_ab(self):
+        here = os.path.join(self.d, "uploader")
+        os.makedirs(here)
+        self.assertFalse(sync.lock_active(here, T0))
+        with open(os.path.join(here, sync.LOCK_FILE), "w") as f:
+            json.dump({"pid": -1, "t": T0}, f)                         # laufender Uploader (anderer Prozess)
+        self.assertTrue(sync.lock_active(here, T0 + 30))
+        self.assertFalse(sync.lock_active(here, T0 + 300))              # Uploader abgestürzt: Sperre alt
+        sync.write_lock(here, T0)
+        self.assertFalse(sync.lock_active(here, T0 + 1))                # eigene Sperre zählt nicht
+        sync.remove_lock(here)
+        self.assertFalse(os.path.exists(os.path.join(here, sync.LOCK_FILE)))
+        import uploader                                                 # Starter fragt die Sperre ab
+        with open(uploader.__file__, encoding="utf-8") as f:
+            src = f.read()
+        body = src[src.index("def wow_start"):src.index("def main")]
+        self.assertLess(body.index("lock_active"), body.index("sy.pull()"))
+
+    def test_sy13_unveraenderte_dateien_nicht_neu_lesen(self):
+        self.pc.write("SavedVariables/AHSentinel.lua", AH_PC, T0)
+        calls = []
+        orig = sync.read
+        sync.read = lambda fn: calls.append(fn) or orig(fn)
+        try:
+            self.pc.sync.local_changes()
+            n = len(calls)
+            self.pc.sync.local_changes()
+            self.pc.sync.local_changes()
+            self.assertEqual(len(calls), n)
+            self.pc.write("SavedVariables/AHSentinel.lua", AH_PC + "-- x\n", T0 + 5)
+            self.pc.sync.local_changes()
+            self.assertEqual(len(calls), n + 1)
+        finally:
+            sync.read = orig
+
+
+class Groesse(unittest.TestCase):
+    """2.2.0 (S8 e) und Index v1 von 2.1.x – T-SY14, T-SY15."""
+
+    def setUp(self):
+        self.d = tempfile.mkdtemp()
+        self.store = FakeStore()
+        self.puts = []
+        orig = self.store.put_part
+        self.store.put_part = lambda name, blob, note: self.puts.append(note) or orig(name, blob, note)
+
+    def tearDown(self):
+        shutil.rmtree(self.d, ignore_errors=True)
+
+    def acc(self, flavor, machine="PC"):
+        a = os.path.join(self.d, machine, flavor, "WTF", "Account", "KONTO")
+        os.makedirs(os.path.join(a, "SavedVariables"))
+        return a
+
+    def put(self, acc, name, text, mtime):
+        fn = os.path.join(acc, "SavedVariables", name)
+        with open(fn, "w", encoding="utf-8") as f:
+            f.write(text)
+        os.utime(fn, (mtime, mtime))
+
+    def test_sy14_nur_geaenderte_spielversion_retail_nur_wenn_gespielt(self):
+        f, e, r = self.acc("_forever_"), self.acc("_classic_era_"), self.acc("_retail_")
+        self.put(f, "A.lua", "A = 1\n", T0)
+        self.put(e, "B.lua", "B = 1\n", T0 - 20 * 86400)                   # seit 20 Tagen unverändert
+        self.put(r, "C.lua", "C = 1\n", T0 - 20 * 86400)                   # Retail, nicht gespielt
+        logs = []
+        pc = sync.Sync(self.store, sync.find_roots([os.path.join(self.d, "PC")]), {}, lambda: None, "PC", logs.append,
+                       lambda: False, backup_dir=os.path.join(self.d, "bk"))
+        self.assertEqual(pc.local_changes(now=T0 + 100)[0], ["_classic_era_/KONTO/SavedVariables/B.lua",
+                                                              "_forever_/KONTO/SavedVariables/A.lua"])
+        self.assertTrue(pc.push(now=T0 + 100))
+        self.assertEqual(sorted(self.store.index["r"]), ["_classic_era_/KONTO", "_forever_/KONTO"])  # Grundstand
+        self.assertTrue(any("_retail_" in l and "nicht gespielt" in l for l in logs))
+        self.assertFalse(any("KONTO" in l for l in logs))
+        n = len(self.puts)
+        self.put(f, "A.lua", "A = 2\n", T0 + 200)
+        self.assertTrue(pc.push(now=T0 + 300))
+        self.assertEqual(len(self.puts), n + 1)                                # nur _forever_ neu
+        self.assertIn("_forever_", self.puts[-1])
+        self.assertTrue(pc.push(now=T0 + 400))                                 # nichts geändert: nichts hoch
+        self.assertEqual(len(self.puts), n + 1)
+        self.put(r, "C.lua", "C = 2\n", T0 + 500)                              # jetzt in Retail gespielt
+        self.assertTrue(pc.push(now=T0 + 600))
+        self.assertIn("_retail_/KONTO", self.store.index["r"])
+
+    def test_sy15_index_von_2_1_x(self):
+        files = {"_forever_/KONTO/SavedVariables/A.lua": {"data": b"A = 1\n", "mtime": T0, "machine": "Laptop"},
+                 "_anniversary_/KONTO/SavedVariables/R.lua": {"data": b"R = 1\n", "mtime": T0, "machine": "Laptop"}}
+        blob = sync.make_package(files, "Laptop", T0)
+        mid = self.store.put_part("stand-3-1.bin", blob, "alt")
+        self.store.index = {"v": 1, "seq": 3, "machine": "Laptop", "time": T0, "parts": [mid], "history": [[3, [mid]]]}
+        f = self.acc("_forever_")
+        pc = sync.Sync(self.store, sync.find_roots([os.path.join(self.d, "PC")]), {}, lambda: None, "PC",
+                       lambda t: None, lambda: False, backup_dir=os.path.join(self.d, "bk"))
+        pc.check_remote(now=T0 + 50)
+        self.assertTrue(pc.remote_newer())
+        self.assertTrue(pc.pull(now=T0 + 100))
+        with open(os.path.join(f, "SavedVariables", "A.lua")) as fh:
+            self.assertEqual(fh.read(), "A = 1\n")
+        self.put(f, "A.lua", "A = 2\n", T0 + 200)
+        self.assertTrue(pc.push(now=T0 + 300))
+        self.assertEqual(self.store.index["v"], 2)
+        self.assertEqual(sorted(self.store.index["r"]), ["_anniversary_/KONTO", "_forever_/KONTO"])
+        got = {}
+        for e in sync.index_roots(self.store.index).values():
+            got.update(sync.read_package(b"".join(self.store.parts[p] for p in e["parts"]))[1])
+        self.assertEqual(got["_anniversary_/KONTO/SavedVariables/R.lua"], b"R = 1\n")   # weitergetragen
+        self.assertEqual(got["_forever_/KONTO/SavedVariables/A.lua"], b"A = 2\n")
 
 
 class FakeDiscord:
@@ -235,11 +547,15 @@ class FakeDiscord:
 
     def __init__(self):
         self.msgs, self.cdn, self.calls, self.n = {"900": {"id": "900", "content": "GSSYNC-INDEX", "attachments": []}}, {}, [], 900
+        self.busy, self.date = 0, None
 
     def __call__(self, req, timeout=None):
         import re as _re
         url, method = req.full_url, req.get_method()
         self.calls.append((method, url))
+        if self.busy:
+            self.busy -= 1
+            raise sync.urllib.error.HTTPError(url, 429, "Too Many Requests", {}, io.BytesIO(b'{"retry_after": 2.5}'))
         if url.startswith("https://cdn.invalid/"):
             return Resp(self.cdn[url])
         m = _re.match(r"https://discord.invalid/api/webhooks/1/geheim(/messages/(\d+))?(\?wait=true)?$", url)
@@ -257,7 +573,7 @@ class FakeDiscord:
         if method == "GET":
             if mid not in self.msgs:
                 raise sync.urllib.error.HTTPError(url, 404, "Not Found", {}, None)
-            return Resp(json.dumps(self.msgs[mid]).encode())
+            return Resp(json.dumps(self.msgs[mid]).encode(), {"Date": self.date} if self.date else None)
         if method == "PATCH":
             self.msgs[mid]["content"] = json.loads(req.data)["content"]
             return Resp(json.dumps(self.msgs[mid]).encode())
@@ -268,8 +584,8 @@ class FakeDiscord:
 
 
 class Resp:
-    def __init__(self, data):
-        self.data = data
+    def __init__(self, data, headers=None):
+        self.data, self.headers = data, headers
 
     def read(self):
         return self.data
@@ -306,6 +622,25 @@ class Webhook(unittest.TestCase):
         self.assertIn("PATCH", methods)
         self.assertTrue(all(u.startswith("https://") for _, u in self.fake.calls))
         self.assertFalse(any("geheim" in l for l in pc.logs + lap.logs))
+
+    def test_sy16_discord_bremst_und_uhr(self):
+        import email.utils as eu
+        import time as _t
+        store = sync.WebhookStore("https://discord.invalid/api/webhooks/1/geheim", "900")
+        lap = Machine(self.d, "Laptop", store)
+        self.fake.busy = 1
+        self.assertIsNone(lap.sync.check_remote(now=T0, force=True))
+        self.assertTrue(any("Discord bremst" in l for l in lap.logs))
+        self.assertGreater(store.wait_until, _t.time() + 1)
+        n = len(self.fake.calls)
+        lap.sync.next_remote = 0
+        lap.sync.tick(now=T0 + 40)                              # wartet, ohne Discord zu fragen
+        self.assertEqual(len(self.fake.calls), n)
+        store.wait_until = 0
+        self.fake.date = eu.formatdate(_t.time() + 1200, usegmt=True)   # Rechner-Uhr 20 Min. nach
+        store.read_index()
+        self.assertAlmostEqual(store.clock_offset, 1200, delta=5)
+        self.assertAlmostEqual(lap.sync.clock_offset(), 1200, delta=5)
 
 
 class Spielversionen(unittest.TestCase):
@@ -352,8 +687,9 @@ class Spielversionen(unittest.TestCase):
         # Laptop lädt hoch: die Anniversary-Datei des PCs bleibt im Stand
         self.put(lap_f, "AHSentinel.lua", "AHSentinelDB = { 257 }\n", T0 + 1000)
         self.assertTrue(lap.push(now=T0 + 1200))
-        blob = b"".join(self.store.parts[p] for p in self.store.index["parts"])
-        _, files = sync.read_package(blob)
+        files = {}
+        for e in sync.index_roots(self.store.index).values():
+            files.update(sync.read_package(b"".join(self.store.parts[p] for p in e["parts"]))[1])
         self.assertEqual(sorted(files), ["_anniversary_/KONTO/SavedVariables/RaidMaster.lua",
                                          "_forever_/KONTO/SavedVariables/AHSentinel.lua"])
         self.assertEqual(files["_anniversary_/KONTO/SavedVariables/RaidMaster.lua"], b"RaidMasterDB = { alt }\n")
@@ -364,7 +700,9 @@ class Spielversionen(unittest.TestCase):
                          lambda: False, backup_dir=os.path.join(self.d, "bk-lap"))
         self.put(lap_f, "AHSentinel.lua", "AHSentinelDB = { 258 }\n", T0 + 3000)
         self.assertTrue(lap2.push(now=T0 + 3200))
-        _, files = sync.read_package(b"".join(self.store.parts[p] for p in self.store.index["parts"]))
+        files = {}
+        for e in sync.index_roots(self.store.index).values():
+            files.update(sync.read_package(b"".join(self.store.parts[p] for p in e["parts"]))[1])
         self.assertIn("_anniversary_/KONTO/SavedVariables/RaidMaster.lua", files)
 
 

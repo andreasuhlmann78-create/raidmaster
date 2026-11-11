@@ -2603,6 +2603,25 @@ local function AreaJ(t, G)
 		end)
 	end)
 
+	-- 3.0.23 (Uploader 2.2.0, S8 c): Prüfblock des Uploaders wird beim Laden festgehalten (Beleg für die Übernahme
+	-- vor dem Einloggen); falsche Formen werden ignoriert
+	t:Check("T165", "J", "Prüfblock des Uploaders wird gelesen (Beleg Abgleich)", function()
+		if type(RM.ReadSyncProbe) ~= "function" then return false, "fehlt", "RM.ReadSyncProbe" end
+		local db = {}
+		local got = RM.ReadSyncProbe(db, { seq = 7, von = "PC", t = 1794380000 })
+		if not (got and db.syncProbe and db.syncProbe.seq == 7 and db.syncProbe.von == "PC") then
+			return false, tostring(db.syncProbe and db.syncProbe.seq), "seq 7 von PC"
+		end
+		if math.abs((db.syncProbe.geladen or 0) - time()) > 5 then return false, tostring(db.syncProbe.geladen), "jetzt" end
+		local db2 = {}
+		if RM.ReadSyncProbe(db2, nil) or RM.ReadSyncProbe(db2, { seq = "x" }) or RM.ReadSyncProbe(db2, "kaputt")
+			or db2.syncProbe then
+			return false, "falsche Form übernommen", "ignoriert"
+		end
+		if RaidMasterSyncProbe ~= nil then return false, "Prüfblock noch gesetzt", "nil nach dem Laden" end
+		return true, "seq 7 übernommen, falsche Formen ignoriert"
+	end)
+
 	-- 3.0.22 (Entscheid des Nutzers 9. Nov.): GoldSentinelSync wird nur mitgebracht (für GoldSentinelTest 2);
 	-- RaidMaster meldet nichts an, Gebote/DKP laufen weiter über den eigenen Weg (RAID/GUILD/WHISPER, eigener Takt)
 	AsyncCheck(t, "T164", "J", "GoldSentinelSync nur mitgebracht, RaidMaster-Daten wie bisher", function()

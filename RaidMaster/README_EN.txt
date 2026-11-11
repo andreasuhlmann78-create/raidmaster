@@ -23,6 +23,12 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.23 – Proof for the PC/laptop sync
+- For RaidMaster-Uploader 2.2.0: if the uploader takes over a newer state from your other computer while WoW is still on
+  the login or character screen, RaidMaster notes at login that this state was read (RaidMasterDB.syncProbe: number,
+  computer name, time). That tells the uploader the takeover was in time; after two proofs the notice "please don't log
+  in yet" no longer appears. Nothing is sent.
+
 WHAT'S NEW IN 3.0.22 – GoldSentinelSync included
 - Brings GoldSentinelSync along so error reports (only with consent, /gstest) can be shared; RaidMaster data
   unchanged (DKP, bids, assignments still only to guild, raid and single players).

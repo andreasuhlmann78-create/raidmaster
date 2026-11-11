@@ -39,6 +39,11 @@ Ab 2.0.0 – nur noch Neues, ein Paket, höchstens alle 15 Minuten (Entscheid de
 - Alles Neue in EINER Nachricht mit EINEM Anhang paket-<Zeit>.json.gz ({"items": [...]}).
 - Änderungen werden gesammelt; ein Paket höchstens alle 15 Minuten, der Rest beim Beenden.
 - Gemerkter Stand in uploader_state.json (uploader_config.json bleibt unverändert).
+
+Ab 2.1.0 – Abgleich der Addon-Daten zwischen PC und Laptop (sync.py, sync_config.json kommt mit /uploader).
+Ab 2.2.0 – sofort und ohne Klick (Entscheid des Nutzers 11. Nov. 2026): Hochladen ≤ 15 s nach WoW-Ende, der andere
+Rechner prüft alle 30 s, neuer Stand wird bei einem frischen WoW-Start noch vor dem Einloggen übernommen. Nur EIN Prozess
+gleicht ab (_sync.lock): läuft der Uploader, startet GoldSentinel-WoW.bat nur noch WoW.
 """
 
 from __future__ import annotations
@@ -59,7 +64,7 @@ import uuid
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sync  # noqa: E402  (Abgleich PC/Laptop, ab 2.1.0)
 
-VERSION = "2.1.1"
+VERSION = "2.2.0"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400
@@ -378,7 +383,9 @@ class Collector:
         return changed
 
     def build(self, st: dict) -> dict:
-        """Paket aus allem Neuen gegenüber dem gemerkten Stand. Verändert st NICHT (erst nach dem Senden: commit)."""
+        """Paket aus allem Neuen gegenüber dem gemerkten Stand. Gemerkt wird erst nach dem Senden (commit) – einzige
+        Ausnahme: zu grosse Protokolle/Wegdaten trägt build() sofort in st["zu_gross"] ein und speichert st, damit die
+        Meldung "zu gross" nur einmal kommt."""
         sent = set(st.get("sent_test_ids") or [])
         known_err = dict(st.get("errors") or {})
         known_wege = set(st.get("wege") or [])
@@ -440,9 +447,16 @@ class Collector:
                 raw = lua_unescape(x["raw"])
                 if len(raw.encode("utf-8")) > EXTRA_MAX_ONE:
                     # ab 2.0.1 nur beim ersten Mal melden (Prüfwert in uploader_state.json "zu_gross")
+                    # ab 2.2.0 (offen 6): bei Diagnose-Protokollen Prüfwert aus den Einträgen (ohne Kopfzeilen und
+                    # Uhrzeit, wie beim Senden) – dasselbe Protokoll neu ausgegeben meldet sich nicht nochmals
                     big = st.setdefault("zu_gross", [])
-                    if x["id"] not in big:
-                        big.append(x["id"])
+                    big_id = x["id"]
+                    if x["kind"] == "diag":
+                        dp = raw.split("|", 3)
+                        big_id = "d-" + _hash((dp[1] if len(dp) >= 4 else "?") + "|" +
+                                              ",".join(diag_entries(dp[3] if len(dp) >= 4 else raw)))
+                    if big_id not in big:
+                        big.append(big_id)
                         del big[:-200]
                         log(f"{'Diagnose' if x['kind'] == 'diag' else 'Wegdaten'} zu gross – übersprungen.")
                         try:
@@ -504,8 +518,9 @@ def package_summary(c: dict) -> str:
     return "GoldSentinel-Paket: " + (", ".join(parts) or "nichts Neues")
 
 
-def package_bodies(pkg: dict, now: float | None = None) -> list[tuple[str, bytes]]:
-    """Normalfall EINE Nachricht; nur wenn das Paket entpackt über 4 MB wäre, mehrere Teile."""
+def package_bodies(pkg: dict, now: float | None = None) -> list[tuple[str, bytes, list[int]]]:
+    """Normalfall EINE Nachricht; nur wenn das Paket entpackt über 4 MB wäre, mehrere Teile.
+    Rückgabe je Teil: (boundary, body, Nummern der Items in diesem Teil)."""
     now = time.time() if now is None else now
     chunks, cur, size = [], [], 0
     for idx, it in enumerate(pkg["items"]):
@@ -793,7 +808,8 @@ def _flush_on_exit(reporter: "Reporter"):
                 pass
 
 
-SYNC_TICK = 60                       # so oft den Abgleich prüfen (Sekunden)
+SYNC_TICK = 5                        # so oft WoW-Prozess und Dateien prüfen (Netz: Index alle 30 s, siehe sync.py)
+SYNC_LOCK_EVERY = 30                 # so oft die Sperre _sync.lock auffrischen
 SYNC_STATUS_EVERY = 600              # Statuszeile spätestens so oft zeigen
 
 
@@ -822,11 +838,19 @@ def wow_start():
     sy = make_sync(st, path)
     if sy is None:
         log("Abgleich nicht eingerichtet (sync_config.json fehlt) – in Discord /uploader ausführen.")
+    elif sync.lock_active(HERE):
+        # offen 2: der laufende Uploader gleicht ab (auch beim WoW-Start) – hier nichts schreiben
+        log("Der Uploader läuft – er gleicht ab. Starte nur WoW.")
     elif sy.is_wow_running():
         log("WoW läuft schon – nichts übernommen.")
     else:
-        sy.pull()
-        log(sy.status_line())
+        sync.write_lock(HERE)
+        try:
+            sy.merge_old_backups()
+            sy.pull()
+            log(sy.status_line())
+        finally:
+            sync.remove_lock(HERE)
     exe = None
     if sy is not None:
         forever = [acc for key, acc in sy.roots.items() if key.startswith("_forever_/")]
@@ -868,13 +892,19 @@ def main():
     if syncer is None:
         log("Abgleich PC/Laptop: nicht eingerichtet (in Discord /uploader ausführen, sync_config.json hineinlegen).")
     else:
+        sync.write_lock(HERE)
+        import atexit
+        atexit.register(sync.remove_lock, HERE)
         try:
             if not syncer.is_wow_running():
+                syncer.merge_old_backups()       # einmalig: nie zusammengeführte AHSentinel-Sicherungen (2.1.x)
                 syncer.pull()                    # beim Start des Uploaders, wenn WoW nicht läuft
             log(syncer.status_line())
         except Exception as e:  # noqa: BLE001
             log(f"Abgleich: {e}")
+        log("Abgleich läuft automatisch: nach dem Beenden von WoW hoch, neuer Stand vom anderen Rechner sofort.")
     next_sync, last_status, status_text = time.time() + SYNC_TICK, time.time(), ""
+    next_lock = time.time() + SYNC_LOCK_EVERY
     if not (cfg.get("test_webhook_url") or "").startswith("https://"):
         log("Hinweis: Für Testberichte (#testberichte) in Discord /uploader erneut ausführen und die neue "
             "uploader_config.json hineinlegen. Der Daten-Upload läuft trotzdem wie bisher.")
@@ -928,6 +958,9 @@ def main():
         except Exception as e:  # noqa: BLE001
             log(f"Testberichte: {e}")
         # Abgleich PC/Laptop (S3): eigene Wartezeit, Fehler stören den Daten-Upload nie
+        if syncer is not None and time.time() >= next_lock:
+            next_lock = time.time() + SYNC_LOCK_EVERY
+            sync.write_lock(HERE)
         if syncer is not None and time.time() >= next_sync:
             next_sync = time.time() + SYNC_TICK
             try:
@@ -938,7 +971,7 @@ def main():
                     status_text, last_status = line, time.time()
             except Exception as e:  # noqa: BLE001
                 log(f"Abgleich: {e}")
-        time.sleep(interval)
+        time.sleep(min(interval, SYNC_TICK) if syncer is not None else interval)
 
 
 if __name__ == "__main__":

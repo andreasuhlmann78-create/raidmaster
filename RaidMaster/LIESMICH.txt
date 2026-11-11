@@ -11,6 +11,12 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.23 – Beleg für den Abgleich PC/Laptop
+- Für den RaidMaster-Uploader 2.2.0: Übernimmt der Uploader einen neueren Stand vom anderen Rechner, während WoW noch
+  im Anmelde- oder Charakterbildschirm ist, merkt sich RaidMaster beim Einloggen, dass dieser Stand gelesen wurde
+  (RaidMasterDB.syncProbe: Nummer, Rechnername, Zeit). Daran erkennt der Uploader, dass die Übernahme rechtzeitig war;
+  nach zwei Belegen kommt kein Hinweis "bitte noch nicht einloggen" mehr. Nichts wird gesendet.
+
 NEU IN 3.0.22 – GoldSentinelSync dabei
 - Bringt GoldSentinelSync mit, damit Fehlerberichte (nur mit Zustimmung, /gstest) geteilt werden können;
   RaidMaster-Daten unverändert (DKP, Gebote, Einteilung weiter nur an Gilde, Raid und einzelne Spieler).

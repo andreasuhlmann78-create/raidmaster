@@ -82,7 +82,7 @@ Ab Version 2.1.0 – Addon-Daten zwischen PC und Laptop abgleichen:
 - Läuft WoW und der andere Rechner hat Neueres: nichts wird überschrieben, es kommt ein Hinweis
   ("Neuerer Stand vom Laptop – WoW beenden, dann übernehmen").
 - An beiden Rechnern gespielt ohne Abgleich dazwischen: Je Datei gewinnt die neuere, die andere bleibt als Sicherung in
-  WTF\Account\<Konto>\_sync_backup und wird im Fenster gemeldet. AHSentinel bekommt die ältere Fassung zusätzlich
+  _sync_backup im Uploader-Ordner und wird im Fenster gemeldet. AHSentinel bekommt die ältere Fassung zusätzlich
   zum Zusammenführen (beim nächsten Login).
 - Vor jedem Übernehmen sichert der Uploader deine Dateien in _sync_backup (die letzten 5 Sicherungen bleiben).
 - Gespeichert wird nur in deinem privaten Discord-Kanal #sync-daten (nur du und der Bot sehen ihn), höchstens 10
@@ -98,3 +98,30 @@ Version 2.1.1:
 - GoldSentinel-WoW.bat startet WoW Forever (_forever_), wenn vorhanden.
 - Neu: Autostart-einrichten.bat – einmal doppelklicken, dann startet der Uploader bei jeder Anmeldung von selbst
   (minimiert).
+
+Version 2.2.0 – Abgleich sofort und ohne Klick:
+- EINZIGER Schritt pro Rechner: einmal Autostart-einrichten.bat doppelklicken (dazu wie bisher uploader_config.json
+  und sync_config.json aus /uploader in den Ordner). Danach läuft alles von selbst, solange der Uploader läuft.
+  GoldSentinel-WoW.bat brauchst du nicht mehr (darf bleiben; läuft der Uploader, startet sie nur noch WoW).
+- Hochladen spätestens 15 Sekunden nach dem Beenden von WoW. Nach dem Ausloggen ins Charakter-Menü (WoW offen) nach
+  1 Minute Ruhe ebenfalls.
+- Der andere Rechner prüft alle 30 Sekunden und holt einen neuen Stand sofort, wenn WoW dort nicht läuft.
+- WoW einfach normal starten: Sieht der Uploader einen frischen WoW-Start und es gibt einen neueren Stand vom anderen
+  Rechner, übernimmt er ihn noch im Anmelde-/Charakterbildschirm (WoW liest die Addon-Daten erst beim Einloggen).
+  Bis das belegt ist, kommt ein Hinweis "bitte noch nicht einloggen, wird übernommen …" und danach "fertig – du kannst
+  einloggen". Den Beleg liefert RaidMaster ab 3.0.23; nach 2 Belegen kommt kein Hinweis mehr.
+- Es wird nur hochgeladen, was sich geändert hat (je Spielversion und Konto ein eigenes Paket). Spielversionen, die
+  seit 14 Tagen unverändert sind, gehen nur einmal hoch; Retail nur, wenn du dort spielst.
+- Wer gewinnt, wenn an beiden Rechnern gespielt wurde: nicht mehr nur nach der Uhrzeit der Dateien. Die Uhren beider
+  Rechner werden mit Discord verglichen; liegen beide Änderungen weniger als 10 Minuten auseinander, gilt es als
+  Konflikt. Beim ersten Abgleich (noch nie abgeglichen) ebenso. Die andere Fassung bleibt 30 Tage in _sync_backup;
+  AHSentinel bekommt sie IMMER zum Zusammenführen.
+  Form des Zusammenführungs-Blocks in AHSentinel.lua: AHSentinelMerge = { v = 1, von = <Rechner>, zeit = <Unix-Zeit>,
+  grund = "konflikt", db = <andere AHSentinelDB> }. AHSentinelDB selbst wird nie verändert.
+- Einmalig: Liegt in _sync_backup ein AHSentinel-Stand aus 2.1.x, der nie zusammengeführt wurde, bekommt AHSentinel
+  ihn beim nächsten Login zum Zusammenführen.
+- Uploader und GoldSentinel-WoW.bat überschreiben sich den Stand nicht mehr (nur einer gleicht ab).
+- Weniger Last: Dateien werden nur neu gelesen, wenn sie sich geändert haben. Antwortet Discord "zu viele Anfragen",
+  wartet der Uploader so lange wie verlangt.
+- Diagnose-Protokolle, die zu gross sind, werden auch dann nur einmal gemeldet, wenn sie mit neuer Uhrzeit neu
+  ausgegeben werden.

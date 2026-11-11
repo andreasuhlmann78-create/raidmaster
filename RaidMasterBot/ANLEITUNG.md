@@ -142,8 +142,11 @@ er die Einrichtungsdatei trotzdem und sagt, welches Recht fehlt.
 **Abgleich PC/Laptop (ab Bot 1.5.113, Uploader 2.1.0):** `/uploader` legt zusätzlich einen privaten Kanal
 **#sync-daten** an (nur du und der Bot sehen ihn), dazu einen Webhook und eine Index-Nachricht, und schickt
 **sync_config.json** mit. Der Uploader speichert dort die Stände deiner Addon-Daten (höchstens 10) und holt sie am
-anderen Rechner zurück; WoW dann mit `GoldSentinel-WoW.bat` starten. Der Bot liest, beantwortet und löscht in
-#sync-daten nichts. Jedes Mitglied, das `/uploader` ausführt, bekommt einen eigenen privaten Kanal.
+anderen Rechner zurück. Ab Uploader 2.2.0 (Bot 1.5.114) ist der einzige Schritt je Rechner: einmal
+`Autostart-einrichten.bat` doppelklicken; WoW normal starten (`GoldSentinel-WoW.bat` ist nicht mehr nötig). Der Bot
+liest, beantwortet und löscht in #sync-daten nichts. Jedes Mitglied, das `/uploader` ausführt, bekommt einen eigenen
+privaten Kanal. Achtung: Mitglieder mit der Discord-Berechtigung **Administrator** sehen jeden Kanal – auch #sync-daten
+mit Gold- und Charakterdaten. Diese Berechtigung nur sehr wenigen geben.
 
 Update des Uploaders: den Ordner **ersetzen** (nicht hineinentpacken), uploader_config.json vorher sichern und danach
 wieder hineinlegen.

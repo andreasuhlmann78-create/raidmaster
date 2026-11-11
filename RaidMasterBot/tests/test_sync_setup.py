@@ -118,7 +118,8 @@ class SyncSetup(unittest.TestCase):
         body = src[src.index("async def uploader_cmd"):src.index("# Server-Betrieb: Selbst-Update")]
         self.assertIn("uploader_setup.setup_sync(", body)
         self.assertIn('filename="sync_config.json"', body)
-        self.assertIn("GoldSentinel-WoW.bat", body)
+        self.assertIn("Autostart-einrichten.bat", body)                 # 1.5.114: einziger Schritt (S8 d)
+        self.assertIn("Administrator", body)                            # offen 8: Admins sehen jeden Kanal
 
 
 if __name__ == "__main__":

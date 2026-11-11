@@ -73,7 +73,7 @@ New in 2.1.0 – sync addon data between PC and laptop:
 - Keep uploader.bat running as usual: after WoW is closed (and 2 minutes of quiet) it uploads the state.
 - If WoW is running and the other computer has newer data: nothing is overwritten, you get a notice.
 - Played on both without syncing in between: per file the newer one wins, the other stays as a backup in
-  WTF\Account\<account>\_sync_backup and is reported. AHSentinel additionally gets the older version to merge.
+  _sync_backup in the uploader folder and is reported. AHSentinel additionally gets the older version to merge.
 - Before taking over anything the uploader backs up your files in _sync_backup (last 5 backups kept).
 - Stored only in your private Discord channel #sync-daten (only you and the bot see it), at most 10 versions.
 
@@ -83,3 +83,28 @@ Version 2.1.1:
 - Backups (_sync_backup) are now kept in the uploader folder, no longer in the WoW folder.
 - GoldSentinel-WoW.bat starts WoW Forever (_forever_) if present.
 - New: Autostart-einrichten.bat – double-click once and the uploader starts with every login (minimised).
+
+Version 2.2.0 – sync right away, no clicks:
+- The ONLY step per computer: double-click Autostart-einrichten.bat once (plus uploader_config.json and
+  sync_config.json from /uploader in the folder, as before). After that everything runs by itself while the uploader
+  runs. GoldSentinel-WoW.bat is no longer needed (may stay; if the uploader runs, it only starts WoW).
+- Upload at most 15 seconds after WoW is closed. After logging out to the character screen (WoW still open), after
+  1 minute of quiet as well.
+- The other computer checks every 30 seconds and fetches a new state right away when WoW is not running there.
+- Just start WoW normally: if the uploader sees a fresh WoW start and the other computer has a newer state, it takes it
+  over while you are still on the login/character screen (WoW reads addon data only when you enter the world).
+  Until this is proven you get a notice "please don't log in yet, taking over …" and then "done – you can log in".
+  RaidMaster 3.0.23+ provides the proof; after 2 proofs there is no notice anymore.
+- Only what changed is uploaded (one package per game version and account). Game versions unchanged for 14 days are
+  uploaded once; Retail only if you play there.
+- Who wins if you played on both: no longer only by file time. Both computers' clocks are compared with Discord; if both
+  changes are less than 10 minutes apart it counts as a conflict. Same for the very first sync. The other version stays
+  in _sync_backup for 30 days; AHSentinel ALWAYS gets it to merge.
+  Merge block in AHSentinel.lua: AHSentinelMerge = { v = 1, von = <computer>, zeit = <unix time>, grund = "konflikt",
+  db = <other AHSentinelDB> }. AHSentinelDB itself is never changed.
+- Once: if _sync_backup holds an AHSentinel state from 2.1.x that was never merged, AHSentinel gets it to merge at the
+  next login.
+- The uploader and GoldSentinel-WoW.bat no longer overwrite each other's state (only one syncs).
+- Less load: files are only read again when they changed. If Discord says "too many requests", the uploader waits as
+  long as asked.
+- Diagnostic logs that are too large are reported only once, even when written again with a new time.

@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "3.0.22"
-RM.VERSION_NUM = 30022
+RM.VERSION = "3.0.23"
+RM.VERSION_NUM = 30023
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -793,7 +793,7 @@ end)
 function RM.InitDB(db)
 	-- beschädigte Einträge (falscher Typ) nicht übernehmen; bei gültigen Daten ändert sich hier nichts
 	for _, k in ipairs({ "data", "config", "session", "trade", "foreign", "pendingAwards", "specs", "signup", "lootdb", "prof",
-		"records", "killlog", "shots", "bank", "itemTips", "recipeMats", "assign", "myAssign", "pug" }) do
+		"records", "killlog", "shots", "bank", "itemTips", "recipeMats", "assign", "myAssign", "pug", "syncProbe" }) do
 		if db[k] ~= nil and type(db[k]) ~= "table" then db[k] = nil end
 	end
 	db.data = db.data or {}
@@ -833,11 +833,27 @@ function RM.InitDB(db)
 	return db
 end
 
+-- 3.0.23: Beleg für den Abgleich PC/Laptop (RaidMaster-Uploader 2.2.0, S8 c). Übernimmt der Uploader einen neueren
+-- Stand im Anmelde-/Charakterbildschirm, hängt er einen Prüfblock RaidMasterSyncProbe = { seq, von, t } an
+-- RaidMaster.lua. Hier wird beim Laden nur festgehalten, welcher Prüfblock gelesen wurde und wann (Unix-Zeit);
+-- nach dem nächsten Speichern sieht der Uploader daran, dass WoW den übernommenen Stand wirklich gelesen hat.
+-- Der Prüfblock selbst wird danach verworfen. Keine Namen, nichts wird gesendet.
+function RM.ReadSyncProbe(db, probe)
+	if type(probe) ~= "table" then return nil end
+	local seq = tonumber(probe.seq)
+	if not seq then return nil end
+	local von = type(probe.von) == "string" and probe.von:sub(1, 40) or ""
+	db.syncProbe = { seq = seq, von = von, t = tonumber(probe.t) or 0, geladen = time() }
+	return db.syncProbe
+end
+
 RM.On("ADDON_LOADED", function(name)
 	if name ~= ADDON then return end
 	RaidMasterDB = RaidMasterDB or {}
 	local db = RM.InitDB(RaidMasterDB)
 	RM.db = db
+	RM.ReadSyncProbe(db, RaidMasterSyncProbe)
+	RaidMasterSyncProbe = nil
 	-- Testberichte und Lua-Fehler für die Prüfung sammeln (RaidMasterDB.gsTest; der Uploader schickt sie an Discord)
 	if GoldSentinelTest then GoldSentinelTest.TrackErrors("RaidMaster", RM.VERSION, db) end
 	if RegisterPrefix then RegisterPrefix(RM.PREFIX) end

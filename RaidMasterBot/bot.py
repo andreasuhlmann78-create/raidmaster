@@ -4932,8 +4932,11 @@ async def uploader_cmd(inter: discord.Interaction, nur_programm: bool = False):
                "2. **uploader_config.json** in diesen Ordner legen.\n")
             + "3. `uploader.bat` doppelklicken – beim ersten Start sucht er deine RaidMaster-Datei selbst.\n"
             "4. Fertig: Nach jedem `/reload` oder Ausloggen sind DKP, Einteilung, Skillungen und Erstkill-Screenshots nach wenigen Sekunden im Discord.\n"
-            + ("5. **Zweiter Rechner (PC/Laptop):** dort dasselbe – beide Dateien hineinlegen und WoW künftig mit "
-               "`GoldSentinel-WoW.bat` starten. Dann hast du an jedem Rechner den neuesten Stand aller Addon-Daten.\n"
+            + ("5. **Abgleich PC/Laptop:** an jedem Rechner dasselbe – beide Dateien hineinlegen und einmal "
+               "`Autostart-einrichten.bat` doppelklicken. Mehr ist nicht nötig: Der Uploader gleicht deine Addon-Daten "
+               "von selbst ab (WoW einfach normal starten; `GoldSentinel-WoW.bat` brauchst du nicht mehr). Die Daten "
+               "liegen in deinem privaten Kanal #sync-daten – Mitglieder mit der Discord-Berechtigung "
+               "**Administrator** sehen jeden Kanal, also auch diesen.\n"
                if sync_conf else "")
             + "⚠️ uploader_config.json und sync_config.json enthalten geheime Links – nicht weitergeben."
             + ("\n\n" + "\n".join("ℹ️ " + n for n in notes) if notes else ""))

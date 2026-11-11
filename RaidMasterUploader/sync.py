@@ -1,32 +1,56 @@
-"""Abgleich der Addon-Daten zwischen zwei Rechnern (PC und Laptop) – ab Uploader 2.1.0.
+"""Abgleich der Addon-Daten zwischen zwei Rechnern (PC und Laptop) – ab Uploader 2.1.0, sofort und ohne Klick ab 2.2.0.
 
-Auftrag: auftraege/RaidMaster/anweisung-uploader-sync-rechner.txt (Entscheid des Nutzers 11.11.2026, Lösung 2).
+Auftrag: auftraege/RaidMaster/anweisung-uploader-sync-rechner.txt (Entscheid des Nutzers 11.11.2026, Lösung 2;
+Nachtrag S8 "sofort und ohne Klick", 20:05).
 
 Speicher (S1): ein PRIVATER Discord-Kanal #sync-daten, den nur du und der Bot sehen. Der Bot legt ihn bei /uploader an,
 dazu einen Webhook und eine "Index"-Nachricht; beides steht in sync_config.json (neben dem Uploader, geheim wie
 uploader_config.json). Der Uploader schickt den Stand als Anhang über den Webhook und trägt im Index ein, welche
-Nachricht der neueste Stand ist. Ein Webhook darf seine eigenen Nachrichten lesen, ändern und löschen – darum braucht der
-Uploader keinen Bot-Token und der Bot liest #sync-daten nie. Höchstens 10 Fassungen bleiben, ältere löscht der Uploader.
-Übertragung nur über HTTPS; die Daten liegen nur in diesem privaten Kanal, nie im Repo, nie in #testberichte.
+Nachrichten der neueste Stand sind. Ein Webhook darf seine eigenen Nachrichten lesen, ändern und löschen – darum braucht
+der Uploader keinen Bot-Token und der Bot liest #sync-daten nie. Höchstens 10 Fassungen je Spielversion/Konto bleiben,
+ältere löscht der Uploader. Übertragung nur über HTTPS; die Daten liegen nur in diesem privaten Kanal, nie im Repo, nie in
+#testberichte.
 
 Was (S2): alle *.lua in WTF/Account/<KONTO>/SavedVariables und WTF/Account/<KONTO>/<Realm>/<Charakter>/SavedVariables
-(nicht *.lua.bak, nicht Config.wtf, Makros oder Tastenbelegungen).
+(nicht *.lua.bak, nicht Config.wtf, Makros oder Tastenbelegungen), aller Spielversionen und Konten des Rechners.
 
-Ablauf (S3): WoW darf beim Schreiben NIE laufen.
-  - Hochladen: WoW beendet und 2 Minuten Ruhe nach dem letzten Speichern -> geänderte Daten als ein Paket (tar.gz mit
-    manifest.json: je Datei Prüfwert, Zeit, Rechner).
-  - Herunterladen: vor dem Start von WoW (GoldSentinel-WoW.bat), beim Start des Uploaders und nach dem Beenden von WoW,
-    wenn der andere Rechner einen neueren Stand hat. Vorher Sicherung der lokalen Dateien in _sync_backup/<Zeit>
-    (höchstens 5).
+Ab 2.2.0 (S8 e): je Spielversion/Konto ein eigenes Paket. Hochgeladen wird nur, was sich geändert hat. Spielversionen,
+deren Dateien seit 14 Tagen unverändert sind, gehen nur einmal als Grundstand hoch; Retail (und PTR/Beta) nur, wenn
+dort gespielt wird. Geholt wird nur, was auf diesem Rechner installiert ist.
+Index (v2): {"v":2, "seq", "machine", "time", "off", "r": {"<Spielversion>/<KONTO>": [rev, [Nachrichten], Rechner,
+Zeit]}, "h": [[Nachrichten einer älteren Fassung], …]}. Ein Index v1 (Uploader 2.1.x, ein Paket für alles) wird gelesen
+und beim nächsten Hochladen umgestellt.
+
+Ablauf (S3/S8): WoW darf beim Schreiben NIE laufen – mit einer Ausnahme (S8 c, siehe unten).
+  - Hochladen: WoW beendet und die SavedVariables seit 10 s unverändert (≤ 15 s nach WoW-Ende). Läuft WoW noch (Ausloggen
+    ins Charakter-Menü, /reload), nach 60 s Ruhe (nur lesen, nichts schreiben).
+  - Holen: bei geschlossenem WoW den Index alle 30 s prüfen (nur die kleine Index-Nachricht; Pakete nur, wenn neuer).
+    Discord-Grenzen: Antwort 429 bzw. "X-RateLimit-Remaining: 0" -> so lange warten, wie Discord sagt.
+    Vorher Sicherung der lokalen Dateien in _sync_backup/<Zeit> (gewöhnliche: höchstens 5; aus Konflikten und
+    Übernahmen: 30 Tage).
   - Läuft WoW und es gibt einen neueren Stand: nichts überschreiben, nur melden.
-Konflikte (S4): an beiden Rechnern geändert -> je Datei gewinnt die neuere; die andere bleibt in _sync_backup und wird
-  gemeldet. AHSentinel.lua: die ältere Fassung zusätzlich als eigener Block "AHSentinelMerge = {...}" in die Datei
-  (AHSentinel liest ihn beim nächsten Login und führt zusammen; AHSentinelDB selbst wird nie verändert).
+  - S8 c: WoW ohne Starter geöffnet. WoW liest SavedVariables erst beim Betreten der Welt. Sieht der Uploader einen NEUEN
+    WoW-Prozess (kurz vorher lief keiner), prüft er sofort den Index und übernimmt einen neueren Stand noch im Anmelde-/
+    Charakterbildschirm – nur wenn seit dem Prozessstart keine SavedVariables-Datei geschrieben wurde und höchstens 45 s
+    nach dem Start. Solange das nicht belegt ist, mit Windows-Meldung "bitte noch nicht einloggen …" / "fertig – du
+    kannst einloggen". Beleg: der Uploader schreibt einen Prüfblock "RaidMasterSyncProbe" in RaidMaster.lua; RaidMaster
+    (ab 3.0.23) merkt beim Laden RaidMasterDB.syncProbe {seq, von, t, geladen}. Steht nach dem nächsten Speichern genau
+    diese seq drin, hat WoW den übernommenen Stand gelesen (Messung: Sekunden vom WoW-Start bis zum Lesen). Nach 2
+    Belegen still; schlägt ein Beleg fehl, nie wieder übernehmen, solange WoW läuft (übernommene Dateien bleiben
+    gesichert, AHSentinel bekommt sie als AHSentinelMerge).
+Konflikte (S4/S8 f): je Datei gilt "geändert" gegenüber dem zuletzt abgeglichenen Stand (Upload-Reihenfolge, nicht
+  Uhrzeit). An beiden Rechnern geändert (oder noch nie abgeglichen und verschieden) -> Konflikt: die Zeiten beider Rechner
+  werden auf die Discord-Uhr umgerechnet (Abweichung der Rechner-Uhr wird bei jeder Antwort gemessen); die neuere
+  gewinnt; liegen beide weniger als 10 Min. auseinander, gewinnt der schon hochgeladene Stand. Die andere Fassung bleibt
+  30 Tage in _sync_backup und wird gemeldet. AHSentinel.lua: die andere Fassung IMMER zusätzlich als eigener Block
+  "AHSentinelMerge = { v, von, zeit, grund, db }" (Feldnamen bleiben so; AHSentinel liest von/zeit und from/t) in die
+  Datei; AHSentinelDB selbst wird nie verändert.
 
 Alles Netz und alle Prozessabfragen laufen über austauschbare Funktionen (Store, wow_running) – offline testbar.
 """
 from __future__ import annotations
 
+import email.utils
 import glob
 import hashlib
 import io
@@ -45,14 +69,30 @@ import uuid
 
 SYNC_CONFIG = "sync_config.json"
 BACKUP_DIR = "_sync_backup"
-BACKUPS_KEEP = 5
+LOCK_FILE = "_sync.lock"
+BACKUPS_KEEP = 5                 # gewöhnliche Sicherungen ("vor-abgleich")
+LONG_KEEP_DAYS = 30              # Sicherungen aus Konflikten und Übernahmen
+LONG_TAGS = ("konflikt", "uebernahme", "uebernommen", "zusammenfuehren")
 VERSIONS_KEEP = 10
-QUIET_SECONDS = 120            # nach dem letzten Speichern so lange warten
-CHECK_REMOTE_SECONDS = 300     # so oft nachsehen, ob der andere Rechner Neues hat
-PART_BYTES = 9 * 1024 * 1024   # Discord: höchstens 10 MB je Anhang
+QUIET_SECONDS = 10               # WoW beendet: SavedVariables so lange unverändert -> hochladen
+QUIET_RUNNING_SECONDS = 60       # WoW läuft (Charakter-Menü nach Ausloggen): so lange Ruhe -> hochladen
+CHECK_REMOTE_SECONDS = 30        # WoW geschlossen: so oft den Index prüfen
+CHECK_REMOTE_RUNNING = 120       # WoW läuft: so oft (nur für den Hinweis)
+STALE_DAYS = 14                  # so lange unverändert -> nur einmal als Grundstand
+CONFLICT_WINDOW = 600            # weniger als 10 Min. auseinander -> Konflikt, schon hochgeladener Stand gewinnt
+TAKEOVER_MAX_AGE = 45            # S8 c: nur so kurz nach dem WoW-Start übernehmen
+TRANSITION_MAX_GAP = 30          # ... und nur, wenn kurz vorher noch kein WoW lief
+PROOFS_NEEDED = 2
+PROBE_MAX_AGE = 3 * 86400
+LOCK_FRESH = 90
+PART_BYTES = 9 * 1024 * 1024     # Discord: höchstens 10 MB je Anhang
+INDEX_MAX = 1900                 # Discord: Nachricht höchstens 2000 Zeichen
 MERGE_VAR = "AHSentinelMerge"
 MERGE_ADDON_FILE = "AHSentinel.lua"
+PROBE_VAR = "RaidMasterSyncProbe"
+PROBE_FILE = "RaidMaster.lua"
 INDEX_MARK = "GSSYNC-INDEX"
+RETAIL_LIKE = ("_retail_", "_ptr_", "_xptr_", "_beta_")
 
 
 def sha(data: bytes) -> str:
@@ -87,6 +127,39 @@ def wow_running() -> bool:
         return any(WOW_EXE.match(n) for n in names)
     except Exception:  # noqa: BLE001
         return True
+
+
+# ---------------------------------------------------------------------------
+# Sperre: nur EIN Prozess gleicht ab (laufender Uploader oder Starter) – offen 2
+# ---------------------------------------------------------------------------
+def write_lock(here: str, now: float | None = None):
+    now = time.time() if now is None else now
+    try:
+        with open(os.path.join(here, LOCK_FILE), "w", encoding="utf-8") as f:
+            json.dump({"pid": os.getpid(), "t": now}, f)
+    except OSError:
+        pass
+
+
+def remove_lock(here: str):
+    try:
+        with open(os.path.join(here, LOCK_FILE), "r", encoding="utf-8") as f:
+            if json.load(f).get("pid") != os.getpid():
+                return
+        os.remove(os.path.join(here, LOCK_FILE))
+    except (OSError, ValueError, AttributeError):
+        pass
+
+
+def lock_active(here: str, now: float | None = None) -> bool:
+    """True, wenn ein ANDERER Prozess (der laufende Uploader) in den letzten 90 s abgeglichen hat."""
+    now = time.time() if now is None else now
+    try:
+        with open(os.path.join(here, LOCK_FILE), "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data.get("pid") != os.getpid() and now - float(data.get("t") or 0) <= LOCK_FRESH
+    except (OSError, ValueError, AttributeError, TypeError):
+        return False
 
 
 # ---------------------------------------------------------------------------
@@ -153,11 +226,13 @@ def write_atomic(fn: str, data: bytes, mtime: float | None = None):
             pass
 
 
-def make_package(files: dict[str, dict], machine: str, now: float) -> bytes:
-    """files: rel -> {"data": bytes, "mtime": float, "machine": str}. tar.gz mit manifest.json."""
-    manifest = {"v": 1, "machine": machine, "time": now,
+def make_package(files: dict[str, dict], machine: str, now: float, off: float = 0.0) -> bytes:
+    """files: rel -> {"data": bytes, "mtime": float, "machine": str, "off": float}. tar.gz mit manifest.json.
+    off = Abweichung der Uhr des Rechners gegenüber Discord (Sekunden; Discord-Zeit = mtime + off)."""
+    manifest = {"v": 2, "machine": machine, "time": now, "off": round(off, 1),
                 "files": {rel: {"sha": sha(f["data"]), "mtime": f["mtime"], "machine": f.get("machine") or machine,
-                                "size": len(f["data"])} for rel, f in files.items()}}
+                                "off": round(float(f.get("off", off) or 0.0), 1), "size": len(f["data"])}
+                          for rel, f in files.items()}}
     buf = io.BytesIO()
     with tarfile.open(fileobj=buf, mode="w:gz", compresslevel=9) as tar:
         def add(name, data):
@@ -191,7 +266,7 @@ def read_package(blob: bytes) -> tuple[dict, dict[str, bytes]]:
 
 
 # ---------------------------------------------------------------------------
-# AHSentinel: ältere Fassung als eigener Block anhängen (nie in AHSentinelDB hinein)
+# Oberste Blöcke einer SavedVariables-Datei (AHSentinelMerge, RaidMasterSyncProbe)
 # ---------------------------------------------------------------------------
 TOP_ASSIGN = re.compile(r"^([A-Za-z_][A-Za-z0-9_]*) = ", re.M)
 
@@ -206,23 +281,66 @@ def top_blocks(text: str) -> dict[str, str]:
     return out
 
 
+def remove_block(data: bytes, var: str) -> bytes:
+    """Obersten Block "var = …" entfernen (sonst unverändert)."""
+    text = data.decode("utf-8", errors="surrogateescape")
+    ms = list(TOP_ASSIGN.finditer(text))
+    for i, m in enumerate(ms):
+        if m.group(1) == var:
+            end = ms[i + 1].start() if i + 1 < len(ms) else len(text)
+            return (text[:m.start()] + text[end:]).encode("utf-8", errors="surrogateescape")
+    return data
+
+
 def lua_quote(s: str) -> str:
     return '"' + s.replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n") + '"'
 
 
 def add_merge_block(winner: bytes, older: bytes, machine: str, when: float) -> bytes | None:
-    """AHSentinelMerge = { v, von, zeit, grund, db = <ältere AHSentinelDB> } an die Gewinner-Datei hängen.
-    None, wenn die ältere keine AHSentinelDB hat oder die Gewinner-Datei schon einen offenen Block hat."""
+    """AHSentinelMerge = { v, von, zeit, grund, db = <andere AHSentinelDB> } an die Gewinner-Datei hängen.
+    Feldnamen: v, von (Rechner), zeit (Unix-Zeit), grund ("konflikt"), db (vollständige andere AHSentinelDB).
+    None, wenn die andere keine AHSentinelDB hat, beide gleich sind oder die Gewinner-Datei schon einen offenen Block
+    hat."""
     old = top_blocks(older.decode("utf-8", errors="surrogateescape"))
     db = old.get("AHSentinelDB")
     text = winner.decode("utf-8", errors="surrogateescape")
-    if not db or MERGE_VAR in top_blocks(text):
+    blocks = top_blocks(text)
+    if not db or MERGE_VAR in blocks or blocks.get("AHSentinelDB") == db:
         return None
     block = (f"{MERGE_VAR} = {{\n\t[\"v\"] = 1,\n\t[\"von\"] = {lua_quote(machine)},\n\t[\"zeit\"] = {int(when)},\n"
              f"\t[\"grund\"] = \"konflikt\",\n\t[\"db\"] = {db},\n}}\n")
     if not text.endswith("\n"):
         text += "\n"
     return (text + block).encode("utf-8", errors="surrogateescape")
+
+
+def add_probe(data: bytes, seq: int, machine: str, when: float) -> bytes:
+    """Prüfblock für den Beleg S8 c an RaidMaster.lua hängen (einen alten ersetzen)."""
+    text = remove_block(data, PROBE_VAR).decode("utf-8", errors="surrogateescape")
+    if text and not text.endswith("\n"):
+        text += "\n"
+    text += (f"{PROBE_VAR} = {{\n\t[\"seq\"] = {int(seq)},\n\t[\"von\"] = {lua_quote(machine)},\n"
+             f"\t[\"t\"] = {int(when)},\n}}\n")
+    return text.encode("utf-8", errors="surrogateescape")
+
+
+PROBE_SEEN = re.compile(r'\["syncProbe"\]\s*=\s*\{(.*?)\}', re.S)
+
+
+def probe_seen(data: bytes) -> dict | None:
+    """RaidMasterDB.syncProbe aus RaidMaster.lua: {"seq", "von", "geladen"} oder None."""
+    text = data.decode("utf-8", errors="replace")
+    db = top_blocks(text).get("RaidMasterDB") or ""
+    m = PROBE_SEEN.search(db)
+    if not m:
+        return None
+    body = m.group(1)
+
+    def num(key):
+        x = re.search(r'\["' + key + r'"\]\s*=\s*(-?[\d.]+)', body)
+        return float(x.group(1)) if x else 0.0
+    von = re.search(r'\["von"\]\s*=\s*"((?:[^"\\]|\\.)*)"', body)
+    return {"seq": int(num("seq")), "von": von.group(1) if von else "", "geladen": num("geladen")}
 
 
 # ---------------------------------------------------------------------------
@@ -233,14 +351,37 @@ class StoreError(Exception):
 
 
 class WebhookStore:
-    """Eine Index-Nachricht (Inhalt JSON) + je Fassung eine oder mehrere Nachrichten mit Anhang."""
+    """Eine Index-Nachricht (Inhalt JSON) + je Paket eine oder mehrere Nachrichten mit Anhang.
+    Misst bei jeder Antwort die Abweichung der eigenen Uhr gegenüber Discord (clock_offset) und hält Discords
+    Grenzen ein (wait_until)."""
 
     def __init__(self, webhook_url: str, index_id: str, timeout: int = 60):
         self.url = webhook_url.rstrip("/")
         self.index_id = str(index_id)
         self.timeout = timeout
+        self.clock_offset = 0.0
+        self.wait_until = 0.0
+
+    def _limits(self, headers):
+        if headers is None:
+            return
+        try:
+            date = headers.get("Date")
+            if date:
+                self.clock_offset = email.utils.parsedate_to_datetime(date).timestamp() - time.time()
+        except (TypeError, ValueError, OverflowError):
+            pass
+        try:
+            if str(headers.get("X-RateLimit-Remaining") or "") == "0":
+                self.wait_until = max(self.wait_until,
+                                      time.time() + float(headers.get("X-RateLimit-Reset-After") or 1))
+        except (TypeError, ValueError):
+            pass
 
     def _req(self, method: str, path: str = "", data: bytes | None = None, ctype: str | None = None, query: str = ""):
+        wait = self.wait_until - time.time()
+        if wait > 0:
+            raise StoreError(f"Discord bremst – nächster Versuch in {int(wait) + 1} s")
         url = self.url + path + query
         req = urllib.request.Request(url, data=data, method=method)
         req.add_header("User-Agent", "GoldSentinel-Uploader")
@@ -248,11 +389,24 @@ class WebhookStore:
             req.add_header("Content-Type", ctype)
         try:
             with urllib.request.urlopen(req, timeout=self.timeout) as resp:
+                self._limits(getattr(resp, "headers", None))
                 body = resp.read()
                 return json.loads(body.decode("utf-8")) if body else None
         except urllib.error.HTTPError as e:
+            self._limits(getattr(e, "headers", None))
+            if e.code == 429:
+                retry = 5.0
+                try:
+                    retry = float(json.loads(e.read().decode("utf-8")).get("retry_after") or retry)
+                except (ValueError, AttributeError, OSError, TypeError):
+                    try:
+                        retry = float((e.headers or {}).get("Retry-After") or retry)
+                    except (TypeError, ValueError):
+                        pass
+                self.wait_until = max(self.wait_until, time.time() + retry)
+                raise StoreError(f"Discord bremst – nächster Versuch in {int(retry) + 1} s") from None
             raise StoreError(f"Discord antwortet {e.code}") from None
-        except (urllib.error.URLError, OSError, ValueError) as e:
+        except (urllib.error.URLError, OSError, ValueError):
             raise StoreError("kein Netz oder Discord nicht erreichbar") from None
 
     def read_index(self) -> dict:
@@ -299,7 +453,7 @@ class WebhookStore:
         try:
             with urllib.request.urlopen(req, timeout=self.timeout) as resp:
                 return resp.read()
-        except (urllib.error.URLError, OSError) as e:
+        except (urllib.error.URLError, OSError):
             raise StoreError("Paket konnte nicht geladen werden") from None
 
     def delete_part(self, msg_id: str):
@@ -320,40 +474,74 @@ def load_sync_config(here: str) -> dict | None:
     return conf
 
 
+def index_roots(idx: dict | None) -> dict[str, dict]:
+    """Einträge des Index: v2 je Spielversion/Konto; v1 (Uploader 2.1.x) als ein Eintrag "*" für alles."""
+    if not isinstance(idx, dict):
+        return {}
+    if isinstance(idx.get("r"), dict):
+        out = {}
+        for k, e in idx["r"].items():
+            if isinstance(e, list) and len(e) >= 4 and isinstance(e[1], list):
+                out[str(k)] = {"rev": int(e[0] or 0), "parts": [str(p) for p in e[1]], "machine": e[2],
+                               "time": e[3]}
+        return out
+    if idx.get("parts"):
+        return {"*": {"rev": int(idx.get("seq") or 0), "parts": [str(p) for p in idx["parts"]],
+                      "machine": idx.get("machine"), "time": idx.get("time")}}
+    return {}
+
+
+def index_parts(idx: dict | None) -> list[str]:
+    """Alle Nachrichten des aktuellen Stands (für Tests und Aufräumen)."""
+    return [p for e in index_roots(idx).values() for p in e["parts"]]
+
+
+def flavor_label(key: str) -> str:
+    """"_forever_/KONTO" -> "_forever_" (Kontoname nie ins Protokoll)."""
+    return key.split("/")[0] if key and key != "*" else "Konto"
+
+
 # ---------------------------------------------------------------------------
 # Abgleich
 # ---------------------------------------------------------------------------
 class Sync:
     """Hält den Stand dieses Rechners in st["sync"] (uploader_state.json):
-    seq (zuletzt übernommene Fassung), files {rel: sha} (Stand nach dem letzten Abgleich), Anzeige-Daten."""
+    seq (zuletzt gesehener Index), revs {Spielversion/Konto: rev} (zuletzt übernommene/hochgeladene Pakete),
+    files {rel: sha} (Stand nach dem letzten Abgleich = "Basis"), Anzeige-Daten, Beleg S8 c."""
 
     def __init__(self, store, acc, st: dict, save, machine: str, log, is_wow_running=wow_running,
-                 notify=None, backup_dir: str | None = None):
-        """acc: ein Konto-Ordner (str) oder {"<Spielversion>/<KONTO>": Konto-Ordner} (ab 2.1.1: alle Spielversionen)."""
+                 notify=None, backup_dir: str | None = None, clock_offset=None):
+        """acc: ein Konto-Ordner (str) oder {"<Spielversion>/<KONTO>": Konto-Ordner} (ab 2.1.1: alle Spielversionen).
+        clock_offset: Funktion -> Sekunden, um die Discord-Zeit vor der Uhr dieses Rechners liegt."""
         self.store, self.st, self.save, self.me = store, st, save, machine
         self.roots = dict(acc) if isinstance(acc, dict) else {"": acc}
         self.backup_dir = backup_dir
         self.log, self.is_wow_running = log, is_wow_running
         self.notify = notify or (lambda text: None)
+        self.clock_offset = clock_offset or (lambda: float(getattr(store, "clock_offset", 0.0) or 0.0))
         s = st.setdefault("sync", {})
         s.setdefault("seq", 0)
         s.setdefault("files", {})
+        s.setdefault("revs", {})
         self.s = s
         self.next_remote = 0.0
         self.remote: dict | None = None       # zuletzt gelesener Index
         self.warned_seq = 0
         self.last_error = ""
         self.messages: list[str] = []
-        self.carry: dict[str, bytes] = {}      # Dateien anderer Spielversionen (hier nicht installiert)
-        self.carry_meta: dict[str, dict] = {}
-        self.carry_seq = -1
+        self._cache: dict[str, tuple] = {}    # Pfad -> (Grösse, mtime, sha) – offen 5
+        self.wow = {"running": None, "first_seen": 0.0, "last_off": 0.0, "sv_newest": 0.0, "transition": False,
+                    "takeover_done": False}
+        self.skipped_logged: set[str] = set()
+        self.last_taken: list[str] = []
+        self.retry_at = 0.0                   # nach einem Fehler nicht alle 5 s erneut übers Netz
 
     # -- Anzeige (S5)
     def status_line(self) -> str:
         r = self.remote or {}
         up = self.s.get("last_upload")
         newest = f"{r.get('machine', '?')} {fmt_time(r.get('time'))}" if r.get("seq") else "–"
-        here = "aktuell" if not r.get("seq") or int(r.get("seq") or 0) <= int(self.s.get("seq") or 0) else "NICHT aktuell"
+        here = "NICHT aktuell" if self.remote_newer() else "aktuell"
         line = (f"Abgleich: zuletzt hochgeladen {fmt_time(up)} ({self.s.get('last_upload_machine') or self.me})"
                 if up else "Abgleich: noch nichts hochgeladen")
         line += f" · neuester Stand: {newest} · dieser Rechner {here}"
@@ -370,10 +558,11 @@ class Sync:
     def acc(self) -> str:
         return next(iter(self.roots.values()))
 
-    @acc.setter
-    def acc(self, value: str):
-        if "" in self.roots:
-            self.roots = {"": value}
+    def root_of(self, rel: str) -> str:
+        return "" if "" in self.roots else "/".join(rel.split("/")[:2])
+
+    def installed(self, key: str) -> bool:
+        return key == "*" or key in self.roots
 
     def _path(self, rel: str) -> str | None:
         """Voller Pfad für rel. Pfad, oder None, wenn die Spielversion hier nicht installiert ist."""
@@ -383,43 +572,89 @@ class Sync:
         root = self.roots.get("/".join(parts[:2]))
         return os.path.join(root, *parts[2:]) if root else None
 
-    def _local(self) -> dict[str, dict]:
+    @staticmethod
+    def _clean(rel: str, data: bytes) -> bytes:
+        """Was abgeglichen wird: RaidMaster.lua ohne den eigenen Prüfblock (S8 c)."""
+        if rel.split("/")[-1] == PROBE_FILE and PROBE_VAR.encode() in data:
+            return remove_block(data, PROBE_VAR)
+        return data
+
+    def _scan(self) -> dict[str, dict]:
+        """rel -> {path, mtime, size, sha}. Gelesen und gehasht wird nur, was sich seit dem letzten Blick geändert hat
+        (Grösse oder Zeit) – offen 5."""
         out = {}
         for prefix, acc in self.roots.items():
             for rel, fn in local_files(acc).items():
                 key = f"{prefix}/{rel}" if prefix else rel
                 try:
-                    data = read(fn)
-                    out[key] = {"data": data, "mtime": os.path.getmtime(fn), "path": fn}
+                    stt = os.stat(fn)
                 except OSError:
                     continue
+                c = self._cache.get(fn)
+                if c and c[0] == stt.st_size and c[1] == stt.st_mtime:
+                    h = c[2]
+                else:
+                    try:
+                        h = sha(self._clean(key, read(fn)))
+                    except OSError:
+                        continue
+                    self._cache[fn] = (stt.st_size, stt.st_mtime, h)
+                out[key] = {"path": fn, "mtime": stt.st_mtime, "size": stt.st_size, "sha": h}
         return out
 
-    def local_changes(self) -> tuple[list[str], float]:
+    def _newest(self, scan: dict | None = None) -> float:
+        scan = self._scan() if scan is None else scan
+        return max([f["mtime"] for f in scan.values()] or [0.0])
+
+    def _skip_root(self, key: str, files: dict[str, dict], now: float) -> bool:
+        """S8 e: Retail (PTR, Beta) seit 14 Tagen nicht gespielt und noch nie im Speicher -> gar nicht abgleichen."""
+        if not key.split("/")[0].lower().startswith(RETAIL_LIKE) or key in index_roots(self.remote):
+            return False
+        return now - self._newest(files) > STALE_DAYS * 86400
+
+    def local_changes(self, now: float | None = None) -> tuple[list[str], float]:
         """(geänderte Dateien gegenüber dem letzten Abgleich, jüngste Änderungszeit)"""
-        changed, newest = [], 0.0
-        for rel, f in self._local().items():
-            newest = max(newest, f["mtime"])
-            if self.s["files"].get(rel) != sha(f["data"]):
-                changed.append(rel)
-        return sorted(changed), newest
+        now = time.time() if now is None else now
+        scan = self._scan()
+        groups: dict[str, dict] = {}
+        for rel, f in scan.items():
+            groups.setdefault(self.root_of(rel), {})[rel] = f
+        changed = sorted(rel for key, files in groups.items() if not self._skip_root(key, files, now)
+                         for rel, f in files.items() if self.s["files"].get(rel) != f["sha"])
+        return changed, self._newest(scan)
 
     def _backup(self, files: dict[str, bytes], now: float, tag: str) -> str:
         root = self.backup_dir or os.path.join(self.acc, BACKUP_DIR)
         dest = os.path.join(root, time.strftime("%Y%m%d-%H%M%S", time.localtime(now)) + "-" + tag)
+        n = 2
+        while os.path.exists(dest):
+            dest = os.path.join(root, time.strftime("%Y%m%d-%H%M%S", time.localtime(now)) + f"-{n}-" + tag)
+            n += 1
         for rel, data in files.items():
             write_atomic(os.path.join(dest, *rel.split("/")), data)
         dirs = sorted(d for d in glob.glob(os.path.join(root, "*")) if os.path.isdir(d))
-        for old in dirs[:-BACKUPS_KEEP]:
+        short = [d for d in dirs if not d.endswith(LONG_TAGS)]
+        for old in short[:-BACKUPS_KEEP]:
             shutil.rmtree(old, ignore_errors=True)
+        for d in dirs:
+            if d.endswith(LONG_TAGS) and d != dest:
+                try:
+                    made = time.mktime(time.strptime(os.path.basename(d)[:15], "%Y%m%d-%H%M%S"))
+                except ValueError:
+                    continue
+                if now - made > LONG_KEEP_DAYS * 86400:
+                    shutil.rmtree(d, ignore_errors=True)
         return dest
 
     # -- Index
-    def check_remote(self, now: float | None = None, force: bool = False) -> dict | None:
+    def check_remote(self, now: float | None = None, force: bool = False,
+                     every: float = CHECK_REMOTE_SECONDS) -> dict | None:
         now = time.time() if now is None else now
         if not force and now < self.next_remote:
             return self.remote
-        self.next_remote = now + CHECK_REMOTE_SECONDS
+        if float(getattr(self.store, "wait_until", 0.0) or 0.0) > time.time():
+            return self.remote if not force else None        # Discord bremst: still warten (S8 b)
+        self.next_remote = now + every
         try:
             self.remote = self.store.read_index()
             self.last_error = ""
@@ -427,101 +662,128 @@ class Sync:
             self.last_error = str(e)
             self._say(f"Abgleich: {e} – lokale Dateien bleiben unverändert, neuer Versuch später.")
             return None
+        if int((self.remote or {}).get("seq") or 0) > int(self.s.get("seq") or 0) and not self.pending():
+            self.s["seq"] = int(self.remote.get("seq") or 0)   # nur Spielversionen, die es hier nicht gibt
         return self.remote
 
+    def pending(self) -> list[str]:
+        """Spielversionen/Konten mit neuerem Stand im Speicher, die hier installiert sind."""
+        out = []
+        for key, e in index_roots(self.remote).items():
+            if self.installed(key) and e["rev"] > int(self.s["revs"].get(key) or 0):
+                out.append(key)
+        return sorted(out)
+
     def remote_newer(self) -> bool:
-        r = self.remote or {}
-        return int(r.get("seq") or 0) > int(self.s.get("seq") or 0)
+        return bool(self.pending())
 
     # -- Herunterladen
-    def pull(self, now: float | None = None) -> bool:
-        """Neueren Stand übernehmen (nur wenn WoW nicht läuft). True = nichts mehr offen."""
+    def pull(self, now: float | None = None, takeover: bool = False) -> bool:
+        """Neueren Stand übernehmen (nur wenn WoW nicht läuft; takeover=True nur für S8 c). True = nichts mehr offen."""
         now = time.time() if now is None else now
+        self.last_taken = []
         if self.check_remote(now, force=True) is None:
             return False
-        if not self.remote_newer():
+        pend = self.pending()
+        if not pend:
             return True
         r = self.remote
-        if self.is_wow_running():
+        if not takeover and self.is_wow_running():
             if self.warned_seq != r.get("seq"):
                 self.warned_seq = r.get("seq")
                 text = f"Neuerer Stand vom {r.get('machine', 'anderen Rechner')} – WoW beenden, dann übernehmen."
                 self._say("Abgleich: " + text)
                 self.notify(text)
             return False
+        entries = index_roots(r)
+        packages = []
         try:
-            blob = b"".join(self.store.get_part(p) for p in r.get("parts") or [])
-            manifest, remote_files = read_package(blob)
+            for key in pend:
+                e = entries[key]
+                manifest, files = read_package(b"".join(self.store.get_part(p) for p in e["parts"]))
+                packages.append((key, e, manifest, files))
         except (StoreError, ValueError, tarfile.TarError, OSError) as e:
             self.last_error = str(e)
+            self.retry_at = now + 60
             self._say(f"Abgleich: neuer Stand nicht lesbar ({e}) – lokale Dateien unverändert.")
             return False
-        local = self._local()
-        meta = manifest.get("files") or {}
-        take, backup, conflicts = {}, {}, []
-        self.carry, self.carry_meta, self.carry_seq = {}, {}, int(r.get("seq") or 0)
-        for rel, data in remote_files.items():
-            if not self._safe_rel(rel):
-                continue
-            if self._path(rel) is None:
-                # Spielversion hier nicht installiert: nichts schreiben, aber beim Hochladen mitnehmen
-                self.carry[rel], self.carry_meta[rel] = data, meta.get(rel) or {}
-                continue
-            rsha = sha(data)
-            base = self.s["files"].get(rel)
-            cur = local.get(rel)
-            if cur is None:
-                take[rel] = data
-                continue
-            lsha = sha(cur["data"])
-            if lsha == rsha:
-                continue
-            if lsha == base or base is None and cur["mtime"] <= float((meta.get(rel) or {}).get("mtime") or 0):
-                take[rel] = data                           # hier nicht geändert -> neueren Stand übernehmen
-                backup[rel] = cur["data"]
-                continue
-            if rsha == base:
-                continue                                    # nur hier geändert -> bleibt, wird hochgeladen
-            # an beiden Rechnern geändert (S4): neuere gewinnt, ältere gesichert
-            rmt = float((meta.get(rel) or {}).get("mtime") or 0)
-            rmach = (meta.get(rel) or {}).get("machine") or r.get("machine") or "anderer Rechner"
-            if rmt > cur["mtime"]:
-                winner, older, wname, oname = data, cur["data"], rmach, self.me
-                take[rel] = data
-            else:
-                winner, older, wname, oname = cur["data"], data, self.me, rmach
-            backup[rel + (".lokal" if winner is data else f".{rmach}")] = older
-            if rel.split("/")[-1] == MERGE_ADDON_FILE:
-                merged = add_merge_block(winner, older, oname, now)
+        local = self._scan()
+        take, plain, conf, conflicts, base_new, crels = {}, {}, {}, [], {}, set()
+        for key, e, manifest, files in packages:
+            meta = manifest.get("files") or {}
+            moff = float(manifest.get("off") or 0.0)
+            for rel, data in files.items():
+                if not self._safe_rel(rel) or (key != "*" and self.root_of(rel) != key) or self._path(rel) is None:
+                    continue
+                rsha = sha(data)
+                base_new[rel] = rsha
+                cur = local.get(rel)
+                if cur is None:
+                    take[rel] = data
+                    continue
+                if cur["sha"] == rsha:
+                    continue
+                base = self.s["files"].get(rel)
+                if cur["sha"] == base:
+                    take[rel] = data                                # hier nicht geändert -> übernehmen
+                    plain[rel] = read(cur["path"])
+                    continue
+                if rsha == base:
+                    continue                                        # nur hier geändert -> bleibt, geht hoch
+                # an beiden Rechnern geändert – oder noch nie abgeglichen und verschieden (offen 1 a): Konflikt
+                m = meta.get(rel) or {}
+                ldata = read(cur["path"])
+                rmach = re.sub(r"[^\w .-]", "", str(m.get("machine") or e.get("machine") or "")) or "anderer Rechner"
+                rt = float(m.get("mtime") or 0) + float(m.get("off", moff) or 0.0)      # Discord-Zeit
+                lt = cur["mtime"] + self.clock_offset()
+                close = abs(rt - lt) < CONFLICT_WINDOW
+                crels.add(rel)
+                if close or rt > lt:
+                    winner, older, wname, oname, wt, ot = data, ldata, rmach, self.me, rt, lt
+                    take[rel] = data
+                    conf[rel + ".lokal"] = ldata
+                else:
+                    winner, older, wname, oname, wt, ot = ldata, data, self.me, rmach, lt, rt
+                    conf[rel + "." + rmach] = data
+                is_ah = rel.split("/")[-1] == MERGE_ADDON_FILE
+                merged = add_merge_block(winner, older, oname, now) if is_ah else None
                 if merged is not None:
                     take[rel] = merged
-            conflicts.append(f"{rel.split('/')[-1]}: {oname} {fmt_time(cur['mtime'] if older is cur['data'] else rmt)}"
-                             f" und {wname} {fmt_time(rmt if winner is data else cur['mtime'])} beide geändert – "
-                             f"{wname}-Stand übernommen, {oname}-Stand gesichert"
-                             + (" (AHSentinel führt ihn beim nächsten Login zusammen)"
-                                if rel.split("/")[-1] == MERGE_ADDON_FILE else ""))
-        if self.is_wow_running():                           # nochmals: WoW darf beim Schreiben nie laufen
+                how = ("innerhalb von 10 Min." if close else "beide") + " geändert"
+                if base is None:
+                    how += " (noch nie abgeglichen)"
+                note = ""
+                if is_ah:
+                    note = (" (AHSentinel führt ihn beim nächsten Login zusammen)" if merged is not None else
+                            " (offene Zusammenführung vorhanden – Stand nur gesichert)")
+                conflicts.append(f"{rel.split('/')[-1]}: {oname} {fmt_time(ot)} und {wname} {fmt_time(wt)} {how} – "
+                                 f"{wname}-Stand übernommen, {oname}-Stand gesichert{note}")
+        if not takeover and self.is_wow_running():          # nochmals: WoW darf beim Schreiben nie laufen
             return False
-        if backup or take:
-            to_save = dict(backup)
-            for rel in take:
-                if rel in local and rel not in to_save:
-                    to_save[rel] = local[rel]["data"]
-            if to_save:
-                self._backup(to_save, now, "vor-abgleich")
+        before = {rel: read(local[rel]["path"]) for rel in take if rel in local and rel not in plain}
+        before.update(plain)
+        if takeover and (take or before):
+            # S8 c: alter Stand und übernommener Stand 30 Tage aufheben (falls WoW doch schon gelesen hat)
+            if before:
+                self._backup(before, now, "uebernahme")
+            self.s["takeover_copy"] = self._backup(dict(take), now, "uebernommen")
+        elif before:
+            self._backup(before, now, "vor-abgleich")
+        if conf:
+            self._backup(conf, now, "konflikt")
         for rel, data in take.items():
-            mt = float((meta.get(rel) or {}).get("mtime") or now)
-            write_atomic(self._path(rel), data, None if rel in backup else mt)
-        # Stand nach dem Abgleich: was jetzt lokal liegt
-        new = {rel: sha(f["data"]) for rel, f in self._local().items()}
-        for rel, data in remote_files.items():
-            if self._safe_rel(rel) and self._path(rel) is not None and new.get(rel) != sha(data):
-                # lokal anders als der andere Rechner (nur hier geändert, Gewinner oder mit AHSentinelMerge):
-                # Basis = Stand des anderen Rechners, damit es beim nächsten Hochladen mitgeht
-                new[rel] = sha(data)
-        self.s["files"] = new
-        self.s["seq"] = int(r.get("seq") or 0)
+            m = {}
+            for _, _, manifest, files in packages:
+                if rel in files:
+                    m = (manifest.get("files") or {}).get(rel) or {}
+            mt = float(m.get("mtime") or 0) or None
+            write_atomic(self._path(rel), data, None if rel in crels else mt)
+        self.s["files"].update(base_new)
+        for key, e, _, _ in packages:
+            self.s["revs"][key] = e["rev"]
+        self.s["seq"] = max(int(self.s.get("seq") or 0), int(r.get("seq") or 0))
         self.s["last_pull"] = now
+        self.last_taken = sorted(take)
         self.save()
         if take:
             self._say(f"Abgleich: {len(take)} Datei(en) vom {r.get('machine', 'anderen Rechner')} übernommen "
@@ -538,87 +800,279 @@ class Sync:
             parts = parts[2:]                    # "<Spielversion>/<KONTO>/" davor
         return len(parts) == 2 and parts[0] == "SavedVariables" or len(parts) == 4 and parts[2] == "SavedVariables"
 
-    def _load_carry(self):
-        """Vor dem Hochladen: Dateien anderer Spielversionen aus dem neuesten Stand übernehmen (nicht verlieren)."""
-        r = self.remote or {}
-        seq = int(r.get("seq") or 0)
-        if not seq or self.carry_seq == seq or "" in self.roots:
-            return
-        blob = b"".join(self.store.get_part(p) for p in r.get("parts") or [])
-        manifest, files = read_package(blob)
-        meta = manifest.get("files") or {}
-        self.carry = {rel: d for rel, d in files.items() if self._safe_rel(rel) and self._path(rel) is None}
-        self.carry_meta = {rel: meta.get(rel) or {} for rel in self.carry}
-        self.carry_seq = seq
-
     # -- Hochladen
-    def push(self, now: float | None = None) -> bool:
+    def _wanted(self, key: str, files: dict[str, dict], entries: dict, now: float) -> bool:
+        """S8 e: geändert -> ja; noch nie im Speicher -> einmal als Grundstand, ausser Retail ohne Spiel."""
+        changed = any(self.s["files"].get(rel) != f["sha"] for rel, f in files.items())
+        if key in entries:
+            return changed
+        if self._skip_root(key, files, now):
+            if key not in self.skipped_logged:
+                self.skipped_logged.add(key)
+                self.log(f"Abgleich: {flavor_label(key)} seit {STALE_DAYS} Tagen nicht gespielt – nicht abgeglichen.")
+            return False
+        return True
+
+    def push(self, now: float | None = None, running_ok: bool = False) -> bool:
         now = time.time() if now is None else now
-        if self.is_wow_running():
+        if not running_ok and self.is_wow_running():
             return False
         if not self.pull(now):
             return False
-        changed, _ = self.local_changes()
-        if not changed and self.s.get("seq"):
+        scan = self._scan()
+        entries = index_roots(self.remote)
+        legacy = entries.get("*")
+        groups: dict[str, dict] = {}
+        for rel, f in scan.items():
+            groups.setdefault(self.root_of(rel), {})[rel] = f
+        keys = sorted(k for k, files in groups.items() if legacy or self._wanted(k, files, entries, now))
+        carry: dict[str, dict] = {}
+        if legacy:
+            # Index von Uploader 2.1.x: einmal alles neu, Spielversionen anderer Rechner weitertragen
+            try:
+                manifest, files = read_package(b"".join(self.store.get_part(p) for p in legacy["parts"]))
+            except (StoreError, ValueError, tarfile.TarError, OSError) as e:
+                self.last_error = str(e)
+                self.retry_at = now + 60
+                self._say(f"Abgleich: neuester Stand nicht lesbar ({e}) – Hochladen später.")
+                return False
+            meta = manifest.get("files") or {}
+            for rel, data in files.items():
+                if self._safe_rel(rel) and self._path(rel) is None and "" not in self.roots:
+                    m = meta.get(rel) or {}
+                    carry.setdefault(self.root_of(rel), {})[rel] = {
+                        "data": data, "mtime": float(m.get("mtime") or now), "machine": m.get("machine") or "?",
+                        "off": float(m.get("off", manifest.get("off", 0.0)) or 0.0)}
+        if not keys and not carry:
             return True
-        local = self._local()
-        files = {rel: {"data": f["data"], "mtime": f["mtime"], "machine": self.me} for rel, f in local.items()}
-        try:
-            self._load_carry()
-        except (StoreError, ValueError, tarfile.TarError, OSError) as e:
-            self.last_error = str(e)
-            self._say(f"Abgleich: neuester Stand nicht lesbar ({e}) – Hochladen später.")
-            return False
-        for rel, data in self.carry.items():
-            if rel not in files:
-                m = self.carry_meta.get(rel) or {}
-                files[rel] = {"data": data, "mtime": float(m.get("mtime") or now), "machine": m.get("machine") or "?"}
-        blob = make_package(files, self.me, now)
+        off = self.clock_offset()
         seq = int((self.remote or {}).get("seq") or 0) + 1
-        parts = []
+        packs = {}
+        changed_n = 0
+        for key in keys:
+            files = {}
+            for rel, f in groups[key].items():
+                data = self._clean(rel, read(f["path"]))
+                files[rel] = {"data": data, "mtime": f["mtime"], "machine": self.me, "off": off}
+                changed_n += self.s["files"].get(rel) != f["sha"]
+            packs[key] = files
+        for key, files in carry.items():
+            packs[key] = files
+        new_parts: dict[str, list[str]] = {}
         try:
-            for i in range(0, len(blob), PART_BYTES):
-                n = i // PART_BYTES + 1
-                parts.append(self.store.put_part(f"stand-{seq}-{n}.bin", blob[i:i + PART_BYTES],
-                                                 f"Stand {seq} · {self.me} · {fmt_time(now)} · Teil {n}"))
-            history = list((self.remote or {}).get("history") or [])
-            history.append([seq, parts])
-            drop, history = history[:-VERSIONS_KEEP], history[-VERSIONS_KEEP:]
-            index = {"v": 1, "seq": seq, "machine": self.me, "time": now, "parts": parts, "history": history}
+            for key, files in sorted(packs.items()):
+                blob = make_package(files, self.me, now, off)
+                parts = []
+                new_parts[key] = parts
+                for i in range(0, len(blob), PART_BYTES):
+                    n = i // PART_BYTES + 1
+                    parts.append(self.store.put_part(f"stand-{seq}-{n}.bin", blob[i:i + PART_BYTES],
+                                                     f"Stand {seq} · {flavor_label(key)} · {self.me} · "
+                                                     f"{fmt_time(now)} · Teil {n}"))
+            r_new = {} if legacy else {k: [e["rev"], e["parts"], e["machine"], e["time"]] for k, e in entries.items()}
+            history = [] if legacy else [list(h) for h in (self.remote or {}).get("h") or [] if isinstance(h, list)]
+            if legacy:
+                history.append(list(legacy["parts"]))
+                history += [list(p) for _, p in (self.remote or {}).get("history") or []
+                            if isinstance(p, list) and p != legacy["parts"]]
+            for key, parts in new_parts.items():
+                if key in r_new:
+                    history.append(list(r_new[key][1]))
+                r_new[key] = [seq, parts, self.me, round(now)]
+            drop = history[:-(VERSIONS_KEEP - 1)] if len(history) > VERSIONS_KEEP - 1 else []
+            history = history[len(drop):]
+            index = {"v": 2, "seq": seq, "machine": self.me, "time": round(now), "off": round(off), "r": r_new,
+                     "h": history}
+            while len(json.dumps(index, separators=(",", ":"))) > INDEX_MAX and index["h"]:
+                drop.append(index["h"].pop(0))
             self.store.write_index(index)
         except StoreError as e:
-            for p in parts:
-                self.store.delete_part(p)
+            for parts in new_parts.values():
+                for p in parts:
+                    self.store.delete_part(p)
             self.last_error = str(e)
+            self.retry_at = now + 60
             self._say(f"Abgleich: Hochladen nicht möglich ({e}) – neuer Versuch später.")
             return False
-        for _, old in drop:
+        for old in drop:
             for p in old:
                 self.store.delete_part(p)
         self.remote = index
         self.last_error = ""
         self.s["seq"] = seq
-        self.s["files"] = {rel: sha(f["data"]) for rel, f in local.items()}
+        if legacy:
+            self.s["revs"].pop("*", None)
+        for key in new_parts:
+            self.s["revs"][key] = seq
+        for key in keys:
+            for rel, f in groups[key].items():
+                self.s["files"][rel] = f["sha"]
         self.s["last_upload"] = now
         self.s["last_upload_machine"] = self.me
         self.save()
-        self._say(f"Abgleich: Stand {seq} hochgeladen ({len(changed)} geänderte Datei(en), {len(files)} insgesamt).")
+        labels = ", ".join(sorted({flavor_label(k) for k in keys})) or "–"
+        self._say(f"Abgleich: Stand {seq} hochgeladen ({labels}; {changed_n} geänderte Datei(en)).")
         return True
 
-    # -- regelmässig (aus der Hauptschleife)
+    # -- S8 c: neuer WoW-Prozess -> neueren Stand noch vor dem Einloggen übernehmen
+    def _try_takeover(self, now: float) -> bool:
+        w = self.wow
+        if not self.remote_newer():
+            return True
+        r = self.remote or {}
+        who = r.get("machine") or "anderen Rechner"
+        unsafe = (not w["transition"] or w["takeover_done"] or now - w["first_seen"] > TAKEOVER_MAX_AGE
+                  or self._newest() > w["sv_newest"] + 1 or self.s.get("takeover_failed"))
+        if unsafe:
+            return self.pull(now)                    # nur melden: "WoW beenden, dann übernehmen"
+        armed = bool(self.s.get("takeover_armed"))
+        w["takeover_done"] = True
+        if not armed:
+            self.notify(f"Neuer Stand vom {who} – bitte noch nicht einloggen, wird übernommen …")
+        self._say(f"Abgleich: neuer WoW-Start, neuerer Stand vom {who} – wird vor dem Einloggen übernommen.")
+        ok = self.pull(now, takeover=True)
+        if not ok:
+            if not armed:
+                self.notify("Übernahme nicht möglich – bitte WoW beenden, dann wird übernommen.")
+            return False
+        self.warned_seq = r.get("seq")
+        # Beleg vorbereiten: Prüfblock in RaidMaster.lua jeder betroffenen Spielversion
+        probe_files = []
+        if not armed or self.s.get("proofs", 0) < PROOFS_NEEDED:
+            for key in sorted({self.root_of(rel) for rel in self.last_taken}):
+                rel = f"{key}/SavedVariables/{PROBE_FILE}" if key else f"SavedVariables/{PROBE_FILE}"
+                path = self._path(rel)
+                if path and os.path.isfile(path):
+                    write_atomic(path, add_probe(read(path), int(r.get("seq") or 0), self.me, now))
+                    probe_files.append(rel)
+        if probe_files:
+            self.s["probe"] = {"seq": int(r.get("seq") or 0), "t": now, "first_seen": w["first_seen"], "from": who,
+                               "files": probe_files, "taken": list(self.last_taken),
+                               "copy": self.s.get("takeover_copy")}
+        self.save()
+        if armed:
+            self._say("Abgleich: übernommen – WoW liest ihn beim Einloggen.")
+        else:
+            self.notify("Fertig – du kannst einloggen.")
+            self._say("Abgleich: fertig – du kannst einloggen.")
+        return True
+
+    def check_probe(self, now: float) -> None:
+        """Nach dem nächsten Speichern: hat WoW den übernommenen Stand gelesen? (Messung und Beleg S8 c)"""
+        p = self.s.get("probe")
+        if not p:
+            return
+        seen, rewritten = None, False
+        for rel in p.get("files") or []:
+            path = self._path(rel)
+            if not path or not os.path.isfile(path) or os.path.getmtime(path) <= float(p.get("t") or 0) + 1:
+                continue
+            data = read(path)
+            if PROBE_VAR.encode() in data:
+                continue                              # Prüfblock noch da: RaidMaster hat (noch) nicht gespeichert
+            rewritten = True
+            got = probe_seen(data)
+            if got and got["seq"] == int(p.get("seq") or 0) and got["von"] == self.me:
+                seen = got
+                break
+        if not rewritten:
+            if now - float(p.get("t") or 0) > PROBE_MAX_AGE:
+                self.s.pop("probe", None)
+                self.save()
+            return
+        self.s.pop("probe", None)
+        if seen:
+            self.s["proofs"] = int(self.s.get("proofs") or 0) + 1
+            secs = seen["geladen"] - float(p.get("first_seen") or 0) if seen["geladen"] else 0
+            self._say(f"Abgleich – Messung: übernommener Stand {p.get('seq')} wurde beim Einloggen gelesen "
+                      f"({int(secs)} s nach dem WoW-Start). Beleg {self.s['proofs']}/{PROOFS_NEEDED}.")
+            if self.s["proofs"] >= PROOFS_NEEDED and not self.s.get("takeover_armed"):
+                self.s["takeover_armed"] = True
+                self._say("Abgleich: Übernahme vor dem Einloggen belegt – ab jetzt ohne Hinweis.")
+        else:
+            # WoW hatte den alten Stand schon gelesen: nie wieder bei laufendem WoW übernehmen
+            self.s["takeover_failed"] = True
+            self.s["takeover_armed"] = False
+            text = ("Übernahme vor dem Einloggen kam zu spät (WoW hatte schon gelesen). Ab jetzt wird erst nach dem "
+                    "Beenden von WoW übernommen.")
+            self._say("Abgleich: " + text)
+            self.notify(text)
+            copy = p.get("copy")
+            for rel in p.get("taken") or []:
+                if rel.split("/")[-1] != MERGE_ADDON_FILE or not copy:
+                    continue
+                src = os.path.join(copy, *rel.split("/"))
+                path = self._path(rel)
+                if not path or not os.path.isfile(src) or not os.path.isfile(path):
+                    continue
+                merged = add_merge_block(read(path), read(src), str(p.get("from") or "Abgleich"), now)
+                if merged is not None and not self.is_wow_running():
+                    write_atomic(path, merged)
+                    self._say("Abgleich: übernommener AHSentinel-Stand wird beim nächsten Login zusammengeführt.")
+        self.save()
+
+    # -- einmalig (offen 1 c): Sicherungen von 2.1.x, deren AHSentinel-Stand nie zusammengeführt wurde
+    def merge_old_backups(self, now: float | None = None) -> int:
+        now = time.time() if now is None else now
+        if self.s.get("legacy_merge_done") or self.is_wow_running():
+            return 0
+        root = self.backup_dir or os.path.join(self.acc, BACKUP_DIR)
+        done, n = set(), 0
+        for d in sorted(glob.glob(os.path.join(root, "*-vor-abgleich")), reverse=True):
+            for fn in glob.glob(os.path.join(d, "**", MERGE_ADDON_FILE), recursive=True):
+                rel = os.path.relpath(fn, d).replace(os.sep, "/")
+                if rel in done or not self._safe_rel(rel):
+                    continue
+                done.add(rel)
+                path = self._path(rel)
+                if not path or not os.path.isfile(path):
+                    continue
+                cur, old = read(path), read(fn)
+                merged = add_merge_block(cur, old, "Sicherung", os.path.getmtime(fn))
+                if merged is None:
+                    continue
+                self._backup({rel: cur}, now, "zusammenfuehren")
+                write_atomic(path, merged)
+                n += 1
+                self._say("Abgleich: gesicherter AHSentinel-Stand aus einem früheren Abgleich wird beim nächsten "
+                          "Login zusammengeführt.")
+        self.s["legacy_merge_done"] = True
+        self.save()
+        return n
+
+    # -- regelmässig (aus der Hauptschleife, alle 5 s)
     def tick(self, now: float | None = None):
         now = time.time() if now is None else now
         running = self.is_wow_running()
-        self.check_remote(now)
+        w = self.wow
         if running:
-            if self.remote_newer():
-                self.pull(now)                       # meldet nur, schreibt nichts
-            self.s["wow_seen"] = now
+            if not w["running"]:
+                # WoW ist (neu) da. Übergang nur, wenn kurz vorher sicher keins lief (sonst unbekannt).
+                w["transition"] = w["running"] is False and now - w["last_off"] <= TRANSITION_MAX_GAP
+                w["first_seen"], w["running"], w["takeover_done"] = now, True, False
+                w["sv_newest"] = self._newest()
+                if w["transition"]:
+                    if self.check_remote(now, force=True, every=CHECK_REMOTE_RUNNING) is not None:
+                        self._try_takeover(now)
+            else:
+                self.check_remote(now, every=CHECK_REMOTE_RUNNING)
+                if self.remote_newer() and now >= self.retry_at:
+                    self._try_takeover(now)
+            if self.remote_newer() or now < self.retry_at:
+                return                                  # erst nach WoW-Ende übernehmen, dann hochladen
+            changed, newest = self.local_changes(now)
+            if changed and now - newest >= QUIET_RUNNING_SECONDS:
+                self.push(now, running_ok=True)         # Ausloggen ins Charakter-Menü: nur lesen (S8 a)
+            return
+        w["running"], w["last_off"], w["transition"] = False, now, False
+        self.check_probe(now)
+        self.check_remote(now)
+        if now < self.retry_at:
             return
         if self.remote_newer():
             self.pull(now)
-        changed, newest = self.local_changes()
-        if changed and now - newest >= QUIET_SECONDS:
+        changed, newest = self.local_changes(now)
+        if changed and now - newest >= QUIET_SECONDS and not self.remote_newer():
             self.push(now)
 
 
