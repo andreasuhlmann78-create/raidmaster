@@ -5,7 +5,8 @@ Stand: 11. November 2026, 20:20 · von der Prüf-Sitzung (geplante Nachprüfung)
 Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.65.93 (17:30).
 Regel seit 9. Nov.: Nur die AHSentinel-Sitzung ändert und veröffentlicht AHSentinel (raidmaster/CLAUDE.md).
 
-STAND: Der Nutzer macht den grossen Test. Bitte bis zur Auswertung keine grösseren Umbauten; zuerst L1b, dann MP1.
+STAND: Der Nutzer macht den grossen Test. Bitte bis zur Auswertung keine grösseren Umbauten; zuerst L1b mit PD1, dann
+PD5, PD2, MP1 (siehe Punkt PD).
 
 Erledigt in 0.65.94 (danke): BE1–BE3 (anweisung-buchhaltung-ehrlich.txt, entfernt) – Rendite im Kopf nur mit Ware mit
   Einkauf (Books.lua:348–350, BK:RoiText :370–373, UI_Ledger.lua:509–513), "davon ohne Einkauf" getrennt
@@ -34,6 +35,20 @@ stellen sie zurück), keine Spielernamen im Diff.
 
 OFFENE PUNKTE
 -------------
+PD. (HOCH, NEU 11.11. 20:22) – befund-pc-daten-0694.txt (echte Daten vom Hauptrechner, 0.65.94) gilt zusätzlich und
+    vollständig; dort stehen Belege, Soll und Tests. Kurz, nach Schwere:
+    PD1 HOCH  Entzaubern mit Kosten 0 nach Sniper-Käufen (14 von 18; "KAUF-DOPPELT") – Kauf sofort buchen, Rechnung nur
+              bestätigen, nie 0 als Kostenbasis (T-PD1a/b). Hängt mit L1b zusammen (Doppel-Erkennung).
+    PD2 HOCH  Prognose: doppelte Fälle (509 Einträge, 384 verschieden) – ein Fall je auctionID, beim Laden entdoppeln
+              (T-PD2).
+    PD5 HOCH  Leerer Vollscan (0 Auktionen, keine Antwort) darf nichts verändern; Sniper während des Vollscans anhalten
+              (T-PD5a/b).
+    PD7 HOCH  SavedVariables 21,7 MB – Preisverlauf verdichten, Ziel < 8 MB (T-PD7). Wichtig auch für den Abgleich
+              PC/Laptop (Uploader lädt AHSentinel.lua bei jeder Änderung ganz hoch).
+    PD3/PD4/PD6 MITTEL (Wertprognose-Einheit, forecastStats leer, eigene Auktion als günstigstes Angebot – erst messen),
+    PD8 NIEDRIG (Sync-Zähler).
+    Reihenfolge: zuerst L1b zusammen mit PD1 (gleicher Bereich Buchhaltung), dann PD5, PD2, MP1, PD7, dann der Rest.
+
 L1b. (MITTEL) – DIE REPARATUR DER DOPPELTEN "AUSSTEHEND"-BUCHUNGEN GREIFT IM ECHTEN FALL NICHT
    Books.lua:463–485 (BK:RepairDoubles) sucht eine Buchung MIT neuer Kennung (e.sk endet auf "#1") neben einer ohne.
    Das Feld sk wird aber erst seit 0.65.95 gespeichert (Books.lua:195). Die echten Doppel entstanden in 0.65.93/0.65.94
