@@ -102,3 +102,13 @@ NEU (11. Nov. 20:30, MITTEL, Entscheid des Nutzers) – anweisung-uploader-daten
    in #sync-daten alte Fassungen wirklich löschen. T-DU6. Token nur lokal,
    öffentliches Ziel verweigern. Nach S8. T-DU1–T-DU4.
 
+
+NEU (11. Nov. 21:12, MITTEL, beim Einrichten beim Nutzer) – Daten-Repo-einrichten.bat meldet "kein Netz oder GitHub
+   nicht erreichbar", obwohl das Netz geht (der Uploader lädt gleichzeitig zu Discord hoch).
+   Vermutete Ursache (daten.py GitHubAPI._req :130): Der Token kam mit ungültigen Zeichen an – unter Windows liefert
+   getpass (msvcrt) bei Strg+V das Zeichen \x16 statt des Inhalts; ungültige Zeichen im Authorization-Kopf werfen in
+   http.client einen ValueError, und der wird als "kein Netz" gemeldet.
+   Lösung: (a) Token vor dem Aufruf prüfen: nur [A-Za-z0-9_], beginnt mit "github_pat_" oder "ghp_"; sonst klare
+   Meldung "Token enthält ungültige Zeichen – mit RECHTSKLICK einfügen (nicht Strg+V), Eingabe bleibt unsichtbar".
+   (b) ValueError getrennt von URLError/OSError melden. (c) Hinweis "mit Rechtsklick einfügen" schon in der Abfrage.
+   Test T-DU7: Token "\x16" -> Meldung "ungültige Zeichen", kein "kein Netz".
