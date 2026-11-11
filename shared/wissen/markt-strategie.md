@@ -331,6 +331,37 @@ Grundlage: Vollscan Laptop 11.11. ~16:00 (290'738 Auktionen), Preisleiter je Mat
 mit den Materialpreisen – immer aus frischer Leiter rechnen; beim Kauf vieler Teile sinkt der Materialpreis (eigene
 Menge in die Leiter einrechnen, D3). Bei Aufkauf eines Materials mit dem Preis davor rechnen (D6).
 
+## 8e. Mehrfach geprüfte Strategien (Recherche 11.11. 20:55, Auftrag des Nutzers: "doppelt und dreifach geprüft")
+
+Aufnahmeregel: Eine Regel steht hier nur, wenn mindestens ZWEI unabhängige Quellen sie stützen. Spalte "Forever"
+sagt, ob sie in WoW Forever schon gemessen ist (belegt) oder noch zu messen ist (vermutet). Quellen unten (Q1–Q7).
+
+| # | Regel | Quellen | Forever |
+|---|---|---|---|
+| 1 | **Vor jedem Kauf/Einstellen den Netto-Gewinn rechnen:** Verkauf × (1 − AH-Anteil) − verlorene Einzahlungen − Kauf. Break-even = Kauf ÷ 0,95 (+ Einzahlung). | Q1, Q3, Q4, eigene Messung | **belegt** (5 % Anteil, Einzahlung je 2 Std. 5/20/60 % des Händlerpreises, mind. 1s – wirtschaft-forever.md) |
+| 2 | **Nur minimal unterbieten (1c), nie Richtung Händlerwert;** tiefes Unterbieten zerstört den eigenen Preis. | Q1, Q3, Q5 | Ausrüstung: ganze Silber / −1s (Entscheid 10.11.), Waren: −1c |
+| 3 | **Händler prüfen:** viele graue/niedrige grüne Teile bringen beim Händler mehr als im AH (nach Gebühren). Am Anfang eines Servers fallen AH-Preise oft unter den Händlerpreis -> dann Händler. | Q1, Q3 | vermutet (Forever-Start 4.11.: Stufe 30–45 fielen −50–67 %) |
+| 4 | **Abgelaufene Einstellungen kosten:** jede verlorene Einzahlung in die Marge rechnen; nicht länger einstellen als nötig. | Q3, Q4, eigene Messung | **belegt** (Forever: Einzahlung je 2 Std., Ablauf/Abbruch = weg) |
+| 5 | **Ziel-Marge 15–30 %** nach Gebühren; darunter lohnt das Risiko selten. | Q4, Entscheid 10.11. (20 % Entzaubern) | Entzaubern gemessen 16 % (N 146) – unter Ziel -> Grenzen korrigieren (8d) |
+| 6 | **Verbrauchsgüter: unter der Woche/Wochenende kaufen (viel Angebot), vor den Raidabenden bzw. zum Raid-Reset verkaufen** (Nachfrage-Spitze, Angebot sinkt nach dem Reset). | Q2, Q4, Icy Veins (Abschnitt 5) | vermutet – ab 9.12. messen (Rhythmus/JK, Raidtage) |
+| 7 | **Vor neuen Inhalten/Phasen einkaufen, in der Spitze verkaufen** (Preise steigen in Erwartung). | Q1, Q5 (9.12. als Nachfragepunkt) | vermutet – Raid-Start 9.12. |
+| 8 | **Stetige Nachfrage schlägt hohe Einzelmarge:** Raid-Verbrauchsgüter, Entzauber-Material, Berufsmaterial; zufällige grüne Teile sind "laut" (Preis und Absatz schwer vorherzusagen). | Q1, Q4 | teils belegt: Entzauber-Material verkauft sich in Minuten (Nutzer, Messung Median 0,1 Std.) |
+| 9 | **Streuen, nicht horten:** nie zu viel Gold in einer Ware; ein Konkurrent oder ein Angebotsschock kann den Preis zerstören. | Q1, Q4 | **belegt** (Splitter-Aufkauf 10.11.) -> 25 % gesamt, Vorschlag 10 % je Item |
+| 10 | **Snipen nur unter der eigenen Grenze;** Fehl-Einstellungen und Ausverkäufe sind die besten Käufe. | Q1, Q4, Q6 | belegt (Sniper-Käufe 11.11.), Grenze muss stimmen (8d) |
+| 11 | **Kapital und Buchführung sind Pflicht** für Handel im grösseren Stil; mit wenig Gold zuerst sammeln/entzaubern. | Q4, Q5 | – (Buchhaltung neu, BP) |
+
+Nicht aufgenommen (nur eine Quelle oder nicht übertragbar): neutrale AH-Häuser mit 15 % (in Forever nicht geprüft),
+"Wettbewerber offline abwarten" (Q2, spätes Spiel), Preis-Wucher durch Aufkauf (ethisch fraglich, Q1 – AHSentinel
+macht das nicht).
+
+Quellen: Q1 [Warcraft Tavern – Gold and Trading Guide](https://www.warcrafttavern.com/wow-classic/guides/gold-and-trading-guide/) ·
+Q2 [Engadget – What days should you buy or sell on the AH](https://www.engadget.com/2012/02/07/what-days-should-you-buy-or-sell-on-the-auction-house/) ·
+Q3 [AccountShark – WoW Forever gold making guide](https://accountshark.net/blog/wow-forever-gold-making-guide) ·
+Q4 [Timesaver – Classic Era AH flipping](https://timesaver.gg/blog/wow-classic-era-auction-house-flipping-gold) ·
+Q5 [AccountShark – Forever, Abschnitt Timing (9.12.)](https://accountshark.net/blog/wow-forever-gold-making-guide) ·
+Q6 [TSM-Grundlagen (Engadget Gold Capped)](https://www.engadget.com/2011-03-21-gold-capped-tradeskillmaster-advanced-guide.html) ·
+dazu Icy Veins (Abschnitt 5 dieser Datei). Hinweis: Q3 und Q5 sind dieselbe Seite – zählen als EINE Quelle.
+
 ## 9. Pflege dieser Datei
 
 - Neue Messung oder Entscheid des Nutzers -> hier eintragen (mit Datum), Status belegt/vermutet.
