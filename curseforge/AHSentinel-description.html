@@ -7,6 +7,33 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.87</h3>
+<ul>
+<li><strong>Fix: Lua error on sale messages in WoW Forever.</strong> Protected ("secret") chat and event values are never read any
+  more (sale message, purchase, mail, posting and legacy AH events).</li>
+<li><strong>"Check undercuts" no longer freezes the game.</strong> Only active auctions are checked, one search per item, without
+  rebuilding the list after every item: the list is redrawn ONCE at the end. Every step is timed; steps over 50 ms
+  appear in the log as LANGSAM.</li>
+<li><strong>Full scan measurement (for the big test).</strong> The fast full scan now times every step (wait for the server, event,
+  reading, digest, tracking, price history/rebuild), the longest gap between two frames (the real freeze), memory
+  and garbage collections. The test routine part "server" starts one real fast full scan (read only) and reports it
+  in the section "Full scan measurement"; a step or gap over 1 s is an ERROR naming the step. Nothing else changed in
+  the full scan.</li>
+<li><strong>Fix: a single 2c offer no longer crushes material values.</strong> The price ladder is capped only by the cleaned scan
+  price, never by the raw minimum; without a cleaned price the ladder value counts as "market, unsure".</li>
+<li><strong>Fix: stock value too high after everything sold.</strong> An empty list of own auctions (queried, all sold) now means
+  "nothing in the AH"; old end times and the forecast journal are used only if the auctions were never queried.</li>
+<li><strong>Sniper: dead offers are hidden completely.</strong> An offer whose purchase failed or that the server delivers again
+  after "gone" disappears for the session (by auction ID, at most 48 h): not in the sniper, shopping list, undercut
+  check, current price, price ladder from searches, "% market" or batch buying. Goods without auction ID: after 2
+  failures. The status line shows "1 dead offer hidden (price, reason)", log SNIPER-TOT-AUSGEBLENDET. After 3 failed
+  different auctions of the same item the item pauses for 10 minutes (log SNIPER-PAUSE). A new auction at the same
+  price stays buyable.</li>
+<li><strong>"Cannot be disenchanted" no longer blocks a whole class.</strong> Learned blocks are per item; a class (e.g. leather
+  armor) only after 3 different items failed. Such items now show in "Blocked (N)" as "cannot be disenchanted
+  (Forever)" with Release; <code>/ahs entzaubern freigeben</code> releases them too.</li>
+<li>Test routine: T410–T424 (T-0, T-UP1–3, T-VM1/2, T-X1, T-X2a/b, T-SR7a–c, T-ME10/11), coverage list extended.</li>
+</ul>
 <h3>Version 0.65.86</h3>
 <ul>
 <li><strong>Sniper: dead offers stay gone.</strong> An offer whose purchase failed (e.g. "a higher bid already exists") is locked by
@@ -54,24 +81,7 @@
 <li>Test report: median time until sale per material (forecast journal).</li>
 <li>Test routine: T392–T398 (T-ME1–T-ME7).</li>
 </ul>
-<h3>Version 0.65.82</h3>
-<ul>
-<li><strong>Prices from the current market (your decision):</strong> values come from the current price ladder and sales only – no cap
-  and no mixing with the market value (average). The market value is only a warning: "price just rose (for N h)",
-  "price dropped (for N h)", "old (N h ago)" when the last scan is older than 2 h, "estimated" without any scan. The
-  number itself is not changed. With Shift the source: "price ladder, 311 pcs, sales ~20/day · market value …".</li>
-<li><strong>Market uses at most 25 % of your gold (your decision):</strong> all buy suggestions (Today, Flips, Vendor) together at
-  most this share; the best profit per gold first, a suggestion that does not fit is shortened, otherwise dropped.
-  Footer "Capital needed X of Y (at most 25 %)". Option "Market: at most % of gold" (default 25, at most 50); the
-  daily budget per strategy follows it.</li>
-<li><strong>Implausible sales:</strong> at most 2× the average quantity per day and 25 % of the current offer per hour; measured
-  values above that are not used (log ABSATZ-UNPLAUSIBEL). Flip texts say "estimated" or "measured, N days".</li>
-<li><strong>Ledger header:</strong> the stock tile shows "Stock X (in AH Y) − at start Z"; the tooltip computes "Cash + stock − stock
-  at start = result". Purchases used for professions (trade goods bought and gone) are shown separately: "Trade ±A ·
-  professions −B". Running own auctions also count from the forecast journal when the AH was not queried.</li>
-<li>Test routine: T371 (T-AM1), T384–T391 (T-AM3/4, T-K1–3, T-LG6–8).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
