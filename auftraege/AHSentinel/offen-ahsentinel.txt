@@ -26,6 +26,10 @@ H. T21 "Scan: Marktdaten plausibel" (Schwere: NIEDRIG): "5610 Items, 5610 mit Ma
    Welche zwei Items (ItemID im Bericht), warum <= 0 (Händlerpreis 0? Lockangebot?), und Marktwert <= 0 beim Speichern
    verhindern (nil statt 0). Testfall T-H21.
 
+I. NEU (11. Nov. 16:05, MITTEL, Entscheid des Nutzers) – anweisung-sync-zusammenfuehren.txt
+   Daten von PC und Laptop zusammenführen, wenn der Uploader ein Zusammenführungs-Paket ablegt (Schnittstelle mit der
+   RaidMaster-Sitzung abstimmen). Entzauber-Daten ohne Doppelzählung vereinigen, nie verlieren. T-ZM1–T-ZM4.
+
 E. ABDECKUNGSLISTE (G2) UND ÄLTERE FEHLENDE TESTFÄLLE (Schwere: NIEDRIG – bitte nachziehen, nicht abschwächen)
    a) COVERAGE nutzt für "offen 6a" bis "offen 11" weiter die Nummern einer älteren Fassung (TestRoutine.lua:633–640,
       z. B. "offen 8 Texte", "offen 10 Raid-Vorrat"). Bitte auf diese Datei abgleichen (Punkte A–G hier).

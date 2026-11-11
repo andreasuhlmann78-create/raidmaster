@@ -1,0 +1,25 @@
+ANWEISUNG DER PRÜF-SITZUNG FÜR AHSENTINEL: DATEN VON ZWEI RECHNERN ZUSAMMENFÜHREN (Entscheid des Nutzers 11.11. 15:55)
+==================================================================================================================
+Erst laufende Arbeit fertig machen. Gehört zum Auftrag an die RaidMaster-Sitzung (Uploader):
+auftraege/RaidMaster/anweisung-uploader-sync-rechner.txt – Schnittstelle mit ihr abstimmen.
+
+Der Nutzer spielt am PC und am Laptop. Der Uploader gleicht künftig die SavedVariables ab (neuere Datei gewinnt). Wurde
+an beiden Rechnern gespielt, ohne Abgleich dazwischen, legt der Uploader die ältere AHSentinel-Fassung als
+Zusammenführungs-Paket ab. AHSentinel liest es beim nächsten Login und führt zusammen.
+
+ZM1 Eingang: eine zweite SavedVariable (z. B. AHSentinelMerge in der TOC, eigene Tabelle) bzw. die mit der
+    RaidMaster-Sitzung vereinbarte Form. AHSentinelDB selbst schreibt nur AHSentinel.
+ZM2 Zusammenführen ohne Doppelzählung:
+    - Entzaubern: deLog-Einträge über eine eindeutige Kennung (Zeit + Item + Charakter + Rechner) vereinigen; deStats
+      aus dem vereinigten deLog neu zählen bzw. nur die fehlenden Ergebnisse addieren. deShared, deBuys gleich.
+      Die gesammelten Entzauber-Werte des Nutzers dürfen nie verloren gehen oder verfälscht werden (Entscheid 10.11.).
+    - Prognose-Journal, Lern-Datenbank: Fälle über Kennung vereinigen.
+    - Buchhaltung (Books): Buchungen über Kennung vereinigen; Kostenbasis je Item/Charakter neu rechnen.
+    - Preis-/Scan-/Vollscan-Daten: je Item die neueren Werte.
+    - Einstellungen: die des aktuellen Rechners behalten.
+ZM3 Danach das Paket leeren, Protokoll SYNC-ZUSAMMENGEFUEHRT mit Zahlen (ohne Namen), Chat-Hinweis
+    "Daten vom anderen Rechner übernommen: 85 Entzauberungen, 52 Käufe ...".
+ZM4 Einmalig jetzt: die heutigen zwei Stände (Laptop 85 Entzauberungen Stufe 36–40, PC 256) sollen zusammenkommen –
+    sobald der Uploader-Abgleich steht, über denselben Weg.
+Tests: T-ZM1 gleiche Einträge zweimal -> nur einmal gezählt; T-ZM2 deStats nach Zusammenführen = Summe beider
+    Rechner; T-ZM3 Einstellungen bleiben; T-ZM4 Paket danach leer; Sandbox: echte Daten unverändert.

@@ -1,0 +1,62 @@
+ANWEISUNG DER PRÜF-SITZUNG FÜR RAIDMASTER (UPLOADER): ADDON-DATEN ZWISCHEN ZWEI RECHNERN ABGLEICHEN
+==================================================================================================
+Stand: 11. November 2026, 16:05 · Entscheid des Nutzers (15:55): Lösung 2 "automatisch über den Uploader".
+Erst laufende Arbeit fertig machen.
+
+ANLASS
+   Der Nutzer spielt abwechselnd am PC und am Laptop. WoW speichert Addon-Daten nur lokal (WTF\Account\<KONTO>\
+   SavedVariables und WTF\Account\<KONTO>\<Realm>\<Charakter>\SavedVariables). Am 11.11. hatte der Laptop deshalb eine
+   leere AHSentinel-Datenbank (85 Entzauberungen dort, 256 am PC). Der Nutzer will KEINE Cloud-Ordner-Lösung (OneDrive/
+   Verknüpfung) und KEIN Export/Import von Hand, sondern: der Uploader, der auf beiden Rechnern läuft, gleicht ab.
+
+ZIEL
+   Egal an welchem Rechner der Nutzer WoW startet: Er hat den neuesten Stand aller Addon-Daten. Er muss nichts tun.
+
+SICHERHEIT (Pflicht, raidmaster/CLAUDE.md "Immer")
+   - Das raidmaster-Repo ist öffentlich: Addon-Daten (enthalten Spielernamen, Gold, Gilde) NIE ins Repo, nie in einen
+     öffentlichen Kanal, nie in Testberichte.
+   - Speicher nur privat (siehe S1). Zugangsdaten (Token/Webhook) nur in uploader_config.json bzw. einer eigenen
+     lokalen Datei, nie im Repo, nie im Log. uploader_config.json nicht verändern ausser über den bestehenden
+     Einrichtungsweg (/uploader im Bot); neue Einstellungen in eine neue lokale Datei (z. B. sync_config.json),
+     die der Bot bei /uploader mitliefert bzw. die der Nutzer einmal anlegt.
+
+S1 SPEICHER (Vorschlag, Entscheid der RaidMaster-Sitzung mit Begründung an den Nutzer)
+   Bevorzugt: der eigene RaidMaster-Bot als Ablage – der Uploader schickt das Paket wie heute über einen privaten
+   Webhook in einen nur für den Nutzer sichtbaren Kanal (#sync-daten), der Bot speichert die neueste Fassung je Konto
+   und gibt sie über einen geschützten Abruf (geheimer Schlüssel je Konto) zurück. Alternative: ein PRIVATES GitHub-Repo
+   mit persönlichem Token (nur Inhalt dieses Repos). Keine fremden Clouds ohne Rückfrage beim Nutzer.
+   Pakete verschlüsselt oder mindestens nur über HTTPS und nur im privaten Speicher; höchstens 10 Fassungen behalten.
+
+S2 WAS ABGEGLICHEN WIRD
+   Alle *.lua (nicht *.lua.bak) in WTF\Account\<KONTO>\SavedVariables und in WTF\Account\<KONTO>\<Realm>\<Charakter>\
+   SavedVariables, dazu Rechnername und Zeit je Datei. Nicht: Config.wtf, Makros, Bindings (macht WoW selbst) –
+   ausser der Nutzer wünscht es später.
+
+S3 ABLAUF (WoW darf beim Schreiben NIE laufen)
+   a) Hochladen: Uploader erkennt, dass WoW beendet ist (Prozess Wow*.exe weg) bzw. nach dem letzten Speichern 2 Min.
+      Ruhe -> geänderte Dateien als ein Paket hochladen (gzip, je Datei Prüfwert, Rechnername, Zeit).
+   b) Herunterladen: neuer Starter "GoldSentinel-WoW.bat" (bzw. Knopf im Uploader-Fenster): holt den neuesten Stand,
+      legt ihn ab (vorher Sicherung der lokalen Dateien in einen Ordner _sync_backup\<Zeit>, höchstens 5), startet
+      danach WoW. Zusätzlich beim Start des Uploaders, wenn WoW nicht läuft.
+   c) Läuft WoW schon und es gibt einen neueren Stand vom anderen Rechner: NICHTS überschreiben, im Fenster und als
+      Windows-Hinweis melden "Neuerer Stand vom Laptop – WoW beenden, dann übernehmen".
+
+S4 KONFLIKTE (an beiden Rechnern gespielt, ohne Abgleich dazwischen)
+   - Je Datei gewinnt die neuere, die andere wird NICHT gelöscht: sie bleibt in _sync_backup und wird im Fenster
+     gemeldet ("AHSentinel.lua: Laptop 11.11. 15:43 und PC 11.11. 18:10 beide geändert – PC-Stand übernommen, Laptop-
+     Stand gesichert").
+   - Für AHSentinel (Entzauber-Daten des Nutzers dürfen nie verloren gehen): die ältere Fassung zusätzlich als
+     Zusammenführungs-Paket ablegen, das AHSentinel beim nächsten Login einliest (Schnittstelle mit der AHSentinel-
+     Sitzung abstimmen, siehe auftraege/AHSentinel/anweisung-sync-zusammenfuehren.txt). Die Uploader-Seite schreibt
+     dazu NUR eine eigene Datei bzw. einen klar abgegrenzten Block, nie in AHSentinelDB hinein.
+S5 ANZEIGE
+   Uploader-Fenster: Zeile "Abgleich: zuletzt hochgeladen 18:10 (PC) · neuester Stand: PC 18:10 · dieser Rechner
+   aktuell". Fehler (kein Netz, Speicher voll) klar melden, nie still.
+S6 TESTS (tests/test_uploader.py, offline mit Ersatz-Speicher)
+   T-SY1 Datei am PC geändert -> Paket hoch; Laptop holt es vor dem Start, lokale Sicherung angelegt.
+   T-SY2 WoW läuft -> nichts überschrieben, Hinweis.
+   T-SY3 Konflikt -> neuere gewinnt, ältere in _sync_backup, Meldung; AHSentinel-Zusammenführungs-Paket angelegt.
+   T-SY4 *.lua.bak, Config.wtf nie im Paket; kein Token/Name im Log.
+   T-SY5 kein Netz -> klare Meldung, lokale Dateien unverändert.
+S7 Anleitung LIESMICH/README_EN: einmal einrichten am zweiten Rechner (Uploader kopieren, /uploader im Bot, Starter
+   statt WoW-Verknüpfung benutzen). CHANGELOG/Versionsnummer wie üblich.
