@@ -59,7 +59,7 @@ import uuid
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sync  # noqa: E402  (Abgleich PC/Laptop, ab 2.1.0)
 
-VERSION = "2.1.0"
+VERSION = "2.1.1"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400
@@ -803,8 +803,12 @@ def make_sync(st: dict, path: str) -> "sync.Sync | None":
     if not conf:
         return None
     store = sync.WebhookStore(conf["sync_webhook_url"], conf["sync_index_id"])
-    return sync.Sync(store, sync.account_dir(path), st, lambda: save_state(st), sync.machine_name(conf), log,
-                     notify=sync.notify_windows)
+    # ab 2.1.1: alle Spielversionen und Konten (z. B. _forever_ UND _anniversary_), nicht nur der Ordner mit
+    # RaidMaster.lua – sonst gleicht er die falsche Spielversion ab, wenn RaidMaster dort nicht aktiv ist
+    roots = sync.find_roots() or {"wow/" + os.path.basename(sync.account_dir(path)): sync.account_dir(path)}
+    log("Abgleich für: " + ", ".join(sorted(k.split("/")[0] for k in roots)))
+    return sync.Sync(store, roots, st, lambda: save_state(st), sync.machine_name(conf), log,
+                     notify=sync.notify_windows, backup_dir=os.path.join(HERE, sync.BACKUP_DIR))
 
 
 def wow_start():
@@ -823,7 +827,11 @@ def wow_start():
     else:
         sy.pull()
         log(sy.status_line())
-    exe = sync.find_wow_exe(sync.account_dir(path))
+    exe = None
+    if sy is not None:
+        forever = [acc for key, acc in sy.roots.items() if key.startswith("_forever_/")]
+        exe = sync.find_wow_exe(forever[0]) if forever else None
+    exe = exe or sync.find_wow_exe(sync.account_dir(path))
     if not exe:
         log("WoW-Programm nicht gefunden – bitte WoW selbst starten.")
         input("Enter zum Beenden ...")
@@ -884,8 +892,6 @@ def main():
                 path = new
                 last_sent = 0.0
                 reporter.set_folder(os.path.dirname(os.path.abspath(path)))
-                if syncer is not None:
-                    syncer.acc = sync.account_dir(path)
                 log("Überwache: " + path)
         gs_file = guildsentinel_path(cfg, path)
         try:

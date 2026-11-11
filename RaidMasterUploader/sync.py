@@ -97,6 +97,29 @@ def account_dir(sv_lua_path: str) -> str:
     return os.path.dirname(os.path.dirname(os.path.abspath(sv_lua_path)))
 
 
+def find_roots(search_roots: list[str] | None = None) -> dict[str, str]:
+    """Alle WoW-Konten auf diesem Rechner: "<Spielversion-Ordner>/<KONTO>" -> …/WTF/Account/<KONTO>.
+    Spielversion-Ordner = der Ordner, in dem WTF liegt (z. B. _forever_, _anniversary_). So gleicht der Abgleich jede
+    Spielversion für sich ab, egal wo WoW auf dem anderen Rechner installiert ist (ab 2.1.1)."""
+    import string
+    if search_roots is None:
+        if os.name == "nt":
+            search_roots = [f"{d}:\\" for d in string.ascii_uppercase if os.path.exists(f"{d}:\\")]
+        else:
+            search_roots = [os.path.expanduser("~")]
+    out = {}
+    for root in search_roots:
+        for depth in range(0, 4):
+            pat = os.path.join(root, *(["*"] * depth), "WTF", "Account", "*", "SavedVariables")
+            for sv in glob.glob(pat):
+                acc = os.path.dirname(sv)
+                flavor = os.path.basename(os.path.dirname(os.path.dirname(os.path.dirname(acc))))
+                name = re.sub(r"[^\w#.-]", "_", flavor) or "wow"
+                key = name + "/" + os.path.basename(acc)
+                out.setdefault(key, os.path.normpath(acc))
+    return out
+
+
 def local_files(acc: str) -> dict[str, str]:
     """rel. Pfad (mit /) -> voller Pfad. Nur *.lua in den SavedVariables (Konto und Charaktere)."""
     out = {}
@@ -304,9 +327,12 @@ class Sync:
     """Hält den Stand dieses Rechners in st["sync"] (uploader_state.json):
     seq (zuletzt übernommene Fassung), files {rel: sha} (Stand nach dem letzten Abgleich), Anzeige-Daten."""
 
-    def __init__(self, store, acc: str, st: dict, save, machine: str, log, is_wow_running=wow_running,
-                 notify=None):
-        self.store, self.acc, self.st, self.save, self.me = store, acc, st, save, machine
+    def __init__(self, store, acc, st: dict, save, machine: str, log, is_wow_running=wow_running,
+                 notify=None, backup_dir: str | None = None):
+        """acc: ein Konto-Ordner (str) oder {"<Spielversion>/<KONTO>": Konto-Ordner} (ab 2.1.1: alle Spielversionen)."""
+        self.store, self.st, self.save, self.me = store, st, save, machine
+        self.roots = dict(acc) if isinstance(acc, dict) else {"": acc}
+        self.backup_dir = backup_dir
         self.log, self.is_wow_running = log, is_wow_running
         self.notify = notify or (lambda text: None)
         s = st.setdefault("sync", {})
@@ -318,6 +344,9 @@ class Sync:
         self.warned_seq = 0
         self.last_error = ""
         self.messages: list[str] = []
+        self.carry: dict[str, bytes] = {}      # Dateien anderer Spielversionen (hier nicht installiert)
+        self.carry_meta: dict[str, dict] = {}
+        self.carry_seq = -1
 
     # -- Anzeige (S5)
     def status_line(self) -> str:
@@ -337,14 +366,33 @@ class Sync:
         self.log(text)
 
     # -- Dateien
+    @property
+    def acc(self) -> str:
+        return next(iter(self.roots.values()))
+
+    @acc.setter
+    def acc(self, value: str):
+        if "" in self.roots:
+            self.roots = {"": value}
+
+    def _path(self, rel: str) -> str | None:
+        """Voller Pfad für rel. Pfad, oder None, wenn die Spielversion hier nicht installiert ist."""
+        if "" in self.roots:
+            return os.path.join(self.roots[""], *rel.split("/"))
+        parts = rel.split("/")
+        root = self.roots.get("/".join(parts[:2]))
+        return os.path.join(root, *parts[2:]) if root else None
+
     def _local(self) -> dict[str, dict]:
         out = {}
-        for rel, fn in local_files(self.acc).items():
-            try:
-                data = read(fn)
-                out[rel] = {"data": data, "mtime": os.path.getmtime(fn), "path": fn}
-            except OSError:
-                continue
+        for prefix, acc in self.roots.items():
+            for rel, fn in local_files(acc).items():
+                key = f"{prefix}/{rel}" if prefix else rel
+                try:
+                    data = read(fn)
+                    out[key] = {"data": data, "mtime": os.path.getmtime(fn), "path": fn}
+                except OSError:
+                    continue
         return out
 
     def local_changes(self) -> tuple[list[str], float]:
@@ -357,7 +405,7 @@ class Sync:
         return sorted(changed), newest
 
     def _backup(self, files: dict[str, bytes], now: float, tag: str) -> str:
-        root = os.path.join(self.acc, BACKUP_DIR)
+        root = self.backup_dir or os.path.join(self.acc, BACKUP_DIR)
         dest = os.path.join(root, time.strftime("%Y%m%d-%H%M%S", time.localtime(now)) + "-" + tag)
         for rel, data in files.items():
             write_atomic(os.path.join(dest, *rel.split("/")), data)
@@ -411,8 +459,13 @@ class Sync:
         local = self._local()
         meta = manifest.get("files") or {}
         take, backup, conflicts = {}, {}, []
+        self.carry, self.carry_meta, self.carry_seq = {}, {}, int(r.get("seq") or 0)
         for rel, data in remote_files.items():
             if not self._safe_rel(rel):
+                continue
+            if self._path(rel) is None:
+                # Spielversion hier nicht installiert: nichts schreiben, aber beim Hochladen mitnehmen
+                self.carry[rel], self.carry_meta[rel] = data, meta.get(rel) or {}
                 continue
             rsha = sha(data)
             base = self.s["files"].get(rel)
@@ -458,11 +511,11 @@ class Sync:
                 self._backup(to_save, now, "vor-abgleich")
         for rel, data in take.items():
             mt = float((meta.get(rel) or {}).get("mtime") or now)
-            write_atomic(os.path.join(self.acc, *rel.split("/")), data, None if rel in backup else mt)
+            write_atomic(self._path(rel), data, None if rel in backup else mt)
         # Stand nach dem Abgleich: was jetzt lokal liegt
         new = {rel: sha(f["data"]) for rel, f in self._local().items()}
         for rel, data in remote_files.items():
-            if self._safe_rel(rel) and new.get(rel) != sha(data):
+            if self._safe_rel(rel) and self._path(rel) is not None and new.get(rel) != sha(data):
                 # lokal anders als der andere Rechner (nur hier geändert, Gewinner oder mit AHSentinelMerge):
                 # Basis = Stand des anderen Rechners, damit es beim nächsten Hochladen mitgeht
                 new[rel] = sha(data)
@@ -477,11 +530,26 @@ class Sync:
             self._say("Abgleich: " + c)
         return True
 
-    @staticmethod
-    def _safe_rel(rel: str) -> bool:
+    def _safe_rel(self, rel: str) -> bool:
         parts = rel.split("/")
-        return (rel.endswith(".lua") and ".." not in parts and not rel.startswith("/") and
-                (len(parts) == 2 and parts[0] == "SavedVariables" or len(parts) == 4 and parts[3 - 1] == "SavedVariables"))
+        if not rel.endswith(".lua") or ".." in parts or rel.startswith("/") or any(not p for p in parts):
+            return False
+        if "" not in self.roots:
+            parts = parts[2:]                    # "<Spielversion>/<KONTO>/" davor
+        return len(parts) == 2 and parts[0] == "SavedVariables" or len(parts) == 4 and parts[2] == "SavedVariables"
+
+    def _load_carry(self):
+        """Vor dem Hochladen: Dateien anderer Spielversionen aus dem neuesten Stand übernehmen (nicht verlieren)."""
+        r = self.remote or {}
+        seq = int(r.get("seq") or 0)
+        if not seq or self.carry_seq == seq or "" in self.roots:
+            return
+        blob = b"".join(self.store.get_part(p) for p in r.get("parts") or [])
+        manifest, files = read_package(blob)
+        meta = manifest.get("files") or {}
+        self.carry = {rel: d for rel, d in files.items() if self._safe_rel(rel) and self._path(rel) is None}
+        self.carry_meta = {rel: meta.get(rel) or {} for rel in self.carry}
+        self.carry_seq = seq
 
     # -- Hochladen
     def push(self, now: float | None = None) -> bool:
@@ -495,6 +563,16 @@ class Sync:
             return True
         local = self._local()
         files = {rel: {"data": f["data"], "mtime": f["mtime"], "machine": self.me} for rel, f in local.items()}
+        try:
+            self._load_carry()
+        except (StoreError, ValueError, tarfile.TarError, OSError) as e:
+            self.last_error = str(e)
+            self._say(f"Abgleich: neuester Stand nicht lesbar ({e}) – Hochladen später.")
+            return False
+        for rel, data in self.carry.items():
+            if rel not in files:
+                m = self.carry_meta.get(rel) or {}
+                files[rel] = {"data": data, "mtime": float(m.get("mtime") or now), "machine": m.get("machine") or "?"}
         blob = make_package(files, self.me, now)
         seq = int((self.remote or {}).get("seq") or 0) + 1
         parts = []

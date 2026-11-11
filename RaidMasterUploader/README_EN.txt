@@ -77,3 +77,9 @@ New in 2.1.0 – sync addon data between PC and laptop:
 - Before taking over anything the uploader backs up your files in _sync_backup (last 5 backups kept).
 - Stored only in your private Discord channel #sync-daten (only you and the bot see it), at most 10 versions.
 
+Version 2.1.1:
+- Sync now covers ALL game versions and accounts on the computer (e.g. _forever_ and _anniversary_), not only the
+  folder with RaidMaster.lua. What does not exist on the other computer is not created there, but not dropped either.
+- Backups (_sync_backup) are now kept in the uploader folder, no longer in the WoW folder.
+- GoldSentinel-WoW.bat starts WoW Forever (_forever_) if present.
+- New: Autostart-einrichten.bat – double-click once and the uploader starts with every login (minimised).

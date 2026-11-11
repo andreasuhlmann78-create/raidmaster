@@ -308,5 +308,65 @@ class Webhook(unittest.TestCase):
         self.assertFalse(any("geheim" in l for l in pc.logs + lap.logs))
 
 
+class Spielversionen(unittest.TestCase):
+    """2.1.1: alle Spielversionen und Konten; was hier nicht installiert ist, wird weitergetragen, nicht gelöscht."""
+
+    def setUp(self):
+        self.d = tempfile.mkdtemp()
+        self.store = FakeStore()
+
+    def tearDown(self):
+        shutil.rmtree(self.d, ignore_errors=True)
+
+    def acc(self, machine, flavor, base="WoW"):
+        a = os.path.join(self.d, machine, base, flavor, "WTF", "Account", "KONTO")
+        os.makedirs(os.path.join(a, "SavedVariables"))
+        return a
+
+    def put(self, acc, name, text, mtime):
+        fn = os.path.join(acc, "SavedVariables", name)
+        with open(fn, "w", encoding="utf-8") as f:
+            f.write(text)
+        os.utime(fn, (mtime, mtime))
+
+    def test_v1_find_roots_und_weitertragen(self):
+        pc_f, pc_a = self.acc("PC", "_forever_"), self.acc("PC", "_anniversary_")
+        lap_f = self.acc("Laptop", "_forever_", base="Spiele")          # anderer Installationsort
+        roots_pc = sync.find_roots([os.path.join(self.d, "PC")])
+        self.assertEqual(sorted(roots_pc), ["_anniversary_/KONTO", "_forever_/KONTO"])
+        roots_lap = sync.find_roots([os.path.join(self.d, "Laptop")])
+        self.assertEqual(sorted(roots_lap), ["_forever_/KONTO"])
+        self.put(pc_f, "AHSentinel.lua", "AHSentinelDB = { 256 }\n", T0)
+        self.put(pc_a, "RaidMaster.lua", "RaidMasterDB = { alt }\n", T0)
+        logs = []
+        pc = sync.Sync(self.store, roots_pc, {}, lambda: None, "PC", logs.append, lambda: False,
+                       backup_dir=os.path.join(self.d, "bk-pc"))
+        lap = sync.Sync(self.store, roots_lap, {}, lambda: None, "Laptop", logs.append, lambda: False,
+                        backup_dir=os.path.join(self.d, "bk-lap"))
+        self.assertTrue(pc.push(now=T0 + 200))
+        self.assertTrue(lap.pull(now=T0 + 300))
+        with open(os.path.join(lap_f, "SavedVariables", "AHSentinel.lua"), encoding="utf-8") as f:
+            self.assertEqual(f.read(), "AHSentinelDB = { 256 }\n")
+        # Anniversary gibt es am Laptop nicht: kein Ordner angelegt
+        self.assertFalse(os.path.exists(os.path.join(self.d, "Laptop", "Spiele", "_anniversary_")))
+        # Laptop lädt hoch: die Anniversary-Datei des PCs bleibt im Stand
+        self.put(lap_f, "AHSentinel.lua", "AHSentinelDB = { 257 }\n", T0 + 1000)
+        self.assertTrue(lap.push(now=T0 + 1200))
+        blob = b"".join(self.store.parts[p] for p in self.store.index["parts"])
+        _, files = sync.read_package(blob)
+        self.assertEqual(sorted(files), ["_anniversary_/KONTO/SavedVariables/RaidMaster.lua",
+                                         "_forever_/KONTO/SavedVariables/AHSentinel.lua"])
+        self.assertEqual(files["_anniversary_/KONTO/SavedVariables/RaidMaster.lua"], b"RaidMasterDB = { alt }\n")
+        # Sicherungen nie im WoW-Ordner (sondern im Uploader-Ordner)
+        self.assertFalse(os.path.exists(os.path.join(lap_f, sync.BACKUP_DIR)))
+        # neuer Laptop-Prozess (ohne geladenen Stand) verliert die fremde Spielversion ebenfalls nicht
+        lap2 = sync.Sync(self.store, roots_lap, json.loads(json.dumps(lap.st)), lambda: None, "Laptop", logs.append,
+                         lambda: False, backup_dir=os.path.join(self.d, "bk-lap"))
+        self.put(lap_f, "AHSentinel.lua", "AHSentinelDB = { 258 }\n", T0 + 3000)
+        self.assertTrue(lap2.push(now=T0 + 3200))
+        _, files = sync.read_package(b"".join(self.store.parts[p] for p in self.store.index["parts"]))
+        self.assertIn("_anniversary_/KONTO/SavedVariables/RaidMaster.lua", files)
+
+
 if __name__ == "__main__":
     unittest.main()

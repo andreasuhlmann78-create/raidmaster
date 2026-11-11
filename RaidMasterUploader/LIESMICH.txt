@@ -90,3 +90,11 @@ Ab Version 2.1.0 – Addon-Daten zwischen PC und Laptop abgleichen:
 - Im Fenster steht: "Abgleich: zuletzt hochgeladen … · neuester Stand: … · dieser Rechner aktuell". Fehler (z. B. kein
   Netz) stehen dort ebenfalls.
 
+Version 2.1.1:
+- Der Abgleich umfasst jetzt ALLE Spielversionen und Konten auf dem Rechner (z. B. _forever_ und _anniversary_),
+  nicht nur den Ordner mit RaidMaster.lua. Was es auf dem anderen Rechner nicht gibt, wird dort nicht angelegt, aber
+  auch nicht aus dem Stand gelöscht.
+- Sicherungen (_sync_backup) liegen jetzt im Uploader-Ordner, nicht mehr im WoW-Ordner.
+- GoldSentinel-WoW.bat startet WoW Forever (_forever_), wenn vorhanden.
+- Neu: Autostart-einrichten.bat – einmal doppelklicken, dann startet der Uploader bei jeder Anmeldung von selbst
+  (minimiert).
