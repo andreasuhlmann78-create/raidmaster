@@ -55,3 +55,19 @@ AB6 – Buchhaltung "Heute" 0.65.96 (Bild 22:12) nachgerechnet: geht auf den Kup
   Klein (niedrig): "Gewinn %" je Item rechnet Erlös auch von Stücken OHNE Einkauf gegen die Kosten der gekauften
   (Splitter 758 %, Mystikeressenz 452 %) – der Kopf schliesst "ohne Einkauf" aus, die Zeilen nicht. Je Item die
   Prozentzahl nur aus Stücken mit Einkauf rechnen (oder "–", wenn keine), wie im Kopf.
+
+AB7 – Gewinn-Tooltip 0.65.96 (Bild 22:13): Abstimmung mit dem Gold vergleicht verschiedene Zeiträume (MITTEL).
+  Tooltip: "Gold seit Tagesbeginn: −6g59s89 · Buchhaltung erklärt: 17s11 · nicht gebucht: −6g77" und darunter
+  "Buchhaltung seit 11.11.2026 19:30". Die Gold-Seite zählt ab Tagesbeginn (00:00), die Buchhaltung erst ab dem
+  Neustart 19:30 – alle Käufe vor 19:30 erscheinen deshalb als "nicht gebucht". Der Spieler liest −6g77 als
+  verlorenes Gold, obwohl er heute 8g57 Gewinn gemacht hat.
+  Rechnung im Bild stimmt in sich: Kasse 2g49s13 − Käufe − Gebühren = 17s11; −6g59s89 − 17s11 = −6g77;
+  Ausstehend 8g30s87 (17 Rechnungen nicht geöffnet) ist noch nicht im Gold – richtig, aber nicht erwähnt.
+  Auftrag:
+  - Gold-Abstimmung ab demselben Zeitpunkt wie die Buchhaltung: Start = später von (Tagesbeginn, Neustart).
+    Beim Neustart den Goldstand mitschreiben.
+  - Zeile "Ausstehend 8g30 kommt noch mit der Post" direkt bei der Abstimmung, damit klar ist, warum das Gold
+    tiefer ist als der Gewinn.
+  - "nicht gebucht" nur zeigen, wenn es nach diesen zwei Korrekturen mehr als 1 % des Umsatzes ist; dann die
+    grössten Posten nennen, soweit bekannt (Händler, Reparatur, Post an andere Charaktere).
+  - Test: Neustart 19:30 mit Käufen um 18:00 -> "nicht gebucht" 0.
