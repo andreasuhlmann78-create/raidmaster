@@ -284,6 +284,21 @@ anweisung-jetzt-kaufen-verkaufen.txt). Punkt 2 ("Heute" fertig machen) im Hinter
 als Cockpit mit Gewinn/Tag/Gold, Kapital- und Item-Grenze, Einstellen mit Wartezeit/Laufzeit, Verlustgrenze ->
 C Zeitpunkt und Ereignisse, sobald die Daten reichen.
 
+## 8c. Der Verbesserungs-Kreislauf (Entscheid des Nutzers 11.11. 20:27)
+
+"Du wertest aus und hast auf alles Zugriff, und wir speisen es wieder in AHSentinel ein, bis es so gut läuft wie es
+nur geht." Ablauf, immer gleich:
+1. **Daten holen:** Uploader liefert die SavedVariables bei jedem /reload ins private Daten-Repo (Auftrag DU1–DU6);
+   bis dahin Datei vom Nutzer oder Gerätezugriff. Dazu Testberichte (#testberichte -> testberichte/).
+2. **Auswerten (Prüf-Sitzung):** Rechnungen gegen das Regelwerk, Buchhaltung, Prognose-Treffer, Entzauber-Beute,
+   Vollscan, Zeitmuster, Fehler/Diagnosen. Nur Belegtes als FEHLER, sonst VERMUTET mit Messauftrag.
+3. **Erkenntnis ins Gehirn:** diese Datei bzw. wirtschaft-forever.md/buchhaltung.md (+ Projekt-Spiegel).
+4. **Auftrag an das Projekt:** auftraege/AHSentinel/… + offen-ahsentinel.txt + Nachricht für den Nutzer. Die
+   Prüf-Sitzung setzt nie selbst um.
+5. **Nachprüfen:** neue Version gegen den Auftrag (Code, addon_check, Tests), dann wieder 1.
+Messgrösse "so gut wie es geht": Trefferquoten je Empfehlungsart ≥ 60–70 %, Buchhaltung geht auf den Kupfer auf,
+Entzauber-Beute/Vorhersage ≈ 1,0, keine Ruckler > 16 ms, keine Datenverluste.
+
 ## 9. Pflege dieser Datei
 
 - Neue Messung oder Entscheid des Nutzers -> hier eintragen (mit Datum), Status belegt/vermutet.
