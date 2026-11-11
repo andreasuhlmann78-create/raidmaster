@@ -22,8 +22,13 @@ Zeit]}, "h": [[Nachrichten einer älteren Fassung], …]}. Ein Index v1 (Uploade
 und beim nächsten Hochladen umgestellt.
 
 Ablauf (S3/S8): WoW darf beim Schreiben NIE laufen – mit einer Ausnahme (S8 c, siehe unten).
-  - Hochladen: WoW beendet und die SavedVariables seit 10 s unverändert (≤ 15 s nach WoW-Ende). Läuft WoW noch (Ausloggen
-    ins Charakter-Menü, /reload), nach 60 s Ruhe (nur lesen, nichts schreiben).
+  - Hochladen: WoW beendet und die SavedVariables seit 10 s unverändert (≤ 15 s nach WoW-Ende). Läuft WoW noch, ab 2.3.0
+    nach JEDEM /reload und Ausloggen ebenso nach 10 s Ruhe, höchstens 1× je Minute (nur lesen, nichts schreiben).
+  - Ältere Fassungen in #sync-daten werden wirklich gelöscht (Nachricht samt Anhang); klappt das Löschen nicht, merkt
+    sich der Uploader die Nachricht und versucht es später erneut (ab 2.3.0).
+  - Ein offener AHSentinelMerge-Block geht nicht mit hoch (ab 2.3.0): Er gehört nur dem Rechner, auf dem der Konflikt
+    gelöst wurde; der andere Rechner bekommt den Stand ohne Block und führt nichts doppelt zusammen. Übernimmt dieser
+    Rechner später einen neueren Stand, bleibt sein offener Block erhalten.
   - Holen: bei geschlossenem WoW den Index alle 30 s prüfen (nur die kleine Index-Nachricht; Pakete nur, wenn neuer).
     Discord-Grenzen: Antwort 429 bzw. "X-RateLimit-Remaining: 0" -> so lange warten, wie Discord sagt.
     Vorher Sicherung der lokalen Dateien in _sync_backup/<Zeit> (gewöhnliche: höchstens 5; aus Konflikten und
@@ -75,7 +80,9 @@ LONG_KEEP_DAYS = 30              # Sicherungen aus Konflikten und Übernahmen
 LONG_TAGS = ("konflikt", "uebernahme", "uebernommen", "zusammenfuehren")
 VERSIONS_KEEP = 10
 QUIET_SECONDS = 10               # WoW beendet: SavedVariables so lange unverändert -> hochladen
-QUIET_RUNNING_SECONDS = 60       # WoW läuft (Charakter-Menü nach Ausloggen): so lange Ruhe -> hochladen
+QUIET_RUNNING_SECONDS = 10       # WoW läuft (/reload, Ausloggen ins Charakter-Menü): so lange Ruhe -> hochladen
+PUSH_GAP_RUNNING = 60            # ... aber höchstens 1 Upload je Minute, solange WoW läuft (die letzte Fassung gewinnt)
+DELETE_PER_TICK = 5              # alte Fassungen in #sync-daten: so viele Löschversuche je Durchgang
 CHECK_REMOTE_SECONDS = 30        # WoW geschlossen: so oft den Index prüfen
 CHECK_REMOTE_RUNNING = 120       # WoW läuft: so oft (nur für den Hinweis)
 STALE_DAYS = 14                  # so lange unverändert -> nur einmal als Grundstand
@@ -160,6 +167,20 @@ def lock_active(here: str, now: float | None = None) -> bool:
         return data.get("pid") != os.getpid() and now - float(data.get("t") or 0) <= LOCK_FRESH
     except (OSError, ValueError, AttributeError, TypeError):
         return False
+
+
+def wait_for_lock(here: str, sleep=time.sleep, now=time.time, log=None, max_wait: float = LOCK_FRESH + 30) -> bool:
+    """Uploader-Start (offen 2): gleicht gerade ein anderer Prozess ab (Starter), erst warten, bis er fertig ist.
+    True = frei. Nach max_wait wird nicht länger gewartet (Sperre gilt dann ohnehin als alt)."""
+    start, said = now(), False
+    while lock_active(here, now()):
+        if not said and log:
+            log("Abgleich: GoldSentinel-WoW.bat gleicht gerade ab – warte, bis sie fertig ist ...")
+            said = True
+        if now() - start >= max_wait:
+            return False
+        sleep(2)
+    return True
 
 
 # ---------------------------------------------------------------------------
@@ -456,11 +477,13 @@ class WebhookStore:
         except (urllib.error.URLError, OSError):
             raise StoreError("Paket konnte nicht geladen werden") from None
 
-    def delete_part(self, msg_id: str):
+    def delete_part(self, msg_id: str) -> bool:
+        """Nachricht samt Anhang löschen. True = weg (auch: war schon weg), False = später erneut versuchen."""
         try:
             self._req("DELETE", f"/messages/{msg_id}")
-        except StoreError:
-            pass
+            return True
+        except StoreError as e:
+            return "404" in str(e)
 
 
 def load_sync_config(here: str) -> dict | None:
@@ -574,9 +597,14 @@ class Sync:
 
     @staticmethod
     def _clean(rel: str, data: bytes) -> bytes:
-        """Was abgeglichen wird: RaidMaster.lua ohne den eigenen Prüfblock (S8 c)."""
-        if rel.split("/")[-1] == PROBE_FILE and PROBE_VAR.encode() in data:
+        """Was abgeglichen wird: RaidMaster.lua ohne den eigenen Prüfblock (S8 c), AHSentinel.lua ohne einen offenen
+        AHSentinelMerge-Block (ab 2.3.0, offen 3 – der Block bleibt nur auf diesem Rechner)."""
+        name = rel.split("/")[-1]
+        if name == PROBE_FILE and PROBE_VAR.encode() in data:
             return remove_block(data, PROBE_VAR)
+        if name == MERGE_ADDON_FILE and MERGE_VAR.encode() in data and MERGE_VAR in top_blocks(
+                data.decode("utf-8", errors="surrogateescape")):
+            return remove_block(data, MERGE_VAR)
         return data
 
     def _scan(self) -> dict[str, dict]:
@@ -777,6 +805,8 @@ class Sync:
                 if rel in files:
                     m = (manifest.get("files") or {}).get(rel) or {}
             mt = float(m.get("mtime") or 0) or None
+            if rel.split("/")[-1] == MERGE_ADDON_FILE and rel in local:
+                data = self._keep_open_merge(read(local[rel]["path"]), data)
             write_atomic(self._path(rel), data, None if rel in crels else mt)
         self.s["files"].update(base_new)
         for key, e, _, _ in packages:
@@ -791,6 +821,18 @@ class Sync:
         for c in conflicts:
             self._say("Abgleich: " + c)
         return True
+
+    @staticmethod
+    def _keep_open_merge(old: bytes, new: bytes) -> bytes:
+        """Hatte die lokale AHSentinel.lua einen noch nicht eingelesenen AHSentinelMerge-Block und hat der neue Stand
+        keinen, den Block an den neuen Stand hängen (er wurde nie hochgeladen und ginge sonst verloren)."""
+        ob = top_blocks(old.decode("utf-8", errors="surrogateescape")).get(MERGE_VAR)
+        text = new.decode("utf-8", errors="surrogateescape")
+        if not ob or MERGE_VAR in top_blocks(text):
+            return new
+        if not text.endswith("\n"):
+            text += "\n"
+        return (text + f"{MERGE_VAR} = {ob}\n").encode("utf-8", errors="surrogateescape")
 
     def _safe_rel(self, rel: str) -> bool:
         parts = rel.split("/")
@@ -894,9 +936,9 @@ class Sync:
             self.retry_at = now + 60
             self._say(f"Abgleich: Hochladen nicht möglich ({e}) – neuer Versuch später.")
             return False
+        self.s.setdefault("to_delete", [])
         for old in drop:
-            for p in old:
-                self.store.delete_part(p)
+            self.s["to_delete"] += [str(p) for p in old]
         self.remote = index
         self.last_error = ""
         self.s["seq"] = seq
@@ -910,9 +952,32 @@ class Sync:
         self.s["last_upload"] = now
         self.s["last_upload_machine"] = self.me
         self.save()
+        self.delete_old(limit=len(self.s.get("to_delete") or []))
         labels = ", ".join(sorted({flavor_label(k) for k in keys})) or "–"
         self._say(f"Abgleich: Stand {seq} hochgeladen ({labels}; {changed_n} geänderte Datei(en)).")
         return True
+
+    # -- ältere Fassungen wirklich löschen (DU6): Nachricht samt Anhang; Fehlschläge später erneut
+    def delete_old(self, limit: int = DELETE_PER_TICK) -> int:
+        todo = list(self.s.get("to_delete") or [])
+        if not todo:
+            return 0
+        if float(getattr(self.store, "wait_until", 0.0) or 0.0) > time.time():
+            return 0
+        done, left = 0, []
+        for i, mid in enumerate(todo):
+            if i >= max(1, limit):
+                left += todo[i:]
+                break
+            ok = self.store.delete_part(mid)
+            if ok is False:
+                left.append(mid)
+            else:
+                done += 1
+        self.s["to_delete"] = left[-500:]
+        if done or left != todo:
+            self.save()
+        return done
 
     # -- S8 c: neuer WoW-Prozess -> neueren Stand noch vor dem Einloggen übernehmen
     def _try_takeover(self, now: float) -> bool:
@@ -1011,32 +1076,83 @@ class Sync:
                     self._say("Abgleich: übernommener AHSentinel-Stand wird beim nächsten Login zusammengeführt.")
         self.save()
 
-    # -- einmalig (offen 1 c): Sicherungen von 2.1.x, deren AHSentinel-Stand nie zusammengeführt wurde
+    # -- alte Sicherungen zusammenführen (offen 1 c; ab 2.3.0 auch der 2.1.0-Ort und JEDE Sicherung)
+    def _old_backups(self) -> list[tuple[str, str, float]]:
+        """(rel, Datei, Zeit) aller AHSentinel.lua in Sicherungen "vor-abgleich"/"uebernahme", neueste zuerst:
+        im Uploader-Ordner (ab 2.1.1, rel mit "<Spielversion>/<KONTO>/") und in WTF/Account/<Konto>/_sync_backup
+        (Uploader 2.1.0, rel ohne Spielversion -> dem Konto des Ordners zugeordnet)."""
+        out = []
+        # nur Sicherungen von 2.1.x/2.2.0 (vor dem ersten Lauf von 2.3.0) – spätere Konflikte führt der Abgleich selbst
+        cutoff = float(self.s.setdefault("merge_cutoff", time.time()))
+        places = [(self.backup_dir or os.path.join(self.acc, BACKUP_DIR), None)]
+        for key, acc in self.roots.items():
+            old = os.path.join(acc, BACKUP_DIR)
+            if os.path.normpath(old) != os.path.normpath(places[0][0]):
+                places.append((old, key))
+        for root, key in places:
+            for d in glob.glob(os.path.join(root, "*")):
+                if not os.path.isdir(d) or not d.endswith(("-vor-abgleich", "-uebernahme")):
+                    continue
+                try:
+                    made = time.mktime(time.strptime(os.path.basename(d)[:15], "%Y%m%d-%H%M%S"))
+                except ValueError:
+                    continue
+                if made >= cutoff:
+                    continue
+                for fn in glob.glob(os.path.join(d, "**", MERGE_ADDON_FILE), recursive=True):
+                    rel = os.path.relpath(fn, d).replace(os.sep, "/")
+                    if key is not None and key != "" and not self._safe_rel(rel):
+                        rel = f"{key}/{rel}"                       # 2.1.0: "SavedVariables/AHSentinel.lua"
+                    if not self._safe_rel(rel) or self._path(rel) is None:
+                        continue
+                    out.append((rel, fn, made))                  # Zeit der Sicherung (aus dem Ordnernamen)
+        return sorted(out, key=lambda x: -x[2])
+
     def merge_old_backups(self, now: float | None = None) -> int:
+        """Jede gesicherte AHSentinel-Fassung, deren AHSentinelDB sich vom aktuellen Stand unterscheidet, wird
+        AHSentinel zum Zusammenführen gegeben – je Login eine (es gibt nur einen offenen Block); die übrigen warten und
+        werden beim nächsten Lauf angehängt, sobald AHSentinel den Block eingelesen hat. Gleiche Fassungen nur einmal."""
         now = time.time() if now is None else now
-        if self.s.get("legacy_merge_done") or self.is_wow_running():
+        if self.is_wow_running():
             return 0
-        root = self.backup_dir or os.path.join(self.acc, BACKUP_DIR)
-        done, n = set(), 0
-        for d in sorted(glob.glob(os.path.join(root, "*-vor-abgleich")), reverse=True):
-            for fn in glob.glob(os.path.join(d, "**", MERGE_ADDON_FILE), recursive=True):
-                rel = os.path.relpath(fn, d).replace(os.sep, "/")
-                if rel in done or not self._safe_rel(rel):
-                    continue
-                done.add(rel)
-                path = self._path(rel)
-                if not path or not os.path.isfile(path):
-                    continue
-                cur, old = read(path), read(fn)
-                merged = add_merge_block(cur, old, "Sicherung", os.path.getmtime(fn))
-                if merged is None:
-                    continue
-                self._backup({rel: cur}, now, "zusammenfuehren")
-                write_atomic(path, merged)
-                n += 1
-                self._say("Abgleich: gesicherter AHSentinel-Stand aus einem früheren Abgleich wird beim nächsten "
-                          "Login zusammengeführt.")
-        self.s["legacy_merge_done"] = True
+        done = set(self.s.get("merged_backups") or [])
+        n, waiting = 0, 0
+        busy = set()
+        for rel, fn, mt in self._old_backups():
+            try:
+                old = read(fn)
+            except OSError:
+                continue
+            db = top_blocks(old.decode("utf-8", errors="surrogateescape")).get("AHSentinelDB")
+            if not db:
+                continue
+            key = sha(db.encode("utf-8", errors="surrogateescape"))
+            if key in done:
+                continue
+            path = self._path(rel)
+            if not path or not os.path.isfile(path):
+                continue
+            cur = read(path)
+            blocks = top_blocks(cur.decode("utf-8", errors="surrogateescape"))
+            if blocks.get("AHSentinelDB") == db:
+                done.add(key)                                   # schon derselbe Stand
+                continue
+            if rel in busy or MERGE_VAR in blocks:
+                waiting += 1                                    # nächster Login
+                continue
+            merged = add_merge_block(cur, old, "Sicherung", mt)
+            if merged is None:
+                continue
+            self._backup({rel: cur}, now, "zusammenfuehren")
+            write_atomic(path, merged)
+            done.add(key)
+            busy.add(rel)
+            n += 1
+            self._say(f"Abgleich: gesicherter AHSentinel-Stand vom {fmt_time(mt)} wird beim nächsten Login "
+                      "zusammengeführt.")
+        if waiting:
+            self._say(f"Abgleich: {waiting} weitere gesicherte AHSentinel-Stände folgen nach dem nächsten Login.")
+        self.s["merged_backups"] = sorted(done)[-500:]
         self.save()
         return n
 
@@ -1061,9 +1177,12 @@ class Sync:
             if self.remote_newer() or now < self.retry_at:
                 return                                  # erst nach WoW-Ende übernehmen, dann hochladen
             changed, newest = self.local_changes(now)
-            if changed and now - newest >= QUIET_RUNNING_SECONDS:
-                self.push(now, running_ok=True)         # Ausloggen ins Charakter-Menü: nur lesen (S8 a)
+            if (changed and now - newest >= QUIET_RUNNING_SECONDS
+                    and now - float(self.s.get("last_upload") or 0) >= PUSH_GAP_RUNNING):
+                self.push(now, running_ok=True)         # /reload, Ausloggen: nur lesen (S8 a, ab 2.3.0 je /reload)
             return
+        if w["running"]:
+            self.merge_old_backups(now)             # nach dem Spielen: nächste wartende Sicherung anhängen
         w["running"], w["last_off"], w["transition"] = False, now, False
         self.check_probe(now)
         self.check_remote(now)
@@ -1074,6 +1193,8 @@ class Sync:
         changed, newest = self.local_changes(now)
         if changed and now - newest >= QUIET_SECONDS and not self.remote_newer():
             self.push(now)
+        elif self.s.get("to_delete"):
+            self.delete_old()
 
 
 def notify_windows(text: str):

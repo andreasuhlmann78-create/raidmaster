@@ -44,6 +44,10 @@ Ab 2.1.0 – Abgleich der Addon-Daten zwischen PC und Laptop (sync.py, sync_conf
 Ab 2.2.0 – sofort und ohne Klick (Entscheid des Nutzers 11. Nov. 2026): Hochladen ≤ 15 s nach WoW-Ende, der andere
 Rechner prüft alle 30 s, neuer Stand wird bei einem frischen WoW-Start noch vor dem Einloggen übernommen. Nur EIN Prozess
 gleicht ab (_sync.lock): läuft der Uploader, startet GoldSentinel-WoW.bat nur noch WoW.
+
+Ab 2.3.0 – Daten für die Prüf-Sitzung (daten.py, daten_config.json über Daten-Repo-einrichten.bat): nach jedem /reload
+und Ausloggen gehen die SavedVariables der GoldSentinel-Addons in ein PRIVATES GitHub-Repo (nur neuester Stand und
+7 Tages-Stände). Der Abgleich PC/Laptop lädt ebenfalls nach jedem /reload hoch.
 """
 
 from __future__ import annotations
@@ -63,8 +67,9 @@ import uuid
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sync  # noqa: E402  (Abgleich PC/Laptop, ab 2.1.0)
+import daten  # noqa: E402  (Daten für die Prüf-Sitzung, ab 2.3.0)
 
-VERSION = "2.2.0"
+VERSION = "2.3.0"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400
@@ -827,6 +832,19 @@ def make_sync(st: dict, path: str) -> "sync.Sync | None":
                      notify=sync.notify_windows, backup_dir=os.path.join(HERE, sync.BACKUP_DIR))
 
 
+def make_daten(st: dict, path: str, syncer=None) -> "daten.Daten | None":
+    """Lieferung an das private Daten-Repo nur, wenn daten_config.json da ist (Daten-Repo-einrichten.bat)."""
+    conf = daten.load_config(HERE)
+    if not conf:
+        log("Prüfung: Daten-Lieferung nicht eingerichtet (freiwillig: Daten-Repo-einrichten.bat).")
+        return None
+    roots = dict(syncer.roots) if syncer is not None else (
+        sync.find_roots() or {"wow/" + os.path.basename(sync.account_dir(path)): sync.account_dir(path)})
+    log("Prüfung: liefert nach jedem /reload und Ausloggen an das private Daten-Repo.")
+    return daten.Daten(daten.GitHubAPI(conf["repo"], conf["token"]), roots, st, lambda: save_state(st),
+                       sync.machine_name(sync.load_sync_config(HERE)), log)
+
+
 def wow_start():
     """GoldSentinel-WoW.bat: neuesten Stand holen, dann WoW starten (S3 b)."""
     log(f"GoldSentinel-Abgleich {VERSION} – vor dem WoW-Start")
@@ -874,6 +892,10 @@ def main():
     if "--wow-start" in sys.argv:
         wow_start()
         return
+    if "--daten-einrichten" in sys.argv:
+        daten.setup_interactive(HERE)
+        input("Enter zum Beenden ...")
+        return
     log(f"RaidMaster-Uploader {VERSION}")
     cfg = load_config()
     stored = cfg.get("savedvariables_path") or ""
@@ -892,19 +914,22 @@ def main():
     if syncer is None:
         log("Abgleich PC/Laptop: nicht eingerichtet (in Discord /uploader ausführen, sync_config.json hineinlegen).")
     else:
+        sync.wait_for_lock(HERE, log=log)        # offen 2: gleicht gerade GoldSentinel-WoW.bat ab -> erst warten
         sync.write_lock(HERE)
         import atexit
         atexit.register(sync.remove_lock, HERE)
         try:
             if not syncer.is_wow_running():
-                syncer.merge_old_backups()       # einmalig: nie zusammengeführte AHSentinel-Sicherungen (2.1.x)
+                syncer.merge_old_backups()       # gesicherte AHSentinel-Stände von 2.1.x/2.2.0 zusammenführen
                 syncer.pull()                    # beim Start des Uploaders, wenn WoW nicht läuft
             log(syncer.status_line())
         except Exception as e:  # noqa: BLE001
             log(f"Abgleich: {e}")
         log("Abgleich läuft automatisch: nach dem Beenden von WoW hoch, neuer Stand vom anderen Rechner sofort.")
+    deliverer = make_daten(reporter.st, path, syncer)
     next_sync, last_status, status_text = time.time() + SYNC_TICK, time.time(), ""
     next_lock = time.time() + SYNC_LOCK_EVERY
+    daten_text, daten_last = "", time.time()
     if not (cfg.get("test_webhook_url") or "").startswith("https://"):
         log("Hinweis: Für Testberichte (#testberichte) in Discord /uploader erneut ausführen und die neue "
             "uploader_config.json hineinlegen. Der Daten-Upload läuft trotzdem wie bisher.")
@@ -971,7 +996,17 @@ def main():
                     status_text, last_status = line, time.time()
             except Exception as e:  # noqa: BLE001
                 log(f"Abgleich: {e}")
-        time.sleep(min(interval, SYNC_TICK) if syncer is not None else interval)
+        # Daten für die Prüf-Sitzung (ab 2.3.0): unabhängig von allem anderen
+        if deliverer is not None:
+            try:
+                deliverer.tick()
+                line = deliverer.status_line()
+                if line != daten_text or time.time() - daten_last >= SYNC_STATUS_EVERY:
+                    log(line)
+                    daten_text, daten_last = line, time.time()
+            except Exception as e:  # noqa: BLE001
+                log(f"Prüfung: {e}")
+        time.sleep(min(interval, SYNC_TICK) if (syncer is not None or deliverer is not None) else interval)
 
 
 if __name__ == "__main__":

@@ -108,3 +108,31 @@ Version 2.2.0 – sync right away, no clicks:
 - Less load: files are only read again when they changed. If Discord says "too many requests", the uploader waits as
   long as asked.
 - Diagnostic logs that are too large are reported only once, even when written again with a new time.
+
+Version 2.3.0 – data for the review (optional) and sync after every /reload:
+- PC/laptop sync now uploads after EVERY /reload and logout (10 seconds after WoW finished writing; at most once per
+  minute), not only after closing WoW. The other computer still never takes over while WoW runs there (except at a fresh
+  start, see 2.2.0).
+- Older versions in #sync-daten are really deleted (message and attachment). If deleting fails, it is retried later.
+- An AHSentinel merge block (AHSentinelMerge) not yet read stays on its computer and is not uploaded, so the other
+  computer never merges the same data twice. If the computer takes over a newer state, its open block is kept.
+- Backed-up AHSentinel states from 2.1.x/2.2.0 (also the old backups in WTF\Account\<account>\_sync_backup) are handed
+  to AHSentinel one after another for merging – one per login, identical ones only once.
+- If the uploader starts while GoldSentinel-WoW.bat is syncing, it waits briefly.
+
+  DATA FOR THE REVIEW (only needed by the addon developer, otherwise just skip it)
+  After every /reload and logout the uploader puts the data of the GoldSentinel addons (AHSentinel, GuildSentinel,
+  ProfessionSentinel, LevelPilot, ThreatSentinel, BuffSentinel, RaidMaster – account level only, no other addons) into
+  a PRIVATE GitHub repository. It only keeps the latest state and the last state of the last 7 play days; older
+  versions are deleted (no history). If the repository is not private, nothing is delivered.
+  Set up once:
+  1. github.com -> "+" top right -> "New repository". Name: goldsentinel-daten. Choose "Private". "Create repository".
+  2. Token: your picture top right -> Settings -> "Developer settings" (bottom left) -> "Personal access tokens" ->
+     "Fine-grained tokens" -> "Generate new token". Name GoldSentinel-Daten, expiration e.g. 1 year; Repository
+     access "Only select repositories" -> goldsentinel-daten; Repository permissions -> "Contents": "Read and write".
+     "Generate token" and copy it (shown only once).
+  3. Double-click Daten-Repo-einrichten.bat in the uploader folder, enter the repository (e.g.
+     yourname/goldsentinel-daten), paste the token (right-click pastes; it is not shown), Enter. The uploader checks
+     that the repository is private and reachable and stores both in daten_config.json (secret, never share).
+  4. Restart the uploader. The window then shows "Prüfung: zuletzt geliefert 19:36 (3 Dateien) · Repo 12,3 MB".
+  Never paste the token into Discord or a chat. When it expires: create a new token and repeat step 3.

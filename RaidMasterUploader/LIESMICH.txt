@@ -125,3 +125,36 @@ Version 2.2.0 – Abgleich sofort und ohne Klick:
   wartet der Uploader so lange wie verlangt.
 - Diagnose-Protokolle, die zu gross sind, werden auch dann nur einmal gemeldet, wenn sie mit neuer Uhrzeit neu
   ausgegeben werden.
+
+Version 2.3.0 – Daten für die Prüfung (freiwillig) und Abgleich nach jedem /reload:
+- Abgleich PC/Laptop: lädt jetzt nach JEDEM /reload und Ausloggen hoch (10 Sekunden, nachdem WoW fertig geschrieben
+  hat; höchstens einmal pro Minute), nicht nur nach dem Beenden von WoW. Übernommen wird am anderen Rechner weiterhin
+  nie, während dort WoW läuft (ausser beim frischen Start, siehe 2.2.0).
+- Ältere Fassungen in #sync-daten werden wirklich gelöscht (Nachricht samt Anhang). Klappt das Löschen gerade nicht,
+  versucht der Uploader es später erneut.
+- Ein noch nicht eingelesener AHSentinel-Zusammenführungs-Block (AHSentinelMerge) bleibt auf seinem Rechner und geht
+  nicht mit hoch – so führt der andere Rechner nichts doppelt zusammen. Übernimmt der Rechner einen neueren Stand, bleibt
+  sein offener Block erhalten.
+- Gesicherte AHSentinel-Stände aus 2.1.x/2.2.0 (auch die alten Sicherungen im WoW-Ordner WTF\Account\<Konto>\
+  _sync_backup) bekommt AHSentinel nacheinander zum Zusammenführen – je Login einen, gleiche nur einmal.
+- Startet der Uploader, während GoldSentinel-WoW.bat gerade abgleicht, wartet er kurz.
+
+  DATEN FÜR DIE PRÜFUNG (nur für den Entwickler des Addons nötig, sonst einfach weglassen)
+  Der Uploader legt nach jedem /reload und Ausloggen die Daten der GoldSentinel-Addons (AHSentinel, GuildSentinel,
+  ProfessionSentinel, LevelPilot, ThreatSentinel, BuffSentinel, RaidMaster – nur Kontoebene, keine anderen Addons) in
+  ein PRIVATES GitHub-Repo. Dort liegt immer nur der neueste Stand und der letzte Stand der letzten 7 Spieltage;
+  ältere Fassungen werden gelöscht (kein Verlauf). Ist das Repo nicht privat, liefert der Uploader nichts.
+  Einmal einrichten:
+  1. github.com -> oben rechts "+" -> "New repository". Name: goldsentinel-daten. "Private" wählen. "Create
+     repository". (Nichts weiter ausfüllen.)
+  2. Token: oben rechts auf dein Bild -> Settings -> ganz unten links "Developer settings" -> "Personal access
+     tokens" -> "Fine-grained tokens" -> "Generate new token".
+     - Token name: GoldSentinel-Daten. Expiration: z. B. 1 Jahr.
+     - Repository access: "Only select repositories" -> goldsentinel-daten auswählen.
+     - Permissions -> Repository permissions -> "Contents": "Read and write" (Metadata: Read-only kommt von selbst).
+     - "Generate token" und den Token kopieren (er wird nur einmal angezeigt).
+  3. Im Uploader-Ordner Daten-Repo-einrichten.bat doppelklicken, Repo eingeben (z. B. deinname/goldsentinel-daten),
+     Token einfügen (Rechtsklick fügt ein; er wird nicht angezeigt), Enter. Der Uploader prüft, ob das Repo privat
+     und erreichbar ist, und speichert beides in daten_config.json (geheim, nie weitergeben).
+  4. Uploader neu starten. Im Fenster steht dann "Prüfung: zuletzt geliefert 19:36 (3 Dateien) · Repo 12,3 MB".
+  Den Token nie in Discord oder einen Chat kopieren. Läuft er ab: neuen Token anlegen, Schritt 3 wiederholen.

@@ -174,10 +174,12 @@ class Abgleich(unittest.TestCase):
         self.assertEqual(len(msg), 1)
         self.assertIn("AHSentinel.lua: Laptop", msg[0])
         self.assertIn("PC-Stand übernommen, Laptop-Stand gesichert", msg[0])
-        # danach hochladen: der zusammengeführte Stand geht hoch
+        # danach hochladen: ab 2.3.0 OHNE den offenen Block (offen 3) – der Laptop führt nichts doppelt zusammen
         self.pc.sync.push(now=T0 + 5400)
         self.lap.sync.pull(now=T0 + 5500)
-        self.assertIn("AHSentinelMerge", self.lap.read("SavedVariables/AHSentinel.lua"))
+        self.assertNotIn("AHSentinelMerge", self.lap.read("SavedVariables/AHSentinel.lua"))
+        self.assertIn('["n"] = 256', self.lap.read("SavedVariables/AHSentinel.lua"))
+        self.assertIn("AHSentinelMerge", self.pc.read("SavedVariables/AHSentinel.lua"))
 
     def test_sy3b_konflikt_lokal_neuer(self):
         self.pc.write("SavedVariables/A.lua", "A = 1\n", T0)
@@ -261,14 +263,14 @@ class Sofort(unittest.TestCase):
                 break
         self.assertIsNotNone(done)
         self.assertLessEqual(done - 101, 15)
-        # Ausloggen ins Charakter-Menü (WoW bleibt offen): nach 60 s Ruhe hoch, nichts geschrieben
+        # Ausloggen ins Charakter-Menü / /reload (WoW bleibt offen): ab 2.3.0 nach 10 s Ruhe hoch, nichts geschrieben
         pc.running = True
         pc.sync.tick(now=T0 + 300)
         fn = pc.write("SavedVariables/AHSentinel.lua", AH_PC.replace("256", "257"), T0 + 310)
         before = os.path.getmtime(fn)
-        pc.sync.tick(now=T0 + 340)
+        pc.sync.tick(now=T0 + 315)
         self.assertEqual(self.store.index["seq"], 1)
-        pc.sync.tick(now=T0 + 375)
+        pc.sync.tick(now=T0 + 325)
         self.assertEqual(self.store.index["seq"], 2)
         self.assertEqual(os.path.getmtime(fn), before)
 
@@ -466,6 +468,134 @@ class Sofort(unittest.TestCase):
             self.assertEqual(len(calls), n + 1)
         finally:
             sync.read = orig
+
+
+class Reload(unittest.TestCase):
+    """2.3.0: Abgleich-Upload bei jedem /reload (T-DU5), alte Fassungen wirklich löschen (T-DU6), offene Punkte 1–3."""
+
+    def setUp(self):
+        self.d = tempfile.mkdtemp()
+        self.store = FakeStore()
+        self.pc = Machine(self.d, "PC", self.store)
+        self.lap = Machine(self.d, "Laptop", self.store)
+
+    def tearDown(self):
+        shutil.rmtree(self.d, ignore_errors=True)
+
+    def test_du5_sync_jeder_reload(self):
+        pc = self.pc
+        pc.running = True
+        pc.sync.tick(now=T0)
+        for i, t in enumerate((100, 220)):                      # zwei /reload im Abstand von 2 Min.
+            pc.write("SavedVariables/AHSentinel.lua", AH_PC.replace("256", str(300 + i)), T0 + t)
+            for dt in range(0, 20, 5):
+                pc.sync.tick(now=T0 + t + dt)
+            self.assertEqual(self.store.index["seq"], i + 1)
+        # /reload ohne Änderung (Datei neu geschrieben, gleicher Inhalt) -> nichts hoch
+        pc.write("SavedVariables/AHSentinel.lua", AH_PC.replace("256", "301"), T0 + 400)
+        for dt in range(0, 30, 5):
+            pc.sync.tick(now=T0 + 400 + dt)
+        self.assertEqual(self.store.index["seq"], 2)
+        # zwei /reload innerhalb einer Minute -> höchstens 1 Upload je Minute, die letzte Fassung gewinnt
+        pc.write("SavedVariables/AHSentinel.lua", AH_PC.replace("256", "310"), T0 + 500)
+        pc.sync.tick(now=T0 + 511)
+        pc.write("SavedVariables/AHSentinel.lua", AH_PC.replace("256", "311"), T0 + 520)
+        for dt in range(531, 600, 5):
+            pc.sync.tick(now=T0 + dt)
+        self.assertEqual(self.store.index["seq"], 4)
+        files = sync.read_package(b"".join(self.store.parts[p] for p in sync.index_parts(self.store.index)))[1]
+        self.assertIn(b'["n"] = 311', files["SavedVariables/AHSentinel.lua"])
+
+    def test_du6_alte_fassungen_wirklich_loeschen(self):
+        fail = {"on": True}
+        orig = self.store.delete_part
+
+        def delete(mid):
+            if fail["on"]:
+                return False                                    # Discord nicht erreichbar
+            orig(mid)
+            return True
+        self.store.delete_part = delete
+        for i in range(12):
+            self.pc.write("SavedVariables/A.lua", f"A = {i}\n", T0 + i * 1000)
+            self.assertTrue(self.pc.sync.push(now=T0 + i * 1000 + 200))
+        self.assertEqual(len(self.pc.sync.s["to_delete"]), 2)  # gemerkt, nicht vergessen
+        self.assertEqual(len(self.store.parts), 12)
+        fail["on"] = False
+        self.pc.sync.tick(now=T0 + 20000)
+        self.assertEqual(self.pc.sync.s["to_delete"], [])
+        self.assertEqual(len(self.store.parts), sync.VERSIONS_KEEP)
+        kept = set(sync.index_parts(self.store.index)) | {p for h in self.store.index["h"] for p in h}
+        self.assertEqual(set(self.store.parts), kept)
+
+    def test_sy11c_sicherung_am_ort_von_2_1_0(self):
+        roots = {"_forever_/KONTO": self.lap.acc}
+        st = {}
+        logs = []
+        lap = sync.Sync(self.store, roots, st, lambda: None, "Laptop", logs.append, lambda: False,
+                        backup_dir=os.path.join(self.d, "uploader", sync.BACKUP_DIR))
+        lap.s["merge_cutoff"] = T0 + 10 ** 6
+        self.lap.write("SavedVariables/AHSentinel.lua", AH_PC, T0)
+        for name, text in (("20261111-150000-vor-abgleich", AH_LAPTOP),
+                           ("20261110-120000-vor-abgleich", AH_LAPTOP.replace("85", "40")),
+                           ("20261111-160000-vor-abgleich", AH_PC)):     # gleich wie jetzt -> nichts
+            d = os.path.join(self.lap.acc, sync.BACKUP_DIR, name, "SavedVariables")
+            os.makedirs(d)
+            with open(os.path.join(d, "AHSentinel.lua"), "w", encoding="utf-8") as f:
+                f.write(text)
+        self.assertEqual(lap.merge_old_backups(now=T0 + 10), 1)
+        merged = sync.top_blocks(self.lap.read("SavedVariables/AHSentinel.lua"))["AHSentinelMerge"]
+        self.assertIn('["n"] = 85', merged)
+        self.assertTrue(any("folgen nach dem nächsten Login" in l for l in logs))
+        # AHSentinel hat den Block eingelesen -> beim nächsten Lauf die zweite Sicherung
+        self.lap.write("SavedVariables/AHSentinel.lua", AH_PC.replace("256", "341"), T0 + 100)
+        self.assertEqual(lap.merge_old_backups(now=T0 + 200), 1)
+        self.assertIn('["n"] = 40', sync.top_blocks(self.lap.read("SavedVariables/AHSentinel.lua"))["AHSentinelMerge"])
+        self.lap.write("SavedVariables/AHSentinel.lua", AH_PC.replace("256", "381"), T0 + 300)
+        self.assertEqual(lap.merge_old_backups(now=T0 + 400), 0)       # alles erledigt, nie doppelt
+        # Sicherungen nach dem ersten Lauf von 2.3.0 werden nie so angehängt
+        lap.s["merge_cutoff"] = T0 - 10 * 86400
+        lap.s["merged_backups"] = []
+        self.assertEqual(lap.merge_old_backups(now=T0 + 500), 0)
+
+    def test_offen2_uploader_wartet_auf_sperre(self):
+        here = os.path.join(self.d, "u")
+        os.makedirs(here)
+        clock = {"t": T0}
+        with open(os.path.join(here, sync.LOCK_FILE), "w") as f:
+            json.dump({"pid": -1, "t": T0}, f)                     # Starter gleicht gerade ab
+        sleeps = []
+
+        def sleep(n):
+            sleeps.append(n)
+            clock["t"] += n
+            if clock["t"] >= T0 + 6:
+                os.remove(os.path.join(here, sync.LOCK_FILE))   # Starter fertig
+        logs = []
+        self.assertTrue(sync.wait_for_lock(here, sleep=sleep, now=lambda: clock["t"], log=logs.append))
+        self.assertEqual(len(sleeps), 3)
+        self.assertEqual(len(logs), 1)
+        import uploader
+        with open(uploader.__file__, encoding="utf-8") as f:
+            src = f.read()
+        body = src[src.index("def main"):]
+        self.assertLess(body.index("wait_for_lock"), body.index("syncer.pull()"))
+
+    def test_offen3_offener_block_bleibt_bei_uebernahme(self):
+        self.pc.write("SavedVariables/AHSentinel.lua", AH_PC, T0)
+        self.pc.sync.push(now=T0 + 100)
+        self.lap.sync.pull(now=T0 + 200)
+        # Laptop hat einen offenen Block (noch nicht eingelesen), PC spielt weiter
+        self.lap.write("SavedVariables/AHSentinel.lua", AH_PC + 'AHSentinelMerge = {\n\t["db"] = { ["n"] = 85 },\n}\n',
+                       T0 + 300)
+        self.lap.sync.tick(now=T0 + 400)
+        self.assertEqual(self.store.index["seq"], 1)                  # Block allein ist keine Änderung
+        self.pc.write("SavedVariables/AHSentinel.lua", AH_PC.replace("256", "300"), T0 + 500)
+        self.pc.sync.push(now=T0 + 600)
+        self.lap.sync.pull(now=T0 + 700)
+        text = self.lap.read("SavedVariables/AHSentinel.lua")
+        self.assertIn('["n"] = 300', sync.top_blocks(text)["AHSentinelDB"])
+        self.assertIn('["n"] = 85', sync.top_blocks(text)["AHSentinelMerge"])
 
 
 class Groesse(unittest.TestCase):
