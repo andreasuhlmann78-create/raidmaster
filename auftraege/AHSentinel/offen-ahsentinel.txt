@@ -29,6 +29,10 @@ J. NEU (11. Nov. 16:15, HOCH) – befund-grosser-test-0688.txt (Teil server mit 
    VF5 HOCH (Bild 16:31): teilweise verkaufte Waren-Auktionen nicht abbrechbar ("schon verkauft") – Se:Cancel nimmt
    den letzten Eintrag mit gleicher auctionID (verkaufter Teil); auctionID bei Waren nicht eindeutig. T-VF5a/b.
 
+K. NEU (11. Nov. 17:20, MITTEL, Entscheid des Nutzers) – anweisung-buchhaltung-ehrlich.txt
+   Zur neuen Buchhaltung nur: BE1 Rendite % neben dem Gewinn, BE2 "wo du Geld verlierst" (Geschäftsart + Item) im
+   Tooltip, BE3 Gewinn aus Ware ohne Einkauf getrennt, Rendite nur mit Einkauf. Kein weiterer Schnickschnack. T-BE1–4.
+
 H. T21 "Scan: Marktdaten plausibel" (Schwere: NIEDRIG): "5610 Items, 5610 mit Marktwert, 2 Marktwerte <= 0".
    Welche zwei Items (ItemID im Bericht), warum <= 0 (Händlerpreis 0? Lockangebot?), und Marktwert <= 0 beim Speichern
    verhindern (nil statt 0). Testfall T-H21.

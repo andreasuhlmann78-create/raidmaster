@@ -1,0 +1,20 @@
+ANWEISUNG DER PRÜF-SITZUNG FÜR AHSENTINEL: BUCHHALTUNG – NUR EHRLICHE, NÜTZLICHE ZUSÄTZE (Entscheid des Nutzers 11.11. 17:16)
+==========================================================================================================================
+Erst laufende Arbeit fertig machen. Baut auf BP1–BP7 (0.65.89, Books.lua) auf. Pflichtlektüre: shared/wissen/buchhaltung.md.
+
+Wunsch des Nutzers: "Nur ehrliche Aussagen, die was bringen, kein Schnickschnack."
+
+BE1 RENDITE neben dem Gewinn (sichtbar, im Kopf): Rendite % = realisierter Gewinn / Eingesetzt (Kostenbasis der
+    verkauften Stücke) im gewählten Zeitraum. Beispiel: "Gewinn 2g 40s · Rendite 18 %". Eingesetzt 0 -> "Rendite –".
+BE2 WO DU GELD VERLIERST (nur im Tooltip des Gewinns): die Geschäftsart (Entzaubern, Flippen, Herstellen,
+    Händlerware) und das Item mit dem grössten realisierten Verlust im Zeitraum, mit Betrag. Gibt es keinen Verlust:
+    "Kein Verlust-Geschäft". Geschäftsart aus der Herkunft der Kostenbasis (Einkaufsquelle/Umbuchung), nicht geraten;
+    ohne sichere Zuordnung -> "unbekannt".
+BE3 EHRLICHKEIT – WARE OHNE EINKAUF: Gewinn aus Ware mit Kostenbasis 0 nach dem Stichtag (Beute, Farm, Quest) wird
+    getrennt ausgewiesen: Kopf "davon ohne Einkauf: X" (nur wenn > 0), Rendite rechnet NUR mit Ware mit Einkauf.
+NICHT bauen (Entscheid): kein neuer Reiter, kein bestes Item, kein gebundenes Gold/Ladenhüter, kein Vermögensverlauf,
+    keine Quoten. Keine weiteren Zahlen im Kopf.
+Locales alle Sprachen, CHANGELOG EN/DE.
+Tests (Sandbox): T-BE1 Gewinn 240, Eingesetzt 1333 -> Rendite 18 %; T-BE2 Entzaubern +310, Flippen −40, Item X −125 ->
+    Tooltip "Flippen −40s" und "X −1s 25c"; T-BE3 Beute verkauft 120 (Kosten 0) + Handel Gewinn 100 auf 500 ->
+    Gewinn 220, "davon ohne Einkauf 120", Rendite 20 % (100/500); T-BE4 keine Verluste -> "Kein Verlust-Geschäft".
