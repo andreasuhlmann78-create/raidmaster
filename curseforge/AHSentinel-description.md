@@ -12,6 +12,24 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.89
+
+- **New bookkeeping: profit like the pros.** Buying is no longer a loss – what you buy sits in your stock at its
+  purchase price, and profit is made when you sell: revenue after the 5 % cut − the purchase price of exactly what
+  you sold − lost deposits. The ledger head now shows ONE number, "Profit", for today / 7 days / 30 days / since
+  restart, with "Sold · Cost · Fees" below. Everything else is in the tooltip: cash, stock at cost and at market
+  value, unrealised profit, pending sales and a check against your gold ("not booked: X").
+- **Fresh start.** On the first login with this version the books start today. Your old data stays in the background
+  (statistics, sell rates, forecasts keep using it) but never counts in the new books. Disenchant, learning,
+  forecast and full-scan data are untouched. Items you already own get their realistic value at the start as cost,
+  so selling old stock is neither pure profit nor a loss. `/ahs buchhaltung neu` starts the books again (asks first).
+- **Cost per item and character (moving average).** Disenchanting moves the cost of the item onto the materials by
+  their value; mail to your own alts carries the cost along. Items without a purchase (loot) have cost 0.
+- **Sales count right away.** As soon as your own auction shows as sold (in Forever the chat message is protected),
+  it is booked as "pending"; the invoice confirms it later – never twice. The test report measures the delay.
+- "Per item": Sold, Revenue, Cost, Profit, Profit %.
+- Tests T441–T449 (T-BP1–T-BP9).
+
 ### Version 0.65.88
 
 - **Market "Disenchant": cost and profit over the whole price ladder.** Each row now sums every ladder step up to
@@ -86,19 +104,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Wands are never suggested for disenchanting** (not possible in WoW Forever). If disenchanting fails with "cannot be
   disenchanted", the item (and its class) is excluded everywhere from then on (log DE-NICHT-MOEGLICH).
 - Test routine: T403–T408 (T-F1–T-F4, T-ME8, T-ME9).
-
-### Version 0.65.84
-
-- **Sniper searches by itself again:** the quick full scan (ReplicateItems) no longer blocks the sniper's item search;
-  a running shopping search or price check blocks at most 20 s. Opening the AH (also after /reload) starts a search
-  right away. Instead of "Nothing searched yet" the sniper shows its state: "next search in 12 s · last 40 s ago:
-  5 hits" or "waiting: market scan running", plus "full scan lock N min left (sniper searches anyway)". Log
-  SNIPER-SUCHE (target ID, offers, hits ≤ max, bought, block reason; no names).
-- **"Purchase failed" only once:** the same offer is reported once; further failures within 30 s become one summary
-  line. The failed offer is marked "gone" and never retried – the next wheel tick buys the next matching offer; if
-  none is left, a new search starts.
-- The warning "Max above sell value" uses the same value as the tooltip (for disenchant items the disenchant value).
-- Test routine: T399–T402 (T-SR2–T-SR5).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
