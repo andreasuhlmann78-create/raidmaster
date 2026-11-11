@@ -10,6 +10,11 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.27
+
+- Russian recruitment ad: "Пишите мне" now starts with a capital letter, also when the Discord part is left out.
+- Developer test routine: T250 also checks the old default text in the client's language.
+
 ### Version 0.9.26
 
 - Recruitment ad without Discord: the sentence after the removed Discord part now starts with a capital letter ("… helpful. Whisper me: …").
@@ -36,16 +41,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 - Group finder: a guild search can only be closed by the searcher; for "whole server" searches the searcher's name in the data is enough (they arrive passed on through the network).
 - Guild profession list: the diagnostic line now says why offline members were or were not shown (already on, no function, combat, guild window open, 5-minute lock …); if the list can no longer be read on the second read, the settings are still put back.
 - Developer test routine: T239–T241 new.
-
-### Version 0.9.22
-
-- **Recipes of each member**: on the Professions page, click a member to see WHICH recipes they know for that profession – with a back button, item links and tooltips, and "Request craft" for the selected recipe.
-  - **Filter bar by type**, only types that occur, with counts and "All" first: Blacksmithing, Leatherworking, Tailoring by slot (Head, Chest, Hands, Weapons …), Alchemy by Healing/Mana/Rejuvenation/Protection potions, Elixirs, Flasks, Oils, Transmutes, Reagents, Engineering by Explosives, Devices, Scopes, Enchanting by target slot, Cooking/First Aid by Food and Bandages. The bar wraps when space runs out.
-  - The type is worked out on your own PC from the item (slot, class) or the recipe name – nothing new has to be sent, so data from older versions works too ("Other" if unknown).
-  - On WoW Forever, Blizzard's recipe category is sent along as a new optional field; older versions simply ignore it.
-  - The search box also filters a member's recipes; filter and search can be combined.
-- Group finder "whole server": group changes and replies to questions now go to the group only; the whisper network gets a search only when it starts and when it ends.
-- Developer test routine: T231–T238 new.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
