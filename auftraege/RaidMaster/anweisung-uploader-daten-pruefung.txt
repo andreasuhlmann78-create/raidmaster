@@ -45,3 +45,16 @@ NACHTRAG 20:30 – ENTSCHEID DES NUTZERS: "Ich will, dass das jedes Mal geschieh
    Gilt sinngemäss auch für den Abgleich PC/Laptop (S8): Hochladen auch nach /reload, nicht nur nach WoW-Ende – das
    Herunterladen auf dem anderen Rechner bleibt wie beschrieben (nie bei laufendem WoW überschreiben).
    T-DU5: zwei /reload im Abstand von 2 Min. -> zwei Commits; /reload ohne Änderung -> kein Commit.
+
+NACHTRAG 20:35 – ENTSCHEID DES NUTZERS: "Es wird nicht endlos viel Datenschrott behalten."
+DU6 AUFBEWAHRUNG BEGRENZT (ersetzt "Verlauf bleibt in Git")
+   - Git behält sonst jede Fassung für immer (bei /reload alle paar Minuten und 20 MB je Datei wächst das Repo in
+     Tagen auf GB). Darum: Das Repo enthält immer nur
+       a) den NEUESTEN Stand je Datei und
+       b) höchstens 7 Tages-Stände (der letzte Stand jedes Tages, Ordner tage/<JJJJ-MM-TT>/), ältere werden gelöscht.
+   - Technisch: der Zweig wird bei jedem Lauf als EIN neuer Commit ohne Vorgänger ersetzt (Orphan-Commit + Force-Push
+     über die Git-Data-API), damit alte Fassungen wirklich aus dem Repo verschwinden – kein endloser Verlauf.
+   - Gesamtgrösse im Fenster anzeigen; über 200 MB -> ältesten Tages-Stand vorzeitig löschen und melden.
+   - Gilt sinngemäss für den Abgleich PC/Laptop (#sync-daten): dort sind es schon höchstens 10 Fassungen – so lassen,
+     aber ältere Fassungen wirklich löschen (Nachrichten samt Anhängen), nicht nur aus dem Index nehmen.
+   T-DU6: 20 Läufe über 9 Tage (Nachbildung) -> Repo enthält 1 neuesten Stand + 7 Tages-Stände, keine älteren Commits.

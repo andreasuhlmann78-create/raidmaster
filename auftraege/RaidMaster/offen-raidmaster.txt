@@ -97,6 +97,8 @@ Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
 NEU (11. Nov. 20:30, MITTEL, Entscheid des Nutzers) – anweisung-uploader-daten-pruefung.txt
    Uploader legt die SavedVariables der GoldSentinel-Addons nach WoW-Ende (höchstens alle 30 Min., nur Geändertes) in
    ein PRIVATES GitHub-Repo des Nutzers, damit die Prüf-Sitzung sie ohne Hochladen holen kann. NACHTRAG: bei JEDEM
-   /reload/Ausloggen (10 s nach stabilem Schreiben, höchstens 1/Min.), keine 30-Min.-Sperre; Abgleich-Upload ebenso. Token nur lokal,
+   /reload/Ausloggen (10 s nach stabilem Schreiben, höchstens 1/Min.), keine 30-Min.-Sperre; Abgleich-Upload ebenso.
+   NACHTRAG 2 (DU6): kein endloser Verlauf – nur neuester Stand + höchstens 7 Tages-Stände (Orphan-Commit + Force-Push),
+   in #sync-daten alte Fassungen wirklich löschen. T-DU6. Token nur lokal,
    öffentliches Ziel verweigern. Nach S8. T-DU1–T-DU4.
 
