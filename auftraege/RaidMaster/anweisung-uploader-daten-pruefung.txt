@@ -36,3 +36,12 @@ TESTS (offline mit Ersatz-API)
    T-DU4 kein Netz -> Meldung, kein Absturz, Abgleich PC/Laptop läuft unabhängig weiter.
 Danach dem Nutzer melden, was er einmalig tun muss, und der Prüf-Sitzung den Repo-Namen nennen (sie hängt es mit
 add_repo an).
+
+NACHTRAG 20:30 – ENTSCHEID DES NUTZERS: "Ich will, dass das jedes Mal geschieht, wenn ich /reload mache."
+   DU3 geändert: Auslöser ist JEDES Schreiben der SavedVariables durch WoW (/reload, Ausloggen, Beenden) – nicht nur
+   WoW-Ende, KEINE 30-Min.-Sperre. Ablauf: Änderung erkannt -> 10 s warten, bis WoW fertig geschrieben hat (Grösse/
+   Zeit stabil) -> Commit. Mehrere /reload kurz hintereinander: je stabile Fassung ein Commit (höchstens 1 je Minute,
+   die letzte gewinnt). Unveränderte Dateien nie committen.
+   Gilt sinngemäss auch für den Abgleich PC/Laptop (S8): Hochladen auch nach /reload, nicht nur nach WoW-Ende – das
+   Herunterladen auf dem anderen Rechner bleibt wie beschrieben (nie bei laufendem WoW überschreiben).
+   T-DU5: zwei /reload im Abstand von 2 Min. -> zwei Commits; /reload ohne Änderung -> kein Commit.
