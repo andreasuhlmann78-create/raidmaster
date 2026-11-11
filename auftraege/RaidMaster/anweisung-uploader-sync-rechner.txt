@@ -60,3 +60,27 @@ S6 TESTS (tests/test_uploader.py, offline mit Ersatz-Speicher)
    T-SY5 kein Netz -> klare Meldung, lokale Dateien unverändert.
 S7 Anleitung LIESMICH/README_EN: einmal einrichten am zweiten Rechner (Uploader kopieren, /uploader im Bot, Starter
    statt WoW-Verknüpfung benutzen). CHANGELOG/Versionsnummer wie üblich.
+
+NACHTRAG 11. Nov. 20:05 – ENTSCHEID DES NUTZERS: "Der Datenaustausch soll SOFORT stattfinden, ohne etwas anzuklicken,
+wenn ich vom PC auf den Laptop wechsle und umgekehrt – solange der Uploader läuft."
+S8 SOFORT UND OHNE KLICK
+   a) Hochladen sofort, sobald WoW beendet ist (Prozess weg und die SavedVariables seit 10 s unverändert) – nicht erst
+      nach 2 Min.; zusätzlich nach jedem Ausloggen ins Charakter-Menü, wenn WoW dort 60 s ruht (Dateien geschrieben).
+   b) Holen: Bei geschlossenem WoW den Index alle 30 s prüfen (nur die kleine Index-Nachricht; Teile nur, wenn neuer).
+      Discord-Grenzen einhalten (Rate-Limit-Antworten beachten, bei 429 warten).
+   c) WoW ohne Starter geöffnet: WoW liest die SavedVariables erst beim Betreten der Welt mit einem Charakter, nicht beim
+      Programmstart. Erkennt der Uploader einen neuen Wow-Prozess, prüft er sofort den Index und übernimmt einen neueren
+      Stand noch im Anmelde-/Charakterbildschirm – nur wenn seit Prozessstart keine SavedVariables-Datei geschrieben
+      wurde. Erst messen und belegen (Zeit von Prozessstart bis zum ersten Lesen in Forever), dann scharf schalten;
+      bis dahin Windows-Meldung "Neuer Stand vom <Rechner> – bitte noch nicht einloggen, wird übernommen …" und danach
+      "fertig – du kannst einloggen".
+   d) Kein "Jetzt-abgleichen.bat" nötig (Nutzer will nichts klicken). Autostart-einrichten.bat bleibt; im LIESMICH
+      steht als einziger Schritt: einmal Autostart einrichten.
+   e) Grösse: Spielversionen/Konten, deren Dateien seit 14 Tagen unverändert sind, nicht bei jedem Lauf neu hochladen
+      (nur einmal als Grundstand). Retail nur, wenn dort gespielt wird.
+   f) Gewinner nicht nur nach Datei-Zeit (Uhren der Rechner können abweichen): Upload-Reihenfolge (seq) und Rechner
+      berücksichtigen; liegen zwei Änderungen weniger als 10 Min. auseinander -> als Konflikt behandeln (Sicherung +
+      AHSentinelMerge).
+   Tests: T-SY7 WoW beendet -> Upload ≤ 15 s; T-SY8 anderer Rechner holt ≤ 45 s; T-SY9 WoW-Start ohne Starter, Stand
+   neuer -> Übernahme vor dem Einloggen (Nachbildung), sonst Hinweis; T-SY10 Uhr 20 Min. falsch -> richtige Datei
+   gewinnt bzw. Konflikt.
