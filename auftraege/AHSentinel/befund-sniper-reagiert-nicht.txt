@@ -22,3 +22,29 @@ S7 HOCH – TOTES ANGEBOT KOMPLETT IGNORIEREN UND AUSBLENDEN (Wunsch des Nutzers
            "Günstigstes: 10s" + "1 totes Angebot ausgeblendet".
    T-SR7b: Neue auctionID zum gleichen Preis -> sichtbar, kaufbar.
    T-SR7c: Totes 9s-Angebot verändert A:GetCurrent/Preisleiter/% Markt nicht.
+
+S8 HOCH – EINKAUF: LISTE ZEIGT "~"-ANGEBOTE, DETAIL IMMER LEER (Bilder des Nutzers 11.11. 12:40/12:48, 0.65.86)
+   Lage: Einkauf -> Rüstung, Stufe 37, Grün–Episch: lange Liste "[Entzaubern lohnt]" mit Verfügbar "~26", "~6", "~431"
+   (Tilde = aus dem letzten Scan, "grau = noch nicht bestätigt"), Preise 21–28s, "% Markt" fast überall 100 %.
+   Klick auf eine Zeile (z. B. Zauberhexerarmreifen, Liste "~"): "0 Angebote · Keine Angebote · geladen vor 0 Sek." –
+   auch nach "Aktualisieren". Die Zeilen bleiben in der Liste stehen. Der Nutzer: "Beim Kaufen ist es drin, auch wenn
+   ich refreshe. Wenn ich reingehe und kaufen will, sind alle Angebote weg."
+   Code 0.65.86 (Buy.lua B:Open / Abschluss der Detailsuche): Detail leer -> K6 einmal mit allgemeinem itemKey, dann
+   DETAIL-LEER und MarkGone(itemID). Trotzdem bleiben die Zeilen sichtbar und erscheinen beim nächsten Laden wieder.
+   Ursache vermutet (nicht belegt), eine von:
+   a) Die "~"-Zeilen kommen aus dem Vollscan/Scan und sind veraltet; MarkGone wirkt nicht auf diese Quelle (die
+      Liste wird beim Aktualisieren wieder aus dem Scan gefüllt).
+   b) Der itemKey für die Detailsuche passt nicht (Itemstufe/Suffix aus dem Vollscan-Link statt aus GetBrowseResults);
+      der Server antwortet dann mit 0 Treffern, obwohl Angebote da sind.
+   Messen (Testroutine-Teil server + Protokoll, ohne Namen): je DETAIL-LEER die Quelle der Zeile (Vollscan / Browse /
+   Scan), itemKey der Zeile und der Detailsuche (itemID/itemLevel/itemSuffix), Alter der Quelle, und ob eine
+   Blizzard-Browse-Suche nach dem Namen (SendBrowseQuery mit searchString) für dieselbe itemID Angebote liefert.
+   Lösung je nach Messung:
+   - a) -> MarkGone gilt auch für die Vollscan-/Scan-Quelle bis zum nächsten Vollscan, der das Item wieder führt;
+     "~"-Zeilen über 30 Min. alt nur noch grau und ohne "Entzaubern lohnt".
+   - b) -> itemKey für die Detailsuche immer aus GetBrowseResults übernehmen (Browse nach Name/ItemID vorab, falls die
+     Zeile nur aus dem Vollscan stammt); erst wenn auch Browse leer ist, MarkGone.
+   - In beiden Fällen: Eine leere Detailsuche entfernt die Zeile sofort aus der Liste und aus "Entzaubern lohnt";
+     Hinweis "Keine Angebote mehr – aus der Liste genommen".
+   T-SR8a: Zeile nur aus dem Vollscan, Server 0 Treffer -> Zeile weg, nach "Aktualisieren" nicht wieder da.
+   T-SR8b: Zeile mit falschem itemKey, Browse liefert Angebote -> Detail zeigt sie, Kauf möglich.

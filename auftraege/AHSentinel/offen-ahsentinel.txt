@@ -155,6 +155,10 @@ NEU (10. Nov. 19:05, HOCH, Entscheid des Nutzers) – anweisung-buchhaltung-prof
    Entzauber-/Lern-/Prognose-Daten NICHT anfassen), Kostenbasis je Item, Entzaubern/Herstellen als Umbuchung, Verkauf
    sofort "ausstehend", EIN Endergebnis "Gewinn" (realisiert), Rest nur im Tooltip, Abstimmung mit dem Gold.
    BP1–BP7, T-BP1–T-BP9. Ersetzt den zurückgezogenen Auftrag LG9–LG11.
+NEU (11. Nov. 13:00, HOCH, Bilder des Nutzers) – befund-sniper-reagiert-nicht.txt S8
+   Einkauf: "~"-Zeilen (aus dem Scan) zeigen Angebote, Detail immer "0 Angebote", auch nach Aktualisieren; Zeilen
+   bleiben stehen. Quelle und itemKey messen (DETAIL-LEER erweitern), dann je nach Ursache MarkGone auch für die
+   Scan-Quelle bzw. itemKey aus GetBrowseResults. Leere Detailsuche nimmt die Zeile sofort raus. T-SR8a/b.
 HINWEIS DES NUTZERS (10. Nov. 16:48): Sobald alle offenen Punkte umgesetzt und gepusht sind, macht der Nutzer einen
 grossen Test im Spiel ("/ahs testroutine alles"). Bitte nach dem letzten Release dem Nutzer ausdrücklich melden:
 "alles umgesetzt – bereit für den Test", mit Version. Für den Test nötig: Punkte 1, 2 und 3; Punkt 4–6 dürfen folgen.
