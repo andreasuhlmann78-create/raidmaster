@@ -12,6 +12,16 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.91
+
+- **Merge data from two computers.** If you played on two computers without syncing in between, the GoldSentinel
+  uploader can hand AHSentinel the other computer's data (saved variable `AHSentinelMerge`). On the next login
+  AHSentinel merges it once and empties it: disenchant results are combined without counting anything twice (only
+  missing results are added – nothing is ever lost), purchases, bookings and forecast cases are combined, price
+  history is combined per item, the newer full scan and character data win, and your settings on this computer stay.
+  Chat: "Data from the other computer merged: …".
+- Tests T454–T457 (T-ZM1–T-ZM4).
+
 ### Version 0.65.90
 
 - **Sniper hit signal.** When the sniper finds a real hit, the screen edge glows gold 3 times (like the low-health
@@ -93,14 +103,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   armor) only after 3 different items failed. Such items now show in "Blocked (N)" as "cannot be disenchanted
   (Forever)" with Release; `/ahs entzaubern freigeben` releases them too.
 - Test routine: T410–T424 (T-0, T-UP1–3, T-VM1/2, T-X1, T-X2a/b, T-SR7a–c, T-ME10/11), coverage list extended.
-
-### Version 0.65.86
-
-- **Sniper: dead offers stay gone.** An offer whose purchase failed (e.g. "a higher bid already exists") is locked by
-  its auction ID for 10 minutes: if the server delivers it again, it stays "gone" (red) and is never tried again. A
-  new auction at the same price stays buyable. Goods without an auction ID: the same price and quantity are skipped
-  for 60 s. Log SNIPER-SUCHE counts "dead delivered again".
-- Test routine: T409 (T-SR6).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

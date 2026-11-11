@@ -7,6 +7,16 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.91</h3>
+<ul>
+<li><strong>Merge data from two computers.</strong> If you played on two computers without syncing in between, the GoldSentinel
+  uploader can hand AHSentinel the other computer's data (saved variable <code>AHSentinelMerge</code>). On the next login
+  AHSentinel merges it once and empties it: disenchant results are combined without counting anything twice (only
+  missing results are added – nothing is ever lost), purchases, bookings and forecast cases are combined, price
+  history is combined per item, the newer full scan and character data win, and your settings on this computer stay.
+  Chat: "Data from the other computer merged: …".</li>
+<li>Tests T454–T457 (T-ZM1–T-ZM4).</li>
+</ul>
 <h3>Version 0.65.90</h3>
 <ul>
 <li><strong>Sniper hit signal.</strong> When the sniper finds a real hit, the screen edge glows gold 3 times (like the low-health
@@ -89,15 +99,7 @@
   (Forever)" with Release; <code>/ahs entzaubern freigeben</code> releases them too.</li>
 <li>Test routine: T410–T424 (T-0, T-UP1–3, T-VM1/2, T-X1, T-X2a/b, T-SR7a–c, T-ME10/11), coverage list extended.</li>
 </ul>
-<h3>Version 0.65.86</h3>
-<ul>
-<li><strong>Sniper: dead offers stay gone.</strong> An offer whose purchase failed (e.g. "a higher bid already exists") is locked by
-  its auction ID for 10 minutes: if the server delivers it again, it stays "gone" (red) and is never tried again. A
-  new auction at the same price stays buyable. Goods without an auction ID: the same price and quantity are skipped
-  for 60 s. Log SNIPER-SUCHE counts "dead delivered again".</li>
-<li>Test routine: T409 (T-SR6).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
