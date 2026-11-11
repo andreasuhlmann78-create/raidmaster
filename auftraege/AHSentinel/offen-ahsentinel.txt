@@ -83,7 +83,9 @@ AB. (HOCH, NEU 11.11. 22:15) – befund-bilder-2205.txt (Bilder 0.65.96 + Daten 
    AB5 altes Material (87s35, vor 25 Std.) floss in Betrag und "Lohnt bis" (0.65.94) – in 0.65.96 bestätigen.
    AB6 (niedrig) "Gewinn %" je Item ohne Stücke ohne Einkauf, wie im Kopf. Buchhaltung Heute geht sonst exakt auf.
    AB7 (mittel) Gold-Abstimmung zählt ab 00:00, Buchhaltung ab Neustart 19:30 -> falsches "nicht gebucht −6g77".
-   Reihenfolge: AB2 und AB1 vor allem anderen (Nutzer verliert sonst Zeit beim Handeln).
+   AB8 (HOCH) Neustart 19:30 hat Kostenbasis des Bestands verloren: 43 von 57 Entzauberungen mit cost 0 (= genau
+   die 6g77 "nicht gebucht") -> Gewinn 8g57/Rendite 253 % viel zu hoch. Eröffnungsbilanz mit Einstandspreisen.
+   Reihenfolge: AB8, AB2 und AB1 vor allem anderen (Nutzer verliert sonst Zeit beim Handeln).
 
 Q. (HOCH, NEU 11.11. 20:40) – anweisung-strategie-entzaubern-grenzen.txt (Analyse mit echten Preisleitern)
    26–30 kaufen ≤ 8s 75c (AHS zeigte 13s 55c), 36–40 ≤ 18s 96c (AHS 25–27s und "[Entzaubern lohnt]" bei 21–28s).

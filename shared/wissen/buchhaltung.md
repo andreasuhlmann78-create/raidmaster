@@ -74,6 +74,24 @@ Wer an der Buchhaltung eines GoldSentinel-Addons arbeitet, prüft oder Aufträge
 6. **Unrealisierter Gewinn** (Ware im Lager/AH zum aktuellen Wert − Kostenbasis) nur im Tooltip, mit Aufkauf-Schutz (D6).
 7. Messauftrag B1: Verzögerung Verkauf -> Geld in Forever messen (Abschnitt 3).
 
+## 5b. Plausibilitäts-Prüfung (Pflicht für jede Prüfung einer Gewinn-Anzeige)
+
+Entscheid des Nutzers 11.11.: Zahlen nicht nur nachrechnen, sondern prüfen, ob sie überhaupt stimmen KÖNNEN.
+Lehre vom 11.11. 22:15: "Heute 8g57, Rendite 253 %" ging auf den Kupfer auf – war aber falsch, weil der Neustart der
+Buchhaltung die Kostenbasis des Bestands verloren hatte (43 von 57 Entzauberungen mit Kosten 0 = genau die 6g77
+"nicht gebucht").
+
+1. **Rendite gegen die Strategie:** Entzaubern kauft bis zur Grenze (Wert − 20 %). Kostenbasis der Materialien muss
+   dann grob 70–90 % des Verkaufserlöses sein, Rendite um 10–40 %. Über 100 % an einem Tag = Kostenbasis prüfen.
+2. **"Ohne Einkauf" gegen die Herkunft:** Material aus Entzaubern hat fast immer eine Kostenbasis. Hoher Anteil
+   "ohne Einkauf" = Kosten verloren (Neustart, Zusammenführen, Kauf nicht erkannt).
+3. **Gold-Abstimmung:** Gold-Veränderung + ausstehende Post muss ≈ Kasse sein, im GLEICHEN Zeitraum. Ein grosses
+   "nicht gebucht" ist ein Fehlerhinweis, kein Rundungsrest – Betrag mit Einzelposten vergleichen (hier exakt 6g77).
+4. **Je Item:** Kostenbasis pro Stück gegen den Kaufpreis der Teile und den Materialanteil vergleichen.
+5. **Ergebnis an den Nutzer** erst nach 1–4; sonst ausdrücklich "rechnerisch ok, Plausibilität offen".
+6. **Neustart der Buchhaltung = Eröffnungsbilanz:** Bestand behält seine Einstandspreise, nur die Gewinn-Zähler
+   beginnen bei 0.
+
 ## 6. Quellen
 
 - [TSM: Why am I missing sales or purchase data on my items?](https://support.tradeskillmaster.com/en_US/addon/why-am-i-missing-sales-or-purchase-data-on-my-items)

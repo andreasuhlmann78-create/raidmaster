@@ -71,3 +71,28 @@ AB7 – Gewinn-Tooltip 0.65.96 (Bild 22:13): Abstimmung mit dem Gold vergleicht 
   - "nicht gebucht" nur zeigen, wenn es nach diesen zwei Korrekturen mehr als 1 % des Umsatzes ist; dann die
     grössten Posten nennen, soweit bekannt (Händler, Reparatur, Post an andere Charaktere).
   - Test: Neustart 19:30 mit Käufen um 18:00 -> "nicht gebucht" 0.
+
+AB8 – HOCH: Gewinn 8g57 / Rendite 253 % ist zu hoch. Ursache: Der Neustart der Buchhaltung (19:30) hat die
+  Kostenbasis der Ware verloren, die schon in den Taschen lag. (Nimmt AB6-"geht auf" zurück: die Rechnung geht in
+  sich auf, die Grundlage ist falsch.)
+  Belegt aus books.log (Daten 22:07, 94 Einträge ab Neustart):
+  - 14 Käufe = 2g25 (je 1x Teil 6040 zu 19s bzw. 7048 zu 9s).
+  - 57 Entzauberungen: 14 mit Kosten (zusammen 2g25 = genau die Käufe), 43 mit cost = 0
+    (29x Item 6040, 14x Item 7048) – diese Teile wurden VOR dem Neustart gekauft.
+  - 29 × 19s + 14 × 9s = 6g77 – genau der Betrag, den der Tooltip als "nicht gebucht: −6g77" zeigt. Das Geld für
+    diese 43 Teile ging vor 19:30 raus, ihre Materialien kamen nach 19:30 mit Kostenbasis 0 ins Lager.
+  - Folge: Materialien aus 43 von 57 Teilen gelten als "ohne Einkauf"; Gewinn und Rendite sind massiv zu hoch.
+    Gold-Sicht: −6g60 seit Tagesbeginn + 8g31 ausstehend = +1g71, dazu noch Lager (Marktwert 2g38). Der echte
+    Tagesgewinn liegt eher bei 2–4g, nicht 8g57.
+  Auftrag:
+  - Neustart = Eröffnungsbilanz wie bei Profis: der Bestand (Taschen, Bank, Post, eigene Auktionen) übernimmt seine
+    Kostenbasis aus den alten Daten ("im Hintergrund"). Nur die Gewinn-Zahlen beginnen bei 0, nicht die Einstandspreise.
+  - Kostenbasis 0 nur für Ware, deren Herkunft auch in den alten Daten keinen Kauf hat (Beute, Farm).
+  - Diesen Neustart von 19:30 nachträglich korrigieren: die 43 Entzauberungen bekommen die Kosten aus den alten
+    Kaufbuchungen (gleitender Durchschnitt je Item vor 19:30), die Umbuchung auf die Materialien wird neu gerechnet.
+  - Plausibilitäts-Prüfung im Selbsttest/Testroutine (FEHLER, wenn verletzt):
+    a) Anteil "ohne Einkauf" > 30 % des Erlöses bei Material aus Entzaubern -> Warnung im Tooltip.
+    b) Rendite über 100 % an einem Tag beim Entzaubern -> Warnung "unwahrscheinlich, Kostenbasis prüfen".
+    c) "nicht gebucht" bei der Gold-Abstimmung > 10 % des Umsatzes -> Warnung, grösste Ursache nennen.
+    d) Entzauberung mit cost = 0 bei einem Teil, das in den alten Daten gekauft wurde -> FEHLER.
+  - Tests mit genau diesem Fall (Kauf vor Neustart, Entzaubern nach Neustart).
