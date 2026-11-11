@@ -1,0 +1,73 @@
+BEFUND DER PRÜF-SITZUNG FÜR AHSENTINEL: AUSWERTUNG DER ECHTEN DATEN VOM HAUPTRECHNER (0.65.94, 11.11. 20:16)
+==========================================================================================================
+Grundlage: SavedVariables AHSentinel.lua vom Hauptrechner des Nutzers (21,7 MB, Spielstand 11.11. ~19:35), ausgewertet
+von einer Hilfssitzung am PC, geprüft und eingeordnet von der Prüf-Sitzung. Keine Namen in dieser Datei.
+Erst laufende Arbeit fertig machen. Die Punkte aus dem Bericht, die mit 0.65.88–0.65.92 schon behoben sind (T373,
+T203, T223, T230, T364, Sandbox-Grundfall), sind hier weggelassen.
+
+PD1 HOCH [FEHLER] – BUCHHALTUNG: ENTZAUBERN MIT KOSTEN 0 NACH SNIPER-KÄUFEN
+   books.log ab Stichtag 19:30:06: 4 × Kauf Item 7048 zu je 900c (19:30:44–19:30:54), danach 18 × Entzaubern 7048 –
+   die ersten 4 mit Kosten 900, die übrigen 14 mit Kosten 0. Diagnose 19:30:59: "KAUF-DOPPELT ×14 Kauf-Ereignis ohne
+   passende eigene Kaufmeldung (Buchung über die Rechnung)". Kostenbasis Seelenstaub danach 3'600c für 26 Stück.
+   Folge: Gewinn beim Verkauf der Materialien viel zu hoch; kommt die Rechnung später, wird ein Teil gebucht, das schon
+   entzaubert ist.
+   Soll: (a) Jeder eigene Kauf (Sniper, Einkauf, Sammelkauf) wird SOFORT beim Kauf-Ereignis gebucht (Preis bekannt);
+   die Rechnung bestätigt nur (Abgleich Item/Menge/Preis/Zeit, nie doppelt). (b) Teile, die zum Stichtag schon in den
+   Taschen lagen, haben den Eröffnungs-Einstandspreis (BP1) – nie 0. (c) Entzaubern eines Teils ohne Kostenbasis
+   (unbekannte Herkunft) wird als "ohne Einkauf" gekennzeichnet (BE3), nicht still mit 0 in den Gewinn gerechnet.
+   Prüfen, warum 14 Kauf-Ereignisse als "doppelt" galten (vermutlich: Kauf-Meldung im Chat geschützt -> Abgleich
+   schlägt fehl).
+   T-PD1a: 18 Sniper-Käufe à 900c, sofort entzaubert -> 18 × 900c Kostenbasis auf den Materialien, keine 0.
+   T-PD1b: Rechnung kommt danach -> keine zweite Buchung.
+
+PD2 HOCH [FEHLER] – PROGNOSE: DOPPELTE FÄLLE
+   forecast.list: 509 Einträge, nur 384 verschieden (125 Doppel); derselbe Sniper-Kauf (gleiche auctionID) bis 23-mal.
+   Verfälscht Trefferquote und Selbstkorrektur (vgl. X7 "99 % vorhergesagt, 30 % verkauft").
+   Soll: ein Fall je auctionID (bzw. je Kauf-Kennung), beim Laden einmal entdoppeln (Entzauber-Daten unberührt).
+   T-PD2: derselbe Kauf 3-mal gemeldet -> 1 Fall; Bericht zeigt "Doppel 0".
+
+PD3 MITTEL [VERMUTET] – WERTPROGNOSE IN DER FALSCHEN EINHEIT
+   Diagnose 19:30:27: "WERT Gruppe 7 · Item 11137 · vorhergesagt 11 · echt 1192 · Abweichung -99 %". Scanpreis 995c,
+   Verkauf 1192c/Stück. "11" passt zu Silber statt Kupfer (oder Gesamt statt je Stück). Messen und belegen
+   (3 weitere Verkäufe im Bericht: vorhergesagt/echt mit Einheit), dann beheben.
+
+PD4 MITTEL [VERMUTET] – forecastStats LEER IN 0.65.94
+   0.65.86 meldete 370 Fälle; in 0.65.94 sind forecastStats B/P/D/Bs leer. War das der gewollte Neubeginn der
+   Selbstkorrektur ab 0.65.88 ("lernt erst mit Fällen ab 11.11. 15:26") oder ein Verlust? Im CHANGELOG/Bericht
+   begründen; falls Verlust: wiederherstellen aus forecast.list.
+
+PD5 HOCH [FEHLER] – LEERER VOLLSCAN DARF NICHTS VERÄNDERN
+   11.11. 19:31: "VOLLSCAN … keine Antwort · 0 Auktionen · Antwort nach 90.0 s" (zur selben Zeit sucht der Sniper mit
+   ~90 Suchen/Min.). Danach Absatz-Diagnosen mit "Q 0 (vollscan)" und eigener Quote > 100 %, Absatz-Werte laufen fast
+   immer in den Deckel.
+   Soll: (a) Ein Vollscan mit 0 Auktionen bzw. ohne Antwort ändert keine Markt-, Absatz-, Rhythmus- oder
+   Verfolgungsdaten und zählt nicht als "letzter Vollscan". (b) Ursache messen: läuft der Sniper während ReplicateItems
+   weiter? Wenn ja: Sniper für die Dauer des Vollscans anhalten (Vollscan hat Vorrang, ~30 s). (c) Absatz nur aus
+   zwei gültigen, aufeinanderfolgenden Vollscans.
+   T-PD5a: Vollscan liefert 0 -> Daten byte-gleich, Hinweis "Vollscan ohne Antwort – nichts übernommen".
+   T-PD5b: Sniper aktiv -> pausiert während des Vollscans.
+
+PD6 MITTEL [VERMUTET] – EIGENE AUKTION ALS "GÜNSTIGSTES ANGEBOT"
+   "MARKTWERT-CHECK Item 11084: Scan 4548 seit 26 Std. über 150 % des Marktwerts 2929" – der Nutzer hatte 11084 selbst
+   zu 4547 eingestellt. Prüfen: Zählen eigene Auktionen als günstigstes Angebot (Rechenwert, "frisch gestiegen",
+   Aufkauf-Erkennung)? Soll: eigene Auktionen beim Rechenwert und bei Hinweisen ausnehmen (containsOwnerItem /
+   eigene Liste).
+
+PD7 HOCH – SAVEDVARIABLES 21,7 MB, ~1,78 MIO. ZEILEN PREISVERLAUF
+   markets.data (5'710 Items mit Verlauf) ist der grösste Teil. Folgen: lange Ladezeit, grosser Lua-Speicher (vgl.
+   Vollscan-Messung ~500 MB Lua-Speicher, GC-Pausen), langsamer Abgleich PC/Laptop (Uploader).
+   Soll: Verlauf verdichten – volle Auflösung 48 Std., danach 1 Wert je Stunde bis 7 Tage, danach 1 Wert je Tag bis
+   60 Tage, älter weg; Items ohne Handel/Beobachtung nach 30 Tagen nur Tageswert. Rhythmus (JK2) bekommt seine
+   kompakten Stunden-/Wochentagswerte VOR der Verdichtung. Ziel: SavedVariables < 8 MB.
+   Messung im Bericht: Grösse je Bereich (KB) vor/nach.
+   T-PD7: Nachbildung 5'000 Items × 14 Tage -> Grösse nach Verdichtung < 8 MB, Rhythmus/Marktwert unverändert.
+
+PD8 NIEDRIG – SYNC-ZÄHLER WIDERSPRÜCHLICH: sync.received = 0, Diagnose "empfangen 78" – einheitlich benennen
+   (Sitzung/gesamt).
+
+HINWEISE
+   - Für 0.65.94 gibt es vom Hauptrechner noch keinen Testbericht (der Laptop-Lauf war 0.65.88). Nach PD1/PD2/PD5 bitte
+     um einen Lauf am Hauptrechner bitten.
+   - Regelwerk-Prüfung (Einzahlung, Abbruch ohne Erstattung, Rechnung 11137 exakt) OK.
+   - Gemessene Entzauber-Marge 16 % (N 146) liegt unter der beschlossenen Mindestrendite 20 % -> stützt X8/MP:
+     Vorhersagen waren zu optimistisch (Aufkauf-Preise, alte Materialpreise).
