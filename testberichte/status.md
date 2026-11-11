@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-11 05:06 UTC
+Ausgewertet: 2026-11-11 06:05 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -18,7 +18,7 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 65 | `testberichte/diagnose/AHSentinel/0.65.86-6675038863c1.txt` |
+| AHSentinel | 65 | `testberichte/diagnose/AHSentinel/0.65.80-d29461ae5e97.txt` |
 | BuffSentinel | 20 | `testberichte/diagnose/BuffSentinel/0.9.12-7f8dfb5af187.txt` |
 | GSMesstest | 4 | `testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt` |
 | GuildSentinel | 59 | `testberichte/diagnose/GuildSentinel/0.9.23-bb33fa80616a.txt` |
