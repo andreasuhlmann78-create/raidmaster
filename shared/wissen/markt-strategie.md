@@ -239,6 +239,48 @@ aus. Schnäppchen-Wächter legt vorübergehende Ziele an.
 10. **Verlustgrenze:** Fällt der Markt eines gekauften Items deutlich, nüchtern rechnen: jetzt billiger verkaufen vs.
    warten (Zeit × Risiko × Einzahlungen). Kein "es kommt schon zurück".
 
+## 8b. Was ein Goldmacher wirklich braucht – Leitbild (Prüf-Sitzung, 11.11. 20:10, Auftrag des Nutzers)
+
+Frage des Nutzers: "Mach dir sehr gründlich Gedanken, was ein Spieler, der Gold machen will, wirklich braucht."
+Grundlage: zwei Tage Erfahrung des Nutzers (Splitter-Aufkauf, Schein-Gewinne, Buchhaltung im Minus trotz Plus, alte
+Preise, Ruckeln, tote Angebote) und die Methoden in Abschnitt 5–8.
+
+**Der Kreislauf eines Goldmachers:** Gelegenheit finden -> richtig kaufen -> umwandeln (entzaubern, herstellen,
+liegen lassen) -> richtig verkaufen -> wissen, ob es sich gelohnt hat. Jede Funktion muss einen dieser fünf Schritte
+messbar besser machen. Was keinen Schritt besser macht, ist Schnickschnack (Wunsch des Nutzers 11.11.).
+
+**Was er wirklich braucht (Rangfolge):**
+1. **Zahlen, denen er trauen kann.** Ein einziger falscher Wert (Aufkauf-Preis, 25 Std. alte Preise, Kosten zum
+   günstigsten Preis) kostet Gold UND Vertrauen; danach glaubt der Spieler keiner Empfehlung mehr. Darum: frische
+   Preise (≤ 30 Min.) oder klar "veraltet", Aufkauf-Schutz, Ausreisser raus, nie mit Durchschnitt statt Preisleiter.
+   Jede Empfehlung wird nachgeprüft; eine Art Empfehlung mit Trefferquote < 60 % (ab 20 Fällen) wird nicht mehr
+   gezeigt, bis sie besser ist (Selbstschutz).
+2. **Eine Liste "Heute tun" statt vieler Ansichten.** Wenige Handlungen mit Betrag, nach **Gewinn pro Tag je
+   eingesetztem Gold** sortiert (Marge × Umschlag, nicht Marge allein): kaufen (mit Höchstpreis), entzaubern,
+   einstellen, abbrechen/neu einstellen, zum Händler, liegen lassen. Jede Zeile mit einem Klick ausführbar.
+   Kapitalgrenzen eingerechnet (25 % gesamt, höchstens 10 % je Item).
+3. **Richtig verkaufen.** Beim Einstellen zählen drei Zahlen: Preis aus der Leiter (nicht in eine Wand hinein
+   unterbieten), **Wartezeit bis verkauft** (Menge vor mir ÷ Verkäufe je Std.), **Laufzeit** so kurz wie nötig
+   (Forever: Einzahlung je 2 Std.). Neu einstellen/abbrechen nur, wenn der erwartete Mehrerlös die verlorene Einzahlung
+   übersteigt.
+4. **Verluste früh begrenzen.** Ware, deren Wert > 20 % unter den Einkauf fällt, oder die länger als 3 Laufzeiten
+   nicht verkauft: bester Ausweg (verkaufen, entzaubern, Händler) statt hoffen.
+5. **Ehrliches Ergebnis.** Gewinn aus Verkauftem (Kostenbasis), Rendite, wo Geld verloren geht (umgesetzt: BP, BE).
+6. **Zeitpunkt (erst, wenn belegt).** "Jetzt günstig – kaufen" / "Jetzt teuer – verkaufen" aus Rhythmus (Stunde,
+   Wochentag) und Absatz – erst nach 1–3 Wochen Vollscan-Daten, nie bei fallendem Trend als "kaufen", nie mit alten
+   Preisen. Der Vorteil liegt typischerweise bei 5–15 % – nützlich, aber kleiner als 1–4.
+7. **Ereignisse.** Raid-Start 9.12. (Onyxia, Hyjal, Barrow Deeps): Verbrauchsgüter und ihre Kräuter 2–3 Wochen vorher
+   ruhig kaufen, in den ersten Raidwochen verkaufen. Leveling-Welle in Forever: Ware niedriger Stufen eher jetzt
+   verkaufen als horten.
+
+**Was er NICHT braucht:** viele Reiter (Überfüllt, Lücken, Trends als eigene Listen ohne Handlung), Statistiken ohne
+Handlung, Kurven zum Anschauen, Zahlen ohne Quelle/Alter. Diese Informationen gehören – wenn überhaupt – als Grund in
+eine Zeile von "Heute tun" oder in den Tooltip ("überfüllt: ~21 Tage bis verkauft").
+
+**Reihenfolge der Umsetzung (Empfehlung):** A Vertrauen (offene Fehler MP/D6/S8/VF, Trefferquoten-Schutz) -> B "Heute tun"
+als Cockpit mit Gewinn/Tag/Gold, Kapital- und Item-Grenze, Einstellen mit Wartezeit/Laufzeit, Verlustgrenze ->
+C Zeitpunkt und Ereignisse, sobald die Daten reichen.
+
 ## 9. Pflege dieser Datei
 
 - Neue Messung oder Entscheid des Nutzers -> hier eintragen (mit Datum), Status belegt/vermutet.
