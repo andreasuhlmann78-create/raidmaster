@@ -10,6 +10,12 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.26
+
+- Recruitment ad without Discord: the sentence after the removed Discord part now starts with a capital letter ("… helpful. Whisper me: …").
+- If you had saved the old default ad text unchanged, it is replaced once by the new default (with the new {gesucht} it would read awkwardly). Your own, different texts stay.
+- Developer test routine: T249 (counter "will be shortened") and T250 new; T248 renamed.
+
 ### Version 0.9.25
 
 - **New default recruitment ad**: "{gilde} ({fraktion}) is looking for {gesucht} for dungeons and raids – relaxed and helpful. Discord: {discord} – whisper me: /w {name} guild" (in every language; the German one adds "deutschsprachig"). If you saved your own ad text, it stays as it is; an empty field uses the new default.
@@ -40,16 +46,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
   - The search box also filters a member's recipes; filter and search can be combined.
 - Group finder "whole server": group changes and replies to questions now go to the group only; the whisper network gets a search only when it starts and when it ends.
 - Developer test routine: T231–T238 new.
-
-### Version 0.9.21
-
-- **GoldSentinelSync 2 (whisper network)**: the shared sync file now also reaches players with GoldSentinel addons outside your guild and group, by whispering through other players who have it (throttled, no chat spam; "no player named … is online" is hidden).
-  - **What goes into the network**: only the group finder for the whole server (new search and closing it). Everything else stays inside the guild (professions, events, board, polls, thanks, attunements …), in the group or in a whisper to one player.
-  - Group finder: "whole server" is back – your search goes to the guild, your group and the network.
-  - Known players of the network are kept across /reload (GuildSentinelDB.gsSync: names, times, version only; stays on your PC).
-- **GoldSentinelTest 2**: share error reports with the developer (only with your consent, /gstest).
-- Diagnostic log: new line "NETZ …" (no names).
-- Developer test routine: T225–T230 new.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
