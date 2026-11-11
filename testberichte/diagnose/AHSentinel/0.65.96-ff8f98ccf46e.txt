@@ -1,0 +1,225 @@
+AHSentinel-Protokoll v0.65.96 · 11.11. 22:07:28
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  11.11. 22:05:14 L10 ? v0.65.96
+  11.11. 21:50:27 L10 ? v0.65.96
+  11.11. 21:49:23 L10 ? v0.65.94
+  11.11. 19:35:14 L10 ? v0.65.94
+  11.11. 19:30:06 L10 ? v0.65.94
+  10.11. 18:20:07 L10 ? v0.65.86
+  10.11. 17:49:11 L10 ? v0.65.86
+  10.11. 17:20:42 L10 ? v0.65.86
+  10.11. 17:19:54 L10 ? v0.65.86
+  10.11. 17:14:18 L10 ? v0.65.86
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 48 Sek., 6105 Items, Preis-Sync an
+  SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GoldSentinelTest 0, GuildSentinel 0
+  SYNC gesendet 25 · empfangen 0 · verworfen: 0 · Warteschlange 278 · Kanal verweigert 0
+  NETZ an · bekannt 3 (mit Sync 2: 3, pausiert 1) · gesendet 3 · weitergegeben 0 · offline 1 · Listen 1 · Warteschlange 20 · gespeichert ja
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, minimapAngle=18.1, priceGuard=20, theme=modern, tooltipDEDetail=true, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[11.11. 22:07:25] VOLLSCAN Messung 348755 Auktionen · 5635 Items · Lücke 132 ms (Einlesen) · Speicher 408738->388649 KB · GC 42 · Warten auf Server 22033/75; Ereignis-Aufruf 0/1; Einlesen 13536/132; Verdichtung 716/31; Verfolgung V4 2360/25; Preisverlauf+Neuaufbau 1051/101; Nachlauf 0/21
+[11.11. 22:07:25] PREIS-ALT nach Scan · letzter Scan Vollscan · Waren im Vollscan 157 · Hauptmaterialien 11083: 0.0 Std., 11082: 0.0 Std., 11137: 0.0 Std. · 0 frisch geholt
+[11.11. 22:07:22] LANGSAM Hintergrund-Aufgabe fullscan · 3 Schritte · 28 ms
+[11.11. 22:07:22] LANGSAM Hintergrund-Aufgabe fullscan · 0 Schritte · 28 ms
+[11.11. 22:07:20] VOLLSCAN Absatz unplausibel: Item 929 · 2028/Tag bei Ø 752 im AH (6.2 Std.)
+[11.11. 22:07:20] VOLLSCAN Absatz unplausibel: Item 5469 · 3991/Tag bei Ø 1580 im AH (6.2 Std.)
+[11.11. 22:07:20] VOLLSCAN Absatz unplausibel: Item 10050 · 825/Tag bei Ø 251 im AH (6.2 Std.)
+[11.11. 22:07:19] LANGSAM Hintergrund-Aufgabe fullscan · 0 Schritte · 16 ms
+[11.11. 22:07:19] VOLLSCAN M1d 348755 Auktionen gelesen (348746 gültig) · 3293 ms in 1055 Portionen · längster Frame 3.8 ms · 5635 Items
+[11.11. 22:07:17] LANGSAM Hintergrund-Aufgabe fullscan · 0 Schritte · 19 ms
+[11.11. 22:07:05] SNIPER-SUCHE Sperre seller länger als 20 s - Sniper sucht trotzdem
+[11.11. 22:07:02] VOLLSCAN M1c Abstand 1028 s · neue Liste · 348755 Auktionen · Antwort nach 22.0 s
+[11.11. 22:06:53] ABSATZ Item 11082 · Q 0 (vollscan) · S 272.0 (market, Deckel) · S roh 299.9 · Deckel 272.0 · eigene Quote - · Laufzeit 24 Std. · W 0.0 · N 1.0
+[11.11. 22:06:53] ABSATZ Item 11135 · Q 0 (vollscan) · S 143.5 (market) · S roh 143.5 · Deckel 343.0 · eigene Quote 2/3 · Laufzeit 24 Std. · W 0.0 · N 1.5
+[11.11. 22:06:53] ABSATZ Item 11139 · Q 0 (vollscan) · S 68.5 (market) · S roh 68.5 · Deckel 75.0 · eigene Quote - · Laufzeit 24 Std. · W 0.0 · N 1.0
+[11.11. 22:06:53] ABSATZ Item 11083 · Q 1036 (vollscan) · S 279.6 (market, Deckel) · S roh 1606.2 · Deckel 279.6 · eigene Quote 9/3 · Laufzeit 24 Std. · W 3.7 · N 1.0
+[11.11. 22:06:53] ABSATZ Item 11137 · Q 1309 (vollscan) · S 656.7 (market) · S roh 656.7 · Deckel 1022.0 · eigene Quote 4/6 · Laufzeit 24 Std. · W 2.0 · N 1.5
+[11.11. 22:06:45] PREIS-ALT AH offen · letzter Scan normal · Waren im Vollscan - · Hauptmaterialien 11083: 0.3 Std., 11082: 0.3 Std., 11137: 0.3 Std. · 3 frisch geholt
+[11.11. 22:06:41] EIGENE Ware Item 11135 · buyout 2729 · Menge 17 · als Stückpreis gelesen
+[11.11. 22:06:40] SNIPER-SUCHE Ziel 6040 · Angebote 267 · Treffer ≤ Max 93 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 22:06:40] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[11.11. 22:06:19] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[11.11. 22:05:30] ABSATZ-UNPLAUSIBEL Item 1645 · 106.9/Tag · Quelle geschätzt
+[11.11. 22:05:29] ABSATZ-UNPLAUSIBEL Item 9999 · 14.4/Tag · Quelle geschätzt
+[11.11. 22:05:29] ABSATZ-UNPLAUSIBEL Item 252031 · 172.1/Tag · Quelle geschätzt
+[11.11. 22:05:29] ABSATZ-UNPLAUSIBEL Item 3058 · 14.6/Tag · Quelle geschätzt
+[11.11. 22:05:19] SYNC Weg=GUILD
+[11.11. 22:04:33] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[11.11. 22:04:33] EINSTELLEN Item 11139 · Menge 5 · Auktionen 1 · Laufzeit 1 · Preis 3431/Stück, 17155 gesamt · Gebühr erwartet 100, abgezogen 100 (0.58 % vom Preis)
+[11.11. 22:04:31] AHS-POST PostCommodity: arg2=1 arg3=5 arg4=3431 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/1
+[11.11. 22:04:28] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[11.11. 22:04:28] EINSTELLEN Item 11135 · Menge 17 · Auktionen 1 · Laufzeit 1 · Preis 2729/Stück, 46393 gesamt · Gebühr erwartet 100, abgezogen 100 (0.22 % vom Preis)
+[11.11. 22:04:26] AHS-POST PostCommodity: arg2=1 arg3=17 arg4=2729 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/2
+[11.11. 22:04:19] SNIPER-SUCHE Ziel 6040 · Angebote 275 · Treffer ≤ Max 101 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 22:04:17] PREIS-ALT AH offen · letzter Scan normal · Waren im Vollscan - · Hauptmaterialien 11083: 0.2 Std., 11082: 0.2 Std., 11137: 0.2 Std. · 0 frisch geholt
+[11.11. 22:04:02] ABBRUCH Item 11139 · Menge 5 · Erstattung 0
+[11.11. 22:03:57] ABBRUCH Item 11135 · Menge 17 · Erstattung 0
+[11.11. 22:03:19] SNIPER-SUCHE ×2 Ziel 6040 · Angebote 275 · Treffer ≤ Max 101 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 22:01:19] SNIPER-SUCHE Ziel 6040 · Angebote 270 · Treffer ≤ Max 96 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 22:00:27] SYNC gesendet 2, empfangen 0, verworfen 0 · Kanal verweigert 0
+[11.11. 22:00:19] SNIPER-SUCHE Ziel 6040 · Angebote 270 · Treffer ≤ Max 96 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 21:59:18] SNIPER-SUCHE Ziel 6040 · Angebote 267 · Treffer ≤ Max 93 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 21:58:18] SNIPER-SUCHE Ziel 6040 · Angebote 257 · Treffer ≤ Max 83 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 21:57:17] SNIPER-SUCHE Ziel 6040 · Angebote 258 · Treffer ≤ Max 84 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 21:56:17] SNIPER-SUCHE Ziel 6040 · Angebote 261 · Treffer ≤ Max 87 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 21:55:17] SNIPER-SUCHE Ziel 6040 · Angebote 266 · Treffer ≤ Max 92 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 21:54:17] SNIPER-SUCHE Ziel 6040 · Angebote 281 · Treffer ≤ Max 92 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 21:53:19] SUCHEN Grenze erreicht: 80 in 60 s (max je Minute = 90)
+[11.11. 21:53:17] SNIPER-SUCHE Ziel 6040 · Angebote 281 · Treffer ≤ Max 92 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 21:52:17] SNIPER-SUCHE Ziel 6040 · Angebote 277 · Treffer ≤ Max 88 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 21:52:11] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[11.11. 21:52:11] EINSTELLEN Item 11082 · Menge 3 · Auktionen 1 · Laufzeit 1 · Preis 1327/Stück, 3981 gesamt · Gebühr erwartet 100, abgezogen 100 (2.51 % vom Preis)
+[11.11. 21:52:10] AHS-POST PostCommodity: arg2=1 arg3=3 arg4=1327 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/3
+[11.11. 21:52:08] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=1 · Minimum jetzt 100
+[11.11. 21:52:08] EINSTELLEN Item 11083 · Menge 26 · Auktionen 1 · Laufzeit 1 · Preis 404/Stück, 10504 gesamt · Gebühr erwartet 100, abgezogen 100 (0.95 % vom Preis)
+[11.11. 21:52:07] AHS-POST PostCommodity: arg2=1 arg3=26 arg4=404 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/4
+[11.11. 21:52:04] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[11.11. 21:52:04] EINSTELLEN Item 11139 · Menge 5 · Auktionen 1 · Laufzeit 1 · Preis 3568/Stück, 17840 gesamt · Gebühr erwartet 100, abgezogen 100 (0.56 % vom Preis)
+[11.11. 21:52:04] AHS-POST PostCommodity: arg2=1 arg3=5 arg4=3568 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/2
+[11.11. 21:52:00] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=1 · Minimum jetzt 100
+[11.11. 21:52:00] EINSTELLEN Item 11135 · Menge 21 · Auktionen 1 · Laufzeit 1 · Preis 2735/Stück, 57435 gesamt · Gebühr erwartet 100, abgezogen 100 (0.17 % vom Preis)
+[11.11. 21:51:59] AHS-POST PostCommodity: arg2=1 arg3=21 arg4=2735 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/1
+[11.11. 21:51:57] EIGENE Ware Item 11137 · buyout 917 · Menge 43 · als Stückpreis gelesen
+[11.11. 21:51:57] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=2 · Minimum jetzt 100
+[11.11. 21:51:57] EINSTELLEN Item 11137 · Menge 43 · Auktionen 1 · Laufzeit 1 · Preis 917/Stück, 39431 gesamt · Gebühr erwartet 100, abgezogen 100 (0.25 % vom Preis)
+[11.11. 21:51:56] ABSATZ Item 279972 · Q 877 (scan, Q gesamt) · S 112.7 (market) · S roh 112.7 · Deckel 175.4 · eigene Quote - · Laufzeit 24 Std. · W 7.8 · N 7.0 · kaum
+[11.11. 21:51:56] ABSATZ Item 2997 · Q 0 (vollscan) · S 234.6 (market, Deckel) · S roh 822.1 · Deckel 234.6 · eigene Quote 3/3 · Laufzeit 24 Std. · W 0.0 · N 1.0
+[11.11. 21:51:56] ABSATZ Item 5572 · Q 828 (vollscan) · S 128.5 (market) · S roh 128.5 · Deckel 167.6 · eigene Quote - · Laufzeit 2 Std. · W 6.5 · N 7.0
+[11.11. 21:51:56] ABSATZ Item 2320 · Q 4786 (scan, Q gesamt) · S 957.2 (market, Deckel) · S roh 2230.7 · Deckel 957.2 · eigene Quote - · Laufzeit 24 Std. · W 5.0 · N 6.0
+[11.11. 21:51:56] ABSATZ Item 2589 · Q 1708 (vollscan) · S 6525.4 (market, Deckel) · S roh 9900.8 · Deckel 6525.4 · eigene Quote - · Laufzeit 24 Std. · W 0.3 · N 1.0
+[11.11. 21:51:56] AHS-POST PostCommodity: arg2=1 arg3=43 arg4=917 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/5
+[11.11. 21:51:50] ABSATZ Item 11082 · Q 55 (search) · S 272.0 (market, Deckel) · S roh 299.9 · Deckel 272.0 · eigene Quote - · Laufzeit 24 Std. · W 0.2 · N 1.0
+[11.11. 21:51:49] ABSATZ Item 11083 · Q 64 (search) · S 279.6 (market, Deckel) · S roh 1606.2 · Deckel 279.6 · eigene Quote 9/3 · Laufzeit 24 Std. · W 0.2 · N 1.0
+[11.11. 21:51:49] ABSATZ Item 11137 · Q 193 (search) · S 656.7 (market) · S roh 656.7 · Deckel 1022.0 · eigene Quote 4/6 · Laufzeit 24 Std. · W 0.3 · N 1.5
+[11.11. 21:51:41] ABSATZ Item 11139 · Q 82 (vollscan) · S 68.5 (market) · S roh 68.5 · Deckel 69.4 · eigene Quote - · Laufzeit 24 Std. · W 1.2 · N 2.0
+[11.11. 21:51:41] SNIPER-SUCHE Sperre seller länger als 20 s - Sniper sucht trotzdem
+[11.11. 21:51:38] ABSATZ Item 11135 · Q 0 (vollscan) · S 143.5 (market) · S roh 143.5 · Deckel 255.4 · eigene Quote 2/3 · Laufzeit 24 Std. · W 0.0 · N 1.5
+[11.11. 21:51:32] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[11.11. 21:51:21] PREIS-ALT AH offen · letzter Scan normal · Waren im Vollscan - · Hauptmaterialien 11083: 2.0 Std., 11082: 2.0 Std., 11137: 2.0 Std. · 8 frisch geholt
+[11.11. 21:51:16] SNIPER-SUCHE Ziel 6040 · Angebote 277 · Treffer ≤ Max 88 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 21:51:16] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[11.11. 21:50:43] ABSATZ-UNPLAUSIBEL Item 1645 · 106.9/Tag · Quelle geschätzt
+[11.11. 21:50:43] ABSATZ-UNPLAUSIBEL Item 9999 · 14.4/Tag · Quelle geschätzt
+[11.11. 21:50:43] ABSATZ-UNPLAUSIBEL Item 252031 · 172.1/Tag · Quelle geschätzt
+[11.11. 21:50:42] ABSATZ-UNPLAUSIBEL Item 3058 · 14.6/Tag · Quelle geschätzt
+[11.11. 21:50:33] SYNC Weg=GUILD
+[11.11. 21:49:39] ABSATZ-UNPLAUSIBEL Item 1645 · 106.9/Tag · Quelle geschätzt
+[11.11. 21:49:39] ABSATZ-UNPLAUSIBEL Item 9999 · 14.4/Tag · Quelle geschätzt
+[11.11. 21:49:38] ABSATZ-UNPLAUSIBEL Item 252031 · 172.1/Tag · Quelle geschätzt
+[11.11. 21:49:38] ABSATZ-UNPLAUSIBEL Item 3058 · 14.6/Tag · Quelle geschätzt
+[11.11. 21:49:31] SNIPER-SUCHE Ziel 6040 · Angebote 277 · Treffer ≤ Max 88 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 21:49:31] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[11.11. 21:49:29] SYNC Weg=GUILD
+[11.11. 21:49:27] LANGSAM Hintergrund-Aufgabe cache:warm · 0 Schritte · 20 ms
+[11.11. 20:35:14] SYNC ×3 gesendet 328, empfangen 2, verworfen queue 93 · Kanal verweigert 0
+[11.11. 20:05:14] SYNC gesendet 327, empfangen 2, verworfen queue 93 · Kanal verweigert 0
+[11.11. 20:04:45] DE-GEZÄHLT Item 6418 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11137×2
+[11.11. 20:04:41] DE-GEZÄHLT ×2 Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11137×1
+[11.11. 20:04:27] DE-GEZÄHLT Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11137×2
+[11.11. 20:04:22] DE-GEZÄHLT ×2 Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11137×1
+[11.11. 20:04:07] DE-GEZÄHLT ×2 Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11137×2
+[11.11. 20:03:59] DE-GEZÄHLT Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11135×1
+[11.11. 20:03:55] DE-GEZÄHLT Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11135×2
+[11.11. 20:03:48] DE-GEZÄHLT Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11137×2
+[11.11. 20:03:42] DE-GEZÄHLT Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11135×1
+[11.11. 20:03:37] DE-GEZÄHLT ×2 Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11137×2
+[11.11. 20:03:28] DE-GEZÄHLT Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11137×1
+[11.11. 20:03:24] DE-GEZÄHLT Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11135×1
+[11.11. 20:03:20] DE-GEZÄHLT Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11139×1
+[11.11. 20:03:16] DE-GEZÄHLT ×2 Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11137×2
+[11.11. 20:02:24] SNIPER-SUCHE ×2 Ziel 6040 · Angebote 369 · Treffer ≤ Max 118 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 20:00:23] SNIPER-SUCHE Ziel 6040 · Angebote 359 · Treffer ≤ Max 108 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 19:59:23] SNIPER-SUCHE Ziel 6040 · Angebote 375 · Treffer ≤ Max 109 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 19:58:23] SNIPER-SUCHE Ziel 6040 · Angebote 391 · Treffer ≤ Max 109 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 19:57:41] LANGSAM Hintergrund-Aufgabe ui-refresh · 16 Schritte · 16 ms
+[11.11. 19:57:22] SNIPER-SUCHE ×2 Ziel 6040 · Angebote 394 · Treffer ≤ Max 109 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 19:55:22] SNIPER-SUCHE Ziel 6040 · Angebote 409 · Treffer ≤ Max 109 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 19:55:14] SYNC gesendet 326, empfangen 2, verworfen queue 93 · Kanal verweigert 0
+[11.11. 19:54:21] SNIPER-SUCHE Ziel 6040 · Angebote 403 · Treffer ≤ Max 103 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 19:51:17] SNIPER-SUCHE Sperre seller länger als 20 s - Sniper sucht trotzdem
+[11.11. 19:51:08] ABSATZ-UNPLAUSIBEL Item 1645 · 106.9/Tag · Quelle geschätzt
+[11.11. 19:51:05] ABSATZ-UNPLAUSIBEL Item 9999 · 14.4/Tag · Quelle geschätzt
+[11.11. 19:51:04] ABSATZ-UNPLAUSIBEL Item 252031 · 172.1/Tag · Quelle geschätzt
+[11.11. 19:51:04] ABSATZ-UNPLAUSIBEL Item 3058 · 14.6/Tag · Quelle geschätzt
+[11.11. 19:51:01] LANGSAM Hintergrund-Aufgabe sync-send · 0 Schritte · 27 ms
+[11.11. 19:51:00] VOLLSCAN Messung 332058 Auktionen · 5578 Items · Lücke 104 ms (Preisverlauf+Neuaufbau) · Speicher 433143->458925 KB · GC 34 · Warten auf Server 21753/70; Ereignis-Aufruf 0/1; Einlesen 14070/30; Verdichtung 703/39; Verfolgung V4 2921/33; Preisverlauf+Neuaufbau 1096/104; Nachlauf 0/35
+[11.11. 19:50:58] ENTZAUBERWERT Item 14223 · eigene Ø aus 20 · 11137 70% × 1.43 à 868, 11135 20% × 1.50 à 1843, 11139 10% × 1.00 à 3420 · brutto 1880 · netto 1763
+[11.11. 19:50:57] LANGSAM Hintergrund-Aufgabe fullscan · 3 Schritte · 38 ms
+[11.11. 19:50:55] VOLLSCAN Absatz unplausibel: Item 769 · 6130/Tag bei Ø 2067 im AH (29.7 Std.)
+[11.11. 19:50:54] VOLLSCAN Absatz unplausibel: Item 3827 · 980/Tag bei Ø 278 im AH (29.7 Std.)
+[11.11. 19:50:53] LANGSAM Hintergrund-Aufgabe fullscan · 0 Schritte · 20 ms
+[11.11. 19:50:53] VOLLSCAN M1d 332058 Auktionen gelesen (332054 gültig) · 3231 ms in 1037 Portionen · längster Frame 3.4 ms · 5578 Items
+[11.11. 19:50:52] LANGSAM Hintergrund-Aufgabe fullscan · 0 Schritte · 19 ms
+[11.11. 19:50:47] ENTZAUBERWERT Item 6419 · eigene Ø aus 20 · 11137 70% × 1.43 à 939, 11135 20% × 1.50 à 1843, 11139 10% × 1.00 à 3362 · brutto 1970 · netto 1828
+[11.11. 19:50:47] ABSATZ Item 6419 · Q 9 (scan, Q gesamt) · S 1.8 (market, Deckel) · S roh 8.7 · Deckel 1.8 · eigene Quote - · Laufzeit 2 Std. · W 5.6 · N 7.0
+[11.11. 19:50:40] ENTZAUBERWERT Item 6416 · eigene Ø aus 20 · 11137 70% × 1.43 à 939, 11135 20% × 1.50 à 1843, 11139 10% × 1.00 à 3362 · brutto 1970 · netto 1828
+[11.11. 19:50:40] ABSATZ Item 6416 · Q 23 (scan, Q gesamt) · S 4.6 (market, Deckel) · S roh 9.9 · Deckel 4.6 · eigene Quote - · Laufzeit 2 Std. · W 5.2 · N 7.0
+[11.11. 19:50:39] ENTZAUBERWERT Item 14231 · eigene Ø aus 20 · 11137 70% × 1.43 à 939, 11135 20% × 1.50 à 1843, 11139 10% × 1.00 à 3362 · brutto 1970 · netto 1828
+[11.11. 19:50:39] ENTZAUBERWERT Item 4729 · eigene Ø aus 20 · 11137 70% × 1.43 à 939, 11135 20% × 1.50 à 1843, 11139 10% × 1.00 à 3362 · brutto 1970 · netto 1828
+[11.11. 19:50:39] ABSATZ Item 4729 · Q 36 (scan, Q gesamt) · S 7.2 (market, Deckel) · S roh 11.8 · Deckel 7.2 · eigene Quote - · Laufzeit 2 Std. · W 5.1 · N 7.0
+[11.11. 19:50:39] ENTZAUBERWERT Item 4042 · eigene Ø aus 20 · 11137 70% × 1.43 à 939, 11135 20% × 1.50 à 1843, 11139 10% × 1.00 à 3362 · brutto 1970 · netto 1828
+[11.11. 19:50:39] ABSATZ Item 4042 · Q 21 (scan, Q gesamt) · S 4.2 (market, Deckel) · S roh 9.2 · Deckel 4.2 · eigene Quote - · Laufzeit 2 Std. · W 5.2 · N 7.0
+[11.11. 19:50:39] ABSATZ Item 14223 · Q 22 (scan, Q gesamt) · S 4.4 (market, Deckel) · S roh 5.6 · Deckel 4.4 · eigene Quote - · Laufzeit 2 Std. · W 5.2 · N 7.0
+[11.11. 19:50:37] ENTZAUBERWERT Item 5739 · eigene Ø aus 20 · 11137 70% × 1.43 à 939, 11135 20% × 1.50 à 1843, 11139 10% × 1.00 à 3362 · brutto 1970 · netto 1828
+[11.11. 19:50:37] ABSATZ Item 5739 · Q 55 (scan, Q gesamt) · S 11.0 (market, Deckel) · S roh 33.1 · Deckel 11.0 · eigene Quote - · Laufzeit 2 Std. · W 5.1 · N 7.0
+[11.11. 19:50:37] ABSATZ Item 14231 · Q 15 (scan, Q gesamt) · S 3.0 (market, Deckel) · S roh 5.0 · Deckel 3.0 · eigene Quote - · Laufzeit 2 Std. · W 5.3 · N 7.0
+[11.11. 19:50:36] VOLLSCAN M1c Abstand 1202 s · neue Liste · 332058 Auktionen · Antwort nach 21.8 s
+[11.11. 19:50:35] ENTZAUBERWERT Item 4732 · eigene Ø aus 20 · 11137 70% × 1.43 à 939, 11135 20% × 1.50 à 1843, 11139 10% × 1.00 à 3362 · brutto 1970 · netto 1828
+[11.11. 19:50:35] ABSATZ Item 4732 · Q 30 (scan, Q gesamt) · S 6.0 (market, Deckel) · S roh 10.7 · Deckel 6.0 · eigene Quote - · Laufzeit 2 Std. · W 5.2 · N 7.0
+[11.11. 19:50:18] ABSATZ Item 11137 · Q 507 (vollscan) · S 265.2 (market, Deckel) · S roh 658.5 · Deckel 265.2 · eigene Quote 4/6 · Laufzeit 24 Std. · W 1.9 · N 1.5
+[11.11. 19:50:15] SNIPER-SUCHE Ziel 6040 · Angebote 401 · Treffer ≤ Max 101 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 19:50:13] ABSATZ Item 2997 · Q 374 (vollscan) · S 519.4 (market, Deckel) · S roh 688.3 · Deckel 519.4 · eigene Quote 3/3 · Laufzeit 24 Std. · W 0.7 · N 1.0
+[11.11. 19:49:15] SNIPER-SUCHE Ziel 6040 · Angebote 401 · Treffer ≤ Max 101 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 19:49:11] DE-GEZÄHLT Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11137×2
+[11.11. 19:49:07] DE-GEZÄHLT ×4 Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11137×1
+[11.11. 19:48:50] DE-GEZÄHLT Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11139×1
+[11.11. 19:48:45] DE-GEZÄHLT Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11137×1
+[11.11. 19:48:41] DE-GEZÄHLT Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11137×2
+[11.11. 19:48:37] DE-GEZÄHLT Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11135×1
+[11.11. 19:48:15] SNIPER-SUCHE Ziel 6040 · Angebote 401 · Treffer ≤ Max 101 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 19:47:14] SNIPER-SUCHE Ziel 6040 · Angebote 400 · Treffer ≤ Max 96 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 19:47:11] DE-GEZÄHLT Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11137×2
+[11.11. 19:47:06] DE-GEZÄHLT Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11135×2
+[11.11. 19:47:02] DE-GEZÄHLT Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11139×1
+[11.11. 19:46:58] DE-GEZÄHLT ×2 Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11137×2
+[11.11. 19:46:50] DE-GEZÄHLT Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11137×1
+[11.11. 19:46:45] DE-GEZÄHLT Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11135×2
+[11.11. 19:46:41] DE-GEZÄHLT Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11137×2
+[11.11. 19:46:37] DE-GEZÄHLT ×2 Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11137×1
+[11.11. 19:46:29] DE-GEZÄHLT Item 6040 · Itemstufe 37 · Gruppe 2:6:a · Weg Fenster · Beute 11135×1
+[11.11. 19:46:14] SNIPER-SUCHE Ziel 6040 · Angebote 398 · Treffer ≤ Max 94 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 19:45:14] SYNC gesendet 2, empfangen 0, verworfen 0 · Kanal verweigert 0
+[11.11. 19:45:14] SNIPER-SUCHE Ziel 6040 · Angebote 398 · Treffer ≤ Max 94 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 19:44:13] SNIPER-SUCHE Ziel 6040 · Angebote 399 · Treffer ≤ Max 94 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 19:43:13] SNIPER-SUCHE Ziel 6040 · Angebote 410 · Treffer ≤ Max 104 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 19:42:13] SNIPER-SUCHE Ziel 6040 · Angebote 423 · Treffer ≤ Max 104 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 19:41:59] ABSATZ Item 4604 · Q 376 (scan, Q gesamt) · S 75.2 (market, Deckel) · S roh 131.7 · Deckel 75.2 · eigene Quote - · Laufzeit 24 Std. · W 5.0 · N 6.0
+[11.11. 19:41:57] ABSATZ Item 11082 · Q 501 (vollscan) · S 201.4 (market, Deckel) · S roh 337.2 · Deckel 201.4 · eigene Quote - · Laufzeit 24 Std. · W 2.5 · N 3.0
+[11.11. 19:41:57] ABSATZ Item 11139 · Q 19 (vollscan) · S 8.6 (market, Deckel) · S roh 69.0 · Deckel 8.6 · eigene Quote - · Laufzeit 24 Std. · W 2.3 · N 3.0
+[11.11. 19:41:57] ABSATZ Item 11135 · Q 95 (vollscan) · S 22.2 (market, Deckel) · S roh 127.6 · Deckel 22.2 · eigene Quote 2/3 · Laufzeit 24 Std. · W 4.3 · N 1.5
+[11.11. 19:41:12] SNIPER-SUCHE Ziel 6040 · Angebote 448 · Treffer ≤ Max 121 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 19:40:12] SNIPER-SUCHE Ziel 6040 · Angebote 437 · Treffer ≤ Max 110 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 19:40:03] ABSATZ Item 11083 · Q 0 (vollscan) · S 1542.9 (market) · S roh 1542.9 · Deckel 1851.8 · eigene Quote 9/3 · Laufzeit 24 Std. · W 0.0 · N 1.0
+[11.11. 19:39:55] ABSATZ Item 4238 · Q 899 (vollscan) · S 225.4 (market, Deckel) · S roh 570.5 · Deckel 225.4 · eigene Quote - · Laufzeit 2 Std. · W 4.0 · N 7.0
+[11.11. 19:36:58] SNIPER-SUCHE Ziel 6040 · Angebote 459 · Treffer ≤ Max 111 · gekauft 21 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 19:36:56] KAUF-DOPPELT ×3 Kauf-Ereignis ohne passende eigene Kaufmeldung (Buchung über die Rechnung)
+[11.11. 19:36:54] SNIPER Treffer 5 · gekauft 5 · Ø Suche>Treffer 159 ms, Treffer>Reserv. 514 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms, bestätigt>gekauft 0 ms
+[11.11. 19:36:54] KAUF-DOPPELT ×14 Kauf-Ereignis ohne passende eigene Kaufmeldung (Buchung über die Rechnung)
+[11.11. 19:36:15] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[11.11. 19:36:15] KAUF-DOPPELT ×12 Kauf-Ereignis ohne passende eigene Kaufmeldung (Buchung über die Rechnung)
+[11.11. 19:35:54] SNIPER Treffer 1 · gekauft 1 · Ø Suche>Treffer 138 ms, Treffer>Reserv. 739 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms, bestätigt>gekauft 0 ms
+[11.11. 19:35:53] SNIPER-SUCHE Ziel 6040 · Angebote 501 · Treffer ≤ Max 149 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[11.11. 19:35:42] ENTZAUBERWERT Item 6040 · Tabelle · 11137 75% × 1.50 à 939, 11135 20% × 1.50 à 1843, 11139 5% × 1.00 à 3362 · brutto 1907 · netto 1777
+[11.11. 19:35:42] ABSATZ Item 6040 · Q 146 (vollscan) · S 70.8 (market, Deckel) · S roh 77.2 · Deckel 70.8 · eigene Quote - · Laufzeit 2 Std. · W 2.1 · N 7.0
+[11.11. 19:35:40] ENTZAUBERWERT Item 4059 · Tabelle · 11137 75% × 1.50 à 939, 11135 20% × 1.50 à 1843, 11139 5% × 1.00 à 3362 · brutto 1907 · netto 1777
+[11.11. 19:35:40] ABSATZ Item 4059 · Q 18 (scan, Q gesamt) · S 3.6 (market, Deckel) · S roh 6.4 · Deckel 3.6 · eigene Quote - · Laufzeit 2 Std. · W 5.3 · N 7.0
+[11.11. 19:35:40] ENTZAUBERWERT Item 6417 · Tabelle · 11137 75% × 1.50 à 939, 11135 20% × 1.50 à 1843, 11139 5% × 1.00 à 3362 · brutto 1907 · netto 1777
+[11.11. 19:35:40] ABSATZ Item 6417 · Q 20 (scan, Q gesamt) · S 4.0 (market, Deckel) · S roh 6.4 · Deckel 4.0 · eigene Quote - · Laufzeit 2 Std. · W 5.2 · N 7.0
+[11.11. 19:35:40] ENTZAUBERWERT Item 6421 · Tabelle · 11137 75% × 1.50 à 939, 11135 20% × 1.50 à 1843, 11139 5% × 1.00 à 3362 · brutto 1907 · netto 1777
+[11.11. 19:35:40] ABSATZ Item 6421 · Q 21 (scan, Q gesamt) · S 4.2 (market, Deckel) · S roh 11.6 · Deckel 4.2 · eigene Quote - · Laufzeit 2 Std. · W 5.2 · N 7.0
