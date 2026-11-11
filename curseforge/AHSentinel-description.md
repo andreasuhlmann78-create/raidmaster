@@ -12,6 +12,29 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.97
+
+- **Bookkeeping restart keeps purchase prices (opening balance).** Goods bought before a restart (bags, bank, mail,
+  own auctions) keep their purchase price from the old data; only the profit counters start at 0. Goods without any
+  purchase (loot) keep the value at the restart. A restart that lost the cost basis is corrected once at login:
+  disenchants with cost 0 get the price paid for the item, and the cost moves to the materials (sold ones into the
+  sales, the rest into stock). The diagnostic log notes how many bookings were corrected.
+- **Plausibility checks:** warning in the profit tooltip if more than 30 % of revenue is "without purchase" or the
+  disenchanting return is over 100 %; the test report shows an ERROR for disenchants with cost 0 of a bought item.
+- **Gold reconciliation from the same moment as the bookkeeping** (later of day start and restart). Pending sales
+  ("arrives by mail") are shown right there; "not booked" only appears above 1 % of turnover.
+- **Profit % per item** only from pieces with a purchase (like the header).
+- **Posting:** no more Lua error after a successful post. Before posting, AHSentinel checks that the item is still in
+  the bag slot; otherwise "Already posted – no longer in your bags". The button stays locked until you select an item.
+- **My auctions:** instead of "?" the status shows why the price is not checked yet (AH closed, waiting, Sniper
+  searching, server throttling). Your own auctions are checked before the background material prices. Cancelling is
+  logged step by step (test log), the cancelled row disappears at once.
+- **Buyout (e.g. Soul Dust at 3× the price):** never a buy signal; for your own goods "Expensive now – sell … · Buyout
+  – price may drop quickly".
+- **Outdated prices:** every material with ≥ 25 % of the disenchant value must be fresh, not only the main material.
+- Diagnostic log: type of the last scan in PREIS-ALT; posted vs. server price of your own auction (EIGENE-PREIS).
+- Tests T484–T490 (T-AB1, T-AB2, T-AB4, T-AB5, T-AB7, T-AB8a/b).
+
 ### Version 0.65.96
 
 - **AHSentinel now tells you when to buy and when to sell – but only when it knows it from its own measurements.**
@@ -69,22 +92,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - Bookkeeping: two partial sales of the same auction are both booked as "pending" (no longer skipped), the active
   remainder is not counted as sold.
 - Tests T461–T462 (T-VF5a/b).
-
-### Version 0.65.92
-
-- **Smoother fast full scan.** Processing after the full scan now uses a time budget per frame (default 4 ms,
-  option 2/4/6/8 ms next to "Fast full scan" – smaller = smoother but longer). The tables per item are reused between
-  scans and the digest no longer creates garbage per item, so there is far less memory churn. Everything that is
-  rebuilt after the scan (market lists, caches) now runs in portions instead of all in one frame. The option text
-  warns that it can still stutter until the next measurement.
-- **Measurement extended:** frames per second per step, share of frames over 33 ms, and AHSentinel's own memory
-  before/after (test report section "Full scan measurement"). New checks: no step with a frame over 16 ms, memory
-  growth ≤ 10 MB.
-- "Cancel next undercut" only ever cancels auctions with status "undercut", never "keep"; the test routine only
-  touches its own test auction.
-- Market values of 0 or less are no longer possible (a price of 0 is not stored); the self-test names the items.
-- Test routine: the sniper's "last checked" time no longer counts as a sandbox error.
-- Tests T458–T460 (T-VF1–T-VF3).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
