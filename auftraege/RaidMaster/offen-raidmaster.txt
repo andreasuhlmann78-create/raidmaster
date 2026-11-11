@@ -112,3 +112,13 @@ NEU (11. Nov. 21:12, MITTEL, beim Einrichten beim Nutzer) – Daten-Repo-einrich
    Meldung "Token enthält ungültige Zeichen – mit RECHTSKLICK einfügen (nicht Strg+V), Eingabe bleibt unsichtbar".
    (b) ValueError getrennt von URLError/OSError melden. (c) Hinweis "mit Rechtsklick einfügen" schon in der Abfrage.
    Test T-DU7: Token "\x16" -> Meldung "ungültige Zeichen", kein "kein Netz".
+
+NEU (11. Nov. 21:40, HOCH, beim Einrichten beim Nutzer) – daten_config.json von Hand angelegt (Editor), Uploader 2.3.0
+   meldet trotzdem "Prüfung: Daten-Lieferung nicht eingerichtet".
+   daten.py load_config (:72–81) schluckt jeden Fehler und gibt None. Wahrscheinlich: Windows-Editor speichert mit
+   BOM (UTF-8 mit BOM) -> json.load mit encoding="utf-8" scheitert; oder typografische Anführungszeichen.
+   Lösung: (a) mit encoding="utf-8-sig" lesen; (b) den GRUND melden statt "nicht eingerichtet": "daten_config.json
+   nicht lesbar (Zeile x: …)", "repo fehlt/falsch", "token fehlt" – nie den Token selbst; (c) typografische
+   Anführungszeichen „ " " ersetzen; (d) Daten-Repo-einrichten.bat: Token-Eingabe sichtbar maskiert (Sternchen) oder
+   Hinweis "Rechtsklick zum Einfügen" (siehe Punkt T-DU7). Test T-DU8: Datei mit BOM -> geladen; ohne token -> Meldung
+   "token fehlt".
