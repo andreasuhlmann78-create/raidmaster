@@ -12,6 +12,14 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.90
+
+- **Sniper hit signal.** When the sniper finds a real hit, the screen edge glows gold 3 times (like the low-health
+  glow). It stops when you buy, when the hit is gone, when you close the auction house, or after 4 s at the latest.
+  No signal for dead offers, paused items, in combat or with the auction house closed; at most one signal every 3 s.
+  Options: "Signal" on/off and colour (gold, green, blue) next to "Sound on hits". The glow never takes mouse clicks.
+- Tests T450–T453 (T-SG1–T-SG4).
+
 ### Version 0.65.89
 
 - **New bookkeeping: profit like the pros.** Buying is no longer a loss – what you buy sits in your stock at its
@@ -93,17 +101,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   new auction at the same price stays buyable. Goods without an auction ID: the same price and quantity are skipped
   for 60 s. Log SNIPER-SUCHE counts "dead delivered again".
 - Test routine: T409 (T-SR6).
-
-### Version 0.65.85
-
-- **Fix (important): no more fake flips.** The resale price never uses the estimated price of the part above the stored
-  price ladder (the "11s 39c" for a box that sells at 4s came from there). Without a current price ladder there is no
-  flip suggestion. The buy quantity is at most what is really offered up to the buy price.
-- A flip row in Today/Flips appears only if the detail area says "buy up to X" with exactly the same calculation;
-  otherwise it is dropped (log FLIP-WIDERSPRUCH). Clicking a row in Today now also shows it in the detail area.
-- **Wands are never suggested for disenchanting** (not possible in WoW Forever). If disenchanting fails with "cannot be
-  disenchanted", the item (and its class) is excluded everywhere from then on (log DE-NICHT-MOEGLICH).
-- Test routine: T403–T408 (T-F1–T-F4, T-ME8, T-ME9).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
