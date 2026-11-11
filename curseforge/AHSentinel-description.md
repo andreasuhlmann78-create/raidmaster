@@ -12,6 +12,17 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.94
+
+- **Bookkeeping: return next to the profit.** The head now shows "Profit X · Return Y %" (profit of goods you bought ÷
+  what they cost you). Without any cost: "Return –".
+- **Where you lose money** (tooltip of the profit): the business type (disenchanting, flipping, crafting, vendor
+  goods) and the item with the biggest realised loss, with the amount – or "No losing business". The type comes from
+  where the cost came from (AH purchase = flipping, from disenchanting = disenchanting); mixed or unclear = "unknown".
+- **Honest about free goods:** profit from goods you never bought (loot, farming, quests) is shown separately in the
+  head ("of which without purchase: X", only if any) and does not count in the return.
+- Tests T463–T466 (T-BE1–T-BE4).
+
 ### Version 0.65.93
 
 - **Fix: partly sold auctions can be cancelled again.** For goods, the sold parts of an auction keep the same auction
@@ -54,24 +65,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   No signal for dead offers, paused items, in combat or with the auction house closed; at most one signal every 3 s.
   Options: "Signal" on/off and colour (gold, green, blue) next to "Sound on hits". The glow never takes mouse clicks.
 - Tests T450–T453 (T-SG1–T-SG4).
-
-### Version 0.65.89
-
-- **New bookkeeping: profit like the pros.** Buying is no longer a loss – what you buy sits in your stock at its
-  purchase price, and profit is made when you sell: revenue after the 5 % cut − the purchase price of exactly what
-  you sold − lost deposits. The ledger head now shows ONE number, "Profit", for today / 7 days / 30 days / since
-  restart, with "Sold · Cost · Fees" below. Everything else is in the tooltip: cash, stock at cost and at market
-  value, unrealised profit, pending sales and a check against your gold ("not booked: X").
-- **Fresh start.** On the first login with this version the books start today. Your old data stays in the background
-  (statistics, sell rates, forecasts keep using it) but never counts in the new books. Disenchant, learning,
-  forecast and full-scan data are untouched. Items you already own get their realistic value at the start as cost,
-  so selling old stock is neither pure profit nor a loss. `/ahs buchhaltung neu` starts the books again (asks first).
-- **Cost per item and character (moving average).** Disenchanting moves the cost of the item onto the materials by
-  their value; mail to your own alts carries the cost along. Items without a purchase (loot) have cost 0.
-- **Sales count right away.** As soon as your own auction shows as sold (in Forever the chat message is protected),
-  it is booked as "pending"; the invoice confirms it later – never twice. The test report measures the delay.
-- "Per item": Sold, Revenue, Cost, Profit, Profit %.
-- Tests T441–T449 (T-BP1–T-BP9).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
