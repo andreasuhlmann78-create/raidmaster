@@ -4918,6 +4918,9 @@ async def uploader_cmd(inter: discord.Interaction, nur_programm: bool = False):
     await inter.response.defer(ephemeral=True, thinking=True)
     # zwei Webhooks: #bot-daten (Spieldaten) und #testberichte (Testberichte der GoldSentinel-Addons)
     data_url, test_url, notes = await uploader_setup.setup_uploader_hooks(ch.guild, ch, cfg, f"/uploader von {inter.user}")
+    # Abgleich PC/Laptop (ab 1.5.113): privater Kanal #sync-daten nur für dich, Webhook + Index -> sync_config.json
+    sync_conf, sync_notes = await uploader_setup.setup_sync(ch.guild, inter.user, cfg, f"/uploader von {inter.user}")
+    notes += sync_notes
     save_config()
     conf = uploader_setup.uploader_config(data_url, test_url, bot.user.id)
     conf_bytes = json.dumps(conf, indent=2).encode("utf-8")
@@ -4925,14 +4928,21 @@ async def uploader_cmd(inter: discord.Interaction, nur_programm: bool = False):
     text = ("**Daten-Uploader einrichten** (auf dem PC, auf dem du WoW spielst):\n"
             + ("1. **RaidMasterUploader.zip** entpacken, z. B. nach Dokumente.\n" if pkg else
                "1. Den Ordner **RaidMasterUploader** aus dem RaidMaster-Paket nehmen (die ZIP liegt noch nicht auf dem Server).\n")
-            + "2. **uploader_config.json** in diesen Ordner legen.\n"
-            "3. `uploader.bat` doppelklicken – beim ersten Start sucht er deine RaidMaster-Datei selbst.\n"
+            + ("2. **uploader_config.json** und **sync_config.json** in diesen Ordner legen.\n" if sync_conf else
+               "2. **uploader_config.json** in diesen Ordner legen.\n")
+            + "3. `uploader.bat` doppelklicken – beim ersten Start sucht er deine RaidMaster-Datei selbst.\n"
             "4. Fertig: Nach jedem `/reload` oder Ausloggen sind DKP, Einteilung, Skillungen und Erstkill-Screenshots nach wenigen Sekunden im Discord.\n"
-            "⚠️ uploader_config.json enthält geheime Links – nicht weitergeben."
+            + ("5. **Zweiter Rechner (PC/Laptop):** dort dasselbe – beide Dateien hineinlegen und WoW künftig mit "
+               "`GoldSentinel-WoW.bat` starten. Dann hast du an jedem Rechner den neuesten Stand aller Addon-Daten.\n"
+               if sync_conf else "")
+            + "⚠️ uploader_config.json und sync_config.json enthalten geheime Links – nicht weitergeben."
             + ("\n\n" + "\n".join("ℹ️ " + n for n in notes) if notes else ""))
 
     def files():
         out = [discord.File(io.BytesIO(conf_bytes), filename="uploader_config.json")]
+        if sync_conf:
+            out.append(discord.File(io.BytesIO(json.dumps(sync_conf, indent=2).encode("utf-8")),
+                                    filename="sync_config.json"))
         if pkg:
             out.insert(0, discord.File(pkg, filename="RaidMasterUploader.zip"))
         return out

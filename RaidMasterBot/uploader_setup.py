@@ -90,10 +90,92 @@ def uploader_config(data_url: str, test_url: str | None, bot_id: int) -> dict:
 
 
 def route_message(cfg: dict, channel_id: int, webhook_id) -> str | None:
-    """Wohin mit einer Nachricht? "upload" = Daten aus #bot-daten, "ignore" = #testberichte (nie auswerten,
-    nie antworten, nie löschen), None = normale Behandlung."""
+    """Wohin mit einer Nachricht? "upload" = Daten aus #bot-daten, "ignore" = #testberichte und #sync-daten (nie
+    auswerten, nie antworten), None = normale Behandlung."""
     if cfg.get("testberichte_channel_id") and int(channel_id) == int(cfg["testberichte_channel_id"]):
+        return "ignore"
+    if int(channel_id) in sync_channel_ids(cfg):
         return "ignore"
     if cfg.get("data_channel_id") and int(channel_id) == int(cfg["data_channel_id"]) and webhook_id:
         return "upload"
     return None
+
+
+# ---------------------------------------------------------------------------
+# Abgleich PC/Laptop (ab Bot 1.5.113, anweisung-uploader-sync-rechner.txt)
+# Je Discord-Nutzer ein PRIVATER Kanal (#sync-daten, nur dieser Nutzer und der Bot), ein Webhook und eine
+# Index-Nachricht. Der Uploader speichert dort seine Stände und liest sie über den Webhook zurück. Der Bot liest,
+# beantwortet und löscht dort nichts; er legt nur an und schickt sync_config.json mit /uploader.
+# cfg["sync"] = { "<user_id>": {"channel_id", "webhook_id", "index_id"} }
+# ---------------------------------------------------------------------------
+SYNC_CHANNEL = "sync-daten"
+SYNC_HOOK = "GoldSentinel-Sync"
+SYNC_TOPIC = "Abgleich deiner Addon-Daten zwischen deinen Rechnern (Uploader) – privat, bitte nichts löschen."
+SYNC_INDEX_TEXT = 'GSSYNC-INDEX – nicht ändern\n{"v":1,"seq":0}'
+
+
+def sync_channel_ids(cfg: dict) -> set[int]:
+    out = set()
+    for v in (cfg.get("sync") or {}).values():
+        try:
+            out.add(int(v.get("channel_id")))
+        except (TypeError, ValueError, AttributeError):
+            pass
+    return out
+
+
+async def setup_sync(guild, user, cfg: dict, reason: str = "/uploader"):
+    """Privaten Kanal, Webhook und Index-Nachricht für `user` finden oder anlegen.
+    Liefert (sync_config-Dict oder None, Hinweise)."""
+    notes: list[str] = []
+    entry = (cfg.setdefault("sync", {})).get(str(user.id)) or {}
+    ch = None
+    for c in guild.text_channels:
+        if entry.get("channel_id") and c.id == int(entry["channel_id"]):
+            ch = c
+            break
+    if ch is None:
+        if not guild.me.guild_permissions.manage_channels:
+            return None, ["Für den Abgleich PC/Laptop fehlt dem Bot das Recht **Kanäle verwalten** – der Daten-Upload "
+                          "funktioniert trotzdem."]
+        taken = {c.name for c in guild.text_channels}
+        name, n = SYNC_CHANNEL, 2
+        while name in taken:
+            name, n = f"{SYNC_CHANNEL}-{n}", n + 1
+        overwrites = {
+            guild.default_role: discord.PermissionOverwrite(view_channel=False),
+            guild.me: discord.PermissionOverwrite(view_channel=True, send_messages=True, manage_webhooks=True,
+                                                  read_message_history=True, attach_files=True),
+            user: discord.PermissionOverwrite(view_channel=True, read_message_history=True, send_messages=False),
+        }
+        category = _find(guild.categories, OFFICER_CATEGORY)
+        try:
+            ch = await guild.create_text_channel(name, category=category, overwrites=overwrites, topic=SYNC_TOPIC,
+                                                 reason=reason)
+        except discord.HTTPException as e:
+            return None, [f"Kanal für den Abgleich konnte nicht angelegt werden ({e}) – der Daten-Upload funktioniert trotzdem."]
+        entry = {"channel_id": ch.id}
+    if not ch.permissions_for(guild.me).manage_webhooks:
+        return None, ["Im Abgleich-Kanal fehlt dem Bot das Recht **Webhooks verwalten**."]
+    try:
+        hook = await _hook(ch, SYNC_HOOK, reason)
+    except discord.HTTPException as e:
+        return None, [f"Webhook für den Abgleich nicht angelegt ({e})."]
+    index_id = entry.get("index_id")
+    if index_id and entry.get("webhook_id") == hook.id:
+        try:
+            await hook.fetch_message(int(index_id))
+        except discord.HTTPException:
+            index_id = None
+    else:
+        index_id = None
+    if not index_id:
+        try:
+            msg = await hook.send(SYNC_INDEX_TEXT, wait=True, allowed_mentions=discord.AllowedMentions.none())
+            index_id = msg.id
+        except discord.HTTPException as e:
+            return None, [f"Abgleich: Index-Nachricht nicht angelegt ({e})."]
+    entry.update({"channel_id": ch.id, "webhook_id": hook.id, "index_id": index_id})
+    cfg["sync"][str(user.id)] = entry
+    return {"sync_webhook_url": hook.url, "sync_index_id": str(index_id)}, notes
+

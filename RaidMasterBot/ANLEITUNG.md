@@ -139,6 +139,12 @@ können den Uploader nutzen – es zählt immer der neueste DKP-Stand.
 erneut ausführen** und die neue uploader_config.json in den Ordner legen – ohne sie läuft der Daten-Upload wie bisher,
 nur Testberichte bleiben aus. Fehlt dem Bot in #testberichte ein Recht (Kanäle verwalten, Webhooks verwalten), schickt
 er die Einrichtungsdatei trotzdem und sagt, welches Recht fehlt.
+**Abgleich PC/Laptop (ab Bot 1.5.113, Uploader 2.1.0):** `/uploader` legt zusätzlich einen privaten Kanal
+**#sync-daten** an (nur du und der Bot sehen ihn), dazu einen Webhook und eine Index-Nachricht, und schickt
+**sync_config.json** mit. Der Uploader speichert dort die Stände deiner Addon-Daten (höchstens 10) und holt sie am
+anderen Rechner zurück; WoW dann mit `GoldSentinel-WoW.bat` starten. Der Bot liest, beantwortet und löscht in
+#sync-daten nichts. Jedes Mitglied, das `/uploader` ausführt, bekommt einen eigenen privaten Kanal.
+
 Update des Uploaders: den Ordner **ersetzen** (nicht hineinentpacken), uploader_config.json vorher sichern und danach
 wieder hineinlegen.
 
