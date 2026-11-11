@@ -1,6 +1,6 @@
 # Discord-Kanäle
 
-Stand: 2026-11-11T12:42:12Z, Server: Alpine Vanguard. Nur die Struktur – keine Beiträge, keine Mitglieder (das Repo ist öffentlich).
+Stand: 2026-11-11T16:25:32Z, Server: Alpine Vanguard. Nur die Struktur – keine Beiträge, keine Mitglieder (das Repo ist öffentlich).
 Erstellt von discord-check/check.py bei jeder Discord-Prüfung.
 
 
@@ -47,6 +47,7 @@ Erstellt von discord-check/check.py bei jeder Discord-Prüfung.
 - #befehlsliste (Text)
 - #gildenname (Text)
 - #testberichte (Text)
+- #sync-daten (Text)
 
 ## Addon's by GoldSentinel
 
