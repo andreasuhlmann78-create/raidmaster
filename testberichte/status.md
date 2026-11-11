@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-11 22:35 UTC
+Ausgewertet: 2026-11-11 23:30 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -23,7 +23,7 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 | GSMesstest | 4 | `testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt` |
 | GuildSentinel | 64 | `testberichte/diagnose/GuildSentinel/0.9.24-2b463bdbf513.txt` |
 | ProfessionSentinel | 47 | `testberichte/diagnose/ProfessionSentinel/0.9.37-b69a2ad3e0a7.txt` |
-| ThreatSentinel | 52 | `testberichte/diagnose/ThreatSentinel/2.5.9-393857b54d8e.txt` |
+| ThreatSentinel | 52 | `testberichte/diagnose/ThreatSentinel/2.5.4-6191344fc78e.txt` |
 
 ## Wegdaten (GSWEGE1)
 
