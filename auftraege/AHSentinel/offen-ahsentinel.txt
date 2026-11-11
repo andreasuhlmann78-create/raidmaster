@@ -81,6 +81,7 @@ AB. (HOCH, NEU 11.11. 22:15) – befund-bilder-2205.txt (Bilder 0.65.96 + Daten 
    AB2 Lua-Fehler "bad argument #1 ... PostCommodity" nach erfolgreichem Einstellen. AB3 Preis 27s29 statt 27s26.
    AB4 Seelenstaub-Aufkauf (12s98 statt ~4s): Aufkauf-Schutz für Entzauber-Wert, Chance für "Jetzt verkaufen".
    AB5 altes Material (87s35, vor 25 Std.) floss in Betrag und "Lohnt bis" (0.65.94) – in 0.65.96 bestätigen.
+   AB6 (niedrig) "Gewinn %" je Item ohne Stücke ohne Einkauf, wie im Kopf. Buchhaltung Heute geht sonst exakt auf.
    Reihenfolge: AB2 und AB1 vor allem anderen (Nutzer verliert sonst Zeit beim Handeln).
 
 Q. (HOCH, NEU 11.11. 20:40) – anweisung-strategie-entzaubern-grenzen.txt (Analyse mit echten Preisleitern)

@@ -48,3 +48,10 @@ AB5 – Alter Materialpreis im Tooltip (Bild 19:31, noch 0.65.94 – in 0.65.96 
   Marktwert 9s – kein Gewinn. Seit MP2 (0.65.95) darf bei Hauptmaterial älter als 6 Std. kein Betrag und kein
   "Lohnt bis" mehr erscheinen. Bitte bestätigen, dass ein "alt (vor X Std.)"-Material nie in einen Betrag eingeht,
   auch nicht als Nebenmaterial mit grossem Anteil am Wert (hier Splitter = 1/3 des berechneten Werts).
+
+AB6 – Buchhaltung "Heute" 0.65.96 (Bild 22:12) nachgerechnet: geht auf den Kupfer genau auf. Gut.
+  Erlös 10g80s00 = Summe der 5 Zeilen; Eingesetzt 2g15s22 = Summe; Gewinn je Zeile = Erlös − Eingesetzt;
+  Summe 8g64s78 − Gebühren 7s02 = 8g57s76; Rendite (8g57s76 − 3g14s31 ohne Einkauf) / 2g15s22 = 253 %.
+  Klein (niedrig): "Gewinn %" je Item rechnet Erlös auch von Stücken OHNE Einkauf gegen die Kosten der gekauften
+  (Splitter 758 %, Mystikeressenz 452 %) – der Kopf schliesst "ohne Einkauf" aus, die Zeilen nicht. Je Item die
+  Prozentzahl nur aus Stücken mit Einkauf rechnen (oder "–", wenn keine), wie im Kopf.
