@@ -12,6 +12,15 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.93
+
+- **Fix: partly sold auctions can be cancelled again.** For goods, the sold parts of an auction keep the same auction
+  ID as the remaining active quantity. Cancelling (X in the row and "Cancel next undercut") picked a sold part and
+  answered "This auction is already sold." Now the row cancels exactly its own entry and the active remainder is used.
+- Bookkeeping: two partial sales of the same auction are both booked as "pending" (no longer skipped), the active
+  remainder is not counted as sold.
+- Tests T461–T462 (T-VF5a/b).
+
 ### Version 0.65.92
 
 - **Smoother fast full scan.** Processing after the full scan now uses a time budget per frame (default 4 ms,
@@ -63,35 +72,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   it is booked as "pending"; the invoice confirms it later – never twice. The test report measures the delay.
 - "Per item": Sold, Revenue, Cost, Profit, Profit %.
 - Tests T441–T449 (T-BP1–T-BP9).
-
-### Version 0.65.88
-
-- **Market "Disenchant": cost and profit over the whole price ladder.** Each row now sums every ladder step up to
-  "worth it up to": quantity, total cost, average price, total profit and return (sorted by it), e.g. "40x up to
-  15s 43c (avg 12s 38c) · value 18s 55c · profit 2g 47s (50 %)". The quantity is filled from the cheapest step up to
-  25 % of your gold (option); the sniper gets exactly this cost as budget and "worth it up to" as max price. Row and
-  footer show the same quantity.
-- **Value drops with your own quantity** – one function for market, batch buy and tooltip: the more parts you plan
-  to buy, the lower the material value (planned quantity, not budget / price).
-- **Safety at most "medium" when the main material just rose**, plus "without the rise: X" in the row and detail.
-- **Buyout detection (someone buys up a material).** Quantity −70 % within 6 h and price +50 % over market value
-  marks a buyout until quantity or price normalise. Buying (market, batch buy, "worth it up to") then uses the old
-  price ("Buyout of X – valued at the old price"); selling stays at the current price with "price artificially high –
-  sell your own stock now". The test report lists flagged materials (thresholds are measured).
-- **"Level ?" fixed**: rows are redrawn when the item data arrives.
-- **Shopping list: "~" rows (from the scan) with empty detail fixed.** Before the detail search, a scan row first
-  gets its real item key via a browse search by name (suffix/item level). If the browse finds nothing, the row is
-  removed right away ("No offers left – removed from the list"), also from "Disenchant worth it", and the scan does
-  not bring it back until a newer scan lists it again. "~" rows older than 30 min no longer count for batch buy.
-- **Forecast: sales from invoices are assigned again.** In Forever the mail arrives faster than 1 h, so the sale time
-  was before the posting and the case counted as "not sold". Partial sales count as a share. The test report shows
-  a per-case diagnosis (where each result comes from); the self-correction only learns from cases after this fix.
-- **Disenchant forecast split up**: chance × quantity × rest (price etc.) per group in the test report.
-- Background tasks yield ahead of time (a frame no longer gets budget + one long step); "Today" computed in smaller
-  portions.
-- Test routine: the real sync address book and a running sniper hit no longer count as sandbox errors; report paths
-  never contain player names. Price tests replace all price sources. Batch buy uses the planned quantity.
-- Tests T425–T440 (T-X3–T-X8, T-MD1–T-MD6, T-SR8a/b).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
