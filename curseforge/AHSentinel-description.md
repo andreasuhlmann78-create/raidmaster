@@ -12,6 +12,35 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.88
+
+- **Market "Disenchant": cost and profit over the whole price ladder.** Each row now sums every ladder step up to
+  "worth it up to": quantity, total cost, average price, total profit and return (sorted by it), e.g. "40x up to
+  15s 43c (avg 12s 38c) · value 18s 55c · profit 2g 47s (50 %)". The quantity is filled from the cheapest step up to
+  25 % of your gold (option); the sniper gets exactly this cost as budget and "worth it up to" as max price. Row and
+  footer show the same quantity.
+- **Value drops with your own quantity** – one function for market, batch buy and tooltip: the more parts you plan
+  to buy, the lower the material value (planned quantity, not budget / price).
+- **Safety at most "medium" when the main material just rose**, plus "without the rise: X" in the row and detail.
+- **Buyout detection (someone buys up a material).** Quantity −70 % within 6 h and price +50 % over market value
+  marks a buyout until quantity or price normalise. Buying (market, batch buy, "worth it up to") then uses the old
+  price ("Buyout of X – valued at the old price"); selling stays at the current price with "price artificially high –
+  sell your own stock now". The test report lists flagged materials (thresholds are measured).
+- **"Level ?" fixed**: rows are redrawn when the item data arrives.
+- **Shopping list: "~" rows (from the scan) with empty detail fixed.** Before the detail search, a scan row first
+  gets its real item key via a browse search by name (suffix/item level). If the browse finds nothing, the row is
+  removed right away ("No offers left – removed from the list"), also from "Disenchant worth it", and the scan does
+  not bring it back until a newer scan lists it again. "~" rows older than 30 min no longer count for batch buy.
+- **Forecast: sales from invoices are assigned again.** In Forever the mail arrives faster than 1 h, so the sale time
+  was before the posting and the case counted as "not sold". Partial sales count as a share. The test report shows
+  a per-case diagnosis (where each result comes from); the self-correction only learns from cases after this fix.
+- **Disenchant forecast split up**: chance × quantity × rest (price etc.) per group in the test report.
+- Background tasks yield ahead of time (a frame no longer gets budget + one long step); "Today" computed in smaller
+  portions.
+- Test routine: the real sync address book and a running sniper hit no longer count as sandbox errors; report paths
+  never contain player names. Price tests replace all price sources. Batch buy uses the planned quantity.
+- Tests T425–T440 (T-X3–T-X8, T-MD1–T-MD6, T-SR8a/b).
+
 ### Version 0.65.87
 
 - **Fix: Lua error on sale messages in WoW Forever.** Protected ("secret") chat and event values are never read any
@@ -70,21 +99,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   none is left, a new search starts.
 - The warning "Max above sell value" uses the same value as the tooltip (for disenchant items the disenchant value).
 - Test routine: T399–T402 (T-SR2–T-SR5).
-
-### Version 0.65.83
-
-- **New market view "Disenchant":** items that bring at least 20 % profit after disenchanting – at the current market,
-  after fees. Per row: item (level), price now and quantity up to "worth it up to", value after disenchanting, profit
-  per piece and %, safety (green = real results, grey = table). The "Buy" button sets a sniper target (max = worth it
-  up to, quantity, budget) – nothing is bought without a click.
-- Filters: only items your character can disenchant (enchanting skill), minimum profit 20 % (option 10–50 %), market
-  budget (25 % of gold), no row if the main material crashed or is flooded; yellow if the value depends on a freshly
-  risen material price. Material sales only as a safety net (more than one day of sales incl. your stock → shortened,
-  yellow note).
-- Detail on the right: materials with chance, average quantity, current price and hint; your own group results;
-  "worth it up to". Footer: only the current purchase (selected row) – no sum of all rows.
-- Test report: median time until sale per material (forecast journal).
-- Test routine: T392–T398 (T-ME1–T-ME7).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
