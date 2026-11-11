@@ -277,6 +277,9 @@ messbar besser machen. Was keinen Schritt besser macht, ist Schnickschnack (Wuns
 Handlung, Kurven zum Anschauen, Zahlen ohne Quelle/Alter. Diese Informationen gehören – wenn überhaupt – als Grund in
 eine Zeile von "Heute tun" oder in den Tooltip ("überfüllt: ~21 Tage bis verkauft").
 
+**Entscheid des Nutzers 11.11. 20:07:** Zuerst "klar sehen, wann kaufen und wann verkaufen" (Punkt 6, beauftragt:
+anweisung-jetzt-kaufen-verkaufen.txt). Punkt 2 ("Heute" fertig machen) im Hinterkopf behalten – später.
+
 **Reihenfolge der Umsetzung (Empfehlung):** A Vertrauen (offene Fehler MP/D6/S8/VF, Trefferquoten-Schutz) -> B "Heute tun"
 als Cockpit mit Gewinn/Tag/Gold, Kapital- und Item-Grenze, Einstellen mit Wartezeit/Laufzeit, Verlustgrenze ->
 C Zeitpunkt und Ereignisse, sobald die Daten reichen.
