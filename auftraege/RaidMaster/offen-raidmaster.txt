@@ -142,3 +142,13 @@ NEU (11. Nov. 21:55, HOCH, beim Nutzer) – DATEN-LIEFERUNG SCHLÄGT FEHL: "Prü
    https://api.github.com im Browser (Edge) öffnen, dann Uploader neu starten" ausgeben; zusätzlich prüfen, ob der
    Uploader beim Start (Windows) einen Abruf über die Windows-Zertifikatsprüfung anstossen kann (z. B. PowerShell
    Invoke-WebRequest https://api.github.com einmal im Hintergrund), bevor er aufgibt. Keine Prüfung abschalten.
+   NACHTRAG 22:05 (belegt): Edge-Weg half nicht (Nutzer nutzt Firefox). Gelöst mit certifi: "py -m pip install certifi"
+   -> urlopen mit ssl.create_default_context(cafile=certifi.where()) = 200; danach setx SSL_CERT_FILE auf certifi/cacert.pem,
+   Uploader neu gestartet -> "Prüfung: geliefert (22 Dateien, Repo 39,3 MB)". pip selbst lief ohne Fehler.
+   Auftrag T-DU9 neu: Der Uploader soll das selbst machen, ohne Handgriffe des Nutzers: SSL-Kontext für GitHub
+   = Windows-Ablage PLUS certifi (falls installiert; sonst beim Start "py -m pip install certifi" anbieten bzw.
+   automatisch installieren, mit Hinweis im Fenster). Meldung bei CERTIFICATE_VERIFY_FAILED wie oben, aber mit dem
+   certifi-Weg statt Edge. Keine Prüfung abschalten.
+   Nebenbefund: erste Zeile im Uploader-Fenster "Python wurde nicht gefunden; ohne Argumente ausführen, um aus dem
+   Microsoft Store ..." – der Start (bat) ruft zuerst "python" auf (Store-Alias). Nur "py" verwenden bzw. vorher prüfen,
+   damit die verwirrende Zeile wegfällt.
