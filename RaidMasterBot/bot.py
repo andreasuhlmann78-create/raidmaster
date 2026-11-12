@@ -301,6 +301,18 @@ class RaidBot(discord.Client):
             except Exception:
                 log.exception("Mitglieder-Bereich konnte nicht abgeglichen werden")
             try:
+                guild0 = bot_guild()
+                if guild0 is not None and not state.data.get("addon_channels_members") \
+                        and guild0.me.guild_permissions.manage_roles:
+                    rep = await server_setup.open_addon_channels_to_members(guild0)
+                    state.data["addon_channels_members"] = True
+                    state.save()
+                    if rep:
+                        await post_bot_log("📦 Addon's by GoldSentinel ist jetzt für alle Gildenmitglieder sichtbar "
+                                           "(schreiben: Offiziere und Bot): " + ", ".join(rep))
+            except Exception:
+                log.exception("Addon-Kanäle konnten nicht für Mitglieder freigegeben werden")
+            try:
                 rep = await clear_channels_once()
                 if rep:
                     await post_bot_log("\n".join(rep))
@@ -544,6 +556,17 @@ def status_text(actual: str, wanted: str) -> str:
     }.get(actual, "")
 
 
+def addon_hint(raid: dict | None, actual: str) -> str:
+    """Hinweis bei der Anmeldung zu einem Gilden-Raid (ab 1.5.117, Wunsch Andreas 12.11.): RaidMaster ist Pflicht."""
+    if not raid or raid.get("mode") == "pug" or actual not in ("an", "ersatz", "vielleicht"):
+        return ""
+    guild = bot_guild()
+    ch = server_setup.find_channel(guild.text_channels, "raid-addon") if guild is not None else None
+    where = ch.mention if ch is not None else "#raid-addon"
+    return ("\n\n📦 **Pflicht für Gilden-Raids:** das Addon **RaidMaster** (Download in " + where +
+            "). Bitte vor dem Raid installieren bzw. auf die neueste Version bringen.")
+
+
 def profile_text(p: dict) -> str:
     text = f"**{p['name']}** ({rmd.CLASSES.get(p['cls'], p['cls'])}, {rmd.ROLES.get(p['role'], p['role'])})"
     spec = p.get("spec")
@@ -600,7 +623,7 @@ class NameModal(discord.ui.Modal):
         raid = book.get(pv.raid_id) if pv.raid_id else None
         if raid and pv.status and not raid.get("closed"):
             actual = book.signup(raid, inter.user.id, pv.status, profile, int(time.time()))
-            text += "\n" + status_text(actual, pv.status)
+            text += "\n" + status_text(actual, pv.status) + addon_hint(raid, actual)
         await inter.response.send_message(text, ephemeral=True)
         # alle offenen Raids mit dieser Anmeldung aktualisieren
         for r in book.open_raids():
@@ -781,7 +804,8 @@ async def on_interaction(inter: discord.Interaction):
         await inter.response.edit_message(embed=raid_embed(raid), view=raid_view(raid))
         if before == "an" and actual in ("ab", "vielleicht"):
             asyncio.create_task(offer_substitute(raid, profile))
-        await inter.followup.send(f"{status_text(actual, action)}\nCharakter: {profile_text(profile)}", ephemeral=True)
+        await inter.followup.send(f"{status_text(actual, action)}\nCharakter: {profile_text(profile)}" + addon_hint(raid, actual),
+                                  ephemeral=True)
     except Exception:
         log.exception("Fehler bei Knopf %s", cid)
         try:

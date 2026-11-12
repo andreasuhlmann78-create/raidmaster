@@ -168,7 +168,31 @@ class Raids(unittest.TestCase):
         self.assertIs(g.chat.overwrites_for(off).view_channel, True)
 
 
+class AddonKanaele(unittest.TestCase):
+    def test_members_botonly(self):
+        g = Guild()
+        g.me = Role("bot", 99)
+        r = {x.name: x for x in g.roles}
+        ow = server_setup._overwrites("members_botonly", g, {k: r[k] for k in ("Offizier", "Raidleitung", "Raider", "Gast")})
+        self.assertIs(ow[g.default_role].view_channel, False)
+        for n in ("Mitglied", "Raider", "Raidleitung"):
+            self.assertIs(ow[r[n]].view_channel, True)
+            self.assertIs(ow[r[n]].send_messages, False)
+        self.assertTrue(ow[r["Offizier"]].send_messages)
+        self.assertNotIn(r["Gast"], ow)
+        cat = next(c for c in server_setup.BASE_TOP if c["name"] == server_setup.ADDON_CATEGORY)
+        self.assertEqual({cat["mode"]} | {c[3] for c in cat["channels"]}, {"members_botonly"})
+
+
 class BotCode(unittest.TestCase):
+    def test_raidmaster_pflicht_hinweis(self):
+        with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as f:
+            src = f.read()
+        body = src[src.index("def addon_hint("):src.index("def profile_text(")]
+        self.assertIn('"pug"', body)
+        self.assertIn("RaidMaster", body)
+        self.assertEqual(src.count("addon_hint(raid, actual)"), 2)
+
     def test_einrichten_nur_mit_bestaetigung(self):
         with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as f:
             src = f.read()

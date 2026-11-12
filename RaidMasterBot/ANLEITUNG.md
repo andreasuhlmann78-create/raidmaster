@@ -79,7 +79,7 @@ Ohne GitHub geht es auch: das RaidMaster-Paket per WinSCP auf den Server kopiere
 - **📌 INFO**: #willkommen, #regeln, #ankündigungen
 - **⚔️ RAID-ORGA**: #einteilung
 - **🧩 RAID-ADDON** (direkt darunter): **#raid-addon** (Downloads, automatisch vom Bot) und #addon-hilfe
-- **Addon's by GoldSentinel** (direkt darunter, **nur für Offiziere**): #ahsentinel (bis Bot 1.5.97 #aktionshaus) – neue Versionen von
+- **Addon's by GoldSentinel** (direkt darunter; ab Bot 1.5.117 **für alle Gildenmitglieder** sichtbar – Mitglied, Raider, Raidleitung, Offizier –, schreiben dürfen nur Offiziere und der Bot; Gäste und Fremde sehen sie nicht): #ahsentinel (bis Bot 1.5.97 #aktionshaus) – neue Versionen von
   **AHSentinel** (früher AH Analyzer Pro) postet der Bot dort automatisch (per `/addon-hochladen` oder über GitHub)
 - **Eine Kategorie pro Raid** (🔥 MOLTEN CORE, 🐉 ONYXIAS HORT, 🌲 BARROW DEEPS, 🌋 HYJALGIPFEL) mit
   **-anmeldung** (mit Knopf **Charakter registrieren**), einem **Sprachkanal** (z. B. 🔊 Molten Core),
@@ -137,6 +137,8 @@ Seit das Serverprofil öffentlich ist, sollen Neue ohne Rolle nicht den ganzen G
   Dort **Aufnehmen** (Rolle Mitglied, Gast wird entfernt, kurze DM) oder **Ablehnen** (freundliche Nachricht, Thread
   wird geschlossen). Von Hand: `/mitglied aufnehmen` und `/mitglied entfernen`.
 - Der Willkommenstext verweist dann in Schritt 1 auf #bewerbung.
+- **Raid-Anmeldung (ab 1.5.117):** Wer sich für einen Gilden-Raid anmeldet (nicht PUG), bekommt den Hinweis, dass das
+  Addon **RaidMaster** Pflicht ist, mit Link zu #raid-addon.
 
 ## 7. Uploader auf dem PC der Raidleitung
 

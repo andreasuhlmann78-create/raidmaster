@@ -123,6 +123,8 @@ RENAMES = {
 #   "hidden"   = nur der Bot (und Admins) sehen den Kanal
 #   "officers_readonly" = Offiziere/Raidleitung lesen, nur der Bot schreibt
 #   "officers_only" = nur die Rolle Offizier (und der Bot) sieht und schreibt
+#   "members_botonly" = nur Mitglied/Raider/Raidleitung/Offizier sehen; schreiben dürfen nur Offiziere und der Bot
+#                       (ab 1.5.117: Addon's by GoldSentinel für alle Gildenmitglieder, Wunsch Andreas 12.11.2026)
 #   "officers_write" = alle lesen, nur die Rolle Offizier (und der Bot, Admins) schreibt
 BASE_TOP = [
     {
@@ -148,18 +150,18 @@ BASE_TOP = [
         ],
     },
     {
-        # eigene Addons von GoldSentinel – nur für Offiziere, direkt unter RAID-ADDON
-        "name": "Addon's by GoldSentinel", "mode": "officers_only", "after": "🧩 RAID-ADDON",
+        # eigene Addons von GoldSentinel – ab 1.5.117 für alle Gildenmitglieder (vorher nur Offiziere), unter RAID-ADDON
+        "name": "Addon's by GoldSentinel", "mode": "members_botonly", "after": "🧩 RAID-ADDON",
         "old_names": ["🛠️ Addons by GoldSentinel"],
         "channels": [
             # AHSentinel postet in #ahsentinel (Kanal der Ankündigungen); #aktionshaus wird nicht mehr angelegt (ab 1.5.98)
             ("text", "buffsentinel", "BuffSentinel – Buff-Erinnerungen, Proc-Buttons und Cooldowns für alle WoW-Versionen",
-             "officers_only"),
+             "members_botonly"),
             ("text", "threatsentinel", "ThreatSentinel – hilft Tanks, die Aggro zu halten (WoW Forever)",
-             "officers_only"),
+             "members_botonly"),
             ("text", "professionsentinel",
              "ProfessionSentinel – Rezept-Bibliothek: alle Rezepte von Lehrern, Händlern und Drops, gelernt/fehlend je Beruf (WoW Forever)",
-             "officers_only"),
+             "members_botonly"),
         ],
     },
 ]
@@ -326,6 +328,16 @@ def _overwrites(mode: str | None, guild: discord.Guild, roles: dict) -> dict | N
                 ow[r] = discord.PermissionOverwrite(view_channel=True, send_messages=True)
     elif mode == "hidden":
         ow[everyone] = discord.PermissionOverwrite(view_channel=False)
+    elif mode == "members_botonly":
+        ow[everyone] = discord.PermissionOverwrite(view_channel=False, send_messages=False)
+        for name in ("Mitglied", "Raider", "Raidleitung"):
+            r = roles.get(name) or _find(guild.roles, name)
+            if r:
+                ow[r] = discord.PermissionOverwrite(view_channel=True, send_messages=False, read_message_history=True,
+                                                    add_reactions=True)
+        if roles.get("Offizier"):
+            ow[roles["Offizier"]] = discord.PermissionOverwrite(view_channel=True, send_messages=True,
+                                                                read_message_history=True, attach_files=True)
     elif mode == "officers_only":
         ow[everyone] = discord.PermissionOverwrite(view_channel=False)
         if roles.get("Raidleitung"):
@@ -1249,3 +1261,21 @@ async def ensure_rules_category(guild: discord.Guild, cfg: dict) -> list[str]:
             await _place_after(guild, cat_name, RULE_CATEGORY_PLACE[cat_name], report, reason)
     cfg["rules_channels"] = {name: ch.id for name, ch in created.items()}
     return [r for r in report if r.startswith(("✅", "↪️", "↕️"))]
+
+
+# ---------------------------------------------------------------------------
+# Ab Bot 1.5.117: Addon's by GoldSentinel für alle Gildenmitglieder sichtbar (vorher nur Offiziere).
+# Einmalig beim Start (Merker in state), danach bleibt es; Gäste und Fremde sehen die Kategorie weiterhin nicht.
+# ---------------------------------------------------------------------------
+
+async def open_addon_channels_to_members(guild, reason: str = "RaidMaster: Addon-Kanäle für Mitglieder") -> list[str]:
+    cat = _find(guild.categories, ADDON_CATEGORY)
+    if cat is None:
+        return []
+    ow = _overwrites("members_botonly", guild, _known_roles(guild))
+    done = []
+    for item in [cat] + list(getattr(cat, "channels", []) or []):
+        if item.overwrites != ow:
+            await item.edit(overwrites=ow, reason=reason)
+            done.append(item.name)
+    return done
