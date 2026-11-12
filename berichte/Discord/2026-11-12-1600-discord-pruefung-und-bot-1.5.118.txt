@@ -1,0 +1,42 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 12.11.2026 16:00 · Sitzung: Discord-Projekt · Version: Bot 1.5.118 · Commit: siehe git log (dieser Bericht im selben Commit)
+
+ERLEDIGT
+- DC1 Bestandsaufnahme (über den Server-Bot, nur gelesen, 12.11. ~08:15): 6 Mitglieder, Boost-Level 2, Banner, Server-Tag;
+  kein Community-Server, Beschreibung leer, Verifizierung "keine", Inhaltsfilter aus; Rollen Offizier, Raidleitung,
+  Raider, Gast, Klassenrollen, DISBOARD, Booster, Bot-Rolle mit Administrator; keine Rolle "Mitglied";
+  @everyone durfte @everyone/@here erwähnen; ohne Rolle sah man fast alles (Chat, Dungeons, Raid-Orga, DKP/Loot lesen);
+  Offiziers- und Bot-Kanäle für @everyone unsichtbar (gut); 7 Einladungen (3 dauerhaft). Dem Nutzer im Chat gegeben.
+- DC4 Serverprofil: Text (deutschsprachig, Horde, WoW Forever EU PvP, alle Klassen gern gesehen, Tanks/Heiler besonders,
+  CH/DE/AT, ab 16 Jahren, Leitspruch), Merkmale Deutschsprachig/Horde/Casual/Raids/PvP, Spiel "World of Warcraft: Forever"
+  – mit Freigabe des Nutzers im Discord eingetragen.
+- DC5 Rechte: @everyone sieht keine Offiziers-/Bot-Kanäle (bestätigt). Bot-Rolle ohne Administrator (Einzelrechte
+  ausreichend, nachgeprüft: Bot sieht alle Kanäle). Community aktiviert (Regelkanal, Discord-Hinweise an Offiziere),
+  Verifizierung Niedrig, Inhaltsfilter alle Mitglieder, @everyone ohne "@everyone erwähnen". Server Members Intent an.
+- DC6 Liste "Vorschlag – warum – Aufwand" dem Nutzer gegeben; Freigabe für alle 5 Hauptpunkte, umgesetzt in 1.5.115–1.5.117.
+- N1 (1.5.118): Kanäle ohne Kategorie werden vom Mitglieder-Bereich erfasst – member_area.py plan_items (zweite Schleife
+  über guild.channels ohne category_id). Test tests/test_mitgliederbereich.py OhneKategorie.
+- N2 (1.5.118): Gewollt so (Entscheid Nutzer 12.11.: Addon-Kanäle einheitlich für alle Gildenmitglieder, nur Offiziere
+  und Bot schreiben). Test ergänzt: tests/test_mitgliederbereich.py AddonMigration (Kategorie + Kanal -> members_botonly,
+  Gast fehlt, Bot sieht/schreibt, zweiter Lauf ändert nichts).
+- N3: geprüft. Vor dem Einrichten hatte genau 1 Person keine Rolle; der Nutzer hat bestätigt, dass sie Gildenmitglied
+  ist, bevor ausgeführt wurde. Nichts zu ändern.
+- Bot-Tests 135/135 OK.
+
+TEILWEISE / OFFEN
+- DISBOARD-Rolle hat "Kanäle verwalten" (unnötig) – Vorschlag an den Nutzer, noch nicht entschieden.
+- #gildenname archivieren, #dkp-punkteverteilung vs #dkp-regeln, #testberichte/#sync-daten für Offizier unsichtbar,
+  Community-Onboarding – Vorschläge an den Nutzer, noch nicht entschieden.
+
+BEFUND FALSCH
+- keiner
+
+FRAGEN
+- keine
+
+IM CLIENT GETESTET
+- Live nachgelesen über den Bot (nach 1.5.117): ohne Rolle sichtbar nur INFO, REGELN, BEWERBUNG, PUG, RAID-ADDON
+  (21 Kanäle); Mitglied sieht alles ausser Offiziere und nicht angekündigte Raids; Addon-Kanäle: Mitglied lesen,
+  Offizier schreiben, Gast nichts; Bot ohne Administrator sieht alle Kanäle.
+- Bewerben-Knopf öffnet das Formular (Bildschirmfoto des Nutzers, 12.11. 15:58). Thread/Aufnehmen/Ablehnen noch nicht
+  durchgespielt. RaidMaster-Pflicht-Hinweis bei Raid-Anmeldung noch nicht live gesehen.

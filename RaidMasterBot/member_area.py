@@ -69,6 +69,12 @@ def plan_items(guild) -> list:
         for ch in sorted(getattr(cat, "channels", []) or [], key=lambda c: c.position):
             if visible_to_everyone(ch, guild):
                 out.append(ch)
+    # Kanäle ohne Kategorie (ab 1.5.118, Befund N1): gelten nicht als offen und werden ebenso dicht gemacht
+    for ch in sorted(getattr(guild, "channels", []) or [], key=lambda c: c.position):
+        if getattr(ch, "type", None) == discord.ChannelType.category or getattr(ch, "category_id", None) is not None:
+            continue
+        if visible_to_everyone(ch, guild):
+            out.append(ch)
     return out
 
 

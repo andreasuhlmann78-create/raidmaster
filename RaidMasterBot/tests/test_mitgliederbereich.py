@@ -145,6 +145,18 @@ class Plan(unittest.TestCase):
         self.assertLessEqual(len(member_area.thread_name("x" * 200, "")), 90)
 
 
+class OhneKategorie(unittest.TestCase):
+    def test_kanal_ohne_kategorie_wird_erfasst(self):
+        g = Guild()
+        lose = Item("lose", 0)
+        lose.category_id = None
+        g.chat.category_id = 7
+        g.channels = [g.general, g.chat, lose]
+        names = [i.name for i in member_area.plan_items(g)]
+        self.assertEqual(names.count("lose"), 1)
+        self.assertEqual(names.count("handwerk-und-handel"), 1)
+
+
 class Raids(unittest.TestCase):
     def test_show_raid_nur_fuer_mitglieder(self):
         g = Guild()
@@ -182,6 +194,35 @@ class AddonKanaele(unittest.TestCase):
         self.assertNotIn(r["Gast"], ow)
         cat = next(c for c in server_setup.BASE_TOP if c["name"] == server_setup.ADDON_CATEGORY)
         self.assertEqual({cat["mode"]} | {c[3] for c in cat["channels"]}, {"members_botonly"})
+
+
+class AddonMigration(unittest.TestCase):
+    def test_kategorie_und_kanaele_members_botonly(self):
+        g = Guild()
+        g.me = Role("bot", 99)
+        r = {x.name: x for x in g.roles}
+
+        class Ch(Item):
+            @property
+            def overwrites(self):
+                return dict(self.ow)
+
+            async def edit(self, overwrites=None, reason=None):
+                self.calls.append(("edit", reason))
+                self.ow = dict(overwrites)
+        hand = Ch("ahsentinel", 1, ow={g.default_role: discord.PermissionOverwrite(view_channel=False),
+                                       r["Offizier"]: discord.PermissionOverwrite(view_channel=True)})
+        cat = Ch(server_setup.ADDON_CATEGORY, 6, discord.ChannelType.category, [hand], ow=dict(hand.ow))
+        g.categories.append(cat)
+        done = asyncio.run(server_setup.open_addon_channels_to_members(g))
+        self.assertEqual(sorted(done), sorted([cat.name, "ahsentinel"]))
+        for item in (cat, hand):
+            self.assertIs(item.ow[g.default_role].view_channel, False)
+            self.assertNotIn(r["Gast"], item.ow)
+            self.assertIs(item.ow[r["Mitglied"]].view_channel, True)
+            self.assertIs(item.ow[r["Mitglied"]].send_messages, False)
+            self.assertTrue(item.ow[g.me].view_channel and item.ow[g.me].send_messages)
+        self.assertEqual(asyncio.run(server_setup.open_addon_channels_to_members(g)), [])   # zweiter Lauf: nichts
 
 
 class BotCode(unittest.TestCase):
