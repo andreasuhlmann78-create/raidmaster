@@ -10,6 +10,13 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.28
+
+- Recruitment page: new "Suggestion 2" button – a second ad text that names your Discord server tag ("… Discord: <link> – you'll know us by the tag XY."). The default ad text is unchanged.
+- New field "Server tag" next to the Discord link and new placeholder {tag}. Without a tag or without a Discord link the tag part is left out completely.
+- Tip below the Discord link: use a permanent invite (never expires, unlimited uses); whoever clicks it sees the guild's server profile before joining.
+- Developer test routine: T251 (suggestion 2 with/without link and tag, DE/EN/RU) and T252 (invite tip) new.
+
 ### Version 0.9.27
 
 - Russian recruitment ad: "Пишите мне" now starts with a capital letter, also when the Discord part is left out.
@@ -34,13 +41,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 - Recruitment ad: a long ad no longer gets cut off by the chat input and then never counts as posted. The ad text is limited to 251 characters (room for "/<channel> "), the counter shows "(n/251)", and the text in the chat input is exactly the one that counts once it appears in the channel. Umlauts and other special characters are never cut in half.
 - Developer test routine: T242–T243 new.
-
-### Version 0.9.23
-
-- **Recruitment ad no longer blocked**: WoW Forever blocks addons from writing into chat channels ("action blocked"), even from a click. The button is now "Prepare ad": it puts "/<channel> <text>" into the chat input and you send it with Enter (all game versions). The ad only counts as posted (wait times, "last posted", reminder) once your text appears in the channel.
-- Group finder: a guild search can only be closed by the searcher; for "whole server" searches the searcher's name in the data is enough (they arrive passed on through the network).
-- Guild profession list: the diagnostic line now says why offline members were or were not shown (already on, no function, combat, guild window open, 5-minute lock …); if the list can no longer be read on the second read, the settings are still put back.
-- Developer test routine: T239–T241 new.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
