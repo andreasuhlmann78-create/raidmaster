@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-11T23:30:29Z",
+ "ausgewertet": "2026-11-12T00:33:33Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -258,20 +258,6 @@
     {
      "addon": "LevelPilot",
      "art": "spiel",
-     "wo": "Protokoll CheckNav",
-     "msg": "Interface/AddOns/LevelPilot/Protocol.lua:235: attempt to compare a secret number value (execution tainted by 'LevelPilot')",
-     "anzahl": 847,
-     "versionen": [
-      "3.12.6"
-     ],
-     "clients": [
-      "forever 1.60.1 (Interface 16001)"
-     ],
-     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:313: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:319: in function 'Try'\n[Interface/AddOns/LevelPilot/Protocol.lua]:525: in function <Interface/AddOns/LevelPilot/Protocol.lua:522>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:339: in function 'Safe'\n[Interface/AddOns/LevelPilot/Core.lua]:366: in function <Interface/AddOns/LevelPilot/Core.lua:366>\n"
-    },
-    {
-     "addon": "LevelPilot",
-     "art": "spiel",
      "wo": "session",
      "msg": "Interface/AddOns/LevelPilot/Session.lua:29: attempt to perform boolean test on a secret boolean value (execution tainted by 'LevelPilot')",
      "anzahl": 798,
@@ -282,6 +268,20 @@
       "forever 1.60.1 (Interface 16001)"
      ],
      "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:317: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:335: in function <Interface/AddOns/LevelPilot/Core.lua:330>\n[tail call]: ?\n[Interface/AddOns/LevelPilot/Core.lua]:344: in function 'Safe'\n[Interface/AddOns/LevelPilot/Core.lua]:370: in function <Interface/AddOns/LevelPilot/Core.lua:370>\n"
+    },
+    {
+     "addon": "LevelPilot",
+     "art": "spiel",
+     "wo": "Protokoll CheckNav",
+     "msg": "Interface/AddOns/LevelPilot/Protocol.lua:235: attempt to compare a secret number value (execution tainted by 'LevelPilot')",
+     "anzahl": 697,
+     "versionen": [
+      "3.12.6"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:313: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:319: in function 'Try'\n[Interface/AddOns/LevelPilot/Protocol.lua]:525: in function <Interface/AddOns/LevelPilot/Protocol.lua:522>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:339: in function 'Safe'\n[Interface/AddOns/LevelPilot/Core.lua]:366: in function <Interface/AddOns/LevelPilot/Core.lua:366>\n"
     }
    ]
   },
@@ -415,7 +415,7 @@
      "art": "spiel",
      "wo": "Selbsttest",
      "msg": "Interface/AddOns/ThreatSentinel/TestRoutine.lua:1447: TS-Selbsttest Handler",
-     "anzahl": 3,
+     "anzahl": 1,
      "versionen": [
       "2.4.5"
      ],
@@ -429,7 +429,7 @@
      "art": "spiel",
      "wo": "Selbsttest",
      "msg": "TS-Selbsttest 1",
-     "anzahl": 3,
+     "anzahl": 1,
      "versionen": [
       "2.4.5"
      ],
@@ -443,7 +443,7 @@
      "art": "spiel",
      "wo": "Selbsttest",
      "msg": "TS-Selbsttest",
-     "anzahl": 3,
+     "anzahl": 1,
      "versionen": [
       "2.4.5"
      ],
@@ -457,7 +457,7 @@
      "art": "spiel",
      "wo": "Selbsttest",
      "msg": "ADDON_ACTION_BLOCKED: TestFunc",
-     "anzahl": 3,
+     "anzahl": 1,
      "versionen": [
       "2.4.5"
      ],
@@ -471,7 +471,7 @@
      "art": "spiel",
      "wo": "Selbsttest",
      "msg": "Interface/AddOns/ThreatSentinel/TestRoutine.lua:1433: TS-Selbsttest DD",
-     "anzahl": 3,
+     "anzahl": 1,
      "versionen": [
       "2.4.5"
      ],
@@ -485,7 +485,7 @@
      "art": "spiel",
      "wo": "Selbsttest",
      "msg": "TS-Selbsttest 2",
-     "anzahl": 3,
+     "anzahl": 1,
      "versionen": [
       "2.4.5"
      ],
@@ -685,20 +685,6 @@
   {
    "addon": "LevelPilot",
    "art": "spiel",
-   "wo": "Protokoll CheckNav",
-   "msg": "Interface/AddOns/LevelPilot/Protocol.lua:235: attempt to compare a secret number value (execution tainted by 'LevelPilot')",
-   "anzahl": 847,
-   "versionen": [
-    "3.12.6"
-   ],
-   "clients": [
-    "forever 1.60.1 (Interface 16001)"
-   ],
-   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:313: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:319: in function 'Try'\n[Interface/AddOns/LevelPilot/Protocol.lua]:525: in function <Interface/AddOns/LevelPilot/Protocol.lua:522>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:339: in function 'Safe'\n[Interface/AddOns/LevelPilot/Core.lua]:366: in function <Interface/AddOns/LevelPilot/Core.lua:366>\n"
-  },
-  {
-   "addon": "LevelPilot",
-   "art": "spiel",
    "wo": "session",
    "msg": "Interface/AddOns/LevelPilot/Session.lua:29: attempt to perform boolean test on a secret boolean value (execution tainted by 'LevelPilot')",
    "anzahl": 798,
@@ -709,6 +695,20 @@
     "forever 1.60.1 (Interface 16001)"
    ],
    "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:317: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:335: in function <Interface/AddOns/LevelPilot/Core.lua:330>\n[tail call]: ?\n[Interface/AddOns/LevelPilot/Core.lua]:344: in function 'Safe'\n[Interface/AddOns/LevelPilot/Core.lua]:370: in function <Interface/AddOns/LevelPilot/Core.lua:370>\n"
+  },
+  {
+   "addon": "LevelPilot",
+   "art": "spiel",
+   "wo": "Protokoll CheckNav",
+   "msg": "Interface/AddOns/LevelPilot/Protocol.lua:235: attempt to compare a secret number value (execution tainted by 'LevelPilot')",
+   "anzahl": 697,
+   "versionen": [
+    "3.12.6"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:313: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:319: in function 'Try'\n[Interface/AddOns/LevelPilot/Protocol.lua]:525: in function <Interface/AddOns/LevelPilot/Protocol.lua:522>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:339: in function 'Safe'\n[Interface/AddOns/LevelPilot/Core.lua]:366: in function <Interface/AddOns/LevelPilot/Core.lua:366>\n"
   },
   {
    "addon": "ProfessionSentinel",
@@ -789,7 +789,7 @@
    "art": "spiel",
    "wo": "Selbsttest",
    "msg": "Interface/AddOns/ThreatSentinel/TestRoutine.lua:1447: TS-Selbsttest Handler",
-   "anzahl": 3,
+   "anzahl": 1,
    "versionen": [
     "2.4.5"
    ],
@@ -803,7 +803,7 @@
    "art": "spiel",
    "wo": "Selbsttest",
    "msg": "TS-Selbsttest 1",
-   "anzahl": 3,
+   "anzahl": 1,
    "versionen": [
     "2.4.5"
    ],
@@ -817,7 +817,7 @@
    "art": "spiel",
    "wo": "Selbsttest",
    "msg": "TS-Selbsttest",
-   "anzahl": 3,
+   "anzahl": 1,
    "versionen": [
     "2.4.5"
    ],
@@ -831,7 +831,7 @@
    "art": "spiel",
    "wo": "Selbsttest",
    "msg": "ADDON_ACTION_BLOCKED: TestFunc",
-   "anzahl": 3,
+   "anzahl": 1,
    "versionen": [
     "2.4.5"
    ],
@@ -845,7 +845,7 @@
    "art": "spiel",
    "wo": "Selbsttest",
    "msg": "Interface/AddOns/ThreatSentinel/TestRoutine.lua:1433: TS-Selbsttest DD",
-   "anzahl": 3,
+   "anzahl": 1,
    "versionen": [
     "2.4.5"
    ],
@@ -859,7 +859,7 @@
    "art": "spiel",
    "wo": "Selbsttest",
    "msg": "TS-Selbsttest 2",
-   "anzahl": 3,
+   "anzahl": 1,
    "versionen": [
     "2.4.5"
    ],
@@ -889,17 +889,17 @@
    },
    "ProfessionSentinel": {
     "anzahl": 47,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.37-b69a2ad3e0a7.txt"
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.37-f998445fe5dc.txt"
    },
    "ThreatSentinel": {
     "anzahl": 52,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.4-6191344fc78e.txt"
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.9-393857b54d8e.txt"
    }
   },
   "wege": {
    "LevelPilot": {
     "anzahl": 105,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794322533-f6e46f.json"
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794325575-01a45b.json"
    }
   }
  }

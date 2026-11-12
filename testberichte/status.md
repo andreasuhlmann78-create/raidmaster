@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-11 23:30 UTC
+Ausgewertet: 2026-11-12 00:33 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -9,10 +9,10 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 | AHSentinel | 10.11.2026 16:27 UTC | 0.65.86 | forever 1.60.1 (Interface 16001) | 467 | 5 | 22 | 16 | 4 |
 | BuffSentinel | 05.11.2026 00:19 UTC | 0.9.7 | forever 1.60.1 (Interface 16001) | 120 | 1 | 10 | 11 | 4 |
 | GuildSentinel | 09.11.2026 05:47 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 153 | 4 | 23 | 5 | 5 |
-| LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 1645 |
+| LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 1495 |
 | ProfessionSentinel | 09.11.2026 06:57 UTC | 0.9.28 | forever 1.60.1 (Interface 16001) | 5 | 2 | 1 | 0 | 0 |
 | RaidMaster | 05.11.2026 00:07 UTC | 3.0.17 | forever 1.60.1 (Interface 16001) | 98 | 3 | 10 | 12 | 2 |
-| ThreatSentinel | 10.11.2026 10:06 UTC | 2.5.4 | forever 1.60.1 (Interface 16001) | 7 | 1 | 0 | 1 | 18 |
+| ThreatSentinel | 10.11.2026 10:06 UTC | 2.5.4 | forever 1.60.1 (Interface 16001) | 7 | 1 | 0 | 1 | 6 |
 
 ## Diagnose-Protokolle (GSDIAG1)
 
@@ -22,14 +22,14 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 | BuffSentinel | 20 | `testberichte/diagnose/BuffSentinel/0.9.12-7f8dfb5af187.txt` |
 | GSMesstest | 4 | `testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt` |
 | GuildSentinel | 64 | `testberichte/diagnose/GuildSentinel/0.9.24-2b463bdbf513.txt` |
-| ProfessionSentinel | 47 | `testberichte/diagnose/ProfessionSentinel/0.9.37-b69a2ad3e0a7.txt` |
-| ThreatSentinel | 52 | `testberichte/diagnose/ThreatSentinel/2.5.4-6191344fc78e.txt` |
+| ProfessionSentinel | 47 | `testberichte/diagnose/ProfessionSentinel/0.9.37-f998445fe5dc.txt` |
+| ThreatSentinel | 52 | `testberichte/diagnose/ThreatSentinel/2.5.9-393857b54d8e.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 105 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794322533-f6e46f.json` |
+| LevelPilot | 105 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794325575-01a45b.json` |
 
 ## AHSentinel
 
@@ -246,8 +246,8 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 **Testlauf 3.12.6 · forever 1.60.1 (Interface 16001) · 05.11.2026 00:21 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
 
 **Fehler im Spiel (letzte 7 Tage)**
-- 847× `Protokoll CheckNav`: Interface/AddOns/LevelPilot/Protocol.lua:235: attempt to compare a secret number value (execution tainted by 'LevelPilot') – Version 3.12.6 · forever 1.60.1 (Interface 16001) · zuletzt 05.11.2026 14:24 UTC
 - 798× `session`: Interface/AddOns/LevelPilot/Session.lua:29: attempt to perform boolean test on a secret boolean value (execution tainted by 'LevelPilot') – Version 3.12.13 · forever 1.60.1 (Interface 16001) · zuletzt 08.11.2026 20:41 UTC
+- 697× `Protokoll CheckNav`: Interface/AddOns/LevelPilot/Protocol.lua:235: attempt to compare a secret number value (execution tainted by 'LevelPilot') – Version 3.12.6 · forever 1.60.1 (Interface 16001) · zuletzt 05.11.2026 14:24 UTC
 
 ## ProfessionSentinel
 
@@ -395,9 +395,9 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 - [CLIENT] T186 K – Oberfläche mit offenen Blizzard-Fenstern (anleitung: Charakterfenster, Karte, Händler oder Post öffnen, dazu Testzentrale und Einstellungen; dann /ts testroutine k: T181 ohne Überlappen)
 
 **Fehler im Spiel (letzte 7 Tage)**
-- 3× `Selbsttest`: Interface/AddOns/ThreatSentinel/TestRoutine.lua:1447: TS-Selbsttest Handler – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 05:49 UTC
-- 3× `Selbsttest`: TS-Selbsttest 1 – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 05:49 UTC
-- 3× `Selbsttest`: TS-Selbsttest – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 05:49 UTC
-- 3× `Selbsttest`: ADDON_ACTION_BLOCKED: TestFunc – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 05:49 UTC
-- 3× `Selbsttest`: Interface/AddOns/ThreatSentinel/TestRoutine.lua:1433: TS-Selbsttest DD – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 05:49 UTC
-- 3× `Selbsttest`: TS-Selbsttest 2 – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 05:49 UTC
+- 1× `Selbsttest`: Interface/AddOns/ThreatSentinel/TestRoutine.lua:1447: TS-Selbsttest Handler – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 05:49 UTC
+- 1× `Selbsttest`: TS-Selbsttest 1 – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 05:49 UTC
+- 1× `Selbsttest`: TS-Selbsttest – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 05:49 UTC
+- 1× `Selbsttest`: ADDON_ACTION_BLOCKED: TestFunc – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 05:49 UTC
+- 1× `Selbsttest`: Interface/AddOns/ThreatSentinel/TestRoutine.lua:1433: TS-Selbsttest DD – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 05:49 UTC
+- 1× `Selbsttest`: TS-Selbsttest 2 – Version 2.4.5 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 05:49 UTC
