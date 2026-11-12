@@ -128,7 +128,7 @@ Seit das Serverprofil öffentlich ist, sollen Neue ohne Rolle nicht den ganzen G
   - **📝 BEWERBUNG** mit **#bewerbung** (unter 📜 REGELN, für alle sichtbar) und Karte mit Knopf **Bewerben**.
   - Alles, was @everyone bisher sah und nicht in 📌 INFO, 📜 REGELN, 🎲 PUG, 🧩 RAID-ADDON oder 📝 BEWERBUNG liegt
     (💬 ALLGEMEIN, 🗝️ DUNGEONS, 🏦 GILDENBANK, ⚔️ RAID-ORGA, freigeschaltete Raids), sehen nur noch **Mitglied,
-    Raider, Raidleitung und Offizier**. Sonstige Kanal-Einstellungen bleiben; schon versteckte Bereiche (Offiziere,
+    Raider, Raidleitung und Offizier** (und der Bot selbst, ab 1.5.116). Sonstige Kanal-Einstellungen bleiben; schon versteckte Bereiche (Offiziere,
     Addon's by GoldSentinel, noch nicht angekündigte Raids) bleiben unverändert. Nichts wird gelöscht.
   - Ohne **Server Members Intent** (Entwicklerportal) wird nicht eingerichtet – sonst verlören Mitglieder den Zugang.
 - Danach hält der Bot neue Kanäle in diesen Kategorien selbst dicht; ein von Blizzard angekündigter Raid wird nur für

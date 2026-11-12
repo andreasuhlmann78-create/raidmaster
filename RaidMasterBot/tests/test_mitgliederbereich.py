@@ -98,6 +98,14 @@ class Plan(unittest.TestCase):
             self.assertIs(g.ro.overwrites_for(r).view_channel, True)
         self.assertFalse(asyncio.run(member_area.gate_item(g.ro, g, roles)))   # zweites Mal: nichts zu tun
 
+    def test_bot_sieht_weiter(self):
+        g = Guild()
+        g.me = Role("bot", 99)
+        asyncio.run(member_area.gate_item(g.chat, g, member_area.member_roles(g)))
+        self.assertIs(g.chat.overwrites_for(g.me).view_channel, True)
+        ow = member_area.gate_overwrites({}, g)
+        self.assertIs(ow[g.me].view_channel, True)
+
     def test_ausdrueckliches_aus_bleibt(self):
         g = Guild()
         raidl = next(r for r in g.roles if r.name == "Raidleitung")

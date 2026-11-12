@@ -9,7 +9,8 @@ Regeln:
   Danach merkt sich der Bot cfg["member_area"] = True und hält neu angelegte Kanäle in diesen Kategorien ebenso dicht.
 - Angefasst werden nur Kategorien/Kanäle, die @everyone heute sieht. Was schon versteckt ist (Offiziere,
   Addon's by GoldSentinel, noch nicht angekündigte Raids), bleibt genau so.
-- Pro Kanal: @everyone "Kanal ansehen" = aus; Mitglied/Raider/Raidleitung/Offizier "Kanal ansehen" = an, aber nur wenn
+- Pro Kanal: @everyone "Kanal ansehen" = aus; Mitglied/Raider/Raidleitung/Offizier und der Bot (ab 1.5.116, damit er
+  den Kanal auch ohne Administrator-Recht sieht) "Kanal ansehen" = an, aber nur wenn
   für die Rolle nichts eingetragen ist (ein ausdrückliches "aus", z. B. Raidleitung, bleibt). Andere Einstellungen der
   Kanäle (nur lesen, nur Bot schreibt …) bleiben unverändert.
 - Mitglieder ohne Rolle (ausser Gast und Bots) bekommen beim Einrichten die Rolle Mitglied, damit niemand den Zugang
@@ -71,6 +72,12 @@ def plan_items(guild) -> list:
     return out
 
 
+def _viewers(guild, roles: list) -> list:
+    """Mitglieder-Rollen plus der Bot selbst – sonst verlöre der Bot ohne Administrator-Recht den Kanal."""
+    me = getattr(guild, "me", None)
+    return list(roles) + ([me] if me is not None and me not in roles else [])
+
+
 def gate_overwrites(ow: dict | None, guild, roles: list | None = None) -> dict:
     """Rechte-Satz (wie aus server_setup._overwrites) für den Mitglieder-Bereich ergänzen: @everyone sieht nichts,
     Mitglieder-Rollen sehen (ein ausdrückliches 'aus' einer Rolle bleibt). Gibt einen neuen dict zurück."""
@@ -79,7 +86,7 @@ def gate_overwrites(ow: dict | None, guild, roles: list | None = None) -> dict:
     e = out.get(everyone) or discord.PermissionOverwrite()
     e.view_channel = False
     out[everyone] = e
-    for r in roles if roles is not None else member_roles(guild):
+    for r in _viewers(guild, roles if roles is not None else member_roles(guild)):
         o = out.get(r) or discord.PermissionOverwrite()
         if o.view_channel is None:
             o.view_channel = True
@@ -91,7 +98,7 @@ async def gate_item(item, guild, roles: list, reason: str = REASON) -> bool:
     """Einen Kanal bzw. eine Kategorie dicht machen. Zuerst Mitglieder-Rollen freigeben, dann @everyone sperren
     (so verliert kein Mitglied zwischendurch den Kanal). True = etwas geändert."""
     changed = False
-    for r in roles:
+    for r in _viewers(guild, roles):
         o = item.overwrites_for(r)
         if o.view_channel is None:
             o.view_channel = True
