@@ -7,21 +7,11 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## AHSentinel-0.65.98.zip: OK
 
-## BuffSentinel-0.9.13.zip: OK (9 Warnungen)
-- **WARNUNG** BuffSentinel/GoldSentinelGame.lua: veraltete offizielle Fassung (Version 2) – auf shared/GoldSentinelGame.lua Version 3 aktualisieren
-- **WARNUNG** BuffSentinel/Names.lua:274: Addon-Nachricht über einen eigenen Kanal ("CHANNEL") – kommt in WoW Forever nicht an (Server: NOT_ALLOWED_IN_CHANNEL). Über GUILD/PARTY/RAID/WHISPER senden (shared/wissen/kommunikation-forever.md, hinweis-sync-kanal.txt).
-- **WARNUNG** BuffSentinel/Names.lua:522: Addon-Nachricht über einen eigenen Kanal ("CHANNEL") – kommt in WoW Forever nicht an (Server: NOT_ALLOWED_IN_CHANNEL). Über GUILD/PARTY/RAID/WHISPER senden (shared/wissen/kommunikation-forever.md, hinweis-sync-kanal.txt).
-- **WARNUNG** BuffSentinel/Names.lua:306: tritt einem eigenen Chat-Kanal bei – belegt einen der 10 Kanalplätze des Spielers. Künftig nur der gemeinsame GoldSentinel-Kanal (shared/GoldSentinelSync.lua), nur zum Finden von Mitspielern.
-- **WARNUNG** BuffSentinel/Names.lua:307: tritt einem eigenen Chat-Kanal bei – belegt einen der 10 Kanalplätze des Spielers. Künftig nur der gemeinsame GoldSentinel-Kanal (shared/GoldSentinelSync.lua), nur zum Finden von Mitspielern.
-- **WARNUNG** BuffSentinel/GoldSentinelTest.lua: veraltete offizielle Fassung (Version 1) – auf shared/GoldSentinelTest.lua Version 2 aktualisieren
-- **WARNUNG** BuffSentinel/SelfTest.lua:1183: Addon-Nachricht über einen eigenen Kanal ("CHANNEL") – kommt in WoW Forever nicht an (Server: NOT_ALLOWED_IN_CHANNEL). Über GUILD/PARTY/RAID/WHISPER senden (shared/wissen/kommunikation-forever.md, hinweis-sync-kanal.txt).
-- **WARNUNG** BuffSentinel/SelfTest.lua:425: tritt einem eigenen Chat-Kanal bei – belegt einen der 10 Kanalplätze des Spielers. Künftig nur der gemeinsame GoldSentinel-Kanal (shared/GoldSentinelSync.lua), nur zum Finden von Mitspielern.
-- **WARNUNG** BuffSentinel/SelfTest.lua:426: tritt einem eigenen Chat-Kanal bei – belegt einen der 10 Kanalplätze des Spielers. Künftig nur der gemeinsame GoldSentinel-Kanal (shared/GoldSentinelSync.lua), nur zum Finden von Mitspielern.
+## BuffSentinel-0.9.14.zip: OK
 
 ## GuildSentinel-0.9.28.zip: OK
 
-## ProfessionSentinel-0.9.38.zip: OK (1 Warnungen)
-- **WARNUNG** ProfessionSentinel/GoldSentinelTest.lua: veraltete offizielle Fassung (Version 1) – auf shared/GoldSentinelTest.lua Version 2 aktualisieren
+## ProfessionSentinel-0.9.39.zip: OK
 
 ## RaidMaster-3.0.23.zip: OK
 
