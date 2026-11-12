@@ -360,6 +360,8 @@ sagt, ob sie in WoW Forever schon gemessen ist (belegt) oder noch zu messen ist 
 | 15 | **Gewinn pro Zeit statt Gewinn pro Stück:** jeden Kauf an (Netto-Gewinn ÷ erwartete Haltezeit) messen; schnell drehende Ware mit kleiner Marge schlägt langsame mit grosser. Gebundenes Gold begrenzen. | Q10, Q11, Q1 | teils belegt (Material verkauft in Minuten, grüne Teile langsam) |
 | 16 | **Alterung mit Stufen und Boden:** Ware, die nach der erwarteten Zeit nicht verkauft ist, zuerst Preis prüfen (Konkurrenz?), dann stufenweise senken – nie unter den Boden (Break-even nach Gebühren); danach anderer Weg (Händler, Entzaubern, Herstellen). | Q10, Q11 | vermutet – Schwellen für Forever aus Verkaufszeiten ableiten |
 
+| 17 | **Nur abbrechen und neu einstellen, wenn es sich lohnt:** unterbotene Auktion erst abbrechen, wenn der Mehrerlös die verlorene Einzahlung plus eine Schwelle übersteigt; sonst liegen lassen. | Q12 (cancelRepostThreshold), Q3, Q4 (verlorene Einzahlung) | **belegt** (Einzahlung geht beim Abbruch verloren, wirtschaft-forever.md) |
+| 18 | **Entzauber-Ausbeute Forever, grüne Rüstung 26–30 und 36–40:** Staub 75 % × Ø 1,47 ≈ 1,10 je Teil, Essenz 20 % × Ø 1,5 ≈ 0,30. Splitter: TSM 5 %, unsere Messung 7–8 % – unsere Messung gilt, weiter zählen. | Q12 (Forever-Tabelle), eigene Messung (N 328 / 85) | **belegt** (Staub/Essenz), Splitter **offen** (Abweichung) |
 Nicht aufgenommen (nur eine Quelle oder nicht übertragbar): neutrale AH-Häuser mit 15 % (in Forever nicht geprüft),
 "Wettbewerber offline abwarten" (Q2, spätes Spiel), Preis-Wucher durch Aufkauf (ethisch fraglich, Q1 – AHSentinel
 macht das nicht). Weiterbildung 11.11. 22:30, nur eine Quelle: kleine Grüne an andere Verzauberer über 1,5 × Staubpreis
@@ -377,7 +379,33 @@ Q8 [Dealmaker's Den – Resetting AH prices](https://dealmakers-den.blogspot.com
 Q9 [Almar's Guides – Classic Auction House](https://almarsguides.com/WoW/Farming/Classic/AuctionHouse/) ·
 Q10 [Underpriced – Inventory turnover for resellers](https://www.underpriced.app/blog/inventory-turnover-guide-for-resellers-2026) ·
 Q11 [Red Stag – Slow-moving inventory](https://redstagfulfillment.com/how-to-identify-slow-moving-inventory) ·
+Q12 TradeSkillMaster v4.15.6, Quellcode (Laptop des Nutzers, 12.11.; unterstützt Forever, Interface 16001) – siehe 8f ·
 dazu Icy Veins (Abschnitt 5 dieser Datei). Hinweis: Q3 und Q5 sind dieselbe Seite – zählen als EINE Quelle.
+
+## 8f. Studium TradeSkillMaster v4.15.6 (Quellcode, 12.11. 06:45, vom Nutzer bereitgestellt)
+
+**Lizenz:** "All rights reserved" (TradeSkillMaster LLC); abgeleitete Werke und Weitergabe verboten, nur einige
+Bibliotheken (LibTSMCore/Util/Class/Database/Reactive) sind MIT. -> **Kein TSM-Code in GoldSentinel-Addons.** Nur
+Ideen, Spielmechanik-Fakten und Vorgaben als zweite Quelle zum Gegenprüfen. TSM unterstützt Forever ausdrücklich
+(eigene Forever-Daten, Changelog: "[Forever] Fixed disenchant values …").
+
+**Entzauber-Tabelle Forever (grüne Rüstung, Erwartung je Teil):** 5–15 Seltsamer Staub 1,2 · 16–20 1,85 ·
+**21–25 Seltsamer Staub 4–6 (Ø 3,75!)** · 26–30 Seelenstaub 1,1 + Gr. Astral 0,3 + Gr. gleissender Splitter 0,05 ·
+31–35 Seelenstaub 2,55 + Ger. Mystiker 0,3 · 36–40 Visionenstaub 1,1 + Gr. Mystiker 0,3 · 41–45 Visionenstaub 2,55 ·
+46–50 Traumstaub 1,1 · 51–55 Traumstaub 2,55 · 56–60 Illusionsstaub 1,1. Waffen: Essenz 75 %, Staub 20 %.
+Waffen 21–30 geben in Forever Grosse Magie-Essenz (anders als Vanilla).
+Abgleich mit unseren Messungen: Staub und Essenz stimmen (siehe 8e Nr. 18); Splitter bei uns höher (7–8 % statt 5 %).
+Band 21–25 mit 4–6 Staub: nur TSM, bei uns nicht gemessen -> Messauftrag (lohnt sich Stufe-21–25-Grün besonders?).
+
+**Vorgaben von TSM (Erfahrung tausender Spieler, gelten als EINE Quelle):**
+- Einstellen: Boden = max(25 % Marktwert, 1,5 × Händlerpreis), Normal = max(200 % Marktwert, 12 × Händler),
+  Decke = max(500 % Marktwert, 30 × Händler). Günstigstes unter dem Boden -> nicht unterbieten (nicht einstellen oder
+  zum Rücksetzpreis). Unterbieten 1c. Höchstens 5 Auktionen je Item gleichzeitig (postCap).
+- Abbrechen: unterbotene abbrechen nur, wenn der Neupreis mindestens 1g (Schwelle, einstellbar) besser ist.
+- Sniper: kaufen unter max(Händlerpreis, Anteil × Regions-Marktwert); Anteil steigt mit dem Wert (5 % bei billigen,
+  bis 80 % bei sehr teuren Items) – billige Items nur bei sehr grossem Rabatt.
+- Händler: nach 20 Abläufen an den Händler (sellAfterExpired), Mindestgewinn Herstellen 100g (Retail-Massstab).
+Übertragbar nach Prüfung: Boden/Abbruch-Schwelle (8e Nr. 16/17). Zahlen sind Retail-geprägt, für Forever neu messen.
 
 ## 9. Pflege dieser Datei
 
