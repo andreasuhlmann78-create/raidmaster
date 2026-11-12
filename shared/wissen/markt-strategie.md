@@ -204,7 +204,8 @@ Um zu erfahren, ob ein höherer Preis noch verkauft, gelegentlich leicht höher 
 
 - **M-Woche (neu 11.11.):** Preise und Angebotsmenge der 20 wichtigsten Waren je Wochentag und Tageszeit aus den
   Vollscans (Daten-Repo, 7 Tages-Stände) – prüft 8e Nr. 14 für Forever. Auswertung durch die Prüf-Sitzung.
-- **M-Aufkauf (neu 11.11.):** Seelenstaub ab 11.11. 22:07 (12s98, sonst ~4s): wie viele Stunden bis unter 6s? Prüft
+- **M-Aufkauf (neu 11.11., Teilergebnis 12.11.):** Seelenstaub 22:07 12s98 -> 06:48 3s99: vorbei nach höchstens 8 3/4 Std.
+  Genauer erst mit Scans dazwischen. Wie viele Stunden bis unter 6s? Prüft
   8e Nr. 13 und gibt die Zeit, die "Jetzt verkaufen" bei einem Aufkauf hat.
 
 ## 8. Sniping, Flippen, Handel – Grundsätze (Wunsch des Nutzers 10.11. 09:28: "in allen Bereichen der Beste")
@@ -355,7 +356,7 @@ sagt, ob sie in WoW Forever schon gemessen ist (belegt) oder noch zu messen ist 
 | 10 | **Snipen nur unter der eigenen Grenze;** Fehl-Einstellungen und Ausverkäufe sind die besten Käufe. | Q1, Q4, Q6 | belegt (Sniper-Käufe 11.11.), Grenze muss stimmen (8d) |
 | 11 | **Kapital und Buchführung sind Pflicht** für Handel im grösseren Stil; mit wenig Gold zuerst sammeln/entzaubern. | Q4, Q5 | – (Buchhaltung neu, BP) |
 | 12 | **Grüne zum Entzaubern nur kaufen, wenn Materialwert (nach Gebühren) > Kaufpreis; Obergrenze je Stufenband aus dem aktuellen Staub-/Essenzpreis ableiten**, nicht fest. Ausbeute schwankt (1–2 Staub) – mit Durchschnitt rechnen. | Q7, Q4, eigene Analyse 8d | **belegt** (Entzauber-Ergebnisse N 326, Grenzen 8d) |
-| 13 | **Aufkauf von Massenware hält nur kurz:** Konkurrenten stellen knapp darunter ein, bei viel Angebot ist der Preis in Stunden zurück. -> In einen Aufkauf hinein VERKAUFEN, nie dazu kaufen; Entzauber-Rechnung mit dem Preis vor dem Aufkauf. | Q8, eigene Messung | **belegt** (Splitter 10.11.: Spitze 1g15, wenige Messpunkte später 23–24s; Seelenstaub 11.11. 22:07 12s98 statt ~4s – Verlauf messen) |
+| 13 | **Aufkauf von Massenware hält nur kurz:** Konkurrenten stellen knapp darunter ein, bei viel Angebot ist der Preis in Stunden zurück. -> In einen Aufkauf hinein VERKAUFEN, nie dazu kaufen; Entzauber-Rechnung mit dem Preis vor dem Aufkauf. | Q8, eigene Messung | **belegt** (Splitter 10.11.: Spitze 1g15, wenige Messpunkte später 23–24s; Seelenstaub 11.11. 22:07 12s98 statt ~4s, 12.11. 06:48 wieder 3s99 (2744 Stk.) – Aufkauf hielt höchstens 8 3/4 Std.; dazwischen kein Scan) |
 | 14 | **Einkauf zum Wochenbeginn, Verkauf gegen das Wochenende bzw. vor den Raidabenden;** Sonntagabend/Montag fallen die Preise (Wochenend-Beute wird eingestellt). | Q9, Q2, Q4 | vermutet – Forever-Rhythmus mit Vollscans je Wochentag messen (Messauftrag M-Woche) |
 | 15 | **Gewinn pro Zeit statt Gewinn pro Stück:** jeden Kauf an (Netto-Gewinn ÷ erwartete Haltezeit) messen; schnell drehende Ware mit kleiner Marge schlägt langsame mit grosser. Gebundenes Gold begrenzen. | Q10, Q11, Q1 | teils belegt (Material verkauft in Minuten, grüne Teile langsam) |
 | 16 | **Alterung mit Stufen und Boden:** Ware, die nach der erwarteten Zeit nicht verkauft ist, zuerst Preis prüfen (Konkurrenz?), dann stufenweise senken – nie unter den Boden (Break-even nach Gebühren); danach anderer Weg (Händler, Entzaubern, Herstellen). | Q10, Q11 | vermutet – Schwellen für Forever aus Verkaufszeiten ableiten |
@@ -394,7 +395,8 @@ Ideen, Spielmechanik-Fakten und Vorgaben als zweite Quelle zum Gegenprüfen. TSM
 46–50 Traumstaub 1,1 · 51–55 Traumstaub 2,55 · 56–60 Illusionsstaub 1,1. Waffen: Essenz 75 %, Staub 20 %.
 Waffen 21–30 geben in Forever Grosse Magie-Essenz (anders als Vanilla).
 Abgleich mit unseren Messungen: Staub und Essenz stimmen (siehe 8e Nr. 18); Splitter bei uns höher (7–8 % statt 5 %).
-Band 21–25 mit 4–6 Staub: nur TSM, bei uns nicht gemessen -> Messauftrag (lohnt sich Stufe-21–25-Grün besonders?).
+Band 21–25 mit 4–6 Staub: nur TSM, bei uns nicht gemessen -> Messauftrag M-DE21 (lohnt sich Stufe-21–25-Grün besonders?
+  Seltsamer Staub 12.11.: 91c -> 3,75 × 91c ≈ 3s41 je Teil plus Essenz).
 
 **Vorgaben von TSM (Erfahrung tausender Spieler, gelten als EINE Quelle):**
 - Einstellen: Boden = max(25 % Marktwert, 1,5 × Händlerpreis), Normal = max(200 % Marktwert, 12 × Händler),
