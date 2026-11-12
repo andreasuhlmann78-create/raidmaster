@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-12T13:55:17Z",
+ "ausgewertet": "2026-11-12T15:01:48Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -268,20 +268,6 @@
       "forever 1.60.1 (Interface 16001)"
      ],
      "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:317: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:335: in function <Interface/AddOns/LevelPilot/Core.lua:330>\n[tail call]: ?\n[Interface/AddOns/LevelPilot/Core.lua]:344: in function 'Safe'\n[Interface/AddOns/LevelPilot/Core.lua]:370: in function <Interface/AddOns/LevelPilot/Core.lua:370>\n"
-    },
-    {
-     "addon": "LevelPilot",
-     "art": "spiel",
-     "wo": "Protokoll CheckNav",
-     "msg": "Interface/AddOns/LevelPilot/Protocol.lua:235: attempt to compare a secret number value (execution tainted by 'LevelPilot')",
-     "anzahl": 153,
-     "versionen": [
-      "3.12.6"
-     ],
-     "clients": [
-      "forever 1.60.1 (Interface 16001)"
-     ],
-     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:313: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:319: in function 'Try'\n[Interface/AddOns/LevelPilot/Protocol.lua]:525: in function <Interface/AddOns/LevelPilot/Protocol.lua:522>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:339: in function 'Safe'\n[Interface/AddOns/LevelPilot/Core.lua]:366: in function <Interface/AddOns/LevelPilot/Core.lua:366>\n"
     }
    ]
   },
@@ -697,20 +683,6 @@
    "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:317: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:335: in function <Interface/AddOns/LevelPilot/Core.lua:330>\n[tail call]: ?\n[Interface/AddOns/LevelPilot/Core.lua]:344: in function 'Safe'\n[Interface/AddOns/LevelPilot/Core.lua]:370: in function <Interface/AddOns/LevelPilot/Core.lua:370>\n"
   },
   {
-   "addon": "LevelPilot",
-   "art": "spiel",
-   "wo": "Protokoll CheckNav",
-   "msg": "Interface/AddOns/LevelPilot/Protocol.lua:235: attempt to compare a secret number value (execution tainted by 'LevelPilot')",
-   "anzahl": 153,
-   "versionen": [
-    "3.12.6"
-   ],
-   "clients": [
-    "forever 1.60.1 (Interface 16001)"
-   ],
-   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:313: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:319: in function 'Try'\n[Interface/AddOns/LevelPilot/Protocol.lua]:525: in function <Interface/AddOns/LevelPilot/Protocol.lua:522>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:339: in function 'Safe'\n[Interface/AddOns/LevelPilot/Core.lua]:366: in function <Interface/AddOns/LevelPilot/Core.lua:366>\n"
-  },
-  {
    "addon": "ProfessionSentinel",
    "art": "test",
    "version": "0.9.28",
@@ -885,7 +857,7 @@
    },
    "GuildSentinel": {
     "anzahl": 64,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.24-2b463bdbf513.txt"
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.24-eb21ddda07a9.txt"
    },
    "ProfessionSentinel": {
     "anzahl": 49,
