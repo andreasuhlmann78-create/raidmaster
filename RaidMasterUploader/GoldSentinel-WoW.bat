@@ -1,5 +1,6 @@
 @echo off
 title GoldSentinel - WoW mit Abgleich starten
 cd /d "%~dp0"
-python uploader.py --wow-start
-if errorlevel 9009 py -3 uploader.py --wow-start
+rem ab 2.3.1: zuerst den Python-Starter py (sonst meldet der Store-Alias von python eine verwirrende Zeile)
+where py >nul 2>nul
+if not errorlevel 1 (py -3 uploader.py --wow-start) else (python uploader.py --wow-start)

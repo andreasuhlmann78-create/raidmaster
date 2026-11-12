@@ -1,4 +1,4 @@
-"""Offline-Tests Uploader 2.3.0: Addon-Daten für die Prüf-Sitzung in ein privates GitHub-Repo (T-DU1 … T-DU6).
+"""Offline-Tests Uploader 2.3.0/2.3.1: Addon-Daten für die Prüf-Sitzung in ein privates GitHub-Repo (T-DU1 … T-DU10).
 Eine nachgebildete GitHub-API (Git Data) im Speicher, kein Netz.
 Start: python3 -I RaidMasterUploader/tests/test_daten.py"""
 import base64
@@ -16,7 +16,9 @@ sys.path.insert(0, HERE)
 import daten  # noqa: E402
 import sync  # noqa: E402
 
-TOKEN = "testtoken-GEHEIM-1234567890"
+TOKEN = "github_pat_TESTGEHEIM_1234567890abc"
+KONTO = daten.konto_id("123456789#1")
+AKT = "aktuell/PC/forever/" + KONTO + "/"
 T0 = 1794380000.0
 
 
@@ -42,6 +44,7 @@ class FakeGitHub:
         self.blobs, self.trees, self.commits, self.ref = {}, {}, {}, None
         self.calls, self.n = [], 0
         self.token_ok = True
+        self.fail, self.contexts, self.before_patch = None, [], None
 
     def _id(self):
         self.n += 1
@@ -50,11 +53,14 @@ class FakeGitHub:
     def err(self, url, code):
         return daten.urllib.error.HTTPError(url, code, "x", {}, io.BytesIO(b"{}"))
 
-    def __call__(self, req, timeout=None):
+    def __call__(self, req, timeout=None, context=None):
         url, method = req.full_url, req.get_method()
         self.calls.append((method, url, dict(req.header_items())))
+        self.contexts.append(context)
+        if self.fail is not None:
+            raise self.fail
         if not self.online:
-            raise daten.urllib.error.URLError("offline")
+            raise daten.urllib.error.URLError(daten.socket.gaierror(11001, "getaddrinfo failed"))
         if req.get_header("Authorization") != "Bearer " + TOKEN or not self.token_ok:
             raise self.err(url, 401)
         body = json.loads(req.data) if req.data else None
@@ -78,6 +84,9 @@ class FakeGitHub:
             self.commits[c] = {"tree": tree, "parents": []}
             self.ref = c
             return Resp({"commit": {"sha": c}})
+        m = re.match(r"/git/blobs/(\w+)$", path)
+        if m and method == "GET":
+            return Resp({"content": base64.b64encode(self.blobs[m.group(1)]).decode(), "encoding": "base64"})
         m = re.match(r"/git/commits/(\w+)$", path)
         if m and method == "GET":
             return Resp({"tree": {"sha": self.commits[m.group(1)]["tree"]}})
@@ -103,6 +112,9 @@ class FakeGitHub:
             return Resp({"sha": c})
         if path == "/git/refs/heads/main" and method == "PATCH":
             assert body["force"] is True
+            if self.before_patch:
+                f, self.before_patch = self.before_patch, None
+                f()
             self.ref = body["sha"]
             return Resp({"object": {"sha": self.ref}})
         raise AssertionError((method, path))
@@ -164,14 +176,15 @@ class Lieferung(unittest.TestCase):
         self.write("AHSentinel.lua", "AHSentinelDB = { pro_figur }\n", T0, char=True)
         self.run_until(T0 + 1, T0 + 20)
         files = self.gh.files()
-        self.assertEqual(files["aktuell/forever/konto1/AHSentinel.lua"], b"AHSentinelDB = { 1 }\n")
-        self.assertIn("aktuell/forever/konto1/RaidMaster.lua", files)
+        self.assertEqual(files[AKT + "AHSentinel.lua"], b"AHSentinelDB = { 1 }\n")
+        self.assertIn(AKT + "RaidMaster.lua", files)
         self.assertFalse(any("Fremdes" in p or ".bak" in p or "Figur" in p or "123456789" in p for p in files))
+        self.assertTrue(all(c is not None for c in self.gh.contexts))          # immer mit Zertifikats-Kontext
         self.assertEqual(self.gh.commit_count(), 1)
         msg = self.gh.commits[self.gh.ref]["message"]
         self.assertIn("PC", msg)
         stand = json.loads(files["stand.json"])
-        self.assertEqual(stand["rechner"], "PC")
+        self.assertIn("PC", stand)
         posted = [u for m, u, _ in self.gh.calls if m == "POST" and u.endswith("/git/blobs")]
         self.assertGreaterEqual(len(posted), 2)
         # unverändert: kein Commit, kein Netz
@@ -227,21 +240,21 @@ class Lieferung(unittest.TestCase):
         os.utime(big, (T0, T0))
         self.run_until(T0 + 1, T0 + 20)
         files = self.gh.files()
-        self.assertIn("aktuell/forever/konto1/AHSentinel.lua", files)
-        self.assertNotIn("aktuell/forever/konto1/GuildSentinel.lua", files)
+        self.assertIn(AKT + "AHSentinel.lua", files)
+        self.assertNotIn(AKT + "GuildSentinel.lua", files)
         self.assertEqual(sum("GuildSentinel.lua ist" in l and "übersprungen" in l for l in self.logs), 1)
 
     def test_du4_kein_netz_kein_absturz_abgleich_unabhaengig(self):
         self.write("AHSentinel.lua", "AHSentinelDB = { 1 }\n", T0)
         self.gh.online = False
         self.run_until(T0 + 1, T0 + 20)
-        self.assertTrue(any("kein Netz" in l for l in self.logs))
-        self.assertIn("FEHLER: kein Netz", self.dl.status_line())
+        self.assertTrue(any("nicht auflösbar" in l for l in self.logs))
+        self.assertIn("FEHLER: api.github.com nicht auflösbar", self.dl.status_line())
         # nächste Änderung = nächster Versuch
         self.gh.online = True
         self.write("AHSentinel.lua", "AHSentinelDB = { 2 }\n", T0 + 100)
         self.run_until(T0 + 101, T0 + 130)
-        self.assertEqual(self.gh.files()["aktuell/forever/konto1/AHSentinel.lua"], b"AHSentinelDB = { 2 }\n")
+        self.assertEqual(self.gh.files()[AKT + "AHSentinel.lua"], b"AHSentinelDB = { 2 }\n")
         self.assertNotIn("FEHLER", self.dl.status_line())
         # Abgleich PC/Laptop nutzt einen eigenen Weg (Discord-Webhook) – die Lieferung fasst ihn nie an
         import uploader
@@ -273,7 +286,7 @@ class Lieferung(unittest.TestCase):
         self.assertEqual(self.gh.commit_count(), 4)
         self.run_until(T0 + 470, T0 + 500)
         self.assertEqual(self.gh.commit_count(), 5)
-        self.assertEqual(self.gh.files()["aktuell/forever/konto1/AHSentinel.lua"], b"AHSentinelDB = { 5 }\n")
+        self.assertEqual(self.gh.files()[AKT + "AHSentinel.lua"], b"AHSentinelDB = { 5 }\n")
         # /reload ohne Änderung -> kein Commit
         self.write("AHSentinel.lua", "AHSentinelDB = { 5 }\n", T0 + 600)
         self.run_until(T0 + 601, T0 + 700)
@@ -291,9 +304,9 @@ class Lieferung(unittest.TestCase):
         files = self.gh.files()
         days = sorted({p.split("/")[1] for p in files if p.startswith("tage/")})
         self.assertEqual(len(days), daten.DAYS_KEEP)
-        self.assertEqual(files["aktuell/forever/konto1/AHSentinel.lua"], b"AHSentinelDB = { 19 }\n")
+        self.assertEqual(files[AKT + "AHSentinel.lua"], b"AHSentinelDB = { 19 }\n")
         last_day = days[-1]
-        self.assertEqual(files[f"tage/{last_day}/forever/konto1/AHSentinel.lua"], b"AHSentinelDB = { 19 }\n")
+        self.assertEqual(files[f"tage/{last_day}/PC/forever/{KONTO}/AHSentinel.lua"], b"AHSentinelDB = { 19 }\n")
         self.assertEqual(self.gh.history(), [self.gh.ref])                  # ein Commit, kein Verlauf
         self.assertEqual(self.gh.commits[self.gh.ref]["parents"], [])
         self.assertIn("Repo ", self.dl.status_line())
@@ -308,6 +321,207 @@ class Lieferung(unittest.TestCase):
         self.assertTrue(any("ältere Tages-Stände gelöscht" in l for l in self.logs))
         days = sorted({p.split("/")[1] for p in self.gh.files() if p.startswith("tage/")})
         self.assertLess(len(days), daten.DAYS_KEEP)
+
+
+class Einrichten(unittest.TestCase):
+    """2.3.1: T-DU7 (Token mit Strg+V), T-DU8 (daten_config.json mit BOM), T-DU9 (echte Ursache, Zertifikate)."""
+
+    def setUp(self):
+        self.d = tempfile.mkdtemp()
+        self.gh = FakeGitHub()
+        self.orig = daten.urllib.request.urlopen
+        daten.urllib.request.urlopen = self.gh
+
+    def tearDown(self):
+        daten.urllib.request.urlopen = self.orig
+        shutil.rmtree(self.d, ignore_errors=True)
+
+    def test_du7_token_mit_strg_v(self):
+        out = []
+        ok = daten.setup_interactive(self.d, ask=lambda q: "ich/goldsentinel-daten", ask_secret=lambda q: "\x16",
+                                     log=out.append)
+        self.assertFalse(ok)
+        text = "\n".join(out)
+        self.assertIn("ungültige Zeichen", text)
+        self.assertIn("RECHTSKLICK", text)
+        self.assertNotIn("kein Netz", text)
+        self.assertEqual(self.gh.calls, [])                                     # gar nicht erst gesendet
+        for bad in ("ghp_abc def", "abc123", "github_pat_ä"):
+            self.assertIsNotNone(daten.token_problem(bad))
+        self.assertIsNone(daten.token_problem(TOKEN))
+        # auch der Uploader sendet einen kaputten Token nie
+        with self.assertRaises(daten.GitHubError) as cm:
+            daten.GitHubAPI("ich/goldsentinel-daten", "github_pat_x\x16").repo_info()
+        self.assertIn("ungültige Zeichen", str(cm.exception))
+        # ValueError aus http.client (ungültiger Kopf) wird nicht als "kein Netz" gemeldet
+        self.assertIn("ungültige Zeichen", daten.describe_error(ValueError("Invalid header value b'Bearer x'")))
+        # die Abfrage nennt Rechtsklick
+        asked = []
+        daten.setup_interactive(self.d, ask=lambda q: "ich/goldsentinel-daten",
+                                ask_secret=lambda q: asked.append(q) or "", log=lambda t: None)
+        self.assertIn("Rechtsklick", asked[0])
+
+    def test_du8_config_mit_bom_und_gruende(self):
+        path = os.path.join(self.d, daten.DATEN_CONFIG)
+
+        def put(raw):
+            with open(path, "wb") as f:
+                f.write(raw)
+        put(b"\xef\xbb\xbf" + json.dumps({"repo": "ich/goldsentinel-daten", "token": TOKEN}).encode())
+        self.assertEqual(daten.load_config(self.d)["repo"], "ich/goldsentinel-daten")
+        put(('{\n  \u201erepo\u201c: \u201eich/goldsentinel-daten\u201c,\n  \u201etoken\u201c: \u201c' + TOKEN +
+             '\u201d\n}').encode("utf-8"))                                    # typografische Anführungszeichen
+        self.assertEqual(daten.load_config(self.d)["token"], TOKEN)
+        cases = [(json.dumps({"repo": "ich/goldsentinel-daten"}).encode(), "token fehlt"),
+                 (json.dumps({"token": TOKEN}).encode(), "repo fehlt"),
+                 (json.dumps({"repo": "goldsentinel-daten", "token": TOKEN}).encode(), "repo falsch"),
+                 (b'{"repo": "ich/x",\n "token": ', "Zeile 2"),
+                 (json.dumps({"repo": "ich/x", "token": "github_pat_a\u0016"}).encode(), "ungültige Zeichen")]
+        for raw, want in cases:
+            put(raw)
+            conf, why = daten.read_config(self.d)
+            self.assertIsNone(conf)
+            self.assertIn(want, why)
+            self.assertNotIn("TESTGEHEIM", why)
+        os.remove(path)
+        self.assertEqual(daten.read_config(self.d), (None, None))               # fehlt: freiwillig, kein Fehler
+        import uploader
+        with open(uploader.__file__, encoding="utf-8") as f:
+            src = f.read()
+        self.assertIn("daten.read_config(HERE)", src[src.index("def make_daten"):])
+
+    def test_du9_echte_ursache_und_zertifikate(self):
+        import ssl as _ssl
+        cert = daten.urllib.error.URLError(_ssl.SSLCertVerificationError(
+            1, "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate"))
+        cases = [(cert, "Zertifikat für GitHub fehlt"),
+                 (daten.urllib.error.URLError(daten.socket.gaierror(11001, "getaddrinfo failed")), "nicht auflösbar"),
+                 (daten.urllib.error.URLError(daten.socket.timeout("timed out")), "Zeitüberschreitung"),
+                 (daten.urllib.error.URLError(ConnectionRefusedError(10061, "refused")), "abgelehnt"),
+                 (ConnectionResetError(10054, "reset"), "abgebrochen"),
+                 (ValueError("Invalid header value"), "ungültige Zeichen"),
+                 (daten.urllib.error.URLError(OSError("Tunnel connection failed: 407")), "Netzfehler: OSError")]
+        api = daten.GitHubAPI("ich/goldsentinel-daten", TOKEN)
+        seen = set()
+        for exc, want in cases:
+            self.gh.fail = exc
+            with self.assertRaises(daten.GitHubError) as cm:
+                api.repo_info()
+            msg = str(cm.exception)
+            self.assertIn(want, msg)
+            self.assertNotIn(TOKEN, msg)
+            self.assertNotIn("kein Netz oder GitHub nicht erreichbar", msg)
+            seen.add(msg)
+        self.assertEqual(len(seen), len(cases))                                 # jede Art eigene Meldung
+        self.assertIn("certifi", describe := daten.describe_error(cert))        # noqa: F841
+        # Zertifikats-Kontext: Windows-/System-Ablage plus certifi, Prüfung an
+        ctx = daten.ssl_context()
+        self.assertEqual(ctx.verify_mode, _ssl.CERT_REQUIRED)
+        self.assertTrue(ctx.check_hostname)
+        # certifi fehlt -> einmal selbst installieren (gleiches Python), mit Hinweis
+        calls, logs = [], []
+        orig_cf = daten.certifi_file
+        daten.certifi_file = lambda: None
+        daten._CERTIFI_TRIED["done"] = False
+        try:
+            res = daten.ensure_certifi(logs.append, run=lambda cmd, **kw: calls.append(cmd) or
+                                       type("R", (), {"returncode": 1})(), background=False)
+            self.assertFalse(res)
+            self.assertEqual(calls[0][1:5], ["-m", "pip", "install", "--user"])
+            self.assertEqual(calls[0][-1], "certifi")
+            self.assertTrue(any("installiere" in l for l in logs))
+            self.assertTrue(any("py -m pip install certifi" in l for l in logs))
+            self.assertIsNone(daten.ensure_certifi(logs.append, run=lambda *a, **k: 1 / 0, background=False) or None)
+            self.assertEqual(len(calls), 1)                                     # nur einmal je Lauf
+        finally:
+            daten.certifi_file = orig_cf
+            daten._CERTIFI_TRIED["done"] = False
+        # Startdateien rufen zuerst py auf (keine Store-Alias-Zeile)
+        for bat in ("uploader.bat", "GoldSentinel-WoW.bat", "Daten-Repo-einrichten.bat", "Daten-Verbindung-testen.bat"):
+            with open(os.path.join(HERE, bat), encoding="utf-8") as f:
+                text = f.read()
+            self.assertLess(text.index("where py"), text.index("python uploader.py"), bat)
+        # Verbindung testen
+        self.gh.fail = None
+        out = []
+        self.assertTrue(daten.test_connection({"repo": "ich/goldsentinel-daten", "token": TOKEN}, out.append))
+        self.assertIn("OK", out[0])
+
+
+class ZweiRechner(unittest.TestCase):
+    """2.3.1: T-DU10 – PC und Laptop liefern ins selbe Repo, keiner löscht den Stand des anderen."""
+
+    def setUp(self):
+        self.d = tempfile.mkdtemp()
+        self.gh = FakeGitHub()
+        self.orig = daten.urllib.request.urlopen
+        daten.urllib.request.urlopen = self.gh
+
+    def tearDown(self):
+        daten.urllib.request.urlopen = self.orig
+        shutil.rmtree(self.d, ignore_errors=True)
+
+    def machine(self, name, konten):
+        roots = {}
+        for i, k in enumerate(konten):
+            acc = os.path.join(self.d, name, "_forever_", "WTF", "Account", k)
+            os.makedirs(os.path.join(acc, "SavedVariables"))
+            roots["_forever_/" + k] = acc
+        return daten.Daten(daten.GitHubAPI("ich/goldsentinel-daten", TOKEN), roots, {}, lambda: None, name,
+                           lambda t: None), roots
+
+    @staticmethod
+    def put(acc, name, text, mtime):
+        fn = os.path.join(acc, "SavedVariables", name)
+        with open(fn, "w", encoding="utf-8") as f:
+            f.write(text)
+        os.utime(fn, (mtime, mtime))
+
+    @staticmethod
+    def drive(dl, a, b):
+        for t in range(int(a), int(b), 5):
+            dl.tick(now=t)
+
+    def test_du10_zwei_rechner(self):
+        pc, pr = self.machine("PC", ["ANDERES", "123456789#1"])                   # andere Reihenfolge der Konten
+        lap, lr = self.machine("Laptop", ["123456789#1"])
+        self.put(pr["_forever_/123456789#1"], "AHSentinel.lua", "AHSentinelDB = { 'pc' }\n", T0)
+        self.put(lr["_forever_/123456789#1"], "AHSentinel.lua", "AHSentinelDB = { 'laptop' }\n", T0 + 1000)
+        self.drive(lap, T0 + 1, T0 + 20)                                          # Laptop morgens
+        self.drive(pc, T0 + 3600, T0 + 3620)                                      # PC am selben Tag später
+        files = self.gh.files()
+        k = daten.konto_id("123456789#1")
+        self.assertEqual(files[f"aktuell/PC/forever/{k}/AHSentinel.lua"], b"AHSentinelDB = { 'pc' }\n")
+        self.assertEqual(files[f"aktuell/Laptop/forever/{k}/AHSentinel.lua"], b"AHSentinelDB = { 'laptop' }\n")
+        day = [p for p in files if p.startswith("tage/")]
+        self.assertTrue(any(f"/Laptop/forever/{k}/" in p for p in day))      # Tages-Stand des Laptops bleibt
+        self.assertTrue(any(f"/PC/forever/{k}/" in p for p in day))
+        self.assertFalse(any("123456789" in p or "ANDERES" in p for p in files))
+        stand = json.loads(files["stand.json"])
+        self.assertEqual(sorted(stand), ["Laptop", "PC"])
+        self.assertEqual(self.gh.history(), [self.gh.ref])
+        # Form von 2.3.0 (aktuell/forever/konto1/…) verschwindet beim nächsten Liefern
+        # gleichzeitige Lieferung: der Laptop liefert zwischen Lesen und Ersetzen -> PC bezieht ihn ein
+        self.put(pr["_forever_/123456789#1"], "AHSentinel.lua", "AHSentinelDB = { 'pc2' }\n", T0 + 7200)
+
+        def other():
+            self.put(lr["_forever_/123456789#1"], "AHSentinel.lua", "AHSentinelDB = { 'laptop2' }\n", T0 + 7201)
+            self.drive(lap, T0 + 7202, T0 + 7230)
+        self.drive(pc, T0 + 7201, T0 + 7205)
+        self.gh.before_patch = None
+        orig_head = pc.api.head
+        state = {"n": 0}
+
+        def head(branch):
+            state["n"] += 1
+            if state["n"] == 2:
+                other()                                                         # zwischen Lesen und Ersetzen
+            return orig_head(branch)
+        pc.api.head = head
+        self.drive(pc, T0 + 7212, T0 + 7230)
+        files = self.gh.files()
+        self.assertEqual(files[f"aktuell/PC/forever/{k}/AHSentinel.lua"], b"AHSentinelDB = { 'pc2' }\n")
+        self.assertEqual(files[f"aktuell/Laptop/forever/{k}/AHSentinel.lua"], b"AHSentinelDB = { 'laptop2' }\n")
 
 
 if __name__ == "__main__":

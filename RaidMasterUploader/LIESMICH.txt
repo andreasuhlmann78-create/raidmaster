@@ -158,3 +158,19 @@ Version 2.3.0 – Daten für die Prüfung (freiwillig) und Abgleich nach jedem /
      und erreichbar ist, und speichert beides in daten_config.json (geheim, nie weitergeben).
   4. Uploader neu starten. Im Fenster steht dann "Prüfung: zuletzt geliefert 19:36 (3 Dateien) · Repo 12,3 MB".
   Den Token nie in Discord oder einen Chat kopieren. Läuft er ab: neuen Token anlegen, Schritt 3 wiederholen.
+
+Version 2.3.1 – Daten-Lieferung: Fehler beim Einrichten behoben:
+- Zertifikate für GitHub: Fehlte in Windows das Stammzertifikat ("kein Netz oder GitHub nicht erreichbar"), installiert
+  der Uploader jetzt selbst einmal certifi und nutzt es zusätzlich zur Windows-Zertifikatsablage. Von Hand gesetztes
+  SSL_CERT_FILE ist nicht mehr nötig (darf bleiben). Keine Prüfung wird abgeschaltet.
+- Fehlermeldungen nennen die echte Ursache: Zertifikat, Adresse nicht auflösbar, Zeitüberschreitung, Verbindung
+  abgelehnt/abgebrochen, Token falsch – nie den Token selbst.
+- Neu: Daten-Verbindung-testen.bat – prüft Repo und Token und zeigt das Ergebnis.
+- Token-Eingabe in Daten-Repo-einrichten.bat: Sternchen statt nichts; Rechtsklick UND Strg+V fügen ein. Ein Token mit
+  falschen Zeichen wird gar nicht erst gesendet ("Token enthält ungültige Zeichen …").
+- daten_config.json von Hand (Windows-Editor, mit BOM oder typografischen Anführungszeichen) wird gelesen; sonst nennt
+  der Uploader den Grund ("token fehlt", "repo falsch", "Zeile 2: kein gültiges JSON").
+- PC und Laptop im selben Daten-Repo: jeder Rechner hat seinen eigenen Ordner (aktuell/<Rechner>/…,
+  tage/<Datum>/<Rechner>/…) und überschreibt nur den. Dasselbe Konto hat auf beiden Rechnern dieselbe Kennung
+  (konto-xxxxxxxx, aus dem Kontonamen berechnet; der Name selbst steht nie im Repo).
+- Die Startdateien rufen zuerst "py" auf – die verwirrende Zeile "Python wurde nicht gefunden …" fällt weg.

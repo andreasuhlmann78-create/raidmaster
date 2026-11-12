@@ -136,3 +136,19 @@ Version 2.3.0 – data for the review (optional) and sync after every /reload:
      that the repository is private and reachable and stores both in daten_config.json (secret, never share).
   4. Restart the uploader. The window then shows "Prüfung: zuletzt geliefert 19:36 (3 Dateien) · Repo 12,3 MB".
   Never paste the token into Discord or a chat. When it expires: create a new token and repeat step 3.
+
+Version 2.3.1 – data delivery: setup problems fixed:
+- GitHub certificates: if Windows lacked the root certificate ("kein Netz oder GitHub nicht erreichbar"), the uploader
+  now installs certifi once by itself and uses it in addition to the Windows certificate store. A manually set
+  SSL_CERT_FILE is no longer needed (may stay). No check is switched off.
+- Error messages name the real cause: certificate, address not resolvable, timeout, connection refused/aborted, wrong
+  token – never the token itself.
+- New: Daten-Verbindung-testen.bat – checks repository and token and shows the result.
+- Token input in Daten-Repo-einrichten.bat: asterisks instead of nothing; right-click AND Ctrl+V paste. A token with
+  invalid characters is never sent ("Token enthält ungültige Zeichen …").
+- A hand-made daten_config.json (Windows Notepad, with BOM or typographic quotes) is read; otherwise the uploader names
+  the reason ("token fehlt", "repo falsch", "Zeile 2: kein gültiges JSON").
+- PC and laptop in the same data repository: each computer has its own folder (aktuell/<computer>/…,
+  tage/<date>/<computer>/…) and only replaces that one. The same account has the same id on both computers
+  (konto-xxxxxxxx, computed from the account name; the name itself never appears in the repository).
+- The start files call "py" first – the confusing line "Python wurde nicht gefunden …" is gone.

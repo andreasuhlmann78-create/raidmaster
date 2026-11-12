@@ -69,7 +69,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sync  # noqa: E402  (Abgleich PC/Laptop, ab 2.1.0)
 import daten  # noqa: E402  (Daten für die Prüf-Sitzung, ab 2.3.0)
 
-VERSION = "2.3.0"
+VERSION = "2.3.1"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400
@@ -834,10 +834,14 @@ def make_sync(st: dict, path: str) -> "sync.Sync | None":
 
 def make_daten(st: dict, path: str, syncer=None) -> "daten.Daten | None":
     """Lieferung an das private Daten-Repo nur, wenn daten_config.json da ist (Daten-Repo-einrichten.bat)."""
-    conf = daten.load_config(HERE)
+    conf, problem = daten.read_config(HERE)
     if not conf:
-        log("Prüfung: Daten-Lieferung nicht eingerichtet (freiwillig: Daten-Repo-einrichten.bat).")
+        # 2.3.1 (T-DU8): den Grund nennen, nie den Token
+        log(f"Prüfung: Daten-Lieferung nicht möglich – {problem}." if problem else
+            "Prüfung: Daten-Lieferung nicht eingerichtet (freiwillig: Daten-Repo-einrichten.bat).")
         return None
+    if sys.platform == "win32":
+        daten.ensure_certifi(log)                # T-DU9: Zertifikate für GitHub, einmalig im Hintergrund
     roots = dict(syncer.roots) if syncer is not None else (
         sync.find_roots() or {"wow/" + os.path.basename(sync.account_dir(path)): sync.account_dir(path)})
     log("Prüfung: liefert nach jedem /reload und Ausloggen an das private Daten-Repo.")
@@ -894,6 +898,17 @@ def main():
         return
     if "--daten-einrichten" in sys.argv:
         daten.setup_interactive(HERE)
+        input("Enter zum Beenden ...")
+        return
+    if "--daten-testen" in sys.argv:
+        conf, problem = daten.read_config(HERE)
+        if conf:
+            if sys.platform == "win32":
+                daten.ensure_certifi(print, background=False)
+            daten.test_connection(conf)
+        else:
+            print(f"Nicht möglich: {problem}." if problem else
+                  "Noch nicht eingerichtet – zuerst Daten-Repo-einrichten.bat.")
         input("Enter zum Beenden ...")
         return
     log(f"RaidMaster-Uploader {VERSION}")
