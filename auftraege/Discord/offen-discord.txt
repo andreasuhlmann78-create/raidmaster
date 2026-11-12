@@ -1,78 +1,74 @@
-OFFENE PUNKTE DISCORD (nach der Nachprüfung von Bot 1.5.117)
+OFFENE PUNKTE DISCORD (nach der Nachprüfung von Bot 1.5.121)
 =============================================================
-Stand: 12. November 2026, 11:30 · von der Prüf-Sitzung (geplante Nachprüfung)
-Grundlage: RaidMasterBot 1.5.117 (Commit 6882ef3), verglichen mit Bot 1.5.114 (Commit 8223424); dazwischen 1.5.115
-(d7f448f) und 1.5.116 (c38585f). Dazu die Discord-Prüfung vom 12.11. 08:38 UTC (Commit 52bb07a, discord-check/).
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand vom 12.11. 08:15.
+Stand: 12. November 2026, 17:20 · von der Prüf-Sitzung (geplante Nachprüfung)
+Grundlage: RaidMasterBot 1.5.121 (Commit d92b3e6), verglichen mit Bot 1.5.117 (Nachprüfung 11:25); dazwischen 1.5.118
+(df401ed), 1.5.119 (6b1aeff), 1.5.120 (7a2a4d1). Dazu die Berichte berichte/Discord/2026-11-12-1600, -1610, -1620.
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand vom 12.11. 11:30.
 Zuständig für den Gilden-Discord (Server-Bot, Kanäle, Rollen, Einrichtung) ist das Discord-Projekt (Entscheid des
 Nutzers 12.11.). Keine Server-IDs, Links, Tokens oder Spielernamen in Dateien oder Commits.
 
-Erledigt in Bot 1.5.115–1.5.117 (danke):
-- DC2 Mitglieder-Bereich: /mitgliederbereich einrichten mit Vorschau, erst mit bestaetigen:True ausgeführt
-  (bot.py:6294 ff.); Rolle Mitglied ohne Sonderrechte, Mitglieder ohne Rolle bekommen sie (member_area.py:115);
-  nur was @everyone sieht und nicht in INFO/REGELN/PUG/RAID-ADDON/BEWERBUNG liegt, wird dicht gemacht
-  (member_area.py:61), zuerst Rollen frei, dann @everyone zu (member_area.py:97); ohne Server Members Intent keine
-  Ausführung (bot.py:6309 ff.); neue Kanäle bleiben dicht (maintain_member_area bot.py:6217, beim Start und nach
-  neuen Daten); freigeschaltete Raids nur für Mitglieder (server_setup.py:1143, bot.py:3455), hide_raid nimmt die
-  Mitglieder-Freigabe zurück; Regeln-Abgleich setzt die Sperre nicht mehr zurück (server_setup.py:1235).
-  Laut discord-check/kanaele.md (08:38 UTC) ist die Kategorie BEWERBUNG mit #bewerbung angelegt.
-- DC3 Bewerber-Weg: #bewerbung mit Karte und Knopf "Bewerben" -> Formular -> privater Thread mit den Offizieren,
-  Aufnehmen/Ablehnen (bot.py:6395, :6440), /mitglied aufnehmen|entfernen, Willkommenstext verweist auf #bewerbung
-  (server_setup.py welcome_text). Rechte #bewerbung: alle lesen, nur im eigenen Thread schreiben (member_area.py:170).
-- 1.5.116: der Bot selbst bekommt in gesperrten Kanälen "Kanal ansehen" (Vorbereitung Bot ohne Administrator).
-- 1.5.117: Addon's by GoldSentinel für Mitglied/Raider/Raidleitung/Offizier sichtbar, schreiben nur Offiziere und Bot
-  (server_setup.py:331, einmalig beim Start bot.py:307, Merker addon_channels_members); Hinweis "RaidMaster ist
-  Pflicht" bei der Anmeldung zu Gilden-Raids, nicht bei PUG (bot.py:559).
-- Neue Befehle in COMMAND_INFO, member_area im Import-Schritt von .github/workflows/bot-tests.yml, ANLEITUNG.md 6a.
-Prüfungen: Bot-Tests 133/133 OK (neu tests/test_mitgliederbereich.py, 13 Tests), member_area und server_setup
-importierbar, bot.py py_compile OK (Import ohne config.json beendet sich wie vorgesehen). Keine Tokens, Webhook-URLs,
-Server-IDs oder Spielernamen im Diff. Discord-Prüfung 08:38 UTC: alles im Discord (Versionen, Ankündigungen,
-Regeln, Raid-Kategorien).
+Erledigt (danke):
+- DC1, DC4, DC5, DC6 laut Bericht 2026-11-12-1600: Bestandsaufnahme dem Nutzer gegeben, Serverprofil mit Freigabe
+  eingetragen, Community/Verifizierung/Inhaltsfilter/@everyone-Erwähnung, Bot-Rolle ohne Administrator, Vorschlagsliste
+  mit Freigabe umgesetzt (1.5.115–1.5.117). Damit ist anweisung-discord-pruefung.txt (DC1–DC6) vollständig erledigt
+  und entfernt.
+- N1 (1.5.118): Kanäle ohne Kategorie werden erfasst (member_area.py:72–77), Test OhneKategorie
+  (tests/test_mitgliederbereich.py:148).
+- N2 (1.5.118): gewollt so (Entscheid Nutzer), Test AddonMigration (tests/test_mitgliederbereich.py:199) prüft
+  members_botonly, Gast fehlt, Bot sieht/schreibt, zweiter Lauf ändert nichts.
+- N3: geprüft, die eine Person ohne Rolle ist Gildenmitglied (Bestätigung des Nutzers). Nichts zu ändern.
+- 1.5.119/1.5.120: /raid erstellen bestätigt nach den Prüfungen sofort (defer, bot.py:916), postet dann in den
+  Zielkanal und meldet "Raid erstellt in #…" per followup (bot.py:927–930). Behebt "Die Anwendung reagiert nicht".
+  Test BotCode.test_raid_erstellen_antwortet_vor_dem_posten.
+- 1.5.121: /raid erstellen ohne raid-Angabe nimmt den Raid des Kanals (pool_from_channel bot.py:851, Aufruf :891),
+  sonst Molten Core. Raid-Kategorien haben je Raid eigene Kanäle (server_setup.py:477), die Kategorie-Suche ist damit
+  eindeutig.
+- Im Discord (ohne Code, Bericht -1620): #gildenname gelöscht, Einführung (Onboarding) aktiviert, Rolle Mitglied nie
+  über die Einführung. Bleibt so: #dkp-punkteverteilung/#dkp-regeln getrennt, #testberichte/#sync-daten nur Inhaber/Bot.
+Prüfungen: Bot-Tests 137/137 OK, member_area und server_setup importierbar, bot.py py_compile OK. Keine Tokens,
+Webhook-URLs, Server-IDs oder Spielernamen im Diff. Keine neuen Fehler aus testberichte/ für den Bot.
 
 OFFENE PUNKTE (nach Schwere)
 ----------------------------
-1. DC1/DC4/DC5/DC6 (MITTEL, aus anweisung-discord-pruefung.txt) – noch kein Ergebnis im Repo.
-   Es gibt keinen Bericht in berichte/Discord/. DC2/DC3 sind umgesetzt, aber offen sind:
-   DC1 Bestandsaufnahme über den Bot (Kategorien, Rollen, Berechtigungen je Rolle, Onboarding, Einladungen,
-   Serverprofil-Angaben), DC4 Vorschlag Text fürs öffentliche Serverprofil, DC5 Aufräumen/Rechte prüfen (sieht
-   @everyone Offiziers- oder Bot-Kanäle? Bot-Rechte nur so weit nötig), DC6 Liste "Vorschlag – warum – Aufwand".
-   Lösung: Ergebnis dem Nutzer geben und als Bericht in berichte/Discord/ ablegen (ohne IDs/Namen). Wurde es dem
-   Nutzer schon im Chat gegeben: nur den Bericht nachreichen.
+1. R1 (NIEDRIG) – /raid erstellen: Raid bleibt ohne Nachricht gespeichert, wenn das Posten scheitert.
+   bot.py:922 book.create speichert den Raid sofort (raidmaster_data.py:1220), erst danach bot.py:927 target.send.
+   Scheitert das Senden (z. B. Bot ohne Administrator hat in #…-anmeldung kein "Nachrichten senden"), bleibt ein Raid
+   mit message_id None im Buch, und der Ersteller sieht nur "Da ist etwas schiefgelaufen" (bot.py:1528).
+   Seit 1.5.120 wird IMMER mit target.send gepostet (früher im selben Kanal als Antwort auf den Befehl, ohne
+   Senderecht). Lösung: target.send in try/except discord.HTTPException; bei Fehler den Raid aus dem Buch entfernen
+   (oder erst nach erfolgreichem Senden anlegen) und per followup klar melden ("Mir fehlt das Recht Nachrichten
+   senden in #…"). Testfall.
 
-2. N1 (NIEDRIG) – Kanäle ohne Kategorie werden vom Mitglieder-Bereich nicht erfasst.
-   member_area.py:61 plan_items geht nur über guild.categories. Ein Kanal oben ohne Kategorie bleibt für Gäste
-   sichtbar, auch später neu angelegte. Lösung: guild.channels ohne category_id einbeziehen (offene Liste wie bei
-   den Kategorien, z. B. nichts ausser bewusst freigegebenen) oder in der Vorschau als "bleibt offen" zeigen. Test.
+2. R2 (NIEDRIG) – pool_from_channel nur über den Quelltext getestet.
+   tests/test_mitgliederbereich.py BotCode.test_raid_aus_dem_kanal sucht nur die Zeile im Quelltext. Lösung:
+   Funktionstest mit Attrappen: Kanal-ID eines Topfs -> Topf, Kanal in derselben Kategorie -> Topf, fremder Kanal
+   und None -> None; dazu ein Topf ohne Kanäle (leeres dict) ohne Fehler.
 
-3. N2 (NIEDRIG) – open_addon_channels_to_members ohne Test, ersetzt alle Kanal-Rechte.
-   server_setup.py:1271 setzt Kategorie und JEDEN Kanal darin (auch #ahsentinel und von Hand angelegte) auf genau
-   members_botonly; von Hand gesetzte Rechte gehen dabei einmalig verloren. Gewollt? Dann so lassen, aber einen
-   Testfall ergänzen (Kategorie + Kanäle -> members_botonly, Gast sieht nichts, Bot sieht und schreibt, zweiter
-   Lauf ändert nichts).
-
-4. N3 (NIEDRIG) – Rolle Mitglied an alle ohne Rolle beim Einrichten.
-   member_area.py:115: Wer vor dem Einrichten über das öffentliche Serverprofil beigetreten war (Fremde), bekam
-   ebenfalls "Mitglied". Kein Code-Fehler (Vorschau zeigt die Namen), aber nach dem Einrichten die Rollenliste einmal
-   ansehen und Fremden die Rolle mit /mitglied entfernen nehmen. Nur prüfen, nichts ändern, wenn es passt.
+3. D1 (NIEDRIG, Entscheid des Nutzers offen, aus Bericht -1600) – Rolle DISBOARD hat "Kanäle verwalten" (unnötig).
+   Lösung: dem Nutzer zur Freigabe vorlegen; nach Freigabe im Discord entfernen und im Bericht vermerken.
 
 LIVE PRÜFEN (Server / Discord beim Nutzer)
-   - Mit einem Konto ohne Rolle: sieht nur INFO, REGELN, PUG, RAID-ADDON, BEWERBUNG; nicht ALLGEMEIN, DUNGEONS,
-     GILDENBANK, RAID-ORGA, Raids, Addon's by GoldSentinel, Offiziere.
-   - Bewerben-Knopf -> Formular -> privater Thread; Offiziere sehen ihn, andere Bewerber nicht; Aufnehmen gibt
-     Mitglied und entfernt Gast; Ablehnen schliesst den Thread.
-   - Mit Rolle Mitglied: Addon's by GoldSentinel sichtbar, schreiben nicht möglich; Bot postet neue Versionen weiter.
+   - /raid erstellen nach 1.5.121 erneut testen: in #barrow-anmeldung ohne raid-Angabe -> Raid landet in
+     #barrow-anmeldung; in einem fremden Kanal -> Molten Core. Bot (ohne Administrator) darf in allen
+     #…-anmeldung und #pug-anmeldung Nachrichten senden und Einbettungen/Links (Embeds) posten.
+   - Bewerbung: "Aufnehmen" gibt Mitglied und entfernt Gast (Ablehnen ist am 12.11. 16:03 getestet, OK).
    - Anmeldung zu einem Gilden-Raid zeigt den RaidMaster-Pflicht-Hinweis, PUG-Anmeldung nicht.
-   - (übernommen aus offen-raidmaster.txt, Bot gehört jetzt hierher) Steht im Protokoll "guild_leader ist leer", den
-     Charakternamen in die config.json auf dem Server (nie ins Repo). Recht "Nachrichten verwalten" nur in
-     #testberichte. Höchstens ein Neustart je echtem Update
+   - Einführung (Onboarding) einmal mit einem neuen Konto durchspielen; wird #bewerbung, ein PUG-Kanal oder die Rolle
+     Gast umbenannt/neu angelegt, die Einführung nachziehen.
+   - Steht im Protokoll "guild_leader ist leer", den Charakternamen in die config.json auf dem Server (nie ins Repo).
+     Recht "Nachrichten verwalten" nur in #testberichte. Höchstens ein Neustart je echtem Update
      (sudo journalctl -u raidmaster --since "-6h" | grep -c "Neustart nach Update").
    - Addon-Kanäle: je Addon nur der neueste Update-Text. #befehle für alle, #befehlsliste bei den Offizieren.
      Raids mit "forever": false für Mitglieder ausgeblendet.
+   (Live bestätigt laut Bericht -1600/-1610: ohne Rolle nur INFO, REGELN, BEWERBUNG, PUG, RAID-ADDON; Addon-Kanäle
+   Mitglied lesen/Offizier schreiben/Gast nichts; Bot ohne Administrator sieht alle Kanäle; Bewerben-Knopf ->
+   Formular -> privater Thread mit Offizier-Erwähnung.)
 
 HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Neue Bot-Module in .github/workflows/bot-tests.yml beim Import-Schritt ergänzen.
    - Jeder neue Slash-Befehl braucht einen Eintrag in COMMAND_INFO (tests/test_befehle.py).
    - Keine echten Spieler- oder Charakternamen in Code, Tests, Beispielen und Texten.
-   - Versionen höher als Bot 1.5.117.
+   - Nach defer() nie mehr inter.response.* verwenden, nur followup.
+   - Versionen höher als Bot 1.5.121.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/Discord/ ablegen.

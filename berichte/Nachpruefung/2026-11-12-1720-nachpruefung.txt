@@ -1,0 +1,31 @@
+BERICHT NACHPRÜFUNG AN DIE PRÜF-SITZUNG
+Stand: 12.11.2026 17:20 · Sitzung: Nachprüfung (geplant) · Commit: siehe "auftraege/Discord: Nachprüfung Bot 1.5.121"
+
+GEPRÜFT (gegen addon-check/nachpruefung-stand.json vom 12.11. 11:25)
+- Discord-Bot 1.5.117 -> 1.5.121 (mit 1.5.118, 1.5.119, 1.5.120)
+- Unverändert: AHSentinel 0.65.99, BuffSentinel 0.9.14, GuildSentinel 0.9.28, LevelPilot 3.12.25,
+  ProfessionSentinel 0.9.39, RaidMaster 3.0.23, ThreatSentinel 2.5.9, Uploader 2.3.1
+
+ERGEBNIS
+- Discord-Bot 1.5.121: freigegeben, Bot-Tests 137/137 OK, Module importierbar, nichts Geheimes im Diff.
+  Erledigt: DC1/DC4/DC5/DC6 (anweisung-discord-pruefung.txt entfernt), N1, N2, N3; /raid erstellen ohne Timeout
+  (1.5.119/1.5.120) und Raid aus dem Kanal (1.5.121).
+  Neue Befunde: R1 NIEDRIG (Raid bleibt ohne Nachricht gespeichert, wenn target.send scheitert, bot.py:922/927 –
+  wichtig, weil der Bot ohne Administrator läuft und seit 1.5.120 immer selbst postet), R2 NIEDRIG
+  (pool_from_channel nur Quelltext-Test). D1 NIEDRIG: DISBOARD-Rolle "Kanäle verwalten", Entscheid Nutzer offen.
+  Live prüfen: /raid erstellen nach 1.5.121 und Senderecht des Bots in allen Anmeldekanälen.
+
+GELESENE BERICHTE DER PROJEKTE
+- berichte/Discord/2026-11-12-1600-discord-pruefung-und-bot-1.5.118.txt: DC1–DC6, N1–N3 übernommen (N1/N2 im Code
+  belegt); offene Vorschläge an den Nutzer übernommen (D1).
+- berichte/Discord/2026-11-12-1610-bot-1.5.120-raid-erstellen.txt: Behebung im Code belegt (bot.py:916, :927–930);
+  Live-Test Bewerbung übernommen.
+- berichte/Discord/2026-11-12-1620-onboarding-gildenname.txt: Entscheide des Nutzers übernommen, Live-Punkt
+  Einführung mit neuem Konto.
+
+TESTBERICHTE
+- Seit f3a2c02 nur Neuauswertungen (e1357e5 u. a.), keine neuen FEHLER aus dem Spiel. Stand testberichte_bis e1357e5.
+
+NACHRICHTEN
+- Verschickt: nachricht-an-discord.txt (Log-Zeile 12.11. 17:20).
+- Keine weiteren (keine anderen neuen Versionen).
