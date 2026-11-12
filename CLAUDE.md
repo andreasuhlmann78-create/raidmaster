@@ -9,8 +9,8 @@ Ausnahme: Geplante Aufgaben (z. B. «ProfessionSentinel Rezeptdaten-Update», «
 ihre eigene Anweisung aus. Sie setzen keine Aufträge aus `auftraege/` um und ändern keinen Programmcode.
 
 Die Prüf-Sitzung verteilt Anweisungen, Korrekturen und Hinweise für die Addon-Projekte über den Ordner `auftraege/`
-(Regeln in `auftraege/README.md`). Ein Ordner pro Addon: `RaidMaster/`, `ThreatSentinel/`, `AHSentinel/`, `BuffSentinel/`,
-`GuildSentinel/`, `ProfessionSentinel/`, `LevelPilot/`.
+(Regeln in `auftraege/README.md`). Ein Ordner pro Addon bzw. Projekt: `RaidMaster/`, `ThreatSentinel/`, `AHSentinel/`, `BuffSentinel/`,
+`GuildSentinel/`, `ProfessionSentinel/`, `LevelPilot/`, `Discord/` (Discord-Projekt: Gilden-Discord, Server-Bot).
 
 1. `git pull --rebase`
 2. Alle Dateien in `auftraege/<dein Addon>/` lesen. Neues zeigt `git log --oneline -- auftraege/<dein Addon>/`.
