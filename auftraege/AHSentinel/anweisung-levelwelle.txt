@@ -1,0 +1,21 @@
+ANWEISUNG AHSENTINEL – Levelwelle und Twink-Phase (WL1–WL4)
+=============================================================
+Von der Prüf-Sitzung, 12.11. 07:10. Erst laufende Arbeit fertig machen (AB, Q zuerst), dann diese Anweisung.
+Grundlage: shared/wissen/markt-strategie.md Abschnitt 4 (Levelwelle 12.11.) und 8e Nr. 13, 19; Beobachtung des
+Nutzers + Daten: Seelenstaub 6s88 -> 3s99 in ~6 Tagen, Goldene Schuppenarmschienen (iLvl 37) >1g am 7.11. -> 18s.
+
+WL1 – Band-Trend messen. Stufenbänder wie beim Entzaubern (5er-Bänder iLvl, dazu je Band Staub/Essenz/Splitter).
+  Je Band und Tag: Median der Mindestpreise der grünen Rüstung/Waffen und der Band-Materialien aus dem Vollscan
+  (vorhandene Tageswerte nutzen, kein neuer grosser Speicher). Trend = Steigung der letzten 5 Tage in %/Tag.
+
+WL2 – Anzeige, nur wenn belegt (>= 5 Tage, >= 20 Items im Band): eine Zeile im Tooltip und im Verkaufen-Tab
+  "Stufe 31–35: Preise fallen (−6 %/Tag) – zügig verkaufen" bzw. "… steigen (+x %/Tag) – Twink-Nachfrage, nicht
+  verschleudern". Sonst keine Zeile. Kein Kauf-Signal aus dem Trend allein.
+
+WL3 – Entzaubern und Sniper: fällt das Band der Materialien um mehr als 3 %/Tag, Einkaufsgrenze um den erwarteten
+  Fall bis zum Verkauf senken (erwartete Verkaufszeit × Trend), Hinweis im Tooltip "Grenze wegen fallendem Markt −x".
+
+WL4 – Testlog/Diagnose: Tabelle Band -> Trend, Anzahl Items, Tage; Test T-WL1–T-WL4 mit erfundenen Tagesreihen
+  (fallend, steigend, zu wenig Daten).
+
+Vor dem Push: python3 addon-check/addon_check.py download/AHSentinel-<Version>.zip -> kein FEHLER.
