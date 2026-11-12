@@ -1,106 +1,96 @@
-OFFENE PUNKTE PROFESSIONSENTINEL (nach der Nachprüfung von 0.9.38)
+OFFENE PUNKTE PROFESSIONSENTINEL (nach der Nachprüfung von 0.9.39)
 ===================================================================
-Stand: 11. November 2026, 08:20 · von der Prüf-Sitzung · Grundlage: download/ProfessionSentinel-0.9.38.zip
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.37.
+Stand: 12. November 2026, 11:30 · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/ProfessionSentinel-0.9.39.zip
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.38.
+Gelesen: berichte/ProfessionSentinel/2026-11-12-0855-version-0.9.39.txt – alle gemeldeten Punkte sind im Code belegt.
 
 REIHENFOLGE: Erst die laufende Arbeit fertig machen, dann die Punkte unten von oben nach unten.
 
-Erledigt in 0.9.38 (danke)
+Erledigt in 0.9.39 (danke)
 --------------------------
-- 0.9.38 ist ein reines Rezeptdaten-Update der geplanten Aufgabe (Commit 41e045f): Data_Forever.lua (2211 -> 2315
-  Rezepte mit bekannter Quelle, neue Händler und Drop-Quellen, ein Kochlehrer-Eintrag weniger), in Data_Era.lua und
-  Data_Retail.lua nur Kopfzeile und ns.DataMeta (Build/QuestieDB, count unverändert 1267 bzw. 10172).
-  Dazu Version in Core.lua und den vier .toc, CHANGELOG EN/DE. Kein Programmcode geändert – richtig so, die geplante
-  Aufgabe ändert keinen Code. Die offenen Punkte 1-3 bleiben deshalb unverändert offen.
+- Punkt 1a (direkter Neuaufbau portioniert): UI:Refresh startet ausserhalb des Aufbaus UI.StartBuild("direkt", 1)
+  (UI.lua 2355–2364, Aufruf 2362); am Stück nur bei UI.SyncRefresh() (UI.SYNC oder laufende Testroutine, UI.lua 2350,
+  TestRoutine.lua 32 TR.Running).
+- Punkt 1b: Yield() in AD.Ranking (Advisor.lua 170), AD.GoldRanking (268), PlanRaw (508, 534); AD.Update gibt
+  zwischen den Stufen ab. Kein pcall dazwischen: P.InPass ruft fn im laufenden Durchgang direkt auf (Prices.lua 60),
+  der Aufbau beginnt den Durchgang in Step (UI.lua 2269) – Yield über pcall ist damit ausgeschlossen.
+- Punkt 1c: PL.Build mit Zwischenspeicher (Plan.lua 46–58; Schlüssel mit AD.stamp, Preisquelle, PS.changes,
+  30-s-Fenster, Sim). PlanRaw rechnet nur über die aktiven Rezepte (lernbar, nicht grau), Neuaufbau der Liste nur an
+  der nächsten Lern- bzw. Grau-Stufe (Advisor.lua 520–546). UI.NextOrange nimmt AD.current.mat bzw. die Rezeptliste
+  ohne AD.Evaluate (UI.lua 1693–1723). Offline: T143 meldet AD.Plan nicht mehr (vorher 20 ms).
+- Punkt 1 Testfall: T246 (Bereich H, TestRoutine.lua 5231): 300 Rezepte, Reiter Skillen + Klick, portioniert,
+  längste Portion offline 10.0 ms (Forever) / 10.9 ms (Era) / 4.8 ms (Retail), Plan aus dem Zwischenspeicher – OK.
+- Punkt 2 (GoldSentinelTest 2): Datei byte-gleich mit shared/ (Version 2), sonst nichts geändert; T3 wie bisher
+  (Core.lua 614, GT.TrackErrors nach ADDON_LOADED); CHANGELOG EN/DE; T245 = T-GT1/T-GT2 (TestRoutine.lua 5142) – OK.
+  anweisung-test-version2.txt ist damit vollständig erledigt und entfernt.
+- Punkt 3a: Details nur, wenn UI.GroupOfMode(Mode()) == "recipes" (UI.lua 1046); T243 um Klick in "gold" und "plan"
+  ergänzt (TestRoutine.lua 5090–5106).
+- Punkt 3b: bestätigt – "kein Zeichen = gelernt" ist gewollt (CHANGELOG 0.9.39). Erledigt.
 
-Prüfungen (0.9.38)
+Prüfungen (0.9.39)
 ------------------
-- addon_check: OK, 0 FEHLER, 1 WARNUNG: GoldSentinelTest.lua ist Version 1 (siehe Punkt 2).
-- GoldSentinelGame.lua byte-gleich mit shared/. GoldSentinelTest.lua und GoldSentinelDev.lua unverändert gegenüber
-  0.9.37.
-- Quell-Repo (Commit 41e045f) entspricht der ZIP Datei für Datei.
-- tests/run_offline.py: Forever OK 198 / FEHLER 1 (T143, Zeitmessung "AD.Plan 1->300 20.2 ms" – zählt offline nicht,
-  gehört zu Punkt 1), Era OK 181 / FEHLER 0, Retail OK 180 / FEHLER 0 – gleich wie 0.9.37.
+- addon_check: OK, 0 FEHLER, 0 WARNUNGEN (die Warnung GoldSentinelTest Version 1 ist weg).
+- GoldSentinelGame.lua (Version 3) und GoldSentinelTest.lua (Version 2) byte-gleich mit shared/. GoldSentinelDev.lua
+  unverändert gegenüber 0.9.38.
+- Quell-Repo (Commit 2e7f09f) entspricht der ZIP Datei für Datei. Geändert: Advisor.lua, Plan.lua, UI.lua, Core.lua
+  (Version), TestRoutine.lua, GoldSentinelTest.lua, vier .toc (alle 0.9.39), CHANGELOG EN/DE. Locales unverändert
+  (keine neuen sichtbaren Texte ausserhalb der Testroutine).
+- Keine Blizzard-Funktion oder C_-Tabelle ersetzt; T246 ersetzt nur ns.API.TimerAfter, UI.Now, UI.SYNC und
+  ns.TestRoutine.Running (eigene Tabellen).
+- tests/run_offline.py: Forever OK 201 / FEHLER 1 (nur T143 Zeitmessung "AL.Needed (50 Charaktere) 21.0 ms" – zählt
+  offline nicht), Era OK 184 / FEHLER 0, Retail OK 183 / FEHLER 0. T245 und T246 in allen drei OK.
 - Sync weiterhin nicht zutreffend: keine Addon-Nachrichten. Falls später Datenaustausch kommt: nur über
   GoldSentinelSync 2 (shared/wissen/kommunikation-forever.md), nie über eigene Kanäle.
-- Keine neuen Testberichte aus dem Spiel seit der letzten Nachprüfung.
-
-Diagnose aus dem Client (testberichte/diagnose/ProfessionSentinel/0.9.37-ac188a4404e9.txt)
-------------------------------------------------------------------------------------------
-- "SPIELTEST S7 FEHLER: 0.2 Aufbau/s, 3 LANGSAM" und "SPIELTEST S8 FEHLER: CheckButton verdeckt
-  ProfessionSentinelPanelCloseButton; …" sind KEINE neuen Ergebnisse: Beide Zeilen stammen vom Spieltest mit 0.9.28
-  (9. Nov. 07:55 und 07:57). Sie stehen seit den 0.9.28-Berichten unverändert in jedem Bericht (auch 0.9.29–0.9.34),
-  weil das Protokoll alte Einträge behält. Seither lief kein Spieltest mehr. Beide waren Punkte 1 und 2 der
-  Nachprüfung von 0.9.28 und wurden in 0.9.29–0.9.32 behoben (Tooltips neben dem Panel: UI.TooltipBeside,
-  UI.GuardTemplateTooltip). /ps spieltest an setzt die Ergebnisse zurück (Spieltest.lua 308–315).
-- Das passive Protokoll von 0.9.37 zeigt aber weiterhin LANGSAM -> Punkt 1. S7 würde damit wieder FEHLER melden.
+- Neuer Diagnose-Bericht testberichte/diagnose/ProfessionSentinel/0.9.38-1247862f6b5e.txt (12. Nov. 06:59): 0 Lua-Fehler.
+  Die LANGSAM-Einträge stammen alle noch von v0.9.37 (zuletzt 10. Nov. 15:37: UI:Refresh ×8247 bis 77 ms, AD.Update
+  ×7203, UI:Aufbau (Teil 1) ×291 bis 72 ms) – genau das, was 0.9.39 behebt. Seit 0.9.38 kein neuer Eintrag (Panel
+  nicht benutzt). "ÜBERLAPPT ×762 … AHAnalyzerProCraftPanel" zählt seit 9. Nov. 18:36 nicht mehr hoch.
 
 OFFENE PUNKTE
 -------------
-1. NEUAUFBAU IMMER NOCH LANGSAM (MITTEL) – Diagnose 0.9.37 (9. Nov. 18:46–18:54, Werte nur mit v0.9.37)
-   - UI:Refresh 76.1 ms (zuletzt 42.0 ms), UI:Refresh/plan 61.1 ms, Plan 57.4 ms, UI:Aufbau (Teil 1) 53.1 ms
-     (zuletzt 26.0 ms, ×216 insgesamt), UI:Refresh/recipes 42.8 ms, UI:UpdateBest 26.2 ms, AD.Update 26.1 ms.
-     Erwartet: nichts über 16 ms. (0.9.34 hatte noch 392 ms – besser, aber nicht gut.)
-   - Ursachen im Code:
-     a) Ein direkter Neuaufbau (Klick, Reiter, Suche, Einstellung) läuft am Stück, ohne Portionen
-        (UI.lua 2329–2336: UI:Refresh ausserhalb der Coroutine -> DoRefresh direkt).
-     b) Der erste Teil des portionierten Aufbaus beginnt mit UpdateBest -> AD.UpdateCached -> AD.Update
-        (UI.lua 2339–2341, Advisor.lua 310–340). AD.Ranking und AD.GoldRanking laufen je am Stück; Yield gibt es nur
-        dazwischen. Ist der Cache kalt, ist Teil 1 allein deshalb über 16 ms.
-     c) Plan: PL.Build läuft am Stück. Neu in 0.9.37 rechnet UI.NextOrange kurz vor dem Umschlag AD.MatRanking über
-        ALLE Rezepte des Berufs mit AD.Evaluate neu (UI.lua 1700, ohne vorhandene Einträge) – AD.current.mat bzw.
-        den Parameter "entries" wiederverwenden. Offline zeigt T143 dasselbe Bild ("AD.Plan 1->300 20.0 ms").
-   - Lösung: direkten Refresh ebenfalls portionieren (oder nur den sichtbaren Reiter sofort zeichnen, den Rest im
-     nächsten Frame); in den Schleifen von AD.Ranking/AD.GoldRanking/PL.Build alle N Rezepte UI.Yield();
-     den Plan cachen, bis sich Fertigkeit, Preise oder gelernte Rezepte ändern; NextOrange aus vorhandenen Werten.
-   - Testfall: neuer Fall (Bereich H): simulierter Beruf mit 300 Rezepten, Wechsel in den Reiter "Skillen" und Klick
-     auf eine Zeile -> kein einzelner Schritt über 16 ms (bzw. UI.FRAME_BUDGET je Portion). Im Client: S7 OK.
+1. KLICK AUF EINE "TOP"-ZEILE IM REITER "REZEPTE" ÖFFNET JETZT DETAILS (NIEDRIG) – bitte bestätigen
+   - Vorher: "if not data.suggest and UI.ShowDetails" – Vorschlagszeilen öffneten nie Details. Jetzt nur noch die
+     Reiter-Prüfung (UI.lua 1046). Damit öffnen die Vorschlagszeilen im Block "Top" des Reiters "Rezepte"
+     (RefreshRecipes, UI.lua 1524, suggest = true) die Details neu. Steht so nicht im CHANGELOG.
+   - Ist das gewollt (wirkt sinnvoll): kurz bestätigen und im nächsten CHANGELOG erwähnen. Sonst "not data.suggest"
+     wieder dazunehmen. Testfall T243 um "Klick auf Top-Zeile im Reiter Rezepte" ergänzen (je nach Entscheid
+     Details sichtbar bzw. nicht).
 
-2. GOLDSENTINELTEST VERSION 2 (MITTEL, klein) – anweisung-test-version2.txt
-   - T1: shared/GoldSentinelTest.lua (VERSION 2) unverändert kopieren; addon_check meldet sonst die WARNUNG
-     "veraltete offizielle Fassung (Version 1)".
-   - T3 ist schon erfüllt (Core.lua 614: GT.TrackErrors nach ADDON_LOADED). T2/T4: sonst nichts ändern; die
-     TestRoutine zählt GoldSentinelTestFrame nicht (geprüft).
-   - T5: CHANGELOG EN/DE "GoldSentinelTest 2: Fehlerberichte an den Entwickler teilen (nur mit Zustimmung, /gstest)".
-   - Testfälle T-GT1 (GoldSentinelTest.version == 2), T-GT2 (ohne Zustimmung bleibt db.gsTest.share.outbox leer).
-   - Ohne GoldSentinelSync 2 im Client ruht das Senden von selbst; ProfessionSentinel baut KEIN GoldSentinelSync ein.
+2. NEUAUFBAU IM CLIENT BESTÄTIGEN (MITTEL, nur Prüfung) – Punkt 1 der Nachprüfung 0.9.38
+   - Offline erledigt (siehe oben). Ob es im Spiel unter 16 ms bleibt, zeigt erst der Client: /ps protokoll nach
+     Öffnen des Berufsfensters, Reiterwechsel und Klicks – keine neuen LANGSAM-Einträge mit v0.9.39 über 16 ms;
+     /ps spieltest an -> S7 OK; /ps testroutine h -> T246 und T219 OK. Bleiben LANGSAM-Einträge: Name und Wert
+     melden, dann weiter portionieren.
 
-3. DETAILS NUR IM REITER "REZEPTE" (NIEDRIG) – bitte bestätigen oder nachziehen
-   a) Der Klick auf eine Zeile ruft UI.ShowDetails ohne Prüfung des Reiters (UI.lua 1045). Die Zeilen der Reiter
-      "Gold" und "Skillen" nutzen dieselbe Funktion: Dort erscheinen die Details auch und verkleinern die Liste.
-      Erst der nächste Neuaufbau (UpdateTabs, UI.lua 1313–1318) blendet sie aus; bei nicht gelernten Rezepten (kein
-      SelectInBlizzard) bleiben sie stehen. Lösung: ShowDetails nur, wenn UI.GroupOfMode(Mode()) == "recipes" –
-      oder bewusst überall zeigen und dann in UpdateTabs nicht ausblenden. T243 um den Fall "Klick im Reiter Gold"
-      ergänzen.
-   b) Status-Kennzeichen: Gelernte Zeilen haben kein Kennzeichen (nur blasser), lernbar/fehlt schon
-      (UI.lua 1016–1018). U2 wollte gelernt/lernbar/fehlt. Bitte bestätigen, dass "kein Zeichen = gelernt" so
-      gewollt ist (Filter "Gelernt" zeigt es ja), sonst nachziehen.
-
-IM CLIENT PRÜFEN (mit 0.9.38 und aktuellem AHSentinel)
+IM CLIENT PRÜFEN (mit 0.9.39 und aktuellem AHSentinel)
 ------------------------------------------------------
+- Neu mit 0.9.39: Klick, Reiter, Suche, Einstellung zeichnen ohne sichtbares Flackern oder halbe Listen; das Panel ist
+  nach einem Klick sofort richtig (erste Portion im selben Frame). Reiter "Skillen": Plan stimmt nach Lernen eines
+  Rezepts, nach einem Fertigkeitspunkt und nach einem AH-Scan sofort bzw. spätestens nach 30 s. "Danach orange"
+  nennt ein sinnvolles nächstes oranges Rezept.
+- Neu mit 0.9.39: Klick in den Reitern "Gold" und "Skillen" öffnet keine Details; im Reiter "Rezepte" schon.
+- /gstest: einmalige Frage zur Zustimmung, ohne Zustimmung wird nichts gesendet (GoldSentinelTest 2).
 - Berufsfenster (Era TradeSkillFrame und CraftFrame/Verzauberkunst, Forever, Retail): je Zeile höchstens ein
   Zeichen am rechten Rand, nie über Name oder "[38]", kein Balken; Zeile "Bestes:" hell und lesbar, gekürzt erst ab
   Fensterbreite; /ps testroutine k -> T242 OK.
-- Reiter "Rezepte": Klick zeigt die Details; "Herstellen" stellt her; "Einkaufsliste" kauft beim offenen Händler und
-  legt AH-Zutaten in AHSentinels Sniper.
+- Reiter "Rezepte": "Herstellen" stellt her; "Einkaufsliste" kauft beim offenen Händler und legt AH-Zutaten in
+  AHSentinels Sniper.
 - Reiter "Skillen": "Nächster Schritt", kurz vor Gelb das nächste orange Rezept, Lernort mit Wegpunkt.
 - Rezept-Alarm: höchstens eine Chatzeile je Sitzung, die Zahl am Reiter "Rezepte".
-- Neu mit 0.9.38: Forever-Rezepte mit neuer Quelle (z. B. Goldener Schuppenkürass, Brustplatte des scharlachroten
+- Forever-Rezepte mit neuer Quelle aus 0.9.38 (z. B. Goldener Schuppenkürass, Brustplatte des scharlachroten
   Soldaten) zeigen Händler bzw. Drop im Tooltip und in den Details; keine "Quelle unbekannt".
-- Diagnose "ÜBERLAPPT Panel überdeckt AHAnalyzerProCraftPanel": ×691 in den 0.9.32-Berichten (zuletzt 8. Nov.),
-  ×762 im 0.9.37-Bericht (zuletzt 9. Nov. 18:36, noch mit 0.9.36). Mit 0.9.37 und aktuellem AHSentinel prüfen, dass
-  AHSentinel sein Gewinn-Fenster ausblendet, solange das Panel offen ist (U9). Zählt der Eintrag weiter hoch:
-  Versionen beider Addons melden.
+- "ÜBERLAPPT Panel überdeckt AHAnalyzerProCraftPanel": seit 9. Nov. 18:36 nicht mehr hochgezählt. Mit offenem Panel
+  und aktuellem AHSentinel bestätigen, dass AHSentinel sein Gewinn-Fenster ausblendet (U9). Zählt der Eintrag
+  wieder hoch: Versionen beider Addons melden.
 - Panel und Tooltip zeigen "Preise: AHSentinel"; Gewinn im Tooltip = Details = Gold-Rangliste = AHSentinel-Gewinn.
 - Tooltip: ohne Shift drei Blöcke, Shift drücken/loslassen zeichnet neu; Muster-Tooltip "Muster · fehlt/lernbar ab …".
 - Ohne AHSentinel, nur auxForever / nur Auctionator / nur Auctioneer (+ Enchantrix): Quelle stimmt, Preise kommen,
   keine "Funktion nicht gefunden"-Zeile.
 - Nach einem AH-Scan mit offenem Panel: Werte einmal neu (Abo), kein Ruckeln.
-- /ps protokoll beim Öffnen des Berufsfensters und beim Wechsel der Reiter: kein LANGSAM über 16 ms (nach Punkt 1).
-- /ps spieltest an (setzt die alten Ergebnisse zurück): S5 (ohne 1c-Abweichung), S7 (nach Punkt 1), S8, S10.
+- /ps spieltest an (setzt die alten Ergebnisse zurück): S5 (ohne 1c-Abweichung), S7, S8, S10.
 - Mengenfenster: Esc schliesst nach Mausklick ins Fenster; volle Taschen mit angebrochenem Stapel kauft den Rest.
-- /ps testroutine im echten Client: T139/T140/T143/T219 unter 16 ms, T145 Speicher, Bereich K (T206–T211, T235,
-  T242), T188 Andocken mit AHSentinel, T113, T144, T169/T170, T228–T238.
+- /ps testroutine im echten Client: T139/T140/T143/T219/T246 unter 16 ms, T145 Speicher, T245, Bereich K (T206–T211,
+  T235, T242), T188 Andocken mit AHSentinel, T113, T144, T169/T170, T228–T238.
 
 Wie immer: komplette Dateien, Era/TBC/Retail nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
-Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
+Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/ProfessionSentinel/ ablegen.

@@ -1,0 +1,49 @@
+BERICHT NACHPRÜFUNG AN DIE PRÜF-SITZUNG
+Stand: 12.11.2026 11:25 · Sitzung: Nachprüfung (geplant) · Commit: siehe "auftraege: Nachprüfung 12.11. 11:25"
+
+GEPRÜFT (gegen addon-check/nachpruefung-stand.json vom 12.11. 08:20)
+- AHSentinel 0.65.97 -> 0.65.99 (mit 0.65.98)
+- BuffSentinel 0.9.12 -> 0.9.14 (mit 0.9.13)
+- GuildSentinel 0.9.27 -> 0.9.28
+- ProfessionSentinel 0.9.38 -> 0.9.39
+- Discord-Bot 1.5.114 -> 1.5.117
+- Uploader 2.3.0 -> 2.3.1
+- Unverändert: LevelPilot 3.12.25, RaidMaster 3.0.23, ThreatSentinel 2.5.9
+
+ERGEBNIS JE PROJEKT
+- AHSentinel 0.65.99: addon_check OK (0 FEHLER, 0 WARNUNG). Erledigt AB8b, AB1-Tests, L1b, PD1 (0.65.98), PD5a/b, PD2 (0.65.99).
+  Neue Befunde: L1c MITTEL (BK:RepairDoubles2 kann echte Teilverkäufe löschen, Books.lua:561–607),
+  PD5c MITTEL (st.lastGoodItems altert nie, Vollscan.lua:806–816), MP1 NIEDRIG (CHANGELOG nennt T-MP1, Test fehlt).
+  Weiter offen u. a. PD7 HOCH (SavedVariables 21,7 MB), Q HOCH (Entzauber-Grenzen).
+- BuffSentinel 0.9.14: freigegeben. addon_check OK ohne WARNUNG. Befunde B1 NIEDRIG (Flüster-Netz sendet auch bei
+  "Namen teilen" aus über Gilde/Gruppe, Names.lua:227–240), B2 NIEDRIG ("an"/"aus" fest Deutsch, Options.lua:429).
+- GuildSentinel 0.9.28: freigegeben. DP1/DP2 erledigt (T251, T252). G1 NIEDRIG optional (Satzrest bei leerem {tag},
+  Recruit.lua:55–79). Testroutine lua5.1: Forever 221, Era/TBC 226, ruRU 222, enUS 221 OK, je 0 FEHLER.
+- ProfessionSentinel 0.9.39: freigegeben. Offline-Tests Forever 201/1 (nur T143 Zeitmessung), Era 184/0, Retail 183/0.
+  P1 NIEDRIG (Klick auf "Top"-Zeile öffnet Details, nicht im CHANGELOG, UI.lua:1046), P2 MITTEL nur im Client (16 ms).
+- Discord-Bot 1.5.117: freigegeben, 133/133 Tests OK. DC2, DC3 erledigt. Offen DC1/DC4/DC5/DC6 MITTEL (kein Ergebnis im
+  Repo), N1–N3 NIEDRIG (member_area.py, server_setup.py).
+- Uploader 2.3.1: freigegeben, 53/53 Tests OK. T-DU7 bis T-DU10 erledigt. U1 NIEDRIG (set_ref bei zwei Rechnern
+  gleichzeitig, daten.py:519, Vorschlag T-DU11).
+
+GELESENE BERICHTE DER PROJEKTE
+- berichte/BuffSentinel/2026-11-12-0856-anker-sync2-test2.txt: Angaben im Code belegt. Begründungen zu T-GS4 und zum
+  Leistungshinweis angenommen, beide Punkte geschlossen.
+- berichte/ProfessionSentinel/2026-11-12-0855-version-0.9.39.txt: Punkte 1a/b/c, 2, 3a/b belegt.
+- AHSentinel, Discord: kein Bericht zu den neuen Versionen in berichte/.
+
+TESTBERICHTE (d37a56c..f3a2c02)
+- AHSentinel 0.65.97 (2 Diagnosen): 0 Lua-Fehler. EINSTELLEN-FEHLER PostCommodity vom 11.11. 22:08 (v0.65.96) ist schon
+  in befund-bilder-2205.txt erfasst. Nichts Neues.
+- ProfessionSentinel 0.9.38: 0 Lua-Fehler, LANGSAM-Einträge nur aus v0.9.37 (in 0.9.39 behoben).
+- LevelPilot: neue Wegdaten, keine Fehler.
+
+ENTFERNTE AUFTRÄGE (erledigt)
+- BuffSentinel: anweisung-gemeinsamer-sync, anweisung-sync-version2, anweisung-test-version2,
+  anweisung-testroutine-oberflaeche, befund-anker-gemeinsame-liste, hinweis-sync-kanal
+- GuildSentinel: hinweis-discord-profil
+- ProfessionSentinel: anweisung-test-version2
+
+NACHRICHTEN
+- Verschickt (Log-Zeilen 11:25): nachricht-an-ahsentinel, -buffsentinel, -guildsentinel, -professionsentinel,
+  -discord, -raidmaster. Wegen "schon raus" weggelassen: keine.

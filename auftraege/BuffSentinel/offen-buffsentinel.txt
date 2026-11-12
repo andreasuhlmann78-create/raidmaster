@@ -1,83 +1,76 @@
-OFFENE PUNKTE BUFFSENTINEL (nach der Nachprüfung von 0.9.7)
-==========================================================
-Stand: 4. November 2026, 08:20 · von der Prüf-Sitzung · Grundlage: download/BuffSentinel-0.9.7.zip
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.6 und
-anweisung-buffsentinel-sprachen.txt (erledigt, entfernt).
+OFFENE PUNKTE BUFFSENTINEL (nach der Nachprüfung von 0.9.14)
+=============================================================
+Stand: 12. November 2026, 11:30 · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/BuffSentinel-0.9.14.zip
+(Commit 4ba0d79), verglichen mit 0.9.12; dazu Bericht berichte/BuffSentinel/2026-11-12-0856-anker-sync2-test2.txt.
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.7 und die erledigten
+Dateien befund-anker-gemeinsame-liste.txt, anweisung-gemeinsamer-sync.txt, anweisung-sync-version2.txt,
+anweisung-test-version2.txt, anweisung-testroutine-oberflaeche.txt und hinweis-sync-kanal.txt (entfernt).
 
-Erledigt in 0.9.7 (danke):
-- Sprachen nach dem Spiel-Client (ganze Anweisung): Locales.lua in der .toc direkt nach den gemeinsamen Dateien,
-  Englisch Standard, Deutsch vollständig (811 Schlüssel in beiden Sprachen, keiner fehlt, keiner doppelt), Platzhalter
-  in allen Schlüsseln gleich, Blöcke für frFR, esES, esMX, itIT, ptBR, ruRU, koKR, zhCN, zhTW fallen auf Englisch zurück
-  (Locales.lua:1652), unbekannter Schlüssel zeigt den Schlüssel (Locales.lua:1674). Alle im Code benutzten Schlüssel sind
-  definiert, alle string.format-Aufrufe haben so viele Argumente wie Platzhalter. Keine sichtbaren deutschen Texte mehr im
-  Code (übrig sind nur Talentnamen zum Erkennen, Wortteile zum Umbrechen und Donate.lua mit eigener Sprachwahl).
-- /bsen help (Core.lua:1366), englische Kurzformen move/errors/donate, Notes und Notes-deDE in der .toc.
-- Testroutine Bereich F: T98 Hilfe unter enUS ohne Deutsch (SelfTest.lua:1965), T137 Schlüssel (:1984), T138 Platzhalter
-  (:1995).
-- Punkt 1 (Endzählung): echteAktionen im Finish und Zeile "echte Aktionen: %d" (SelfTest.lua:370-372), T136 in Bereich I
-  zählt über hooksecurefunc SendAddonMessage, SendChatMessage und Kanal betreten/verlassen (:359, :395-424).
-- Punkt 2: Bitte um /reload nach jedem Lauf (SelfTest.lua:376, :2446).
-- Punkt 3: T134 im Kampf-Bericht nur noch als Prüfung (SelfTest.lua:2436, Kommentar :2440).
-Prüfungen: Addon-Prüfung OK ohne Warnung (Ladetest und Sprachtest bestanden), Lua 5.1 fehlerfrei, GoldSentinelGame.lua und
-GoldSentinelTest.lua byte-gleich mit shared/, keine ersetzte Blizzard-Funktion. Eigener Ladetest Forever und Era: enUS zeigt
-beim Start und bei /bsen help keinen deutschen Text, deDE zeigt Deutsch. CHANGELOG EN/DE vorhanden.
+Erledigt in 0.9.8–0.9.14 (danke):
+- Befund Anker A1–A3 (0.9.13): Schwebende Anzeigen nicht mehr in GoldSentinelUIFrames (UICheck.lua:31–41), leere Anker
+  ausserhalb des Verschieben-Modus 1 × 1, volle Grösse zurück mit Inhalt bzw. im Verschieben-Modus (Display.lua:256–277,
+  Layout setzt die Grösse neu Display.lua:645–652), Testfall T149 (SelfTest.lua:2606).
+- hinweis-sync-kanal.txt 1–4 und anweisung-gemeinsamer-sync.txt 1–6: GoldSentinelSync byte-gleich, in der .toc nach
+  GoldSentinelGame.lua; Senden nur über ep:Send (Names.lua:225–241), Empfang über ep:OnMessage (Names.lua:209–222),
+  Kennung "BuffSentinel" bleibt; keine eigene Warteschlange, kein PumpComm, kein CHAT_MSG_ADDON/CHANNEL_NOTICE mehr
+  selbst angemeldet (Core.lua:1244); kein Kanal-Beitritt, alter Kanal wird einmal verlassen (Names.lua:249–257);
+  /bsen sync test über GoldSentinelSync.Ping (Names.lua:285–295); Optionen zeigen ep:Peers(3600) (Names.lua:260–265);
+  Diagnose "SYNC Weg=…" (Names.lua:109) und alle 10 Min. gesendet/empfangen/verworfen (Names.lua:273–282),
+  DiagLines im Protokoll (Diag.lua:91–93).
+- anweisung-sync-version2.txt S1–S6: Sync 2 kopiert; ep:UseStorage(BuffSentinelDB) (Names.lua:105–106); "R" (ganze
+  Liste) nur Gilde/Gruppe ({ net = false }); höchstens 10 Fragen je Aufruf; Namen aus dem Netz nie im Chat
+  (Names.lua:419–422); CHANGELOG nennt, was ins Netz geht.
+- anweisung-test-version2.txt T1–T5: GoldSentinelTest 2 byte-gleich, CHANGELOG EN/DE.
+- hinweis-keine-spielernamen.txt: GoldSentinelGame 3; Tests nutzen "Testa Beispiel" (SelfTest.lua:577).
+- anweisung-testroutine-oberflaeche.txt: Bereich K mit T140–T145 (UICheck.lua, seit 0.9.10).
+- Testfälle T150–T157 (SelfTest.lua:613–729). Tests ersetzen nur GoldSentinelSync.api bzw. BS.API, keine
+  Blizzard-Funktion.
+- Alter Punkt 1 (echte Aktionen im Kampf-Bericht): Bericht sagt jetzt "im Kampf nicht gezählt" (SelfTest.lua:2764–2765).
+- Ergebnis im Spiel T29: LEARNED_SPELL_IN_SKILL_LINE/SPELLS_CHANGED, nur angemeldet, was der Client kennt
+  (Core.lua:1226–1260, 1330–1332).
+- Befund a) HOCH (GetAuraDataByIndex geschützt/tainted): Aurenzugriff im Kampf gesperrt und protokolliert
+  (Core.lua:101–131), geschützte Werte übersprungen (Core.lua:314–319).
+- Begründung T-GS4 angenommen: Kein Beitritt ist statisch belegt (addon_check ohne Kanal-Warnung, keine
+  Beitrittsfunktion im Code); T152 prüft, dass JoinSync/PumpComm fehlen. Hinweis: Die Zählvariable "joins" in T152
+  (SelfTest.lua:646) wird nie erhöht – bei Gelegenheit entfernen, kein Muss.
+- Begründung Leistungshinweis angenommen: Punkt geschlossen. Nur wieder aufnehmen, wenn H-Tests oder LANGSAM-Einträge
+  im Diagnose-Protokoll es zeigen.
 
-Freigegeben. Nur noch Kleinigkeiten, bitte mit der nächsten Version (0.9.8). Wie immer: komplette Dateien, alte Clients nie
-brechen, vor dem Push python3 addon-check/addon_check.py download/BuffSentinel-0.9.8.zip -> kein FEHLER.
+Prüfungen: addon_check OK ohne FEHLER und ohne WARNUNG (Ladetest, Sprachtest bestanden). GoldSentinelGame.lua (3),
+GoldSentinelSync.lua (2) und GoldSentinelTest.lua (2) byte-gleich mit shared/. CHANGELOG EN/DE für 0.9.13 und 0.9.14
+vorhanden. Im Diff keine ersetzte Blizzard-Funktion, keine neuen T:Skip ausser "GoldSentinelSync fehlt".
 
-1. "ECHTE AKTIONEN" IM KAMPF-BERICHT WIRD NICHT GEZÄHLT (Schwere: NIEDRIG)
-   SelfTest.lua:2442 und :2447: Der Kampf-Bericht gibt Selftest.realActions aus. Gezählt wird aber nur, solange
-   Selftest.running wahr ist (:349, :357, :411), also nur im automatischen Lauf. Im Kampf-Teil steht deshalb immer der Wert
-   des letzten automatischen Laufs, oder 0, wenn in dieser Sitzung keiner lief (dann sind die Hooks gar nicht installiert,
-   :343).
-   Lösung: Beim Start des Kampf-Teils Selftest:InstallHooks() aufrufen, realActions auf 0 setzen und running bis zum Finish
-   wahr lassen (danach wieder falsch). Oder im Bericht ausdrücklich "im Kampf nicht gezählt" schreiben.
+Freigegeben. Kleinigkeiten mit der nächsten Version (0.9.15):
 
-2. HINWEIS LEISTUNG (kein Muss, unverändert)
-   Jeder API.X-Zugriff läuft über eine __index-Funktion (Core.lua:133-143), auch in ScanAuras und Refresh. Das funktioniert,
-   kostet aber etwas. Mit den H-Tests (T105ff) beobachten; bei Bedarf die Funktionen beim Laden einmal in BS.API ablegen.
+1. OPTION "NAMEN TEILEN" (GILDE/GRUPPE) WIRD BEI NETZ-NACHRICHTEN NICHT BEACHTET (Schwere: NIEDRIG)
+   Names.lua:227–240: Ist "Namen teilen" aus und "auch über das Flüster-Netz" an, ruft SendName für "both"/"sync"
+   ep:Send(msg, { net = true }) auf. GoldSentinelSync schickt dann trotzdem in Gilde und Gruppe (S.Paths mit scope
+   "all"). Früher (0.9.12) ging das nur über den Kanal. Ebenso landen über das Netz weitergeleitete Nachrichten in der
+   Gilde.
+   Lösung: Entweder bei not wantGroup nicht senden bzw. die Option "Flüster-Netz" ausdrücklich als "schliesst Gilde/Gruppe
+   ein" beschriften (Locales EN/DE) und "Namen teilen" dann mit ausgrauen. Einen reinen Netz-Weg ohne Gilde/Gruppe
+   gibt es in GoldSentinelSync nicht – nicht selbst bauen; braucht es ihn, kurz in berichte/BuffSentinel/ fragen.
 
-3. IM CLIENT PRÜFEN (Launch-Abend, im Testplan des Nutzers)
-   - T46, T55, T74, T99, T104, T106, T129, T133, T134, T135
-   - Sprache: einmal mit englischem Client (enUS) – Optionen, Gruppen-Raster, Tooltips, Minimap-Button, Warnungen auf den
-     Buttons und /bsen help ganz auf Englisch; ein deutscher Client unverändert Deutsch. Lange englische Warnungen
-     (z. B. "CLEARCASTING!") passen auf die Buttons? Der Umbruch an Wortfugen (Display.lua:282) kennt nur deutsche Wortteile.
-   - Gespeicherte Einstellungen nach dem Wechsel der Client-Sprache unverändert (Töne, Einträge, Zuordnungen).
-   - zwei Läufe der Testroutine, einer auf Forever und einer auf Era oder TBC, beide mit 0 FEHLER und "echte Aktionen: 0"
+2. "an"/"aus" FEST AUF DEUTSCH IM OPTIONSFENSTER (Schwere: NIEDRIG, schon vor 0.9.13)
+   Options.lua:429: BS.gdb.shareNames and "|cff66dd77an|r" or "|cffff5555aus|r" – sichtbarer Text nicht über die
+   Sprachtabelle. Lösung: Schlüssel ON/OFF (bzw. vorhandene) in Locales.lua, enUS "on"/"off", deDE "an"/"aus".
 
-ERGEBNIS IM SPIEL (5. Nov. 01:19, Forever 1.60.1 Build 70790, Interface 16001, deDE) – nach der Pause
-   OK 120 · FEHLER 1 · übersprungen 10 · im Client prüfen 11 · Sandbox OK · echte Aktionen 0.
-   T29 (Schwere: NIEDRIG–MITTEL): Das Ereignis LEARNED_SPELL_IN_TAB fehlt in WoW Forever. Neu gelernte Zauber werden
-   dann erst nach /reload erkannt. Lösung: im modernen Client zusätzlich LEARNED_SPELL_IN_SKILL_LINE bzw. SPELLS_CHANGED
-   anmelden (nur registrieren, was es gibt – C_EventUtils.IsEventValid, falls vorhanden), Fall T29 anpassen.
+3. IM CLIENT PRÜFEN (Testplan des Nutzers)
+   - T46, T55, T74, T99, T104, T106, T129, T133, T134, T135, Bereich K (T140–T145, T147), T149: keine Meldung
+     "überdeckt BuffSentinelAnchor_…" mehr bei ThreatSentinel T181 und AHSentinel T192.
+   - Leere Anker 1 × 1: Erscheinen Symbole (z. B. Proc) an der richtigen Stelle, auch wenn der Anker vorher leer war
+     und verschoben wurde (gespeicherter Punkt nicht CENTER)?
+   - /bsen sync test (Ausgabe "N Antworten (Gilde a, Gruppe b, …)"), Diagnose-Protokoll mit "SYNC Weg=…" und "NETZ"
+     ohne Namen hochladen.
+   - Spieltest Flüster-Netz: zwei Spieler in verschiedenen Gilden, kurz in einer Gruppe, dann Gruppe verlassen -> ein
+     gelernter Name aus Gilde A kommt in Gilde B an ("weitergegeben" > 0 im Diagnose-Protokoll).
+   - Kanal BuffSentinelSync nach dem ersten Einloggen mit 0.9.14 verlassen (Kanalliste).
+   - Sprache: einmal mit englischem Client (enUS) – Optionen, Gruppen-Raster, Tooltips, Minimap-Button, Warnungen auf
+     den Buttons und /bsen help ganz auf Englisch; ein deutscher Client unverändert Deutsch.
+   - Gespeicherte Einstellungen nach dem Wechsel der Client-Sprache unverändert.
+   - zwei Läufe der Testroutine (Forever und Era oder TBC), beide mit 0 FEHLER und "echte Aktionen: 0".
 
-Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
+Wie immer: komplette Dateien, alte Clients nie brechen, alle Locale-Dateien, CHANGELOG EN/DE, vor dem Push
+python3 addon-check/addon_check.py download/BuffSentinel-0.9.15.zip -> kein FEHLER.
 
-BEFUNDE AUS TESTBERICHTEN UND DIAGNOSE-PROTOKOLLEN (9. Nov. 06:10, Prüf-Sitzung, Quelle testberichte/)
-   a) HOCH – 4× "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'"
-      (UNIT_AURA, PLAYER_REGEN_ENABLED, 0.9.7). In Forever sind Auren im Kampf geschützt. Lösung: Auren nicht im Kampf
-      und nicht aus tainted Code lesen; C_UnitAuras.GetAuraDataByIndex nur ausserhalb des Kampfs, Werte mit
-      issecretvalue/G.IsSecret prüfen, sonst überspringen; nach PLAYER_REGEN_ENABLED einen Frame warten. Testfall mit
-      Köderwert.
-
-NEU (9. Nov. 18:10, HOCH, nach der laufenden Arbeit) – Sync nicht über eigene Kanäle (siehe hinweis-sync-kanal.txt)
-
-NEU (9. Nov. 18:40) – gemeinsame Sync-Datei übernehmen (anweisung-gemeinsamer-sync.txt), nach hinweis-sync-kanal.txt
-
-NEU (9. Nov. 19:30, nach der laufenden Arbeit und nach anweisung-gemeinsamer-sync.txt) – GoldSentinelSync Version 2
-   (Flüster-Netz) übernehmen: anweisung-sync-version2.txt (S1–S6, T-N1–T-N4). Wer Sync noch nicht eingebaut hat, nimmt
-   gleich Version 2.
-
-NEU (9. Nov. 19:55, nach der laufenden Arbeit) – GoldSentinelTest Version 2 kopieren (Berichte anderer Spieler an
-   den Sammler, nur mit Zustimmung): anweisung-test-version2.txt (T1–T5, T-GT1–T-GT2).
-
-NEU (9. Nov. 20:35, Prüf-Sitzung, zur Klärung) – Anker im Weg?
-   Die Oberflächen-Prüfung von AHSentinel (T192) und ThreatSentinel (T181) meldet im echten Forever-Client
-   "überdeckt BuffSentinelAnchor_proc / _buff / _cd / _dispel". Bitte prüfen: Sind die Anker ausserhalb des
-   Verschieben-Modus sichtbar, gross oder mausaktiv? Dann ausserhalb des Verschieben-Modus ausblenden bzw. auf die
-   Grösse des Inhalts setzen (leer = 0 × 0 oder Hide). Sind sie unsichtbar, kurz melden – dann passt die Prüf-Sitzung
-   die gemeinsame Oberflächen-Prüfung (UICheck der Vorlage) an.
-
-NEU (10. Nov. 11:10) – befund-anker-gemeinsame-liste.txt (beantwortet "Anker im Weg?")
-   Schwebende Anker nicht in GoldSentinelUIFrames (A1), leere Anker klein/aus (A2), Testfall (A3). Anlass: ThreatSentinel
-   T181 "Testzentrale überdeckt BuffSentinelAnchor_cd".
+Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/BuffSentinel/ ablegen.

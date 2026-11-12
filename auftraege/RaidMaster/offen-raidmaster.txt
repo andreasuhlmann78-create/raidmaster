@@ -1,93 +1,49 @@
-OFFENE PUNKTE RAIDMASTER (nach der Nachprüfung von Uploader 2.3.0; Bot 1.5.114 und Addon 3.0.23 unverändert)
-==========================================================================================================
-Stand: 12. November 2026, 08:20 · von der Prüf-Sitzung (geplante Nachprüfung)
-Grundlage: RaidMasterUploader 2.3.0 (Ordner und download/RaidMasterUploader.zip, Commit b80b405), verglichen mit
-Uploader 2.2.0 (Commit a0b2612). Bot und Addon sind seit der letzten Nachprüfung nicht geändert.
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand vom 11. Nov. 20:25 mit den
-Nachträgen 20:30, 21:12, 21:40, 21:55 und 12.11. 06:40. anweisung-uploader-daten-pruefung.txt (DU1–DU6) ist umgesetzt
-und entfernt; was beim Nutzer beim Einrichten auffiel, steht unten als T-DU7–T-DU10.
+OFFENE PUNKTE RAIDMASTER (nach der Nachprüfung von Uploader 2.3.1)
+=================================================================
+Stand: 12. November 2026, 11:30 · von der Prüf-Sitzung (geplante Nachprüfung)
+Grundlage: RaidMasterUploader 2.3.1 (Ordner und download/RaidMasterUploader.zip, Commit ea7bcbe), verglichen mit
+Uploader 2.3.0 (Commit b80b405). Addon 3.0.23 unverändert. Der Discord-Bot gehört seit 12.11. zum Discord-Projekt
+(auftraege/Discord/offen-discord.txt); die Bot-Punkte von hier stehen jetzt dort.
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand vom 12.11. 08:20.
 
-Erledigt in Uploader 2.3.0 (danke):
-- DU1–DU6 Daten für die Prüf-Sitzung (daten.py): privates Repo, nicht privat -> verweigert; Token nur in
-  daten_config.json (.gitignore :15–16), nie im Log; nur GoldSentinel-SavedVariables auf Kontoebene, Konto als
-  "kontoN" (daten.py:186–202); nach jedem /reload 10 s stabil, höchstens 1 Commit je Minute, Unverändertes nie
-  (Daten.tick :225–240); > 50 MB übersprungen und einmal gemeldet (:255–262); Orphan-Commit + Force-Push, nur
-  aktuell/, höchstens 7 tage/ und stand.json, > 200 MB ältere Tage früher weg (:265–295, GitHubAPI.commit/set_ref);
-  Anzeige im Fenster; Daten-Repo-einrichten.bat. Abgleich PC/Laptop: Hochladen auch nach /reload, alte Fassungen in
-  #sync-daten wirklich gelöscht (sync.py:85, :480–483, :934–939). Tests T-DU1–T-DU6 (tests/test_daten.py).
-  Beim Nutzer belegt: "Prüfung: geliefert (22 Dateien, Repo 39,3 MB)" (11.11. 22:05), Laptop liefert seit 12.11. 06:33.
-- offen 1 alte AHSentinel-Sicherungen auch am 2.1.0-Ort, jede unterschiedliche nacheinander (sync.py:1080–1111 ff.).
-- offen 2 Uploader-Start wartet auf eine frische Sperre (sync.wait_for_lock sync.py:172, uploader.py:917).
-- offen 3 offener AHSentinelMerge-Block geht nicht mit hoch und bleibt bei Übernahme erhalten (sync.py:599–607,
-  :827–835).
-Prüfungen: Uploader-Tests 49/49 OK (test_daten, test_sync, test_uploader), Bot-Tests 120/120 OK, py_compile OK.
-download/RaidMasterUploader.zip gleich dem Ordner (ohne tests/). Keine Tokens, Webhook-URLs oder Spielernamen im Diff.
-Testberichte seit dem letzten Stand: 16 Diagnose-Protokolle, 13 Wegdaten. Echte Fehler darin betreffen nur
-AHSentinel (EINSTELLEN-FEHLER 22:08, in 0.65.97 behoben) und eine alte ProfessionSentinel 0.9.23 vom Laptop – nichts
-für RaidMaster, Bot oder Uploader.
+Erledigt in Uploader 2.3.1 (danke):
+- T-DU9 (HOCH) Zertifikate: SSL-Kontext = Windows-/System-Ablage PLUS certifi (daten.py:167), fehlt certifi unter
+  Windows, installiert der Uploader es einmal selbst im Hintergrund mit Hinweis im Fenster (daten.py:179,
+  uploader.py:844); echte Ursache statt "kein Netz" (describe_error daten.py:216: Zertifikat mit certifi-Weg, SSL,
+  DNS, Zeitüberschreitung, abgelehnt/abgebrochen, ungültiger Header; Token wird ausgeblendet); Prüfung bleibt an.
+  Daten-Verbindung-testen.bat (uploader.py:903, test_connection daten.py:334). Nebenbefund Store-Alias: alle .bat
+  rufen zuerst "py -3" (where py), erst sonst "python".
+- T-DU7 Token-Prüfung vor jedem Aufruf (token_problem daten.py:96: Steuerzeichen -> "mit RECHTSKLICK einfügen",
+  Form github_pat_/ghp_); Eingabe unter Windows mit Sternchen (read_secret daten.py:538).
+- T-DU8 daten_config.json mit BOM (utf-8-sig) und typografischen Anführungszeichen lesbar, Grund statt "nicht
+  eingerichtet" (read_config daten.py:112, uploader.py:837), nie der Token.
+- T-DU10 zwei Rechner: aktuell/<rechner>/… und tage/<datum>/<rechner>/…, jeder Rechner ersetzt nur seinen Ordner,
+  stand.json je Rechner (_build daten.py:435); Konto-Kennung = Prüfwert des Konto-Ordners, auf jedem Rechner gleich,
+  Name nie im Repo (konto_id daten.py:79); liefert der andere Rechner gleichzeitig, wird einmal neu aufgebaut
+  (daten.py:483 ff.).
+Prüfungen: Uploader-Tests 53/53 OK (neu T-DU7–T-DU10 in tests/test_daten.py:339, :364, :393, :485), Bot-Tests
+133/133 OK, py_compile OK. download/RaidMasterUploader.zip gleich dem Ordner (ohne tests/). Keine Tokens,
+Webhook-URLs oder Spielernamen im Diff. Testberichte: siehe Bericht der Nachprüfung in berichte/Nachpruefung/.
 
-OFFENE PUNKTE (alle Uploader, Daten-Repo; nach Schwere)
--------------------------------------------------------
-1. T-DU9 (HOCH, 11. Nov. 21:55, beim Nutzer) – DATEN-LIEFERUNG SCHLÄGT FEHL: "Prüfung: kein Netz oder GitHub nicht erreichbar"
-   Uploader 2.3.0, daten_config.json wird jetzt gelesen ("liefert nach jedem /reload …"). Jeder Versuch (21:47:47,
-   21:50:48) endet nach 5–10 s mit "kein Netz oder GitHub nicht erreichbar", gleichzeitig klappen Discord-Upload und
-   Abgleich (Netz ist da). Schon Daten-Repo-einrichten.bat meldete dasselbe. Repo ist privat, nicht leer (README).
-   daten.py :130 fasst URLError, OSError und ValueError zu einer Meldung zusammen – die Ursache ist so nicht sichtbar.
-   Lösung: (a) die echte Ursache melden, ohne Token: Typ und Text der Ausnahme (z. B. "SSL: CERTIFICATE_VERIFY_FAILED",
-   "Invalid header value", "getaddrinfo failed", "timed out"), bei URLError e.reason. (b) Je nach Ursache beheben:
-   SSL -> Zertifikate wie beim Discord-Weg (gleicher SSL-Kontext; ggf. certifi-freie Windows-Zertifikatsablage
-   ssl.create_default_context() mit load_default_certs); ungültiger Header -> Token-Prüfung (T-DU7); Proxy ->
-   urllib ProxyHandler wie im Discord-Weg. (c) Ein Knopf/Befehl "Daten-Verbindung testen" (GET /repos/<repo>, zeigt
-   Ergebnis). Test T-DU9: jede Ausnahmeart -> eigene, verständliche Meldung, nie der Token.
-   BELEGT 21:56 (Test beim Nutzer, Python 3.15 aus dem Python-Installationsmanager, pythoncore-3.15-64):
-   urlopen('https://api.github.com') -> ssl.SSLCertVerificationError CERTIFICATE_VERIFY_FAILED "unable to get local
-   issuer certificate". Discord geht (anderes Stammzertifikat). Ursache: Windows lädt fehlende Stammzertifikate erst nach,
-   wenn ein Windows-Programm (Edge/Chrome) die Seite öffnet; Python liest nur die vorhandene Ablage.
-   Für T-DU9: bei CERTIFICATE_VERIFY_FAILED die Meldung "Zertifikat für GitHub fehlt in Windows – einmal
-   https://api.github.com im Browser (Edge) öffnen, dann Uploader neu starten" ausgeben; zusätzlich prüfen, ob der
-   Uploader beim Start (Windows) einen Abruf über die Windows-Zertifikatsprüfung anstossen kann (z. B. PowerShell
-   Invoke-WebRequest https://api.github.com einmal im Hintergrund), bevor er aufgibt. Keine Prüfung abschalten.
-   NACHTRAG 22:05 (belegt): Edge-Weg half nicht (Nutzer nutzt Firefox). Gelöst mit certifi: "py -m pip install certifi"
-   -> urlopen mit ssl.create_default_context(cafile=certifi.where()) = 200; danach setx SSL_CERT_FILE auf certifi/cacert.pem,
-   Uploader neu gestartet -> "Prüfung: geliefert (22 Dateien, Repo 39,3 MB)". pip selbst lief ohne Fehler.
-   Auftrag T-DU9 neu: Der Uploader soll das selbst machen, ohne Handgriffe des Nutzers: SSL-Kontext für GitHub
-   = Windows-Ablage PLUS certifi (falls installiert; sonst beim Start "py -m pip install certifi" anbieten bzw.
-   automatisch installieren, mit Hinweis im Fenster). Meldung bei CERTIFICATE_VERIFY_FAILED wie oben, aber mit dem
-   certifi-Weg statt Edge. Keine Prüfung abschalten.
-   Nebenbefund: erste Zeile im Uploader-Fenster "Python wurde nicht gefunden; ohne Argumente ausführen, um aus dem
-   Microsoft Store ..." – der Start (bat) ruft zuerst "python" auf (Store-Alias). Nur "py" verwenden bzw. vorher prüfen,
-   damit die verwirrende Zeile wegfällt.
+OFFENE PUNKTE (Uploader, nach Schwere)
+--------------------------------------
+1. U1 (NIEDRIG) – Zwei Rechner liefern fast gleichzeitig: ein Stand kann verloren gehen.
+   daten.py:483–519: Hat sich der Kopf nach dem Aufbau geändert, wird einmal neu aufgebaut; ändert er sich beim
+   zweiten Versuch wieder, setzt set_ref (:519) den Orphan-Commit trotzdem und überschreibt den Stand des anderen
+   Rechners. Dessen sig_done ist schon gesetzt, er liefert erst bei seiner nächsten Änderung wieder.
+   Lösung: nach set_ref den Kopf lesen und nur dann "geliefert" melden, wenn er der eigene Commit ist; oder beim
+   anderen Rechner sig_done erst setzen, wenn sein Ordner im Baum des aktuellen Kopfs steht (beim nächsten Tick
+   prüfen). Test T-DU11: Kopf ändert sich bei beiden Versuchen -> kein Verlust bzw. erneuter Versuch.
 
-2. T-DU7 (MITTEL, 11. Nov. 21:12, beim Einrichten beim Nutzer) – Daten-Repo-einrichten.bat meldet "kein Netz oder GitHub
-   nicht erreichbar", obwohl das Netz geht (der Uploader lädt gleichzeitig zu Discord hoch).
-   Vermutete Ursache (daten.py GitHubAPI._req :130): Der Token kam mit ungültigen Zeichen an – unter Windows liefert
-   getpass (msvcrt) bei Strg+V das Zeichen \x16 statt des Inhalts; ungültige Zeichen im Authorization-Kopf werfen in
-   http.client einen ValueError, und der wird als "kein Netz" gemeldet.
-   Lösung: (a) Token vor dem Aufruf prüfen: nur [A-Za-z0-9_], beginnt mit "github_pat_" oder "ghp_"; sonst klare
-   Meldung "Token enthält ungültige Zeichen – mit RECHTSKLICK einfügen (nicht Strg+V), Eingabe bleibt unsichtbar".
-   (b) ValueError getrennt von URLError/OSError melden. (c) Hinweis "mit Rechtsklick einfügen" schon in der Abfrage.
-   Test T-DU7: Token "\x16" -> Meldung "ungültige Zeichen", kein "kein Netz".
-
-3. T-DU8 (MITTEL, 11. Nov. 21:40; vom Nutzer von Hand umgangen) – daten_config.json von Hand angelegt (Editor), Uploader 2.3.0
-   meldet trotzdem "Prüfung: Daten-Lieferung nicht eingerichtet".
-   daten.py load_config (:72–81) schluckt jeden Fehler und gibt None. Wahrscheinlich: Windows-Editor speichert mit
-   BOM (UTF-8 mit BOM) -> json.load mit encoding="utf-8" scheitert; oder typografische Anführungszeichen.
-   Lösung: (a) mit encoding="utf-8-sig" lesen; (b) den GRUND melden statt "nicht eingerichtet": "daten_config.json
-   nicht lesbar (Zeile x: …)", "repo fehlt/falsch", "token fehlt" – nie den Token selbst; (c) typografische
-   Anführungszeichen „ " " ersetzen; (d) Daten-Repo-einrichten.bat: Token-Eingabe sichtbar maskiert (Sternchen) oder
-   Hinweis "Rechtsklick zum Einfügen" (siehe Punkt T-DU7). Test T-DU8: Datei mit BOM -> geladen; ohne token -> Meldung
-   "token fehlt".
-
-4. T-DU10 (NIEDRIG, 12.11. 06:40) – Daten-Repo mit zwei Rechnern (Laptop liefert seit 06:33, Uploader 2.3.0):
-   - Jede Lieferung ersetzt "aktuell/" und "tage/<heute>/" komplett mit dem Stand des liefernden Rechners. Liefert am
-     selben Tag später der PC, ist der Tages-Stand des Laptops weg. Vorschlag: tage/<datum>/<rechner>/... (Rechnername
-     ist kein Spielername; ggf. anonym "rechner1/2" wie konto1..n) oder Laptop und PC je eigener Unterordner in aktuell/.
-   - Die Konto-Nummern sind je Rechner verschieden (dasselbe Forever-Konto: PC "konto3", Laptop "konto2"). Für die
-     Auswertung gleiche Nummer für dasselbe Konto (z. B. Hash des Kontonamens, nicht der Name selbst).
-
-LIVE PRÜFEN (Server / Discord / Uploader beim Nutzer)
-   - Daten-Repo: nach T-DU9 ohne SSL_CERT_FILE von Hand -> "Prüfung: geliefert …"; nach /reload innert ~20 s ein
-     Commit; im Repo nur aktuell/, tage/ (≤ 7) und stand.json, genau 1 Commit.
+LIVE PRÜFEN (Uploader beim Nutzer)
+   - Daten-Repo mit 2.3.1 OHNE SSL_CERT_FILE von Hand (Umgebungsvariable testweise entfernen): beim Start ggf.
+     "installiere die Zertifikate (certifi) …", danach "Prüfung: geliefert …". Daten-Verbindung-testen.bat -> "OK
+     (privat, Zugriff vorhanden)". Keine Zeile "Python wurde nicht gefunden …" mehr im Fenster.
+   - Laptop und PC liefern am selben Tag: im Daten-Repo aktuell/<rechner1>/ und aktuell/<rechner2>/ nebeneinander,
+     dieselbe konto-xxxxxxxx-Kennung auf beiden; tage/<heute>/ mit beiden Rechnern; ältere 2.3.0-Ordner (aktuell/
+     <spielversion>/kontoN) beim ersten Lauf weg.
+   - Daten-Repo: nach /reload innert ~20 s ein Commit; im Repo nur aktuell/, tage/ (≤ 7), stand.json, LIESMICH.md,
+     genau 1 Commit.
    - Abgleich 2.2.0: an beiden Rechnern Autostart eingerichtet. Am PC WoW beenden -> innert 15 s "Stand N hochgeladen";
      am Laptop (WoW zu) innert 45 s "… vom PC übernommen". Laptop: WoW normal starten -> Windows-Hinweis "bitte noch
      nicht einloggen …", dann "fertig – du kannst einloggen"; nach dem ersten Ausloggen "Messung: … gelesen (x s nach
@@ -98,11 +54,6 @@ LIVE PRÜFEN (Server / Discord / Uploader beim Nutzer)
    - Mit laufendem Uploader GoldSentinel-WoW.bat starten -> "Der Uploader läuft – er gleicht ab. Starte nur WoW."
    - Uploader 2.0.1+: nach mehreren /reload innerhalb von 15 Minuten genau EINE Nachricht "GoldSentinel-Paket: …";
      "zu gross" höchstens einmal je Protokoll, auch nach neuer Ausgabe.
-   - Bot: steht im Protokoll "guild_leader ist leer", den Charakternamen in die config.json auf dem Server (nie ins
-     Repo). Recht "Nachrichten verwalten" nur in #testberichte. Höchstens ein Neustart je echtem Update
-     (sudo journalctl -u raidmaster --since "-6h" | grep -c "Neustart nach Update").
-   - Addon-Kanäle: je Addon nur der neueste Update-Text. #befehle für alle, #befehlsliste bei den Offizieren.
-     Raids mit "forever": false für Mitglieder ausgeblendet.
 
 IM CLIENT PRÜFEN (mit 3.0.23, unverändert)
    - /rm testroutine: T165 (neu), T162, T163, T164 OK; T142, T122 (n = 3), T43, Bereich K (T155–T160), T133b; danach
@@ -116,11 +67,9 @@ IM CLIENT PRÜFEN (mit 3.0.23, unverändert)
      Erstkill-Screenshot -> #ruhmeshalle; Bank-Charakter -> #gildenbank.
 
 HINWEIS FÜR KÜNFTIGE VERSIONEN
-   - Neue Bot-Module in .github/workflows/bot-tests.yml beim Import-Schritt ergänzen.
    - download/RaidMasterUploader.zip muss zum Ordner RaidMasterUploader/ passen (prüft "Bot-Tests").
-   - Jeder neue Slash-Befehl braucht einen Eintrag in COMMAND_INFO (tests/test_befehle.py).
    - Keine echten Spieler- oder Charakternamen in Code, Tests, Beispielen und Texten. Abgleich-Daten nie ins Repo.
    - GoldSentinelGame/Test/Sync nur unverändert aus shared/. RaidMaster ruft GoldSentinelSync.Register NICHT auf.
-   - Versionen höher als Addon 3.0.23, Bot 1.5.114, Uploader 2.3.0.
+   - Versionen höher als Addon 3.0.23, Uploader 2.3.1.
 
-Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
+Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/RaidMaster/ ablegen.

@@ -1,33 +1,48 @@
-OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.27)
+OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.28)
 =============================================================
-Stand: 11. November 2026, 14:35 · von der Prüf-Sitzung · Grundlage: download/GuildSentinel-0.9.27.zip
-(verglichen mit 0.9.26 aus der git-Geschichte; Repo GuildSentinel 4984d77 = Inhalt der ZIP).
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.26.
+Stand: 12. November 2026, 11:30 · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/GuildSentinel-0.9.28.zip
+(verglichen mit 0.9.27 aus der git-Geschichte; Repo GuildSentinel 9a90c7a = Inhalt der ZIP, Veröffentlichung 0c6511a).
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.27.
 
-Erledigt in 0.9.27 (danke):
-- Punkt 1 aus 0.9.26 (NIEDRIG, Russisch klein nach weggelassenem Discord): Locales_ruRU.lua:81 schreibt jetzt
-  "Пишите мне". Mit DropDiscord (Recruit.lua:133-147) ergibt das "… без напряга. Пишите мне: /w …", mit Discord
-  "… – Пишите мне: …". Beides richtig.
-- Punkt 2 aus 0.9.26 (NIEDRIG, T250 nur deutsch): T250 setzt zusätzlich den alten Standard in der Sprache des Clients
-  (L[alter Schlüssel] .. " ") und prüft MigrateAdText -> true, adText nil (TestRoutine.lua:2613-2623).
-- CHANGELOG EN/DE, LIESMICH/README_EN, .toc und ns.version 0.9.27.
+Erledigt in 0.9.28 (danke):
+- DP1 (hinweis-discord-profil.txt): Tipp "dauerhafte Einladung" unter dem Discord-Link, nur Text (Pages.lua:913-916),
+  in allen 10 Locale-Dateien übersetzt (z. B. Locales.lua:845). Test T252 (TestRoutine.lua:2651).
+- DP2: Knopf "Vorschlag 2" (Pages.lua:885-891) mit zweitem Werbetext (Recruit.lua:50-52), Standardtext unverändert.
+  Statt eines festen Tags ein eigenes Feld "Server-Tag" (Pages.lua:907-912, ns.db.discordTag) und Platzhalter {tag} – besser
+  als im Hinweis, kein Gildenname im Code. Ohne Link oder ohne Tag fällt der Tag-Teil weg (DropTag, Recruit.lua:55-79;
+  Build Recruit.lua:193-195), ohne Link danach der Discord-Satz (DropDiscord, Recruit.lua:167-184). Kürzung wie bisher
+  (Rc.AD_MAX). Test T251 (TestRoutine.lua:2627) mit/ohne Link und Tag, DE/EN/RU, 9 Fälle.
+- Nebenbei: Kanal-Hinweis sagt jetzt richtig "legt die Werbung in die Chat-Eingabe" (Pages.lua:920, alle Locales);
+  Platzhalter-Liste und Fehlermeldung nennen {tag} (Pages.lua:881, Pages.lua:1070).
+- CHANGELOG EN/DE, LIESMICH/README_EN, .toc und ns.version 0.9.28.
+- hinweis-discord-profil.txt ist damit erledigt und entfernt.
 
 Prüfungen: Addon-Prüfung OK, 0 FEHLER, 0 WARNUNGEN (Ladetest, Sprachtest). GoldSentinelGame.lua, GoldSentinelSync.lua
 und GoldSentinelTest.lua byte-gleich mit shared/.
-Offline-Routine mit Lua 5.1: Forever (16001) OK 219 · FEHLER 0 · übersprungen 27 · im Client prüfen 8; Era (11508)
-und TBC (20505) je OK 224 · FEHLER 0 · übersprungen 21 · im Client prüfen 9; Forever mit ruRU OK 220 · FEHLER 0.
-run_routine je 16/16. test/run.lua 75/75, run_lang 7/7, run_uicheck 13/13.
-Im Diff 0.9.26 -> 0.9.27 nur ein Locale-Text, T250 und Texte/Versionen: keine Lua-Fehler, keine nil-Zugriffe, kein Taint,
-Platzhalter im ruRU-Text unverändert, Era/TBC nicht gebrochen.
-Keine neuen Testberichte aus dem Spiel seit der letzten Nachprüfung.
+Offline-Routine mit Lua 5.1 (test/run_routine.lua): Forever (16001) OK 221 · FEHLER 0 · übersprungen 27 · im Client
+prüfen 8; Era (11508) und TBC (20505) je OK 226 · FEHLER 0 · übersprungen 21 · im Client prüfen 9; Forever ruRU
+OK 222 · FEHLER 0; Forever enUS OK 221 · FEHLER 0 (je +2 gegenüber 0.9.27 = T251, T252). run_routine je 16/16.
+test/run.lua 75/75, run_lang 7/7, run_uicheck 13/13.
+Im Diff 0.9.27 -> 0.9.28: keine Lua-Fehler, keine nil-Zugriffe (R.tag.edit wie R.discord.edit), kein Taint, keine
+neuen Blizzard-Aufrufe, Platzhalter in allen Locales gleich ({gilde} {fraktion} {gesucht} {discord} {tag}),
+Era/TBC nicht gebrochen, nur Ersatz-Link "discord.gg/test" im Test.
 
-Keine offenen Punkte aus der Code-Prüfung. Freigegeben. Offen bleibt nur die Prüfung im Client (unten).
+OFFENE PUNKTE
+1. NIEDRIG (neu, optional) – {tag} in eigenen Texten ohne Gedankenstrich.
+   Recruit.lua:55-79 (DropTag) schneidet nur ab dem letzten " – "/" - "/"——"/"，" vor {tag}. Steht kein Strich davor,
+   bleibt der Satzteil stehen. Offline nachgerechnet (Tag leer oder kein Link):
+     "Discord: {discord} (Tag {tag})."  -> "Discord: {discord} (Tag ."
+     "Join us! Tag: {tag}. Whisper me" -> "Join us! Tag: . Whisper me"
+   Betrifft nur eigene Werbetexte, nicht Vorschlag 2. Lösung: ohne Strich bis zum letzten Satzende bzw. "(" davor
+   zurückschneiden (Klammer mitsamt Inhalt entfernen), sonst nur "{tag}" leeren und " ." / "( )" aufräumen.
+   Testfall in T251 ergänzen.
 
-NEU 12.11. 08:10 (NIEDRIG): hinweis-discord-profil.txt – DP1 Tipp "dauerhafte Einladung" beim Discord-Link,
-   DP2 optionaler zweiter Werbetext mit dem Discord-Tag AV.
-
-IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.27, Ergebnis dem Nutzer melden)
-   - Neu mit 0.9.27: Russischer Client, Discord-Link leer -> Vorschau "… без напряга. Пишите мне: /w …" (gross).
+IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.28, Ergebnis dem Nutzer melden)
+   - Neu mit 0.9.28: Seite Rekrutierung (deDE, enGB, ruRU): Knopf "Vorschlag 2" unter der Platzhalter-Liste
+     überlappt die Vorschau-Überschrift nicht; Feld "Server-Tag" rechts neben dem Discord-Link, Tipp-Zeile darunter
+     bricht sauber um und überdeckt "Kanäle" nicht. Vorschlag 2 mit Link und Tag "XY" -> "… Discord: <Link> – erkennbar
+     am Tag XY."; Tag leer -> "… Discord: <Link>."; Link leer -> Satz endet nach "Raidziel." Tag bleibt nach /reload.
+   - Aus 0.9.27: Russischer Client, Discord-Link leer -> Vorschau "… без напряга. Пишите мне: /w …" (gross).
    - Aus 0.9.26: Wer bisher den alten Standard-Werbetext gespeichert hatte: nach dem Einloggen zeigt die Seite
      Rekrutierung den neuen Standard (Feld leer). Ein eigener, abweichender Text bleibt. Discord-Link löschen ->
      Vorschau "… deutschsprachig. Flüstert mir: …" (gross). Zähler: langer Text -> rot "(n/251) wird gekürzt" (T249).
@@ -66,14 +81,16 @@ IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.27
    - Echte Aktion einmal mit einem Test-Twink: Einladen, Befördern (auch aus der Aktivität und als Sammelaktion),
      Degradieren, Entfernen – kein "Aktion blockiert".
    - Letzter vollständiger Testlauf im Spiel ist noch 0.9.13 (09.11. 05:47 UTC): T82, T118, T143, T154 waren dort
-     FEHLER, offline seit 0.9.21 bestanden. Mit 0.9.27 erneut /gs testroutine. Dazu T45 "[Test], 0", Bereich K
-     (T182-T187, T237), T239-T250, Berufe-Knopf in Forever ohne "Aktion blockiert", issecretvalue nach dem Kampf,
+     FEHLER, offline seit 0.9.21 bestanden. Mit 0.9.28 erneut /gs testroutine. Dazu T45 "[Test], 0", Bereich K
+     (T182-T187, T237), T239-T252, Berufe-Knopf in Forever ohne "Aktion blockiert", issecretvalue nach dem Kampf,
      T168 (/gs testroutine whisperq), Bank-Charakter -> #gildenbank, Sprachwahl folgt ohne Einstellung dem Client.
+
 
 HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Die Sprache muss ohne Einstellung immer dem Client folgen (hinweis-sprachtest.txt).
    - Keine echten Spieler-, Gilden- oder Charakternamen und keine Discord-Links (hinweis-keine-spielernamen.txt).
+     Der Server-Tag der Gilde gehört nur in die Einstellungen des Spielers, nicht in Code oder Tests.
    - Gemeinsame Dateien nur unverändert aus shared/ kopieren.
-   - Die Version muss höher sein als 0.9.27 (download/, announce/, CurseForge).
+   - Die Version muss höher sein als 0.9.28 (download/, announce/, CurseForge).
 
-Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
+Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/GuildSentinel/ ablegen.
