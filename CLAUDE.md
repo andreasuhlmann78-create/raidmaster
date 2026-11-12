@@ -48,6 +48,15 @@ Keine Überschneidungen: Vor jeder Prüfung, jedem Auftrag und jeder Nachricht z
 bzw. Anlass) schon geprüft bzw. die Nachricht schon raus ist. Wenn ja: nichts doppelt schreiben oder schicken. Sonst
 sofort eine Zeile ins Log, committen und pushen, erst dann die Nachricht an den Nutzer schicken.
 
+## Regelmässig ins Repo schauen (Entscheid des Nutzers, 12. November 2026)
+
+Gilt für alle Projekt-Sitzungen. Aufträge der Prüf-Sitzung können jederzeit kommen. Deshalb `git pull --rebase` und
+`auftraege/<dein Projekt>/` (dazu `git log --oneline -5 -- auftraege/<dein Projekt>/`) prüfen:
+- bei jeder neuen Nachricht des Nutzers, bevor du antwortest oder etwas änderst,
+- während längerer Arbeit spätestens alle 15 Minuten (zwischen zwei Arbeitsschritten),
+- immer direkt vor jedem Push und jeder Veröffentlichung.
+Ist etwas Neues da: laufende Arbeit fertig machen, dann den Auftrag lesen und dem Nutzer kurz melden.
+
 ## Neues Addon
 
 Neue GoldSentinel-Addons immer aus der Vorlage erstellen: `python3 shared/vorlage/neues_addon.py <Name> --slash <befehl>

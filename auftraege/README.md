@@ -29,3 +29,8 @@ Für alle Prüf-Sitzungen: Jedes Prüfergebnis (auch "freigegeben, keine Befunde
 Nutzer ist zusätzlich. Bot und Gilden-Discord: `Discord/`. Uploader: `RaidMaster/`.
 Keine Überschneidungen: vorher `git pull --rebase`, in `nachrichten-log.txt` (und `addon-check/nachpruefung-stand.json`)
 nachsehen, ob es schon erledigt bzw. die Nachricht schon raus ist; sonst Zeile anhängen, pushen, dann schicken.
+
+## Regelmässig nachsehen (12.11.2026)
+
+Projekt-Sitzungen prüfen `auftraege/<Projekt>/` bei jeder neuen Nachricht des Nutzers, während längerer Arbeit
+spätestens alle 15 Minuten und direkt vor jedem Push (Einzelheiten in CLAUDE.md).
