@@ -1,0 +1,14 @@
+NACHRICHTEN-LOG DER PRÜF-SITZUNGEN
+==================================
+Zweck: Überschneidungen verhindern (Entscheid des Nutzers, 12.11.2026). Bevor eine Prüf-Sitzung prüft, einen
+Auftrag schreibt oder dem Nutzer eine Nachricht zum Einfügen schickt: git pull --rebase und hier nachsehen, ob es
+für dieses Projekt und diese Version bzw. diesen Anlass schon erledigt ist. Wenn ja: nichts doppelt schreiben oder
+schicken. Danach SOFORT eine Zeile anhängen, committen und pushen (vor dem Schicken an den Nutzer).
+
+Format (eine Zeile je Nachricht, neueste unten):
+JJJJ-MM-TT HH:MM | Projekt | Version oder Anlass | Sitzung (Chat / Nachprüfung / …) | Auftrag im Repo | Nachricht-Datei
+
+2026-11-12 07:45 | AHSentinel | Befund Bilder 22:05 (AB1–AB8) | Chat | befund-bilder-2205.txt | ahsentinel-befund-bilder-2205.txt
+2026-11-12 07:10 | AHSentinel | Levelwelle (WL1–WL4) | Chat | anweisung-levelwelle.txt | ahsentinel-levelwelle.txt
+2026-11-12 08:10 | GuildSentinel | Discord-Profil (DP1, DP2) | Chat | hinweis-discord-profil.txt | guildsentinel-discord-profil.txt
+2026-11-12 08:15 | Discord | Discord prüfen (DC1–DC6) | Chat | Discord/anweisung-discord-pruefung.txt | discord-pruefung.txt

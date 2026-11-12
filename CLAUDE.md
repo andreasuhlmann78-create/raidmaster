@@ -43,6 +43,10 @@ oder `anweisung-*.txt`). Ein Ergebnis, das nur im Chat oder in einer Nachricht a
 weitergeleitet. Die Nachricht zum Einfügen an den Nutzer ist nur zusätzlich. Betrifft ein Befund ein anderes
 Projekt, auch in dessen `offen-*.txt` eintragen. Offene Punkte anderer Prüfungen nie verlieren, sondern übernehmen.
 Zuständig: Discord-Bot und Gilden-Discord -> `Discord/`, Uploader -> `RaidMaster/`, jedes Addon -> eigener Ordner.
+Keine Überschneidungen: Vor jeder Prüfung, jedem Auftrag und jeder Nachricht zuerst `git pull --rebase` und in
+`auftraege/nachrichten-log.txt` und `addon-check/nachpruefung-stand.json` nachsehen, ob dasselbe (Projekt + Version
+bzw. Anlass) schon geprüft bzw. die Nachricht schon raus ist. Wenn ja: nichts doppelt schreiben oder schicken. Sonst
+sofort eine Zeile ins Log, committen und pushen, erst dann die Nachricht an den Nutzer schicken.
 
 ## Neues Addon
 

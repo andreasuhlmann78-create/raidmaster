@@ -27,3 +27,5 @@ Ein Ordner pro Addon: `RaidMaster/`, `ThreatSentinel/`, `AHSentinel/`, `BuffSent
 Für alle Prüf-Sitzungen: Jedes Prüfergebnis (auch "freigegeben, keine Befunde") steht in
 `<Projekt>/offen-<projekt>.txt`. Nur was hier steht, gilt als an das Projekt weitergeleitet; die Nachricht an den
 Nutzer ist zusätzlich. Bot und Gilden-Discord: `Discord/`. Uploader: `RaidMaster/`.
+Keine Überschneidungen: vorher `git pull --rebase`, in `nachrichten-log.txt` (und `addon-check/nachpruefung-stand.json`)
+nachsehen, ob es schon erledigt bzw. die Nachricht schon raus ist; sonst Zeile anhängen, pushen, dann schicken.
