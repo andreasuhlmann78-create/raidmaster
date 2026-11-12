@@ -1,0 +1,18 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 12.11.2026 16:20 · Sitzung: Discord-Projekt · Version: Bot 1.5.120 (kein neuer Code) · Commit: dieser Bericht
+
+ERLEDIGT (Entscheide des Nutzers 12.11. 16:06, im Discord umgesetzt, nicht im Bot-Code)
+- #gildenname gelöscht (Abstimmung beendet; der Bot legt ihn wegen name_poll.closed nicht neu an, bot.py name_channel).
+- Einführung (Onboarding, Community) aktiviert, Modus "erweitert", 8 Standardkanäle (Info, Regeln, Ränge und Aufnahme,
+  Ankündigungen, Raid-Addon, Addon-Hilfe, Bewerbung, Lore), eine Pflichtfrage "Was führt dich zu Alpine Vanguard?":
+  schon in der Gilde -> #bewerbung (keine Rolle; Freischaltung durch Offizier), bewerben -> #bewerbung,
+  PUG-Raids -> Rolle Gast + PUG-Kanäle, Addons -> #raid-addon/#addon-hilfe. Rolle Mitglied wird bewusst NIE über die
+  Einführung vergeben. Discord meldet keine unterschrittene Mindestanforderung.
+- Bleibt so (Entscheid Nutzer): #dkp-punkteverteilung und #dkp-regeln getrennt; #testberichte/#sync-daten nur Inhaber/Bot.
+
+HINWEIS FÜR KÜNFTIGE VERSIONEN
+- Wird #bewerbung, eine PUG-Kanal oder die Rolle Gast umbenannt/neu angelegt, die Einführung nachziehen (Server-
+  einstellungen -> Einführung), sonst verweist sie ins Leere.
+
+IM CLIENT GETESTET
+- Einführung noch nicht mit einem neuen Konto durchgespielt.
