@@ -1,0 +1,50 @@
+BERICHT BUFFSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 12.11.2026 08:56 · Sitzung: BuffSentinel-Sitzung · Version: 0.9.13 (c28cbb7) und 0.9.14 (4ba0d79)
+Addon-Prüfung GitHub: BuffSentinel-0.9.13 OK, BuffSentinel-0.9.14 OK ohne Warnung.
+
+ERLEDIGT:
+- Befund Anker A1: Schwebende Anzeigen (floating) nicht mehr in GoldSentinelUIFrames, eigene Prüfung bleibt
+  (UICheck.lua:38). Gilt für Anker proc/buff/cd/dispel, Gruppen-Raster, Test- und Anordnen-Leiste.
+- A2: Leere Anker ausserhalb des Verschieben-Modus 1 × 1 statt 340 × Höhe (Display.lua:269). Nicht versteckt, weil die
+  Secure-Buttons am Anker hängen (im Kampf nicht änderbar). Volle Grösse zurück im Verschieben-Modus bzw. mit Inhalt.
+- A3: Testfall T149 (SelfTest.lua:2606).
+- hinweis-sync-kanal.txt 1–4 und anweisung-gemeinsamer-sync.txt 1–6:
+  · GoldSentinelSync byte-gleich, .toc direkt nach GoldSentinelGame.lua.
+  · Senden nur über ep:Send (Names.lua:225), Prefix "BuffSentinel" bleibt; Empfang über ep:OnMessage (Names.lua:209).
+  · Eigene Warteschlangen und PumpComm entfernt. CHAT_MSG_ADDON und CHAT_MSG_CHANNEL_NOTICE nicht mehr selbst angemeldet.
+  · Kein Kanal-Beitritt mehr; BuffSentinelSync wird einmal verlassen, falls betreten (Names.lua:249).
+  · /bsen sync test über GoldSentinelSync.Ping (Names.lua:285).
+  · Optionen zeigen ep:Peers(3600).
+  · Diagnose: "SYNC Weg=…" je Sitzung, alle 10 Min. "gesendet/empfangen/verworfen" (Names.lua:273), dazu DiagLines.
+- anweisung-sync-version2.txt S1–S6:
+  · S1: Sync 2 kopiert.
+  · S2: ep:UseStorage(BuffSentinelDB) in InitNames.
+  · S3: Ins Netz gehen gelernte Talent-/Zauberzuordnungen, Fragen und Antworten sowie AutoLearn-Entdeckungen
+    (Option "auch über das Flüster-Netz"). Die ganze Liste (ShareAll/"R") geht nur an Gilde/Gruppe ({ net = false }).
+  · S4: höchstens 10 Fragen je Aufruf, dieselbe Frage höchstens alle 10 Min. (Names.lua:30).
+  · S6: Namen aus dem Netz (WHISPER) erscheinen nie im Chat; Absender nur bei Gilde/Gruppe.
+- anweisung-test-version2.txt T1–T5: GoldSentinelTest 2 kopiert; TrackErrors unverändert nach dem Laden.
+- hinweis-keine-spielernamen.txt: GoldSentinelGame 3 kopiert; Tests nutzen "Testa Beispiel".
+- Testfälle T150–T157 (SelfTest.lua:613–718):
+  · T-GS1/T-SY1/T-SY2 = T150
+  · T-GS2/T-GS3 = T151
+  · T-GS4 = T152
+  · T-GS5 = T153
+  · T-N1/T-GT1 = T154
+  · T-N2/T-N3 = T155
+  · T-N4/T-SY3 = T156
+  · T-GT2 = T157
+  Tests ersetzen nur GoldSentinelSync.api; Warteschlangen und Zähler werden für die Testdauer ausgetauscht.
+- Altes T03/T100/T131 akzeptieren GoldSentinelGame Version >= 2.
+
+TEILWEISE / OFFEN:
+- T-GS4: Die Tests zählen Kanal-Beitritte nicht mehr über Ersatzfunktionen, weil addon_check jede Erwähnung von
+  JoinTemporaryChannel/JoinChannelByName warnt, auch in Testcode. Kein Beitritt ist statisch belegt (keine
+  Kanal-Warnung mehr); T152 prüft, dass es keine Beitrittsfunktion mehr gibt.
+- Leistungshinweis (Punkt 2) weiter nicht umgesetzt, Begründung wie zuvor: Mit fest abgelegten API-Funktionen könnte die
+  Testroutine sie nicht mehr gezielt ersetzen. Erst bei Bedarf laut H-Tests bzw. LANGSAM-Einträgen.
+
+FRAGEN: keine
+
+IM CLIENT GETESTET: noch nicht (Nutzer). Offen: Bereich K, /bsen sync test, Diagnose-Protokoll schicken, Spieltest
+Flüster-Netz (zwei Gilden), Punkt 3 aus offen-buffsentinel.txt.
