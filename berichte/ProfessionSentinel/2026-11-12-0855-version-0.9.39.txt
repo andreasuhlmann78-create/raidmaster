@@ -1,0 +1,30 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 12.11.2026 08:55 · Sitzung: ProfessionSentinel-Sitzung · Version: 0.9.39 · Commit: 2e7f09f (Quell-Repo), 6fd5fcd (Veröffentlichung)
+
+ERLEDIGT (offen-professionsentinel.txt, Nachprüfung 0.9.38):
+- Punkt 1a: Direkter Neuaufbau (Klick, Reiter, Suche, Einstellung) läuft jetzt ebenfalls portioniert; am Stück nur
+  bei UI.SyncRefresh() (UI.SYNC oder laufende TestRoutine) – UI.lua 2350, UI:Refresh UI.lua 2355.
+- Punkt 1b: Yield() in den Schleifen von AD.Ranking, AD.GoldRanking und PlanRaw; AD.Update mit Yield zwischen den
+  Stufen – Advisor.lua 6 ff.
+- Punkt 1c: PL.Build mit Zwischenspeicher (Schlüssel: Beruf|Fertigkeit|Ziel|AD.stamp|Preisquelle|Preisänderungen|
+  30-s-Fenster|Sim) – Plan.lua 42–57. PlanRaw rechnet nur noch über ein aktives Fenster lernbarer, nicht grauer
+  Rezepte. UI.NextOrange nutzt AD.current.mat bzw. vorhandene Einträge statt neu zu rechnen – UI.lua 1693.
+- Punkt 1 Testfall: T246 (Bereich H) – 300 Rezepte, Reiter Skillen + Klick, jede Portion unter 16 ms, Plan aus dem
+  Zwischenspeicher – TestRoutine.lua 5231.
+- Punkt 2: GoldSentinelTest.lua Version 2 unverändert aus shared/ kopiert (T1); sonst nichts geändert (T2–T4);
+  CHANGELOG EN/DE (T5); Testfälle T-GT1/T-GT2 als T245 – TestRoutine.lua 5142. Kein GoldSentinelSync eingebaut.
+- Punkt 3a: Details nur im Reiter "Rezepte" (UI.lua 1046); T243 um "Klick im Reiter Gold zeigt keine Details" ergänzt
+  – TestRoutine.lua 5063.
+- Punkt 3b: Bestätigt – "kein Zeichen = gelernt" ist so gewollt (gelernte Zeilen blasser, Filter "Gelernt").
+
+TESTS:
+- addon_check: OK, 0 FEHLER (die WARNUNG zu GoldSentinelTest Version 1 ist weg).
+- tests/run_offline.py: Forever 201 OK / 1 FEHLER (nur T143 Zeitmessung AL.Needed, offline schwankend),
+  Era 184 / 0, Retail 183 / 0.
+
+TEILWEISE / OFFEN:
+- Im Client prüfen: S7 (Aufbau/s, keine LANGSAM-Einträge über 16 ms) und alle Punkte unter "IM CLIENT PRÜFEN".
+
+BEFUND FALSCH: –
+FRAGEN: –
+IM CLIENT GETESTET: noch nicht.
