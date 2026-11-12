@@ -17,7 +17,8 @@ Die Prüf-Sitzung verteilt Anweisungen, Korrekturen und Hinweise für die Addon-
    `offen-<addon>.txt` ist immer vollständig, mit allem, was noch offen ist.
 3. Umsetzen: komplette Dateien, alte Clients nie brechen, Locales und CHANGELOG EN/DE.
 4. Vor dem Push: `python3 addon-check/addon_check.py download/<Addon>-<Version>.zip` -> kein FEHLER.
-5. Dem Nutzer melden, was umgesetzt wurde. Ist ein Befund falsch, begründet zurückmelden.
+5. Dem Nutzer melden, was umgesetzt wurde, und einen Bericht in `berichte/<dein Addon>/` ablegen (siehe unten).
+   Ist ein Befund falsch, begründet zurückmelden (auch im Bericht).
 
 Den Ordner `auftraege/` ändert nur die Prüf-Sitzung. Gemeinsame Dateien (`GoldSentinelGame.lua`, `GoldSentinelTest.lua`,
 `GoldSentinelSync.lua`, `GoldSentinelDev.lua`) nur unverändert aus `shared/` kopieren, nie selbst ändern.
@@ -56,6 +57,14 @@ Gilt für alle Projekt-Sitzungen. Aufträge der Prüf-Sitzung können jederzeit 
 - während längerer Arbeit spätestens alle 15 Minuten (zwischen zwei Arbeitsschritten),
 - immer direkt vor jedem Push und jeder Veröffentlichung.
 Ist etwas Neues da: laufende Arbeit fertig machen, dann den Auftrag lesen und dem Nutzer kurz melden.
+
+## Bericht an die Prüf-Sitzung (Entscheid des Nutzers, 12. November 2026)
+
+Alle Projekt-Sitzungen und alle anderen Prüf-Sitzungen (auch die geplante Nachprüfung) erstatten der Prüf-Sitzung
+Bericht über das Repo: eine Datei je Bericht in `berichte/<Projekt>/<JJJJ-MM-TT>-<HHMM>-<thema>.txt` – nach jeder
+Veröffentlichung, wenn Aufträge umgesetzt/abgelehnt wurden, wenn ein Befund falsch ist (mit Begründung) und bei
+Fragen. Aufbau und Regeln in `berichte/README.md`. `auftraege/` = Prüf-Sitzung -> Projekte, `berichte/` = Projekte ->
+Prüf-Sitzung. Die Prüf-Sitzung liest `berichte/` bei jeder Arbeit.
 
 ## Neues Addon
 
