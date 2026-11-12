@@ -36,6 +36,8 @@ Roadmap laut Blizzard (über warcraft.wiki.gg): Frühjahr 2027 „2 neue Raids�
 - 2026-11-01: method.gg (28.10.2026) nennt „The Wild King“ als Hyjal-Endboss, warcraft.wiki.gg (Stand 20.10.2026) „Nythus the Dreambound“ – widersprüchlich, Endboss **noch nicht bestätigt**; Übersicht 1.0 bleibt (Reihenfolge dort ohnehin als unbestätigt markiert). Icy Veins „mindestens zwei Raids pro Tier“ nennt keine neuen Raidnamen → keine neuen Raids. Weiterhin keine gesicherten Resistenz- oder Materialinfos für Barrow/Hyjal (Malleable Essence of Nature bleibt Datamining).
 - 2026-11-02: keine neue offizielle Blizzard-Ankündigung (keine neuen Raids, keine Bossfähigkeiten/Resistenzen/Materialien für Barrow/Hyjal); warcraft.wiki.gg Barrow (Stand 07.10.) und Hyjal (Stand 20.10.) unverändert, nur Bossnamen aus Beta 1.60.1. Endboss Hyjal weiter **noch nicht bestätigt**.
 - 2026-11-03: keine neue offizielle Ankündigung. Blizzard „Forever Goes Live Globally November 4“ (Launch 04.11. 15:00 PST = 05.11. 00:00 MEZ) bestätigt nur die 3 Raids ab 09.12. (Barrow, Hyjal, Onyxia) – keine Bossfähigkeiten, Resistenzen oder Materialien. warcraft.wiki.gg Barrow (Stand 07.10.) und Hyjal (Stand 20.10.) unverändert. Wowhead-Interview (18.09.2026) „No Raid Attunements for Launch Raids“ widerspricht scheinbar der Onyxia-Einstimmung aus Blizzard-Raid-Überblick 24303009 → Onyxia-Einstimmung **noch nicht eindeutig**, nach Launch prüfen. Quellen: https://news.blizzard.com/en-us/article/24315820/world-of-warcraft-forever-goes-live-globally-november-4, https://www.wowhead.com/forever/news/no-raid-attunements-for-launch-raids-but-why-tho-interview-on-wow-forever-382964
+- 2026-11-05, 2026-11-09 und 2026-11-11 (Läufe auf Branches claude/upbeat-ritchie-ckfbvk, -2d8ie6, -kbzkpy, noch nicht in main): nichts Neues, Wochenprüfung aller Raids am 09.11.
+- 2026-11-12: Suche nach neuen Raid-Ankündigungen, Hotfixes und Bossinfos: nichts Neues. Neuester Blizzard-Hotfix (06.11.2026, https://worldofwarcraft.blizzard.com/news/24307310/) betrifft nur Retail. Barrow/Hyjal/Onyxia weiter ab 09.12.2026; Frühjahr 2027 „2 neue Raids“ weiter ohne Namen/Datum. Keine Bossfähigkeiten, Resistenzen oder Materialien aus gesicherten Quellen (Guide-Seiten nennen nur Demo-/Datamining-Bossnamen; eine Seite nennt „Chillhowl“ als ersten Barrow-Boss – widerspricht der bisherigen Liste, **noch nicht bestätigt**, Quelle nur Verkäuferseite).
 - Onyxia-Feuerresi: konkrete Forever-Zahlen/Rezepte nach Öffnung (09.12.2026) prüfen, ggf. Version 1.1.
 
 ## (C) Materialien & Rezepte
@@ -49,8 +51,8 @@ Noch nicht bestätigt (nur Datamining Beta, nicht eintragen):
 
 | Raid | Letzte Prüfung | Ergebnis |
 |---|---|---|
-| mc | 2026-11-03 | weiterhin nicht unter den offiziellen Forever-Raids, keine Änderungen gefunden, nichts gepostet |
-| ony | 2026-11-03 | keine Forever-Änderungen an der Begegnung gefunden, nichts gepostet (Feuerresi-Kanal seit 2026-10-28) |
-| barrow | 2026-11-03 | keine neuen offiziellen Bossinfos/Resistenzen/Materialien, nichts gepostet |
-| hyjal | 2026-11-03 | keine neuen offiziellen Bossinfos/Resistenzen/Materialien, nichts gepostet |
-| bwl, zg, aq20, aq40, naxx | 2026-11-03 | keine Forever-Ankündigung (Launch WoW Forever laut Blizzard Watch 04.11.2026) |
+| mc | 2026-11-09 | weiterhin nicht unter den offiziellen Forever-Raids, keine Änderungen gefunden, nichts gepostet |
+| ony | 2026-11-09 | keine Forever-Änderungen an der Begegnung gefunden, nichts gepostet (Feuerresi-Kanal seit 2026-10-28) |
+| barrow | 2026-11-12 | keine neuen offiziellen Bossinfos/Resistenzen/Materialien, nichts gepostet |
+| hyjal | 2026-11-12 | keine neuen offiziellen Bossinfos/Resistenzen/Materialien, nichts gepostet |
+| bwl, zg, aq20, aq40, naxx | 2026-11-09 | keine Forever-Ankündigung (Launch WoW Forever laut Blizzard Watch 04.11.2026) |
