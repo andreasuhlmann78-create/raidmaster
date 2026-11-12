@@ -7,6 +7,19 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.98</h3>
+<ul>
+<li><strong>Sniper purchases are booked at once, even when you buy quickly in a row.</strong> Before, the purchase event could arrive
+  after the next purchase had started and was then only booked when the invoice came – disenchanting in between counted
+  with cost 0. Every purchase is now remembered by its auction and booked when its event arrives; never twice.</li>
+<li><strong>Disenchanting an item without known origin</strong> is marked "without purchase" instead of silently counting 0.</li>
+<li><strong>Correction after a restart (0.65.97) fixed:</strong> material sales that received the cost of the corrected disenchants
+  no longer count as "without purchase" – the return is right again and the 30 % warning disappears. Data already
+  corrected by 0.65.97 is fixed once at login. Costs without a target (material passed on) are noted in the log.</li>
+<li><strong>Duplicate "pending" sale bookings from 0.65.93/0.65.94</strong> (without the new ID) are now found and removed once
+  (stock restored); real partial sales of the same size stay.</li>
+<li>Tests T491–T498 (T-AB8c/d, T-AB1b–d, T-VF5e, T-PD1a/b).</li>
+</ul>
 <h3>Version 0.65.97</h3>
 <ul>
 <li><strong>Bookkeeping restart keeps purchase prices (opening balance).</strong> Goods bought before a restart (bags, bank, mail,
@@ -79,16 +92,7 @@
   head ("of which without purchase: X", only if any) and does not count in the return.</li>
 <li>Tests T463–T466 (T-BE1–T-BE4).</li>
 </ul>
-<h3>Version 0.65.93</h3>
-<ul>
-<li><strong>Fix: partly sold auctions can be cancelled again.</strong> For goods, the sold parts of an auction keep the same auction
-  ID as the remaining active quantity. Cancelling (X in the row and "Cancel next undercut") picked a sold part and
-  answered "This auction is already sold." Now the row cancels exactly its own entry and the active remainder is used.</li>
-<li>Bookkeeping: two partial sales of the same auction are both booked as "pending" (no longer skipped), the active
-  remainder is not counted as sold.</li>
-<li>Tests T461–T462 (T-VF5a/b).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

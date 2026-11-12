@@ -12,6 +12,19 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.98
+
+- **Sniper purchases are booked at once, even when you buy quickly in a row.** Before, the purchase event could arrive
+  after the next purchase had started and was then only booked when the invoice came – disenchanting in between counted
+  with cost 0. Every purchase is now remembered by its auction and booked when its event arrives; never twice.
+- **Disenchanting an item without known origin** is marked "without purchase" instead of silently counting 0.
+- **Correction after a restart (0.65.97) fixed:** material sales that received the cost of the corrected disenchants
+  no longer count as "without purchase" – the return is right again and the 30 % warning disappears. Data already
+  corrected by 0.65.97 is fixed once at login. Costs without a target (material passed on) are noted in the log.
+- **Duplicate "pending" sale bookings from 0.65.93/0.65.94** (without the new ID) are now found and removed once
+  (stock restored); real partial sales of the same size stay.
+- Tests T491–T498 (T-AB8c/d, T-AB1b–d, T-VF5e, T-PD1a/b).
+
 ### Version 0.65.97
 
 - **Bookkeeping restart keeps purchase prices (opening balance).** Goods bought before a restart (bags, bank, mail,
@@ -83,15 +96,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Honest about free goods:** profit from goods you never bought (loot, farming, quests) is shown separately in the
   head ("of which without purchase: X", only if any) and does not count in the return.
 - Tests T463–T466 (T-BE1–T-BE4).
-
-### Version 0.65.93
-
-- **Fix: partly sold auctions can be cancelled again.** For goods, the sold parts of an auction keep the same auction
-  ID as the remaining active quantity. Cancelling (X in the row and "Cancel next undercut") picked a sold part and
-  answered "This auction is already sold." Now the row cancels exactly its own entry and the active remainder is used.
-- Bookkeeping: two partial sales of the same auction are both booked as "pending" (no longer skipped), the active
-  remainder is not counted as sold.
-- Tests T461–T462 (T-VF5a/b).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
