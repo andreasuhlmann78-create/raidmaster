@@ -12,6 +12,18 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.99
+
+- **An empty full scan changes nothing.** If the server answers a full scan with no or far too few auctions (under 30 %
+  of the last valid one), no market, sales, rhythm or tracking data is taken over: "Full scan without answer – nothing
+  taken over." Sales estimates only come from two valid full scans.
+- **The Sniper pauses while a full scan is running** (about 30–90 s) – the full scan has priority. The 15-minute lock
+  alone does not stop the Sniper. Status line: "waiting: full scan running".
+- **Forecast: one case per purchase.** The same purchase could appear many times in the forecast journal. Purchases now
+  carry their auction; repeated reports are not recorded again. Existing duplicates are set aside once (not deleted,
+  kept in a side list) when the number of identical cases exceeds the purchases in the bookkeeping. Report: "Duplicates 0".
+- Tests T499–T501 (T-PD5a/b, T-PD2); simulation test for "scan with commodities updates their price time" (T-MP1).
+
 ### Version 0.65.98
 
 - **Sniper purchases are booked at once, even when you buy quickly in a row.** Before, the purchase event could arrive
@@ -85,17 +97,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   bought on two computers are now added up (5 + 3 = 8 with both costs). The merge package also reads the older field
   names, and the merge report counts disenchants without a log entry.
 - Tests T467–T476 (T-LB1–T-LB4, T-MP1–T-MP3, T-VF5c/d, T-ZM5).
-
-### Version 0.65.94
-
-- **Bookkeeping: return next to the profit.** The head now shows "Profit X · Return Y %" (profit of goods you bought ÷
-  what they cost you). Without any cost: "Return –".
-- **Where you lose money** (tooltip of the profit): the business type (disenchanting, flipping, crafting, vendor
-  goods) and the item with the biggest realised loss, with the amount – or "No losing business". The type comes from
-  where the cost came from (AH purchase = flipping, from disenchanting = disenchanting); mixed or unclear = "unknown".
-- **Honest about free goods:** profit from goods you never bought (loot, farming, quests) is shown separately in the
-  head ("of which without purchase: X", only if any) and does not count in the return.
-- Tests T463–T466 (T-BE1–T-BE4).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
