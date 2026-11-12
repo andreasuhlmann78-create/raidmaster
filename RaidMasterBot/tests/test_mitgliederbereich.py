@@ -226,6 +226,14 @@ class AddonMigration(unittest.TestCase):
 
 
 class BotCode(unittest.TestCase):
+    def test_raid_erstellen_antwortet_vor_dem_posten(self):
+        with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as f:
+            src = f.read()
+        body = src[src.index("async def raid_create("):]
+        body = body[:body.index('raid["message_id"] = msg.id')]
+        tail = body[body.index("else:", body.index("if target.id == inter.channel_id:")):]
+        self.assertLess(tail.index("inter.response.defer("), tail.index("target.send("))
+
     def test_raidmaster_pflicht_hinweis(self):
         with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as f:
             src = f.read()

@@ -902,8 +902,10 @@ async def raid_create(inter: discord.Interaction, titel: str, datum: str, uhrzei
         await inter.response.send_message(embed=raid_embed(raid), view=raid_view(raid))
         msg = await inter.original_response()
     else:
+        # zuerst antworten (Discord wartet nur 3 s), dann posten – sonst "Unknown interaction" (12.11.2026)
+        await inter.response.defer(ephemeral=True, thinking=True)
         msg = await target.send(embed=raid_embed(raid), view=raid_view(raid))
-        await inter.response.send_message(f"Raid erstellt in {target.mention}.", ephemeral=True)
+        await inter.followup.send(f"Raid erstellt in {target.mention}.", ephemeral=True)
     raid["message_id"] = msg.id
     book.save()
     await create_raid_event(raid)
