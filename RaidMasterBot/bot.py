@@ -888,6 +888,8 @@ async def raid_create(inter: discord.Interaction, titel: str, datum: str, uhrzei
             "Mitglieder ausgeblendet. Sie erscheint von selbst, sobald Blizzard den Raid ankündigt. "
             "Bis dahin geht nur ein PUG-Raid (modus: PUG-Raid).", ephemeral=True)
         return
+    # ab hier zuerst antworten (Discord wartet nur 3 s) – sonst "Die Anwendung reagiert nicht" und der Raid geht verloren
+    await inter.response.defer(ephemeral=True, thinking=True)
     # Zielkanal: Anmeldung der Raid-Kategorie bzw. #pug-anmeldung
     target_id = cfg.get("pug_channel_id") if mode == "pug" else raid_channel(pool, "signup")
     target = await channel_by_id(target_id) if target_id else None
@@ -898,16 +900,10 @@ async def raid_create(inter: discord.Interaction, titel: str, datum: str, uhrzei
     raid["pool_name"] = dict(known_raids()).get(pool, pool)
     if mode == "pug" and softres_link:
         raid["softres"] = softres_link
-    if target.id == inter.channel_id:
-        await inter.response.send_message(embed=raid_embed(raid), view=raid_view(raid))
-        msg = await inter.original_response()
-    else:
-        # zuerst antworten (Discord wartet nur 3 s), dann posten – sonst "Unknown interaction" (12.11.2026)
-        await inter.response.defer(ephemeral=True, thinking=True)
-        msg = await target.send(embed=raid_embed(raid), view=raid_view(raid))
-        await inter.followup.send(f"Raid erstellt in {target.mention}.", ephemeral=True)
+    msg = await target.send(embed=raid_embed(raid), view=raid_view(raid))
     raid["message_id"] = msg.id
     book.save()
+    await inter.followup.send(f"Raid erstellt in {target.mention}.", ephemeral=True)
     await create_raid_event(raid)
     if mode == "pug":
         role = discord.utils.get(inter.guild.roles, name="Gast") if inter.guild else None

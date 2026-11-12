@@ -230,9 +230,10 @@ class BotCode(unittest.TestCase):
         with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as f:
             src = f.read()
         body = src[src.index("async def raid_create("):]
-        body = body[:body.index('raid["message_id"] = msg.id')]
-        tail = body[body.index("else:", body.index("if target.id == inter.channel_id:")):]
-        self.assertLess(tail.index("inter.response.defer("), tail.index("target.send("))
+        body = body[:body.index("\n\n\n")]
+        self.assertLess(body.index("inter.response.defer("), body.index("channel_by_id("))
+        self.assertLess(body.index("target.send(embed"), body.index("inter.followup.send(f\"Raid erstellt"))
+        self.assertNotIn("inter.response.send_message(embed", body)
 
     def test_raidmaster_pflicht_hinweis(self):
         with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as f:
