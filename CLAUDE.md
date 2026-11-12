@@ -34,6 +34,16 @@ nicht wieder passieren, sonst überschreiben sie sich gegenseitig.
 - Gilt sinngemäss für jedes Addon: je Addon arbeitet nur seine eigene Sitzung daran.
 - Vor jeder Veröffentlichung trotzdem `git pull --rebase` und die höchste schon veröffentlichte Version prüfen.
 
+## Ergebnisse von Prüfungen immer über das Repo (Entscheid des Nutzers, 12. November 2026)
+
+Gilt für ALLE Prüf-Sitzungen (Prüf-Sitzung im Chat, geplante Nachprüfung, jede andere Sitzung, die prüft):
+Jedes Ergebnis einer Prüfung – erledigt, Befunde, "im Client prüfen", auch "freigegeben, keine Befunde" – kommt
+über das Repo zum zuständigen Projekt, in `auftraege/<Projekt>/offen-<projekt>.txt` (bei Bedarf dazu `befund-*.txt`
+oder `anweisung-*.txt`). Ein Ergebnis, das nur im Chat oder in einer Nachricht an den Nutzer steht, gilt als nicht
+weitergeleitet. Die Nachricht zum Einfügen an den Nutzer ist nur zusätzlich. Betrifft ein Befund ein anderes
+Projekt, auch in dessen `offen-*.txt` eintragen. Offene Punkte anderer Prüfungen nie verlieren, sondern übernehmen.
+Zuständig: Discord-Bot und Gilden-Discord -> `Discord/`, Uploader -> `RaidMaster/`, jedes Addon -> eigener Ordner.
+
 ## Neues Addon
 
 Neue GoldSentinel-Addons immer aus der Vorlage erstellen: `python3 shared/vorlage/neues_addon.py <Name> --slash <befehl>

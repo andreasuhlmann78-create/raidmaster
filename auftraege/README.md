@@ -21,3 +21,9 @@ Ein Ordner pro Addon: `RaidMaster/`, `ThreatSentinel/`, `AHSentinel/`, `BuffSent
 - Ist ein Punkt in einer veröffentlichten Version nachgeprüft, entfernt die Prüf-Sitzung ihn bzw. die Datei.
 - Neue oder geänderte Aufträge erkennt man am Git-Log: `git log --oneline -- auftraege/<Addon>/`.
 - Das Repo ist öffentlich: Hier stehen nie Tokens, Webhook-URLs, Passwörter oder Namen von Spielern.
+
+## Ergebnisse immer hier (Entscheid des Nutzers, 12.11.2026)
+
+Für alle Prüf-Sitzungen: Jedes Prüfergebnis (auch "freigegeben, keine Befunde") steht in
+`<Projekt>/offen-<projekt>.txt`. Nur was hier steht, gilt als an das Projekt weitergeleitet; die Nachricht an den
+Nutzer ist zusätzlich. Bot und Gilden-Discord: `Discord/`. Uploader: `RaidMaster/`.
