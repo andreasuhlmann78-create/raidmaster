@@ -101,6 +101,16 @@ geteilte Daten anderer Spieler (Sync, ohne Namen) als Zweites, Markt-Schätzung 
 
 ---
 
+- **12.11. – Levelwelle (Beobachtung des Nutzers + Daten):** "Die Leute leveln höher, entsprechend viele verkaufen ihr
+  Zeug im AH." Daten bestätigen fallende Preise in den Bändern, durch die die Masse gerade levelt: Seelenstaub (26–35)
+  6s88 -> 3s99 in ~6 Tagen, Goldene Schuppenarmschienen (iLvl 37) über 1g am 7.11. -> 17–18s am 12.11. (340 Angebote,
+  zusätzlich ein Hersteller, der flutet). Leinenstoff dagegen stabil 17–25c (Startgebiet-Stoff, ständiges Angebot).
+  Folgerung (vermutet, zu messen M-Welle): Ware eines Stufenbands verliert an Wert, sobald die Masse durch das Band ist
+  -> eigenen Bestand dieser Bänder zügig verkaufen statt halten; Entzauber-Grenzen fallen mit; Nachfrage wandert nach
+  oben (Material/Ausrüstung 40–60, ab 9.12. Raid-Verbrauchsgüter).
+- **M-Welle (neu 12.11.):** je Stufenband (Staub/Essenz/Splitter-Bänder) Tagesmittel der Material- und Grün-Preise aus
+  den Tages-Ständen im Daten-Repo; sagt, wann ein Band "durch" ist und wo die Nachfrage als Nächstes steigt.
+
 ## 5. Strategien im Auktionshaus (allgemein + Forever)
 
 | Strategie | Kern | Forever-Besonderheit |
