@@ -152,3 +152,10 @@ NEU (11. Nov. 21:55, HOCH, beim Nutzer) – DATEN-LIEFERUNG SCHLÄGT FEHL: "Prü
    Nebenbefund: erste Zeile im Uploader-Fenster "Python wurde nicht gefunden; ohne Argumente ausführen, um aus dem
    Microsoft Store ..." – der Start (bat) ruft zuerst "python" auf (Store-Alias). Nur "py" verwenden bzw. vorher prüfen,
    damit die verwirrende Zeile wegfällt.
+
+T-DU10 (niedrig, NEU 12.11. 06:40) – Daten-Repo mit zwei Rechnern (Laptop liefert seit 06:33, Uploader 2.3.0):
+   - Jede Lieferung ersetzt "aktuell/" und "tage/<heute>/" komplett mit dem Stand des liefernden Rechners. Liefert am
+     selben Tag später der PC, ist der Tages-Stand des Laptops weg. Vorschlag: tage/<datum>/<rechner>/... (Rechnername
+     ist kein Spielername; ggf. anonym "rechner1/2" wie konto1..n) oder Laptop und PC je eigener Unterordner in aktuell/.
+   - Die Konto-Nummern sind je Rechner verschieden (dasselbe Forever-Konto: PC "konto3", Laptop "konto2"). Für die
+     Auswertung gleiche Nummer für dasselbe Konto (z. B. Hash des Kontonamens, nicht der Name selbst).
