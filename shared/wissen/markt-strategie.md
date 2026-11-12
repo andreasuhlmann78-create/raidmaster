@@ -108,6 +108,10 @@ geteilte Daten anderer Spieler (Sync, ohne Namen) als Zweites, Markt-Schätzung 
   Folgerung (vermutet, zu messen M-Welle): Ware eines Stufenbands verliert an Wert, sobald die Masse durch das Band ist
   -> eigenen Bestand dieser Bänder zügig verkaufen statt halten; Entzauber-Grenzen fallen mit; Nachfrage wandert nach
   oben (Material/Ausrüstung 40–60, ab 9.12. Raid-Verbrauchsgüter).
+  Ergänzung Nutzer 12.11. 07:02: "Es wird auch Items mit höherem Item-Level betreffen." -> Die Welle wandert mit:
+  höhere Bänder sind JETZT knapp und teuer und fallen, sobald die Masse dort ankommt. Also höherstufige Ware verkaufen,
+  solange sie knapp ist (jetzt), nicht auf Vorrat kaufen und halten. Ausnahme vermutlich Stufe-60-/Raid-Bedarf
+  (Nachfrage bleibt). Messbar mit M-Welle: Band 41–50 und 51–60 jetzt als Referenz festhalten.
 - **M-Welle (neu 12.11.):** je Stufenband (Staub/Essenz/Splitter-Bänder) Tagesmittel der Material- und Grün-Preise aus
   den Tages-Ständen im Daten-Repo; sagt, wann ein Band "durch" ist und wo die Nachfrage als Nächstes steigt.
 
