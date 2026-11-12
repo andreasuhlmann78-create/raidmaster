@@ -2,7 +2,7 @@
 
 Hier legt die Prüf-Sitzung alle Anweisungen, Korrekturen und Hinweise für die Addon-Projekte ab.
 Ein Ordner pro Addon: `RaidMaster/`, `ThreatSentinel/`, `AHSentinel/`, `BuffSentinel/`, `GuildSentinel/`,
-`ProfessionSentinel/`, `LevelPilot/`.
+`ProfessionSentinel/`, `LevelPilot/`, `Discord/`.
 
 ## Für jedes Projekt, vor jeder Arbeit
 
