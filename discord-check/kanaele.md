@@ -1,6 +1,6 @@
 # Discord-Kanäle
 
-Stand: 2026-11-12T06:35:58Z, Server: Alpine Vanguard. Nur die Struktur – keine Beiträge, keine Mitglieder (das Repo ist öffentlich).
+Stand: 2026-11-12T08:38:00Z, Server: Alpine Vanguard. Nur die Struktur – keine Beiträge, keine Mitglieder (das Repo ist öffentlich).
 Erstellt von discord-check/check.py bei jeder Discord-Prüfung.
 
 
@@ -18,6 +18,10 @@ Erstellt von discord-check/check.py bei jeder Discord-Prüfung.
 - #loot-regeln (Text)
 - #ränge-und-aufnahme (Text)
 - #dkp-regeln (Text)
+
+## 📝 BEWERBUNG
+
+- #bewerbung (Text)
 
 ## 💬 ALLGEMEIN
 
