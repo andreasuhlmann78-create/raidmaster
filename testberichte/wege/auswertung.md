@@ -98,36 +98,36 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Tirisfal (1420)
 
-- Wegstücke 481, Knoten 639, zusammenhängende Teile 23
+- Wegstücke 592, Knoten 808, zusammenhängende Teile 26
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 584 Knoten, Bereich 31–84 / 21–76
-  - Teil 2: 5 Knoten, Bereich 31–32 / 66–66
-  - Teil 3: 5 Knoten, Bereich 33–34 / 63–64
-  - Teil 4: 5 Knoten, Bereich 36–38 / 57–58
-  - Teil 5: 4 Knoten, Bereich 58–60 / 81–82
-  - Teil 6: 3 Knoten, Bereich 25–26 / 60–60
-  - Teil 7: 3 Knoten, Bereich 32–32 / 64–65
-  - Teil 8: 3 Knoten, Bereich 32–32 / 59–60
-- **Ausreisser:** Wegstück 1: Sprung 4.1 % von 55.7,62.7 nach 51.7,61.9
-- **Ausreisser:** Wegstück 1: Sprung 4.8 % von 48.6,60.2 nach 45.0,57.1
-- **Ausreisser:** Wegstück 1: Sprung 5.2 % von 45.0,57.1 nach 41.8,53.0
-- **Ausreisser:** Wegstück 1: Sprung 16.4 % von 41.8,53.0 nach 33.5,38.8
-- **Ausreisser:** Wegstück 1: Sprung 4.6 % von 33.5,38.8 nach 31.5,34.7
-- **Ausreisser:** Wegstück 39: Sprung 8.1 % von 61.9,60.8 nach 61.1,52.7
-- **Ausreisser:** Wegstück 49: Sprung 5.0 % von 52.7,54.3 nach 49.6,58.2
-- **Ausreisser:** Wegstück 52: Sprung 4.7 % von 49.6,58.2 nach 45.3,56.3
-- **Ausreisser:** Wegstück 54: Sprung 5.2 % von 55.7,60.1 nach 57.2,55.1
-- **Ausreisser:** Wegstück 74: Sprung 4.4 % von 56.0,62.7 nach 51.7,61.9
-- **Ausreisser:** Wegstück 74: Sprung 4.8 % von 48.6,60.2 nach 45.0,57.1
-- **Ausreisser:** Wegstück 74: Sprung 5.2 % von 45.0,57.1 nach 41.8,53.0
-- **Ausreisser:** Wegstück 74: Sprung 16.4 % von 41.8,53.0 nach 33.5,38.8
-- **Ausreisser:** Wegstück 74: Sprung 4.6 % von 33.5,38.8 nach 31.5,34.7
-- **Ausreisser:** Wegstück 93: Sprung 4.5 % von 62.1,57.9 nach 61.1,53.5
-- **Ausreisser:** Wegstück 93: Sprung 4.5 % von 60.6,52.5 nach 60.9,57.0
-- **Ausreisser:** Wegstück 93: Sprung 4.2 % von 60.9,57.0 nach 59.2,60.8
-- **Ausreisser:** Wegstück 97: Sprung 4.3 % von 81.3,49.4 nach 81.0,53.7
-- **Ausreisser:** Wegstück 103: Sprung 4.3 % von 81.3,52.8 nach 80.3,57.0
-- **Ausreisser:** Wegstück 103: Sprung 5.8 % von 80.3,57.0 nach 78.0,62.3
+  - Teil 1: 731 Knoten, Bereich 25–84 / 21–76
+  - Teil 2: 8 Knoten, Bereich 56–59 / 41–43
+  - Teil 3: 8 Knoten, Bereich 58–60 / 30–33
+  - Teil 4: 8 Knoten, Bereich 59–61 / 38–47
+  - Teil 5: 6 Knoten, Bereich 57–58 / 34–37
+  - Teil 6: 5 Knoten, Bereich 57–59 / 34–34
+  - Teil 7: 4 Knoten, Bereich 63–63 / 47–51
+  - Teil 8: 4 Knoten, Bereich 58–60 / 81–82
+- **Ausreisser:** Wegstück 1: Sprung 4.9 % von 30.4,71.5 nach 31.6,66.8
+- **Ausreisser:** Wegstück 40: Sprung 4.8 % von 31.9,64.4 nach 29.4,60.3
+- **Ausreisser:** Wegstück 85: Sprung 4.9 % von 59.2,46.6 nach 58.2,51.4
+- **Ausreisser:** Wegstück 94: Sprung 5.3 % von 58.7,32.5 nach 59.0,37.8
+- **Ausreisser:** Wegstück 94: Sprung 4.9 % von 61.3,47.0 nach 62.2,51.8
+- **Ausreisser:** Wegstück 102: Sprung 4.1 % von 57.2,55.4 nach 58.8,51.6
+- **Ausreisser:** Wegstück 112: Sprung 4.1 % von 55.7,62.7 nach 51.7,61.9
+- **Ausreisser:** Wegstück 112: Sprung 4.8 % von 48.6,60.2 nach 45.0,57.1
+- **Ausreisser:** Wegstück 112: Sprung 5.2 % von 45.0,57.1 nach 41.8,53.0
+- **Ausreisser:** Wegstück 112: Sprung 16.4 % von 41.8,53.0 nach 33.5,38.8
+- **Ausreisser:** Wegstück 112: Sprung 4.6 % von 33.5,38.8 nach 31.5,34.7
+- **Ausreisser:** Wegstück 150: Sprung 8.1 % von 61.9,60.8 nach 61.1,52.7
+- **Ausreisser:** Wegstück 160: Sprung 5.0 % von 52.7,54.3 nach 49.6,58.2
+- **Ausreisser:** Wegstück 163: Sprung 4.7 % von 49.6,58.2 nach 45.3,56.3
+- **Ausreisser:** Wegstück 165: Sprung 5.2 % von 55.7,60.1 nach 57.2,55.1
+- **Ausreisser:** Wegstück 185: Sprung 4.4 % von 56.0,62.7 nach 51.7,61.9
+- **Ausreisser:** Wegstück 185: Sprung 4.8 % von 48.6,60.2 nach 45.0,57.1
+- **Ausreisser:** Wegstück 185: Sprung 5.2 % von 45.0,57.1 nach 41.8,53.0
+- **Ausreisser:** Wegstück 185: Sprung 16.4 % von 41.8,53.0 nach 33.5,38.8
+- **Ausreisser:** Wegstück 185: Sprung 4.6 % von 33.5,38.8 nach 31.5,34.7
 
 ## Silberwald (1421)
 
@@ -218,41 +218,42 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Thunder Bluff (1456)
 
-- Wegstücke 431, Knoten 519, zusammenhängende Teile 6
+- Wegstücke 433, Knoten 523, zusammenhängende Teile 6
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 502 Knoten, Bereich 23–78 / 14–87
+  - Teil 1: 506 Knoten, Bereich 23–78 / 14–87
   - Teil 2: 5 Knoten, Bereich 26–31 / 2–4
   - Teil 3: 4 Knoten, Bereich 13–18 / 29–31
   - Teil 4: 3 Knoten, Bereich 11–13 / 24–29
   - Teil 5: 3 Knoten, Bereich 17–21 / 33–34
   - Teil 6: 2 Knoten, Bereich 47–48 / 34–36
-- **Ausreisser:** Wegstück 1: Sprung 6.5 % von 34.4,73.5 nach 32.3,67.3
-- **Ausreisser:** Wegstück 2: Sprung 4.4 % von 33.3,71.6 nach 32.3,67.3
-- **Ausreisser:** Wegstück 3: Sprung 5.3 % von 32.3,67.3 nach 32.4,62.0
-- **Ausreisser:** Wegstück 3: Sprung 5.1 % von 31.0,61.3 nach 36.0,62.2
-- **Ausreisser:** Wegstück 3: Sprung 6.8 % von 36.0,62.2 nach 39.1,56.1
-- **Ausreisser:** Wegstück 3: Sprung 4.8 % von 39.1,56.1 nach 43.6,54.5
-- **Ausreisser:** Wegstück 4: Sprung 4.9 % von 44.6,53.6 nach 41.5,57.4
-- **Ausreisser:** Wegstück 5: Sprung 7.0 % von 42.9,56.9 nach 46.6,51.0
-- **Ausreisser:** Wegstück 6: Sprung 4.7 % von 44.6,53.6 nach 47.4,49.8
-- **Ausreisser:** Wegstück 8: Sprung 4.7 % von 46.7,46.3 nach 46.6,51.0
-- **Ausreisser:** Wegstück 10: Sprung 10.3 % von 41.7,59.9 nach 43.1,49.7
-- **Ausreisser:** Wegstück 10: Sprung 8.8 % von 45.5,46.8 nach 47.5,38.2
-- **Ausreisser:** Wegstück 10: Sprung 22.2 % von 47.5,38.2 nach 67.6,28.7
-- **Ausreisser:** Wegstück 10: Sprung 11.2 % von 70.5,32.3 nach 62.2,39.8
-- **Ausreisser:** Wegstück 10: Sprung 8.7 % von 62.2,39.8 nach 58.0,47.4
-- **Ausreisser:** Wegstück 10: Sprung 8.5 % von 58.0,47.4 nach 50.0,50.3
-- **Ausreisser:** Wegstück 11: Sprung 4.0 % von 41.7,59.9 nach 38.6,62.5
-- **Ausreisser:** Wegstück 11: Sprung 6.2 % von 37.2,62.8 nach 31.9,66.0
-- **Ausreisser:** Wegstück 12: Sprung 6.5 % von 38.0,56.3 nach 37.2,62.8
-- **Ausreisser:** Wegstück 13: Sprung 8.8 % von 47.4,49.8 nach 46.8,41.0
+- **Ausreisser:** Wegstück 1: Sprung 4.7 % von 43.3,54.1 nach 46.8,50.9
+- **Ausreisser:** Wegstück 1: Sprung 12.1 % von 46.4,49.1 nach 41.5,60.2
+- **Ausreisser:** Wegstück 3: Sprung 6.5 % von 34.4,73.5 nach 32.3,67.3
+- **Ausreisser:** Wegstück 4: Sprung 4.4 % von 33.3,71.6 nach 32.3,67.3
+- **Ausreisser:** Wegstück 5: Sprung 5.3 % von 32.3,67.3 nach 32.4,62.0
+- **Ausreisser:** Wegstück 5: Sprung 5.1 % von 31.0,61.3 nach 36.0,62.2
+- **Ausreisser:** Wegstück 5: Sprung 6.8 % von 36.0,62.2 nach 39.1,56.1
+- **Ausreisser:** Wegstück 5: Sprung 4.8 % von 39.1,56.1 nach 43.6,54.5
+- **Ausreisser:** Wegstück 6: Sprung 4.9 % von 44.6,53.6 nach 41.5,57.4
+- **Ausreisser:** Wegstück 7: Sprung 7.0 % von 42.9,56.9 nach 46.6,51.0
+- **Ausreisser:** Wegstück 8: Sprung 4.7 % von 44.6,53.6 nach 47.4,49.8
+- **Ausreisser:** Wegstück 10: Sprung 4.7 % von 46.7,46.3 nach 46.6,51.0
+- **Ausreisser:** Wegstück 12: Sprung 10.3 % von 41.7,59.9 nach 43.1,49.7
+- **Ausreisser:** Wegstück 12: Sprung 8.8 % von 45.5,46.8 nach 47.5,38.2
+- **Ausreisser:** Wegstück 12: Sprung 22.2 % von 47.5,38.2 nach 67.6,28.7
+- **Ausreisser:** Wegstück 12: Sprung 11.2 % von 70.5,32.3 nach 62.2,39.8
+- **Ausreisser:** Wegstück 12: Sprung 8.7 % von 62.2,39.8 nach 58.0,47.4
+- **Ausreisser:** Wegstück 12: Sprung 8.5 % von 58.0,47.4 nach 50.0,50.3
+- **Ausreisser:** Wegstück 13: Sprung 4.0 % von 41.7,59.9 nach 38.6,62.5
+- **Ausreisser:** Wegstück 13: Sprung 6.2 % von 37.2,62.8 nach 31.9,66.0
 
 ## Undercity (1458)
 
-- Wegstücke 1286, Knoten 667, zusammenhängende Teile 2
+- Wegstücke 1295, Knoten 669, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 665 Knoten, Bereich 44–86 / 1–96
+  - Teil 1: 666 Knoten, Bereich 44–86 / 1–96
   - Teil 2: 2 Knoten, Bereich 83–84 / 15–16
+  - Teil 3: 1 Knoten, Bereich 65–65 / 44–44
 - **Ausreisser:** Wegstück 1: Sprung 10.6 % von 46.4,72.8 nach 52.8,64.4
 - **Ausreisser:** Wegstück 2: Sprung 6.2 % von 46.4,72.8 nach 45.4,78.9
 - **Ausreisser:** Wegstück 3: Sprung 9.8 % von 46.4,72.8 nach 51.7,64.6
@@ -278,6 +279,32 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 | NPC | Karte | Ort | Abstand | Bewertung |
 |---|---|---|---|---|
+| 2995 | 1456 | 47.0,49.8 -> 46.9,50.1 | 0.3 % | klein |
+| 1568 | 1420 | 30.2,71.7 -> 30.3,71.7 | 0.1 % | klein |
+| 1569 | 1420 | 30.8,66.2 -> 30.8,66.2 | 0.0 % | klein |
+| 1661 | 1420 | 30.9,66.1 -> 30.9,66.2 | 0.1 % | klein |
+| 2123 | 1420 | 31.1,66.0 -> 31.1,66.0 | 0.0 % | klein |
+| 1519 | 1420 | 40.9,54.2 -> 40.9,54.2 | 0.0 % | klein |
+| 1570 | 1420 | 32.2,66.0 -> 32.1,66.1 | 0.1 % | klein |
+| 1740 | 1420 | 31.6,65.6 -> 31.8,65.6 | 0.2 % | klein |
+| 6784 | 1420 | 38.2,56.8 -> 38.1,56.8 | 0.1 % | klein |
+| 244808 | 1420 | kein Ort im Datenpaket -> 31.1,66.4 | - | fehlt im Datenpaket |
+| 1496 | 1420 | 58.2,51.5 -> 58.3,51.5 | 0.1 % | klein |
+| 1499 | 1420 | 61.3,50.8 -> 61.3,50.8 | 0.0 % | klein |
+| 1515 | 1420 | 60.6,51.8 -> 60.5,51.8 | 0.1 % | klein |
+| 1518 | 1420 | 59.5,52.4 -> 59.5,52.3 | 0.1 % | klein |
+| 1742 | 1420 | kein Ort im Datenpaket -> 58.5,51.3 | - | fehlt im Datenpaket |
+| 1743 | 1420 | kein Ort im Datenpaket -> 58.5,51.4 | - | fehlt im Datenpaket |
+| 1745 | 1420 | kein Ort im Datenpaket -> 60.2,52.3 | - | fehlt im Datenpaket |
+| 2129 | 1420 | 61.6,52.2 -> 61.6,52.2 | 0.0 % | klein |
+| 3523 | 1420 | 52.6,55.5 -> 52.6,55.6 | 0.1 % | klein |
+| 5688 | 1420 | 61.7,52.1 -> 61.8,52.1 | 0.1 % | klein |
+| 10666 | 1420 | 43.1,54.7 -> 48.5,57.8 | 6.2 % | deutlich falsch |
+| 265812 | 1420 | kein Ort im Datenpaket -> 57.2,55.4 | - | fehlt im Datenpaket |
+| 265944 | 1420 | kein Ort im Datenpaket -> 61.8,51.5 | - | fehlt im Datenpaket |
+| 1500 | 1420 | 61.7,52.3 -> 61.8,52.4 | 0.1 % | klein |
+| 1521 | 1420 | 61.9,52.7 -> 61.9,52.6 | 0.1 % | klein |
+| 2132 | 1420 | 59.4,52.2 -> 59.5,52.3 | 0.1 % | klein |
 | 2995 | 1456 | 47.0,49.8 -> 46.8,50.1 | 0.4 % | klein |
 | 3320 | 1454 | 49.1,69.6 -> 49.3,69.7 | 0.2 % | klein |
 | 3370 | 1454 | kein Ort im Datenpaket -> 43.8,74.7 | - | fehlt im Datenpaket |

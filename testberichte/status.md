@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-12 05:07 UTC
+Ausgewertet: 2026-11-12 06:10 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -18,18 +18,18 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 70 | `testberichte/diagnose/AHSentinel/0.65.94-a90ab14a9b56.txt` |
-| BuffSentinel | 20 | `testberichte/diagnose/BuffSentinel/0.9.12-7f8dfb5af187.txt` |
-| GSMesstest | 4 | `testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt` |
+| AHSentinel | 71 | `testberichte/diagnose/AHSentinel/0.65.93-b6a747fcc223.txt` |
+| BuffSentinel | 21 | `testberichte/diagnose/BuffSentinel/0.9.12-34ce7c0c3e01.txt` |
+| GSMesstest | 5 | `testberichte/diagnose/GSMesstest/4-4676362ad889.txt` |
 | GuildSentinel | 64 | `testberichte/diagnose/GuildSentinel/0.9.23-bb33fa80616a.txt` |
-| ProfessionSentinel | 47 | `testberichte/diagnose/ProfessionSentinel/0.9.37-b69a2ad3e0a7.txt` |
-| ThreatSentinel | 52 | `testberichte/diagnose/ThreatSentinel/2.5.9-393857b54d8e.txt` |
+| ProfessionSentinel | 48 | `testberichte/diagnose/ProfessionSentinel/0.9.23-1fb073493c81.txt` |
+| ThreatSentinel | 52 | `testberichte/diagnose/ThreatSentinel/2.5.4-6191344fc78e.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 105 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794322533-f6e46f.json` |
+| LevelPilot | 118 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794462474-dc1702.json` |
 
 ## AHSentinel
 
