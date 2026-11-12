@@ -1,0 +1,28 @@
+HINWEIS GUILDSENTINEL – Öffentliches Discord-Serverprofil und Server-Tag (Rekrutierung)
+========================================================================================
+Von der Prüf-Sitzung, 12.11. 08:10. Erst laufende Arbeit fertig machen, dann diesen Hinweis.
+Kein Pflicht-Umbau, nur zwei kleine Verbesserungen für die Seite Rekrutierung (DP1, DP2). Keine Links, keine
+Server-IDs, keine Spielernamen in Dateien oder Commits.
+
+STAND DISCORD DER GILDE (vom Nutzer heute eingerichtet)
+- Server-Tag "AV" (Schwert-Abzeichen) – Mitglieder können ihn neben ihrem Namen überall auf Discord tragen.
+- Serverprofil ist jetzt ÖFFENTLICH (vorher privat).
+- Neues Serverbanner, Level 2.
+
+WAS DAS ÖFFENTLICHE PROFIL BRINGT (Discord-Hilfe "Server Profiles")
+- Nichtmitglieder sehen die Profilkarte des Servers (Name, Icon, Beschreibung, Spiele, Merkmale), bevor sie beitreten:
+  über eine Einladung, beim Klick auf den Server-Tag eines Mitglieds und in Discords Entdecken-Ansichten.
+- Ist das Profil privat, sehen Nichtmitglieder diese Angaben nur mit Einladung; der Tag führt dann nirgends hin.
+- Mit aktivierten Bewerbungen können sich Nichtmitglieder über den Tag direkt bewerben.
+-> Jede Werbung im Handelschat führt jetzt auf eine Profilkarte, die die Gilde vorstellt.
+
+DP1 – Hinweis auf der Seite Rekrutierung beim Feld "Discord-Link" (EN/DE/RU):
+  "Tipp: eine dauerhafte Einladung verwenden (läuft nie ab, unbegrenzte Nutzungen). Wer klickt, sieht vor dem
+  Beitritt das Serverprofil der Gilde." Nur Text, keine Prüfung des Links.
+DP2 – Standard-Werbetext unverändert lassen. Optional ein zweiter Vorschlag (Knopf "Vorschlag 2"), der den Tag nennt,
+  z. B. DE: "<{gilde}> ({fraktion}) sucht {gesucht}! Entspannte, deutschsprachige Gilde mit Raidziel.
+  Discord: {discord} – erkennbar am Tag AV." Nur wenn ein Discord-Link gesetzt ist; sonst Satz weglassen
+  (wie DropDiscord). Kürzung auf 251 Zeichen wie bisher. Test T-DP2: mit/ohne Link, EN/DE/RU.
+
+Reihenfolge: niedrig, nach allem anderen. CHANGELOG EN/DE.
+Vor dem Push: python3 addon-check/addon_check.py download/GuildSentinel-<Version>.zip -> kein FEHLER.
