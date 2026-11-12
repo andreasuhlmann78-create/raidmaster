@@ -1,0 +1,35 @@
+ANWEISUNG RAIDMASTER (Bot) – Discord der Gilde prüfen und Vorschläge machen (DC1–DC6)
+======================================================================================
+Von der Prüf-Sitzung, 12.11. 08:15, im Auftrag des Nutzers. Erst laufende Arbeit fertig machen, dann diese Anweisung.
+Zuständig: RaidMaster-Sitzung (Discord-Bot RaidMasterBot). Keine Server-IDs, Links, Tokens oder Spielernamen in
+Dateien oder Commits.
+
+AUSGANGSLAGE (heute vom Nutzer eingerichtet)
+- 10 Boosts, Level 2, neues Serverbanner, Server-Tag "AV" aktiv, Serverprofil jetzt ÖFFENTLICH.
+- Ankündigung zum Tag steht in #ankündigungen.
+- Sicher bekannt (Nutzer): Es gibt nur einen Offiziers-Kanal, aber KEINEN Bereich nur für Mitglieder.
+- Gesehen in der Kanalliste: INFO (willkommen, ankündigungen, ruhmeshalle, dkp-punkteverteilung, lore), REGELN
+  (verhaltensregeln, loot-regeln, ränge-und-aufnahme, dkp-regeln), ALLGEMEIN (zugeklappt), DUNGEONS (Dungeon 1–4,
+  Sprache), GILDENBANK, OFFIZIERE (offiziere, bot-befehle, bot-daten, befehlsliste, gildenname, testberichte,
+  sync-daten, Sprache Offiziere), "Addon's by GoldSentinel" (ahsentinel, levelpilot, buffsentinel).
+
+AUFTRAG
+DC1 – Bestandsaufnahme über den Bot (nur lesen): Kategorien, Kanäle, Rollen, Berechtigungen je Rolle
+  (@everyone, Mitglied/Rang-Rollen, Offiziere, Bot), Onboarding/Regeln-Bildschirm, Bewerbungen (Beitritt beantragen)
+  ja/nein, Einladungen (dauerhaft?), Serverprofil-Angaben (Beschreibung, Spiele, Merkmale). Ergebnis als Bericht
+  an den Nutzer (Text), keine Änderung ohne seine Freigabe.
+DC2 – Mitglieder-Bereich vorschlagen (wichtigster Punkt): Kategorie nur für die Mitglieder-Rolle(n), z. B.
+  #mitglieder-chat, #raid-anmeldung / #raidplanung, #berufe-und-handel, #screenshots, Sprachkanal "Gilde".
+  Gäste (@everyone ohne Rolle) sehen nur INFO/REGELN/Bewerbung. Mit Rollen-Vorschlag (wer bekommt "Mitglied"
+  wie – per Rang aus RaidMaster/GuildSentinel oder von Hand).
+DC3 – Gäste/Bewerber: Weg für Neue vorschlagen (z. B. #bewerbung oder Discord-Bewerbungen über Tag/Profil),
+  Willkommens-Text, wer die Rolle vergibt.
+DC4 – Serverprofil (jetzt öffentlich): Vorschlag für Beschreibung (DE, kurz, Raidziel, deutschsprachig, Horde,
+  WoW Forever), Spiele, Merkmale. Der Nutzer bestätigt, dann trägt er bzw. die Prüf-Sitzung es ein.
+DC5 – Aufräumen/Prüfen: Kanäle ohne Zweck, doppelte Kanäle, falsche Berechtigungen (z. B. sieht @everyone
+  Offiziers- oder Bot-Kanäle? Können Gäste in INFO schreiben?), Bot-Rechte nur so weit nötig.
+DC6 – Ergebnis: eine kurze Liste "Vorschlag – warum – Aufwand", sortiert nach Nutzen. Umsetzung erst nach Freigabe
+  durch den Nutzer; wenn der Bot es anlegen soll, als eigener Befehl (z. B. /mitgliederbereich einrichten) mit
+  Vorschau, nie automatisch.
+
+Vor dem Push (falls Code): Tests des Bots grün; nichts Geheimes in Dateien.
