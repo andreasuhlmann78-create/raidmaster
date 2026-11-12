@@ -1,0 +1,17 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 12.11.2026 16:10 · Sitzung: Discord-Projekt · Version: Bot 1.5.120 · Commit: siehe git log (dieser Bericht)
+
+ERLEDIGT
+- Fehler aus dem Spielbetrieb (12.11. 16:01): /raid erstellen -> "Die Anwendung reagiert nicht", Protokoll
+  "404 Unknown interaction" (raid_create antwortete erst nach dem Posten, über 3 s). Der Raid wurde nicht gespeichert.
+  1.5.119/1.5.120: raid_create bestätigt sofort (defer, ephemer) nach den Prüfungen, postet dann die Raid-Nachricht
+  in den Zielkanal, speichert und meldet "Raid erstellt in #…". Test tests/test_mitgliederbereich.py
+  BotCode.test_raid_erstellen_antwortet_vor_dem_posten. Bot-Tests 136/136 OK. Läuft auf dem Server (1.5.120).
+
+IM CLIENT GETESTET
+- Bewerbung komplett (12.11. 16:03): Knopf -> Formular -> privater Thread "Bewerbung <Name>" mit Bewerber und
+  Offizier-Erwähnung, Knöpfe Aufnehmen/Ablehnen; Ablehnen entfernt die Knöpfe und schreibt die Absage. OK.
+- /raid erstellen nach 1.5.120: noch nicht erneut getestet.
+
+FRAGEN
+- keine
