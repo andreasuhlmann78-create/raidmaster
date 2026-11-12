@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-12T01:56:58Z",
+ "ausgewertet": "2026-11-12T02:56:59Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -274,7 +274,7 @@
      "art": "spiel",
      "wo": "Protokoll CheckNav",
      "msg": "Interface/AddOns/LevelPilot/Protocol.lua:235: attempt to compare a secret number value (execution tainted by 'LevelPilot')",
-     "anzahl": 697,
+     "anzahl": 259,
      "versionen": [
       "3.12.6"
      ],
@@ -701,7 +701,7 @@
    "art": "spiel",
    "wo": "Protokoll CheckNav",
    "msg": "Interface/AddOns/LevelPilot/Protocol.lua:235: attempt to compare a secret number value (execution tainted by 'LevelPilot')",
-   "anzahl": 697,
+   "anzahl": 259,
    "versionen": [
     "3.12.6"
    ],
@@ -885,7 +885,7 @@
    },
    "GuildSentinel": {
     "anzahl": 64,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.23-bb33fa80616a.txt"
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.24-eb21ddda07a9.txt"
    },
    "ProfessionSentinel": {
     "anzahl": 47,
