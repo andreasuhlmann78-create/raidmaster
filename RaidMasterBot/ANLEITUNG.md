@@ -105,7 +105,7 @@ In **#bot-befehle** meldet der Bot Updates.
 
 `/pug-einladung` (Offiziere) erstellt einen eigenen Einladungslink. Wer darüber beitritt, bekommt
 automatisch die Rolle **Gast**, sieht nur INFO und PUG und erhält eine Begrüßung mit Anleitung.
-Über eure normalen Einladungslinks kommt man wie bisher auf den ganzen Server.
+Über eure normalen Einladungslinks kommt man auf den Server; was man dort sieht, regelt der Mitglieder-Bereich (unten).
 
 **Dauerhafte Einladung für #willkommen (ab Bot 1.5.110):** `/einladung` (Offiziere) zeigt EINEN Einladungslink, der nie
 abläuft und beliebig oft benutzt werden kann (führt in #willkommen). Gibt es den gespeicherten Link noch, wird kein
@@ -116,6 +116,27 @@ Fehlt das Recht **Einladung erstellen**, sagt der Bot, wo es einzuschalten ist.
 
 Werbung im Spiel: Addon-Seite **Werbung** – postet einen Text mit dem Link in den Welt-/Handelskanal.
 Der Link kommt beim Import eines PUG-Raids automatisch ins Addon.
+
+## 6a. Mitglieder-Bereich und Bewerbung (ab Bot 1.5.115)
+
+Seit das Serverprofil öffentlich ist, sollen Neue ohne Rolle nicht den ganzen Gildenbereich sehen.
+
+- `/mitgliederbereich einrichten` (Offiziere) zeigt zuerst nur eine **Vorschau** (nichts wird geändert):
+  welche Kategorien/Kanäle dicht gemacht werden, wer die Rolle **Mitglied** bekommt, ob #bewerbung angelegt wird.
+- `/mitgliederbereich einrichten bestaetigen:True` führt es aus:
+  - Rolle **Mitglied** (ohne Sonderrechte) anlegen; alle Mitglieder ohne Rolle (ausser Gast, Bots) bekommen sie.
+  - **📝 BEWERBUNG** mit **#bewerbung** (unter 📜 REGELN, für alle sichtbar) und Karte mit Knopf **Bewerben**.
+  - Alles, was @everyone bisher sah und nicht in 📌 INFO, 📜 REGELN, 🎲 PUG, 🧩 RAID-ADDON oder 📝 BEWERBUNG liegt
+    (💬 ALLGEMEIN, 🗝️ DUNGEONS, 🏦 GILDENBANK, ⚔️ RAID-ORGA, freigeschaltete Raids), sehen nur noch **Mitglied,
+    Raider, Raidleitung und Offizier**. Sonstige Kanal-Einstellungen bleiben; schon versteckte Bereiche (Offiziere,
+    Addon's by GoldSentinel, noch nicht angekündigte Raids) bleiben unverändert. Nichts wird gelöscht.
+  - Ohne **Server Members Intent** (Entwicklerportal) wird nicht eingerichtet – sonst verlören Mitglieder den Zugang.
+- Danach hält der Bot neue Kanäle in diesen Kategorien selbst dicht; ein von Blizzard angekündigter Raid wird nur für
+  Mitglieder eingeblendet.
+- **Bewerben:** Knopf → kurzes Formular (Charakter, Klasse, Stufe, Spielzeiten) → privater Thread mit den Offizieren.
+  Dort **Aufnehmen** (Rolle Mitglied, Gast wird entfernt, kurze DM) oder **Ablehnen** (freundliche Nachricht, Thread
+  wird geschlossen). Von Hand: `/mitglied aufnehmen` und `/mitglied entfernen`.
+- Der Willkommenstext verweist dann in Schritt 1 auf #bewerbung.
 
 ## 7. Uploader auf dem PC der Raidleitung
 

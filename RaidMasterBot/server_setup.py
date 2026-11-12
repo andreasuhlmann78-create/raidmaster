@@ -509,8 +509,11 @@ def welcome_text(guild_name: str, channels: dict | None = None, officer_role_id:
         f"willkommen. Angemeldet wird per Knopf, unser Addon RaidMaster aus {ch('raid-addon')} nimmt dir im Raid die "
         f"Arbeit ab, und wie wir Punkte und Beute verteilen, steht in {ch('regeln')}.\n\n"
         "👋 **So geht's los**\n"
-        f"**1.** Schreib einem {officer} deinen Charakternamen – hier im Discord oder im Spiel. Dann laden wir dich in "
-        "die Gilde ein.\n"
+        + (f"**1.** Klick in {ch('bewerbung')} auf **Bewerben** und nenn uns deinen Charakternamen – ein {officer} "
+           "meldet sich und lädt dich in die Gilde ein. Danach siehst du den ganzen Gildenbereich.\n"
+           if channel_id(channels, "bewerbung") else
+           f"**1.** Schreib einem {officer} deinen Charakternamen – hier im Discord oder im Spiel. Dann laden wir dich in "
+           "die Gilde ein.\n") +
         f"**2.** Lies in {ch('verhaltensregeln')}, wie wir miteinander umgehen.\n"
         "**3.** Registriere deinen Charakter einmal mit `/charakter` – dann kennt dich jeder und dein Name leuchtet in "
         "deiner Klassenfarbe.\n\n"
@@ -1110,13 +1113,33 @@ async def hide_raid(guild, targets: list, reason: str) -> dict:
         if ow.view_channel is not False:
             ow.view_channel = False
             await t.set_permissions(everyone, overwrite=ow, reason=reason)
+        # Mitglieder-Bereich (ab 1.5.115): Freigaben der Mitglieder-Rollen zurücknehmen (Offizier sieht weiter)
+        for r in _member_view_roles(guild):
+            ow = t.overwrites_for(r)
+            if ow.view_channel is True:
+                ow.view_channel = None
+                await t.set_permissions(r, overwrite=None if ow.is_empty() else ow, reason=reason)
     return prev
 
 
-async def show_raid(guild, targets: list, prev: dict, reason: str) -> int:
-    """Wieder einblenden: view_channel von @everyone auf den gespeicherten Stand zurück. Liefert die Anzahl Kanäle."""
+def _member_view_roles(guild) -> list:
+    """Rollen, die im Mitglieder-Bereich (member_area.py) freigegeben werden – ohne Offizier."""
+    names = {"mitglied", "raider", "raidleitung"}
+    return [r for r in guild.roles if r.name.strip().casefold() in names]
+
+
+async def show_raid(guild, targets: list, prev: dict, reason: str, members_only: bool = False) -> int:
+    """Wieder einblenden: view_channel von @everyone auf den gespeicherten Stand zurück. Liefert die Anzahl Kanäle.
+    members_only (Mitglieder-Bereich eingerichtet, ab 1.5.115): statt für alle nur für Mitglieder einblenden."""
     everyone = guild.default_role
     n = 0
+    if members_only:
+        import member_area
+        roles = member_area.member_roles(guild)
+        for t in targets:
+            if await member_area.gate_item(t, guild, roles, reason):
+                n += 1
+        return n
     for t in targets:
         ow = t.overwrites_for(everyone)
         before = prev.get(str(t.id))
@@ -1195,9 +1218,17 @@ async def ensure_rules_category(guild: discord.Guild, cfg: dict) -> list[str]:
         mine: dict = {}
         category = await _ensure_category(guild, cat_def, roles, report, mine, set(), reason)
         created.update(mine)
+        # Mitglieder-Bereich (ab 1.5.115): Kategorien ohne Gäste (z. B. 🏦 GILDENBANK) nur für Mitglieder halten,
+        # sonst setzt dieser Abgleich die Rechte bei jedem Start zurück
+        gated = bool(cfg.get("member_area")) and not cat_def["guest"]
+        if gated:
+            import member_area
+            mroles = member_area.member_roles(guild)
         # Rechte immer wie vorgesehen halten
         if cat_def["mode"]:
             ow = _overwrites(cat_def["mode"], guild, roles)
+            if gated:
+                ow = member_area.gate_overwrites(ow, guild, mroles)
             try:
                 if category.overwrites != ow:
                     await category.edit(overwrites=ow, reason=reason)
@@ -1206,6 +1237,8 @@ async def ensure_rules_category(guild: discord.Guild, cfg: dict) -> list[str]:
         for c in entries:
             ch = mine.get(c["key"])
             ow = _overwrites(c.get("mode", "officers_write"), guild, roles)
+            if gated and ch is not None:
+                ow = member_area.gate_overwrites(ow if ow is not None else ch.overwrites, guild, mroles)
             try:
                 if ch and ow and ch.overwrites != ow:
                     await ch.edit(overwrites=ow, reason=reason)
