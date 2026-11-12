@@ -376,6 +376,7 @@ sagt, ob sie in WoW Forever schon gemessen ist (belegt) oder noch zu messen ist 
 | 16 | **Alterung mit Stufen und Boden:** Ware, die nach der erwarteten Zeit nicht verkauft ist, zuerst Preis prüfen (Konkurrenz?), dann stufenweise senken – nie unter den Boden (Break-even nach Gebühren); danach anderer Weg (Händler, Entzaubern, Herstellen). | Q10, Q11 | vermutet – Schwellen für Forever aus Verkaufszeiten ableiten |
 | 17 | **Nur abbrechen und neu einstellen, wenn es sich lohnt:** unterbotene Auktion erst abbrechen, wenn der Mehrerlös die verlorene Einzahlung plus eine Schwelle übersteigt; sonst liegen lassen. | Q12 (cancelRepostThreshold), Q3, Q4 (verlorene Einzahlung) | **belegt** (Einzahlung geht beim Abbruch verloren, wirtschaft-forever.md) |
 | 18 | **Entzauber-Ausbeute Forever, grüne Rüstung 26–30 und 36–40:** Staub 75 % × Ø 1,47 ≈ 1,10 je Teil, Essenz 20 % × Ø 1,5 ≈ 0,30. Splitter: TSM 5 %, unsere Messung 7–8 % – unsere Messung gilt, weiter zählen. | Q12 (Forever-Tabelle), eigene Messung (N 328 / 85) | **belegt** (Staub/Essenz), Splitter **offen** (Abweichung) |
+| 19 | **Spätphase eines Servers: Ware für niedrige Stufen wird wieder teurer.** Wenn die Masse 60 ist, levelt kaum noch jemand durch die tiefen Bänder (wenig Angebot aus Beute), aber 60er mit viel Gold rüsten Twinks/Alts aus (Nachfrage). -> Gute grüne/blaue Teile für Twinks und Leveling-Ausrüstung später teurer verkaufbar; Zeitpunkt: nach der Levelwelle (Nr. 13/M-Welle). | Erfahrung des Nutzers (12.11.), Q13 | vermutet – Forever-Start 4.11., Spätphase noch nicht erreicht; mit M-Welle beobachten |
 Nicht aufgenommen (nur eine Quelle oder nicht übertragbar): neutrale AH-Häuser mit 15 % (in Forever nicht geprüft),
 "Wettbewerber offline abwarten" (Q2, spätes Spiel), Preis-Wucher durch Aufkauf (ethisch fraglich, Q1 – AHSentinel
 macht das nicht). Weiterbildung 11.11. 22:30, nur eine Quelle: kleine Grüne an andere Verzauberer über 1,5 × Staubpreis
@@ -393,6 +394,7 @@ Q8 [Dealmaker's Den – Resetting AH prices](https://dealmakers-den.blogspot.com
 Q9 [Almar's Guides – Classic Auction House](https://almarsguides.com/WoW/Farming/Classic/AuctionHouse/) ·
 Q10 [Underpriced – Inventory turnover for resellers](https://www.underpriced.app/blog/inventory-turnover-guide-for-resellers-2026) ·
 Q11 [Red Stag – Slow-moving inventory](https://redstagfulfillment.com/how-to-identify-slow-moving-inventory) ·
+Q13 [Blizzard-Forum – Confused by AH prices on leveling items](https://us.forums.blizzard.com/en/wow/t/confused-by-ah-prices-on-leveling-items/1762624) (weniger Angebot durch weniger Leveln, 60er mit Gold kaufen) ·
 Q12 TradeSkillMaster v4.15.6, Quellcode (Laptop des Nutzers, 12.11.; unterstützt Forever, Interface 16001) – siehe 8f ·
 dazu Icy Veins (Abschnitt 5 dieser Datei). Hinweis: Q3 und Q5 sind dieselbe Seite – zählen als EINE Quelle.
 
