@@ -7,7 +7,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## AHSentinel-0.65.97.zip: OK
 
-## BuffSentinel-0.9.12.zip: OK (9 Warnungen)
+## BuffSentinel-0.9.13.zip: OK (9 Warnungen)
 - **WARNUNG** BuffSentinel/GoldSentinelGame.lua: veraltete offizielle Fassung (Version 2) – auf shared/GoldSentinelGame.lua Version 3 aktualisieren
 - **WARNUNG** BuffSentinel/Names.lua:274: Addon-Nachricht über einen eigenen Kanal ("CHANNEL") – kommt in WoW Forever nicht an (Server: NOT_ALLOWED_IN_CHANNEL). Über GUILD/PARTY/RAID/WHISPER senden (shared/wissen/kommunikation-forever.md, hinweis-sync-kanal.txt).
 - **WARNUNG** BuffSentinel/Names.lua:522: Addon-Nachricht über einen eigenen Kanal ("CHANNEL") – kommt in WoW Forever nicht an (Server: NOT_ALLOWED_IN_CHANNEL). Über GUILD/PARTY/RAID/WHISPER senden (shared/wissen/kommunikation-forever.md, hinweis-sync-kanal.txt).
