@@ -235,6 +235,12 @@ class BotCode(unittest.TestCase):
         self.assertLess(body.index("target.send(embed"), body.index("inter.followup.send(f\"Raid erstellt"))
         self.assertNotIn("inter.response.send_message(embed", body)
 
+    def test_raid_aus_dem_kanal(self):
+        with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as f:
+            src = f.read()
+        self.assertIn('pool = raid or pool_from_channel(inter.channel) or "mc"', src)
+        self.assertIn("raid: str | None = None", src[src.index("async def raid_create("):][:300])
+
     def test_raidmaster_pflicht_hinweis(self):
         with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as f:
             src = f.read()

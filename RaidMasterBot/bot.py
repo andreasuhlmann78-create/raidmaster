@@ -848,23 +848,47 @@ async def raid_pool_autocomplete(inter: discord.Interaction, current: str) -> li
     return [app_commands.Choice(name=n, value=k) for k, n in known_raids() if current.lower() in n.lower()][:20]
 
 
+def pool_from_channel(channel) -> str | None:
+    """Raid-Topf, zu dem ein Kanal gehört (Anmeldung, Taktik, DKP … oder irgendein Kanal in der Raid-Kategorie)."""
+    if channel is None:
+        return None
+    ids = {getattr(channel, "id", None), getattr(channel, "category_id", None)}
+    ids.discard(None)
+    for pool, chans in (cfg.get("raid_channels") or {}).items():
+        vals = {int(v) for v in (chans or {}).values() if str(v).isdigit()}
+        if ids & vals:
+            return pool
+    # Kategorie: ein Kanal des Topfs liegt in derselben Kategorie
+    cat = getattr(channel, "category_id", None)
+    guild = getattr(channel, "guild", None)
+    if cat and guild is not None:
+        for pool, chans in (cfg.get("raid_channels") or {}).items():
+            for v in (chans or {}).values():
+                ch = guild.get_channel(int(v)) if str(v).isdigit() else None
+                if ch is not None and getattr(ch, "category_id", None) == cat:
+                    return pool
+    return None
+
+
 def raid_channel(pool: str, kind: str) -> int:
     return int(((cfg.get("raid_channels") or {}).get(pool) or {}).get(kind) or 0)
 
 
 @raid_group.command(name="erstellen", description="Neuen Raid zur Anmeldung erstellen")
 @app_commands.describe(titel="z. B. Molten Core Mittwoch", datum="TT.MM.JJJJ, z. B. 29.10.2026", uhrzeit="HH:MM, z. B. 20:00",
-                       raid="Welcher Raid? (bestimmt Kategorie und DKP-Topf, Standard Molten Core)",
+                       raid="Welcher Raid? Ohne Angabe: der Raid des Kanals (z. B. #barrow-anmeldung), sonst Molten Core",
                        beschreibung="optional, z. B. Treffpunkt und Buffs", max_spieler="optional, z. B. 40 (0 = unbegrenzt)",
                        modus="DKP-Raid (Gilde) oder PUG-Raid (Loot über softres.it)",
                        softres="PUG: Link zum softres.it-Raid (kann auch später mit /raid softres gesetzt werden)")
 @app_commands.choices(modus=[app_commands.Choice(name="DKP-Raid (Gilde)", value="dkp"),
                              app_commands.Choice(name="PUG-Raid (softres.it)", value="pug")])
 @app_commands.autocomplete(raid=raid_pool_autocomplete)
-async def raid_create(inter: discord.Interaction, titel: str, datum: str, uhrzeit: str, raid: str = "mc",
+async def raid_create(inter: discord.Interaction, titel: str, datum: str, uhrzeit: str, raid: str | None = None,
                       beschreibung: str | None = None, max_spieler: app_commands.Range[int, 0, 40] = 0,
                       modus: app_commands.Choice[str] | None = None, softres: str | None = None):
-    pool = raid
+    # ohne Angabe: Raid aus dem Kanal, in dem der Befehl kommt (z. B. #barrow-anmeldung -> Barrow Deeps), sonst MC
+    # (ab 1.5.121 – vorher immer MC, der Barrow-Raid landete am 12.11. in #mc-anmeldung)
+    pool = raid or pool_from_channel(inter.channel) or "mc"
     if not is_creator(inter.user):
         await inter.response.send_message("Raids erstellen dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
         return
