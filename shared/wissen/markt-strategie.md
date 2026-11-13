@@ -227,7 +227,9 @@ Um zu erfahren, ob ein höherer Preis noch verkauft, gelegentlich leicht höher 
   `/gsmess markt` (A3, `shared/messtest/README.md`). Zu messen: Lesezeit/Speicher (M1d), Bedeutung der Restzeit-Stufen
   (M1b), wie oft ReplicateItems erlaubt ist (M1c), Anteil mehrdeutiger Signaturen, Grösse der Zusammenfassung je Item,
   ob fremde Vollscans (anderes Addon) mitgelesen werden können. **Daraus ergibt sich der Weg** (Entscheid des Nutzers):
-  (1) Blizzard-Web-API für Forever (Stand Juli 2026: Auktionsdaten für Era/Anniversary 404 – für Forever ungemessen),
+  (1) Blizzard-Web-API für Forever – **GEMESSEN 13.11. (Discord MN8, Bot 1.5.130): Forever ist in KEINEM Namespace
+  vorhanden** (classic1x/classic/classicann/Retail geprüft, forever-Namespaces 403/404) -> entfällt; Wiederholung mit
+  blizzard_api_check.py --list, falls Blizzard Forever aufnimmt,
   (2) Mitlesen fremder Vollscans in allen GoldSentinel-Addons (ohne Abfrage, mit Schalter zum Ausschalten und
   CHANGELOG-Zeile, keine Namen), Weitergabe über Gilde/Flüster-Netz (nur eigene Fraktion), (3) Uploader -> Bot-Server
   sammelt, führt zusammen, wertet aus. Fremde Daten nur mit Plausibilität und mehreren Quellen, nie allein für Kauf/Verkauf.
