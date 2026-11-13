@@ -519,7 +519,11 @@ TP (HOCH, NEU 13.11. 21:27 – Wunsch und Entscheid des Nutzers): PREISZEILEN IM
 ZN (SEHR HOCH, NEU 13.11. 21:35 – Grundsatz des Nutzers: "ich will, dass solche Angaben stimmen und geprüft sind"):
    UNABHÄNGIGE NACHRECHNUNG ALLER ANGEZEIGTEN ZAHLEN. Bisher prüft AHSentinel seine Zahlen mit eigenen Tests – das ist
    sich selbst benoten. Neu prüft die Prüf-Sitzung mit einem EIGENEN Rechner im raidmaster-Repo nach.
-   ZN1 Neuer Testteil "/ahs testroutine zahlen" (läuft auch automatisch am Ende jedes Vollscans, still):
+   ZN1 Neuer Testteil "/ahs testroutine zahlen" (ÄNDERUNG 21:38, Nutzer: "das AH ruckelt schon beim Scannen und der
+       Vollscan macht es noch viel schlimmer"): NICHT nach dem Vollscan und NIE bei offenem AH. Läuft nur (a) auf Befehl
+       oder (b) still, wenn das AH geschlossen ist, nicht im Kampf und der Spieler ruhig ist – mit höchstens 2 ms je Bild,
+       verteilt über viele Bilder, und nur einmal je Vollscan. Die Daten nimmt er aus dem, was der Scan schon gespeichert
+       hat (keine zusätzliche Abfrage ans AH). Ursprünglicher Text:
        für 25 Items (die 10 meistgehandelten, 10 aus der Sniper-/Einkaufsliste, 5 zufällige) je eine Zeile mit
        (a) den ANGEZEIGTEN Werten genau wie im Tooltip: Jetzt im AH, Median, Gewinn/Stück, Wert je Weg (Verkaufen,
            Entzaubern, Händler), bester Weg, Max-Warnung;
