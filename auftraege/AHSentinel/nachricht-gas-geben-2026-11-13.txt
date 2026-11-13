@@ -1,0 +1,7 @@
+Vom Nutzer über die Prüf-Sitzung: Bitte JETZT weiterarbeiten – du bist seit einer Stunde ohne neue Version. Zuerst git pull --rebase im raidmaster-Repo und auftraege/AHSentinel/offen-ahsentinel.txt lesen (neu seit 0.65.111: UI1618, TS111, Prüfung 0.65.111, Feed in GoldSentinelMarkt).
+Sofort 0.65.112, in dieser Reihenfolge:
+1. TS111.2 Lernfaktor-Kreisrechnung (seit 0.65.111 alle Faktoren 1.00, "geschätzt" = gemessen/2) – falsche Zahlen, Vorrang.
+2. TS111.3 Lagerwert-Sprung (Markt 13370 -> 165030 für dieselben 22 Items) finden und beheben.
+3. TS111.1 Vollscan-Ruckeln durch Speicherbereinigung (821 ms, 56 Bereinigungen, +53 MB) und T373 – weniger Tabellen/Zeichenketten je Auktion.
+4. UI1618a Qualitätsfilter, UI1618b Formulierung, UI1509, UI1510.
+Je Punkt ein bleibender Test. Veröffentlichen, sobald 1–3 fertig sind (4 darf nachkommen). Danach 0.66. Nach jeder Veröffentlichung Bericht in berichte/AHSentinel/.
