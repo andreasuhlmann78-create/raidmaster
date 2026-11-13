@@ -2,7 +2,9 @@
 PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 00:40). Immer von oben nach unten abarbeiten.
 Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei jeder Änderung nachgeführt.
 ========================================================================================================================
-1. SYNC      WARTET  gemeinsamer Sync ja/nein – Entscheid des Nutzers offen (Empfehlung ja).
+1. SYNC      HOCH    ENTSCHIEDEN 14.11. 00:50: gemeinsamen Sync (shared/GoldSentinelSync.lua, unverändert kopieren) einbauen,
+                     damit ThreatSentinel Testberichte und Marktdaten teilen kann. Bestehende eigene Nachrichten auf Endpoint
+                     umstellen, alte Clients nicht brechen, Test T-SYNC (Senden/Empfangen, kein CHANNEL).
 2. MARKT-v3  NIEDRIG GoldSentinelMarkt v3 beim nächsten Release mitkopieren.
 3. CH-G      SPÄTER  gemeinsame Befehlsliste (nach AHSentinel).
 ========================================================================================================================

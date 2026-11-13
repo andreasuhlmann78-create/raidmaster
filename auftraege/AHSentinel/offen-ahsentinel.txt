@@ -40,6 +40,27 @@ Einzelheiten zu jedem Punkt stehen weiter unten (Suche nach dem Kürzel). Diese 
 2. RF-M1 / RF SEHR HOCH  JETZT DRAN (eigene Version, Test T-RFM1). (0.65.123: Speicher-Aufschlüsselung im Tempo-Test da – Messung im Client offen) Ruckeln: 240 MB Grundstand (~150 MB Laufzeit-Caches), Preisverlauf gepackt (Objekte 220k -> 7k),
                         Scan grosser Markt 141–150 ms, Vollscan-Einlesen 159 ms, +88 MB beim Vollscan. Danach PS-Ziele.
 3. 0.65.115-Rest MITTEL  T373/TS111.1-Rest, TS111.2b/T555b-Tests, UI1618a-R, SBX1, UI1509, UI1510, FW1 (Releaseplan).
+3a. PR1        HOCH       Verkaufs-Prognose (Prüf-Sitzung 14.11. 01:00, nachgerechnet aus forecast.list, 81 Einstellungen,
+                        Daten PC 14.11. 00:43). Hinweise des Nutzers 00:50: (a) Abbruch durch den Spieler und echter Ablauf
+                        MÜSSEN unterschieden werden; (b) Händler stellen nie länger als 2 Std. ein (z. B. entzaubern und gleich
+                        verkaufen) – alle 81 Einstellungen sind 2 Std.
+                        Befund 1 (Rechenfehler): Die Kalibrierung/Zuverlässigkeit im Testbericht zählt alle 81 Fälle –
+                        die 17 vom Spieler ABGEBROCHENEN (r = c) als "nicht verkauft". Richtig: abgebrochen = zensiert, zählt
+                        weder als Treffer noch als Fehler. Ohne Abbrüche: vorhergesagt 88 %, verkauft 47 % (Stück), 37 abgelaufen
+                        (statt "verkauft 31 %"). Faktor also ca. 0,53 statt 0,35.
+                        Befund 2 (belegt, aber kleine Fallzahl, fast nur Staub/Essenz): Verkauft wird schnell oder gar nicht –
+                        erster Verkauf Median 0,2 Std. (12 Min., n 27). Der PREIS entscheidet: Preis/Marktwert ≤ 1,00 -> 59 % verkauft
+                        (n 30) bzw. 44 % (≤ 0,90, n 11); 1,10–1,25 -> 25 % (n 7); > 1,50 -> 15 % (n 9). Die Prognose sagt überall
+                        80–100 % – sie reagiert kaum auf den Preis.
+                        Zu tun: (1) Abbruch (c) aus Kalibrierung, Zuverlässigkeit, Trefferquote und Lernen herausnehmen; im
+                        Bericht getrennt zählen. Abbruch sicher erkennen (eigener Abbruch über das Spiel/Blizzard-Fenster vs.
+                        Ablauf-Post "Auktion abgelaufen"). (2) Verkaufschance je Preisstufe (Preis/Marktwert bzw. Abstand zum
+                        günstigsten Angebot) und Warengruppe lernen, nicht ein Wert für alles. (3) Für 2-Std.-Händler die KETTE
+                        messen: Ware, die abläuft und neu eingestellt wird, ist ein Fall bis zum endgültigen Verkauf (Anzahl
+                        Einstellungen, verfallene Anzahlungen, Zeit bis verkauft). Anzeige für den Spieler nur das Ergebnis
+                        ("verkauft sich" / "zu teuer – bei x verkauft es sich"), keine Prozente, solange nicht belegt.
+                        Tests T-PR1a (Abbruch zählt nicht), T-PR1b (Chance fällt mit dem Preis), T-PR1c (Kette Ablauf -> Neu ->
+                        Verkauf = ein Fall). Im Bericht: Trefferquote alt/neu, je Preisstufe.
 4. CH-G       ZUR PRÜFUNG 0.65.123: GoldSentinelCmdHint.lua byte-gleich, in der .toc, addon_check OK (Prüf-Sitzung 00:30).
                         Im Client bestätigen (Liste, Klick wählt, Enter führt aus). Bericht 0.65.123 fehlt noch.
 5. EB         MITTEL     jeder Goldfluss + Details-Fenster (Gesamt, Handel pro Stunde) mit EB-DET (Rendite je Weg –
