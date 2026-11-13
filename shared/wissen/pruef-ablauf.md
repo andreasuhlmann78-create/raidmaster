@@ -10,6 +10,8 @@ für JEDE neue Version jedes Projekts (auch für die geplante Nachprüfung).
   kommunikation-forever.md). Nichts aus dem Gedächtnis behaupten, was dort genauer steht.
 - NACH jeder neuen Erkenntnis, jedem Entscheid und jedem Fehler: sofort ins Gehirn schreiben (mit Datum, belegt vs.
   vermutet), pushen und in die Projekt-Dokumente spiegeln. Überholtes markieren, nicht löschen.
+- Prioritäten (Nutzer 14.11. 00:15): Jede Änderung an offen-*.txt führt den Block "PRIORITÄTEN" zuoberst nach – alle
+  Themen nach Prio geordnet, nie nur einen neuen Punkt oben anhängen.
 - Bei Widerspruch zwischen Gehirn und neuen Daten: nachrechnen (Rohdaten), dann Gehirn berichtigen (wie KF2 13.11.).
 
 ## A. Bei jeder neuen Version (Pflicht, in dieser Reihenfolge)

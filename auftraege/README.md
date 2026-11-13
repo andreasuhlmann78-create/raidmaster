@@ -49,3 +49,8 @@ spätestens alle 15 Minuten und direkt vor jedem Push (Einzelheiten in CLAUDE.md
 ## Projekte prüfen sich nicht selbst (Entscheid des Nutzers, 13.11.2026, 22:28)
 Berichte melden "umgesetzt, zur Prüfung" mit Belegen und gefundene Fehler – nie "erledigt/freigegeben/bestanden".
 Erledigt setzt nur die Prüf-Sitzung in `offen-*.txt`, nach ihrer eigenen Prüfung.
+
+## Prioritäten-Liste zuoberst (Entscheid des Nutzers 14.11. 00:15: "reihe alle Themen bzw. Änderungen immer nach Prio ins Repo")
+Jede offen-*.txt beginnt mit dem Block "PRIORITÄTEN – vollständige Reihenfolge": alle offenen Punkte mit Kürzel und
+Schwere, von oben nach unten abzuarbeiten. Die Prüf-Sitzung führt ihn bei JEDER Änderung nach (neuer Punkt, erledigt,
+umsortiert). Projekte arbeiten strikt in dieser Reihenfolge.
