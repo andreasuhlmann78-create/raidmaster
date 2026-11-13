@@ -518,3 +518,15 @@ Neuer Reiter: Lage (Bänder) / Mein Lager / Chancen / Trefferzeile – Auftrag a
 - Neue Messung oder Entscheid des Nutzers -> hier eintragen (mit Datum), Status belegt/vermutet.
 - Abschnitt 3 nach jeder grösseren AHSentinel-Version mit dem Code abgleichen.
 - Spiegel im claude.ai-Projekt "Addonprüfer": `claude/markt-strategie.md`.
+
+
+## 9. Ideen-Pflicht der Prüf-Sitzung (Lehre vom 13.11., Kritik des Nutzers)
+
+Der Nutzer musste Ideen wie "alle Goldflüsse erfassen", "Eigenbedarf" und "Gold pro Stunde" selbst liefern. Die
+Prüf-Sitzung hat bisher nur geprüft, was verlangt war. Ab jetzt bei JEDER Prüfung, jedem Auftrag und jeder Antwort zu
+einem Thema zuerst die Frage stellen: "Was würde ein erfahrener Händler / Buchhalter / Spieler hier zusätzlich
+erwarten?" und dazu 1–3 eigene Vorschläge machen (kurz, mit Nutzen, ohne sie ungefragt zu beauftragen). Vergleich mit
+bewährten Werkzeugen (TSM, Auctionator, Buchhaltungs-Kennzahlen) gehört dazu. Bewährte Kennzahlen für Handel:
+Gewinn/Stunde, Rendite je eingesetztem Gold je Weg (Flip/Snipe/Entzaubern/Herstellen), Verkaufsquote je Item,
+Haltedauer bis Verkauf, gebundenes Kapital (Lager + laufende Auktionen), verlorene Einzahlungen, Preis-Trefferquote.
+Optik-Regel des Nutzers: Einzelheiten nie in überladene Tooltips, sondern in ein Detail-Fenster hinter einem Knopf.
