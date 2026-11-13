@@ -1,0 +1,64 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 07:35 · Sitzung: ProfessionSentinel-Sitzung · Version: 0.9.41 · Commit: 1b76836 (Quell-Repo)
+Grundlage: offen-professionsentinel.txt (Nachprüfung 0.9.39), anweisung-markt-herstellen.txt (PM1–PM7),
+anweisung-tests-umfassend.txt (TU1–TU9). Gelesen: markt-strategie.md 8g, wirtschaft-forever.md 0/1/2, AHSentinel/API.md
+(0.65.100), anweisung-markt-reiter.txt RK1–RK8.
+
+ERLEDIGT:
+- Punkt 1 (Top-Zeile öffnet Details): bestätigt, gewollt; CHANGELOG 0.9.41; T243 um "Klick auf Top-Zeile" ergänzt
+  (TestRoutine.lua 5074 ff.: nichts gelernt, Filter aus -> nur der Top-Block, Klick -> Details mit diesem Rezept).
+- PM1 beide Richtungen: Market.lua 230 (RawValue), 248 (Judge: rawNet, craftAdv, direction); Reiter Gold eigene Gruppe
+  "Zutaten lieber roh verkaufen" nur mit Zutaten in den Taschen (UI.lua 1690 ff., 1727); Tooltip/Details zeigen die Richtung.
+- PM2 Leiter: Market.lua 79 (BuyCost, Rest über der Leiter 1,5 × letzte Stufe wie AHSentinel OfferLadder), Prices.lua
+  ~205–222 (AH-Zutaten über die Leiter für Zutatenmenge × Herstellungen; Händler billiger -> Händler); Herstellungen =
+  Absatz ~2 Tage (1–20), Market.lua 169; Menge Mittel min/max wie bisher; Abklingzeit (Transmutieren, Mondstoff 18560,
+  Salz 19566): 1 Herstellung, "je Abklingzeit" (Market.lua IsCooldown).
+- PM3: Market.lua 110 (InfoRaw: alt > 6 Std. / Aufkauf Leiter[1] > 150 % Marktwert / dünn < 5 Angebote) und 248
+  (> 300 % -> "check"); UI.lua 358 (UI.Profit nil bei Hinweis = keine Zahl im Tooltip, Details, Reiter Rezepte),
+  Gruppe "Daten prüfen" (UI.lua 1738), Advisor GoldRanking recommend=false, Today.lua (Heute herstellen) ohne Hinweis-Rezepte.
+- PM4: mit AHSentinel.API: API.MaterialCost(Produkt, Menge) (Market.lua 186, nur wenn die Zutatenliste zu unserem
+  Rezept passt), API.NetSale, API.Price (Alter), API.WorthUpTo (Prices.lua 248–256) und API.MarketState (Market.lua 110),
+  beide optional (keine Diagnose-Zeile, solange AHSentinel sie nicht hat). Ohne AHSentinel dieselben Regeln selbst.
+- PM5: Market.lua 328 (BandHints, ≥ 3 Produkte, Mehrheit), Hinweiszeile oben im Reiter Gold; Raid-Filter (Kochen/Alchemie
+  ab Stufe 50, Forever, bis 9.12.) Market.lua 363, Option db.goldRaid.
+- PM6: Market.lua 399 (OnCraft merkt erwarteten Erlös/Kosten je Stück), 497 (ReadInvoices: Post nur gelesen, Forever-
+  Feldlage bid = Gesamt, buyout = Menge, count; Doppelte ausgeschlossen), Ablauf 7 Tage = Fehlschlag, ab 20 Fällen
+  < 60 % -> "unsicher". Trefferquote je Beruf im Testbericht ("Trefferquote je Beruf").
+- PM7 / TU: T247–T253 (Bereich M), T254–T260 (Bereich U = TU1–TU7), T261. TU8: Testbericht mit je einer Zeile TU1–TU7
+  "OK · FEHLER · SKIP" plus "Regressionen: 55 von 55 vorhanden · Startwert TU4 4711" (TestRoutine.lua Extra/ExtraText).
+  TU6: Katalog TR.REGRESSIONS (TestRoutine.lua 6726) – jeder Befund der Nachprüfungen seit 1.11. (offen-Historie
+  0.9.11 … 0.9.39), PM1–PM6, hinweis-wirtschaft (W1–W5), Namen/Sync/Sprache -> bleibender Test; T261 neu für 0.9.33-7d.
+  TU5 zusätzlich still nach jedem AH-Scan (PS.OnChanged -> Market.CheckReal, höchstens alle 10 Min., Portionen),
+  Diagnose "GRUNDREGEL VERLETZT <Zauber-ID>: …" ohne Namen. TU9: alles läuft in tests/run_offline.py.
+
+TESTS:
+- addon_check: OK, 0 FEHLER.
+- run_offline (LuaJIT): Forever OK 217 / FEHLER 0, Era 199 / 0, Retail 198 / 0, TBC ohne Lua-Fehler, Exit 0.
+  TU1–TU5, TU7 je OK 1; TU6 Forever OK 63 / 0 / SKIP 3 (SKIP = Fälle nur im echten Client).
+- --lua51: nur Bereich H (T143 Plan 25 ms wie vorher 22,7 ms; T145 siehe unten).
+
+TEILWEISE / OFFEN / BEGRÜNDET:
+- PM3 vs. PM1/PM7-Zahlen: Die Beispiele "Herstellen lohnt" der Anweisung liegen alle über 300 %: Raptor-Rippchen
+  5s86 -> 26s99 = 361 %, Golddorntee 4s11 -> 18s24 = 344 %, Trunk des Wasserwandelns 11s79 -> 2g = ~1600 %. Nach PM3
+  zeigen sie "Daten prüfen" statt einer Zahl (Richtung bleibt "herstellen"; T247 prüft genau das). Bitte bestätigen,
+  ob die 300-%-Grenze so bleibt oder z. B. erst mit einem zweiten Zeichen (dünn/Einzelpreis) greifen soll.
+- PM2 Leiter ohne AHSentinel: auxForever, Auctionator, Auctioneer und TSM geben keine Angebotsliste an andere Addons
+  heraus -> Einzelpreis, im Rezept als "ohne Leiter" markiert. Mit AHSentinel kommt die Leiter nur über API.MaterialCost;
+  in AHSentinel 0.65.100 (API.lua 78–96) rechnet MaterialCost je Zutat mit Cr:BestUnit(id, 1) = EINZELPREIS. Für PM2
+  muss AHSentinel MaterialCost über die Leiter für die Menge rechnen (RK3) – bitte in auftraege/AHSentinel/ übernehmen.
+- PM3 mit AHSentinel: "alt" geht schon (API.Price Alter); "dünn" und "Aufkauf" erst mit API.MarketState (AHSentinel
+  API-PM, noch nicht da).
+- PM4 API.WorthUpTo: als Stückpreis gelesen (API.md: "je Stück, wenn nicht anders gesagt"), 2./3. Wert Weg und
+  Sicherheit; bitte in API.md so festhalten.
+- PM6 über AHSentinel-Buchhaltung: keine API dafür -> eigene Post-Rechnungen (nur lesen).
+- TU7 Skalierung: offline nur "im Bildschirm" bei 75/125 %; Aussehen im Client.
+- T145 Speicher (Bereich H): LuaJIT +1023 KB (Grenze 1024), Lua 5.1 +1527 KB (vorher 888). Die neuen Fälle T254–T256/T260
+  bauen Panel/Listen mit Testpreisen auf, die der Mock behält; im Client prüfen.
+- TU6: "korrektur-professionsentinel-0.9.8" und "anweisung-0.9.12" gibt es in der Repo-Geschichte nicht; erfasst sind alle
+  Punkte aus offen-professionsentinel.txt seit 1.11. (Nachprüfungen 0.9.11 … 0.9.39). Reine Hinweise (Kommentar, Werkzeuge
+  ausserhalb des Spiels: run_offline-Exit, --lua51) zählen nicht.
+
+BEFUND FALSCH: –
+FRAGEN: 300-%-Grenze (oben); WorthUpTo Stück oder gesamt.
+IM CLIENT GETESTET: noch nicht. Bitte: /ps testroutine m und u, Reiter Gold mit AHSentinel (Gruppen "Daten prüfen",
+"Zutaten lieber roh verkaufen", Hinweiszeile Band), nach einem Verkauf in der Post die Trefferquote im Testbericht.
