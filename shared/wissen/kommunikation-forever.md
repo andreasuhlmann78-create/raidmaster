@@ -76,3 +76,11 @@ Folgerungen für das Flüster-Netz von GoldSentinelSync:
 - https://github.com/Shtian/bff-wow/pull/133
 - https://x.com/TromaFR/status/2118734489618624939
 - https://us.forums.blizzard.com/en/wow/t/wow-forever-custom-chat-channels-not-working-crossrealm-not-game-mode/2370263
+
+
+## Marktdaten-Netz (GoldSentinelMarkt.lua, Version 1, 13.11.2026)
+
+Gemeinsame Datei `shared/GoldSentinelMarkt.lua` (Anweisung MN): liest jeden Vollscan im Client mit (ruft ReplicateItems
+nie selbst auf), fasst je Item zusammen, misst Absatz aus zwei Scans, teilt über GoldSentinelSync (Kennung GSMARKT1):
+ganzer Scan nur an die Gilde, Änderungen (höchstens 60 Items) nur ins Flüster-Netz, Frage "Q" nach dem Einloggen,
+Antwort "A" (nur einer antwortet). Nur eigene Fraktion, keine Namen, Schalter je Addon, Export GSMARKT1 für den Uploader.

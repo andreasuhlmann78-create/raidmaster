@@ -52,6 +52,7 @@ SHARED = {
     "GoldSentinelGame.lua": "exact",
     "GoldSentinelTest.lua": "exact",
     "GoldSentinelSync.lua": "exact",
+    "GoldSentinelMarkt.lua": "exact",
     "GoldSentinelDev.lua": "version",
 }
 # Wer GoldSentinelGame selbst nachbaut (statt die Datei zu kopieren), schreibt das hier:

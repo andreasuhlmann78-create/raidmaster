@@ -53,3 +53,18 @@ TEIL 3 – SAMMELSTELLE AUF DEM BOT-SERVER (Discord-Sitzung)
 
 REIHENFOLGE: MN8 sofort · Teil 1 Prüf-Sitzung · dann MN1–MN4 in allen Addons, MN6 Uploader, MN7 Bot · MN5 mit AHSentinel 0.66.
 Fragen und Ergebnisse als Bericht in berichte/<Projekt>/.
+
+NACHTRAG 13.11. (Prüf-Sitzung): shared/GoldSentinelMarkt.lua VERSION 1 LIEGT BEREIT (Tests shared/tests/test_goldsentinelmarkt.py
+53/53; addon-check prüft die Kopie "exact" – Byte für Byte gleich). Benutzung steht im Kopf der Datei:
+  GoldSentinelMarkt.Attach("<Addon>", <SavedVariables-Tabelle>)   -- beim Laden; Daten in <Tabelle>.gsMarkt
+  GoldSentinelMarkt.SetShare("<Addon>", true/false)               -- Schalter "Marktdaten teilen" (Standard an)
+  GoldSentinelMarkt.IsShareOn(), .Get(itemID), .DiagLines(), .Stats()
+TOC-Reihenfolge: GoldSentinelGame.lua, GoldSentinelSync.lua, GoldSentinelMarkt.lua, dann die eigenen Dateien.
+Die Datei ruft ReplicateItems NIE selbst auf; sie liest nur mit. Speicher: Daten ≤ ~0,5 MB in den SavedVariables; während
+einer Sitzung hält sie den letzten Scan (~30 MB) für den Absatz-Vergleich im Arbeitsspeicher.
+EXPORT-FORMAT (für Uploader MN6 und Bot MN7), Liste <Tabelle>.gsMarkt.export (die letzten 2 Scans, nur beim Host, der
+die Daten hält – der Uploader sucht "GSMARKT1|" in den SavedVariables ALLER GoldSentinel-Addons):
+  GSMARKT1|<Version>|<Fraktion H/A/N>|<Scan-Zeit time()>|<Auktionen>|<Items>|<Vergleich in Sek., 0 = keiner>|<Einträge>
+  Einträge "id,preis,menge,auktionen,abgänge;" in Base36 (tonumber(x, 36)); preis = tiefster Stückpreis in Kupfer;
+  abgänge = Auktionen, die seit dem letzten Scan mit Restzeit-Stufe 3/4 verschwunden sind (gekauft oder abgebrochen).
+  Doppelte Scans (gleiche Fraktion + Scan-Zeit, z. B. vom PC und Laptop) nur einmal zählen. Keine Namen enthalten.
