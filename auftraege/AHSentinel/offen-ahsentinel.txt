@@ -2,12 +2,13 @@
 PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 00:25). Immer von oben nach unten abarbeiten.
 Einzelheiten zu jedem Punkt stehen weiter unten (Suche nach dem Kürzel). Diese Liste wird bei jeder Änderung nachgeführt.
 ========================================================================================================================
-1. BH-AUS     SEHR HOCH  Gewinn falsch: 53 "ausstehende" Verkäufe zusätzlich zum Kassenbuch (43g49 statt ~20g53);
+1. BH-AUS     SEHR HOCH  ALS NÄCHSTES (in 0.65.123 noch nicht) – Gewinn falsch: 53 "ausstehende" Verkäufe zusätzlich zum Kassenbuch (43g49 statt ~20g53);
                         Gold-Abstimmung leer.
-2. RF-M1 / RF SEHR HOCH  Ruckeln: 240 MB Grundstand (~150 MB Laufzeit-Caches), Preisverlauf gepackt (Objekte 220k -> 7k),
+2. RF-M1 / RF SEHR HOCH  (0.65.123: Speicher-Aufschlüsselung im Tempo-Test da – Messung im Client offen) Ruckeln: 240 MB Grundstand (~150 MB Laufzeit-Caches), Preisverlauf gepackt (Objekte 220k -> 7k),
                         Scan grosser Markt 141–150 ms, Vollscan-Einlesen 159 ms, +88 MB beim Vollscan. Danach PS-Ziele.
 3. 0.65.115-Rest MITTEL  T373/TS111.1-Rest, TS111.2b/T555b-Tests, UI1618a-R, SBX1, UI1509, UI1510, FW1 (Releaseplan).
-4. CH-G       MITTEL     gemeinsame Befehlsliste shared/GoldSentinelCmdHint.lua übernehmen (AHSentinel als erstes Addon).
+4. CH-G       ZUR PRÜFUNG 0.65.123: GoldSentinelCmdHint.lua byte-gleich, in der .toc, addon_check OK (Prüf-Sitzung 00:30).
+                        Im Client bestätigen (Liste, Klick wählt, Enter führt aus). Bericht 0.65.123 fehlt noch.
 5. EB         MITTEL     jeder Goldfluss + Details-Fenster (Gesamt, Handel pro Stunde) mit EB-DET (Rendite je Weg –
                         Entzaubern als Summe –, Anzahlung verfallen, Verkaufsquote), BH-ANZ, EB-NAME.
 6. 0.66 RECHENKERN HOCH (Markt vorausahnen, Nutzer 14.11. 00:18: "nur wer den Markt vorahnen kann, macht richtig Gold –
