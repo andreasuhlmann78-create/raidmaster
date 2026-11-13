@@ -7,6 +7,18 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.113</h3>
+<ul>
+<li><strong>Sniper counted failed purchases (important):</strong> a sent single purchase now only counts – and only uses budget – when
+  the server confirms it. Failed or unanswered purchases are not counted any more (before, a target could show "32/35
+  bought" after 3 real purchases and then stopped searching). While a purchase waits for the answer the row shows
+  "(+1 sent)". Classic auction house: every server answer is matched to the oldest open purchase.</li>
+<li><strong>Sniper pause visible:</strong> after 3 failed purchases of the same item the target row and the status line show "paused
+  until 19:58 – 3 purchases failed" (tooltip with the server's error text) and a "resume now" button appears.</li>
+<li><strong>Sniper list:</strong> 3 failures in a row no longer empty the hit list – it stays visible as outdated until new results arrive.</li>
+<li><strong>Sniper target above sale value:</strong> creating such a target gives one clear warning in chat (with warning sound).</li>
+<li>Tests T598–T601.</li>
+</ul>
 <h3>Version 0.65.112</h3>
 <ul>
 <li><strong>Learned sales factor fixed:</strong> since 0.65.111 every group factor showed 1.00 because the estimate was compared with
@@ -61,23 +73,7 @@
   purchase" large and "plus … without purchase – check cost basis" small and yellow. The test report lists those items
   with their likely origin.
 - Tests T580–T583 (T-D1, T-TT1317, T-MH1310, T-BH1307); T223, T248, T431, T432 now independent of your real learned margin.</p>
-<h3>Version 0.65.108</h3>
-<ul>
-<li><strong>Market tab "Disenchant" now uses the same "worth up to"</strong> as tooltip, buy list, batch buy, Sniper and API (row and
-  detail line). The "minimum profit" option is only a filter now. Sniper disenchant targets are always set exactly to
-  "worth up to" (chat message only from 5 % change).</li>
-<li><strong>Market core measures correctly:</strong></li>
-<li>Own auctions: a cancel or sale message that arrives before the new auction list is no longer lost.
-    "Relisted" is only guessed from really new auctions (several equal stacks no longer confuse it).</li>
-<li>Disenchant recommendations are checked against the material value 24 h later, vendor recommendations
-    against the confirmed vendor price (no longer against the item's AH price).</li>
-<li><strong>Releases (part D) in the Market tab:</strong> a way below 60 % hits is hidden ("Way … locked (hits n %)"); a way with
-  fewer than 20 cases shows its rows grey "still learning (n of 20)"; Flipping, Gaps and Crowded stay grey until
-  30 own sales are measured. Measuring continues in the background.</li>
-<li>Self test "Plausibility (Ü3)": no implausible row may be shown as a recommendation.</li>
-<li>Tests T573–T579 (T-MA1b/c, T-MA2c, T-FG1–T-FG3, T-RK2c).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

@@ -12,6 +12,18 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.113
+
+- **Sniper counted failed purchases (important):** a sent single purchase now only counts – and only uses budget – when
+  the server confirms it. Failed or unanswered purchases are not counted any more (before, a target could show "32/35
+  bought" after 3 real purchases and then stopped searching). While a purchase waits for the answer the row shows
+  "(+1 sent)". Classic auction house: every server answer is matched to the oldest open purchase.
+- **Sniper pause visible:** after 3 failed purchases of the same item the target row and the status line show "paused
+  until 19:58 – 3 purchases failed" (tooltip with the server's error text) and a "resume now" button appears.
+- **Sniper list:** 3 failures in a row no longer empty the hit list – it stays visible as outdated until new results arrive.
+- **Sniper target above sale value:** creating such a target gives one clear warning in chat (with warning sound).
+- Tests T598–T601.
+
 ### Version 0.65.112
 
 - **Learned sales factor fixed:** since 0.65.111 every group factor showed 1.00 because the estimate was compared with
@@ -71,22 +83,6 @@ Fixes wrong numbers from the big test of 0.65.108:
   purchase" large and "plus … without purchase – check cost basis" small and yellow. The test report lists those items
   with their likely origin.
 - Tests T580–T583 (T-D1, T-TT1317, T-MH1310, T-BH1307); T223, T248, T431, T432 now independent of your real learned margin.
-
-### Version 0.65.108
-
-- **Market tab "Disenchant" now uses the same "worth up to"** as tooltip, buy list, batch buy, Sniper and API (row and
-  detail line). The "minimum profit" option is only a filter now. Sniper disenchant targets are always set exactly to
-  "worth up to" (chat message only from 5 % change).
-- **Market core measures correctly:**
-  - Own auctions: a cancel or sale message that arrives before the new auction list is no longer lost.
-    "Relisted" is only guessed from really new auctions (several equal stacks no longer confuse it).
-  - Disenchant recommendations are checked against the material value 24 h later, vendor recommendations
-    against the confirmed vendor price (no longer against the item's AH price).
-- **Releases (part D) in the Market tab:** a way below 60 % hits is hidden ("Way … locked (hits n %)"); a way with
-  fewer than 20 cases shows its rows grey "still learning (n of 20)"; Flipping, Gaps and Crowded stay grey until
-  30 own sales are measured. Measuring continues in the background.
-- Self test "Plausibility (Ü3)": no implausible row may be shown as a recommendation.
-- Tests T573–T579 (T-MA1b/c, T-MA2c, T-FG1–T-FG3, T-RK2c).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
