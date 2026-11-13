@@ -12,6 +12,32 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.107
+
+- **One "worth up to" everywhere (disenchanting):** tooltip, buy list mark "[Disenchant pays]", warning guard, Sniper
+  disenchant targets, Market tab "Disenchant", the Market buy limit, the batch buy and the API now use one single
+  calculation. Before, the tooltip and the Market tab could show two different limits for the same item.
+  - Worth up to = net value × the stricter of (1 / (1 + minimum return)) and (1 − learned safety margin).
+    Without learning: 10 % margin below 10 real disenchants.
+  - The batch buy no longer subtracts the minimum return a second time (items up to "worth up to" are bought).
+  - Self test: "One worth up to per item" checks 20 scanned items – two different values = error.
+- **Implausible suggestions** (profit over 300 %) are marked "implausible: …" in the Market tab and are not counted
+  as recommendations.
+- **Sniper: budget used up -> question.** When a target's budget is used up and a buyable hit appears, the next buy key
+  press / wheel turn does not buy but asks: "Budget of X used up (n bought). Keep buying? Top up the budget by X."
+  "Yes" (Enter) adds the original budget (at most what your gold allows), the next turn buys. "No" changes nothing.
+  The question comes again every time the topped-up budget is used up. Max price and quantity stay unchanged.
+- **One command table:** the /ahs handler now works only from the command list – every command it understands is in
+  /ahs help and in the typing list (new there: doppelt, resetscan, messreihe, ahdebug, ah).
+- **API:** WorthUpTo returns a 4th value (safety 0–1, nil = still learning) and a 5th value (price per piece); the 1st
+  value stays the total for qty. MaterialCost walks the price ladder for the needed quantity. Trend words of
+  MarketState documented in API.md.
+- **Tests:** "/ahs testroutine echt" checks the basic rules on your own data (read only: suggestions, one "worth up
+  to", Sniper budget); also runs quietly after every full scan and writes violations to the diagnostic log
+  ("GRUNDREGEL VERLETZT"). New tests for market-core releases (59 % locked, 61 % free, 19 cases learning) and for
+  auction mail with any sender.
+- Tests T556–T572 (T-RK2a/b, T-Ü3b, T-SB1–T-SB6, T-BL1/5/6, T-API-PM2/PM3, T-TU5, T-TU7, T-BP-1113-1).
+
 ### Version 0.65.106
 
 - **Market core, step 1 "trust" (measurements for the new market tab):**
@@ -59,22 +85,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **AHSentinel.API:** new `WorthUpTo(itemID[, qty])` (same "Worth up to" as the tooltip) and `MarketState(itemID)`
   (normal / buyout / flood / thin / old) for ProfessionSentinel.
 - Tests T530–T536 (T-HP1, T-HP2, API-PM, T-ST1–T-ST3).
-
-### Version 0.65.102
-
-- **My auctions: sold auctions disappear after "Refresh"** (and when you open the view); newly sold ones stay visible
-  until the next click. The header still counts all sold auctions. New button "Sold: on/off" to show them.
-- **Sell suggestion with a single expensive offer** (thin ladder ≥ 150 % of market value): market value instead of
-  just under the outlier. "Post cheaper" is never shown while the competition is above the market value.
-- **Vendor flips:** a vendor price above twice the market value is treated as wrong (e.g. Iron Grenade) – no vendor
-  flip with it.
-- **Comprehensive tests (TU1–TU4, TU6):** every market situation (normal, buyout, outlier, flood, thin, empty, old,
-  falling/peak, wrong vendor price, relist) runs through the sell suggestion, ladder detection, hints, disenchant buy
-  price and vendor check; player flows (typed price, three Sniper targets); default values of empty fields (listed in
-  the test report); invariants with 1000 random ladders and random bookkeeping sequences. The test report has one line
-  per area (TU1–TU7) and "Regressions: n of m present". Tests T513–T529.
-- **Offline tests (TU9):** `tests/run_offline.sh` in the AHAnalyzerPro repository runs the test routine in a simulated
-  game without WoW (Lua 5.1).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
