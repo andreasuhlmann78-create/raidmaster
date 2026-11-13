@@ -328,3 +328,16 @@ BH1307 (HOCH, NEU 13.11. 13:12 – Bild Buchhaltung "Heute", 0.65.108): Zahlen g
    in den alten Daten gekauft wurde, die Kostenbasis nachtragen (AB8-Regel, gleitender Durchschnitt). (3) Solange "ohne
    Einkauf" > 30 %: im Kopf zwei Zahlen zeigen – "Gewinn mit Einkauf 1g28 (5 %)" gross, "dazu ohne Einkauf 12g44" klein
    und gelb mit Hinweis "Kostenbasis prüfen". Test T-BH1307 mit genau diesen Zahlen.
+
+MH1310 (HOCH, NEU 13.11. 13:15 – Bild Markt > Heute, 0.65.108): SCHEIN-FLIP TROTZ SPERRE.
+   Oberste Zeile "Kaufe 1x Ratsherrenschärpe bis 1g99s… -> 7g23s50". Detail: Preis 1g99s99, Marktwert (Median 14 Tage) 3g,
+   Leiter 1× 1g99s99 dann 2× 9g89, Absatz ~0,4/Tag, eigene Verkäufe 30 Tage 0; "Wiederverkauf realistisch 9g88s99
+   (Angebot und Absatz), Gewinn 7g23s50, kaufen bis 7g38". Das ist ein Wiederverkauf an zwei teuren Ausreissern weit über dem
+   Marktwert (330 %) bei fast keinem Absatz – genau der Schein-Flip (Befund 0683, Ü3). Verstösse:
+   (1) Weg Flip ist laut Teil D/FG nicht freigegeben (MA1: 0 eigene Fälle, MARKT-KERN "lernt"), erscheint aber in "Heute"
+       oben als Kaufempfehlung – FG greift offenbar nur in den Markt-Ansichten, nicht in "Heute" (laut Bericht 1230 auch
+       nicht in Tooltip/Sniper/"Heute tun"). -> FG überall anwenden: nicht freigegebene Wege nie als Empfehlung.
+   (2) Ü3: Gewinn 363 % > 300 % ohne "Daten prüfen".
+   (3) Wiederverkaufspreis über dem Marktwert nur, wenn die Leiter dort VOLL ist (≥ 3 Angebote oder ≥ 5 Stück) UND Absatz
+       ≥ 1/Tag; sonst höchstens Marktwert (hier 3g -> Gewinn ~0,85g nach 5 %, nicht 7g23).
+   Test T-MH1310 mit genau diesen Zahlen (-> keine Empfehlung bzw. grau "lernt noch"; mit Freigabe: Wiederverkauf ≤ 3g).
