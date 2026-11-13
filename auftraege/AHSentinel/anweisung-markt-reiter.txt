@@ -83,3 +83,24 @@ Die Prüf-Sitzung wertet wöchentlich im Hintergrund aus (Trend-Rückblick MA6, 
 liefert verbesserte Regeln als Auftrag – sie macht keinen Plan für einen einzelnen Spieler.
 Tests: T-MR5–T-MR11 (täglicher Spieler vs. Wochenend-Spieler mit fallendem Band -> verschiedene Empfehlung;
 Laufzeitwahl; "Seit deinem letzten Besuch" nach 5 Tagen; keine Kaufvorschläge in fallendem Band bei Pause > 1 Tag).
+
+TEIL D – SPIELSTIL (NEU 13.11. 06:12, Hinweis des Nutzers: "nicht jeder Spieler entzaubert, die einen flippen etc.")
+Die Beispiele in den Entwürfen (Entzaubern, Erdwurzel) sind EIN Spieler. Der Markt-Reiter muss für jeden Spielstil passen.
+MR12 Spielstil lernen, nicht vorgeben: aus den eigenen Buchungen der letzten 14 Tage Anteile je Tätigkeit –
+    Flippen (gekauft und wieder eingestellt), Entzaubern, Herstellen (ProfessionSentinel/Rezepte), Sammeln/Beute
+    verkaufen (verkauft ohne Kauf), Händler-Arbitrage, Sniper. Mehrere Stile gleichzeitig möglich. Selbst wählbar in
+    den Einstellungen (Häkchen je Stil), Standard "automatisch". Neue Spieler ohne Buchungen: "Beute verkaufen".
+MR13 Empfehlungen nach Stil: "Mein Lager", "Chancen", "Bevor du gehst" und "Seit deinem letzten Besuch" zeigen zuerst
+    die Schritte der eigenen Stile, z. B.
+    - Flipper: Auktionen unterboten -> abbrechen/neu (nur wenn Mehrerlös > verlorene Einzahlung), Kaufgrenzen,
+      Bestand je Item ≤ Absatz × Haltedauer, vor einer Pause nichts Neues kaufen, was bis zum nächsten Login fällt.
+    - Entzauberer: wie im Entwurf (Teile kaufen bis Grenze, entzaubern, Material verkaufen).
+    - Hersteller: Herstellen lohnt / lohnt nicht (Material zum Leiterpreis gegen Erlös), Material-Nachschub.
+    - Sammler/Beute: was jetzt verkaufen (Spitzen, MA6), was zum Händler, Laufzeit passend zum Rhythmus.
+    Andere Strategien nur unter "Mehr Chancen" (eingeklappt), nie oben.
+MR14 Gesperrte Strategien sind je Stil sichtbar erklärt: Flippen bleibt "lernt noch", bis MA1 belegt ist – für
+    Flipper steht darum oben, was schon geht (eigene unterbotene Auktionen, eigene Verkaufsquote je Item aus der
+    Buchhaltung), und "Kaufvorschläge zum Flippen ab x eigenen/geteilten Fällen".
+MR15 Trefferquote (MA2) je Stil und Art, damit jeder Spieler sieht, wie gut SEINE Empfehlungen treffen.
+Tests: T-MR12–T-MR15 (reiner Flipper, reiner Entzauberer, Sammler ohne Käufe, Mischung; Stil von Hand gewählt
+überstimmt automatisch; neuer Spieler ohne Buchungen).
