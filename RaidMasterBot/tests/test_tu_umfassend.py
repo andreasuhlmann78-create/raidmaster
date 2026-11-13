@@ -336,6 +336,7 @@ REGRESSIONEN = {
     "T-RP-D3": ("test_raid_ready", "AlterStand", "test_3_10_20_tage"),
     "T-D-GS1": ("test_uploads_gs_up", "GuildSentinelUpload", "test_T_D_GS1_nur_raidfaehigkeit_angenommen"),
     "T-D-UP1": ("test_uploads_gs_up", "UploaderVersion", "test_T_D_UP1_vergleich"),
+    "T-MN8": ("test_blizzard_api_check", "MN8", "test_T_MN8_keine_geheimnisse_und_ergebnis"),
     "T-108": ("test_update_schleife", "CopyNew", "test_gleiche_version_zweimal_nichts_geaendert"),
     "T-107": ("test_neustart_schleife", "Starter", "test_schleife_bekommt_pause"),
     "T-100": ("test_update_gleichzeitig", None, None),

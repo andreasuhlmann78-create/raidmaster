@@ -1,0 +1,21 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 15:45 · Sitzung: Discord-Projekt · Version: Bot 1.5.129 · Commit: dieser Bericht
+
+ERLEDIGT
+- MN8 vorbereitet (Messung noch NICHT ausgeführt – es fehlt der API-Zugang des Nutzers):
+  RaidMasterBot/blizzard_api_check.py (nur lesen): Token per Client-Credentials, je Namespace-Kandidat
+  (dynamic-classic1x, dynamic-classic, dynamic-classicann, dynamic-classic-anniversary, dynamic-forever,
+  dynamic-classicforever, dynamic-classic-forever, dynamic-classic1x-forever, dynamic; jeweils -eu)
+  connected-realm/index, Realm-Namen, auctions/index (Häuser je Fraktion), auctions/<haus> mit Antwortcode, Grösse,
+  Anzahl, Last-Modified, Dauer. Ausgabe ohne Client-ID/Geheimnis/Token (redact). RaidMasterBot/blizzard_zugang.sh:
+  fragt Client-ID/Geheimnis unsichtbar ab, speichert sie NUR in /opt/raidmaster/config.json, startet die Messung,
+  Bericht nach /opt/raidmaster/data/mn8-bericht.txt. Test T-MN8 (tests/test_blizzard_api_check.py: keine Geheimnisse
+  in der Ausgabe, Ergebnis mit/ohne Auktionen, ohne Zugang). TU6 17/17. Bot-Tests 191/191 OK.
+- Stand der Recherche (Blizzard-Forum): Classic-Auktions-API war 2025/2026 mehrfach kaputt bzw. lieferte für
+  Era/Anniversary 404 – deshalb wird jeder Namespace einzeln gemessen statt angenommen.
+
+TEIL 3 MN7
+- wartet auf shared/GoldSentinelMarkt.lua Version 1 (Teil 1) und MN6 im Uploader.
+
+FRAGEN
+- keine; Messergebnis folgt als eigener Bericht, sobald der Nutzer den Zugang angelegt und das Skript ausgeführt hat.

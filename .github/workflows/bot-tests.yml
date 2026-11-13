@@ -42,7 +42,7 @@ jobs:
         run: python3 -m py_compile RaidMasterBot/*.py RaidMasterUploader/*.py
       - name: Importieren (bot.py mit allen Modulen)
         working-directory: RaidMasterBot
-        run: python3 -c "import importlib, sys; sys.argv=['bot.py']; [importlib.import_module(m) for m in ('raidmaster_data', 'server_setup', 'updater', 'launcher', 'guildbank', 'uploader_setup', 'render', 'mc_tactics', 'invites', 'tb_aufraeumen', 'member_area', 'raid_ready', 'self_check', 'raid_post', 'uploader_version')]; print('Module OK')"
+        run: python3 -c "import importlib, sys; sys.argv=['bot.py']; [importlib.import_module(m) for m in ('raidmaster_data', 'server_setup', 'updater', 'launcher', 'guildbank', 'uploader_setup', 'render', 'mc_tactics', 'invites', 'tb_aufraeumen', 'member_area', 'raid_ready', 'self_check', 'raid_post', 'uploader_version', 'blizzard_api_check')]; print('Module OK')"
       - name: Bot-Tests
         run: python3 -I -m unittest discover -s RaidMasterBot/tests -v
       - name: Uploader-ZIP passt zum Ordner
