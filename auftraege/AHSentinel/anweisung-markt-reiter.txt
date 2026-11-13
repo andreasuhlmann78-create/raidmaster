@@ -59,3 +59,27 @@ MEHR DATEN (für alle MA)
 Tests: T-MR1–T-MR4, T-MA1–T-MA6 mit erfundenen Daten (Relist innert 2 Scans, eigener Verkauf/Abbruch, falscher
 Händlerpreis, Band mit < 20 Items, Empfehlung trifft/trifft nicht). Vor dem Push: addon_check -> kein FEHLER.
 Bitte Bericht in berichte/AHSentinel/.
+
+TEIL C – SPIELRHYTHMUS (NEU 13.11. 06:10, Entscheid des Nutzers: "das Addon ist nicht nur für mich")
+Viele Spieler sind nicht täglich online (z. B. nur am Wochenende). Jede Empfehlung muss für JEDEN Spieler stimmen –
+alles im Addon, für jeden aus seinen eigenen Daten und denen der Gilde (Sync), ohne Namen, nichts nur für einen Spieler.
+MR5 Rhythmus lernen: Logins je Wochentag und Stunde (aus der vorhandenen Aktivität), daraus "nächstes Login in ~x".
+    Optional selbst einstellbar ("täglich" / "einige Tage pro Woche" / "nur Wochenende"). Ohne Daten: 1 Tag.
+MR6 Haltedauer in jede Empfehlung: Wert beim nächsten Login = Wert jetzt × (1 + Band-Trend × Tage bis zum nächsten
+    Login), nur Richtung aus MA6/MA4, solange nicht belegt. Kaufvorschläge mit Haltedauer > 1 Tag nur in ruhigen
+    oder steigenden Bändern und mit Sicherheitsmarge; in fallenden Bändern keine.
+MR7 Laufzeit passend zum Rhythmus: bleibt der Spieler voraussichtlich noch lange online -> 2 Std.; loggt er bald aus
+    und kommt erst in Tagen -> 24 Std.; Einzahlung immer gegengerechnet (wirtschaft-forever.md).
+MR8 "Bevor du gehst": wird das AH gegen Ende der üblichen Spielzeit geöffnet (oder Knopf), oben im Markt-Reiter die
+    3 wichtigsten Schritte (verkaufen, was bis zum nächsten Login verliert; mitnehmen; mit 24 Std. einstellen).
+MR9 "Seit deinem letzten Besuch": nach > 24 Std. Pause beim ersten Öffnen eine Zeile/kurze Liste: verkauft, zurück in
+    der Post, Bänder seither, was jetzt zu tun ist (ein Knopf je Schritt).
+MR10 Wochenend-Plan IM ADDON: für Spieler mit Pausen von mehreren Tagen zeigt der Markt-Reiter beim ersten Login nach
+    der Pause einen Plan aus seinen und den geteilten Gilden-Daten: verkaufen (mit Preis), kaufen (mit Höchstpreis),
+    liegen lassen. Gleiche Regeln wie MR2/MR3, nur mit Haltedauer bis zum nächsten erwarteten Login.
+MR11 Wochentag-Muster für alle: aus den Vollscans aller Gildenmitglieder (Sync) je Ware und Wochentag Preislage
+    (M-Woche). Anzeige "Wochentag günstig/teuer" erst ab 3 Wochen Daten, sonst grau.
+Die Prüf-Sitzung wertet wöchentlich im Hintergrund aus (Trend-Rückblick MA6, Treffer der Haltedauer-Vorhersagen) und
+liefert verbesserte Regeln als Auftrag – sie macht keinen Plan für einen einzelnen Spieler.
+Tests: T-MR5–T-MR11 (täglicher Spieler vs. Wochenend-Spieler mit fallendem Band -> verschiedene Empfehlung;
+Laufzeitwahl; "Seit deinem letzten Besuch" nach 5 Tagen; keine Kaufvorschläge in fallendem Band bei Pause > 1 Tag).
