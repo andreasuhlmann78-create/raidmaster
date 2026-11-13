@@ -1,0 +1,9 @@
+NACHRICHT AN DIE AHSENTINEL-SITZUNG (zum Einfügen) – SEHR HOCH, kleine Version sofort
+0.65.121 geprüft: addon_check OK, KF2 (Summe/Summe) im Code belegt – danke.
+DE30b ist aber in der ÜBERHOLTEN Fassung umgesetzt (25 % + Lern-Budget). Endgültig (Nutzer 23:49/23:51):
+1. Lern-Budget ganz weg (DEBuy.lua:54/230, Learn.lua:446, UI_Main.lua:3444/3751). Alte Einstellung nur ignorieren.
+2. Ungemessene Gruppe: 20 %, wenn die Tabelle in den gemessenen Gruppen stimmt (Chance/Menge ±10 %), sonst 25 %.
+3. Im Spiel nur "lohnt / lohnt nicht".
+Tests T-DE30d/e/h, TestRoutine.lua:12363–12365 anpassen.
+git pull --rebase, auftraege/AHSentinel/offen-ahsentinel.txt ganz oben "PRÜFUNG 0.65.121" und DE30b "ENDGÜLTIG 23:51".
+Bericht in berichte/AHSentinel/ ("umgesetzt, zur Prüfung") mit Faktor alt/neu je Gruppe.

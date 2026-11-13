@@ -1,3 +1,16 @@
+>>> PRÜFUNG 0.65.121 (Prüf-Sitzung 14.11. 00:10): addon_check OK.
+>>>  - KF2: umgesetzt, im Code belegt (Disenchant.lua ~1470 Faktor = Summe/Summe ab CORR_MIN_N). Zahlen alt/neu je Gruppe
+>>>    bitte im Bericht nennen; Client-Bestätigung offen.
+>>>  - DE30b: ÜBERHOLTE FASSUNG umgesetzt (Zwischenstand 23:47: 25 % + Lern-Budget). Endgültig gilt der Entscheid 23:51
+>>>    (siehe DE30b unten, Kopf "ENDGÜLTIG 23:51"). Befund DE30b-F (SEHR HOCH, sofort, kleine Version):
+>>>    1. Lern-Budget ENTFERNEN (A.DE_LEARN_SHARE, DEBuy.lua:54/230, Learn.lua:446, UI_Main.lua:3444/3751, Knopf) –
+>>>       Nutzer 23:49: "lass das mit dem Budget weg". Alte Einstellung learnBudget nur noch ignorieren (nicht löschen).
+>>>    2. Noch nicht belegte Gruppe: 20 %, wenn die Tabelle in den gemessenen Gruppen stimmt (Chance- und Mengenfaktor aus
+>>>       Fc:DEFactors im gewichteten Mittel je innerhalb ±10 % von 1); sonst 25 %. A:DEGroupInfo um "tableOk" erweitern.
+>>>    3. Im Spiel nur "lohnt / lohnt nicht" – keine Gruppe, kein Prozentwert, kein Lern-Budget sichtbar (T-DE30h).
+>>>    Tests: T-DE30d (ungemessen + Tabelle ok -> 20 %), T-DE30e (Tabelle weicht ab -> 25 %), Test mit Lern-Budget anpassen
+>>>    (TestRoutine.lua:12363–12365 erwartet noch "2:93 -> 25 · Lern-Budget").
+
 >>> !!! DE30b (SEHR HOCH, Entscheide des Nutzers 13.11. 23:45–23:51, zusammen mit KF2 umsetzen) – ENDGÜLTIG 23:51:
 >>>    Mindestgewinn für Entzaubern JE GRUPPE. Gruppe = Stufenband + Qualität = WELCHE Materialien herauskommen
 >>>    (z. B. 26–30 grün: Seelenstaub 11083, Grosse Astralessenz 11082, Kleiner gleissender Splitter 11084; 36–40 grün:
