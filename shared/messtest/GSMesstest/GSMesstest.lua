@@ -31,7 +31,7 @@
 -- <Ich>, <Partner>, <Offline>, <Unbekannt> ersetzt. Keine geschützten Aktionen, kein Kauf, kein Chat-Text an andere.
 
 local ADDON = "GSMesstest"
-local VERSION = "5"
+local VERSION = "5.1"
 local PREFIX = "GSMESS"
 local CHANNEL = "GSMessRealm"
 local FAKE = "Gsmesszqxv"          -- gibt es sehr wahrscheinlich nicht (Test "unbekannter Spieler")
@@ -384,7 +384,7 @@ end
 ---------------------------------------------------------------------------
 -- Signatur einer Auktion = ItemID:Menge:Sofortkauf (es gibt keine auctionID, die Restzeit ändert sich zwischen Scans).
 -- Je Signatur wird die Anzahl je Restzeit-Stufe 0..4 in EINER Zahl gespeichert (Basis 1000, exakt bis 2^53).
-local MARKT_CHUNK = 3000          -- Auktionen je Frame (kein Stocken)
+local MARKT_CHUNK = 1500          -- Auktionen je Frame (13.11.: 3000 = ~35 ms je Frame, zu viel)
 local function Epoch() return (time and time()) or math.floor(Now()) end
 local function Ms() return (debugprofilestop and debugprofilestop()) or (Now() * 1000) end
 local function Dec(e)
@@ -596,6 +596,7 @@ local function MarktHolen()
     db.lastCall = Epoch()
     M.busy = true
     local wait = { t0 = Now(), since = since }
+    M.ownAt = Now()
     M.marktWait = wait
     local ok, err = pcall(C.ReplicateItems)
     if not ok then
@@ -626,18 +627,26 @@ local function MarktAntwort()
     After(1, function() MarktStart("eigener Abruf") end)
 end
 
+-- 13.11. gemessen: REPLICATE_ITEM_LIST_UPDATE kommt nach EINEM Abruf zehntausende Male (70'336). Deshalb zählen wir
+-- Schübe (Ereignisse mit über 30 s Pause dazwischen) und lesen nur mit, wenn wir selbst in den letzten 120 s nicht
+-- abgerufen haben (sonst wäre es der eigene Abruf).
 local function MarktPassiv()
+    M.passivEv = (M.passivEv or 0) + 1
+    local now = Now()
+    local newBurst = not M.lastEv or now - M.lastEv > 30
+    M.lastEv = now
+    if not newBurst then return end
+    if M.ownAt and now - M.ownAt < 120 then return end
     M.passiv = M.passiv + 1
     if GSMesstestDB.passivAus or M.reader or M.busy then return end
-    if M.lastPassive and Now() - M.lastPassive < 60 then return end
-    M.lastPassive = Now()
+    M.lastPassive = now
     Print("A3 fremder Vollscan erkannt (anderes Addon) – lese still mit")
     After(3, function() MarktStart("fremd ausgelöst") end)
 end
 
 local function MarktStatus()
     local db = GSMesstestDB
-    Print(string.format("A3 fremd ausgelöste Vollscans seit dem Einloggen: %d (Mitlesen %s)", M.passiv,
+    Print(string.format("A3 fremd ausgelöste Vollscans (Schübe) seit dem Einloggen: %d (Mitlesen %s)", M.passiv,
         db.passivAus and "AUS" or "an"))
     local ev = {}
     for k, v in pairs(M.ev) do ev[#ev + 1] = k .. " " .. v end
@@ -669,8 +678,8 @@ Report = function()
     local ev = {}
     for k, v in pairs(M.ev or {}) do ev[#ev + 1] = k .. " " .. v end
     table.sort(ev)
-    lines[#lines + 1] = string.format("A3 fremd ausgelöste Vollscans in dieser Sitzung: %d; Such-Ereignisse: %s",
-        M.passiv or 0, #ev > 0 and table.concat(ev, ", ") or "keine")
+    lines[#lines + 1] = string.format("A3 fremd ausgelöste Vollscans (Schübe) in dieser Sitzung: %d; Ereignisse ohne eigenen Abruf: %d; Such-Ereignisse: %s",
+        M.passiv or 0, M.passivEv or 0, #ev > 0 and table.concat(ev, ", ") or "keine")
     GSMesstestDB.export = "GSDIAG1|" .. ADDON .. "|" .. VERSION .. "|" .. date("%d.%m.%Y %H:%M") .. "\n" ..
         table.concat(lines, "\n")
     Print("Gespeichert. Nach /reload oder Ausloggen holt der Uploader das Ergebnis ab.")

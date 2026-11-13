@@ -48,7 +48,7 @@ Gruppe)? Dann könnten Addons wie AHSentinel andere Nutzer z. B. am Auktionshaus
   beieinander, nicht in derselben Gruppe nötig) ist es belegt.
 - Keine Namen im Ergebnis.
 
-## A3 Markt komplett (Version 5, Messauftrag M-KOMPLETT aus `shared/wissen/markt-strategie.md`, 13.11.)
+## A3 Markt komplett (Version 5.1, Messauftrag M-KOMPLETT aus `shared/wissen/markt-strategie.md`, 13.11.)
 
 Frage des Nutzers: Können wir den Markt **komplett** messen (Angebot, Absatz, Umschlag rund um die Uhr), und wie
 gross sind die Daten, wenn andere Spieler sie mitlesen und weitergeben? Ohne Partner, am offenen Auktionshaus:

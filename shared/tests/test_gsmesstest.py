@@ -172,7 +172,7 @@ def main():
     check(export is not None, "kein Export")
     export = str(export or "")
     print(export)
-    check(export.startswith("GSDIAG1|GSMesstest|5|"), "Kopf GSDIAG1 falsch")
+    check(export.startswith("GSDIAG1|GSMesstest|5.1|"), "Kopf GSDIAG1 falsch")
     for n in NAMES + (OFFLINE,):
         check(n not in export, "Name im Ergebnis: " + n)
     check("T1 hin: gesendet 10" in export and "angekommen 10/10" in export, "T1 nicht vollständig")
@@ -268,16 +268,28 @@ def main():
     check("40 Min. seit letztem Abruf" in e6, "A3 M1c Abstand fehlt")
     check("A3 Verlauf:" in e6, "A3 Verlauf fehlt")
     check("A3 Scan (eigener Abruf): Einzelauktionen 2600" in e6, "A3 zweiter Abruf nicht als eigener erkannt")
-    # passiv: ein anderes Addon holt die Liste
-    a.Fire("REPLICATE_ITEM_LIST_UPDATE")
+    # eigener Abruf löst das Ereignis oft nochmals aus (13.11.: 70'336 Mal) -> NICHT als fremd lesen
+    for _ in range(50):
+        a.Fire("REPLICATE_ITEM_LIST_UPDATE")
+    pump(6)
+    check("Scan (fremd ausgelöst)" not in str(a.GSMesstestDB.export), "A3 eigene Ereignis-Wiederholungen als fremd gelesen")
+    # passiv: 5 Min. später holt ein anderes Addon die Liste (ein Schub aus vielen Ereignissen)
+    clock["t"] += 300
+    for rt in clients.values():
+        rt.globals().NOW = clock["t"]
+    for _ in range(50):
+        a.Fire("REPLICATE_ITEM_LIST_UPDATE")
     pump(6)
     e7 = str(a.GSMesstestDB.export)
     check("A3 Scan (fremd ausgelöst)" in e7, "A3 passives Mitlesen fehlt")
-    check("fremd ausgelöste Vollscans in dieser Sitzung: 1" in e7, "A3 passiv nicht gezählt")
+    check("fremd ausgelöste Vollscans (Schübe) in dieser Sitzung: 1;" in e7, "A3 passiv nicht als ein Schub gezählt")
     a.Fire("ITEM_SEARCH_RESULTS_UPDATED")
     a.SlashCmdList.GSMESSTEST("bericht")
     check("ITEM_SEARCH_RESULTS_UPDATED 1" in str(a.GSMesstestDB.export), "A3 Such-Ereignis nicht gezählt")
     a.SlashCmdList.GSMESSTEST("markt mitlesen aus")
+    clock["t"] += 300
+    for rt in clients.values():
+        rt.globals().NOW = clock["t"]
     a.Fire("REPLICATE_ITEM_LIST_UPDATE")
     pump(6)
     check(not a.GSMesstest.busy and a.GSMesstest.reader is None, "A3 liest trotz 'mitlesen aus'")
