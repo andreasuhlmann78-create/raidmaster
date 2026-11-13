@@ -12,6 +12,14 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.118
+
+- **New test part `/ahs testroutine tempo`:** measures the speed targets in the game – tooltip calculation, switching
+  tabs, sniper reaction, buy per key press, longest frame with the auction house open, login/reload and memory of the
+  full scan – and writes them into the test report (field "tempo"), with the slow spot if a target is missed.
+- Full scan: the diagnostic log now says whether slow reading portions come from garbage collection.
+- Tests T625–T632.
+
 ### Version 0.65.117
 
 - **Sniper budget doubled after reset:** "Reset counter" now always sets the budget back to the amount you entered
@@ -55,18 +63,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Flip list:** list and detail always calculate with the same state (no "FLIP-WIDERSPRUCH").
 - Diagnostics: "LANGSAM" names the longest single step (file:line); full-scan test waits up to 300 s.
 - Tests T602–T612, T597 checks the uploaded fields.
-
-### Version 0.65.113
-
-- **Sniper counted failed purchases (important):** a sent single purchase now only counts – and only uses budget – when
-  the server confirms it. Failed or unanswered purchases are not counted any more (before, a target could show "32/35
-  bought" after 3 real purchases and then stopped searching). While a purchase waits for the answer the row shows
-  "(+1 sent)". Classic auction house: every server answer is matched to the oldest open purchase.
-- **Sniper pause visible:** after 3 failed purchases of the same item the target row and the status line show "paused
-  until 19:58 – 3 purchases failed" (tooltip with the server's error text) and a "resume now" button appears.
-- **Sniper list:** 3 failures in a row no longer empty the hit list – it stays visible as outdated until new results arrive.
-- **Sniper target above sale value:** creating such a target gives one clear warning in chat (with warning sound).
-- Tests T598–T601.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

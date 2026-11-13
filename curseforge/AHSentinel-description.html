@@ -7,6 +7,14 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.118</h3>
+<ul>
+<li><strong>New test part <code>/ahs testroutine tempo</code>:</strong> measures the speed targets in the game – tooltip calculation, switching
+  tabs, sniper reaction, buy per key press, longest frame with the auction house open, login/reload and memory of the
+  full scan – and writes them into the test report (field "tempo"), with the slow spot if a target is missed.</li>
+<li>Full scan: the diagnostic log now says whether slow reading portions come from garbage collection.</li>
+<li>Tests T625–T632.</li>
+</ul>
 <h3>Version 0.65.117</h3>
 <ul>
 <li><strong>Sniper budget doubled after reset:</strong> "Reset counter" now always sets the budget back to the amount you entered
@@ -51,19 +59,7 @@
 <li>Diagnostics: "LANGSAM" names the longest single step (file:line); full-scan test waits up to 300 s.</li>
 <li>Tests T602–T612, T597 checks the uploaded fields.</li>
 </ul>
-<h3>Version 0.65.113</h3>
-<ul>
-<li><strong>Sniper counted failed purchases (important):</strong> a sent single purchase now only counts – and only uses budget – when
-  the server confirms it. Failed or unanswered purchases are not counted any more (before, a target could show "32/35
-  bought" after 3 real purchases and then stopped searching). While a purchase waits for the answer the row shows
-  "(+1 sent)". Classic auction house: every server answer is matched to the oldest open purchase.</li>
-<li><strong>Sniper pause visible:</strong> after 3 failed purchases of the same item the target row and the status line show "paused
-  until 19:58 – 3 purchases failed" (tooltip with the server's error text) and a "resume now" button appears.</li>
-<li><strong>Sniper list:</strong> 3 failures in a row no longer empty the hit list – it stays visible as outdated until new results arrive.</li>
-<li><strong>Sniper target above sale value:</strong> creating such a target gives one clear warning in chat (with warning sound).</li>
-<li>Tests T598–T601.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
