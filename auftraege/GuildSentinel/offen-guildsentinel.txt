@@ -187,3 +187,29 @@ Erledigt (im Code belegt, danke):
 - Punkt 3 BL1–BL4: ns.COMMANDS (Core.lua:764), ns.FindCommand, CmdHint.lua, T282–T287.
 - Punkt 4: raidReady.vorschlag (RaidReady.lua:238/350), T288.
 Freigegeben. Offen nur noch: IM CLIENT PRÜFEN (oben), dazu /gs tippen (Liste, Klick wählt, Enter führt aus).
+
+GA (HOCH, NEU 13.11. 14:35 – Wunsch des Nutzers):
+   GA1 FÜNFTE BEWERBUNGSFRAGE "Wie alt bist du?" – Mindestalter 16.
+       - Standardfragen (Recruit.lua Rc:DefaultQuestions) um die 5. Frage ergänzen (alle Sprachen). Eigene Fragenlisten
+         bleiben, aber die Altersfrage wird IMMER zusätzlich gestellt, wenn "Mindestalter" eingestellt ist (Einstellung
+         Rekrutierung: Mindestalter, Standard 16, 0 = aus).
+       - Antwort auswerten: Zahl erkennen ("17", "ich bin 17", "17 Jahre"); < 16 -> nette Absage per Flüstern, z. B.
+         "Danke für dein Interesse an <{gilde}>! Wir nehmen leider erst ab 16 Jahren auf. Viel Spass weiterhin in Azeroth!"
+         (Text einstellbar, alle Sprachen), Bewerber-Status "abgelehnt (Alter)", Knopf "In die Gilde einladen" gesperrt.
+         ≥ 16 -> normal weiter. Keine Zahl / unklar ("bald 16", Ausweichen) -> KEINE automatische Absage, Status
+         "Alter unklar" für den Offizier.
+       - Datenschutz: das genaue Alter NICHT speichern und nicht über den Sync teilen, nur "16+" / "unter 16" / "unklar";
+         nicht ins Diagnose-Protokoll. Antworttext der Altersfrage nicht in der Bewerberliste zeigen, nur das Ergebnis.
+       - Testmodus: Absage nur "[Test]". Tests T-GA1a–e (17 -> weiter; 15 -> Absage + gesperrt; "bald 16" -> unklar;
+         Mindestalter 0 -> keine Frage; genaues Alter nirgends gespeichert).
+   GA2 WERBETEXT IM CHAT: Der Nutzer sieht noch nicht, dass wir alle Klassen suchen und im Aufbau sind. 0.9.35 setzt
+       {gesucht} in der Phase Aufbau auf "Mitstreiter aller Klassen" – das wirkt nur, wenn der Werbetext {gesucht} enthält.
+       - Phase Aufbau braucht einen eigenen Standard-Werbetext, der den Aufbau nennt, z. B.: "<{gilde}> ({fraktion}) ist im
+         Aufbau und sucht {gesucht} – entspannt, hilfsbereit, deutschsprachig, Raidziel. Discord: {discord} – flüstert mir:
+         /w {name} gilde" (alle Sprachen; Platzhalter {phase} zusätzlich anbieten: "im Aufbau"/"fast raidbereit"/"raidbereit").
+       - Hat der Spieler einen EIGENEN Werbetext ohne {gesucht}/{phase}: in der Rekrutierung gelb "Dein Text nennt die
+         gesuchten Klassen nicht – {gesucht} einfügen oder Standardtext der Phase übernehmen" mit Knopf "Übernehmen".
+       - Vorschau des fertigen Chat-Texts direkt über dem Knopf "Werbung posten".
+       - Tests T-GA2a (Aufbau, Standardtext -> "im Aufbau … aller Klassen"), T-GA2b (eigener Text ohne Platzhalter ->
+         Hinweis), T-GA2c (Phase Raid -> gezielte Klassen).
+   Bitte im Bericht auch angeben, ob der Nutzer am PC schon 0.9.35 hat (Diagnose-Protokoll "v0.9.xx").
