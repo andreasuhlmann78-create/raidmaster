@@ -357,3 +357,16 @@ PS-FRAGEN (13.11. 07:55, aus dem ProfessionSentinel-Bericht 0736):
    API-PM4 (NIEDRIG, F6) API.Sold(itemID, seit) – verkaufte Menge und Erlös aus der Buchhaltung (für PM6), später.
    CH vorziehen: GuildSentinel und die anderen Addons warten mit BL auf den reparierten CmdHint-Baustein (Punkt CH) –
      bitte CH als Nächstes, vor RK.
+
+AB4d (HOCH, NEU 13.11. 08:00 – Code-Prüfung 0.65.103 auf Frage des Nutzers "verkaufe ich nach dem Abbrechen noch zu billig?")
+   AB4c greift erst ab 150 % des Marktwerts (Se:HighMarket, HIGH_FACTOR). Steigt der Markt WENIGER stark, aber über das
+   gelernte Maximum (Learn.MAX_FACTOR = 1,25 × Normalpreis), schlägt SuggestRaw (Seller.lua, Zweig "Konkurrenz liegt
+   über deinem Maximum") weiter den gelernten NORMALPREIS vor – auch bei voller, echter Leiter.
+   Beispiel: Normalpreis gelernt 12s14, Markt steigt auf 18s (148 %, 300 Stück im AH) -> Vorschlag 12s14, ~6s/Stück
+   verschenkt; genau die Lage nach einem Abbruch, wenn der Spieler neu einstellt.
+   Lösung: Regel "über dem gelernten Maximum -> Normalpreis" nur bei EINZELNEN Ausreissern (dünne Leiter: < 3 fremde
+   Angebote und < 5 Stück bis zum nächsten Preis-Sprung); bei voller Leiter immer knapp unter das günstigste fremde
+   Angebot. Gelerntes Maximum aus der aktuellen Leiter nachführen (offen aus AB4c). Grundregel TU4 ergänzen: Vorschlag nie
+   mehr als 10 % unter dem günstigsten fremden Angebot, wenn die Leiter voll ist (≥ 3 Angebote oder ≥ 5 Stück) und kein
+   Mindestpreis von Hand gesetzt ist. Tests T-AB4d (Markt 110 %, 130 %, 148 % mit voller Leiter -> knapp unter dem
+   günstigsten; 1 Angebot zu 300 % -> Normalpreis), dazu der Ablauf "Abbrechen -> Post -> neu einstellen" (TU2).
