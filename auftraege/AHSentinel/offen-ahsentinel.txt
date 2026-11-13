@@ -1,3 +1,22 @@
+>>> !!! KF2 (SEHR HOCH, GOLD – Nutzer 13.11. 23:39: "wir haben heute Nachmittag herausgefunden, dass ×0,57 nicht stimmen
+>>>    kann") – direkt nach TB119-1, VOR TB118:
+>>>    Widerspruch in deinen eigenen Zahlen (Testbericht 0.65.118, 22:54 und 23:06):
+>>>    - "Erlös: Median erzielt/vorhergesagt 1.00 (N 27)" und "Dauer bis Verkauf Median 0,1–0,3 Std." -> die Materialien
+>>>      verkaufen sich schnell und ZUM VORHERGESAGTEN PREIS;
+>>>    - gleichzeitig "Entzaubern zerlegt 2:4:a … Rest (Preis u. a.) 0,57" -> der Materialpreis sei nur 57 % wert.
+>>>    Beides kann nicht stimmen. Laut deinem Bericht 21:03 ist f = lv/ev aus den Entzauber-Einträgen, lv = Beute zu
+>>>    MatPrice im Moment des Entzauberns, ev = rohe Vorhersage beim Kauf. Kauf und Entzaubern liegen meist Minuten
+>>>    auseinander -> f misst sehr wahrscheinlich den UNTERSCHIED ZWEIER PREISQUELLEN im Addon (Vorhersage vs. MatPrice),
+>>>    nicht einen echten Verlust.
+>>>    Zu tun: (1) Je Material (10940, 10938, 11082, 11083, 11084, 11135, 11137, 11139) im Testbericht drei Zahlen
+>>>    nebeneinander: Preis in der Vorhersage ev, MatPrice beim Entzaubern, tatsächlich erzielter Verkaufspreis (nach 5 %).
+>>>    (2) Den Faktor f NICHT mehr anwenden, solange er nicht durch echte Verkäufe belegt ist (Grundsatz "nur Gesichertes");
+>>>    massgeblich ist der erzielte Verkaufspreis (eigene Verkäufe), sonst der Marktpreis. DE30 (30 %) bleibt als Puffer.
+>>>    (3) Die Kennzahlen "Entzaubern mit Gewinn 42 %" und "mit Verlust gegenüber dem Kaufpreis 55 %" mit dem ERZIELTEN
+>>>    Erlös neu rechnen (auch sie nutzen lv) und beide Fassungen im Bericht nennen.
+>>>    (4) Lohnt bis / Sniper-Max / Gewinn-Zeile danach über A:BestWay neu – eine Quelle. Tests T-KF2a (f = 1, wenn erzielt
+>>>    = vorhergesagt), T-KF2b (Preisquelle Vorhersage = Preisquelle Beute), T-KF2c (Kennzahlen aus erzieltem Erlös).
+
 >>> NEU CH-G (Entscheid des Nutzers 13.11. 23:26, AHSentinel als ERSTES Addon, nach TB119/TB118): gemeinsame
 >>>    Befehlsliste shared/GoldSentinelCmdHint.lua (v1, von der Prüf-Sitzung aus deiner CmdHint.lua gebaut, Test 30/30)
 >>>    übernehmen: Datei unverändert kopieren, in die .toc VOR der Anbindung, eigene CmdHint.lua durch eine kurze

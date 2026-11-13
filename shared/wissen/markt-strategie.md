@@ -266,6 +266,10 @@ Um zu erfahren, ob ein höherer Preis noch verkauft, gelegentlich leicht höher 
   geschätzt; 11083: 398 / 1458) -> gemessen vor geschätzt.
   **Entzaubern 26–30 (524 Fälle):** Beute/Vorhersage Median 0,60 = Chance 1,05 × Menge 1,00 × Preis 0,57 – der
   Materialpreis ist das Problem, nicht die Chance; 55 % der 453 Entzauber-Käufe mit Verlust gegenüber dem Kaufpreis.
+  **ÜBERHOLT/ZWEIFELHAFT (13.11. 23:40, Nutzer + Prüf-Sitzung):** Derselbe Bericht zeigt "Erlös erzielt/vorhergesagt 1,00
+  (N 27)" und Verkauf nach 0,1–0,3 Std. -> Materialien verkaufen zum vorhergesagten Preis. f = 0,57 ist sehr
+  wahrscheinlich ein Unterschied zweier Preisquellen im Addon (Vorhersage vs. MatPrice beim Entzaubern), kein echter
+  Verlust. Auch 42 %/55 % rechnen mit diesem Wert -> NICHT als belegt verwenden, bis KF2 mit erzielten Preisen nachrechnet.
 
 ## 8. Sniping, Flippen, Handel – Grundsätze (Wunsch des Nutzers 10.11. 09:28: "in allen Bereichen der Beste")
 
