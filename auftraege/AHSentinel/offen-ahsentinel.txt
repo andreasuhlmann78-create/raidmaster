@@ -1,4 +1,4 @@
->>> !!! NIE IM RUHEMODUS (Entscheid des Nutzers 14.11. 00:28/00:30) – gilt ab sofort, dauerhaft:
+>>> !!! OBERSTE PRIO – NIE IM RUHEMODUS (Entscheid des Nutzers 14.11. 00:28/00:29/00:30) – gilt ab sofort, dauerhaft:
 >>>    Die AHSentinel-Sitzung plant sich selbst Weck-Runden: am Ende JEDER Antwort/Arbeit mit dem Werkzeug send_later
 >>>    (delay_minutes 5, initiation human_request) eine Erinnerung an sich selbst setzen: "Weck-Runde: git pull --rebase,
 >>>    auftraege/AHSentinel/offen-ahsentinel.txt Liste PRIORITÄTEN lesen, obersten offenen Punkt umsetzen bzw. weiter-
@@ -15,6 +15,9 @@
 PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 00:25). Immer von oben nach unten abarbeiten.
 Einzelheiten zu jedem Punkt stehen weiter unten (Suche nach dem Kürzel). Diese Liste wird bei jeder Änderung nachgeführt.
 ========================================================================================================================
+0. RUHEMODUS  OBERSTE PRIO (Nutzer 14.11. 00:30) – SOFORT umsetzen, vor allem anderen: "NIE IM RUHEMODUS" (Block
+                        ganz oben): Weck-Runde alle 5 Min. per send_later an dich selbst, nur EINE offen, unterbricht nie,
+                        still weiterarbeiten. Erste Weck-Runde JETZT planen, dann weiter mit 1.
 1. BH-AUS     SEHR HOCH  ALS NÄCHSTES (in 0.65.123 noch nicht) – Gewinn falsch: 53 "ausstehende" Verkäufe zusätzlich zum Kassenbuch (43g49 statt ~20g53);
                         Gold-Abstimmung leer.
 2. RF-M1 / RF SEHR HOCH  (0.65.123: Speicher-Aufschlüsselung im Tempo-Test da – Messung im Client offen) Ruckeln: 240 MB Grundstand (~150 MB Laufzeit-Caches), Preisverlauf gepackt (Objekte 220k -> 7k),

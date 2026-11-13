@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 00:30 | Diese Definition (nie Ruhemodus, nicht stören) hat OBERSTE PRIO für die Umsetzung – sofort pushen. | offen-ahsentinel.txt Prio 0. |
 | 00:29 | Die Weck-Runde darf das Projekt bei der Arbeit nicht unnötig stören. | Nur eine Runde offen, unterbricht nie, still weiterarbeiten, nur Neues melden. |
 | 00:28 | AHSentinel-Projekt darf nie in den Ruhemodus fallen; Weck-Runde alle 5 Minuten (Antwort 00:30). | offen-ahsentinel.txt zuoberst "NIE IM RUHEMODUS" (send_later an sich selbst). |
 | 00:22 | Nach jeder Version prüfen, ob das Addon mit dem letzten Punkt fertig ist, und es dann gleich mit dem nächsten Punkt weitermachen lassen – ab jetzt immer, für jedes Addon. | pruef-ablauf.md 0 "WEITERMACHEN"; Nachricht "weiter mit …" nach jeder Prüfung. |
