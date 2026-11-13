@@ -50,7 +50,9 @@ etwas für die Gilde. Prüffrage: schnell, schlicht, verlässlich – und macht 
   7. Später: I3 Vermögensverlauf, I4 Offline-Plan; I6-M nur messen. NEIN: I1, I2, I8.
 - Messwerte: Vollscan ~305k Auktionen, ~6'200 Items, Drossel ~15–20 Min.; Restzeit-Stufen 1 <30 Min., 2 30 Min.–2 Std.,
   3 2–12 Std., 4 >12 Std.; Prognose 32 % zutreffend (98 % vorhergesagt); Entzauber-Käufe 42 % mit Gewinn, 55 % Beute
-  unter Kaufpreis (-> DE30); Absatz-Schätzung bis ×5 zu hoch; Index 7 Tage −27 bis −32 %.
+  unter Kaufpreis (-> DE30, ÜBERHOLT: Median-Fehler KF2, echt +35 %/+20 %); Absatz-Schätzung bis ×5 zu hoch; Index 7 Tage
+  −27 bis −32 %. Speicher (RF-M1, 14.11.): gespeichert ~51 MB (Verlauf 117k Tabellen + 3,4 MB gepackt), im Spiel 240 MB ->
+  ~150 MB Laufzeit-Caches; GC-Dauer wächst mit Objektzahl (~220k Verlaufsobjekte).
 - Bleibt offen (weniger wichtig): UI1509/UI1510, SN-T, KF/LB-Fragen, Tooltip.lua:600 Kommentar.
 
 ## GuildSentinel (Gilde)
