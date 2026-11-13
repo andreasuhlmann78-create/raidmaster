@@ -12,6 +12,22 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.108
+
+- **Market tab "Disenchant" now uses the same "worth up to"** as tooltip, buy list, batch buy, Sniper and API (row and
+  detail line). The "minimum profit" option is only a filter now. Sniper disenchant targets are always set exactly to
+  "worth up to" (chat message only from 5 % change).
+- **Market core measures correctly:**
+  - Own auctions: a cancel or sale message that arrives before the new auction list is no longer lost.
+    "Relisted" is only guessed from really new auctions (several equal stacks no longer confuse it).
+  - Disenchant recommendations are checked against the material value 24 h later, vendor recommendations
+    against the confirmed vendor price (no longer against the item's AH price).
+- **Releases (part D) in the Market tab:** a way below 60 % hits is hidden ("Way … locked (hits n %)"); a way with
+  fewer than 20 cases shows its rows grey "still learning (n of 20)"; Flipping, Gaps and Crowded stay grey until
+  30 own sales are measured. Measuring continues in the background.
+- Self test "Plausibility (Ü3)": no implausible row may be shown as a recommendation.
+- Tests T573–T579 (T-MA1b/c, T-MA2c, T-FG1–T-FG3, T-RK2c).
+
 ### Version 0.65.107
 
 - **One "worth up to" everywhere (disenchanting):** tooltip, buy list mark "[Disenchant pays]", warning guard, Sniper
@@ -69,22 +85,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   beginning you typed (e.g. "/ahs ent"), the selected command runs. A selection is valid for 10 s; Tab selects the next
   entry. The chat input is still never written to (no taint).
 - Tests T537–T541 (T-CH1–T-CH5).
-
-### Version 0.65.103
-
-- **Disenchant limits must be right:** "[Disenchant worth it]" in the buy list only when the price is at most "Worth up
-  to" (minimum profit) with fresh material prices – before it appeared as soon as the value was above the price.
-- **Sniper targets from disenchanting follow the limit:** if "Worth up to" changes by more than 5 % (new material
-  prices), the max price is adjusted and reported once in chat.
-- **Reference check in the test routine:** the groups 26–30, 31–35 and 36–40 are recalculated independently from the
-  scan prices (cheapest − 1c × chance × average amount) and compared with the value the addon uses; more than 5 %
-  difference is an ERROR naming the material, its source and age. One report line per group.
-- **Vendor prices after the hotfix of 10.11.:** the game's own vendor price comes first; the remembered table is only a
-  fallback and is updated when the game reports something else. Vendor flips only with a price confirmed by the game.
-- **Minimum deposit 1c (announced for 17.11.):** measured automatically when posting – nothing fixed in the code.
-- **AHSentinel.API:** new `WorthUpTo(itemID[, qty])` (same "Worth up to" as the tooltip) and `MarketState(itemID)`
-  (normal / buyout / flood / thin / old) for ProfessionSentinel.
-- Tests T530–T536 (T-HP1, T-HP2, API-PM, T-ST1–T-ST3).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

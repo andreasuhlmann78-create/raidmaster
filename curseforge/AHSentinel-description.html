@@ -7,6 +7,22 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.108</h3>
+<ul>
+<li><strong>Market tab "Disenchant" now uses the same "worth up to"</strong> as tooltip, buy list, batch buy, Sniper and API (row and
+  detail line). The "minimum profit" option is only a filter now. Sniper disenchant targets are always set exactly to
+  "worth up to" (chat message only from 5 % change).</li>
+<li><strong>Market core measures correctly:</strong></li>
+<li>Own auctions: a cancel or sale message that arrives before the new auction list is no longer lost.
+    "Relisted" is only guessed from really new auctions (several equal stacks no longer confuse it).</li>
+<li>Disenchant recommendations are checked against the material value 24 h later, vendor recommendations
+    against the confirmed vendor price (no longer against the item's AH price).</li>
+<li><strong>Releases (part D) in the Market tab:</strong> a way below 60 % hits is hidden ("Way … locked (hits n %)"); a way with
+  fewer than 20 cases shows its rows grey "still learning (n of 20)"; Flipping, Gaps and Crowded stay grey until
+  30 own sales are measured. Measuring continues in the background.</li>
+<li>Self test "Plausibility (Ü3)": no implausible row may be shown as a recommendation.</li>
+<li>Tests T573–T579 (T-MA1b/c, T-MA2c, T-FG1–T-FG3, T-RK2c).</li>
+</ul>
 <h3>Version 0.65.107</h3>
 <ul>
 <li><strong>One "worth up to" everywhere (disenchanting):</strong> tooltip, buy list mark "[Disenchant pays]", warning guard, Sniper
@@ -65,23 +81,7 @@
   entry. The chat input is still never written to (no taint).</li>
 <li>Tests T537–T541 (T-CH1–T-CH5).</li>
 </ul>
-<h3>Version 0.65.103</h3>
-<ul>
-<li><strong>Disenchant limits must be right:</strong> "[Disenchant worth it]" in the buy list only when the price is at most "Worth up
-  to" (minimum profit) with fresh material prices – before it appeared as soon as the value was above the price.</li>
-<li><strong>Sniper targets from disenchanting follow the limit:</strong> if "Worth up to" changes by more than 5 % (new material
-  prices), the max price is adjusted and reported once in chat.</li>
-<li><strong>Reference check in the test routine:</strong> the groups 26–30, 31–35 and 36–40 are recalculated independently from the
-  scan prices (cheapest − 1c × chance × average amount) and compared with the value the addon uses; more than 5 %
-  difference is an ERROR naming the material, its source and age. One report line per group.</li>
-<li><strong>Vendor prices after the hotfix of 10.11.:</strong> the game's own vendor price comes first; the remembered table is only a
-  fallback and is updated when the game reports something else. Vendor flips only with a price confirmed by the game.</li>
-<li><strong>Minimum deposit 1c (announced for 17.11.):</strong> measured automatically when posting – nothing fixed in the code.</li>
-<li><strong>AHSentinel.API:</strong> new <code>WorthUpTo(itemID[, qty])</code> (same "Worth up to" as the tooltip) and <code>MarketState(itemID)</code>
-  (normal / buyout / flood / thin / old) for ProfessionSentinel.</li>
-<li>Tests T530–T536 (T-HP1, T-HP2, API-PM, T-ST1–T-ST3).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
