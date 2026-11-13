@@ -115,6 +115,10 @@ geteilte Daten anderer Spieler (Sync, ohne Namen) als Zweites, Markt-Schätzung 
 - **M-Welle (neu 12.11.):** je Stufenband (Staub/Essenz/Splitter-Bänder) Tagesmittel der Material- und Grün-Preise aus
   den Tages-Ständen im Daten-Repo; sagt, wann ein Band "durch" ist und wo die Nachfrage als Nächstes steigt.
 
+**GRUNDSATZ (Nutzer 14.11. 00:18):** "Nur wer den Markt vorausahnen kann, macht richtig Gold – aber immer fundiert und
+belegbar." -> Jede Vorhersage (Welle, Trend, Absatz, Preis) wird gemessen, mit Trefferquote nachgeprüft und erst
+angezeigt, wenn sie belegt ist. Markt-Wellen (M-Welle, MA4, MA6) sind Pflicht-Messungen.
+
 ## 5. Strategien im Auktionshaus (allgemein + Forever)
 
 | Strategie | Kern | Forever-Besonderheit |

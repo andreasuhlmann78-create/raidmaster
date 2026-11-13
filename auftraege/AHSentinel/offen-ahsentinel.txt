@@ -1,20 +1,27 @@
 ========================================================================================================================
-PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 00:35). Immer von oben nach unten abarbeiten.
+PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 00:25). Immer von oben nach unten abarbeiten.
 Einzelheiten zu jedem Punkt stehen weiter unten (Suche nach dem Kürzel). Diese Liste wird bei jeder Änderung nachgeführt.
 ========================================================================================================================
 1. BH-AUS     SEHR HOCH  Gewinn falsch: 53 "ausstehende" Verkäufe zusätzlich zum Kassenbuch (43g49 statt ~20g53);
                         Gold-Abstimmung leer.
 2. RF-M1 / RF SEHR HOCH  Ruckeln: 240 MB Grundstand (~150 MB Laufzeit-Caches), Preisverlauf gepackt (Objekte 220k -> 7k),
                         Scan grosser Markt 141–150 ms, Vollscan-Einlesen 159 ms, +88 MB beim Vollscan. Danach PS-Ziele.
-3. CH-G       MITTEL     gemeinsame Befehlsliste shared/GoldSentinelCmdHint.lua übernehmen (AHSentinel als erstes Addon).
-4. EB         MITTEL     jeder Goldfluss + Details-Fenster (Gesamt, Handel pro Stunde) mit EB-DET (Rendite je Weg –
-                        Entzaubern als Summe –, Anzahlung verfallen, Verkaufsquote), BH-ANZ (Anzahlung erst beim Verfallen
-                        Aufwand), EB-NAME (Wort des Spiels).
-5. Entscheide des Abends (anweisung-entscheide-13-11-abend.txt): LT Gewinn-Zeile, OR keine Rechenwege, TP "Jetzt im AH" +
+3. 0.65.115-Rest MITTEL  T373/TS111.1-Rest, TS111.2b/T555b-Tests, UI1618a-R, SBX1, UI1509, UI1510, FW1 (Releaseplan).
+4. CH-G       MITTEL     gemeinsame Befehlsliste shared/GoldSentinelCmdHint.lua übernehmen (AHSentinel als erstes Addon).
+5. EB         MITTEL     jeder Goldfluss + Details-Fenster (Gesamt, Handel pro Stunde) mit EB-DET (Rendite je Weg –
+                        Entzaubern als Summe –, Anzahlung verfallen, Verkaufsquote), BH-ANZ, EB-NAME.
+6. 0.66 RECHENKERN HOCH (Markt vorausahnen, Nutzer 14.11. 00:18: "nur wer den Markt vorahnen kann, macht richtig Gold –
+                        aber immer fundiert und belegbar"): RK1–RK8, MR2 Mein Lager, Absatz als Spanne, MN1–MN5 Feed,
+                        MARKT-WELLEN MESSEN: MA4 Stufenbänder (Tagesmedian je Band), M-Welle (wann ist ein Band "durch",
+                        wohin wandert die Nachfrage), MA6 Trend-Regel; jede Vorhersage mit Trefferquote im Testbericht,
+                        angezeigt erst, wenn belegt (Freigaben Teil D). anweisung-markt-reiter.txt.
+7. Entscheide des Abends (anweisung-entscheide-13-11-abend.txt): LT Gewinn-Zeile, OR keine Rechenwege, TP "Jetzt im AH" +
                         Median, ZN Nachrechnung (GSZAHL1), PX a–e, SA Schnäppchen-Alarm (≤ 60 s, nur Gesichertes),
                         HK Herstellungs-Kette (TodayCrafts, nur safe).
-6. NIEDRIG               UI1509/UI1510, SN-T, MA3-G, I6-M (Nachfrage-Wellen nur messen), Tooltip-Kommentare.
-7. SPÄTER                I3 Vermögensverlauf, I4 Plan fürs Offline-Sein. NEIN: I1, I2, I8.
+8. 0.67 SPIELRHYTHMUS    MR5–MR9, RK6 Haltedauer.
+9. 0.68 MARKT-REITER     MR1/MR3/MR4 (Kacheln je Stufenband mit Richtung)/MR10, sobald die Freigaben erfüllt sind.
+10. NIEDRIG              MA3-G, AB3, L2b, BE2b, I6-M (Nachfrage-Wellen nur messen – mit M-Welle zusammen), Kommentare.
+11. SPÄTER               I3 Vermögensverlauf, I4 Plan fürs Offline-Sein. NEIN: I1, I2, I8.
 UMGESETZT, ZUR PRÜFUNG / IM CLIENT BESTÄTIGEN (Client-Tests vom Nutzer zurückgestellt):
    KF2 (0.65.121), DE30b endgültig (0.65.122), TB119 + TB118-1/-2 (0.65.120), DE30 (0.65.119), SN2115/TS116 (0.65.117).
 ========================================================================================================================
