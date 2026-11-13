@@ -495,6 +495,12 @@ TP (HOCH, NEU 13.11. 21:27 – Wunsch und Entscheid des Nutzers): PREISZEILEN IM
      (Gewinn-Zeile, Sniper, Heute tun) stützen sich auf "Jetzt im AH" und den erzielten/gemessenen Verkaufspreis, nie
      allein auf den Median.
    Test T-TP5 (stark schwankendes Item -> Hinweis, kein Schnäppchen-Grün; ruhiges Item -> kein Hinweis).
+   JUNGE WIRTSCHAFT (Hinweis des Nutzers 21:29 "die Wirtschaft ist noch jung"; Forever-Start 04.11.): In den ersten
+   Wochen fallen die Preise stetig, ein 14-Tage-Median enthält noch die hohen Startpreise und liegt systematisch zu hoch.
+   Darum Median-Zeitraum ANPASSEN: solange der Server jünger als 6 Wochen ist, Median über die letzten 5 Tage (jüngere
+   Tage stärker gewichtet); danach 14 Tage. Die Beschriftung zeigt den echten Zeitraum ("Median 5 Tage"). Messen, ob
+   der kürzere Median näher am erzielten Verkaufspreis liegt (Testbericht: Abweichung Median 5 vs. 14 Tage zum
+   erzielten Preis der eigenen Verkäufe) – sonst begründet zurückmelden. Test T-TP6.
    Gewinn-Zeile (LT) rechnet mit "Jetzt im AH". Optik-Regel OR gilt (keine Rechenwege).
    Tests T-TP1 (Lockangebot wird nicht als Jetzt-Preis gezeigt), T-TP2 (Alter 0/45 Min./9 Std. -> Anzeige und Farbe),
    T-TP3 (Schnäppchen grün), T-TP4 (über einem Angebot dessen Preis). Zusammen mit SN2115/OR.
