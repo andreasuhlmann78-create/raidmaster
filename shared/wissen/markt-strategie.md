@@ -545,3 +545,5 @@ auf den Median stützen, sondern auf "Jetzt im AH" und erzielte Verkaufspreise.
 Junge Wirtschaft (Hinweis des Nutzers 13.11.): Forever startete am 04.11.; in den ersten Wochen fallen die Preise
 stetig (mehr Angebot, mehr Spieler mit Berufen). Lange Zeitfenster (14-Tage-Median) enthalten noch Startpreise und
 liegen zu hoch -> in den ersten ~6 Wochen kurze, jüngere Tage stärker gewichtende Fenster (5 Tage); Wirkung messen.
+Entscheid 21:32: Der angezeigte Median ist anpassend (Serveralter, Trend, Schwankung bestimmen Zeitraum und
+Gewichtung), Beschriftung nur "Median"; Wirkung gegen den erzielten Verkaufspreis messen.

@@ -479,7 +479,7 @@ TP (HOCH, NEU 13.11. 21:27 – Wunsch und Entscheid des Nutzers): PREISZEILEN IM
                                   oder sonst aus dem FRISCHESTEN Scan. Über einem Angebot: dessen Stückpreis.
                                   NIE ein Durchschnitt oder Mittelwert (Nutzer 21:26) – immer der Stückpreis EINES
                                   echten Angebots.
-      Median 14 Tage: 9s 50c      klein/grau – der bestehende Marktwert (A.MARKET_DAYS = 14, gewichteter Median
+      Median: 9s 50c              klein/grau (anpassend, s. ÄNDERUNG 21:32) – der bestehende Marktwert (A.MARKET_DAYS = 14, gewichteter Median
                                   ohne Ausreisser/Lockangebote). KEIN Pfeil (21:31). Beschriftung "Median 14 Tage"
                                   (Entscheid des Nutzers 21:27, statt "Üblich"/"Marktwert"); folgt automatisch, falls
                                   MARKET_DAYS sich ändert.
@@ -499,6 +499,13 @@ TP (HOCH, NEU 13.11. 21:27 – Wunsch und Entscheid des Nutzers): PREISZEILEN IM
    Volatilität werden NUR im Hintergrund gerechnet und wirken auf Schnäppchen-Grün, Gewinn-Zeile, Sniper und Heute tun.
    SICHTBAR: weder Trendpfeil noch "schwankt stark". T-TP5 prüft die Wirkung (kein Grün bei starker Schwankung), nicht
    die Anzeige.
+   ÄNDERUNG 21:32 (Nutzer: "der Median muss das berücksichtigen"): Der ANGEZEIGTE Median ist selbst anpassend – nicht
+   nur die Entscheidungen. Zeitraum und Gewichtung richten sich im Hintergrund nach (1) Serveralter (jünger als 6 Wochen
+   -> kürzer, z. B. 5 Tage), (2) Trend (deutlicher Fall/Anstieg in den letzten 3 Tagen -> jüngere Tage stärker
+   gewichten, Fenster kürzer), (3) Schwankung (stark -> kürzer und Ausreisser strenger). Ruhige, ältere Märkte -> 14 Tage.
+   Beschriftung nur "Median" (ohne Tagezahl, weil der Zeitraum wechselt). Derselbe Wert gilt überall (eine Funktion,
+   SN2115b). Messen: Abweichung des anpassenden Medians vs. festem 14-Tage-Median zum erzielten Verkaufspreis
+   (Testbericht) – der anpassende muss näher liegen, sonst begründet zurückmelden. Test T-TP7.
    JUNGE WIRTSCHAFT (Hinweis des Nutzers 21:29 "die Wirtschaft ist noch jung"; Forever-Start 04.11.): In den ersten
    Wochen fallen die Preise stetig, ein 14-Tage-Median enthält noch die hohen Startpreise und liegt systematisch zu hoch.
    Darum Median-Zeitraum ANPASSEN: solange der Server jünger als 6 Wochen ist, Median über die letzten 5 Tage (jüngere
