@@ -418,6 +418,10 @@ EB (MITTEL, NEU 13.11. 21:05 – Nutzer: 8 Taschen mit 10 Plätzen für 1g 60s g
    Buchhaltung bleibt OPTISCH WIE HEUTE – keine neuen Zeilen, Spalten, Kacheln oder Reiter. Die neuen Buchungen wirken
    nur im Hintergrund (richtiger Handelsgewinn ohne Eigenbedarf/Spielkosten, richtiger Lagerwert). Einzelheiten
    (Eigenbedarf, Spielkosten, Einnahmen, "nicht zugeordnet") nur im Testbericht/Diagnose und höchstens auf Shift im
-   Tooltip einer bestehenden Zahl. Der Rechtsklick "Eigenbedarf/Handelsware" an einer Buchung entfällt, wenn er eine
+   Tooltip einer bestehenden Zahl [ERSETZT 21:08, s. u.]. Der Rechtsklick "Eigenbedarf/Handelsware" an einer Buchung entfällt, wenn er eine
    neue sichtbare Steuerung bräuchte – automatische Erkennung genügt. Test T-EB6: Buchhaltung zeigt dieselben Elemente
-   wie vorher (UICheck-Vergleich). Einordnen nach LT/SN1951, vor 0.66 oder mit 0.66.
+   wie vorher (UICheck-Vergleich).
+   ÄNDERUNG 21:08 (Nutzer: "im Hintergrund oder über einen Button anzeigen lassen anstelle dieser zum Teil hässlichen
+   Tooltips"): KEINE Shift-Tooltips für die Einzelheiten. Stattdessen EIN kleiner Knopf "Details" in der Buchhaltung
+   (einziges neues Element), der ein eigenes, ordentlich gesetztes Fenster öffnet: Handel / Eigenbedarf / Spielkosten /
+   Einnahmen / nicht zugeordnet, je heute/Woche/gesamt, mit der Gold-Abstimmung. Ohne Klick bleibt alles wie heute. Einordnen nach LT/SN1951, vor 0.66 oder mit 0.66.
