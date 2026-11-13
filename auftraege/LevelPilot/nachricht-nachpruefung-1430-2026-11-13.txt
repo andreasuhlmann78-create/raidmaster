@@ -1,0 +1,5 @@
+Neue Punkte der Prüf-Sitzung: git pull --rebase im raidmaster-Repo, dann auftraege/LevelPilot/offen-levelpilot.txt lesen
+(Abschnitt "NACHPRÜFUNG 13.11. 14:30"). Kurz: TU1–TU8 und BL in 3.12.26/3.12.27 sind erledigt, danke. Offen: TU9 (MITTEL) –
+es fehlt die Offline-Routine (Testroutine A–J im nachgebauten Spiel plus Wegnetz-Prüfung), Ablage
+berichte/LevelPilot/offline/ wie bei BuffSentinel und ThreatSentinel; CHANGELOG-Zeile "TU1–TU9" bis dahin richtigstellen.
+Und bitte nach jeder Version einen Bericht in berichte/LevelPilot/ ablegen (für 3.12.26/3.12.27 fehlt er).

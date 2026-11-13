@@ -175,3 +175,15 @@ HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Die Version muss höher sein als 0.9.32 (download/, announce/, CurseForge).
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/GuildSentinel/ ablegen.
+
+
+NACHPRÜFUNG 13.11. 14:30 (Prüf-Sitzung im Chat, Auftrag des Nutzers "prüfe ob alles umgesetzt wurde")
+------------------------------------------------------------------------------------------------
+Geprüft: 0.9.34 (06bc526) und 0.9.35 (b28c348) mit den Berichten -1240 und -1300. addon_check 0.9.35 OK
+(0 FEHLER, 0 WARNUNG). Diagnose 0.9.35 aus dem Spiel: "Fehler in dieser Sitzung: 0".
+Erledigt (im Code belegt, danke):
+- Punkt 2 (TU1-Rest): T270 mit den Lagen "Kanal verweigert Addon-Nachrichten", "Mitspieler mit alter Version",
+  "Gilde gewechselt" und den Funktionen Gruppensuche, Termine, Umfragen, Sync (TestRoutine.lua:3228–3248).
+- Punkt 3 BL1–BL4: ns.COMMANDS (Core.lua:764), ns.FindCommand, CmdHint.lua, T282–T287.
+- Punkt 4: raidReady.vorschlag (RaidReady.lua:238/350), T288.
+Freigegeben. Offen nur noch: IM CLIENT PRÜFEN (oben), dazu /gs tippen (Liste, Klick wählt, Enter führt aus).

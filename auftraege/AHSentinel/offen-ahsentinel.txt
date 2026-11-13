@@ -396,3 +396,16 @@ PD7-ENTSCHEID (Nutzer 13.11. 14:04: "mach das" = Variante a): Einträge des Prei
    erst wenn beim nächsten Login die Prüfung erneut OK ist, die Sicherung entfernen. Schlägt eine Prüfung fehl:
    automatisch zurück auf die Sicherung, Protokoll "PD7 zurückgesetzt" und Meldung an den Spieler. Dazu Befehl
    "/ahs pd7 zurück" (nur solange die Sicherung da ist). Test T-PD7c (Prüfung schlägt fehl -> Daten wie vorher).
+
+
+NACHPRÜFUNG 13.11. 14:30 (Prüf-Sitzung im Chat, Auftrag des Nutzers "prüfe ob alles umgesetzt wurde")
+------------------------------------------------------------------------------------------------
+Geprüft: 0.65.108 (11cb0b9) und 0.65.109 (13abe91) mit den Berichten -1230, -1338 und dem Gesamtstand -1401.
+addon_check 0.65.109 OK (0 FEHLER, 0 WARNUNG). Im Code belegt: T573–T583 vorhanden; MA1-B/RK2-B/MA2-B/FG (MK:ApplyRelease,
+MK:SalesReleased in MarketCore.lua, angewendet in UI_MarketView.lua:635); MH1310 in Heute (Comfort.lua:572),
+Tooltip (Tooltip.lua:647) und Wiederverkauf (AHAnalyzerPro.lua:1722); DG1300 D1 (Se:CancelForeign, Seller.lua:1383–1395:
+fremd/unerwartet/doppelt nur protokolliert); TT1317 (Protokoll MATERIAL-PREIS, Disenchant.lua:1149); BH1307 Kopf
+"Gewinn mit Einkauf". Die Antworten auf Teil B des Gesamtberichts stehen schon in nachricht-antwort-1401-2026-11-13.txt.
+Stand: alles bis einschliesslich 0.65.109 umgesetzt. Offen laut Releaseplan: 0.65.110 (in Arbeit, Auftrag 14:15), 0.66–0.68
+und die Client-Zahlen (Teil E des Gesamtberichts). Diagnose 0.65.108 aus dem Spiel: LANGSAM cache:warm-today 50 ms,
+fullscan 45 ms, sync-send 17 ms – gehört zu 0.65.110 D3, nichts Neues.

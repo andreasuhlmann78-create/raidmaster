@@ -113,3 +113,20 @@ BL (MITTEL, NEU 13.11. 07:45, Wunsch des Nutzers) – BEFEHLSLISTE BEIM TIPPEN M
        Handliste); T-BL2 Filter "/x w", "/x we" liefern genau die passenden; T-BL3 Klick wählt, Enter führt aus; T-BL4
        Chatfeld nie beschrieben; T-BL5 Entwickler-Befehle nur für den Entwickler; T-BL6 alle Sprachen ohne Platzhalter-
        Fehler. Alte Clients (Era, TBC) nicht brechen.
+
+
+NACHPRÜFUNG 13.11. 14:30 (Prüf-Sitzung im Chat, Auftrag des Nutzers "prüfe ob alles umgesetzt wurde")
+------------------------------------------------------------------------------------------------
+Geprüft: 3.12.26 (6114be2) und 3.12.27 (f1ff496). addon_check 3.12.27 OK (0 FEHLER, 0 WARNUNG). Diagnose 3.12.27
+aus dem Spiel: "Letzter Fehler: keiner".
+Erledigt (danke): TU1–TU8 (T269–T275, TR.TU-Zuordnung, Bericht je Bereich), BL1–BL4 (CmdHint.lua, T276–T281).
+NEU offen:
+- TU9 (MITTEL): Die Offline-Routine fehlt. Der CHANGELOG 3.12.26 sagt "TU1–TU9", es gibt aber keine Offline-Routine
+  (weder im Addon noch unter berichte/LevelPilot/). anweisung-tests-umfassend.txt TU9: Testroutine A–J im nachgebauten
+  Spiel (addon-check/ladetest.py), dazu Wegnetz-Prüfung als eigener Offline-Test. Ablage wie BuffSentinel/ThreatSentinel:
+  berichte/LevelPilot/offline/ (run_offline.py, ohne Argument die neueste announce/levelpilot__levelpilot-*.LevelPilot.zip,
+  Rückgabewert 1 bei FEHLER). CHANGELOG-Zeile richtigstellen, bis TU9 da ist.
+- BERICHT (NIEDRIG, Regel seit 12.11.): Zu 3.12.26 und 3.12.27 liegt kein Bericht in berichte/LevelPilot/. Bitte nach
+  jeder Version einen Bericht (Vorlage berichte/README.md: ERLEDIGT / TEILWEISE / FRAGEN / IM CLIENT GETESTET).
+Weiter offen: Punkt 1 (Wegpunkte und Strassen), IM CLIENT PRÜFEN wie oben, dazu /lp tippen (Liste, Klick wählt, Enter
+führt aus) und /lp testroutine mit den TU-Zeilen.

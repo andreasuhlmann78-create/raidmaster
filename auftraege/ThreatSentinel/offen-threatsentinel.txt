@@ -84,3 +84,16 @@ BL (MITTEL, NEU 13.11. 07:45, Wunsch des Nutzers) – BEFEHLSLISTE BEIM TIPPEN M
        Handliste); T-BL2 Filter "/x w", "/x we" liefern genau die passenden; T-BL3 Klick wählt, Enter führt aus; T-BL4
        Chatfeld nie beschrieben; T-BL5 Entwickler-Befehle nur für den Entwickler; T-BL6 alle Sprachen ohne Platzhalter-
        Fehler. Alte Clients (Era, TBC) nicht brechen.
+
+
+NACHPRÜFUNG 13.11. 14:30 (Prüf-Sitzung im Chat, Auftrag des Nutzers "prüfe ob alles umgesetzt wurde")
+------------------------------------------------------------------------------------------------
+Geprüft: 2.5.10 (628576a) mit Bericht berichte/ThreatSentinel/2026-11-13-1330-version-2.5.10.txt.
+addon_check 2.5.10 OK (0 FEHLER, 0 WARNUNG). Offline-Routine (berichte/ThreatSentinel/offline/routine_offline.py,
+ausgepackter Ordner): FEHLER ausserhalb der Nachbildungs-Liste 0. Diagnose 2.5.10 aus dem Spiel: 0 Fehler.
+Erledigt (danke): TU1–TU9 (Bereich U, TestRoutineTU.lua, R.REGRESSIONS 41 von 41, Grundregel-Wächter T:CheckRules),
+BL1–BL4 (ns.COMMANDS, CmdHint.lua nur HookScript, T-BL1–T-BL6).
+Kleinigkeit (NIEDRIG): routine_offline.py nimmt nur einen ausgepackten Ordner; mit einer ZIP als Argument bricht es ab
+(NotADirectoryError). Bitte ZIP annehmen oder ohne Argument die neueste download/ThreatSentinel-*.zip nehmen (wie BuffSentinel).
+Weiter offen: Punkt 1 (gemeinsamer Sync, wartet auf den Nutzer); IM CLIENT PRÜFEN wie oben, dazu /ts testroutine mit
+Bereich U ("Regressionen: 41 von 41 vorhanden"), TU5-E2 (Testprotokoll eines echten Kampfs), TU7-K1 Skalierung.

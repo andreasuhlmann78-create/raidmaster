@@ -123,3 +123,22 @@ BP-2026-11-13-1 (MITTEL, NEU 13.11., im Repo nachgetragen 14:15 – Blizzard-Hot
    Maelstrom (maelstrom_f ohne minStacks): prüfen, ob die Stapel-Warnung mit der neuen Auslöserate noch passt.
    Test T-BP-1113-1 (bleibend): Attrappe GetWeaponEnchantInfo mit Fall a/b/c -> Erinnerung nur, wenn das eigene Imbue
    fehlt; Fall "unbekannte ID" -> heutiges Verhalten (keine falsche Warnung).
+
+
+NACHPRÜFUNG 13.11. 14:30 (Prüf-Sitzung im Chat, Auftrag des Nutzers "prüfe ob alles umgesetzt wurde")
+------------------------------------------------------------------------------------------------
+Geprüft: 0.9.15 (e55dba3) und 0.9.16 (09562b0) mit Bericht berichte/BuffSentinel/2026-11-13-1237-befunde-tu-bl.txt.
+addon_check 0.9.16 OK (0 FEHLER, 0 WARNUNG). Offline-Routine (berichte/BuffSentinel/offline/run_offline.py, 0.9.16):
+alle Kombinationen RESULT PASS, TU1–TU7 je 0 FEHLER. Diagnose aus dem Spiel: keine neuen Fehler.
+Erledigt (im Code belegt, danke):
+- Punkt 1: "Namen teilen" ist Hauptschalter (Names.lua:229), Netz-Option ausgegraut, Regression T158.
+- Punkt 2: L.ON/L.OFF (Options.lua:435), T159. Hinweis T152 ("joins") erledigt.
+- TU1–TU9: Bereiche L–S, T200–T255, Regressionen T158–T162, Offline-Routine TU9.
+- BL1–BL4: eine Tabelle BS.COMMANDS (Core.lua:1452), CmdHint.lua ohne Schreibzugriff aufs Chatfeld, T170–T175.
+Antwort auf die Frage: berichte/BuffSentinel/offline/ ist als Ort richtig (ThreatSentinel macht es genauso). So lassen.
+Weiter offen:
+- BP-2026-11-13-1 (MITTEL) -> 0.9.17, siehe oben (zuerst im Client messen).
+- TU1-Rest (NIEDRIG): Lage "Proc mit Restzeit" als eigene Lage prüfen (nicht nur Anzeige); "Gruppenbuff von anderen"
+  bitte als eigene Lage in T201 aufnehmen (Buff vorhanden, aber von einem anderen Spieler -> keine Erinnerung).
+- TU7-Rest: echte UI-Skalierung nur im Client (Bereich K bei 80 % und 150 %).
+- Punkt 3 IM CLIENT PRÜFEN, dazu: /bsen tippen (Liste, Klick wählt, Enter führt aus) und Testroutine mit TU-Zeilen.

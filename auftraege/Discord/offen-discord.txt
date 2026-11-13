@@ -80,3 +80,25 @@ HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Versionen höher als Bot 1.5.125.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/Discord/ ablegen.
+
+
+NACHPRÜFUNG 13.11. 14:30 (Prüf-Sitzung im Chat, Auftrag des Nutzers "prüfe ob alles umgesetzt wurde")
+------------------------------------------------------------------------------------------------
+Geprüft: Bot 1.5.126 (08320f4) und 1.5.127 (56bad0d) mit den Berichten -1240 und -1300. Bot-Tests hier: 178/178 OK.
+Erledigt (danke): RP-D2 (build/trans, TBC-Kürzel), RP-D3 (Stand > 7 Tage mit Datum, > 14 Tage nicht gepostet), R1-T
+(Funktionstest tests/test_raid_post.py, TU6 14 von 14), Namen in Kommentaren, 1.5.127 gelöschter #gildenname ohne Warnung.
+NEU offen:
+D-GS1 (MITTEL, Hinweis aus berichte/RaidMaster/2026-11-13-1240) – RAIDFÄHIGKEIT KOMMT OHNE GILDENBANK NIE AN.
+   raidmaster_data.check_guildsentinel_upload (raidmaster_data.py:2094–2107) verwirft GuildSentinel.lua ohne
+   Gildenbank-Bestand ("kein Gildenbank-Bestand"). Seit Uploader 2.3.3 (RP-U) kommen nur bank + raidReady; hat eine Gilde
+   noch keinen Bank-Charakter, bekommt RP-D nie Daten. Lösung: Datei annehmen, wenn bank ODER raidReady da ist; nur
+   den vorhandenen Teil verarbeiten (Bank-Kanal unverändert, wenn bank fehlt). Test T-D-GS1: nur raidReady -> angenommen,
+   Raidfähigkeit gepostet, Gildenbank-Nachricht unverändert; weder noch -> abgewiesen wie bisher.
+D-UP1 (MITTEL, Hinweis aus berichte/RaidMaster/2026-11-13-1245/-1250) – /uploader VERTEILT EINE ALTE FASSUNG.
+   Der Bot hat sich um 12:15 auf 1.5.127 aktualisiert; Uploader 2.3.4 (12:34) und 2.3.5 (12:47) kamen danach. /uploader
+   schickt die ZIP aus ADDON_DIR (bot.py:5013), also bis zum nächsten /update eine alte Fassung. Am Laptop wurde so 2.3.2
+   über 2.3.4 entpackt.
+   Lösung: (a) Nach jeder Uploader-Veröffentlichung /update auslösen bzw. das Selbst-Update übernimmt neue
+   download/RaidMasterUploader.zip auch ohne neue Bot-Version. (b) /uploader nennt in der Antwort die Version der ZIP
+   (aus uploader.py VERSION in der ZIP) und warnt, wenn sie älter ist als im Repo. Test T-D-UP1 (Versionsvergleich).
+   Danach live prüfen: /uploader liefert 2.3.5. Bis dahin den Nutzer nicht über /uploader aktualisieren lassen.

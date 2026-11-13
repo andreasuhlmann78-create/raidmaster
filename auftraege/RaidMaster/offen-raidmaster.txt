@@ -138,3 +138,15 @@ T-DU12 (HOCH, NEU 13.11. 12:10 – ersetzt U-UP; Bild des Nutzers 12:03, Rechner
    Tests: T-DU12a Sperre ohne PID -> übernehmen; T-DU12b PID tot -> übernehmen; T-DU12c PID lebt, aber anderer Prozess
    (PID wiederverwendet) -> übernehmen; T-DU12d echter zweiter Uploader -> Meldung + Angebot; T-DU12e alte 2.3.1-Statusdatei.
    Bericht in berichte/RaidMaster/ mit dem Ergebnis von 1 und 2.
+
+
+NACHPRÜFUNG 13.11. 14:30 (Prüf-Sitzung im Chat, Auftrag des Nutzers "prüfe ob alles umgesetzt wurde")
+------------------------------------------------------------------------------------------------
+Geprüft: Addon 3.0.24 und Uploader 2.3.3, 2.3.4, 2.3.5 mit den Berichten -1240, -1245, -1250.
+addon_check RaidMaster-3.0.24.zip OK (0 FEHLER, 0 WARNUNG). Uploader-Tests hier nachgelaufen: test_daten 12, test_sync 38,
+test_umfassend 14, test_uploader 18 – alle grün. download/RaidMasterUploader.zip = 2.3.5.
+Erledigt (danke): U2, RP-U (nur bank + raidReady), BL (RM.COMMANDS, CmdHint.lua, T166–T171), TU (Uploader
+test_umfassend + Addon Bereich L T172–T179, Fund minBid/bidIncrement/auctionTime behoben), T-DU12 (Sperre nur mit
+lebendem uploader.py, J/N-Angebot, Beleg am Laptop 12:49), Lehre 2.3.5 (Warnung bei älterer Fassung, Anleitung).
+Freigegeben. Offen: TU2/TU7-Rest nur im Client; PC noch auf älterem Uploader – erst aktualisieren, wenn /uploader 2.3.5
+liefert (Discord-Projekt, Punkt D-UP1 in Discord/offen-discord.txt).

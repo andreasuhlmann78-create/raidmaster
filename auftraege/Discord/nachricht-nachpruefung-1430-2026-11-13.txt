@@ -1,0 +1,7 @@
+Neue Punkte der Prüf-Sitzung: git pull --rebase im raidmaster-Repo, dann auftraege/Discord/offen-discord.txt lesen
+(Abschnitt "NACHPRÜFUNG 13.11. 14:30"). Kurz: RP-D2, RP-D3, R1-T und 1.5.127 sind erledigt, danke. Neu, beide MITTEL:
+D-GS1 – check_guildsentinel_upload verwirft GuildSentinel.lua ohne Gildenbank, dadurch kommt die Raidfähigkeit (RP-D)
+ohne Bank-Charakter nie an; annehmen, wenn bank ODER raidReady da ist (Test T-D-GS1).
+D-UP1 – /uploader verteilt noch eine alte Uploader-Fassung (Bot-Update 12:15, Uploader 2.3.5 kam 12:47); neue
+download/RaidMasterUploader.zip auch ohne neue Bot-Version übernehmen, /uploader nennt die Version und warnt bei älterer
+Fassung (Test T-D-UP1). Danach live prüfen, dass /uploader 2.3.5 liefert.

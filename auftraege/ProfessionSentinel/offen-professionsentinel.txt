@@ -118,3 +118,16 @@ IM CLIENT PRÜFEN (mit 0.9.42 und AHSentinel 0.65.104)
 Wie immer: komplette Dateien, Era/TBC/Retail nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
 Jeder Befund bekommt einen bleibenden Test T-<ID> (auftraege/README.md).
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/ProfessionSentinel/ ablegen.
+
+
+NACHPRÜFUNG 13.11. 14:30 (Prüf-Sitzung im Chat, Auftrag des Nutzers "prüfe ob alles umgesetzt wurde")
+------------------------------------------------------------------------------------------------
+Geprüft: 0.9.43 (fed03e6, Quell-Repo 7fe81e4) mit Bericht berichte/ProfessionSentinel/2026-11-13-1215-version-0.9.43.txt.
+addon_check 0.9.43 OK (0 FEHLER, 0 WARNUNG). Diagnose 0.9.43 aus dem Spiel: keine neuen LANGSAM-Einträge (nur alte von 0.9.37).
+Erledigt (danke): Punkt 5 – fremde Addons nur über ns.Foreign/ns.foreignTest, Stub() weist fremde Globals und echte
+API-Tabellen ab, T265, Regressionen 60 von 60.
+Punkt 1 (BL3/BL4): Die Frage "CmdHint als shared/GoldSentinelCmdHint.lua?" ist berechtigt. Befund dazu: Die anderen
+fünf Addons haben den Baustein inzwischen je angepasst kopiert (sechs verschiedene CmdHint.lua, 301–368 Zeilen) – genau
+das, was "nicht jedes Addon eine eigene Lösung" verhindern sollte. Der Entscheid liegt beim Nutzer; die Antwort kommt in
+diese Datei. Bis dahin BL3/BL4 nicht selbst bauen.
+Weiter offen: Punkt 2 (im Client), Punkt 3 (T145 im Client), Punkt 4 (wartet auf AHSentinel MaterialCost mit Leiter).
