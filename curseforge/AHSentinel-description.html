@@ -7,6 +7,14 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.111</h3>
+<p>Immediate fix of distorted numbers (your decision):
+- <strong>Disenchant value = achievable price:</strong> your own disenchants measured that the material prices were assumed ~43 %
+  too high (loot/prediction 0.60). The disenchant value is now corrected per group by this measured factor – for
+  "worth up to", Sniper, Market, tooltip and Today. The tooltip shows "material prices corrected ×0.57".
+- <strong>Sales per day: measured before estimated</strong> everywhere; an implausible estimate without a measurement now shows as
+  unknown instead of an inflated number.
+- Tests T240 (deposit on non-sale) and Today's sort check fixed; tests T589–T591.</p>
 <h3>Version 0.65.110</h3>
 <p>Smoothness and reliability:
 - <strong>Compact price history (PD7, your decision):</strong> entries older than 48 h are saved in a compact form – in the game the
@@ -82,19 +90,7 @@
   auction mail with any sender.</li>
 <li>Tests T556–T572 (T-RK2a/b, T-Ü3b, T-SB1–T-SB6, T-BL1/5/6, T-API-PM2/PM3, T-TU5, T-TU7, T-BP-1113-1).</li>
 </ul>
-<h3>Version 0.65.106</h3>
-<ul>
-<li><strong>Market core, step 1 "trust" (measurements for the new market tab):</strong></li>
-<li>Every shown buy recommendation (flip, vendor, disenchant from the Market tab, Sniper hits) is remembered and checked
-    24 hours later against the scan: hit rate and mean error per way. A way with at least 20 cases and less than 60 %
-    hits is locked automatically (log "WEG GESPERRT"); below 20 cases it shows "still learning".</li>
-<li>Sale vs. cancel: when one of your own auctions disappears with a long remaining time, the detection guesses "sold"
-    or "re-posted"; the real cause (sale / your cancel) gives its error rate – the basis for releasing sales numbers.</li>
-<li>Vendor prices: how many were confirmed by the game and how many differed from the remembered table.</li>
-<li>New test report section "MARKT-KERN" with these numbers, limits marked "VERFEHLT" (missed).</li>
-<li>Tests T550–T555 (T-MA1–T-MA3, T-Ü1–T-Ü3).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

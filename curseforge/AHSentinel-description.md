@@ -12,6 +12,16 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.111
+
+Immediate fix of distorted numbers (your decision):
+- **Disenchant value = achievable price:** your own disenchants measured that the material prices were assumed ~43 %
+  too high (loot/prediction 0.60). The disenchant value is now corrected per group by this measured factor – for
+  "worth up to", Sniper, Market, tooltip and Today. The tooltip shows "material prices corrected ×0.57".
+- **Sales per day: measured before estimated** everywhere; an implausible estimate without a measurement now shows as
+  unknown instead of an inflated number.
+- Tests T240 (deposit on non-sale) and Today's sort check fixed; tests T589–T591.
+
 ### Version 0.65.110
 
 Smoothness and reliability:
@@ -90,18 +100,6 @@ Fixes wrong numbers from the big test of 0.65.108:
   ("GRUNDREGEL VERLETZT"). New tests for market-core releases (59 % locked, 61 % free, 19 cases learning) and for
   auction mail with any sender.
 - Tests T556–T572 (T-RK2a/b, T-Ü3b, T-SB1–T-SB6, T-BL1/5/6, T-API-PM2/PM3, T-TU5, T-TU7, T-BP-1113-1).
-
-### Version 0.65.106
-
-- **Market core, step 1 "trust" (measurements for the new market tab):**
-  - Every shown buy recommendation (flip, vendor, disenchant from the Market tab, Sniper hits) is remembered and checked
-    24 hours later against the scan: hit rate and mean error per way. A way with at least 20 cases and less than 60 %
-    hits is locked automatically (log "WEG GESPERRT"); below 20 cases it shows "still learning".
-  - Sale vs. cancel: when one of your own auctions disappears with a long remaining time, the detection guesses "sold"
-    or "re-posted"; the real cause (sale / your cancel) gives its error rate – the basis for releasing sales numbers.
-  - Vendor prices: how many were confirmed by the game and how many differed from the remembered table.
-  - New test report section "MARKT-KERN" with these numbers, limits marked "VERFEHLT" (missed).
-- Tests T550–T555 (T-MA1–T-MA3, T-Ü1–T-Ü3).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
