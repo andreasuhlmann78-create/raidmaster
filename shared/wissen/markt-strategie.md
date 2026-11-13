@@ -245,6 +245,10 @@ Um zu erfahren, ob ein höherer Preis noch verkauft, gelegentlich leicht höher 
   (Absatz eher unterschätzt). Zusammenfassung je Item (ID, tiefster Stückpreis, Menge, Auktionen): 99'505 Zeichen =
   415 Addon-Nachrichten -> Gilde 5/s: 83 s, Flüstern 40/Min.: 10,4 Min. je Empfänger (gildenübergreifend nur Änderungen).
   Offen: Vergleich nach 30–60 Min. (Absatz, M1b), zweiter Abruf vor 15 Min. (M1c), Mitlesen eines AHSentinel-Vollscans.
+  **M1c Nachtrag 16:42:** AHSentinel 35 Min. -> keine Antwort; dazwischen hatte GSMesstest um 15:41 abgerufen ->
+  Drossel gilt sehr wahrscheinlich je CLIENT (alle Addons zusammen), Abstand ab dem letzten Abruf irgendeines Addons.
+  **Vollscan-Ruckeln = Speicherbereinigung (16:42):** AHSentinel eigene Rechenzeit je Portion ≤ 5 ms, aber Lücken bis
+  821 ms bei 56 Speicherbereinigungen und +53 MB -> weniger Tabellen/Zeichenketten je Auktion; nie zweimal lesen.
   **M1c belegt (AHSentinel 0.65.110, 13.11. 15:22, 8 Abrufe):** nach 15 Min. KEINE Antwort (90 s), nach 24–291 Min.
   immer neue Liste (9,5–14,9 s). -> Vollscan höchstens alle ~20 Min. je Spieler; für "stündlich" reicht 1 Spieler.
   **13.11. 15:41 GEMESSEN (GSMesstest 5.1, Vergleich über 25 Min., 249'646 -> 257'538 Auktionen, 6'140 Items):**

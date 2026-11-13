@@ -529,3 +529,27 @@ Weiter aus den Berichten 15:12/15:23 (nur Zahlen, nicht doppelt – TB110 der Ch
    vorhergesagt Ø 98 %, verkauft 30–31 % (58 Fälle); 60–80 %: vorhergesagt Ø 68 %, verkauft 29 % (19 Fälle); Brier 0.552.
    Das bestätigt die Kalibrierungs-Befunde (TB108/TB110) – keine zusätzliche Aufgabe, aber eine Prognose, die so weit
    daneben liegt, darf nirgends als "sicher" angezeigt werden (Teil D: Weg unter 60 % ab 20 Fällen sperren).
+
+TS111 (HOCH, NEU 13.11. 16:50 – Teil server 0.65.111, Lauf 16:42 vom Nutzer: 59 OK · 3 FEHLER · 4 übersprungen):
+   1. VOLLSCAN RUCKELT STARK (T458, T459, T126): Einlesen längster Frame 821 ms, 449 von 2309 Frames über 33 ms,
+      Bilder/s im Einlesen bis 25, in Verfolgung V4/Preisverlauf 28–30; Speicher AHSentinel +53 MB, 56 SPEICHER-
+      BEREINIGUNGEN; T126 längste Portion 40,6 ms. Gleichzeitig meldet M1d "längster Frame 5,0 ms in 959 Portionen" –
+      die eigene Rechenzeit ist also klein, die Lücken von bis zu 821 ms kommen sehr wahrscheinlich von der
+      SPEICHERBEREINIGUNG (Garbage Collector) wegen vieler neuer Tabellen/Zeichenketten je Auktion. Bitte messen
+      (collectgarbage("count") je Portion, Lücke vs. GC) und Zuwachs senken: Tabellen wiederverwenden, keine Zeichenkette
+      je Auktion (Signatur als Zahl, z. B. itemID*2^20+Menge … oder je Item zählen), Zwischentabellen nach dem Scan
+      freigeben. Ziel bleibt T458 ≤ 16 ms je Frame, T459 ≤ 10 MB / ≤ 1 Bereinigung. Gehört in 0.65.112 (Ruckeln).
+      WICHTIG für MN5: Wenn GoldSentinelMarkt im selben Client mitliest, darf der Scan NICHT zweimal gelesen werden.
+      Die Prüf-Sitzung ergänzt GoldSentinelMarkt um GSMarkt.Feed(...) (AHSentinel gibt seine gelesenen Werte weiter,
+      GSMarkt liest dann nicht selbst) – Meldung folgt; bis dahin MN1 nicht einbauen.
+   2. LERNFAKTOR KREISRECHNUNG (seit 0.65.111): "gelernter Faktor je Gruppe" steht jetzt überall auf 1.00 (vorher
+      Staub 0.48, Leder 0.39 …), und im "Vergleich (20 meistgehandelte)" ist "geschätzt" bei JEDEM Item genau die Hälfte
+      von "gemessen" (z. B. 2589 1764.2 / 882.1). Die Schätzung im Vergleich und für den Lernfaktor muss die
+      UNABHÄNGIGE Schätzung (.estimate) bleiben, sonst misst sich der Faktor selbst (wie beim Journal in S1 richtig
+      gelöst). Test: Faktor aus unabhängiger Schätzung, Vergleichsspalte "geschätzt" ≠ gemessen × fester Faktor.
+   3. LAGERWERT SPRINGT: Buchhaltung "Lager Einstand 10034 / Markt 165030 (22 Items)" – um 15:22 war es "Markt 13370"
+      für dieselben 22 Items (×12 in 1½ Std.). Bitte prüfen, welches Item den Sprung macht (Preisquelle, Einheit
+      Stapel/Stück, Ausreisser) und den Lagerwert mit der Preisregel "erzielbar" rechnen.
+   4. Wissen (keine Aufgabe): M1c 35 Min. -> keine Antwort, 52 Min. -> neue Liste. Dazwischen hatte GSMesstest (15:41)
+      abgerufen -> die Drossel gilt sehr wahrscheinlich je CLIENT für alle Addons zusammen (wichtig für den Wächter/
+      Scan-Plan: Abstand ab dem letzten Abruf irgendeines Addons messen; REPLICATE-Ereignis fremder Abrufe mitzählen).
