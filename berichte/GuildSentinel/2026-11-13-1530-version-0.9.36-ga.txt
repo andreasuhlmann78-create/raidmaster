@@ -1,0 +1,26 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 · Sitzung: GuildSentinel-Projekt-Sitzung · Version: 0.9.36 · Commit: GuildSentinel 9f1fff3
+
+ERLEDIGT (GA, HOCH):
+- GA1 Altersfrage: ns.db.minAge (Standard 16, 0 = aus; Rekrutierung > Texte: Feld "Mindestalter", Absage-Text
+  ns.db.ageRejectText mit {spieler}/{gilde}/{alter}). Rc:Questions() hängt "Wie alt bist du?" IMMER als letzte Frage an
+  (out.age), auch an eigene Listen – die Standardliste hat damit 5 Fragen (Abweichung: nicht als 5. Zeile in
+  DefaultQuestions, sonst stünde sie bei Standardfragen doppelt). Rc.AgeCheck: genau eine Zahl 5–99 -> ok/young;
+  keine/mehrere Zahlen oder "bald/fast/soon/almost/почти/곧/快 …" -> unclear. young: Absage per ns.Chat (Testmodus
+  [Test]), st = "agedecl" ("abgelehnt (Alter)"), keine weiteren Fragen, Rc:Invite + Knopf gesperrt; AddApplicant setzt
+  agedecl nicht zurück. unclear: Status-Spalte "Alter unklar". Gespeichert nur a.age = ok/young/unclear und
+  qa = Ergebnis-Text, nie Zahl oder Antwort; Bewerber werden nicht gesynct; kein Diagnose-Eintrag.
+- GA2 Werbetext: Rc:DefaultAd(phase) – Phase Aufbau eigener Standardtext "… ist im Aufbau und sucht {gesucht} …"
+  (alle Sprachen), sonst wie bisher. Platzhalter {phase} = im Aufbau / fast raidbereit / raidbereit (Platzhalter-Liste
+  und Hinweis ergänzt). Rc:OwnAdWithoutWanted -> gelber Hinweis + Knopf "Übernehmen" (setzt adText = nil = Standard der
+  Phase). Fertiger Chat-Text "Im Chat: …" direkt über dem Knopf "Werbung vorbereiten".
+- Tests: T289a–e (17 weiter, 15 Absage + gesperrt, "bald 16" unklar, Mindestalter 0 keine Frage, Alter nirgends
+  gespeichert), T290a–c (Aufbau-Standardtext, Hinweis bei eigenem Text, Phase Raid gezielt). Offline run_v5: Ablauf
+  mit 17/15/"bald 16" über echte Flüsternachrichten (Frage 5/5, Absage-Text, Einladen gesperrt, Alter nicht in den
+  Daten). Regressionen GA1-Alter, GA2 in R.REGRESS.
+- Nutzer am PC: testberichte/diagnose/GuildSentinel/0.9.35-fd9b26ffc872.txt -> der Nutzer hatte 0.9.35 im Spiel.
+
+PRÜFUNGEN: addon_check OK (Lua-Syntaxprüfung mit: luac5.1 (Lua 5.1)). Routine Forever OK 271, Era/TBC OK 276, je
+FEHLER 0; alle übrigen Testläufe 0 fehlgeschlagen; Werbetext alle 11 Sprachen x 4 Fälle sauber (adcheck).
+IM CLIENT PRÜFEN: Rekrutierung > Texte: Feld Mindestalter + Absage-Text; Werbung: Vorschau "… ist im Aufbau …", Zeile
+"Im Chat:" über dem Knopf (überlappt die Erinnern-Zeile nicht?), eigener Text ohne {gesucht} -> gelber Hinweis.

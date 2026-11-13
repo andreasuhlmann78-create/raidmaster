@@ -10,6 +10,13 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.36
+
+- New (GA1): age question "How old are you?" for applicants. With a minimum age set (Recruitment > texts, default 16, 0 = off) it is ALWAYS asked as the last question, also with your own question list. Answer "17", "I'm 17", "17 years" -> continues normally. Below the minimum age: a friendly whisper ("Thanks for your interest in <guild>! Unfortunately we only accept players aged 16 and over. Have fun in Azeroth!" – text adjustable), status "declined (age)", "Invite to guild" blocked. No number or "soon 16" -> no automatic decline, status "age unclear" for an officer.
+- Privacy: the exact age and the answer text are never stored, shared or logged – only "16+" / "under 16" / "unclear".
+- New (GA2): in recruitment phase Build-up the default ad says so: "<guild> (faction) is being built up and is looking for players of all classes – relaxed, helpful, raid goal …". New placeholder {phase} ("being built up" / "almost raid-ready" / "raid-ready"). An own ad text without {wanted} or {phase} gets a yellow hint with an "Apply" button (takes the phase's default text). The finished chat text is shown right above the "Prepare ad" button.
+- Developer tests: T289a–e (T-GA1a–e), T290a–c (T-GA2a–c); offline flow with ages 17 / 15 / "bald 16".
+
 ### Version 0.9.35
 
 - The summary for the uploader and the Discord bot (GuildSentinelDB.raidReady, written on logout) now has the field "vorschlag": the recruitment phase GuildSentinel currently suggests ("build" / "trans" / "raid", same words as "phase"); missing when no suggestion is open or it was put off with "Later". No names. The bot can then post "GuildSentinel suggests phase … – confirm in the game".
@@ -38,16 +45,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
   - TU6 regressions: every finding since 1 Nov has a permanent test; report "Regressions: n of m" (T276). TU8 report line per area (T279). T280 for RV7.
 - Protected guild functions that would run through ns.Act are now counted as an error in the routine as well.
 - No changes for players.
-
-### Version 0.9.31
-
-- New: recruitment in phases (Members > Line-up). Build-up (default for every guild): {wanted} in the ad becomes "players of all classes" – the line-up is not used. Transition: "players of all classes, especially <up to 3 gaps>". Raid: the gaps of the line-up, as before. Your own ad texts stay; {wanted} follows the phase.
-- The line-up targets are never deleted, converted or overwritten; the page says "the targets above apply from phase Raid". Only the Guild Master and officers can change them, every change is logged with name and time (last 50, in the game only).
-- Raid readiness for a target raid (Onyxia's Lair 40, Molten Core 40, Barrow Deeps 10, Hyjal Summit 20 and more; TBC: Karazhan 10, Gruul 25 …): active mains (level ≥ line-up minimum and online in the last 14 days; alts only with "count alts") against raid size, plus tanks and healers (from the line-up, scaled to the raid size; otherwise size/10 and size/5). Shown on Line-up, Recruitment and Overview: "Raid-ready (Onyxia's Lair): 23 of 40 active at level 55+ · Tanks 2/4 · Healers 5/10 · Phase Build-up", with an estimate from the levelling race ("at the current pace in ~x weeks", or "still measuring" with less than 7 days of data).
-- From 60 % officers get the suggestion "Transition", from 100 % "Raid" (in the window and once in officer chat, said by one only) with "Confirm" / "Later". Nothing switches automatically. Back only after 7 days below the threshold of the current phase.
-- Chronicle milestone "Guild is raid-ready (<raid>)", optional guild chat announcement (Settings, on by default, said by one only).
-- On logout a summary without names is stored for the uploader and the Discord bot (GuildSentinelDB.raidReady).
-- Developer test routine: T261–T269 (T-RP1–T-RP9) new; T244/T246 now run in phase Raid.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
