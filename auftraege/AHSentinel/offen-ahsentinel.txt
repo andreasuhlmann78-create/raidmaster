@@ -579,3 +579,24 @@ PX (HOCH, NEU 13.11. 21:42 – Entscheid des Nutzers "alles" zu den Vorschlägen
       und Kurzformen annehmen ("snipe", "snip" -> sniper). Test T-SNT.
       Ausserdem steht das Ziel noch auf "Budget übrig 6g 24s" (SN2115a) – bitte prüfen, ob 0.65.116 den Wert beim
       Laden korrigiert oder der Spieler ihn von Hand setzen muss, und das im Bericht sagen.
+
+TS116 (SEHR HOCH, NEU 13.11. 21:52 – Testteil sniper 0.65.116, Lauf 21:47 des Nutzers: 5 OK · 2 FEHLER · 1 SKIP):
+   1. KERNBEFUND SNIPER: In 120 s Beobachtung genau EINE Suche ("Suchen 1"), 0 Treffer (T613), Reaktionszeit nicht
+      messbar (T618), Testkauf ohne Kauf übersprungen (T616: "keine Raste oder kein Treffer"). Das passt zum Alltag:
+      Ø Reaktion 69–73 s, "keine Treffer", "rechts erscheint nichts". Der Sniper SUCHT ZU SELTEN.
+      Bitte im Bericht klar beantworten: Wodurch wird eine Suche ausgelöst – nur durch eine Mausrad-Raste/Taste
+      ("jede Raste macht den nächsten Schritt") oder auch selbsttätig im Takt? Braucht Forever für SendSearchQuery/
+      SendBrowseQuery einen Tastendruck (Hardware-Ereignis)? Messen und belegen (Protokoll).
+      - Wenn Suchen OHNE Tastendruck erlaubt sind: Sniper sucht selbsttätig im Takt (Ziel: neues Angebot < 5 s
+        sichtbar, mehrere Ziele im Wechsel), nur der KAUF braucht die Raste.
+      - Wenn jede Suche einen Tastendruck braucht: das im Sniper oben deutlich sagen ("zum Suchen und Kaufen
+        scrollen"), jede Raste sucht, wenn kein Treffer da ist, und kauft, wenn einer da ist; der Testteil sagt dem
+        Spieler am Anfang "jetzt 2 Min. langsam scrollen" und zählt Rasten; T618 misst dann Raste -> Anzeige.
+   2. VOLLSCAN besser, Ziel noch nicht erreicht (RF): längste Lücke 155 ms (vorher 821), Speicherbereinigungen 8
+      (vorher 56), Zuwachs +31 MB (vorher +53), Einlesen bis 152 ms, Preisverlauf+Neuaufbau 111 ms. Ziel ≤ 16 ms,
+      ≤ 1 Bereinigung, ≤ 10 MB.
+   3. FRAGE: "Kauf-Sicherheit: Entzaubern Marge 10 % (N 453)" – um 16:42 waren es 41 %. Warum gesunken? Mit einer
+      Entzauber-Gewinnquote von 43 % und Gewinn je Gold 0,35 wirkt 10 % zu wenig Sicherheit. Bitte begründen.
+   4. Bestätigt im Spiel: Lernfaktoren wieder echt (Staub 0,43 …), Lagerwert plausibel (Einstand 12724 / Markt 12663,
+      grösste Posten sichtbar) – TS111.2/TS111.3 erledigt, danke.
+   5. Wissen: M1c 15 Min. -> diesmal neue Liste (21,2 s), früher keine Antwort -> Drossel liegt um 15–20 Min., schwankt.
