@@ -12,6 +12,18 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.105
+
+- **No more posting too cheap when the market rises 125–150 %.** With a full price ladder (≥ 3 offers or ≥ 5 pieces)
+  the suggestion is always just below the cheapest offer; your old learned price only applies to single outliers.
+- **Warning guard (on by default):** clicking "Post" with a price more than 10 % below the cheapest offer (full ladder),
+  more than 25 % below market value, or below the vendor/your purchase price: nothing is posted – raid warning sound,
+  the button flashes red and a window asks: "Adjust price (…)" (Enter) / "Post anyway" / "Cancel", showing how much
+  you would give away. Series and re-posting are stopped the same way. Buying above the target's max price, above
+  "Worth up to" or more than 25 % above market value (without buyout) warns too – press again within 10 s to buy
+  anyway. Options: warning guard on/off, sound on/off. Every warning is logged (WARNSCHUTZ).
+- Tests T542–T549 (T-AB4d, T-WS1–T-WS6).
+
 ### Version 0.65.104
 
 - **Command list while typing "/ahs": a mouse click now selects a command, Enter runs it.** The list stays open after the
@@ -66,22 +78,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Sniper quantity empty:** commodities buy as many as the budget allows ("Quantity: up to budget (N pcs)"), gear 1.
   Warning when quantity × max price is far below the budget.
 - Tests T509–T512 (T-AB4c-a/b, T-SM1, T-SM2).
-
-### Version 0.65.100
-
-- **Price history is compacted (smaller save file).** Full detail for 48 hours, then one value per hour up to 7 days,
-  then one value per day up to 60 days; older entries are dropped. Items without new prices for 30 days keep only
-  daily values. A compacted value is the median of that hour/day, so market values stay the same. Runs in small steps
-  90 s after login; the test report shows the estimated size per area and the last compaction.
-- **Duplicate repair is safe for commodities:** only "pending" bookings close in time are removed, never completed
-  sales (one auction of a commodity is often sold piece by piece at the same price). Removed bookings are kept in a
-  side list, and every repair is stored with date, version and count (test report).
-- **Full scan check no longer locks forever:** the reference count expires after 24 hours, and two full scans in a row
-  with a similar smaller count are accepted (market really smaller).
-- **Old purchase price after a restart:** only counted from the oldest entry the disenchant log still covers.
-- **Buyout:** the test log notes both prices when a buy calculation uses the price before the buyout.
-- Tests: material prices in the test sandbox are always fresh (T223/T230/T425 no longer depend on your real prices);
-  new T502–T508 (T-VF5f, T-MP2b, T-PD5c, T-PD7a, T-MP1, T-AB8c, T-AB4b).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
