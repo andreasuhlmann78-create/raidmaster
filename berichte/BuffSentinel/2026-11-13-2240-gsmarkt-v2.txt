@@ -1,0 +1,13 @@
+BERICHT BUFFSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 22:40 · Sitzung: BuffSentinel-Sitzung · Version: 0.9.19 (a85ba0b)
+
+UMGESETZT, ZUR PRÜFUNG:
+- nachricht-gsmarkt-v2-2026-11-13.txt: shared/GoldSentinelMarkt.lua Version 2 unverändert kopiert (byte-gleich, cmp),
+  sonst nichts geändert (nur Version, CHANGELOG EN/DE, Ankündigung).
+- Belege: addon_check im GitHub-Lauf "BuffSentinel-0.9.19.zip: OK" (ohne Warnung); eigene Testroutine im Nachbau:
+  T176–T179 OK mit v2, Offline-Routine Forever/Era/TBC RESULT PASS.
+
+OFFEN (nächste Version 0.9.20): BP-2026-11-13-1 (Messung als Diagnose-Zeile, Test T-BP-1113-1), TU1-Rest, MN3a.
+MN-S wartet auf die Meldung der korrigierten Datei.
+
+IM CLIENT GETESTET: noch nicht (Nutzer).
