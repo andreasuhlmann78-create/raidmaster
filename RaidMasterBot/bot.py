@@ -41,6 +41,8 @@ import invites
 import member_area
 import raid_ready
 import raid_post
+import market
+import blizzard_api_check
 import uploader_version
 import self_check
 import tb_aufraeumen
@@ -138,6 +140,7 @@ UPLOAD_PATH = os.path.join(DATA_DIR, "RaidMaster.lua")
 GS_UPLOAD_PATH = os.path.join(DATA_DIR, "GuildSentinel.lua")   # Gildenbank-Bestand von GuildSentinel (nur bank)
 # Upload ohne Gildenbank, nur mit Raidfähigkeit (ab 1.5.128, D-GS1) – getrennt, damit der Bank-Stand erhalten bleibt
 GS_READY_PATH = os.path.join(DATA_DIR, "GuildSentinel-raidready.lua")
+MARKT_DIR = os.path.join(DATA_DIR, "markt")           # MN7: Marktdaten (GSMARKT1), keine Namen
 # eigene Beute-Datenbank (aus den Lootfenstern der Bosskills aller Uploader)
 lootdb = rmd.Store(os.path.join(DATA_DIR, "loot_db.json"), rmd.lootdb_empty())
 # Ruhmeshalle: alle Bosskills (Erstkills, Bestzeiten) und vergebene Erfolge
@@ -453,7 +456,9 @@ class RaidBot(discord.Client):
     async def on_message(self, message: discord.Message):
         route = uploader_setup.route_message(cfg, message.channel.id, message.webhook_id)
         if route == "ignore":
-            return              # #testberichte: liest die Addon-Prüfung – nie auswerten, nie antworten, nie löschen
+            if uploader_setup.market_source(cfg, message.channel.id, message.webhook_id):
+                await market_intake_safe(message)      # MN7: nur GSMARKT1 still mitlesen
+            return              # #testberichte: liest die Addon-Prüfung – nie antworten, nie löschen
         if route == "upload":
             try:
                 await receive_upload(message)
@@ -2710,6 +2715,134 @@ async def announce_raider_of_month(year: int, month: int, force: bool = False) -
     return lines[0]
 
 
+# ---------------------------------------------------------------------------
+# MN7 (ab 1.5.131): Sammelstelle für Marktdaten – siehe market.py
+# ---------------------------------------------------------------------------
+MARKT_EXT = re.compile(r"\.(lua|lua\.gz|json|json\.gz|gz|txt)$", re.I)
+_market_store: market.Store | None = None
+_market_lock = asyncio.Lock()
+
+
+def market_store() -> market.Store:
+    global _market_store
+    if _market_store is None:
+        _market_store = market.Store(MARKT_DIR)
+    return _market_store
+
+
+async def market_intake(message: discord.Message) -> dict:
+    """GSMARKT1-Zeilen aus Anhängen und Text einer Uploader-Nachricht ablegen. Keine Antwort, kein Löschen."""
+    texts = [message.content or ""]
+    for a in message.attachments:
+        if MARKT_EXT.search(a.filename or "") and a.size <= 25 * 1024 * 1024:
+            try:
+                texts.append(await asyncio.to_thread(market.text_from_bytes, a.filename, await a.read()))
+            except (discord.HTTPException, OSError) as e:
+                log.warning("Marktdaten: Anhang %s nicht lesbar: %s", a.filename, e)
+    texts = [t for t in texts if "GSMARKT1|" in t]
+    total = {"neu": 0, "doppelt": 0, "abgelehnt": 0, "ungueltig": 0}
+    if not texts:
+        return total
+    src = market.source_key(message.webhook_id or (message.author.id if message.author else 0))
+    async with _market_lock:
+        st = market_store()
+        for t in texts:
+            for k, v in (await asyncio.to_thread(market.ingest_text, st, t, src)).items():
+                total[k] += v
+        if total["neu"] or total["doppelt"]:
+            st.prune()
+            await asyncio.to_thread(st.save)
+    log.info("Marktdaten: %d neue Scans, %d doppelt, %d abgelehnt, %d ungültig", total["neu"], total["doppelt"],
+             total["abgelehnt"], total["ungueltig"])
+    return total
+
+
+async def market_intake_safe(message: discord.Message):
+    try:
+        await market_intake(message)
+    except Exception:  # noqa: BLE001
+        log.exception("Marktdaten konnten nicht gelesen werden")
+
+
+async def post_market_report(now: datetime | None = None, force: bool = False) -> str | None:
+    """Montags einmal: Wochenbericht als Anhang GSMARKTW1-<JJJJ>-W<KW>.md in den Bot-Kanal. Der Workflow
+    markt-bericht.yml legt ihn unter testberichte/markt/ ins Repo."""
+    now = now or datetime.now(ZoneInfo(TZ))
+    if not force and not market.weekly_due(now, state.data.get("market_week")):
+        return None
+    ch = await channel_by_id(cfg.get("botcmd_channel_id") or cfg.get("officer_channel_id"))
+    if ch is None:
+        return None
+    async with _market_lock:
+        text = await asyncio.to_thread(market.report, market_store(), now.timestamp())
+    name = market.report_name(now)
+    await ch.send(f"📈 Marktdaten-Wochenbericht {market.week_key(now)} (MN7, keine Namen) – wird ins Repo übernommen "
+                  "(testberichte/markt/).", file=discord.File(io.BytesIO(text.encode("utf-8")), filename=name),
+                  allowed_mentions=NO_PING)
+    state.data["market_week"] = market.week_key(now)
+    state.save()
+    return name
+
+
+async def blizzard_monthly(now: datetime | None = None) -> str | None:
+    """MN8 einmal im Monat wiederholen (blizzard_api_check --list). Nur bei Änderung der Realm-Listen ein Bericht
+    (Anhang GSBLIZZ1-<Datum>.txt im Bot-Kanal, der Workflow übernimmt ihn). Ohne Zugang: nichts."""
+    now = now or datetime.now(ZoneInfo(TZ))
+    mk = market.month_key(now)
+    if state.data.get("blizzard_month") == mk:
+        return None
+    cid, sec = cfg.get("blizzard_client_id"), cfg.get("blizzard_client_secret")
+    if not cid or not sec:
+        return None
+    buf = io.StringIO()
+    await asyncio.to_thread(blizzard_api_check.list_realms, "eu", cid, sec, buf)
+    out = buf.getvalue()
+    state.data["blizzard_month"] = mk
+    fp = market.realm_fingerprint(out)
+    if not fp:
+        state.save()
+        log.warning("Blizzard-Prüfung (monatlich): kein Ergebnis (Zugang prüfen)")
+        return None
+    old = state.data.get("blizzard_fp")
+    state.data["blizzard_fp"] = fp
+    state.save()
+    if not old or old == fp:
+        log.info("Blizzard-Prüfung (monatlich): unverändert")
+        return None
+    ch = await channel_by_id(cfg.get("botcmd_channel_id") or cfg.get("officer_channel_id"))
+    if ch is None:
+        return None
+    name = f"GSBLIZZ1-{now.strftime('%Y-%m-%d')}.txt"
+    text = blizzard_api_check.redact(out, cid, sec)
+    await ch.send("🔎 Blizzard-Schnittstelle: Die Realm-Listen haben sich geändert (MN8 monatlich) – Bericht wird ins "
+                  "Repo übernommen (testberichte/markt/).",
+                  file=discord.File(io.BytesIO(text.encode("utf-8")), filename=name), allowed_mentions=NO_PING)
+    return name
+
+
+@bot.tree.command(name="marktdaten", description="Offiziere: Stand der Marktdaten-Sammelstelle (MN7), optional Wochenbericht jetzt")
+@app_commands.describe(bericht="Wochenbericht jetzt in den Bot-Kanal legen (wird ins Repo übernommen)")
+async def marktdaten_cmd(inter: discord.Interaction, bericht: bool = False):
+    if not is_creator(inter.user):
+        await inter.response.send_message("Nur für den Gildenchef und die Offiziere.", ephemeral=True)
+        return
+    await inter.response.defer(ephemeral=True)
+    st = market_store()
+    heads = list(st.index["scans"].values())
+    lines = [f"📈 **Marktdaten (MN7):** {len(heads)} Scans gespeichert, {int(st.index.get('dupes', 0))} doppelte verworfen."]
+    for f, fname in market.FACTIONS.items():
+        hs = [h for h in heads if h["f"] == f]
+        if hs:
+            last = max(h["t"] for h in hs)
+            lines.append(f"- {fname}: {len(hs)} Scans, letzter "
+                         f"{datetime.fromtimestamp(last, ZoneInfo(TZ)).strftime('%d.%m. %H:%M')}, "
+                         f"{len({q for h in hs for q in h['q']})} Quellen")
+    if bericht:
+        name = await post_market_report(force=True)
+        lines.append(f"Bericht **{name}** gepostet." if name else "Kein Bot-Kanal gefunden – Bericht nicht gepostet.")
+    await inter.followup.send("\n".join(lines), ephemeral=True)
+
+
 async def post_raid_ready(now: datetime | None = None) -> list[str]:
     """RP-D (ab 1.5.125): Raidfähigkeit aus GuildSentinelDB.raidReady im Offizierskanal – montags einmal, Vorschlag
     zur Umstellung sofort einmal. Keine Namen, nie doppelt, nur #offiziere."""
@@ -2751,6 +2884,14 @@ async def monthly_loop():
         await post_raid_ready()
     except Exception:  # noqa: BLE001
         log.exception("Raidfähigkeit konnte nicht gepostet werden")
+    try:
+        await post_market_report()
+    except Exception:  # noqa: BLE001
+        log.exception("Marktdaten-Wochenbericht fehlgeschlagen")
+    try:
+        await blizzard_monthly()
+    except Exception:  # noqa: BLE001
+        log.exception("Blizzard-Prüfung (monatlich) fehlgeschlagen")
     now = datetime.now(ZoneInfo(TZ))
     prev = (now.replace(day=1) - timedelta(days=1))
     key = f"{prev.year}-{prev.month:02d}"
@@ -4804,11 +4945,16 @@ async def receive_upload(message: discord.Message):
     if allowed and message.webhook_id not in allowed:
         log.warning("Upload von unbekanntem Webhook %s ignoriert.", message.webhook_id)
         return
+    try:
+        await market_intake(message)          # MN7: GSMARKT1-Zeilen aus allen Anhängen (vor dem Löschen der Nachricht)
+    except Exception:  # noqa: BLE001
+        log.exception("Marktdaten konnten nicht gelesen werden")
     # Anhänge nach Dateinamen: RaidMaster.lua(.gz) wie bisher, GuildSentinel.lua(.gz) nur für den Gildenbank-Bestand.
     # Ein alter Uploader schickt nur RaidMaster.lua.gz – das funktioniert unverändert.
     rm_i, gs_i = rmd.pick_upload_files([a.filename for a in message.attachments])
     att = message.attachments[rm_i] if rm_i is not None else None
     gs_att = message.attachments[gs_i] if gs_i is not None else None
+    gs_has_bank = False         # D-GS1b: auch bei einer GuildSentinel-Datei > 25 MB gesetzt
     if gs_att is not None and gs_att.size <= 25 * 1024 * 1024:
         try:
             gs_text, gs_db = await asyncio.to_thread(rmd.check_guildsentinel_upload, await gs_att.read(), gs_att.filename)
@@ -6678,6 +6824,7 @@ COMMAND_INFO = {
     "addon-hochladen": ("Gildenleitung", "Verwaltung"),
     "willkommen": ("Gildenleitung", "Verwaltung"),
     "uploader": ("Gildenleitung", "Verwaltung"),
+    "marktdaten": ("Gildenleitung", "Verwaltung"),
     "update": ("Gildenleitung", "Verwaltung"),
     "daten-import": ("Gildenleitung", "Verwaltung"),
     "gildenname vorschlagen": ("alle", "Spieler"),

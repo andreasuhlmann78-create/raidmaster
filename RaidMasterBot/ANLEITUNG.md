@@ -156,6 +156,19 @@ Seit das Serverprofil öffentlich ist, sollen Neue ohne Rolle nicht den ganzen G
   und #bewerbung vorhanden?). Verstösse stehen im Protokoll als „GRUNDREGEL VERLETZT …“ und einmal in #bot-befehle.
   Er ändert dabei nichts.
 
+## 6c. Marktdaten-Sammelstelle (ab Bot 1.5.131, MN7)
+
+- Die GoldSentinel-Addons halten die Vollscans des Auktionshauses als Zeilen `GSMARKT1|…` (ohne Namen). Der Uploader
+  schickt sie mit; der Bot liest sie aus den Uploads in #bot-daten und still aus den Paketen in #testberichte (dort
+  antwortet und löscht er nie).
+- Je Fraktion und Scan-Zeit wird ein Scan nur einmal abgelegt (PC und Laptop schicken ihn doppelt). Ablage auf dem
+  Server unter `data/markt/`, 35 Tage.
+- Montags legt der Bot den Wochenbericht `GSMARKTW1-<Jahr>-W<KW>.md` in #bot-befehle; der GitHub-Workflow
+  „Marktbericht" übernimmt ihn nach `testberichte/markt/`. `/marktdaten` (Gildenleitung) zeigt den Stand,
+  `/marktdaten bericht:True` legt den Bericht sofort.
+- Einmal im Monat wiederholt der Bot die Blizzard-Prüfung (`blizzard_api_check.py --list`, nur mit eingetragenem
+  Zugang) und meldet nur, wenn sich die Realm-Listen geändert haben (`GSBLIZZ1-<Datum>.txt`).
+
 ## 7. Uploader auf dem PC der Raidleitung
 
 Der Uploader schickt die Addon-Daten (DKP, Loot, Einteilung, Skillungen) an den Bot. Er braucht nur

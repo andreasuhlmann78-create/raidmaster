@@ -47,6 +47,14 @@ class GuildSentinelUpload(unittest.TestCase):
         block = src[src.index("if not att and gs_att is not None:"):][:300]
         self.assertLess(block.index("if gs_has_bank:"), block.index("post_guild_bank()"))
 
+    def test_T_D_GS1b_gs_has_bank_immer_gesetzt(self):
+        """D-GS1b: GuildSentinel-Datei > 25 MB allein -> kein UnboundLocalError (gs_has_bank vor dem if gesetzt)."""
+        with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as f:
+            src = f.read()
+        body = src[src.index("async def receive_upload"):]
+        self.assertLess(body.index("gs_has_bank = False"),
+                        body.index("if gs_att is not None and gs_att.size <= 25 * 1024 * 1024:"))
+
 
 def zip_with(version):
     buf = io.BytesIO()

@@ -101,6 +101,13 @@ def route_message(cfg: dict, channel_id: int, webhook_id) -> str | None:
     return None
 
 
+
+def market_source(cfg: dict, channel_id: int, webhook_id) -> bool:
+    """MN7 (ab 1.5.131): Pakete des Uploaders in #testberichte (Webhook) dürfen auf GSMARKT1-Zeilen gelesen werden –
+    still: nie antworten, nie löschen, sonst nichts auswerten. #sync-daten und Nachrichten von Personen nie."""
+    return bool(webhook_id and cfg.get("testberichte_channel_id")
+                and int(channel_id) == int(cfg["testberichte_channel_id"]))
+
 # ---------------------------------------------------------------------------
 # Abgleich PC/Laptop (ab Bot 1.5.113, anweisung-uploader-sync-rechner.txt)
 # Je Discord-Nutzer ein PRIVATER Kanal (#sync-daten, nur dieser Nutzer und der Bot), ein Webhook und eine

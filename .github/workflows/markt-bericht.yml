@@ -1,0 +1,45 @@
+name: Marktbericht
+
+# MN7 (Discord-Bot 1.5.131): holt den Wochenbericht der Marktdaten-Sammelstelle (GSMARKTW1-*.md) und Änderungen der
+# Blizzard-Realm-Listen (GSBLIZZ1-*.txt) aus dem Bot-Kanal und legt sie unter testberichte/markt/ ab.
+# Braucht das Secret DISCORD_BOT_TOKEN und die Variable DISCORD_GUILD_ID (wie testberichte.yml).
+on:
+  schedule:
+    - cron: "23 */6 * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "RaidMasterBot/markt_bericht_holen.py"
+      - ".github/workflows/markt-bericht.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: markt-bericht
+  cancel-in-progress: false
+
+jobs:
+  holen:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install requests
+      - name: Berichte holen
+        env:
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          DISCORD_GUILD_ID: ${{ vars.DISCORD_GUILD_ID }}
+        run: python3 RaidMasterBot/markt_bericht_holen.py
+      - name: Speichern
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add testberichte/markt/
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "Marktbericht: neue Daten [skip ci]"
+          for i in 1 2 3; do git pull --rebase && git push && break; sleep 5; done
