@@ -1,10 +1,18 @@
-OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.32)
+OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.33)
 =============================================================
-Stand: 13. November 2026, 08:30 · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/GuildSentinel-0.9.32.zip
-(verglichen mit 0.9.28 aus der git-Geschichte; Repo GuildSentinel 60183f5 = Inhalt der ZIP, Veröffentlichung 9bfab1f0).
-Geprüft: 0.9.29, 0.9.30, 0.9.31, 0.9.32 zusammen. Gelesen: berichte/GuildSentinel/2026-11-13-0610 (0.9.29 GV1),
--0900 (0.9.30 RV), -1000 (0.9.31 RP), -1100 (0.9.32 TU), -1110 (BL wartet auf CH).
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.28.
+Stand: 13. November 2026, 12:20 · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/GuildSentinel-0.9.33.zip
+(verglichen mit 0.9.32 aus der git-Geschichte; Repo GuildSentinel 32957a5 = Inhalt der ZIP, Veröffentlichung 50f1aa0).
+Gelesen: berichte/GuildSentinel/2026-11-13-1210 (0.9.33 GA1). Frühere Stände: 0.9.29–0.9.32 (Nachprüfung 08:30).
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.32.
+
+Erledigt in 0.9.33 (danke):
+- Punkt 1 GA1 (MITTEL): GA.ExecDown liest GetCVarBool("ActionButtonUseKeyDown") (GuildAct.lua:193–196); PreClick und
+  PostClick handeln nur in der Ausführungsphase, die andere wird ignoriert (OtherPhase :198–202, :205–216); ohne
+  GetCVarBool nur "AnyUp" (:372–374). Test T281 (T-GA1, beide Einstellungen, falsche Phase -> nichts, richtige ->
+  Makro + wartet, zweiter Klick blockiert), Regression GA1 -> T281; run_admin T-GA1 mit CVar 1/0. CHANGELOG EN/DE.
+  Prüfungen 0.9.33: Addon-Prüfung OK (0 FEHLER); gemeinsame Dateien byte-gleich mit shared/; keine neuen sichtbaren
+  Texte; im Diff kein Taint, keine nil-Zugriffe, Era/TBC nicht gebrochen. Offline mit Lua 5.1: run_routine 16001 und
+  11508 je 16/16, run_admin 34/34. Im Client gegenprüfen (siehe unten).
 
 Erledigt in 0.9.29–0.9.32 (danke):
 - GV1 (HOCH): Einladen ruft nie mehr C_GuildInfo.Invite/GuildInvite direkt auf. ns.OpenGuildInvite legt
@@ -43,19 +51,6 @@ Im Diff 0.9.28 -> 0.9.32: keine Lua-Fehler, keine nil-Zugriffe gefunden, kein Er
 festen sichtbaren Texte ausserhalb der Sprachtabelle, Era/TBC nicht gebrochen.
 
 OFFENE PUNKTE
-1. MITTEL (neu) – Sicherer Knopf "Gilden-Aktion" tut nichts, wenn "Aktion bei Tastendruck" aus ist.
-   GuildAct.lua:355 registriert "AnyUp" und "AnyDown"; PreClick/PostClick laufen bei BEIDEN Phasen. Blizzards sicherer
-   Knopf führt den Makro-Text nur in EINER Phase aus (CVar ActionButtonUseKeyDown: 1 = beim Drücken, 0 = beim
-   Loslassen). Bei ActionButtonUseKeyDown = 0: Drücken -> PostClick (GuildAct.lua:198-216) setzt GA.pending, obwohl
-   nichts ausgeführt wurde; Loslassen -> PreClick (GuildAct.lua:190-196) sieht GA.pending und setzt type = nil ->
-   der Befehl läuft nie, nach 6 s "Nicht ausgeführt", bei jedem weiteren Klick wieder. Gilt in Forever, Era und TBC
-   (alle mit dem neuen SecureActionButton-Code).
-   Lösung: PreClick/PostClick(self, button, down) nur in der Ausführungsphase handeln lassen
-   (down == GetCVarBool("ActionButtonUseKeyDown"), Rückfall wenn GetCVarBool fehlt: nur "AnyUp" registrieren), die
-   andere Phase ignorieren. Test T-GA1: wowmock mit beiden CVar-Werten, je ein Klick (down+up) -> genau eine
-   Ausführung des Makros, Status "Warte auf Bestätigung"; nie zwei Ausführungen (zwei Beförderungen) aus einem Klick.
-   Bitte im Client gegenprüfen (Einstellung Interface > Kampf > "Aktion bei Tastendruck" aus/an).
-
 2. NIEDRIG (Rest TU1) – Lagen-Katalog noch nicht vollständig.
    T270 läuft 6 Lagen durch 8 Funktionen (Werbung, Einladen, Verwaltung, Menü, Liste, Beförderung, Aufstellung, Berufe).
    anweisung-tests-umfassend.txt TU1 verlangt zusätzlich die Funktionen Gruppensuche, Termine, Umfragen, Sync und die
@@ -87,7 +82,20 @@ OFFENE PUNKTE
        Chatfeld nie beschrieben; T-BL5 Entwickler-Befehle nur für den Entwickler; T-BL6 alle Sprachen ohne Platzhalter-
        Fehler. Alte Clients (Era, TBC) nicht brechen.
 
-IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.32, Ergebnis dem Nutzer melden)
+4. NIEDRIG (NEU 13.11. 11:40, aus der Nachprüfung Bot 1.5.125 / Bericht berichte/Discord/2026-11-13-0930) –
+   FELD "vorschlag" IN GuildSentinelDB.raidReady.
+   Der Bot (RP-D, RaidMasterBot/raid_ready.py) postet den Sofort-Hinweis "GuildSentinel schlägt Phase … vor – im Spiel
+   bestätigen" nur, wenn raidReady ein Feld "vorschlag" trägt. RaidReady.lua schreibt heute raid, phase, aktiv, groesse,
+   tanks, tanksSoll, heiler, heilerSoll, pct, wochen, t (RaidReady.lua:347) – ohne Vorschlag.
+   Lösung: in RP:Summary (RaidReady.lua:336–340) das Feld vorschlag = die Phase, die RP gerade vorschlägt, mit
+   denselben Schlüsselwörtern wie das Feld phase ("build" / "trans" / "raid"); nil, wenn kein Vorschlag offen ist oder
+   er mit "Später" zurückgestellt wurde. Keine Namen. Die Wörter nicht ändern (alte Daten, Uploader und Bot lesen sie;
+   der Bot wird auf build/trans angepasst, siehe auftraege/Discord/ RP-D2). Test T-RP-V: Vorschlag offen -> Feld
+   gesetzt; bestätigt/Später -> Feld fehlt.
+
+IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.33, Ergebnis dem Nutzer melden)
+   - Neu GA1 (0.9.33): Interface > Kampf > "Aktion bei Tastendruck" AUS und AN – je einmal Befördern über
+     "Gilden-Aktion": der Befehl läuft genau einmal, Status "Warte auf Bestätigung" -> ausgeführt, nie zwei Beförderungen.
    - Neu GV1 (0.9.29): Rekrutierung > Bewerber > "In die Gilde einladen" -> "/ginvite <Name>" steht in der Chat-Eingabe,
      Enter -> KEIN Fenster "GuildSentinel wurde geblockt", Status wechselt erst nach der Systemmeldung auf "eingeladen".
      Gildenverwaltung > Einladen ebenso. Name mit Vor- und Nachname (Forever) einladen. Diagnose ohne VERBOTEN.

@@ -1,0 +1,41 @@
+BERICHT NACHPRÜFUNG AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 12:20 · Sitzung: Nachprüfung (geplant) · Commit: dieser Commit ("auftraege: Nachprüfung 13.11. 12:20")
+
+GEPRÜFT
+- AHSentinel 0.65.107 (mit 0.65.105, 0.65.106), verglichen mit 0.65.104.
+- Discord: Bot 1.5.125 (mit 1.5.124), verglichen mit 1.5.123.
+- GuildSentinel 0.9.33, verglichen mit 0.9.32 (während des Laufs veröffentlicht).
+- Unverändert seit 08:30: BuffSentinel 0.9.14, ProfessionSentinel 0.9.42, ThreatSentinel 2.5.9, LevelPilot 3.12.25,
+  RaidMaster 3.0.23, Uploader 2.3.2.
+
+ERGEBNIS
+- AHSentinel 0.65.107: Addon-Prüfung OK (0 FEHLER, 0 WARNUNG). Erledigt: AB4d, WS1–WS6, MA2, MA3-Zähler, Ü1/Ü2,
+  Ü3, RK2-A (grösstenteils), SB1–SB5, BL-A, API-PM2/PM3, TU5, TU7, TU9, BP-2026-11-13-1.
+  Befunde: MA1-B HOCH (Wahrheit vor Vermutung -> MA1 bleibt bei 0; newSig zählt alle gleichen Stapel),
+  RK2-B HOCH (Markt-Ansicht "Entzaubern" MV:DEOffer/DEDetailLines rechnet "Lohnt bis" selbst mit deMinGain, ohne
+  Sicherheitsmarge; Sniper-Ziel bis 5 % daneben), MA2-B HOCH (Wege de/vendor werden am AH-Preis des Teils gemessen),
+  FG HOCH (Freigaben Teil D nicht angewendet, SalesReleased nirgends benutzt), MA3-G MITTEL, Ü3-S NIEDRIG.
+  Offline: s42 PASS; s43 im ersten Lauf T458/T459 rot, im zweiten PASS (Rauschen der Nachbildung).
+- MARKT-KERN: noch keine Zahlen aus dem Client (letzter AHSentinel-Testbericht 0.65.99, ohne Abschnitt). Grenzwerte Ü2
+  nicht prüfbar. Mit MA1-B/MA2-B wären die ersten Zahlen für MA1, de und vendor nicht aussagekräftig.
+- Bot 1.5.125: 172/172 Tests OK, Module importierbar. Erledigt: Bewerbung oben, TU, RP-D (Grundgerüst).
+  Befunde: RP-D2 MITTEL (GuildSentinel schreibt phase "build"/"trans", Bot kennt nur "aufbau"/"uebergang"),
+  RP-D3 NIEDRIG (alte raidReady-Daten), R1-T NIEDRIG bleibt (TU6 zeigt auf den Quelltext-Test), Vorname in
+  Kommentaren/Commit (Hinweis).
+- GuildSentinel 0.9.33: freigegeben, Punkt 1 (GA1) erledigt mit T281; Addon-Prüfung OK, run_routine 16001/11508 je
+  16/16, run_admin 34/34. Neu eingetragen: Punkt 4 NIEDRIG Feld "vorschlag" in raidReady (Bitte des Discord-Projekts).
+
+BERICHTE GELESEN UND ÜBERNOMMEN
+- berichte/AHSentinel/2026-11-13-0833 (0.65.106), -0903 (0.65.107): Erledigt-Meldungen im Code belegt, ausser RK2-A
+  (Markt-Ansicht "Entzaubern" fehlt) und MA1 (Ablauf-Fehler). PD7-Frage: weiter Entscheid des Nutzers nötig, erst
+  Client-Zahlen.
+- berichte/Discord/2026-11-13-0840 (1.5.124), -0930 (1.5.125): übernommen; Bitte an GuildSentinel ("vorschlag") in
+  GuildSentinel Punkt 4 eingetragen.
+- berichte/GuildSentinel/2026-11-13-1210 (0.9.33): übernommen.
+
+TESTBERICHTE (seit 651aa6f bis 5c82ab1): AHSentinel 0.65.99, GuildSentinel 0.9.30, ProfessionSentinel 0.9.39,
+ThreatSentinel 2.5.9 – je 0 Lua-Fehler; nur ältere Versionen, keine neuen Befunde.
+
+NACHRICHTEN
+- verschickt: nachricht-an-ahsentinel.txt, nachricht-an-discord.txt, nachricht-an-guildsentinel.txt.
+- weggelassen: keine (im Log noch nichts für diese Versionen).

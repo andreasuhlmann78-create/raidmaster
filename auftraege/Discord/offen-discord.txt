@@ -1,77 +1,82 @@
-OFFENE PUNKTE DISCORD (nach der Nachprüfung von Bot 1.5.123)
+OFFENE PUNKTE DISCORD (nach der Nachprüfung von Bot 1.5.125)
 =============================================================
-Stand: 13. November 2026, 08:20 · von der Prüf-Sitzung (geplante Nachprüfung)
-Grundlage: RaidMasterBot 1.5.123 (Commit d8928b4), verglichen mit Bot 1.5.121 (Nachprüfung 12.11. 17:20); dazwischen
-1.5.122 (46e9dda). Dazu die Berichte berichte/Discord/2026-11-13-0610 und -0620.
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand vom 12.11. 17:20 (mit den
-Nachträgen TU und RP-D vom 13.11.).
+Stand: 13. November 2026, 12:00 · von der Prüf-Sitzung (geplante Nachprüfung)
+Grundlage: RaidMasterBot 1.5.125 (Commit b07fa45), verglichen mit Bot 1.5.123 (Nachprüfung 13.11. 08:30); dazwischen
+1.5.124 (645a737). Gelesen: berichte/Discord/2026-11-13-0840 (1.5.124) und -0930 (1.5.125).
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand vom 13.11. 08:20.
 Zuständig für den Gilden-Discord (Server-Bot, Kanäle, Rollen, Einrichtung) ist das Discord-Projekt (Entscheid des
 Nutzers 12.11.). Keine Server-IDs, Links, Tokens oder Spielernamen in Dateien oder Commits.
 
-Erledigt in 1.5.122 / 1.5.123 (danke):
-- R1 (1.5.122): /raid erstellen – scheitert target.send (discord.HTTPException), wird der Raid aus dem Buch entfernt
-  und gespeichert (bot.py:931–942, book.save -> raids.save raidmaster_data.py:1232), followup nennt das fehlende Recht.
-  Code korrekt. Der Test BotCode.test_raid_ohne_nachricht_wird_entfernt (tests/test_mitgliederbereich.py:323) prüft
-  nur den Quelltext -> Funktionstest fehlt noch (Punkt 2 unten, TU6).
-- R2 (1.5.122): pool_from_channel nach server_setup.py:1288 verschoben, bot.py:874 ruft es mit cfg["raid_channels"];
-  Funktionstests RaidAusKanal (tests/test_mitgliederbereich.py:160): Kanal des Topfs, gleiche Kategorie, fremder
-  Kanal, None, raid_channels None, Topf ohne Kanäle.
-- Wunsch Nutzer 13.11. (1.5.122): Sprachkanal 🔊 Gildenhalle in 💬 ALLGEMEIN (server_setup.py:193), beim Start
-  angelegt, falls er fehlt (bot.py:308–317, vor maintain_member_area); ensure_channel_if_missing sucht Sprachkanäle
-  jetzt in voice_channels (server_setup.py:1031–1035). Tests Gildenhalle (:188).
-- D1 (1.5.123, Freigabe des Nutzers 13.11.): der Rolle DISBOARD wird einmalig nur "Kanäle verwalten" entzogen
-  (server_setup.py:1312 drop_disboard_manage_channels, bot.py:297–307, Merker disboard_manage_channels_dropped; steht
-  die Rolle über dem Bot nur Meldung, kein Merker). Tests Disboard (:202).
-Prüfungen: Bot-Tests 145/145 OK, alle Module aus bot-tests.yml importierbar, bot.py py_compile OK. Keine Tokens,
-Webhook-URLs, Server-IDs oder Spielernamen im Diff. Keine neuen Fehler aus testberichte/ für den Bot.
+Erledigt in 1.5.124 / 1.5.125 (danke):
+- Wunsch des Nutzers 13.11. (1.5.124): Kategorie 📝 BEWERBUNG ganz oben (server_setup.place_first, einmalig beim Start
+  mit Merker "apply_on_top", neu angelegte Bewerbung ebenfalls oben). Test BewerbungOben.
+- TU (1.5.125, HOCH): tests/test_tu_umfassend.py mit TU1 (Lagen inkl. 0/40/41 Anmeldungen, Sommer-/Winterzeit,
+  Update-Text > 1900 Zeichen), TU2 (Abläufe mit Neustart), TU3 (Standardwerte), TU4 (Grundregeln, Startwert 4711,
+  je 1000 Fälle), TU5 self_check.py (nur lesen, beim Start und alle 6 Std., Protokoll "GRUNDREGEL VERLETZT"),
+  TU6 Regressionsliste (12 Einträge), TU8 Testbericht je Bereich, TU7 begründet SKIP. Angenommen.
+- RP-D (1.5.125, MITTEL): raid_ready.py + bot.py post_raid_ready (:2718–2741) im Stundentakt (monthly_loop :2744),
+  nur #offiziere, ohne Erwähnungen (NO_PING), montags einmal je Kalenderwoche (weekly_due raid_ready.py:99), Vorschlag
+  einmal je Phase->Vorschlag (suggestion_key :104), Merker im state. Tests tests/test_raid_ready.py. Grundgerüst ok –
+  siehe aber Punkt 1 (Phasen-Wörter passen nicht zu GuildSentinel).
+Prüfungen: Bot-Tests 172/172 OK. raid_ready, self_check, server_setup einzeln importierbar, bot.py py_compile OK; die
+neuen Module stehen im Import-Schritt von .github/workflows/bot-tests.yml. Keine Tokens, Webhook-URLs, Server-IDs oder
+Einladungslinks im Diff. Keine neuen Fehler aus testberichte/ für den Bot.
 
 OFFENE PUNKTE (nach Schwere)
 ----------------------------
-1. TU (HOCH, seit 13.11. 07:05, Entscheid des Nutzers "solche Fehler sollen nicht wieder passieren") – umfassende
-   Tests TU1–TU9 nach anweisung-tests-umfassend.txt: Lagen durch alle Funktionen, Abläufe wie ein Spieler,
-   Standardwerte, Grundregeln mit Zufallsdaten, echte Daten (nur lesen), Regressionstest je Befund (bisherige
-   nachholen), Testbericht je Bereich, offline lauffähig. Ab jetzt: Befund ohne Test = nicht erledigt
-   (auftraege/README.md). In 1.5.122/1.5.123 noch nicht begonnen (keine TU-Tests, kein Testbericht je Bereich).
+1. RP-D2 (MITTEL, NEU) – PHASEN-WÖRTER VON GUILDSENTINEL WERDEN NICHT ERKANNT.
+   GuildSentinel schreibt raidReady.phase mit den Schlüsseln "build" / "trans" / "raid" (GuildSentinel 0.9.32
+   RaidReady.lua:52 PHASE_NAME, RP:Summary :336–340). raid_ready.py:20 PHASES kennt nur "aufbau" / "uebergang" /
+   "übergang" / "raid". Folge: der Montagspost zeigt "Phase build" bzw. "Phase trans". Die Tests (test_raid_ready.py:11)
+   nutzen "aufbau" – das liefert GuildSentinel nie.
+   Lösung: PHASES um "build" -> Aufbau und "trans" -> Übergang ergänzen (alte Wörter behalten). Dasselbe gilt für das
+   Feld "vorschlag" (GuildSentinel schreibt es künftig mit denselben Schlüsseln, auftraege/GuildSentinel/ Punkt 4).
+   Raid-Schlüssel passen (ony, mc, barrow, hyjal, zg, aq20, bwl, aq40, naxx); für TBC fehlen kara, gruul, mag, ssc, tk
+   (NIEDRIG, Forever ist Classic – ergänzen schadet nicht).
+   Test T-RP-D2 mit echten GuildSentinel-Daten: {"raid":"ony","phase":"build",...} -> "Raidfähig (Onyxia) … Phase
+   Aufbau"; phase "trans", vorschlag "raid" -> Hinweis "Phase Raid".
 
-2. R1-T (NIEDRIG, Teil von TU6) – Regressionstest R1 nur über den Quelltext.
-   tests/test_mitgliederbereich.py:323 sucht nur Zeichenketten in bot.py. Lösung: Funktionstest mit Attrappen:
-   target.send wirft discord.HTTPException (403) -> Raid nicht mehr in book.raids.data["raids"], followup enthält
-   "Nachrichten senden", kein message_id-None-Raid im gespeicherten Buch; Erfolgsfall -> message_id gesetzt.
+2. RP-D3 (NIEDRIG, NEU) – ALTE RAIDFÄHIGKEIT NICHT ALS AKTUELL POSTEN.
+   raidReady wird nur beim Ausloggen eines Offiziers mit GuildSentinel geschrieben (Feld t). Ist t älter als 14 Tage,
+   postet der Bot trotzdem jeden Montag dieselben Zahlen. Lösung: bei t älter als 7 Tage "(Stand <Datum>)" anhängen,
+   älter als 14 Tage nicht posten (Protokoll). Test mit t = vor 3 / 10 / 20 Tagen.
 
-3. RP-D (MITTEL, seit 13.11. 07:10 – Entscheid des Nutzers, GuildSentinel RP8): Raidfähigkeit im Offizierskanal.
-   Aus raidReady (über den Uploader, siehe RaidMaster RP-U): einmal pro Woche (Montag) im Offizierskanal "Raidfähig
-   (Onyxia): 23/40 aktiv · Tanks 2/4 · Heiler 5/10 · Phase Aufbau · Schätzung ~3 Wochen"; bei einem Vorschlag zur
-   Umstellung sofort ein Hinweis "GuildSentinel schlägt Phase Übergang/Raid vor – im Spiel bestätigen". Keine Namen,
-   nie doppelt posten, nur Offizierskanal. Tests dazu (T-RP-D). Noch nicht umgesetzt (kein raidReady im Bot).
+3. R1-T (NIEDRIG, Teil von TU6) – Regressionstest R1 weiter nur über den Quelltext.
+   TU6 zählt T-R1 als vorhanden, die Liste zeigt aber auf BotCode.test_raid_ohne_nachricht_wird_entfernt
+   (tests/test_tu_umfassend.py:328 -> tests/test_mitgliederbereich.py:323), der nur Zeichenketten in bot.py sucht.
+   TU2 "Raid ohne Nachricht wird entfernt" prüft das Buch, nicht /raid erstellen. Lösung: Funktionstest mit Attrappen:
+   target.send wirft discord.HTTPException (403) -> Raid nicht in book.raids.data["raids"], followup enthält
+   "Nachrichten senden"; Erfolgsfall -> message_id gesetzt. Dann in TU6 auf diesen Test zeigen.
+
+4. NAMEN (NIEDRIG, Hinweis) – Vorname des Nutzers in Kommentaren und einem Commit-Text: bot.py:596 und :6315,
+   member_area.py:1 ("Wunsch/Freigabe <Vorname>"), Commit 645a737. Bitte bei der nächsten Änderung dieser Stellen durch
+   "Wunsch des Nutzers" ersetzen; alte Commits nicht umschreiben.
 
 LIVE PRÜFEN (Server / Discord beim Nutzer)
-   - Nach dem Selbst-Update auf 1.5.123 in #bot-befehle: "🔧 Rolle DISBOARD…: Recht „Kanäle verwalten“ entfernt"
-     (oder die ⚠️-Anleitung); danach bei DISBOARD nur noch dieses Recht weg, alle anderen unverändert; beim nächsten
-     Neustart keine zweite Meldung.
-   - 🔊 Gildenhalle steht in 💬 ALLGEMEIN über AFK, nur für Mitglieder sichtbar (Gast/ohne Rolle sieht ihn nicht).
-   - /raid erstellen in einem Kanal, in dem der Bot nicht senden darf -> klare Meldung, kein Raid ohne Nachricht im
-     Buch; nach 1.5.121: in #barrow-anmeldung ohne raid-Angabe -> Raid landet dort; in fremdem Kanal -> Molten Core.
-     Bot (ohne Administrator) darf in allen #…-anmeldung und #pug-anmeldung Nachrichten senden und Links einbetten.
-   - Bewerbung: "Aufnehmen" gibt Mitglied und entfernt Gast (Ablehnen ist am 12.11. 16:03 getestet, OK).
-   - Anmeldung zu einem Gilden-Raid zeigt den RaidMaster-Pflicht-Hinweis, PUG-Anmeldung nicht.
-   - Einführung (Onboarding) einmal mit einem neuen Konto durchspielen; wird #bewerbung, ein PUG-Kanal oder die Rolle
-     Gast umbenannt/neu angelegt, die Einführung nachziehen.
+   - Nach dem Selbst-Update auf 1.5.125: Kategorie 📝 BEWERBUNG ganz oben, Meldung in #bot-befehle nur einmal.
+   - TU5 Selbstprüfung: Ergebnis in #bot-befehle (bei Fehlern "GRUNDREGEL VERLETZT …" im Protokoll); beim zweiten
+     Neustart ohne Änderung keine neue Meldung.
+   - RP-D: sobald der Uploader raidReady mitschickt (RaidMaster RP-U) – am Montag ein Post in #offiziere, keine
+     Erwähnung, kein zweiter Post in derselben Woche; Phase richtig geschrieben (nach RP-D2).
+   - Rolle DISBOARD ohne "Kanäle verwalten", sonst unverändert; 🔊 Gildenhalle in 💬 ALLGEMEIN nur für Mitglieder.
+   - /raid erstellen in einem Kanal ohne Senderecht -> klare Meldung, kein Raid ohne Nachricht im Buch; in
+     #barrow-anmeldung ohne raid-Angabe -> Raid dort; in fremdem Kanal -> Molten Core.
+   - Bewerbung: "Aufnehmen" gibt Mitglied und entfernt Gast. Anmeldung zu einem Gilden-Raid zeigt den
+     RaidMaster-Pflicht-Hinweis, PUG-Anmeldung nicht.
+   - Einführung (Onboarding) einmal mit einem neuen Konto durchspielen.
    - Steht im Protokoll "guild_leader ist leer", den Charakternamen in die config.json auf dem Server (nie ins Repo).
      Recht "Nachrichten verwalten" nur in #testberichte. Höchstens ein Neustart je echtem Update
      (sudo journalctl -u raidmaster --since "-6h" | grep -c "Neustart nach Update").
-   - Addon-Kanäle: je Addon nur der neueste Update-Text. #befehle für alle, #befehlsliste bei den Offizieren.
-     Raids mit "forever": false für Mitglieder ausgeblendet.
-   (Live bestätigt laut Bericht -1600/-1610: ohne Rolle nur INFO, REGELN, BEWERBUNG, PUG, RAID-ADDON; Addon-Kanäle
-   Mitglied lesen/Offizier schreiben/Gast nichts; Bot ohne Administrator sieht alle Kanäle; Bewerben-Knopf ->
-   Formular -> privater Thread mit Offizier-Erwähnung.)
+   - Addon-Kanäle: je Addon nur der neueste Update-Text. Raids mit "forever": false für Mitglieder ausgeblendet.
 
 HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Neue Bot-Module in .github/workflows/bot-tests.yml beim Import-Schritt ergänzen.
    - Jeder neue Slash-Befehl braucht einen Eintrag in COMMAND_INFO (tests/test_befehle.py).
    - Keine echten Spieler- oder Charakternamen in Code, Tests, Beispielen und Texten (auch keine Vornamen in
      Kommentaren und Commit-Texten; "Wunsch des Nutzers" genügt).
+   - Daten anderer Addons (z. B. raidReady) mit echten Beispielwerten aus deren Code testen, nicht mit erfundenen Wörtern.
    - Nach defer() nie mehr inter.response.* verwenden, nur followup.
    - Regressionstests als Funktionstest mit Attrappen, nicht nur Zeichenketten im Quelltext.
-   - Versionen höher als Bot 1.5.123.
+   - Versionen höher als Bot 1.5.125.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/Discord/ ablegen.
