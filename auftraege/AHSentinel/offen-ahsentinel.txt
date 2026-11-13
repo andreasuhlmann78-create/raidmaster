@@ -573,3 +573,9 @@ PX (HOCH, NEU 13.11. 21:42 – Entscheid des Nutzers "alles" zu den Vorschlägen
    PX-e IN BLÖCKEN EINSTELLEN: grosse Mengen standardmässig in Blöcken (z. B. 1/3 sofort, Rest später nachlegen,
         wenn verkauft) statt alles auf einmal; Spieler kann es ausschalten.
    Tests T-PX-a…e. Reihenfolge nach SN2115/OR/TP/ZN/RF; PX-a und PX-b gehören in 0.66 (Rechenkern).
+   SN-T (NIEDRIG, 21:45, Bild des Nutzers mit 0.65.116): Eingabe "/ahs testroutine snipe" -> "Unbekannter Teil der
+      Testroutine: snipe (a-k, server, haendler, berufe, post, gildenbank, kampf; /ahs spieltest)". In dieser Liste und
+      in der Befehlsliste (CH/BL) fehlt "sniper" (und "zahlen", sobald es ihn gibt). Bitte die Liste vollständig machen
+      und Kurzformen annehmen ("snipe", "snip" -> sniper). Test T-SNT.
+      Ausserdem steht das Ziel noch auf "Budget übrig 6g 24s" (SN2115a) – bitte prüfen, ob 0.65.116 den Wert beim
+      Laden korrigiert oder der Spieler ihn von Hand setzen muss, und das im Bericht sagen.
