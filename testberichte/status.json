@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-13T19:59:34Z",
+ "ausgewertet": "2026-11-13T20:55:58Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -109,7 +109,7 @@
      "art": "spiel",
      "wo": "Event UNIT_AURA",
      "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
-     "anzahl": 3,
+     "anzahl": 2,
      "versionen": [
       "0.9.7"
      ],
@@ -254,7 +254,7 @@
      "art": "spiel",
      "wo": "session",
      "msg": "Interface/AddOns/LevelPilot/Session.lua:29: attempt to perform boolean test on a secret boolean value (execution tainted by 'LevelPilot')",
-     "anzahl": 798,
+     "anzahl": 646,
      "versionen": [
       "3.12.13"
      ],
@@ -551,7 +551,7 @@
    "art": "spiel",
    "wo": "Event UNIT_AURA",
    "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
-   "anzahl": 3,
+   "anzahl": 2,
    "versionen": [
     "0.9.7"
    ],
@@ -661,7 +661,7 @@
    "art": "spiel",
    "wo": "session",
    "msg": "Interface/AddOns/LevelPilot/Session.lua:29: attempt to perform boolean test on a secret boolean value (execution tainted by 'LevelPilot')",
-   "anzahl": 798,
+   "anzahl": 646,
    "versionen": [
     "3.12.13"
    ],
@@ -832,32 +832,32 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 91,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.112-e8f1e429e51e.txt"
+    "anzahl": 92,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.114-c7305bcee8c8.txt"
    },
    "BuffSentinel": {
-    "anzahl": 23,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.18-cc1534ac2393.txt"
+    "anzahl": 24,
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.18-76e246dc6532.txt"
    },
    "GSMesstest": {
     "anzahl": 9,
     "neueste": "testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt"
    },
    "GuildSentinel": {
-    "anzahl": 82,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.36-24d3aee19220.txt"
+    "anzahl": 83,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.36-905d55a5c1d1.txt"
    },
    "LevelPilot": {
     "anzahl": 8,
     "neueste": "testberichte/diagnose/LevelPilot/3.12.27-3aeb503e40ae.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 64,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.43-a63604637313.txt"
+    "anzahl": 65,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.43-2a6f705a49d7.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 70,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.10-09a5aa39dea0.txt"
+    "anzahl": 71,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.10-cd9d2f621e51.txt"
    }
   },
   "wege": {

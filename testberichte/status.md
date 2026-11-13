@@ -1,15 +1,15 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-13 19:59 UTC
+Ausgewertet: 2026-11-13 20:55 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
 | Addon | letzter Testlauf | Version | Client | OK | FEHLER | übersprungen | im Client prüfen | Fehler im Spiel (7 Tage) |
 |---|---|---|---|---|---|---|---|---|
 | AHSentinel | 13.11.2026 15:42 UTC | 0.65.111 | forever 1.60.1 (Interface 16001) | 59 | 3 | 4 | 0 | 4 |
-| BuffSentinel | 05.11.2026 00:19 UTC | 0.9.7 | forever 1.60.1 (Interface 16001) | 120 | 1 | 10 | 11 | 4 |
+| BuffSentinel | 05.11.2026 00:19 UTC | 0.9.7 | forever 1.60.1 (Interface 16001) | 120 | 1 | 10 | 11 | 3 |
 | GuildSentinel | 09.11.2026 05:47 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 153 | 4 | 23 | 5 | 6 |
-| LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 798 |
+| LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 646 |
 | ProfessionSentinel | 09.11.2026 06:57 UTC | 0.9.28 | forever 1.60.1 (Interface 16001) | 5 | 2 | 1 | 0 | 0 |
 | RaidMaster | 05.11.2026 00:07 UTC | 3.0.17 | forever 1.60.1 (Interface 16001) | 98 | 3 | 10 | 12 | 2 |
 | ThreatSentinel | 10.11.2026 10:06 UTC | 2.5.4 | forever 1.60.1 (Interface 16001) | 7 | 1 | 0 | 1 | 6 |
@@ -18,13 +18,13 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 91 | `testberichte/diagnose/AHSentinel/0.65.112-e8f1e429e51e.txt` |
-| BuffSentinel | 23 | `testberichte/diagnose/BuffSentinel/0.9.18-cc1534ac2393.txt` |
+| AHSentinel | 92 | `testberichte/diagnose/AHSentinel/0.65.114-c7305bcee8c8.txt` |
+| BuffSentinel | 24 | `testberichte/diagnose/BuffSentinel/0.9.18-76e246dc6532.txt` |
 | GSMesstest | 9 | `testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt` |
-| GuildSentinel | 82 | `testberichte/diagnose/GuildSentinel/0.9.36-24d3aee19220.txt` |
+| GuildSentinel | 83 | `testberichte/diagnose/GuildSentinel/0.9.36-905d55a5c1d1.txt` |
 | LevelPilot | 8 | `testberichte/diagnose/LevelPilot/3.12.27-3aeb503e40ae.txt` |
-| ProfessionSentinel | 64 | `testberichte/diagnose/ProfessionSentinel/0.9.43-a63604637313.txt` |
-| ThreatSentinel | 70 | `testberichte/diagnose/ThreatSentinel/2.5.10-09a5aa39dea0.txt` |
+| ProfessionSentinel | 65 | `testberichte/diagnose/ProfessionSentinel/0.9.43-2a6f705a49d7.txt` |
+| ThreatSentinel | 71 | `testberichte/diagnose/ThreatSentinel/2.5.10-cd9d2f621e51.txt` |
 
 ## Wegdaten (GSWEGE1)
 
@@ -139,7 +139,7 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 - [CLIENT] T135 J – Gegenprobe alter Client (anleitung: Classic Era oder TBC Anniversary: Proc im Kampf, Execute unter 20 %, Dispel im Kampf, Cooldown beim Pull – alles wie vorher; /bsen fehler 'Sperren: nein')
 
 **Fehler im Spiel (letzte 7 Tage)**
-- 3× `Event UNIT_AURA`: GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'
+- 2× `Event UNIT_AURA`: GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'
 Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) · zuletzt 08.11.2026 20:31 UTC
 - 1× `Event PLAYER_REGEN_ENABLED`: GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'
 Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) · zuletzt 08.11.2026 20:31 UTC
@@ -190,7 +190,7 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 **Testlauf 3.12.6 · forever 1.60.1 (Interface 16001) · 05.11.2026 00:21 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
 
 **Fehler im Spiel (letzte 7 Tage)**
-- 798× `session`: Interface/AddOns/LevelPilot/Session.lua:29: attempt to perform boolean test on a secret boolean value (execution tainted by 'LevelPilot') – Version 3.12.13 · forever 1.60.1 (Interface 16001) · zuletzt 08.11.2026 20:41 UTC
+- 646× `session`: Interface/AddOns/LevelPilot/Session.lua:29: attempt to perform boolean test on a secret boolean value (execution tainted by 'LevelPilot') – Version 3.12.13 · forever 1.60.1 (Interface 16001) · zuletzt 08.11.2026 20:41 UTC
 
 ## ProfessionSentinel
 
