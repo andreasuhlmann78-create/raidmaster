@@ -1,0 +1,17 @@
+BERICHT AHSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 · Sitzung: AHSentinel-Sitzung · Version: 0.65.119 · Commit (AHAnalyzerPro): c9fe358
+Status: umgesetzt, zur Prüfung.
+Nachbildung: Vollauf 246/246. addon_check OK. Tempo-Werte (PS): letzter Client-Lauf = TB118 (0.65.118), siehe dort.
+
+DE30 – umgesetzt, zur Prüfung
+  Eine Konstante A.DE_MIN_GAIN = 30 (AHAnalyzerPro.lua, bei A:ChooseWay). DEB:DEMinRoi() = max(Einstellung deBuyRoi,
+  A.DE_MIN_GAIN) – höhere Einstellungen (50/100) gelten weiter. Alle Entzauber-Stellen lesen DEMinRoi: MK:MinRoi ->
+  MK:LimitFromNet (Lohnt bis, DELimit, WorthUpTo/API, Sniper-Max für Entzauber-Ziele, Markt "Entzaubern", Sammelkauf),
+  TT:MinGainPct (Tooltip-Urteil), D:WorthLimit/DealLimit, DEB:Judge, Wächter-Meldung, Knopf "Rendite ab %d %%".
+  Rückfallwerte "or 20" ersetzt. Gewinn = (Beutewert nach Gebühr − Kaufpreis) / Kaufpreis -> Lohnt bis = Wert / 1,3.
+  NICHT geändert (bewusst): DEB:MinRoi() bleibt die allgemeine Einstellung "Mindestrendite" (Standard 20 %), die auch
+  die Verkaufs-Untergrenze aus Herstellkosten/Einkauf (Seller H5) nutzt – der Entscheid betrifft nur den Weg Entzaubern.
+  Bitte bestätigen oder anders entscheiden.
+  Tests: T633 (29 % kein Kauf, 30 % Kauf, Einstellung 20 % -> trotzdem 30, Konstante 35 -> alle Stellen 35). Formel-
+  Tests T230/T248/T392/T397/T557/T568 laufen mit WithDEGain(20) (Rechenweg unverändert prüfen), T620 auf 769 (Wert/1,3).
+NÄCHSTES: TB118 (Markt-Reiter 1083 ms, Laden 494 ms, Vollscan-Speicher, T631 über Reload, T629 Zeile).
