@@ -650,6 +650,10 @@ SA (MITTEL, NEU 13.11. 22:22 – Entscheid des Nutzers zu Idee I5): SCHNÄPPCHEN
    gültig -> genau ein Alarm). Gehört zu MN5 (0.66 oder danach).
 
 HK (MITTEL, NEU 13.11. 22:22 – Entscheid des Nutzers zu Idee I7): HERSTELLUNGS-KETTE, SIMPEL.
+   BERICHTIGUNG 22:32 (Durchsicht ProfessionSentinel, shared/wissen/professionsentinel-analyse.md): Die Kette gibt es
+   schon – ProfessionSentinel "Heute herstellen" mit API ProfessionSentinelAPI.TodayCrafts, von "Heute tun" genutzt.
+   NICHTS NEU BAUEN: HK heisst nur, diese Kette in AHSentinel als EINE schlichte Zeile zu zeigen (ein Vorschlag, eine
+   Zahl), mit den Werten aus "bester Weg" (SN2115b) und "Jetzt im AH" (TP), und nur wenn PM3 sie als gesichert meldet.
    Ein einziger Vorschlag "Material kaufen -> herstellen -> verkaufen" mit EINER Zahl (Gewinn je Herstellung bzw. pro
    Stunde) – "simpel und einfach, ohne grossen Schnickschnack" (Optik-Regel OR). Nur zeigen, wenn ALLE Schritte geprüft
    lohnen: Materialpreise "Jetzt im AH" (ehrlich, frisch), Verkaufsquote des Produkts (PX-b) ausreichend, Gewinn nach
