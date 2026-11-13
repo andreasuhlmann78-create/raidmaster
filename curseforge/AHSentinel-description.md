@@ -12,6 +12,18 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.121
+
+- **Disenchant value was corrected far too much (important):** the material price correction (×0.57) used the median of
+  a random result – mostly cheap dust, rarely an expensive essence or shard. On average the prediction was right
+  (≈ 0.96). Now the correction uses sums (total loot / total prediction, from 30 cases), so "Worth up to", the sniper
+  maximum and the profit line are realistic again. The learned safety margin for disenchanting uses sums too.
+- **Minimum profit for disenchanting per material group:** 20 % for groups your own results prove (≥ 30 purchases,
+  total profit ≥ 20 %), 25 % for groups not proven yet (and at most 20 % of the disenchant budget per group to learn
+  them), 30 % only for groups that measured badly. Weapons and armour of the same level band count together.
+- Test report: total profit per group (loot / spent) and the minimum profit that applies.
+- Tests T589, T637.
+
 ### Version 0.65.120
 
 - **No more sync flood:** AHSentinel never fills the shared send queue above 10 messages; the rest waits in its own
@@ -50,14 +62,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   sniper shows "Scroll to search and buy · last search 12 s ago" and reminds you quietly after 10 s without scrolling.
 - Test report: composition of the sync queue per prefix.
 - Tests T621–T624.
-
-### Version 0.65.116
-
-- **"Worth up to" for disenchanting was too low:** the material price correction (e.g. ×0.57) was counted twice – once
-  in the value and again in the learned safety margin (both measured the same shortfall of your own disenchants). The
-  learned margin now only covers what the correction does not already explain. "Worth up to" (sniper max for
-  disenchant targets, buy limits) is again value ÷ (1 + minimum profit), e.g. 10s -> 8s 33c instead of 5s 90c.
-- Test T620.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
