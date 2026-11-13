@@ -9,7 +9,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## BuffSentinel-0.9.14.zip: OK
 
-## GuildSentinel-0.9.33.zip: OK
+## GuildSentinel-0.9.35.zip: OK
 
 ## ProfessionSentinel-0.9.43.zip: OK
 
@@ -17,5 +17,5 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## ThreatSentinel-2.5.9.zip: OK
 
-## levelpilot__levelpilot-3.12.25.LevelPilot.zip: OK
+## levelpilot__levelpilot-3.12.26.LevelPilot.zip: OK
 
