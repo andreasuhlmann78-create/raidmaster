@@ -1,0 +1,37 @@
+Bericht AHSentinel 0.65.125 – RF-M1 (Prio 2) und BH-AUS-2 / BH-AUS-R (Prio 1a/1)
+Stand: 14.11.2026 01:25 · Status: umgesetzt, zur Prüfung
+
+BH-AUS-2 (Books.lua):
+- Neue Funktion BK:MoveCostToInvoice(db, p, inv): Einstand der ausstehenden Buchung wird auf die Rechnungs-Buchung
+  UMGEBUCHT (inv.free sinkt um min(known, inv.free), inv.cost steigt anteilig um p.cost). Nur wenn die Rechnung selbst
+  Ware mit Einstand aus dem Lager genommen hatte (doppelt entnommen), geht der Rest ins Lager zurück. p.xfix = 1.
+- RepairPendingAUS nutzt das (kein Put mehr für die ganze Menge). Sicherung je Buchung jetzt mit icost/ifree.
+- Folge-Reparatur BK:RepairPendingAUS2 für Spieler, bei denen 0.65.124 lief (st "x" ohne xfix): Lager-Zugang zurück
+  (nie unter 0), dann Umbuchung; Sicherung db.repairBHAUS2; repairLog; Diagnose; Merker db.repairedBHAUS2 nur bei
+  Erfolg. Wo die neue Reparatur läuft, wird repairedBHAUS2 gleich mitgesetzt.
+- Bericht: Zeile "BH-AUS-2 Folge-Reparatur …: N Buchungen · Lager zurück … · Einstand umgebucht … · Gewinn alt -> neu ·
+  Lager Einstand alt -> neu" (Feld buch_reparatur2); repairBHAUSInfo hat zusätzlich stock.
+- BH-AUS-R: repairedBHAUS nur bei Erfolg, Fehler als "FEHLER BH-AUS Reparatur" in die Diagnose.
+- Test T644 T-BHA8: neu: Lager 0, Rechnung Einstand 6000, ohne Einkauf nil, Gewinn 5400 · Folge: 2 Buchungen, Lager
+  20 -> 0/0, Rechnung 6000, Gewinn 10800 – PASS. T641 (Rechnung mit eigenem Einstand -> Rest ins Lager) PASS.
+  Erwartung der Prüf-Sitzung mit echten Daten: ca. 205'284c (20g53) – Zahlen kommen mit dem nächsten Client-Bericht.
+
+RF-M1 (AHAnalyzerPro.lua, PD7.lua, Merge.lua, API/Disenchant/Extras/MarketCore/Timing/Tooltip/UI_MarketView/UI_Profit):
+- Zur Laufzeit hält jedes Item EINE flache Zahlenliste entry.hf (5 Werte je Eintrag: t, p, q, c, Kennzeichen
+  1 unbestätigt/2 Sync/4 ohne Menge/8 nachgeprüft) statt einer Tabelle je Eintrag.
+- Gespeichertes Format unverändert: beim Ausloggen A:HistToRowsAll (vor PD7) -> entry.history Tabellen, PD7 packt wie
+  bisher. Beim Laden wird beim ersten Zugriff bzw. in einer Hintergrund-Aufgabe (hist:flat, Portionen à 100) flach.
+  PD7 entpackt direkt in die flache Liste (DecodeFlat, SumFlat, SameFlat, PackItemFlat – gleiche Prüfsumme/Format).
+- Alle Rechen-Verbraucher lesen flach (A:HF). A:GetHistory gibt weiter Tabellen (frische Kopie) nur für einzelne
+  Items. Ersatz-Verläufe der Testroutine (A.GetHistory ersetzt) werden von A:HF erkannt.
+- RecordPrice/VerifyPrice/CompactAll schreiben flach; Verdichtung rechnet nur Items als Tabellen, die wirklich
+  verdichtet werden (A:NeedsCompact).
+- Laborwert (Lua 5.1, 6'771 Items × 50 Einträge): Tabellen 345'321 -> 6'771, Speicher 80,1 -> 27,9 MB, volle
+  Speicherbereinigung 44 -> 7 ms. Im Client bitte über den Tempo-Test messen (neu in T639: "Preisverlauf aktiv N Tab.
+  für N Items/N Einträge").
+- Test T643 T-RFM1 (30 Items × 80 Einträge mit Sonderfällen q fehlt, v): Tabellen ≫ -> 1 je Item, aktuell/Statistik/
+  Marktwert/PD7-Paket gleich, Ausloggen Feld für Feld gleich – PASS. T505/T587/T588/T634 an die flache Liste
+  angepasst, s9 liest den Verlauf jedes Mal neu.
+- Noch offen aus RF: (3) Laufzeit-Caches begrenzen/leeren – nächste Version.
+
+Gesamtlauf 246/246 PASS, s42 PASS, addon_check OK.
