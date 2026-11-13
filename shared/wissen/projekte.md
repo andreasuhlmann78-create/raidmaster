@@ -99,6 +99,16 @@ etwas für die Gilde. Prüffrage: schnell, schlicht, verlässlich – und macht 
 
 ## Prüf-Sitzung selbst
 
+- EIGENE OFFENE PUNKTE (nach Prio, Stand 14.11. 00:40):
+  1. Nach jeder neuen Version: prüfen, dann sofort "weiter mit …" (Regel WEITERMACHEN).
+  2. Rohbericht Sniper 23:06 (finish.sync_queue) auswerten, sobald im Repo; Client-Testberichte (Tempo/Sniper) auswerten.
+  3. Nach BH-AUS: Buchhaltung erneut mit Daten nachrechnen (Bücher = Kassenbuch je Item, Gold-Abstimmung).
+  4. nachrechnung.py (ZN) bauen, sobald AHSentinel GSZAHL1 liefert.
+  5. Nach 17./18.11.: Mindest-Einzahlung 1c im Spiel/Bluepost prüfen, T240.
+  6. Nach dem nächsten Diagnose-Log: SNIPER-SUCHE prüfen.
+  7. Wöchentlich (Mo): Markt-Überwachung inkl. Zyklen/Wellen (geplante Aufgabe), Speicher-Messung RF-M1 wiederholen.
+  8. Nutzer erinnern: Client-Tests (weckliste, zurückgestellt), Entscheid ThreatSentinel-Sync.
+
 - Takt: bei jeder Nachricht des Nutzers + alle 5 Min. bei intensiver Arbeit (Nutzer 22:36); nur Neues melden.
 - Geplante Aufgaben: Nachprüfung (5× täglich), AHSentinel Markt-Überwachung (Mo 05:47), Blueposts (07:38/21:38),
   Rezeptdaten-Update, Raids und Taktiken.
