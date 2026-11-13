@@ -1,3 +1,12 @@
+========================================================================================================================
+PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 00:40). Immer von oben nach unten abarbeiten.
+Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei jeder Änderung nachgeführt.
+========================================================================================================================
+1. MN-S      MITTEL  T178 erweitern (Korrektur in GoldSentinelMarkt v2 belegt) -> 0.9.21, dabei Markt v3 mitkopieren.
+2. BP-2026-11-13-1 Teil 2  MITTEL  Waffen-IDs nach der Client-Messung (Schamane) eintragen.
+3. CH-G      SPÄTER  gemeinsame Befehlsliste (nach AHSentinel).
+========================================================================================================================
+
 >>> GoldSentinelMarkt v3 (13.11. 23:45, Entscheid des Nutzers): Export hält 6 statt 2 Scans (max. 1,5 MB, Ruckeln/
 >>>    SavedVariables klein). NICHT DRINGEND: beim nächsten Release ohnehin mitkopieren (byte-gleich aus shared/).
 >>>    Bis dahin zeigt addon_check nur die WARNUNG "veraltete offizielle Fassung (Version 2)" – kein Fehler.

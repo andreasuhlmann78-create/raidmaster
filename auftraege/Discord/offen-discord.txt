@@ -1,3 +1,12 @@
+========================================================================================================================
+PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 00:40). Immer von oben nach unten abarbeiten.
+Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei jeder Änderung nachgeführt.
+========================================================================================================================
+1. KEEP90    MITTEL  90 Tage behalten; Speichergrenze 3 GB > Server -> höchstens 1 GB und 50 % frei; Bot misst Platz selbst.
+2. Betrieb   MITTEL  nach /update: /marktdaten prüfen, Quellen je Rechner (Uploader 2.3.7), Wochenbericht Mo 16.11.
+3. Rest D-MN7/D-T1   zur Prüfung (1.5.132) – Code-Prüfung in der nächsten Nachprüfung.
+========================================================================================================================
+
 >>> KEEP90 (MITTEL, Entscheid des Nutzers 13.11. 23:35 – "das hat Platz, der Server hat 2 GB"):
 >>>    1. market.KEEP_DAYS 35 -> 90 (Trends über Monate).
 >>>    2. ACHTUNG: MAX_STORE_BYTES steht auf 3 GB (market.py:57) – grösser als der ganze Server (2 GB). Senken auf

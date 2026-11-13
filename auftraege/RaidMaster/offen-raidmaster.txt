@@ -1,3 +1,13 @@
+========================================================================================================================
+PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 00:40). Immer von oben nach unten abarbeiten.
+Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei jeder Änderung nachgeführt.
+========================================================================================================================
+1. UP-v3     MITTEL  Uploader: bis zu 6 Markt-Export-Zeilen je Addon mitschicken, Paketgrenze 4 MB halten.
+2. T90       MITTEL  Fehler unter enUS in der eigenen Nachbildung klären.
+3. MARKT-v3  NIEDRIG GoldSentinelMarkt v3 beim nächsten Release mitkopieren.
+4. CH-G      SPÄTER  gemeinsame Befehlsliste (nach AHSentinel). Client-Test durch den Nutzer: zurückgestellt.
+========================================================================================================================
+
 >>> Uploader zu GoldSentinelMarkt v3: bis zu 6 Export-Zeilen je Addon (zusammen ≤ 1,5 MB). Bitte prüfen, dass der
 >>>    Uploader alle Zeilen schickt und die Paketgrenze (TEST_MAX_JSON 4 MB) hält; sonst auf mehrere Pakete teilen.
 

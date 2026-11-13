@@ -1,3 +1,12 @@
+========================================================================================================================
+PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 00:40). Immer von oben nach unten abarbeiten.
+Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei jeder Änderung nachgeführt.
+========================================================================================================================
+1. SYNC      WARTET  gemeinsamer Sync ja/nein – Entscheid des Nutzers offen (Empfehlung ja).
+2. MARKT-v3  NIEDRIG GoldSentinelMarkt v3 beim nächsten Release mitkopieren.
+3. CH-G      SPÄTER  gemeinsame Befehlsliste (nach AHSentinel).
+========================================================================================================================
+
 >>> GoldSentinelMarkt v3 (13.11. 23:45, Entscheid des Nutzers): Export hält 6 statt 2 Scans (max. 1,5 MB, Ruckeln/
 >>>    SavedVariables klein). NICHT DRINGEND: beim nächsten Release ohnehin mitkopieren (byte-gleich aus shared/).
 >>>    Bis dahin zeigt addon_check nur die WARNUNG "veraltete offizielle Fassung (Version 2)" – kein Fehler.
