@@ -2,6 +2,8 @@
 >>> 1. DE30: in 0.65.119 umgesetzt – Prüf-Sitzung 23:15: Code geprüft (A.DE_MIN_GAIN = 30, DB:DEMinRoi = max(Einstellung,
 >>>    30) an allen Stellen: Sniper über BestWay, Markt, Tooltip, Disenchant), addon_check OK. Offen nur noch: im Client
 >>>    bestätigen. Kleinigkeit: Kommentar Tooltip.lua:600 "Standard 20 %" nachführen.
+>>>    Frage aus dem Bericht 0.65.119 beantwortet: richtig so – DEB:MinRoi (allgemeine Mindestrendite 20 %, Seller H5)
+>>>    bleibt; der Entscheid 22:57 gilt nur für den Weg Entzaubern.
 >>> 1b. NEU TB119 (SEHR HOCH): Sniper-Test 23:06 – Sync-Warteschlange 278 und 278 echte Addon-Nachrichten während des
 >>>    Tests, längstes Bild 164 ms, 0 Treffer bei 82 Suchen. Punkt TB119 unten.
 >>> 2. Danach TB118: Markt-Reiter 1083 ms, Laden 494 ms, Vollscan +88 MB (erster Tempo-Lauf im Client).
