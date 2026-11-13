@@ -36,13 +36,20 @@
 --                                                 abdeckung = gemessene Stunden
 --   GM.DiagLines()                             -- Zeilen fuer Diagnose/Testbericht (ohne Namen)
 --   GM.Stats()                                 -- Zaehler (scans, gelesen, gesendet, empfangen, verworfen ...)
+--   GM.FeedStart(addon) / GM.Feed(addon, t, n, items, dt) -- Addons mit eigenem Vollscan (AHSentinel) geben ihr
+--                                                 Ergebnis weiter, statt dass der Scan zweimal gelesen wird (s. u.)
 -- Fuer den Uploader stehen die letzten Scans als Zeilen "GSMARKT1|..." in MeinAddonDB.gsMarkt.export (Liste).
 --
 -- Alles laeuft ueber M.api (Tests ersetzen nur diese Tabelle, nie Blizzard-Funktionen).
 --
 -- Version 1: erste Fassung (13. November 2026)
+-- Version 2 (13. November 2026, 20 Uhr): ist AHSentinel im Client geladen, liest diese Datei NICHTS selbst (AHSentinel
+--   liest seine Vollscans selbst und gibt sie mit Feed weiter – doppeltes Lesen machte das Spiel ruckelig); Lesebudget
+--   4 ms; Schalter aus leert die Warteschlange; ganzer Scan an die Gilde hoechstens einmal je Stunde, sonst nur
+--   Aenderungen; Sync-Warteschlange wird nur bis 10 Nachrichten gefuellt (Platz fuer die Nachrichten der Addons);
+--   Export enthaelt auch ganz verschwundene Items ("id,0,0,0,abgaenge,abgaengeVorsichtig", Befund D-MN7b).
 
-local VERSION = 1
+local VERSION = 2
 
 local existing = _G.GoldSentinelMarkt
 if type(existing) == "table" and (tonumber(existing.VERSION) or 0) >= VERSION then return end
@@ -50,19 +57,20 @@ if type(existing) == "table" and (tonumber(existing.VERSION) or 0) >= VERSION th
 local M = {}
 M.VERSION = VERSION
 M.PREFIX = "GSMARKT1"
-M.BUDGET_MS = 6              -- Rechenzeit je Bild beim Lesen
+M.BUDGET_MS = 4              -- Rechenzeit je Bild beim Lesen
 M.CHECK_EVERY = 100          -- so oft wird die Zeit innerhalb einer Portion geprueft
 M.BURST_GAP = 30             -- Sekunden ohne Ereignis = naechstes Ereignis ist ein neuer Scan
 M.READ_DELAY = 2             -- Sekunden nach dem ersten Ereignis bis zum Lesen
 M.CMP_MIN, M.CMP_MAX = 600, 6 * 3600   -- Abstand zweier Scans fuer den Absatz-Vergleich
 M.ITEMS_PER_MSG = 9          -- Eintraege je Nachricht (Base36, passt in 230 Zeichen)
-M.QUEUE_HIGH = 40            -- nur nachschieben, solange die Sync-Warteschlange kuerzer ist
+M.QUEUE_HIGH = 10            -- nur nachschieben, solange die Sync-Warteschlange kuerzer ist
 M.NET_MAX = 60               -- hoechstens so viele geaenderte Items ins Netz je Scan
 M.NET_CHANGE = 0.05          -- Preis-Aenderung, ab der ein Item als geaendert gilt
 M.OUTLIER = 3                -- fremder Preis x3 oder :3 zum eigenen (juenger als 6 Std.) = verworfen
 M.MAX_AGE = 7 * 86400        -- aeltere Daten werden nicht angenommen
 M.EXPORT_KEEP = 2            -- so viele Scans fuer den Uploader
 M.ASK_DELAY = 60             -- Sekunden nach dem Laden bis zur Frage "wer hat Neueres?"
+M.FULL_EVERY = 3600          -- ganzer Scan an die Gilde hoechstens so oft (Sekunden), sonst nur Aenderungen
 M.OUTBOX_MAX = 1500          -- volle eigene Warteschlange: aelteste Nachricht faellt weg (gezaehlt)
 
 ---------------------------------------------------------------------------
@@ -88,6 +96,14 @@ M.api = {
         return "N"
     end,
     random = function(n) return math.random(n) end,
+    -- ist AHSentinel geladen? (liest seine Vollscans selbst)
+    ahs = function()
+        local C = _G.C_AddOns
+        local f = (C and C.IsAddOnLoaded) or _G.IsAddOnLoaded
+        if not f then return false end
+        local ok, loaded = pcall(f, "AHSentinel")
+        return ok and loaded and true or false
+    end,
 }
 
 ---------------------------------------------------------------------------
@@ -212,12 +228,15 @@ function M.OnReplicate()
     M.lastEv = now
     if not newBurst then return end
     if not M.IsShareOn() then Drop("aus"); return end
+    if M.feedUntil and now < M.feedUntil then return end      -- ein Host liest diesen Scan selbst und gibt ihn weiter
+    if M.api.ahs() then Drop("ahsentinel liest selbst"); return end
     if M.reader then return end
     M.readAt = now + M.READ_DELAY
 end
 
 local function StartRead()
     M.readAt = nil
+    if not M.IsShareOn() then return end
     local C = M.api.ah()
     if not C or not M.store then return end
     local ok, n = pcall(C.GetNumReplicateItems)
@@ -318,23 +337,19 @@ M.Compare = Compare
 
 local QueueScan     -- weiter unten
 
-local function FinishRead(r)
+-- Ergebnis eines Scans uebernehmen (eigenes Lesen oder Feed eines Host-Addons)
+--   items[id] = { Stueckpreis, Menge, Auktionen }; cmp/low[id] = Abgaenge (Ober-/Untergrenze) oder nil; dt = Sekunden
+local function Apply(t, cnt, items, cmp, low, dt, prevItems)
     local f = Fac()
     if not f then return end
-    local cmp, low
-    if M.prev and r.t - M.prev.t >= M.CMP_MIN and r.t - M.prev.t <= M.CMP_MAX then
-        cmp, low = Compare(M.prev.sigs, r.sigs)
-        M.stats.compared = M.stats.compared + 1
-    end
-    local dt = M.prev and (r.t - M.prev.t) or 0
     local changed = {}
-    for id, it in pairs(r.items) do
+    for id, it in pairs(items) do
         local old = Unpack(f.i[id])
-        local e = { p = it[1], q = it[2], n = it[3], t = r.t, o = 0, g = old and old.g or 0, h = old and old.h or 0,
+        local e = { p = it[1], q = it[2], n = it[3], t = t, o = 0, g = old and old.g or 0, h = old and old.h or 0,
                     l = old and old.l or 0 }
         if cmp then
             e.g = e.g + (cmp[id] or 0)
-            e.l = e.l + (low[id] or 0)
+            e.l = e.l + (low and low[id] or 0)
             e.h = e.h + dt
         end
         if not old or old.o ~= 0 or (old.p or 0) == 0
@@ -344,39 +359,97 @@ local function FinishRead(r)
         f.i[id] = Pack(e)
     end
     -- Items, die seit dem letzten Scan ganz verschwunden sind: Abgaenge zaehlen, Angebot jetzt 0
-    if cmp and M.prev.items then
-        for id in pairs(M.prev.items) do
-            if not r.items[id] then
+    if cmp and prevItems then
+        for id in pairs(prevItems) do
+            if not items[id] then
                 local old = Unpack(f.i[id])
                 if old then
                     old.g, old.h = (old.g or 0) + (cmp[id] or 0), (old.h or 0) + dt
-                    old.l = (old.l or 0) + (low[id] or 0)
-                    old.q, old.n, old.t, old.o = 0, 0, r.t, 0
+                    old.l = (old.l or 0) + (low and low[id] or 0)
+                    old.q, old.n, old.t, old.o = 0, 0, t, 0
                     f.i[id] = Pack(old)
                 end
             end
         end
     end
-    f.t = r.t
-    M.prev = { t = r.t, sigs = r.sigs, items = r.items }
+    f.t = t
     M.stats.scans = M.stats.scans + 1
-    M.stats.read = r.cnt
-    M.stats.lastMs, M.stats.lastFrames = r.ms, r.frames
-    M.stats.lastT = r.t
+    M.stats.read = cnt
+    M.stats.lastT = t
     -- fuer den Uploader
     local parts, nItems = {}, 0
-    for id, it in pairs(r.items) do
+    for id, it in pairs(items) do
         nItems = nItems + 1
         parts[#parts + 1] = Enc(id) .. "," .. Enc(it[1]) .. "," .. Enc(it[2]) .. "," .. Enc(it[3]) .. "," ..
             Enc(cmp and cmp[id] or 0) .. "," .. Enc(low and low[id] or 0)
     end
+    -- ganz verschwundene Items (ausverkauft/abgelaufen): Eintrag mit Menge 0, damit der Absatz nicht verloren geht
+    if cmp and prevItems then
+        for id in pairs(prevItems) do
+            if not items[id] and ((cmp[id] or 0) > 0) then
+                parts[#parts + 1] = Enc(id) .. ",0,0,0," .. Enc(cmp[id] or 0) .. "," .. Enc(low and low[id] or 0)
+            end
+        end
+    end
     M.stats.items = nItems
     local s = M.store
     s.export = s.export or {}
-    table.insert(s.export, string.format("GSMARKT1|%d|%s|%d|%d|%d|%d|%s", VERSION, select(2, Fac()), r.t, r.cnt,
+    table.insert(s.export, string.format("GSMARKT1|%d|%s|%d|%d|%d|%d|%s", 1,          -- Export-Format 1 (unabhaengig von der Dateiversion)
+        select(2, Fac()), t, cnt,
         nItems, cmp and dt or 0, table.concat(parts, ";")))
     while #s.export > M.EXPORT_KEEP do table.remove(s.export, 1) end
-    QueueScan(r.t, changed)
+    QueueScan(t, changed)
+end
+
+local function FinishRead(r)
+    if not Fac() then return end
+    local cmp, low
+    if M.prev and M.prev.sigs and r.t - M.prev.t >= M.CMP_MIN and r.t - M.prev.t <= M.CMP_MAX then
+        cmp, low = Compare(M.prev.sigs, r.sigs)
+        M.stats.compared = M.stats.compared + 1
+    end
+    local dt = M.prev and (r.t - M.prev.t) or 0
+    M.stats.lastMs, M.stats.lastFrames = r.ms, r.frames
+    Apply(r.t, r.cnt, r.items, cmp, low, dt, M.prev and M.prev.items)
+    M.prev = { t = r.t, sigs = r.sigs, items = r.items }
+end
+
+-- Feed: ein Host-Addon, das selbst einen Vollscan liest (z. B. AHSentinel), gibt sein Ergebnis weiter, damit der
+-- Scan im selben Client NICHT zweimal gelesen wird (Speicher, Ruckeln).
+--   GSMarkt.FeedStart("AHSentinel")  -- direkt VOR dem eigenen ReplicateItems: GSMarkt liest diesen Scan nicht selbst
+--   GSMarkt.Feed("AHSentinel", t, n, items, dt)
+--      t = time() des Scans, n = Anzahl Auktionen, dt = Sekunden seit dem Scan, mit dem die Abgaenge gemessen wurden
+--      (0 = kein Vergleich), items[itemID] = { preis = Stueckpreis, menge = Menge, n = Auktionen,
+--      abg = Abgaenge aus Stufe 3/4 (Obergrenze) oder nil, abgV = vorsichtige Abgaenge (Untergrenze) oder nil }
+function M.FeedStart(addon)
+    if not M.hosts[addon] then return end
+    M.feedUntil = M.api.now() + 300
+    M.readAt = nil
+    if M.reader then M.reader = nil; M.stats.aborted = M.stats.aborted + 1; Drop("feed statt lesen") end
+end
+
+function M.Feed(addon, t, n, items, dt)
+    M.feedUntil = nil
+    if not M.hosts[addon] or type(items) ~= "table" or not M.IsShareOn() then return end
+    t, dt = tonumber(t) or M.api.time(), tonumber(dt) or 0
+    local conv, cmp, low = {}, nil, nil
+    if dt > 0 then cmp, low = {}, {} end
+    for id, it in pairs(items) do
+        id = tonumber(id)
+        if id and type(it) == "table" then
+            conv[id] = { math.floor(tonumber(it.preis) or 0), math.floor(tonumber(it.menge) or 0),
+                         math.floor(tonumber(it.n) or 0) }
+            if cmp then
+                local g = math.floor(tonumber(it.abg) or 0)
+                cmp[id] = g
+                low[id] = math.min(g, math.floor(tonumber(it.abgV) or g))
+            end
+        end
+    end
+    M.stats.fed = (M.stats.fed or 0) + 1
+    if cmp then M.stats.compared = M.stats.compared + 1 end
+    M.prev = nil                -- naechstes eigenes Lesen vergleicht nicht mit einem Feed (keine Signaturen)
+    Apply(t, tonumber(n) or 0, conv, cmp, low, dt, nil)
 end
 
 ---------------------------------------------------------------------------
@@ -387,13 +460,20 @@ local function Entry(id, e)
 end
 
 -- alle eigenen Items eines Scans an die Gilde, die geaenderten (hoechstens NET_MAX) auch ins Netz
-QueueScan = function(t, changed)
+QueueScan = function(t, changed, full)
     local f, fac = Fac()
     if not f or not M.ep or not M.IsShareOn() then return end
+    local now = M.api.now()
+    if not full and (not M.lastFull or now - M.lastFull >= M.FULL_EVERY) then full = true end
     local all = {}
-    for id, v in pairs(f.i) do
-        local e = Unpack(v)
-        if e and e.o == 0 and e.t == t then all[#all + 1] = id end
+    if full then
+        M.lastFull = now
+        for id, v in pairs(f.i) do
+            local e = Unpack(v)
+            if e and e.o == 0 and e.t == t then all[#all + 1] = id end
+        end
+    else
+        for i = 1, math.min(#changed, M.NET_MAX) do all[i] = changed[i] end
     end
     table.sort(all)
     local head = "S:" .. fac .. ":" .. Enc(t) .. ":"
@@ -427,6 +507,11 @@ end
 
 function M.Pump()
     if not M.ep or #M.outbox == 0 then return end
+    if not M.IsShareOn() then
+        for _ = 1, #M.outbox do Drop("aus") end
+        M.outbox = {}
+        return
+    end
     if M.api.inCombat() then return end
     local sent = 0
     while #M.outbox > 0 and SyncQueueLen() < M.QUEUE_HIGH and sent < 5 do
@@ -540,7 +625,7 @@ function M.Tick()
         local f, fac = Fac()
         if f and M.ep then
             M.ep:Send("A:" .. fac .. ":" .. Enc(f.t), { scope = "guild", net = false })
-            QueueScan(f.t, {})
+            QueueScan(f.t, {}, true)
         end
     end
     M.Pump()
@@ -567,8 +652,8 @@ function M.DiagLines()
     return {
         string.format("MARKT-NETZ v%d · %s · Addons: %s", VERSION, M.IsShareOn() and "an" or "AUS",
             #hosts > 0 and table.concat(hosts, ", ") or "keins"),
-        string.format("MARKT-NETZ Scans mitgelesen %d (zuletzt %d Auktionen, %d Items, %.0f ms in %d Bildern) · Vergleiche %d · abgebrochen %d",
-            s.scans, s.read or 0, s.items or 0, s.lastMs or 0, s.lastFrames or 0, s.compared, s.aborted),
+        string.format("MARKT-NETZ Scans %d (davon vom Host übergeben %d; zuletzt %d Auktionen, %d Items, %.0f ms in %d Bildern) · Vergleiche %d · abgebrochen %d",
+            s.scans, s.fed or 0, s.read or 0, s.items or 0, s.lastMs or 0, s.lastFrames or 0, s.compared, s.aborted),
         string.format("MARKT-NETZ Items %d (eigen %d, Netz %d, Absatz gemessen %d) · gesendet %d · empfangen %d · angenommen %d · Warteschlange %d",
             n, own, net, meas, s.sent, s.received, s.accepted, #M.outbox),
         "MARKT-NETZ verworfen: " .. (#drops > 0 and table.concat(drops, ", ") or "nichts"),

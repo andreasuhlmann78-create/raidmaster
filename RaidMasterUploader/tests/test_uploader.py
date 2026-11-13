@@ -433,6 +433,48 @@ class Paket(Base):
         self.assertEqual(r.flush(now=3000), "leer")
         self.assertIn("Markt-Scan", up.package_summary({"markt": 2}))
 
+    def paket_doc(self, call=0):
+        name = re.search(rb'filename="(paket-[^"]+)"', self.net.calls[call].data).group(1).decode()
+        return json.loads(gzip.decompress(attachment(self.net.calls[call].data, name)))
+
+    def test_mn6b_quelle_zufall_bleibt_gleich(self):
+        # 2.3.7 (MN6b): anonyme Kennung (16 Hex) im Paket, über Neustarts gleich; Paket ohne Markt-Scan ohne Feld
+        def sv(t):
+            return ('RaidMasterDB = {\n\t["gsMarkt"] = {\n\t\t["export"] = {\n'
+                    f'\t\t\t"GSMARKT1|1|A|{t}|10|2|0|1z1,a,3,2,0,0",\n\t\t}},\n\t}},\n}}\n')
+        self.write("RaidMaster.lua", sv(1794580000))
+        self.assertEqual(self.reporter().flush(now=1000), "ok")
+        q = self.paket_doc(0).get("quelle")
+        self.assertRegex(q or "", r"^[0-9a-f]{16}$")
+        self.assertEqual(json.load(open(up.STATE, encoding="utf-8"))["markt_quelle"], q)
+        # Neustart (Stand aus Datei), neuer Scan -> dieselbe Kennung
+        self.write("RaidMaster.lua", sv(1794581000), age=5)
+        self.assertEqual(self.reporter().flush(now=2000), "ok")
+        self.assertEqual(self.paket_doc(1).get("quelle"), q)
+        # nur Testbericht -> kein Feld "quelle"
+        self.write("RaidMaster.lua", sv_all("RaidMasterDB", [report("t-q")]), age=3)
+        self.assertEqual(self.reporter().flush(now=3000), "ok")
+        self.assertNotIn("quelle", self.paket_doc(2))
+        # kaputte Kennung im Stand -> neue gültige
+        st = up.load_state({})
+        st["markt_quelle"] = "Testa"
+        self.assertRegex(up.markt_source(st), r"^[0-9a-f]{16}$")
+        self.assertLessEqual(up.MARKT_MAX_ONE, 2 * 1024 * 1024)
+
+    def test_u3_unbekanntes_markt_format_einmal_gemeldet(self):
+        # 2.3.7 (U3): Zeile in fremdem Format -> nicht gesendet, EINE Meldung ohne Inhalt, auch nach Neustart nicht wieder
+        neu = "GSMARKT1|2|H|1794580000|10|2|0|1z1,a,3,2,0,0|x9"
+        self.write("RaidMaster.lua", 'RaidMasterDB = {\n\t["gsMarkt"] = {\n\t\t["export"] = {\n'
+                   f'\t\t\t"{neu}",\n\t\t}},\n\t}},\n}}\n')
+        r = self.reporter()
+        self.assertEqual(r.flush(now=1000), "leer")
+        self.assertEqual(r.flush(now=2000), "leer")
+        self.assertEqual(self.reporter().flush(now=3000), "leer")
+        msgs = [l for l in self.logs if "unbekanntem Format" in l]
+        self.assertEqual(len(msgs), 1)
+        self.assertNotIn("1z1", msgs[0])
+        self.assertEqual(self.net.calls, [])
+
     def test_p13_zu_gross_neue_uhrzeit_keine_zweite_meldung(self):
         # 2.2.0 (offen 6): dasselbe zu grosse Protokoll, neu ausgegeben mit anderer Uhrzeit -> keine zweite Meldung
         entries = ["[x] " + "y" * (600 * 1024)]

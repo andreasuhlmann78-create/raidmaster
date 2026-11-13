@@ -23,6 +23,13 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.26 – Market data network version 2
+- GoldSentinelMarkt.lua updated from the shared template (version 2): if AHSentinel is loaded, it no longer reads the
+  scans a second time (AHSentinel hands them over) – no stutter during full scans and in the sniper. At most 10 queued
+  messages, full scan to the guild at most once per hour; sold-out items now count towards measured sales.
+- Test routine: T180 checks that the current version is loaded; T181/T182 no longer change the market network counters
+  (the diagnosis showed "dropped: off 1" afterwards).
+
 WHAT'S NEW IN 3.0.25 – Market data network (GoldSentinelMarkt)
 - RaidMaster ships the shared file GoldSentinelMarkt.lua (like all GoldSentinel addons). It reads auction house scans
   that are made anyway (e.g. by AHSentinel) and shares only prices and quantities – no names, no own queries, no prompt.

@@ -69,7 +69,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sync  # noqa: E402  (Abgleich PC/Laptop, ab 2.1.0)
 import daten  # noqa: E402  (Daten für die Prüf-Sitzung, ab 2.3.0)
 
-VERSION = "2.3.6"
+VERSION = "2.3.7"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400
@@ -92,7 +92,12 @@ EXTRA_STR = re.compile(r'"((?:GSDIAG1\||GSWEGE1\{|GSMARKT1\|)(?:[^"\\]|\\.)*)"',
 # ab 2.3.6 (MN6): Marktdaten-Netz (GoldSentinelMarkt.lua, Liste <Addon>DB.gsMarkt.export). Nur Zeilen GENAU in diesem
 # Format gehen weiter – Zahlen in Base36, keine Namen möglich. Je Scan (Fraktion + Scan-Zeit) nur einmal.
 MARKT_LINE = re.compile(r"^GSMARKT1\|\d{1,4}\|[HAN]\|\d{9,11}\|\d{1,9}\|\d{1,7}\|\d{1,9}\|[0-9a-z,;]*$")
-MARKT_MAX_ONE = 3 * 1024 * 1024         # ein Scan (alle Items einer Fraktion); grösser = übersprungen und gemeldet
+# ab 2.3.7 (MN6b): 2 MB – so viel nimmt der Bot je Zeile an (market.MAX_LINE); grösser = übersprungen und einmal gemeldet
+MARKT_MAX_ONE = 2 * 1024 * 1024
+# ab 2.3.7 (MN6b): anonyme Zufallskennung des Uploaders (16 Hex, uploader_state.json "markt_quelle", nie aus Namen
+# oder Rechnernamen) – im Paket als Feld "quelle", damit der Bot PC, Laptop und Spieler als eigene Quellen zählt.
+MARKT_QUELLE = re.compile(r"^[0-9a-f]{16}$")
+MARKT_FORMAT_KEEP = 100
 MARKT_KEEP_IDS = 300
 EXTRA_MAX_ONE = 512 * 1024              # so wertet die Addon-Prüfung höchstens aus (testberichte.MAX_EXTRA)
 EXTRA_MAX_SENT_IDS = 500
@@ -410,6 +415,20 @@ def load_state(cfg: dict | None = None) -> dict:
             "wege": list(cfg.get("sent_extra_ids") or []), "last_sent": 0}
 
 
+def markt_source(st: dict) -> str:
+    """MN6b: anonyme Kennung dieses Uploaders – einmal zufällig erzeugt, danach immer dieselbe (uploader_state.json)."""
+    q = st.get("markt_quelle")
+    if isinstance(q, str) and MARKT_QUELLE.match(q):
+        return q
+    import secrets
+    st["markt_quelle"] = secrets.token_hex(8)
+    try:
+        save_state(st)
+    except OSError:
+        pass
+    return st["markt_quelle"]
+
+
 def save_state(st: dict):
     st["sent_test_ids"] = st.get("sent_test_ids", [])[-STATE_MAX_IDS:]
     st["wege"] = st.get("wege", [])[-STATE_MAX_IDS:]
@@ -538,6 +557,18 @@ class Collector:
                 if x["kind"] == "markt":
                     # MN6: je Scan nur einmal; nur das genaue Format (keine Namen); zu gross -> einmal melden
                     if not MARKT_LINE.match(raw):
+                        # U3 (2.3.7): nicht still verwerfen – einmal je Zeile melden, ohne ihren Inhalt
+                        bad = st.setdefault("markt_format", [])
+                        bad_id = "f-" + _hash(raw)
+                        if bad_id not in bad:
+                            bad.append(bad_id)
+                            del bad[:-MARKT_FORMAT_KEEP]
+                            log("Markt-Zeile in unbekanntem Format – nicht gesendet "
+                                "(GoldSentinelMarkt neuer als der Uploader?)")
+                            try:
+                                save_state(st)
+                            except OSError:
+                                pass
                         continue
                     mp = raw.split("|", 4)
                     key = f"m-{mp[2]}-{mp[3]}"
@@ -598,8 +629,11 @@ class Collector:
                 items.append(raw)
                 marks.append({"diag": {addon: entries}})
                 counts["diag"] += 1
-        return {"items": items, "marks": marks, "rest": rest, "ids": new_ids, "wege": wege_ids, "diag": diag_state,
-                "errors": err_state, "counts": counts, "markt": markt_ids}
+        pkg = {"items": items, "marks": marks, "rest": rest, "ids": new_ids, "wege": wege_ids, "diag": diag_state,
+               "errors": err_state, "counts": counts, "markt": markt_ids}
+        if markt_ids:
+            pkg["quelle"] = markt_source(st)
+        return pkg
 
 
 def commit(st: dict, pkg: dict, now: float | None = None, marks: list[dict] | None = None):
@@ -655,8 +689,10 @@ def package_bodies(pkg: dict, now: float | None = None) -> list[tuple[str, bytes
         name = f"paket-{stamp}.json.gz" if len(chunks) == 1 else f"paket-{stamp}-{i}.json.gz"
         content = package_summary(pkg["counts"]) + ("" if len(chunks) == 1 else f" (Teil {i}/{len(chunks)})")
         payload = {"content": content, "username": TEST_USERNAME, "allowed_mentions": {"parse": []}}
-        packed = gzip.compress(json.dumps({"items": [pkg["items"][i] for i in chunk]}, ensure_ascii=False)
-                               .encode("utf-8"), 9)
+        doc = {"items": [pkg["items"][i] for i in chunk]}
+        if pkg.get("quelle") and any(x.startswith("GSMARKT1|") for x in doc["items"]):
+            doc["quelle"] = pkg["quelle"]          # MN6b: nur bei Markt-Scans; alte Bots ignorieren das Feld
+        packed = gzip.compress(json.dumps(doc, ensure_ascii=False).encode("utf-8"), 9)
         boundary = "----GSPaket" + uuid.uuid4().hex
         body = b"".join([
             f"--{boundary}\r\n".encode(),

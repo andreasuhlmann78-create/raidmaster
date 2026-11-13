@@ -2606,18 +2606,43 @@ local function AreaJ(t, G)
 	end)
 
 	-- 3.0.25 (MN4): Marktdaten-Netz – lädt mit/ohne Datei, Schalter aus = kein Lesen/Senden, kein Fehler ohne AH-API
+	-- 3.0.26 (MN-T): auch die Zähler (GM.stats inkl. dropped) sichern und zurückschreiben – sonst zeigt die Diagnose
+	-- nach jeder Testroutine "verworfen: aus 1", obwohl der Spieler nichts ausgeschaltet hat
+	local function CopyStats(v)
+		if type(v) ~= "table" then return v end
+		local c = {}
+		for k, x in pairs(v) do c[k] = CopyStats(x) end
+		return c
+	end
 	local function MarktState(GM)
-		return { lastEv = GM.lastEv, readAt = GM.readAt, reader = GM.reader, askAt = GM.askAt,
-			share = RM.db.config.marktTeilen, aus = (GM.stats.dropped or {}).aus or 0, sent = GM.stats.sent or 0 }
+		return { lastEv = GM.lastEv, readAt = GM.readAt, reader = GM.reader, askAt = GM.askAt, feedUntil = GM.feedUntil,
+			share = RM.db.config.marktTeilen, aus = (GM.stats.dropped or {}).aus or 0, sent = GM.stats.sent or 0,
+			stats = CopyStats(GM.stats) }
 	end
 	local function MarktRestore(GM, st)
-		GM.lastEv, GM.readAt, GM.reader, GM.askAt = st.lastEv, st.readAt, st.reader, st.askAt
+		GM.lastEv, GM.readAt, GM.reader, GM.askAt, GM.feedUntil = st.lastEv, st.readAt, st.reader, st.askAt, st.feedUntil
 		RM.SetMarktShare(st.share ~= false)
+		-- dieselbe Tabelle behalten (andere Addons halten evtl. einen Verweis), nur den Inhalt zurückschreiben
+		local live = GM.stats
+		for k in pairs(live) do live[k] = nil end
+		for k, x in pairs(st.stats or {}) do live[k] = CopyStats(x) end
+	end
+	-- Vergleich zweier Zähler-Tabellen (für MN-T)
+	local function SameStats(a, b)
+		if type(a) ~= type(b) then return false end
+		if type(a) ~= "table" then return a == b end
+		for k, x in pairs(a) do if not SameStats(x, b[k]) then return false end end
+		for k in pairs(b) do if a[k] == nil then return false end end
+		return true
 	end
 	t:Check("T180", "J", "MN4 RaidMaster lädt mit und ohne GoldSentinelMarkt", function()
 		local GM = _G.GoldSentinelMarkt
 		if type(GM) ~= "table" then return false, "GoldSentinelMarkt fehlt", "in der TOC (nach GoldSentinelSync)" end
 		if (tonumber(GM.VERSION) or 0) < 1 then return false, tostring(GM.VERSION), ">= 1" end
+		-- 3.0.26 (MN1-K): aktuelle Fassung aus shared/ mit FeedStart/Feed (Addons mit eigenem Vollscan geben ihn weiter)
+		if type(GM.FeedStart) ~= "function" or type(GM.Feed) ~= "function" then
+			return false, "FeedStart/Feed fehlen (v" .. tostring(GM.VERSION) .. ")", "aktuelle GoldSentinelMarkt.lua aus shared/"
+		end
 		_G.GoldSentinelMarkt = nil
 		local okNo, resNo = pcall(RM.AttachMarkt)
 		local okLine, line = pcall(RM.MarktLine)
@@ -2629,7 +2654,7 @@ local function AreaJ(t, G)
 		if not (okWith and resWith and GM.hosts and GM.hosts.RaidMaster == RaidMasterDB and type(RaidMasterDB.gsMarkt) == "table") then
 			return false, "mit Datei: " .. tostring(resWith), "angemeldet, Daten in RaidMasterDB.gsMarkt"
 		end
-		return true, "v" .. GM.VERSION .. " angemeldet; ohne Datei still"
+		return true, "v" .. GM.VERSION .. " angemeldet (FeedStart/Feed da); ohne Datei still"
 	end)
 
 	t:Check("T181", "J", "MN4 Schalter aus: kein Lesen, kein Senden", function()
@@ -2654,7 +2679,8 @@ local function AreaJ(t, G)
 		MarktRestore(GM, st)
 		if not okRun then return false, "Lua: " .. tostring(err), "kein Fehler" end
 		if res ~= "ok" then return false, res, "aus = nichts" end
-		return true, "aus: nichts gelesen/gesendet; an: wieder an"
+		if not SameStats(GM.stats, st.stats) then return false, "Zähler nach dem Test verändert", "unverändert (MN-T)" end
+		return true, "aus: nichts gelesen/gesendet; an: wieder an; Zähler unverändert"
 	end)
 
 	t:Check("T182", "J", "MN4 kein Lua-Fehler ohne Auktionshaus-Schnittstelle", function()
@@ -2684,7 +2710,8 @@ local function AreaJ(t, G)
 		MarktRestore(GM, st)
 		if not okRun then return false, "Lua: " .. tostring(err), "kein Fehler" end
 		if #errs > 0 then return false, errs[1], "kein Fehler" end
-		return true, "ohne AH-API still"
+		if not SameStats(GM.stats, st.stats) then return false, "Zähler nach dem Test verändert", "unverändert (MN-T)" end
+		return true, "ohne AH-API still; Zähler unverändert"
 	end)
 
 	t:Check("T183", "J", "MN3 Testbericht-Zeile MARKT-NETZ", function()
@@ -3317,6 +3344,7 @@ local function AreaL(t, G)
 			{ "Oberfläche: Tooltips", "T155" }, { "Oberfläche: Fenster", "T156" }, { "Oberfläche: Bildschirm", "T157" },
 			{ "Oberfläche: Text passt", "T158" }, { "Oberfläche: Werte", "T159" }, { "Oberfläche: Fehler-Schleifen", "T160" },
 			{ "TU3 fehlende Einstellungen", "T174" }, { "MN4 mit/ohne GoldSentinelMarkt", "T180" },
+			{ "MN1-K FeedStart/Feed", "T180" }, { "MN-T Zähler unverändert", "T181" },
 			{ "MN4 Schalter aus", "T181" }, { "MN4 ohne AH-API", "T182" }, { "MN3 Testbericht-Zeile", "T183" } }
 		local only = R.only
 		local have, missing = 0, {}

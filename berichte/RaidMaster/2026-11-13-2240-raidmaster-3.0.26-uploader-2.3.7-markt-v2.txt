@@ -1,0 +1,44 @@
+BERICHT RAIDMASTER -> PRÜF-SITZUNG
+==================================
+Datum: 13.11.2026 22:40 · Addon RaidMaster 3.0.26 · Uploader 2.3.7
+Grundlage: auftraege/RaidMaster/offen-raidmaster.txt (Nachprüfung 17:45, Nachträge MN Version 2 20:00 und 22:20),
+nachricht-gsmarkt-v2-2026-11-13.txt, nachricht-nachpruefung-3-0-25-2026-11-13.txt.
+Status aller Punkte: umgesetzt, zur Prüfung (erledigt setzt nur die Prüf-Sitzung).
+
+1. MN1-K / MN Version 2 (Stand 22:20, D-MN7b) – GoldSentinelMarkt.lua unverändert aus shared/ kopiert.
+   cmp RaidMaster/GoldSentinelMarkt.lua shared/GoldSentinelMarkt.lua: gleich (Version 2).
+   GoldSentinelGame/Test/Sync ebenfalls cmp gleich.
+   Test: T180 prüft zusätzlich, dass GoldSentinelMarkt.FeedStart und .Feed Funktionen sind (Regression "MN1-K
+   FeedStart/Feed"). Das Export-Format bleibt "GSMARKT1|1|…" (Exportformat 1); die neuen Einträge ausverkaufter Items
+   ("id,0,0,0,a,b") passen zum MARKT_LINE des Uploaders – keine Formatänderung nötig.
+
+1b. MN6b (Uploader 2.3.7) – anonyme Quellen-Kennung.
+   uploader.markt_source(): einmal secrets.token_hex(8) (16 Hex), gespeichert in uploader_state.json "markt_quelle",
+   nie aus Namen/Rechnernamen; ungültiger Wert -> neue Kennung. Im Paket als {"items": [...], "quelle": "<16 Hex>"},
+   nur in Teilen mit GSMARKT1-Zeilen (sonst kein Feld). MARKT_MAX_ONE jetzt 2 MB (Bot market.MAX_LINE).
+   Test: test_uploader.Paket.test_mn6b_quelle_zufall_bleibt_gleich (16 Hex, gleich nach Neustart, kein Feld ohne
+   Markt-Scan, kaputter Wert ersetzt, Grenze <= 2 MB).
+
+2. MN-T – Testroutine verändert die Zähler nicht mehr.
+   MarktState sichert eine tiefe Kopie von GM.stats (inkl. dropped) und feedUntil; MarktRestore schreibt den Inhalt in
+   DIESELBE Tabelle zurück (Verweise anderer Addons bleiben gültig). T181 und T182 prüfen am Ende "Zähler unverändert"
+   (Regression "MN-T Zähler unverändert").
+
+3. U3 (Uploader 2.3.7) – Markt-Zeile in unbekanntem Format: nicht gesendet, EINE Zeile im Fenster
+   "Markt-Zeile in unbekanntem Format – nicht gesendet (GoldSentinelMarkt neuer als der Uploader?)" ohne Inhalt;
+   Prüfwert "f-<sha1 16>" in uploader_state.json "markt_format" (höchstens 100), auch nach Neustart nicht wieder.
+   Test: test_uploader.Paket.test_u3_unbekanntes_markt_format_einmal_gemeldet.
+
+Eigene Tests (Hinweise, keine Freigabe):
+- Testroutine im Testaufbau: Forever (TOC 16001) 0 Fehler, Era (TOC 11509) 0 Fehler, Sandbox OK.
+- Testaufbau mit GAMELOCALE=enUS: 1 FEHLER T90 "609:" – gleich mit dem veröffentlichten 3.0.25 (Gegenprobe), liegt an
+  der Nachbildung (lädt die Locale-Dateien in anderer Reihenfolge), nicht an dieser Änderung. Bitte im Client prüfen.
+- Uploader-Tests: test_daten 12, test_sync 38, test_uploader 21 (+2), test_umfassend 14 (Regressionen 52/52) – grün.
+- Bot-Tests (RaidMasterBot/tests, einzeln ausgeführt): alle OK.
+- addon_check download/RaidMaster-3.0.26.zip: OK (kein FEHLER), Lua-Syntax lupa (Lua 5.1).
+- RaidMasterUploader.zip = Ordner (ohne tests/), RaidMaster-latest.zip = 3.0.26.
+
+Hinweise:
+- Der Bot liefert mit /uploader erst nach /update die 2.3.7 (D-UP1, Discord).
+- Zum Zählen der Quellen muss der Bot das Feld "quelle" lesen (Discord D-MN7a); bis dahin ignoriert er es.
+- TU2/TU7-Rest weiter nur im Client.

@@ -11,6 +11,13 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.26 – Marktdaten-Netz Version 2
+- GoldSentinelMarkt.lua neu aus der gemeinsamen Vorlage (Version 2): Ist AHSentinel geladen, liest sie die Scans nicht
+  noch einmal selbst (AHSentinel gibt sie weiter) – kein Ruckeln beim Vollscan und im Sniper. Höchstens 10 wartende
+  Nachrichten, ganzer Scan an die Gilde höchstens einmal je Stunde; ausverkaufte Items zählen beim Absatz mit.
+- Testroutine: T180 prüft, dass die aktuelle Fassung geladen ist; T181/T182 verändern die Zähler des Marktdaten-Netzes
+  nicht mehr (die Diagnose zeigte danach "verworfen: aus 1").
+
 NEU IN 3.0.25 – Marktdaten-Netz (GoldSentinelMarkt)
 - RaidMaster bringt die gemeinsame Datei GoldSentinelMarkt.lua mit (wie alle GoldSentinel-Addons). Sie liest
   Auktionshaus-Scans mit, die ohnehin gemacht werden (z. B. von AHSentinel), und teilt nur Preise und Mengen – ohne

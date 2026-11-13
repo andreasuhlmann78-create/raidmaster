@@ -208,3 +208,10 @@ Version 2.3.6 – market data network (MN6):
 - The uploader sends the market scans of the GoldSentinel addons ("GSMARKT1|…" from GoldSentinelMarkt) to the bot with
   the package – each scan only once (even if several addons store the same scan), numbers only, no names. Lines in any
   other format are never sent.
+
+Version 2.3.7 – market data: source and notice (MN6b, U3):
+- Anonymous source id: the uploader creates a random id once (16 characters, stored in uploader_state.json, never
+  derived from names or computer names) and sends it with market scans in the package. The bot can then count PC,
+  laptop and different players as separate sources. Old bots ignore the field.
+- Market scans larger than 2 MB are skipped and reported once (the bot's limit).
+- Market line in an unknown format: not sent, but now reported ONCE in the window, without its content.

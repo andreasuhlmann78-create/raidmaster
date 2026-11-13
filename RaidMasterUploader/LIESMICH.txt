@@ -233,3 +233,11 @@ Version 2.3.6 – Marktdaten-Netz (MN6):
 - Der Uploader schickt die Markt-Scans der GoldSentinel-Addons ("GSMARKT1|…" aus GoldSentinelMarkt) mit dem Paket an
   den Bot – je Scan nur einmal (auch wenn mehrere Addons denselben Scan speichern), nur Zahlen, keine Namen. Zeilen in
   anderem Format werden nie gesendet.
+
+Version 2.3.7 – Marktdaten: Quelle und Meldung (MN6b, U3):
+- Anonyme Quellen-Kennung: Der Uploader erzeugt einmal eine Zufallskennung (16 Zeichen, gespeichert in
+  uploader_state.json, nie aus Namen oder Rechnernamen) und schickt sie mit Markt-Scans im Paket mit. So zählt der Bot
+  PC, Laptop und verschiedene Spieler als eigene Quellen. Alte Bots ignorieren das Feld.
+- Markt-Scans über 2 MB werden übersprungen und einmal gemeldet (so viel nimmt der Bot an).
+- Markt-Zeile in unbekanntem Format: nicht gesendet, aber jetzt EINMAL im Fenster gemeldet
+  ("Markt-Zeile in unbekanntem Format – nicht gesendet"), ohne ihren Inhalt.

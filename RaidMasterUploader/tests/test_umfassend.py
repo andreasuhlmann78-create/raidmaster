@@ -537,6 +537,8 @@ REGRESSIONEN = {
     "offen 6 zu gross einmal": "test_uploader.Paket.test_p13_zu_gross_neue_uhrzeit_keine_zweite_meldung",
     "T-DU12 alte Fassung entpackt (Warnung)": "test_uploader.Uploader17.test_alte_fassung_entpackt_warnung",
     "MN6 Markt-Scans einmal, ohne Namen": "test_uploader.Paket.test_mn6_markt_scans_einmal_ohne_namen",
+    "MN6b Quelle anonym, gleich": "test_uploader.Paket.test_mn6b_quelle_zufall_bleibt_gleich",
+    "U3 Markt-Format unbekannt einmal": "test_uploader.Paket.test_u3_unbekanntes_markt_format_einmal_gemeldet",
     "RP-U nur bank/raidReady": "test_uploader.Uploader17.test_rp_u_nur_bank_und_raidready",
 }
 
