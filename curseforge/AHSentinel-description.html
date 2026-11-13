@@ -7,6 +7,16 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.125</h3>
+<ul>
+<li><strong>Less stutter – compact price history in memory:</strong> in game AHSentinel now keeps the price history as one compact
+  number list per item instead of one table per price entry (tens of thousands fewer Lua objects; garbage collection
+  has much less work). Saved data stays exactly as before; all values are unchanged.</li>
+<li><strong>Accounting – repair corrected:</strong> for invoices that were booked twice next to pending sales, the purchase cost now
+  goes onto the invoice (the goods are sold) instead of back into stock. If you already started 0.65.124, this is
+  corrected once afterwards (backup kept). The repair only counts as done once it has run without errors.</li>
+<li>The tempo test shows the price history tables. Tests T643, T644.</li>
+</ul>
 <h3>Version 0.65.124</h3>
 <ul>
 <li><strong>Accounting – profit only from confirmed sales:</strong> auctions that sold but whose payment has not arrived by mail yet
@@ -47,19 +57,7 @@
 <li>Test report: total profit per group (loot / spent) and the minimum profit that applies.</li>
 <li>Tests T589, T637.</li>
 </ul>
-<h3>Version 0.65.120</h3>
-<ul>
-<li><strong>No more sync flood:</strong> AHSentinel never fills the shared send queue above 10 messages; the rest waits in its own
-  outbox and is sent bit by bit (during the test routine it waits). This also reduces stutter after a full scan.</li>
-<li><strong>Market tab opens instantly:</strong> "Today" no longer calculates when the tab opens (was over 1 second); it calculates in
-  the background and appears when ready.</li>
-<li><strong>Faster login/reload:</strong> the compact price history is unpacked in small portions right after loading instead of all at
-  once; nothing can get lost (logout during unpacking keeps the packed data).</li>
-<li>Sniper test: "no hits" because the market had nothing suitable is now SKIP with reasons; the sync queue shows its
-  composition. Speed test: the last full-scan measurement survives a reload.</li>
-<li>Tests T634–T636.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

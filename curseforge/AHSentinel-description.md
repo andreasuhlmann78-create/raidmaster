@@ -12,6 +12,16 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.125
+
+- **Less stutter – compact price history in memory:** in game AHSentinel now keeps the price history as one compact
+  number list per item instead of one table per price entry (tens of thousands fewer Lua objects; garbage collection
+  has much less work). Saved data stays exactly as before; all values are unchanged.
+- **Accounting – repair corrected:** for invoices that were booked twice next to pending sales, the purchase cost now
+  goes onto the invoice (the goods are sold) instead of back into stock. If you already started 0.65.124, this is
+  corrected once afterwards (backup kept). The repair only counts as done once it has run without errors.
+- The tempo test shows the price history tables. Tests T643, T644.
+
 ### Version 0.65.124
 
 - **Accounting – profit only from confirmed sales:** auctions that sold but whose payment has not arrived by mail yet
@@ -51,18 +61,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   them), 30 % only for groups that measured badly. Weapons and armour of the same level band count together.
 - Test report: total profit per group (loot / spent) and the minimum profit that applies.
 - Tests T589, T637.
-
-### Version 0.65.120
-
-- **No more sync flood:** AHSentinel never fills the shared send queue above 10 messages; the rest waits in its own
-  outbox and is sent bit by bit (during the test routine it waits). This also reduces stutter after a full scan.
-- **Market tab opens instantly:** "Today" no longer calculates when the tab opens (was over 1 second); it calculates in
-  the background and appears when ready.
-- **Faster login/reload:** the compact price history is unpacked in small portions right after loading instead of all at
-  once; nothing can get lost (logout during unpacking keeps the packed data).
-- Sniper test: "no hits" because the market had nothing suitable is now SKIP with reasons; the sync queue shows its
-  composition. Speed test: the last full-scan measurement survives a reload.
-- Tests T634–T636.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
