@@ -471,3 +471,16 @@ OR (HOCH, Grundsatz des Nutzers 21:21 – "solche Berechnungen will keiner sehen
    Preis, eigener Bestand, Warnung "Max über Verkaufswert – jeder Kauf verliert ca. …" (mit richtiger Zahl), Preisverlauf.
    Diese Regel gilt künftig für jede neue Anzeige (auch Markt, Sniper, Verkaufen). Test T-OR1: Tooltip enthält keine
    der entfallenen Zeilen/Faktoren.
+
+TP (HOCH, NEU 13.11. 21:27 – Wunsch und Entscheid des Nutzers): PREISZEILEN IM TOOLTIP
+   Oben im AHSentinel-Teil statt "Preis …" / "Marktwert …":
+      Jetzt im AH:  9s 00c        GROSS/deutlich – der EHRLICHE Preis: günstigstes ECHTES Angebot (ohne Lockangebote,
+                                  wie die bestehende Prüfung "auffällig billige Waren"), aus der Live-Suche bei offenem AH
+                                  oder sonst aus dem FRISCHESTEN Scan. Über einem Angebot: dessen Stückpreis.
+      Üblich:       9s 50c ↓      klein/grau – Median 7 Tage, Pfeil = Trend (↑ ↓ →)
+   Alter sichtbar machen: Ist "Jetzt im AH" nicht live/frisch (älter als 30 Min.), dahinter grau "(vor 2 Std.)"; älter
+   als 6 Std. -> "(veraltet, vor 9 Std.)" und die Gewinn-Zeile grau statt rot/grün.
+   Schnäppchen: "Jetzt im AH" ≥ 20 % unter "Üblich" -> Zahl grün.
+   Gewinn-Zeile (LT) rechnet mit "Jetzt im AH". Optik-Regel OR gilt (keine Rechenwege).
+   Tests T-TP1 (Lockangebot wird nicht als Jetzt-Preis gezeigt), T-TP2 (Alter 0/45 Min./9 Std. -> Anzeige und Farbe),
+   T-TP3 (Schnäppchen grün), T-TP4 (über einem Angebot dessen Preis). Zusammen mit SN2115/OR.
