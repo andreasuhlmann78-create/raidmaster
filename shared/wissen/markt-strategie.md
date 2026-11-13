@@ -540,7 +540,7 @@ letzten Datenstands, DBHistorical = 60-Tage-Durchschnitt von DBMarket, DBRecent 
 gegen Ausreisser robuster als TSMs Durchschnitt. Anzeige (Entscheid des Nutzers): "Jetzt im AH" (ein echtes Angebot,
 nie ein Durchschnitt, mit Alter) und "Median 14 Tage". Beide messen ANGEBOTS-, nicht Verkaufspreise.
 Volatilität (Hinweis des Nutzers 13.11.): Forever-Preise sind sehr beweglich (Index 7 Tage −57 %); ein 14-Tage-Median
-hinkt nach. Median nur als Vergleich anzeigen, mit Trendpfeil und Hinweis "schwankt stark"; Entscheidungen nie allein
+hinkt nach. Median nur als Vergleich anzeigen; Trend und Volatilität NUR im Hintergrund (keine Pfeile/Hinweise sichtbar, Entscheid 21:31); Entscheidungen nie allein
 auf den Median stützen, sondern auf "Jetzt im AH" und erzielte Verkaufspreise.
 Junge Wirtschaft (Hinweis des Nutzers 13.11.): Forever startete am 04.11.; in den ersten Wochen fallen die Preise
 stetig (mehr Angebot, mehr Spieler mit Berufen). Lange Zeitfenster (14-Tage-Median) enthalten noch Startpreise und

@@ -479,8 +479,8 @@ TP (HOCH, NEU 13.11. 21:27 – Wunsch und Entscheid des Nutzers): PREISZEILEN IM
                                   oder sonst aus dem FRISCHESTEN Scan. Über einem Angebot: dessen Stückpreis.
                                   NIE ein Durchschnitt oder Mittelwert (Nutzer 21:26) – immer der Stückpreis EINES
                                   echten Angebots.
-      Median 14 Tage: 9s 50c ↓    klein/grau – der bestehende Marktwert (A.MARKET_DAYS = 14, gewichteter Median
-                                  ohne Ausreisser/Lockangebote), Pfeil = Trend (↑ ↓ →). Beschriftung "Median 14 Tage"
+      Median 14 Tage: 9s 50c      klein/grau – der bestehende Marktwert (A.MARKET_DAYS = 14, gewichteter Median
+                                  ohne Ausreisser/Lockangebote). KEIN Pfeil (21:31). Beschriftung "Median 14 Tage"
                                   (Entscheid des Nutzers 21:27, statt "Üblich"/"Marktwert"); folgt automatisch, falls
                                   MARKET_DAYS sich ändert.
    Alter sichtbar machen: Ist "Jetzt im AH" nicht live/frisch (älter als 30 Min.), dahinter grau "(vor 2 Std.)"; älter
@@ -495,6 +495,10 @@ TP (HOCH, NEU 13.11. 21:27 – Wunsch und Entscheid des Nutzers): PREISZEILEN IM
      (Gewinn-Zeile, Sniper, Heute tun) stützen sich auf "Jetzt im AH" und den erzielten/gemessenen Verkaufspreis, nie
      allein auf den Median.
    Test T-TP5 (stark schwankendes Item -> Hinweis, kein Schnäppchen-Grün; ruhiges Item -> kein Hinweis).
+   ÄNDERUNG 21:31 (Nutzer: "wir brauchen keine Pfeile optisch sichtbar – es muss im Hintergrund passieren"): Trend und
+   Volatilität werden NUR im Hintergrund gerechnet und wirken auf Schnäppchen-Grün, Gewinn-Zeile, Sniper und Heute tun.
+   SICHTBAR: weder Trendpfeil noch "schwankt stark". T-TP5 prüft die Wirkung (kein Grün bei starker Schwankung), nicht
+   die Anzeige.
    JUNGE WIRTSCHAFT (Hinweis des Nutzers 21:29 "die Wirtschaft ist noch jung"; Forever-Start 04.11.): In den ersten
    Wochen fallen die Preise stetig, ein 14-Tage-Median enthält noch die hohen Startpreise und liegt systematisch zu hoch.
    Darum Median-Zeitraum ANPASSEN: solange der Server jünger als 6 Wochen ist, Median über die letzten 5 Tage (jüngere
