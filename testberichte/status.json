@@ -1,50 +1,60 @@
 {
- "ausgewertet": "2026-11-13T12:38:29Z",
+ "ausgewertet": "2026-11-13T13:53:06Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 16,
+   "berichte": 18,
    "letzter_test": {
-    "id": "AHSentinel-1794542255-6dd008-1",
-    "version": "0.65.99",
-    "time": 1794542218,
+    "id": "AHSentinel-1794571219-1ec8ed-2",
+    "version": "0.65.108",
+    "time": 1794571120,
     "counts": {
-     "client": 16,
-     "fehler": 3,
-     "ok": 557,
-     "uebersprungen": 22
+     "client": 0,
+     "fehler": 4,
+     "ok": 57,
+     "uebersprungen": 5
     }
    },
    "fehler_tests": [
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.99",
+     "version": "0.65.108",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T223",
-     "name": "Entzauberungswert gleich je Gruppe, Gewinn beim Kauf je Kaufpreis, Block-Anteile = Wert, Ausreisser zählt nicht",
-     "detail": "ergebnis: Wert 145/145, Gewinn 45/-855, Summe 153 = 153, Essenz 97 (market, unsicher true) | erwartet: gleicher Wert, Gewinn = Wert - Kaufpreis, Summe = Wert, 2c-Angebot ignoriert (Markt 300c)",
-     "bericht": "AHSentinel-1794542255-6dd008-1"
+     "id": "T52",
+     "name": "Unterboten",
+     "detail": "ergebnis: Status liegen, Abbrechen-Versuche 1 (Selbsttest läuft - Kaufen und Einstellen sind gesperrt.) · fest: 10g gegen 5g unterboten, 1c Abstand liegen | erwartet: liegen, 0 Befehl(e) · fest: unterboten, liegen",
+     "bericht": "AHSentinel-1794571219-1ec8ed-2"
     },
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.99",
+     "version": "0.65.108",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T230",
-     "name": "Sammelkauf: nur Rendite >= Mindestrendite und >= 10c Gewinn, sortiert; Abschlag 10 % unter 10 Entzauberungen",
-     "detail": "ergebnis: 0 Kandidaten, oben nil (+nil), danach +nil, Wert ab 10 Entzauberungen nil | erwartet: 2, oben +600, dann +400, Wert 1000",
-     "bericht": "AHSentinel-1794542255-6dd008-1"
+     "id": "T126",
+     "name": "Scan-Auswertung in Portionen",
+     "detail": "ergebnis: längste Portion 47.6 ms in 127 Frames | erwartet: <= 8 ms",
+     "bericht": "AHSentinel-1794571219-1ec8ed-2"
     },
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.99",
+     "version": "0.65.108",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T425",
-     "name": "T-X4b Sammelkauf: 3 Kandidaten zu 300c, Budget 50000 -> Mengen-Senkung mit nParts = 3 (nicht 166)",
-     "detail": "ergebnis: 0 Kandidaten · geplant 1 · grösste Menge an BatchNet 0 | erwartet: 3 · 3 · 3",
-     "bericht": "AHSentinel-1794542255-6dd008-1"
+     "id": "T458",
+     "name": "T-VF1 Vollscan ruckelfrei: kein Schritt mit längstem Frame über 16 ms (Ziel ≤ Budget)",
+     "detail": "ergebnis: längster Frame 121 ms (Preisverlauf+Neuaufbau) · Frames über 33 ms 73 von 1970 · zu lang: Einlesen 26 ms, Verdichtung 38 ms, Verfolgung V4 42 ms, Preisverlauf+Neuaufbau 121 ms, Nachlauf 34 ms | erwartet: jeder Schritt ≤ 16 ms (Ziel 4 ms)",
+     "bericht": "AHSentinel-1794571219-1ec8ed-2"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.108",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T459",
+     "name": "T-VF2 Vollscan: Speicher-Zuwachs ≤ 10 MB, höchstens 1 Speicherbereinigung",
+     "detail": "ergebnis: Zuwachs 62336 KB (AHSentinel) · Speicherbereinigungen 28 | erwartet: ≤ 10240 KB · ≤ 1",
+     "bericht": "AHSentinel-1794571219-1ec8ed-2"
     }
    ],
    "fehler_spiel": [
@@ -481,32 +491,42 @@
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.99",
+   "version": "0.65.108",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T223",
-   "name": "Entzauberungswert gleich je Gruppe, Gewinn beim Kauf je Kaufpreis, Block-Anteile = Wert, Ausreisser zählt nicht",
-   "detail": "ergebnis: Wert 145/145, Gewinn 45/-855, Summe 153 = 153, Essenz 97 (market, unsicher true) | erwartet: gleicher Wert, Gewinn = Wert - Kaufpreis, Summe = Wert, 2c-Angebot ignoriert (Markt 300c)",
-   "bericht": "AHSentinel-1794542255-6dd008-1"
+   "id": "T52",
+   "name": "Unterboten",
+   "detail": "ergebnis: Status liegen, Abbrechen-Versuche 1 (Selbsttest läuft - Kaufen und Einstellen sind gesperrt.) · fest: 10g gegen 5g unterboten, 1c Abstand liegen | erwartet: liegen, 0 Befehl(e) · fest: unterboten, liegen",
+   "bericht": "AHSentinel-1794571219-1ec8ed-2"
   },
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.99",
+   "version": "0.65.108",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T230",
-   "name": "Sammelkauf: nur Rendite >= Mindestrendite und >= 10c Gewinn, sortiert; Abschlag 10 % unter 10 Entzauberungen",
-   "detail": "ergebnis: 0 Kandidaten, oben nil (+nil), danach +nil, Wert ab 10 Entzauberungen nil | erwartet: 2, oben +600, dann +400, Wert 1000",
-   "bericht": "AHSentinel-1794542255-6dd008-1"
+   "id": "T126",
+   "name": "Scan-Auswertung in Portionen",
+   "detail": "ergebnis: längste Portion 47.6 ms in 127 Frames | erwartet: <= 8 ms",
+   "bericht": "AHSentinel-1794571219-1ec8ed-2"
   },
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.99",
+   "version": "0.65.108",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T425",
-   "name": "T-X4b Sammelkauf: 3 Kandidaten zu 300c, Budget 50000 -> Mengen-Senkung mit nParts = 3 (nicht 166)",
-   "detail": "ergebnis: 0 Kandidaten · geplant 1 · grösste Menge an BatchNet 0 | erwartet: 3 · 3 · 3",
-   "bericht": "AHSentinel-1794542255-6dd008-1"
+   "id": "T458",
+   "name": "T-VF1 Vollscan ruckelfrei: kein Schritt mit längstem Frame über 16 ms (Ziel ≤ Budget)",
+   "detail": "ergebnis: längster Frame 121 ms (Preisverlauf+Neuaufbau) · Frames über 33 ms 73 von 1970 · zu lang: Einlesen 26 ms, Verdichtung 38 ms, Verfolgung V4 42 ms, Preisverlauf+Neuaufbau 121 ms, Nachlauf 34 ms | erwartet: jeder Schritt ≤ 16 ms (Ziel 4 ms)",
+   "bericht": "AHSentinel-1794571219-1ec8ed-2"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.108",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T459",
+   "name": "T-VF2 Vollscan: Speicher-Zuwachs ≤ 10 MB, höchstens 1 Speicherbereinigung",
+   "detail": "ergebnis: Zuwachs 62336 KB (AHSentinel) · Speicherbereinigungen 28 | erwartet: ≤ 10240 KB · ≤ 1",
+   "bericht": "AHSentinel-1794571219-1ec8ed-2"
   },
   {
    "addon": "AHSentinel",
@@ -832,38 +852,38 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 82,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.108-38d19332a6ea.txt"
+    "anzahl": 83,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.108-ba7bb8de19c4.txt"
    },
    "BuffSentinel": {
     "anzahl": 21,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.12-dd367a194176.txt"
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.12-7f8dfb5af187.txt"
    },
    "GSMesstest": {
     "anzahl": 5,
     "neueste": "testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt"
    },
    "GuildSentinel": {
-    "anzahl": 73,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.35-fd9b26ffc872.txt"
+    "anzahl": 74,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.35-fd2b12ae6dc1.txt"
    },
    "LevelPilot": {
-    "anzahl": 1,
-    "neueste": "testberichte/diagnose/LevelPilot/3.12.27-6e4b66b64c18.txt"
+    "anzahl": 2,
+    "neueste": "testberichte/diagnose/LevelPilot/3.12.27-195523a4d85e.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 55,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.43-ccacd52e2a5b.txt"
+    "anzahl": 56,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.43-983eaa887a4e.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 61,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.10-5f26c72aa57f.txt"
+    "anzahl": 62,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.10-12b3f3b88c8e.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 120,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794570917-3a7ca6.json"
+    "anzahl": 121,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794573661-9c462a.json"
    }
   }
  }
