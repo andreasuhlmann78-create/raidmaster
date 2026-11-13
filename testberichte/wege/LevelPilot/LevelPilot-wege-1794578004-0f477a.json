@@ -1,0 +1,67 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "70938",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 1,
+ "fest": [],
+ "id": "LevelPilot-wege-1794578004-0f477a",
+ "kind": "wege",
+ "npc": [],
+ "time": 1794578004,
+ "version": "3.12.27",
+ "zones": [
+  {
+   "edges": [
+    {
+     "n": 1,
+     "p": [
+      46,
+      41.6,
+      45.7,
+      41.2,
+      45.5,
+      40.8,
+      45.2,
+      40.6,
+      44.9,
+      40.4,
+      44.6,
+      40.3,
+      44.6,
+      39.9,
+      44.7,
+      39.4,
+      44.5,
+      39.1,
+      44.4,
+      38.7,
+      44.2,
+      38.4,
+      43.7,
+      38.2,
+      43.4,
+      38.1,
+      43.2,
+      37.9,
+      42.9,
+      37.5
+     ],
+     "src": "geteilt"
+    }
+   ],
+   "map": 1441,
+   "name": "Tausend Nadeln"
+  }
+ ]
+}
