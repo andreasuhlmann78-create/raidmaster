@@ -10,6 +10,16 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.31
+
+- New: recruitment in phases (Members > Line-up). Build-up (default for every guild): {wanted} in the ad becomes "players of all classes" – the line-up is not used. Transition: "players of all classes, especially <up to 3 gaps>". Raid: the gaps of the line-up, as before. Your own ad texts stay; {wanted} follows the phase.
+- The line-up targets are never deleted, converted or overwritten; the page says "the targets above apply from phase Raid". Only the Guild Master and officers can change them, every change is logged with name and time (last 50, in the game only).
+- Raid readiness for a target raid (Onyxia's Lair 40, Molten Core 40, Barrow Deeps 10, Hyjal Summit 20 and more; TBC: Karazhan 10, Gruul 25 …): active mains (level ≥ line-up minimum and online in the last 14 days; alts only with "count alts") against raid size, plus tanks and healers (from the line-up, scaled to the raid size; otherwise size/10 and size/5). Shown on Line-up, Recruitment and Overview: "Raid-ready (Onyxia's Lair): 23 of 40 active at level 55+ · Tanks 2/4 · Healers 5/10 · Phase Build-up", with an estimate from the levelling race ("at the current pace in ~x weeks", or "still measuring" with less than 7 days of data).
+- From 60 % officers get the suggestion "Transition", from 100 % "Raid" (in the window and once in officer chat, said by one only) with "Confirm" / "Later". Nothing switches automatically. Back only after 7 days below the threshold of the current phase.
+- Chronicle milestone "Guild is raid-ready (<raid>)", optional guild chat announcement (Settings, on by default, said by one only).
+- On logout a summary without names is stored for the uploader and the Discord bot (GuildSentinelDB.raidReady).
+- Developer test routine: T261–T269 (T-RP1–T-RP9) new; T244/T246 now run in phase Raid.
+
 ### Version 0.9.30
 
 - New: right-click menu on members (Members list, inactive list, Who is where, Applicants, Leadership lists): Whisper, Invite to group, Promote, Demote, Set rank …, Assign alt …, Edit note, Edit officer note, Enter absence, Say thanks, Assign mentor …, Remove from guild (with confirmation), Transfer guild leadership (Guild Master only, password protected). Entries your rank may not use are shown in grey with the reason; in combat "not in combat".
@@ -39,12 +49,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 - Russian recruitment ad: "Пишите мне" now starts with a capital letter, also when the Discord part is left out.
 - Developer test routine: T250 also checks the old default text in the client's language.
-
-### Version 0.9.26
-
-- Recruitment ad without Discord: the sentence after the removed Discord part now starts with a capital letter ("… helpful. Whisper me: …").
-- If you had saved the old default ad text unchanged, it is replaced once by the new default (with the new {gesucht} it would read awkwardly). Your own, different texts stay.
-- Developer test routine: T249 (counter "will be shortened") and T250 new; T248 renamed.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

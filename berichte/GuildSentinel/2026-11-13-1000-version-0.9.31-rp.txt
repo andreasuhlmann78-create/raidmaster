@@ -1,0 +1,42 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 · Sitzung: GuildSentinel-Projekt-Sitzung · Version: 0.9.31 · Commit: GuildSentinel 592c8d4
+
+ERLEDIGT (anweisung-rekrutierung-phasen.txt):
+- RP1: neues RaidReady.lua. G.recruitPhase = { p = build|trans|raid, raid, t, by }, über Comm "RPHASE" geteilt
+  (neuere Zeit gewinnt, nur von Rang 0/1 oder nicht tiefer als der eigene Offiziersrang angenommen). Standard Aufbau
+  (wird nicht gespeichert, solange niemand etwas einstellt). {gesucht} = RP:Wanted(): Aufbau "Mitstreiter aller
+  Klassen", Übergang "Mitstreiter aller Klassen, besonders <bis 3>", Raid = Comp:WantedList() wie bisher.
+  Abweichung: kein eigener Standardtext je Phase – die bisherigen Standardtexte ("sucht {gesucht} für Dungeons …",
+  Vorschlag 2) lesen sich mit allen drei {gesucht}-Werten richtig ("sucht Mitstreiter aller Klassen für …"), in allen
+  11 Sprachen geprüft (adcheck: 0 fehlerhaft). Zusätzliche Standardtexte hätten nur Übersetzungen verdoppelt.
+- RP2: G.comp wird nie gelöscht/umgerechnet; Seite Aufstellung: "Phase X – die Vorgaben oben gelten ab Phase Raid".
+  Ändern (SetWant, neu SetSetting für Mindeststufe/Twinks) nur mit ns.IsOfficer(), sonst Hinweis; G.compLog
+  { t, by, k, from, to }, letzte 50. Hinweis: G.comp wird (wie bisher) nicht über den Sync geteilt.
+- RP3: RP:Measure – aktive Mains (Stufe >= comp.min, online oder zuletzt <= 14 Tage; Twinks nur mit comp.alts),
+  Tanks/Heiler aus Comp:Role; Soll = Vorgabe * Grösse / Game.RAID_SIZE (aufgerundet), ohne Vorgabe Grösse/10 bzw. /5;
+  pct = min(Anzahl-Anteil, Rollen-Anteil). Ziel-Raids: Onyxias Hort 40, Molten Core 40, Barrow Deeps 10,
+  Hyjalgipfel 20, ZG 20, AQ20 20, BWL 40, AQ40 40, Naxx 40 (TBC: Kara 10, Gruul/Mag/SSC/TK 25).
+- RP4: RP:Suggestion (>= 60 Übergang, >= 100 Raid), RP:Pending nur für Offiziere, "Bestätigen" (RP:Confirm -> RP:Set,
+  Offiziersprüfung) / "Später" (1 Tag). Offizierschat einmal je Vorschlag über ns.Claim + ns.Chat(…, "OFFICER")
+  (Testmodus geschützt). Nie automatisch.
+- RP5: RP:DaysBelow aus G.rpHist (ein Wert je Tag, 40 Tage, nur seit der letzten Umschaltung); >= 7 Tage -> Vorschlag
+  zurück (Raid -> Übergang/Aufbau, Übergang -> Aufbau).
+- RP6: Fortschritt auf Aufstellung, Rekrutierung (Zeile neben "Werbetext") und Übersicht ("Für dich"). Schätzung aus
+  dem Leveling-Rennen (G.levels: Stufen der letzten 14 Tage je aktivem Main unter der Mindeststufe); < 7 Tage Daten
+  -> "messe noch".
+- RP7: g.miles["raidready:<raid>"] + milesText -> erscheint in der Chronik; Ansage über ns.Claim/ns.Announce,
+  Einstellung "Gilde ist raidfähig (Ziel-Raid)" (Standard an).
+- RP8: PLAYER_LOGOUT -> GuildSentinelDB.raidReady = { raid, phase, aktiv, groesse, tanks, tanksSoll, heiler,
+  heilerSoll, pct, wochen, t } – ohne Namen, nicht im Testmodus.
+- RP9: T261–T269 (T-RP1 … T-RP9) in TestRoutine.lua (R:RaidReadyCases), alle bestanden auf Forever, Era und TBC.
+  T-RP4 mit 59/60/100 und "nur Schaden" = 0 %; T-RP6 6 Tage -> nichts, 7 -> Übergang.
+
+PRÜFUNGEN: addon_check OK (Lua-Syntaxprüfung mit: luac5.1 (Lua 5.1)). Routine Forever OK 238, Era/TBC OK 243, je
+FEHLER 0, Sandbox OK; run_routine je 16/16; alle übrigen Testläufe 0 fehlgeschlagen.
+
+FÜR RAIDMASTER/DISCORD (RP-U, RP-D): GuildSentinelDB.raidReady liegt ab 0.9.31 in den SavedVariables (Felder oben).
+
+IM CLIENT PRÜFEN: Mitglieder > Aufstellung: Phase/Ziel-Raid nur als Offizier wählbar, Fortschrittszeile, Vorschlag
+mit Bestätigen/Später; Rekrutierung: Vorschau "sucht Mitstreiter aller Klassen …"; Übersicht: Zeile "Raidfähig (…)".
+
+OFFEN: TU (0.9.32).
