@@ -1,0 +1,44 @@
+BERICHT BUFFSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 16:54 · Sitzung: BuffSentinel-Sitzung · Version: 0.9.17 (661cb3a) und 0.9.18 (dfa964a)
+Addon-Prüfung GitHub:
+- 0.9.17 FEHLER: Kopie von GoldSentinelMarkt.lua war der Stand vor "MN KORREKTUR 2" (FeedStart/Feed, 17:00).
+- 0.9.18 mit neu kopierter Datei: OK (byte-gleich mit shared/, Stand 6e66279).
+
+ERLEDIGT:
+- MN1:
+  · GoldSentinelMarkt.lua unverändert kopiert, in der TOC nach GoldSentinelSync.lua.
+  · Beim Login nach InitDB: GoldSentinelMarkt.Attach("BuffSentinel", BuffSentinelDB) (Core.lua:1288), Daten in
+    BuffSentinelDB.gsMarkt.
+  · Ohne C_AuctionHouse/ReplicateItems still aus (Sache der Datei; T179 prüft es).
+- MN2:
+  · Schalter "Marktdaten teilen (anonym, nur Preise)" in den Optionen (Options.lua:806, über
+    GoldSentinelMarkt.SetShare), Standard an.
+  · Hinweistext: BuffSentinel fragt das AH nie selbst ab.
+  · CHANGELOG EN/DE.
+- MN3: Zeile "MARKT-NETZ: v1 · an/aus · Scans mitgelesen n · gesendet/empfangen a/b · gespeicherte Items n"
+  (BS:MarketLine, Core.lua:426). Sie steht im Testbericht (Extra-Feld marktNetz und Berichtstext) und im
+  Diagnose-Protokoll, dazu GoldSentinelMarkt.DiagLines().
+- MN4 (SelfTest.lua:790), ersetzt werden nur Felder von GoldSentinelMarkt (api/ep/…), danach zurückgestellt:
+  · T176 geladen und angemeldet.
+  · T177 BuffSentinel ohne die Datei (GoldSentinelMarkt = nil): Schalter, Zeile und Diagnose ohne Fehler.
+  · T178 Schalter aus: kein Lesen eingeplant, kein Lesen, nichts in die Warteschlange.
+  · T179 kein Lua-Fehler ohne AH-Schnittstelle.
+  · Regression in Selftest.REGRESSIONS ("MN").
+- Offline-Routine (berichte/BuffSentinel/offline): alle Kombinationen RESULT PASS.
+
+BEFUND AN DIE GEMEINSAME DATEI (nicht selbst geändert):
+- GoldSentinelMarkt.Pump() prüft IsShareOn() nicht. Schaltet der Spieler "Marktdaten teilen" aus, während noch
+  Nachrichten in M.outbox warten (z. B. kurz nach einem Scan), werden diese weiter gesendet. Im Test gesehen:
+  Schalter aus und ein Eintrag in outbox -> ep:Send wird aufgerufen.
+- Vorschlag: In Pump bei "aus" die Warteschlange leeren (verworfen "aus" zählen) und nicht senden. StartRead() prüft
+  den Schalter ebenfalls nicht; heute verhindert das nur OnReplicate.
+- T178 prüft deshalb nur, dass bei "aus" nichts Neues gelesen bzw. eingereiht wird.
+
+TEILWEISE / OFFEN:
+- BP-2026-11-13-1 (Schamane Imbue + Totem) und die TU1-Reste (Proc mit Restzeit, Gruppenbuff von anderen) folgen
+  als nächste Version (0.9.19).
+- Hinweis: GuildSentinel-0.9.37 hat dieselbe veraltete Kopie (FEHLER im Prüfbericht) – betrifft nicht
+  BuffSentinel.
+
+IM CLIENT GETESTET: noch nicht (Nutzer). Im Client: Optionen -> "Marktdaten teilen" sichtbar; /bsen protokoll mit
+MARKT-NETZ-Zeilen; nach einem Vollscan eines anderen Addons "Scans mitgelesen" > 0.
