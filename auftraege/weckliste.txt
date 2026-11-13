@@ -2,12 +2,12 @@ WECKLISTE – welche Projekt-Sitzung der Nutzer anstossen soll ("Repo prüfen") 
 Grund: Sitzungen schauen nur ins Repo, wenn sie aktiv sind; meist ist nur 1 (selten 2–3) aktiv (Nutzer 13.11. 22:29).
 Reihenfolge = Dringlichkeit. Eine Nachricht "Repo prüfen" genügt – alles steht in auftraege/<Projekt>/offen-*.txt.
 
-Stand 13.11.2026 22:41
+Stand 13.11.2026 22:45
 1. AHSentinel – SEHR DRINGEND: SN2115a/b (Budget-Verdopplung, eine Funktion "bester Weg"), TS116 (Sniper sucht nur
    beim Scrollen), RF/PS (ruckelfrei, pfeilschnell); danach Entscheide des Abends.
-2. RaidMaster – DRINGEND: GoldSentinelMarkt v2 kopieren (v1 lässt den AHSentinel-Vollscan ruckeln), Uploader.
+2. RaidMaster – erledigt bis auf Prüfung: 3.0.26 hat GoldSentinelMarkt v2 (byte-gleich), Uploader 2.3.7.
 3. GoldSentinelMarkt v2 umgesetzt (Prüf-Sitzung verglichen, byte-gleich, addon_check OK): BuffSentinel 0.9.19,
    GuildSentinel 0.9.38, ProfessionSentinel 0.9.45, ThreatSentinel 2.5.12, LevelPilot 3.12.29. GuildSentinel: GA im Client bestätigen.
 4. Discord – NORMAL: D-MN7a–f, Test mit Menge-0-Einträgen.
 5. LevelPilot – NORMAL: GR1, SP1.
-Hinweis: Bis RaidMaster v2 hat, im Spiel den Schalter "Marktdaten teilen" in einem Addon AUS lassen.
+Hinweis (überholt 22:45, alle Addons haben v2): Früher galt: bis alle v2 haben, im Spiel den Schalter "Marktdaten teilen" in einem Addon AUS lassen.
