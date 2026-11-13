@@ -1,0 +1,31 @@
+BERICHT AHSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 · Sitzung: AHSentinel-Sitzung · Version: 0.65.112 · Commit (AHAnalyzerPro): 94f0abe
+Nachbildung: Vollauf 244/244 grün. addon_check OK.
+
+ERLEDIGT (Reihenfolge laut Auftrag 16:54)
+  1 TS111.2 Lernfaktor-Kreisrechnung: Ursache meine S2-Änderung in 0.65.111 – A:GetLiquidity überschrieb perDay mit dem
+    gemessenen Wert, Ln:MarketFactor und der Vergleich lasen perDay -> gemessen/gemessen = 1,00 und "geschätzt" =
+    gemessen × Abbruch-Faktor. Jetzt: v.estimate = unabhängige Schätzung (immer gesetzt), MarketFactor und
+    VS-Vergleich lesen .estimate. T592.
+  2 TS111.3 Lagerwert-Sprung: Le:UnitStockValue nahm den Wiederverkaufspreis (A:ResalePrice), der seit MH1310/S2 bei
+    voller Leiter + gemessenem Absatz ÜBER dem Marktwert liegen darf -> ein Item mit hoher Leiter bewertete den Bestand
+    vielfach. Jetzt Lager "erzielbar": höchstens Marktwert (abzüglich Gebühr), Händlerpreis als Untergrenze. Das genaue
+    Item kann ich ohne Client-Daten nicht nennen – der Testbericht zeigt jetzt "TS111.3 grösste Lagerposten: Item, Menge ×
+    Stückwert = Wert (Einstand)". T593.
+  3 TS111.1 Vollscan-Speicher: Hauptquelle war die Verfolgung V4 (Sigs: Zeichenkette "Menge:Sofortkauf" + 2 Tabellen je
+    Auktion, für die 500 grössten Items = der Grossteil der 243k Auktionen; DecodeSigs 4× je Item). Jetzt Zahlen-Schlüssel
+    (Sofortkauf × 65536 + Menge, Stufe ×8), wiederverwendete Tabellen, einmal entschlüsseln; gespeichertes Format
+    unverändert. T594 (20'000 Auktionen, zweiter Lauf < 64 KB neuer Speicher). Messung "Lücke/Speicher/GC" je Vollscan
+    steht schon im Protokoll (VOLLSCAN Messung) – bitte mit 0.65.112 Teil server erneut: T458/T459/T126.
+    T373 (Heute tun 46 ms am Stück): Abschnitte pausieren seit 0.65.110; der lange Einzelschritt ist noch nicht
+    gefunden – braucht das Protokoll LANGSAM aus dem Client mit 0.65.112.
+  4 UI1618a Qualitätsfilter: Items mit noch nicht geladener Qualität rutschten durch (Bedingung "quality and …"). B:QualityPasses
+    blendet sie aus und stösst das Laden an (Live-Suche und Scan-Liste). T595.
+    UI1618b Tooltip: positiver Betrag unter dem Mindestgewinn -> "✗ Entzaubern: nur +86c (+9 %) – unter dem Mindestgewinn
+    20 %"; beim Wert kein grüner Haken, wenn der Kauf nicht lohnt. T596.
+  MK-Ü1F: finish.markt_kern (≤ 1500 Zeichen), markt_kern_wege, markt_kern_ma1 in den hochgeladenen Feldern. T597 (T555b).
+
+OFFEN: UI1509 (Leer-Hinweis ausserhalb des Fensters), UI1510 (leeres Testbericht-Fenster) – kommen nach; T373 (s. o.);
+  Absatz als Spanne (Hinweis 0.66); dann 0.66 Rechenkern mit MN1–MN5 (GoldSentinelMarkt FeedStart/Feed).
+IM CLIENT PRÜFEN: Teil server (T458/T459/T126, Protokoll VOLLSCAN Messung), Lernfaktoren je Gruppe ≠ 1,00, Lagerwert und
+  die Zeile "grösste Lagerposten", Einkauf mit Qualitätsfilter.
