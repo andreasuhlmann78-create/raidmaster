@@ -14,6 +14,8 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 | 00:22 | Nach jeder Version prüfen, ob das Addon mit dem letzten Punkt fertig ist, und es dann gleich mit dem nächsten Punkt weitermachen lassen – ab jetzt immer, für jedes Addon. | pruef-ablauf.md 0 "WEITERMACHEN"; Nachricht "weiter mit …" nach jeder Prüfung. |
 | 00:19 | Zyklen messen: Tages-, Wochen- und Monatszyklen. | AHSentinel Prio 6 (Zyklen mit JK1–JK4), Discord-Sammelstelle (hour_of_week, Monat mit KEEP90), markt-strategie.md. |
 | 00:18 | "Nur wer den Markt vorausahnen kann, macht richtig Gold – aber immer fundiert und belegbar." Markt-Wellen messen gehört dazu. | Grundsatz markt-strategie.md; AHSentinel Prio 6 (0.66 Rechenkern mit MA4/M-Welle/MA6, Trefferquoten). |
+| 00:12 | (an AHSentinel-Sitzung) Die Prüf-Sitzung bestimmt die Reihenfolge; Bedenken meldet die Projekt-Sitzung im Bericht, die Prüf-Sitzung gibt sie an den Nutzer weiter. | Bericht 0.65.123; gilt sinngemäss für alle Projekte. |
+| 00:10 | (an AHSentinel-Sitzung) Kompakter Preisverlauf im Spiel: "ja machen". | RF-M1 (2): drei Zahlenlisten je Item im Spiel, gespeichertes Format bleibt. |
 | 00:16 | Nichts von dem, was wir entscheiden, darf verloren gehen. | Diese Datei; Regel in pruef-ablauf.md 0. |
 | 00:15 | Alle Themen/Änderungen im Repo immer nach Priorität ordnen. | Block "PRIORITÄTEN" zuoberst in jeder offen-*.txt (auftraege/README.md). |
 | 00:11 | Buchhaltung mit echten Daten durchrechnen ("go"). | Befund BH-AUS (Gewinn falsch, Gold-Abstimmung leer). |
