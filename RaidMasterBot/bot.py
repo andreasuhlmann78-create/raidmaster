@@ -5756,6 +5756,13 @@ def check_guild_name(raw: str) -> tuple[str | None, str | None]:
 
 
 async def name_channel():
+    if name_poll().get("closed") and cfg.get("name_poll_channel_id"):
+        # Abstimmung vorbei und #gildenname gelöscht (12.11.2026): nicht bei jedem Start "Unknown Channel" melden
+        guild = bot_guild()
+        if guild is not None and guild.get_channel(int(cfg["name_poll_channel_id"])) is None:
+            cfg.pop("name_poll_channel_id", None)
+            save_config()
+            return None
     ch = await channel_by_id(cfg.get("name_poll_channel_id"))
     if ch:
         return ch

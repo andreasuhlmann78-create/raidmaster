@@ -340,6 +340,14 @@ class BotCode(unittest.TestCase):
         self.assertIn('pool = raid or pool_from_channel(inter.channel) or "mc"', src)
         self.assertIn("raid: str | None = None", src[src.index("async def raid_create("):][:300])
 
+    def test_geloeschter_gildenname_kanal_ohne_warnung(self):
+        with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as f:
+            src = f.read()
+        body = src[src.index("async def name_channel():"):]
+        body = body[:body.index("channel_by_id(")]
+        self.assertIn('name_poll().get("closed")', body)
+        self.assertIn('cfg.pop("name_poll_channel_id"', body)
+
     def test_raidmaster_pflicht_hinweis(self):
         with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as f:
             src = f.read()
