@@ -12,6 +12,14 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.104
+
+- **Command list while typing "/ahs": a mouse click now selects a command, Enter runs it.** The list stays open after the
+  click, the chat input gets the focus back, and the header shows "Enter = /ahs …". If you then press Enter with the
+  beginning you typed (e.g. "/ahs ent"), the selected command runs. A selection is valid for 10 s; Tab selects the next
+  entry. The chat input is still never written to (no taint).
+- Tests T537–T541 (T-CH1–T-CH5).
+
 ### Version 0.65.103
 
 - **Disenchant limits must be right:** "[Disenchant worth it]" in the buy list only when the price is at most "Worth up
@@ -74,18 +82,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Buyout:** the test log notes both prices when a buy calculation uses the price before the buyout.
 - Tests: material prices in the test sandbox are always fresh (T223/T230/T425 no longer depend on your real prices);
   new T502–T508 (T-VF5f, T-MP2b, T-PD5c, T-PD7a, T-MP1, T-AB8c, T-AB4b).
-
-### Version 0.65.99
-
-- **An empty full scan changes nothing.** If the server answers a full scan with no or far too few auctions (under 30 %
-  of the last valid one), no market, sales, rhythm or tracking data is taken over: "Full scan without answer – nothing
-  taken over." Sales estimates only come from two valid full scans.
-- **The Sniper pauses while a full scan is running** (about 30–90 s) – the full scan has priority. The 15-minute lock
-  alone does not stop the Sniper. Status line: "waiting: full scan running".
-- **Forecast: one case per purchase.** The same purchase could appear many times in the forecast journal. Purchases now
-  carry their auction; repeated reports are not recorded again. Existing duplicates are set aside once (not deleted,
-  kept in a side list) when the number of identical cases exceeds the purchases in the bookkeeping. Report: "Duplicates 0".
-- Tests T499–T501 (T-PD5a/b, T-PD2); simulation test for "scan with commodities updates their price time" (T-MP1).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
