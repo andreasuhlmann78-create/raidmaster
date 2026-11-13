@@ -243,5 +243,18 @@ AB4c (HOCH, NEU 13.11. 06:45 – Bild des Nutzers, Verkaufen-Fenster 0.65.99): P
    BELEG 06:43 (zweites Bild): Item = Große Astralessenz. Eingestellt zum Vorschlag 12s14 -> sofort "Käufer gefunden"
    (der Aufkäufer nahm das billige Stück), Rest 8 abgebrochen; Leiter weiterhin 28s99 (77 Stk.), nur 9 Angebote.
    Preisfeld steht nach dem Abbrechen wieder auf 12s14 statt auf der Leiter. Verlust des einen Stücks ~16s.
+   URSACHE (Code 0.65.99, Nutzer 06:44: "der neue Verkaufspreis wird nicht übernommen, er bleibt beim alten hängen"):
+   (a) Seller.lua SuggestRaw (ca. :592–597): liegt das günstigste fremde Angebot über dem gelernten Maximum
+       (Learn.lua Ln:Limits :319 ff., max = normal × MAX_FACTOR aus dem Marktwert), wird der gelernte Normalpreis
+       vorgeschlagen ("Konkurrenz liegt über deinem Maximum") – bei einem Aufkauf IMMER. Darum ändern "Vorschlag" und
+       "−1 Kupfer" (CycleUndercut -> ApplySuggestion, UI_Sell.lua:151–154) nichts: es bleibt 12s14.
+   (b) UI_Sell.lua:572–581: nach jeder fertigen Preisprüfung (SELLER_CHANGED) überschreibt ApplySuggestion(false) das
+       Preisfeld – auch einen von Hand eingetippten Preis.
+   Lösung zusätzlich: (a) Regel "über dem gelernten Maximum -> Normalpreis" nur bei EINZELNEN Ausreissern (wenige Stück
+   weit über dem Rest der Leiter); ist die ganze Leiter hoch (Aufkauf, Marktlage neu), knapp unter dem günstigsten
+   Angebot vorschlagen; gelerntes Maximum aus der aktuellen Leiter nachführen. (b) Von Hand geänderten Preis nie
+   automatisch überschreiben (Flag "von Hand" bis zum nächsten Item-Wechsel oder Klick auf "Vorschlag"); "−1 Kupfer"
+   wirkt immer auf das günstigste fremde Angebot. Tests: T-AB4c-a (ganze Leiter 210 %), T-AB4c-b (Preis tippen, dann
+   Preisprüfung fertig -> Preis bleibt).
    Test T-AB4c: Leiter 210 % des Marktwerts, 9 Abläufe in der Geschichte -> Vorschlag knapp unter 28s99, kein
    "billiger einstellen", Hinweis Aufkauf.
