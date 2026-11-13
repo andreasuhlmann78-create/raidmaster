@@ -10,6 +10,18 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.32
+
+- Developer test routine (/gs testroutine) extended so that errors like the blocked guild invite cannot slip through again:
+  - TU1 situation catalogue: 1 / 50 / 500 members, many offline, no rights / officer / Guild Master, first and last names with equal first names, no guild – each through ad text, applicant invite, guild management, member menu, member list, promotion, line-up/raid readiness and professions (T270).
+  - TU2 player-like flows: applicant -> invite -> no system message / message -> remove; promote without answer, retry, confirmation; /reload in the middle; ad without a channel (T271).
+  - TU3 default values: every field empty or as shipped gives what the player means (T272).
+  - TU4 basic rules with 1000 random cases (fixed seed 4711, 10 portions): never a protected guild function directly, status only after the game confirms, rank steps never above your own rank, ad without "|", nothing real sent (T273a–T273j).
+  - TU5 real data read only: duplicates, alts pointing to themselves, incomplete rank history – violations go to the diagnostic log without names (T275).
+  - TU6 regressions: every finding since 1 Nov has a permanent test; report "Regressions: n of m" (T276). TU8 report line per area (T279). T280 for RV7.
+- Protected guild functions that would run through ns.Act are now counted as an error in the routine as well.
+- No changes for players.
+
 ### Version 0.9.31
 
 - New: recruitment in phases (Members > Line-up). Build-up (default for every guild): {wanted} in the ad becomes "players of all classes" – the line-up is not used. Transition: "players of all classes, especially <up to 3 gaps>". Raid: the gaps of the line-up, as before. Your own ad texts stay; {wanted} follows the phase.
@@ -44,11 +56,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 - New field "Server tag" next to the Discord link and new placeholder {tag}. Without a tag or without a Discord link the tag part is left out completely.
 - Tip below the Discord link: use a permanent invite (never expires, unlimited uses); whoever clicks it sees the guild's server profile before joining.
 - Developer test routine: T251 (suggestion 2 with/without link and tag, DE/EN/RU) and T252 (invite tip) new.
-
-### Version 0.9.27
-
-- Russian recruitment ad: "Пишите мне" now starts with a capital letter, also when the Discord part is left out.
-- Developer test routine: T250 also checks the old default text in the client's language.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

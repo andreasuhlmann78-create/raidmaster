@@ -1,0 +1,34 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 · Sitzung: GuildSentinel-Projekt-Sitzung · Version: 0.9.32 · Commit: GuildSentinel 60183f5
+
+ERLEDIGT (anweisung-tests-umfassend.txt), alles in TestRoutine.lua (läuft im Client und offline in run_routine.lua):
+- TU1 T270: 6 Lagen (1 ohne Rechte, 50 Offizier, 500 GM, 50 viele offline, Vor-/Nachname mit gleichen Vornamen, keine
+  Gilde) x 8 Funktionen (Werbung, Bewerber einladen, Verwaltung, Mitglieder-Menü, Mitgliederliste, Beförderung,
+  Aufstellung/Raidfähigkeit, Berufe) = 48 Zellen, je Zelle Lua-Fehler/Erwartung, je Lage geschützte/echte Aufrufe.
+  Geheime Namen im Kampf und alte Versionen: SKIP mit Grund, abgedeckt durch T150/T91 bzw. T220.
+- TU2 T271: Bewerber (einladen, keine Meldung -> neu, Meldung -> eingeladen, entfernen), Verwaltung (Klick, keine
+  Antwort -> nicht ausgeführt, wiederholen, Bestätigung über die Gildenliste), /reload mittendrin (Meldung danach ohne
+  Folgen), Werbung ohne Kanal (Hinweis, nichts gesendet). Umfrage/Termin: bestehende Tests der Bereiche B/E.
+- TU3 T272: 8 Felder ab Werk (Werbetext, Server-Tag/Vorschlag 2, Intervall, Antwort, Begrüssung, Funktionen, Phase,
+  Sprache) – Liste im Testbericht.
+- TU4 T273a–T273j: 1000 Fälle, Startwert 4711, 10 Portionen à 100 (eigene Prüfungen, Laufzeit je Portion im Bericht).
+  Grundregeln je Fall: keine geschützte Gilden-Funktion (ns.API-Ersatz UND ns.Act-Mitschrift, PROTECTED_ACT), Status
+  "eingeladen" nie ohne Bestätigung, Rang-Schritte nie über den eigenen Rang/Rang 0/unter den untersten, Werbung ohne
+  "|", nichts echt. Verletzung = FEHLER mit Fallnummer, Aktion, Rechten, Grösse.
+- TU5 T275: echte Gildendaten nur lesen (Bewerber doppelt, eingeladen ohne Zeit, Twink = eigener Main, Rang-Verlauf
+  unvollständig) -> Diagnose "GRUNDREGEL VERLETZT <Art> <n>" ohne Namen.
+- TU6 T276: R.REGRESS ordnet 94 Befunde seit 1.11. (GV1, DP, RV, RP, WT, W, S, B, V, A, SY, GS, N, GT, RM, R, K, P, TU)
+  bleibenden Tests zu; Bericht "Regressionen: 94 von 94 vorhanden". Nicht zugeordnet (keine prüfbare Regel, reine
+  Routine-Anforderung bzw. Messauftrag): L1–L9 (die Routine selbst: Bericht, Sandbox, Fehlerzähler – run_routine.lua
+  prüft sie), N8 (Annahme in einer alten Offline-Datei), R5/R6 (Teil von T237/T208).
+- TU7: offline 16001/11508/20505 x deDE/enUS/frFR/ruRU/koKR (runall); Skalierung im Client (T184).
+- TU8 T279: Zeile je Bereich "TUx OK n · FEHLER n · SKIP n", FEHLER, wenn ein Bereich nur SKIP hat.
+- TU9: wowmock wirft seit 0.9.30 bei GuildInvite/Uninvite/Promote/Demote/SetLeader ADDON_ACTION_FORBIDDEN.
+
+GEGENPROBEN (Mutation, danach zurückgesetzt): Status "eingeladen" direkt gesetzt -> 14 FEHLER (T253, T270, T271,
+T273a–j); Ad.Promote mit direktem ns.Act("GuildPromote") -> 14 FEHLER (T194, T255, T270, T273…).
+
+PRÜFUNGEN: addon_check OK (Lua-Syntaxprüfung mit: luac5.1 (Lua 5.1)). Routine Forever OK 255, Era/TBC OK 260, je
+FEHLER 0, Sandbox OK; alle übrigen Testläufe 0 fehlgeschlagen.
+
+NÄCHSTES: BL (Befehlsliste, e4f5364) wird jetzt umgesetzt.
