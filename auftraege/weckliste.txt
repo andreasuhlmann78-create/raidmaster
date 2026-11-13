@@ -11,3 +11,15 @@ Stand 13.11.2026 22:45
 4. Discord – NORMAL: D-MN7a–f, Test mit Menge-0-Einträgen.
 5. LevelPilot – NORMAL: GR1, SP1.
 Hinweis (überholt 22:45, alle Addons haben v2): Früher galt: bis alle v2 haben, im Spiel den Schalter "Marktdaten teilen" in einem Addon AUS lassen.
+
+FÜR DEN NUTZER – IM SPIEL TESTEN, der Reihe nach (Prüf-Sitzung 13.11. 23:25)
+1. AHSentinel 0.65.119 installieren -> /ahs testroutine sniper (dabei scrollen) -> /reload. (DE30 30 %, TB119)
+2. AHSentinel: Vollscan, OHNE Reload /ahs testroutine tempo -> /reload. (TB118)
+3. Uploader auf PC und Laptop: Fenster schliessen, Programmdateien ersetzen (2.3.7), uploader.bat starten –
+   Startzeile "RaidMaster-Uploader 2.3.7". Vorher im Discord /update für den Bot.
+4. RaidMaster 3.0.26: /rm testroutine -> /reload.
+5. BuffSentinel 0.9.20: /bsen testroutine (ausserhalb Kampf) -> /reload. Schamane: Waffenmessung BP-2026-11-13-1
+   (a nur Waffenverzauberung, b nur Waffen-Totem, c beides, dann /bsen protokoll, /reload).
+6. LevelPilot 3.12.29: /lp testroutine -> /reload.
+7. GuildSentinel: Bewerbung mit Altersfrage einmal durchklicken.
+Alles Weitere (Skalierung, englischer Client, Flüster-Netz zwei Gilden) erst später.

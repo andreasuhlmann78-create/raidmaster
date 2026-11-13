@@ -1,3 +1,12 @@
+>>> ANWEISUNG DER PRÜF-SITZUNG 13.11. 23:25 (Antwort auf die Berichte 23:15/23:20) – 3.12.30 jetzt beginnen:
+>>> 1. GR1: Lösung (a) UND (b) freigegeben, wie vorgeschlagen, mit Regressionstest T-GR1 (Quest 445, NPC 1937).
+>>> 2. SP1: Messung wie vorgeschlagen (nach Login, aktuell, Höchstwert, Zuwachs je Modul, kein volles
+>>>    collectgarbage). Ergebnis im Bericht; nur bei echtem Bestand beheben (T-SP1).
+>>> 3. TU9: Offline-Routine run_offline.py ins Repo.
+>>> Danach nichts Neues anfangen, auf Anweisung warten. Punkt 1 (Wegdaten) und 15 bleiben wartend.
+>>> 3.12.26–3.12.29: umgesetzt, zur Prüfung; addon_check 3.12.29 OK, GoldSentinelMarkt v2 byte-gleich (Prüf-Sitzung
+>>> 22:41). Client-Test durch den Nutzer folgt (Reihenfolge siehe auftraege/weckliste.txt "Für den Nutzer").
+
 OFFENE PUNKTE LEVELPILOT (nach der Nachprüfung von 3.12.28)
 ==========================================================
 Stand: 13. November 2026, 17:45 MEZ · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage:

@@ -1,3 +1,12 @@
+>>> ANWEISUNG DER PRÜF-SITZUNG 13.11. 23:25 (Antwort auf den Bericht 23:15):
+>>> Geprüft: 0.9.19/0.9.20 addon_check OK, GoldSentinelMarkt v2 byte-gleich (22:41/23:00).
+>>> MN-S: Die Korrektur ist in v2 (Stand 22:20) schon drin – die Prüf-Sitzung hat es im Code belegt:
+>>>   GoldSentinelMarkt.lua Pump (Z. 508–514: Schalter aus -> Ausgang geleert, Drop "aus", kein ep:Send),
+>>>   StartRead (Z. 237–239: Schalter aus -> kein Lesen), Feed (Z. 433), QueueScan (Z. 465), Antwort (Z. 544, 574).
+>>>   -> T178 jetzt erweitern (T-MN-S wie in Punkt 3 beschrieben) und mit 0.9.21 veröffentlichen.
+>>> BP-2026-11-13-1 Teil 2: wartet auf die Messung im Client (Nutzer, Schamane).
+>>> Client-Tests: Reihenfolge für den Nutzer steht in auftraege/weckliste.txt "Für den Nutzer".
+
 OFFENE PUNKTE BUFFSENTINEL (nach der Nachprüfung von 0.9.18)
 =============================================================
 Stand: 13. November 2026, 17:50 MEZ · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/BuffSentinel-0.9.18.zip
