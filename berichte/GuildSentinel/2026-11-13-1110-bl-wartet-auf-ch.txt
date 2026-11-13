@@ -1,0 +1,11 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 · Sitzung: GuildSentinel-Projekt-Sitzung · Version: 0.9.32 (veröffentlicht) · Thema: BL
+
+TEILWEISE / OFFEN:
+- BL (Befehlsliste beim Tippen) wartet wie im Auftrag vorgesehen auf den Baustein: "Baustein: CmdHint von AHSentinel,
+  sobald dort CH umgesetzt ist (bis dahin warten bzw. den reparierten Stand übernehmen) – nicht jedes Addon eine eigene
+  Lösung." In download/AHSentinel-0.65.102.zip ist CH noch nicht umgesetzt (CmdHint.lua ohne Auswahl per Klick,
+  ohne SetFocus/Enter-Ausführung). Sobald eine AHSentinel-Version mit CH veröffentlicht ist, übernehme ich den Stand
+  (BL1 eine Befehlstabelle für Handler und Liste, BL2 Filter + Zähler, BL3 Bedienung, BL4 T-BL1–T-BL6).
+FRAGEN: Soll ich BL vorher mit einer eigenen, nach shared/vorlage/README.md gebauten Liste umsetzen? Dann bitte als
+  Auftrag in offen-guildsentinel.txt vermerken.
