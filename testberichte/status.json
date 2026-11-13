@@ -1,17 +1,17 @@
 {
- "ausgewertet": "2026-11-13T03:59:16Z",
+ "ausgewertet": "2026-11-13T05:05:50Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 15,
+   "berichte": 16,
    "letzter_test": {
-    "id": "AHSentinel-1794328095-5ef958-1",
-    "version": "0.65.86",
-    "time": 1794328051,
+    "id": "AHSentinel-1794542255-6dd008-1",
+    "version": "0.65.99",
+    "time": 1794542218,
     "counts": {
      "client": 16,
-     "fehler": 5,
-     "ok": 467,
+     "fehler": 3,
+     "ok": 557,
      "uebersprungen": 22
     }
    },
@@ -19,52 +19,32 @@
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.86",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T373",
-     "name": "Keine Hintergrund-Aufgabe ≥ 16 ms je Frame (während des Ranglisten-Aufbaus)",
-     "detail": "ergebnis: zu lang: cache:today:10 16.0 ms | erwartet: alle < 16 ms",
-     "bericht": "AHSentinel-1794328095-5ef958-1"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.86",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T203",
-     "name": "Entzaubern tatsächlich: 4 bekannte Entzauberungen -> Ø genau, Aufschlüsselung = geschätzter Wert",
-     "detail": "ergebnis: tatsächlich 211 aus 4, geschätzt 177 = Summe 177, ohne Daten nil · Entzaubern tatsächlich (Ø aus 4) (wenig Daten) 2|TInterface\\MoneyFrame\\UI-SilverIcon:0:0:2:0|t 11|TInterface\\MoneyFrame\\UI-CopperIcon:0:0:2:0|t |    Seltsamer Staub  4/4 × Ø 1.8 · AH 99|TInterface\\MoneyFrame\\UI-CopperIcon:0:0… | erwartet: 250 aus 4 ((7×100 + 1×300) / 4), Summe der Anteile = geschätzter Wert, ohne Daten keine Zeile",
-     "bericht": "AHSentinel-1794328095-5ef958-1"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.86",
+     "version": "0.65.99",
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "T223",
      "name": "Entzauberungswert gleich je Gruppe, Gewinn beim Kauf je Kaufpreis, Block-Anteile = Wert, Ausreisser zählt nicht",
-     "detail": "ergebnis: Wert 128/128, Gewinn 28/-872, Summe 135 = 135, Essenz 2 (ah, unsicher true) | erwartet: gleicher Wert, Gewinn = Wert - Kaufpreis, Summe = Wert, 2c-Angebot ignoriert (Markt 300c)",
-     "bericht": "AHSentinel-1794328095-5ef958-1"
+     "detail": "ergebnis: Wert 145/145, Gewinn 45/-855, Summe 153 = 153, Essenz 97 (market, unsicher true) | erwartet: gleicher Wert, Gewinn = Wert - Kaufpreis, Summe = Wert, 2c-Angebot ignoriert (Markt 300c)",
+     "bericht": "AHSentinel-1794542255-6dd008-1"
     },
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.86",
+     "version": "0.65.99",
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "T230",
      "name": "Sammelkauf: nur Rendite >= Mindestrendite und >= 10c Gewinn, sortiert; Abschlag 10 % unter 10 Entzauberungen",
-     "detail": "ergebnis: 0 Kandidaten, oben nil (+nil), danach +nil, Wert ab 10 Entzauberungen 1000 | erwartet: 2, oben +600, dann +400, Wert 1000",
-     "bericht": "AHSentinel-1794328095-5ef958-1"
+     "detail": "ergebnis: 0 Kandidaten, oben nil (+nil), danach +nil, Wert ab 10 Entzauberungen nil | erwartet: 2, oben +600, dann +400, Wert 1000",
+     "bericht": "AHSentinel-1794542255-6dd008-1"
     },
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.86",
+     "version": "0.65.99",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T364",
-     "name": "T-LG1 26 Stulpen, 14 Seelenstaub, 3 Splitter im Lager, keine Auktionen -> Lager positiv (≈ 4g 67s)",
-     "detail": "ergebnis: Lager 5|TInterface\\MoneyFrame\\UI-GoldIcon:0:0:2:0|t 43|TInterface\\MoneyFrame\\UI-CopperIcon:0:0:2:0|t (im AH 33|TInterface\\MoneyFrame\\UI-SilverIcon:0:0:2:0|t 24|TInterface\\MoneyFrame\\UI-CopperIcon:0:0:2:0|t) | erwartet: 4|TInterface\\MoneyFrame\\UI-GoldIcon:0:0:2:0|t 67|TInterface\\MoneyFrame\\UI-SilverIcon:0:0:2:0|t 19|TInterface\\MoneyFrame\\UI-CopperIcon:0:0:2:0|t, im AH 0",
-     "bericht": "AHSentinel-1794328095-5ef958-1"
+     "id": "T425",
+     "name": "T-X4b Sammelkauf: 3 Kandidaten zu 300c, Budget 50000 -> Mengen-Senkung mit nParts = 3 (nicht 166)",
+     "detail": "ergebnis: 0 Kandidaten · geplant 1 · grösste Menge an BatchNet 0 | erwartet: 3 · 3 · 3",
+     "bericht": "AHSentinel-1794542255-6dd008-1"
     }
    ],
    "fehler_spiel": [
@@ -155,7 +135,7 @@
    ]
   },
   "GuildSentinel": {
-   "berichte": 4,
+   "berichte": 5,
    "letzter_test": {
     "id": "GuildSentinel-1794203247-f4dd4b-1",
     "version": "0.9.13",
@@ -237,6 +217,20 @@
       "forever 1.60.1 (Interface 16001)"
      ],
      "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:407: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:400>\n[C]: in function 'fn'\n[Interface/AddOns/GuildSentinel/Core.lua]:183: in function 'Act'\n[Interface/AddOns/GuildSentinel/Core.lua]:191: in function 'Chat'\n[Interface/AddOns/GuildSentinel/Recruit.lua]:258: in function 'Post'\n..."
+    },
+    {
+     "addon": "GuildSentinel",
+     "art": "spiel",
+     "wo": "ADDON_ACTION_FORBIDDEN",
+     "msg": "fn()",
+     "anzahl": 1,
+     "versionen": [
+      "0.9.28"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:407: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:400>\n[C]: in function 'fn'\n[Interface/AddOns/GuildSentinel/Core.lua]:198: in function 'Act'\n[Interface/AddOns/GuildSentinel/Recruit.lua]:492: in function 'Invite'\n[Interface/AddOns/GuildSentinel/Pages.lua]:983: in function <Interface/AddOns/GuildSentinel/Pages.lua:983>\n[Interface/AddOns/GuildSentinel/UI.lua]:61: in function <Interface/AddOns/GuildSentinel/UI.lua:61>\n"
     }
    ]
   },
@@ -487,52 +481,32 @@
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.86",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T373",
-   "name": "Keine Hintergrund-Aufgabe ≥ 16 ms je Frame (während des Ranglisten-Aufbaus)",
-   "detail": "ergebnis: zu lang: cache:today:10 16.0 ms | erwartet: alle < 16 ms",
-   "bericht": "AHSentinel-1794328095-5ef958-1"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.86",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T203",
-   "name": "Entzaubern tatsächlich: 4 bekannte Entzauberungen -> Ø genau, Aufschlüsselung = geschätzter Wert",
-   "detail": "ergebnis: tatsächlich 211 aus 4, geschätzt 177 = Summe 177, ohne Daten nil · Entzaubern tatsächlich (Ø aus 4) (wenig Daten) 2|TInterface\\MoneyFrame\\UI-SilverIcon:0:0:2:0|t 11|TInterface\\MoneyFrame\\UI-CopperIcon:0:0:2:0|t |    Seltsamer Staub  4/4 × Ø 1.8 · AH 99|TInterface\\MoneyFrame\\UI-CopperIcon:0:0… | erwartet: 250 aus 4 ((7×100 + 1×300) / 4), Summe der Anteile = geschätzter Wert, ohne Daten keine Zeile",
-   "bericht": "AHSentinel-1794328095-5ef958-1"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.86",
+   "version": "0.65.99",
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "T223",
    "name": "Entzauberungswert gleich je Gruppe, Gewinn beim Kauf je Kaufpreis, Block-Anteile = Wert, Ausreisser zählt nicht",
-   "detail": "ergebnis: Wert 128/128, Gewinn 28/-872, Summe 135 = 135, Essenz 2 (ah, unsicher true) | erwartet: gleicher Wert, Gewinn = Wert - Kaufpreis, Summe = Wert, 2c-Angebot ignoriert (Markt 300c)",
-   "bericht": "AHSentinel-1794328095-5ef958-1"
+   "detail": "ergebnis: Wert 145/145, Gewinn 45/-855, Summe 153 = 153, Essenz 97 (market, unsicher true) | erwartet: gleicher Wert, Gewinn = Wert - Kaufpreis, Summe = Wert, 2c-Angebot ignoriert (Markt 300c)",
+   "bericht": "AHSentinel-1794542255-6dd008-1"
   },
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.86",
+   "version": "0.65.99",
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "T230",
    "name": "Sammelkauf: nur Rendite >= Mindestrendite und >= 10c Gewinn, sortiert; Abschlag 10 % unter 10 Entzauberungen",
-   "detail": "ergebnis: 0 Kandidaten, oben nil (+nil), danach +nil, Wert ab 10 Entzauberungen 1000 | erwartet: 2, oben +600, dann +400, Wert 1000",
-   "bericht": "AHSentinel-1794328095-5ef958-1"
+   "detail": "ergebnis: 0 Kandidaten, oben nil (+nil), danach +nil, Wert ab 10 Entzauberungen nil | erwartet: 2, oben +600, dann +400, Wert 1000",
+   "bericht": "AHSentinel-1794542255-6dd008-1"
   },
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.86",
+   "version": "0.65.99",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T364",
-   "name": "T-LG1 26 Stulpen, 14 Seelenstaub, 3 Splitter im Lager, keine Auktionen -> Lager positiv (≈ 4g 67s)",
-   "detail": "ergebnis: Lager 5|TInterface\\MoneyFrame\\UI-GoldIcon:0:0:2:0|t 43|TInterface\\MoneyFrame\\UI-CopperIcon:0:0:2:0|t (im AH 33|TInterface\\MoneyFrame\\UI-SilverIcon:0:0:2:0|t 24|TInterface\\MoneyFrame\\UI-CopperIcon:0:0:2:0|t) | erwartet: 4|TInterface\\MoneyFrame\\UI-GoldIcon:0:0:2:0|t 67|TInterface\\MoneyFrame\\UI-SilverIcon:0:0:2:0|t 19|TInterface\\MoneyFrame\\UI-CopperIcon:0:0:2:0|t, im AH 0",
-   "bericht": "AHSentinel-1794328095-5ef958-1"
+   "id": "T425",
+   "name": "T-X4b Sammelkauf: 3 Kandidaten zu 300c, Budget 50000 -> Mengen-Senkung mit nParts = 3 (nicht 166)",
+   "detail": "ergebnis: 0 Kandidaten · geplant 1 · grösste Menge an BatchNet 0 | erwartet: 3 · 3 · 3",
+   "bericht": "AHSentinel-1794542255-6dd008-1"
   },
   {
    "addon": "AHSentinel",
@@ -667,6 +641,20 @@
     "forever 1.60.1 (Interface 16001)"
    ],
    "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:407: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:400>\n[C]: in function 'fn'\n[Interface/AddOns/GuildSentinel/Core.lua]:183: in function 'Act'\n[Interface/AddOns/GuildSentinel/Core.lua]:191: in function 'Chat'\n[Interface/AddOns/GuildSentinel/Recruit.lua]:258: in function 'Post'\n..."
+  },
+  {
+   "addon": "GuildSentinel",
+   "art": "spiel",
+   "wo": "ADDON_ACTION_FORBIDDEN",
+   "msg": "fn()",
+   "anzahl": 1,
+   "versionen": [
+    "0.9.28"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:407: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:400>\n[C]: in function 'fn'\n[Interface/AddOns/GuildSentinel/Core.lua]:198: in function 'Act'\n[Interface/AddOns/GuildSentinel/Recruit.lua]:492: in function 'Invite'\n[Interface/AddOns/GuildSentinel/Pages.lua]:983: in function <Interface/AddOns/GuildSentinel/Pages.lua:983>\n[Interface/AddOns/GuildSentinel/UI.lua]:61: in function <Interface/AddOns/GuildSentinel/UI.lua:61>\n"
   },
   {
    "addon": "LevelPilot",
@@ -844,8 +832,8 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 74,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.99-2bf892d983c3.txt"
+    "anzahl": 77,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.99-d96ad9b3461c.txt"
    },
    "BuffSentinel": {
     "anzahl": 21,
@@ -856,22 +844,22 @@
     "neueste": "testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt"
    },
    "GuildSentinel": {
-    "anzahl": 65,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.24-4d8b4ffd43dd.txt"
+    "anzahl": 68,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.24-4e9d419d8dcb.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 49,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.38-1247862f6b5e.txt"
+    "anzahl": 50,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.39-773ac471fc49.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 53,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.9-b6663cd2e0c5.txt"
+    "anzahl": 56,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.9-d96edf5d530e.txt"
    }
   },
   "wege": {
    "LevelPilot": {
     "anzahl": 119,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794322533-f6e46f.json"
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794325575-01a45b.json"
    }
   }
  }
