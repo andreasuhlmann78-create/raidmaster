@@ -12,6 +12,13 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.119
+
+- **Disenchanting needs at least 30 % profit (was 20 %):** your own results showed too many disenchant purchases without
+  profit. "Worth up to", the sniper maximum for disenchant targets, the market view and the tooltip all use the same
+  30 % now (value ÷ 1.3). A higher setting still applies; the general minimum profit for selling stays unchanged.
+- Test T633.
+
 ### Version 0.65.118
 
 - **New test part `/ahs testroutine tempo`:** measures the speed targets in the game – tooltip calculation, switching
@@ -48,21 +55,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   budget only count confirmed purchases (S2), pause is visible and "resume" works (S3), frame rate / longest frame /
   sync queue (S5) and reaction time (S6). The result goes into the test report like the other parts.
 - Tests T613–T619.
-
-### Version 0.65.114
-
-- **Sniper never loses a real purchase:** if the server sends no answer, the sniper checks your gold after 30 s (gold
-  down by the price -> counted). A confirmation that arrives late is still counted (up to 5 min). On the modern auction
-  house an error message without a listing (e.g. from a search) no longer marks the purchase as failed.
-- **Live tooltip (new):** hovering an offer (sniper list, buy list, bargains, classic auction house row) shows ONE line
-  "Profit: −44c / each" (red) or "Profit: +2s 61c / each" (green) – with the price of exactly this offer and the best
-  way after fees (sell, disenchant, vendor). It replaces "Disenchant worth it …" and "Worth up to …"; everything else
-  stays. Bag tooltips use the market value. "Material prices corrected ×…" now only with Shift.
-- **Buy list:** with a quality filter, items whose data loaded later now appear without a new search.
-- **Test routine:** sync messages that arrive during the run are applied afterwards (no sandbox error, nothing lost).
-- **Flip list:** list and detail always calculate with the same state (no "FLIP-WIDERSPRUCH").
-- Diagnostics: "LANGSAM" names the longest single step (file:line); full-scan test waits up to 300 s.
-- Tests T602–T612, T597 checks the uploaded fields.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
