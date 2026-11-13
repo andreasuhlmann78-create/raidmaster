@@ -1,3 +1,15 @@
+>>> !!! DE30b (SEHR HOCH, Entscheid des Nutzers 13.11. 23:45 "ich will beides, je nachdem um welche Itemgruppe es geht")
+>>>    – zusammen mit KF2 umsetzen: Mindestgewinn für Entzaubern JE GRUPPE der Entzauber-Tabelle (dk, z. B. 2:4:a, 2:6:a):
+>>>    - 20 % für eine Gruppe, die BELEGT ist: ≥ 30 eigene Entzauberungen mit zugeordnetem Kauf UND gemessener Gewinn
+>>>      gesamt (Summe Beute / Summe Einsatz − 1, nach KF2) ≥ 20 %.
+>>>    - 30 % für alle anderen Gruppen (zu wenig Fälle oder Gewinn gesamt < 20 %) – mehr Puffer, solange nicht belegt.
+>>>    - Fällt eine belegte Gruppe später unter 20 % Gewinn gesamt, gilt dort wieder 30 % (selbsttätig, Zeile im Bericht).
+>>>    Heute (Daten PC 23:41): 2:4:a 450 Fälle, +35 % -> 20 %; 2:6:a 62 Fälle, +20 % -> 20 % (knapp); alle übrigen 30 %.
+>>>    Umsetzung: A.DE_MIN_GAIN wird A:DEMinGain(itemID) (eine Funktion, alle Stellen über BestWay/DEMinRoi; Einstellung
+>>>    des Nutzers darüber gilt weiter = max). Testbericht: je Gruppe Fälle, Gewinn gesamt, geltender Mindestgewinn.
+>>>    Tooltip-Text "unter dem Mindestgewinn %d %%" zeigt den Wert der Gruppe. Tests T-DE30c (belegte Gruppe 20 %),
+>>>    T-DE30d (unbelegte 30 %), T-DE30e (Rückfall auf 30 % unter 20 % Gewinn), T633 anpassen.
+
 >>> !!! KF2 (SEHR HOCH, GOLD – URSACHE BELEGT von der Prüf-Sitzung 13.11. 23:50, Nutzer: "verdammt wichtig") – direkt nach
 >>>    TB119-1, VOR TB118. Nachgerechnet aus deinen eigenen Daten (forecast.list, 648 D-Einträge, PC 13.11. 23:41):
 >>>      Gruppe 2:4:a (n 524): Median lv/ev 0,60 · MITTEL 0,97 · Summe lv / Summe ev 0,96

@@ -277,7 +277,13 @@ bzw. "eingebrochen" (< 60 %). Auftrag: auftraege/AHSentinel/anweisung-aktueller-
 Alle Kaufvorschläge im Markt zusammen höchstens 25 % des aktuellen Golds (Option, nie über 50 %).
 Auftrag: auftraege/AHSentinel/anweisung-markt-kapital-25.txt.
 
-## Entscheid des Nutzers 13.11.2026 22:57: Entzauber-Käufe mit mindestens 30 % Gewinn (ersetzt 20 %)
+## Entscheid des Nutzers 13.11.2026 23:45: Mindestgewinn Entzaubern JE GRUPPE (ersetzt die feste 30-%-Regel)
+
+20 % für belegte Gruppen (≥ 30 eigene Entzauberungen mit Kauf, Gewinn gesamt ≥ 20 %, Summe/Summe), sonst 30 %.
+Grund: Die Begründung der 30 % (42 % / 55 %) war ein Median-Fehler (KF2); echt +35 % (26–30) und +20 % (36–40).
+Auftrag DE30b.
+
+## (überholt 23:45) Entscheid des Nutzers 13.11.2026 22:57: Entzauber-Käufe mit mindestens 30 % Gewinn (ersetzt 20 %)
 
 Grund (gemessen, Testbericht 0.65.118 vom 13.11. 22:54): Sniper-Entzauber-Käufe 447, nur 42 % mit Gewinn; 55 % (512)
 mit Beute unter dem Kaufpreis; Beute/Vorhersage 2:4:a 0.60. Gilt überall gleich (Sniper, Markt "Entzaubern",
