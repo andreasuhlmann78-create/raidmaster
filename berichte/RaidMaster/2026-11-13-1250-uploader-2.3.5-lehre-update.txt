@@ -23,3 +23,13 @@ BITTE ÜBERNEHMEN (für künftige Aufträge/Nachprüfungen):
 Prüfungen: test_daten 12/12, test_sync 38/38, test_uploader 18/18, test_umfassend 14/14; py_compile OK; ZIP = Ordner.
 IM CLIENT/AM RECHNER: Laptop läuft (2.3.2-Prozess PID 22456, Sperre wird erneuert); 2.3.5 wird beim nächsten Start
 geladen (Dateien liegen im Ordner, siehe Nachtrag folgt).
+
+NACHTRAG 12:52 – BELEG T-DU12 AM LAPTOP (Fenster-Foto des Nutzers, 12:49 Ortszeit)
+- "RaidMaster-Uploader 2.3.5 · Ordner …\RaidMasterUploader · PID 608"
+- "Abgleich: alte Sperre von 2.3.2 entfernt (PID 22456 läuft nicht mehr als Uploader)."
+- "Abgleich: alte Sperre von vor 2.3.2 entfernt (PID 22456 läuft nicht mehr als Uploader)."
+  (Fenster mit 2.3.2 geschlossen und SOFORT neu gestartet – vor 2.3.3 hätte das "läuft schon" gemeldet und geendet.)
+- Abgleich "dieser Rechner aktuell", "Hochgeladen (46 KB, gepackt 9 KB)", "Prüfung: zuletzt geliefert …".
+- Am Rechner geprüft: _sync.lock erneuert mit PID 608, uploader_state.json version_hoechste = 2.3.5 (Warnung bei
+  älterer Fassung ab jetzt scharf).
+T-DU12 damit am Rechner belegt. PC noch nicht aktualisiert (wartet auf /update des Bots -> /uploader mit 2.3.5).
