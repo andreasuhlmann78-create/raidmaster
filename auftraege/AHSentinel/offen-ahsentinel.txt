@@ -452,3 +452,8 @@ SN2115 (HOCH, NEU 13.11. 21:18 – Bild des Nutzers 21:15, v0.65.114, Sniper, Zi
    c) Status "Sync über Gilde: 2 Mitspieler, sende … (117)" – die Warteschlange ist noch voller als 19:47 (39). Bitte im
       Bericht die Zusammensetzung nennen (welcher Präfix wie viele: AHSentinel eigene / GSMARKT1 aus anderen Addons).
    Hinweis: Der Nutzer hat noch 0.65.114; der Sniper-Test braucht 0.65.115.
+   SN2115d (Entscheid des Nutzers 21:21 – "die Rechnerei interessiert keiner"): Im Item-Tooltip unter der Zeile mit dem
+      eigenen Bestand (Figurenname + Anzahl) die Rechen-Zeile "Mit <Budget> Budget und höchstens <Max> kauft der Sniper
+      höchstens <n> Stück." ENTFERNEN (Rechnung bleibt intern, nur Testbericht/Diagnose). STEHEN BLEIBT die Warnung
+      "Max über Verkaufswert – jeder Kauf verliert ca. …/Stück" – aber nur mit der richtigen Zahl aus der einen Funktion
+      "bester Weg" (SN2115b). Test T-SN2115d: Rechen-Zeile fehlt, Warnung = Max − Wert des besten Wegs.
