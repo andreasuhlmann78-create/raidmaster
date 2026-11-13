@@ -228,3 +228,17 @@ SM (HOCH, NEU 13.11. 06:40 – Beobachtung des Nutzers: "wenn man mehrere Sachen
        "Menge: bis Budget (227 Stück)"; Warnung, wenn Menge × Max-Preis weit unter dem Budget liegt.
    Tests: T-SM1 zwei Ziele, beide mit Treffer innert 30 s -> beide kaufbar, Reihenfolge nach Abstand; Treffer läuft ab
    -> fällt raus; T-SM2 Ware ohne Menge mit Budget -> Menge aus Budget; Ausrüstung ohne Menge -> 1.
+
+AB4c (HOCH, NEU 13.11. 06:45 – Bild des Nutzers, Verkaufen-Fenster 0.65.99): Preisvorschlag ignoriert einen Aufkauf.
+   Item mit 9 in den Taschen, Marktwert 13s80, Händler 1s. Preisleiter JETZT: günstigstes Angebot 28s99 (78 Stk.),
+   dann 29s99, 30s52 … (% Markt 210–221 %, rot) – der Markt wurde leergekauft. Trotzdem steht im Preisfeld 12s14 und der
+   gelbe Hinweis rät "9× abgelaufen – billiger einstellen (Vorschlag 10s92) oder an den Händler (1s)" sowie
+   "verkauft sich in dieser Laufzeit nur ~5 – besser 5 einstellen, noch 4 in der Tasche".
+   Das widerspricht dem Entscheid 10.11. (mit dem aktuellen Markt rechnen) und der Trend-Regel MA6 (Spitze -> jetzt
+   verkaufen). Der Spieler würde 9 Stück um rund 16s/Stück unter dem Markt verkaufen (~1g45 verschenkt).
+   Lösung: Vorschlag immer aus der aktuellen Leiter (knapp unter dem günstigsten fremden Angebot), solange der Scan
+   frisch ist; bei Aufkauf (MP3/db.buyouts, Leiter > 150 % Marktwert) Hinweis "Aufkauf – jetzt teuer verkaufen, Preis
+   fällt meist bald (2 Std.)" statt "billiger einstellen"; der Ablauf-Zähler (9× abgelaufen) gilt nur für Einstellungen
+   zum damaligen Marktpreis, nicht für eine neue Marktlage; "verkauft sich nur ~5" erst nach MA1-Freigabe zeigen.
+   Test T-AB4c: Leiter 210 % des Marktwerts, 9 Abläufe in der Geschichte -> Vorschlag knapp unter 28s99, kein
+   "billiger einstellen", Hinweis Aufkauf.
