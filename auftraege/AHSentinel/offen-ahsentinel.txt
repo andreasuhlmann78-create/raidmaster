@@ -48,8 +48,12 @@ Einzelheiten zu jedem Punkt stehen weiter unten (Suche nach dem Kürzel). Diese 
                         die 17 vom Spieler ABGEBROCHENEN (r = c) als "nicht verkauft". Richtig: abgebrochen = zensiert, zählt
                         weder als Treffer noch als Fehler. Ohne Abbrüche: vorhergesagt 88 %, verkauft 47 % (Stück), 37 abgelaufen
                         (statt "verkauft 31 %"). Faktor also ca. 0,53 statt 0,35.
-                        Befund 2 (belegt, aber kleine Fallzahl, fast nur Staub/Essenz): Verkauft wird schnell oder gar nicht –
-                        erster Verkauf Median 0,2 Std. (12 Min., n 27). Der PREIS entscheidet: Preis/Marktwert ≤ 1,00 -> 59 % verkauft
+                        Befund 2 (kleine Fallzahl, fast nur Staub/Essenz): erster Verkauf Median 0,2 Std. (12 Min., n 27).
+                        KORREKTUR des Nutzers 00:53: "schnell oder gar nicht" stimmt NICHT – wird er unterboten, nimmt er das
+                        Angebot heraus statt es ablaufen zu lassen. Abbrüche sind also meist "unterboten" -> Teil der Kette
+                        (unterboten -> zurückziehen -> billiger neu einstellen -> Verkauf). Abbruch-Grund messen: war beim
+                        Abbruch ein günstigeres fremdes Angebot im letzten Scan? Dann "unterboten" (zählt in die Kette), sonst
+                        "anderer Grund". Der PREIS entscheidet: Preis/Marktwert ≤ 1,00 -> 59 % verkauft
                         (n 30) bzw. 44 % (≤ 0,90, n 11); 1,10–1,25 -> 25 % (n 7); > 1,50 -> 15 % (n 9). Die Prognose sagt überall
                         80–100 % – sie reagiert kaum auf den Preis.
                         Zu tun: (1) Abbruch (c) aus Kalibrierung, Zuverlässigkeit, Trefferquote und Lernen herausnehmen; im

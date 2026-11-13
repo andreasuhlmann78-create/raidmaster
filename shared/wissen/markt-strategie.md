@@ -530,7 +530,9 @@ Neuer Reiter: Lage (Bänder) / Mein Lager / Chancen / Trefferzeile – Auftrag a
 ### GEMESSEN 14.11. 01:00 – Verkaufs-Prognose (81 Einstellungen, alle 2 Std., fast nur Staub/Essenz)
 - Händler stellen nur 2 Std. ein (Nutzer 00:50). Abgebrochene (17) zählen nicht (zensiert, Nutzer 00:50).
 - Ohne Abbrüche: vorhergesagt 88 %, verkauft 47 % der Stücke; 37 von 64 abgelaufen ohne Verkauf.
-- Verkauft wird schnell oder gar nicht: erster Verkauf Median 12 Min. (n 27).
+- Erster Verkauf Median 12 Min. (n 27) – ABER (Korrektur des Nutzers 00:53): "schnell oder gar nicht" stimmt NICHT. Wird er
+  unterboten, nimmt er das Angebot heraus statt es ablaufen zu lassen -> Abbrüche = meist "unterboten", die Ware wäre evtl.
+  später verkauft worden. Abbruch ist darum weder Treffer noch Fehler, sondern Teil der Kette (unterboten -> neu, billiger).
 - Preis entscheidet (belegt als Richtung, kleine Fallzahl): Preis/Marktwert ≤ 1,00 -> 59 % (n 30); 1,10–1,25 -> 25 % (n 7);
   > 1,50 -> 15 % (n 9). Die Prognose reagiert kaum darauf (überall 80–100 %).
 - Folgerung: Chance je Preisstufe lernen; für 2-Std.-Händler die Kette bis zum endgültigen Verkauf messen (AHSentinel PR1).

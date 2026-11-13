@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 00:53 | Korrektur: "verkauft sich schnell oder gar nicht" stimmt nicht – wird er unterboten, nimmt er das Angebot heraus, statt es ablaufen zu lassen. | PR1: Abbruch-Grund "unterboten" messen, Abbruch = Teil der Kette; markt-strategie.md berichtigt. |
 | 00:50 | ThreatSentinel bekommt den gemeinsamen Sync ("kann natürlich umgesetzt werden"). | offen-threatsentinel.txt SYNC (HOCH). |
 | 00:50 | Prognose: Abbruch durch den Spieler und echten Ablauf unterscheiden; Händler stellen nie länger als 2 Std. ein (entzaubern und gleich verkaufen). | AHSentinel PR1. |
 | 00:38 | "Sehr gut, so stelle ich mir das vor – klar und sachlich, immer auf das Wohl des Spielers bezogen." (zur Wellen-/Zyklen-Auswertung) | So berichten: Messwert, belegt/nicht belegt, was es für den Spieler heisst; projekte.md "So denkt der Nutzer". |
