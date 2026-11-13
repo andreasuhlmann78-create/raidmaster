@@ -418,3 +418,27 @@ UI1509 (MITTEL, NEU 13.11. 15:10 – Bild des Nutzers, 0.65.110, Markt > Entzaub
    falscher Anker/Parent oder fehlende Breite). Test T-UI1509: UICheck je Reiter mit leerer Liste -> Hinweis liegt
    vollständig innerhalb des Listenrahmens. Einordnen in die nächste Version (gehört zu "falsche Anzeige", kein Aufschub
    bis 0.68). Hinweis an den Nutzer: Kacheln im Markt kommen erst mit dem neuen Markt-Reiter 0.68 (MR4) – kein Befund.
+
+TB110 (HOCH, NEU 13.11. 15:25 – Testroutine 0.65.110 des Nutzers, Bericht AHSentinel-1794579141-f4af71-1, 15:12;
+   vom Nutzer als SavedVariables geliefert, kommt auch über den Uploader): 628 OK · 6 FEHLER · 37 übersprungen · 16 im Client.
+   Danke: T223, T231, T248, T253, T431/T432 (umgebaut) aus TB108 sind behoben. PD7 läuft (Diagnose 15:00: "5544 Items,
+   213263 Einträge geprüft, 0 Fehler · Zustand active"), Sitzung ohne Fehler.
+   T373 WEITER (schlechter): "zu lang: cache:today:10 125.3 ms" (0.65.108: 94.1 ms). Diagnose: LANGSAM cache:today:10 84 ms,
+       cache:warm-today bis 55 ms (×3), pd7:prepare 18–19 ms – alle mit "0 Schritte" (die Aufgabe pausiert nie). Ziel von
+       0.65.110 (≤ 16 ms je Bild) für diese Aufgaben NICHT erreicht -> cache:today und cache:warm-today in Portionen teilen.
+   T240 NEU: "Werte stimmen 6: Nicht-Verkauf kostet in Forever die Einzahlung (Quote 50 % -> 1x Einzahlung)" -> Ist
+       9500/9400/2/8900/9500. Ursache prüfen (Erwartung oder Rechnung falsch?) – vor dem 17./18.11. klären, wenn die
+       Mindest-Einzahlung auf 1c fällt (Bluepost, wirtschaft-forever.md).
+   T285 NEU: "AB1 60 (N 7, kaum true) · AB2 90 (N 2) · AB3 kaum true · AB4 Q 7 · AB6 3/4 Zeilen".
+   T289 NEU: "AB7 S 665.41223518015 W 16.4 kaum false · AB8 kaum false" (S ungerundet und viel zu gross?).
+   T291 NEU: "AB10 S 199.6 N 2 · AB11 N 1.11 (own)".
+       -> T285/T289/T291 betreffen alle den Absatz (AB). Dazu im Protokoll 15:05 dutzende "ABSATZ-UNPLAUSIBEL Item … ·
+       1025.5/Tag · Quelle geschätzt" (z. B. 3357 1025/Tag, 2852 398/Tag, 8172 185/Tag). Bitte Ursache in der
+       Absatz-Schätzung finden; falsche Absatzzahlen gehören zu "falsche Zahlen" (Vorrang). Hinweis: Die Messung
+       M-KOMPLETT (GSMesstest 5, markt-strategie.md) misst den echten Absatz aus zwei Vollscans – Ergebnis folgt.
+   T536 NEU: "T-ST1b Referenz-Nachrechnung mit echten Scan-Preisen: 36–40: -6 % (Material 11137, Quelle ah, Alter 19 Min.)".
+       Prüfen, ob echte Abweichung oder Toleranz/Marktschwankung (dann Grenze begründen und im Test ausweisen).
+   SERVER-TEIL übersprungen (S02 "Auktionshaus offen" SKIP, T126/T458/T459 nicht gelaufen): der Nutzer wiederholt den Teil
+       server am offenen AH. 
+   UI1510 NEU (NIEDRIG): Nach dem Lauf zeigte das Fenster "Testbericht" (über "Test – Selbsttest und Testmodus") eine
+       ganz leere schwarze Fläche (Bild des Nutzers 15:12). Erwartet: der Bericht als Text bzw. "Bericht kopieren".
