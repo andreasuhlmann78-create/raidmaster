@@ -1,0 +1,41 @@
+Bericht AHSentinel 0.65.124 – BH-AUS (Prio 1) und RUHEMODUS (Prio 0)
+Stand: 14.11.2026 00:50 · Status: umgesetzt, zur Prüfung
+
+Prio 0 RUHEMODUS: Weck-Runde per send_later (5 Min., initiation human_request) eingerichtet, immer nur eine offen.
+  send_later ist in der Sitzung vorhanden.
+
+BH-AUS (Books.lua, UI_Ledger.lua, TestRoutine.lua):
+(1) Zuordnung Rechnung <-> ausstehend: BK:OnInvoice sucht zuerst wie bisher die genau passende Menge; sonst summiert
+    es kleine ausstehende Buchungen desselben Items/derselben Figur im Zeitfenster (älteste zuerst, Menge <= Rechnung)
+    und bestätigt sie ("bestätigt (summiert)"). Erlös der Rechnung anteilig nach Stück, Rundungsrest auf die letzte,
+    Summe = Rechnung exakt. Ein Rest ohne ausstehende Buchung wird neu gebucht. Nie doppelt.
+(2) Einmalige Reparatur BK:RepairPendingAUS (beim Laden, db.repairedBHAUS): ausstehende Buchungen, die eine früher als
+    NEU gebuchte Rechnung (st c, ohne Auktions-/Verkaufskennung) über die Menge schon enthält, bekommen st="x"
+    ("durch Rechnung ersetzt", xby = Zeit der Rechnung). Nichts gelöscht; Sicherung je Buchung in db.repairBHAUS;
+    Eintrag in repairLog und Diagnose; Lager: der doppelt entnommene Einstand wird einmal zurückgelegt.
+(3) Ausstehend älter als 24 Std. ohne Rechnung (BK.PENDING_OLD): in Summary pendingOld/pendingOldRev, im Tooltip
+    der Buchhaltung gemeldet, im Testbericht. Zählt NICHT im Gewinn.
+(4) Gewinn nur aus bestätigten Verkäufen: Summary zählt st "p" nur als "unterwegs" (pending), st "x" gar nicht;
+    Erlös/Kosten/Gewinn/Verkäufe nur aus bestätigten. Kasse-Zeile nutzt jetzt s.rev (vorher rev − pending).
+    FreeOrigins ohne p/x.
+(5) Gold-Abstimmung: Gold-Stände werden bei READY, Logout und Öffnen der Buchhaltung je Figur gemerkt (BK:RecordGold),
+    db.gold und db.cb sind nach Figur ("Name-Realm") geschlüsselt. Vermutung: der anonymisierte Export entfernt diese
+    Schlüssel, darum "leer" in den Prüf-Daten – bitte prüfen. Neu im Testbericht ohne Namen: Zeile
+    "BH-AUS Gold-Abstimmung seit Stichtag: Gold … · Buchhaltung … · nicht gebucht … · unterwegs …", Feld buch_abgleich,
+    und "Gold-Stände N Figuren, Einstand N Figuren".
+Bericht: Zeile "BH-AUS Reparatur …: aufgelöst N Buchungen (Stück) · Gewinn alt X -> neu Y · danach ausstehend Z",
+  Feld buch_reparatur (n/alt/neu). Gewinn alt = bisherige Rechnung (alle Verkaufsbuchungen inkl. ausstehender).
+  Die echten Zahlen (53 ausstehende) kommen mit dem nächsten Testbericht aus dem Client.
+
+Tests (eigene, Hinweise, keine Freigabe):
+  T640 T-BHA5: 72 Stück Rechnung bestätigt 20+20+32 ausstehend, keine neue Buchung, Erlös = Rechnung – PASS
+  T641 T-BHA6: Reparatur markiert 2 von 2 (20 Stück), gesichert 2, Erlös 11400 statt 22800, 2. Lauf 0,
+        Gewinn alt 10800 -> neu 5400 – PASS
+  T642 T-BHA7: alt (25 Std.) + neu ausstehend + 1 bestätigt -> Gewinn 1500, unterwegs 7000 (2), alt 1 = 4000 – PASS
+  T445/T462 und Szenario s89 an die neue Regel angepasst (ausstehend = kein Gewinn).
+  s42 PASS; Gesamtlauf 245/246, einziger Fehler s89 (alte Erwartung), nach Anpassung PASS. addon_check OK.
+
+Weiter laut Prio: RF-M1 (kompakter Preisverlauf zur Laufzeit).
+Hinweis RF-M1: GetHistory hat ~28 Verbraucher, die h[i].t/.p/.q lesen. Plan: Laufzeit-Spalten je Item (t/p/q/Flags),
+  Speicherformat unverändert (beim Logout zurückgeschrieben), Verbraucher auf Spalten-Zugriff umstellen. Grosse
+  Änderung – kommt in eigener Version mit Test T-RFM1.
