@@ -1,0 +1,38 @@
+BERICHT AHSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 · Sitzung: AHSentinel-Sitzung · Version: 0.65.108 · Commit (AHAnalyzerPro): a8160cc
+Grundlage: offen-ahsentinel.txt nach der Nachprüfung 12:20 (0.65.107).
+Nachbildung: Vollauf 242/244 – s10 (Zeit, bekannt) und s43 nur T459 (siehe unten).
+
+ERLEDIGT
+  MA1-B (a) MK:Truth hebt eine Wahrheit ohne Vermutung 10 Min. in MK.truthWait auf; MK:OnOwned wertet sie, sobald die
+        Vermutung entsteht. (b) newSig nur aus auctionIDs, die in ownPrev fehlten; eine neue Auktion erklärt nur EINE
+        verschwundene. T573 (T-MA1b), T574 (T-MA1c).
+  RK2-B (a) MV:DEOffer: upto = MK:LimitFromNet(net, n); deMinGain nur noch Filter. Detailzeile über MV:DEDetailLimit.
+        MK:LimitSources prüft zusätzlich Markt-Zeile (MV:DERowLimit, 1 Stück), Detail und Sniper-Ziel (10 Stellen).
+        (b) Sn:UpdateDETargets setzt das Ziel immer genau auf "Lohnt bis", Chat erst ab 5 % (Parameter quiet für die Probe).
+        (c) D:ReferenceCheck limit über MK:LimitFromNet. BuildDE rechnet die gelernte Marge einmal je Lauf (MK:BeginBatch).
+        T579 (T-RK2c, 20 Items × Lernen an/aus × deMinGain 20/35, Sniper +3 % angepasst). Angepasst: T535 (< 5 % jetzt
+        still angepasst), T397 (Mindestgewinn-Filter ohne Lernen gemessen, da die gelernte Startmarge strenger ist).
+  MA2-B MK:TruthValue: flip = späterer AH-Preis; de = D:DealValue-Netto zum Prüfzeitpunkt (Materialwert nach 24 Std.,
+        nur vollständig); vendor = bestätigter Händlerpreis (A.vendorChecked), Treffer = Kaufpreis < Händlerpreis. T575.
+  FG    MK:ApplyRelease (nach MarkRows/NoteRows in MV:Rows): gesperrt -> Zeilen weg, Kopf "Weg … gesperrt (Treffer y %)";
+        lernt -> grau "lernt noch (n von 20)", recommend=false, safety niedrig; Flippen/Lücken/Überfüllt ohne
+        MK:SalesReleased grau "lernt noch (n von 30)". Kopf-Hinweis gelb vor der Erklärzeile. Spalte "Stand" zeigt
+        r.coreNote (vorher war die Ü3-Markierung in r.state unsichtbar, weil die Spalte T:Info liest – mit behoben).
+        T576–T578.
+  Ü3-S  Selbsttest "Plausibilität (Ü3)": alle Zeilen in MV.cache, unplausibel und nicht recommend=false -> FEHLER.
+
+ABWEICHUNG MIT BEGRÜNDUNG
+  FG/T-FG2 "nicht als Empfehlung gemerkt": Zeilen eines lernenden oder gesperrten Wegs werden weiter mit MK:Note
+  gemessen (nur nicht als Empfehlung gezeigt). Sonst käme ein Weg nie zu seinen 20 Fällen bzw. nie mehr aus "gesperrt".
+  Bitte bestätigen oder anders entscheiden.
+
+HINWEIS T459 (Nachbildung)
+  s43 T459 "Speicherbereinigungen" ist in 0.65.108 offline wiederholt 5–6 statt ≤ 1 (0.65.107 im selben Lauf: PASS).
+  Eingrenzung: schon ein ApplyRelease, das sofort zurückkehrt, kippt den Wert – keine echte Speicherlast, sondern die
+  bekannte Empfindlichkeit der Nachbildung (Zeitbudget der Hintergrundjobs). Massgebend bleibt der Client-Wert.
+
+OFFEN
+  MA3-G (Gold-Messung Händlerverkauf), FG noch nicht in Tooltip/Sniper/"Heute tun" (nur Markt-Reiter),
+  Teil F Stufe 2 (RK1–RK8, MR2), TU1/TU2-Rest, API-PM4, AB3, L2b, BE2b, E, F, G. PD7 wartet auf die Client-Zahlen.
+IM CLIENT PRÜFEN: Markt "Entzaubern" = Tooltip "Lohnt bis"; graue "lernt noch"-Zeilen; MARKT-KERN-Zahlen im Testbericht.
