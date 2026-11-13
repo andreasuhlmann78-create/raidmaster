@@ -532,3 +532,10 @@ Haltedauer bis Verkauf, gebundenes Kapital (Lager + laufende Auktionen), verlore
 Optik-Regel des Nutzers: Einzelheiten nie in überladene Tooltips, sondern in ein Detail-Fenster hinter einem Knopf.
 Optik-Regel 2 (21:21): "solche Berechnungen will keiner sehen" – Anzeigen zeigen nur Ergebnisse, nie den Rechenweg
 (keine Faktoren, keine "Mit X und Y kauft Z"-Sätze, keine Fallzahlen); Rechnungen nur im Testbericht/Details.
+
+**Preis-Begriffe (geprüft 13.11.):** AHSentinel-Marktwert = gewichteter MEDIAN der letzten 14 Tage (A.MARKET_DAYS),
+Ausreisser über dem Dreifachen und Lockangebote zählen nicht. TSM zum Vergleich: DBMarket = gewichteter
+14-Tage-DURCHSCHNITT der Angebotspreise (letzte 3 Tage stärker gewichtet), DBMinBuyout = günstigstes Angebot des
+letzten Datenstands, DBHistorical = 60-Tage-Durchschnitt von DBMarket, DBRecent = nur der letzte Stand. Der Median ist
+gegen Ausreisser robuster als TSMs Durchschnitt. Anzeige (Entscheid des Nutzers): "Jetzt im AH" (ein echtes Angebot,
+nie ein Durchschnitt, mit Alter) und "Median 14 Tage". Beide messen ANGEBOTS-, nicht Verkaufspreise.

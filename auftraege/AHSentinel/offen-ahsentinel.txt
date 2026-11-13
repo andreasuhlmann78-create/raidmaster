@@ -479,10 +479,13 @@ TP (HOCH, NEU 13.11. 21:27 – Wunsch und Entscheid des Nutzers): PREISZEILEN IM
                                   oder sonst aus dem FRISCHESTEN Scan. Über einem Angebot: dessen Stückpreis.
                                   NIE ein Durchschnitt oder Mittelwert (Nutzer 21:26) – immer der Stückpreis EINES
                                   echten Angebots.
-      Üblich:       9s 50c ↓      klein/grau – Median 7 Tage, Pfeil = Trend (↑ ↓ →)
+      Median 14 Tage: 9s 50c ↓    klein/grau – der bestehende Marktwert (A.MARKET_DAYS = 14, gewichteter Median
+                                  ohne Ausreisser/Lockangebote), Pfeil = Trend (↑ ↓ →). Beschriftung "Median 14 Tage"
+                                  (Entscheid des Nutzers 21:27, statt "Üblich"/"Marktwert"); folgt automatisch, falls
+                                  MARKET_DAYS sich ändert.
    Alter sichtbar machen: Ist "Jetzt im AH" nicht live/frisch (älter als 30 Min.), dahinter grau "(vor 2 Std.)"; älter
    als 6 Std. -> "(veraltet, vor 9 Std.)" und die Gewinn-Zeile grau statt rot/grün.
-   Schnäppchen: "Jetzt im AH" ≥ 20 % unter "Üblich" -> Zahl grün.
+   Schnäppchen: "Jetzt im AH" ≥ 20 % unter dem Median -> Zahl grün.
    Gewinn-Zeile (LT) rechnet mit "Jetzt im AH". Optik-Regel OR gilt (keine Rechenwege).
    Tests T-TP1 (Lockangebot wird nicht als Jetzt-Preis gezeigt), T-TP2 (Alter 0/45 Min./9 Std. -> Anzeige und Farbe),
    T-TP3 (Schnäppchen grün), T-TP4 (über einem Angebot dessen Preis). Zusammen mit SN2115/OR.
