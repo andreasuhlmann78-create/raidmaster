@@ -142,6 +142,17 @@ Seit das Serverprofil öffentlich ist, sollen Neue ohne Rolle nicht den ganzen G
 - **Raid-Anmeldung (ab 1.5.117):** Wer sich für einen Gilden-Raid anmeldet (nicht PUG), bekommt den Hinweis, dass das
   Addon **RaidMaster** Pflicht ist, mit Link zu #raid-addon.
 
+## 6b. Raidfähigkeit und Selbstprüfung (ab Bot 1.5.125)
+
+- **Raidfähigkeit im Offizierskanal:** Schickt GuildSentinel (über den Uploader) die Zusammenfassung `raidReady` mit,
+  postet der Bot jeden **Montag einmal** in #offiziere z. B. „Raidfähig (Onyxia): 23/40 aktiv · Tanks 2/4 · Heiler 5/10 ·
+  Phase Aufbau · Schätzung ~3 Wochen“. Schlägt GuildSentinel eine andere Phase vor, kommt sofort einmal ein Hinweis
+  „im Spiel bestätigen“. Keine Namen, nie doppelt, nur #offiziere.
+- **Selbstprüfung (nur lesen):** beim Start und alle 6 Stunden prüft der Bot Grundregeln (darf er in allen
+  Anmeldekanälen posten? Offiziers- und Addon-Kanäle nicht für alle sichtbar? Mitglieder-Bereich dicht, Rolle Mitglied
+  und #bewerbung vorhanden?). Verstösse stehen im Protokoll als „GRUNDREGEL VERLETZT …“ und einmal in #bot-befehle.
+  Er ändert dabei nichts.
+
 ## 7. Uploader auf dem PC der Raidleitung
 
 Der Uploader schickt die Addon-Daten (DKP, Loot, Einteilung, Skillungen) an den Bot. Er braucht nur

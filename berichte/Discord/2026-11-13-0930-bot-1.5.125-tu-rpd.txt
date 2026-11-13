@@ -1,0 +1,41 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 09:30 · Sitzung: Discord-Projekt · Version: Bot 1.5.125 · Commit: dieser Bericht
+
+ERLEDIGT
+- RP-D (raid_ready.py, bot.py post_raid_ready im Stundentakt): raidReady aus GuildSentinelDB lesen (nur bekannte Felder,
+  Zahlen ≥ 0, keine Namen), montags einmal je Kalenderwoche in #offiziere ("Raidfähig (Onyxia): 23/40 aktiv · Tanks 2/4 ·
+  Heiler 5/10 · Phase Aufbau · Schätzung ~3 Wochen", ohne Wochen "messe noch"); Vorschlag zur Umstellung (optionales Feld
+  "vorschlag") sofort einmal je Phase->Vorschlag. Merker state raidready_week / raidready_suggestion. Tests
+  tests/test_raid_ready.py (T-RP-D). Läuft erst, wenn der Uploader raidReady mitschickt (RaidMaster RP-U).
+  Bitte an GuildSentinel: Feld "vorschlag" (Phase, die GuildSentinel vorschlägt) in raidReady aufnehmen, sonst gibt es
+  den Sofort-Hinweis nicht.
+- TU (tests/test_tu_umfassend.py, self_check.py):
+  TU1 Lagen-Tabelle (leerer Server, fehlende Rolle/Kanäle/Config, Intent aus, Raid 0/40/41 Anmeldungen, Sommer-/
+      Winterzeit, Update-Text > 1900 Zeichen) und Selbstprüfung mit 5 Fehllagen.
+  TU2 Abläufe: erstellen -> anmelden -> Neustart -> abmelden/anmelden -> Neustart; Raid ohne Nachricht wird entfernt;
+      neue Update-Version -> nur der alte Text weg, Datei bleibt.
+  TU3 Standardwerte: Modus dkp, Grösse 0 (unbegrenzt), Raid aus Kanal sonst MC, Datum ohne Jahr -> nächstes Jahr wenn
+      vorbei, Uhrzeit "20" = 20:00, /mitgliederbereich einrichten ohne bestaetigen = Vorschau.
+  TU4 Grundregeln, Startwert 4711, je 1000 Fälle: jede Anmeldung genau einmal + Raidgrösse nie überschritten
+      (< 8 ms je Fall), Aufräumen löscht nie fremde/Datei-/neuste Nachrichten, Ankündigung mit Beitrag bleibt live,
+      nie Token/Webhook in Texten, alle Texte < 2000 Zeichen.
+  TU5 self_check.check (nur lesen) beim Start und alle 6 h: Bot darf in allen Anmeldekanälen posten, Offiziers-/Addon-
+      Kanäle nicht für alle/Gast, Mitglieder-Bereich dicht, Rolle Mitglied und #bewerbung vorhanden. Protokoll
+      "GRUNDREGEL VERLETZT …", #bot-befehle nur bei geänderter Liste.
+  TU6 Regressionen: 12 von 12 vorhanden (T-N1, T-N2, T-R1, T-R2, T-D1, T-RE1, T-RE2, T-BEW, T-RP-D, T-108, T-107, T-100).
+- Bot-Tests 172/172 OK.
+
+TESTBERICHT (TU8)
+- TU1 OK 5 · FEHLER 0 · SKIP 0 (Rate-Limit/GitHub nicht erreichbar: von discord.py bzw. updater abgefangen,
+  vorhandene Tests test_update_gleichzeitig/test_update_schleife)
+- TU2 OK 3 · FEHLER 0 · SKIP 0
+- TU3 OK 4 · FEHLER 0 · SKIP 0
+- TU4 OK 4 · FEHLER 0 · SKIP 0 (Startwert 4711, 1000 Fälle je Regel)
+- TU5 OK (offline mit Attrappen) · live: Ergebnis nach dem Selbst-Update in #bot-befehle
+- TU6 OK 12 von 12
+- TU7 SKIP – Grund: der Bot hat keine Spieloberfläche; Darstellung in Discord Desktop/Web/Handy ist nicht offline
+  prüfbar (abgedeckt: alle Texte < 2000 Zeichen, nur Text/Einbettungen). Bot-Texte nur Deutsch; geschützte Werte im
+  Kampf betreffen den Bot nicht.
+
+IM CLIENT GETESTET
+- noch nicht (Selbst-Update 1.5.122–1.5.125 läuft; PC des Nutzers gerade nicht verbunden).

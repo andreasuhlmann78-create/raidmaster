@@ -39,6 +39,8 @@ import guildbank
 import uploader_setup
 import invites
 import member_area
+import raid_ready
+import self_check
 import tb_aufraeumen
 import render as rimg
 import server_setup
@@ -2713,8 +2715,38 @@ async def announce_raider_of_month(year: int, month: int, force: bool = False) -
     return lines[0]
 
 
+async def post_raid_ready(now: datetime | None = None) -> list[str]:
+    """RP-D (ab 1.5.125): Raidfähigkeit aus GuildSentinelDB.raidReady im Offizierskanal – montags einmal, Vorschlag
+    zur Umstellung sofort einmal. Keine Namen, nie doppelt, nur #offiziere."""
+    rr = raid_ready.parse(guildsentinel_db())
+    if rr is None:
+        return []
+    guild = bot_guild()
+    ch = server_setup.find_channel(guild.text_channels, "offiziere") if guild is not None else None
+    if ch is None:
+        return []
+    now = now or datetime.now(ZoneInfo(TZ))
+    sent = []
+    key = raid_ready.suggestion_key(rr)
+    if key and state.data.get("raidready_suggestion") != key:
+        await ch.send(raid_ready.suggestion_text(rr), allowed_mentions=NO_PING)
+        state.data["raidready_suggestion"] = key
+        state.save()
+        sent.append("vorschlag")
+    if raid_ready.weekly_due(now, state.data.get("raidready_week")):
+        await ch.send(raid_ready.weekly_text(rr), allowed_mentions=NO_PING)
+        state.data["raidready_week"] = raid_ready.week_key(now)
+        state.save()
+        sent.append("woche")
+    return sent
+
+
 @tasks.loop(hours=1)
 async def monthly_loop():
+    try:
+        await post_raid_ready()
+    except Exception:  # noqa: BLE001
+        log.exception("Raidfähigkeit konnte nicht gepostet werden")
     now = datetime.now(ZoneInfo(TZ))
     prev = (now.replace(day=1) - timedelta(days=1))
     key = f"{prev.year}-{prev.month:02d}"
@@ -5404,8 +5436,30 @@ async def refresh_icon_map() -> int:
     return len(found)
 
 
+async def run_self_check() -> list[str]:
+    """TU5 (ab 1.5.125): Grundregeln am echten Server prüfen (nur lesen). Protokoll "GRUNDREGEL VERLETZT …",
+    #bot-befehle nur, wenn sich die Liste geändert hat (nie doppelt)."""
+    guild = bot_guild()
+    if guild is None:
+        return []
+    found = self_check.check(guild, cfg)
+    for v in found:
+        log.warning("GRUNDREGEL VERLETZT %s", v)
+    key = "|".join(sorted(found))
+    if key != state.data.get("selfcheck_last", ""):
+        state.data["selfcheck_last"] = key
+        state.save()
+        if found:
+            await post_bot_log("🧪 **Grundregel verletzt** (nur gelesen, nichts geändert):\n• " + "\n• ".join(found[:15]))
+    return found
+
+
 @tasks.loop(hours=6)
 async def icon_map_loop():
+    try:
+        await run_self_check()
+    except Exception:  # noqa: BLE001
+        log.exception("Selbstprüfung fehlgeschlagen")
     try:
         age = time.time() - os.path.getmtime(ICON_MAP_FRESH) if os.path.isfile(ICON_MAP_FRESH) else None
     except OSError:
