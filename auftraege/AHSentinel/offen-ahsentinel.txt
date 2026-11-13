@@ -291,3 +291,26 @@ TB108 (HOCH, NEU 13.11. 13:05 – Testroutine 0.65.108 im Spiel, 12:55, Forever 
      MA1 (Verkauf vs. Abbruch) bleibt Voraussetzung, bevor gemessener Absatz Empfehlungen trägt.
    - MA3: 6191 Händlerpreise bestätigt, 4 abweichend. Vollscan 212046 Auktionen, 6006 Items, Drosselung ~25–37 Min.
    NOCH IM SPIEL: "/ahs testroutine server" am offenen AH (erledigt 12:58), "berufe" am Berufsfenster, "haendler" am Händler; 16 CLIENT-Punkte.
+
+DG1300 (HOCH, NEU 13.11. 13:10 – Diagnose-Protokoll 0.65.108, 13:00:40, vom Nutzer):
+   D1 HOCH "ABBRECHEN AUCTION_CANCELED auctionID <x> (erwartet nil) -> Zeile entfernt, Ware zurück per Post" ~40× um
+      08:10:25–08:10:47, jedes Mal mit einer ANDEREN auctionID und zeitgleich mit "SNIPER-TOT-AUSGEBLENDET Item 4251 · Kauf
+      fehlgeschlagen" – das sind KEINE eigenen Abbrüche (Ereignis beim gescheiterten Kauf bzw. fremde ID). Dazu 12:55:22
+      ×4, 12:56:54, 12:57:34 dieselbe ID 76739031 mehrfach. Prüfen und beheben: AUCTION_CANCELED nur verarbeiten, wenn die
+      auctionID in der eigenen Auktionsliste steht bzw. erwartet ist; sonst nur protokollieren ("fremd/unbekannt"), nichts
+      entfernen, keine "Ware zurück per Post" erwarten, nichts buchen; gleiche ID nur einmal. Belegen, dass Buchhaltung und
+      "ausstehende Post" durch die 08:10-Serie nicht verfälscht wurden. Test T-D1 (Kauf scheitert + AUCTION_CANCELED mit
+      fremder ID -> keine Änderung; dieselbe eigene ID 4× -> einmal).
+   D2 HOCH Sniper 08:10: 44 verschiedene Einzelangebote von Item 4251 (9s20/9s30) in 22 s gescheitert -> 10 Min. Pause.
+      12:53: "Treffer>Reserv. 16505 ms" – 16,5 s vom Treffer bis zur Reservierung, andere Käufer sind schneller. Ursache im
+      Protokoll mit der Server-Fehlermeldung je Fehlschlag festhalten (weg/verkauft, Preis geändert, Drosselung); Zeit vom
+      Treffer bis zur Kaufbereitschaft verkürzen (Ziel < 1 s); bei 3 Fehlschlägen hintereinander frisch suchen statt die
+      alte Liste abzuarbeiten. Test T-D2.
+   D3 MITTEL LANGSAM ×13 "core:realcheck" 240 ms (TU5 echte Daten im Hintergrund) und cache:today:10 72 ms, cache:warm-today
+      56 ms, sync-send 21 ms – alles in Portionen < 8 ms je Bild (TU5 verlangt das ausdrücklich).
+   D4 MITTEL "Fehler in dieser Sitzung: 6", im Protokoll steht aber kein FEHLER-Eintrag – jeden abgefangenen Fehler mit Ort
+      ins Protokoll (Diag), damit die Prüf-Sitzung ihn sieht.
+   BELEGE (gut): Preis-Vorhersagen beim Verkauf treffen 0–5 % (12 Rechnungen 12:53), Ausnahme 10× Große Astralessenz
+      vorhergesagt 20s43, echt 12s25 (+67 %) = der Fall AB4d (zu billig eingestellt). 08:14:39 dasselbe: 14 Stück zu 12s28
+      eingestellt, nach 5 s vom Spieler abgebrochen und zu 20s42 neu eingestellt (AB4d/WS). MINDESTEINZAHLUNG weiter 100
+      (1s) gemessen. SYNC über die Gilde: 29 empfangen, 1 Mitspieler mit AHSentinel online.
