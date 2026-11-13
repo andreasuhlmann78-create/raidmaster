@@ -74,7 +74,7 @@ HINWEIS FÜR KÜNFTIGE VERSIONEN
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/RaidMaster/ ablegen.
 
-T-DU11 (MITTEL, NEU 13.11. 04:55) – Uploader 2.3.0 am PC (DESKTOP-NVITMSE), WoW läuft: Fenster "GoldSentinel-Abgleich"
+T-DU11 (HOCH, NEU 13.11. 04:55 – Meldung kommt immer wieder, Nutzer will sie weg) – Uploader 2.3.0 am PC (DESKTOP-NVITMSE), WoW läuft: Fenster "GoldSentinel-Abgleich"
    "Neuerer Stand vom DESKTOP-NVITMSE – WoW beenden, dann übernehmen." – also der EIGENE Rechnername. Ablauf: 04:34
    Start, 11 Dateien vom Laptop übernommen, 04:35 eigener Stand hochgeladen (Abgleich: "dieser Rechner aktuell"),
    danach WoW gestartet, ~04:50 die Meldung.
@@ -90,3 +90,9 @@ T-DU11 (MITTEL, NEU 13.11. 04:55) – Uploader 2.3.0 am PC (DESKTOP-NVITMSE), Wo
    dessen Sync-Objekt) mit veraltetem Zustand (revs vor dem Push 04:48) – er hält den eigenen Stand 14 für neuer.
    Prüfen: Lesen beide Prozesse uploader_state.json frisch vor jeder Entscheidung? Darf die .bat überhaupt melden,
    wenn der Uploader läuft (Lock)? Eigene Uploads (machine == self.me) nie als offen werten.
+   NACHTRAG 05:00 (2): Meldung erscheint wiederholt, das sichtbare Uploader-Fenster loggt sie NICHT (dort steht nur
+   "dieser Rechner aktuell"). -> Es läuft sehr wahrscheinlich ein ZWEITER Uploader-Prozess (Autostart, evtl. versteckt
+   oder aus einem alten Ordner). Auftrag: (a) nur EIN Uploader je Rechner (Einzel-Instanz-Sperre mit PID-Prüfung,
+   zweiter Start meldet "läuft schon" und beendet sich); (b) Meldungsfenster nur aus dem Prozess, der auch ins Fenster
+   loggt, und immer mit Ordner/PID im Log; (c) Meldung höchstens einmal je echtem neuem Stand eines ANDEREN Rechners;
+   (d) Autostart-Eintrag prüfen/ersetzen statt doppelt anlegen. Nach dem Fix kurze Anleitung für den Nutzer.
