@@ -1,0 +1,36 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 17:15 · Sitzung: ProfessionSentinel-Sitzung · Version: 0.9.44 · Commit: 5940493 (Quell-Repo)
+Grundlage: anweisung-marktdaten-netz.txt (MN, Nachtrag 13.11.: GoldSentinelMarkt.lua v1 bereit).
+
+ERLEDIGT:
+- MN1: shared/GoldSentinelMarkt.lua v1 unverändert kopiert (cmp gleich; addon_check "exact" OK). TOC (alle vier):
+  GoldSentinelDev, GoldSentinelGame, GoldSentinelTest, GoldSentinelMarkt, dann die eigenen Dateien. ProfessionSentinel hat
+  KEIN GoldSentinelSync.lua (sendet selbst keine Addon-Nachrichten – so seit 0.9.37 mit der Prüf-Sitzung abgestimmt, T93).
+  Folge: ProfessionSentinel allein liest mit und speichert; geteilt wird, sobald ein Addon mit GoldSentinelSync geladen ist
+  (z. B. AHSentinel) – die Datei nutzt dann dessen Sync (_G.GoldSentinelSync). Bitte bestätigen, ob das so passt oder ob
+  ProfessionSentinel GoldSentinelSync.lua mitbringen soll.
+  Anmeldung beim Laden (ADDON_LOADED): GoldSentinelMarkt.Attach("ProfessionSentinel", ProfessionSentinelDB), Daten in
+  ProfessionSentinelDB.gsMarkt. Zugriff nur über ns.MarketNet() (Nahtstelle ns.Foreign, Core.lua) – Tests ersetzen die
+  Datei nie, Stub verweigert GoldSentinelMarkt/GSMarkt (TR.FOREIGN). Ohne C_AuctionHouse (Era/TBC) bleibt sie still.
+- MN2: Schalter "Marktdaten teilen (anonym, nur Preise)" / "Share market data (anonymous, prices only)", Standard an, über
+  GoldSentinelMarkt.SetShare (db.gsMarktAus); in den Optionen (Rechtsklick Minimap-Button) und /ps markt (market),
+  auch in der Befehlsliste. CHANGELOG EN/DE.
+- MN3: Testbericht-Zeile "MARKT-NETZ: v1 · an · Scans mitgelesen n · gesendet n · empfangen n · Speicher n Items"
+  (ns.MarketNetLine, Extra "umfassend.marktnetz").
+- MN4: T266 – Datei geladen + angemeldet, Standard an, Schalter aus -> IsShareOn false (kein Lesen/Senden), wieder an,
+  Option in der Liste, Berichtszeile; Get/DiagLines ohne AH-API ohne Lua-Fehler (Era/Retail-Mock); ohne Datei (Ersatz
+  "nicht geladen") arbeitet das Addon weiter (Zeile "nicht geladen", Schalter, Optionen). TU3 (T256): Standard "an".
+- Nebenbei gefunden und behoben (0.9.43): der Test-Helfer Foreign(name, nil) setzte wegen "v == nil and false or v"
+  nil statt false – "nicht geladen" wirkte nicht. Offline ohne Folgen (dort gibt es die fremden Addons nicht), im Client
+  hätten T-Fälle mit "Addon fehlt" das echte Addon gesehen. Jetzt korrekt.
+
+TESTS:
+- addon_check: OK, 0 FEHLER (gemeinsame Dateien exact). run_offline: Forever OK 222 / 0, Era 204 / 0, Retail 203 / 0,
+  TBC ohne Lua-Fehler, Exit 0. check_actions OK. Regressionen 61 von 61.
+
+TEILWEISE / OFFEN:
+- Offen aus der Nachprüfung 0.9.42 unverändert: BL3/BL4 (CmdHint-Baustein, Frage im Bericht 12:15), T145 im Client, Punkt 4.
+
+BEFUND FALSCH: –
+FRAGEN: GoldSentinelSync.lua in ProfessionSentinel mitbringen (dann sendet auch ProfessionSentinel allein) – ja/nein?
+IM CLIENT GETESTET: noch nicht. Bitte: nach einem Vollscan (AHSentinel) /ps testroutine g -> Zeile MARKT-NETZ "Scans mitgelesen 1".
