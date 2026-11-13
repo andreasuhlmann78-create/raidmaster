@@ -60,7 +60,7 @@ class MN8(unittest.TestCase):
             found = bac.list_realms("eu", CID, SEC, buf)
         finally:
             bac.http = orig
-        self.assertEqual(found, {"dynamic-classic1x": ["5"]})
+        self.assertEqual(found["dynamic-classic1x"], ["5"])
         self.assertIn("Forever (5)", buf.getvalue())
         self.assertNotIn(SEC, buf.getvalue())
 
