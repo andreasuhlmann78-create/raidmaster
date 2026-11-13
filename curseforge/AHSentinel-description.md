@@ -12,6 +12,19 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.112
+
+- **Learned sales factor fixed:** since 0.65.111 every group factor showed 1.00 because the estimate was compared with
+  itself. The independent estimate is kept separately again.
+- **Stock value:** stock is valued at the achievable price – never above the market value (the value had jumped ×12
+  through a single high resale price). The test report lists the largest stock items.
+- **Less stutter in the full scan:** the tracking of auctions no longer creates a text and a table per auction (the
+  garbage collector caused pauses of up to 821 ms).
+- **Buy list:** the quality filter now also hides items whose quality is not loaded yet (white/grey items slipped through).
+- **Tooltip:** a small positive profit below the minimum now reads "Disenchant: only +86c (+9 %) – below the minimum
+  profit 20 %", without a green check mark at the value.
+- Test report: market-core section also in the uploaded fields. Tests T592–T597.
+
 ### Version 0.65.111
 
 Immediate fix of distorted numbers (your decision):
@@ -74,32 +87,6 @@ Fixes wrong numbers from the big test of 0.65.108:
   30 own sales are measured. Measuring continues in the background.
 - Self test "Plausibility (Ü3)": no implausible row may be shown as a recommendation.
 - Tests T573–T579 (T-MA1b/c, T-MA2c, T-FG1–T-FG3, T-RK2c).
-
-### Version 0.65.107
-
-- **One "worth up to" everywhere (disenchanting):** tooltip, buy list mark "[Disenchant pays]", warning guard, Sniper
-  disenchant targets, Market tab "Disenchant", the Market buy limit, the batch buy and the API now use one single
-  calculation. Before, the tooltip and the Market tab could show two different limits for the same item.
-  - Worth up to = net value × the stricter of (1 / (1 + minimum return)) and (1 − learned safety margin).
-    Without learning: 10 % margin below 10 real disenchants.
-  - The batch buy no longer subtracts the minimum return a second time (items up to "worth up to" are bought).
-  - Self test: "One worth up to per item" checks 20 scanned items – two different values = error.
-- **Implausible suggestions** (profit over 300 %) are marked "implausible: …" in the Market tab and are not counted
-  as recommendations.
-- **Sniper: budget used up -> question.** When a target's budget is used up and a buyable hit appears, the next buy key
-  press / wheel turn does not buy but asks: "Budget of X used up (n bought). Keep buying? Top up the budget by X."
-  "Yes" (Enter) adds the original budget (at most what your gold allows), the next turn buys. "No" changes nothing.
-  The question comes again every time the topped-up budget is used up. Max price and quantity stay unchanged.
-- **One command table:** the /ahs handler now works only from the command list – every command it understands is in
-  /ahs help and in the typing list (new there: doppelt, resetscan, messreihe, ahdebug, ah).
-- **API:** WorthUpTo returns a 4th value (safety 0–1, nil = still learning) and a 5th value (price per piece); the 1st
-  value stays the total for qty. MaterialCost walks the price ladder for the needed quantity. Trend words of
-  MarketState documented in API.md.
-- **Tests:** "/ahs testroutine echt" checks the basic rules on your own data (read only: suggestions, one "worth up
-  to", Sniper budget); also runs quietly after every full scan and writes violations to the diagnostic log
-  ("GRUNDREGEL VERLETZT"). New tests for market-core releases (59 % locked, 61 % free, 19 cases learning) and for
-  auction mail with any sender.
-- Tests T556–T572 (T-RK2a/b, T-Ü3b, T-SB1–T-SB6, T-BL1/5/6, T-API-PM2/PM3, T-TU5, T-TU7, T-BP-1113-1).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

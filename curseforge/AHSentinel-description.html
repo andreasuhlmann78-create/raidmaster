@@ -7,6 +7,19 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.112</h3>
+<ul>
+<li><strong>Learned sales factor fixed:</strong> since 0.65.111 every group factor showed 1.00 because the estimate was compared with
+  itself. The independent estimate is kept separately again.</li>
+<li><strong>Stock value:</strong> stock is valued at the achievable price – never above the market value (the value had jumped ×12
+  through a single high resale price). The test report lists the largest stock items.</li>
+<li><strong>Less stutter in the full scan:</strong> the tracking of auctions no longer creates a text and a table per auction (the
+  garbage collector caused pauses of up to 821 ms).</li>
+<li><strong>Buy list:</strong> the quality filter now also hides items whose quality is not loaded yet (white/grey items slipped through).</li>
+<li><strong>Tooltip:</strong> a small positive profit below the minimum now reads "Disenchant: only +86c (+9 %) – below the minimum
+  profit 20 %", without a green check mark at the value.</li>
+<li>Test report: market-core section also in the uploaded fields. Tests T592–T597.</li>
+</ul>
 <h3>Version 0.65.111</h3>
 <p>Immediate fix of distorted numbers (your decision):
 - <strong>Disenchant value = achievable price:</strong> your own disenchants measured that the material prices were assumed ~43 %
@@ -64,33 +77,7 @@
 <li>Self test "Plausibility (Ü3)": no implausible row may be shown as a recommendation.</li>
 <li>Tests T573–T579 (T-MA1b/c, T-MA2c, T-FG1–T-FG3, T-RK2c).</li>
 </ul>
-<h3>Version 0.65.107</h3>
-<ul>
-<li><strong>One "worth up to" everywhere (disenchanting):</strong> tooltip, buy list mark "[Disenchant pays]", warning guard, Sniper
-  disenchant targets, Market tab "Disenchant", the Market buy limit, the batch buy and the API now use one single
-  calculation. Before, the tooltip and the Market tab could show two different limits for the same item.</li>
-<li>Worth up to = net value × the stricter of (1 / (1 + minimum return)) and (1 − learned safety margin).
-    Without learning: 10 % margin below 10 real disenchants.</li>
-<li>The batch buy no longer subtracts the minimum return a second time (items up to "worth up to" are bought).</li>
-<li>Self test: "One worth up to per item" checks 20 scanned items – two different values = error.</li>
-<li><strong>Implausible suggestions</strong> (profit over 300 %) are marked "implausible: …" in the Market tab and are not counted
-  as recommendations.</li>
-<li><strong>Sniper: budget used up -&gt; question.</strong> When a target's budget is used up and a buyable hit appears, the next buy key
-  press / wheel turn does not buy but asks: "Budget of X used up (n bought). Keep buying? Top up the budget by X."
-  "Yes" (Enter) adds the original budget (at most what your gold allows), the next turn buys. "No" changes nothing.
-  The question comes again every time the topped-up budget is used up. Max price and quantity stay unchanged.</li>
-<li><strong>One command table:</strong> the /ahs handler now works only from the command list – every command it understands is in
-  /ahs help and in the typing list (new there: doppelt, resetscan, messreihe, ahdebug, ah).</li>
-<li><strong>API:</strong> WorthUpTo returns a 4th value (safety 0–1, nil = still learning) and a 5th value (price per piece); the 1st
-  value stays the total for qty. MaterialCost walks the price ladder for the needed quantity. Trend words of
-  MarketState documented in API.md.</li>
-<li><strong>Tests:</strong> "/ahs testroutine echt" checks the basic rules on your own data (read only: suggestions, one "worth up
-  to", Sniper budget); also runs quietly after every full scan and writes violations to the diagnostic log
-  ("GRUNDREGEL VERLETZT"). New tests for market-core releases (59 % locked, 61 % free, 19 cases learning) and for
-  auction mail with any sender.</li>
-<li>Tests T556–T572 (T-RK2a/b, T-Ü3b, T-SB1–T-SB6, T-BL1/5/6, T-API-PM2/PM3, T-TU5, T-TU7, T-BP-1113-1).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
