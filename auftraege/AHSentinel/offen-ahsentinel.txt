@@ -512,6 +512,8 @@ EB (MITTEL, NEU 13.11. 21:05 – Nutzer: 8 Taschen mit 10 Plätzen für 1g 60s g
 EB-DET (MITTEL, Entscheid des Nutzers 13.11. 23:25): Im Details-Fenster (EB) zusätzlich diese drei Zeilen, je gewählter
    Zeitraum, nur aus gebuchten Daten (nichts geschätzt; zu wenig Fälle -> grau "lernt noch"):
    - Rendite je Weg: Sniper, Entzaubern, Flippen, Händler – realisierter Gewinn / eingesetztes Gold in %, mit Anzahl.
+     Entzaubern IMMER als Summe über alle Fälle (Beute/Einsatz), nie als Einzelfall-Verluste: Der Spieler erlebt sonst
+     jede Staub-Entzauberung als Pech, obwohl die Summe gewinnt (psychologie.md, "Einzelfall statt Summe").
    - Anzahlung verfallen: Summe der verfallenen Anzahlungen (Ablauf/Abbruch, Client-Wort nach EB-NAME, Regel BH-ANZ).
    - Verkaufsquote: verkaufte Stück / eingestellte Stück (Abbrüche und Abläufe zählen als nicht verkauft).
    NICHT: "gebundenes Gold" als eigene Zeile (vom Nutzer nicht gewählt). Keine Rechenwege anzeigen (Entscheid OR).
