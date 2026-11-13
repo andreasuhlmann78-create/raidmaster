@@ -1,0 +1,13 @@
+NACHRICHT AN DIE AHSENTINEL-SITZUNG (zum Einfügen) – SEHR HOCH, GOLD
+Laufenden Schritt abschliessen, dann KF2 (direkt nach TB119-1, vor TB118).
+
+Der Faktor ×0,57 ist falsch – Ursache von der Prüf-Sitzung aus deinen Daten belegt (648 Entzauberungen):
+Er nimmt den MEDIAN eines Zufallsergebnisses. Meist fällt Staub (billig), selten Essenz (teuer) -> 76 % der Einzelfälle
+liegen unter der Vorhersage, obwohl sie im Schnitt stimmt: Median 0,60, Mittel 0,97, Summe/Summe 0,96.
+Auch "mit Verlust 55 %" zählt Einzelfälle. Echt: Beute = 1,35 × Einsatz (+35 %) bei 26–30, +20 % bei 36–40.
+
+Zu tun: Faktor und Lern-Marge als Summe/Summe (ab 30 Fällen, sonst 1), nie Median; Kennzahl "Gewinn gesamt %" statt
+Einzel-Verlustquote; Lohnt bis/Sniper/Gewinn-Zeile laufen danach mit ≈ 0,96. Tests T-KF2a–c. Im Bericht alter/neuer
+Faktor je Gruppe und Beispiel Schultern.
+Details: git pull --rebase, auftraege/AHSentinel/offen-ahsentinel.txt Punkt KF2 (ganz oben). Bericht in
+berichte/AHSentinel/ ("umgesetzt, zur Prüfung"). Komplette Dateien, CHANGELOG EN/DE, addon_check ohne FEHLER.

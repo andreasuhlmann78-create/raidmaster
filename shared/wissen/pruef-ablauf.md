@@ -63,3 +63,6 @@ für JEDE neue Version jedes Projekts (auch für die geplante Nachprüfung).
 - 13.11. 23:00 Nutzer sagt "go" -> ich habe erklärt statt gehandelt; er musste "push es" nachschieben. Regel: Bei "go",
   "ja", "mach" sofort alles tun, was ich selbst kann (Repo: Auftrag ganz oben als SEHR DRINGEND, Weckliste, Log,
   committen, pushen), DANACH kurz sagen, was er noch tun muss. Dringendes immer zusätzlich zuoberst in offen-*.txt.
+- 13.11. 23:50 Faktor ×0,57 war ein Median über Zufallsbeute (Mittel 0,97) – ich habe ihn heute als "belegt" weitergegeben
+  und darauf DE30 begründet. Regel: Jede Kennzahl über Zufallsergebnisse prüfen: Median vs. Mittel vs. Summe/Summe
+  nebeneinander nachrechnen (aus den Rohdaten im Daten-Repo), bevor sie als Erkenntnis ins Gehirn oder in einen Auftrag geht.

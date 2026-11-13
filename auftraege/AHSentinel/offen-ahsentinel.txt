@@ -1,21 +1,23 @@
->>> !!! KF2 (SEHR HOCH, GOLD – Nutzer 13.11. 23:39: "wir haben heute Nachmittag herausgefunden, dass ×0,57 nicht stimmen
->>>    kann") – direkt nach TB119-1, VOR TB118:
->>>    Widerspruch in deinen eigenen Zahlen (Testbericht 0.65.118, 22:54 und 23:06):
->>>    - "Erlös: Median erzielt/vorhergesagt 1.00 (N 27)" und "Dauer bis Verkauf Median 0,1–0,3 Std." -> die Materialien
->>>      verkaufen sich schnell und ZUM VORHERGESAGTEN PREIS;
->>>    - gleichzeitig "Entzaubern zerlegt 2:4:a … Rest (Preis u. a.) 0,57" -> der Materialpreis sei nur 57 % wert.
->>>    Beides kann nicht stimmen. Laut deinem Bericht 21:03 ist f = lv/ev aus den Entzauber-Einträgen, lv = Beute zu
->>>    MatPrice im Moment des Entzauberns, ev = rohe Vorhersage beim Kauf. Kauf und Entzaubern liegen meist Minuten
->>>    auseinander -> f misst sehr wahrscheinlich den UNTERSCHIED ZWEIER PREISQUELLEN im Addon (Vorhersage vs. MatPrice),
->>>    nicht einen echten Verlust.
->>>    Zu tun: (1) Je Material (10940, 10938, 11082, 11083, 11084, 11135, 11137, 11139) im Testbericht drei Zahlen
->>>    nebeneinander: Preis in der Vorhersage ev, MatPrice beim Entzaubern, tatsächlich erzielter Verkaufspreis (nach 5 %).
->>>    (2) Den Faktor f NICHT mehr anwenden, solange er nicht durch echte Verkäufe belegt ist (Grundsatz "nur Gesichertes");
->>>    massgeblich ist der erzielte Verkaufspreis (eigene Verkäufe), sonst der Marktpreis. DE30 (30 %) bleibt als Puffer.
->>>    (3) Die Kennzahlen "Entzaubern mit Gewinn 42 %" und "mit Verlust gegenüber dem Kaufpreis 55 %" mit dem ERZIELTEN
->>>    Erlös neu rechnen (auch sie nutzen lv) und beide Fassungen im Bericht nennen.
->>>    (4) Lohnt bis / Sniper-Max / Gewinn-Zeile danach über A:BestWay neu – eine Quelle. Tests T-KF2a (f = 1, wenn erzielt
->>>    = vorhergesagt), T-KF2b (Preisquelle Vorhersage = Preisquelle Beute), T-KF2c (Kennzahlen aus erzieltem Erlös).
+>>> !!! KF2 (SEHR HOCH, GOLD – URSACHE BELEGT von der Prüf-Sitzung 13.11. 23:50, Nutzer: "verdammt wichtig") – direkt nach
+>>>    TB119-1, VOR TB118. Nachgerechnet aus deinen eigenen Daten (forecast.list, 648 D-Einträge, PC 13.11. 23:41):
+>>>      Gruppe 2:4:a (n 524): Median lv/ev 0,60 · MITTEL 0,97 · Summe lv / Summe ev 0,96
+>>>      Gruppe 2:6:a (n 124): Median 0,91 · Mittel 0,96 · Summe 0,95
+>>>    URSACHE: Der Faktor nimmt den MEDIAN eines Zufallsergebnisses. Eine Entzauberung bringt meist Staub (billig, ~73 %),
+>>>    selten Essenz/Splitter (teuer). 76 % der Einzelergebnisse liegen darum unter der Vorhersage (Quantile 25/50/75/90:
+>>>    0,41/0,60/0,98/2,10), obwohl die Vorhersage IM SCHNITT stimmt (0,96–0,97). Der Median misst den typischen
+>>>    Staub-Fall, nicht den Wert. Der Faktor 0,57 ist damit FALSCH; richtig wäre ≈ 0,96 (Summe/Summe).
+>>>    Gleicher Fehler bei den Kennzahlen: "mit Verlust gegenüber dem Kaufpreis 55 %" zählt Einzelfälle (meist Staub).
+>>>    Echtes Ergebnis aller zugeordneten Käufe: 2:4:a Beute 1,35 × Einsatz = +35 % Gewinn (153'061c auf 432'321c),
+>>>    2:6:a +20 % (26'060c auf 130'800c). Entzaubern war also GEWINNBRINGEND.
+>>>    Zu tun:
+>>>    (1) D:PriceCorrection / Fc:DEFactors: Faktor = Summe lv / Summe ev (ab 30 Fällen je Gruppe, sonst 1), nie Median.
+>>>        Ebenso die Lern-Marge Ln:Margin("d") und jede Kennzahl über Zufallsbeute: Summen statt Median/Einzelzählung.
+>>>    (2) Kennzahlen im Testbericht: "Entzaubern: Gewinn gesamt x % (Beute/Einsatz)" statt "mit Verlust 55 %"; Einzel-
+>>>        Verlustquote höchstens als Nebeninfo mit Hinweis "Zufallsbeute".
+>>>    (3) Lohnt bis / Sniper-Max / Gewinn-Zeile laufen danach automatisch mit ≈ 0,96 statt 0,57 (eine Quelle A:BestWay).
+>>>    (4) Tests: T-KF2a (Staub 75 %/Essenz 25 % mit Mittel 1,0 -> Faktor 1,0, nicht Median), T-KF2b (Kennzahl Gewinn
+>>>        gesamt = Summe Beute / Summe Einsatz), T-KF2c (unter 30 Fällen Faktor 1).
+>>>    (5) Im Bericht: alter und neuer Faktor je Gruppe, neue Kennzahlen, Beispiel Schultern (Lohnt bis alt/neu).
 
 >>> NEU CH-G (Entscheid des Nutzers 13.11. 23:26, AHSentinel als ERSTES Addon, nach TB119/TB118): gemeinsame
 >>>    Befehlsliste shared/GoldSentinelCmdHint.lua (v1, von der Prüf-Sitzung aus deiner CmdHint.lua gebaut, Test 30/30)

@@ -270,6 +270,10 @@ Um zu erfahren, ob ein höherer Preis noch verkauft, gelegentlich leicht höher 
   (N 27)" und Verkauf nach 0,1–0,3 Std. -> Materialien verkaufen zum vorhergesagten Preis. f = 0,57 ist sehr
   wahrscheinlich ein Unterschied zweier Preisquellen im Addon (Vorhersage vs. MatPrice beim Entzaubern), kein echter
   Verlust. Auch 42 %/55 % rechnen mit diesem Wert -> NICHT als belegt verwenden, bis KF2 mit erzielten Preisen nachrechnet.
+  **BELEGT 13.11. 23:50 (Prüf-Sitzung, 648 Entzauberungen):** Ursache = MEDIAN über Zufallsbeute. Median lv/ev 0,60,
+  aber Mittel 0,97 und Summe/Summe 0,96 (2:4:a); 76 % der Einzelfälle unter 1, weil meist Staub fällt. Echt: Beute =
+  1,35 × Einsatz (+35 %) bei 26–30, +20 % bei 36–40. REGEL: Bei Zufallsergebnissen (Entzaubern, Beute, Prozs) nie den
+  Median oder Einzel-Verlustquoten, sondern Summe/Summe bzw. Mittel mit genug Fällen.
 
 ## 8. Sniping, Flippen, Handel – Grundsätze (Wunsch des Nutzers 10.11. 09:28: "in allen Bereichen der Beste")
 
