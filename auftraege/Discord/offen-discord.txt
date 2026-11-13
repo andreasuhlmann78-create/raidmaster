@@ -1,6 +1,16 @@
+>>> KEEP90 (MITTEL, Entscheid des Nutzers 13.11. 23:35 – "das hat Platz, der Server hat 2 GB"):
+>>>    1. market.KEEP_DAYS 35 -> 90 (Trends über Monate).
+>>>    2. ACHTUNG: MAX_STORE_BYTES steht auf 3 GB (market.py:57) – grösser als der ganze Server (2 GB). Senken auf
+>>>       höchstens 1 GB UND nie mehr als 50 % des freien Platzes (shutil.disk_usage beim Start und vor jedem Ablegen);
+>>>       darüber älteste Scans zuerst löschen statt neue abweisen. Der Bot darf die Festplatte nie füllen.
+>>>    3. Der Bot misst selbst (kein SSH nötig): freier Platz, Grösse des Markt-Ordners, Arbeitsspeicher des Prozesses
+>>>       (resource/psutil falls vorhanden) – Zeile in /marktdaten und im Wochenbericht.
+>>>    4. Unklar: "2 GB" = Festplatte oder Arbeitsspeicher? Punkt 3 klärt es; Wert im Bericht nennen.
+>>>    Tests T-KEEP90a (90 Tage behalten), T-KEEP90b (Grenze = min(1 GB, 50 % frei), älteste weg), T-KEEP90c (Anzeige).
+
 >>> PRÜF-SITZUNG 23:50: Bot 1.5.132 – Bot-Tests hier 225 OK (Code-Prüfung D-MN7a–f/D-MN8b/D-T1 in der nächsten
 >>> Nachprüfung). Antwort Datenvolumen gelesen, an den Nutzer weitergegeben. Grenzen bleiben so (Empfehlung c, e).
->>> EXPORT_KEEP 2 -> 6 (a): ENTSCHIEDEN 23:33, gebaut als GoldSentinelMarkt v3 (Prüf-Sitzung). KEEP_DAYS 90 (b): offen. B5 Server-Messung: offen (Nutzer).
+>>> EXPORT_KEEP 2 -> 6 (a): ENTSCHIEDEN 23:33, gebaut als GoldSentinelMarkt v3 (Prüf-Sitzung). KEEP_DAYS 90 (b): ENTSCHIEDEN 23:35 -> Punkt KEEP90. B5 Server-Messung: offen (Nutzer).
 >>> (ERLEDIGT, beantwortet) FRAGE DES NUTZERS (13.11. 23:20) – bitte als Bericht in berichte/Discord/ beantworten, NICHTS umsetzen:
 >>> "Kann der Bot vom Datenvolumen her grösser gemacht werden, und was hat das für Einflüsse?"
 >>> Bitte mit echten Zahlen (gemessen, nicht geschätzt, sonst als Schätzung kennzeichnen):
