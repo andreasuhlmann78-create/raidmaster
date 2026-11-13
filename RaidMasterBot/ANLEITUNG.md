@@ -125,7 +125,7 @@ Seit das Serverprofil öffentlich ist, sollen Neue ohne Rolle nicht den ganzen G
   welche Kategorien/Kanäle dicht gemacht werden, wer die Rolle **Mitglied** bekommt, ob #bewerbung angelegt wird.
 - `/mitgliederbereich einrichten bestaetigen:True` führt es aus:
   - Rolle **Mitglied** (ohne Sonderrechte) anlegen; alle Mitglieder ohne Rolle (ausser Gast, Bots) bekommen sie.
-  - **📝 BEWERBUNG** mit **#bewerbung** (unter 📜 REGELN, für alle sichtbar) und Karte mit Knopf **Bewerben**.
+  - **📝 BEWERBUNG** mit **#bewerbung** (ab 1.5.124 ganz oben in der Kanalliste, für alle sichtbar) und Karte mit Knopf **Bewerben**.
   - Alles, was @everyone bisher sah und nicht in 📌 INFO, 📜 REGELN, 🎲 PUG, 🧩 RAID-ADDON oder 📝 BEWERBUNG liegt
     (💬 ALLGEMEIN, 🗝️ DUNGEONS, 🏦 GILDENBANK, ⚔️ RAID-ORGA, freigeschaltete Raids), sehen nur noch **Mitglied,
     Raider, Raidleitung und Offizier** (und der Bot selbst, ab 1.5.116). Sonstige Kanal-Einstellungen bleiben; schon versteckte Bereiche (Offiziere,

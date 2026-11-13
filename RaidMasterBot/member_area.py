@@ -30,7 +30,7 @@ GUEST_ROLE = "Gast"
 APPLY_CATEGORY = "📝 BEWERBUNG"
 APPLY_CHANNEL = "bewerbung"
 APPLY_TOPIC = "Neu hier? Auf „Bewerben“ klicken – ein Offizier meldet sich bei dir."
-APPLY_AFTER = "📜 REGELN"
+APPLY_AFTER = "📜 REGELN"   # bis 1.5.123; ab 1.5.124 steht 📝 BEWERBUNG ganz oben (Wunsch Andreas 13.11.)
 
 # Kategorien, die alle sehen dürfen (auch ohne Rolle) – werden nie angefasst
 OPEN_CATEGORIES = ("📌 INFO", "📜 REGELN", "🎲 PUG", "🧩 RAID-ADDON", APPLY_CATEGORY)

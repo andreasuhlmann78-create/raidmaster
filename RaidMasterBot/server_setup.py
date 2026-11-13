@@ -1321,3 +1321,15 @@ async def drop_disboard_manage_channels(guild, reason: str = "RaidMaster: DISBOA
     perms.manage_channels = False
     await role.edit(permissions=perms, reason=reason)
     return [f"🔧 Rolle {role.name}: Recht „Kanäle verwalten“ entfernt"]
+
+
+async def place_first(guild, name: str, reason: str = "RaidMaster: Kategorie nach oben") -> list[str]:
+    """Kategorie ganz nach oben schieben (ab 1.5.124 für 📝 BEWERBUNG). Nichts tun, wenn sie schon oben steht."""
+    cat = _find(guild.categories, name)
+    if cat is None:
+        return []
+    ordered = sorted(guild.categories, key=lambda c: c.position)
+    if ordered and ordered[0] is cat:
+        return []
+    await cat.edit(position=0, reason=reason)
+    return [f"↕️ Kategorie **{name}** ganz nach oben verschoben"]

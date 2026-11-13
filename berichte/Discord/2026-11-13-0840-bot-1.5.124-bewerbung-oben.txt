@@ -1,0 +1,14 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 08:40 · Sitzung: Discord-Projekt · Version: Bot 1.5.124 · Commit: dieser Bericht
+
+ERLEDIGT
+- Wunsch Nutzer 13.11. 08:25: 📝 BEWERBUNG ganz oben in der Kanalliste, damit Neue nicht suchen müssen.
+  server_setup.place_first (nur verschieben, wenn nicht schon oben), einmalig beim Start (state "apply_on_top"),
+  neu angelegte Bewerbung kommt ebenfalls nach oben (bot.py ensure_apply_channel). Test BewerbungOben.
+  Bot-Tests OK.
+
+TEILWEISE / OFFEN
+- TU (anweisung-tests-umfassend.txt) und RP-D (Raidfähigkeit im Offizierskanal) vom 13.11. gelesen, noch nicht umgesetzt.
+
+IM CLIENT GETESTET
+- noch nicht; Meldung "Kategorie 📝 BEWERBUNG ganz nach oben verschoben" kommt nach dem Selbst-Update in #bot-befehle.

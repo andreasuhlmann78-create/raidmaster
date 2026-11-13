@@ -236,6 +236,26 @@ class Disboard(unittest.TestCase):
         self.assertTrue(rep[0].startswith("⚠️"))
 
 
+class BewerbungOben(unittest.TestCase):
+    def test_ganz_nach_oben_und_nur_einmal(self):
+        from types import SimpleNamespace as N
+
+        class Cat:
+            def __init__(self, name, pos):
+                self.name, self.position, self.edits = name, pos, []
+
+            async def edit(self, position=None, reason=None):
+                self.edits.append(position)
+                self.position = -1
+        info, regeln, bew = Cat("📌 INFO", 0), Cat("📜 REGELN", 1), Cat(member_area.APPLY_CATEGORY, 2)
+        g = N(categories=[info, regeln, bew])
+        rep = asyncio.run(server_setup.place_first(g, member_area.APPLY_CATEGORY))
+        self.assertEqual(bew.edits, [0])
+        self.assertTrue(rep)
+        self.assertEqual(asyncio.run(server_setup.place_first(g, member_area.APPLY_CATEGORY)), [])
+        self.assertEqual(asyncio.run(server_setup.place_first(N(categories=[info]), member_area.APPLY_CATEGORY)), [])
+
+
 class Raids(unittest.TestCase):
     def test_show_raid_nur_fuer_mitglieder(self):
         g = Guild()

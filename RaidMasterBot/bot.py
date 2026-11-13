@@ -296,6 +296,19 @@ class RaidBot(discord.Client):
                 log.exception("Sprachkanal AFK konnte nicht verschoben werden")
             try:
                 guild0 = bot_guild()
+                if guild0 is not None and not state.data.get("apply_on_top") \
+                        and guild0.me.guild_permissions.manage_channels:
+                    rep = await server_setup.place_first(guild0, member_area.APPLY_CATEGORY,
+                                                         "RaidMaster: Bewerbung ganz oben (Wunsch Gildenleitung)")
+                    if server_setup._find(guild0.categories, member_area.APPLY_CATEGORY) is not None:
+                        state.data["apply_on_top"] = True
+                        state.save()
+                    if rep:
+                        await post_bot_log("; ".join(rep))
+            except Exception:
+                log.exception("Bewerbung konnte nicht nach oben verschoben werden")
+            try:
+                guild0 = bot_guild()
                 if guild0 is not None and not state.data.get("disboard_manage_channels_dropped") \
                         and guild0.me.guild_permissions.manage_roles:
                     rep = await server_setup.drop_disboard_manage_channels(guild0)
@@ -6291,7 +6304,7 @@ async def ensure_apply_channel(guild) -> discord.TextChannel:
                                              overwrites=member_area.apply_overwrites(guild, guild.me),
                                              reason=member_area.REASON)
         try:
-            await server_setup._place_after(guild, member_area.APPLY_CATEGORY, member_area.APPLY_AFTER, [], member_area.REASON)
+            await server_setup.place_first(guild, member_area.APPLY_CATEGORY, member_area.REASON)
         except discord.HTTPException:
             pass
     cfg["apply_channel_id"] = ch.id
