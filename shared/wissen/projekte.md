@@ -15,6 +15,8 @@ NACH PRIORITÄT. Bei jeder Prüfung nachführen (pruef-ablauf.md A Schritt 8). E
   "go"/"ja" sofort umsetzen und pushen, dann kurz melden; keine leeren Zwischenstände. 7. Nach Priorität, nichts vergessen,
   Gehirn immer nutzen. 8. Selber mitdenken: Ideen bringen, Fehler selbst finden, statt nur Verlangtes abzuarbeiten.
   9. Fragen, wenn es ihn betrifft (Abstände, Einstellungen) – nicht selbst festlegen.
+  10. Berichte "klar und sachlich, immer auf das Wohl des Spielers bezogen" (14.11. 00:38): Messwert -> belegt oder
+  nicht -> was heisst das für den Spieler (kaufen/verkaufen/warten). Vorbild: Auswertung Wellen/Zyklen 14.11.
 - **SPIELER-BILD (Nutzer 13.11. 23:57, gilt für JEDES Addon, immer im Hinterkopf):** Die Spieler sehen die Addons als
   Werkzeug, um mehr Gold zu machen (bzw. ihr Ziel leichter zu erreichen). Sie sind oft NICHT tief im Thema, eher Casual.
   Darum: klare Ergebnisse (lohnt / lohnt nicht), kein Fachjargon, keine Rechenwege, wenige Klicks, nichts, was man

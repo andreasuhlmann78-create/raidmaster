@@ -15,12 +15,16 @@
 PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 00:25). Immer von oben nach unten abarbeiten.
 Einzelheiten zu jedem Punkt stehen weiter unten (Suche nach dem Kürzel). Diese Liste wird bei jeder Änderung nachgeführt.
 ========================================================================================================================
-0. RUHEMODUS  OBERSTE PRIO (Nutzer 14.11. 00:30) – SOFORT umsetzen, vor allem anderen: "NIE IM RUHEMODUS" (Block
+0. RUHEMODUS  EINGERICHTET laut Bericht 0.65.124 (send_later vorhanden, eine Runde offen) – dauerhaft einhalten: "NIE IM RUHEMODUS" (Block
                         ganz oben): Weck-Runde alle 5 Min. per send_later an dich selbst, nur EINE offen, unterbricht nie,
                         still weiterarbeiten. Erste Weck-Runde JETZT planen, dann weiter mit 1.
-1. BH-AUS     SEHR HOCH  ALS NÄCHSTES (in 0.65.123 noch nicht) – Gewinn falsch: 53 "ausstehende" Verkäufe zusätzlich zum Kassenbuch (43g49 statt ~20g53);
+1. BH-AUS     ZUR PRÜFUNG 0.65.124 (Prüf-Sitzung 00:55: addon_check OK, Books.lua Zuordnung summiert, Reparatur, 24-Std.-
+                        Grenze, Gold-Stände je Figur belegt). Offen: echte Zahlen aus dem nächsten Client-Testbericht
+                        (Gewinn alt/neu, aufgelöste Buchungen, Gold-Abstimmung) – die Prüf-Sitzung rechnet nach.
+                        Kleinbefund BH-AUS-R (NIEDRIG): Books.lua:1043 setzt repairedBHAUS auch, wenn die Reparatur
+                        mit Fehler abbricht – Merker nur bei Erfolg setzen, Fehler in die Diagnose. Ursprünglich: Gewinn falsch: 53 "ausstehende" Verkäufe zusätzlich zum Kassenbuch (43g49 statt ~20g53);
                         Gold-Abstimmung leer.
-2. RF-M1 / RF SEHR HOCH  (0.65.123: Speicher-Aufschlüsselung im Tempo-Test da – Messung im Client offen) Ruckeln: 240 MB Grundstand (~150 MB Laufzeit-Caches), Preisverlauf gepackt (Objekte 220k -> 7k),
+2. RF-M1 / RF SEHR HOCH  JETZT DRAN (eigene Version, Test T-RFM1). (0.65.123: Speicher-Aufschlüsselung im Tempo-Test da – Messung im Client offen) Ruckeln: 240 MB Grundstand (~150 MB Laufzeit-Caches), Preisverlauf gepackt (Objekte 220k -> 7k),
                         Scan grosser Markt 141–150 ms, Vollscan-Einlesen 159 ms, +88 MB beim Vollscan. Danach PS-Ziele.
 3. 0.65.115-Rest MITTEL  T373/TS111.1-Rest, TS111.2b/T555b-Tests, UI1618a-R, SBX1, UI1509, UI1510, FW1 (Releaseplan).
 4. CH-G       ZUR PRÜFUNG 0.65.123: GoldSentinelCmdHint.lua byte-gleich, in der .toc, addon_check OK (Prüf-Sitzung 00:30).
