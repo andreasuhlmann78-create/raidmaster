@@ -1,4 +1,6 @@
-📦 **BuffSentinel 0.9.17** – Marktdaten-Netz der GoldSentinel-Addons
+📦 **BuffSentinel 0.9.18** – Marktdaten-Netz der GoldSentinel-Addons (Korrektur)
+
+0.9.17 hatte noch eine ältere Fassung der gemeinsamen Marktdaten-Datei – bitte 0.9.18 nehmen.
 
 • **Neu:** BuffSentinel bringt die gemeinsame Marktdaten-Datei der GoldSentinel-Addons mit.
   – Sie fragt das Auktionshaus selbst nie ab. Sie liest nur mit, wenn ein anderes Addon oder du einen Vollscan startest.
