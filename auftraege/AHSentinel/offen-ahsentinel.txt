@@ -229,7 +229,7 @@ SM (HOCH, NEU 13.11. 06:40 – Beobachtung des Nutzers: "wenn man mehrere Sachen
        Weitersuchen erlaubt, aber nie einen wartenden Treffer verwerfen.
    SM2 Menge leer = 1 Stück (Sniper.lua:150, Tooltip UI_Sniper.lua:183): Wer Ware wie Leinenstoff ohne Menge anlegt,
        bekommt genau 1 Stück, danach "Menge erreicht". Echte Daten 13.11.: Ziel Leinenstoff max. 22c, Menge 1,
-       Budget 5s – das Budget reicht für 227 Stück, gekauft wird 1.
+       Budget 5g (50000c; im ersten Eintrag irrtümlich "5s") – reicht für 227 Stück, gekauft wird 1.
        Lösung: Menge leer = "so viele, wie das Budget reicht" (Waren) bzw. 1 (Ausrüstung); im Ziel deutlich anzeigen
        "Menge: bis Budget (227 Stück)"; Warnung, wenn Menge × Max-Preis weit unter dem Budget liegt.
    Tests: T-SM1 zwei Ziele, beide mit Treffer innert 30 s -> beide kaufbar, Reihenfolge nach Abstand; Treffer läuft ab
