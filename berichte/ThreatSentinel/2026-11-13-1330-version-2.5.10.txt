@@ -1,0 +1,62 @@
+BERICHT THREATSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 13:30 · Sitzung: ThreatSentinel-Projekt-Sitzung · Version: 2.5.10 · Commit: 628576a
+addon_check 2.5.10: OK, 0 FEHLER, 0 WARNUNGEN. Gemeinsame Dateien unverändert aus shared/.
+
+ERLEDIGT
+BL – Befehlsliste beim Tippen (CmdHint.lua, Baustein AHSentinel CmdHint 0.65.104, CH1–CH5)
+  BL1 Eine Tabelle: ns.COMMANDS (Core.lua:1290) – der Slash-Handler (Core.lua:1348) führt nur aus ihr aus
+      (ns:FindCommand: längster passender Eintrag, deutsch/englisch/Alias, Rest als Argument; leer/unbekannt ->
+      Einstellungen wie bisher). Liste = dieselbe Tabelle, inkl. log …, testroutine, testroutine a … k und u, halb,
+      sprache, letzte. Entwickler-Befehle (Feld dev) nur mit ns:IsDev().
+  BL2 Filter je Buchstabe auf Deutsch, Englisch und Alias; meistbenutzte oben (ns.db.cmdUse).
+  BL3 Klick/Tab wählt (Kopf "Enter = /ts …"), Enter führt aus (CmdHint:Resolve im Handler, Auswahl 10 s);
+      Fokusverlust schliesst verzögert, nicht direkt nach dem Klick; Fokus zurück nur mit SetFocus. Pfeiltasten nicht
+      eingehakt (wie AHSentinel, Chatfeld-Verlauf). Option "Befehlsliste beim Tippen" (Allgemein), im Kampf keine Liste.
+  BL4 Tests T-BL1–T-BL6 (TestRoutineTU.lua, Bereich U). Alte Clients: läuft in Era/TBC (Offline-Lauf Era).
+  Chatfeld nie beschrieben: nur HookScript (OnTextChanged, OnEditFocusLost, OnTabPressed, OnHide), kein SetText/
+  Insert/SetScript – T-BL4 prüft das an einer eigenen Test-Box.
+
+TU – Umfassende Tests (neuer Bereich U, TestRoutineTU.lua; Bericht je Bereich "OK n · FEHLER n · SKIP n")
+  TU1 Lagen-Katalog (14 Lagen in Forever, 13 in Era/TBC), jede durch T:Tick = Auswertung, Plaketten, Meldungen,
+      Töne, HUD, dazu Aggrometer/Sync wo betroffen; Erwartung je Lage als Tabelle: solo ab Werk / solo aktiv, Gruppe,
+      Schlachtzug 40 (10 Mobs, 3 lose, 2. Tank), Tankwechsel, Spott, Bedrohung zurücksetzen (Verblassen, Totstellen,
+      Mob setzt zurück), mehrere Ziele, Begleiter sicher/nicht sicher, schneller Zielwechsel, Grenzen 89/90/109 %,
+      Mitspieler mit alter Version (H: ohne Version, T: ohne Abklingzeit), Forever geheime Werte, fehlende
+      Bedrohungs-Schnittstelle (modern -> ANZEIGE, alt -> Ersatz über das Ziel des Mobs). Dazu Raid 40 mit 40 Mobs < 8 ms.
+  TU2 Abläufe: Kampfbeginn beim Verschieben, /reload im Kampf, Gruppe verlassen im Kampf, Warnton über/unter/über
+      (kein Dauerton), Spott verfehlt dann geholt. Jeder Ablauf prüft: echte Aktionen 0, Lua-Fehler 0, gesperrt 0.
+  TU3 Standardwerte: Liste aller 90+ Felder mit Standard im Bericht (Feld "standardwerte"), jedes Feld leer/falsch ->
+      Standard, jeder Regler-Standard im Bereich und auf dem Raster (Options.lua merkt Bereich/Schritt), Eingabefeld
+      leer/Unsinn ändert nichts, Spott-Name leer = automatisch, ab Werk: Aggroverlust mit Ton, Vorwarnung ohne Ton.
+  TU4 Grundregeln: 1000 Zufallsfälle, Startwert 20261113, 10 Portionen à 100, je Bild eine Portion (Fortsetzung in
+      TestRoutine.lua RunArea/RunCont). Erwartung aus einem unabhängigen Orakel (R.TUOracle): Zustand, genau eine
+      Meldung bei Aggro, Warnung genau beim Überschreiten der Schwelle, Werte >= 0, DD-Ansicht auch geheim ohne
+      Lua-Fehler, keine gesperrte/echte Aktion, Portion < 8 ms. Verletzung = FEHLER mit den Zahlen des Falls.
+      Gegenprobe: mit absichtlich falscher Schwelle (> statt >=) schlagen TU1-L11, TU4-G1 und TU7 an.
+  TU5 Echte Daten (nur lesen): Diagnose-Protokoll (keine Namen, keine Fehler und keine GRUNDREGEL dieser Version),
+      Testprotokoll eines echten Kampfs (Zeit vorwärts, LOOSE mit Rolle, keine Lua-Fehler; SKIP mit Grund, wenn leer).
+      NEU im Spiel: Threat.lua T:CheckRules/T:RuleViolation (Threat.lua:328–352) prüft nach jeder Auswertung G1–G4 und
+      schreibt eine Verletzung einmal je Kampf als "GRUNDREGEL VERLETZT Gx: …" ins Diagnose-Protokoll (nur Zahlen).
+  TU6 Regressionen: R.REGRESSIONS (TestRoutineTU.lua:793) ordnet jeden Befund seit dem 3.11. (41) seinem Test zu;
+      TU6-R1 meldet "Regressionen: n von m vorhanden" und FEHLER, wenn ein Test fehlt oder FEHLER ist. Neu dazu:
+      T-R4 (Fehler beim Zurücksetzen gibt das Addon frei, R:OnStepError), T-R5b (Bildschirmfoto über ns.Act),
+      T-R5c (Testroutine-Knöpfe nur für den Entwickler, TM:AddRoutineButtons), T-R13 (kein "noch nicht").
+      Sync-Befunde: T-SY2 (nie eigener Kanal, ohne Gruppe nichts), T76 (geschützter Absender), TU1-L12 (alte Version).
+  TU7 Formen: Lagen-Katalog in Forever, Era und TBC (G.SetTestFlavor), deDE und enUS, Skalierung 80/150 % im Client.
+  TU8 Bericht: Zeilen "TU1 … TU7: OK · FEHLER · SKIP" (mit Grund je SKIP), Regressionen, Zufall-Startwert; dieselben
+      Werte als Felder tu1…tu7, regressionen, zufall, standardwerte im GSTEST1-Bericht.
+  TU9 Offline: berichte/ThreatSentinel/offline/routine_offline.py (+ README.md) – dieselbe Routine im nachgebauten
+      Spiel (ladetest.py), Forever und Era, Rückgabewert 1 bei FEHLER ausserhalb der Nachbildungs-Liste.
+      Lauf 2.5.10: Forever OK 235, Era OK 239, FEHLER ausserhalb der Liste: 0.
+
+TEILWEISE / OFFEN
+  Gemeinsamer Sync: unverändert – wartet auf den Entscheid des Nutzers.
+  Benennung: Bestehende Regressionstests behalten ihre Namen (T164, T-P1 …), die Zuordnung Befund -> Test steht in
+  R.REGRESSIONS; neue Tests heissen T-<Befund-ID>.
+  TU5-E2 ist SKIP, solange kein Testprotokoll eines echten Kampfs gespeichert ist (/ts log an, dann kämpfen).
+  TU7-K1 (Skalierung) nur im echten Client.
+
+IM CLIENT PRÜFEN (2.5.10)
+  /ts testroutine (alle Bereiche inkl. U): TU-Zeilen ohne FEHLER, "Regressionen: 41 von 41 vorhanden".
+  /ts tippen: Liste erscheint, "/ts ver" filtert, Klick wählt (Kopf "Enter = /ts verschieben"), Enter führt aus.
+  Forever-Dungeon als Tank: LESBAR-PLAKETTEN-Zeile, keine GRUNDREGEL-Zeile (sonst bitte melden).
