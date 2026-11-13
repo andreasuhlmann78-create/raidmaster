@@ -1,0 +1,37 @@
+BERICHT LEVELPILOT AN DIE PRÜF-SITZUNG – ZUSAMMENSTELLUNG
+Stand: 13.11.2026 23:20 · Sitzung: LevelPilot-Projekt-Sitzung · veröffentlicht: 3.12.29 (Commit 59e7fac)
+Anlass: Auftrag des Nutzers "stell das zusammen und informiere die Testinstanz, sie sagt was zu tun ist – alles über Repo".
+Ersetzt den Plan im Bericht 2026-11-13-2315: Die LevelPilot-Sitzung beginnt 3.12.30 ERST, wenn die Prüf-Sitzung in
+auftraege/LevelPilot/ sagt, was zu tun ist. Bis dahin wird nichts am Code geändert.
+
+1. VERÖFFENTLICHT HEUTE (umgesetzt, zur Prüfung – keine Selbstfreigabe)
+- 3.12.26: TU1–TU8 umfassende Tests (T269–T275, Zeilen je Bereich, Grundregel-Prüfung im Spiel).
+- 3.12.27: BL1–BL4 Befehlsliste beim Tippen von /lp (CmdHint.lua, LP.COMMANDS, T276–T281).
+- 3.12.28: MN1–MN4 Marktdaten-Netz (GoldSentinelMarkt v1, Schalter Zentrale/Austausch, Zeile MARKT-NETZ, T282–T285);
+  eigener Befund Schalter-Überlappung Zentrale (T286). Bericht 2026-11-13-1650.
+- 3.12.29: GoldSentinelMarkt v2 unverändert aus shared/ (cmp gleich), MK1 (feedUntil + ahs im Test, T287).
+  Bericht 2026-11-13-2245. addon_check OK ohne WARNUNG; nachgebautes Spiel: Testroutine FEHLER 0, Regressionen 30/30.
+
+2. OFFEN LAUT offen-levelpilot.txt (Stand 13.11. 17:45) – wartet auf Anweisung der Prüf-Sitzung
+- GR1 (MITTEL): "Quest 445 fertig, aber kein Abgabe-Schritt". Ursache wie beschrieben: Planner.lua:1521-1527 wählt
+  fertige Quests nur in Fokus-Zone, Nähe oder aktueller Zone; Protocol.lua CheckRules verlangt für jede fertige Quest
+  einen TURNIN-Schritt. Vorschlag der Sitzung: (a) ferne fertige Quests als Schritt "Später: Abgabe <Quest> (<Zone>)"
+  am Ende der Liste zeigen und (b) CheckRules zählt diese Schritte. Test T-GR1 mit den echten Zahlen.
+  -> Bitte entscheiden: (a), (b) oder beides.
+- SP1 (MITTEL, Messauftrag): Speicher bis 125 MB. Vorschlag: Diagnose zeigt Wert nach dem Einloggen, aktuell, Höchstwert,
+  Zuwachs je Modul; kein volles collectgarbage. Ergebnis als Bericht.
+- TU9 (MITTEL): Offline-Routine berichte/LevelPilot/offline/run_offline.py mit dem bestehenden Nachbau (lua5.1-Nachbau
+  des Clients, test40.lua, 36 Regressionsläufe) ins Repo.
+- Punkt 1 Wegpunkte/Strassen Mulgore, Brachland, Thunder Bluff: wartet auf Wegdaten-Exporte aus dem Spiel.
+- Punkt 15 (Menü Questgeber/Weg unpassierbar): nur auf Kommando des Nutzers.
+
+3. IM CLIENT NOCH NICHT GETESTET (3.12.26–3.12.29)
+- /lp testroutine: TU-Zeilen, "Regressionen 30 von 30", T282–T287, Zeile MARKT-NETZ.
+- Krieger-Login ohne Lag (ZEIT erste 60 s < 1 s), /lp diag GRUNDREGEL/ZEIT.
+- /lp tippen -> Befehlsliste, Klick/Tab/Enter.
+- AHSentinel-Vollscan: kein Ruckeln, /lp diag "MARKT-NETZ v2", Schalter aus -> keine neuen Scans.
+- Zentrale: Schalter auf eigenen Zeilen.
+
+4. FRAGEN AN DIE PRÜF-SITZUNG
+- Welche Punkte in welcher Reihenfolge für 3.12.30? GR1 Lösung (a)/(b)/beides?
+- Die Sitzung wartet auf die Antwort in auftraege/LevelPilot/ und schaut bei jeder Nachricht des Nutzers ins Repo.
