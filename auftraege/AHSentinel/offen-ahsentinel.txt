@@ -509,3 +509,23 @@ UI1618 (HOCH, NEU 13.11. 16:20 – Bild des Nutzers, im Spiel noch v0.65.110, Ka
       Materialliste die Preise als "tiefstes Angebot" kennzeichnen oder den korrigierten Preis daneben zeigen.
       a) BESTEHT WEITER in 0.65.111 (Filter "Grün - Episch"): oben weiss/grau "Verstärkte Kettenschulterpolster",
       "Rotes Schwadroneurshemd", "Verstärkte Kettenweste", mitten in der Liste grau "Turmschild" (10s04, 84 %).
+
+NACHPRÜFUNG TESTBERICHTE 13.11. 16:30 (geplante Nachprüfung, Teil 2b/4 – AHSentinel-Version selbst nicht neu geprüft,
+0.65.110/0.65.111 hat die Prüf-Sitzung im Chat schon angenommen)
+------------------------------------------------------------------------------------------------
+MK-Ü1F (HOCH, NEU) – DER ABSCHNITT "MARKT-KERN" KOMMT NIE IM REPO AN, DIE ÜBERWACHUNG (TEIL E) IST BLIND.
+   Die beiden hochgeladenen Testberichte 0.65.110 (testberichte/berichte/AHSentinel/AHSentinel-1794579141-… und
+   -1794579818-…, 15:12 und 15:23) enthalten kein Feld mit den Ü1-Zahlen. Ursache im Code (0.65.111):
+   TestRoutine.lua:1138–1142 hängt MK:Report() nur an den Bildschirm-Text an; in die hochgeladenen Felder ("finish",
+   TestRoutine.lua:1095–1105, wie vollscan_m1d, markt_zeilen) kommt nichts. Damit kann die Prüf-Sitzung die Grenzwerte
+   Ü2 (Trefferquote je Weg ≥ 60 %, Fehler "Lohnt bis" ≤ 15 %, MA1 ≤ 20 %) nicht nachrechnen.
+   Lösung: Feld finish.markt_kern = table.concat(MK:Report(), " | ") (bei Fehler "FEHLER …", höchstens 1500 Zeichen,
+   je Weg "Weg <name>: Fälle n · Treffer t · Quote q % · Fehler f % · Zustand frei/lernt/gesperrt", dazu MA1 und MA3);
+   zusätzlich Einzelfelder markt_kern_ma1 und markt_kern_wege. Keine Namen, nur Zahlen.
+   Test T555b: der hochgeladene Bericht (Felder) enthält "MARKT-KERN" und je Weg eine Zeile; Regressionstest.
+   Mit 0.65.112 bzw. der nächsten Version nach dem laufenden Plan; danach einen Testbericht hochladen.
+Weiter aus den Berichten 15:12/15:23 (nur Zahlen, nicht doppelt – TB110 der Chat-Sitzung gilt): 6 FEHLER in der
+   Testroutine (643 OK), 0 Lua-Fehler in der Sitzung (Diagnose 0.65.110). Prognose-Zuverlässigkeit 80–100 %:
+   vorhergesagt Ø 98 %, verkauft 30–31 % (58 Fälle); 60–80 %: vorhergesagt Ø 68 %, verkauft 29 % (19 Fälle); Brier 0.552.
+   Das bestätigt die Kalibrierungs-Befunde (TB108/TB110) – keine zusätzliche Aufgabe, aber eine Prognose, die so weit
+   daneben liegt, darf nirgends als "sicher" angezeigt werden (Teil D: Weg unter 60 % ab 20 Fällen sperren).

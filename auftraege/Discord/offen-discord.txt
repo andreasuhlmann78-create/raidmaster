@@ -1,58 +1,53 @@
-OFFENE PUNKTE DISCORD (nach der Nachprüfung von Bot 1.5.125)
+OFFENE PUNKTE DISCORD (nach der Nachprüfung von Bot 1.5.130)
 =============================================================
-Stand: 13. November 2026, 12:00 · von der Prüf-Sitzung (geplante Nachprüfung)
-Grundlage: RaidMasterBot 1.5.125 (Commit b07fa45), verglichen mit Bot 1.5.123 (Nachprüfung 13.11. 08:30); dazwischen
-1.5.124 (645a737). Gelesen: berichte/Discord/2026-11-13-0840 (1.5.124) und -0930 (1.5.125).
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand vom 13.11. 08:20.
+Stand: 13. November 2026, 16:30 · von der Prüf-Sitzung (geplante Nachprüfung)
+Grundlage: RaidMasterBot 1.5.130 (Commit fec499e), verglichen mit Bot 1.5.127 (Nachprüfung im Chat 13.11. 14:30);
+dazwischen 1.5.128 (da23adf) und 1.5.129 (b97d551). Gelesen: berichte/Discord/2026-11-13-1500 (1.5.128),
+-1545 (MN8 vorbereitet, 1.5.129) und -1610 (MN8 Ergebnis, 1.5.130).
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 1.5.125/1.5.127.
 Zuständig für den Gilden-Discord (Server-Bot, Kanäle, Rollen, Einrichtung) ist das Discord-Projekt (Entscheid des
 Nutzers 12.11.). Keine Server-IDs, Links, Tokens oder Spielernamen in Dateien oder Commits.
 
-Erledigt in 1.5.124 / 1.5.125 (danke):
-- Wunsch des Nutzers 13.11. (1.5.124): Kategorie 📝 BEWERBUNG ganz oben (server_setup.place_first, einmalig beim Start
-  mit Merker "apply_on_top", neu angelegte Bewerbung ebenfalls oben). Test BewerbungOben.
-- TU (1.5.125, HOCH): tests/test_tu_umfassend.py mit TU1 (Lagen inkl. 0/40/41 Anmeldungen, Sommer-/Winterzeit,
-  Update-Text > 1900 Zeichen), TU2 (Abläufe mit Neustart), TU3 (Standardwerte), TU4 (Grundregeln, Startwert 4711,
-  je 1000 Fälle), TU5 self_check.py (nur lesen, beim Start und alle 6 Std., Protokoll "GRUNDREGEL VERLETZT"),
-  TU6 Regressionsliste (12 Einträge), TU8 Testbericht je Bereich, TU7 begründet SKIP. Angenommen.
-- RP-D (1.5.125, MITTEL): raid_ready.py + bot.py post_raid_ready (:2718–2741) im Stundentakt (monthly_loop :2744),
-  nur #offiziere, ohne Erwähnungen (NO_PING), montags einmal je Kalenderwoche (weekly_due raid_ready.py:99), Vorschlag
-  einmal je Phase->Vorschlag (suggestion_key :104), Merker im state. Tests tests/test_raid_ready.py. Grundgerüst ok –
-  siehe aber Punkt 1 (Phasen-Wörter passen nicht zu GuildSentinel).
-Prüfungen: Bot-Tests 172/172 OK. raid_ready, self_check, server_setup einzeln importierbar, bot.py py_compile OK; die
-neuen Module stehen im Import-Schritt von .github/workflows/bot-tests.yml. Keine Tokens, Webhook-URLs, Server-IDs oder
-Einladungslinks im Diff. Keine neuen Fehler aus testberichte/ für den Bot.
+Erledigt in 1.5.128–1.5.130 (danke):
+- D-GS1 (MITTEL): check_guildsentinel_upload nimmt bank ODER raidReady an (raidmaster_data.py:2092–2108); ohne Bank
+  eigene Datei GuildSentinel-raidready.lua (bot.py:139–140, :4814–4823), Bank-Stand und Bank-Post unverändert;
+  post_raid_ready nimmt den neuesten Stand nach t (raid_ready.newest, raid_ready.py:68–71; bot.py:2716–2719) und läuft
+  nach jedem GuildSentinel-Upload. Test tests/test_uploads_gs_up.py (T-D-GS1).
+- D-UP1 (MITTEL): uploader_version.py; ensure_fresh_uploader (bot.py:5028–5056) vergleicht die ZIP mit
+  RaidMasterUploader/uploader.py im Repo und holt bei Bedarf nur download/RaidMasterUploader.zip (Version geprüft, dann
+  ersetzt); /uploader (beide Wege, vorher defer) nennt die Version und warnt, wenn die ZIP älter ist. Test T-D-UP1.
+- MN8 (SOFORT): blizzard_api_check.py (nur lesen, Ausgabe ohne Zugangsdaten, redact), blizzard_zugang.sh (Zugang nur
+  in /opt/raidmaster/config.json auf dem Server). Ergebnis 13.11. 14:57–15:07 UTC: In keinem Namespace der Blizzard-API
+  gibt es WoW Forever; Era/Anniversary-Auktionen 404. Folgerung angenommen: für den Forever-Markt bleibt das
+  Marktdaten-Netz die einzige Quelle. Wiederholen nach grossem Forever-Patch oder Blizzard-Ankündigung.
+- TU6 17 von 17 Regressionen; neue Module uploader_version und blizzard_api_check im Import-Schritt von
+  .github/workflows/bot-tests.yml.
+
+Prüfungen: Bot-Tests hier 192/192 OK (python3 -I -m unittest discover -s RaidMasterBot/tests). Alle Module des
+Import-Schritts einzeln importierbar, bot.py py_compile OK. Keine Tokens, Webhook-URLs, Server-IDs, Einladungslinks
+oder Spielernamen im Diff; das Zugangsskript schreibt die Blizzard-Daten nur in die config.json auf dem Server.
+Keine neuen Fehler aus testberichte/ für den Bot.
 
 OFFENE PUNKTE (nach Schwere)
 ----------------------------
-1. RP-D2 (MITTEL, NEU) – PHASEN-WÖRTER VON GUILDSENTINEL WERDEN NICHT ERKANNT.
-   GuildSentinel schreibt raidReady.phase mit den Schlüsseln "build" / "trans" / "raid" (GuildSentinel 0.9.32
-   RaidReady.lua:52 PHASE_NAME, RP:Summary :336–340). raid_ready.py:20 PHASES kennt nur "aufbau" / "uebergang" /
-   "übergang" / "raid". Folge: der Montagspost zeigt "Phase build" bzw. "Phase trans". Die Tests (test_raid_ready.py:11)
-   nutzen "aufbau" – das liefert GuildSentinel nie.
-   Lösung: PHASES um "build" -> Aufbau und "trans" -> Übergang ergänzen (alte Wörter behalten). Dasselbe gilt für das
-   Feld "vorschlag" (GuildSentinel schreibt es künftig mit denselben Schlüsseln, auftraege/GuildSentinel/ Punkt 4).
-   Raid-Schlüssel passen (ony, mc, barrow, hyjal, zg, aq20, bwl, aq40, naxx); für TBC fehlen kara, gruul, mag, ssc, tk
-   (NIEDRIG, Forever ist Classic – ergänzen schadet nicht).
-   Test T-RP-D2 mit echten GuildSentinel-Daten: {"raid":"ony","phase":"build",...} -> "Raidfähig (Onyxia) … Phase
-   Aufbau"; phase "trans", vorschlag "raid" -> Hinweis "Phase Raid".
+1. MN7 (MITTEL, aus anweisung-marktdaten-netz.txt) – SAMMELSTELLE FÜR MARKTDATEN.
+   shared/GoldSentinelMarkt.lua v1 liegt bereit (13.11. 16:00, Korrektur 16:05: Absatz-Untergrenze, Export-Eintrag
+   mit 6 Feldern). Das Export-Format GSMARKT1 steht in der Anweisung. MN7 jetzt bauen (Daten vom Uploader MN6
+   annehmen, zusammenführen, Absatz messen, keine Namen). Bitte die Anweisung ganz lesen.
 
-2. RP-D3 (NIEDRIG, NEU) – ALTE RAIDFÄHIGKEIT NICHT ALS AKTUELL POSTEN.
-   raidReady wird nur beim Ausloggen eines Offiziers mit GuildSentinel geschrieben (Feld t). Ist t älter als 14 Tage,
-   postet der Bot trotzdem jeden Montag dieselben Zahlen. Lösung: bei t älter als 7 Tage "(Stand <Datum>)" anhängen,
-   älter als 14 Tage nicht posten (Protokoll). Test mit t = vor 3 / 10 / 20 Tagen.
-
-3. R1-T (NIEDRIG, Teil von TU6) – Regressionstest R1 weiter nur über den Quelltext.
-   TU6 zählt T-R1 als vorhanden, die Liste zeigt aber auf BotCode.test_raid_ohne_nachricht_wird_entfernt
-   (tests/test_tu_umfassend.py:328 -> tests/test_mitgliederbereich.py:323), der nur Zeichenketten in bot.py sucht.
-   TU2 "Raid ohne Nachricht wird entfernt" prüft das Buch, nicht /raid erstellen. Lösung: Funktionstest mit Attrappen:
-   target.send wirft discord.HTTPException (403) -> Raid nicht in book.raids.data["raids"], followup enthält
-   "Nachrichten senden"; Erfolgsfall -> message_id gesetzt. Dann in TU6 auf diesen Test zeigen.
-
-4. NAMEN (NIEDRIG, Hinweis) – Vorname des Nutzers in Kommentaren und einem Commit-Text: bot.py:596 und :6315,
-   member_area.py:1 ("Wunsch/Freigabe <Vorname>"), Commit 645a737. Bitte bei der nächsten Änderung dieser Stellen durch
-   "Wunsch des Nutzers" ersetzen; alte Commits nicht umschreiben.
+2. D-GS1b (NIEDRIG, NEU) – gs_has_bank ist nicht immer gesetzt.
+   receive_upload: gs_has_bank wird nur im Zweig "Datei <= 25 MB" gesetzt (bot.py:4815 bzw. :4827), aber in
+   bot.py:4834 auch gelesen, wenn eine GuildSentinel-Datei > 25 MB allein kommt -> UnboundLocalError statt sauberer
+   Meldung. Praktisch selten (Webhook-Grenze), aber ein Absturzweg.
+   Lösung: vor dem if (bot.py:4812) gs_has_bank = False setzen. Test: GuildSentinel-Anhang mit size > 25 MB ohne
+   RaidMaster.lua -> kein Fehler, kein Bank-Post, Protokoll-Zeile.
 
 LIVE PRÜFEN (Server / Discord beim Nutzer)
+   - Neu D-UP1 (1.5.128): /uploader nur_programm:True -> Antwort und DM nennen "Uploader-Version 2.3.5" (bzw. die
+     neueste in RaidMasterUploader/uploader.py); keine Warnung. Nach der nächsten Uploader-Veröffentlichung sofort
+     erneut: die ZIP wird ohne /update nachgeladen.
+   - Neu D-GS1 (1.5.128): Upload von GuildSentinel.lua ohne Gildenbank -> im Protokoll "GuildSentinel-Daten empfangen
+     (nur Raidfähigkeit)", #gildenbank unverändert; Raidfähigkeit am Montag in #offiziere.
    - Nach dem Selbst-Update auf 1.5.125: Kategorie 📝 BEWERBUNG ganz oben, Meldung in #bot-befehle nur einmal.
    - TU5 Selbstprüfung: Ergebnis in #bot-befehle (bei Fehlern "GRUNDREGEL VERLETZT …" im Protokoll); beim zweiten
      Neustart ohne Änderung keine neue Meldung.
@@ -77,35 +72,6 @@ HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Daten anderer Addons (z. B. raidReady) mit echten Beispielwerten aus deren Code testen, nicht mit erfundenen Wörtern.
    - Nach defer() nie mehr inter.response.* verwenden, nur followup.
    - Regressionstests als Funktionstest mit Attrappen, nicht nur Zeichenketten im Quelltext.
-   - Versionen höher als Bot 1.5.125.
+   - Versionen höher als Bot 1.5.130.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/Discord/ ablegen.
-
-
-NACHPRÜFUNG 13.11. 14:30 (Prüf-Sitzung im Chat, Auftrag des Nutzers "prüfe ob alles umgesetzt wurde")
-------------------------------------------------------------------------------------------------
-Geprüft: Bot 1.5.126 (08320f4) und 1.5.127 (56bad0d) mit den Berichten -1240 und -1300. Bot-Tests hier: 178/178 OK.
-Erledigt (danke): RP-D2 (build/trans, TBC-Kürzel), RP-D3 (Stand > 7 Tage mit Datum, > 14 Tage nicht gepostet), R1-T
-(Funktionstest tests/test_raid_post.py, TU6 14 von 14), Namen in Kommentaren, 1.5.127 gelöschter #gildenname ohne Warnung.
-NEU offen:
-D-GS1 (MITTEL, Hinweis aus berichte/RaidMaster/2026-11-13-1240) – RAIDFÄHIGKEIT KOMMT OHNE GILDENBANK NIE AN.
-   raidmaster_data.check_guildsentinel_upload (raidmaster_data.py:2094–2107) verwirft GuildSentinel.lua ohne
-   Gildenbank-Bestand ("kein Gildenbank-Bestand"). Seit Uploader 2.3.3 (RP-U) kommen nur bank + raidReady; hat eine Gilde
-   noch keinen Bank-Charakter, bekommt RP-D nie Daten. Lösung: Datei annehmen, wenn bank ODER raidReady da ist; nur
-   den vorhandenen Teil verarbeiten (Bank-Kanal unverändert, wenn bank fehlt). Test T-D-GS1: nur raidReady -> angenommen,
-   Raidfähigkeit gepostet, Gildenbank-Nachricht unverändert; weder noch -> abgewiesen wie bisher.
-D-UP1 (MITTEL, Hinweis aus berichte/RaidMaster/2026-11-13-1245/-1250) – /uploader VERTEILT EINE ALTE FASSUNG.
-   Der Bot hat sich um 12:15 auf 1.5.127 aktualisiert; Uploader 2.3.4 (12:34) und 2.3.5 (12:47) kamen danach. /uploader
-   schickt die ZIP aus ADDON_DIR (bot.py:5013), also bis zum nächsten /update eine alte Fassung. Am Laptop wurde so 2.3.2
-   über 2.3.4 entpackt.
-   Lösung: (a) Nach jeder Uploader-Veröffentlichung /update auslösen bzw. das Selbst-Update übernimmt neue
-   download/RaidMasterUploader.zip auch ohne neue Bot-Version. (b) /uploader nennt in der Antwort die Version der ZIP
-   (aus uploader.py VERSION in der ZIP) und warnt, wenn sie älter ist als im Repo. Test T-D-UP1 (Versionsvergleich).
-   Danach live prüfen: /uploader liefert 2.3.5. Bis dahin den Nutzer nicht über /uploader aktualisieren lassen.
-
-MN (NEU 13.11. 15:35 – Entscheid des Nutzers "Markt komplett messen", Anweisung anweisung-marktdaten-netz.txt):
-   MN7 Sammelstelle (wartet auf Teil 1) und MN8 MESSAUFTRAG BLIZZARD-SCHNITTSTELLE – SOFORT.
-   Kurz: Vollscans still mitlesen (keine Abfrage, Schalter zum Ausschalten, keine Namen), über Gilde/Netz teilen,
-   Uploader -> Bot-Server sammelt und misst Absatz. Bitte die Anweisung ganz lesen.
-   MN BEREIT (13.11. 16:00): shared/GoldSentinelMarkt.lua v1 liegt bereit – Export-Format GSMARKT1 steht in der Anweisung (MN7 kann jetzt gebaut werden; MN8 weiter sofort).
-   MN KORREKTUR (13.11. 16:05): GoldSentinelMarkt.lua v1 ergänzt (Absatz-Untergrenze, Export-Eintrag mit 6 Feldern). Wer die Datei schon kopiert hat: NEU KOPIEREN (Prüfung "exact").

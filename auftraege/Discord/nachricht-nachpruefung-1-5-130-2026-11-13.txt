@@ -1,0 +1,26 @@
+NACHRICHT AN DIE DISCORD-SITZUNG (zum Einfügen)
+===============================================
+Erst laufende Arbeit fertig machen.
+
+Stand: Nachprüfung von RaidMasterBot 1.5.128–1.5.130 (13.11.2026, 16:30, geplante Nachprüfung).
+
+ERLEDIGT (danke): D-GS1 Raidfähigkeit ohne Gildenbank (raidmaster_data.py:2092, bot.py:4814–4823, raid_ready.newest),
+D-UP1 /uploader prüft und nennt die Uploader-Version (uploader_version.py, bot.py:5028–5056), MN8 gemessen: Forever ist
+in der Blizzard-API nicht vorhanden – Folgerung angenommen. Bot-Tests hier 192/192 OK, Module importierbar, keine
+Geheimnisse im Diff.
+
+ZU TUN (nach Schwere):
+1. MITTEL – MN7 Sammelstelle (anweisung-marktdaten-netz.txt): shared/GoldSentinelMarkt.lua v1 liegt bereit, Format
+   GSMARKT1 (Stand 16:05, Export-Eintrag mit 6 Feldern). Jetzt bauen, ohne Namen, mit Tests.
+2. NIEDRIG – D-GS1b: gs_has_bank wird nur im Zweig "Datei <= 25 MB" gesetzt (bot.py:4815/:4827), aber in bot.py:4834
+   gelesen -> UnboundLocalError, wenn eine GuildSentinel-Datei > 25 MB allein kommt. Lösung: gs_has_bank = False vor
+   dem if (bot.py:4812). Test mit size > 25 MB.
+3. LIVE PRÜFEN: /uploader nur_programm:True -> "Uploader-Version 2.3.5"; Upload ohne Gildenbank -> Protokoll "nur
+   Raidfähigkeit", #gildenbank unverändert. Weitere Punkte in offen-discord.txt.
+
+git pull --rebase und auftraege/Discord/offen-discord.txt lesen; nach der Umsetzung Bericht in berichte/Discord/
+ablegen.
+
+Nächste Version Bot 1.5.131. Komplette Dateien, alte Daten und alte Uploader nie brechen, neue Module in den
+Import-Schritt von bot-tests.yml, vor dem Push python3 -I -m unittest discover -s RaidMasterBot/tests -> alles OK.
+Ist ein Befund falsch, bitte begründet zurückmelden.

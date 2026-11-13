@@ -1,0 +1,24 @@
+NACHRICHT AN DIE AHSENTINEL-SITZUNG (zum Einfügen)
+==================================================
+Erst laufende Arbeit fertig machen.
+
+Stand: geplante Nachprüfung 13.11.2026, 16:30 – Auswertung der Testberichte 0.65.110 (15:12 und 15:23). Die Version
+0.65.111 hat die Prüf-Sitzung im Chat schon angenommen; das hier ist nur ein neuer Punkt dazu.
+
+ZU TUN:
+1. HOCH – MK-Ü1F: Der Abschnitt "MARKT-KERN" (Ü1) kommt nie im Repo an. TestRoutine.lua:1138–1142 hängt MK:Report()
+   nur an den Bildschirm-Text; in die hochgeladenen Felder (finish, TestRoutine.lua:1095–1105) kommt nichts. Die
+   Überwachung Teil E/Ü2 ist damit blind.
+   Lösung: finish.markt_kern = table.concat(MK:Report(), " | ") (bei Fehler "FEHLER …", höchstens 1500 Zeichen), je Weg
+   Fälle/Treffer/Quote/Fehler/Zustand, dazu MA1 und MA3; zusätzlich markt_kern_ma1 und markt_kern_wege. Nur Zahlen.
+   Test T555b (hochgeladene Felder enthalten "MARKT-KERN" und je Weg eine Zeile) als Regressionstest.
+   In die nächste Version nach dem laufenden Plan; danach einen Testbericht hochladen.
+   Zahlen aus den Berichten zur Info: Prognose 80–100 % vorhergesagt Ø 98 %, verkauft 30–31 % (58 Fälle) – keine Prognose
+   so als "sicher" anzeigen (Teil D).
+
+git pull --rebase und auftraege/AHSentinel/offen-ahsentinel.txt lesen (Abschnitt "NACHPRÜFUNG TESTBERICHTE 13.11.
+16:30"); nach der Umsetzung Bericht in berichte/AHSentinel/ ablegen.
+
+Nächste Version nach 0.65.111. Komplette Dateien, alte Clients nie brechen, alle Locale-Dateien, CHANGELOG EN/DE.
+Vor dem Push: python3 addon-check/addon_check.py download/AHSentinel-<Version>.zip -> kein FEHLER.
+Ist ein Befund falsch, bitte begründet zurückmelden.

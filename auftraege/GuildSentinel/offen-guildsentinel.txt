@@ -1,99 +1,59 @@
-OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.33)
+OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.36)
 =============================================================
-Stand: 13. November 2026, 12:20 · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/GuildSentinel-0.9.33.zip
-(verglichen mit 0.9.32 aus der git-Geschichte; Repo GuildSentinel 32957a5 = Inhalt der ZIP, Veröffentlichung 50f1aa0).
-Gelesen: berichte/GuildSentinel/2026-11-13-1210 (0.9.33 GA1). Frühere Stände: 0.9.29–0.9.32 (Nachprüfung 08:30).
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.32.
+Stand: 13. November 2026, 16:30 · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/GuildSentinel-0.9.36.zip
+(Veröffentlichung 4f7dd86, Repo GuildSentinel 9f1fff3 = Inhalt der ZIP), verglichen mit 0.9.35 aus der git-Geschichte.
+Gelesen: berichte/GuildSentinel/2026-11-13-1530 (0.9.36 GA). Frühere Stände: Nachprüfung im Chat 13.11. 14:30 (0.9.34/0.9.35).
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.33/0.9.35.
 
-Erledigt in 0.9.33 (danke):
-- Punkt 1 GA1 (MITTEL): GA.ExecDown liest GetCVarBool("ActionButtonUseKeyDown") (GuildAct.lua:193–196); PreClick und
-  PostClick handeln nur in der Ausführungsphase, die andere wird ignoriert (OtherPhase :198–202, :205–216); ohne
-  GetCVarBool nur "AnyUp" (:372–374). Test T281 (T-GA1, beide Einstellungen, falsche Phase -> nichts, richtige ->
-  Makro + wartet, zweiter Klick blockiert), Regression GA1 -> T281; run_admin T-GA1 mit CVar 1/0. CHANGELOG EN/DE.
-  Prüfungen 0.9.33: Addon-Prüfung OK (0 FEHLER); gemeinsame Dateien byte-gleich mit shared/; keine neuen sichtbaren
-  Texte; im Diff kein Taint, keine nil-Zugriffe, Era/TBC nicht gebrochen. Offline mit Lua 5.1: run_routine 16001 und
-  11508 je 16/16, run_admin 34/34. Im Client gegenprüfen (siehe unten).
+Erledigt in 0.9.36 (danke):
+- GA1 (HOCH) Altersfrage: ns.db.minAge Standard 16, 0 = aus (Core.lua:48); Rc:Questions hängt "Wie alt bist du?" immer
+  als letzte Frage an, auch an eigene Listen (Recruit.lua:194–205, out.age). Abweichung "nicht als 5. Zeile in
+  DefaultQuestions" ist begründet (sonst doppelt) – angenommen. Rc.AgeCheck (Recruit.lua:173–183): genau eine Zahl 5–99,
+  "bald/fast/soon/почти/곧/快 …" -> unklar. Unter 16: Absage per ns.Chat nach 1,5 s, a.st = "agedecl", keine weiteren
+  Fragen (Recruit.lua:237–256); Rc:Invite gesperrt (Recruit.lua:628–629), Knopf grau (Pages.lua:1489), AddApplicant
+  setzt agedecl nicht zurück (Recruit.lua:591), StartQuestions startet wegen qdone nicht neu. Gespeichert nur
+  a.age = ok/young/unclear und das Ergebnis-Etikett, nie Zahl oder Antwort; kein Diagnose-Eintrag. Absage-Text
+  einstellbar (Pages.lua:1301–1313). Tests T289a–e, Regression "GA1-Alter".
+- GA2 (HOCH) Werbetext: Rc:DefaultAd(phase) mit eigenem Text für die Phase Aufbau (Recruit.lua:121–127), Platzhalter
+  {phase} (Recruit.lua:140–144, :330), Rc:OwnAdWithoutWanted + gelber Hinweis + "Übernehmen" (Recruit.lua:130–138,
+  Pages.lua:1349–1354), Zeile "Im Chat: …" über dem Knopf. Tests T290a–c, Regression "GA2". Alle 11 Locale-Dateien.
+- Laut Bericht hatte der Nutzer 0.9.35 im Spiel; neue Diagnose 0.9.36 aus dem Spiel: "Fehler in dieser Sitzung: 0".
+- Aus der Nachprüfung 14:30 (Chat) erledigt: Punkt 2 (TU1-Rest, T270), Punkt 3 BL1–BL4 (ns.COMMANDS, CmdHint.lua,
+  T282–T287), Punkt 4 raidReady.vorschlag (T288).
 
-Erledigt in 0.9.29–0.9.32 (danke):
-- GV1 (HOCH): Einladen ruft nie mehr C_GuildInfo.Invite/GuildInvite direkt auf. ns.OpenGuildInvite legt
-  "/ginvite <Name>" über ChatFrame_OpenChat in die Chat-Eingabe (Recruit.lua:529-539); Rc:Invite (Recruit.lua:543) und
-  Ad.Invite (Admin.lua:225-234) nutzen nur diesen Weg. Status "eingeladen" erst mit CHAT_MSG_SYSTEM/ERR_GUILD_INVITE_S
-  (Recruit.lua:553-570), geschützte Meldung -> Status bleibt. Tests T253, T174, T194. Im Client noch zu bestätigen.
-- Punkt 1 aus 0.9.28 (NIEDRIG, {tag} ohne Gedankenstrich): DropTag nimmt Klammer bzw. Satzende mit (Recruit.lua:87 ff.),
-  T251 um 6 Fälle erweitert.
-- RV1–RV9 (anweisung-mitglieder-menue.txt): eigenes Rechtsklick-Menü (Pages.lua M:Menu) statt Blizzards Menü – Begründung
-  (Menu.ModifyMenu nicht einheitlich, Taint-Gefahr bei UnitPopup) ist nachvollziehbar und im Auftrag als Rückfall
-  vorgesehen. Neues GuildAct.lua: sicherer Knopf (SecureActionButtonTemplate, type "macro", "/gpromote|/gdemote|/gremove|
-  /gleader <Name>", GuildAct.lua:31-60, 158-216, 340-357), Attribute nur ausserhalb des Kampfs. Im ganzen Addon kein
-  direkter Aufruf von GuildInvite/Uninvite/Promote/Demote/SetLeader oder C_GuildInfo.* mehr (nur API.lua:119-128 als
-  Einträge, nirgends aufgerufen; GA.PROTECTED GuildAct.lua:32-35). Rang-Schritte (RV4), Bestätigung/Timeout 6 s (RV5),
-  Rang-Verlauf G.rankLog, Twink-Vorschlag (RV6, ns.db.altRank), Rangrechte nur anzeigen + GuildControlUI (RV7,
-  PagesLead.lua:397-402), Mehrfachauswahl (RV8). Tests T254–T260; wowmock wirft bei geschützten Gilden-Funktionen.
-- RP1–RP9 (anweisung-rekrutierung-phasen.txt): neues RaidReady.lua (Phasen Aufbau/Übergang/Raid, Sync "RPHASE", Vorgaben
-  G.comp unverändert, G.compLog, Erfüllungsgrad, Vorschlag + Bestätigung nur für Offiziere, 7-Tage-Regel, Fortschritt
-  mit Schätzung, Chronik-Meilenstein, GuildSentinelDB.raidReady ohne Namen RaidReady.lua:18/347, Offiziers-Chat über
-  ns.Chat RaidReady.lua:264). Abweichung "kein eigener Standardtext je Phase" ist begründet (Texte lesen sich mit allen
-  drei {gesucht}-Werten richtig) – angenommen. Tests T261–T269.
-- TU (anweisung-tests-umfassend.txt) grösstenteils: T270 (Lagen x Funktionen), T271 (Abläufe), T272 (Standardwerte),
-  T273a–j (1000 Zufallsfälle, Startwert 4711), T275 (echte Daten nur lesen), T276 (Regressionen 94 von 94), T279
-  (Bericht je Bereich), Mutations-Gegenproben im Bericht. Rest siehe Punkt 2.
-- CHANGELOG EN/DE für 0.9.29–0.9.32, .toc mit GuildAct.lua und RaidReady.lua, Locales in allen Sprachen.
-- anweisung-mitglieder-menue.txt und anweisung-rekrutierung-phasen.txt sind damit erledigt und entfernt (Client-Prüfungen
-  unten). anweisung-tests-umfassend.txt bleibt (Punkt 2 und die Regel "Befund ohne Test = nicht erledigt").
-
-Prüfungen: Addon-Prüfung OK, 0 FEHLER, 0 WARNUNGEN (Ladetest, Sprachtest). GoldSentinelGame.lua, GoldSentinelSync.lua
-und GoldSentinelTest.lua byte-gleich mit shared/.
-Offline-Routine mit Lua 5.1 (test/run_routine.lua): Forever (16001) OK 255 · FEHLER 0 · übersprungen 27 · im Client
-prüfen 8; Era (11508) und TBC (20505) je OK 260 · FEHLER 0 · übersprungen 21 · im Client prüfen 9; Forever ruRU OK 256 ·
-FEHLER 0. run_routine je 16/16. run.lua 77/77, run_admin 28/28, run_new 102/102, run_v9 55/55, run_lang 7/7,
-run_uicheck 13/13. Kein T:Skip "noch nicht"; alle neuen Tests T253–T279 vorhanden (T274, T277, T278 nicht vergeben).
-Im Diff 0.9.28 -> 0.9.32: keine Lua-Fehler, keine nil-Zugriffe gefunden, kein Ersetzen von Blizzard-Funktionen, keine
-festen sichtbaren Texte ausserhalb der Sprachtabelle, Era/TBC nicht gebrochen.
+Prüfungen: Addon-Prüfung OK, 0 FEHLER, 0 WARNUNGEN (Lua-Syntax mit lupa, Ladetest, Sprachtest). GoldSentinelGame.lua,
+GoldSentinelSync.lua, GoldSentinelTest.lua byte-gleich mit shared/. CHANGELOG EN/DE für 0.9.36 vorhanden.
+Offline mit Lua 5.1 (Repo GuildSentinel 9f1fff3): run_routine 16001 und 11508 je 16/16, run 77/77, run_admin 34/34,
+run_v5 84/84, run_new 102/102, run_lang 7/7, run_uicheck 13/13. Kein T:Skip "noch nicht".
+Im Diff 0.9.35 -> 0.9.36: keine Lua-Fehler, keine nil-Zugriffe (ns.RaidReady wird vor :Phase() geprüft), kein Ersetzen
+von Blizzard-Funktionen, keine geschützte Gilden-Funktion direkt aufgerufen, neue Texte in allen Sprachen, Era/TBC nicht
+gebrochen.
 
 OFFENE PUNKTE
-2. NIEDRIG (Rest TU1) – Lagen-Katalog noch nicht vollständig.
-   T270 läuft 6 Lagen durch 8 Funktionen (Werbung, Einladen, Verwaltung, Menü, Liste, Beförderung, Aufstellung, Berufe).
-   anweisung-tests-umfassend.txt TU1 verlangt zusätzlich die Funktionen Gruppensuche, Termine, Umfragen, Sync und die
-   Lagen "Kanal verweigert Addon-Nachrichten", "Mitspieler mit alter Version", "Gilde gewechselt". Bitte in T270
-   ergänzen (Verweise auf T150/T91/T220 gelten nur, wenn die Lage dort mit den GENANNTEN Funktionen läuft).
+1. NIEDRIG (NEU) – GA1: "Gildenverwaltung > Einladen" umgeht die Alters-Sperre.
+   Ad.Invite (Admin.lua:225–234) prüft den Bewerber-Status nicht. Wer einen Bewerber mit Status "abgelehnt (Alter)"
+   dort von Hand einträgt, bekommt "/ginvite <Name>" ohne Hinweis in die Chat-Eingabe.
+   Lösung: in Ad.Invite wie in Rc:Invite (Recruit.lua:628–629) ns.G().apps[name] prüfen; bei st == "agedecl" die
+   Meldung "Unter dem Mindestalter – Einladen gesperrt." und abbrechen (oder Bestätigung "trotzdem einladen?" nur für
+   den Gildenmeister – bitte entscheiden und im Bericht nennen). Test T289f: agedecl über Verwaltung einladen ->
+   nichts in der Chat-Eingabe.
 
-3. MITTEL – BL BEFEHLSLISTE BEIM TIPPEN MIT ALLEN BEFEHLEN (13.11. 07:45, Wunsch des Nutzers)
-   ANTWORT AUF DEN BERICHT 2026-11-13-1110: Der Baustein ist jetzt da. AHSentinel 0.65.104 (download/AHSentinel-0.65.104.zip)
-   enthält CH1–CH5 (Befehlsliste: Klick wählt, Enter führt aus). Bitte keine eigene Lösung bauen, sondern den
-   CmdHint-Stand aus AHSentinel 0.65.104 (bzw. die neueste AHSentinel-Version) übernehmen und BL jetzt umsetzen. Findet
-   die Nachprüfung von AHSentinel noch Fehler in CH, wird die Korrektur später übernommen.
-   Tippt der Spieler /gs, /guildsentinel in den Chat, erscheint über dem Eingabefeld die Liste SÄMTLICHER Befehle des
-   Addons mit kurzer Beschreibung (Spielsprache, alle Locale-Dateien). Quelle: Core.lua SlashCmdList.GUILDSENTINEL
-   (berufe, suche <Rezept>, gruppe, fortschritt, zugang, termine, brett, wo, danke <Name>, weg <Tage> [Notiz], umfrage,
-   regeln, werbung, spenden, verwaltung, sync test, protokoll, debug; Entwickler: test, testroutine).
-   BL1 Vollständig: die Liste kommt aus DERSELBEN Befehlstabelle, die der Slash-Handler zum Ausführen benutzt (eine Tabelle
-       für beides; der Handler liest aus ihr). Auch Befehle mit Zusatz zeigen ihn ("danke <Name>", "weg <Tage>"), deutsche
-       und englische Befehlswörter (z. B. "wo"/"where") finden beide. Entwickler-Befehle nur, wenn GoldSentinelDev den
-       Entwickler erkennt.
-   BL2 Filtern mit jedem Buchstaben: "/gs" = alle; "/gs w" = alles mit w am Anfang (wo, weg, werbung); "/gs we" = weg,
-       werbung; meistbenutzte oben (Zähler in den SavedVariables).
-   BL3 Bedienung (wie AHSentinel Punkt CH und shared/vorlage/README.md "Befehlsliste beim Tippen"): Mausklick bzw.
-       Pfeiltasten/Tab WÄHLEN aus, Enter FÜHRT AUS; Liste schliesst nicht, bevor der Klick ankommt; Fokus zurück mit
-       SetFocus; das Chatfeld wird NIE beschrieben (kein SetText/Insert, kein eigenes OnEnterPressed, nur HookScript lesen);
-       der Slash-Handler führt bei einer frischen Auswahl (≤ 10 s) den gewählten Befehl statt des unvollständigen Worts aus.
-       Option zum Ausschalten.
-   BL4 Tests: T-BL1 jeder Befehl, den der Handler versteht, steht in der Liste (Vergleich aus der Tabelle, keine
-       Handliste); T-BL2 Filter "/x w", "/x we" liefern genau die passenden; T-BL3 Klick wählt, Enter führt aus; T-BL4
-       Chatfeld nie beschrieben; T-BL5 Entwickler-Befehle nur für den Entwickler; T-BL6 alle Sprachen ohne Platzhalter-
-       Fehler. Alte Clients (Era, TBC) nicht brechen.
+2. MN1–MN4 (MITTEL, aus anweisung-marktdaten-netz.txt) – shared/GoldSentinelMarkt.lua v1 liegt bereit (13.11. 16:00,
+   Korrektur 16:05: Absatz-Untergrenze, Export-Eintrag mit 6 Feldern – wer früh kopiert hat: NEU KOPIEREN, Prüfung
+   "exact"). Jetzt einbauen: MN1 Datei unverändert kopieren, in die TOC nach GoldSentinelSync.lua; MN2–MN3 wie in der
+   Anweisung; MN4 Tests (lädt mit/ohne Datei, Schalter aus -> kein Lesen/Senden, kein Lua-Fehler ohne AH-API).
+   Bitte die Anweisung ganz lesen.
 
-4. NIEDRIG (NEU 13.11. 11:40, aus der Nachprüfung Bot 1.5.125 / Bericht berichte/Discord/2026-11-13-0930) –
-   FELD "vorschlag" IN GuildSentinelDB.raidReady.
-   Der Bot (RP-D, RaidMasterBot/raid_ready.py) postet den Sofort-Hinweis "GuildSentinel schlägt Phase … vor – im Spiel
-   bestätigen" nur, wenn raidReady ein Feld "vorschlag" trägt. RaidReady.lua schreibt heute raid, phase, aktiv, groesse,
-   tanks, tanksSoll, heiler, heilerSoll, pct, wochen, t (RaidReady.lua:347) – ohne Vorschlag.
-   Lösung: in RP:Summary (RaidReady.lua:336–340) das Feld vorschlag = die Phase, die RP gerade vorschlägt, mit
-   denselben Schlüsselwörtern wie das Feld phase ("build" / "trans" / "raid"); nil, wenn kein Vorschlag offen ist oder
-   er mit "Später" zurückgestellt wurde. Keine Namen. Die Wörter nicht ändern (alte Daten, Uploader und Bot lesen sie;
-   der Bot wird auf build/trans angepasst, siehe auftraege/Discord/ RP-D2). Test T-RP-V: Vorschlag offen -> Feld
-   gesetzt; bestätigt/Später -> Feld fehlt.
-
-IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.33, Ergebnis dem Nutzer melden)
+IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.36, Ergebnis dem Nutzer melden)
+   - Neu GA1 (0.9.36): Rekrutierung > Texte: Feld "Mindestalter" (16) und Absage-Text sichtbar, nichts überlappt.
+     Mit einem Zweitcharakter "gilde" flüstern -> 5 Fragen, die letzte "Wie alt bist du?". Antwort "17" -> weiter,
+     Bewerberliste zeigt "16+". Antwort "15" -> nette Absage per Flüstern, Status "abgelehnt (Alter)", Knopf
+     "In die Gilde einladen" grau. Antwort "bald 16" -> keine Absage, Status "Alter unklar". In den SavedVariables nach
+     dem Ausloggen nirgends die Zahl oder der Antworttext, nur ok/young/unclear.
+   - Neu GA2 (0.9.36): Phase Aufbau, leerer Werbetext -> Vorschau "… ist im Aufbau und sucht Mitstreiter aller Klassen …";
+     Zeile "Im Chat: …" direkt über dem Knopf "Werbung vorbereiten" (überlappt die Erinnern-Zeile nicht). Eigener Text
+     ohne {gesucht}/{phase} -> gelber Hinweis + Knopf "Übernehmen"; Klick setzt den Standardtext der Phase.
+   - /gs tippen (BL, 0.9.34): Liste aller Befehle über dem Eingabefeld, Klick wählt, Enter führt aus.
    - Neu GA1 (0.9.33): Interface > Kampf > "Aktion bei Tastendruck" AUS und AN – je einmal Befördern über
      "Gilden-Aktion": der Befehl läuft genau einmal, Status "Warte auf Bestätigung" -> ausgeführt, nie zwei Beförderungen.
    - Neu GV1 (0.9.29): Rekrutierung > Bewerber > "In die Gilde einladen" -> "/ginvite <Name>" steht in der Chat-Eingabe,
@@ -154,15 +114,14 @@ IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.33
    - T199: J drücken -> Knopf "Verwaltung (GuildSentinel)" rechts neben dem Gildenfenster; ohne Rechte grau mit
      Hinweis; /gs verwaltung öffnet das Fenster. Passwort festlegen, falsch/richtig entsperren.
    - Letzter vollständiger Testlauf im Spiel ist noch 0.9.13 (09.11. 05:47 UTC): T82, T118, T143, T154 waren dort
-     FEHLER, offline seit 0.9.21 bestanden. Mit 0.9.32 erneut /gs testroutine. Dazu T45 "[Test], 0", Bereich K
+     FEHLER, offline seit 0.9.21 bestanden. Mit 0.9.36 erneut /gs testroutine. Dazu T45 "[Test], 0", Bereich K
      (T182-T187, T237), T239-T279, Berufe-Knopf in Forever ohne "Aktion blockiert", issecretvalue nach dem Kampf,
      T168 (/gs testroutine whisperq), Bank-Charakter -> #gildenbank, Sprachwahl folgt ohne Einstellung dem Client.
      Der letzte eingegangene Diagnose-Bericht (0.9.28, testberichte/diagnose/GuildSentinel/0.9.28-b5ebcb4edbd6.txt)
      zeigt 0 Fehler in der Sitzung.
 
-FÜR ANDERE PROJEKTE (nur zur Info, dort eingetragen von der Prüf-Sitzung): GuildSentinelDB.raidReady liegt ab 0.9.31 in
-   den SavedVariables (Felder raid, phase, aktiv, groesse, tanks, tanksSoll, heiler, heilerSoll, pct, wochen, t) – für
-   RP-U (Uploader, auftraege/RaidMaster/) und RP-D (Bot, auftraege/Discord/).
+FÜR ANDERE PROJEKTE (nur zur Info): GuildSentinelDB.raidReady (Felder raid, phase, aktiv, groesse, tanks, tanksSoll,
+   heiler, heilerSoll, pct, wochen, t, vorschlag) – Bot 1.5.128 nimmt die Datei jetzt auch ohne Gildenbank an (D-GS1).
 
 HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Jeder Befund bekommt einen bleibenden Regressionstest; Befund ohne Test = nicht erledigt (auftraege/README.md).
@@ -170,53 +129,8 @@ HINWEIS FÜR KÜNFTIGE VERSIONEN
      Chat-Eingabe.
    - Die Sprache muss ohne Einstellung immer dem Client folgen (hinweis-sprachtest.txt).
    - Keine echten Spieler-, Gilden- oder Charakternamen und keine Discord-Links (hinweis-keine-spielernamen.txt).
-     Der Server-Tag der Gilde gehört nur in die Einstellungen des Spielers, nicht in Code oder Tests.
+     Das Alter von Bewerbern nie speichern, teilen oder protokollieren (nur 16+ / unter 16 / unklar).
    - Gemeinsame Dateien nur unverändert aus shared/ kopieren.
-   - Die Version muss höher sein als 0.9.32 (download/, announce/, CurseForge).
+   - Die Version muss höher sein als 0.9.36 (download/, announce/, CurseForge).
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/GuildSentinel/ ablegen.
-
-
-NACHPRÜFUNG 13.11. 14:30 (Prüf-Sitzung im Chat, Auftrag des Nutzers "prüfe ob alles umgesetzt wurde")
-------------------------------------------------------------------------------------------------
-Geprüft: 0.9.34 (06bc526) und 0.9.35 (b28c348) mit den Berichten -1240 und -1300. addon_check 0.9.35 OK
-(0 FEHLER, 0 WARNUNG). Diagnose 0.9.35 aus dem Spiel: "Fehler in dieser Sitzung: 0".
-Erledigt (im Code belegt, danke):
-- Punkt 2 (TU1-Rest): T270 mit den Lagen "Kanal verweigert Addon-Nachrichten", "Mitspieler mit alter Version",
-  "Gilde gewechselt" und den Funktionen Gruppensuche, Termine, Umfragen, Sync (TestRoutine.lua:3228–3248).
-- Punkt 3 BL1–BL4: ns.COMMANDS (Core.lua:764), ns.FindCommand, CmdHint.lua, T282–T287.
-- Punkt 4: raidReady.vorschlag (RaidReady.lua:238/350), T288.
-Freigegeben. Offen nur noch: IM CLIENT PRÜFEN (oben), dazu /gs tippen (Liste, Klick wählt, Enter führt aus).
-
-GA (HOCH, NEU 13.11. 14:35 – Wunsch des Nutzers):
-   GA1 FÜNFTE BEWERBUNGSFRAGE "Wie alt bist du?" – Mindestalter 16.
-       - Standardfragen (Recruit.lua Rc:DefaultQuestions) um die 5. Frage ergänzen (alle Sprachen). Eigene Fragenlisten
-         bleiben, aber die Altersfrage wird IMMER zusätzlich gestellt, wenn "Mindestalter" eingestellt ist (Einstellung
-         Rekrutierung: Mindestalter, Standard 16, 0 = aus).
-       - Antwort auswerten: Zahl erkennen ("17", "ich bin 17", "17 Jahre"); < 16 -> nette Absage per Flüstern, z. B.
-         "Danke für dein Interesse an <{gilde}>! Wir nehmen leider erst ab 16 Jahren auf. Viel Spass weiterhin in Azeroth!"
-         (Text einstellbar, alle Sprachen), Bewerber-Status "abgelehnt (Alter)", Knopf "In die Gilde einladen" gesperrt.
-         ≥ 16 -> normal weiter. Keine Zahl / unklar ("bald 16", Ausweichen) -> KEINE automatische Absage, Status
-         "Alter unklar" für den Offizier.
-       - Datenschutz: das genaue Alter NICHT speichern und nicht über den Sync teilen, nur "16+" / "unter 16" / "unklar";
-         nicht ins Diagnose-Protokoll. Antworttext der Altersfrage nicht in der Bewerberliste zeigen, nur das Ergebnis.
-       - Testmodus: Absage nur "[Test]". Tests T-GA1a–e (17 -> weiter; 15 -> Absage + gesperrt; "bald 16" -> unklar;
-         Mindestalter 0 -> keine Frage; genaues Alter nirgends gespeichert).
-   GA2 WERBETEXT IM CHAT: Der Nutzer sieht noch nicht, dass wir alle Klassen suchen und im Aufbau sind. 0.9.35 setzt
-       {gesucht} in der Phase Aufbau auf "Mitstreiter aller Klassen" – das wirkt nur, wenn der Werbetext {gesucht} enthält.
-       - Phase Aufbau braucht einen eigenen Standard-Werbetext, der den Aufbau nennt, z. B.: "<{gilde}> ({fraktion}) ist im
-         Aufbau und sucht {gesucht} – entspannt, hilfsbereit, deutschsprachig, Raidziel. Discord: {discord} – flüstert mir:
-         /w {name} gilde" (alle Sprachen; Platzhalter {phase} zusätzlich anbieten: "im Aufbau"/"fast raidbereit"/"raidbereit").
-       - Hat der Spieler einen EIGENEN Werbetext ohne {gesucht}/{phase}: in der Rekrutierung gelb "Dein Text nennt die
-         gesuchten Klassen nicht – {gesucht} einfügen oder Standardtext der Phase übernehmen" mit Knopf "Übernehmen".
-       - Vorschau des fertigen Chat-Texts direkt über dem Knopf "Werbung posten".
-       - Tests T-GA2a (Aufbau, Standardtext -> "im Aufbau … aller Klassen"), T-GA2b (eigener Text ohne Platzhalter ->
-         Hinweis), T-GA2c (Phase Raid -> gezielte Klassen).
-   Bitte im Bericht auch angeben, ob der Nutzer am PC schon 0.9.35 hat (Diagnose-Protokoll "v0.9.xx").
-
-MN (NEU 13.11. 15:35 – Entscheid des Nutzers "Markt komplett messen", Anweisung anweisung-marktdaten-netz.txt):
-   MN1–MN4 – WARTET auf shared/GoldSentinelMarkt.lua (Meldung folgt), dann einbauen.
-   Kurz: Vollscans still mitlesen (keine Abfrage, Schalter zum Ausschalten, keine Namen), über Gilde/Netz teilen,
-   Uploader -> Bot-Server sammelt und misst Absatz. Bitte die Anweisung ganz lesen.
-   MN BEREIT (13.11. 16:00): shared/GoldSentinelMarkt.lua v1 liegt bereit – MN1–MN4 JETZT einbauen (nach GA oder zusammen damit).
-   MN KORREKTUR (13.11. 16:05): GoldSentinelMarkt.lua v1 ergänzt (Absatz-Untergrenze, Export-Eintrag mit 6 Feldern). Wer die Datei schon kopiert hat: NEU KOPIEREN (Prüfung "exact").

@@ -1,0 +1,27 @@
+NACHRICHT AN DIE GUILDSENTINEL-SITZUNG (zum Einfügen)
+=====================================================
+Erst laufende Arbeit fertig machen.
+
+Stand: Nachprüfung von GuildSentinel 0.9.36 (13.11.2026, 16:30, geplante Nachprüfung).
+
+ERLEDIGT (danke): GA1 Altersfrage (Recruit.lua:173–256, Sperre Recruit.lua:628, Pages.lua:1489, T289a–e) und GA2
+Werbetext Phase Aufbau mit {phase}, Hinweis + "Übernehmen", Zeile "Im Chat:" (T290a–c). Addon-Prüfung 0 FEHLER,
+0 WARNUNGEN; gemeinsame Dateien byte-gleich; offline alle Läufe grün (run_routine 16001/11508 je 16/16).
+Abweichung "Altersfrage nicht als 5. Zeile in DefaultQuestions" angenommen.
+
+ZU TUN (nach Schwere):
+1. MITTEL – MN1–MN4 (anweisung-marktdaten-netz.txt): shared/GoldSentinelMarkt.lua v1 (Stand 16:05, Prüfung "exact")
+   unverändert kopieren, in die TOC nach GoldSentinelSync.lua, MN2–MN4 nach der Anweisung, mit Tests.
+2. NIEDRIG – Gildenverwaltung > Einladen umgeht die Alters-Sperre: Ad.Invite (Admin.lua:225–234) prüft den
+   Bewerber-Status nicht. Lösung: wie Rc:Invite (Recruit.lua:628–629) bei apps[name].st == "agedecl" abbrechen mit
+   "Unter dem Mindestalter – Einladen gesperrt." (oder Rückfrage nur für den Gildenmeister – im Bericht nennen).
+   Test T289f.
+3. IM CLIENT PRÜFEN (Liste in offen-guildsentinel.txt): neu GA1 (Mindestalter, 17/15/"bald 16" mit Zweitcharakter,
+   keine Zahl in den SavedVariables), GA2 (Vorschau "im Aufbau", Zeile "Im Chat:", Hinweis bei eigenem Text), /gs tippen.
+
+git pull --rebase und auftraege/GuildSentinel/offen-guildsentinel.txt lesen; nach der Umsetzung Bericht in
+berichte/GuildSentinel/ ablegen.
+
+Nächste Version 0.9.37. Komplette Dateien, alte Clients (Era, TBC) nie brechen, alle Locale-Dateien, CHANGELOG EN/DE.
+Vor dem Push: python3 addon-check/addon_check.py download/GuildSentinel-0.9.37.zip -> kein FEHLER.
+Ist ein Befund falsch, bitte begründet zurückmelden.

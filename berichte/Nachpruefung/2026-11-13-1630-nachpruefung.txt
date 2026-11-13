@@ -1,0 +1,29 @@
+BERICHT NACHPRUEFUNG AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 16:30 · Sitzung: geplante Nachprüfung · Versionen: GuildSentinel 0.9.36, Bot 1.5.128–1.5.130,
+Testberichte bis 608594a · Commit: dieser Bericht
+
+GEPRÜFT
+- GuildSentinel 0.9.36 (4f7dd86, Repo 9f1fff3): FREIGEGEBEN. GA1/GA2 erledigt (T289a–e, T290a–c). addon_check 0 FEHLER,
+  0 WARNUNGEN; shared byte-gleich; offline alle Läufe grün. NEU: Punkt 1 NIEDRIG (Ad.Invite umgeht agedecl),
+  Punkt 2 MN1–MN4 MITTEL (übernommen). -> auftraege/GuildSentinel/offen-guildsentinel.txt neu geschrieben.
+- RaidMasterBot 1.5.128–1.5.130: FREIGEGEBEN. D-GS1, D-UP1, MN8 erledigt; Bot-Tests 192/192 OK. NEU: D-GS1b NIEDRIG
+  (gs_has_bank ungesetzt bei Datei > 25 MB), MN7 MITTEL (übernommen). -> auftraege/Discord/offen-discord.txt neu.
+- AHSentinel 0.65.110/0.65.111: NICHT doppelt geprüft (Chat: TB110 15:25, "0.65.111 angenommen" 16:10, UI1618).
+  Aus den Testberichten: NEU MK-Ü1F HOCH – MARKT-KERN (Ü1) fehlt in den hochgeladenen Feldern
+  (TestRoutine.lua:1095–1105/1138–1142), Ü2 nicht nachrechenbar. -> als Abschnitt an offen-ahsentinel.txt angehängt
+  (Datei nicht neu geschrieben, die Chat-Sitzung pflegt sie gerade).
+
+MARKT-KERN gegen Ü2: keine Zahlen vorhanden (Abschnitt fehlt im Upload) -> nicht prüfbar = Befund MK-Ü1F.
+  Prognose-Kalibrierung 0.65.110: 80–100 % vorhergesagt Ø 98 %, verkauft 30–31 % (58 Fälle); Brier 0.552; 0 Lua-Fehler.
+
+TESTBERICHTE (608594a): AHSentinel 0.65.110 ×2 (6 FEHLER Testroutine, schon TB110), Diagnosen GuildSentinel 0.9.36,
+  ThreatSentinel 2.5.10, AHSentinel 0.65.110 je 0 Fehler; LevelPilot 3.12.27 "Letzter Fehler: keiner";
+  ProfessionSentinel 0.9.43 nur alte Einträge vom 09.11. (S7/S8, bekannt). Keine neuen Befunde ausser MK-Ü1F.
+
+GELESENE BERICHTE: GuildSentinel 2026-11-13-1530; Discord -1500, -1545, -1610; AHSentinel -1444, -1539 (vom Chat schon
+  übernommen).
+
+NACHRICHTEN: neu GuildSentinel, Discord, AHSentinel (MK-Ü1F) – je nachricht-*-2026-11-13.txt im Ordner. Weggelassen,
+  weil schon raus: AHSentinel 0.65.110/0.65.111 (Chat).
+HINWEIS PRÜFSYSTEM: nachpruefung-stand.json zeigte "testberichte_bis 5c82ab1", diese Revision gibt es nach dem
+  Umschreiben der Geschichte nicht mehr (lokales main war 50/50 auseinander); neu 608594a gesetzt.
