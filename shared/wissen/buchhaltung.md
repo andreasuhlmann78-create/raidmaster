@@ -142,6 +142,9 @@ verfällt sie.)
 Bücher (books.log) und Kassenbuch (ledger) widersprechen sich: Bücher = Kassenbuch + alle 53 "ausstehenden" Verkäufe
 (340 Stück, 11.11.–13.11., keine mit Rechnung). Gezeigter Gewinn 43 g 49 s, ohne die ausstehenden ≈ 20 g 53 s. Die
 Warnung "ohne Einkauf" kommt grösstenteils davon. books.gold und books.cb leer -> Gold-Abstimmung läuft nicht.
+Nachtrag 14.11. 01:05 (Daten 00:43): bestätigte Verkäufe = Kassenbuch exakt; aber ihr Einstand fehlt (63 % ohne Einkauf),
+weil die ausstehenden Doppel ihn schon verbraucht haben. Eine Reparatur darf den Einstand NICHT ins Lager zurücklegen
+(Phantom-Ware, Gewinn zu hoch), sondern muss ihn auf die Rechnung umbuchen (BH-AUS-2).
 REGEL: Ausstehend ist kein Erlös. Gewinn nur aus bestätigten Verkäufen; jede Buchhaltungs-Prüfung gleicht Bücher und
 Kassenbuch je Item ab (Stück und Erlös) – Unterschied = Befund.
 

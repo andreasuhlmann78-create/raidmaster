@@ -18,6 +18,19 @@ Einzelheiten zu jedem Punkt stehen weiter unten (Suche nach dem Kürzel). Diese 
 0. RUHEMODUS  EINGERICHTET laut Bericht 0.65.124 (send_later vorhanden, eine Runde offen) – dauerhaft einhalten: "NIE IM RUHEMODUS" (Block
                         ganz oben): Weck-Runde alle 5 Min. per send_later an dich selbst, nur EINE offen, unterbricht nie,
                         still weiterarbeiten. Erste Weck-Runde JETZT planen, dann weiter mit 1.
+1a. BH-AUS-2 SEHR HOCH (GOLD/VERTRAUEN, Prüf-Sitzung 14.11. 01:05, VOR RF-M1 – laufende Arbeit sauber abschliessen,
+                        dann sofort): Die Reparatur in 0.65.124 legt den Einstand der ausstehenden Buchungen ins LAGER zurück
+                        (Books.lua RepairPendingAUS: Put(db, p.ch, p.id, known, p.cost)). Das ist falsch: Die Ware ist VERKAUFT
+                        (die Rechnung hat genau diese Stücke) – nur der Rechnung fehlte der Einstand (free). Nachgerechnet mit
+                        Daten PC 14.11. 00:43 (noch vor 0.65.124): bestätigte Verkäufe = Kassenbuch je Item exakt (5 Items,
+                        0 Abweichungen), Erlös 502'260c, aber Einstand nur 123'360c (63 % ohne Einkauf); die ausstehenden
+                        trugen 172'745c Einstand. Nach der Reparatur hiesse das: Gewinn ca. 37g80 (zu hoch) und ca. 17g
+                        Phantom-Ware im Lager. Richtig: Einstand der ausstehenden Buchung auf die passende Rechnungs-Buchung
+                        UMBUCHEN (deren free um known senken, cost erhöhen), NICHT ins Lager. Erwartet danach: Gewinn ca.
+                        502'260 − 296'105 − 871 = 205'284c (ca. 20g53), Lager ohne Phantom-Ware, "ohne Einkauf" deutlich kleiner.
+                        Ist 0.65.124 beim Nutzer schon gelaufen (repairedBHAUS gesetzt): Folge-Reparatur aus db.repairBHAUS
+                        (Sicherung) – Lager-Zugang zurücknehmen, Einstand umbuchen. Test T-BHA8 (Reparatur: Lager unverändert,
+                        Rechnung bekommt den Einstand, Gewinn = Erlös − Einstand). Im Bericht Gewinn/Lager vorher-nachher.
 1. BH-AUS     ZUR PRÜFUNG 0.65.124 (Prüf-Sitzung 00:55: addon_check OK, Books.lua Zuordnung summiert, Reparatur, 24-Std.-
                         Grenze, Gold-Stände je Figur belegt). Offen: echte Zahlen aus dem nächsten Client-Testbericht
                         (Gewinn alt/neu, aufgelöste Buchungen, Gold-Abstimmung) – die Prüf-Sitzung rechnet nach.
