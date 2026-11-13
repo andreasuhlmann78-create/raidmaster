@@ -7,6 +7,21 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.101</h3>
+<ul>
+<li><strong>Sell suggestion follows a buyout.</strong> If the whole price ladder is high (buyout or new market situation: cheapest
+  offer ≥ 150 % of market value with at least 3 offers or 5 pieces), the suggestion is just below the cheapest offer –
+  no longer your old learned price. Hint: "Buyout – sell high now, the price usually drops soon (2 h)" instead of
+  "post cheaper"; the expiry counter is ignored in that case. "Sells only ~N" is hidden until the sales measurement is
+  released.</li>
+<li><strong>A price you typed stays.</strong> A finished price check no longer overwrites a price you entered by hand; changing the
+  item or clicking "Suggestion"/"−1" makes it automatic again.</li>
+<li><strong>Sniper keeps several hits.</strong> If two targets find hits at the same time, both stay buyable (best gap to the max
+  price first, then the next); expired hits drop out. Status: "N more hits waiting".</li>
+<li><strong>Sniper quantity empty:</strong> commodities buy as many as the budget allows ("Quantity: up to budget (N pcs)"), gear 1.
+  Warning when quantity × max price is far below the budget.</li>
+<li>Tests T509–T512 (T-AB4c-a/b, T-SM1, T-SM2).</li>
+</ul>
 <h3>Version 0.65.100</h3>
 <ul>
 <li><strong>Price history is compacted (smaller save file).</strong> Full detail for 48 hours, then one value per hour up to 7 days,
@@ -71,24 +86,7 @@
 <li>Diagnostic log: type of the last scan in PREIS-ALT; posted vs. server price of your own auction (EIGENE-PREIS).</li>
 <li>Tests T484–T490 (T-AB1, T-AB2, T-AB4, T-AB5, T-AB7, T-AB8a/b).</li>
 </ul>
-<h3>Version 0.65.96</h3>
-<ul>
-<li><strong>AHSentinel now tells you when to buy and when to sell – but only when it knows it from its own measurements.</strong>
-  One tooltip line, only if proven: "Cheap now – buy (−x % below usual)", "Falling – wait", "Expensive now – sell
-  (+x % above usual)" or (your own goods / Sell tab) "Don't sell now – better at <hour> (+x %)". Otherwise no line.
-  The same line appears in the Buy and Sniper details and in the Sell tab (there only the selling variants).</li>
-<li><strong>Rhythm for all items from the scan:</strong> once per hour each item's lowest price and quantity (sales = quantity drop)
-  are stored compactly per hour of day and weekday (own weekly rhythm, e.g. raid days from 9.12.). Items without
-  offers for 14 days are removed; even 5,000 items stay below 2 MB.</li>
-<li><strong>Honest:</strong> only with a fresh price (≤ 30 min), never with a buyout flag or outdated material prices, only from
-  ≥ 7 days of data and ≥ 3 values for this hour, and only if the deviation is ≥ 10 % and outside the item's normal
-  fluctuation. "Buy" never into a fall: if the daily price has been falling for 2 days, it says "Falling – wait".</li>
-<li><strong>Every line is checked afterwards</strong> (24 hours later or at the named time). A signal type with less than 60 % hits
-  (from 20 cases) is hidden until it is better again. Hit rates are in the test report. With Shift and too little data:
-  "Rhythm: N more days of measuring".</li>
-<li>Tests T477–T483 (T-JK1–T-JK6).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

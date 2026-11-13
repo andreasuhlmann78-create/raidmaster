@@ -12,6 +12,21 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.101
+
+- **Sell suggestion follows a buyout.** If the whole price ladder is high (buyout or new market situation: cheapest
+  offer ≥ 150 % of market value with at least 3 offers or 5 pieces), the suggestion is just below the cheapest offer –
+  no longer your old learned price. Hint: "Buyout – sell high now, the price usually drops soon (2 h)" instead of
+  "post cheaper"; the expiry counter is ignored in that case. "Sells only ~N" is hidden until the sales measurement is
+  released.
+- **A price you typed stays.** A finished price check no longer overwrites a price you entered by hand; changing the
+  item or clicking "Suggestion"/"−1" makes it automatic again.
+- **Sniper keeps several hits.** If two targets find hits at the same time, both stay buyable (best gap to the max
+  price first, then the next); expired hits drop out. Status: "N more hits waiting".
+- **Sniper quantity empty:** commodities buy as many as the budget allows ("Quantity: up to budget (N pcs)"), gear 1.
+  Warning when quantity × max price is far below the budget.
+- Tests T509–T512 (T-AB4c-a/b, T-SM1, T-SM2).
+
 ### Version 0.65.100
 
 - **Price history is compacted (smaller save file).** Full detail for 48 hours, then one value per hour up to 7 days,
@@ -75,23 +90,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Outdated prices:** every material with ≥ 25 % of the disenchant value must be fresh, not only the main material.
 - Diagnostic log: type of the last scan in PREIS-ALT; posted vs. server price of your own auction (EIGENE-PREIS).
 - Tests T484–T490 (T-AB1, T-AB2, T-AB4, T-AB5, T-AB7, T-AB8a/b).
-
-### Version 0.65.96
-
-- **AHSentinel now tells you when to buy and when to sell – but only when it knows it from its own measurements.**
-  One tooltip line, only if proven: "Cheap now – buy (−x % below usual)", "Falling – wait", "Expensive now – sell
-  (+x % above usual)" or (your own goods / Sell tab) "Don't sell now – better at <hour> (+x %)". Otherwise no line.
-  The same line appears in the Buy and Sniper details and in the Sell tab (there only the selling variants).
-- **Rhythm for all items from the scan:** once per hour each item's lowest price and quantity (sales = quantity drop)
-  are stored compactly per hour of day and weekday (own weekly rhythm, e.g. raid days from 9.12.). Items without
-  offers for 14 days are removed; even 5,000 items stay below 2 MB.
-- **Honest:** only with a fresh price (≤ 30 min), never with a buyout flag or outdated material prices, only from
-  ≥ 7 days of data and ≥ 3 values for this hour, and only if the deviation is ≥ 10 % and outside the item's normal
-  fluctuation. "Buy" never into a fall: if the daily price has been falling for 2 days, it says "Falling – wait".
-- **Every line is checked afterwards** (24 hours later or at the named time). A signal type with less than 60 % hits
-  (from 20 cases) is hidden until it is better again. Hit rates are in the test report. With Shift and too little data:
-  "Rhythm: N more days of measuring".
-- Tests T477–T483 (T-JK1–T-JK6).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
