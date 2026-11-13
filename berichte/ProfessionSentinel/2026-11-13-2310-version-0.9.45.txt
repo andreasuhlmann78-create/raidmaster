@@ -1,0 +1,37 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 23:10 · Sitzung: ProfessionSentinel-Sitzung · Version: 0.9.45 · Commit: 45fc6f0 (Quell-Repo)
+Grundlage: offen-professionsentinel.txt (Nachprüfung 0.9.44, 17:50, mit Nachträgen MN VERSION 2 / 22:20, HK-P, REGEL 22:28).
+Hinweis: Nach der Regel vom 22:28 steht hier nur "umgesetzt, zur Prüfung" mit Belegen – ob etwas erledigt ist, entscheidet die Prüf-Sitzung.
+
+UMGESETZT, ZUR PRÜFUNG:
+- Punkt 1 / MN VERSION 2 (Stand 22:20): ProfessionSentinel/GoldSentinelMarkt.lua neu aus shared/ kopiert (Version 2,
+  cmp gleich mit shared/ von 23:00). T266 prüft zusätzlich VERSION ≥ 2 und GM.FeedStart / GM.Feed sind Funktionen.
+  CHANGELOG EN/DE 0.9.44 -> 0.9.45 Zeile "Gemeinsame Datei GoldSentinelMarkt.lua aktualisiert".
+- Punkt 6 (An/Aus über die Sprachtabelle): Core.lua ns.OnOffText(on) mit L.ON/L.OFF; ersetzt an allen fünf Stellen (Core.lua
+  Toggle/alarm, line, markt; Favor.lua ToggleTodayCrates; MerchantQty.lua Toggle). Test T267 (T-MN6): /ps markt zweimal in
+  enUS und deDE (Capture, kein Chat) -> ": off"/": on" bzw. ": aus"/": an", kein fester Text "an/on".
+- HK-P: ProfessionSentinelAPI.TodayCrafts (Today.lua 255 ff.) liefert je Eintrag schon: itemID, recipeName, count, gold,
+  perCraft, cost, capital, step, stepText, run. NEU: safe (PM3 gesichert: kein alt/Aufkauf/dünn/Prüf-Hinweis, nicht
+  "roh verkaufen"), spellID, prof, made, materials = { {itemID, count} je Herstellung }, canCraft, cooldown, highMargin.
+  Die Liste enthält nur gesicherte Einträge (Today.Candidates filtert flag und "raw" schon seit 0.9.41), safe ist also immer
+  true. Nicht gesicherte werden nirgends gezeigt und je Ursache gezählt (Today.skipped) -> Testbericht-Zeile
+  "Heute herstellen, nicht gesichert: old n, thin n, raw n …". T267 prüft die Felder.
+  Was für HK fehlt: Herstellbarkeit nach Fertigkeit ist implizit (TodayCrafts nimmt nur gelernte, erreichbare Rezepte);
+  Abklingzeit-Status (bereit/noch x Std.) liefert die API nicht – nur "cooldown = true". Ob AHSentinel dafür einen Restzeit-
+  Wert braucht, bitte angeben.
+- Frage zur Auslegung "Ungesichertes nirgends anzeigen": Der Reiter "Gold" zeigt nach PM3 die Gruppe "Daten prüfen" grau
+  OHNE Zahl und ohne Empfehlung. Ich habe sie gelassen (keine Empfehlung, nur Information). Soll auch diese Gruppe weg?
+
+TESTS (eigene, Hinweise – keine Freigabe):
+- addon_check auf download/ProfessionSentinel-0.9.45.zip: OK, 0 FEHLER.
+- run_offline: Forever OK 223 / FEHLER 0 (in einem zweiten Lauf T145 +1025 KB, Bereich H, schwankt um die Grenze),
+  Era 205 / 0, Retail 204 / 0, TBC ohne Lua-Fehler, Exit 0. check_actions OK.
+
+OFFEN (unverändert):
+- Punkt 2 BL3/BL4: wartet auf den Entscheid zu shared/GoldSentinelCmdHint.lua.
+- Punkt 3/4: nur im Client (T145 Speicher wie oben).
+- Punkt 5: wartet auf AHSentinel (MaterialCost mit Leiter, Feld short).
+- Frage GoldSentinelSync mitbringen: bis zum Entscheid so gelassen.
+
+GEFUNDENE FEHLER: –
+IM CLIENT GETESTET: noch nicht.
