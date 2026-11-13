@@ -142,3 +142,8 @@ Weiter offen:
   bitte als eigene Lage in T201 aufnehmen (Buff vorhanden, aber von einem anderen Spieler -> keine Erinnerung).
 - TU7-Rest: echte UI-Skalierung nur im Client (Bereich K bei 80 % und 150 %).
 - Punkt 3 IM CLIENT PRÜFEN, dazu: /bsen tippen (Liste, Klick wählt, Enter führt aus) und Testroutine mit TU-Zeilen.
+
+MN (NEU 13.11. 15:35 – Entscheid des Nutzers "Markt komplett messen", Anweisung anweisung-marktdaten-netz.txt):
+   MN1–MN4 – WARTET auf shared/GoldSentinelMarkt.lua (Meldung folgt), dann einbauen.
+   Kurz: Vollscans still mitlesen (keine Abfrage, Schalter zum Ausschalten, keine Namen), über Gilde/Netz teilen,
+   Uploader -> Bot-Server sammelt und misst Absatz. Bitte die Anweisung ganz lesen.

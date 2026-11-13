@@ -131,3 +131,8 @@ fünf Addons haben den Baustein inzwischen je angepasst kopiert (sechs verschied
 das, was "nicht jedes Addon eine eigene Lösung" verhindern sollte. Der Entscheid liegt beim Nutzer; die Antwort kommt in
 diese Datei. Bis dahin BL3/BL4 nicht selbst bauen.
 Weiter offen: Punkt 2 (im Client), Punkt 3 (T145 im Client), Punkt 4 (wartet auf AHSentinel MaterialCost mit Leiter).
+
+MN (NEU 13.11. 15:35 – Entscheid des Nutzers "Markt komplett messen", Anweisung anweisung-marktdaten-netz.txt):
+   MN1–MN4 – WARTET auf shared/GoldSentinelMarkt.lua (Meldung folgt), dann einbauen.
+   Kurz: Vollscans still mitlesen (keine Abfrage, Schalter zum Ausschalten, keine Namen), über Gilde/Netz teilen,
+   Uploader -> Bot-Server sammelt und misst Absatz. Bitte die Anweisung ganz lesen.

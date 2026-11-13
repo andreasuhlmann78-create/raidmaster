@@ -1,0 +1,3 @@
+Auftrag des Nutzers über die Prüf-Sitzung: Bitte git pull --rebase im raidmaster-Repo und auftraege/Discord/anweisung-marktdaten-netz.txt lesen (Punkt MN in offen-discord.txt).
+SOFORT: MN8 – messen, ob die Blizzard Game Data API für WoW Forever Auktionsdaten liefert (Namespaces, connected-realm, /auctions je Fraktion; für Era/Anniversary gab es bis Juli 2026 nur 404). Der Nutzer legt den kostenlosen API-Zugang auf develop.battle.net selbst an; Client-ID/Geheimnis nur lokal in der Bot-Konfiguration, nie ins Repo oder in Logs. Ergebnis als Bericht in berichte/Discord/.
+Später (wartet auf shared/GoldSentinelMarkt.lua): MN7 Sammelstelle für die Marktdaten auf dem Bot-Server.

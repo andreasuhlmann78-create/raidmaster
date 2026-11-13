@@ -1,0 +1,55 @@
+ANWEISUNG MN – MARKTDATEN-NETZ: DEN MARKT KOMPLETT MESSEN (Prüf-Sitzung, 13.11.2026 15:35)
+Entscheid des Nutzers 13.11. 14:34–15:28: "wir brauchen komplette Marktanalysen um den Markt komplett zu messen";
+"es soll keine Abfrage bei den Addon-Benutzern geben"; "geht das auch gildenübergreifend?"; "ok Aufträge verteilen".
+Grundlage: shared/wissen/markt-strategie.md (M-KOMPLETT, M1c), shared/wissen/kommunikation-forever.md,
+shared/messtest/README.md (A3). Gemessen 13.11.: Vollscan 243'817 Auktionen / 6'115 Items; ein fremder Vollscan
+(AHSentinel) lässt sich im selben Client MITLESEN; ReplicateItems frühestens nach ~20 Min. wieder; Zusammenfassung je
+Item 415 Addon-Nachrichten (Gilde 83 s, Flüstern 10 Min. je Empfänger); REPLICATE_ITEM_LIST_UPDATE kommt zehntausende Male.
+
+ZIEL: Den ganzen Markt rund um die Uhr erfassen – aus den Vollscans, die Spieler mit irgendeinem Addon sowieso machen –,
+an einem Ort zusammenführen, Absatz/Umschlag messen statt schätzen und die Ergebnisse allen GoldSentinel-Nutzern geben.
+
+TEIL 1 – GEMEINSAME DATEI shared/GoldSentinelMarkt.lua (baut die Prüf-Sitzung, wie GoldSentinelSync; mit Tests)
+  - Läuft je Client nur EINMAL, egal wie viele GoldSentinel-Addons geladen sind (höchste Version gewinnt, wie Sync).
+  - Liest jeden Vollscan mit (eigener oder fremder Aufruf von ReplicateItems): ein Schub pro Scan, in Portionen ≤ 8 ms je
+    Bild, nicht im Kampf. Ergebnis je Item: tiefster Stückpreis, Menge, Anzahl Auktionen, Zeit; dazu je Item die Abgänge
+    aus langer Restzeit gegenüber dem letzten Scan (= gekauft oder abgebrochen) -> gemessener Absatz.
+  - Keine Namen: Besitzer, Bieter, Itemnamen werden nie gelesen.
+  - Teilen über GoldSentinelSync (Endpunkt "GSMARKT"): Gilde = Zusammenfassung des neuesten Scans (gedrosselt);
+    gildenübergreifend (Flüster-Netz) nur Änderungen; "Speichern und Weitergeben": jeder Client hält den neuesten
+    Stand je Item, beim Einloggen fragt er "wer hat Neueres als T?". Nur die eigene Fraktion (Fraktions-AH).
+  - Vertrauen: fremde Werte getrennt mit Quelle und Anzahl unabhängiger Quellen; Ausreisser verworfen; nie überschreibt
+    ein fremder Wert einen eigenen frischeren Scan; fremde Werte allein lösen nie Kauf/Verkauf aus.
+  - KEINE ABFRAGE beim Spieler; Standard AN; Schalter "Marktdaten teilen" in den Einstellungen jedes Addons zum
+    Ausschalten; je Addon eine CHANGELOG-Zeile (EN/DE). Speicher-Ziel ≤ 1 MB in den SavedVariables.
+  - Schnittstelle: GSMarkt.Get(itemID) -> {preis, menge, n, t, quelle, absatz, abdeckung}; GSMarkt.Export() für den
+    Uploader (Zeile "GSMARKT1|…" in den SavedVariables des Host-Addons).
+  Die Prüf-Sitzung meldet über auftraege/, wenn Version 1 in shared/ liegt. Erst DANN einbauen (Teil 2).
+
+TEIL 2 – EINBAU IN ALLE GOLDSENTINEL-ADDONS (je Addon seine eigene Sitzung; AHSentinel, BuffSentinel, GuildSentinel,
+  LevelPilot, ProfessionSentinel, ThreatSentinel, RaidMaster):
+  MN1 GoldSentinelMarkt.lua unverändert aus shared/ kopieren, in die TOC nach GoldSentinelSync.lua, beim Laden
+      GSMarkt.Attach("<Addon>", <SavedVariables-Tabelle>) aufrufen. Alte Clients nie brechen (ohne C_AuctionHouse /
+      ReplicateItems: still aus).
+  MN2 Schalter "Marktdaten teilen (anonym, nur Preise)" in den Einstellungen, Standard an; CHANGELOG EN/DE.
+  MN3 Testbericht-Zeile "MARKT-NETZ: Version, an/aus, mitgelesene Scans, gesendet/empfangen, Speicher".
+  MN4 Tests: Addon lädt mit/ohne die Datei, Schalter aus -> kein Lesen/Senden, kein Lua-Fehler ohne AH-API.
+  Zusätzlich NUR AHSentinel (nach 0.65.111, mit 0.66 Rechenkern): MN5 GSMarkt.Get als Quelle im Rechenkern – Rangfolge
+      eigener frischer Scan > gemessener Absatz/Preis aus dem Netz > Schätzung; Quelle in der Anzeige ("Netz, 3 Quellen,
+      vor 40 Min."). AHSentinels eigener Vollscan bleibt; er liest nicht doppelt (GSMarkt erkennt den Schub).
+  Zusätzlich NUR RaidMaster (Uploader): MN6 Zeilen "GSMARKT1|…" aus den SavedVariables aller GoldSentinel-Addons an
+      den Bot-Server schicken (wie GSDIAG1/GSTEST1), je Scan nur einmal (Kennung), keine Namen.
+
+TEIL 3 – SAMMELSTELLE AUF DEM BOT-SERVER (Discord-Sitzung)
+  MN7 Empfangen, nach Fraktion und Zeit ablegen, zusammenführen (gleiche Scan-Zeit = ein Scan), je Item: Preisverlauf,
+      gemessener Absatz je Tag/Stunde, Umschlag, Abdeckung (gescannte Stunden der Woche). Wöchentlicher Bericht ins Repo
+      (testberichte/markt/), keine Namen. Rückweg zu den Addons ist Phase 2 (eigener Auftrag nach der ersten Woche).
+  MN8 MESSAUFTRAG BLIZZARD-SCHNITTSTELLE (sofort, unabhängig von Teil 1): Liefert die Blizzard Game Data API für WoW
+      Forever Auktionsdaten? Für Era/Anniversary gab es bis Juli 2026 nur 404 (Forum: "known gap"). Prüfen: Namespaces
+      (dynamic-classic*, dynamic-forever* o. ä.), connected-realm-Index, /auctions/<id> je Fraktion. Der Nutzer legt dafür
+      selbst einen kostenlosen API-Zugang auf develop.battle.net an; Client-ID/Geheimnis NUR in der lokalen Konfiguration
+      des Bots, NIE ins Repo, nie in Logs. Ergebnis (geht/geht nicht, Antwortcodes, Grösse, Häufigkeit) als Bericht. Wenn
+      es geht: das ist die beste Quelle (stündlich, ohne Spieler) -> eigener Folgeauftrag.
+
+REIHENFOLGE: MN8 sofort · Teil 1 Prüf-Sitzung · dann MN1–MN4 in allen Addons, MN6 Uploader, MN7 Bot · MN5 mit AHSentinel 0.66.
+Fragen und Ergebnisse als Bericht in berichte/<Projekt>/.

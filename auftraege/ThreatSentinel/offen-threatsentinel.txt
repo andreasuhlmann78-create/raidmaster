@@ -97,3 +97,8 @@ Kleinigkeit (NIEDRIG): routine_offline.py nimmt nur einen ausgepackten Ordner; m
 (NotADirectoryError). Bitte ZIP annehmen oder ohne Argument die neueste download/ThreatSentinel-*.zip nehmen (wie BuffSentinel).
 Weiter offen: Punkt 1 (gemeinsamer Sync, wartet auf den Nutzer); IM CLIENT PRÜFEN wie oben, dazu /ts testroutine mit
 Bereich U ("Regressionen: 41 von 41 vorhanden"), TU5-E2 (Testprotokoll eines echten Kampfs), TU7-K1 Skalierung.
+
+MN (NEU 13.11. 15:35 – Entscheid des Nutzers "Markt komplett messen", Anweisung anweisung-marktdaten-netz.txt):
+   MN1–MN4 – WARTET auf shared/GoldSentinelMarkt.lua (Meldung folgt), dann einbauen.
+   Kurz: Vollscans still mitlesen (keine Abfrage, Schalter zum Ausschalten, keine Namen), über Gilde/Netz teilen,
+   Uploader -> Bot-Server sammelt und misst Absatz. Bitte die Anweisung ganz lesen.

@@ -102,3 +102,8 @@ D-UP1 (MITTEL, Hinweis aus berichte/RaidMaster/2026-11-13-1245/-1250) – /uploa
    download/RaidMasterUploader.zip auch ohne neue Bot-Version. (b) /uploader nennt in der Antwort die Version der ZIP
    (aus uploader.py VERSION in der ZIP) und warnt, wenn sie älter ist als im Repo. Test T-D-UP1 (Versionsvergleich).
    Danach live prüfen: /uploader liefert 2.3.5. Bis dahin den Nutzer nicht über /uploader aktualisieren lassen.
+
+MN (NEU 13.11. 15:35 – Entscheid des Nutzers "Markt komplett messen", Anweisung anweisung-marktdaten-netz.txt):
+   MN7 Sammelstelle (wartet auf Teil 1) und MN8 MESSAUFTRAG BLIZZARD-SCHNITTSTELLE – SOFORT.
+   Kurz: Vollscans still mitlesen (keine Abfrage, Schalter zum Ausschalten, keine Namen), über Gilde/Netz teilen,
+   Uploader -> Bot-Server sammelt und misst Absatz. Bitte die Anweisung ganz lesen.
