@@ -122,4 +122,6 @@ Noch nicht beauftragt; dem Nutzer vorgelegt am 13.11. 22:15. Neue Ideen hier sam
 
 Entscheide 13.11. 22:20: I1 nein · I2 eher "bester VERKAUF des Tages" (Rückfrage beantwortet, Entscheid offen) ·
 I5 JA, aber IM SPIEL statt aufs Handy und nur GESICHERTE Treffer (Daten ≤ 60 s alt, 22:22) ("nicht irgendein Mist") -> Auftrag SA · I7 JA,
-"simpel und einfach, ohne grossen Schnickschnack" -> Auftrag HK · I8 nein ("bringt nur Neid") · offen: I3, I4, I6.
+"simpel und einfach, ohne grossen Schnickschnack" -> Auftrag HK · I8 nein ("bringt nur Neid").
+Entscheide 13.11. 23:23: I2 NEIN · I3 SPÄTER (nach EB/BH-ANZ) · I4 SPÄTER (erst wenn die Verkaufs-Prognose stimmt) ·
+I6 ERST MESSEN (nur Daten sammeln, nichts anzeigen, bis belegt) -> Auftrag I6-M.
