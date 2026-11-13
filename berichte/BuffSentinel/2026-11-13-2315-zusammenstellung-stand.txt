@@ -1,0 +1,45 @@
+BERICHT BUFFSENTINEL AN DIE PRÜF-SITZUNG – ZUSAMMENSTELLUNG UND BITTE UM ANWEISUNG
+Stand: 13.11.2026 23:15 · Sitzung: BuffSentinel-Sitzung · aktuelle Version: 0.9.20 (e27f8b3, download/BuffSentinel-0.9.20.zip)
+Auftrag des Nutzers (23:15): "stell das zusammen und informiere die Testinstanz ... sie sagt was zu tun ist ... alles über
+Repo". Bitte der Prüf-Sitzung: prüfen und dem Nutzer bzw. der BuffSentinel-Sitzung über auftraege/BuffSentinel/ sagen,
+was als Nächstes zu tun ist. Die BuffSentinel-Sitzung erklärt nichts für erledigt.
+
+1. VERÖFFENTLICHT SEIT DER LETZTEN NACHPRÜFUNG (17:50, Stand 0.9.18) – umgesetzt, zur Prüfung
+- 0.9.19 (a85ba0b): GoldSentinelMarkt v2 unverändert kopiert, sonst nichts. Bericht 2026-11-13-2240-gsmarkt-v2.txt.
+- 0.9.20 (e27f8b3): BP-2026-11-13-1 Messung + vorbereitete Erkennung (T205), TU1-Rest (P10/P11, T206, dazu
+  Korrektur "abgelaufene Aura zählt nicht als aktiv"), MN3a (T180). Bericht 2026-11-13-2245-bp-tu1-mn3a.txt.
+- GitHub-Lauf addon_check: 0.9.19 OK, 0.9.20 OK. Gemeinsame Dateien (Game, Test, Sync, Markt v2 Stand 22:20)
+  byte-gleich mit shared/ (cmp 23:15).
+- Eigene Tests (Hinweise, keine Freigabe): Nachbau T180/T205/T206 OK, T200 2948 Fälle 0 Abweichungen; Offline-Routine
+  berichte/BuffSentinel/offline Forever/Era/TBC × deDE/enUS RESULT PASS.
+
+2. OFFEN IN offen-buffsentinel.txt AUS SICHT DER BUFFSENTINEL-SITZUNG
+- MN-S (wartet): T178 erweitern, sobald die korrigierte shared/GoldSentinelMarkt.lua (Pump/StartRead prüfen den
+  Schalter) gemeldet ist. Frage: Enthält v2 (Stand 22:20) die Korrektur schon? Im Code von v2 nicht erkennbar –
+  bitte bestätigen oder melden, wann.
+- BP-2026-11-13-1 Teil 2: Verzauberungs-IDs in BS.WEAPON_ENCHANT eintragen – erst nach der Messung im Client.
+- Sonst ist kein Code-Auftrag offen.
+
+3. WAS NUR IM CLIENT GEHT (Testplan Punkt 5, ergänzt um 0.9.19/0.9.20) – bitte daraus die Anweisung an den Nutzer
+- Grundlauf: /bsen testroutine ausserhalb des Kampfs in Forever UND in Era oder TBC. Erwartet: 0 FEHLER,
+  "echte Aktionen: 0", TU1–TU7-Zeilen, MARKT-NETZ-Zeile. Danach /reload und Uploader (Testbericht + GSDIAG1).
+  /bsen testroutine kampf + ein Kampf.
+- Bereich K (T140–T145): bei UI-Skalierung 100 %, 80 % und 150 %. Dabei auch ThreatSentinel T181 / AHSentinel T192
+  ohne "überdeckt BuffSentinelAnchor_…".
+- Anker: leeren Anker verschieben, dann einen Proc auslösen -> Symbol an der richtigen Stelle.
+- Befehlsliste: /bsen tippen, Klick wählt, Enter führt aus.
+- Sync: /bsen sync test; Kanalliste ohne BuffSentinelSync; Spieltest Flüster-Netz (zwei Gilden).
+- Sprache: einmal englischer Client (Optionen, Raster, Tooltips, Buttons, /bsen help englisch). Einstellungen nach
+  dem Sprachwechsel unverändert.
+- Marktdaten: Optionen "Marktdaten teilen" sichtbar und an. Nach einem AHSentinel-Vollscan MARKT-NETZ "Scans
+  mitgelesen"/"vom Host übergeben" > 0, kein Ruckeln. Schalter aus -> "aus". Ist der Schalter in einem anderen
+  GoldSentinel-Addon aus, zeigt BuffSentinel "an (Netz aus: anderes Addon)" (0.9.20).
+- BP-2026-11-13-1 (Schamane Verstärkung, Forever): nacheinander a) nur eigene Waffenverzauberung, b) nur Waffen-Totem
+  (Windzorn/Flammenzunge), c) beides. Danach /bsen protokoll (Zeilen "WAFFE mh=… oh=… totem=…"), /reload, Uploader.
+  Aus diesen Zeilen trägt die BuffSentinel-Sitzung die IDs ein (0.9.21).
+- Mahlstrom (neue Auslöserate laut Hotfix): beobachten, ob die Warnung zu oft kommt (Eindruck des Nutzers genügt
+  für einen Auftrag).
+
+4. FRAGEN AN DIE PRÜF-SITZUNG
+- Reihenfolge der Client-Tests und was davon zuerst (der Nutzer wartet auf die Anweisung über das Repo).
+- MN-S: Stand der korrigierten GoldSentinelMarkt (siehe 2).
