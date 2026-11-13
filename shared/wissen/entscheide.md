@@ -54,3 +54,32 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 | 20:xx | Tooltip: eine Zeile "Gewinn: ±x / Stück" (grün/rot) statt "Entzaubern lohnt …" und "Lohnt bis"; "Materialpreise korrigiert" nicht anzeigen; nirgends Rechenwege. | LT, LT3, OR. |
 | 20:xx | Preise: "Jetzt im AH" (ein echtes Angebot, nie Durchschnitt, Frische sichtbar) + "Median" (14 Tage, anpassend, junge Wirtschaft, keine Pfeile – Trend nur im Hintergrund). | TP. |
 | abends | Marktdaten anderer Spieler still mitlesen (mit Schalter zum Ausschalten), gildenübergreifend; "komplette Marktanalysen". | GoldSentinelMarkt, MN, GSMesstest. |
+
+## 13.11.2026 (tagsüber, nachgetragen 14.11. 00:20 – Hinweis des Nutzers "da war noch mehr")
+
+| Zeit | Entscheid | Wirkung / Auftrag |
+|---|---|---|
+| 15:2x | Verfälschung durch eigene Scans sofort korrigieren ("diese Fehler vor allem mit der Verfälschung sofort"). | 0.65.111 SOFORT (S1–S4). |
+| 14:34–15:28 | "Wir brauchen komplette Marktanalysen, um den Markt komplett zu messen." Marktdaten anderer Spieler STILL mitlesen (keine Abfrage, aber Schalter zum Ausschalten), auch gildenübergreifend; kleines Mess-Addon bauen. | GSMesstest 5/5.1 (M-KOMPLETT), GoldSentinelMarkt (MN1–MN8), Discord-Sammelstelle MN7. |
+| 14:35 | GuildSentinel: 5. Bewerbungsfrage "Wie alt bist du?", Mindestalter 16, nette Absage, Alter nie speichern; Werbetext "im Aufbau, alle Klassen". | GA1/GA2. |
+| 14:08 | Preisverlauf älter als 48 Std. in kompaktem Format (mit Sicherung und Prüfung vor/nach). | PD7. |
+| 13:15 | Verbindlicher Releaseplan AHSentinel: 0.65.109 falsche Zahlen, 0.65.110 Ruckeln, 0.66 Rechenkern, 0.67 Rhythmus, 0.68 Markt-Reiter. | offen-ahsentinel.txt. |
+| 13:12 | Immer alles ins Repo, auch jede Nachricht zum Einfügen (nachricht-*.txt). | CLAUDE.md. |
+| 08:25 | Sniper: Budget aufgebraucht -> Abfrage, Enter = auffüllen um den ursprünglichen Betrag, Esc = nein. | SB. |
+| 08:05 | Warnschutz bei zu billigem Verkauf / zu teurem Kauf (Raidwarnung-Ton, Blinken, Bestätigung). | WS. |
+| 07:40 | Befehlsliste beim Tippen in ALLEN Addons, alle Befehle; Mausklick wählt, Enter führt aus (Variante b). | BL, CH; seit 23:26 gemeinsame Datei (CH-G). |
+| 07:12 | GuildSentinel: Rekrutierung in Phasen (jetzt alle Klassen suchen, Vorgaben für Raidfähigkeit behalten); Rechtsklick-Menü auf Mitglieder (Ränge, Befördern, Twink). | RP1–RP9, RV1–RV9. |
+| 07:10 | ProfessionSentinel: Marktwissen fürs Herstellen und Gold-Rangliste (Werte nur über AHSentinel.API). | PM1–PM7, API-PM. |
+| 06:55 | Fehler dürfen nicht wieder passieren: umfassende Tests in allen Projekten; jeder Befund bekommt einen bleibenden Test. | TU1–TU9. |
+| 06:47 | Verkaufte Auktionen nach Aktualisieren ausblenden. | MV1. |
+| 06:42 | Sniper hält mehrere Treffer; leere Menge = 1. | SM. |
+| 06:18 | Markt-Reiter neu: ein Addon für JEDEN Spieler (Wege statt Spielstile), Spielrhythmus "seit deinem letzten Besuch", Kacheln je Stufenband statt Index über alle Waren; nur Belegtes, sonst grau "lernt noch"; "es muss streng überwacht und wenn nötig verbessert werden". | anweisung-markt-reiter.txt (RK1–RK8, MR1–MR11, MA1–MA6, Ü1–Ü4); wöchentliche Markt-Überwachung (geplante Aufgabe). |
+| 06:18 | MARKT-WELLEN MESSEN: je Stufenband (1–25, 26–45, 46–60 bzw. Staub/Essenz/Splitter-Bänder) Tagesmedian und Richtung; Trend-Rückblick wöchentlich wiederholen. | MA4 (Stufenbänder), MA6 (Trend-Regel), M-Welle (markt-strategie.md 4). |
+| morgens | Blizzard-Foren regelmässig auf Blueposts prüfen, die die Projekte betreffen, und handeln. | geplante Aufgabe Blueposts (07:38/21:38). |
+| 05:44 | GuildSentinel: Einladen in die Gilde bleibt gesperrt (vom Spiel in Forever verboten). | GV1 = Absicht. |
+
+## 12.11.2026 (aus dem Gehirn, zur Vollständigkeit)
+
+| Zeit | Entscheid / Beobachtung des Nutzers | Wirkung / Auftrag |
+|---|---|---|
+| 07:02 | Levelwelle: "Die Leute leveln höher, viele verkaufen ihr Zeug im AH" – "es wird auch Items mit höherem Item-Level betreffen" (die Welle wandert mit). | M-Welle: je Stufenband Tagesmittel aus den Tages-Ständen messen; Band 41–50 und 51–60 als Referenz festhalten (markt-strategie.md 4). |
