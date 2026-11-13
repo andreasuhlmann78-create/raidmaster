@@ -1,0 +1,37 @@
+NACHRICHT AN DIE GUILDSENTINEL-SITZUNG (zum Einfügen)
+
+Erst laufende Arbeit fertig machen.
+
+Stand: 13.11.2026, 17:45 · Nachprüfung von GuildSentinel 0.9.37 (download/GuildSentinel-0.9.37.zip, Repo be83b1a).
+
+ERLEDIGT (danke):
+- Alters-Sperre jetzt auch in Gildenverwaltung > Einladen und im Mitglieder-Menü (ns.OpenGuildInvite,
+  Recruit.lua:612–629), Test T289f.
+- MN2 Schalter "Marktdaten teilen" (Pages.lua:2197–2206), MN3 Diagnose-Zeilen (Diag.lua:125–135), MN4 Tests T291–T293
+  und run_nomarkt.lua. MN1: TOC und Attach in Ordnung.
+- Offline alle Testläufe bestanden (run_routine 16001 und 11508 je 16/16, run 77/77, run_admin 34/34, run_v5 84/84,
+  run_new 102/102, run_lang 7/7, run_uicheck 13/13, run_nomarkt 4/4 und 8/8). Testberichte 0.9.36: 0 Fehler.
+
+ZU TUN
+1. HOCH – MN1b: addon_check meldet FEHLER "GuildSentinel/GoldSentinelMarkt.lua weicht von shared/GoldSentinelMarkt.lua ab".
+   Die ZIP enthält die Fassung von 16:05 (raidmaster a3c51a5). shared/ hat seit 16:49 (6e66279, MN Korrektur 2)
+   FeedStart/Feed – kam kurz nach deiner Veröffentlichung, kein Fehler von dir.
+   Lösung: shared/GoldSentinelMarkt.lua neu und unverändert kopieren, cmp -> gleich. Test T-MN1b (z. B. T291 erweitern):
+   GoldSentinelMarkt.FeedStart und GoldSentinelMarkt.Feed sind Funktionen.
+2. NIEDRIG – MN2b: Der Haken "Marktdaten teilen" (Pages.lua:2198–2201) liest nur GuildSentinelDB.gsMarktAus. Das Netz ist
+   aber für alle Addons aus, sobald EIN Addon "aus" gespeichert hat (GoldSentinelMarkt.IsShareOn). Dann zeigt
+   GuildSentinel einen Haken, obwohl nichts läuft.
+   Lösung: Haken aus GM.IsShareOn() lesen; eigener Wert an, Netz aus -> kurzer Hinweis "in einem anderen
+   GoldSentinel-Addon ausgeschaltet" (alle Locales). Test T-MN2b: zweiter Host mit gsMarktAus = true -> Haken aus.
+
+IM CLIENT PRÜFEN (neu): Haken "Marktdaten teilen" sichtbar, nichts überlappt; Vollscan eines anderen Addons ->
+/gs protokoll "MARKT-NETZ … Scans mitgelesen 1"; Haken aus -> nichts mehr mitgelesen; Bewerber "abgelehnt (Alter)"
+über Gildenverwaltung > Einladen -> gesperrt, nichts in der Chat-Eingabe. Rest siehe offen-guildsentinel.txt.
+
+git pull --rebase und auftraege/GuildSentinel/offen-guildsentinel.txt lesen; nach der Umsetzung Bericht in
+berichte/GuildSentinel/ ablegen.
+
+Nächste Version 0.9.38 (höher als 0.9.37). Komplette Dateien, alte Clients (Era, TBC) nie brechen, alle Locale-Dateien,
+CHANGELOG EN/DE. Direkt vor dem Packen git pull --rebase im raidmaster-Repo und die gemeinsamen Dateien mit cmp gegen
+shared/ prüfen. Vor dem Push python3 addon-check/addon_check.py download/GuildSentinel-0.9.38.zip -> kein FEHLER.
+Ist ein Befund falsch, bitte begründet zurückmelden.

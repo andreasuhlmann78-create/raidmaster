@@ -1,61 +1,86 @@
-OFFENE PUNKTE BUFFSENTINEL (nach der Nachprüfung von 0.9.14)
+OFFENE PUNKTE BUFFSENTINEL (nach der Nachprüfung von 0.9.18)
 =============================================================
-Stand: 12. November 2026, 11:30 · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/BuffSentinel-0.9.14.zip
-(Commit 4ba0d79), verglichen mit 0.9.12; dazu Bericht berichte/BuffSentinel/2026-11-12-0856-anker-sync2-test2.txt.
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.7 und die erledigten
-Dateien befund-anker-gemeinsame-liste.txt, anweisung-gemeinsamer-sync.txt, anweisung-sync-version2.txt,
-anweisung-test-version2.txt, anweisung-testroutine-oberflaeche.txt und hinweis-sync-kanal.txt (entfernt).
+Stand: 13. November 2026, 17:50 MEZ · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/BuffSentinel-0.9.18.zip
+(Commit dfa964a), verglichen mit 0.9.16 (09562b0); dazu 0.9.17 (661cb3a) und Bericht
+berichte/BuffSentinel/2026-11-13-1654-mn-marktnetz.txt.
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.14 mit den
+Nachträgen vom 13.11. (TU, BL, BP-2026-11-13-1, Nachprüfung 14:30, MN). Die Anweisungen anweisung-marktdaten-netz.txt
+und anweisung-tests-umfassend.txt gelten weiter (Reste siehe unten).
 
-Erledigt in 0.9.8–0.9.14 (danke):
-- Befund Anker A1–A3 (0.9.13): Schwebende Anzeigen nicht mehr in GoldSentinelUIFrames (UICheck.lua:31–41), leere Anker
-  ausserhalb des Verschieben-Modus 1 × 1, volle Grösse zurück mit Inhalt bzw. im Verschieben-Modus (Display.lua:256–277,
-  Layout setzt die Grösse neu Display.lua:645–652), Testfall T149 (SelfTest.lua:2606).
-- hinweis-sync-kanal.txt 1–4 und anweisung-gemeinsamer-sync.txt 1–6: GoldSentinelSync byte-gleich, in der .toc nach
-  GoldSentinelGame.lua; Senden nur über ep:Send (Names.lua:225–241), Empfang über ep:OnMessage (Names.lua:209–222),
-  Kennung "BuffSentinel" bleibt; keine eigene Warteschlange, kein PumpComm, kein CHAT_MSG_ADDON/CHANNEL_NOTICE mehr
-  selbst angemeldet (Core.lua:1244); kein Kanal-Beitritt, alter Kanal wird einmal verlassen (Names.lua:249–257);
-  /bsen sync test über GoldSentinelSync.Ping (Names.lua:285–295); Optionen zeigen ep:Peers(3600) (Names.lua:260–265);
-  Diagnose "SYNC Weg=…" (Names.lua:109) und alle 10 Min. gesendet/empfangen/verworfen (Names.lua:273–282),
-  DiagLines im Protokoll (Diag.lua:91–93).
-- anweisung-sync-version2.txt S1–S6: Sync 2 kopiert; ep:UseStorage(BuffSentinelDB) (Names.lua:105–106); "R" (ganze
-  Liste) nur Gilde/Gruppe ({ net = false }); höchstens 10 Fragen je Aufruf; Namen aus dem Netz nie im Chat
-  (Names.lua:419–422); CHANGELOG nennt, was ins Netz geht.
-- anweisung-test-version2.txt T1–T5: GoldSentinelTest 2 byte-gleich, CHANGELOG EN/DE.
-- hinweis-keine-spielernamen.txt: GoldSentinelGame 3; Tests nutzen "Testa Beispiel" (SelfTest.lua:577).
-- anweisung-testroutine-oberflaeche.txt: Bereich K mit T140–T145 (UICheck.lua, seit 0.9.10).
-- Testfälle T150–T157 (SelfTest.lua:613–729). Tests ersetzen nur GoldSentinelSync.api bzw. BS.API, keine
-  Blizzard-Funktion.
-- Alter Punkt 1 (echte Aktionen im Kampf-Bericht): Bericht sagt jetzt "im Kampf nicht gezählt" (SelfTest.lua:2764–2765).
-- Ergebnis im Spiel T29: LEARNED_SPELL_IN_SKILL_LINE/SPELLS_CHANGED, nur angemeldet, was der Client kennt
-  (Core.lua:1226–1260, 1330–1332).
-- Befund a) HOCH (GetAuraDataByIndex geschützt/tainted): Aurenzugriff im Kampf gesperrt und protokolliert
-  (Core.lua:101–131), geschützte Werte übersprungen (Core.lua:314–319).
-- Begründung T-GS4 angenommen: Kein Beitritt ist statisch belegt (addon_check ohne Kanal-Warnung, keine
-  Beitrittsfunktion im Code); T152 prüft, dass JoinSync/PumpComm fehlen. Hinweis: Die Zählvariable "joins" in T152
-  (SelfTest.lua:646) wird nie erhöht – bei Gelegenheit entfernen, kein Muss.
-- Begründung Leistungshinweis angenommen: Punkt geschlossen. Nur wieder aufnehmen, wenn H-Tests oder LANGSAM-Einträge
-  im Diagnose-Protokoll es zeigen.
+Erledigt in 0.9.17/0.9.18 (danke):
+- MN1: GoldSentinelMarkt.lua byte-gleich mit shared/ (Stand 6e66279, FeedStart/Feed), in der .toc nach
+  GoldSentinelSync.lua; Attach("BuffSentinel", BuffSentinelDB) nach InitDB beim Login, geschützt mit pcall
+  (Core.lua:1287–1288). Ohne Auktionshaus-Schnittstelle still aus (T179).
+- MN2: Schalter "Marktdaten teilen (anonym, nur Preise)" über GoldSentinelMarkt.SetShare, Standard an, ohne die Datei
+  ausgegraut (Options.lua:805–808; BS:MarketShareOn/SetMarketShare Core.lua:413–420); Hinweistext; Locales EN/DE
+  (Locales.lua:1008–1017, 2007–2016); CHANGELOG EN/DE für 0.9.17 und 0.9.18.
+- MN3: Zeile "MARKT-NETZ: v1 · an/aus · Scans mitgelesen · gesendet/empfangen · gespeicherte Items" (BS:MarketLine
+  Core.lua:426–439) im Testbericht (Feld marktNetz und Text, SelfTest.lua:403–407) und im Diagnose-Protokoll samt
+  GoldSentinelMarkt.DiagLines (Diag.lua:90–96).
+- MN4: T176–T179 (SelfTest.lua:786–874), in Selftest.REGRESSIONS ("MN"). Ersetzt werden nur Felder von
+  GoldSentinelMarkt (api, ep, outbox …) und danach zurückgestellt – keine Blizzard-Funktion. Offline alle vier OK
+  (Forever, Era, TBC).
+- FEHLER aus 0.9.17 (veraltete Kopie von GoldSentinelMarkt.lua vor "MN KORREKTUR 2") in 0.9.18 behoben.
 
-Prüfungen: addon_check OK ohne FEHLER und ohne WARNUNG (Ladetest, Sprachtest bestanden). GoldSentinelGame.lua (3),
-GoldSentinelSync.lua (2) und GoldSentinelTest.lua (2) byte-gleich mit shared/. CHANGELOG EN/DE für 0.9.13 und 0.9.14
-vorhanden. Im Diff keine ersetzte Blizzard-Funktion, keine neuen T:Skip ausser "GoldSentinelSync fehlt".
+Prüfungen: addon_check 0.9.18 OK (0 FEHLER, 0 WARNUNG; Ladetest, Sprachtest bestanden). GoldSentinelGame.lua (3),
+GoldSentinelSync.lua (2), GoldSentinelTest.lua (2) und GoldSentinelMarkt.lua (1) byte-gleich mit shared/ (cmp).
+Offline-Routine (berichte/BuffSentinel/offline/run_offline.py, 0.9.18): alle sechs Kombinationen RESULT PASS,
+TU1–TU7 je 0 FEHLER; T158, T159, T176–T179 OK. Im Diff (0.9.16 -> 0.9.18) keine ersetzte Blizzard-Funktion, keine
+neuen sichtbaren Texte ausserhalb der Sprachtabelle, kein neues T:Skip ausser "GoldSentinelMarkt nicht geladen"
+(T178/T179, nur wenn die Datei fehlt). Keine neuen Testberichte für BuffSentinel seit Commit 608594a.
+Befund der BuffSentinel-Sitzung an die gemeinsame Datei (Pump/Schalter): berechtigt, nachgestellt (siehe Punkt 3).
+Er betrifft shared/GoldSentinelMarkt.lua; die Prüf-Sitzung korrigiert ihn dort. BuffSentinel ändert die Datei nicht.
 
-Freigegeben. Kleinigkeiten mit der nächsten Version (0.9.15):
+Freigegeben. Offen für die nächste Version (0.9.19):
 
-1. OPTION "NAMEN TEILEN" (GILDE/GRUPPE) WIRD BEI NETZ-NACHRICHTEN NICHT BEACHTET (Schwere: NIEDRIG)
-   Names.lua:227–240: Ist "Namen teilen" aus und "auch über das Flüster-Netz" an, ruft SendName für "both"/"sync"
-   ep:Send(msg, { net = true }) auf. GoldSentinelSync schickt dann trotzdem in Gilde und Gruppe (S.Paths mit scope
-   "all"). Früher (0.9.12) ging das nur über den Kanal. Ebenso landen über das Netz weitergeleitete Nachrichten in der
-   Gilde.
-   Lösung: Entweder bei not wantGroup nicht senden bzw. die Option "Flüster-Netz" ausdrücklich als "schliesst Gilde/Gruppe
-   ein" beschriften (Locales EN/DE) und "Namen teilen" dann mit ausgrauen. Einen reinen Netz-Weg ohne Gilde/Gruppe
-   gibt es in GoldSentinelSync nicht – nicht selbst bauen; braucht es ihn, kurz in berichte/BuffSentinel/ fragen.
+1. BP-2026-11-13-1 – SCHAMANE: IMBUE UND WAFFEN-TOTEM GLEICHZEITIG (Schwere: MITTEL, Blizzard-Hotfix, aktiv seit
+   12.11.2026 18:45 UTC; unverändert offen, laut Bericht für 0.9.19 geplant)
+   Quelle: Kaivax, "WoW: Forever Hotfixes – November 11, 2026", Post 12.11. 19:10 UTC
+   https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-11-2026/2403040/9
+   (EU: https://eu.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-11-2026/639885/8)
+   In eigenen Worten: Schamanen können Waffenverzauberung (Imbue) und Waffen-Totem jetzt gleichzeitig nutzen.
+   Waffe des Mahlstroms: 20 % kürzere Zauberzeit/Mana je Stapel auf allen Rängen, löst je Rang 6/7/8/9/10-mal pro
+   Minute aus (vorher 20). Sturmschlag 100 % Waffenschaden, Abklingzeit 8 Sek. (vorher 6).
+   Betroffen: Data/Shaman.lua:19, 22 (imbue_mh/imbue_oh), :30 (maelstrom_f), :42 (stormstrike), modern :64/:67/:86;
+   Display.lua:1253–1256 EvalBuff (Waffenbuff nur über "hasMH/hasOH" von GetWeaponEnchantInfo).
+   Risiko: Legt ein Waffen-Totem (z. B. Windzorn-/Flammenzunge-Totem) eine zeitweilige Waffenverzauberung auf, meldet
+   GetWeaponEnchantInfo "hasMH = true", obwohl die eigene Verzauberung fehlt -> BuffSentinel erinnert nicht mehr.
+   Lösung: zuerst im Client MESSEN (Schamane Verstärkung, Forever): Rückgabe von GetWeaponEnchantInfo (inkl.
+   Verzauberungs-ID) a) nur eigenes Imbue, b) nur Totem, c) beides – Ergebnis ins Diagnose-Protokoll. Erst danach:
+   Imbue an der Verzauberungs-ID bzw. am Zaubernamen erkennen, Totem-Verzauberung nicht als eigenes Imbue zählen.
+   Nichts raten; ohne Messung bleibt das jetzige Verhalten. Sturmschlag-Abklingzeit nur aus dem Client lesen.
+   Maelstrom (maelstrom_f ohne minStacks): prüfen, ob die Stapel-Warnung mit der neuen Auslöserate noch passt.
+   Test T-BP-1113-1 (bleibend): Attrappe GetWeaponEnchantInfo (über BS.API) mit Fall a/b/c -> Erinnerung nur, wenn
+   das eigene Imbue fehlt; Fall "unbekannte ID" -> heutiges Verhalten (keine falsche Warnung).
+   Schon jetzt möglich (ohne Messung): die Messung selbst einbauen (Diagnose-Zeile mit allen Rückgabewerten von
+   GetWeaponEnchantInfo beim Wechsel), damit der Nutzer sie im Spiel liefern kann.
 
-2. "an"/"aus" FEST AUF DEUTSCH IM OPTIONSFENSTER (Schwere: NIEDRIG, schon vor 0.9.13)
-   Options.lua:429: BS.gdb.shareNames and "|cff66dd77an|r" or "|cffff5555aus|r" – sichtbarer Text nicht über die
-   Sprachtabelle. Lösung: Schlüssel ON/OFF (bzw. vorhandene) in Locales.lua, enUS "on"/"off", deDE "an"/"aus".
+2. TU1-REST – ZWEI LAGEN FEHLEN NOCH ALS EIGENE LAGE (Schwere: NIEDRIG, unverändert offen)
+   SelfTest.lua:3240–3241 (T201) und Bereich L: a) "Proc mit Restzeit" als eigene Lage prüfen (Proc läuft bald ab ->
+   Verhalten, nicht nur die Anzeige); b) "Gruppenbuff von anderen" in T201 aufnehmen (Buff vorhanden, aber von einem
+   anderen Spieler -> keine Erinnerung). Lösung: beide Lagen mit echten Werten in T201 bzw. einem neuen T2xx.
 
-3. IM CLIENT PRÜFEN (Testplan des Nutzers)
+3. MN-S – SCHALTER "MARKTDATEN TEILEN" AUS STOPPT WARTENDE NACHRICHTEN NICHT (Schwere: NIEDRIG für BuffSentinel,
+   wartet auf die gemeinsame Datei)
+   Befund der BuffSentinel-Sitzung, nachgeprüft und BERECHTIGT: shared/GoldSentinelMarkt.lua M.Pump() (Z. 476–497)
+   prüft IsShareOn() nicht; StartRead() (Z. 222–231) auch nicht. Nachgestellt offline: zwei Nachrichten in der
+   Warteschlange, Schalter aus -> beim nächsten Tick beide gesendet; Schalter aus innerhalb der 2 Sek. zwischen
+   Scan-Beginn und Lesen -> der Scan wird trotzdem gelesen, gespeichert und als GSMARKT1-Zeile für den Uploader
+   exportiert. Zuständig ist die Prüf-Sitzung (shared/). BuffSentinel ändert die Datei NICHT.
+   Zu tun für BuffSentinel, sobald die Prüf-Sitzung die korrigierte Datei meldet: neu kopieren (Prüfung "exact") und
+   T178 (SelfTest.lua:833–856) um den Fall erweitern, der heute fehlt: Eintrag in GM.outbox, Schalter aus, GM.Tick()
+   -> ep:Send nie aufgerufen; readAt geplant, Schalter aus, Tick -> kein Lesen (Regressionstest T-MN-S).
+
+4. MN3a – MARKT-NETZ-ZEILE ZEIGT NUR DEN EIGENEN SCHALTER (Schwere: NIEDRIG, NEU)
+   Core.lua:413–417 und 436: BS:MarketShareOn() liest nur BuffSentinelDB.gsMarktAus. Die gemeinsame Datei ist aber
+   aus, sobald der Schalter in IRGENDEINEM GoldSentinel-Addon aus ist (GoldSentinelMarkt.IsShareOn). Dann zeigen
+   Optionen und Testbericht-Zeile "an", obwohl nichts gelesen oder geteilt wird (nur die Zeilen aus DiagLines zeigen
+   "AUS").
+   Lösung: In BS:MarketLine zusätzlich GoldSentinelMarkt.IsShareOn() ausgeben (z. B. "an (Netz aus: anderes Addon)",
+   neuer Schlüssel in Locales EN/DE) und den Hinweis in den Optionen ergänzen. Schalter selbst so lassen. Test T-MN3a:
+   eigener Schalter an, zweiter Host mit gsMarktAus -> Zeile nennt "Netz aus".
+
+5. IM CLIENT PRÜFEN (Testplan des Nutzers)
    - T46, T55, T74, T99, T104, T106, T129, T133, T134, T135, Bereich K (T140–T145, T147), T149: keine Meldung
      "überdeckt BuffSentinelAnchor_…" mehr bei ThreatSentinel T181 und AHSentinel T192.
    - Leere Anker 1 × 1: Erscheinen Symbole (z. B. Proc) an der richtigen Stelle, auch wenn der Anker vorher leer war
@@ -64,89 +89,21 @@ Freigegeben. Kleinigkeiten mit der nächsten Version (0.9.15):
      ohne Namen hochladen.
    - Spieltest Flüster-Netz: zwei Spieler in verschiedenen Gilden, kurz in einer Gruppe, dann Gruppe verlassen -> ein
      gelernter Name aus Gilde A kommt in Gilde B an ("weitergegeben" > 0 im Diagnose-Protokoll).
-   - Kanal BuffSentinelSync nach dem ersten Einloggen mit 0.9.14 verlassen (Kanalliste).
+   - Kanal BuffSentinelSync nach dem ersten Einloggen mit 0.9.14 oder neuer verlassen (Kanalliste).
    - Sprache: einmal mit englischem Client (enUS) – Optionen, Gruppen-Raster, Tooltips, Minimap-Button, Warnungen auf
      den Buttons und /bsen help ganz auf Englisch; ein deutscher Client unverändert Deutsch.
    - Gespeicherte Einstellungen nach dem Wechsel der Client-Sprache unverändert.
-   - zwei Läufe der Testroutine (Forever und Era oder TBC), beide mit 0 FEHLER und "echte Aktionen: 0".
+   - /bsen tippen: Befehlsliste erscheint, Klick wählt, Enter führt aus, Chatfeld wird nie beschrieben.
+   - TU7-Rest: echte UI-Skalierung, Bereich K bei 80 % und 150 %.
+   - MN: Optionen -> "Marktdaten teilen" sichtbar, Standard an; /bsen protokoll mit MARKT-NETZ-Zeilen; nach einem
+     Vollscan eines anderen Addons (z. B. AHSentinel) "Scans mitgelesen" > 0 bzw. "vom Host übergeben" > 0, kein
+     Ruckeln, nie im Kampf gelesen; Schalter aus -> MARKT-NETZ "AUS"; Era/TBC: keine Lua-Fehler, Zeile zeigt 0.
+   - BP-2026-11-13-1: Messung GetWeaponEnchantInfo (Fall a/b/c) als Schamane Verstärkung.
+   - zwei Läufe der Testroutine (Forever und Era oder TBC), beide mit 0 FEHLER und "echte Aktionen: 0", mit TU-Zeilen
+     und MARKT-NETZ-Zeile.
 
-Wie immer: komplette Dateien, alte Clients nie brechen, alle Locale-Dateien, CHANGELOG EN/DE, vor dem Push
-python3 addon-check/addon_check.py download/BuffSentinel-0.9.15.zip -> kein FEHLER.
+Wie immer: komplette Dateien, alte Clients nie brechen, alle Locale-Dateien, CHANGELOG EN/DE, jeder Befund mit
+bleibendem Regressionstest (kein Skip), vor dem Push
+python3 addon-check/addon_check.py download/BuffSentinel-0.9.19.zip -> kein FEHLER.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/BuffSentinel/ ablegen.
-
-
-TU (HOCH, NEU 13.11. 07:05, Entscheid des Nutzers "solche Fehler sollen nicht wieder passieren") – umfassende Tests
-   TU1–TU9 nach anweisung-tests-umfassend.txt: Lagen durch alle Funktionen, Abläufe wie ein Spieler, Standardwerte,
-   Grundregeln mit Zufallsdaten, echte Daten (nur lesen), Regressionstest je Befund (bisherige nachholen), Testbericht je
-   Bereich, offline lauffähig. Ab jetzt: Befund ohne Test = nicht erledigt (auftraege/README.md).
-
-
-BL (MITTEL, NEU 13.11. 07:45, Wunsch des Nutzers) – BEFEHLSLISTE BEIM TIPPEN MIT ALLEN BEFEHLEN
-   Tippt der Spieler /bsen, /buffsentinel in den Chat, erscheint über dem Eingabefeld die Liste SÄMTLICHER Befehle des Addons mit kurzer
-   Beschreibung (Spielsprache, alle Locale-Dateien). Quelle: den Slash-Handler von BuffSentinel.
-   BL1 Vollständig: die Liste kommt aus DERSELBEN Befehlstabelle, die der Slash-Handler zum Ausführen benutzt (eine Tabelle
-       für beides; der Handler liest aus ihr). Auch Befehle mit Zusatz zeigen ihn ("danke <Name>", "weg <Tage>"), deutsche
-       und englische Befehlswörter (z. B. "wo"/"where") finden beide. Entwickler-Befehle nur, wenn GoldSentinelDev den
-       Entwickler erkennt.
-   BL2 Filtern mit jedem Buchstaben: "/gs" = alle; "/gs w" = alles mit w am Anfang (wo, weg, werbung); "/gs we" = weg,
-       werbung; meistbenutzte oben (Zähler in den SavedVariables).
-   BL3 Bedienung (wie AHSentinel Punkt CH und shared/vorlage/README.md "Befehlsliste beim Tippen"): Mausklick bzw.
-       Pfeiltasten/Tab WÄHLEN aus, Enter FÜHRT AUS; Liste schliesst nicht, bevor der Klick ankommt; Fokus zurück mit
-       SetFocus; das Chatfeld wird NIE beschrieben (kein SetText/Insert, kein eigenes OnEnterPressed, nur HookScript lesen);
-       der Slash-Handler führt bei einer frischen Auswahl (≤ 10 s) den gewählten Befehl statt des unvollständigen Worts aus.
-       Option zum Ausschalten. Baustein: CmdHint von AHSentinel, sobald dort CH umgesetzt ist (bis dahin warten bzw. den
-       reparierten Stand übernehmen) – nicht jedes Addon eine eigene Lösung.
-   BL4 Tests: T-BL1 jeder Befehl, den der Handler versteht, steht in der Liste (Vergleich aus der Tabelle, keine
-       Handliste); T-BL2 Filter "/x w", "/x we" liefern genau die passenden; T-BL3 Klick wählt, Enter führt aus; T-BL4
-       Chatfeld nie beschrieben; T-BL5 Entwickler-Befehle nur für den Entwickler; T-BL6 alle Sprachen ohne Platzhalter-
-       Fehler. Alte Clients (Era, TBC) nicht brechen.
-
-
-BP-2026-11-13-1 (MITTEL, NEU 13.11., im Repo nachgetragen 14:15 – Blizzard-Hotfix, aktiv seit 12.11.2026 18:45 UTC)
-   Hinweis: Die Nachricht dazu kam schon um 07:50, der Punkt fehlte aber bis jetzt in dieser Datei (Fehler der
-   Prüf-Sitzung). Nicht in 0.9.15/0.9.16 enthalten -> für 0.9.17.
-   Quelle: Kaivax, "WoW: Forever Hotfixes – November 11, 2026", Post 12.11. 19:10 UTC
-   https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-11-2026/2403040/9
-   (EU: https://eu.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-11-2026/639885/8)
-   In eigenen Worten: Schamanen können Waffenverzauberung (Imbue) und Waffen-Totem jetzt gleichzeitig nutzen.
-   Waffe des Mahlstroms: 20 % kürzere Zauberzeit/Mana je Stapel auf allen Rängen, löst je Rang 6/7/8/9/10-mal pro
-   Minute aus (vorher 20). Sturmschlag 100 % Waffenschaden, Abklingzeit 8 Sek. (vorher 6).
-   Betroffen: Data/Shaman.lua (imbue_mh/imbue_oh, maelstrom_f, stormstrike) und Display.lua EvalBuff (0.9.16 Z. 1253:
-   Waffenbuff nur über "hasMH/hasOH" von GetWeaponEnchantInfo).
-   Risiko: Legt ein Waffen-Totem (z. B. Windzorn-/Flammenzunge-Totem) eine zeitweilige Waffenverzauberung auf, meldet
-   GetWeaponEnchantInfo "hasMH = true", obwohl die eigene Verzauberung fehlt -> BuffSentinel erinnert nicht mehr.
-   Lösung: zuerst im Client MESSEN (Schamane Verstärkung, Forever): Rückgabe von GetWeaponEnchantInfo (inkl.
-   Verzauberungs-ID) a) nur eigenes Imbue, b) nur Totem, c) beides – Ergebnis ins Diagnose-Protokoll. Erst danach:
-   Imbue an der Verzauberungs-ID bzw. am Zaubernamen erkennen, Totem-Verzauberung nicht als eigenes Imbue zählen.
-   Nichts raten; ohne Messung bleibt das jetzige Verhalten. Sturmschlag-Abklingzeit nur aus dem Client lesen.
-   Maelstrom (maelstrom_f ohne minStacks): prüfen, ob die Stapel-Warnung mit der neuen Auslöserate noch passt.
-   Test T-BP-1113-1 (bleibend): Attrappe GetWeaponEnchantInfo mit Fall a/b/c -> Erinnerung nur, wenn das eigene Imbue
-   fehlt; Fall "unbekannte ID" -> heutiges Verhalten (keine falsche Warnung).
-
-
-NACHPRÜFUNG 13.11. 14:30 (Prüf-Sitzung im Chat, Auftrag des Nutzers "prüfe ob alles umgesetzt wurde")
-------------------------------------------------------------------------------------------------
-Geprüft: 0.9.15 (e55dba3) und 0.9.16 (09562b0) mit Bericht berichte/BuffSentinel/2026-11-13-1237-befunde-tu-bl.txt.
-addon_check 0.9.16 OK (0 FEHLER, 0 WARNUNG). Offline-Routine (berichte/BuffSentinel/offline/run_offline.py, 0.9.16):
-alle Kombinationen RESULT PASS, TU1–TU7 je 0 FEHLER. Diagnose aus dem Spiel: keine neuen Fehler.
-Erledigt (im Code belegt, danke):
-- Punkt 1: "Namen teilen" ist Hauptschalter (Names.lua:229), Netz-Option ausgegraut, Regression T158.
-- Punkt 2: L.ON/L.OFF (Options.lua:435), T159. Hinweis T152 ("joins") erledigt.
-- TU1–TU9: Bereiche L–S, T200–T255, Regressionen T158–T162, Offline-Routine TU9.
-- BL1–BL4: eine Tabelle BS.COMMANDS (Core.lua:1452), CmdHint.lua ohne Schreibzugriff aufs Chatfeld, T170–T175.
-Antwort auf die Frage: berichte/BuffSentinel/offline/ ist als Ort richtig (ThreatSentinel macht es genauso). So lassen.
-Weiter offen:
-- BP-2026-11-13-1 (MITTEL) -> 0.9.17, siehe oben (zuerst im Client messen).
-- TU1-Rest (NIEDRIG): Lage "Proc mit Restzeit" als eigene Lage prüfen (nicht nur Anzeige); "Gruppenbuff von anderen"
-  bitte als eigene Lage in T201 aufnehmen (Buff vorhanden, aber von einem anderen Spieler -> keine Erinnerung).
-- TU7-Rest: echte UI-Skalierung nur im Client (Bereich K bei 80 % und 150 %).
-- Punkt 3 IM CLIENT PRÜFEN, dazu: /bsen tippen (Liste, Klick wählt, Enter führt aus) und Testroutine mit TU-Zeilen.
-
-MN (NEU 13.11. 15:35 – Entscheid des Nutzers "Markt komplett messen", Anweisung anweisung-marktdaten-netz.txt):
-   MN1–MN4 – WARTET auf shared/GoldSentinelMarkt.lua (Meldung folgt), dann einbauen.
-   Kurz: Vollscans still mitlesen (keine Abfrage, Schalter zum Ausschalten, keine Namen), über Gilde/Netz teilen,
-   Uploader -> Bot-Server sammelt und misst Absatz. Bitte die Anweisung ganz lesen.
-   MN BEREIT (13.11. 16:00): shared/GoldSentinelMarkt.lua v1 liegt bereit – MN1–MN4 JETZT einbauen.
-   MN KORREKTUR (13.11. 16:05): GoldSentinelMarkt.lua v1 ergänzt (Absatz-Untergrenze, Export-Eintrag mit 6 Feldern). Wer die Datei schon kopiert hat: NEU KOPIEREN (Prüfung "exact").
-   MN KORREKTUR 2 (13.11. 17:00): GoldSentinelMarkt.lua v1 um FeedStart/Feed ergänzt (Addons mit eigenem Vollscan geben ihr Ergebnis weiter, kein doppeltes Lesen). Wer die Datei schon kopiert hat: NEU KOPIEREN (Prüfung "exact").

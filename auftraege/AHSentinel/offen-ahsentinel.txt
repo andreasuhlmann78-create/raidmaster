@@ -1,195 +1,220 @@
-OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.107)
+OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.112)
 ============================================================
-Stand: 13. November 2026, 12:00 · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/AHSentinel-0.65.107.zip,
-verglichen mit 0.65.104 aus der git-Geschichte (0.65.105 und 0.65.106 lagen dazwischen; alle zusammen bewertet).
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.65.104 (13.11. 08:25).
+Stand: 2026-11-13 17:45 MEZ · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/AHSentinel-0.65.112.zip
+(AHAnalyzerPro 94f0abe), verglichen mit 0.65.111 aus der git-Geschichte; Bericht berichte/AHSentinel/2026-11-13-1708-0.65.112.txt.
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.65.107 mit allen
+Nachträgen bis 13.11. 17:00 (TB108, DG1300, BH1307, MH1310, TT1317, Antwort 1401, PD7-Entscheid, Nachprüfung 14:30,
+UI1509, TB110, MN, Prüfung 0.65.111, UI1618, MK-Ü1F, TS111, Feed). Erledigtes ist herausgenommen (siehe unten).
 Regel seit 9. Nov.: Nur die AHSentinel-Sitzung ändert und veröffentlicht AHSentinel (raidmaster/CLAUDE.md).
-Gelesene Berichte: berichte/AHSentinel/2026-11-13-0833 (0.65.106) und -0903 (0.65.107).
+Gelesene Berichte: berichte/AHSentinel/2026-11-13-1444 (0.65.110), -1539 (0.65.111), -1708 (0.65.112).
 
-RELEASEPLAN (verbindlich, Entscheid des Nutzers 13.11. 13:15 – ersetzt jede frühere Reihenfolge in dieser Datei):
-0.65.109 FALSCHE ZAHLEN: MH1310 (Freigaben FG überall inkl. Heute/Tooltip/Sniper/"Heute tun", Ü3 in Heute, Wiederverkauf
-         über Marktwert nur bei voller Leiter + Absatz ≥ 1/Tag) · TB108 T431/T432 (Markt Entzaubern mit der ganzen Leiter) ·
-         T248/T223 (Urteil/Gewinn = "Lohnt bis") · BH1307 (Kopf "Gewinn mit Einkauf", Herkunft ohne Einstand) · DG1300 D1
-         (fremde AUCTION_CANCELED nicht verarbeiten, Buchhaltung belegen).
-0.65.110 RUCKELN UND ZUVERLÄSSIGKEIT: TB108 S1–S3 (Vollscan ≤ 16 ms je Bild, Speicher ≤ 10 MB, Portionen ≤ 8 ms) · DG1300 D2
-         (Sniper < 1 s vom Treffer zur Kaufbereitschaft, Server-Meldung je Fehlschlag) · D3/T373 (Hintergrund in Portionen) ·
-         D4 (jeder Fehler ins Protokoll) · T231, T253, T52, TU5-Doppelmeldung · Kalibrierung (Prozent grau bis kalibriert,
-         Selbstkorrektur). -> Danach meldet die Prüf-Sitzung dem Nutzer "jetzt herunterladen".
-0.65.111 SOFORT (Entscheid des Nutzers 13.11. 15:25: "diese Fehler vor allem mit der Verfälschung sofort korrigieren!")
-         VOR allem anderen, als eigene kleine Version, dann erst 0.66:
-         S1 ENTZAUBER-PREIS (TB110-Nachtrag): Erlös je Material = ERZIELBARER Preis (Median der eigenen Verkäufe der letzten
-            14 Tage, sonst gemessener Markt mit Gruppenfaktor), nie das tiefste Angebot allein. Bis genug eigene Verkäufe da
-            sind: Vorhersage × gelernter Korrektur (2:4:a 0,57 Preis) – Quelle sichtbar "korrigiert". Gilt für Lohnt bis,
-            Sniper-Höchstpreis, Markt > Entzaubern, Tooltip, Heute tun. SOFORT-SCHUTZ: solange Beute/Vorhersage < 0,9 je
-            Gruppe, Entzauber-Ziele im Sniper nur mit "lohnt bis" aus dem korrigierten Preis. Test T-S1: Nachrechnung der
-            524 Fälle 2:4:a -> Median Beute/Vorhersage 0,9–1,1; 124 Fälle 2:6:a ebenso.
-         S2 ABSATZ (T285/T289/T291): gemessener Absatz vor geschätztem überall; Schätzung nur mit Gruppenfaktor und Deckel;
-            ABSATZ-UNPLAUSIBEL-Fälle ohne gemessenen Wert -> "unbekannt" statt Zahl. Test: die 20 meistgehandelten aus dem
-            Bericht -> angezeigter Absatz = gemessen (±5 %).
-         S3 T240 Einzahlung bei Nicht-Verkauf richtig (vor 17./18.11.); S4 T72 Heute tun nach Gold sortiert.
-         Dazu Regressionstests (TU6) für S1–S4. Bericht nach der Veröffentlichung.
-0.66     RECHENKERN (Teil F Stufe 2): RK1–RK8, MR2 Mein Lager, API-PM2/3 (danach übernehmen die anderen Addons BL).
+RELEASEPLAN (verbindlich, Entscheid des Nutzers 13.11. 13:15, fortgeschrieben):
+0.65.109–0.65.112 erledigt (falsche Zahlen, Ruckeln/Zuverlässigkeit, SOFORT S1–S4, TS111/UI1618 – siehe "Erledigt").
+0.65.113 REST (klein, vor 0.66): T373/TS111.1-Rest (Hintergrund-Aufgaben in Portionen) · Tests TS111.2b und T555b
+         nachziehen (Code ist da, die Tests decken den Befund nicht) · UI1618a-R (Liste nach dem Laden neu filtern) ·
+         SBX1 (Sandbox verwirft echte Sync-Daten) · UI1509 · UI1510 · FW1 (Ursache benennen) · Kleinpunkte NIEDRIG.
+0.66     RECHENKERN (Teil F Stufe 2): RK1–RK8, MR2 Mein Lager, API-PM2/3-Rest, Absatz als Spanne (Hinweis unten),
+         MN1–MN5 mit GoldSentinelMarkt FeedStart/Feed.
 0.67     SPIELRHYTHMUS (Stufe 3): MR5–MR9, RK6 Haltedauer.
 0.68     NEUER MARKT-REITER (Stufe 4): MR1/MR3/MR4/MR10, sobald die Freigaben (Teil D) erfüllt sind.
-Kleinere offene Punkte (MV, AB3, L2b, BE2b, E, F, G, API-PM4, MA3-G …) nach Möglichkeit in die passende Version legen.
-Jede Version: Regressionstest je Punkt, addon_check ohne FEHLER, Bericht in berichte/AHSentinel/.
+Kleinere offene Punkte (MA3-G, AB3, L2b, BE2b, E, F, G, API-PM4 …) nach Möglichkeit in die passende Version legen.
+Jede Version: Regressionstest je Punkt (Test muss mit der alten Version ROT sein), addon_check ohne FEHLER, Bericht in
+berichte/AHSentinel/.
 
-REIHENFOLGE JETZT (jeweils mit Regressionstest T-<ID>, Regel in auftraege/README.md):
-1 MA1-B (HOCH, neu): MA1 bekommt die Wahrheit vor der Vermutung – sonst bleibt MA1 bei 0 Fällen.
-2 RK2-B (HOCH, neu): Markt-Ansicht "Entzaubern" rechnet "Lohnt bis" noch selbst.
-3 MA2-B (HOCH, neu): Treffer/Fehler für die Wege Entzaubern und Händler messen das Falsche.
-4 FG (HOCH, neu): Freigaben Teil D in die Anzeige (gesperrt ausblenden, "lernt noch" grau, Absatz erst nach MA1).
-5 Teil F Stufe 2 (RK1–RK8, MR2), dann Rest wie unten. PD7 wartet auf die Zahlen aus dem Client.
-Nach jeder Veröffentlichung Bericht in berichte/AHSentinel/ (mit Ü1-Zahlen, sobald vorhanden).
+Erledigt in 0.65.112 (danke):
+  TS111.2 (Code) – Lernfaktor ohne Kreisrechnung: A:GetLiquidity setzt v.estimate immer (AHAnalyzerPro.lua:2402–2404),
+    Ln:MarketFactor rechnet gemessen / l.estimate (Learn.lua:235–237), Vergleich "20 meistgehandelte" liest l.estimate
+    (Vollscan.lua:1026). Die Schätzung ist roh (ohne Gruppenfaktor) – keine neue Rückkopplung. Test siehe Punkt 2.
+  TS111.3 – Lagerwert "erzielbar": Le:UnitStockValue nimmt höchstens den Marktwert (Ledger.lua:1278–1283), Händlerpreis
+    als Untergrenze; Testbericht-Zeile "TS111.3 grösste Lagerposten" (Books.lua:508–529, :836). T593 (mit 0.65.111 rot).
+    Die Ursache (Wiederverkauf über Marktwert seit S2/MH1310) ist schlüssig; das auslösende Item im Client nachsehen.
+  TS111.1 (Teil V4) – Signaturen als Zahl statt Zeichenkette, wiederverwendete Tabellen, einmal entschlüsseln
+    (Vollscan.lua:547–623, :912–913); gespeichertes Format unverändert. T594 (20'000 Auktionen, < 64 KB). Ob T458/T459/
+    T126 im Client grün werden, ist offen (Punkt 1).
+  UI1618a (Kern) – B:QualityPasses (Buy.lua:467–474): unbekannte Qualität -> ausblenden und Laden anstossen; in der
+    Live-Suche (:483) und der Scan-Liste (:582). T595. Rest: Punkt 4.
+  UI1618b (Formulierung) – "✗ Entzaubern: nur +86c (+9 %) – unter dem Mindestgewinn 20 %" (Tooltip.lua:717–720), kein ✓
+    beim Wert bei "bad" (:687, :691); alle 11 Sprachen, gleiche Platzhalter. T596 (mit 0.65.111 rot). Rest: Punkt 12.
+  MK-Ü1F (Code) – finish.markt_kern (≤ 1500 Zeichen), markt_kern_wege, markt_kern_ma1 (TestRoutine.lua:1106–1118).
+    Test siehe Punkt 3.
+Erledigt in 0.65.109–0.65.111 (angenommen in der Nachprüfung 14:30 und der Prüfung 0.65.111 16:10, danke):
+  MA1-B, RK2-B, MA2-B, FG, Ü3-S (Selbsttest "Plausibilität (Ü3)", SelfTest.lua:561), MH1310, TT1317, BH1307 (Kopf),
+  DG1300 D1–D4, TB108 T223/T231/T248/T253/T431/T432/T52/Kalibrierung (T584), TU5-Doppelmeldung, Antwort 1401 (Sniper-
+  Zielzeile grau, T585), PD7-Entscheid (PD7.lua, T587/T588, Sicherung und "/ahs pd7 zurück"), G f (VS.pool), TB110 T536,
+  S1 Entzauber-Preis erzielbar (T589, im Spiel bestätigt: "Materialpreise korrigiert ×0,57"), S2 Absatz gemessen vor
+  geschätzt (T590), S3 T240 (Test war falsch, begründet), S4 T72 (T591).
 
-Erledigt in 0.65.105 (danke):
-  AB4d – Se:LadderFull (Seller.lua:609–612: ≥ 3 Angebote oder ≥ 5 Stück); gelerntes Maximum/Normalpreis nur noch bei
-    dünner Leiter (:699). T542–T544 (110/130/148 % volle Leiter -> knapp unter dem günstigsten), T545 (1 Angebot 300 %
-    -> Normalpreis).
-  WS1–WS6 – Se:SellWarning (Seller.lua:619), Se:BuyWarning (:644–660), Se:Alarm mit SOUNDKIT.RAID_WARNING/8959 und
-    Protokoll WARNSCHUTZ (:662–670), Option warnGuard/warnSound. T546 (12s25 bei 20s48), T547 (12s14 bei 28s99),
-    T548 (−1c / dünne Leiter -> keine Warnung), T549 (Sniper über Max -> Warnung; Option aus -> keine).
-Erledigt in 0.65.106 (danke):
-  MA2 – MK:Note/Resolve (MarketCore.lua:51–98), je Weg letzte 50 Fälle, MK:WayState (:109–124). T550, T551.
-    Messart für die Wege "de" und "vendor" siehe MA2-B.
-  MA3 (Zähler) – vendorCheckedCount/vendorDiffCount im MARKT-KERN (MarketCore.lua:322). T553. Gold-Messung beim
-    echten Händlerverkauf offen (unten).
-  Ü1/Ü2 – MK:Report (MarketCore.lua:309–335): je Weg Fälle/Treffer/Fehler/Zustand, MA1, MA3, letzter Scan, offene
-    Empfehlungen; "Ü2 VERFEHLT" bei gesperrtem Weg, Fehler > 15 %, MA1 > 20 %. Im Testbericht (TestRoutine.lua:1140). T555.
-  Ü3 – MK:Implausible (MarketCore.lua:279), Markt-Zeilen MK:MarkRows (:286, UI_MarketView.lua:614). T554, T558.
-Erledigt in 0.65.107 (danke):
-  RK2-A (grösstenteils) – MK:LimitFromNet/DELimit/WorthUpTo (MarketCore.lua:196–250); Tooltip (Tooltip.lua:630–632),
-    D:WorthLimit/D:DealLimit/D:FindDeals (Disenchant.lua:1288–1305, :1422–1440), Sammelkauf DB:Value/Judge
-    (DEBuy.lua:59–60, :84), MV:LimitFor/DELimitFor (UI_MarketView.lua:693–694, :1052–1066), API. Selbsttest
-    "Ein Lohnt bis je Item" (SelfTest.lua:561–575). T556, T557. Rest siehe RK2-B.
-  SB1–SB5 – Sn:BudgetHit/AskRefill/RefillAnswer (Sniper.lua:1093–1150): kein Kauf aus der Abfrage, Auffüllen um das
-    ursprüngliche Budget (budget0), höchstens so weit das Gold reicht, "Nein" bis zum nächsten Treffer, nicht im Kampf /
-    ohne offenes AH, Protokoll SNIPER-BUDGET. T559–T564.
-  BL-A – A:FindCommand (AHAnalyzerPro.lua:3795), Slash-Handler nur über A.COMMANDS (:3826–3839), Dev-Befehle nur mit
-    A:RequireDev. T565 (T-BL1), T566 (T-BL5), T567 (T-BL6).
-  API-PM2 – WorthUpTo 4. Wert Sicherheit 0–1 (nil = lernt), 5. Wert Stückpreis, 1. Wert Summe (API.md); MarketState-
-    Trend-Wörter in API.md. T568. API-PM3 – MaterialCost über die Leiter (Cr:LadderCost). T569.
-  TU5 – MK:RealCheck/RealCheckItem (MarketCore.lua:338–400), "/ahs testroutine echt", still nach jedem Vollscan,
-    Protokoll GRUNDREGEL VERLETZT. T570. TU7 – T571 (59 % / 61 % / 19 Fälle). TU9 – run_offline.sh mit TR_TEXT=1
-    ungefiltert. BP-2026-11-13-1 – T572 (drei Absender, gleich verbucht).
+Prüfungen: addon_check 0.65.112 OK (0 FEHLER, 0 WARNUNG; Lua-5.1-Syntax, Ladetest, Sprachtest, alle Prüfungen der
+gemeinsamen Dateien bestanden). GoldSentinelGame/Sync/Test byte-gleich mit shared/; GoldSentinelDev.lua unverändert
+gegenüber 0.65.111 (keine Vorlage in shared/). GoldSentinelMarkt.lua ist noch nicht enthalten (kommt mit MN in 0.66).
+CHANGELOG EN/DE mit 0.65.112. Neuer Locale-Schlüssel in allen 11 Sprachen, Platzhalter gleich (%s, %d %%).
+Kein Taint im Diff: keine Blizzard-Funktion und keine C_-Tabelle ersetzt; C_Item.RequestLoadItemDataByID nur gelesen
+und mit pcall (Era/TBC: abgesichert, fehlt die Funktion -> nur ausblenden). Tests ersetzen nur eigene Funktionen (A.*,
+VS.*, TT.*) und stellen sie zurück. Keine Spielernamen im Diff.
+Offline (tests/run_offline.sh, Lua 5.1, Kopie im Arbeitsordner): s42 auto PASS (OK 626 · FEHLER 0 · übersprungen 54 ·
+im Client 16), T592–T597 PASS; s43 server PASS, nur T458 in der Nachbildung rot (Verfolgung V4 40 ms, Nachlauf 56 ms –
+Nachbildung, nicht massgebend, wie bisher).
+Testberichte seit der letzten Nachprüfung: AHSentinel-1794581591-7bc982-1 (Teil server, 0.65.110, 15:50): OK 57 ·
+FEHLER 5 · SKIP 4 · 0 Lua-Fehler. FEHLER: T72 (in 0.65.111 behoben), T126 45,9 ms, T410 (nur 2 von 5 Schritten
+gemessen), T458 (1540 von 3115 Frames > 33 ms, Lücke 145 ms), T459 (+21,9 MB, 11 Speicherbereinigungen) – gehört zu
+TS111.1. NEU daraus: Sandbox FEHLER (SBX1). Diagnose 0.65.110 (33726ef0373b, e7ac83bb631c): "Fehler in dieser Sitzung:
+0"; LANGSAM cache:warm-today bis 54 ms, cache:today:10 bis 52 ms, ui-refresh 91 ms, fullscan 48 ms (Punkt 1);
+VOLLSCAN Messung Lücke 1021 ms, GC 24 (vor TS111.1); 84× AUCTION_CANCELED "unerwartet, nichts geändert" (D1 wirkt);
+FLIP-WIDERSPRUCH Item 12184 (FW1).
 
-Prüfungen: addon_check 0.65.107 OK (0 FEHLER, 0 WARNUNG; Lua-5.1-Syntax, Ladetest, Sprachtest). GoldSentinelGame/Sync/
-Test byte-gleich mit shared/. CHANGELOG EN/DE mit 0.65.105–0.65.107. MarketCore.lua steht in der TOC. Kein Taint im
-Diff (keine ersetzte Blizzard-Funktion oder C_-Tabelle; PlaySound/GetMoney/InCombatLockdown nur über A:Global gelesen).
-Neue Tests T542–T572 vorhanden, kein neues T:Skip. Offline (tests/run_offline.sh, Lua 5.1): s42 auto PASS; s43 server
-im ersten Lauf FAIL nur T458 (Zeit) und T459 (3 Speicherbereinigungen in der Nachbildung), im zweiten Lauf PASS –
-Rauschen der Nachbildung, zählt nicht (0.65.104 zum Vergleich: PASS, nur T458). Keine Spielernamen im Diff.
-Testberichte seit dem letzten Lauf: nur AHSentinel 0.65.99 (0 Lua-Fehler) – noch kein Bericht mit MARKT-KERN.
-
-MARKT-KERN (Überwachung Teil E): Ü1 ist seit 0.65.106 im Testbericht, aus dem Client gibt es aber noch keine Zahlen
-(letzter eingegangener Bericht ist 0.65.99). Die Grenzwerte Ü2 (Trefferquote ≥ 60 %, Fehler ≤ 15 %, MA1 ≤ 20 %) lassen
-sich darum noch nicht prüfen. Bitte nach dem nächsten /reload mit 0.65.107+ den Testbericht hochladen lassen.
-Wichtig: Mit MA1-B und MA2-B in diesem Stand wären die Ü1-Zahlen für MA1 (bleibt 0) sowie die Wege "de" und "vendor"
-nicht aussagekräftig – darum vorziehen. Regel "kein Item mit zwei verschiedenen 'Lohnt bis'" ist noch verletzt (RK2-B).
+MARKT-KERN (Überwachung Teil E): Kein eingegangener Testbericht enthält den Abschnitt (alle sind 0.65.110; das Feld
+markt_kern gibt es erst ab 0.65.112). Ü2 (Trefferquote je freigegebenem Weg ≥ 60 %, mittlerer Fehler "Lohnt bis"
+≤ 15 %, MA1-Fehlerquote ≤ 20 %) lässt sich darum weiter NICHT prüfen. Bitte nach /reload mit 0.65.112 die Testroutine
+laufen lassen und den Bericht hochladen (Uploader). 0.65.112 ändert kein "Lohnt bis" und keine Freigabe (Teil D) –
+nur den Absatz-Lernfaktor (Schätzung) und den Lagerwert.
 
 OFFENE PUNKTE
 -------------
-MA1-B. (HOCH, NEU – Messung MA1, Grundlage der Absatz-Freigabe) – DIE WAHRHEIT KOMMT VOR DER VERMUTUNG
-   (a) Se:OnCanceled (Seller.lua:1381–1392) entfernt die Zeile und feuert AUCTION_CANCELLED SOFORT, die neue Liste kommt
-       erst danach (QueryOwned). MK:Truth (MarketCore.lua:165–168) findet darum noch keine Vermutung (self.guess wird
-       erst in MK:OnOwned :154–160 angelegt) und verwirft den Fall. Danach legt OnOwned die Vermutung an, zu der nie
-       mehr eine Wahrheit kommt. Gleiches beim Verkauf: Se:OnSold (Seller.lua:1713–1716) feuert OWN_AUCTION_SOLD bei der
-       Chat-Meldung, also meist vor der nächsten Liste. Folge: MA1 bleibt (fast) bei 0 Fällen, die Absatz-Freigabe
-       kommt nie bzw. mit einer zufälligen Quote.
-   (b) newSig (MarketCore.lua:151–153) zählt ALLE noch vorhandenen Auktionen mit gleichem Item und gleicher Menge,
-       nicht nur neu aufgetauchte. Wer 5 gleiche Stapel einstellt und einer verkauft sich, bekommt "neu eingestellt"
-       geraten. seenNew (:158) wird nirgends gesetzt.
-   T552 prüft nur die Reihenfolge "Liste, dann Wahrheit" und nur verschiedene Items.
-   Lösung: Wahrheit je auctionID zwischenspeichern (z. B. 10 Min.), bis die Vermutung entsteht, oder die Vermutung beim
-   Wahrheits-Ereignis aus ownPrev bilden; newSig nur aus auctionIDs bilden, die in ownPrev nicht vorkamen.
-   Tests T-MA1b: Abbruch-Ereignis VOR der neuen Liste -> 1 Fall gezählt, richtig; Verkaufs-Meldung vor der Liste ->
-   1 Fall. T-MA1c: 5 gleiche Stapel, einer verkauft (kein neuer) -> Vermutung "verkauft"; einer abgebrochen und mit
-   neuer auctionID gleich neu eingestellt -> "neu".
+1. TS111.1-REST / T373 (HOCH) – RUCKELN: VOLLSCAN UND HINTERGRUND-AUFGABEN
+   a) Vollscan (T458/T459/T126): mit 0.65.110 im Client längster Frame bis 821 ms (0.65.111), Lücke 1021 ms, 11–56
+      Speicherbereinigungen, +22 bis +53 MB, T126 längste Portion 40–46 ms. 0.65.112 entfernt Zeichenketten/Tabellen in
+      der Verfolgung V4 – ob das reicht, zeigt nur der Teil server im Client. Bleibt T459 rot: nächste Brocken Einlesen
+      (21311 ms / 762 Frames), Preisverlauf+Neuaufbau, Verdichtung; Zwischentabellen nach dem Scan freigeben.
+   b) T410 (T-VM1) im Bericht 0.65.110: nur 2 von 5 Schritten mit ms und Lücke ("fehlt: Ereignis-Aufruf, Einlesen,
+      Verdichtung, Preisverlauf+Neuaufbau") – im Protokoll VOLLSCAN Messung stehen sie; Testbericht-Feld bitte vollständig.
+   c) T373: Hintergrund-Aufgaben pausieren nie ("0 Schritte"): cache:warm-today 50–54 ms, cache:today:10 44–52 ms,
+      ui-refresh 91 ms (1 Schritt), fullscan 48 ms, pd7:prepare 17–18 ms (Diagnose 0.65.110). Ziel ≤ 16 ms je Bild.
+      Lösung: cache:today / cache:warm-today je Item bzw. je 50 Zeilen mit Pause (A:Yield/Job-Schritt), ui-refresh in
+      Portionen; im Protokoll LANGSAM mit 0.65.112 den langen Einzelschritt benennen.
+   Tests: T458/T459/T126/T410 im Client; offline T-T373b: cache:today mit 5000 Items -> kein Schritt > 8 ms.
 
-RK2-B. (HOCH, NEU – Rest von RK2-A, Überwachung Ü2 "kein Item mit zwei verschiedenen 'Lohnt bis'")
-   (a) Markt-Ansicht "Entzaubern" (MV:BuildDE -> MV:DEOffer, UI_MarketView.lua:398–413) rechnet weiter selbst:
-       upto = net / (1 + DEMinPct) mit der eigenen Einstellung deMinGain (:337–347, 10–50 %), ohne gelernte
-       Sicherheitsmarge. Dieser Wert steht in der Zeile ("Nx bis …", :485–487) und plant die Kaufmenge (DEPlan). Ebenso
-       die Detailzeile "lohnt bis" (MV:DEDetailLines :559–560). Bei Lernen an (Startmarge 20 %) zeigt die Zeile 83,3 %
-       des Netto, Tooltip/Sammelkauf/Sniper 80 %; ist deMinGain ≠ Mindestrendite (deBuyRoi), weicht es weiter ab.
-       MK:LimitSources (MarketCore.lua:251–265) prüft D:DealLimit, nicht die angezeigte Zeile – darum bemerken T556 und
-       der Selbsttest es nicht.
-   (b) Sn:UpdateDETargets (Sniper.lua:165) passt ein Entzauber-Ziel nur an, wenn es > 5 % von "Lohnt bis" abweicht –
-       bis 5 % darüber kauft der Sniper also über der Grenze, die der Tooltip zeigt.
-   (c) NIEDRIG: D:ReferenceCheck (Disenchant.lua:1330–1334) gibt für den Testbericht ST1 ein eigenes "limit"
-       (net / (1 + Mindestrendite)) aus – als "Referenz" bezeichnen oder MK:LimitFromNet nehmen.
-   Lösung: DEOffer und DEDetailLines nehmen MK:LimitFromNet(net, n); deMinGain bleibt nur Filter "mindestens X %
-   Gewinn" (oder mit der Mindestrendite zusammenlegen – eine Einstellung). Sniper-Ziel immer genau auf "Lohnt bis"
-   setzen (Meldung im Chat weiter nur ab 5 %). LimitSources um die Markt-Zeile (DEOffer(...).upto mit qty 1) und das
-   Sniper-Ziel ergänzen. Test T-RK2c: 20 Items, Lernen an/aus, deMinGain 20 und 35 -> Zeile, Detail, Tooltip,
-   Sammelkauf, Sniper-Ziel, API gleich; Sniper-Ziel 3 % über "Lohnt bis" -> wird angepasst.
+2. TS111.2-TEST (HOCH, Regel auftraege/README.md: Befund ohne passenden Test = nicht erledigt) – Code ist richtig
+   (siehe Erledigt), aber T592 (TestRoutine.lua:12279) prüft nur A:GetLiquidity; in 0.65.111 war .estimate dort schon
+   richtig gesetzt – T592 wäre auch mit 0.65.111 grün. Der Fehler lag in Ln:MarketFactor (las l.perDay) und in der
+   Vergleichsspalte. Lösung: Test T-TS111.2b: 5 Items einer Gruppe mit gemessen 5 und Rohschätzung 10 ->
+   Ln:MarketFactor(g) = 0,50 (nicht 1,00); Vergleichszeile "geschätzt" = 10 (nicht 5 × Abbruch-Faktor). Mit 0.65.111
+   muss der Test rot sein.
 
-MA2-B. (HOCH, NEU – Überwachung Ü2 misst sonst das Falsche) – TREFFER/FEHLER FÜR "ENTZAUBERN" UND "HÄNDLER"
-   MK:Resolve (MarketCore.lua:68–97) vergleicht für JEDEN Weg den späteren AH-Preis des gekauften Items (PriceBetween
-   :62) mit Kaufpreis und Vorhersage. Für "de" ist die Vorhersage der Netto-Materialwert (NoteRows :131–132), für
-   "vendor" der Händlerpreis – der spätere AH-Preis des Teils sagt über beide nichts. Die Trefferquote/der Fehler dieser
-   Wege wären bedeutungslos und könnten einen guten Weg sperren oder einen schlechten freigeben (Teil D).
-   Lösung: je Weg die passende Wahrheit (markt-strategie 8g, Teil C):
-     flip/snipe: späterer Preis bzw. erzielter Verkauf (Buchhaltung) gegen den vorhergesagten Wiederverkauf;
-     de: Materialpreise nach 24 Std. × Ausbeute (D:DealValue zum späteren Zeitpunkt) bzw. MA5 aus der Buchhaltung,
-         Treffer = Wert danach ≥ Kaufpreis;
-     vendor: Treffer = Kaufpreis < vom Spiel bestätigter Händlerpreis (MA3), Fehler = Abweichung Händlerpreis.
-   Bis das steht: "de" und "vendor" im MARKT-KERN als "Messart vorläufig" kennzeichnen und nicht sperren.
-   Tests T-MA2c: de-Empfehlung, Teil wird danach billiger, Material gleich -> Treffer; Material fällt 30 % -> kein
-   Treffer, Fehler 30 %. vendor: bestätigter Händlerpreis -> Treffer unabhängig vom AH-Preis.
+3. MK-Ü1F-TEST (HOCH, gleiche Regel) – Code ist da (TestRoutine.lua:1106–1118), aber T597 (:12359) prüft nur
+   MK:Report(), nicht die hochgeladenen Felder; er wäre auch mit 0.65.111 grün. Lösung: T555b auf die Felder: nach dem
+   Zusammenbau von finish: finish.markt_kern enthält "MARKT-KERN" und je Weg "Weg <x>:", ≤ 1500 Zeichen,
+   finish.markt_kern_ma1 enthält "MA1". Danach einen Testbericht hochladen – erst dann ist MK-Ü1F im Repo belegt.
 
-FG. (HOCH, NEU – Teil D "Freigaben" ist nur gemessen, nicht angewendet)
-   MK:WayState (MarketCore.lua:109–124) schreibt bei < 60 % nur "WEG GESPERRT" ins Protokoll; keine Anzeige liest den
-   Zustand: Markt-Zeilen (UI_MarketView.lua:614–615 markieren nur Ü3 und merken), Tooltip, Sniper und "Heute tun" zeigen
-   jeden Weg weiter mit Zahlen. MK:SalesReleased (:182–185) wird nirgends aufgerufen – Flippen, Lücken, Überfüllt und
-   "verkauft in ~x" erscheinen ohne MA1-Freigabe. Graues "lernt noch (x von y)" gibt es nicht.
-   Nach Teil F Stufe 1 (0.65.106) ist das fällig (Stand 08:25: "muss mit MA2/MA1 kommen").
-   Lösung: (1) Weg "gesperrt" -> Zeilen dieses Wegs ausblenden, im Kopf "Weg <x> gesperrt (Treffer y %)".
-   (2) Weg "lernt" -> Zeilen grau mit "lernt noch (n von 20)", Zahlen nur als Schätzung gekennzeichnet, keine
-   Kauf-Empfehlung, kein goldenes Signal. (3) Absatz-Zahlen und Flip-Wege erst mit MK:SalesReleased(), sonst grau
-   "lernt noch (n von 30)". (4) Händler nur mit bestätigtem Preis (ist da, HP1). Erst nach MA1-B und MA2-B einschalten,
-   sonst wäre alles dauerhaft grau.
-   Tests T-FG1: Weg flip 59 % aus 20 -> keine flip-Zeile, Kopf-Hinweis; T-FG2: 19 Fälle -> Zeile grau "lernt noch
-   (19 von 20)", nicht als Empfehlung gemerkt; T-FG3: MA1 29 Fälle -> Absatz grau; 30 Fälle, 15 % -> frei.
+4. UI1618a-R (MITTEL, NEU) – NACHGELADENE ITEMS ERSCHEINEN NICHT
+   Seit 0.65.112 blendet B:QualityPasses (Buy.lua:467–474) Items mit unbekannter Qualität aus und stösst das Laden an.
+   Der Empfänger ITEMINFO_LOADED (UI_Buy.lua:986–999) wendet den Filter aber nur neu an, wenn ein iLvl-Bereich gesetzt
+   ist (:992 "if minIl or maxIl"); sonst wird nur neu gezeichnet. Folge: Mit Qualitätsfilter (z. B. "Grün, Blau") und
+   ohne iLvl-Bereich fehlen grüne/blaue Teile, deren Iteminfo beim ersten Aufbau noch nicht geladen war, bis zur
+   nächsten Suche – gute Angebote werden übersehen.
+   Lösung: Bedingung um "Qualitätsfilter aktiv" erweitern (p:Refresh() auch bei gesetztem quals).
+   Test T-UI1618c: Filter Grün+Blau, Item ohne Iteminfo -> nicht in der Liste; ITEMINFO_LOADED mit Qualität 2 -> Zeile
+   erscheint; mit Qualität 1 -> bleibt weg.
+   IM CLIENT: Einkauf, Rüstung, "Grün, Blau" bzw. "Grün - Episch" -> keine weissen/grauen Teile mehr (Bild des Nutzers
+   16:20/16:22: Rotes Schwadroneurshemd, Verstärkte Kettenweste, Turmschild).
 
-Ü3-S (NIEDRIG, NEU) – Ü3 verlangt "FEHLER im Selbsttest, wenn verletzt". Der Selbsttest (SelfTest.lua:561–575) prüft
-   nur das eine "Lohnt bis", nicht die Plausibilität. Lösung: Selbsttest-Zeile "Plausibilität (Ü3)": Markt-Zeilen aller
-   Ansichten durch MK:Implausible; jede noch als Empfehlung gezeigte unplausible Zeile = FEHLER mit Item-ID.
+5. SBX1 (MITTEL, NEU – Testbericht 7bc982, Teil server 0.65.110) – SANDBOX VERWIRFT ECHTE SYNC-DATEN
+   "sandbox = FEHLER: 5 Pfade, wiederhergestellt: deShared.<Spieler>.t, deShared.<Spieler>.g.2:2:a.mats.10940.total,
+   …mats.10940.times, ….g.2:2:a.n, deShared.<Spieler>.last". Der Lauf dauerte 162 s bei laufendem Sync (284 empfangen).
+   D:HandleShared (Disenchant.lua:634–660) nimmt geteilte Entzauber-Daten auch während der Testroutine an und schreibt
+   in die echten db.deShared; danach setzt CompareAndRestore (TestRoutine.lua:1056–1063) den alten Stand zurück – die
+   echte Sendung des Mitspielers geht verloren, und der Bericht meldet einen Sandbox-FEHLER, der keiner des Tests ist.
+   Lösung: während TR.running eingehende Sync-Nachrichten (deShared, Preise, Netz) puffern und nach dem Wiederherstellen
+   anwenden – oder diese Pfade beim Vergleich als "echte Daten von aussen" erkennen und behalten (Protokoll "SANDBOX
+   SYNC behalten n"). Falls kein Sync-Eingang die Ursache ist: den Test nennen, der in deShared schreibt.
+   Test T-SBX1: Testroutine läuft, D:HandleShared mit fremdem Absender -> nach dem Lauf ist die Sendung in deShared,
+   sandbox = OK.
 
-MA3-G (MITTEL, Rest MA3) – Gold-Messung beim echten Händlerverkauf (Gold-Zuwachs je Item gegen den Händlerpreis) und
-   Sperre des Händler-Wegs bei Abweichung fehlen noch (Bericht 0903). Test T-MA3b: Verkauf an Händler, Gold +1s25 bei
-   Tabelle 5s -> Item für Weg Händler gesperrt, Protokoll.
+6. FW1 (MITTEL, NEU – Diagnose 0.65.110) – FLIP-WIDERSPRUCH: ZWEI "BIS" FÜR DASSELBE ITEM
+   15:23:39 "FLIP-WIDERSPRUCH Item 12184 · Liste bis 184 / 247 · Detail buy bis 107 / 247", 15:23:47 ×2 umgekehrt (Liste
+   107, Detail 184). Der Schutz (UI_MarketView.lua:108–115, Comfort.lua:655–658) verwirft die Zeile – angezeigt wird
+   nichts Falsches. Aber Liste und Detail rechnen für dasselbe Item mit demselben Wiederverkauf zwei verschiedene
+   Kaufgrenzen (Ü2: "kein Item mit zwei verschiedenen 'Lohnt bis'"). Vermutlich zwei Rechenstände (Zwischenspeicher
+   der Liste gegen frische Leiter im Detail).
+   Lösung: Ursache im Bericht benennen; beide aus derselben Rechnung mit demselben Stand (Cache-Schlüssel mit Scan-Zeit);
+   spätestens mit RK1 (EIN "Lohnt bis" über alle Wege) in 0.66. Test T-FW1: Liste aus altem Cache, Leiter ändert sich
+   -> Liste wird neu gerechnet, kein FLIP-WIDERSPRUCH.
 
-RK/MR/MA/Ü (HOCH, 13.11. 06:20, Entscheid des Nutzers) – anweisung-markt-reiter.txt, Rest offen:
-   Teil F Stufe 1 erledigt bis auf MA1-B, MA2-B, FG, MA3-G, Ü3-S (oben). Offen: Stufe 2 Rechenkern RK1–RK8 mit EINEM
-   "Lohnt bis" über ALLE Wege (heute nur Entzaubern; API.WorthUpTo liefert nur "disenchant") + Mein Lager (MR2);
-   Stufe 3 MR5–MR9, RK6; Stufe 4 MR1, MR3, MR4, MR10, MR11; Messungen MA4–MA6. Darin gehen auf: W (anweisung-
-   levelwelle.txt WL1–WL4 -> MA4/RK6), R (R1–R4), "gelerntes Maximum aus der Leiter nachführen" (aus AB4c/AB4d) und
-   die Sniper/Absatz-Grundregeln aus TU4. Tests T-RK1–T-RK8 (Prüffälle RK8), T-MR1–T-MR11, T-MA4–T-MA6.
+7. UI1509 (MITTEL, 13.11. 15:10 – Bild des Nutzers, 0.65.110, Markt > Entzaubern, leere Liste)
+   Der Leer-Hinweis "Kein Teil mit mindestens 20 % Gewinn nach dem Entzaubern …" steht AUSSERHALB des Fensters (beginnt
+   am linken Bildschirmrand, läuft quer durch die Liste). Erwartet: mittig IN der leeren Liste, umbrechend auf die
+   Listenbreite. Alle Leer-Hinweise aller Reiter/Unterreiter gleich prüfen (Anker/Parent/Breite). Test T-UI1509: UICheck
+   je Reiter mit leerer Liste -> Hinweis vollständig im Listenrahmen. Hinweis an den Nutzer: Kacheln im Markt kommen erst
+   mit dem neuen Markt-Reiter 0.68 (MR4) – kein Befund.
+
+8. UI1510 (NIEDRIG, 13.11. 15:12) – Fenster "Testbericht" (über "Test – Selbsttest und Testmodus") nach dem Lauf ganz
+   leer/schwarz. Erwartet: Bericht als Text bzw. "Bericht kopieren". Test T-UI1510: nach dem Lauf hat das Textfeld > 0
+   Zeichen und ist sichtbar.
+
+9. MA3-G (MITTEL, Rest MA3) – Gold-Messung beim echten Händlerverkauf (Gold-Zuwachs je Item gegen den Händlerpreis) und
+   Sperre des Händler-Wegs bei Abweichung fehlen noch. Test T-MA3b: Verkauf an Händler, Gold +1s25 bei Tabelle 5s -> Item
+   für Weg Händler gesperrt, Protokoll.
+
+10. RK/MR/MA/Ü (HOCH, 13.11. 06:20, Entscheid des Nutzers) – anweisung-markt-reiter.txt, Rest offen:
+   Teil F Stufe 1 erledigt bis auf MA3-G (Punkt 9). Offen: Stufe 2 Rechenkern RK1–RK8 mit EINEM "Lohnt bis" über ALLE
+   Wege (heute nur Entzaubern; API.WorthUpTo liefert nur "disenchant") + Mein Lager (MR2); Stufe 3 MR5–MR9, RK6; Stufe 4
+   MR1, MR3, MR4, MR10, MR11; Messungen MA4–MA6. Darin gehen auf: W (anweisung-levelwelle.txt WL1–WL4 -> MA4/RK6),
+   R (R1–R4), "gelerntes Maximum aus der Leiter nachführen" (AB4c/AB4d), die Sniper/Absatz-Grundregeln aus TU4 und FW1.
+   Tests T-RK1–T-RK8 (Prüffälle RK8), T-MR1–T-MR11, T-MA4–T-MA6.
+   HINWEIS für 0.66 (RK/S2, Messung 13.11. 15:41, markt-strategie.md): 9'132 Abgänge aus Stufe 3/4 bei 26'674 neuen
+   Auktionen – viel Abbrechen/Neu-Einstellen. Gemessenen Absatz (VS:MeasuredRate) als SPANNE: Untergrenze = Abgänge
+   minus neue Auktionen desselben Items (wie GoldSentinelMarkt v1 absatz), Obergrenze = Abgänge; Entscheidungen nach der
+   Untergrenze (bzw. mit dem eigenen Abbruch-Faktor). Restzeit-Stufen in Forever belegt: 1 < 30 Min., 2 30 Min.–2 Std.,
+   3 2–12 Std., 4 > 12 Std.
+   HINWEIS S1 (Bericht 1539): eigene Material-Verkäufe als zweite Quelle des erzielbaren Preises erst mit RK (sonst
+   Doppelkorrektur) – angenommen.
+
+11. MN (13.11. 15:35, Entscheid des Nutzers "Markt komplett messen", anweisung-marktdaten-netz.txt) – MN1–MN5 mit 0.66.
+   Vollscans still mitlesen (keine Abfrage, Schalter zum Ausschalten, keine Namen), über Gilde/Netz teilen, Uploader ->
+   Bot-Server sammelt und misst Absatz. shared/GoldSentinelMarkt.lua v1 liegt bereit (mit Korrektur 16:05 und Korrektur
+   2 17:00: FeedStart/Feed) – unverändert aus shared/ kopieren (Prüfung "exact").
+   FEED: AHSentinel ruft GoldSentinelMarkt.FeedStart("AHSentinel") direkt vor dem eigenen ReplicateItems und nach dem
+   Einlesen GoldSentinelMarkt.Feed("AHSentinel", t, n, items, dt) mit items[id] = { preis, menge, n, abg, abgV }
+   (Beschreibung im Kopf der Datei). Damit liest GSMarkt den AHSentinel-Scan nie selbst; der Scan darf NICHT zweimal
+   gelesen werden (TS111.1). Fremde Vollscans liest weiterhin GSMarkt (AHSentinel nicht).
+   ABSICHERN (Nachprüfung 17:45): RaidMaster 3.0.25, GuildSentinel 0.9.37, ProfessionSentinel 0.9.44, ThreatSentinel
+   2.5.11 und LevelPilot 3.12.28 tragen noch die alte v1-Kopie OHNE FeedStart/Feed (gleiche VERSION 1, die zuerst
+   geladene Kopie gewinnt). AHSentinel ruft FeedStart/Feed deshalb nur, wenn type(GM.FeedStart)=="function" und
+   type(GM.Feed)=="function"; sonst keinen Lua-Fehler, sondern Diagnose-Zeile "MARKT-NETZ: alte Kopie geladen".
+   Test dazu (GM ohne FeedStart -> kein Fehler).
+   WISSEN (TS111.4): M1c 35 Min. -> keine Antwort, 52 Min. -> neue Liste; dazwischen hatte GSMesstest abgerufen -> die
+   Drossel gilt sehr wahrscheinlich je CLIENT für alle Addons zusammen. Für Wächter/Scan-Plan: Abstand ab dem letzten
+   Abruf irgendeines Addons messen; REPLICATE-Ereignisse fremder Abrufe mitzählen.
+
+12. NIEDRIG – KLEINPUNKTE AUS 0.65.112 (NEU)
+   a) UI1618b-Rest: In der Materialliste des Tooltips die Preise als "tiefstes Angebot" kennzeichnen oder den
+      korrigierten Preis daneben zeigen (Wunsch 16:22). Die Zeile "Materialpreise korrigiert ×…" (Tooltip.lua:757–759)
+      erklärt es nur allgemein.
+   b) Tooltip.lua:687/:691: bei "bad" fehlt der Haken, die Wertzeile "Entzaubern: 10s 36c" bleibt aber grün
+      (0.2/0.87/0.33). Grau wäre eindeutig (wie bei "Verkaufen bringt mehr", :696).
+   c) T594 (TestRoutine.lua:12317–12333): collectgarbage("stop") ohne pcall – bricht VSx.Sigs ab, bleibt die
+      Speicherbereinigung für die ganze Sitzung aus. Zwischen stop und restart in pcall, restart immer. Dazu: der volle
+      collectgarbage("collect") im Spiel kann bei 600 MB Lua-Speicher selbst einen langen Stocker machen (nur im Test).
+   d) Vollscan.lua:895/:912: Sigs(it) wird je Item zweimal gerechnet (in VS:Compare und für EncodeSigs); sigS aus
+      Compare gilt noch – einmal reicht (weniger Arbeit im Nachlauf).
+   e) Vollscan.lua:553/:561: Sofortkauf ≥ 2^33 Kupfer (~859'000 g, Mondpreise) wird nicht mehr signiert; im ersten Vollscan
+      nach dem Update zählen solche alten Signaturen einmal als "vorzeitig weg". Nur zur Kenntnis (Protokoll-Hinweis
+      genügt).
+   f) Ü3-S wirkt im Client kaum: Selbsttest "Plausibilität (Ü3)" meldete im Teil server "0 Markt-Zeilen geprüft"
+      (SelfTest.lua:561–575 liest nur MV.cache, der ohne geöffnete Markt-Ansicht leer ist). Vorher die Ansichten im
+      Hintergrund aufbauen oder die Zeilen direkt aus den Rechnungen holen; "0 geprüft" als ÜBERSPRUNGEN, nicht OK.
 
 PD. (HOCH/MITTEL) – befund-pc-daten-0694.txt gilt weiter für die offenen Teile:
-    PD7 HOCH  SavedVariables 21,7 MB – Verdichtung nach Vorgabe ist da (0.65.100, A:CompactHistory/CompactAll, T505;
-              Testbericht "PD7 Grösse"/"PD7 letzte Verdichtung"). Das Ziel < 8 MB (T-PD7) ist laut Bericht 0653 damit
-              NICHT sicher erreichbar; weiter verkleinern ginge nur mit einem kompakteren Speicherformat für Einträge
-              älter als 48 Std. – das ist eine Formatänderung des Preisverlaufs und braucht den ENTSCHEID DES NUTZERS
-              (seine Regel: Preisverlauf nie umwandeln). Vorgehen: zuerst die Zeile "PD7 letzte Verdichtung" aus dem
-              Client an die Prüf-Sitzung (vorher/nachher MB); reicht es nicht, legt die Prüf-Sitzung dem Nutzer den
-              Entscheid vor. Bis dahin nichts am Format ändern.
+    PD7 HOCH  Umgewandelt seit 0.65.110 (PD7.lua; Diagnose: "5544 Items, 213263 Einträge geprüft, 0 Fehler · Zustand
+              active"). Offen nur der Beleg: Testbericht-Zeile "PD7 Zustand … ~a KB -> b KB" aus dem Client, Ziel
+              Preisverlauf < 8 MB (T-PD7). HINWEIS: nach "active" nicht auf eine Version < 0.65.110 zurück.
     PD3/PD4/PD6 MITTEL (Wertprognose-Einheit, forecastStats leer, eigene Auktion als günstigstes Angebot – erst messen),
     PD8 NIEDRIG (Sync-Zähler).
+
+BH1307 (WARTET AUF CLIENT-ZAHLEN, Antwort 1401 bestätigt) – Fehlende Kostenbasis vorerst NICHT nachtragen. Erst die
+   Zeilen "BH1307 ohne Einstand" aus dem Testbericht (welche verkauften Stücke ohne Einstand, Herkunft); danach entscheidet
+   die Prüf-Sitzung mit dem Nutzer. Der Kopf "Gewinn mit Einkauf" genügt bis dahin. (TB108: "ohne Einkauf" 32 %.)
 
 TU (HOCH, 13.11. 06:55) – anweisung-tests-umfassend.txt, Rest:
    TU1 noch ohne Tooltip / Meine Auktionen / Markt-Reiter je Marktlage – kommt mit RK, dann je Lage alle Wege.
    TU2 noch ohne Fenster schliessen, /reload und AH zu mitten im Ablauf; AB4d-Ablauf "Abbrechen -> Post -> neu
    einstellen" bitte als eigenen Ablauf-Test nachweisen.
-   (TU5, TU7, TU9 erledigt in 0.65.107.)
 
 API-PM4 (NIEDRIG, F6) – API.Sold(itemID, seit): verkaufte Menge und Erlös aus der Buchhaltung (für PM6), später.
    Dazu (MITTEL, mit RK1/RK2): API.WorthUpTo liefert nur den Entzauber-Weg (2. Wert immer "disenchant") – darum zeigt
    ProfessionSentinel bei herstellbarer Ausrüstung den Entzauber-Wert, auch wenn der AH-Verkauf mehr bringt.
 
-AB. (MITTEL/NIEDRIG) – befund-bilder-2205.txt, Rest:
-   AB3 (NIEDRIG, MESSUNG) – 27s29 statt 27s26: EIGENE-PREIS steht seit 0.65.97 im Protokoll (Seller.lua). Nach dem ersten
+AB. (NIEDRIG) – befund-bilder-2205.txt, Rest:
+   AB3 (MESSUNG) – 27s29 statt 27s26: EIGENE-PREIS steht seit 0.65.97 im Protokoll (Seller.lua). Nach dem ersten
      Eintrag Ursache benennen und beheben (Rohwert/Menge/Rundung).
 
 L2b. (NIEDRIG) – ZUSAMMENFÜHREN: KOSTENBASIS BEI ENTZAUBERN UND HERSTELLEN DER ANDEREN SEITE – unverändert
@@ -201,7 +226,7 @@ BE2b. (NIEDRIG) – GESCHÄFTSART "HÄNDLERWARE" WIRD NIE GESETZT – unverände
 
 E. ABDECKUNGSLISTE (G2) UND ÄLTERE FEHLENDE TESTFÄLLE (NIEDRIG – bitte nachziehen, nicht abschwächen)
    a) COVERAGE nutzt für "offen 6a" bis "offen 11" weiter Nummern einer älteren Fassung. Bitte auf diese Datei abgleichen
-      (MA1-B, RK2-B, MA2-B, FG, Ü3-S, MA3-G, AB3, E–G).
+      (Punkte 1–12, MA3-G, AB3, E–G).
    b) Weiter nur "im Spiel" oder einer Prüfung zugeordnet, die sie nicht enthält, obwohl offline nachzubilden:
       - Sofortkauf T-SK6/T-SK7. (MITTEL)
       - Buchhaltung T-BM6 (abgelaufen/abgebrochen über Blizzard-Fenster -> Einzahlung verloren).
@@ -221,340 +246,65 @@ G. HINWEISE (kein Muss)
       rechnen können (wichtiger seit der Verdichtung PD7).
    b) DATA_CHANGED aus Sync/Scan löst "Beste Rezepte" neu aus, auch ohne betroffenes Rezept-Item (höchstens alle 30 s).
    c) Diagnose 0.65.69 "REPARATUR-MENGE ×2" – bitte prüfen.
-   d) W8: Prognose Entzauber-Käufe Median Beute/Vorhersage 0,90 – im nächsten Bericht prüfen, ob L10 greift.
-   e) VF1b – "Verfolgung V4" baut je Auktion Zeichenketten; offline T458 zeigt "Verfolgung V4 58–65 ms" und "Nachlauf
-      78 ms" je Schritt (Nachbildung, nicht massgebend). Falls T458/T459 im Client nicht grün werden, hier ansetzen.
-   f) VS.pool hält die Auktionsdaten des letzten Vollscans dauerhaft im Speicher; bei > 20 MB nach dem Vollscan leeren.
-   g) A:FireSpread ruft jeden Empfänger ohne Pause darin auf; die LANGSAM-Zeile zeigt welcher.
-   h) D:StaleMain läuft bei jedem Tooltip. T122 (< 2 ms) im Client beachten; sonst je Item kurz zwischenspeichern.
-   i) D:RefreshMats stellt bis zu 15 Preisprüfungen in die Verkaufen-Warteschlange – prüfen, dass der Reiter dadurch
+   d) W8: Prognose Entzauber-Käufe Median Beute/Vorhersage – mit S1 (Korrektur ×0,57) im nächsten Bericht prüfen, ob die
+      nachgerechnete Quote 0,9–1,1 im Client hält (Testbericht prognose_de_faktoren).
+   e) A:FireSpread ruft jeden Empfänger ohne Pause darin auf; die LANGSAM-Zeile zeigt welcher.
+   f) D:StaleMain läuft bei jedem Tooltip. T122 (< 2 ms) im Client beachten; sonst je Item kurz zwischenspeichern.
+   g) D:RefreshMats stellt bis zu 15 Preisprüfungen in die Verkaufen-Warteschlange – prüfen, dass der Reiter dadurch
       nicht "Prüfe Preis …" für nicht angeklickte Items zeigt.
-   j) Sn.staleBlock wird gesetzt, aber nirgends gelesen – entfernen oder nutzen.
-   k) Ohne je gescannten Materialpreis (Era/TBC) zeigt jeder Entzauber-Tooltip "Preise veraltet – erst scannen". So gewollt.
-   l) BK:RepairAB8b setzt free = 0 für den GANZEN Verkauf, auch wenn die Korrektur von 0.65.97 ihm nur einen Teil der
+   h) Sn.staleBlock wird gesetzt, aber nirgends gelesen – entfernen oder nutzen.
+   i) Ohne je gescannten Materialpreis (Era/TBC) zeigt jeder Entzauber-Tooltip "Preise veraltet – erst scannen". So gewollt.
+   j) BK:RepairAB8b setzt free = 0 für den GANZEN Verkauf, auch wenn die Korrektur von 0.65.97 ihm nur einen Teil der
       Kosten gab. Näherung, einmalig; nur zur Kenntnis.
-   m) Le.pendingBuys wird nur in NotePurchase aufgeräumt – harmlos (GetTime-Grenze 5 Min.).
-   n) NEU: L1c vergleicht in RepairDoubles2 nur mit der unmittelbar vorigen Buchung der Gruppe (Books.lua:592–595). Bei
+   k) Le.pendingBuys wird nur in NotePurchase aufgeräumt – harmlos (GetTime-Grenze 5 Min.).
+   l) L1c vergleicht in RepairDoubles2 nur mit der unmittelbar vorigen Buchung der Gruppe (Books.lua:592–595). Bei
       drei Doppeln mit Abständen < 6 Std. reicht das; nur zur Kenntnis.
-   o) API.WorthUpTo gibt bei "unsicher" (unvollständige Materialien) trotzdem einen Betrag – der 3. Wert sagt es (ok).
-   p) NEU: Sn:RefillAnswer merkt budget0 beim ersten Auffüllen; ändert der Spieler danach das Budget von Hand, füllt die
+   m) API.WorthUpTo gibt bei "unsicher" (unvollständige Materialien) trotzdem einen Betrag – der 3. Wert sagt es (ok).
+   n) Sn:RefillAnswer merkt budget0 beim ersten Auffüllen; ändert der Spieler danach das Budget von Hand, füllt die
       nächste Abfrage weiter um das alte Budget auf. Beim Ändern von Hand budget0 = nil setzen (NIEDRIG).
-   q) NEU: Offline-Lauf s43 schwankt (T459 Speicherbereinigungen 3 statt ≤ 1 im ersten Lauf, im zweiten grün). Falls
-      T459 im Client rot wird: MK:RealCheck nach dem Vollscan (MarketCore.lua:401–410) in kleineren Portionen.
+   o) Offline-Lauf s43 schwankt (T458/T459 in der Nachbildung). Falls T459 im Client rot bleibt: MK:RealCheck nach dem
+      Vollscan in kleineren Portionen.
+   p) Sniper-Kennzahl "Treffer>Reserv." (DG1300 D2, Bericht 1444): misst bis zum DRUCK des Spielers (Hardware-Ereignis).
+      Bitte im Protokoll getrennt ausweisen: "Treffer -> kaufbereit (Addon)" und "kaufbereit -> Klick (Spieler)".
+
+GRUNDSÄTZE (Antwort auf den Gesamtbericht 1401, bestätigt):
+   - Lernende und gesperrte Wege werden weiter gemessen (sonst können sie nie freigegeben werden), nur nicht empfohlen;
+     in den Ansichten grau "lernt noch"/"gesperrt".
+   - Sniper wird nicht gesperrt (nur vom Nutzer gesetzte Ziele); WS3 (Warnschutz beim Kauf über "Lohnt bis"/Max-Preis)
+     gilt weiter.
 
 HINWEIS DES NUTZERS (10. Nov. 16:48): Nach dem letzten Release dem Nutzer ausdrücklich melden: "alles umgesetzt –
 bereit für den Test", mit Version.
 
-IM CLIENT PRÜFEN (mit 0.65.107 bzw. der nächsten Version)
+IM CLIENT PRÜFEN (mit 0.65.112 bzw. der nächsten Version)
 ---------------------------------------------------------
-- MARKT-KERN (Ü1): Testbericht nach /reload hochladen. Erwartet anfangs alle Wege "lernt", MA1 0 Fälle – nach einem
-  Tag mit Abbrüchen/Verkäufen muss MA1 > 0 zeigen (sonst MA1-B bestätigt). Zahlen an die Prüf-Sitzung.
+- TESTBERICHT HOCHLADEN nach /reload: Feld markt_kern (MARKT-KERN, Ü1/Ü2-Zahlen) muss im Repo ankommen; dazu Zeilen
+  "TS111.3 grösste Lagerposten", "PD7 Zustand", "Kalibrierung", "BH1307 ohne Einstand", gelernter Faktor je Gruppe
+  (≠ 1,00, z. B. Staub ~0,5) und Vergleich "20 meistgehandelte" (geschätzt ≠ gemessen × fester Faktor).
+- TEIL SERVER am offenen AH ("/ahs testroutine server"): T458/T459/T126/T410, Protokoll VOLLSCAN Messung (Lücke, GC,
+  Speicher) und LANGSAM (T373). Sandbox muss OK sein (SBX1).
+- Einkauf mit Qualitätsfilter (UI1618a): keine weissen/grauen Teile; grüne/blaue erscheinen nach dem Laden (UI1618a-R).
+- Tooltip mit kleinem Gewinn unter 20 %: "✗ Entzaubern: nur … – unter dem Mindestgewinn 20 %", kein ✓ beim Wert.
+- Lagerwert Buchhaltung: kein Sprung mehr (vorher Markt 13370 -> 165030 für 22 Items).
+- MARKT-KERN (Ü1): anfangs alle Wege "lernt"; nach einem Tag mit Abbrüchen/Verkäufen muss MA1 > 0 zeigen.
 - RK2: Tooltip, Markt "Entzaubern" (Zeile und Detail), Sammelkauf, Sniper-Ziel zeigen für dasselbe Teil denselben
-  "Lohnt bis" (heute bei Lernen an noch verschieden, RK2-B). Selbsttest-Zeile "Ein Lohnt bis je Item" grün.
+  "Lohnt bis"; Selbsttest-Zeile "Ein Lohnt bis je Item" grün (im Teil server 0.65.110: 20 Items, alle gleich – gut).
 - SB: Sniper-Ziel mit aufgebrauchtem Budget und Treffer -> Abfrage, Enter = Ja -> nächster Dreh kauft; Esc = Nein.
 - WS (0.65.105): zu billig getippt bei voller Leiter -> Ton der Schlachtzugswarnung, roter Knopf, Fenster; nichts
   eingestellt. AB4d: Item mit Markt 110–148 % -> Vorschlag knapp unter dem günstigsten.
 - "/ahs testroutine echt": Ergebnis und Protokoll GRUNDREGEL VERLETZT an die Prüf-Sitzung.
+- Protokoll SNIPER-FEHLSCHLAG beim nächsten Sniper-Einsatz (D2).
 - BL-A: "/ahs doppelt", "/ahs messreihe" stehen in /ahs hilfe und in der Liste beim Tippen.
-- TR: /ahs testroutine auto -> T223, T230, T425, T503 grün.
 - L1c: Testbericht "Reparaturen" und "L1c gesicherte Buchungen: N" – Zahlen an die Prüf-Sitzung.
-- PD7: Testbericht "PD7 Grösse" und "PD7 letzte Verdichtung" (vorher/nachher MB) – nötig für den Entscheid des Nutzers.
 - PD5c: nach einem Server-Neustart mit kleinem AH: zweiter Vollscan wird angenommen, Protokoll VOLLSCAN mit Grund.
 - SM1/SM2, MV1, CH, HP1, Q/ST1 (Zeilen "ST1 Entzauber-Grenze 26–30/31–35/36–40") – wie im Stand nach 0.65.104.
-- PD1/PD2/PD5, AB1/AB2/AB3/AB7/AB8b, JK, MP1, MP2, LB, Buchhaltung, VF1 (T458/T459), ZM, Laptop-Version, Sandbox
-  "echte Daten unverändert", T122 Tooltip < 2 ms, T169/T373/T372 – wie im Stand nach 0.65.99 beschrieben.
+- PD1/PD2/PD5, AB1/AB2/AB3/AB7/AB8b, JK, MP1, MP2, LB, Buchhaltung, VF1, ZM, Laptop-Version, Sandbox "echte Daten
+  unverändert", T122 Tooltip < 2 ms, T169/T372 – wie im Stand nach 0.65.99 beschrieben.
 - Weiter aus früheren Ständen: VF2/VF3, Schnell-Vollscan M1b/M1c, Markt (Heute ohne Schein-Flip, Ansicht "Entzaubern"),
   Entzaubern (Tooltip-Quelle, Sperrliste), Sniper (sucht ohne Klick, goldenes Signal), /ahs doppelt, Messreihe
-  Ausrüstung (anweisung-ausruestung-silber-entscheid.txt), Halbautomatisch Berufe/Händler, Optionen ohne überlagerte
-  Zeilen, Briefkasten nur EINE Buchung, Raid-Vorrat T145c, nach der Wartung 17./18.11.: Mindesteinzahlung (HP2) und
-  Auktions-Post (BP-2026-11-13-1).
+  Ausrüstung (anweisung-ausruestung-silber-entscheid.txt), Halbautomatisch Berufe/Händler ("berufe" am Berufsfenster,
+  "haendler" am Händler), Optionen ohne überlagerte Zeilen, Briefkasten nur EINE Buchung, Raid-Vorrat T145c, nach der
+  Wartung 17./18.11.: Mindesteinzahlung (HP2, 1c) und Auktions-Post (BP-2026-11-13-1).
 
 Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/AHSentinel/ ablegen.
-
-TB108 (HOCH, NEU 13.11. 13:05 – Testroutine 0.65.108 im Spiel, 12:55, Forever deDE, PRIEST 10): OK 633 · FEHLER 7 ·
-   SKIP 22 · CLIENT 16 · Sandbox OK · TU6 33/33. Der Teil "server" (AH offen) lief nicht. Die 7 FEHLER (je mit Regressionstest
-   beheben bzw. begründen, falls der Test falsch ist):
-   1 T373 (T-W3/T-X5) Hintergrund-Aufgabe beim Ranglisten-Aufbau: cache:today:10 = 94,1 ms in EINEM Bild (soll < 16 ms) ->
-     Portionen; im Spiel spürbares Ruckeln.
-   2 T223 Entzauberungswert je Gruppe: Gewinn 163 / −737 bei gleichem Wert 263 – "Gewinn = Wert − Kaufpreis" je Kaufpreis
-     stimmt nicht; Essenz-Preis "market, unsicher" fliesst ein; 2c-Ausreisser muss ignoriert werden.
-   3 T231 Sammelkauf: jede Raste "stop", 0 gekauft (soll: laden/kaufen, weg/teurer übersprungen, 2 Käufe 8c, Stopp bei
-     Gold-Grenze und vollen Taschen) – vermutlich sperrt WS3 oder SB1 die Nachbildung; Testdaten und Warnschutz abstimmen,
-     ohne den Schutz im echten Spiel zu schwächen.
-   4 T248 Entzauber-Urteil: Fall E2 "bad 285" statt "good 285" (RK2-A) – Urteil und "Lohnt bis" laufen auseinander (RK2:
-     eine Zahl überall).
-   5 T253 gescheiterter Kauf: "gesendet 0" statt 1 – Prognose-Fall eines gescheiterten Kaufs wird nicht abgeschlossen/gemeldet.
-   6+7 T431/T432 (T-MD1/T-MD2) Markt "Entzaubern" nutzt nur die ERSTE Leiterstufe: 1 Stück statt 40 (Kosten 9 statt 4g95s,
-     Gewinn 106 % statt 50 %), Sniper-Budget 9 statt 3g62s75 – genau RK3/API-PM3 (Leiter für die Menge). HOCH: die Anzeige
-     übertreibt die Rendite massiv.
-   KALIBRIERUNG (HOCH, Grundlage für die Freigaben Teil D): Prognose-Trefferquote 31 % (N 80), Brier 0,559 (Münzwurf 0,25).
-   Vorhersagen "80–100 %" verkauft: 30 % (N 57); "60–80 %": 29 % (N 19). Alle P-Diagnose-Fälle: Staub/Essenz/Splitter
-   Ablauf im Briefkasten bzw. Abbruch. Entzaubern echt: 453 Käufe, 43 % mit Gewinn, Gewinn je Gold 0,35; Beute/Vorhersage
-   2:4:a 0,60 (524) = Chance 1,06 × Menge 1,00 × Preis 0,57 -> die Materialpreise wurden um ~40 % zu hoch angenommen
-   (Levelwelle), nicht die Ausbeute. Folgen:
-   - Die Verkaufs-Wahrscheinlichkeit ist systematisch zu hoch: bis zur Kalibrierung keine Prozentzahl "verkauft sich zu
-     x %" zeigen (grau "lernt noch"), Selbstkorrektur der Wahrscheinlichkeit (gemessen 30 % statt 98 %) sofort anwenden.
-   - Entzauber-Wert mit Haltedauer/Trend (RK6) und frischen Preisen; Weg "Entzaubern" unter 60 % Treffer -> nach Ü2 grau,
-     solange die Marge nicht hält. Die neuen Grenzen ST1 (26–30 lohnt bis 6s bei Wert 10s66) gehen in die richtige Richtung.
-   - Abbruch-Faktor 0,50 (10 eigene vorzeitig weg, 5 verkauft) bestätigt MA1: Verschwinden ≠ Verkauf.
-   GUT: Entzauber-Chancen 26–30 gemessen (594 Teile): Staub 72,7 %, Essenz 21,2 %, Splitter 6,1 % (Tabelle 75/20/5);
-   36–40 (124): 72,6 / 20,2 / 7,3 %. MA3: 2553 Händlerpreise bestätigt, 4 abweichend. Vollscan 176051 Auktionen, längster
-   Frame 3,4 ms. Buchhaltung-Stichtag, Sandbox, Regressionen ok.
-   TU5 im Spiel (Bild 12:58): "Echte Daten (TU5): 6545 Items geprüft, 0 Verletzungen" – gut. Die Meldung steht aber
-   ZWEIMAL direkt hintereinander im Chat (NIEDRIG): nur einmal je Lauf melden (Lauf doppelt ausgelöst? Test dazu).
-   TEIL SERVER (12:58, AH offen): OK 57 · FEHLER 4 · SKIP 5 · Sandbox OK. FEHLER:
-   S1 T458/T-VF1 Vollscan ruckelt: längster Frame 121 ms (Preisverlauf+Neuaufbau), dazu Einlesen 26, Verdichtung 38,
-      Verfolgung V4 42, Nachlauf 34 ms; 73 von 1970 Frames über 33 ms; Bilder/s fallen von 60 auf 42–48. (M1d meldet nur
-      4,7 ms, weil es nur die Auswerte-Portionen misst – alle Schritte in dasselbe Bild-Budget nehmen.) HOCH.
-   S2 T459/T-VF2 Speicher: +62 MB je Vollscan (321 -> 383 MB AHSentinel, ganzer Lua-Speicher bis 764 MB), 28
-      Speicherbereinigungen (soll ≤ 10 MB, ≤ 1) – Tabellen wiederverwenden, keine Zwischenkopien, Strings vermeiden. HOCH.
-   S3 T126 Scan-Auswertung: längste Portion 47,6 ms (soll ≤ 8 ms). MITTEL.
-   S4 T52 Unterboten: Status "liegen" statt "unterboten" bei 10g gegen 5g, 1 Abbrechen-Versuch im Selbsttest ("Kaufen und
-      Einstellen gesperrt") – Testfall und Sperre des Selbsttests abstimmen; im Test darf kein Abbrechen versucht werden. MITTEL.
-   WEITERE BEOBACHTUNGEN (Teil server):
-   - Buchhaltung: "WARNUNG Plausibilität: 32 % des Erlöses ohne Einkauf – Kostenbasis prüfen" (Grenze 30 %, AB8a greift).
-     Bitte Ursache im Bericht nennen (welche Items ohne Einstand, Herkunft Beute/vor dem Stichtag/verlorene Kostenbasis).
-   - Absatz gemessen jetzt für 310 Items (≥ 3 Tage); im Vergleich viele "1× unplausibel" (9 der 20 meistgehandelten) –
-     MA1 (Verkauf vs. Abbruch) bleibt Voraussetzung, bevor gemessener Absatz Empfehlungen trägt.
-   - MA3: 6191 Händlerpreise bestätigt, 4 abweichend. Vollscan 212046 Auktionen, 6006 Items, Drosselung ~25–37 Min.
-   NOCH IM SPIEL: "/ahs testroutine server" am offenen AH (erledigt 12:58), "berufe" am Berufsfenster, "haendler" am Händler; 16 CLIENT-Punkte.
-
-DG1300 (HOCH, NEU 13.11. 13:10 – Diagnose-Protokoll 0.65.108, 13:00:40, vom Nutzer):
-   D1 HOCH "ABBRECHEN AUCTION_CANCELED auctionID <x> (erwartet nil) -> Zeile entfernt, Ware zurück per Post" ~40× um
-      08:10:25–08:10:47, jedes Mal mit einer ANDEREN auctionID und zeitgleich mit "SNIPER-TOT-AUSGEBLENDET Item 4251 · Kauf
-      fehlgeschlagen" – das sind KEINE eigenen Abbrüche (Ereignis beim gescheiterten Kauf bzw. fremde ID). Dazu 12:55:22
-      ×4, 12:56:54, 12:57:34 dieselbe ID 76739031 mehrfach. Prüfen und beheben: AUCTION_CANCELED nur verarbeiten, wenn die
-      auctionID in der eigenen Auktionsliste steht bzw. erwartet ist; sonst nur protokollieren ("fremd/unbekannt"), nichts
-      entfernen, keine "Ware zurück per Post" erwarten, nichts buchen; gleiche ID nur einmal. Belegen, dass Buchhaltung und
-      "ausstehende Post" durch die 08:10-Serie nicht verfälscht wurden. Test T-D1 (Kauf scheitert + AUCTION_CANCELED mit
-      fremder ID -> keine Änderung; dieselbe eigene ID 4× -> einmal).
-   D2 HOCH Sniper 08:10: 44 verschiedene Einzelangebote von Item 4251 (9s20/9s30) in 22 s gescheitert -> 10 Min. Pause.
-      12:53: "Treffer>Reserv. 16505 ms" – 16,5 s vom Treffer bis zur Reservierung, andere Käufer sind schneller. Ursache im
-      Protokoll mit der Server-Fehlermeldung je Fehlschlag festhalten (weg/verkauft, Preis geändert, Drosselung); Zeit vom
-      Treffer bis zur Kaufbereitschaft verkürzen (Ziel < 1 s); bei 3 Fehlschlägen hintereinander frisch suchen statt die
-      alte Liste abzuarbeiten. Test T-D2.
-   D3 MITTEL LANGSAM ×13 "core:realcheck" 240 ms (TU5 echte Daten im Hintergrund) und cache:today:10 72 ms, cache:warm-today
-      56 ms, sync-send 21 ms – alles in Portionen < 8 ms je Bild (TU5 verlangt das ausdrücklich).
-   D4 MITTEL "Fehler in dieser Sitzung: 6", im Protokoll steht aber kein FEHLER-Eintrag – jeden abgefangenen Fehler mit Ort
-      ins Protokoll (Diag), damit die Prüf-Sitzung ihn sieht.
-   BELEGE (gut): Preis-Vorhersagen beim Verkauf treffen 0–5 % (12 Rechnungen 12:53), Ausnahme 10× Große Astralessenz
-      vorhergesagt 20s43, echt 12s25 (+67 %) = der Fall AB4d (zu billig eingestellt). 08:14:39 dasselbe: 14 Stück zu 12s28
-      eingestellt, nach 5 s vom Spieler abgebrochen und zu 20s42 neu eingestellt (AB4d/WS). MINDESTEINZAHLUNG weiter 100
-      (1s) gemessen. SYNC über die Gilde: 29 empfangen, 1 Mitspieler mit AHSentinel online.
-
-BH1307 (HOCH, NEU 13.11. 13:12 – Bild Buchhaltung "Heute", 0.65.108): Zahlen gehen auf den Kupfer auf, aber die Grundlage
-   ist zweifelhaft. Gewinn 13g72s28 = Summe Zeilen 13g77s84 − Gebühren 5s56; Verkauft 39g11s05; Eingesetzt 25g33s21; ohne
-   Einkauf 12g44s12 (= 32 % des Erlöses, Warnung AB8a greift); Rendite (13g72s28 − 12g44s12)/25g33s21 = 5 %.
-   Aus den Gewinn-%-Zeilen zurückgerechnet stammt der Erlös ohne Einkauf aus ~7g78 Seelenstaub, ~3g61 Große Astralessenz
-   und 1g09s16 Große Mystikeressenz. Der Spieler (Stufe 10) farmt diese Materialien nicht – sie stammen fast sicher aus
-   Entzauberungen GEKAUFTER Teile, deren Kostenbasis fehlt (vor dem Stichtag 11.11. 16:42 gekauft, L1b/AB8, oder D1:
-   falsch verarbeitete Abbrüche/gescheiterte Käufe). Der echte Tagesgewinn liegt damit eher bei ~1g28 (nur Ware mit
-   Einkauf), nicht bei 13g72 – Kopf und Gewinn zeigen zu viel.
-   Auftrag: (1) Im Bericht je Item auflisten, welche verkauften Stücke ohne Einstand waren und woher sie kamen (Entzauberung
-   von Teil X gekauft am …, Beute, Post von einem Twink, vor dem Stichtag). (2) Für Material aus Entzauberungen, deren Teil
-   in den alten Daten gekauft wurde, die Kostenbasis nachtragen (AB8-Regel, gleitender Durchschnitt). (3) Solange "ohne
-   Einkauf" > 30 %: im Kopf zwei Zahlen zeigen – "Gewinn mit Einkauf 1g28 (5 %)" gross, "dazu ohne Einkauf 12g44" klein
-   und gelb mit Hinweis "Kostenbasis prüfen". Test T-BH1307 mit genau diesen Zahlen.
-
-MH1310 (HOCH, NEU 13.11. 13:15 – Bild Markt > Heute, 0.65.108): SCHEIN-FLIP TROTZ SPERRE.
-   Oberste Zeile "Kaufe 1x Ratsherrenschärpe bis 1g99s… -> 7g23s50". Detail: Preis 1g99s99, Marktwert (Median 14 Tage) 3g,
-   Leiter 1× 1g99s99 dann 2× 9g89, Absatz ~0,4/Tag, eigene Verkäufe 30 Tage 0; "Wiederverkauf realistisch 9g88s99
-   (Angebot und Absatz), Gewinn 7g23s50, kaufen bis 7g38". Das ist ein Wiederverkauf an zwei teuren Ausreissern weit über dem
-   Marktwert (330 %) bei fast keinem Absatz – genau der Schein-Flip (Befund 0683, Ü3). Verstösse:
-   (1) Weg Flip ist laut Teil D/FG nicht freigegeben (MA1: 0 eigene Fälle, MARKT-KERN "lernt"), erscheint aber in "Heute"
-       oben als Kaufempfehlung – FG greift offenbar nur in den Markt-Ansichten, nicht in "Heute" (laut Bericht 1230 auch
-       nicht in Tooltip/Sniper/"Heute tun"). -> FG überall anwenden: nicht freigegebene Wege nie als Empfehlung.
-   (2) Ü3: Gewinn 363 % > 300 % ohne "Daten prüfen".
-   (3) Wiederverkaufspreis über dem Marktwert nur, wenn die Leiter dort VOLL ist (≥ 3 Angebote oder ≥ 5 Stück) UND Absatz
-       ≥ 1/Tag; sonst höchstens Marktwert (hier 3g -> Gewinn ~0,85g nach 5 %, nicht 7g23).
-   Test T-MH1310 mit genau diesen Zahlen (-> keine Empfehlung bzw. grau "lernt noch"; mit Freigabe: Wiederverkauf ≤ 3g).
-
-TT1317 (HOCH, NEU 13.11. 13:20, hochgestuft 13:22 – Bild Tooltip Goldene Schuppenarmschienen, 0.65.108, Vollscan 12:59, Bild 13:17):
-   Alle drei Materialien stehen auf "geschätzt, unsicher" (Visionenstaub 9s66, Große Mystikeressenz 18s04, Großer
-   leuchtender Splitter 42s30), der Preis des Teils auf "(alt)", obwohl 18 Min. vorher ein Vollscan lief. Laut Tooltip.lua
-   :876–882 heisst "geschätzt" = Quelle nicht "ah" (kein aktueller Scan-Wert, A:GetCurrent nil) und "unsicher" = kein
-   bereinigter Scan-Wert bzw. Scan und Marktwert > 50 % auseinander (Disenchant.lua:1088–1093). Bitte prüfen, ob der
-   Vollscan die Waren-Preise als "aktuell" (GetCurrent/currentTime) setzt – nach einem Vollscan müssen Materialien mit
-   Angeboten "Scan" zeigen. Zudem widersprüchlich: oben "Entzaubern: unsicher −20 (−1 %)", unten "✓ Entzaubern 18s55"
-   – bei unsicheren Materialien kein grünes Häkchen (grau, "unsicher"). Test T-TT1317 (Vollscan mit Material ->
-   Quelle "Scan"; unsichere Materialien -> kein ✓).
-   NACHTRAG 13:22: Der Nutzer hat das AH vor dem Bild ZWEIMAL gescannt – die Materialien bleiben trotzdem "geschätzt,
-   unsicher". Damit ist es sehr wahrscheinlich ein Fehler (Scan-Werte kommen bei den Entzauber-Materialien nicht an
-   bzw. werden als "nicht aktuell" gewertet). Folge: jeder Entzauberwert ist eine Schätzung -> falsche Kauf-/Verkaufs-
-   entscheide. In 0.65.109 aufnehmen; im Diagnose-Protokoll je Material Quelle, Alter und Grund für "unsicher" ausgeben.
-
-ANTWORT AUF DEN GESAMTBERICHT 2026-11-13-1401 (Prüf-Sitzung 14:10):
-   - BESTÄTIGT: Lernende und gesperrte Wege werden weiter gemessen (sonst können sie nie freigegeben werden), nur nicht
-     empfohlen; in den Ansichten grau "lernt noch"/"gesperrt" wie umgesetzt.
-   - BESTÄTIGT: Sniper wird nicht gesperrt (nur vom Nutzer gesetzte Ziele). Zusatz (NIEDRIG): zeigt ein Ziel auf einen Weg,
-     der gesperrt ist oder lernt (z. B. Entzauber-Ziel), in der Zielzeile grau "Weg lernt noch / gesperrt" anzeigen; WS3
-     (Warnschutz beim Kauf über "Lohnt bis"/Max-Preis) gilt weiter.
-   - BESTÄTIGT: Fehlende Kostenbasis (BH1307) vorerst NICHT nachtragen. Erst die Zeilen "BH1307 ohne Einstand" aus dem
-     Client; danach entscheidet die Prüf-Sitzung mit dem Nutzer. Der Kopf "Gewinn mit Einkauf" genügt bis dahin.
-   - PD7: Die Zahlen liegen schon vor (Testbericht 0.65.108 12:58): Preisverlauf 279'868 Zeilen ~11,2 MB nach Verdichtung
-     (vorher ~16,6 MB). Der Entscheid zum kompakteren Format wird dem Nutzer jetzt vorgelegt; bis dahin nichts ändern.
-   - Weiter mit 0.65.110 nach Releaseplan.
-
-PD7-ENTSCHEID (Nutzer 13.11. 14:04: "mach das" = Variante a): Einträge des Preisverlaufs ÄLTER ALS 48 STD. dürfen in ein
-   kompakteres Speicherformat umgewandelt werden (Ausnahme von der Regel "Preisverlauf nie umwandeln", nur für diesen Zweck).
-   Bedingungen: keine Information verlieren, die Anzeigen/Rechnungen brauchen (Preis, Menge, Zeit je Eintrag bzw. je
-   Verdichtungsstufe wie heute); Marktwert, Rhythmus, Trends, Preisverlauf-Grafik vorher = nachher (Test T-PD7b: echte
-   Kopie vor/nach Umwandlung, alle Werte gleich ±1 Kupfer, Grösse Preisverlauf < 8 MB); einmalige Umwandlung in Portionen
-   (≤ 8 ms je Bild), alte Daten erst nach erfolgreicher Prüfung ersetzen, im Protokoll "PD7 umgewandelt: vorher/nachher
-   KB, Einträge, Prüfung OK"; ältere Versionen lesen das neue Format nicht -> Version vermerken, nie zurück ohne Hinweis.
-   Einplanen: 0.65.110 (passt zu "Speicher/Ruckeln"), sonst 0.66.
-   SICHERUNG (Frage des Nutzers 14:05, "falls etwas schief geht"): Vor der Umwandlung die alten Einträge NICHT löschen,
-   sondern bis zum nächsten erfolgreichen Login behalten (eigener Schlüssel, z. B. db.pd7Backup mit Version und Zeit);
-   erst wenn beim nächsten Login die Prüfung erneut OK ist, die Sicherung entfernen. Schlägt eine Prüfung fehl:
-   automatisch zurück auf die Sicherung, Protokoll "PD7 zurückgesetzt" und Meldung an den Spieler. Dazu Befehl
-   "/ahs pd7 zurück" (nur solange die Sicherung da ist). Test T-PD7c (Prüfung schlägt fehl -> Daten wie vorher).
-
-
-NACHPRÜFUNG 13.11. 14:30 (Prüf-Sitzung im Chat, Auftrag des Nutzers "prüfe ob alles umgesetzt wurde")
-------------------------------------------------------------------------------------------------
-Geprüft: 0.65.108 (11cb0b9) und 0.65.109 (13abe91) mit den Berichten -1230, -1338 und dem Gesamtstand -1401.
-addon_check 0.65.109 OK (0 FEHLER, 0 WARNUNG). Im Code belegt: T573–T583 vorhanden; MA1-B/RK2-B/MA2-B/FG (MK:ApplyRelease,
-MK:SalesReleased in MarketCore.lua, angewendet in UI_MarketView.lua:635); MH1310 in Heute (Comfort.lua:572),
-Tooltip (Tooltip.lua:647) und Wiederverkauf (AHAnalyzerPro.lua:1722); DG1300 D1 (Se:CancelForeign, Seller.lua:1383–1395:
-fremd/unerwartet/doppelt nur protokolliert); TT1317 (Protokoll MATERIAL-PREIS, Disenchant.lua:1149); BH1307 Kopf
-"Gewinn mit Einkauf". Die Antworten auf Teil B des Gesamtberichts stehen schon in nachricht-antwort-1401-2026-11-13.txt.
-Stand: alles bis einschliesslich 0.65.109 umgesetzt. Offen laut Releaseplan: 0.65.110 (in Arbeit, Auftrag 14:15), 0.66–0.68
-und die Client-Zahlen (Teil E des Gesamtberichts). Diagnose 0.65.108 aus dem Spiel: LANGSAM cache:warm-today 50 ms,
-fullscan 45 ms, sync-send 17 ms – gehört zu 0.65.110 D3, nichts Neues.
-
-UI1509 (MITTEL, NEU 13.11. 15:10 – Bild des Nutzers, 0.65.110, Markt > Entzaubern, leere Liste):
-   Der Leer-Hinweis "Kein Teil mit mindestens 20 % Gewinn nach dem Entzaubern (aktueller Markt, nach Gebühren, das du
-   entzaubern kannst)." steht AUSSERHALB des Fensters: er beginnt am linken Bildschirmrand (links neben dem AHSentinel-
-   Fenster, über der Spielwelt) und läuft quer durch die Liste. Erwartet: mittig IN der leeren Liste, umbrechend auf die
-   Listenbreite, nie ausserhalb des Fensters. Bitte alle Leer-Hinweise aller Reiter/Unterreiter gleich prüfen (vermutlich
-   falscher Anker/Parent oder fehlende Breite). Test T-UI1509: UICheck je Reiter mit leerer Liste -> Hinweis liegt
-   vollständig innerhalb des Listenrahmens. Einordnen in die nächste Version (gehört zu "falsche Anzeige", kein Aufschub
-   bis 0.68). Hinweis an den Nutzer: Kacheln im Markt kommen erst mit dem neuen Markt-Reiter 0.68 (MR4) – kein Befund.
-
-TB110 (HOCH, NEU 13.11. 15:25 – Testroutine 0.65.110 des Nutzers, Bericht AHSentinel-1794579141-f4af71-1, 15:12;
-   vom Nutzer als SavedVariables geliefert, kommt auch über den Uploader): 628 OK · 6 FEHLER · 37 übersprungen · 16 im Client.
-   Danke: T223, T231, T248, T253, T431/T432 (umgebaut) aus TB108 sind behoben. PD7 läuft (Diagnose 15:00: "5544 Items,
-   213263 Einträge geprüft, 0 Fehler · Zustand active"), Sitzung ohne Fehler.
-   T373 WEITER (schlechter): "zu lang: cache:today:10 125.3 ms" (0.65.108: 94.1 ms). Diagnose: LANGSAM cache:today:10 84 ms,
-       cache:warm-today bis 55 ms (×3), pd7:prepare 18–19 ms – alle mit "0 Schritte" (die Aufgabe pausiert nie). Ziel von
-       0.65.110 (≤ 16 ms je Bild) für diese Aufgaben NICHT erreicht -> cache:today und cache:warm-today in Portionen teilen.
-   T240 NEU: "Werte stimmen 6: Nicht-Verkauf kostet in Forever die Einzahlung (Quote 50 % -> 1x Einzahlung)" -> Ist
-       9500/9400/2/8900/9500. Ursache prüfen (Erwartung oder Rechnung falsch?) – vor dem 17./18.11. klären, wenn die
-       Mindest-Einzahlung auf 1c fällt (Bluepost, wirtschaft-forever.md).
-   T285 NEU: "AB1 60 (N 7, kaum true) · AB2 90 (N 2) · AB3 kaum true · AB4 Q 7 · AB6 3/4 Zeilen".
-   T289 NEU: "AB7 S 665.41223518015 W 16.4 kaum false · AB8 kaum false" (S ungerundet und viel zu gross?).
-   T291 NEU: "AB10 S 199.6 N 2 · AB11 N 1.11 (own)".
-       -> T285/T289/T291 betreffen alle den Absatz (AB). Dazu im Protokoll 15:05 dutzende "ABSATZ-UNPLAUSIBEL Item … ·
-       1025.5/Tag · Quelle geschätzt" (z. B. 3357 1025/Tag, 2852 398/Tag, 8172 185/Tag). Bitte Ursache in der
-       Absatz-Schätzung finden; falsche Absatzzahlen gehören zu "falsche Zahlen" (Vorrang). Hinweis: Die Messung
-       M-KOMPLETT (GSMesstest 5, markt-strategie.md) misst den echten Absatz aus zwei Vollscans – Ergebnis folgt.
-   T536 NEU: "T-ST1b Referenz-Nachrechnung mit echten Scan-Preisen: 36–40: -6 % (Material 11137, Quelle ah, Alter 19 Min.)".
-       Prüfen, ob echte Abweichung oder Toleranz/Marktschwankung (dann Grenze begründen und im Test ausweisen).
-   SERVER-TEIL übersprungen (S02 "Auktionshaus offen" SKIP, T126/T458/T459 nicht gelaufen): der Nutzer wiederholt den Teil
-       server am offenen AH. 
-   UI1510 NEU (NIEDRIG): Nach dem Lauf zeigte das Fenster "Testbericht" (über "Test – Selbsttest und Testmodus") eine
-       ganz leere schwarze Fläche (Bild des Nutzers 15:12). Erwartet: der Bericht als Text bzw. "Bericht kopieren".
-   NACHTRAG TB110 (15:30, zweiter Lauf 15:22 vom Nutzer: 643 OK · 6 FEHLER · 22 übersprungen · 16 im Client):
-   - T536 jetzt OK (die -6 % waren Marktschwankung – erledigt). T373 jetzt 46.6 ms (besser, Ziel 16 ms weiter offen).
-   - T72 NEU: "Auswertungen: Heute tun – SelfTest.lua:662: nicht nach Gold sortiert".
-   - T240 weiter: ist 9500/9400/2/9000/9500, soll 9500/9400/2/9400/9500 (4. Wert: 1x Einzahlung 1s statt 5s?).
-   - T285/T289/T291 weiter (Absatz). BELEG aus "Vergleich (20 meistgehandelte)": die SCHÄTZUNG liegt oft weit über dem
-     GEMESSENEN Absatz: 2589 1764 -> 5216 (×3,0), 11083 398 -> 1458 (×3,7), 249391 167 -> 749 (×4,5), 14580 1,6 -> 12,8,
-     6418 2,6 -> 12,3, 3483 24 -> 67. Wo gemessen wird, muss gemessen gelten (Rechenkern RK: Quelle "gemessen" vor
-     "geschätzt"); die Schätzung braucht den gelernten Gruppenfaktor (Staub 0,48, Stoff 0,68 …) und den Deckel.
-   - ENTZAUBERN überschätzt (HOCH, "falsche Zahlen"): "Median Beute/Vorhersage 2:4:a 0.60 (524)" – zerlegt: Chance 1,05 ×
-     Menge 1,00 × Rest (Preis) 0,57. Die Chancen stimmen, der angenommene MATERIALPREIS ist ~43 % zu hoch gegenüber dem
-     erzielten. Dazu: 453 Entzauber-Käufe, nur 43 % mit Gewinn, 55 % mit Verlust gegenüber dem Kaufpreis, Gewinn je
-     Gold 0,35. -> "Lohnt bis" für Entzaubern muss mit dem ERZIELBAREN Materialpreis rechnen (eigene Verkäufe/gemessener
-     Absatz, Preis nach Menge die man einstellt), nicht mit dem tiefsten Angebot. Test: Nachrechnung mit den 524 Fällen
-     -> Median Beute/Vorhersage 0,9–1,1.
-   - Gemessen (für die Prüf-Sitzung, Wissen): ReplicateItems nach 15 Min. keine Antwort, ab 24 Min. neue Liste;
-     Vollscan längster Frame 3,6 ms (gut).
-   - Teil server wieder übersprungen (S02) -> Nutzer wiederholt ihn am offenen AH.
-
-MN (NEU 13.11. 15:35 – Entscheid des Nutzers "Markt komplett messen", Anweisung anweisung-marktdaten-netz.txt):
-   MN1–MN4 und MN5 (Rechenkern-Quelle) – erst NACH 0.65.111 und mit 0.66; wartet auf shared/GoldSentinelMarkt.lua.
-   Kurz: Vollscans still mitlesen (keine Abfrage, Schalter zum Ausschalten, keine Namen), über Gilde/Netz teilen,
-   Uploader -> Bot-Server sammelt und misst Absatz. Bitte die Anweisung ganz lesen.
-   MN BEREIT (13.11. 16:00): shared/GoldSentinelMarkt.lua v1 liegt bereit. Für AHSentinel weiter: erst nach 0.65.111, mit 0.66 (MN1–MN5).
-   MN KORREKTUR (13.11. 16:05): GoldSentinelMarkt.lua v1 ergänzt (Absatz-Untergrenze, Export-Eintrag mit 6 Feldern). Wer die Datei schon kopiert hat: NEU KOPIEREN (Prüfung "exact").
-
-PRÜFUNG 0.65.111 (13.11. 16:10, Prüf-Sitzung): S1–S4 nach Bericht 1557 geprüft – angenommen, danke. S3 (T240 war der
-   Test) begründet und nachvollziehbar. Offen: Bestätigung im Spiel (Tooltip "Materialpreise korrigiert ×…", Testroutine).
-   HINWEIS für 0.66 (RK/S2): Messung 13.11. 15:41 (markt-strategie.md, GSMesstest 25 Min.): 9'132 Abgänge aus Stufe 3/4
-   bei 26'674 neuen Auktionen – viel Abbrechen/Neu-Einstellen. Gemessener Absatz (VS:MeasuredRate) bitte als Spanne:
-   Untergrenze = Abgänge minus neue Auktionen desselben Items (wie GoldSentinelMarkt v1 absatz), Obergrenze = Abgänge;
-   Entscheidungen nach der Untergrenze (bzw. mit dem eigenen Abbruch-Faktor). Restzeit-Stufen in Forever belegt:
-   1 < 30 Min., 2 30 Min.–2 Std., 3 2–12 Std., 4 > 12 Std.
-
-UI1618 (HOCH, NEU 13.11. 16:20 – Bild des Nutzers, im Spiel noch v0.65.110, Kaufen > Einkauf, Rüstung, Qualität
-   "Grün, Blau", St. bis 27, sortiert nach Preis/Stück):
-   a) QUALITÄTSFILTER WIRKT NICHT VOLLSTÄNDIG: Oben in der Liste stehen trotz "Grün, Blau" weisse/graue Teile:
-      "Rotes Schwadroneurshemd" (iLvl 35, keine Stufe, 8c, 62 %) und "Verstärkte Kettenweste" (iLvl 28, 9c, 47 %).
-      Erwartet: nur die gewählten Qualitäten. Bitte prüfen, ob Teile ohne Qualität im Cache (Item noch nicht geladen)
-      oder ohne Stufe den Filter umgehen; dann erst nach dem Laden der Iteminfo einordnen bzw. ausblenden.
-      Test T-UI1618a: Filter Grün+Blau -> keine Zeile mit Qualität 0/1, auch nicht bei Items ohne Stufe/ohne Cache.
-   b) TOOLTIP WIDERSPRÜCHLICH (Hüterhandlappen, Preis 9s 50c): "✗ Entzaubern lohnt nicht +86c (+9 %)" in Rot, darunter
-      "Lohnt bis 6s 14c" und "✓ Entzaubern: 10s 36c" in Grün. Drei Aussagen, die nicht zusammenpassen:
-      - Wert 10s 36c = unkorrigierte Materialpreise (0,73×1,5×3s48 + 0,21×1,5×14s73 + 0,06×1,0×30s73 ≈ 10s 29c), Lohnt bis
-        6s 14c offenbar aus einer anderen Rechnung. Beides MUSS aus derselben Rechnung kommen (mit 0.65.111: korrigierter
-        Materialpreis ×0,57 überall – bitte im Spiel mit 0.65.111 prüfen, ob es dann stimmt).
-      - "lohnt nicht" mit positivem Betrag in Rot verwirrt: schreiben "✗ Entzaubern: nur +86c (+9 %) – unter dem
-        Mindestgewinn 20 %" und den grünen Haken beim Wert weglassen, wenn der Kauf nicht lohnt.
-      Test T-UI1618b: Tooltip-Zeilen Wert, Gewinn und Lohnt bis aus einer Rechnung; Lohnt bis ≥ Preis <=> "lohnt".
-   NACHTRAG UI1618 (16:22, Bild mit v0.65.111): b) STIMMT JETZT überein (Azurblaue Seidenkapuze 9s50: Entzaubern 5s90 =
-      ×0,57 korrigiert, "lohnt nicht −3s60 (−38 %)", Lohnt bis 3s49, Händler 7s45, Zeile "Materialpreise korrigiert ×0,57"
-      – danke, S1 im Spiel bestätigt). Offen bleibt nur die Formulierung bei positivem Betrag unter 20 % (s. o.); in der
-      Materialliste die Preise als "tiefstes Angebot" kennzeichnen oder den korrigierten Preis daneben zeigen.
-      a) BESTEHT WEITER in 0.65.111 (Filter "Grün - Episch"): oben weiss/grau "Verstärkte Kettenschulterpolster",
-      "Rotes Schwadroneurshemd", "Verstärkte Kettenweste", mitten in der Liste grau "Turmschild" (10s04, 84 %).
-
-NACHPRÜFUNG TESTBERICHTE 13.11. 16:30 (geplante Nachprüfung, Teil 2b/4 – AHSentinel-Version selbst nicht neu geprüft,
-0.65.110/0.65.111 hat die Prüf-Sitzung im Chat schon angenommen)
-------------------------------------------------------------------------------------------------
-MK-Ü1F (HOCH, NEU) – DER ABSCHNITT "MARKT-KERN" KOMMT NIE IM REPO AN, DIE ÜBERWACHUNG (TEIL E) IST BLIND.
-   Die beiden hochgeladenen Testberichte 0.65.110 (testberichte/berichte/AHSentinel/AHSentinel-1794579141-… und
-   -1794579818-…, 15:12 und 15:23) enthalten kein Feld mit den Ü1-Zahlen. Ursache im Code (0.65.111):
-   TestRoutine.lua:1138–1142 hängt MK:Report() nur an den Bildschirm-Text an; in die hochgeladenen Felder ("finish",
-   TestRoutine.lua:1095–1105, wie vollscan_m1d, markt_zeilen) kommt nichts. Damit kann die Prüf-Sitzung die Grenzwerte
-   Ü2 (Trefferquote je Weg ≥ 60 %, Fehler "Lohnt bis" ≤ 15 %, MA1 ≤ 20 %) nicht nachrechnen.
-   Lösung: Feld finish.markt_kern = table.concat(MK:Report(), " | ") (bei Fehler "FEHLER …", höchstens 1500 Zeichen,
-   je Weg "Weg <name>: Fälle n · Treffer t · Quote q % · Fehler f % · Zustand frei/lernt/gesperrt", dazu MA1 und MA3);
-   zusätzlich Einzelfelder markt_kern_ma1 und markt_kern_wege. Keine Namen, nur Zahlen.
-   Test T555b: der hochgeladene Bericht (Felder) enthält "MARKT-KERN" und je Weg eine Zeile; Regressionstest.
-   Mit 0.65.112 bzw. der nächsten Version nach dem laufenden Plan; danach einen Testbericht hochladen.
-Weiter aus den Berichten 15:12/15:23 (nur Zahlen, nicht doppelt – TB110 der Chat-Sitzung gilt): 6 FEHLER in der
-   Testroutine (643 OK), 0 Lua-Fehler in der Sitzung (Diagnose 0.65.110). Prognose-Zuverlässigkeit 80–100 %:
-   vorhergesagt Ø 98 %, verkauft 30–31 % (58 Fälle); 60–80 %: vorhergesagt Ø 68 %, verkauft 29 % (19 Fälle); Brier 0.552.
-   Das bestätigt die Kalibrierungs-Befunde (TB108/TB110) – keine zusätzliche Aufgabe, aber eine Prognose, die so weit
-   daneben liegt, darf nirgends als "sicher" angezeigt werden (Teil D: Weg unter 60 % ab 20 Fällen sperren).
-
-TS111 (HOCH, NEU 13.11. 16:50 – Teil server 0.65.111, Lauf 16:42 vom Nutzer: 59 OK · 3 FEHLER · 4 übersprungen):
-   1. VOLLSCAN RUCKELT STARK (T458, T459, T126): Einlesen längster Frame 821 ms, 449 von 2309 Frames über 33 ms,
-      Bilder/s im Einlesen bis 25, in Verfolgung V4/Preisverlauf 28–30; Speicher AHSentinel +53 MB, 56 SPEICHER-
-      BEREINIGUNGEN; T126 längste Portion 40,6 ms. Gleichzeitig meldet M1d "längster Frame 5,0 ms in 959 Portionen" –
-      die eigene Rechenzeit ist also klein, die Lücken von bis zu 821 ms kommen sehr wahrscheinlich von der
-      SPEICHERBEREINIGUNG (Garbage Collector) wegen vieler neuer Tabellen/Zeichenketten je Auktion. Bitte messen
-      (collectgarbage("count") je Portion, Lücke vs. GC) und Zuwachs senken: Tabellen wiederverwenden, keine Zeichenkette
-      je Auktion (Signatur als Zahl, z. B. itemID*2^20+Menge … oder je Item zählen), Zwischentabellen nach dem Scan
-      freigeben. Ziel bleibt T458 ≤ 16 ms je Frame, T459 ≤ 10 MB / ≤ 1 Bereinigung. Gehört in 0.65.112 (Ruckeln).
-      WICHTIG für MN5: Wenn GoldSentinelMarkt im selben Client mitliest, darf der Scan NICHT zweimal gelesen werden.
-      Die Prüf-Sitzung ergänzt GoldSentinelMarkt um GSMarkt.Feed(...) (AHSentinel gibt seine gelesenen Werte weiter,
-      GSMarkt liest dann nicht selbst) – Meldung folgt; bis dahin MN1 nicht einbauen.
-   2. LERNFAKTOR KREISRECHNUNG (seit 0.65.111): "gelernter Faktor je Gruppe" steht jetzt überall auf 1.00 (vorher
-      Staub 0.48, Leder 0.39 …), und im "Vergleich (20 meistgehandelte)" ist "geschätzt" bei JEDEM Item genau die Hälfte
-      von "gemessen" (z. B. 2589 1764.2 / 882.1). Die Schätzung im Vergleich und für den Lernfaktor muss die
-      UNABHÄNGIGE Schätzung (.estimate) bleiben, sonst misst sich der Faktor selbst (wie beim Journal in S1 richtig
-      gelöst). Test: Faktor aus unabhängiger Schätzung, Vergleichsspalte "geschätzt" ≠ gemessen × fester Faktor.
-   3. LAGERWERT SPRINGT: Buchhaltung "Lager Einstand 10034 / Markt 165030 (22 Items)" – um 15:22 war es "Markt 13370"
-      für dieselben 22 Items (×12 in 1½ Std.). Bitte prüfen, welches Item den Sprung macht (Preisquelle, Einheit
-      Stapel/Stück, Ausreisser) und den Lagerwert mit der Preisregel "erzielbar" rechnen.
-   4. Wissen (keine Aufgabe): M1c 35 Min. -> keine Antwort, 52 Min. -> neue Liste. Dazwischen hatte GSMesstest (15:41)
-      abgerufen -> die Drossel gilt sehr wahrscheinlich je CLIENT für alle Addons zusammen (wichtig für den Wächter/
-      Scan-Plan: Abstand ab dem letzten Abruf irgendeines Addons messen; REPLICATE-Ereignis fremder Abrufe mitzählen).
-   MN KORREKTUR 2 (13.11. 17:00): GoldSentinelMarkt.lua v1 um FeedStart/Feed ergänzt (Addons mit eigenem Vollscan geben ihr Ergebnis weiter, kein doppeltes Lesen). Wer die Datei schon kopiert hat: NEU KOPIEREN (Prüfung "exact").
-   TS111/MN5 FEED BEREIT: AHSentinel ruft GoldSentinelMarkt.FeedStart("AHSentinel") direkt vor dem eigenen
-      ReplicateItems und nach dem Einlesen GoldSentinelMarkt.Feed("AHSentinel", t, n, items, dt) mit items[id] =
-      { preis, menge, n, abg, abgV } (Beschreibung im Kopf der Datei). Damit liest GSMarkt den AHSentinel-Scan nie
-      selbst. Fremde Vollscans liest weiterhin GSMarkt (AHSentinel nicht). Gilt mit MN1–MN5 in 0.66.

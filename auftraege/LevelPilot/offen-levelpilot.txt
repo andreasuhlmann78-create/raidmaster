@@ -1,51 +1,111 @@
-OFFENE PUNKTE LEVELPILOT (nach der Nachprüfung von 3.12.25)
+OFFENE PUNKTE LEVELPILOT (nach der Nachprüfung von 3.12.28)
 ==========================================================
-Stand: 10. November 2026, 20:25 · von der Prüf-Sitzung · Grundlage: announce/levelpilot__levelpilot-3.12.25.LevelPilot.zip
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 3.12.24.
-Geprüft: Diff 3.12.24 -> 3.12.25 (Perf.lua, Graph.lua, Planner.lua, Protocol.lua, Core.lua, TestRoutine.lua, .toc,
-CHANGELOG EN/DE).
+Stand: 13. November 2026, 17:45 MEZ · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage:
+announce/levelpilot__levelpilot-3.12.28.LevelPilot.zip (Commit 6e6aa9d), Bericht berichte/LevelPilot/2026-11-13-1650-3.12.28-mn.txt
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 3.12.25 samt den Abschnitten
+TU, BL, NACHPRÜFUNG 13.11. 14:30 und MN (alles Offene daraus steht unten).
+Geprüft: Diff 3.12.27 -> 3.12.28 (Core.lua, Center.lua, Protocol.lua, TestRoutine.lua, LevelPilot.toc, alle Locale-Dateien,
+CHANGELOG EN/DE, neu GoldSentinelMarkt.lua), Diagnose-Berichte 3.12.27 und Wegdaten-Exporte seit Commit 608594a.
 
-Erledigt in 3.12.25 (danke – alle sechs Punkte):
-- Punkt 1 (Notbremse zählte die Gesamtzeit des Hintergrund-Auftrags): Jobs.Step merkt die längste Portion je Auftrag
-  (j.max, Jobs.lastMax, Perf.lua:250, 256); der done-Rückruf der Neuplanung prüft nur noch diese
-  (Perf.CheckSlice, Perf.lua:89-92; Planner.lua:1434). In der Pause verworfene Planungen werden gezählt und nach der
-  Pause einmal nachgeholt (Skip, Perf.lua:97-110; Perf.after.route, Perf.lua:181). T262 erweitert (Portionen 4 ms ->
-  keine Pause, Portion 60 ms -> Pause, verworfen 1, Nachholen vorgemerkt; TestRoutine.lua:4566-4584).
-- Punkt 2 (Graph.expandLimit blieb nach Abbruch auf 1200): Die Grenze geht als Parameter maxExpand an Graph:Path und
-  PathRaw (Graph.lua:680, 755-787), Planner.lua:1368-1369 übergibt P.PATH_CHECK_EXPAND je Suche. Keine globale
-  Variable mehr. Testfall T266 (TestRoutine.lua:4694).
-- Punkt 3 (LANGSAM-Einträge der Notbremse wurden gelöscht): eigene Art "brake" (Perf.lua:82, Protocol.lua:45, Code
-  weiter "LANGSAM"). Testfall T268 (TestRoutine.lua:4738).
-- Punkt 4 (Spieler mit 3.12.23): Graph:MarkSplitGaps (Graph.lua:188-232) findet von Densify gelegte Ketten (Punkte auf
-  einer Linie, gleiche Abstände, 25-80 Yards) und markiert sie als unsicher, nichts wird gelöscht; läuft einmal bei
-  joinVer 2 (Graph.lua:94-103, danach joinVer 3). Testfall T267 (TestRoutine.lua:4717).
-- Punkt 5 (neue Aufträge während Jobs.Step): Namen werden vorher in eine Liste kopiert (Perf.lua:241-244). T268.
-- Punkt 6 (in der Pause verworfene Netz-Nachrichten): gezählt, Zeile "ZEIT in Pausen verworfen: …" (Perf.lua:152-155).
-Prüfungen: Addon-Prüfung OK, kein FEHLER, keine WARNUNG (Ladetest, Sprachtest). Gemeinsame Dateien
-GoldSentinelGame.lua, GoldSentinelTest.lua, GoldSentinelSync.lua byte-gleich mit shared/. CHANGELOG EN/DE für 3.12.25,
-.toc und LP.version 3.12.25. Keine neuen sichtbaren Spieltexte (Diagnose-Zeilen sind wie die übrigen ZEIT-Zeilen
-deutsch, Testnamen in Protocol.lua:301-304). Keine Blizzard-Funktion und keine C_-Tabelle ersetzt (T266 ersetzt nur
-LP.Graph.PathRaw und stellt es zurück; T267 schreibt Testwege ins Wegnetz, die Sandbox stellt es zurück).
-Die Testroutine (T262, T266-T268) lief offline nicht (braucht Entwickler-Charakter und Datenpaket) -> IM CLIENT PRÜFEN.
+Erledigt in 3.12.28 (danke):
+- MN1: GoldSentinelMarkt.lua in der .toc direkt nach GoldSentinelSync.lua (LevelPilot.toc:23), Anmeldung beim Laden
+  (Core.lua:615 -> LP:MarktAttach, Core.lua:568), ohne Datei bzw. ohne C_AuctionHouse still aus. (Die Kopie selbst ist
+  inzwischen veraltet -> Punkt MK1.)
+- MN2: Schalter "Marktdaten teilen (anonym, nur Preise)" in der Zentrale, Reiter Austausch (Center.lua:274), Standard an
+  (Core.lua:142), LP:MarktSync auch beim Umschalten "nur für diesen Charakter" (Center.lua:407). Text in allen 9
+  Locale-Dateien (esMX erbt von esES). CHANGELOG EN/DE 3.12.28.
+- MN3: Zeile "MARKT-NETZ: v… · an/aus · Scans mitgelesen · gesendet · empfangen · Speicher" (Core.lua:584) im Testbericht
+  (TestRoutine.lua:6095-6098) und in der Diagnose samt GSMarkt.DiagLines (Protocol.lua:478-487).
+- MN4: Tests T282-T286 (TestRoutine.lua:5393-5565). Ersetzt wird nur GoldSentinelMarkt.api (Testtabelle) und der Zustand
+  der Datei, keine Blizzard-Funktion, keine C_-Tabelle; im Test wird nichts gesendet (Pump nur bei Schalter aus, askAt
+  zurückgesetzt).
+- Eigener Befund 3.12.27 (Schalter "Befehlsliste beim Tippen von /lp" lag auf "Einstellungen nur für diesen Charakter"):
+  eigene Zeile (Center.lua:432), Regressionstest T286 in TR.REGRESSIONS.
+- BERICHT: Bericht zu 3.12.26-3.12.28 liegt in berichte/LevelPilot/ (danke).
+- CHANGELOG 3.12.26 richtiggestellt ("TU1-TU8; TU9 Offline-Routine folgt", EN/DE).
+- Aus der Nachprüfung 13.11. 14:30 schon bestätigt: TU1-TU8 (3.12.26), BL1-BL4 Befehlsliste (3.12.27).
+Prüfungen: addon_check 3.12.28 -> 1 FEHLER (GoldSentinelMarkt.lua weicht von shared/ ab, siehe MK1), 0 WARNUNG. Grund: Die
+Prüf-Sitzung hat shared/GoldSentinelMarkt.lua 22 Sekunden NACH der Veröffentlichung ergänzt (Commit 6e66279, FeedStart/Feed);
+die Kopie in 3.12.28 ist byte-gleich mit dem Stand davor (a3c51a5). Gegenprobe: 3.12.28 mit der aktuellen shared-Datei
+neu gepackt -> addon_check OK (Ladetest deDE/enUS, Sprachtest, Syntax). GoldSentinelGame.lua, GoldSentinelTest.lua,
+GoldSentinelSync.lua byte-gleich mit shared/. .toc und LP.version 3.12.28. Keine Blizzard-Funktion ersetzt. Era/TBC: die
+Datei liest ohne C_AuctionHouse nichts (GoldSentinelMarkt.lua:79-84). Die Testroutine (T282-T286) lief hier offline nicht
+(braucht den echten Client) -> IM CLIENT PRÜFEN.
+Diagnose 3.12.27 (6 Berichte im Repo): "Letzter Fehler: keiner" in allen – keine Lua-Fehler. Neu aufgefallen: GR1 und SP1.
+Wegdaten-Exporte 3.12.27 (2 Stück): nur geteilte Wegstücke Tausend Nadeln (1441), keine FEST/blockiert-Einträge, keine
+Fehler; testberichte/wege/auswertung.md: Tausend Nadeln jetzt ein zusammenhängendes Netz (vorher 3 Teile).
 
-Keine neuen Befunde im Code. Offen bleibt nur:
+OFFENE PUNKTE
+-------------
+
+MK1 (HOCH, NEU) – GoldSentinelMarkt.lua veraltet -> addon_check FEHLER
+   LevelPilot/GoldSentinelMarkt.lua (3.12.28) = shared-Stand a3c51a5; shared/ hat seit 6e66279 FeedStart/Feed
+   (GoldSentinelMarkt.lua:217, 399-410 in shared/). Beide tragen VERSION 1.
+   Lösung: shared/GoldSentinelMarkt.lua unverändert neu kopieren (cmp). Dazu in der Testroutine WithMarkt
+   (TestRoutine.lua:5404) auch "feedUntil" sichern, auf nil setzen und zurückstellen: Die neue Datei bricht in OnReplicate
+   ab, solange feedUntil gesetzt ist; läuft gleichzeitig der Vollscan eines anderen Addons (AHSentinel FeedStart), meldet
+   T283 sonst FEHLER "an: Lesen vorgemerkt false", obwohl LevelPilot richtig arbeitet. Regressionstest T-MK1: T283 mit
+   gesetztem GM.feedUntil (echter Wert = Uhr + 300) muss weiter "Lesen vorgemerkt true" liefern.
+
+GR1 (MITTEL, NEU) – Grundregel im echten Spiel verletzt: "Quest 445 fertig, aber kein Abgabe-Schritt"
+   In allen 6 Diagnose-Berichten 3.12.27 (testberichte/diagnose/LevelPilot/3.12.27-*.txt), zuletzt ×8 um 16:09: Priester
+   L10, Undercity (1458), Fokus Tirisfal, aktueller Schritt TURNIN:405. Quest 445 "Lieferung in den Silberwald" ist fertig,
+   Abgabe bei NPC 1937 im Silberwald.
+   Ursache (Code): Planner.lua:1521-1527 nimmt fertige Quests nur in der Fokus-Zone, in der Nähe oder in der aktuellen
+   Zone auf (der Kommentar sagt "fertige Quests ueberall"); Protocol.lua:583-588 (CheckRules) verlangt dagegen für jede
+   fertige Quest einen Abgabe-Schritt in E:Steps(). Planer und Grundregel widersprechen sich.
+   Lösung: entscheiden und vereinheitlichen. Entweder (a) die Abgabe ferner fertiger Quests als zurückgestellten Schritt
+   führen und im Guide zeigen ("später: Abgabe im Silberwald"), oder (b) CheckRules zählt auch zurückgestellte
+   Abgabe-Aufgaben (P.lastTasks) und meldet nur, wenn die Quest gar keine Abgabe-Aufgabe hat. Der Spieler darf eine fertige
+   Quest nie aus den Augen verlieren. Regressionstest T-GR1 mit den echten Zahlen (Quest 445 fertig, Ende NPC 1937
+   Silberwald, Spieler Undercity L10, Fokus Tirisfal, Schritt TURNIN:405): keine Grundregel-Verletzung und Abgabe sichtbar.
+
+SP1 (MITTEL, NEU, Messauftrag) – Speicher von LevelPilot bis 125 MB
+   Diagnose 3.12.27: "Speicher max" 12,0 / 13,3 / 29,8 / 40,0 / 114,6 / 125,2 MB (Protocol.lua:385-393 misst
+   GetAddOnMemoryUsage("LevelPilot")). Sitzungen 4-5 Std. gespielt, Charakter steht meist in Undercity.
+   Ob das liegengebliebener Müll (Garbage) oder echter Bestand ist, ist offen. Lösung: messen statt raten – in der Diagnose
+   zusätzlich den Wert kurz nach dem Einloggen, den aktuellen Wert und den Zuwachs je Modul (Perf-Aufträge, Wegsuche,
+   Protokoll) zeigen; kein volles collectgarbage im Spiel (Stocken), höchstens schrittweise ("step"). Ergebnis als Bericht
+   in berichte/LevelPilot/. Ist es echter Bestand: Ursache beheben, Regressionstest T-SP1 (Speicher nach N Planungen
+   wächst nicht unbegrenzt).
+
+TU9 (MITTEL, aus der Nachprüfung 14:30, weiter offen) – Offline-Routine fehlt
+   anweisung-tests-umfassend.txt TU9: Testroutine A-J im nachgebauten Spiel (addon-check/ladetest.py), dazu Wegnetz-Prüfung
+   als eigener Offline-Test. Ablage wie BuffSentinel/ThreatSentinel: berichte/LevelPilot/offline/run_offline.py (ohne
+   Argument die neueste announce/levelpilot__levelpilot-*.LevelPilot.zip, Rückgabewert 1 bei FEHLER). Die Sitzung meldet
+   einen eigenen Nachbau ausserhalb des Repos – bitte diesen ins Repo legen.
 
 1. WEGPUNKTE UND STRASSEN (anweisung-wegpunkte-strassen.txt) – weiter gültig
    Punkt 1/6 eigene Koordinatenlisten für Mulgore, Brachland, Thunder Bluff, sobald genug aufgezeichnet ist; Punkt 12
-   gestrichen; Punkt 15 erst auf Kommando des Nutzers.
+   gestrichen; Punkt 15 erst auf Kommando des Nutzers. Wartet auf Wegdaten-Exporte aus dem Spiel (die zwei neuen Exporte
+   enthalten nur Tausend Nadeln).
+
+Weiter gültig (Regeln, keine offenen Punkte): anweisung-tests-umfassend.txt (TU1-TU8 umgesetzt, gilt für jede neue
+Funktion), anweisung-marktdaten-netz.txt (MN1-MN4 umgesetzt bis auf MK1), testroutine-levelpilot.txt,
+nachtrag-testroutinen.txt, hinweis-*.txt. Jeder Befund bekommt einen bleibenden Regressionstest T-<ID>; Test nur als Skip =
+nicht erledigt (auftraege/README.md).
 
 IM CLIENT PRÜFEN (Ergebnisse dem Nutzer melden)
+   - 3.12.28: /lp testroutine: T282-T286 OK, Zeile MARKT-NETZ im Testbericht. Im Auktionshaus mit dem Vollscan eines
+     anderen Addons: /lp diag "Scans mitgelesen 1", kein Stocken beim Lesen; Schalter aus -> "aus", keine neuen Scans.
+   - 3.12.28: Zentrale, Reiter Austausch: "Marktdaten teilen" rechts oben, überlappt nichts; Reiter Einstellungen:
+     "Befehlsliste beim Tippen von /lp" und "Einstellungen nur für diesen Charakter" auf eigenen Zeilen, Unterstützen-Knopf
+     darunter.
+   - 3.12.27 (BL): /lp tippen -> Liste aller Befehle, Klick wählt, Enter führt aus; Chatfeld wird nie beschrieben.
+     /lp testroutine mit den TU-Zeilen (T269-T281).
+   - 3.12.27 (Beobachtung): Diagnose zeigt um 13:21 noch "Schritt seit 25 min aktiv" in Undercity (Abgabe 405, 344 Yards).
+     Prüfen, ob der Spieler dabei in der Stadt herumlief (dann richtig) oder nur stand (dann Befund zu StepIdle,
+     Protocol.lua:296-297).
    - 3.12.25: /lp testroutine: T262 und T266-T268 OK; T261-T265 (T-LAG1-T-LAG4) weiter OK.
    - 3.12.25: /lp diag nach einer normalen Spielsitzung: "ZEIT Notbremse 0×" (oder nur bei echten Spitzen über 50 ms je
-     Portion), Zeile "ZEIT in Pausen verworfen: nichts". Quest abgeben ohne zu klicken -> Route springt in wenigen
-     Sekunden auf das nächste Ziel.
+     Portion), Zeile "ZEIT in Pausen verworfen: nichts". (Diagnose 3.12.27: beides so – bestätigt für diesen Charakter.)
+     Quest abgeben ohne zu klicken -> Route springt in wenigen Sekunden auf das nächste Ziel.
    - 3.12.25: Wer 3.12.23 gespielt hat: beim ersten Einloggen mit 3.12.25 kein Stocken (MarkSplitGaps gibt ab), keine
      Lua-Fehler; Wege durch Orgrimmar/Brachland danach unverändert brauchbar.
    - 3.12.24 (T-LAG1, wichtig): Mit dem Krieger einloggen: sofort laufen können, CPU normal, kein Stocken.
-     /lp diag: Zeile "ZEIT erste 60 s nach dem Einloggen" unter 1000 ms.
-   - 3.12.24: Nach /reload bzw. Ausloggen steht LevelPilotDB.diagExport (GSDIAG1) in der Speicherdatei, ohne Namen;
-     der nächste Testbericht enthält eine LevelPilot-Diagnose (bisher keine im Repo: testberichte/diagnose/ hat keinen
-     Ordner LevelPilot; letzter Testlauf im Repo ist 3.12.6).
+     /lp diag: Zeile "ZEIT erste 60 s nach dem Einloggen" unter 1000 ms. (Priester 3.12.27: rund 400 ms – gut; Krieger
+     noch offen.)
+   - 3.12.24: LevelPilotDB.diagExport (GSDIAG1) kommt an: bestätigt (testberichte/diagnose/LevelPilot/ hat 6 Berichte 3.12.27).
    - Langer Weg (z. B. Orgrimmar -> Crossroads) nach einem Klick auf "Neu planen" mitten in einer Planung: Pfeil und
      Minikarte zeigen weiterhin einen Weg.
    - 3.12.23: Ritt durch Orgrimmar/Brachland mit Wegaufzeichnung: neue Wegstücke ohne gerade Linien über 25 Yards;
@@ -59,12 +119,13 @@ IM CLIENT PRÜFEN (Ergebnisse dem Nutzer melden)
      Antwort höchstens 25 Nachrichten (Diagnose SYNC), nichts im Netz.
    - 3.12.21: /lp sync test -> Zeile "N Antworten (Gilde a, Gruppe b)". Diagnose-Protokoll: SYNC- und NETZ-Zeilen ohne
      Namen, "Kanal verweigert 0", bei "verworfen" kein "toolong". Der Kanal LevelPilotNet ist nach dem Einloggen weg.
+     (Diagnose 3.12.27: SYNC/NETZ ohne Namen, "Kanal verweigert 0", "verworfen: 0" – bestätigt.)
    - 3.12.21 (aus anweisung-sync-version2.txt): Zwei Spieler in verschiedenen Gilden, kurz in einer Gruppe, dann Gruppe
      verlassen -> eine neue Aufzeichnung aus Gilde A kommt in Gilde B an (dort "weitergegeben" > 0).
    - 3.12.21: /gstest – einmalige Frage; ohne Zustimmung geht nichts hinaus (T253 im echten Client).
    - Hinweis: LevelPilot bis 3.12.20 versteht die Nachrichten mit Kopf "#S1:" nicht; bis 3.12.21 fehlt die Prüfsumme
      in "Z"/"E" (ab 3.12.23 werden diese verworfen). Mitspieler sollen aktualisieren.
-   - /lp testroutine im echten Client, besonders T224-T229 (Tooltips/Überlappen), T240, T241, T242-T268 und T128
+   - /lp testroutine im echten Client, besonders T224-T229 (Tooltips/Überlappen), T240, T241, T242-T286 und T128
      ("ergänzt, false, kein Fehler"; Fehlerzähler steigt während der Routine nicht).
    - Fehlerprotokoll nach einer Spielsitzung mit Kampf und AFK: kein "secret boolean/number".
    - /dump GetPlayerFacing(), IsIndoors(), IsResting() im Kampf und in einer Instanz: Zahl/Wahrheitswert, nil oder
@@ -82,59 +143,9 @@ IM CLIENT PRÜFEN (Ergebnisse dem Nutzer melden)
 
 HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Keine echten Spieler- oder Charakternamen (hinweis-keine-spielernamen.txt).
-   - Gemeinsame Dateien nur unverändert aus shared/ kopieren.
-   - Die Version muss höher sein als 3.12.25.
+   - Gemeinsame Dateien (GoldSentinelGame.lua, GoldSentinelTest.lua, GoldSentinelSync.lua, GoldSentinelMarkt.lua) nur
+     unverändert aus shared/ kopieren – direkt vor dem Packen nochmals cmp gegen shared/, weil sich shared/ ändern kann.
+   - Die Version muss höher sein als 3.12.28.
+   - Nach jeder Version einen Bericht in berichte/LevelPilot/ (Vorlage berichte/README.md).
 
-Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
-
-
-TU (HOCH, NEU 13.11. 07:05, Entscheid des Nutzers "solche Fehler sollen nicht wieder passieren") – umfassende Tests
-   TU1–TU9 nach anweisung-tests-umfassend.txt: Lagen durch alle Funktionen, Abläufe wie ein Spieler, Standardwerte,
-   Grundregeln mit Zufallsdaten, echte Daten (nur lesen), Regressionstest je Befund (bisherige nachholen), Testbericht je
-   Bereich, offline lauffähig. Ab jetzt: Befund ohne Test = nicht erledigt (auftraege/README.md).
-
-
-BL (MITTEL, NEU 13.11. 07:45, Wunsch des Nutzers) – BEFEHLSLISTE BEIM TIPPEN MIT ALLEN BEFEHLEN
-   Tippt der Spieler /lp, /levelpilot in den Chat, erscheint über dem Eingabefeld die Liste SÄMTLICHER Befehle des Addons mit kurzer
-   Beschreibung (Spielsprache, alle Locale-Dateien). Quelle: den Slash-Handler von LevelPilot (inkl. /lp testroutine a … j).
-   BL1 Vollständig: die Liste kommt aus DERSELBEN Befehlstabelle, die der Slash-Handler zum Ausführen benutzt (eine Tabelle
-       für beides; der Handler liest aus ihr). Auch Befehle mit Zusatz zeigen ihn ("danke <Name>", "weg <Tage>"), deutsche
-       und englische Befehlswörter (z. B. "wo"/"where") finden beide. Entwickler-Befehle nur, wenn GoldSentinelDev den
-       Entwickler erkennt.
-   BL2 Filtern mit jedem Buchstaben: "/gs" = alle; "/gs w" = alles mit w am Anfang (wo, weg, werbung); "/gs we" = weg,
-       werbung; meistbenutzte oben (Zähler in den SavedVariables).
-   BL3 Bedienung (wie AHSentinel Punkt CH und shared/vorlage/README.md "Befehlsliste beim Tippen"): Mausklick bzw.
-       Pfeiltasten/Tab WÄHLEN aus, Enter FÜHRT AUS; Liste schliesst nicht, bevor der Klick ankommt; Fokus zurück mit
-       SetFocus; das Chatfeld wird NIE beschrieben (kein SetText/Insert, kein eigenes OnEnterPressed, nur HookScript lesen);
-       der Slash-Handler führt bei einer frischen Auswahl (≤ 10 s) den gewählten Befehl statt des unvollständigen Worts aus.
-       Option zum Ausschalten. Baustein: CmdHint von AHSentinel, sobald dort CH umgesetzt ist (bis dahin warten bzw. den
-       reparierten Stand übernehmen) – nicht jedes Addon eine eigene Lösung.
-   BL4 Tests: T-BL1 jeder Befehl, den der Handler versteht, steht in der Liste (Vergleich aus der Tabelle, keine
-       Handliste); T-BL2 Filter "/x w", "/x we" liefern genau die passenden; T-BL3 Klick wählt, Enter führt aus; T-BL4
-       Chatfeld nie beschrieben; T-BL5 Entwickler-Befehle nur für den Entwickler; T-BL6 alle Sprachen ohne Platzhalter-
-       Fehler. Alte Clients (Era, TBC) nicht brechen.
-
-
-NACHPRÜFUNG 13.11. 14:30 (Prüf-Sitzung im Chat, Auftrag des Nutzers "prüfe ob alles umgesetzt wurde")
-------------------------------------------------------------------------------------------------
-Geprüft: 3.12.26 (6114be2) und 3.12.27 (f1ff496). addon_check 3.12.27 OK (0 FEHLER, 0 WARNUNG). Diagnose 3.12.27
-aus dem Spiel: "Letzter Fehler: keiner".
-Erledigt (danke): TU1–TU8 (T269–T275, TR.TU-Zuordnung, Bericht je Bereich), BL1–BL4 (CmdHint.lua, T276–T281).
-NEU offen:
-- TU9 (MITTEL): Die Offline-Routine fehlt. Der CHANGELOG 3.12.26 sagt "TU1–TU9", es gibt aber keine Offline-Routine
-  (weder im Addon noch unter berichte/LevelPilot/). anweisung-tests-umfassend.txt TU9: Testroutine A–J im nachgebauten
-  Spiel (addon-check/ladetest.py), dazu Wegnetz-Prüfung als eigener Offline-Test. Ablage wie BuffSentinel/ThreatSentinel:
-  berichte/LevelPilot/offline/ (run_offline.py, ohne Argument die neueste announce/levelpilot__levelpilot-*.LevelPilot.zip,
-  Rückgabewert 1 bei FEHLER). CHANGELOG-Zeile richtigstellen, bis TU9 da ist.
-- BERICHT (NIEDRIG, Regel seit 12.11.): Zu 3.12.26 und 3.12.27 liegt kein Bericht in berichte/LevelPilot/. Bitte nach
-  jeder Version einen Bericht (Vorlage berichte/README.md: ERLEDIGT / TEILWEISE / FRAGEN / IM CLIENT GETESTET).
-Weiter offen: Punkt 1 (Wegpunkte und Strassen), IM CLIENT PRÜFEN wie oben, dazu /lp tippen (Liste, Klick wählt, Enter
-führt aus) und /lp testroutine mit den TU-Zeilen.
-
-MN (NEU 13.11. 15:35 – Entscheid des Nutzers "Markt komplett messen", Anweisung anweisung-marktdaten-netz.txt):
-   MN1–MN4 – WARTET auf shared/GoldSentinelMarkt.lua (Meldung folgt), dann einbauen.
-   Kurz: Vollscans still mitlesen (keine Abfrage, Schalter zum Ausschalten, keine Namen), über Gilde/Netz teilen,
-   Uploader -> Bot-Server sammelt und misst Absatz. Bitte die Anweisung ganz lesen.
-   MN BEREIT (13.11. 16:00): shared/GoldSentinelMarkt.lua v1 liegt bereit – MN1–MN4 JETZT einbauen.
-   MN KORREKTUR (13.11. 16:05): GoldSentinelMarkt.lua v1 ergänzt (Absatz-Untergrenze, Export-Eintrag mit 6 Feldern). Wer die Datei schon kopiert hat: NEU KOPIEREN (Prüfung "exact").
-   MN KORREKTUR 2 (13.11. 17:00): GoldSentinelMarkt.lua v1 um FeedStart/Feed ergänzt (Addons mit eigenem Vollscan geben ihr Ergebnis weiter, kein doppeltes Lesen). Wer die Datei schon kopiert hat: NEU KOPIEREN (Prüfung "exact").
+Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/LevelPilot/ ablegen.

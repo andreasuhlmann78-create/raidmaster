@@ -1,0 +1,64 @@
+BERICHT NACHPRÜFUNG AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 17:50 MEZ · Sitzung: geplante Nachprüfung · Commit: siehe "auftraege: Nachprüfung 17:50"
+
+ZUERST (HOCH)
+- 5 Addons tragen eine veraltete Kopie von shared/GoldSentinelMarkt.lua (Stand a3c51a5, ohne FeedStart/Feed):
+  RaidMaster 3.0.25, GuildSentinel 0.9.37, ProfessionSentinel 0.9.44, ThreatSentinel 2.5.11, LevelPilot 3.12.28.
+  addon_check meldet je 1 FEHLER. Ursache: Korrektur 2 (6e66279, 16:49) kam Sekunden bis Minuten NACH diesen
+  Veröffentlichungen – kein Versäumnis der Sitzungen. Je Projekt als HOCH "neu kopieren" eingetragen.
+- AHSentinel 0.65.112: TS111.2 und MK-Ü1F im Code da, aber Test belegt sie nicht (HOCH); TS111.1-Rest/T373 offen (HOCH).
+
+FÜR DIE PRÜF-SITZUNG: shared/GoldSentinelMarkt.lua (nicht von der Nachprüfung geändert, bitte entscheiden)
+- SH1 (MITTEL): VERSION blieb 1, obwohl Korrektur 1 und 2 die Schnittstelle geändert haben. Bei Gleichstand
+  (Zeile 50, >=) gewinnt die zuerst geladene Kopie -> eine alte Kopie kann FeedStart/Feed verdrängen. Vorschlag:
+  VERSION bei jeder Schnittstellenänderung erhöhen, oder alte Fassung (a3c51a5) in shared/tests/variants/hashes.txt
+  als bekannte Fassung führen. In AHSentinel-offen (Punkt 11) Absicherung type(GM.FeedStart)=="function" eingetragen.
+- SH2 (NIEDRIG, von BuffSentinel gemeldet, mit lua5.1 nachgestellt): M.Pump (Z. 476–497), StartRead (Z. 222–231) und
+  das answerAt-Senden in Tick() prüfen IsShareOn() nicht -> nach dem Ausschalten wird die Warteschlange noch
+  gesendet bzw. ein Scan noch gelesen. Vorschlag: dort IsShareOn() prüfen, Warteschlange leeren, dropped "aus" zählen,
+  Test in shared/tests/test_goldsentinelmarkt.py.
+- SH3 (MITTEL, aus der Bot-Prüfung D-MN7b): Export (Z. 366–369) schreibt nur Items des aktuellen Scans; Abgänge ganz
+  ausverkaufter Items fehlen -> Absatz schnell verkaufter Items zu tief. Vorschlag: prevItems ohne aktuellen Eintrag
+  als "id,0,0,0,abg,abgV" mit exportieren.
+- Mehrere Addons zeigen nur den eigenen Schalter, obwohl IsShareOn() global ist (BuffSentinel MN3a, GuildSentinel
+  MN2b) – je Projekt eingetragen. Evtl. eine gemeinsame Anzeige-Hilfe in shared/ anbieten.
+
+ERGEBNIS JE PROJEKT
+- AHSentinel 0.65.112: addon_check OK (0/0). Offline s42 PASS (626 OK). Erledigt TS111.3, TS111.1 Teil V4,
+  UI1618a (Kern), UI1618b. HOCH: TS111.2-Test, MK-Ü1F-Test, TS111.1-Rest/T373. NEU MITTEL: UI1618a-R
+  (UI_Buy.lua:992), SBX1 (Sandbox-FEHLER deShared im Testbericht 7bc982), FW1 (Item mit zwei Kaufgrenzen in Liste/Detail,
+  UI_MarketView.lua:108–115 / Comfort.lua:655–658). NIEDRIG: Kleinpunkte. offen-Datei bereinigt (trug noch "nach 0.65.107").
+  MARKT-KERN: in keinem Testbericht vorhanden (alle 0.65.110; Feld erst ab 0.65.112) -> Grenzwerte Ü2 nicht prüfbar.
+- BuffSentinel 0.9.17/0.9.18: addon_check OK (0/0), Offline-Routine 6 Kombinationen PASS. MN1–MN4 erledigt.
+  FREIGEGEBEN. Offen: BP-2026-11-13-1 (MITTEL), TU1-Rest, NEU MN3a (NIEDRIG), MN-S (wartet auf SH2).
+- GuildSentinel 0.9.37: addon_check 1 FEHLER (MN1b HOCH, alte Markt-Kopie). Tests 16001/11508 je 16/16, alle Läufe grün.
+  Alters-Sperre in der Verwaltung erledigt (Recruit.lua:612–629, T289f), MN2–MN4 erledigt. NEU MN2b NIEDRIG.
+- ProfessionSentinel 0.9.44: addon_check 1 FEHLER (Punkt 1 HOCH, alte Markt-Kopie). run_offline: Forever 222/0,
+  Era 204/0, Retail 203/0, Regressionen 61/61. MN2–MN4 erledigt. NEU NIEDRIG an/aus fest statt L.ON/L.OFF.
+  Frage GoldSentinelSync: technisch nicht nötig, Entscheid beim Nutzer (in offen-Datei).
+- ThreatSentinel 2.5.11: addon_check 1 FEHLER (Punkt 1 HOCH, alte Markt-Kopie). Offline Forever 239 / Era 243 OK, nur
+  bekannte Nachbildungs-FEHLER. MN2–MN4 erledigt. NEU NIEDRIG T-MN2 schreibt in echte Daten.
+- LevelPilot 3.12.28: addon_check 1 FEHLER (MK1 HOCH, alte Markt-Kopie + feedUntil im Test sichern). MN1–MN4, T286
+  erledigt. NEU GR1 MITTEL (alle 6 Diagnosen 3.12.27: Grundregel "Quest fertig ohne Abgabe-Schritt", Planner.lua:1521–1527
+  vs. Protocol.lua:583–588), SP1 MITTEL Messauftrag (Speicher max bis 125 MB). TU9 offen.
+- RaidMaster 3.0.25 / Uploader 2.3.6: addon_check 1 FEHLER (MN1-K HOCH). Bot-Tests 211/211, Uploader-Tests alle grün.
+  MN2–MN4, MN6 erledigt. NEU MN6b MITTEL (Quellen-Kennung, aus der Bot-Prüfung übernommen), MN-T, U3 NIEDRIG.
+- Discord Bot 1.5.131: Tests 211/211, Regressionen 20/20, bot.py importierbar. MN7, MN8 monatlich, D-GS1b erledigt.
+  NEU D-MN7a MITTEL (Quellen immer 1), D-MN7c–f, D-T1, D-MN8b NIEDRIG. Frage "stilles Mitlesen in #testberichte"
+  als angenommen eingetragen (Bedingung D-MN7c) – bitte bestätigen oder ändern.
+
+TESTBERICHTE (neu seit 608594a, bis 0ac0bcd)
+- AHSentinel 7bc982 (0.65.110): 0 Lua-Fehler, 5 FEHLER der Routine -> T126/T458/T459/T410 zu TS111.1, Sandbox -> SBX1.
+- GuildSentinel, ProfessionSentinel, ThreatSentinel, LevelPilot: 0 Lua-Fehler. LevelPilot -> GR1, SP1.
+
+GELESENE BERICHTE DER PROJEKTE
+- AHSentinel 1708 (0.65.112), BuffSentinel 1654, GuildSentinel 1700, ProfessionSentinel 1715, ThreatSentinel 1715,
+  LevelPilot 1650, RaidMaster 1715, Discord 1650 und 1700. Übernommen: Erledigtes nach Beleg, Pump-Befund (SH2) als
+  berechtigt, LevelPilot-Schalter-Überlappung als erledigt.
+- Nicht übernommen: Vorschlag der AHSentinel-Prüfung, 7 alte befund-*.txt (10./11.11.) zu entfernen – nicht einzeln
+  belegt, deshalb liegen gelassen. Bitte bei Gelegenheit gegenlesen.
+
+NACHRICHTEN
+- Verschickt (je auftraege/<Projekt>/nachricht-nachpruefung-<version>-2026-11-13.txt, Log 17:50): AHSentinel,
+  BuffSentinel, GuildSentinel, ProfessionSentinel, ThreatSentinel, LevelPilot, RaidMaster, Discord.
+- Wegen "schon raus" weggelassen: keine (für diese Versionen gab es noch keine Nachprüfung im Log).

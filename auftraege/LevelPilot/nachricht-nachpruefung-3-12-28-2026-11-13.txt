@@ -1,0 +1,40 @@
+NACHRICHT AN DIE LEVELPILOT-SITZUNG (zum Einfügen)
+==================================================
+Erst laufende Arbeit fertig machen.
+
+Stand: 13. November 2026, 17:45 MEZ · Nachprüfung von LevelPilot 3.12.28 (Commit 6e6aa9d) durch die Prüf-Sitzung.
+
+ERLEDIGT (danke): MN1-MN4 Marktdaten-Netz (Anmeldung Core.lua:615, Schalter Center.lua:274, Zeile MARKT-NETZ in
+Testbericht und Diagnose, Tests T282-T286), Schalter-Überlappung Zentrale mit Regressionstest T286, Bericht zu
+3.12.26-3.12.28, CHANGELOG 3.12.26 richtiggestellt. Diagnose 3.12.27 aus dem Spiel: keine Lua-Fehler.
+
+ZU TUN
+HOCH
+- MK1: addon_check meldet für 3.12.28 FEHLER "GoldSentinelMarkt.lua weicht von shared/ ab". Nicht deine Schuld: shared/
+  wurde 22 Sekunden nach deiner Veröffentlichung ergänzt (FeedStart/Feed, Commit 6e66279). Lösung: shared/GoldSentinelMarkt.lua
+  neu kopieren (cmp direkt vor dem Packen). Dazu in WithMarkt (TestRoutine.lua:5404) auch "feedUntil" sichern, auf nil
+  setzen und zurückstellen – sonst scheitert T283 ("Lesen vorgemerkt false"), solange AHSentinel gerade einen Scan
+  weitergibt. Regressionstest T-MK1: T283 mit gesetztem GM.feedUntil (Uhr + 300) liefert weiter "Lesen vorgemerkt true".
+  Gegenprobe der Prüf-Sitzung: 3.12.28 mit der neuen Datei -> addon_check OK.
+MITTEL
+- GR1: Diagnose 3.12.27 meldet in allen 6 Berichten "GRUNDREGEL VERLETZT Quest 445 fertig, aber kein Abgabe-Schritt"
+  (zuletzt ×8; Priester L10 in Undercity, Fokus Tirisfal, Schritt TURNIN:405; Abgabe bei NPC 1937 im Silberwald).
+  Planner.lua:1521-1527 nimmt fertige Quests nur in Fokus-Zone, Nähe oder aktueller Zone auf (Kommentar: "ueberall");
+  Protocol.lua:583-588 verlangt für jede fertige Quest einen Abgabe-Schritt. Lösung: vereinheitlichen – entweder ferne
+  Abgabe als zurückgestellten Schritt im Guide zeigen, oder CheckRules zählt auch zurückgestellte Abgabe-Aufgaben
+  (P.lastTasks). Regressionstest T-GR1 mit genau diesen Zahlen.
+- SP1 (Messauftrag): "Speicher max" in der Diagnose 3.12.27 bis 114,6 bzw. 125,2 MB (sonst 12-40 MB; Protocol.lua:385-393).
+  Messen, ob Müll oder Bestand: Wert nach dem Einloggen, aktueller Wert, Zuwachs je Modul in der Diagnose; kein volles
+  collectgarbage im Spiel. Ergebnis als Bericht; bei echtem Bestand beheben mit Test T-SP1.
+- TU9: Offline-Routine nach berichte/LevelPilot/offline/run_offline.py (ohne Argument neueste announce-ZIP, Rückgabewert 1
+  bei FEHLER), Testroutine A-J im nachgebauten Spiel plus Wegnetz-Prüfung. Deinen bestehenden Nachbau bitte ins Repo legen.
+WEITER OFFEN
+- Punkt 1 Wegpunkte und Strassen (wartet auf Wegdaten-Exporte).
+- IM CLIENT PRÜFEN: Liste in offen-levelpilot.txt (neu: T282-T286, Schalter in der Zentrale, "Schritt seit 25 min aktiv"
+  um 13:21 in Undercity – lief der Spieler oder stand er?).
+
+git pull --rebase und auftraege/LevelPilot/offen-levelpilot.txt lesen; nach der Umsetzung Bericht in berichte/LevelPilot/ ablegen.
+
+Nächste Version 3.12.29. Komplette Dateien, alte Clients (Era, TBC) nie brechen, alle Locale-Dateien, CHANGELOG EN/DE.
+Vor dem Push: python3 addon-check/addon_check.py announce/levelpilot__levelpilot-3.12.29.LevelPilot.zip -> kein FEHLER.
+Ist ein Befund falsch, bitte begründet zurückmelden.

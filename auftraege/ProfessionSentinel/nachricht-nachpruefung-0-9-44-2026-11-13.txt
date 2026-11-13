@@ -1,0 +1,39 @@
+NACHRICHT AN DIE PROFESSIONSENTINEL-SITZUNG (zum Einfügen)
+
+Erst laufende Arbeit fertig machen.
+
+Stand: 13.11.2026 17:50 MEZ · Nachprüfung von ProfessionSentinel 0.9.44 (Quell-Repo 5940493).
+
+Erledigt (danke): MN2 Schalter "Marktdaten teilen" (Core.lua 640–652, 721–725, Minimap.lua 95, Locales EN/DE),
+MN3 Berichtszeile MARKT-NETZ (Core.lua 654–666), MN4 Test T266 (TestRoutine.lua 7083–7120), MN1-Einbau (Attach
+Core.lua 619–620, alle vier .toc), Test-Helfer Foreign(name, nil). Tests offline: Forever 222/0, Era 204/0, Retail 203/0,
+TBC ohne Lua-Fehler, Regressionen 61 von 61. Diagnose 0.9.43 aus dem Spiel: 0 Lua-Fehler, keine neuen LANGSAM-Einträge.
+
+ZU TUN
+HOCH
+1. GoldSentinelMarkt.lua neu kopieren – addon_check meldet FEHLER (Datei weicht von shared/ ab). Eure Kopie ist der Stand
+   16:05; shared/ hat seit MN KORREKTUR 2 (17:00) zusätzlich GM.FeedStart/GM.Feed. Beide heissen "Version 1" – lädt eure
+   Kopie zuerst, fehlt AHSentinel FeedStart/Feed und der Scan wird doppelt gelesen.
+   Lösung: shared/GoldSentinelMarkt.lua unverändert kopieren (cmp gleich), CHANGELOG EN/DE eine Zeile, T266 prüft
+   zusätzlich, dass GoldSentinelMarkt.FeedStart und .Feed Funktionen sind (T-MN1).
+
+NIEDRIG
+6. An/Aus-Meldung nicht über die Sprachtabelle: Core.lua 724 (neu), dazu Core.lua 689, 705, Favor.lua 275,
+   MerchantQty.lua 205 – fester Text "an/on" / "aus/off". Lösung: eine Hilfsfunktion mit L.ON/L.OFF (wie StateText in
+   Minimap.lua 70–72) für alle fünf Stellen; Test T-MN6 (enUS "on"/"off", deDE "an"/"aus", über Capture).
+
+WARTET (nicht selbst bauen)
+2. BL3/BL4 Befehlsliste über dem Chat – wartet auf den Entscheid des Nutzers zu CmdHint als gemeinsame Datei.
+5. Zweites Zeichen "Leiter zu kurz" – wartet auf AHSentinel API.MaterialCost mit Leiter (auch 0.65.112 noch BestUnit).
+Frage aus eurem Bericht (GoldSentinelSync mitbringen?): technisch nicht nötig, GoldSentinelMarkt verbindet sich später
+selbst mit dem Sync eines anderen Addons. Entscheid liegt beim Nutzer, Antwort kommt in die offen-Datei. Bis dahin so lassen.
+
+IM CLIENT PRÜFEN: Punkte 3 (Neuaufbau unter 16 ms) und 4 (T145 Speicher); neu: nach einem Vollscan /ps testroutine g ->
+"MARKT-NETZ: … Scans mitgelesen 1"; /ps markt aus -> zählt nicht hoch. Ganze Liste in der offen-Datei.
+
+git pull --rebase und auftraege/ProfessionSentinel/offen-professionsentinel.txt lesen; nach der Umsetzung Bericht in
+berichte/ProfessionSentinel/ ablegen.
+
+Nächste Version 0.9.45. Komplette Dateien, alte Clients (Era, TBC) nie brechen, alle Locale-Dateien, CHANGELOG EN/DE.
+Vor dem Push: python3 addon-check/addon_check.py download/ProfessionSentinel-0.9.45.zip -> kein FEHLER.
+Ist ein Befund falsch, bitte begründet zurückmelden.

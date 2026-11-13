@@ -1,0 +1,37 @@
+NACHRICHT AN DIE RAIDMASTER-SITZUNG (zum Einfügen)
+==================================================
+Erst laufende Arbeit fertig machen.
+
+Stand: 13.11.2026 17:45 · Nachprüfung von RaidMaster 3.0.25 und Uploader 2.3.6 (Commit a5bc6d1)
+
+ERLEDIGT (danke): MN2 Schalter (10 Sprachen), MN3 Zeile MARKT-NETZ, MN4 Tests T180–T183, MN6 Uploader (GSMARKT1 je Scan
+einmal, nur genaues Format, Test; passt zum Bot 1.5.131). MN1 eingebaut, aber mit veralteter Kopie (Punkt 1).
+Uploader-Tests 83/83 grün, Bot-Tests 211/211 OK, ZIPs = Ordner, CHANGELOG EN/DE da.
+addon_check RaidMaster-3.0.25.zip: 1 FEHLER.
+
+ZU TUN
+1. MN1-K (HOCH) – RaidMaster/GoldSentinelMarkt.lua weicht von shared/ ab (erste Abweichung Zeile 39): es ist der Stand
+   nach Korrektur 1 (16:05), nicht nach Korrektur 2 (17:00, FeedStart/Feed). Die Korrektur kam nach eurem Commit – kein
+   Vorwurf. addon_check meldet FEHLER.
+   Lösung: shared/GoldSentinelMarkt.lua unverändert neu kopieren (cmp gleich), 3.0.26, neues ZIP + latest.
+   Test: T180 prüft zusätzlich, dass GoldSentinelMarkt.FeedStart und .Feed Funktionen sind.
+1b. MN6b (MITTEL, aus der Bot-Nachprüfung) – uploader.py: anonyme Zufallskennung (16 Hex, in uploader_state.json,
+   nie aus Namen) erzeugen und im GSMARKT1-Paket als Feld "quelle" mitschicken; sonst zählt der Bot immer 1 Quelle.
+   Markt-Pakete bis zur Bot-Anpassung nicht über 2 MB (uploader.py:95 MARKT_MAX_ONE = 3 MB). Test dazu.
+2. MN-T (NIEDRIG) – Test/Routine.lua:2609–2616 (MarktState/MarktRestore) sichern GM.stats nicht; T181
+   (Routine.lua:2645–2647) zählt stats.dropped.aus +1, T182 ggf. aborted/dropped. Danach zeigt die Diagnose
+   "verworfen: aus 1", obwohl nichts ausgeschaltet war.
+   Lösung: Kopie von GM.stats (inkl. dropped) sichern und zurückschreiben. Test: nach T181/T182 stats unverändert.
+3. U3 (NIEDRIG) – uploader.py:540: GSMARKT1-Zeile in unbekanntem Format wird still verworfen. Ändert sich das Format in
+   shared/, gehen alle Markt-Scans unbemerkt verloren.
+   Lösung: einmal je Prüfwert eine Zeile im Fenster "Markt-Zeile in unbekanntem Format – nicht gesendet", ohne Inhalt.
+   Test dazu (nur einmal gemeldet).
+Weiter offen ohne Programmierarbeit: TU2/TU7-Rest nur im Client; D-UP1 beim Discord-Projekt.
+
+git pull --rebase und auftraege/RaidMaster/offen-raidmaster.txt lesen; nach der Umsetzung Bericht in berichte/RaidMaster/
+ablegen.
+
+Nächste Version: Addon 3.0.26 (Uploader 2.3.7, falls U3 umgesetzt). Komplette Dateien, alte Clients (Era, TBC) nie
+brechen, alle Locale-Dateien, CHANGELOG EN/DE (LIESMICH/README_EN). Vor dem Push
+python3 addon-check/addon_check.py download/RaidMaster-3.0.26.zip -> kein FEHLER.
+Ist ein Befund falsch, bitte begründet zurückmelden.

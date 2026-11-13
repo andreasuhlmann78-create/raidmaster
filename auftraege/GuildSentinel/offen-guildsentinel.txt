@@ -1,80 +1,96 @@
-OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.36)
+OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.37)
 =============================================================
-Stand: 13. November 2026, 16:30 · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/GuildSentinel-0.9.36.zip
-(Veröffentlichung 4f7dd86, Repo GuildSentinel 9f1fff3 = Inhalt der ZIP), verglichen mit 0.9.35 aus der git-Geschichte.
-Gelesen: berichte/GuildSentinel/2026-11-13-1530 (0.9.36 GA). Frühere Stände: Nachprüfung im Chat 13.11. 14:30 (0.9.34/0.9.35).
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.33/0.9.35.
+Stand: 13. November 2026, 17:45 · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/GuildSentinel-0.9.37.zip
+(Veröffentlichung 577b473, Repo GuildSentinel be83b1a = Inhalt der ZIP), verglichen mit 0.9.36 aus der git-Geschichte.
+Gelesen: berichte/GuildSentinel/2026-11-13-1700-version-0.9.37-mn.txt. Frühere Stände: Nachprüfung 0.9.36 (16:30).
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.36.
 
-Erledigt in 0.9.36 (danke):
-- GA1 (HOCH) Altersfrage: ns.db.minAge Standard 16, 0 = aus (Core.lua:48); Rc:Questions hängt "Wie alt bist du?" immer
-  als letzte Frage an, auch an eigene Listen (Recruit.lua:194–205, out.age). Abweichung "nicht als 5. Zeile in
-  DefaultQuestions" ist begründet (sonst doppelt) – angenommen. Rc.AgeCheck (Recruit.lua:173–183): genau eine Zahl 5–99,
-  "bald/fast/soon/почти/곧/快 …" -> unklar. Unter 16: Absage per ns.Chat nach 1,5 s, a.st = "agedecl", keine weiteren
-  Fragen (Recruit.lua:237–256); Rc:Invite gesperrt (Recruit.lua:628–629), Knopf grau (Pages.lua:1489), AddApplicant
-  setzt agedecl nicht zurück (Recruit.lua:591), StartQuestions startet wegen qdone nicht neu. Gespeichert nur
-  a.age = ok/young/unclear und das Ergebnis-Etikett, nie Zahl oder Antwort; kein Diagnose-Eintrag. Absage-Text
-  einstellbar (Pages.lua:1301–1313). Tests T289a–e, Regression "GA1-Alter".
-- GA2 (HOCH) Werbetext: Rc:DefaultAd(phase) mit eigenem Text für die Phase Aufbau (Recruit.lua:121–127), Platzhalter
-  {phase} (Recruit.lua:140–144, :330), Rc:OwnAdWithoutWanted + gelber Hinweis + "Übernehmen" (Recruit.lua:130–138,
-  Pages.lua:1349–1354), Zeile "Im Chat: …" über dem Knopf. Tests T290a–c, Regression "GA2". Alle 11 Locale-Dateien.
-- Laut Bericht hatte der Nutzer 0.9.35 im Spiel; neue Diagnose 0.9.36 aus dem Spiel: "Fehler in dieser Sitzung: 0".
-- Aus der Nachprüfung 14:30 (Chat) erledigt: Punkt 2 (TU1-Rest, T270), Punkt 3 BL1–BL4 (ns.COMMANDS, CmdHint.lua,
-  T282–T287), Punkt 4 raidReady.vorschlag (T288).
+Erledigt in 0.9.37 (danke):
+- Punkt 1 aus 0.9.36 (NIEDRIG, GA1 "Gildenverwaltung > Einladen umgeht die Alters-Sperre"): Sperre zentral in
+  ns.OpenGuildInvite (Recruit.lua:625–629) über Rc.AgeBlocked (Recruit.lua:612–623, Name ohne Server, Gross/Klein egal).
+  Gilt damit für Ad.Invite (Admin.lua:230), das Mitglieder-Menü und die Bewerberliste. Keine Ausnahme für den
+  Gildenmeister – begründet (Absage ist schon raus), angenommen. Test T289f (TestRoutine.lua:3671–3679, scheitert ohne
+  die Korrektur, weil Ad.Invite sonst true liefert), Regression "GA1-Sperre".
+- MN2: Einstellungen > "Marktdaten teilen (anonym, nur Preise)" (Pages.lua:2197–2206), setzt GoldSentinelMarkt.SetShare.
+  Text in Locales.lua und allen 9 Locale-Dateien, CHANGELOG EN/DE.
+- MN3: Diagnose-Zeilen aus GoldSentinelMarkt.DiagLines() + "MARKT-NETZ Speicher x KB", ohne Datei
+  "MARKT-NETZ: Datei nicht geladen" (Diag.lua:125–135), alles in pcall.
+- MN4: T291–T293 (TestRoutine.lua:3722–3752), Offline-Ladetest test/run_nomarkt.lua "ohne" 4/4 und "mit" 8/8.
+  gsMarkt in der Sandbox vom Vergleich ausgenommen (TestRoutine.lua:66) – begründet, angenommen.
+- MN1 zum Teil: TOC nach GoldSentinelSync.lua (GuildSentinel.toc:24), Attach in ADDON_LOADED mit pcall (Core.lua:730–733).
+  Die Kopie selbst ist veraltet -> Punkt 1.
 
-Prüfungen: Addon-Prüfung OK, 0 FEHLER, 0 WARNUNGEN (Lua-Syntax mit lupa, Ladetest, Sprachtest). GoldSentinelGame.lua,
-GoldSentinelSync.lua, GoldSentinelTest.lua byte-gleich mit shared/. CHANGELOG EN/DE für 0.9.36 vorhanden.
-Offline mit Lua 5.1 (Repo GuildSentinel 9f1fff3): run_routine 16001 und 11508 je 16/16, run 77/77, run_admin 34/34,
-run_v5 84/84, run_new 102/102, run_lang 7/7, run_uicheck 13/13. Kein T:Skip "noch nicht".
-Im Diff 0.9.35 -> 0.9.36: keine Lua-Fehler, keine nil-Zugriffe (ns.RaidReady wird vor :Phase() geprüft), kein Ersetzen
-von Blizzard-Funktionen, keine geschützte Gilden-Funktion direkt aufgerufen, neue Texte in allen Sprachen, Era/TBC nicht
-gebrochen.
+Prüfungen: Addon-Prüfung 1 FEHLER, 0 WARNUNGEN (Lua-Syntax mit lupa, Ladetest, Sprachtest):
+  "GuildSentinel/GoldSentinelMarkt.lua: weicht von shared/GoldSentinelMarkt.lua ab (Version 1, Vorlage Version 1)".
+GoldSentinelGame.lua, GoldSentinelSync.lua, GoldSentinelTest.lua byte-gleich mit shared/. GoldSentinelMarkt.lua ist die
+Fassung von 16:05 (raidmaster a3c51a5), nicht die aktuelle mit FeedStart/Feed (6e66279, 16:49 – kam 6 Minuten nach der
+Veröffentlichung). Der Bericht nannte die Datei damals zu Recht byte-gleich; das ist kein Selbst-Ändern.
+Offline mit Lua 5.1 (Repo GuildSentinel be83b1a, Kopie im Arbeitsordner): run_routine 16001 und 11508 je 16/16 bestanden,
+run 77/77, run_admin 34/34, run_v5 84/84, run_new 102/102, run_lang 7/7, run_uicheck 13/13, run_nomarkt ohne 4/4 und
+mit 8/8. 0 fehlgeschlagen, kein T:Skip "noch nicht".
+Im Diff 0.9.36 -> 0.9.37: keine Lua-Fehler, keine nil-Zugriffe (GoldSentinelMarkt überall mit _G-Prüfung und pcall,
+ns.Comm.Serialize vorhanden), kein Ersetzen von Blizzard-Funktionen, keine geschützte Funktion direkt aufgerufen, neue
+Texte in allen Sprachen, Era/TBC nicht gebrochen (T293, run_routine 11508).
+Testberichte 0.9.36-b0a5ae9ca849 und 0.9.36-fe8e9bece9c9 (Forever, deDE): "Fehler in dieser Sitzung: 0". Die einzige
+Zeile "VERBOTEN … Recruit.lua:492 < Pages.lua:983" stammt vom 13.11. 05:43 (ältere Version, steht unverändert schon in den
+früheren Berichten 0.9.35/0.9.36) – kein neuer Befund.
 
 OFFENE PUNKTE
-1. NIEDRIG (NEU) – GA1: "Gildenverwaltung > Einladen" umgeht die Alters-Sperre.
-   Ad.Invite (Admin.lua:225–234) prüft den Bewerber-Status nicht. Wer einen Bewerber mit Status "abgelehnt (Alter)"
-   dort von Hand einträgt, bekommt "/ginvite <Name>" ohne Hinweis in die Chat-Eingabe.
-   Lösung: in Ad.Invite wie in Rc:Invite (Recruit.lua:628–629) ns.G().apps[name] prüfen; bei st == "agedecl" die
-   Meldung "Unter dem Mindestalter – Einladen gesperrt." und abbrechen (oder Bestätigung "trotzdem einladen?" nur für
-   den Gildenmeister – bitte entscheiden und im Bericht nennen). Test T289f: agedecl über Verwaltung einladen ->
-   nichts in der Chat-Eingabe.
+1. HOCH (NEU) – MN1b: GoldSentinelMarkt.lua veraltet -> addon_check FEHLER.
+   GuildSentinel/GoldSentinelMarkt.lua (ZIP 0.9.37) = Fassung a3c51a5 (16:05). shared/ hat seit 6e66279 (16:49,
+   "MN KORREKTUR 2") FeedStart/Feed. Beide tragen VERSION 1, darum ist es für die Prüfung keine "ältere Fassung",
+   sondern eine Abweichung. Folge im Spiel: gleiche Version -> die zuerst geladene Kopie gewinnt; fehlt dort
+   FeedStart/Feed, liest GSMarkt einen Scan doppelt bzw. ein Host-Addon findet die Funktion nicht.
+   Lösung: shared/GoldSentinelMarkt.lua NEU und unverändert kopieren (cmp mit shared/ -> gleich), neue Version
+   veröffentlichen. Test T-MN1b (z. B. T291 erweitern): type(GoldSentinelMarkt.FeedStart) == "function" und
+   type(GoldSentinelMarkt.Feed) == "function". Vor dem Push addon_check -> kein FEHLER.
 
-2. MN1–MN4 (MITTEL, aus anweisung-marktdaten-netz.txt) – shared/GoldSentinelMarkt.lua v1 liegt bereit (13.11. 16:00,
-   Korrektur 16:05: Absatz-Untergrenze, Export-Eintrag mit 6 Feldern – wer früh kopiert hat: NEU KOPIEREN, Prüfung
-   "exact"). Jetzt einbauen: MN1 Datei unverändert kopieren, in die TOC nach GoldSentinelSync.lua; MN2–MN3 wie in der
-   Anweisung; MN4 Tests (lädt mit/ohne Datei, Schalter aus -> kein Lesen/Senden, kein Lua-Fehler ohne AH-API).
-   Bitte die Anweisung ganz lesen.
+2. NIEDRIG (NEU) – MN2b: Schalter "Marktdaten teilen" zeigt nur den eigenen Wert.
+   Pages.lua:2198–2201 liest nur GuildSentinelDB.gsMarktAus. GoldSentinelMarkt.IsShareOn() ist aber für alle Addons
+   gemeinsam aus, sobald EIN Addon (z. B. AHSentinel) "aus" gespeichert hat. Dann steht bei GuildSentinel ein Haken,
+   obwohl nichts gelesen und nichts gesendet wird.
+   Lösung: Haken aus GM.IsShareOn() lesen; ist der eigene Wert an, das Netz aber aus, kurzer Hinweis "in einem anderen
+   GoldSentinel-Addon ausgeschaltet" (alle Locales). Test T-MN2b: zweiter Host mit gsMarktAus = true -> Haken aus,
+   Hinweis sichtbar.
 
-IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.36, Ergebnis dem Nutzer melden)
-   - Neu GA1 (0.9.36): Rekrutierung > Texte: Feld "Mindestalter" (16) und Absage-Text sichtbar, nichts überlappt.
+IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.37 bzw. der nächsten Version, Ergebnis dem
+Nutzer melden)
+   - Neu MN (0.9.37): Einstellungen: Haken "Marktdaten teilen (anonym, nur Preise)" sichtbar, an, nichts überlappt
+     (deDE, enGB, ruRU). AH öffnen, ein anderes Addon (z. B. AHSentinel) macht einen Vollscan -> /gs protokoll zeigt
+     "MARKT-NETZ … Scans mitgelesen 1 …" und "MARKT-NETZ Speicher x KB"; kein Ruckeln beim Mitlesen. Haken aus ->
+     keine weiteren Scans mitgelesen, nichts gesendet. In Era/TBC: kein Lua-Fehler, Diagnose-Zeilen vorhanden.
+   - Neu GA1 (0.9.37): Bewerber "abgelehnt (Alter)" über Gildenverwaltung > Einladen und über das Mitglieder-Menü
+     einladen -> Meldung "Unter dem Mindestalter – Einladen gesperrt.", nichts in der Chat-Eingabe.
+   - GA1 (0.9.36): Rekrutierung > Texte: Feld "Mindestalter" (16) und Absage-Text sichtbar, nichts überlappt.
      Mit einem Zweitcharakter "gilde" flüstern -> 5 Fragen, die letzte "Wie alt bist du?". Antwort "17" -> weiter,
      Bewerberliste zeigt "16+". Antwort "15" -> nette Absage per Flüstern, Status "abgelehnt (Alter)", Knopf
      "In die Gilde einladen" grau. Antwort "bald 16" -> keine Absage, Status "Alter unklar". In den SavedVariables nach
      dem Ausloggen nirgends die Zahl oder der Antworttext, nur ok/young/unclear.
-   - Neu GA2 (0.9.36): Phase Aufbau, leerer Werbetext -> Vorschau "… ist im Aufbau und sucht Mitstreiter aller Klassen …";
+   - GA2 (0.9.36): Phase Aufbau, leerer Werbetext -> Vorschau "… ist im Aufbau und sucht Mitstreiter aller Klassen …";
      Zeile "Im Chat: …" direkt über dem Knopf "Werbung vorbereiten" (überlappt die Erinnern-Zeile nicht). Eigener Text
      ohne {gesucht}/{phase} -> gelber Hinweis + Knopf "Übernehmen"; Klick setzt den Standardtext der Phase.
    - /gs tippen (BL, 0.9.34): Liste aller Befehle über dem Eingabefeld, Klick wählt, Enter führt aus.
-   - Neu GA1 (0.9.33): Interface > Kampf > "Aktion bei Tastendruck" AUS und AN – je einmal Befördern über
+   - GA1 (0.9.33): Interface > Kampf > "Aktion bei Tastendruck" AUS und AN – je einmal Befördern über
      "Gilden-Aktion": der Befehl läuft genau einmal, Status "Warte auf Bestätigung" -> ausgeführt, nie zwei Beförderungen.
-   - Neu GV1 (0.9.29): Rekrutierung > Bewerber > "In die Gilde einladen" -> "/ginvite <Name>" steht in der Chat-Eingabe,
+   - GV1 (0.9.29): Rekrutierung > Bewerber > "In die Gilde einladen" -> "/ginvite <Name>" steht in der Chat-Eingabe,
      Enter -> KEIN Fenster "GuildSentinel wurde geblockt", Status wechselt erst nach der Systemmeldung auf "eingeladen".
      Gildenverwaltung > Einladen ebenso. Name mit Vor- und Nachname (Forever) einladen. Diagnose ohne VERBOTEN.
-   - Neu RV (0.9.30): Rechtsklick auf ein Mitglied (Mitglieder, Wer ist wo, Bewerber, Leitung) -> Menü mit den Einträgen
+   - RV (0.9.30): Rechtsklick auf ein Mitglied (Mitglieder, Wer ist wo, Bewerber, Leitung) -> Menü mit den Einträgen
      der eigenen Rechte, nicht erlaubte grau mit Grund. Befördern -> Fenster "Gilden-Aktion" -> Knopf -> kein
      Blockiert-Fenster, Rang ändert sich, "Erledigt". "/gpromote Vorname Nachname" mit einem Twink mit Leerzeichen im
      Namen (geht es nicht: "Nicht ausgeführt" nach 6 s – dann melden, Rückfall Blizzards Gildenfenster). Rang setzen
-     über 2 Stufen = 2 Klicks. Mehrfachauswahl "3 von 5 erledigt". Im Kampf grau "nicht im Kampf". Dazu Punkt 1 mit
+     über 2 Stufen = 2 Klicks. Mehrfachauswahl "3 von 5 erledigt". Im Kampf grau "nicht im Kampf". Dazu mit
      "Aktion bei Tastendruck" aus und an.
      Welche Gilden-Funktionen in Forever geschützt sind (Befördern, Degradieren, Entfernen, Leitung, Notiz,
      Offiziersnotiz) bitte dem Nutzer melden. Notiz/Offiziersnotiz ruft GuildRosterSetPublicNote/OfficerNote noch
      direkt über ns.Act (Pages.lua:920) – kommt "geblockt", melden (dann gleicher Weg wie RV3).
      Leitung > Rangrechte > "Ränge im Spiel bearbeiten" öffnet Blizzards Rang-Fenster (Forever, Era, TBC).
-   - Neu RP (0.9.31): Mitglieder > Aufstellung: Phase und Ziel-Raid nur als Offizier wählbar, Hinweis "die Vorgaben oben
+   - RP (0.9.31): Mitglieder > Aufstellung: Phase und Ziel-Raid nur als Offizier wählbar, Hinweis "die Vorgaben oben
      gelten ab Phase Raid", Fortschrittszeile "Raidfähig (…): n von m aktiv … · Tanks a/b · Heiler c/d · Phase Aufbau",
      Schätzung "messe noch" bei < 7 Tagen. Rekrutierung: Vorschau "sucht Mitstreiter aller Klassen …" (deDE, enGB,
      ruRU). Übersicht: Zeile "Raidfähig (…)". Vorschlag mit Bestätigen/Später erscheint nur bei Offizieren, einmal im
      Offiziers-Chat. Nach dem Ausloggen steht GuildSentinelDB.raidReady in den SavedVariables (ohne Namen).
-   - Neu TU (0.9.32): /gs testroutine im Client: Zeilen "TUx OK n · FEHLER n · SKIP n", "Regressionen: 94 von 94".
+   - TU (0.9.32): /gs testroutine im Client: Zeilen "TUx OK n · FEHLER n · SKIP n", "Regressionen: n von n".
    - Aus 0.9.28: Seite Rekrutierung (deDE, enGB, ruRU): Knopf "Vorschlag 2" unter der Platzhalter-Liste überlappt die
      Vorschau-Überschrift nicht; Feld "Server-Tag" rechts neben dem Discord-Link, Tipp-Zeile darunter bricht sauber um
      und überdeckt "Kanäle" nicht. Vorschlag 2 mit Link und Tag "XY" -> "… Discord: <Link> – erkennbar am Tag XY.";
@@ -103,8 +119,8 @@ IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.36
    - Sync: "/gs sync test" gibt "N Antworten (Gilde a, Gruppe b)" aus. Kommt "SYNC Kanal verweigert Addon-Nachrichten
      (NOT_ALLOWED_IN_CHANNEL)" wieder, melden, von welchem Weg.
    - Flüster-Netz: Zwei Spieler in verschiedenen Gilden, kurz in einer Gruppe, dann Gruppe verlassen. Suche "ganzer
-     Server" in Gilde A -> erscheint in Gilde B (dort im Protokoll "weitergegeben" > 0; bisher immer 0). Die
-     Systemmeldung "kein Spieler … online" erscheint nicht im Chat.
+     Server" in Gilde A -> erscheint in Gilde B (dort im Protokoll "weitergegeben" > 0; bisher immer 0, auch in den
+     Testberichten 0.9.36). Die Systemmeldung "kein Spieler … online" erscheint nicht im Chat.
    - GoldSentinelTest 2: /gstest zeigt die einmalige Frage; ohne Zustimmung geht nichts hinaus.
    - A2: weitere Zeilen "GILDENREZEPTE … Abfragen n · Einträge m"; kein "Aktion blockiert"; bei offenem Berufsfenster
      öffnet sich kein Blizzard-Fenster "Gildenmitglieder mit diesem Rezept".
@@ -114,14 +130,14 @@ IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.36
    - T199: J drücken -> Knopf "Verwaltung (GuildSentinel)" rechts neben dem Gildenfenster; ohne Rechte grau mit
      Hinweis; /gs verwaltung öffnet das Fenster. Passwort festlegen, falsch/richtig entsperren.
    - Letzter vollständiger Testlauf im Spiel ist noch 0.9.13 (09.11. 05:47 UTC): T82, T118, T143, T154 waren dort
-     FEHLER, offline seit 0.9.21 bestanden. Mit 0.9.36 erneut /gs testroutine. Dazu T45 "[Test], 0", Bereich K
-     (T182-T187, T237), T239-T279, Berufe-Knopf in Forever ohne "Aktion blockiert", issecretvalue nach dem Kampf,
-     T168 (/gs testroutine whisperq), Bank-Charakter -> #gildenbank, Sprachwahl folgt ohne Einstellung dem Client.
-     Der letzte eingegangene Diagnose-Bericht (0.9.28, testberichte/diagnose/GuildSentinel/0.9.28-b5ebcb4edbd6.txt)
-     zeigt 0 Fehler in der Sitzung.
+     FEHLER, offline seit 0.9.21 bestanden. Mit der nächsten Version erneut /gs testroutine. Dazu T45 "[Test], 0",
+     Bereich K (T182-T187, T237), T239-T293, Berufe-Knopf in Forever ohne "Aktion blockiert", issecretvalue nach dem
+     Kampf, T168 (/gs testroutine whisperq), Bank-Charakter -> #gildenbank, Sprachwahl folgt ohne Einstellung dem
+     Client. Die letzten Diagnose-Berichte (0.9.36, Forever) zeigen 0 Fehler in der Sitzung.
 
 FÜR ANDERE PROJEKTE (nur zur Info): GuildSentinelDB.raidReady (Felder raid, phase, aktiv, groesse, tanks, tanksSoll,
    heiler, heilerSoll, pct, wochen, t, vorschlag) – Bot 1.5.128 nimmt die Datei jetzt auch ohne Gildenbank an (D-GS1).
+   Marktdaten: GuildSentinelDB.gsMarkt (Export "GSMARKT1|…" nur beim Host, der die Daten hält; Uploader MN6).
 
 HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Jeder Befund bekommt einen bleibenden Regressionstest; Befund ohne Test = nicht erledigt (auftraege/README.md).
@@ -130,8 +146,8 @@ HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Die Sprache muss ohne Einstellung immer dem Client folgen (hinweis-sprachtest.txt).
    - Keine echten Spieler-, Gilden- oder Charakternamen und keine Discord-Links (hinweis-keine-spielernamen.txt).
      Das Alter von Bewerbern nie speichern, teilen oder protokollieren (nur 16+ / unter 16 / unklar).
-   - Gemeinsame Dateien nur unverändert aus shared/ kopieren.
-   - Die Version muss höher sein als 0.9.36 (download/, announce/, CurseForge).
+   - Gemeinsame Dateien nur unverändert aus shared/ kopieren – direkt vor dem Packen der ZIP noch einmal
+     git pull --rebase im raidmaster-Repo und cmp gegen shared/ (Lehre MN1b: shared/ kann sich kurz vorher ändern).
+   - Die Version muss höher sein als 0.9.37 (download/, announce/, CurseForge).
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/GuildSentinel/ ablegen.
-   MN KORREKTUR 2 (13.11. 17:00): GoldSentinelMarkt.lua v1 um FeedStart/Feed ergänzt (Addons mit eigenem Vollscan geben ihr Ergebnis weiter, kein doppeltes Lesen). Wer die Datei schon kopiert hat: NEU KOPIEREN (Prüfung "exact").

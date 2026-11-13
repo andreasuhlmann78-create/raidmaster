@@ -1,44 +1,75 @@
-OFFENE PUNKTE THREATSENTINEL (nach der Nachprüfung von 2.5.9)
-=============================================================
-Stand: 10. November 2026, 20:25 · von der Prüf-Sitzung · Grundlage: download/ThreatSentinel-2.5.9.zip, Diff gegen 2.5.8,
-Diagnose-Protokolle 2.5.8/2.5.9 vom 10.11. 16:19-18:41 (testberichte/diagnose/ThreatSentinel/).
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 2.5.8.
+OFFENE PUNKTE THREATSENTINEL (nach der Nachprüfung von 2.5.11)
+==============================================================
+Stand: 13. November 2026, 17:45 MEZ · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/ThreatSentinel-2.5.11.zip
+(Commit 5803e50), Diff gegen 2.5.10, Bericht berichte/ThreatSentinel/2026-11-13-1715-marktdaten-netz-2.5.11.txt,
+Diagnose-Protokolle testberichte/diagnose/ThreatSentinel/2.5.10-57d3a3207298.txt und 2.5.10-e445491a626e.txt.
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 2.5.9/2.5.10 (inkl. der
+Abschnitte NACHPRÜFUNG 13.11. 14:30 und MN).
 
-Erledigt in 2.5.9 (danke):
-- Punkt 1 (T-K2 schlug im echten Client immer fehl): Das Testfenster steht jetzt an UIParent auf der aktuellen Lage der
-  Testzentrale (TestRoutine.lua:3529-3532), wandert also nicht mehr mit.
-- Punkt 2 (T-G1 schlug in Forever fehl): Für den Teil VOLL setzt der Test ns.simAccess, ns.threatAccess und
-  ns.db.threatMode (TestRoutine.lua:3283) und stellt alle drei auch bei einem Fehler zurück (pcall, Zeile 3285-3291).
-- Punkt 3 (Spott-Grund ohne Filter): Nur bekannte Spell-Fehlertexte des Clients zählen (LG.WHY_KEYS, Log.lua:729-740;
-  LG:KnownWhy, Log.lua:742-751, Texte mit %-Platzhaltern werden nie verglichen, fehlende Globals alter Clients
-  übersprungen), alles andere wird "anderer Grund" (TAUNT_WHY_OTHER EN/DE, Locales.lua:192 und 810; Aufruf
-  Log.lua:763). T-W1 prüft zusätzlich eine fremde Meldung mit Namen -> nur "anderer Grund", kein Name im Protokoll
-  (TestRoutine.lua:2667-2680). Kleinigkeiten: Kommentar steht wieder über T:ModeChanged (Threat.lua:474-476),
-  T.measureFight entfernt.
+Erledigt in 2.5.10 (Nachprüfung 13.11. 14:30, danke): TU1–TU9 (Bereich U, TestRoutineTU.lua, Regressionen 41 von 41,
+Grundregel-Wächter T:CheckRules), BL1–BL4 (ns.COMMANDS, CmdHint.lua nur HookScript, T-BL1–T-BL6).
 
-Prüfungen: addon_check 2.5.9 OK (0 FEHLER, 0 WARNUNGEN; Ladetest, Sprachtest). GoldSentinelGame.lua und
-GoldSentinelTest.lua byte-gleich mit shared/, GoldSentinelDev.lua unverändert. CHANGELOG EN/DE für 2.5.9, .toc und
-ns.version 2.5.9. Neuer Text TAUNT_WHY_OTHER in EN und DE (ThreatSentinel hat nur diese zwei Tabellen). Keine
-Blizzard-Funktion ersetzt (T-W1 nutzt nur LG.whyExtra, eigenes Feld, und stellt es zurück). Kein Testfall nur als
-T:Skip("noch nicht ..."). Diagnose 2.5.8/2.5.9 aus dem Spiel: 0 Fehler, 0 gesperrte Aktionen. Eine Offline-Routine
-für ThreatSentinel gibt es im Prüfsystem nicht (kein Repo in der Prüf-Sitzung) – Testroutine nur im Client.
+Erledigt in 2.5.11 (danke):
+- MN1 bis auf Punkt 1 unten: GoldSentinelMarkt.lua in der TOC nach GoldSentinelTest.lua (ThreatSentinel.toc:13; ohne
+  GoldSentinelSync ist das richtig), Anmeldung beim Laden in pcall (Core.lua:1195-1197, ns:AttachMarket Core.lua:1208-1214),
+  fehlt die Datei, läuft das Addon normal.
+- MN2: Schalter "Marktdaten teilen (anonym, nur Preise)" (Options.lua:538, Profil-Feld marketShare Standard an Core.lua:158,
+  ns:ApplyMarketShare Core.lua:1217-1221, auch bei jedem ApplySettings Core.lua:1087), O_MARKET EN/DE (Locales.lua:215 und 856),
+  CHANGELOG EN/DE 2.5.11.
+- MN3: Zeile "MARKT-NETZ: v1, an/aus, mitgelesene Scans, gesendet/empfangen, Speicher" (ns:MarketLine Core.lua:1224-1242) im
+  Diagnose-Protokoll (Diag.lua:117) und im Testbericht (Text und Feld "markt", TestRoutine.lua:3645-3647 und 3663). Keine Namen.
+- MN4: T-MN1–T-MN4 (TestRoutineTU.lua:1178-1252, Aufruf Bereich U Zeile 1264). Ersetzt werden nur Einträge der gemeinsamen
+  Datei (GM.api.ah, Felder) und alles wird zurückgestellt; keine Blizzard-Funktion ersetzt.
 
-1. GEMEINSAMER SYNC (Hinweis, Entscheid des Nutzers) – unverändert
+Prüfungen: addon_check 2.5.11: 1 FEHLER (Punkt 1), 0 WARNUNGEN; Ladetest und Sprachtest ohne Meldung.
+GoldSentinelGame.lua und GoldSentinelTest.lua byte-gleich mit shared/. GoldSentinelMarkt.lua = Stand a3c51a5 (vor der
+Korrektur 2 vom 13.11. 16:49), nicht mehr gleich mit shared/. .toc und ns.version 2.5.11. Neuer Text O_MARKET in EN und DE
+(ThreatSentinel hat nur diese zwei Tabellen). Offline-Routine (berichte/ThreatSentinel/offline/routine_offline.py, ausgepackter
+Ordner): Forever OK 239, Era OK 243, FEHLER ausserhalb der Nachbildungs-Liste 0; T-MN1–T-MN4 OK in beiden. Kein Testfall nur als
+T:Skip("noch nicht ..."). Diagnose 2.5.10 aus dem Spiel (13.11. 15:49 und 16:19, Forever deDE): 0 Fehler, 0 gesperrte Aktionen;
+keine neue LESBAR-Zeile (nur Sitzungen ohne Kampf, Heiler).
+
+1. GOLDSENTINELMARKT.LUA VERALTET (HOCH, NEU – addon_check FEHLER)
+   ThreatSentinel/GoldSentinelMarkt.lua weicht von shared/GoldSentinelMarkt.lua ab. Die Kopie ist der Stand vor der
+   MN KORREKTUR 2 (FeedStart/Feed, shared Commit 6e66279, 6 Minuten nach 2.5.11 veröffentlicht – kein Versäumnis der Sitzung).
+   Folge: Die Veröffentlichung ist blockiert; ohne FeedStart/Feed liest diese Kopie einen Scan doppelt, wenn sie gewinnt.
+   Lösung: shared/GoldSentinelMarkt.lua NEU und unverändert kopieren (cmp muss gleich sein), nächste Version, CHANGELOG EN/DE.
+   Test: die Prüfung "exact" in addon_check ist der bleibende Test; T-MN1–T-MN4 müssen mit der neuen Kopie weiter OK sein.
+
+2. T-MN2 KANN ECHTE MARKTDATEN BESCHREIBEN (NIEDRIG, NEU)
+   TestRoutineTU.lua:1212-1213: T-MN2 schickt GM.OnMessage("S:H:1:1,1,1,1") und ("S:A:...") an die echte Datei. Nur der
+   geprüfte Schalter verhindert, dass ein falscher Eintrag (Item 1, Preis 1) in ThreatSentinelDB.gsMarkt landet. Schlägt
+   genau das fehl, das der Test prüft, bleibt der falsche Wert in den echten Daten und wird weitergegeben; zurückgestellt
+   werden nur die Zähler (Zeile 1216-1217).
+   Lösung: vor dem Test den Eintrag der eigenen Fraktion für Item 1 (bzw. ThreatSentinelDB.gsMarkt) sichern und danach
+   zurückstellen, oder eine Item-ID nehmen, die es nicht gibt, und sie danach entfernen.
+
+3. OFFLINE-ROUTINE NIMMT KEINE ZIP (NIEDRIG, aus der Nachprüfung 13.11. 14:30 – unverändert)
+   berichte/ThreatSentinel/offline/routine_offline.py:17 nimmt nur einen ausgepackten Ordner; mit einer ZIP bricht es ab
+   (NotADirectoryError). Lösung: ZIP annehmen oder ohne Argument die neueste download/ThreatSentinel-*.zip nehmen (wie BuffSentinel).
+
+4. GEMEINSAMER SYNC (Hinweis, Entscheid des Nutzers) – unverändert
    Die Begründung ist richtig: ThreatSentinel braucht keine gemeinsame Warteschlange, kein GUILD und kein Netz.
-   Offener Nachteil: Testberichte teilt GoldSentinelTest 2 nur, wenn ein anderes Addon GoldSentinelSync 2 mitbringt.
+   Offener Nachteil: Testberichte teilt GoldSentinelTest 2 nur, wenn ein anderes Addon GoldSentinelSync 2 mitbringt; dasselbe
+   gilt jetzt für GoldSentinelMarkt (ohne fremdes GoldSentinelSync nur Mitlesen und Speichern, kein Teilen).
    anweisung-gemeinsamer-sync.txt und anweisung-sync-version2.txt bleiben, bis der Nutzer entschieden hat. Nichts tun,
-   solange kein Entscheid kommt.
+   solange kein Entscheid kommt. Kommt GoldSentinelSync dazu: GoldSentinelMarkt.lua in der TOC direkt danach.
 
-Sonst ist nichts offen. Bitte die Punkte unten im Client prüfen und das Ergebnis dem Nutzer melden.
+Zur Kenntnis (an die Prüf-Sitzung weitergegeben, nicht von ThreatSentinel zu tun): Der Befund aus dem Bericht 2.5.11, Punkt 2
+(M.Pump prüft IsShareOn nicht), betrifft shared/GoldSentinelMarkt.lua und ist dort noch offen. Danke für die Meldung.
 
 IM CLIENT PRÜFEN
+   - Marktdaten-Netz (2.5.11/2.5.12): /ts protokoll zeigt die Zeile MARKT-NETZ. Mit einem AH-Addon (z. B. AHSentinel) einen
+     Vollscan machen -> danach "mitgelesene Scans 1" und Speicher > 0 KB; kein Ruckeln, nichts im Kampf. Schalter aus ->
+     nach dem nächsten Vollscan bleibt die Zahl gleich. /ts testroutine u: T-MN1–T-MN4 OK.
    - Forever-Dungeon im Modus ANZEIGE: einmal je Kampf eine Zeile LESBAR-PLAKETTEN im Diagnose-Protokoll, ohne Namen.
-     Bisher keine solche Zeile (seit 2.5.8 nur Sitzungen ohne Kampf; die LESBAR-Zeilen vom 10.11. 15:26-15:31 sind
-     noch von 2.5.6). Damit entscheidet sich, ob eine Tank-Aggrowarnung in Forever möglich ist.
+     Bisher keine solche Zeile (auch die Protokolle 2.5.10 vom 13.11. 15:49/16:19 nur ohne Kampf, als Heiler). Damit
+     entscheidet sich, ob eine Tank-Aggrowarnung in Forever möglich ist.
    - Spott, der fehlschlägt (zu weit, Abklingzeit): Zusammenfassung zeigt "Gründe: …" mit dem Klartext des Spiels
      (deDE und enGB). Steht dort bei "zu weit entfernt" oder "noch nicht bereit" nur "anderer Grund", fehlt der passende
      Schlüssel in LG.WHY_KEYS (bitte Text der Meldung melden).
-   - /ts testroutine: T-K2 und T-G1 jetzt OK (vorher immer FEHLER); T-W1 OK.
+   - /ts testroutine mit Bereich U: "Regressionen: 41 von 41 vorhanden", TU5-E2 (Testprotokoll eines echten Kampfs),
+     TU7-K1 Skalierung; T-K2, T-G1, T-W1 OK.
    - Testassistent in Forever: Plaketten-, HUD- und Rückhol-Schritte "n/a", nicht "fehlgeschlagen".
    - Bereich K mit sichtbarer BuffSentinel-Leiste und offenen Blizzard-Fenstern: T181 ohne Überlappen (T186), T-K2.
    - T144 zweimal hintereinander /ts testroutine i: beide Male "1x" (seit 2.5.6 erwartet behoben).
@@ -47,61 +78,15 @@ IM CLIENT PRÜFEN
    - /reload mitten im Kampf: kein "MODUS DISPLAY -> FULL" im selben Kampf (T-P1b). T139/T139b < 16 ms.
    - T135 /gsgame (Version 3), T154 Pull mit 3+ Mobs ("Blocked: none").
    - Era und TBC: Aggrometer wie bisher, keine zweite Kopfzeile; "Spott widerstanden"; kein "Addon geblockt" (T117, T176b);
-     Spott-Grund kommt auch dort (UI_ERROR_MESSAGE mit Text im 2. Argument).
+     Spott-Grund kommt auch dort (UI_ERROR_MESSAGE mit Text im 2. Argument); MARKT-NETZ still, kein Lua-Fehler.
    - Aus älteren Berichten noch offen: T11 und T177 (Interface-Nummer), T46, T109, T110, T148, T149, T157, T174, T188.
-     Letzter Testlauf im Repo ist 2.5.4 (10.11. 10:06 UTC) – mit 2.5.9 bitte einen vollständigen /ts testroutine.
+     Letzter Testlauf im Repo ist 2.5.4 (10.11. 10:06 UTC) – mit der nächsten Version bitte einen vollständigen /ts testroutine.
 
 HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Keine echten Spieler- oder Charakternamen (hinweis-keine-spielernamen.txt).
-   - Gemeinsame Dateien nur unverändert aus shared/ kopieren.
-   - Die Version muss höher sein als 2.5.9.
+   - Gemeinsame Dateien nur unverändert aus shared/ kopieren – direkt vor dem Push nochmals mit cmp gegen shared/ prüfen
+     (shared/ kann sich zwischen Einbau und Veröffentlichung ändern).
+   - Jeder Befund bekommt einen Regressionstest T-<Befund-ID> (auftraege/README.md).
+   - Die Version muss höher sein als 2.5.11.
 
-Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
-
-
-TU (HOCH, NEU 13.11. 07:05, Entscheid des Nutzers "solche Fehler sollen nicht wieder passieren") – umfassende Tests
-   TU1–TU9 nach anweisung-tests-umfassend.txt: Lagen durch alle Funktionen, Abläufe wie ein Spieler, Standardwerte,
-   Grundregeln mit Zufallsdaten, echte Daten (nur lesen), Regressionstest je Befund (bisherige nachholen), Testbericht je
-   Bereich, offline lauffähig. Ab jetzt: Befund ohne Test = nicht erledigt (auftraege/README.md).
-
-
-BL (MITTEL, NEU 13.11. 07:45, Wunsch des Nutzers) – BEFEHLSLISTE BEIM TIPPEN MIT ALLEN BEFEHLEN
-   Tippt der Spieler /ts, /threatsentinel in den Chat, erscheint über dem Eingabefeld die Liste SÄMTLICHER Befehle des Addons mit kurzer
-   Beschreibung (Spielsprache, alle Locale-Dateien). Quelle: den Slash-Handler von ThreatSentinel (inkl. /ts testroutine a … j).
-   BL1 Vollständig: die Liste kommt aus DERSELBEN Befehlstabelle, die der Slash-Handler zum Ausführen benutzt (eine Tabelle
-       für beides; der Handler liest aus ihr). Auch Befehle mit Zusatz zeigen ihn ("danke <Name>", "weg <Tage>"), deutsche
-       und englische Befehlswörter (z. B. "wo"/"where") finden beide. Entwickler-Befehle nur, wenn GoldSentinelDev den
-       Entwickler erkennt.
-   BL2 Filtern mit jedem Buchstaben: "/gs" = alle; "/gs w" = alles mit w am Anfang (wo, weg, werbung); "/gs we" = weg,
-       werbung; meistbenutzte oben (Zähler in den SavedVariables).
-   BL3 Bedienung (wie AHSentinel Punkt CH und shared/vorlage/README.md "Befehlsliste beim Tippen"): Mausklick bzw.
-       Pfeiltasten/Tab WÄHLEN aus, Enter FÜHRT AUS; Liste schliesst nicht, bevor der Klick ankommt; Fokus zurück mit
-       SetFocus; das Chatfeld wird NIE beschrieben (kein SetText/Insert, kein eigenes OnEnterPressed, nur HookScript lesen);
-       der Slash-Handler führt bei einer frischen Auswahl (≤ 10 s) den gewählten Befehl statt des unvollständigen Worts aus.
-       Option zum Ausschalten. Baustein: CmdHint von AHSentinel, sobald dort CH umgesetzt ist (bis dahin warten bzw. den
-       reparierten Stand übernehmen) – nicht jedes Addon eine eigene Lösung.
-   BL4 Tests: T-BL1 jeder Befehl, den der Handler versteht, steht in der Liste (Vergleich aus der Tabelle, keine
-       Handliste); T-BL2 Filter "/x w", "/x we" liefern genau die passenden; T-BL3 Klick wählt, Enter führt aus; T-BL4
-       Chatfeld nie beschrieben; T-BL5 Entwickler-Befehle nur für den Entwickler; T-BL6 alle Sprachen ohne Platzhalter-
-       Fehler. Alte Clients (Era, TBC) nicht brechen.
-
-
-NACHPRÜFUNG 13.11. 14:30 (Prüf-Sitzung im Chat, Auftrag des Nutzers "prüfe ob alles umgesetzt wurde")
-------------------------------------------------------------------------------------------------
-Geprüft: 2.5.10 (628576a) mit Bericht berichte/ThreatSentinel/2026-11-13-1330-version-2.5.10.txt.
-addon_check 2.5.10 OK (0 FEHLER, 0 WARNUNG). Offline-Routine (berichte/ThreatSentinel/offline/routine_offline.py,
-ausgepackter Ordner): FEHLER ausserhalb der Nachbildungs-Liste 0. Diagnose 2.5.10 aus dem Spiel: 0 Fehler.
-Erledigt (danke): TU1–TU9 (Bereich U, TestRoutineTU.lua, R.REGRESSIONS 41 von 41, Grundregel-Wächter T:CheckRules),
-BL1–BL4 (ns.COMMANDS, CmdHint.lua nur HookScript, T-BL1–T-BL6).
-Kleinigkeit (NIEDRIG): routine_offline.py nimmt nur einen ausgepackten Ordner; mit einer ZIP als Argument bricht es ab
-(NotADirectoryError). Bitte ZIP annehmen oder ohne Argument die neueste download/ThreatSentinel-*.zip nehmen (wie BuffSentinel).
-Weiter offen: Punkt 1 (gemeinsamer Sync, wartet auf den Nutzer); IM CLIENT PRÜFEN wie oben, dazu /ts testroutine mit
-Bereich U ("Regressionen: 41 von 41 vorhanden"), TU5-E2 (Testprotokoll eines echten Kampfs), TU7-K1 Skalierung.
-
-MN (NEU 13.11. 15:35 – Entscheid des Nutzers "Markt komplett messen", Anweisung anweisung-marktdaten-netz.txt):
-   MN1–MN4 – WARTET auf shared/GoldSentinelMarkt.lua (Meldung folgt), dann einbauen.
-   Kurz: Vollscans still mitlesen (keine Abfrage, Schalter zum Ausschalten, keine Namen), über Gilde/Netz teilen,
-   Uploader -> Bot-Server sammelt und misst Absatz. Bitte die Anweisung ganz lesen.
-   MN BEREIT (13.11. 16:00): shared/GoldSentinelMarkt.lua v1 liegt bereit – MN1–MN4 JETZT einbauen.
-   MN KORREKTUR (13.11. 16:05): GoldSentinelMarkt.lua v1 ergänzt (Absatz-Untergrenze, Export-Eintrag mit 6 Feldern). Wer die Datei schon kopiert hat: NEU KOPIEREN (Prüfung "exact").
-   MN KORREKTUR 2 (13.11. 17:00): GoldSentinelMarkt.lua v1 um FeedStart/Feed ergänzt (Addons mit eigenem Vollscan geben ihr Ergebnis weiter, kein doppeltes Lesen). Wer die Datei schon kopiert hat: NEU KOPIEREN (Prüfung "exact").
+Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/ThreatSentinel/ ablegen.

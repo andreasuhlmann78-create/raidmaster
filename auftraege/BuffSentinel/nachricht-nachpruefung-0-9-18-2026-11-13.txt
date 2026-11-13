@@ -1,0 +1,43 @@
+NACHRICHT AN DIE BUFFSENTINEL-SITZUNG (zum Einfügen)
+
+Erst laufende Arbeit fertig machen.
+
+Stand: 13.11.2026, 17:50 MEZ · Nachprüfung von BuffSentinel 0.9.17 und 0.9.18 (gegen 0.9.16), Bericht
+berichte/BuffSentinel/2026-11-13-1654-mn-marktnetz.txt gelesen.
+
+ERLEDIGT (danke): MN1–MN4 (Attach Core.lua:1288, Schalter Options.lua:805–808, MARKT-NETZ-Zeile Core.lua:426–439 und
+Diag.lua:90–96, T176–T179 SelfTest.lua:786–874). 0.9.18: addon_check OK (0 FEHLER, 0 WARNUNG), alle vier gemeinsamen
+Dateien byte-gleich mit shared/, Offline-Routine alle Kombinationen PASS. Der veraltete Stand von GoldSentinelMarkt.lua
+aus 0.9.17 ist behoben. Freigegeben.
+Euer Befund Pump/Schalter an GoldSentinelMarkt ist berechtigt (offline nachgestellt). Die Prüf-Sitzung korrigiert
+shared/GoldSentinelMarkt.lua; ihr ändert die Datei nicht.
+
+ZU TUN (nächste Version 0.9.19)
+
+MITTEL
+- BP-2026-11-13-1 Schamane Imbue + Waffen-Totem (Hotfix 12.11.): Data/Shaman.lua:19/22/30/42, Display.lua:1253–1256.
+  Zuerst im Client messen (GetWeaponEnchantInfo mit Verzauberungs-ID, Fall a nur Imbue, b nur Totem, c beides) – die
+  Messung als Diagnose-Zeile schon jetzt einbauen. Erst danach Imbue an der Verzauberungs-ID erkennen. Nichts raten.
+  Test T-BP-1113-1 (Attrappe über BS.API, Fälle a/b/c und "unbekannte ID").
+
+NIEDRIG
+- TU1-Rest: "Proc mit Restzeit" als eigene Lage und "Gruppenbuff von anderen" (Buff da, von anderem Spieler -> keine
+  Erinnerung) in T201 (SelfTest.lua:3240) bzw. neuem T2xx.
+- MN3a (NEU): BS:MarketShareOn (Core.lua:413–417) und die MARKT-NETZ-Zeile (Core.lua:436) zeigen nur den eigenen
+  Schalter. Ist er in einem anderen GoldSentinel-Addon aus, ist das ganze Marktnetz aus, BuffSentinel zeigt aber "an".
+  Lösung: zusätzlich GoldSentinelMarkt.IsShareOn() ausgeben ("an (Netz aus: anderes Addon)", Locales EN/DE), Hinweis
+  in den Optionen. Test T-MN3a.
+- MN-S (wartet): Sobald die Prüf-Sitzung die korrigierte shared/GoldSentinelMarkt.lua meldet, neu kopieren und T178
+  (SelfTest.lua:833–856) erweitern: Eintrag in outbox + Schalter aus + Tick -> kein Send; readAt geplant + Schalter aus
+  + Tick -> kein Lesen (T-MN-S). Bis dahin nichts tun.
+
+IM CLIENT PRÜFEN: Liste in offen-buffsentinel.txt Punkt 5 (u. a. MARKT-NETZ nach einem fremden Vollscan, Schalter aus,
+Era/TBC ohne Fehler, Messung BP-2026-11-13-1, /bsen-Befehlsliste, UI-Skalierung 80 %/150 %).
+
+git pull --rebase und auftraege/BuffSentinel/offen-buffsentinel.txt lesen; nach der Umsetzung Bericht in
+berichte/BuffSentinel/ ablegen.
+
+Nächste Version 0.9.19. Komplette Dateien, alte Clients nie brechen, alle Locale-Dateien, CHANGELOG EN/DE, jeder Befund
+mit bleibendem Regressionstest. Vor dem Push python3 addon-check/addon_check.py download/BuffSentinel-0.9.19.zip ->
+kein FEHLER.
+Ist ein Befund falsch, bitte begründet zurückmelden.

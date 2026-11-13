@@ -1,104 +1,108 @@
-OFFENE PUNKTE PROFESSIONSENTINEL (nach der Nachprüfung von 0.9.42)
+OFFENE PUNKTE PROFESSIONSENTINEL (nach der Nachprüfung von 0.9.44)
 ===================================================================
-Stand: 13. November 2026, 08:25 · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/ProfessionSentinel-0.9.42.zip
-(geprüft 0.9.40, 0.9.41 und 0.9.42 gegen 0.9.39)
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.39 samt den Nachträgen
-TU, PM, BL und den Antworten F1–F6 vom 13.11.
-Gelesen: berichte/ProfessionSentinel/2026-11-13-0735-version-0.9.41.txt, 2026-11-13-0736-fragen-0.9.41.txt,
-2026-11-13-0830-version-0.9.42.txt – die gemeldeten Punkte sind im Code belegt (Ausnahmen unten).
+Stand: 13. November 2026, 17:50 MEZ · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/ProfessionSentinel-0.9.44.zip
+(Quell-Repo 5940493, geprüft gegen 0.9.43)
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.42 samt dem Abschnitt
+"NACHPRÜFUNG 13.11. 14:30" und den MN-Nachträgen (MN, MN BEREIT, MN KORREKTUR, MN KORREKTUR 2).
+Gelesen: berichte/ProfessionSentinel/2026-11-13-1715-version-0.9.44-marktnetz.txt – die gemeldeten Punkte sind im Code
+belegt (Ausnahme: Punkt 1 unten, die Kopie ist veraltet).
 
 REIHENFOLGE: Erst die laufende Arbeit fertig machen, dann die Punkte unten von oben nach unten.
 
-Erledigt in 0.9.40 bis 0.9.42 (danke)
--------------------------------------
-- 0.9.40: Rezeptdaten-Update (Forever-Lagerteile, Schneider-Taschen, Grober Schleifstein) – Data_Forever.lua, CHANGELOG.
-- Punkt 1 der Nachprüfung 0.9.39 (Top-Zeile im Reiter "Rezepte" öffnet Details): bestätigt, im CHANGELOG 0.9.41,
-  T243 um den Klick ergänzt (TestRoutine.lua 5074 ff.). Erledigt.
-- PM1 beide Richtungen: Market.lua 257–268 (Judge: rawNet, craftAdv, direction), MK.DirectionText; Gruppe "Zutaten lieber
-  roh verkaufen" im Reiter Gold.
-- PM2 Leiter für die benötigte Menge: Market.lua 88–112 (BuyCost, Rest 1,5 × letzte Stufe), Prices.lua 198–224
-  (Herstellungen × Menge, Händler billiger -> Händler), Abklingzeit Market.lua 168 (IsCooldown, je Abklingzeit).
-  Mit AHSentinel über API.MaterialCost (Market.lua 195–220, Zutatenliste muss passen). Einschränkung siehe Punkt 4.
-- PM3 / F1: Market.lua 113–143 (InfoRaw: alt > 6 Std., Aufkauf Leiter[1] > 150 %, dünn < 5 Angebote; mit AHSentinel aus
-  API.MarketState), 275–288 (über 300 % allein -> Zahl gelb "sehr hohe Marge", grau "Daten prüfen" nur mit zweitem Zeichen).
-  Prüffälle T247 (Raptor-Rippchen 361 % zeigt, mit 2 Angeboten grau), T249, T257. MK.CheckRules (Market.lua 551–575).
-- PM4 / F2: Prices.lua 248–259 (API.WorthUpTo mit qty = 1 = Stückpreis, Weg, Sicherheit), Market.lua 62–65
-  (WorthUnsure: Zahl < 0,6 oder "unsicher"); MarketState optional ohne Diagnose-Zeile. T250 gleiche Zahl mit/ohne AHSentinel.
-- PM5 / F3 / F4: Market.lua 344 ff. (BandHints, "ruhig" ohne Hinweis), 389–395 (Filter "Nur Raid-Bedarf" bleibt,
-  Hinweis "Raidstart 9.12." nur Forever bis 9.12.; Forever/Era/TBC). T251.
-- PM6: Market.lua 421 (OnCraft), 519 (ReadInvoices, Post nur gelesen), Trefferquote je Beruf im Testbericht, ab 20 Fällen
-  < 60 % "unsicher". T252.
-- PM7 / TU1–TU9: Bereich M (T247–T253) und U (T254–T260), T261; Testbericht je TU-Bereich eine Zeile, "Regressionen: 59 von
-  59 vorhanden · Startwert TU4 4711"; TU5 still nach jedem AH-Scan (Diagnose "GRUNDREGEL VERLETZT"); alles in
-  tests/run_offline.py. anweisung-markt-herstellen.txt und anweisung-tests-umfassend.txt sind damit erledigt und entfernt
-  (Restpunkte stehen unten).
-- BL1/BL2: Core.lua 646–696 (ns.COMMANDS = eine Tabelle für Ausführen und Liste, ns.COMMAND_PREFIXES), 733 (ns.CommandList,
-  filtert DE/EN, meistbenutzte oben), 759–790 (ns.SelectCommand / SelectedCommand, frische Auswahl ≤ 10 s). /ps hilfe.
-  Tests T262 (T-BL1, T-BL5), T263 (T-BL2), T264 (T-BL3 Auswahl + Enter, T-BL6).
+Erledigt in 0.9.44 (danke)
+--------------------------
+- MN2 Schalter "Marktdaten teilen (anonym, nur Preise)", Standard an: Core.lua 640–652 (ns.MarketNet über ns.Foreign,
+  ns.MarketNetOn, ns.SetMarketNet über GoldSentinelMarkt.SetShare, ohne Datei db.gsMarktAus), Core.lua 721–725 (/ps markt,
+  auch in der Befehlsliste), Minimap.lua 95 (Optionen), Locales.lua 235–236 / 815–816 (EN/DE), CHANGELOG EN/DE 0.9.44.
+- MN3 Testbericht-Zeile: Core.lua 654–666 (ns.MarketNetLine "MARKT-NETZ: v1 · an · Scans mitgelesen … · Speicher … Items"),
+  TestRoutine.lua 7591 und 7674 (umfassend.marktnetz). Offline im Bericht sichtbar.
+- MN4 Test T266 (TestRoutine.lua 7083–7120): Datei geladen und angemeldet, Standard an, Schalter aus -> IsShareOn false,
+  wieder an, Option in der Liste, Berichtszeile, Get/DiagLines ohne AH-API ohne Lua-Fehler, ohne Datei ("nicht geladen")
+  läuft das Addon weiter. Regressionsliste TestRoutine.lua 6824 (MN1-MN4 -> T266), Standardwerte 6552.
+- MN1 Einbau (ohne die Kopie selbst, siehe Punkt 1): Core.lua 619–620 (GoldSentinelMarkt.Attach("ProfessionSentinel",
+  ProfessionSentinelDB) beim Laden, mit pcall), alle vier .toc mit GoldSentinelMarkt.lua vor den eigenen Dateien.
+  Stub verweigert GoldSentinelMarkt/GSMarkt (TestRoutine.lua 183) – Tests ersetzen die gemeinsame Datei nie.
+- Nebenbei: Test-Helfer Foreign(name, nil) setzt jetzt false ("nicht geladen" wirkt), TestRoutine.lua 210–211. Gut gefunden.
+- Aus 0.9.43 (Nachprüfung 14:30): Punkt 5 (Test ersetzt Funktionen von AHSentinel) erledigt – T265.
 
-Prüfungen (0.9.42)
+Prüfungen (0.9.44)
 ------------------
-- addon_check: OK, 0 FEHLER, 0 WARNUNGEN (Ladetest und Sprachtest bestanden).
-- GoldSentinelGame.lua (Version 3) und GoldSentinelTest.lua (Version 2) byte-gleich mit shared/. Neue Datei Market.lua,
-  in allen vier .toc (0.9.42). CHANGELOG EN/DE für 0.9.40, 0.9.41, 0.9.42 vorhanden.
-- tests/run_offline.py (Quell-Repo 7970aae): Exit 0. Forever OK 219–220 / FEHLER 0–1 (nur T143 Zeitmessung "AD.Plan 25 ms",
-  zählt offline nicht), Era OK 202 / 0, Retail OK 201 / 0, TBC ohne Lua-Fehler. TU1–TU7 je ohne FEHLER, TU6 Forever OK 67.
-- Keine Blizzard-Funktion und keine C_-Tabelle ersetzt. Die Tests ersetzen über Stub (TestRoutine.lua 181, mit Rückbau)
-  eigene Tabellen – Ausnahme siehe Punkt 5.
-- Diagnose 0.9.39-aa904ceffb7e.txt: 0 Lua-Fehler. Die Zeilen "SPIELTEST S7/S8 FEHLER" stammen vom 9.11. (alte Versionen)
-  und sind bereits unter IM CLIENT PRÜFEN (/ps spieltest an) erfasst.
-- Sync weiterhin nicht zutreffend (keine Addon-Nachrichten).
+- addon_check: 1 FEHLER, 0 WARNUNGEN – "GoldSentinelMarkt.lua weicht von shared/GoldSentinelMarkt.lua ab" (siehe Punkt 1).
+  Sonst bestanden (Ladetest, Sprachtest, Syntax).
+- GoldSentinelGame.lua (Version 3) und GoldSentinelTest.lua (Version 2) byte-gleich mit shared/. GoldSentinelMarkt.lua
+  NICHT gleich: Kopie = Stand a3c51a5 (16:05), shared/ = 6e66279 (MN KORREKTUR 2, FeedStart/Feed). 0.9.44 wurde um 16:45
+  veröffentlicht, die Korrektur kam um 16:49 – kein Versäumnis, aber neu kopieren.
+- tests/run_offline.py (Quell-Repo 5940493): Exit 0. Forever OK 222 / FEHLER 0, Era OK 204 / 0, Retail OK 203 / 0, TBC ohne
+  Lua-Fehler. TU1–TU7 ohne FEHLER (TU6 Forever OK 69). "Regressionen: 61 von 61". Zeile MARKT-NETZ in allen drei Läufen.
+  Das Skript hat im Repo nichts verändert (git status leer).
+- Keine Blizzard-Funktion und keine C_-Tabelle ersetzt. Sichtbare neue Texte über die Sprachtabelle (EN/DE).
+  CHANGELOG EN/DE für 0.9.44 vorhanden. Alte Clients: GoldSentinelMarkt meldet das Ereignis per pcall an und bleibt ohne
+  C_AuctionHouse still; Era/TBC offline ohne Fehler.
+- Diagnose 0.9.43-2cc0e69183db.txt und 0.9.43-ad16a754ade4.txt (aus dem Spiel, 13.11. 15:49 / 16:19): 0 Lua-Fehler,
+  keine neuen LANGSAM-Einträge (nur alte von 0.9.36/0.9.37), "ÜBERLAPPT ×762" unverändert seit 9.11. (zählt nicht hoch).
+  Die Zeilen "SPIELTEST S7/S8 FEHLER" stammen vom 9.11. und sind unter IM CLIENT PRÜFEN erfasst.
+- Sync: ProfessionSentinel sendet weiterhin selbst nichts (T93). GoldSentinelMarkt nutzt den Sync eines anderen Addons.
 
 OFFENE PUNKTE
 -------------
-1. BL3/BL4 BEFEHLSLISTE ÜBER DEM CHAT (MITTEL) – jetzt nicht mehr blockiert
-   - AHSentinel 0.65.104 ist veröffentlicht mit CH1–CH5 (Befehlsliste: Klick wählt, Enter führt aus), Datei
-     AHSentinel/CmdHint.lua. ProfessionSentinel ist vorbereitet (ns.COMMANDS, ns.COMMAND_PREFIXES, ns.CommandList,
-     ns.SelectCommand, Zähler).
-   - Zu tun, sobald die Nachprüfung von AHSentinel 0.65.104 CH bestätigt (auftraege/AHSentinel/offen-ahsentinel.txt):
-     den Baustein CmdHint unverändert übernehmen (wie er bereitgestellt wird – Frage "shared/ oder Kopie" ist an die
-     Prüf-Sitzung im Chat weitergegeben; Antwort kommt in diese Datei), Fenster über dem Chat, Option zum Ausschalten
-     (alle Locale-Dateien), Test T-BL4 (Chatfeld nie beschrieben: kein SetText/Insert, kein eigenes OnEnterPressed) und
-     T-BL3 mit Klick im Fenster ergänzen. Alte Clients (Era, TBC) nicht brechen.
+1. GOLDSENTINELMARKT.LUA NEU KOPIEREN (HOCH) – MN1 teilweise, addon_check FEHLER
+   - Datei: ProfessionSentinel/GoldSentinelMarkt.lua (Kopie vom Stand 16:05). shared/GoldSentinelMarkt.lua hat seit
+     MN KORREKTUR 2 (13.11. 17:00) zusätzlich GM.FeedStart/GM.Feed (Kopf Zeile 39–40, Lesen Zeile 217, Apply ab 324).
+   - Folge im Spiel: Beide Stände heissen "Version 1". Lädt die Kopie von ProfessionSentinel zuerst, gewinnt sie, und ein
+     Addon mit eigenem Vollscan (AHSentinel) findet kein FeedStart/Feed – der Scan wird doppelt gelesen.
+   - Lösung: shared/GoldSentinelMarkt.lua unverändert neu kopieren (cmp gleich), nächste Version, CHANGELOG EN/DE eine Zeile
+     ("gemeinsame Datei GoldSentinelMarkt.lua aktualisiert"). Test T-MN1: T266 prüft zusätzlich, dass
+     GoldSentinelMarkt.FeedStart und .Feed Funktionen sind. Vor dem Push addon_check -> kein FEHLER.
 
-2. NEUAUFBAU IM CLIENT BESTÄTIGEN (MITTEL, nur Prüfung) – Punkt 2 der Nachprüfung 0.9.39
+2. BL3/BL4 BEFEHLSLISTE ÜBER DEM CHAT (MITTEL) – WARTET auf den Entscheid des Nutzers
+   - Frage "CmdHint als gemeinsame Datei shared/GoldSentinelCmdHint.lua?" ist berechtigt (die anderen fünf Addons haben je
+     eine eigene angepasste CmdHint.lua, 301–368 Zeilen). Die Antwort kommt in diese Datei. Bis dahin BL3/BL4 NICHT selbst
+     bauen. ProfessionSentinel ist vorbereitet (ns.COMMANDS, ns.COMMAND_PREFIXES, ns.CommandList, ns.SelectCommand).
+   - Danach: Baustein wie bereitgestellt übernehmen, Fenster über dem Chat, Option zum Ausschalten (alle Locale-Dateien),
+     Test T-BL4 (Chatfeld nie beschrieben: kein SetText/Insert, kein eigenes OnEnterPressed), T-BL3 mit Klick im Fenster.
+     Era/TBC nicht brechen.
+
+3. NEUAUFBAU IM CLIENT BESTÄTIGEN (MITTEL, nur Prüfung)
    - Offline erledigt. Im Spiel: /ps protokoll nach Öffnen des Berufsfensters, Reiterwechsel und Klicks – keine neuen
-     LANGSAM-Einträge über 16 ms; /ps spieltest an -> S7 OK; /ps testroutine h -> T246, T219, T257 OK. Neu dazu: der
-     Reiter Gold mit Market.lua (Leiter, Infos je Zutat) – bleibt er unter 16 ms je Bild?
+     LANGSAM-Einträge über 16 ms; /ps spieltest an -> S7 OK; /ps testroutine h -> T246, T219, T257 OK; Reiter Gold mit
+     Market.lua unter 16 ms je Bild. (Diagnose 0.9.43 vom 13.11.: keine neuen LANGSAM-Einträge – gutes Zeichen, aber noch
+     ohne Testroutine-Ergebnis aus dem Client.)
 
-3. T145 SPEICHER NAHE AN DER GRENZE (NIEDRIG, nur Prüfung)
-   - Laut Bericht 0.9.41: LuaJIT +1023 KB (Grenze 1024), Lua 5.1 +1527 KB, weil T254–T256/T260 Listen mit Testpreisen
-     aufbauen. Im echten Client /ps testroutine h: T145 OK? Wenn nicht: die Testdaten der Bereiche M/U nach dem Fall
-     freigeben (Rückbau) statt die Grenze zu erhöhen.
+4. T145 SPEICHER NAHE AN DER GRENZE (NIEDRIG, nur Prüfung)
+   - LuaJIT +1023 KB (Grenze 1024), weil T254–T256/T260 Listen mit Testpreisen aufbauen. Im echten Client
+     /ps testroutine h: T145 OK? Wenn nicht: Testdaten der Bereiche M/U nach dem Fall freigeben (Rückbau), Grenze nicht erhöhen.
 
-4. ZWEITES ZEICHEN "LEITER ZU KURZ" WIRKT IM SPIEL NOCH NICHT (NIEDRIG, wartet auf AHSentinel)
-   - MK.Ladder (Market.lua 78–86) liefert eine Leiter nur mit Testdaten (ns.Sim.market). Im Spiel kommt die Zutat-Leiter
-     nur über AHSentinel API.MaterialCost – die rechnet in 0.65.104 (API.lua 78–96) noch mit Cr:BestUnit(id, 1) =
-     Einzelpreis und meldet kein "reicht nicht" (F5, Auftrag liegt bei AHSentinel). Bis dahin greift über 300 % im Spiel
-     nur dünn/alt/Aufkauf (aus API.MarketState) als zweites Zeichen.
-   - Zu tun, sobald AHSentinel MaterialCost mit Leiter liefert: ein Feld "short" je Zutat aus der API lesen (part.short)
-     und T249 um diesen Weg ergänzen. Nichts selbst nachbauen.
+5. ZWEITES ZEICHEN "LEITER ZU KURZ" WIRKT IM SPIEL NOCH NICHT (NIEDRIG, wartet auf AHSentinel)
+   - MK.Ladder (Market.lua 78–86) liefert eine Leiter nur mit Testdaten. AHSentinel API.MaterialCost rechnet auch in
+     0.65.112 (API.lua 77–78) noch mit Cr:BestUnit (Auftrag API-PM3 / T569 liegt bei AHSentinel).
+   - Zu tun, sobald AHSentinel MaterialCost mit Leiter liefert: Feld "short" je Zutat lesen (part.short), T249 um diesen
+     Weg ergänzen. Nichts selbst nachbauen.
 
-5. TEST ERSETZT FUNKTIONEN VON AHSENTINEL (NIEDRIG)
-   - TestRoutine.lua 6125–6126: Stub(_G.AHSentinel.API, "MarketState", nil) und Stub(_G.AHSentinel.API, "Price", …).
-     Der Rückbau ist da, aber im echten Client bekommen während des Falls auch AHSentinel selbst und andere Abonnenten
-     (z. B. GuildSentinel, wenn es die API nutzt) die Testwerte. Regel nachtrag-testroutinen.txt Punkt 1: nur Einträge
-     der EIGENEN Tabelle ersetzen.
-   - Lösung: über die eigene Nahtstelle ersetzen (z. B. MK.OptApi / PriceSource.API() bzw. eine Testtabelle in
-     ns.PriceSource), nicht in AHSentinel.API. Test T-5: nach dem Fall ist AHSentinel.API unverändert und während des
-     Falls nie verändert.
+6. AN/AUS-MELDUNG NICHT ÜBER DIE SPRACHTABELLE (NIEDRIG, neu)
+   - Core.lua 724 (neu, /ps markt), dazu schon älter Core.lua 689 und 705, Favor.lua 275, MerchantQty.lua 205: fester Text
+     "|cff40c040an/on|r" / "|cffff4040aus/off|r" statt L.ON / L.OFF.
+   - Lösung: eine Hilfsfunktion (wie StateText in Minimap.lua 70–72) mit L.ON/L.OFF für alle fünf Stellen. Test T-MN6:
+     /ps markt in enUS zeigt "on"/"off", in deDE "an"/"aus" (Capture, kein Chat).
 
-IM CLIENT PRÜFEN (mit 0.9.42 und AHSentinel 0.65.104)
------------------------------------------------------
-- Neu: /ps testroutine m und u (Bereiche Markt und TU) ohne FEHLER; Testbericht mit den Zeilen TU1–TU7,
-  "Regressionen: 59 von 59", "Trefferquote je Beruf".
-- Neu: Reiter Gold mit AHSentinel – Gruppen "Daten prüfen" und "Zutaten lieber roh verkaufen", gelber Hinweis
+FRAGE AUS DEM BERICHT 0.9.44 (an die Prüf-Sitzung im Chat weitergegeben)
+- "GoldSentinelSync.lua in ProfessionSentinel mitbringen – ja/nein?" Technisch ist es nicht nötig: GoldSentinelMarkt
+  verbindet sich später selbst mit _G.GoldSentinelSync, sobald irgendein Addon die Datei mitbringt (shared/GoldSentinelMarkt.lua
+  ab Zeile 552). Ohne ein solches Addon liest ProfessionSentinel allein nur mit und speichert. Der Entscheid, ob
+  ProfessionSentinel allein auch teilen soll, liegt beim Nutzer; die Antwort kommt in diese Datei. Bis dahin so lassen.
+
+IM CLIENT PRÜFEN (mit 0.9.44 bzw. der nächsten Version und AHSentinel 0.65.112)
+-------------------------------------------------------------------------------
+- Neu: nach einem Vollscan (AHSentinel) /ps testroutine g -> Zeile "MARKT-NETZ: v1 · an · Scans mitgelesen 1"; kein
+  Ruckeln beim Mitlesen; /ps markt aus -> nach dem nächsten Vollscan zählt "Scans mitgelesen" nicht hoch.
+- /ps testroutine m und u (Bereiche Markt und TU) ohne FEHLER; Testbericht mit TU1–TU7, "Regressionen: 61 von 61",
+  "Trefferquote je Beruf", MARKT-NETZ.
+- Reiter Gold mit AHSentinel – Gruppen "Daten prüfen" und "Zutaten lieber roh verkaufen", gelber Hinweis
   "sehr hohe Marge – Absatz prüfen" (z. B. Rippchen vom tobenden Raptor), Hinweiszeile Stufenband, Filter "Nur Raid-Bedarf"
   mit "Raidstart 9.12.". Zahl im Tooltip = Details = Gold-Rangliste = AHSentinel "Lohnt bis".
-- Neu: dünn/Aufkauf/alt aus AHSentinel API.MarketState erscheinen grau (z. B. ein Produkt mit < 5 Angeboten).
-- Neu: nach einem Verkauf in der Post zählt die Trefferquote hoch (Post wird nur gelesen, nichts genommen oder gelöscht).
-- Neu: /ps hilfe; /ps mit Tippfehler; frisch gewählte Zeile + Enter.
-- Neu: nach einem AH-Scan keine "GRUNDREGEL VERLETZT"-Zeile im Diagnose-Protokoll (sonst die Zeile melden).
+- dünn/Aufkauf/alt aus AHSentinel API.MarketState erscheinen grau (z. B. ein Produkt mit < 5 Angeboten).
+- Nach einem Verkauf in der Post zählt die Trefferquote hoch (Post wird nur gelesen, nichts genommen oder gelöscht).
+- /ps hilfe; /ps mit Tippfehler; frisch gewählte Zeile + Enter.
+- Nach einem AH-Scan keine "GRUNDREGEL VERLETZT"-Zeile im Diagnose-Protokoll (sonst die Zeile melden).
 - Klick, Reiter, Suche, Einstellung zeichnen ohne Flackern; Reiter "Skillen": Plan stimmt nach Lernen/Fertigkeitspunkt/
   AH-Scan; "Danach orange" sinnvoll. Klick in "Gold" und "Skillen" öffnet keine Details, in "Rezepte" schon (auch Top-Zeile).
 - /gstest: einmalige Frage zur Zustimmung, ohne Zustimmung wird nichts gesendet (GoldSentinelTest 2).
@@ -108,34 +112,13 @@ IM CLIENT PRÜFEN (mit 0.9.42 und AHSentinel 0.65.104)
   Sniper. Reiter "Skillen": "Nächster Schritt", Lernort mit Wegpunkt. Rezept-Alarm höchstens eine Chatzeile je Sitzung.
 - Forever-Rezepte mit neuer Quelle (0.9.38) und die geänderten Lager-/Taschen-Rezepte aus 0.9.40 (Gerbrahmen ab 125,
   Wolltaschen 5 Wollstoff) stimmen im Tooltip und in den Details.
-- "ÜBERLAPPT Panel überdeckt AHAnalyzerProCraftPanel" zählt nicht wieder hoch (sonst Versionen beider Addons melden).
+- "ÜBERLAPPT Panel überdeckt AHAnalyzerProCraftPanel" zählt nicht wieder hoch (Stand 13.11.: ×762, unverändert).
 - Ohne AHSentinel, nur auxForever / nur Auctionator / nur Auctioneer (+ Enchantrix): Quelle stimmt, Preise kommen, Rezepte
   als "ohne Leiter" markiert, keine "Funktion nicht gefunden"-Zeile.
 - /ps spieltest an: S5, S7, S8, S10. Mengenfenster: Esc schliesst nach Mausklick; volle Taschen kauft den Rest.
 - /ps testroutine im echten Client: T139/T140/T143/T219/T246/T257 unter 16 ms, T145 Speicher, T245, Bereich K (T206–T211,
-  T235, T242), T188 Andocken mit AHSentinel, T113, T144, T169/T170, T228–T238; TU7 Skalierung 75 %/125 %.
+  T235, T242), T188 Andocken mit AHSentinel, T113, T144, T169/T170, T228–T238, T265, T266; TU7 Skalierung 75 %/125 %.
 
 Wie immer: komplette Dateien, Era/TBC/Retail nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
 Jeder Befund bekommt einen bleibenden Test T-<ID> (auftraege/README.md).
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/ProfessionSentinel/ ablegen.
-
-
-NACHPRÜFUNG 13.11. 14:30 (Prüf-Sitzung im Chat, Auftrag des Nutzers "prüfe ob alles umgesetzt wurde")
-------------------------------------------------------------------------------------------------
-Geprüft: 0.9.43 (fed03e6, Quell-Repo 7fe81e4) mit Bericht berichte/ProfessionSentinel/2026-11-13-1215-version-0.9.43.txt.
-addon_check 0.9.43 OK (0 FEHLER, 0 WARNUNG). Diagnose 0.9.43 aus dem Spiel: keine neuen LANGSAM-Einträge (nur alte von 0.9.37).
-Erledigt (danke): Punkt 5 – fremde Addons nur über ns.Foreign/ns.foreignTest, Stub() weist fremde Globals und echte
-API-Tabellen ab, T265, Regressionen 60 von 60.
-Punkt 1 (BL3/BL4): Die Frage "CmdHint als shared/GoldSentinelCmdHint.lua?" ist berechtigt. Befund dazu: Die anderen
-fünf Addons haben den Baustein inzwischen je angepasst kopiert (sechs verschiedene CmdHint.lua, 301–368 Zeilen) – genau
-das, was "nicht jedes Addon eine eigene Lösung" verhindern sollte. Der Entscheid liegt beim Nutzer; die Antwort kommt in
-diese Datei. Bis dahin BL3/BL4 nicht selbst bauen.
-Weiter offen: Punkt 2 (im Client), Punkt 3 (T145 im Client), Punkt 4 (wartet auf AHSentinel MaterialCost mit Leiter).
-
-MN (NEU 13.11. 15:35 – Entscheid des Nutzers "Markt komplett messen", Anweisung anweisung-marktdaten-netz.txt):
-   MN1–MN4 – WARTET auf shared/GoldSentinelMarkt.lua (Meldung folgt), dann einbauen.
-   Kurz: Vollscans still mitlesen (keine Abfrage, Schalter zum Ausschalten, keine Namen), über Gilde/Netz teilen,
-   Uploader -> Bot-Server sammelt und misst Absatz. Bitte die Anweisung ganz lesen.
-   MN BEREIT (13.11. 16:00): shared/GoldSentinelMarkt.lua v1 liegt bereit – MN1–MN4 JETZT einbauen.
-   MN KORREKTUR (13.11. 16:05): GoldSentinelMarkt.lua v1 ergänzt (Absatz-Untergrenze, Export-Eintrag mit 6 Feldern). Wer die Datei schon kopiert hat: NEU KOPIEREN (Prüfung "exact").
-   MN KORREKTUR 2 (13.11. 17:00): GoldSentinelMarkt.lua v1 um FeedStart/Feed ergänzt (Addons mit eigenem Vollscan geben ihr Ergebnis weiter, kein doppeltes Lesen). Wer die Datei schon kopiert hat: NEU KOPIEREN (Prüfung "exact").

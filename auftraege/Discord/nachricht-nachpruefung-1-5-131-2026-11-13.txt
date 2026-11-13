@@ -1,0 +1,47 @@
+NACHRICHT AN DIE DISCORD-SITZUNG (zum Einfügen)
+===============================================
+Erst laufende Arbeit fertig machen.
+
+Stand: Nachprüfung von RaidMasterBot 1.5.131 (13.11.2026, 17:40 MEZ, geplante Nachprüfung).
+
+ERLEDIGT (danke): MN7 Sammelstelle (market.py, GSMARKT1 v1 genau nach Anweisung, Doppelte je Fraktion + Scan-Zeit,
+Absatz als Spanne, Umschlag, Abdeckung, Wochenbericht + Workflow markt-bericht.yml), MN8 monatlich
+(blizzard_monthly, nur bei Änderung, ohne Zugangsdaten), D-GS1b (bot.py:4957). Stilles Mitlesen von GSMARKT1 in
+#testberichte ist angenommen (Bedingung: Punkt 3). Bot-Tests hier 211/211 OK, Regressionen 20/20, Module
+importierbar, keine Geheimnisse im Diff, Tests ändern keine Dateien.
+
+ZU TUN (nach Schwere):
+1. MITTEL – D-MN7a: "Quellen" ist immer 1. Quelle = Hash der Webhook-ID (bot.py:2746), aber alle Uploader nutzen
+   denselben Webhook (uploader_setup.py:55–83). PC + Laptop oder zwei Spieler = 1 Quelle; der Bericht nennt immer
+   "Quellen: 1". Lösung: optionales Feld "quelle" (16 Hex, Zufallskennung des Uploaders, keine Namen) im Paket lesen
+   und hashen; ohne Feld wie bisher. Uploader-Teil geht an RaidMaster (MN6b). Test T-D-MN7a.
+2. NIEDRIG – D-MN7c: market_source nimmt jeden Webhook in #testberichte (uploader_setup.py:105–109). Nur
+   cfg["testberichte_webhook_id"]; Kopf <Items> gegen Einträge prüfen; Grenze je Quelle/Stunde und für die Ablage
+   gesamt. Test T-D-MN7c.
+3. NIEDRIG – D-MN7d: Montagsbericht heisst nach der neuen Woche, deckt aber die alte ab (bot.py:2778,
+   market.py:275–281); /marktdaten bericht:True überschreibt ihn; Serverzeit statt TZ des Bots (market.py:205–207,
+   :286–288). Nach week_key(now - 1 Tag) benennen, Zwischenbericht eigener Name, eine Zone. Test T-D-MN7d
+   (Montag 16.11.2026 -> 2026-W46).
+4. NIEDRIG – D-MN7e: Pakete während eines Neustarts gehen verloren (nur on_message, bot.py:458–461). In on_ready
+   die letzten 60 Min. von #testberichte nachlesen (Doppelte verwirft die Ablage). Test T-D-MN7e.
+5. NIEDRIG – D-MN7f: MAX_LINE 2 MB (market.py:37) < Uploader 3 MB (uploader.py:95) -> auf 3 MB; "verlauf" in
+   aggregate (market.py:224–226, :246) nicht sammeln oder kürzen (sonst mehrere hundert MB bei vielen Scans).
+   Test T-D-MN7f.
+6. NIEDRIG – D-T1: T-MN7b und T-D-GS1b sind Quelltext-Tests. bot.py ist importierbar (Kopie in tempfile-Ordner mit
+   Attrappen-config.json, nie im Repo). Als Ablauf-Test umbauen; bei GuildSentinel-Datei > 25 MB eine
+   Protokoll-Zeile ausgeben.
+7. NIEDRIG – D-MN8b: blizzard_fp wird vor dem Senden gespeichert (bot.py:2800–2814); fehlt der Kanal, ist die
+   Änderung verloren. Erst nach erfolgreichem Senden speichern. Test T-D-MN8b.
+8. Hinweis D-MN7b: Ganz ausverkaufte Items fehlen im Export (shared/GoldSentinelMarkt.lua:366–369) – korrigiert die
+   Prüf-Sitzung in shared/. Am Bot nichts ändern; danach in T-MN7 einen Eintrag mit Menge 0 ergänzen.
+9. IM BETRIEB PRÜFEN: /marktdaten nach dem Update; sobald Uploader 2.3.6 sendet: Scans je Fraktion; Montag
+   GSMARKTW1-…md in #bot-befehle und in testberichte/markt/ (nur Item-IDs, keine Namen); Speicher beim Bericht.
+   Weitere Punkte in offen-discord.txt.
+
+git pull --rebase und auftraege/Discord/offen-discord.txt lesen; nach der Umsetzung Bericht in berichte/Discord/
+ablegen.
+
+Nächste Version Bot 1.5.132. Komplette Dateien, alte Daten und alte Uploader nie brechen (Paket ohne "quelle" muss
+weiter gehen), neue Module in den Import-Schritt von bot-tests.yml, vor dem Push
+python3 -I -m unittest discover -s RaidMasterBot/tests -> alles OK. Keine Geheimnisse, IDs oder Namen im Repo.
+Ist ein Befund falsch, bitte begründet zurückmelden.

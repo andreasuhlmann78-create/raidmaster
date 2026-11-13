@@ -1,0 +1,44 @@
+NACHRICHT AN DIE AHSENTINEL-SITZUNG (zum Einfügen)
+=================================================
+Erst laufende Arbeit fertig machen.
+Stand: 2026-11-13 17:45 MEZ · Nachprüfung 0.65.112 (AHAnalyzerPro 94f0abe) durch die Prüf-Sitzung.
+
+ERLEDIGT (danke): TS111.2 im Code (Learn.lua:235–237, Vollscan.lua:1026), TS111.3 Lagerwert erzielbar (Ledger.lua:1278–1283,
+T593), TS111.1 Teil V4 ohne Zeichenketten (Vollscan.lua:547–623, T594), UI1618a Kern (B:QualityPasses, T595), UI1618b
+Formulierung (Tooltip.lua:717–720, T596), MK-Ü1F im Code (TestRoutine.lua:1106–1118). addon_check OK (0 FEHLER, 0 WARNUNG),
+gemeinsame Dateien gleich, alle 11 Sprachen, CHANGELOG EN/DE, kein Taint. Offline s42/s43 PASS, T592–T597 grün.
+
+ZU TUN (Version 0.65.113, vor 0.66)
+HOCH
+ 1 TS111.1-Rest / T373: Hintergrund-Aufgaben pausieren nie ("0 Schritte"): cache:warm-today bis 54 ms, cache:today:10 bis
+   52 ms, ui-refresh 91 ms, fullscan 48 ms (Diagnose 0.65.110). -> je Item bzw. 50 Zeilen eine Pause, Ziel ≤ 16 ms je Bild.
+   T410 im Testbericht nennt nur 2 von 5 Vollscan-Schritten -> Feld vollständig. Teil server im Client mit 0.65.112 messen.
+ 2 TS111.2-Test: T592 (TestRoutine.lua:12279) prüft nur A:GetLiquidity und wäre auch mit 0.65.111 grün. -> T-TS111.2b:
+   5 Items, gemessen 5, Rohschätzung 10 -> Ln:MarketFactor = 0,50 (nicht 1,00); Vergleichsspalte "geschätzt" = 10.
+ 3 MK-Ü1F-Test: T597 (:12359) prüft MK:Report(), nicht finish.markt_kern -> Test auf die Felder (MARKT-KERN, je Weg eine
+   Zeile, ≤ 1500 Zeichen, markt_kern_ma1 mit MA1). Danach Testbericht hochladen – erst dann ist Ü1/Ü2 prüfbar.
+MITTEL
+ 4 UI1618a-R (NEU): ITEMINFO_LOADED (UI_Buy.lua:986–999) filtert nur neu bei iLvl-Bereich (:992). Mit Qualitätsfilter
+   ohne iLvl bleiben nachgeladene grüne/blaue Teile weg. -> auch bei gesetztem Qualitätsfilter p:Refresh(). Test T-UI1618c.
+ 5 SBX1 (NEU, Testbericht 7bc982, Teil server 0.65.110): "sandbox = FEHLER: 5 Pfade, wiederhergestellt: deShared.<Spieler>…".
+   D:HandleShared (Disenchant.lua:634–660) schreibt auch während der Testroutine in die echten deShared; CompareAndRestore
+   (TestRoutine.lua:1056–1063) wirft die echte Sendung des Mitspielers weg. -> Sync-Eingang während TR.running puffern und
+   danach anwenden (oder als "von aussen" behalten). Test T-SBX1.
+ 6 FW1 (NEU, Diagnose 0.65.110): "FLIP-WIDERSPRUCH Item 12184 · Liste bis 184 / 247 · Detail bis 107" und umgekehrt. Der
+   Schutz verwirft die Zeile (gut), aber zwei Kaufgrenzen für dasselbe Item. -> Ursache im Bericht nennen (Cache-Stand?),
+   gleiche Rechnung mit gleichem Stand; spätestens mit RK1. Test T-FW1.
+ 7 UI1509 Leer-Hinweis ausserhalb des Fensters (alle Reiter prüfen), MA3-G Gold-Messung beim Händlerverkauf.
+NIEDRIG
+ 8 UI1510 leeres Testbericht-Fenster; UI1618b-Rest Materialliste "tiefstes Angebot"; Wertzeile bei "bad" grau statt grün
+   (Tooltip.lua:687/:691); T594 collectgarbage("stop") in pcall (TestRoutine.lua:12317–12333); Sigs je Item nur einmal
+   (Vollscan.lua:895/:912); Ü3-S im Client "0 Markt-Zeilen geprüft" (SelfTest.lua:561–575 liest nur MV.cache) -> Zeilen
+   selbst aufbauen, "0 geprüft" als übersprungen.
+Danach 0.66 (RK1–RK8, MR2, Absatz als Spanne, MN1–MN5 mit FeedStart/Feed) wie im Releaseplan. Alles Weitere (PD, TU,
+API-PM4, AB3, L2b, BE2b, E, F, G, IM CLIENT PRÜFEN) steht in der offen-Datei.
+
+git pull --rebase und auftraege/AHSentinel/offen-ahsentinel.txt lesen; nach der Umsetzung Bericht in berichte/AHSentinel/
+ablegen.
+
+Nächste Version 0.65.113: komplette Dateien, alte Clients (Era, TBC) nie brechen, alle Locale-Dateien, CHANGELOG EN/DE,
+vor dem Push python3 addon-check/addon_check.py download/AHSentinel-0.65.113.zip -> kein FEHLER.
+Ist ein Befund falsch, bitte begründet zurückmelden.

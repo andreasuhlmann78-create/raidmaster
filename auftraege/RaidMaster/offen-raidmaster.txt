@@ -1,111 +1,119 @@
-OFFENE PUNKTE RAIDMASTER (nach der Nachprüfung von Uploader 2.3.2)
-=================================================================
-Stand: 13. November 2026, 08:20 · von der Prüf-Sitzung (geplante Nachprüfung)
-Grundlage: RaidMasterUploader 2.3.2 (Ordner und download/RaidMasterUploader.zip, Commit 30dba21), verglichen mit
-Uploader 2.3.1 (Commit ea7bcbe). Addon 3.0.23 unverändert. Dazu der Bericht berichte/RaidMaster/2026-11-13-0520.
+OFFENE PUNKTE RAIDMASTER (nach der Nachprüfung von RaidMaster 3.0.25 und Uploader 2.3.6)
+=========================================================================================
+Stand: 13. November 2026, 17:45 · von der Prüf-Sitzung (geplante Nachprüfung)
+Grundlage: Addon 3.0.25 (Ordner RaidMaster/ und download/RaidMaster-3.0.25.zip, = RaidMaster-latest.zip) und
+Uploader 2.3.6 (Ordner RaidMasterUploader/ und download/RaidMasterUploader.zip), Commit a5bc6d1, verglichen mit
+3.0.24 / 2.3.5 (Commit a5bc6d1^). Dazu der Bericht berichte/RaidMaster/2026-11-13-1715-raidmaster-3.0.25-uploader-2.3.6-markt.txt.
 Der Discord-Bot gehört zum Discord-Projekt (auftraege/Discord/offen-discord.txt).
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand vom 12.11. 11:30 (mit den
-Nachträgen T-DU11, TU, RP-U und BL vom 13.11.).
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand vom 13.11. 08:20 mit den
+Nachträgen T-DU12 (12:10), NACHPRÜFUNG 14:30 und MN (15:35, 16:00, 16:05, 17:00).
 
-Erledigt in Uploader 2.3.2 (danke):
-- T-DU11 (HOCH) wiederholte Meldung "Neuerer Stand vom <eigener Rechner>": Ursache laut Bericht ein zweiter
-  Uploader-Prozess mit altem Zustand. (a) Nur ein Uploader je Rechner: benannter Mutex (Windows) + Instanz-Datei mit
-  PID-Prüfung + Fallback _sync.lock (sync.py:216 instance_running, :237 instance_acquire; uploader.py:923 – zweiter
-  Start meldet "läuft schon (PID, Ordner, Version)" und endet). (b) Jeder Windows-Hinweis steht auch im Fenster mit
-  PID (uploader.py:835 notify_logged), Startzeile mit Version/Ordner/PID; GoldSentinel-WoW.bat gleicht nie ab, wenn
-  ein Uploader läuft (uploader.py:869). (c) pending() wertet eigene Uploads nie als offen (sync.py:812); Meldung
-  nennt je offenem Stand Rechner, Zeit, Spielversion (sync.py:818 pending_text); höchstens einmal je (Schlüssel, rev),
-  gemerkt über Neustarts (sync.py:855 s["warned"]). (d) Autostart-einrichten.bat ersetzt alte/doppelte Einträge,
-  Hinweis beim Start bei mehreren Einträgen (uploader.py:931). Tests ZweiterProzess (tests/test_sync.py:602).
-  Der Hinweis "Befund teilweise falsch" (ein einzelner Prozess konnte die Meldung nicht erzeugen) ist nachvollziehbar
-  und übernommen.
-- U1 (NIEDRIG): nach set_ref wird der Kopf gelesen; nur der eigene Commit gilt als geliefert, sonst neuer Versuch nach
-  1 Min. (daten.py:521); ändert sich das Repo bei jedem Versuch -> GitHubError statt stillem Überschreiben.
-  Test T-DU12 (tests/test_daten.py:527 Gleichzeitig).
-Prüfungen: Uploader-Tests test_daten, test_sync, test_uploader OK; Bot-Tests 145/145 OK; py_compile OK.
-download/RaidMasterUploader.zip gleich dem Ordner (ohne tests/). Keine Tokens, Webhook-URLs, Rechner- oder
-Spielernamen im Diff. Testberichte: keine neuen Fehler für RaidMaster/Uploader.
+Erledigt in 3.0.25 / 2.3.6 (danke):
+- MN1 (teilweise, siehe Punkt 1): GoldSentinelMarkt.lua in der TOC nach GoldSentinelSync.lua (RaidMaster.toc:22);
+  RM.AttachMarkt beim Laden nach InitDB (Core.lua:848, Aufruf Core.lua:901): GoldSentinelMarkt.Attach("RaidMaster",
+  RaidMasterDB), Schalter aus RaidMasterDB.config.marktTeilen; ohne Datei/AH-API still (false). Die KOPIE ist aber
+  der Stand vor der Korrektur 2 (17:00) – kam nach eurem Commit (16:47), daher nicht euer Fehler.
+- MN2: Schalter "Marktdaten teilen (anonym, nur Preise)" mit Tooltip (Pages.lua:1931), Standard an, RM.SetMarktShare
+  (Core.lua:856) -> GoldSentinelMarkt.SetShare; Texte in allen 10 Locale-Dateien (Locales/*.lua, je 2 Schlüssel, keine
+  Platzhalter); LIESMICH.txt:14 / README_EN.txt:26.
+- MN3: RM.MarktLine (Core.lua:863) "MARKT-NETZ: v1 · an/aus · mitgelesene Scans · gesendet/empfangen · Speicher";
+  im Testbericht-Text und als Feld "markt" (Test/Routine.lua R.Finish).
+- MN4: Tests T180 (mit/ohne Datei), T181 (Schalter aus: kein Lesen, kein Senden), T182 (ohne AH-API kein Lua-Fehler),
+  T183 (Testbericht-Zeile) in Test/Routine.lua:2617–2697, in den Regressionen (Routine.lua:3319). Sandbox nimmt
+  gsMarkt/gsMarktAus aus (Routine.lua:132) – nachvollziehbar.
+- MN6 (Uploader 2.3.6): GSMARKT1-Zeilen aus den SavedVariables aller Addons (uploader.py:91 EXTRA_STR), nur das genaue
+  Format (uploader.py:94 MARKT_LINE, Base36, keine Namen möglich), je Scan einmal (Kennung m-<Fraktion>-<Scan-Zeit>,
+  uploader_state.json "markt", höchstens 300), > 3 MB übersprungen und einmal gemeldet (uploader.py:537–561), im Paket
+  wie GSDIAG1/GSWEGE1. Test test_uploader.Paket.test_mn6_markt_scans_einmal_ohne_namen, in test_umfassend REGRESSIONEN.
+  Kompatibel mit Bot 1.5.131 (MN7: market_intake liest paket-*.json.gz aus #testberichte, market.LINE_RE akzeptiert das
+  Format; doppelte Scans vom PC und Laptop zählt der Bot einmal). Die Addon-Prüfung (addon-check/testberichte.py) lässt
+  GSMARKT1-Einträge im Paket unbeachtet – kein Konflikt.
+Prüfungen: addon_check download/RaidMaster-3.0.25.zip: 1 FEHLER (Punkt 1), 0 WARNUNG, Lua-Syntax OK (lupa, Lua 5.1).
+GoldSentinelGame/Test/Sync byte-gleich mit shared/; GoldSentinelMarkt NICHT (Punkt 1). ZIP = Ordner, latest = 3.0.25,
+RaidMasterUploader.zip = Ordner (ohne tests/). Uploader-Tests hier nachgelaufen: test_daten 12, test_sync 38,
+test_uploader 19, test_umfassend 14 – alle grün. Bot-Tests 211/211 OK. Keine Tokens, Links, Server-IDs, Spieler- oder
+Rechnernamen im Diff. CHANGELOG EN/DE (LIESMICH/README_EN beider Ordner) vorhanden.
 
 OFFENE PUNKTE (nach Schwere)
 ----------------------------
-1. TU (HOCH, seit 13.11. 07:05, Entscheid des Nutzers "solche Fehler sollen nicht wieder passieren") – umfassende
-   Tests TU1–TU9 nach anweisung-tests-umfassend.txt: Lagen durch alle Funktionen, Abläufe wie ein Spieler,
-   Standardwerte, Grundregeln mit Zufallsdaten, echte Daten (nur lesen), Regressionstest je Befund (bisherige
-   nachholen), Testbericht je Bereich, offline lauffähig. Ab jetzt: Befund ohne Test = nicht erledigt
-   (auftraege/README.md). In 2.3.2 noch nicht begonnen (nur T-DU11/T-DU12 neu).
+1. MN1-K (HOCH, NEU) – GoldSentinelMarkt.lua veraltet, addon_check FEHLER.
+   RaidMaster/GoldSentinelMarkt.lua ist der Stand von shared/ nach Korrektur 1 (16:05), nicht der aktuelle nach
+   Korrektur 2 (17:00, FeedStart/Feed). Erste Abweichung RaidMaster/GoldSentinelMarkt.lua:39. addon_check meldet:
+   "weicht von shared/GoldSentinelMarkt.lua ab ... die Vorlage unverändert kopieren" -> 3.0.25 dürfte so nicht
+   veröffentlicht sein. Folge im Spiel: Beide Fassungen heissen "Version 1"; lädt die RaidMaster-Kopie zuerst, fehlen
+   GoldSentinelMarkt.FeedStart/Feed für Addons mit eigenem Vollscan (AHSentinel MN5) und derselbe Scan wird doppelt
+   gelesen.
+   Lösung: shared/GoldSentinelMarkt.lua unverändert neu kopieren (cmp gleich), Version 3.0.26, neues ZIP + latest.
+   Test: T180 zusätzlich prüfen, dass GoldSentinelMarkt.FeedStart und .Feed Funktionen sind (Regressionstest MN1-K).
+   Vor dem Push addon_check -> kein FEHLER.
 
-2. U2 (MITTEL, NEU) – Uploader beendet sich, wenn nur die Abgleich-Sperre _sync.lock frisch ist.
-   instance_acquire (uploader.py:923) ruft instance_running, das als Fallback lock_active(here) prüft (sync.py:232):
-   eine _sync.lock eines anderen Prozesses, jünger als 90 s, gilt als "Uploader läuft (vor 2.3.2)". Diese Sperre
-   schreibt aber auch der Starter GoldSentinel-WoW.bat während seines Abgleichs (uploader.py wow_start
-   write_lock), und ein eben geschlossener Uploader hinterlässt sie (atexit läuft beim Schliessen des Fensters nicht
-   sicher). Folge: Startet der Autostart-Uploader während GoldSentinel-WoW.bat abgleicht, oder startet der Nutzer den
-   Uploader innert 90 s nach dem Schliessen neu, meldet er "läuft schon" und endet – danach läuft KEIN Uploader
-   (kein Abgleich, keine Testberichte). Das bisherige Warten (sync.wait_for_lock, uploader.py:952) kommt erst danach
-   und greift nicht mehr.
-   Lösung: im Fallback nur dann "läuft schon", wenn die PID aus _sync.lock lebt UND kein Starter ist (Starter schreibt
-   z. B. "rolle": "starter" in die Sperre); sonst wait_for_lock wie bisher. Alternativ lock_active-Fallback nur mit
-   pid_alive(pid). Tests T-U2: (a) Sperre vom Starter frisch -> Uploader wartet und läuft dann; (b) Sperre eines
-   toten Prozesses frisch -> Uploader läuft; (c) lebender Uploader vor 2.3.2 -> "läuft schon".
+1b. MN6b (MITTEL, NEU, aus der Nachprüfung Bot 1.5.131, Discord D-MN7a) – Marktdaten ohne Quellen-Kennung.
+   Der Bot zählt "Quellen" über die Webhook-ID; alle Uploader nutzen denselben Webhook, darum steht immer 1 (auch bei
+   PC und Laptop). Lösung: Der Uploader erzeugt einmal eine anonyme Zufallskennung (16 Hex, in uploader_state.json,
+   nie aus Namen oder Rechnernamen abgeleitet) und schickt sie im GSMARKT1-Paket als Feld "quelle" mit (optional,
+   alte Bots ignorieren es). Hinweis: MARKT_MAX_ONE ist 3 MB (uploader.py:95), der Bot nimmt nur 2 MB an – die
+   Grenze wird im Bot angepasst (Discord D-MN7f); bis dahin im Uploader nicht über 2 MB senden oder melden.
+   Test: Kennung bleibt über Neustarts gleich, ist 16 Hex, steht im Paket.
 
-3. RP-U (MITTEL, seit 13.11. 07:10 – für GuildSentinel RP8 / Discord RP-D): Der Uploader schickt GuildSentinel.lua
-   heute nur mit Gildenbank-Bestand (uploader.py:196). Zusätzlich das Feld GuildSentinelDB.raidReady (Zusammenfassung
-   OHNE Namen: Raid, Phase, Anzahlen, Prozent, Wochen) an den Bot weitergeben – nur dieses Feld, keine anderen
-   Gildendaten. Test dazu. Noch nicht umgesetzt.
+2. MN-T (NIEDRIG, NEU) – Testroutine verändert die laufenden Zähler des Marktdaten-Netzes.
+   T181 ruft OnReplicate mit Schalter aus (Test/Routine.lua:2645–2647) -> GoldSentinelMarkt.stats.dropped.aus +1;
+   T182 (Routine.lua:2660–2688) kann stats.aborted/dropped erhöhen. MarktState/MarktRestore (Routine.lua:2609–2616)
+   sichern die Zähler nicht. Folge: Nach jeder Testroutine zeigen MARKT-NETZ-Zeile/DiagLines "verworfen: aus 1" u. ä.,
+   obwohl der Spieler nichts ausgeschaltet hat – verfälscht die Diagnose.
+   Lösung: in MarktState eine Kopie von GM.stats (inkl. dropped) sichern und in MarktRestore zurückschreiben.
+   Test: nach T181/T182 sind GM.stats unverändert.
 
-4. BL (MITTEL, seit 13.11. 07:45, Wunsch des Nutzers) – BEFEHLSLISTE BEIM TIPPEN MIT ALLEN BEFEHLEN (Addon)
-   Tippt der Spieler /rm, /raidmaster (dazu /rmtest nur Entwickler) in den Chat, erscheint über dem Eingabefeld die
-   Liste SÄMTLICHER Befehle des Addons mit kurzer Beschreibung (Spielsprache, alle Locale-Dateien). Quelle: den
-   Slash-Handler von RaidMaster (inkl. /rm berufe, /rm testroutine …).
-   BL1 Vollständig: die Liste kommt aus DERSELBEN Befehlstabelle, die der Slash-Handler zum Ausführen benutzt (eine
-       Tabelle für beides; der Handler liest aus ihr). Auch Befehle mit Zusatz zeigen ihn ("danke <Name>", "weg
-       <Tage>"), deutsche und englische Befehlswörter (z. B. "wo"/"where") finden beide. Entwickler-Befehle nur, wenn
-       GoldSentinelDev den Entwickler erkennt.
-   BL2 Filtern mit jedem Buchstaben: "/rm" = alle; "/rm w" = alles mit w am Anfang; "/rm we" = enger; meistbenutzte
-       oben (Zähler in den SavedVariables).
-   BL3 Bedienung (wie AHSentinel Punkt CH und shared/vorlage/README.md "Befehlsliste beim Tippen"): Mausklick bzw.
-       Pfeiltasten/Tab WÄHLEN aus, Enter FÜHRT AUS; Liste schliesst nicht, bevor der Klick ankommt; Fokus zurück mit
-       SetFocus; das Chatfeld wird NIE beschrieben (kein SetText/Insert, kein eigenes OnEnterPressed, nur HookScript
-       lesen); der Slash-Handler führt bei einer frischen Auswahl (≤ 10 s) den gewählten Befehl statt des
-       unvollständigen Worts aus. Option zum Ausschalten. Baustein: CmdHint von AHSentinel (CH in 0.65.104
-       umgesetzt) – nicht jedes Addon eine eigene Lösung.
-   BL4 Tests: T-BL1 jeder Befehl, den der Handler versteht, steht in der Liste (Vergleich aus der Tabelle, keine
-       Handliste); T-BL2 Filter liefern genau die passenden; T-BL3 Klick wählt, Enter führt aus; T-BL4 Chatfeld nie
-       beschrieben; T-BL5 Entwickler-Befehle nur für den Entwickler; T-BL6 alle Sprachen ohne Platzhalter-Fehler.
-       Alte Clients (Era, TBC) nicht brechen.
+3. U3 (NIEDRIG, NEU) – Uploader verwirft Markt-Zeilen in unbekanntem Format still.
+   uploader.py:540: passt eine GSMARKT1-Zeile nicht zu MARKT_LINE, wird sie ohne jede Meldung übersprungen. Ändert sich
+   das Format in shared/ (z. B. ein Feld mehr), gehen alle Markt-Scans unbemerkt verloren.
+   Lösung: einmal je Kennung/Prüfwert (wie "zu_gross") eine Zeile im Fenster "Markt-Zeile in unbekanntem Format –
+   nicht gesendet (GoldSentinelMarkt neuer als der Uploader?)", ohne Inhalt der Zeile. Test dazu (einmal, nicht bei
+   jedem Durchlauf).
+
+4. TU-Rest (MITTEL, seit 13.11. 14:30) – TU2/TU7-Rest der umfassenden Tests nur im Client prüfbar (siehe IM CLIENT
+   PRÜFEN). Nichts zu programmieren, bis der Nutzer im Client geprüft hat.
+
+5. D-UP1 (Info, Discord-Projekt) – PC noch auf älterem Uploader: erst aktualisieren, wenn /uploader die neueste Fassung
+   (jetzt 2.3.6) liefert. Zuständig Discord (auftraege/Discord/offen-discord.txt).
 
 LIVE PRÜFEN (Uploader beim Nutzer)
-   - Umstieg auf 2.3.2 (Anleitung im LIESMICH): alle Uploader-Fenster schliessen, Ordner ersetzen,
-     Autostart-einrichten.bat ("Alte Autostart-Einträge entfernt: n"), uploader.bat. Startzeile zeigt Version, Ordner,
-     PID. Einen zweiten uploader.bat starten -> "Der Uploader läuft schon (PID …)" und nichts weiter.
-   - T-DU11: WoW am PC läuft, eigener Stand hochgeladen -> KEIN Fenster "Neuerer Stand vom <eigener Rechner>" mehr.
-     Liefert der Laptop neu -> genau EIN Hinweis "Neuerer Stand vom <Laptop> (Zeit, Spielversion)", auch im Fenster
-     mit PID; nach Neustart des Uploaders keine Wiederholung.
-   - U2 vorab beobachten: Uploader schliessen und innert 90 s neu starten -> läuft er oder meldet er "läuft schon"?
-   - Daten-Repo mit 2.3.x OHNE SSL_CERT_FILE von Hand: beim Start ggf. "installiere die Zertifikate (certifi) …",
-     danach "Prüfung: geliefert …". Daten-Verbindung-testen.bat -> "OK (privat, Zugriff vorhanden)".
-   - Laptop und PC liefern am selben Tag: im Daten-Repo aktuell/<rechner1>/ und aktuell/<rechner2>/ nebeneinander,
-     dieselbe konto-xxxxxxxx-Kennung auf beiden; tage/<heute>/ mit beiden Rechnern; liefern beide fast gleichzeitig,
-     steht danach trotzdem beider Stand im Repo (U1).
-   - Daten-Repo: nach /reload innert ~20 s ein Commit; im Repo nur aktuell/, tage/ (≤ 7), stand.json, LIESMICH.md,
-     genau 1 Commit.
+   - Umstieg auf 2.3.6 (Anleitung im LIESMICH, Abschnitt 2.3.5): alle Uploader-Fenster schliessen, nur Programmdateien
+     ersetzen, uploader.bat. Startzeile zeigt "RaidMaster-Uploader 2.3.6", Ordner, PID.
+   - MN6: Nach einem AH-Vollscan (z. B. mit AHSentinel) und /reload: Paketzeile "GoldSentinel-Paket: … n Markt-Scan(s)";
+     derselbe Scan nach erneutem /reload nicht noch einmal; im Bot-Log "Marktdaten: n neue Scans".
+   - Grösse: RaidMaster.lua nach einigen Scans (Ziel Marktdaten ≤ ~0,5 MB + 2 Export-Zeilen à ~150 KB); Abgleich PC/Laptop
+     und Daten-Lieferung laufen weiter ohne "zu gross".
+   - T-DU11: WoW am PC läuft, eigener Stand hochgeladen -> KEIN Fenster "Neuerer Stand vom <eigener Rechner>". Liefert
+     der Laptop neu -> genau EIN Hinweis, auch im Fenster mit PID; nach Neustart keine Wiederholung.
+   - U2/T-DU12: Uploader schliessen und innert 90 s neu starten -> er läuft (kein falsches "läuft schon").
+   - Daten-Repo ohne SSL_CERT_FILE: ggf. "installiere die Zertifikate (certifi) …", dann "Prüfung: geliefert …".
+     Daten-Verbindung-testen.bat -> "OK (privat, Zugriff vorhanden)".
+   - Laptop und PC liefern am selben Tag: aktuell/<rechner1>/ und aktuell/<rechner2>/ nebeneinander, dieselbe
+     konto-xxxxxxxx-Kennung; tage/<heute>/ mit beiden; fast gleichzeitige Lieferung -> beider Stand im Repo (U1).
+   - Daten-Repo: nach /reload innert ~20 s ein Commit; nur aktuell/, tage/ (≤ 7), stand.json, LIESMICH.md, 1 Commit.
    - Abgleich: am PC WoW beenden -> innert 15 s "Stand N hochgeladen"; am Laptop (WoW zu) innert 45 s "… vom PC
-     übernommen". Laptop: WoW normal starten -> Windows-Hinweis "bitte noch nicht einloggen …", dann "fertig – du
-     kannst einloggen". Kommt "Übernahme … kam zu spät": melden.
-   - Erster Lauf von 2.2.0+: Meldung "gesicherter AHSentinel-Stand … wird beim nächsten Login zusammengeführt"?
-     Danach in AHSentinel prüfen, ob die 85 Laptop-Entzauberungen da sind (sonst melden).
+     übernommen". Laptop: WoW normal starten -> "bitte noch nicht einloggen …", dann "fertig – du kannst einloggen".
+     Kommt "Übernahme … kam zu spät": melden.
+   - Erster Lauf von 2.2.0+: Meldung "gesicherter AHSentinel-Stand … wird beim nächsten Login zusammengeführt"? Danach
+     in AHSentinel prüfen, ob die 85 Laptop-Entzauberungen da sind (sonst melden).
    - Mit laufendem Uploader GoldSentinel-WoW.bat starten -> "Der Uploader läuft – er gleicht ab. Starte nur WoW."
-   - Nach mehreren /reload innerhalb von 15 Minuten genau EINE Nachricht "GoldSentinel-Paket: …"; "zu gross"
-     höchstens einmal je Protokoll.
+   - Nach mehreren /reload innerhalb von 15 Minuten genau EINE Nachricht "GoldSentinel-Paket: …"; "zu gross" höchstens
+     einmal je Protokoll.
 
-IM CLIENT PRÜFEN (mit 3.0.23, unverändert)
-   - /rm testroutine: T165 (neu), T162, T163, T164 OK; T142, T122 (n = 3), T43, Bereich K (T155–T160), T133b; danach
-     /reload -> Bericht in #testberichte.
+IM CLIENT PRÜFEN (mit 3.0.25 bzw. 3.0.26)
+   - /rm testroutine: T180–T183 OK (Forever und Era); Zeile "MARKT-NETZ: v1 · an · …" im Bericht; danach /reload ->
+     Bericht in #testberichte. Dazu T165, T162–T164, T142, T122 (n = 3), T43, Bereich K (T155–T160), T133b, Bereich L
+     (TU2/TU7-Rest).
+   - MN2: Einstellungen -> Schalter "Marktdaten teilen (anonym, nur Preise)" sichtbar, überlappt nichts (neue Zeile
+     über "Addon unterstützen"), Tooltip; aus -> nach /reload weiter aus, MARKT-NETZ-Zeile "aus".
+   - MN1: Mit AHSentinel einen Vollscan machen -> MARKT-NETZ "mitgelesene Scans" steigt, kein Ruckeln im Kampf, kein
+     Lua-Fehler; in Era/TBC ohne Auktionshaus-Schnittstelle kein Fehler.
    - Nach einer Übernahme vor dem Einloggen: RaidMasterDB.syncProbe gesetzt, RaidMasterSyncProbe nach dem Ausloggen
      nicht mehr in RaidMaster.lua.
    - Nur RaidMaster geladen, Sammler online: Zustimmungsfrage einmal; ohne Zustimmung geht nichts weg.
    - RaidMaster mit einem Addon, das GoldSentinelSync 2 anmeldet (AHSentinel): Gebote, DKP, Einteilung kommen bei
      älteren RaidMaster-Versionen an.
+   - Befehlsliste beim Tippen (BL): /rm, /rm be … filtert; Klick wählt, Enter führt aus; Chatfeld nie beschrieben.
    - Schlachtzugsymbole in Forever ohne ADDON_ACTION_FORBIDDEN; Tooltips bei Skalierung ≠ 100 %; T54b;
      Erstkill-Screenshot -> #ruhmeshalle; Bank-Charakter -> #gildenbank.
 
@@ -113,48 +121,8 @@ HINWEIS FÜR KÜNFTIGE VERSIONEN
    - download/RaidMasterUploader.zip muss zum Ordner RaidMasterUploader/ passen (prüft "Bot-Tests").
    - Keine echten Spieler-, Charakter- oder Rechnernamen in Code, Tests, Beispielen und Texten. Abgleich-Daten nie
      ins Repo.
-   - GoldSentinelGame/Test/Sync nur unverändert aus shared/. RaidMaster ruft GoldSentinelSync.Register NICHT auf.
-   - Versionen höher als Addon 3.0.23, Uploader 2.3.2.
+   - GoldSentinelGame/Test/Sync/Markt nur unverändert aus shared/ – vor jedem Push erneut mit shared/ vergleichen (cmp),
+     die Prüf-Sitzung ergänzt gemeinsame Dateien laufend. RaidMaster ruft GoldSentinelSync.Register NICHT auf.
+   - Versionen höher als Addon 3.0.25, Uploader 2.3.6.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/RaidMaster/ ablegen.
-
-T-DU12 (HOCH, NEU 13.11. 12:10 – ersetzt U-UP; Bild des Nutzers 12:03, Rechner mit Ordner C:\Users\<Nutzer>\Documents\RaidMasterUploader)
-   Uploader 2.3.2 (PID 26060) meldet beim Start: "Der Uploader läuft schon (PID ?, Ordner …\RaidMasterUploader, Version vor
-   2.3.2). Dieses Fenster wird nicht gebraucht – du kannst es schliessen." und beendet sich. Laut Nutzer läuft KEIN anderer
-   Uploader. Verdacht: falscher Alarm der Einzel-Instanz-Sperre aus T-DU11 – eine liegengebliebene Sperre/Status der
-   Version 2.3.1 ohne PID ("PID ?") wird als laufender Uploader gewertet. Folge: 2.3.2 startet NIE, das Update greift nicht,
-   und es wird gar nichts mehr hochgeladen oder abgeglichen.
-   AUFTRAG (die RaidMaster-Sitzung hat Zugriff auf den Rechner des Nutzers – bitte dort selbst prüfen, nichts löschen ohne
-   Rückfrage, config.json/uploader_config.json/daten_config.json nie lesen oder ändern):
-   1 Prüfen, ob wirklich ein zweiter Uploader läuft: Prozessliste (tasklist /v, wmic/Get-CimInstance Win32_Process mit
-     Kommandozeile) nach python/pythonw/py mit uploader.py bzw. sync.py, auch versteckte Fenster und Autostart
-     (Autostart-Ordner, Aufgabenplanung, Registry Run). Ergebnis mit Prozess, PID, Ordner und Startzeit im Bericht.
-   2 Sperr-/Statusdatei(en) ansehen, auf die die Prüfung "läuft schon" schaut (Inhalt ohne Geheimnisse in den Bericht).
-   3 Ist kein Prozess da: Fehler in 2.3.2 beheben – eine Sperre gilt nur mit PID, deren Prozess lebt UND uploader.py aus
-     DIESEM Ordner ausführt; Sperre ohne PID oder mit totem/fremdem Prozess = veraltet -> übernehmen, Zeile im Fenster
-     "alte Sperre von <Version> entfernt". Läuft wirklich ein alter Uploader: anbieten "Alte Version beenden und 2.3.2
-     starten? (J/N)".
-   4 Nach dem Fix auf dem Rechner 2.3.2 starten und belegen: "RaidMaster-Uploader 2.3.2", Abgleich und Lieferung laufen.
-   Tests: T-DU12a Sperre ohne PID -> übernehmen; T-DU12b PID tot -> übernehmen; T-DU12c PID lebt, aber anderer Prozess
-   (PID wiederverwendet) -> übernehmen; T-DU12d echter zweiter Uploader -> Meldung + Angebot; T-DU12e alte 2.3.1-Statusdatei.
-   Bericht in berichte/RaidMaster/ mit dem Ergebnis von 1 und 2.
-
-
-NACHPRÜFUNG 13.11. 14:30 (Prüf-Sitzung im Chat, Auftrag des Nutzers "prüfe ob alles umgesetzt wurde")
-------------------------------------------------------------------------------------------------
-Geprüft: Addon 3.0.24 und Uploader 2.3.3, 2.3.4, 2.3.5 mit den Berichten -1240, -1245, -1250.
-addon_check RaidMaster-3.0.24.zip OK (0 FEHLER, 0 WARNUNG). Uploader-Tests hier nachgelaufen: test_daten 12, test_sync 38,
-test_umfassend 14, test_uploader 18 – alle grün. download/RaidMasterUploader.zip = 2.3.5.
-Erledigt (danke): U2, RP-U (nur bank + raidReady), BL (RM.COMMANDS, CmdHint.lua, T166–T171), TU (Uploader
-test_umfassend + Addon Bereich L T172–T179, Fund minBid/bidIncrement/auctionTime behoben), T-DU12 (Sperre nur mit
-lebendem uploader.py, J/N-Angebot, Beleg am Laptop 12:49), Lehre 2.3.5 (Warnung bei älterer Fassung, Anleitung).
-Freigegeben. Offen: TU2/TU7-Rest nur im Client; PC noch auf älterem Uploader – erst aktualisieren, wenn /uploader 2.3.5
-liefert (Discord-Projekt, Punkt D-UP1 in Discord/offen-discord.txt).
-
-MN (NEU 13.11. 15:35 – Entscheid des Nutzers "Markt komplett messen", Anweisung anweisung-marktdaten-netz.txt):
-   MN1–MN4 im Addon und MN6 Uploader – WARTET auf shared/GoldSentinelMarkt.lua (Meldung folgt).
-   Kurz: Vollscans still mitlesen (keine Abfrage, Schalter zum Ausschalten, keine Namen), über Gilde/Netz teilen,
-   Uploader -> Bot-Server sammelt und misst Absatz. Bitte die Anweisung ganz lesen.
-   MN BEREIT (13.11. 16:00): shared/GoldSentinelMarkt.lua v1 liegt bereit – MN1–MN4 im Addon und MN6 im Uploader JETZT umsetzen (Format GSMARKT1 in der Anweisung).
-   MN KORREKTUR (13.11. 16:05): GoldSentinelMarkt.lua v1 ergänzt (Absatz-Untergrenze, Export-Eintrag mit 6 Feldern). Wer die Datei schon kopiert hat: NEU KOPIEREN (Prüfung "exact").
-   MN KORREKTUR 2 (13.11. 17:00): GoldSentinelMarkt.lua v1 um FeedStart/Feed ergänzt (Addons mit eigenem Vollscan geben ihr Ergebnis weiter, kein doppeltes Lesen). Wer die Datei schon kopiert hat: NEU KOPIEREN (Prüfung "exact").

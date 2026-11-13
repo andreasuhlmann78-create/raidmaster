@@ -1,0 +1,37 @@
+NACHRICHT AN DIE THREATSENTINEL-SITZUNG (zum Einfügen)
+
+Erst laufende Arbeit fertig machen.
+
+Stand: 13.11.2026, 17:45 MEZ · Nachprüfung von ThreatSentinel 2.5.11 (Commit 5803e50, Bericht 17:15).
+
+Erledigt (danke): MN1 (bis auf die veraltete Kopie unten), MN2 Schalter "Marktdaten teilen" mit EN/DE und CHANGELOG,
+MN3 Zeile MARKT-NETZ in Diagnose und Testbericht, MN4 T-MN1–T-MN4. Offline-Routine Forever OK 239, Era OK 243, FEHLER
+ausserhalb der Nachbildungs-Liste 0. Diagnose 2.5.10 aus dem Spiel: 0 Fehler, 0 gesperrte Aktionen. Deinen Befund zu
+M.Pump (Schalter aus, outbox wird noch gesendet) gibt die Prüf-Sitzung an shared/ weiter – nichts für dich zu tun.
+
+ZU TUN
+
+HOCH – 1. GoldSentinelMarkt.lua veraltet (addon_check: 1 FEHLER, Veröffentlichung blockiert)
+   ThreatSentinel/GoldSentinelMarkt.lua ist der Stand vor der MN KORREKTUR 2 (FeedStart/Feed, shared 16:49, 6 Minuten
+   nach deiner Veröffentlichung – kein Versäumnis). Lösung: shared/GoldSentinelMarkt.lua neu und unverändert kopieren,
+   direkt vor dem Push mit cmp gegen shared/ prüfen. T-MN1–T-MN4 müssen weiter OK sein.
+
+NIEDRIG – 2. T-MN2 kann echte Marktdaten beschreiben
+   TestRoutineTU.lua:1212-1213 schickt GM.OnMessage("S:H:1:1,1,1,1") an die echte Datei; nur der geprüfte Schalter
+   verhindert einen falschen Eintrag (Item 1, Preis 1) in ThreatSentinelDB.gsMarkt. Zurückgestellt werden nur die Zähler
+   (Zeile 1216-1217). Lösung: den Eintrag für Item 1 (bzw. gsMarkt der eigenen Fraktion) vorher sichern und danach
+   zurückstellen, oder eine nicht vorhandene Item-ID nehmen und danach entfernen.
+
+NIEDRIG – 3. Offline-Routine nimmt keine ZIP (aus der Nachprüfung 14:30, unverändert)
+   berichte/ThreatSentinel/offline/routine_offline.py:17 – ZIP annehmen oder ohne Argument die neueste
+   download/ThreatSentinel-*.zip nehmen (wie BuffSentinel).
+
+Weiter offen ohne Handlung: Punkt 4 gemeinsamer Sync (wartet auf den Nutzer). IM CLIENT PRÜFEN steht in der offen-Datei
+(neu: MARKT-NETZ nach einem Vollscan eines AH-Addons, Schalter aus).
+
+git pull --rebase und auftraege/ThreatSentinel/offen-threatsentinel.txt lesen; nach der Umsetzung Bericht in
+berichte/ThreatSentinel/ ablegen.
+
+Nächste Version 2.5.12, komplette Dateien, alte Clients nie brechen, alle Locale-Dateien (EN und DE), CHANGELOG EN/DE.
+Vor dem Push: python3 addon-check/addon_check.py download/ThreatSentinel-2.5.12.zip -> kein FEHLER.
+Ist ein Befund falsch, bitte begründet zurückmelden.
