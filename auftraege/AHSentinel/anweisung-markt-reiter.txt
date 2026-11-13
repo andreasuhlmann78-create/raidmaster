@@ -1,106 +1,116 @@
-ANWEISUNG AHSENTINEL – Neuer Markt-Reiter und Messungen für zuverlässige Empfehlungen (MR1–MR4, MA1–MA6)
-==========================================================================================================
-Von der Prüf-Sitzung, 13.11. 06:05, Entscheid des Nutzers: "Alles was zuverlässig ist, wird so gemacht. Halb- und
-nicht Zuverlässiges braucht bessere Messdaten." Erst laufende Arbeit fertig machen (L1c, TR, AB, Q), dann diese Anweisung.
-Grundlage: shared/wissen/markt-strategie.md Abschnitt 8g (neu), Prüfung der 7 Ansichten mit echten Daten 13.11. 06:40.
+ANWEISUNG AHSENTINEL – Rechenkern für alle Wege, neuer Markt-Reiter, Spielrhythmus, Messungen, Überwachung
+================================================================================================================
+Von der Prüf-Sitzung, 13.11. 06:20. ERSETZT die Fassungen von 06:05 / 06:10 / 06:12 (Teil D "Spielstile" MR12–MR15 entfällt,
+ersetzt durch den Rechenkern RK1–RK8). Entscheid des Nutzers 06:18: "Ja, schreib das – und es muss streng überwacht und
+wenn nötig verbessert werden." Erst laufende Arbeit fertig machen (L1c, TR, AB, Q), dann diese Anweisung, in der
+Reihenfolge von Teil F. Grundlage: shared/wissen/markt-strategie.md 8g (lesen!), wirtschaft-forever.md (Gebühren).
 
-BEFUND ZU DEN HEUTIGEN ANSICHTEN (Daten 13.11. 06:40)
-- Flippen, Lücken, Überfüllt rechnen mit dem gemessenen Absatz (Vollscan VS:MeasuredRate). Der ist zu hoch, weil
-  verschwundene Auktionen auch abgebrochen/neu eingestellt sein können: Beispiele Rezept 24/Tag bei 39 im Angebot,
-  Schweres Leder 3035/Tag. -> Schein-Chancen (Flip-Rechnung der Prüf-Sitzung ergab "Rezept +15g").
-- Händler: 106 Treffer, fast alle 1–50c; grösster "Eisengranate 1s83 < Händler 5s" -> Händlerpreis vermutlich falsch.
-- forecastStats ist leer: keine Empfehlung wird nachgeprüft.
-- Preis-Index über alle Waren verwischt fallende und steigende Bänder.
+GRUNDSATZ
+Ein Addon für JEDEN Spieler – egal ob er flippt, snipt, entzaubert, herstellt, farmt oder Beute verkauft. Es zeigt nur,
+was belegt ist; alles andere grau "lernt noch (x von y)". Keine Spielstile, sondern Wege, die eine Ware gehen kann.
 
-TEIL A – JETZT UMSETZEN (zuverlässig)
-MR1 Markt-Reiter = eine Seite mit drei Teilen statt 7 Ansichten (Entwurf des Nutzers, 13.11.):
-    oben "Lage" (4 Kacheln), Mitte "Mein Lager", unten "Chancen", Fusszeile Trefferquote + Suche.
-    Daten der alten Ansichten bleiben im Hintergrund; Suche bleibt. Option "Standard-Ansicht" entfällt.
-MR2 Mein Lager: alle eigene Ware (Taschen, Bank, Post, eigene Auktionen), je Zeile Menge, Wert JETZT aus der
-    Preisleiter (Stück für Stück, wie viel bekäme ich für genau diese Menge, nach 5 %), eine Empfehlung, ein Knopf
-    (Einstellen / Entzaubern / Händler / Später). Sortierung: erwarteter Verlust beim Warten zuerst.
-    Ohne Scan ≤ 30 Min.: Wert grau "Scan nötig", keine Empfehlung.
-MR3 Chancen: nur Strategien mit belegter Trefferquote (MA2) zeigen; je Zeile Höchstpreis, Gold je Tag je 1g Einsatz
-    (Marge × Umschlag), Trefferquote. Budget 25 % des Golds (Entscheid 10.11.). Flippen grau "lernt noch – Absatz
-    nicht belegt", bis MA1 erfüllt ist. Entzaubern wie bisher (≥ 20 % nach Gebühren).
-MR4 Alles, was noch nicht belegt ist, steht grau mit "messe noch (x von y Tagen)" statt einer Zahl.
+BEFUND, DER ZU DIESER ANWEISUNG FÜHRT (Daten 13.11. 06:40)
+- Flippen, Lücken, Überfüllt rechnen mit VS:MeasuredRate; der Absatz ist zu hoch (verschwunden = auch abgebrochen/neu
+  eingestellt): Rezept 24/Tag bei 39 im Angebot, Schweres Leder 3035/Tag -> Schein-Chancen ("Rezept +15g").
+- Händler: 106 Treffer, fast alle 1–50c; "Eisengranate 1s83 < Händler 5s" -> Händlerpreis vermutlich falsch.
+- forecastStats leer: keine Empfehlung wird nachgeprüft. Preis-Index über alle Waren verwischt die Bänder.
+- Trend-Rückblick (11'600 Fälle): nach 3 Tagen Fall > 15 % fällt es am nächsten Tag weiter 47 % / gleich 29 % / dreht 24 %;
+  nach 3 Tagen Anstieg > 15 % dreht es zu 61 %.
+- Herstellen (Rezepte Data_Forever, Preise 06:40, nach 5 %): tiefe Kochrezepte verlieren (Geröstetes Eberfleisch −1s18,
+  Verkohltes Wolfsfleisch −2s25, Glänzender Kleinfisch −1s30) – die rohe Zutat ist mehr wert. Höhere lohnen oft:
+  Rezepte mit > 10 % Gewinn: Stufe 1–124 25/65, 125–224 42/87, 225–300 41/77.
 
-TEIL B – MESSEN (halb- und nicht zuverlässig) – Ergebnisse in Testbericht und Diagnose, damit die Prüf-Sitzung auswertet
-MA1 Absatz: Verkauf von Abbruch trennen (HOCH, Voraussetzung für Flippen/Lücken/Überfüllt).
-    - Verschwundene Auktion mit Restzeit > 2 Std. = "weg". Taucht innert 2 Scans dasselbe Item mit derselben Menge
-      neu auf (Restzeit voll, Preis egal) -> "neu eingestellt", nicht verkauft. Sonst "vermutlich verkauft".
-    - Eigene Auktionen sind die Wahrheit (Post "verkauft" / Abbruch / Ablauf): dieselbe Erkennung auf die eigenen
-      anwenden und Fehlerquote ausweisen ("Absatz-Erkennung: 87 % richtig bei 40 eigenen").
-    - Abgelaufene/abgebrochene eigene Auktionen als zensierte Fälle (markt-strategie 6.1), nie weglassen.
-    - Freigabe für Flippen/Lücken/Überfüllt erst bei Fehlerquote ≤ 20 % aus ≥ 30 eigenen Fällen.
-MA2 Empfehlungs-Protokoll (Trefferquote, HOCH): jede gezeigte Empfehlung mit Zeit, Item, Preis, Vorhersage
-    (z. B. "verkauft ≤ 8 Std. zu ≥ X", "Entzaubern bringt ≥ Y") speichern, nach Ablauf mit Scan/Post/Buchhaltung
-    prüfen, je Art Trefferquote. Unter 60 % ab 20 Fällen -> Art ausblenden (Selbstschutz, 8b). Fusszeile
-    "Gestern: n Empfehlungen, m eingetroffen". Speicher klein halten (je Art Zähler + letzte 200 Fälle).
-MA3 Händlerpreis prüfen: Tabellenwert gegen GetItemInfo-Verkaufspreis (Feld sellPrice) vergleichen; beim Verkauf
-    an den Händler Gold-Zuwachs je Item messen (MERCHANT_SHOW/PLAYER_MONEY). Abweichung -> Item aus "Händler" raus und
-    ins Protokoll. Händler-Chancen nur mit geprüftem Preis.
-MA4 Stufenbänder: je Item einmal Itemstufe/benötigte Stufe merken; je Band (1–25, 26–45, 46–60, dazu
-    Entzauber-Bänder) und Tag Median der Mindestpreise. Anzeige erst ab ≥ 5 Tagen und ≥ 20 Items je Band
-    (WL1–WL4 gehen darin auf).
-MA5 Entzaubern nachkalkulieren: je gekauftem Teil Kaufpreis gegen tatsächlich erzielten Erlös der Materialien
-    (Buchhaltung, nicht Angebotspreis); Trefferquote und mittlere Abweichung je Band; Ziel ≥ 200 Fälle.
-MA6 Trend-Regel aus der Messung der Prüf-Sitzung (13.11., 11'600 Fälle, Tagesmedian der Mindestpreise seit 5.11.):
-    nach 3 Tagen Fall > 15 %: nächster Tag fällt weiter 47 %, gleich 29 %, dreht 24 % -> "fällt: zügig verkaufen".
-    nach 3 Tagen Anstieg > 15 %: dreht am nächsten Tag in 61 % -> NICHT "halten", sondern "Spitze: jetzt verkaufen"
-    (nie "kaufen" bei steigendem Preis). Vorläufig (Startwoche enthalten); die Prüf-Sitzung wiederholt den Test
-    wöchentlich, AHSentinel übernimmt nur die Richtung, keine festen Prozentzahlen.
+TEIL A – RECHENKERN FÜR ALLE WEGE (ersetzt Spielstile)
+RK1 Ein Kern, vier Schritte: REIN (AH-Kauf / Beute, Kosten 0) -> UMWANDELN (keins / Entzaubern / Herstellen jedes Berufs,
+    Kochen, Alchemie, Transmutieren …) -> HALTEN (bis zum nächsten Login, RK6) -> RAUS (AH / Händler).
+    Je Item ALLE Ausgänge zum aktuellen Markt: AH = Preisleiter für die echte Menge nach 5 % und Einzahlung; Händler =
+    geprüfter Händlerpreis (MA3); Entzaubern = Ausbeute × Materialwert (je Material wieder bester Ausgang, Tiefe 1);
+    Herstellen = Produktwert − Zutaten. Kreise verhindern (A->B->A).
+RK2 Ein Wert für alles: "Lohnt bis" = bester Ausgang − Gebühren − Halte-Risiko (RK6) − Sicherheitsmarge (RK5).
+    Tooltip, Sniper, Markt-Reiter, Mein Lager, Verkaufen, Entzaubern und Herstellen lesen NUR diesen Wert (eine Funktion,
+    ein Zwischenspeicher je Datenstand). Zwei verschiedene Zahlen für dasselbe Item = FEHLER (Selbsttest).
+RK3 Beide Richtungen: je bekanntem Rezept "Herstellen lohnt (+x)" ODER "Zutat lieber roh verkaufen (+y)"; Zutaten über die
+    Leiter für die benötigte Menge (nicht günstigstes Einzelstück), Händler-Zutaten zum Händlerpreis, Ergebnis-Menge
+    Mittel aus min/max. Abklingzeiten (Transmutieren, Salzschüttler, Mondstoff …): Gewinn je Abklingzeit, nicht je Klick.
+RK4 Fähigkeiten automatisch, keine Stile: Berufe/Stufe/Rezepte (eigene Rezeptliste, ProfessionSentinel wenn geladen),
+    Verzauberkunst-Stufe für Entzaubern, Gold (Budget 25 % gesamt, je Item 10 %), Rhythmus (RK6). Ohne Beruf/Rezept fällt
+    der Weg weg. Einstellungen: Wege abwählbar (Häkchen je Weg, Standard alle an).
+RK5 Risiko-Wahl vorsichtig / normal / mutig – ändert nur die Sicherheitsmarge (Vorschlag 30 / 20 / 10 %, plus gemessener
+    Prognosefehler des Wegs aus MA2). Standard normal.
+RK6 Haltedauer: Wert beim nächsten Login = Wert jetzt × (1 + Band-Trend × Tage bis zum nächsten Login); nur RICHTUNG aus
+    MA4/MA6, solange die Grösse nicht belegt ist (dann feste vorsichtige Annahme, im Testlog). Fallend -> vor dem Ausloggen
+    verkaufen; Spitze (3 Tage > +15 %) -> jetzt verkaufen, nie halten oder kaufen. Kauf mit Haltedauer > 1 Tag nur in
+    ruhigen/steigenden Bändern.
+RK7 Rangfolge für alle gleich: Gold je Tag je 1g Einsatz (Marge × Umschlag, GMROI) × Sicherheit (Trefferquote des Wegs).
+RK8 Prüffälle (Tests mit festen Zahlen aus diesem Befund): Geröstetes Eberfleisch (roh verkaufen), Rippchen vom tobenden
+    Raptor (2× Raptorfleisch 2s33 + 3× Scharfe Gewürze 40c = 5s86 -> 26s99: Herstellen lohnt), Golddorntee, Trunk des
+    Wasserwandelns, grünes Teil zu 8s mit und ohne Verzauberkunst, ruhiges vs. fallendes Band, Pause 1 vs. 6 Tage,
+    Transmutation mit Abklingzeit, Händlerpreis falsch -> Weg Händler fällt weg.
 
-MEHR DATEN (für alle MA)
-- Öfter scannen, solange das AH offen ist (Vollscan alle ~20 Min. erlaubt): kürzere Abstände = bessere Trennung
-  Verkauf/Abbruch. Hinweis im Fenster "nächster Vollscan möglich in x Min.".
-- Scans der Offiziere über Uploader und Gilden-Sync zusammenführen (mehr Scans, mehr Uhrzeiten).
+TEIL B – MARKT-REITER: EINE SEITE STATT SIEBEN ANSICHTEN
+MR1 Aufbau: oben "Lage", Mitte "Mein Lager", unten "Chancen", Fusszeile Trefferquote + Suche. Flippen, Lücken, Überfüllt,
+    Händler, Trends als eigene Ansichten entfallen (gehen im Rechenkern auf); Daten bleiben im Hintergrund. Option
+    "Standard-Ansicht" entfällt.
+MR2 Mein Lager: alle eigene Ware (Taschen, Bank, Post, eigene Auktionen): Menge, Wert jetzt (Leiter, frischer Scan
+    ≤ 30 Min., sonst grau "Scan nötig"), bester Ausgang, ein Knopf (Einstellen / Entzaubern / Herstellen / Händler /
+    Behalten). Sortierung: erwarteter Verlust beim Warten bis zum nächsten Login zuerst.
+MR3 Chancen: alle Kaufwege aus dem Kern (Flip, Snipe, Entzaubern, Herstellen-Zutaten, Händler) mit Höchstpreis
+    ("Lohnt bis"), Gold je Tag je 1g, Trefferquote; Budget 25 %. Weg ohne Freigabe (Teil D) grau "lernt noch".
+MR4 Lage: Kacheln je Stufenband (1–25, 26–45, 46–60) mit Richtung und Aufkauf-Alarm; grau "messe noch (x von 5 Tagen)",
+    bis MA4 freigibt. Kein Preis-Index über alle Waren mehr.
+MR5 "Seit deinem letzten Besuch": nach > 24 Std. Pause beim ersten Öffnen: verkauft (Post), zurück, Bänder seither,
+    nächste Schritte mit Knopf. Ausblendbar.
+MR6 "Bevor du gehst": gegen Ende der üblichen Spielzeit (RK6) oder per Knopf die 3 wichtigsten Schritte (was bis zum
+    nächsten Login verliert, verkaufen/umwandeln; Laufzeit 24 Std.; was liegen bleiben darf).
+MR7 Rhythmus lernen: Logins je Wochentag/Stunde (vorhandene Aktivität), "nächstes Login in ~x"; selbst einstellbar
+    (täglich / einige Tage pro Woche / nur Wochenende). Ohne Daten: 1 Tag. Anzeige im Kopf.
+MR8 Laufzeit passend: bleibt der Spieler voraussichtlich online -> 2 Std.; Pause -> 24 Std.; Einzahlung gegengerechnet.
+MR9 Plan nach Pausen im Addon: beim ersten Login nach mehreren Tagen ein Plan aus eigenen + Gilden-Daten (verkaufen mit
+    Preis, kaufen mit Höchstpreis, liegen lassen) – gleiche Regeln wie MR2/MR3.
+MR10 Wochentag-Muster aus den Scans aller Gildenmitglieder (Sync): "Wochentag günstig/teuer" erst ab 3 Wochen, sonst grau.
+MR11 Hinweis "nächster Vollscan möglich in x Min." – öfter scannen = bessere Messungen.
 
-Tests: T-MR1–T-MR4, T-MA1–T-MA6 mit erfundenen Daten (Relist innert 2 Scans, eigener Verkauf/Abbruch, falscher
-Händlerpreis, Band mit < 20 Items, Empfehlung trifft/trifft nicht). Vor dem Push: addon_check -> kein FEHLER.
-Bitte Bericht in berichte/AHSentinel/.
+TEIL C – MESSUNGEN (Ergebnisse in Testbericht + Diagnose-Protokoll, damit die Prüf-Sitzung auswerten kann)
+MA1 Verkauf vs. Abbruch (HOCH): verschwunden mit Restzeit > 2 Std.; taucht innert 2 Scans dasselbe Item mit derselben
+    Menge mit voller Restzeit neu auf -> "neu eingestellt"; sonst "vermutlich verkauft". Eigene Auktionen = Wahrheit
+    (Post verkauft / Abbruch / Ablauf): dieselbe Erkennung darauf anwenden, Fehlerquote ausweisen. Abgelaufene/
+    abgebrochene als zensierte Fälle (markt-strategie 6.1), nie weglassen.
+MA2 Empfehlungs-Protokoll (HOCH): jede gezeigte Empfehlung (Weg, Item, Preis, Vorhersage, Zeit) speichern, nach Ablauf mit
+    Scan/Post/Buchhaltung prüfen; Trefferquote und mittlerer Fehler je Weg. Speicher klein (Zähler + letzte 200 Fälle).
+MA3 Händlerpreis: Tabelle gegen GetItemInfo-Verkaufspreis; beim echten Händlerverkauf Gold-Zuwachs je Item messen.
+    Abweichung -> Item gesperrt für Weg Händler, Eintrag im Protokoll.
+MA4 Stufenbänder: je Item einmal Itemstufe/benötigte Stufe; je Band und Tag Median der Mindestpreise.
+MA5 Nachkalkulation Entzaubern und Herstellen: Kaufpreis/Zutaten gegen tatsächlich erzielten Erlös (Buchhaltung).
+MA6 Trend-Regel: nur Richtung (Teil A RK6). Die Prüf-Sitzung wiederholt den Rückblick wöchentlich und meldet Änderungen.
 
-TEIL C – SPIELRHYTHMUS (NEU 13.11. 06:10, Entscheid des Nutzers: "das Addon ist nicht nur für mich")
-Viele Spieler sind nicht täglich online (z. B. nur am Wochenende). Jede Empfehlung muss für JEDEN Spieler stimmen –
-alles im Addon, für jeden aus seinen eigenen Daten und denen der Gilde (Sync), ohne Namen, nichts nur für einen Spieler.
-MR5 Rhythmus lernen: Logins je Wochentag und Stunde (aus der vorhandenen Aktivität), daraus "nächstes Login in ~x".
-    Optional selbst einstellbar ("täglich" / "einige Tage pro Woche" / "nur Wochenende"). Ohne Daten: 1 Tag.
-MR6 Haltedauer in jede Empfehlung: Wert beim nächsten Login = Wert jetzt × (1 + Band-Trend × Tage bis zum nächsten
-    Login), nur Richtung aus MA6/MA4, solange nicht belegt. Kaufvorschläge mit Haltedauer > 1 Tag nur in ruhigen
-    oder steigenden Bändern und mit Sicherheitsmarge; in fallenden Bändern keine.
-MR7 Laufzeit passend zum Rhythmus: bleibt der Spieler voraussichtlich noch lange online -> 2 Std.; loggt er bald aus
-    und kommt erst in Tagen -> 24 Std.; Einzahlung immer gegengerechnet (wirtschaft-forever.md).
-MR8 "Bevor du gehst": wird das AH gegen Ende der üblichen Spielzeit geöffnet (oder Knopf), oben im Markt-Reiter die
-    3 wichtigsten Schritte (verkaufen, was bis zum nächsten Login verliert; mitnehmen; mit 24 Std. einstellen).
-MR9 "Seit deinem letzten Besuch": nach > 24 Std. Pause beim ersten Öffnen eine Zeile/kurze Liste: verkauft, zurück in
-    der Post, Bänder seither, was jetzt zu tun ist (ein Knopf je Schritt).
-MR10 Wochenend-Plan IM ADDON: für Spieler mit Pausen von mehreren Tagen zeigt der Markt-Reiter beim ersten Login nach
-    der Pause einen Plan aus seinen und den geteilten Gilden-Daten: verkaufen (mit Preis), kaufen (mit Höchstpreis),
-    liegen lassen. Gleiche Regeln wie MR2/MR3, nur mit Haltedauer bis zum nächsten erwarteten Login.
-MR11 Wochentag-Muster für alle: aus den Vollscans aller Gildenmitglieder (Sync) je Ware und Wochentag Preislage
-    (M-Woche). Anzeige "Wochentag günstig/teuer" erst ab 3 Wochen Daten, sonst grau.
-Die Prüf-Sitzung wertet wöchentlich im Hintergrund aus (Trend-Rückblick MA6, Treffer der Haltedauer-Vorhersagen) und
-liefert verbesserte Regeln als Auftrag – sie macht keinen Plan für einen einzelnen Spieler.
-Tests: T-MR5–T-MR11 (täglicher Spieler vs. Wochenend-Spieler mit fallendem Band -> verschiedene Empfehlung;
-Laufzeitwahl; "Seit deinem letzten Besuch" nach 5 Tagen; keine Kaufvorschläge in fallendem Band bei Pause > 1 Tag).
+TEIL D – FREIGABEN (Weg/Anzeige nur, wenn erfüllt; sonst grau "lernt noch (x von y)")
+- Absatz (Flippen, Herstell-Mengen, "verkauft in ~x"): MA1 ≥ 30 eigene Fälle, Fehlerquote ≤ 20 %.
+- Jeder Weg: MA2 ≥ 20 Fälle, Trefferquote ≥ 60 %; fällt sie darunter -> automatisch ausblenden (Selbstschutz) und
+  Diagnose-Eintrag "WEG GESPERRT <Weg> <Quote>".
+- Händler: Händlerpreis geprüft (MA3). Bänder: ≥ 5 Tage und ≥ 20 Items je Band (MA4).
+- Entzaubern/Herstellen: MA5 je Band bzw. je Rezept ≥ 20 Fälle für die gemessene Abweichung; vorher Tabellen-/Rezeptwert
+  mit Sicherheitsmarge RK5. Wochentag: 3 Wochen Gilden-Scans.
 
-TEIL D – SPIELSTIL (NEU 13.11. 06:12, Hinweis des Nutzers: "nicht jeder Spieler entzaubert, die einen flippen etc.")
-Die Beispiele in den Entwürfen (Entzaubern, Erdwurzel) sind EIN Spieler. Der Markt-Reiter muss für jeden Spielstil passen.
-MR12 Spielstil lernen, nicht vorgeben: aus den eigenen Buchungen der letzten 14 Tage Anteile je Tätigkeit –
-    Flippen (gekauft und wieder eingestellt), Entzaubern, Herstellen (ProfessionSentinel/Rezepte), Sammeln/Beute
-    verkaufen (verkauft ohne Kauf), Händler-Arbitrage, Sniper. Mehrere Stile gleichzeitig möglich. Selbst wählbar in
-    den Einstellungen (Häkchen je Stil), Standard "automatisch". Neue Spieler ohne Buchungen: "Beute verkaufen".
-MR13 Empfehlungen nach Stil: "Mein Lager", "Chancen", "Bevor du gehst" und "Seit deinem letzten Besuch" zeigen zuerst
-    die Schritte der eigenen Stile, z. B.
-    - Flipper: Auktionen unterboten -> abbrechen/neu (nur wenn Mehrerlös > verlorene Einzahlung), Kaufgrenzen,
-      Bestand je Item ≤ Absatz × Haltedauer, vor einer Pause nichts Neues kaufen, was bis zum nächsten Login fällt.
-    - Entzauberer: wie im Entwurf (Teile kaufen bis Grenze, entzaubern, Material verkaufen).
-    - Hersteller: Herstellen lohnt / lohnt nicht (Material zum Leiterpreis gegen Erlös), Material-Nachschub.
-    - Sammler/Beute: was jetzt verkaufen (Spitzen, MA6), was zum Händler, Laufzeit passend zum Rhythmus.
-    Andere Strategien nur unter "Mehr Chancen" (eingeklappt), nie oben.
-MR14 Gesperrte Strategien sind je Stil sichtbar erklärt: Flippen bleibt "lernt noch", bis MA1 belegt ist – für
-    Flipper steht darum oben, was schon geht (eigene unterbotene Auktionen, eigene Verkaufsquote je Item aus der
-    Buchhaltung), und "Kaufvorschläge zum Flippen ab x eigenen/geteilten Fällen".
-MR15 Trefferquote (MA2) je Stil und Art, damit jeder Spieler sieht, wie gut SEINE Empfehlungen treffen.
-Tests: T-MR12–T-MR15 (reiner Flipper, reiner Entzauberer, Sammler ohne Käufe, Mischung; Stil von Hand gewählt
-überstimmt automatisch; neuer Spieler ohne Buchungen).
+TEIL E – STRENGE ÜBERWACHUNG (Entscheid des Nutzers 06:18)
+Die Prüf-Sitzung prüft jede Version und wöchentlich die echten Daten gegen diese Grenzwerte. Verfehlt -> Befund HOCH in
+offen-ahsentinel.txt und Verbesserungsauftrag; AHSentinel liefert dafür die Zahlen:
+Ü1 Testbericht-Abschnitt "MARKT-KERN" bei jedem /reload: je Weg Fälle, Trefferquote, mittlerer Fehler (in %), gesperrt ja/nein;
+   MA1-Fehlerquote; Anzahl geprüfter/abweichender Händlerpreise; Bänder mit Tagen/Items; Zeit des letzten Vollscans.
+Ü2 Grenzwerte: Trefferquote je freigegebenem Weg ≥ 60 % (Ziel 70 %); mittlerer Fehler "Lohnt bis" vs. erzielter Erlös
+   ≤ 15 %; MA1-Fehlerquote ≤ 20 %; kein Item mit zwei verschiedenen "Lohnt bis" (RK2); Tooltip < 2 ms, keine
+   Rechnung > 8 ms je Bild (Portionen); 0 Lua-Fehler; Buchhaltung geht auf den Kupfer auf.
+Ü3 Plausibilität (FEHLER im Selbsttest, wenn verletzt): Gewinn eines Wegs > 300 % -> Daten prüfen statt anzeigen;
+   Absatz > 25 % des Angebots je Stunde -> unplausibel; Herstell-Gewinn bei Produkt mit < 5 Angeboten -> "dünner Markt".
+Ü4 Rückmeldung: Bericht in berichte/AHSentinel/ nach jeder Version mit Ü1-Zahlen; Abweichungen von dieser Anweisung
+   begründen. Ist ein Befund falsch, begründet zurückmelden.
+
+TEIL F – REIHENFOLGE
+1 Vertrauen: MA2, MA1, MA3, Ü1–Ü3.
+2 Rechenkern RK1–RK8 mit "Lohnt bis" überall + Mein Lager (MR2).
+3 Rhythmus und Haltedauer (MR7, MR8, RK6), "Bevor du gehst" (MR6), "Seit deinem letzten Besuch" (MR5), Plan (MR9).
+4 Lage (MR4), Chancen (MR3), Wochentag (MR10), sobald die Freigaben (Teil D) erfüllt sind. Danach MR1 vollständig.
+
+Tests: T-RK1–T-RK8 (Prüffälle RK8), T-MR1–T-MR11, T-MA1–T-MA6, T-Ü1–T-Ü3 mit erfundenen Daten (Relist innert 2 Scans,
+eigener Verkauf/Abbruch, falscher Händlerpreis, Band < 20 Items, Weg fällt unter 60 % -> gesperrt, täglicher Spieler vs.
+Wochenend-Spieler, Spieler ohne Berufe, Spieler nur mit Kochen). Vor dem Push: python3 addon-check/addon_check.py
+download/AHSentinel-<Version>.zip -> kein FEHLER. Bericht in berichte/AHSentinel/.

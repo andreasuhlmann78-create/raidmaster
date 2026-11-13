@@ -206,6 +206,7 @@ IM CLIENT PRÜFEN (mit 0.65.99 bzw. der nächsten Version)
 Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/AHSentinel/ ablegen.
 
-MR/MA (NEU 13.11. 06:05/06:10, Entscheid des Nutzers) – Neuer Markt-Reiter (MR1–MR4), Spielrhythmus für alle Spieler (MR5–MR11), Spielstil (MR12–MR15) und Messungen (MA1–MA6, MA1 und MA2
-   HOCH), Einzelheiten in anweisung-markt-reiter.txt. WL1–WL4 gehen in MA4/MA6 auf. Wichtig aus MA6: bei steigendem
-   Preis nie "halten", sondern "Spitze: jetzt verkaufen".
+RK/MR/MA/Ü (NEU 13.11. 06:20, Entscheid des Nutzers, ersetzt die Fassungen 06:05–06:12) – anweisung-markt-reiter.txt:
+   Rechenkern für alle Wege mit EINEM "Lohnt bis" (RK1–RK8, statt Spielstile), Markt-Reiter eine Seite (MR1–MR11),
+   Messungen (MA1–MA6, MA1/MA2 HOCH), Freigaben (Teil D), STRENGE ÜBERWACHUNG mit Grenzwerten (Ü1–Ü4: Testbericht-
+   Abschnitt "MARKT-KERN" bei jedem /reload). Reihenfolge Teil F. WL1–WL4 gehen in MA4/RK6 auf.

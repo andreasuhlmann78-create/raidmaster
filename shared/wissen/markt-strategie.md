@@ -441,6 +441,16 @@ Neuer Reiter: Lage (Bänder) / Mein Lager / Chancen / Trefferzeile – Auftrag a
   jetzt verkaufen, nie kaufen/halten.
 - **Messaufträge:** MA1 Verkauf vs. Abbruch (Relist-Erkennung, eigene Auktionen als Wahrheit), MA2 Empfehlungs-
   Protokoll, MA3 Händlerpreis, MA4 Bänder, MA5 Entzauber-Nachkalkulation, MA6 Trend-Rückblick (Prüf-Sitzung).
+- **Entscheid des Nutzers 13.11. 06:18: Rechenkern statt Spielstile, streng überwacht.** "Das Addon ist nicht nur für
+  mich" – keine Stile, sondern Wege (rein -> umwandeln -> halten -> raus), Fähigkeiten automatisch (Berufe, Gold,
+  Rhythmus, Risiko-Wahl), EIN "Lohnt bis" für Tooltip/Sniper/Markt/Lager. Haltedauer bis zum nächsten Login.
+  Überwachung: Testbericht "MARKT-KERN", Grenzwerte Trefferquote ≥ 60 % je Weg, Fehler "Lohnt bis" ≤ 15 %,
+  MA1-Fehler ≤ 20 % (anweisung-markt-reiter.txt Teil E). Prüf-Sitzung prüft jede Version und wöchentlich.
+- **GEMESSEN 13.11. Herstellen (Rezepte ProfessionSentinel Data_Forever, Preise 06:40, nach 5 %, günstigstes Angebot):**
+  Koch/Alchemie-Rezepte mit > 10 % Gewinn: Stufe 1–124 25/65, 125–224 42/87, 225–300 41/77. Tiefe Kochrezepte
+  verlieren 1–2s (rohe Zutat gefragt – Leveler kochen selbst), höhere lohnen (Raptor-Rippchen 5s86 -> 26s99, Golddorntee
+  4s11 -> 18s24, Trunk des Wasserwandelns 11s79 -> 2g). Vorbehalt: Absatz unbekannt (MA1), Zutaten zum Einzelpreis,
+  dünne Märkte. -> Rechenkern rechnet beide Richtungen (herstellen / roh verkaufen).
   Quellen: Q14 https://www.shopify.com/blog/gmroi · Q15 https://www.spscommerce.com/community/articles/gmroii-combining-sales-profitability-and-asset-efficiency
   · Q16 https://o9solutions.com/articles/effective-markdown-optimization · Q17 https://www.invent.ai/blog/markdown-optimization-for-inventory-performance
 
