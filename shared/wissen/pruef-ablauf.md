@@ -4,6 +4,14 @@ Entscheid des Nutzers: "Du bist jetzt alleine für die Prüfungen der Projekte z
 intelligent und vorausschauend." Fehler, die der Nutzer im Spiel findet, sind Fehler der Prüfung. Dieser Ablauf gilt
 für JEDE neue Version jedes Projekts (auch für die geplante Nachprüfung).
 
+## 0. Gehirn immer aktiv (Nutzer 14.11. 00:02: "halte dein Gehirn immer aktiv und nutze es – sehr, sehr wichtig")
+- VOR jeder Antwort, jedem Auftrag und jeder Prüfung: die passenden Gehirn-Dateien lesen und anwenden
+  (projekte.md Stand/Prio, pruef-ablauf.md, wirtschaft-forever.md, markt-strategie.md, buchhaltung.md, psychologie.md,
+  kommunikation-forever.md). Nichts aus dem Gedächtnis behaupten, was dort genauer steht.
+- NACH jeder neuen Erkenntnis, jedem Entscheid und jedem Fehler: sofort ins Gehirn schreiben (mit Datum, belegt vs.
+  vermutet), pushen und in die Projekt-Dokumente spiegeln. Überholtes markieren, nicht löschen.
+- Bei Widerspruch zwischen Gehirn und neuen Daten: nachrechnen (Rohdaten), dann Gehirn berichtigen (wie KF2 13.11.).
+
 ## A. Bei jeder neuen Version (Pflicht, in dieser Reihenfolge)
 1. `git pull --rebase`; Bericht des Projekts (Projekte prüfen sich nicht selbst – "erledigt" setzt nur die Prüf-Sitzung) in `berichte/<Projekt>/` ganz lesen; Behauptungen nicht glauben, prüfen.
 2. `python3 addon-check/addon_check.py download/<Addon>-<Version>.zip` -> kein FEHLER, Warnungen begründet.
