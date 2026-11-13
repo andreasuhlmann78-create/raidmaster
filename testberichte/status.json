@@ -1,50 +1,40 @@
 {
- "ausgewertet": "2026-11-13T20:55:58Z",
+ "ausgewertet": "2026-11-13T20:58:22Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 22,
+   "berichte": 23,
    "letzter_test": {
-    "id": "AHSentinel-1794584675-5ecd5d-1",
-    "version": "0.65.111",
-    "time": 1794584546,
+    "id": "AHSentinel-1794602952-682dc0-1",
+    "version": "0.65.116",
+    "time": 1794602829,
     "counts": {
      "client": 0,
-     "fehler": 3,
-     "ok": 59,
-     "uebersprungen": 4
+     "fehler": 2,
+     "ok": 5,
+     "uebersprungen": 1
     }
    },
    "fehler_tests": [
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.111",
+     "version": "0.65.116",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T126",
-     "name": "Scan-Auswertung in Portionen",
-     "detail": "ergebnis: längste Portion 40.6 ms in 136 Frames | erwartet: <= 8 ms",
-     "bericht": "AHSentinel-1794584675-5ecd5d-1"
+     "id": "T613",
+     "name": "SN1951-S1 Treffer bleiben stehen, bis gekauft oder vom Server als weg gemeldet",
+     "detail": "ergebnis: 0 Treffer angezeigt · ohne Grund verschwunden 0 · Suchen 1 | erwartet: ≥ 1 Treffer · 0 ohne Grund verschwunden",
+     "bericht": "AHSentinel-1794602952-682dc0-1"
     },
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.111",
+     "version": "0.65.116",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T458",
-     "name": "T-VF1 Vollscan ruckelfrei: kein Schritt mit längstem Frame über 16 ms (Ziel ≤ Budget)",
-     "detail": "ergebnis: längster Frame 821 ms (Einlesen) · Frames über 33 ms 449 von 2309 · zu lang: Einlesen 821 ms, Verdichtung 32 ms, Verfolgung V4 59 ms, Preisverlauf+Neuaufbau 93 ms, Nachlauf 38 ms | erwartet: jeder Schritt ≤ 16 ms (Ziel 4 ms)",
-     "bericht": "AHSentinel-1794584675-5ecd5d-1"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.111",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T459",
-     "name": "T-VF2 Vollscan: Speicher-Zuwachs ≤ 10 MB, höchstens 1 Speicherbereinigung",
-     "detail": "ergebnis: Zuwachs 53388 KB (AHSentinel) · Speicherbereinigungen 56 | erwartet: ≤ 10240 KB · ≤ 1",
-     "bericht": "AHSentinel-1794584675-5ecd5d-1"
+     "id": "T618",
+     "name": "SN1951-S6 Reaktionszeit: neues Angebot spätestens nach < 5 s sichtbar (Abstand der Suchen + Suchdauer)",
+     "detail": "ergebnis: zu wenige Suchen (1) | erwartet: < 5 s",
+     "bericht": "AHSentinel-1794602952-682dc0-1"
     }
    ],
    "fehler_spiel": [
@@ -481,32 +471,22 @@
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.111",
+   "version": "0.65.116",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T126",
-   "name": "Scan-Auswertung in Portionen",
-   "detail": "ergebnis: längste Portion 40.6 ms in 136 Frames | erwartet: <= 8 ms",
-   "bericht": "AHSentinel-1794584675-5ecd5d-1"
+   "id": "T613",
+   "name": "SN1951-S1 Treffer bleiben stehen, bis gekauft oder vom Server als weg gemeldet",
+   "detail": "ergebnis: 0 Treffer angezeigt · ohne Grund verschwunden 0 · Suchen 1 | erwartet: ≥ 1 Treffer · 0 ohne Grund verschwunden",
+   "bericht": "AHSentinel-1794602952-682dc0-1"
   },
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.111",
+   "version": "0.65.116",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T458",
-   "name": "T-VF1 Vollscan ruckelfrei: kein Schritt mit längstem Frame über 16 ms (Ziel ≤ Budget)",
-   "detail": "ergebnis: längster Frame 821 ms (Einlesen) · Frames über 33 ms 449 von 2309 · zu lang: Einlesen 821 ms, Verdichtung 32 ms, Verfolgung V4 59 ms, Preisverlauf+Neuaufbau 93 ms, Nachlauf 38 ms | erwartet: jeder Schritt ≤ 16 ms (Ziel 4 ms)",
-   "bericht": "AHSentinel-1794584675-5ecd5d-1"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.111",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T459",
-   "name": "T-VF2 Vollscan: Speicher-Zuwachs ≤ 10 MB, höchstens 1 Speicherbereinigung",
-   "detail": "ergebnis: Zuwachs 53388 KB (AHSentinel) · Speicherbereinigungen 56 | erwartet: ≤ 10240 KB · ≤ 1",
-   "bericht": "AHSentinel-1794584675-5ecd5d-1"
+   "id": "T618",
+   "name": "SN1951-S6 Reaktionszeit: neues Angebot spätestens nach < 5 s sichtbar (Abstand der Suchen + Suchdauer)",
+   "detail": "ergebnis: zu wenige Suchen (1) | erwartet: < 5 s",
+   "bericht": "AHSentinel-1794602952-682dc0-1"
   },
   {
    "addon": "AHSentinel",
@@ -832,32 +812,32 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 92,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.114-c7305bcee8c8.txt"
+    "anzahl": 93,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.114-92606c0e02b0.txt"
    },
    "BuffSentinel": {
-    "anzahl": 24,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.18-76e246dc6532.txt"
+    "anzahl": 25,
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.18-90b64a191a2b.txt"
    },
    "GSMesstest": {
     "anzahl": 9,
     "neueste": "testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt"
    },
    "GuildSentinel": {
-    "anzahl": 83,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.36-905d55a5c1d1.txt"
+    "anzahl": 84,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.36-12919074ec6b.txt"
    },
    "LevelPilot": {
     "anzahl": 8,
     "neueste": "testberichte/diagnose/LevelPilot/3.12.27-3aeb503e40ae.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 65,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.43-2a6f705a49d7.txt"
+    "anzahl": 66,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.43-e3fb7edd78f6.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 71,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.10-cd9d2f621e51.txt"
+    "anzahl": 72,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.10-74496509fa97.txt"
    }
   },
   "wege": {
