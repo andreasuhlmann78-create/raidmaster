@@ -335,3 +335,16 @@ BL (MITTEL, NEU 13.11. 07:45, Wunsch des Nutzers) – BEFEHLSLISTE BEIM TIPPEN M
        Handliste); T-BL2 Filter "/x w", "/x we" liefern genau die passenden; T-BL3 Klick wählt, Enter führt aus; T-BL4
        Chatfeld nie beschrieben; T-BL5 Entwickler-Befehle nur für den Entwickler; T-BL6 alle Sprachen ohne Platzhalter-
        Fehler. Alte Clients (Era, TBC) nicht brechen.
+
+
+BP-2026-11-13-1 (NIEDRIG, NEU 13.11. 07:50 – Ergänzung zu HP, nur Termin)
+   Quelle: Kaivax 12.11. (https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-11-2026/2403040/7):
+   die Auktionshaus-Änderungen aus dem Hotfix 10.11. sind herausgenommen und kommen mit der Wochenwartung 17.11.
+   (EU laut Zweitquellen 18.11.). Laut Zweitquelle gehören dazu auch: Auktions-Post nicht mehr für alle als
+   "Stormwind Auction House" und eine Änderung der Lieferzeit der Auktions-Post (nicht von Blizzard bestätigt).
+   Betroffen: HP (Mindest-Einzahlung) – Messung erst nach der Wartung im eigenen Realm-Gebiet; Mailer.lua erkennt
+   Auktions-Post über GetInboxInvoiceInfo/Betreff, nicht über den Absender -> sollte robust bleiben.
+   Lösung: nichts fest einbauen. Nach der Wartung: MINDESTEINZAHLUNG nachmessen (HP) und prüfen, ob Verkaufs-Post
+   weiter erkannt und richtig verbucht wird (Zeitpunkt des Verkaufs nicht aus der Ankunftszeit der Post ableiten).
+   Test T-BP-1113-1 (bleibend): Post mit Absender "Stormwind Auction House", mit anderem Absender und ohne Absender,
+   jeweils mit Rechnung -> alle als Auktions-Post erkannt und gleich verbucht.
