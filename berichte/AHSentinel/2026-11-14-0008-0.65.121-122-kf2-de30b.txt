@@ -1,0 +1,27 @@
+BERICHT AHSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 14.11.2026 · Sitzung: AHSentinel-Sitzung · Versionen: 0.65.121 und 0.65.122 · Commit (AHAnalyzerPro): 395241c
+Status: umgesetzt, zur Prüfung. Nachbildung: Vollauf 246/246 (beide). addon_check OK.
+Hinweis: 0.65.121 enthielt noch die Fassung 23:47 (25 % + Lern-Budget); 0.65.122 setzt die ENDGÜLTIGE Fassung 23:51 um.
+
+KF2 – umgesetzt, zur Prüfung (Befund richtig, Fehler meiner Seite: Median über Zufallsbeute)
+  (1) Fc:Count "D" summiert je dk: sLv, sEv sowie für zugeordnete Käufe nB, sLvB, sBp (Ringpuffer; die ältere
+      Zusammenfassung hat keine Summen -> zählt nicht mit). D:PriceCorrection: f = sLv / sEv ab CORR_MIN_N = 30 Fällen,
+      nur wenn < 0,90 (sonst 1), Untergrenze 0,30. Kein Median mehr. Ln:Margin("d"): Summe Erlös / Summe Erwartung.
+  (2) Testbericht: "Entzaubern: Beute/Vorhersage (Summen) …", "Gewinn gesamt je Gruppe …" (Feld entzaubern_gruppen),
+      Einzel-Verlustquote nur als "Nebeninfo Zufallsbeute".
+  (3) Lohnt bis/Sniper-Max/Gewinn-Zeile laufen über A:BestWay/MK:LimitFromNet -> automatisch ohne die alte Korrektur
+      (mit deinen Zahlen 0,96 -> über CORR_OK -> Faktor 1).
+  (4) T589 neu (T-KF2a/c: Mittel 1,0 bei Staub/Essenz -> 1,00; 20 Fälle -> 1,00; gemessen 0,5 -> 0,50).
+  (5) Alt/neu je Gruppe und Beispiel Schultern: Zahlen aus dem nächsten Client-Bericht (Feld entzaubern_gruppen).
+DE30b ENDGÜLTIG – umgesetzt, zur Prüfung
+  A:DEGroupInfo(itemID)/A:DEMinGain(itemID): Gruppe = dk ohne ":a/:w" (Fc:DEGroupOf), Summen über Rüstung+Waffe
+  (Fc:DEGroupStats). Gemessen (>= 30 Käufe): Gewinn gesamt >= 20 % -> 20, sonst 30. Ungemessen: A:DETableReliable()
+  (gewichtetes Mittel Chance/Menge aus Fc:DEFactors der gemessenen Gruppen, je ±10 % von 1, 5 Min. gemerkt) -> 20, sonst
+  25. Kein Budget-Deckel (Lern-Budget aus 0.65.121 wieder entfernt). Alle Stellen über DEB:DEMinRoi(itemID) =
+  max(Einstellung, Gruppenwert); MK:MinRoi/LimitFromNet tragen itemID durch (DELimit, WorthUpTo, Tooltip, Markt-Zeile/
+  Detail, FindDeals, DEBuy). Ohne Item gilt der strenge Rückfall A.DE_MIN_GAIN = 30.
+  Im Spiel nichts Neues sichtbar (nur lohnt/lohnt nicht); Testbericht je Gruppe: Gewinn gesamt, Käufe, Chance, Menge,
+  geltender Wert, Grund. T637 (c–h inkl. Tooltip ohne Regel), T633 unverändert (Rückfall ohne Item = 30).
+  Offen: Sniper-Entzauber-Ziele (UpdateDETargets) nutzen DELimit -> laufen mit; Formel-Tests mit WithDEGain(20) setzen
+  jetzt auch A.DEMinGain fest.
+NEU gelesen: EB-DET Ergänzung "Entzaubern als Summe zeigen" – kommt mit EB.
