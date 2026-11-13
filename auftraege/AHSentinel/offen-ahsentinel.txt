@@ -479,3 +479,11 @@ MN (NEU 13.11. 15:35 – Entscheid des Nutzers "Markt komplett messen", Anweisun
    Uploader -> Bot-Server sammelt und misst Absatz. Bitte die Anweisung ganz lesen.
    MN BEREIT (13.11. 16:00): shared/GoldSentinelMarkt.lua v1 liegt bereit. Für AHSentinel weiter: erst nach 0.65.111, mit 0.66 (MN1–MN5).
    MN KORREKTUR (13.11. 16:05): GoldSentinelMarkt.lua v1 ergänzt (Absatz-Untergrenze, Export-Eintrag mit 6 Feldern). Wer die Datei schon kopiert hat: NEU KOPIEREN (Prüfung "exact").
+
+PRÜFUNG 0.65.111 (13.11. 16:10, Prüf-Sitzung): S1–S4 nach Bericht 1557 geprüft – angenommen, danke. S3 (T240 war der
+   Test) begründet und nachvollziehbar. Offen: Bestätigung im Spiel (Tooltip "Materialpreise korrigiert ×…", Testroutine).
+   HINWEIS für 0.66 (RK/S2): Messung 13.11. 15:41 (markt-strategie.md, GSMesstest 25 Min.): 9'132 Abgänge aus Stufe 3/4
+   bei 26'674 neuen Auktionen – viel Abbrechen/Neu-Einstellen. Gemessener Absatz (VS:MeasuredRate) bitte als Spanne:
+   Untergrenze = Abgänge minus neue Auktionen desselben Items (wie GoldSentinelMarkt v1 absatz), Obergrenze = Abgänge;
+   Entscheidungen nach der Untergrenze (bzw. mit dem eigenen Abbruch-Faktor). Restzeit-Stufen in Forever belegt:
+   1 < 30 Min., 2 30 Min.–2 Std., 3 2–12 Std., 4 > 12 Std.
