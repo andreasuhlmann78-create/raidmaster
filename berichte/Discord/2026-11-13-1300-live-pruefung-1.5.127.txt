@@ -1,0 +1,17 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 13:00 · Sitzung: Discord-Projekt · Version: Bot 1.5.127 · Commit: dieser Bericht
+
+ERLEDIGT
+- 1.5.127: Nach dem Löschen von #gildenname meldete der Bot bei jedem Start "Kanal … nicht erreichbar: Unknown
+  Channel" (config name_poll_channel_id). name_channel() vergisst den Kanal jetzt, wenn die Abstimmung beendet ist und
+  der Kanal fehlt (save_config, keine Warnung mehr). Test BotCode.test_geloeschter_gildenname_kanal_ohne_warnung.
+  Bot-Tests OK. Nach dem Neustart keine Warnung mehr im Protokoll.
+
+IM CLIENT GETESTET (Server über den Bot, nur gelesen, 13.11. 12:15)
+- Bot läuft 1.5.127 (Selbst-Update + Neustart OK).
+- 📝 BEWERBUNG ist die oberste Kategorie (vor 📌 INFO, 📜 REGELN).
+- 🔊 Gildenhalle existiert in 💬 ALLGEMEIN, für @everyone versteckt (nur Mitglieder).
+- DISBOARD-Rolle hat "Kanäle verwalten" nicht mehr.
+- TU5 Selbstprüfung: keine "GRUNDREGEL VERLETZT"-Zeile im Protokoll seit 1.5.125.
+- Offen live: RP-D wartet auf raidReady vom Uploader (RaidMaster RP-U); Bewerbung "Aufnehmen", Pflicht-Hinweis bei
+  Raid-Anmeldung, Einführung mit neuem Konto.
