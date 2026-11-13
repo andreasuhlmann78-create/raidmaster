@@ -530,3 +530,5 @@ bewährten Werkzeugen (TSM, Auctionator, Buchhaltungs-Kennzahlen) gehört dazu. 
 Gewinn/Stunde, Rendite je eingesetztem Gold je Weg (Flip/Snipe/Entzaubern/Herstellen), Verkaufsquote je Item,
 Haltedauer bis Verkauf, gebundenes Kapital (Lager + laufende Auktionen), verlorene Einzahlungen, Preis-Trefferquote.
 Optik-Regel des Nutzers: Einzelheiten nie in überladene Tooltips, sondern in ein Detail-Fenster hinter einem Knopf.
+Optik-Regel 2 (21:21): "solche Berechnungen will keiner sehen" – Anzeigen zeigen nur Ergebnisse, nie den Rechenweg
+(keine Faktoren, keine "Mit X und Y kauft Z"-Sätze, keine Fallzahlen); Rechnungen nur im Testbericht/Details.
