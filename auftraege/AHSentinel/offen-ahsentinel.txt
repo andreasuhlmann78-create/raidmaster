@@ -397,3 +397,14 @@ SN1951-ABNAHME (Entscheid des Nutzers 20:31: "wenn der Sniper korrigiert ist, so
       bis zum ENDGÜLTIGEN Verkauf verfolgen (Ablauf = noch offen, Einzahlungen als Kosten abziehen), erst dann den
       erzielten Erlös gegen die Vorhersage stellen. Danach den Faktor neu messen und nennen (alt 0,57 -> neu ?).
       Test T-KF: Posten läuft ab, wird neu eingestellt und verkauft -> ein Fall mit dem echten Erlös minus Einzahlung.
+
+EB (MITTEL, NEU 13.11. 21:05 – Nutzer: 8 Taschen mit 10 Plätzen für 1g 60s gekauft, "für den Krieger und Priester"):
+   EIGENBEDARF in der Buchhaltung. Käufe für die eigenen Figuren sind keine Handelsware und dürfen weder als Lager noch
+   als Verlust im Handelsgewinn erscheinen.
+   - Automatisch als Eigenbedarf erkennen: gekauftes Item wird angelegt/als Tasche eingesetzt, benutzt/verbraucht oder
+     an eine eigene Figur (gleicher Account, AHSentinel-Twinks) geschickt und nicht wieder eingestellt.
+   - Von Hand: Rechtsklick auf eine Buchung "Eigenbedarf" bzw. "doch Handelsware" (rückgängig machbar).
+   - Anzeige: Handelsgewinn OHNE Eigenbedarf; eigene Zeile "Ausgaben Eigenbedarf" (heute/Woche/gesamt); Stichtag-
+     Abstimmung mit dem Gold (shared/wissen/buchhaltung.md) berücksichtigt Eigenbedarf als Ausgabe.
+   Tests T-EB1 (Tasche gekauft und eingesetzt -> Eigenbedarf, nicht im Lager), T-EB2 (von Hand umbuchen und zurück),
+   T-EB3 (Gold-Abstimmung stimmt). Einordnen nach LT/SN1951, vor 0.66 oder mit 0.66.
