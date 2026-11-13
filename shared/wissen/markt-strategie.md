@@ -234,8 +234,10 @@ Um zu erfahren, ob ein höherer Preis noch verkauft, gelegentlich leicht höher 
   **13.11. 14:52 GEMESSEN (GSMesstest 5, Forever 1.60.1, Fraktions-AH):** 243'817 Einzelauktionen, 6'115 Items, Daten
   12,5 s nach dem Abruf. Lesen aller Auktionen: 2,5–2,9 s Rechenzeit (über 82 Frames verteilt, ~35 ms je Frame ->
   5.1 liest 1500 je Frame), Speicher +32–38 MB, Vergleichsstand in den SavedVariables ~2,6 MB. Restzeit-Stufen:
-  1: 3,7 %, 2: 14,4 %, 3: 70,6 %, 4: 11,2 %. **REPLICATE_ITEM_LIST_UPDATE kommt nach EINEM Abruf 70'336 Mal** – jedes
-  Addon muss nach dem ersten Ereignis sperren (AHSentinel tut das: `run.reading`). Signaturen 84'737; **78,7 % der
+  1: 3,7 %, 2: 14,4 %, 3: 70,6 %, 4: 11,2 %. **REPLICATE_ITEM_LIST_UPDATE kam 70'336 Mal** (eigener Abruf plus ein
+  AHSentinel-Vollscan direkt danach, Angabe des Nutzers 15:18) – jedes Addon muss nach dem ersten Ereignis sperren
+  (AHSentinel tut das: `run.reading`). Der zweite Lesevorgang "fremd ausgelöst" war der AHSentinel-Vollscan: **fremde
+  Vollscans lassen sich mitlesen (erster Hinweis, gleiche 243'817 Auktionen)**; Vergleich 0 Min. -> ohne Aussage. Signaturen 84'737; **78,7 % der
   Auktionen liegen in mehrdeutigen Signaturen** (gleiche Stapel zum gleichen Preis) -> Absatz über die Zählung je
   Signatur (netto) messen; ein Verkauf mit gleichzeitigem Neu-Einstellen zum selben Preis bleibt unsichtbar
   (Absatz eher unterschätzt). Zusammenfassung je Item (ID, tiefster Stückpreis, Menge, Auktionen): 99'505 Zeichen =
