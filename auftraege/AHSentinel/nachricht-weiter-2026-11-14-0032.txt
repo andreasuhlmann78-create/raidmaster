@@ -1,0 +1,8 @@
+NACHRICHT AN DIE AHSENTINEL-SITZUNG (zum Einfügen)
+0.65.123 geprüft: CH-G (gemeinsame Befehlsliste) byte-gleich, addon_check OK – danke. Speicher-Aufschlüsselung (RF-M1)
+ist im Tempo-Test, Messung im Client folgt.
+WEITER MIT PRIO 1: BH-AUS (Gewinn falsch – 53 "ausstehende" Verkäufe zusätzlich zum Kassenbuch, 43g49 statt ~20g53;
+Gold-Abstimmung leer). Danach Prio 2 RF/RF-M1 (Preisverlauf packen, Caches begrenzen).
+Bitte noch den Bericht zu 0.65.123 nachreichen.
+git pull --rebase, auftraege/AHSentinel/offen-ahsentinel.txt: Liste "PRIORITÄTEN" zuoberst, Punkt BH-AUS.
+Bericht in berichte/AHSentinel/ ("umgesetzt, zur Prüfung"). Komplette Dateien, CHANGELOG EN/DE, addon_check ohne FEHLER.

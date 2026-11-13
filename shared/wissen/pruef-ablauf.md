@@ -10,6 +10,10 @@ für JEDE neue Version jedes Projekts (auch für die geplante Nachprüfung).
   kommunikation-forever.md). Nichts aus dem Gedächtnis behaupten, was dort genauer steht.
 - NACH jeder neuen Erkenntnis, jedem Entscheid und jedem Fehler: sofort ins Gehirn schreiben (mit Datum, belegt vs.
   vermutet), pushen und in die Projekt-Dokumente spiegeln. Überholtes markieren, nicht löschen.
+- WEITERMACHEN (Nutzer 14.11. 00:22, gilt für JEDES Addon): Nach jeder Veröffentlichung prüfen, ob das Addon mit dem
+  letzten Punkt fertig ist – dann SOFORT den nächsten Punkt der Prio-Liste anstossen: Prio-Liste nachführen, Nachricht
+  "weiter mit <Kürzel>" als auftraege/<Projekt>/nachricht-weiter-<datum>-<hhmm>.txt ins Repo und dem Nutzer schicken.
+  Nie warten, bis der Nutzer fragt. Nicht fertig: genau sagen, was fehlt, und das zuerst verlangen.
 - Entscheide (Nutzer 14.11. 00:16: "es darf nicht verloren gehen"): Jeder Entscheid des Nutzers SOFORT in
   shared/wissen/entscheide.md (Zeit, Wortlaut kurz, Wirkung, Auftrag); Überholtes markieren, nie löschen.
 - Prioritäten (Nutzer 14.11. 00:15): Jede Änderung an offen-*.txt führt den Block "PRIORITÄTEN" zuoberst nach – alle
