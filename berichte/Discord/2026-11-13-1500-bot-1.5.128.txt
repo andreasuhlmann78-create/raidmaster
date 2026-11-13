@@ -1,0 +1,20 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 15:00 · Sitzung: Discord-Projekt · Version: Bot 1.5.128 · Commit: dieser Bericht
+
+ERLEDIGT (offen-discord.txt, Nachprüfung 13.11. 14:30)
+- D-GS1: raidmaster_data.check_guildsentinel_upload nimmt GuildSentinel.lua an, wenn bank ODER raidReady da ist (weder
+  noch -> abgewiesen wie bisher). bot.py: Upload mit Bank -> GuildSentinel.lua wie bisher (Bank-Post); ohne Bank ->
+  getrennte Datei GuildSentinel-raidready.lua, Bank-Stand und Bank-Nachricht bleiben unverändert. post_raid_ready nimmt
+  den neuesten Stand (Feld t) aus beiden Dateien (raid_ready.newest) und läuft nach jedem GuildSentinel-Upload (Regeln
+  wie bisher: montags einmal, Vorschlag einmal). Test T-D-GS1 tests/test_uploads_gs_up.py (nur raidReady angenommen,
+  gepackt, weder noch abgewiesen, neuester Stand, Bank-Post nur mit Bank).
+- D-UP1: uploader_version.py. /uploader (mit und ohne nur_programm) vergleicht vor dem Senden die Version der ZIP
+  (VERSION in RaidMasterUploader/uploader.py) mit RaidMasterUploader/uploader.py im Repo; ist das Repo neuer, holt der
+  Bot nur download/RaidMasterUploader.zip (Version geprüft, dann ersetzt – kein ganzes Update). Die Antwort und die DM
+  nennen die Version; ist die ZIP trotzdem älter (Netzfehler), steht eine Warnung drin. Test T-D-UP1 (Vergleich als
+  Zahlen 2.3.9 < 2.3.10, unbekannt, gleiche Version, kaputte ZIP, ZIP im Repo passt zur Quelle).
+- TU6: 16 von 16 Regressionen (neu T-D-GS1, T-D-UP1). Bot-Tests 187/187 OK. uploader_version im Import-Schritt.
+
+IM CLIENT GETESTET
+- noch nicht: PC des Nutzers gerade nicht mit der Sitzung verbunden (kein Neustart/Lesen von hier). Live prüfen:
+  /uploader nur_programm:True -> Antwort "Uploader-Version 2.3.5".

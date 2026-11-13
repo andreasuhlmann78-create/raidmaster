@@ -2091,7 +2091,8 @@ BANK_SOURCES = {"raidmaster": "RaidMaster", "guildsentinel": "GuildSentinel"}
 
 def check_guildsentinel_upload(raw: bytes, filename: str) -> tuple[str, dict]:
     """Entpackt und prüft GuildSentinel.lua(.gz). Liefert (Text, GuildSentinelDB) oder wirft ValueError.
-    Nur Dateien mit einem Gildenbank-Bestand werden angenommen."""
+    Angenommen werden Dateien mit Gildenbank-Bestand ODER Raidfähigkeit (raidReady) – ab Bot 1.5.128 (Befund D-GS1):
+    Seit Uploader 2.3.3 kommen nur bank + raidReady; ohne Bank-Charakter kam die Raidfähigkeit sonst nie an."""
     if filename.lower().endswith(".gz"):
         try:
             raw = gzip.decompress(raw)
@@ -2102,8 +2103,8 @@ def check_guildsentinel_upload(raw: bytes, filename: str) -> tuple[str, dict]:
         db = parse_saved_variables(text).get("GuildSentinelDB")
     except Exception as e:  # noqa: BLE001
         raise ValueError(f"GuildSentinel-Datei nicht lesbar: {e}")
-    if not isinstance(db, dict) or guild_bank(db) is None:
-        raise ValueError("kein Gildenbank-Bestand in GuildSentinel.lua")
+    if not isinstance(db, dict) or (guild_bank(db) is None and not isinstance(db.get("raidReady"), dict)):
+        raise ValueError("weder Gildenbank-Bestand noch Raidfähigkeit in GuildSentinel.lua")
     return text, db
 
 

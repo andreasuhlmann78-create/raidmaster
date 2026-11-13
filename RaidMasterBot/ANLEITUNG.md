@@ -147,7 +147,10 @@ Seit das Serverprofil öffentlich ist, sollen Neue ohne Rolle nicht den ganzen G
 - **Raidfähigkeit im Offizierskanal:** Schickt GuildSentinel (über den Uploader) die Zusammenfassung `raidReady` mit,
   postet der Bot jeden **Montag einmal** in #offiziere z. B. „Raidfähig (Onyxia): 23/40 aktiv · Tanks 2/4 · Heiler 5/10 ·
   Phase Aufbau · Schätzung ~3 Wochen“. Schlägt GuildSentinel eine andere Phase vor, kommt sofort einmal ein Hinweis
-  „im Spiel bestätigen“. Keine Namen, nie doppelt, nur #offiziere.
+  „im Spiel bestätigen“. Keine Namen, nie doppelt, nur #offiziere. Ab 1.5.128 kommt die Raidfähigkeit auch ohne
+  Bank-Charakter an (der Gildenbank-Stand bleibt dabei unverändert).
+- **/uploader (ab 1.5.128):** prüft vor dem Senden, ob die Uploader-ZIP der neuesten Fassung im Repo entspricht, holt
+  sie sonst nach und nennt die Version in der Antwort (bei älterer Fassung mit Warnung).
 - **Selbstprüfung (nur lesen):** beim Start und alle 6 Stunden prüft der Bot Grundregeln (darf er in allen
   Anmeldekanälen posten? Offiziers- und Addon-Kanäle nicht für alle sichtbar? Mitglieder-Bereich dicht, Rolle Mitglied
   und #bewerbung vorhanden?). Verstösse stehen im Protokoll als „GRUNDREGEL VERLETZT …“ und einmal in #bot-befehle.

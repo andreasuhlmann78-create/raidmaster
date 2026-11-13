@@ -41,6 +41,7 @@ import invites
 import member_area
 import raid_ready
 import raid_post
+import uploader_version
 import self_check
 import tb_aufraeumen
 import render as rimg
@@ -135,6 +136,8 @@ for _k, _v in {"installed_sha": "", "failed_sha": "", "last_backup": 0, "last_up
     state.data.setdefault(_k, _v)
 UPLOAD_PATH = os.path.join(DATA_DIR, "RaidMaster.lua")
 GS_UPLOAD_PATH = os.path.join(DATA_DIR, "GuildSentinel.lua")   # Gildenbank-Bestand von GuildSentinel (nur bank)
+# Upload ohne Gildenbank, nur mit Raidfähigkeit (ab 1.5.128, D-GS1) – getrennt, damit der Bank-Stand erhalten bleibt
+GS_READY_PATH = os.path.join(DATA_DIR, "GuildSentinel-raidready.lua")
 # eigene Beute-Datenbank (aus den Lootfenstern der Bosskills aller Uploader)
 lootdb = rmd.Store(os.path.join(DATA_DIR, "loot_db.json"), rmd.lootdb_empty())
 # Ruhmeshalle: alle Bosskills (Erstkills, Bestzeiten) und vergebene Erfolge
@@ -2710,7 +2713,10 @@ async def announce_raider_of_month(year: int, month: int, force: bool = False) -
 async def post_raid_ready(now: datetime | None = None) -> list[str]:
     """RP-D (ab 1.5.125): Raidfähigkeit aus GuildSentinelDB.raidReady im Offizierskanal – montags einmal, Vorschlag
     zur Umstellung sofort einmal. Keine Namen, nie doppelt, nur #offiziere."""
-    rr = raid_ready.parse(guildsentinel_db())
+    # neuester Stand aus Bank-Upload oder Upload nur mit Raidfähigkeit (D-GS1)
+    cands = [raid_ready.parse(guildsentinel_db()),
+             raid_ready.parse(rmd.load_guildsentinel_db(GS_READY_PATH) if os.path.isfile(GS_READY_PATH) else None)]
+    rr = raid_ready.newest(cands)
     if rr is None:
         return []
     guild = bot_guild()
@@ -4805,21 +4811,31 @@ async def receive_upload(message: discord.Message):
     gs_att = message.attachments[gs_i] if gs_i is not None else None
     if gs_att is not None and gs_att.size <= 25 * 1024 * 1024:
         try:
-            gs_text, _ = await asyncio.to_thread(rmd.check_guildsentinel_upload, await gs_att.read(), gs_att.filename)
+            gs_text, gs_db = await asyncio.to_thread(rmd.check_guildsentinel_upload, await gs_att.read(), gs_att.filename)
+            gs_has_bank = rmd.guild_bank(gs_db) is not None
+            # ohne Gildenbank (nur Raidfähigkeit) getrennt ablegen: der Bank-Stand bleibt unverändert (D-GS1)
+            gs_path = GS_UPLOAD_PATH if gs_has_bank else GS_READY_PATH
             os.makedirs(DATA_DIR, exist_ok=True)
-            tmp_gs = GS_UPLOAD_PATH + ".tmp"
+            tmp_gs = gs_path + ".tmp"
             with open(tmp_gs, "w", encoding="utf-8") as f_gs:
                 f_gs.write(gs_text)
-            os.replace(tmp_gs, GS_UPLOAD_PATH)
-            log.info("GuildSentinel-Daten (Gildenbank) empfangen.")
+            os.replace(tmp_gs, gs_path)
+            log.info("GuildSentinel-Daten empfangen (%s).", "Gildenbank" if gs_has_bank else "nur Raidfähigkeit")
         except (ValueError, OSError, discord.HTTPException) as e:
             log.warning("GuildSentinel-Datei nicht übernommen (alter Stand bleibt): %s", e)
             gs_att = None
+            gs_has_bank = False
+        if gs_att is not None:
+            try:
+                await post_raid_ready()
+            except Exception:  # noqa: BLE001
+                log.exception("Raidfähigkeit konnte nicht gepostet werden")
     if not att and gs_att is not None:
-        try:
-            await post_guild_bank()
-        except Exception:  # noqa: BLE001
-            log.exception("Gildenbank-Bestand konnte nicht gepostet werden")
+        if gs_has_bank:
+            try:
+                await post_guild_bank()
+            except Exception:  # noqa: BLE001
+                log.exception("Gildenbank-Bestand konnte nicht gepostet werden")
         return
     if not att:
         if not message.attachments:
@@ -5009,6 +5025,37 @@ async def before_test_cleanup():
     await bot.wait_until_ready()
 
 
+async def ensure_fresh_uploader() -> tuple[str | None, str | None]:
+    """D-UP1 (ab 1.5.128): Version der Uploader-ZIP mit dem Repo vergleichen; ist das Repo neuer, nur die ZIP aus
+    download/ holen (geprüft, dann ersetzt). Liefert (Version der ZIP, Version im Repo). Netzfehler: Repo-Version None."""
+    path = os.path.join(ADDON_DIR, "RaidMasterUploader.zip")
+    have = uploader_version.file_version(path) if os.path.isfile(path) else None
+    repo = (cfg.get("update_repo") or "").strip()
+    if not repo:
+        return have, None
+    import aiohttp
+    try:
+        async with aiohttp.ClientSession(timeout=aiohttp.ClientTimeout(total=30)) as session:
+            async with session.get(uploader_version.raw_url(repo, "RaidMasterUploader/uploader.py")) as resp:
+                want = uploader_version.parse_version(await resp.text()) if resp.status == 200 else None
+            if not uploader_version.is_older(have, want):
+                return have, want
+            async with session.get(uploader_version.raw_url(repo, "download/RaidMasterUploader.zip")) as resp:
+                data = await resp.read() if resp.status == 200 else b""
+    except Exception as e:  # noqa: BLE001 – Netz: alte ZIP bleibt, Warnung in der Antwort
+        log.warning("Uploader-Version nicht geprüft: %s", e)
+        return have, None
+    got = uploader_version.zip_version(data)
+    if got and not uploader_version.is_older(got, have):
+        os.makedirs(ADDON_DIR, exist_ok=True)
+        with open(path + ".tmp", "wb") as f:
+            f.write(data)
+        os.replace(path + ".tmp", path)
+        log.info("Uploader-ZIP aktualisiert: %s -> %s", have, got)
+        have = got
+    return have, want
+
+
 def uploader_package() -> str | None:
     """RaidMasterUploader.zip (kommt mit jedem Update aus dem Ordner download des Repositorys)."""
     path = os.path.join(ADDON_DIR, "RaidMasterUploader.zip")
@@ -5022,18 +5069,22 @@ async def uploader_cmd(inter: discord.Interaction, nur_programm: bool = False):
         await inter.response.send_message("Das dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
         return
     if nur_programm:
+        await inter.response.defer(ephemeral=True, thinking=True)
+        have, want = await ensure_fresh_uploader()
         pkg = uploader_package()
         if not pkg:
-            await inter.response.send_message("RaidMasterUploader.zip liegt noch nicht auf dem Server – nach dem nächsten Update (`/update`) erneut.",
-                                              ephemeral=True)
+            await inter.followup.send("RaidMasterUploader.zip liegt noch nicht auf dem Server – nach dem nächsten Update (`/update`) erneut.",
+                                      ephemeral=True)
             return
+        vnote = uploader_version.note(have, want)
         try:
-            await inter.user.send("📦 **RaidMaster-Uploader** (neueste Fassung). Entpacken und die alten Dateien ersetzen – "
-                                  "deine `uploader_config.json` im Ordner behalten.", file=discord.File(pkg, filename="RaidMasterUploader.zip"))
-            await inter.response.send_message("Ich habe dir den Uploader per Direktnachricht geschickt. 📬", ephemeral=True)
+            await inter.user.send(f"📦 **RaidMaster-Uploader {have or ''}**. Entpacken und die alten Dateien ersetzen – "
+                                  "deine `uploader_config.json` im Ordner behalten.\n" + vnote,
+                                  file=discord.File(pkg, filename="RaidMasterUploader.zip"))
+            await inter.followup.send("Ich habe dir den Uploader per Direktnachricht geschickt. 📬 " + vnote, ephemeral=True)
         except discord.HTTPException:
-            await inter.response.send_message("Direktnachricht nicht möglich (Privatnachrichten von Servermitgliedern erlauben) – hier die Datei:",
-                                              file=discord.File(pkg, filename="RaidMasterUploader.zip"), ephemeral=True)
+            await inter.followup.send("Direktnachricht nicht möglich (Privatnachrichten von Servermitgliedern erlauben) – hier die Datei. "
+                                      + vnote, file=discord.File(pkg, filename="RaidMasterUploader.zip"), ephemeral=True)
         return
     ch = await channel_by_id(cfg.get("data_channel_id"))
     if not isinstance(ch, discord.TextChannel):
@@ -5053,6 +5104,8 @@ async def uploader_cmd(inter: discord.Interaction, nur_programm: bool = False):
     save_config()
     conf = uploader_setup.uploader_config(data_url, test_url, bot.user.id)
     conf_bytes = json.dumps(conf, indent=2).encode("utf-8")
+    have, want = await ensure_fresh_uploader()
+    notes.append(uploader_version.note(have, want))
     pkg = uploader_package()
     text = ("**Daten-Uploader einrichten** (auf dem PC, auf dem du WoW spielst):\n"
             + ("1. **RaidMasterUploader.zip** entpacken, z. B. nach Dokumente.\n" if pkg else

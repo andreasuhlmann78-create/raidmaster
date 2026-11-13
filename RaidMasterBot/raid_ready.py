@@ -65,6 +65,12 @@ def parse(db) -> dict | None:
     return out
 
 
+def newest(cands) -> dict | None:
+    """Aus mehreren Ständen (Bank-Upload, Upload nur mit Raidfähigkeit) den neuesten nach Feld t; ohne t gilt 0."""
+    ok = [c for c in cands if c]
+    return max(ok, key=lambda c: c.get("t") or 0) if ok else None
+
+
 def phase_label(p: str | None) -> str:
     if not p:
         return "?"
