@@ -503,3 +503,9 @@ UI1618 (HOCH, NEU 13.11. 16:20 – Bild des Nutzers, im Spiel noch v0.65.110, Ka
       - "lohnt nicht" mit positivem Betrag in Rot verwirrt: schreiben "✗ Entzaubern: nur +86c (+9 %) – unter dem
         Mindestgewinn 20 %" und den grünen Haken beim Wert weglassen, wenn der Kauf nicht lohnt.
       Test T-UI1618b: Tooltip-Zeilen Wert, Gewinn und Lohnt bis aus einer Rechnung; Lohnt bis ≥ Preis <=> "lohnt".
+   NACHTRAG UI1618 (16:22, Bild mit v0.65.111): b) STIMMT JETZT überein (Azurblaue Seidenkapuze 9s50: Entzaubern 5s90 =
+      ×0,57 korrigiert, "lohnt nicht −3s60 (−38 %)", Lohnt bis 3s49, Händler 7s45, Zeile "Materialpreise korrigiert ×0,57"
+      – danke, S1 im Spiel bestätigt). Offen bleibt nur die Formulierung bei positivem Betrag unter 20 % (s. o.); in der
+      Materialliste die Preise als "tiefstes Angebot" kennzeichnen oder den korrigierten Preis daneben zeigen.
+      a) BESTEHT WEITER in 0.65.111 (Filter "Grün - Episch"): oben weiss/grau "Verstärkte Kettenschulterpolster",
+      "Rotes Schwadroneurshemd", "Verstärkte Kettenweste", mitten in der Liste grau "Turmschild" (10s04, 84 %).
