@@ -275,4 +275,19 @@ TB108 (HOCH, NEU 13.11. 13:05 – Testroutine 0.65.108 im Spiel, 12:55, Forever 
    Frame 3,4 ms. Buchhaltung-Stichtag, Sandbox, Regressionen ok.
    TU5 im Spiel (Bild 12:58): "Echte Daten (TU5): 6545 Items geprüft, 0 Verletzungen" – gut. Die Meldung steht aber
    ZWEIMAL direkt hintereinander im Chat (NIEDRIG): nur einmal je Lauf melden (Lauf doppelt ausgelöst? Test dazu).
-   NOCH IM SPIEL: "/ahs testroutine server" am offenen AH, "berufe" am Berufsfenster, "haendler" am Händler; 16 CLIENT-Punkte.
+   TEIL SERVER (12:58, AH offen): OK 57 · FEHLER 4 · SKIP 5 · Sandbox OK. FEHLER:
+   S1 T458/T-VF1 Vollscan ruckelt: längster Frame 121 ms (Preisverlauf+Neuaufbau), dazu Einlesen 26, Verdichtung 38,
+      Verfolgung V4 42, Nachlauf 34 ms; 73 von 1970 Frames über 33 ms; Bilder/s fallen von 60 auf 42–48. (M1d meldet nur
+      4,7 ms, weil es nur die Auswerte-Portionen misst – alle Schritte in dasselbe Bild-Budget nehmen.) HOCH.
+   S2 T459/T-VF2 Speicher: +62 MB je Vollscan (321 -> 383 MB AHSentinel, ganzer Lua-Speicher bis 764 MB), 28
+      Speicherbereinigungen (soll ≤ 10 MB, ≤ 1) – Tabellen wiederverwenden, keine Zwischenkopien, Strings vermeiden. HOCH.
+   S3 T126 Scan-Auswertung: längste Portion 47,6 ms (soll ≤ 8 ms). MITTEL.
+   S4 T52 Unterboten: Status "liegen" statt "unterboten" bei 10g gegen 5g, 1 Abbrechen-Versuch im Selbsttest ("Kaufen und
+      Einstellen gesperrt") – Testfall und Sperre des Selbsttests abstimmen; im Test darf kein Abbrechen versucht werden. MITTEL.
+   WEITERE BEOBACHTUNGEN (Teil server):
+   - Buchhaltung: "WARNUNG Plausibilität: 32 % des Erlöses ohne Einkauf – Kostenbasis prüfen" (Grenze 30 %, AB8a greift).
+     Bitte Ursache im Bericht nennen (welche Items ohne Einstand, Herkunft Beute/vor dem Stichtag/verlorene Kostenbasis).
+   - Absatz gemessen jetzt für 310 Items (≥ 3 Tage); im Vergleich viele "1× unplausibel" (9 der 20 meistgehandelten) –
+     MA1 (Verkauf vs. Abbruch) bleibt Voraussetzung, bevor gemessener Absatz Empfehlungen trägt.
+   - MA3: 6191 Händlerpreise bestätigt, 4 abweichend. Vollscan 212046 Auktionen, 6006 Items, Drosselung ~25–37 Min.
+   NOCH IM SPIEL: "/ahs testroutine server" am offenen AH (erledigt 12:58), "berufe" am Berufsfenster, "haendler" am Händler; 16 CLIENT-Punkte.
