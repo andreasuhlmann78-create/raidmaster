@@ -388,3 +388,12 @@ SN1951-ABNAHME (Entscheid des Nutzers 20:31: "wenn der Sniper korrigiert ist, so
       erwarte ich ≈ 0,79 × Wert (5s 23c bzw. 4s 67c). Bitte im Bericht die Rechnung offenlegen (welche Abschläge?) und
       ausschliessen, dass der Materialpreis-Faktor ×0,57 ZWEIMAL angewendet wird (einmal im Wert, einmal in Lohnt bis).
       Wichtig, weil die neue Gewinn-Zeile (LT) und das Sniper-Max darauf beruhen.
+   FRAGE KF (HOCH, Prüf-Sitzung 20:55 – Korrekturfaktor ×0,57 evtl. zu streng): Die P-Diagnose zeigt viele Fälle
+      "Ablauf (Briefkasten, nichts verkauft)" mit Ergebnis 0,00. Der Nutzer hat im Moment KEINE Materialien mehr in den
+      Taschen – abgelaufene Ware wurde also später neu eingestellt und verkauft. Wenn ein abgelaufener Posten als 0
+      zählt und der spätere Verkauf als NEUER Fall, drücken die Nullen den Median (Beute/Vorhersage 0,60, Preis 0,57)
+      zu tief, und S1 korrigiert zu stark (dazu Frage LB: Lohnt bis ≈ 0,59 × Wert).
+      Bitte prüfen und im Bericht beantworten: Zählt ein abgelaufener Posten als 0? Richtig ist: jeden Material-Posten
+      bis zum ENDGÜLTIGEN Verkauf verfolgen (Ablauf = noch offen, Einzahlungen als Kosten abziehen), erst dann den
+      erzielten Erlös gegen die Vorhersage stellen. Danach den Faktor neu messen und nennen (alt 0,57 -> neu ?).
+      Test T-KF: Posten läuft ab, wird neu eingestellt und verkauft -> ein Fall mit dem echten Erlös minus Einzahlung.
