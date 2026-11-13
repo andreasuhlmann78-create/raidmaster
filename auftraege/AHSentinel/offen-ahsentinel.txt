@@ -336,3 +336,25 @@ SN1951 (SEHR HOCH, NEU 13.11. 19:55 – Nutzer: "der Sniper funktioniert nicht m
       hinter einer vollen Warteschlange hängen bleiben.
    Höchster Vorrang (Geld!): als 0.65.113 vor allem anderen. Tests T-SN1951a–d, Regression TU6.
    MN VERSION 2 (13.11. 20:00, DRINGEND): GoldSentinelMarkt.lua Version 2 – in Clients mit AHSentinel liest sie nichts mehr selbst (doppeltes Lesen machte den Sniper/das Spiel ruckelig), Warteschlange max. 10, Gilde nur einmal je Stunde ganzer Scan. SOFORT neu kopieren und veröffentlichen (Version 1 = Warnung "veraltet").
+
+LT (HOCH, NEU 13.11. 20:07 – Wunsch und Entscheid des Nutzers): LIVE-TOOLTIP BEIM KAUFEN + "LOHNT BIS" ERSETZEN
+   LT1 Fährt man beim Kaufen mit der Maus über ein ANGEBOT (Sniper-Liste rechts, Einkauf, Schnäppchen, Blizzard-AH-
+       Fenster), rechnet der Tooltip live mit dem PREIS DIESES ANGEBOTS (Stückpreis), nicht mit dem allgemeinen
+       Marktpreis. Beispiel Schultern des Hügelwächters, Angebot 8s 90c:
+          Kaufpreis (dieses Angebot): 8s 90c / Stück
+            Verkaufen:  8s 46c  ->  −44c / Stück    ✗
+            Entzaubern: 6s 61c  ->  −2s 29c / Stück ✗
+            Händler:    6s 59c  ->  −2s 31c / Stück ✗
+          ✗ 1s 85c zu teuer (lohnt ab 7s 05c)
+       Bei Stapeln zusätzlich der Betrag für den ganzen Stapel. Werte aus derselben Rechnung wie Lohnt bis (Rechenkern,
+       korrigierte Materialpreise, Gebühren), live bei jeder Änderung.
+   LT2 Wortlaut (Entscheid des Nutzers 20:06 – "Lohnt bis" ist verwirrend): überall, wo ein Kauf beurteilt wird,
+       statt "Lohnt bis X" eine Zeile:
+          zu teuer:  "✗ <Differenz> zu teuer (lohnt ab <Grenze>)"        rot
+          günstig:   "✓ <Differenz> günstiger als nötig (lohnt ab <Grenze>)" grün
+       (Grenze = bisheriger Lohnt-bis-Wert, Differenz = Angebotspreis − Grenze). Ohne Angebot (Taschen-Tooltip, kein
+       Kaufpreis): "Lohnt ab <Grenze> oder billiger". Gilt für Tooltip, Sniper-Zielzeile, Markt, Heute tun, Einkauf;
+       Locales EN ("✗ 1s 85c too expensive (worth it at 7s 05c)" o. ä.) und DE.
+   Tests T-LT1 (Tooltip über einem Angebot rechnet mit dessen Stückpreis, Stapel), T-LT2 (beide Wortlaute, Grenzfall
+   Preis = Grenze -> ✓ "0c"), T-LT3 (kein "Lohnt bis" mehr in den Locales). Einordnen: direkt nach SN1951 (0.65.113),
+   spätestens 0.65.114 – vor 0.66.
