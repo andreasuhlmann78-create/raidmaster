@@ -431,3 +431,18 @@ EB (MITTEL, NEU 13.11. 21:05 – Nutzer: 8 Taschen mit 10 Plätzen für 1g 60s g
    NEU: Zeile "Handel pro Stunde: <Gold> (bei <x> Std. Spielzeit)" = Handelsgewinn ÷ ONLINE-Spielzeit im gewählten
    Zeitraum (nur eingeloggte Zeit aller eigenen Figuren, AFK-Zeit über 15 Min. nicht mitzählen). Unter 2 Std. Spielzeit
    grau "lernt noch". Test T-EB7 (Standard Gesamt, Gold/Std. Rechnung, AFK nicht gezählt). Einordnen nach LT/SN1951, vor 0.66 oder mit 0.66.
+
+SN2115 (HOCH, NEU 13.11. 21:18 – Bild des Nutzers 21:15, v0.65.114, Sniper, Ziel Schultern des Hügelwächters):
+   a) BUDGET VERDOPPELT: Nach dem Zurücksetzen steht "0/35 gekauft · Budget übrig 6g 24s" und im Tooltip "Mit 6g 24s 80c
+      Budget …". Eingestellt waren 3g 12s 40c – genau das Doppelte. Vermutlich addiert "Zähler zurücksetzen" oder die
+      Budget-Nachfüllung (SB, Variante a) das Grundbudget zum Rest bzw. zum alten Budget. Zurücksetzen = Budget auf den
+      eingestellten Wert, nie mehr. Test T-SN2115a: Budget 3g 12s 40c, zurücksetzen (auch zweimal) -> 3g 12s 40c.
+   b) VERKAUFSWERT WIDERSPRÜCHLICH: 19:47 (0.65.112) "Verkaufen bringt mehr 8s 46c", "jeder Kauf verliert ca. 1s 45c";
+      21:15 (0.65.114) keine Zeile Verkaufen mehr, "Händler bringt mehr 6s 59c", "Gewinn −2s 41c / Stück" (= 6s 59c −
+      9s) und "Max über Verkaufswert – jeder Kauf verliert ca. 3s 73c/Stück" (= 9s 90c − 6s 17c Entzaubern?). Bitte
+      klären: Zählt Wiederverkaufen beim besten Weg noch (LT1 verlangt Verkaufen/Entzaubern/Händler)? Wenn bewusst
+      ausgeschlossen (Kauf zum Marktpreis und Wiederverkauf = nur Gebühr), dann einheitlich und im Bericht begründen;
+      "Max über Verkaufswert" muss denselben Wert verwenden wie die Gewinn-Zeile (3s 73c passt zu keiner Zeile).
+   c) Status "Sync über Gilde: 2 Mitspieler, sende … (117)" – die Warteschlange ist noch voller als 19:47 (39). Bitte im
+      Bericht die Zusammensetzung nennen (welcher Präfix wie viele: AHSentinel eigene / GSMARKT1 aus anderen Addons).
+   Hinweis: Der Nutzer hat noch 0.65.114; der Sniper-Test braucht 0.65.115.
