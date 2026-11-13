@@ -284,3 +284,13 @@ API-PM (MITTEL, NEU 13.11. 07:10 – für ProfessionSentinel PM4): AHSentinel.AP
    (nichts ändern, API.md nachführen): API.WorthUpTo(itemID[, qty]) = "Lohnt bis" aus dem Rechenkern (RK2), dazu Weg und
    Sicherheit; API.MarketState(itemID) = "normal"/"aufkauf"/"flut"/"duenn"/"alt" plus Band-Trend (Richtung). Bis der
    Rechenkern fertig ist, dürfen beide nil liefern. Test: gleiche Zahl wie im Tooltip.
+
+HP (MITTEL, NEU 13.11. 07:25 – Blizzard-Hotfix 10.11.2026, im Netz geprüft):
+   (1) Händlerpreise gesenkt: Eisengranate 1s25 (war 5s), Schwaches arkanes Elixier 5c (war 25c), einige hergestellte
+       Rüstung. vendorPrices/vendorBuy in AHSentinel sind dafür veraltet (Befund 13.11.: "Eisengranate 1s83 < Händler 5s").
+       -> MA3 vorziehen: Händlerpreis aus GetItemInfo (sellPrice) bzw. gemessen, Tabelle nur Rückfall; Händler-Chancen
+       nur mit geprüftem Preis. Test T-HP1 (Tabelle 5s, Client 1s25 -> 1s25, keine Händler-Chance).
+   (2) Mindest-Einzahlung 1s -> 1c ist angekündigt für 17.11. (Realm-Neustarts); 13.11. gemessen noch 1s. Nichts fest
+       einbauen: die vorhandene Messung (MeasureMinDeposit, db.minDeposit) muss nach dem 17.11. von selbst auf 1c gehen;
+       Formel 5 % je 2 Std. vom Händlerpreis bleibt. Test T-HP2 (gemessen 1c bei Formel < 1s -> minDeposit 1, Vorschläge,
+       Laufzeit-Hinweis "24 Std. kostet gleich viel" und Einzahlungsrisiko neu gerechnet).
