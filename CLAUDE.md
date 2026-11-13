@@ -43,6 +43,9 @@ Jedes Ergebnis einer Prüfung – erledigt, Befunde, "im Client prüfen", auch "
 oder `anweisung-*.txt`). Ein Ergebnis, das nur im Chat oder in einer Nachricht an den Nutzer steht, gilt als nicht
 weitergeleitet. Die Nachricht zum Einfügen an den Nutzer ist nur zusätzlich. Betrifft ein Befund ein anderes
 Projekt, auch in dessen `offen-*.txt` eintragen. Offene Punkte anderer Prüfungen nie verlieren, sondern übernehmen.
+Alles kommt ins Repo (Entscheid des Nutzers, 13. November 2026: "pushe immer alles ins Repo"): auch jede
+Nachricht zum Einfügen an eine Projekt-Sitzung liegt zusätzlich als `auftraege/<Projekt>/nachricht-<thema>-<JJJJ-MM-TT>.txt`
+im Repo (committen, pushen, dann erst schicken). Nichts bleibt nur im Arbeitsordner oder nur im Chat.
 Zuständig: Discord-Bot und Gilden-Discord -> `Discord/`, Uploader -> `RaidMaster/`, jedes Addon -> eigener Ordner.
 Keine Überschneidungen: Vor jeder Prüfung, jedem Auftrag und jeder Nachricht zuerst `git pull --rebase` und in
 `auftraege/nachrichten-log.txt` und `addon-check/nachpruefung-stand.json` nachsehen, ob dasselbe (Projekt + Version
