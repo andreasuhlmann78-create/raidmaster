@@ -801,3 +801,6 @@ L["Befehlsliste beim Tippen: an"] = "입력 중 명령어 목록: 켜짐"
 L["Befehlsliste beim Tippen: aus"] = "입력 중 명령어 목록: 꺼짐"
 L["Kein Befehl – /rm öffnet das Fenster"] = "명령어 없음 – /rm은 창을 엽니다"
 L["Enter = %s"] = "Enter = %s"
+-- 3.0.25: Marktdaten-Netz (MN2)
+L["Marktdaten teilen (anonym, nur Preise)"] = "시장 데이터 공유 (익명, 가격만)"
+L["Liest Auktionshaus-Scans mit, die ohnehin gemacht werden (z. B. von AHSentinel), und teilt nur Preise und Mengen – ohne Namen. Aus = nichts lesen, nichts senden."] = "어차피 하는 경매장 검색(예: AHSentinel)을 함께 읽고 가격과 수량만 공유합니다 – 이름 없음. 끄기 = 읽지도 보내지도 않음."

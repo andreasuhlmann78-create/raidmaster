@@ -1,0 +1,33 @@
+BERICHT RAIDMASTER (ADDON UND UPLOADER) AN DIE PRÜF-SITZUNG – MARKTDATEN-NETZ MN1–MN4, MN6
+Stand: 13.11.2026 17:15 · Sitzung: RaidMaster-Sitzung · Version: Addon 3.0.25, Uploader 2.3.6 · Commit: dieser Commit
+
+ERLEDIGT:
+- MN1: GoldSentinelMarkt.lua v1 unverändert aus shared/ (cmp gleich; addon_check "exact"), TOC: GoldSentinelGame.lua,
+  GoldSentinelSync.lua, GoldSentinelMarkt.lua, dann GoldSentinelTest.lua und die eigenen Dateien. Core.lua
+  RM.AttachMarkt() im ADDON_LOADED nach InitDB: GoldSentinelMarkt.Attach("RaidMaster", RaidMasterDB) (Daten in
+  RaidMasterDB.gsMarkt) und SetShare aus RaidMasterDB.config.marktTeilen. Fehlt die Datei/AH-API: still (false).
+- MN2: Schalter "Marktdaten teilen (anonym, nur Preise)" in den Einstellungen (Pages.lua, lokale Einstellungen, mit
+  Tooltip), Standard an, RM.SetMarktShare -> GoldSentinelMarkt.SetShare; Texte in 10 Sprachen; LIESMICH/README_EN.
+- MN3: RM.MarktLine() -> "MARKT-NETZ: v1 · an/aus · mitgelesene Scans n · gesendet n / empfangen n · Speicher n KB";
+  steht im Testbericht-Text und als Feld "markt" im gespeicherten Bericht. DiagLines() der Datei bleibt verfügbar.
+- MN4: Testroutine T180 (lädt mit und ohne GoldSentinelMarkt, ohne Datei still), T181 (Schalter aus: IsShareOn false,
+  neuer Scan-Schub wird als "aus" verworfen, kein Lesen, Tick sendet nichts; wieder an), T182 (alte Clients: api.ah ->
+  nil, OnReplicate/Tick/Get/DiagLines ohne Lua-Fehler), T183 (Testbericht-Zeile). In TU6-Regressionen aufgenommen.
+  Sandbox der Testroutine: gsMarkt/gsMarktAus ausgenommen (laufende Daten des gemeinsamen Moduls; ohne Ausnahme meldete
+  "SB echte Daten unverändert" eine Abweichung in gsMarkt.f und hätte eingelesene Scans zurückgedreht).
+- MN6 (Uploader 2.3.6): GSMARKT1-Zeilen aus den SavedVariables ALLER Addons (EXTRA_STR erweitert), nur genau das
+  Format ^GSMARKT1|Version|H/A/N|Zeit|Auktionen|Items|Vergleich|[0-9a-z,;]*$ (Namen ausgeschlossen), je Scan nur einmal
+  (Kennung m-<Fraktion>-<Scan-Zeit>, gemerkt in uploader_state.json "markt", auch wenn mehrere Addons denselben Scan
+  halten), > 3 MB übersprungen und einmal gemeldet; im Paket paket-*.json.gz wie GSDIAG1/GSWEGE1 (Zusammenfassung
+  "n Markt-Scan(s)"). Test test_uploader.Paket.test_mn6_markt_scans_einmal_ohne_namen (in TU6: 50 von 50).
+Prüfungen: addon_check RaidMaster-3.0.25.zip (lupa, Lua 5.1) siehe Commit; Testroutine nachgebaut Forever OK 126 ·
+FEHLER 0, Era OK 130 · FEHLER 0; Uploader test_daten 12/12, test_sync 38/38, test_uploader 19/19, test_umfassend 14/14;
+Bot-Tests OK.
+
+HINWEISE / FRAGEN:
+- An DISCORD (MN7): Die Markt-Scans kommen im selben Paket wie Testberichte/Diagnose (Discord-Webhook #testberichte,
+  "items"). Bitte dort GSMARKT1 abholen und an die Sammelstelle geben; doppelte Scans vom PC und Laptop haben dieselbe
+  Kennung (Fraktion + Scan-Zeit).
+- Grösse: ein Scan mit ~6'100 Items ergibt ~150 KB; RaidMaster.lua wird dadurch grösser (export 2 Scans + Speicher
+  ≤ ~0,5 MB) – betrifft auch den Abgleich PC/Laptop und die Daten-Lieferung (Grenze 50 MB, weit darunter).
+IM CLIENT GETESTET: nein (keine echten Scans im Nachbau; Zeile "MARKT-NETZ" zeigt im Client die echten Zähler).

@@ -23,6 +23,14 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.25 – Market data network (GoldSentinelMarkt)
+- RaidMaster ships the shared file GoldSentinelMarkt.lua (like all GoldSentinel addons). It reads auction house scans
+  that are made anyway (e.g. by AHSentinel) and shares only prices and quantities – no names, no own queries, no prompt.
+  It runs only once per client, however many addons ship it.
+- Turn off: Settings -> "Share market data (anonymous, prices only)". Off = read nothing, send nothing.
+- Old clients without the needed auction house API: stays silent.
+- The test report contains a line "MARKT-NETZ: …" (version, on/off, scans, sent/received, storage).
+
 WHAT'S NEW IN 3.0.24 – Command list while typing, safer defaults
 - Type /rm or /raidmaster in chat and a list of ALL commands with a short description appears above the input box
   (in your game language). Keep typing to filter ("/rm be" shows ready, professions, loot …); most used on top.

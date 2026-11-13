@@ -799,3 +799,6 @@ L["Befehlsliste beim Tippen: an"] = "Elenco comandi durante la digitazione: atti
 L["Befehlsliste beim Tippen: aus"] = "Elenco comandi durante la digitazione: disattivo"
 L["Kein Befehl – /rm öffnet das Fenster"] = "Nessun comando – /rm apre la finestra"
 L["Enter = %s"] = "Invio = %s"
+-- 3.0.25: Marktdaten-Netz (MN2)
+L["Marktdaten teilen (anonym, nur Preise)"] = "Condividi i dati di mercato (anonimo, solo prezzi)"
+L["Liest Auktionshaus-Scans mit, die ohnehin gemacht werden (z. B. von AHSentinel), und teilt nur Preise und Mengen – ohne Namen. Aus = nichts lesen, nichts senden."] = "Legge le scansioni della casa d'aste già effettuate (ad es. da AHSentinel) e condivide solo prezzi e quantità – senza nomi. Spento = non legge e non invia nulla."

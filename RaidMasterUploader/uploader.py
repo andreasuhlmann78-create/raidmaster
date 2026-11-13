@@ -69,7 +69,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sync  # noqa: E402  (Abgleich PC/Laptop, ab 2.1.0)
 import daten  # noqa: E402  (Daten für die Prüf-Sitzung, ab 2.3.0)
 
-VERSION = "2.3.5"
+VERSION = "2.3.6"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400
@@ -87,8 +87,13 @@ TEST_MAX_JSON = 4 * 1024 * 1024        # entpackt höchstens so viel je Nachrich
 TEST_MAX_SENT_IDS = 500
 TEST_USERNAME = "GoldSentinel-Testberichte"
 TEST_STABLE_SECONDS = 2
-EXTRA_PREFIXES = ("GSDIAG1", "GSWEGE1")
-EXTRA_STR = re.compile(r'"((?:GSDIAG1\||GSWEGE1\{)(?:[^"\\]|\\.)*)"', re.S)
+EXTRA_PREFIXES = ("GSDIAG1", "GSWEGE1", "GSMARKT1")
+EXTRA_STR = re.compile(r'"((?:GSDIAG1\||GSWEGE1\{|GSMARKT1\|)(?:[^"\\]|\\.)*)"', re.S)
+# ab 2.3.6 (MN6): Marktdaten-Netz (GoldSentinelMarkt.lua, Liste <Addon>DB.gsMarkt.export). Nur Zeilen GENAU in diesem
+# Format gehen weiter – Zahlen in Base36, keine Namen möglich. Je Scan (Fraktion + Scan-Zeit) nur einmal.
+MARKT_LINE = re.compile(r"^GSMARKT1\|\d{1,4}\|[HAN]\|\d{9,11}\|\d{1,9}\|\d{1,7}\|\d{1,9}\|[0-9a-z,;]*$")
+MARKT_MAX_ONE = 3 * 1024 * 1024         # ein Scan (alle Items einer Fraktion); grösser = übersprungen und gemeldet
+MARKT_KEEP_IDS = 300
 EXTRA_MAX_ONE = 512 * 1024              # so wertet die Addon-Prüfung höchstens aus (testberichte.MAX_EXTRA)
 EXTRA_MAX_SENT_IDS = 500
 
@@ -358,8 +363,8 @@ def extras_in_text(text: str) -> list[dict]:
     out = []
     for m in EXTRA_STR.finditer(text):
         raw = m.group(1)
-        out.append({"id": "x-" + hashlib.sha1(raw.encode("utf-8")).hexdigest()[:16],
-                    "kind": "diag" if raw.startswith("GSDIAG1") else "wege", "raw": raw})
+        kind = "diag" if raw.startswith("GSDIAG1") else ("markt" if raw.startswith("GSMARKT1") else "wege")
+        out.append({"id": "x-" + hashlib.sha1(raw.encode("utf-8")).hexdigest()[:16], "kind": kind, "raw": raw})
     return out
 
 
@@ -474,7 +479,9 @@ class Collector:
         known_wege = set(st.get("wege") or [])
         items, marks, rest = [], [], {"ids": []}      # je Item, was nach dem Senden gemerkt wird (ab 2.0.1 je Teil)
         new_ids, wege_ids, diag_state, err_state = [], [], {}, {}
-        counts = {"test": 0, "fehler": 0, "zaehler": 0, "diag": 0, "wege": 0}
+        counts = {"test": 0, "fehler": 0, "zaehler": 0, "diag": 0, "wege": 0, "markt": 0}
+        known_markt = set(st.get("markt") or [])
+        markt_ids: list[str] = []
         fehler: dict[str, dict] = {}         # je Addon ein zusammengefasster Fehlerbericht
         seen = set()
         for fn in sorted(self.texts):
@@ -528,6 +535,30 @@ class Collector:
         for fn in sorted(self.texts):
             for x in extras_in_text(self.texts[fn]):
                 raw = lua_unescape(x["raw"])
+                if x["kind"] == "markt":
+                    # MN6: je Scan nur einmal; nur das genaue Format (keine Namen); zu gross -> einmal melden
+                    if not MARKT_LINE.match(raw):
+                        continue
+                    mp = raw.split("|", 4)
+                    key = f"m-{mp[2]}-{mp[3]}"
+                    if key in known_markt or key in markt_ids:
+                        continue
+                    if len(raw) > MARKT_MAX_ONE:
+                        big = st.setdefault("zu_gross", [])
+                        if key not in big:
+                            big.append(key)
+                            del big[:-200]
+                            log("Markt-Scan zu gross – übersprungen.")
+                            try:
+                                save_state(st)
+                            except OSError:
+                                pass
+                        continue
+                    markt_ids.append(key)
+                    items.append(raw)
+                    marks.append({"markt": [key]})
+                    counts["markt"] += 1
+                    continue
                 if len(raw.encode("utf-8")) > EXTRA_MAX_ONE:
                     # ab 2.0.1 nur beim ersten Mal melden (Prüfwert in uploader_state.json "zu_gross")
                     # ab 2.2.0 (offen 6): bei Diagnose-Protokollen Prüfwert aus den Einträgen (ohne Kopfzeilen und
@@ -568,7 +599,7 @@ class Collector:
                 marks.append({"diag": {addon: entries}})
                 counts["diag"] += 1
         return {"items": items, "marks": marks, "rest": rest, "ids": new_ids, "wege": wege_ids, "diag": diag_state,
-                "errors": err_state, "counts": counts}
+                "errors": err_state, "counts": counts, "markt": markt_ids}
 
 
 def commit(st: dict, pkg: dict, now: float | None = None, marks: list[dict] | None = None):
@@ -585,6 +616,9 @@ def commit(st: dict, pkg: dict, now: float | None = None, marks: list[dict] | No
         st["sent_test_ids"] += [i for i in m.get("ids") or [] if i not in known]
         known.update(m.get("ids") or [])
         st["wege"] += [w for w in m.get("wege") or [] if w not in st["wege"]]
+        if m.get("markt"):
+            st["markt"] = (list(st.get("markt") or []) + [k for k in m["markt"] if k not in (st.get("markt") or [])])
+            del st["markt"][:-MARKT_KEEP_IDS]
         st.setdefault("diag", {}).update(m.get("diag") or {})
         st.setdefault("errors", {}).update(m.get("errors") or {})
     if pkg["items"]:
@@ -595,7 +629,7 @@ def commit(st: dict, pkg: dict, now: float | None = None, marks: list[dict] | No
 def package_summary(c: dict) -> str:
     parts = []
     for key, word in (("test", "Testbericht(e)"), ("fehler", "neue(r) Fehler"), ("zaehler", "Fehler nur Zähler"),
-                      ("diag", "Diagnose-Protokoll(e)"), ("wege", "Wegdaten")):
+                      ("diag", "Diagnose-Protokoll(e)"), ("wege", "Wegdaten"), ("markt", "Markt-Scan(s)")):
         if c.get(key):
             parts.append(f"{c[key]} {word}")
     return "GoldSentinel-Paket: " + (", ".join(parts) or "nichts Neues")

@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "3.0.24"
-RM.VERSION_NUM = 30024
+RM.VERSION = "3.0.25"
+RM.VERSION_NUM = 30025
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -842,6 +842,41 @@ function RM.InitDB(db)
 	return db
 end
 
+-- 3.0.25 (MN1/MN2): gemeinsames Marktdaten-Netz GoldSentinelMarkt.lua (unverändert aus shared/). RaidMaster meldet
+-- sich nur an und reicht den Schalter "Marktdaten teilen" durch (Standard an, RaidMasterDB.config.marktTeilen).
+-- Fehlt die Datei oder die Auktionshaus-Schnittstelle (alte Clients), passiert nichts.
+function RM.AttachMarkt()
+	local GM = _G.GoldSentinelMarkt
+	if type(GM) ~= "table" or type(GM.Attach) ~= "function" or type(RaidMasterDB) ~= "table" then return false end
+	pcall(GM.Attach, "RaidMaster", RaidMasterDB)
+	RM.SetMarktShare(not (RM.db and RM.db.config and RM.db.config.marktTeilen == false))
+	return true
+end
+
+function RM.SetMarktShare(on)
+	if RM.db and RM.db.config then RM.db.config.marktTeilen = on and true or false end
+	local GM = _G.GoldSentinelMarkt
+	if type(GM) == "table" and type(GM.SetShare) == "function" then pcall(GM.SetShare, "RaidMaster", on and true or false) end
+end
+
+-- MN3: eine Zeile für den Testbericht (Version, an/aus, mitgelesene Scans, gesendet/empfangen, Speicher), ohne Namen
+function RM.MarktLine()
+	local GM = _G.GoldSentinelMarkt
+	if type(GM) ~= "table" or type(GM.Stats) ~= "function" then return "MARKT-NETZ: nicht geladen" end
+	local s = GM.Stats() or {}
+	local bytes = 0
+	local function size(v, depth)
+		if depth > 6 then return end
+		if type(v) == "string" then bytes = bytes + #v
+		elseif type(v) == "number" then bytes = bytes + 8
+		elseif type(v) == "table" then for k, x in pairs(v) do size(k, depth + 1); size(x, depth + 1) end end
+	end
+	size(RaidMasterDB and RaidMasterDB.gsMarkt, 0)
+	return string.format("MARKT-NETZ: v%s · %s · mitgelesene Scans %d · gesendet %d / empfangen %d · Speicher %.0f KB",
+		tostring(GM.VERSION), (GM.IsShareOn and GM.IsShareOn()) and "an" or "aus", tonumber(s.scans) or 0,
+		tonumber(s.sent) or 0, tonumber(s.received) or 0, bytes / 1024)
+end
+
 -- 3.0.23: Beleg für den Abgleich PC/Laptop (RaidMaster-Uploader 2.2.0, S8 c). Übernimmt der Uploader einen neueren
 -- Stand im Anmelde-/Charakterbildschirm, hängt er einen Prüfblock RaidMasterSyncProbe = { seq, von, t } an
 -- RaidMaster.lua. Hier wird beim Laden nur festgehalten, welcher Prüfblock gelesen wurde und wann (Unix-Zeit);
@@ -863,6 +898,7 @@ RM.On("ADDON_LOADED", function(name)
 	RM.db = db
 	RM.ReadSyncProbe(db, RaidMasterSyncProbe)
 	RaidMasterSyncProbe = nil
+	RM.AttachMarkt()
 	-- Testberichte und Lua-Fehler für die Prüfung sammeln (RaidMasterDB.gsTest; der Uploader schickt sie an Discord)
 	if GoldSentinelTest then GoldSentinelTest.TrackErrors("RaidMaster", RM.VERSION, db) end
 	if RegisterPrefix then RegisterPrefix(RM.PREFIX) end

@@ -536,6 +536,7 @@ REGRESSIONEN = {
     "offen 3 Merge-Block": "test_sync.Reload.test_offen3_offener_block_bleibt_bei_uebernahme",
     "offen 6 zu gross einmal": "test_uploader.Paket.test_p13_zu_gross_neue_uhrzeit_keine_zweite_meldung",
     "T-DU12 alte Fassung entpackt (Warnung)": "test_uploader.Uploader17.test_alte_fassung_entpackt_warnung",
+    "MN6 Markt-Scans einmal, ohne Namen": "test_uploader.Paket.test_mn6_markt_scans_einmal_ohne_namen",
     "RP-U nur bank/raidReady": "test_uploader.Uploader17.test_rp_u_nur_bank_und_raidready",
 }
 

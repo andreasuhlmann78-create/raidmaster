@@ -799,3 +799,6 @@ L["Befehlsliste beim Tippen: an"] = "Liste des commandes à la frappe : activée
 L["Befehlsliste beim Tippen: aus"] = "Liste des commandes à la frappe : désactivée"
 L["Kein Befehl – /rm öffnet das Fenster"] = "Aucune commande – /rm ouvre la fenêtre"
 L["Enter = %s"] = "Entrée = %s"
+-- 3.0.25: Marktdaten-Netz (MN2)
+L["Marktdaten teilen (anonym, nur Preise)"] = "Partager les données du marché (anonyme, prix seulement)"
+L["Liest Auktionshaus-Scans mit, die ohnehin gemacht werden (z. B. von AHSentinel), und teilt nur Preise und Mengen – ohne Namen. Aus = nichts lesen, nichts senden."] = "Lit les scans de l'hôtel des ventes déjà effectués (p. ex. par AHSentinel) et ne partage que les prix et quantités – sans noms. Désactivé = rien lire, rien envoyer."

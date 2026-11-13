@@ -799,3 +799,6 @@ L["Befehlsliste beim Tippen: an"] = "Command list while typing: on"
 L["Befehlsliste beim Tippen: aus"] = "Command list while typing: off"
 L["Kein Befehl – /rm öffnet das Fenster"] = "No command – /rm opens the window"
 L["Enter = %s"] = "Enter = %s"
+-- 3.0.25: Marktdaten-Netz (MN2)
+L["Marktdaten teilen (anonym, nur Preise)"] = "Share market data (anonymous, prices only)"
+L["Liest Auktionshaus-Scans mit, die ohnehin gemacht werden (z. B. von AHSentinel), und teilt nur Preise und Mengen – ohne Namen. Aus = nichts lesen, nichts senden."] = "Reads auction house scans that are made anyway (e.g. by AHSentinel) and shares only prices and quantities – no names. Off = read nothing, send nothing."

@@ -406,6 +406,33 @@ class Paket(Base):
         self.assertIsNone(r2.flush(now=1000))
         self.assertIsNone(r2.tick(now=1000))
 
+    def test_mn6_markt_scans_einmal_ohne_namen(self):
+        # 2.3.6 (MN6): GSMARKT1-Zeilen aus den SavedVariables ALLER GoldSentinel-Addons, je Scan nur einmal
+        def line(fac, t, entries="1z1,a,3,2,1,0;2bm,5k,1,1,0,0"):
+            return f"GSMARKT1|1|{fac}|{t}|243817|6115|1500|{entries}"
+        a1, a2 = line("H", 1794580000), line("H", 1794581500)
+        bad = "GSMARKT1|1|H|1794582000|5|1|0|Testa Beispiel,10"            # Name -> nie senden
+        sv = ('AHSentinelDB = {\n\t["gsMarkt"] = {\n\t\t["export"] = {\n'
+              f'\t\t\t"{a1}",\n\t\t\t"{a2}",\n\t\t\t"{bad}",\n\t\t}},\n\t}},\n}}\n')
+        self.write("AHSentinel.lua", sv)
+        self.write("RaidMaster.lua", 'RaidMasterDB = {\n\t["gsMarkt"] = {\n\t\t["export"] = {\n'
+                   f'\t\t\t"{a2}",\n\t\t}},\n\t}},\n}}\n')                  # derselbe Scan in 2 Addons
+        r = self.reporter()
+        self.assertEqual(r.flush(now=1000), "ok")
+        _, items = self.items(0)
+        markt = [i for i in items if i.startswith("GSMARKT1|")]
+        self.assertEqual(sorted(markt), sorted([a1, a2]))
+        self.assertFalse(any("Testa" in i for i in items))
+        # /reload: dieselben Scans -> nichts; neuer Scan -> nur er
+        a3 = line("H", 1794583000)
+        self.write("AHSentinel.lua", sv.replace(a1, a3), age=5)
+        self.assertEqual(r.flush(now=2000), "ok")
+        _, items = self.items(1)
+        self.assertEqual([i for i in items if i.startswith("GSMARKT1|")], [a3])
+        self.assertIn("m-H-1794583000", json.load(open(up.STATE, encoding="utf-8"))["markt"])
+        self.assertEqual(r.flush(now=3000), "leer")
+        self.assertIn("Markt-Scan", up.package_summary({"markt": 2}))
+
     def test_p13_zu_gross_neue_uhrzeit_keine_zweite_meldung(self):
         # 2.2.0 (offen 6): dasselbe zu grosse Protokoll, neu ausgegeben mit anderer Uhrzeit -> keine zweite Meldung
         entries = ["[x] " + "y" * (600 * 1024)]

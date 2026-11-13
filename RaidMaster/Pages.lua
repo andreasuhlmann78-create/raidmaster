@@ -1927,12 +1927,17 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 		function(v) RM.db.config.records = v end,
 		L["Erstkill: Fanfare, Schlachtzugwarnung und Screenshot für Discord. Bestzeiten: 'Neuer Rekord!' bei schnelleren Kills."])
 	Place(recCheck, page, x2 + 250, y2 - 126)
+	-- 3.0.25 (MN2): Marktdaten-Netz – Standard an, hier ausschaltbar
+	local marktCheck = UI.Check(page, L["Marktdaten teilen (anonym, nur Preise)"],
+		function() return RM.db.config.marktTeilen ~= false end, function(v) RM.SetMarktShare(v) end,
+		L["Liest Auktionshaus-Scans mit, die ohnehin gemacht werden (z. B. von AHSentinel), und teilt nur Preise und Mengen – ohne Namen. Aus = nichts lesen, nichts senden."])
+	Place(marktCheck, page, x2, y2 - 152)
 	-- Addon unterstützen (PayPal) – nur auf Klick, wie oben in der Titelleiste
-	local donateLabel = Label(page, L["Addon unterstützen"], x2, y2 - 163)
+	local donateLabel = Label(page, L["Addon unterstützen"], x2, y2 - 189)
 	donateLabel:SetWidth(170)
 	donateLabel:SetWordWrap(false)
 	local donateBtn = RM.Donate.CreateButton(page, 120, 24)
-	Place(donateBtn, page, x2 + 175, y2 - 158)
+	Place(donateBtn, page, x2 + 175, y2 - 184)
 
 	return function()
 		UpdateBossRows()
@@ -1941,7 +1946,7 @@ UI.AddPage("settings", L["Einstellungen"], function(page)
 		end
 		for _, c in ipairs(checks) do c:Refresh() end
 		mmCheck:Refresh()
-		ttCheck:Refresh(); bankCheck:Refresh(); recCheck:Refresh()
+		ttCheck:Refresh(); bankCheck:Refresh(); recCheck:Refresh(); marktCheck:Refresh()
 		if RM.CanEdit() then saveBtn:Enable() else saveBtn:Disable() end
 	end
 end)

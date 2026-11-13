@@ -799,3 +799,6 @@ L["Befehlsliste beim Tippen: an"] = "Lista de comandos ao digitar: ligada"
 L["Befehlsliste beim Tippen: aus"] = "Lista de comandos ao digitar: desligada"
 L["Kein Befehl – /rm öffnet das Fenster"] = "Nenhum comando – /rm abre a janela"
 L["Enter = %s"] = "Enter = %s"
+-- 3.0.25: Marktdaten-Netz (MN2)
+L["Marktdaten teilen (anonym, nur Preise)"] = "Compartilhar dados do mercado (anônimo, só preços)"
+L["Liest Auktionshaus-Scans mit, die ohnehin gemacht werden (z. B. von AHSentinel), und teilt nur Preise und Mengen – ohne Namen. Aus = nichts lesen, nichts senden."] = "Lê as varreduras da casa de leilões que já são feitas (p. ex. pelo AHSentinel) e compartilha só preços e quantidades – sem nomes. Desligado = não lê nem envia nada."

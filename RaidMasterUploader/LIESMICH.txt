@@ -228,3 +228,8 @@ Version 2.3.5 – Warnung bei alter Fassung, richtig aktualisieren:
   3. Nur die Programmdateien ersetzen; uploader_config.json, sync_config.json, daten_config.json und
      uploader_state.json behalten.
   4. uploader.bat doppelklicken. Steht "läuft schon": die Frage "Alte Version … beenden? (J/N)" mit J beantworten.
+
+Version 2.3.6 – Marktdaten-Netz (MN6):
+- Der Uploader schickt die Markt-Scans der GoldSentinel-Addons ("GSMARKT1|…" aus GoldSentinelMarkt) mit dem Paket an
+  den Bot – je Scan nur einmal (auch wenn mehrere Addons denselben Scan speichern), nur Zahlen, keine Namen. Zeilen in
+  anderem Format werden nie gesendet.

@@ -127,7 +127,9 @@ end
 ---------------------------------------------------------------------------
 -- Sandbox: echte SavedVariables sichern, vergleichen, wiederherstellen
 ---------------------------------------------------------------------------
-local SB_SKIP = { gsTest = true, lastSave = true }
+-- gsMarkt/gsMarktAus (ab 3.0.25): laufende Daten des gemeinsamen Marktdaten-Netzes (GoldSentinelMarkt.lua) – sie ändern
+-- sich im Hintergrund (Scans mitlesen, Netz) und werden weder verglichen noch zurückgedreht.
+local SB_SKIP = { gsTest = true, lastSave = true, gsMarkt = true, gsMarktAus = true }
 
 local function Deep(v, seen)
 	if type(v) ~= "table" then return v end
@@ -2603,6 +2605,97 @@ local function AreaJ(t, G)
 		end)
 	end)
 
+	-- 3.0.25 (MN4): Marktdaten-Netz – lädt mit/ohne Datei, Schalter aus = kein Lesen/Senden, kein Fehler ohne AH-API
+	local function MarktState(GM)
+		return { lastEv = GM.lastEv, readAt = GM.readAt, reader = GM.reader, askAt = GM.askAt,
+			share = RM.db.config.marktTeilen, aus = (GM.stats.dropped or {}).aus or 0, sent = GM.stats.sent or 0 }
+	end
+	local function MarktRestore(GM, st)
+		GM.lastEv, GM.readAt, GM.reader, GM.askAt = st.lastEv, st.readAt, st.reader, st.askAt
+		RM.SetMarktShare(st.share ~= false)
+	end
+	t:Check("T180", "J", "MN4 RaidMaster lädt mit und ohne GoldSentinelMarkt", function()
+		local GM = _G.GoldSentinelMarkt
+		if type(GM) ~= "table" then return false, "GoldSentinelMarkt fehlt", "in der TOC (nach GoldSentinelSync)" end
+		if (tonumber(GM.VERSION) or 0) < 1 then return false, tostring(GM.VERSION), ">= 1" end
+		_G.GoldSentinelMarkt = nil
+		local okNo, resNo = pcall(RM.AttachMarkt)
+		local okLine, line = pcall(RM.MarktLine)
+		_G.GoldSentinelMarkt = GM
+		if not (okNo and resNo == false and okLine and line:find("nicht geladen", 1, true)) then
+			return false, "ohne Datei: " .. tostring(resNo) .. " / " .. tostring(line), "still, kein Fehler"
+		end
+		local okWith, resWith = pcall(RM.AttachMarkt)
+		if not (okWith and resWith and GM.hosts and GM.hosts.RaidMaster == RaidMasterDB and type(RaidMasterDB.gsMarkt) == "table") then
+			return false, "mit Datei: " .. tostring(resWith), "angemeldet, Daten in RaidMasterDB.gsMarkt"
+		end
+		return true, "v" .. GM.VERSION .. " angemeldet; ohne Datei still"
+	end)
+
+	t:Check("T181", "J", "MN4 Schalter aus: kein Lesen, kein Senden", function()
+		local GM = _G.GoldSentinelMarkt
+		if type(GM) ~= "table" then return false, "fehlt", "GoldSentinelMarkt" end
+		local st = MarktState(GM)
+		local res = "ok"
+		local okRun, err = pcall(function()
+			RM.SetMarktShare(false)
+			if GM.IsShareOn() then res = "IsShareOn trotz Schalter aus"; return end
+			if RM.db.config.marktTeilen ~= false then res = "Schalter nicht gespeichert"; return end
+			GM.lastEv = nil
+			GM.OnReplicate()                                  -- neuer Scan-Schub
+			if GM.readAt or GM.reader then res = "liest trotz Schalter aus"; return end
+			if ((GM.stats.dropped or {}).aus or 0) ~= st.aus + 1 then res = "nicht als 'aus' verworfen"; return end
+			GM.askAt = 0
+			GM.Tick()
+			if (GM.stats.sent or 0) ~= st.sent then res = "sendet trotz Schalter aus"; return end
+			RM.SetMarktShare(true)
+			if not GM.IsShareOn() then res = "Schalter an wirkt nicht" end
+		end)
+		MarktRestore(GM, st)
+		if not okRun then return false, "Lua: " .. tostring(err), "kein Fehler" end
+		if res ~= "ok" then return false, res, "aus = nichts" end
+		return true, "aus: nichts gelesen/gesendet; an: wieder an"
+	end)
+
+	t:Check("T182", "J", "MN4 kein Lua-Fehler ohne Auktionshaus-Schnittstelle", function()
+		local GM = _G.GoldSentinelMarkt
+		if type(GM) ~= "table" then return false, "fehlt", "GoldSentinelMarkt" end
+		local st = MarktState(GM)
+		local origAh = GM.api.ah
+		GM.api.ah = function() return nil end               -- alter Client: kein C_AuctionHouse
+		local errs = {}
+		local okRun, err = pcall(function()
+			RM.SetMarktShare(true)
+			GM.lastEv = nil
+			local ok1, e1 = pcall(GM.OnReplicate)
+			if not ok1 then errs[#errs + 1] = "OnReplicate: " .. tostring(e1) end
+			GM.readAt = 0
+			for _ = 1, 3 do
+				local ok2, e2 = pcall(GM.Tick)
+				if not ok2 then errs[#errs + 1] = "Tick: " .. tostring(e2) end
+			end
+			local ok3, e3 = pcall(GM.Get, 2589)
+			if not ok3 then errs[#errs + 1] = "Get: " .. tostring(e3) end
+			local ok4, e4 = pcall(GM.DiagLines)
+			if not ok4 then errs[#errs + 1] = "DiagLines: " .. tostring(e4) end
+		end)
+		GM.api.ah = origAh
+		GM.reader = nil
+		MarktRestore(GM, st)
+		if not okRun then return false, "Lua: " .. tostring(err), "kein Fehler" end
+		if #errs > 0 then return false, errs[1], "kein Fehler" end
+		return true, "ohne AH-API still"
+	end)
+
+	t:Check("T183", "J", "MN3 Testbericht-Zeile MARKT-NETZ", function()
+		local ok, line = pcall(RM.MarktLine)
+		if not ok then return false, "Lua: " .. tostring(line), "Zeile" end
+		for _, part in ipairs({ "MARKT-NETZ", "v", "Scans", "gesendet", "empfangen", "Speicher" }) do
+			if not line:find(part, 1, true) then return false, line, "mit " .. part end
+		end
+		return true, line
+	end)
+
 	-- 3.0.24 (BL): Befehlsliste beim Tippen – eine Tabelle für Handler und Liste (T-BL1 … T-BL6)
 	local function HintWith(dev, german)
 		local H = RM.CmdHint
@@ -3223,7 +3316,8 @@ local function AreaL(t, G)
 			{ "BL4 Chatfeld nie beschrieben", "T169" }, { "BL5 Entwickler", "T170" }, { "BL6 Sprachen", "T171" },
 			{ "Oberfläche: Tooltips", "T155" }, { "Oberfläche: Fenster", "T156" }, { "Oberfläche: Bildschirm", "T157" },
 			{ "Oberfläche: Text passt", "T158" }, { "Oberfläche: Werte", "T159" }, { "Oberfläche: Fehler-Schleifen", "T160" },
-			{ "TU3 fehlende Einstellungen", "T174" } }
+			{ "TU3 fehlende Einstellungen", "T174" }, { "MN4 mit/ohne GoldSentinelMarkt", "T180" },
+			{ "MN4 Schalter aus", "T181" }, { "MN4 ohne AH-API", "T182" }, { "MN3 Testbericht-Zeile", "T183" } }
 		local only = R.only
 		local have, missing = 0, {}
 		for _, r in ipairs(REG) do
@@ -3646,9 +3740,12 @@ function R.Finish(aborted)
 		t:Check("X1", "A", "Abschluss der Routine", function() error(errEnd, 0) end)
 	end
 
+	local marktLine = RM.MarktLine and RM.MarktLine() or "MARKT-NETZ: -"
 	local text = t:Finish({ sandbox = sandbox, fehlerzaehler = R.diagBefore .. " -> " .. #RM.Diag.errors, locale = RM.LOCALE,
+		markt = marktLine,
 		testflavor_ende = G and tostring(G.flavor) or "-", blocked = blocked, echte_aktionen = realN, abgefangen = actList,
 		bereich = only or (R.long and "alle (lang)" or "alle"), abbruch = aborted and "ja" or nil })
+	text = text .. "\n" .. marktLine                       -- MN3
 	text = text .. "\n\nBericht gespeichert – wird beim nächsten /reload oder Ausloggen an die Prüfung gemeldet."
 		.. "\nNach der Testroutine bitte /reload (Knopf \"Neu laden und melden\")."
 	R.lastText = text

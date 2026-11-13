@@ -799,3 +799,6 @@ L["Befehlsliste beim Tippen: an"] = "Список команд при вводе
 L["Befehlsliste beim Tippen: aus"] = "Список команд при вводе: выкл."
 L["Kein Befehl – /rm öffnet das Fenster"] = "Нет команды – /rm открывает окно"
 L["Enter = %s"] = "Enter = %s"
+-- 3.0.25: Marktdaten-Netz (MN2)
+L["Marktdaten teilen (anonym, nur Preise)"] = "Делиться рыночными данными (анонимно, только цены)"
+L["Liest Auktionshaus-Scans mit, die ohnehin gemacht werden (z. B. von AHSentinel), und teilt nur Preise und Mengen – ohne Namen. Aus = nichts lesen, nichts senden."] = "Читает сканы аукциона, которые и так делаются (например, AHSentinel), и передаёт только цены и количество – без имён. Выкл. = ничего не читать и не отправлять."

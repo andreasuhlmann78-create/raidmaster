@@ -11,6 +11,14 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.25 – Marktdaten-Netz (GoldSentinelMarkt)
+- RaidMaster bringt die gemeinsame Datei GoldSentinelMarkt.lua mit (wie alle GoldSentinel-Addons). Sie liest
+  Auktionshaus-Scans mit, die ohnehin gemacht werden (z. B. von AHSentinel), und teilt nur Preise und Mengen – ohne
+  Namen, ohne eigene Abfrage, ohne Frage an dich. Sie läuft je Client nur einmal, egal wie viele Addons sie mitbringen.
+- Ausschalten: Einstellungen -> "Marktdaten teilen (anonym, nur Preise)". Aus = nichts lesen, nichts senden.
+- Alte Clients ohne die nötige Auktionshaus-Schnittstelle: bleibt still.
+- Der Testbericht enthält eine Zeile "MARKT-NETZ: …" (Version, an/aus, Scans, gesendet/empfangen, Speicher).
+
 NEU IN 3.0.24 – Befehlsliste beim Tippen, sicherere Standardwerte
 - Tippst du /rm oder /raidmaster in den Chat, erscheint über dem Eingabefeld die Liste ALLER Befehle mit kurzer
   Beschreibung (in deiner Spielsprache). Weitertippen filtert ("/rm be" zeigt bereit, berufe, beute …), meistbenutzte

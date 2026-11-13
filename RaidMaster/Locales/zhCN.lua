@@ -799,3 +799,6 @@ L["Befehlsliste beim Tippen: an"] = "输入时的命令列表：开"
 L["Befehlsliste beim Tippen: aus"] = "输入时的命令列表：关"
 L["Kein Befehl – /rm öffnet das Fenster"] = "没有该命令 – /rm 打开窗口"
 L["Enter = %s"] = "回车 = %s"
+-- 3.0.25: Marktdaten-Netz (MN2)
+L["Marktdaten teilen (anonym, nur Preise)"] = "共享市场数据（匿名，仅价格）"
+L["Liest Auktionshaus-Scans mit, die ohnehin gemacht werden (z. B. von AHSentinel), und teilt nur Preise und Mengen – ohne Namen. Aus = nichts lesen, nichts senden."] = "读取本来就会进行的拍卖行扫描（例如AHSentinel），只共享价格和数量——不含名字。关闭 = 不读取、不发送。"
