@@ -314,3 +314,17 @@ DG1300 (HOCH, NEU 13.11. 13:10 – Diagnose-Protokoll 0.65.108, 13:00:40, vom Nu
       vorhergesagt 20s43, echt 12s25 (+67 %) = der Fall AB4d (zu billig eingestellt). 08:14:39 dasselbe: 14 Stück zu 12s28
       eingestellt, nach 5 s vom Spieler abgebrochen und zu 20s42 neu eingestellt (AB4d/WS). MINDESTEINZAHLUNG weiter 100
       (1s) gemessen. SYNC über die Gilde: 29 empfangen, 1 Mitspieler mit AHSentinel online.
+
+BH1307 (HOCH, NEU 13.11. 13:12 – Bild Buchhaltung "Heute", 0.65.108): Zahlen gehen auf den Kupfer auf, aber die Grundlage
+   ist zweifelhaft. Gewinn 13g72s28 = Summe Zeilen 13g77s84 − Gebühren 5s56; Verkauft 39g11s05; Eingesetzt 25g33s21; ohne
+   Einkauf 12g44s12 (= 32 % des Erlöses, Warnung AB8a greift); Rendite (13g72s28 − 12g44s12)/25g33s21 = 5 %.
+   Aus den Gewinn-%-Zeilen zurückgerechnet stammt der Erlös ohne Einkauf aus ~7g78 Seelenstaub, ~3g61 Große Astralessenz
+   und 1g09s16 Große Mystikeressenz. Der Spieler (Stufe 10) farmt diese Materialien nicht – sie stammen fast sicher aus
+   Entzauberungen GEKAUFTER Teile, deren Kostenbasis fehlt (vor dem Stichtag 11.11. 16:42 gekauft, L1b/AB8, oder D1:
+   falsch verarbeitete Abbrüche/gescheiterte Käufe). Der echte Tagesgewinn liegt damit eher bei ~1g28 (nur Ware mit
+   Einkauf), nicht bei 13g72 – Kopf und Gewinn zeigen zu viel.
+   Auftrag: (1) Im Bericht je Item auflisten, welche verkauften Stücke ohne Einstand waren und woher sie kamen (Entzauberung
+   von Teil X gekauft am …, Beute, Post von einem Twink, vor dem Stichtag). (2) Für Material aus Entzauberungen, deren Teil
+   in den alten Daten gekauft wurde, die Kostenbasis nachtragen (AB8-Regel, gleitender Durchschnitt). (3) Solange "ohne
+   Einkauf" > 30 %: im Kopf zwei Zahlen zeigen – "Gewinn mit Einkauf 1g28 (5 %)" gross, "dazu ohne Einkauf 12g44" klein
+   und gelb mit Hinweis "Kostenbasis prüfen". Test T-BH1307 mit genau diesen Zahlen.
