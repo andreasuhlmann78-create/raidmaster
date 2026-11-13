@@ -7,6 +7,21 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.114</h3>
+<ul>
+<li><strong>Sniper never loses a real purchase:</strong> if the server sends no answer, the sniper checks your gold after 30 s (gold
+  down by the price -&gt; counted). A confirmation that arrives late is still counted (up to 5 min). On the modern auction
+  house an error message without a listing (e.g. from a search) no longer marks the purchase as failed.</li>
+<li><strong>Live tooltip (new):</strong> hovering an offer (sniper list, buy list, bargains, classic auction house row) shows ONE line
+  "Profit: −44c / each" (red) or "Profit: +2s 61c / each" (green) – with the price of exactly this offer and the best
+  way after fees (sell, disenchant, vendor). It replaces "Disenchant worth it …" and "Worth up to …"; everything else
+  stays. Bag tooltips use the market value. "Material prices corrected ×…" now only with Shift.</li>
+<li><strong>Buy list:</strong> with a quality filter, items whose data loaded later now appear without a new search.</li>
+<li><strong>Test routine:</strong> sync messages that arrive during the run are applied afterwards (no sandbox error, nothing lost).</li>
+<li><strong>Flip list:</strong> list and detail always calculate with the same state (no "FLIP-WIDERSPRUCH").</li>
+<li>Diagnostics: "LANGSAM" names the longest single step (file:line); full-scan test waits up to 300 s.</li>
+<li>Tests T602–T612, T597 checks the uploaded fields.</li>
+</ul>
 <h3>Version 0.65.113</h3>
 <ul>
 <li><strong>Sniper counted failed purchases (important):</strong> a sent single purchase now only counts – and only uses budget – when
@@ -56,24 +71,7 @@
 - "/ahs testroutine echt" reports only once; tests T231, T253 and T52 no longer depend on your real learning data,
   T52 never tries to cancel.
 - Tests T584–T588.</p>
-<h3>Version 0.65.109</h3>
-<p>Fixes wrong numbers from the big test of 0.65.108:
-- <strong>Materials after a full scan:</strong> a real price drop (e.g. the level wave) was stored as "unconfirmed bait" and the
-  materials stayed "estimated, unsure". A full scan with at least 5 pieces on the cheapest step now counts as a real
-  price. The diagnostic log lists source, age and reason per disenchant material after each scan.
-- <strong>Tooltip:</strong> no green check mark for "Disenchant" when the material prices are unsure (grey "Disenchant: unsure").
-- <strong>No fake flips:</strong> a resale price above the market value only counts with a full ladder (≥ 3 steps or ≥ 5 pieces) and
-  sales of at least 1 per day – otherwise at most the market value.
-- <strong>Releases everywhere:</strong> "Today" shows ways that are still learning or locked only grey at the bottom ("still
-  learning (n of 20)") or not at all; profit over 300 % is marked "implausible". The tooltip shows "Disenchant pays"
-  grey while the way is still learning.
-- <strong>Cancelled auctions:</strong> AUCTION_CANCELED with an unknown/foreign auction ID (e.g. on a failed Sniper purchase) is no
-  longer handled as your own cancel; the same ID only once.
-- <strong>Accounting:</strong> if more than 30 % of the revenue has no purchase (cost basis missing), the header shows "Profit with
-  purchase" large and "plus … without purchase – check cost basis" small and yellow. The test report lists those items
-  with their likely origin.
-- Tests T580–T583 (T-D1, T-TT1317, T-MH1310, T-BH1307); T223, T248, T431, T432 now independent of your real learned margin.</p>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

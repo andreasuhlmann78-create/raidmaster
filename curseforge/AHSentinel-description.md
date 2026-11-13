@@ -12,6 +12,21 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.114
+
+- **Sniper never loses a real purchase:** if the server sends no answer, the sniper checks your gold after 30 s (gold
+  down by the price -> counted). A confirmation that arrives late is still counted (up to 5 min). On the modern auction
+  house an error message without a listing (e.g. from a search) no longer marks the purchase as failed.
+- **Live tooltip (new):** hovering an offer (sniper list, buy list, bargains, classic auction house row) shows ONE line
+  "Profit: −44c / each" (red) or "Profit: +2s 61c / each" (green) – with the price of exactly this offer and the best
+  way after fees (sell, disenchant, vendor). It replaces "Disenchant worth it …" and "Worth up to …"; everything else
+  stays. Bag tooltips use the market value. "Material prices corrected ×…" now only with Shift.
+- **Buy list:** with a quality filter, items whose data loaded later now appear without a new search.
+- **Test routine:** sync messages that arrive during the run are applied afterwards (no sandbox error, nothing lost).
+- **Flip list:** list and detail always calculate with the same state (no "FLIP-WIDERSPRUCH").
+- Diagnostics: "LANGSAM" names the longest single step (file:line); full-scan test waits up to 300 s.
+- Tests T602–T612, T597 checks the uploaded fields.
+
 ### Version 0.65.113
 
 - **Sniper counted failed purchases (important):** a sent single purchase now only counts – and only uses budget – when
@@ -64,25 +79,6 @@ Smoothness and reliability:
 - "/ahs testroutine echt" reports only once; tests T231, T253 and T52 no longer depend on your real learning data,
   T52 never tries to cancel.
 - Tests T584–T588.
-
-### Version 0.65.109
-
-Fixes wrong numbers from the big test of 0.65.108:
-- **Materials after a full scan:** a real price drop (e.g. the level wave) was stored as "unconfirmed bait" and the
-  materials stayed "estimated, unsure". A full scan with at least 5 pieces on the cheapest step now counts as a real
-  price. The diagnostic log lists source, age and reason per disenchant material after each scan.
-- **Tooltip:** no green check mark for "Disenchant" when the material prices are unsure (grey "Disenchant: unsure").
-- **No fake flips:** a resale price above the market value only counts with a full ladder (≥ 3 steps or ≥ 5 pieces) and
-  sales of at least 1 per day – otherwise at most the market value.
-- **Releases everywhere:** "Today" shows ways that are still learning or locked only grey at the bottom ("still
-  learning (n of 20)") or not at all; profit over 300 % is marked "implausible". The tooltip shows "Disenchant pays"
-  grey while the way is still learning.
-- **Cancelled auctions:** AUCTION_CANCELED with an unknown/foreign auction ID (e.g. on a failed Sniper purchase) is no
-  longer handled as your own cancel; the same ID only once.
-- **Accounting:** if more than 30 % of the revenue has no purchase (cost basis missing), the header shows "Profit with
-  purchase" large and "plus … without purchase – check cost basis" small and yellow. The test report lists those items
-  with their likely origin.
-- Tests T580–T583 (T-D1, T-TT1317, T-MH1310, T-BH1307); T223, T248, T431, T432 now independent of your real learned margin.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
