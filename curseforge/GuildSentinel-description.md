@@ -10,6 +10,13 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.29
+
+- Fix (WoW Forever): "Invite to guild" (Recruitment > Applicants and Guild management) no longer triggers "GuildSentinel has been blocked from an action only available to the Blizzard UI". The game forbids addons to invite into the guild directly, even on a mouse click. Now "/ginvite <name>" is put into the chat input and you press Enter – Blizzard's own command sends the invite. Names with spaces work as they are.
+- The applicant only shows as "invited" once the game confirms the invite ("You have invited X to join your guild."), no longer right after the click.
+- Your own ad texts with {tag} but without a dash: without a tag or Discord link, "(Tag {tag})" is removed with its brackets and a sentence of its own with {tag} is removed completely; otherwise only {tag} is emptied.
+- Developer test routine: T253 (invite only via the chat input, status only after the confirmation) new; T174, T194 and T251 extended.
+
 ### Version 0.9.28
 
 - Recruitment page: new "Suggestion 2" button – a second ad text that names your Discord server tag ("… Discord: <link> – you'll know us by the tag XY."). The default ad text is unchanged.
@@ -36,11 +43,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
   - **{discord}**: without a Discord link, the whole "Discord: … – " part disappears. Right after "Discord:" it gives only the link; anywhere else (your own texts, reply, welcome) still "Discord: <link>" as before.
 - The length counter counts before shortening and turns red with "will be shortened" when the ad is longer than 251 characters.
 - Developer test routine: T244–T248 new.
-
-### Version 0.9.24
-
-- Recruitment ad: a long ad no longer gets cut off by the chat input and then never counts as posted. The ad text is limited to 251 characters (room for "/<channel> "), the counter shows "(n/251)", and the text in the chat input is exactly the one that counts once it appears in the channel. Umlauts and other special characters are never cut in half.
-- Developer test routine: T242–T243 new.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

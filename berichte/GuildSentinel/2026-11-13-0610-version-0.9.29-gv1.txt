@@ -1,0 +1,29 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 06:10 · Sitzung: GuildSentinel-Projekt-Sitzung · Version: 0.9.29 · Commit: GuildSentinel 2b0fe17
+
+ERLEDIGT:
+- GV1 (HOCH): Einladen in die Gilde ruft nie mehr C_GuildInfo.Invite/GuildInvite direkt auf.
+  Recruit.lua:530 ns.OpenGuildInvite legt "/ginvite <Name>" (SLASH_GUILD_INVITE1, Rückfall "/ginvite") über
+  ChatFrame_OpenChat in die Chat-Eingabe, der Spieler sendet mit Enter. Rc:Invite (Recruit.lua:544) und Ad.Invite
+  (Admin.lua:231) nutzen nur noch diesen Weg. Namen mit Leerzeichen ohne Anführungszeichen: der Befehl nimmt den Rest
+  der Zeile.
+  Status "eingeladen" erst nach CHAT_MSG_SYSTEM mit ERR_GUILD_INVITE_S (Recruit.lua:565, Rc.OnInviteConfirmed);
+  Muster über ns.ToPattern (Roster.lua). Geschützte Meldung (issecretvalue) -> Status bleibt "neu".
+  Gewählt: Chat-Eingabe statt SecureActionButton/macro – gleicher, schon bewährter Weg wie Werbung und Flüstern,
+  funktioniert für beide Fenster ohne Attribut-Pflege bei jeder Auswahl und auch im Kampf.
+  Befördern/Degradieren/Entfernen/Leitung: unverändert, bis im Client bestätigt ist, dass sie geschützt sind
+  (wie im Auftrag). Falls ja, gleicher Weg mit /gpromote, /gdemote, /gremove, /gleader.
+- Testroutine: T253 neu (direkt 0, Eingabe "/ginvite Testa Beispiel", vorher new, nachher invited);
+  T174 und T194 prüfen jetzt ChatFrame_OpenChat statt GuildInvite. test/run.lua entsprechend.
+- Punkt 1 (NIEDRIG, {tag} ohne Strich): DropTag (Recruit.lua:87) nimmt das Nächste vor {tag}: Gedankenstrich,
+  offene Klammer (samt Klammer weg), Satzende ". "/"! "/"? "/"。" (ganzer Satz weg; "." in discord.gg zählt nicht);
+  sonst nur {tag} leeren. T251 um 6 Fälle und einen eigenen Text über Build erweitert.
+- Nebenbei: echte Gildennamen aus test/ entfernt (wowmock, run.lua, run_v5, run_gname, run_noguild, bot-Tests:
+  jetzt "Sturmwacht", "Nordwind Vorhut", discord.gg/test).
+- Locales (1 neuer Text in 10 Sprachen), CHANGELOG EN/DE, LIESMICH/README_EN, .toc, ns.version 0.9.29.
+
+PRÜFUNGEN: addon_check OK (Lua-Syntaxprüfung mit: luac5.1 (Lua 5.1)). Routine Forever OK 222, Era/TBC OK 227,
+je FEHLER 0. run_routine je 16/16, alle übrigen Testläufe 0 fehlgeschlagen. Vorschlag 2 in 11 Sprachen sauber.
+
+IM CLIENT PRÜFEN: Bewerber einladen -> "/ginvite Name" in der Eingabe, Enter -> kein Blockiert-Fenster, Status
+"eingeladen" nach der Systemmeldung; Gildenverwaltung > Einladen ebenso; Diagnose ohne VERBOTEN.
