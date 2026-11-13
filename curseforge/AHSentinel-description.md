@@ -12,6 +12,22 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.100
+
+- **Price history is compacted (smaller save file).** Full detail for 48 hours, then one value per hour up to 7 days,
+  then one value per day up to 60 days; older entries are dropped. Items without new prices for 30 days keep only
+  daily values. A compacted value is the median of that hour/day, so market values stay the same. Runs in small steps
+  90 s after login; the test report shows the estimated size per area and the last compaction.
+- **Duplicate repair is safe for commodities:** only "pending" bookings close in time are removed, never completed
+  sales (one auction of a commodity is often sold piece by piece at the same price). Removed bookings are kept in a
+  side list, and every repair is stored with date, version and count (test report).
+- **Full scan check no longer locks forever:** the reference count expires after 24 hours, and two full scans in a row
+  with a similar smaller count are accepted (market really smaller).
+- **Old purchase price after a restart:** only counted from the oldest entry the disenchant log still covers.
+- **Buyout:** the test log notes both prices when a buy calculation uses the price before the buyout.
+- Tests: material prices in the test sandbox are always fresh (T223/T230/T425 no longer depend on your real prices);
+  new T502–T508 (T-VF5f, T-MP2b, T-PD5c, T-PD7a, T-MP1, T-AB8c, T-AB4b).
+
 ### Version 0.65.99
 
 - **An empty full scan changes nothing.** If the server answers a full scan with no or far too few auctions (under 30 %
@@ -76,27 +92,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   (from 20 cases) is hidden until it is better again. Hit rates are in the test report. With Shift and too little data:
   "Rhythm: N more days of measuring".
 - Tests T477–T483 (T-JK1–T-JK6).
-
-### Version 0.65.95
-
-- **"Worth up to" in every tooltip of a disenchantable item** – also in your bags, bank, mail, chat links, at the
-  vendor and in other windows (other players' gear, loot). It is shown to everyone, with or without Enchanting, and in
-  the short tooltip mode too. In the bags it stands right above the two ways (disenchant / sell). The existing option
-  "Disench.: on/off" switches the whole disenchant part off together.
-- **Never decide with outdated material prices.** If the material that carries most of the disenchant value has no
-  price newer than 6 hours: tooltip "Worth up to: Prices outdated – scan first" (no amount, verdict "unsure"), Sniper
-  disenchant targets do not buy ("Material prices outdated – scan first"), and the Market "Disenchant" view offers no
-  row. Sell values of your own stock still show the old price with the "old" hint.
-- **Fresh material prices at the open AH:** after a scan and when you open the AH, the disenchant materials (up to 15,
-  most used first) whose price is older than 30 minutes are fetched one by one (throttled). The diagnostic log notes
-  the scan type, how many commodities the full scan contained and the price age of the three main materials (PREIS-ALT).
-- **Buyout flag stays until disproven:** a material flagged as bought out keeps the price from before the buyout
-  across sessions and days, until a newer scan shows the quantity back at ≥ 50 % or the price back at ≤ 120 %.
-- **Bookkeeping fixes:** partial sales of the same auction booked by 0.65.92 or older are no longer booked a second time
-  (existing doubles are repaired once at login, cost basis restored). Sync merge: positions of the same character
-  bought on two computers are now added up (5 + 3 = 8 with both costs). The merge package also reads the older field
-  names, and the merge report counts disenchants without a log entry.
-- Tests T467–T476 (T-LB1–T-LB4, T-MP1–T-MP3, T-VF5c/d, T-ZM5).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

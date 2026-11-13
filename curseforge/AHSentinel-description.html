@@ -7,6 +7,22 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.100</h3>
+<ul>
+<li><strong>Price history is compacted (smaller save file).</strong> Full detail for 48 hours, then one value per hour up to 7 days,
+  then one value per day up to 60 days; older entries are dropped. Items without new prices for 30 days keep only
+  daily values. A compacted value is the median of that hour/day, so market values stay the same. Runs in small steps
+  90 s after login; the test report shows the estimated size per area and the last compaction.</li>
+<li><strong>Duplicate repair is safe for commodities:</strong> only "pending" bookings close in time are removed, never completed
+  sales (one auction of a commodity is often sold piece by piece at the same price). Removed bookings are kept in a
+  side list, and every repair is stored with date, version and count (test report).</li>
+<li><strong>Full scan check no longer locks forever:</strong> the reference count expires after 24 hours, and two full scans in a row
+  with a similar smaller count are accepted (market really smaller).</li>
+<li><strong>Old purchase price after a restart:</strong> only counted from the oldest entry the disenchant log still covers.</li>
+<li><strong>Buyout:</strong> the test log notes both prices when a buy calculation uses the price before the buyout.</li>
+<li>Tests: material prices in the test sandbox are always fresh (T223/T230/T425 no longer depend on your real prices);
+  new T502–T508 (T-VF5f, T-MP2b, T-PD5c, T-PD7a, T-MP1, T-AB8c, T-AB4b).</li>
+</ul>
 <h3>Version 0.65.99</h3>
 <ul>
 <li><strong>An empty full scan changes nothing.</strong> If the server answers a full scan with no or far too few auctions (under 30 %
@@ -72,28 +88,7 @@
   "Rhythm: N more days of measuring".</li>
 <li>Tests T477–T483 (T-JK1–T-JK6).</li>
 </ul>
-<h3>Version 0.65.95</h3>
-<ul>
-<li><strong>"Worth up to" in every tooltip of a disenchantable item</strong> – also in your bags, bank, mail, chat links, at the
-  vendor and in other windows (other players' gear, loot). It is shown to everyone, with or without Enchanting, and in
-  the short tooltip mode too. In the bags it stands right above the two ways (disenchant / sell). The existing option
-  "Disench.: on/off" switches the whole disenchant part off together.</li>
-<li><strong>Never decide with outdated material prices.</strong> If the material that carries most of the disenchant value has no
-  price newer than 6 hours: tooltip "Worth up to: Prices outdated – scan first" (no amount, verdict "unsure"), Sniper
-  disenchant targets do not buy ("Material prices outdated – scan first"), and the Market "Disenchant" view offers no
-  row. Sell values of your own stock still show the old price with the "old" hint.</li>
-<li><strong>Fresh material prices at the open AH:</strong> after a scan and when you open the AH, the disenchant materials (up to 15,
-  most used first) whose price is older than 30 minutes are fetched one by one (throttled). The diagnostic log notes
-  the scan type, how many commodities the full scan contained and the price age of the three main materials (PREIS-ALT).</li>
-<li><strong>Buyout flag stays until disproven:</strong> a material flagged as bought out keeps the price from before the buyout
-  across sessions and days, until a newer scan shows the quantity back at ≥ 50 % or the price back at ≤ 120 %.</li>
-<li><strong>Bookkeeping fixes:</strong> partial sales of the same auction booked by 0.65.92 or older are no longer booked a second time
-  (existing doubles are repaired once at login, cost basis restored). Sync merge: positions of the same character
-  bought on two computers are now added up (5 + 3 = 8 with both costs). The merge package also reads the older field
-  names, and the merge report counts disenchants without a log entry.</li>
-<li>Tests T467–T476 (T-LB1–T-LB4, T-MP1–T-MP3, T-VF5c/d, T-ZM5).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
