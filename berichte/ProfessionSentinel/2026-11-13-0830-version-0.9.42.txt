@@ -1,0 +1,41 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 08:30 · Sitzung: ProfessionSentinel-Sitzung · Version: 0.9.42 · Commit: 7970aae (Quell-Repo)
+Grundlage: offen-professionsentinel.txt (Antworten F1–F6 vom 13.11. 07:55, BL vom 13.11. 07:45).
+
+ERLEDIGT:
+- F1: Market.lua Judge – über 300 % allein: Zahl bleibt, res.highMargin -> gelb "Sehr hohe Marge – Absatz prüfen" (Reiter
+  Gold, Tooltip, Details). Grau "Daten prüfen" nur mit zweitem Zeichen: dünn/alt/Aufkauf (eigene Hinweise wie bisher) oder
+  eine Zutat, deren Leiter die nötige Menge nicht hat (part.short) -> "check". Prüffälle: T247 Raptor-Rippchen 361 % zeigt
+  2113 mit gelbem Hinweis; dieselben Rippchen mit 2 Angeboten -> grau (thin). T249: 1135 % allein -> Zahl; 1135 % + Leiter
+  zu kurz -> grau. T257 (1000 Zufallsfälle) prüft die neue Regel. MK.CheckRules: > 300 % ohne Hinweis UND ohne gelb = Verstoss.
+- F2: API.WorthUpTo wird mit qty = 1 gefragt (Stückpreis, unabhängig von der qty-Deutung); 3. Wert Zahl < 0,6 oder
+  "unsicher" -> "unsicher" (Prices.lua RecipeRaw, Market.lua WorthUnsure). Hinweis: AHSentinel 0.65.103 API.md Zeile 34
+  schreibt noch "für qty Stück" und 3. Wert "sicher"/"unsicher" – beides wird verstanden.
+- F3: Trend "ruhig" erlaubt, gibt keinen Band-Hinweis (T251).
+- F4: Filter "Nur Raid-Bedarf (Essen, Tränke, Fläschchen)", bleibt nach dem 9.12.; Hinweis "Raidstart 9.12." nur WoW Forever
+  bis einschliesslich 9.12. (Market.lua RaidFilterOffered/RaidDateHint/RaidFilterText); angeboten in Forever, Era, TBC
+  (Retail nicht: keine Stufe-60-Raid-Verbrauchsgüter). T251.
+- F5/F6: zur Kenntnis (an AHSentinel weitergegeben, eigene Post bleibt).
+- BL1: Core.lua ns.COMMANDS = EINE Tabelle für Ausführen und Liste (Wörter DE/EN, Zusatz, Beschreibung, dev); der Slash-
+  Handler liest nur aus ihr. Neu /ps hilfe. BL2: ns.CommandList(getippt, dev) filtert mit jedem Buchstaben (deutsch und
+  englisch), meistbenutzte oben (db.cmdCount, zählt der Handler). BL3 (Teil): ns.SelectCommand / ns.SelectedCommand –
+  frische Auswahl (≤ 10 s, passender Anfang) wird statt des angefangenen Worts ausgeführt, danach gelöscht.
+- Tests BL: T262 (T-BL1 jedes Wort jedes Befehls läuft über die Tabelle, alle in der Liste; T-BL5 Entwickler-Befehle nur
+  für den Entwickler, Spieler startet keine Testroutine), T263 (T-BL2 Filter m / mi / me / am / pr / p / xyz, Zähler),
+  T264 (T-BL3 Auswahl + Enter, alte Auswahl, anderer Anfang; T-BL6 deDE/enUS ohne Platzhalter).
+
+TESTS:
+- addon_check: OK, 0 FEHLER. run_offline: Forever OK 220 / 0, Era 202 / 0, Retail 201 / 0, TBC ohne Lua-Fehler, Exit 0.
+  TU6 Forever OK 67, Regressionen 59 von 59 vorhanden. check_actions OK. Smoketest: gleich viele FEHLER wie 0.9.41 (Mock-Grenzen).
+
+TEILWEISE / OFFEN:
+- BL3 Fenster über dem Chat und T-BL4 (Chatfeld nie beschrieben): Laut Auftrag mit dem Baustein CmdHint von AHSentinel,
+  "sobald dort CH umgesetzt ist – nicht jedes Addon eine eigene Lösung". In AHSentinel 0.65.103 ist CH noch nicht umgesetzt
+  (Klick schliesst die Liste). ProfessionSentinel ist vorbereitet: Befehle (ns.COMMANDS), Präfixe (ns.COMMAND_PREFIXES),
+  Filter (ns.CommandList), Auswahl (ns.SelectCommand), Zähler – passt zu CmdHint.Setup{commands, prefixes, run, store,
+  enabled, L, dev}. Bitte melden, sobald der reparierte CmdHint als Baustein (shared/ oder Vorlage) bereitsteht; dann
+  übernehme ich ihn unverändert und ergänze T-BL4. Option zum Ausschalten kommt mit dem Fenster.
+
+BEFUND FALSCH: –
+FRAGEN: Kommt CmdHint nach shared/ (wie GoldSentinelGame.lua) oder soll jedes Addon die Datei aus AHSentinel kopieren?
+IM CLIENT GETESTET: noch nicht.
