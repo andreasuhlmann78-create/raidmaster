@@ -600,3 +600,14 @@ TS116 (SEHR HOCH, NEU 13.11. 21:52 – Testteil sniper 0.65.116, Lauf 21:47 des 
    4. Bestätigt im Spiel: Lernfaktoren wieder echt (Staub 0,43 …), Lagerwert plausibel (Einstand 12724 / Markt 12663,
       grösste Posten sichtbar) – TS111.2/TS111.3 erledigt, danke.
    5. Wissen: M1c 15 Min. -> diesmal neue Liste (21,2 s), früher keine Antwort -> Drossel liegt um 15–20 Min., schwankt.
+   TS116 NACHTRAG (22:02 – zweiter Lauf 21:58, der Nutzer hat 2 Min. GESCROLLT: 7 OK · 1 FEHLER): T613 (Treffer bleiben
+      stehen), T616 (echter Mausrad-Kauf 1 Stück ≤ 5c), T618 (Reaktion < 5 s) jetzt OK – ohne Scrollen (21:47) war es
+      1 Suche in 120 s. BELEGT: Der Sniper sucht nur, wenn gescrollt wird. Damit ist SN1951 im Kern gelöst, aber die
+      Bedienung ist für den Spieler unklar ("funktioniert nicht" = er wartete, ohne zu scrollen).
+      -> Bitte jetzt umsetzen: (a) Prüfen, ob Suchen OHNE Tastendruck erlaubt sind (in Forever messen: SendSearchQuery
+      aus OnUpdate ohne Hardware-Ereignis – Erfolg/Fehler protokollieren). Wenn ja: selbsttätig im Takt suchen, nur der
+      Kauf per Raste. (b) Wenn nein: oben im Sniper gross "Zum Suchen und Kaufen scrollen" und eine sichtbare Anzeige,
+      wann zuletzt gesucht wurde ("letzte Suche vor 12 s"), solange der Sniper-Modus an ist; nach 10 s ohne Raste
+      leise Erinnerung.
+      Neu: T617 längster Frame 148 ms beim Scrollen (Ø 116 Bilder/s) – Ziel ≤ 50 ms (RF). Bitte die Stelle aus dem
+      LANGSAM-Protokoll nennen.
