@@ -7,6 +7,10 @@ NACH PRIORITÄT. Bei jeder Prüfung nachführen (pruef-ablauf.md A Schritt 8). E
 
 ## Für alle Projekte gleich (WICHTIG)
 
+- **SPIELER-BILD (Nutzer 13.11. 23:57, gilt für JEDES Addon, immer im Hinterkopf):** Die Spieler sehen die Addons als
+  Werkzeug, um mehr Gold zu machen (bzw. ihr Ziel leichter zu erreichen). Sie sind oft NICHT tief im Thema, eher Casual.
+  Darum: klare Ergebnisse (lohnt / lohnt nicht), kein Fachjargon, keine Rechenwege, wenige Klicks, nichts, was man
+  erst verstehen muss. Jede Prüfung und jeder Auftrag fragt: Versteht ein Casual-Spieler das ohne Erklärung?
 - Eine Sitzung je Addon; die Prüf-Sitzung ändert keine Addons, sie prüft, beauftragt (Repo `auftraege/`) und pflegt
   `addon-check/`, `shared/`, `testberichte/`, `shared/wissen/`. Projekte prüfen sich nicht selbst ("umgesetzt, zur Prüfung").
 - Gemeinsame Dateien in `shared/` byte-gleich kopieren (Prüfung "exact"): GoldSentinelGame (v3), Test (v2), Sync, Markt (v3,

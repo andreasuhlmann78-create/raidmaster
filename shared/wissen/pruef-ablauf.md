@@ -21,6 +21,10 @@ für JEDE neue Version jedes Projekts (auch für die geplante Nachprüfung).
    Sitzungen sind meist nicht aktiv und sehen das Repo erst nach einem Anstoss.
 10. Ergebnis IMMER ins Repo (`offen-*.txt`, Befund/Anweisung, Nachricht-Datei, Log), dann dem Nutzer melden.
 
+## A1b. Spieler-Bild (Nutzer 13.11. 23:57, bei JEDER Prüfung)
+- Die Spieler wollen mit den Addons einfach mehr Gold machen; sie sind oft Casual und nicht tief im Thema. Jede sichtbare
+  Änderung prüfen: Versteht ein Casual-Spieler sie ohne Erklärung? Sonst Befund (vereinfachen, nur Ergebnis zeigen).
+
 ## A2. Spielgefühl (Zweck, projekte.md)
 - Zusätzlich zu A: Fühlt sich die Änderung im Spiel gut an? Schnell, schlicht, verlässlich, wenig Klicks, Erfolg
   sichtbar, kein Frust. Bei AHSentinel ist das der Zweck ("Spass am Gold verdienen – aber nicht nur").
