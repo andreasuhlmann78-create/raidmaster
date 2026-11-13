@@ -1,0 +1,30 @@
+ENTSCHEIDE DES NUTZERS – 13.11.2026, 19:50–22:02 (Zusammenfassung der Prüf-Sitzung)
+STUFE: DRINGEND, ABER NICHT OBERSTE PRIORITÄT (Nutzer 22:02).
+Oberste Priorität bleiben, in dieser Reihenfolge: (1) Fehler, die Gold kosten: SN2115a Budget-Verdopplung, SN2115b eine
+Funktion "bester Weg"; (2) TS116 Sniper-Bedienung (sucht nur beim Scrollen) und RF ruckelfrei. Danach diese Liste.
+Einzelheiten stehen jeweils in offen-ahsentinel.txt unter dem genannten Punkt.
+
+1. LT – Tooltip beim Kaufen: EINE Zeile "Gewinn: ±x / Stück" (rot negativ, grün positiv), live mit dem Preis des
+   Angebots unter der Maus; ersetzt "Entzaubern lohnt (nicht) …" und "Lohnt bis". Rest des Tooltips bleibt.
+   (in 0.65.114 umgesetzt – bleibt Bestandteil)
+2. OR – Optik-Regel für ALLE Anzeigen: nur Ergebnisse, nie Rechenwege. Weg: "Mit … Budget … kauft der Sniper höchstens
+   … Stück", "Treffer … gekauft … (%)", Faktoren "73 % × Ø 1,5", "(echt, aus 600 Entzauberungen)", "Materialpreise
+   korrigiert". Bleibt: "Max über Verkaufswert – jeder Kauf verliert ca. …" (mit richtiger Zahl).
+3. TP – Preiszeilen: gross "Jetzt im AH" = ehrlicher Preis EINES echten Angebots (ohne Lockangebote, nie Durchschnitt,
+   live oder frischester Scan, Alter grau dahinter, über 6 Std. "veraltet"); klein/grau "Median" = ANPASSENDER Median
+   (Serveralter, Trend, Schwankung bestimmen Zeitraum/Gewichtung; keine Pfeile, keine Hinweise sichtbar); Schnäppchen
+   grün nur, wenn nicht stark schwankend.
+4. PX – alle fünf Vorschläge aus der Recherche: (a) Marktwert nach bewährtem Verfahren (günstigste 30 %, 20-%-Sprung-
+   Abbruch, Ausreisser ±1,5 SD, Halbwertszeit) als gewichteter Median; (b) Verkaufsquote je Item als Grundlage der
+   Verkaufschance + Warnung bei Ladenhütern; (c) Kauflimit je Item (15 % des Golds); (d) Hinweis vor dem Ausloggen bei
+   grossen offenen Flips; (e) grosse Mengen in Blöcken einstellen. (a)/(b) mit 0.66.
+5. EB – Buchhaltung: JEDEN Goldfluss erfassen (AH, Händler, Handel mit Spielern, Post, Reparatur/Training/Flug,
+   Quest/Beute) mit Herkunft; Eigenbedarf (angelegt/Tasche/verbraucht/an Twink) nicht im Handelsgewinn. Buchhaltung
+   OPTISCH UNVERÄNDERT; einziges neues Element ein Knopf "Details" -> eigenes Fenster (Standard GESAMT, Heute/Woche/
+   Gesamt; Handel, Eigenbedarf, Spielkosten, Einnahmen, nicht zugeordnet; Gold-Abstimmung mit ✓; "Handel pro Stunde"
+   = Handelsgewinn ÷ Online-Spielzeit ohne AFK).
+6. ZN – unabhängige Nachrechnung: Testteil "zahlen" liefert angezeigte Werte + Rohdaten (GSZAHL1), die Prüf-Sitzung
+   rechnet nach. NIE beim Scan/offenem AH, nur auf Befehl oder still bei geschlossenem AH (≤ 2 ms je Bild).
+7. Offene Fragen an AHSentinel (im Bericht beantworten): KF (zählen abgelaufene Posten als 0 – Faktor ×0,57 zu
+   streng?), LB (Lohnt-bis-Faktor 0,59 – doppelte Korrektur?), Entzauber-Marge 10 % statt 41 %.
+Jede Umsetzung mit bleibendem Test (TU6), CHANGELOG EN/DE, Bericht in berichte/AHSentinel/.
