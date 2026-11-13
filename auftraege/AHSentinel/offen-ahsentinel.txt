@@ -279,3 +279,8 @@ TU (HOCH, NEU 13.11. 06:55, Entscheid des Nutzers "solche Fehler sollen nicht wi
    Grundregeln mit Zufallsdaten, echte Daten (nur lesen, auch still nach jedem Vollscan), Regressionstest je Befund
    (nachholen für alle bisherigen), Testbericht je Bereich, offline lauffähig. Ab jetzt gilt: Befund ohne Test =
    nicht erledigt (auftraege/README.md).
+
+API-PM (MITTEL, NEU 13.11. 07:10 – für ProfessionSentinel PM4): AHSentinel.API Version 1 um zwei Funktionen ERGÄNZEN
+   (nichts ändern, API.md nachführen): API.WorthUpTo(itemID[, qty]) = "Lohnt bis" aus dem Rechenkern (RK2), dazu Weg und
+   Sicherheit; API.MarketState(itemID) = "normal"/"aufkauf"/"flut"/"duenn"/"alt" plus Band-Trend (Richtung). Bis der
+   Rechenkern fertig ist, dürfen beide nil liefern. Test: gleiche Zahl wie im Tooltip.
