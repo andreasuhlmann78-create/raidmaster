@@ -10,6 +10,13 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.37
+
+- New: market data network (shared file GoldSentinelMarkt.lua, same in all GoldSentinel addons). When any addon or the player runs a full auction house scan, it is read along in small portions (never in combat, never a scan of its own) – lowest unit price, quantity and number of auctions per item, plus measured sales between two scans. No names: owners, bidders and item names are never read. Shared anonymously with the guild and the GoldSentinel network, own faction only. On by default, no question asked; Settings > "Share market data (anonymous, prices only)" turns it off (then nothing is read or sent). Without the auction house interface (Era/TBC) it stays silent.
+- Diagnostic log: lines "MARKT-NETZ" (version, on/off, scans read, sent/received, memory) – no names.
+- Fix: Guild management > Invite (and the member menu) now also respects the age block – applicants "declined (age)" cannot be invited from there either.
+- Developer tests: T291–T293 (MN4), T289f; offline load test with and without the market file.
+
 ### Version 0.9.36
 
 - New (GA1): age question "How old are you?" for applicants. With a minimum age set (Recruitment > texts, default 16, 0 = off) it is ALWAYS asked as the last question, also with your own question list. Answer "17", "I'm 17", "17 years" -> continues normally. Below the minimum age: a friendly whisper ("Thanks for your interest in <guild>! Unfortunately we only accept players aged 16 and over. Have fun in Azeroth!" – text adjustable), status "declined (age)", "Invite to guild" blocked. No number or "soon 16" -> no automatic decline, status "age unclear" for an officer.
@@ -33,18 +40,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 - Fix: the button in the "Guild action" window (promote, demote, remove, leadership) did nothing when the option "Cast action keybinds on key down" (ActionButtonUseKeyDown) was off – the press set "waiting" and the release then blocked the command, so after 6 seconds it always said "Not carried out". GuildSentinel now only reacts in the phase in which the game runs the command (press or release, depending on the option); one click = exactly one command.
 - Developer tests: T281 (T-GA1, both settings) in the test routine; offline test client with the setting on and off.
-
-### Version 0.9.32
-
-- Developer test routine (/gs testroutine) extended so that errors like the blocked guild invite cannot slip through again:
-  - TU1 situation catalogue: 1 / 50 / 500 members, many offline, no rights / officer / Guild Master, first and last names with equal first names, no guild – each through ad text, applicant invite, guild management, member menu, member list, promotion, line-up/raid readiness and professions (T270).
-  - TU2 player-like flows: applicant -> invite -> no system message / message -> remove; promote without answer, retry, confirmation; /reload in the middle; ad without a channel (T271).
-  - TU3 default values: every field empty or as shipped gives what the player means (T272).
-  - TU4 basic rules with 1000 random cases (fixed seed 4711, 10 portions): never a protected guild function directly, status only after the game confirms, rank steps never above your own rank, ad without "|", nothing real sent (T273a–T273j).
-  - TU5 real data read only: duplicates, alts pointing to themselves, incomplete rank history – violations go to the diagnostic log without names (T275).
-  - TU6 regressions: every finding since 1 Nov has a permanent test; report "Regressions: n of m" (T276). TU8 report line per area (T279). T280 for RV7.
-- Protected guild functions that would run through ns.Act are now counted as an error in the routine as well.
-- No changes for players.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

@@ -1,0 +1,23 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 · Sitzung: GuildSentinel-Projekt-Sitzung · Version: 0.9.37 · Commit: GuildSentinel be83b1a
+
+ERLEDIGT:
+- MN1: shared/GoldSentinelMarkt.lua v1 unverändert kopiert, TOC nach GoldSentinelSync.lua; Core.lua ADDON_LOADED:
+  pcall(GoldSentinelMarkt.Attach, "GuildSentinel", GuildSentinelDB) direkt nach dem Anlegen der SavedVariables.
+- MN2: Einstellungen > "Marktdaten teilen (anonym, nur Preise)" (Standard an; liest GuildSentinelDB.gsMarktAus,
+  setzt GoldSentinelMarkt.SetShare). 10 Sprachen, CHANGELOG EN/DE.
+- MN3: Diagnose-Text (ns.DiagText, Bericht im Testbericht) mit GoldSentinelMarkt.DiagLines() + "MARKT-NETZ Speicher
+  x KB"; ohne Datei "MARKT-NETZ: Datei nicht geladen".
+- MN4: T291 (geladen, Host GuildSentinel, DiagLines), T292 (Schalter aus: OnReplicate -> kein readAt, Tick sendet
+  nichts), T293 (api.ah = nil: OnReplicate/Tick/Get ohne Fehler, kein reader). Offline neu test/run_nomarkt.lua "ohne"
+  (TOC ohne die Datei: lädt, Diagnose ok) und "mit" (verbunden, Standard an, ohne C_AuctionHouse kein Lesen, Schalter
+  aus/an). Sandbox: GuildSentinelDB.gsMarkt wie gsSync vom Vergleich ausgenommen (Daten der gemeinsamen Datei, ändern
+  sich von selbst – offline legt Tick nach 60 s die Fraktions-Tabelle an).
+- Punkt 2 (NIEDRIG, Alters-Sperre in Ad.Invite): Befund richtig. Sperre zentral in ns.OpenGuildInvite (Rc.AgeBlocked,
+  Name ohne Server, Gross/Klein egal) – gilt damit für Gildenverwaltung, Mitglieder-Menü und Bewerberliste; keine
+  Ausnahme für den Gildenmeister (Absage ist schon raus). Test T289f.
+
+PRÜFUNGEN: addon_check OK (Lua-Syntaxprüfung mit: luac5.1 (Lua 5.1)); GoldSentinelMarkt.lua byte-gleich mit shared/.
+Routine Forever OK 275, Era/TBC OK 280, je FEHLER 0; alle übrigen Testläufe 0 fehlgeschlagen.
+IM CLIENT PRÜFEN: AH öffnen, ein anderes Addon (AHSentinel) macht einen Vollscan -> /gs protokoll zeigt "MARKT-NETZ Scans
+mitgelesen 1 …"; Schalter aus -> keine weiteren Scans mitgelesen; kein Ruckeln beim Mitlesen.
