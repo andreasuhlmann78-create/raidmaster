@@ -211,8 +211,6 @@ Um zu erfahren, ob ein höherer Preis noch verkauft, gelegentlich leicht höher 
 - **M3:** Wochentag/Tageszeit-Muster: Mindestpreis und Menge je Stunde über 3 Wochen sammeln (kompakt: je Item und
   Stunde des Tages ein gleitender Median).
 - **M4:** Splitter-Rate grün 26–30 weiter messen (eigene Entzauberungen), Ziel N ≥ 200.
-</content>
-</invoke>
 
 ---
 
