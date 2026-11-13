@@ -551,3 +551,25 @@ RF (SEHR HOCH, NEU 13.11. 21:40 – Nutzer: "das AH ruckelt schon beim Scannen, 
    Mitverursacher ausserhalb von AHSentinel: GoldSentinelMarkt Version 1 in fünf anderen Addons (liest den Vollscan
    ein zweites Mal) – Version 2 liegt bereit, die Addons kopieren sie neu. Der Nutzer schaltet bis dahin "Marktdaten
    teilen" aus. AHSentinel misst im nächsten Bericht mit und ohne.
+
+PX (HOCH, NEU 13.11. 21:42 – Entscheid des Nutzers "alles" zu den Vorschlägen aus der Recherche, markt-strategie.md §10):
+   PX-a MARKTWERT NACH DEM BEWÄHRTEN VERFAHREN (wie TSM AuctionDB): je Scan nur die günstigsten 30 % der Angebote; nach
+        den ersten 15 % bricht ein Sprung von ≥ 20 % zum nächsten Angebot ab (alles darüber zählt nicht); Ausreisser
+        ausserhalb ±1,5 Standardabweichungen weg; Tageswert = Mittel der Scans des Tages; über die Tage mit
+        HALBWERTSZEIT gewichtet (ruhig ~2 Tage; junger Server < 6 Wochen oder starke Schwankung/Trend -> ~1 Tag).
+        Ersetzt die festen 5/14-Tage-Fenster aus TP; Beschriftung bleibt "Median"? -> NEIN, Beschriftung "Marktwert"
+        wäre falsch verstanden; Nutzer-Entscheid "Median" gilt, darum Kern der Rechnung als gewichteter MEDIAN statt
+        Mittel (robuster), Rest wie oben. Die 20-%-Sprungregel gilt auch für "Jetzt im AH" (Lockangebote/Mondpreise).
+        Messen gegen den erzielten Verkaufspreis (T-TP7).
+   PX-b VERKAUFSQUOTE JE ITEM als Grundlage der Verkaufschance: Anteil der eigenen eingestellten Auktionen, die
+        verkauft wurden (wenig Daten -> Item-Gruppe, dann Markt-Messung GoldSentinelMarkt). Ersetzt die heutige
+        Schätzung (98 % vorhergesagt, 31 % verkauft). Beim Einstellen eines Ladenhüters (Quote < 20 % bei ≥ 5 Fällen)
+        eine kurze Warnung (Optik-Regel: eine Zeile, keine Rechnung).
+   PX-c KAUFLIMIT JE ITEM im Sniper und beim Flippen: höchstens 15 % des verfügbaren Golds in ein Item (einstellbar);
+        beim Anlegen eines Ziels mit grösserem Budget Hinweis "mehr als 15 % deines Golds in einem Item".
+   PX-d HINWEIS VOR DEM AUSLOGGEN: Liegen grosse offene Flips im Markt (eigene Auktionen > 25 % des Golds, oder ein
+        Item, bei dem du den Markt grösstenteils aufgekauft hast), beim Ausloggen/Logout-Knopf einmal kurz hinweisen
+        (kein Blockieren). Der Nutzer ist unter der Woche selten online.
+   PX-e IN BLÖCKEN EINSTELLEN: grosse Mengen standardmässig in Blöcken (z. B. 1/3 sofort, Rest später nachlegen,
+        wenn verkauft) statt alles auf einmal; Spieler kann es ausschalten.
+   Tests T-PX-a…e. Reihenfolge nach SN2115/OR/TP/ZN/RF; PX-a und PX-b gehören in 0.66 (Rechenkern).
