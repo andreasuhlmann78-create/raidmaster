@@ -171,11 +171,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Tausend Nadeln (1441)
 
-- Wegstücke 88, Knoten 200, zusammenhängende Teile 3
-- **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 103 Knoten, Bereich 10–23 / 18–37
-  - Teil 2: 81 Knoten, Bereich 28–48 / 28–42
-  - Teil 3: 16 Knoten, Bereich 22–27 / 28–32
+- Wegstücke 200, Knoten 523, zusammenhängende Teile 1
 
 ## Steinkrallengebirge (1442)
 

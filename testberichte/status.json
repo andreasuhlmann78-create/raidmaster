@@ -1,18 +1,18 @@
 {
- "ausgewertet": "2026-11-13T14:56:47Z",
+ "ausgewertet": "2026-11-13T15:55:20Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 20,
+   "berichte": 21,
    "letzter_test": {
-    "id": "AHSentinel-1794579818-a043e0-1",
+    "id": "AHSentinel-1794581591-7bc982-1",
     "version": "0.65.110",
-    "time": 1794579761,
+    "time": 1794581428,
     "counts": {
-     "client": 16,
-     "fehler": 6,
-     "ok": 643,
-     "uebersprungen": 22
+     "client": 0,
+     "fehler": 5,
+     "ok": 57,
+     "uebersprungen": 4
     }
    },
    "fehler_tests": [
@@ -24,57 +24,47 @@
      "id": "T72",
      "name": "Auswertungen: Heute tun",
      "detail": "ergebnis: Interface/AddOns/AHSentinel/SelfTest.lua:662: nicht nach Gold sortiert | erwartet: bestanden",
-     "bericht": "AHSentinel-1794579818-a043e0-1"
+     "bericht": "AHSentinel-1794581591-7bc982-1"
     },
     {
      "addon": "AHSentinel",
      "art": "test",
      "version": "0.65.110",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T373",
-     "name": "Keine Hintergrund-Aufgabe ≥ 16 ms je Frame (während des Ranglisten-Aufbaus)",
-     "detail": "ergebnis: zu lang: cache:today:10 46.6 ms | erwartet: alle < 16 ms",
-     "bericht": "AHSentinel-1794579818-a043e0-1"
+     "id": "T126",
+     "name": "Scan-Auswertung in Portionen",
+     "detail": "ergebnis: längste Portion 45.9 ms in 151 Frames | erwartet: <= 8 ms",
+     "bericht": "AHSentinel-1794581591-7bc982-1"
     },
     {
      "addon": "AHSentinel",
      "art": "test",
      "version": "0.65.110",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T240",
-     "name": "Werte stimmen 6: Nicht-Verkauf kostet in Forever die Einzahlung (Quote 50 % -> 1x Einzahlung), Era unverändert",
-     "detail": "ergebnis: 9500/9400/2/9000/9500 | erwartet: 9500/9400/2/9400/9500 (Quote 50 % bzw. 3 vor mir bei 2/Tag: 1x Einzahlung 1s verloren; Era unverändert)",
-     "bericht": "AHSentinel-1794579818-a043e0-1"
+     "id": "T410",
+     "name": "T-VM1 Vollscan-Messung: alle Schritte mit ms und längste Lücke",
+     "detail": "ergebnis: 2 Schritte, längste Lücke 145 ms (Nachlauf) · fehlt: Ereignis-Aufruf, Einlesen, Verdichtung, Preisverlauf+Neuaufbau | erwartet: alle 5 Schritte mit ms und Lücke",
+     "bericht": "AHSentinel-1794581591-7bc982-1"
     },
     {
      "addon": "AHSentinel",
      "art": "test",
      "version": "0.65.110",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T285",
-     "name": "Angebot und Absatz: Warteschlange, Absatz, Einstellungen, kaum",
-     "detail": "ergebnis: AB1 60 (N 7, kaum true) · AB2 90 (N 2) · AB3 kaum true · AB4 Q 7 · AB6 3/4 Zeilen | erwartet: AB1 Händler 60 < Entzaubern 119, N > 1, kaum · AB2 190, N 1 · AB3 kaum · AB4 Q 7 · AB6 Shift mehr Zeilen",
-     "bericht": "AHSentinel-1794579818-a043e0-1"
+     "id": "T458",
+     "name": "T-VF1 Vollscan ruckelfrei: kein Schritt mit längstem Frame über 16 ms (Ziel ≤ Budget)",
+     "detail": "ergebnis: längster Frame 39 ms (Nachlauf) · Frames über 33 ms 1540 von 3115 · zu lang: Nachlauf 39 ms | erwartet: jeder Schritt ≤ 16 ms (Ziel 4 ms)",
+     "bericht": "AHSentinel-1794581591-7bc982-1"
     },
     {
      "addon": "AHSentinel",
      "art": "test",
      "version": "0.65.110",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T289",
-     "name": "Absatz: Markt-S, eigene Verkäufe als Untergrenze, nie kaum bei eigenen Verkäufen",
-     "detail": "ergebnis: AB7 S 745.17071078431 W 14.6 kaum false · AB8 kaum false | erwartet: AB7 S 2000 W 5.4 kein kaum · AB8 kein kaum",
-     "bericht": "AHSentinel-1794579818-a043e0-1"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.110",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T291",
-     "name": "Absatz: Deckel bei überfüllten Items, eigene Quote zuerst",
-     "detail": "ergebnis: AB10 S 223.6 N 1 · AB11 N 1.11 (own) | erwartet: AB10 S 44.4 N 6 · AB11 N 1.11 (own)",
-     "bericht": "AHSentinel-1794579818-a043e0-1"
+     "id": "T459",
+     "name": "T-VF2 Vollscan: Speicher-Zuwachs ≤ 10 MB, höchstens 1 Speicherbereinigung",
+     "detail": "ergebnis: Zuwachs 21951 KB (AHSentinel) · Speicherbereinigungen 11 | erwartet: ≤ 10240 KB · ≤ 1",
+     "bericht": "AHSentinel-1794581591-7bc982-1"
     }
    ],
    "fehler_spiel": [
@@ -516,57 +506,47 @@
    "id": "T72",
    "name": "Auswertungen: Heute tun",
    "detail": "ergebnis: Interface/AddOns/AHSentinel/SelfTest.lua:662: nicht nach Gold sortiert | erwartet: bestanden",
-   "bericht": "AHSentinel-1794579818-a043e0-1"
+   "bericht": "AHSentinel-1794581591-7bc982-1"
   },
   {
    "addon": "AHSentinel",
    "art": "test",
    "version": "0.65.110",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T373",
-   "name": "Keine Hintergrund-Aufgabe ≥ 16 ms je Frame (während des Ranglisten-Aufbaus)",
-   "detail": "ergebnis: zu lang: cache:today:10 46.6 ms | erwartet: alle < 16 ms",
-   "bericht": "AHSentinel-1794579818-a043e0-1"
+   "id": "T126",
+   "name": "Scan-Auswertung in Portionen",
+   "detail": "ergebnis: längste Portion 45.9 ms in 151 Frames | erwartet: <= 8 ms",
+   "bericht": "AHSentinel-1794581591-7bc982-1"
   },
   {
    "addon": "AHSentinel",
    "art": "test",
    "version": "0.65.110",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T240",
-   "name": "Werte stimmen 6: Nicht-Verkauf kostet in Forever die Einzahlung (Quote 50 % -> 1x Einzahlung), Era unverändert",
-   "detail": "ergebnis: 9500/9400/2/9000/9500 | erwartet: 9500/9400/2/9400/9500 (Quote 50 % bzw. 3 vor mir bei 2/Tag: 1x Einzahlung 1s verloren; Era unverändert)",
-   "bericht": "AHSentinel-1794579818-a043e0-1"
+   "id": "T410",
+   "name": "T-VM1 Vollscan-Messung: alle Schritte mit ms und längste Lücke",
+   "detail": "ergebnis: 2 Schritte, längste Lücke 145 ms (Nachlauf) · fehlt: Ereignis-Aufruf, Einlesen, Verdichtung, Preisverlauf+Neuaufbau | erwartet: alle 5 Schritte mit ms und Lücke",
+   "bericht": "AHSentinel-1794581591-7bc982-1"
   },
   {
    "addon": "AHSentinel",
    "art": "test",
    "version": "0.65.110",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T285",
-   "name": "Angebot und Absatz: Warteschlange, Absatz, Einstellungen, kaum",
-   "detail": "ergebnis: AB1 60 (N 7, kaum true) · AB2 90 (N 2) · AB3 kaum true · AB4 Q 7 · AB6 3/4 Zeilen | erwartet: AB1 Händler 60 < Entzaubern 119, N > 1, kaum · AB2 190, N 1 · AB3 kaum · AB4 Q 7 · AB6 Shift mehr Zeilen",
-   "bericht": "AHSentinel-1794579818-a043e0-1"
+   "id": "T458",
+   "name": "T-VF1 Vollscan ruckelfrei: kein Schritt mit längstem Frame über 16 ms (Ziel ≤ Budget)",
+   "detail": "ergebnis: längster Frame 39 ms (Nachlauf) · Frames über 33 ms 1540 von 3115 · zu lang: Nachlauf 39 ms | erwartet: jeder Schritt ≤ 16 ms (Ziel 4 ms)",
+   "bericht": "AHSentinel-1794581591-7bc982-1"
   },
   {
    "addon": "AHSentinel",
    "art": "test",
    "version": "0.65.110",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T289",
-   "name": "Absatz: Markt-S, eigene Verkäufe als Untergrenze, nie kaum bei eigenen Verkäufen",
-   "detail": "ergebnis: AB7 S 745.17071078431 W 14.6 kaum false · AB8 kaum false | erwartet: AB7 S 2000 W 5.4 kein kaum · AB8 kein kaum",
-   "bericht": "AHSentinel-1794579818-a043e0-1"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.110",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T291",
-   "name": "Absatz: Deckel bei überfüllten Items, eigene Quote zuerst",
-   "detail": "ergebnis: AB10 S 223.6 N 1 · AB11 N 1.11 (own) | erwartet: AB10 S 44.4 N 6 · AB11 N 1.11 (own)",
-   "bericht": "AHSentinel-1794579818-a043e0-1"
+   "id": "T459",
+   "name": "T-VF2 Vollscan: Speicher-Zuwachs ≤ 10 MB, höchstens 1 Speicherbereinigung",
+   "detail": "ergebnis: Zuwachs 21951 KB (AHSentinel) · Speicherbereinigungen 11 | erwartet: ≤ 10240 KB · ≤ 1",
+   "bericht": "AHSentinel-1794581591-7bc982-1"
   },
   {
    "addon": "AHSentinel",
@@ -892,38 +872,38 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 85,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.110-ca2ca0ca6594.txt"
+    "anzahl": 87,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.110-e7ac83bb631c.txt"
    },
    "BuffSentinel": {
     "anzahl": 21,
     "neueste": "testberichte/diagnose/BuffSentinel/0.9.12-7f8dfb5af187.txt"
    },
    "GSMesstest": {
-    "anzahl": 7,
-    "neueste": "testberichte/diagnose/GSMesstest/5.1-79722f044e87.txt"
+    "anzahl": 8,
+    "neueste": "testberichte/diagnose/GSMesstest/5.1-e71680805b41.txt"
    },
    "GuildSentinel": {
-    "anzahl": 76,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.36-46e15ef2b6e5.txt"
+    "anzahl": 78,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.36-b0a5ae9ca849.txt"
    },
    "LevelPilot": {
-    "anzahl": 4,
-    "neueste": "testberichte/diagnose/LevelPilot/3.12.27-bbcf2b7ed12f.txt"
+    "anzahl": 6,
+    "neueste": "testberichte/diagnose/LevelPilot/3.12.27-3aeb503e40ae.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 58,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.43-852e850b8a2c.txt"
+    "anzahl": 60,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.43-2cc0e69183db.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 64,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.10-83a3264a9fb4.txt"
+    "anzahl": 66,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.10-57d3a3207298.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 128,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794579841-dfa422.json"
+    "anzahl": 130,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794581384-0f42aa.json"
    }
   }
  }
