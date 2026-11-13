@@ -1,15 +1,20 @@
 """T-MN7: Sammelstelle für Marktdaten (market.py) mit nachgebauten GSMARKT1-Zeilen."""
+import asyncio
 import gzip
 import json
 import os
 import shutil
 import sys
 import tempfile
+import time
 import unittest
 from datetime import datetime
+from zoneinfo import ZoneInfo
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 import market  # noqa: E402
+sys.path.insert(0, os.path.dirname(__file__))
+from bot_harness import FakeAttachment, FakeChannel, FakeMessage  # noqa: E402
 
 DIG = "0123456789abcdefghijklmnopqrstuvwxyz"
 
@@ -143,6 +148,75 @@ class StoreTest(unittest.TestCase):
         self.assertIn("Noch keine Vergleichsscans", market.report(self.st, NOW))
 
 
+class GrenzenTest(unittest.TestCase):
+    """T-D-MN7a/c/f und D-MN7b: Quellen, Grenzen, ausverkaufte Items, Speicher."""
+    def setUp(self):
+        self.dir = tempfile.mkdtemp()
+        self.st = market.Store(self.dir)
+
+    def tearDown(self):
+        shutil.rmtree(self.dir)
+
+    def test_T_D_MN7a_quelle_aus_paket(self):
+        ln = line("H", NOW - H, {1: (5, 1, 1, 0, 0)})
+        pc = json.dumps({"items": [ln], "quelle": "0123456789abcdef"})
+        laptop = json.dumps({"items": [ln], "quelle": "fedcba9876543210"})
+        alt = json.dumps({"items": [ln]})                                   # Uploader vor 2.3.7: ohne Feld
+        q1, q2 = market.source_from_text(pc), market.source_from_text(laptop)
+        self.assertNotEqual(q1, q2)
+        self.assertIsNone(market.source_from_text(alt))
+        self.assertIsNone(market.source_from_text('{"quelle": "Spielername"}'))   # nur 16 Hex
+        self.assertNotIn("0123456789abcdef", q1)                              # nie im Klartext abgelegt
+        market.ingest_text(self.st, pc, q1, NOW)
+        market.ingest_text(self.st, laptop, q2, NOW)
+        market.ingest_text(self.st, alt, market.source_key(42), NOW)
+        self.assertEqual(len(market.aggregate(self.st, "H", NOW - market.WEEK, NOW)["items"]), 1)
+        self.assertEqual(market.aggregate(self.st, "H", NOW - market.WEEK, NOW)["quellen"], 3)
+
+    def test_T_D_MN7c_kopf_gegen_eintraege(self):
+        ln = line("H", NOW - H, {1: (5, 1, 1, 0, 0), 2: (6, 1, 1, 0, 0)})
+        cut = ln.rsplit(";", 1)[0]                                           # abgeschnitten: Kopf sagt 2 Items
+        self.assertIsNone(market.parse_line(cut))
+        self.assertIsNotNone(market.parse_line(ln))
+
+    def test_T_D_MN7c_grenze_je_quelle_und_gesamt(self):
+        for i in range(market.MAX_NEW_PER_SOURCE_HOUR + 3):
+            market.ingest_text(self.st, line("H", NOW - 2 * H + i, {1: (5, 1, 1, 0, 0)}), "pc", NOW)
+        self.assertEqual(len(self.st.index["scans"]), market.MAX_NEW_PER_SOURCE_HOUR)
+        self.assertEqual(self.st.index["begrenzt"], 3)
+        # andere Quelle geht weiter, eine Stunde später auch dieselbe
+        self.assertEqual(market.ingest_text(self.st, line("A", NOW - H, {}), "laptop", NOW)["neu"], 1)
+        self.assertEqual(market.ingest_text(self.st, line("H", NOW, {}), "pc", NOW + 3700)["neu"], 1)
+        old = market.MAX_SCANS
+        try:
+            market.MAX_SCANS = len(self.st.index["scans"])
+            self.assertEqual(market.ingest_text(self.st, line("N", NOW - H, {}), "dritte", NOW)["begrenzt"], 1)
+        finally:
+            market.MAX_SCANS = old
+        self.assertGreater(self.st.bytes_total(), 0)
+
+    def test_D_MN7b_ausverkauft_menge_0(self):
+        # Scan 1: Item 7 im Angebot; Scan 2: ganz ausverkauft -> Eintrag 7,0,0,0,3,2 (Absatz zählt, kein Preis)
+        market.ingest_text(self.st, line("H", NOW - 2 * H, {7: (900, 3, 3, 0, 0)}), "pc", NOW)
+        l2 = "GSMARKT1|1|H|%d|0|0|%d|%s" % (NOW - H, H, ",".join(enc(x) for x in (7, 0, 0, 0, 3, 2)))
+        self.assertIsNotNone(market.parse_line(l2))                          # Kopf 0 Items, 1 Eintrag: gültig
+        market.ingest_text(self.st, l2, "pc", NOW)
+        it = market.aggregate(self.st, "H", NOW - market.WEEK, NOW)["items"][7]
+        self.assertAlmostEqual(it["absatz_min"], 48)                          # 2 in 1 h
+        self.assertAlmostEqual(it["absatz_max"], 72)
+        self.assertEqual((it["preis_min"], it["preis_max"], it["preis_letzt"]), (900, 900, 900))
+        self.assertEqual(it["menge"], 3)
+
+    def test_T_D_MN7f_grenze_und_kein_verlauf(self):
+        self.assertEqual(market.MAX_LINE, 3 * 1024 * 1024)
+        big = line("H", NOW - H, {i: (i, 1, 1, 0, 0) for i in range(1, 40001)})
+        self.assertGreater(len(big), 512 * 1024)
+        self.assertIsNotNone(market.parse_line(big))
+        market.ingest_text(self.st, line("H", NOW - H, {1: (5, 1, 1, 0, 0)}), "pc", NOW)
+        it = market.aggregate(self.st, "H", NOW - market.WEEK, NOW)["items"][1]
+        self.assertNotIn("verlauf", it)
+
+
 class HelperTest(unittest.TestCase):
     def test_gold(self):
         self.assertEqual(market.gold(123456), "12g 34s")
@@ -155,7 +229,53 @@ class HelperTest(unittest.TestCase):
         self.assertTrue(market.weekly_due(mon, None))
         self.assertFalse(market.weekly_due(mon, market.week_key(mon)))
         self.assertFalse(market.weekly_due(datetime(2026, 11, 17, 9), None))
-        self.assertEqual(market.report_name(mon), "GSMARKTW1-2026-W47.md")
+
+    def test_T_D_MN7d_name_und_zeitraum(self):
+        tz = ZoneInfo("Europe/Zurich")
+        mon = datetime(2026, 11, 16, 9, tzinfo=tz)
+        self.assertEqual(market.report_name(mon), "GSMARKTW1-2026-W46.md")     # abgeschlossene Woche
+        since, until, wk = market.last_week_window(mon)
+        self.assertEqual(wk, "2026-W46")
+        self.assertEqual(datetime.fromtimestamp(since, tz), datetime(2026, 11, 9, 0, 0, tzinfo=tz))
+        self.assertEqual(datetime.fromtimestamp(until, tz), datetime(2026, 11, 16, 0, 0, tzinfo=tz))
+        z = market.report_name(mon, zwischen=True)
+        self.assertEqual(z, "GSMARKTW1-2026-W47-zwischen-1116-0900.md")
+        self.assertNotEqual(z, market.report_name(mon))                        # überschreibt nie den Wochenbericht
+        # Zeitumstellung (letzter Sonntag im Oktober): Woche beginnt trotzdem um 00:00 Ortszeit
+        s2, u2, _ = market.last_week_window(datetime(2026, 10, 26, 9, tzinfo=tz))   # Umstellung am 25.10.
+        self.assertEqual(datetime.fromtimestamp(s2, tz).hour, 0)
+        self.assertEqual(u2 - s2, 7 * 86400 + 3600)
+
+    def test_T_D_MN7d_eine_zone(self):
+        old = market.TZ
+        try:
+            market.set_tz("UTC")
+            t = datetime(2026, 11, 16, 0, 30, tzinfo=ZoneInfo("UTC")).timestamp()   # Mo 00:30 UTC
+            self.assertEqual(market.hour_of_week(t), 0)
+            market.set_tz("Europe/Zurich")
+            self.assertEqual(market.hour_of_week(t), 1)                              # Mo 01:30 MEZ
+        finally:
+            market.TZ = old
+
+    def test_wochenbericht_nur_alte_woche(self):
+        d = tempfile.mkdtemp()
+        try:
+            st = market.Store(d)
+            tz = ZoneInfo("Europe/Zurich")
+            mon = datetime(2026, 11, 16, 9, tzinfo=tz)
+            market.ingest_text(st, line("H", datetime(2026, 11, 15, 12, tzinfo=tz).timestamp(), {1: (5, 1, 1, 0, 0)}),
+                               "pc", mon.timestamp())
+            market.ingest_text(st, line("A", datetime(2026, 11, 16, 8, tzinfo=tz).timestamp(), {1: (5, 1, 1, 0, 0)}),
+                               "pc", mon.timestamp())
+            name, text = market.weekly_report(st, mon)
+            self.assertEqual(name, "GSMARKTW1-2026-W46.md")
+            self.assertIn("## Horde", text)
+            self.assertNotIn("## Allianz", text)                                     # gehört schon zur neuen Woche
+            self.assertIn("Woche 2026-W46", text)
+            zname, ztext = market.interim_report(st, mon)
+            self.assertIn("## Allianz", ztext)
+        finally:
+            shutil.rmtree(d)
 
     def test_realm_fingerprint(self):
         a = "Zugangstoken: Antwortcode 200\n- dynamic-classic1x-eu: 2 Gruppen: A (1), B (2)\n\nFOREVER gefunden in: keinem Namespace\n"
@@ -165,9 +285,162 @@ class HelperTest(unittest.TestCase):
         self.assertNotEqual(market.realm_fingerprint(a), market.realm_fingerprint(c))
         self.assertEqual(market.realm_fingerprint("Zugangstoken: Antwortcode 401\n"), "")
 
+    def test_sammler_dateinamen(self):
+        import types as _t
+        sys.modules.setdefault("requests", _t.ModuleType("requests"))
+        import markt_bericht_holen as mbh
+        self.assertTrue(str(mbh.target("GSMARKTW1-2026-W46.md")).endswith("markt/2026-W46.md"))
+        self.assertTrue(str(mbh.target("GSMARKTW1-2026-W47-zwischen-1116-0900.md"))
+                        .endswith("markt/2026-W47-zwischen-1116-0900.md"))
+        self.assertTrue(str(mbh.target("GSBLIZZ1-2026-12-01.txt")).endswith("markt/blizzard-2026-12-01.txt"))
+        for bad in ("../x.md", "GSMARKTW1-2026-W46.md/../a", "GSMARKTW1-x.md"):
+            self.assertIsNone(mbh.target(bad))
+
+
+def run(coro):
+    return asyncio.run(coro)
+
+
+class BotAblauf(unittest.TestCase):
+    """D-T1: Ablauf-Tests mit dem echten bot.py (Kopie im temporären Ordner, Attrappen, kein Netz)."""
+    @classmethod
+    def setUpClass(cls):
+        from bot_harness import load_bot
+        cls.bot, cls.tmp = load_bot()
+
+    def setUp(self):
+        self.dir = tempfile.mkdtemp()
+        self.bot._market_store = market.Store(self.dir)
+        self.bot._market_lock = asyncio.Lock()
+        self.cfg_backup = dict(self.bot.cfg)
+        self.state_backup = dict(self.bot.state.data)
+
+    def tearDown(self):
+        self.bot.cfg.clear()
+        self.bot.cfg.update(self.cfg_backup)
+        self.bot.state.data.clear()
+        self.bot.state.data.update(self.state_backup)
+        shutil.rmtree(self.dir)
+
+    def paket(self, quelle=None, t=None, faction="H"):
+        doc = {"items": ["GSTEST1{}", line(faction, t or time.time() - H, {2589: (100, 5, 2, 1, 1)}, cmp_=600)]}
+        if quelle:
+            doc["quelle"] = quelle
+        return FakeAttachment("paket-1.json.gz", gzip.compress(json.dumps(doc).encode()))
+
+    def test_T_D_MN7a_zwei_rechner_zwei_quellen(self):
+        t = time.time() - H
+        r1 = run(self.bot.market_intake(FakeMessage([self.paket("0123456789abcdef", t)], webhook_id=5)))
+        r2 = run(self.bot.market_intake(FakeMessage([self.paket("fedcba9876543210", t)], webhook_id=5)))
+        self.assertEqual((r1["neu"], r2["doppelt"]), (1, 1))
+        head = next(iter(self.bot._market_store.index["scans"].values()))
+        self.assertEqual(len(head["q"]), 2)                                  # gleicher Webhook, zwei Quellen
+        r3 = run(self.bot.market_intake(FakeMessage([self.paket(None, t)], webhook_id=5)))   # alter Uploader
+        self.assertEqual(r3["doppelt"], 1)
+        self.assertEqual(len(head["q"]), 3)
+        with open(os.path.join(self.dir, "index.json"), encoding="utf-8") as f:
+            self.assertNotIn("0123456789abcdef", f.read())
+
+    def test_T_D_MN7c_nur_eigener_webhook(self):
+        import uploader_setup
+        cfg = {"testberichte_channel_id": 20, "testberichte_webhook_id": 777}
+        self.assertTrue(uploader_setup.market_source(cfg, 20, 777))
+        self.assertFalse(uploader_setup.market_source(cfg, 20, 778))          # fremder Webhook
+        self.assertFalse(uploader_setup.market_source(cfg, 20, None))         # Personen nie
+        self.assertFalse(uploader_setup.market_source(cfg, 21, 777))
+        self.assertFalse(uploader_setup.market_source({"testberichte_channel_id": 20}, 20, 777))
+
+    def test_T_D_MN7e_nachlesen_nach_start(self):
+        self.bot.cfg.update({"testberichte_channel_id": 20, "testberichte_webhook_id": 777})
+        own = FakeMessage([self.paket("0123456789abcdef")], webhook_id=777, channel_id=20)
+        other = FakeMessage([self.paket("fedcba9876543210", faction="A")], webhook_id=778, channel_id=20)
+        person = FakeMessage([self.paket(faction="N")], webhook_id=None, channel_id=20)
+        ch = FakeChannel(20, [own, other, person, own])
+
+        async def by_id(cid):
+            return ch if cid == 20 else None
+        orig = self.bot.channel_by_id
+        self.bot.channel_by_id = by_id
+        try:
+            n = run(self.bot.market_catchup())
+        finally:
+            self.bot.channel_by_id = orig
+        self.assertEqual(n, 2)
+        self.assertEqual([h["f"] for h in self.bot._market_store.index["scans"].values()], ["H"])   # einmal abgelegt
+        self.assertEqual(ch.sent, [])                                        # nie antworten
+        self.assertFalse(own.deleted or other.deleted or person.deleted)    # nie löschen
+
+    def test_T_D_MN8b_aenderung_erst_nach_senden_merken(self):
+        self.bot.cfg.update({"blizzard_client_id": "id", "blizzard_client_secret": "geheim", "botcmd_channel_id": 30})
+        outputs = ["- dynamic-classic1x-eu: 1 Gruppen: A (1)\n", "- dynamic-classic1x-eu: 2 Gruppen: A (1), B (2)\n"]
+
+        def fake_list(region, cid, sec, out, *a, **k):
+            out.write(outputs[0])
+        ch = FakeChannel(30)
+        chans = {"x": None}
+
+        async def by_id(cid):
+            return chans["x"]
+        orig_l, orig_c = self.bot.blizzard_api_check.list_realms, self.bot.channel_by_id
+        self.bot.blizzard_api_check.list_realms = fake_list
+        self.bot.channel_by_id = by_id
+        try:
+            tz = ZoneInfo("Europe/Zurich")
+            self.bot.state.data.pop("blizzard_fp", None)
+            self.bot.state.data.pop("blizzard_month", None)
+            self.assertIsNone(run(self.bot.blizzard_monthly(datetime(2026, 11, 20, tzinfo=tz))))   # Ausgangsstand
+            fp0 = self.bot.state.data["blizzard_fp"]
+            outputs[0] = outputs[1]
+            self.assertIsNone(run(self.bot.blizzard_monthly(datetime(2026, 12, 1, tzinfo=tz))))    # kein Kanal
+            self.assertEqual(self.bot.state.data["blizzard_fp"], fp0)                              # nicht verloren
+            chans["x"] = ch
+            name = run(self.bot.blizzard_monthly(datetime(2027, 1, 1, tzinfo=tz)))
+            self.assertEqual(name, "GSBLIZZ1-2027-01-01.txt")
+            self.assertNotEqual(self.bot.state.data["blizzard_fp"], fp0)
+            self.assertEqual(len(ch.sent), 1)
+        finally:
+            self.bot.blizzard_api_check.list_realms = orig_l
+            self.bot.channel_by_id = orig_c
+
+    def test_T_D_MN7d_bot_berichte(self):
+        self.bot.cfg.update({"botcmd_channel_id": 30})
+        ch = FakeChannel(30)
+
+        async def by_id(cid):
+            return ch
+        orig = self.bot.channel_by_id
+        self.bot.channel_by_id = by_id
+        try:
+            tz = ZoneInfo(self.bot.TZ)
+            mon = datetime(2026, 11, 16, 9, tzinfo=tz)
+            self.bot.state.data.pop("market_week", None)
+            z = run(self.bot.post_market_report(mon, force=True))
+            self.assertIn("-zwischen-", z)
+            self.assertNotIn("market_week", self.bot.state.data)              # Montags-Merker bleibt frei
+            w = run(self.bot.post_market_report(mon))
+            self.assertEqual(w, "GSMARKTW1-2026-W46.md")
+            self.assertIsNone(run(self.bot.post_market_report(mon)))          # nie doppelt
+            self.assertEqual([kw["file"].filename for _, kw in ch.sent], [z, w])
+        finally:
+            self.bot.channel_by_id = orig
+
+    def test_T_D_GS1b_grosse_guildsentinel_datei(self):
+        self.bot.cfg["uploader_webhooks"] = [5]
+        big = FakeAttachment("GuildSentinel.lua", b"", size=26 * 1024 * 1024)
+        msg = FakeMessage([big], webhook_id=5)
+        with self.assertLogs("raidmaster", level="WARNING") as cm:
+            run(self.bot.receive_upload(msg))                                # früher: UnboundLocalError
+        self.assertTrue(any("zu gross" in r for r in cm.output))
+        self.assertEqual(big.reads, 0)
+
+    def test_intake_antwortet_und_loescht_nie(self):
+        msg = FakeMessage([self.paket("0123456789abcdef")], webhook_id=5)
+        run(self.bot.market_intake(msg))
+        self.assertFalse(msg.deleted)
+
 
 class BotCode(unittest.TestCase):
-    """Verdrahtung in bot.py (Text, bot.py ist nicht importierbar)."""
+    """Verdrahtung, die sich nur im Quelltext zeigt (on_message, Loop)."""
     @classmethod
     def setUpClass(cls):
         with open(os.path.join(os.path.dirname(__file__), "..", "bot.py"), encoding="utf-8") as f:
@@ -179,25 +452,12 @@ class BotCode(unittest.TestCase):
         ign = self.src[self.src.index('if route == "ignore":'):][:500]
         self.assertIn("uploader_setup.market_source(cfg, message.channel.id, message.webhook_id)", ign)
         self.assertLess(ign.index("await market_intake_safe(message)"), ign.index("return"))
-        import uploader_setup
-        cfg = {"data_channel_id": 10, "testberichte_channel_id": 20, "sync": {}}
-        self.assertTrue(uploader_setup.market_source(cfg, 20, 999))
-        self.assertFalse(uploader_setup.market_source(cfg, 20, None))      # Personen nie
-        self.assertFalse(uploader_setup.market_source(cfg, 10, 999))
-        self.assertFalse(uploader_setup.market_source({}, 20, 999))
-
-    def test_intake_antwortet_nicht(self):
-        fn = self.src[self.src.index("async def market_intake("):self.src.index("async def post_market_report")]
-        for verboten in (".send(", ".delete(", ".reply("):
-            self.assertNotIn(verboten, fn)
+        self.assertIn("asyncio.create_task(market_catchup())", self.src[self.src.index("async def on_ready"):][:2500])
 
     def test_wochenbericht_und_blizzard_im_loop(self):
         loop = self.src[self.src.index("async def monthly_loop"):][:900]
         self.assertIn("await post_market_report()", loop)
         self.assertIn("await blizzard_monthly()", loop)
-        bl = self.src[self.src.index("async def blizzard_monthly"):self.src.index("async def monthly_loop")]
-        self.assertIn("if not old or old == fp", bl)           # nur bei Änderung berichten
-        self.assertIn("blizzard_api_check.redact(out, cid, sec)", bl)
 
 
 if __name__ == "__main__":

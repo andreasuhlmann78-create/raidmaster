@@ -103,10 +103,18 @@ def route_message(cfg: dict, channel_id: int, webhook_id) -> str | None:
 
 
 def market_source(cfg: dict, channel_id: int, webhook_id) -> bool:
-    """MN7 (ab 1.5.131): Pakete des Uploaders in #testberichte (Webhook) dürfen auf GSMARKT1-Zeilen gelesen werden –
-    still: nie antworten, nie löschen, sonst nichts auswerten. #sync-daten und Nachrichten von Personen nie."""
-    return bool(webhook_id and cfg.get("testberichte_channel_id")
-                and int(channel_id) == int(cfg["testberichte_channel_id"]))
+    """MN7 (ab 1.5.131): Pakete des Uploaders in #testberichte dürfen auf GSMARKT1-Zeilen gelesen werden – still: nie
+    antworten, nie löschen, sonst nichts auswerten. D-MN7c (1.5.132): nur der eigene Uploader-Webhook
+    (testberichte_webhook_id, angelegt von /uploader), kein anderer Webhook, keine Personen, nie #sync-daten."""
+    hook = cfg.get("testberichte_webhook_id")
+    return bool(webhook_id and hook and cfg.get("testberichte_channel_id")
+                and int(channel_id) == int(cfg["testberichte_channel_id"]) and int(webhook_id) == int(hook))
+
+
+def tb_channel_id(cfg: dict) -> int | None:
+    """Kanal-ID von #testberichte (für das Nachlesen der Marktdaten nach dem Start, D-MN7e) – oder None."""
+    v = cfg.get("testberichte_channel_id")
+    return int(v) if v else None
 
 # ---------------------------------------------------------------------------
 # Abgleich PC/Laptop (ab Bot 1.5.113, anweisung-uploader-sync-rechner.txt)

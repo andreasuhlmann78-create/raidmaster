@@ -156,16 +156,19 @@ Seit das Serverprofil öffentlich ist, sollen Neue ohne Rolle nicht den ganzen G
   und #bewerbung vorhanden?). Verstösse stehen im Protokoll als „GRUNDREGEL VERLETZT …“ und einmal in #bot-befehle.
   Er ändert dabei nichts.
 
-## 6c. Marktdaten-Sammelstelle (ab Bot 1.5.131, MN7)
+## 6c. Marktdaten-Sammelstelle (ab Bot 1.5.131, MN7; 1.5.132)
 
 - Die GoldSentinel-Addons halten die Vollscans des Auktionshauses als Zeilen `GSMARKT1|…` (ohne Namen). Der Uploader
-  schickt sie mit; der Bot liest sie aus den Uploads in #bot-daten und still aus den Paketen in #testberichte (dort
-  antwortet und löscht er nie).
-- Je Fraktion und Scan-Zeit wird ein Scan nur einmal abgelegt (PC und Laptop schicken ihn doppelt). Ablage auf dem
-  Server unter `data/markt/`, 35 Tage.
-- Montags legt der Bot den Wochenbericht `GSMARKTW1-<Jahr>-W<KW>.md` in #bot-befehle; der GitHub-Workflow
-  „Marktbericht" übernimmt ihn nach `testberichte/markt/`. `/marktdaten` (Gildenleitung) zeigt den Stand,
-  `/marktdaten bericht:True` legt den Bericht sofort.
+  schickt sie mit; der Bot liest sie aus den Uploads in #bot-daten und still aus den Paketen des eigenen
+  Uploader-Webhooks in #testberichte (dort antwortet und löscht er nie; andere Webhooks und Personen liest er nicht).
+  Nach einem Neustart liest er die Pakete der letzten 60 Minuten nach.
+- Je Fraktion und Scan-Zeit wird ein Scan nur einmal abgelegt (PC und Laptop schicken ihn doppelt). Als Quelle zählt
+  die Zufallskennung des Uploaders (ab Uploader 2.3.7), sonst der Webhook. Ablage auf dem Server unter `data/markt/`,
+  35 Tage; Grenzen: 30 neue Scans je Quelle und Stunde, 20 000 Scans, 3 GB.
+- Montags legt der Bot den Wochenbericht der abgeschlossenen Kalenderwoche `GSMARKTW1-<Jahr>-W<KW>.md` in
+  #bot-befehle; der GitHub-Workflow „Marktbericht" übernimmt ihn nach `testberichte/markt/`. `/marktdaten`
+  (Gildenleitung) zeigt den Stand, `/marktdaten bericht:True` legt einen Zwischenbericht der letzten 7 Tage
+  (`…-zwischen-<MMTT-HHMM>.md`, überschreibt den Wochenbericht nie). Zeiten in der Zeitzone des Bots.
 - Einmal im Monat wiederholt der Bot die Blizzard-Prüfung (`blizzard_api_check.py --list`, nur mit eingetragenem
   Zugang) und meldet nur, wenn sich die Realm-Listen geändert haben (`GSBLIZZ1-<Datum>.txt`).
 

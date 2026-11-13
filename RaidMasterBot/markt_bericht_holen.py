@@ -3,7 +3,8 @@
 
 Der Bot legt montags den Bericht als Anhang GSMARKTW1-<JJJJ>-W<KW>.md in den Bot-Kanal (#bot-befehle), bei einer
 Änderung der Blizzard-Realm-Listen (MN8 monatlich) zusätzlich GSBLIZZ1-<JJJJ-MM-TT>.txt. Dieses Skript liest die
-letzten Nachrichten des Kanals (nur Nachrichten des Bots selbst), lädt diese Anhänge und speichert sie unter
+Zwischenberichte (/marktdaten bericht:True) heissen GSMARKTW1-<JJJJ>-W<KW>-zwischen-<MMTT-HHMM>.md und
+landen unter eigenem Namen. Das Skript liest die letzten Nachrichten des Kanals (nur Nachrichten des Bots selbst), lädt diese Anhänge und speichert sie unter
 testberichte/markt/<JJJJ>-W<KW>.md bzw. testberichte/markt/blizzard-<JJJJ-MM-TT>.txt. Keine Namen (die Berichte
 enthalten keine), nur feste Dateinamen, nur cdn.discordapp.com, höchstens 1 MB je Datei.
 
@@ -20,7 +21,7 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "testberichte" / "markt"
 API = "https://discord.com/api/v10"
 CHANNELS = [c.strip() for c in os.environ.get("MARKT_KANAELE", "bot-befehle").split(",") if c.strip()]
-NAMES = (re.compile(r"^GSMARKTW1-(\d{4}-W\d{2})\.md$"), re.compile(r"^GSBLIZZ1-(\d{4}-\d{2}-\d{2})\.txt$"))
+NAMES = (re.compile(r"^GSMARKTW1-(\d{4}-W\d{2}(?:-zwischen-\d{4}-\d{4})?)\.md$"), re.compile(r"^GSBLIZZ1-(\d{4}-\d{2}-\d{2})\.txt$"))
 MAX = 1024 * 1024
 HISTORY = 300
 

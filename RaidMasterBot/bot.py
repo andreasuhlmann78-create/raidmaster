@@ -131,6 +131,7 @@ def save_config():
 
 cfg = load_config()
 TZ = cfg["timezone"]
+market.set_tz(TZ)          # D-MN7d: Marktberichte in der Zeitzone des Bots
 book = rmd.RaidBook(DATA_DIR)
 state = rmd.Store(os.path.join(DATA_DIR, "state.json"), {"dkp_messages": {}, "last_loot": None, "assign_v": 0,
                                                         "addon_version": "", "addon_message": None})
@@ -228,6 +229,7 @@ class RaidBot(discord.Client):
             self._leader_warned = True
             log.warning("config.json: \"guild_leader\" ist leer – Charaktername des Gildenchefs eintragen "
                         "(sonst Rechte nur als Server-Besitzer oder Offizier).")
+        asyncio.create_task(market_catchup())        # D-MN7e: Pakete während des Neustarts nachlesen
         if not getattr(self, "_release_checked", False):
             self._release_checked = True
             try:
@@ -2740,20 +2742,21 @@ async def market_intake(message: discord.Message) -> dict:
             except (discord.HTTPException, OSError) as e:
                 log.warning("Marktdaten: Anhang %s nicht lesbar: %s", a.filename, e)
     texts = [t for t in texts if "GSMARKT1|" in t]
-    total = {"neu": 0, "doppelt": 0, "abgelehnt": 0, "ungueltig": 0}
+    total = {"neu": 0, "doppelt": 0, "abgelehnt": 0, "begrenzt": 0, "ungueltig": 0}
     if not texts:
         return total
-    src = market.source_key(message.webhook_id or (message.author.id if message.author else 0))
+    fallback = market.source_key(message.webhook_id or (message.author.id if message.author else 0))
     async with _market_lock:
         st = market_store()
         for t in texts:
+            src = market.source_from_text(t) or fallback        # D-MN7a: Zufallskennung des Uploaders, sonst Webhook
             for k, v in (await asyncio.to_thread(market.ingest_text, st, t, src)).items():
                 total[k] += v
-        if total["neu"] or total["doppelt"]:
+        if total["neu"] or total["doppelt"] or total["begrenzt"]:
             st.prune()
             await asyncio.to_thread(st.save)
-    log.info("Marktdaten: %d neue Scans, %d doppelt, %d abgelehnt, %d ungültig", total["neu"], total["doppelt"],
-             total["abgelehnt"], total["ungueltig"])
+    log.info("Marktdaten: %d neue Scans, %d doppelt, %d abgelehnt, %d begrenzt, %d ungültig", total["neu"],
+             total["doppelt"], total["abgelehnt"], total["begrenzt"], total["ungueltig"])
     return total
 
 
@@ -2764,23 +2767,43 @@ async def market_intake_safe(message: discord.Message):
         log.exception("Marktdaten konnten nicht gelesen werden")
 
 
+async def market_catchup(minutes: int = 60) -> int:
+    """D-MN7e: nach dem Start die Pakete der letzten Minuten in #testberichte nachlesen (während eines Neustarts
+    kommt kein on_message). Doppelte verwirft die Ablage. Still: nie antworten, nie löschen."""
+    ch = await channel_by_id(uploader_setup.tb_channel_id(cfg))
+    if ch is None:
+        return 0
+    n = 0
+    after = discord.utils.utcnow() - timedelta(minutes=minutes)
+    async for m in ch.history(limit=200, after=after, oldest_first=True):
+        if uploader_setup.market_source(cfg, ch.id, m.webhook_id):
+            await market_intake_safe(m)
+            n += 1
+    if n:
+        log.info("Marktdaten: %d Pakete der letzten %d Minuten nachgelesen", n, minutes)
+    return n
+
+
 async def post_market_report(now: datetime | None = None, force: bool = False) -> str | None:
-    """Montags einmal: Wochenbericht als Anhang GSMARKTW1-<JJJJ>-W<KW>.md in den Bot-Kanal. Der Workflow
-    markt-bericht.yml legt ihn unter testberichte/markt/ ins Repo."""
+    """Montags einmal: Wochenbericht der ABGESCHLOSSENEN Kalenderwoche als Anhang GSMARKTW1-<JJJJ>-W<KW>.md in den
+    Bot-Kanal (D-MN7d: Name nach dieser Woche). force = Zwischenbericht der letzten 7 Tage mit eigenem Namen
+    (überschreibt den Wochenbericht nicht, setzt den Montags-Merker nicht). Der Workflow markt-bericht.yml legt beide
+    unter testberichte/markt/ ins Repo."""
     now = now or datetime.now(ZoneInfo(TZ))
     if not force and not market.weekly_due(now, state.data.get("market_week")):
         return None
     ch = await channel_by_id(cfg.get("botcmd_channel_id") or cfg.get("officer_channel_id"))
     if ch is None:
         return None
+    fn = market.interim_report if force else market.weekly_report
     async with _market_lock:
-        text = await asyncio.to_thread(market.report, market_store(), now.timestamp())
-    name = market.report_name(now)
-    await ch.send(f"📈 Marktdaten-Wochenbericht {market.week_key(now)} (MN7, keine Namen) – wird ins Repo übernommen "
-                  "(testberichte/markt/).", file=discord.File(io.BytesIO(text.encode("utf-8")), filename=name),
-                  allowed_mentions=NO_PING)
-    state.data["market_week"] = market.week_key(now)
-    state.save()
+        name, text = await asyncio.to_thread(fn, market_store(), now)
+    what = "Zwischenbericht" if force else "Wochenbericht"
+    await ch.send(f"📈 Marktdaten-{what} (MN7, keine Namen) – wird ins Repo übernommen (testberichte/markt/).",
+                  file=discord.File(io.BytesIO(text.encode("utf-8")), filename=name), allowed_mentions=NO_PING)
+    if not force:
+        state.data["market_week"] = market.week_key(now)
+        state.save()
     return name
 
 
@@ -2804,24 +2827,29 @@ async def blizzard_monthly(now: datetime | None = None) -> str | None:
         log.warning("Blizzard-Prüfung (monatlich): kein Ergebnis (Zugang prüfen)")
         return None
     old = state.data.get("blizzard_fp")
-    state.data["blizzard_fp"] = fp
-    state.save()
     if not old or old == fp:
-        log.info("Blizzard-Prüfung (monatlich): unverändert")
+        state.data["blizzard_fp"] = fp
+        state.save()
+        log.info("Blizzard-Prüfung (monatlich): %s", "Ausgangsstand gespeichert" if not old else "unverändert")
         return None
+    # D-MN8b: Änderung erst nach erfolgreichem Senden merken – sonst nächsten Monat erneut melden
     ch = await channel_by_id(cfg.get("botcmd_channel_id") or cfg.get("officer_channel_id"))
     if ch is None:
+        state.save()
+        log.warning("Blizzard-Prüfung (monatlich): Änderung gefunden, aber kein Bot-Kanal – wird erneut gemeldet")
         return None
     name = f"GSBLIZZ1-{now.strftime('%Y-%m-%d')}.txt"
     text = blizzard_api_check.redact(out, cid, sec)
     await ch.send("🔎 Blizzard-Schnittstelle: Die Realm-Listen haben sich geändert (MN8 monatlich) – Bericht wird ins "
                   "Repo übernommen (testberichte/markt/).",
                   file=discord.File(io.BytesIO(text.encode("utf-8")), filename=name), allowed_mentions=NO_PING)
+    state.data["blizzard_fp"] = fp
+    state.save()
     return name
 
 
 @bot.tree.command(name="marktdaten", description="Offiziere: Stand der Marktdaten-Sammelstelle (MN7), optional Wochenbericht jetzt")
-@app_commands.describe(bericht="Wochenbericht jetzt in den Bot-Kanal legen (wird ins Repo übernommen)")
+@app_commands.describe(bericht="Zwischenbericht (letzte 7 Tage) jetzt in den Bot-Kanal legen (wird ins Repo übernommen)")
 async def marktdaten_cmd(inter: discord.Interaction, bericht: bool = False):
     if not is_creator(inter.user):
         await inter.response.send_message("Nur für den Gildenchef und die Offiziere.", ephemeral=True)
@@ -2829,7 +2857,8 @@ async def marktdaten_cmd(inter: discord.Interaction, bericht: bool = False):
     await inter.response.defer(ephemeral=True)
     st = market_store()
     heads = list(st.index["scans"].values())
-    lines = [f"📈 **Marktdaten (MN7):** {len(heads)} Scans gespeichert, {int(st.index.get('dupes', 0))} doppelte verworfen."]
+    lines = [f"📈 **Marktdaten (MN7):** {len(heads)} Scans gespeichert, {int(st.index.get('dupes', 0))} doppelte "
+             f"verworfen, {int(st.index.get('begrenzt', 0))} wegen Grenzen nicht abgelegt."]
     for f, fname in market.FACTIONS.items():
         hs = [h for h in heads if h["f"] == f]
         if hs:
@@ -2839,7 +2868,8 @@ async def marktdaten_cmd(inter: discord.Interaction, bericht: bool = False):
                          f"{len({q for h in hs for q in h['q']})} Quellen")
     if bericht:
         name = await post_market_report(force=True)
-        lines.append(f"Bericht **{name}** gepostet." if name else "Kein Bot-Kanal gefunden – Bericht nicht gepostet.")
+        lines.append(f"Zwischenbericht **{name}** gepostet." if name
+                     else "Kein Bot-Kanal gefunden – Bericht nicht gepostet.")
     await inter.followup.send("\n".join(lines), ephemeral=True)
 
 
@@ -4955,6 +4985,9 @@ async def receive_upload(message: discord.Message):
     att = message.attachments[rm_i] if rm_i is not None else None
     gs_att = message.attachments[gs_i] if gs_i is not None else None
     gs_has_bank = False         # D-GS1b: auch bei einer GuildSentinel-Datei > 25 MB gesetzt
+    if gs_att is not None and gs_att.size > 25 * 1024 * 1024:
+        log.warning("GuildSentinel-Datei %s ist zu gross (%.1f MB > 25 MB) – nicht gelesen.", gs_att.filename,
+                    gs_att.size / 1024 / 1024)
     if gs_att is not None and gs_att.size <= 25 * 1024 * 1024:
         try:
             gs_text, gs_db = await asyncio.to_thread(rmd.check_guildsentinel_upload, await gs_att.read(), gs_att.filename)
