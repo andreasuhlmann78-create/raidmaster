@@ -12,6 +12,18 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.117
+
+- **Sniper budget doubled after reset:** "Reset counter" now always sets the budget back to the amount you entered
+  (a refill no longer stays in).
+- **One "best way" for all numbers:** profit line, "… pays more" and "Max above sale value – every purchase loses about …"
+  now all come from the same calculation (sell, disenchant, vendor after fees) – no more contradicting numbers.
+- The calculation line "With … budget the sniper buys at most …" is gone from the target tooltip.
+- **Sniper and scrolling:** the sniper measures whether the server answers searches without a key press. If not, the
+  sniper shows "Scroll to search and buy · last search 12 s ago" and reminds you quietly after 10 s without scrolling.
+- Test report: composition of the sync queue per prefix.
+- Tests T621–T624.
+
 ### Version 0.65.116
 
 - **"Worth up to" for disenchanting was too low:** the material price correction (e.g. ×0.57) was counted twice – once
@@ -55,19 +67,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Sniper list:** 3 failures in a row no longer empty the hit list – it stays visible as outdated until new results arrive.
 - **Sniper target above sale value:** creating such a target gives one clear warning in chat (with warning sound).
 - Tests T598–T601.
-
-### Version 0.65.112
-
-- **Learned sales factor fixed:** since 0.65.111 every group factor showed 1.00 because the estimate was compared with
-  itself. The independent estimate is kept separately again.
-- **Stock value:** stock is valued at the achievable price – never above the market value (the value had jumped ×12
-  through a single high resale price). The test report lists the largest stock items.
-- **Less stutter in the full scan:** the tracking of auctions no longer creates a text and a table per auction (the
-  garbage collector caused pauses of up to 821 ms).
-- **Buy list:** the quality filter now also hides items whose quality is not loaded yet (white/grey items slipped through).
-- **Tooltip:** a small positive profit below the minimum now reads "Disenchant: only +86c (+9 %) – below the minimum
-  profit 20 %", without a green check mark at the value.
-- Test report: market-core section also in the uploaded fields. Tests T592–T597.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
