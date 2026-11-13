@@ -1,0 +1,58 @@
+BERICHT BUFFSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 12:37 · Sitzung: BuffSentinel-Sitzung · Version: 0.9.15 (e55dba3) und 0.9.16 (09562b0)
+Addon-Prüfung GitHub: BuffSentinel-0.9.15 OK, BuffSentinel-0.9.16 OK (ohne Warnung).
+
+ERLEDIGT:
+- 1 (Namen teilen/Netz):
+  · "Namen teilen" ist Hauptschalter: aus = nichts senden, auch nichts empfangen (Names.lua:229, :464).
+  · Netz-Option ausgegraut, solange "Namen teilen" aus (Options.lua, AddToggle mit enabled).
+  · Regression T158.
+- 2 (an/aus Deutsch): L.ON/L.OFF (Options.lua:435), Regression T159.
+- Hinweis T152: Zählvariable "joins" entfernt.
+- TU (0.9.15), SelfTest.lua:
+  · TU1 = Bereich L (Run.L ab :3136): T200 jede Klasse/Skillung × Lagen P1–P9 (Procs), B1–B4 (Buffs), C1–C4
+    (Abklingzeiten). Erwartungstabellen PROC_LAGEN/BUFF_LAGEN/CD_LAGEN. Dazu T201 Gruppenbuff, T202 Waffenbuff,
+    T203 Kontext (tot, Geist, Flug, Fahrzeug, Forever im Kampf), T204 nicht gelernt.
+  · TU2 = M (:3210): T210 Haltung wechseln, T211 Klick im Kampf (keine Attribute), T212 Skillung wechseln,
+    T213 /reload im Kampf, T214 Hupe bis nachgebufft, T215 Ton wählen/vorhören.
+  · TU3 = N (:3293): T220 Standardwerte mit Liste aller Felder, T221 leere Felder, T222 Eintragsliste je Klasse.
+  · TU4 = O (:3419): 1000 Zufallsfälle, fester Startwert 20261113 (im Bericht "tu4Startwert"), in Portionen
+    (~4 ms, T232 < 8 ms), Grundregeln G1–G4. Dazu T231 Ton höchstens einmal je Ereignis.
+  · TU5 = P (:3477): T240 echte Daten. Verletzungen gehen nach dem Verlassen der Sandbox ins Diagnose-Protokoll
+    als "GRUNDREGEL VERLETZT …".
+  · TU6 = Q (:3589): Liste Selftest.REGRESSIONS (22 Befunde seit Oktober inkl. BL), neue Tests T158–T161,
+    T162 "Regressionen: n von m vorhanden".
+  · TU7 = S (:3511): T251–T253 alle Lagen auf Forever/Era/TBC, T254 deDE/enUS, T255 Skalierung ≠ 100 %.
+  · TU8: Bericht und Extra-Felder TU1…TU7 je eine Zeile "OK n · FEHLER n · SKIP n" (Selftest.TUSummary :3558).
+  · Für die Tests liest der Code GetShapeshiftForm, GetWeaponEnchantInfo, Tod/Flug/Instanz, GetTime im Refresh
+    und den Kampf über BS.API (keine Blizzard-Funktion ersetzt).
+  · Reittier ODER Fahrzeug unterdrücken die Buff-Erinnerung ausser Kampf (neu: UnitInVehicle).
+  · Selbstprobe: Bei absichtlich entferntem Haltungs- bzw. Reittier-Check meldet T200 112 Abweichungen, T230
+    5 Verletzungen, T203 Fahrzeug.
+- TU9: Offline-Routine in berichte/BuffSentinel/offline/ (BuffSentinel hat kein eigenes Repo; tests/ in der ZIP
+  meldet addon_check zu Recht als FEHLER/WARNUNG):
+  · Start im raidmaster-Repo: sh berichte/BuffSentinel/offline/run_offline.sh [zip] oder
+    python3 berichte/BuffSentinel/offline/run_offline.py [zip]. Ohne Angabe nimmt es die neueste
+    download/BuffSentinel-*.zip.
+  · Läuft für Forever/Era/TBC × deDE/enUS. Ausgabe je Bereich TU1–TU7 und "RESULT PASS/FAIL".
+  · Stand 0.9.16: alle 6 Kombinationen RESULT PASS (Lua 5.4; Lua 5.1 lokal nicht vorhanden).
+  · Ausserhalb der TU-Bereiche bleiben 9–10 "nur Nachbau"-Abweichungen (Fenster, Talente, Tooltips im Nachbau).
+- BL (0.9.16):
+  · Eine Tabelle BS.COMMANDS (Core.lua:1452) für den Slash-Handler (:1511) und die Liste.
+  · CmdHint.lua = Baustein von AHSentinel (Stand nach CH), unverändert bis auf Anbindung, Kampfsperre und
+    Fehlerzählung.
+  · Option im Optionsfenster, /bsen befehlsliste aus|an, Zähler BuffSentinelDB.cmdUse.
+  · Tests T170–T175 = T-BL1 … T-BL6 (CmdHintTests, SelfTest.lua:649).
+
+TEILWEISE / OFFEN:
+- TU1 "Proc mit Restzeit" und "Gruppenbuff von anderen": Die Restzeit wird nur angezeigt (Timer-Text), nicht als
+  eigene Lage geprüft. Ein Gruppenbuff von anderen zählt über groupMissing (T201) als vorhanden.
+- TU7 "Fenster bei Skalierung ≠ 100 %": geprüft mit Ersatzrahmen (T255). Echte UI-Skalierung bleibt im Client zu
+  prüfen (Bereich K bei anderer Skalierung).
+
+FRAGEN:
+- Passt berichte/BuffSentinel/offline/ als Ort für die Offline-Routine, oder soll sie woanders hin? (Kein eigenes
+  BuffSentinel-Repo vorhanden.)
+
+IM CLIENT GETESTET: noch nicht (Nutzer). Offen wie in offen-buffsentinel.txt Punkt 3, dazu: /bsen tippen (Liste,
+Klick wählt, Enter führt aus) und eine Testroutine mit allen Bereichen (TU-Zeilen im Bericht).
