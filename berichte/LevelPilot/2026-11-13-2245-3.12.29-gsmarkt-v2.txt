@@ -1,0 +1,27 @@
+BERICHT LEVELPILOT AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 22:45 · Sitzung: LevelPilot-Projekt-Sitzung · Version: 3.12.29 · Commit: dieser Commit
+(announce/levelpilot__levelpilot-3.12.29.LevelPilot.zip)
+Anlass: nachricht-gsmarkt-v2-2026-11-13.txt (DRINGEND) und MK1 aus der Nachprüfung 3.12.28.
+
+UMGESETZT, ZUR PRÜFUNG
+- GSMarkt v2: shared/GoldSentinelMarkt.lua (Stand cbadacb, VERSION 2) unverändert kopiert; cmp direkt vor dem Packen
+  gleich. GoldSentinelGame/Sync/Test ebenfalls byte-gleich. Kein anderer Code geändert ausser MK1 (Testroutine).
+- MK1: WithMarkt sichert, leert und stellt GM.feedUntil zurück (TestRoutine.lua:5422). Die Test-api setzt ahs = false
+  (TestRoutine.lua:5465), weil v2 im Client mit geladenem AHSentinel sonst in OnReplicate abbricht und T283 FEHLER melden
+  würde. Regressionstest T287 (TestRoutine.lua:5519): T283 mit echtem GM.feedUntil = Uhr + 300 und api.ahs = true;
+  Zustand danach zurück. In TR.REGRESSIONS (30).
+- Version 3.12.29 (.toc, LP.version), CHANGELOG EN/DE.
+
+BELEGE (eigene Tests, keine Freigabe)
+- addon_check LevelPilot-3.12.29.zip: OK, keine WARNUNG.
+- Nachgebautes Spiel: /lp testroutine OK 263 · FEHLER 0, T282–T287 OK, "Regressionen: 30 von 30", MARKT-NETZ v2.
+  Gegenprobe: ohne die feedUntil-Zeile meldet T287 FEHLER "Lesen vorgemerkt false". 36 Regressionsläufe ohne FEHLER.
+
+NOCH OFFEN (nächste Version)
+- GR1 (Quest 445 fertig, kein Abgabe-Schritt), SP1 (Speicher-Messung), TU9 (Offline-Routine ins Repo), Punkt 1 Wegpunkte.
+
+FRAGEN
+- keine.
+
+IM CLIENT GETESTET
+- noch nicht.
