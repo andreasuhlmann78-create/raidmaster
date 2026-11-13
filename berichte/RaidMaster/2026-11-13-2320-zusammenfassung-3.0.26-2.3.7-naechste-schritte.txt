@@ -1,0 +1,50 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 23:20 · Sitzung: RaidMaster-Projekt-Sitzung · Version: Addon 3.0.26, Uploader 2.3.7 · Commit: 0e4ce1a
+Zusammenfassung auf Wunsch des Nutzers. Ergänzt den Bericht 2026-11-13-2240-raidmaster-3.0.26-uploader-2.3.7-markt-v2.txt.
+Der Nutzer bittet die Prüf-Sitzung: prüfen und in auftraege/RaidMaster/offen-raidmaster.txt festhalten, was als Nächstes
+zu tun ist (für die Projekt-Sitzung UND für den Nutzer). Alles über das Repo.
+
+UMGESETZT, ZUR PRÜFUNG (nicht selbst für erledigt erklärt):
+- MN1-K / MN Version 2 (Stand 22:20, D-MN7b): RaidMaster/GoldSentinelMarkt.lua = shared/GoldSentinelMarkt.lua (cmp gleich,
+  Version 2). GoldSentinelGame/Test/Sync ebenfalls cmp gleich. Test T180 prüft FeedStart/Feed
+  (RaidMaster/Test/Routine.lua:2644, Regression Routine.lua:3347 "MN1-K FeedStart/Feed").
+  Exportformat bleibt "GSMARKT1|1|…"; Einträge ausverkaufter Items ("id,0,0,0,a,b") passen zu MARKT_LINE.
+- MN-T: MarktState/MarktRestore sichern GM.stats tief (inkl. dropped) und feedUntil, schreiben in dieselbe Tabelle zurück
+  (Routine.lua:2617, 2622). T181/T182 prüfen am Ende "Zähler unverändert" (Routine.lua:2682, 2713; Regression 3347).
+- MN6b (Uploader): anonyme Kennung 16 Hex, einmal zufällig (secrets), uploader_state.json "markt_quelle"
+  (RaidMasterUploader/uploader.py:418); im Paket als "quelle" nur bei Teilen mit GSMARKT1 (uploader.py:635, 694);
+  MARKT_MAX_ONE = 2 MB (uploader.py:96). Test tests/test_uploader.py:440.
+- U3 (Uploader): unbekanntes Markt-Format -> einmal "Markt-Zeile in unbekanntem Format – nicht gesendet
+  (GoldSentinelMarkt neuer als der Uploader?)", ohne Inhalt; Prüfwert in uploader_state.json "markt_format"
+  (uploader.py:566). Test tests/test_uploader.py:464.
+- Veröffentlicht: download/RaidMaster-3.0.26.zip (= RaidMaster-latest.zip), download/RaidMasterUploader.zip (= Ordner,
+  ohne tests/), README.md verlinkt 3.0.26, CHANGELOG EN/DE in LIESMICH/README_EN beider Ordner.
+
+EIGENE TESTS (Hinweise, keine Freigabe):
+- addon_check download/RaidMaster-3.0.26.zip: OK, kein FEHLER; Lua-Syntax lupa (Lua 5.1).
+- Testroutine im Testaufbau: Forever (16001) 0 FEHLER, Era (11509) 0 FEHLER, Sandbox OK.
+- Testaufbau mit Spielsprache enUS: T90 FEHLER "609:" – identisch mit dem veröffentlichten 3.0.25 (Gegenprobe), liegt
+  vermutlich an der Nachbildung (Ladereihenfolge der Locale-Dateien), nicht an 3.0.26.
+- Uploader-Tests: test_daten 12, test_sync 38, test_uploader 21, test_umfassend 14 (Regressionen 52/52) – grün.
+- Bot-Tests RaidMasterBot/tests einzeln: alle OK.
+
+TEILWEISE / OFFEN:
+- TU2/TU7-Rest: nur im Client prüfbar (unverändert).
+- D-UP1 (Discord): /uploader liefert 2.3.7 erst nach /update des Bots.
+- D-MN7a (Discord): Der Bot muss das Feld "quelle" lesen, sonst zählt er weiter 1 Quelle. Uploader-Seite ist bereit.
+- D-MN7f (Discord): Bot-Grenze 2 MB – der Uploader hält sie jetzt ein.
+
+FRAGEN AN DIE PRÜF-SITZUNG:
+1. Bitte festlegen, was der Nutzer jetzt tun soll und in welcher Reihenfolge. Vorschlag der Projekt-Sitzung:
+   a) Bot: /update (damit /uploader 2.3.7 liefert);
+   b) PC und Laptop: alle Uploader-Fenster schliessen, nur Programmdateien ersetzen, uploader.bat –
+      Startzeile "RaidMaster-Uploader 2.3.7";
+   c) im Spiel RaidMaster 3.0.26 installieren, /rm testroutine (Forever), /reload -> Bericht in #testberichte;
+   d) LIVE PRÜFEN / IM CLIENT PRÜFEN aus offen-raidmaster.txt (MN1 mit AHSentinel-Vollscan: kein Ruckeln,
+      MARKT-NETZ-Zeile v2; MN2 Schalter).
+2. T90 unter enUS: Soll die Projekt-Sitzung den Testaufbau (Nachbildung) untersuchen, oder reicht die Prüfung im Client
+   mit englischem Spiel?
+3. Gibt es weitere Aufträge für RaidMaster/Uploader? Die Projekt-Sitzung setzt alles aus auftraege/RaidMaster/ ohne
+   Rückfrage um (Entscheid des Nutzers).
+
+IM CLIENT GETESTET: noch nichts mit 3.0.26 / 2.3.7.
