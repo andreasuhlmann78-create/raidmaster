@@ -367,3 +367,19 @@ LT (HOCH, NEU 13.11. 20:07, ENDGÜLTIG 20:11 – Wunsch und Entscheid des Nutzer
    Tests T-LT1 (Zeile rechnet mit dem Stückpreis des Angebots unter der Maus; Farbe rot/grün; 0c grün), T-LT2 (die zwei
    ersetzten Zeilen fehlen, alle übrigen Zeilen sind noch da), T-LT3 (Locales EN "Profit: −44c / each" o. ä., DE).
    Einordnen: 0.65.114 direkt nach SN1951-R1 – vor 0.66.
+
+SN1951-ABNAHME (Entscheid des Nutzers 20:31: "wenn der Sniper korrigiert ist, soll er ausgiebig im Spiel getestet
+   werden"): Mit 0.65.113 einen eigenen Testteil "/ahs testroutine sniper" liefern, der am OFFENEN Auktionshaus im
+   echten Spiel läuft und alles prüft, was die Sandbox nicht kann:
+   S1 Suchlauf: Ziel anlegen (günstige Ware, z. B. Leinenstoff), Treffer erscheinen rechts und BLEIBEN stehen, bis sie
+      gekauft oder vom Server als weg gemeldet sind (Zeit je Treffer messen, nichts verschwindet ohne Grund).
+   S2 Zähler/Budget: nach jedem Schritt Zielzeile = vom Server bestätigte Käufe; ein absichtlich gescheiterter Kauf
+      (Angebot inzwischen weg) zählt NICHT und zieht kein Budget ab.
+   S3 Pause: nach 3 Fehlschlägen sichtbar "pausiert bis …" in Zielzeile und Status, "fortsetzen" wirkt sofort.
+   S4 Mausrad-Kauf: ECHTER Kauf von 1 Stück eines sehr billigen Items (Höchstpreis ≤ 5c, vorher Bestätigung des
+      Spielers "Testkauf bis 5c erlaubt? Ja/Nein"; ohne Ja wird S4 übersprungen) – eine Raste = genau ein Kauf.
+   S5 Ruckeln: Bilder/s und längster Frame während 2 Min. Sniper-Modus (Ziel ≥ 30 Bilder/s, kein Frame > 50 ms),
+      Sync-Warteschlange (GoldSentinelMarkt v2 darf sie nicht füllen).
+   S6 Reaktionszeit: Zeit vom Erscheinen eines Angebots bis zur Anzeige (Ziel < 5 s, heute Ø 73 s).
+   Ergebnis wie die anderen Teile in den Testbericht (Uploader). Die Prüf-Sitzung wertet aus; erst danach gilt SN1951
+   als erledigt.
