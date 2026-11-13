@@ -7,6 +7,14 @@ NACH PRIORITÄT. Bei jeder Prüfung nachführen (pruef-ablauf.md A Schritt 8). E
 
 ## Für alle Projekte gleich (WICHTIG)
 
+- **SO DENKT DER NUTZER (zusammengefasst 14.11. 00:05, aus seinen Entscheiden – bei jeder Arbeit anwenden):**
+  1. Vom Spieler her: Nutzen zuerst, Casual, Gefühle zählen (Gier, Ärger bei Fehlkauf). 2. Einfach: nur Ergebnis
+  ("lohnt / lohnt nicht"), kein Schnickschnack, keine Rechenwege, Einzelheiten hinter einem Knopf. 3. Nur Gesichertes –
+  aber nicht ängstlich: vorsichtig, nicht defensiv; voller Vorteil, wo die Daten es tragen. 4. Zahlen müssen stimmen und
+  nachgerechnet sein; Widersprüche sofort klären. 5. Tempo: ruckelfrei, "pfeilschnell". 6. Handeln statt erklären: bei
+  "go"/"ja" sofort umsetzen und pushen, dann kurz melden; keine leeren Zwischenstände. 7. Nach Priorität, nichts vergessen,
+  Gehirn immer nutzen. 8. Selber mitdenken: Ideen bringen, Fehler selbst finden, statt nur Verlangtes abzuarbeiten.
+  9. Fragen, wenn es ihn betrifft (Abstände, Einstellungen) – nicht selbst festlegen.
 - **SPIELER-BILD (Nutzer 13.11. 23:57, gilt für JEDES Addon, immer im Hinterkopf):** Die Spieler sehen die Addons als
   Werkzeug, um mehr Gold zu machen (bzw. ihr Ziel leichter zu erreichen). Sie sind oft NICHT tief im Thema, eher Casual.
   Darum: klare Ergebnisse (lohnt / lohnt nicht), kein Fachjargon, keine Rechenwege, wenige Klicks, nichts, was man
