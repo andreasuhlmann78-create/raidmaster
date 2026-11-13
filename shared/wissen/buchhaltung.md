@@ -92,6 +92,29 @@ Buchhaltung die Kostenbasis des Bestands verloren hatte (43 von 57 Entzauberunge
 6. **Neustart der Buchhaltung = Eröffnungsbilanz:** Bestand behält seine Einstandspreise, nur die Gewinn-Zähler
    beginnen bei 0.
 
+## 5c. Jeder Goldfluss wird erfasst (Lehre vom 13.11., Hinweis des Nutzers)
+
+Eine Buchhaltung stimmt nur, wenn JEDER Gold-Abgang und -Zugang eine Buchung hat – sonst bleibt eine Lücke, die als
+"Verlust", "ohne Einkauf" (37 % des Erlöses, BH1307) oder falscher Lagerwert sichtbar wird. Die Prüf-Sitzung hat das
+bisher nur für das AH gedacht; der Nutzer musste darauf hinweisen. Ab jetzt bei JEDER Prüfung/Auftrag zur Buchhaltung
+diese Liste durchgehen (Checkliste, auch in der Pflicht-Checkliste wirtschaft-forever.md Abschnitt 7 anwenden):
+
+| Goldfluss | Ereignis im Spiel | Buchung |
+|---|---|---|
+| AH-Kauf / -Verkauf, Einzahlung, Gebühr | AH-Ereignisse, Rechnungs-Post | Einkauf / Erlös / Kosten |
+| Händler-Kauf (Taschen, Reagenzien, Munition) | MERCHANT_*, Gold-Abgang + Item | Einkauf (meist Eigenbedarf) |
+| Händler-Verkauf (Grau, Müll, Handelsware) | MERCHANT_*, Gold-Zugang | Erlös (mit Einstand, falls gekauft) |
+| Handel mit Spielern (Handelsfenster) | TRADE_* Gold/Items beider Seiten | Einkauf oder Erlös |
+| Nachnahme-Post (COD), Gold per Post | MAIL_* | Einkauf / Zugang / Überweisung an Twink |
+| Reparatur, Training, Flug, Stall, Bank-Fach | Gold-Abgang ohne Item | Spielkosten (nicht Handel) |
+| Questbelohnung, Beute, Gold von Mobs | Gold-Zugang ohne Kauf | Einnahme (nicht Handel) |
+| Gildenbank ein/aus | GUILDBANK_* | Überweisung |
+
+Grundsätze: (1) Jede Buchung trägt die HERKUNFT (AH/Händler/Spieler/Post/Quest …). (2) Was die eigenen Figuren
+anlegen, als Tasche einsetzen, verbrauchen oder an Twinks schicken = EIGENBEDARF (nicht Handelsgewinn). (3) Am Tagesende
+muss "Gold vorher + Zugänge − Abgänge = Gold nachher" aufgehen; der Rest steht sichtbar als "nicht zugeordnet".
+(4) Beim Prüfen einer Gewinn-Anzeige immer fragen: Welcher Goldfluss fehlt noch?
+
 ## 6. Quellen
 
 - [TSM: Why am I missing sales or purchase data on my items?](https://support.tradeskillmaster.com/en_US/addon/why-am-i-missing-sales-or-purchase-data-on-my-items)
