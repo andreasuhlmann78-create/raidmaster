@@ -12,7 +12,10 @@
 >>>    (3) Laufzeit-Caches nach Gebrauch leeren bzw. begrenzen. Messen vorher/nachher: Grundstand MB, Anzahl Objekte,
 >>>    Speicherbereinigungen beim Vollscan. Test T-RFM1 (Verlauf gepackt, Werte gleich, Objekte ≤ Grenze).
 
->>> PRÜFUNG 0.65.121 (Prüf-Sitzung 14.11. 00:10): addon_check OK.
+>>> PRÜFUNG 0.65.122 (Prüf-Sitzung 14.11. 00:20): addon_check OK. DE30b ENDGÜLTIG im Code belegt (A:DEGroupInfo: gemessen
+>>>    gut 20 / schlecht 30, ungemessen A:DETableReliable -> 20 sonst 25; DE_LEARN_SHARE entfernt; learnBudget in Learn/UI ist
+>>>    das alte allgemeine Lern-Budget, nicht DE30b). Offen: Client-Bestätigung, Faktor alt/neu aus dem nächsten Testbericht.
+>>> (alt) PRÜFUNG 0.65.121 (Prüf-Sitzung 14.11. 00:10): addon_check OK.
 >>>  - KF2: umgesetzt, im Code belegt (Disenchant.lua ~1470 Faktor = Summe/Summe ab CORR_MIN_N). Zahlen alt/neu je Gruppe
 >>>    bitte im Bericht nennen; Client-Bestätigung offen.
 >>>  - DE30b: ÜBERHOLTE FASSUNG umgesetzt (Zwischenstand 23:47: 25 % + Lern-Budget). Endgültig gilt der Entscheid 23:51
