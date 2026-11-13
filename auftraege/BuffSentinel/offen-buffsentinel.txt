@@ -101,3 +101,25 @@ BL (MITTEL, NEU 13.11. 07:45, Wunsch des Nutzers) – BEFEHLSLISTE BEIM TIPPEN M
        Handliste); T-BL2 Filter "/x w", "/x we" liefern genau die passenden; T-BL3 Klick wählt, Enter führt aus; T-BL4
        Chatfeld nie beschrieben; T-BL5 Entwickler-Befehle nur für den Entwickler; T-BL6 alle Sprachen ohne Platzhalter-
        Fehler. Alte Clients (Era, TBC) nicht brechen.
+
+
+BP-2026-11-13-1 (MITTEL, NEU 13.11., im Repo nachgetragen 14:15 – Blizzard-Hotfix, aktiv seit 12.11.2026 18:45 UTC)
+   Hinweis: Die Nachricht dazu kam schon um 07:50, der Punkt fehlte aber bis jetzt in dieser Datei (Fehler der
+   Prüf-Sitzung). Nicht in 0.9.15/0.9.16 enthalten -> für 0.9.17.
+   Quelle: Kaivax, "WoW: Forever Hotfixes – November 11, 2026", Post 12.11. 19:10 UTC
+   https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-11-2026/2403040/9
+   (EU: https://eu.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-11-2026/639885/8)
+   In eigenen Worten: Schamanen können Waffenverzauberung (Imbue) und Waffen-Totem jetzt gleichzeitig nutzen.
+   Waffe des Mahlstroms: 20 % kürzere Zauberzeit/Mana je Stapel auf allen Rängen, löst je Rang 6/7/8/9/10-mal pro
+   Minute aus (vorher 20). Sturmschlag 100 % Waffenschaden, Abklingzeit 8 Sek. (vorher 6).
+   Betroffen: Data/Shaman.lua (imbue_mh/imbue_oh, maelstrom_f, stormstrike) und Display.lua EvalBuff (0.9.16 Z. 1253:
+   Waffenbuff nur über "hasMH/hasOH" von GetWeaponEnchantInfo).
+   Risiko: Legt ein Waffen-Totem (z. B. Windzorn-/Flammenzunge-Totem) eine zeitweilige Waffenverzauberung auf, meldet
+   GetWeaponEnchantInfo "hasMH = true", obwohl die eigene Verzauberung fehlt -> BuffSentinel erinnert nicht mehr.
+   Lösung: zuerst im Client MESSEN (Schamane Verstärkung, Forever): Rückgabe von GetWeaponEnchantInfo (inkl.
+   Verzauberungs-ID) a) nur eigenes Imbue, b) nur Totem, c) beides – Ergebnis ins Diagnose-Protokoll. Erst danach:
+   Imbue an der Verzauberungs-ID bzw. am Zaubernamen erkennen, Totem-Verzauberung nicht als eigenes Imbue zählen.
+   Nichts raten; ohne Messung bleibt das jetzige Verhalten. Sturmschlag-Abklingzeit nur aus dem Client lesen.
+   Maelstrom (maelstrom_f ohne minStacks): prüfen, ob die Stapel-Warnung mit der neuen Auslöserate noch passt.
+   Test T-BP-1113-1 (bleibend): Attrappe GetWeaponEnchantInfo mit Fall a/b/c -> Erinnerung nur, wenn das eigene Imbue
+   fehlt; Fall "unbekannte ID" -> heutiges Verhalten (keine falsche Warnung).

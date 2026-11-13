@@ -1,6 +1,6 @@
 # Blizzard-Blueposts – Stand der Prüfung (für die geplante Aufgabe "Blizzard-Blueposts für GoldSentinel-Projekte prüfen")
 
-Geprüft bis: 13.11.2026 07:50 (geplante Aufgabe Blueposts). Neuester Blue-Post: Kaivax 12.11. 19:10 UTC; nichts vom 13.11.
+Geprüft bis: 13.11.2026 07:50 (geplante Aufgabe Blueposts). Neuester Blue-Post: Kaivax 12.11. 19:10 UTC; nichts vom 13.11. Kontrolle 13.11. 14:15: AHSentinel BP umgesetzt (0.65.107, T572), BuffSentinel BP nachgetragen.
 
 ## Schon bearbeitet
 | Datum | Post | URL | Folge |
@@ -8,7 +8,7 @@ Geprüft bis: 13.11.2026 07:50 (geplante Aufgabe Blueposts). Neuester Blue-Post:
 | 10./11.11.2026 | WoW: Forever Hotfixes – November 10 (Kaivax): Mindest-Einzahlung 1s -> 1c "with the realm restarts"; Händlerpreise gesenkt (Eisengranate 1s25 statt 5s, Schwaches arkanes Elixier 5c statt 25c, einige hergestellte Rüstung) | https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-10-2026/2403040/6 | wirtschaft-forever.md nachgeführt; AHSentinel HP (Händlerpreis aus dem Client, 1c nicht fest einbauen) |
 | 12.11.2026 | WoW: Forever Hotfixes – November 11 (Kaivax, Post 12.11. 19:10) – nichts zu AH/Einzahlung | https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-11-2026/2403040/9 | keine |
 | 12.11.2026 00:48 UTC | Kaivax Post #7: AH-Änderungen aus Hotfix 10.11. herausgenommen, kommen mit Wochenwartung 17.11. (EU 18.11. laut Zweitquellen) | https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-11-2026/2403040/7 | wirtschaft-forever.md (Termin US/EU); AHSentinel BP-2026-11-13-1 (NIEDRIG) |
-| 12.11.2026 19:10 UTC | Kaivax Post #9 (EU #8): Schamanen-Änderungen live 18:45 UTC – Imbue + Waffen-Totem gleichzeitig, Mahlstrom 20 %/Stapel und 6–10 Auslösungen/Min., Sturmschlag 100 %/8 Sek. | https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-11-2026/2403040/9 | BuffSentinel BP-2026-11-13-1 (MITTEL, Messauftrag GetWeaponEnchantInfo) |
+| 12.11.2026 19:10 UTC | Kaivax Post #9 (EU #8): Schamanen-Änderungen live 18:45 UTC – Imbue + Waffen-Totem gleichzeitig, Mahlstrom 20 %/Stapel und 6–10 Auslösungen/Min., Sturmschlag 100 %/8 Sek. | https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-11-2026/2403040/9 | BuffSentinel BP-2026-11-13-1 (MITTEL, Messauftrag GetWeaponEnchantInfo; erst 13.11. 14:15 ins Repo nachgetragen, offen für 0.9.17)  |
 | 10./11.11.2026 (Nachlese) | Hotfix-Listen 9.–11.11.: Quest-Gold ab Stufe 48 erhöht; Schneider-Taschen mehr Stoffballen; Grober Schleifstein 90, Gerbrahmen 125, Arkaner Wiederverwerter; Paladin-Richturteil = Fernkampf; Salve ohne Procs; Dungeon-EP +50 %; Gegenstandswiederherstellung aus | https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-11-2026/2403040 | Quest-Gold ins Regelwerk; ProfessionSentinel Data_Forever.lua hat Taschen/Schleifstein/Gerbrahmen schon richtig -> kein Auftrag; ThreatSentinel/Paladin, Jäger: kein Einfluss gefunden; LevelPilot: kein Addon-ZIP in download/, nicht geprüft |
 
 ## Vorgemerkte Termine
