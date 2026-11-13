@@ -118,8 +118,23 @@ HINWEIS FÜR KÜNFTIGE VERSIONEN
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/RaidMaster/ ablegen.
 
-U-UP (NIEDRIG, NEU 13.11. 12:08 – Bild des Nutzers beim Update auf 2.3.2): Startet 2.3.2, während noch ein Uploader vor 2.3.2
-   läuft, meldet es "Der Uploader läuft schon (PID ?, … Version vor 2.3.2). Dieses Fenster wird nicht gebraucht" und beendet
-   sich – der ALTE läuft weiter, das Update greift nicht. Lösung: Bei einer älteren Version anbieten "Alte Version beenden
-   und 2.3.2 starten? (J/N)" (Prozess über Fenstertitel/Kommandozeile mit uploader.py im gleichen Ordner finden), sonst
-   klarer Hinweis "Bitte zuerst das alte Uploader-Fenster schliessen, dann neu starten". Test dazu.
+T-DU12 (HOCH, NEU 13.11. 12:10 – ersetzt U-UP; Bild des Nutzers 12:03, Rechner mit Ordner C:\Users\<Nutzer>\Documents\RaidMasterUploader)
+   Uploader 2.3.2 (PID 26060) meldet beim Start: "Der Uploader läuft schon (PID ?, Ordner …\RaidMasterUploader, Version vor
+   2.3.2). Dieses Fenster wird nicht gebraucht – du kannst es schliessen." und beendet sich. Laut Nutzer läuft KEIN anderer
+   Uploader. Verdacht: falscher Alarm der Einzel-Instanz-Sperre aus T-DU11 – eine liegengebliebene Sperre/Status der
+   Version 2.3.1 ohne PID ("PID ?") wird als laufender Uploader gewertet. Folge: 2.3.2 startet NIE, das Update greift nicht,
+   und es wird gar nichts mehr hochgeladen oder abgeglichen.
+   AUFTRAG (die RaidMaster-Sitzung hat Zugriff auf den Rechner des Nutzers – bitte dort selbst prüfen, nichts löschen ohne
+   Rückfrage, config.json/uploader_config.json/daten_config.json nie lesen oder ändern):
+   1 Prüfen, ob wirklich ein zweiter Uploader läuft: Prozessliste (tasklist /v, wmic/Get-CimInstance Win32_Process mit
+     Kommandozeile) nach python/pythonw/py mit uploader.py bzw. sync.py, auch versteckte Fenster und Autostart
+     (Autostart-Ordner, Aufgabenplanung, Registry Run). Ergebnis mit Prozess, PID, Ordner und Startzeit im Bericht.
+   2 Sperr-/Statusdatei(en) ansehen, auf die die Prüfung "läuft schon" schaut (Inhalt ohne Geheimnisse in den Bericht).
+   3 Ist kein Prozess da: Fehler in 2.3.2 beheben – eine Sperre gilt nur mit PID, deren Prozess lebt UND uploader.py aus
+     DIESEM Ordner ausführt; Sperre ohne PID oder mit totem/fremdem Prozess = veraltet -> übernehmen, Zeile im Fenster
+     "alte Sperre von <Version> entfernt". Läuft wirklich ein alter Uploader: anbieten "Alte Version beenden und 2.3.2
+     starten? (J/N)".
+   4 Nach dem Fix auf dem Rechner 2.3.2 starten und belegen: "RaidMaster-Uploader 2.3.2", Abgleich und Lieferung laufen.
+   Tests: T-DU12a Sperre ohne PID -> übernehmen; T-DU12b PID tot -> übernehmen; T-DU12c PID lebt, aber anderer Prozess
+   (PID wiederverwendet) -> übernehmen; T-DU12d echter zweiter Uploader -> Meldung + Angebot; T-DU12e alte 2.3.1-Statusdatei.
+   Bericht in berichte/RaidMaster/ mit dem Ergebnis von 1 und 2.
