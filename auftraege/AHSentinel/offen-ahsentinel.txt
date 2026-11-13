@@ -18,7 +18,10 @@ Einzelheiten zu jedem Punkt stehen weiter unten (Suche nach dem Kürzel). Diese 
 0. RUHEMODUS  EINGERICHTET laut Bericht 0.65.124 (send_later vorhanden, eine Runde offen) – dauerhaft einhalten: "NIE IM RUHEMODUS" (Block
                         ganz oben): Weck-Runde alle 5 Min. per send_later an dich selbst, nur EINE offen, unterbricht nie,
                         still weiterarbeiten. Erste Weck-Runde JETZT planen, dann weiter mit 1.
-1a. BH-AUS-2 SEHR HOCH (GOLD/VERTRAUEN, Prüf-Sitzung 14.11. 01:05, VOR RF-M1 – laufende Arbeit sauber abschliessen,
+1a. BH-AUS-2 ZUR PRÜFUNG 0.65.125 (Prüf-Sitzung 01:20: addon_check OK; Books.lua MoveCostToInvoice bucht den Einstand auf die
+                        Rechnung, Rest nur bei bereits bezahlter Rechnung ins Lager; RepairPendingAUS2 nimmt den Lager-Zugang
+                        aus 0.65.124 zurück; Merker nur bei Erfolg (BH-AUS-R). Offen: echte Zahlen im nächsten Testbericht –
+                        erwartet Gewinn ca. 20g53). Bericht 0.65.125 fehlt noch. (Ursprünglich: SEHR HOCH, Prüf-Sitzung 14.11. 01:05, VOR RF-M1 – laufende Arbeit sauber abschliessen,
                         dann sofort): Die Reparatur in 0.65.124 legt den Einstand der ausstehenden Buchungen ins LAGER zurück
                         (Books.lua RepairPendingAUS: Put(db, p.ch, p.id, known, p.cost)). Das ist falsch: Die Ware ist VERKAUFT
                         (die Rechnung hat genau diese Stücke) – nur der Rechnung fehlte der Einstand (free). Nachgerechnet mit
@@ -37,7 +40,8 @@ Einzelheiten zu jedem Punkt stehen weiter unten (Suche nach dem Kürzel). Diese 
                         Kleinbefund BH-AUS-R (NIEDRIG): Books.lua:1043 setzt repairedBHAUS auch, wenn die Reparatur
                         mit Fehler abbricht – Merker nur bei Erfolg setzen, Fehler in die Diagnose. Ursprünglich: Gewinn falsch: 53 "ausstehende" Verkäufe zusätzlich zum Kassenbuch (43g49 statt ~20g53);
                         Gold-Abstimmung leer.
-2. RF-M1 / RF SEHR HOCH  JETZT DRAN (eigene Version, Test T-RFM1). (0.65.123: Speicher-Aufschlüsselung im Tempo-Test da – Messung im Client offen) Ruckeln: 240 MB Grundstand (~150 MB Laufzeit-Caches), Preisverlauf gepackt (Objekte 220k -> 7k),
+2. RF-M1 / RF SEHR HOCH  0.65.125: Preisverlauf zur Laufzeit flach – ZUR PRÜFUNG (Bericht, T-RFM1, Messung im Client offen).
+                        Danach weiter: Caches begrenzen, Scan grosser Markt, Vollscan-Einlesen. (alt: JETZT DRAN) (0.65.123: Speicher-Aufschlüsselung im Tempo-Test da – Messung im Client offen) Ruckeln: 240 MB Grundstand (~150 MB Laufzeit-Caches), Preisverlauf gepackt (Objekte 220k -> 7k),
                         Scan grosser Markt 141–150 ms, Vollscan-Einlesen 159 ms, +88 MB beim Vollscan. Danach PS-Ziele.
 3. 0.65.115-Rest MITTEL  T373/TS111.1-Rest, TS111.2b/T555b-Tests, UI1618a-R, SBX1, UI1509, UI1510, FW1 (Releaseplan).
 3a. PR1        HOCH       Verkaufs-Prognose (Prüf-Sitzung 14.11. 01:00, nachgerechnet aus forecast.list, 81 Einstellungen,
