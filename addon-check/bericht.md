@@ -9,9 +9,9 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## BuffSentinel-0.9.14.zip: OK
 
-## GuildSentinel-0.9.30.zip: OK
+## GuildSentinel-0.9.31.zip: OK
 
-## ProfessionSentinel-0.9.40.zip: OK
+## ProfessionSentinel-0.9.41.zip: OK
 
 ## RaidMaster-3.0.23.zip: OK
 
