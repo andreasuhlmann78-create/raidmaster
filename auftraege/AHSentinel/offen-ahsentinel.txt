@@ -4,6 +4,10 @@
 >>>    auftraege/AHSentinel/offen-ahsentinel.txt Liste PRIORITÄTEN lesen, obersten offenen Punkt umsetzen bzw. weiter-
 >>>    machen, veröffentlichen, Bericht, dann nächste Weck-Runde in 5 Min." – solange in der Prio-Liste etwas offen ist.
 >>>    Läuft gerade eine Arbeit, die Runde nur nutzen, um ins Repo zu schauen (neue Aufträge), dann weiterarbeiten.
+>>>    NICHT STÖREN (Nutzer 00:29): Die Weck-Runde darf die Arbeit nie unterbrechen. send_later unterbricht keinen laufenden
+>>>    Schritt (die Erinnerung wartet, bis er fertig ist). Immer nur EINE Weck-Runde offen (keine zweite planen, solange
+>>>    eine aussteht). Kommt sie mitten in einer längeren Arbeit: nur kurz git pull (neue Aufträge?), sonst still
+>>>    weiterarbeiten – keine Meldung an den Nutzer, kein Neuanfang, keine Zusammenfassung. Nur Neues melden.
 >>>    Nur ruhen, wenn die Prio-Liste leer ist ODER der Nutzer es ausdrücklich sagt. Fehlt send_later in der Sitzung:
 >>>    im Bericht melden.
 

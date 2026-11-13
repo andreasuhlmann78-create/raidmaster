@@ -3,5 +3,8 @@ Entscheid des Nutzers 14.11. 00:28: Das AHSentinel-Projekt darf nie in den Ruhem
 Plane dir am Ende JEDER Antwort/Arbeit mit send_later (delay_minutes 5) selbst eine Weck-Runde:
 "Weck-Runde: git pull --rebase, offen-ahsentinel.txt Liste PRIORITÄTEN lesen, obersten offenen Punkt umsetzen bzw.
 weitermachen, veröffentlichen, Bericht, dann nächste Weck-Runde in 5 Min."
-Solange in der Prio-Liste etwas offen ist. Ruhen nur, wenn die Liste leer ist oder der Nutzer es sagt.
+Solange in der Prio-Liste etwas offen ist.
+NICHT STÖREN (Nutzer 00:29): Die Weck-Runde unterbricht nie die Arbeit (send_later wartet, bis ein Schritt fertig ist).
+Immer nur EINE Weck-Runde offen. Kommt sie mitten in längerer Arbeit: nur kurz git pull, dann still weiter – keine
+Meldung, kein Neuanfang. Nur Neues melden. Ruhen nur, wenn die Liste leer ist oder der Nutzer es sagt.
 Jetzt sofort die erste Weck-Runde planen und mit BH-AUS weitermachen. Fehlt send_later: im Bericht melden.
