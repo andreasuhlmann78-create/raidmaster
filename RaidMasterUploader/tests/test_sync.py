@@ -135,7 +135,8 @@ class Abgleich(unittest.TestCase):
         self.assertIn('"v"] = 1', self.lap.read("SavedVariables/RaidMaster.lua"))
         self.assertEqual(self.lap.backups(), [])
         self.assertEqual(len(self.lap.notes), 1)
-        self.assertIn("Neuerer Stand vom PC – WoW beenden, dann übernehmen", self.lap.notes[0])
+        self.assertIn("Neuerer Stand vom PC (", self.lap.notes[0])               # 2.3.2: mit Zeit und Spielversion
+        self.assertIn("WoW beenden, dann übernehmen", self.lap.notes[0])
         self.lap.sync.tick(now=T0 + 900)                       # nicht jedes Mal neu melden
         self.assertEqual(len(self.lap.notes), 1)
         self.assertIn("NICHT aktuell", self.lap.sync.status_line())
@@ -450,7 +451,7 @@ class Sofort(unittest.TestCase):
         with open(uploader.__file__, encoding="utf-8") as f:
             src = f.read()
         body = src[src.index("def wow_start"):src.index("def main")]
-        self.assertLess(body.index("lock_active"), body.index("sy.pull()"))
+        self.assertLess(body.index("instance_running"), body.index("sy.pull()"))   # ab 2.3.2 (prüft auch die Sperre)
 
     def test_sy13_unveraenderte_dateien_nicht_neu_lesen(self):
         self.pc.write("SavedVariables/AHSentinel.lua", AH_PC, T0)
@@ -596,6 +597,108 @@ class Reload(unittest.TestCase):
         text = self.lap.read("SavedVariables/AHSentinel.lua")
         self.assertIn('["n"] = 300', sync.top_blocks(text)["AHSentinelDB"])
         self.assertIn('["n"] = 85', sync.top_blocks(text)["AHSentinelMerge"])
+
+
+class ZweiterProzess(unittest.TestCase):
+    """2.3.2: T-DU11 – Meldung "Neuerer Stand vom <eigener Rechner>" durch einen zweiten Uploader-Prozess."""
+
+    def setUp(self):
+        self.d = tempfile.mkdtemp()
+        self.store = FakeStore()
+        self.pc = Machine(self.d, "PC", self.store)
+        self.lap = Machine(self.d, "Laptop", self.store)
+
+    def tearDown(self):
+        shutil.rmtree(self.d, ignore_errors=True)
+
+    def second_process(self, st):
+        """Zweiter Prozess am selben Rechner (gleicher Name, gleicher Ordner) mit älterem Zustand."""
+        notes, logs = [], []
+        sy = sync.Sync(self.store, self.pc.acc, json.loads(json.dumps(st)), lambda: None, "PC", logs.append,
+                       is_wow_running=lambda: True, notify=notes.append)
+        return sy, notes, logs
+
+    def test_du11_eigener_upload_nie_neuer(self):
+        # Ablauf vom 13.11.: Laptop-Stand übernehmen, eigenen Stand hochladen, WoW starten
+        self.lap.write("SavedVariables/AHSentinel.lua", AH_LAPTOP, T0)
+        self.lap.sync.push(now=T0 + 100)
+        self.assertTrue(self.pc.sync.pull(now=T0 + 200))
+        old_state = json.loads(json.dumps(self.pc.st))                     # Zustand des zweiten Prozesses
+        self.pc.write("SavedVariables/AHSentinel.lua", AH_PC, T0 + 300)
+        self.assertTrue(self.pc.sync.push(now=T0 + 400))
+        self.assertEqual(self.pc.sync.pending(), [])                     # pull, push -> nichts offen
+        b, notes, logs = self.second_process(old_state)
+        for t in range(500, 1500, 30):                                    # WoW läuft, Uploader prüft weiter
+            b.next_remote = 0
+            b.tick(now=T0 + t)
+        self.assertEqual(b.pending(), [])
+        self.assertEqual(notes, [])
+        self.assertFalse(any("Neuerer Stand" in l for l in logs))
+        self.assertIn("dieser Rechner aktuell", b.status_line())
+
+    def test_du11_meldung_nennt_anderen_rechner_einmal(self):
+        self.pc.sync.tick(now=T0)
+        self.pc.running = True
+        self.pc.sync.tick(now=T0 + 200)                                   # WoW läuft schon (kein frischer Start)
+        self.lap.write("SavedVariables/AHSentinel.lua", AH_LAPTOP, T0 + 300)
+        self.lap.sync.push(now=T0 + 400)
+        for t in range(500, 1200, 30):
+            self.pc.sync.next_remote = 0
+            self.pc.sync.tick(now=T0 + t)
+        self.assertEqual(len(self.pc.notes), 1)
+        self.assertIn("vom Laptop", self.pc.notes[0])
+        self.assertIn("Konto", self.pc.notes[0])                          # Spielversion/Konto genannt
+        self.assertNotIn("vom PC", self.pc.notes[0])
+        # der PC lädt selbst etwas hoch (anderes Konto) -> keine neue Meldung
+        # neuer Stand des Laptops -> genau eine weitere Meldung
+        self.lap.write("SavedVariables/AHSentinel.lua", AH_LAPTOP.replace("85", "86"), T0 + 1300)
+        self.lap.sync.push(now=T0 + 1400)
+        for t in range(1500, 1800, 30):
+            self.pc.sync.next_remote = 0
+            self.pc.sync.tick(now=T0 + t)
+        self.assertEqual(len(self.pc.notes), 2)
+        # Neustart des Uploaders (gleicher Zustand) -> derselbe Stand wird nicht nochmals gemeldet
+        b, notes, _ = self.second_process(self.pc.st)
+        b.next_remote = 0
+        b.tick(now=T0 + 1900)
+        b.next_remote = 0
+        b.tick(now=T0 + 1950)
+        self.assertEqual(notes, [])
+
+    def test_du11_nur_ein_uploader(self):
+        info = os.path.join(self.d, "instanz.json")
+        here = os.path.join(self.d, "u")
+        os.makedirs(here)
+        ok, other = sync.instance_acquire(here, "2.3.2", path=info)
+        self.assertTrue(ok)
+        self.assertEqual(sync.instance_info(info)["pid"], os.getpid())
+        # ein anderer, laufender Prozess hält die Instanz (hier: der Elternprozess dieses Tests)
+        with open(info, "w") as f:
+            json.dump({"pid": os.getppid(), "ordner": "C:/alt/RaidMasterUploader", "version": "2.3.0"}, f)
+        ok, other = sync.instance_acquire(here, "2.3.2", path=info)
+        self.assertFalse(ok)
+        self.assertEqual(other["ordner"], "C:/alt/RaidMasterUploader")
+        self.assertTrue(sync.instance_running(here, path=info))
+        # beendeter Prozess -> frei
+        with open(info, "w") as f:
+            json.dump({"pid": 999999, "ordner": "x"}, f)
+        self.assertIsNone(sync.instance_running(here, path=info))
+        # Uploader vor 2.3.2 im selben Ordner (frische Abgleich-Sperre eines anderen Prozesses)
+        with open(os.path.join(here, sync.LOCK_FILE), "w") as f:
+            json.dump({"pid": -1, "t": __import__("time").time()}, f)
+        self.assertTrue(sync.instance_running(here, path=info))
+        import uploader
+        with open(uploader.__file__, encoding="utf-8") as f:
+            src = f.read()
+        main = src[src.index("def main"):]
+        self.assertLess(main.index("instance_acquire"), main.index("load_config()"))
+        self.assertIn("PID {os.getpid()}", main)
+        starter = src[src.index("def wow_start"):src.index("def main")]
+        self.assertLess(starter.index("instance_running"), starter.index("sy.pull()"))
+        self.assertIn("notify=notify_logged", src)                         # jeder Hinweis steht im Fenster
+        with open(os.path.join(os.path.dirname(uploader.__file__), "Autostart-einrichten.bat"), encoding="utf-8") as f:
+            bat = f.read()
+        self.assertIn("Remove-Item", bat)                                   # alte/doppelte Einträge ersetzen
 
 
 class Groesse(unittest.TestCase):

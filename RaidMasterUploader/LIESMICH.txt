@@ -174,3 +174,26 @@ Version 2.3.1 – Daten-Lieferung: Fehler beim Einrichten behoben:
   tage/<Datum>/<Rechner>/…) und überschreibt nur den. Dasselbe Konto hat auf beiden Rechnern dieselbe Kennung
   (konto-xxxxxxxx, aus dem Kontonamen berechnet; der Name selbst steht nie im Repo).
 - Die Startdateien rufen zuerst "py" auf – die verwirrende Zeile "Python wurde nicht gefunden …" fällt weg.
+
+Version 2.3.2 – nur noch EIN Uploader, keine Fehl-Meldung "Neuerer Stand vom <eigener Rechner>":
+- Ursache der Meldung (13.11.): Am PC liefen zwei Uploader gleichzeitig (Autostart und ein zweites Fenster). Der
+  zweite kannte den neuesten Upload des ersten nicht und hielt ihn für einen neueren Stand – mit dem eigenen
+  Rechnernamen, nach jedem Upload erneut.
+- Jetzt läuft je Rechner nur EIN Uploader, auch aus verschiedenen Ordnern. Ein zweiter Start schreibt "Der Uploader
+  läuft schon (PID …, Ordner …)" und tut nichts.
+- Was dieser Rechner selbst hochgeladen hat, gilt nie als "neuerer Stand".
+- Die Meldung nennt den richtigen Rechner, die Zeit und die Spielversion ("Neuerer Stand vom Laptop (12.11. 20:15,
+  _forever_) …") und kommt höchstens einmal je neuem Stand – auch nach einem Neustart nicht nochmals.
+- Jeder Windows-Hinweis steht auch im Uploader-Fenster (mit PID). Beim Start steht dort Version, Ordner und PID.
+- Autostart-einrichten.bat ersetzt alte oder doppelte Uploader-Einträge im Autostart durch genau einen. Findet der
+  Uploader mehrere Einträge, sagt er das beim Start.
+- GoldSentinel-WoW.bat gleicht nie ab, solange ein Uploader läuft (auch eine ältere Version).
+- Daten für die Prüfung: Liefern PC und Laptop genau gleichzeitig, gilt eine Lieferung erst als erledigt, wenn sie
+  wirklich im Repo steht; sonst neuer Versuch nach 1 Minute.
+
+  EINMAL NACH DEM UPDATE (je Rechner):
+  1. Alle Uploader-Fenster schliessen (auch minimierte in der Taskleiste).
+  2. Den Ordner RaidMasterUploader durch die neue Fassung ersetzen (uploader_config.json, sync_config.json,
+     daten_config.json und uploader_state.json behalten).
+  3. Autostart-einrichten.bat doppelklicken (räumt doppelte Einträge auf).
+  4. uploader.bat doppelklicken. Im Fenster steht "RaidMaster-Uploader 2.3.2 · Ordner … · PID …".

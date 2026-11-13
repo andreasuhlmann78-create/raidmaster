@@ -1,7 +1,8 @@
 """Addon-Daten für die Prüf-Sitzung in ein PRIVATES GitHub-Repo liefern – ab Uploader 2.3.0.
 
 Auftrag: auftraege/RaidMaster/anweisung-uploader-daten-pruefung.txt (Entscheid des Nutzers 11.11.2026, mit den
-Nachträgen 20:30 "bei jedem /reload" und 20:35 "kein endloser Datenschrott"); 2.3.1: offen-raidmaster.txt T-DU7–T-DU10.
+Nachträgen 20:30 "bei jedem /reload" und 20:35 "kein endloser Datenschrott"); 2.3.1: offen-raidmaster.txt T-DU7–T-DU10;
+2.3.2: U1 (gleichzeitige Lieferung zweier Rechner geht nie verloren).
 
 DU1 Ziel: ein privates Repo des Nutzers (z. B. <Besitzer>/goldsentinel-daten). Zugang über einen Fine-grained-Token NUR
     für dieses Repo (Contents: Read and write). Repo und Token stehen in daten_config.json neben dem Uploader (geheim, nie
@@ -517,7 +518,16 @@ class Daten:
                 if attempt == 0 and self.api.head(branch) != head:
                     continue
                 self.api.set_ref(branch, commit)
+                # U1 (ab 2.3.2): nur "geliefert", wenn der Kopf danach wirklich unser Commit ist – sonst hat der andere
+                # Rechner gleichzeitig ersetzt; dann gilt nichts als erledigt und es folgt ein neuer Versuch
+                if self.api.head(branch) != commit:
+                    self.last_error = "anderer Rechner lieferte gleichzeitig – neuer Versuch in 1 Min."
+                    self.retry_at = now + MIN_GAP
+                    self.log("Prüfung: anderer Rechner lieferte gleichzeitig – neuer Versuch in 1 Minute.")
+                    return False
                 break
+            else:
+                raise GitHubError("Daten-Repo änderte sich bei jedem Versuch")
         except GitHubError as e:
             self.last_error = str(e)
             self.retry_at = now + RETRY_SECONDS

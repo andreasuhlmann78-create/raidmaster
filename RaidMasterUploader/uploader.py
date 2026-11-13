@@ -69,7 +69,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sync  # noqa: E402  (Abgleich PC/Laptop, ab 2.1.0)
 import daten  # noqa: E402  (Daten für die Prüf-Sitzung, ab 2.3.0)
 
-VERSION = "2.3.1"
+VERSION = "2.3.2"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400
@@ -829,7 +829,13 @@ def make_sync(st: dict, path: str) -> "sync.Sync | None":
     roots = sync.find_roots() or {"wow/" + os.path.basename(sync.account_dir(path)): sync.account_dir(path)}
     log("Abgleich für: " + ", ".join(sorted(k.split("/")[0] for k in roots)))
     return sync.Sync(store, roots, st, lambda: save_state(st), sync.machine_name(conf), log,
-                     notify=sync.notify_windows, backup_dir=os.path.join(HERE, sync.BACKUP_DIR))
+                     notify=notify_logged, backup_dir=os.path.join(HERE, sync.BACKUP_DIR))
+
+
+def notify_logged(text: str):
+    """Ab 2.3.2 (T-DU11 b): Jeder Windows-Hinweis steht auch im Fenster – mit PID, damit man den Prozess findet."""
+    log(f"Windows-Hinweis (PID {os.getpid()}): {text}")
+    sync.notify_windows(text)
 
 
 def make_daten(st: dict, path: str, syncer=None) -> "daten.Daten | None":
@@ -860,8 +866,9 @@ def wow_start():
     sy = make_sync(st, path)
     if sy is None:
         log("Abgleich nicht eingerichtet (sync_config.json fehlt) – in Discord /uploader ausführen.")
-    elif sync.lock_active(HERE):
-        # offen 2: der laufende Uploader gleicht ab (auch beim WoW-Start) – hier nichts schreiben
+    elif sync.instance_running(HERE):
+        # offen 2 / T-DU11: der laufende Uploader gleicht ab (auch beim WoW-Start) – hier nichts lesen, schreiben
+        # oder melden
         log("Der Uploader läuft – er gleicht ab. Starte nur WoW.")
     elif sy.is_wow_running():
         log("WoW läuft schon – nichts übernommen.")
@@ -911,7 +918,20 @@ def main():
                   "Noch nicht eingerichtet – zuerst Daten-Repo-einrichten.bat.")
         input("Enter zum Beenden ...")
         return
-    log(f"RaidMaster-Uploader {VERSION}")
+    log(f"RaidMaster-Uploader {VERSION} · Ordner {HERE} · PID {os.getpid()}")
+    # ab 2.3.2 (T-DU11 a): nur EIN Uploader je Rechner – ein zweiter Start meldet das und beendet sich
+    ok, other = sync.instance_acquire(HERE, VERSION)
+    if not ok:
+        where = (other or {}).get("ordner") or "?"
+        log(f"Der Uploader läuft schon (PID {(other or {}).get('pid', '?')}, Ordner {where}, Version "
+            f"{(other or {}).get('version', '?')}). Dieses Fenster wird nicht gebraucht – du kannst es schliessen.")
+        return
+    import atexit
+    atexit.register(sync.instance_release)
+    starts = sync.startup_entries()
+    if len(starts) > 1:
+        log("Hinweis: Im Windows-Autostart stehen mehrere Uploader-Einträge (" + ", ".join(starts) + ") – "
+            "Autostart-einrichten.bat einmal ausführen, dann bleibt nur einer.")
     cfg = load_config()
     stored = cfg.get("savedvariables_path") or ""
     had_stored = bool(stored) and os.path.isfile(stored)

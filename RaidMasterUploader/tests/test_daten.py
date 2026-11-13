@@ -524,5 +524,53 @@ class ZweiRechner(unittest.TestCase):
         self.assertEqual(files[f"aktuell/Laptop/forever/{k}/AHSentinel.lua"], b"AHSentinelDB = { 'laptop2' }\n")
 
 
+class Gleichzeitig(ZweiRechner):
+    """2.3.2: T-DU12 (U1) – der Kopf ändert sich bei beiden Versuchen -> kein Verlust, erneuter Versuch."""
+
+    def test_du12_kopf_aendert_sich_zweimal(self):
+        pc, pr = self.machine("PC", ["123456789#1"])
+        lap, lr = self.machine("Laptop", ["123456789#1"])
+        k = daten.konto_id("123456789#1")
+        self.put(lr["_forever_/123456789#1"], "AHSentinel.lua", "AHSentinelDB = { 'laptop' }\n", T0)
+        self.drive(lap, T0 + 1, T0 + 20)
+        self.put(pr["_forever_/123456789#1"], "AHSentinel.lua", "AHSentinelDB = { 'pc' }\n", T0 + 100)
+        self.drive(pc, T0 + 101, T0 + 106)
+        # bei jedem Versuch des PCs liefert der Laptop dazwischen (zuletzt sogar nach dem Ersetzen)
+        orig_set = pc.api.set_ref
+        n = {"i": 0}
+
+        def set_ref(branch, sha):
+            orig_set(branch, sha)
+            n["i"] += 1
+            if n["i"] == 1:
+                self.put(lr["_forever_/123456789#1"], "AHSentinel.lua", f"AHSentinelDB = {{ 'laptop{n['i']}' }}\n",
+                         T0 + 200)
+                lap.d["last_try"] = 0
+                self.drive(lap, T0 + 201, T0 + 220)                   # Laptop überschreibt den PC-Stand
+        pc.api.set_ref = set_ref
+        orig_head = pc.api.head
+        h = {"i": 0}
+
+        def head(branch):
+            h["i"] += 1
+            if h["i"] == 2:                                          # zwischen Lesen und Ersetzen (Versuch 1)
+                self.put(lr["_forever_/123456789#1"], "AHSentinel.lua", "AHSentinelDB = { 'laptop0' }\n", T0 + 150)
+                lap.d["last_try"] = 0
+                self.drive(lap, T0 + 151, T0 + 170)
+            return orig_head(branch)
+        pc.api.head = head
+        logs = []
+        pc.log = logs.append
+        self.drive(pc, T0 + 106, T0 + 130)
+        self.assertFalse(any("geliefert" in l for l in logs))
+        self.assertTrue(any("gleichzeitig" in l for l in logs))
+        self.assertNotEqual(pc.d.get("sig_done"), pc.sig)                # nicht als erledigt gemerkt
+        pc.api.head, pc.api.set_ref = orig_head, orig_set
+        self.drive(pc, T0 + 300, T0 + 330)                                # neuer Versuch nach 1 Min.
+        files = self.gh.files()
+        self.assertEqual(files[f"aktuell/PC/forever/{k}/AHSentinel.lua"], b"AHSentinelDB = { 'pc' }\n")
+        self.assertEqual(files[f"aktuell/Laptop/forever/{k}/AHSentinel.lua"], b"AHSentinelDB = { 'laptop1' }\n")
+
+
 if __name__ == "__main__":
     unittest.main()

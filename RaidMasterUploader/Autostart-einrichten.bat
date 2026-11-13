@@ -1,5 +1,6 @@
 @echo off
 title RaidMaster-Uploader: Autostart einrichten
-powershell -NoProfile -ExecutionPolicy Bypass -Command "$w=New-Object -ComObject WScript.Shell; $s=$w.CreateShortcut([Environment]::GetFolderPath('Startup')+'\RaidMaster-Uploader.lnk'); $s.TargetPath='%~dp0uploader.bat'; $s.WorkingDirectory='%~dp0'; $s.WindowStyle=7; $s.Description='RaidMaster-Uploader (Abgleich PC/Laptop)'; $s.Save()"
-if errorlevel 1 (echo Fehler - Verknuepfung nicht angelegt.) else (echo Fertig: Der Uploader startet ab jetzt bei jeder Anmeldung automatisch, minimiert.)
+rem ab 2.3.2 (T-DU11 d): genau EIN Eintrag - alte/doppelte Uploader-Eintraege im Autostart werden ersetzt
+powershell -NoProfile -ExecutionPolicy Bypass -Command "$st=[Environment]::GetFolderPath('Startup'); $w=New-Object -ComObject WScript.Shell; $n=0; Get-ChildItem -LiteralPath $st -Filter *.lnk | ForEach-Object { $t=$w.CreateShortcut($_.FullName).TargetPath; if (($t -match '(?i)uploader\.(bat|py)$' -or $_.Name -match '(?i)raidmaster-uploader|goldsentinel') -and $_.Name -ne 'RaidMaster-Uploader.lnk') { Remove-Item -LiteralPath $_.FullName; $n++ } }; Get-ChildItem -LiteralPath $st -Filter *.bat | Where-Object { $_.Name -match '(?i)uploader|goldsentinel' } | ForEach-Object { Remove-Item -LiteralPath $_.FullName; $n++ }; $s=$w.CreateShortcut($st+'\RaidMaster-Uploader.lnk'); $s.TargetPath='%~dp0uploader.bat'; $s.WorkingDirectory='%~dp0'; $s.WindowStyle=7; $s.Description='RaidMaster-Uploader (Abgleich PC/Laptop)'; $s.Save(); if ($n -gt 0) { Write-Host ('Alte Autostart-Eintraege entfernt: ' + $n) }"
+if errorlevel 1 (echo Fehler - Verknuepfung nicht angelegt.) else (echo Fertig: Der Uploader startet ab jetzt bei jeder Anmeldung automatisch, minimiert - genau einmal.)
 pause

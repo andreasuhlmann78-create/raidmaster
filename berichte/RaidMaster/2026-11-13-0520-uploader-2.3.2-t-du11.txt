@@ -1,0 +1,35 @@
+BERICHT RAIDMASTER (UPLOADER) AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 05:20 · Sitzung: RaidMaster-Sitzung · Version: Uploader 2.3.2 · Commit: siehe git log (dieser Commit)
+
+ERLEDIGT:
+- T-DU11 (HOCH) Ursache belegt im Test: ein ZWEITER Uploader-Prozess am selben Rechner (gleicher Rechnername,
+  älterer Zustand in seinem Speicher). Seit 2.2.0 wartete ein zweiter Start nur bis zu 2 Min. auf _sync.lock und lief
+  dann trotzdem. Sein pending() sah den eigenen neuesten Upload des ersten Prozesses (rev > seine revs) als neuer an;
+  der Text nahm r["machine"] = letzter Index-Schreiber = der PC selbst. warned_seq galt je Index-seq -> nach jedem
+  Upload des ersten Prozesses erneut. Der erste Prozess loggte nichts, weil die Meldung nicht aus ihm kam.
+  (a) Einzel-Instanz: benannter Mutex (Windows, ordnerübergreifend) + Instanz-Datei mit PID-Prüfung + Fallback
+      frische _sync.lock eines anderen Prozesses (Uploader vor 2.3.2): sync.py instance_acquire/instance_running
+      (Zeile 237/216), uploader.py main (Zeile 923): zweiter Start meldet
+      "läuft schon (PID, Ordner, Version)" und tut nichts.
+  (b) Jeder Windows-Hinweis steht auch im Fenster mit PID (uploader.py notify_logged Zeile 835); Startzeile mit
+      Version, Ordner, PID. GoldSentinel-WoW.bat gleicht nie ab, wenn ein Uploader läuft (instance_running).
+  (c) pending() wertet Einträge mit machine == eigener Rechner nie als offen (sync.py Zeile 806); Meldung nennt je
+      offenem Stand Rechner, Zeit, Spielversion (pending_text); höchstens einmal je (Schlüssel, rev), gemerkt in
+      uploader_state.json (sync.warned) – auch nach Neustart keine Wiederholung.
+  (d) Autostart-einrichten.bat entfernt alte/doppelte Uploader-Einträge (.lnk mit Ziel uploader.bat/.py oder Name,
+      .bat im Autostart) und legt genau einen an; der Uploader warnt beim Start bei mehreren Einträgen.
+  Tests: tests/test_sync.py ZweiterProzess (T-DU11: pull, push, dann pending() leer; zweiter Prozess mit altem Zustand
+  meldet nichts; Meldung nennt den anderen Rechner, einmal je Stand, nicht nach Neustart; Einzel-Instanz).
+- U1 (NIEDRIG): nach set_ref wird der Kopf gelesen; nur wenn er der eigene Commit ist, gilt die Lieferung als
+  erledigt, sonst neuer Versuch nach 1 Min. (daten.py Zeile 521). Test T-DU12 (tests/test_daten.py Gleichzeitig).
+Prüfungen: test_daten 12/12, test_sync 30/30, test_uploader 16/16, Bot 133 (unverändert) OK; py_compile OK;
+download/RaidMasterUploader.zip = Ordner (ohne tests/).
+
+TEILWEISE / OFFEN: –
+BEFUND FALSCH: Teilweise zur Vermutung im ersten Absatz von T-DU11: Ein EINZELNER Prozess konnte die Meldung mit dem
+  eigenen Namen nicht erzeugen – nach pull+push sind alle revs nachgeführt (Test T-DU11). Ursache war allein der zweite
+  Prozess (wie im Nachtrag 05:00 vermutet). Die Meldung nannte trotzdem zu Recht falsch den letzten Index-Schreiber;
+  das ist mit (c) ebenfalls behoben.
+FRAGEN: –
+IM CLIENT GETESTET: nein – am PC läuft noch 2.3.0. Anleitung an den Nutzer: alle Uploader-Fenster schliessen, Ordner
+  ersetzen, Autostart-einrichten.bat, uploader.bat (steht auch im LIESMICH unter 2.3.2).

@@ -152,3 +152,27 @@ Version 2.3.1 – data delivery: setup problems fixed:
   tage/<date>/<computer>/…) and only replaces that one. The same account has the same id on both computers
   (konto-xxxxxxxx, computed from the account name; the name itself never appears in the repository).
 - The start files call "py" first – the confusing line "Python wurde nicht gefunden …" is gone.
+
+Version 2.3.2 – only ONE uploader, no wrong notice "newer state from <own computer>":
+- Cause of the notice (13 Nov): two uploaders ran at the same time on the PC (autostart and a second window). The
+  second one did not know the first one's latest upload and took it for a newer state – with its own computer name,
+  again after every upload.
+- Now only ONE uploader runs per computer, even from different folders. A second start writes "Der Uploader läuft
+  schon (PID …, Ordner …)" and does nothing.
+- What this computer uploaded itself never counts as a "newer state".
+- The notice names the right computer, the time and the game version and appears at most once per new state – not
+  again after a restart either.
+- Every Windows notice is also written to the uploader window (with PID). At start the window shows version, folder
+  and PID.
+- Autostart-einrichten.bat replaces old or duplicate uploader entries in autostart by exactly one. If the uploader
+  finds several entries it says so at start.
+- GoldSentinel-WoW.bat never syncs while an uploader runs (also an older version).
+- Data for the review: if PC and laptop deliver at exactly the same time, a delivery only counts as done when it is
+  really in the repository; otherwise it retries after 1 minute.
+
+  ONCE AFTER THE UPDATE (per computer):
+  1. Close all uploader windows (also minimized ones in the taskbar).
+  2. Replace the RaidMasterUploader folder with the new version (keep uploader_config.json, sync_config.json,
+     daten_config.json and uploader_state.json).
+  3. Double-click Autostart-einrichten.bat (cleans up duplicate entries).
+  4. Double-click uploader.bat. The window shows "RaidMaster-Uploader 2.3.2 · Ordner … · PID …".

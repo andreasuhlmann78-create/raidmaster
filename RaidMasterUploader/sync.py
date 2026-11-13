@@ -169,6 +169,115 @@ def lock_active(here: str, now: float | None = None) -> bool:
         return False
 
 
+# ---------------------------------------------------------------------------
+# Nur EIN Uploader je Rechner (ab 2.3.2, T-DU11 a) – auch aus verschiedenen Ordnern
+# ---------------------------------------------------------------------------
+MUTEX_NAME = "Local\\GoldSentinel-RaidMasterUploader"
+_MUTEX = {"handle": None}
+
+
+def instance_file() -> str:
+    base = os.environ.get("LOCALAPPDATA") or os.path.expanduser("~")
+    return os.path.join(base, "GoldSentinel", "uploader-instanz.json")
+
+
+def pid_alive(pid: int) -> bool:
+    if not pid or pid == os.getpid():
+        return False
+    if sys.platform == "win32":
+        try:
+            import ctypes
+            k32 = ctypes.windll.kernel32
+            h = k32.OpenProcess(0x1000, False, int(pid))         # PROCESS_QUERY_LIMITED_INFORMATION
+            if not h:
+                return False
+            code = ctypes.c_ulong()
+            ok = k32.GetExitCodeProcess(h, ctypes.byref(code))
+            k32.CloseHandle(h)
+            return bool(ok) and code.value == 259                 # STILL_ACTIVE
+        except Exception:  # noqa: BLE001
+            return False
+    try:
+        os.kill(int(pid), 0)
+        return True
+    except (OSError, ValueError):
+        return False
+
+
+def instance_info(path: str | None = None) -> dict:
+    try:
+        with open(path or instance_file(), "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data if isinstance(data, dict) else {}
+    except (OSError, ValueError):
+        return {}
+
+
+def instance_running(here: str, path: str | None = None) -> dict | None:
+    """Läuft schon ein Uploader? -> {"pid", "ordner", "version"} (soweit bekannt), sonst None.
+    Windows: benannter Mutex (gilt für alle Ordner); dazu die Instanz-Datei mit PID-Prüfung und – für Uploader vor
+    2.3.2 im selben Ordner – die frische Abgleich-Sperre _sync.lock eines anderen Prozesses."""
+    if sys.platform == "win32" and _MUTEX["handle"] is None:
+        try:
+            import ctypes
+            h = ctypes.windll.kernel32.OpenMutexW(0x00100000, False, MUTEX_NAME)   # SYNCHRONIZE
+            if h:
+                ctypes.windll.kernel32.CloseHandle(h)
+                return instance_info(path) or {"pid": "?", "ordner": "?"}
+        except Exception:  # noqa: BLE001
+            pass
+    info = instance_info(path)
+    if info and pid_alive(int(info.get("pid") or 0)):
+        return info
+    if lock_active(here):
+        return {"pid": "?", "ordner": here, "version": "vor 2.3.2"}
+    return None
+
+
+def instance_acquire(here: str, version: str, path: str | None = None) -> tuple[bool, dict | None]:
+    """Uploader-Start: (True, None) = dieser Prozess ist der einzige; (False, Info) = es läuft schon einer."""
+    if sys.platform == "win32":
+        try:
+            import ctypes
+            k32 = ctypes.windll.kernel32
+            h = k32.CreateMutexW(None, False, MUTEX_NAME)
+            if h and k32.GetLastError() == 183:                   # ERROR_ALREADY_EXISTS
+                k32.CloseHandle(h)
+                return False, instance_info(path) or {"pid": "?", "ordner": "?"}
+            _MUTEX["handle"] = h
+        except Exception:  # noqa: BLE001
+            pass
+    other = instance_running(here, path)
+    if other:
+        return False, other
+    path = path or instance_file()
+    try:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump({"pid": os.getpid(), "ordner": here, "version": version, "t": time.time()}, f)
+    except OSError:
+        pass
+    return True, None
+
+
+def instance_release(path: str | None = None):
+    info = instance_info(path)
+    if info.get("pid") == os.getpid():
+        try:
+            os.remove(path or instance_file())
+        except OSError:
+            pass
+
+
+def startup_entries() -> list[str]:
+    """Autostart-Einträge, die nach dem Uploader aussehen (Windows-Autostart-Ordner) – für den Hinweis "doppelt"."""
+    folder = os.path.join(os.environ.get("APPDATA") or "", "Microsoft", "Windows", "Start Menu", "Programs", "Startup")
+    try:
+        return sorted(n for n in os.listdir(folder) if "uploader" in n.lower() or "goldsentinel" in n.lower())
+    except OSError:
+        return []
+
+
 def wait_for_lock(here: str, sleep=time.sleep, now=time.time, log=None, max_wait: float = LOCK_FRESH + 30) -> bool:
     """Uploader-Start (offen 2): gleicht gerade ein anderer Prozess ab (Starter), erst warten, bis er fertig ist.
     True = frei. Nach max_wait wird nicht länger gewartet (Sperre gilt dann ohnehin als alt)."""
@@ -695,12 +804,30 @@ class Sync:
         return self.remote
 
     def pending(self) -> list[str]:
-        """Spielversionen/Konten mit neuerem Stand im Speicher, die hier installiert sind."""
+        """Spielversionen/Konten mit neuerem Stand eines ANDEREN Rechners, die hier installiert sind.
+        Ab 2.3.2 (T-DU11): Was dieser Rechner selbst hochgeladen hat, ist nie "neuer" – auch nicht, wenn ein zweiter
+        Prozess mit älterem Zustand nachsieht."""
         out = []
         for key, e in index_roots(self.remote).items():
+            if str(e.get("machine") or "") == self.me:
+                continue
             if self.installed(key) and e["rev"] > int(self.s["revs"].get(key) or 0):
                 out.append(key)
         return sorted(out)
+
+    def pending_text(self) -> str:
+        """Wer, wann, was: "vom Laptop (12.11. 20:15, _forever_)" – je offenem Stand der richtige Rechner."""
+        entries = index_roots(self.remote)
+        by: dict[str, list] = {}
+        for key in self.pending():
+            e = entries[key]
+            by.setdefault(str(e.get("machine") or "anderen Rechner"), []).append(e)
+        parts = []
+        for machine, es in sorted(by.items()):
+            labels = ", ".join(sorted({flavor_label(k) for k, e in entries.items() if e in es}))
+            newest = max(float(e.get("time") or 0) for e in es)
+            parts.append(f"vom {machine} ({fmt_time(newest)}, {labels})")
+        return " und ".join(parts) or "vom anderen Rechner"
 
     def remote_newer(self) -> bool:
         return bool(self.pending())
@@ -717,11 +844,16 @@ class Sync:
             return True
         r = self.remote
         if not takeover and self.is_wow_running():
-            if self.warned_seq != r.get("seq"):
-                self.warned_seq = r.get("seq")
-                text = f"Neuerer Stand vom {r.get('machine', 'anderen Rechner')} – WoW beenden, dann übernehmen."
+            # höchstens EIN Hinweis je echtem neuem Stand eines anderen Rechners (auch über einen Neustart hinweg)
+            entries_now = index_roots(r)
+            marks = [f"{k}:{entries_now[k]['rev']}" for k in pend]
+            warned = list(self.s.get("warned") or [])
+            if any(m not in warned for m in marks):
+                text = f"Neuerer Stand {self.pending_text()} – WoW beenden, dann übernehmen."
                 self._say("Abgleich: " + text)
                 self.notify(text)
+                self.s["warned"] = (warned + [m for m in marks if m not in warned])[-50:]
+                self.save()
             return False
         entries = index_roots(r)
         packages = []
@@ -985,7 +1117,7 @@ class Sync:
         if not self.remote_newer():
             return True
         r = self.remote or {}
-        who = r.get("machine") or "anderen Rechner"
+        who = self.pending_text()[4:] if self.pending_text().startswith("vom ") else "anderen Rechner"
         unsafe = (not w["transition"] or w["takeover_done"] or now - w["first_seen"] > TAKEOVER_MAX_AGE
                   or self._newest() > w["sv_newest"] + 1 or self.s.get("takeover_failed"))
         if unsafe:
