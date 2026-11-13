@@ -12,6 +12,17 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.124
+
+- **Accounting – profit only from confirmed sales:** auctions that sold but whose payment has not arrived by mail yet
+  ("pending") no longer count in profit; they are shown separately as "in transit". Pending entries older than 24 h
+  without an invoice are flagged in the tooltip.
+- **Invoices in large lots:** an invoice for e.g. 72 items now confirms several small pending entries of the same item
+  (summed by quantity) instead of booking a second sale.
+- **One-time repair:** pending entries already covered by an invoice that was booked as a new sale are marked "replaced
+  by invoice" (nothing deleted, a backup is kept). No more double counting between invoice and pending.
+- Test report: profit old/new, number of resolved entries, gold reconciliation since the start date. Tests T640–T642.
+
 ### Version 0.65.123
 
 - **Shared command list:** the list while typing `/ahs` now comes from the shared GoldSentinel file
@@ -52,13 +63,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - Sniper test: "no hits" because the market had nothing suitable is now SKIP with reasons; the sync queue shows its
   composition. Speed test: the last full-scan measurement survives a reload.
 - Tests T634–T636.
-
-### Version 0.65.119
-
-- **Disenchanting needs at least 30 % profit (was 20 %):** your own results showed too many disenchant purchases without
-  profit. "Worth up to", the sniper maximum for disenchant targets, the market view and the tooltip all use the same
-  30 % now (value ÷ 1.3). A higher setting still applies; the general minimum profit for selling stays unchanged.
-- Test T633.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
