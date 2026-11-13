@@ -1,5 +1,6 @@
 >>> NEU 13.11. 22:05: Entscheide des Abends gesammelt in anweisung-entscheide-13-11-abend.txt
->>> STUFE: DRINGEND, ABER NICHT OBERSTE PRIORITÄT. Oberste Priorität: SN2115a/b (Gold), dann TS116 und RF.
+>>> STUFE: DRINGEND, ABER NICHT OBERSTE PRIORITÄT. Oberste Priorität: SN2115a/b (Gold), dann TS116, RF und PS
+>>> (pfeilschnell – Leistungsziele als Freigabe-Bedingung, 22:08).
 
 OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.113)
 ============================================================
@@ -614,3 +615,22 @@ TS116 (SEHR HOCH, NEU 13.11. 21:52 – Testteil sniper 0.65.116, Lauf 21:47 des 
       leise Erinnerung.
       Neu: T617 längster Frame 148 ms beim Scrollen (Ø 116 Bilder/s) – Ziel ≤ 50 ms (RF). Bitte die Stelle aus dem
       LANGSAM-Protokoll nennen.
+
+PS (SEHR HOCH, GRUNDSATZ, NEU 13.11. 22:08 – Nutzer: "AHS muss pfeilschnell werden in allem … ein Instrument, eine
+   Waffe"; zusammen mit RF oberste Priorität nach SN2115a/b): LEISTUNGSZIELE, GEMESSEN, FREIGABE-BEDINGUNG
+   | Handlung                                   | Ziel (gemessen im Client, Testteil "tempo")                 |
+   | Tooltip eines Items                        | ≤ 5 ms Rechenzeit (Ergebnisse vorberechnet/zwischengesp.)  |
+   | Reiter/Unterreiter wechseln, Liste aufbauen| ≤ 50 ms bis sichtbar, Rest in Portionen                     |
+   | Sniper: neues Angebot sichtbar             | ≤ 2 s (bei Suche nur per Raste: Raste -> Anzeige ≤ 2 s)     |
+   | Kauf per Raste/Taste                       | sofort gesendet (≤ 1 Bild nach dem Tastendruck)             |
+   | AH offen, Suchen, Vollscan, Testroutine    | kein Bild > 16 ms durch AHSentinel (RF)                    |
+   | Einloggen / /reload                        | AHSentinel-Start ≤ 100 ms am Stück, Rest verteilt im Hintergrund |
+   | Speicher                                   | Vollscan ≤ 10 MB Zuwachs, ≤ 1 Speicherbereinigung; kein     |
+   |                                            | ungebremstes Wachstum über eine Spielsitzung (2 Std. messen) |
+   Vorgehen: teure Rechnungen im Voraus, wenn das AH zu ist (Rechenkern-Ergebnisse je Item zwischenspeichern, bei
+   neuem Scan gezielt auffrischen); keine Tabellen/Zeichenketten je Auktion im heissen Pfad; nur anzeigen, was der
+   Spieler braucht (OR); wichtigste Handgriffe mit einer Taste/Raste.
+   Neuer Testteil "/ahs testroutine tempo" misst jede Zeile der Tabelle (mit Zeitstempel, Stelle bei Überschreitung)
+   und gibt sie in den Testbericht. JEDE Veröffentlichung nennt im Bericht die Tempo-Werte des letzten Client-Laufs;
+   ein verfehltes Ziel = keine neuen Funktionen, bis es erfüllt ist (Ausnahme: Fehler, die Gold kosten).
+   Die Prüf-Sitzung prüft die Werte bei jeder Version selbst nach (Testbericht + Diagnose) und meldet Abweichungen.

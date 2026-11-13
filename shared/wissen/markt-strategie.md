@@ -581,3 +581,8 @@ CogConnected "Gold in WoW Forever". Was daraus für uns folgt:
 **Grundsatz 13.11. 21:33 (Nutzer): Angaben müssen stimmen und geprüft sein.** Jede Zahl, die ein Addon zeigt, wird von
 der Prüf-Sitzung UNABHÄNGIG nachgerechnet (Auftrag ZN, addon-check/nachrechnung.py), nicht nur von den Tests des Addons.
 Auch die Prüf-Sitzung selbst nennt dem Nutzer Zahlen nur nachgerechnet oder klar als "geschätzt"/"Messauftrag".
+
+**Grundsatz 13.11. 22:06 (Nutzer): AHSentinel muss "pfeilschnell" sein – ein Instrument.** Leistungsziele (Tooltip ≤ 5 ms,
+Reiter ≤ 50 ms, Sniper ≤ 2 s, Kauf sofort, kein Bild > 16 ms, Start ≤ 100 ms am Stück, Vollscan ≤ 10 MB) sind
+Freigabe-Bedingung (Auftrag PS, Testteil "tempo"). Die Prüf-Sitzung trägt die Verantwortung, das bei jeder Version
+selbst nachzuprüfen – nicht nur den Bericht des Projekts zu glauben.
