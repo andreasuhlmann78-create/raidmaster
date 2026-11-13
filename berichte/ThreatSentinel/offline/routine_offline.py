@@ -2,6 +2,8 @@
 Aufruf (aus dem raidmaster-Repo):
     mkdir -p /tmp/ts && unzip -o -q download/ThreatSentinel-<Version>.zip -d /tmp/ts
     python3 -I berichte/ThreatSentinel/offline/routine_offline.py /tmp/ts/ThreatSentinel Forever     # oder Era, dazu optional ein Bereich (a … k, u)
+    python3 -I berichte/ThreatSentinel/offline/routine_offline.py download/ThreatSentinel-<Version>.zip Era
+    python3 -I berichte/ThreatSentinel/offline/routine_offline.py                 # neueste download/ThreatSentinel-*.zip, Forever
 Läuft dieselbe Routine wie /ts testroutine im Spiel, mit simulierten Kämpfen (Lagen als Zeitreihe, Zufallsfälle).
 Die Nachbildung ist gutmütig (Frames ohne Rechtecke, kein echter Chat): Fälle, die nur im echten Client gehen, sind
 SKIP/CLIENT; die Liste NACHBILDUNG unten nennt die Fälle, die in der Nachbildung aus bekannten Gründen FEHLER sind.
@@ -14,9 +16,31 @@ sys.path.insert(0, os.path.normpath(os.path.join(HERE, "..", "..", "..", "addon-
 import ladetest as LT
 from lupa.lua51 import LuaRuntime
 
-folder = sys.argv[1]
-flavor = {"Forever": "WoW Forever", "Era": "Classic Era"}[sys.argv[2] if len(sys.argv) > 2 else "Forever"]
-area = sys.argv[3] if len(sys.argv) > 3 else ""
+# Argumente: [ZIP oder Ordner] [Forever|Era] [Bereich]. Ohne Quelle (oder mit Forever/Era als erstem Argument):
+# die neueste download/ThreatSentinel-*.zip. Eine ZIP wird in einen leeren Arbeitsordner ausgepackt.
+import glob, re as _re, tempfile, zipfile
+args = sys.argv[1:]
+src = None
+if args and args[0] not in ("Forever", "Era"):
+    src = args.pop(0)
+if not src:
+    def _ver(p):
+        m = _re.search(r"ThreatSentinel-([\d.]+)\.zip$", p)
+        return tuple(int(x) for x in m.group(1).split(".")) if m else ()
+    zips = sorted(glob.glob(os.path.join(HERE, "..", "..", "..", "download", "ThreatSentinel-*.zip")), key=_ver)
+    if not zips:
+        sys.exit("keine download/ThreatSentinel-*.zip gefunden")
+    src = zips[-1]
+if src.lower().endswith(".zip"):
+    work = tempfile.mkdtemp(prefix="ts-offline-")
+    with zipfile.ZipFile(src) as z:
+        z.extractall(work)
+    folder = os.path.join(work, "ThreatSentinel")
+    print("Quelle: " + os.path.basename(src))
+else:
+    folder = src
+flavor = {"Forever": "WoW Forever", "Era": "Classic Era"}[args[0] if len(args) > 0 else "Forever"]
+area = args[1] if len(args) > 1 else ""
 
 toc = open(os.path.join(folder, "ThreatSentinel.toc"), encoding="utf-8").read()
 files = [l.strip() for l in toc.splitlines() if l.strip().endswith(".lua")]

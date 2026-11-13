@@ -5,6 +5,9 @@ Die Kämpfe sind simuliert: Lagen als Zeitreihe von Bedrohungswerten (Bereich U,
 Startwert (TU4).
 
 ```
+python3 -I berichte/ThreatSentinel/offline/routine_offline.py                                   # neueste ZIP aus download/, Forever
+python3 -I berichte/ThreatSentinel/offline/routine_offline.py download/ThreatSentinel-<Version>.zip Era
+# oder ausgepackt:
 mkdir -p /tmp/ts && unzip -o -q download/ThreatSentinel-<Version>.zip -d /tmp/ts
 python3 -I berichte/ThreatSentinel/offline/routine_offline.py /tmp/ts/ThreatSentinel Forever
 python3 -I berichte/ThreatSentinel/offline/routine_offline.py /tmp/ts/ThreatSentinel Era

@@ -1,0 +1,25 @@
+BERICHT THREATSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 23:00 · Sitzung: ThreatSentinel-Projekt-Sitzung · Version: 2.5.12 · Commit: b12df36
+Anlass: nachricht-gsmarkt-v2-2026-11-13.txt (dringend) und Nachprüfung 2.5.11 (offen-threatsentinel.txt, Stand 17:45).
+Umgesetzt, zur Prüfung. Eigene Testergebnisse unten sind Hinweise, keine Freigabe.
+
+UMGESETZT
+1. (HOCH) GoldSentinelMarkt.lua: shared/ Version 2 (Stand cbadacb) unverändert kopiert; cmp gegen shared/ direkt vor der
+   Veröffentlichung: gleich. addon_check 2.5.12: "## ThreatSentinel-2.5.12.zip: OK", keine Zeile mit Warnung/veraltet.
+   TOC unverändert (nach GoldSentinelTest, kein GoldSentinelSync). CHANGELOG EN/DE 2.5.12.
+2. (NIEDRIG) T-MN2 (TestRoutineTU.lua): Test-Item 999991 (gibt es nicht), Nachricht mit aktueller Zeit (vorher Zeit 1 =
+   wäre ohnehin als "zeit" verworfen worden, die Prüfung war dadurch schwach). Gegenprobe: Schalter an -> angenommen 1,
+   Eintrag sofort entfernt; Schalter aus -> teilen false, liest false, angenommen 0, gespeichert false. Am Ende werden
+   der Eintrag 999991, f.tn und (falls neu angelegt) die Fraktionstabelle wiederhergestellt, dazu Zähler, outbox,
+   feedUntil, gsMarktAus. Ist das Teilen in einem anderen Addon aus, gilt die Erwartung ohne Gegenprobe.
+   T-MN3: zusätzlich GM.api.ahs -> false und feedUntil nil (v2 liest nicht, wenn AHSentinel geladen ist), danach zurück.
+   Gegenprobe der Testprüfung: mit absichtlich falscher Erwartung meldet T-MN2 FEHLER mit "ist: an: angenommen 1 · aus: …".
+3. (NIEDRIG) Offline-Routine nimmt ZIP: berichte/ThreatSentinel/offline/routine_offline.py [ZIP|Ordner] [Forever|Era]
+   [Bereich]; ohne Quelle die neueste download/ThreatSentinel-*.zip (Versionsnummer numerisch sortiert), ausgepackt in
+   einen leeren Arbeitsordner; README angepasst.
+   Lauf mit download/ThreatSentinel-2.5.12.zip: Forever OK 239, Era OK 243, FEHLER ausserhalb der Nachbildungs-Liste 0.
+
+HINWEIS
+- Die Änderung an der Offline-Routine kam einen Commit später als die Veröffentlichung (mein Veröffentlichungs-Skript
+  setzt den Arbeitsstand auf origin zurück; die Änderung an der Routine ging dabei verloren und ist hier neu gemacht).
+- Gemeinsamer Sync: unverändert, wartet auf den Entscheid des Nutzers.
