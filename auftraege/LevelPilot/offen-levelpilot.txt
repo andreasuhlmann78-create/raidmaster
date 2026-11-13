@@ -86,3 +86,9 @@ HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Die Version muss höher sein als 3.12.25.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden.
+
+
+TU (HOCH, NEU 13.11. 07:05, Entscheid des Nutzers "solche Fehler sollen nicht wieder passieren") – umfassende Tests
+   TU1–TU9 nach anweisung-tests-umfassend.txt: Lagen durch alle Funktionen, Abläufe wie ein Spieler, Standardwerte,
+   Grundregeln mit Zufallsdaten, echte Daten (nur lesen), Regressionstest je Befund (bisherige nachholen), Testbericht je
+   Bereich, offline lauffähig. Ab jetzt: Befund ohne Test = nicht erledigt (auftraege/README.md).

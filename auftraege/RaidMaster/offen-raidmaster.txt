@@ -96,3 +96,9 @@ T-DU11 (HOCH, NEU 13.11. 04:55 – Meldung kommt immer wieder, Nutzer will sie w
    zweiter Start meldet "läuft schon" und beendet sich); (b) Meldungsfenster nur aus dem Prozess, der auch ins Fenster
    loggt, und immer mit Ordner/PID im Log; (c) Meldung höchstens einmal je echtem neuem Stand eines ANDEREN Rechners;
    (d) Autostart-Eintrag prüfen/ersetzen statt doppelt anlegen. Nach dem Fix kurze Anleitung für den Nutzer.
+
+
+TU (HOCH, NEU 13.11. 07:05, Entscheid des Nutzers "solche Fehler sollen nicht wieder passieren") – umfassende Tests
+   TU1–TU9 nach anweisung-tests-umfassend.txt: Lagen durch alle Funktionen, Abläufe wie ein Spieler, Standardwerte,
+   Grundregeln mit Zufallsdaten, echte Daten (nur lesen), Regressionstest je Befund (bisherige nachholen), Testbericht je
+   Bereich, offline lauffähig. Ab jetzt: Befund ohne Test = nicht erledigt (auftraege/README.md).

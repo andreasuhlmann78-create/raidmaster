@@ -1,0 +1,44 @@
+ANWEISUNG PROFESSIONSENTINEL – UMFASSENDE TESTS (TU1–TU9), DAMIT FEHLER NICHT WIEDER PASSIEREN
+====================================================================================================
+Von der Prüf-Sitzung, 13.11. 07:05. Entscheid des Nutzers: "Ich will, dass solche Fehler nicht wieder passieren – die neuen
+Tests bitte für alle WoW-Projekte angepasst ins Repo setzen." Vorbild: AHSentinel/anweisung-tests-umfassend.txt.
+Gilt zusätzlich zu testroutine-professionsentinel.txt und nachtrag-testroutinen.txt. Regel für alle (auftraege/README.md): jeder Befund bekommt einen
+bleibenden Regressionstest T-<Befund-ID> mit den echten Zahlen; Befund ohne Test = nicht erledigt.
+Reihenfolge: laufende Arbeit fertig machen; dann TU6 (Regressionen nachholen) und TU1–TU4; TU5, TU7, TU9 danach.
+
+WARUM: Bei AHSentinel fanden die Tests am 13.11. fünf Fehler nicht, die der Spieler sofort sah – weil nur "normale" Lagen,
+einzelne Funktionen statt Abläufe, keine leeren Felder und keine Grundregeln geprüft wurden. Dasselbe Muster gilt hier:
+Die Gold-Rangliste rechnet mit Marktpreisen – bei Aufkauf, dünnem Markt oder alten Preisen entstehen dieselben Schein-Gewinne wie bei AHSentinel (13.11.: Kochrezepte +1500 % bei Einzelpreisen).
+
+TU1 LAGEN-KATALOG – jede Lage läuft durch ALLE betroffenen Funktionen (Rezept-Bibliothek, Lebenslinie bis Grau, Lehrer, Rangliste zum Leveln und Gold, Levelplan, Verzauberer-Reiter, Gunst), Erwartung je Lage und Funktion als
+    Tabelle im Test, Abweichung = FEHLER:
+    - Forever, Era, Retail (je Erweiterung), TBC; Beruf nicht gelernt / Stufe genau an der Grenze gelb/grün/grau
+    - Rezept nur als Drop / nur Händler / Fraktion; Lehrer anderer Fraktion
+    - Preise: keine, alt (> 6 Std.), Aufkauf (ganze Leiter > 150 %), dünner Markt (< 5 Angebote), Zutat beim Händler billiger
+TU2 ABLÄUFE WIE EIN SPIELER (Klickfolgen, Antworten des Spiels/Servers kommen verzögert, Abbruch mittendrin):
+    - Berufsfenster öffnen -> Rezepte lesen; Rezept anklicken; Levelplan erstellen und abarbeiten; Rangliste nach Gold sortieren
+    - Daten-Update der geplanten Aufgabe einspielen, /reload
+    Jeder Ablauf prüft am Ende: angezeigt = ausgeführt (bzw. im Test nur mitgeschrieben), keine Lua-Fehler, nichts Echtes
+    ausgeführt, echte Daten unverändert.
+TU3 STANDARDWERTE: jedes Eingabefeld/jede Option leer bzw. ab Werk – Ergebnis = was der Spieler meint:
+    - Filter, Sortierung, Beruf beim Öffnen, Preisquelle
+    Liste aller Felder mit Standard im Testbericht.
+TU4 GRUNDREGELN (Invarianten) mit Zufallsdaten (mind. 1000 Fälle je Lauf, fester Startwert im Testbericht, in Portionen,
+    < 8 ms je Bild). Nach JEDEM Fall gilt:
+    - Gewinn = Produkt × Menge × 0,95 − Zutaten (Leiter für die echte Menge, Händlerzutaten zum Händlerpreis); gleiche Zahl wie AHSentinel "Lohnt bis", wenn beide geladen
+    - Gewinn > 300 % oder Produkt mit < 5 Angeboten -> "Daten prüfen"/"dünner Markt" statt Zahl; gelb ≤ grün ≤ grau; nie ein Rezept über der eigenen Stufe im Levelplan
+    Verletzung = FEHLER mit den Zahlen des Falls, damit er als fester Test übernommen werden kann.
+TU5 ECHTE DATEN (nur lesen): eigene Rezeptliste und aktuelle Preise (AHSentinel, wenn geladen) auf TU4 prüfen.
+    Verletzungen ins Diagnose-Protokoll ("GRUNDREGEL VERLETZT …", ohne Spielernamen) – so sieht die Prüf-Sitzung echte
+    Fehler über den Uploader, bevor der Spieler sie bemerkt.
+TU6 REGRESSIONEN: für jeden Befund in offen-professionsentinel.txt und jeden seit dem 1.11. erledigten Befund (git log -- auftraege/ProfessionSentinel/)
+    einen bleibenden Test T-<ID> mit den echten Zahlen/dem echten Ablauf. Testbericht "Regressionen: n von m vorhanden".
+    Besonders: alle Befunde der Nachprüfungen (z. B. korrektur-professionsentinel-0.9.8, anweisung-0.9.12) und hinweis-wirtschaft.txt.
+TU7 FORMEN DES SPIELS: jede Lage aus TU1 auf allen unterstützten Clients (WoW Forever, Classic Era, Retail, TBC); geschützte ("geheime") Werte im
+    Kampf (Forever); Sprachen deDE/enUS; Fenster bei Skalierung ≠ 100 %.
+TU8 TESTBERICHT: je Bereich TU1–TU7 eine Zeile "OK n · FEHLER n · SKIP n", jede SKIP mit Grund. Fehlt ein Bereich oder steht
+    er nur auf SKIP, gibt die Nachprüfung die Version NICHT frei.
+TU9 OFFLINE: bestehende tests/run_offline.py um TU1–TU4 und TU6 erweitern. Hinweis: die geplante Aufgabe "Rezeptdaten-Update" setzt das NICHT um – nur der ProfessionSentinel-Chat.
+
+Vor dem Push: python3 addon-check/addon_check.py download/ProfessionSentinel-<Version>.zip -> kein FEHLER. Bericht in berichte/ProfessionSentinel/.
+Ist etwas davon nicht machbar oder unpassend, bitte begründet zurückmelden.

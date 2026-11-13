@@ -1,0 +1,43 @@
+ANWEISUNG LEVELPILOT – UMFASSENDE TESTS (TU1–TU9), DAMIT FEHLER NICHT WIEDER PASSIEREN
+====================================================================================================
+Von der Prüf-Sitzung, 13.11. 07:05. Entscheid des Nutzers: "Ich will, dass solche Fehler nicht wieder passieren – die neuen
+Tests bitte für alle WoW-Projekte angepasst ins Repo setzen." Vorbild: AHSentinel/anweisung-tests-umfassend.txt.
+Gilt zusätzlich zu testroutine-levelpilot.txt und nachtrag-testroutinen.txt. Regel für alle (auftraege/README.md): jeder Befund bekommt einen
+bleibenden Regressionstest T-<Befund-ID> mit den echten Zahlen; Befund ohne Test = nicht erledigt.
+Reihenfolge: laufende Arbeit fertig machen; dann TU6 (Regressionen nachholen) und TU1–TU4; TU5, TU7, TU9 danach.
+
+WARUM: Bei AHSentinel fanden die Tests am 13.11. fünf Fehler nicht, die der Spieler sofort sah – weil nur "normale" Lagen,
+einzelne Funktionen statt Abläufe, keine leeren Felder und keine Grundregeln geprüft wurden. Dasselbe Muster gilt hier:
+Wegpunkte, Zeiten und Automatiken hängen von Klasse, Rasse, Gebiet und Questzustand ab – ein Testcharakter findet die Fehler der anderen nicht.
+
+TU1 LAGEN-KATALOG – jede Lage läuft durch ALLE betroffenen Funktionen (Levelplan, Wegpunkte/Wegnetz (Strassen), Automatiken (annehmen, abgeben, Belohnung), Zeiten, Menü), Erwartung je Lage und Funktion als
+    Tabelle im Test, Abweichung = FEHLER:
+    - jede Klasse/Rasse/Startgebiet; Stufe zu tief/zu hoch für den Plan; Quest schon erledigt / abgebrochen / fehlgeschlagen / Gruppenquest
+    - Kontinent wechseln, Flugpunkt fehlt, Instanz, Geist nach dem Tod, Ruhestein
+TU2 ABLÄUFE WIE EIN SPIELER (Klickfolgen, Antworten des Spiels/Servers kommen verzögert, Abbruch mittendrin):
+    - Wegpunkt folgen bis zum Ziel (Strassen statt durch Berge); Quest annehmen/abgeben automatisch; Belohnung wählen
+    - /reload unterwegs; Plan wechseln; Tod -> Geistheiler -> weiter
+    Jeder Ablauf prüft am Ende: angezeigt = ausgeführt (bzw. im Test nur mitgeschrieben), keine Lua-Fehler, nichts Echtes
+    ausgeführt, echte Daten unverändert.
+TU3 STANDARDWERTE: jedes Eingabefeld/jede Option leer bzw. ab Werk – Ergebnis = was der Spieler meint:
+    - Automatiken an/aus, Belohnungswahl, Pfeil, Zeitanzeige
+    Liste aller Felder mit Standard im Testbericht.
+TU4 GRUNDREGELN (Invarianten) mit Zufallsdaten (mind. 1000 Fälle je Lauf, fester Startwert im Testbericht, in Portionen,
+    < 8 ms je Bild). Nach JEDEM Fall gilt:
+    - jeder Wegpunkt auf begehbarem Weg erreichbar (kein Weg durch Berge/Wasser ohne Grund); nie automatisch eine Quest mit falscher Belohnung abgeben
+    - Zeitschätzungen ≥ 0 und plausibel (gegen gemessene eigene Zeiten); keine geschützte Aktion im Kampf
+    Verletzung = FEHLER mit den Zahlen des Falls, damit er als fester Test übernommen werden kann.
+TU5 ECHTE DATEN (nur lesen): eigene gemessene Zeiten und Questlog-Kopie gegen den Plan prüfen (Plan-Schritte, die nicht passen).
+    Verletzungen ins Diagnose-Protokoll ("GRUNDREGEL VERLETZT …", ohne Spielernamen) – so sieht die Prüf-Sitzung echte
+    Fehler über den Uploader, bevor der Spieler sie bemerkt.
+TU6 REGRESSIONEN: für jeden Befund in offen-levelpilot.txt und jeden seit dem 1.11. erledigten Befund (git log -- auftraege/LevelPilot/)
+    einen bleibenden Test T-<ID> mit den echten Zahlen/dem echten Ablauf. Testbericht "Regressionen: n von m vorhanden".
+    Besonders: alle Befunde aus korrektur-levelpilot-3.12.2, anweisung-wegpunkte-strassen.txt und den Nachprüfungen.
+TU7 FORMEN DES SPIELS: jede Lage aus TU1 auf allen unterstützten Clients (WoW Forever, Classic Era, TBC/Anniversary); geschützte ("geheime") Werte im
+    Kampf (Forever); Sprachen deDE/enUS; Fenster bei Skalierung ≠ 100 %.
+TU8 TESTBERICHT: je Bereich TU1–TU7 eine Zeile "OK n · FEHLER n · SKIP n", jede SKIP mit Grund. Fehlt ein Bereich oder steht
+    er nur auf SKIP, gibt die Nachprüfung die Version NICHT frei.
+TU9 OFFLINE: Testroutine (Bereiche A–J) im nachgebauten Spiel, ohne die lange Reise; Wegnetz-Prüfung als eigener Offline-Test.
+
+Vor dem Push: python3 addon-check/addon_check.py announce/levelpilot__levelpilot-<Version>.LevelPilot.zip -> kein FEHLER. Bericht in berichte/LevelPilot/.
+Ist etwas davon nicht machbar oder unpassend, bitte begründet zurückmelden.

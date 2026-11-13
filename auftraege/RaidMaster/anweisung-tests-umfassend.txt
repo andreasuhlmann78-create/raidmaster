@@ -1,0 +1,49 @@
+ANWEISUNG RAIDMASTER (ADDON UND UPLOADER) – UMFASSENDE TESTS (TU1–TU9), DAMIT FEHLER NICHT WIEDER PASSIEREN
+====================================================================================================
+Von der Prüf-Sitzung, 13.11. 07:05. Entscheid des Nutzers: "Ich will, dass solche Fehler nicht wieder passieren – die neuen
+Tests bitte für alle WoW-Projekte angepasst ins Repo setzen." Vorbild: AHSentinel/anweisung-tests-umfassend.txt.
+Gilt zusätzlich zu testroutine-raidmaster.txt und nachtrag-testroutinen.txt. Regel für alle (auftraege/README.md): jeder Befund bekommt einen
+bleibenden Regressionstest T-<Befund-ID> mit den echten Zahlen; Befund ohne Test = nicht erledigt.
+Reihenfolge: laufende Arbeit fertig machen; dann TU6 (Regressionen nachholen) und TU1–TU4; TU5, TU7, TU9 danach.
+
+WARUM: Bei AHSentinel fanden die Tests am 13.11. fünf Fehler nicht, die der Spieler sofort sah – weil nur "normale" Lagen,
+einzelne Funktionen statt Abläufe, keine leeren Felder und keine Grundregeln geprüft wurden. Dasselbe Muster gilt hier:
+Uploader-Fehlmeldung durch zweiten Prozess (T-DU11), zwei Rechner gleichzeitig (U1), SSL/Token – alles Abläufe und Lagen, die kein Test nachstellte.
+
+TU1 LAGEN-KATALOG – jede Lage läuft durch ALLE betroffenen Funktionen (Gebote, DKP, Einteilung, Loot-Vergabe, Sync, Schlachtzugsymbole, Uploader-Lieferung und -Abgleich), Erwartung je Lage und Funktion als
+    Tabelle im Test, Abweichung = FEHLER:
+    - Raid 10/20/40, gemischte Gruppen; Spieler offline/getrennt mitten im Raid; Lootmeister/Leiter wechselt
+    - Forever: Vor- und Nachname, gleiche Vornamen; Namen im Kampf geheim
+    - Mitspieler mit älteren RaidMaster-/AHSentinel-Versionen (Sync alt/neu gemischt), Zustimmung fehlt
+    - DKP 0/negativ, gleiche Gebote, Gebot über Kontostand, Boss-Kill während Gebotsrunde
+    - Uploader: kein Netz, Zertifikat fehlt, Token falsch/abgelaufen, GitHub langsam, zweiter Prozess läuft, Laptop und PC liefern gleichzeitig, WoW startet während Abgleich
+TU2 ABLÄUFE WIE EIN SPIELER (Klickfolgen, Antworten des Spiels/Servers kommen verzögert, Abbruch mittendrin):
+    - Gebot abgeben -> Ende -> Vergabe; zwei Gebote in derselben Sekunde; /reload mitten im Bieten; Raid verlassen
+    - Einteilung ändern während Sync läuft; Einteilung von zwei Offizieren gleichzeitig
+    - Uploader: Start, Autostart doppelt, GoldSentinel-WoW.bat bei laufendem Uploader, Liefern -> zweiter Rechner übernimmt, WoW beenden während Upload
+    Jeder Ablauf prüft am Ende: angezeigt = ausgeführt (bzw. im Test nur mitgeschrieben), keine Lua-Fehler, nichts Echtes
+    ausgeführt, echte Daten unverändert.
+TU3 STANDARDWERTE: jedes Eingabefeld/jede Option leer bzw. ab Werk – Ergebnis = was der Spieler meint:
+    - DKP-Start, Mindestgebot, Gebotsdauer, Einteilungsgrösse, Sync an/aus
+    - Uploader: Intervall, Autostart, Daten-Repo ohne daten_config.json
+    Liste aller Felder mit Standard im Testbericht.
+TU4 GRUNDREGELN (Invarianten) mit Zufallsdaten (mind. 1000 Fälle je Lauf, fester Startwert im Testbericht, in Portionen,
+    < 8 ms je Bild). Nach JEDEM Fall gilt:
+    - DKP-Summe nachher = vorher + Summe der Buchungen; nie zwei Gewinner für ein Item
+    - jede Sync-Nachricht kommt bei alten Versionen an oder wird ohne Fehler ignoriert
+    - Uploader: eigener Upload gilt nie als "neuerer Stand"; nie Datenverlust (Stand vorher ⊆ nachher); nie Token/Webhook im Log oder Repo; genau ein Uploader-Prozess
+    Verletzung = FEHLER mit den Zahlen des Falls, damit er als fester Test übernommen werden kann.
+TU5 ECHTE DATEN (nur lesen): /rm testroutine echt prüft eine KOPIE von RaidMasterDB (DKP-Historie, Einteilungen) auf TU4; der Uploader prüft beim Start seinen Zustand (uploader_state.json, Daten-Repo-Stand) auf TU4.
+    Verletzungen ins Diagnose-Protokoll ("GRUNDREGEL VERLETZT …", ohne Spielernamen) – so sieht die Prüf-Sitzung echte
+    Fehler über den Uploader, bevor der Spieler sie bemerkt.
+TU6 REGRESSIONEN: für jeden Befund in offen-raidmaster.txt und jeden seit dem 1.11. erledigten Befund (git log -- auftraege/RaidMaster/)
+    einen bleibenden Test T-<ID> mit den echten Zahlen/dem echten Ablauf. Testbericht "Regressionen: n von m vorhanden".
+    Besonders: T-DU7–T-DU11 (Token, BOM, zwei Rechner, zweiter Prozess), U1, T165, T162–T164.
+TU7 FORMEN DES SPIELS: jede Lage aus TU1 auf allen unterstützten Clients (WoW Forever, Classic Era, TBC/Anniversary); geschützte ("geheime") Werte im
+    Kampf (Forever); Sprachen deDE/enUS; Fenster bei Skalierung ≠ 100 %.
+TU8 TESTBERICHT: je Bereich TU1–TU7 eine Zeile "OK n · FEHLER n · SKIP n", jede SKIP mit Grund. Fehlt ein Bereich oder steht
+    er nur auf SKIP, gibt die Nachprüfung die Version NICHT frei.
+TU9 OFFLINE: Addon: Testroutine im nachgebauten Spiel (wie GuildSentinel test/run_routine.lua); Uploader: python3 -I -m unittest (bestehende 53 Tests um TU1–TU4 erweitern).
+
+Vor dem Push: python3 addon-check/addon_check.py download/RaidMaster-<Version>.zip -> kein FEHLER. Bericht in berichte/RaidMaster/.
+Ist etwas davon nicht machbar oder unpassend, bitte begründet zurückmelden.

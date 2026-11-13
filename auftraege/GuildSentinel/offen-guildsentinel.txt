@@ -115,3 +115,9 @@ GV1 (HOCH, NEU 13.11. 05:44 – Bild des Nutzers, 0.9.28, WoW Forever) – "In d
    - Testroutine: Einladen läuft nie über ns.Act mit C_GuildInfo.Invite; Status erst nach Bestätigung.
    - Das Diagnose-Protokoll schreibt VERBOTEN mit Aufrufort (Diag.lua:173) – nach dem Fix im Client gegenprüfen.
    Bitte Bericht in berichte/GuildSentinel/.
+
+
+TU (HOCH, NEU 13.11. 07:05, Entscheid des Nutzers "solche Fehler sollen nicht wieder passieren") – umfassende Tests
+   TU1–TU9 nach anweisung-tests-umfassend.txt: Lagen durch alle Funktionen, Abläufe wie ein Spieler, Standardwerte,
+   Grundregeln mit Zufallsdaten, echte Daten (nur lesen), Regressionstest je Befund (bisherige nachholen), Testbericht je
+   Bereich, offline lauffähig. Ab jetzt: Befund ohne Test = nicht erledigt (auftraege/README.md).
