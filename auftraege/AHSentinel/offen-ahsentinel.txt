@@ -536,3 +536,18 @@ ZN (SEHR HOCH, NEU 13.11. 21:35 – Grundsatz des Nutzers: "ich will, dass solch
        geht wie immer als Auftrag zurück.
    ZN3 Jede Zahl, die geschätzt statt gemessen ist, bleibt im Bericht als "geschätzt" markiert (nie als Tatsache).
    Format der Zeile bitte zuerst im Bericht vorschlagen (Feldnamen), dann bauen. Vorrang: direkt nach SN2115/OR/TP.
+
+RF (SEHR HOCH, NEU 13.11. 21:40 – Nutzer: "das AH ruckelt schon beim Scannen, der Vollscan macht es viel schlimmer" und
+   "beim Ingame-Test lagt es auch"): RUCKELFREI IST EINE FREIGABE-BEDINGUNG.
+   - Gilt für: AH offen/Blättern/Suchen, Vollscan (TS111.1, T458/T459/T126), Sniper (S5), Hintergrund-Aufgaben (T373)
+     und JEDEN Testteil der Testroutine (auch "server", "sniper", "zahlen").
+   - Ziel: kein Bild über 16 ms durch AHSentinel, Ø ≥ 30 Bilder/s, Speicher-Zuwachs je Vollscan ≤ 10 MB, ≤ 1 Speicher-
+     bereinigung. Die Testroutine selbst arbeitet in Portionen (≤ 8 ms je Bild) – ein Test darf das Spiel nicht
+     ruckeln lassen.
+   - Jede Veröffentlichung nennt im Bericht die Messwerte (Bilder/s, längstes Bild, Speicher) aus dem letzten Client-
+     Bericht; ist ein Ziel verfehlt, steht RF ganz oben und neue Funktionen warten (Ausnahme: Fehler, die Gold kosten).
+   - Bitte im Protokoll LANGSAM bei jedem Bild > 16 ms die Stelle nennen (gibt es seit 0.65.114 teilweise) und bei der
+     Testroutine den Teil/Test, der gerade lief.
+   Mitverursacher ausserhalb von AHSentinel: GoldSentinelMarkt Version 1 in fünf anderen Addons (liest den Vollscan
+   ein zweites Mal) – Version 2 liegt bereit, die Addons kopieren sie neu. Der Nutzer schaltet bis dahin "Marktdaten
+   teilen" aus. AHSentinel misst im nächsten Bericht mit und ohne.
