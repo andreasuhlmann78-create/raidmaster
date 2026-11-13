@@ -1,0 +1,10 @@
+Auftrag des Nutzers über die Prüf-Sitzung: MN8 ist angenommen (Forever nicht in der Blizzard-API) – danke. Die Marktdaten der Spieler sind damit die einzige Quelle für den Forever-Markt.
+Bitte git pull --rebase im raidmaster-Repo und auftraege/Discord/anweisung-marktdaten-netz.txt (mit Nachträgen) und offen-discord.txt Punkt MN lesen.
+JETZT: MN7 Sammelstelle auf dem Bot-Server:
+- Zeilen "GSMARKT1|…" vom Uploader annehmen (Format in der Anweisung: 6 Felder je Eintrag, Base36), keine Namen speichern.
+- Je Fraktion und Scan-Zeit nur einmal ablegen (PC und Laptop schicken denselben Scan doppelt).
+- Je Item: Preisverlauf, Angebot, Absatz als Spanne (Untergrenze = abgängeVorsichtig, Obergrenze = abgänge, je Tag hochgerechnet über die Vergleichsdauer), Umschlag, Abdeckung (gescannte Stunden der Woche).
+- Wöchentlicher Bericht ins Repo nach testberichte/markt/ (Top-Items nach Absatz-Untergrenze, Abdeckung, Anzahl Scans und Quellen).
+- Tests mit nachgebauten Zeilen. Rückweg zu den Addons ist Phase 2 (eigener Auftrag).
+- blizzard_api_check.py --list einmal im Monat wiederholen, nur bei Änderung berichten.
+Danach Bericht in berichte/Discord/.
