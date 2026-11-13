@@ -31,3 +31,14 @@ Stand: 13.11.2026 12:45 · Sitzung: RaidMaster-Sitzung · Version: Uploader 2.3.
 4 START AUF DEM RECHNER: 2.3.4 liegt im Ordner des Laptops (VERSION 2.3.4 geprüft). Den Start kann ich nicht selbst
   auslösen (Klicks in Explorer/Task-Manager kommen nicht an) – der Nutzer startet uploader.bat; Beleg (Startzeile,
   frische Sperre mit neuer PID, "Prüfung: …") folgt im nächsten Bericht.
+
+NACHTRAG 12:45 – BELEG AM LAPTOP
+- 12:39 Ortszeit gestartet: "RaidMaster-Uploader 2.3.2 · Ordner …\RaidMasterUploader · PID 22456" – startet normal
+  (die alte Sperre war zu diesem Zeitpunkt älter als 90 s), Abgleich "dieser Rechner aktuell", Hochgeladen 46 KB,
+  "Prüfung: zuletzt geliefert 13.11. 09:38 (13 Dateien) · Repo 89,9 MB". _sync.lock erneuert mit PID 22456.
+- Es lief 2.3.2 statt 2.3.4: Der Nutzer hatte um 12:38 die ZIP aus /uploader (Bot) über die eben eingespielte 2.3.4
+  entpackt – der Bot verteilt noch RaidMasterUploader 2.3.2 (gleiche Grösse wie die ZIP von 11:01).
+  HINWEIS FÜR DISCORD: Bot-Selbst-Update hat download/RaidMasterUploader.zip (2.3.4, Commit 94a08ec) noch nicht
+  übernommen; /uploader liefert eine alte Fassung. Bitte im Discord-Projekt prüfen.
+- 2.3.4 danach wieder in den Ordner gelegt (laufender 2.3.2 läuft weiter); beim nächsten Start (Autostart/Login) kommt
+  2.3.4. Den Start von 2.3.4 selbst belege ich, sobald er erfolgt ist.
