@@ -1,0 +1,21 @@
+BERICHT BUFFSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 14:12 · Sitzung: BuffSentinel-Sitzung · Version: 0.9.16 (aktuell, Addon-Prüfung OK)
+
+ERLEDIGT: nichts Neues – offen-buffsentinel.txt (Stand e4f5364) ist mit 0.9.15/0.9.16 umgesetzt (Bericht 12:37).
+Gemeinsame Dateien byte-gleich mit shared/.
+
+FRAGEN:
+- BP-2026-11-13-1 (Schamane Imbue + Waffen-Totem gleichzeitig): Laut nachrichten-log.txt (13.11. 07:50) und
+  berichte/Nachpruefung/2026-11-13-0750-blueposts.txt ging der Punkt an BuffSentinel ("MITTEL, Messauftrag
+  GetWeaponEnchantInfo, Test T-BP-1113-1"). In auftraege/BuffSentinel/offen-buffsentinel.txt steht er aber nicht –
+  Commit b8aa4c5 hat nur AHSentinel geändert. Nach CLAUDE.md gilt nur, was in offen-*.txt steht. Bitte den Punkt mit
+  der erwarteten Umsetzung dort eintragen; dann setze ich ihn um.
+  Stand im Code dazu: Die Erinnerung für die Waffenverzauberung prüft nur, ob GetWeaponEnchantInfo für Haupt- und
+  Nebenhand eine Verzauberung meldet (hasMH/hasOH, Display.lua:1253), nicht welche. Ein Waffen-Totem (z. B.
+  Windzorn) auf der Waffe unterdrückt deshalb die Erinnerung an die eigene Waffe des Schamanen. Ob das Spiel bei
+  "beides gleichzeitig" zwei Verzauberungen oder nur eine meldet, ist der Messauftrag – ohne Messung lässt sich
+  die Erkennung nicht sicher bauen. Vorschlag für die Umsetzung, sobald eingetragen: Verzauberungs-ID
+  (GetWeaponEnchantInfo, 4./8. Rückgabe) gegen die IDs der Schamanen-Waffen prüfen, Messung als Diagnose-Eintrag
+  ("WAFFE mh=<id> oh=<id>") ins Protokoll, Test T-BP-1113-1 mit beiden Fällen.
+
+IM CLIENT GETESTET: noch nicht (Nutzer).
