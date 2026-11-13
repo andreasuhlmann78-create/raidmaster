@@ -7,6 +7,22 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.110</h3>
+<p>Smoothness and reliability:
+- <strong>Compact price history (PD7, your decision):</strong> entries older than 48 h are saved in a compact form – in the game the
+  price history stays exactly as before. Safety: the first time the old entries are kept as a backup; at the next
+  login everything is checked, only then the compact form is used. If a check fails, your data stays as it was and you
+  get a message. "/ahs pd7" shows the status, "/ahs pd7 back" turns it off while the backup exists.
+- <strong>Less stutter:</strong> work after a scan (market check, rhythm, forecast, material log, real-data check) runs in small
+  portions in the background; "Today" splits its sections into portions; the scan evaluation pauses per row.
+- <strong>Sniper:</strong> every failed purchase is logged with the server message; after 3 failures in a row the Sniper searches
+  fresh instead of working through an old list. Disenchant targets show "still learning"/"way locked" in grey.
+- <strong>Sell chance:</strong> the shown percentage is corrected by what really sold (e.g. 98 % predicted, 30 % sold -&gt; 30 %) and
+  marked "still learning (not calibrated)" until it is calibrated.
+- <strong>Log:</strong> errors of the test routine are counted separately; error entries are no longer pushed out of the log.
+- "/ahs testroutine echt" reports only once; tests T231, T253 and T52 no longer depend on your real learning data,
+  T52 never tries to cancel.
+- Tests T584–T588.</p>
 <h3>Version 0.65.109</h3>
 <p>Fixes wrong numbers from the big test of 0.65.108:
 - <strong>Materials after a full scan:</strong> a real price drop (e.g. the level wave) was stored as "unconfirmed bait" and the
@@ -78,19 +94,7 @@
 <li>New test report section "MARKT-KERN" with these numbers, limits marked "VERFEHLT" (missed).</li>
 <li>Tests T550–T555 (T-MA1–T-MA3, T-Ü1–T-Ü3).</li>
 </ul>
-<h3>Version 0.65.105</h3>
-<ul>
-<li><strong>No more posting too cheap when the market rises 125–150 %.</strong> With a full price ladder (≥ 3 offers or ≥ 5 pieces)
-  the suggestion is always just below the cheapest offer; your old learned price only applies to single outliers.</li>
-<li><strong>Warning guard (on by default):</strong> clicking "Post" with a price more than 10 % below the cheapest offer (full ladder),
-  more than 25 % below market value, or below the vendor/your purchase price: nothing is posted – raid warning sound,
-  the button flashes red and a window asks: "Adjust price (…)" (Enter) / "Post anyway" / "Cancel", showing how much
-  you would give away. Series and re-posting are stopped the same way. Buying above the target's max price, above
-  "Worth up to" or more than 25 % above market value (without buyout) warns too – press again within 10 s to buy
-  anyway. Options: warning guard on/off, sound on/off. Every warning is logged (WARNSCHUTZ).</li>
-<li>Tests T542–T549 (T-AB4d, T-WS1–T-WS6).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

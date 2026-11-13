@@ -12,6 +12,24 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.110
+
+Smoothness and reliability:
+- **Compact price history (PD7, your decision):** entries older than 48 h are saved in a compact form – in the game the
+  price history stays exactly as before. Safety: the first time the old entries are kept as a backup; at the next
+  login everything is checked, only then the compact form is used. If a check fails, your data stays as it was and you
+  get a message. "/ahs pd7" shows the status, "/ahs pd7 back" turns it off while the backup exists.
+- **Less stutter:** work after a scan (market check, rhythm, forecast, material log, real-data check) runs in small
+  portions in the background; "Today" splits its sections into portions; the scan evaluation pauses per row.
+- **Sniper:** every failed purchase is logged with the server message; after 3 failures in a row the Sniper searches
+  fresh instead of working through an old list. Disenchant targets show "still learning"/"way locked" in grey.
+- **Sell chance:** the shown percentage is corrected by what really sold (e.g. 98 % predicted, 30 % sold -> 30 %) and
+  marked "still learning (not calibrated)" until it is calibrated.
+- **Log:** errors of the test routine are counted separately; error entries are no longer pushed out of the log.
+- "/ahs testroutine echt" reports only once; tests T231, T253 and T52 no longer depend on your real learning data,
+  T52 never tries to cancel.
+- Tests T584–T588.
+
 ### Version 0.65.109
 
 Fixes wrong numbers from the big test of 0.65.108:
@@ -84,18 +102,6 @@ Fixes wrong numbers from the big test of 0.65.108:
   - Vendor prices: how many were confirmed by the game and how many differed from the remembered table.
   - New test report section "MARKT-KERN" with these numbers, limits marked "VERFEHLT" (missed).
 - Tests T550–T555 (T-MA1–T-MA3, T-Ü1–T-Ü3).
-
-### Version 0.65.105
-
-- **No more posting too cheap when the market rises 125–150 %.** With a full price ladder (≥ 3 offers or ≥ 5 pieces)
-  the suggestion is always just below the cheapest offer; your old learned price only applies to single outliers.
-- **Warning guard (on by default):** clicking "Post" with a price more than 10 % below the cheapest offer (full ladder),
-  more than 25 % below market value, or below the vendor/your purchase price: nothing is posted – raid warning sound,
-  the button flashes red and a window asks: "Adjust price (…)" (Enter) / "Post anyway" / "Cancel", showing how much
-  you would give away. Series and re-posting are stopped the same way. Buying above the target's max price, above
-  "Worth up to" or more than 25 % above market value (without buyout) warns too – press again within 10 s to buy
-  anyway. Options: warning guard on/off, sound on/off. Every warning is logged (WARNSCHUTZ).
-- Tests T542–T549 (T-AB4d, T-WS1–T-WS6).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
