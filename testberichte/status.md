@@ -1,12 +1,12 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-13 21:53 UTC
+Ausgewertet: 2026-11-13 22:09 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
 | Addon | letzter Testlauf | Version | Client | OK | FEHLER | übersprungen | im Client prüfen | Fehler im Spiel (7 Tage) |
 |---|---|---|---|---|---|---|---|---|
-| AHSentinel | 13.11.2026 20:47 UTC | 0.65.116 | forever 1.60.1 (Interface 16001) | 5 | 2 | 1 | 0 | 4 |
+| AHSentinel | 13.11.2026 20:58 UTC | 0.65.116 | forever 1.60.1 (Interface 16001) | 7 | 1 | 0 | 0 | 4 |
 | BuffSentinel | 05.11.2026 00:19 UTC | 0.9.7 | forever 1.60.1 (Interface 16001) | 120 | 1 | 10 | 11 | 3 |
 | GuildSentinel | 09.11.2026 05:47 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 153 | 4 | 23 | 5 | 6 |
 | LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 646 |
@@ -18,13 +18,13 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 93 | `testberichte/diagnose/AHSentinel/0.65.99-ea23619300d1.txt` |
-| BuffSentinel | 25 | `testberichte/diagnose/BuffSentinel/0.9.12-7f8dfb5af187.txt` |
+| AHSentinel | 94 | `testberichte/diagnose/AHSentinel/0.65.116-e02731199ec5.txt` |
+| BuffSentinel | 26 | `testberichte/diagnose/BuffSentinel/0.9.18-e3167d853789.txt` |
 | GSMesstest | 9 | `testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt` |
-| GuildSentinel | 84 | `testberichte/diagnose/GuildSentinel/0.9.36-905d55a5c1d1.txt` |
+| GuildSentinel | 85 | `testberichte/diagnose/GuildSentinel/0.9.36-a283e985504f.txt` |
 | LevelPilot | 8 | `testberichte/diagnose/LevelPilot/3.12.27-3aeb503e40ae.txt` |
-| ProfessionSentinel | 66 | `testberichte/diagnose/ProfessionSentinel/0.9.43-d8c03a65d1fe.txt` |
-| ThreatSentinel | 72 | `testberichte/diagnose/ThreatSentinel/2.5.9-393857b54d8e.txt` |
+| ProfessionSentinel | 67 | `testberichte/diagnose/ProfessionSentinel/0.9.43-0e21494bbf48.txt` |
+| ThreatSentinel | 73 | `testberichte/diagnose/ThreatSentinel/2.5.10-ef1ceff01af5.txt` |
 
 ## Wegdaten (GSWEGE1)
 
@@ -65,10 +65,8 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 - [FEHLER] T459 H – T-VF2 Vollscan: Speicher-Zuwachs ≤ 10 MB, höchstens 1 Speicherbereinigung (ergebnis: Zuwachs 53388 KB (AHSentinel) · Speicherbereinigungen 56 | erwartet: ≤ 10240 KB · ≤ 1)
 - [SKIP] T98 D – Server-Wege altes AH (grund: nur im alten Client (Classic Era, TBC))
 
-**Testlauf 0.65.116 · forever 1.60.1 (Interface 16001) · 13.11.2026 20:47 UTC** – OK 5 · FEHLER 2 · übersprungen 1 · im Client prüfen 0 · Sandbox OK
-- [SKIP] T616 J – SN1951-S4 echter Mausrad-Kauf: eine Raste = genau 1 Stück (≤ 5c, nur nach Ja) (grund: kein Kauf in 120 s (keine Raste oder kein Treffer))
-- [FEHLER] T613 J – SN1951-S1 Treffer bleiben stehen, bis gekauft oder vom Server als weg gemeldet (ergebnis: 0 Treffer angezeigt · ohne Grund verschwunden 0 · Suchen 1 | erwartet: ≥ 1 Treffer · 0 ohne Grund verschwunden)
-- [FEHLER] T618 J – SN1951-S6 Reaktionszeit: neues Angebot spätestens nach < 5 s sichtbar (Abstand der Suchen + Suchdauer) (ergebnis: zu wenige Suchen (1) | erwartet: < 5 s)
+**Testlauf 0.65.116 · forever 1.60.1 (Interface 16001) · 13.11.2026 20:58 UTC** – OK 7 · FEHLER 1 · übersprungen 0 · im Client prüfen 0 · Sandbox OK
+- [FEHLER] T617 J – SN1951-S5 Ruckeln: Ø ≥ 30 Bilder/s, kein Frame > 50 ms, Sync-Warteschlange ≤ 10 (ergebnis: Ø 116 / min 105 Bilder/s · längster Frame 148 ms · Sync-Warteschlange max 0 | erwartet: ≥ 30 · ≤ 50 ms · ≤ 10)
 
 **Fehler im Spiel (letzte 7 Tage)**
 - 3× `ADDON_ACTION_BLOCKED`: UNKNOWN() – Version 0.65.16 · forever 1.60.1 (Interface 16001) · zuletzt 08.11.2026 17:09 UTC
