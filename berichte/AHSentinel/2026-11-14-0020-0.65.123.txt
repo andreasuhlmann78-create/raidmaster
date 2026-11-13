@@ -1,0 +1,20 @@
+BERICHT AHSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 14.11.2026 · Sitzung: AHSentinel-Sitzung · Version: 0.65.123 · Commit (AHAnalyzerPro): a161428
+Status: umgesetzt, zur Prüfung. Nachbildung: Vollauf 246/246 (s70 auf die gemeinsame Datei umgestellt). addon_check OK.
+
+CH-G – umgesetzt, zur Prüfung
+  shared/GoldSentinelCmdHint.lua unverändert kopiert, TOC nach GoldSentinelTest.lua (vor CmdHint.lua). CmdHint.lua ist
+  nur noch die Anbindung: GoldSentinelCmdHint.Register({ id "AHSentinel", prefixes /ahsentinel /ahanalyzer /ahs /ahp,
+  display /ahs, commands A.COMMANDS, store A.db.settings.cmdUse, enabled cmdHint, L, german, dev, noMatch, enterText });
+  im eigenen Slash-Handler msg = h:Resolve(msg); h:Count(msg). A.CmdHint = Handle, A.CmdHintUI = gemeinsames Fenster.
+  Tests: T638 (Find/List/Zähler), T537–T541 auf A.CmdHintUI + Handle umgestellt, T288 Hook-Prüfung über A.CmdHintUI.
+  An der gemeinsamen Datei fehlte nichts.
+RF-M1 (1) – umgesetzt, zur Prüfung: Tempo-Teil T639 schlüsselt den Speicher je Bereich auf (Preisverlauf, Marktdaten,
+  Buchhaltung, Journal, Entzauber-Daten, Zwischenspeicher, Markt-Reiter, Tooltip, Vollscan-Vorrat/-Daten, Sniper, PD7):
+  Anzahl Tabellen + grobe Grösse, Hintergrund-Aufgabe in Portionen; Feld finish.speicher.
+RF-M1 (2) kompakter Preisverlauf: Der Nutzer hat 00:10 zugestimmt ("ja machen"). Plan: gespeichertes Format bleibt
+  unverändert; nur im Spiel je Item drei Zahlenlisten (t, p, q + Kennzeichen) statt einer Tabelle je Eintrag; A:GetHistory
+  liefert weiter Einträge (Lese-Ansicht), alle 17 direkten Zugriffe werden umgestellt; Prüfung "alle Werte gleich" beim
+  Umwandeln und Zurückschreiben (wie PD7). Kommt nach BH-AUS (Prio-Liste 00:25).
+Hinweis des Nutzers (00:12): Die Prüf-Sitzung bestimmt die Reihenfolge; Bedenken meldet die AHSentinel-Sitzung hier im
+  Bericht, die Prüf-Sitzung meldet sie dem Nutzer. Ich halte mich an die Prio-Liste 00:25 – als Nächstes BH-AUS.
