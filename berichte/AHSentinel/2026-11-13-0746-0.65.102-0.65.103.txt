@@ -1,0 +1,40 @@
+BERICHT AHSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 07:46 · Sitzung: AHSentinel-Sitzung · Version: 0.65.102 und 0.65.103 · Commit: af228cd
+
+ERLEDIGT 0.65.102
+  MV1   Se:VisibleOwned/HideSoldNow (Seller.lua), "Aktualisieren" und Öffnen der Ansicht blenden Verkaufte aus, neu
+        Verkauftes bleibt bis zum nächsten Klick; Kopf zählt weiter alle; Knopf "Verkaufte: an/aus". T513.
+  TU1   Marktlagen-Katalog T514–T524: L-NORMAL, L-AUFKAUF (Fall 13.11.), L-AUFKAUF-KENNZ, L-AUSREISSER, L-FLUT, L-DUENN,
+        L-LEER, L-ALT, L-HAENDLER, L-FALLEND/L-SPITZE (Zeitpunkt), L-RELIST (Buchhaltung), je Ware und Ausrüstung:
+        Vorschlag, Leiter-Erkennung, Hinweis "billiger", Entzauber-Kaufpreis, Händler-Plausibilität.
+        Dabei behoben: L-AUSREISSER schlug knapp unter dem Ausreisser vor -> jetzt Marktwert (Seller.lua SuggestRaw);
+        "billiger einstellen" nie, wenn die Leiter über dem Marktwert liegt (Se:SuppressCheaperHint); L-HAENDLER:
+        A:VendorPlausible (Händler > 2 × Marktwert = vermutlich falsch).
+        Noch nicht in TU1: Tooltip/Meine Auktionen/Markt-Reiter je Lage – folgt mit RK (eine Rechnung für alle Wege).
+  TU2   T525 (getippter Preis bleibt, Item-Wechsel, kein Preis vom anderen Item), T526 (drei Sniper-Ziele, Reihenfolge,
+        Fehlkauf) + bestehende T487/T493–T495/T510/T511. Fenster schliessen, /reload, AH zu mitten im Ablauf: offen.
+  TU3   T527 + Liste im Testbericht ("TU3 Standard: ...").
+  TU4   T528 (1000 Zufalls-Leitern, Startwert 4711), T529 (Buchhaltung 300 Zufallsbuchungen, Startwert 99, auf den Kupfer).
+        Sniper-/Absatz-Grundregeln (Ü3) folgen mit RK/MA.
+  TU6   Liste im Testbericht "TU6 Regressionen: 23 von 23 vorhanden" (AB1 … VF5).
+  TU8   Testbericht-Abschnitt "Umfassende Tests (TU)" mit je Bereich OK/FEHLER/SKIP; TU5/TU7 als SKIP mit Grund.
+  TU9   Repo AHAnalyzerPro: tests/run_offline.sh (+ tests/wowsim, nachgebautes Spiel). Start:
+          LUA=/pfad/lua5.1 tests/run_offline.sh [Addon-Ordner]      (Teile auto + server, ~2 Min.)
+          FULL=1 tests/run_offline.sh                                (alle 243 Szenarien, ~5 Min.)
+          TR_TEXT=1 ...                                              (ganzer Testbericht)
+        tests/ und CLAUDE.md kommen nicht ins ZIP (Workflow und Release-Skript).
+ERLEDIGT 0.65.103
+  HP1   A:GetVendorPrice: Spiel (GetItemInfo sellPrice) zuerst, Tabelle nur Rückfall und wird nachgeführt (Protokoll
+        HAENDLERPREIS); Händler-Flips nur mit vom Spiel bestätigtem, plausiblem Preis. T530.
+  HP2   bestehende Messung Se:MeasureMinDeposit geht von selbst auf 1c; Test T531 (1c gemessen -> 1, 1s -> 100).
+  API-PM API.WorthUpTo(itemID, qty) (= TT:DisenchantVerdict().limit, Weg "disenchant", sicher/unsicher; nil bei alten
+        Preisen) und API.MarketState(itemID) ("aufkauf"/"alt"/"flut"/"duenn"/"normal", Band-Trend nil bis RK). API.md
+        nachgeführt. T532.
+  Q     ST1 D:ReferenceCheck(key) + T533 (Nachbildung 26–30 = 1050c, 36–40 = 2275c, Aufkauf-Material -> > 5 % mit
+        Material) + T536 (echte Scan-Preise, nur lesen; Berichtszeile je Gruppe "ST1 Entzauber-Grenze 26–30: ...").
+        ST2 D:WorthLimit/WorthMark, UI_Buy "[Entzaubern lohnt]" nur bei Preis <= Lohnt bis mit frischen Preisen. T534.
+        ST3 Sn:UpdateDETargets nach jedem Scan, > 5 % -> Max angepasst + eine Chat-Zeile. T535.
+
+TEILWEISE / OFFEN: TU5 (echte Daten, "/ahs testroutine echt"), TU7 und RK/MR/MA/Ü (als Nächstes nach CH), W, R, PD7-Ziel.
+BEFUND FALSCH: keiner.
+IM CLIENT GETESTET: nein (Nachbildung 243/243, addon_check ohne FEHLER).
