@@ -258,3 +258,12 @@ AB4c (HOCH, NEU 13.11. 06:45 – Bild des Nutzers, Verkaufen-Fenster 0.65.99): P
    Preisprüfung fertig -> Preis bleibt).
    Test T-AB4c: Leiter 210 % des Marktwerts, 9 Abläufe in der Geschichte -> Vorschlag knapp unter 28s99, kein
    "billiger einstellen", Hinweis Aufkauf.
+
+MV1 (MITTEL, NEU 13.11. 06:47 – Wunsch des Nutzers: "Verkauft darf nach Refresh verschwinden")
+   Verkaufen > Meine Auktionen (Bild 06:45, 0.65.99): 15 Einträge, davon 13 "verkauft" – sie bleiben nach
+   "Aktualisieren" in der Liste und verdecken die 2 aktiven Auktionen.
+   Lösung: Beim Klick auf "Aktualisieren" (und beim nächsten Öffnen der Ansicht) verkaufte Auktionen aus der Liste
+   entfernen; die Summe "13 verkauft (… erhalten …)" im Kopf bleibt (aus der Buchhaltung). Häkchen "Verkaufte zeigen"
+   (Standard aus) für alle, die sie sehen wollen. Neu Verkauftes seit dem letzten Aktualisieren darf bis zum nächsten
+   Klick sichtbar bleiben (Rückmeldung). Buchhaltung unverändert. Test T-MV1 (3 aktiv, 5 verkauft -> nach
+   Aktualisieren 3 Zeilen, Kopf zählt weiter 5 verkauft; Häkchen an -> 8 Zeilen).
