@@ -129,6 +129,8 @@ HK-P (MITTEL, NEU 13.11. 22:22 – Entscheid des Nutzers): HERSTELLUNGS-KETTE MI
    BERICHTIGUNG 22:32: Die Kette ist mit "Heute herstellen" und ProfessionSentinelAPI.TodayCrafts schon vorhanden –
    nichts neu bauen. Bitte nur bestätigen, dass TodayCrafts je Eintrag meldet, ob PM3 ihn als gesichert einstuft (Feld
    z. B. "safe" = true/false), sonst dieses eine Feld ergänzen.
+   ENTSCHEID 22:26: Nicht gesicherte Einträge werden NIRGENDS angezeigt (auch nicht in "Heute herstellen"); nur im
+   Testbericht/Diagnose mit Ursache zählen.
    AHSentinel zeigt künftig EINEN Vorschlag "Material kaufen -> herstellen -> verkaufen" mit einer Zahl, nur wenn alle
    Schritte geprüft lohnen ("simpel und einfach, ohne grossen Schnickschnack"). ProfessionSentinel liefert dafür über
    die bestehende API (API-PM) je bekanntem Rezept: Produkt, Materialien mit Mengen, Herstellbarkeit (Fertigkeit,

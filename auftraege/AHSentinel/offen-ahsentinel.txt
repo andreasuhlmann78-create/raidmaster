@@ -654,6 +654,11 @@ HK (MITTEL, NEU 13.11. 22:22 – Entscheid des Nutzers zu Idee I7): HERSTELLUNGS
    schon – ProfessionSentinel "Heute herstellen" mit API ProfessionSentinelAPI.TodayCrafts, von "Heute tun" genutzt.
    NICHTS NEU BAUEN: HK heisst nur, diese Kette in AHSentinel als EINE schlichte Zeile zu zeigen (ein Vorschlag, eine
    Zahl), mit den Werten aus "bester Weg" (SN2115b) und "Jetzt im AH" (TP), und nur wenn PM3 sie als gesichert meldet.
+   ENTSCHEID 22:26 (Nutzer: "nicht gesichert darf es eigentlich gar nicht geben"): Angezeigt wird NUR, was gesichert
+   ist – schlicht, ohne Zusatz ("Herstellen: <Produkt> -> +45c"). Nicht gesicherte Vorschläge erscheinen NIE (auch nicht
+   grau). Stattdessen im Testbericht/Diagnose zählen, wie viele wegen welcher Ursache herausfielen (Preis zu alt,
+   dünner Markt, Aufkauf, Leiter zu kurz) – Ziel ist, die Ursachen zu beseitigen (z. B. frischer Scan), nicht sie
+   anzuzeigen. Gilt sinngemäss für alle Empfehlungen (Heute tun, Markt, Sniper-Vorschläge).
    Ein einziger Vorschlag "Material kaufen -> herstellen -> verkaufen" mit EINER Zahl (Gewinn je Herstellung bzw. pro
    Stunde) – "simpel und einfach, ohne grossen Schnickschnack" (Optik-Regel OR). Nur zeigen, wenn ALLE Schritte geprüft
    lohnen: Materialpreise "Jetzt im AH" (ehrlich, frisch), Verkaufsquote des Produkts (PX-b) ausreichend, Gewinn nach
