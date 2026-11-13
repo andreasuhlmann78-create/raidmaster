@@ -357,7 +357,7 @@ MH1310 (HOCH, NEU 13.11. 13:15 – Bild Markt > Heute, 0.65.108): SCHEIN-FLIP TR
        ≥ 1/Tag; sonst höchstens Marktwert (hier 3g -> Gewinn ~0,85g nach 5 %, nicht 7g23).
    Test T-MH1310 mit genau diesen Zahlen (-> keine Empfehlung bzw. grau "lernt noch"; mit Freigabe: Wiederverkauf ≤ 3g).
 
-TT1317 (MITTEL, NEU 13.11. 13:20 – Bild Tooltip Goldene Schuppenarmschienen, 0.65.108, Vollscan 12:59, Bild 13:17):
+TT1317 (HOCH, NEU 13.11. 13:20, hochgestuft 13:22 – Bild Tooltip Goldene Schuppenarmschienen, 0.65.108, Vollscan 12:59, Bild 13:17):
    Alle drei Materialien stehen auf "geschätzt, unsicher" (Visionenstaub 9s66, Große Mystikeressenz 18s04, Großer
    leuchtender Splitter 42s30), der Preis des Teils auf "(alt)", obwohl 18 Min. vorher ein Vollscan lief. Laut Tooltip.lua
    :876–882 heisst "geschätzt" = Quelle nicht "ah" (kein aktueller Scan-Wert, A:GetCurrent nil) und "unsicher" = kein
@@ -366,3 +366,7 @@ TT1317 (MITTEL, NEU 13.11. 13:20 – Bild Tooltip Goldene Schuppenarmschienen, 0
    Angeboten "Scan" zeigen. Zudem widersprüchlich: oben "Entzaubern: unsicher −20 (−1 %)", unten "✓ Entzaubern 18s55"
    – bei unsicheren Materialien kein grünes Häkchen (grau, "unsicher"). Test T-TT1317 (Vollscan mit Material ->
    Quelle "Scan"; unsichere Materialien -> kein ✓).
+   NACHTRAG 13:22: Der Nutzer hat das AH vor dem Bild ZWEIMAL gescannt – die Materialien bleiben trotzdem "geschätzt,
+   unsicher". Damit ist es sehr wahrscheinlich ein Fehler (Scan-Werte kommen bei den Entzauber-Materialien nicht an
+   bzw. werden als "nicht aktuell" gewertet). Folge: jeder Entzauberwert ist eine Schätzung -> falsche Kauf-/Verkaufs-
+   entscheide. In 0.65.109 aufnehmen; im Diagnose-Protokoll je Material Quelle, Alter und Grund für "unsicher" ausgeben.
