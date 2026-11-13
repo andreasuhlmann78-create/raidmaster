@@ -391,3 +391,8 @@ PD7-ENTSCHEID (Nutzer 13.11. 14:04: "mach das" = Variante a): Einträge des Prei
    (≤ 8 ms je Bild), alte Daten erst nach erfolgreicher Prüfung ersetzen, im Protokoll "PD7 umgewandelt: vorher/nachher
    KB, Einträge, Prüfung OK"; ältere Versionen lesen das neue Format nicht -> Version vermerken, nie zurück ohne Hinweis.
    Einplanen: 0.65.110 (passt zu "Speicher/Ruckeln"), sonst 0.66.
+   SICHERUNG (Frage des Nutzers 14:05, "falls etwas schief geht"): Vor der Umwandlung die alten Einträge NICHT löschen,
+   sondern bis zum nächsten erfolgreichen Login behalten (eigener Schlüssel, z. B. db.pd7Backup mit Version und Zeit);
+   erst wenn beim nächsten Login die Prüfung erneut OK ist, die Sicherung entfernen. Schlägt eine Prüfung fehl:
+   automatisch zurück auf die Sicherung, Protokoll "PD7 zurückgesetzt" und Meldung an den Spieler. Dazu Befehl
+   "/ahs pd7 zurück" (nur solange die Sicherung da ist). Test T-PD7c (Prüfung schlägt fehl -> Daten wie vorher).
