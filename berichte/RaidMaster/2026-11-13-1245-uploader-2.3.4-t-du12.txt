@@ -1,0 +1,33 @@
+BERICHT RAIDMASTER (UPLOADER) AN DIE PRÜF-SITZUNG – T-DU12
+Stand: 13.11.2026 12:45 · Sitzung: RaidMaster-Sitzung · Version: Uploader 2.3.4 · Commit: 94a08ec
+
+1 PRÜFUNG AUF DEM RECHNER (verbunden war der LAPTOP, Uploader-Ordner Dokumente\RaidMasterUploader; nur gelesen,
+  keine Konfigurations-/Geheimnisdateien geöffnet, nichts gelöscht)
+  - _sync.lock: {"pid": 29812, "t": <13.11. 11:02:21 UTC>} – Format von 2.3.1/2.3.2 (ohne Rolle). Datei seither NICHT
+    mehr erneuert (ein laufender Uploader erneuert sie alle 30 s; geprüft 11:29 und 11:36 UTC: unverändert).
+  - Programmdateien im Ordner um 11:02:17 UTC ersetzt (2.3.2), _sync.lock 11:02:21, uploader_state.json 11:02:22.
+  - Schluss: Beim Ersetzen lief der alte Uploader (PID 29812) noch und schrieb 4 s danach seine Sperre. Der sofort
+    gestartete 2.3.2 sah eine frische Sperre (< 90 s) eines anderen Prozesses und meldete "läuft schon (PID ?, vor
+    2.3.2)". Danach endete auch der alte Prozess (Sperre nicht mehr erneuert). Ab da lief GAR KEIN Uploader – ein
+    erneuter Start von 2.3.2 hätte nach 90 s funktioniert, aber der Nutzer nahm "läuft schon" als Dauerzustand.
+  - Prozessliste mit Kommandozeile und Autostart-Ordner: von hier nicht lesbar (Bridge-Shell ohne Windows-Prozesse,
+    Autostart-Ordner nicht freigebbar, Klicks im Task-Manager werden von Windows abgewiesen). Sichtbar im Task-Manager:
+    "Terminal (2)" mit 42 MB – vermutlich offene Uploader-/Konsolenfenster ohne laufenden Uploader (Sperre steht).
+    Aufgabenplanung/Registry Run: nicht prüfbar. Kein Hinweis auf einen versteckten zweiten Uploader.
+2 SPERR-/STATUSDATEIEN: _sync.lock wie oben; Instanz-Datei %LOCALAPPDATA%\GoldSentinel\uploader-instanz.json wird
+  erst von 2.3.2+ bei erfolgreichem Start geschrieben (hier nie erfolgreich gestartet).
+3 FIX (Uploader 2.3.3 U2 + 2.3.4):
+  - Sperre (Instanz-Datei oder _sync.lock) gilt nur, wenn die PID lebt UND der Prozess uploader.py ausführt (Windows:
+    Kommandozeile über Win32_Process; Starter --wow-start zählt nie). Ohne PID, tot oder fremder Prozess
+    (wiederverwendete PID) -> veraltet, übernommen, Zeile "Abgleich: alte Sperre von <Version> entfernt (PID …)".
+    sync.py is_uploader_process / pid_cmdline / instance_running / instance_acquire.
+  - Läuft wirklich ein alter Uploader: "Alte Version … (PID …) beenden und diese starten? (J/N)" (60 s ohne Antwort =
+    Nein; J -> taskkill /T /F, dann Start). sync.py offer_stop_other, uploader.py main.
+  - wait_for_lock wartet nur auf den Starter oder einen echten Uploader.
+  Tests T-DU12a (ohne PID), b (PID tot), c (PID lebt, fremdes Programm), d (echter zweiter Uploader -> Angebot; Starter
+  zählt nie), e (Sperre im Format 2.3.1, laufend bzw. beendet; alter Zustand erfüllt Grundregeln):
+  tests/test_sync.py SperreDU12. Die Tests bilden die Kommandozeile nach (vorher hing ein Testergebnis zufällig von der
+  Kommandozeile des Elternprozesses ab – behoben). Regressionen 48 von 48 (test_umfassend).
+4 START AUF DEM RECHNER: 2.3.4 liegt im Ordner des Laptops (VERSION 2.3.4 geprüft). Den Start kann ich nicht selbst
+  auslösen (Klicks in Explorer/Task-Manager kommen nicht an) – der Nutzer startet uploader.bat; Beleg (Startzeile,
+  frische Sperre mit neuer PID, "Prüfung: …") folgt im nächsten Bericht.
