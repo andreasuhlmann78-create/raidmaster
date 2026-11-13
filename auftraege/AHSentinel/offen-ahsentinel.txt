@@ -7,8 +7,14 @@ Regel seit 9. Nov.: Nur die AHSentinel-Sitzung ändert und veröffentlicht AHSen
 Neu seit 12.11.: Nach jeder Veröffentlichung einen Bericht in berichte/AHSentinel/ ablegen (berichte/README.md).
 Für 0.65.98/0.65.99 liegt dort noch keiner.
 
-STAND: Der Nutzer macht den grossen Test. Reihenfolge jetzt: L1c (neu, Reparatur kann echte Teilverkäufe löschen),
-dann PD7, MP1-Test, AB8c, AB4b, dann Q, W, R.
+STAND 13.11. 06:58: Reihenfolge jetzt (jeweils mit Regressionstest T-<ID>, Regel in auftraege/README.md):
+1 L1c (Reparatur kann echte Teilverkäufe löschen) – die AHSentinel-Sitzung hat damit begonnen
+2 AB4c a+b (Verkaufs-Vorschlag bei Aufkauf, getippter Preis überschrieben – kostet den Spieler jetzt Gold)
+3 SM1, SM2 (Sniper: nur ein Treffer, Menge leer = 1)
+4 TU1–TU4 + TU6 (Marktlagen, Abläufe, Standardwerte, Grundregeln, Regressionen nachholen) und TR
+5 MV1, PD7, MP1-Test, AB8c, AB4b, Q
+6 RK/MR/MA/Ü nach anweisung-markt-reiter.txt Teil F (beginnt mit MA2, MA1, MA3); W und R gehen darin auf.
+Nach jeder Veröffentlichung Bericht in berichte/AHSentinel/.
 
 Erledigt in 0.65.98 (danke):
   AB8b – Spread verteilt die Korrektur-Kosten zuerst auf die "ohne Einkauf"-Stücke der Material-Verkäufe (s.free sinkt)
