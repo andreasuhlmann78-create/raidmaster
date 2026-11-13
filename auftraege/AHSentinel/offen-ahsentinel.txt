@@ -486,6 +486,15 @@ TP (HOCH, NEU 13.11. 21:27 – Wunsch und Entscheid des Nutzers): PREISZEILEN IM
    Alter sichtbar machen: Ist "Jetzt im AH" nicht live/frisch (älter als 30 Min.), dahinter grau "(vor 2 Std.)"; älter
    als 6 Std. -> "(veraltet, vor 9 Std.)" und die Gewinn-Zeile grau statt rot/grün.
    Schnäppchen: "Jetzt im AH" ≥ 20 % unter dem Median -> Zahl grün.
+   VOLATILITÄT (Hinweis des Nutzers 21:29 "es ist alles relativ volatil"; Marktindex 7 Tage −57 %): Ein 14-Tage-Median
+   hinkt bei starken Bewegungen hinterher. Darum:
+   - Trendpfeil aus den letzten 3 Tagen gegenüber dem Median (↑/↓ ab ±15 %, sonst →).
+   - Schwankt das Item stark (Tagespreise der letzten 7 Tage streuen um mehr als ±30 % um den Median), steht hinter
+     dem Median grau "schwankt stark" – sonst nichts (Optik-Regel OR, keine Zahlen zur Streuung).
+   - Bei "schwankt stark" oder Trend ↓/↑ ab ±30 % KEIN grünes Schnäppchen allein aus dem Median, und Entscheidungen
+     (Gewinn-Zeile, Sniper, Heute tun) stützen sich auf "Jetzt im AH" und den erzielten/gemessenen Verkaufspreis, nie
+     allein auf den Median.
+   Test T-TP5 (stark schwankendes Item -> Hinweis, kein Schnäppchen-Grün; ruhiges Item -> kein Hinweis).
    Gewinn-Zeile (LT) rechnet mit "Jetzt im AH". Optik-Regel OR gilt (keine Rechenwege).
    Tests T-TP1 (Lockangebot wird nicht als Jetzt-Preis gezeigt), T-TP2 (Alter 0/45 Min./9 Std. -> Anzeige und Farbe),
    T-TP3 (Schnäppchen grün), T-TP4 (über einem Angebot dessen Preis). Zusammen mit SN2115/OR.
