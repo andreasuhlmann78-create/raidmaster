@@ -1,0 +1,225 @@
+AHSentinel-Protokoll v0.65.99 · 13.11. 07:06:59
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  13.11. 07:01:09 L24 ? v0.65.99
+  13.11. 06:57:15 L10 ? v0.65.99
+  13.11. 06:16:02 L10 ? v0.65.99
+  13.11. 05:48:14 L10 ? v0.65.99
+  13.11. 05:43:30 L24 ? v0.65.99
+  13.11. 05:40:24 L10 ? v0.65.99
+  13.11. 05:16:53 L10 ? v0.65.99
+  13.11. 05:09:19 L10 ? v0.65.99
+  13.11. 04:57:52 L10 ? v0.65.99
+  13.11. 04:55:46 L10 ? v0.65.99
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 15 Min., 6533 Items, Preis-Sync an
+  SYNC GoldSentinelSync 2 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 0, GoldSentinelTest 0, GuildSentinel 0
+  SYNC gesendet 11 · empfangen 0 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 2 (mit Sync 2: 1, pausiert 0) · gesendet 0 · weitergegeben 0 · offline 0 · Listen 0 · Warteschlange 0 · gespeichert ja
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, minimapAngle=18.1, priceGuard=20, theme=modern, tooltipDEDetail=true, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[13.11. 07:06:33] ENTZAUBERWERT Item 6568 · Tabelle · 10940 75% × 5.00 à 86, 10998 20% × 1.50 à 439, 10978 5% × 1.00 à 259 · brutto 509 · netto 468
+[13.11. 07:06:33] DE-CHANCEN Gruppe 2:3:a · Tabelle 10940 75%/10998 20%/10978 5% · echt 10940 -/10998 -/10978 - (0)
+[13.11. 07:06:33] ABSATZ Item 6568 · Q 58 (scan, Q gesamt) · S 11.6 (market, Deckel) · S roh 14.1 · Deckel 11.6 · eigene Quote - · Laufzeit 2 Std. · W 5.1 · N 7.0
+[13.11. 07:06:33] ENTZAUBERWERT Item 10410 · Tabelle · 10978 100% × 1.00 à 259 · brutto 273 · netto 259
+[13.11. 07:06:23] ENTZAUBERWERT Item 15445 · Tabelle · 10978 100% × 1.00 à 259 · brutto 273 · netto 259
+[13.11. 07:06:23] ENTZAUBERWERT Item 6472 · Tabelle · 10978 100% × 1.00 à 259 · brutto 273 · netto 259
+[13.11. 07:06:23] DE-CHANCEN Gruppe 3:1 · Tabelle 10978 100% · echt 10978 - (0)
+[13.11. 07:06:23] ABSATZ Item 858 · Q 587 (vollscan) · S 179.0 (market, Deckel) · S roh 1124.3 · Deckel 179.0 · eigene Quote - · Laufzeit 24 Std. · W 3.3 · N 4.0
+[13.11. 07:02:37] ABSATZ Item 4592 · Q 1860 (scan, Q gesamt) · S 372.0 (market, Deckel) · S roh 1699.0 · Deckel 372.0 · eigene Quote - · Laufzeit 24 Std. · W 5.0 · N 6.0
+[13.11. 07:01:25] ABSATZ-UNPLAUSIBEL Item 4342 · 20.5/Tag · Quelle geschätzt
+[13.11. 07:01:24] ABSATZ-UNPLAUSIBEL Item 4307 · 128.2/Tag · Quelle geschätzt
+[13.11. 07:01:24] ABSATZ-UNPLAUSIBEL Item 12053 · 11.0/Tag · Quelle geschätzt
+[13.11. 07:01:24] ABSATZ-UNPLAUSIBEL Item 5474 · 386.0/Tag · Quelle geschätzt
+[13.11. 07:01:15] SYNC Weg=GUILD
+[13.11. 06:57:58] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[13.11. 06:57:33] ABSATZ-UNPLAUSIBEL Item 4343 · 104.4/Tag · Quelle geschätzt
+[13.11. 06:57:33] ABSATZ-UNPLAUSIBEL Item 2570 · 42.6/Tag · Quelle geschätzt
+[13.11. 06:57:31] ABSATZ-UNPLAUSIBEL Item 12053 · 11.0/Tag · Quelle geschätzt
+[13.11. 06:57:30] ABSATZ-UNPLAUSIBEL Item 4342 · 20.5/Tag · Quelle geschätzt
+[13.11. 06:57:30] ABSATZ-UNPLAUSIBEL Item 4307 · 128.2/Tag · Quelle geschätzt
+[13.11. 06:57:30] ABSATZ-UNPLAUSIBEL Item 5474 · 386.0/Tag · Quelle geschätzt
+[13.11. 06:57:24] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.1 Std., 11082: 0.1 Std., 11137: 0.1 Std. · 0 frisch geholt
+[13.11. 06:57:21] ABSATZ Item 11082 · Q 50 (vollscan) · S 79.8 (market, Deckel) · S roh 268.3 · Deckel 79.8 · eigene Quote 13/19 · Laufzeit 24 Std. · W 0.6 · N 1.5
+[13.11. 06:57:21] SYNC Weg=GUILD
+[13.11. 06:57:20] ABSATZ Item 11084 · Q 13 (vollscan) · S 108.6 (market, Deckel) · S roh 152.7 · Deckel 108.6 · eigene Quote 10/15 · Laufzeit 24 Std. · W 0.1 · N 1.5
+[13.11. 06:57:20] ABSATZ Item 11083 · Q 293 (vollscan) · S 996.6 (market, Deckel) · S roh 1249.2 · Deckel 996.6 · eigene Quote 13/20 · Laufzeit 24 Std. · W 0.3 · N 1.5
+[13.11. 06:57:20] EIGENE Ware Item 11083 · buyout 376 · Menge 26 · als Stückpreis gelesen
+[13.11. 06:56:01] SYNC gesendet 311, empfangen 0, verworfen 0 · Kanal verweigert 0
+[13.11. 06:51:44] ABSATZ-UNPLAUSIBEL Item 4343 · 104.4/Tag · Quelle geschätzt
+[13.11. 06:51:39] ABSATZ-UNPLAUSIBEL Item 4307 · 128.2/Tag · Quelle geschätzt
+[13.11. 06:51:32] ABSATZ-UNPLAUSIBEL Item 5474 · 386.0/Tag · Quelle geschätzt
+[13.11. 06:51:30] VOLLSCAN Messung 195309 Auktionen · 5948 Items · Lücke 98 ms (Preisverlauf+Neuaufbau) · Speicher 369989->413278 KB · GC 14 · Warten auf Server 10281/11; Ereignis-Aufruf 0/1; Einlesen 6145/13; Verdichtung 395/27; Verfolgung V4 1592/27; Preisverlauf+Neuaufbau 1066/98; Nachlauf 0/25
+[13.11. 06:51:30] PREIS-ALT nach Scan · letzter Scan Vollscan · Waren im Vollscan 165 · Hauptmaterialien 11083: 0.0 Std., 11082: 0.0 Std., 11137: 0.0 Std. · 0 frisch geholt
+[13.11. 06:51:30] LANGSAM Hintergrund-Aufgabe sync-send · 0 Schritte · 19 ms
+[13.11. 06:51:27] LANGSAM Hintergrund-Aufgabe fullscan · 3 Schritte · 34 ms
+[13.11. 06:51:27] LANGSAM Hintergrund-Aufgabe fullscan · 0 Schritte · 50 ms
+[13.11. 06:51:26] VOLLSCAN Absatz unplausibel: Item 248683 · 960/Tag bei Ø 443 im AH (6.1 Std.)
+[13.11. 06:51:25] VOLLSCAN Absatz unplausibel: Item 3727 · 3068/Tag bei Ø 1388 im AH (6.1 Std.)
+[13.11. 06:51:25] VOLLSCAN Absatz unplausibel: Item 6303 · 22454/Tag bei Ø 2475 im AH (6.1 Std.)
+[13.11. 06:51:24] VOLLSCAN Absatz unplausibel: Item 3369 · 3914/Tag bei Ø 657 im AH (6.1 Std.)
+[13.11. 06:51:24] LANGSAM Hintergrund-Aufgabe fullscan · 0 Schritte · 19 ms
+[13.11. 06:51:24] VOLLSCAN M1d 195309 Auktionen gelesen (195308 gültig) · 1814 ms in 582 Portionen · längster Frame 3.4 ms · 5948 Items
+[13.11. 06:51:16] VOLLSCAN M1c Abstand 2141 s · neue Liste · 195309 Auktionen · Antwort nach 10.3 s
+[13.11. 06:51:10] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.2 Std., 11082: 0.1 Std., 11137: 0.6 Std. · 5 frisch geholt
+[13.11. 06:46:14] ABBRECHEN AUCTION_CANCELED auctionID 74339490 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:46:01] SYNC gesendet 18, empfangen 0, verworfen 0 · Kanal verweigert 0
+[13.11. 06:45:19] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[13.11. 06:45:19] EINSTELLEN Item 11082 · Menge 8 · Auktionen 1 · Laufzeit 1 · Preis 2898/Stück, 23184 gesamt · Gebühr erwartet 100, abgezogen 100 (0.43 % vom Preis)
+[13.11. 06:45:18] AHS-POST PostCommodity: arg2=1 arg3=8 arg4=2898 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/1
+[13.11. 06:43:14] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.0 Std., 11082: 0.0 Std., 11137: 0.5 Std. · 0 frisch geholt
+[13.11. 06:43:00] ABBRUCH Item 11082 · Menge 8 · Erstattung 0
+[13.11. 06:42:59] ABBRECHEN AUCTION_CANCELED auctionID 113 (erwartet 74332557) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:42:59] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[13.11. 06:42:59] ABBRECHEN Klick: Zeile auctionID 74332557 · Item 11082 · Menge 8 · Status teurer · Preis 1214
+[13.11. 06:42:46] ABBRECHEN AUCTION_CANCELED auctionID 74332557 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:42:40] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[13.11. 06:42:40] EINSTELLEN Item 11082 · Menge 9 · Auktionen 1 · Laufzeit 1 · Preis 1214/Stück, 10926 gesamt · Gebühr erwartet 100, abgezogen 100 (0.92 % vom Preis)
+[13.11. 06:42:39] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.0 Std., 11082: 0.0 Std., 11137: 0.4 Std. · 0 frisch geholt
+[13.11. 06:42:39] AHS-POST PostCommodity: arg2=1 arg3=9 arg4=1214 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/1
+[13.11. 06:42:32] ABBRECHEN AUCTION_CANCELED auctionID 74328427 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:42:26] ABBRUCH Item 11082 · Menge 9 · Erstattung 0
+[13.11. 06:42:26] ABBRECHEN AUCTION_CANCELED auctionID 113 (erwartet 74330483) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:42:26] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[13.11. 06:42:26] ABBRECHEN Klick: Zeile auctionID 74330483 · Item 11082 · Menge 9 · Status teurer · Preis 1214
+[13.11. 06:42:21] ABBRECHEN AUCTION_CANCELED auctionID 74330659 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:41:56] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[13.11. 06:41:56] EINSTELLEN Item 11084 · Menge 2 · Auktionen 1 · Laufzeit 1 · Preis 3289/Stück, 6578 gesamt · Gebühr erwartet 100, abgezogen 100 (1.52 % vom Preis)
+[13.11. 06:41:56] AHS-POST PostCommodity: arg2=1 arg3=2 arg4=3289 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/3
+[13.11. 06:41:52] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[13.11. 06:41:52] EINSTELLEN Item 11082 · Menge 9 · Auktionen 1 · Laufzeit 1 · Preis 1214/Stück, 10926 gesamt · Gebühr erwartet 100, abgezogen 100 (0.92 % vom Preis)
+[13.11. 06:41:51] AHS-POST PostCommodity: arg2=1 arg3=9 arg4=1214 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/1
+[13.11. 06:41:09] ABBRECHEN AUCTION_CANCELED auctionID 74328427 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:41:07] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=1 · Minimum jetzt 100
+[13.11. 06:41:07] EINSTELLEN Item 11083 · Menge 36 · Auktionen 1 · Laufzeit 1 · Preis 376/Stück, 13536 gesamt · Gebühr erwartet 100, abgezogen 100 (0.74 % vom Preis)
+[13.11. 06:41:06] AHS-POST PostCommodity: arg2=1 arg3=36 arg4=376 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/2
+[13.11. 06:40:49] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.1 Std., 11082: 0.1 Std., 11137: 0.4 Std. · 0 frisch geholt
+[13.11. 06:40:41] DE-GEZÄHLT ×3 Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[13.11. 06:40:28] DE-GEZÄHLT ×3 Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[13.11. 06:40:16] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11084×1
+[13.11. 06:40:11] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[13.11. 06:40:01] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[13.11. 06:39:53] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[13.11. 06:39:49] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11084×1
+[13.11. 06:39:44] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[13.11. 06:39:40] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11082×1
+[13.11. 06:39:36] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[13.11. 06:39:32] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[13.11. 06:39:28] DE-GEZÄHLT ×3 Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[13.11. 06:39:15] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[13.11. 06:39:11] DE-GEZÄHLT ×2 Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[13.11. 06:39:00] DE-GEZÄHLT ×2 Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11082×1
+[13.11. 06:38:51] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[13.11. 06:38:47] DE-GEZÄHLT ×2 Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[13.11. 06:38:39] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[13.11. 06:38:35] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[13.11. 06:38:30] DE-GEZÄHLT ×3 Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[13.11. 06:37:46] ABBRECHEN AUCTION_CANCELED auctionID 74207719 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:45] ABBRECHEN AUCTION_CANCELED auctionID 73845533 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:44] ABBRECHEN AUCTION_CANCELED auctionID 73845675 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:44] ABBRECHEN AUCTION_CANCELED auctionID 74003948 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:43] ABBRECHEN AUCTION_CANCELED auctionID 74003577 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:43] ABBRECHEN AUCTION_CANCELED auctionID 73845749 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:42] ABBRECHEN AUCTION_CANCELED auctionID 73749719 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:42] ABBRECHEN AUCTION_CANCELED auctionID 72610450 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:41] ABBRECHEN AUCTION_CANCELED auctionID 69768696 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:41] ABBRECHEN AUCTION_CANCELED auctionID 64428091 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:40] ABBRECHEN AUCTION_CANCELED auctionID 69768499 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:39] ABBRECHEN AUCTION_CANCELED auctionID 71405933 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:39] ABBRECHEN AUCTION_CANCELED auctionID 62880109 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:38] ABBRECHEN AUCTION_CANCELED auctionID 62880162 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:38] ABBRECHEN AUCTION_CANCELED auctionID 64427905 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:37] ABBRECHEN AUCTION_CANCELED auctionID 64427727 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:36] ABBRECHEN AUCTION_CANCELED auctionID 71405748 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:36] ABBRECHEN AUCTION_CANCELED auctionID 71406086 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:35] ABBRECHEN AUCTION_CANCELED auctionID 72184546 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:35] ABBRECHEN AUCTION_CANCELED auctionID 72184691 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:34] ABBRECHEN AUCTION_CANCELED auctionID 71547776 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:33] ABBRECHEN AUCTION_CANCELED auctionID 72184128 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:33] ABBRECHEN AUCTION_CANCELED auctionID 71554633 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:32] ABBRECHEN AUCTION_CANCELED auctionID 71554530 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:31] ABBRECHEN AUCTION_CANCELED auctionID 71548235 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:30] ABBRECHEN AUCTION_CANCELED auctionID 72109658 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:30] ABBRECHEN AUCTION_CANCELED auctionID 71577617 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:29] SNIPER-TOT-AUSGEBLENDET Item 7048 · Preis 999 · Einzelangebot · Grund Kauf fehlgeschlagen
+[13.11. 06:37:29] ABBRECHEN AUCTION_CANCELED auctionID 71553448 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:28] SNIPER-TOT-AUSGEBLENDET Item 7048 · Preis 999 · Einzelangebot · Grund Kauf fehlgeschlagen
+[13.11. 06:37:28] ABBRECHEN AUCTION_CANCELED auctionID 71604694 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:28] SNIPER-TOT-AUSGEBLENDET Item 7048 · Preis 998 · Einzelangebot · Grund Kauf fehlgeschlagen
+[13.11. 06:37:27] ABBRECHEN AUCTION_CANCELED auctionID 71834691 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:27] SNIPER-TOT-AUSGEBLENDET Item 7048 · Preis 997 · Einzelangebot · Grund Kauf fehlgeschlagen
+[13.11. 06:37:27] SNIPER-TOT-AUSGEBLENDET Item 7048 · Preis 950 · Einzelangebot · Grund Kauf fehlgeschlagen
+[13.11. 06:37:27] ABBRECHEN AUCTION_CANCELED auctionID 72314335 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:37:27] SNIPER Treffer 1 · gekauft 1 · Ø Suche>Treffer 112 ms, Treffer>Reserv. 367270 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms, bestätigt>gekauft 0 ms
+[13.11. 06:37:26] SNIPER-TOT-AUSGEBLENDET Item 7048 · Preis 945 · Einzelangebot · Grund Kauf fehlgeschlagen
+[13.11. 06:37:26] SNIPER-SUCHE Ziel 7048 · Angebote 84 · Treffer ≤ Max 82 · gekauft 0 · Sperre msg:Keine offenen Ziele. Lege oben ein Ziel an (oder alle Ziele sind erfüllt). · tot wieder geliefert 3 (Sitzung 49)
+[13.11. 06:36:58] ABBRECHEN AUCTION_CANCELED auctionID 74308467 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:36:53] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.0 Std., 11082: 0.1 Std., 11137: 0.4 Std. · 0 frisch geholt
+[13.11. 06:36:09] ABBRECHEN AUCTION_CANCELED auctionID 74308467 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:36:01] SYNC gesendet 14, empfangen 0, verworfen 0 · Kanal verweigert 0
+[13.11. 06:36:00] ABBRECHEN ×4 AUCTION_CANCELED auctionID 74308467 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:34:33] ABBRECHEN AUCTION_CANCELED auctionID 74308840 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:34:03] ABBRECHEN AUCTION_CANCELED auctionID 74308665 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:34:00] ABBRECHEN AUCTION_CANCELED auctionID 74308467 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:33:52] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[13.11. 06:33:52] EINSTELLEN Item 11084 · Menge 4 · Auktionen 1 · Laufzeit 1 · Preis 3289/Stück, 13156 gesamt · Gebühr erwartet 100, abgezogen 100 (0.76 % vom Preis)
+[13.11. 06:33:51] AHS-POST PostCommodity: arg2=1 arg3=4 arg4=3289 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/3
+[13.11. 06:33:48] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=1 · Minimum jetzt 100
+[13.11. 06:33:48] EINSTELLEN Item 11082 · Menge 35 · Auktionen 1 · Laufzeit 1 · Preis 1206/Stück, 42210 gesamt · Gebühr erwartet 100, abgezogen 100 (0.24 % vom Preis)
+[13.11. 06:33:47] AHS-POST PostCommodity: arg2=1 arg3=35 arg4=1206 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/6
+[13.11. 06:33:44] ABSATZ Item 2997 · Q 30 (vollscan) · S 53.6 (market, Deckel) · S roh 587.2 · Deckel 53.6 · eigene Quote 3/3 · Laufzeit 24 Std. · W 0.6 · N 1.0
+[13.11. 06:33:44] ABSATZ Item 2320 · Q 1327 (scan, Q gesamt) · S 265.4 (market, Deckel) · S roh 1579.8 · Deckel 265.4 · eigene Quote - · Laufzeit 24 Std. · W 5.0 · N 6.0
+[13.11. 06:33:44] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=6 · Minimum jetzt 100
+[13.11. 06:33:44] EINSTELLEN Item 11083 · Menge 127 · Auktionen 1 · Laufzeit 1 · Preis 376/Stück, 47752 gesamt · Gebühr erwartet 100, abgezogen 100 (0.21 % vom Preis)
+[13.11. 06:33:44] EIGENE Ware Item 11083 · buyout 376 · Menge 127 · als Stückpreis gelesen
+[13.11. 06:33:43] AHS-POST PostCommodity: arg2=1 arg3=127 arg4=376 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/1
+[13.11. 06:33:20] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.3 Std., 11082: 0.3 Std., 11137: 0.3 Std. · 0 frisch geholt
+[13.11. 06:33:12] DE-GEZÄHLT ×5 Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[13.11. 06:32:51] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[13.11. 06:32:46] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[13.11. 06:32:42] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[13.11. 06:32:38] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[13.11. 06:32:34] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11084×1
+[13.11. 06:32:30] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[13.11. 06:32:26] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[13.11. 06:32:22] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[13.11. 06:32:18] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[13.11. 06:32:14] DE-GEZÄHLT ×2 Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[13.11. 06:32:05] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[13.11. 06:32:00] DE-GEZÄHLT ×2 Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[13.11. 06:31:52] DE-GEZÄHLT ×3 Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[13.11. 06:31:16] ABBRECHEN AUCTION_CANCELED auctionID 71554753 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:31:16] ABBRECHEN AUCTION_CANCELED auctionID 71554857 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:31:15] ABBRECHEN AUCTION_CANCELED auctionID 71577035 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:31:15] SNIPER-TOT-AUSGEBLENDET Item 7048 · Preis 999 · Einzelangebot · Grund Kauf fehlgeschlagen
+[13.11. 06:31:14] ABBRECHEN AUCTION_CANCELED auctionID 71577216 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:31:14] SNIPER-TOT-AUSGEBLENDET ×2 Item 7048 · Preis 999 · Einzelangebot · Grund Kauf fehlgeschlagen
+[13.11. 06:31:14] ABBRECHEN AUCTION_CANCELED auctionID 71553966 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:31:13] SNIPER-TOT-AUSGEBLENDET Item 7048 · Preis 999 · Einzelangebot · Grund Kauf fehlgeschlagen
+[13.11. 06:31:13] ABBRECHEN AUCTION_CANCELED auctionID 71553650 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:31:13] SNIPER-TOT-AUSGEBLENDET Item 7048 · Preis 999 · Einzelangebot · Grund Kauf fehlgeschlagen
+[13.11. 06:31:12] ABBRECHEN AUCTION_CANCELED auctionID 71553074 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:31:12] SNIPER-TOT-AUSGEBLENDET Item 7048 · Preis 999 · Einzelangebot · Grund Kauf fehlgeschlagen
+[13.11. 06:31:12] ABBRECHEN AUCTION_CANCELED auctionID 71552345 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:31:11] SNIPER-TOT-AUSGEBLENDET Item 7048 · Preis 999 · Einzelangebot · Grund Kauf fehlgeschlagen
+[13.11. 06:31:11] ABBRECHEN AUCTION_CANCELED auctionID 71553544 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:31:11] SNIPER-TOT-AUSGEBLENDET Item 7048 · Preis 999 · Einzelangebot · Grund Kauf fehlgeschlagen
+[13.11. 06:31:10] ABBRECHEN AUCTION_CANCELED auctionID 71614327 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:31:10] SNIPER-TOT-AUSGEBLENDET Item 7048 · Preis 998 · Einzelangebot · Grund Kauf fehlgeschlagen
+[13.11. 06:31:10] ABBRECHEN AUCTION_CANCELED auctionID 71604598 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:31:09] SNIPER-TOT-AUSGEBLENDET Item 7048 · Preis 998 · Einzelangebot · Grund Kauf fehlgeschlagen
+[13.11. 06:31:09] ABBRECHEN AUCTION_CANCELED auctionID 71761355 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:31:09] SNIPER-TOT-AUSGEBLENDET Item 7048 · Preis 997 · Einzelangebot · Grund Kauf fehlgeschlagen
+[13.11. 06:31:08] ABBRECHEN AUCTION_CANCELED auctionID 71730502 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:31:08] SNIPER-TOT-AUSGEBLENDET Item 7048 · Preis 997 · Einzelangebot · Grund Kauf fehlgeschlagen
+[13.11. 06:31:08] ABBRECHEN AUCTION_CANCELED auctionID 71645478 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:31:08] SNIPER-TOT-AUSGEBLENDET Item 7048 · Preis 997 · Einzelangebot · Grund Kauf fehlgeschlagen
+[13.11. 06:31:07] ABBRECHEN AUCTION_CANCELED auctionID 71834464 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
+[13.11. 06:31:07] SNIPER-TOT-AUSGEBLENDET Item 7048 · Preis 950 · Einzelangebot · Grund Kauf fehlgeschlagen
+[13.11. 06:31:06] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.3 Std., 11137: 0.3 Std., 11082: 0.3 Std. · 0 frisch geholt
+[13.11. 06:31:06] ABBRECHEN AUCTION_CANCELED auctionID 71894096 (erwartet nil) -> Zeile entfernt, Ware zurück per Post
