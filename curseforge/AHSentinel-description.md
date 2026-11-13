@@ -12,6 +12,18 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.106
+
+- **Market core, step 1 "trust" (measurements for the new market tab):**
+  - Every shown buy recommendation (flip, vendor, disenchant from the Market tab, Sniper hits) is remembered and checked
+    24 hours later against the scan: hit rate and mean error per way. A way with at least 20 cases and less than 60 %
+    hits is locked automatically (log "WEG GESPERRT"); below 20 cases it shows "still learning".
+  - Sale vs. cancel: when one of your own auctions disappears with a long remaining time, the detection guesses "sold"
+    or "re-posted"; the real cause (sale / your cancel) gives its error rate – the basis for releasing sales numbers.
+  - Vendor prices: how many were confirmed by the game and how many differed from the remembered table.
+  - New test report section "MARKT-KERN" with these numbers, limits marked "VERFEHLT" (missed).
+- Tests T550–T555 (T-MA1–T-MA3, T-Ü1–T-Ü3).
+
 ### Version 0.65.105
 
 - **No more posting too cheap when the market rises 125–150 %.** With a full price ladder (≥ 3 offers or ≥ 5 pieces)
@@ -63,21 +75,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   per area (TU1–TU7) and "Regressions: n of m present". Tests T513–T529.
 - **Offline tests (TU9):** `tests/run_offline.sh` in the AHAnalyzerPro repository runs the test routine in a simulated
   game without WoW (Lua 5.1).
-
-### Version 0.65.101
-
-- **Sell suggestion follows a buyout.** If the whole price ladder is high (buyout or new market situation: cheapest
-  offer ≥ 150 % of market value with at least 3 offers or 5 pieces), the suggestion is just below the cheapest offer –
-  no longer your old learned price. Hint: "Buyout – sell high now, the price usually drops soon (2 h)" instead of
-  "post cheaper"; the expiry counter is ignored in that case. "Sells only ~N" is hidden until the sales measurement is
-  released.
-- **A price you typed stays.** A finished price check no longer overwrites a price you entered by hand; changing the
-  item or clicking "Suggestion"/"−1" makes it automatic again.
-- **Sniper keeps several hits.** If two targets find hits at the same time, both stay buyable (best gap to the max
-  price first, then the next); expired hits drop out. Status: "N more hits waiting".
-- **Sniper quantity empty:** commodities buy as many as the budget allows ("Quantity: up to budget (N pcs)"), gear 1.
-  Warning when quantity × max price is far below the budget.
-- Tests T509–T512 (T-AB4c-a/b, T-SM1, T-SM2).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

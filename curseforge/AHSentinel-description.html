@@ -7,6 +7,18 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.106</h3>
+<ul>
+<li><strong>Market core, step 1 "trust" (measurements for the new market tab):</strong></li>
+<li>Every shown buy recommendation (flip, vendor, disenchant from the Market tab, Sniper hits) is remembered and checked
+    24 hours later against the scan: hit rate and mean error per way. A way with at least 20 cases and less than 60 %
+    hits is locked automatically (log "WEG GESPERRT"); below 20 cases it shows "still learning".</li>
+<li>Sale vs. cancel: when one of your own auctions disappears with a long remaining time, the detection guesses "sold"
+    or "re-posted"; the real cause (sale / your cancel) gives its error rate – the basis for releasing sales numbers.</li>
+<li>Vendor prices: how many were confirmed by the game and how many differed from the remembered table.</li>
+<li>New test report section "MARKT-KERN" with these numbers, limits marked "VERFEHLT" (missed).</li>
+<li>Tests T550–T555 (T-MA1–T-MA3, T-Ü1–T-Ü3).</li>
+</ul>
 <h3>Version 0.65.105</h3>
 <ul>
 <li><strong>No more posting too cheap when the market rises 125–150 %.</strong> With a full price ladder (≥ 3 offers or ≥ 5 pieces)
@@ -59,22 +71,7 @@
 <li><strong>Offline tests (TU9):</strong> <code>tests/run_offline.sh</code> in the AHAnalyzerPro repository runs the test routine in a simulated
   game without WoW (Lua 5.1).</li>
 </ul>
-<h3>Version 0.65.101</h3>
-<ul>
-<li><strong>Sell suggestion follows a buyout.</strong> If the whole price ladder is high (buyout or new market situation: cheapest
-  offer ≥ 150 % of market value with at least 3 offers or 5 pieces), the suggestion is just below the cheapest offer –
-  no longer your old learned price. Hint: "Buyout – sell high now, the price usually drops soon (2 h)" instead of
-  "post cheaper"; the expiry counter is ignored in that case. "Sells only ~N" is hidden until the sales measurement is
-  released.</li>
-<li><strong>A price you typed stays.</strong> A finished price check no longer overwrites a price you entered by hand; changing the
-  item or clicking "Suggestion"/"−1" makes it automatic again.</li>
-<li><strong>Sniper keeps several hits.</strong> If two targets find hits at the same time, both stay buyable (best gap to the max
-  price first, then the next); expired hits drop out. Status: "N more hits waiting".</li>
-<li><strong>Sniper quantity empty:</strong> commodities buy as many as the budget allows ("Quantity: up to budget (N pcs)"), gear 1.
-  Warning when quantity × max price is far below the budget.</li>
-<li>Tests T509–T512 (T-AB4c-a/b, T-SM1, T-SM2).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
