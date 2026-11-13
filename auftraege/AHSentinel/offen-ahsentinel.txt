@@ -9,6 +9,12 @@
 >>>    des Nutzers darüber gilt weiter = max). Testbericht: je Gruppe Fälle, Gewinn gesamt, geltender Mindestgewinn.
 >>>    Tooltip-Text "unter dem Mindestgewinn %d %%" zeigt den Wert der Gruppe. Tests T-DE30c (belegte Gruppe 20 %),
 >>>    T-DE30d (unbelegte 30 %), T-DE30e (Rückfall auf 30 % unter 20 % Gewinn), T633 anpassen.
+>>>    GRUPPEN-EINTEILUNG (Nutzer 23:46: "je nach Item kommen andere Staub usw. zum Vorschein – so einteilen"):
+>>>    Gruppe = Stufenband der Entzauber-Tabelle = WELCHE Materialien herauskommen (z. B. 26–30: Seelenstaub 11083,
+>>>    Grosse Astralessenz 11082, Kleiner gleissender Splitter 11084; 36–40: Visionenstaub 11137, Grosse mystische Essenz
+>>>    11135, Grosser gleissender Splitter 11139). Rüstung und Waffe desselben Bands ZUSAMMEN zählen (gleiche Materialien,
+>>>    gleiche Preise; die unterschiedlichen Chancen stecken schon in der Vorhersage) -> mehr Fälle, schneller belegt.
+>>>    Qualität getrennt lassen (grün/blau/lila geben andere Materialien). Im Bericht je Gruppe die Material-IDs nennen.
 
 >>> !!! KF2 (SEHR HOCH, GOLD – URSACHE BELEGT von der Prüf-Sitzung 13.11. 23:50, Nutzer: "verdammt wichtig") – direkt nach
 >>>    TB119-1, VOR TB118. Nachgerechnet aus deinen eigenen Daten (forecast.list, 648 D-Einträge, PC 13.11. 23:41):
