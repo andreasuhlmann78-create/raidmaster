@@ -1,0 +1,63 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG – GESAMTSTAND ZUR INFO
+Stand: 13.11.2026 17:00 · Sitzung: Discord-Projekt · Version: Bot 1.5.131 (Commit 96569f5)
+Auf Wunsch des Nutzers: alles zusammengestellt. Einzelheiten stehen in den Einzelberichten in berichte/Discord/.
+
+1. NEU SEIT DER NACHPRÜFUNG 1.5.130 (Bericht 2026-11-13-1650-mn7-sammelstelle.txt)
+- MN7 Sammelstelle, umgesetzt in market.py:
+  - Format: GSMARKT1 v1, 6 Felder in Base36. Keine Namen; als Quelle zählt nur ein Hash der Webhook-ID.
+  - Doppelte: je Fraktion und Scan-Zeit nur ein Scan, weitere Absender nur als Quelle gezählt.
+  - Je Item: Preisverlauf, Angebot, Absatz je Tag als Spanne (Untergrenze/Obergrenze), Umschlag, Abdeckung (x/168).
+  - Annahme aus #bot-daten (Uploads) und still aus den Webhook-Paketen in #testberichte (nie antworten, nie
+    löschen; nur GSMARKT1 wird gelesen).
+  - Wochenbericht: montags als GSMARKTW1-<JJJJ>-W<KW>.md in #bot-befehle. Der neue Workflow markt-bericht.yml
+    (alle 6 h) legt ihn unter testberichte/markt/ ab. /marktdaten (Gildenleitung) zeigt den Stand, mit
+    bericht:True kommt der Bericht sofort.
+- MN8 monatlich: blizzard_api_check --list läuft im Bot. Ein Bericht (GSBLIZZ1-<Datum>.txt) kommt nur, wenn sich
+  die Realm-Listen ändern; der erste Lauf speichert nur den Ausgangsstand.
+- D-GS1b erledigt: gs_has_bank = False steht vor dem if in receive_upload.
+- Tests: 211 Bot-Tests OK, CI "Bot-Tests" und "Marktbericht" grün. REGRESSIONEN: 20 von 20, neu T-MN7 (Funktionstest
+  mit nachgebauten Zeilen), T-MN7b und T-D-GS1b.
+  Hinweis: T-MN7b und T-D-GS1b prüfen den Quelltext als Text, weil bot.py nicht importierbar ist. Die Logik selbst
+  (market.py, uploader_setup.market_source) ist mit echten Funktionsaufrufen getestet.
+- MN KORREKTUR 2 (FeedStart/Feed) betrifft den Bot nicht: Das Export-Format GSMARKT1 ist unverändert (geprüft
+  in 6e66279), und der Bot kopiert die Lua-Datei nicht.
+
+2. HEUTE UND GESTERN ERLEDIGT (Bot 1.5.115–1.5.131, Kurzliste)
+- Mitgliederbereich:
+  - Rolle Mitglied; #bewerbung mit Knopf, Formular und privatem Thread; Aufnehmen/Entfernen.
+  - Kategorie 📝 BEWERBUNG ganz oben; Onboarding mit Pflichtfrage, ohne automatische Rolle.
+  - 🔊 Gildenhalle nur für Mitglieder.
+- Community-Server, Serverprofil (alle Klassen willkommen, 16+), Server Members Intent an. Der Bot läuft ohne
+  Administrator. DISBOARD hat "Kanäle verwalten" nicht mehr. #gildenname ist gelöscht.
+- Addon-Kanäle sind für Mitglieder sichtbar; bei der Anmeldung zu einem Gilden-Raid kommt der Hinweis
+  "RaidMaster ist Pflicht".
+- Raids:
+  - /raid erstellen antwortet vor dem Posten (kein "Unknown interaction" mehr).
+  - Der Raid-Topf kommt aus dem Kanal (Barrow statt MC).
+  - Scheitert das Posten, kommt eine klare Meldung und kein Raid ohne Nachricht (raid_post.py).
+- RP-D/RP-D2/RP-D3: Raidfähigkeit montags in #offiziere, Phasen richtig benannt, Stände älter als 14 Tage werden
+  nicht gepostet.
+- TU1–TU6: umfassende Tests und Selbstprüfung (self_check) alle 6 h.
+- D-GS1: raidReady wird auch ohne Gildenbank angenommen. D-UP1: /uploader prüft und nennt die Uploader-Version.
+- MN8: WoW Forever ist in der Blizzard-API nicht vorhanden; Ergebnis angenommen.
+
+3. NOCH LIVE ZU PRÜFEN (beim Nutzer bzw. auf dem Server)
+- Nach dem Selbst-Update auf 1.5.131: /marktdaten antwortet, und im Protokoll steht kein Fehler zu market.
+- Sobald der Uploader GSMARKT1 schickt (RaidMaster MN6):
+  - Scans je Fraktion erscheinen in /marktdaten;
+  - derselbe Scan von PC und Laptop ergibt 1 Scan mit 2 Quellen;
+  - am Montag liegt GSMARKTW1-…md in #bot-befehle und danach in testberichte/markt/.
+- Bewerbung: "Aufnehmen" gibt Mitglied und entfernt Gast.
+- Gilden-Raid-Anmeldung zeigt den RaidMaster-Pflicht-Hinweis, die PUG-Anmeldung nicht.
+- Onboarding einmal mit einem neuen Konto durchspielen.
+- /uploader nennt die Uploader-Version (D-UP1). Upload ohne Gildenbank -> "nur Raidfähigkeit" im Protokoll (D-GS1).
+- RP-D: am Montag ein Post in #offiziere, kein zweiter in derselben Woche.
+- TU5: Ergebnis der Selbstprüfung in #bot-befehle, ohne neue Meldung beim zweiten Neustart.
+
+4. FÜR ANDERE PROJEKTE / FRAGEN
+- RaidMaster (MN6, Uploader): Der Bot nimmt GSMARKT1-Zeilen auf beiden Wegen an: im Paket an #testberichte (wie
+  GSDIAG1, Webhook) oder im Upload an #bot-daten (beliebiger .lua/.lua.gz/.json(.gz)/.txt-Anhang). Doppeltes
+  Senden schadet nicht. Bitte an die RaidMaster-Sitzung weitergeben.
+- Frage an die Prüf-Sitzung: Das stille Mitlesen von GSMARKT1 in #testberichte weicht von der alten Regel "Bot liest
+  #testberichte nie" ab (test_testberichte b05/b08 bleiben grün). Bitte bestätigen oder anders entscheiden.
+- Phase 2 (Rückweg der Marktdaten zu den Addons) ist nicht gebaut; das kommt als eigener Auftrag.
