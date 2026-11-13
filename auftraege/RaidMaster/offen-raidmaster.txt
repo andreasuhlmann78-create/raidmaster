@@ -117,3 +117,9 @@ HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Versionen höher als Addon 3.0.23, Uploader 2.3.2.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/RaidMaster/ ablegen.
+
+U-UP (NIEDRIG, NEU 13.11. 12:08 – Bild des Nutzers beim Update auf 2.3.2): Startet 2.3.2, während noch ein Uploader vor 2.3.2
+   läuft, meldet es "Der Uploader läuft schon (PID ?, … Version vor 2.3.2). Dieses Fenster wird nicht gebraucht" und beendet
+   sich – der ALTE läuft weiter, das Update greift nicht. Lösung: Bei einer älteren Version anbieten "Alte Version beenden
+   und 2.3.2 starten? (J/N)" (Prozess über Fenstertitel/Kommandozeile mit uploader.py im gleichen Ordner finden), sonst
+   klarer Hinweis "Bitte zuerst das alte Uploader-Fenster schliessen, dann neu starten". Test dazu.
