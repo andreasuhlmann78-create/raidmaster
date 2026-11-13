@@ -527,6 +527,39 @@ Neuer Reiter: Lage (Bänder) / Mein Lager / Chancen / Trefferzeile – Auftrag a
   Quellen: Q14 https://www.shopify.com/blog/gmroi · Q15 https://www.spscommerce.com/community/articles/gmroii-combining-sales-profitability-and-asset-efficiency
   · Q16 https://o9solutions.com/articles/effective-markdown-optimization · Q17 https://www.invent.ai/blog/markdown-optimization-for-inventory-performance
 
+### GEMESSEN 14.11. 00:45 – Wellen und Zyklen (Prüf-Sitzung, Daten PC 5.–13.11., 336'172 Preispunkte, 6'771 Items)
+Werkzeuge: addon-check/marktanalyse/. Gemessen = Mindestpreise aus den eigenen Scans (ohne unbestätigte/Sync-Punkte).
+
+**1. Die Levelwelle – BELEGT (klar, in Folge).** Index je Stufenband (Tagesmedian der Staub/Essenz/Splitter-Preise,
+1,00 = erster Tag mit Daten):
+
+| Band | 05.11 | 06. | 07. | 08. | 09. | 10. | 11. | 12. | 13. |
+|---|---|---|---|---|---|---|---|---|---|
+| 05–20 | 1,00 | 0,60 | 0,83 | 0,67 | 0,63 | 0,61 | 0,62 | 0,64 | 0,72 |
+| 21–30 | 1,00 | 0,16 | 0,12 | 0,13 | 0,11 | 0,14 | 0,12 | 0,12 | 0,14 |
+| 31–40 | 1,00 | 1,05 | 0,51 | 0,23 | 0,21 | 0,20 | 0,20 | 0,18 | 0,20 |
+| 41–50 | – | 1,00 | 0,83 | 0,59 | 0,36 | 0,28 | 0,31 | 0,37 | 0,31 |
+| 51–60 | – | – | – | 1,00 | 0,95 | 0,61 | 0,38 | 0,33 | 0,33 |
+
+-> Jedes Band bricht ein, sobald die Masse durchlevelt, und wandert ca. 1 Band je 1–2 Tage nach oben (21–30 am 6.,
+31–40 am 7./8., 41–50 am 8.–10., 51–60 am 10.–12.). Danach bleibt das Band auf 12–35 % des Startpreises stehen.
+Seit 11./12.11. sind ALLE Bänder durch und seitwärts (±10 %); leichte Erholung in 05–20 (+12 % seit 11.) und 41–50.
+Vorsicht: Der erste Tag ist dünn (Startpreise mit wenigen Angeboten) – die Höhe des Einbruchs ist übertrieben,
+die REIHENFOLGE und der ZEITPUNKT sind belegt.
+Folgerung für die Vorausschau: Ein Band, dessen Index 2 Tage hintereinander > 15 % fällt, ist "in der Welle" – nicht
+kaufen/halten, schnell verkaufen; ein Band, das 3 Tage seitwärts liegt, ist "durch". Nächste erwartete Welle (VERMUTET,
+nicht belegt): Raid-Öffnung 9.12. (Verbrauchsgüter, Resistenz-Material) – mit M-Welle beobachten.
+
+**2. Tageszyklus – HINWEIS, NOCH NICHT BELEGT.** Bereinigt um Trend (Abweichung vom gleitenden ±12-Std.-Median desselben
+Items): Vormittag/Mittag 08–13 Uhr +1,5 bis +4,3 %, Abend 17–19 Uhr −2,0 bis −3,5 %, 22–23 Uhr −1,5 bis −2,3 %
+(Spanne ~6–8 %). Bestätigung erste/zweite Hälfte: Korrelation +0,61, gleiche Richtung nur 10/16 Stunden -> zu schwach.
+Ungereinigt (+4,6 % morgens, −4,7 % abends) war der Effekt durch den fallenden Markt aufgebläht. Plausibel: abends viele
+Spieler online, mehr Angebote, tiefere Mindestpreise. Messfehler möglich: gescannt wird nur, wann der Nutzer spielt.
+Brauchbar erst nach ≥ 3 Wochen und gleicher Richtung ≥ 80 %; die Spanne liegt nahe an der Gebühr (5 %).
+
+**3. Wochenzyklus – NICHT BELEGT.** Je Wochentag nur 1–2 Kalendertage, alles überlagert vom Start-Einbruch
+(Sa/So 7./8.11. +64/+29 % = Starttage). Frühestens nach 3–4 Wochen messbar. Monatszyklus: frühestens nach 2–3 Monaten.
+
 ## 9. Pflege dieser Datei
 
 - Neue Messung oder Entscheid des Nutzers -> hier eintragen (mit Datum), Status belegt/vermutet.
