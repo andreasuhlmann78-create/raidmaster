@@ -25,6 +25,11 @@ für JEDE neue Version jedes Projekts (auch für die geplante Nachprüfung).
 - Zusätzlich zu A: Fühlt sich die Änderung im Spiel gut an? Schnell, schlicht, verlässlich, wenig Klicks, Erfolg
   sichtbar, kein Frust. Bei AHSentinel ist das der Zweck ("Spass am Gold verdienen – aber nicht nur").
 
+## A3. Takt der Prüfung (Nutzer 13.11. 22:33)
+- Bei jeder Nachricht des Nutzers zuerst kurz `git pull` und nach neuen Versionen/Berichten sehen (kostet Sekunden).
+- Während intensiver Zusammenarbeit zusätzlich alle 8–10 Min. eine kurze Prüf-Runde (Erinnerung in dieser Sitzung);
+  nur melden, wenn es Neues gibt. Ruhige Zeiten: die geplante Nachprüfung genügt.
+
 ## B. Bei jedem Bild, Bericht oder jeder Datei des Nutzers
 - Alles auf dem Bild lesen, nicht nur das, wonach gefragt wurde: Version im Titel, Statuszeile (Sync-Warteschlange,
   Scan-Alter), Chatzeilen, jede Zahl im Tooltip nachrechnen, Widersprüche zu früheren Bildern suchen.
