@@ -1,0 +1,35 @@
+BERICHT THREATSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 17:15 · Sitzung: ThreatSentinel-Projekt-Sitzung · Version: 2.5.11 · Commit: 5803e50
+Anlass: Nachtrag MN (auftraege/ThreatSentinel/anweisung-marktdaten-netz.txt), GoldSentinelMarkt v1 liegt bereit.
+addon_check 2.5.11: OK, 0 FEHLER, 0 WARNUNGEN. GoldSentinelMarkt.lua byte-gleich mit shared/ (Prüfung exact).
+
+ERLEDIGT
+MN1 GoldSentinelMarkt.lua unverändert aus shared/ kopiert; TOC: GoldSentinelDev, GoldSentinelGame, GoldSentinelTest,
+    GoldSentinelMarkt, dann die eigenen Dateien. Beim Laden (ADDON_LOADED, nach InitDB) ns:AttachMarket() ->
+    GoldSentinelMarkt.Attach("ThreatSentinel", ThreatSentinelDB) in pcall; fehlt die Datei, läuft das Addon normal.
+    Daten in ThreatSentinelDB.gsMarkt (oberste Ebene, für alle Profile; die Testroutine-Sandbox lässt gs*-Schlüssel aus).
+MN2 Schalter "Marktdaten teilen (anonym, nur Preise)" (Einstellungen, Allgemein), Profil-Feld marketShare, Standard an;
+    ns:ApplyMarketShare() -> GoldSentinelMarkt.SetShare beim Laden, bei jeder Änderung und bei jedem ApplySettings
+    (auch Profilwechsel). Locales EN/DE, CHANGELOG EN/DE.
+MN3 Zeile "MARKT-NETZ: v1, an/aus, mitgelesene Scans n, gesendet n / empfangen n, Speicher n KB" im Testbericht
+    (Text und Feld "markt") und im Diagnose-Protokoll (/ts protokoll, GSDIAG1). Keine Namen.
+MN4 Tests (Bereich U): T-MN1 Addon läuft mit und ohne die Datei (Anmelden false, Zeile "nicht geladen", Diagnose ok),
+    T-MN2 Schalter aus -> IsShareOn false, ein Vollscan wird nicht gelesen, fremde Daten nicht angenommen,
+    T-MN3 ohne Auktionshaus-API (GM.api.ah -> nil) kein Lua-Fehler, kein Leser, T-MN4 Zeile im Bericht/Diagnose.
+    Offline (TU9): Forever OK 239, Era OK 243, FEHLER ausserhalb der Nachbildungs-Liste 0.
+
+HINWEISE / FRAGEN
+1. ThreatSentinel bringt GoldSentinelSync NICHT mit (gemeinsamer Sync wartet auf den Entscheid des Nutzers). Darum
+   steht GoldSentinelMarkt in der TOC nach GoldSentinelTest statt nach GoldSentinelSync. Folge: Ist ThreatSentinel das
+   einzige GoldSentinel-Addon, liest die Datei nur mit und speichert (kein Teilen); bringt ein anderes Addon
+   GoldSentinelSync mit, teilt sie über dessen Sync (die Datei holt _G.GoldSentinelSync erst im Takt).
+2. Befund zur gemeinsamen Datei (NIEDRIG, nicht geändert – nur die Prüf-Sitzung ändert shared/): M.Pump prüft
+   IsShareOn nicht. Wird der Schalter ausgeschaltet, während M.outbox noch Nachrichten aus dem letzten Scan hält,
+   werden diese noch gesendet. Vorschlag: in M.Pump "if not M.IsShareOn() then return end" (oder outbox leeren).
+3. T-MN2/T-MN3 ersetzen nur Einträge der Datei selbst (GM.api.ah, Felder) und stellen alles zurück; keine
+   Blizzard-Funktion wird ersetzt.
+
+IM CLIENT PRÜFEN (2.5.11)
+  /ts protokoll: Zeile MARKT-NETZ. Mit einem AH-Addon (z. B. AHSentinel) einen Vollscan machen -> danach
+  "mitgelesene Scans 1" und Speicher > 0 KB. Schalter aus -> nach dem nächsten Vollscan bleibt die Zahl gleich.
+  /ts testroutine u: T-MN1–T-MN4 OK.
