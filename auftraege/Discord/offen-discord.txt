@@ -80,3 +80,4 @@ Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Beric
       --list wiederholen und nur bei Änderung berichten. WEITER: MN7 Sammelstelle (Format GSMARKT1 in der Anweisung,
       6 Felder je Eintrag; Absatz als Spanne: Untergrenze/Obergrenze; Doppelte Scans nach Fraktion+Zeit). Die
       Marktdaten der Spieler sind damit die EINZIGE Quelle für den Forever-Markt.
+   MN KORREKTUR 2 (13.11. 17:00): GoldSentinelMarkt.lua v1 um FeedStart/Feed ergänzt (Addons mit eigenem Vollscan geben ihr Ergebnis weiter, kein doppeltes Lesen). Wer die Datei schon kopiert hat: NEU KOPIEREN (Prüfung "exact").

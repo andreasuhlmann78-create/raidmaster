@@ -553,3 +553,8 @@ TS111 (HOCH, NEU 13.11. 16:50 – Teil server 0.65.111, Lauf 16:42 vom Nutzer: 5
    4. Wissen (keine Aufgabe): M1c 35 Min. -> keine Antwort, 52 Min. -> neue Liste. Dazwischen hatte GSMesstest (15:41)
       abgerufen -> die Drossel gilt sehr wahrscheinlich je CLIENT für alle Addons zusammen (wichtig für den Wächter/
       Scan-Plan: Abstand ab dem letzten Abruf irgendeines Addons messen; REPLICATE-Ereignis fremder Abrufe mitzählen).
+   MN KORREKTUR 2 (13.11. 17:00): GoldSentinelMarkt.lua v1 um FeedStart/Feed ergänzt (Addons mit eigenem Vollscan geben ihr Ergebnis weiter, kein doppeltes Lesen). Wer die Datei schon kopiert hat: NEU KOPIEREN (Prüfung "exact").
+   TS111/MN5 FEED BEREIT: AHSentinel ruft GoldSentinelMarkt.FeedStart("AHSentinel") direkt vor dem eigenen
+      ReplicateItems und nach dem Einlesen GoldSentinelMarkt.Feed("AHSentinel", t, n, items, dt) mit items[id] =
+      { preis, menge, n, abg, abgV } (Beschreibung im Kopf der Datei). Damit liest GSMarkt den AHSentinel-Scan nie
+      selbst. Fremde Vollscans liest weiterhin GSMarkt (AHSentinel nicht). Gilt mit MN1–MN5 in 0.66.

@@ -157,3 +157,4 @@ MN (NEU 13.11. 15:35 – Entscheid des Nutzers "Markt komplett messen", Anweisun
    Uploader -> Bot-Server sammelt und misst Absatz. Bitte die Anweisung ganz lesen.
    MN BEREIT (13.11. 16:00): shared/GoldSentinelMarkt.lua v1 liegt bereit – MN1–MN4 im Addon und MN6 im Uploader JETZT umsetzen (Format GSMARKT1 in der Anweisung).
    MN KORREKTUR (13.11. 16:05): GoldSentinelMarkt.lua v1 ergänzt (Absatz-Untergrenze, Export-Eintrag mit 6 Feldern). Wer die Datei schon kopiert hat: NEU KOPIEREN (Prüfung "exact").
+   MN KORREKTUR 2 (13.11. 17:00): GoldSentinelMarkt.lua v1 um FeedStart/Feed ergänzt (Addons mit eigenem Vollscan geben ihr Ergebnis weiter, kein doppeltes Lesen). Wer die Datei schon kopiert hat: NEU KOPIEREN (Prüfung "exact").

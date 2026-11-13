@@ -36,6 +36,8 @@
 --                                                 abdeckung = gemessene Stunden
 --   GM.DiagLines()                             -- Zeilen fuer Diagnose/Testbericht (ohne Namen)
 --   GM.Stats()                                 -- Zaehler (scans, gelesen, gesendet, empfangen, verworfen ...)
+--   GM.FeedStart(addon) / GM.Feed(addon, t, n, items, dt) -- Addons mit eigenem Vollscan (AHSentinel) geben ihr
+--                                                 Ergebnis weiter, statt dass der Scan zweimal gelesen wird (s. u.)
 -- Fuer den Uploader stehen die letzten Scans als Zeilen "GSMARKT1|..." in MeinAddonDB.gsMarkt.export (Liste).
 --
 -- Alles laeuft ueber M.api (Tests ersetzen nur diese Tabelle, nie Blizzard-Funktionen).
@@ -212,6 +214,7 @@ function M.OnReplicate()
     M.lastEv = now
     if not newBurst then return end
     if not M.IsShareOn() then Drop("aus"); return end
+    if M.feedUntil and now < M.feedUntil then return end      -- ein Host liest diesen Scan selbst und gibt ihn weiter
     if M.reader then return end
     M.readAt = now + M.READ_DELAY
 end
@@ -318,23 +321,19 @@ M.Compare = Compare
 
 local QueueScan     -- weiter unten
 
-local function FinishRead(r)
+-- Ergebnis eines Scans uebernehmen (eigenes Lesen oder Feed eines Host-Addons)
+--   items[id] = { Stueckpreis, Menge, Auktionen }; cmp/low[id] = Abgaenge (Ober-/Untergrenze) oder nil; dt = Sekunden
+local function Apply(t, cnt, items, cmp, low, dt, prevItems)
     local f = Fac()
     if not f then return end
-    local cmp, low
-    if M.prev and r.t - M.prev.t >= M.CMP_MIN and r.t - M.prev.t <= M.CMP_MAX then
-        cmp, low = Compare(M.prev.sigs, r.sigs)
-        M.stats.compared = M.stats.compared + 1
-    end
-    local dt = M.prev and (r.t - M.prev.t) or 0
     local changed = {}
-    for id, it in pairs(r.items) do
+    for id, it in pairs(items) do
         local old = Unpack(f.i[id])
-        local e = { p = it[1], q = it[2], n = it[3], t = r.t, o = 0, g = old and old.g or 0, h = old and old.h or 0,
+        local e = { p = it[1], q = it[2], n = it[3], t = t, o = 0, g = old and old.g or 0, h = old and old.h or 0,
                     l = old and old.l or 0 }
         if cmp then
             e.g = e.g + (cmp[id] or 0)
-            e.l = e.l + (low[id] or 0)
+            e.l = e.l + (low and low[id] or 0)
             e.h = e.h + dt
         end
         if not old or old.o ~= 0 or (old.p or 0) == 0
@@ -344,28 +343,26 @@ local function FinishRead(r)
         f.i[id] = Pack(e)
     end
     -- Items, die seit dem letzten Scan ganz verschwunden sind: Abgaenge zaehlen, Angebot jetzt 0
-    if cmp and M.prev.items then
-        for id in pairs(M.prev.items) do
-            if not r.items[id] then
+    if cmp and prevItems then
+        for id in pairs(prevItems) do
+            if not items[id] then
                 local old = Unpack(f.i[id])
                 if old then
                     old.g, old.h = (old.g or 0) + (cmp[id] or 0), (old.h or 0) + dt
-                    old.l = (old.l or 0) + (low[id] or 0)
-                    old.q, old.n, old.t, old.o = 0, 0, r.t, 0
+                    old.l = (old.l or 0) + (low and low[id] or 0)
+                    old.q, old.n, old.t, old.o = 0, 0, t, 0
                     f.i[id] = Pack(old)
                 end
             end
         end
     end
-    f.t = r.t
-    M.prev = { t = r.t, sigs = r.sigs, items = r.items }
+    f.t = t
     M.stats.scans = M.stats.scans + 1
-    M.stats.read = r.cnt
-    M.stats.lastMs, M.stats.lastFrames = r.ms, r.frames
-    M.stats.lastT = r.t
+    M.stats.read = cnt
+    M.stats.lastT = t
     -- fuer den Uploader
     local parts, nItems = {}, 0
-    for id, it in pairs(r.items) do
+    for id, it in pairs(items) do
         nItems = nItems + 1
         parts[#parts + 1] = Enc(id) .. "," .. Enc(it[1]) .. "," .. Enc(it[2]) .. "," .. Enc(it[3]) .. "," ..
             Enc(cmp and cmp[id] or 0) .. "," .. Enc(low and low[id] or 0)
@@ -373,10 +370,61 @@ local function FinishRead(r)
     M.stats.items = nItems
     local s = M.store
     s.export = s.export or {}
-    table.insert(s.export, string.format("GSMARKT1|%d|%s|%d|%d|%d|%d|%s", VERSION, select(2, Fac()), r.t, r.cnt,
+    table.insert(s.export, string.format("GSMARKT1|%d|%s|%d|%d|%d|%d|%s", VERSION, select(2, Fac()), t, cnt,
         nItems, cmp and dt or 0, table.concat(parts, ";")))
     while #s.export > M.EXPORT_KEEP do table.remove(s.export, 1) end
-    QueueScan(r.t, changed)
+    QueueScan(t, changed)
+end
+
+local function FinishRead(r)
+    if not Fac() then return end
+    local cmp, low
+    if M.prev and M.prev.sigs and r.t - M.prev.t >= M.CMP_MIN and r.t - M.prev.t <= M.CMP_MAX then
+        cmp, low = Compare(M.prev.sigs, r.sigs)
+        M.stats.compared = M.stats.compared + 1
+    end
+    local dt = M.prev and (r.t - M.prev.t) or 0
+    M.stats.lastMs, M.stats.lastFrames = r.ms, r.frames
+    Apply(r.t, r.cnt, r.items, cmp, low, dt, M.prev and M.prev.items)
+    M.prev = { t = r.t, sigs = r.sigs, items = r.items }
+end
+
+-- Feed: ein Host-Addon, das selbst einen Vollscan liest (z. B. AHSentinel), gibt sein Ergebnis weiter, damit der
+-- Scan im selben Client NICHT zweimal gelesen wird (Speicher, Ruckeln).
+--   GSMarkt.FeedStart("AHSentinel")  -- direkt VOR dem eigenen ReplicateItems: GSMarkt liest diesen Scan nicht selbst
+--   GSMarkt.Feed("AHSentinel", t, n, items, dt)
+--      t = time() des Scans, n = Anzahl Auktionen, dt = Sekunden seit dem Scan, mit dem die Abgaenge gemessen wurden
+--      (0 = kein Vergleich), items[itemID] = { preis = Stueckpreis, menge = Menge, n = Auktionen,
+--      abg = Abgaenge aus Stufe 3/4 (Obergrenze) oder nil, abgV = vorsichtige Abgaenge (Untergrenze) oder nil }
+function M.FeedStart(addon)
+    if not M.hosts[addon] then return end
+    M.feedUntil = M.api.now() + 300
+    M.readAt = nil
+    if M.reader then M.reader = nil; M.stats.aborted = M.stats.aborted + 1; Drop("feed statt lesen") end
+end
+
+function M.Feed(addon, t, n, items, dt)
+    M.feedUntil = nil
+    if not M.hosts[addon] or type(items) ~= "table" or not M.IsShareOn() then return end
+    t, dt = tonumber(t) or M.api.time(), tonumber(dt) or 0
+    local conv, cmp, low = {}, nil, nil
+    if dt > 0 then cmp, low = {}, {} end
+    for id, it in pairs(items) do
+        id = tonumber(id)
+        if id and type(it) == "table" then
+            conv[id] = { math.floor(tonumber(it.preis) or 0), math.floor(tonumber(it.menge) or 0),
+                         math.floor(tonumber(it.n) or 0) }
+            if cmp then
+                local g = math.floor(tonumber(it.abg) or 0)
+                cmp[id] = g
+                low[id] = math.min(g, math.floor(tonumber(it.abgV) or g))
+            end
+        end
+    end
+    M.stats.fed = (M.stats.fed or 0) + 1
+    if cmp then M.stats.compared = M.stats.compared + 1 end
+    M.prev = nil                -- naechstes eigenes Lesen vergleicht nicht mit einem Feed (keine Signaturen)
+    Apply(t, tonumber(n) or 0, conv, cmp, low, dt, nil)
 end
 
 ---------------------------------------------------------------------------
@@ -567,8 +615,8 @@ function M.DiagLines()
     return {
         string.format("MARKT-NETZ v%d · %s · Addons: %s", VERSION, M.IsShareOn() and "an" or "AUS",
             #hosts > 0 and table.concat(hosts, ", ") or "keins"),
-        string.format("MARKT-NETZ Scans mitgelesen %d (zuletzt %d Auktionen, %d Items, %.0f ms in %d Bildern) · Vergleiche %d · abgebrochen %d",
-            s.scans, s.read or 0, s.items or 0, s.lastMs or 0, s.lastFrames or 0, s.compared, s.aborted),
+        string.format("MARKT-NETZ Scans %d (davon vom Host übergeben %d; zuletzt %d Auktionen, %d Items, %.0f ms in %d Bildern) · Vergleiche %d · abgebrochen %d",
+            s.scans, s.fed or 0, s.read or 0, s.items or 0, s.lastMs or 0, s.lastFrames or 0, s.compared, s.aborted),
         string.format("MARKT-NETZ Items %d (eigen %d, Netz %d, Absatz gemessen %d) · gesendet %d · empfangen %d · angenommen %d · Warteschlange %d",
             n, own, net, meas, s.sent, s.received, s.accepted, #M.outbox),
         "MARKT-NETZ verworfen: " .. (#drops > 0 and table.concat(drops, ", ") or "nichts"),

@@ -316,7 +316,30 @@ check("alter Frame still", z.ev("FRAMES[#FRAMES - 1].scripts.OnUpdate == nil"), 
 z.run(SRC)                     # ältere Fassung lädt danach -> bleibt bei 2
 check("ältere Fassung übernimmt nicht", z.ev("GoldSentinelMarkt.VERSION"), 2)
 
-# --- 14. Base36 und Packen ----------------------------------------------------------------------------------------------
+# --- 14. Feed: Host-Addon liest selbst und gibt weiter, kein zweites Lesen ---------------------------------------------
+h = Client("Testh", 14)
+set_auctions(h, rows1)
+h.run('GoldSentinelMarkt.FeedStart("ProbeAddon")')
+scan(h)                        # Ereignisse des eigenen Scans des Hosts
+check("Feed: Scan nicht selbst gelesen", h.ev("GoldSentinelMarkt.Stats().scans"), 0)
+h.run('''GoldSentinelMarkt.Feed("ProbeAddon", TIME, 81, {
+  [2589] = { preis = 95, menge = 1400, n = 70, abg = 22, abgV = 20 },
+  [14047] = { preis = 99, menge = 1, n = 1, abg = 0, abgV = 0 } }, 2400)''')
+gh = h.ev("GoldSentinelMarkt.Get(2589)")
+check("Feed übernommen", (gh.preis, gh.menge, gh.n, gh.quelle), (95, 1400, 70, "eigen"))
+check("Feed: Absatz Unter-/Obergrenze", (round(gh.absatz), round(gh.absatzMax)), (round(20 * 86400 / 2400), round(22 * 86400 / 2400)))
+check("Feed gezählt", h.ev("GoldSentinelMarkt.Stats().fed"), 1)
+check("Feed: Export", h.ev("DB.gsMarkt.export[1]").startswith("GSMARKT1|1|H|"), True)
+h.tick(30)
+check("Feed: an die Gilde gesendet", any(m[2] == "GUILD" and ":S:H:" in m[1] for m in h.sent() if m[0] == "GSMARKT1"), True)
+h.run("NOW = NOW + 400")
+scan(h)                        # später ein fremder Scan: wieder selbst lesen
+check("nach Ablauf des Feeds wieder selbst gelesen", h.ev("GoldSentinelMarkt.Stats().scans"), 2)
+h2 = Client("Testh2", 15)
+h2.run('GoldSentinelMarkt.Feed("FremdesAddon", TIME, 1, { [1] = { preis = 1, menge = 1, n = 1 } }, 0)')
+check("Feed nur von angemeldeten Addons", h2.ev("GoldSentinelMarkt.Get(1)"), None)
+
+# --- 15. Base36 und Packen ----------------------------------------------------------------------------------------------
 check("Base36 hin und zurück", z.ev("GoldSentinelMarkt.Dec(GoldSentinelMarkt.Enc(2147483647))"), 2147483647)
 
 print(f"{checks - fails}/{checks} Prüfungen bestanden")
