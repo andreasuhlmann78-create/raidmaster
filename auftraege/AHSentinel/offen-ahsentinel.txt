@@ -459,6 +459,14 @@ EB (MITTEL, NEU 13.11. 21:05 – Nutzer: 8 Taschen mit 10 Plätzen für 1g 60s g
    selbst erfundene Begriffe wie "verlorene Einzahlungen". Für die Anzahlung beim Einstellen den Text des Clients
    verwenden (globale Blizzard-Zeichenkette DEPOSIT, Doppelpunkt entfernen), damit es in jeder Sprache genau so heisst
    wie im Verkaufsfenster. Gilt für Buchhaltung, Details-Fenster und Tooltips. Test T-EB8 (Bezeichnung = DEPOSIT ohne ":").
+EB-DET (MITTEL, Entscheid des Nutzers 13.11. 23:25): Im Details-Fenster (EB) zusätzlich diese drei Zeilen, je gewählter
+   Zeitraum, nur aus gebuchten Daten (nichts geschätzt; zu wenig Fälle -> grau "lernt noch"):
+   - Rendite je Weg: Sniper, Entzaubern, Flippen, Händler – realisierter Gewinn / eingesetztes Gold in %, mit Anzahl.
+   - Anzahlung verfallen: Summe der verfallenen Anzahlungen (Ablauf/Abbruch, Client-Wort nach EB-NAME, Regel BH-ANZ).
+   - Verkaufsquote: verkaufte Stück / eingestellte Stück (Abbrüche und Abläufe zählen als nicht verkauft).
+   NICHT: "gebundenes Gold" als eigene Zeile (vom Nutzer nicht gewählt). Keine Rechenwege anzeigen (Entscheid OR).
+   Tests T-EBD1 (Rendite je Weg mit Beispieldaten), T-EBD2 (verfallene Anzahlung), T-EBD3 (Verkaufsquote).
+
 BH-ANZ (MITTEL, NEU 13.11. 22:55, Sicht des Buchhalters, Regel shared/wissen/buchhaltung.md Abschnitt 5d):
    Ist: Le:Add bucht die Anzahlung beim Einstellen sofort als Gebühr (Books.lua BK:OnFee), der Verkauf bucht sie als
    negative Gebühr zurück; Books.lua Z. 410–417 zieht alle Gebühren vom realisierten Gewinn ab. Folge: Viele laufende
