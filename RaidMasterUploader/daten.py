@@ -465,7 +465,8 @@ class Daten:
             entries = {p: s for p, s in entries.items() if not p.startswith(f"tage/{gone}/")}
         stand = {k: v for k, v in stand_old.items() if isinstance(v, dict) and k != me
                  and any(p.startswith(f"aktuell/{k}/") for p in entries)}
-        stand[me] = {"zeit": int(now), "dateien": {rel: {"bytes": len(d), "sha": s} for rel, (d, s) in cur.items()}}
+        stand[me] = {"zeit": int(now), "dateien": {rel: {"bytes": len(d), "sha": s} for rel, (d, s) in cur.items()},
+                     "grundregeln": list(self.d.get("grundregeln") or [])}       # TU5: Verletzungen (ohne Namen)
         extra = {"LIESMICH.md": LIESMICH.encode("utf-8"),
                  "stand.json": json.dumps(stand, ensure_ascii=False, indent=1, sort_keys=True).encode("utf-8")}
         for p, data in extra.items():

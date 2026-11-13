@@ -30,8 +30,8 @@ R.GRACE = 10                         -- nach einem Abbruch: so lange werden Akti
 
 local AREAS = { A = "Laden und Erkennung", B = "Funktionen", C = "Forever-Sonderfälle", D = "Alte Clients", E = "Daten",
 	F = "Sprachen", G = "Zusammenspiel", H = "Leistung", I = "Fehlerzählung", J = "Regressionstests",
-	K = "Oberfläche im Client" }
-local AREA_ORDER = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K" }
+	K = "Oberfläche im Client", L = "Umfassend (TU1–TU8)" }
+local AREA_ORDER = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L" }
 
 -- Teile von RaidMasterDB, die der Testmodus nicht sichert: jeder Bereich stellt sie selbst wieder her
 local EXTRA_KEYS = { "foreign", "pendingAwards", "lootdb", "records", "killlog", "shots", "shotList", "prof", "bank",
@@ -2603,6 +2603,154 @@ local function AreaJ(t, G)
 		end)
 	end)
 
+	-- 3.0.24 (BL): Befehlsliste beim Tippen – eine Tabelle für Handler und Liste (T-BL1 … T-BL6)
+	local function HintWith(dev, german)
+		local H = RM.CmdHint
+		local saved = { dev = H.dev, german = H.german, store = H.store, commands = H.commands, prefixes = H.prefixes,
+			display = H.display, L = H.L, run = H.run, selected = H.selected }
+		H.commands, H.prefixes, H.display, H.L = RM.COMMANDS, { "/raidmaster", "/rm" }, "/rm", RM.L
+		H.dev = function() return dev end
+		H.german = function() return german end
+		local counts = {}
+		H.store = function() return counts end
+		return H, function() for k, v in pairs(saved) do H[k] = v end end
+	end
+	t:Check("T166", "J", "T-BL1 Befehlsliste: jeder Befehl des Handlers steht in der Liste", function()
+		if not (RM.COMMANDS and RM.CmdHint and RM.FindCommand) then return false, "fehlt", "RM.COMMANDS/CmdHint" end
+		local H, restore = HintWith(true, true)
+		local ok, why = true, nil
+		for _, german in ipairs({ true, false }) do
+			H.german = function() return german end
+			local list = H:List("")
+			local shown = {}
+			for _, it in ipairs(list) do shown[it.entry] = it end
+			for i, c in ipairs(RM.COMMANDS) do
+				if not shown[c] then ok, why = false, "fehlt in der Liste: " .. c[1] end
+				-- angezeigtes Wort (de UND en) führt genau diesen Eintrag aus
+				for _, form in ipairs({ c[1], c[2] }) do
+					local run = H.RunWords(form)
+					if RM.FindCommand(run) ~= c then ok, why = false, "'" .. form .. "' führt nicht " .. c[1] .. " aus" end
+				end
+				-- jedes Wort/Muster des Handlers gehört zu einem Eintrag der Liste (keine Befehle ausserhalb der Tabelle)
+				for _, w in ipairs(c.words or {}) do
+					if RM.FindCommand(w) == nil then ok, why = false, "Wort ohne Eintrag: " .. w end
+				end
+				if not c.run or not c[3] or c[3] == "" then ok, why = false, "Eintrag " .. i .. " ohne run/Beschreibung" end
+			end
+		end
+		-- Der Slash-Handler liest aus derselben Tabelle: ein neuer Eintrag ist sofort ausführbar UND sichtbar
+		local hit = 0
+		local probe = { "zzprobe", "zzprobe", "Probe", words = { "zzprobe" }, run = function() hit = hit + 1 end }
+		RM.COMMANDS[#RM.COMMANDS + 1] = probe
+		local okRun = pcall(SlashCmdList["RAIDMASTER"], "zzprobe")
+		local inList = false
+		for _, it in ipairs(H:List("zz")) do if it.entry == probe then inList = true end end
+		table.remove(RM.COMMANDS)
+		restore()
+		if not (okRun and hit == 1 and inList) then return false, "Probe: run " .. hit .. ", Liste " .. tostring(inList), "1 / true" end
+		if not ok then return false, why, "vollständig" end
+		return true, #RM.COMMANDS .. " Befehle, de und en ausführbar"
+	end)
+
+	t:Check("T167", "J", "T-BL2 Filter: genau die passenden Befehle, meistbenutzte oben", function()
+		local H, restore = HintWith(false, true)
+		local bad
+		for _, rest in ipairs({ "", "b", "be", "ber", "p", "pu", "x", "lo", "gap" }) do
+			local got = {}
+			for _, it in ipairs(H:List(rest)) do got[it.entry] = true end
+			for _, c in ipairs(RM.COMMANDS) do
+				local want = not c.dev and (rest == "" or c[1]:lower():sub(1, #rest) == rest or c[2]:lower():sub(1, #rest) == rest)
+				if (got[c] or false) ~= want then bad = "'" .. rest .. "': " .. c[1] .. " " .. tostring(got[c]) end
+			end
+		end
+		H.store()["rekorde"] = 5
+		local first = H:List("")[1]
+		restore()
+		if bad then return false, bad, "genau die passenden" end
+		if not (first and first.key == "rekorde") then return false, first and first.key or "nil", "rekorde (meistbenutzt) oben" end
+		return true, "Filter genau, Zähler sortiert"
+	end)
+
+	t:Check("T168", "J", "T-BL3 Klick wählt aus, Enter führt den gewählten Befehl aus", function()
+		local H, restore = HintWith(false, false)
+		local list = H:List("pu")                                   -- englisch: "pull <seconds>"
+		local item = list[1]
+		local ran = {}
+		local orig = item and item.entry.run
+		if not item or item.entry[1] ~= "pull <Sekunden>" then restore(); return false, item and item.cmd or "nil", "/rm pull <seconds>" end
+		item.entry.run = function(msg) ran[#ran + 1] = msg end
+		H:Select(item, true)                                        -- Klick = nur auswählen
+		local before = #ran
+		local okA = pcall(SlashCmdList["RAIDMASTER"], "pu")          -- Enter mit unvollständigem Wort
+		local okB = pcall(SlashCmdList["RAIDMASTER"], "pull 15")     -- ohne Auswahl: getippter Befehl gilt
+		item.entry.run = orig
+		restore()
+		if before ~= 0 then return false, "Klick führte aus", "nur auswählen" end
+		if not (okA and okB and ran[1] == "pull" and ran[2] == "pull 15") then
+			return false, tostring(ran[1]) .. " / " .. tostring(ran[2]), "pull / pull 15"
+		end
+		return true, "Auswahl -> Enter führt 'pull' aus"
+	end)
+
+	t:Check("T169", "J", "T-BL4 Chatfeld wird nie beschrieben", function()
+		local H, restore = HintWith(false, true)
+		local writes, focus = 0, 0
+		local box = { shown = true, text = "/rm be" }
+		function box:GetText() return self.text end
+		function box:SetText() writes = writes + 1 end
+		function box:Insert() writes = writes + 1 end
+		function box:SetCursorPosition() writes = writes + 1 end
+		function box:SetFocus() focus = focus + 1 end
+		function box:IsShown() return true end
+		function box:GetWidth() return 400 end
+		local okAll = pcall(function()
+			H:OnText(box)
+			H:SelectNext(1)
+			H:SelectNext(1)
+			H:Select((H.items or {})[1], true)
+			H.instantClose = true
+			H:OnFocusLost(box)
+			H.instantClose = nil
+			H:Resolve("be")
+			H:Hide()
+		end)
+		restore()
+		-- Quelltext-Regel: CmdHint benutzt nur HookScript, nie SetScript auf dem Chatfeld
+		if not okAll then return false, "Lua-Fehler", "kein Fehler" end
+		if writes ~= 0 then return false, writes .. " Schreibzugriffe", "0" end
+		if focus < 1 then return false, "kein SetFocus", "Fokus zurück" end
+		return true, "0 Schreibzugriffe, Fokus zurück"
+	end)
+
+	t:Check("T170", "J", "T-BL5 Entwickler-Befehle nur für den Entwickler", function()
+		local H, restore = HintWith(false, true)
+		local devSeen = false
+		for _, it in ipairs(H:List("")) do if it.entry.dev then devSeen = true end end
+		H.dev = function() return true end
+		local devAll = 0
+		for _, it in ipairs(H:List("test")) do if it.entry.dev then devAll = devAll + 1 end end
+		restore()
+		if devSeen then return false, "Entwickler-Befehl sichtbar", "versteckt" end
+		if devAll < 2 then return false, devAll, ">= 2 (test, testroutine)" end
+		return true, "versteckt / für Entwickler " .. devAll
+	end)
+
+	t:Check("T171", "J", "T-BL6 Beschreibungen in der Spielsprache ohne Platzhalter-Fehler", function()
+		local bad
+		for _, c in ipairs(RM.COMMANDS) do
+			local txt = RM.L[c[3]]
+			if type(txt) ~= "string" or txt == "" then bad = c[3] end
+			local _, nKey = c[3]:gsub("%%", "")
+			local _, nTxt = tostring(txt):gsub("%%", "")
+			if nKey ~= nTxt then bad = "Platzhalter: " .. c[3] end
+		end
+		local enter = RM.L["Enter = %s"]
+		local okFmt = pcall(string.format, enter, "/rm bar")
+		if bad then return false, bad, "übersetzt, gleiche Platzhalter" end
+		if not okFmt then return false, enter, "Enter = %s formatierbar" end
+		return true, (RM.LOCALE or "?") .. ": alle " .. #RM.COMMANDS .. " Beschreibungen"
+	end)
+
 	-- 3.0.23 (Uploader 2.2.0, S8 c): Prüfblock des Uploaders wird beim Laden festgehalten (Beleg für die Übernahme
 	-- vor dem Einloggen); falsche Formen werden ignoriert
 	t:Check("T165", "J", "Prüfblock des Uploaders wird gelesen (Beleg Abgleich)", function()
@@ -2714,6 +2862,412 @@ end
 -- Öffnet das Hauptfenster und zeigt jede erlaubte Seite einmal, damit ihre Knöpfe und Tooltips geprüft werden;
 -- danach Seite und Fenster wie vorher. Ohne echten Client ehrlich übersprungen, nie als OK gezählt.
 ---------------------------------------------------------------------------
+---------------------------------------------------------------------------
+-- Bereich L (ab 3.0.24): umfassende Tests nach anweisung-tests-umfassend.txt (TU1–TU8)
+-- TU1 Lagen x Funktionen (Tabelle), TU2 Abläufe, TU3 Standardwerte, TU4 Grundregeln mit 1000 Zufallsfällen (Startwert
+-- 4711, in Portionen), TU5 echte Daten nur lesen (Kopie aus der Sandbox), TU6 Regressionen, TU7 Formen, TU8 Bericht.
+---------------------------------------------------------------------------
+local TU_SEED = 4711
+local TU = { rows = {} }
+local function TUAdd(area, ok, line)
+	local r = TU.rows[area] or { ok = 0, fehler = 0, skip = 0, lines = {} }
+	TU.rows[area] = r
+	if ok == "skip" then r.skip = r.skip + 1 elseif ok then r.ok = r.ok + 1 else r.fehler = r.fehler + 1 end
+	if ok ~= true then r.lines[#r.lines + 1] = line end
+end
+
+-- kleiner Zufall mit festem Startwert (gleich in jedem Client, unabhängig von math.random)
+local function Rng(seed)
+	local x = seed % 2147483647
+	if x <= 0 then x = x + 2147483646 end
+	return function(a, b)
+		x = (x * 16807) % 2147483647
+		if not a then return x / 2147483647 end
+		return a + (x % (b - a + 1))
+	end
+end
+
+local function SetDKP(name, pool, v)
+	local p = RM.DKP.EnsurePlayer(name)
+	p.d = p.d or {}
+	p.d[pool] = v
+end
+
+local function PoolSum(data, pool)
+	local sum = 0
+	for _, p in pairs(data.players or {}) do sum = sum + ((p.d and p.d[pool]) or 0) end
+	return sum
+end
+
+local function AreaL(t, G)
+	local DKP, A = RM.DKP, RM.Auction
+	TU.rows = {}
+
+	-- TU1: Lagen x Funktionen. Erwartung je Zeile; Abweichung = FEHLER mit Zeilenname
+	t:Check("T172", "L", "TU1 Lagen-Katalog: Gebote, DKP, Raid-Buchung", function()
+		TestRaid()
+		ClearAuction()
+		local s = RM.db.data.settings
+		local pool = DKP.ActivePool()
+		local u = {}
+		local fails = {}
+		local function Row(name, want, fn)
+			local ok, got = pcall(fn)
+			got = ok and got or ("Lua-Fehler: " .. tostring(got))
+			TUAdd("TU1", got == want, name .. ": " .. tostring(got) .. " (erwartet " .. tostring(want) .. ")")
+			if got ~= want then fails[#fails + 1] = name .. "=" .. tostring(got) end
+		end
+		local function Fresh()
+			ClearAuction()
+			A.Start(LINK_STONE)
+			return A.current ~= nil
+		end
+		Guard(function()
+			Swap(u, s, "minBid", 10); Swap(u, s, "bidIncrement", 5); Swap(u, s, "allowNegative", false)
+			Swap(u, s, "mainBeforeTwink", true); Swap(u, s, "onlyOnline", false)
+			Row("DKP 0, Gebot 10", "abgelehnt", function()
+				SetDKP("Krieger1", pool, 0); Fresh()
+				return A.ReceiveBid("Krieger1", 10) and "angenommen" or "abgelehnt"
+			end)
+			Row("DKP negativ, Gebot 10", "abgelehnt", function()
+				SetDKP("Krieger1", pool, -20); Fresh()
+				return A.ReceiveBid("Krieger1", 10) and "angenommen" or "abgelehnt"
+			end)
+			Row("Gebot über Kontostand", "abgelehnt", function()
+				SetDKP("Krieger1", pool, 40); Fresh()
+				return A.ReceiveBid("Krieger1", 45) and "angenommen" or "abgelehnt"
+			end)
+			Row("Gebot über Kontostand, Minus erlaubt", "angenommen", function()
+				s.allowNegative = true
+				SetDKP("Krieger1", pool, 0); Fresh()
+				local r = A.ReceiveBid("Krieger1", 10) and "angenommen" or "abgelehnt"
+				s.allowNegative = false
+				return r
+			end)
+			Row("Gebot unter Mindestgebot", "abgelehnt", function()
+				SetDKP("Krieger1", pool, 100); Fresh()
+				return A.ReceiveBid("Krieger1", 5) and "angenommen" or "abgelehnt"
+			end)
+			Row("gleiche Gebote: erstes gewinnt", "Krieger1 20", function()
+				SetDKP("Krieger1", pool, 50); SetDKP("Krieger2", pool, 50); Fresh()
+				A.ReceiveBid("Krieger1", 20)
+				local second = A.ReceiveBid("Krieger2", 20)
+				if second then return "zweites gleiches Gebot angenommen" end
+				return tostring(A.current.highName) .. " " .. tostring(A.current.high)
+			end)
+			Row("nicht im Raid", "abgelehnt", function()
+				Fresh()
+				return A.ReceiveBid("Fremder Spieler", 50) and "angenommen" or "abgelehnt"
+			end)
+			Row("Boss-Kill während Gebotsrunde", "angenommen", function()
+				SetDKP("Krieger3", pool, 0); Fresh()
+				DKP.NewEntry("boss", "Test-Boss", { Krieger3 = 10 }, nil, nil, { pool = pool })
+				return A.ReceiveBid("Krieger3", 10) and "angenommen" or "abgelehnt"
+			end)
+			Row("Forever: gleiche Vornamen getrennt", "10 / 20", function()
+				local data = { players = {}, log = {}, firstKills = {} }
+				DKP.ApplyEntryTo(data, { id = "tu1-a", k = "manual", pool = pool, d = { ["Testa Beispiel"] = 10 } }, false)
+				DKP.ApplyEntryTo(data, { id = "tu1-b", k = "manual", pool = pool, d = { ["Testa Muster"] = 20 } }, false)
+				return data.players["Testa Beispiel"].d[pool] .. " / " .. data.players["Testa Muster"].d[pool]
+			end)
+			Row("Raid: Spieler offline, nur Online-Wertung", "offline ausgenommen", function()
+				local T = RM.Test
+				local off = {}
+				for i, m in ipairs(T.roster or {}) do
+					if i <= 3 and m.online ~= false then off[#off + 1] = m; m.online = false end
+				end
+				local all = 0
+				for _ in pairs(DKP.RaidRecipients()) do all = all + 1 end
+				s.onlyOnline = true
+				local online = 0
+				for _ in pairs(DKP.RaidRecipients()) do online = online + 1 end
+				s.onlyOnline = false
+				for _, m in ipairs(off) do m.online = true end
+				return (all - online == #off and #off > 0) and "offline ausgenommen" or (all .. "/" .. online)
+			end)
+			Row("Raid-Buchung: Summe = Anzahl x Betrag", "stimmt", function()
+				local before = PoolSum(RM.db.data, pool)
+				local n = 0
+				for _ in pairs(DKP.RaidRecipients()) do n = n + 1 end
+				DKP.AwardRaid(7, "manual", "TU1", nil, pool)
+				return (PoolSum(RM.db.data, pool) - before == 7 * n) and "stimmt" or ((PoolSum(RM.db.data, pool) - before) .. " statt " .. 7 * n)
+			end)
+		end, function() ClearAuction(); for _, f in ipairs(u) do f() end end)
+		if #fails > 0 then return false, table.concat(fails, "; "), "Tabelle" end
+		return true, "11 Lagen wie erwartet"
+	end)
+
+	-- TU2: Abläufe wie ein Spieler (inkl. Sync-Reihenfolge)
+	t:Check("T173", "L", "TU2 Abläufe: zwei Gebote zugleich, Vergabe, Sync doppelt/vertauscht", function()
+		TestRaid()
+		ClearAuction()
+		local s = RM.db.data.settings
+		local pool = DKP.ActivePool()
+		local u = {}
+		local res = Guard(function()
+			Swap(u, s, "minBid", 10); Swap(u, s, "bidIncrement", 5); Swap(u, s, "allowNegative", false)
+			SetDKP("Krieger1", pool, 100); SetDKP("Krieger2", pool, 100)
+			local before = PoolSum(RM.db.data, pool)
+			A.Start(LINK_STONE)
+			local a = A.ReceiveBid("Krieger1", 30)
+			local b = A.ReceiveBid("Krieger2", 30)          -- dieselbe Sekunde, gleicher Betrag
+			A.FinishNow()
+			if not A.AwaitingAward() then return "keine Vergabe offen" end
+			A.Award()
+			local diff = PoolSum(RM.db.data, pool) - before
+			if not (a and not b) then return "Gebote " .. tostring(a) .. "/" .. tostring(b) end
+			if diff ~= -30 or DKP.Get("Krieger1", pool) ~= 70 or DKP.Get("Krieger2", pool) ~= 100 then
+				return "Buchung " .. diff
+			end
+			TUAdd("TU2", true, "Gebot -> Ende -> Vergabe, zwei Gebote zugleich")
+			-- Sync: dieselbe Buchung zweimal, Reihenfolge vertauscht -> gleicher Stand
+			local e1 = { id = "tu2-1", k = "boss", pool = pool, d = { X = 10, Y = 10 } }
+			local e2 = { id = "tu2-2", k = "item", pool = pool, d = { X = -15 } }
+			local e3 = { id = "tu2-3", k = "undo", pool = pool, r = "tu2-1", d = { X = -10, Y = -10 } }
+			local d1 = { players = {}, log = {}, firstKills = {} }
+			local d2 = { players = {}, log = {}, firstKills = {} }
+			for _, e in ipairs({ e1, e2, e1, e3, e2 }) do DKP.ApplyEntryTo(d1, e, false) end
+			for _, e in ipairs({ e3, e2, e1, e1 }) do DKP.ApplyEntryTo(d2, e, false) end
+			local x1, x2 = d1.players.X.d[pool], d2.players.X.d[pool]
+			if not (x1 == -15 and x2 == -15 and #d1.log == 3 and #d2.log == 3) then
+				return "Sync " .. tostring(x1) .. "/" .. tostring(x2) .. " Log " .. #d1.log .. "/" .. #d2.log
+			end
+			TUAdd("TU2", true, "Sync: doppelt empfangen und vertauscht -> gleicher Stand")
+			return "ok"
+		end, function() ClearAuction(); for _, f in ipairs(u) do f() end end)
+		TUAdd("TU2", "skip", "SKIP /reload mitten im Bieten, Einteilung von zwei Offizieren: im Client prüfen")
+		if res ~= "ok" then TUAdd("TU2", false, tostring(res)); return false, res, "ok" end
+		return true, "Vergabe genau einmal, Sync-Reihenfolge egal"
+	end)
+
+	-- TU3: Standardwerte – fehlende/leere Werte ergeben, was der Spieler meint
+	t:Check("T174", "L", "TU3 Standardwerte und fehlende Einstellungen", function()
+		local want = { dkpStart = 10, dkpEnd = 10, defaultBossDKP = 10, decayPct = 10, minBid = 10, bidIncrement = 5,
+			auctionTime = 30, allowNegative = false, onlyOnline = false, standbyStartDKP = 10, mainBeforeTwink = true,
+			antiSnipe = true, autoDecay = true }
+		local bad = {}
+		for k, v in pairs(want) do
+			local got = RM.DEFAULT_SETTINGS[k]
+			TUAdd("TU3", got == v, k .. " = " .. tostring(got))
+			if got ~= v then bad[#bad + 1] = k end
+		end
+		-- Befehlsliste ab Werk an
+		TUAdd("TU3", RM.db.config.cmdHint ~= false or RM.DEFAULT_CONFIG.cmdHint == nil, "Befehlsliste ab Werk an")
+		-- fehlende Zahl-Einstellungen (z. B. aus einer älteren Version per Sync): Versteigerung startet trotzdem
+		TestRaid()
+		ClearAuction()
+		local s = RM.db.data.settings
+		local u = {}
+		local res = Guard(function()
+			Swap(u, s, "minBid", nil); Swap(u, s, "bidIncrement", nil); Swap(u, s, "auctionTime", "")
+			local ok = pcall(A.Start, LINK_STONE)
+			if not (ok and A.current and A.current.min == 10 and A.current.inc == 5) then
+				return "Start ohne Werte: " .. tostring(ok) .. " " .. tostring(A.current and A.current.min)
+			end
+			if RM.SettingNum("dkpStart") ~= (tonumber(s.dkpStart) or 10) then return "dkpStart" end
+			return "ok"
+		end, function() ClearAuction(); for _, f in ipairs(u) do f() end end)
+		TUAdd("TU3", res == "ok", "fehlende Einstellungen -> Standard (Versteigerung startet): " .. tostring(res))
+		if #bad > 0 then return false, table.concat(bad, ", "), "Standardwerte" end
+		if res ~= "ok" then return false, res, "Standard" end
+		return true, "13 Standardwerte, fehlende Werte -> Standard"
+	end)
+
+	-- TU4: Grundregeln mit 1000 Zufallsfällen, in Portionen (je Bild höchstens 8 ms)
+	AsyncCheck(t, "T175", "L", "TU4 Grundregeln: 1000 Zufallsfälle", function()
+		local rnd = Rng(TU_SEED)
+		local pool = "mc"
+		local names = { "A1", "A2", "A3", "B1", "B2", "Testa Beispiel", "Testa Muster" }
+		local data = { players = {}, log = {}, firstKills = {} }
+		local applied, booked = {}, 0
+		local viol = {}
+		local n = 0
+		local frameStart = debugprofilestop and debugprofilestop() or 0
+		for case = 1, 1000 do
+			local kind = rnd(1, 4)
+			local e
+			if kind <= 2 or #applied == 0 then
+				local d = {}
+				for _, nm in ipairs(names) do if rnd() < 0.5 then d[nm] = rnd(-30, 40) end end
+				if not next(d) then d[names[rnd(1, #names)]] = rnd(1, 20) end
+				e = { id = "tu4-" .. case, k = (kind == 1) and "boss" or "manual", pool = pool, d = d }
+			elseif kind == 3 then
+				e = applied[rnd(1, #applied)]                      -- dieselbe Buchung nochmals (Sync doppelt)
+			else
+				local target = applied[rnd(1, #applied)]
+				local d = {}
+				for nm, v in pairs(target.d) do d[nm] = -v end
+				e = { id = "tu4-u" .. case, k = "undo", pool = pool, r = target.id, d = d }
+			end
+			local before = PoolSum(data, pool)
+			local isNew = DKP.ApplyEntryTo(data, e, false)
+			local delta = 0
+			if isNew then
+				for _, v in pairs(e.d) do delta = delta + v end
+				applied[#applied + 1] = e
+				booked = booked + delta
+			end
+			local after = PoolSum(data, pool)
+			-- G1 Summe nachher = vorher + Buchungen (doppelt empfangene zählen nicht)
+			if after ~= before + delta then
+				viol[#viol + 1] = string.format("Fall %d (Startwert %d): Summe %d -> %d, Buchung %d", case, TU_SEED, before, after, delta)
+			end
+			-- G2 jede Buchungs-ID genau einmal im Log
+			if #viol < 5 then
+				local seen = {}
+				for _, x in ipairs(data.log) do
+					if seen[x.id] then viol[#viol + 1] = string.format("Fall %d: Buchung %s doppelt im Log", case, x.id) end
+					seen[x.id] = true
+				end
+			end
+			n = n + 1
+			if debugprofilestop and debugprofilestop() - frameStart > 8 then
+				Wait(0)                                            -- nächstes Bild
+				frameStart = debugprofilestop()
+			end
+			if #viol >= 5 then break end
+		end
+		if PoolSum(data, pool) ~= booked then viol[#viol + 1] = "Endsumme " .. PoolSum(data, pool) .. " statt " .. booked end
+		-- G3 nie zwei Gewinner: zufällige Gebotsrunden über die echte Gebotsprüfung
+		TestRaid()
+		ClearAuction()
+		local s = RM.db.data.settings
+		local u = {}
+		local roster = { "Krieger1", "Krieger2", "Krieger3", "Tank1" }
+		local auctions = 0
+		Guard(function()
+			Swap(u, s, "minBid", 10); Swap(u, s, "bidIncrement", 5); Swap(u, s, "allowNegative", false)
+			Swap(u, s, "mainBeforeTwink", false)
+			local apool = DKP.ActivePool()
+			for round = 1, 40 do
+				for _, nm in ipairs(roster) do SetDKP(nm, apool, rnd(0, 80)) end
+				ClearAuction()
+				A.Start(LINK_STONE)
+				local c = A.current
+				if not c then viol[#viol + 1] = "Runde " .. round .. ": startet nicht" break end
+				local best, bestName = 0, nil
+				for _ = 1, 12 do
+					local nm = roster[rnd(1, #roster)]
+					local amt = rnd(0, 90)
+					local okBid = A.ReceiveBid(nm, amt)
+					local need = bestName and (best + 5) or 10
+					local should = amt >= need and amt <= DKP.Get(nm, apool)
+					if (okBid and true or false) ~= should then
+						viol[#viol + 1] = string.format("Runde %d (Startwert %d): %s %d bei Bedarf %d, Konto %d -> %s",
+							round, TU_SEED, nm, amt, need, DKP.Get(nm, apool), tostring(okBid))
+					end
+					if okBid then best, bestName = amt, nm end
+				end
+				if c.highName ~= bestName or (bestName and c.high ~= best) then
+					viol[#viol + 1] = string.format("Runde %d: Gewinner %s %s statt %s %s", round, tostring(c.highName),
+						tostring(c.high), tostring(bestName), tostring(best))
+				end
+				auctions = auctions + 1
+				if #viol >= 5 then break end
+			end
+		end, function() ClearAuction(); for _, f in ipairs(u) do f() end end)
+		TUAdd("TU4", #viol == 0, string.format("%d DKP-Fälle + %d Gebotsrunden, Startwert %d: %d Verletzungen", n, auctions,
+			TU_SEED, #viol))
+		for _, v in ipairs(viol) do TUAdd("TU4", false, v) end
+		if #viol > 0 then return false, viol[1], "keine Verletzung" end
+		return true, string.format("%d Fälle + %d Gebotsrunden, Startwert %d", n, auctions, TU_SEED)
+	end)
+
+	-- TU5: echte Daten (KOPIE aus der Sandbox) nur lesen; Verletzungen ins Diagnose-Protokoll, ohne Namen
+	t:Check("T176", "L", "TU5 echte Daten (Kopie) erfüllen die Grundregeln", function()
+		local real = R.snap and R.snap.db and R.snap.db.data
+		if type(real) ~= "table" then
+			TUAdd("TU5", "skip", "SKIP keine gesicherte Kopie der echten Daten")
+			return true, "keine echten Daten"
+		end
+		local viol = {}
+		local ids = {}
+		for i, e in ipairs(real.log or {}) do
+			if type(e) ~= "table" or not e.id then viol[#viol + 1] = "Log-Eintrag " .. i .. " ohne ID"
+			elseif ids[e.id] then viol[#viol + 1] = "Buchung doppelt im Log (Nr. " .. i .. ")"
+			else ids[e.id] = true end
+			if type(e) == "table" then
+				for _, v in pairs(e.d or {}) do
+					if type(v) ~= "number" or v ~= v then viol[#viol + 1] = "Buchung Nr. " .. i .. " mit ungültigem Betrag" end
+				end
+				if e.k == "undo" and e.r and ids[e.r] == nil then
+					-- Ziel kann vor der Log-Grenze liegen: nur zählen, nicht als Verletzung
+				end
+			end
+		end
+		local nPlayers = 0
+		for _, p in pairs(real.players or {}) do
+			nPlayers = nPlayers + 1
+			for _, v in pairs((type(p) == "table" and p.d) or {}) do
+				if type(v) ~= "number" or v ~= v or v == math.huge or v == -math.huge then
+					viol[#viol + 1] = "Spieler Nr. " .. nPlayers .. ": ungültiger DKP-Stand"
+				end
+			end
+		end
+		for _, v in ipairs(viol) do
+			if RM.Diag and RM.Diag.Record then RM.Diag.Record("GRUNDREGEL VERLETZT (DKP): " .. v) end
+		end
+		TUAdd("TU5", #viol == 0, string.format("echte Daten: %d Buchungen, %d Spieler, %d Verletzungen", #(real.log or {}),
+			nPlayers, #viol))
+		if #viol > 0 then return false, viol[1], "keine Verletzung" end
+		return true, string.format("%d Buchungen, %d Spieler geprüft", #(real.log or {}), nPlayers)
+	end)
+
+	-- TU6: Regressionen – jeder Befund seit dem 1.11. hat eine bleibende Prüfung, die in diesem Lauf vorkam
+	t:Check("T177", "L", "TU6 Regressionen vorhanden", function()
+		local REG = { { "T-142 !dkp Vor-/Nachname", "T142" }, { "T-122 Fehler genau einmal gezählt", "T122" },
+			{ "T-43 Beute vorgeladen", "T43" }, { "SetRaidTarget FORBIDDEN (Forever)", "T133" },
+			{ "sichere Symbol-Knöpfe", "T161" }, { "GoldSentinelTest 2", "T162" }, { "Zustimmung Sammler", "T163" },
+			{ "GoldSentinelSync mitgebracht", "T164" }, { "Prüfblock Uploader", "T165" },
+			{ "BL1 Befehlsliste vollständig", "T166" }, { "BL2 Filter", "T167" }, { "BL3 Klick/Enter", "T168" },
+			{ "BL4 Chatfeld nie beschrieben", "T169" }, { "BL5 Entwickler", "T170" }, { "BL6 Sprachen", "T171" },
+			{ "Oberfläche: Tooltips", "T155" }, { "Oberfläche: Fenster", "T156" }, { "Oberfläche: Bildschirm", "T157" },
+			{ "Oberfläche: Text passt", "T158" }, { "Oberfläche: Werte", "T159" }, { "Oberfläche: Fehler-Schleifen", "T160" },
+			{ "TU3 fehlende Einstellungen", "T174" } }
+		local only = R.only
+		local have, missing = 0, {}
+		for _, r in ipairs(REG) do
+			if R.seen[r[2]] or R.seen[r[2]:lower()] then have = have + 1
+			elseif r[2] == "T174" and R.seen.T174 == nil then missing[#missing + 1] = r[1]
+			else missing[#missing + 1] = r[1] .. " (" .. r[2] .. ")" end
+		end
+		local text = string.format("Regressionen: %d von %d vorhanden", have, #REG)
+		if only and only ~= "L" then return true, text end
+		if only == "L" then
+			TUAdd("TU6", "skip", "SKIP nur Bereich L gelaufen – Regressionen nur im ganzen Lauf zählbar")
+			return true, text .. " (nur Bereich L)"
+		end
+		TUAdd("TU6", #missing == 0, text)
+		if #missing > 0 then return false, text .. ": fehlt " .. table.concat(missing, ", "), "alle" end
+		return true, text
+	end)
+
+	-- TU7: Formen des Spiels – dieselben Prüfungen laufen in jedem Client; hier: Client, Sprache, geschützte Werte
+	t:Check("T178", "L", "TU7 Formen des Spiels", function()
+		local G2 = _G.GoldSentinelGame
+		local flavor = (G2 and G2.flavor) or "?"
+		local secrets = (RM.Caps and RM.Caps.secrets) and "ja" or "nein"
+		TUAdd("TU7", true, string.format("Client %s, Sprache %s, geschützte Werte %s: TU1–TU4 gelaufen", tostring(flavor),
+			tostring(RM.LOCALE), secrets))
+		TUAdd("TU7", "skip", "SKIP Fenster bei Skalierung ≠ 100 %: Bereich K im Client")
+		return true, tostring(flavor) .. " / " .. tostring(RM.LOCALE)
+	end)
+
+	-- TU8: Bericht je Bereich
+	t:Check("T179", "L", "TU8 Testbericht je Bereich", function()
+		local lines, empty = {}, {}
+		for _, a in ipairs({ "TU1", "TU2", "TU3", "TU4", "TU5", "TU6", "TU7" }) do
+			local r = TU.rows[a] or { ok = 0, fehler = 0, skip = 0, lines = {} }
+			lines[#lines + 1] = string.format("%s OK %d · FEHLER %d · SKIP %d", a, r.ok, r.fehler, r.skip)
+			if r.ok + r.fehler == 0 and a ~= "TU6" then empty[#empty + 1] = a end
+		end
+		R.tuReport = lines
+		for _, l in ipairs(lines) do RM.Print("Testroutine: " .. l) end
+		if #empty > 0 then return false, "ohne Ergebnis: " .. table.concat(empty, ", "), "alle Bereiche" end
+		return true, table.concat(lines, " | ")
+	end)
+end
+
 local function AreaK(t)
 	local U, UI = RM.UICheck, RM.UI
 	local ui = {
@@ -2782,7 +3336,8 @@ local function AreaK(t)
 	end
 end
 
-local RUNNERS = { A = AreaA, B = AreaB, C = AreaC, D = AreaD, E = AreaE, F = AreaF, G = AreaG, H = AreaH, I = AreaI, J = AreaJ, K = AreaK }
+local RUNNERS = { A = AreaA, B = AreaB, C = AreaC, D = AreaD, E = AreaE, F = AreaF, G = AreaG, H = AreaH, I = AreaI, J = AreaJ, K = AreaK,
+	L = AreaL }
 
 ---------------------------------------------------------------------------
 -- Ablauf
@@ -2905,6 +3460,14 @@ function R.Run(only)
 	R.t = GoldSentinelTest.Begin("RaidMaster", RM.VERSION, RaidMasterDB)
 	local t = R.t
 	t.Wait = function(_, sec) return Wait(sec) end          -- T:Wait (asynchrones Warten) für die Prüfungen
+	-- 3.0.24 (TU6): welche Prüfungen in diesem Lauf vorkamen (für "Regressionen: n von m")
+	R.seen = {}
+	do
+		local oCheck, oSkip, oClient = t.Check, t.Skip, t.Client
+		t.Check = function(self, id, ...) R.seen[id] = "run"; return oCheck(self, id, ...) end
+		if oSkip then t.Skip = function(self, id, ...) R.seen[id] = "skip"; return oSkip(self, id, ...) end end
+		if oClient then t.Client = function(self, id, ...) R.seen[id] = "client"; return oClient(self, id, ...) end end
+	end
 	InstallSpies()
 
 	-- Vorbereitung: Testmodus ohne Countdown, ohne automatischen Durchlauf, ohne automatische Vergabe

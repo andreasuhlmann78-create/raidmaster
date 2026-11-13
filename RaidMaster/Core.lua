@@ -5,8 +5,8 @@ local ADDON, RM = ...
 local L = RM.L
 RaidMaster = RM
 
-RM.VERSION = "3.0.23"
-RM.VERSION_NUM = 30023
+RM.VERSION = "3.0.24"
+RM.VERSION_NUM = 30024
 RM.PREFIX = "RaidMstr"
 
 ---------------------------------------------------------------------------
@@ -305,6 +305,15 @@ RM.DEFAULT_SETTINGS = {
 	autoDecay = true,          -- 2.8.0: Verfall automatisch einmal pro Woche zum Raid-Reset (Mittwoch)
 	mainBeforeTwink = true,    -- 2.8.0: Twinks gewinnen nur, wenn kein Main bietet
 }
+
+-- Zahl-Einstellung der Gilde: fehlt sie oder ist sie keine Zahl (z. B. Daten einer älteren Version per Sync), gilt der
+-- Standardwert (ab 3.0.24, TU3). Der Verfall (decayPct) nutzt das bewusst NICHT: fehlt er, bleibt er 0 %.
+function RM.SettingNum(key)
+	local s = RM.db and RM.db.data and RM.db.data.settings or {}
+	local v = tonumber(s[key])
+	if v == nil then v = tonumber(RM.DEFAULT_SETTINGS[key]) end
+	return v
+end
 
 -- Lokale Einstellungen (nur dieser Spieler)
 RM.DEFAULT_CONFIG = {
@@ -901,58 +910,5 @@ BINDING_NAME_RAIDMASTER_MARKADDS = L["Adds markieren (alle sichtbaren, nach Vorl
 BINDING_NAME_RAIDMASTER_CLEARALL = L["Alle Symbole entfernen"]
 
 ---------------------------------------------------------------------------
--- Slash-Befehle (Bedienung erfolgt sonst per Maus)
+-- Slash-Befehle: ab 3.0.24 in Commands.lua (eine Tabelle RM.COMMANDS für den Handler UND die Befehlsliste, Auftrag BL)
 ---------------------------------------------------------------------------
-SLASH_RAIDMASTER1 = "/rm"
-SLASH_RAIDMASTER2 = "/raidmaster"
-SlashCmdList["RAIDMASTER"] = function(msg)
-	msg = (msg or ""):lower()
-	if msg == "bar" then
-		RM.Markers.ToggleBar()
-	elseif msg == "reset" then
-		RM.db.config.positions = {}
-		RM.Act.ReloadUI()
-	elseif msg == "adds" or msg == "mark" then
-		RM.Markers.MarkAdds()
-	elseif msg == "clear" or msg == "aus" then
-		RM.Markers.ClearAll()
-	elseif msg == "sync" then
-		RM.Comm.RequestSync()
-	elseif msg == "test" then
-		if RM.Test then RM.Test.Toggle() end
-	elseif msg:match("^testroutine") then
-		-- Testroutine (nur für den Entwickler, wie das Test-Werkzeug): /rm testroutine [A … K]
-		if RM.Test and RM.Test.Slash then RM.Test.Slash(msg) end
-	elseif msg:match("^beute") or msg:match("^loot%s") or msg == "loot" then
-		-- eigene Beute-Datenbank: /rm beute [Boss]
-		if RM.LootDB then RM.LootDB.PrintBoss(msg:match("^%S+%s*(.*)$")) end
-	elseif msg:match("^berufe") or msg:match("^handwerk") then
-		-- /rm berufe = eigene Berufe einlesen, /rm handwerk <Item> = wer kann das herstellen?
-		local q = msg:match("^%S+%s+(.+)$")
-		if RM.Prof then if q and msg:match("^handwerk") then RM.Prof.PrintFind(q) else RM.Prof.ReadNext() end end
-	elseif msg == "rekorde" or msg == "records" then
-		if RM.Records then RM.Records.Print() end
-	elseif msg:match("^bank") then
-		if RM.Bank then RM.Bank.PrintFind(msg:match("^%S+%s*(.*)$")) end
-	elseif msg == "bereit" or msg == "ready" then
-		if RM.Ready then RM.Ready.Start() end
-	elseif msg:match("^pull") then
-		if RM.Timer then RM.Timer.Pull(tonumber(msg:match("(%d+)"))) end
-	elseif msg:match("^pause") then
-		if RM.Timer then RM.Timer.Break(tonumber(msg:match("(%d+)"))) end
-	elseif msg == "luecken" or msg == "lücken" or msg == "gaps" then
-		if RM.Gaps then RM.Gaps.Open() end
-	elseif msg == "diag" or msg == "diagnose" or msg == "fix" then
-		if msg == "fix" then RM.Diag.Fix() else RM.Diag.Toggle() end
-	elseif msg == "discord" or msg == "anleitung" or msg == "guide" then
-		RM.Guide.Toggle()
-	elseif msg == "spenden" or msg == "donate" or msg == "support" then
-		RM.Donate.Show()
-	elseif msg == "minimap" then
-		RM.UI.ToggleMinimapButton()
-	elseif msg == "version" or msg == "info" then
-		RM.Print("v" .. RM.VERSION .. " – " .. RM.GameInfoText() .. " · " .. (RM.LANGUAGES[RM.LOCALE] or RM.LOCALE) .. " (" .. RM.GAME_LOCALE .. ")")
-	else
-		RM.UI.Toggle()
-	end
-end

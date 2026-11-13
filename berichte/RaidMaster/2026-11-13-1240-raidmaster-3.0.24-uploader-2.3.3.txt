@@ -1,0 +1,50 @@
+BERICHT RAIDMASTER (ADDON UND UPLOADER) AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 12:40 · Sitzung: RaidMaster-Sitzung · Version: Addon 3.0.24, Uploader 2.3.3 · Commit: dieser Commit
+
+ERLEDIGT:
+- U2 (MITTEL): instance_running wertet eine frische _sync.lock nur als "läuft schon", wenn ihr Prozess LEBT und sie
+  nicht vom Starter stammt (Starter schreibt "rolle": "starter"); wait_for_lock wartet nur auf lebende Besitzer.
+  sync.py instance_running / lock_owner / wait_for_lock, uploader.py wow_start (write_lock role="starter").
+  Tests T-U2a/b/c (tests/test_sync.py SperreU2).
+- RP-U (MITTEL): uploader.py read_guildsentinel schickt nur noch GuildSentinelDB.bank und .raidReady als eigene kleine
+  Datei (lua_fields, Klammern/Zeichenketten/Kommentare beachtet); vorher ging die GANZE GuildSentinel.lua an den Bot.
+  Test tests/test_uploader.py test_rp_u_nur_bank_und_raidready (mit Bot-Parser und raid_ready.parse).
+  HINWEIS FÜR DISCORD: raidmaster_data.check_guildsentinel_upload (Bot) nimmt GuildSentinel.lua nur MIT Gildenbank an.
+  Hat eine Gilde raidReady, aber keinen Bank-Bestand, verwirft der Bot die Datei -> RP-D bekommt dann nichts. Bitte im
+  Discord-Projekt prüfen (Annahme auch bei nur raidReady). Der Uploader liefert raidReady in jedem Fall.
+- BL (MITTEL), Addon 3.0.24: Commands.lua = EINE Tabelle RM.COMMANDS für Slash-Handler und Liste (der alte if-Block in
+  Core.lua ist entfernt); CmdHint.lua = Baustein aus AHSentinel (gleiches Verhalten CH: Klick/Tab/Pfeil wählt, Enter
+  führt aus, Chatfeld nie beschrieben, Fokus mit SetFocus, Auswahl 10 s, Liste schliesst nicht vor dem Klick),
+  Zähler RaidMasterDB.config.cmdUse, Ausschalten /rm befehlsliste, Entwickler-Befehle (test, testroutine) nur mit
+  GoldSentinelDev. Neue englische Wörter professions, craft, break (gleiche Einträge). Texte in allen 10 Sprachen.
+  Tests T166–T171 (T-BL1–T-BL6) in Test/Routine.lua Bereich J; T-BL1 prüft gegen die Tabelle (Probe-Eintrag wird sofort
+  ausführbar UND sichtbar), T-BL4 mit Schreib-Zählern auf SetText/Insert/SetCursorPosition.
+- TU (HOCH):
+  Uploader: tests/test_umfassend.py – TU1 24 Lagen x Funktionen (Tabelle ERWARTUNG), TU2 4 Abläufe (spielen -> /reload
+  -> liefern -> Laptop übernimmt; Abbruch beim Hochladen; Autostart doppelt + Starter; 5x /reload), TU3 17 Standardwerte
+  (Liste im Bericht), TU4 1000 Zufallsfälle Startwert 4711 (G1 Datenverlust, G2 Schreiben bei laufendem WoW, G3 eigener
+  Upload nie neuer – auch zweiter Prozess mit altem Zustand, G4 keine Geheimnisse/eigener Name in Hinweisen, G5
+  Zustand, G6 Einzel-Instanz), TU5 sync.check_state beim Start (Fenster + stand.json "grundregeln", ohne Namen),
+  TU6 43 von 43 Regressionen vorhanden und grün, TU7 Ordner aller Spielversionen, TU8 Bericht je Bereich (Ausgabe am
+  Ende des Moduls). Gegenproben (absichtlich eingebaute Fehler): T-DU11-Fehler (eigener Upload offen), fehlende
+  Sicherung, Schreiben bei laufendem WoW – alle drei von TU4 gefunden.
+  Addon: Testroutine Bereich L (T172–T179): TU1 11 Lagen (DKP 0/negativ, über Kontostand, Minus erlaubt, unter Minimum,
+  gleiche Gebote, nicht im Raid, Boss-Kill während Gebot, gleiche Vornamen, offline/nur Online, Raid-Summe), TU2 Ablauf
+  zwei Gebote zugleich -> genau eine Vergabe; Sync doppelt/vertauscht -> gleicher Stand, TU3 13 Standardwerte + fehlende
+  Einstellungen, TU4 1000 DKP-Fälle + 40 Gebotsrunden (Startwert 4711, Portionen ≤ 8 ms), TU5 Kopie der echten Daten
+  (Verletzungen -> Diag "GRUNDREGEL VERLETZT (DKP)", ohne Namen), TU6 22 Regressionen, TU7 Client/Sprache, TU8 Zeilen
+  "TUx OK n · FEHLER n · SKIP n" im Chat. Gegenproben: doppelte Buchung, Gebot über Kontostand – beide gefunden.
+  FUND DURCH TU3 (behoben): fehlen minBid/bidIncrement/auctionTime in den Gilden-Einstellungen (z. B. Daten einer
+  älteren Version per Sync), brach A.Start mit Lua-Fehler ab (GetTime() + nil). Jetzt RM.SettingNum -> Standardwert;
+  ebenso dkpStart/dkpEnd/defaultBossDKP. decayPct bewusst NICHT (fehlt er, bleibt der Verfall 0 % – kein stilles
+  Buchen).
+Prüfungen: Uploader test_daten 12/12, test_sync 33/33, test_uploader 17/17, test_umfassend 14/14; Bot-Tests OK;
+py_compile OK; addon_check RaidMaster-3.0.24.zip OK (lupa, Lua 5.1); Testroutine nachgebaut: Forever OK 122 · FEHLER 0,
+Era OK 126 · FEHLER 0; Bereich J in enUS/frFR/ruRU/koKR/zhTW/esMX und Bereich L in enUS/ruRU/zhCN ohne FEHLER.
+
+TEILWEISE / OFFEN:
+- TU2: /reload mitten im Bieten und Einteilung von zwei Offizieren gleichzeitig nur im Client (SKIP mit Grund).
+- TU7: Fenster bei Skalierung ≠ 100 % über Bereich K im Client; TBC/Anniversary nicht im Nachbau (nur Forever/Era).
+- T-DU12 (HOCH, neu 12:10): wird als Nächstes bearbeitet (U2 behebt einen Teil: tote PID / Starter-Sperre).
+FRAGEN: siehe Hinweis an Discord bei RP-U.
+IM CLIENT GETESTET: nein.

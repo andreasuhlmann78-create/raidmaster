@@ -139,11 +139,12 @@ def wow_running() -> bool:
 # ---------------------------------------------------------------------------
 # Sperre: nur EIN Prozess gleicht ab (laufender Uploader oder Starter) – offen 2
 # ---------------------------------------------------------------------------
-def write_lock(here: str, now: float | None = None):
+def write_lock(here: str, now: float | None = None, role: str = "uploader"):
+    """role: "uploader" (läuft dauernd) oder "starter" (GoldSentinel-WoW.bat, nur kurz) – ab 2.3.3 (U2)."""
     now = time.time() if now is None else now
     try:
         with open(os.path.join(here, LOCK_FILE), "w", encoding="utf-8") as f:
-            json.dump({"pid": os.getpid(), "t": now}, f)
+            json.dump({"pid": os.getpid(), "t": now, "rolle": role}, f)
     except OSError:
         pass
 
@@ -156,6 +157,15 @@ def remove_lock(here: str):
         os.remove(os.path.join(here, LOCK_FILE))
     except (OSError, ValueError, AttributeError):
         pass
+
+
+def lock_owner(here: str) -> dict:
+    try:
+        with open(os.path.join(here, LOCK_FILE), "r", encoding="utf-8") as f:
+            data = json.load(f)
+        return data if isinstance(data, dict) else {}
+    except (OSError, ValueError):
+        return {}
 
 
 def lock_active(here: str, now: float | None = None) -> bool:
@@ -229,8 +239,16 @@ def instance_running(here: str, path: str | None = None) -> dict | None:
     info = instance_info(path)
     if info and pid_alive(int(info.get("pid") or 0)):
         return info
-    if lock_active(here):
-        return {"pid": "?", "ordner": here, "version": "vor 2.3.2"}
+    # Uploader vor 2.3.2 im selben Ordner: nur, wenn die Sperre frisch ist, ihr Prozess LEBT und sie nicht vom Starter
+    # stammt (U2, ab 2.3.3) – sonst würde ein Neustart innert 90 s oder ein laufender Starter den Uploader beenden
+    owner = lock_owner(here)
+    if lock_active(here) and owner.get("rolle") != "starter":
+        try:
+            pid = int(owner.get("pid") or 0)
+        except (TypeError, ValueError):
+            pid = 0
+        if pid_alive(pid):
+            return {"pid": pid, "ordner": here, "version": owner.get("version") or "vor 2.3.2"}
     return None
 
 
@@ -282,7 +300,16 @@ def wait_for_lock(here: str, sleep=time.sleep, now=time.time, log=None, max_wait
     """Uploader-Start (offen 2): gleicht gerade ein anderer Prozess ab (Starter), erst warten, bis er fertig ist.
     True = frei. Nach max_wait wird nicht länger gewartet (Sperre gilt dann ohnehin als alt)."""
     start, said = now(), False
-    while lock_active(here, now()):
+
+    def busy() -> bool:
+        if not lock_active(here, now()):
+            return False
+        try:
+            pid = int(lock_owner(here).get("pid") or 0)
+        except (TypeError, ValueError):
+            return False
+        return pid_alive(pid)                   # Sperre eines beendeten Prozesses: nicht warten (U2)
+    while busy():
         if not said and log:
             log("Abgleich: GoldSentinel-WoW.bat gleicht gerade ab – warte, bis sie fertig ist ...")
             said = True
@@ -1327,6 +1354,35 @@ class Sync:
             self.push(now)
         elif self.s.get("to_delete"):
             self.delete_old()
+
+
+def check_state(st: dict) -> list[str]:
+    """TU5 (ab 2.3.3): Grundregeln des gespeicherten Abgleich-Zustands (uploader_state.json) – nur lesen.
+    Liefert die Verletzungen als Text OHNE Namen (Konto-/Rechnernamen werden nie genannt)."""
+    out = []
+    s = (st or {}).get("sync") or {}
+    if not isinstance(s, dict):
+        return ["sync ist keine Tabelle"]
+    try:
+        seq = int(s.get("seq") or 0)
+    except (TypeError, ValueError):
+        return ["seq ist keine Zahl"]
+    if seq < 0:
+        out.append(f"seq negativ ({seq})")
+    for i, (k, v) in enumerate(sorted((s.get("revs") or {}).items())):
+        if not isinstance(v, int) or v < 0:
+            out.append(f"rev Nr. {i + 1} ungültig")
+        elif v > seq:
+            out.append(f"rev Nr. {i + 1} ({v}) grösser als seq ({seq})")
+    bad = sum(1 for v in (s.get("files") or {}).values() if not re.fullmatch(r"[0-9a-f]{40}", str(v or "")))
+    if bad:
+        out.append(f"{bad} Prüfwert(e) der Basis ungültig")
+    td = s.get("to_delete") or []
+    if not isinstance(td, list) or any(not re.fullmatch(r"\d{1,25}", str(m)) for m in td):
+        out.append("to_delete enthält ungültige Einträge")
+    if len(td) > 500:
+        out.append(f"to_delete zu lang ({len(td)})")
+    return out
 
 
 def notify_windows(text: str):

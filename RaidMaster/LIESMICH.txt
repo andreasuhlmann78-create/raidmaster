@@ -11,6 +11,18 @@ INSTALLATION
   Ohne Addon kann man trotzdem bieten (!bid 50) und DKP abfragen (!dkp).
 - Öffnen: Minimap-Knopf oder /rm.
 
+NEU IN 3.0.24 – Befehlsliste beim Tippen, sicherere Standardwerte
+- Tippst du /rm oder /raidmaster in den Chat, erscheint über dem Eingabefeld die Liste ALLER Befehle mit kurzer
+  Beschreibung (in deiner Spielsprache). Weitertippen filtert ("/rm be" zeigt bereit, berufe, beute …), meistbenutzte
+  stehen oben. Mausklick, Tab oder Pfeiltasten wählen aus, Enter führt aus. Das Chatfeld wird dabei nie verändert.
+  Ausschalten: /rm befehlsliste.
+- Neue englische Befehlswörter: /rm professions, /rm craft <item>, /rm break <minutes>.
+- Fehlt eine Zahl-Einstellung der Gilde (z. B. nach einem Abgleich mit einer älteren Version), gilt der Standardwert:
+  Versteigerungen starten wieder (vorher Lua-Fehler), Raidstart/-ende buchen die Standard-DKP. Der Verfall bleibt
+  dann bewusst bei 0 %.
+- Umfassende Tests (TU1–TU8) in der Testroutine (Bereich L): Lagen, Abläufe, Standardwerte, 1000 Zufallsfälle,
+  echte Daten nur lesen, Regressionen, Bericht je Bereich.
+
 NEU IN 3.0.23 – Beleg für den Abgleich PC/Laptop
 - Für den RaidMaster-Uploader 2.2.0: Übernimmt der Uploader einen neueren Stand vom anderen Rechner, während WoW noch
   im Anmelde- oder Charakterbildschirm ist, merkt sich RaidMaster beim Einloggen, dass dieser Stand gelesen wurde

@@ -69,7 +69,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sync  # noqa: E402  (Abgleich PC/Laptop, ab 2.1.0)
 import daten  # noqa: E402  (Daten für die Prüf-Sitzung, ab 2.3.0)
 
-VERSION = "2.3.2"
+VERSION = "2.3.3"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400
@@ -192,14 +192,92 @@ def guildsentinel_path(cfg: dict, path: str) -> str:
     return cfg.get("guildsentinel_path") or os.path.join(os.path.dirname(os.path.abspath(path)), "GuildSentinel.lua")
 
 
+GS_FIELDS = ("bank", "raidReady")     # nur diese Felder von GuildSentinelDB gehen an den Bot (ab 2.3.3, RP-U)
+
+
+def lua_fields(text: str, var: str, names: tuple[str, ...]) -> dict[str, str]:
+    """Wert-Text der direkten Felder ["name"] = … der obersten Tabelle var (Klammern gezählt, Zeichenketten und
+    Kommentare beachtet). Nur die gewünschten Felder; alles andere wird nie gelesen oder weitergegeben."""
+    m = re.search(r"^" + re.escape(var) + r"\s*=\s*\{", text, re.M)
+    if not m:
+        return {}
+    out: dict[str, str] = {}
+    i, n, depth = m.end(), len(text), 1
+    key_re = re.compile(r'\[\s*"((?:[^"\\]|\\.)*)"\s*\]\s*=\s*')
+    while i < n and depth > 0:
+        c = text[i]
+        if c == '"' or c == "'":
+            j = i + 1
+            while j < n and text[j] != c:
+                j += 2 if text[j] == "\\" else 1
+            i = j + 1
+            continue
+        if text.startswith("--", i):
+            j = text.find("\n", i)
+            i = n if j < 0 else j + 1
+            continue
+        if depth == 1 and c == "[":
+            km = key_re.match(text, i)
+            if km and km.group(1) in names:
+                start = km.end()
+                end = _value_end(text, start)
+                out[km.group(1)] = text[start:end].rstrip().rstrip(",")
+                i = end
+                continue
+        if c == "{":
+            depth += 1
+        elif c == "}":
+            depth -= 1
+        i += 1
+    return out
+
+
+def _value_end(text: str, i: int) -> int:
+    """Ende eines Lua-Werts ab i (Tabelle mit Klammern, Zeichenkette oder bis zum Komma/Zeilenende)."""
+    n = len(text)
+    if i < n and text[i] == "{":
+        depth = 0
+        while i < n:
+            c = text[i]
+            if c in "\"'":
+                j = i + 1
+                while j < n and text[j] != c:
+                    j += 2 if text[j] == "\\" else 1
+                i = j + 1
+                continue
+            if c == "{":
+                depth += 1
+            elif c == "}":
+                depth -= 1
+                if depth == 0:
+                    return i + 1
+            i += 1
+        return n
+    j = i
+    while j < n and text[j] not in ",\n}":
+        if text[j] in "\"'":
+            q = text[j]
+            j += 1
+            while j < n and text[j] != q:
+                j += 2 if text[j] == "\\" else 1
+        j += 1
+    return j
+
+
 def read_guildsentinel(gs_path: str) -> bytes | None:
-    """GuildSentinel.lua nur mit Gildenbank-Bestand – sonst nichts schicken (keine fremden Daten)."""
+    """Aus GuildSentinel.lua NUR den Gildenbank-Bestand und (ab 2.3.3, RP-U) die Raidfähigkeit raidReady (ohne Namen)
+    – als kleine eigene Datei. Keine Mitglieder, Notizen oder sonstigen Gildendaten. Nichts davon da -> None."""
     try:
         with open(gs_path, "rb") as f:
             raw = f.read()
     except OSError:
         return None
-    return raw if GS_BANK.search(raw) else None
+    text = raw.decode("utf-8", errors="surrogateescape")
+    fields = lua_fields(text, "GuildSentinelDB", GS_FIELDS)
+    if not fields:
+        return None
+    body = "".join(f'\t["{k}"] = {fields[k]},\n' for k in GS_FIELDS if k in fields)
+    return ("GuildSentinelDB = {\n" + body + "}\n").encode("utf-8", errors="surrogateescape")
 
 
 def build_body(payload: dict, packed: bytes, gs_packed: bytes | None, shots: list[tuple[str, str, bytes]]) -> tuple[str, bytes]:
@@ -873,7 +951,7 @@ def wow_start():
     elif sy.is_wow_running():
         log("WoW läuft schon – nichts übernommen.")
     else:
-        sync.write_lock(HERE)
+        sync.write_lock(HERE, role="starter")       # U2: Starter-Sperre beendet keinen Uploader
         try:
             sy.merge_old_backups()
             sy.pull()
@@ -953,6 +1031,11 @@ def main():
         sync.write_lock(HERE)
         import atexit
         atexit.register(sync.remove_lock, HERE)
+        # TU5 (ab 2.3.3): Grundregeln des eigenen Zustands prüfen (nur lesen); Verletzungen ins Fenster und in die
+        # Daten-Lieferung (stand.json), damit die Prüf-Sitzung echte Fehler sieht
+        for v in sync.check_state(reporter.st):
+            log("GRUNDREGEL VERLETZT (Abgleich): " + v)
+        reporter.st.setdefault("daten", {})["grundregeln"] = sync.check_state(reporter.st)
         try:
             if not syncer.is_wow_running():
                 syncer.merge_old_backups()       # gesicherte AHSentinel-Stände von 2.1.x/2.2.0 zusammenführen

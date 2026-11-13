@@ -564,7 +564,7 @@ class Reload(unittest.TestCase):
         os.makedirs(here)
         clock = {"t": T0}
         with open(os.path.join(here, sync.LOCK_FILE), "w") as f:
-            json.dump({"pid": -1, "t": T0}, f)                     # Starter gleicht gerade ab
+            json.dump({"pid": os.getppid(), "t": T0, "rolle": "starter"}, f)   # Starter gleicht gerade ab
         sleeps = []
 
         def sleep(n):
@@ -685,7 +685,7 @@ class ZweiterProzess(unittest.TestCase):
         self.assertIsNone(sync.instance_running(here, path=info))
         # Uploader vor 2.3.2 im selben Ordner (frische Abgleich-Sperre eines anderen Prozesses)
         with open(os.path.join(here, sync.LOCK_FILE), "w") as f:
-            json.dump({"pid": -1, "t": __import__("time").time()}, f)
+            json.dump({"pid": os.getppid(), "t": __import__("time").time()}, f)    # lebt, ohne Rolle
         self.assertTrue(sync.instance_running(here, path=info))
         import uploader
         with open(uploader.__file__, encoding="utf-8") as f:
@@ -699,6 +699,57 @@ class ZweiterProzess(unittest.TestCase):
         with open(os.path.join(os.path.dirname(uploader.__file__), "Autostart-einrichten.bat"), encoding="utf-8") as f:
             bat = f.read()
         self.assertIn("Remove-Item", bat)                                   # alte/doppelte Einträge ersetzen
+
+
+class SperreU2(unittest.TestCase):
+    """2.3.3: T-U2 – eine frische _sync.lock beendet den Uploader nur, wenn ein lebender Uploader sie hält."""
+
+    def setUp(self):
+        self.d = tempfile.mkdtemp()
+        self.here = os.path.join(self.d, "u")
+        os.makedirs(self.here)
+        self.info = os.path.join(self.d, "instanz.json")
+        import time as _t
+        self.now = _t.time()
+
+    def tearDown(self):
+        shutil.rmtree(self.d, ignore_errors=True)
+
+    def lock(self, **kw):
+        with open(os.path.join(self.here, sync.LOCK_FILE), "w") as f:
+            json.dump(dict({"t": self.now}, **kw), f)
+
+    def test_u2a_starter_sperre_warten_dann_laufen(self):
+        self.lock(pid=os.getppid(), rolle="starter")
+        ok, other = sync.instance_acquire(self.here, "2.3.3", path=self.info)
+        self.assertTrue(ok, other)                                          # beendet sich NICHT
+        clock = {"t": self.now}
+
+        def sleep(n):
+            clock["t"] += n
+            if clock["t"] >= self.now + 4:
+                os.remove(os.path.join(self.here, sync.LOCK_FILE))         # Starter fertig
+        self.assertTrue(sync.wait_for_lock(self.here, sleep=sleep, now=lambda: clock["t"]))
+        self.assertGreaterEqual(clock["t"], self.now + 4)                  # hat gewartet
+
+    def test_u2b_sperre_eines_beendeten_prozesses(self):
+        self.lock(pid=999999)                                               # frisch, aber Prozess tot
+        ok, other = sync.instance_acquire(self.here, "2.3.3", path=self.info)
+        self.assertTrue(ok, other)
+        slept = []
+        self.assertTrue(sync.wait_for_lock(self.here, sleep=slept.append))
+        self.assertEqual(slept, [])                                         # kein Warten
+
+    def test_u2c_lebender_uploader_vor_2_3_2(self):
+        self.lock(pid=os.getppid())                                         # lebt, ohne Rolle = Uploader
+        ok, other = sync.instance_acquire(self.here, "2.3.3", path=self.info)
+        self.assertFalse(ok)
+        self.assertEqual(other["pid"], os.getppid())
+        import uploader
+        with open(uploader.__file__, encoding="utf-8") as f:
+            src = f.read()
+        starter = src[src.index("def wow_start"):src.index("def main")]
+        self.assertIn('write_lock(HERE, role="starter")', starter)
 
 
 class Groesse(unittest.TestCase):

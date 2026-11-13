@@ -176,3 +176,12 @@ Version 2.3.2 – only ONE uploader, no wrong notice "newer state from <own comp
      daten_config.json and uploader_state.json).
   3. Double-click Autostart-einrichten.bat (cleans up duplicate entries).
   4. Double-click uploader.bat. The window shows "RaidMaster-Uploader 2.3.2 · Ordner … · PID …".
+
+Version 2.3.3 – start after closing, raid readiness, comprehensive tests:
+- The uploader no longer wrongly quits with "already running" while GoldSentinel-WoW.bat is syncing or when it is
+  restarted within 90 seconds after closing (a lock only counts if its process is still alive and is not the starter).
+- GuildSentinel: only the guild bank stock and the raid readiness (raidReady, without names) go to the bot – previously
+  the whole file. No members, notes or other guild data anymore.
+- At start the uploader checks its saved state ("GRUNDREGEL VERLETZT …" in the window if something is wrong; no names).
+- Comprehensive tests (TU1–TU8): situations like no network, missing certificate, wrong token, two computers at once,
+  second process; flows; defaults; 1000 random cases with a fixed seed.

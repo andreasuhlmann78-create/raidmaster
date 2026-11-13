@@ -96,19 +96,20 @@ function A.Start(indexOrLink)
 	if not link or not link:find("item:") then RM.Print(L["Kein gültiger Itemlink."]) return end
 
 	local s = S()
+	local minBid, inc, dur = RM.SettingNum("minBid"), RM.SettingNum("bidIncrement"), RM.SettingNum("auctionTime")
 	local pool = RM.DKP.ActivePool()
 	local poolName = RM.DKP.PoolName(pool)
 	aidCounter = aidCounter + 1
 	local aid = RM.Me() .. "-" .. RM.Now() .. "-" .. aidCounter
 	A.current = {
-		aid = aid, link = link, min = s.minBid, inc = s.bidIncrement, pool = pool,
-		endsAt = GetTime() + s.auctionTime, bids = {}, passes = {}, high = 0, highName = nil,
+		aid = aid, link = link, min = minBid, inc = inc, pool = pool,
+		endsAt = GetTime() + dur, bids = {}, passes = {}, high = 0, highName = nil,
 	}
-	local as = { a = aid, l = link, m = s.minBid, i = s.bidIncrement, d = s.auctionTime, g = RM.MyGuild(), p = pool, pn = poolName }
+	local as = { a = aid, l = link, m = minBid, i = inc, d = dur, g = RM.MyGuild(), p = pool, pn = poolName }
 	RM.Comm.Send("AS", as, "RAID", nil, true)
 	A.OnStart(RM.Me(), as)
 	RM.Announce(string.format(L["Gebot (%s-DKP): %s – Mindestgebot %d, %d Sek. Addon nutzen oder /w %s !bid <Zahl>"],
-		RM.DKP.PoolShort(pool), link, s.minBid, s.auctionTime, RM.Me()), true)
+		RM.DKP.PoolShort(pool), link, minBid, dur, RM.Me()), true)
 	if ticker then ticker:Cancel() end
 	ticker = C_Timer.NewTicker(0.25, A.Tick)
 	RM.Fire("AUCTION_CHANGED")

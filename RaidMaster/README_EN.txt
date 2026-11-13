@@ -23,6 +23,16 @@ MAIN FEATURES
 - Every raid has its own DKP pool; boss kills are detected and booked automatically.
 - Raid target icon bar.
 
+WHAT'S NEW IN 3.0.24 – Command list while typing, safer defaults
+- Type /rm or /raidmaster in chat and a list of ALL commands with a short description appears above the input box
+  (in your game language). Keep typing to filter ("/rm be" shows ready, professions, loot …); most used on top.
+  Mouse click, Tab or arrow keys select, Enter runs it. The chat box is never changed. Turn off: /rm commandlist.
+- New English command words: /rm professions, /rm craft <item>, /rm break <minutes>.
+- If a numeric guild setting is missing (e.g. after syncing with an older version), the default applies: auctions start
+  again (previously a Lua error), raid start/end award the default DKP. Decay deliberately stays at 0 % then.
+- Comprehensive tests (TU1–TU8) in the test routine (area L): situations, flows, defaults, 1000 random cases, real data
+  read-only, regressions, report per area.
+
 WHAT'S NEW IN 3.0.23 – Proof for the PC/laptop sync
 - For RaidMaster-Uploader 2.2.0: if the uploader takes over a newer state from your other computer while WoW is still on
   the login or character screen, RaidMaster notes at login that this state was read (RaidMasterDB.syncProbe: number,

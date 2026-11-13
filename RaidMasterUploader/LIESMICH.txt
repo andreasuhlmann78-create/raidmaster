@@ -197,3 +197,14 @@ Version 2.3.2 – nur noch EIN Uploader, keine Fehl-Meldung "Neuerer Stand vom <
      daten_config.json und uploader_state.json behalten).
   3. Autostart-einrichten.bat doppelklicken (räumt doppelte Einträge auf).
   4. uploader.bat doppelklicken. Im Fenster steht "RaidMaster-Uploader 2.3.2 · Ordner … · PID …".
+
+Version 2.3.3 – Start nach dem Schliessen, Raidfähigkeit, umfassende Tests:
+- Der Uploader beendet sich nicht mehr fälschlich mit "läuft schon", wenn GoldSentinel-WoW.bat gerade abgleicht oder
+  der Uploader innert 90 Sekunden nach dem Schliessen neu gestartet wird (eine Sperre zählt nur, wenn ihr Prozess
+  noch lebt und es nicht der Starter ist).
+- GuildSentinel: An den Bot gehen nur noch der Gildenbank-Bestand und die Raidfähigkeit (raidReady, ohne Namen) –
+  vorher die ganze Datei. Keine Mitglieder, Notizen oder anderen Gildendaten mehr.
+- Beim Start prüft der Uploader seinen gespeicherten Zustand ("GRUNDREGEL VERLETZT …" im Fenster, falls etwas nicht
+  stimmt; ohne Namen).
+- Umfassende Tests (TU1–TU8): Lagen wie kein Netz, Zertifikat fehlt, Token falsch, zwei Rechner gleichzeitig, zweiter
+  Prozess; Abläufe; Standardwerte; 1000 Zufallsfälle mit festem Startwert.

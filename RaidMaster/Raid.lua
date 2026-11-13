@@ -27,7 +27,7 @@ function Raid.Start()
 		RM.Loot.ApplySettings()
 	end
 	C_Timer.After(4, function() RM.Loot.Warn(true) end)
-	local amount = S().dkpStart
+	local amount = RM.SettingNum("dkpStart")
 	local poolName = RM.DKP.PoolName(pool)
 	if amount and amount > 0 then
 		RM.DKP.AwardRaid(amount, "start", L["Pünktlich zum Raidstart"], nil, pool)
@@ -52,7 +52,7 @@ end
 
 function Raid.End()
 	if not RM.db.session.active then RM.Print(L["Es läuft kein Raid."]) return end
-	local amount = S().dkpEnd
+	local amount = RM.SettingNum("dkpEnd")
 	local pool = RM.db.session.lastPool or RM.db.session.pool or "mc"
 	if amount and amount > 0 and RM.InRaid() then
 		RM.DKP.AwardRaid(amount, "end", L["Raid bis zum Ende"], nil, pool)
@@ -98,7 +98,7 @@ RM.On("ENCOUNTER_END", function(encounterID, encounterName, difficulty, groupSiz
 	session.names[encounterID] = bossName
 
 	local s = S()
-	local amount = s.bossDKP[boss and boss.id or encounterID] or s.bossDKP[encounterID] or (boss and boss.dkp) or s.defaultBossDKP or 0
+	local amount = s.bossDKP[boss and boss.id or encounterID] or s.bossDKP[encounterID] or (boss and boss.dkp) or RM.SettingNum("defaultBossDKP") or 0
 	if amount <= 0 then RM.Fire("SESSION_CHANGED") return end
 	local first = not RM.db.data.firstKills[encounterID]
 	local text = bossName

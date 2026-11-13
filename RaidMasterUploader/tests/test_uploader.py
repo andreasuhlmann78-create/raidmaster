@@ -143,6 +143,46 @@ class Uploader17(Base):
         self.write("GuildSentinel.lua", 'GuildSentinelDB = {\n["bank"] = {\n["c"] = "B", ["t"] = 5, ["i"] = {},\n},\n}')
         self.assertIsNotNone(up.read_guildsentinel(gs))
 
+    def test_rp_u_nur_bank_und_raidready(self):
+        # 2.3.3 (RP-U): nur GuildSentinelDB.bank und .raidReady gehen an den Bot – keine Mitglieder, Notizen o. Ä.
+        rm = self.write("RaidMaster.lua", "RaidMasterDB = {}")
+        gs = os.path.join(self.sv, "GuildSentinel.lua")
+        full = ('GuildSentinelDB = {\n'
+                '\t["members"] = {\n\t\t["Testa-Beispiel"] = {\n\t\t\t["note"] = "geheim } { ]",\n\t\t},\n\t},\n'
+                '\t["bank"] = {\n\t\t["c"] = "Bankfigur",\n\t\t["t"] = 5,\n\t\t["i"] = {\n\t\t\t[2589] = 40,\n\t\t},\n\t},\n'
+                '\t["notes"] = "-- kein Kommentar { ",\n'
+                '\t["raidReady"] = {\n\t\t["raid"] = "Onyxia",\n\t\t["phase"] = "Aufbau",\n\t\t["aktiv"] = 23,\n'
+                '\t\t["groesse"] = 40,\n\t\t["tanks"] = 2,\n\t\t["tanksSoll"] = 4,\n\t\t["heiler"] = 5,\n'
+                '\t\t["heilerSoll"] = 10,\n\t\t["pct"] = 58,\n\t\t["wochen"] = 3,\n\t\t["t"] = 1794380000,\n\t},\n'
+                '\t["sub"] = {\n\t\t["raidReady"] = "nicht dieses",\n\t},\n'
+                '}\nGuildSentinelOther = {\n\t["bank"] = "nein",\n}\n')
+        self.write("GuildSentinel.lua", full)
+        out = up.read_guildsentinel(gs).decode("utf-8")
+        self.assertNotIn("members", out)
+        self.assertNotIn("Testa", out)
+        self.assertNotIn("geheim", out)
+        self.assertNotIn("notes", out)
+        self.assertNotIn("nicht dieses", out)
+        self.assertNotIn("GuildSentinelOther", out)
+        sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(HERE)), "RaidMasterBot"))
+        try:
+            import raidmaster_data as rmd
+            import raid_ready
+        except ImportError:                                  # Bot-Abhängigkeiten fehlen: nur den Text prüfen
+            self.assertIn('["raidReady"] = {', out)
+            self.skipTest("Bot-Parser nicht importierbar")
+        db = rmd.parse_saved_variables(out)["GuildSentinelDB"]
+        self.assertEqual(db["bank"]["i"][2589], 40)
+        rr = raid_ready.parse(db)
+        self.assertEqual((rr["aktiv"], rr["groesse"], rr["tanks"], rr["heilerSoll"], rr["wochen"]), (23, 40, 2, 10, 3))
+        text, _ = rmd.check_guildsentinel_upload(out.encode("utf-8"), "GuildSentinel.lua")   # Bot nimmt es an
+        # nur raidReady ohne Bank: wird trotzdem geliefert (Bot entscheidet; Hinweis im Bericht an Discord)
+        self.write("GuildSentinel.lua", 'GuildSentinelDB = {\n\t["raidReady"] = {\n\t\t["aktiv"] = 1,\n'
+                                        '\t\t["groesse"] = 10,\n\t},\n\t["members"] = {},\n}\n')
+        out = up.read_guildsentinel(gs).decode("utf-8")
+        self.assertIn("raidReady", out)
+        self.assertNotIn("members", out)
+
     def test_anhaenge_reihenfolge_und_bot(self):
         b, body = up.build_body({"content": "x"}, gzip.compress(b"R"), gzip.compress(b"G"), [("shot_1_2.jpg", "image/jpeg", b"J")])
         names = [n.decode() for n in re.findall(rb'filename="([^"]+)"', body)]
