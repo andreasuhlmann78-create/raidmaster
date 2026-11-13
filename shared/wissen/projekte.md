@@ -9,8 +9,8 @@ NACH PRIORITÄT. Bei jeder Prüfung nachführen (pruef-ablauf.md A Schritt 8). E
 
 - Eine Sitzung je Addon; die Prüf-Sitzung ändert keine Addons, sie prüft, beauftragt (Repo `auftraege/`) und pflegt
   `addon-check/`, `shared/`, `testberichte/`, `shared/wissen/`. Projekte prüfen sich nicht selbst ("umgesetzt, zur Prüfung").
-- Gemeinsame Dateien in `shared/` byte-gleich kopieren (Prüfung "exact"): GoldSentinelGame (v3), Test (v2), Sync, Markt (v2,
-  Stand 22:20), NEU CmdHint (v1, 13.11. 23:35, Befehlsliste beim Tippen). Alte Fassungen = Warnung "veraltet".
+- Gemeinsame Dateien in `shared/` byte-gleich kopieren (Prüfung "exact"): GoldSentinelGame (v3), Test (v2), Sync, Markt (v3,
+  23:45: 6 Export-Scans, ≤ 1,5 MB; v2 = Warnung, beim nächsten Release kopieren), NEU CmdHint (v1, 13.11. 23:35, Befehlsliste beim Tippen). Alte Fassungen = Warnung "veraltet".
 - Grundsätze des Nutzers: nur Ergebnisse, nie Rechenwege (OR); Einzelheiten hinter einem Knopf; ruckelfrei und
   "pfeilschnell" sind Freigabe-Bedingung (RF/PS); jede Zahl nachgerechnet (ZN); jeder Befund bekommt einen Test; nur
   Gesichertes anzeigen; Begriffe wie im Spiel (EB-NAME); alles ins Repo; bei "go" sofort handeln und pushen.

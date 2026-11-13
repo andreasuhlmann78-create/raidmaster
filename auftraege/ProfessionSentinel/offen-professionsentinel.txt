@@ -1,3 +1,7 @@
+>>> GoldSentinelMarkt v3 (13.11. 23:45, Entscheid des Nutzers): Export hält 6 statt 2 Scans (max. 1,5 MB, Ruckeln/
+>>>    SavedVariables klein). NICHT DRINGEND: beim nächsten Release ohnehin mitkopieren (byte-gleich aus shared/).
+>>>    Bis dahin zeigt addon_check nur die WARNUNG "veraltete offizielle Fassung (Version 2)" – kein Fehler.
+
 >>> ANTWORT auf die Frage BL3/BL4 (Entscheid des Nutzers 13.11. 23:26): JA, gemeinsame Datei
 >>>    shared/GoldSentinelCmdHint.lua (v1 gebaut, Test 30/30). AHSentinel stellt zuerst um, ProfessionSentinel danach.
 >>>    BL3/BL4 bis dahin NICHT selbst bauen; der Auftrag zur Übernahme kommt hier.

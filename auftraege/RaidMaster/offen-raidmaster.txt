@@ -1,3 +1,10 @@
+>>> Uploader zu GoldSentinelMarkt v3: bis zu 6 Export-Zeilen je Addon (zusammen ≤ 1,5 MB). Bitte prüfen, dass der
+>>>    Uploader alle Zeilen schickt und die Paketgrenze (TEST_MAX_JSON 4 MB) hält; sonst auf mehrere Pakete teilen.
+
+>>> GoldSentinelMarkt v3 (13.11. 23:45, Entscheid des Nutzers): Export hält 6 statt 2 Scans (max. 1,5 MB, Ruckeln/
+>>>    SavedVariables klein). NICHT DRINGEND: beim nächsten Release ohnehin mitkopieren (byte-gleich aus shared/).
+>>>    Bis dahin zeigt addon_check nur die WARNUNG "veraltete offizielle Fassung (Version 2)" – kein Fehler.
+
 >>> SPÄTER (Entscheid des Nutzers 13.11. 23:26): Gemeinsame Befehlsliste shared/GoldSentinelCmdHint.lua (CH-G) –
 >>>    AHSentinel stellt zuerst um, dieses Addon danach. JETZT NICHTS TUN; der Auftrag kommt hier, wenn es soweit ist.
 
