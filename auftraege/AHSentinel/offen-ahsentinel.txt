@@ -1,25 +1,24 @@
->>> !!! DE30b (SEHR HOCH, Entscheid des Nutzers 13.11. 23:45 "ich will beides, je nachdem um welche Itemgruppe es geht")
->>>    – zusammen mit KF2 umsetzen: Mindestgewinn für Entzaubern JE GRUPPE der Entzauber-Tabelle (dk, z. B. 2:4:a, 2:6:a):
->>>    - 20 % für eine Gruppe, die BELEGT ist: ≥ 30 eigene Entzauberungen mit zugeordnetem Kauf UND gemessener Gewinn
->>>      gesamt (Summe Beute / Summe Einsatz − 1, nach KF2) ≥ 20 %.
->>>    - 25 % für Gruppen, die NOCH NICHT belegt sind (unter 30 Fällen) – Nutzer 23:47: "solange das Addon nur den
->>>      Entzauberwert dieser Gruppe kennt [aus der Tabelle, nicht gemessen]: vorsichtig sein, aber nicht defensiv".
->>>      Vorsicht über die MENGE statt nur über die Marge: je unbelegter Gruppe höchstens 20 % des Entzauber-Budgets, bis
->>>      30 Fälle da sind (so lernt AHSentinel die Gruppe mit kleinem Risiko kennen).
->>>    - 30 % nur, wenn eine Gruppe GEMESSEN schlecht ist (≥ 30 Fälle, Gewinn gesamt < 20 %).
->>>    - Fällt eine belegte Gruppe später unter 20 % Gewinn gesamt, gilt dort 30 % (selbsttätig, Zeile im Bericht).
->>>    Heute (Daten PC 23:41): 26–30 grün: 450 Fälle, +35 % -> 20 %; 36–40 grün: 62 Fälle, +20 % -> 20 % (knapp);
->>>    alle übrigen Gruppen 25 % mit Lern-Budget 20 %.
->>>    Umsetzung: A.DE_MIN_GAIN wird A:DEMinGain(itemID) (eine Funktion, alle Stellen über BestWay/DEMinRoi; Einstellung
->>>    des Nutzers darüber gilt weiter = max). Testbericht: je Gruppe Fälle, Gewinn gesamt, geltender Mindestgewinn.
->>>    Tooltip-Text "unter dem Mindestgewinn %d %%" zeigt den Wert der Gruppe. Tests T-DE30c (belegte Gruppe 20 %),
->>>    T-DE30d (unbelegte 25 % + höchstens 20 % des Budgets), T-DE30e (gemessen schlecht -> 30 %), T633 anpassen.
->>>    GRUPPEN-EINTEILUNG (Nutzer 23:46: "je nach Item kommen andere Staub usw. zum Vorschein – so einteilen"):
->>>    Gruppe = Stufenband der Entzauber-Tabelle = WELCHE Materialien herauskommen (z. B. 26–30: Seelenstaub 11083,
->>>    Grosse Astralessenz 11082, Kleiner gleissender Splitter 11084; 36–40: Visionenstaub 11137, Grosse mystische Essenz
->>>    11135, Grosser gleissender Splitter 11139). Rüstung und Waffe desselben Bands ZUSAMMEN zählen (gleiche Materialien,
->>>    gleiche Preise; die unterschiedlichen Chancen stecken schon in der Vorhersage) -> mehr Fälle, schneller belegt.
->>>    Qualität getrennt lassen (grün/blau/lila geben andere Materialien). Im Bericht je Gruppe die Material-IDs nennen.
+>>> !!! DE30b (SEHR HOCH, Entscheide des Nutzers 13.11. 23:45–23:51, zusammen mit KF2 umsetzen) – ENDGÜLTIG 23:51:
+>>>    Mindestgewinn für Entzaubern JE GRUPPE. Gruppe = Stufenband + Qualität = WELCHE Materialien herauskommen
+>>>    (z. B. 26–30 grün: Seelenstaub 11083, Grosse Astralessenz 11082, Kleiner gleissender Splitter 11084; 36–40 grün:
+>>>    Visionenstaub 11137, Grosse mystische Essenz 11135, Grosser gleissender Splitter 11139). Rüstung und Waffe desselben
+>>>    Bands ZUSAMMEN (gleiche Materialien und Preise; die Chancen stecken schon in der Vorhersage).
+>>>    Regeln:
+>>>    1. Gemessen gut (≥ 30 eigene Entzauberungen mit Kauf, Gewinn gesamt ≥ 20 % als Summe/Summe nach KF2): 20 %.
+>>>    2. Noch nicht gemessen: Die Tabelle gilt als VERLÄSSLICH, wenn sie in den gemessenen Gruppen stimmt – Chance- und
+>>>       Mengenfaktor (Fc:DEFactors) im gewichteten Mittel aller gemessenen Gruppen je innerhalb ±10 % von 1 (heute
+>>>       1,05/1,00 und 1,03/0,96 -> verlässlich). Dann 20 % wie gemessen gut: der Spieler hat den vollen Vorteil.
+>>>       Weicht die Tabelle mehr als ±10 % ab: 25 % für noch nicht gemessene Gruppen.
+>>>    3. Gemessen schlecht (≥ 30 Fälle, Gewinn gesamt < 20 %): 30 %.
+>>>    KEIN Budget-Deckel je Gruppe (Nutzer 23:49: "lass das mit dem Budget weg").
+>>>    ANZEIGE (Nutzer 23:51): Der Spieler sieht NUR, ob es sich lohnt oder nicht – wie gehabt (Gewinn-Zeile ±, Sniper
+>>>    kauft/kauft nicht). Gruppen, Faktoren, Prozentregeln und "verlässlich" stehen NIE im Spiel, nur im Testbericht
+>>>    (je Gruppe: Materialien, Fälle, Gewinn gesamt, Chance/Menge, geltender Mindestgewinn, Grund).
+>>>    Umsetzung: A:DEMinGain(itemID) – eine Funktion für alle Stellen (BestWay/DEMinRoi; höhere Einstellung des Nutzers
+>>>    gilt weiter = max). Ersetzt die feste Konstante A.DE_MIN_GAIN = 30.
+>>>    Tests: T-DE30c (gemessen gut -> 20 %), T-DE30d (ungemessen, Tabelle verlässlich -> 20 %), T-DE30e (ungemessen,
+>>>    Tabelle weicht ab -> 25 %), T-DE30f (gemessen schlecht -> 30 %), T-DE30g (Rüstung+Waffe zählen zusammen),
+>>>    T-DE30h (im Tooltip keine Prozentregel/Gruppe sichtbar), T633 anpassen.
 
 >>> !!! KF2 (SEHR HOCH, GOLD – URSACHE BELEGT von der Prüf-Sitzung 13.11. 23:50, Nutzer: "verdammt wichtig") – direkt nach
 >>>    TB119-1, VOR TB118. Nachgerechnet aus deinen eigenen Daten (forecast.list, 648 D-Einträge, PC 13.11. 23:41):

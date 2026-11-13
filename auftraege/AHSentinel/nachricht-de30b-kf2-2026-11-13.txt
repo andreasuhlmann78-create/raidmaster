@@ -1,0 +1,16 @@
+NACHRICHT AN DIE AHSENTINEL-SITZUNG (zum Einfügen) – SEHR HOCH, GOLD
+Laufenden Schritt abschliessen, dann KF2 + DE30b zusammen (beide ganz oben in offen-ahsentinel.txt).
+
+KF2: Der Faktor ×0,57 ist ein Median über Zufallsbeute (meist Staub) – belegt aus deinen Daten: Median 0,60, Mittel 0,97,
+Summe/Summe 0,96. Echt +35 % (26–30) und +20 % (36–40). Faktor und Kennzahlen als Summe/Summe, nie Median.
+
+DE30b (Entscheid des Nutzers 23:51, ersetzt die feste 30 %): Mindestgewinn Entzaubern je Gruppe (= welche Materialien
+herauskommen; Rüstung+Waffe zusammen):
+- gemessen gut (≥ 30 Fälle, Gewinn gesamt ≥ 20 %): 20 %
+- noch nicht gemessen, Tabelle stimmt in den gemessenen Gruppen (Chance/Menge ±10 %): 20 % – voller Vorteil
+- Tabelle weicht ab: 25 % · gemessen schlecht: 30 % · KEIN Budget-Deckel
+- Im Spiel sieht der Spieler NUR "lohnt / lohnt nicht" wie bisher; alles andere nur im Testbericht.
+Eine Funktion A:DEMinGain(itemID) für alle Stellen. Tests T-KF2a–c, T-DE30c–h.
+
+git pull --rebase, Punkte KF2 und DE30b lesen; Bericht in berichte/AHSentinel/ ("umgesetzt, zur Prüfung") mit altem
+und neuem Faktor und Mindestgewinn je Gruppe. Komplette Dateien, CHANGELOG EN/DE, addon_check ohne FEHLER.

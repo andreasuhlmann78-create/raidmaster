@@ -279,9 +279,10 @@ Auftrag: auftraege/AHSentinel/anweisung-markt-kapital-25.txt.
 
 ## Entscheid des Nutzers 13.11.2026 23:45: Mindestgewinn Entzaubern JE GRUPPE (ersetzt die feste 30-%-Regel)
 
-20 % für belegte Gruppen (≥ 30 eigene Entzauberungen mit Kauf, Gewinn gesamt ≥ 20 %, Summe/Summe); noch nicht belegt
-25 % und höchstens 20 % des Entzauber-Budgets je Gruppe (Nutzer 23:47: "vorsichtig, aber nicht defensiv"); gemessen
-schlecht (Gewinn < 20 %) 30 %. Gruppe = Stufenband/Qualität = welche Materialien herauskommen; Rüstung+Waffe zusammen.
+Gruppe = Stufenband + Qualität (welche Materialien herauskommen), Rüstung+Waffe zusammen. 20 % wenn gemessen gut
+(≥ 30 Fälle, Gewinn gesamt ≥ 20 %) ODER noch nicht gemessen, aber die Tabelle stimmt in den gemessenen Gruppen
+(Chance/Menge je ±10 %) – voller Vorteil für den Spieler. 25 % nur, wenn die Tabelle abweicht. 30 % wenn gemessen
+schlecht. Kein Budget-Deckel. Im Spiel nur "lohnt / lohnt nicht" (Nutzer 23:51), Einzelheiten nur im Testbericht.
 Grund: Die Begründung der 30 % (42 % / 55 %) war ein Median-Fehler (KF2); echt +35 % (26–30) und +20 % (36–40).
 Auftrag DE30b.
 
