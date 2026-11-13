@@ -1,0 +1,5 @@
+Neuer Hinweis der Prüf-Sitzung aus Blizzard-Posts: git pull --rebase im raidmaster-Repo und auftraege/BuffSentinel/offen-buffsentinel.txt Punkt BP-2026-11-13-1 lesen (jetzt im Repo, fehlte vorher).
+
+Kurzfassung (MITTEL): Seit 12.11. 18:45 UTC können Schamanen Waffenverzauberung und Waffen-Totem gleichzeitig nutzen (Kaivax, Hotfixes). Waffe des Mahlstroms und Sturmschlag wurden geändert. Risiko: ein Totem-Waffenbuff kann GetWeaponEnchantInfo "belegt" melden, obwohl das eigene Imbue fehlt -> keine Erinnerung. Zuerst im Client messen (nur Imbue / nur Totem / beides), dann Imbue an der Verzauberungs-ID erkennen. Test T-BP-1113-1. Für 0.9.17.
+
+Danach Bericht in berichte/BuffSentinel/.
