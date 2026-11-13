@@ -137,6 +137,14 @@ sofort als Gebühr gebucht und beim Verkauf mit einer negativen Gebühr ausgegli
 Offen (messen): Gibt Forever beim Abbrechen die Anzahlung zurück? (Ledger kennt "refund" beim Abbrechen, L2; in Classic
 verfällt sie.)
 
+## 5e. Nachrechnung 14.11. (Prüf-Sitzung, Daten PC 13.11. 23:41) – Befund BH-AUS
+
+Bücher (books.log) und Kassenbuch (ledger) widersprechen sich: Bücher = Kassenbuch + alle 53 "ausstehenden" Verkäufe
+(340 Stück, 11.11.–13.11., keine mit Rechnung). Gezeigter Gewinn 43 g 49 s, ohne die ausstehenden ≈ 20 g 53 s. Die
+Warnung "ohne Einkauf" kommt grösstenteils davon. books.gold und books.cb leer -> Gold-Abstimmung läuft nicht.
+REGEL: Ausstehend ist kein Erlös. Gewinn nur aus bestätigten Verkäufen; jede Buchhaltungs-Prüfung gleicht Bücher und
+Kassenbuch je Item ab (Stück und Erlös) – Unterschied = Befund.
+
 ## 6. Quellen
 
 - [TSM: Why am I missing sales or purchase data on my items?](https://support.tradeskillmaster.com/en_US/addon/why-am-i-missing-sales-or-purchase-data-on-my-items)

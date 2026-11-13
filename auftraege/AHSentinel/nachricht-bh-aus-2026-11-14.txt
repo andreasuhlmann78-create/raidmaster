@@ -1,0 +1,12 @@
+NACHRICHT AN DIE AHSENTINEL-SITZUNG (zum Einfügen) – SEHR HOCH
+Laufenden Schritt abschliessen, dann BH-AUS (ganz oben in offen-ahsentinel.txt, vor RF-M1).
+
+Die Prüf-Sitzung hat die Buchhaltung mit deinen Daten nachgerechnet: Der gezeigte Gewinn ist falsch.
+Bücher = Kassenbuch + ALLE 53 "ausstehenden" Verkäufe (340 Stück, 11.–13.11., keine einzige mit Rechnung, obwohl
+Rechnungen sonst nach ~4,6 Std. kommen). Erlös laut Kassenbuch 502'260c statt 731'903c. Gewinn gezeigt 43 g 49 s,
+ohne die ausstehenden ≈ 20 g 53 s. Die Warnung "37 % ohne Einkauf" kommt grösstenteils davon.
+Rechnungen kommen in grossen Posten (z. B. 72 Stück), ausstehende in kleinen Stapeln -> Zuordnung je Item über die Menge
+summieren. Ausstehende auflösen, wenn das Kassenbuch den Verkauf hat; älter als 24 Std. ohne Rechnung nicht zählen;
+Gewinn nur aus bestätigten Verkäufen. Ausserdem: books.gold und books.cb sind leer – die Gold-Abstimmung läuft nicht.
+Tests T-BHA5–7. Im Bericht: Ursache mit Beleg, Gewinn alt/neu.
+git pull --rebase, Punkt BH-AUS lesen; Bericht in berichte/AHSentinel/ ("umgesetzt, zur Prüfung").

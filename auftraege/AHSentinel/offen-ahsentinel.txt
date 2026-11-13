@@ -1,3 +1,32 @@
+>>> !!! BH-AUS (SEHR HOCH, GOLD/VERTRAUEN – Nachrechnung der Prüf-Sitzung 14.11. 00:25 aus den Daten PC 13.11. 23:41,
+>>>    Auftrag des Nutzers "Buchhaltung mit echten Daten durchrechnen"). Die neue Buchhaltung zeigt einen FALSCHEN Gewinn.
+>>>    Gezeigt: Gewinn 434'927c (Erlös 731'903 − eingesetzt 296'105 − Gebühren 871), "37 % des Erlöses ohne Einkauf".
+>>>    Nachgerechnet: Bücher (books.log) und Kassenbuch (ledger, Rechnungen) seit dem Stichtag 11.11. 16:42:
+>>>      Item   Bücher Stück/Erlös   Kassenbuch Stück/Erlös   davon "ausstehend" in den Büchern
+>>>      11083     567 / 202'777         324 / 115'783              243
+>>>      11082     133 / 209'340          90 / 132'492               43
+>>>      11137     181 / 182'566         137 / 143'975               44
+>>>      11135      31 /  73'143          26 /  62'228                5
+>>>      11139      11 /  36'191           6 /  19'896                5
+>>>      11084       9 /  27'886           9 /  27'886                0
+>>>    -> Bücher = Kassenbuch + ALLE "ausstehenden" Verkäufe. 53 ausstehende Verkäufe (340 Stück), die jüngste vom 13.11.
+>>>       12:57, die älteste vom 11.11. 16:46 – keine einzige mit Rechnung, obwohl Rechnungen sonst nach ~4,6 Std. kommen
+>>>       (B1 Median 277 Min.). Erlös laut Kassenbuch 502'260c, also 229'643c (≈ 23 g) weniger als gezeigt.
+>>>    -> Die "ausstehenden" Verkäufe haben fast alle keinen Einstand (free) – sie sind der Grossteil der Warnung
+>>>       "ohne Einkauf" (nach Erlös gerechnet 48,8 %, nicht 37 %).
+>>>    -> Ohne die ausstehenden Buchungen: Gewinn ≈ 502'260 − 296'105 − 871 = 205'284c (≈ 20 g 53 s) statt 43 g 49 s.
+>>>    Ursache klären (Pflicht, mit Beleg im Bericht): Wurden die ausstehenden Verkäufe nie bestätigt (Rechnung erkannt,
+>>>    aber als NEUER Verkauf gebucht statt "ausstehend" zu bestätigen) – oder sind sie falsch erkannt ("Käufer gefunden"
+>>>    doppelt/falsch zugeordnet)? Rechnungen kommen in grossen Posten (z. B. 72 Stück 11137 auf einmal), die ausstehenden
+>>>    Buchungen in kleinen Stapeln -> die Zuordnung Rechnung <-> ausstehend muss über Menge SUMMIERT je Item laufen.
+>>>    Zu tun: (1) Zuordnung reparieren, (2) bestehende 53 ausstehenden Buchungen nachträglich prüfen: hat das Kassenbuch
+>>>    den Verkauf schon -> ausstehende Buchung auflösen (nicht löschen, als "durch Rechnung ersetzt" markieren),
+>>>    (3) ausstehend länger als 24 Std. ohne Rechnung -> im Bericht melden und im Gewinn NICHT zählen, (4) Gewinn nur aus
+>>>    bestätigten Verkäufen; ausstehende getrennt als "unterwegs", (5) Gold-Abstimmung (buchhaltung.md 5c Grundsatz 3):
+>>>    books.gold und books.cb sind in den Daten LEER – die Abstimmung läuft also nicht. Tests T-BHA5 (Rechnung über 72 Stück
+>>>    bestätigt mehrere kleine ausstehende Buchungen), T-BHA6 (kein Doppel Bücher vs. Kassenbuch), T-BHA7 (alte
+>>>    ausstehende ohne Rechnung zählen nicht). Im Bericht: Gewinn alt/neu, Anzahl aufgelöster Buchungen.
+
 >>> RF-M1 (HOCH, Messung der Prüf-Sitzung 14.11. 00:15 aus den SavedVariables PC 23:41 – Grundlage für "240 MB Grundstand"):
 >>>    Gespeichert sind nur ~51 MB (geschätzt, Lua-Grösse): markets.data ~43 MB, davon history ~37 MB als 117'409 einzelne
 >>>    Tabellen {t,p,q} in 6'771 Items, dazu hz (gepackt) 3,4 MB in 5'886 Items; ledger 1,4 MB, timing 1,2 MB, Rest < 1 MB.
