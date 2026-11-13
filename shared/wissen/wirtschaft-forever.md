@@ -277,7 +277,14 @@ bzw. "eingebrochen" (< 60 %). Auftrag: auftraege/AHSentinel/anweisung-aktueller-
 Alle Kaufvorschläge im Markt zusammen höchstens 25 % des aktuellen Golds (Option, nie über 50 %).
 Auftrag: auftraege/AHSentinel/anweisung-markt-kapital-25.txt.
 
-## Entscheid des Nutzers 10.11.2026 16:15: Entzauber-Käufe mit mindestens 20 % Gewinn
+## Entscheid des Nutzers 13.11.2026 22:57: Entzauber-Käufe mit mindestens 30 % Gewinn (ersetzt 20 %)
+
+Grund (gemessen, Testbericht 0.65.118 vom 13.11. 22:54): Sniper-Entzauber-Käufe 447, nur 42 % mit Gewinn; 55 % (512)
+mit Beute unter dem Kaufpreis; Beute/Vorhersage 2:4:a 0.60. Gilt überall gleich (Sniper, Markt "Entzaubern",
+Tooltip-Gewinn-Zeile, Heute tun): Weg Entzaubern nur, wenn Gewinn nach 5 % Gebühr ≥ 30 % des Kaufpreises.
+Auftrag: offen-ahsentinel.txt Punkt DE30 (SEHR DRINGEND).
+
+## Entscheid des Nutzers 10.11.2026 16:15: Entzauber-Käufe mit mindestens 20 % Gewinn (ÜBERHOLT 13.11.: 30 %)
 
 Die Markt-Ansicht "Entzaubern" schlägt nur Teile mit mindestens 20 % Gewinn nach Gebühren vor (zum aktuellen Markt).
 Auftrag: auftraege/AHSentinel/anweisung-markt-entzaubern.txt.

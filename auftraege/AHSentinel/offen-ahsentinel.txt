@@ -55,7 +55,7 @@ Erledigt in 0.65.112 (danke):
     T126 im Client grün werden, ist offen (Punkt 1).
   UI1618a (Kern) – B:QualityPasses (Buy.lua:467–474): unbekannte Qualität -> ausblenden und Laden anstossen; in der
     Live-Suche (:483) und der Scan-Liste (:582). T595. Rest: Punkt 4.
-  UI1618b (Formulierung) – "✗ Entzaubern: nur +86c (+9 %) – unter dem Mindestgewinn 20 %" (Tooltip.lua:717–720), kein ✓
+  UI1618b (Formulierung) – "✗ Entzaubern: nur +86c (+9 %) – unter dem Mindestgewinn 20 %" [ab DE30: 30 %] (Tooltip.lua:717–720), kein ✓
     beim Wert bei "bad" (:687, :691); alle 11 Sprachen, gleiche Platzhalter. T596 (mit 0.65.111 rot). Rest: Punkt 12.
   MK-Ü1F (Code) – finish.markt_kern (≤ 1500 Zeichen), markt_kern_wege, markt_kern_ma1 (TestRoutine.lua:1106–1118).
     Test siehe Punkt 3.
@@ -634,6 +634,15 @@ TS116 (SEHR HOCH, NEU 13.11. 21:52 – Testteil sniper 0.65.116, Lauf 21:47 des 
       leise Erinnerung.
       Neu: T617 längster Frame 148 ms beim Scrollen (Ø 116 Bilder/s) – Ziel ≤ 50 ms (RF). Bitte die Stelle aus dem
       LANGSAM-Protokoll nennen.
+
+DE30 (SEHR DRINGEND, ENTSCHEID DES NUTZERS 13.11. 22:57 – vor allem anderen umsetzen, auch vor TB118):
+   Mindestgewinn für den Weg Entzaubern 30 % statt 20 % (Vorschlag der AHSentinel-Sitzung im Bericht 0.65.117, vom
+   Nutzer freigegeben). Grund gemessen (Testbericht 0.65.118): 447 Sniper-Entzauber-Käufe, nur 42 % mit Gewinn,
+   55 % mit Beute unter dem Kaufpreis. Eine Konstante für ALLE Stellen über A:BestWay/A:ChooseWay: Sniper
+   (Sn:MaxOverValue), Markt-Ansicht "Entzaubern", Tooltip-Gewinn-Zeile/Warnung (UI1618b-Text "unter dem Mindestgewinn
+   30 %", alle 11 Sprachen), Heute tun. Kein zweiter Wert irgendwo. Gewinn = Beutewert nach 5 % Gebühr − Kaufpreis,
+   geteilt durch den Kaufpreis. Tests: T-DE30a (29 % -> kein Kauf/✗, 30 % -> Kauf), T-DE30b (alle Stellen lesen dieselbe
+   Konstante), bestehende Tests mit 20 % anpassen. Als eigene kleine Version sofort veröffentlichen.
 
 TB118 (SEHR HOCH, NEU 13.11. 23:00 – erster echter Tempo-Lauf im Client, Testbericht 0.65.118 vom 13.11. 22:54,
    Nutzer, Priester 10, deDE). Prüf-Sitzung hat den Bericht gelesen und nachgerechnet:

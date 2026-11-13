@@ -1,0 +1,14 @@
+NACHRICHT AN DIE AHSENTINEL-SITZUNG (zum Einfügen) – SEHR DRINGEND
+Laufenden Schritt sauber abschliessen, dann sofort das hier.
+
+DE30: Entscheid des Nutzers 13.11. 22:57 – Mindestgewinn für Entzaubern 30 % (statt 20 %). Dein Vorschlag aus dem
+Bericht 0.65.117 ist freigegeben. Grund gemessen: von 447 Sniper-Entzauber-Käufen nur 42 % mit Gewinn, 55 % mit Beute
+unter dem Kaufpreis.
+- Eine Konstante für alle Stellen (über A:BestWay/A:ChooseWay): Sniper, Markt "Entzaubern", Tooltip-Gewinn-Zeile und
+  Warnung ("unter dem Mindestgewinn 30 %", alle 11 Sprachen), Heute tun. Nirgends ein zweiter Wert.
+- Gewinn = Beutewert nach 5 % Gebühr − Kaufpreis, geteilt durch den Kaufpreis.
+- Tests T-DE30a (29 % nein, 30 % ja) und T-DE30b (alle Stellen dieselbe Konstante); alte 20-%-Tests anpassen.
+- Als eigene kleine Version sofort veröffentlichen, danach TB118 (Tempo).
+
+git pull --rebase und auftraege/AHSentinel/offen-ahsentinel.txt Punkt DE30 lesen; Bericht in berichte/AHSentinel/
+("umgesetzt, zur Prüfung"). Komplette Dateien, CHANGELOG EN/DE, vor dem Push addon_check -> kein FEHLER.
