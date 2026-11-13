@@ -12,6 +12,14 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.122
+
+- **Disenchanting – final rules per material group:** 20 % minimum profit for groups your results prove and also for
+  groups not measured yet, as long as the disenchant table matches your measured results (within ±10 %); 25 % only if
+  the table deviates; 30 % for groups that measured badly. No budget cap per group. In the game you only see whether it
+  pays or not – the rules appear only in the test report.
+- Test T637 updated.
+
 ### Version 0.65.121
 
 - **Disenchant value was corrected far too much (important):** the material price correction (×0.57) used the median of
@@ -50,18 +58,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   full scan – and writes them into the test report (field "tempo"), with the slow spot if a target is missed.
 - Full scan: the diagnostic log now says whether slow reading portions come from garbage collection.
 - Tests T625–T632.
-
-### Version 0.65.117
-
-- **Sniper budget doubled after reset:** "Reset counter" now always sets the budget back to the amount you entered
-  (a refill no longer stays in).
-- **One "best way" for all numbers:** profit line, "… pays more" and "Max above sale value – every purchase loses about …"
-  now all come from the same calculation (sell, disenchant, vendor after fees) – no more contradicting numbers.
-- The calculation line "With … budget the sniper buys at most …" is gone from the target tooltip.
-- **Sniper and scrolling:** the sniper measures whether the server answers searches without a key press. If not, the
-  sniper shows "Scroll to search and buy · last search 12 s ago" and reminds you quietly after 10 s without scrolling.
-- Test report: composition of the sync queue per prefix.
-- Tests T621–T624.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
