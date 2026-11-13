@@ -1,0 +1,33 @@
+BERICHT AHSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 14.11.2026 · Sitzung: AHSentinel-Sitzung · Version: 0.65.120 · Commit (AHAnalyzerPro): 04dbed3
+Status: umgesetzt, zur Prüfung.
+Nachbildung: Vollauf 246/246. addon_check OK. Tempo-Werte (PS): letzter Client-Lauf TB118 (Markt 1083 ms, Laden 494 ms,
+Vollscan +88 MB/GC 7) – die Behebungen hier sind noch nicht im Client gemessen.
+
+TB119 – umgesetzt, zur Prüfung
+  1a Zusammensetzung: T617 und T157 zeigen jetzt S:QueueMix ("AHAP1 n · GSMARKT1 m · eigener Ausgang k").
+  1b Ursache (Code-Lesung): AHSentinel reihte nach einem Scan ALLE Preis-Nachrichten (BroadcastScan, je 1000 Items
+     viele Nachrichten) auf einmal in die gemeinsame Warteschlange; GoldSentinelSync schickt sie dann ab – auch noch
+     während der Testroutine (Simulated hält nur NEUE Sendungen an). Das erklärt 278 AHAP1-Nachrichten.
+     Jetzt Sync.lua: SendNow schiebt nur, solange die Warteschlange < 10 (S.QUEUE_HIGH) und der eigene Ausgang leer
+     ist; sonst S.outbox (max. 3000). S:Pump alle 0,5 s höchstens 5 je Schritt, nie während Testmodus/Testroutine.
+     T635 (300 Nachrichten -> Warteschlange 10, Ausgang 290, Nachschub 3). T277 prüft die Bündelung mit Ausgang aus.
+  1c T157: vor der Routine eingereihte AHAP1-Nachrichten (TR.queued0) zählen als Hinweis "davon n vor der Routine
+     eingereiht", nur darüber hinaus als Fehler. Andere Präfixe zählt der Zähler gar nicht (nur AHAP1).
+  2  Ruckeln Sniper: T617 nennt jetzt die langsamste Stelle ("längster Schritt … bis Datei:Zeile (Aufgabe)").
+  3  T613: 0 passende Angebote -> SKIP "Markt hatte nichts Passendes: N geprüft · über Max · eigene · Lockangebot · weg".
+  4  Speicher: Vollscan-Kurzfassung (db.vsLastMeasure) mit Lua gesamt UND AHSentinel (GetAddOnMemoryUsage vorher/nachher);
+     T631 zeigt beide. Aufschlüsselung der 240 MB Grundstand und die 3 grössten Zunahmen anderer Addons: noch offen.
+TB118 – umgesetzt, zur Prüfung
+  1 Markt-Reiter 1083 ms: Ursache – "Heute" rief A:CachedValue ohne gültigen Stand SYNCHRON auf (ComputeTodayActions über
+     alle Items). Jetzt A:CachedValue(..., async) für Anzeigen: rechnet im Hintergrund, Reiter zeigt sofort ("Wird
+     berechnet ..."), Neuaufbau bei CACHE_UPDATED. Dabei Fehler gefunden und behoben: CachedValue gab ohne Stand c.value
+     auf nil zurück (Lua-Fehler). T636.
+  2 Laden 494 ms: PD7 entpackt nicht mehr in ADDON_LOADED, sondern als Aufgabe "pd7:load" in Portionen (25 Items je
+     Pause). Währenddessen: A:GetHistory und Merge entpacken ein Item bei Bedarf sofort; PrepareLoop packt keine halben
+     Verläufe; OnLogout lässt noch nicht entpackte Pakete unverändert (kein Datenverlust). T634, T587/T588 unverändert grün.
+  4 T631 über Reload (db.vsLastMeasure mit Alter), T629 zeigt den Messwert immer.
+  3 +88 MB: Messart unverändert (collectgarbage = alle Addons); neu getrennt AHSentinel. Ursache noch offen (RF).
+Kleinigkeit DE30: Kommentare Tooltip.lua/API.lua "Standard 20 %" nachgeführt.
+OFFEN: RF (Scan grosser Markt 141–150 ms, Vollscan-Einlesen), Speicher-Grundstand 240 MB, EB/EB-DET, OR, TP, ZN, PX, SA,
+  CH-G (gemeinsame Befehlsliste), UI1509/UI1510/MA3-G, I6-M.
