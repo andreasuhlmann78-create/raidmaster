@@ -1,0 +1,38 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 12:15 · Sitzung: ProfessionSentinel-Sitzung · Version: 0.9.43 · Commit: 7fe81e4 (Quell-Repo)
+Grundlage: offen-professionsentinel.txt (Nachprüfung 0.9.42, Stand 13.11. 08:25).
+
+ERLEDIGT:
+- Punkt 5 (Test ersetzt Funktionen von AHSentinel): Befund richtig in der Sache – zur Präzisierung: die beanstandeten
+  Zeilen ersetzten Felder der eigenen Ersatz-API (ApiDummy), aber Stub(_G, "AHSentinel", …) hat davor das Global von
+  AHSentinel selbst ersetzt (97 Stellen für 9 fremde Addons). Lösung an der Wurzel:
+  - Core.lua: ns.Foreign(name) + ns.foreignTest (eigene Tabelle). Alle Lesezugriffe auf AHSentinel, AHAnalyzerPro,
+    AuxForeverAPI, Auctionator, Auctioneer, TSM_API, Enchantrix, TomTom, RaidMaster gehen nur noch darüber (PriceSource,
+    Prices, Disenchant, Alerts, Favor, Guild, Spieltest, Today, UI, Waypoint).
+  - TestRoutine.lua: Foreign(name, wert) legt Ersatzwerte nur in ns.foreignTest (Rückbau wie Stub); Stub() verweigert
+    jedes fremde Global und jede echte API-Tabelle (error -> FEHLER). TestMode.lua ebenso über ns.foreignTest.
+  - Test T265 (T-N0.9.42-5): Global AHSentinel und echte AHSentinel.API während des Falls unverändert (Feldvergleich),
+    Nahtstelle liefert den Ersatz, Stub(_G, "AHSentinel"/"Auctionator") und Stub(echte API, …) werden abgewiesen.
+    Katalog TR.REGRESSIONS um N0.9.42-5 ergänzt (60 von 60).
+
+TESTS:
+- addon_check: OK, 0 FEHLER. run_offline (LuaJIT): Forever OK 219 / FEHLER 2 nur Bereich H (T143 Plan 17 ms, T145
+  +1025 KB – zählen offline nicht), Era 203 / 0, Retail 202 / 0, TBC ohne Lua-Fehler, Exit 0. check_actions OK.
+
+TEILWEISE / OFFEN:
+- Punkt 1 (BL3/BL4 Fenster über dem Chat): CH ist in AHSentinel 0.65.104 bestätigt. "Unverändert übernehmen" geht aber
+  nicht: AHSentinel/CmdHint.lua ist an AHSentinel gebunden (local A = AHAnalyzerPro, A.L, A.CmdHint = H, Prüfung
+  AHSentinel_Blocked, 19 Stellen mit A./AHSentinel). Eine Kopie müsste geändert werden – das wäre "jedes Addon eine eigene
+  Lösung". Vorschlag: der Baustein kommt als GoldSentinelCmdHint.lua nach shared/ (ohne AHSentinel-Bezug, Setup{...} wie
+  heute, eigene Locale über den übergebenen L), dann kopiere ich ihn unverändert wie GoldSentinelGame.lua. ProfessionSentinel
+  ist bereit (ns.COMMANDS, ns.COMMAND_PREFIXES, ns.CommandList, ns.SelectCommand, db.cmdCount). Warte auf die Antwort in
+  offen-professionsentinel.txt.
+- Punkt 3 (T145): offline LuaJIT +1023 … +1025 KB je Lauf (schwankt um die Grenze). Gesucht: der Zuwachs verteilt sich auf
+  viele Fälle (T86 +519, T246 +487, T260 +197 …), kein einzelnes Leck; Chat-Verlauf des Mocks ist es nicht (5 KB). Wie
+  beauftragt: Entscheid nach dem Wert im echten Client (/ps testroutine h).
+- Punkt 4 (Leiter zu kurz aus AHSentinel): wartet auf AHSentinel (MaterialCost mit Leiter, Feld "short" je Zutat).
+- Punkt 2: nur im Client.
+
+BEFUND FALSCH: –
+FRAGEN: CmdHint als shared/GoldSentinelCmdHint.lua (siehe oben)?
+IM CLIENT GETESTET: noch nicht.
