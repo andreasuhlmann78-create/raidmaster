@@ -1,0 +1,36 @@
+BERICHT AHSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 · Sitzung: AHSentinel-Sitzung · Version: 0.65.113 · Commit (AHAnalyzerPro): ead7f06
+Nachbildung: Vollauf 243/244 (s10_scan_smooth rot – auch mit 0.65.112 auf derselben Maschine rot, 152–224 ms, Last der
+Nachbildung, kein Bezug zum Sniper). addon_check OK. s42 auto mit T586/T598–T601 grün.
+
+SN1951 (SEHR HOCH) – ERLEDIGT
+  a) Ursache: Einzelkäufe (Ausrüstung, Sn:Buy kind "item") wurden direkt nach C.PlaceBid gezählt und vom Budget
+     abgezogen ("Gekauft" sofort). Zurückgenommen wurde nur, wenn innert 5 s ein AH-Fehler kam UND lastPurchase noch
+     derselbe Kauf war. Beim schnellen Scrollen überschrieb jeder neue Kauf lastPurchase; Fehler ohne erkannte Meldung
+     (oder später als 5 s) blieben gezählt. Im alten AH (LegacyAH) war zudem pendingAction nur EIN Platz – die Antwort
+     des Servers wurde dem zuletzt gesendeten Kauf zugeordnet.
+     Jetzt: gesendete Einzelkäufe stehen in Sn.itemBuys (nur vorgemerkt, Zeile "(+1 gesendet)", damit schnelles Scrollen
+     nicht über die Menge kauft). Gezählt + Budget erst bei AUCTION_HOUSE_PURCHASE_COMPLETED (auctionID). Fehler -> nichts
+     gezählt, Angebot tot (mit Server-Fehlertext). Keine Antwort in 15 s -> verworfen, nicht gezählt, Protokoll
+     SNIPER-UNBESTÄTIGT. LegacyAH: Warteschlange der Käufe, jede Antwort gehört zum ältesten offenen Kauf (FIFO);
+     Fehlertext in AH.lastBuyError. Warenkäufe zählten schon vorher erst bei COMMODITY_PURCHASE_SUCCEEDED (unverändert).
+     Messung "Treffer/gekauft" zählt "gekauft" ebenfalls erst bei der Bestätigung. T598 (mit 0.65.112 rot: Zähler 3/2700).
+     Hinweis an den Nutzer: falsche alte Stände mit "Zähler zurücksetzen" (Knopf) auf 0 setzen.
+  b) Pause sichtbar: Zielzeile (Spalte Stand) orange "pausiert bis HH:MM – 3 Käufe gescheitert", Tooltip mit Fehlertext
+     des Servers, Statuszeile (auch "· 1 pausiert"), Knopf "jetzt fortsetzen" (gewähltes Ziel oder alle). Protokoll
+     SNIPER-FEHLSCHLAG trägt den Fehlertext ("Server: …"). T599.
+  c) 3 Fehlschläge hintereinander leerten die Liste (Sn.result = nil) -> jetzt bleibt sie als veraltet stehen, neue
+     Suche sofort. T600, T586 angepasst. Pausierte/erfüllte Zielzeilen entfernen keine Treffer (geprüft). Die
+     Ø-Reaktion 73 s und die verschwindenden Treffer passen zu a): Ziel galt als (fast) erfüllt bzw. pausiert -> keine
+     Suche, Treffer verfielen.
+  d) Ziel mit Max über Verkaufswert: beim Anlegen bzw. neuem Max einmal rote Chat-Warnung + Warnton (Se:Alarm, Protokoll
+     WARNSCHUTZ), rote Meldung im Fenster. T601.
+  e) Der Sniper sendet keine Sync-Nachrichten; AHSentinel nutzt die gemeinsame Warteschlange von GoldSentinelSync (max.,
+     älteste fällt raus) – nichts bleibt dauerhaft hängen. Die ~40 stammen nicht aus AHSentinel.
+  MN VERSION 2: AHSentinel enthält GoldSentinelMarkt.lua noch nicht (kommt mit MN in 0.66, dann direkt v2) – nichts zu
+  ersetzen.
+
+NÄCHSTE VERSION 0.65.114: LT1–LT3 (Live-Tooltip Gewinn je Stück), dann die Reste der Nachprüfung 17:45 (T373, TS111.2b,
+  T555b-Felder, UI1618a-R, SBX1, FW1, UI1509, MA3-G, UI1510, Kleinpunkte).
+IM CLIENT PRÜFEN: Sniper mit Mausrad auf Ausrüstung – Zähler steigt nur bei "Gekauft:", "(+1 gesendet)" verschwindet
+  nach der Antwort; nach 3 Fehlschlägen Pause in der Zeile, "jetzt fortsetzen" sucht sofort.
