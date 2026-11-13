@@ -12,6 +12,22 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.103
+
+- **Disenchant limits must be right:** "[Disenchant worth it]" in the buy list only when the price is at most "Worth up
+  to" (minimum profit) with fresh material prices – before it appeared as soon as the value was above the price.
+- **Sniper targets from disenchanting follow the limit:** if "Worth up to" changes by more than 5 % (new material
+  prices), the max price is adjusted and reported once in chat.
+- **Reference check in the test routine:** the groups 26–30, 31–35 and 36–40 are recalculated independently from the
+  scan prices (cheapest − 1c × chance × average amount) and compared with the value the addon uses; more than 5 %
+  difference is an ERROR naming the material, its source and age. One report line per group.
+- **Vendor prices after the hotfix of 10.11.:** the game's own vendor price comes first; the remembered table is only a
+  fallback and is updated when the game reports something else. Vendor flips only with a price confirmed by the game.
+- **Minimum deposit 1c (announced for 17.11.):** measured automatically when posting – nothing fixed in the code.
+- **AHSentinel.API:** new `WorthUpTo(itemID[, qty])` (same "Worth up to" as the tooltip) and `MarketState(itemID)`
+  (normal / buyout / flood / thin / old) for ProfessionSentinel.
+- Tests T530–T536 (T-HP1, T-HP2, API-PM, T-ST1–T-ST3).
+
 ### Version 0.65.102
 
 - **My auctions: sold auctions disappear after "Refresh"** (and when you open the view); newly sold ones stay visible
@@ -70,19 +86,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   carry their auction; repeated reports are not recorded again. Existing duplicates are set aside once (not deleted,
   kept in a side list) when the number of identical cases exceeds the purchases in the bookkeeping. Report: "Duplicates 0".
 - Tests T499–T501 (T-PD5a/b, T-PD2); simulation test for "scan with commodities updates their price time" (T-MP1).
-
-### Version 0.65.98
-
-- **Sniper purchases are booked at once, even when you buy quickly in a row.** Before, the purchase event could arrive
-  after the next purchase had started and was then only booked when the invoice came – disenchanting in between counted
-  with cost 0. Every purchase is now remembered by its auction and booked when its event arrives; never twice.
-- **Disenchanting an item without known origin** is marked "without purchase" instead of silently counting 0.
-- **Correction after a restart (0.65.97) fixed:** material sales that received the cost of the corrected disenchants
-  no longer count as "without purchase" – the return is right again and the 30 % warning disappears. Data already
-  corrected by 0.65.97 is fixed once at login. Costs without a target (material passed on) are noted in the log.
-- **Duplicate "pending" sale bookings from 0.65.93/0.65.94** (without the new ID) are now found and removed once
-  (stock restored); real partial sales of the same size stay.
-- Tests T491–T498 (T-AB8c/d, T-AB1b–d, T-VF5e, T-PD1a/b).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
