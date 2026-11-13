@@ -1,0 +1,50 @@
+BERICHT AHSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 · Sitzung: AHSentinel-Sitzung · Version: 0.65.110 ("Ruckeln und Zuverlässigkeit") · Commit (AHAnalyzerPro): 8e3a04f
+Nachbildung: Vollauf 244/244 grün. addon_check OK.
+
+ERLEDIGT
+  PD7 (Entscheid 14:04 + Sicherung 14:05) – neue Datei PD7.lua (TOC nach MarketCore.lua):
+     Nur das GESPEICHERTE Format ändert sich; beim Laden (ADDON_LOADED, gleich nach InitDB) wird entpackt -> im Spiel ist
+     der Preisverlauf identisch (Marktwert, Rhythmus, Trends, Grafik lesen dieselben Tabellen wie vorher).
+     Format je Item md[id].hz = "dt,p,q,c,f;…" (Einträge > 48 Std.), dazu hzN (Anzahl) und hzS (Prüfsumme).
+     Vorbereitung im Hintergrund (Job pd7:prepare, je Item eine Portion, 120 s nach READY und 60 s nach jedem Scan):
+     verpacken, sofort entpacken und Feld für Feld vergleichen – nur geprüfte Pakete werden verwendet. Beim Ausloggen
+     (nach ParkMarket) nur noch Zuweisen, wenn der alte Teil unverändert ist (Anzahl, letzter Zeitpunkt, Prüfsumme).
+     Zustand db.pd7: pending (1. Ausloggen: Paket ZUSÄTZLICH, alte Einträge = Sicherung) -> nächstes Einloggen vergleicht
+     Paket mit Sicherung -> active (ab dann ersetzt das Paket die alten Einträge) bzw. bei Abweichung failed,
+     Protokoll "PD7 zurückgesetzt", Meldung an den Spieler, Daten unverändert. "/ahs pd7" Stand, "/ahs pd7 zurück" nur in
+     pending (danach keine Sicherung mehr, wie beauftragt). Versionsvermerk db.pd7.v. Testbericht-Zeile "PD7 Zustand …
+     zuletzt gespeichert x Items ~a KB -> b KB · zuletzt geladen …". Einträge mit unbekannten Feldern oder nicht
+     ganzzahliger Zeit bleiben in Tabellenform (nichts geht verloren).
+     Tests T587 (T-PD7b: 40×80 Einträge mit halben Kupfern, u/s/c-Feldern; pending -> active -> gekürzt -> geladen, alle
+     Werte gleich, KB < Hälfte) und T588 (T-PD7c: beschädigtes Paket -> zurückgesetzt, Daten wie vorher, Meldung;
+     "zurück" nur mit Sicherung).
+     HINWEIS: Ältere AHSentinel-Versionen lesen hz nicht – nach dem ersten "active"-Ausloggen nicht auf eine ältere Version
+     zurückgehen (sonst fehlen dort die Einträge > 48 Std.). Die Grösse < 8 MB kann ich erst mit der Client-Zeile belegen.
+  DG1300 D2 Sn:NoteFail: je Fehlschlag Protokoll "SNIPER-FEHLSCHLAG Item · Angebot · Grund · Server-Meldung (Code aus
+     AUCTION_HOUSE_SHOW_ERROR) · Treffer vor x ms"; 3 Fehlschläge hintereinander -> Ergebnis verworfen, frische Suche. T586.
+     Zum Ziel "< 1 s vom Treffer zur Kaufbereitschaft": "Treffer>Reserv." (16,5 s) misst die Zeit bis zum DRUCK des
+     Spielers – Kaufen ist nur per Hardware-Ereignis erlaubt, das Addon kann nicht vorher reservieren. Das Addon selbst
+     ist nach dem Treffer sofort kaufbereit (Plan steht). Bitte die Kennzahl so lesen bzw. anders definieren.
+  DG1300 D3 Portionen: core:realcheck (Pause je Item, gelernte Marge einmal je 200 Items, "ein Lohnt bis" nur für 40
+     Entzauber-Teile je Lauf), core:resolve, learn:rhythm, forecast:hours, de:matdiag jetzt eigene Hintergrund-Aufgaben;
+     "Heute tun" pausiert zwischen allen 9 Abschnitten; Scan-Auswertung pausiert je Zeile (S3/T126).
+  DG1300 D4 Protokoll: Fehler der Testroutine (Sandbox) getrennt gezählt ("dazu n in der Testroutine"); FEHLER-Einträge
+     werden beim Kürzen nicht mehr verdrängt; Fehler aus realcheck/resolve/Vollscan-Finish ins Protokoll. Ursache der
+     "6 Fehler ohne Eintrag" war sehr wahrscheinlich: absichtliche Testfehler zählten, standen aber nur im Sandbox-Protokoll.
+  TU5-Doppelmeldung: ein Lauf meldet genau einmal; ein zweiter Aufruf während des Laufs hängt sich an.
+  T231/T253: Ursache das echte Tagesbudget Entzaubern (Trefferquote < 60 %) – jede Raste "stop". Sandbox ohne Lernen.
+  T52 (S4): kein Abbrechen-Versuch mehr im Test; Status und Erwartung im selben Augenblick gelesen; echte Befehle 0.
+  Kalibrierung: Fc:CalibFromAll/ShownChance – Faktor verkauft/vorhergesagt (0,2–1,2) sofort angewendet (Tooltip
+     "Verkaufschance", Verkaufen "(verkauft x %)"), bis kalibriert (N ≥ 30, Brier ≤ 0,20, Faktor 0,85–1,15) grau
+     "lernt noch (nicht kalibriert)"; Testbericht-Zeile "Kalibrierung: Faktor …". T584.
+  Antwort 1401 (NIEDRIG): Sniper-Zielzeile grau "lernt noch (n von 20)"/"Weg gesperrt" für Entzauber-Ziele. T585.
+  G f: Vollscan-Vorrat (VS.pool) wird bei > 20 MB (geschätzt) nach dem Vollscan freigegeben.
+
+NICHT VOLLSTÄNDIG / OFFEN
+  TB108 S1/S2 (Vollscan-Frame 121 ms, +62 MB): nur Teilschritte (Empfänger nach dem Scan in eigene Portionen, s. o.).
+     Die grossen Brocken (Verdichtung/Digest je Item mit sehr vielen Auktionen, Verfolgung V4 Zeichenketten, Neuaufbau)
+     brauchen die Messung aus dem Client mit 0.65.110 (Teil server: T458/T459/T126, Protokoll LANGSAM) – danach gezielt.
+  0.66–0.68 laut Releaseplan; Kleinpunkte (MA3-G, TU1/TU2-Rest, AB3, L2b, BE2b, E, F, G a–e, PD3/4/6/8).
+IM CLIENT PRÜFEN: /reload zweimal (pending -> active) und "/ahs pd7"; Testbericht (PD7-Zeilen, Kalibrierung, MARKT-KERN,
+  MATERIAL-PREIS, BH1307); Teil server erneut (T458/T459/T126); Protokoll SNIPER-FEHLSCHLAG beim nächsten Sniper-Einsatz.
