@@ -117,7 +117,9 @@ geteilte Daten anderer Spieler (Sync, ohne Namen) als Zweites, Markt-Schätzung 
 
 **GRUNDSATZ (Nutzer 14.11. 00:18):** "Nur wer den Markt vorausahnen kann, macht richtig Gold – aber immer fundiert und
 belegbar." -> Jede Vorhersage (Welle, Trend, Absatz, Preis) wird gemessen, mit Trefferquote nachgeprüft und erst
-angezeigt, wenn sie belegt ist. Markt-Wellen (M-Welle, MA4, MA6) sind Pflicht-Messungen.
+angezeigt, wenn sie belegt ist. Markt-Wellen (M-Welle, MA4, MA6) sind Pflicht-Messungen, dazu ZYKLEN (Nutzer 00:19):
+Tageszyklus (Stunde), Wochenzyklus (Wochentag, Wochenende, Raidtage ab 9.12.), Monatszyklus (ab ≥ 2 Monaten Daten,
+Bot 90 Tage) – je Warengruppe/Stufenband; erst nach belegter Trefferquote als Rat ("heute Abend teurer verkaufen").
 
 ## 5. Strategien im Auktionshaus (allgemein + Forever)
 

@@ -13,7 +13,9 @@ Einzelheiten zu jedem Punkt stehen weiter unten (Suche nach dem Kürzel). Diese 
 6. 0.66 RECHENKERN HOCH (Markt vorausahnen, Nutzer 14.11. 00:18: "nur wer den Markt vorahnen kann, macht richtig Gold –
                         aber immer fundiert und belegbar"): RK1–RK8, MR2 Mein Lager, Absatz als Spanne, MN1–MN5 Feed,
                         MARKT-WELLEN MESSEN: MA4 Stufenbänder (Tagesmedian je Band), M-Welle (wann ist ein Band "durch",
-                        wohin wandert die Nachfrage), MA6 Trend-Regel; jede Vorhersage mit Trefferquote im Testbericht,
+                        wohin wandert die Nachfrage), MA6 Trend-Regel, ZYKLEN (Nutzer 00:19): TAGESZYKLUS (Stunde des
+                        Tages), WOCHENZYKLUS (Wochentag, z. B. Wochenende/Raidtage), MONATSZYKLUS (sobald ≥ 2 Monate Daten;
+                        Bot behält 90 Tage, KEEP90) – je Warengruppe/Band, mit JK1–JK4 zusammen; jede Vorhersage mit Trefferquote im Testbericht,
                         angezeigt erst, wenn belegt (Freigaben Teil D). anweisung-markt-reiter.txt.
 7. Entscheide des Abends (anweisung-entscheide-13-11-abend.txt): LT Gewinn-Zeile, OR keine Rechenwege, TP "Jetzt im AH" +
                         Median, ZN Nachrechnung (GSZAHL1), PX a–e, SA Schnäppchen-Alarm (≤ 60 s, nur Gesichertes),
