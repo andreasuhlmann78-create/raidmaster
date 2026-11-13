@@ -5,7 +5,7 @@ intelligent und vorausschauend." Fehler, die der Nutzer im Spiel findet, sind Fe
 für JEDE neue Version jedes Projekts (auch für die geplante Nachprüfung).
 
 ## A. Bei jeder neuen Version (Pflicht, in dieser Reihenfolge)
-1. `git pull --rebase`; Bericht des Projekts in `berichte/<Projekt>/` ganz lesen; Behauptungen nicht glauben, prüfen.
+1. `git pull --rebase`; Bericht des Projekts (Projekte prüfen sich nicht selbst – "erledigt" setzt nur die Prüf-Sitzung) in `berichte/<Projekt>/` ganz lesen; Behauptungen nicht glauben, prüfen.
 2. `python3 addon-check/addon_check.py download/<Addon>-<Version>.zip` -> kein FEHLER, Warnungen begründet.
 3. Änderungen im Code ansehen (Diff zur Vorversion im Projekt-Repo, sofern lesbar) – passt die Umsetzung zum Auftrag
    UND zu allen Entscheiden des Nutzers (Optik-Regel OR, LT, TP, EB, PS, RF …)?

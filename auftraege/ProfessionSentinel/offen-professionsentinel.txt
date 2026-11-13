@@ -136,3 +136,7 @@ HK-P (MITTEL, NEU 13.11. 22:22 – Entscheid des Nutzers): HERSTELLUNGS-KETTE MI
    die bestehende API (API-PM) je bekanntem Rezept: Produkt, Materialien mit Mengen, Herstellbarkeit (Fertigkeit,
    Abklingzeit). Keine eigene Gewinnanzeige in ProfessionSentinel dafür (keine doppelte Rechnung). Bitte im Bericht
    bestätigen, welche Felder die API heute schon liefert und was fehlt. Wartet auf AHSentinel 0.66 (Rechenkern).
+
+REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nicht selbst"): Eigene Tests und Testroutinen
+   laufen lassen und gefundene Fehler im Bericht melden – mehr nicht. Nie "erledigt/freigegeben/bestanden/geprüft"
+   erklären; Berichte schreiben "umgesetzt, zur Prüfung" mit Belegen. Erledigt setzt nur die Prüf-Sitzung.

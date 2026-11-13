@@ -44,3 +44,8 @@ spätestens alle 15 Minuten und direkt vor jedem Push (Einzelheiten in CLAUDE.md
 - Tests prüfen nicht nur Funktionen einzeln, sondern **Abläufe wie ein Spieler** (klicken, tippen, Daten kommen später)
   und **echte Marktlagen** (Aufkauf, Flut, dünner Markt, alte Preise). Einzelheiten je Addon in `<Addon>/testroutine-*.txt`
   bzw. für AHSentinel in `AHSentinel/anweisung-tests-umfassend.txt`.
+
+
+## Projekte prüfen sich nicht selbst (Entscheid des Nutzers, 13.11.2026, 22:28)
+Berichte melden "umgesetzt, zur Prüfung" mit Belegen und gefundene Fehler – nie "erledigt/freigegeben/bestanden".
+Erledigt setzt nur die Prüf-Sitzung in `offen-*.txt`, nach ihrer eigenen Prüfung.

@@ -74,6 +74,13 @@ Prüf-Sitzung. Die Prüf-Sitzung liest `berichte/` bei jeder Arbeit.
 Neue GoldSentinel-Addons immer aus der Vorlage erstellen: `python3 shared/vorlage/neues_addon.py <Name> --slash <befehl>
 --en "…" --de "…" --zip` (Anleitung in `shared/vorlage/README.md`). Die Vorlage hält alle Regeln der Prüfung schon ein.
 
+## Projekte prüfen sich nicht selbst (Entscheid des Nutzers, 13. November 2026, 22:28)
+
+Projekt-Sitzungen testen ihre Arbeit mit ihren eigenen Testszenarien und Testroutinen und melden gefundene Fehler gerne
+im Bericht – mehr nicht. Sie erklären nichts für "erledigt", "freigegeben", "bestanden" oder "geprüft": In Berichten
+heisst es nur "umgesetzt, zur Prüfung" mit den Belegen (Tests, Messwerte). Ob ein Auftrag erledigt ist, entscheidet
+allein die Prüf-Sitzung nach ihrer eigenen Prüfung (Prüf-Ablauf). Eigene Testergebnisse sind Hinweise, keine Freigabe.
+
 ## Prüf-Ablauf (Pflicht für jede Prüfung, Entscheid des Nutzers 13. November 2026)
 
 Die Prüf-Sitzung ist allein für die Prüfungen der Projekte zuständig und arbeitet "sehr genau, akribisch, intelligent
