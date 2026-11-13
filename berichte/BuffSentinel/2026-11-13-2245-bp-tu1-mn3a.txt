@@ -1,0 +1,40 @@
+BERICHT BUFFSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 22:45 · Sitzung: BuffSentinel-Sitzung · Version: 0.9.20 (e27f8b3)
+GitHub-Lauf addon_check: "BuffSentinel-0.9.20.zip: OK". Gemeinsame Dateien byte-gleich mit shared/
+(GoldSentinelMarkt v2).
+
+UMGESETZT, ZUR PRÜFUNG:
+- BP-2026-11-13-1 (MITTEL):
+  · Messung als Diagnose-Zeile "WAFFE mh=<ID|-> oh=<ID|-> totem=<Totemnamen|->", nur Schamane, nur bei Änderung,
+    alle 0,5 s geprüft (BS:MeasureWeaponEnchant Core.lua:422, Aufruf :1376). Liest GetWeaponEnchantInfo inkl.
+    4./8. Rückgabe (Verzauberungs-ID) und GetTotemInfo 1–4; geschützte Werte als "?".
+  · Erkennung vorbereitet, aber leer: BS.WEAPON_ENCHANT = { own = {}, foreign = {} } (Core.lua:413). EvalBuff wertet
+    eine ID nur dann als fremd (Totem), wenn sie dort eingetragen ist (Display.lua:1257). Ohne Messung bleibt das
+    Verhalten unverändert (nichts geraten). Nach der Messung im Client trägt die BuffSentinel-Sitzung die IDs ein.
+  · Test T205 (T-BP-1113-1, SelfTest.lua:3306) über BS.API-Attrappe:
+    - a nur Imbue -> keine Erinnerung; b nur Totem -> Erinnerung;
+    - c beides (Spiel meldet eigene ID) -> keine; unbekannte ID -> keine;
+    - nichts -> Erinnerung; ohne Messung (leere Liste) -> wie bisher;
+    - Messung: eine Zeile je Änderung.
+  · Sturmschlag: Die Abklingzeit wird schon aus dem Client gelesen (GetSpellCooldown), keine feste Zahl in
+    Data/Shaman.lua.
+  · Mahlstrom (maelstrom_f ohne minStacks): unverändert. Ob die Stapel-Warnung mit der neuen Auslöserate passt, ist
+    im Client zu beobachten (keine Messwerte).
+- TU1-Rest (NIEDRIG):
+  · Proc-Lagen P10 "0,5 s Restzeit" und P11 "abgelaufen, noch nicht neu gelesen" (SelfTest.lua:3130).
+  · Dabei gefunden und behoben: Eine abgelaufene Aura galt bis zum nächsten UNIT_AURA weiter als aktiv
+    (Display.lua:1332).
+  · T206 "Gruppenbuff von anderem Spieler zählt als vorhanden" (SelfTest.lua:3335). Dafür liest Group.lua
+    UnitIsDeadOrGhost/UnitIsConnected/UnitIsVisible über BS.API.
+- MN3a (NIEDRIG):
+  · BS:MarketNetOn (Core.lua:457) über GoldSentinelMarkt.IsShareOn.
+  · Die MARKT-NETZ-Zeile zeigt "an (Netz aus: anderes Addon)". In den Optionen erscheint dann ein Hinweis.
+  · Test T180 (T-MN3a).
+- Regressionsliste ergänzt (MN3a, BP-2026-11-13-1, TU1-Rest).
+- Belege aus den eigenen Tests (Hinweise, keine Freigabe): Nachbau T180/T205/T206 OK, T200 2948 Fälle 0 Abweichungen;
+  Offline-Routine Forever/Era/TBC × deDE/enUS RESULT PASS; Sprachtest enUS 0 deutsche Texte.
+
+WARTET: MN-S (T178 erweitern), bis die korrigierte shared/GoldSentinelMarkt.lua gemeldet ist.
+
+IM CLIENT GETESTET: noch nicht (Nutzer). Für BP bitte als Schamane (Verstärkung, Forever) messen: a) nur eigene
+Waffenverzauberung, b) nur Waffen-Totem, c) beides – danach /bsen protokoll (Zeilen "WAFFE …") hochladen.
