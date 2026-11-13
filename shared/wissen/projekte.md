@@ -103,3 +103,19 @@ Prüffrage bei jeder Änderung: Ist sie schnell, schlicht, verlässlich – und 
   (07:38/21:38), Rezeptdaten-Update, Raids und Taktiken.
 - Messwerkzeug GSMesstest 5.1 (`shared/messtest/`, A3 Markt komplett).
 - Termine: ab 17./18.11. Mindest-Einzahlung 1c (Bluepost) prüfen; T240-Rechnung muss dann stimmen.
+
+## Ideen-Speicher (offen für alles – Nutzer 13.11. 22:13: "versuche neue Ideen zu entwickeln")
+
+Noch nicht beauftragt; dem Nutzer vorgelegt am 13.11. 22:15. Neue Ideen hier sammeln, Entscheide nachtragen.
+- I1 Tagesziel: Spieler setzt "heute 2g", schmaler Balken füllt sich mit dem Handelsgewinn (Erfolgserlebnis).
+- I2 Fang des Tages: kurze, schöne Meldung beim besten Kauf/Verkauf des Tages ("+1g 20s – bester Fang heute").
+- I3 Vermögensverlauf: Gold + Lager + laufende Auktionen über Wochen als Kurve im Details-Fenster.
+- I4 Wochenplan fürs Offline-Sein: vor dem Ausloggen schlägt AHS vor, was mit langer Laufzeit eingestellt werden soll
+  (Preise, die 48 Std. halten; keine Flips offen lassen) – passt zum Spielrhythmus des Nutzers.
+- I5 Schnäppchen-Alarm aufs Handy: Taucht ein Sniper-Ziel im Scan eines Gildenmitglieds (Marktdaten-Netz) unter dem
+  Max auf, schickt der Discord-Bot eine Direktnachricht – auch wenn man selbst nicht im AH steht.
+- I6 Nachfrage-Wellen: aus Serveralter und Stufenverteilung der Gilde/des Netzes vorhersehen, wann Leveling-Güter
+  gefragt sind (z. B. Stufe-40-Reittier-Welle -> Gold knapp, Taschen/Tränke gefragt).
+- I7 Herstellungs-Kette mit ProfessionSentinel: "Material kaufen -> herstellen -> verkaufen" als ein Vorschlag mit
+  Gewinn/Stunde, nur wenn alle Teile geprüft lohnen.
+- I8 Gilden-Bestenliste (freiwillig): Handelsgewinn der Woche im Gilden-Discord (Erfolge teilen).
