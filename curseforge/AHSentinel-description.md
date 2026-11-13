@@ -12,6 +12,22 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.102
+
+- **My auctions: sold auctions disappear after "Refresh"** (and when you open the view); newly sold ones stay visible
+  until the next click. The header still counts all sold auctions. New button "Sold: on/off" to show them.
+- **Sell suggestion with a single expensive offer** (thin ladder ≥ 150 % of market value): market value instead of
+  just under the outlier. "Post cheaper" is never shown while the competition is above the market value.
+- **Vendor flips:** a vendor price above twice the market value is treated as wrong (e.g. Iron Grenade) – no vendor
+  flip with it.
+- **Comprehensive tests (TU1–TU4, TU6):** every market situation (normal, buyout, outlier, flood, thin, empty, old,
+  falling/peak, wrong vendor price, relist) runs through the sell suggestion, ladder detection, hints, disenchant buy
+  price and vendor check; player flows (typed price, three Sniper targets); default values of empty fields (listed in
+  the test report); invariants with 1000 random ladders and random bookkeeping sequences. The test report has one line
+  per area (TU1–TU7) and "Regressions: n of m present". Tests T513–T529.
+- **Offline tests (TU9):** `tests/run_offline.sh` in the AHAnalyzerPro repository runs the test routine in a simulated
+  game without WoW (Lua 5.1).
+
 ### Version 0.65.101
 
 - **Sell suggestion follows a buyout.** If the whole price ladder is high (buyout or new market situation: cheapest
@@ -67,29 +83,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Duplicate "pending" sale bookings from 0.65.93/0.65.94** (without the new ID) are now found and removed once
   (stock restored); real partial sales of the same size stay.
 - Tests T491–T498 (T-AB8c/d, T-AB1b–d, T-VF5e, T-PD1a/b).
-
-### Version 0.65.97
-
-- **Bookkeeping restart keeps purchase prices (opening balance).** Goods bought before a restart (bags, bank, mail,
-  own auctions) keep their purchase price from the old data; only the profit counters start at 0. Goods without any
-  purchase (loot) keep the value at the restart. A restart that lost the cost basis is corrected once at login:
-  disenchants with cost 0 get the price paid for the item, and the cost moves to the materials (sold ones into the
-  sales, the rest into stock). The diagnostic log notes how many bookings were corrected.
-- **Plausibility checks:** warning in the profit tooltip if more than 30 % of revenue is "without purchase" or the
-  disenchanting return is over 100 %; the test report shows an ERROR for disenchants with cost 0 of a bought item.
-- **Gold reconciliation from the same moment as the bookkeeping** (later of day start and restart). Pending sales
-  ("arrives by mail") are shown right there; "not booked" only appears above 1 % of turnover.
-- **Profit % per item** only from pieces with a purchase (like the header).
-- **Posting:** no more Lua error after a successful post. Before posting, AHSentinel checks that the item is still in
-  the bag slot; otherwise "Already posted – no longer in your bags". The button stays locked until you select an item.
-- **My auctions:** instead of "?" the status shows why the price is not checked yet (AH closed, waiting, Sniper
-  searching, server throttling). Your own auctions are checked before the background material prices. Cancelling is
-  logged step by step (test log), the cancelled row disappears at once.
-- **Buyout (e.g. Soul Dust at 3× the price):** never a buy signal; for your own goods "Expensive now – sell … · Buyout
-  – price may drop quickly".
-- **Outdated prices:** every material with ≥ 25 % of the disenchant value must be fresh, not only the main material.
-- Diagnostic log: type of the last scan in PREIS-ALT; posted vs. server price of your own auction (EIGENE-PREIS).
-- Tests T484–T490 (T-AB1, T-AB2, T-AB4, T-AB5, T-AB7, T-AB8a/b).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

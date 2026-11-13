@@ -7,6 +7,22 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.102</h3>
+<ul>
+<li><strong>My auctions: sold auctions disappear after "Refresh"</strong> (and when you open the view); newly sold ones stay visible
+  until the next click. The header still counts all sold auctions. New button "Sold: on/off" to show them.</li>
+<li><strong>Sell suggestion with a single expensive offer</strong> (thin ladder ≥ 150 % of market value): market value instead of
+  just under the outlier. "Post cheaper" is never shown while the competition is above the market value.</li>
+<li><strong>Vendor flips:</strong> a vendor price above twice the market value is treated as wrong (e.g. Iron Grenade) – no vendor
+  flip with it.</li>
+<li><strong>Comprehensive tests (TU1–TU4, TU6):</strong> every market situation (normal, buyout, outlier, flood, thin, empty, old,
+  falling/peak, wrong vendor price, relist) runs through the sell suggestion, ladder detection, hints, disenchant buy
+  price and vendor check; player flows (typed price, three Sniper targets); default values of empty fields (listed in
+  the test report); invariants with 1000 random ladders and random bookkeeping sequences. The test report has one line
+  per area (TU1–TU7) and "Regressions: n of m present". Tests T513–T529.</li>
+<li><strong>Offline tests (TU9):</strong> <code>tests/run_offline.sh</code> in the AHAnalyzerPro repository runs the test routine in a simulated
+  game without WoW (Lua 5.1).</li>
+</ul>
 <h3>Version 0.65.101</h3>
 <ul>
 <li><strong>Sell suggestion follows a buyout.</strong> If the whole price ladder is high (buyout or new market situation: cheapest
@@ -63,30 +79,7 @@
   (stock restored); real partial sales of the same size stay.</li>
 <li>Tests T491–T498 (T-AB8c/d, T-AB1b–d, T-VF5e, T-PD1a/b).</li>
 </ul>
-<h3>Version 0.65.97</h3>
-<ul>
-<li><strong>Bookkeeping restart keeps purchase prices (opening balance).</strong> Goods bought before a restart (bags, bank, mail,
-  own auctions) keep their purchase price from the old data; only the profit counters start at 0. Goods without any
-  purchase (loot) keep the value at the restart. A restart that lost the cost basis is corrected once at login:
-  disenchants with cost 0 get the price paid for the item, and the cost moves to the materials (sold ones into the
-  sales, the rest into stock). The diagnostic log notes how many bookings were corrected.</li>
-<li><strong>Plausibility checks:</strong> warning in the profit tooltip if more than 30 % of revenue is "without purchase" or the
-  disenchanting return is over 100 %; the test report shows an ERROR for disenchants with cost 0 of a bought item.</li>
-<li><strong>Gold reconciliation from the same moment as the bookkeeping</strong> (later of day start and restart). Pending sales
-  ("arrives by mail") are shown right there; "not booked" only appears above 1 % of turnover.</li>
-<li><strong>Profit % per item</strong> only from pieces with a purchase (like the header).</li>
-<li><strong>Posting:</strong> no more Lua error after a successful post. Before posting, AHSentinel checks that the item is still in
-  the bag slot; otherwise "Already posted – no longer in your bags". The button stays locked until you select an item.</li>
-<li><strong>My auctions:</strong> instead of "?" the status shows why the price is not checked yet (AH closed, waiting, Sniper
-  searching, server throttling). Your own auctions are checked before the background material prices. Cancelling is
-  logged step by step (test log), the cancelled row disappears at once.</li>
-<li><strong>Buyout (e.g. Soul Dust at 3× the price):</strong> never a buy signal; for your own goods "Expensive now – sell … · Buyout
-  – price may drop quickly".</li>
-<li><strong>Outdated prices:</strong> every material with ≥ 25 % of the disenchant value must be fresh, not only the main material.</li>
-<li>Diagnostic log: type of the last scan in PREIS-ALT; posted vs. server price of your own auction (EIGENE-PREIS).</li>
-<li>Tests T484–T490 (T-AB1, T-AB2, T-AB4, T-AB5, T-AB7, T-AB8a/b).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
