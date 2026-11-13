@@ -7,6 +7,14 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.116</h3>
+<ul>
+<li><strong>"Worth up to" for disenchanting was too low:</strong> the material price correction (e.g. ×0.57) was counted twice – once
+  in the value and again in the learned safety margin (both measured the same shortfall of your own disenchants). The
+  learned margin now only covers what the correction does not already explain. "Worth up to" (sniper max for
+  disenchant targets, buy limits) is again value ÷ (1 + minimum profit), e.g. 10s -&gt; 8s 33c instead of 5s 90c.</li>
+<li>Test T620.</li>
+</ul>
 <h3>Version 0.65.115</h3>
 <ul>
 <li><strong>Sniper acceptance test in the game:</strong> <code>/ahs testroutine sniper</code> (auction house open). First it asks in its own
@@ -56,15 +64,7 @@
   profit 20 %", without a green check mark at the value.</li>
 <li>Test report: market-core section also in the uploaded fields. Tests T592–T597.</li>
 </ul>
-<h3>Version 0.65.111</h3>
-<p>Immediate fix of distorted numbers (your decision):
-- <strong>Disenchant value = achievable price:</strong> your own disenchants measured that the material prices were assumed ~43 %
-  too high (loot/prediction 0.60). The disenchant value is now corrected per group by this measured factor – for
-  "worth up to", Sniper, Market, tooltip and Today. The tooltip shows "material prices corrected ×0.57".
-- <strong>Sales per day: measured before estimated</strong> everywhere; an implausible estimate without a measurement now shows as
-  unknown instead of an inflated number.
-- Tests T240 (deposit on non-sale) and Today's sort check fixed; tests T589–T591.</p>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

@@ -12,6 +12,14 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.116
+
+- **"Worth up to" for disenchanting was too low:** the material price correction (e.g. ×0.57) was counted twice – once
+  in the value and again in the learned safety margin (both measured the same shortfall of your own disenchants). The
+  learned margin now only covers what the correction does not already explain. "Worth up to" (sniper max for
+  disenchant targets, buy limits) is again value ÷ (1 + minimum profit), e.g. 10s -> 8s 33c instead of 5s 90c.
+- Test T620.
+
 ### Version 0.65.115
 
 - **Sniper acceptance test in the game:** `/ahs testroutine sniper` (auction house open). First it asks in its own
@@ -60,16 +68,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Tooltip:** a small positive profit below the minimum now reads "Disenchant: only +86c (+9 %) – below the minimum
   profit 20 %", without a green check mark at the value.
 - Test report: market-core section also in the uploaded fields. Tests T592–T597.
-
-### Version 0.65.111
-
-Immediate fix of distorted numbers (your decision):
-- **Disenchant value = achievable price:** your own disenchants measured that the material prices were assumed ~43 %
-  too high (loot/prediction 0.60). The disenchant value is now corrected per group by this measured factor – for
-  "worth up to", Sniper, Market, tooltip and Today. The tooltip shows "material prices corrected ×0.57".
-- **Sales per day: measured before estimated** everywhere; an implausible estimate without a measurement now shows as
-  unknown instead of an inflated number.
-- Tests T240 (deposit on non-sale) and Today's sort check fixed; tests T589–T591.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
