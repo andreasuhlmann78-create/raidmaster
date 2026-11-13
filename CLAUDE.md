@@ -111,6 +111,11 @@ schreibt, liest vorher `shared/wissen/markt-strategie.md` (Ziel, Datenlage, Meth
 Wer Sync, Addon-Nachrichten oder Kanäle baut oder beauftragt, liest vorher `shared/wissen/kommunikation-forever.md`.
 In WoW Forever kommen Addon-Nachrichten über eigene Chat-Kanäle nicht an.
 
+## Psychologie der Spieler (Pflicht)
+
+Wer Anzeigen, Empfehlungen oder Meldungen baut, prüft oder beauftragt, liest vorher `shared/wissen/psychologie.md`
+(Nutzen, Verlustaversion, Einzelfall statt Summe, Gier – helfen, nie manipulieren).
+
 ## Immer
 
 - Das Repo ist öffentlich: nie Tokens, Webhook-URLs, Passwörter oder Spielernamen in Dateien oder Commits.

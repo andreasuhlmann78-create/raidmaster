@@ -24,6 +24,8 @@ für JEDE neue Version jedes Projekts (auch für die geplante Nachprüfung).
 ## A1b. Spieler-Bild (Nutzer 13.11. 23:57, bei JEDER Prüfung)
 - Die Spieler wollen mit den Addons einfach mehr Gold machen; sie sind oft Casual und nicht tief im Thema. Jede sichtbare
   Änderung prüfen: Versteht ein Casual-Spieler sie ohne Erklärung? Sonst Befund (vereinfachen, nur Ergebnis zeigen).
+- Psychologie (Nutzer 23:58): shared/wissen/psychologie.md Abschnitt 4 (Prüffragen) bei jeder sichtbaren Änderung anwenden –
+  Nutzen, Gefühl bei Fehlschlag, Einzelfall statt Summe, Gier, Casual-Verständnis.
 
 ## A2. Spielgefühl (Zweck, projekte.md)
 - Zusätzlich zu A: Fühlt sich die Änderung im Spiel gut an? Schnell, schlicht, verlässlich, wenig Klicks, Erfolg
