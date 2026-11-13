@@ -220,6 +220,18 @@ Um zu erfahren, ob ein höherer Preis noch verkauft, gelegentlich leicht höher 
   Genauer erst mit Scans dazwischen. Wie viele Stunden bis unter 6s? Prüft
   8e Nr. 13 und gibt die Zeit, die "Jetzt verkaufen" bei einem Aufkauf hat.
 
+- **M-KOMPLETT (neu 13.11., Ziel des Nutzers: "wir brauchen komplette Marktanalysen um den Markt komplett zu messen"):**
+  Ganzen Markt rund um die Uhr erfassen: Vollscans in festen Abständen (Ziel stündlich, mind. alle 2–3 Std.),
+  Wiedererkennung der Auktionen über die Signatur ItemID:Menge:Sofortkauf, verschwunden aus langer Restzeit = gekauft
+  oder abgebrochen, zentral zusammenführen, Abdeckung (gescannte Stunden der Woche) ausweisen. Werkzeug: GSMesstest 5,
+  `/gsmess markt` (A3, `shared/messtest/README.md`). Zu messen: Lesezeit/Speicher (M1d), Bedeutung der Restzeit-Stufen
+  (M1b), wie oft ReplicateItems erlaubt ist (M1c), Anteil mehrdeutiger Signaturen, Grösse der Zusammenfassung je Item,
+  ob fremde Vollscans (anderes Addon) mitgelesen werden können. **Daraus ergibt sich der Weg** (Entscheid des Nutzers):
+  (1) Blizzard-Web-API für Forever (Stand Juli 2026: Auktionsdaten für Era/Anniversary 404 – für Forever ungemessen),
+  (2) Mitlesen fremder Vollscans in allen GoldSentinel-Addons (ohne Abfrage, mit Schalter zum Ausschalten und
+  CHANGELOG-Zeile, keine Namen), Weitergabe über Gilde/Flüster-Netz (nur eigene Fraktion), (3) Uploader -> Bot-Server
+  sammelt, führt zusammen, wertet aus. Fremde Daten nur mit Plausibilität und mehreren Quellen, nie allein für Kauf/Verkauf.
+
 ## 8. Sniping, Flippen, Handel – Grundsätze (Wunsch des Nutzers 10.11. 09:28: "in allen Bereichen der Beste")
 
 Sniper heute (Sniper.lua): Ziele mit Höchstpreis/Menge/Budget, sucht selbst der Reihe nach, kauft nur per Tastendruck

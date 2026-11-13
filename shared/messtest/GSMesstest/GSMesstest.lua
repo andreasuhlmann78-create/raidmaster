@@ -15,6 +15,13 @@
 --                   mit GSMesstest antwortet per Addon-Flüstern. Gezählt werden: Rückgabewerte, eigenes Echo, Antworten je
 --                   Weg, und nebenbei fremde Addon-Nachrichten über YELL/SAY (nur Präfix, keine Namen). Für die
 --                   Entdeckung von AHSentinel-Nutzern ausserhalb von Gilde und Gruppe (z. B. am Auktionshaus).
+--   A3 Markt      – (ohne Partner, Auktionshaus offen) kann man den Markt KOMPLETT messen? "/gsmess markt" holt alle
+--                   Einzelauktionen (ReplicateItems), liest sie ohne Stocken über mehrere Frames, misst Lesezeit und
+--                   Speicher, Grösse einer Zusammenfassung je Item (wie viele Addon-Nachrichten für Gilde/Flüstern?),
+--                   und vergleicht mit dem letzten Scan: geblieben, verschwunden (je Restzeit-Stufe), neu, Wechsel der
+--                   Restzeit-Stufen (Bedeutung der Stufen, M1b), wie oft ein Abruf erlaubt ist (M1c). PASSIV: holt ein
+--                   ANDERES Addon (z. B. AHSentinel-Vollscan) die Liste, liest GSMesstest still mit – zeigt, ob fremde
+--                   Scans mitgelesen werden können. Keine Namen (Besitzer wird nie gelesen), nur ItemIDs.
 --
 -- Beide Spieler brauchen dieses Addon. Ablauf: /gsmess partner <Name>, dann /gsmess alle (nur einer der beiden).
 -- Das Ergebnis steht danach im Chat und als "GSDIAG1"-Zeichenkette in den SavedVariables (GSMesstestDB). Nach /reload
@@ -24,7 +31,7 @@
 -- <Ich>, <Partner>, <Offline>, <Unbekannt> ersetzt. Keine geschützten Aktionen, kein Kauf, kein Chat-Text an andere.
 
 local ADDON = "GSMesstest"
-local VERSION = "4"
+local VERSION = "5"
 local PREFIX = "GSMESS"
 local CHANNEL = "GSMessRealm"
 local FAKE = "Gsmesszqxv"          -- gibt es sehr wahrscheinlich nicht (Test "unbekannter Spieler")
@@ -371,6 +378,276 @@ local function Rufen()
     After(31, YellResult)
 end
 
+
+---------------------------------------------------------------------------
+-- A3 Markt komplett messen (Messauftrag M-KOMPLETT, shared/wissen/markt-strategie.md)
+---------------------------------------------------------------------------
+-- Signatur einer Auktion = ItemID:Menge:Sofortkauf (es gibt keine auctionID, die Restzeit ändert sich zwischen Scans).
+-- Je Signatur wird die Anzahl je Restzeit-Stufe 0..4 in EINER Zahl gespeichert (Basis 1000, exakt bis 2^53).
+local MARKT_CHUNK = 3000          -- Auktionen je Frame (kein Stocken)
+local function Epoch() return (time and time()) or math.floor(Now()) end
+local function Ms() return (debugprofilestop and debugprofilestop()) or (Now() * 1000) end
+local function Dec(e)
+    local t, n = {}, 0
+    for b = 0, 4 do t[b] = math.floor(e / 1000 ^ b) % 1000; n = n + t[b] end
+    return t, n
+end
+local function Since(sec)
+    return sec and string.format("%.0f Min. seit letztem Abruf", sec / 60) or "erster Abruf"
+end
+local function Gold(c) return string.format("%.1fg", (tonumber(c) or 0) / 10000) end
+
+M.ev = {}                         -- Such-Ereignisse zählen (kann man Suchen anderer Addons/von Hand mitlesen?)
+M.passiv = 0
+
+local MarktFertig                 -- weiter unten
+
+local function MarktStart(reason)
+    local C = _G.C_AuctionHouse
+    if M.reader then return end
+    local ok, n = pcall(C.GetNumReplicateItems)
+    n = ok and tonumber(n) or 0
+    if n <= 0 then
+        Log("A3 keine Auktionen in der Liste (" .. reason .. ")")
+        M.busy = false
+        return
+    end
+    M.busy, M.log, M.runs = true, {}, {}
+    collectgarbage("collect")
+    M.reader = { n = n, i = 0, reason = reason, wall = Now(), cpu = 0, frames = 0, mem0 = collectgarbage("count"),
+                 sigs = {}, items = {}, auctions = 0, noBuyout = 0, noInfo = 0, tl = {}, capped = 0 }
+    Print("A3 lese " .. n .. " Auktionen (" .. reason .. ") ...")
+end
+
+local function MarktStep()
+    local r, C = M.reader, _G.C_AuctionHouse
+    local okN, n2 = pcall(C.GetNumReplicateItems)
+    if not okN or n2 ~= r.n then
+        M.reader = nil
+        Log("A3 Liste hat sich während des Lesens geändert (neu geholt?) – abgebrochen, bitte nochmals")
+        Report()
+        return
+    end
+    local t0 = Ms()
+    local last = math.min(r.n - 1, r.i + MARKT_CHUNK - 1)
+    local ok, err = pcall(function()
+        local info, tlf = C.GetReplicateItemInfo, C.GetReplicateItemTimeLeft
+        local sigs, items, tl = r.sigs, r.items, r.tl
+        for i = r.i, last do
+            local _, _, count, _, _, _, _, _, _, buyout, _, _, _, _, _, _, itemID = info(i)
+            if itemID then
+                count, buyout = tonumber(count) or 0, tonumber(buyout) or 0
+                local b = tonumber(tlf and tlf(i)) or 0
+                if b < 0 or b > 4 then b = 0 end
+                r.auctions = r.auctions + 1
+                tl[b] = (tl[b] or 0) + 1
+                if buyout <= 0 then r.noBuyout = r.noBuyout + 1 end
+                local sig = itemID .. ":" .. count .. ":" .. buyout
+                local e, p = sigs[sig] or 0, 1000 ^ b
+                if math.floor(e / p) % 1000 < 999 then sigs[sig] = e + p else r.capped = r.capped + 1 end
+                local it = items[itemID]
+                if not it then it = { 0, 0, 0 }; items[itemID] = it end      -- tiefster Stückpreis, Menge, Auktionen
+                if buyout > 0 and count > 0 then
+                    local u = math.floor(buyout / count)
+                    if it[1] == 0 or u < it[1] then it[1] = u end
+                end
+                it[2], it[3] = it[2] + count, it[3] + 1
+            else
+                r.noInfo = r.noInfo + 1
+            end
+        end
+    end)
+    r.cpu, r.frames = r.cpu + (Ms() - t0), r.frames + 1
+    if not ok then
+        M.reader = nil
+        Log("A3 Lua-Fehler beim Lesen: " .. tostring(err))
+        Report()
+        return
+    end
+    r.i = last + 1
+    if r.i >= r.n then
+        M.reader = nil
+        MarktFertig(r)
+    end
+end
+
+MarktFertig = function(r)
+    local L = {}
+    local function add(s) L[#L + 1] = s end
+    local db = GSMesstestDB
+    local now = Epoch()
+    local nSig, nAmb, aAmb, nItems = 0, 0, 0, 0
+    for _, e in pairs(r.sigs) do
+        local _, c = Dec(e)
+        nSig = nSig + 1
+        if c > 1 then nAmb = nAmb + 1; aAmb = aAmb + c end
+    end
+    -- Zusammenfassung je Item: so gross wäre ein Vollscan für Gilde/Flüstern/Uploader
+    local sumLen = 0
+    for id, it in pairs(r.items) do
+        nItems = nItems + 1
+        sumLen = sumLen + #string.format("%d,%d,%d,%d;", id, it[1], it[2], it[3])
+    end
+    local msgs = math.ceil(sumLen / 240)
+    local mem = collectgarbage("count") - r.mem0
+    add(string.format("A3 Scan (%s): Einzelauktionen %d, gelesen %d, ohne Infos %d, ohne Sofortkauf %d, Items %d",
+        r.reason, r.n, r.auctions, r.noInfo, r.noBuyout, nItems))
+    local tls = {}
+    for b = 0, 4 do if r.tl[b] then tls[#tls + 1] = b .. ":" .. r.tl[b] end end
+    add("A3 Restzeit-Stufen (Stufe:Anzahl): " .. table.concat(tls, ", "))
+    add(string.format("A3 M1d Lesen: %.0f ms Rechenzeit in %d Frames (%d je Frame), %.1f s Gesamtdauer, Speicher +%.1f MB",
+        r.cpu, r.frames, MARKT_CHUNK, Now() - r.wall, mem / 1024))
+    add(string.format("A3 Wiedererkennung: %d Signaturen (Item:Menge:Sofortkauf), davon %d mehrdeutig mit %d Auktionen (%.1f %%), gekappt %d",
+        nSig, nAmb, aAmb, r.auctions > 0 and aAmb * 100 / r.auctions or 0, r.capped))
+    add(string.format("A3 Zusammenfassung je Item: %d Zeichen = %d Addon-Nachrichten; Gilde 5/s: %.0f s; Flüstern 40/Min.: %.1f Min. je Empfänger",
+        sumLen, msgs, msgs / 5, msgs / 40))
+    -- Scans zählen (wie oft wird gescannt, eigen/fremd?)
+    db.scans = db.scans or {}
+    table.insert(db.scans, { t = now, n = r.auctions, w = r.reason })
+    while #db.scans > 50 do table.remove(db.scans, 1) end
+    -- Vergleich mit dem letzten Scan
+    local base = db.markt
+    if base and base.sigs and base.t then
+        local dt = now - base.t
+        local stay, newc, gone = 0, 0, 0
+        local goneB, goneVal = { [0] = 0, 0, 0, 0, 0 }, { [0] = 0, 0, 0, 0, 0 }
+        local trans, goneItem = {}, {}
+        for sig, e1 in pairs(base.sigs) do
+            local b1, c1 = Dec(e1)
+            local e2 = r.sigs[sig]
+            local b2, c2 = { [0] = 0, 0, 0, 0, 0 }, 0
+            if e2 then b2, c2 = Dec(e2) end
+            stay = stay + math.min(c1, c2)
+            local g = c1 - c2
+            if g > 0 then
+                gone = gone + g
+                local id, _, buy = sig:match("^(%d+):(%d+):(%d+)$")
+                -- vorsichtig: die kürzesten Restzeiten zuerst als "abgelaufen" zählen, Stufe 0 (unbekannt) zuletzt
+                for _, b in ipairs({ 1, 2, 3, 4, 0 }) do
+                    local take = math.min(g, b1[b])
+                    if take > 0 then
+                        goneB[b] = goneB[b] + take
+                        goneVal[b] = goneVal[b] + take * (tonumber(buy) or 0)
+                        if (b == 3 or b == 4) and id then goneItem[id] = (goneItem[id] or 0) + take end
+                        g = g - take
+                    end
+                    if g <= 0 then break end
+                end
+            end
+            if c1 == 1 and c2 == 1 then
+                local f1, f2
+                for b = 0, 4 do
+                    if b1[b] == 1 then f1 = b end
+                    if b2[b] == 1 then f2 = b end
+                end
+                local k = tostring(f1) .. ">" .. tostring(f2)
+                trans[k] = (trans[k] or 0) + 1
+            end
+        end
+        for sig, e2 in pairs(r.sigs) do
+            local _, c2 = Dec(e2)
+            local c1 = 0
+            if base.sigs[sig] then _, c1 = Dec(base.sigs[sig]) end
+            if c2 > c1 then newc = newc + (c2 - c1) end
+        end
+        add(string.format("A3 Vergleich mit Scan vor %.0f Min. (%d Auktionen, %s): geblieben %d, verschwunden %d, neu %d",
+            dt / 60, base.n or 0, tostring(base.w or "?"), stay, gone, newc))
+        add(string.format("A3 verschwunden nach Restzeit-Stufe beim letzten Scan: 1: %d, 2: %d, 3: %d, 4: %d, unbekannt: %d",
+            goneB[1], goneB[2], goneB[3], goneB[4], goneB[0]))
+        add(string.format("A3 verschwunden aus Stufe 3+4 (konnte in %.0f Min. kaum ablaufen -> gekauft oder abgebrochen): %d Auktionen, Sofortkaufwert %s",
+            dt / 60, goneB[3] + goneB[4], Gold(goneVal[3] + goneVal[4])))
+        local tr = {}
+        for k, v in pairs(trans) do tr[#tr + 1] = k .. " " .. v end
+        table.sort(tr)
+        add("A3 M1b Stufenwechsel eindeutiger Auktionen (vorher>nachher Anzahl): " .. table.concat(tr, ", "))
+        local top = {}
+        for id, c in pairs(goneItem) do top[#top + 1] = { id, c } end
+        table.sort(top, function(x, y) return x[2] > y[2] end)
+        local ts = {}
+        for i = 1, math.min(10, #top) do ts[#ts + 1] = top[i][1] .. "×" .. top[i][2] end
+        add("A3 meiste Abgänge aus Stufe 3+4 (ItemID×Anzahl): " .. (#ts > 0 and table.concat(ts, ", ") or "keine"))
+        if dt < 600 then add("A3 Hinweis: Abstand unter 10 Min. – für den Absatz besser 30–60 Min. warten") end
+    else
+        add("A3 kein früherer Scan gespeichert – in 30–60 Min. nochmals /gsmess markt (oder Vollscan mit AHSentinel)")
+    end
+    -- neuer Vergleichsstand (wird beim nächsten Scan ersetzt; /gsmess markt löschen entfernt ihn)
+    db.markt = { t = now, n = r.auctions, w = r.reason, sigs = r.sigs }
+    -- Verlauf aller A3-Ergebnisse (für den Uploader), höchstens 300 Zeilen
+    db.hist = db.hist or {}
+    table.insert(db.hist, "--- " .. date("%d.%m.%Y %H:%M"))
+    for _, s in ipairs(L) do table.insert(db.hist, s) end
+    while #db.hist > 300 do table.remove(db.hist, 1) end
+    for _, s in ipairs(L) do M.log[#M.log + 1] = s end
+    Print(L[1])
+    Print(L[#L])
+    M.quiet = true
+    Report()
+    M.quiet = nil
+end
+
+local function MarktHolen()
+    local C = _G.C_AuctionHouse
+    if type(C) ~= "table" or type(C.ReplicateItems) ~= "function" then Print("ReplicateItems gibt es nicht."); return end
+    if not AHOpen() then Print("Auktionshaus ist zu – bitte öffnen und nochmals /gsmess markt"); return end
+    if M.busy or M.reader or M.marktWait then Print("Läuft schon.") return end
+    if InCombatLockdown and InCombatLockdown() then Print("Nicht im Kampf.") return end
+    local db = GSMesstestDB
+    local since = db.lastCall and (Epoch() - db.lastCall) or nil
+    db.lastCall = Epoch()
+    M.busy = true
+    local wait = { t0 = Now(), since = since }
+    M.marktWait = wait
+    local ok, err = pcall(C.ReplicateItems)
+    if not ok then
+        M.marktWait, M.busy = nil, false
+        Print("ReplicateItems: Lua-Fehler " .. tostring(err))
+        return
+    end
+    Print("Alle Auktionen angefordert – warte bis 60 s (" .. Since(since) .. ")")
+    After(60, function()
+        local w = M.marktWait
+        if w ~= wait then return end            -- schon beantwortet (oder ein neuerer Abruf wartet)
+        M.marktWait = nil
+        db.calls = db.calls or {}
+        table.insert(db.calls, string.format("%s: KEINE Daten nach 60 s, %s", date("%d.%m. %H:%M"), Since(w.since)))
+        M.log, M.runs = {}, {}
+        Log("A3 M1c: keine Daten nach 60 s (" .. Since(w.since) .. ") – vermutlich gedrosselt")
+        Report()
+    end)
+end
+
+local function MarktAntwort()
+    local w = M.marktWait
+    M.marktWait = nil
+    local db = GSMesstestDB
+    db.calls = db.calls or {}
+    table.insert(db.calls, string.format("%s: Daten nach %.1f s, %s", date("%d.%m. %H:%M"), Now() - w.t0, Since(w.since)))
+    while #db.calls > 30 do table.remove(db.calls, 1) end
+    After(1, function() MarktStart("eigener Abruf") end)
+end
+
+local function MarktPassiv()
+    M.passiv = M.passiv + 1
+    if GSMesstestDB.passivAus or M.reader or M.busy then return end
+    if M.lastPassive and Now() - M.lastPassive < 60 then return end
+    M.lastPassive = Now()
+    Print("A3 fremder Vollscan erkannt (anderes Addon) – lese still mit")
+    After(3, function() MarktStart("fremd ausgelöst") end)
+end
+
+local function MarktStatus()
+    local db = GSMesstestDB
+    Print(string.format("A3 fremd ausgelöste Vollscans seit dem Einloggen: %d (Mitlesen %s)", M.passiv,
+        db.passivAus and "AUS" or "an"))
+    local ev = {}
+    for k, v in pairs(M.ev) do ev[#ev + 1] = k .. " " .. v end
+    table.sort(ev)
+    Print("A3 Such-Ereignisse seit dem Einloggen: " .. (#ev > 0 and table.concat(ev, ", ") or "keine"))
+    Print("A3 letzter Vergleichsstand: " .. (db.markt and string.format("vor %.0f Min., %d Auktionen",
+        (Epoch() - db.markt.t) / 60, db.markt.n or 0) or "keiner"))
+    for _, s in ipairs(db.calls or {}) do Print("A3 M1c " .. s) end
+end
+
 Report = function()
     local lines = { "GSMesstest " .. VERSION .. ", Client " .. tostring((GetBuildInfo and select(1, GetBuildInfo())) or "?") ..
         " (" .. tostring((GetBuildInfo and select(4, GetBuildInfo())) or "?") .. ")" }
@@ -379,7 +656,21 @@ Report = function()
         if r then lines[#lines + 1] = Anon(RunText(r)) end
     end
     for _, s in ipairs(M.log) do lines[#lines + 1] = s end
-    for _, s in ipairs(lines) do Print(s) end
+    if not M.quiet then for _, s in ipairs(lines) do Print(s) end end
+    -- A3: Verlauf aller Markt-Messungen und der Abruf-Versuche (M1c) immer mitgeben
+    local db = GSMesstestDB
+    if db.hist and #db.hist > 0 then
+        lines[#lines + 1] = "A3 Verlauf:"
+        for _, s in ipairs(db.hist) do lines[#lines + 1] = s end
+    end
+    if db.calls and #db.calls > 0 then
+        for _, s in ipairs(db.calls) do lines[#lines + 1] = "A3 M1c " .. s end
+    end
+    local ev = {}
+    for k, v in pairs(M.ev or {}) do ev[#ev + 1] = k .. " " .. v end
+    table.sort(ev)
+    lines[#lines + 1] = string.format("A3 fremd ausgelöste Vollscans in dieser Sitzung: %d; Such-Ereignisse: %s",
+        M.passiv or 0, #ev > 0 and table.concat(ev, ", ") or "keine")
     GSMesstestDB.export = "GSDIAG1|" .. ADDON .. "|" .. VERSION .. "|" .. date("%d.%m.%Y %H:%M") .. "\n" ..
         table.concat(lines, "\n")
     Print("Gespeichert. Nach /reload oder Ausloggen holt der Uploader das Ergebnis ab.")
@@ -490,6 +781,9 @@ f:RegisterEvent("CHAT_MSG_ADDON")
 f:RegisterEvent("CHAT_MSG_SYSTEM")
 f:RegisterEvent("CHAT_MSG_CHANNEL_LIST")
 pcall(f.RegisterEvent, f, "REPLICATE_ITEM_LIST_UPDATE")
+local SEARCH_EVENTS = { "AUCTION_HOUSE_BROWSE_RESULTS_UPDATED", "ITEM_SEARCH_RESULTS_UPDATED",
+    "COMMODITY_SEARCH_RESULTS_UPDATED", "AUCTION_ITEM_LIST_UPDATE" }
+for _, e in ipairs(SEARCH_EVENTS) do pcall(f.RegisterEvent, f, e) end
 f:SetScript("OnEvent", function(_, ev, a1, a2, a3, a4, ...)
     if ev == "PLAYER_LOGIN" then
         local CI = _G.C_ChatInfo
@@ -501,7 +795,12 @@ f:SetScript("OnEvent", function(_, ev, a1, a2, a3, a4, ...)
     elseif ev == "CHAT_MSG_SYSTEM" then
         if M.sysOn and #M.sys < 10 then M.sys[#M.sys + 1] = Anon(a1) end
     elseif ev == "REPLICATE_ITEM_LIST_UPDATE" then
-        if M.replWait then After(2, function() ReplicateResult("Ereignis REPLICATE_ITEM_LIST_UPDATE") end) end
+        if M.replWait then After(2, function() ReplicateResult("Ereignis REPLICATE_ITEM_LIST_UPDATE") end)
+        elseif M.marktWait then MarktAntwort()
+        elseif AHOpen() then MarktPassiv() end
+    elseif ev == "AUCTION_HOUSE_BROWSE_RESULTS_UPDATED" or ev == "ITEM_SEARCH_RESULTS_UPDATED"
+        or ev == "COMMODITY_SEARCH_RESULTS_UPDATED" or ev == "AUCTION_ITEM_LIST_UPDATE" then
+        M.ev[ev] = (M.ev[ev] or 0) + 1
     elseif ev == "CHAT_MSG_CHANNEL_LIST" then
         if M.busy and IsOurChannel(a2, a3, a4, ...) then
             M.listText = (M.listText or "") .. " " .. tostring(a1)
@@ -509,6 +808,10 @@ f:SetScript("OnEvent", function(_, ev, a1, a2, a3, a4, ...)
     end
 end)
 f:SetScript("OnUpdate", function()
+    if M.reader then
+        local ok, err = pcall(MarktStep)
+        if not ok then M.reader = nil; M.busy = false; Log("Lua-Fehler: " .. tostring(err)) end
+    end
     if #M.tasks == 0 then return end
     local now, keep = Now(), {}
     local due = {}
@@ -533,6 +836,15 @@ SlashCmdList.GSMESSTEST = function(arg)
     elseif cmd == "auktionen" then
         if rest:lower() == "holen" then AuctionFetch() else AuctionCheck(); Report() end
     elseif cmd == "rufen" then Rufen()
+    elseif cmd == "markt" then
+        local r = rest:lower()
+        if r == "status" then MarktStatus()
+        elseif r == "löschen" or r == "loeschen" then
+            GSMesstestDB.markt, GSMesstestDB.hist, GSMesstestDB.calls, GSMesstestDB.scans = nil, nil, nil, nil
+            Print("Markt-Messdaten gelöscht.")
+        elseif r == "mitlesen aus" then GSMesstestDB.passivAus = true; Print("Mitlesen fremder Vollscans: aus")
+        elseif r == "mitlesen an" then GSMesstestDB.passivAus = nil; Print("Mitlesen fremder Vollscans: an")
+        else MarktHolen() end
     elseif cmd == "alle" then RunAll({ "t1", "t2", "t3", "t4" })
     elseif T[cmd] then RunAll({ cmd })
     elseif cmd == "bericht" then Report()
@@ -542,5 +854,7 @@ SlashCmdList.GSMESSTEST = function(arg)
         Print("/gsmess t1 | t2 | t3 | t4 – einzeln; /gsmess bericht – Ergebnis nochmals zeigen")
         Print("/gsmess auktionen – gibt es alle Einzelauktionen? (ohne Partner, Auktionshaus offen); dann /gsmess auktionen holen")
         Print("/gsmess rufen – kommen Addon-Nachrichten über YELL/SAY bei Spielern in der Nähe an? (30 s, ohne Partner)")
+        Print("/gsmess markt – ganzen Markt messen (Auktionshaus offen); nach 30–60 Min. nochmals = Absatz-Vergleich")
+        Print("/gsmess markt status | löschen | mitlesen an | mitlesen aus – fremde Vollscans (z. B. AHSentinel) liest es still mit")
     end
 end

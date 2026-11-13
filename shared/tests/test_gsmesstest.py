@@ -66,6 +66,7 @@ function JoinTemporaryChannel(n) outbox[#outbox + 1] = { "join", me } end
 function LeaveChannelByName(n) outbox[#outbox + 1] = { "leave", me } end
 function ListChannelByName(n) outbox[#outbox + 1] = { "list", me } end
 function date(f) return "09.11.2026 18:50" end
+function time() return math.floor(NOW) end
 DEFAULT_CHAT_FRAME = { AddMessage = function(_, s) chat[#chat + 1] = s end }
 function ChatFrame_AddMessageEventFilter(ev, fn) filters[ev] = filters[ev] or {}; table.insert(filters[ev], fn) end
 SlashCmdList = {}
@@ -171,7 +172,7 @@ def main():
     check(export is not None, "kein Export")
     export = str(export or "")
     print(export)
-    check(export.startswith("GSDIAG1|GSMesstest|4|"), "Kopf GSDIAG1 falsch")
+    check(export.startswith("GSDIAG1|GSMesstest|5|"), "Kopf GSDIAG1 falsch")
     for n in NAMES + (OFFLINE,):
         check(n not in export, "Name im Ergebnis: " + n)
     check("T1 hin: gesendet 10" in export and "angekommen 10/10" in export, "T1 nicht vollständig")
@@ -224,6 +225,64 @@ def main():
     e4 = str(a.GSMesstestDB.export)
     check("Antworten von 0 Spieler(n)" in e4 and "niemand mit GSMesstest hat geantwortet" in e4, "A2 ohne Antwort falsch")
     check("Lua-Fehler" not in e4, "A2 Lua-Fehler")
+    # A3 Markt komplett (M-KOMPLETT): eigener Abruf, Lesen über mehrere Frames, Vergleich, passives Mitlesen
+    clients[NAMES[1]].execute("C_ChatInfo.SendAddonMessage = function(p, m, d, t) outbox[#outbox + 1] = { 'send', me, p, m, d, t }; return 0 end")
+    a.SlashCmdList.GSMESSTEST("markt")
+    pump(5)
+    e5 = str(a.GSMesstestDB.export)
+    print(e5)
+    check("A3 Scan (eigener Abruf): Einzelauktionen 3000, gelesen 3000" in e5, "A3 Scan fehlt")
+    check("Items 400" in e5, "A3 Items falsch")
+    check("Frames" in e5 and "Addon-Nachrichten" in e5, "A3 M1d/Zusammenfassung fehlt")
+    check("kein früherer Scan" in e5, "A3 erster Scan ohne Hinweis")
+    check("Besitzername" not in e5 and "Item1 " not in e5, "A3 Name im Ergebnis")
+    check("Lua-Fehler" not in e5, "A3 Lua-Fehler")
+    check("Daten nach 0.0 s, erster Abruf" in e5, "A3 M1c Abruf fehlt")
+    check(not a.GSMesstest.busy, "A3 busy bleibt gesetzt")
+    # 40 Min. später: 500 Auktionen weg (Stufe 4), 100 neu, Restzeit eine Stufe tiefer
+    clock["t"] += 2400
+    for rt in clients.values():
+        rt.globals().NOW = clock["t"]
+    clients[NAMES[0]].execute("""
+      local old = {}
+      for i = 0, 2999 do old[i + 1] = { C_AuctionHouse.GetReplicateItemInfo(i) } end
+      local nl = {}
+      for i = 1, 3000 do
+        local tlv = ((i - 1) % 4) + 1
+        if not (tlv == 4 and i <= 2000) then nl[#nl + 1] = { old[i], math.max(1, tlv - 1) } end
+      end
+      for k = 1, 100 do nl[#nl + 1] = { { "Neu", 1, 1, 1, true, 1, 0, 50, 5, 999000 + k, 0, false, nil, "Besitzername", "B", 0, 9999, true }, 4 } end
+      C_AuctionHouse.GetNumReplicateItems = function() return #nl end
+      C_AuctionHouse.GetReplicateItemInfo = function(i) local t = nl[i + 1]; if not t then return nil end return unpack(t[1], 1, 18) end
+      C_AuctionHouse.GetReplicateItemTimeLeft = function(i) local t = nl[i + 1]; return t and t[2] end
+    """)
+    a.SlashCmdList.GSMESSTEST("markt")
+    pump(5)
+    e6 = str(a.GSMesstestDB.export)
+    print(e6)
+    check("Vergleich mit Scan vor 40 Min." in e6, "A3 Vergleich fehlt")
+    check("verschwunden 500, neu 100" in e6, "A3 verschwunden/neu falsch")
+    check("1: 0, 2: 0, 3: 0, 4: 500" in e6, "A3 Stufen der Abgänge falsch")
+    check("Stufe 3+4" in e6 and "500 Auktionen" in e6, "A3 Abgänge 3+4 fehlen")
+    check("M1b Stufenwechsel" in e6 and "4>3" in e6, "A3 Stufenwechsel fehlt")
+    check("40 Min. seit letztem Abruf" in e6, "A3 M1c Abstand fehlt")
+    check("A3 Verlauf:" in e6, "A3 Verlauf fehlt")
+    check("A3 Scan (eigener Abruf): Einzelauktionen 2600" in e6, "A3 zweiter Abruf nicht als eigener erkannt")
+    # passiv: ein anderes Addon holt die Liste
+    a.Fire("REPLICATE_ITEM_LIST_UPDATE")
+    pump(6)
+    e7 = str(a.GSMesstestDB.export)
+    check("A3 Scan (fremd ausgelöst)" in e7, "A3 passives Mitlesen fehlt")
+    check("fremd ausgelöste Vollscans in dieser Sitzung: 1" in e7, "A3 passiv nicht gezählt")
+    a.Fire("ITEM_SEARCH_RESULTS_UPDATED")
+    a.SlashCmdList.GSMESSTEST("bericht")
+    check("ITEM_SEARCH_RESULTS_UPDATED 1" in str(a.GSMesstestDB.export), "A3 Such-Ereignis nicht gezählt")
+    a.SlashCmdList.GSMESSTEST("markt mitlesen aus")
+    a.Fire("REPLICATE_ITEM_LIST_UPDATE")
+    pump(6)
+    check(not a.GSMesstest.busy and a.GSMesstest.reader is None, "A3 liest trotz 'mitlesen aus'")
+    a.SlashCmdList.GSMESSTEST("markt löschen")
+    check(a.GSMesstestDB.markt is None, "A3 löschen wirkt nicht")
     # testberichte.py liest es
     sys.path.insert(0, str(ROOT / "addon-check"))
     import testberichte
