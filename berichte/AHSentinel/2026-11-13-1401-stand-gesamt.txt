@@ -1,0 +1,47 @@
+BERICHT AHSENTINEL AN DIE PRÜF-SITZUNG – GESAMTSTAND: WAS IST FERTIG, WAS IST OFFEN
+Stand: 13.11.2026 14:05 · Sitzung: AHSentinel-Sitzung · Veröffentlicht: 0.65.109 (CurseForge, download/AHSentinel-0.65.109.zip)
+Grundlage: offen-ahsentinel.txt (Nachprüfung 12:20 mit Nachträgen bis TT1317 13:22) und der verbindliche Releaseplan (13:15).
+Antwort auf die Frage des Nutzers: NEIN, noch nicht alles ist fertig. Fertig ist alles bis einschliesslich 0.65.109
+("falsche Zahlen"); offen sind 0.65.110 ("Ruckeln und Zuverlässigkeit") und die Stufen 0.66–0.68 laut Releaseplan.
+Einzelheiten je Version: Berichte -0903 (0.65.107), -1230 (0.65.108), -1338 (0.65.109).
+
+A. FERTIG (veröffentlicht, je mit Regressionstest, Nachbildung grün)
+  0.65.106  MA2, MA3-Zähler, Ü1/Ü2 (MARKT-KERN im Testbericht), Ü3 ............................. T550–T555
+  0.65.107  RK2-A, Ü3 in Markt-Zeilen, SB1–SB5, BL-A, API-PM2, API-PM3, TU5, TU7, TU9, BP-2026-11-13-1 . T556–T572
+  0.65.108  MA1-B, RK2-B (a–c), MA2-B, FG (Markt-Reiter), Ü3-S (Selbsttest) .......................... T573–T579
+  0.65.109  "falsche Zahlen" laut Releaseplan:
+            MH1310 (FG in Heute + Tooltip, Ü3 in Heute, Wiederverkauf ≤ Marktwert ohne volle Leiter/Absatz) .. T582
+            TT1317 (Vollscan-Preise nicht mehr als Lockangebot, kein ✓ bei unsicher, Protokoll MATERIAL-PREIS) . T581
+            DG1300 D1 (fremde/unerwartete/doppelte AUCTION_CANCELED nur protokolliert; Beleg: nichts gebucht) ... T580
+            BH1307 (3) Kopf "Gewinn mit Einkauf" + "dazu ohne Einkauf … – Kostenbasis prüfen"; (1) Herkunftsliste
+                   im Testbericht ........................................................................ T583
+            TB108 T223/T248/T431/T432 (Ursache: echte gelernte Marge im Spiel; Tests jetzt ohne echtes Lernen)
+
+B. TEILWEISE / MIT BEGRÜNDUNG ABWEICHEND (bitte bestätigen oder neu entscheiden)
+  FG/T-FG2   Zeilen lernender/gesperrter Wege werden weiter gemessen (MK:Note), nur nicht empfohlen – sonst käme ein Weg
+             nie auf 20 Fälle bzw. nie mehr aus "gesperrt".
+  FG Sniper  nicht gesperrt: der Sniper kauft nur vom Nutzer gesetzte Ziele; Entzauber-Ziele folgen "Lohnt bis".
+  BH1307 (2) Kostenbasis für Material ohne bekannten Kaufpreis NICHT nachgetragen (wäre Umbuchung alter Daten, kein
+             Wert vorhanden). AB8 trägt nach, wo deLog "paid"/alter Einstand bekannt ist. Entscheid nach der Liste
+             "BH1307 ohne Einstand" aus dem nächsten Testbericht.
+  TT1317     Ursache sehr wahrscheinlich behoben; Bestätigung erst mit dem Protokoll MATERIAL-PREIS aus dem Client.
+  T459       in der Nachbildung empfindlich (Zeitbudget der Jobs); massgebend ist der Client-Wert (siehe 0.65.110 S2).
+
+C. OFFEN – 0.65.110 "RUCKELN UND ZUVERLÄSSIGKEIT" (nächste Version, in Arbeit)
+  TB108 S1 Vollscan ≤ 16 ms je Bild (121 ms Preisverlauf+Neuaufbau) · S2 Speicher ≤ 10 MB (+62 MB) · S3 Portionen ≤ 8 ms
+  DG1300 D2 Sniper < 1 s vom Treffer zur Kaufbereitschaft, Server-Meldung je Fehlschlag, nach 3 Fehlschlägen frisch suchen
+  DG1300 D3 / T373 Hintergrund in Portionen (core:realcheck 240 ms, cache:today 94 ms, warm-today 50 ms, sync-send)
+  DG1300 D4 jeder abgefangene Fehler mit Ort ins Protokoll
+  T231 Sammelkauf in der Nachbildung des Spiels, T253 gescheiterter Kauf, T52 Unterboten/Abbrechen im Selbsttest,
+  TU5-Doppelmeldung, Kalibrierung (Prozent "verkauft sich zu x %" grau bis kalibriert, Selbstkorrektur 30 % statt 98 %)
+
+D. OFFEN – SPÄTERE STUFEN LAUT RELEASEPLAN
+  0.66 Rechenkern (RK1–RK8, ein "Lohnt bis" über ALLE Wege, MR2 Mein Lager, API-PM4 und WorthUpTo für alle Wege)
+  0.67 Spielrhythmus (MR5–MR9, RK6) · 0.68 neuer Markt-Reiter (MR1/MR3/MR4/MR10/MR11, MA4–MA6)
+  Kleinere: MA3-G (Gold-Messung Händlerverkauf), TU1/TU2-Rest, AB3 (wartet auf EIGENE-PREIS-Eintrag), L2b, BE2b,
+  E (Abdeckungsliste, ältere Testfälle), F (Raid-Vorrat), G (Hinweise), PD3/PD4/PD6/PD8.
+  PD7 wartet auf die Zeile "PD7 letzte Verdichtung" aus dem Client und dann auf den Entscheid des Nutzers.
+
+E. WAS DIE PRÜF-SITZUNG AUS DEM CLIENT BRAUCHT (Testbericht nach /reload mit 0.65.109)
+  MARKT-KERN-Zahlen (Ü1/Ü2), Protokoll MATERIAL-PREIS (TT1317), Zeilen "BH1307 ohne Einstand", PD7-Grösse,
+  Teil "server" erneut (T458/T459/T126), "/ahs testroutine berufe" und "haendler" stehen noch aus.
