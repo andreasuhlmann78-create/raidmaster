@@ -362,6 +362,8 @@ LT (HOCH, NEU 13.11. 20:07, ENDGÜLTIG 20:11 – Wunsch und Entscheid des Nutzer
        "Entzaubern: …", Händler, Materialliste, Sniper-Zeilen ("Mit … Budget …", "Max über Verkaufswert …", Treffer).
        Ohne Angebot (Taschen-Tooltip) rechnet die Zeile mit dem Marktpreis ("Preis" oben) statt mit einem Angebotspreis.
        Die Grenze (bisher "Lohnt bis") bleibt als Zahl beim Max-Feld im Sniper.
+   LT3 (Nutzer 20:22): Die Zeile "Materialpreise korrigiert ×0,57 (…)" NICHT mehr im Tooltip anzeigen – die Korrektur
+       selbst bleibt aktiv. Sichtbar nur noch im Testbericht/Diagnose und auf Shift (Detailzeilen).
    Tests T-LT1 (Zeile rechnet mit dem Stückpreis des Angebots unter der Maus; Farbe rot/grün; 0c grün), T-LT2 (die zwei
    ersetzten Zeilen fehlen, alle übrigen Zeilen sind noch da), T-LT3 (Locales EN "Profit: −44c / each" o. ä., DE).
    Einordnen: 0.65.114 direkt nach SN1951-R1 – vor 0.66.
