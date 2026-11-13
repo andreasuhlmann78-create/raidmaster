@@ -1,0 +1,19 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 06:10 · Sitzung: Discord-Projekt · Version: Bot 1.5.122 · Commit: dieser Bericht
+
+ERLEDIGT
+- Wunsch Nutzer 13.11.: Sprachkanal für die Gildenmitglieder. Entscheid: 🔊 Gildenhalle in 💬 ALLGEMEIN (Text bleibt
+  #Allgemein). server_setup.py BASE_BOTTOM; ensure_channel_if_missing kann jetzt auch Sprachkanäle (sucht in
+  voice_channels, vorhandener Kanal bleibt unverändert); bot.py legt ihn beim Start an, falls er fehlt – vor
+  maintain_member_area, damit er sofort nur für Mitglieder sichtbar ist. ANLEITUNG.md 6a.
+- R1: raid_create – scheitert target.send, wird der Raid aus dem Buch entfernt und per followup klar gemeldet
+  (fehlendes Recht Nachrichten senden / Links einbetten). Test BotCode.test_raid_ohne_nachricht_wird_entfernt.
+- R2: pool_from_channel nach server_setup.py verschoben (bot.py ruft es mit cfg["raid_channels"] auf), Funktionstests
+  RaidAusKanal: Kanal des Topfs, Kanal in derselben Kategorie, fremder Kanal, None, raid_channels None, Topf ohne Kanäle.
+- Tests Gildenhalle (Spezifikation, vorhandener Sprachkanal bleibt). Bot-Tests 143/143 OK.
+
+TEILWEISE / OFFEN
+- D1 DISBOARD "Kanäle verwalten": dem Nutzer vorgelegt (12.11.), noch keine Entscheidung.
+
+IM CLIENT GETESTET
+- noch nicht (Bot spielt 1.5.122 selbst ein; PC des Nutzers gerade nicht verbunden, kein Neustart von hier).

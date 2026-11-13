@@ -137,6 +137,8 @@ Seit das Serverprofil öffentlich ist, sollen Neue ohne Rolle nicht den ganzen G
   Dort **Aufnehmen** (Rolle Mitglied, Gast wird entfernt, kurze DM) oder **Ablehnen** (freundliche Nachricht, Thread
   wird geschlossen). Von Hand: `/mitglied aufnehmen` und `/mitglied entfernen`.
 - Der Willkommenstext verweist dann in Schritt 1 auf #bewerbung.
+- **🔊 Gildenhalle (ab 1.5.122):** Sprachkanal für Gildenmitglieder in 💬 ALLGEMEIN (Text dazu: #Allgemein); der Bot legt
+  ihn an, falls er fehlt, und hält ihn nur für Mitglieder sichtbar.
 - **Raid-Anmeldung (ab 1.5.117):** Wer sich für einen Gilden-Raid anmeldet (nicht PUG), bekommt den Hinweis, dass das
   Addon **RaidMaster** Pflicht ist, mit Link zu #raid-addon.
 

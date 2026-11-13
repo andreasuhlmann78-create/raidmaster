@@ -157,6 +157,48 @@ class OhneKategorie(unittest.TestCase):
         self.assertEqual(names.count("handwerk-und-handel"), 1)
 
 
+class RaidAusKanal(unittest.TestCase):
+    """Befund R2: server_setup.pool_from_channel funktional."""
+
+    def setUp(self):
+        from types import SimpleNamespace as N
+        self.sign = N(id=11, category_id=100, guild=None)
+        self.tac = N(id=12, category_id=100, guild=None)
+        other = {11: self.sign, 12: self.tac}
+        self.guild = N(get_channel=lambda i: other.get(i))
+        for c in other.values():
+            c.guild = self.guild
+        self.rc = {"barrow": {"signup": 11, "tactics": "12"}, "leer": {}, "mc": {"signup": 21}}
+        self.N = N
+
+    def test_kanal_des_topfs(self):
+        self.assertEqual(server_setup.pool_from_channel(self.sign, self.rc), "barrow")
+
+    def test_kanal_in_derselben_kategorie(self):
+        voice = self.N(id=13, category_id=100, guild=self.guild)
+        self.assertEqual(server_setup.pool_from_channel(voice, self.rc), "barrow")
+
+    def test_fremd_und_none(self):
+        fremd = self.N(id=99, category_id=555, guild=self.guild)
+        self.assertIsNone(server_setup.pool_from_channel(fremd, self.rc))
+        self.assertIsNone(server_setup.pool_from_channel(None, self.rc))
+        self.assertIsNone(server_setup.pool_from_channel(fremd, None))
+
+
+class Gildenhalle(unittest.TestCase):
+    def test_sprachkanal_in_allgemein(self):
+        general = next(c for c in server_setup.BASE_BOTTOM if c["name"] == server_setup.GENERAL)
+        self.assertIn(("voice", "Gildenhalle", None, None), general["channels"])
+
+    def test_vorhandener_sprachkanal_bleibt(self):
+        from types import SimpleNamespace as N
+        existing = N(name="Gildenhalle", id=5)
+        g = N(text_channels=[], voice_channels=[existing])
+        ch, rep = asyncio.run(server_setup.ensure_channel_if_missing(g, server_setup.GENERAL, "Gildenhalle", "t"))
+        self.assertIs(ch, existing)
+        self.assertEqual(rep, [])
+
+
 class Raids(unittest.TestCase):
     def test_show_raid_nur_fuer_mitglieder(self):
         g = Guild()
@@ -240,6 +282,14 @@ class BotCode(unittest.TestCase):
             src = f.read()
         self.assertIn('pool = raid or pool_from_channel(inter.channel) or "mc"', src)
         self.assertIn("raid: str | None = None", src[src.index("async def raid_create("):][:300])
+
+    def test_raid_ohne_nachricht_wird_entfernt(self):
+        with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as f:
+            src = f.read()
+        body = src[src.index("async def raid_create("):]
+        body = body[:body.index("\n\n\n")]
+        exc = body[body.index("except discord.HTTPException"):]
+        self.assertLess(exc.index('book.raids.data["raids"].pop('), exc.index("return"))
 
     def test_raidmaster_pflicht_hinweis(self):
         with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as f:

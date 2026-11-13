@@ -295,6 +295,15 @@ class RaidBot(discord.Client):
             except Exception:
                 log.exception("Sprachkanal AFK konnte nicht verschoben werden")
             try:
+                guild0 = bot_guild()
+                if guild0 is not None and guild0.me.guild_permissions.manage_channels:
+                    _, rep = await server_setup.ensure_channel_if_missing(guild0, server_setup.GENERAL, "Gildenhalle",
+                                                                          "RaidMaster: Sprachkanal für Gildenmitglieder")
+                    if rep:
+                        await post_bot_log("🔊 " + "; ".join(rep))
+            except Exception:
+                log.exception("Sprachkanal Gildenhalle konnte nicht angelegt werden")
+            try:
                 rep = await maintain_member_area()
                 if rep:
                     await post_bot_log("🔐 Nur für Mitglieder freigegeben: " + ", ".join(rep))
@@ -849,25 +858,8 @@ async def raid_pool_autocomplete(inter: discord.Interaction, current: str) -> li
 
 
 def pool_from_channel(channel) -> str | None:
-    """Raid-Topf, zu dem ein Kanal gehört (Anmeldung, Taktik, DKP … oder irgendein Kanal in der Raid-Kategorie)."""
-    if channel is None:
-        return None
-    ids = {getattr(channel, "id", None), getattr(channel, "category_id", None)}
-    ids.discard(None)
-    for pool, chans in (cfg.get("raid_channels") or {}).items():
-        vals = {int(v) for v in (chans or {}).values() if str(v).isdigit()}
-        if ids & vals:
-            return pool
-    # Kategorie: ein Kanal des Topfs liegt in derselben Kategorie
-    cat = getattr(channel, "category_id", None)
-    guild = getattr(channel, "guild", None)
-    if cat and guild is not None:
-        for pool, chans in (cfg.get("raid_channels") or {}).items():
-            for v in (chans or {}).values():
-                ch = guild.get_channel(int(v)) if str(v).isdigit() else None
-                if ch is not None and getattr(ch, "category_id", None) == cat:
-                    return pool
-    return None
+    """Raid-Topf des Kanals (Logik in server_setup.pool_from_channel, dort getestet)."""
+    return server_setup.pool_from_channel(channel, cfg.get("raid_channels"))
 
 
 def raid_channel(pool: str, kind: str) -> int:
@@ -924,7 +916,17 @@ async def raid_create(inter: discord.Interaction, titel: str, datum: str, uhrzei
     raid["pool_name"] = dict(known_raids()).get(pool, pool)
     if mode == "pug" and softres_link:
         raid["softres"] = softres_link
-    msg = await target.send(embed=raid_embed(raid), view=raid_view(raid))
+    try:
+        msg = await target.send(embed=raid_embed(raid), view=raid_view(raid))
+    except discord.HTTPException as e:
+        # Posten gescheitert (z. B. fehlendes Recht): Raid nicht ohne Nachricht im Buch lassen (Befund R1, 1.5.122)
+        book.raids.data["raids"].pop(str(raid["id"]), None)
+        book.save()
+        log.warning("Raid nicht gepostet in #%s: %s", getattr(target, "name", "?"), e)
+        await inter.followup.send(f"⚠️ Ich konnte den Raid nicht in {target.mention} posten ({e.status}). Mir fehlt dort "
+                                  "wohl das Recht **Nachrichten senden** oder **Links einbetten**. Der Raid wurde nicht "
+                                  "angelegt.", ephemeral=True)
+        return
     raid["message_id"] = msg.id
     book.save()
     await inter.followup.send(f"Raid erstellt in {target.mention}.", ephemeral=True)

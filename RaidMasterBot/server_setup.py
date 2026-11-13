@@ -189,6 +189,8 @@ BASE_BOTTOM = [
             ("text", "gruppensuche", "Dungeons, Quests und Twinks", None),
             ("text", "befehle", MEMBER_COMMANDS_TOPIC, "botonly"),        # ab Bot 1.5.106: Befehle für Mitglieder
             # ab Bot 1.5.99: AFK hier statt in der Kategorie 🔊 SPRACHE (die mit "Allgemein"/"Raid" entfallen ist)
+            # ab Bot 1.5.122: Sprachkanal für die Gildenmitglieder (Wunsch Andreas 13.11.); Text = #Allgemein
+            ("voice", "Gildenhalle", None, None),
             ("voice", "AFK", None, None),
         ],
     },
@@ -1026,11 +1028,13 @@ async def clear_channel(channel, before, reason: str) -> int:
 async def ensure_channel_if_missing(guild: discord.Guild, category_name: str, name: str, reason: str) -> tuple:
     """Kanal aus der Struktur (BASE_TOP/BASE_BOTTOM) anlegen – NUR wenn es ihn unter seinem Namen oder einem Alias
     noch nirgends gibt. Ein vorhandener Kanal wird nicht verschoben und nicht verändert. Liefert (Kanal, Meldungen)."""
-    found = find_channel(guild.text_channels, name)
+    cat_def = next((c for c in BASE_TOP + BASE_BOTTOM if c["name"] == category_name), None)
+    spec = next((c for c in (cat_def or {}).get("channels", []) if c[1] == name), None)
+    # ab 1.5.122 auch Sprachkanäle (z. B. 🔊 Gildenhalle)
+    pool = guild.voice_channels if spec is not None and spec[0] == "voice" else guild.text_channels
+    found = find_channel(pool, name)
     if found is not None:
         return found, []
-    cat_def = next((c for c in BASE_TOP + BASE_BOTTOM if c["name"] == category_name), None)
-    spec = next((c for c in (cat_def or {}).get("channels", []) if c[0] == "text" and c[1] == name), None)
     if spec is None:
         return None, []
     one = {**cat_def, "channels": [spec]}
@@ -1279,3 +1283,27 @@ async def open_addon_channels_to_members(guild, reason: str = "RaidMaster: Addon
             await item.edit(overwrites=ow, reason=reason)
             done.append(item.name)
     return done
+
+
+def pool_from_channel(channel, raid_channels: dict | None) -> str | None:
+    """Raid-Topf, zu dem ein Kanal gehört (ab 1.5.121 in bot.py, ab 1.5.122 hier und getestet): die Kanal-ID oder seine
+    Kategorie ist einer der Raid-Kanäle (Anmeldung, Taktik, DKP …), oder ein Raid-Kanal liegt in derselben Kategorie.
+    raid_channels = cfg["raid_channels"] = {topf: {art: kanal_id}}."""
+    if channel is None:
+        return None
+    ids = {getattr(channel, "id", None), getattr(channel, "category_id", None)}
+    ids.discard(None)
+    pools = raid_channels or {}
+    for pool, chans in pools.items():
+        vals = {int(v) for v in (chans or {}).values() if str(v).isdigit()}
+        if ids & vals:
+            return pool
+    cat = getattr(channel, "category_id", None)
+    guild = getattr(channel, "guild", None)
+    if cat and guild is not None:
+        for pool, chans in pools.items():
+            for v in (chans or {}).values():
+                ch = guild.get_channel(int(v)) if str(v).isdigit() else None
+                if ch is not None and getattr(ch, "category_id", None) == cat:
+                    return pool
+    return None
