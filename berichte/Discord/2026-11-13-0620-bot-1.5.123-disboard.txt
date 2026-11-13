@@ -1,0 +1,11 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 06:20 · Sitzung: Discord-Projekt · Version: Bot 1.5.123 · Commit: dieser Bericht
+
+ERLEDIGT
+- D1: Freigabe des Nutzers 13.11. 06:01. Der Bot entzieht der Rolle DISBOARD.org einmalig beim Start nur das Recht
+  "Kanäle verwalten" (server_setup.drop_disboard_manage_channels, Merker state "disboard_manage_channels_dropped";
+  steht die Rolle über dem Bot, nur Meldung mit Anleitung, kein Merker). Andere Rechte bleiben. Meldung in #bot-befehle.
+  Tests Disboard (nur dieses Recht weg, nichts zu tun, Rolle über dem Bot). Bot-Tests 145/145 OK.
+
+IM CLIENT GETESTET
+- noch nicht; Ergebnis steht nach dem Selbst-Update in #bot-befehle.

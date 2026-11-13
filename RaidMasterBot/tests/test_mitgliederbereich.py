@@ -199,6 +199,43 @@ class Gildenhalle(unittest.TestCase):
         self.assertEqual(rep, [])
 
 
+class Disboard(unittest.TestCase):
+    def _guild(self, manage, above=False):
+        from types import SimpleNamespace as N
+
+        class R:
+            def __init__(self, name, pos, perms):
+                self.name, self.position, self.permissions, self.edits = name, pos, perms, []
+
+            def __ge__(self, other):
+                return self.position >= other.position
+
+            async def edit(self, permissions=None, reason=None):
+                self.edits.append(permissions)
+                self.permissions = permissions
+        bot = R("Raidmaster tool", 6, discord.Permissions.none())
+        dis = R("DISBOARD.org", 7 if above else 1,
+                discord.Permissions(view_channel=True, send_messages=True, manage_channels=manage, create_instant_invite=True))
+        return N(roles=[dis, bot], me=N(top_role=bot)), dis
+
+    def test_nur_kanaele_verwalten_weg(self):
+        g, dis = self._guild(True)
+        rep = asyncio.run(server_setup.drop_disboard_manage_channels(g))
+        self.assertEqual(len(dis.edits), 1)
+        p = dis.permissions
+        self.assertFalse(p.manage_channels)
+        self.assertTrue(p.view_channel and p.send_messages and p.create_instant_invite)
+        self.assertTrue(rep and rep[0].startswith("🔧"))
+
+    def test_nichts_zu_tun_und_ueber_dem_bot(self):
+        g, dis = self._guild(False)
+        self.assertEqual(asyncio.run(server_setup.drop_disboard_manage_channels(g)), [])
+        g, dis = self._guild(True, above=True)
+        rep = asyncio.run(server_setup.drop_disboard_manage_channels(g))
+        self.assertEqual(dis.edits, [])
+        self.assertTrue(rep[0].startswith("⚠️"))
+
+
 class Raids(unittest.TestCase):
     def test_show_raid_nur_fuer_mitglieder(self):
         g = Guild()

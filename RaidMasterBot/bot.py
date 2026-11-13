@@ -296,6 +296,18 @@ class RaidBot(discord.Client):
                 log.exception("Sprachkanal AFK konnte nicht verschoben werden")
             try:
                 guild0 = bot_guild()
+                if guild0 is not None and not state.data.get("disboard_manage_channels_dropped") \
+                        and guild0.me.guild_permissions.manage_roles:
+                    rep = await server_setup.drop_disboard_manage_channels(guild0)
+                    if not any(r.startswith("⚠️") for r in rep):
+                        state.data["disboard_manage_channels_dropped"] = True
+                        state.save()
+                    if rep:
+                        await post_bot_log("; ".join(rep))
+            except Exception:
+                log.exception("DISBOARD-Recht konnte nicht angepasst werden")
+            try:
+                guild0 = bot_guild()
                 if guild0 is not None and guild0.me.guild_permissions.manage_channels:
                     _, rep = await server_setup.ensure_channel_if_missing(guild0, server_setup.GENERAL, "Gildenhalle",
                                                                           "RaidMaster: Sprachkanal für Gildenmitglieder")

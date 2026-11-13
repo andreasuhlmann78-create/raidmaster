@@ -1307,3 +1307,17 @@ def pool_from_channel(channel, raid_channels: dict | None) -> str | None:
                 if ch is not None and getattr(ch, "category_id", None) == cat:
                     return pool
     return None
+
+
+async def drop_disboard_manage_channels(guild, reason: str = "RaidMaster: DISBOARD braucht 'Kanäle verwalten' nicht") -> list[str]:
+    """Ab 1.5.123 (Entscheid Andreas 13.11.2026): der Rolle DISBOARD.org nur das Recht "Kanäle verwalten" entziehen.
+    Sonst nichts ändern. Liefert Meldungen (leer = nichts zu tun)."""
+    role = next((r for r in guild.roles if r.name.strip().casefold() in ("disboard.org", "disboard")), None)
+    if role is None or not role.permissions.manage_channels:
+        return []
+    if role >= guild.me.top_role:
+        return [f"⚠️ Rolle {role.name} steht über dem Bot – bitte von Hand: Rollen → {role.name} → Kanäle verwalten aus"]
+    perms = discord.Permissions(role.permissions.value)
+    perms.manage_channels = False
+    await role.edit(permissions=perms, reason=reason)
+    return [f"🔧 Rolle {role.name}: Recht „Kanäle verwalten“ entfernt"]
