@@ -12,6 +12,15 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.115
+
+- **Sniper acceptance test in the game:** `/ahs testroutine sniper` (auction house open). First it asks in its own
+  window whether ONE real test purchase of 1 piece up to 5c is allowed – it only buys with your own mouse wheel notch or
+  key; "No" skips it. Then, with buying locked, it watches the sniper for 2 minutes: hits stay visible (S1), counter and
+  budget only count confirmed purchases (S2), pause is visible and "resume" works (S3), frame rate / longest frame /
+  sync queue (S5) and reaction time (S6). The result goes into the test report like the other parts.
+- Tests T613–T619.
+
 ### Version 0.65.114
 
 - **Sniper never loses a real purchase:** if the server sends no answer, the sniper checks your gold after 30 s (gold
@@ -61,24 +70,6 @@ Immediate fix of distorted numbers (your decision):
 - **Sales per day: measured before estimated** everywhere; an implausible estimate without a measurement now shows as
   unknown instead of an inflated number.
 - Tests T240 (deposit on non-sale) and Today's sort check fixed; tests T589–T591.
-
-### Version 0.65.110
-
-Smoothness and reliability:
-- **Compact price history (PD7, your decision):** entries older than 48 h are saved in a compact form – in the game the
-  price history stays exactly as before. Safety: the first time the old entries are kept as a backup; at the next
-  login everything is checked, only then the compact form is used. If a check fails, your data stays as it was and you
-  get a message. "/ahs pd7" shows the status, "/ahs pd7 back" turns it off while the backup exists.
-- **Less stutter:** work after a scan (market check, rhythm, forecast, material log, real-data check) runs in small
-  portions in the background; "Today" splits its sections into portions; the scan evaluation pauses per row.
-- **Sniper:** every failed purchase is logged with the server message; after 3 failures in a row the Sniper searches
-  fresh instead of working through an old list. Disenchant targets show "still learning"/"way locked" in grey.
-- **Sell chance:** the shown percentage is corrected by what really sold (e.g. 98 % predicted, 30 % sold -> 30 %) and
-  marked "still learning (not calibrated)" until it is calibrated.
-- **Log:** errors of the test routine are counted separately; error entries are no longer pushed out of the log.
-- "/ahs testroutine echt" reports only once; tests T231, T253 and T52 no longer depend on your real learning data,
-  T52 never tries to cancel.
-- Tests T584–T588.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
