@@ -1,0 +1,41 @@
+BERICHT AHSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 · Sitzung: AHSentinel-Sitzung · Version: 0.65.117 · Commit (AHAnalyzerPro): 849e003
+Nachbildung: Vollauf 244/245, s10_scan_smooth (Maschinenlast) einzeln nachgelaufen grün (auch 0.65.116). addon_check OK.
+Tempo-Werte (PS): noch kein Lauf "/ahs testroutine tempo" – Testteil kommt mit RF/PS als Nächstes.
+
+SN2115 – ERLEDIGT
+  a) Ursache: Budget-Nachfüllung (SB, Sn:RefillAnswer) erhöht t.budget und merkt das Grundbudget in t.budget0;
+     Sn:ResetProgress setzte nur bought/spent zurück. Jetzt: Zurücksetzen -> t.budget = t.budget0 (eingestellter Wert),
+     Nachfrage-Zustand weg. T621 (nachgefüllt 6g 24s 80c -> zweimal zurücksetzen -> 3g 12s 40c).
+  b) EINE Funktion: A:BestWay(itemID) -> Wert je Stück, Weg ("de"/"sell"/"vendor"), Teile; die Wahl selbst ist
+     A:ChooseWay(Entzaubern netto, veraltet?, Verkaufen netto, Händler zahlt mehr?). Eingaben: D:DealValue (korrigierte
+     Materialpreise, nicht bei veraltetem Hauptmaterial) und A:RealValue(itemID, 1) (Gebühr, erwartete Neueinstellungen,
+     Händler wenn er mehr zahlt bzw. "verkauft sich kaum"). Gewinn-Zeile (TT:BestWayValue) und Sn:MaxOverValue holen
+     ihren Wert daraus; MaxOverValue rechnete vorher mit A:NetSellValue (nur Gebühr, ohne Neueinstellungs-Verlust/Händler)
+     und DE nur bei vollständigen Daten – daher 3s 73c (= 9s 90c − 6s 17c) neben "Händler bringt mehr 6s 59c".
+     Zur Frage Wiederverkauf: Verkaufen zählt als Weg (RealValue); dass bei Schultern der Händler gewann, kommt aus
+     RealValue ("verkauft sich kaum" bzw. Neueinstellungs-Verlust > Händlerpreis) – bewusst und jetzt überall gleich.
+     T622: bis 20 Items × 3 Preise, Gewinn-Zeile, Verlust-Warnung und Tooltip-Wert aus demselben Wert, Abweichung 0c.
+     T260 auf die eine Quelle umgestellt. NOCH NICHT umgestellt: Markt-Reiter und "Heute tun" haben eigene Wege-Logik
+     (RK-Kern/MarkRows) – kommt mit 0.66 RK1 (Rechenkern), dort ebenfalls über A:BestWay.
+  c) finish.sync_queue im Testbericht = Zusammensetzung je Präfix (A.Sync:QueueMix), z. B. "AHAP1 3 · GSMARKT1 114".
+  d) Rechen-Zeile "Mit … Budget … kauft höchstens …" aus dem Ziel-Tooltip entfernt (UI.SniperTooltipLines), Warnung
+     "Max über Verkaufswert" bleibt mit dem Wert aus A:BestWay. T623.
+
+TS116 – TEIL 1 UMGESETZT
+  Antwort: Der Sniper löst Suchen selbsttätig im Takt aus (Sn:Tick -> CheckNext -> Search, Abstand = Server-Drossel);
+  die Raste macht zusätzlich den nächsten Schritt. Dein Lauf belegt, dass in Forever ohne Raste praktisch nichts
+  ankommt. Ob Blizzard die Suche ohne Tastendruck sperrt, messe ich jetzt im Client: jede Suche merkt, ob sie mit
+  Tastendruck lief (s.hw); 3 selbsttätige Suchen ohne Antwort ODER ADDON_ACTION_BLOCKED (Query/Search/Browse) ->
+  db.sniper.needsKey = true, Protokoll "SNIPER-SUCHE Suche braucht Raste/Taste: …" mit Zahlen; eine beantwortete
+  selbsttätige Suche -> wieder selbsttätig ("Suche selbsttätig möglich"). Dann oben im Sniper-Status
+  "Zum Suchen und Kaufen scrollen · letzte Suche vor 12 s", nach 10 s ohne Raste leise Chat-Erinnerung (höchstens
+  1×/Min.). T624. Bitte im nächsten Diagnose-Protokoll die Zeile SNIPER-SUCHE nachsehen.
+  3. Frage Entzauber-Marge 10 % (vorher 41 %): Folge der Korrektur LB in 0.65.116 – die 41 % waren derselbe Fehlbetrag
+     wie der Faktor ×0,57, doppelt gezählt. Die Sicherheit beim Entzauberkauf liegt jetzt im Faktor (Wert schon ×0,57)
+     plus Mindestgewinn 20 % (Lohnt bis = Wert / 1,2) plus Mindestmarge 10 %. Eine Gewinnquote von 43 % und 0,35 Gold
+     je Gold stammen aus Käufen mit der alten (unkorrigierten) Erwartung; ob sie mit der Korrektur steigen, zeigt erst
+     die neue Messung. Falls die Prüf-Sitzung mehr Puffer will, schlage ich Mindestgewinn 30 % für den Weg Entzaubern
+     vor (eine Einstellung, kein Doppelzählen) – Entscheid bitte.
+  2./T617 Vollscan und Frame 148 ms: kommt mit RF/PS (nächste Version, Stelle aus LANGSAM "längster Schritt … bis").
+OFFEN als Nächstes: RF + PS (Testteil tempo), dann EB, OR, TP, ZN, PX, SA; UI1509/UI1510/MA3-G.
