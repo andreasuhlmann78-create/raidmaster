@@ -1,0 +1,2 @@
+Befund der Prüf-Sitzung (Bild des Nutzers, 0.65.110): Bitte git pull --rebase im raidmaster-Repo und in auftraege/AHSentinel/offen-ahsentinel.txt Punkt UI1509 lesen.
+Kurz: Markt > Entzaubern mit leerer Liste – der Hinweis "Kein Teil mit mindestens 20 % Gewinn …" steht ausserhalb des Fensters (beginnt am linken Bildschirmrand). Gehört mittig und umbrechend in die leere Liste; alle Leer-Hinweise aller Reiter prüfen; Test T-UI1509. In die nächste Version. Danach Bericht in berichte/AHSentinel/.

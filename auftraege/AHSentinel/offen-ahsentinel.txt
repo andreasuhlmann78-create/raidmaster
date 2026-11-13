@@ -409,3 +409,12 @@ fremd/unerwartet/doppelt nur protokolliert); TT1317 (Protokoll MATERIAL-PREIS, D
 Stand: alles bis einschliesslich 0.65.109 umgesetzt. Offen laut Releaseplan: 0.65.110 (in Arbeit, Auftrag 14:15), 0.66–0.68
 und die Client-Zahlen (Teil E des Gesamtberichts). Diagnose 0.65.108 aus dem Spiel: LANGSAM cache:warm-today 50 ms,
 fullscan 45 ms, sync-send 17 ms – gehört zu 0.65.110 D3, nichts Neues.
+
+UI1509 (MITTEL, NEU 13.11. 15:10 – Bild des Nutzers, 0.65.110, Markt > Entzaubern, leere Liste):
+   Der Leer-Hinweis "Kein Teil mit mindestens 20 % Gewinn nach dem Entzaubern (aktueller Markt, nach Gebühren, das du
+   entzaubern kannst)." steht AUSSERHALB des Fensters: er beginnt am linken Bildschirmrand (links neben dem AHSentinel-
+   Fenster, über der Spielwelt) und läuft quer durch die Liste. Erwartet: mittig IN der leeren Liste, umbrechend auf die
+   Listenbreite, nie ausserhalb des Fensters. Bitte alle Leer-Hinweise aller Reiter/Unterreiter gleich prüfen (vermutlich
+   falscher Anker/Parent oder fehlende Breite). Test T-UI1509: UICheck je Reiter mit leerer Liste -> Hinweis liegt
+   vollständig innerhalb des Listenrahmens. Einordnen in die nächste Version (gehört zu "falsche Anzeige", kein Aufschub
+   bis 0.68). Hinweis an den Nutzer: Kacheln im Markt kommen erst mit dem neuen Markt-Reiter 0.68 (MR4) – kein Befund.
