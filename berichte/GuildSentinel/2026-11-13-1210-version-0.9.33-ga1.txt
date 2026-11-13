@@ -1,0 +1,19 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 · Sitzung: GuildSentinel-Projekt-Sitzung · Version: 0.9.33 · Commit: GuildSentinel 32957a5
+
+ERLEDIGT:
+- Punkt 1 (MITTEL, sicherer Knopf bei "Aktion bei Tastendruck" aus): Befund richtig. GuildAct.lua: GA.ExecDown()
+  = GetCVarBool("ActionButtonUseKeyDown"); PreClick/PostClick(self, button, down) handeln nur, wenn down zur
+  Ausführungsphase passt (OtherPhase), sonst nichts. Ohne "down" (alter Aufruf) zählt jeder Aufruf; ohne GetCVarBool
+  nur "AnyUp" registriert. Ein Klick = genau eine Ausführung.
+- Test: T281 (T-GA1) in der Routine (beide Einstellungen: falsche Phase -> nichts, richtige -> wartet mit type
+  "macro", zweiter Klick während des Wartens blockiert). wowmock: Click(button, down) mit CVar, Makro nur in der
+  Ausführungsphase, methods:ClickPhases; run_admin.lua T-GA1 mit CVar 1 und 0 (genau eine Beförderung, ohne Antwort
+  nach 6 s nicht ausgeführt, Wiederholen wieder genau eine). Gegenprobe gedanklich: alter Stand -> CVar 0 = 0
+  Beförderungen. Regression GA1 -> T281 in R.REGRESS.
+
+PRÜFUNGEN: addon_check OK (Lua-Syntaxprüfung mit: luac5.1 (Lua 5.1)). Routine Forever OK 256, Era/TBC OK 261, je
+FEHLER 0; run_admin 34/34; alle übrigen Testläufe 0 fehlgeschlagen.
+
+OFFEN: Punkt 2 (TU1-Rest) und Punkt 3 (BL mit CmdHint aus AHSentinel 0.65.107) folgen als 0.9.34.
+IM CLIENT PRÜFEN: Interface > Kampf > "Aktion bei Tastendruck" aus und an, je ein Befördern über "Gilden-Aktion".

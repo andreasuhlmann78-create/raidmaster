@@ -10,6 +10,11 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.33
+
+- Fix: the button in the "Guild action" window (promote, demote, remove, leadership) did nothing when the option "Cast action keybinds on key down" (ActionButtonUseKeyDown) was off – the press set "waiting" and the release then blocked the command, so after 6 seconds it always said "Not carried out". GuildSentinel now only reacts in the phase in which the game runs the command (press or release, depending on the option); one click = exactly one command.
+- Developer tests: T281 (T-GA1, both settings) in the test routine; offline test client with the setting on and off.
+
 ### Version 0.9.32
 
 - Developer test routine (/gs testroutine) extended so that errors like the blocked guild invite cannot slip through again:
@@ -49,13 +54,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 - The applicant only shows as "invited" once the game confirms the invite ("You have invited X to join your guild."), no longer right after the click.
 - Your own ad texts with {tag} but without a dash: without a tag or Discord link, "(Tag {tag})" is removed with its brackets and a sentence of its own with {tag} is removed completely; otherwise only {tag} is emptied.
 - Developer test routine: T253 (invite only via the chat input, status only after the confirmation) new; T174, T194 and T251 extended.
-
-### Version 0.9.28
-
-- Recruitment page: new "Suggestion 2" button – a second ad text that names your Discord server tag ("… Discord: <link> – you'll know us by the tag XY."). The default ad text is unchanged.
-- New field "Server tag" next to the Discord link and new placeholder {tag}. Without a tag or without a Discord link the tag part is left out completely.
-- Tip below the Discord link: use a permanent invite (never expires, unlimited uses); whoever clicks it sees the guild's server profile before joining.
-- Developer test routine: T251 (suggestion 2 with/without link and tag, DE/EN/RU) and T252 (invite tip) new.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
