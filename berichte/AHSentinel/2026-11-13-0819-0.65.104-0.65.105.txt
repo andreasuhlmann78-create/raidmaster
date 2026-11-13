@@ -1,0 +1,31 @@
+BERICHT AHSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 08:19 · Sitzung: AHSentinel-Sitzung · Version: 0.65.104 und 0.65.105 · Commit: cf3c63b
+
+ERLEDIGT 0.65.104 (CH)
+  CH1 Klick wählt aus (H:Select, Hervorhebung, Kopfzeile "Enter = /ahs …"), Liste bleibt; Fokusverlust schliesst erst
+      nach 0,3 s und nicht direkt nach einem Klick in der Liste (H:OnFocusLost).
+  CH2 Fokus zurück ins Chatfeld nur mit SetFocus (kein SetText/Insert).
+  CH3 Slash-Handler: H:Resolve(msg) nimmt die frische Auswahl (≤ 10 s), wenn der getippte Anfang passt.
+  CH4 Tab wählt den nächsten Eintrag (HookScript OnTabPressed, nur lesen). Pfeiltasten nicht eingehakt (das Chatfeld
+      nutzt sie für den Verlauf).
+  CH5 Tests T537–T541; Nachbildung s70 angepasst (Klick führt nicht mehr aus, Enter mit "pro" führt aus).
+  Vorlage (shared/vorlage): nicht geändert – gehört nicht zu AHSentinel; CmdHint.lua ist als Baustein übernehmbar.
+ERLEDIGT 0.65.105
+  AB4d Seller.lua SuggestRaw: Regel "über gelerntem Maximum -> Normalpreis" nur bei dünner Leiter (Se:LadderFull: ≥ 3
+       fremde Angebote oder ≥ 5 Stück = voll). Tests T542–T544 (110/130/148 %), T545 (1 Angebot zu 300 % -> Normalpreis).
+       Offen: gelerntes Maximum aus der Leiter nachführen (kommt mit RK).
+  WS1  Se:SellWarning (> 10 % unter günstigstem bei voller Leiter, > 25 % unter Marktwert, unter Händler-/Einkaufspreis;
+       nicht bei Mindestpreis von Hand). Verkaufen-Fenster und Se:Post (Serie, Neu einstellen) prüfen es.
+  WS2  Fenster "Warnschutz" mit "Preis anpassen (x)" (Enter) / "Trotzdem einstellen" / "Abbrechen", Text mit Prozent und
+       "Verschenkt", Ton SOUNDKIT.RAID_WARNING (Rückfall 8959), Knopf blinkt ~3 s. Ersetzt im Fenster den alten
+       "zweiten Klick", wenn der Warnschutz auslöst. Serie/Neu einstellen: nicht eingestellt + Meldung + Ton (kein Fenster).
+  WS3  Se:BuyWarning im Sniper (über Max des Ziels) und im Einkauf (über "Lohnt bis" / > 25 % über Marktwert ohne
+       Aufkauf): Warnung + Ton, zweite Taste/Klick innert 10 s kauft (statt Fenster – Kaufen geht nur per Hardware-Klick).
+  WS4  Optionen "Warnschutz an/aus" und "Ton an/aus" (Standard an); Protokoll WARNSCHUTZ mit Entscheidung
+       (gewarnt / Preis angepasst / trotzdem eingestellt / abgebrochen / trotzdem gekauft).
+  WS5  Tests T546–T549; Nachbildung s95 (Fenster, Ton, anpassen, trotzdem). Sechs ältere Nachbildungen, die bewusst
+       billig einstellen (andere Schutzregeln), laufen mit Warnschutz aus.
+
+TEIL F (RK/MR/MA/Ü): beginnt jetzt mit MA2, MA1, MA3, Ü1–Ü3.
+BEFUND FALSCH: keiner.
+IM CLIENT GETESTET: nein (Nachbildung 244/244, addon_check ohne FEHLER).
