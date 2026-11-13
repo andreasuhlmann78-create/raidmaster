@@ -111,6 +111,11 @@ schreibt, liest vorher `shared/wissen/markt-strategie.md` (Ziel, Datenlage, Meth
 Wer Sync, Addon-Nachrichten oder Kanäle baut oder beauftragt, liest vorher `shared/wissen/kommunikation-forever.md`.
 In WoW Forever kommen Addon-Nachrichten über eigene Chat-Kanäle nicht an.
 
+## Entscheide des Nutzers (Pflicht)
+
+Alle Entscheide des Nutzers stehen in `shared/wissen/entscheide.md` (neueste oben). Vor jeder Arbeit lesen; wer einen
+Entscheid aufnimmt (Prüf-Sitzung), trägt ihn sofort dort ein. Nichts darf verloren gehen (Nutzer 14.11.).
+
 ## Psychologie der Spieler (Pflicht)
 
 Wer Anzeigen, Empfehlungen oder Meldungen baut, prüft oder beauftragt, liest vorher `shared/wissen/psychologie.md`
