@@ -15,6 +15,19 @@ RELEASEPLAN (verbindlich, Entscheid des Nutzers 13.11. 13:15 – ersetzt jede fr
          (Sniper < 1 s vom Treffer zur Kaufbereitschaft, Server-Meldung je Fehlschlag) · D3/T373 (Hintergrund in Portionen) ·
          D4 (jeder Fehler ins Protokoll) · T231, T253, T52, TU5-Doppelmeldung · Kalibrierung (Prozent grau bis kalibriert,
          Selbstkorrektur). -> Danach meldet die Prüf-Sitzung dem Nutzer "jetzt herunterladen".
+0.65.111 SOFORT (Entscheid des Nutzers 13.11. 15:25: "diese Fehler vor allem mit der Verfälschung sofort korrigieren!")
+         VOR allem anderen, als eigene kleine Version, dann erst 0.66:
+         S1 ENTZAUBER-PREIS (TB110-Nachtrag): Erlös je Material = ERZIELBARER Preis (Median der eigenen Verkäufe der letzten
+            14 Tage, sonst gemessener Markt mit Gruppenfaktor), nie das tiefste Angebot allein. Bis genug eigene Verkäufe da
+            sind: Vorhersage × gelernter Korrektur (2:4:a 0,57 Preis) – Quelle sichtbar "korrigiert". Gilt für Lohnt bis,
+            Sniper-Höchstpreis, Markt > Entzaubern, Tooltip, Heute tun. SOFORT-SCHUTZ: solange Beute/Vorhersage < 0,9 je
+            Gruppe, Entzauber-Ziele im Sniper nur mit "lohnt bis" aus dem korrigierten Preis. Test T-S1: Nachrechnung der
+            524 Fälle 2:4:a -> Median Beute/Vorhersage 0,9–1,1; 124 Fälle 2:6:a ebenso.
+         S2 ABSATZ (T285/T289/T291): gemessener Absatz vor geschätztem überall; Schätzung nur mit Gruppenfaktor und Deckel;
+            ABSATZ-UNPLAUSIBEL-Fälle ohne gemessenen Wert -> "unbekannt" statt Zahl. Test: die 20 meistgehandelten aus dem
+            Bericht -> angezeigter Absatz = gemessen (±5 %).
+         S3 T240 Einzahlung bei Nicht-Verkauf richtig (vor 17./18.11.); S4 T72 Heute tun nach Gold sortiert.
+         Dazu Regressionstests (TU6) für S1–S4. Bericht nach der Veröffentlichung.
 0.66     RECHENKERN (Teil F Stufe 2): RK1–RK8, MR2 Mein Lager, API-PM2/3 (danach übernehmen die anderen Addons BL).
 0.67     SPIELRHYTHMUS (Stufe 3): MR5–MR9, RK6 Haltedauer.
 0.68     NEUER MARKT-REITER (Stufe 4): MR1/MR3/MR4/MR10, sobald die Freigaben (Teil D) erfüllt sind.

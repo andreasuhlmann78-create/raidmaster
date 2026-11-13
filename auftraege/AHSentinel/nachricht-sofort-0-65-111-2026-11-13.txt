@@ -1,0 +1,6 @@
+SOFORT-Auftrag des Nutzers über die Prüf-Sitzung (höchster Vorrang): "diese Fehler vor allem mit der Verfälschung sofort korrigieren!"
+Bitte git pull --rebase im raidmaster-Repo und in auftraege/AHSentinel/offen-ahsentinel.txt den Releaseplan-Punkt 0.65.111 SOFORT lesen (dazu TB110 mit Nachtrag).
+Kurz, als eigene kleine Version VOR 0.66:
+S1 Entzauber-Preis: mit dem ERZIELBAREN Materialpreis rechnen (eigene Verkäufe, sonst korrigiert), nicht mit dem tiefsten Angebot – Beute/Vorhersage liegt bei 0,60 (Preis 0,57), 55 % der Entzauber-Käufe mit Verlust. Gilt für Lohnt bis, Sniper, Markt, Tooltip, Heute tun. Test: Nachrechnung -> 0,9–1,1.
+S2 Absatz: gemessen vor geschätzt überall (Schätzung ×3–×4,5 zu hoch); unplausibel -> "unbekannt".
+S3 T240 Einzahlung bei Nicht-Verkauf; S4 T72 Heute tun nach Gold sortiert. Regressionstests. Danach Bericht in berichte/AHSentinel/.
