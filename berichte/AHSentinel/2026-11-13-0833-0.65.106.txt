@@ -1,0 +1,26 @@
+BERICHT AHSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 · Sitzung: AHSentinel-Sitzung · Version: 0.65.106 · Commit (AHAnalyzerPro): e2cbd20
+
+ERLEDIGT 0.65.106 (Teil F Stufe 1 "Vertrauen", neue Datei MarketCore.lua, Tabelle db.core – keine alten Daten geändert)
+  MA2 MK:Note/Resolve: jede gezeigte Kauf-Empfehlung (Flip, Händler, Entzaubern im Markt-Reiter, Sniper-Treffer) wird
+      gemerkt (je Weg+Item höchstens alle 6 Std., höchstens 200 offen) und nach 24 Std. beim Scan nachgeprüft.
+      Treffer = Preis danach >= Kaufpreis; Fehler = |Preis danach − Vorhersage| / Vorhersage, letzte 50 je Weg.
+      MK:WayState: < 20 Fälle "lernt noch", >= 20 und >= 60 % "frei", sonst "gesperrt" (Protokoll WEG GESPERRT).
+  MA1 MK:OnOwned/Truth: verschwindet eine eigene Auktion mit langer Restzeit, Vermutung "verkauft" bzw. "neu eingestellt"
+      (gleiches Item+Menge neu da); Wahrheit aus OWN_AUCTION_SOLD / AUCTION_CANCELLED -> MK:MA1Rate (Fehlerquote).
+      MK:SalesReleased: Absatz-Zahlen erst frei bei >= 30 Fällen und <= 20 % Fehler.
+  MA3 A:GetVendorPrice zählt vom Spiel bestätigte Händlerpreise (vendorCheckedCount) und Abweichungen von der Tabelle
+      (vendorDiffCount); Händler-Weg nur mit bestätigtem Preis (schon seit HP1).
+  Ü1  Testbericht-Abschnitt "MARKT-KERN": je Weg Fälle/Treffer/mittlerer Fehler/Zustand, MA1-Fehlerquote, MA3-Zähler,
+      letzter Scan, offene Empfehlungen. Ü2: Grenzwerte als "Ü2 VERFEHLT" (Treffer < 60 %, Fehler > 15 %, MA1 > 20 %).
+  Ü3  MK:Implausible (Gewinn > 300 %, Absatz > 25 % des Angebots/Std., < 5 Angebote).
+  Tests T550–T555. Nachbildung: Vollauf grün (s10 bekanntes Zeitrauschen, im zweiten Lauf grün).
+
+TEILWEISE / OFFEN
+  Ü1-Zahlen: aus dem Client gibt es noch keine – die ersten Fälle werden 24 Std. nach dem ersten gezeigten Kauf-Vorschlag
+      nachgeprüft. Bitte im Testbericht des Nutzers den Abschnitt MARKT-KERN lesen (erwartet anfangs: alle Wege "lernt noch").
+  MA3 Gold-Messung beim Händlerverkauf (tatsächlich erhaltenes Gold) noch nicht – kommt mit dem nächsten Schritt.
+  Ü3 ist als Funktion da, aber noch nicht in die Markt-Zeilen verdrahtet – kommt zusammen mit RK2-A.
+WEITER (Reihenfolge laut offen 08:25): RK2-A (eine Funktion "Lohnt bis"), dann SB, BL-A, API-PM2/PM3.
+BEFUND FALSCH: keiner.
+FRAGEN: PD7 – Entscheid des Nutzers steht noch aus (Verdichten widerspricht "Preisverlauf nie umwandeln").
