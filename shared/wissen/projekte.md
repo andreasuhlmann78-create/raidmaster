@@ -1,108 +1,96 @@
-# Projekte – Gehirn der Prüf-Sitzung (Stand 13.11.2026, 22:25)
+# Projekte – Gehirn der Prüf-Sitzung (Stand 13.11.2026, 23:35)
 
-Auf Wunsch des Nutzers (13.11. 22:09): wichtige und weniger wichtige Dinge über alle Projekte an einem Ort.
-Wird bei jeder Prüfung nachgeführt (pruef-ablauf.md). Quelle für Einzelheiten: `auftraege/<Projekt>/offen-*.txt`,
-`berichte/<Projekt>/`, `testberichte/`.
+Auf Wunsch des Nutzers (13.11. 22:09, nochmals 23:27: "merke dir alles über die anderen Addons, damit du nichts vergisst
+oder übersiehst – immer nach Prio handeln"): alle Projekte an einem Ort, je Projekt der Stand und die offenen Punkte
+NACH PRIORITÄT. Bei jeder Prüfung nachführen (pruef-ablauf.md A Schritt 8). Einzelheiten: `auftraege/<Projekt>/offen-*.txt`,
+`berichte/<Projekt>/`, `testberichte/`. Was der Nutzer im Spiel tun muss: `auftraege/weckliste.txt`.
 
 ## Für alle Projekte gleich (WICHTIG)
 
 - Eine Sitzung je Addon; die Prüf-Sitzung ändert keine Addons, sie prüft, beauftragt (Repo `auftraege/`) und pflegt
-  `addon-check/`, `shared/`, `testberichte/`, `shared/wissen/`.
-- Gemeinsame Dateien in `shared/` werden byte-gleich kopiert (Prüfung "exact"): GoldSentinelGame (v3), Test (v2), Sync,
-  Markt (v2, Stand 22:20). Alte Fassungen = Warnung "veraltet".
-- Grundsätze des Nutzers (13.11.): nur Ergebnisse anzeigen, nie Rechenwege (OR); Einzelheiten hinter einem Knopf statt
-  in Tooltips; ruckelfrei und "pfeilschnell" sind Freigabe-Bedingung (RF/PS); jede Zahl unabhängig nachgerechnet (ZN);
-  jeder Befund bekommt einen bleibenden Test; alles ins Repo.
+  `addon-check/`, `shared/`, `testberichte/`, `shared/wissen/`. Projekte prüfen sich nicht selbst ("umgesetzt, zur Prüfung").
+- Gemeinsame Dateien in `shared/` byte-gleich kopieren (Prüfung "exact"): GoldSentinelGame (v3), Test (v2), Sync, Markt (v2,
+  Stand 22:20), NEU CmdHint (v1, 13.11. 23:35, Befehlsliste beim Tippen). Alte Fassungen = Warnung "veraltet".
+- Grundsätze des Nutzers: nur Ergebnisse, nie Rechenwege (OR); Einzelheiten hinter einem Knopf; ruckelfrei und
+  "pfeilschnell" sind Freigabe-Bedingung (RF/PS); jede Zahl nachgerechnet (ZN); jeder Befund bekommt einen Test; nur
+  Gesichertes anzeigen; Begriffe wie im Spiel (EB-NAME); alles ins Repo; bei "go" sofort handeln und pushen.
+- Plan des Nutzers (23:26): "Wir werden bald Addon für Addon auseinandernehmen und perfektionieren" – AHSentinel zuerst.
+- Client-Tests aller Addons ZURÜCKGESTELLT (23:19), nicht vergessen: Liste in weckliste.txt "Für den Nutzer".
 - In Forever kommen Addon-Nachrichten über eigene Chat-Kanäle nicht an; GUILD und WHISPER gehen.
-- Der Nutzer spielt Horde auf WoW Forever (Start 04.11.), unter der Woche selten, am Wochenende mehr; zwei Rechner (PC und
-  Laptop), Uploader auf beiden.
+- Nutzer: Horde auf WoW Forever (Start 04.11.), unter der Woche selten, Wochenende mehr; PC und Laptop, Uploader auf beiden.
 
-## AHSentinel (Auktionshaus) – WICHTIGSTES PROJEKT
+## AHSentinel (Auktionshaus) – WICHTIGSTES PROJEKT, wird als Erstes perfektioniert
 
-**Zweck von AHSentinel (Nutzer 13.11. 22:13): Spass am Gold verdienen – aber nicht nur.** Jede Prüfung und jeder
-Auftrag wird daran gemessen, ob sich AHSentinel im Spiel gut anfühlt:
-- Erfolgserlebnis: sichtbar machen, dass es sich gelohnt hat (heute verdient, Gold pro Stunde, guter Fang).
-- Kontrolle und Können: den Markt verstehen, schneller und klüger sein als andere ("ein Instrument, eine Waffe").
-- Kein Frust: keine falschen Zahlen, kein Ruckeln, keine Verluste durch Fehler des Addons – ein falscher Kauf verdirbt
-  mehr Spass als zehn gute bringen.
-- Wenig Aufwand: schnell entscheiden, wenige Klicks, Zeit fürs eigentliche Spielen (Nutzer unter der Woche wenig Zeit).
-- Dazulernen: Gespür für den Markt durch klare Ergebnisse, nicht durch Rechenwege.
-- Mit anderen: etwas für die Gilde tun (Marktdaten-Netz), zeigen können, was man erreicht hat.
-Prüffrage bei jeder Änderung: Ist sie schnell, schlicht, verlässlich – und macht ein Erfolg sichtbar Freude?
+**Zweck (Nutzer 13.11. 22:13): Spass am Gold verdienen – aber nicht nur.** Erfolgserlebnis sichtbar, Kontrolle und Können
+("ein Instrument, eine Waffe"), kein Frust (falsche Zahlen, Ruckeln, Fehlkäufe), wenig Aufwand, Dazulernen ohne Rechenwege,
+etwas für die Gilde. Prüffrage: schnell, schlicht, verlässlich – und macht ein Erfolg sichtbar Freude?
 
-- Stand: 0.65.116 (13.11. abends). Repo AHAnalyzerPro (privat). Nur die AHSentinel-Sitzung ändert es.
-- Oberste Priorität jetzt: SN2115a Budget-Verdopplung nach "Zähler zurücksetzen"; SN2115b EINE Funktion "bester Weg"
-  (Tooltip-Zeilen widersprachen sich); TS116 Sniper sucht nur beim Scrollen (belegt 21:58) -> selbsttätig suchen oder
-  deutlich anzeigen; RF ruckelfrei; PS Leistungsziele (Testteil "tempo").
-- Dann (dringend, nicht oberste Prio, anweisung-entscheide-13-11-abend.txt): LT Gewinn-Zeile, OR, TP "Jetzt im AH" +
-  anpassender Median, PX a–e, EB Goldflüsse/Eigenbedarf/Details-Knopf, ZN Nachrechnung.
-- Releaseplan danach: 0.66 Rechenkern (inkl. PX-a/b, MN1–MN5 Marktnetz mit Feed), 0.67 Rhythmus, 0.68 Markt-Reiter.
-- Bekannte Messwerte: Vollscan ~250–300k Auktionen, ~6'200 Items; ReplicateItems-Drossel ~15–20 Min. je Client;
-  Restzeit-Stufen 1 < 30 Min., 2 30 Min.–2 Std., 3 2–12 Std., 4 > 12 Std.; Entzauber-Chancen grün 26–30 gemessen
-  (Staub 72,7 %, Essenz 21,2 %, Splitter 6,1 %); Prognose schlecht kalibriert (98 % vorhergesagt, 31 % verkauft);
-  Absatz-Schätzung ×3–×4,5 zu hoch (gemessen gilt); Entzauber-Materialpreis-Korrektur ×0,57 (Frage KF: evtl. zu streng).
-- Offene Fragen an AHS: KF, LB (Lohnt-bis 0,59), Entzauber-Marge 10 % statt 41 %.
-- Weniger wichtig: UI1509/UI1510 (Leer-Hinweis, leeres Testbericht-Fenster), SN-T (Testteil "sniper" fehlt in der
-  Liste), EB-Kennzahlen im Details-Fenster (Rendite je Weg, gebundenes Gold, verlorene Einzahlungen, Verkaufsquote –
-  Entscheid des Nutzers offen).
-- Nutzer-Eigenheiten: will Optik schlicht, Entscheidungen klar; testet abends im Spiel und schickt Bilder/SavedVariables.
+- Stand: 0.65.119 (DE30 Entzaubern ≥ 30 %, im Code geprüft; Client offen). Repo AHAnalyzerPro (privat).
+- PRIO (Reihenfolge laut offen-ahsentinel.txt Kopf):
+  1. TB119 Sniper-Test 23:06: 278 echte Addon-Nachrichten im Test / Sync-Warteschlange 278 (Ursache je Präfix zeigen),
+     Sniper 164 ms, T613 zu streng, Speicher AHSentinel 240 MB Grundstand (GC-Ruckler), Vollscan-Einlesen 159 ms.
+  2. TB118 Tempo-Lauf: Markt-Reiter 1083 ms (Ziel 50), Laden 494 ms (Ziel 100), Vollscan-Messung über Reload.
+  3. RF/PS Rest (ruckelfrei, pfeilschnell), SN2115/TS116 im Client bestätigen.
+  4. CH-G gemeinsame Befehlsliste (shared/GoldSentinelCmdHint.lua v1) – AHSentinel als ERSTES Addon (Nutzer 23:26).
+  5. EB Goldflüsse + Details-Fenster (Gesamt, Handel pro Stunde, EB-DET: Rendite je Weg, Anzahlung verfallen,
+     Verkaufsquote), BH-ANZ (Anzahlung erst beim Verfallen Aufwand), EB-NAME (Client-Wort DEPOSIT).
+  6. Entscheide des Abends: LT Gewinn-Zeile, OR, TP Jetzt im AH + Median, ZN, PX, SA Schnäppchen-Alarm, HK Kette.
+  7. Später: I3 Vermögensverlauf, I4 Offline-Plan; I6-M nur messen. NEIN: I1, I2, I8.
+- Messwerte: Vollscan ~305k Auktionen, ~6'200 Items, Drossel ~15–20 Min.; Restzeit-Stufen 1 <30 Min., 2 30 Min.–2 Std.,
+  3 2–12 Std., 4 >12 Std.; Prognose 32 % zutreffend (98 % vorhergesagt); Entzauber-Käufe 42 % mit Gewinn, 55 % Beute
+  unter Kaufpreis (-> DE30); Absatz-Schätzung bis ×5 zu hoch; Index 7 Tage −27 bis −32 %.
+- Bleibt offen (weniger wichtig): UI1509/UI1510, SN-T, KF/LB-Fragen, Tooltip.lua:600 Kommentar.
 
 ## GuildSentinel (Gilde)
 
-- Stand: 0.9.37. Gilde "Glutbrüder" (Horde), im Aufbau.
-- Wichtig: GA Altersfrage (5. Frage, ab 16, nette Absage, Alter nie speichern) und Werbetext "im Aufbau, alle Klassen"
-  (Bericht 0.9.36 – im Client bestätigen); RP Rekrutierung in Phasen (jetzt alle Klassen, Vorgaben für raidfähig
-  behalten); RV Rechtsklick-Menü mit Rängen; GV1 Einladen gesperrt (Absicht).
-- Offen: MN1b GoldSentinelMarkt veraltet (v1) -> v2 kopieren; MN2b Schalter zeigt nur den eigenen Wert.
-- Weniger wichtig: Befehlsliste (CH/BL) wie bei den anderen.
+- Stand: 0.9.38 (Markt v2 byte-gleich, geprüft).
+- PRIO: 1. GA Altersfrage + Werbetext im Client bestätigen (Nutzer). 2. RP Rekrutierung in Phasen, RV Rechtsklick-Menü.
+  3. MN2b Schalter-Anzeige. 4. Später: CH-G gemeinsame Befehlsliste (nach AHSentinel). GV1 Einladen gesperrt = Absicht.
 
 ## ProfessionSentinel (Berufe)
 
-- Stand: 0.9.44. Rezeptdaten-Update läuft täglich als geplante Aufgabe (nur Daten, kein Code).
-- Wichtig: GoldSentinelMarkt neu kopieren (v2); PM1–PM7 Marktwissen fürs Herstellen.
-- WARTET AUF ENTSCHEID DES NUTZERS: BL3/BL4 – Befehlsliste über dem Chat als gemeinsame Datei
-  `shared/GoldSentinelCmdHint.lua` (statt fünf eigener CmdHint.lua)? Empfehlung der Prüf-Sitzung: ja (einheitlich,
-  einmal prüfen, weniger Fehler).
-- Weniger wichtig: Neuaufbau im Client bestätigen, Speicher nahe an der Grenze (T145), An/Aus-Meldung ohne Sprachtabelle.
+- Stand: 0.9.45 (Markt v2 byte-gleich, An/Aus, TodayCrafts "safe"). Rezeptdaten-Update täglich (nur Daten).
+- PRIO: 1. HK-P Herstellungs-Kette (nur Gesichertes, Feld "safe"). 2. PM1–PM7 Marktwissen. 3. BL3/BL4 Befehlsliste:
+  ENTSCHIEDEN 23:26 -> gemeinsame Datei, aber erst NACH AHSentinel (CH-G). Analyse: professionsentinel-analyse.md.
+- Weniger wichtig: Neuaufbau im Client, Speicher nahe Grenze (T145), An/Aus-Meldung ohne Sprachtabelle.
 
 ## BuffSentinel (Buffs)
 
-- Stand: 0.9.18 (Markt v1 -> v2 kopieren). Offen: BP-2026-11-13-1 Schamane Imbue + Waffen-Totem gleichzeitig (Blizzard-
-  Hotfix), TU1-Rest. Weniger wichtig: MN3a Markt-Zeile zeigt nur eigenen Schalter.
+- Stand: 0.9.20 (Markt v2, BP-2026-11-13-1 Messung vorbereitet, TU1-Rest, MN3a).
+- PRIO: 1. MN-S T178 erweitern -> 0.9.21 (Korrektur in v2 belegt). 2. BP-2026-11-13-1 Teil 2 nach Client-Messung
+  (Schamane Waffe). 3. Später: CH-G. Client-Tests: weckliste.
 
 ## ThreatSentinel (Bedrohung)
 
-- Stand: 2.5.11 (Markt v1 -> v2 kopieren). Ohne eigenes GoldSentinelSync: Marktdaten nur mitlesen, nicht teilen.
-- WARTET AUF ENTSCHEID DES NUTZERS: gemeinsamer Sync (GoldSentinelSync) ja/nein – ohne ihn teilt ThreatSentinel weder
-  Testberichte noch Marktdaten, wenn kein anderes Addon Sync mitbringt.
-- Weniger wichtig: Offline-Routine nimmt keine ZIP; T-MN2 kann echte Marktdaten beschreiben.
+- Stand: 2.5.12 (Markt v2 byte-gleich). Ohne eigenes GoldSentinelSync: Marktdaten nur mitlesen, nicht teilen.
+- WARTET AUF ENTSCHEID DES NUTZERS: gemeinsamer Sync ja/nein (Empfehlung ja).
+- Später: CH-G (hat eigene CmdHint.lua, nur HookScript).
 
 ## LevelPilot (Leveln/Wegführung)
 
-- Stand: 3.12.28 (Datei in download/ unter anderem Namen). Offen: MK1 Markt v2 kopieren; GR1 Grundregel verletzt
-  ("Quest fertig, aber kein Abgabe-Schritt"); SP1 Speicher bis 125 MB (messen); TU9 Offline-Routine fehlt; Wegpunkte und
-  Strassen (Anweisung gilt weiter).
+- Stand: 3.12.29 (Markt v2, MK1). Wartet nicht mehr: Anweisung 23:25 -> 3.12.30 = GR1 (a)+(b), SP1 messen, TU9.
+- Danach wartend: Wegpunkte (Wegdaten-Exporte), Punkt 15 nur auf Kommando. Später: CH-G.
 
 ## RaidMaster (Raid-Addon + Uploader)
 
-- Stand: 3.0.25, Uploader 2.3.6 (PC teils noch älter – erst aktualisieren, wenn /uploader die neueste nennt).
-- Wichtig: Uploader bringt Testberichte, Diagnosen und jetzt Marktdaten (GSMARKT1) ins Repo/zum Bot; MN1-K Markt v2.
-- Weniger wichtig: MN-T Testroutine verändert Markt-Zähler; U3 unbekannte Markt-Zeilen still verworfen; TU-Rest.
+- Stand: Addon 3.0.26 (Markt v2 byte-gleich), Uploader 2.3.7 (MN6b anonyme Quelle, U3).
+- PRIO: 1. T90 unter enUS in der eigenen Nachbildung klären. 2. Client-Test durch den Nutzer (weckliste). 3. Später: CH-G.
 
 ## Discord (Bot + Gilden-Discord)
 
-- Stand: Bot 1.5.131 auf eigenem Server; Testberichte-Abholung per GitHub-Workflow (alle ~30 Min., manuell anstossbar).
-- MN7 Sammelstelle gebaut (Absatz als Spanne, Doppelte je Fraktion+Zeit, Wochenbericht testberichte/markt/).
-- MN8: Blizzard-API kennt Forever nicht (gemessen 13.11.) -> Spieler-Scans sind die einzige Marktquelle.
-- Weniger wichtig: D-MN7a "Quellen" zählt Webhooks statt Spieler; D-MN7c–f (Fälschung/Masse, Wochenzählung, verlorene
-  Scans, Grenzen); D-T1 Tests prüfen Quelltext als Text.
+- Stand: Bot 1.5.131; Testberichte-Abholung per GitHub-Workflow (~30 Min., manuell anstossbar).
+- PRIO: 1. FRAGE DES NUTZERS 23:20: Datenvolumen des Bots grösser? Grenzen, Einflüsse, Empfehlung (nur Bericht).
+  2. D-MN7a Feld "quelle" lesen (Uploader 2.3.7 liefert es), D-UP1 /update. 3. D-MN7c–f, D-T1.
+- MN8: Blizzard-API kennt Forever nicht -> Spieler-Scans sind die einzige Marktquelle.
 
 ## Prüf-Sitzung selbst
 
-- Geplante Aufgaben: Nachprüfung (trig_01Lt3KGobLke4QRdswTBqFfP), AHSentinel Markt-Überwachung (Mo 05:47), Blueposts
-  (07:38/21:38), Rezeptdaten-Update, Raids und Taktiken.
-- Messwerkzeug GSMesstest 5.1 (`shared/messtest/`, A3 Markt komplett).
-- Termine: ab 17./18.11. Mindest-Einzahlung 1c (Bluepost) prüfen; T240-Rechnung muss dann stimmen.
+- Takt: bei jeder Nachricht des Nutzers + alle 5 Min. bei intensiver Arbeit (Nutzer 22:36); nur Neues melden.
+- Geplante Aufgaben: Nachprüfung (5× täglich), AHSentinel Markt-Überwachung (Mo 05:47), Blueposts (07:38/21:38),
+  Rezeptdaten-Update, Raids und Taktiken.
+- Gebaut: GSMesstest 5.1, GoldSentinelMarkt v2, GoldSentinelCmdHint v1 (Test 30/30).
+- Termine: ab 17./18.11. Mindest-Einzahlung 1c (Bluepost) prüfen. Später: nachrechnung.py (ZN), sobald AHS GSZAHL1 liefert.
+- Offen beim Nutzer: ThreatSentinel gemeinsamer Sync (ja/nein).
 
 ## Ideen-Speicher (offen für alles – Nutzer 13.11. 22:13: "versuche neue Ideen zu entwickeln")
 

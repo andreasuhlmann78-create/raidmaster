@@ -1,3 +1,13 @@
+>>> NEU CH-G (Entscheid des Nutzers 13.11. 23:26, AHSentinel als ERSTES Addon, nach TB119/TB118): gemeinsame
+>>>    Befehlsliste shared/GoldSentinelCmdHint.lua (v1, von der Prüf-Sitzung aus deiner CmdHint.lua gebaut, Test 30/30)
+>>>    übernehmen: Datei unverändert kopieren, in die .toc VOR der Anbindung, eigene CmdHint.lua durch eine kurze
+>>>    Anbindung ersetzen: local h = GoldSentinelCmdHint.Register({ id = "AHSentinel", prefixes = { "/ahsentinel",
+>>>    "/ahanalyzer", "/ahs", "/ahp" }, display = "/ahs", commands = A.COMMANDS, store/enabled/L/german/dev/noMatch/
+>>>    enterText wie bisher }); im eigenen Slash-Handler msg = h:Resolve(msg); h:Count(msg). Bedienung bleibt gleich
+>>>    (Klick wählt, Tab/Shift+Tab, Enter führt aus). Tests T-CHG1 (Liste erscheint, Klick+Enter), T-CHG2 (Zähler bleibt
+>>>    erhalten: A.db.settings.cmdUse), bestehende CmdHint-Tests auf die gemeinsame Datei umstellen. Fehlt etwas in der
+>>>    gemeinsamen Datei: an die Prüf-Sitzung melden, NICHT selbst ändern (Prüfung "exact").
+
 >>> !!! SEHR DRINGEND – SOFORT, VOR ALLEM ANDEREN (Nutzer 13.11. 23:00) !!!
 >>> 1. DE30: in 0.65.119 umgesetzt – Prüf-Sitzung 23:15: Code geprüft (A.DE_MIN_GAIN = 30, DB:DEMinRoi = max(Einstellung,
 >>>    30) an allen Stellen: Sniper über BestWay, Markt, Tooltip, Disenchant), addon_check OK. Offen nur noch: im Client
