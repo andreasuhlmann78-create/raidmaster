@@ -1,0 +1,36 @@
+BERICHT AHSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 · Sitzung: AHSentinel-Sitzung · Version: 0.65.116 · Commit (AHAnalyzerPro): c46dcd8
+Nachbildung: Vollauf 245/245 grün. addon_check OK.
+
+FRAGE LB (Lohnt bis ≈ 0,59 × Wert) – BEFUND RICHTIG, IN 0.65.116 BEHOBEN
+  Rechnung bisher (TT:DisenchantVerdict -> MK:LimitFromNet(net, n)):
+    net  = D:DealValue(item) – Entzauberwert NACH Gebühren, seit S1 mit Materialpreis-Faktor f (×0,57) gerechnet;
+           das ist der Betrag in der Zeile "Entzaubern:" (6s 61c bzw. 5s 90c).
+    Lohnt bis = min( net / (1 + Mindestgewinn), net × (1 − Marge) ), Mindestgewinn 20 %, Marge = MK:SafetyMargin:
+           mit Lernen = Ln:Margin("d") = max(0,10; min(0,5; 1 − Median(Erlös / Erwartung))).
+  Die Erwartung ev in den Kauf-Einträgen ist UNKORRIGIERT (Fc:DEPrediction ruft DealValue(raw)), der Median
+  Erlös/Erwartung lag bei ≈ 0,59 -> Marge 0,41 -> Lohnt bis = net × 0,59. Derselbe Fehlbetrag stand also zweimal drin:
+  einmal als f im Wert (×0,57), einmal als Marge. Effektiv ≈ 0,34 × Rohwert.
+  Korrektur: Ln:BuyStats teilt beim Weg "d" jedes Verhältnis durch den Faktor f des Items (D:CorrectionFor). Die Marge
+  misst damit nur noch, was f nicht erklärt (bei 0,59 / 0,57 ≈ 1,03 -> Mindestmarge 0,10). Lohnt bis = net / 1,2 =
+  0,833 × net. Gegen den Bruttowert (vor 5 % Gebühr) sind das 0,95 / 1,2 ≈ 0,79 – genau die erwartete Grösse.
+  Beispiel Schultern: 6s 61c -> 5s 50c (vorher 3s 91c); Kapuze: 5s 90c -> 4s 91c (vorher 3s 49c).
+  Gilt für alle Stellen mit Lohnt bis (Tooltip-Zahl intern, Sniper-Max für Entzauber-Ziele, DEBuy, Markt, API), weil
+  alle über MK:LimitFromNet/SafetyMargin laufen. Die Gewinn-Zeile (LT) rechnet mit net, nicht mit Lohnt bis – sie war
+  davon nicht betroffen. T620 (mit 0.65.115 rot: Marge 0,41, 590).
+
+FRAGE KF (zählen abgelaufene Posten als 0?) – BEFUND FÜR DEN FAKTOR NICHT ZUTREFFEND (begründet)
+  Der Faktor ×0,57 (D:PriceCorrection) kommt NICHT aus den Verkaufs-Einträgen ("P"), sondern nur aus den Entzauber-
+  Einträgen ("D"): je Entzauberung lv / ev, mit lv = Le:DisenchantLootValue(Beute) = Σ (MatPrice − Gebühr) × Menge zum
+  Zeitpunkt des Entzauberns und ev = Vorhersage (roh). Fc:DEFactors zerlegt den Median in Chance × Menge × Rest; f =
+  Rest = Median / (Chance × Menge), Untergrenze CORR_FLOOR. Abgelaufene oder spätere Verkäufe der Materialien gehen
+  dort gar nicht ein – auch nicht als 0.
+  Die P-Diagnose mit "Ablauf (Briefkasten, nichts verkauft) 0,00" ist die Kalibrierung der VERKAUFSCHANCE innerhalb der
+  Laufzeit (y = verkaufter Anteil in DIESER Einstellung). Dort ist ein Ablauf richtigerweise ein Fall mit y = 0 und das
+  neue Einstellen ein neuer Fall – sonst wäre "Chance, innerhalb von 24/48 Std. zu verkaufen" geschönt. Auf "Lohnt bis"
+  und den Faktor wirkt das nicht.
+  Was den Faktor tatsächlich tief drückt, zeigt die Zeile "Entzaubern zerlegt: <Gruppe> Chance × Menge × Rest" im
+  Testbericht (fields.prognose_de_faktoren). Bitte nach /reload mit 0.65.116 Testroutine + Bericht hochladen; ich nenne
+  dann den Faktor neu (alt 0,57). Erwartung: f bleibt ähnlich (unabhängig von LB), Lohnt bis steigt von 0,59 auf 0,83 × net.
+  Falls gewünscht, verfolge ich zusätzlich die Materialien bis zum endgültigen Verkauf als EIGENE Messung (Erlös je
+  Material gegen MatPrice) – das wäre ein neuer Messauftrag, kein Fehler im Faktor.
