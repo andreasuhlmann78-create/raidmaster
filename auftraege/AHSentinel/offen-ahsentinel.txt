@@ -1,3 +1,17 @@
+>>> RF-M1 (HOCH, Messung der Prüf-Sitzung 14.11. 00:15 aus den SavedVariables PC 23:41 – Grundlage für "240 MB Grundstand"):
+>>>    Gespeichert sind nur ~51 MB (geschätzt, Lua-Grösse): markets.data ~43 MB, davon history ~37 MB als 117'409 einzelne
+>>>    Tabellen {t,p,q} in 6'771 Items, dazu hz (gepackt) 3,4 MB in 5'886 Items; ledger 1,4 MB, timing 1,2 MB, Rest < 1 MB.
+>>>    Nach dem Laden entpackt PD7 hz zusätzlich (221'856 Einträge) -> schätzungsweise 70–90 MB Daten im Speicher.
+>>>    Folgerung: Von 240 MB sind rund 150 MB NICHT gespeicherte Daten, sondern Laufzeit-Zwischenspeicher (Scan-Listen,
+>>>    Caches, Markt-Ansichten, Vollscan-Leiter …). Das ist der grösste Hebel.
+>>>    Wichtig fürs Ruckeln: Die Dauer einer Speicherbereinigung wächst mit der ANZAHL der Lua-Objekte, nicht nur mit MB.
+>>>    Jeder Verlaufseintrag als eigene Tabelle = über 200'000 Objekte allein im Preisverlauf.
+>>>    Zu tun (RF): (1) Im Testbericht AHSentinel-Speicher aufschlüsseln: je Bereich (markets/history, Caches, Vollscan,
+>>>    Markt-Reiter, Sniper) Grösse und Anzahl Tabellen. (2) Preisverlauf je Item als EIN gepackter Wert oder drei
+>>>    Zahlenlisten (t, p, q) statt einer Tabelle je Eintrag – Ziel: Objekte im Verlauf von ~220'000 auf ~7'000.
+>>>    (3) Laufzeit-Caches nach Gebrauch leeren bzw. begrenzen. Messen vorher/nachher: Grundstand MB, Anzahl Objekte,
+>>>    Speicherbereinigungen beim Vollscan. Test T-RFM1 (Verlauf gepackt, Werte gleich, Objekte ≤ Grenze).
+
 >>> PRÜFUNG 0.65.121 (Prüf-Sitzung 14.11. 00:10): addon_check OK.
 >>>  - KF2: umgesetzt, im Code belegt (Disenchant.lua ~1470 Faktor = Summe/Summe ab CORR_MIN_N). Zahlen alt/neu je Gruppe
 >>>    bitte im Bericht nennen; Client-Bestätigung offen.
