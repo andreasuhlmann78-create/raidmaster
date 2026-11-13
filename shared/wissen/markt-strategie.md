@@ -243,6 +243,12 @@ Um zu erfahren, ob ein höherer Preis noch verkauft, gelegentlich leicht höher 
   (Absatz eher unterschätzt). Zusammenfassung je Item (ID, tiefster Stückpreis, Menge, Auktionen): 99'505 Zeichen =
   415 Addon-Nachrichten -> Gilde 5/s: 83 s, Flüstern 40/Min.: 10,4 Min. je Empfänger (gildenübergreifend nur Änderungen).
   Offen: Vergleich nach 30–60 Min. (Absatz, M1b), zweiter Abruf vor 15 Min. (M1c), Mitlesen eines AHSentinel-Vollscans.
+  **M1c belegt (AHSentinel 0.65.110, 13.11. 15:22, 8 Abrufe):** nach 15 Min. KEINE Antwort (90 s), nach 24–291 Min.
+  immer neue Liste (9,5–14,9 s). -> Vollscan höchstens alle ~20 Min. je Spieler; für "stündlich" reicht 1 Spieler.
+  **Absatz geschätzt vs. gemessen (20 meistgehandelte):** Schätzung oft ×3–×4,5 zu hoch (2589: 1764 gemessen / 5216
+  geschätzt; 11083: 398 / 1458) -> gemessen vor geschätzt.
+  **Entzaubern 26–30 (524 Fälle):** Beute/Vorhersage Median 0,60 = Chance 1,05 × Menge 1,00 × Preis 0,57 – der
+  Materialpreis ist das Problem, nicht die Chance; 55 % der 453 Entzauber-Käufe mit Verlust gegenüber dem Kaufpreis.
 
 ## 8. Sniping, Flippen, Handel – Grundsätze (Wunsch des Nutzers 10.11. 09:28: "in allen Bereichen der Beste")
 

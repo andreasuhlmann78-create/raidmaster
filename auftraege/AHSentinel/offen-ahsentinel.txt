@@ -442,3 +442,20 @@ TB110 (HOCH, NEU 13.11. 15:25 – Testroutine 0.65.110 des Nutzers, Bericht AHSe
        server am offenen AH. 
    UI1510 NEU (NIEDRIG): Nach dem Lauf zeigte das Fenster "Testbericht" (über "Test – Selbsttest und Testmodus") eine
        ganz leere schwarze Fläche (Bild des Nutzers 15:12). Erwartet: der Bericht als Text bzw. "Bericht kopieren".
+   NACHTRAG TB110 (15:30, zweiter Lauf 15:22 vom Nutzer: 643 OK · 6 FEHLER · 22 übersprungen · 16 im Client):
+   - T536 jetzt OK (die -6 % waren Marktschwankung – erledigt). T373 jetzt 46.6 ms (besser, Ziel 16 ms weiter offen).
+   - T72 NEU: "Auswertungen: Heute tun – SelfTest.lua:662: nicht nach Gold sortiert".
+   - T240 weiter: ist 9500/9400/2/9000/9500, soll 9500/9400/2/9400/9500 (4. Wert: 1x Einzahlung 1s statt 5s?).
+   - T285/T289/T291 weiter (Absatz). BELEG aus "Vergleich (20 meistgehandelte)": die SCHÄTZUNG liegt oft weit über dem
+     GEMESSENEN Absatz: 2589 1764 -> 5216 (×3,0), 11083 398 -> 1458 (×3,7), 249391 167 -> 749 (×4,5), 14580 1,6 -> 12,8,
+     6418 2,6 -> 12,3, 3483 24 -> 67. Wo gemessen wird, muss gemessen gelten (Rechenkern RK: Quelle "gemessen" vor
+     "geschätzt"); die Schätzung braucht den gelernten Gruppenfaktor (Staub 0,48, Stoff 0,68 …) und den Deckel.
+   - ENTZAUBERN überschätzt (HOCH, "falsche Zahlen"): "Median Beute/Vorhersage 2:4:a 0.60 (524)" – zerlegt: Chance 1,05 ×
+     Menge 1,00 × Rest (Preis) 0,57. Die Chancen stimmen, der angenommene MATERIALPREIS ist ~43 % zu hoch gegenüber dem
+     erzielten. Dazu: 453 Entzauber-Käufe, nur 43 % mit Gewinn, 55 % mit Verlust gegenüber dem Kaufpreis, Gewinn je
+     Gold 0,35. -> "Lohnt bis" für Entzaubern muss mit dem ERZIELBAREN Materialpreis rechnen (eigene Verkäufe/gemessener
+     Absatz, Preis nach Menge die man einstellt), nicht mit dem tiefsten Angebot. Test: Nachrechnung mit den 524 Fällen
+     -> Median Beute/Vorhersage 0,9–1,1.
+   - Gemessen (für die Prüf-Sitzung, Wissen): ReplicateItems nach 15 Min. keine Antwort, ab 24 Min. neue Liste;
+     Vollscan längster Frame 3,6 ms (gut).
+   - Teil server wieder übersprungen (S02) -> Nutzer wiederholt ihn am offenen AH.
