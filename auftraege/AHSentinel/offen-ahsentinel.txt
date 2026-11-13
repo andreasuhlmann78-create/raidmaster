@@ -635,6 +635,32 @@ TS116 (SEHR HOCH, NEU 13.11. 21:52 – Testteil sniper 0.65.116, Lauf 21:47 des 
       Neu: T617 längster Frame 148 ms beim Scrollen (Ø 116 Bilder/s) – Ziel ≤ 50 ms (RF). Bitte die Stelle aus dem
       LANGSAM-Protokoll nennen.
 
+TB118 (SEHR HOCH, NEU 13.11. 23:00 – erster echter Tempo-Lauf im Client, Testbericht 0.65.118 vom 13.11. 22:54,
+   Nutzer, Priester 10, deDE). Prüf-Sitzung hat den Bericht gelesen und nachgerechnet:
+   TB118-1 Markt-Reiter: T626 FEHLER – Reiter "marketview" baut 1083 ms auf (Ziel 50 ms, Faktor 21). Das ist ein
+     sichtbares Einfrieren von über 1 Sekunde bei jedem Öffnen des Markt-Reiters. Ursache messen (welche Zeile/Funktion:
+     Ansicht "Heute" 7, "Lücken" 20, "Überfüllt" 20, "Trends" 20 Zeilen – vermutlich Neuberechnung aller Ansichten aus
+     dem Preisverlauf statt aus einem Zwischenstand). Lösung: beim Scan/Vollscan in Portionen vorberechnen, beim Öffnen
+     nur anzeigen; der Reiter darf nie rechnen. Im Testbericht den langsamsten Teil mit Datei:Zeile nennen.
+   TB118-2 Laden: T630 FEHLER – Laden 494 ms am Stück (Ziel 100 ms), Start 44 ms. Beim Einloggen/Reload ein Hänger von
+     einer halben Sekunde. Vermutlich PD7 (5887 Items, 221'856 Einträge Preisverlauf werden beim Laden entpackt).
+     Lösung: Preisverlauf erst bei Bedarf bzw. in Portionen nach dem Einloggen entpacken (nie im Kampf), Laden nur
+     Grundgerüst. Messung im Bericht in Teile aufschlüsseln (SavedVariables-Prüfung, PD7, Rest).
+   TB118-3 Speicher Vollscan: Messung "Speicher 417197->507088 KB · GC 7" = +88 MB und 7 Speicherbereinigungen
+     (Ziel ≤ 10 MB, ≤ 1). Bei 0.65.116 waren es +31 MB / GC 8 – bitte erklären, ob sich die Messart geändert hat oder
+     der Verbrauch gestiegen ist. Ausserdem: 417 MB Grundstand – ist das der Speicher aller Addons (collectgarbage) oder
+     von AHSentinel (GetAddOnMemoryUsage)? Im Bericht beide Zahlen getrennt zeigen. Jede Speicherbereinigung = Ruckler.
+   TB118-4 Testteil tempo: T631 übersprungen ("kein Vollscan in dieser Sitzung"), obwohl um 22:49 ein Vollscan lief
+     (vor dem Reload). Die letzte Vollscan-Messung (VS.lastMeasure) über den Reload hinweg speichern und mit Zeitpunkt
+     auswerten, sonst muss der Nutzer jedes Mal neu scannen. T629 (AH offen 20 s) im Bericht als Zeile mit Messwert
+     zeigen, auch wenn OK (ist-Wert "längstes Bild x ms").
+   TB118-5 Entzaubern (zur Entscheidung des Nutzers über den Mindestgewinn): Sniper-Entzauber-Käufe 447, mit Gewinn
+     nur 42 %; "mit Verlust gegenüber dem Kaufpreis 55 % (512)"; Beute/Vorhersage 2:4:a 0.60. Die Prüf-Sitzung legt das
+     dem Nutzer vor. Bis zum Entscheid: keine neuen Entzauber-Käufe mit Marge unter dem heutigen Wert empfehlen.
+   TB118-6 Absatz-Schätzung weiterhin zu hoch (2589: gemessen 1668 / geschätzt 4260; 11083: 614 / 1709; 249391: 156 /
+     757) -> bekannter Punkt, Schätzung durch die Messung ersetzen, wo ≥ 3 Tage gemessen sind.
+   Tests: bestehende T626/T630/T631 müssen im nächsten Client-Lauf grün sein; neu T-TB118-4 (Messung überlebt Reload).
+
 PS (SEHR HOCH, GRUNDSATZ, NEU 13.11. 22:08 – Nutzer: "AHS muss pfeilschnell werden in allem … ein Instrument, eine
    Waffe"; zusammen mit RF oberste Priorität nach SN2115a/b): LEISTUNGSZIELE, GEMESSEN, FREIGABE-BEDINGUNG
    | Handlung                                   | Ziel (gemessen im Client, Testteil "tempo")                 |

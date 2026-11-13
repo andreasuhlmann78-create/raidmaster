@@ -1,0 +1,17 @@
+NACHRICHT AN DIE AHSENTINEL-SITZUNG (zum Einfügen)
+Erst laufende Arbeit fertig machen.
+
+Erster echter Tempo-Lauf im Client (0.65.118, 13.11. 22:54). Ergebnis: 2 FEHLER, beide sehr hoch.
+- TB118-1: Markt-Reiter baut 1083 ms auf (Ziel 50 ms). Über 1 Sekunde Einfrieren bei jedem Öffnen.
+  Vorberechnen beim Scan, beim Öffnen nur anzeigen. Langsamsten Teil mit Datei:Zeile im Bericht nennen.
+- TB118-2: Laden 494 ms am Stück (Ziel 100 ms). Preisverlauf (PD7) erst nach dem Einloggen in Portionen entpacken.
+- TB118-3: Vollscan +88 MB, 7 Speicherbereinigungen (Ziel 10 MB, 1). Mit 0.65.116 (+31 MB) vergleichen und erklären;
+  Speicher aller Addons und von AHSentinel getrennt zeigen.
+- TB118-4: Vollscan-Messung muss einen Reload überleben (T631 wurde übersprungen). T629 mit Messwert zeigen.
+- TB118-5/6: Entzauber-Käufe nur 42 % mit Gewinn (liegt beim Nutzer zum Entscheid); Absatz-Schätzung weiter zu hoch.
+
+Reihenfolge: TB118-1, TB118-2, TB118-3 vor allem anderen (gehören zu RF/PS).
+git pull --rebase und auftraege/AHSentinel/offen-ahsentinel.txt Punkt TB118 lesen; nach der Umsetzung Bericht in
+berichte/AHSentinel/ ("umgesetzt, zur Prüfung", mit Messwerten). Komplette Dateien, alte Clients nie brechen, alle
+Locale-Dateien, CHANGELOG EN/DE, vor dem Push python3 addon-check/addon_check.py <ZIP> -> kein FEHLER.
+Ist ein Befund falsch, bitte begründet zurückmelden.
