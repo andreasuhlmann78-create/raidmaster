@@ -86,3 +86,11 @@ Addon-Prüfung mit:
 
 Platzhalter in den Vorlagedateien: `__ADDON__`, `__ADDON_KLEIN__`, `__SLASH__`, `__SLASH_GROSS__`, `__FARBE__`, `__ICON__`,
 `__KATEGORIE__`, `__BESCHREIBUNG_EN__`, `__BESCHREIBUNG_DE__`.
+
+## Befehlsliste beim Tippen (CmdHint) – Verhalten (Entscheid des Nutzers, 13.11.2026)
+
+Hat ein Addon eine Befehlsliste über dem Chat-Eingabefeld (Vorbild AHSentinel CmdHint.lua): Ein **Mausklick wählt** einen
+Eintrag aus (hervorgehoben, Hinweis "Enter = /befehl …"), **Enter führt aus**. Das Chatfeld wird dabei nie beschrieben
+(kein SetText/Insert, nur HookScript lesen, Fokus zurück mit SetFocus); der eigene Slash-Handler führt bei einer frischen
+Auswahl (≤ 10 s) den ausgewählten Befehl statt des unvollständigen Worts aus. Die Liste darf sich beim Fokusverlust nicht
+schliessen, bevor der Klick ankommt. Einzelheiten und Tests: auftraege/AHSentinel/offen-ahsentinel.txt Punkt CH.

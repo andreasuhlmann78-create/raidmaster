@@ -294,3 +294,23 @@ HP (MITTEL, NEU 13.11. 07:25 – Blizzard-Hotfix 10.11.2026, im Netz geprüft):
        einbauen: die vorhandene Messung (MeasureMinDeposit, db.minDeposit) muss nach dem 17.11. von selbst auf 1c gehen;
        Formel 5 % je 2 Std. vom Händlerpreis bleibt. Test T-HP2 (gemessen 1c bei Formel < 1s -> minDeposit 1, Vorschläge,
        Laufzeit-Hinweis "24 Std. kostet gleich viel" und Einzahlungsrisiko neu gerechnet).
+
+CH (MITTEL, NEU 13.11. 07:40 – Wunsch des Nutzers, Bild 07:18): Befehlsliste beim Tippen – Eintrag mit der Maus
+   AUSWÄHLEN, ausgeführt wird mit Enter (Entscheid des Nutzers: Variante "b", nicht "Klick führt sofort aus").
+   Befund (Code 0.65.102, CmdHint.lua): Klick tut heute vermutlich nichts – beim Mausklick verliert das Chatfeld den
+   Fokus, OnEditFocusLost (:240) ruft H:Hide() auf, BEVOR OnClick (:158) kommt.
+   Lösung (ohne Taint, Chatfeld weiterhin NIE beschreiben):
+   CH1 Mausklick auf einen Eintrag = auswählen: Zeile hervorheben, Kopfzeile der Liste "Enter = /ahs entzaubern",
+       Liste bleibt offen; Hide bei Fokusverlust erst verzögert (z. B. 0,3 s) und nicht, wenn der Klick in der Liste war.
+   CH2 Danach den Fokus zurück ins Chatfeld (editBox:SetFocus(), kein SetText/Insert), damit der Spieler direkt Enter
+       drücken kann. Ist das Chatfeld schon zu: die Auswahl bleibt 10 s gültig, Hinweis "Chat öffnen und Enter".
+   CH3 Ausführen mit Enter: Das Spiel schickt den getippten Text (z. B. "/ahs ent") an den eigenen Slash-Handler.
+       Der Handler prüft: Gibt es eine frische Auswahl (≤ 10 s, passt zum getippten Anfang)? Dann den ausgewählten
+       Befehl ausführen statt des unvollständigen Worts. Sonst wie bisher. Auswahl danach löschen.
+   CH4 Tastatur zusätzlich: Pfeil hoch/runter bzw. Tab wählt (nur HookScript OnTabPressed/OnArrowPressed, lesen),
+       Esc schliesst wie bisher.
+   CH5 Tests: T-CH1 Klick wählt aus, Liste bleibt; T-CH2 Enter mit "/ahs ent" + Auswahl "entzaubern" -> entzaubern
+       läuft; T-CH3 Auswahl älter als 10 s oder anderer Anfang -> nichts Falsches; T-CH4 Chatfeld nie beschrieben
+       (SetText/Insert-Zähler im Test = 0); T-CH5 Fokusverlust ohne Klick in der Liste -> Liste zu.
+   Gilt für jedes GoldSentinel-Addon mit Befehlsliste (heute nur AHSentinel); CmdHint ist als Baustein für die Vorlage
+   gedacht – dort ebenso (shared/vorlage/README.md).
