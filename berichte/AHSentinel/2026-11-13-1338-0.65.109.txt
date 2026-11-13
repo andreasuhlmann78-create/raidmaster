@@ -1,0 +1,47 @@
+BERICHT AHSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 · Sitzung: AHSentinel-Sitzung · Version: 0.65.109 ("falsche Zahlen" laut Releaseplan) · Commit (AHAnalyzerPro): da280af
+Nachbildung: Vollauf 244/244 grün.
+
+ERLEDIGT
+  TT1317 Ursache (sehr wahrscheinlich): A:ProcessBest speicherte jeden Waren-Scanpreis < 70 % des Marktwerts als
+        unbestätigt (e.u, "Lockangebot"); nachgeprüft werden nur 60 je Scan. Mit dem Preisrutsch der Levelwelle (~40 %)
+        lagen die Materialien darunter -> GetCurrent fiel auf ältere Einträge zurück, PriceInfo "nicht im Scan" ->
+        Quelle "market", unsicher – nach jedem Scan wieder. Behebung: A:ScanSuspicious – im Vollscan (info.replicate)
+        mit >= 5 Stück auf der günstigsten Stufe (VS:Digest hat führende 1-Stück-Lockangebote schon aussortiert) nie
+        unbestätigt. Normale Seiten-Scans unverändert (dort ist die Menge auf der Stufe unbekannt).
+        D:MatDiag nach jedem Scan: Protokoll "MATERIAL-PREIS Item … · Quelle · Alter · sicher/unsicher: Grund" – bitte im
+        nächsten Protokoll prüfen, ob die Materialien jetzt "ah" zeigen.
+        Tooltip: TT:AddWayLines ohne Häkchen bei res.unsure (grau "Entzaubern: unsicher"). T581.
+  MH1310 (1) MK:ApplyTodayRelease in K:TodayActions (nicht zwischengespeichert): flip/bid/de/vendor nach WayState;
+        gesperrt weg, lernt bzw. Flip ohne MA1-Freigabe grau unten, recommend=false. Tooltip: "Entzaubern lohnt sich"
+        grau mit "(lernt noch n von 20)" bzw. "(Weg gesperrt)". (2) Ü3 in Heute (unitGold/price > 300 %).
+        (3) A:ResalePrice: über Marktwert nur mit voller Restleiter (>= 3 Stufen oder >= 5 Stück) UND Absatz >= 1/Tag,
+        sonst Marktwert (noCap für Materialien bleibt). T582 mit genau den Zahlen (-> 3g; volle Leiter + 2/Tag -> 9g88s99).
+  DG1300 D1 Se:CancelForeign/OnCanceled: ohne erwarteten Abbruch -> "unerwartet", andere ID als erwartet -> "fremd",
+        gleiche ID binnen 10 Min. -> "doppelt": nur Protokoll, nichts entfernt, kein AUCTION_CANCELLED. T580.
+        BELEG Buchhaltung 08:10-Serie: damals war pendingCancel nil (Sniper-Kauf, kein Abbruch) -> OnCanceled entfernte
+        keine Zeile (DropOwnedRow(nil)), keine Abbruch-Meldung; AUCTION_CANCELLED feuerte mit c = nil -> der
+        Ledger-Empfänger (Erstattung) bricht ohne c.money ab, Forecast/UI/MarketCore ohne c ebenso. Es wurde also nichts
+        gebucht; verfälscht war nur das Protokoll ("Zeile entfernt, Ware zurück per Post"). Die 12:55-Mehrfach-ID bei
+        gesetztem pendingCancel kann einmal echt gewesen sein; Wiederholungen werden jetzt ignoriert.
+  BH1307 (3) BK:HeadParts: > 30 % ohne Einkauf -> Kopf gross "Gewinn mit Einkauf" (boughtProfit) + klein gelb "dazu ohne
+        Einkauf … – Kostenbasis prüfen" (UI_Ledger). T583 mit den Zahlen (1g28s16, Rendite 5 %). (1) BK:FreeOrigins:
+        Testbericht-Zeilen "BH1307 ohne Einstand: Item · Stück · Erlös · Herkunft" (Material mit deLog-Eintrag ->
+        Entzauberung eines Teils ohne Kaufbuchung/vor dem Stichtag; sonst Beute/Post/vor Stichtag). Die Liste je Item
+        kommt mit dem nächsten Testbericht aus dem Client (die Daten liegen nur dort).
+        (2) Kostenbasis nachtragen: NICHT in dieser Version – das wäre eine Umbuchung alter Daten; AB8 (RepairOpening)
+        trägt schon den alten Einstand nach, wo deLog "paid" bzw. ein alter Einstand bekannt ist. Für Material ohne
+        bekannten Kaufpreis gibt es keinen Wert zum Nachtragen. Vorschlag: nach der Liste aus dem Client entscheiden.
+  TB108 T248/T223/T431/T432: im Spiel rot, offline grün. Ursache NICHT im Code der Leiter: die echte gelernte Marge
+        (RK5, Ln:Margin "d") deines Spiels ist hoch (Entzaubern nur 43 % mit Gewinn) und senkt "Lohnt bis" – bei
+        Netto 18s55 unter 12s, darum plante der Markt nur die erste Stufe (9s). Die Anzeige im Spiel war damit
+        richtig vorsichtig, nur die Tests rechneten mit der Standardmarge. Tests jetzt ohne echtes Lernen
+        (Ln.forceOff in WithME/T248; WithDE ohne echte Preisleiter/RealisticCap der Materialien – T223 nahm im Spiel den
+        echten Leiterpreis der Essenz statt 300c).
+        Falls die Prüf-Sitzung dennoch eine höhere Grenze will: das wäre eine Änderung von RK5 (Marge), nicht der Leiter.
+
+NICHT IN DIESER VERSION (Plan 0.65.110): S1–S3 Ruckeln/Speicher, D2 Sniper-Zeit, D3 Portionen (realcheck 240 ms), D4,
+  T231, T253, T52, TU5-Doppelmeldung, Kalibrierung. FG im Sniper: der Sniper kauft nur vom Nutzer gesetzte Ziele
+  (keine Empfehlung); Entzauber-Ziele folgen "Lohnt bis" – ein Sperren dort bitte bei Bedarf beauftragen.
+IM CLIENT PRÜFEN: nach Vollscan Materialien "Scan" (Protokoll MATERIAL-PREIS), Heute ohne Schein-Flip, Buchhaltung-Kopf,
+  Testbericht-Zeilen BH1307.
