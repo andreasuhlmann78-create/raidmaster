@@ -1,0 +1,22 @@
+BERICHT AHSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 07:06 · Sitzung: AHSentinel-Sitzung · Version: 0.65.101 · Commit: c9ef941
+
+ERLEDIGT
+  AB4c a  Seller.lua Se:HighMarket (Aufkauf-Kennzeichen oder günstigstes fremdes Angebot >= 150 % Marktwert bei
+          >= 3 Angeboten oder >= 5 Stück) -> SuggestRaw unterbietet das günstigste Angebot, Grund "Aufkauf – jetzt
+          teuer verkaufen, Preis fällt meist bald (2 Std.)". Regel "über gelerntem Maximum -> Normalpreis" gilt nur
+          noch für dünne Leitern. UI_Sell: Aufkauf-Hinweis statt "N× abgelaufen – billiger einstellen"; "verkauft sich
+          nur ~N" erst mit settings.postCapHint (bis MA1-Freigabe aus). T509.
+          Offen daraus: "gelerntes Maximum aus der aktuellen Leiter nachführen" (Learn) – nicht umgesetzt, kommt mit RK.
+  AB4c b  Se:SetHandPrice/AutoApplyAllowed: getippter Preis wird von SELLER_CHANGED nicht überschrieben; Item-Wechsel
+          oder Klick auf "Vorschlag"/"−1" -> wieder automatisch. T510 (prüft die Regel am Seller, nicht das Fenster).
+  SM1     Sniper.lua Trefferliste Sn.hitQueue (QueueHit/DropQueued/PromoteHit/HitGap): beide Treffer bleiben, der mit
+          grösserem Abstand zum Max-Preis ist aktuell, Taste kauft danach den nächsten; abgelaufene fallen raus;
+          UI_Sniper "N weitere Treffer warten". T511.
+  SM2     Sn:DefaultQty: Menge leer -> Ware Budget/Max (max. 9999), Ausrüstung 1; Meldung "Menge: bis Budget (N Stück)",
+          Hinweis bei Menge × Max weit unter Budget; Tooltip des Knopfs angepasst. T512.
+          Hinweis: Im Befund steht "Budget 5s reicht für 227 Stück" – bei 22c sind es 22 (5s = 500c); 227 wäre 5g.
+
+TEILWEISE / OFFEN: TU1–TU4/TU6, MV1, Q, RK/MR/MA/Ü, API-PM – als Nächstes in dieser Reihenfolge.
+BEFUND FALSCH: keiner.
+IM CLIENT GETESTET: nein (Nachbildung 243/243, addon_check ohne FEHLER).
