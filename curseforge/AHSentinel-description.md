@@ -12,6 +12,18 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.120
+
+- **No more sync flood:** AHSentinel never fills the shared send queue above 10 messages; the rest waits in its own
+  outbox and is sent bit by bit (during the test routine it waits). This also reduces stutter after a full scan.
+- **Market tab opens instantly:** "Today" no longer calculates when the tab opens (was over 1 second); it calculates in
+  the background and appears when ready.
+- **Faster login/reload:** the compact price history is unpacked in small portions right after loading instead of all at
+  once; nothing can get lost (logout during unpacking keeps the packed data).
+- Sniper test: "no hits" because the market had nothing suitable is now SKIP with reasons; the sync queue shows its
+  composition. Speed test: the last full-scan measurement survives a reload.
+- Tests T634–T636.
+
 ### Version 0.65.119
 
 - **Disenchanting needs at least 30 % profit (was 20 %):** your own results showed too many disenchant purchases without
@@ -46,15 +58,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   learned margin now only covers what the correction does not already explain. "Worth up to" (sniper max for
   disenchant targets, buy limits) is again value ÷ (1 + minimum profit), e.g. 10s -> 8s 33c instead of 5s 90c.
 - Test T620.
-
-### Version 0.65.115
-
-- **Sniper acceptance test in the game:** `/ahs testroutine sniper` (auction house open). First it asks in its own
-  window whether ONE real test purchase of 1 piece up to 5c is allowed – it only buys with your own mouse wheel notch or
-  key; "No" skips it. Then, with buying locked, it watches the sniper for 2 minutes: hits stay visible (S1), counter and
-  budget only count confirmed purchases (S2), pause is visible and "resume" works (S3), frame rate / longest frame /
-  sync queue (S5) and reaction time (S6). The result goes into the test report like the other parts.
-- Tests T613–T619.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

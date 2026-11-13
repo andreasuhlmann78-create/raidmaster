@@ -7,6 +7,18 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.120</h3>
+<ul>
+<li><strong>No more sync flood:</strong> AHSentinel never fills the shared send queue above 10 messages; the rest waits in its own
+  outbox and is sent bit by bit (during the test routine it waits). This also reduces stutter after a full scan.</li>
+<li><strong>Market tab opens instantly:</strong> "Today" no longer calculates when the tab opens (was over 1 second); it calculates in
+  the background and appears when ready.</li>
+<li><strong>Faster login/reload:</strong> the compact price history is unpacked in small portions right after loading instead of all at
+  once; nothing can get lost (logout during unpacking keeps the packed data).</li>
+<li>Sniper test: "no hits" because the market had nothing suitable is now SKIP with reasons; the sync queue shows its
+  composition. Speed test: the last full-scan measurement survives a reload.</li>
+<li>Tests T634–T636.</li>
+</ul>
 <h3>Version 0.65.119</h3>
 <ul>
 <li><strong>Disenchanting needs at least 30 % profit (was 20 %):</strong> your own results showed too many disenchant purchases without
@@ -42,16 +54,7 @@
   disenchant targets, buy limits) is again value ÷ (1 + minimum profit), e.g. 10s -&gt; 8s 33c instead of 5s 90c.</li>
 <li>Test T620.</li>
 </ul>
-<h3>Version 0.65.115</h3>
-<ul>
-<li><strong>Sniper acceptance test in the game:</strong> <code>/ahs testroutine sniper</code> (auction house open). First it asks in its own
-  window whether ONE real test purchase of 1 piece up to 5c is allowed – it only buys with your own mouse wheel notch or
-  key; "No" skips it. Then, with buying locked, it watches the sniper for 2 minutes: hits stay visible (S1), counter and
-  budget only count confirmed purchases (S2), pause is visible and "resume" works (S3), frame rate / longest frame /
-  sync queue (S5) and reaction time (S6). The result goes into the test report like the other parts.</li>
-<li>Tests T613–T619.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
