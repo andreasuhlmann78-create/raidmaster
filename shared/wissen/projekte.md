@@ -19,6 +19,17 @@ Wird bei jeder Prüfung nachgeführt (pruef-ablauf.md). Quelle für Einzelheiten
 
 ## AHSentinel (Auktionshaus) – WICHTIGSTES PROJEKT
 
+**Zweck von AHSentinel (Nutzer 13.11. 22:13): Spass am Gold verdienen – aber nicht nur.** Jede Prüfung und jeder
+Auftrag wird daran gemessen, ob sich AHSentinel im Spiel gut anfühlt:
+- Erfolgserlebnis: sichtbar machen, dass es sich gelohnt hat (heute verdient, Gold pro Stunde, guter Fang).
+- Kontrolle und Können: den Markt verstehen, schneller und klüger sein als andere ("ein Instrument, eine Waffe").
+- Kein Frust: keine falschen Zahlen, kein Ruckeln, keine Verluste durch Fehler des Addons – ein falscher Kauf verdirbt
+  mehr Spass als zehn gute bringen.
+- Wenig Aufwand: schnell entscheiden, wenige Klicks, Zeit fürs eigentliche Spielen (Nutzer unter der Woche wenig Zeit).
+- Dazulernen: Gespür für den Markt durch klare Ergebnisse, nicht durch Rechenwege.
+- Mit anderen: etwas für die Gilde tun (Marktdaten-Netz), zeigen können, was man erreicht hat.
+Prüffrage bei jeder Änderung: Ist sie schnell, schlicht, verlässlich – und macht ein Erfolg sichtbar Freude?
+
 - Stand: 0.65.116 (13.11. abends). Repo AHAnalyzerPro (privat). Nur die AHSentinel-Sitzung ändert es.
 - Oberste Priorität jetzt: SN2115a Budget-Verdopplung nach "Zähler zurücksetzen"; SN2115b EINE Funktion "bester Weg"
   (Tooltip-Zeilen widersprachen sich); TS116 Sniper sucht nur beim Scrollen (belegt 21:58) -> selbsttätig suchen oder
