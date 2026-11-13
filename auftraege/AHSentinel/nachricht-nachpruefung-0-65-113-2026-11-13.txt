@@ -1,0 +1,35 @@
+NACHRICHT AN DIE AHSENTINEL-SITZUNG (zum Einfügen)
+Erst laufende Arbeit fertig machen.
+
+Stand: Nachprüfung von AHSentinel 0.65.113, 13.11.2026 20:20 MEZ (geplante Nachprüfung).
+
+Erledigt in 0.65.113 (danke): SN1951a–e (Zählung erst nach Bestätigung, Pause sichtbar + "jetzt fortsetzen",
+Liste bleibt, Warnung beim Anlegen, Sync-Begründung angenommen). addon_check OK, offline s42 630 OK / 0 FEHLER,
+T598–T601 grün. MN Version 2 betrifft AHSentinel erst mit 0.66 – angenommen.
+
+ZU TUN (in dieser Reihenfolge)
+1. SN1951-R1 (HOCH – Geld) als 0.65.114, vor LT: Ein ECHTER Einzelkauf kann jetzt ungezählt bleiben.
+   a) Keine Antwort in 15 s -> verworfen (Sniper.lua:299–316). Kommt AUCTION_HOUSE_PURCHASE_COMPLETED später, findet
+      Sn:ItemPurchaseConfirmed den Kauf nicht mehr (:336–341) – die Buchhaltung bucht ihn aber noch bis 5 Min.
+      (Ledger.lua:1636–1655). LegacyAH wartet 30 s (LegacyAH.lua:454), der Sniper nur 15 s.
+   b) Modernes AH: jedes AUCTION_HOUSE_SHOW_ERROR gilt als Fehlschlag des ältesten Einzelkaufs (Sniper.lua:1997–2007),
+      auch ein Fehler einer Suche. Danach kommt die Bestätigung -> ungezählt, Angebot fälschlich tot, zählt zur Pause.
+   Folge: Menge und Budget sind keine sichere Grenze mehr, der Sniper kann zu viel kaufen.
+   Lösung wie beim Warenkauf: GetMoney() beim Senden merken, nach Ablauf Gold prüfen (Abgang ≥ Kosten -> zählen,
+   Protokoll "SNIPER-BESTÄTIGT über Gold"); verworfene Käufe 5 Min. als "spät" behalten und bei COMPLETED nachzählen;
+   im modernen AH SHOW_ERROR nur als errorSeen merken (wie Sniper.lua:1982–1985); Fristen angleichen (≥ 30 s).
+   Tests T-SN1951e (Gold), T-SN1951f (COMPLETED nach 20 s, Buchhaltung = Sniper), T-SN1951g (SHOW_ERROR einer Suche,
+   dann COMPLETED -> gezählt, keine Pause). Mit 0.65.113 müssen sie rot sein.
+2. LT1–LT3 (HOCH, Entscheid des Nutzers): Gewinn-Zeile "Gewinn: ±x / Stück" rot/grün ersetzt nur "Entzaubern lohnt …"
+   und "Lohnt bis" – alles andere bleibt (Details in offen-ahsentinel.txt, Abschnitt LT).
+3. Danach als 0.65.115 die Reste: Punkt 1 TS111.1-Rest/T373 (HOCH), 2 TS111.2b-Test (HOCH), 3 T555b-Felder (HOCH),
+   4 UI1618a-R, 5 SBX1, 6 FW1, 7 UI1509, 9 MA3-G (MITTEL), 8 UI1510 und 12 Kleinpunkte (NIEDRIG).
+
+Bitte nach /reload mit 0.65.113 die Testroutine laufen lassen und den Bericht hochladen: es gibt noch keinen
+Testbericht mit MARKT-KERN (Grenzwerte Ü2 nicht prüfbar).
+
+git pull --rebase und auftraege/AHSentinel/offen-ahsentinel.txt lesen; nach der Umsetzung Bericht in berichte/AHSentinel/ ablegen.
+
+Nächste Version 0.65.114. Komplette Dateien, alte Clients nie brechen, alle Locale-Dateien, CHANGELOG EN/DE,
+vor dem Push python3 addon-check/addon_check.py download/AHSentinel-0.65.114.zip -> kein FEHLER.
+Ist ein Befund falsch, bitte begründet zurückmelden.

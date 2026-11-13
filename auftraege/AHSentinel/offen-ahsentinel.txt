@@ -1,16 +1,16 @@
-OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.112)
+OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.113)
 ============================================================
-Stand: 2026-11-13 17:45 MEZ · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/AHSentinel-0.65.112.zip
-(AHAnalyzerPro 94f0abe), verglichen mit 0.65.111 aus der git-Geschichte; Bericht berichte/AHSentinel/2026-11-13-1708-0.65.112.txt.
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.65.107 mit allen
-Nachträgen bis 13.11. 17:00 (TB108, DG1300, BH1307, MH1310, TT1317, Antwort 1401, PD7-Entscheid, Nachprüfung 14:30,
-UI1509, TB110, MN, Prüfung 0.65.111, UI1618, MK-Ü1F, TS111, Feed). Erledigtes ist herausgenommen (siehe unten).
+Stand: 2026-11-13 20:20 MEZ · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/AHSentinel-0.65.113.zip
+(AHAnalyzerPro ead7f06), verglichen mit 0.65.112 aus der git-Geschichte; Bericht berichte/AHSentinel/2026-11-13-2016-0.65.113.txt.
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.65.112 mit den
+Nachträgen der Prüf-Sitzung im Chat bis 20:12 (SN1951, MN Version 2, LT/LT2). Erledigtes ist herausgenommen (siehe unten).
 Regel seit 9. Nov.: Nur die AHSentinel-Sitzung ändert und veröffentlicht AHSentinel (raidmaster/CLAUDE.md).
-Gelesene Berichte: berichte/AHSentinel/2026-11-13-1444 (0.65.110), -1539 (0.65.111), -1708 (0.65.112).
+Gelesene Berichte: berichte/AHSentinel/2026-11-13-1708 (0.65.112), -2016 (0.65.113).
 
 RELEASEPLAN (verbindlich, Entscheid des Nutzers 13.11. 13:15, fortgeschrieben):
-0.65.109–0.65.112 erledigt (falsche Zahlen, Ruckeln/Zuverlässigkeit, SOFORT S1–S4, TS111/UI1618 – siehe "Erledigt").
-0.65.113 REST (klein, vor 0.66): T373/TS111.1-Rest (Hintergrund-Aufgaben in Portionen) · Tests TS111.2b und T555b
+0.65.109–0.65.113 erledigt (falsche Zahlen, Ruckeln/Zuverlässigkeit, SOFORT S1–S4, TS111/UI1618, SN1951 – siehe "Erledigt").
+0.65.114 ZUERST SN1951-R1 (Geld, siehe unten), dann LT1–LT3 (Live-Tooltip).
+0.65.115 REST (klein, vor 0.66): T373/TS111.1-Rest (Hintergrund-Aufgaben in Portionen) · Tests TS111.2b und T555b
          nachziehen (Code ist da, die Tests decken den Befund nicht) · UI1618a-R (Liste nach dem Laden neu filtern) ·
          SBX1 (Sandbox verwirft echte Sync-Daten) · UI1509 · UI1510 · FW1 (Ursache benennen) · Kleinpunkte NIEDRIG.
 0.66     RECHENKERN (Teil F Stufe 2): RK1–RK8, MR2 Mein Lager, API-PM2/3-Rest, Absatz als Spanne (Hinweis unten),
@@ -20,6 +20,21 @@ RELEASEPLAN (verbindlich, Entscheid des Nutzers 13.11. 13:15, fortgeschrieben):
 Kleinere offene Punkte (MA3-G, AB3, L2b, BE2b, E, F, G, API-PM4 …) nach Möglichkeit in die passende Version legen.
 Jede Version: Regressionstest je Punkt (Test muss mit der alten Version ROT sein), addon_check ohne FEHLER, Bericht in
 berichte/AHSentinel/.
+
+Erledigt in 0.65.113 (danke):
+  SN1951a – Einzelkäufe zählen erst bei AUCTION_HOUSE_PURCHASE_COMPLETED: Sn.itemBuys (Sniper.lua:291–373), Sn:Remaining
+    rechnet vorgemerkte Käufe ab (:291–294), "(+1 gesendet)" (:393–394), Sn:Buy zählt nicht mehr beim Senden
+    (:1536–1551), Ereignis (:1933–1936). LegacyAH: FIFO-Warteschlange der Käufe, Antwort gehört zum ältesten offenen
+    Kauf (LegacyAH.lua:449–461, :735–765), Fehlertext in AH.lastBuyError. T598 (mit 0.65.112 rot). Rest: SN1951-R1.
+  SN1951b – Pause sichtbar: Sn:PauseText/PausedItems/ResumeItem (Sniper.lua:889–917), Zielzeile orange
+    (UI_Sniper.lua:255), Tooltip mit Server-Fehlertext (:280–283), Statuszeile "· n pausiert" (Sniper.lua:2383–2393),
+    Knopf "jetzt fortsetzen" (UI_Sniper.lua:367–376, :495–499). T599.
+  SN1951c – 3 Fehlschläge leeren die Liste nicht mehr, nur veraltet + neue Suche (Sniper.lua:845–847). T600, T586 angepasst.
+  SN1951d – Warnung beim Anlegen/neuem Max: rote Chat-Zeile + Warnton über Se:Alarm, nicht in der Testroutine
+    (Sniper.lua:241–256). T601.
+  SN1951e – Begründung angenommen: der Sniper sendet keine Sync-Nachrichten; die ~40 in der Warteschlange stammen aus
+    GoldSentinelMarkt anderer Addons (mit MN Version 2 behoben).
+  MN VERSION 2 – betrifft AHSentinel noch nicht (GoldSentinelMarkt.lua erst mit 0.66, dann direkt v2) – angenommen.
 
 Erledigt in 0.65.112 (danke):
   TS111.2 (Code) – Lernfaktor ohne Kreisrechnung: A:GetLiquidity setzt v.estimate immer (AHAnalyzerPro.lua:2402–2404),
@@ -44,29 +59,24 @@ Erledigt in 0.65.109–0.65.111 (angenommen in der Nachprüfung 14:30 und der Pr
   S1 Entzauber-Preis erzielbar (T589, im Spiel bestätigt: "Materialpreise korrigiert ×0,57"), S2 Absatz gemessen vor
   geschätzt (T590), S3 T240 (Test war falsch, begründet), S4 T72 (T591).
 
-Prüfungen: addon_check 0.65.112 OK (0 FEHLER, 0 WARNUNG; Lua-5.1-Syntax, Ladetest, Sprachtest, alle Prüfungen der
-gemeinsamen Dateien bestanden). GoldSentinelGame/Sync/Test byte-gleich mit shared/; GoldSentinelDev.lua unverändert
-gegenüber 0.65.111 (keine Vorlage in shared/). GoldSentinelMarkt.lua ist noch nicht enthalten (kommt mit MN in 0.66).
-CHANGELOG EN/DE mit 0.65.112. Neuer Locale-Schlüssel in allen 11 Sprachen, Platzhalter gleich (%s, %d %%).
-Kein Taint im Diff: keine Blizzard-Funktion und keine C_-Tabelle ersetzt; C_Item.RequestLoadItemDataByID nur gelesen
-und mit pcall (Era/TBC: abgesichert, fehlt die Funktion -> nur ausblenden). Tests ersetzen nur eigene Funktionen (A.*,
-VS.*, TT.*) und stellen sie zurück. Keine Spielernamen im Diff.
-Offline (tests/run_offline.sh, Lua 5.1, Kopie im Arbeitsordner): s42 auto PASS (OK 626 · FEHLER 0 · übersprungen 54 ·
-im Client 16), T592–T597 PASS; s43 server PASS, nur T458 in der Nachbildung rot (Verfolgung V4 40 ms, Nachlauf 56 ms –
-Nachbildung, nicht massgebend, wie bisher).
-Testberichte seit der letzten Nachprüfung: AHSentinel-1794581591-7bc982-1 (Teil server, 0.65.110, 15:50): OK 57 ·
-FEHLER 5 · SKIP 4 · 0 Lua-Fehler. FEHLER: T72 (in 0.65.111 behoben), T126 45,9 ms, T410 (nur 2 von 5 Schritten
-gemessen), T458 (1540 von 3115 Frames > 33 ms, Lücke 145 ms), T459 (+21,9 MB, 11 Speicherbereinigungen) – gehört zu
-TS111.1. NEU daraus: Sandbox FEHLER (SBX1). Diagnose 0.65.110 (33726ef0373b, e7ac83bb631c): "Fehler in dieser Sitzung:
-0"; LANGSAM cache:warm-today bis 54 ms, cache:today:10 bis 52 ms, ui-refresh 91 ms, fullscan 48 ms (Punkt 1);
-VOLLSCAN Messung Lücke 1021 ms, GC 24 (vor TS111.1); 84× AUCTION_CANCELED "unerwartet, nichts geändert" (D1 wirkt);
-FLIP-WIDERSPRUCH Item 12184 (FW1).
+Prüfungen: addon_check 0.65.113 OK (0 FEHLER, 0 WARNUNG; Lua-5.1-Syntax, Ladetest, Sprachtest, gemeinsame Dateien
+byte-gleich mit shared/). GoldSentinelMarkt.lua noch nicht enthalten (kommt mit MN in 0.66). CHANGELOG EN/DE mit
+0.65.113. 11 neue Locale-Schlüssel in allen 11 Sprachen, Platzhalter gleich (%s, %d). Kein Taint im Diff: keine
+Blizzard-Funktion und keine C_-Tabelle ersetzt; die Tests ersetzen nur eigene Funktionen (Sn.*, A.AH.PlaceBid als Seam,
+Le.NotePurchase) und stellen sie zurück. Era/TBC: LegacyAH-Warteschlange wird bei AUCTION_HOUSE_CLOSED geleert, wipe
+vorhanden. Keine Spielernamen im Diff.
+Offline (tests/run_offline.sh, Lua 5.1): s42 auto PASS (OK 630 · FEHLER 0 · übersprungen 54 · im Client 16), T586,
+T598–T601 PASS; s43 server PASS, nur T458 in der Nachbildung rot (Nachlauf 52 ms – Nachbildung, wie bisher).
+Testberichte seit der letzten Nachprüfung (906919d): AHSentinel-1794584675-5ecd5d-1 (Teil server, 0.65.111, 15:42 UTC):
+OK 59 · FEHLER 3 · SKIP 4 · 0 Lua-Fehler · Sandbox OK. FEHLER T126 (40,6 ms), T458 (821 ms Einlesen, 449 von 2309
+Frames > 33 ms), T459 (+53 MB, GC 56) – bestätigt Punkt 1 (Werte stehen dort schon). Diagnosen 0.65.111 (1fb0f019330b,
+849e40ab0c27): "Fehler in dieser Sitzung: 0"; 16× LANGSAM, 1× FLIP-WIDERSPRUCH (FW1 tritt auch mit 0.65.111 auf).
 
-MARKT-KERN (Überwachung Teil E): Kein eingegangener Testbericht enthält den Abschnitt (alle sind 0.65.110; das Feld
+MARKT-KERN (Überwachung Teil E): Kein eingegangener Testbericht enthält den Abschnitt (neuester ist 0.65.111; das Feld
 markt_kern gibt es erst ab 0.65.112). Ü2 (Trefferquote je freigegebenem Weg ≥ 60 %, mittlerer Fehler "Lohnt bis"
-≤ 15 %, MA1-Fehlerquote ≤ 20 %) lässt sich darum weiter NICHT prüfen. Bitte nach /reload mit 0.65.112 die Testroutine
-laufen lassen und den Bericht hochladen (Uploader). 0.65.112 ändert kein "Lohnt bis" und keine Freigabe (Teil D) –
-nur den Absatz-Lernfaktor (Schätzung) und den Lagerwert.
+≤ 15 %, MA1-Fehlerquote ≤ 20 %) lässt sich darum weiter NICHT prüfen. Bitte nach /reload mit 0.65.113 die Testroutine
+laufen lassen und den Bericht hochladen (Uploader). 0.65.113 ändert kein "Lohnt bis" und keine Freigabe (Teil D) –
+nur die Zählung der Sniper-Käufe.
 
 OFFENE PUNKTE
 -------------
@@ -276,8 +286,12 @@ GRUNDSÄTZE (Antwort auf den Gesamtbericht 1401, bestätigt):
 HINWEIS DES NUTZERS (10. Nov. 16:48): Nach dem letzten Release dem Nutzer ausdrücklich melden: "alles umgesetzt –
 bereit für den Test", mit Version.
 
-IM CLIENT PRÜFEN (mit 0.65.112 bzw. der nächsten Version)
+IM CLIENT PRÜFEN (mit 0.65.113 bzw. der nächsten Version)
 ---------------------------------------------------------
+- SN1951 (0.65.113): Sniper mit Mausrad auf Ausrüstung – Zähler steigt nur bei "Gekauft:", "(+1 gesendet)" verschwindet
+  nach der Antwort; nach 3 Fehlschlägen Pause in der Zeile, "jetzt fortsetzen" sucht sofort. Kommt in Forever
+  AUCTION_HOUSE_PURCHASE_COMPLETED mit auctionID? Protokoll SNIPER-UNBESTÄTIGT: wie oft, und ist das Gold trotzdem weg
+  (dann SN1951-R1)? Ziele mit falschem Zähler (z. B. "32/35") mit "Zähler zurücksetzen" auf 0.
 - TESTBERICHT HOCHLADEN nach /reload: Feld markt_kern (MARKT-KERN, Ü1/Ü2-Zahlen) muss im Repo ankommen; dazu Zeilen
   "TS111.3 grösste Lagerposten", "PD7 Zustand", "Kalibrierung", "BH1307 ohne Einstand", gelernter Faktor je Gruppe
   (≠ 1,00, z. B. Staub ~0,5) und Vergleich "20 meistgehandelte" (geschätzt ≠ gemessen × fester Faktor).
@@ -309,33 +323,30 @@ IM CLIENT PRÜFEN (mit 0.65.112 bzw. der nächsten Version)
 Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/AHSentinel/ ablegen.
 
-SN1951 (SEHR HOCH, NEU 13.11. 19:55 – Nutzer: "der Sniper funktioniert nicht mehr wirklich … meldet keine Treffer, rechts
-   tauchen keine Items auf oder nur sporadisch und verschwinden wieder, beim Scrollen kauft er kein Item"; Bilder 19:48,
-   0.65.112, Sniper-Modus AN, Kaufen mit Mausrad):
-   Ziel "Schultern des Hügelwächters", Menge 35, Max 9s 90c, Budget 3g 12s 40c.
-   a) ZÄHLER FALSCH: Zielzeile "32/35 gekauft · Budget übrig 18s 20c", aber der Tooltip sagt "Treffer 6 · gekauft 3
-      (50 %)" und im Chat "Sniper: 3 Käufe beim gleichen Item gescheitert – Item 10 Min. pausiert". Das Budget ist bis
-      auf 18s 20c verbraucht, als wären ~30 Stück gekauft. -> Der Sniper hält das Ziel für erfüllt ("wartet: Keine offenen
-      Ziele … (oder alle Ziele sind erfüllt)") und sucht/zeigt nichts mehr. Vermutung: gescheiterte oder nicht bestätigte
-      Käufe (SM/SB, Vorab-Reservierung T42, AB4d-Neuversuch) werden als gekauft gezählt bzw. das Budget wird bei jedem
-      Versuch abgezogen. Gezählt und abgezogen werden darf NUR ein vom Server bestätigter Kauf (AUCTION_HOUSE_PURCHASE_
-      COMPLETED / Verkaufs-Erfolg, Menge laut Server). Test T-SN1951a: 3 gescheiterte Käufe -> Zähler 0, Budget unverändert.
-   b) PAUSE UNSICHTBAR: "Item 10 Min. pausiert" steht nur im Chat. In der Zielzeile und oben im Status anzeigen
-      ("pausiert bis 19:58 – 3 Käufe gescheitert", Knopf "jetzt fortsetzen"), sonst wirkt der Sniper tot. Ursache der
-      gescheiterten Käufe im Protokoll ausweisen (Server-Fehlertext).
-   c) TREFFER VERSCHWINDEN: rechte Liste zeigt sporadisch Angebote, die gleich wieder verschwinden; "2 weitere Angebote
-      waren schon weg"; Ø Reaktion 73,1 s (!), heute 33 Treffer · 17 gekauft · 13 verpasst. Prüfen, ob die Liste bei
-      jedem Suchlauf geleert wird, bevor neue Ergebnisse da sind, und ob eine pausierte/erfüllte Zielzeile die Treffer
-      wieder entfernt. Treffer bleiben stehen, bis sie gekauft sind oder der Server sie als weg meldet.
-   d) "Max über Verkaufswert – jeder Kauf verliert ca. 1s 45c/Stück": Bei einem solchen Ziel beim Anlegen einmal
-      deutlich warnen (WS-Stil), nicht nur im Tooltip.
-   e) Möglicher Mitverursacher des Ruckelns: Statuszeile "Sync über Gilde: 2 Mitspieler, sende … (39)/(40)" – die
-      Sync-Warteschlange steht dauerhaft bei ~40. Das ist sehr wahrscheinlich GoldSentinelMarkt aus einem anderen Addon
-      (BuffSentinel 0.9.18 u. a.), das den AHSentinel-Vollscan mitliest und an die Gilde sendet – die Prüf-Sitzung
-      korrigiert die gemeinsame Datei (Version 2). AHSentinel bitte prüfen, ob Sniper-Nachrichten/eigene Sync-Nachrichten
-      hinter einer vollen Warteschlange hängen bleiben.
-   Höchster Vorrang (Geld!): als 0.65.113 vor allem anderen. Tests T-SN1951a–d, Regression TU6.
-   MN VERSION 2 (13.11. 20:00, DRINGEND): GoldSentinelMarkt.lua Version 2 – in Clients mit AHSentinel liest sie nichts mehr selbst (doppeltes Lesen machte den Sniper/das Spiel ruckelig), Warteschlange max. 10, Gilde nur einmal je Stunde ganzer Scan. SOFORT neu kopieren und veröffentlichen (Version 1 = Warnung "veraltet").
+SN1951-R1 (HOCH – GELD, NEU in der Nachprüfung 0.65.113): BESTÄTIGTER KAUF KANN UNGEZÄHLT BLEIBEN -> SNIPER KAUFT ZU VIEL
+   0.65.113 dreht den Fehler um: Vorher zählte ein gescheiterter Kauf, jetzt kann ein ECHTER Kauf ungezählt bleiben.
+   a) Keine Antwort in 15 s -> verworfen, nicht gezählt (Sniper.lua:299–316, ITEM_CONFIRM_MAX = 15). Kommt
+      AUCTION_HOUSE_PURCHASE_COMPLETED später, findet Sn:ItemPurchaseConfirmed den Kauf nicht mehr (TakeItemBuy -> nil,
+      :336–341) und zählt nichts. Die Buchhaltung bucht denselben Kauf aber noch bis 5 Min. (Ledger.lua:1636–1655,
+      pendingBuys) – Buchhaltung und Sniper laufen auseinander, Menge und Budget sind nicht mehr Grenze. Späte Antworten
+      sind in Forever belegt (PD1, "KAUF-DOPPELT ×14", Ø Reaktion 73 s, Server-Drossel). LegacyAH wartet 30 s
+      (LegacyAH.lua:454 BUY_ANSWER_MAX), der Sniper nur 15 s.
+   b) Modernes AH: JEDES AUCTION_HOUSE_SHOW_ERROR gilt als Fehlschlag des ältesten offenen Einzelkaufs (Sniper.lua:1997–2007,
+      Rückfall "self.itemBuys[1]"). Ein Fehler einer Suche oder "Datenbank beschäftigt" verwirft so einen Kauf, der danach
+      noch bestätigt wird -> ungezählt, Angebot fälschlich tot, zählt zur 3er-Pause. Der Warenkauf macht es bewusst anders
+      (:1982–1985: Fehler nur merken, entschieden wird über SUCCEEDED/FAILED bzw. den Gold-Rückfall :1652–1660).
+   Lösung: wie beim Warenkauf. (1) Beim Senden GetMoney() merken; nach Ablauf ohne Antwort Gold prüfen: weniger um ≥ Kosten
+   -> als gekauft zählen (Protokoll "SNIPER-BESTÄTIGT über Gold"), sonst verwerfen. (2) Verworfene Käufe noch 5 Min. als
+   "spät" behalten; kommt COMPLETED mit derselben auctionID, nachträglich zählen (wie die Buchhaltung). (3) Im modernen AH
+   AUCTION_HOUSE_SHOW_ERROR nur als errorSeen am Kauf merken, nicht als Fehlschlag; Fehlschlag erst nach Ablauf ohne
+   COMPLETED und ohne Gold-Abgang. LegacyAH mit lastBuyError (Angebot genannt) darf sofort entscheiden. (4) Fristen
+   angleichen (Sniper ≥ LegacyAH 30 s).
+   Tests T-SN1951e: Kauf gesendet, keine Antwort, Gold −Kosten -> nach Ablauf gezählt. T-SN1951f: COMPLETED nach 20 s ->
+   gezählt, Buchhaltung und Sniper gleich. T-SN1951g: modernes AH, SHOW_ERROR einer Suche, danach COMPLETED -> gezählt,
+   Angebot nicht tot, keine Pause. Mit 0.65.113 müssen e–g rot sein.
+   IM CLIENT: Protokoll SNIPER-UNBESTÄTIGT zählen; jede solche Zeile mit Gold-Abgang wäre ein ungezählter Kauf.
+   Höchster Vorrang (Geld!): als 0.65.114 vor LT.
+   Hinweis an den Nutzer (aus dem Bericht 2016): alte falsche Stände mit "Zähler zurücksetzen" auf 0 setzen.
 
 LT (HOCH, NEU 13.11. 20:07, ENDGÜLTIG 20:11 – Wunsch und Entscheid des Nutzers): LIVE-TOOLTIP BEIM KAUFEN
    LT1 Fährt man beim Kaufen mit der Maus über ein ANGEBOT (Sniper-Liste rechts, Einkauf, Schnäppchen, Blizzard-AH-
@@ -353,4 +364,4 @@ LT (HOCH, NEU 13.11. 20:07, ENDGÜLTIG 20:11 – Wunsch und Entscheid des Nutzer
        Die Grenze (bisher "Lohnt bis") bleibt als Zahl beim Max-Feld im Sniper.
    Tests T-LT1 (Zeile rechnet mit dem Stückpreis des Angebots unter der Maus; Farbe rot/grün; 0c grün), T-LT2 (die zwei
    ersetzten Zeilen fehlen, alle übrigen Zeilen sind noch da), T-LT3 (Locales EN "Profit: −44c / each" o. ä., DE).
-   Einordnen: direkt nach SN1951 (0.65.113), spätestens 0.65.114 – vor 0.66.
+   Einordnen: 0.65.114 direkt nach SN1951-R1 – vor 0.66.

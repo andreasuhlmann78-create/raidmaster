@@ -1,0 +1,36 @@
+BERICHT NACHPRÜFUNG AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 20:20 MEZ · Sitzung: geplante Nachprüfung · Commit: siehe "auftraege/AHSentinel: Nachprüfung 0.65.113"
+
+ZUERST (HOCH)
+- AHSentinel 0.65.113 – SN1951-R1 (HOCH, Geld): SN1951 ist umgesetzt, dreht den Fehler aber um. Ein echter Einzelkauf
+  bleibt ungezählt, wenn die Bestätigung später als 15 s kommt (Sniper.lua:299–316, :336–341) oder wenn im modernen AH
+  ein beliebiges AUCTION_HOUSE_SHOW_ERROR (Suche, "Datenbank beschäftigt") dazwischenkommt (Sniper.lua:1997–2007).
+  Die Buchhaltung bucht denselben Kauf noch bis 5 Min. (Ledger.lua:1636–1655). Folge: Menge und Budget eines Ziels
+  sind keine sichere Grenze mehr. Lösung wie beim Warenkauf (Gold-Rückfall Sniper.lua:1652–1660, Fehler nur merken),
+  späte Bestätigung nachzählen, Fristen angleichen (LegacyAH 30 s). Tests T-SN1951e–g. Als 0.65.114 vor LT.
+
+ERGEBNIS JE PROJEKT
+- AHSentinel 0.65.113: addon_check OK (0/0). Offline s42 PASS (OK 630 · FEHLER 0), T586/T598–T601 PASS; s43 PASS
+  (nur T458 in der Nachbildung, wie bisher). SN1951a–e erledigt (Beleg in offen-ahsentinel.txt), MN Version 2 für
+  AHSentinel noch nicht nötig (angenommen). NEU SN1951-R1 HOCH. 11 neue Locale-Schlüssel in allen 11 Sprachen,
+  CHANGELOG EN/DE, kein Taint, Era/TBC nicht gebrochen (LegacyAH-Warteschlange). Alle übrigen offenen Punkte
+  (1–12, PD, BH1307, TU, LT usw.) unverändert übernommen. Releaseplan: 0.65.114 = SN1951-R1 + LT, 0.65.115 = Reste.
+  MARKT-KERN: weiter in keinem Testbericht (neuester AHSentinel-Bericht ist 0.65.111) -> Grenzwerte Ü2 nicht prüfbar.
+  0.65.113 ändert kein "Lohnt bis" und keine Freigabe (Teil D).
+- Alle anderen Projekte: keine neue Version seit 17:50 (BuffSentinel 0.9.18, GuildSentinel 0.9.37, ProfessionSentinel
+  0.9.44, ThreatSentinel 2.5.11, LevelPilot 3.12.28, RaidMaster 3.0.25, Uploader 2.3.6, Bot 1.5.131).
+
+TESTBERICHTE (neu seit 0ac0bcd, bis 5f3d0dd)
+- AHSentinel-1794584675-5ecd5d-1 (Teil server, 0.65.111): OK 59 · FEHLER 3 (T126, T458, T459) · 0 Lua-Fehler ·
+  Sandbox OK. Bestätigt Punkt 1 (TS111.1-Rest/T373), Werte standen dort schon. Kein markt_kern (Feld erst ab 0.65.112).
+- Diagnosen AHSentinel 0.65.111, GuildSentinel 0.9.36, ThreatSentinel 2.5.10, ProfessionSentinel 0.9.43,
+  LevelPilot 3.12.27, GSMesstest 5.1: überall 0 Lua-Fehler. LevelPilot: GRUNDREGEL Quest 445 (= GR1, schon offen).
+  AHSentinel: FLIP-WIDERSPRUCH auch mit 0.65.111 (= FW1, schon offen). Nichts Neues für andere Projekte.
+
+GELESENE BERICHTE DER PROJEKTE
+- AHSentinel 2016 (0.65.113): Erledigtes nach Beleg übernommen; SN1951e-Begründung (Sniper sendet nichts über Sync)
+  und "MN v2 erst mit 0.66" angenommen. Hinweis "Zähler zurücksetzen" an den Nutzer übernommen.
+
+NACHRICHTEN
+- Verschickt: auftraege/AHSentinel/nachricht-nachpruefung-0-65-113-2026-11-13.txt (Log 20:20).
+- Wegen "schon raus" weggelassen: keine (für 0.65.113 gab es noch keinen Eintrag im Log).
