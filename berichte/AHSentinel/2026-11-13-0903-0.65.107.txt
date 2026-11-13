@@ -1,0 +1,38 @@
+BERICHT AHSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 · Sitzung: AHSentinel-Sitzung · Version: 0.65.107 · Commit (AHAnalyzerPro): c664559
+Nachbildung: Vollauf 244/244 grün.
+
+ERLEDIGT
+  RK2-A MarketCore.lua MK:MinRoi/SafetyMargin/LimitFromNet/DELimit/WorthUpTo – EINE Rechnung "Lohnt bis":
+        Netto × die strengere Grenze aus 1/(1+Mindestrendite) und (1 − Sicherheitsmarge); Marge = Ln:Margin("d") (RK5),
+        ohne Lernen 10 % unter 10 echten Entzauberungen, sonst 0. Alle Stellen rufen sie: TT:DisenchantVerdict,
+        D:WorthLimit (-> Einkauf-Markierung, Warnschutz WS3, Sn:UpdateDETargets), D:FindDeals (+ D:DealLimit),
+        DEBuy DB:Value, UI_MarketView Advice/MV:LimitFor (Weg "d", MV:DELimitFor), API.WorthUpTo.
+        Folge: Standard "Lohnt bis" 80 % statt 83,3 % des Netto (gelernte Startmarge 20 % ist strenger als 20 % Rendite).
+        Sammelkauf: DB:Judge zieht die Mindestrendite nicht mehr ein zweites Mal ab (vorher effektiv 66,7 %).
+        Selbsttest "Ein \"Lohnt bis\" je Item (RK2-A)" (SelfTest.lua): 20 gescannte Items, MK:LimitMismatch -> FEHLER.
+        Tests T556 (T-RK2a: 20 Items, 7 Stellen, Lernen an/aus), T557 (T-RK2b). Angepasst: T230, T248, T467, T469, T534.
+  Ü3    MK:MarkRows: Markt-Zeilen mit Gewinn > 300 % -> Spalte Stand "unplausibel: …", nicht als Empfehlung gemerkt (T558).
+        "dünner Markt" nur, wenn die Zeile r.productOffers trägt (Herstellen, kommt mit RK3).
+  SB1–SB5 Sniper.lua Sn:BudgetHit/AskRefill/RefillAnswer/Money, UI_Sniper.lua Sn:ShowRefill (Ja=Enter / Nein=Esc).
+        Ziele mit aufgebrauchtem Budget und offener Menge bleiben in der Suche (GetActiveTargets), sonst käme nie ein
+        Treffer. Protokoll SNIPER-BUDGET. Tests T559–T564 (T-SB1–T-SB6, Kauf ersetzt – kein echter Kauf).
+  BL-A  AHAnalyzerPro.lua: A.COMMANDS trägt w/arg/dev/run, A:FindCommand (längstes Wort), Slash-Handler ruft nur run.
+        Bisher versteckte Wörter jetzt in der Liste: doppelt, resetscan, messreihe, ahdebug, ah. Dev-Einträge (Feld dev)
+        nur mit A:IsDev() (Chat-Liste, CmdHint). Tests T565 (T-BL1), T566 (T-BL5), T567 (T-BL6).
+  API-PM2 WorthUpTo: 1. Wert bleibt SUMME für qty (in API.md klar festgehalten), 4. Wert Sicherheit 0–1 (Trefferquote
+        Weg de aus MA2, nil = lernt), 5. Wert Stückpreis; MarketState Trend-Wörter in API.md. Test T568.
+  API-PM3 Cr:LadderCost: AH-Zutaten über die Angebotsleiter für die benötigte Menge. Test T569 (20 Zutaten, 2 Stufen).
+  TU5   MK:RealCheck/RealCheckItem: "/ahs testroutine echt" (nur lesen) und still nach jedem Vollscan; Verletzungen ins
+        Protokoll GRUNDREGEL VERLETZT; Testbericht-Zeile "TU5 echte Daten". Test T570.
+  TU7   Freigaben 59/61 %/19 Fälle: T571 (RK8-Prüffälle folgen mit RK).
+  TU9   tests/run_offline.sh: mit TR_TEXT=1 ungefiltert.
+  BP-2026-11-13-1 T572: Post mit drei Absendern (Stormwind Auction House / anderer / keiner) gleich erkannt und verbucht.
+
+TEILWEISE / OFFEN
+  WorthUpTo nur Weg Entzaubern – "ein Lohnt bis über alle Wege" (Verkaufen/Herstellen) kommt mit RK1/RK3 (Teil F).
+  MA3 Gold-Messung Händlerverkauf noch offen. AB3 wartet auf einen EIGENE-PREIS-Eintrag aus dem Client.
+  L2b, BE2b, E, F, G, PD3/4/6/8 und Teil F Stufen 2–4 (RK1–RK8, MR1–MR11, MA4–MA6, W, R) offen.
+BEFUND FALSCH: keiner.
+FRAGEN: PD7 – Entscheid des Nutzers steht weiter aus.
+IM CLIENT PRÜFEN: Tooltip/Markt/Sammelkauf gleicher "Lohnt bis"; Sniper-Abfrage bei aufgebrauchtem Budget; /ahs testroutine echt.
