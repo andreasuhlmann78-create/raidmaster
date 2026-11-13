@@ -7,21 +7,16 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## AHSentinel-0.65.117.zip: OK
 
-## BuffSentinel-0.9.18.zip: OK (1 Warnungen)
-- **WARNUNG** BuffSentinel/GoldSentinelMarkt.lua: veraltete offizielle Fassung (Version 1) – auf shared/GoldSentinelMarkt.lua Version 2 aktualisieren
+## BuffSentinel-0.9.19.zip: OK
 
-## GuildSentinel-0.9.37.zip: FEHLER
-- **FEHLER** GuildSentinel/GoldSentinelMarkt.lua: weicht von shared/GoldSentinelMarkt.lua ab (Version 1, Vorlage Version 2). Gemeinsame Datei nie selbst ändern – die Vorlage unverändert kopieren.
+## GuildSentinel-0.9.38.zip: OK
 
-## ProfessionSentinel-0.9.44.zip: FEHLER
-- **FEHLER** ProfessionSentinel/GoldSentinelMarkt.lua: weicht von shared/GoldSentinelMarkt.lua ab (Version 1, Vorlage Version 2). Gemeinsame Datei nie selbst ändern – die Vorlage unverändert kopieren.
+## ProfessionSentinel-0.9.45.zip: OK
 
 ## RaidMaster-3.0.25.zip: FEHLER
 - **FEHLER** RaidMaster/GoldSentinelMarkt.lua: weicht von shared/GoldSentinelMarkt.lua ab (Version 1, Vorlage Version 2). Gemeinsame Datei nie selbst ändern – die Vorlage unverändert kopieren.
 
-## ThreatSentinel-2.5.11.zip: FEHLER
-- **FEHLER** ThreatSentinel/GoldSentinelMarkt.lua: weicht von shared/GoldSentinelMarkt.lua ab (Version 1, Vorlage Version 2). Gemeinsame Datei nie selbst ändern – die Vorlage unverändert kopieren.
+## ThreatSentinel-2.5.12.zip: OK
 
-## levelpilot__levelpilot-3.12.28.LevelPilot.zip: FEHLER
-- **FEHLER** LevelPilot/GoldSentinelMarkt.lua: weicht von shared/GoldSentinelMarkt.lua ab (Version 1, Vorlage Version 2). Gemeinsame Datei nie selbst ändern – die Vorlage unverändert kopieren.
+## levelpilot__levelpilot-3.12.29.LevelPilot.zip: OK
 
