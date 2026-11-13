@@ -273,4 +273,6 @@ TB108 (HOCH, NEU 13.11. 13:05 – Testroutine 0.65.108 im Spiel, 12:55, Forever 
    GUT: Entzauber-Chancen 26–30 gemessen (594 Teile): Staub 72,7 %, Essenz 21,2 %, Splitter 6,1 % (Tabelle 75/20/5);
    36–40 (124): 72,6 / 20,2 / 7,3 %. MA3: 2553 Händlerpreise bestätigt, 4 abweichend. Vollscan 176051 Auktionen, längster
    Frame 3,4 ms. Buchhaltung-Stichtag, Sandbox, Regressionen ok.
+   TU5 im Spiel (Bild 12:58): "Echte Daten (TU5): 6545 Items geprüft, 0 Verletzungen" – gut. Die Meldung steht aber
+   ZWEIMAL direkt hintereinander im Chat (NIEDRIG): nur einmal je Lauf melden (Lauf doppelt ausgelöst? Test dazu).
    NOCH IM SPIEL: "/ahs testroutine server" am offenen AH, "berufe" am Berufsfenster, "haendler" am Händler; 16 CLIENT-Punkte.
