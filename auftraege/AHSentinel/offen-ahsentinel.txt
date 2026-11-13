@@ -308,3 +308,30 @@ IM CLIENT PRÜFEN (mit 0.65.112 bzw. der nächsten Version)
 
 Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/AHSentinel/ ablegen.
+
+SN1951 (SEHR HOCH, NEU 13.11. 19:55 – Nutzer: "der Sniper funktioniert nicht mehr wirklich … meldet keine Treffer, rechts
+   tauchen keine Items auf oder nur sporadisch und verschwinden wieder, beim Scrollen kauft er kein Item"; Bilder 19:48,
+   0.65.112, Sniper-Modus AN, Kaufen mit Mausrad):
+   Ziel "Schultern des Hügelwächters", Menge 35, Max 9s 90c, Budget 3g 12s 40c.
+   a) ZÄHLER FALSCH: Zielzeile "32/35 gekauft · Budget übrig 18s 20c", aber der Tooltip sagt "Treffer 6 · gekauft 3
+      (50 %)" und im Chat "Sniper: 3 Käufe beim gleichen Item gescheitert – Item 10 Min. pausiert". Das Budget ist bis
+      auf 18s 20c verbraucht, als wären ~30 Stück gekauft. -> Der Sniper hält das Ziel für erfüllt ("wartet: Keine offenen
+      Ziele … (oder alle Ziele sind erfüllt)") und sucht/zeigt nichts mehr. Vermutung: gescheiterte oder nicht bestätigte
+      Käufe (SM/SB, Vorab-Reservierung T42, AB4d-Neuversuch) werden als gekauft gezählt bzw. das Budget wird bei jedem
+      Versuch abgezogen. Gezählt und abgezogen werden darf NUR ein vom Server bestätigter Kauf (AUCTION_HOUSE_PURCHASE_
+      COMPLETED / Verkaufs-Erfolg, Menge laut Server). Test T-SN1951a: 3 gescheiterte Käufe -> Zähler 0, Budget unverändert.
+   b) PAUSE UNSICHTBAR: "Item 10 Min. pausiert" steht nur im Chat. In der Zielzeile und oben im Status anzeigen
+      ("pausiert bis 19:58 – 3 Käufe gescheitert", Knopf "jetzt fortsetzen"), sonst wirkt der Sniper tot. Ursache der
+      gescheiterten Käufe im Protokoll ausweisen (Server-Fehlertext).
+   c) TREFFER VERSCHWINDEN: rechte Liste zeigt sporadisch Angebote, die gleich wieder verschwinden; "2 weitere Angebote
+      waren schon weg"; Ø Reaktion 73,1 s (!), heute 33 Treffer · 17 gekauft · 13 verpasst. Prüfen, ob die Liste bei
+      jedem Suchlauf geleert wird, bevor neue Ergebnisse da sind, und ob eine pausierte/erfüllte Zielzeile die Treffer
+      wieder entfernt. Treffer bleiben stehen, bis sie gekauft sind oder der Server sie als weg meldet.
+   d) "Max über Verkaufswert – jeder Kauf verliert ca. 1s 45c/Stück": Bei einem solchen Ziel beim Anlegen einmal
+      deutlich warnen (WS-Stil), nicht nur im Tooltip.
+   e) Möglicher Mitverursacher des Ruckelns: Statuszeile "Sync über Gilde: 2 Mitspieler, sende … (39)/(40)" – die
+      Sync-Warteschlange steht dauerhaft bei ~40. Das ist sehr wahrscheinlich GoldSentinelMarkt aus einem anderen Addon
+      (BuffSentinel 0.9.18 u. a.), das den AHSentinel-Vollscan mitliest und an die Gilde sendet – die Prüf-Sitzung
+      korrigiert die gemeinsame Datei (Version 2). AHSentinel bitte prüfen, ob Sniper-Nachrichten/eigene Sync-Nachrichten
+      hinter einer vollen Warteschlange hängen bleiben.
+   Höchster Vorrang (Geld!): als 0.65.113 vor allem anderen. Tests T-SN1951a–d, Regression TU6.

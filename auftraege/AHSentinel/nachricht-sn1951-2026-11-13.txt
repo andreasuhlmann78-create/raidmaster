@@ -1,0 +1,4 @@
+SEHR DRINGEND vom Nutzer über die Prüf-Sitzung: Der Sniper funktioniert in 0.65.112 nicht mehr (keine Treffer, rechts erscheinen Angebote nur kurz und verschwinden, beim Scrollen wird nichts gekauft).
+Bitte git pull --rebase im raidmaster-Repo und in auftraege/AHSentinel/offen-ahsentinel.txt Punkt SN1951 lesen.
+Kurz: a) Zielzeile "32/35 gekauft, Budget übrig 18s20", wirklich gekauft 3 – gescheiterte Käufe werden gezählt/vom Budget abgezogen, darum "keine offenen Ziele"; nur vom Server bestätigte Käufe zählen. b) "Item 10 Min. pausiert" nur im Chat – sichtbar machen mit "fortsetzen" und Fehlertext. c) Treffer verschwinden, Ø Reaktion 73 s. d) Warnung beim Anlegen, wenn Max über Verkaufswert. e) Sync-Warteschlange steht bei ~40 (GoldSentinelMarkt aus anderen Addons – Prüf-Sitzung korrigiert).
+Als 0.65.113 vor allem anderen, mit Tests. Danach Bericht in berichte/AHSentinel/.
