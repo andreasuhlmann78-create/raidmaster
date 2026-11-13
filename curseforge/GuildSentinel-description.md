@@ -10,6 +10,17 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.30
+
+- New: right-click menu on members (Members list, inactive list, Who is where, Applicants, Leadership lists): Whisper, Invite to group, Promote, Demote, Set rank …, Assign alt …, Edit note, Edit officer note, Enter absence, Say thanks, Assign mentor …, Remove from guild (with confirmation), Transfer guild leadership (Guild Master only, password protected). Entries your rank may not use are shown in grey with the reason; in combat "not in combat".
+- Protected guild actions are never called directly any more (lesson from the invite fix in 0.9.29): promote, demote, remove and leadership transfer – from the menu, the Guild Management window, the promotion suggestions and the bulk actions – open the new "Guild action" window. You click its button and Blizzard's own command (/gpromote, /gdemote, /gremove, /gleader) carries it out. Names with spaces work.
+- Set rank: every step is its own click ("Promote – 2 steps left to Officer"), never above your own rank and never to Guild Master.
+- A step counts as done only when the game confirms it (system message or new rank in the roster); without confirmation after 6 seconds: "Not carried out" and the step can be repeated. Each confirmed rank change is kept in the rank history (who, whom, from -> to, time).
+- Multi-select: Shift/Ctrl-click in the member list, then right-click: promote or demote all of them – one click per member ("3 of 5 done").
+- Promotion: new option "Suggest the main's rank for alts" (only a suggestion, carried out step by step).
+- Leadership > Rank rights: button "Edit ranks in the game" opens Blizzard's rank window.
+- Developer test routine: T254–T260 (menu by rights, no protected call, name with spaces, rank steps, confirmation, alt suggestion, multi-select) new; T64, T174, T194, T195, T213 adapted. The offline test client now rejects protected guild functions like WoW Forever.
+
 ### Version 0.9.29
 
 - Fix (WoW Forever): "Invite to guild" (Recruitment > Applicants and Guild management) no longer triggers "GuildSentinel has been blocked from an action only available to the Blizzard UI". The game forbids addons to invite into the guild directly, even on a mouse click. Now "/ginvite <name>" is put into the chat input and you press Enter – Blizzard's own command sends the invite. Names with spaces work as they are.
@@ -34,15 +45,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 - Recruitment ad without Discord: the sentence after the removed Discord part now starts with a capital letter ("… helpful. Whisper me: …").
 - If you had saved the old default ad text unchanged, it is replaced once by the new default (with the new {gesucht} it would read awkwardly). Your own, different texts stay.
 - Developer test routine: T249 (counter "will be shortened") and T250 new; T248 renamed.
-
-### Version 0.9.25
-
-- **New default recruitment ad**: "{gilde} ({fraktion}) is looking for {gesucht} for dungeons and raids – relaxed and helpful. Discord: {discord} – whisper me: /w {name} guild" (in every language; the German one adds "deutschsprachig"). If you saved your own ad text, it stays as it is; an empty field uses the new default.
-  - New placeholder **{fraktion}** ({faction}): Horde or Alliance in the language of the game.
-  - **{gesucht}** is now just the list ("Healers, Warriors and Mages"); nothing missing: "new members". If your own text used "{gesucht}" on its own, write "Wanted:" in front yourself.
-  - **{discord}**: without a Discord link, the whole "Discord: … – " part disappears. Right after "Discord:" it gives only the link; anywhere else (your own texts, reply, welcome) still "Discord: <link>" as before.
-- The length counter counts before shortening and turns red with "will be shortened" when the ad is longer than 251 characters.
-- Developer test routine: T244–T248 new.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

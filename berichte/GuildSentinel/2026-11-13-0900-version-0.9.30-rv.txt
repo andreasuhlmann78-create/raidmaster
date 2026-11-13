@@ -1,0 +1,46 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 · Sitzung: GuildSentinel-Projekt-Sitzung · Version: 0.9.30 · Commit: GuildSentinel 216802c
+
+ERLEDIGT (anweisung-mitglieder-menue.txt):
+- RV1: Rechtsklick öffnet ein eigenes Menü (Pages.lua M:Menu, M.MenuItems) auf Mitglieder, Inaktive, Wer ist wo,
+  Bewerber (Pages.lua appList) und die Listen der Leitung (PagesLead.lua). Gewählt: eigenes Menü statt Blizzards
+  Gilden-Kontextmenü – Menu.ModifyMenu gibt es in Era/TBC/Forever nicht einheitlich, UnitPopup-Eingriffe würden Blizzards
+  Menü verunreinigen (Taint). Die geschützten Einträge laufen deshalb nach RV3.
+- RV2: alle Einträge; nicht erlaubte grau mit Grund ("Dein Rang hat dieses Recht im Spiel nicht.", "Nicht über den
+  eigenen Rang …", "nicht im Kampf", "Das bist du."). Leitung nur für den Gildenmeister, Passwort wie Admin.lua.
+  Nicht-Mitglieder (Bewerber): Flüstern, Gruppe, In die Gilde einladen (/ginvite über die Chat-Eingabe, GV1).
+- RV3: neues GuildAct.lua – Fenster "Gilden-Aktion" mit SecureActionButtonTemplate, type "macro", macrotext
+  "/gpromote|/gdemote|/gremove|/gleader <Name>" (SLASH_GUILD_*1 mit Rückfall). Attribute nur ausserhalb des Kampfs;
+  Fenster öffnet/schliesst nie im Kampf. ALLE bisherigen direkten Aufrufe ersetzt: Admin.lua (Promote, Demote, Remove,
+  SetLeader), Activity.lua P:Promote, Bulk.lua (Sammelaktion). Im Code ruft nichts mehr GuildPromote/GuildDemote/
+  GuildUninvite/GuildSetLeader/GuildInvite (auch nicht C_GuildInfo.*) auf. GA.PROTECTED = Liste der geschützten Funktionen.
+- RV4: GA.RankSteps – je Stufe ein Schritt und ein Klick, nie über den eigenen Rang, nie Rang 0, nie unter den untersten.
+- RV5: erledigt erst nach CHAT_MSG_SYSTEM (ERR_GUILD_PROMOTE_SSS/DEMOTE_SSS/REMOVE_SS/LEADER_CHANGED_SS) oder neuem Rang
+  in der Gildenliste; sonst nach 6 s "Nicht ausgeführt …", wiederholbar. Rang-Verlauf G.rankLog (wer, wen, von, nach,
+  Zeit; 100 Einträge), Diagnose nur "promote über sicheren Knopf" ohne Namen.
+- RV6: Option "Twinks bekommen den Rang ihres Mains vorgeschlagen" (ns.db.altRank, Standard aus) auf der Seite
+  Mitglieder > Beförderung (dort liegen die Beförderungs-Regeln; einen Reiter "Leitung > Beförderung" gibt es nicht).
+  Nur Vorschlag in der Liste, Ausführen = RV4.
+- RV7: Leitung > Rangrechte zeigt nur an; Knopf "Ränge im Spiel bearbeiten" öffnet GuildControlUI bzw. in Era/TBC
+  GuildControlPopupFrame.
+- RV8: Shift/Strg-Klick in der Mitgliederliste, Rechtsklick -> "Befördern (n von m ausgewählt)", je Mitglied ein Klick.
+- RV9: T254 T-RV1 (Mitglied/Offizier/GM: "----x ++++x +++++"), T255 T-RV2 (alle geschützten ns.API-Einträge ersetzt
+  -> 0 direkte Aufrufe über alle Einstiege), T256 T-RV3 (Vor- und Nachname, kein Zeilenumbruch), T257 T-RV4 (3 Stufen
+  = 3 Klicks, nie über den eigenen Rang), T258 T-RV5 (wartet / nicht ausgeführt / nach Meldung erledigt), T259 T-RV6,
+  T260 T-RV8 inkl. "nicht im Kampf". Testmodus nur "[Test]" (T64). wowmock: GuildInvite/Uninvite/Promote/Demote/
+  SetLeader werfen jetzt ADDON_ACTION_FORBIDDEN und landen in M.forbidden; der sichere Knopf führt den Makro-Text aus,
+  das "Spiel" bestätigt verzögert. run.lua, run_admin, run_v9, run_new prüfen am Ende M.forbidden = 0.
+
+PRÜFUNGEN: addon_check OK (Lua-Syntaxprüfung mit: luac5.1 (Lua 5.1)). Routine Forever OK 229, Era/TBC OK 234, je
+FEHLER 0; run_routine je 16/16; alle übrigen Testläufe 0 fehlgeschlagen.
+
+IM CLIENT PRÜFEN (bitte an den Nutzer):
+- Welche Gilden-Funktionen in Forever geschützt sind, lässt sich offline nicht messen. Mit 0.9.30 egal: keine wird mehr
+  direkt aufgerufen. Bitte prüfen: Rechtsklick > Befördern -> Fenster "Gilden-Aktion" -> Knopf -> kein Blockiert-Fenster,
+  Rang ändert sich, Fenster zeigt "Erledigt".
+- /gpromote mit Vor- und Nachname (Forever): Ein Twink mit Leerzeichen im Namen befördern. Geht es nicht, "Nicht
+  ausgeführt" erscheint nach 6 s – dann bitte melden, ich baue den Rückfall (Blizzards Gildenfenster).
+- Notiz/Offiziersnotiz bearbeiten ruft GuildRosterSetPublicNote/OfficerNote direkt (über ns.Act) – falls auch geschützt,
+  melden.
+
+OFFEN: RP (0.9.31) und TU (0.9.32) folgen in dieser Reihenfolge.
