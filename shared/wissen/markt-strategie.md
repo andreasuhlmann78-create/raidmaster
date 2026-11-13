@@ -245,6 +245,17 @@ Um zu erfahren, ob ein höherer Preis noch verkauft, gelegentlich leicht höher 
   Offen: Vergleich nach 30–60 Min. (Absatz, M1b), zweiter Abruf vor 15 Min. (M1c), Mitlesen eines AHSentinel-Vollscans.
   **M1c belegt (AHSentinel 0.65.110, 13.11. 15:22, 8 Abrufe):** nach 15 Min. KEINE Antwort (90 s), nach 24–291 Min.
   immer neue Liste (9,5–14,9 s). -> Vollscan höchstens alle ~20 Min. je Spieler; für "stündlich" reicht 1 Spieler.
+  **13.11. 15:41 GEMESSEN (GSMesstest 5.1, Vergleich über 25 Min., 249'646 -> 257'538 Auktionen, 6'140 Items):**
+  geblieben 230'864, verschwunden 18'782, neu 26'674. Verschwunden nach Stufe beim ersten Scan: 1: 6'824 (fast alle
+  abgelaufen), 2: 2'826, 3: 8'189, 4: 943 -> **aus Stufe 3+4: 9'132 Auktionen, Sofortkaufwert 11'422 g in 25 Min.** =
+  gekauft ODER abgebrochen (Obergrenze; viel Abbrechen/Neu-Einstellen, da gleichzeitig 26'674 neu). Meiste Abgänge:
+  3685, 4251, 8153, 7070, 2751, 8150, 4603, 7191, 2770, 211855. **M1b belegt (Stufenwechsel eindeutiger Auktionen in
+  25 Min.):** Stufe 2 -> 1: 27 % (2'091 von 7'799) => Stufe 2 dauert ~1,5 Std. (30 Min.–2 Std.); Stufe 3 -> 2: 4,9 %
+  (1'583 von 32'360) => Stufe 3 ~8,5 Std. (2–12 Std.); Stufe 4 -> 3: 3 % => Stufe 4 > 12 Std. -> **Stufen wie Retail:
+  1 < 30 Min., 2 30 Min.–2 Std., 3 2–12 Std., 4 > 12 Std.** (Rest-Wechsel wie 1>3 sind gleiche Stapel, die ersetzt
+  wurden). Lesen 2,9 s in 172 Bildern (1500 je Bild = ~17 ms – GoldSentinelMarkt liest mit 6-ms-Budget).
+  Folge: Absatz immer als Spanne – Untergrenze (Abgänge minus neue Auktionen desselben Items) bis Obergrenze;
+  Entscheidungen nach der Untergrenze (GoldSentinelMarkt v1: absatz/absatzMax).
   **Absatz geschätzt vs. gemessen (20 meistgehandelte):** Schätzung oft ×3–×4,5 zu hoch (2589: 1764 gemessen / 5216
   geschätzt; 11083: 398 / 1458) -> gemessen vor geschätzt.
   **Entzaubern 26–30 (524 Fälle):** Beute/Vorhersage Median 0,60 = Chance 1,05 × Menge 1,00 × Preis 0,57 – der

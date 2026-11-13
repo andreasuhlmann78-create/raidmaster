@@ -29,7 +29,10 @@
 --   GM.IsShareOn()                             -- true/false (alle Schalter zusammen)
 --   GM.Get(itemID)                             -- { preis, menge, n, t, quelle = "eigen"/"netz", absatz, abdeckung } oder nil
 --                                                 preis = tiefster Stueckpreis (Kupfer), t = time() des Scans,
---                                                 absatz = gemessene Abgaenge je Tag (nil = noch nicht gemessen),
+--                                                 absatz = gemessener Absatz je Tag, vorsichtig: Abgaenge aus langer
+--                                                 Restzeit minus neue Auktionen desselben Items (Abbrechen und neu
+--                                                 Einstellen zaehlt so nicht als Verkauf); absatzMax = ohne diesen Abzug
+--                                                 (nil = noch nicht gemessen),
 --                                                 abdeckung = gemessene Stunden
 --   GM.DiagLines()                             -- Zeilen fuer Diagnose/Testbericht (ohne Namen)
 --   GM.Stats()                                 -- Zaehler (scans, gelesen, gesendet, empfangen, verworfen ...)
@@ -144,13 +147,13 @@ end
 
 local function Unpack(v)
     if type(v) ~= "string" then return nil end
-    local p, q, n, t, o, g, h = v:match("^(%w+),(%w+),(%w+),(%w+),(%w+),(%w+),(%w+)$")
+    local p, q, n, t, o, g, h, l = v:match("^(%w+),(%w+),(%w+),(%w+),(%w+),(%w+),(%w+),?(%w*)$")
     if not p then return nil end
-    return { p = Dec(p), q = Dec(q), n = Dec(n), t = Dec(t), o = Dec(o), g = Dec(g), h = Dec(h) }
+    return { p = Dec(p), q = Dec(q), n = Dec(n), t = Dec(t), o = Dec(o), g = Dec(g), h = Dec(h), l = Dec(l) or 0 }
 end
 local function Pack(e)
     return Enc(e.p) .. "," .. Enc(e.q) .. "," .. Enc(e.n) .. "," .. Enc(e.t) .. "," .. Enc(e.o) .. "," ..
-        Enc(e.g) .. "," .. Enc(e.h)
+        Enc(e.g) .. "," .. Enc(e.h) .. "," .. Enc(e.l)
 end
 M.Unpack, M.Pack = Unpack, Pack
 
@@ -191,9 +194,13 @@ function M.Get(itemID)
     local e = Unpack(f.i[itemID])
     if not e then return nil end
     local absatz
-    if (e.h or 0) >= 1800 then absatz = (e.g or 0) * 86400 / e.h end
+    local absatzMax
+    if (e.h or 0) >= 1800 then
+        absatz = (e.l or 0) * 86400 / e.h
+        absatzMax = (e.g or 0) * 86400 / e.h
+    end
     return { preis = e.p, menge = e.q, n = e.n, t = e.t, quelle = (e.o == 0) and "eigen" or "netz",
-             absatz = absatz, abdeckung = (e.h or 0) / 3600 }
+             absatz = absatz, absatzMax = absatzMax, abdeckung = (e.h or 0) / 3600 }
 end
 
 ---------------------------------------------------------------------------
@@ -270,7 +277,17 @@ end
 
 -- Abgaenge aus langer Restzeit je Item gegenueber dem letzten Scan
 local function Compare(prev, cur)
-    local gone = {}
+    local gone, new = {}, {}
+    for sig, e2 in pairs(cur) do
+        local b2 = DecB(e2)
+        local c2 = b2[0] + b2[1] + b2[2] + b2[3] + b2[4]
+        local c1 = 0
+        if prev[sig] then local b1 = DecB(prev[sig]); c1 = b1[0] + b1[1] + b1[2] + b1[3] + b1[4] end
+        if c2 > c1 then
+            local id = tonumber(sig:match("^(%d+):"))
+            if id then new[id] = (new[id] or 0) + (c2 - c1) end
+        end
+    end
     for sig, e1 in pairs(prev) do
         local b1 = DecB(e1)
         local c1 = b1[0] + b1[1] + b1[2] + b1[3] + b1[4]
@@ -292,7 +309,10 @@ local function Compare(prev, cur)
             end
         end
     end
-    return gone
+    -- vorsichtig: neue Auktionen desselben Items gelten als "abgebrochen und neu eingestellt"
+    local low = {}
+    for id, g in pairs(gone) do low[id] = math.max(0, g - (new[id] or 0)) end
+    return gone, low
 end
 M.Compare = Compare
 
@@ -301,18 +321,20 @@ local QueueScan     -- weiter unten
 local function FinishRead(r)
     local f = Fac()
     if not f then return end
-    local cmp
+    local cmp, low
     if M.prev and r.t - M.prev.t >= M.CMP_MIN and r.t - M.prev.t <= M.CMP_MAX then
-        cmp = Compare(M.prev.sigs, r.sigs)
+        cmp, low = Compare(M.prev.sigs, r.sigs)
         M.stats.compared = M.stats.compared + 1
     end
     local dt = M.prev and (r.t - M.prev.t) or 0
     local changed = {}
     for id, it in pairs(r.items) do
         local old = Unpack(f.i[id])
-        local e = { p = it[1], q = it[2], n = it[3], t = r.t, o = 0, g = old and old.g or 0, h = old and old.h or 0 }
+        local e = { p = it[1], q = it[2], n = it[3], t = r.t, o = 0, g = old and old.g or 0, h = old and old.h or 0,
+                    l = old and old.l or 0 }
         if cmp then
             e.g = e.g + (cmp[id] or 0)
+            e.l = e.l + (low[id] or 0)
             e.h = e.h + dt
         end
         if not old or old.o ~= 0 or (old.p or 0) == 0
@@ -328,6 +350,7 @@ local function FinishRead(r)
                 local old = Unpack(f.i[id])
                 if old then
                     old.g, old.h = (old.g or 0) + (cmp[id] or 0), (old.h or 0) + dt
+                    old.l = (old.l or 0) + (low[id] or 0)
                     old.q, old.n, old.t, old.o = 0, 0, r.t, 0
                     f.i[id] = Pack(old)
                 end
@@ -345,7 +368,7 @@ local function FinishRead(r)
     for id, it in pairs(r.items) do
         nItems = nItems + 1
         parts[#parts + 1] = Enc(id) .. "," .. Enc(it[1]) .. "," .. Enc(it[2]) .. "," .. Enc(it[3]) .. "," ..
-            Enc(cmp and cmp[id] or 0)
+            Enc(cmp and cmp[id] or 0) .. "," .. Enc(low and low[id] or 0)
     end
     M.stats.items = nItems
     local s = M.store
@@ -450,7 +473,8 @@ function M.OnMessage(msg, sender)
                     and (p > old.p * M.OUTLIER or p * M.OUTLIER < old.p) then
                     Drop("ausreisser")
                 else
-                    local e = { p = p, q = q, n = n, t = t, o = 1, g = old and old.g or 0, h = old and old.h or 0 }
+                    local e = { p = p, q = q, n = n, t = t, o = 1, g = old and old.g or 0, h = old and old.h or 0,
+                                l = old and old.l or 0 }
                     f.i[id] = Pack(e)
                     M.stats.accepted = M.stats.accepted + 1
                     if t > (f.tn or 0) then f.tn = t end

@@ -221,12 +221,14 @@ check("andere Fraktion verworfen", f.ev("GoldSentinelMarkt.Get(2589)"), None)
 # 40 Min. später: von den 30 gleichen Stapeln (Stufe 4) sind 12 weg, 10 der 40 Einzelpreise (Stufe 3) weg,
 # alle 10 kurzen (11083) weg (gelten als abgelaufen), 14047 bleibt
 rows2 = [r for r in rows1[:30]] + [(2589, 20, 1900, 3)] * 18 + [(14047, 1, 99, 2)]
+rows2 += [(2589, 20, 1850, 4)] * 2                       # 2 neu eingestellt (abgebrochen und billiger neu?)
 a.run("TIME = TIME + 2400")
 set_auctions(a, rows2)
 scan(a)
 g2 = a.ev("GoldSentinelMarkt.Get(2589)")
 check("Vergleich gezählt", a.ev("GoldSentinelMarkt.Stats().compared"), 1)
-check("Absatz 2589 = 22 Abgänge in 40 Min. je Tag", round(g2.absatz), round(22 * 86400 / 2400))
+check("Absatz höchstens 2589 = 22 Abgänge in 40 Min. je Tag", round(g2.absatzMax), round(22 * 86400 / 2400))
+check("Absatz vorsichtig = 22 - 2 neue", round(g2.absatz), round(20 * 86400 / 2400))
 check("Abdeckung 40 Min.", round(g2.abdeckung * 60), 40)
 g3 = a.ev("GoldSentinelMarkt.Get(11083)")
 check("kurze Restzeit zählt nicht als Absatz", g3.absatz, 0)

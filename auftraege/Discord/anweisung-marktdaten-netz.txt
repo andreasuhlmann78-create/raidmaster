@@ -65,6 +65,10 @@ einer Sitzung hält sie den letzten Scan (~30 MB) für den Absatz-Vergleich im A
 EXPORT-FORMAT (für Uploader MN6 und Bot MN7), Liste <Tabelle>.gsMarkt.export (die letzten 2 Scans, nur beim Host, der
 die Daten hält – der Uploader sucht "GSMARKT1|" in den SavedVariables ALLER GoldSentinel-Addons):
   GSMARKT1|<Version>|<Fraktion H/A/N>|<Scan-Zeit time()>|<Auktionen>|<Items>|<Vergleich in Sek., 0 = keiner>|<Einträge>
-  Einträge "id,preis,menge,auktionen,abgänge;" in Base36 (tonumber(x, 36)); preis = tiefster Stückpreis in Kupfer;
-  abgänge = Auktionen, die seit dem letzten Scan mit Restzeit-Stufe 3/4 verschwunden sind (gekauft oder abgebrochen).
+  Einträge "id,preis,menge,auktionen,abgänge,abgängeVorsichtig;" in Base36 (tonumber(x, 36)); preis = tiefster
+  Stückpreis in Kupfer; abgänge = Auktionen, die seit dem letzten Scan mit Restzeit-Stufe 3/4 verschwunden sind (gekauft
+  ODER abgebrochen = Obergrenze); abgängeVorsichtig = abgänge minus neue Auktionen desselben Items (Abbrechen und neu
+  Einstellen zählt nicht = Untergrenze). Messung 13.11. 15:41: in 25 Min. 9'132 Abgänge aus Stufe 3/4 bei 26'674 neuen
+  Auktionen – ein grosser Teil ist Abbrechen/Neu-Einstellen, darum gilt für Entscheidungen die UNTERGRENZE.
+  (Stand 13.11. 16:05; GSMarkt.Get liefert absatz = Untergrenze, absatzMax = Obergrenze.)
   Doppelte Scans (gleiche Fraktion + Scan-Zeit, z. B. vom PC und Laptop) nur einmal zählen. Keine Namen enthalten.
