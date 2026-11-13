@@ -337,26 +337,17 @@ SN1951 (SEHR HOCH, NEU 13.11. 19:55 – Nutzer: "der Sniper funktioniert nicht m
    Höchster Vorrang (Geld!): als 0.65.113 vor allem anderen. Tests T-SN1951a–d, Regression TU6.
    MN VERSION 2 (13.11. 20:00, DRINGEND): GoldSentinelMarkt.lua Version 2 – in Clients mit AHSentinel liest sie nichts mehr selbst (doppeltes Lesen machte den Sniper/das Spiel ruckelig), Warteschlange max. 10, Gilde nur einmal je Stunde ganzer Scan. SOFORT neu kopieren und veröffentlichen (Version 1 = Warnung "veraltet").
 
-LT (HOCH, NEU 13.11. 20:07 – Wunsch und Entscheid des Nutzers): LIVE-TOOLTIP BEIM KAUFEN + "LOHNT BIS" ERSETZEN
+LT (HOCH, NEU 13.11. 20:07, ENDGÜLTIG 20:11 – Wunsch und Entscheid des Nutzers): LIVE-TOOLTIP BEIM KAUFEN
    LT1 Fährt man beim Kaufen mit der Maus über ein ANGEBOT (Sniper-Liste rechts, Einkauf, Schnäppchen, Blizzard-AH-
-       Fenster), rechnet der Tooltip live mit dem PREIS DIESES ANGEBOTS (Stückpreis), nicht mit dem allgemeinen
-       Marktpreis. Beispiel Schultern des Hügelwächters, Angebot 8s 90c:
-          Kaufpreis (dieses Angebot): 8s 90c / Stück
-            Verkaufen:  8s 46c  ->  −44c / Stück    ✗
-            Entzaubern: 6s 61c  ->  −2s 29c / Stück ✗
-            Händler:    6s 59c  ->  −2s 31c / Stück ✗
-          Spielraum −1s 85c · max. 7s 05c   (rot)
-       Bei Stapeln zusätzlich der Betrag für den ganzen Stapel. Werte aus derselben Rechnung wie Lohnt bis (Rechenkern,
-       korrigierte Materialpreise, Gebühren), live bei jeder Änderung.
-   LT2 Wortlaut (Entscheid des Nutzers 20:06/20:08 – "Lohnt bis" ist verwirrend; EINE Zeile mit Doppelfunktion,
-       gleicher Aufbau für beide Fälle, nur Zeichen und Farbe wechseln):
-          negativ (zu teuer): "Spielraum −1s 85c · max. 7s 05c"   ROT
-          positiv (lohnt):    "Spielraum +1s 20c · max. 7s 05c"   GRÜN
-       (Stand 20:09: gleiche Beschriftung, nur Vorzeichen und Farbe wechseln; Spielraum = max. − Angebotspreis,
-       max. = bisheriger Lohnt-bis-Wert; Preis = max. -> "+0c" grün).
-       (Grenze = bisheriger Lohnt-bis-Wert, Differenz = Angebotspreis − Grenze). Ohne Angebot (Taschen-Tooltip, kein
-       Kaufpreis): "max. 7s 05c". Gilt für Tooltip, Sniper-Zielzeile, Markt, Heute tun, Einkauf;
-       Locales EN ("Margin −1s 85c · max 7s 05c" rot / "Margin +1s 20c · max 7s 05c" grün) und DE.
-   Tests T-LT1 (Tooltip über einem Angebot rechnet mit dessen Stückpreis, Stapel), T-LT2 (beide Fälle, Farbe, Grenzfall
-   Preis = max. -> "+0c" grün), T-LT3 (kein "Lohnt bis" mehr in den Locales). Einordnen: direkt nach SN1951 (0.65.113),
-   spätestens 0.65.114 – vor 0.66.
+       Fenster), zeigt der Tooltip GENAU EINE Zeile, live mit dem Stückpreis DIESES Angebots und dem besten Weg
+       (Verkaufen/Entzaubern/Händler, nach Gebühren, korrigierte Materialpreise):
+          Gewinn: −44c / Stück        ROT   (negativ, z. B. Schultern des Hügelwächters, Angebot 8s 90c)
+          Gewinn: +2s 61c / Stück     GRÜN  (positiv, z. B. Angebot 5s 85c)
+       Beschriftung immer gleich, nur Zahl und Farbe wechseln; 0c = grün.
+   LT2 KEINE weiteren Kauf-Zeilen: die Zeilen "Lohnt bis …", "Entzaubern lohnt nicht …", "Verkaufen bringt mehr …" und
+       jede Spielraum-/max.-Zeile entfallen im Kauf-Tooltip (frühere Wortlaute von 20:07–20:10 sind ERSETZT).
+       Die Grenze (bisher "Lohnt bis") bleibt nur als Zahl beim Max-Feld im Sniper. Taschen-Tooltip ohne Angebot:
+       keine Kaufzeile (Werte wie bisher dürfen bleiben, ohne "Lohnt bis").
+   Tests T-LT1 (Zeile rechnet mit dem Stückpreis des Angebots unter der Maus; Farbe rot/grün; 0c grün), T-LT2 (keine
+   "Lohnt bis"-/Spielraum-Zeile im Kauf-Tooltip), T-LT3 (Locales EN "Profit: −44c / each" o. ä., DE).
+   Einordnen: direkt nach SN1951 (0.65.113), spätestens 0.65.114 – vor 0.66.
