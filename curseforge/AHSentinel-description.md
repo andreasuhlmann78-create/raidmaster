@@ -12,6 +12,25 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.109
+
+Fixes wrong numbers from the big test of 0.65.108:
+- **Materials after a full scan:** a real price drop (e.g. the level wave) was stored as "unconfirmed bait" and the
+  materials stayed "estimated, unsure". A full scan with at least 5 pieces on the cheapest step now counts as a real
+  price. The diagnostic log lists source, age and reason per disenchant material after each scan.
+- **Tooltip:** no green check mark for "Disenchant" when the material prices are unsure (grey "Disenchant: unsure").
+- **No fake flips:** a resale price above the market value only counts with a full ladder (≥ 3 steps or ≥ 5 pieces) and
+  sales of at least 1 per day – otherwise at most the market value.
+- **Releases everywhere:** "Today" shows ways that are still learning or locked only grey at the bottom ("still
+  learning (n of 20)") or not at all; profit over 300 % is marked "implausible". The tooltip shows "Disenchant pays"
+  grey while the way is still learning.
+- **Cancelled auctions:** AUCTION_CANCELED with an unknown/foreign auction ID (e.g. on a failed Sniper purchase) is no
+  longer handled as your own cancel; the same ID only once.
+- **Accounting:** if more than 30 % of the revenue has no purchase (cost basis missing), the header shows "Profit with
+  purchase" large and "plus … without purchase – check cost basis" small and yellow. The test report lists those items
+  with their likely origin.
+- Tests T580–T583 (T-D1, T-TT1317, T-MH1310, T-BH1307); T223, T248, T431, T432 now independent of your real learned margin.
+
 ### Version 0.65.108
 
 - **Market tab "Disenchant" now uses the same "worth up to"** as tooltip, buy list, batch buy, Sniper and API (row and
@@ -77,14 +96,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   "Worth up to" or more than 25 % above market value (without buyout) warns too – press again within 10 s to buy
   anyway. Options: warning guard on/off, sound on/off. Every warning is logged (WARNSCHUTZ).
 - Tests T542–T549 (T-AB4d, T-WS1–T-WS6).
-
-### Version 0.65.104
-
-- **Command list while typing "/ahs": a mouse click now selects a command, Enter runs it.** The list stays open after the
-  click, the chat input gets the focus back, and the header shows "Enter = /ahs …". If you then press Enter with the
-  beginning you typed (e.g. "/ahs ent"), the selected command runs. A selection is valid for 10 s; Tab selects the next
-  entry. The chat input is still never written to (no taint).
-- Tests T537–T541 (T-CH1–T-CH5).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
