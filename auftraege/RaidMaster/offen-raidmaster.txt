@@ -85,3 +85,8 @@ T-DU11 (MITTEL, NEU 13.11. 04:55) – Uploader 2.3.0 am PC (DESKTOP-NVITMSE), Wo
    Lösung: Meldung nennt je offenem Schlüssel Rechner, Zeit und Spielversion/Konto; offen bleibt nur, was wirklich von
    einem ANDEREN Rechner neuer ist; eigener Upload darf nie als "neuerer Stand" gelten. Test dazu (pull, push, dann
    pending() leer). Bitte Bericht in berichte/RaidMaster/.
+   NACHTRAG 05:00: Uploader-Fenster zeigt keine Zeile zur Meldung; 04:48:26 "Stand 14 hochgeladen (_forever_) ... dieser
+   Rechner aktuell". Die Meldung kam also sehr wahrscheinlich aus einem ZWEITEN Prozess (GoldSentinel-WoW.bat bzw.
+   dessen Sync-Objekt) mit veraltetem Zustand (revs vor dem Push 04:48) – er hält den eigenen Stand 14 für neuer.
+   Prüfen: Lesen beide Prozesse uploader_state.json frisch vor jeder Entscheidung? Darf die .bat überhaupt melden,
+   wenn der Uploader läuft (Lock)? Eigene Uploads (machine == self.me) nie als offen werten.
