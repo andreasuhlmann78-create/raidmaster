@@ -438,6 +438,10 @@ EB (MITTEL, NEU 13.11. 21:05 – Nutzer: 8 Taschen mit 10 Plätzen für 1g 60s g
    NEU: Zeile "Handel pro Stunde: <Gold> (bei <x> Std. Spielzeit)" = Handelsgewinn ÷ ONLINE-Spielzeit im gewählten
    Zeitraum (nur eingeloggte Zeit aller eigenen Figuren, AFK-Zeit über 15 Min. nicht mitzählen). Unter 2 Std. Spielzeit
    grau "lernt noch". Test T-EB7 (Standard Gesamt, Gold/Std. Rechnung, AFK nicht gezählt). Einordnen nach LT/SN1951, vor 0.66 oder mit 0.66.
+   EB-NAME (Nutzer 13.11. 22:47 "nenne es beim Namen"): Gebühren im AH immer mit dem Wort des Spiels benennen, nie
+   selbst erfundene Begriffe wie "verlorene Einzahlungen". Für die Anzahlung beim Einstellen den Text des Clients
+   verwenden (globale Blizzard-Zeichenkette DEPOSIT, Doppelpunkt entfernen), damit es in jeder Sprache genau so heisst
+   wie im Verkaufsfenster. Gilt für Buchhaltung, Details-Fenster und Tooltips. Test T-EB8 (Bezeichnung = DEPOSIT ohne ":").
 
 SN2115 (HOCH, NEU 13.11. 21:18 – Bild des Nutzers 21:15, v0.65.114, Sniper, Ziel Schultern des Hügelwächters):
    a) BUDGET VERDOPPELT: Nach dem Zurücksetzen steht "0/35 gekauft · Budget übrig 6g 24s" und im Tooltip "Mit 6g 24s 80c
