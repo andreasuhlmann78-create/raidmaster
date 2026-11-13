@@ -345,16 +345,17 @@ LT (HOCH, NEU 13.11. 20:07 – Wunsch und Entscheid des Nutzers): LIVE-TOOLTIP B
             Verkaufen:  8s 46c  ->  −44c / Stück    ✗
             Entzaubern: 6s 61c  ->  −2s 29c / Stück ✗
             Händler:    6s 59c  ->  −2s 31c / Stück ✗
-          ✗ 1s 85c zu teuer (lohnt ab 7s 05c)
+          ✗ 1s 85c drüber · max. 7s 05c
        Bei Stapeln zusätzlich der Betrag für den ganzen Stapel. Werte aus derselben Rechnung wie Lohnt bis (Rechenkern,
        korrigierte Materialpreise, Gebühren), live bei jeder Änderung.
-   LT2 Wortlaut (Entscheid des Nutzers 20:06 – "Lohnt bis" ist verwirrend): überall, wo ein Kauf beurteilt wird,
-       statt "Lohnt bis X" eine Zeile:
-          zu teuer:  "✗ <Differenz> zu teuer (lohnt ab <Grenze>)"        rot
-          günstig:   "✓ <Differenz> günstiger als nötig (lohnt ab <Grenze>)" grün
+   LT2 Wortlaut (Entscheid des Nutzers 20:06/20:08 – "Lohnt bis" ist verwirrend; EINE Zeile mit Doppelfunktion,
+       gleicher Aufbau für beide Fälle, nur Zeichen und Farbe wechseln):
+          zu teuer:  "✗ 1s 85c drüber · max. 7s 05c"    rot
+          lohnt:     "✓ 1s 20c drunter · max. 7s 05c"   grün
+       (max. = bisheriger Lohnt-bis-Wert, Betrag = |Angebotspreis − max.|; Preis = max. -> "✓ 0c drunter").
        (Grenze = bisheriger Lohnt-bis-Wert, Differenz = Angebotspreis − Grenze). Ohne Angebot (Taschen-Tooltip, kein
-       Kaufpreis): "Lohnt ab <Grenze> oder billiger". Gilt für Tooltip, Sniper-Zielzeile, Markt, Heute tun, Einkauf;
-       Locales EN ("✗ 1s 85c too expensive (worth it at 7s 05c)" o. ä.) und DE.
+       Kaufpreis): "max. 7s 05c". Gilt für Tooltip, Sniper-Zielzeile, Markt, Heute tun, Einkauf;
+       Locales EN ("✗ 1s 85c over · max 7s 05c" / "✓ 1s 20c under · max 7s 05c") und DE.
    Tests T-LT1 (Tooltip über einem Angebot rechnet mit dessen Stückpreis, Stapel), T-LT2 (beide Wortlaute, Grenzfall
    Preis = Grenze -> ✓ "0c"), T-LT3 (kein "Lohnt bis" mehr in den Locales). Einordnen: direkt nach SN1951 (0.65.113),
    spätestens 0.65.114 – vor 0.66.
