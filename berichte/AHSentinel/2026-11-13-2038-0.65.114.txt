@@ -1,0 +1,45 @@
+BERICHT AHSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 · Sitzung: AHSentinel-Sitzung · Version: 0.65.114 · Commit (AHAnalyzerPro): 832c89b
+Nachbildung: Vollauf 243/244 nach Anpassung (s10_scan_smooth Maschinenlast, auch mit 0.65.112 rot). s59/s8 erwarteten
+"Lohnt bis" im Tooltip -> auf die Gewinn-Zeile (LT2) angepasst, auch in tests/wowsim (AHAnalyzerPro). addon_check OK.
+
+1 SN1951-R1 (HOCH) – ERLEDIGT. Befund richtig.
+  a) Frist 30 s (= LegacyAH BUY_ANSWER_MAX). Gold beim Senden gemerkt (Sn:Money, b.money). Nach der Frist ohne Antwort:
+     Sn:GoldShowsBuy – Abgang seit dem Senden minus Gold anderer schon gezählter Käufe (Sn.goldLog) >= 90 % der Kosten ->
+     gezählt, Protokoll "SNIPER-BESTÄTIGT … über Gold". Sonst 5 Min. in Sn.itemLate; COMPLETED danach -> nachgezählt
+     ("spät bestätigt"). Über Gold gezählte Käufe stehen in Sn.itemCounted (keine Doppelzählung bei späterem COMPLETED).
+     Warenkauf trägt seinen Gold-Abgang ebenfalls in goldLog ein.
+  b) Modernes AH: SHOW_ERROR ohne AH.lastBuyError -> nur errorSeen am ältesten Kauf, nach 3 s entscheidet das Gold
+     (Sn:ItemFallback: Gold weg -> gezählt; Gold gleich + Fehler -> gescheitert). Altes AH (Fehler mit Angebot über die
+     FIFO-Warteschlange) -> sofort gescheitert, wie bisher.
+  Tests T610 (e Gold), T611 (f späte Bestätigung), T612 (g Fehler einer Suche, dann COMPLETED). Mit 0.65.113 rot
+  (Frist 15 s ohne Gold, kein Nachzählen, SHOW_ERROR = Fehlschlag). T598 auf "Fehler mit Angebot" umgestellt.
+2 LT1–LT3 – ERLEDIGT. TT:AddVerdictLines: EINE Zeile "Gewinn: ±x / Stück" (rot < 0, grün ab 0c) ersetzt "Entzaubern
+  lohnt (nicht) …" und "Lohnt bis"; Wege-Zeilen, Materialien, Sniper-Zeilen bleiben. Preis: Angebot unter der Maus
+  (TT.buyContext aus Kaufliste/Sniper/Schnäppchen; NEU Zeile im alten Blizzard-AH: TT:AHRowPrice liest BrowseButtonN
+  über GetAuctionItemInfo, nur lesen), beim Händler dessen Preis, sonst Preis oben (Taschen: Marktwert). Bester Weg nach
+  Gebühren aus Entzaubern (korrigierte Materialpreise; bei veraltetem Hauptmaterial nicht) / Verkaufen / Händler. Nicht
+  entzauberbare Items bekommen die Zeile nur über einem Angebot. LT3: "Materialpreise korrigiert" nur mit Shift.
+  Locale "Gewinn: %s / Stück" in allen Sprachen (EN "Profit: %s / each"). T602 (LT1), T603 (LT2+LT3), T604 (Locales);
+  T215/T248/T467–T470/T596 auf LT2 umgestellt (LB1 "Lohnt bis im Tooltip" und UI1618b-Formulierung sind damit abgelöst).
+  Die Grenze bleibt beim Max-Feld im Sniper (unverändert).
+Aus 0.65.115 vorgezogen (fertig und getestet):
+  3 T555b: TR:MarketCoreFields(finish) baut die hochgeladenen Felder; T597 prüft genau diese (markt_kern, _wege, _ma1).
+  4 TS111.2b: T607 – 5 Items, gemessen 5, perDay schon 5, estimate 10 -> MarketFactor 0,50 (mit 0.65.111 1,00).
+  5 UI1618a-R: Items mit unbekannter Qualität warten je Suche in B.qualPending; ITEMINFO_LOADED -> B:ResolveQualityPending
+    ordnet ein (passt -> Zeile kommt dazu, sonst weg), auch ohne iLvl-Bereich. T606.
+  6 SBX1: Ursache bestätigt (Empfang lief während der Routine in die Sandbox). Sync.lua S:Receive puffert während
+    TR.running (max. 400, geschützte Werte nie gepuffert), TR wendet nach CompareAndRestore an (Protokoll SANDBOX). T605.
+  7 FW1: Ursache: Die Flip-Liste (X:GetFlipDeals) läuft in Portionen über viele Frames; die Grenze der Zeile stammte aus
+    einem älteren Stand als die Detail-Prüfung im selben Moment – gelernte Marge verändert bzw. Ln.forceOff einer
+    gleichzeitig laufenden Testroutine (184 = ohne Lernen, 107 = mit Marge; das Umkehren 8 s später passt dazu).
+    Jetzt K:FlipRowCheck: Zeile unmittelbar vor dem Vergleich mit A:FlipCheck neu gerechnet; lohnt sie nicht mehr ->
+    still weg. Heute-Zwischenspeicher trennt Stand mit/ohne Lernen. T609.
+  8 T373/TS111.1-c: Protokoll LANGSAM nennt jetzt den längsten Einzelschritt mit Stelle ("längster Schritt 42 ms bis
+    Extras.lua:301"), auch das Schluss-Stück einer Aufgabe; T373 im Bericht ebenso. Damit kann ich den Brocken im
+    nächsten Client-Bericht gezielt teilen. T608. T410: Wartezeit 300 s statt 120 s (im Client war der Vollscan nach
+    120 s noch nicht fertig -> nur "Warten auf Server" gemessen); bei Abbruch steht der laufende Schritt im Ergebnis.
+OFFEN: SN1951-ABNAHME (Testteil "/ahs testroutine sniper") – kommt als 0.65.115; UI1509, UI1510, MA3-G, Kleinpunkte;
+  0.66.
+IM CLIENT PRÜFEN: Tooltip über Sniper-/Einkauf-Zeilen und im alten AH; Sniper-Zähler bei langsamer Antwort; Testroutine
+  mit Sync (sandbox = OK); LANGSAM-Zeilen mit Stelle.
