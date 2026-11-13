@@ -1,0 +1,226 @@
+AHSentinel-Protokoll v0.65.110 · 13.11. 15:24:01
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  13.11. 15:17:10 L10 ? v0.65.110
+  13.11. 15:13:10 L10 ? v0.65.110
+  13.11. 15:11:16 L10 ? v0.65.110
+  13.11. 15:11:01 L10 ? v0.65.110
+  13.11. 15:05:56 L10 ? v0.65.110
+  13.11. 15:00:34 L10 ? v0.65.110
+  13.11. 14:53:28 L10 ? v0.65.110
+  13.11. 14:52:00 L10 ? v0.65.110
+  13.11. 12:55:22 L10 ? v0.65.108
+  13.11. 12:52:39 L10 ? v0.65.108
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 8 Min., 6652 Items, Preis-Sync an
+  SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 2, GoldSentinelTest 1, GuildSentinel 1, LevelPilot 1, LevelPilotG 1
+  SYNC gesendet 19 · empfangen 84 · verworfen: nopath 2, secret 1 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 2) · gesendet 4 · weitergegeben 0 · offline 2 · Listen 2 · Warteschlange 0 · gespeichert ja
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Gewinn-Fenster angedockt an ohne Namen (Versatz nil)
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, minimapAngle=18.1, priceGuard=20, theme=modern, tooltipDEDetail=true, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0 (dazu 6 in der Testroutine, nur in deren Protokoll)
+
+== Einträge (200, neueste zuerst)
+[13.11. 15:23:48] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · 52 ms
+[13.11. 15:23:47] FLIP-WIDERSPRUCH ×2 Item 12184 · Liste bis 107 / 247 · Detail buy bis 184 / 247
+[13.11. 15:23:41] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · 51 ms
+[13.11. 15:23:39] FLIP-WIDERSPRUCH Item 12184 · Liste bis 184 / 247 · Detail buy bis 107 / 247
+[13.11. 15:22:36] ABSATZ Item 4604 · Q 339 (scan, Q gesamt) · S 35.8 (market, gelernt) · S roh 109.3 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 9.5 · N 7.0 · kaum
+[13.11. 15:19:40] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[13.11. 15:19:12] LANGSAM Hintergrund-Aufgabe pd7:prepare · 0 Schritte · 18 ms
+[13.11. 15:17:29] LANGSAM ×4 Hintergrund-Aufgabe cache:warm-today · 0 Schritte · 54 ms
+[13.11. 15:17:25] ABSATZ-UNPLAUSIBEL Item 11128 · 137.4/Tag · Quelle geschätzt
+[13.11. 15:17:15] SYNC Weg=GUILD
+[13.11. 15:17:10] PD7 PD7 geladen: 5544 Items, 213263 Einträge geprüft, 0 Fehler · Zustand active
+[13.11. 15:17:02] LANGSAM Hintergrund-Aufgabe ui-refresh · 1 Schritte · 91 ms
+[13.11. 15:17:02] ENTZAUBERWERT Item 7443 · eigene Ø aus 124 · 11137 73% × 1.52 à 1070, 11135 20% × 1.32 à 1776, 11139 7% × 1.00 à 4180 · brutto 2064 · netto 1958
+[13.11. 15:17:02] ABSATZ Item 7443 · Q 7 (vollscan) · S 1.1 (market, gelernt) · S roh 6.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 7.4 · N 7.0 · kaum
+[13.11. 15:17:02] ENTZAUBERWERT Item 4042 · eigene Ø aus 124 · 11137 73% × 1.52 à 1070, 11135 20% × 1.32 à 1776, 11139 7% × 1.00 à 4180 · brutto 2064 · netto 1958
+[13.11. 15:17:02] ABSATZ Item 4042 · Q 6 (vollscan) · S 1.0 (market, gelernt) · S roh 5.8 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 7.2 · N 7.0 · kaum
+[13.11. 15:17:02] ENTZAUBERWERT Item 7058 · eigene Ø aus 124 · 11137 73% × 1.52 à 1070, 11135 20% × 1.32 à 1776, 11139 7% × 1.00 à 4180 · brutto 2064 · netto 1958
+[13.11. 15:17:02] ABSATZ Item 7058 · Q 5 (vollscan) · S 4.8 (market, gelernt) · S roh 28.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.2 · N 7.0
+[13.11. 15:17:02] ENTZAUBERWERT Item 5011 · eigene Ø aus 124 · 11137 73% × 1.52 à 1070, 11135 20% × 1.32 à 1776, 11139 7% × 1.00 à 4180 · brutto 2064 · netto 1958
+[13.11. 15:17:02] ABSATZ Item 5011 · Q 1 (vollscan) · S 1.8 (market, gelernt) · S roh 10.8 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.1 · N 7.0
+[13.11. 15:17:02] ENTZAUBERWERT Item 14419 · eigene Ø aus 124 · 11137 73% × 1.52 à 1070, 11135 20% × 1.32 à 1776, 11139 7% × 1.00 à 4180 · brutto 2064 · netto 1958
+[13.11. 15:17:02] ABSATZ Item 14419 · Q 3 (vollscan) · S 0.3 (market, gelernt) · S roh 1.8 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 13.4 · N 7.0 · kaum
+[13.11. 15:17:02] ENTZAUBERWERT Item 6418 · eigene Ø aus 124 · 11137 73% × 1.52 à 1070, 11135 20% × 1.32 à 1776, 11139 7% × 1.00 à 4180 · brutto 2064 · netto 1958
+[13.11. 15:17:02] ABSATZ Item 6418 · Q 7 (vollscan) · S 1.3 (measured) · S roh 12.3 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 6.1 · N 7.0
+[13.11. 15:17:02] ENTZAUBERWERT Item 4043 · eigene Ø aus 124 · 11137 73% × 1.52 à 1070, 11135 20% × 1.32 à 1776, 11139 7% × 1.00 à 4180 · brutto 2064 · netto 1958
+[13.11. 15:17:02] ABSATZ Item 4043 · Q 5 (vollscan) · S 2.2 (market, gelernt) · S roh 13.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 2.7 · N 7.0
+[13.11. 15:16:58] MATERIAL-PREIS Item 11176 · Quelle ah · Alter 0 Min. · sicher
+[13.11. 15:16:58] MATERIAL-PREIS Item 16202 · Quelle ah · Alter 0 Min. · sicher
+[13.11. 15:16:58] MATERIAL-PREIS Item 11175 · Quelle ah · Alter 0 Min. · sicher
+[13.11. 15:16:58] MATERIAL-PREIS Item 10978 · Quelle ah · Alter 0 Min. · sicher
+[13.11. 15:16:58] MATERIAL-PREIS Item 10939 · Quelle ah · Alter 0 Min. · unsicher: Scan 415 / Marktwert 269
+[13.11. 15:16:58] MATERIAL-PREIS Item 11177 · Quelle ah · Alter 0 Min. · sicher
+[13.11. 15:16:58] MATERIAL-PREIS Item 16203 · Quelle ah · Alter 0 Min. · sicher
+[13.11. 15:16:58] MATERIAL-PREIS Item 14344 · Quelle ah · Alter 0 Min. · unsicher: Scan 22499 / Marktwert 130044
+[13.11. 15:16:58] MATERIAL-PREIS Item 10938 · Quelle ah · Alter 0 Min. · sicher
+[13.11. 15:16:58] MATERIAL-PREIS Item 11178 · Quelle ah · Alter 0 Min. · sicher
+[13.11. 15:16:58] MATERIAL-PREIS Item 11139 · Quelle ah · Alter 0 Min. · sicher
+[13.11. 15:16:58] MATERIAL-PREIS Item 11084 · Quelle ah · Alter 0 Min. · sicher
+[13.11. 15:16:58] MATERIAL-PREIS Item 11138 · Quelle ah · Alter 0 Min. · sicher
+[13.11. 15:16:58] MATERIAL-PREIS Item 20725 · Quelle ah · Alter 0 Min. · sicher
+[13.11. 15:16:58] MATERIAL-PREIS Item 10998 · Quelle ah · Alter 0 Min. · sicher
+[13.11. 15:16:58] MATERIAL-PREIS Item 11083 · Quelle ah · Alter 0 Min. · sicher
+[13.11. 15:16:58] MATERIAL-PREIS Item 11137 · Quelle ah · Alter 0 Min. · sicher
+[13.11. 15:16:58] MATERIAL-PREIS Item 11082 · Quelle ah · Alter 0 Min. · sicher
+[13.11. 15:16:58] MATERIAL-PREIS Item 16204 · Quelle ah · Alter 0 Min. · sicher
+[13.11. 15:16:58] MATERIAL-PREIS Item 11174 · Quelle ah · Alter 0 Min. · sicher
+[13.11. 15:16:58] MATERIAL-PREIS Item 11135 · Quelle ah · Alter 0 Min. · sicher
+[13.11. 15:16:58] MATERIAL-PREIS Item 14343 · Quelle ah · Alter 0 Min. · sicher
+[13.11. 15:16:58] MATERIAL-PREIS Item 11134 · Quelle ah · Alter 0 Min. · sicher
+[13.11. 15:16:58] MATERIAL-PREIS Item 10940 · Quelle ah · Alter 0 Min. · sicher
+[13.11. 15:16:53] VOLLSCAN Messung 249646 Auktionen · 6129 Items · Lücke 1021 ms (Nachlauf) · Speicher 426222->432212 KB · GC 24 · Warten auf Server 14856/160; Ereignis-Aufruf 0/1; Einlesen 21311/762; Verdichtung 547/183; Verfolgung V4 4968/161; Preisverlauf+Neuaufbau 2240/265; Nachlauf 0/1021
+[13.11. 15:16:52] PREIS-ALT nach Scan · letzter Scan Vollscan · Waren im Vollscan 190 · Hauptmaterialien 11083: 0.0 Std., 11082: 0.0 Std., 11137: 0.0 Std. · 0 frisch geholt
+[13.11. 15:16:52] ENTZAUBERWERT Item 6040 · eigene Ø aus 124 · 11137 73% × 1.52 à 1070, 11135 20% × 1.32 à 1776, 11139 7% × 1.00 à 4180 · brutto 2064 · netto 1958
+[13.11. 15:16:52] DE-CHANCEN Gruppe 2:6:a · Tabelle 11137 75%/11135 20%/11139 5% · echt 11137 73%/11135 20%/11139 7% (124)
+[13.11. 15:16:52] ABSATZ Item 6040 · Q 14 (vollscan) · S 17.1 (measured) · S roh 68.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.9 · N 7.0
+[13.11. 15:16:50] LANGSAM Hintergrund-Aufgabe fullscan · 3 Schritte · 48 ms
+[13.11. 15:16:42] LANGSAM Hintergrund-Aufgabe fullscan · 0 Schritte · 21 ms
+[13.11. 15:16:42] VOLLSCAN M1d 249646 Auktionen gelesen (249646 gültig) · 2676 ms in 856 Portionen · längster Frame 3.6 ms · 6129 Items
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76946810 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76946790 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76946786 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76946726 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76946713 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76946699 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76946671 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76946660 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76946584 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76946566 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76946565 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76946461 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76946350 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76946257 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76946166 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76946145 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76946073 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76946033 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76945937 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76945916 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76945899 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76945887 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76945828 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76945765 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76945755 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76945737 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76945609 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76945544 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76945543 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76945466 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76945439 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76945328 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76945323 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76945122 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76944763 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:31] ABBRECHEN AUCTION_CANCELED auctionID 76944648 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:24] ABBRECHEN AUCTION_CANCELED auctionID 76945609 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:24] ABBRECHEN AUCTION_CANCELED auctionID 76945544 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:24] ABBRECHEN AUCTION_CANCELED auctionID 76945543 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:24] ABBRECHEN AUCTION_CANCELED auctionID 76945466 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:24] ABBRECHEN AUCTION_CANCELED auctionID 76945439 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:24] ABBRECHEN AUCTION_CANCELED auctionID 76945328 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:24] ABBRECHEN AUCTION_CANCELED auctionID 76945323 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:24] ABBRECHEN AUCTION_CANCELED auctionID 76945122 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:24] ABBRECHEN AUCTION_CANCELED auctionID 76944763 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:24] ABBRECHEN AUCTION_CANCELED auctionID 76944648 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:20] ABBRECHEN AUCTION_CANCELED auctionID 74432178 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:20] ABBRECHEN AUCTION_CANCELED auctionID 74432135 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:20] ABBRECHEN AUCTION_CANCELED auctionID 74432126 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:20] ABBRECHEN AUCTION_CANCELED auctionID 74432105 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:20] ABBRECHEN AUCTION_CANCELED auctionID 74432036 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:20] ABBRECHEN AUCTION_CANCELED auctionID 74432021 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:20] ABBRECHEN AUCTION_CANCELED auctionID 74432005 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:20] ABBRECHEN AUCTION_CANCELED auctionID 74431949 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:20] ABBRECHEN AUCTION_CANCELED auctionID 74431908 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:20] ABBRECHEN AUCTION_CANCELED auctionID 74431887 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:20] ABBRECHEN AUCTION_CANCELED auctionID 74431884 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:20] ABBRECHEN AUCTION_CANCELED auctionID 74431852 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:20] ABBRECHEN AUCTION_CANCELED auctionID 74431826 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:20] ABBRECHEN AUCTION_CANCELED auctionID 74431819 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:20] ABBRECHEN AUCTION_CANCELED auctionID 74431722 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:20] ABBRECHEN AUCTION_CANCELED auctionID 74431698 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:20] ABBRECHEN AUCTION_CANCELED auctionID 74431645 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:20] ABBRECHEN AUCTION_CANCELED auctionID 65653790 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:20] ABBRECHEN AUCTION_CANCELED auctionID 65653786 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:20] ABBRECHEN AUCTION_CANCELED auctionID 65653348 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:20] ABBRECHEN AUCTION_CANCELED auctionID 65653221 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:20] ABBRECHEN AUCTION_CANCELED auctionID 65653152 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:20] ABBRECHEN AUCTION_CANCELED auctionID 65652820 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:20] ABBRECHEN AUCTION_CANCELED auctionID 65652645 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:20] ABBRECHEN AUCTION_CANCELED auctionID 65651895 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:18] ABBRECHEN AUCTION_CANCELED auctionID 74432036 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:18] ABBRECHEN AUCTION_CANCELED auctionID 74432021 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:18] ABBRECHEN AUCTION_CANCELED auctionID 74432005 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:18] ABBRECHEN AUCTION_CANCELED auctionID 74431949 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:18] ABBRECHEN AUCTION_CANCELED auctionID 74431908 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:18] ABBRECHEN AUCTION_CANCELED auctionID 74431887 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:18] ABBRECHEN AUCTION_CANCELED auctionID 74431884 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:18] ABBRECHEN AUCTION_CANCELED auctionID 74431852 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:18] ABBRECHEN AUCTION_CANCELED auctionID 74431826 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:18] ABBRECHEN AUCTION_CANCELED auctionID 74431819 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:18] ABBRECHEN AUCTION_CANCELED auctionID 74431722 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:18] ABBRECHEN AUCTION_CANCELED auctionID 74431698 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:18] ABBRECHEN AUCTION_CANCELED auctionID 74431645 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:16] ABBRECHEN AUCTION_CANCELED auctionID 65653221 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:16] ABBRECHEN AUCTION_CANCELED auctionID 65653152 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:16] ABBRECHEN AUCTION_CANCELED auctionID 65652820 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:16] ABBRECHEN AUCTION_CANCELED auctionID 65652645 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:16] ABBRECHEN AUCTION_CANCELED auctionID 65651895 (erwartet nil) -> unerwartet, nichts geändert
+[13.11. 15:16:16] VOLLSCAN M1c Abstand 7283 s · neue Liste · 249646 Auktionen · Antwort nach 14.9 s
+[13.11. 15:16:02] ENTZAUBERWERT Item 4036 · eigene Ø aus 599 · 11083 73% × 1.53 à 350, 11082 21% × 1.48 à 1701, 11084 6% × 1.00 à 3072 · brutto 1169 · netto 1110
+[13.11. 15:16:02] ABSATZ Item 4036 · Q 5 (scan, Q gesamt) · S 1.4 (market, gelernt) · S roh 8.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 4.2 · N 7.0
+[13.11. 15:16:02] ENTZAUBERWERT Item 14188 · eigene Ø aus 599 · 11083 73% × 1.53 à 350, 11082 21% × 1.48 à 1701, 11084 6% × 1.00 à 3072 · brutto 1169 · netto 1110
+[13.11. 15:16:02] ABSATZ Item 14188 · Q 31 (scan, Q gesamt) · S 1.7 (market, gelernt) · S roh 10.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 18.4 · N 7.0 · kaum
+[13.11. 15:16:02] ENTZAUBERWERT Item 4247 · eigene Ø aus 599 · 11083 73% × 1.53 à 350, 11082 21% × 1.48 à 1701, 11084 6% × 1.00 à 3072 · brutto 1169 · netto 1110
+[13.11. 15:16:02] ABSATZ Item 4247 · Q 143 (vollscan) · S 20.4 (measured) · S roh 159.7 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 7.1 · N 7.0 · kaum
+[13.11. 15:16:02] ENTZAUBERWERT Item 15347 · eigene Ø aus 599 · 11083 73% × 1.53 à 350, 11082 21% × 1.48 à 1701, 11084 6% × 1.00 à 3072 · brutto 1169 · netto 1110
+[13.11. 15:16:02] ABSATZ Item 15347 · Q 14 (scan, Q gesamt) · S 0.7 (market, gelernt) · S roh 4.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 20.2 · N 7.0 · kaum
+[13.11. 15:16:01] ENTZAUBERWERT Item 6397 · eigene Ø aus 599 · 11083 73% × 1.53 à 349, 11082 21% × 1.48 à 1607, 11084 6% × 1.00 à 3072 · brutto 1137 · netto 1080
+[13.11. 15:16:01] ABSATZ Item 6397 · Q 10 (scan, Q gesamt) · S 1.7 (market, gelernt) · S roh 10.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 6.3 · N 7.0
+[13.11. 15:16:01] ENTZAUBERWERT Item 14378 · eigene Ø aus 599 · 11083 73% × 1.53 à 349, 11082 21% × 1.48 à 1607, 11084 6% × 1.00 à 3072 · brutto 1137 · netto 1080
+[13.11. 15:16:01] ABSATZ Item 14378 · Q 24 (vollscan) · S 1.5 (market, gelernt) · S roh 8.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 16.9 · N 7.0 · kaum
+[13.11. 15:16:01] ENTZAUBERWERT Item 14578 · eigene Ø aus 599 · 11083 73% × 1.53 à 349, 11082 21% × 1.48 à 1607, 11084 6% × 1.00 à 3072 · brutto 1137 · netto 1080
+[13.11. 15:16:01] ABSATZ Item 14578 · Q 8 (vollscan) · S 0.2 (measured) · S roh 8.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 40.9 · N 7.0 · kaum
+[13.11. 15:16:01] ENTZAUBERWERT Item 14582 · eigene Ø aus 599 · 11083 73% × 1.53 à 349, 11082 21% × 1.48 à 1607, 11084 6% × 1.00 à 3072 · brutto 1137 · netto 1080
+[13.11. 15:16:01] ABSATZ Item 14582 · Q 11 (scan, Q gesamt) · S 1.0 (market, gelernt) · S roh 6.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 11.8 · N 7.0 · kaum
+[13.11. 15:16:01] ENTZAUBERWERT Item 4715 · eigene Ø aus 599 · 11083 73% × 1.53 à 349, 11082 21% × 1.48 à 1607, 11084 6% × 1.00 à 3072 · brutto 1137 · netto 1080
+[13.11. 15:16:01] ABSATZ Item 4715 · Q 49 (scan, Q gesamt) · S 1.3 (market, gelernt) · S roh 8.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 37.2 · N 7.0 · kaum
+[13.11. 15:16:01] ENTZAUBERWERT Item 3719 · eigene Ø aus 599 · 11083 73% × 1.53 à 349, 11082 21% × 1.48 à 1607, 11084 6% × 1.00 à 3072 · brutto 1137 · netto 1080
+[13.11. 15:16:01] ABSATZ Item 3719 · Q 101 (vollscan) · S 22.8 (measured) · S roh 173.7 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 4.5 · N 7.0
+[13.11. 15:16:01] ENTZAUBERWERT Item 2580 · eigene Ø aus 16 · 10940 81% × 1.15 à 89, 10938 19% × 1.67 à 155 · brutto 139 · netto 132
+[13.11. 15:16:01] ENTZAUBERWERT Item 6393 · eigene Ø aus 599 · 11083 73% × 1.53 à 349, 11082 21% × 1.48 à 1607, 11084 6% × 1.00 à 3072 · brutto 1137 · netto 1080
+[13.11. 15:16:01] ABSATZ Item 6393 · Q 26 (scan, Q gesamt) · S 2.8 (market, gelernt) · S roh 16.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 9.8 · N 7.0 · kaum
+[13.11. 15:16:01] ENTZAUBERWERT Item 14194 · eigene Ø aus 599 · 11083 73% × 1.53 à 349, 11082 21% × 1.48 à 1607, 11084 6% × 1.00 à 3072 · brutto 1137 · netto 1080
+[13.11. 15:16:01] ABSATZ Item 14194 · Q 31 (scan, Q gesamt) · S 1.6 (market, gelernt) · S roh 9.8 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 19.4 · N 7.0 · kaum
+[13.11. 15:16:00] ENTZAUBERWERT Item 4827 · eigene Ø aus 599 · 11083 73% × 1.53 à 349, 11082 21% × 1.48 à 1607, 11084 6% × 1.00 à 3072 · brutto 1137 · netto 1080
+[13.11. 15:16:00] ABSATZ Item 4827 · Q 10 (scan, Q gesamt) · S 0.7 (market, gelernt) · S roh 4.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 16.3 · N 7.0 · kaum
+[13.11. 15:16:00] ENTZAUBERWERT Item 6602 · eigene Ø aus 599 · 11083 73% × 1.53 à 349, 11082 21% × 1.48 à 1607, 11084 6% × 1.00 à 3072 · brutto 1137 · netto 1080
+[13.11. 15:16:00] ABSATZ Item 6602 · Q 14 (scan, Q gesamt) · S 1.2 (market, gelernt) · S roh 7.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 12.4 · N 7.0 · kaum
+[13.11. 15:16:00] ENTZAUBERWERT Item 4714 · eigene Ø aus 599 · 11083 73% × 1.53 à 349, 11082 21% × 1.48 à 1607, 11084 6% × 1.00 à 3072 · brutto 1137 · netto 1080
+[13.11. 15:16:00] ABSATZ Item 4714 · Q 20 (scan, Q gesamt) · S 2.4 (market, gelernt) · S roh 14.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 8.7 · N 7.0 · kaum
+[13.11. 15:16:00] ENTZAUBERWERT Item 14580 · eigene Ø aus 599 · 11083 73% × 1.53 à 349, 11082 21% × 1.48 à 1607, 11084 6% × 1.00 à 3072 · brutto 1137 · netto 1080
+[13.11. 15:16:00] ABSATZ Item 14580 · Q 10 (vollscan) · S 0.8 (measured) · S roh 12.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 13.3 · N 7.0 · kaum
+[13.11. 15:16:00] ABSATZ Item 3365 · Q 12 (scan, Q gesamt) · S 0.3 (market, gelernt) · S roh 2.1 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 37.4 · N 7.0 · kaum
+[13.11. 15:16:00] ENTZAUBERWERT Item 3483 · eigene Ø aus 599 · 11083 73% × 1.53 à 349, 11082 21% × 1.48 à 1607, 11084 6% × 1.00 à 3072 · brutto 1137 · netto 1080
+[13.11. 15:16:00] ABSATZ Item 3483 · Q 0 (vollscan) · S 12.1 (measured) · S roh 66.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.1 · N 1.0
+[13.11. 15:16:00] ENTZAUBERWERT Item 4307 · eigene Ø aus 16 · 10940 81% × 1.15 à 89, 10938 19% × 1.67 à 155 · brutto 139 · netto 132
+[13.11. 15:16:00] DE-CHANCEN Gruppe 2:1:a · Tabelle 10940 80%/10938 20% · echt 10940 81%/10938 19% (16)
+[13.11. 15:15:51] M2 Ausrüstung: auctionID:n,buyoutAmount:n,containsAccountItem:b,containsOwnerItem:b,containsSocketedItem:b,itemKey:t,itemLink:s,owners,quantity:n,timeLeft:n,totalNumberOfOwners:n
+[13.11. 15:15:51] ENTZAUBERWERT Item 7048 · eigene Ø aus 599 · 11083 73% × 1.53 à 349, 11082 21% × 1.48 à 1607, 11084 6% × 1.00 à 3072 · brutto 1137 · netto 1080
+[13.11. 15:15:51] DE-CHANCEN Gruppe 2:4:a · Tabelle 11083 75%/11082 20%/11084 5% · echt 11083 73%/11082 21%/11084 6% (599)
+[13.11. 15:15:51] ABSATZ Item 7048 · Q 0 (vollscan) · S 41.0 (measured) · S roh 96.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.0 · N 1.0
+[13.11. 15:15:43] ABSATZ Item 1758 · Q 10 (scan, Q gesamt) · S 0.3 (market, gelernt) · S roh 1.8 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 36.5 · N 7.0 · kaum
+[13.11. 15:15:38] ABSATZ Item 1734 · Q 11 (scan, Q gesamt) · S 1.1 (market, gelernt) · S roh 6.4 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 11.3 · N 7.0 · kaum
+[13.11. 15:15:38] ABSATZ Item 4307 · Q 23 (vollscan) · S 35.0 (market, gelernt) · S roh 105.2 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.7 · N 1.0
+[13.11. 15:15:38] ABSATZ Item 1735 · Q 7 (scan, Q gesamt) · S 0.8 (market, gelernt) · S roh 5.0 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 9.6 · N 7.0 · kaum
+[13.11. 15:15:38] ABSATZ Item 1731 · Q 8 (scan, Q gesamt) · S 0.8 (market, gelernt) · S roh 5.0 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 10.8 · N 7.0 · kaum
+[13.11. 15:15:38] ABSATZ Item 1421 · Q 8 (scan, Q gesamt) · S 0.6 (market, gelernt) · S roh 3.9 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 13.9 · N 7.0 · kaum
+[13.11. 15:15:38] ABSATZ Item 2580 · Q 50 (scan, Q gesamt) · S 86.0 (market, gelernt) · S roh 258.9 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.6 · N 1.0
+[13.11. 15:15:35] ABSATZ Item 1378 · Q 7 (scan, Q gesamt) · S 0.1 (market, gelernt) · S roh 0.3 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 87.0 · N 7.0 · kaum
+[13.11. 15:15:35] ABSATZ Item 1423 · Q 4 (scan, Q gesamt) · S 0.8 (market, gelernt) · S roh 2.5 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 6.0 · N 7.0
+[13.11. 15:15:35] ABSATZ Item 1419 · Q 1 (scan, Q gesamt) · S 0.5 (market, gelernt) · S roh 3.1 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 3.8 · N 4.0

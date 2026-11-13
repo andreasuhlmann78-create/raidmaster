@@ -171,10 +171,10 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Tausend Nadeln (1441)
 
-- Wegstücke 59, Knoten 114, zusammenhängende Teile 3
+- Wegstücke 88, Knoten 200, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 81 Knoten, Bereich 28–48 / 28–42
-  - Teil 2: 17 Knoten, Bereich 21–23 / 23–32
+  - Teil 1: 103 Knoten, Bereich 10–23 / 18–37
+  - Teil 2: 81 Knoten, Bereich 28–48 / 28–42
   - Teil 3: 16 Knoten, Bereich 22–27 / 28–32
 
 ## Steinkrallengebirge (1442)
@@ -257,7 +257,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 1310, Knoten 678, zusammenhängende Teile 2
+- Wegstücke 1311, Knoten 678, zusammenhängende Teile 2
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 676 Knoten, Bereich 44–86 / 1–96
   - Teil 2: 2 Knoten, Bereich 83–84 / 15–16
