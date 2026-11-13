@@ -1,0 +1,55 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 16:50 · Sitzung: Discord-Projekt · Version: Bot 1.5.131 · Commit 96569f5
+
+MN7 SAMMELSTELLE – UMGESETZT (Bot 1.5.131; der Server holt sich das Update selbst, höchstens 30 Min.)
+- RaidMasterBot/market.py: liest "GSMARKT1|…" genau nach shared/GoldSentinelMarkt.lua v1 (Kopf dezimal, Einträge
+  "id,preis,menge,auktionen,abgänge,abgängeVorsichtig" in Base36, ";" getrennt). Ungültige Zeilen werden verworfen;
+  abgängeVorsichtig wird nie grösser als abgänge gesetzt. Keine Namen: die Zeilen haben keine, und als Quelle zählt
+  nur ein kurzer Hash der Webhook-ID.
+- Doppelte: je Fraktion und Scan-Zeit nur EIN Scan. Weitere Absender erhöhen nur die Zahl der Quellen. Scans aus der
+  Zukunft (> 1 h) oder älter als 35 Tage werden abgelehnt, ältere als 35 Tage gelöscht.
+  Ablage auf dem Server: data/markt/index.json und scans/<F>-<t>.json.gz.
+- Je Item (Fenster 7 Tage, je Fraktion):
+  - Preisverlauf: letzter Preis, min/max/Median.
+  - Angebot: Median von Menge und Auktionen.
+  - ABSATZ JE TAG ALS SPANNE: Untergrenze = Summe abgängeVorsichtig, Obergrenze = Summe abgänge, jeweils / Summe der
+    Vergleichsdauern × 86400. Die Vergleichsdauer zählt über ALLE Vergleichsscans der Fraktion; fehlt ein Item in
+    einem Scan, zählt das als 0 Abgänge.
+  - Umschlag = Untergrenze / Auktionen im Angebot.
+  - Abdeckung = Stunden der Woche (von 168) mit einem Scan, der das Item enthält; dazu je Fraktion gesamt.
+  - Zusätzlich je Fraktion der Absatz (Untergrenze) nach Stunde des Tages.
+- Annahme: aus Uploads in #bot-daten (alle Anhänge .lua/.lua.gz/.json(.gz)/.txt) und STILL aus den Paketen des
+  Uploaders in #testberichte (nur Webhook-Nachrichten). Dort antwortet und löscht der Bot weiter nie; ausser GSMARKT1
+  wird nichts gelesen. Dafür gibt es die neue Hilfsfunktion uploader_setup.market_source.
+  Damit ist MN6 frei, den Weg wie GSDIAG1 (Paket an #testberichte) oder den Upload zu nehmen.
+  Bitte an RaidMaster MN6 weitergeben.
+- WÖCHENTLICHER BERICHT: montags (Zeitzone des Bots) legt der Bot GSMARKTW1-<JJJJ>-W<KW>.md als Anhang in
+  #bot-befehle. Inhalt:
+  - je Fraktion Scans, Quellen und Abdeckung x/168,
+  - Top 25 nach Absatz-Untergrenze mit Spanne, Umschlag, Preisen, Angebot und Abdeckung,
+  - die Zahl verworfener Doppelter.
+  Neuer Workflow .github/workflows/markt-bericht.yml (alle 6 h, nur Anhänge des Bots selbst, feste Dateinamen,
+  ≤ 1 MB) legt ihn als testberichte/markt/<JJJJ>-W<KW>.md ab. Erster Lauf grün, noch 0 Dateien.
+  Nicht über #testberichte, weil die Abholung dort jede Nachricht nach 1 h löschen lässt (tb_aufraeumen).
+  Den Bericht sofort legen: /marktdaten bericht:True (Gildenleitung); /marktdaten zeigt den Stand.
+- MN8 MONATLICH: der Bot führt einmal im Monat blizzard_api_check --list aus (nur mit Zugang in der config.json).
+  Er vergleicht einen Fingerabdruck der Realm-Listen. Der erste Lauf speichert nur. Nur bei einer Änderung legt er
+  GSBLIZZ1-<Datum>.txt in #bot-befehle (ohne Zugangsdaten), daraus wird testberichte/markt/blizzard-<Datum>.txt.
+- D-GS1b mit erledigt: gs_has_bank = False vor dem if in receive_upload.
+- Tests: tests/test_market.py mit nachgebauten Zeilen (Encoder wie Enc() der Lua-Datei). Geprüft werden:
+  Hin- und Rückweg, ungültige Zeilen, Zeilen in SavedVariables und JSON-Paketen, Doppelte PC/Laptop, Zukunft/alt,
+  Speichern/Aufräumen, Rechnung (2 Vergleiche à 1 h, 4/12 Abgänge -> 48–144 je Tag, Umschlag 4,8), Bericht und
+  Verdrahtung im Bot.
+  REGRESSIONEN: T-MN7, T-MN7b, T-D-GS1b. Alle Bot-Tests OK (CI Bot-Tests grün). Workflow-Importliste um market
+  ergänzt.
+- ANLEITUNG Abschnitt 6c, testberichte/markt/README.md.
+
+HINWEISE / FRAGEN
+1. test_testberichte b05/b08 bleiben unverändert grün: route_message liefert für #testberichte weiter "ignore",
+   bot.py nennt testberichte_channel_id weiter nicht. Das Mitlesen läuft über market_source. Falls ihr die Regel
+   "Bot liest #testberichte nie" anders wollt, bitte melden.
+2. LIVE PRÜFEN, sobald MN6 Zeilen schickt:
+   - /marktdaten zeigt Scans je Fraktion;
+   - denselben Scan von zwei Rechnern -> 1 Scan, 2 Quellen;
+   - am Montag GSMARKTW1-…md in #bot-befehle und danach in testberichte/markt/.
+3. Rückweg zu den Addons (Phase 2) nicht gebaut, wie beauftragt.
