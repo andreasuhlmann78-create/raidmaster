@@ -1,0 +1,127 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 23:45 · Sitzung: Discord-Projekt · Version: Bot 1.5.132 (Commit 0bf7697)
+Umgesetzt, zur Prüfung. Eigene Tests sind Hinweise, keine Freigabe.
+
+TEIL A – NACHPRÜFUNG 1.5.131: UMGESETZT IN 1.5.132
+1. D-MN7a (Quellen): market.source_from_text liest das Paketfeld "quelle", nur genau 16 Hex. Abgelegt wird nur ein
+   Hash (10 Zeichen), nie die Kennung selbst. Ohne Feld (Uploader vor 2.3.7) gilt wie bisher der Webhook-Hash.
+   Die Quelle wird je Anhang bestimmt (bot.py market_intake).
+   Ablauf-Test T-D-MN7a: zwei Rechner mit gleichem Webhook ergeben 2 Quellen, ein alter Uploader die 3. Quelle; die
+   Kennung steht nicht in index.json.
+2. D-MN7c:
+   - uploader_setup.market_source nimmt nur noch cfg["testberichte_webhook_id"]; ohne Eintrag wird nichts gelesen.
+   - parse_line verwirft eine Zeile, wenn sie weniger Einträge hat, als der Kopf <Items> angibt (abgeschnitten).
+     Ausverkaufte Einträge (v2) dürfen über dem Kopf liegen.
+   - Grenzen (market.py:55–57): 30 neue Scans je Quelle und Stunde, 20 000 Scans, 3 GB gepackt; darüber zählt der
+     Scan als "begrenzt" (Zähler im Bericht und in /marktdaten).
+   - Tests: T-D-MN7c (Grenzen), Kopf-Test, Webhook-Test.
+3. D-MN7d:
+   - Der Montagsbericht deckt die abgeschlossene Kalenderwoche ab (Montag 00:00 bis Montag 00:00 in der Zeitzone des
+     Bots) und trägt ihren Namen (16.11.2026 -> GSMARKTW1-2026-W46.md).
+   - /marktdaten bericht:True legt einen Zwischenbericht GSMARKTW1-<KW>-zwischen-<MMTT-HHMM>.md. Er überschreibt den
+     Wochenbericht nie und setzt den Montags-Merker nicht. Der Sammler (markt_bericht_holen.py) kennt den neuen Namen.
+   - Eine Zone: market.set_tz(TZ) beim Start; hour_of_week und alle Datumsangaben im Bericht nutzen sie.
+   - Tests T-D-MN7d (auch Zeitumstellung 25.10.: die Woche hat 7 Tage + 1 h und beginnt um 00:00) und
+     Bot-Ablauf-Test.
+4. D-MN7e: market_catchup liest nach jedem on_ready die letzten 60 Min. in #testberichte nach (höchstens 200
+   Nachrichten). Nur der eigene Webhook; Doppelte verwirft die Ablage; nie antworten, nie löschen.
+   Ablauf-Test T-D-MN7e: eigener Webhook ja, fremder Webhook nein, Person nein, 0 gesendet, 0 gelöscht.
+5. D-MN7f: MAX_LINE = 3 MB. aggregate sammelt keinen Verlauf mehr; Preise, Menge und Auktionen liegen in
+   array("q") (8 Byte je Wert). Test T-D-MN7f: 40 000 Einträge werden gelesen, kein "verlauf".
+   HINWEIS: Der Uploader 2.3.7 lässt je Zeile nur 2 MB zu (RaidMasterUploader/uploader.py:96 MARKT_MAX_ONE), nicht
+   3 MB. Der Bot nimmt jetzt mehr an; die Zeilen begrenzt also der Uploader.
+6. D-T1:
+   - Neuer tests/bot_harness.py: kopiert bot.py und die Module in einen temporären Ordner, mit einer
+     Attrappen-config.json (Token "test-token", keine IDs), lädt den Bot dort und löscht den Ordner am Ende. Im Repo
+     entsteht nichts.
+   - Ablauf-Tests mit Attrappen statt Quelltext-Tests:
+     - market_intake, market_catchup, blizzard_monthly, post_market_report;
+     - receive_upload mit einer GuildSentinel-Datei von 26 MB: kein Fehler, die Datei wird nicht gelesen, Zeile im
+       Protokoll "GuildSentinel-Datei … ist zu gross (… MB > 25 MB) – nicht gelesen.".
+   - Der Quelltext-Test T-D-GS1b in test_uploads_gs_up.py ist entfernt. T-MN7b prüft nur noch die Verdrahtung in
+     on_message/on_ready, die sich ohne Discord nicht ausführen lässt.
+7. D-MN8b: blizzard_fp wird erst nach erfolgreichem Senden gespeichert. Fehlt der Kanal, bleibt der alte
+   Fingerabdruck, und die Änderung wird im nächsten Monat erneut gemeldet.
+   Ablauf-Test T-D-MN8b: Ausgangsstand, dann Änderung ohne Kanal (nicht gemerkt), dann mit Kanal (gesendet, gemerkt).
+8. D-MN7b: T-MN7 um ein ausverkauftes Item ergänzt: "7,0,0,0,3,2", Kopf 0 Items. Ergebnis: Absatz 48–72 je Tag, im
+   Preisverlauf nur der Preis vor dem Ausverkauf, Menge bleibt 3.
+Tests: 225 Bot-Tests OK, Regressionen 26 von 26 (neu: T-D-MN7a, -c, -d, -e, -f, T-D-MN8b; T-D-GS1b zeigt jetzt
+auf den Ablauf-Test). Kein neues Modul im Import-Schritt nötig (bot_harness liegt in tests/).
+Im Betrieb noch offen (Punkt 9): /marktdaten nach dem Update; Scans je Fraktion, sobald Uploader 2.3.7 sendet;
+Montag 16.11. GSMARKTW1-2026-W46.md in #bot-befehle und testberichte/markt/; Speicher beim Bericht.
+
+TEIL B – FRAGE DES NUTZERS: "Kann der Bot vom Datenvolumen her grösser gemacht werden, und was hat das für Einflüsse?"
+Nichts umgesetzt, nur Antwort. GEMESSEN = hier im Arbeitscontainer gemessen. SCHÄTZUNG = gerechnet, nicht gemessen.
+DEN SERVER KONNTE ICH NICHT MESSEN: Diese Sitzung ist gerade nicht mit dem Rechner des Nutzers verbunden, also kein
+SSH. Befehle dafür stehen unter B5.
+
+B1. Grenzen im Code heute (Bot 1.5.132)
+- RaidMasterBot/market.py
+  - :49 MAX_LINE 3 MB je GSMARKT1-Zeile
+  - :50 MAX_ENTRIES 50 000 Einträge je Zeile
+  - :51 MAX_INPUT 64 MB entpackt je Anhang
+  - :52 KEEP_DAYS 35 Tage
+  - :55 MAX_NEW_PER_SOURCE_HOUR 30
+  - :56 MAX_SCANS 20 000
+  - :57 MAX_STORE_BYTES 3 GB
+  - :352/:400/:406 Bericht: Top 25 je Fraktion
+- RaidMasterBot/bot.py
+  - :2739 Anhang für Marktdaten ≤ 25 MB
+  - :4988/:4991 GuildSentinel ≤ 25 MB, :5026 RaidMaster-Upload ≤ 25 MB
+  - :4884/:5570/:5720 ZIP-Anhänge ≤ 25 MB
+  - :2778 Nachlesen: 60 Min., höchstens 200 Nachrichten
+- RaidMasterBot/markt_bericht_holen.py:25–26: Bericht ≤ 1 MB, die letzten 300 Nachrichten
+- Uploader 2.3.7 (RaidMasterUploader/uploader.py):
+  - :96 MARKT_MAX_ONE 2 MB je Marktzeile
+  - :86 TEST_MAX_JSON 4 MB entpackt je Paket-Nachricht
+  - :74 SHOT_MAX_BYTES 9 MB (Bilder)
+- shared/GoldSentinelMarkt.lua:71 EXPORT_KEEP 2: der Uploader sieht nur die letzten 2 Scans je Addon
+- Quellen: ohne feste Obergrenze (Liste je Scan); Verlauf je Item: keiner mehr (D-MN7f)
+
+B2. Grösse eines Scans (GEMESSEN mit nachgebauten Scans, Zufallswerte wie im echten Format)
+- 5 338 Items:
+  - Zeile 96 KB, gepackt 53 KB, Ablage 34 KB je Scan;
+  - Ablegen 33 ms; Bericht über 50 Scans 2,5 s, Speicherspitze 21 MB.
+- 11 237 Items:
+  - Zeile 202 KB, gepackt 110 KB, Ablage 71 KB;
+  - Ablegen 71 ms; Bericht über 50 Scans 5,5 s, Speicherspitze 46 MB.
+- Die Zeit des Berichts wächst ungefähr mit Scans × Items. SCHÄTZUNG für 300 Scans je Woche und Fraktion bei 6 000
+  Items: etwa 15 s und etwa 100 MB Spitze, einmal am Montag, in einem eigenen Thread.
+  Während dieser Zeit können Befehle etwas langsamer antworten (Python-GIL), aber nicht über die 3-s-Frist von
+  Discord, weil die Befehle zuerst defer() aufrufen.
+- Folge: Die Grenzen im Code sind weit weg. Eine 2-MB-Zeile hätte etwa 100 000 Items, mehr als es im AH gibt.
+
+B3. Äussere Grenzen
+- Discord:
+  - Anhänge ohne Server-Boost: laut Bericht vom 14.08.2026 (dev.ua) jetzt 20 MB statt 10 MB. Mit Boost Stufe 2
+    50 MB, Stufe 3 100 MB (SCHÄTZUNG nach bisherigen Regeln, auf dem Server prüfen).
+  - Die 25-MB-Prüfungen im Bot liegen schon über der Grenze ohne Boost. Ein Paket des Uploaders hat höchstens etwa
+    4 MB entpackt.
+  - Rate-Limits: Webhooks etwa 5 Nachrichten in 2 s und 30 je Minute je Kanal (SCHÄTZUNG nach der Doku von Discord).
+    Der Uploader schickt höchstens 1 Paket je Scan, also weit darunter.
+- Server /opt/raidmaster: NICHT GEMESSEN (siehe B5).
+  - Ablage-Bedarf (SCHÄTZUNG): 3 Spieler × 2 Fraktionen × 1 Scan/h × 24 × 35 Tage = 5 040 Scans × 34 KB ≈ 170 MB.
+  - Selbst 10 Spieler ≈ 600 MB. Die Grenze von 3 GB liegt darüber.
+- GitHub: Dateien bis 100 MB (Warnung ab 50 MB), Repo-Empfehlung unter 1–5 GB. Ein Wochenbericht ist etwa 10–20 KB,
+  also 1 MB im Jahr. Rohdaten kommen nie ins Repo, nur Berichte. Das .git hier ist heute bereits gross (siehe Ende).
+- Uploader: 2 MB je Zeile, 4 MB je Paket, nur die letzten 2 Scans je Addon. Wer seltener hochlädt, verliert ältere
+  Scans – das ist die eigentliche Grenze für mehr Daten.
+
+B4. Was man erhöhen kann und was es bringt (Empfehlung)
+- Mehr Daten bringen nicht grössere Dateien, sondern MEHR SCANS UND QUELLEN (Abdeckung x/168). Grenzen erhöhen
+  bringt deshalb heute nichts. Empfehlung:
+  a) EXPORT_KEEP von 2 auf 6 (Prüf-Sitzung, shared/): Scans eines Abends ohne Uploader gehen nicht verloren.
+     Kosten SCHÄTZUNG: 6 × 100 KB = 600 KB mehr in den SavedVariables. Risiko klein.
+  b) KEEP_DAYS von 35 auf 90 (Bot), wenn Trends über Monate gewünscht sind. SCHÄTZUNG ≈ 450 MB bei 3 Spielern.
+     Erst nach Messung des freien Platzes (B5).
+  c) MAX_NEW_PER_SOURCE_HOUR, MAX_SCANS, MAX_LINE so lassen; sie schützen gegen fehlerhafte oder fremde Uploader.
+  d) Wird der Bericht zu langsam (über 60 s): die Zusammenfassung je Scan beim Ablegen vorrechnen (Tagessummen je
+     Item). Das ist erst ab etwa 1 000 Scans je Woche nötig.
+  e) Discord-Boost lohnt sich für die Datenmenge nicht.
+- Alte Uploader: Keine dieser Änderungen bricht etwas. Pakete ohne "quelle" und Zeilen bis 2 MB gehen weiter.
+
+B5. Messung auf dem Server (bitte einmal ausführen oder die Sitzung verbinden, dann messe ich selbst)
+  free -m; df -h /opt/raidmaster; nproc; uptime; du -sh /opt/raidmaster/data /opt/raidmaster/data/markt
+  systemctl show raidmaster -p MemoryCurrent; top -b -n1 | head -15
+
+Ende: Repo-Ordner .git in diesem Arbeitsbereich: 311M (gemessen mit du -sh).
