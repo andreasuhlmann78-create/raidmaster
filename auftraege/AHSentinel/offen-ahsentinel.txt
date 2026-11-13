@@ -637,3 +637,21 @@ PS (SEHR HOCH, GRUNDSATZ, NEU 13.11. 22:08 – Nutzer: "AHS muss pfeilschnell we
    und gibt sie in den Testbericht. JEDE Veröffentlichung nennt im Bericht die Tempo-Werte des letzten Client-Laufs;
    ein verfehltes Ziel = keine neuen Funktionen, bis es erfüllt ist (Ausnahme: Fehler, die Gold kosten).
    Die Prüf-Sitzung prüft die Werte bei jeder Version selbst nach (Testbericht + Diagnose) und meldet Abweichungen.
+
+SA (MITTEL, NEU 13.11. 22:22 – Entscheid des Nutzers zu Idee I5): SCHNÄPPCHEN-ALARM IM SPIEL, NUR GESICHERT.
+   Taucht ein eigenes Sniper-Ziel in den Marktdaten eines Gildenmitglieds (GoldSentinelMarkt, MN) unter dem Max auf,
+   meldet AHSentinel das IM SPIEL (kurz, eine Zeile, z. B. "Schultern des Hügelwächters 6s 50c im AH – Scan vor 2 Min."),
+   aber NUR, wenn es gesichert ist ("nicht irgendein Mist"):
+   - Daten höchstens 5 Min. alt, eigene Fraktion, Preis nicht als Lockangebot/Ausreisser erkannt (PX-a-Regeln),
+     Gewinn nach dem besten Weg (SN2115b) positiv, Item nicht pausiert, Budget reicht.
+   - Steht der Spieler am AH: AHSentinel prüft das Angebot zuerst selbst mit einer Suche; Alarm nur, wenn es wirklich
+     da ist. Sonst Hinweis mit Alter, ohne grosse Geste. Höchstens 1 Alarm je Item je 10 Min., abschaltbar.
+   Kein Handy/Discord (Nutzer: "nein, aber im Spiel"). Test T-SA1–3 (veraltet -> kein Alarm, Lockangebot -> kein Alarm,
+   gültig -> genau ein Alarm). Gehört zu MN5 (0.66 oder danach).
+
+HK (MITTEL, NEU 13.11. 22:22 – Entscheid des Nutzers zu Idee I7): HERSTELLUNGS-KETTE, SIMPEL.
+   Ein einziger Vorschlag "Material kaufen -> herstellen -> verkaufen" mit EINER Zahl (Gewinn je Herstellung bzw. pro
+   Stunde) – "simpel und einfach, ohne grossen Schnickschnack" (Optik-Regel OR). Nur zeigen, wenn ALLE Schritte geprüft
+   lohnen: Materialpreise "Jetzt im AH" (ehrlich, frisch), Verkaufsquote des Produkts (PX-b) ausreichend, Gewinn nach
+   Gebühren aus der einen Funktion "bester Weg". Rezeptwissen kommt aus ProfessionSentinel (API-PM), die Rechnung aus
+   dem Rechenkern (0.66). Test T-HK1–2. Zusammen mit ProfessionSentinel (dort Auftrag HK-P).

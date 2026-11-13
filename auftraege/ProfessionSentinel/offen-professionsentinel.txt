@@ -124,3 +124,10 @@ Jeder Befund bekommt einen bleibenden Test T-<ID> (auftraege/README.md).
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/ProfessionSentinel/ ablegen.
    MN VERSION 2 (13.11. 20:00, DRINGEND): GoldSentinelMarkt.lua Version 2 – in Clients mit AHSentinel liest sie nichts mehr selbst (doppeltes Lesen machte den Sniper/das Spiel ruckelig), Warteschlange max. 10, Gilde nur einmal je Stunde ganzer Scan. SOFORT neu kopieren und veröffentlichen (Version 1 = Warnung "veraltet").
    MN VERSION 2 – STAND 13.11. 22:20 (D-MN7b ausverkaufte Items im Export): wer v2 schon kopiert hat, bitte NOCHMALS kopieren (Prüfung "exact").
+
+HK-P (MITTEL, NEU 13.11. 22:22 – Entscheid des Nutzers): HERSTELLUNGS-KETTE MIT AHSENTINEL, SIMPEL.
+   AHSentinel zeigt künftig EINEN Vorschlag "Material kaufen -> herstellen -> verkaufen" mit einer Zahl, nur wenn alle
+   Schritte geprüft lohnen ("simpel und einfach, ohne grossen Schnickschnack"). ProfessionSentinel liefert dafür über
+   die bestehende API (API-PM) je bekanntem Rezept: Produkt, Materialien mit Mengen, Herstellbarkeit (Fertigkeit,
+   Abklingzeit). Keine eigene Gewinnanzeige in ProfessionSentinel dafür (keine doppelte Rechnung). Bitte im Bericht
+   bestätigen, welche Felder die API heute schon liefert und was fehlt. Wartet auf AHSentinel 0.66 (Rechenkern).
