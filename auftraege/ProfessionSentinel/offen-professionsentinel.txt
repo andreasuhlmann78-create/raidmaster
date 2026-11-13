@@ -1,143 +1,120 @@
-OFFENE PUNKTE PROFESSIONSENTINEL (nach der Nachprüfung von 0.9.39)
+OFFENE PUNKTE PROFESSIONSENTINEL (nach der Nachprüfung von 0.9.42)
 ===================================================================
-Stand: 12. November 2026, 11:30 · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/ProfessionSentinel-0.9.39.zip
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.38.
-Gelesen: berichte/ProfessionSentinel/2026-11-12-0855-version-0.9.39.txt – alle gemeldeten Punkte sind im Code belegt.
+Stand: 13. November 2026, 08:25 · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/ProfessionSentinel-0.9.42.zip
+(geprüft 0.9.40, 0.9.41 und 0.9.42 gegen 0.9.39)
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.39 samt den Nachträgen
+TU, PM, BL und den Antworten F1–F6 vom 13.11.
+Gelesen: berichte/ProfessionSentinel/2026-11-13-0735-version-0.9.41.txt, 2026-11-13-0736-fragen-0.9.41.txt,
+2026-11-13-0830-version-0.9.42.txt – die gemeldeten Punkte sind im Code belegt (Ausnahmen unten).
 
 REIHENFOLGE: Erst die laufende Arbeit fertig machen, dann die Punkte unten von oben nach unten.
 
-Erledigt in 0.9.39 (danke)
---------------------------
-- Punkt 1a (direkter Neuaufbau portioniert): UI:Refresh startet ausserhalb des Aufbaus UI.StartBuild("direkt", 1)
-  (UI.lua 2355–2364, Aufruf 2362); am Stück nur bei UI.SyncRefresh() (UI.SYNC oder laufende Testroutine, UI.lua 2350,
-  TestRoutine.lua 32 TR.Running).
-- Punkt 1b: Yield() in AD.Ranking (Advisor.lua 170), AD.GoldRanking (268), PlanRaw (508, 534); AD.Update gibt
-  zwischen den Stufen ab. Kein pcall dazwischen: P.InPass ruft fn im laufenden Durchgang direkt auf (Prices.lua 60),
-  der Aufbau beginnt den Durchgang in Step (UI.lua 2269) – Yield über pcall ist damit ausgeschlossen.
-- Punkt 1c: PL.Build mit Zwischenspeicher (Plan.lua 46–58; Schlüssel mit AD.stamp, Preisquelle, PS.changes,
-  30-s-Fenster, Sim). PlanRaw rechnet nur über die aktiven Rezepte (lernbar, nicht grau), Neuaufbau der Liste nur an
-  der nächsten Lern- bzw. Grau-Stufe (Advisor.lua 520–546). UI.NextOrange nimmt AD.current.mat bzw. die Rezeptliste
-  ohne AD.Evaluate (UI.lua 1693–1723). Offline: T143 meldet AD.Plan nicht mehr (vorher 20 ms).
-- Punkt 1 Testfall: T246 (Bereich H, TestRoutine.lua 5231): 300 Rezepte, Reiter Skillen + Klick, portioniert,
-  längste Portion offline 10.0 ms (Forever) / 10.9 ms (Era) / 4.8 ms (Retail), Plan aus dem Zwischenspeicher – OK.
-- Punkt 2 (GoldSentinelTest 2): Datei byte-gleich mit shared/ (Version 2), sonst nichts geändert; T3 wie bisher
-  (Core.lua 614, GT.TrackErrors nach ADDON_LOADED); CHANGELOG EN/DE; T245 = T-GT1/T-GT2 (TestRoutine.lua 5142) – OK.
-  anweisung-test-version2.txt ist damit vollständig erledigt und entfernt.
-- Punkt 3a: Details nur, wenn UI.GroupOfMode(Mode()) == "recipes" (UI.lua 1046); T243 um Klick in "gold" und "plan"
-  ergänzt (TestRoutine.lua 5090–5106).
-- Punkt 3b: bestätigt – "kein Zeichen = gelernt" ist gewollt (CHANGELOG 0.9.39). Erledigt.
+Erledigt in 0.9.40 bis 0.9.42 (danke)
+-------------------------------------
+- 0.9.40: Rezeptdaten-Update (Forever-Lagerteile, Schneider-Taschen, Grober Schleifstein) – Data_Forever.lua, CHANGELOG.
+- Punkt 1 der Nachprüfung 0.9.39 (Top-Zeile im Reiter "Rezepte" öffnet Details): bestätigt, im CHANGELOG 0.9.41,
+  T243 um den Klick ergänzt (TestRoutine.lua 5074 ff.). Erledigt.
+- PM1 beide Richtungen: Market.lua 257–268 (Judge: rawNet, craftAdv, direction), MK.DirectionText; Gruppe "Zutaten lieber
+  roh verkaufen" im Reiter Gold.
+- PM2 Leiter für die benötigte Menge: Market.lua 88–112 (BuyCost, Rest 1,5 × letzte Stufe), Prices.lua 198–224
+  (Herstellungen × Menge, Händler billiger -> Händler), Abklingzeit Market.lua 168 (IsCooldown, je Abklingzeit).
+  Mit AHSentinel über API.MaterialCost (Market.lua 195–220, Zutatenliste muss passen). Einschränkung siehe Punkt 4.
+- PM3 / F1: Market.lua 113–143 (InfoRaw: alt > 6 Std., Aufkauf Leiter[1] > 150 %, dünn < 5 Angebote; mit AHSentinel aus
+  API.MarketState), 275–288 (über 300 % allein -> Zahl gelb "sehr hohe Marge", grau "Daten prüfen" nur mit zweitem Zeichen).
+  Prüffälle T247 (Raptor-Rippchen 361 % zeigt, mit 2 Angeboten grau), T249, T257. MK.CheckRules (Market.lua 551–575).
+- PM4 / F2: Prices.lua 248–259 (API.WorthUpTo mit qty = 1 = Stückpreis, Weg, Sicherheit), Market.lua 62–65
+  (WorthUnsure: Zahl < 0,6 oder "unsicher"); MarketState optional ohne Diagnose-Zeile. T250 gleiche Zahl mit/ohne AHSentinel.
+- PM5 / F3 / F4: Market.lua 344 ff. (BandHints, "ruhig" ohne Hinweis), 389–395 (Filter "Nur Raid-Bedarf" bleibt,
+  Hinweis "Raidstart 9.12." nur Forever bis 9.12.; Forever/Era/TBC). T251.
+- PM6: Market.lua 421 (OnCraft), 519 (ReadInvoices, Post nur gelesen), Trefferquote je Beruf im Testbericht, ab 20 Fällen
+  < 60 % "unsicher". T252.
+- PM7 / TU1–TU9: Bereich M (T247–T253) und U (T254–T260), T261; Testbericht je TU-Bereich eine Zeile, "Regressionen: 59 von
+  59 vorhanden · Startwert TU4 4711"; TU5 still nach jedem AH-Scan (Diagnose "GRUNDREGEL VERLETZT"); alles in
+  tests/run_offline.py. anweisung-markt-herstellen.txt und anweisung-tests-umfassend.txt sind damit erledigt und entfernt
+  (Restpunkte stehen unten).
+- BL1/BL2: Core.lua 646–696 (ns.COMMANDS = eine Tabelle für Ausführen und Liste, ns.COMMAND_PREFIXES), 733 (ns.CommandList,
+  filtert DE/EN, meistbenutzte oben), 759–790 (ns.SelectCommand / SelectedCommand, frische Auswahl ≤ 10 s). /ps hilfe.
+  Tests T262 (T-BL1, T-BL5), T263 (T-BL2), T264 (T-BL3 Auswahl + Enter, T-BL6).
 
-Prüfungen (0.9.39)
+Prüfungen (0.9.42)
 ------------------
-- addon_check: OK, 0 FEHLER, 0 WARNUNGEN (die Warnung GoldSentinelTest Version 1 ist weg).
-- GoldSentinelGame.lua (Version 3) und GoldSentinelTest.lua (Version 2) byte-gleich mit shared/. GoldSentinelDev.lua
-  unverändert gegenüber 0.9.38.
-- Quell-Repo (Commit 2e7f09f) entspricht der ZIP Datei für Datei. Geändert: Advisor.lua, Plan.lua, UI.lua, Core.lua
-  (Version), TestRoutine.lua, GoldSentinelTest.lua, vier .toc (alle 0.9.39), CHANGELOG EN/DE. Locales unverändert
-  (keine neuen sichtbaren Texte ausserhalb der Testroutine).
-- Keine Blizzard-Funktion oder C_-Tabelle ersetzt; T246 ersetzt nur ns.API.TimerAfter, UI.Now, UI.SYNC und
-  ns.TestRoutine.Running (eigene Tabellen).
-- tests/run_offline.py: Forever OK 201 / FEHLER 1 (nur T143 Zeitmessung "AL.Needed (50 Charaktere) 21.0 ms" – zählt
-  offline nicht), Era OK 184 / FEHLER 0, Retail OK 183 / FEHLER 0. T245 und T246 in allen drei OK.
-- Sync weiterhin nicht zutreffend: keine Addon-Nachrichten. Falls später Datenaustausch kommt: nur über
-  GoldSentinelSync 2 (shared/wissen/kommunikation-forever.md), nie über eigene Kanäle.
-- Neuer Diagnose-Bericht testberichte/diagnose/ProfessionSentinel/0.9.38-1247862f6b5e.txt (12. Nov. 06:59): 0 Lua-Fehler.
-  Die LANGSAM-Einträge stammen alle noch von v0.9.37 (zuletzt 10. Nov. 15:37: UI:Refresh ×8247 bis 77 ms, AD.Update
-  ×7203, UI:Aufbau (Teil 1) ×291 bis 72 ms) – genau das, was 0.9.39 behebt. Seit 0.9.38 kein neuer Eintrag (Panel
-  nicht benutzt). "ÜBERLAPPT ×762 … AHAnalyzerProCraftPanel" zählt seit 9. Nov. 18:36 nicht mehr hoch.
+- addon_check: OK, 0 FEHLER, 0 WARNUNGEN (Ladetest und Sprachtest bestanden).
+- GoldSentinelGame.lua (Version 3) und GoldSentinelTest.lua (Version 2) byte-gleich mit shared/. Neue Datei Market.lua,
+  in allen vier .toc (0.9.42). CHANGELOG EN/DE für 0.9.40, 0.9.41, 0.9.42 vorhanden.
+- tests/run_offline.py (Quell-Repo 7970aae): Exit 0. Forever OK 219–220 / FEHLER 0–1 (nur T143 Zeitmessung "AD.Plan 25 ms",
+  zählt offline nicht), Era OK 202 / 0, Retail OK 201 / 0, TBC ohne Lua-Fehler. TU1–TU7 je ohne FEHLER, TU6 Forever OK 67.
+- Keine Blizzard-Funktion und keine C_-Tabelle ersetzt. Die Tests ersetzen über Stub (TestRoutine.lua 181, mit Rückbau)
+  eigene Tabellen – Ausnahme siehe Punkt 5.
+- Diagnose 0.9.39-aa904ceffb7e.txt: 0 Lua-Fehler. Die Zeilen "SPIELTEST S7/S8 FEHLER" stammen vom 9.11. (alte Versionen)
+  und sind bereits unter IM CLIENT PRÜFEN (/ps spieltest an) erfasst.
+- Sync weiterhin nicht zutreffend (keine Addon-Nachrichten).
 
 OFFENE PUNKTE
 -------------
-1. KLICK AUF EINE "TOP"-ZEILE IM REITER "REZEPTE" ÖFFNET JETZT DETAILS (NIEDRIG) – bitte bestätigen
-   - Vorher: "if not data.suggest and UI.ShowDetails" – Vorschlagszeilen öffneten nie Details. Jetzt nur noch die
-     Reiter-Prüfung (UI.lua 1046). Damit öffnen die Vorschlagszeilen im Block "Top" des Reiters "Rezepte"
-     (RefreshRecipes, UI.lua 1524, suggest = true) die Details neu. Steht so nicht im CHANGELOG.
-   - Ist das gewollt (wirkt sinnvoll): kurz bestätigen und im nächsten CHANGELOG erwähnen. Sonst "not data.suggest"
-     wieder dazunehmen. Testfall T243 um "Klick auf Top-Zeile im Reiter Rezepte" ergänzen (je nach Entscheid
-     Details sichtbar bzw. nicht).
+1. BL3/BL4 BEFEHLSLISTE ÜBER DEM CHAT (MITTEL) – jetzt nicht mehr blockiert
+   - AHSentinel 0.65.104 ist veröffentlicht mit CH1–CH5 (Befehlsliste: Klick wählt, Enter führt aus), Datei
+     AHSentinel/CmdHint.lua. ProfessionSentinel ist vorbereitet (ns.COMMANDS, ns.COMMAND_PREFIXES, ns.CommandList,
+     ns.SelectCommand, Zähler).
+   - Zu tun, sobald die Nachprüfung von AHSentinel 0.65.104 CH bestätigt (auftraege/AHSentinel/offen-ahsentinel.txt):
+     den Baustein CmdHint unverändert übernehmen (wie er bereitgestellt wird – Frage "shared/ oder Kopie" ist an die
+     Prüf-Sitzung im Chat weitergegeben; Antwort kommt in diese Datei), Fenster über dem Chat, Option zum Ausschalten
+     (alle Locale-Dateien), Test T-BL4 (Chatfeld nie beschrieben: kein SetText/Insert, kein eigenes OnEnterPressed) und
+     T-BL3 mit Klick im Fenster ergänzen. Alte Clients (Era, TBC) nicht brechen.
 
-2. NEUAUFBAU IM CLIENT BESTÄTIGEN (MITTEL, nur Prüfung) – Punkt 1 der Nachprüfung 0.9.38
-   - Offline erledigt (siehe oben). Ob es im Spiel unter 16 ms bleibt, zeigt erst der Client: /ps protokoll nach
-     Öffnen des Berufsfensters, Reiterwechsel und Klicks – keine neuen LANGSAM-Einträge mit v0.9.39 über 16 ms;
-     /ps spieltest an -> S7 OK; /ps testroutine h -> T246 und T219 OK. Bleiben LANGSAM-Einträge: Name und Wert
-     melden, dann weiter portionieren.
+2. NEUAUFBAU IM CLIENT BESTÄTIGEN (MITTEL, nur Prüfung) – Punkt 2 der Nachprüfung 0.9.39
+   - Offline erledigt. Im Spiel: /ps protokoll nach Öffnen des Berufsfensters, Reiterwechsel und Klicks – keine neuen
+     LANGSAM-Einträge über 16 ms; /ps spieltest an -> S7 OK; /ps testroutine h -> T246, T219, T257 OK. Neu dazu: der
+     Reiter Gold mit Market.lua (Leiter, Infos je Zutat) – bleibt er unter 16 ms je Bild?
 
-IM CLIENT PRÜFEN (mit 0.9.39 und aktuellem AHSentinel)
-------------------------------------------------------
-- Neu mit 0.9.39: Klick, Reiter, Suche, Einstellung zeichnen ohne sichtbares Flackern oder halbe Listen; das Panel ist
-  nach einem Klick sofort richtig (erste Portion im selben Frame). Reiter "Skillen": Plan stimmt nach Lernen eines
-  Rezepts, nach einem Fertigkeitspunkt und nach einem AH-Scan sofort bzw. spätestens nach 30 s. "Danach orange"
-  nennt ein sinnvolles nächstes oranges Rezept.
-- Neu mit 0.9.39: Klick in den Reitern "Gold" und "Skillen" öffnet keine Details; im Reiter "Rezepte" schon.
+3. T145 SPEICHER NAHE AN DER GRENZE (NIEDRIG, nur Prüfung)
+   - Laut Bericht 0.9.41: LuaJIT +1023 KB (Grenze 1024), Lua 5.1 +1527 KB, weil T254–T256/T260 Listen mit Testpreisen
+     aufbauen. Im echten Client /ps testroutine h: T145 OK? Wenn nicht: die Testdaten der Bereiche M/U nach dem Fall
+     freigeben (Rückbau) statt die Grenze zu erhöhen.
+
+4. ZWEITES ZEICHEN "LEITER ZU KURZ" WIRKT IM SPIEL NOCH NICHT (NIEDRIG, wartet auf AHSentinel)
+   - MK.Ladder (Market.lua 78–86) liefert eine Leiter nur mit Testdaten (ns.Sim.market). Im Spiel kommt die Zutat-Leiter
+     nur über AHSentinel API.MaterialCost – die rechnet in 0.65.104 (API.lua 78–96) noch mit Cr:BestUnit(id, 1) =
+     Einzelpreis und meldet kein "reicht nicht" (F5, Auftrag liegt bei AHSentinel). Bis dahin greift über 300 % im Spiel
+     nur dünn/alt/Aufkauf (aus API.MarketState) als zweites Zeichen.
+   - Zu tun, sobald AHSentinel MaterialCost mit Leiter liefert: ein Feld "short" je Zutat aus der API lesen (part.short)
+     und T249 um diesen Weg ergänzen. Nichts selbst nachbauen.
+
+5. TEST ERSETZT FUNKTIONEN VON AHSENTINEL (NIEDRIG)
+   - TestRoutine.lua 6125–6126: Stub(_G.AHSentinel.API, "MarketState", nil) und Stub(_G.AHSentinel.API, "Price", …).
+     Der Rückbau ist da, aber im echten Client bekommen während des Falls auch AHSentinel selbst und andere Abonnenten
+     (z. B. GuildSentinel, wenn es die API nutzt) die Testwerte. Regel nachtrag-testroutinen.txt Punkt 1: nur Einträge
+     der EIGENEN Tabelle ersetzen.
+   - Lösung: über die eigene Nahtstelle ersetzen (z. B. MK.OptApi / PriceSource.API() bzw. eine Testtabelle in
+     ns.PriceSource), nicht in AHSentinel.API. Test T-5: nach dem Fall ist AHSentinel.API unverändert und während des
+     Falls nie verändert.
+
+IM CLIENT PRÜFEN (mit 0.9.42 und AHSentinel 0.65.104)
+-----------------------------------------------------
+- Neu: /ps testroutine m und u (Bereiche Markt und TU) ohne FEHLER; Testbericht mit den Zeilen TU1–TU7,
+  "Regressionen: 59 von 59", "Trefferquote je Beruf".
+- Neu: Reiter Gold mit AHSentinel – Gruppen "Daten prüfen" und "Zutaten lieber roh verkaufen", gelber Hinweis
+  "sehr hohe Marge – Absatz prüfen" (z. B. Rippchen vom tobenden Raptor), Hinweiszeile Stufenband, Filter "Nur Raid-Bedarf"
+  mit "Raidstart 9.12.". Zahl im Tooltip = Details = Gold-Rangliste = AHSentinel "Lohnt bis".
+- Neu: dünn/Aufkauf/alt aus AHSentinel API.MarketState erscheinen grau (z. B. ein Produkt mit < 5 Angeboten).
+- Neu: nach einem Verkauf in der Post zählt die Trefferquote hoch (Post wird nur gelesen, nichts genommen oder gelöscht).
+- Neu: /ps hilfe; /ps mit Tippfehler; frisch gewählte Zeile + Enter.
+- Neu: nach einem AH-Scan keine "GRUNDREGEL VERLETZT"-Zeile im Diagnose-Protokoll (sonst die Zeile melden).
+- Klick, Reiter, Suche, Einstellung zeichnen ohne Flackern; Reiter "Skillen": Plan stimmt nach Lernen/Fertigkeitspunkt/
+  AH-Scan; "Danach orange" sinnvoll. Klick in "Gold" und "Skillen" öffnet keine Details, in "Rezepte" schon (auch Top-Zeile).
 - /gstest: einmalige Frage zur Zustimmung, ohne Zustimmung wird nichts gesendet (GoldSentinelTest 2).
-- Berufsfenster (Era TradeSkillFrame und CraftFrame/Verzauberkunst, Forever, Retail): je Zeile höchstens ein
-  Zeichen am rechten Rand, nie über Name oder "[38]", kein Balken; Zeile "Bestes:" hell und lesbar, gekürzt erst ab
-  Fensterbreite; /ps testroutine k -> T242 OK.
-- Reiter "Rezepte": "Herstellen" stellt her; "Einkaufsliste" kauft beim offenen Händler und legt AH-Zutaten in
-  AHSentinels Sniper.
-- Reiter "Skillen": "Nächster Schritt", kurz vor Gelb das nächste orange Rezept, Lernort mit Wegpunkt.
-- Rezept-Alarm: höchstens eine Chatzeile je Sitzung, die Zahl am Reiter "Rezepte".
-- Forever-Rezepte mit neuer Quelle aus 0.9.38 (z. B. Goldener Schuppenkürass, Brustplatte des scharlachroten
-  Soldaten) zeigen Händler bzw. Drop im Tooltip und in den Details; keine "Quelle unbekannt".
-- "ÜBERLAPPT Panel überdeckt AHAnalyzerProCraftPanel": seit 9. Nov. 18:36 nicht mehr hochgezählt. Mit offenem Panel
-  und aktuellem AHSentinel bestätigen, dass AHSentinel sein Gewinn-Fenster ausblendet (U9). Zählt der Eintrag
-  wieder hoch: Versionen beider Addons melden.
-- Panel und Tooltip zeigen "Preise: AHSentinel"; Gewinn im Tooltip = Details = Gold-Rangliste = AHSentinel-Gewinn.
-- Tooltip: ohne Shift drei Blöcke, Shift drücken/loslassen zeichnet neu; Muster-Tooltip "Muster · fehlt/lernbar ab …".
-- Ohne AHSentinel, nur auxForever / nur Auctionator / nur Auctioneer (+ Enchantrix): Quelle stimmt, Preise kommen,
-  keine "Funktion nicht gefunden"-Zeile.
-- Nach einem AH-Scan mit offenem Panel: Werte einmal neu (Abo), kein Ruckeln.
-- /ps spieltest an (setzt die alten Ergebnisse zurück): S5 (ohne 1c-Abweichung), S7, S8, S10.
-- Mengenfenster: Esc schliesst nach Mausklick ins Fenster; volle Taschen mit angebrochenem Stapel kauft den Rest.
-- /ps testroutine im echten Client: T139/T140/T143/T219/T246 unter 16 ms, T145 Speicher, T245, Bereich K (T206–T211,
-  T235, T242), T188 Andocken mit AHSentinel, T113, T144, T169/T170, T228–T238.
+- Berufsfenster (Era TradeSkillFrame und CraftFrame, Forever, Retail): je Zeile höchstens ein Zeichen am rechten Rand,
+  nie über Name oder "[38]", kein Balken; Zeile "Bestes:" lesbar; /ps testroutine k -> T242 OK.
+- Reiter "Rezepte": "Herstellen" stellt her; "Einkaufsliste" kauft beim offenen Händler und legt AH-Zutaten in AHSentinels
+  Sniper. Reiter "Skillen": "Nächster Schritt", Lernort mit Wegpunkt. Rezept-Alarm höchstens eine Chatzeile je Sitzung.
+- Forever-Rezepte mit neuer Quelle (0.9.38) und die geänderten Lager-/Taschen-Rezepte aus 0.9.40 (Gerbrahmen ab 125,
+  Wolltaschen 5 Wollstoff) stimmen im Tooltip und in den Details.
+- "ÜBERLAPPT Panel überdeckt AHAnalyzerProCraftPanel" zählt nicht wieder hoch (sonst Versionen beider Addons melden).
+- Ohne AHSentinel, nur auxForever / nur Auctionator / nur Auctioneer (+ Enchantrix): Quelle stimmt, Preise kommen, Rezepte
+  als "ohne Leiter" markiert, keine "Funktion nicht gefunden"-Zeile.
+- /ps spieltest an: S5, S7, S8, S10. Mengenfenster: Esc schliesst nach Mausklick; volle Taschen kauft den Rest.
+- /ps testroutine im echten Client: T139/T140/T143/T219/T246/T257 unter 16 ms, T145 Speicher, T245, Bereich K (T206–T211,
+  T235, T242), T188 Andocken mit AHSentinel, T113, T144, T169/T170, T228–T238; TU7 Skalierung 75 %/125 %.
 
 Wie immer: komplette Dateien, Era/TBC/Retail nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Jeder Befund bekommt einen bleibenden Test T-<ID> (auftraege/README.md).
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/ProfessionSentinel/ ablegen.
-
-
-TU (HOCH, NEU 13.11. 07:05, Entscheid des Nutzers "solche Fehler sollen nicht wieder passieren") – umfassende Tests
-   TU1–TU9 nach anweisung-tests-umfassend.txt: Lagen durch alle Funktionen, Abläufe wie ein Spieler, Standardwerte,
-   Grundregeln mit Zufallsdaten, echte Daten (nur lesen), Regressionstest je Befund (bisherige nachholen), Testbericht je
-   Bereich, offline lauffähig. Ab jetzt: Befund ohne Test = nicht erledigt (auftraege/README.md).
-
-PM (HOCH, NEU 13.11. 07:10, Entscheid des Nutzers) – Marktwissen für Herstellen und Gold-Rangliste nach
-   anweisung-markt-herstellen.txt: beide Richtungen (herstellen / roh verkaufen), echte Leiter für die benötigte Menge,
-   Schutz vor Schein-Gewinnen (alt, Aufkauf, dünn, > 300 %), EINE Zahl mit AHSentinel über die API, Levelwelle/Raidstart,
-   Nachprüfung der Empfehlungen, Tests T-PM1–T-PM6.
-
-
-BL (MITTEL, NEU 13.11. 07:45, Wunsch des Nutzers) – BEFEHLSLISTE BEIM TIPPEN MIT ALLEN BEFEHLEN
-   Tippt der Spieler /ps, /professionsentinel in den Chat, erscheint über dem Eingabefeld die Liste SÄMTLICHER Befehle des Addons mit kurzer
-   Beschreibung (Spielsprache, alle Locale-Dateien). Quelle: den Slash-Handler von ProfessionSentinel.
-   BL1 Vollständig: die Liste kommt aus DERSELBEN Befehlstabelle, die der Slash-Handler zum Ausführen benutzt (eine Tabelle
-       für beides; der Handler liest aus ihr). Auch Befehle mit Zusatz zeigen ihn ("danke <Name>", "weg <Tage>"), deutsche
-       und englische Befehlswörter (z. B. "wo"/"where") finden beide. Entwickler-Befehle nur, wenn GoldSentinelDev den
-       Entwickler erkennt.
-   BL2 Filtern mit jedem Buchstaben: "/gs" = alle; "/gs w" = alles mit w am Anfang (wo, weg, werbung); "/gs we" = weg,
-       werbung; meistbenutzte oben (Zähler in den SavedVariables).
-   BL3 Bedienung (wie AHSentinel Punkt CH und shared/vorlage/README.md "Befehlsliste beim Tippen"): Mausklick bzw.
-       Pfeiltasten/Tab WÄHLEN aus, Enter FÜHRT AUS; Liste schliesst nicht, bevor der Klick ankommt; Fokus zurück mit
-       SetFocus; das Chatfeld wird NIE beschrieben (kein SetText/Insert, kein eigenes OnEnterPressed, nur HookScript lesen);
-       der Slash-Handler führt bei einer frischen Auswahl (≤ 10 s) den gewählten Befehl statt des unvollständigen Worts aus.
-       Option zum Ausschalten. Baustein: CmdHint von AHSentinel, sobald dort CH umgesetzt ist (bis dahin warten bzw. den
-       reparierten Stand übernehmen) – nicht jedes Addon eine eigene Lösung.
-   BL4 Tests: T-BL1 jeder Befehl, den der Handler versteht, steht in der Liste (Vergleich aus der Tabelle, keine
-       Handliste); T-BL2 Filter "/x w", "/x we" liefern genau die passenden; T-BL3 Klick wählt, Enter führt aus; T-BL4
-       Chatfeld nie beschrieben; T-BL5 Entwickler-Befehle nur für den Entwickler; T-BL6 alle Sprachen ohne Platzhalter-
-       Fehler. Alte Clients (Era, TBC) nicht brechen.
-
-ANTWORTEN DER PRÜF-SITZUNG AUF DEN BERICHT 2026-11-13-0736 (F1–F6), 13.11. 07:55 – gelten als Auftrag:
-   F1 300 %-Grenze allein reicht NICHT. Echte hohe Margen gibt es (Raptor-Rippchen 361 %). Neu: "Daten prüfen" (grau, keine
-      Zahl) nur, wenn > 300 % UND mindestens ein zweites Zeichen: dünner Markt (< 5 Angebote des Produkts), Preis alt
-      (> 6 Std.), Aufkauf, oder die Leiter einer Zutat reicht nicht für die benötigte Menge. Sonst Zahl zeigen, gelb mit
-      Hinweis "sehr hohe Marge – Absatz prüfen". T247 entsprechend anpassen, Prüffälle Raptor-Rippchen (zeigen) und
-      Rezept mit 2 Angeboten (grau).
-   F2 API.WorthUpTo(itemID[, qty]) = STÜCKPREIS (Kupfer), 2. Wert Weg ("sell"/"disenchant"/"vendor"/"craft"), 3. Wert
-      Sicherheit 0–1 (Trefferquote des Wegs, nil = lernt noch). So in AHSentinel/API.md (Auftrag dort).
-   F3 API.MarketState(itemID): 1. Wert "normal"/"aufkauf"/"flut"/"duenn"/"alt", 2. Wert Trend "faellt"/"steigt"/"spitze"/
-      "ruhig" (nil = noch nicht gemessen). "ruhig" bitte ergänzen.
-   F4 Raid-Filter passt (Kochen + Alchemie, Produkt ab Stufe 50, ohne Transmutationen, Fläschchen eingeschlossen). Nicht nur
-      bis 9.12. – Raid-Bedarf bleibt; Name "Raid-Bedarf", Hinweis "Raidstart 9.12." nur bis dahin.
-   F5 an AHSentinel weitergegeben (MaterialCost mit Leiter für die Menge). F6 vorerst die eigene Post lesen ist ok; an
-      AHSentinel als NIEDRIG weitergegeben (API.Sold(itemID, seit) für verkaufte Ware).

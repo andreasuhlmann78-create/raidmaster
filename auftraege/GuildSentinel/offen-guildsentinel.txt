@@ -1,56 +1,123 @@
-OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.28)
+OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.32)
 =============================================================
-Stand: 12. November 2026, 11:30 · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/GuildSentinel-0.9.28.zip
-(verglichen mit 0.9.27 aus der git-Geschichte; Repo GuildSentinel 9a90c7a = Inhalt der ZIP, Veröffentlichung 0c6511a).
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.27.
+Stand: 13. November 2026, 08:30 · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/GuildSentinel-0.9.32.zip
+(verglichen mit 0.9.28 aus der git-Geschichte; Repo GuildSentinel 60183f5 = Inhalt der ZIP, Veröffentlichung 9bfab1f0).
+Geprüft: 0.9.29, 0.9.30, 0.9.31, 0.9.32 zusammen. Gelesen: berichte/GuildSentinel/2026-11-13-0610 (0.9.29 GV1),
+-0900 (0.9.30 RV), -1000 (0.9.31 RP), -1100 (0.9.32 TU), -1110 (BL wartet auf CH).
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.28.
 
-Erledigt in 0.9.28 (danke):
-- DP1 (hinweis-discord-profil.txt): Tipp "dauerhafte Einladung" unter dem Discord-Link, nur Text (Pages.lua:913-916),
-  in allen 10 Locale-Dateien übersetzt (z. B. Locales.lua:845). Test T252 (TestRoutine.lua:2651).
-- DP2: Knopf "Vorschlag 2" (Pages.lua:885-891) mit zweitem Werbetext (Recruit.lua:50-52), Standardtext unverändert.
-  Statt eines festen Tags ein eigenes Feld "Server-Tag" (Pages.lua:907-912, ns.db.discordTag) und Platzhalter {tag} – besser
-  als im Hinweis, kein Gildenname im Code. Ohne Link oder ohne Tag fällt der Tag-Teil weg (DropTag, Recruit.lua:55-79;
-  Build Recruit.lua:193-195), ohne Link danach der Discord-Satz (DropDiscord, Recruit.lua:167-184). Kürzung wie bisher
-  (Rc.AD_MAX). Test T251 (TestRoutine.lua:2627) mit/ohne Link und Tag, DE/EN/RU, 9 Fälle.
-- Nebenbei: Kanal-Hinweis sagt jetzt richtig "legt die Werbung in die Chat-Eingabe" (Pages.lua:920, alle Locales);
-  Platzhalter-Liste und Fehlermeldung nennen {tag} (Pages.lua:881, Pages.lua:1070).
-- CHANGELOG EN/DE, LIESMICH/README_EN, .toc und ns.version 0.9.28.
-- hinweis-discord-profil.txt ist damit erledigt und entfernt.
+Erledigt in 0.9.29–0.9.32 (danke):
+- GV1 (HOCH): Einladen ruft nie mehr C_GuildInfo.Invite/GuildInvite direkt auf. ns.OpenGuildInvite legt
+  "/ginvite <Name>" über ChatFrame_OpenChat in die Chat-Eingabe (Recruit.lua:529-539); Rc:Invite (Recruit.lua:543) und
+  Ad.Invite (Admin.lua:225-234) nutzen nur diesen Weg. Status "eingeladen" erst mit CHAT_MSG_SYSTEM/ERR_GUILD_INVITE_S
+  (Recruit.lua:553-570), geschützte Meldung -> Status bleibt. Tests T253, T174, T194. Im Client noch zu bestätigen.
+- Punkt 1 aus 0.9.28 (NIEDRIG, {tag} ohne Gedankenstrich): DropTag nimmt Klammer bzw. Satzende mit (Recruit.lua:87 ff.),
+  T251 um 6 Fälle erweitert.
+- RV1–RV9 (anweisung-mitglieder-menue.txt): eigenes Rechtsklick-Menü (Pages.lua M:Menu) statt Blizzards Menü – Begründung
+  (Menu.ModifyMenu nicht einheitlich, Taint-Gefahr bei UnitPopup) ist nachvollziehbar und im Auftrag als Rückfall
+  vorgesehen. Neues GuildAct.lua: sicherer Knopf (SecureActionButtonTemplate, type "macro", "/gpromote|/gdemote|/gremove|
+  /gleader <Name>", GuildAct.lua:31-60, 158-216, 340-357), Attribute nur ausserhalb des Kampfs. Im ganzen Addon kein
+  direkter Aufruf von GuildInvite/Uninvite/Promote/Demote/SetLeader oder C_GuildInfo.* mehr (nur API.lua:119-128 als
+  Einträge, nirgends aufgerufen; GA.PROTECTED GuildAct.lua:32-35). Rang-Schritte (RV4), Bestätigung/Timeout 6 s (RV5),
+  Rang-Verlauf G.rankLog, Twink-Vorschlag (RV6, ns.db.altRank), Rangrechte nur anzeigen + GuildControlUI (RV7,
+  PagesLead.lua:397-402), Mehrfachauswahl (RV8). Tests T254–T260; wowmock wirft bei geschützten Gilden-Funktionen.
+- RP1–RP9 (anweisung-rekrutierung-phasen.txt): neues RaidReady.lua (Phasen Aufbau/Übergang/Raid, Sync "RPHASE", Vorgaben
+  G.comp unverändert, G.compLog, Erfüllungsgrad, Vorschlag + Bestätigung nur für Offiziere, 7-Tage-Regel, Fortschritt
+  mit Schätzung, Chronik-Meilenstein, GuildSentinelDB.raidReady ohne Namen RaidReady.lua:18/347, Offiziers-Chat über
+  ns.Chat RaidReady.lua:264). Abweichung "kein eigener Standardtext je Phase" ist begründet (Texte lesen sich mit allen
+  drei {gesucht}-Werten richtig) – angenommen. Tests T261–T269.
+- TU (anweisung-tests-umfassend.txt) grösstenteils: T270 (Lagen x Funktionen), T271 (Abläufe), T272 (Standardwerte),
+  T273a–j (1000 Zufallsfälle, Startwert 4711), T275 (echte Daten nur lesen), T276 (Regressionen 94 von 94), T279
+  (Bericht je Bereich), Mutations-Gegenproben im Bericht. Rest siehe Punkt 2.
+- CHANGELOG EN/DE für 0.9.29–0.9.32, .toc mit GuildAct.lua und RaidReady.lua, Locales in allen Sprachen.
+- anweisung-mitglieder-menue.txt und anweisung-rekrutierung-phasen.txt sind damit erledigt und entfernt (Client-Prüfungen
+  unten). anweisung-tests-umfassend.txt bleibt (Punkt 2 und die Regel "Befund ohne Test = nicht erledigt").
 
 Prüfungen: Addon-Prüfung OK, 0 FEHLER, 0 WARNUNGEN (Ladetest, Sprachtest). GoldSentinelGame.lua, GoldSentinelSync.lua
 und GoldSentinelTest.lua byte-gleich mit shared/.
-Offline-Routine mit Lua 5.1 (test/run_routine.lua): Forever (16001) OK 221 · FEHLER 0 · übersprungen 27 · im Client
-prüfen 8; Era (11508) und TBC (20505) je OK 226 · FEHLER 0 · übersprungen 21 · im Client prüfen 9; Forever ruRU
-OK 222 · FEHLER 0; Forever enUS OK 221 · FEHLER 0 (je +2 gegenüber 0.9.27 = T251, T252). run_routine je 16/16.
-test/run.lua 75/75, run_lang 7/7, run_uicheck 13/13.
-Im Diff 0.9.27 -> 0.9.28: keine Lua-Fehler, keine nil-Zugriffe (R.tag.edit wie R.discord.edit), kein Taint, keine
-neuen Blizzard-Aufrufe, Platzhalter in allen Locales gleich ({gilde} {fraktion} {gesucht} {discord} {tag}),
-Era/TBC nicht gebrochen, nur Ersatz-Link "discord.gg/test" im Test.
+Offline-Routine mit Lua 5.1 (test/run_routine.lua): Forever (16001) OK 255 · FEHLER 0 · übersprungen 27 · im Client
+prüfen 8; Era (11508) und TBC (20505) je OK 260 · FEHLER 0 · übersprungen 21 · im Client prüfen 9; Forever ruRU OK 256 ·
+FEHLER 0. run_routine je 16/16. run.lua 77/77, run_admin 28/28, run_new 102/102, run_v9 55/55, run_lang 7/7,
+run_uicheck 13/13. Kein T:Skip "noch nicht"; alle neuen Tests T253–T279 vorhanden (T274, T277, T278 nicht vergeben).
+Im Diff 0.9.28 -> 0.9.32: keine Lua-Fehler, keine nil-Zugriffe gefunden, kein Ersetzen von Blizzard-Funktionen, keine
+festen sichtbaren Texte ausserhalb der Sprachtabelle, Era/TBC nicht gebrochen.
 
 OFFENE PUNKTE
-1. NIEDRIG (neu, optional) – {tag} in eigenen Texten ohne Gedankenstrich.
-   Recruit.lua:55-79 (DropTag) schneidet nur ab dem letzten " – "/" - "/"——"/"，" vor {tag}. Steht kein Strich davor,
-   bleibt der Satzteil stehen. Offline nachgerechnet (Tag leer oder kein Link):
-     "Discord: {discord} (Tag {tag})."  -> "Discord: {discord} (Tag ."
-     "Join us! Tag: {tag}. Whisper me" -> "Join us! Tag: . Whisper me"
-   Betrifft nur eigene Werbetexte, nicht Vorschlag 2. Lösung: ohne Strich bis zum letzten Satzende bzw. "(" davor
-   zurückschneiden (Klammer mitsamt Inhalt entfernen), sonst nur "{tag}" leeren und " ." / "( )" aufräumen.
-   Testfall in T251 ergänzen.
+1. MITTEL (neu) – Sicherer Knopf "Gilden-Aktion" tut nichts, wenn "Aktion bei Tastendruck" aus ist.
+   GuildAct.lua:355 registriert "AnyUp" und "AnyDown"; PreClick/PostClick laufen bei BEIDEN Phasen. Blizzards sicherer
+   Knopf führt den Makro-Text nur in EINER Phase aus (CVar ActionButtonUseKeyDown: 1 = beim Drücken, 0 = beim
+   Loslassen). Bei ActionButtonUseKeyDown = 0: Drücken -> PostClick (GuildAct.lua:198-216) setzt GA.pending, obwohl
+   nichts ausgeführt wurde; Loslassen -> PreClick (GuildAct.lua:190-196) sieht GA.pending und setzt type = nil ->
+   der Befehl läuft nie, nach 6 s "Nicht ausgeführt", bei jedem weiteren Klick wieder. Gilt in Forever, Era und TBC
+   (alle mit dem neuen SecureActionButton-Code).
+   Lösung: PreClick/PostClick(self, button, down) nur in der Ausführungsphase handeln lassen
+   (down == GetCVarBool("ActionButtonUseKeyDown"), Rückfall wenn GetCVarBool fehlt: nur "AnyUp" registrieren), die
+   andere Phase ignorieren. Test T-GA1: wowmock mit beiden CVar-Werten, je ein Klick (down+up) -> genau eine
+   Ausführung des Makros, Status "Warte auf Bestätigung"; nie zwei Ausführungen (zwei Beförderungen) aus einem Klick.
+   Bitte im Client gegenprüfen (Einstellung Interface > Kampf > "Aktion bei Tastendruck" aus/an).
 
-IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.28, Ergebnis dem Nutzer melden)
-   - Neu mit 0.9.28: Seite Rekrutierung (deDE, enGB, ruRU): Knopf "Vorschlag 2" unter der Platzhalter-Liste
-     überlappt die Vorschau-Überschrift nicht; Feld "Server-Tag" rechts neben dem Discord-Link, Tipp-Zeile darunter
-     bricht sauber um und überdeckt "Kanäle" nicht. Vorschlag 2 mit Link und Tag "XY" -> "… Discord: <Link> – erkennbar
-     am Tag XY."; Tag leer -> "… Discord: <Link>."; Link leer -> Satz endet nach "Raidziel." Tag bleibt nach /reload.
+2. NIEDRIG (Rest TU1) – Lagen-Katalog noch nicht vollständig.
+   T270 läuft 6 Lagen durch 8 Funktionen (Werbung, Einladen, Verwaltung, Menü, Liste, Beförderung, Aufstellung, Berufe).
+   anweisung-tests-umfassend.txt TU1 verlangt zusätzlich die Funktionen Gruppensuche, Termine, Umfragen, Sync und die
+   Lagen "Kanal verweigert Addon-Nachrichten", "Mitspieler mit alter Version", "Gilde gewechselt". Bitte in T270
+   ergänzen (Verweise auf T150/T91/T220 gelten nur, wenn die Lage dort mit den GENANNTEN Funktionen läuft).
+
+3. MITTEL – BL BEFEHLSLISTE BEIM TIPPEN MIT ALLEN BEFEHLEN (13.11. 07:45, Wunsch des Nutzers)
+   ANTWORT AUF DEN BERICHT 2026-11-13-1110: Der Baustein ist jetzt da. AHSentinel 0.65.104 (download/AHSentinel-0.65.104.zip)
+   enthält CH1–CH5 (Befehlsliste: Klick wählt, Enter führt aus). Bitte keine eigene Lösung bauen, sondern den
+   CmdHint-Stand aus AHSentinel 0.65.104 (bzw. die neueste AHSentinel-Version) übernehmen und BL jetzt umsetzen. Findet
+   die Nachprüfung von AHSentinel noch Fehler in CH, wird die Korrektur später übernommen.
+   Tippt der Spieler /gs, /guildsentinel in den Chat, erscheint über dem Eingabefeld die Liste SÄMTLICHER Befehle des
+   Addons mit kurzer Beschreibung (Spielsprache, alle Locale-Dateien). Quelle: Core.lua SlashCmdList.GUILDSENTINEL
+   (berufe, suche <Rezept>, gruppe, fortschritt, zugang, termine, brett, wo, danke <Name>, weg <Tage> [Notiz], umfrage,
+   regeln, werbung, spenden, verwaltung, sync test, protokoll, debug; Entwickler: test, testroutine).
+   BL1 Vollständig: die Liste kommt aus DERSELBEN Befehlstabelle, die der Slash-Handler zum Ausführen benutzt (eine Tabelle
+       für beides; der Handler liest aus ihr). Auch Befehle mit Zusatz zeigen ihn ("danke <Name>", "weg <Tage>"), deutsche
+       und englische Befehlswörter (z. B. "wo"/"where") finden beide. Entwickler-Befehle nur, wenn GoldSentinelDev den
+       Entwickler erkennt.
+   BL2 Filtern mit jedem Buchstaben: "/gs" = alle; "/gs w" = alles mit w am Anfang (wo, weg, werbung); "/gs we" = weg,
+       werbung; meistbenutzte oben (Zähler in den SavedVariables).
+   BL3 Bedienung (wie AHSentinel Punkt CH und shared/vorlage/README.md "Befehlsliste beim Tippen"): Mausklick bzw.
+       Pfeiltasten/Tab WÄHLEN aus, Enter FÜHRT AUS; Liste schliesst nicht, bevor der Klick ankommt; Fokus zurück mit
+       SetFocus; das Chatfeld wird NIE beschrieben (kein SetText/Insert, kein eigenes OnEnterPressed, nur HookScript lesen);
+       der Slash-Handler führt bei einer frischen Auswahl (≤ 10 s) den gewählten Befehl statt des unvollständigen Worts aus.
+       Option zum Ausschalten.
+   BL4 Tests: T-BL1 jeder Befehl, den der Handler versteht, steht in der Liste (Vergleich aus der Tabelle, keine
+       Handliste); T-BL2 Filter "/x w", "/x we" liefern genau die passenden; T-BL3 Klick wählt, Enter führt aus; T-BL4
+       Chatfeld nie beschrieben; T-BL5 Entwickler-Befehle nur für den Entwickler; T-BL6 alle Sprachen ohne Platzhalter-
+       Fehler. Alte Clients (Era, TBC) nicht brechen.
+
+IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.32, Ergebnis dem Nutzer melden)
+   - Neu GV1 (0.9.29): Rekrutierung > Bewerber > "In die Gilde einladen" -> "/ginvite <Name>" steht in der Chat-Eingabe,
+     Enter -> KEIN Fenster "GuildSentinel wurde geblockt", Status wechselt erst nach der Systemmeldung auf "eingeladen".
+     Gildenverwaltung > Einladen ebenso. Name mit Vor- und Nachname (Forever) einladen. Diagnose ohne VERBOTEN.
+   - Neu RV (0.9.30): Rechtsklick auf ein Mitglied (Mitglieder, Wer ist wo, Bewerber, Leitung) -> Menü mit den Einträgen
+     der eigenen Rechte, nicht erlaubte grau mit Grund. Befördern -> Fenster "Gilden-Aktion" -> Knopf -> kein
+     Blockiert-Fenster, Rang ändert sich, "Erledigt". "/gpromote Vorname Nachname" mit einem Twink mit Leerzeichen im
+     Namen (geht es nicht: "Nicht ausgeführt" nach 6 s – dann melden, Rückfall Blizzards Gildenfenster). Rang setzen
+     über 2 Stufen = 2 Klicks. Mehrfachauswahl "3 von 5 erledigt". Im Kampf grau "nicht im Kampf". Dazu Punkt 1 mit
+     "Aktion bei Tastendruck" aus und an.
+     Welche Gilden-Funktionen in Forever geschützt sind (Befördern, Degradieren, Entfernen, Leitung, Notiz,
+     Offiziersnotiz) bitte dem Nutzer melden. Notiz/Offiziersnotiz ruft GuildRosterSetPublicNote/OfficerNote noch
+     direkt über ns.Act (Pages.lua:920) – kommt "geblockt", melden (dann gleicher Weg wie RV3).
+     Leitung > Rangrechte > "Ränge im Spiel bearbeiten" öffnet Blizzards Rang-Fenster (Forever, Era, TBC).
+   - Neu RP (0.9.31): Mitglieder > Aufstellung: Phase und Ziel-Raid nur als Offizier wählbar, Hinweis "die Vorgaben oben
+     gelten ab Phase Raid", Fortschrittszeile "Raidfähig (…): n von m aktiv … · Tanks a/b · Heiler c/d · Phase Aufbau",
+     Schätzung "messe noch" bei < 7 Tagen. Rekrutierung: Vorschau "sucht Mitstreiter aller Klassen …" (deDE, enGB,
+     ruRU). Übersicht: Zeile "Raidfähig (…)". Vorschlag mit Bestätigen/Später erscheint nur bei Offizieren, einmal im
+     Offiziers-Chat. Nach dem Ausloggen steht GuildSentinelDB.raidReady in den SavedVariables (ohne Namen).
+   - Neu TU (0.9.32): /gs testroutine im Client: Zeilen "TUx OK n · FEHLER n · SKIP n", "Regressionen: 94 von 94".
+   - Aus 0.9.28: Seite Rekrutierung (deDE, enGB, ruRU): Knopf "Vorschlag 2" unter der Platzhalter-Liste überlappt die
+     Vorschau-Überschrift nicht; Feld "Server-Tag" rechts neben dem Discord-Link, Tipp-Zeile darunter bricht sauber um
+     und überdeckt "Kanäle" nicht. Vorschlag 2 mit Link und Tag "XY" -> "… Discord: <Link> – erkennbar am Tag XY.";
+     Tag leer -> "… Discord: <Link>."; Link leer -> Satz endet nach "Raidziel." Tag bleibt nach /reload.
    - Aus 0.9.27: Russischer Client, Discord-Link leer -> Vorschau "… без напряга. Пишите мне: /w …" (gross).
    - Aus 0.9.26: Wer bisher den alten Standard-Werbetext gespeichert hatte: nach dem Einloggen zeigt die Seite
      Rekrutierung den neuen Standard (Feld leer). Ein eigener, abweichender Text bleibt. Discord-Link löschen ->
      Vorschau "… deutschsprachig. Flüstert mir: …" (gross). Zähler: langer Text -> rot "(n/251) wird gekürzt" (T249).
-   - Aus 0.9.25: Seite Rekrutierung mit leerem Werbetext -> Vorschau zeigt den neuen Standard mit der richtigen
-     Fraktion (Horde/Allianz in der Sprache des Clients), {gesucht} als Liste mit "und" bzw. "neue Mitglieder",
-     Discord-Link nach "Discord:" ohne doppeltes "Discord:". Seite Gilde > Zusammensetzung: "Für die Werbung: Heiler,
-     Krieger und Magier" bzw. "{gesucht} wird zu „neue Mitglieder“". In Forever: liefert UnitFactionGroup einen
-     geschützten Wert (dann bleibt die Klammer weg)?
+   - Aus 0.9.25: Seite Rekrutierung mit leerem Werbetext -> Vorschau zeigt den Standard mit der richtigen Fraktion
+     (Horde/Allianz in der Sprache des Clients), Discord-Link nach "Discord:" ohne doppeltes "Discord:". In Forever:
+     liefert UnitFactionGroup einen geschützten Wert (dann bleibt die Klammer weg)?
    - Werbung: "Werbung vorbereiten" -> "/5 <Text>" steht in der Chat-Eingabe, die Eingabe ist im Kanal-Modus
      (Kopf "[5. Handel]" o. ä.), mit Enter gesendet, KEIN "Aktion blockiert". Danach: "zuletzt gepostet" und die
      Wartezeit des Kanals sind gesetzt (CHAT_MSG_CHANNEL erkannt). Langer Text (über 251 Zeichen, mit Umlauten) ->
@@ -78,80 +145,25 @@ IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.28
      Gilden-Berufsliste (J -> Berufe) danach im selben Zustand (zugeklappt) wie vorher?
    - T199: J drücken -> Knopf "Verwaltung (GuildSentinel)" rechts neben dem Gildenfenster; ohne Rechte grau mit
      Hinweis; /gs verwaltung öffnet das Fenster. Passwort festlegen, falsch/richtig entsperren.
-   - Echte Aktion einmal mit einem Test-Twink: Einladen, Befördern (auch aus der Aktivität und als Sammelaktion),
-     Degradieren, Entfernen – kein "Aktion blockiert".
    - Letzter vollständiger Testlauf im Spiel ist noch 0.9.13 (09.11. 05:47 UTC): T82, T118, T143, T154 waren dort
-     FEHLER, offline seit 0.9.21 bestanden. Mit 0.9.28 erneut /gs testroutine. Dazu T45 "[Test], 0", Bereich K
-     (T182-T187, T237), T239-T252, Berufe-Knopf in Forever ohne "Aktion blockiert", issecretvalue nach dem Kampf,
+     FEHLER, offline seit 0.9.21 bestanden. Mit 0.9.32 erneut /gs testroutine. Dazu T45 "[Test], 0", Bereich K
+     (T182-T187, T237), T239-T279, Berufe-Knopf in Forever ohne "Aktion blockiert", issecretvalue nach dem Kampf,
      T168 (/gs testroutine whisperq), Bank-Charakter -> #gildenbank, Sprachwahl folgt ohne Einstellung dem Client.
+     Der letzte eingegangene Diagnose-Bericht (0.9.28, testberichte/diagnose/GuildSentinel/0.9.28-b5ebcb4edbd6.txt)
+     zeigt 0 Fehler in der Sitzung.
 
+FÜR ANDERE PROJEKTE (nur zur Info, dort eingetragen von der Prüf-Sitzung): GuildSentinelDB.raidReady liegt ab 0.9.31 in
+   den SavedVariables (Felder raid, phase, aktiv, groesse, tanks, tanksSoll, heiler, heilerSoll, pct, wochen, t) – für
+   RP-U (Uploader, auftraege/RaidMaster/) und RP-D (Bot, auftraege/Discord/).
 
 HINWEIS FÜR KÜNFTIGE VERSIONEN
+   - Jeder Befund bekommt einen bleibenden Regressionstest; Befund ohne Test = nicht erledigt (auftraege/README.md).
+   - Nie eine geschützte Gilden-Funktion direkt aufrufen (Lehre GV1); neue Aktionen über den sicheren Knopf oder die
+     Chat-Eingabe.
    - Die Sprache muss ohne Einstellung immer dem Client folgen (hinweis-sprachtest.txt).
    - Keine echten Spieler-, Gilden- oder Charakternamen und keine Discord-Links (hinweis-keine-spielernamen.txt).
      Der Server-Tag der Gilde gehört nur in die Einstellungen des Spielers, nicht in Code oder Tests.
    - Gemeinsame Dateien nur unverändert aus shared/ kopieren.
-   - Die Version muss höher sein als 0.9.28 (download/, announce/, CurseForge).
+   - Die Version muss höher sein als 0.9.32 (download/, announce/, CurseForge).
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/GuildSentinel/ ablegen.
-
-GV1 (HOCH, NEU 13.11. 05:44 – Bild des Nutzers, 0.9.28, WoW Forever) – "In die Gilde einladen" wird vom Spiel verboten
-   Rekrutierung > Bewerber, Bewerber gewählt, Knopf "In die Gilde einladen": Blizzard-Fenster "GuildSentinel wurde
-   geblockt. Die angeforderte Funktion ist der Blizzard-UI vorbehalten." (= ADDON_ACTION_FORBIDDEN, nicht Kampf).
-   Trotzdem steht der Bewerber danach auf Status "eingeladen".
-   Ursache: Recruit.lua:489-496 (Rc:Invite) ruft C_GuildInfo.Invite/GuildInvite direkt aus dem Klick-Handler
-   (Pages.lua:983). Im Forever-Client ist das Einladen in die Gilde geschützt, ein Hardware-Klick reicht nicht.
-   Gleicher Aufruf in Admin.lua:231 (Ad.Invite). Admin.lua:241-273 (Promote, Demote, Uninvite, SetLeader) im Client
-   prüfen – vermutlich ebenso geschützt.
-   Auftrag:
-   - Einladen über einen sicheren Weg: SecureActionButtonTemplate mit type="macro" und macrotext "/ginvite <Name>"
-     (Attribut vor dem Klick ausserhalb des Kampfs setzen, wie der Berufe-Knopf Pages.lua:1623 ff.), oder als Rückfall
-     den Befehl "/ginvite <Name>" in die Chat-Eingabe legen (ChatFrame_OpenChat), der Spieler drückt Enter.
-     Namen mit Leerzeichen (Forever: Vor- und Nachname) prüfen – geht /ginvite "Vorname Nachname"?
-   - Nie mehr eine geschützte Gilden-Funktion direkt aufrufen; dasselbe für Admin (Befördern, Degradieren, Entfernen,
-     Gildenleitung übergeben), sobald im Client bestätigt ist, dass sie geschützt sind.
-   - Status "eingeladen" erst setzen, wenn die Einladung wirklich raus ist (Systemmeldung "Ihr habt X eingeladen …"
-     bzw. CHAT_MSG_SYSTEM), sonst Status unverändert und Hinweis.
-   - Testroutine: Einladen läuft nie über ns.Act mit C_GuildInfo.Invite; Status erst nach Bestätigung.
-   - Das Diagnose-Protokoll schreibt VERBOTEN mit Aufrufort (Diag.lua:173) – nach dem Fix im Client gegenprüfen.
-   Bitte Bericht in berichte/GuildSentinel/.
-
-
-TU (HOCH, NEU 13.11. 07:05, Entscheid des Nutzers "solche Fehler sollen nicht wieder passieren") – umfassende Tests
-   TU1–TU9 nach anweisung-tests-umfassend.txt: Lagen durch alle Funktionen, Abläufe wie ein Spieler, Standardwerte,
-   Grundregeln mit Zufallsdaten, echte Daten (nur lesen), Regressionstest je Befund (bisherige nachholen), Testbericht je
-   Bereich, offline lauffähig. Ab jetzt: Befund ohne Test = nicht erledigt (auftraege/README.md).
-
-RP (HOCH, NEU 13.11. 07:10, Entscheid des Nutzers) – Rekrutierung in Phasen nach anweisung-rekrutierung-phasen.txt:
-   jetzt "alle Klassen" suchen (Phase Aufbau), Vorgaben der Aufstellung unverändert behalten; Übergang/Raid erst nach
-   Vorschlag + Bestätigung eines Offiziers (Ziel-Raid, aktive Mains, Rollen gedeckt), Zurück erst nach 7 Tagen,
-   Fortschritt mit Schätzung, Chronik-Meilenstein, Zusammenfassung ohne Namen für Discord, Tests T-RP1–T-RP9.
-   Reihenfolge: nach GV1.
-
-RV (HOCH, NEU 13.11. 07:15, Wunsch des Nutzers) – Rechtsklick-Menü auf Mitglieder mit Befördern, Degradieren, Rang
-   setzen, Twink zuordnen, Notizen, Entfernen, Gildenleitung nach anweisung-mitglieder-menue.txt. Geschützte Aktionen nur
-   über sicheren Knopf / Blizzard-Menü (Lehre GV1). Reihenfolge: GV1 -> RV -> RP. Tests T-RV1–T-RV8.
-
-
-BL (MITTEL, NEU 13.11. 07:45, Wunsch des Nutzers) – BEFEHLSLISTE BEIM TIPPEN MIT ALLEN BEFEHLEN
-   Tippt der Spieler /gs, /guildsentinel in den Chat, erscheint über dem Eingabefeld die Liste SÄMTLICHER Befehle des Addons mit kurzer
-   Beschreibung (Spielsprache, alle Locale-Dateien). Quelle: Core.lua SlashCmdList.GUILDSENTINEL (berufe, suche <Rezept>, gruppe, fortschritt, zugang, termine, brett, wo, danke <Name>, weg <Tage> [Notiz], umfrage, regeln, werbung, spenden, verwaltung, sync test, protokoll, debug; Entwickler: test, testroutine).
-   BL1 Vollständig: die Liste kommt aus DERSELBEN Befehlstabelle, die der Slash-Handler zum Ausführen benutzt (eine Tabelle
-       für beides; der Handler liest aus ihr). Auch Befehle mit Zusatz zeigen ihn ("danke <Name>", "weg <Tage>"), deutsche
-       und englische Befehlswörter (z. B. "wo"/"where") finden beide. Entwickler-Befehle nur, wenn GoldSentinelDev den
-       Entwickler erkennt.
-   BL2 Filtern mit jedem Buchstaben: "/gs" = alle; "/gs w" = alles mit w am Anfang (wo, weg, werbung); "/gs we" = weg,
-       werbung; meistbenutzte oben (Zähler in den SavedVariables).
-   BL3 Bedienung (wie AHSentinel Punkt CH und shared/vorlage/README.md "Befehlsliste beim Tippen"): Mausklick bzw.
-       Pfeiltasten/Tab WÄHLEN aus, Enter FÜHRT AUS; Liste schliesst nicht, bevor der Klick ankommt; Fokus zurück mit
-       SetFocus; das Chatfeld wird NIE beschrieben (kein SetText/Insert, kein eigenes OnEnterPressed, nur HookScript lesen);
-       der Slash-Handler führt bei einer frischen Auswahl (≤ 10 s) den gewählten Befehl statt des unvollständigen Worts aus.
-       Option zum Ausschalten. Baustein: CmdHint von AHSentinel, sobald dort CH umgesetzt ist (bis dahin warten bzw. den
-       reparierten Stand übernehmen) – nicht jedes Addon eine eigene Lösung.
-   BL4 Tests: T-BL1 jeder Befehl, den der Handler versteht, steht in der Liste (Vergleich aus der Tabelle, keine
-       Handliste); T-BL2 Filter "/x w", "/x we" liefern genau die passenden; T-BL3 Klick wählt, Enter führt aus; T-BL4
-       Chatfeld nie beschrieben; T-BL5 Entwickler-Befehle nur für den Entwickler; T-BL6 alle Sprachen ohne Platzhalter-
-       Fehler. Alte Clients (Era, TBC) nicht brechen.
-
-ANTWORT AUF DEN BERICHT 2026-11-13-1110 (BL): Bitte auf den Baustein warten (keine eigene Liste). AHSentinel ist
-   gebeten, CH als Nächstes umzusetzen. Sobald eine AHSentinel-Version mit CH veröffentlicht ist, BL umsetzen.

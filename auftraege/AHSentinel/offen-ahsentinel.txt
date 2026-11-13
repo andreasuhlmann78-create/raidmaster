@@ -1,396 +1,124 @@
-OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.99)
-===========================================================
-Stand: 12. November 2026, 11:30 · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/AHSentinel-0.65.99.zip,
-verglichen mit 0.65.97 aus der git-Geschichte (0.65.98 lag dazwischen, Commit 816d74e; beide zusammen bewertet).
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.65.97 (12.11. 08:20).
+OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.104)
+============================================================
+Stand: 13. November 2026, 08:25 · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/AHSentinel-0.65.104.zip,
+verglichen mit 0.65.99 aus der git-Geschichte (0.65.100–0.65.103 lagen dazwischen; alle zusammen bewertet).
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.65.99 (12.11. 11:30)
+samt allen Nachträgen der Prüf-Sitzung im Chat bis 13.11. 08:25 (SB).
 Regel seit 9. Nov.: Nur die AHSentinel-Sitzung ändert und veröffentlicht AHSentinel (raidmaster/CLAUDE.md).
-Neu seit 12.11.: Nach jeder Veröffentlichung einen Bericht in berichte/AHSentinel/ ablegen (berichte/README.md).
-Für 0.65.98/0.65.99 liegt dort noch keiner.
+Gelesene Berichte: berichte/AHSentinel/2026-11-13-0653 (0.65.98–0.65.100), -0706 (0.65.101), -0746 (0.65.102/103),
+-0819 (0.65.104/105). 0.65.105 (AB4d, WS1–WS6) ist schon veröffentlicht, wird aber erst im nächsten Lauf nachgeprüft.
 
-STAND 13.11. 06:58: Reihenfolge jetzt (jeweils mit Regressionstest T-<ID>, Regel in auftraege/README.md):
-1 L1c (Reparatur kann echte Teilverkäufe löschen) – die AHSentinel-Sitzung hat damit begonnen
-2 AB4c a+b (Verkaufs-Vorschlag bei Aufkauf, getippter Preis überschrieben – kostet den Spieler jetzt Gold)
-3 SM1, SM2 (Sniper: nur ein Treffer, Menge leer = 1)
-4 TU1–TU4 + TU6 (Marktlagen, Abläufe, Standardwerte, Grundregeln, Regressionen nachholen) und TR
-5 MV1, PD7, MP1-Test, AB8c, AB4b, Q
-6 RK/MR/MA/Ü nach anweisung-markt-reiter.txt Teil F (beginnt mit MA2, MA1, MA3); W und R gehen darin auf.
-Nach jeder Veröffentlichung Bericht in berichte/AHSentinel/.
+REIHENFOLGE JETZT (jeweils mit Regressionstest T-<ID>, Regel in auftraege/README.md):
+1 RK2-A (HOCH, neu unten: zwei verschiedene "Lohnt bis" für dasselbe Item) – zusammen mit Teil F Schritt 1/2.
+2 Teil F Schritt 1: MA2, MA1, MA3, Ü1–Ü3 (die AHSentinel-Sitzung hat damit begonnen) – ohne Ü1 kann die Prüf-Sitzung
+  den Markt-Kern nicht überwachen.
+3 SB (Sniper-Budget aufgefüllt), BL-A (eine Befehlstabelle für Liste und Handler), API-PM2/PM3.
+4 PD7 (Entscheid des Nutzers nötig, siehe unten), TU5/TU7, BP-2026-11-13-1, AB3, Rest.
+Nach jeder Veröffentlichung Bericht in berichte/AHSentinel/ (mit Ü1-Zahlen, sobald vorhanden).
 
-Erledigt in 0.65.98 (danke):
-  AB8b – Spread verteilt die Korrektur-Kosten zuerst auf die "ohne Einkauf"-Stücke der Material-Verkäufe (s.free sinkt)
-    (Books.lua:623–660); Kosten ohne Ziel ins Protokoll BUCHHALTUNG "AB8 N Kupfer ohne Ziel" (Books.lua:696–699);
-    Nachlauf für Daten, die 0.65.97 schon korrigiert hat (BK:RepairAB8b Books.lua:704–724, Aufruf :815). T491, T492.
-  AB1-Tests – T493 (Teilverkauf + Abbrechen der Restmenge), T494 (zwei Auktionen, verschiedene Preise), T495 (Abbrechen
-    während "prüfe Preise"). Se:OnCanceled ausgelagert (Seller.lua:1244–1259, Aufruf :1473).
-  L1b – Doppel ohne Kennung sk werden gefunden (BK:RepairDoubles2 Books.lua:561–607, neue Kennzeichnung
-    db.repairedL1b :813). T496. Siehe aber L1c unten.
-  PD1 – jeder Kauf mit auctionID gemerkt (Le:NotePurchase Ledger.lua:1631–1640, Aufruf Sniper.lua:1178, Buy.lua:884),
-    das Kauf-Ereignis wird über die auctionID zugeordnet (Ledger.lua:1647–1652), nie doppelt (bookedAuctions
-    Ledger.lua:299–310). Entzaubern eines Teils ohne Herkunft als "ohne Einkauf" gekennzeichnet (Books.lua:317, :336).
-    T497 (18 schnelle Käufe), T498 (Rechnung danach -> keine zweite Buchung).
-Erledigt in 0.65.99 (danke):
-  PD5a – Vollscan mit 0 Items bzw. unter 30 % des letzten gültigen übernimmt nichts (VS:ValidResult Vollscan.lua:774–780,
-    Finish :806–816), Hinweis "Vollscan ohne Antwort – nichts übernommen.". T499. Siehe aber PD5c unten.
-  PD5b – Sniper sucht nicht, solange ein Vollscan läuft (Sn:FullScanRunning Sniper.lua:498–501, CanSearch :509–510,
-    Status "wartet: Vollscan läuft" :1822, :1877). VS.running wird nach Finish immer gelöscht (Vollscan.lua:417). T500.
-  PD2 – Prognose: Käufe tragen ihre Auktion (Forecast.lua:51 "aid", OnBuy :406–413, Ledger.lua:311), Fc:Add nimmt
-    denselben Kauf nicht nochmals auf (Forecast.lua:284–290), alte Doppel einmal in f.dups beiseitegelegt, nicht gelöscht
-    (Fc:Dedupe :119–152, READY :171–179), Bericht "Doppel N · beiseitegelegt M" (:1016–1021). T501.
-Prüfungen: addon_check 0.65.99 OK (0 FEHLER, 0 WARNUNG, Lua 5.1-Syntax, Ladetest, Sprachtest). GoldSentinelGame/Sync/
-Test byte-gleich mit shared/. 3 neue Texte ("Vollscan ohne Antwort – nichts übernommen.", "Warte, bis der Vollscan
-fertig ist.", "wartet: Vollscan läuft") in allen 10 Locale-Dateien. CHANGELOG EN/DE mit 0.65.98 und 0.65.99. Kein Taint:
-Die Tests T497–T501 ersetzen nur eigene Funktionen (Le.BookPurchase, VS.Store/Track, A.ProcessBest, A.Fire, A.Print,
-A.Diag.Add, Fc.ledgerBuysTest) und stellen sie zurück. Kein T:Skip neu. Keine Spielernamen im Diff.
+Erledigt in 0.65.100 (danke):
+  L1c  – BK:RepairDoubles2 entfernt nur "ausstehend" (st = "p") ohne sk und höchstens 6 Std. nach einer gleichen Buchung,
+    abgeschlossene nie (Books.lua:566–600); entfernte Buchungen in db.removedL1b gesichert (:602–606), jede Reparatur
+    dauerhaft in db.repairLog (BK:RepairNote :621–625) und im Testbericht (:785–789); Nachlauf db.repairedL1c (:848–851).
+    T502 (T-VF5f).
+  TR   – T223/T230/T425 setzen Materialpreise, Zeit und Aufkauf-Kennzeichen in der Sandbox; eigener Fall "Material alt ->
+    0 Kandidaten, Grund stale" T503 (T-MP2b). Bestätigung im Spiel steht noch aus (IM CLIENT PRÜFEN).
+  PD5c – Referenz lastGoodItems gilt nur 24 Std.; zwei unvollständige Vollscans mit ± 20 % gleicher Zahl werden angenommen
+    (Vollscan.lua:810–827). T504.
+  MP1  – Test "Scan mit Waren -> Preiszeit = Scanzeit" angelegt: T506.
+  AB8c – OldIndex: bei vollem deLog beginnt der Zeitraum beim ältesten deLog-Eintrag. T507. "Je Charakter" geht nicht, weil
+    die alten Ledger-Buchungen keinen Charakter tragen – Begründung angenommen.
+  AB4b – Kauf-Rechnungen mit p0 bei Aufkauf, Testlog-Zeile AUFKAUF mit beiden Preisen. T508.
+  COVERAGE – T491/T492 heissen jetzt T-AB8b1/T-AB8b2.
+Erledigt in 0.65.101 (danke):
+  AB4c a – Se:HighMarket (Seller.lua:586–600): ganze Leiter ≥ 150 % bzw. Aufkauf -> knapp unter dem günstigsten Angebot,
+    Hinweis "Aufkauf – jetzt teuer verkaufen …" (SuggestRaw :620–624); "verkauft sich nur ~N" erst mit settings.postCapHint.
+    T509. (Rest "gelerntes Maximum aus der Leiter nachführen" -> bei AB4d/RK.)
+  AB4c b – getippter Preis bleibt (Se:SetHandPrice/AutoApplyAllowed :609–611). T510.
+  SM1 – Trefferliste (Sniper.lua Sn:HitGap/QueueHit/DropQueued/PromoteHit :1028–1060), "N weitere Treffer warten". T511.
+  SM2 – Menge leer = Budget/Max bei Waren, 1 bei Ausrüstung (Sn:DefaultQty Sniper.lua:145). T512.
+    Hinweis der Sitzung zu "5s reicht für 227 Stück" stimmt: bei 22c sind es mit 5s 22 Stück, 227 erst mit 5g.
+Erledigt in 0.65.102 (danke):
+  MV1 – Verkaufte nach "Aktualisieren" ausgeblendet (Se:HideSoldNow/VisibleOwned Seller.lua:1288–1289), Knopf
+    "Verkaufte: an/aus". T513.
+  TU1 – Marktlagen-Katalog T514–T524 (normal, Aufkauf, Kennzeichen, Ausreisser, Flut, dünn, leer, alt, Händler,
+    fallend/Spitze, Relist). TU2 – T525, T526. TU3 – T527 + Liste im Testbericht. TU4 – T528 (1000 Zufalls-Leitern),
+    T529 (300 Zufallsbuchungen). TU6 – "Regressionen: 23 von 23 vorhanden". TU8 – Abschnitt "Umfassende Tests (TU)".
+    TU9 – tests/run_offline.sh im Repo AHAnalyzerPro.
+  Neu dabei: L-AUSREISSER -> Marktwert (SuggestRaw :636–639), Se:SuppressCheaperHint (:602–607), A:VendorPlausible
+    (AHAnalyzerPro.lua:2728).
+Erledigt in 0.65.103 (danke):
+  HP1 – A:GetVendorPrice: Spiel zuerst, Tabelle nur Rückfall (AHAnalyzerPro.lua:2162). T530.
+  HP2 – Mindest-Einzahlung gemessen, geht von selbst auf 1c (Se:MeasureMinDeposit Seller.lua:722). T531.
+  API-PM – API.WorthUpTo / API.MarketState (API.lua, am Dateiende), API.md Zeilen 34–35. T532.
+  Q (ST1–ST3) – D:ReferenceCheck (Disenchant.lua:1303), D:WorthLimit/WorthMark (:1288–1299), "[Entzaubern lohnt]" nur
+    unter der Grenze, Sn:UpdateDETargets (Sniper.lua:157). T533–T536.
+Erledigt in 0.65.104 (danke):
+  CH1–CH5 – CmdHint.lua: H:Select (:232), Fokus zurück nur mit SetFocus (:238), Schliessen bei Fokusverlust verzögert
+    (:266–273), Tab wählt (:303), nur HookScript, nie SetText/Insert (:296–304); Slash-Handler nimmt die frische Auswahl.
+    T537–T541. Pfeiltasten nicht eingehakt (Chatfeld nutzt sie für den Verlauf) – Begründung angenommen.
+
+Prüfungen: addon_check 0.65.104 OK (0 FEHLER, 0 WARNUNG; Lua-5.1-Syntax, Ladetest, Sprachtest). GoldSentinelGame/Sync/
+Test byte-gleich mit shared/. CHANGELOG EN/DE mit 0.65.100–0.65.104. Kein Taint im Diff: keine ersetzte Blizzard-
+Funktion oder C_-Tabelle (einziger _G-Zugriff liest _G.AHSentinel.API). Neue Tests T502–T541 alle vorhanden, kein neues
+T:Skip. Offline (tests/run_offline.sh, Lua 5.1, Teile auto + server): beide PASS; einzige FAIL-Zeile T458
+(Frame-Zeit in der Nachbildung, Zeitmessung – zählt nicht). Keine Spielernamen im Diff.
+Testbericht 0.65.99 (13.11., PC): 0 Lua-Fehler; Abschnitt "MARKT-KERN" fehlt noch (Ü1 nicht umgesetzt).
+
+MARKT-KERN (Überwachung Teil E): Ü1 ist noch nicht umgesetzt – es gibt keine Zahlen zu Trefferquote je Weg, Fehler
+"Lohnt bis" und MA1. Die Grenzwerte Ü2 lassen sich darum noch nicht prüfen. Freigaben Teil D sind noch nicht im Code
+(Flippen und alle Wege werden ohne MA1/MA2 angezeigt) – das ist erlaubt, bis Teil F Schritt 1 fertig ist, muss aber
+mit MA2/MA1 kommen. Bis dahin gilt die Regel "kein Item mit zwei verschiedenen 'Lohnt bis'" – sie ist verletzt (RK2-A).
 
 OFFENE PUNKTE
 -------------
-L1c. (MITTEL, NEU) – DIE L1b-REPARATUR KANN ECHTE TEILVERKÄUFE LÖSCHEN
-   BK:RepairDoubles2 (Books.lua:561–607) gruppiert Verkäufe je (Auktion, Item, Menge, Erlös) und erlaubt so viele, wie
-   seenSold Schlüssel "a:q:Betrag#n" hat, MINDESTENS 1 (:579–583). Diese Schlüssel gibt es erst seit 0.65.95, und
-   seenSold wird nach 3 Tagen vergessen (BK.SOLD_KEEP Books.lua:24, :794). Bei Waren (Commodities) ist es aber normal,
-   dass dieselbe Auktion mehrmals mit gleicher Menge und gleichem Preis teilweise verkauft wird (z. B. 1 Seelenstaub je
-   Käufer). Solche echten Verkäufe aus der Zeit vor 0.65.95 bzw. älter als 3 Tage gelten als Doppel; im 2. Durchgang
-   (:588–594) werden auch abgeschlossene (nicht "ausstehend") entfernt – ohne Sicherung (table.remove :599–603).
-   Die Reparatur lief beim ersten Login mit 0.65.98 schon einmal (db.repairedL1b).
-   Lösung: (1) Nur "ausstehend"-Buchungen (st = "p") entfernen, nie abgeschlossene; (2) nur wenn beide ohne sk sind UND
-   zeitlich nah beieinander (die echten Doppel entstanden beim Versionswechsel 0.65.92 -> 0.65.93, gleiche Auktion,
-   erste noch "p"); (3) jede entfernte Buchung in db.removedL1b sichern (nicht löschen) und im Protokoll je Gruppe
-   Auktion/Menge/Anzahl nennen; (4) einmaliger Nachlauf (db.repairedL1c): Hat RepairDoubles2 abgeschlossene Buchungen
-   entfernt, lassen sie sich nicht mehr finden – dann nur die Zahl aus dem Diagnose-Protokoll "L1b doppelte
-   Verkaufsbuchungen entfernt: N" an die Prüf-Sitzung melden (IM CLIENT PRÜFEN). Test T-VF5f: dieselbe Auktion,
-   3 Verkäufe q=1 mit gleichem Erlös, abgeschlossen, ohne seenSold-Schlüssel -> nichts entfernt.
+RK2-A. (HOCH, NEU – Überwachung Ü2 "kein Item mit zwei verschiedenen 'Lohnt bis'") – ZWEI RECHNUNGEN FÜR DIESELBE GRENZE
+   (a) Tooltip, API.WorthUpTo, Einkauf "[Entzaubern lohnt]" und Sniper-Entzauberziele: net / (1 + Mindestrendite)
+       (TT:DisenchantVerdict Tooltip.lua:624–630; D:WorthLimit Disenchant.lua:1288–1294; Sn:UpdateDETargets Sniper.lua:157–164).
+   (b) Markt-Reiter "Entzaubern" und Sammelkauf: net × (1 − gelernte Marge) (D:FindDeals Disenchant.lua:1420/1426 und
+       DEBuy.lua:60 über Ln:BuyLimit Learn.lua:419–422; ebenso UI_MarketView.lua:691/1054).
+   Bei 20 % ist (a) = 83,3 % und (b) = 80 % des Netto-Werts; mit gelernter Marge weicht (b) weiter ab. Derselbe Gegenstand
+   zeigt im Tooltip eine andere Kaufgrenze als im Markt-Reiter und im Sammelkauf.
+   Lösung: EINE Funktion für "Lohnt bis" (RK2, z. B. A.Core:WorthUpTo(itemID, qty) -> Betrag, Weg, Sicherheit), die alle
+   Stellen aufrufen (Tooltip, Einkauf, Sniper, Markt, Sammelkauf, Lager, Verkaufen, API). Die gelernte Marge geht als
+   Sicherheitsmarge (RK5) in DIESE Funktion ein, nicht daneben. Test T-RK2a: für 20 Items (Zufall, fester Startwert)
+   liefern Tooltip, Markt "Entzaubern", Sammelkauf, Sniper-Ziel und API denselben Kupferbetrag; Plausibilität Ü3 im
+   Selbsttest: zwei Werte für dasselbe Item = FEHLER.
 
-TR. (MITTEL, NEU 13.11. 05:10) – Testroutine im Spiel mit 0.65.99 (PC, 13.11. 04:56, Teil "auto"):
-   OK 361 · FEHLER 3 · im Client prüfen 16 · übersprungen 22 · Lua-Fehler 0.
-   T223 FEHLER: "Wert 145/145, Gewinn 45/-855, Summe 153 = 153, Essenz 97 (market, unsicher true)" – erwartet Gewinn =
-        Wert - Kaufpreis für beide Angebote, 2c-Ausreisser ignoriert (Markt 300c).
-   T230 FEHLER: "0 Kandidaten" (erwartet 2, +600/+400, Wert 1000). Schon in 0.65.86 FEHLER (gleiche Ursache).
-   T425 FEHLER (neu): "0 Kandidaten · geplant 1 · BatchNet 0" (erwartet 3 · 3 · 3).
-   Vermutete Ursache (Prüf-Sitzung): Die Tests rechnen in der Sandbox mit den ECHTEN Materialpreisen und deren Alter
-   (Protokoll PREIS-ALT 04:56: Seelenstaub 21.5 Std., Gr. Astralessenz 22.2 Std. alt, "unsicher true"). Seit MP2 gibt
-   es bei altem Hauptmaterial keinen Betrag und keine Kauf-Kandidaten -> 0 Kandidaten. Offline (frische Mock-Preise)
-   laufen sie durch. Lösung: In T223/T230/T425 Preise UND Zeitstempel/Quelle der Materialien in der Sandbox setzen
-   (frisch, sicher), nicht die echten Werte verwenden; Test für den Fall "Material alt -> 0 Kandidaten, Grund genannt"
-   separat. Sollte die Ursache eine andere sein, bitte im Bericht begründen.
-   L1b: db.repairedL1b = true, aber im Protokoll (200 Einträge) steht keine Zeile "L1b doppelte Verkaufsbuchungen
-   entfernt: N" mehr (vermutlich am Laptop gelaufen oder herausgerollt). Bitte die Zahl dauerhaft speichern
-   (z. B. db.repairLog mit Datum, Rechner, N, Version) und im Testbericht ausgeben – sonst lässt sich L1c nicht prüfen.
+RK/MR/MA/Ü (HOCH, NEU 13.11. 06:20, Entscheid des Nutzers) – anweisung-markt-reiter.txt, unverändert offen:
+   Rechenkern für alle Wege mit EINEM "Lohnt bis" (RK1–RK8), Markt-Reiter eine Seite (MR1–MR11), Messungen (MA1–MA6,
+   MA1/MA2 HOCH), Freigaben (Teil D: Weg unter 60 % ab 20 Fällen gesperrt, Flippen erst nach MA1, sonst grau "lernt noch
+   (x von y)"), STRENGE ÜBERWACHUNG Ü1–Ü4 (Testbericht-Abschnitt "MARKT-KERN" bei jedem /reload). Reihenfolge Teil F,
+   beginnt mit MA2, MA1, MA3, Ü1–Ü3. Darin gehen auf: W (anweisung-levelwelle.txt WL1–WL4 -> MA4/RK6), R (R1–R4),
+   "gelerntes Maximum aus der Leiter nachführen" (aus AB4c/AB4d) und die Sniper/Absatz-Grundregeln aus TU4.
+   Tests T-RK1–T-RK8 (Prüffälle RK8), T-MR1–T-MR11, T-MA1–T-MA6, T-Ü1–T-Ü3.
 
-PD. (HOCH/MITTEL) – befund-pc-daten-0694.txt gilt weiter für die offenen Teile:
-    PD7 HOCH  SavedVariables 21,7 MB – Preisverlauf verdichten, Ziel < 8 MB (T-PD7). Wichtig auch für den Abgleich
-              PC/Laptop und das Daten-Repo (Uploader lädt AHSentinel.lua bei jedem /reload ganz hoch).
-    PD5c MITTEL (NEU) – Die 30-%-Grenze bezieht sich auf st.lastGoodItems, das nie altert (Vollscan.lua:806–816). Fällt
-              der Markt dauerhaft unter 30 % (Server-Neustart mit leerem AH, Wochenende/Nacht nach Spitzenwert,
-              anderes Realm), wird JEDER weitere Vollscan verworfen – für immer. Lösung: Referenz altern lassen (z. B.
-              älter als 24 Std. -> nicht mehr gelten lassen) oder nach 2 aufeinanderfolgenden "unvollständig" mit
-              ähnlicher Zahl (± 20 %) den neuen Wert annehmen; Protokoll VOLLSCAN mit Grund. Test T-PD5c.
-    PD3/PD4/PD6 MITTEL (Wertprognose-Einheit, forecastStats leer, eigene Auktion als günstigstes Angebot – erst messen),
-    PD8 NIEDRIG (Sync-Zähler).
+AB4d (HOCH, 13.11. 08:00) – Normalpreis-Regel bei Markt 125–150 % noch zu billig. Im geprüften 0.65.104 noch offen:
+   SuggestRaw (Seller.lua:626–630) nimmt bei Konkurrenz über dem gelernten Maximum weiter den Normalpreis, ohne die Leiter
+   zu prüfen (der Kommentar sagt "nur einzelne Ausreisser", der Code prüft es nicht). Laut Bericht 0819 in 0.65.105
+   umgesetzt (Se:LadderFull, T542–T545) – Nachprüfung im nächsten Lauf. Lösung und Tests wie bisher: Regel nur bei dünner
+   Leiter (< 3 fremde Angebote und < 5 Stück); volle Leiter -> knapp unter das günstigste; Grundregel TU4 "Vorschlag nie
+   > 10 % unter dem günstigsten bei voller Leiter"; T-AB4d (110/130/148 % voll -> knapp darunter; 1 Angebot 300 % ->
+   Normalpreis) und Ablauf "Abbrechen -> Post -> neu einstellen" (TU2).
+   BELEG 07:53: 10 Große Astralessenz zu 12s25 eingestellt und sofort verkauft, günstigstes 20s48 (147 %, ~82s verschenkt).
 
-AB. (MITTEL/NIEDRIG) – befund-bilder-2205.txt, Rest nach 0.65.99
-   AB8c (NIEDRIG) – ALTER EINSTAND OHNE CHARAKTER UND MIT GEKAPPTEM ENTZAUBER-LOG – unverändert offen
-     BK:OldIndex (Books.lua:91–121) rechnet je Item über alle Charaktere; die Kostenbasis ist sonst je Item und
-     Charakter (BP2). "out" zählt die Entzauberungen aus A.db.deLog, das auf 2000 Einträge gekappt wird
-     (Disenchant.lua:429) – fehlen ältere, gilt mehr alter Bestand als da ist. Lösung: je Charakter rechnen, wenn die
-     alten Buchungen ihn tragen; "out" auf den Zeitraum begrenzen, den deLog sicher abdeckt (ältester Eintrag).
-     (Hinweis: Die Tests T491/T492 heissen "T-AB8c/d", decken aber AB8b ab – bitte im COVERAGE so benennen.)
-   AB3 (NIEDRIG, MESSUNG) – 27s29 statt 27s26: EIGENE-PREIS steht seit 0.65.97 im Protokoll (Seller.lua:1033–1046).
-     Nach dem ersten Eintrag Ursache benennen und beheben (Rohwert/Menge/Rundung).
-   AB4b (MITTEL, offen) – Seelenstaub-Aufkauf: Entzauber-Wert, "Lohnt bis", Markt "Entzaubern" und Sniper mit dem Preis
-     vor dem Aufkauf (D6, Disenchant.lua:1103) sind mit den echten Zahlen nicht nachgewiesen. Test T-AB4b – Seelenstaub
-     p0 = 400, aktuell 1298 -> D:MatPrice für Kauf-Rechnungen ≤ 480, Entzauberwert eines Teils mit Staub entsprechend,
-     kein Sniper-Ziel über der Grenze; im Testlog die Zeile mit beiden Preisen.
-   NOTIZ: Die Plausibilität "Entzauberungen mit Kosten 0, obwohl gekauft" ist nur im Testbericht ein FEHLER und nicht
-     übersetzt (Books.lua:647) – so in Ordnung (Testbericht deutsch).
-
-MP1. (NIEDRIG) – TEST T-MP1 FEHLT WEITER, OBWOHL DER CHANGELOG IHN NENNT
-   CHANGELOG 0.65.99 (EN/DE) nennt einen "Nachbildungs-Test 'Scan mit Waren aktualisiert deren Preiszeit' (T-MP1)". Im
-   Addon gibt es ihn nicht: COVERAGE ordnet T-MP1 weiter nur T471 zu (TestRoutine.lua:735), und T471 prüft nur das
-   Nachholen (:9970). Lösung: den Test wirklich anlegen (Scan mit Waren -> GetCurrent-Zeit der Waren = Scanzeit) oder
-   den Satz aus dem CHANGELOG nehmen. Im echten Betrieb seit 11.11. kein PREIS-ALT > 6 Std. mehr gesehen.
-
-Q. (HOCH) – anweisung-strategie-entzaubern-grenzen.txt (Analyse mit echten Preisleitern) – unverändert offen
-   26–30 kaufen ≤ 8s 75c (AHS zeigte 13s 55c), 36–40 ≤ 18s 96c (AHS 25–27s und "[Entzaubern lohnt]" bei 21–28s).
-   ST1 Referenz-Nachrechnung in der Testroutine (> 5 % = FEHLER), ST2 "[Entzaubern lohnt]" nur unter der Grenze mit
-   frischen Preisen, ST3 Sniper-Ziele aus der Grenze. T-ST1–T-ST3. Jetzt dran nach L1c/PD7.
-
-W. (MITTEL) – anweisung-levelwelle.txt (WL1–WL4): Band-Trend je Stufenband messen und anzeigen, Entzauber-Grenzen bei
-   fallendem Markt senken. Nach Q.
-
-R. (NIEDRIG) – neue geprüfte Strategien markt-strategie.md 8e Nr. 15/16
-   R1 Kauf-Empfehlungen zusätzlich nach Gewinn pro Stunde Haltezeit ordnen.
-   R2 Alterung eigener Auktionen: erst Konkurrenz prüfen, dann stufenweise senken, nie unter den Boden.
-   R3 Abbrechen/Neu einstellen nur, wenn der Mehrerlös die verlorene Einzahlung + Schwelle übersteigt (8e Nr. 17).
-   R4 Einstellen mit Boden; höchstens N Auktionen je Item gleichzeitig (einstellbar).
-   Hinweis: TradeSkillMaster-Code ist "All rights reserved" – nur Ideen, kein Code übernehmen. Erst nach Q und W.
-
-L2b. (NIEDRIG) – ZUSAMMENFÜHREN: KOSTENBASIS BEI ENTZAUBERN UND HERSTELLEN DER ANDEREN SEITE – unverändert
-   Merge.lua:191–200: "de" der anderen Seite legt die Materialien nicht dazu, "craft" wird nicht nachgebucht. Lösung:
-   im de-/craft-Log die Teile mitschreiben und beim Zusammenführen nachbuchen; alte Einträge ohne Teile ins Protokoll.
-
-BE2b. (NIEDRIG) – GESCHÄFTSART "HÄNDLERWARE" WIRD NIE GESETZT – unverändert
-   Books.lua:100 nennt "vendor", kein Put gibt "vendor" mit. Händlerkäufe buchen oder "Händlerware" aus TYPE_LABELS nehmen.
-
-E. ABDECKUNGSLISTE (G2) UND ÄLTERE FEHLENDE TESTFÄLLE (NIEDRIG – bitte nachziehen, nicht abschwächen)
-   a) COVERAGE nutzt für "offen 6a" bis "offen 11" weiter Nummern einer älteren Fassung (TestRoutine.lua:649–656).
-      Bitte auf diese Datei abgleichen (L1c, PD5c, MP1, AB8c, E–G).
-   b) Weiter nur "im Spiel" oder einer Prüfung zugeordnet, die sie nicht enthält, obwohl offline nachzubilden:
-      - Sofortkauf T-SK6/T-SK7 (TestRoutine.lua:642). (MITTEL)
-      - Buchhaltung T-BM6 (abgelaufen/abgebrochen über Blizzard-Fenster -> Einzahlung verloren).
-      - Optionen T-OÜ2, T-OÜ3.
-      - Entzaubern T-DZ1, T-DZ3, T-DZ4 (TestRoutine.lua:639).
-      - Meine Auktionen T-O1–T-O5 (TestRoutine.lua:649).
-      - Heute/Markt T-H1–T-H4 (TestRoutine.lua:650).
-      - Laufzeit T-D2–T-D4, Angebot/Absatz T-AB5, T-AB9/T-AB12, Befehlsliste T-BL3/T-BL4/T-BL7, Tooltip-Gesamtwert
-        T-GW4/T-GW6 (TestRoutine.lua:624–636).
-      - T277: T-N2 auf GoldSentinelSync.store.book prüfen; T-GT2 mit collector = false.
-      - T468 "ohne Verzauberkunst": den Beruf im Test wirklich weglassen.
-
-F. RAID-VORRAT (NIEDRIG, nach dem Launch) – Comfort.lua K.RAID_SETS: alle Item-IDs in Forever prüfen (T145c im Spiel).
-
-G. HINWEISE (kein Muss)
-   a) A:RepairDB prüft im Preisverlauf nur den ersten und letzten Eintrag; lesende Stellen sollen mit fehlendem e.p
-      rechnen können.
-   b) DATA_CHANGED aus Sync/Scan löst "Beste Rezepte" neu aus, auch ohne betroffenes Rezept-Item (höchstens alle 30 s).
-   c) Diagnose 0.65.69 "REPARATUR-MENGE ×2" – bitte prüfen.
-   d) W8: Prognose Entzauber-Käufe Median Beute/Vorhersage 0,90 – im nächsten Bericht prüfen, ob L10 greift.
-   e) VF1b – "Verfolgung V4" baut je Auktion Zeichenketten; falls T459 (≤ 10 MB) im Client nicht grün wird, hier ansetzen.
-   f) VS.pool hält die Auktionsdaten des letzten Vollscans dauerhaft im Speicher; bei > 20 MB nach dem Vollscan leeren.
-   g) A:FireSpread ruft jeden Empfänger ohne Pause darin auf; die LANGSAM-Zeile zeigt welcher.
-   h) D:StaleMain läuft bei jedem Tooltip. T122 (< 2 ms) im Client beachten; sonst je Item kurz zwischenspeichern.
-   i) D:RefreshMats stellt bis zu 15 Preisprüfungen in die Verkaufen-Warteschlange – prüfen, dass der Reiter dadurch
-      nicht "Prüfe Preis …" für nicht angeklickte Items zeigt.
-   j) Sn.staleBlock (Sniper.lua:1034) wird gesetzt, aber nirgends gelesen – entfernen oder nutzen.
-   k) Ohne je gescannten Materialpreis (Era/TBC) zeigt jeder Entzauber-Tooltip "Preise veraltet – erst scannen". So gewollt.
-   l) NEU: BK:RepairAB8b (Books.lua:709–714) setzt free = 0 für den GANZEN Verkauf, auch wenn die Korrektur von 0.65.97
-      ihm nur einen Teil der Kosten gab. Näherung, einmalig; nur zur Kenntnis.
-   m) NEU: Le.pendingBuys wird nur in NotePurchase aufgeräumt (Ledger.lua:1637). Ohne neuen Kauf bleiben bis zu
-      einige Einträge liegen – harmlos (GetTime-Grenze 5 Min.).
-
-HINWEIS DES NUTZERS (10. Nov. 16:48): Nach dem letzten Release dem Nutzer ausdrücklich melden: "alles umgesetzt –
-bereit für den Test", mit Version.
-
-IM CLIENT PRÜFEN (mit 0.65.99 bzw. der nächsten Version)
---------------------------------------------------------
-- L1b/L1c: Diagnose-Protokoll BUCHHALTUNG "L1b doppelte Verkaufsbuchungen entfernt: N" nach dem ersten Login mit
-  0.65.98/0.65.99 – die Zahl N an die Prüf-Sitzung. Erwartet sind nur die Doppel aus 0.65.93/0.65.94.
-- PD1: nach mehreren schnellen Sniper-Käufen und Entzaubern keine "KAUF-DOPPELT"-Zeile mehr, keine Entzauberung mit
-  Kosten 0 (Testbericht-Plausibilität).
-- PD2: Testbericht Prognose "Doppel 0 · beiseitegelegt N" und Protokoll PROGNOSE "PD2 N doppelte Fälle beiseitegelegt"
-  (erwartet rund 125 bei den PC-Daten).
-- PD5: Vollscan starten, während der Sniper läuft -> Sniper zeigt "wartet: Vollscan läuft", danach sucht er weiter.
-  Kommt ein Vollscan ohne Antwort: "Vollscan ohne Antwort – nichts übernommen.", Markt/Absatz unverändert.
-- AB8/AB8b: Protokoll "AB8b N Material-Verkäufe (M Stück) …" bzw. "AB8 N Kupfer ohne Ziel". Danach Buchhaltung "Seit
-  Neustart": Rendite plausibel (nicht negativ), keine Warnung "> 30 % ohne Einkauf". Bild des Gewinn-Tooltips an die
-  Prüf-Sitzung.
-- AB7: Tooltip "Gold seit Stichtag: …" bzw. "nicht gebucht" nur ab 1 % des Umsatzes; "Ausstehend … kommt noch mit der Post".
-- AB1: Meine Auktionen bei offenem AH: nach höchstens einer Minute "liegen"/"unterboten" statt "?"; Abbrechen -> Zeile
-  sofort weg; Protokoll ABBRECHEN mit "Klick", "CancelAuction aufgerufen", "AUCTION_CANCELED".
-- AB2: Ware einstellen und sofort nochmals klicken -> "Schon eingestellt – erst ein Item wählen.", kein roter Fehler.
-- AB3: Zeile EIGENE-PREIS im Protokoll (nur wenn Server-Preis abweicht) -> an die Prüf-Sitzung.
-- AB4: Seelenstaub während eines Aufkaufs: Tooltip "Jetzt teuer – verkaufen … · Aufkauf …", Entzauber-Wert rechnet
-  Staub um 4s, nicht 13s.
-- JK: nach 7 Tagen Daten erste Zeilen "Jetzt günstig/teuer …"; Testbericht mit Trefferquoten je Signal-Art.
-- HINWEIS LAPTOP: Am Laptop die neue Version installieren, bevor dort gehandelt wird (Abgleich PC/Laptop auf denselben
-  Daten).
-- MP1: Diagnose-Zeile PREIS-ALT nach einem Scan und beim Öffnen des AH; keine "alt (vor 25 Std.)" mehr.
-- LB: "Lohnt bis" in Taschen, Bank, Post, Chat-Link, Händler, fremder Ausrüstung, Beutefenster; Bereich K nichts
-  abgeschnitten (enGB/deDE).
-- MP2: Sniper-Entzauberziel mit veraltetem Material -> "Materialpreise veraltet – erst scannen", kein Kauf.
-- Buchhaltung: Kopf "Gewinn X  Rendite Y %", Tooltip "Verlust bei …" bzw. "Kein Verlust-Geschäft"; je Teilverkauf
-  GENAU EINE "ausstehend"-Buchung.
-- Vollscan (VF1): "/ahs testroutine server" -> T458 (kein Schritt > 16 ms), T459 (≤ 10 MB, ≤ 1 GC); kein Ruckeln.
-- Zusammenführen (ZM): nach dem ersten echten Abgleich "Daten vom anderen Rechner übernommen: …", Protokoll
-  SYNC-ZUSAMMENGEFUEHRT mit "Quelle Rechner", Entzauber-Zahl = PC + Laptop ohne Doppel.
-- /ahs testroutine alles am AH auf Forever: T308–T501; "Sandbox (echte Daten unverändert): OK"; T122 Tooltip < 2 ms;
-  T169/T373; T372.
-- Weiter aus früheren Ständen: VF2/VF3, Schnell-Vollscan M1b/M1c, Markt (Heute ohne Schein-Flip, Ansicht "Entzaubern"),
-  Entzaubern (Tooltip-Quelle, Sperrliste), Sniper (sucht ohne Klick, goldenes Signal), /ahs doppelt, Messreihe
-  Ausrüstung (anweisung-ausruestung-silber-entscheid.txt), Halbautomatisch Berufe/Händler, Optionen ohne überlagerte
-  Zeilen, Befehlsliste ohne "Aktion blockiert", Briefkasten nur EINE Buchung, Raid-Vorrat T145c.
-
-Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
-Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/AHSentinel/ ablegen.
-
-RK/MR/MA/Ü (NEU 13.11. 06:20, Entscheid des Nutzers, ersetzt die Fassungen 06:05–06:12) – anweisung-markt-reiter.txt:
-   Rechenkern für alle Wege mit EINEM "Lohnt bis" (RK1–RK8, statt Spielstile), Markt-Reiter eine Seite (MR1–MR11),
-   Messungen (MA1–MA6, MA1/MA2 HOCH), Freigaben (Teil D), STRENGE ÜBERWACHUNG mit Grenzwerten (Ü1–Ü4: Testbericht-
-   Abschnitt "MARKT-KERN" bei jedem /reload). Reihenfolge Teil F. WL1–WL4 gehen in MA4/RK6 auf.
-
-SM (HOCH, NEU 13.11. 06:40 – Beobachtung des Nutzers: "wenn man mehrere Sachen snipt, wird nur eine berücksichtigt")
-   Code 0.65.99 geprüft, zwei Ursachen belegt:
-   SM1 Nur EIN Treffer gleichzeitig: Sniper.lua FinishSearch (ca. :799–826) hält genau ein self.result. Findet die
-       Suche für Ziel B einen Treffer, ersetzt er den noch frischen, kaufbaren Treffer von Ziel A (keepHit greift nur,
-       wenn B KEINEN Treffer hat). Im modernen AH sucht der Sniper bei wartendem Treffer weiter (nur A.AH_LEGACY hält an,
-       :1834–1848). Folge: Bei mehreren Zielen geht ein Treffer verloren, der Spieler kann nur den letzten kaufen.
-       Lösung: Trefferliste statt eines Ergebnisses – alle frischen kaufbaren Treffer (je Ziel, RESULT_FRESH bzw.
-       RESULT_FRESH_COMMODITY) behalten; Taste/Mausrad kauft den besten zuerst (grösster Abstand zum Max-Preis bzw.
-       später zu "Lohnt bis", RK2), dann den nächsten; Anzeige "3 Treffer warten" mit Liste; abgelaufene fallen raus.
-       Weitersuchen erlaubt, aber nie einen wartenden Treffer verwerfen.
-   SM2 Menge leer = 1 Stück (Sniper.lua:150, Tooltip UI_Sniper.lua:183): Wer Ware wie Leinenstoff ohne Menge anlegt,
-       bekommt genau 1 Stück, danach "Menge erreicht". Echte Daten 13.11.: Ziel Leinenstoff max. 22c, Menge 1,
-       Budget 5g (50000c; im ersten Eintrag irrtümlich "5s") – reicht für 227 Stück, gekauft wird 1.
-       Lösung: Menge leer = "so viele, wie das Budget reicht" (Waren) bzw. 1 (Ausrüstung); im Ziel deutlich anzeigen
-       "Menge: bis Budget (227 Stück)"; Warnung, wenn Menge × Max-Preis weit unter dem Budget liegt.
-   Tests: T-SM1 zwei Ziele, beide mit Treffer innert 30 s -> beide kaufbar, Reihenfolge nach Abstand; Treffer läuft ab
-   -> fällt raus; T-SM2 Ware ohne Menge mit Budget -> Menge aus Budget; Ausrüstung ohne Menge -> 1.
-
-AB4c (HOCH, NEU 13.11. 06:45 – Bild des Nutzers, Verkaufen-Fenster 0.65.99): Preisvorschlag ignoriert einen Aufkauf.
-   Item mit 9 in den Taschen, Marktwert 13s80, Händler 1s. Preisleiter JETZT: günstigstes Angebot 28s99 (78 Stk.),
-   dann 29s99, 30s52 … (% Markt 210–221 %, rot) – der Markt wurde leergekauft. Trotzdem steht im Preisfeld 12s14 und der
-   gelbe Hinweis rät "9× abgelaufen – billiger einstellen (Vorschlag 10s92) oder an den Händler (1s)" sowie
-   "verkauft sich in dieser Laufzeit nur ~5 – besser 5 einstellen, noch 4 in der Tasche".
-   Das widerspricht dem Entscheid 10.11. (mit dem aktuellen Markt rechnen) und der Trend-Regel MA6 (Spitze -> jetzt
-   verkaufen). Der Spieler würde 9 Stück um rund 16s/Stück unter dem Markt verkaufen (~1g45 verschenkt).
-   Lösung: Vorschlag immer aus der aktuellen Leiter (knapp unter dem günstigsten fremden Angebot), solange der Scan
-   frisch ist; bei Aufkauf (MP3/db.buyouts, Leiter > 150 % Marktwert) Hinweis "Aufkauf – jetzt teuer verkaufen, Preis
-   fällt meist bald (2 Std.)" statt "billiger einstellen"; der Ablauf-Zähler (9× abgelaufen) gilt nur für Einstellungen
-   zum damaligen Marktpreis, nicht für eine neue Marktlage; "verkauft sich nur ~5" erst nach MA1-Freigabe zeigen.
-   BELEG 06:43 (zweites Bild): Item = Große Astralessenz. Eingestellt zum Vorschlag 12s14 -> sofort "Käufer gefunden"
-   (der Aufkäufer nahm das billige Stück), Rest 8 abgebrochen; Leiter weiterhin 28s99 (77 Stk.), nur 9 Angebote.
-   Preisfeld steht nach dem Abbrechen wieder auf 12s14 statt auf der Leiter. Verlust des einen Stücks ~16s.
-   URSACHE (Code 0.65.99, Nutzer 06:44: "der neue Verkaufspreis wird nicht übernommen, er bleibt beim alten hängen"):
-   (a) Seller.lua SuggestRaw (ca. :592–597): liegt das günstigste fremde Angebot über dem gelernten Maximum
-       (Learn.lua Ln:Limits :319 ff., max = normal × MAX_FACTOR aus dem Marktwert), wird der gelernte Normalpreis
-       vorgeschlagen ("Konkurrenz liegt über deinem Maximum") – bei einem Aufkauf IMMER. Darum ändern "Vorschlag" und
-       "−1 Kupfer" (CycleUndercut -> ApplySuggestion, UI_Sell.lua:151–154) nichts: es bleibt 12s14.
-   (b) UI_Sell.lua:572–581: nach jeder fertigen Preisprüfung (SELLER_CHANGED) überschreibt ApplySuggestion(false) das
-       Preisfeld – auch einen von Hand eingetippten Preis.
-   Lösung zusätzlich: (a) Regel "über dem gelernten Maximum -> Normalpreis" nur bei EINZELNEN Ausreissern (wenige Stück
-   weit über dem Rest der Leiter); ist die ganze Leiter hoch (Aufkauf, Marktlage neu), knapp unter dem günstigsten
-   Angebot vorschlagen; gelerntes Maximum aus der aktuellen Leiter nachführen. (b) Von Hand geänderten Preis nie
-   automatisch überschreiben (Flag "von Hand" bis zum nächsten Item-Wechsel oder Klick auf "Vorschlag"); "−1 Kupfer"
-   wirkt immer auf das günstigste fremde Angebot. Tests: T-AB4c-a (ganze Leiter 210 %), T-AB4c-b (Preis tippen, dann
-   Preisprüfung fertig -> Preis bleibt).
-   Test T-AB4c: Leiter 210 % des Marktwerts, 9 Abläufe in der Geschichte -> Vorschlag knapp unter 28s99, kein
-   "billiger einstellen", Hinweis Aufkauf.
-
-MV1 (MITTEL, NEU 13.11. 06:47 – Wunsch des Nutzers: "Verkauft darf nach Refresh verschwinden")
-   Verkaufen > Meine Auktionen (Bild 06:45, 0.65.99): 15 Einträge, davon 13 "verkauft" – sie bleiben nach
-   "Aktualisieren" in der Liste und verdecken die 2 aktiven Auktionen.
-   Lösung: Beim Klick auf "Aktualisieren" (und beim nächsten Öffnen der Ansicht) verkaufte Auktionen aus der Liste
-   entfernen; die Summe "13 verkauft (… erhalten …)" im Kopf bleibt (aus der Buchhaltung). Häkchen "Verkaufte zeigen"
-   (Standard aus) für alle, die sie sehen wollen. Neu Verkauftes seit dem letzten Aktualisieren darf bis zum nächsten
-   Klick sichtbar bleiben (Rückmeldung). Buchhaltung unverändert. Test T-MV1 (3 aktiv, 5 verkauft -> nach
-   Aktualisieren 3 Zeilen, Kopf zählt weiter 5 verkauft; Häkchen an -> 8 Zeilen).
-
-TU (HOCH, NEU 13.11. 06:55, Entscheid des Nutzers "solche Fehler sollen nicht wieder passieren") – umfassende Tests
-   TU1–TU9 nach anweisung-tests-umfassend.txt: Marktlagen durch alle Funktionen, Abläufe wie ein Spieler, Standardwerte,
-   Grundregeln mit Zufallsdaten, echte Daten (nur lesen, auch still nach jedem Vollscan), Regressionstest je Befund
-   (nachholen für alle bisherigen), Testbericht je Bereich, offline lauffähig. Ab jetzt gilt: Befund ohne Test =
-   nicht erledigt (auftraege/README.md).
-
-API-PM (MITTEL, NEU 13.11. 07:10 – für ProfessionSentinel PM4): AHSentinel.API Version 1 um zwei Funktionen ERGÄNZEN
-   (nichts ändern, API.md nachführen): API.WorthUpTo(itemID[, qty]) = "Lohnt bis" aus dem Rechenkern (RK2), dazu Weg und
-   Sicherheit; API.MarketState(itemID) = "normal"/"aufkauf"/"flut"/"duenn"/"alt" plus Band-Trend (Richtung). Bis der
-   Rechenkern fertig ist, dürfen beide nil liefern. Test: gleiche Zahl wie im Tooltip.
-
-HP (MITTEL, NEU 13.11. 07:25 – Blizzard-Hotfix 10.11.2026, im Netz geprüft):
-   (1) Händlerpreise gesenkt: Eisengranate 1s25 (war 5s), Schwaches arkanes Elixier 5c (war 25c), einige hergestellte
-       Rüstung. vendorPrices/vendorBuy in AHSentinel sind dafür veraltet (Befund 13.11.: "Eisengranate 1s83 < Händler 5s").
-       -> MA3 vorziehen: Händlerpreis aus GetItemInfo (sellPrice) bzw. gemessen, Tabelle nur Rückfall; Händler-Chancen
-       nur mit geprüftem Preis. Test T-HP1 (Tabelle 5s, Client 1s25 -> 1s25, keine Händler-Chance).
-   (2) Mindest-Einzahlung 1s -> 1c ist angekündigt für 17.11. (Realm-Neustarts); 13.11. gemessen noch 1s. Nichts fest
-       einbauen: die vorhandene Messung (MeasureMinDeposit, db.minDeposit) muss nach dem 17.11. von selbst auf 1c gehen;
-       Formel 5 % je 2 Std. vom Händlerpreis bleibt. Test T-HP2 (gemessen 1c bei Formel < 1s -> minDeposit 1, Vorschläge,
-       Laufzeit-Hinweis "24 Std. kostet gleich viel" und Einzahlungsrisiko neu gerechnet).
-
-CH (MITTEL, NEU 13.11. 07:40 – Wunsch des Nutzers, Bild 07:18): Befehlsliste beim Tippen – Eintrag mit der Maus
-   AUSWÄHLEN, ausgeführt wird mit Enter (Entscheid des Nutzers: Variante "b", nicht "Klick führt sofort aus").
-   Befund (Code 0.65.102, CmdHint.lua): Klick tut heute vermutlich nichts – beim Mausklick verliert das Chatfeld den
-   Fokus, OnEditFocusLost (:240) ruft H:Hide() auf, BEVOR OnClick (:158) kommt.
-   Lösung (ohne Taint, Chatfeld weiterhin NIE beschreiben):
-   CH1 Mausklick auf einen Eintrag = auswählen: Zeile hervorheben, Kopfzeile der Liste "Enter = /ahs entzaubern",
-       Liste bleibt offen; Hide bei Fokusverlust erst verzögert (z. B. 0,3 s) und nicht, wenn der Klick in der Liste war.
-   CH2 Danach den Fokus zurück ins Chatfeld (editBox:SetFocus(), kein SetText/Insert), damit der Spieler direkt Enter
-       drücken kann. Ist das Chatfeld schon zu: die Auswahl bleibt 10 s gültig, Hinweis "Chat öffnen und Enter".
-   CH3 Ausführen mit Enter: Das Spiel schickt den getippten Text (z. B. "/ahs ent") an den eigenen Slash-Handler.
-       Der Handler prüft: Gibt es eine frische Auswahl (≤ 10 s, passt zum getippten Anfang)? Dann den ausgewählten
-       Befehl ausführen statt des unvollständigen Worts. Sonst wie bisher. Auswahl danach löschen.
-   CH4 Tastatur zusätzlich: Pfeil hoch/runter bzw. Tab wählt (nur HookScript OnTabPressed/OnArrowPressed, lesen),
-       Esc schliesst wie bisher.
-   CH5 Tests: T-CH1 Klick wählt aus, Liste bleibt; T-CH2 Enter mit "/ahs ent" + Auswahl "entzaubern" -> entzaubern
-       läuft; T-CH3 Auswahl älter als 10 s oder anderer Anfang -> nichts Falsches; T-CH4 Chatfeld nie beschrieben
-       (SetText/Insert-Zähler im Test = 0); T-CH5 Fokusverlust ohne Klick in der Liste -> Liste zu.
-   Gilt für jedes GoldSentinel-Addon mit Befehlsliste (heute nur AHSentinel); CmdHint ist als Baustein für die Vorlage
-   gedacht – dort ebenso (shared/vorlage/README.md).
-
-
-BL (MITTEL, NEU 13.11. 07:45, Wunsch des Nutzers) – BEFEHLSLISTE BEIM TIPPEN MIT ALLEN BEFEHLEN
-   Tippt der Spieler /ahs, /ahsentinel, /ahp, /ahanalyzer in den Chat, erscheint über dem Eingabefeld die Liste SÄMTLICHER Befehle des Addons mit kurzer
-   Beschreibung (Spielsprache, alle Locale-Dateien). Quelle: A.COMMANDS / den Slash-Handler (CmdHint.lua hat die Liste schon – hier nur Vollständigkeit und Punkt CH).
-   BL1 Vollständig: die Liste kommt aus DERSELBEN Befehlstabelle, die der Slash-Handler zum Ausführen benutzt (eine Tabelle
-       für beides; der Handler liest aus ihr). Auch Befehle mit Zusatz zeigen ihn ("danke <Name>", "weg <Tage>"), deutsche
-       und englische Befehlswörter (z. B. "wo"/"where") finden beide. Entwickler-Befehle nur, wenn GoldSentinelDev den
-       Entwickler erkennt.
-   BL2 Filtern mit jedem Buchstaben: "/gs" = alle; "/gs w" = alles mit w am Anfang (wo, weg, werbung); "/gs we" = weg,
-       werbung; meistbenutzte oben (Zähler in den SavedVariables).
-   BL3 Bedienung (wie AHSentinel Punkt CH und shared/vorlage/README.md "Befehlsliste beim Tippen"): Mausklick bzw.
-       Pfeiltasten/Tab WÄHLEN aus, Enter FÜHRT AUS; Liste schliesst nicht, bevor der Klick ankommt; Fokus zurück mit
-       SetFocus; das Chatfeld wird NIE beschrieben (kein SetText/Insert, kein eigenes OnEnterPressed, nur HookScript lesen);
-       der Slash-Handler führt bei einer frischen Auswahl (≤ 10 s) den gewählten Befehl statt des unvollständigen Worts aus.
-       Option zum Ausschalten. Baustein: CmdHint von AHSentinel, sobald dort CH umgesetzt ist (bis dahin warten bzw. den
-       reparierten Stand übernehmen) – nicht jedes Addon eine eigene Lösung.
-   BL4 Tests: T-BL1 jeder Befehl, den der Handler versteht, steht in der Liste (Vergleich aus der Tabelle, keine
-       Handliste); T-BL2 Filter "/x w", "/x we" liefern genau die passenden; T-BL3 Klick wählt, Enter führt aus; T-BL4
-       Chatfeld nie beschrieben; T-BL5 Entwickler-Befehle nur für den Entwickler; T-BL6 alle Sprachen ohne Platzhalter-
-       Fehler. Alte Clients (Era, TBC) nicht brechen.
-
-
-BP-2026-11-13-1 (NIEDRIG, NEU 13.11. 07:50 – Ergänzung zu HP, nur Termin)
-   Quelle: Kaivax 12.11. (https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-11-2026/2403040/7):
-   die Auktionshaus-Änderungen aus dem Hotfix 10.11. sind herausgenommen und kommen mit der Wochenwartung 17.11.
-   (EU laut Zweitquellen 18.11.). Laut Zweitquelle gehören dazu auch: Auktions-Post nicht mehr für alle als
-   "Stormwind Auction House" und eine Änderung der Lieferzeit der Auktions-Post (nicht von Blizzard bestätigt).
-   Betroffen: HP (Mindest-Einzahlung) – Messung erst nach der Wartung im eigenen Realm-Gebiet; Mailer.lua erkennt
-   Auktions-Post über GetInboxInvoiceInfo/Betreff, nicht über den Absender -> sollte robust bleiben.
-   Lösung: nichts fest einbauen. Nach der Wartung: MINDESTEINZAHLUNG nachmessen (HP) und prüfen, ob Verkaufs-Post
-   weiter erkannt und richtig verbucht wird (Zeitpunkt des Verkaufs nicht aus der Ankunftszeit der Post ableiten).
-   Test T-BP-1113-1 (bleibend): Post mit Absender "Stormwind Auction House", mit anderem Absender und ohne Absender,
-   jeweils mit Rechnung -> alle als Auktions-Post erkannt und gleich verbucht.
-
-PS-FRAGEN (13.11. 07:55, aus dem ProfessionSentinel-Bericht 0736):
-   API-PM2 (MITTEL) API.md festhalten: WorthUpTo = Stückpreis, 2. Weg, 3. Sicherheit 0–1 (nil = lernt noch); MarketState
-     1. "normal"/"aufkauf"/"flut"/"duenn"/"alt", 2. "faellt"/"steigt"/"spitze"/"ruhig" (nil = nicht gemessen).
-   API-PM3 (MITTEL, F5) API.MaterialCost: je Zutat Preisleiter für die benötigte Menge statt Cr:BestUnit(id, 1)
-     (API.lua 78–96) – gleiche Regel wie RK3. Test mit 20 Zutaten über 2 Leiterstufen.
-   API-PM4 (NIEDRIG, F6) API.Sold(itemID, seit) – verkaufte Menge und Erlös aus der Buchhaltung (für PM6), später.
-   CH vorziehen: GuildSentinel und die anderen Addons warten mit BL auf den reparierten CmdHint-Baustein (Punkt CH) –
-     bitte CH als Nächstes, vor RK.
-
-AB4d (HOCH, NEU 13.11. 08:00 – Code-Prüfung 0.65.103 auf Frage des Nutzers "verkaufe ich nach dem Abbrechen noch zu billig?")
-   AB4c greift erst ab 150 % des Marktwerts (Se:HighMarket, HIGH_FACTOR). Steigt der Markt WENIGER stark, aber über das
-   gelernte Maximum (Learn.MAX_FACTOR = 1,25 × Normalpreis), schlägt SuggestRaw (Seller.lua, Zweig "Konkurrenz liegt
-   über deinem Maximum") weiter den gelernten NORMALPREIS vor – auch bei voller, echter Leiter.
-   Beispiel: Normalpreis gelernt 12s14, Markt steigt auf 18s (148 %, 300 Stück im AH) -> Vorschlag 12s14, ~6s/Stück
-   verschenkt; genau die Lage nach einem Abbruch, wenn der Spieler neu einstellt.
-   Lösung: Regel "über dem gelernten Maximum -> Normalpreis" nur bei EINZELNEN Ausreissern (dünne Leiter: < 3 fremde
-   Angebote und < 5 Stück bis zum nächsten Preis-Sprung); bei voller Leiter immer knapp unter das günstigste fremde
-   Angebot. Gelerntes Maximum aus der aktuellen Leiter nachführen (offen aus AB4c). Grundregel TU4 ergänzen: Vorschlag nie
-   mehr als 10 % unter dem günstigsten fremden Angebot, wenn die Leiter voll ist (≥ 3 Angebote oder ≥ 5 Stück) und kein
-   Mindestpreis von Hand gesetzt ist.
-   BELEG 07:53 (Bild, Spieler noch auf 0.65.99): 10 Große Astralessenz zu 12s25 eingestellt und sofort verkauft, während
-   das günstigste Angebot 20s48 war (147 % des Marktwerts 13s95) – genau der Bereich von AB4d (~82s verschenkt).
-   Tests T-AB4d (Markt 110 %, 130 %, 148 % mit voller Leiter -> knapp unter dem
-   günstigsten; 1 Angebot zu 300 % -> Normalpreis), dazu der Ablauf "Abbrechen -> Post -> neu einstellen" (TU2).
-
-WS (HOCH, NEU 13.11. 08:05 – Wunsch des Nutzers "zur Sicherheit"): WARNSCHUTZ VOR EINEM ZU BILLIGEN VERKAUF
-   Bleibt auch nach AB4c/AB4d bestehen (Sicherheitsnetz gegen künftige Fehler UND Tippfehler wie 2s statt 20s).
+WS (HOCH, 13.11. 08:05, Wunsch des Nutzers) – WARNSCHUTZ VOR ZU BILLIGEM VERKAUF / ZU TEUREM KAUF. Im geprüften
+   0.65.104 noch nicht vorhanden; laut Bericht 0819 in 0.65.105 umgesetzt (WS1–WS6, T546–T549) – Nachprüfung im nächsten
+   Lauf. Vorgabe unverändert:
    WS1 Auslöser beim Klick auf "Einstellen" (auch Serie, Neu einstellen, "Bevor du gehst"): Stückpreis mehr als 10 % unter
        dem günstigsten fremden Angebot bei voller Leiter (≥ 3 Angebote oder ≥ 5 Stück) ODER mehr als 25 % unter dem
        Marktwert ODER unter dem Händlerpreis/Einstandspreis – und kein Mindestpreis von Hand gesetzt.
-   WS2 Dann NICHT einstellen, sondern: Ton der Schlachtzugswarnung (SOUNDKIT.RAID_WARNING, Rückfall PlaySound 8959 bzw.
-       "RaidWarning"), Rahmen des Verkaufen-Fensters und der Knopf "Einstellen" blinken rot (ca. 3 s), Bestätigungsfenster:
-       "Achtung: 12s25 liegt 40 % unter dem günstigsten Angebot (20s48). Verschenkt: ~82s." Knöpfe "Preis anpassen
-       (20s47)" (Standard, Enter) / "Trotzdem einstellen" / "Abbrechen".
-   WS3 Gleiches beim KAUFEN (Sniper, Kaufen, Markt): Kaufpreis über "Lohnt bis" bzw. über dem Max-Preis des Ziels oder
-       mehr als 25 % über dem Marktwert ohne Aufkauf-Grund -> Warnung wie WS2.
-   WS4 Ein/aus in den Optionen (Standard AN), Ton einzeln abschaltbar; Testmodus: Ton und Blinken ja, Einstellen/Kaufen nie.
-       Jede Warnung ins Diagnose-Protokoll (WARNSCHUTZ Item-ID, Preis, Vergleichspreis, Entscheidung) – so sieht die
-       Prüf-Sitzung, ob er greift und wie oft "Trotzdem" gewählt wird.
-   WS5 Tests: T-WS1 Fall 07:53 (12s25 bei 20s48, 10 Stück) -> Warnung, nichts eingestellt; T-WS2 Fall 06:43 (12s14 bei
-       28s99); T-WS3 knapp unter dem günstigsten (−1c) -> keine Warnung; T-WS4 dünne Leiter mit Ausreisser -> keine Warnung;
-       T-WS5 Sniper-Kauf über Max-Preis -> Warnung; T-WS6 Option aus -> keine Warnung.
+   WS2 Dann NICHT einstellen: Ton der Schlachtzugswarnung (SOUNDKIT.RAID_WARNING, Rückfall 8959), Rahmen und Knopf blinken
+       rot (~3 s), Bestätigungsfenster mit Prozent und "Verschenkt: ~x"; Knöpfe "Preis anpassen (x)" (Standard, Enter) /
+       "Trotzdem einstellen" / "Abbrechen".
+   WS3 Gleiches beim KAUFEN (Sniper, Kaufen, Markt): über "Lohnt bis" bzw. Max-Preis des Ziels oder > 25 % über Marktwert
+       ohne Aufkauf-Grund.
+   WS4 Ein/aus in den Optionen (Standard AN), Ton einzeln abschaltbar; Testmodus: Ton und Blinken ja, Einstellen/Kaufen nie;
+       Protokoll WARNSCHUTZ (Item-ID, Preis, Vergleichspreis, Entscheidung).
+   WS5 Tests T-WS1 (12s25 bei 20s48, 10 Stück), T-WS2 (12s14 bei 28s99), T-WS3 (−1c -> keine Warnung), T-WS4 (dünne Leiter
+       mit Ausreisser -> keine), T-WS5 (Sniper über Max -> Warnung), T-WS6 (Option aus -> keine).
+   Hinweis für die Nachprüfung 0.65.105: WS3 beim Kauf nach dem Bericht "zweite Taste innert 10 s" statt Fenster – ok,
+   weil Kaufen einen Hardware-Klick braucht; WS3 muss dann mit RK2-A dieselbe "Lohnt bis"-Zahl benutzen.
 
 SB (MITTEL, NEU 13.11. 08:25 – Wunsch des Nutzers): SNIPER – BUDGET AUFGEBRAUCHT -> ABFRAGE UND AUFFÜLLEN
    SB1 Ist das Budget eines Ziels aufgebraucht (Sn:BudgetUsedUp) und es gibt einen kaufbaren Treffer, löst der nächste
@@ -407,3 +135,132 @@ SB (MITTEL, NEU 13.11. 08:25 – Wunsch des Nutzers): SNIPER – BUDGET AUFGEBRA
    SB5 Tests: T-SB1 Budget leer + Treffer + Mausrad -> Abfrage, kein Kauf; T-SB2 Ja -> Budget +ursprünglicher Betrag,
        nächster Dreh kauft; T-SB3 Nein -> nichts; T-SB4 Gold reicht nur teilweise -> teilweise aufgefüllt; T-SB5 zweites
        Aufbrauchen -> erneute Abfrage; T-SB6 Max-Preis unverändert.
+
+PD. (HOCH/MITTEL) – befund-pc-daten-0694.txt gilt weiter für die offenen Teile:
+    PD7 HOCH  SavedVariables 21,7 MB – Verdichtung nach Vorgabe ist da (0.65.100, A:CompactHistory/CompactAll, T505;
+              Testbericht "PD7 Grösse"/"PD7 letzte Verdichtung"). Das Ziel < 8 MB (T-PD7) ist laut Bericht 0653 damit
+              NICHT sicher erreichbar; weiter verkleinern ginge nur mit einem kompakteren Speicherformat für Einträge
+              älter als 48 Std. – das ist eine Formatänderung des Preisverlaufs und braucht den ENTSCHEID DES NUTZERS
+              (seine Regel: Preisverlauf nie umwandeln). Vorgehen: zuerst die Zeile "PD7 letzte Verdichtung" aus dem
+              Client an die Prüf-Sitzung (vorher/nachher MB); reicht es nicht, legt die Prüf-Sitzung dem Nutzer den
+              Entscheid vor. Bis dahin nichts am Format ändern.
+    PD3/PD4/PD6 MITTEL (Wertprognose-Einheit, forecastStats leer, eigene Auktion als günstigstes Angebot – erst messen),
+    PD8 NIEDRIG (Sync-Zähler).
+
+TU (HOCH, 13.11. 06:55) – anweisung-tests-umfassend.txt, Rest:
+   TU5 echte Daten ("/ahs testroutine echt", nur lesen, auch still nach jedem Vollscan) – offen.
+   TU7 – offen (im Testbericht als SKIP mit Grund).
+   TU1 noch ohne Tooltip / Meine Auktionen / Markt-Reiter je Marktlage – kommt mit RK2-A/RK, dann je Lage alle Wege.
+   TU2 noch ohne Fenster schliessen, /reload und AH zu mitten im Ablauf.
+   TU9 (NIEDRIG): tests/run_offline.sh filtert die Ausgabe mit grep auf "RESULT|FAIL" – mit TR_TEXT=1 erscheint der
+       ganze Testbericht darum NICHT (scenarios_new.lua:5326 schreibt ihn, die Zeilen fallen im grep weg). Bitte bei
+       TR_TEXT=1 ungefiltert ausgeben, wie im CHANGELOG 0.65.102 beschrieben.
+
+API-PM2 (MITTEL, 13.11. 07:55) – API.md festhalten. Stand 0.65.104: 3. Wert von WorthUpTo ist "sicher"/"unsicher"
+   (API.md:34), nicht eine Zahl 0–1; MarketState liefert als 2. Wert immer nil, die Wörter für den Trend sind nicht
+   festgehalten. Da API Version 1 schon mit den Wörtern veröffentlicht ist (Bedeutung nie ändern): 3. Wert so lassen,
+   die Sicherheit 0–1 als 4. Wert ERGÄNZEN (nil = lernt noch); für MarketState die Trend-Wörter "faellt"/"steigt"/
+   "spitze"/"ruhig" (nil = nicht gemessen) in API.md festhalten. ProfessionSentinel liest beides (PM4).
+   Dazu (Meldung aus der Nachprüfung ProfessionSentinel 0.9.42): API.WorthUpTo multipliziert mit qty (API.lua:181–188),
+   obwohl F2 einen STÜCKPREIS festlegt -> Stückpreis zurückgeben (oder in API.md klar festhalten, dass es die Summe
+   ist), und es liefert nur den Entzauber-Weg – darum zeigt ProfessionSentinel bei herstellbarer Ausrüstung den
+   Entzauber-Wert, auch wenn der AH-Verkauf mehr bringt. Löst sich mit RK2 (ein "Lohnt bis" über alle Wege, RK2-A).
+API-PM3 (MITTEL, F5) – API.MaterialCost rechnet je Zutat weiter mit Cr:BestUnit(re[1], 1) (API.lua, MaterialCost) – je
+   Zutat Preisleiter für die benötigte Menge (gleiche Regel wie RK3). Test mit 20 Zutaten über 2 Leiterstufen.
+API-PM4 (NIEDRIG, F6) – API.Sold(itemID, seit): verkaufte Menge und Erlös aus der Buchhaltung (für PM6), später.
+
+BL-A (MITTEL, 13.11. 07:45, Punkt BL für AHSentinel) – EINE BEFEHLSTABELLE FÜR LISTE UND HANDLER
+   Die Liste kommt aus A.COMMANDS (AHAnalyzerPro.lua:3703), der Slash-Handler (SlashCmdList ab :3752) entscheidet aber
+   über eine eigene Kette von rund 33 Vergleichen. Neue Befehle können so im Handler sein, ohne in der Liste zu stehen.
+   Lösung (BL1): der Handler sucht das Befehlswort in A.COMMANDS (de/en) und ruft eine dort hinterlegte Funktion; Befehle
+   mit Zusatz zeigen ihn in der Liste. Test T-BL1: jedes Wort, das der Handler versteht, steht in der Liste (aus der
+   Tabelle verglichen, keine Handliste); T-BL5 Entwickler-Befehle nur mit A:IsDev(); T-BL6 alle Sprachen ohne
+   Platzhalter-Fehler. Heute ordnet COVERAGE T-BL1/T-BL2 nur T288 zu, das die Vollständigkeit nicht prüft.
+
+BP-2026-11-13-1 (NIEDRIG, 13.11. 07:50 – Ergänzung zu HP, nur Termin)
+   Auktionshaus-Änderungen aus dem Hotfix 10.11. kommen mit der Wochenwartung 17.11. (EU laut Zweitquellen 18.11.); dazu
+   laut Zweitquelle Auktions-Post-Absender und Lieferzeit (nicht von Blizzard bestätigt). Nichts fest einbauen. Nach der
+   Wartung: MINDESTEINZAHLUNG nachmessen (HP2) und prüfen, ob Verkaufs-Post weiter erkannt und richtig verbucht wird
+   (Zeitpunkt des Verkaufs nicht aus der Ankunftszeit der Post ableiten). Test T-BP-1113-1 (bleibend) fehlt noch: Post mit
+   Absender "Stormwind Auction House", mit anderem und ohne Absender, jeweils mit Rechnung -> alle als Auktions-Post
+   erkannt und gleich verbucht.
+
+AB. (MITTEL/NIEDRIG) – befund-bilder-2205.txt, Rest:
+   AB3 (NIEDRIG, MESSUNG) – 27s29 statt 27s26: EIGENE-PREIS steht seit 0.65.97 im Protokoll (Seller.lua). Nach dem ersten
+     Eintrag Ursache benennen und beheben (Rohwert/Menge/Rundung).
+
+L2b. (NIEDRIG) – ZUSAMMENFÜHREN: KOSTENBASIS BEI ENTZAUBERN UND HERSTELLEN DER ANDEREN SEITE – unverändert
+   Merge.lua: "de" der anderen Seite legt die Materialien nicht dazu, "craft" wird nicht nachgebucht. Lösung: im
+   de-/craft-Log die Teile mitschreiben und beim Zusammenführen nachbuchen; alte Einträge ohne Teile ins Protokoll.
+
+BE2b. (NIEDRIG) – GESCHÄFTSART "HÄNDLERWARE" WIRD NIE GESETZT – unverändert
+   Books.lua TYPE_LABELS nennt "vendor", kein Put gibt "vendor" mit. Händlerkäufe buchen oder "Händlerware" herausnehmen.
+
+E. ABDECKUNGSLISTE (G2) UND ÄLTERE FEHLENDE TESTFÄLLE (NIEDRIG – bitte nachziehen, nicht abschwächen)
+   a) COVERAGE nutzt für "offen 6a" bis "offen 11" weiter Nummern einer älteren Fassung. Bitte auf diese Datei abgleichen
+      (RK2-A, SB, BL-A, API-PM2/3, BP-1113-1, AB3, E–G).
+   b) Weiter nur "im Spiel" oder einer Prüfung zugeordnet, die sie nicht enthält, obwohl offline nachzubilden:
+      - Sofortkauf T-SK6/T-SK7. (MITTEL)
+      - Buchhaltung T-BM6 (abgelaufen/abgebrochen über Blizzard-Fenster -> Einzahlung verloren).
+      - Optionen T-OÜ2, T-OÜ3.
+      - Entzaubern T-DZ1, T-DZ3, T-DZ4.
+      - Meine Auktionen T-O1–T-O5.
+      - Heute/Markt T-H1–T-H4.
+      - Laufzeit T-D2–T-D4, Angebot/Absatz T-AB5, T-AB9/T-AB12, Befehlsliste T-BL3/T-BL4/T-BL7 (CH-Tests T537–T541
+        decken T-BL3/T-BL4 jetzt teilweise – bitte zuordnen), Tooltip-Gesamtwert T-GW4/T-GW6.
+      - T277: T-N2 auf GoldSentinelSync.store.book prüfen; T-GT2 mit collector = false.
+      - T468 "ohne Verzauberkunst": den Beruf im Test wirklich weglassen.
+
+F. RAID-VORRAT (NIEDRIG, nach dem Launch) – Comfort.lua K.RAID_SETS: alle Item-IDs in Forever prüfen (T145c im Spiel).
+
+G. HINWEISE (kein Muss)
+   a) A:RepairDB prüft im Preisverlauf nur den ersten und letzten Eintrag; lesende Stellen sollen mit fehlendem e.p
+      rechnen können (wichtiger seit der Verdichtung PD7).
+   b) DATA_CHANGED aus Sync/Scan löst "Beste Rezepte" neu aus, auch ohne betroffenes Rezept-Item (höchstens alle 30 s).
+   c) Diagnose 0.65.69 "REPARATUR-MENGE ×2" – bitte prüfen.
+   d) W8: Prognose Entzauber-Käufe Median Beute/Vorhersage 0,90 – im nächsten Bericht prüfen, ob L10 greift.
+   e) VF1b – "Verfolgung V4" baut je Auktion Zeichenketten; offline T458 zeigt "Verfolgung V4 58–65 ms" und "Nachlauf
+      78 ms" je Schritt (Nachbildung, nicht massgebend). Falls T458/T459 im Client nicht grün werden, hier ansetzen.
+   f) VS.pool hält die Auktionsdaten des letzten Vollscans dauerhaft im Speicher; bei > 20 MB nach dem Vollscan leeren.
+   g) A:FireSpread ruft jeden Empfänger ohne Pause darin auf; die LANGSAM-Zeile zeigt welcher.
+   h) D:StaleMain läuft bei jedem Tooltip. T122 (< 2 ms) im Client beachten; sonst je Item kurz zwischenspeichern.
+   i) D:RefreshMats stellt bis zu 15 Preisprüfungen in die Verkaufen-Warteschlange – prüfen, dass der Reiter dadurch
+      nicht "Prüfe Preis …" für nicht angeklickte Items zeigt.
+   j) Sn.staleBlock wird gesetzt, aber nirgends gelesen – entfernen oder nutzen.
+   k) Ohne je gescannten Materialpreis (Era/TBC) zeigt jeder Entzauber-Tooltip "Preise veraltet – erst scannen". So gewollt.
+   l) BK:RepairAB8b setzt free = 0 für den GANZEN Verkauf, auch wenn die Korrektur von 0.65.97 ihm nur einen Teil der
+      Kosten gab. Näherung, einmalig; nur zur Kenntnis.
+   m) Le.pendingBuys wird nur in NotePurchase aufgeräumt – harmlos (GetTime-Grenze 5 Min.).
+   n) NEU: L1c vergleicht in RepairDoubles2 nur mit der unmittelbar vorigen Buchung der Gruppe (Books.lua:592–595). Bei
+      drei Doppeln mit Abständen < 6 Std. reicht das; nur zur Kenntnis.
+   o) NEU: API.WorthUpTo gibt bei "unsicher" (unvollständige Materialien) trotzdem einen Betrag – für PS bitte im 3./4. Wert
+      klar erkennbar lassen (siehe API-PM2).
+
+HINWEIS DES NUTZERS (10. Nov. 16:48): Nach dem letzten Release dem Nutzer ausdrücklich melden: "alles umgesetzt –
+bereit für den Test", mit Version.
+
+IM CLIENT PRÜFEN (mit 0.65.104 bzw. der nächsten Version)
+---------------------------------------------------------
+- TR: /ahs testroutine auto -> T223, T230, T425 grün; T503 grün.
+- L1c: Testbericht "Reparaturen" (db.repairLog) und "L1c gesicherte Buchungen: N" – die Zahlen an die Prüf-Sitzung.
+- PD7: Testbericht "PD7 Grösse" und "PD7 letzte Verdichtung" (vorher/nachher MB) an die Prüf-Sitzung – nötig für den
+  Entscheid des Nutzers zum Speicherformat.
+- PD5c: nach einem Server-Neustart mit kleinem AH: zweiter Vollscan wird angenommen, Protokoll VOLLSCAN mit Grund.
+- AB4c/AB4d/WS: Item mit Aufkauf bzw. Markt 110–148 % -> Vorschlag knapp unter dem günstigsten; zu billig getippt ->
+  Warnschutz mit Ton (0.65.105). Getippter Preis bleibt nach "prüfe Preise".
+- SM1/SM2: zwei Sniper-Ziele mit Treffern gleichzeitig -> "1 weitere Treffer warten", beide kaufbar; Ware ohne Menge ->
+  "Menge: bis Budget (N Stück)".
+- MV1: Meine Auktionen -> "Aktualisieren" -> Verkaufte weg, Kopf zählt weiter.
+- CH: "/ahs ent" tippen, Eintrag "entzaubern" anklicken -> Liste bleibt, Kopf "Enter = /ahs entzaubern"; Enter -> läuft;
+  kein "Aktion blockiert", kein Taint-Fehler beim nächsten Chat.
+- HP1: Eisengranate zeigt Händler 1s25, keine Händler-Chance.
+- Q/ST1: Testbericht-Zeilen "ST1 Entzauber-Grenze 26–30/31–35/36–40" (T536 mit echten Preisen) an die Prüf-Sitzung.
+- PD1/PD2/PD5, AB1/AB2/AB3/AB7/AB8b, JK, MP1, MP2, LB, Buchhaltung, VF1 (T458/T459), ZM, Laptop-Version, Sandbox
+  "echte Daten unverändert", T122 Tooltip < 2 ms, T169/T373/T372 – wie im Stand nach 0.65.99 beschrieben.
+- Weiter aus früheren Ständen: VF2/VF3, Schnell-Vollscan M1b/M1c, Markt (Heute ohne Schein-Flip, Ansicht "Entzaubern"),
+  Entzaubern (Tooltip-Quelle, Sperrliste), Sniper (sucht ohne Klick, goldenes Signal), /ahs doppelt, Messreihe
+  Ausrüstung (anweisung-ausruestung-silber-entscheid.txt), Halbautomatisch Berufe/Händler, Optionen ohne überlagerte
+  Zeilen, Briefkasten nur EINE Buchung, Raid-Vorrat T145c.
+
+Wie immer: komplette Dateien, Era/TBC nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
+Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/AHSentinel/ ablegen.

@@ -1,0 +1,51 @@
+BERICHT NACHPRÜFUNG AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 08:30 · Sitzung: Nachprüfung (geplant) · Commit: siehe "auftraege: Nachprüfung 13.11. 08:30"
+
+GEPRÜFT
+- AHSentinel 0.65.104 (mit 0.65.100–0.65.103, gegen 0.65.99)
+- GuildSentinel 0.9.32 (mit 0.9.29–0.9.31, gegen 0.9.28)
+- ProfessionSentinel 0.9.42 (mit 0.9.40, 0.9.41, gegen 0.9.39)
+- RaidMasterBot 1.5.123 (mit 1.5.122, gegen 1.5.121) -> Discord
+- RaidMasterUploader 2.3.2 (gegen 2.3.1) -> RaidMaster
+Unverändert: BuffSentinel 0.9.14, LevelPilot 3.12.25, RaidMaster-Addon 3.0.23, ThreatSentinel 2.5.9.
+Noch nicht nachgeprüft (während des Laufs erschienen, nächster Lauf): AHSentinel 0.65.105, Bot 1.5.124.
+
+ERGEBNIS JE PROJEKT
+- AHSentinel 0.65.104: addon_check OK (0 FEHLER, 0 WARNUNGEN), Offline-Tests PASS (nur T458 Zeitmessung).
+  Erledigt: L1c, TR, PD5c, MP1, AB8c, AB4b, AB4c a+b, SM1, SM2, MV1, TU1–TU4/TU6/TU8/TU9, HP1, HP2, API-PM, ST1–ST3, CH1–CH5.
+  Befunde: RK2-A HOCH (zwei verschiedene "Lohnt bis" für dasselbe Item: Tooltip/Sniper/API net/(1+Rendite),
+  Markt-Entzaubern/Sammelkauf net×(1−Marge)); BL-A MITTEL; API-PM2 MITTEL (dazu WorthUpTo × qty statt Stückpreis,
+  aus PS-Prüfung); API-PM3 MITTEL; TU9 NIEDRIG; T-BP-1113-1 NIEDRIG. AB4d/WS in 0.65.105 gemeldet -> nächster Lauf.
+  MARKT-KERN: Ü1 nicht umgesetzt, kein Abschnitt "MARKT-KERN" in den Testberichten (0.65.99, 0 Lua-Fehler).
+  Grenzwerte Ü2 nicht prüfbar. "Ein Lohnt bis je Item" verletzt (RK2-A). Freigaben Teil D noch nicht im Code.
+- GuildSentinel 0.9.32: addon_check OK, Tests lua5.1 Forever/Era/TBC/ruRU ohne FEHLER. GV1 HOCH erledigt
+  (Einladen über /ginvite, Recruit.lua:529-570), RV1–RV9, RP1–RP9, TU grösstenteils. Befunde: 1 MITTEL sicherer Knopf
+  GuildAct.lua:355 AnyUp+AnyDown (bei ActionButtonUseKeyDown=0 läuft der Makro nie); 2 NIEDRIG Rest TU1; 3 MITTEL BL
+  jetzt umsetzen (CH in AHSentinel 0.65.104). IM CLIENT: Notizen Pages.lua:920.
+- ProfessionSentinel 0.9.42: addon_check OK, run_offline Exit 0 (nur T143 Zeitmessung). Erledigt PM1–PM7, TU1–TU9,
+  F1–F4, BL1/BL2. Offen: BL3/BL4 MITTEL, Neuaufbau im Client MITTEL, T145 NIEDRIG, "Leiter zu kurz" NIEDRIG
+  (wartet auf AHSentinel API-PM3), Test ersetzt AHSentinel.API direkt NIEDRIG (TestRoutine.lua:6125-6126).
+- Discord (Bot 1.5.123): Tests 145/145 OK. Erledigt R1, R2, Gildenhalle, D1 DISBOARD. Befund R1-T NIEDRIG
+  (nur Quelltext-Test). Offen TU HOCH, RP-D MITTEL.
+- RaidMaster (Uploader 2.3.2): Tests OK. T-DU11 HOCH a–d erledigt, U1 (T-DU12). Befund U2 MITTEL: instance_acquire
+  (uploader.py:923) wertet jede frische _sync.lock als "läuft schon" -> beim Abgleich oder Neustart innert 90 s läuft
+  kein Uploader. Offen TU HOCH, RP-U, BL.
+
+TESTBERICHTE (seit e1357e5 bis 651aa6f): neue Diagnoseberichte AHSentinel 0.65.99, GuildSentinel 0.9.28,
+ProfessionSentinel 0.9.39, ThreatSentinel 2.5.9 – alle 0 Lua-Fehler. PS S7/S8 (9.11.) schon bekannt. Keine neuen Befunde.
+
+GELESENE BERICHTE UND ÜBERNOMMEN
+- AHSentinel 0653, 0706, 0746, 0819: Erledigungen, Begründungen AB8c und CH4, Hinweis SM2, PD7 als Entscheid des Nutzers.
+- GuildSentinel 0610, 0900, 1000, 1100, 1110: Abweichungen RV1/RP1 begründet und angenommen; BL nicht mehr blockiert.
+- ProfessionSentinel 0735, 0736, 0830: F1–F4 erledigt; Hinweise zu WorthUpTo/MaterialCost in AHSentinel API-PM2/PM3.
+- Discord 0610, 0620; RaidMaster 0520 (Einwand T-DU11 berechtigt, übernommen).
+Entfernt: GuildSentinel anweisung-mitglieder-menue.txt, anweisung-rekrutierung-phasen.txt; ProfessionSentinel
+anweisung-markt-herstellen.txt, anweisung-tests-umfassend.txt.
+
+FRAGE AN DIE PRÜF-SITZUNG
+- Kommt CmdHint (CH) nach shared/, oder kopiert jedes Addon die Datei aus AHSentinel? (Frage aus ProfessionSentinel/GuildSentinel BL)
+- PD7 (AHSentinel) braucht einen Entscheid des Nutzers zur Formatänderung.
+
+NACHRICHTEN
+Verschickt: nachricht-an-ahsentinel.txt, -guildsentinel.txt, -professionsentinel.txt, -discord.txt, -raidmaster.txt.
+Weggelassen wegen "schon raus": keine (keine dieser Versionen war im Log).

@@ -1,59 +1,102 @@
-OFFENE PUNKTE RAIDMASTER (nach der Nachprüfung von Uploader 2.3.1)
+OFFENE PUNKTE RAIDMASTER (nach der Nachprüfung von Uploader 2.3.2)
 =================================================================
-Stand: 12. November 2026, 11:30 · von der Prüf-Sitzung (geplante Nachprüfung)
-Grundlage: RaidMasterUploader 2.3.1 (Ordner und download/RaidMasterUploader.zip, Commit ea7bcbe), verglichen mit
-Uploader 2.3.0 (Commit b80b405). Addon 3.0.23 unverändert. Der Discord-Bot gehört seit 12.11. zum Discord-Projekt
-(auftraege/Discord/offen-discord.txt); die Bot-Punkte von hier stehen jetzt dort.
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand vom 12.11. 08:20.
+Stand: 13. November 2026, 08:20 · von der Prüf-Sitzung (geplante Nachprüfung)
+Grundlage: RaidMasterUploader 2.3.2 (Ordner und download/RaidMasterUploader.zip, Commit 30dba21), verglichen mit
+Uploader 2.3.1 (Commit ea7bcbe). Addon 3.0.23 unverändert. Dazu der Bericht berichte/RaidMaster/2026-11-13-0520.
+Der Discord-Bot gehört zum Discord-Projekt (auftraege/Discord/offen-discord.txt).
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand vom 12.11. 11:30 (mit den
+Nachträgen T-DU11, TU, RP-U und BL vom 13.11.).
 
-Erledigt in Uploader 2.3.1 (danke):
-- T-DU9 (HOCH) Zertifikate: SSL-Kontext = Windows-/System-Ablage PLUS certifi (daten.py:167), fehlt certifi unter
-  Windows, installiert der Uploader es einmal selbst im Hintergrund mit Hinweis im Fenster (daten.py:179,
-  uploader.py:844); echte Ursache statt "kein Netz" (describe_error daten.py:216: Zertifikat mit certifi-Weg, SSL,
-  DNS, Zeitüberschreitung, abgelehnt/abgebrochen, ungültiger Header; Token wird ausgeblendet); Prüfung bleibt an.
-  Daten-Verbindung-testen.bat (uploader.py:903, test_connection daten.py:334). Nebenbefund Store-Alias: alle .bat
-  rufen zuerst "py -3" (where py), erst sonst "python".
-- T-DU7 Token-Prüfung vor jedem Aufruf (token_problem daten.py:96: Steuerzeichen -> "mit RECHTSKLICK einfügen",
-  Form github_pat_/ghp_); Eingabe unter Windows mit Sternchen (read_secret daten.py:538).
-- T-DU8 daten_config.json mit BOM (utf-8-sig) und typografischen Anführungszeichen lesbar, Grund statt "nicht
-  eingerichtet" (read_config daten.py:112, uploader.py:837), nie der Token.
-- T-DU10 zwei Rechner: aktuell/<rechner>/… und tage/<datum>/<rechner>/…, jeder Rechner ersetzt nur seinen Ordner,
-  stand.json je Rechner (_build daten.py:435); Konto-Kennung = Prüfwert des Konto-Ordners, auf jedem Rechner gleich,
-  Name nie im Repo (konto_id daten.py:79); liefert der andere Rechner gleichzeitig, wird einmal neu aufgebaut
-  (daten.py:483 ff.).
-Prüfungen: Uploader-Tests 53/53 OK (neu T-DU7–T-DU10 in tests/test_daten.py:339, :364, :393, :485), Bot-Tests
-133/133 OK, py_compile OK. download/RaidMasterUploader.zip gleich dem Ordner (ohne tests/). Keine Tokens,
-Webhook-URLs oder Spielernamen im Diff. Testberichte: siehe Bericht der Nachprüfung in berichte/Nachpruefung/.
+Erledigt in Uploader 2.3.2 (danke):
+- T-DU11 (HOCH) wiederholte Meldung "Neuerer Stand vom <eigener Rechner>": Ursache laut Bericht ein zweiter
+  Uploader-Prozess mit altem Zustand. (a) Nur ein Uploader je Rechner: benannter Mutex (Windows) + Instanz-Datei mit
+  PID-Prüfung + Fallback _sync.lock (sync.py:216 instance_running, :237 instance_acquire; uploader.py:923 – zweiter
+  Start meldet "läuft schon (PID, Ordner, Version)" und endet). (b) Jeder Windows-Hinweis steht auch im Fenster mit
+  PID (uploader.py:835 notify_logged), Startzeile mit Version/Ordner/PID; GoldSentinel-WoW.bat gleicht nie ab, wenn
+  ein Uploader läuft (uploader.py:869). (c) pending() wertet eigene Uploads nie als offen (sync.py:812); Meldung
+  nennt je offenem Stand Rechner, Zeit, Spielversion (sync.py:818 pending_text); höchstens einmal je (Schlüssel, rev),
+  gemerkt über Neustarts (sync.py:855 s["warned"]). (d) Autostart-einrichten.bat ersetzt alte/doppelte Einträge,
+  Hinweis beim Start bei mehreren Einträgen (uploader.py:931). Tests ZweiterProzess (tests/test_sync.py:602).
+  Der Hinweis "Befund teilweise falsch" (ein einzelner Prozess konnte die Meldung nicht erzeugen) ist nachvollziehbar
+  und übernommen.
+- U1 (NIEDRIG): nach set_ref wird der Kopf gelesen; nur der eigene Commit gilt als geliefert, sonst neuer Versuch nach
+  1 Min. (daten.py:521); ändert sich das Repo bei jedem Versuch -> GitHubError statt stillem Überschreiben.
+  Test T-DU12 (tests/test_daten.py:527 Gleichzeitig).
+Prüfungen: Uploader-Tests test_daten, test_sync, test_uploader OK; Bot-Tests 145/145 OK; py_compile OK.
+download/RaidMasterUploader.zip gleich dem Ordner (ohne tests/). Keine Tokens, Webhook-URLs, Rechner- oder
+Spielernamen im Diff. Testberichte: keine neuen Fehler für RaidMaster/Uploader.
 
-OFFENE PUNKTE (Uploader, nach Schwere)
---------------------------------------
-1. U1 (NIEDRIG) – Zwei Rechner liefern fast gleichzeitig: ein Stand kann verloren gehen.
-   daten.py:483–519: Hat sich der Kopf nach dem Aufbau geändert, wird einmal neu aufgebaut; ändert er sich beim
-   zweiten Versuch wieder, setzt set_ref (:519) den Orphan-Commit trotzdem und überschreibt den Stand des anderen
-   Rechners. Dessen sig_done ist schon gesetzt, er liefert erst bei seiner nächsten Änderung wieder.
-   Lösung: nach set_ref den Kopf lesen und nur dann "geliefert" melden, wenn er der eigene Commit ist; oder beim
-   anderen Rechner sig_done erst setzen, wenn sein Ordner im Baum des aktuellen Kopfs steht (beim nächsten Tick
-   prüfen). Test T-DU11: Kopf ändert sich bei beiden Versuchen -> kein Verlust bzw. erneuter Versuch.
+OFFENE PUNKTE (nach Schwere)
+----------------------------
+1. TU (HOCH, seit 13.11. 07:05, Entscheid des Nutzers "solche Fehler sollen nicht wieder passieren") – umfassende
+   Tests TU1–TU9 nach anweisung-tests-umfassend.txt: Lagen durch alle Funktionen, Abläufe wie ein Spieler,
+   Standardwerte, Grundregeln mit Zufallsdaten, echte Daten (nur lesen), Regressionstest je Befund (bisherige
+   nachholen), Testbericht je Bereich, offline lauffähig. Ab jetzt: Befund ohne Test = nicht erledigt
+   (auftraege/README.md). In 2.3.2 noch nicht begonnen (nur T-DU11/T-DU12 neu).
+
+2. U2 (MITTEL, NEU) – Uploader beendet sich, wenn nur die Abgleich-Sperre _sync.lock frisch ist.
+   instance_acquire (uploader.py:923) ruft instance_running, das als Fallback lock_active(here) prüft (sync.py:232):
+   eine _sync.lock eines anderen Prozesses, jünger als 90 s, gilt als "Uploader läuft (vor 2.3.2)". Diese Sperre
+   schreibt aber auch der Starter GoldSentinel-WoW.bat während seines Abgleichs (uploader.py wow_start
+   write_lock), und ein eben geschlossener Uploader hinterlässt sie (atexit läuft beim Schliessen des Fensters nicht
+   sicher). Folge: Startet der Autostart-Uploader während GoldSentinel-WoW.bat abgleicht, oder startet der Nutzer den
+   Uploader innert 90 s nach dem Schliessen neu, meldet er "läuft schon" und endet – danach läuft KEIN Uploader
+   (kein Abgleich, keine Testberichte). Das bisherige Warten (sync.wait_for_lock, uploader.py:952) kommt erst danach
+   und greift nicht mehr.
+   Lösung: im Fallback nur dann "läuft schon", wenn die PID aus _sync.lock lebt UND kein Starter ist (Starter schreibt
+   z. B. "rolle": "starter" in die Sperre); sonst wait_for_lock wie bisher. Alternativ lock_active-Fallback nur mit
+   pid_alive(pid). Tests T-U2: (a) Sperre vom Starter frisch -> Uploader wartet und läuft dann; (b) Sperre eines
+   toten Prozesses frisch -> Uploader läuft; (c) lebender Uploader vor 2.3.2 -> "läuft schon".
+
+3. RP-U (MITTEL, seit 13.11. 07:10 – für GuildSentinel RP8 / Discord RP-D): Der Uploader schickt GuildSentinel.lua
+   heute nur mit Gildenbank-Bestand (uploader.py:196). Zusätzlich das Feld GuildSentinelDB.raidReady (Zusammenfassung
+   OHNE Namen: Raid, Phase, Anzahlen, Prozent, Wochen) an den Bot weitergeben – nur dieses Feld, keine anderen
+   Gildendaten. Test dazu. Noch nicht umgesetzt.
+
+4. BL (MITTEL, seit 13.11. 07:45, Wunsch des Nutzers) – BEFEHLSLISTE BEIM TIPPEN MIT ALLEN BEFEHLEN (Addon)
+   Tippt der Spieler /rm, /raidmaster (dazu /rmtest nur Entwickler) in den Chat, erscheint über dem Eingabefeld die
+   Liste SÄMTLICHER Befehle des Addons mit kurzer Beschreibung (Spielsprache, alle Locale-Dateien). Quelle: den
+   Slash-Handler von RaidMaster (inkl. /rm berufe, /rm testroutine …).
+   BL1 Vollständig: die Liste kommt aus DERSELBEN Befehlstabelle, die der Slash-Handler zum Ausführen benutzt (eine
+       Tabelle für beides; der Handler liest aus ihr). Auch Befehle mit Zusatz zeigen ihn ("danke <Name>", "weg
+       <Tage>"), deutsche und englische Befehlswörter (z. B. "wo"/"where") finden beide. Entwickler-Befehle nur, wenn
+       GoldSentinelDev den Entwickler erkennt.
+   BL2 Filtern mit jedem Buchstaben: "/rm" = alle; "/rm w" = alles mit w am Anfang; "/rm we" = enger; meistbenutzte
+       oben (Zähler in den SavedVariables).
+   BL3 Bedienung (wie AHSentinel Punkt CH und shared/vorlage/README.md "Befehlsliste beim Tippen"): Mausklick bzw.
+       Pfeiltasten/Tab WÄHLEN aus, Enter FÜHRT AUS; Liste schliesst nicht, bevor der Klick ankommt; Fokus zurück mit
+       SetFocus; das Chatfeld wird NIE beschrieben (kein SetText/Insert, kein eigenes OnEnterPressed, nur HookScript
+       lesen); der Slash-Handler führt bei einer frischen Auswahl (≤ 10 s) den gewählten Befehl statt des
+       unvollständigen Worts aus. Option zum Ausschalten. Baustein: CmdHint von AHSentinel (CH in 0.65.104
+       umgesetzt) – nicht jedes Addon eine eigene Lösung.
+   BL4 Tests: T-BL1 jeder Befehl, den der Handler versteht, steht in der Liste (Vergleich aus der Tabelle, keine
+       Handliste); T-BL2 Filter liefern genau die passenden; T-BL3 Klick wählt, Enter führt aus; T-BL4 Chatfeld nie
+       beschrieben; T-BL5 Entwickler-Befehle nur für den Entwickler; T-BL6 alle Sprachen ohne Platzhalter-Fehler.
+       Alte Clients (Era, TBC) nicht brechen.
 
 LIVE PRÜFEN (Uploader beim Nutzer)
-   - Daten-Repo mit 2.3.1 OHNE SSL_CERT_FILE von Hand (Umgebungsvariable testweise entfernen): beim Start ggf.
-     "installiere die Zertifikate (certifi) …", danach "Prüfung: geliefert …". Daten-Verbindung-testen.bat -> "OK
-     (privat, Zugriff vorhanden)". Keine Zeile "Python wurde nicht gefunden …" mehr im Fenster.
+   - Umstieg auf 2.3.2 (Anleitung im LIESMICH): alle Uploader-Fenster schliessen, Ordner ersetzen,
+     Autostart-einrichten.bat ("Alte Autostart-Einträge entfernt: n"), uploader.bat. Startzeile zeigt Version, Ordner,
+     PID. Einen zweiten uploader.bat starten -> "Der Uploader läuft schon (PID …)" und nichts weiter.
+   - T-DU11: WoW am PC läuft, eigener Stand hochgeladen -> KEIN Fenster "Neuerer Stand vom <eigener Rechner>" mehr.
+     Liefert der Laptop neu -> genau EIN Hinweis "Neuerer Stand vom <Laptop> (Zeit, Spielversion)", auch im Fenster
+     mit PID; nach Neustart des Uploaders keine Wiederholung.
+   - U2 vorab beobachten: Uploader schliessen und innert 90 s neu starten -> läuft er oder meldet er "läuft schon"?
+   - Daten-Repo mit 2.3.x OHNE SSL_CERT_FILE von Hand: beim Start ggf. "installiere die Zertifikate (certifi) …",
+     danach "Prüfung: geliefert …". Daten-Verbindung-testen.bat -> "OK (privat, Zugriff vorhanden)".
    - Laptop und PC liefern am selben Tag: im Daten-Repo aktuell/<rechner1>/ und aktuell/<rechner2>/ nebeneinander,
-     dieselbe konto-xxxxxxxx-Kennung auf beiden; tage/<heute>/ mit beiden Rechnern; ältere 2.3.0-Ordner (aktuell/
-     <spielversion>/kontoN) beim ersten Lauf weg.
+     dieselbe konto-xxxxxxxx-Kennung auf beiden; tage/<heute>/ mit beiden Rechnern; liefern beide fast gleichzeitig,
+     steht danach trotzdem beider Stand im Repo (U1).
    - Daten-Repo: nach /reload innert ~20 s ein Commit; im Repo nur aktuell/, tage/ (≤ 7), stand.json, LIESMICH.md,
      genau 1 Commit.
-   - Abgleich 2.2.0: an beiden Rechnern Autostart eingerichtet. Am PC WoW beenden -> innert 15 s "Stand N hochgeladen";
-     am Laptop (WoW zu) innert 45 s "… vom PC übernommen". Laptop: WoW normal starten -> Windows-Hinweis "bitte noch
-     nicht einloggen …", dann "fertig – du kannst einloggen"; nach dem ersten Ausloggen "Messung: … gelesen (x s nach
-     dem WoW-Start). Beleg 1/2". Kommt "Übernahme … kam zu spät": melden (dann übernimmt der Uploader nur noch nach
-     WoW-Ende).
-   - Erster Lauf von 2.2.0: Meldung "gesicherter AHSentinel-Stand … wird beim nächsten Login zusammengeführt"? Danach in
-     AHSentinel prüfen, ob die 85 Laptop-Entzauberungen da sind (sonst melden).
+   - Abgleich: am PC WoW beenden -> innert 15 s "Stand N hochgeladen"; am Laptop (WoW zu) innert 45 s "… vom PC
+     übernommen". Laptop: WoW normal starten -> Windows-Hinweis "bitte noch nicht einloggen …", dann "fertig – du
+     kannst einloggen". Kommt "Übernahme … kam zu spät": melden.
+   - Erster Lauf von 2.2.0+: Meldung "gesicherter AHSentinel-Stand … wird beim nächsten Login zusammengeführt"?
+     Danach in AHSentinel prüfen, ob die 85 Laptop-Entzauberungen da sind (sonst melden).
    - Mit laufendem Uploader GoldSentinel-WoW.bat starten -> "Der Uploader läuft – er gleicht ab. Starte nur WoW."
-   - Uploader 2.0.1+: nach mehreren /reload innerhalb von 15 Minuten genau EINE Nachricht "GoldSentinel-Paket: …";
-     "zu gross" höchstens einmal je Protokoll, auch nach neuer Ausgabe.
+   - Nach mehreren /reload innerhalb von 15 Minuten genau EINE Nachricht "GoldSentinel-Paket: …"; "zu gross"
+     höchstens einmal je Protokoll.
 
 IM CLIENT PRÜFEN (mit 3.0.23, unverändert)
    - /rm testroutine: T165 (neu), T162, T163, T164 OK; T142, T122 (n = 3), T43, Bereich K (T155–T160), T133b; danach
@@ -68,62 +111,9 @@ IM CLIENT PRÜFEN (mit 3.0.23, unverändert)
 
 HINWEIS FÜR KÜNFTIGE VERSIONEN
    - download/RaidMasterUploader.zip muss zum Ordner RaidMasterUploader/ passen (prüft "Bot-Tests").
-   - Keine echten Spieler- oder Charakternamen in Code, Tests, Beispielen und Texten. Abgleich-Daten nie ins Repo.
+   - Keine echten Spieler-, Charakter- oder Rechnernamen in Code, Tests, Beispielen und Texten. Abgleich-Daten nie
+     ins Repo.
    - GoldSentinelGame/Test/Sync nur unverändert aus shared/. RaidMaster ruft GoldSentinelSync.Register NICHT auf.
-   - Versionen höher als Addon 3.0.23, Uploader 2.3.1.
+   - Versionen höher als Addon 3.0.23, Uploader 2.3.2.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/RaidMaster/ ablegen.
-
-T-DU11 (HOCH, NEU 13.11. 04:55 – Meldung kommt immer wieder, Nutzer will sie weg) – Uploader 2.3.0 am PC (DESKTOP-NVITMSE), WoW läuft: Fenster "GoldSentinel-Abgleich"
-   "Neuerer Stand vom DESKTOP-NVITMSE – WoW beenden, dann übernehmen." – also der EIGENE Rechnername. Ablauf: 04:34
-   Start, 11 Dateien vom Laptop übernommen, 04:35 eigener Stand hochgeladen (Abgleich: "dieser Rechner aktuell"),
-   danach WoW gestartet, ~04:50 die Meldung.
-   Vermutung (Code sync.py:715–724): pending() findet eine Spielversion/ein Konto mit remote rev > lokal rev, der Text
-   nimmt aber r["machine"] = Rechner des LETZTEN Index-Schreibens (hier der PC selbst) statt des Rechners, der den
-   offenen Schlüssel geschrieben hat (index r[key][2]). Ausserdem prüfen, warum nach 04:34 (pull) + 04:35 (push) noch
-   etwas offen ist (revs nach pull/push für alle Schlüssel nachgeführt? Schlüssel, die nur remote existieren?).
-   Lösung: Meldung nennt je offenem Schlüssel Rechner, Zeit und Spielversion/Konto; offen bleibt nur, was wirklich von
-   einem ANDEREN Rechner neuer ist; eigener Upload darf nie als "neuerer Stand" gelten. Test dazu (pull, push, dann
-   pending() leer). Bitte Bericht in berichte/RaidMaster/.
-   NACHTRAG 05:00: Uploader-Fenster zeigt keine Zeile zur Meldung; 04:48:26 "Stand 14 hochgeladen (_forever_) ... dieser
-   Rechner aktuell". Die Meldung kam also sehr wahrscheinlich aus einem ZWEITEN Prozess (GoldSentinel-WoW.bat bzw.
-   dessen Sync-Objekt) mit veraltetem Zustand (revs vor dem Push 04:48) – er hält den eigenen Stand 14 für neuer.
-   Prüfen: Lesen beide Prozesse uploader_state.json frisch vor jeder Entscheidung? Darf die .bat überhaupt melden,
-   wenn der Uploader läuft (Lock)? Eigene Uploads (machine == self.me) nie als offen werten.
-   NACHTRAG 05:00 (2): Meldung erscheint wiederholt, das sichtbare Uploader-Fenster loggt sie NICHT (dort steht nur
-   "dieser Rechner aktuell"). -> Es läuft sehr wahrscheinlich ein ZWEITER Uploader-Prozess (Autostart, evtl. versteckt
-   oder aus einem alten Ordner). Auftrag: (a) nur EIN Uploader je Rechner (Einzel-Instanz-Sperre mit PID-Prüfung,
-   zweiter Start meldet "läuft schon" und beendet sich); (b) Meldungsfenster nur aus dem Prozess, der auch ins Fenster
-   loggt, und immer mit Ordner/PID im Log; (c) Meldung höchstens einmal je echtem neuem Stand eines ANDEREN Rechners;
-   (d) Autostart-Eintrag prüfen/ersetzen statt doppelt anlegen. Nach dem Fix kurze Anleitung für den Nutzer.
-
-
-TU (HOCH, NEU 13.11. 07:05, Entscheid des Nutzers "solche Fehler sollen nicht wieder passieren") – umfassende Tests
-   TU1–TU9 nach anweisung-tests-umfassend.txt: Lagen durch alle Funktionen, Abläufe wie ein Spieler, Standardwerte,
-   Grundregeln mit Zufallsdaten, echte Daten (nur lesen), Regressionstest je Befund (bisherige nachholen), Testbericht je
-   Bereich, offline lauffähig. Ab jetzt: Befund ohne Test = nicht erledigt (auftraege/README.md).
-
-RP-U (MITTEL, NEU 13.11. 07:10 – für GuildSentinel RP8 / Discord): Der Uploader schickt GuildSentinel.lua heute nur mit
-   Gildenbank-Bestand (uploader.py:196). Zusätzlich das Feld GuildSentinelDB.raidReady (Zusammenfassung OHNE Namen:
-   Raid, Phase, Anzahlen, Prozent, Wochen) an den Bot weitergeben – nur dieses Feld, keine anderen Gildendaten. Test dazu.
-
-
-BL (MITTEL, NEU 13.11. 07:45, Wunsch des Nutzers) – BEFEHLSLISTE BEIM TIPPEN MIT ALLEN BEFEHLEN
-   Tippt der Spieler /rm, /raidmaster (dazu /rmtest nur Entwickler) in den Chat, erscheint über dem Eingabefeld die Liste SÄMTLICHER Befehle des Addons mit kurzer
-   Beschreibung (Spielsprache, alle Locale-Dateien). Quelle: den Slash-Handler von RaidMaster (inkl. /rm berufe, /rm testroutine …).
-   BL1 Vollständig: die Liste kommt aus DERSELBEN Befehlstabelle, die der Slash-Handler zum Ausführen benutzt (eine Tabelle
-       für beides; der Handler liest aus ihr). Auch Befehle mit Zusatz zeigen ihn ("danke <Name>", "weg <Tage>"), deutsche
-       und englische Befehlswörter (z. B. "wo"/"where") finden beide. Entwickler-Befehle nur, wenn GoldSentinelDev den
-       Entwickler erkennt.
-   BL2 Filtern mit jedem Buchstaben: "/gs" = alle; "/gs w" = alles mit w am Anfang (wo, weg, werbung); "/gs we" = weg,
-       werbung; meistbenutzte oben (Zähler in den SavedVariables).
-   BL3 Bedienung (wie AHSentinel Punkt CH und shared/vorlage/README.md "Befehlsliste beim Tippen"): Mausklick bzw.
-       Pfeiltasten/Tab WÄHLEN aus, Enter FÜHRT AUS; Liste schliesst nicht, bevor der Klick ankommt; Fokus zurück mit
-       SetFocus; das Chatfeld wird NIE beschrieben (kein SetText/Insert, kein eigenes OnEnterPressed, nur HookScript lesen);
-       der Slash-Handler führt bei einer frischen Auswahl (≤ 10 s) den gewählten Befehl statt des unvollständigen Worts aus.
-       Option zum Ausschalten. Baustein: CmdHint von AHSentinel, sobald dort CH umgesetzt ist (bis dahin warten bzw. den
-       reparierten Stand übernehmen) – nicht jedes Addon eine eigene Lösung.
-   BL4 Tests: T-BL1 jeder Befehl, den der Handler versteht, steht in der Liste (Vergleich aus der Tabelle, keine
-       Handliste); T-BL2 Filter "/x w", "/x we" liefern genau die passenden; T-BL3 Klick wählt, Enter führt aus; T-BL4
-       Chatfeld nie beschrieben; T-BL5 Entwickler-Befehle nur für den Entwickler; T-BL6 alle Sprachen ohne Platzhalter-
-       Fehler. Alte Clients (Era, TBC) nicht brechen.
