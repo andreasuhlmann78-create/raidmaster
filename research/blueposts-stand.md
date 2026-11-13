@@ -1,6 +1,6 @@
 # Blizzard-Blueposts – Stand der Prüfung (für die geplante Aufgabe "Blizzard-Blueposts für GoldSentinel-Projekte prüfen")
 
-Geprüft bis: 13.11.2026 07:50 (geplante Aufgabe Blueposts). Neuester Blue-Post: Kaivax 12.11. 19:10 UTC; nichts vom 13.11. Kontrolle 13.11. 14:15: AHSentinel BP umgesetzt (0.65.107, T572), BuffSentinel BP nachgetragen.
+Geprüft bis: 13.11.2026 21:45 MEZ (20:45 UTC, geplante Aufgabe Blueposts). Neuester Blue-Post weiter Kaivax 12.11. 19:10 UTC (#9, Schamane); kein Blue-Post vom 13.11., kein Thread "Hotfixes – November 12/13". Zweitquellen melden Client-Build 1.60.1.70938 (13.11.) – nicht von Blizzard bestätigt, nur beobachten. Frühere Läufe: 13.11. 07:50; Kontrolle 13.11. 14:15 (AHSentinel BP umgesetzt 0.65.107, T572; BuffSentinel BP nachgetragen).
 
 ## Schon bearbeitet
 | Datum | Post | URL | Folge |
