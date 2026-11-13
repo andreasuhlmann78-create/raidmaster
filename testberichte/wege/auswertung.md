@@ -171,7 +171,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Tausend Nadeln (1441)
 
-- Wegstücke 200, Knoten 523, zusammenhängende Teile 1
+- Wegstücke 213, Knoten 565, zusammenhängende Teile 1
 
 ## Steinkrallengebirge (1442)
 

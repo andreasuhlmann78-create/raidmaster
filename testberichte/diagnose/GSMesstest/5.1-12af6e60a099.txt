@@ -1,0 +1,68 @@
+13.11.2026 16:44
+GSMesstest 5.1, Client 1.60.1 (16001)
+A3 Scan (fremd ausgelöst): Einzelauktionen 269989, gelesen 269989, ohne Infos 0, ohne Sofortkauf 1, Items 6170
+A3 Restzeit-Stufen (Stufe:Anzahl): 1:11552, 2:43610, 3:182581, 4:32246
+A3 M1d Lesen: 2897 ms Rechenzeit in 180 Frames (1500 je Frame), 7.5 s Gesamtdauer, Speicher +44.0 MB
+A3 Wiedererkennung: 91364 Signaturen (Item:Menge:Sofortkauf), davon 35974 mehrdeutig mit 214599 Auktionen (79.5 %), gekappt 0
+A3 Zusammenfassung je Item: 100744 Zeichen = 420 Addon-Nachrichten; Gilde 5/s: 84 s; Flüstern 40/Min.: 10.5 Min. je Empfänger
+A3 Vergleich mit Scan vor 63 Min. (257538 Auktionen, eigener Abruf): geblieben 217618, verschwunden 39920, neu 52371
+A3 verschwunden nach Restzeit-Stufe beim letzten Scan: 1: 9335, 2: 13745, 3: 15174, 4: 1666, unbekannt: 0
+A3 verschwunden aus Stufe 3+4 (konnte in 63 Min. kaum ablaufen -> gekauft oder abgebrochen): 16840 Auktionen, Sofortkaufwert 25840.7g
+A3 M1b Stufenwechsel eindeutiger Auktionen (vorher>nachher Anzahl): 1>2 32, 1>3 20, 1>4 6, 2>1 2482, 2>2 2521, 2>3 71, 2>4 9, 3>2 4194, 3>3 25950, 3>4 18, 4>2 1, 4>3 371, 4>4 5292
+A3 meiste Abgänge aus Stufe 3+4 (ItemID×Anzahl): 248692×181, 4265×178, 5470×177, 1705×176, 1529×176, 4337×171, 12203×170, 5471×167, 13422×163, 765×160
+A3 Verlauf:
+--- 13.11.2026 14:52
+A3 Scan (eigener Abruf): Einzelauktionen 243817, gelesen 243817, ohne Infos 0, ohne Sofortkauf 0, Items 6115
+A3 Restzeit-Stufen (Stufe:Anzahl): 1:9107, 2:35221, 3:172189, 4:27300
+A3 M1d Lesen: 2890 ms Rechenzeit in 82 Frames (3000 je Frame), 4.5 s Gesamtdauer, Speicher +37.6 MB
+A3 Wiedererkennung: 84737 Signaturen (Item:Menge:Sofortkauf), davon 32902 mehrdeutig mit 191982 Auktionen (78.7 %), gekappt 0
+A3 Zusammenfassung je Item: 99505 Zeichen = 415 Addon-Nachrichten; Gilde 5/s: 83 s; Flüstern 40/Min.: 10.4 Min. je Empfänger
+A3 kein früherer Scan gespeichert – in 30–60 Min. nochmals /gsmess markt (oder Vollscan mit AHSentinel)
+--- 13.11.2026 14:52
+A3 Scan (fremd ausgelöst): Einzelauktionen 243817, gelesen 243817, ohne Infos 0, ohne Sofortkauf 0, Items 6115
+A3 Restzeit-Stufen (Stufe:Anzahl): 1:9147, 2:35214, 3:172157, 4:27299
+A3 M1d Lesen: 2505 ms Rechenzeit in 82 Frames (3000 je Frame), 4.0 s Gesamtdauer, Speicher +31.7 MB
+A3 Wiedererkennung: 84737 Signaturen (Item:Menge:Sofortkauf), davon 32902 mehrdeutig mit 191982 Auktionen (78.7 %), gekappt 0
+A3 Zusammenfassung je Item: 99505 Zeichen = 415 Addon-Nachrichten; Gilde 5/s: 83 s; Flüstern 40/Min.: 10.4 Min. je Empfänger
+A3 Vergleich mit Scan vor 0 Min. (243817 Auktionen, eigener Abruf): geblieben 243817, verschwunden 0, neu 0
+A3 verschwunden nach Restzeit-Stufe beim letzten Scan: 1: 0, 2: 0, 3: 0, 4: 0, unbekannt: 0
+A3 verschwunden aus Stufe 3+4 (konnte in 0 Min. kaum ablaufen -> gekauft oder abgebrochen): 0 Auktionen, Sofortkaufwert 0.0g
+A3 M1b Stufenwechsel eindeutiger Auktionen (vorher>nachher Anzahl): 1>1 2047, 2>1 12, 2>2 8349, 3>2 11, 3>3 35299, 4>4 6117
+A3 meiste Abgänge aus Stufe 3+4 (ItemID×Anzahl): keine
+A3 Hinweis: Abstand unter 10 Min. – für den Absatz besser 30–60 Min. warten
+--- 13.11.2026 15:16
+A3 Scan (fremd ausgelöst): Einzelauktionen 249646, gelesen 249646, ohne Infos 0, ohne Sofortkauf 0, Items 6129
+A3 Restzeit-Stufen (Stufe:Anzahl): 1:9187, 2:37196, 3:174882, 4:28381
+A3 M1d Lesen: 2610 ms Rechenzeit in 167 Frames (1500 je Frame), 7.5 s Gesamtdauer, Speicher +36.6 MB
+A3 Wiedererkennung: 86732 Signaturen (Item:Menge:Sofortkauf), davon 33721 mehrdeutig mit 196635 Auktionen (78.8 %), gekappt 0
+A3 Zusammenfassung je Item: 99838 Zeichen = 416 Addon-Nachrichten; Gilde 5/s: 83 s; Flüstern 40/Min.: 10.4 Min. je Empfänger
+A3 Vergleich mit Scan vor 24 Min. (243817 Auktionen, fremd ausgelöst): geblieben 225511, verschwunden 18306, neu 24135
+A3 verschwunden nach Restzeit-Stufe beim letzten Scan: 1: 6497, 2: 2793, 3: 8148, 4: 868, unbekannt: 0
+A3 verschwunden aus Stufe 3+4 (konnte in 24 Min. kaum ablaufen -> gekauft oder abgebrochen): 9016 Auktionen, Sofortkaufwert 7943.0g
+A3 M1b Stufenwechsel eindeutiger Auktionen (vorher>nachher Anzahl): 1>1 474, 1>2 7, 1>3 11, 1>4 3, 2>1 1595, 2>2 5789, 2>3 25, 2>4 3, 3>2 1400, 3>3 30779, 3>4 11, 4>2 4, 4>3 170, 4>4 5486
+A3 meiste Abgänge aus Stufe 3+4 (ItemID×Anzahl): 248693×425, 249428×385, 248690×211, 7971×203, 7067×154, 4461×117, 2730×116, 774×110, 7048×104, 783×103
+--- 13.11.2026 15:41
+A3 Scan (eigener Abruf): Einzelauktionen 257538, gelesen 257538, ohne Infos 0, ohne Sofortkauf 0, Items 6140
+A3 Restzeit-Stufen (Stufe:Anzahl): 1:10593, 2:38389, 3:179265, 4:29291
+A3 M1d Lesen: 2870 ms Rechenzeit in 172 Frames (1500 je Frame), 6.5 s Gesamtdauer, Speicher +37.4 MB
+A3 Wiedererkennung: 88663 Signaturen (Item:Menge:Sofortkauf), davon 34668 mehrdeutig mit 203543 Auktionen (79.0 %), gekappt 0
+A3 Zusammenfassung je Item: 100117 Zeichen = 418 Addon-Nachrichten; Gilde 5/s: 84 s; Flüstern 40/Min.: 10.4 Min. je Empfänger
+A3 Vergleich mit Scan vor 25 Min. (249646 Auktionen, fremd ausgelöst): geblieben 230864, verschwunden 18782, neu 26674
+A3 verschwunden nach Restzeit-Stufe beim letzten Scan: 1: 6824, 2: 2826, 3: 8189, 4: 943, unbekannt: 0
+A3 verschwunden aus Stufe 3+4 (konnte in 25 Min. kaum ablaufen -> gekauft oder abgebrochen): 9132 Auktionen, Sofortkaufwert 11422.0g
+A3 M1b Stufenwechsel eindeutiger Auktionen (vorher>nachher Anzahl): 1>1 400, 1>2 6, 1>3 11, 1>4 1, 2>1 2091, 2>2 5708, 2>3 21, 2>4 3, 3>2 1583, 3>3 30777, 3>4 8, 4>2 3, 4>3 173, 4>4 5651
+A3 meiste Abgänge aus Stufe 3+4 (ItemID×Anzahl): 3685×212, 4251×167, 8153×145, 7070×136, 2751×131, 8150×121, 4603×121, 7191×103, 2770×101, 211855×99
+--- 13.11.2026 16:44
+A3 Scan (fremd ausgelöst): Einzelauktionen 269989, gelesen 269989, ohne Infos 0, ohne Sofortkauf 1, Items 6170
+A3 Restzeit-Stufen (Stufe:Anzahl): 1:11552, 2:43610, 3:182581, 4:32246
+A3 M1d Lesen: 2897 ms Rechenzeit in 180 Frames (1500 je Frame), 7.5 s Gesamtdauer, Speicher +44.0 MB
+A3 Wiedererkennung: 91364 Signaturen (Item:Menge:Sofortkauf), davon 35974 mehrdeutig mit 214599 Auktionen (79.5 %), gekappt 0
+A3 Zusammenfassung je Item: 100744 Zeichen = 420 Addon-Nachrichten; Gilde 5/s: 84 s; Flüstern 40/Min.: 10.5 Min. je Empfänger
+A3 Vergleich mit Scan vor 63 Min. (257538 Auktionen, eigener Abruf): geblieben 217618, verschwunden 39920, neu 52371
+A3 verschwunden nach Restzeit-Stufe beim letzten Scan: 1: 9335, 2: 13745, 3: 15174, 4: 1666, unbekannt: 0
+A3 verschwunden aus Stufe 3+4 (konnte in 63 Min. kaum ablaufen -> gekauft oder abgebrochen): 16840 Auktionen, Sofortkaufwert 25840.7g
+A3 M1b Stufenwechsel eindeutiger Auktionen (vorher>nachher Anzahl): 1>2 32, 1>3 20, 1>4 6, 2>1 2482, 2>2 2521, 2>3 71, 2>4 9, 3>2 4194, 3>3 25950, 3>4 18, 4>2 1, 4>3 371, 4>4 5292
+A3 meiste Abgänge aus Stufe 3+4 (ItemID×Anzahl): 248692×181, 4265×178, 5470×177, 1705×176, 1529×176, 4337×171, 12203×170, 5471×167, 13422×163, 765×160
+A3 M1c 13.11. 14:52: Daten nach 12.5 s, erster Abruf
+A3 M1c 13.11. 15:41: Daten nach 17.5 s, 49 Min. seit letztem Abruf
+A3 fremd ausgelöste Vollscans (Schübe) in dieser Sitzung: 1; Ereignisse ohne eigenen Abruf: 57370; Such-Ereignisse: AUCTION_HOUSE_BROWSE_RESULTS_UPDATED 13, COMMODITY_SEARCH_RESULTS_UPDATED 20, ITEM_SEARCH_RESULTS_UPDATED 7
