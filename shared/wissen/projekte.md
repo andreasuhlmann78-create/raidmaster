@@ -37,6 +37,8 @@ NACH PRIORITÄT. Bei jeder Prüfung nachführen (pruef-ablauf.md A Schritt 8). E
 ("ein Instrument, eine Waffe"), kein Frust (falsche Zahlen, Ruckeln, Fehlkäufe), wenig Aufwand, Dazulernen ohne Rechenwege,
 etwas für die Gilde. Prüffrage: schnell, schlicht, verlässlich – und macht ein Erfolg sichtbar Freude?
 
+- NIE IM RUHEMODUS (Nutzer 14.11. 00:28): AHSentinel-Sitzung weckt sich selbst alle 5 Min. (send_later), solange die
+  Prio-Liste offen ist. Prüf-Sitzung kontrolliert: kommt länger als 30 Min. kein Commit trotz offener Liste -> Nutzer melden.
 - Stand: 0.65.119 (DE30 Entzaubern ≥ 30 %, im Code geprüft; Client offen). Repo AHAnalyzerPro (privat).
 - PRIO (Reihenfolge laut offen-ahsentinel.txt Kopf):
   1. TB119 Sniper-Test 23:06: 278 echte Addon-Nachrichten im Test / Sync-Warteschlange 278 (Ursache je Präfix zeigen),

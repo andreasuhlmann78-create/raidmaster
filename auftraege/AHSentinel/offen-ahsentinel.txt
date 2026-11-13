@@ -1,3 +1,12 @@
+>>> !!! NIE IM RUHEMODUS (Entscheid des Nutzers 14.11. 00:28/00:30) – gilt ab sofort, dauerhaft:
+>>>    Die AHSentinel-Sitzung plant sich selbst Weck-Runden: am Ende JEDER Antwort/Arbeit mit dem Werkzeug send_later
+>>>    (delay_minutes 5, initiation human_request) eine Erinnerung an sich selbst setzen: "Weck-Runde: git pull --rebase,
+>>>    auftraege/AHSentinel/offen-ahsentinel.txt Liste PRIORITÄTEN lesen, obersten offenen Punkt umsetzen bzw. weiter-
+>>>    machen, veröffentlichen, Bericht, dann nächste Weck-Runde in 5 Min." – solange in der Prio-Liste etwas offen ist.
+>>>    Läuft gerade eine Arbeit, die Runde nur nutzen, um ins Repo zu schauen (neue Aufträge), dann weiterarbeiten.
+>>>    Nur ruhen, wenn die Prio-Liste leer ist ODER der Nutzer es ausdrücklich sagt. Fehlt send_later in der Sitzung:
+>>>    im Bericht melden.
+
 ========================================================================================================================
 PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 00:25). Immer von oben nach unten abarbeiten.
 Einzelheiten zu jedem Punkt stehen weiter unten (Suche nach dem Kürzel). Diese Liste wird bei jeder Änderung nachgeführt.
