@@ -235,7 +235,7 @@ check("kurze Restzeit zählt nicht als Absatz", g3.absatz, 0)
 check("verschwundenes Item: Angebot jetzt 0", (g3.menge, g3.n), (0, 0))
 exp2 = a.ev("DB.gsMarkt.export[2]")
 check("Export mit Vergleichsdauer", "|2400|" in exp2, True)
-check("Export behält 2 Scans", a.ev("#DB.gsMarkt.export"), 2)
+check("Export behält beide Scans (bis 6)", a.ev("#DB.gsMarkt.export"), 2)
 vx = Client("Testvx", 18)
 set_auctions(vx, rows1 + [(7070, 1, 500, 4)] * 3)
 scan(vx)
@@ -318,12 +318,12 @@ check("Abbruch bei geänderter Liste", y.ev("GoldSentinelMarkt.Stats().aborted")
 z = Client("Testz", 13)
 set_auctions(z, rows1)
 scan(z)
-z.run(SRC.replace("local VERSION = 2", "local VERSION = 3"))
-check("neuere Fassung aktiv", z.ev("GoldSentinelMarkt.VERSION"), 3)
+z.run(SRC.replace("local VERSION = 3", "local VERSION = 4"))
+check("neuere Fassung aktiv", z.ev("GoldSentinelMarkt.VERSION"), 4)
 check("Daten übernommen", z.ev("GoldSentinelMarkt.Get(2589).preis"), 95)
 check("alter Frame still", z.ev("FRAMES[#FRAMES - 1].scripts.OnUpdate == nil"), True)
-z.run(SRC)                     # ältere Fassung lädt danach -> bleibt bei 2
-check("ältere Fassung übernimmt nicht", z.ev("GoldSentinelMarkt.VERSION"), 3)
+z.run(SRC)                     # ältere Fassung lädt danach -> bleibt bei 4
+check("ältere Fassung übernimmt nicht", z.ev("GoldSentinelMarkt.VERSION"), 4)
 
 # --- 14. Feed: Host-Addon liest selbst und gibt weiter, kein zweites Lesen ---------------------------------------------
 h = Client("Testh", 14)
@@ -378,6 +378,18 @@ check("Sync-Warteschlange höchstens 10 durch GSMarkt", w.ev("GoldSentinelMarkt.
 
 # --- 16. Base36 und Packen ----------------------------------------------------------------------------------------------
 check("Base36 hin und zurück", z.ev("GoldSentinelMarkt.Dec(GoldSentinelMarkt.Enc(2147483647))"), 2147483647)
+
+
+# v3: Export hält höchstens 6 Scans und höchstens 1,5 MB zusammen (Ruckeln/SavedVariables klein halten)
+trc = Client("Testtr", 21)
+tr = trc.lua
+tr.execute("L = {} for i = 1, 9 do L[#L+1] = 'scan' .. i end GoldSentinelMarkt.TrimExport(L)")
+check("Export: höchstens 6 Scans, die neuesten", (tr.eval("#L"), tr.eval("L[1]"), tr.eval("L[6]")), (6, "scan4", "scan9"))
+tr.execute("B = {} for i = 1, 4 do B[#B+1] = string.rep('x', 600 * 1024) end GoldSentinelMarkt.TrimExport(B)")
+check("Export: höchstens 1,5 MB zusammen", tr.eval("#B"), 2)
+tr.execute("C = { string.rep('y', 2 * 1024 * 1024) } GoldSentinelMarkt.TrimExport(C)")
+check("Export: neuester Scan bleibt immer", tr.eval("#C"), 1)
+check("Version 3", tr.eval("GoldSentinelMarkt.VERSION"), 3)
 
 print(f"{checks - fails}/{checks} Prüfungen bestanden")
 sys.exit(1 if fails else 0)

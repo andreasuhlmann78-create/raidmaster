@@ -48,8 +48,11 @@
 --   4 ms; Schalter aus leert die Warteschlange; ganzer Scan an die Gilde hoechstens einmal je Stunde, sonst nur
 --   Aenderungen; Sync-Warteschlange wird nur bis 10 Nachrichten gefuellt (Platz fuer die Nachrichten der Addons);
 --   Export enthaelt auch ganz verschwundene Items ("id,0,0,0,abgaenge,abgaengeVorsichtig", Befund D-MN7b).
+-- Version 3 (13. November 2026, 23:40, Entscheid des Nutzers): Export haelt 6 statt 2 Scans fuer den Uploader (Scans
+--   eines Abends ohne laufenden Uploader gehen nicht verloren), hoechstens 1,5 MB zusammen (aelteste fallen weg) –
+--   damit Speichern/Laden der SavedVariables klein bleibt (Ruckeln vermeiden). Sonst unveraendert.
 
-local VERSION = 2
+local VERSION = 3
 
 local existing = _G.GoldSentinelMarkt
 if type(existing) == "table" and (tonumber(existing.VERSION) or 0) >= VERSION then return end
@@ -68,7 +71,8 @@ M.NET_MAX = 60               -- hoechstens so viele geaenderte Items ins Netz je
 M.NET_CHANGE = 0.05          -- Preis-Aenderung, ab der ein Item als geaendert gilt
 M.OUTLIER = 3                -- fremder Preis x3 oder :3 zum eigenen (juenger als 6 Std.) = verworfen
 M.MAX_AGE = 7 * 86400        -- aeltere Daten werden nicht angenommen
-M.EXPORT_KEEP = 2            -- so viele Scans fuer den Uploader
+M.EXPORT_KEEP = 6            -- so viele Scans fuer den Uploader (v3: 6 statt 2)
+M.EXPORT_MAX_BYTES = 1536 * 1024  -- alle Export-Zeilen zusammen hoechstens so gross (aelteste fallen zuerst weg)
 M.ASK_DELAY = 60             -- Sekunden nach dem Laden bis zur Frage "wer hat Neueres?"
 M.FULL_EVERY = 3600          -- ganzer Scan an die Gilde hoechstens so oft (Sekunden), sonst nur Aenderungen
 M.OUTBOX_MAX = 1500          -- volle eigene Warteschlange: aelteste Nachricht faellt weg (gezaehlt)
@@ -397,8 +401,20 @@ local function Apply(t, cnt, items, cmp, low, dt, prevItems)
     table.insert(s.export, string.format("GSMARKT1|%d|%s|%d|%d|%d|%d|%s", 1,          -- Export-Format 1 (unabhaengig von der Dateiversion)
         select(2, Fac()), t, cnt,
         nItems, cmp and dt or 0, table.concat(parts, ";")))
-    while #s.export > M.EXPORT_KEEP do table.remove(s.export, 1) end
+    M.TrimExport(s.export)
     QueueScan(t, changed)
+end
+
+-- v3: Export kuerzen – hoechstens EXPORT_KEEP Scans und EXPORT_MAX_BYTES zusammen, der neueste bleibt immer
+function M.TrimExport(list)
+    if type(list) ~= "table" then return end
+    while #list > M.EXPORT_KEEP do table.remove(list, 1) end
+    local total = 0
+    for _, x in ipairs(list) do total = total + #tostring(x) end
+    while #list > 1 and total > M.EXPORT_MAX_BYTES do
+        total = total - #tostring(list[1])
+        table.remove(list, 1)
+    end
 end
 
 local function FinishRead(r)
