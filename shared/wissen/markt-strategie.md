@@ -547,3 +547,33 @@ stetig (mehr Angebot, mehr Spieler mit Berufen). Lange Zeitfenster (14-Tage-Medi
 liegen zu hoch -> in den ersten ~6 Wochen kurze, jüngere Tage stärker gewichtende Fenster (5 Tage); Wirkung messen.
 Entscheid 21:32: Der angezeigte Median ist anpassend (Serveralter, Trend, Schwankung bestimmen Zeitraum und
 Gewichtung), Beschriftung nur "Median"; Wirkung gegen den erzielten Verkaufspreis messen.
+
+
+## 10. Lernstand 13.11. abends (Recherche auf Wunsch des Nutzers: "mach dich schlau … deutlich verbessern")
+
+Quellen: TSM-Dokumentation (AuctionDB Market Value, Price/Value Sources), r/woweconomy Flipping-Leitfaden,
+CogConnected "Gold in WoW Forever". Was daraus für uns folgt:
+
+1. **Marktwert wie TSM (bewährt):** nur die günstigsten 30 % der Angebote; nach den ersten 15 % bricht ein Preissprung
+   von ≥ 20 % die Liste ab (alles darüber zählt nicht = Schutz gegen Mondpreise); Ausreisser ausserhalb ±1,5
+   Standardabweichungen weg; Tageswert = Mittel der Scans; über 14 Tage mit HALBWERTSZEIT ~2 Tage gewichtet.
+   -> Unser "anpassender Median" (TP) sollte genau so gebaut werden: Gewichtung mit Halbwertszeit statt fester
+   5/14-Tage-Fenster; in junger/volatiler Lage Halbwertszeit kürzer (z. B. 1 Tag), im ruhigen Markt ~2 Tage.
+   Der 20-%-Sprung-Abbruch ist auch die bessere Lockangebot-/Mondpreis-Regel für "Jetzt im AH".
+2. **Verkaufsquote (SaleRate) ist die wichtigste Kennzahl für Prognosen:** TSM misst je Item, wie oft ein eingestelltes
+   Angebot wirklich verkauft (0,4 = 40 %), und dazu verkaufte Stück je Tag. Unsere Prognose sagte 98 % voraus, verkauft
+   wurden 31 % -> Die eigene Verkaufsquote je Item (und je Item-Gruppe, solange wenig Daten) muss die Grundlage der
+   Verkaufschance sein, nicht eine Schätzung. Items ohne/mit sehr tiefer Verkaufsquote nicht (oder nur wenig) einstellen.
+3. **Flipping-Regeln der Praxis:** 5 % AH-Anteil immer abziehen; Kauflimit je Item (nie mehr kaufen, als man bei
+   Preissturz verkraftet); KEIN "Reset" (Markt aufkaufen) kurz vor dem Ausloggen – wer offline ist, kann nicht
+   reagieren (wichtig für den Nutzer: unter der Woche selten online); streuen statt alles auf ein Item; in kleinen
+   Blöcken einstellen (das neueste Angebot verkauft zuerst, nachlegen ohne Abbrechen); nicht horten.
+4. **Forever-Wirtschaft:** kein WoW-Token, keine GDKP-Raids -> weniger Gold-Nachfrage am oberen Ende; Preise allein aus
+   Angebot/Nachfrage im Spiel; in den ersten Wochen schnelle Bewegungen, getrennte Fraktions-AHs eher volatil.
+   Grösste Goldausgaben der Spieler: Training, Reittier (Stufe 40), Verbrauchsgüter, Taschen, Reparaturen,
+   Raidvorbereitung -> Nachfrage nach Leveling-Gütern (Taschen, Tränke, Stoff/Leder für Berufe) ist verlässlicher als
+   nach Luxus.
+5. **Daraus neue Vorschläge (noch nicht beauftragt, dem Nutzer vorlegen):** (a) Marktwert nach TSM-Verfahren mit
+   Halbwertszeit; (b) Verkaufsquote je Item als Basis der Verkaufschance + Warnung beim Einstellen von Ladenhütern;
+   (c) Kauflimit je Item (Anteil am Kapital) im Sniper/Flip; (d) Hinweis vor dem Ausloggen, wenn grosse offene Flips
+   im Markt liegen; (e) Einstellen in Blöcken als Standard beim Verkaufen grosser Mengen.
