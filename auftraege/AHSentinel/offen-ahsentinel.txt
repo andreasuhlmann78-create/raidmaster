@@ -344,10 +344,13 @@ LT (HOCH, NEU 13.11. 20:07, ENDGÜLTIG 20:11 – Wunsch und Entscheid des Nutzer
           Gewinn: −44c / Stück        ROT   (negativ, z. B. Schultern des Hügelwächters, Angebot 8s 90c)
           Gewinn: +2s 61c / Stück     GRÜN  (positiv, z. B. Angebot 5s 85c)
        Beschriftung immer gleich, nur Zahl und Farbe wechseln; 0c = grün.
-   LT2 KEINE weiteren Kauf-Zeilen: die Zeilen "Lohnt bis …", "Entzaubern lohnt nicht …", "Verkaufen bringt mehr …" und
-       jede Spielraum-/max.-Zeile entfallen im Kauf-Tooltip (frühere Wortlaute von 20:07–20:10 sind ERSETZT).
-       Die Grenze (bisher "Lohnt bis") bleibt nur als Zahl beim Max-Feld im Sniper. Taschen-Tooltip ohne Angebot:
-       keine Kaufzeile (Werte wie bisher dürfen bleiben, ohne "Lohnt bis").
-   Tests T-LT1 (Zeile rechnet mit dem Stückpreis des Angebots unter der Maus; Farbe rot/grün; 0c grün), T-LT2 (keine
-   "Lohnt bis"-/Spielraum-Zeile im Kauf-Tooltip), T-LT3 (Locales EN "Profit: −44c / each" o. ä., DE).
+   LT2 KORREKTUR 20:12 (Nutzer: "nicht alles fällt weg, dies kommt dazu ANSTELLE der beiden anderen Zeilen"):
+       Die Gewinn-Zeile ERSETZT genau die zwei Zeilen oben im AHSentinel-Teil:
+          "✗/✓ Entzaubern lohnt (nicht) <Betrag> (<%>)"   und   "Lohnt bis <Preis>"
+       ALLES ANDERE BLEIBT unverändert: Preis/Marktwert, "Materialpreise korrigiert ×0,57 …", "Verkaufen bringt mehr: …",
+       "Entzaubern: …", Händler, Materialliste, Sniper-Zeilen ("Mit … Budget …", "Max über Verkaufswert …", Treffer).
+       Ohne Angebot (Taschen-Tooltip) rechnet die Zeile mit dem Marktpreis ("Preis" oben) statt mit einem Angebotspreis.
+       Die Grenze (bisher "Lohnt bis") bleibt als Zahl beim Max-Feld im Sniper.
+   Tests T-LT1 (Zeile rechnet mit dem Stückpreis des Angebots unter der Maus; Farbe rot/grün; 0c grün), T-LT2 (die zwei
+   ersetzten Zeilen fehlen, alle übrigen Zeilen sind noch da), T-LT3 (Locales EN "Profit: −44c / each" o. ä., DE).
    Einordnen: direkt nach SN1951 (0.65.113), spätestens 0.65.114 – vor 0.66.
