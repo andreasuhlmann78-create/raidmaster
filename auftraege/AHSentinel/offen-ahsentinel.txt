@@ -382,3 +382,12 @@ ANTWORT AUF DEN GESAMTBERICHT 2026-11-13-1401 (Prüf-Sitzung 14:10):
    - PD7: Die Zahlen liegen schon vor (Testbericht 0.65.108 12:58): Preisverlauf 279'868 Zeilen ~11,2 MB nach Verdichtung
      (vorher ~16,6 MB). Der Entscheid zum kompakteren Format wird dem Nutzer jetzt vorgelegt; bis dahin nichts ändern.
    - Weiter mit 0.65.110 nach Releaseplan.
+
+PD7-ENTSCHEID (Nutzer 13.11. 14:04: "mach das" = Variante a): Einträge des Preisverlaufs ÄLTER ALS 48 STD. dürfen in ein
+   kompakteres Speicherformat umgewandelt werden (Ausnahme von der Regel "Preisverlauf nie umwandeln", nur für diesen Zweck).
+   Bedingungen: keine Information verlieren, die Anzeigen/Rechnungen brauchen (Preis, Menge, Zeit je Eintrag bzw. je
+   Verdichtungsstufe wie heute); Marktwert, Rhythmus, Trends, Preisverlauf-Grafik vorher = nachher (Test T-PD7b: echte
+   Kopie vor/nach Umwandlung, alle Werte gleich ±1 Kupfer, Grösse Preisverlauf < 8 MB); einmalige Umwandlung in Portionen
+   (≤ 8 ms je Bild), alte Daten erst nach erfolgreicher Prüfung ersetzen, im Protokoll "PD7 umgewandelt: vorher/nachher
+   KB, Einträge, Prüfung OK"; ältere Versionen lesen das neue Format nicht -> Version vermerken, nie zurück ohne Hinweis.
+   Einplanen: 0.65.110 (passt zu "Speicher/Ruckeln"), sonst 0.66.
