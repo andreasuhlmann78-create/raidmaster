@@ -443,6 +443,12 @@ SN2115 (HOCH, NEU 13.11. 21:18 – Bild des Nutzers 21:15, v0.65.114, Sniper, Zi
       klären: Zählt Wiederverkaufen beim besten Weg noch (LT1 verlangt Verkaufen/Entzaubern/Händler)? Wenn bewusst
       ausgeschlossen (Kauf zum Marktpreis und Wiederverkauf = nur Gebühr), dann einheitlich und im Bericht begründen;
       "Max über Verkaufswert" muss denselben Wert verwenden wie die Gewinn-Zeile (3s 73c passt zu keiner Zeile).
+      URSACHE BESEITIGEN, NICHT NUR DIESE ZAHL: Es gibt genau EINE Funktion "bester Weg" (Verkaufen/Entzaubern/Händler
+      nach Gebühren, korrigierte Materialpreise, Wert je Stück). ALLE Anzeigen holen ihre Zahl daraus: Gewinn-Zeile,
+      Zeilen "… bringt mehr", "Max über Verkaufswert – jeder Kauf verliert ca. …", Sniper-Max-Vorschlag, Markt, Heute
+      tun. Keine Stelle rechnet selbst. Bleibender Test T-SN2115b (Regression TU6): für 20 Items × 3 Preise prüfen, dass
+      Gewinn-Zeile, Verlust-Warnung und Weg-Zeile aus demselben Wert stammen (Differenz 0c) und der Weg zwischen zwei
+      Versionen nicht ohne Eintrag im CHANGELOG wechselt.
    c) Status "Sync über Gilde: 2 Mitspieler, sende … (117)" – die Warteschlange ist noch voller als 19:47 (39). Bitte im
       Bericht die Zusammensetzung nennen (welcher Präfix wie viele: AHSentinel eigene / GSMARKT1 aus anderen Addons).
    Hinweis: Der Nutzer hat noch 0.65.114; der Sniper-Test braucht 0.65.115.
