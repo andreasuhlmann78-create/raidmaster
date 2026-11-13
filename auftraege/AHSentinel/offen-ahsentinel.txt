@@ -487,3 +487,19 @@ PRÜFUNG 0.65.111 (13.11. 16:10, Prüf-Sitzung): S1–S4 nach Bericht 1557 gepr�
    Untergrenze = Abgänge minus neue Auktionen desselben Items (wie GoldSentinelMarkt v1 absatz), Obergrenze = Abgänge;
    Entscheidungen nach der Untergrenze (bzw. mit dem eigenen Abbruch-Faktor). Restzeit-Stufen in Forever belegt:
    1 < 30 Min., 2 30 Min.–2 Std., 3 2–12 Std., 4 > 12 Std.
+
+UI1618 (HOCH, NEU 13.11. 16:20 – Bild des Nutzers, im Spiel noch v0.65.110, Kaufen > Einkauf, Rüstung, Qualität
+   "Grün, Blau", St. bis 27, sortiert nach Preis/Stück):
+   a) QUALITÄTSFILTER WIRKT NICHT VOLLSTÄNDIG: Oben in der Liste stehen trotz "Grün, Blau" weisse/graue Teile:
+      "Rotes Schwadroneurshemd" (iLvl 35, keine Stufe, 8c, 62 %) und "Verstärkte Kettenweste" (iLvl 28, 9c, 47 %).
+      Erwartet: nur die gewählten Qualitäten. Bitte prüfen, ob Teile ohne Qualität im Cache (Item noch nicht geladen)
+      oder ohne Stufe den Filter umgehen; dann erst nach dem Laden der Iteminfo einordnen bzw. ausblenden.
+      Test T-UI1618a: Filter Grün+Blau -> keine Zeile mit Qualität 0/1, auch nicht bei Items ohne Stufe/ohne Cache.
+   b) TOOLTIP WIDERSPRÜCHLICH (Hüterhandlappen, Preis 9s 50c): "✗ Entzaubern lohnt nicht +86c (+9 %)" in Rot, darunter
+      "Lohnt bis 6s 14c" und "✓ Entzaubern: 10s 36c" in Grün. Drei Aussagen, die nicht zusammenpassen:
+      - Wert 10s 36c = unkorrigierte Materialpreise (0,73×1,5×3s48 + 0,21×1,5×14s73 + 0,06×1,0×30s73 ≈ 10s 29c), Lohnt bis
+        6s 14c offenbar aus einer anderen Rechnung. Beides MUSS aus derselben Rechnung kommen (mit 0.65.111: korrigierter
+        Materialpreis ×0,57 überall – bitte im Spiel mit 0.65.111 prüfen, ob es dann stimmt).
+      - "lohnt nicht" mit positivem Betrag in Rot verwirrt: schreiben "✗ Entzaubern: nur +86c (+9 %) – unter dem
+        Mindestgewinn 20 %" und den grünen Haken beim Wert weglassen, wenn der Kauf nicht lohnt.
+      Test T-UI1618b: Tooltip-Zeilen Wert, Gewinn und Lohnt bis aus einer Rechnung; Lohnt bis ≥ Preis <=> "lohnt".
