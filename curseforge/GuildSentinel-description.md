@@ -10,6 +10,12 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.38
+
+- Market data network: shared file GoldSentinelMarkt.lua updated to version 2. It no longer reads a full scan a second time when AHSentinel is loaded (AHSentinel hands its scan over instead) – version 1 made the game stutter during AHSentinel's full scan and in its sniper. Smaller send queue, guild summary at most hourly, sold-out items in the export.
+- The "Share market data" tick now shows whether the network really runs: if another GoldSentinel addon has it turned off, the tick is off and a short hint says so.
+- Developer tests: T291 extended (version 2, FeedStart/Feed), T294 (tick follows the network).
+
 ### Version 0.9.37
 
 - New: market data network (shared file GoldSentinelMarkt.lua, same in all GoldSentinel addons). When any addon or the player runs a full auction house scan, it is read along in small portions (never in combat, never a scan of its own) – lowest unit price, quantity and number of auctions per item, plus measured sales between two scans. No names: owners, bidders and item names are never read. Shared anonymously with the guild and the GoldSentinel network, own faction only. On by default, no question asked; Settings > "Share market data (anonymous, prices only)" turns it off (then nothing is read or sent). Without the auction house interface (Era/TBC) it stays silent.
@@ -35,11 +41,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 - The command list and the /gs handler use one and the same command table, so the list always has every command.
 - Building block taken unchanged from AHSentinel (CmdHint).
 - Developer tests: T282–T287 (T-BL1–T-BL6). TU1 situation catalogue extended by group finder, events, polls and sync and by the situations "channel refuses addon messages", "member with an old version" and "guild changed" (11 functions x 9 situations).
-
-### Version 0.9.33
-
-- Fix: the button in the "Guild action" window (promote, demote, remove, leadership) did nothing when the option "Cast action keybinds on key down" (ActionButtonUseKeyDown) was off – the press set "waiting" and the release then blocked the command, so after 6 seconds it always said "Not carried out". GuildSentinel now only reacts in the phase in which the game runs the command (press or release, depending on the option); one click = exactly one command.
-- Developer tests: T281 (T-GA1, both settings) in the test routine; offline test client with the setting on and off.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

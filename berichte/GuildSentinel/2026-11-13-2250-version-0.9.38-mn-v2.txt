@@ -1,0 +1,16 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 · Sitzung: GuildSentinel-Projekt-Sitzung · Version: 0.9.38 · Commit: GuildSentinel 7f16ef2
+
+UMGESETZT, ZUR PRÜFUNG:
+- MN v2 / MN1b (HOCH): shared/GoldSentinelMarkt.lua (Version 2, Stand cbadacb 22:20 mit D-MN7b) unverändert kopiert,
+  cmp gegen shared/ = gleich (direkt vor dem Packen erneut geprüft). T291 erweitert: VERSION >= 2, FeedStart und Feed
+  sind Funktionen (T-MN1b).
+- MN2b (NIEDRIG): Haken "Marktdaten teilen" liest jetzt ns.MarketShareState() = GoldSentinelMarkt.IsShareOn(); eigener
+  Wert an, Netz aus -> grauer Hinweis "In einem anderen GoldSentinel-Addon ausgeschaltet." (10 Sprachen). Klick setzt
+  weiter nur den eigenen Wert (SetShare). Test T294 (T-MN2b): zweiter Host mit gsMarktAus = true -> aus + Hinweis;
+  allein -> an.
+
+EIGENE TESTS (Belege): addon_check "GuildSentinel-0.9.38.zip: OK" (Lua-Syntaxprüfung mit: luac5.1 (Lua 5.1)).
+Routine offline Forever OK 276, Era/TBC OK 281, je FEHLER 0; runall 0 fehlgeschlagen (inkl. run_nomarkt ohne/mit).
+Gefundene Fehler: keine.
+IM CLIENT PRÜFEN: AHSentinel-Vollscan ohne Ruckeln; /gs protokoll "MARKT-NETZ v2 …"; Haken + Hinweis überlappen nichts.
