@@ -7,6 +7,15 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.123</h3>
+<ul>
+<li><strong>Shared command list:</strong> the list while typing <code>/ahs</code> now comes from the shared GoldSentinel file
+  (GoldSentinelCmdHint.lua), the same for all GoldSentinel addons. Use stays the same (click selects, Tab/Shift+Tab,
+  Enter runs); your usage counters are kept.</li>
+<li>Speed test (<code>/ahs testroutine tempo</code>): memory of AHSentinel broken down by area (size and number of tables) in the
+  test report.</li>
+<li>Tests T638, T639.</li>
+</ul>
 <h3>Version 0.65.122</h3>
 <ul>
 <li><strong>Disenchanting – final rules per material group:</strong> 20 % minimum profit for groups your results prove and also for
@@ -46,15 +55,7 @@
   30 % now (value ÷ 1.3). A higher setting still applies; the general minimum profit for selling stays unchanged.</li>
 <li>Test T633.</li>
 </ul>
-<h3>Version 0.65.118</h3>
-<ul>
-<li><strong>New test part <code>/ahs testroutine tempo</code>:</strong> measures the speed targets in the game – tooltip calculation, switching
-  tabs, sniper reaction, buy per key press, longest frame with the auction house open, login/reload and memory of the
-  full scan – and writes them into the test report (field "tempo"), with the slow spot if a target is missed.</li>
-<li>Full scan: the diagnostic log now says whether slow reading portions come from garbage collection.</li>
-<li>Tests T625–T632.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

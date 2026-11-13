@@ -12,6 +12,15 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.123
+
+- **Shared command list:** the list while typing `/ahs` now comes from the shared GoldSentinel file
+  (GoldSentinelCmdHint.lua), the same for all GoldSentinel addons. Use stays the same (click selects, Tab/Shift+Tab,
+  Enter runs); your usage counters are kept.
+- Speed test (`/ahs testroutine tempo`): memory of AHSentinel broken down by area (size and number of tables) in the
+  test report.
+- Tests T638, T639.
+
 ### Version 0.65.122
 
 - **Disenchanting – final rules per material group:** 20 % minimum profit for groups your results prove and also for
@@ -50,14 +59,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   profit. "Worth up to", the sniper maximum for disenchant targets, the market view and the tooltip all use the same
   30 % now (value ÷ 1.3). A higher setting still applies; the general minimum profit for selling stays unchanged.
 - Test T633.
-
-### Version 0.65.118
-
-- **New test part `/ahs testroutine tempo`:** measures the speed targets in the game – tooltip calculation, switching
-  tabs, sniper reaction, buy per key press, longest frame with the auction house open, login/reload and memory of the
-  full scan – and writes them into the test report (field "tempo"), with the slow spot if a target is missed.
-- Full scan: the diagnostic log now says whether slow reading portions come from garbage collection.
-- Tests T625–T632.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
