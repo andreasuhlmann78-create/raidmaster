@@ -1,0 +1,25 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 · Sitzung: GuildSentinel-Projekt-Sitzung · Version: 0.9.34 · Commit: GuildSentinel 06bc526
+
+ERLEDIGT:
+- Punkt 3 BL1–BL4: Core.lua ns.COMMANDS = EINE Befehlstabelle { de, en, Beschreibung, aliases, args, dev, run };
+  SlashCmdList.GUILDSENTINEL liest nur noch daraus (ns.FindCommand), Hilfe-Zeile ns.CommandHelp aus derselben Tabelle.
+  CmdHint.lua = Baustein aus AHSentinel 0.65.107 (Logik + Fenster + CH: Klick/Tab wählt, Enter führt aus, Resolve
+  <= 10 s, SetFocus, nur HookScript, nie SetText/Insert) unverändert übernommen; Anpassungen nur: ns.InCombat statt
+  A:Global, Fehler -> Diagnose, Anzeige des Zusatzes (args) und Aliase im Filter; Anbindung bei GS_LOGIN. Zähler
+  ns.db.cmdUse (nicht für Entwickler-Befehle, nicht im Testmodus/während der Routine). Option ns.db.cmdHint in
+  Einstellungen. Entwickler-Befehle (dev) nur mit ns.IsDev().
+  Tests: T282 T-BL1 (jedes Wort/Alias -> derselbe Eintrag, Liste = Tabelle, alle Wörter des früheren Handlers),
+  T283 T-BL2 ("w" = weg,werbung,wo; "we" = weg,werbung; meistbenutzt oben), T284 T-BL3 (Auswahl gilt, > 10 s nicht,
+  anderer Anfang nicht), T285 T-BL4 (Ersatz-Eingabefeld: 0 Schreibzugriffe, Liste sichtbar, SetFocus), T286 T-BL5
+  ("t" ohne Entwickler: danke(thanks),termine; mit: + test, testroutine), T287 T-BL6 (Beschreibungen in allen
+  geladenen Sprachen, "Enter = %s" mit einem Platzhalter). 23 neue Texte in allen 10 Sprachen.
+- Punkt 2 (TU1-Rest): T270 jetzt 9 Lagen x 11 Funktionen (+ Gruppensuche, Termine, Umfragen, Sync; + Lagen "Kanal
+  verweigert Addon-Nachrichten" (GoldSentinelSync.api.send -> false), "Mitspieler mit alter Version" (VER 0.8.0,
+  altes LFG, unbekannter Typ über Comm.TestDispatch), "Gilde gewechselt" (frische Gildendaten aus ns.guildDefaults)).
+  Geheime Namen im Kampf: SKIP mit Grund (nur im echten Client erzeugbar, T150/T91).
+
+PRÜFUNGEN: addon_check OK (Lua-Syntaxprüfung mit: luac5.1 (Lua 5.1)). Routine Forever OK 262, Era/TBC OK 267, je
+FEHLER 0, Sandbox OK; alle übrigen Testläufe 0 fehlgeschlagen.
+IM CLIENT PRÜFEN: "/gs" tippen -> Liste über dem Chatfeld; "/gs we" -> weg, werbung; Klick wählt (Kopfzeile
+"Enter = /gs werbung"), Enter öffnet die Werbung; Tab wählt den nächsten; Esc/Fokus weg -> Liste zu. Option aus -> keine Liste.

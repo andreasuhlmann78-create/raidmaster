@@ -10,6 +10,13 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.34
+
+- New: command list while typing. Type /gs (or /guildsentinel) in chat and a list of ALL commands with a short description appears above the input box. Every letter filters ("/gs w" = where, away, ad …), German and English command words both work, commands with an argument show it ("thanks <Name>"), the most used are on top. A mouse click or Tab selects an entry, Enter runs it. The chat input is never written to. Developer commands only for the developer. Settings > "Command list while typing /gs" turns it off.
+- The command list and the /gs handler use one and the same command table, so the list always has every command.
+- Building block taken unchanged from AHSentinel (CmdHint).
+- Developer tests: T282–T287 (T-BL1–T-BL6). TU1 situation catalogue extended by group finder, events, polls and sync and by the situations "channel refuses addon messages", "member with an old version" and "guild changed" (11 functions x 9 situations).
+
 ### Version 0.9.33
 
 - Fix: the button in the "Guild action" window (promote, demote, remove, leadership) did nothing when the option "Cast action keybinds on key down" (ActionButtonUseKeyDown) was off – the press set "waiting" and the release then blocked the command, so after 6 seconds it always said "Not carried out". GuildSentinel now only reacts in the phase in which the game runs the command (press or release, depending on the option); one click = exactly one command.
@@ -47,13 +54,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 - Promotion: new option "Suggest the main's rank for alts" (only a suggestion, carried out step by step).
 - Leadership > Rank rights: button "Edit ranks in the game" opens Blizzard's rank window.
 - Developer test routine: T254–T260 (menu by rights, no protected call, name with spaces, rank steps, confirmation, alt suggestion, multi-select) new; T64, T174, T194, T195, T213 adapted. The offline test client now rejects protected guild functions like WoW Forever.
-
-### Version 0.9.29
-
-- Fix (WoW Forever): "Invite to guild" (Recruitment > Applicants and Guild management) no longer triggers "GuildSentinel has been blocked from an action only available to the Blizzard UI". The game forbids addons to invite into the guild directly, even on a mouse click. Now "/ginvite <name>" is put into the chat input and you press Enter – Blizzard's own command sends the invite. Names with spaces work as they are.
-- The applicant only shows as "invited" once the game confirms the invite ("You have invited X to join your guild."), no longer right after the click.
-- Your own ad texts with {tag} but without a dash: without a tag or Discord link, "(Tag {tag})" is removed with its brackets and a sentence of its own with {tag} is removed completely; otherwise only {tag} is emptied.
-- Developer test routine: T253 (invite only via the chat input, status only after the confirmation) new; T174, T194 and T251 extended.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
