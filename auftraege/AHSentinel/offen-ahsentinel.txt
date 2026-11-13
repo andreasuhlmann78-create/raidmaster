@@ -348,3 +348,12 @@ BP-2026-11-13-1 (NIEDRIG, NEU 13.11. 07:50 – Ergänzung zu HP, nur Termin)
    weiter erkannt und richtig verbucht wird (Zeitpunkt des Verkaufs nicht aus der Ankunftszeit der Post ableiten).
    Test T-BP-1113-1 (bleibend): Post mit Absender "Stormwind Auction House", mit anderem Absender und ohne Absender,
    jeweils mit Rechnung -> alle als Auktions-Post erkannt und gleich verbucht.
+
+PS-FRAGEN (13.11. 07:55, aus dem ProfessionSentinel-Bericht 0736):
+   API-PM2 (MITTEL) API.md festhalten: WorthUpTo = Stückpreis, 2. Weg, 3. Sicherheit 0–1 (nil = lernt noch); MarketState
+     1. "normal"/"aufkauf"/"flut"/"duenn"/"alt", 2. "faellt"/"steigt"/"spitze"/"ruhig" (nil = nicht gemessen).
+   API-PM3 (MITTEL, F5) API.MaterialCost: je Zutat Preisleiter für die benötigte Menge statt Cr:BestUnit(id, 1)
+     (API.lua 78–96) – gleiche Regel wie RK3. Test mit 20 Zutaten über 2 Leiterstufen.
+   API-PM4 (NIEDRIG, F6) API.Sold(itemID, seit) – verkaufte Menge und Erlös aus der Buchhaltung (für PM6), später.
+   CH vorziehen: GuildSentinel und die anderen Addons warten mit BL auf den reparierten CmdHint-Baustein (Punkt CH) –
+     bitte CH als Nächstes, vor RK.

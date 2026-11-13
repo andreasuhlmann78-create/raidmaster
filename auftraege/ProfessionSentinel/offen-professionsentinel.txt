@@ -126,3 +126,18 @@ BL (MITTEL, NEU 13.11. 07:45, Wunsch des Nutzers) – BEFEHLSLISTE BEIM TIPPEN M
        Handliste); T-BL2 Filter "/x w", "/x we" liefern genau die passenden; T-BL3 Klick wählt, Enter führt aus; T-BL4
        Chatfeld nie beschrieben; T-BL5 Entwickler-Befehle nur für den Entwickler; T-BL6 alle Sprachen ohne Platzhalter-
        Fehler. Alte Clients (Era, TBC) nicht brechen.
+
+ANTWORTEN DER PRÜF-SITZUNG AUF DEN BERICHT 2026-11-13-0736 (F1–F6), 13.11. 07:55 – gelten als Auftrag:
+   F1 300 %-Grenze allein reicht NICHT. Echte hohe Margen gibt es (Raptor-Rippchen 361 %). Neu: "Daten prüfen" (grau, keine
+      Zahl) nur, wenn > 300 % UND mindestens ein zweites Zeichen: dünner Markt (< 5 Angebote des Produkts), Preis alt
+      (> 6 Std.), Aufkauf, oder die Leiter einer Zutat reicht nicht für die benötigte Menge. Sonst Zahl zeigen, gelb mit
+      Hinweis "sehr hohe Marge – Absatz prüfen". T247 entsprechend anpassen, Prüffälle Raptor-Rippchen (zeigen) und
+      Rezept mit 2 Angeboten (grau).
+   F2 API.WorthUpTo(itemID[, qty]) = STÜCKPREIS (Kupfer), 2. Wert Weg ("sell"/"disenchant"/"vendor"/"craft"), 3. Wert
+      Sicherheit 0–1 (Trefferquote des Wegs, nil = lernt noch). So in AHSentinel/API.md (Auftrag dort).
+   F3 API.MarketState(itemID): 1. Wert "normal"/"aufkauf"/"flut"/"duenn"/"alt", 2. Wert Trend "faellt"/"steigt"/"spitze"/
+      "ruhig" (nil = noch nicht gemessen). "ruhig" bitte ergänzen.
+   F4 Raid-Filter passt (Kochen + Alchemie, Produkt ab Stufe 50, ohne Transmutationen, Fläschchen eingeschlossen). Nicht nur
+      bis 9.12. – Raid-Bedarf bleibt; Name "Raid-Bedarf", Hinweis "Raidstart 9.12." nur bis dahin.
+   F5 an AHSentinel weitergegeben (MaterialCost mit Leiter für die Menge). F6 vorerst die eigene Post lesen ist ok; an
+      AHSentinel als NIEDRIG weitergegeben (API.Sold(itemID, seit) für verkaufte Ware).
