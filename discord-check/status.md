@@ -1,8 +1,8 @@
 # Discord-Prüfung
 
-Geprüft: 2026-11-13T05:29:08Z (Commit 878ff43), Server: Alpine Vanguard
+Geprüft: 2026-11-13T06:33:37Z (Commit 9160636), Server: Alpine Vanguard
 
-**Ergebnis: ✅ alles im Discord**
+**Ergebnis: ⏳ alles da oder unterwegs (Bot hat noch nicht abgeholt)**
 
 Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 45 Minuten.
 
@@ -10,19 +10,19 @@ Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 4
 
 | | Addon | Version | Kanal | Gepostet | seit Push |
 |---|---|---|---|---|---|
-| ✅ ok | AHSentinel | 0.65.99 | #ahsentinel | 2026-11-12 08:30 UTC | 21 Std. |
-| ✅ ok | RaidMaster | 3.0.23 | #raid-addon | 2026-11-11 19:44 UTC | 34 Std. |
+| ⏳ wartet | AHSentinel | 0.65.102 | #ahsentinel | - | 2 Min. |
+| ✅ ok | RaidMaster | 3.0.23 | #raid-addon | 2026-11-11 19:44 UTC | 35 Std. |
 
 ## Ankündigungen (announce/, neueste Fassung je Reihe)
 
 | | Datei | Kanal | Abdeckung | seit Push |
 |---|---|---|---|---|
-| ✅ ok | ahsentinel__ahsentinel-0.65.99.md | #ahsentinel | 100 % | 21 Std. |
+| ⏳ wartet | ahsentinel__ahsentinel-0.65.102.md | #ahsentinel | 16 % | 2 Min. |
 | ✅ ok | ahsentinel__ahsentinel-0-vorstellung-1.8.md | #ahsentinel | 100 % | 4 Tage |
 | ✅ ok | ahsentinel__ahsentinel-hilfe-1.0.md | #ahsentinel | 100 % | 9 Tage |
 | ✅ ok | barrow-taktik__uebersicht-1.1.md | #barrow-taktik | 100 % | 9 Tage |
-| ✅ ok | buffsentinel__buffsentinel-0.9.14.md | #buffsentinel | 100 % | 21 Std. |
-| ✅ ok | guildsentinel__guildsentinel-0.9.29.md | #guildsentinel | 100 % | 35 Min. |
+| ✅ ok | buffsentinel__buffsentinel-0.9.14.md | #buffsentinel | 100 % | 22 Std. |
+| ⏳ wartet | guildsentinel__guildsentinel-0.9.30.md | #guildsentinel | 16 % | 8 Min. |
 | ✅ ok | hyjal-taktik__uebersicht-1.1.md | #hyjal-taktik | 100 % | 9 Tage |
 | ✅ ok | levelpilot__levelpilot-3.12.25.md | #levelpilot | 100 % | 2 Tage |
 | ✅ ok | levelpilot__levelpilot-uebersicht-3.12.25.md | #levelpilot | 100 % | 2 Tage |
@@ -30,13 +30,34 @@ Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 4
 | ✅ ok | mc-feuerresi__feuerresi-1.1.md | #mc-feuerresi | 100 % | 9 Tage |
 | ✅ ok | onyxia-feuerresi__feuerresi-1.0.md | #onyxia-feuerresi | 100 % | 15 Tage |
 | ✅ ok | onyxia-taktik__onyxia-video-1.0.md | #onyxia-taktik | 100 % | 16 Tage |
-| ✅ ok | professionsentinel__professionsentinel-0.9.40.md | #professionsentinel | 100 % | 58 Min. |
-| ✅ ok | professionsentinel__professionsentinel-0-vorstellung-1.27.md | #professionsentinel | 100 % | 58 Min. |
+| ⏳ wartet | professionsentinel__professionsentinel-0.9.41.md | #professionsentinel | 11 % | 0 Min. |
+| ✅ ok | professionsentinel__professionsentinel-0-vorstellung-1.27.md | #professionsentinel | 100 % | 2 Std. |
 | ✅ ok | threatsentinel__threatsentinel-2.5.9.md | #threatsentinel | 100 % | 2 Tage |
 | ✅ ok | threatsentinel__threatsentinel-0-vorstellung-2.2.md | #threatsentinel | 100 % | 10 Tage |
-| ✅ ok | buffsentinel__buffsentinel-0-vorstellung-12.md | #buffsentinel | 100 % | 8 Tage |
-| ✅ ok | guildsentinel__guildsentinel-0-vorstellung-19.md | #guildsentinel | 100 % | 21 Std. |
+| ✅ ok | buffsentinel__buffsentinel-0-vorstellung-12.md | #buffsentinel | 100 % | 9 Tage |
+| ✅ ok | guildsentinel__guildsentinel-0-vorstellung-19.md | #guildsentinel | 100 % | 22 Std. |
 | ✅ ok | levelpilot__levelpilot-uebersicht.md | #levelpilot | 100 % | 17 Tage |
+
+**announce/ahsentinel__ahsentinel-0.65.102.md** – fehlt im Discord:
+- `📦 **AHSentinel 0.65.102** – aufgeräumte Auktionsliste, viel mehr Tests ⚠️`
+- `• **Meine Auktionen:** Verkaufte verschwinden nach „Aktualisieren“ – die aktiven sind wieder gut sichtbar. Knopf „Verkaufte: an/aus“.`
+- `• Verkaufs-Vorschlag bei einem einzelnen teuren Angebot: Marktwert statt Ausreisser-Preis.`
+- `• Händler-Flips mit offensichtlich falschem Händlerpreis werden nicht mehr vorgeschlagen.`
+- `• **Umfassende Tests:** jede Marktlage (Aufkauf, Flut, Ausreisser, …) läuft durch alle Rechnungen – damit Fehler wie die Aufkauf-Panne nicht wieder passieren.`
+
+**announce/guildsentinel__guildsentinel-0.9.30.md** – fehlt im Discord:
+- `📦 **GuildSentinel 0.9.30** – Rechtsklick-Menü auf Mitglieder`
+- `• **Rechtsklick auf ein Mitglied** (Mitglieder, Wer ist wo, Bewerber, Leitung): Flüstern, Gruppe, **Befördern, Degradieren, Rang setzen**, Twink zuordnen, Notiz`
+- `• Befördern, Degradieren, Entfernen und Gildenleitung laufen über das Fenster **„Gilden-Aktion“**: Knopf klicken, Blizzards eigener Befehl führt aus – kein „Gui`
+- `• **Rang setzen** Schritt für Schritt („noch 2 Stufen bis Offizier“), **Mehrfachauswahl** mit Shift/Strg-Klick – je Mitglied ein Klick.`
+- `• Option: Twinks bekommen den Rang ihres Mains vorgeschlagen. Leitung > Rangrechte: „Ränge im Spiel bearbeiten“.`
+
+**announce/professionsentinel__professionsentinel-0.9.41.md** – fehlt im Discord:
+- `📦 **ProfessionSentinel 0.9.41** – Marktwissen für Herstellen und Gold 💰`
+- `• **Beide Richtungen:** Je Rezept „Herstellen lohnt +x“ oder „Zutat lieber roh verkaufen +y“ – z. B. Geröstetes Eberfleisch: das rohe Fleisch bringt mehr`
+- `• **Echte Preise:** Zutaten über die Preisleiter für die Menge, die du wirklich brauchst – nicht das billigste Einzelstück. Händler, wenn er billiger ist`
+- `• **Kein Schein-Gewinn mehr:** Alte Preise (über 6 Std.), Aufkauf, dünner Markt (unter 5 Angebote) oder über 300 % Gewinn zeigen grau „Daten prüfen“ statt einer`
+- `• **Mit AHSentinel eine Zahl:** Kosten und Verkauf kommen direkt aus AHSentinel`
 
 ## Bot-Funktionen (tut der Bot, was er soll?)
 

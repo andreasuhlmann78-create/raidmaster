@@ -1,147 +1,171 @@
 {
-  "geprueft": "2026-11-13T05:29:08Z",
-  "commit": "878ff43",
+  "geprueft": "2026-11-13T06:33:37Z",
+  "commit": "9160636",
   "ok": true,
   "fehler": null,
   "hinweis": "Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 45 Minuten.",
   "ankuendigungen": [
     {
-      "datei": "announce/ahsentinel__ahsentinel-0.65.99.md",
+      "datei": "announce/ahsentinel__ahsentinel-0.65.102.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 1286,
-      "abdeckung": 1.0,
-      "status": "ok"
+      "seit_push_min": 2,
+      "abdeckung": 0.167,
+      "status": "wartet",
+      "fehlende_zeilen": [
+        "📦 **AHSentinel 0.65.102** – aufgeräumte Auktionsliste, viel mehr Tests ⚠️",
+        "• **Meine Auktionen:** Verkaufte verschwinden nach „Aktualisieren“ – die aktiven sind wieder gut sichtbar. Knopf „Verkaufte: an/aus“.",
+        "• Verkaufs-Vorschlag bei einem einzelnen teuren Angebot: Marktwert statt Ausreisser-Preis.",
+        "• Händler-Flips mit offensichtlich falschem Händlerpreis werden nicht mehr vorgeschlagen.",
+        "• **Umfassende Tests:** jede Marktlage (Aufkauf, Flut, Ausreisser, …) läuft durch alle Rechnungen – damit Fehler wie die Aufkauf-Panne nicht wieder passieren."
+      ],
+      "status_eigentlich": "veraltet"
     },
     {
       "datei": "announce/ahsentinel__ahsentinel-0-vorstellung-1.8.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 5782,
+      "seit_push_min": 5846,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/ahsentinel__ahsentinel-hilfe-1.0.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 12979,
+      "seit_push_min": 13044,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/barrow-taktik__uebersicht-1.1.md",
       "kanal": "barrow-taktik",
-      "seit_push_min": 13810,
+      "seit_push_min": 13874,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/buffsentinel__buffsentinel-0.9.14.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 1295,
+      "seit_push_min": 1359,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
-      "datei": "announce/guildsentinel__guildsentinel-0.9.29.md",
+      "datei": "announce/guildsentinel__guildsentinel-0.9.30.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 35,
-      "abdeckung": 1.0,
-      "status": "ok"
+      "seit_push_min": 8,
+      "abdeckung": 0.167,
+      "status": "wartet",
+      "fehlende_zeilen": [
+        "📦 **GuildSentinel 0.9.30** – Rechtsklick-Menü auf Mitglieder",
+        "• **Rechtsklick auf ein Mitglied** (Mitglieder, Wer ist wo, Bewerber, Leitung): Flüstern, Gruppe, **Befördern, Degradieren, Rang setzen**, Twink zuordnen, Notiz",
+        "• Befördern, Degradieren, Entfernen und Gildenleitung laufen über das Fenster **„Gilden-Aktion“**: Knopf klicken, Blizzards eigener Befehl führt aus – kein „Gui",
+        "• **Rang setzen** Schritt für Schritt („noch 2 Stufen bis Offizier“), **Mehrfachauswahl** mit Shift/Strg-Klick – je Mitglied ein Klick.",
+        "• Option: Twinks bekommen den Rang ihres Mains vorgeschlagen. Leitung > Rangrechte: „Ränge im Spiel bearbeiten“."
+      ],
+      "status_eigentlich": "veraltet"
     },
     {
       "datei": "announce/hyjal-taktik__uebersicht-1.1.md",
       "kanal": "hyjal-taktik",
-      "seit_push_min": 13810,
+      "seit_push_min": 13874,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/levelpilot__levelpilot-3.12.25.md",
       "kanal": "levelpilot",
-      "seit_push_min": 3625,
+      "seit_push_min": 3690,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/levelpilot__levelpilot-uebersicht-3.12.25.md",
       "kanal": "levelpilot",
-      "seit_push_min": 3625,
+      "seit_push_min": 3690,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/lore__alpine-vanguard-vorstellung-1.0.md",
       "kanal": "lore",
-      "seit_push_min": 17533,
+      "seit_push_min": 17597,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/mc-feuerresi__feuerresi-1.1.md",
       "kanal": "mc-feuerresi",
-      "seit_push_min": 13810,
+      "seit_push_min": 13874,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/onyxia-feuerresi__feuerresi-1.0.md",
       "kanal": "onyxia-feuerresi",
-      "seit_push_min": 22951,
+      "seit_push_min": 23016,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/onyxia-taktik__onyxia-video-1.0.md",
       "kanal": "onyxia-taktik",
-      "seit_push_min": 24376,
+      "seit_push_min": 24440,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
-      "datei": "announce/professionsentinel__professionsentinel-0.9.40.md",
+      "datei": "announce/professionsentinel__professionsentinel-0.9.41.md",
       "kanal": "professionsentinel",
-      "seit_push_min": 58,
-      "abdeckung": 1.0,
-      "status": "ok"
+      "seit_push_min": 0,
+      "abdeckung": 0.111,
+      "status": "wartet",
+      "fehlende_zeilen": [
+        "📦 **ProfessionSentinel 0.9.41** – Marktwissen für Herstellen und Gold 💰",
+        "• **Beide Richtungen:** Je Rezept „Herstellen lohnt +x“ oder „Zutat lieber roh verkaufen +y“ – z. B. Geröstetes Eberfleisch: das rohe Fleisch bringt mehr",
+        "• **Echte Preise:** Zutaten über die Preisleiter für die Menge, die du wirklich brauchst – nicht das billigste Einzelstück. Händler, wenn er billiger ist",
+        "• **Kein Schein-Gewinn mehr:** Alte Preise (über 6 Std.), Aufkauf, dünner Markt (unter 5 Angebote) oder über 300 % Gewinn zeigen grau „Daten prüfen“ statt einer",
+        "• **Mit AHSentinel eine Zahl:** Kosten und Verkauf kommen direkt aus AHSentinel"
+      ],
+      "status_eigentlich": "veraltet"
     },
     {
       "datei": "announce/professionsentinel__professionsentinel-0-vorstellung-1.27.md",
       "kanal": "professionsentinel",
-      "seit_push_min": 58,
+      "seit_push_min": 122,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/threatsentinel__threatsentinel-2.5.9.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 3628,
+      "seit_push_min": 3692,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/threatsentinel__threatsentinel-0-vorstellung-2.2.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 15238,
+      "seit_push_min": 15302,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-12.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 12929,
+      "seit_push_min": 12994,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-19.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 1309,
+      "seit_push_min": 1373,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/levelpilot__levelpilot-uebersicht.md",
       "kanal": "levelpilot",
-      "seit_push_min": 25201,
+      "seit_push_min": 25266,
       "abdeckung": 1.0,
       "status": "ok"
     }
@@ -149,22 +173,19 @@
   "addons": [
     {
       "addon": "AHSentinel",
-      "version": "0.65.99",
-      "datei": "download/AHSentinel-0.65.99.zip",
+      "version": "0.65.102",
+      "datei": "download/AHSentinel-0.65.102.zip",
       "kanal": "ahsentinel",
-      "seit_push_min": 1286,
-      "status": "ok",
-      "gepostet": "2026-11-12 08:30 UTC",
-      "anhang": [
-        "AHSentinel-0.65.99.zip"
-      ]
+      "seit_push_min": 2,
+      "status": "wartet",
+      "status_eigentlich": "fehlt"
     },
     {
       "addon": "RaidMaster",
       "version": "3.0.23",
       "datei": "RaidMaster/RaidMaster.toc",
       "kanal": "raid-addon",
-      "seit_push_min": 2055,
+      "seit_push_min": 2120,
       "status": "ok",
       "gepostet": "2026-11-11 19:44 UTC",
       "anhang": [
@@ -176,14 +197,14 @@
     {
       "datei": "announce/threatsentinel__threatsentinel-0-vorstellung.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 24016,
+      "seit_push_min": 24081,
       "abdeckung": 1.0,
       "status": "ok",
       "nur_info": "ersetzt durch threatsentinel__threatsentinel-0-vorstellung-2.2.md"
     }
   ],
   "server": "Alpine Vanguard",
-  "wartet": false,
+  "wartet": true,
   "bot": [
     {
       "pruefung": "Kanäle aus /raidmaster-einrichten",
