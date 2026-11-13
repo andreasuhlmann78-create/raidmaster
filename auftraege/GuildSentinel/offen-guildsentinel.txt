@@ -94,3 +94,24 @@ HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Die Version muss höher sein als 0.9.28 (download/, announce/, CurseForge).
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/GuildSentinel/ ablegen.
+
+GV1 (HOCH, NEU 13.11. 05:44 – Bild des Nutzers, 0.9.28, WoW Forever) – "In die Gilde einladen" wird vom Spiel verboten
+   Rekrutierung > Bewerber, Bewerber gewählt, Knopf "In die Gilde einladen": Blizzard-Fenster "GuildSentinel wurde
+   geblockt. Die angeforderte Funktion ist der Blizzard-UI vorbehalten." (= ADDON_ACTION_FORBIDDEN, nicht Kampf).
+   Trotzdem steht der Bewerber danach auf Status "eingeladen".
+   Ursache: Recruit.lua:489-496 (Rc:Invite) ruft C_GuildInfo.Invite/GuildInvite direkt aus dem Klick-Handler
+   (Pages.lua:983). Im Forever-Client ist das Einladen in die Gilde geschützt, ein Hardware-Klick reicht nicht.
+   Gleicher Aufruf in Admin.lua:231 (Ad.Invite). Admin.lua:241-273 (Promote, Demote, Uninvite, SetLeader) im Client
+   prüfen – vermutlich ebenso geschützt.
+   Auftrag:
+   - Einladen über einen sicheren Weg: SecureActionButtonTemplate mit type="macro" und macrotext "/ginvite <Name>"
+     (Attribut vor dem Klick ausserhalb des Kampfs setzen, wie der Berufe-Knopf Pages.lua:1623 ff.), oder als Rückfall
+     den Befehl "/ginvite <Name>" in die Chat-Eingabe legen (ChatFrame_OpenChat), der Spieler drückt Enter.
+     Namen mit Leerzeichen (Forever: Vor- und Nachname) prüfen – geht /ginvite "Vorname Nachname"?
+   - Nie mehr eine geschützte Gilden-Funktion direkt aufrufen; dasselbe für Admin (Befördern, Degradieren, Entfernen,
+     Gildenleitung übergeben), sobald im Client bestätigt ist, dass sie geschützt sind.
+   - Status "eingeladen" erst setzen, wenn die Einladung wirklich raus ist (Systemmeldung "Ihr habt X eingeladen …"
+     bzw. CHAT_MSG_SYSTEM), sonst Status unverändert und Hinweis.
+   - Testroutine: Einladen läuft nie über ns.Act mit C_GuildInfo.Invite; Status erst nach Bestätigung.
+   - Das Diagnose-Protokoll schreibt VERBOTEN mit Aufrufort (Diag.lua:173) – nach dem Fix im Client gegenprüfen.
+   Bitte Bericht in berichte/GuildSentinel/.
