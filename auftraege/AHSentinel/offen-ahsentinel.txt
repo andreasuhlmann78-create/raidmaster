@@ -370,3 +370,15 @@ TT1317 (HOCH, NEU 13.11. 13:20, hochgestuft 13:22 – Bild Tooltip Goldene Schup
    unsicher". Damit ist es sehr wahrscheinlich ein Fehler (Scan-Werte kommen bei den Entzauber-Materialien nicht an
    bzw. werden als "nicht aktuell" gewertet). Folge: jeder Entzauberwert ist eine Schätzung -> falsche Kauf-/Verkaufs-
    entscheide. In 0.65.109 aufnehmen; im Diagnose-Protokoll je Material Quelle, Alter und Grund für "unsicher" ausgeben.
+
+ANTWORT AUF DEN GESAMTBERICHT 2026-11-13-1401 (Prüf-Sitzung 14:10):
+   - BESTÄTIGT: Lernende und gesperrte Wege werden weiter gemessen (sonst können sie nie freigegeben werden), nur nicht
+     empfohlen; in den Ansichten grau "lernt noch"/"gesperrt" wie umgesetzt.
+   - BESTÄTIGT: Sniper wird nicht gesperrt (nur vom Nutzer gesetzte Ziele). Zusatz (NIEDRIG): zeigt ein Ziel auf einen Weg,
+     der gesperrt ist oder lernt (z. B. Entzauber-Ziel), in der Zielzeile grau "Weg lernt noch / gesperrt" anzeigen; WS3
+     (Warnschutz beim Kauf über "Lohnt bis"/Max-Preis) gilt weiter.
+   - BESTÄTIGT: Fehlende Kostenbasis (BH1307) vorerst NICHT nachtragen. Erst die Zeilen "BH1307 ohne Einstand" aus dem
+     Client; danach entscheidet die Prüf-Sitzung mit dem Nutzer. Der Kopf "Gewinn mit Einkauf" genügt bis dahin.
+   - PD7: Die Zahlen liegen schon vor (Testbericht 0.65.108 12:58): Preisverlauf 279'868 Zeilen ~11,2 MB nach Verdichtung
+     (vorher ~16,6 MB). Der Entscheid zum kompakteren Format wird dem Nutzer jetzt vorgelegt; bis dahin nichts ändern.
+   - Weiter mit 0.65.110 nach Releaseplan.
