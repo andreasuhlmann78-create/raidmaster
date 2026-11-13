@@ -93,7 +93,38 @@ def realm_names(region, tok, ns, href) -> list[str]:
         return []
 
 
-def measure(region: str, realm_filter: str | None, cid: str, sec: str, out) -> int:
+def list_realms(region: str, cid: str, sec: str, out, namespaces=NAMESPACES) -> dict:
+    """Alle Realm-Namen je Namespace ausgeben (ab 1.5.130) – um zu sehen, wo WoW Forever auftaucht."""
+    def say(line=""):
+        print(redact(line, cid, sec), file=out)
+    tok, code = token(region, cid, sec)
+    say(f"Zugangstoken: Antwortcode {code}")
+    found = {}
+    if not tok:
+        return found
+    for ns in namespaces:
+        code, body, _ = api(region, tok, "/data/wow/connected-realm/index", ns)
+        if code != 200:
+            continue
+        try:
+            items = json.loads(body).get("connected_realms", [])
+        except ValueError:
+            items = []
+        names = []
+        for it in items:
+            href = it.get("href", "")
+            cr = urllib.parse.urlparse(href).path.rstrip("/").split("/")[-1]
+            for n in realm_names(region, tok, ns, href):
+                names.append(f"{n} ({cr})")
+                if n and "forever" in n.casefold():
+                    found.setdefault(ns, []).append(cr)
+        say(f"- {ns}-{region}: {len(items)} Gruppen: " + ", ".join(sorted(names)))
+    say("")
+    say("FOREVER gefunden in: " + (", ".join(f"{k} (Gruppen {v})" for k, v in found.items()) if found else "keinem Namespace"))
+    return found
+
+
+def measure(region: str, realm_filter: str | None, cid: str, sec: str, out, namespaces=NAMESPACES) -> int:
     def say(line=""):
         print(redact(line, cid, sec), file=out)
 
@@ -103,7 +134,7 @@ def measure(region: str, realm_filter: str | None, cid: str, sec: str, out) -> i
     if not tok:
         return 2
     found_any = False
-    for ns in NAMESPACES:
+    for ns in namespaces:
         code, body, _ = api(region, tok, "/data/wow/connected-realm/index", ns)
         if code != 200:
             say(f"- {ns}-{region}: connected-realm/index -> {code}")
@@ -154,11 +185,17 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="MN8: Blizzard-Auktionsdaten für WoW Forever messen (nur lesen)")
     ap.add_argument("--region", default="eu")
     ap.add_argument("--realm", default=None, help="Teil des Realm-Namens, z. B. Forever-Realm der Gilde")
+    ap.add_argument("--list", action="store_true", help="alle Realm-Namen je Namespace auflisten (wo ist Forever?)")
     args = ap.parse_args(argv)
     cid, sec = credentials()
     if not cid or not sec:
         print("Kein Blizzard-Zugang: zuerst mit blizzard_zugang.sh Client-ID und Geheimnis eintragen.")
         return 3
+    if args.list:
+        found = list_realms(args.region, cid, sec, sys.stdout)
+        for ns, groups in found.items():                     # dort gleich die Auktionen messen
+            measure(args.region, "forever", cid, sec, sys.stdout, namespaces=(ns,))
+        return 0 if found else 1
     return measure(args.region, args.realm, cid, sec, sys.stdout)
 
 

@@ -52,6 +52,18 @@ class MN8(unittest.TestCase):
         self.assertIn("2 Auktionen", out)
         self.assertIn("dynamic-classic-eu: connected-realm/index -> 404", out)
 
+    def test_liste_findet_forever(self):
+        orig = bac.http
+        bac.http = Fake()
+        try:
+            buf = io.StringIO()
+            found = bac.list_realms("eu", CID, SEC, buf)
+        finally:
+            bac.http = orig
+        self.assertEqual(found, {"dynamic-classic1x": ["5"]})
+        self.assertIn("Forever (5)", buf.getvalue())
+        self.assertNotIn(SEC, buf.getvalue())
+
     def test_keine_daten(self):
         rc, out = self.run_measure(Fake(auctions=False))
         self.assertEqual(rc, 1)
