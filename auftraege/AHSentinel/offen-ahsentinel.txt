@@ -373,3 +373,21 @@ AB4d (HOCH, NEU 13.11. 08:00 – Code-Prüfung 0.65.103 auf Frage des Nutzers "v
    das günstigste Angebot 20s48 war (147 % des Marktwerts 13s95) – genau der Bereich von AB4d (~82s verschenkt).
    Tests T-AB4d (Markt 110 %, 130 %, 148 % mit voller Leiter -> knapp unter dem
    günstigsten; 1 Angebot zu 300 % -> Normalpreis), dazu der Ablauf "Abbrechen -> Post -> neu einstellen" (TU2).
+
+WS (HOCH, NEU 13.11. 08:05 – Wunsch des Nutzers "zur Sicherheit"): WARNSCHUTZ VOR EINEM ZU BILLIGEN VERKAUF
+   Bleibt auch nach AB4c/AB4d bestehen (Sicherheitsnetz gegen künftige Fehler UND Tippfehler wie 2s statt 20s).
+   WS1 Auslöser beim Klick auf "Einstellen" (auch Serie, Neu einstellen, "Bevor du gehst"): Stückpreis mehr als 10 % unter
+       dem günstigsten fremden Angebot bei voller Leiter (≥ 3 Angebote oder ≥ 5 Stück) ODER mehr als 25 % unter dem
+       Marktwert ODER unter dem Händlerpreis/Einstandspreis – und kein Mindestpreis von Hand gesetzt.
+   WS2 Dann NICHT einstellen, sondern: Ton der Schlachtzugswarnung (SOUNDKIT.RAID_WARNING, Rückfall PlaySound 8959 bzw.
+       "RaidWarning"), Rahmen des Verkaufen-Fensters und der Knopf "Einstellen" blinken rot (ca. 3 s), Bestätigungsfenster:
+       "Achtung: 12s25 liegt 40 % unter dem günstigsten Angebot (20s48). Verschenkt: ~82s." Knöpfe "Preis anpassen
+       (20s47)" (Standard, Enter) / "Trotzdem einstellen" / "Abbrechen".
+   WS3 Gleiches beim KAUFEN (Sniper, Kaufen, Markt): Kaufpreis über "Lohnt bis" bzw. über dem Max-Preis des Ziels oder
+       mehr als 25 % über dem Marktwert ohne Aufkauf-Grund -> Warnung wie WS2.
+   WS4 Ein/aus in den Optionen (Standard AN), Ton einzeln abschaltbar; Testmodus: Ton und Blinken ja, Einstellen/Kaufen nie.
+       Jede Warnung ins Diagnose-Protokoll (WARNSCHUTZ Item-ID, Preis, Vergleichspreis, Entscheidung) – so sieht die
+       Prüf-Sitzung, ob er greift und wie oft "Trotzdem" gewählt wird.
+   WS5 Tests: T-WS1 Fall 07:53 (12s25 bei 20s48, 10 Stück) -> Warnung, nichts eingestellt; T-WS2 Fall 06:43 (12s14 bei
+       28s99); T-WS3 knapp unter dem günstigsten (−1c) -> keine Warnung; T-WS4 dünne Leiter mit Ausreisser -> keine Warnung;
+       T-WS5 Sniper-Kauf über Max-Preis -> Warnung; T-WS6 Option aus -> keine Warnung.
