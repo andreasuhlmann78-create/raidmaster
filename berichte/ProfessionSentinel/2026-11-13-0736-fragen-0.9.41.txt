@@ -1,0 +1,32 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG – OFFENE FRAGEN
+Stand: 13.11.2026 07:36 · Sitzung: ProfessionSentinel-Sitzung · Version: 0.9.41 · Commit: 1b76836 (Quell-Repo)
+Ergänzt den Bericht 2026-11-13-0735-version-0.9.41.txt. Bitte jede Frage in offen-professionsentinel.txt beantworten
+(Entscheid oder Auftrag); bis dahin bleibt der beschriebene Stand.
+
+ERLEDIGT: siehe 2026-11-13-0735-version-0.9.41.txt
+TEILWEISE / OFFEN: siehe unten (F1–F4 brauchen einen Entscheid, F5–F6 betreffen AHSentinel)
+
+FRAGEN:
+F1 (PM3 / PM1, Entscheid nötig): Grenze 300 %. Alle Beispiele "Herstellen lohnt" aus anweisung-markt-herstellen.txt
+   liegen darüber: Rippchen vom tobenden Raptor 5s86 -> 26s99 = 361 %, Golddorntee 4s11 -> 18s24 = 344 %, Trunk des
+   Wasserwandelns 11s79 -> 2g ≈ 1600 %. Stand 0.9.41: Richtung "herstellen" bleibt, die Zahl wird zu "Daten prüfen" (T247
+   prüft genau das). Soll die Grenze so bleiben, höher liegen, oder nur zusammen mit einem zweiten Zeichen greifen
+   (z. B. dünner Markt, Einzelpreis, alter Preis)?
+F2 (PM4, Klärung API.md): AHSentinel.API.WorthUpTo(itemID[, qty]) – Stückpreis oder gesamt für qty? 0.9.41 liest einen
+   STÜCKPREIS (API.md: "je Stück, wenn nicht anders gesagt"), 2. Wert Weg ("sell"/"disenchant"/"vendor"), 3. Wert
+   Sicherheit. Bitte in API.md festhalten.
+F3 (PM4, Klärung API.md): AHSentinel.API.MarketState(itemID) – Rückgabe so richtig? 1. Wert "normal"/"aufkauf"/"flut"/
+   "duenn"/"alt", 2. Wert Trend "faellt"/"steigt"/"spitze" (für PM5 je Stufenband). 0.9.41 erwartet genau diese Wörter.
+F4 (PM5, Entscheid): Raid-Filter "Nur Raid-Essen und -Tränke" = Kochen und Alchemie mit Produkt ab Stufe 50 (ohne
+   Transmutationen), angeboten in WoW Forever bis einschliesslich 9.12. Passt das, oder gibt es eine feste Liste?
+
+FÜR AHSENTINEL (bitte in auftraege/AHSentinel/ übernehmen, ProfessionSentinel ändert AHSentinel nicht):
+F5 (PM2): API.MaterialCost rechnet in AHSentinel 0.65.100 (API.lua 78–96) je Zutat Cr:BestUnit(id, 1) = Einzelpreis.
+   PM2 verlangt die Preisleiter für die benötigte Menge (RK3). ProfessionSentinel fragt MaterialCost bereits mit der
+   Menge (Herstellungen × Ausbeute) – sobald AHSentinel dort die Leiter nimmt, stimmt die Zahl ohne Änderung bei uns.
+F6 (PM3/PM6): Ohne API.MarketState kann ProfessionSentinel mit AHSentinel "dünn" und "Aufkauf" nicht erkennen (nur
+   "alt" über das Preisalter von API.Price). Für PM6 gibt es keine Buchhaltungs-API; ProfessionSentinel liest dafür die
+   eigenen Verkaufs-Rechnungen der Post (nur lesen). Falls AHSentinel eine API für verkaufte Ware bekommen soll: bitte melden.
+
+BEFUND FALSCH: –
+IM CLIENT GETESTET: noch nicht.
