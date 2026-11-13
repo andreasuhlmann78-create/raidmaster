@@ -69,7 +69,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sync  # noqa: E402  (Abgleich PC/Laptop, ab 2.1.0)
 import daten  # noqa: E402  (Daten für die Prüf-Sitzung, ab 2.3.0)
 
-VERSION = "2.3.4"
+VERSION = "2.3.5"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400
@@ -916,6 +916,32 @@ def notify_logged(text: str):
     sync.notify_windows(text)
 
 
+def version_tuple(v: str) -> tuple:
+    try:
+        return tuple(int(x) for x in str(v).split("."))
+    except ValueError:
+        return (0,)
+
+
+def check_downgrade(st: dict, version: str = None, notify=None) -> bool:
+    """Ab 2.3.5 (Lehre aus T-DU12): Startet eine ÄLTERE Fassung als die zuletzt auf diesem Rechner benutzte (z. B. weil
+    eine alte ZIP über die neue entpackt wurde), sofort deutlich warnen. Merkt sich die höchste benutzte Fassung in
+    uploader_state.json. True = älter als zuletzt."""
+    version = version or VERSION
+    notify = notify if notify is not None else sync.notify_windows
+    best = str(st.get("version_hoechste") or "")
+    if best and version_tuple(version) < version_tuple(best):
+        text = (f"ACHTUNG: Uploader {version} ist ÄLTER als die zuletzt benutzte Fassung {best} – vermutlich wurde eine "
+                "alte ZIP entpackt. Bitte die neueste Fassung nehmen (Repo raidmaster: download/RaidMasterUploader.zip).")
+        log(text)
+        notify(text)
+        return True
+    if version_tuple(version) > version_tuple(best or "0"):
+        st["version_hoechste"] = version
+        save_state(st)
+    return False
+
+
 def make_daten(st: dict, path: str, syncer=None) -> "daten.Daten | None":
     """Lieferung an das private Daten-Repo nur, wenn daten_config.json da ist (Daten-Repo-einrichten.bat)."""
     conf, problem = daten.read_config(HERE)
@@ -1027,6 +1053,7 @@ def main():
     log("Fenster offen lassen. Nach /reload oder Ausloggen werden die Daten automatisch hochgeladen.")
     interval = max(3, int(cfg.get("check_seconds") or 10))
     reporter = Reporter(cfg, os.path.dirname(os.path.abspath(path)))
+    check_downgrade(reporter.st)
     _flush_on_exit(reporter)
     syncer = make_sync(reporter.st, path)
     if syncer is None:

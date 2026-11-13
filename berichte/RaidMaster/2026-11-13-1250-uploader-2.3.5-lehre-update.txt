@@ -1,0 +1,25 @@
+BERICHT RAIDMASTER (UPLOADER) AN DIE PRÜF-SITZUNG – LEHRE AUS T-DU12 (Wunsch des Nutzers: "damit das nicht wieder passiert")
+Stand: 13.11.2026 12:50 · Sitzung: RaidMaster-Sitzung · Version: Uploader 2.3.5 · Commit: dieser Commit
+
+WAS AM 13.11. SCHIEFLIEF (zwei Ursachen):
+1. Update bei laufendem altem Uploader: Dateien ersetzt, während der alte noch lief -> der neue sah dessen frische
+   Sperre und beendete sich ("läuft schon"); danach endete auch der alte -> kein Uploader mehr. Behoben in 2.3.3/2.3.4
+   (Sperre nur mit lebendem uploader.py-Prozess, sonst übernehmen; echter alter Uploader -> J/N-Angebot zum Beenden).
+2. Alte Fassung über neue entpackt: /uploader (Bot) verteilte noch 2.3.2, während im Ordner schon 2.3.4 lag; der
+   Nutzer entpackte die Bot-ZIP darüber -> lief wieder 2.3.2, ohne dass es auffiel.
+
+NEU IN 2.3.5 (vorbeugend):
+- check_downgrade (uploader.py): merkt die höchste je benutzte Fassung in uploader_state.json (version_hoechste);
+  startet eine ältere, Warnung im Fenster und als Windows-Hinweis ("ACHTUNG: Uploader x ist ÄLTER als …").
+  Test test_uploader.Uploader17.test_alte_fassung_entpackt_warnung (in TU6: 49 von 49).
+- LIESMICH/README_EN: Abschnitt "SO WIRD RICHTIG AKTUALISIERT" (alle Fenster schliessen, neueste ZIP, nur
+  Programmdateien ersetzen, J beim Angebot).
+
+BITTE ÜBERNEHMEN (für künftige Aufträge/Nachprüfungen):
+- Nach jeder Uploader-Veröffentlichung prüft das DISCORD-Projekt, dass /uploader die neue ZIP verteilt (Bot-Selbst-
+  Update holt download/RaidMasterUploader.zip). Solange nicht: Nutzer nicht über /uploader aktualisieren lassen.
+- Live-Prüfung "Uploader-Update" künftig: alter Uploader läuft -> neue Dateien -> Start -> J/N-Frage -> J -> Startzeile
+  zeigt neue Fassung; danach alte ZIP entpacken -> Warnung "ÄLTER".
+Prüfungen: test_daten 12/12, test_sync 38/38, test_uploader 18/18, test_umfassend 14/14; py_compile OK; ZIP = Ordner.
+IM CLIENT/AM RECHNER: Laptop läuft (2.3.2-Prozess PID 22456, Sperre wird erneuert); 2.3.5 wird beim nächsten Start
+geladen (Dateien liegen im Ordner, siehe Nachtrag folgt).

@@ -143,6 +143,24 @@ class Uploader17(Base):
         self.write("GuildSentinel.lua", 'GuildSentinelDB = {\n["bank"] = {\n["c"] = "B", ["t"] = 5, ["i"] = {},\n},\n}')
         self.assertIsNotNone(up.read_guildsentinel(gs))
 
+    def test_alte_fassung_entpackt_warnung(self):
+        # 2.3.5 (Lehre T-DU12): ältere Fassung als zuletzt benutzt -> Warnung im Fenster und als Windows-Hinweis
+        notes, st = [], {}
+        saved = up.save_state
+        up.save_state = lambda s: None
+        try:
+            self.assertFalse(up.check_downgrade(st, "2.3.4", notes.append))
+            self.assertEqual(st["version_hoechste"], "2.3.4")
+            self.assertTrue(up.check_downgrade(st, "2.3.2", notes.append))
+            self.assertIn("ÄLTER", notes[0])
+            self.assertIn("2.3.4", notes[0])
+            self.assertEqual(st["version_hoechste"], "2.3.4")              # bleibt die höchste
+            self.assertFalse(up.check_downgrade(st, "2.3.10", notes.append))
+            self.assertEqual(st["version_hoechste"], "2.3.10")             # Zahlen, nicht Text vergleichen
+            self.assertEqual(len(notes), 1)
+        finally:
+            up.save_state = saved
+
     def test_rp_u_nur_bank_und_raidready(self):
         # 2.3.3 (RP-U): nur GuildSentinelDB.bank und .raidReady gehen an den Bot – keine Mitglieder, Notizen o. Ä.
         rm = self.write("RaidMaster.lua", "RaidMasterDB = {}")

@@ -191,3 +191,15 @@ Version 2.3.4 – the uploader starts reliably again ("already running" only whe
   different program (reused PID) are taken over – the window then shows "alte Sperre von … entfernt".
 - If an old uploader is really still running, the new one asks: "Alte Version … (PID …) beenden und diese starten?
   (J/N)". J stops the old one and starts the new one; without an answer for 60 seconds nothing changes.
+
+Version 2.3.5 – warning for an older version, updating correctly:
+- If an OLDER version starts than the one last used on this computer (e.g. because an old ZIP was unpacked over the new
+  one), the uploader warns right away in the window and with a Windows notice.
+
+  HOW TO UPDATE (lesson from 13 Nov):
+  1. Close ALL uploader windows (also minimized ones) and wait about 10 seconds.
+  2. Get the newest version: repository raidmaster download/RaidMasterUploader.zip – or /uploader from the bot, but only
+     once the bot has been updated. The window shows the version at the top; if it is older, the uploader warns.
+  3. Replace only the program files; keep uploader_config.json, sync_config.json, daten_config.json and
+     uploader_state.json.
+  4. Double-click uploader.bat. If it says "already running": answer "Alte Version … beenden? (J/N)" with J.

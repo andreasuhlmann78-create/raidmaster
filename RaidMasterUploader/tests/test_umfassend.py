@@ -535,6 +535,7 @@ REGRESSIONEN = {
     "offen 1c alte Sicherungen": "test_sync.Reload.test_sy11c_sicherung_am_ort_von_2_1_0",
     "offen 3 Merge-Block": "test_sync.Reload.test_offen3_offener_block_bleibt_bei_uebernahme",
     "offen 6 zu gross einmal": "test_uploader.Paket.test_p13_zu_gross_neue_uhrzeit_keine_zweite_meldung",
+    "T-DU12 alte Fassung entpackt (Warnung)": "test_uploader.Uploader17.test_alte_fassung_entpackt_warnung",
     "RP-U nur bank/raidReady": "test_uploader.Uploader17.test_rp_u_nur_bank_und_raidready",
 }
 

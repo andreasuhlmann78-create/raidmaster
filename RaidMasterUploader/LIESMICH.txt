@@ -215,3 +215,16 @@ Version 2.3.4 – Uploader startet wieder sicher ("läuft schon" nur noch, wenn 
   von … entfernt".
 - Läuft wirklich noch ein alter Uploader, fragt der neue: "Alte Version … (PID …) beenden und diese starten? (J/N)".
   J beendet den alten und startet den neuen; ohne Antwort nach 60 Sekunden bleibt alles, wie es ist.
+
+Version 2.3.5 – Warnung bei alter Fassung, richtig aktualisieren:
+- Startet eine ÄLTERE Fassung als die zuletzt auf diesem Rechner benutzte (z. B. weil eine alte ZIP über die neue
+  entpackt wurde), warnt der Uploader sofort im Fenster und mit einem Windows-Hinweis.
+
+  SO WIRD RICHTIG AKTUALISIERT (Lehre vom 13.11.):
+  1. ALLE Uploader-Fenster schliessen (auch minimierte in der Taskleiste) und ca. 10 Sekunden warten.
+  2. Neueste Fassung holen: im Repo raidmaster download/RaidMasterUploader.zip – oder mit /uploader vom Bot, aber nur,
+     wenn der Bot schon aktualisiert ist. Nach dem Entpacken steht die Fassung oben im Fenster
+     ("RaidMaster-Uploader x.y.z"); ist sie älter als vorher, warnt der Uploader.
+  3. Nur die Programmdateien ersetzen; uploader_config.json, sync_config.json, daten_config.json und
+     uploader_state.json behalten.
+  4. uploader.bat doppelklicken. Steht "läuft schon": die Frage "Alte Version … beenden? (J/N)" mit J beantworten.
