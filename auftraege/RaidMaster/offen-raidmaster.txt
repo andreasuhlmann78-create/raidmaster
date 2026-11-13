@@ -102,3 +102,7 @@ TU (HOCH, NEU 13.11. 07:05, Entscheid des Nutzers "solche Fehler sollen nicht wi
    TU1–TU9 nach anweisung-tests-umfassend.txt: Lagen durch alle Funktionen, Abläufe wie ein Spieler, Standardwerte,
    Grundregeln mit Zufallsdaten, echte Daten (nur lesen), Regressionstest je Befund (bisherige nachholen), Testbericht je
    Bereich, offline lauffähig. Ab jetzt: Befund ohne Test = nicht erledigt (auftraege/README.md).
+
+RP-U (MITTEL, NEU 13.11. 07:10 – für GuildSentinel RP8 / Discord): Der Uploader schickt GuildSentinel.lua heute nur mit
+   Gildenbank-Bestand (uploader.py:196). Zusätzlich das Feld GuildSentinelDB.raidReady (Zusammenfassung OHNE Namen:
+   Raid, Phase, Anzahlen, Prozent, Wochen) an den Bot weitergeben – nur dieses Feld, keine anderen Gildendaten. Test dazu.
