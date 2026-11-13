@@ -391,3 +391,19 @@ WS (HOCH, NEU 13.11. 08:05 – Wunsch des Nutzers "zur Sicherheit"): WARNSCHUTZ 
    WS5 Tests: T-WS1 Fall 07:53 (12s25 bei 20s48, 10 Stück) -> Warnung, nichts eingestellt; T-WS2 Fall 06:43 (12s14 bei
        28s99); T-WS3 knapp unter dem günstigsten (−1c) -> keine Warnung; T-WS4 dünne Leiter mit Ausreisser -> keine Warnung;
        T-WS5 Sniper-Kauf über Max-Preis -> Warnung; T-WS6 Option aus -> keine Warnung.
+
+SB (MITTEL, NEU 13.11. 08:25 – Wunsch des Nutzers): SNIPER – BUDGET AUFGEBRAUCHT -> ABFRAGE UND AUFFÜLLEN
+   SB1 Ist das Budget eines Ziels aufgebraucht (Sn:BudgetUsedUp) und es gibt einen kaufbaren Treffer, löst der nächste
+       Kauf-Druck (Mausrad/Taste) KEINEN Kauf aus, sondern eine kurze Abfrage: "Budget von <Budget> aufgebraucht
+       (<n> Stück gekauft). Weiter kaufen? Budget um <Budget> auffüllen." Knöpfe "Ja" (Enter) / "Nein".
+   SB2 "Ja": Budget des Ziels um den URSPRÜNGLICHEN Budgetbetrag erhöhen (Entscheid des Nutzers: Variante a), höchstens
+       so weit das Gold reicht (dann Hinweis "nur <x> aufgefüllt – Gold"). Max-Preis und Menge bleiben unverändert (ist
+       die Menge erreicht, gilt SM2/Menge; nur das Budget wird aufgefüllt). Der Treffer bleibt in der Trefferliste
+       (SM1); der NÄCHSTE Mausrad-Dreh kauft ihn. Kein Kauf direkt aus der Abfrage.
+   SB3 "Nein": nichts ändern, Ziel bleibt "Budget aufgebraucht", Abfrage erst wieder beim nächsten Treffer.
+   SB4 Die Abfrage kommt jedes Mal neu, wenn das aufgefüllte Budget wieder aufgebraucht ist – nie automatisch weiter.
+       Warnschutz WS3 (Kauf über Max-Preis/"Lohnt bis") gilt weiter. Im Kampf / ohne offenes AH keine Abfrage.
+       Protokoll-Eintrag "SNIPER-BUDGET aufgefüllt <Ziel-Key> +<Betrag>". Testmodus: nur "[Test]".
+   SB5 Tests: T-SB1 Budget leer + Treffer + Mausrad -> Abfrage, kein Kauf; T-SB2 Ja -> Budget +ursprünglicher Betrag,
+       nächster Dreh kauft; T-SB3 Nein -> nichts; T-SB4 Gold reicht nur teilweise -> teilweise aufgefüllt; T-SB5 zweites
+       Aufbrauchen -> erneute Abfrage; T-SB6 Max-Preis unverändert.
