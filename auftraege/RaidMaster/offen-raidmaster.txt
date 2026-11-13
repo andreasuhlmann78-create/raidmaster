@@ -73,3 +73,15 @@ HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Versionen höher als Addon 3.0.23, Uploader 2.3.1.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/RaidMaster/ ablegen.
+
+T-DU11 (MITTEL, NEU 13.11. 04:55) – Uploader 2.3.0 am PC (DESKTOP-NVITMSE), WoW läuft: Fenster "GoldSentinel-Abgleich"
+   "Neuerer Stand vom DESKTOP-NVITMSE – WoW beenden, dann übernehmen." – also der EIGENE Rechnername. Ablauf: 04:34
+   Start, 11 Dateien vom Laptop übernommen, 04:35 eigener Stand hochgeladen (Abgleich: "dieser Rechner aktuell"),
+   danach WoW gestartet, ~04:50 die Meldung.
+   Vermutung (Code sync.py:715–724): pending() findet eine Spielversion/ein Konto mit remote rev > lokal rev, der Text
+   nimmt aber r["machine"] = Rechner des LETZTEN Index-Schreibens (hier der PC selbst) statt des Rechners, der den
+   offenen Schlüssel geschrieben hat (index r[key][2]). Ausserdem prüfen, warum nach 04:34 (pull) + 04:35 (push) noch
+   etwas offen ist (revs nach pull/push für alle Schlüssel nachgeführt? Schlüssel, die nur remote existieren?).
+   Lösung: Meldung nennt je offenem Schlüssel Rechner, Zeit und Spielversion/Konto; offen bleibt nur, was wirklich von
+   einem ANDEREN Rechner neuer ist; eigener Upload darf nie als "neuerer Stand" gelten. Test dazu (pull, push, dann
+   pending() leer). Bitte Bericht in berichte/RaidMaster/.
