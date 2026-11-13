@@ -74,6 +74,15 @@ Prüf-Sitzung. Die Prüf-Sitzung liest `berichte/` bei jeder Arbeit.
 Neue GoldSentinel-Addons immer aus der Vorlage erstellen: `python3 shared/vorlage/neues_addon.py <Name> --slash <befehl>
 --en "…" --de "…" --zip` (Anleitung in `shared/vorlage/README.md`). Die Vorlage hält alle Regeln der Prüfung schon ein.
 
+## Prüf-Ablauf (Pflicht für jede Prüfung, Entscheid des Nutzers 13. November 2026)
+
+Die Prüf-Sitzung ist allein für die Prüfungen der Projekte zuständig und arbeitet "sehr genau, akribisch, intelligent
+und vorausschauend". Vor JEDER Prüfung (auch die geplante Nachprüfung) `shared/wissen/pruef-ablauf.md` lesen und
+Abschnitt A vollständig abarbeiten: Bericht prüfen statt glauben, addon_check, Code-Änderung gegen alle Entscheide des
+Nutzers, Zahlen unabhängig nachrechnen, Tempo-/Ruckel-Ziele (PS/RF), Gold-Sicherheit, Zusammenspiel der Addons.
+Findet der Nutzer einen Fehler, den die Prüfung hätte finden müssen: Prüfregel in Abschnitt E ergänzen. Fehlen für
+ein Thema Informationen, holt die Prüf-Sitzung sie selbst (Repo, Berichte, Diagnosen, Web) statt zu raten.
+
 ## Wirtschaft, Preise, Gebühren (Pflicht)
 
 Wer Preise, Gebühren, Gewinne oder Werte berechnet, prüft oder beauftragt, liest vorher
