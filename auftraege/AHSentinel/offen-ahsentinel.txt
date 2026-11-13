@@ -515,3 +515,20 @@ TP (HOCH, NEU 13.11. 21:27 – Wunsch und Entscheid des Nutzers): PREISZEILEN IM
    Gewinn-Zeile (LT) rechnet mit "Jetzt im AH". Optik-Regel OR gilt (keine Rechenwege).
    Tests T-TP1 (Lockangebot wird nicht als Jetzt-Preis gezeigt), T-TP2 (Alter 0/45 Min./9 Std. -> Anzeige und Farbe),
    T-TP3 (Schnäppchen grün), T-TP4 (über einem Angebot dessen Preis). Zusammen mit SN2115/OR.
+
+ZN (SEHR HOCH, NEU 13.11. 21:35 – Grundsatz des Nutzers: "ich will, dass solche Angaben stimmen und geprüft sind"):
+   UNABHÄNGIGE NACHRECHNUNG ALLER ANGEZEIGTEN ZAHLEN. Bisher prüft AHSentinel seine Zahlen mit eigenen Tests – das ist
+   sich selbst benoten. Neu prüft die Prüf-Sitzung mit einem EIGENEN Rechner im raidmaster-Repo nach.
+   ZN1 Neuer Testteil "/ahs testroutine zahlen" (läuft auch automatisch am Ende jedes Vollscans, still):
+       für 25 Items (die 10 meistgehandelten, 10 aus der Sniper-/Einkaufsliste, 5 zufällige) je eine Zeile mit
+       (a) den ANGEZEIGTEN Werten genau wie im Tooltip: Jetzt im AH, Median, Gewinn/Stück, Wert je Weg (Verkaufen,
+           Entzaubern, Händler), bester Weg, Max-Warnung;
+       (b) den ROHDATEN dazu: Angebote des letzten Scans (Stückpreise und Mengen, günstigste 50), Tagespreise der
+           letzten 14 Tage, Händlerpreis, Entzauber-Chancen/-Mengen je Material, Materialpreise, Korrekturfaktor,
+           Gebührensatz, Serveralter.
+       Ausgabe als Zeilen "GSZAHL1|…" (JSON) in den SavedVariables -> Uploader -> testberichte/zahlen/.
+   ZN2 Die Prüf-Sitzung baut addon-check/nachrechnung.py, das aus (b) unabhängig (a) nachrechnet und jede Abweichung
+       > 1c bzw. > 1 % als FEHLER meldet; die geplante Nachprüfung lässt es bei jedem neuen Bericht laufen. Ein Befund
+       geht wie immer als Auftrag zurück.
+   ZN3 Jede Zahl, die geschätzt statt gemessen ist, bleibt im Bericht als "geschätzt" markiert (nie als Tatsache).
+   Format der Zeile bitte zuerst im Bericht vorschlagen (Feldnamen), dann bauen. Vorrang: direkt nach SN2115/OR/TP.

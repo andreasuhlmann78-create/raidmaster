@@ -577,3 +577,7 @@ CogConnected "Gold in WoW Forever". Was daraus für uns folgt:
    Halbwertszeit; (b) Verkaufsquote je Item als Basis der Verkaufschance + Warnung beim Einstellen von Ladenhütern;
    (c) Kauflimit je Item (Anteil am Kapital) im Sniper/Flip; (d) Hinweis vor dem Ausloggen, wenn grosse offene Flips
    im Markt liegen; (e) Einstellen in Blöcken als Standard beim Verkaufen grosser Mengen.
+
+**Grundsatz 13.11. 21:33 (Nutzer): Angaben müssen stimmen und geprüft sein.** Jede Zahl, die ein Addon zeigt, wird von
+der Prüf-Sitzung UNABHÄNGIG nachgerechnet (Auftrag ZN, addon-check/nachrechnung.py), nicht nur von den Tests des Addons.
+Auch die Prüf-Sitzung selbst nennt dem Nutzer Zahlen nur nachgerechnet oder klar als "geschätzt"/"Messauftrag".
