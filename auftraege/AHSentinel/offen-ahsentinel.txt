@@ -413,4 +413,11 @@ EB (MITTEL, NEU 13.11. 21:05 – Nutzer: 8 Taschen mit 10 Plätzen für 1g 60s g
    Beute) getrennt erfassen, damit "Gold vorher + Zugänge − Abgänge = Gold nachher" aufgeht (Liste und Grundsätze:
    shared/wissen/buchhaltung.md Abschnitt 5c). Nur lesen – nie selbst handeln, kaufen oder Post öffnen.
    Tests T-EB1 (Tasche gekauft und eingesetzt -> Eigenbedarf, nicht im Lager), T-EB2 (von Hand umbuchen und zurück),
-   T-EB3 (Gold-Abstimmung stimmt), T-EB4 (Händlerkauf gebucht), T-EB5 (Handel mit Spieler gebucht, beide Richtungen). Einordnen nach LT/SN1951, vor 0.66 oder mit 0.66.
+   T-EB3 (Gold-Abstimmung stimmt), T-EB4 (Händlerkauf gebucht), T-EB5 (Handel mit Spieler gebucht, beide Richtungen).
+   ANZEIGE (Entscheid des Nutzers 21:06: "im Spiel nicht mehr sehen als jetzt optisch in der Buchhaltung"): Der Reiter
+   Buchhaltung bleibt OPTISCH WIE HEUTE – keine neuen Zeilen, Spalten, Kacheln oder Reiter. Die neuen Buchungen wirken
+   nur im Hintergrund (richtiger Handelsgewinn ohne Eigenbedarf/Spielkosten, richtiger Lagerwert). Einzelheiten
+   (Eigenbedarf, Spielkosten, Einnahmen, "nicht zugeordnet") nur im Testbericht/Diagnose und höchstens auf Shift im
+   Tooltip einer bestehenden Zahl. Der Rechtsklick "Eigenbedarf/Handelsware" an einer Buchung entfällt, wenn er eine
+   neue sichtbare Steuerung bräuchte – automatische Erkennung genügt. Test T-EB6: Buchhaltung zeigt dieselben Elemente
+   wie vorher (UICheck-Vergleich). Einordnen nach LT/SN1951, vor 0.66 oder mit 0.66.
