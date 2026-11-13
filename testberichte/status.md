@@ -1,12 +1,12 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-13 22:51 UTC
+Ausgewertet: 2026-11-13 23:45 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
 | Addon | letzter Testlauf | Version | Client | OK | FEHLER | übersprungen | im Client prüfen | Fehler im Spiel (7 Tage) |
 |---|---|---|---|---|---|---|---|---|
-| AHSentinel | 13.11.2026 20:58 UTC | 0.65.116 | forever 1.60.1 (Interface 16001) | 7 | 1 | 0 | 0 | 4 |
+| AHSentinel | 13.11.2026 22:06 UTC | 0.65.118 | forever 1.60.1 (Interface 16001) | 5 | 3 | 0 | 0 | 4 |
 | BuffSentinel | 05.11.2026 00:19 UTC | 0.9.7 | forever 1.60.1 (Interface 16001) | 120 | 1 | 10 | 11 | 3 |
 | GuildSentinel | 09.11.2026 05:47 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 153 | 4 | 23 | 5 | 6 |
 | LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 646 |
@@ -18,13 +18,13 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 94 | `testberichte/diagnose/AHSentinel/0.65.99-2bf892d983c3.txt` |
-| BuffSentinel | 26 | `testberichte/diagnose/BuffSentinel/0.9.12-7f8dfb5af187.txt` |
+| AHSentinel | 95 | `testberichte/diagnose/AHSentinel/0.65.118-e79ce6ecb720.txt` |
+| BuffSentinel | 27 | `testberichte/diagnose/BuffSentinel/0.9.18-59552e20057a.txt` |
 | GSMesstest | 9 | `testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt` |
-| GuildSentinel | 85 | `testberichte/diagnose/GuildSentinel/0.9.36-cdc567c4d1fb.txt` |
+| GuildSentinel | 86 | `testberichte/diagnose/GuildSentinel/0.9.36-2e3406038c06.txt` |
 | LevelPilot | 8 | `testberichte/diagnose/LevelPilot/3.12.27-3aeb503e40ae.txt` |
-| ProfessionSentinel | 67 | `testberichte/diagnose/ProfessionSentinel/0.9.38-1247862f6b5e.txt` |
-| ThreatSentinel | 73 | `testberichte/diagnose/ThreatSentinel/2.5.9-7f347d5503ad.txt` |
+| ProfessionSentinel | 68 | `testberichte/diagnose/ProfessionSentinel/0.9.43-ca335490305e.txt` |
+| ThreatSentinel | 74 | `testberichte/diagnose/ThreatSentinel/2.5.10-4be404a13f59.txt` |
 
 ## Wegdaten (GSWEGE1)
 
@@ -33,17 +33,6 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 | LevelPilot | 131 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794581384-0f42aa.json` |
 
 ## AHSentinel
-
-**Testlauf 0.65.108 · forever 1.60.1 (Interface 16001) · 13.11.2026 11:58 UTC** – OK 57 · FEHLER 4 · übersprungen 5 · im Client prüfen 0 · Sandbox OK
-- [SKIP] T48 B – Server: Verkaufen: Preisprüfung (grund: nichts Verkaufbares in den Taschen)
-- [SKIP] T40 B – Server: Sniper: Suche (kauft nichts) (grund: Scharfer Pfeil: günstigstes Angebot 1c je Stück - kein Item über 1c, Treffer bei Max 1c wäre richtig)
-- [SKIP] T36 B – Handel (simuliert): Gebot (grund: Waren haben keine Gebote)
-- [SKIP] T27 B – Einbindung ins Auktionshaus (grund: Einbindung in den Optionen aus)
-- [FEHLER] T52 B – Unterboten (ergebnis: Status liegen, Abbrechen-Versuche 1 (Selbsttest läuft - Kaufen und Einstellen sind gesperrt.) · fest: 10g gegen 5g unterboten, 1c Abstand liegen | erwartet: liegen, 0 Befehl(e) · fest: unterboten, liegen)
-- [FEHLER] T126 H – Scan-Auswertung in Portionen (ergebnis: längste Portion 47.6 ms in 127 Frames | erwartet: <= 8 ms)
-- [FEHLER] T458 H – T-VF1 Vollscan ruckelfrei: kein Schritt mit längstem Frame über 16 ms (Ziel ≤ Budget) (ergebnis: längster Frame 121 ms (Preisverlauf+Neuaufbau) · Frames über 33 ms 73 von 1970 · zu lang: Einlesen 26 ms, Verdichtung 38 ms, Verfolgung V4 42 ms, Preisverlauf+Neuaufbau 121 ms, Nachlauf 34 ms | erwartet: jeder Schritt ≤ 16 ms (Ziel 4 ms))
-- [FEHLER] T459 H – T-VF2 Vollscan: Speicher-Zuwachs ≤ 10 MB, höchstens 1 Speicherbereinigung (ergebnis: Zuwachs 62336 KB (AHSentinel) · Speicherbereinigungen 28 | erwartet: ≤ 10240 KB · ≤ 1)
-- [SKIP] T98 D – Server-Wege altes AH (grund: nur im alten Client (Classic Era, TBC))
 
 **Testlauf 0.65.110 · forever 1.60.1 (Interface 16001) · 13.11.2026 14:50 UTC** – OK 57 · FEHLER 5 · übersprungen 4 · im Client prüfen 0 · Sandbox FEHLER: 5 Pfade, wiederhergestellt: deShared.<Spieler>.t, deShared.<Spieler>.g.2:2:a.mats.10940.total, deShared.<Spieler>.g.2:2:a.mats.10940.times, deShared.<Spieler>.g.2:2:a.n, deShared.<Spieler>.last
 - [FEHLER] T72 B – Auswertungen: Heute tun (ergebnis: Interface/AddOns/AHSentinel/SelfTest.lua:662: nicht nach Gold sortiert | erwartet: bestanden)
@@ -67,6 +56,11 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 **Testlauf 0.65.116 · forever 1.60.1 (Interface 16001) · 13.11.2026 20:58 UTC** – OK 7 · FEHLER 1 · übersprungen 0 · im Client prüfen 0 · Sandbox OK
 - [FEHLER] T617 J – SN1951-S5 Ruckeln: Ø ≥ 30 Bilder/s, kein Frame > 50 ms, Sync-Warteschlange ≤ 10 (ergebnis: Ø 116 / min 105 Bilder/s · längster Frame 148 ms · Sync-Warteschlange max 0 | erwartet: ≥ 30 · ≤ 50 ms · ≤ 10)
+
+**Testlauf 0.65.118 · forever 1.60.1 (Interface 16001) · 13.11.2026 22:06 UTC** – OK 5 · FEHLER 3 · übersprungen 0 · im Client prüfen 0 · Sandbox OK
+- [FEHLER] T613 J – SN1951-S1 Treffer bleiben stehen, bis gekauft oder vom Server als weg gemeldet (ergebnis: 0 Treffer angezeigt · ohne Grund verschwunden 0 · Suchen 82 | erwartet: ≥ 1 Treffer · 0 ohne Grund verschwunden)
+- [FEHLER] T617 J – SN1951-S5 Ruckeln: Ø ≥ 30 Bilder/s, kein Frame > 50 ms, Sync-Warteschlange ≤ 10 (ergebnis: Ø 101 / min 46 Bilder/s · längster Frame 164 ms · Sync-Warteschlange max 278 | erwartet: ≥ 30 · ≤ 50 ms · ≤ 10)
+- [FEHLER] T157 I – Nichts wirklich ausgeführt (Gold, Post, Händler, Sync, Kanal) (ergebnis: 0 Befehle nur protokolliert, echte Aktionen: SendAddonMessage=278 | erwartet: 0)
 
 **Fehler im Spiel (letzte 7 Tage)**
 - 3× `ADDON_ACTION_BLOCKED`: UNKNOWN() – Version 0.65.16 · forever 1.60.1 (Interface 16001) · zuletzt 08.11.2026 17:09 UTC

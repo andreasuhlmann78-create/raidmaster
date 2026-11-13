@@ -1,17 +1,17 @@
 {
- "ausgewertet": "2026-11-13T22:51:06Z",
+ "ausgewertet": "2026-11-13T23:45:20Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 24,
+   "berichte": 26,
    "letzter_test": {
-    "id": "AHSentinel-1794603620-c4fdf8-1",
-    "version": "0.65.116",
-    "time": 1794603498,
+    "id": "AHSentinel-1794607682-fb7f55-2",
+    "version": "0.65.118",
+    "time": 1794607561,
     "counts": {
      "client": 0,
-     "fehler": 1,
-     "ok": 7,
+     "fehler": 3,
+     "ok": 5,
      "uebersprungen": 0
     }
    },
@@ -19,12 +19,32 @@
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.116",
+     "version": "0.65.118",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T613",
+     "name": "SN1951-S1 Treffer bleiben stehen, bis gekauft oder vom Server als weg gemeldet",
+     "detail": "ergebnis: 0 Treffer angezeigt · ohne Grund verschwunden 0 · Suchen 82 | erwartet: ≥ 1 Treffer · 0 ohne Grund verschwunden",
+     "bericht": "AHSentinel-1794607682-fb7f55-2"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.118",
      "client": "forever 1.60.1 (Interface 16001)",
      "id": "T617",
      "name": "SN1951-S5 Ruckeln: Ø ≥ 30 Bilder/s, kein Frame > 50 ms, Sync-Warteschlange ≤ 10",
-     "detail": "ergebnis: Ø 116 / min 105 Bilder/s · längster Frame 148 ms · Sync-Warteschlange max 0 | erwartet: ≥ 30 · ≤ 50 ms · ≤ 10",
-     "bericht": "AHSentinel-1794603620-c4fdf8-1"
+     "detail": "ergebnis: Ø 101 / min 46 Bilder/s · längster Frame 164 ms · Sync-Warteschlange max 278 | erwartet: ≥ 30 · ≤ 50 ms · ≤ 10",
+     "bericht": "AHSentinel-1794607682-fb7f55-2"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.118",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T157",
+     "name": "Nichts wirklich ausgeführt (Gold, Post, Händler, Sync, Kanal)",
+     "detail": "ergebnis: 0 Befehle nur protokolliert, echte Aktionen: SendAddonMessage=278 | erwartet: 0",
+     "bericht": "AHSentinel-1794607682-fb7f55-2"
     }
    ],
    "fehler_spiel": [
@@ -461,12 +481,32 @@
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.116",
+   "version": "0.65.118",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T613",
+   "name": "SN1951-S1 Treffer bleiben stehen, bis gekauft oder vom Server als weg gemeldet",
+   "detail": "ergebnis: 0 Treffer angezeigt · ohne Grund verschwunden 0 · Suchen 82 | erwartet: ≥ 1 Treffer · 0 ohne Grund verschwunden",
+   "bericht": "AHSentinel-1794607682-fb7f55-2"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.118",
    "client": "forever 1.60.1 (Interface 16001)",
    "id": "T617",
    "name": "SN1951-S5 Ruckeln: Ø ≥ 30 Bilder/s, kein Frame > 50 ms, Sync-Warteschlange ≤ 10",
-   "detail": "ergebnis: Ø 116 / min 105 Bilder/s · längster Frame 148 ms · Sync-Warteschlange max 0 | erwartet: ≥ 30 · ≤ 50 ms · ≤ 10",
-   "bericht": "AHSentinel-1794603620-c4fdf8-1"
+   "detail": "ergebnis: Ø 101 / min 46 Bilder/s · längster Frame 164 ms · Sync-Warteschlange max 278 | erwartet: ≥ 30 · ≤ 50 ms · ≤ 10",
+   "bericht": "AHSentinel-1794607682-fb7f55-2"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.118",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T157",
+   "name": "Nichts wirklich ausgeführt (Gold, Post, Händler, Sync, Kanal)",
+   "detail": "ergebnis: 0 Befehle nur protokolliert, echte Aktionen: SendAddonMessage=278 | erwartet: 0",
+   "bericht": "AHSentinel-1794607682-fb7f55-2"
   },
   {
    "addon": "AHSentinel",
@@ -792,32 +832,32 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 94,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.99-2bf892d983c3.txt"
+    "anzahl": 95,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.118-e79ce6ecb720.txt"
    },
    "BuffSentinel": {
-    "anzahl": 26,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.12-7f8dfb5af187.txt"
+    "anzahl": 27,
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.18-59552e20057a.txt"
    },
    "GSMesstest": {
     "anzahl": 9,
     "neueste": "testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt"
    },
    "GuildSentinel": {
-    "anzahl": 85,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.36-cdc567c4d1fb.txt"
+    "anzahl": 86,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.36-2e3406038c06.txt"
    },
    "LevelPilot": {
     "anzahl": 8,
     "neueste": "testberichte/diagnose/LevelPilot/3.12.27-3aeb503e40ae.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 67,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.38-1247862f6b5e.txt"
+    "anzahl": 68,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.43-ca335490305e.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 73,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.9-7f347d5503ad.txt"
+    "anzahl": 74,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.10-4be404a13f59.txt"
    }
   },
   "wege": {
