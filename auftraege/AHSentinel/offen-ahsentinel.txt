@@ -210,3 +210,21 @@ RK/MR/MA/Ü (NEU 13.11. 06:20, Entscheid des Nutzers, ersetzt die Fassungen 06:0
    Rechenkern für alle Wege mit EINEM "Lohnt bis" (RK1–RK8, statt Spielstile), Markt-Reiter eine Seite (MR1–MR11),
    Messungen (MA1–MA6, MA1/MA2 HOCH), Freigaben (Teil D), STRENGE ÜBERWACHUNG mit Grenzwerten (Ü1–Ü4: Testbericht-
    Abschnitt "MARKT-KERN" bei jedem /reload). Reihenfolge Teil F. WL1–WL4 gehen in MA4/RK6 auf.
+
+SM (HOCH, NEU 13.11. 06:40 – Beobachtung des Nutzers: "wenn man mehrere Sachen snipt, wird nur eine berücksichtigt")
+   Code 0.65.99 geprüft, zwei Ursachen belegt:
+   SM1 Nur EIN Treffer gleichzeitig: Sniper.lua FinishSearch (ca. :799–826) hält genau ein self.result. Findet die
+       Suche für Ziel B einen Treffer, ersetzt er den noch frischen, kaufbaren Treffer von Ziel A (keepHit greift nur,
+       wenn B KEINEN Treffer hat). Im modernen AH sucht der Sniper bei wartendem Treffer weiter (nur A.AH_LEGACY hält an,
+       :1834–1848). Folge: Bei mehreren Zielen geht ein Treffer verloren, der Spieler kann nur den letzten kaufen.
+       Lösung: Trefferliste statt eines Ergebnisses – alle frischen kaufbaren Treffer (je Ziel, RESULT_FRESH bzw.
+       RESULT_FRESH_COMMODITY) behalten; Taste/Mausrad kauft den besten zuerst (grösster Abstand zum Max-Preis bzw.
+       später zu "Lohnt bis", RK2), dann den nächsten; Anzeige "3 Treffer warten" mit Liste; abgelaufene fallen raus.
+       Weitersuchen erlaubt, aber nie einen wartenden Treffer verwerfen.
+   SM2 Menge leer = 1 Stück (Sniper.lua:150, Tooltip UI_Sniper.lua:183): Wer Ware wie Leinenstoff ohne Menge anlegt,
+       bekommt genau 1 Stück, danach "Menge erreicht". Echte Daten 13.11.: Ziel Leinenstoff max. 22c, Menge 1,
+       Budget 5s – das Budget reicht für 227 Stück, gekauft wird 1.
+       Lösung: Menge leer = "so viele, wie das Budget reicht" (Waren) bzw. 1 (Ausrüstung); im Ziel deutlich anzeigen
+       "Menge: bis Budget (227 Stück)"; Warnung, wenn Menge × Max-Preis weit unter dem Budget liegt.
+   Tests: T-SM1 zwei Ziele, beide mit Treffer innert 30 s -> beide kaufbar, Reihenfolge nach Abstand; Treffer läuft ab
+   -> fällt raus; T-SM2 Ware ohne Menge mit Budget -> Menge aus Budget; Ausrüstung ohne Menge -> 1.
