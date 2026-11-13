@@ -1,0 +1,21 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 16:10 · Sitzung: Discord-Projekt · Version: Bot 1.5.130 · Commit: dieser Bericht
+
+MN8 ERGEBNIS: Blizzard Game Data API liefert für WoW Forever (EU) derzeit KEINE Auktionsdaten – Forever ist in der
+Schnittstelle gar nicht vorhanden.
+Gemessen 13.11.2026 14:57–15:07 UTC vom Bot-Server, Region eu, Client-Credentials (Token: 200), Werkzeug
+RaidMasterBot/blizzard_api_check.py (auch --list):
+- dynamic-classic1x-eu (Era): 26 Realm-Gruppen (Amnennar … Хроми) – kein Forever. auctions/index 200 mit Häusern
+  2/6/7, aber /auctions/2, /6, /7 -> 404 (bekannte Lücke).
+- dynamic-classic-eu (Progression Classic): 25 Gruppen (Everlook, Firemaw, … Venoxis) – kein Forever. Auktionen
+  vorhanden (Beispiel Gruppe 4440: 200, 394 KB, 4'253 Auktionen, 0.1 s).
+- dynamic-classicann-eu (Anniversary): 3 Gruppen: Anniversary (6540), Spineshatter (6412), Thunderstrike (6409) –
+  laut Nutzer ist Forever NICHT Anniversary. Thunderstrike: Häuser gelistet, /2 /6 /7 -> 404.
+- dynamic-eu (Retail): 92 Gruppen, Auktionen 200 (Gruppe 1080: 2'207 KB, 12'131 Auktionen).
+- dynamic-classic-anniversary-eu, dynamic-classicforever-eu, dynamic-classic-forever-eu,
+  dynamic-classic1x-forever-eu -> 403; dynamic-forever-eu -> 404.
+- In keinem Namespace ein Realm mit "Forever" im Namen (mn8-liste.txt auf dem Server, keine Zugangsdaten).
+FOLGERUNG: Für den Forever-Markt bleibt das Marktdaten-Netz (Teil 1/2, Vollscans der Spieler) die einzige Quelle.
+Empfehlung: Messung nach dem nächsten grossen Forever-Patch oder einer Blizzard-API-Ankündigung wiederholen
+(Zugang liegt auf dem Server, Aufruf: sudo /opt/raidmaster/.venv/bin/python /opt/raidmaster/blizzard_api_check.py --list).
+Client-ID/Geheimnis nur in /opt/raidmaster/config.json (nicht im Repo, nicht in Logs).
