@@ -1,0 +1,2 @@
+Neue Regel für alle Projekte (Entscheid des Nutzers 13.11.): Bitte git pull --rebase im raidmaster-Repo und in auftraege/README.md den Abschnitt "Jeder Befund bekommt einen bleibenden Test" lesen.
+Kurz: Jeder Befund wird mit einem Regressionstest T-<Befund-ID> behoben, der den echten Fall mit den echten Zahlen nachstellt (vorher rot, danach grün, bleibt für immer). Tests prüfen auch Abläufe wie ein Spieler und echte Lagen. Die Nachprüfung zählt einen Befund ohne Test als nicht erledigt.

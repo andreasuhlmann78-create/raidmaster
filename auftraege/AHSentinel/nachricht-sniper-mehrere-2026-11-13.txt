@@ -1,0 +1,2 @@
+Neuer Befund der Prüf-Sitzung (HOCH): Bitte git pull --rebase im raidmaster-Repo und in auftraege/AHSentinel/offen-ahsentinel.txt Punkt SM lesen.
+Kurz: (SM1) Der Sniper hält nur EIN Ergebnis – findet er für ein zweites Ziel einen Treffer, verwirft er den noch kaufbaren ersten (Sniper.lua FinishSearch). Lösung: Trefferliste, Taste kauft den besten zuerst, dann den nächsten, Anzeige "x Treffer warten". (SM2) Menge leer = 1 Stück – bei Waren stattdessen so viele, wie das Budget reicht, und deutlich anzeigen. Tests T-SM1/T-SM2. Danach Bericht in berichte/AHSentinel/.

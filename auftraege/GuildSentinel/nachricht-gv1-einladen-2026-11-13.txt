@@ -1,0 +1,2 @@
+Neuer Auftrag der Prüf-Sitzung (HOCH): Bitte im raidmaster-Repo git pull --rebase und auftraege/GuildSentinel/offen-guildsentinel.txt lesen, Punkt GV1.
+Kurz: In 0.9.28 meldet WoW Forever beim Knopf "In die Gilde einladen" (Rekrutierung > Bewerber) "GuildSentinel wurde geblockt – Funktion der Blizzard-UI vorbehalten". C_GuildInfo.Invite ist geschützt. Bitte über sicheren Makro-Knopf (/ginvite) oder Chat-Eingabe lösen, Status "eingeladen" erst nach Bestätigung, Admin-Funktionen mitprüfen. Danach Bericht in berichte/GuildSentinel/.

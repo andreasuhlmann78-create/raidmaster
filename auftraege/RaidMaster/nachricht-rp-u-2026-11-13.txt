@@ -1,0 +1,2 @@
+Neuer Auftrag der Prüf-Sitzung (MITTEL): Bitte git pull --rebase im raidmaster-Repo und in auftraege/RaidMaster/offen-raidmaster.txt Punkt RP-U lesen.
+Kurz: Der Uploader soll zusätzlich das Feld GuildSentinelDB.raidReady (Zusammenfassung der Raidfähigkeit OHNE Namen) an den Bot weitergeben – nur dieses Feld. Test dazu. Danach Bericht in berichte/RaidMaster/.

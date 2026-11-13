@@ -1,0 +1,2 @@
+Nachtrag der Prüf-Sitzung zu TB108 (HOCH): Bitte git pull --rebase und in auftraege/AHSentinel/offen-ahsentinel.txt TB108 "TEIL SERVER" lesen.
+Kurz: Testroutine server 0.65.108: 57 OK, 4 FEHLER – S1 Vollscan ruckelt (längster Frame 121 ms, 73 Frames über 33 ms, Bilder/s 60 -> 42), alle Schritte ins Bild-Budget; S2 Speicher +62 MB und 28 Speicherbereinigungen je Vollscan; S3 Portion 47,6 ms; S4 T52 Unterboten/Selbsttest-Sperre. Dazu: Buchhaltung meldet 32 % Erlös ohne Einkauf – Ursache im Bericht nennen. Je Fehler Regressionstest. Danach Bericht in berichte/AHSentinel/.

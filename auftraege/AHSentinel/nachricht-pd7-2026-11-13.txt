@@ -1,0 +1,2 @@
+Entscheid des Nutzers zu PD7: Bitte git pull --rebase und in auftraege/AHSentinel/offen-ahsentinel.txt "PD7-ENTSCHEID" lesen.
+Kurz: Preisverlauf-Einträge älter als 48 Std. dürfen in ein kompakteres Format umgewandelt werden – ohne Informationsverlust, mit Prüfung vorher/nachher (alle Werte gleich ±1 Kupfer, < 8 MB, Test T-PD7b), in Portionen, alte Daten erst nach erfolgreicher Prüfung ersetzen. Einplanen in 0.65.110 (sonst 0.66). Danach Bericht in berichte/AHSentinel/.

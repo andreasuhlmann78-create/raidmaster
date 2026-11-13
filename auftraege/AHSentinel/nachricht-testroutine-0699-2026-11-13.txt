@@ -1,0 +1,13 @@
+Erst laufende Arbeit fertig machen.
+
+Danach im raidmaster-Repo "git pull --rebase" und in auftraege/AHSentinel/offen-ahsentinel.txt Punkt TR (neu) und
+L1c lesen.
+
+Kurz: Testroutine 0.65.99 im Spiel (PC, 13.11. 04:56): OK 361, FEHLER 3, Lua-Fehler 0.
+- T223, T230, T425 scheitern im Spiel, offline nicht: vermutlich rechnen sie mit den echten, 21 Std. alten
+  Materialpreisen (seit MP2 dann 0 Kandidaten). Preise und Alter in der Sandbox selbst setzen.
+- L1b-Zahl ist nicht mehr im Protokoll: Reparatur-Ergebnisse dauerhaft speichern und im Testbericht zeigen.
+- Weiterhin zuerst L1c (Reparatur darf keine abgeschlossenen Teilverkäufe löschen, Sicherung statt Löschen).
+
+Nach der Umsetzung Bericht in berichte/AHSentinel/ ablegen.
+Vor dem Push: python3 addon-check/addon_check.py download/AHSentinel-<Version>.zip -> kein FEHLER.

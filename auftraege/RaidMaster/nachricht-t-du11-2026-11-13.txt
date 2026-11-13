@@ -1,0 +1,9 @@
+Erst laufende Arbeit fertig machen.
+
+Danach im raidmaster-Repo "git pull --rebase" und Punkt T-DU11 (HOCH) in auftraege/RaidMaster/offen-raidmaster.txt lesen.
+
+Kurz: Am PC kommt immer wieder das Fenster "GoldSentinel-Abgleich – Neuerer Stand vom DESKTOP-NVITMSE – WoW beenden,
+dann übernehmen", obwohl der PC selbst der neueste Stand ist (Uploader-Fenster: 04:48 "Stand 14 hochgeladen ...
+dieser Rechner aktuell"; die Meldung steht dort nicht im Log). Vermutlich läuft ein zweiter Uploader-Prozess.
+Bitte: nur ein Uploader je Rechner (Einzel-Instanz-Sperre), Meldung nie für den eigenen Upload, nur einmal je echtem
+neuem Stand eines anderen Rechners, Autostart nicht doppelt. Danach Version + Bericht in berichte/RaidMaster/.

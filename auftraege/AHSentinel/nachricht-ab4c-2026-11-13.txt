@@ -1,0 +1,2 @@
+Neuer Befund der Prüf-Sitzung (HOCH): Bitte git pull --rebase im raidmaster-Repo und in auftraege/AHSentinel/offen-ahsentinel.txt Punkt AB4c lesen.
+Kurz: Im Verkaufen-Fenster steht 12s14 und "9× abgelaufen – billiger einstellen (10s92)", obwohl die aktuelle Preisleiter erst bei 28s99 beginnt (210 % Markt, Aufkauf). Vorschlag muss aus der aktuellen Leiter kommen; bei Aufkauf "jetzt teuer verkaufen" statt "billiger einstellen"; Ablauf-Zähler gilt nicht für eine neue Marktlage; "verkauft sich nur ~5" erst nach MA1-Freigabe. Test T-AB4c. Danach Bericht in berichte/AHSentinel/.

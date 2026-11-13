@@ -1,0 +1,2 @@
+Befund der Prüf-Sitzung (HOCH, für 0.65.109): Bitte git pull --rebase und in auftraege/AHSentinel/offen-ahsentinel.txt Punkt TT1317 lesen.
+Kurz: Im Tooltip (Goldene Schuppenarmschienen) bleiben alle Entzauber-Materialien "geschätzt, unsicher", obwohl der Spieler das AH zweimal gescannt hat (Vollscan 12:59). Nach einem Scan müssen Materialien mit Angeboten Quelle "Scan" zeigen. Ausserdem: bei unsicheren Materialien kein grünes ✓ beim Entzaubern. Je Material Quelle/Alter/Grund ins Protokoll. Test T-TT1317. Danach Bericht in berichte/AHSentinel/.
