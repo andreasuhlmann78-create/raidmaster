@@ -1,0 +1,18 @@
+BERICHT AHSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 · Sitzung: AHSentinel-Sitzung · Version: 0.65.118 · Commit (AHAnalyzerPro): c6a490d
+Status: umgesetzt, zur Prüfung (Regel 22:28 – erledigt setzt nur die Prüf-Sitzung).
+Nachbildung: Vollauf 245/246, s10_scan_smooth im Vollauf rot (150 ms), einzeln grün (141/144 ms). addon_check OK.
+Tempo-Werte (PS): noch kein Client-Lauf mit "/ahs testroutine tempo" – bitte im nächsten Spieltest.
+
+PS – Testteil "tempo" umgesetzt (neue Datei TempoTest.lua): T625 Tooltip <= 5 ms (AddLines ohne Zwischenspeicher, 30
+  Items, schlechtestes Item genannt), T626 Reiter <= 50 ms (jeder Reiter, schlechtester genannt), T627 Sniper <= 2 s (aus
+  dem letzten Teil "sniper", T618), T628 Kauf-Plan <= 16 ms, T629 AH offen 20 s kein Bild > 16 ms durch Hintergrund-
+  Aufgaben (mit Aufgabe und Stelle "längster Schritt … bis Datei:Zeile"), T630 Laden/Start <= 100 ms (A.loadMs),
+  T631 Vollscan <= 10 MB / <= 1 GC (VS.lastMeasure). Feld finish.tempo im Testbericht. Offline T632, Nachbildung s45.
+  Nicht gemessen: Speicher über 2 Std. Spielsitzung (braucht eine Langzeitmessung – Vorschlag folgt).
+RF – Messung vorbereitet: Vollscan-Einlesen protokolliert jetzt "Einlesen: n Portionen über 3× Budget, davon g mit
+  Speicherbereinigung, längste x ms" (VOLLSCAN). Damit lässt sich die 152-ms-Spitze (TS116) der Speicherbereinigung oder
+  einem einzelnen Aufruf zuordnen; danach gezielt beheben.
+  Befund aus der Nachbildung (selbst gefunden): normaler Markt-Scan mit 12'109 Items hat ein längstes Bild von 141–150 ms
+  (s10 "Großer Markt") – gleiche Grössenordnung wie T617 (148 ms). Das ist der nächste RF-Brocken.
+OFFEN: RF-Behebung (Scan grosser Markt, Vollscan Einlesen/Preisverlauf), EB, OR, TP, ZN, PX, SA, UI1509, UI1510, MA3-G.
