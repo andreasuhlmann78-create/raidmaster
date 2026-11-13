@@ -106,3 +106,24 @@ TU (HOCH, NEU 13.11. 07:05, Entscheid des Nutzers "solche Fehler sollen nicht wi
 RP-U (MITTEL, NEU 13.11. 07:10 – für GuildSentinel RP8 / Discord): Der Uploader schickt GuildSentinel.lua heute nur mit
    Gildenbank-Bestand (uploader.py:196). Zusätzlich das Feld GuildSentinelDB.raidReady (Zusammenfassung OHNE Namen:
    Raid, Phase, Anzahlen, Prozent, Wochen) an den Bot weitergeben – nur dieses Feld, keine anderen Gildendaten. Test dazu.
+
+
+BL (MITTEL, NEU 13.11. 07:45, Wunsch des Nutzers) – BEFEHLSLISTE BEIM TIPPEN MIT ALLEN BEFEHLEN
+   Tippt der Spieler /rm, /raidmaster (dazu /rmtest nur Entwickler) in den Chat, erscheint über dem Eingabefeld die Liste SÄMTLICHER Befehle des Addons mit kurzer
+   Beschreibung (Spielsprache, alle Locale-Dateien). Quelle: den Slash-Handler von RaidMaster (inkl. /rm berufe, /rm testroutine …).
+   BL1 Vollständig: die Liste kommt aus DERSELBEN Befehlstabelle, die der Slash-Handler zum Ausführen benutzt (eine Tabelle
+       für beides; der Handler liest aus ihr). Auch Befehle mit Zusatz zeigen ihn ("danke <Name>", "weg <Tage>"), deutsche
+       und englische Befehlswörter (z. B. "wo"/"where") finden beide. Entwickler-Befehle nur, wenn GoldSentinelDev den
+       Entwickler erkennt.
+   BL2 Filtern mit jedem Buchstaben: "/gs" = alle; "/gs w" = alles mit w am Anfang (wo, weg, werbung); "/gs we" = weg,
+       werbung; meistbenutzte oben (Zähler in den SavedVariables).
+   BL3 Bedienung (wie AHSentinel Punkt CH und shared/vorlage/README.md "Befehlsliste beim Tippen"): Mausklick bzw.
+       Pfeiltasten/Tab WÄHLEN aus, Enter FÜHRT AUS; Liste schliesst nicht, bevor der Klick ankommt; Fokus zurück mit
+       SetFocus; das Chatfeld wird NIE beschrieben (kein SetText/Insert, kein eigenes OnEnterPressed, nur HookScript lesen);
+       der Slash-Handler führt bei einer frischen Auswahl (≤ 10 s) den gewählten Befehl statt des unvollständigen Worts aus.
+       Option zum Ausschalten. Baustein: CmdHint von AHSentinel, sobald dort CH umgesetzt ist (bis dahin warten bzw. den
+       reparierten Stand übernehmen) – nicht jedes Addon eine eigene Lösung.
+   BL4 Tests: T-BL1 jeder Befehl, den der Handler versteht, steht in der Liste (Vergleich aus der Tabelle, keine
+       Handliste); T-BL2 Filter "/x w", "/x we" liefern genau die passenden; T-BL3 Klick wählt, Enter führt aus; T-BL4
+       Chatfeld nie beschrieben; T-BL5 Entwickler-Befehle nur für den Entwickler; T-BL6 alle Sprachen ohne Platzhalter-
+       Fehler. Alte Clients (Era, TBC) nicht brechen.
