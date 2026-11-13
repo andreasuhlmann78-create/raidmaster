@@ -451,6 +451,13 @@ Neuer Reiter: Lage (Bänder) / Mein Lager / Chancen / Trefferzeile – Auftrag a
   verlieren 1–2s (rohe Zutat gefragt – Leveler kochen selbst), höhere lohnen (Raptor-Rippchen 5s86 -> 26s99, Golddorntee
   4s11 -> 18s24, Trunk des Wasserwandelns 11s79 -> 2g). Vorbehalt: Absatz unbekannt (MA1), Zutaten zum Einzelpreis,
   dünne Märkte. -> Rechenkern rechnet beide Richtungen (herstellen / roh verkaufen).
+- **GEMESSEN 13.11. 08:16 (Buchhaltung "Heute", AHSentinel 0.65.99, Bild des Nutzers – nachgerechnet, geht auf den Kupfer auf):**
+  Verkauft 24g17s74, Eingesetzt 20g46s43, Gebühren 13s70, Gewinn 3g57s61, davon Erlös ohne Einkauf 5g02s09 -> mit gekaufter
+  Ware −1g44s48 (Rendite −7 %). Seelenstaub 354 Stk.: Erlös 12g59s53, Einsatz 15g74s16 (Kostenanteil aus Entzauber-
+  Käufen), −45 % auf den Teil mit Einkauf (ca. 8g66 Erlös); Große Astralessenz +100 % (Verkauf in die Spitze 20–29s),
+  Großer gleißender Splitter +219 %. Lehre: Entzauber-Käufe 26–35 wurden mit Staubpreisen vor dem Fall (≈ 4–5s) bewertet;
+  Staub ist auf 3s56–3s76 gefallen (Levelwelle) -> der Staub-Anteil macht Verlust, nur die Spitzen-Verkäufe von Essenz/
+  Splitter retten den Tag. Bestätigt RK6/WL3 (Einkaufsgrenze um den erwarteten Fall senken) und MA6 (Spitze verkaufen).
   Quellen: Q14 https://www.shopify.com/blog/gmroi · Q15 https://www.spscommerce.com/community/articles/gmroii-combining-sales-profitability-and-asset-efficiency
   · Q16 https://o9solutions.com/articles/effective-markdown-optimization · Q17 https://www.invent.ai/blog/markdown-optimization-for-inventory-performance
 
