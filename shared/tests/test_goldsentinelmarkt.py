@@ -309,12 +309,12 @@ check("Abbruch bei geänderter Liste", y.ev("GoldSentinelMarkt.Stats().aborted")
 z = Client("Testz", 13)
 set_auctions(z, rows1)
 scan(z)
-z.run(SRC.replace("local VERSION = 1", "local VERSION = 2"))
-check("neuere Fassung aktiv", z.ev("GoldSentinelMarkt.VERSION"), 2)
+z.run(SRC.replace("local VERSION = 2", "local VERSION = 3"))
+check("neuere Fassung aktiv", z.ev("GoldSentinelMarkt.VERSION"), 3)
 check("Daten übernommen", z.ev("GoldSentinelMarkt.Get(2589).preis"), 95)
 check("alter Frame still", z.ev("FRAMES[#FRAMES - 1].scripts.OnUpdate == nil"), True)
 z.run(SRC)                     # ältere Fassung lädt danach -> bleibt bei 2
-check("ältere Fassung übernimmt nicht", z.ev("GoldSentinelMarkt.VERSION"), 2)
+check("ältere Fassung übernimmt nicht", z.ev("GoldSentinelMarkt.VERSION"), 3)
 
 # --- 14. Feed: Host-Addon liest selbst und gibt weiter, kein zweites Lesen ---------------------------------------------
 h = Client("Testh", 14)
@@ -339,7 +339,35 @@ h2 = Client("Testh2", 15)
 h2.run('GoldSentinelMarkt.Feed("FremdesAddon", TIME, 1, { [1] = { preis = 1, menge = 1, n = 1 } }, 0)')
 check("Feed nur von angemeldeten Addons", h2.ev("GoldSentinelMarkt.Get(1)"), None)
 
-# --- 15. Base36 und Packen ----------------------------------------------------------------------------------------------
+# --- 15. Version 2: AHSentinel geladen -> nicht selbst lesen; Schalter aus leert die Warteschlange; Gilde nur Änderungen
+v = Client("Testv", 16)
+v.run('C_AddOns = { IsAddOnLoaded = function(n) return n == "AHSentinel" end }')
+set_auctions(v, rows1)
+scan(v)
+check("AHSentinel geladen: nicht selbst gelesen", v.ev("GoldSentinelMarkt.Stats().scans"), 0)
+check("AHSentinel geladen: gezählt", v.ev("GoldSentinelMarkt.Stats().dropped['ahsentinel liest selbst']"), 1)
+w = Client("Testw", 17)
+set_auctions(w, rows1)
+scan(w)
+check("Warteschlange gefüllt", w.ev("#GoldSentinelMarkt.outbox") + len([m for m in w.sent() if m[0] == "GSMARKT1"]) > 0, True)
+w.run('GoldSentinelMarkt.outbox[#GoldSentinelMarkt.outbox + 1] = { "S:H:1:1,1,1,1", {} }')
+w.run('GoldSentinelMarkt.SetShare("ProbeAddon", false)')
+w.clear()
+w.tick(5)
+check("Schalter aus: Warteschlange geleert", w.ev("#GoldSentinelMarkt.outbox"), 0)
+check("Schalter aus: nichts gesendet", [m for m in w.sent() if m[0] == "GSMARKT1"], [])
+w.run('GoldSentinelMarkt.SetShare("ProbeAddon", true)')
+w.tick(60)
+w.clear()
+w.run("TIME = TIME + 1200")
+set_auctions(w, rows1 + [(14047, 1, 50, 3)])          # nur 14047 billiger
+scan(w)
+w.tick(30)
+g2m = [m for m in w.sent() if m[0] == "GSMARKT1" and m[2] == "GUILD" and ":S:H:" in m[1]]
+check("innerhalb einer Stunde nur Änderungen an die Gilde", (len(g2m), "2589" in "".join(m[1] for m in g2m)), (1, False))
+check("Sync-Warteschlange höchstens 10 durch GSMarkt", w.ev("GoldSentinelMarkt.QUEUE_HIGH"), 10)
+
+# --- 16. Base36 und Packen ----------------------------------------------------------------------------------------------
 check("Base36 hin und zurück", z.ev("GoldSentinelMarkt.Dec(GoldSentinelMarkt.Enc(2147483647))"), 2147483647)
 
 print(f"{checks - fails}/{checks} Prüfungen bestanden")

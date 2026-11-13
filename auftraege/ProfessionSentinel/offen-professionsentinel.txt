@@ -122,3 +122,4 @@ IM CLIENT PRÜFEN (mit 0.9.44 bzw. der nächsten Version und AHSentinel 0.65.112
 Wie immer: komplette Dateien, Era/TBC/Retail nicht brechen, Locales und CHANGELOG EN/DE, addon_check.py ohne FEHLER.
 Jeder Befund bekommt einen bleibenden Test T-<ID> (auftraege/README.md).
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/ProfessionSentinel/ ablegen.
+   MN VERSION 2 (13.11. 20:00, DRINGEND): GoldSentinelMarkt.lua Version 2 – in Clients mit AHSentinel liest sie nichts mehr selbst (doppeltes Lesen machte den Sniper/das Spiel ruckelig), Warteschlange max. 10, Gilde nur einmal je Stunde ganzer Scan. SOFORT neu kopieren und veröffentlichen (Version 1 = Warnung "veraltet").

@@ -151,3 +151,4 @@ HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Die Version muss höher sein als 0.9.37 (download/, announce/, CurseForge).
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/GuildSentinel/ ablegen.
+   MN VERSION 2 (13.11. 20:00, DRINGEND): GoldSentinelMarkt.lua Version 2 – in Clients mit AHSentinel liest sie nichts mehr selbst (doppeltes Lesen machte den Sniper/das Spiel ruckelig), Warteschlange max. 10, Gilde nur einmal je Stunde ganzer Scan. SOFORT neu kopieren und veröffentlichen (Version 1 = Warnung "veraltet").

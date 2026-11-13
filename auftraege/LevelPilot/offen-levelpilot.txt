@@ -149,3 +149,4 @@ HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Nach jeder Version einen Bericht in berichte/LevelPilot/ (Vorlage berichte/README.md).
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/LevelPilot/ ablegen.
+   MN VERSION 2 (13.11. 20:00, DRINGEND): GoldSentinelMarkt.lua Version 2 – in Clients mit AHSentinel liest sie nichts mehr selbst (doppeltes Lesen machte den Sniper/das Spiel ruckelig), Warteschlange max. 10, Gilde nur einmal je Stunde ganzer Scan. SOFORT neu kopieren und veröffentlichen (Version 1 = Warnung "veraltet").

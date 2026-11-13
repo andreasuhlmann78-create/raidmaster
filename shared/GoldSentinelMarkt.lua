@@ -43,8 +43,12 @@
 -- Alles laeuft ueber M.api (Tests ersetzen nur diese Tabelle, nie Blizzard-Funktionen).
 --
 -- Version 1: erste Fassung (13. November 2026)
+-- Version 2 (13. November 2026, 20 Uhr): ist AHSentinel im Client geladen, liest diese Datei NICHTS selbst (AHSentinel
+--   liest seine Vollscans selbst und gibt sie mit Feed weiter – doppeltes Lesen machte das Spiel ruckelig); Lesebudget
+--   4 ms; Schalter aus leert die Warteschlange; ganzer Scan an die Gilde hoechstens einmal je Stunde, sonst nur
+--   Aenderungen; Sync-Warteschlange wird nur bis 10 Nachrichten gefuellt (Platz fuer die Nachrichten der Addons).
 
-local VERSION = 1
+local VERSION = 2
 
 local existing = _G.GoldSentinelMarkt
 if type(existing) == "table" and (tonumber(existing.VERSION) or 0) >= VERSION then return end
@@ -52,19 +56,20 @@ if type(existing) == "table" and (tonumber(existing.VERSION) or 0) >= VERSION th
 local M = {}
 M.VERSION = VERSION
 M.PREFIX = "GSMARKT1"
-M.BUDGET_MS = 6              -- Rechenzeit je Bild beim Lesen
+M.BUDGET_MS = 4              -- Rechenzeit je Bild beim Lesen
 M.CHECK_EVERY = 100          -- so oft wird die Zeit innerhalb einer Portion geprueft
 M.BURST_GAP = 30             -- Sekunden ohne Ereignis = naechstes Ereignis ist ein neuer Scan
 M.READ_DELAY = 2             -- Sekunden nach dem ersten Ereignis bis zum Lesen
 M.CMP_MIN, M.CMP_MAX = 600, 6 * 3600   -- Abstand zweier Scans fuer den Absatz-Vergleich
 M.ITEMS_PER_MSG = 9          -- Eintraege je Nachricht (Base36, passt in 230 Zeichen)
-M.QUEUE_HIGH = 40            -- nur nachschieben, solange die Sync-Warteschlange kuerzer ist
+M.QUEUE_HIGH = 10            -- nur nachschieben, solange die Sync-Warteschlange kuerzer ist
 M.NET_MAX = 60               -- hoechstens so viele geaenderte Items ins Netz je Scan
 M.NET_CHANGE = 0.05          -- Preis-Aenderung, ab der ein Item als geaendert gilt
 M.OUTLIER = 3                -- fremder Preis x3 oder :3 zum eigenen (juenger als 6 Std.) = verworfen
 M.MAX_AGE = 7 * 86400        -- aeltere Daten werden nicht angenommen
 M.EXPORT_KEEP = 2            -- so viele Scans fuer den Uploader
 M.ASK_DELAY = 60             -- Sekunden nach dem Laden bis zur Frage "wer hat Neueres?"
+M.FULL_EVERY = 3600          -- ganzer Scan an die Gilde hoechstens so oft (Sekunden), sonst nur Aenderungen
 M.OUTBOX_MAX = 1500          -- volle eigene Warteschlange: aelteste Nachricht faellt weg (gezaehlt)
 
 ---------------------------------------------------------------------------
@@ -90,6 +95,14 @@ M.api = {
         return "N"
     end,
     random = function(n) return math.random(n) end,
+    -- ist AHSentinel geladen? (liest seine Vollscans selbst)
+    ahs = function()
+        local C = _G.C_AddOns
+        local f = (C and C.IsAddOnLoaded) or _G.IsAddOnLoaded
+        if not f then return false end
+        local ok, loaded = pcall(f, "AHSentinel")
+        return ok and loaded and true or false
+    end,
 }
 
 ---------------------------------------------------------------------------
@@ -215,12 +228,14 @@ function M.OnReplicate()
     if not newBurst then return end
     if not M.IsShareOn() then Drop("aus"); return end
     if M.feedUntil and now < M.feedUntil then return end      -- ein Host liest diesen Scan selbst und gibt ihn weiter
+    if M.api.ahs() then Drop("ahsentinel liest selbst"); return end
     if M.reader then return end
     M.readAt = now + M.READ_DELAY
 end
 
 local function StartRead()
     M.readAt = nil
+    if not M.IsShareOn() then return end
     local C = M.api.ah()
     if not C or not M.store then return end
     local ok, n = pcall(C.GetNumReplicateItems)
@@ -370,7 +385,8 @@ local function Apply(t, cnt, items, cmp, low, dt, prevItems)
     M.stats.items = nItems
     local s = M.store
     s.export = s.export or {}
-    table.insert(s.export, string.format("GSMARKT1|%d|%s|%d|%d|%d|%d|%s", VERSION, select(2, Fac()), t, cnt,
+    table.insert(s.export, string.format("GSMARKT1|%d|%s|%d|%d|%d|%d|%s", 1,          -- Export-Format 1 (unabhaengig von der Dateiversion)
+        select(2, Fac()), t, cnt,
         nItems, cmp and dt or 0, table.concat(parts, ";")))
     while #s.export > M.EXPORT_KEEP do table.remove(s.export, 1) end
     QueueScan(t, changed)
@@ -435,13 +451,20 @@ local function Entry(id, e)
 end
 
 -- alle eigenen Items eines Scans an die Gilde, die geaenderten (hoechstens NET_MAX) auch ins Netz
-QueueScan = function(t, changed)
+QueueScan = function(t, changed, full)
     local f, fac = Fac()
     if not f or not M.ep or not M.IsShareOn() then return end
+    local now = M.api.now()
+    if not full and (not M.lastFull or now - M.lastFull >= M.FULL_EVERY) then full = true end
     local all = {}
-    for id, v in pairs(f.i) do
-        local e = Unpack(v)
-        if e and e.o == 0 and e.t == t then all[#all + 1] = id end
+    if full then
+        M.lastFull = now
+        for id, v in pairs(f.i) do
+            local e = Unpack(v)
+            if e and e.o == 0 and e.t == t then all[#all + 1] = id end
+        end
+    else
+        for i = 1, math.min(#changed, M.NET_MAX) do all[i] = changed[i] end
     end
     table.sort(all)
     local head = "S:" .. fac .. ":" .. Enc(t) .. ":"
@@ -475,6 +498,11 @@ end
 
 function M.Pump()
     if not M.ep or #M.outbox == 0 then return end
+    if not M.IsShareOn() then
+        for _ = 1, #M.outbox do Drop("aus") end
+        M.outbox = {}
+        return
+    end
     if M.api.inCombat() then return end
     local sent = 0
     while #M.outbox > 0 and SyncQueueLen() < M.QUEUE_HIGH and sent < 5 do
@@ -588,7 +616,7 @@ function M.Tick()
         local f, fac = Fac()
         if f and M.ep then
             M.ep:Send("A:" .. fac .. ":" .. Enc(f.t), { scope = "guild", net = false })
-            QueueScan(f.t, {})
+            QueueScan(f.t, {}, true)
         end
     end
     M.Pump()
