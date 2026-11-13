@@ -115,6 +115,28 @@ anlegen, als Tasche einsetzen, verbrauchen oder an Twinks schicken = EIGENBEDARF
 muss "Gold vorher + Zugänge − Abgänge = Gold nachher" aufgehen; der Rest steht sichtbar als "nicht zugeordnet".
 (4) Beim Prüfen einer Gewinn-Anzeige immer fragen: Welcher Goldfluss fehlt noch?
 
+## 5d. AH-Gebühren aus Sicht eines Buchhalters (Nutzer 13.11. 22:47: "sieh es aus der Sicht eines Buchhalters")
+
+Begriffe: im Addon immer das Wort des Spiels (Anzahlung = Blizzard-Zeichenkette DEPOSIT), nie selbst erfundene Wörter.
+
+| Vorgang | Was ein Buchhalter daraus macht | Gewinn? |
+|---|---|---|
+| Einstellen: **Anzahlung** wird bezahlt | Gold ist nicht weg, sondern **hinterlegt** (Guthaben beim AH, "gebundenes Gold"). Kein Aufwand. | nein |
+| Verkauf: Anzahlung kommt mit der Rechnung zurück | Guthaben aufgelöst. Kein Ertrag. | nein |
+| Verkauf: **Auktionsgebühr** (5 % im Fraktions-AH) | Verkaufsprovision, mindert den Erlös. Aufwand im Zeitraum des Verkaufs. | ja, Aufwand |
+| Ablauf oder Abbruch: Anzahlung **verfällt** | Erst JETZT Aufwand ("verfallene Anzahlung"), im Zeitraum des Ablaufs, dem Item zugeordnet. | ja, Aufwand |
+
+Folgen: (1) Laufende Auktionen dürfen den Gewinn NICHT drücken; ihre Anzahlungen gehören zum gebundenen Gold
+(neben dem Lagerwert). (2) Eine Erstattung darf nicht als "negative Gebühr" in einem anderen Zeitraum landen
+(sonst ist der eine Tag zu schlecht, der andere zu gut). (3) Verfallene Anzahlungen je Item zeigen, wo man zu teuer
+oder zu lange einstellt – im Details-Fenster als "Anzahlung verfallen" (mit Client-Wort).
+(4) Abstimmung: Gold vorher + Zugänge − Abgänge = Gold nachher gilt weiter; die hinterlegten Anzahlungen erscheinen
+dabei als eigener Posten "hinterlegt", nicht als Verlust.
+Befund am Code 0.65.118 (Ledger.lua Le:Add -> Books.lua BK:OnFee, Summe Z. 410–417): Anzahlung wird beim Einstellen
+sofort als Gebühr gebucht und beim Verkauf mit einer negativen Gebühr ausgeglichen -> verletzt (1) und (2). Auftrag BH-ANZ.
+Offen (messen): Gibt Forever beim Abbrechen die Anzahlung zurück? (Ledger kennt "refund" beim Abbrechen, L2; in Classic
+verfällt sie.)
+
 ## 6. Quellen
 
 - [TSM: Why am I missing sales or purchase data on my items?](https://support.tradeskillmaster.com/en_US/addon/why-am-i-missing-sales-or-purchase-data-on-my-items)

@@ -442,6 +442,18 @@ EB (MITTEL, NEU 13.11. 21:05 – Nutzer: 8 Taschen mit 10 Plätzen für 1g 60s g
    selbst erfundene Begriffe wie "verlorene Einzahlungen". Für die Anzahlung beim Einstellen den Text des Clients
    verwenden (globale Blizzard-Zeichenkette DEPOSIT, Doppelpunkt entfernen), damit es in jeder Sprache genau so heisst
    wie im Verkaufsfenster. Gilt für Buchhaltung, Details-Fenster und Tooltips. Test T-EB8 (Bezeichnung = DEPOSIT ohne ":").
+BH-ANZ (MITTEL, NEU 13.11. 22:55, Sicht des Buchhalters, Regel shared/wissen/buchhaltung.md Abschnitt 5d):
+   Ist: Le:Add bucht die Anzahlung beim Einstellen sofort als Gebühr (Books.lua BK:OnFee), der Verkauf bucht sie als
+   negative Gebühr zurück; Books.lua Z. 410–417 zieht alle Gebühren vom realisierten Gewinn ab. Folge: Viele laufende
+   Auktionen drücken den Gewinn, und die Erstattung landet oft in einem anderen Zeitraum (Tag/Woche verfälscht).
+   Soll: Anzahlung beim Einstellen = "hinterlegt" (gebundenes Gold, kein Aufwand). Beim Verkauf: hinterlegt auflösen,
+   kein Ertrag. Beim Ablauf/Abbruch: jetzt Aufwand "Anzahlung verfallen" (Client-Wort), dem Item zugeordnet, im
+   Zeitraum des Ablaufs. Auktionsgebühr 5 % bleibt Aufwand beim Verkauf. Gebundenes Gold = Lagerwert + hinterlegte
+   Anzahlungen. Alte Buchungen nicht ändern, nur neu auswerten (Migration rechnet aus deposit/sale/Ablauf-Post).
+   Messen: Gibt Forever beim Abbrechen die Anzahlung zurück? (Ledger "refund" L2 – in Classic verfällt sie.)
+   Tests T-BHA1 (Einstellen ändert den Gewinn nicht), T-BHA2 (Verkauf: Anzahlung zurück, Gewinn = Erlös − Kosten − 5 %),
+   T-BHA3 (Ablauf: Gewinn − Anzahlung im Ablauf-Zeitraum), T-BHA4 (Zeitraum-Grenze: Einstellen gestern, Verkauf heute).
+   Mit EB umsetzen.
 
 SN2115 (HOCH, NEU 13.11. 21:18 – Bild des Nutzers 21:15, v0.65.114, Sniper, Ziel Schultern des Hügelwächters):
    a) BUDGET VERDOPPELT: Nach dem Zurücksetzen steht "0/35 gekauft · Budget übrig 6g 24s" und im Tooltip "Mit 6g 24s 80c
