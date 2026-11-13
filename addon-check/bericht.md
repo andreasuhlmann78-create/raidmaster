@@ -7,8 +7,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## AHSentinel-0.65.111.zip: OK
 
-## BuffSentinel-0.9.17.zip: FEHLER
-- **FEHLER** BuffSentinel/GoldSentinelMarkt.lua: weicht von shared/GoldSentinelMarkt.lua ab (Version 1, Vorlage Version 1). Gemeinsame Datei nie selbst ändern – die Vorlage unverändert kopieren.
+## BuffSentinel-0.9.18.zip: OK
 
 ## GuildSentinel-0.9.37.zip: FEHLER
 - **FEHLER** GuildSentinel/GoldSentinelMarkt.lua: weicht von shared/GoldSentinelMarkt.lua ab (Version 1, Vorlage Version 1). Gemeinsame Datei nie selbst ändern – die Vorlage unverändert kopieren.
