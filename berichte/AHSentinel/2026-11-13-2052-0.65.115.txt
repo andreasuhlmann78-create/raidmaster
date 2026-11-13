@@ -1,0 +1,27 @@
+BERICHT AHSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 · Sitzung: AHSentinel-Sitzung · Version: 0.65.115 · Commit (AHAnalyzerPro): 816f8fb
+Nachbildung: Vollauf 245/245 grün (neu s44_testroutine_sniper). addon_check OK.
+
+SN1951-ABNAHME – GELIEFERT (Auswertung durch die Prüf-Sitzung nach dem Spieltest)
+  Befehl: /ahs testroutine sniper (Auktionshaus offen). Neue Datei SniperTest.lua (TOC nach TestRoutine.lua).
+  S4 zuerst, AUSSERHALB der Sandbox (damit ein echter Kauf echt gebucht bleibt): eigenes Fenster "echter Testkauf von 1
+     Stück bis 5c erlaubt? Ja/Nein" (kein Blizzard-Popup verändert). Nein -> T616 SKIP. Ja -> günstigstes frisches
+     Angebot <= 5c aus dem letzten Scan als Ziel (Max 5c, Menge 1, Budget 5c), Sniper an; gekauft wird NUR durch die
+     Raste/Taste des Spielers (bestehender Tastendruck-Schutz). PASS: gekauft genau 1, <= 5c, höchstens 1 gleichzeitig
+     gesendet; 120 s ohne Kauf -> SKIP. Danach Ziel und Modus zurück, dann startet der Teil "sniper" der Testroutine.
+  Teil "sniper" (Sandbox, Kaufen gesperrt; db.sniper ist für diesen Teil erlaubt, das Testziel räumt SniperTest selbst weg):
+     S1 T613: Testziel (erste Ware aus Leinen-/Wollstoff … mit Preis), Max = günstigstes Angebot, 120 s beobachten:
+        Treffer angezeigt, "ohne Grund verschwunden" = aus der Anzeige weg, obwohl die neueste Antwort des Servers sie
+        noch enthält (nicht weg, nicht gekauft) oder Liste geleert. PASS: >= 1 Treffer und 0 verschwunden.
+     S2 T614: an einem Testziel in der echten Anzeige: 2 gesendet -> "(+2 gesendet)", Fehler (mit Angebot) zählt nicht,
+        Bestätigung zählt -> 1/10, 95c.
+     S3 T615: 3 tote Angebote -> "pausiert bis HH:MM – 3 Käufe gescheitert", im Status, fortsetzen hebt sofort auf.
+     S5 T617: Ø/min Bilder/s, längster Frame, max. Sync-Warteschlange (GoldSentinelSync.queue) während der Beobachtung.
+        PASS: Ø >= 30, Frame <= 50 ms, Warteschlange <= 10.
+     S6 T618: Reaktionszeit = mittlerer Abstand der Suchen dieses Ziels + mittlere Suchdauer (ein neues Angebot ist
+        spätestens dann sichtbar). PASS < 5 s. Hinweis: mit vielen eigenen Zielen wechselt der Sniper ab - der Wert zeigt
+        das ehrlich.
+  Offline: T619 (Teil vorhanden, Nein -> kein Ziel, kein Kauf, Reaktionsrechnung), s44 in der Nachbildung (S4 Nein,
+  S1/S2/S3 grün, nichts gekauft, Testziel weg, Sandbox OK; S5 Frame 100 ms ist der Takt der Nachbildung).
+OFFEN: UI1509, UI1510, MA3-G, Kleinpunkte; 0.66.
+IM CLIENT: /ahs testroutine sniper am offenen AH ausführen, Bericht hochladen.
