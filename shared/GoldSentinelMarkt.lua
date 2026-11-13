@@ -46,7 +46,8 @@
 -- Version 2 (13. November 2026, 20 Uhr): ist AHSentinel im Client geladen, liest diese Datei NICHTS selbst (AHSentinel
 --   liest seine Vollscans selbst und gibt sie mit Feed weiter – doppeltes Lesen machte das Spiel ruckelig); Lesebudget
 --   4 ms; Schalter aus leert die Warteschlange; ganzer Scan an die Gilde hoechstens einmal je Stunde, sonst nur
---   Aenderungen; Sync-Warteschlange wird nur bis 10 Nachrichten gefuellt (Platz fuer die Nachrichten der Addons).
+--   Aenderungen; Sync-Warteschlange wird nur bis 10 Nachrichten gefuellt (Platz fuer die Nachrichten der Addons);
+--   Export enthaelt auch ganz verschwundene Items ("id,0,0,0,abgaenge,abgaengeVorsichtig", Befund D-MN7b).
 
 local VERSION = 2
 
@@ -381,6 +382,14 @@ local function Apply(t, cnt, items, cmp, low, dt, prevItems)
         nItems = nItems + 1
         parts[#parts + 1] = Enc(id) .. "," .. Enc(it[1]) .. "," .. Enc(it[2]) .. "," .. Enc(it[3]) .. "," ..
             Enc(cmp and cmp[id] or 0) .. "," .. Enc(low and low[id] or 0)
+    end
+    -- ganz verschwundene Items (ausverkauft/abgelaufen): Eintrag mit Menge 0, damit der Absatz nicht verloren geht
+    if cmp and prevItems then
+        for id in pairs(prevItems) do
+            if not items[id] and ((cmp[id] or 0) > 0) then
+                parts[#parts + 1] = Enc(id) .. ",0,0,0," .. Enc(cmp[id] or 0) .. "," .. Enc(low and low[id] or 0)
+            end
+        end
     end
     M.stats.items = nItems
     local s = M.store

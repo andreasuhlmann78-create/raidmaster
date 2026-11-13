@@ -162,3 +162,6 @@ HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Versionen höher als Bot 1.5.131.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/Discord/ ablegen.
+   D-MN7b ERLEDIGT IN shared/ (13.11. 22:20): GoldSentinelMarkt.lua Version 2 exportiert ganz verschwundene Items als
+      "id,0,0,0,abgänge,abgängeVorsichtig" (nur wenn Abgänge aus Stufe 3/4 > 0). Test 71/71. Bitte T-MN7 um einen Eintrag
+      mit Menge 0 ergänzen (Absatz zählt, kein Preis im Verlauf).

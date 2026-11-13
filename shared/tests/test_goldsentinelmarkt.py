@@ -236,6 +236,15 @@ check("verschwundenes Item: Angebot jetzt 0", (g3.menge, g3.n), (0, 0))
 exp2 = a.ev("DB.gsMarkt.export[2]")
 check("Export mit Vergleichsdauer", "|2400|" in exp2, True)
 check("Export behält 2 Scans", a.ev("#DB.gsMarkt.export"), 2)
+vx = Client("Testvx", 18)
+set_auctions(vx, rows1 + [(7070, 1, 500, 4)] * 3)
+scan(vx)
+vx.run("TIME = TIME + 1800; NOW = NOW + 100")
+set_auctions(vx, rows1)
+scan(vx)
+ex = vx.ev("DB.gsMarkt.export[2]").split("|")[-1]
+check("ausverkauftes Item im Export mit Menge 0 und 3 Abgängen (D-MN7b)", (";" + ex + ";").find(";" + vx.ev("GoldSentinelMarkt.Enc(7070)") + ",0,0,0,3,3;") >= 0, True)
+check("Item ohne lange Abgänge nicht als 0-Eintrag", ",0,0,0,0,0" in ex, False)
 
 # --- 8. Kampf: nicht lesen ---------------------------------------------------------------------------------------------
 k = Client("Testk", 7)
