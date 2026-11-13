@@ -1,3 +1,15 @@
+>>> FRAGE DES NUTZERS (13.11. 23:20) – bitte als Bericht in berichte/Discord/ beantworten, NICHTS umsetzen:
+>>> "Kann der Bot vom Datenvolumen her grösser gemacht werden, und was hat das für Einflüsse?"
+>>> Bitte mit echten Zahlen (gemessen, nicht geschätzt, sonst als Schätzung kennzeichnen):
+>>> 1. Welche Grenzen gibt es heute, wo im Code (Datei:Zeile)? z. B. market.MAX_LINE 2 MB, Grösse je Upload/Anhang,
+>>>    Speicher des Wochenberichts, Anzahl Quellen, Verlauf je Item.
+>>> 2. Was begrenzt von aussen? Discord (Anhang-Grösse ohne Boost, Rate-Limits), Server /opt/raidmaster (Arbeits-
+>>>    speicher, Festplatte, CPU – aktuelle Auslastung messen), GitHub (Repo-Grösse, Dateigrösse 100 MB), Uploader.
+>>> 3. Wie weit kann man jede Grenze erhöhen, und was passiert dann: Tempo des Bots (Antwortzeit auf Befehle),
+>>>    Speicher/Festplatte, Kosten, Stabilität (Absturz bei grossen Dateien), alte Uploader-Versionen.
+>>> 4. Empfehlung mit Zahlen: welche Grenze auf welchen Wert, was es bringt (mehr Marktdaten/Quellen), Risiko.
+>>> Keine Tokens, Server-IDs oder Spielernamen in den Bericht.
+
 OFFENE PUNKTE DISCORD (nach der Nachprüfung von Bot 1.5.131)
 =============================================================
 Stand: 13. November 2026, 17:40 MEZ · von der Prüf-Sitzung (geplante Nachprüfung)

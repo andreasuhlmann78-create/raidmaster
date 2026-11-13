@@ -1,0 +1,11 @@
+NACHRICHT AN DIE DISCORD-SITZUNG (zum Einfügen)
+Erst laufende Arbeit fertig machen.
+
+Frage des Nutzers: Kann der Bot vom Datenvolumen her grösser gemacht werden, und was hat das für Einflüsse?
+Bitte NICHTS umsetzen, nur als Bericht in berichte/Discord/ beantworten, mit echten Zahlen:
+1. Heutige Grenzen mit Datei:Zeile (z. B. market.MAX_LINE 2 MB, Upload-Grösse, Wochenbericht, Quellen, Verlauf).
+2. Äussere Grenzen: Discord (Anhang, Rate-Limits), Server /opt/raidmaster (RAM, Festplatte, CPU – jetzt messen),
+   GitHub (Repo- und Dateigrösse), Uploader.
+3. Je Grenze: wie weit erhöhbar, Folgen für Tempo, Speicher, Kosten, Stabilität, alte Uploader.
+4. Empfehlung mit Zahlen und Risiko.
+Details: git pull --rebase und auftraege/Discord/offen-discord.txt (ganz oben). Keine Tokens, Server-IDs, Spielernamen.
