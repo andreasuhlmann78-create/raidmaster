@@ -1,0 +1,27 @@
+BERICHT AHSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 · Sitzung: AHSentinel-Sitzung · Version: 0.65.111 SOFORT · Commit (AHAnalyzerPro): ef299dc
+Nachbildung: Vollauf 244/244 grün. addon_check OK.
+
+ERLEDIGT
+  S1 Entzauber-Preis erzielbar: D:PriceCorrection(key) = gemessener Preis-Faktor je Gruppe = Median Beute/Vorhersage
+     (Fc:EvalCached, R.D/R.live.de) / (Chance × Menge aus Fc:DEFactors), nur nach unten, ab 20 Fällen, Boden 0,30, ab
+     0,90 keine Korrektur, 5 Min. zwischengespeichert (erst wenn die Auswertung da ist). Angewendet in D:DealValue und
+     D:BatchNet -> wirkt in Lohnt bis (A.Core), Sniper-Entzauberziele (WorthLimit), Markt "Entzaubern" (PlannedValue),
+     Sammelkauf, Tooltip und Heute tun (FindDeals). Tooltip-Zeile "Materialpreise korrigiert ×0,57 (…)". Die Vorhersage
+     im Prognose-Journal bleibt UNKORRIGIERT (Fc:DEPrediction ruft DealValue(id, true)), sonst würde die Korrektur sich
+     selbst messen und gegen 1 laufen. T589: 524 Fälle 2:4:a (0,60 = 1,05 × 1,00 × 0,57) -> Faktor 0,57, nachgerechnet
+     1,05; 124 Fälle 2:6:a -> 1,00; Journal unkorrigiert. Eigene Material-Verkäufe als zweite Quelle: noch nicht (es gäbe
+     sonst eine Doppelkorrektur, solange der Faktor auf den alten Preisen gemessen ist) – Vorschlag für 0.66 (RK).
+  S2 Absatz: A:GetLiquidity setzt nach dem Rechnen perDay = gemessener Absatz (VS:MeasuredRate), Quelle "gemessen",
+     Schätzung bleibt in .estimate; SellOutlook wendet auf gemessene Werte keinen Faktor/Deckel mehr an. Unplausible
+     Schätzung ohne Messung -> perDay nil ("unbekannt") statt Deckel. Selbsttest-Grenze für gemessene Werte = 2 × Ø-Menge.
+     T590. Gruppenfaktor auf die Schätzung (Staub 0,48 …) läuft weiter über Ln:MarketFactor in A:SellOutlook.
+  S3 T240: Befund war der TEST – im Spiel flossen die gelernte Laufzeit (EvalHours) und die gelernte Verkaufschance ein
+     (9000/8900 statt 9400). Rechnung unverändert richtig (1× Einzahlung bei 2 Einstellungen); Test jetzt mit fester
+     Laufzeit 24 Std., Mindest-Einzahlung 1s und ohne Lernen.
+  S4 T72: die graue "lernt noch"-Gruppe (MH1310) steht bewusst unten – die Sortierprüfung des Selbsttests prüft jetzt je
+     Gruppe. T591.
+OFFEN (unverändert, nächste Schritte): T373 (cache:today noch 46 ms), UI1509, UI1510, TB108 S1/S2, 0.66–0.68,
+  MN (Marktdaten-Netz, Anweisung 15:5x – wird gelesen).
+IM CLIENT PRÜFEN: Tooltip eines Entzauber-Teils ("Materialpreise korrigiert ×…"), Markt "Entzaubern" (weniger, aber
+  ehrliche Zeilen), Absatz-Zahlen im Vergleich der 20 meistgehandelten (Quelle gemessen), Testroutine T240/T72.
