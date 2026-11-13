@@ -18,7 +18,8 @@ FÜR DEN NUTZER – IM SPIEL TESTEN, der Reihe nach (Prüf-Sitzung 13.11. 23:25)
 1. AHSentinel 0.65.119 installieren -> /ahs testroutine sniper (dabei scrollen) -> /reload. (DE30 30 %, TB119)
 2. AHSentinel: Vollscan, OHNE Reload /ahs testroutine tempo -> /reload. (TB118)
 3. Uploader auf PC und Laptop: Fenster schliessen, Programmdateien ersetzen (2.3.7), uploader.bat starten –
-   Startzeile "RaidMaster-Uploader 2.3.7". Vorher im Discord /update für den Bot.
+   Startzeile "RaidMaster-Uploader 2.3.7". Vorher im Discord /update für den Bot. Grund (Discord 23:45): erst ab 2.3.7
+   zählen PC und Laptop als zwei Quellen für die Marktdaten (Feld "quelle"); ältere Uploader zählen zusammen als eine.
 4. RaidMaster 3.0.26: /rm testroutine -> /reload.
 5. BuffSentinel 0.9.20: /bsen testroutine (ausserhalb Kampf) -> /reload. Schamane: Waffenmessung BP-2026-11-13-1
    (a nur Waffenverzauberung, b nur Waffen-Totem, c beides, dann /bsen protokoll, /reload).
