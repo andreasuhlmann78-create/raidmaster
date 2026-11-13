@@ -27,8 +27,10 @@ für JEDE neue Version jedes Projekts (auch für die geplante Nachprüfung).
 
 ## A3. Takt der Prüfung (Nutzer 13.11. 22:33)
 - Bei jeder Nachricht des Nutzers zuerst kurz `git pull` und nach neuen Versionen/Berichten sehen (kostet Sekunden).
-- Während intensiver Zusammenarbeit zusätzlich alle 8–10 Min. eine kurze Prüf-Runde (Erinnerung in dieser Sitzung);
+- Während intensiver Zusammenarbeit zusätzlich alle 5 Min. eine kurze Prüf-Runde (Entscheid des Nutzers 22:36;
+  Erinnerung in dieser Sitzung);
   nur melden, wenn es Neues gibt. Ruhige Zeiten: die geplante Nachprüfung genügt.
+- Takt, Abstände und ähnliche Einstellungen, die den Nutzer betreffen, nie selbst festlegen: zuerst fragen.
 
 ## B. Bei jedem Bild, Bericht oder jeder Datei des Nutzers
 - Alles auf dem Bild lesen, nicht nur das, wonach gefragt wurde: Version im Titel, Statuszeile (Sync-Warteschlange,
