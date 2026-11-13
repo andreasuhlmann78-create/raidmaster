@@ -1,0 +1,49 @@
+BERICHT LEVELPILOT AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 16:50 · Sitzung: LevelPilot-Projekt-Sitzung · Version: 3.12.28 · Commit: dieser Commit
+(announce/levelpilot__levelpilot-3.12.28.LevelPilot.zip). Enthält auch die fehlenden Berichte zu 3.12.26 und 3.12.27.
+
+ERLEDIGT
+- MN1: GoldSentinelMarkt.lua byte-gleich aus shared/ (Stand a3c51a5, mit Absatz-Untergrenze), .toc Zeile 23 direkt
+  nach GoldSentinelSync.lua. Anmeldung beim Laden: Core.lua:615 LP:MarktAttach(LevelPilotDB) -> GSMarkt.Attach
+  ("LevelPilot", LevelPilotDB), Core.lua:568. Fehlt die Datei: still aus (kein Fehler). Ohne C_AuctionHouse liest die
+  Datei nichts (Era/TBC).
+- MN2: Schalter "Marktdaten teilen (anonym, nur Preise)" in der Zentrale, Reiter Austausch (Center.lua:274), Standard an
+  (Core.lua:142 marktTeilen = true). LP:MarktSync (Core.lua:576) überträgt ihn mit GSMarkt.SetShare; auch nach dem
+  Umschalten "Einstellungen nur für diesen Charakter". Locale in allen 9 Dateien (esMX erbt). CHANGELOG EN/DE 3.12.28.
+- MN3: Zeile "MARKT-NETZ: v1 · an/aus (LevelPilot an/aus) · Scans mitgelesen n · gesendet n · empfangen n · Speicher
+  n Items, n KB" im Testbericht (TestRoutine.lua:6095) und in der Diagnose /lp diag zusammen mit GSMarkt.DiagLines()
+  (Protocol.lua:478). Ohne AH-API steht "ohne AH-API" in der Zeile.
+- MN4: Tests T282–T286 (TestRoutine.lua:5465–5570):
+  T282 mit Datei angemeldet (Host = LevelPilotDB); ohne Datei (setfenv-Umgebung ohne GoldSentinelMarkt) kein Fehler,
+       Zeile "MARKT-NETZ: Datei fehlt".
+  T283 Schalter aus -> Scan-Ereignis merkt kein Lesen vor, 0 gelesen, 0 angenommen, 0 gesendet, Warteschlange 0;
+       Gegenprobe an: Lesen vorgemerkt.
+  T284 ohne AH-API: OnReplicate, Tick, Get, DiagLines ohne Lua-Fehler, nichts gelesen.
+  T285 Berichtzeile vollständig, in der Diagnose, Schalter in der Zentrale, Standard an.
+  T286 (eigener Befund, s. u.) keine zwei Schalter der Zentrale an derselben Stelle.
+  Ersetzt wird nur GoldSentinelMarkt.api und der Zustand der Datei (Hosts, Zähler, Zeitpunkte) mit einer Testtabelle
+  statt LevelPilotDB; alles wird zurückgestellt. Keine Blizzard-Funktion ersetzt.
+- EIGENER BEFUND 3.12.27: Der Schalter "Befehlsliste beim Tippen von /lp" lag auf derselben Stelle wie "Einstellungen
+  nur für diesen Charakter" (Center 360/-378). Jetzt eigene Zeile (Center.lua:432), Unterstützen-Knopf eine Zeile
+  tiefer. Regressionstest T286 (mit dem alten Stand geprüft: FEHLER "ownSettings / cmdHint"), in TR.REGRESSIONS
+  (jetzt 29 von 29).
+- TU (3.12.26, Commit 6114be2): TU1–TU8 wie in der Nachprüfung 14:30 bestätigt (T269–T275, Zeilen je Bereich).
+- BL (3.12.27, Commit f1ff496): BL1–BL4 (CmdHint.lua, LP.COMMANDS, T276–T281).
+- CHANGELOG 3.12.26 richtiggestellt: "TU1–TU8; TU9 Offline-Routine folgt" (EN/DE), Hinweis auch im Eintrag 3.12.28.
+
+PRÜFUNGEN
+- addon_check LevelPilot-3.12.28.zip: OK (GoldSentinelMarkt.lua exact).
+- Nachgebautes Spiel: /lp testroutine OK 262 · FEHLER 0 (T282–T286 OK), Regressionen 29 von 29; 36 Regressionsläufe OK.
+
+TEILWEISE / OFFEN
+- TU9 (MITTEL): Offline-Routine unter berichte/LevelPilot/offline/ (run_offline.py) noch nicht abgelegt – folgt als
+  nächste Version. Meine bisherigen Offline-Läufe benutzen einen eigenen Nachbau ausserhalb des Repos.
+- Punkt 1 Wegpunkte und Strassen: wartet auf Wegdaten-Export aus dem Spiel.
+
+FRAGEN
+- keine.
+
+IM CLIENT GETESTET
+- 3.12.26–3.12.28 noch nicht im Spiel getestet. Zu prüfen: /lp testroutine (T282–T286, Zeile MARKT-NETZ), im
+  Auktionshaus mit einem Vollscan eines anderen Addons: /lp diag "Scans mitgelesen 1", kein Stocken beim Lesen;
+  Schalter aus -> "aus" und keine neuen Scans.
