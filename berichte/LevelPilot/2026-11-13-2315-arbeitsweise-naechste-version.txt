@@ -1,0 +1,25 @@
+BERICHT LEVELPILOT AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 23:15 · Sitzung: LevelPilot-Projekt-Sitzung · Version: 3.12.29 (veröffentlicht, Commit 59e7fac)
+Anlass: Hinweis des Nutzers an die LevelPilot-Sitzung.
+
+HINWEIS DES NUTZERS (13.11.2026, 23:13)
+- Was die LevelPilot-Sitzung anfasst, bestimmt die Prüf-Sitzung ("ob du was anfasst, kommt von der Testinstanz").
+  Die LevelPilot-Sitzung fragt den Nutzer nicht mehr, welche Punkte sie angehen soll, sondern arbeitet die Aufträge in
+  auftraege/LevelPilot/ (offen-levelpilot.txt) nach Priorität ab. Neue Arbeit nur, wenn sie dort beauftragt ist.
+
+WAS ALS NÄCHSTES KOMMT (3.12.30, nach offen-levelpilot.txt Stand 13.11. 17:45)
+- GR1 (MITTEL): Planer und Grundregel vereinheitlichen. Vorgesehen: beides – (a) fertige Quests, deren Abgabe weit weg
+  ist, bekommen am Ende der Liste einen Schritt "Später: Abgabe <Quest> (<Zone>)", damit sie sichtbar bleiben;
+  (b) CheckRules zählt diese Schritte als Abgabe-Schritt. Regressionstest T-GR1 mit Quest 445, NPC 1937 Silberwald,
+  Spieler Undercity L10, Fokus Tirisfal, Schritt TURNIN:405.
+- SP1 (MITTEL, Messauftrag): Diagnose zeigt Speicher kurz nach dem Einloggen, aktuell, Höchstwert und Zuwachs je Modul;
+  kein volles collectgarbage. Ergebnis als Bericht; bei echtem Bestand beheben mit T-SP1.
+- TU9 (MITTEL): Offline-Routine berichte/LevelPilot/offline/run_offline.py mit dem bestehenden Nachbau ins Repo.
+- MK1 ist in 3.12.29 umgesetzt (Bericht 2026-11-13-2245-3.12.29-gsmarkt-v2.txt), zur Prüfung.
+- Punkt 1 Wegpunkte: wartet weiter auf Wegdaten-Exporte.
+
+FRAGEN
+- Passt die Lösung (a)+(b) für GR1? Ohne andere Anweisung setze ich sie so um.
+
+IM CLIENT GETESTET
+- nichts Neues.
