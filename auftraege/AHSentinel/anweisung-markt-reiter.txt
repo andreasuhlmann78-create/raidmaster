@@ -1,0 +1,61 @@
+ANWEISUNG AHSENTINEL – Neuer Markt-Reiter und Messungen für zuverlässige Empfehlungen (MR1–MR4, MA1–MA6)
+==========================================================================================================
+Von der Prüf-Sitzung, 13.11. 06:05, Entscheid des Nutzers: "Alles was zuverlässig ist, wird so gemacht. Halb- und
+nicht Zuverlässiges braucht bessere Messdaten." Erst laufende Arbeit fertig machen (L1c, TR, AB, Q), dann diese Anweisung.
+Grundlage: shared/wissen/markt-strategie.md Abschnitt 8g (neu), Prüfung der 7 Ansichten mit echten Daten 13.11. 06:40.
+
+BEFUND ZU DEN HEUTIGEN ANSICHTEN (Daten 13.11. 06:40)
+- Flippen, Lücken, Überfüllt rechnen mit dem gemessenen Absatz (Vollscan VS:MeasuredRate). Der ist zu hoch, weil
+  verschwundene Auktionen auch abgebrochen/neu eingestellt sein können: Beispiele Rezept 24/Tag bei 39 im Angebot,
+  Schweres Leder 3035/Tag. -> Schein-Chancen (Flip-Rechnung der Prüf-Sitzung ergab "Rezept +15g").
+- Händler: 106 Treffer, fast alle 1–50c; grösster "Eisengranate 1s83 < Händler 5s" -> Händlerpreis vermutlich falsch.
+- forecastStats ist leer: keine Empfehlung wird nachgeprüft.
+- Preis-Index über alle Waren verwischt fallende und steigende Bänder.
+
+TEIL A – JETZT UMSETZEN (zuverlässig)
+MR1 Markt-Reiter = eine Seite mit drei Teilen statt 7 Ansichten (Entwurf des Nutzers, 13.11.):
+    oben "Lage" (4 Kacheln), Mitte "Mein Lager", unten "Chancen", Fusszeile Trefferquote + Suche.
+    Daten der alten Ansichten bleiben im Hintergrund; Suche bleibt. Option "Standard-Ansicht" entfällt.
+MR2 Mein Lager: alle eigene Ware (Taschen, Bank, Post, eigene Auktionen), je Zeile Menge, Wert JETZT aus der
+    Preisleiter (Stück für Stück, wie viel bekäme ich für genau diese Menge, nach 5 %), eine Empfehlung, ein Knopf
+    (Einstellen / Entzaubern / Händler / Später). Sortierung: erwarteter Verlust beim Warten zuerst.
+    Ohne Scan ≤ 30 Min.: Wert grau "Scan nötig", keine Empfehlung.
+MR3 Chancen: nur Strategien mit belegter Trefferquote (MA2) zeigen; je Zeile Höchstpreis, Gold je Tag je 1g Einsatz
+    (Marge × Umschlag), Trefferquote. Budget 25 % des Golds (Entscheid 10.11.). Flippen grau "lernt noch – Absatz
+    nicht belegt", bis MA1 erfüllt ist. Entzaubern wie bisher (≥ 20 % nach Gebühren).
+MR4 Alles, was noch nicht belegt ist, steht grau mit "messe noch (x von y Tagen)" statt einer Zahl.
+
+TEIL B – MESSEN (halb- und nicht zuverlässig) – Ergebnisse in Testbericht und Diagnose, damit die Prüf-Sitzung auswertet
+MA1 Absatz: Verkauf von Abbruch trennen (HOCH, Voraussetzung für Flippen/Lücken/Überfüllt).
+    - Verschwundene Auktion mit Restzeit > 2 Std. = "weg". Taucht innert 2 Scans dasselbe Item mit derselben Menge
+      neu auf (Restzeit voll, Preis egal) -> "neu eingestellt", nicht verkauft. Sonst "vermutlich verkauft".
+    - Eigene Auktionen sind die Wahrheit (Post "verkauft" / Abbruch / Ablauf): dieselbe Erkennung auf die eigenen
+      anwenden und Fehlerquote ausweisen ("Absatz-Erkennung: 87 % richtig bei 40 eigenen").
+    - Abgelaufene/abgebrochene eigene Auktionen als zensierte Fälle (markt-strategie 6.1), nie weglassen.
+    - Freigabe für Flippen/Lücken/Überfüllt erst bei Fehlerquote ≤ 20 % aus ≥ 30 eigenen Fällen.
+MA2 Empfehlungs-Protokoll (Trefferquote, HOCH): jede gezeigte Empfehlung mit Zeit, Item, Preis, Vorhersage
+    (z. B. "verkauft ≤ 8 Std. zu ≥ X", "Entzaubern bringt ≥ Y") speichern, nach Ablauf mit Scan/Post/Buchhaltung
+    prüfen, je Art Trefferquote. Unter 60 % ab 20 Fällen -> Art ausblenden (Selbstschutz, 8b). Fusszeile
+    "Gestern: n Empfehlungen, m eingetroffen". Speicher klein halten (je Art Zähler + letzte 200 Fälle).
+MA3 Händlerpreis prüfen: Tabellenwert gegen GetItemInfo-Verkaufspreis (Feld sellPrice) vergleichen; beim Verkauf
+    an den Händler Gold-Zuwachs je Item messen (MERCHANT_SHOW/PLAYER_MONEY). Abweichung -> Item aus "Händler" raus und
+    ins Protokoll. Händler-Chancen nur mit geprüftem Preis.
+MA4 Stufenbänder: je Item einmal Itemstufe/benötigte Stufe merken; je Band (1–25, 26–45, 46–60, dazu
+    Entzauber-Bänder) und Tag Median der Mindestpreise. Anzeige erst ab ≥ 5 Tagen und ≥ 20 Items je Band
+    (WL1–WL4 gehen darin auf).
+MA5 Entzaubern nachkalkulieren: je gekauftem Teil Kaufpreis gegen tatsächlich erzielten Erlös der Materialien
+    (Buchhaltung, nicht Angebotspreis); Trefferquote und mittlere Abweichung je Band; Ziel ≥ 200 Fälle.
+MA6 Trend-Regel aus der Messung der Prüf-Sitzung (13.11., 11'600 Fälle, Tagesmedian der Mindestpreise seit 5.11.):
+    nach 3 Tagen Fall > 15 %: nächster Tag fällt weiter 47 %, gleich 29 %, dreht 24 % -> "fällt: zügig verkaufen".
+    nach 3 Tagen Anstieg > 15 %: dreht am nächsten Tag in 61 % -> NICHT "halten", sondern "Spitze: jetzt verkaufen"
+    (nie "kaufen" bei steigendem Preis). Vorläufig (Startwoche enthalten); die Prüf-Sitzung wiederholt den Test
+    wöchentlich, AHSentinel übernimmt nur die Richtung, keine festen Prozentzahlen.
+
+MEHR DATEN (für alle MA)
+- Öfter scannen, solange das AH offen ist (Vollscan alle ~20 Min. erlaubt): kürzere Abstände = bessere Trennung
+  Verkauf/Abbruch. Hinweis im Fenster "nächster Vollscan möglich in x Min.".
+- Scans der Offiziere über Uploader und Gilden-Sync zusammenführen (mehr Scans, mehr Uhrzeiten).
+
+Tests: T-MR1–T-MR4, T-MA1–T-MA6 mit erfundenen Daten (Relist innert 2 Scans, eigener Verkauf/Abbruch, falscher
+Händlerpreis, Band mit < 20 Items, Empfehlung trifft/trifft nicht). Vor dem Push: addon_check -> kein FEHLER.
+Bitte Bericht in berichte/AHSentinel/.

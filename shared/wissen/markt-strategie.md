@@ -422,6 +422,28 @@ Band 21–25 mit 4–6 Staub: nur TSM, bei uns nicht gemessen -> Messauftrag M-D
 - Händler: nach 20 Abläufen an den Händler (sellAfterExpired), Mindestgewinn Herstellen 100g (Retail-Massstab).
 Übertragbar nach Prüfung: Boden/Abbruch-Schwelle (8e Nr. 16/17). Zahlen sind Retail-geprägt, für Forever neu messen.
 
+## 8g. Markt-Reiter: was zuverlässig ist und wie wir es messen (Prüf-Sitzung 13.11. 06:00, Entscheid des Nutzers)
+
+Entscheid: "Alles was zuverlässig ist, wird so gemacht; halb- und nicht Zuverlässiges braucht bessere Messdaten."
+Neuer Reiter: Lage (Bänder) / Mein Lager / Chancen / Trefferzeile – Auftrag anweisung-markt-reiter.txt (MR, MA).
+- **Grundsätze von ausserhalb WoW (je 2 Quellen):** GMROI = Bruttogewinn / durchschnittlicher Lagerwert, also Marge
+  und Umschlag zusammen (Q14 Shopify, Q15 SPS Commerce). Abschreiben nach Alter, Absatz und Lagerlage, früh und
+  laufend statt spät und tief; Rabatt wirkt nicht linear (Q16 o9 Solutions, Q17 invent.ai). -> "Mein Lager" sortiert
+  nach Verlust beim Warten, Chancen nach Gold je Tag je eingesetztem Gold.
+- **Zuverlässig:** Wert jetzt aus der Preisleiter (frischer Scan). Händler-Rechnung, sofern der Händlerpreis stimmt.
+- **Halb:** Bänder (Richtung klar, Zahlen noch je Item, 9 Tage), Entzaubern (68 % von 72, Grenze zu optimistisch).
+- **Nicht:** Absatz (Abbruch zählt als Verkauf; Rezept 24/Tag bei 39 Angebot) -> Flippen/Lücken/Überfüllt gesperrt;
+  keine Nachprüfung (forecastStats leer); Händlerpreis Eisengranate vermutlich falsch.
+- **GEMESSEN 13.11. (Trend-Rückblick, eigene Daten, Tagesmedian Mindestpreis 5.–13.11., ~11'600 Fälle):**
+  nach 3 Tagen Fall > 15 %: nächster Tag weiter fallend 47 %, gleich 29 %, Umkehr 24 %.
+  nach 3 Tagen Anstieg > 15 %: Umkehr 61 %, weiter steigend 21 %.
+  Folge (vorläufig, Startwoche enthalten, wöchentlich wiederholen): fallend -> zügig verkaufen; steigend -> Spitze,
+  jetzt verkaufen, nie kaufen/halten.
+- **Messaufträge:** MA1 Verkauf vs. Abbruch (Relist-Erkennung, eigene Auktionen als Wahrheit), MA2 Empfehlungs-
+  Protokoll, MA3 Händlerpreis, MA4 Bänder, MA5 Entzauber-Nachkalkulation, MA6 Trend-Rückblick (Prüf-Sitzung).
+  Quellen: Q14 https://www.shopify.com/blog/gmroi · Q15 https://www.spscommerce.com/community/articles/gmroii-combining-sales-profitability-and-asset-efficiency
+  · Q16 https://o9solutions.com/articles/effective-markdown-optimization · Q17 https://www.invent.ai/blog/markdown-optimization-for-inventory-performance
+
 ## 9. Pflege dieser Datei
 
 - Neue Messung oder Entscheid des Nutzers -> hier eintragen (mit Datum), Status belegt/vermutet.
