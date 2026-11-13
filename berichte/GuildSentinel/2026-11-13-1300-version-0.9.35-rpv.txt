@@ -1,0 +1,12 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 · Sitzung: GuildSentinel-Projekt-Sitzung · Version: 0.9.35 · Commit: GuildSentinel b28c348
+
+ERLEDIGT:
+- Punkt 4 (NIEDRIG, Feld "vorschlag"): RP:OpenSuggestion(m) = RP:Suggestion ohne "Später" (rpLater, 1 Tag), unabhängig
+  vom eigenen Rang; RP:Summary schreibt vorschlag = "build"/"trans"/"raid" bzw. nil. Wörter von "phase" unverändert.
+  Test T288 (T-RP-V): offen -> "raid", Später -> nil, bestätigt -> nil. Regression RP-V -> T288.
+- Hinweis: 0.9.34 (BL + TU1-Rest, Bericht 2026-11-13-1240) ist vor dieser Nachprüfung erschienen und noch nicht geprüft.
+
+PRÜFUNGEN: addon_check OK (Lua-Syntaxprüfung mit: luac5.1 (Lua 5.1)). Routine Forever OK 263, Era/TBC OK 268, je
+FEHLER 0; alle übrigen Testläufe 0 fehlgeschlagen.
+OFFEN: nur Prüfungen im Client.

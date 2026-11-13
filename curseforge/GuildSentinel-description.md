@@ -10,6 +10,11 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 
 ## What's new
 
+### Version 0.9.35
+
+- The summary for the uploader and the Discord bot (GuildSentinelDB.raidReady, written on logout) now has the field "vorschlag": the recruitment phase GuildSentinel currently suggests ("build" / "trans" / "raid", same words as "phase"); missing when no suggestion is open or it was put off with "Later". No names. The bot can then post "GuildSentinel suggests phase … – confirm in the game".
+- Developer test: T288 (T-RP-V).
+
 ### Version 0.9.34
 
 - New: command list while typing. Type /gs (or /guildsentinel) in chat and a list of ALL commands with a short description appears above the input box. Every letter filters ("/gs w" = where, away, ad …), German and English command words both work, commands with an argument show it ("thanks <Name>"), the most used are on top. A mouse click or Tab selects an entry, Enter runs it. The chat input is never written to. Developer commands only for the developer. Settings > "Command list while typing /gs" turns it off.
@@ -43,17 +48,6 @@ Everything works with the mouse, in **every WoW client language** (English, Germ
 - Chronicle milestone "Guild is raid-ready (<raid>)", optional guild chat announcement (Settings, on by default, said by one only).
 - On logout a summary without names is stored for the uploader and the Discord bot (GuildSentinelDB.raidReady).
 - Developer test routine: T261–T269 (T-RP1–T-RP9) new; T244/T246 now run in phase Raid.
-
-### Version 0.9.30
-
-- New: right-click menu on members (Members list, inactive list, Who is where, Applicants, Leadership lists): Whisper, Invite to group, Promote, Demote, Set rank …, Assign alt …, Edit note, Edit officer note, Enter absence, Say thanks, Assign mentor …, Remove from guild (with confirmation), Transfer guild leadership (Guild Master only, password protected). Entries your rank may not use are shown in grey with the reason; in combat "not in combat".
-- Protected guild actions are never called directly any more (lesson from the invite fix in 0.9.29): promote, demote, remove and leadership transfer – from the menu, the Guild Management window, the promotion suggestions and the bulk actions – open the new "Guild action" window. You click its button and Blizzard's own command (/gpromote, /gdemote, /gremove, /gleader) carries it out. Names with spaces work.
-- Set rank: every step is its own click ("Promote – 2 steps left to Officer"), never above your own rank and never to Guild Master.
-- A step counts as done only when the game confirms it (system message or new rank in the roster); without confirmation after 6 seconds: "Not carried out" and the step can be repeated. Each confirmed rank change is kept in the rank history (who, whom, from -> to, time).
-- Multi-select: Shift/Ctrl-click in the member list, then right-click: promote or demote all of them – one click per member ("3 of 5 done").
-- Promotion: new option "Suggest the main's rank for alts" (only a suggestion, carried out step by step).
-- Leadership > Rank rights: button "Edit ranks in the game" opens Blizzard's rank window.
-- Developer test routine: T254–T260 (menu by rights, no protected call, name with spaces, rank steps, confirmation, alt suggestion, multi-select) new; T64, T174, T194, T195, T213 adapted. The offline test client now rejects protected guild functions like WoW Forever.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
