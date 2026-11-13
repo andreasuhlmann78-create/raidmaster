@@ -458,6 +458,11 @@ Neuer Reiter: Lage (Bänder) / Mein Lager / Chancen / Trefferzeile – Auftrag a
   Großer gleißender Splitter +219 %. Lehre: Entzauber-Käufe 26–35 wurden mit Staubpreisen vor dem Fall (≈ 4–5s) bewertet;
   Staub ist auf 3s56–3s76 gefallen (Levelwelle) -> der Staub-Anteil macht Verlust, nur die Spitzen-Verkäufe von Essenz/
   Splitter retten den Tag. Bestätigt RK6/WL3 (Einkaufsgrenze um den erwarteten Fall senken) und MA6 (Spitze verkaufen).
+- **GEMESSEN 13.11. 12:55 (AHSentinel 0.65.108 Testroutine, echte Daten seit 11.11.):** Verkaufs-Prognose schlecht kalibriert:
+  "80–100 %" -> 30 % verkauft (N 57), Brier 0,559 (schlechter als Münzwurf 0,25). Entzauber-Käufe 453: 43 % mit Gewinn,
+  Gewinn je Gold 0,35; Beute/Vorhersage 26–30 = 0,60 (Chance 1,06 × Menge 1,00 × Preis 0,57) -> Fehler liegt im Preis
+  (Levelwelle), nicht in der Ausbeute. Entzauber-Chancen grün Rüstung gemessen: 26–30 (594): Staub 72,7 / Essenz 21,2 /
+  Splitter 6,1 %; 36–40 (124): 72,6 / 20,2 / 7,3 % (Tabelle 75/20/5 bestätigt, Splitter eher 6–7 %). Abbruch-Faktor 0,50.
   Quellen: Q14 https://www.shopify.com/blog/gmroi · Q15 https://www.spscommerce.com/community/articles/gmroii-combining-sales-profitability-and-asset-efficiency
   · Q16 https://o9solutions.com/articles/effective-markdown-optimization · Q17 https://www.invent.ai/blog/markdown-optimization-for-inventory-performance
 
