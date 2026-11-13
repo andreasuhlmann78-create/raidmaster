@@ -1,0 +1,37 @@
+BERICHT AHSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 06:53 · Sitzung: AHSentinel-Sitzung · Version: 0.65.100 (dazu 0.65.98, 0.65.99) · Commit: 5fd6d5e
+
+ERLEDIGT (0.65.100)
+  L1c   BK:RepairDoubles2 entfernt nur noch "ausstehend" (st = "p") ohne sk, höchstens 6 Std. nach einer gleichen
+        Buchung; abgeschlossene nie. Entfernte Buchungen in db.removedL1b gesichert. Jede Reparatur dauerhaft in
+        db.repairLog (Datum, Version, Art, Anzahl, Einzelheiten), ausgegeben im Testbericht (Books.lua RepairNote,
+        Report). Nachlauf db.repairedL1c: Eintrag "L1b (alt) Anzahl unbekannt". Test T502 (T-VF5f).
+  TR    T223/T230/T425: Sandbox setzt Materialpreise frisch und ohne Aufkauf-Kennzeichen (WithDE: A.BuyoutInfo für
+        Staub/Essenz/Testteil nil; WithDEBuy: D.StaleMain/A.BuyoutInfo für Test-Items). Vermutete Ursache bei T223
+        (Essenz 97 statt 300): echtes, seit 0.65.95 dauerhaft gespeichertes Aufkauf-Kennzeichen (MP3) deckelt
+        MatPrice auf p0. Bei T230/T425: echtes altes Hauptmaterial -> MP2 -> 0 Kandidaten. Eigener Fall
+        "Material alt -> 0 Kandidaten, Grund stale" als T503 (T-MP2b). IM CLIENT PRÜFEN.
+  PD5c  Referenz lastGoodItems gilt nur 24 Std.; zwei unvollständige Vollscans hintereinander mit ± 20 % gleicher Zahl
+        werden angenommen; Protokoll VOLLSCAN mit Grund. Test T504.
+  MP1   T506 (Scan mit Waren -> GetCurrent-Zeit = Scanzeit, Preisverlauf in der Sandbox); Nachbildung s94 (ganzer Scan).
+  AB8c  OldIndex: ist deLog voll (2000), beginnt der Zeitraum beim ältesten deLog-Eintrag. Je Charakter geht nicht:
+        die alten Ledger-Buchungen tragen keinen Charakter. Test T507.
+  AB4b  MatPrice mit Aufkauf: Testlog AUFKAUF "Kauf-Rechnung mit p0 statt aktuell" (1-mal je Item und Stunde). T508.
+  COVERAGE: T491/T492 heissen jetzt T-AB8b1/T-AB8b2.
+
+TEILWEISE / OFFEN
+  PD7   Verdichtung nach Vorgabe umgesetzt (A:CompactHistory/CompactAll, 90 s nach Login als Job; Median je
+        Stunde/Tag, Menge Median, unbestätigte nur wenn nichts Bestätigtes da ist). Test T505 (T-PD7a): Regeln,
+        Marktwert ±3 %. Messung im Testbericht: "PD7 Grösse" und "PD7 letzte Verdichtung" (vorher/nachher).
+        Das Ziel < 8 MB ist mit dieser Vorgabe NICHT sicher erreichbar: Bei stündlichen Scans bleiben je Item
+        48 + 120 + ~53 Zeilen; in der Datei ~61 Bytes je Eintrag (21,7 MB / ~356'000 Einträge) -> 5'000 Items
+        ~67 MB im schlechtesten Fall. Real hängt es davon ab, wie oft ein Item im Scan vorkommt. Vorschlag: erst die
+        Messung "PD7 letzte Verdichtung" aus dem Client abwarten; reicht es nicht, ältere Teile (> 48 Std.) als
+        kompakte Zeichenkette speichern (~15 Bytes je Eintrag) - das ist eine Formatänderung des Preisverlaufs und
+        braucht den Entscheid des Nutzers (seine Regel: Preisverlauf nie umwandeln). T-PD7 (< 8 MB) darum offen.
+  Q, W, R, RK/MR/MA/Ü, AB4c, SM: noch nicht begonnen (Reihenfolge laut offen-ahsentinel.txt; AB4c und SM sind neu
+        seit heute früh und kommen als Nächstes).
+
+BEFUND FALSCH: keiner.
+FRAGEN: PD7 siehe oben (Ziel < 8 MB nur mit Formatänderung).
+IM CLIENT GETESTET: nein (Nachbildung: 243 Szenarien, s10 Messrauschen wie bekannt; addon_check ohne FEHLER).
