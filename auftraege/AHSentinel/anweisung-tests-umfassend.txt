@@ -1,0 +1,85 @@
+ANWEISUNG AHSENTINEL – UMFASSENDE TESTS, DAMIT SOLCHE FEHLER NICHT WIEDER PASSIEREN (TU1–TU9)
+==============================================================================================
+Von der Prüf-Sitzung, 13.11. 06:55. Entscheid des Nutzers: "Ich will, dass solche Fehler nicht wieder passieren – Test
+bitte so anpassen, dass alles umfangreich getestet wird." Gilt zusätzlich zu testroutine-ahsentinel.txt und
+nachtrag-testroutinen.txt. Hohe Priorität: zusammen mit den nächsten Korrekturen (AB4c, SM, MV1) beginnen, die
+Bereiche TU1–TU4 vor jeder weiteren neuen Funktion.
+
+WARUM DIE BISHERIGEN TESTS DIE FEHLER VOM 13.11. NICHT GEFUNDEN HABEN
+- AB4c (Vorschlag 12s14 bei Leiter 28s99): Tests nutzten "normale" Leitern; keine Marktlage "Aufkauf" (ganze Leiter hoch).
+- AB4c-b (getippter Preis wird überschrieben): Tests riefen Funktionen direkt auf; kein Ablauf "tippen -> Preisprüfung
+  kommt später an".
+- SM1 (nur ein Treffer): Tests hatten je ein Ziel; nie zwei Ziele mit Treffer zur gleichen Zeit.
+- SM2 (Menge leer = 1): Standardwerte leerer Felder wurden nicht gegen die Erwartung des Spielers geprüft.
+- Schein-Absatz / Schein-Flips: keine Plausibilitätsprüfung der Ergebnisse gegen die Leiter.
+Daraus folgen vier Testarten: Marktlagen, Abläufe, Standardwerte, Grundregeln (Invarianten) – dazu echte Daten und
+für jeden Befund ein bleibender Test.
+
+TU1 MARKTLAGEN-KATALOG – jede Lage läuft durch ALLE Funktionen (nicht nur eine):
+    Tooltip ("Lohnt bis", Wert), Verkaufen (Vorschlag, "−1 Kupfer", Hinweise, Menge, Laufzeit), Meine Auktionen (Status,
+    Abbrechen), Sniper (Treffer, Plan), Markt-Reiter/Mein Lager (Empfehlung), Entzaubern (Wert, Grenze), Buchhaltung.
+    Lagen (erfundene Leitern mit festen Zahlen, je Ware und Ausrüstung):
+    L-NORMAL      Leiter um den Marktwert, viel Menge
+    L-AUFKAUF     ganze Leiter 150–250 % des Marktwerts, wenige Angebote (Fall 13.11.: 28s99 bei Markt 13s80, 9 Angebote)
+    L-AUSREISSER  ein einzelnes Angebot 5× teurer oder 10× billiger als der Rest
+    L-FLUT        Menge ×3 seit gestern, Preis −20 %
+    L-DUENN       < 5 Angebote, Marktwert unsicher
+    L-LEER        keine fremden Angebote / nur eigene
+    L-ALT         letzter Scan > 6 Std. bzw. Preisprüfung > 30 Min.
+    L-FALLEND     3 Tage −15 % | L-SPITZE 3 Tage +15 %
+    L-HAENDLER    Händlerpreis in der Tabelle falsch (Fall Eisengranate)
+    L-RELIST      Auktion verschwindet und kommt mit gleicher Menge neu
+    Erwartung je Lage und Funktion als Tabelle im Test (z. B. L-AUFKAUF: Vorschlag knapp unter dem günstigsten Angebot,
+    Hinweis "Aufkauf – jetzt verkaufen", kein "billiger einstellen", Entzauber-/Sniper-Grenzen rechnen mit dem Preis vor
+    dem Aufkauf, Kaufvorschläge keine). Jede Abweichung = FEHLER.
+
+TU2 ABLÄUFE WIE EIN SPIELER (Klickfolgen mit verzögerten Antworten des Servers):
+    - Preis tippen -> Preisprüfung kommt 1–3 s später an -> getippter Preis bleibt (AB4c-b)
+    - "Vorschlag", "−1 Kupfer" mehrfach, "Min" setzen/löschen -> Preis jedes Mal wie erwartet
+    - Item wechseln während "Angebote werden geladen" -> kein Preis des alten Items im neuen
+    - Einstellen zweimal schnell klicken; Einstellen, wenn die Ware schon weg ist (AB2)
+    - Abbrechen während "prüfe Preise"; Teilverkauf + Abbrechen des Rests (AB1); Post abholen danach
+    - Sniper: zwei und drei Ziele mit Treffern innert 30 s (SM1); Treffer läuft ab; Kauf schlägt fehl; Gold reicht nicht
+    - Fenster schliessen/öffnen, AH schliessen mitten im Ablauf, /reload mitten im Ablauf
+    - Spielrhythmus: Login nach 5 Tagen Pause (MR5), "Bevor du gehst" (MR6)
+    Jeder Ablauf prüft am Ende: angezeigter Preis/Menge = das, was eingestellt/gekauft würde; keine Lua-Fehler;
+    nichts Echtes ausgeführt (Handels-Schutz).
+
+TU3 STANDARDWERTE: jedes Eingabefeld leer lassen und den Wert prüfen, den das Addon daraus macht (Menge, Budget,
+    Max-Preis, Laufzeit, Stapel, Mindestpreis, Risiko-Wahl, Spielrhythmus). Erwartung = was ein Spieler meint
+    (SM2: Ware ohne Menge = so viele, wie das Budget reicht). Liste aller Felder mit Standard im Testbericht.
+
+TU4 GRUNDREGELN (Invarianten) mit Zufallsdaten: 1000 zufällige Leitern/Lager/Ziele je Lauf (fester Startwert, im
+    Testbericht genannt), in Portionen gerechnet. Nach JEDEM Fall gilt:
+    - Vorschlag nie unter "günstigstes fremdes Angebot − Unterbietung", ausser Mindestpreis von Hand (dann Hinweis);
+      nie "billiger einstellen", wenn die Leiter über dem Marktwert liegt
+    - dasselbe Item hat überall dasselbe "Lohnt bis" (RK2)
+    - Sniper kauft nie über dem Max-Preis, nie über Budget/Gold, verliert nie einen frischen kaufbaren Treffer
+    - Geldbeträge ganzzahlig, ≥ 0, kein NaN/inf; Gebühren nach wirtschaft-forever.md
+    - Absatz/Tag nie > Angebot und nie > 25 % des Angebots je Stunde (Ü3); Gewinn > 300 % -> "Daten prüfen"
+    - Buchhaltung geht auf den Kupfer auf
+    Verletzung = FEHLER mit dem Fall (Zahlen) im Testbericht, damit er als fester Test übernommen werden kann.
+
+TU5 ECHTE DATEN (nur lesen): "/ahs testroutine echt" rechnet mit einer KOPIE der eigenen Daten (Lager, letzte Leitern,
+    Ziele) alle Empfehlungen durch und prüft TU4 daran. Nichts ändern, nichts ausführen. Ergebnis: Anzahl geprüfter
+    Items, Verletzungen mit Item-ID und Zahlen (keine Namen von Spielern). Läuft auch automatisch nach jedem Vollscan
+    still im Hintergrund (in Portionen, < 8 ms je Bild) und schreibt Verletzungen ins Diagnose-Protokoll
+    ("GRUNDREGEL VERLETZT …") – so sieht die Prüf-Sitzung echte Fehler, bevor der Spieler sie bemerkt.
+
+TU6 REGRESSIONEN: jeder Befund bekommt einen bleibenden Test T-<ID> mit den echten Zahlen des Falls (auftraege/README.md).
+    Sofort nachzuholen für: AB1, AB2, AB3, AB4, AB4b, AB4c (a+b), AB5, AB7, AB8, L1b, L1c, MP1–MP3, PD1–PD8, SM1, SM2,
+    MV1, JK, LB, VF5. Liste im Testbericht "Regressionen: n von m vorhanden".
+
+TU7 MARKT-KERN (wenn RK umgesetzt): die Prüffälle RK8 als feste Tests; Freigaben (Teil D der anweisung-markt-reiter.txt)
+    mit erfundenen Trefferquoten (59 % -> gesperrt, 61 % -> frei, 19 Fälle -> lernt noch).
+
+TU8 TESTBERICHT: je Bereich (TU1–TU7) eine Zeile "OK n · FEHLER n · SKIP n"; jede SKIP mit Grund. Fehlt ein Bereich oder
+    steht er nur auf SKIP, gilt die Version für die Prüf-Sitzung als NICHT freigegeben.
+
+TU9 OFFLINE: so viel wie möglich davon auch ausserhalb des Spiels lauffähig machen (wie GuildSentinel test/run_routine.lua
+    und ProfessionSentinel tests/run_offline.py): ein tests/run_offline.lua bzw. .py, das TU1–TU4, TU6, TU7 im
+    nachgebauten Spiel ausführt – damit die Nachprüfung es bei jeder Version selbst laufen lassen kann. Bitte melden,
+    wie es gestartet wird (Bericht in berichte/AHSentinel/).
+
+Vor dem Push: python3 addon-check/addon_check.py download/AHSentinel-<Version>.zip -> kein FEHLER.
+Ist etwas davon nicht machbar oder ein Befund falsch, bitte begründet zurückmelden.

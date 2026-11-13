@@ -34,3 +34,13 @@ nachsehen, ob es schon erledigt bzw. die Nachricht schon raus ist; sonst Zeile a
 
 Projekt-Sitzungen prüfen `auftraege/<Projekt>/` bei jeder neuen Nachricht des Nutzers, während längerer Arbeit
 spätestens alle 15 Minuten und direkt vor jedem Push (Einzelheiten in CLAUDE.md).
+
+## Jeder Befund bekommt einen bleibenden Test (Entscheid des Nutzers, 13.11.2026)
+
+"Ich will, dass solche Fehler nicht wieder passieren." Gilt für alle Projekte und alle Prüf-Sitzungen:
+- Jeder Befund (z. B. AB4c, SM1) wird mit einem **Regressionstest** behoben, der den echten Fall mit den echten Zahlen
+  nachstellt (Name `T-<Befund-ID>`). Der Test muss vor der Korrektur scheitern und danach bestehen; er bleibt für immer.
+- **Nachprüfung:** Befund ohne passenden Test, oder Test nur als Skip = **nicht erledigt** (bleibt offen, Schwere wie vorher).
+- Tests prüfen nicht nur Funktionen einzeln, sondern **Abläufe wie ein Spieler** (klicken, tippen, Daten kommen später)
+  und **echte Marktlagen** (Aufkauf, Flut, dünner Markt, alte Preise). Einzelheiten je Addon in `<Addon>/testroutine-*.txt`
+  bzw. für AHSentinel in `AHSentinel/anweisung-tests-umfassend.txt`.
