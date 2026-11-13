@@ -208,3 +208,10 @@ Version 2.3.3 – Start nach dem Schliessen, Raidfähigkeit, umfassende Tests:
   stimmt; ohne Namen).
 - Umfassende Tests (TU1–TU8): Lagen wie kein Netz, Zertifikat fehlt, Token falsch, zwei Rechner gleichzeitig, zweiter
   Prozess; Abläufe; Standardwerte; 1000 Zufallsfälle mit festem Startwert.
+
+Version 2.3.4 – Uploader startet wieder sicher ("läuft schon" nur noch, wenn es stimmt):
+- Eine Sperre zählt nur noch, wenn ihr Prozess lebt UND wirklich uploader.py ausführt. Sperren ohne PID, von einem
+  beendeten oder einem fremden Programm (wiederverwendete PID) werden übernommen – im Fenster steht dann "alte Sperre
+  von … entfernt".
+- Läuft wirklich noch ein alter Uploader, fragt der neue: "Alte Version … (PID …) beenden und diese starten? (J/N)".
+  J beendet den alten und startet den neuen; ohne Antwort nach 60 Sekunden bleibt alles, wie es ist.

@@ -185,3 +185,9 @@ Version 2.3.3 – start after closing, raid readiness, comprehensive tests:
 - At start the uploader checks its saved state ("GRUNDREGEL VERLETZT …" in the window if something is wrong; no names).
 - Comprehensive tests (TU1–TU8): situations like no network, missing certificate, wrong token, two computers at once,
   second process; flows; defaults; 1000 random cases with a fixed seed.
+
+Version 2.3.4 – the uploader starts reliably again ("already running" only when true):
+- A lock only counts if its process is alive AND really runs uploader.py. Locks without PID, from a finished or a
+  different program (reused PID) are taken over – the window then shows "alte Sperre von … entfernt".
+- If an old uploader is really still running, the new one asks: "Alte Version … (PID …) beenden und diese starten?
+  (J/N)". J stops the old one and starts the new one; without an answer for 60 seconds nothing changes.

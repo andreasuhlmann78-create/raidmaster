@@ -69,7 +69,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import sync  # noqa: E402  (Abgleich PC/Laptop, ab 2.1.0)
 import daten  # noqa: E402  (Daten für die Prüf-Sitzung, ab 2.3.0)
 
-VERSION = "2.3.3"
+VERSION = "2.3.4"
 SHOT_WINDOW = (-30, 180)          # Bild darf so viele Sekunden vor/nach der gemerkten Zeit entstanden sein
 SHOT_MAX_BYTES = 9 * 1024 * 1024
 SHOT_MAX_AGE = 14 * 86400
@@ -998,12 +998,17 @@ def main():
         return
     log(f"RaidMaster-Uploader {VERSION} · Ordner {HERE} · PID {os.getpid()}")
     # ab 2.3.2 (T-DU11 a): nur EIN Uploader je Rechner – ein zweiter Start meldet das und beendet sich
-    ok, other = sync.instance_acquire(HERE, VERSION)
+    ok, other = sync.instance_acquire(HERE, VERSION, log=log)
     if not ok:
         where = (other or {}).get("ordner") or "?"
         log(f"Der Uploader läuft schon (PID {(other or {}).get('pid', '?')}, Ordner {where}, Version "
-            f"{(other or {}).get('version', '?')}). Dieses Fenster wird nicht gebraucht – du kannst es schliessen.")
-        return
+            f"{(other or {}).get('version', '?')}).")
+        # T-DU12: läuft wirklich ein (alter) Uploader – anbieten, ihn zu beenden und diesen zu starten
+        if sync.offer_stop_other(other or {}, log=log):
+            ok, other = sync.instance_acquire(HERE, VERSION, log=log)
+        if not ok:
+            log("Dieses Fenster wird nicht gebraucht – du kannst es schliessen.")
+            return
     import atexit
     atexit.register(sync.instance_release)
     starts = sync.startup_entries()

@@ -223,37 +223,83 @@ def instance_info(path: str | None = None) -> dict:
         return {}
 
 
-def instance_running(here: str, path: str | None = None) -> dict | None:
-    """Läuft schon ein Uploader? -> {"pid", "ordner", "version"} (soweit bekannt), sonst None.
-    Windows: benannter Mutex (gilt für alle Ordner); dazu die Instanz-Datei mit PID-Prüfung und – für Uploader vor
-    2.3.2 im selben Ordner – die frische Abgleich-Sperre _sync.lock eines anderen Prozesses."""
+def pid_cmdline(pid: int) -> str | None:
+    """Kommandozeile eines Prozesses (T-DU12): Windows über Win32_Process, sonst /proc. None = unbekannt/kein Prozess."""
+    try:
+        pid = int(pid)
+    except (TypeError, ValueError):
+        return None
+    if pid <= 0:
+        return None
+    if sys.platform == "win32":
+        try:
+            out = subprocess.run(["powershell", "-NoProfile", "-Command",
+                                  f"(Get-CimInstance Win32_Process -Filter 'ProcessId={pid}').CommandLine"],
+                                 capture_output=True, text=True, timeout=15,
+                                 creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0)).stdout.strip()
+            return out or None
+        except Exception:  # noqa: BLE001
+            return None
+    try:
+        with open(f"/proc/{pid}/cmdline", "rb") as f:
+            return f.read().replace(b"\0", b" ").decode("utf-8", "replace").strip() or None
+    except OSError:
+        return None
+
+
+def is_uploader_process(pid) -> bool:
+    """T-DU12: lebt der Prozess UND führt er den Uploader aus (uploader.py, nicht der Starter --wow-start)?
+    Eine wiederverwendete PID (anderes Programm) zählt nicht."""
+    try:
+        pid = int(pid)
+    except (TypeError, ValueError):
+        return False
+    if not pid_alive(pid):
+        return False
+    cmd = (pid_cmdline(pid) or "").lower()
+    return "uploader.py" in cmd and "--wow-start" not in cmd and "--daten-" not in cmd
+
+
+def _stale(what: dict, reason: str) -> dict:
+    return dict(what, stale=reason)
+
+
+def instance_running(here: str, path: str | None = None, stale: list | None = None) -> dict | None:
+    """Läuft schon ein Uploader? -> {"pid", "ordner", "version"}, sonst None.
+    Ab 2.3.3 (T-DU12): Eine Sperre gilt NUR, wenn ihre PID lebt und dieser Prozess uploader.py ausführt. Sperre ohne
+    PID, mit totem oder fremdem Prozess (wiederverwendete PID) oder vom Starter ist veraltet -> wird in stale gemeldet
+    und übernommen. Windows-Mutex: hält ihn ein Prozess, läuft sicher ein Uploader ab 2.3.2."""
+    stale = stale if stale is not None else []
     if sys.platform == "win32" and _MUTEX["handle"] is None:
         try:
             import ctypes
             h = ctypes.windll.kernel32.OpenMutexW(0x00100000, False, MUTEX_NAME)   # SYNCHRONIZE
             if h:
                 ctypes.windll.kernel32.CloseHandle(h)
-                return instance_info(path) or {"pid": "?", "ordner": "?"}
+                info = instance_info(path)
+                return info if info else {"pid": "?", "ordner": "?", "version": "ab 2.3.2"}
         except Exception:  # noqa: BLE001
             pass
     info = instance_info(path)
-    if info and pid_alive(int(info.get("pid") or 0)):
-        return info
-    # Uploader vor 2.3.2 im selben Ordner: nur, wenn die Sperre frisch ist, ihr Prozess LEBT und sie nicht vom Starter
-    # stammt (U2, ab 2.3.3) – sonst würde ein Neustart innert 90 s oder ein laufender Starter den Uploader beenden
+    if info and info.get("pid") != os.getpid():
+        if is_uploader_process(info.get("pid")):
+            return info
+        stale.append(_stale(info, "Instanz-Datei"))
     owner = lock_owner(here)
-    if lock_active(here) and owner.get("rolle") != "starter":
-        try:
-            pid = int(owner.get("pid") or 0)
-        except (TypeError, ValueError):
-            pid = 0
-        if pid_alive(pid):
-            return {"pid": pid, "ordner": here, "version": owner.get("version") or "vor 2.3.2"}
+    if owner and lock_active(here):
+        if owner.get("rolle") == "starter":
+            return None                                   # Starter: kurz, wait_for_lock wartet darauf (U2)
+        if is_uploader_process(owner.get("pid")):
+            return {"pid": int(owner["pid"]), "ordner": here, "version": owner.get("version") or "vor 2.3.2"}
+        stale.append(_stale({"pid": owner.get("pid", "?"), "ordner": here,
+                             "version": owner.get("version") or "vor 2.3.2"}, "_sync.lock"))
     return None
 
 
-def instance_acquire(here: str, version: str, path: str | None = None) -> tuple[bool, dict | None]:
-    """Uploader-Start: (True, None) = dieser Prozess ist der einzige; (False, Info) = es läuft schon einer."""
+def instance_acquire(here: str, version: str, path: str | None = None,
+                     log=None) -> tuple[bool, dict | None]:
+    """Uploader-Start: (True, None) = dieser Prozess ist der einzige; (False, Info) = es läuft wirklich schon einer.
+    Veraltete Sperren werden übernommen (Zeile "alte Sperre von <Version> entfernt")."""
     if sys.platform == "win32":
         try:
             import ctypes
@@ -261,13 +307,24 @@ def instance_acquire(here: str, version: str, path: str | None = None) -> tuple[
             h = k32.CreateMutexW(None, False, MUTEX_NAME)
             if h and k32.GetLastError() == 183:                   # ERROR_ALREADY_EXISTS
                 k32.CloseHandle(h)
-                return False, instance_info(path) or {"pid": "?", "ordner": "?"}
+                info = instance_info(path)
+                return False, info if info else {"pid": "?", "ordner": "?", "version": "ab 2.3.2"}
             _MUTEX["handle"] = h
         except Exception:  # noqa: BLE001
             pass
-    other = instance_running(here, path)
+    stale: list = []
+    other = instance_running(here, path, stale)
     if other:
         return False, other
+    for st in stale:
+        if st.get("stale") == "_sync.lock":
+            try:
+                os.remove(os.path.join(here, LOCK_FILE))
+            except OSError:
+                pass
+        if log:
+            log(f"Abgleich: alte Sperre von {st.get('version') or '?'} entfernt (PID {st.get('pid', '?')} läuft nicht "
+                f"mehr als Uploader).")
     path = path or instance_file()
     try:
         os.makedirs(os.path.dirname(path), exist_ok=True)
@@ -276,6 +333,69 @@ def instance_acquire(here: str, version: str, path: str | None = None) -> tuple[
     except OSError:
         pass
     return True, None
+
+
+def offer_stop_other(other: dict, ask=None, kill=None, log=None) -> bool:
+    """T-DU12: Läuft wirklich ein (alter) Uploader: anbieten, ihn zu beenden. True = beendet, dieser Start darf weiter.
+    ask: Frage -> Antwort ("j"/"n"); ohne Antwort in 60 s gilt Nein. kill: PID -> bool."""
+    try:
+        pid = int(other.get("pid"))
+    except (TypeError, ValueError):
+        return False
+    ask = ask or ask_timeout
+    kill = kill or kill_pid
+    answer = (ask(f"Alte Version {other.get('version') or '?'} (PID {pid}) beenden und diese starten? (J/N) ") or "").strip()
+    if answer.lower() not in ("j", "ja", "y", "yes"):
+        return False
+    ok = kill(pid)
+    if log:
+        log(f"Alte Version (PID {pid}) beendet." if ok else f"Alte Version (PID {pid}) liess sich nicht beenden.")
+    return bool(ok)
+
+
+def ask_timeout(prompt: str, seconds: int = 60) -> str:
+    """Frage im Fenster; ohne Antwort nach seconds Sekunden: "" (= Nein). Windows ohne Enter nötig für J/N."""
+    sys.stdout.write(prompt)
+    sys.stdout.flush()
+    if sys.platform == "win32":
+        try:
+            import msvcrt
+            end = time.time() + seconds
+            while time.time() < end:
+                if msvcrt.kbhit():
+                    c = msvcrt.getwch()
+                    sys.stdout.write(c + "\n")
+                    return c
+                time.sleep(0.1)
+        except Exception:  # noqa: BLE001
+            pass
+        sys.stdout.write("\n")
+        return ""
+    try:
+        import select
+        r, _, _ = select.select([sys.stdin], [], [], seconds)
+        return sys.stdin.readline() if r else ""
+    except Exception:  # noqa: BLE001
+        return ""
+
+
+def kill_pid(pid: int) -> bool:
+    try:
+        if sys.platform == "win32":
+            r = subprocess.run(["taskkill", "/PID", str(int(pid)), "/T", "/F"], capture_output=True, timeout=20,
+                               creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
+            ok = r.returncode == 0
+        else:
+            import signal
+            os.kill(int(pid), signal.SIGTERM)
+            ok = True
+    except Exception:  # noqa: BLE001
+        return False
+    for _ in range(20):
+        if not pid_alive(int(pid)):
+            return ok
+        time.sleep(0.25)
+    return False
 
 
 def instance_release(path: str | None = None):
@@ -304,11 +424,14 @@ def wait_for_lock(here: str, sleep=time.sleep, now=time.time, log=None, max_wait
     def busy() -> bool:
         if not lock_active(here, now()):
             return False
+        owner = lock_owner(here)
         try:
-            pid = int(lock_owner(here).get("pid") or 0)
+            pid = int(owner.get("pid") or 0)
         except (TypeError, ValueError):
             return False
-        return pid_alive(pid)                   # Sperre eines beendeten Prozesses: nicht warten (U2)
+        if owner.get("rolle") == "starter":
+            return pid_alive(pid)               # Starter gleicht kurz ab: warten, solange er lebt
+        return is_uploader_process(pid)         # tot oder fremder Prozess: nicht warten (U2, T-DU12)
     while busy():
         if not said and log:
             log("Abgleich: GoldSentinel-WoW.bat gleicht gerade ab – warte, bis sie fertig ist ...")

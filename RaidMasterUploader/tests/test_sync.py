@@ -15,6 +15,23 @@ sys.path.insert(0, HERE)
 import sync  # noqa: E402
 
 
+# Nachbildung für die Einzel-Instanz (ab 2.3.3, T-DU12): der Elternprozess des Testlaufs gilt als "laufender Uploader"
+# (Kommandozeile mit uploader.py); alle anderen PIDs wie in Wirklichkeit.
+_REAL_CMDLINE = sync.pid_cmdline
+
+
+def _fake_cmdline(pid):
+    try:
+        if int(pid) == os.getppid():
+            return "C:\\Python\\python.exe uploader.py"
+    except (TypeError, ValueError):
+        return None
+    return _REAL_CMDLINE(pid)
+
+
+sync.pid_cmdline = _fake_cmdline
+
+
 class FakeStore:
     """Wie WebhookStore, aber im Speicher. online=False -> kein Netz."""
 
@@ -750,6 +767,96 @@ class SperreU2(unittest.TestCase):
             src = f.read()
         starter = src[src.index("def wow_start"):src.index("def main")]
         self.assertIn('write_lock(HERE, role="starter")', starter)
+
+
+class SperreDU12(unittest.TestCase):
+    """2.3.3: T-DU12 – "läuft schon (PID ?)" nur, wenn wirklich ein Uploader-Prozess die Sperre hält."""
+
+    def setUp(self):
+        self.d = tempfile.mkdtemp()
+        self.here = os.path.join(self.d, "u")
+        os.makedirs(self.here)
+        self.info = os.path.join(self.d, "instanz.json")
+        import time as _t
+        self.now = _t.time()
+        self.logs = []
+        self.cmd = {}
+        self.orig = sync.pid_cmdline
+        sync.pid_cmdline = lambda pid: self.cmd.get(int(pid)) if str(pid).lstrip("-").isdigit() else None
+
+    def tearDown(self):
+        sync.pid_cmdline = self.orig
+        shutil.rmtree(self.d, ignore_errors=True)
+
+    def lock(self, **kw):
+        with open(os.path.join(self.here, sync.LOCK_FILE), "w") as f:
+            json.dump(dict({"t": self.now}, **kw), f)
+
+    def acquire(self):
+        return sync.instance_acquire(self.here, "2.3.3", path=self.info, log=self.logs.append)
+
+    def test_du12a_sperre_ohne_pid(self):
+        self.lock()                                                          # frisch, aber ohne PID
+        ok, other = self.acquire()
+        self.assertTrue(ok, other)
+        self.assertTrue(any("alte Sperre von vor 2.3.2 entfernt" in l for l in self.logs))
+        self.assertFalse(os.path.exists(os.path.join(self.here, sync.LOCK_FILE)))
+
+    def test_du12b_pid_tot(self):
+        self.lock(pid=999999)
+        ok, _ = self.acquire()
+        self.assertTrue(ok)
+        self.assertTrue(any("PID 999999" in l for l in self.logs))
+
+    def test_du12c_pid_wiederverwendet(self):
+        pid = os.getppid()                                                   # lebt …
+        self.cmd[pid] = "C:\\Windows\\notepad.exe"                       # … ist aber kein Uploader
+        self.lock(pid=pid)
+        with open(self.info, "w") as f:
+            json.dump({"pid": pid, "ordner": self.here, "version": "2.3.2"}, f)
+        ok, _ = self.acquire()
+        self.assertTrue(ok)
+        self.assertEqual(sum("alte Sperre" in l for l in self.logs), 2)       # Instanz-Datei und _sync.lock
+        self.assertEqual(sync.instance_info(self.info)["pid"], os.getpid())   # übernommen
+
+    def test_du12d_echter_zweiter_uploader_angebot(self):
+        pid = os.getppid()
+        self.cmd[pid] = "C:\\Python313\\python.exe uploader.py"
+        self.lock(pid=pid)
+        ok, other = self.acquire()
+        self.assertFalse(ok)
+        self.assertEqual(other["pid"], pid)
+        killed = []
+        asked = []
+        self.assertFalse(sync.offer_stop_other(other, ask=lambda q: asked.append(q) or "n", kill=killed.append))
+        self.assertEqual(killed, [])
+        self.assertIn("(J/N)", asked[0])
+        self.assertTrue(sync.offer_stop_other(other, ask=lambda q: "j", kill=lambda p: killed.append(p) or True))
+        self.assertEqual(killed, [pid])
+        self.assertFalse(sync.offer_stop_other(other, ask=lambda q: "", kill=killed.append))   # keine Antwort = Nein
+        # Starter (--wow-start) zählt nie als Uploader
+        self.cmd[pid] = "python.exe uploader.py --wow-start"
+        self.assertFalse(sync.is_uploader_process(pid))
+        import uploader
+        with open(uploader.__file__, encoding="utf-8") as f:
+            main = f.read().split("def main", 1)[1]
+        self.assertLess(main.index("offer_stop_other"), main.index("load_config()"))
+
+    def test_du12e_alte_231_statusdatei(self):
+        # Sperre im Format von 2.3.1/2.3.2 ({"pid", "t"}) eines laufenden alten Uploaders -> wirklich "läuft schon"
+        pid = os.getppid()
+        self.cmd[pid] = "python uploader.py"
+        self.lock(pid=pid)
+        ok, other = self.acquire()
+        self.assertFalse(ok)
+        self.assertEqual(other["version"], "vor 2.3.2")
+        # derselbe Inhalt, Prozess inzwischen beendet -> übernehmen, beim nächsten Start kein "läuft schon"
+        self.cmd.clear()
+        ok, _ = self.acquire()
+        self.assertTrue(ok)
+        # alter Zustand (uploader_state.json von 2.3.1) erfüllt die Grundregeln
+        st = {"sync": {"seq": 29, "revs": {"_forever_/KONTO": 29}, "files": {}, "warned": []}}
+        self.assertEqual(sync.check_state(st), [])
 
 
 class Groesse(unittest.TestCase):
