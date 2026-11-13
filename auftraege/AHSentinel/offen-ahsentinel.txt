@@ -6,6 +6,21 @@ Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetz
 Regel seit 9. Nov.: Nur die AHSentinel-Sitzung ändert und veröffentlicht AHSentinel (raidmaster/CLAUDE.md).
 Gelesene Berichte: berichte/AHSentinel/2026-11-13-0833 (0.65.106) und -0903 (0.65.107).
 
+RELEASEPLAN (verbindlich, Entscheid des Nutzers 13.11. 13:15 – ersetzt jede frühere Reihenfolge in dieser Datei):
+0.65.109 FALSCHE ZAHLEN: MH1310 (Freigaben FG überall inkl. Heute/Tooltip/Sniper/"Heute tun", Ü3 in Heute, Wiederverkauf
+         über Marktwert nur bei voller Leiter + Absatz ≥ 1/Tag) · TB108 T431/T432 (Markt Entzaubern mit der ganzen Leiter) ·
+         T248/T223 (Urteil/Gewinn = "Lohnt bis") · BH1307 (Kopf "Gewinn mit Einkauf", Herkunft ohne Einstand) · DG1300 D1
+         (fremde AUCTION_CANCELED nicht verarbeiten, Buchhaltung belegen).
+0.65.110 RUCKELN UND ZUVERLÄSSIGKEIT: TB108 S1–S3 (Vollscan ≤ 16 ms je Bild, Speicher ≤ 10 MB, Portionen ≤ 8 ms) · DG1300 D2
+         (Sniper < 1 s vom Treffer zur Kaufbereitschaft, Server-Meldung je Fehlschlag) · D3/T373 (Hintergrund in Portionen) ·
+         D4 (jeder Fehler ins Protokoll) · T231, T253, T52, TU5-Doppelmeldung · Kalibrierung (Prozent grau bis kalibriert,
+         Selbstkorrektur). -> Danach meldet die Prüf-Sitzung dem Nutzer "jetzt herunterladen".
+0.66     RECHENKERN (Teil F Stufe 2): RK1–RK8, MR2 Mein Lager, API-PM2/3 (danach übernehmen die anderen Addons BL).
+0.67     SPIELRHYTHMUS (Stufe 3): MR5–MR9, RK6 Haltedauer.
+0.68     NEUER MARKT-REITER (Stufe 4): MR1/MR3/MR4/MR10, sobald die Freigaben (Teil D) erfüllt sind.
+Kleinere offene Punkte (MV, AB3, L2b, BE2b, E, F, G, API-PM4, MA3-G …) nach Möglichkeit in die passende Version legen.
+Jede Version: Regressionstest je Punkt, addon_check ohne FEHLER, Bericht in berichte/AHSentinel/.
+
 REIHENFOLGE JETZT (jeweils mit Regressionstest T-<ID>, Regel in auftraege/README.md):
 1 MA1-B (HOCH, neu): MA1 bekommt die Wahrheit vor der Vermutung – sonst bleibt MA1 bei 0 Fällen.
 2 RK2-B (HOCH, neu): Markt-Ansicht "Entzaubern" rechnet "Lohnt bis" noch selbst.
