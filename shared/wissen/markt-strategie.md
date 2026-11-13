@@ -537,6 +537,19 @@ Neuer Reiter: Lage (Bänder) / Mein Lager / Chancen / Trefferzeile – Auftrag a
   > 1,50 -> 15 % (n 9). Die Prognose reagiert kaum darauf (überall 80–100 %).
 - Folgerung: Chance je Preisstufe lernen; für 2-Std.-Händler die Kette bis zum endgültigen Verkauf messen (AHSentinel PR1).
 
+### GEMESSEN 14.11. 01:15 – Verkaufs-KETTEN (2-Std.-Händler, Daten PC 14.11. 00:43, 81 Einstellungen, 32 Ketten)
+Kette = alle Einstellungen eines Items bis zum Verkauf (Ablauf/Abbruch -> neu einstellen gehört dazu).
+- 27 von 32 Ketten enden mit Verkauf (84 %); 5 noch offen bzw. aufgegeben.
+- Einstellungen bis zum Verkauf: Median 1 (17 Ketten beim ersten Mal, 4 nach 2–3, 6 nach mehr als 3).
+- Zeit bis zum Verkauf: Median 0,3 Std.
+- Preis beim Verkauf / Preis der ersten Einstellung (Ketten > 1): Median 0,92 – wer neu einstellt, geht ca. 8 % herunter.
+- Abbrüche (17): in 6 Fällen zeigt der eigene Scan ein günstigeres fremdes Angebot (unterboten), in 8 nicht, 3 unklar.
+  Die Scans sind zu selten, um jedes Unterbieten zu sehen (der Nutzer sieht es direkt im AH-Fenster) -> Abbruch-Grund
+  muss das Addon im Moment des Abbruchs festhalten (PR1).
+Folgerung für den Spieler: Mit 2-Std.-Einstellungen verkauft sich die Ware fast immer (84 %), meist sofort; sonst nach
+etwa 8 % Preissenkung. Die richtige Vorhersage ist "verkauft sich bis wann und zu welchem Preis", nicht "Chance je
+einzelner Einstellung".
+
 ### GEMESSEN 14.11. 00:45 – Wellen und Zyklen (Prüf-Sitzung, Daten PC 5.–13.11., 336'172 Preispunkte, 6'771 Items)
 Werkzeuge: addon-check/marktanalyse/. Gemessen = Mindestpreise aus den eigenen Scans (ohne unbestätigte/Sync-Punkte).
 

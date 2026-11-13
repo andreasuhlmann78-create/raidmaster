@@ -63,6 +63,10 @@ Einzelheiten zu jedem Punkt stehen weiter unten (Suche nach dem Kürzel). Diese 
                         messen: Ware, die abläuft und neu eingestellt wird, ist ein Fall bis zum endgültigen Verkauf (Anzahl
                         Einstellungen, verfallene Anzahlungen, Zeit bis verkauft). Anzeige für den Spieler nur das Ergebnis
                         ("verkauft sich" / "zu teuer – bei x verkauft es sich"), keine Prozente, solange nicht belegt.
+                        Messung der Prüf-Sitzung 01:15 (Ketten, markt-strategie.md 8g): 27/32 Ketten enden mit Verkauf (84 %),
+                        Median 1 Einstellung, 0,3 Std.; wer neu einstellt, verkauft bei ca. 0,92 des ersten Preises. Abbruch-
+                        Grund aus den Scans nur in 6/17 Fällen als "unterboten" sichtbar -> im Moment des Abbruchs festhalten.
+                        Ziel-Anzeige: "verkauft sich (meist sofort)" bzw. "bei x verkauft es sich" – aus den Ketten gelernt.
                         Tests T-PR1a (Abbruch zählt nicht), T-PR1b (Chance fällt mit dem Preis), T-PR1c (Kette Ablauf -> Neu ->
                         Verkauf = ein Fall). Im Bericht: Trefferquote alt/neu, je Preisstufe.
 4. CH-G       ZUR PRÜFUNG 0.65.123: GoldSentinelCmdHint.lua byte-gleich, in der .toc, addon_check OK (Prüf-Sitzung 00:30).
