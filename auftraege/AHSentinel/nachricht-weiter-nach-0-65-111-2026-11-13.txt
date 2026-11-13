@@ -1,0 +1,5 @@
+Auftrag des Nutzers über die Prüf-Sitzung: "AHS soll weitermachen." 0.65.111 ist geprüft und im Spiel bestätigt (Tooltip Entzaubern stimmt, ×0,57) – danke.
+Bitte git pull --rebase im raidmaster-Repo und auftraege/AHSentinel/offen-ahsentinel.txt lesen. Reihenfolge:
+1. 0.65.112 (klein, Anzeige): UI1618a Qualitätsfilter im Einkauf (weisse/graue Teile trotz "Grün - Episch"), UI1618b Formulierung "nur +x % – unter Mindestgewinn" und Materialliste als "tiefstes Angebot" kennzeichnen, UI1509 Leer-Hinweis ausserhalb des Fensters, UI1510 leeres Testbericht-Fenster, T373 Hintergrund-Aufgaben ≤ 16 ms (cache:today, cache:warm-today in Portionen).
+2. Danach 0.66 Rechenkern laut Releaseplan – dabei Absatz als Spanne (Untergrenze = Abgänge minus neue Auktionen desselben Items, Hinweis in der Prüfung 0.65.111) und MN1–MN5 (shared/GoldSentinelMarkt.lua v1 einbauen, Netz-Daten als Quelle).
+Nach jeder Veröffentlichung Bericht in berichte/AHSentinel/.
