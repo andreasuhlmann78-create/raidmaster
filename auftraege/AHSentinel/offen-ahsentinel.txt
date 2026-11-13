@@ -54,6 +54,22 @@ L1c. (MITTEL, NEU) – DIE L1b-REPARATUR KANN ECHTE TEILVERKÄUFE LÖSCHEN
    Verkaufsbuchungen entfernt: N" an die Prüf-Sitzung melden (IM CLIENT PRÜFEN). Test T-VF5f: dieselbe Auktion,
    3 Verkäufe q=1 mit gleichem Erlös, abgeschlossen, ohne seenSold-Schlüssel -> nichts entfernt.
 
+TR. (MITTEL, NEU 13.11. 05:10) – Testroutine im Spiel mit 0.65.99 (PC, 13.11. 04:56, Teil "auto"):
+   OK 361 · FEHLER 3 · im Client prüfen 16 · übersprungen 22 · Lua-Fehler 0.
+   T223 FEHLER: "Wert 145/145, Gewinn 45/-855, Summe 153 = 153, Essenz 97 (market, unsicher true)" – erwartet Gewinn =
+        Wert - Kaufpreis für beide Angebote, 2c-Ausreisser ignoriert (Markt 300c).
+   T230 FEHLER: "0 Kandidaten" (erwartet 2, +600/+400, Wert 1000). Schon in 0.65.86 FEHLER (gleiche Ursache).
+   T425 FEHLER (neu): "0 Kandidaten · geplant 1 · BatchNet 0" (erwartet 3 · 3 · 3).
+   Vermutete Ursache (Prüf-Sitzung): Die Tests rechnen in der Sandbox mit den ECHTEN Materialpreisen und deren Alter
+   (Protokoll PREIS-ALT 04:56: Seelenstaub 21.5 Std., Gr. Astralessenz 22.2 Std. alt, "unsicher true"). Seit MP2 gibt
+   es bei altem Hauptmaterial keinen Betrag und keine Kauf-Kandidaten -> 0 Kandidaten. Offline (frische Mock-Preise)
+   laufen sie durch. Lösung: In T223/T230/T425 Preise UND Zeitstempel/Quelle der Materialien in der Sandbox setzen
+   (frisch, sicher), nicht die echten Werte verwenden; Test für den Fall "Material alt -> 0 Kandidaten, Grund genannt"
+   separat. Sollte die Ursache eine andere sein, bitte im Bericht begründen.
+   L1b: db.repairedL1b = true, aber im Protokoll (200 Einträge) steht keine Zeile "L1b doppelte Verkaufsbuchungen
+   entfernt: N" mehr (vermutlich am Laptop gelaufen oder herausgerollt). Bitte die Zahl dauerhaft speichern
+   (z. B. db.repairLog mit Datum, Rechner, N, Version) und im Testbericht ausgeben – sonst lässt sich L1c nicht prüfen.
+
 PD. (HOCH/MITTEL) – befund-pc-daten-0694.txt gilt weiter für die offenen Teile:
     PD7 HOCH  SavedVariables 21,7 MB – Preisverlauf verdichten, Ziel < 8 MB (T-PD7). Wichtig auch für den Abgleich
               PC/Laptop und das Daten-Repo (Uploader lädt AHSentinel.lua bei jedem /reload ganz hoch).
