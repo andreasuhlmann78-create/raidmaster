@@ -1,0 +1,21 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 13.11.2026 12:40 · Sitzung: Discord-Projekt · Version: Bot 1.5.126 · Commit: dieser Bericht
+
+ERLEDIGT (offen-discord.txt Stand 13.11. 12:00)
+1. RP-D2: raid_ready.py PHASES kennt jetzt build -> Aufbau, trans -> Übergang (alte deutsche Wörter bleiben), gilt auch
+   für "vorschlag"; Raid-Kürzel für TBC ergänzt (kara, gruul, mag, ssc, tk). Test T-RP-D2
+   (tests/test_raid_ready.py EchteGuildSentinelDaten: ony/build -> "Raidfähig (Onyxia) … Phase Aufbau";
+   kara/trans + vorschlag raid -> "Phase Raid"; gleiche Phase -> kein Hinweis).
+2. RP-D3: Stand älter als 7 Tage -> "(Stand TT.MM.JJJJ)" angehängt; älter als 14 Tage -> nicht gepostet (Protokoll),
+   Woche gilt als erledigt. raid_ready.too_old / weekly_text(rr, now_ts), bot.py post_raid_ready. Test T-RP-D3
+   (AlterStand: 3 / 10 / 20 Tage, ohne t).
+3. R1-T: Posten eines neuen Raids aus bot.py raid_create nach raid_post.py post_new_raid herausgelöst (bot.py ruft es
+   nach dem defer). Funktionstest T-R1 tests/test_raid_post.py: target.send wirft discord.Forbidden (403) -> Raid
+   nicht im gespeicherten Buch (auch nach Neu-Laden), Antwort enthält "Nachrichten senden" und 403; Erfolgsfall ->
+   message_id gesetzt und gespeichert. TU6 zeigt jetzt auf diesen Test; der reine Quelltext-Test ist entfernt.
+4. NAMEN: Vorname in Kommentaren durch "des Nutzers" ersetzt (bot.py, member_area.py, server_setup.py). Alte Commits
+   unverändert.
+- raid_post im Import-Schritt von bot-tests.yml. TU6 Regressionen 14 von 14. Bot-Tests 177/177 OK.
+
+IM CLIENT GETESTET
+- siehe Nachtrag nach dem Selbst-Update (Server-Prüfung über den Bot, nur lesen).

@@ -1,4 +1,4 @@
-"""Mitglieder-Bereich und Bewerbung (ab Bot 1.5.115, Auftrag Discord-Projekt DC2/DC3, Freigabe Andreas 12.11.2026).
+"""Mitglieder-Bereich und Bewerbung (ab Bot 1.5.115, Auftrag Discord-Projekt DC2/DC3, Freigabe des Nutzers 12.11.2026).
 
 Ziel: Wer dem Discord ohne Rolle beitritt (öffentliches Serverprofil), sieht nur noch INFO, REGELN, PUG, RAID-ADDON und
 📝 BEWERBUNG. Alles andere (💬 ALLGEMEIN, 🗝️ DUNGEONS, 🏦 GILDENBANK, ⚔️ RAID-ORGA, Raid-Kategorien) sehen nur die
@@ -30,7 +30,7 @@ GUEST_ROLE = "Gast"
 APPLY_CATEGORY = "📝 BEWERBUNG"
 APPLY_CHANNEL = "bewerbung"
 APPLY_TOPIC = "Neu hier? Auf „Bewerben“ klicken – ein Offizier meldet sich bei dir."
-APPLY_AFTER = "📜 REGELN"   # bis 1.5.123; ab 1.5.124 steht 📝 BEWERBUNG ganz oben (Wunsch Andreas 13.11.)
+APPLY_AFTER = "📜 REGELN"   # bis 1.5.123; ab 1.5.124 steht 📝 BEWERBUNG ganz oben (Wunsch des Nutzers 13.11.)
 
 # Kategorien, die alle sehen dürfen (auch ohne Rolle) – werden nie angefasst
 OPEN_CATEGORIES = ("📌 INFO", "📜 REGELN", "🎲 PUG", "🧩 RAID-ADDON", APPLY_CATEGORY)

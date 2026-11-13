@@ -124,7 +124,7 @@ RENAMES = {
 #   "officers_readonly" = Offiziere/Raidleitung lesen, nur der Bot schreibt
 #   "officers_only" = nur die Rolle Offizier (und der Bot) sieht und schreibt
 #   "members_botonly" = nur Mitglied/Raider/Raidleitung/Offizier sehen; schreiben dürfen nur Offiziere und der Bot
-#                       (ab 1.5.117: Addon's by GoldSentinel für alle Gildenmitglieder, Wunsch Andreas 12.11.2026)
+#                       (ab 1.5.117: Addon's by GoldSentinel für alle Gildenmitglieder, Wunsch des Nutzers 12.11.2026)
 #   "officers_write" = alle lesen, nur die Rolle Offizier (und der Bot, Admins) schreibt
 BASE_TOP = [
     {
@@ -189,7 +189,7 @@ BASE_BOTTOM = [
             ("text", "gruppensuche", "Dungeons, Quests und Twinks", None),
             ("text", "befehle", MEMBER_COMMANDS_TOPIC, "botonly"),        # ab Bot 1.5.106: Befehle für Mitglieder
             # ab Bot 1.5.99: AFK hier statt in der Kategorie 🔊 SPRACHE (die mit "Allgemein"/"Raid" entfallen ist)
-            # ab Bot 1.5.122: Sprachkanal für die Gildenmitglieder (Wunsch Andreas 13.11.); Text = #Allgemein
+            # ab Bot 1.5.122: Sprachkanal für die Gildenmitglieder (Wunsch des Nutzers 13.11.); Text = #Allgemein
             ("voice", "Gildenhalle", None, None),
             ("voice", "AFK", None, None),
         ],
@@ -1310,7 +1310,7 @@ def pool_from_channel(channel, raid_channels: dict | None) -> str | None:
 
 
 async def drop_disboard_manage_channels(guild, reason: str = "RaidMaster: DISBOARD braucht 'Kanäle verwalten' nicht") -> list[str]:
-    """Ab 1.5.123 (Entscheid Andreas 13.11.2026): der Rolle DISBOARD.org nur das Recht "Kanäle verwalten" entziehen.
+    """Ab 1.5.123 (Entscheid des Nutzers 13.11.2026): der Rolle DISBOARD.org nur das Recht "Kanäle verwalten" entziehen.
     Sonst nichts ändern. Liefert Meldungen (leer = nichts zu tun)."""
     role = next((r for r in guild.roles if r.name.strip().casefold() in ("disboard.org", "disboard")), None)
     if role is None or not role.permissions.manage_channels:

@@ -17,10 +17,16 @@ from datetime import datetime
 
 FIELDS_INT = ("aktiv", "groesse", "tanks", "tanksSoll", "heiler", "heilerSoll", "pct", "wochen", "t")
 FIELDS_TEXT = ("raid", "phase", "vorschlag")
-PHASES = {"aufbau": "Aufbau", "uebergang": "Übergang", "übergang": "Übergang", "raid": "Raid"}
+# GuildSentinel schreibt die Schlüssel build / trans / raid (RaidReady.lua PHASE_NAME); deutsche Wörter bleiben gültig
+PHASES = {"build": "Aufbau", "trans": "Übergang", "aufbau": "Aufbau", "uebergang": "Übergang", "übergang": "Übergang",
+          "raid": "Raid"}
 RAID_NAMES = {"mc": "Molten Core", "onyxia": "Onyxia", "ony": "Onyxia", "bwl": "Pechschwingenhort",
               "zg": "Zul'Gurub", "aq20": "Ruinen von Ahn'Qiraj", "aq40": "Tempel von Ahn'Qiraj", "naxx": "Naxxramas",
-              "barrow": "Barrow Deeps", "hyjal": "Hyjalgipfel"}
+              "barrow": "Barrow Deeps", "hyjal": "Hyjalgipfel",
+              "kara": "Karazhan", "gruul": "Gruuls Unterschlupf", "mag": "Magtheridons Kammer",
+              "ssc": "Höhle des Schlangenschreins", "tk": "Festung der Stürme"}
+STALE_NOTE_DAYS = 7      # älter: "(Stand <Datum>)" anhängen
+STALE_SKIP_DAYS = 14     # älter: nicht posten (RP-D3)
 
 
 def _int(v) -> int | None:
@@ -71,7 +77,18 @@ def raid_label(r: str | None) -> str:
     return RAID_NAMES.get(r.strip().casefold(), r.strip())
 
 
-def weekly_text(rr: dict) -> str:
+def age_days(rr: dict, now_ts: float) -> float | None:
+    t = rr.get("t")
+    return None if not t else max(0.0, (now_ts - t) / 86400)
+
+
+def too_old(rr: dict, now_ts: float) -> bool:
+    """RP-D3: Stand älter als 14 Tage -> nicht als aktuell posten."""
+    a = age_days(rr, now_ts)
+    return a is not None and a > STALE_SKIP_DAYS
+
+
+def weekly_text(rr: dict, now_ts: float | None = None) -> str:
     parts = [f"📊 **Raidfähig ({raid_label(rr.get('raid'))}):** {rr['aktiv']}/{rr['groesse']} aktiv"]
     if "tanks" in rr and "tanksSoll" in rr:
         parts.append(f"Tanks {rr['tanks']}/{rr['tanksSoll']}")
@@ -80,7 +97,11 @@ def weekly_text(rr: dict) -> str:
     parts.append(f"Phase {phase_label(rr.get('phase'))}")
     w = rr.get("wochen")
     parts.append(f"Schätzung ~{w} Woche{'n' if w != 1 else ''}" if w else "Schätzung: messe noch")
-    return " · ".join(parts)
+    text = " · ".join(parts)
+    a = age_days(rr, now_ts) if now_ts is not None else None
+    if a is not None and a > STALE_NOTE_DAYS:
+        text += f" (Stand {datetime.fromtimestamp(rr['t']).strftime('%d.%m.%Y')})"
+    return text
 
 
 def suggestion_text(rr: dict) -> str | None:

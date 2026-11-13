@@ -331,7 +331,7 @@ class BotCode(unittest.TestCase):
         body = src[src.index("async def raid_create("):]
         body = body[:body.index("\n\n\n")]
         self.assertLess(body.index("inter.response.defer("), body.index("channel_by_id("))
-        self.assertLess(body.index("target.send(embed"), body.index("inter.followup.send(f\"Raid erstellt"))
+        self.assertLess(body.index("inter.response.defer("), body.index("raid_post.post_new_raid("))
         self.assertNotIn("inter.response.send_message(embed", body)
 
     def test_raid_aus_dem_kanal(self):
@@ -339,14 +339,6 @@ class BotCode(unittest.TestCase):
             src = f.read()
         self.assertIn('pool = raid or pool_from_channel(inter.channel) or "mc"', src)
         self.assertIn("raid: str | None = None", src[src.index("async def raid_create("):][:300])
-
-    def test_raid_ohne_nachricht_wird_entfernt(self):
-        with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as f:
-            src = f.read()
-        body = src[src.index("async def raid_create("):]
-        body = body[:body.index("\n\n\n")]
-        exc = body[body.index("except discord.HTTPException"):]
-        self.assertLess(exc.index('book.raids.data["raids"].pop('), exc.index("return"))
 
     def test_raidmaster_pflicht_hinweis(self):
         with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as f:

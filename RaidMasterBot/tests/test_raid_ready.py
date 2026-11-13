@@ -37,6 +37,45 @@ class Parse(unittest.TestCase):
         self.assertIn("~1 Woche ", raid_ready.weekly_text(rr) + " ")
 
 
+class EchteGuildSentinelDaten(unittest.TestCase):
+    """T-RP-D2: GuildSentinel schreibt phase/vorschlag als build / trans / raid und Raids als Kürzel."""
+
+    def test_build_und_ony(self):
+        rr = raid_ready.parse({"raidReady": {"raid": "ony", "phase": "build", "aktiv": 23, "groesse": 40, "tanks": 2,
+                                             "tanksSoll": 4, "heiler": 5, "heilerSoll": 10, "wochen": 3}})
+        text = raid_ready.weekly_text(rr)
+        self.assertIn("Raidfähig (Onyxia)", text)
+        self.assertIn("Phase Aufbau", text)
+        self.assertNotIn("build", text)
+
+    def test_trans_mit_vorschlag_raid(self):
+        rr = raid_ready.parse({"raidReady": {"raid": "kara", "phase": "trans", "vorschlag": "raid", "aktiv": 8,
+                                             "groesse": 10}})
+        self.assertIn("Phase Übergang", raid_ready.weekly_text(rr))
+        self.assertIn("Phase Raid", raid_ready.suggestion_text(rr))
+        self.assertIn("Karazhan", raid_ready.weekly_text(rr))
+        rr = raid_ready.parse({"raidReady": {"raid": "mc", "phase": "trans", "vorschlag": "trans", "aktiv": 8,
+                                             "groesse": 40}})
+        self.assertIsNone(raid_ready.suggestion_text(rr))
+
+
+class AlterStand(unittest.TestCase):
+    """T-RP-D3: alter Stand – nach 7 Tagen "(Stand …)", nach 14 Tagen nicht posten."""
+
+    def test_3_10_20_tage(self):
+        now = 1794470000
+        for days, note, skip in ((3, False, False), (10, True, False), (20, False, True)):
+            with self.subTest(tage=days):
+                rr = raid_ready.parse({"raidReady": dict(RR, t=now - days * 86400)})
+                self.assertEqual(raid_ready.too_old(rr, now), skip)
+                if not skip:
+                    self.assertEqual("(Stand " in raid_ready.weekly_text(rr, now), note)
+
+    def test_ohne_zeit_nicht_zu_alt(self):
+        rr = raid_ready.parse({"raidReady": {k: v for k, v in RR.items() if k != "t"}})
+        self.assertFalse(raid_ready.too_old(rr, 1794470000))
+
+
 class Termine(unittest.TestCase):
     def test_nur_montag_und_einmal_pro_woche(self):
         mon = datetime(2026, 11, 16, 9, 0)
@@ -70,6 +109,7 @@ class BotCode(unittest.TestCase):
         body = src[src.index("async def post_raid_ready("):src.index("@tasks.loop(hours=1)\nasync def monthly_loop")]
         self.assertIn('find_channel(guild.text_channels, "offiziere")', body)
         self.assertEqual(body.count("ch.send("), 2)
+        self.assertIn("raid_ready.too_old(", body)
         self.assertIn('state.data["raidready_week"]', body)
         self.assertIn('state.data["raidready_suggestion"]', body)
 

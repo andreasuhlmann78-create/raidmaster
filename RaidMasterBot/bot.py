@@ -40,6 +40,7 @@ import uploader_setup
 import invites
 import member_area
 import raid_ready
+import raid_post
 import self_check
 import tb_aufraeumen
 import render as rimg
@@ -593,7 +594,7 @@ def status_text(actual: str, wanted: str) -> str:
 
 
 def addon_hint(raid: dict | None, actual: str) -> str:
-    """Hinweis bei der Anmeldung zu einem Gilden-Raid (ab 1.5.117, Wunsch Andreas 12.11.): RaidMaster ist Pflicht."""
+    """Hinweis bei der Anmeldung zu einem Gilden-Raid (ab 1.5.117, Wunsch des Nutzers 12.11.): RaidMaster ist Pflicht."""
     if not raid or raid.get("mode") == "pug" or actual not in ("an", "ersatz", "vielleicht"):
         return ""
     guild = bot_guild()
@@ -943,20 +944,11 @@ async def raid_create(inter: discord.Interaction, titel: str, datum: str, uhrzei
     raid["pool_name"] = dict(known_raids()).get(pool, pool)
     if mode == "pug" and softres_link:
         raid["softres"] = softres_link
-    try:
-        msg = await target.send(embed=raid_embed(raid), view=raid_view(raid))
-    except discord.HTTPException as e:
-        # Posten gescheitert (z. B. fehlendes Recht): Raid nicht ohne Nachricht im Buch lassen (Befund R1, 1.5.122)
-        book.raids.data["raids"].pop(str(raid["id"]), None)
-        book.save()
-        log.warning("Raid nicht gepostet in #%s: %s", getattr(target, "name", "?"), e)
-        await inter.followup.send(f"⚠️ Ich konnte den Raid nicht in {target.mention} posten ({e.status}). Mir fehlt dort "
-                                  "wohl das Recht **Nachrichten senden** oder **Links einbetten**. Der Raid wurde nicht "
-                                  "angelegt.", ephemeral=True)
+    # posten; scheitert es, bleibt kein Raid ohne Nachricht im Buch (Befund R1, raid_post.py, Funktionstest T-R1)
+    msg = await raid_post.post_new_raid(book, raid, target, raid_embed(raid), raid_view(raid),
+                                        lambda text: inter.followup.send(text, ephemeral=True))
+    if msg is None:
         return
-    raid["message_id"] = msg.id
-    book.save()
-    await inter.followup.send(f"Raid erstellt in {target.mention}.", ephemeral=True)
     await create_raid_event(raid)
     if mode == "pug":
         role = discord.utils.get(inter.guild.roles, name="Gast") if inter.guild else None
@@ -2734,7 +2726,13 @@ async def post_raid_ready(now: datetime | None = None) -> list[str]:
         state.save()
         sent.append("vorschlag")
     if raid_ready.weekly_due(now, state.data.get("raidready_week")):
-        await ch.send(raid_ready.weekly_text(rr), allowed_mentions=NO_PING)
+        if raid_ready.too_old(rr, now.timestamp()):
+            # RP-D3: alter Stand (> 14 Tage) wird nicht als aktuell gepostet
+            log.info("Raidfähigkeit nicht gepostet: Stand älter als %s Tage", raid_ready.STALE_SKIP_DAYS)
+            state.data["raidready_week"] = raid_ready.week_key(now)
+            state.save()
+            return sent
+        await ch.send(raid_ready.weekly_text(rr, now.timestamp()), allowed_mentions=NO_PING)
         state.data["raidready_week"] = raid_ready.week_key(now)
         state.save()
         sent.append("woche")
@@ -6312,7 +6310,7 @@ async def apply_fixed_guild_name() -> list[str]:
 # ---------------------------------------------------------------------------
 
 # ---------------------------------------------------------------------------
-# Mitglieder-Bereich und Bewerbung (ab Bot 1.5.115, Discord-Projekt DC2/DC3, Freigabe Andreas 12.11.2026)
+# Mitglieder-Bereich und Bewerbung (ab Bot 1.5.115, Discord-Projekt DC2/DC3, Freigabe des Nutzers 12.11.2026)
 # Logik und Texte in member_area.py. Eingerichtet wird nur von Hand mit /mitgliederbereich einrichten (Vorschau, dann
 # bestaetigen:True); danach hält der Bot neue Kanäle in den Mitglieder-Kategorien automatisch dicht.
 # ---------------------------------------------------------------------------
