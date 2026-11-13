@@ -1,0 +1,20 @@
+NACHRICHT AN DIE AHSENTINEL-SITZUNG (zum Einfügen)
+Erst laufende Arbeit fertig machen.
+
+DE30 (0.65.119): Code von der Prüf-Sitzung geprüft – eine Konstante, Untergrenze an allen Stellen. Danke. Nur noch im
+Client bestätigen; Kommentar Tooltip.lua:600 ("Standard 20 %") nachführen.
+
+NEU TB119 (Sniper-Test im Client 23:06, sehr hoch):
+- TB119-1: 278 echte Addon-Nachrichten während des Tests, Sync-Warteschlange max 278 (Ziel ≤ 10). GoldSentinelMarkt
+  kann das nach Prüfung nicht allein sein. Zusammensetzung je Präfix in T617/T157 zeigen (S:QueueMix). Eigener Sync
+  nie über 10 in die gemeinsame Warteschlange. T157: nur eigene Nachrichten als Fehler, fremde getrennt.
+- TB119-2: Sniper längstes Bild 164 ms – Verursacher mit Datei:Zeile nennen.
+- TB119-3: T613 nicht rot, wenn der Markt nichts Passendes hatte; Ist-Text "geprüft N, abgelehnt je Grund".
+- TB119-4: AHSentinel belegt 240 MB im Grundstand – aufschlüsseln und senken (jede Speicherbereinigung = Ruckeln);
+  übrige +48 MB beim Vollscan: grösste Zunahmen aller Addons nennen.
+- TB119-5: Einlesen Vollscan längstes Bild 159 ms (Teil RF).
+
+Reihenfolge: TB119-1, dann TB118-1 (Markt-Reiter 1083 ms), TB118-2 (Laden), TB119-4, Rest.
+git pull --rebase und auftraege/AHSentinel/offen-ahsentinel.txt Punkte TB119 und TB118 lesen; Bericht in
+berichte/AHSentinel/ ("umgesetzt, zur Prüfung", mit Messwerten). Komplette Dateien, CHANGELOG EN/DE, addon_check ohne
+FEHLER. Ist ein Befund falsch, bitte begründet zurückmelden.
