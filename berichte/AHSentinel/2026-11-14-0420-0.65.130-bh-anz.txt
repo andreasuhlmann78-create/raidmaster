@@ -1,0 +1,15 @@
+Bericht AHSentinel 0.65.130 – BH-ANZ und EB-NAME (Teil von EB)
+Stand: 14.11.2026 · Status: umgesetzt, zur Prüfung
+- BK:DepositStatus (nur Auswertung, alte Buchungen unverändert): Gebühr-Buchungen je Figur+Item der Reihe nach;
+  Erstattung (negative Gebühr, aus Le "refund" bzw. Verkauf mit refund) löst die ältesten hinterlegten Anzahlungen auf
+  (innerhalb 26 Std.); was 26 Std. nach dem Einstellen nicht zurück ist, gilt als verfallen (Zeitpunkt Einstellen + 26 Std.,
+  also im Zeitraum des Ablaufs). Summary: s.fees = verfallen im Zeitraum (Aufwand), s.depHeld = hinterlegt, s.feesRaw =
+  Gold-Fluss (bezahlt − zurück, nur Information; Gold-Abstimmung rechnet weiter mit dem echten Gold-Fluss).
+  Erstattungen ohne passende Anzahlung (vor dem Stichtag) sind kein Ertrag.
+- Annahme (im Spiel nicht gemessen): Abbruch = Anzahlung verfällt (Classic-Regel). Gibt Forever beim Abbruch zurück,
+  bucht der Ledger ein "refund" und es wird automatisch aufgelöst.
+- EB-NAME: BK:DepositWord() = Blizzard DEPOSIT ohne Doppelpunkt (Ersatz L["Anzahlung"]); Tooltip Buchhaltung "Gewinn =
+  Erlös − eingesetzt − <Anzahlung> verfallen"; Kasse-Zeile mit dem Gold-Fluss.
+- Bericht: "BH-ANZ <Wort>: hinterlegt · verfallen · Gold-Fluss" (Feld buch_anzahlung).
+- Test T654 T-BHA1–4 (+ Wort) – PASS; T444 angepasst (Anzahlung hinterlegt, Gewinn ohne sie). Gesamtlauf 246/246.
+Offen in EB: Eigenbedarf (EB1–EB5), Details-Fenster mit Handel/Std. (EB7) und EB-DET – nächste Versionen, klein geschnitten.
