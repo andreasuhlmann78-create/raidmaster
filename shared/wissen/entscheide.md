@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 15:45 | "Wenn man beim Sniper Max/Stück nur 22 schreibt, dürfen daraus nicht 22 Gold werden, sondern 22 Kupfer." | AHSentinel SN-EIN1: Höchstpreis-Felder beim Kaufen: Zahl ohne Einheit = Kupfer; Budget bleibt Gold; Verkaufs-Preisfelder: ohne Einheit gesperrt (Supervisor, Gold-Sicherheit). |
 | 15:18 | GRUNDSATZ: "Egal was wir einbauen, es muss für den Spieler einfach nachvollziehbar sein, wie es funktioniert – das Warum ist nicht ganz so wichtig." | auftraege/README.md GRUNDSATZ NACHVOLLZIEHBAR, psychologie.md 3b: Zahl + ein Satz (≤ 20 Wörter) je Funktion; ergänzt 01:15 "nur Zahlen" (keine Formeln). |
 | 15:16 | Erwartungswert je Weg + Positionsgrösse (Kelly) aufnehmen: "ja – aber du bist verantwortlich, dass es Sinn macht und der Spieler grossen Nutzen daraus ziehen kann". | markt-strategie.md 8i: erst Nutzen-Test (Nachspielen mit echten Buchungen: mehr Gold, kein schlechterer schlechtester Tag), dann Auftrag nach den Herstellungs-Ketten. |
 | 14:51 | Herstellungs-Ketten: AHS erkennt die Berufe des Spielers, merkt sich die Ketten bis zum Verkauf, stellt sie sinnvoll dar, und zeigt NUR was Gold bringt – nichts mit Minus. | offen-ahsentinel.txt S3-2 VORGABEN |

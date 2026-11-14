@@ -17,7 +17,21 @@ PRÜFUNG 0.65.165 + 0.65.166 (Supervisor 15:55, addon_check 0.65.166 OK, Bericht
   Staub 83 % × Ø 1,5 + Essenz 17 % × Ø 1,6 (nicht 1s 32c fest).
 - Antwort zu ProfessionSentinel-API: JA, wird bei ProfessionSentinel beauftragt (PS-API1 "Rezepte mit Zutaten je Figur"); bis
   dahin bleibt euer Weg (Berufsfenster einmal öffnen). Wenn die API da ist: nutzen, sonst Rückfall.
-Reihenfolge jetzt: SN-MAX1 (HOCH, Gold), EK-1 (HOCH), BR-LEER1, dann VS-1, dann Ketten Schritt 2 nach Freigabe, Rest NIEDRIG.
+Reihenfolge jetzt: SN-EIN1 (HOCH, Gold, Entscheid 15:45), SN-MAX1 (HOCH, Gold), EK-1 (HOCH), BR-LEER1, dann VS-1, dann Ketten Schritt 2 nach Freigabe, Rest NIEDRIG.
+
+SN-EIN1 HOCH – ZUERST (Entscheid des Nutzers 15:45, Gold-Sicherheit; im Code bestätigt AHAnalyzerPro.lua 513 A:ParseGold: eine Zahl
+   ohne Einheit = GOLD, "22" -> 220000 Kupfer; Screenshot 15:42 zeigt im Sniper "Max/Stück 22g = 22 [Gold]"):
+   "Wenn man beim Sniper Max/Stück nur 22 schreibt, dürfen daraus nicht 22 Gold werden, sondern 22 Kupfer."
+   - Höchstpreis-Felder beim KAUFEN (Sniper Max/Stück, Einkauf/Sammelkauf/Wächter "Max", Einkaufslisten-Grenze): Zahl ohne
+     Einheit = KUPFER. Eigene Funktion A:ParseMoney(text, "copper"); A:ParseGold bleibt für alte Aufrufer unverändert.
+   - Budget-Felder bleiben Gold ("6" = 6g) – dort ist Gold gemeint und kleiner wäre nur harmlos.
+   - Supervisor ergänzt (Gold-Sicherheit, gleiche Art Fehler): Preis-Felder beim VERKAUFEN (Preis/Stück im Verkaufen-Fenster,
+     Mindestpreis): Zahl ohne Einheit NICHT still deuten – Vorschau rot "Einheit fehlt: g, s oder c", Einstellen gesperrt, bis
+     eine Einheit dasteht. (Sonst wird aus "13" für 13s entweder 13g oder 13c.)
+   - Neben jedem Feld steht wie bisher die Vorschau "= 22c" mit Münzbild, damit der Spieler sieht, was gilt (Grundsatz 15:18).
+   Test (auch falsche Fälle): Max "22" -> 22c; "22s" -> 2200; "1g 5s" -> 10500; Budget "6" -> 6g; Verkaufen "13" -> gesperrt,
+   "13s" -> 1300. Alte gespeicherte Ziele unverändert (Werte sind schon Kupfer). Selbstkontrolle: Sniper-Ziel mit Max > 50 ×
+   Marktwert -> Warnung "Höchstpreis ungewöhnlich hoch – Tippfehler?" (rot), Kauf nur nach Bestätigung.
 
 SN-MAX1 HOCH (Gold-Sicherheit, Screenshots des Nutzers 15:42, 0.65.165, Sniper Leinenstoff Max/Stück 22c, Budget 6g):
    Chat: "Kauf gesendet: 152x Leinenstoff für 32s 96c" -> "Preis bestätigt: 152x Leinenstoff für 34s 84c – nochmal Mausrad zum
