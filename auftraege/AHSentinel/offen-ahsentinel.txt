@@ -17,7 +17,21 @@ PRÜFUNG 0.65.165 + 0.65.166 (Supervisor 15:55, addon_check 0.65.166 OK, Bericht
   Staub 83 % × Ø 1,5 + Essenz 17 % × Ø 1,6 (nicht 1s 32c fest).
 - Antwort zu ProfessionSentinel-API: JA, wird bei ProfessionSentinel beauftragt (PS-API1 "Rezepte mit Zutaten je Figur"); bis
   dahin bleibt euer Weg (Berufsfenster einmal öffnen). Wenn die API da ist: nutzen, sonst Rückfall.
-Reihenfolge jetzt: EK-1 (HOCH), dann VS-1, dann Ketten Schritt 2 nach Freigabe, Rest NIEDRIG.
+Reihenfolge jetzt: SN-MAX1 (HOCH, Gold), EK-1 (HOCH), BR-LEER1, dann VS-1, dann Ketten Schritt 2 nach Freigabe, Rest NIEDRIG.
+
+SN-MAX1 HOCH (Gold-Sicherheit, Screenshots des Nutzers 15:42, 0.65.165, Sniper Leinenstoff Max/Stück 22c, Budget 6g):
+   Chat: "Kauf gesendet: 152x Leinenstoff für 32s 96c" -> "Preis bestätigt: 152x Leinenstoff für 34s 84c – nochmal Mausrad zum
+   Kaufen" -> "Gekauft: 152x Leinenstoff für 34s 84c" = 22,92c je Stück, ÜBER dem Höchstpreis 22c (Gold 17g 84s 42c -> 17g 49s 58c
+   bestätigt). Der bestätigte Server-Preis (Ware über mehrere Preisstufen) wird nicht gegen Max/Stück geprüft; der zweite
+   Mausrad-Schritt kauft trotzdem. Regel (SN-M, Gold-Sicherheit): Nach "Preis bestätigt" Stückpreis = Gesamt / Menge; > Max ->
+   NICHT kaufen, Menge auf die Stückzahl senken, die ≤ Max bleibt (Preisleiter), neu bestätigen lassen; sonst Hinweis "zu teuer".
+   Test: Leiter 100×21c + 52×26c, Max 22c -> kauft 100 bzw. lehnt ab, nie 152; falscher Fall -> Kauf gesperrt. Selbstkontrolle:
+   je Sniper-Kauf bezahlter Stückpreis ≤ Max, sonst rot (Zähler im Testbericht).
+BR-LEER1 MITTEL (Screenshot 15:44, 0.65.165): "Beste Rezepte (Gewinn)" am Berufsfenster leer mit "Noch keine Preise. Erst im
+   Auktionshaus scannen." – obwohl AH offen und letzter Scan vor 20 Min. (vorher 0.65.159 mit Zahlen). Vermutung: BR-W1 (Preis-
+   leiter für 20 Stück) findet keine Leiter ohne frische Suche je Zutat und verwirft dann ALLES statt auf A:RealPrice zurück-
+   zufallen. Rückfall einbauen (ohne Leiter: RealPrice wie vorher, nur nicht das billigste Einzelangebot); Test: keine Leiter ->
+   Liste nicht leer. Selbstkontrolle: Beste Rezepte leer, obwohl Scan < 1 Std. -> rot.
 
 VS-1 MITTEL (Feldstudie des Nutzers, Screenshot 15:38): Seltsamer Staub 176 Stück zu 1s 12c (2c unter dem günstigsten) in 9
    Auktionen + Geringe Magieessenz 39 zu 1s 39c – ALLES in ≈ 7 Min. verkauft (14:23 ebenso: 50er-Ladung in 3 Min.). Tooltip zeigt
