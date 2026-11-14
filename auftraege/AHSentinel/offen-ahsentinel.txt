@@ -1,6 +1,40 @@
 GRUNDSATZ (Nutzer 14.11. 11:24, IMMER): Jede neue Funktion = Test in der Testroutine (auch falsche Fälle) + Selbstkontrolle im
 Spiel wo messbar (SK1-Muster) + Prüfung durch den Supervisor. Im Bericht je Funktion alle drei nennen.
 
+PRÜFUNG 0.65.154 + 0.65.155 (Supervisor 12:35, addon_check OK, Berichte + Kern.lua/MarketCore.lua/SelfCheck.lua/Books.lua/
+Ledger.lua dreifach gelesen). Reihenfolge-Erklärung (S2 vor SK1, Nutzer 11:26 "erst Aufgabe beenden") angenommen.
+Richtig: A2 Tabelle nur nachschlagen, fehlt sie -> läuft ohne; V2 wirkt nur über LimitFromNet, nie über 0,9; Testroutine fest
+0,9; V3 nur Richtung; SK1 passiv, nie in echte Daten während der Testroutine, a/e/f/g/h/i wie verlangt.
+Neu, in dieser Reihenfolge VOR NP152-…:
+SK1-B1 HOCH  SK1-b Post meldet bei fast jeder Briefkasten-Sitzung falsch rot.
+   SelfCheck.lua SC:Booked("b") zählt Erlöse mit e.ti im Sitzungsfenster. e.ti ist aber die ANKUNFT der Rechnung
+   (Ledger.lua 148 arrived = now − (30 − daysLeft) Tage -> Ledger:Add -> BK:OnInvoice(…, e.t) -> best.ti = t), also fast immer
+   VOR dem Öffnen des Briefkastens. Geld aus Verkaufs-Rechnungen ist damit "gebucht 0" -> Abweichung mit Hinweis
+   "(erstattete Anzahlung? A7)" – das verfälscht auch die A7-Messung. Zusätzlich bricht die Schleife bei Einträgen älter als
+   1 Tag ab (Zeile "if (e.t or 0) < t0 - 86400 …"); Rechnungen, die länger im Briefkasten lagen, fehlen auch so.
+   Lösung: je GENOMMENEM Geld (TakeInboxMoney/Auto-Loot der Post) den Betrag der zugehörigen Rechnung in der Sitzung
+   mitzählen und nach Art trennen: AH-Verkauf, Erstattung/Überboten, Spieler-Post, Nachnahme. Vergleich = gemessenes Gold
+   gegen diese Summe; nur ungeklärtes Gold ist Abweichung, "A7?" nur bei Post vom Auktionshaus ohne Verkaufs-Rechnung.
+   Test: Rechnung kam gestern, Geld heute genommen -> stimmig; Spieler schickt Gold -> eigene Art, keine A7-Vermutung;
+   absichtlich fehlende Buchung -> FEHLER. Im Spiel: SK1-b nach 2 Briefkasten-Besuchen mit Verkäufen im Testbericht.
+SK1-B2 NIEDRIG  SK1-d Handel ist bei Kauf/Verkauf immer stimmig (OnTrade(dm, dm, …) – die Buchung wird aus dm selbst geteilt).
+   Gegenrechnen mit den tatsächlich geschriebenen Log-Einträgen (Summe cost bzw. rev der neuen Einträge = |dm|), damit ein
+   Fehler in split/Log auffällt. Echter Nutzen bleibt der Fall "nichts" (Gold ohne Ware).
+SK1-B3 NIEDRIG  SK1-g vergleicht nur die Anzahl der Zeilen. Entscheid 08:42 "1:1 wie im AH": zusätzlich günstigster Preis und
+   Stückzahl der ersten Zeile gegen die letzte Server-Antwort.
+S2-B1 MITTEL  V2 gewichtet die Tabelle mit ihrem vollen n (K:BuyGain: (y + tg × tn) / (n + tn), tn bis 234).
+   Bauplan L2: Vorwissen mit k = 2, "mit vielen Fällen zählt die eigene Zahl" (A2: eigene Zählung geht vor). Die heutige
+   Tabelle ist zudem aus DEN GLEICHEN Käufen dieses Kontos gerechnet -> jeder Fall zählt doppelt, BUY_MIN 10 ist ohne einen
+   eigenen Fall erreicht. Lösung: Tabelle als Vorwissen mit Gewicht k = 2 (wie SellCellPrior -> Value), BUY_MIN nur aus
+   eigenen Fällen (der 30-Tage-Nachtrag liefert genug). Test: Tabelle sagt +18 %, 40 eigene Fälle +30 % -> eigene Zahl gewinnt.
+S2-B2 NIEDRIG  Eigener Gewinn je Stufe = Mittel der Einzel-Quoten (gekappt −1…+3), Tabelle = Summe/Summe (L3/KF2).
+   Je Stufe Summe Kaufpreis und Summe Erlös zählen, Gewinn = Erlös/Kauf − 1 – sonst sind eigene Zahl und Tabelle nicht gleich.
+S2-B3 NIEDRIG  BuyShareCap: hält schon Stufe 1 (≤ 0,6) den Mindestgewinn nicht, bleibt die Grenze 0,6 (= in der schlechten
+   Stufe kaufen). Dann "kein Kauf" (Lohnt bis leer) bzw. Testbericht rot. V2 "7 Tage unter Mindestgewinn" (Bauplan V2/P4) fehlt
+   – bis S2-B1 erledigt ist reicht der Testbericht; danach die Senkung erst nach 7 Tagen.
+GRUNDSATZ für S2: Selbstkontrolle fehlt noch – Testbericht-Zeile je Stufe "Gewinn vorhergesagt (Grenze) vs. realisiert" für
+   Käufe seit 0.65.154 (P1 ohne eigenen Fall).
+
 PRÜFUNG 0.65.153 (Supervisor 11:45, addon_check OK, Bericht + Kern.lua gelesen): Rechenkern S1 und TB138-4 – zur Prüfung.
 - Kern.lua K:Case sagt den Fall aus den Zählern VOR dem Fall voraus (P1 ehrlich, Zeile Estimate vor Add), Grundlinie
   "immer nein", Brier/Treffer je Tag, L4 Gewichte, P2/P4 wie im Bauplan. Anzeige unverändert (S4) – richtig.
