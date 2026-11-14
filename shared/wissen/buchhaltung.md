@@ -145,6 +145,9 @@ Warnung "ohne Einkauf" kommt grösstenteils davon. books.gold und books.cb leer 
 Nachtrag 14.11. 01:05 (Daten 00:43): bestätigte Verkäufe = Kassenbuch exakt; aber ihr Einstand fehlt (63 % ohne Einkauf),
 weil die ausstehenden Doppel ihn schon verbraucht haben. Eine Reparatur darf den Einstand NICHT ins Lager zurücklegen
 (Phantom-Ware, Gewinn zu hoch), sondern muss ihn auf die Rechnung umbuchen (BH-AUS-2).
+Nachtrag 14.11. 01:10: Nach 0.65.125 Gewinn 24g01 statt 20g53 – Rest-Einstand 34'802c lag als Phantom-Ware im Lager
+(19 × 11082, 36 × 11083; der Nutzer hat sie nicht). REGEL: Jede Reparatur und jede Prüfung gleicht das Lager mit dem
+wirklichen Bestand (Taschen/Bank/AH/Post) ab; Lager > Bestand = Befund.
 REGEL: Ausstehend ist kein Erlös. Gewinn nur aus bestätigten Verkäufen; jede Buchhaltungs-Prüfung gleicht Bücher und
 Kassenbuch je Item ab (Stück und Erlös) – Unterschied = Befund.
 

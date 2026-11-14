@@ -60,6 +60,14 @@ Einzelheiten zu jedem Punkt stehen weiter unten (Suche nach dem Kürzel). Diese 
    Gewinn 240'086 statt erwartet ca. 205'284: eingesetzt 261'303 statt 296'105 -> 34'802c Einstand gingen ins Lager
    (Lager jetzt 11082 19 Stück, 11083 36 Stück). Ob diese Ware wirklich da ist, klärt der Nutzer (Taschen/Bank/AH).
    Ist sie nicht da: Phantom-Ware -> Rest ebenfalls auf die Rechnungen buchen (BH-AUS-3).
+   ANTWORT DES NUTZERS 01:06: Er hat KEINE Astralessenzen/Seelenstaub – nur 19g 89s Gold, acht 10er-Taschen und Kleinkram
+   auf der Bank. -> BH-AUS-3 (SEHR HOCH, mit TB125 zusammen): (a) Die 19 × 11082 und 36 × 11083 im Lager sind Phantom-Ware
+   aus der Reparatur: Einstand 34'802c auf die passenden Rechnungs-Buchungen umbuchen (wie MoveCostToInvoice, auch wenn
+   inv.free schon 0 ist -> dann war die Rechnung mit zu wenig Einstand gebucht; Einstand der Rechnung entsprechend erhöhen).
+   Erwartet: Gewinn ca. 205'284c (20g53), Lager ohne 11082/11083. (b) LAGER-ABGLEICH mit der Wirklichkeit (neu, damit so
+   etwas nie wieder unbemerkt bleibt): beim Öffnen der Bank bzw. nach dem Einloggen je Figur GetItemCount (Taschen+Bank)
+   je Lager-Item lesen; liegt im Lager mehr, als die Figuren haben (und nicht im AH/Post), Zeile im Testbericht
+   "Lager mehr als vorhanden: Item x, y Stück" und im Bericht melden – nicht still korrigieren. Test T-BHA9.
    Entzaubern je Gruppe: 26–30 +35 % -> 20 %; 36–40 +19,9 % (Anzeige "+20 %") -> 30 % "gemessen schlecht" – regelgerecht
    (Grenze ≥ 20 %), aber knapp: Anzeige ohne Rundung, die zur Regel widerspricht ("+19,9 %").
 1. BH-AUS     ZUR PRÜFUNG 0.65.124 (Prüf-Sitzung 00:55: addon_check OK, Books.lua Zuordnung summiert, Reparatur, 24-Std.-
