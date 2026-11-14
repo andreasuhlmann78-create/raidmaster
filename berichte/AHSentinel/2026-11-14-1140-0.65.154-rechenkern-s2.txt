@@ -1,0 +1,16 @@
+AHSentinel 0.65.154 – 0.66 Rechenkern S2 (V2, V3, A2) – umgesetzt, zur Prüfung
+
+A2: shared/markt-tabellen/GoldSentinelMarktTabellen.lua unverändert im ZIP (in der .toc vor Kern.lua); jede Version nimmt
+  die neueste mit. K:Tables() nur Nachschlagen (v = 1); fehlt sie -> alles wie vorher. Verkauf: Vorwissen einer Zelle =
+  Tabellen-Quote der Preisstufe mit ihrem n, gemischt mit der Gruppenquote (k = 2).
+V2: abgeschlossene Käufe (Fc:AssignBuy, alle Stück zugeordnet) zählen Gewinn = Erlös/Kaufpreis − 1 je Stufe Kaufpreis/Wert
+  (0,6/0,7/0,8/0,9/darüber); einmaliger Nachtrag 30 Tage. Gewinn je Stufe = eigene Zählung + Tabelle "kaufen" (n als Gewicht).
+  Grenze: erste Stufe mit ≥ 10 Fällen unter dem Mindestgewinn -> Höchst-Anteil = Untergrenze dieser Stufe; nie über 0,9.
+  Wirkt in MK:LimitFromNet (alle "Lohnt bis"). Mit der heutigen Tabelle: Mindestgewinn 20 % -> 0,8 × Wert (0,8–0,9 bringt
+  nur +18 %, n 42), 25/30 % -> 0,9 (die Mindestrendite ist dort ohnehin strenger). Testroutine fest 0,9.
+V3: Material in der Welle (eigener Index ≥ 3 Tage, sonst Tabelle "wellen") -> Hinweis "Welle: jetzt verkaufen" im
+  Verkaufen-Fenster (nur Richtung, 10 Min. Zwischenspeicher je Band).
+Testbericht: MARKT-KERN Tabellen, Kaufen je Stufe (Gewinn, n, eigen, Grenzen 20/25/30 %), Wellen je Band (Quelle).
+Tests: T683 (A2 ohne/mit Tabelle), T684 (V2: 0,80 · 0,90 · eigene Verluste 0,70 · Lohnt bis ≤ 700), T685 (V3). Selbstkontrolle
+  im Spiel: folgt mit SK1 (nächste Version). Gesamtlauf 248/248, addon_check OK.
+Gesehen: SK1 (11:23) und Grundsatz 11:24 – SK1 kommt jetzt als Nächstes (S1 war bereits in 0.65.153 veröffentlicht).
