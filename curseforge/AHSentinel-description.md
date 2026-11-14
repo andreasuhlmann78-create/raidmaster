@@ -12,6 +12,11 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.136
+
+- **Accounting – consumed vendor goods:** what you bought from a vendor and used up (food, water, ammo, reagents) leaves
+  the stock and counts as own use – no more phantom stock. Test T659.
+
 ### Version 0.65.135
 
 - **Accounting – vendor purchases:** purchases from vendors are now booked (purchase with source "vendor", cost basis
@@ -32,12 +37,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 - **Deposit – more precise:** a deposit only counts as lost when the expiry mail arrives or you cancel the auction –
   no longer after a fixed time. A refund read late (even days later) always resolves it. Test T654.
-
-### Version 0.65.131
-
-- **Accounting – own use:** goods you bought and then equip or use as a bag are no longer trade goods: they leave the
-  stock and do not count in the trading profit (separate "own use" expense, test report only). The accounting tab
-  looks as before. Test T655.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

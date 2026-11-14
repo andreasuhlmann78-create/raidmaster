@@ -1,5 +1,5 @@
-📦 **AHSentinel 0.65.135** – Händlerkäufe in der Buchhaltung 🛒
+📦 **AHSentinel 0.65.136** – verbrauchte Händlerware 🍞
 
-• Käufe beim Händler werden gebucht – die Gold-Abstimmung geht besser auf.
+• Verbrauchtes Essen, Wasser, Munition und Reagenzien verschwinden aus dem Lager (Eigenbedarf).
 
 **Installation:** ZIP unten herunterladen, entpacken und den Ordner `AHSentinel` in `Interface/AddOns` ersetzen. Deine Daten und Einstellungen bleiben erhalten.
