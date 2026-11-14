@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 16:28 | Entzaubern im Markt-Reiter: ungemessene Gruppen aus den gemessenen (niederstufigen) Entzauberungen hochrechnen statt ausblenden, AHS weist darauf hin; frischer AH-Scan wichtig. | AHSentinel MR1-V: Tabelle × Korrektur aus gemessenen Gruppen, Hinweis "hochgerechnet aus N", Preise nur aus Scan ≤ 30 Min., Mindestgewinn 25 %. |
 | 15:49 | Sniper-Standard: Budget 5g, Menge 1000 Stück, Preis des Items legt der Spieler selbst fest. | AHSentinel SN-DEF1 (Max leer mit Platzhalter, ohne Max kein Start); ersetzt TU3-Standard "Menge leer". |
 | 15:45 | "Wenn man beim Sniper Max/Stück nur 22 schreibt, dürfen daraus nicht 22 Gold werden, sondern 22 Kupfer." | AHSentinel SN-EIN1: Höchstpreis-Felder beim Kaufen: Zahl ohne Einheit = Kupfer; Budget bleibt Gold; Verkaufs-Preisfelder: ohne Einheit gesperrt (Supervisor, Gold-Sicherheit). |
 | 15:18 | GRUNDSATZ: "Egal was wir einbauen, es muss für den Spieler einfach nachvollziehbar sein, wie es funktioniert – das Warum ist nicht ganz so wichtig." | auftraege/README.md GRUNDSATZ NACHVOLLZIEHBAR, psychologie.md 3b: Zahl + ein Satz (≤ 20 Wörter) je Funktion; ergänzt 01:15 "nur Zahlen" (keine Formeln). |
