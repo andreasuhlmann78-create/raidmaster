@@ -22,6 +22,14 @@ für JEDE neue Version jedes Projekts (auch für die geplante Nachprüfung).
   Themen nach Prio geordnet, nie nur einen neuen Punkt oben anhängen.
 - Bei Widerspruch zwischen Gehirn und neuen Daten: nachrechnen (Rohdaten), dann Gehirn berichtigen (wie KF2 13.11.).
 
+## 0c. Alles Eingebaute wird streng geprüft – IMMER (Entscheid des Nutzers 14.11. 11:24)
+Jede neue Funktion, in jedem Addon, braucht drei Dinge, sonst gilt sie nicht als fertig:
+1. Test in der Testroutine – mit erfundenen Fällen, auch absichtlich falschen (der Test muss den Fehler erkennen).
+2. Selbstkontrolle im Spiel, wo es messbar ist (Muster SK1: echte Ereignisse passiv gegen die Buchung/Anzeige prüfen,
+   Ergebnis im Testbericht und in der Testroutine).
+3. Strenge Prüfung durch den Supervisor (Abschnitt A, dreifach: Entscheide, Code/Daten, Risiko).
+Jeder Auftrag nennt diese drei Punkte; fehlt einer im Bericht, ist der Auftrag nicht umgesetzt.
+
 ## 0b. Selbstständig handeln (Entscheid des Nutzers 14.11. 08:51)
 Fragen der Projekt-Sitzungen und eigene offene Fragen selbst entscheiden: aus entscheide.md, Gehirn und Code/Daten, dreifach
 geprüft (1. passt es zu allen Entscheiden? 2. stimmt es mit Daten/Code? 3. was kann schiefgehen – Gold, Daten, Ruckeln,

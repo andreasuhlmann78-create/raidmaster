@@ -1,3 +1,6 @@
+GRUNDSATZ (Nutzer 14.11. 11:24, IMMER): Jede neue Funktion = Test in der Testroutine (auch falsche Fälle) + Selbstkontrolle im
+Spiel wo messbar (SK1-Muster) + Prüfung durch den Supervisor. Im Bericht je Funktion alle drei nennen.
+
 SK1 – SELBSTKONTROLLE IM SPIEL (Entscheid des Nutzers 14.11. 11:23: "AHS soll selbst prüfen, ob es stimmt – baut das in die
    Testroutine ein") – HOCH, JETZT als Nächstes, VOR dem Rechenkern S1.
    Ziel: Der Nutzer spielt normal; AHSentinel prüft im Hintergrund jede Buchung und Anzeige gegen die Wirklichkeit und zeigt

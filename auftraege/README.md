@@ -54,3 +54,9 @@ Erledigt setzt nur die Prüf-Sitzung in `offen-*.txt`, nach ihrer eigenen Prüfu
 Jede offen-*.txt beginnt mit dem Block "PRIORITÄTEN – vollständige Reihenfolge": alle offenen Punkte mit Kürzel und
 Schwere, von oben nach unten abzuarbeiten. Die Prüf-Sitzung führt ihn bei JEDER Änderung nach (neuer Punkt, erledigt,
 umsortiert). Projekte arbeiten strikt in dieser Reihenfolge.
+
+
+GRUNDSATZ (Entscheid des Nutzers 14.11.2026 11:24, gilt IMMER und für alle Projekte): Alles, was eingebaut wird, wird streng
+geprüft. Jede neue Funktion kommt mit (1) Test in der Testroutine (auch absichtlich falsche Fälle), (2) Selbstkontrolle im
+Spiel, wo messbar (passiv gegen echte Ereignisse, Ergebnis im Testbericht), (3) Prüfung durch den Supervisor. Fehlt einer der
+drei Punkte im Bericht, gilt der Auftrag als nicht umgesetzt.
