@@ -1,0 +1,52 @@
+AHSentinel 0.65.172 – TB170-1/-2/-5/-8/-9/-10, MR1-V (Teil 1 + Hochrechnung) – umgesetzt, zur Prüfung
+=====================================================================================================
+
+TB170-1 HOCH (T72 "nicht nach Gold sortiert", Rückschritt 0.65.170): FL-1 kürzt in MK:ApplyTodayRelease Menge und Gewinn, danach
+wurde nicht neu sortiert. Jetzt je Gruppe (Empfehlungen / graue) nach Gewinn sortiert, Aufträge (pin) oben.
+TB170-2 HOCH (T373 cache:today 18,8 ms bis Comfort.lua:756): K:ChainUse holte je Lauf Ke:Recipes -> Cr:KnownRecipes (kopiert bis
+500 Rezepte) in einem Stück; dazu Entzauber-Wert + AH-Wert je Taschen-Item ohne Pause. Jetzt: Rezeptliste der Ketten 300 s
+zwischengespeichert (Cr:Remember verwirft sie), Pause alle 50 Rezepte, zusätzliche A:Pause zwischen Entzauber- und AH-Wert.
+Messung im Client nötig (T373).
+TB170-5 (Test): T49 stellt zu günstigstem Angebot − 1c ein (Schutz bleibt eigener Test).
+TB170-8 HOCH (T64 "modern, 0 Rezepte"): Ursache = der TEST. T64/T99 zählten über Cr:Remember – Remember schreibt in der
+Testroutine bewusst nichts (Sandbox A.db.recipes) und gibt 0 zurück. Jetzt lesen ohne Speichern (Cr:ReadAll) und ausgeben:
+Beruf (Fenstertitel), Zeilen laut Blizzard-API, Rezepte laut AHS. Kein Widerspruch zu "Beste Rezepte".
+TB170-9 (T124): Cr:ReadAll speichert das Ergebnis 2 s (Schlüssel: Beruf, Rezeptzahl, Preis-Version, Scan, Ledger-Länge); das
+2. Lesen im Test kommt aus dem Zwischenspeicher. Herstellen ändert Ledger/Taschen -> neuer Schlüssel bzw. nach 2 s neu.
+TB170-10 (API vs. Anzeige): LohntCheck verglich den EINEN Wert (bester Weg, z. B. Händler 3090) mit Quellen, die nur den
+Entzauber-Weg kennen (api 1461). API.WorthUpTo liefert jetzt K:LohntBis, wenn der beste Weg nicht Entzaubern ist
+(Weg "vendor"/"resale", sicher, je Stück) – derselbe Wert wie Tooltip/Anzeige. Test T725. (Entzauber-Weg unverändert.)
+TB170-6/-7 (Ruckeln Preisverlauf 81 ms, Speicher 350 MB nach der Testroutine): noch offen, nächster Schritt.
+
+MR1-V Teil 1: MV:Visible / VisibleViews – ohne Option nur "heute" und "de"; Leiste neu angeordnet (LayoutViews), ausgeblendete
+Ansicht -> Heute, Standard-Ansicht nur aus sichtbaren; Option "Markt: alle Ansichten (Experten)" (Standard aus). Satz oben
+"Hier steht nur, was sich mit deinen Daten lohnt." (9 Wörter). Hintergrund-Rechnung und Testbericht unverändert; in der
+Testroutine gelten alle Ansichten (ihre Tests), ausser T723. Test T723; Sim s78 mit Experten-Option.
+MR1-V Hochrechnung (Entscheid 16:28): D:PriceCorrection – Gruppe ohne eigene Messung (< 30 Fälle) bekommt den Faktor aus allen
+gemessenen Gruppen (Summe Beute / Summe Vorhersage, Summe/Summe), begrenzt auf 0,30…1,10, erst ab 100 eigenen
+Entzauberungen; D:DealValue wendet ihn nur auf Schätzungen an (Basis "hochgerechnet"), gemessene Gruppen wie bisher (nur nach
+unten). Markt-Zeile grau "hochgerechnet aus n eigenen Entzauberungen". Test T724.
+Abweichungen vom Auftrag (bitte prüfen): (a) Faktor gemeinsam für Chance und Menge (die Vorhersage ev enthält beides), nicht
+getrennt 1,05/1,00; (b) "Scan nötig"-Zeilen: Teile mit veralteten Materialpreisen erscheinen weiterhin nicht (statt grau) –
+kommt als eigener Schritt; (c) Mindestgewinn 25 % für hochgerechnete Gruppen gilt über DE30b (DEMinRoi) wie bisher für
+"ungemessen" – nicht neu gesetzt; (d) die Hochrechnung wirkt über D:DealValue überall gleich (Tooltip, Sniper, Sammelkauf),
+damit es EINE Zahl bleibt (RK1).
+Selbstkontrolle hochgerechnet vs. später gemessen: Forecast zählt die Fälle je Gruppe schon (KF2); Zeile im Testbericht folgt.
+TB168-8 (1c "Lohnt bis" 939 vs. Marktzeile 938): keine Rundung – die Marktzeile plant eine Menge (D3: Wert sinkt mit mehr
+Stück, BatchNet), "Lohnt bis" gilt für 1 Stück. Vorschlag: Marktzeile zeigt die Menge dazu; bitte Entscheid.
+Locales 4 neue Schlüssel, CHANGELOG EN/DE.
+- Cr:ReadAll-Zwischenspeicher wird bei neuer Datenquelle (InvalidateModern) und Daten-Ereignissen verworfen (Sim s39).
+
+FERTIG-LISTE Block 1 (Nutzer 17:06) – in dieser Version gebündelt:
+- DW-K1-B1 HOCH: Ursache bestätigt (Nutzer 17:05: mit ProfessionSentinel aus geht der Knopf) – das PS-Panel liegt über dem Knopf
+  und fängt den Klick. Der Knopf liegt jetzt auf eigener Ebene (Strata DIALOG, Toplevel, Level 100) über Berufsfenster und
+  PS-Panel; DW:Show im pcall, Protokoll-Zeile "KLICK Entzaubern-Knopf -> Fenster offen ja/nein (Fehler)". Test T726 (Rahmen
+  darüber, Klick öffnet). Treffertest per GetMouseFocus nur im Client möglich (Bitte: Klick mit PS an, Protokoll-Zeile lesen).
+- TB170-1, TB170-2, TB170-8: siehe oben.
+- TB168-10: Mailer:PendingAuctionMoney – Auktionspost ohne Gold und ohne Ware (Gold noch nicht freigegeben) -> Meldung "n
+  Auktionspost(en) da – das Gold kommt in etwa x Min." bzw. "… noch nicht freigegeben" statt "Keine Auktionspost zum Abholen";
+  Diagnose "POST" mit den Zahlen von GetInboxInvoiceInfo (ohne Namen) -> klärt auch TB168-4 (Reihenfolge der Rückgaben in
+  Forever). Ein Test in der Testroutine fehlt: dafür müssten Blizzard-Funktionen ersetzt werden (verboten) – bitte im Client
+  prüfen (Post "Auktion erfolgreich" vor der Freigabe -> Meldung + Diagnose-Zeile).
+Weckrunde gelöscht (Nutzer 16:56); keine neuen Termine.
+Volltest 250/250, addon_check OK. Bitte Testbericht von Block 1 (0.65.172).
