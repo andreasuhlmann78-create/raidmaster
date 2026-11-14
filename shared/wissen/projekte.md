@@ -119,6 +119,7 @@ etwas für die Gilde. Prüffrage: schnell, schlicht, verlässlich – und macht 
   7. Wöchentlich (Mo): Markt-Überwachung inkl. Zyklen/Wellen (geplante Aufgabe), Speicher-Messung RF-M1 wiederholen.
   8. Nutzer erinnern: Client-Tests (weckliste, zurückgestellt), Entscheid ThreatSentinel-Sync.
 
+- PAUSE (14.11. 16:10, Nutzer: Wochen-Nutzung 89 %, Reset Mo 05:00): keine automatischen 30-Min.-Runden bis Mo 05:00; geprüft wird nur bei Nachrichten des Nutzers, knapp und gezielt. Nächster Stand: AHSentinel bis 0.65.167 geprüft, 0.65.168/169 offen; Uploader 2.3.9 freigegeben.
 - Takt: bei jeder Nachricht des Nutzers + alle 5 Min. bei intensiver Arbeit (Nutzer 22:36); nur Neues melden.
 - Geplante Aufgaben: Nachprüfung (5× täglich), AHSentinel Markt-Überwachung (Mo 05:47), Blueposts (07:38/21:38),
   Rezeptdaten-Update (mit Supervisor, 07:21, trig_01Q3e6A5gu4Eoca65mnAhSg3), Raids und Taktiken (mit Supervisor, 07:54,
