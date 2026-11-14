@@ -23,6 +23,12 @@
 >>>    (delay_minutes 5, initiation human_request) eine Erinnerung an sich selbst setzen: "Weck-Runde: git pull --rebase,
 >>>    auftraege/AHSentinel/offen-ahsentinel.txt Liste TB138b – VOLLER TESTLAUF NACH FRISCHEM VOLLSCAN (Nutzer 14.11. 07:52, 0.65.138, Prüf-Sitzung 08:15) – mit TB138 zuoberst
 =========================================================================================================================
+STAND 08:45: 0.65.140 (TB138-1 Abgleich mit Bank-/Taschen-Abbild, Rücknahme der "verbraucht"-Buchungen) und 0.65.141
+(TB138b-1 Lua-Fehler, -2 Sandbox, -4 T659) – zur Prüfung, addon_check OK. Hinweis zu 0.65.140: 11083 (25 Phantom) wird erst
+ausgebucht, wenn 7 Tage nicht eingestellt – Seelenstaub wird laufend eingestellt -> bleibt evtl. lange stehen. Für Ware,
+die in KEINEM Abbild und in keiner laufenden Auktion/Post steht, die 7-Tage-Sperre nicht anwenden.
+Reihenfolge danach: PR2 (klein, sofort – der Nutzer liefert heute Fälle), dann TB138-6/TB138c, TB138-2, TB138-3/b-3.
+
 PR2 – PROGNOSE SOFORT VERBESSERN (Prüf-Sitzung 08:40, gemessen markt-strategie.md 8g "GEMESSEN 08:20" und Wettlauf 08:35)
    Der Nutzer liefert heute und morgen viele neue Fälle (kaufen, entzaubern, verkaufen) – darum JETZT, klein und eigene Version:
 PR2-1 HOCH  Abbruch-Grund beim Abbruch festhalten (Feld cr, bei allen 17 bisher leer): im Moment des Abbruchs aus dem letzten
