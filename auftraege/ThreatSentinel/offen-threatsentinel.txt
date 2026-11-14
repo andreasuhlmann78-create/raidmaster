@@ -9,6 +9,13 @@ Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei jeder Änderung nac
 3. CH-G      SPÄTER  gemeinsame Befehlsliste (nach AHSentinel).
 ========================================================================================================================
 
+>>> BP-2026-11-14 (Blizzard-Hotfix 13.11., Kaivax 14.11. 01:54 UTC, https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-13-2026/2403040/10) – nur Hinweis, KEIN Auftrag:
+    - Paladin: Richturteil des Befehls zählt jetzt als Nahkampf und löst Treffer-Effekte aus (andere Richturteile bleiben
+      Fernkampf, siehe Hotfix 11.11.). ThreatSentinel nutzt Richturteil 20271 nur für den Spott (sealTaunt) -> kein Einfluss.
+    - Druide: Wildwuchs heilt mehr (Koeffizient 6,6 % statt 3,3 %). Heil-Bedrohung kommt aus dem Kampflog -> kein Einfluss.
+    - Krieger: Berserkerwut entfernt jetzt Kopfnuss; Betäubungs-Abnahme (DR) für Kreaturen korrigiert -> kein Einfluss.
+    Nur melden, falls im Spiel etwas davon anders wirkt (Bericht in berichte/ThreatSentinel/).
+
 >>> GoldSentinelMarkt v3 (13.11. 23:45, Entscheid des Nutzers): Export hält 6 statt 2 Scans (max. 1,5 MB, Ruckeln/
 >>>    SavedVariables klein). NICHT DRINGEND: beim nächsten Release ohnehin mitkopieren (byte-gleich aus shared/).
 >>>    Bis dahin zeigt addon_check nur die WARNUNG "veraltete offizielle Fassung (Version 2)" – kein Fehler.

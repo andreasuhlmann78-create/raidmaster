@@ -9,6 +9,15 @@ Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei jeder Änderung nac
 5. WARTEND   Wegpunkte (Wegdaten-Exporte), Punkt 15 nur auf Kommando. CH-G SPÄTER.
 ========================================================================================================================
 
+>>> BP-2026-11-14 (Blizzard-Hotfix 13.11., Kaivax 14.11. 01:54 UTC, https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-13-2026/2403040/10) – nur Hinweis, KEIN Auftrag:
+    - Dungeons: Gegner, die für den Spieler grau (trivial) sind, geben keine Erfahrung mehr. Falls LevelPilot EP aus
+      Dungeon-Gegnern schätzt oder Dungeons empfiehlt: graue Gegner mit 0 EP rechnen (EP nie fest einbauen, aus dem Spiel messen).
+    - Ertrunkene Stadt: normale Gegner erscheinen erst nach 2 Std. wieder (vorher 1 Std.).
+    - Quests: rund 14 Quest-Korrekturen (u. a. Wochenquest-Reset bei Pix Xizzix, Bibliothekar Unterstadt/Sturmwind).
+    - Gebiete: Gegner-Erscheinen/Aggro angepasst in Gnomeregan, Ödland, Östliche Pestländer, Mulgore, Verwüstete Lande,
+      Schlingendorntal, Zephras-Insel.
+    Nur melden, falls Routen oder Hinweise dadurch falsch werden (Bericht in berichte/LevelPilot/).
+
 >>> GoldSentinelMarkt v3 (13.11. 23:45, Entscheid des Nutzers): Export hält 6 statt 2 Scans (max. 1,5 MB, Ruckeln/
 >>>    SavedVariables klein). NICHT DRINGEND: beim nächsten Release ohnehin mitkopieren (byte-gleich aus shared/).
 >>>    Bis dahin zeigt addon_check nur die WARNUNG "veraltete offizielle Fassung (Version 2)" – kein Fehler.
