@@ -33,7 +33,16 @@ STAND 08:40: 0.65.142 (TB138-6a/TB138c ein Gewinn, Details grau) und 0.65.143 (P
 Prüfung, addon_check OK. Im Client prüfen: Abbruch über Blizzards Fenster -> Grund festgehalten; Post von Hand schnell
 abgeholt -> Verkauf gebucht (T-BR1a). Als Nächstes: HB1, dann TB138b-3 (Speicher wächst je Scan), TB138-2.
 
-UI-V1 HOCH (Nutzer 08:38, 0.65.142, Bildschirmfotos 08:37): Im Reiter Verkaufen ein anderes Item links anklicken -> rechts
+UI-V1 SEHR HOCH – KORREKTUR 08:55 (Nutzer 08:40): Es ist nicht langsam – das gewählte Item erscheint rechts GAR NICHT; erst ein
+   Klick auf Aktualisieren zeigt es. Code gelesen (UI_Sell.lua 55, 280–312, 592ff; UI_Main.lua 846–856): onClick ->
+   p:Select(itemID) setzt ZUERST self.selected und ruft am ENDE self:Refresh(); der Klick ist NICHT in pcall. Wirft ein Schritt
+   dazwischen einen Fehler (SetHandPrice, StandardDurationStep, DefaultDuration, CountInBags, ApplySuggestion, CheckPrice), bricht
+   Select ab, rechts bleibt das alte Item stehen – Aktualisieren zeigt dann das neue (selected ist ja schon gesetzt). Genau das
+   Bild des Nutzers. Verdacht, nicht belegt: Fehler im Spiel unterdrückt (Forever zeigt Lua-Fehler nur mit scriptErrors).
+   Lösung: (1) Fehler finden – jeden Schritt von Select einzeln mit pcall + Eintrag ins Fehlerprotokoll (wo, welches Item);
+   (2) Refresh IMMER am Ende, auch nach einem Fehler (Titel/Taschen-Info sofort, Rest nachladen); (3) Test T-UI-V1: im Client
+   jedes Item der Liste nacheinander anklicken -> Titel rechts = gewähltes Item, ≤ 50 ms, 0 Fehler. Im Testbericht die Liste.
+   (Alter Text:) UI-V1 HOCH (Nutzer 08:38, 0.65.142, Bildschirmfotos 08:37): Im Reiter Verkaufen ein anderes Item links anklicken -> rechts
    passiert lange nichts (Nutzer misst die Zeit). Bei 261 MB Speicher (TB138b-3) und 119 ms Reiterwechsel (T626) Verdacht:
    Speicherbereinigung bzw. Neuaufbau beim Wechsel. Ziel: Wechsel ≤ 50 ms sichtbar (PS-Ziel), "Preis prüfen" danach im
    Hintergrund. Messung im Testbericht: Klick -> sichtbar (ms), mit Speicher vorher/nachher.
