@@ -12,6 +12,13 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.150
+
+- **Gold reconciliation as cash flow:** every gold change is now measured and assigned to where it happened (auction house,
+  mail, vendor, player trade, trainer, flight master, loot, quest, other). Measured trading cash flow is reconciled against
+  booked cash flow – money outside trading (quests, loot, trainer, flights) counts as explained. The test report lists the
+  largest gaps per day with their places. Test T676.
+
 ### Version 0.65.149
 
 - **Less stutter after the full scan:** the market value calculation no longer creates helper tables per item. A scan now
@@ -45,11 +52,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   "updating …"; when the server throttles, it shows in how many seconds it allows a search again – the search then runs
   by itself. After posting, cancelling or buying the selected item it searches again immediately.
 - Every click in the Sell list is logged (item, selected before/after, errors, title). Test T668.
-
-### Version 0.65.145
-
-- **Sell – item selection:** an item chosen on the left now always appears on the right, even if a single step (price
-  suggestion, duration, counting bags) fails; the error goes to the error log with item and step. Test T667.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
