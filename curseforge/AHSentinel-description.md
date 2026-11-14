@@ -12,6 +12,20 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.168
+
+- **Sniper, gold safety:** a number without unit in "Max/item" (and other max prices when buying) now means COPPER – "22" is
+  22c, not 22g. Budgets stay gold ("6" = 6g). Price fields when SELLING need a unit ("13" is red "unit missing", posting is
+  blocked until you write 13s). A max price above 50 × market value asks for confirmation (typo?). Test T710.
+- **Sniper, gold safety:** the confirmed server price is now checked as average per item (total ÷ amount). Above your max the
+  sniper does not buy and searches again – it then only takes the items within your max. New self-check "sniper buy ≤ max".
+  Test T711.
+- **Best recipes:** the list could stay empty ("No prices yet") – fixed; without an offer list the normal price is used. New
+  self-check: list empty although a scan is younger than 1 hour. Test T712.
+- **Sells:** the time estimate in the tooltip now uses your place in the queue: offers cheaper than you plus your items, at the
+  usual sales pace ("fast (~2 h)" instead of "slow (~13 h)" when you are at the front). With Shift a short sentence explains it.
+  New self-check: predicted vs. real sale time of your auctions. Test T709.
+
 ### Version 0.65.167
 
 - **Accounting, crafting:** a craft was only booked when the recipe was already in the "best recipes" cache. Otherwise the
@@ -42,19 +56,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   too much cost (about 6s instead of 4s per dust), the essences too little, so dust looked like a loss. Bookings already made
   stay unchanged. New self-check "split when disenchanting": warns if one material's cost differs by more than a third from the
   others (with numbers). Test T703.
-
-### Version 0.65.163
-
-- **Stock (gold safety):** the "phantom stock" rule of 0.65.160 could book out your own running or returned auctions and AH
-  purchases still in the mail as "missing". Now goods are only booked out when the mailbox AND your own auctions were seen
-  after the last arrival (and after your auctions of that item ended) – also if only part is missing. Auctions from earlier
-  sessions count as on hand. If booked-out goods arrive later (30 days), the booking is reversed with the old cost. Each
-  booking-out and reversal gets a line in the repair log. Tests T699, T701, T663.
-- **Accounting, disenchant groups:** profit and "Profit %" now come from the same items (before: profit +3g 50s green next to
-  −4 %). The group tooltip shows ONE number (gold in − gold out), "of which items without purchase", and the materials only
-  with amount and revenue – no misleading "loss per material". Test T702, self-check: group = revenue − cost.
-- Test routine: the intentional test error (T131) no longer opens the Lua error window; your error handler is restored right
-  after. Test report: no colour code in the self-check text.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
