@@ -3,8 +3,9 @@ ANWEISUNG AHSENTINEL – REGELN FÜR DEN RECHENKERN 0.66 AUS DEN MESSUNGEN VOM 1
 Von der Prüf-Sitzung, 14.11. 01:20. Gehört zu Prio 6 (0.66 RECHENKERN) in offen-ahsentinel.txt. Grundlage: eigene
 Nachrechnung aus den SavedVariables (PC 14.11. 00:43, Laptop deckungsgleich), Werkzeuge in addon-check/marktanalyse/,
 Einzelheiten in shared/wissen/markt-strategie.md 8g. Grundsatz des Nutzers: "Nur wer den Markt vorausahnen kann, macht
-richtig Gold – aber immer fundiert und belegbar." Im Spiel nur Ergebnisse ("lohnt / lohnt nicht", "verkauft sich",
-"zu teuer – bei x"), nie Rechenwege, Prozentregeln oder Faktoren (OR, DE30b).
+richtig Gold – aber immer fundiert und belegbar." Im Spiel nur Ergebnisse als ZAHLEN (Nutzer 14.11. 01:15: "Zahlen
+besser als Buchstaben"): Gewinn grün "+1s 20c" / Verlust rot "−85c" je Stück (wie LT), Verkaufspreis als Zahl ("bei 3s 40c");
+nie Rechenwege, Prozentregeln oder Faktoren (OR, DE30b).
 
 Stufen: BELEGT = darf die Anzeige bestimmen · HINWEIS = rechnen und messen, nicht anzeigen · OFFEN = nur Daten sammeln.
 
@@ -29,7 +30,7 @@ R5 VERKAUFEN – DER PREIS ENTSCHEIDET (BELEGT als Richtung, 64 Einstellungen, f
 R6 VERKAUFSKETTE STATT EINZEL-EINSTELLUNG (BELEGT, 32 Ketten)
    Händler stellen 2 Std. ein (Nutzer). Abbruch = meist unterboten (Nutzer) -> Teil der Kette, kein Fehlschlag.
    84 % der Ketten enden mit Verkauf, Median 1 Einstellung, ca. 20 Min.; wer neu einstellt, verkauft bei ca. 0,92 des
-   ersten Preises. Anzeige: "verkauft sich (meist sofort)" bzw. "bei x verkauft es sich". Abbruch-Grund im Moment des
+   ersten Preises. Anzeige als Zahl: Preis, bei dem es sich verkauft (z. B. "3s 40c"), grün wenn das eigene Angebot darunter liegt. Abbruch-Grund im Moment des
    Abbruchs festhalten (günstigeres fremdes Angebot?).
 R7 TAGESZYKLUS (HINWEIS – nicht anzeigen)
    Bereinigt: vormittags +2 bis +4 %, abends 17–19 Uhr −2 bis −3,5 %; Gegenprobe nur 10/16 Stunden gleich. Weiter messen;

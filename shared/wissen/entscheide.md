@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 01:15 | Anzeige in ZAHLEN statt Worten: grün = lohnt sich (+x), rot = lohnt sich nicht (−x) – "ich finde Zahlen besser als Buchstaben". | Rechenkern-Regeln, DE30b, PR1: überall Zahlen grün/rot (wie LT). |
 | 01:06 | Bestand des Nutzers: 19g 89s Gold, acht 10er-Taschen, Kleinkram auf der Bank – keine Astralessenzen/Seelenstaub. | AHSentinel BH-AUS-3 (Phantom-Ware umbuchen, Lager-Abgleich mit Taschen/Bank). |
 | 00:53 | Korrektur: "verkauft sich schnell oder gar nicht" stimmt nicht – wird er unterboten, nimmt er das Angebot heraus, statt es ablaufen zu lassen. | PR1: Abbruch-Grund "unterboten" messen, Abbruch = Teil der Kette; markt-strategie.md berichtigt. |
 | 00:50 | ThreatSentinel bekommt den gemeinsamen Sync ("kann natürlich umgesetzt werden"). | offen-threatsentinel.txt SYNC (HOCH). |

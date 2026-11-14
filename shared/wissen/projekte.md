@@ -8,8 +8,8 @@ NACH PRIORITÄT. Bei jeder Prüfung nachführen (pruef-ablauf.md A Schritt 8). E
 ## Für alle Projekte gleich (WICHTIG)
 
 - **SO DENKT DER NUTZER (zusammengefasst 14.11. 00:05, aus seinen Entscheiden – bei jeder Arbeit anwenden):**
-  1. Vom Spieler her: Nutzen zuerst, Casual, Gefühle zählen (Gier, Ärger bei Fehlkauf). 2. Einfach: nur Ergebnis
-  ("lohnt / lohnt nicht"), kein Schnickschnack, keine Rechenwege, Einzelheiten hinter einem Knopf. 3. Nur Gesichertes –
+  1. Vom Spieler her: Nutzen zuerst, Casual, Gefühle zählen (Gier, Ärger bei Fehlkauf). 2. Einfach: nur Ergebnis als ZAHL
+  (grün "+x" / rot "−x", Zahlen besser als Buchstaben, 14.11.), kein Schnickschnack, keine Rechenwege, Einzelheiten hinter einem Knopf. 3. Nur Gesichertes –
   aber nicht ängstlich: vorsichtig, nicht defensiv; voller Vorteil, wo die Daten es tragen. 4. Zahlen müssen stimmen und
   nachgerechnet sein; Widersprüche sofort klären. 5. Tempo: ruckelfrei, "pfeilschnell". 6. Handeln statt erklären: bei
   "go"/"ja" sofort umsetzen und pushen, dann kurz melden; keine leeren Zwischenstände. 7. Nach Priorität, nichts vergessen,
