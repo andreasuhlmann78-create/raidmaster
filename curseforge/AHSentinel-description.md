@@ -12,6 +12,13 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.130
+
+- **Accounting – deposit booked correctly:** the deposit paid when listing is held and no longer lowers the profit.
+  When it comes back on a sale, it is not income. Only a lost deposit (expired/cancelled) is an expense – in the period
+  it expired. Named as in the game (the client's "Deposit" text).
+- Test report: held and lost deposits. Test T654.
+
 ### Version 0.65.129
 
 - **Less memory:** per-item caches (market value, sales rate, buyout) are limited and cleared every 10 minutes when
@@ -46,16 +53,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   not used for learning). On cancel AHSentinel notes whether you had been undercut. The test report shows the hit rate
   old/new and the sold share per price level.
 - Test: the "Today" list with 5000 items is computed in small portions (T647). Tests T645–T648.
-
-### Version 0.65.125
-
-- **Less stutter – compact price history in memory:** in game AHSentinel now keeps the price history as one compact
-  number list per item instead of one table per price entry (tens of thousands fewer Lua objects; garbage collection
-  has much less work). Saved data stays exactly as before; all values are unchanged.
-- **Accounting – repair corrected:** for invoices that were booked twice next to pending sales, the purchase cost now
-  goes onto the invoice (the goods are sold) instead of back into stock. If you already started 0.65.124, this is
-  corrected once afterwards (backup kept). The repair only counts as done once it has run without errors.
-- The tempo test shows the price history tables. Tests T643, T644.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
