@@ -141,7 +141,14 @@ Einzelheiten zu jedem Punkt stehen weiter unten (Suche nach dem Kürzel). Diese 
                         Verkauf = ein Fall). Im Bericht: Trefferquote alt/neu, je Preisstufe.
 4. CH-G       ZUR PRÜFUNG 0.65.123: GoldSentinelCmdHint.lua byte-gleich, in der .toc, addon_check OK (Prüf-Sitzung 00:30).
                         Im Client bestätigen (Liste, Klick wählt, Enter führt aus). Bericht 0.65.123 fehlt noch.
-5. EB         MITTEL     jeder Goldfluss + Details-Fenster (Gesamt, Handel pro Stunde) mit EB-DET (Rendite je Weg –
+5a. BH-ANZ-1  MITTEL     (Prüf-Sitzung 02:30, zu 0.65.130) Die feste Grenze "nach 26 Std. nicht zurück = verfallen" passt nicht:
+                        Erstattungen kommen erst, wenn der Briefkasten gelesen wird (B1 Median 277 Min., ohne Login auch
+                        Tage). Eine spät gelesene Erstattung fände dann keine Anzahlung mehr ("kein Ertrag") -> Anzahlung
+                        bliebe fälschlich verfallen. Richtig: verfallen erst bei Ablauf-Post ("Auktion abgelaufen"),
+                        Abbruch oder Rechnung OHNE Erstattung; bis dahin hinterlegt. Spät gelesene Erstattung löst die
+                        passende Anzahlung immer auf (ohne Zeitgrenze). Test T-BHA10 (Erstattung nach 3 Tagen).
+5. EB         0.65.130 BH-ANZ/EB-NAME, 0.65.131 EB1 Eigenbedarf – zur Prüfung (addon_check OK). Weiter: EB2–EB5, EB7, EB-DET.
+                        Ursprünglich: MITTEL     jeder Goldfluss + Details-Fenster (Gesamt, Handel pro Stunde) mit EB-DET (Rendite je Weg –
                         Entzaubern als Summe –, Anzahlung verfallen, Verkaufsquote), BH-ANZ, EB-NAME.
 6. 0.66 RECHENKERN HOCH – REGELN AUS DEN MESSUNGEN: anweisung-rechenkern-regeln-2026-11-14.txt (R1–R9, belegt/Hinweis/offen).
                         (Markt vorausahnen, Nutzer 14.11. 00:18: "nur wer den Markt vorahnen kann, macht richtig Gold –
