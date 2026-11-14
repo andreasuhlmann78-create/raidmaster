@@ -12,6 +12,12 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.166
+
+- **Accounting, disenchant groups:** materials from new disenchants remember their price at the moment of disenchanting. The
+  group tooltip shows separately "Price fell since disenchanting −x" (or rose) – how much waiting cost or earned you. Older stock
+  has no such price and is not estimated. A short sentence explains the group number. Tests T705, T706.
+
 ### Version 0.65.165
 
 - **Best recipes:** ingredients you have to buy now cost the price at which the amount for a series of 20 crafts is really
@@ -47,14 +53,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   "/ahs entzaubern". n = disenchantable items in your bags (blocked items, equipment sets and quest items don't count); grey
   at 0. The button sits left of "Create All" when there is room, otherwise below the profession window – it never covers
   another button. Locked in combat. Test T700, self-check "disenchant button".
-
-### Version 0.65.161
-
-- **Self-check:** the test routine never writes into the real mailbox or AH check sessions any more (before, a test at the open
-  AH could cause a false deviation).
-- **Worth up to (vendor):** buying at the vendor price earns nothing – the vendor way now uses a 20 % minimum profit.
-- Test routine: after a fresh full scan, tests wait longer for their background tasks; with a full queue they are "skipped" with
-  a reason instead of failing. New simulator run with the auction house open.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
