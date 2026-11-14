@@ -20,6 +20,9 @@ PRÜFUNG 0.65.165 + 0.65.166 (Supervisor 15:55, addon_check 0.65.166 OK, Bericht
 SN-ALLE1 SICHT 0.65.174 (Screenshot 18:12): reihum wirkt – Treffer abwechselnd bei Wächterhandschuhe (17s) und Silberfaden-
    handschuhe (9s 71c), alle 3 Zeilen "geprüf…". SN-ALLE1-1 KLEIN: Spalte "Stand" schneidet "geprüft vor x Sek." ab (nur "geprüf…"
    sichtbar) – Text kürzen ("vor 3 s") oder Spalte breiter, Bereich K. Testbericht mit Sniper-Takt folgt.
+   TESTÄNDERUNG GEPRÜFT (Commit 4b5913b): T271/SN4 prüfte bisher die Gewichtung (Ziel mit Treffern öfter), jetzt "beide Ziele gleich
+   oft" (na == nb) – entspricht dem Entscheid 17:47, nicht aufgeweicht. Neu T727: 3 Ziele, Ziel 1 mit 4 Treffern -> 6 Runden je 2×,
+   Text "geprüft vor 12 Sek.", Takt 2/Min. aus 3 Suchzeiten (eine älter als 60 s) – richtig gerechnet. In Ordnung.
 >>> JETZT (Nutzer 18:01 "lass ihn den Sniper fertig machen"): Block 1 ist bis auf TB172-2 geprüft – SN-ALLE1 jetzt bauen.
     TB172-2 prüfe ich mit dem Teil server des nächsten Testberichts mit.
 >>> HÖCHSTE PRIORITÄT (Nutzer 17:52): SN-ALLE1 (Sniper prüft ALLE Ziele, so schnell wie der Server erlaubt) – sofort nach
