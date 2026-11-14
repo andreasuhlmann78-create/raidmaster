@@ -73,7 +73,23 @@ EK-X1 HOCH (Nutzer 00:12, Screenshot 0.65.176, Kaufen > Einkauf): Knopf "X" nebe
     NUTZER 00:13: Ruckeln NUR beim X (andere Klicks ok). Und: die offene Favoriten-Liste (Menü "+ Aktuelle Suche speichern /
     Rüstung, ab Grün") geht beim Klick auf X nicht zu – X muss ein offenes Favoriten-Menü schliessen (wie Klick daneben / Esc).
     Test + Selbstkontrolle (UICheck: X wirkt, Favoriten-Menü zu, Klickzeit gemessen).
-WEITER JETZT: TT-DE1 (klein), EK-X1, dann TEST-DEV1 (Test nur beim Entwickler), dann FERTIG-LISTE Block 2/3 wie oben.
+SN-B1 HOCH (Nutzer 00:19, Screenshot 0.65.176, Ziel Leinenstoff max 18c): Status "wartet: Kurz warten (max. eine Suche alle
+    8.0 Sek.)" – der Sniper sucht nur noch alle 8 s statt ~1 s (Abnahme 23:49: Ø 83/Min.). Herausfinden, was den 8-s-Abstand
+    setzt (Drossel nach Server-Fehler, abgebrochene Käufe -> A:QueryError?, Option "Abstand"?) und warum er nicht wieder schnell
+    wird (S11 verlangt: danach wieder schnell). Grund des Wartens im Status in Worten anzeigen. Test: nach abgebrochenem Kauf
+    sucht der Sniper innert ≤ 5 s wieder im vollen Takt.
+SN-B2 HOCH ("ich verliere sehr viele Duelle"): Chat zeigt mehrfach "Preis wird geprüft: 70x Leinenstoff … Preis ist inzwischen
+    gestiegen (13s 70c) – Kauf abgebrochen" und "Zu teuer: Ø 19c je Stück über deinem Max 18c – nicht gekauft". Der Sniper will
+    70 Stück auf einmal; bis zur Bestätigung haben andere die billigsten weggekauft -> Durchschnitt über Max -> Abbruch, Duell
+    verloren. Soll: (a) nur so viele Stück anfragen, wie im günstigsten Angebot zu ≤ Max liegen (zuerst das billigste Angebot,
+    nicht 70 über mehrere Angebote); (b) kommt der Preis zu hoch zurück, sofort mit der kleineren Menge ≤ Max nachfassen statt
+    abbrechen und neu suchen; (c) Zeit vom Treffer bis zur Bestätigung messen und im Sniper-Test (S12) zeigen, Ziel so kurz
+    wie möglich. Kauf weiter nur per Raste/Taste, nie über Max. Test: 3 Angebote 18c×10, 18c×20, 25c×40, Max 18c -> fragt 10
+    bzw. 30 an, nicht 70; Preis gestiegen -> kleinere Menge statt Abbruch.
+SN-B3 MITTEL: Rote Zeile "Max über Verkaufswert – jeder Kauf verliert ca. 2c/Stück" bei Leinenstoff 18c. Der Spieler kauft ihn
+    für seine Kette (Ballen -> Braune Leinenhose -> Entzaubern, laut Ketten +70c je Hose). Die Warnung muss die gemerkte Kette
+    berücksichtigen (Wert über die Kette) und darf dann nicht "verliert" sagen.
+WEITER JETZT: SN-B1, SN-B2 (Sniper = Nr. 1 des Nutzers), dann TT-DE1, EK-X1, dann TEST-DEV1 (Test nur beim Entwickler), dann FERTIG-LISTE Block 2/3 wie oben.
 >>> (erledigt, siehe Prüfung oben) SN-TEST2 HOCH – NUR DIES MACHEN (Nutzer 18:54: "der Sniper-Test soll um alles Wichtige erweitert werden … er soll nur dies
     machen"). Alles andere ruht, bis SN-TEST2 umgesetzt und geprüft ist. Eine Version, dann Testbericht.
     Erweiterung von "/ahs testroutine sniper" (SniperTest.lua, S1–S6 bleiben). Am offenen AH, echtes Spiel, kauft nichts ohne
