@@ -170,6 +170,13 @@ TB138b-3 HOCH  Ruckeln beim Vollscan (RF): Einlesen längster Frame 164 ms, Prei
                nicht dieselben Schritte. Beides auf EINE Messung bringen (längste Lücke zwischen zwei Frames je Phase) und
                die Phasen Einlesen und Preisverlauf in Portionen ≤ 8 ms legen, Tabellen wiederverwenden statt neu anlegen.
                Hinweis: diesmal nur 191'385 Auktionen (sonst ~300'000) – trotzdem 164 ms.
+               NACHTRAG 08:35 (zweiter Vollscan des Nutzers 08:22, noch 0.65.138, Daten 08:23): längste Lücke 584 ms (!),
+               AHSentinel 227 -> 261 MB (+34 MB, Spitze ganzer Lua-Speicher 597 MB), 14 Bereinigungen. Der Speicher von
+               AHSentinel WÄCHST über die Sitzung: 123 MB (07:52) -> 227 MB vor dem zweiten Scan -> 261 MB danach. Ein Scan
+               hinterlässt also ~35 MB, die nicht freigegeben werden (Leck oder Zwischenspeicher ohne Deckel). Prüfen:
+               welche Tabellen nach dem Scan wachsen (Messung je Modul vor/nach, collectgarbage("count") je Phase),
+               Deckel bzw. Freigabe nach dem Scan. Ziel: zweiter Scan endet beim gleichen Speicher wie der erste.
+               Das ist das grösste Ruckel-Problem – nach BR1/HB1/PR2 zuoberst.
 TB138b-4 MITTEL [umgesetzt in 0.65.141, geprüft 14.11.; im Client grün bestätigen] T659 T-EB4b scheitert im Client (vorhanden 0, verbraucht 0, Lager 20/400), im eigenen Lauf PASS. Vermutlich sperrt
                "nie während der Testroutine" den eigenen Test. Test so bauen, dass er im Client läuft.
 TB138b-5 MITTEL T647 "Heute" in Portionen: längster Schritt 10,4 ms bei Disenchant.lua:1508 (FindDeals), Ziel ≤ 8 ms.
