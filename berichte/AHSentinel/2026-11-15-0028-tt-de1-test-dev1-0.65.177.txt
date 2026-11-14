@@ -1,0 +1,37 @@
+AHSentinel 0.65.177 – TT-DE1, TEST-DEV1, SN-TEST2-1 – umgesetzt, zur Prüfung
+
+1) TT-DE1 (Nutzer 00:09/00:10, endgültig)
+   Materialblock im Entzaubern-Tooltip (Tooltip.lua TT:AddMaterialBlock, neu TT:ForeverMats/TT:MatRangeText):
+   Kopf nur "Materialien". Zeilen aus der Vorgabe-Tabelle (D:Prior: Forever grün Rüstung 75/20/5, Waffe 20/75/5, bis
+   Itemstufe 15 80/20; blau/episch Tabelle) mit der Mengen-Spanne der Tabelle: "1–2 Visionenstaub  75 %", gleiche Zahl nur
+   "1 Großer leuchtender Splitter". Keine gemessenen Prozente, kein "× Ø", keine Preisquelle "Scan" (Warnungen frisch
+   gestiegen/unsicher bleiben; Quelle je Material und Herkunft der Chancen nur mit Shift). Preis je Stück wie bisher.
+   Gewinn, Entzaubern-Wert, Lernen unverändert (eigene Entzauberungen rechnen weiter im Hintergrund).
+   Test: T743 (12 eigene, Messung 83 % Staub -> Zeile zeigt 80 % der Vorgabe, kein ×, Entzaubern-Wert vor/nach gleich,
+   "1–2 …"/"1 …"), T215/T228/T273 angepasst (Kopf "Materialien", ohne Quelle Scan), Szenarien s8/s59 angepasst.
+   Selbstkontrolle: keine neue Rechnung (nur Anzeige) – Wert-Kontrollen SK1 unverändert.
+
+2) TEST-DEV1 (Nutzer 18:19)
+   Versteckter Schalter "/ahs entwickler an|aus" (auch "developer on|off"), kontoweit in AHSentinelDB.entwickler, Standard AUS,
+   keine Namen. A:IsDev() liest nur noch diesen Schalter (GoldSentinelDev wird von AHSentinel nicht mehr gefragt).
+   Aus: testroutine/test/test daten/testmodus/spieltest/protokoll gesperrt und nicht in Liste/Hilfe/Befehlsliste, kein Knopf
+   "Test"; Selbstkontrollen SK1 (SC:Store und alle On*/Check*/Session*-Einstiege) aus; Diagnose-Protokoll schreibt nichts;
+   Ereignis-Zeitmessung (A:TimeFrame) ruft nur die Originalfunktion; Sniper-Takt-Zähler (SessionNote) aus.
+   An: wie bisher. Beim Einschalten wird der Speicher von AHSentinel gemerkt; der Testbericht zeigt in der Zusammenfassung
+   "Entwickler-Modus seit …: AHSentinel beim Einschalten X KB, jetzt Y KB" (Vergleich verlangt).
+   Nicht umgestellt (bewusst): Vollscan-Grundmessung (Speicher vorher/nachher, Lücken) – sie steuert den Vollscan selbst und
+   kostet nur wenige Zahlen; die Messung des eigenen Speichers (MEASURE_OWN) war schon aus.
+   Test: T744 (aus: IsDev/RequireDev false, SK1-Store nil, Protokoll nil, Takt-Zähler nil, Befehlsliste ohne testroutine; an:
+   wie bisher, devSince gesetzt). Szenarien s29_dev_only/unlocked, s46, s70 angepasst (Prüfharness schaltet den Modus ein).
+   WICHTIG für den Nutzer: einmal "/ahs entwickler an" eingeben, sonst sind Testroutine und Testbericht gesperrt.
+
+3) SN-TEST2-1 (Prüfung 0.65.176)
+   Sniper-Abnahme S5/S13: je Bild > 33 ms die Ursache: AHSentinel-Hintergrund (Aufgabe/Schritt), AHSentinel-Ereignis
+   (Modul/Ereignis, "Sniper" eigens gezählt), Sync hat gesendet (Warteschlange, Mischung je Addon), sonst "nicht AHSentinel
+   (Spiel oder anderes Addon)". Zähler je Ursache + höchstens 10 Bilder im Text. Test: T741 erweitert (4 Ursachen).
+   Entscheid über Massnahmen (z. B. Befund an GuildSentinel) erst nach dem nächsten Sniper-Testbericht.
+
+Belege: Gesamtlauf 249/250 nach Anpassung der Szenarien; Abweichung wie bei 0.65.176 nur s43 T459 (Vollscan höchstens 1
+Speicherbereinigung, auch mit 0.65.175 rot – RUCKEL-1/TB174-2, zurückgestellt). addon_check OK.
+
+Neu im Repo gesehen (00:12–00:22): EK-X1, SN-B1, SN-B2, SN-B3 – kommen als Nächstes (SN-B1/SN-B2 zuerst).
