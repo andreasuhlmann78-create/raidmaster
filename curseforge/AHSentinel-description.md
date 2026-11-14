@@ -12,6 +12,12 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.174
+
+- **Sniper checks ALL targets:** every target in your list is searched in turn, equally often, as fast as the server allows
+  (before, a target with hits was searched much more often and the others rarely). Each row shows "checked x s ago"; a row
+  with a waiting hit is marked gold. Buying still only by click; budget and max per row apply. Test T727.
+
 ### Version 0.65.173
 
 - **Accounting:** the tooltip over "Profit" now shows exactly four lines – proceeds, invested, fees, profit – with the same
@@ -53,13 +59,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   part without purchase. Test T715.
 - **Profit window:** no "Vendor pays more: 0c" and no "best way: vendor" when the vendor doesn't buy the item and every way
   loses – it says "no way with profit". Test T716.
-
-### Version 0.65.169
-
-- **Sell window:** "Expected profit" now subtracts what the goods cost you (average cost of your stock). Before it showed the
-  whole proceeds as profit. Point at the line for a short explanation. New self-check. Test T714.
-- **Sniper, new target:** amount empty = 1000, budget empty = 5g, max price is always yours to enter (no automatic price).
-  Existing targets stay unchanged. Test T713.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
