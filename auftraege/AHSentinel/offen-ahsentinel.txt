@@ -1,6 +1,19 @@
 GRUNDSATZ (Nutzer 14.11. 11:24, IMMER): Jede neue Funktion = Test in der Testroutine (auch falsche Fälle) + Selbstkontrolle im
 Spiel wo messbar (SK1-Muster) + Prüfung durch den Supervisor. Im Bericht je Funktion alle drei nennen.
 
+PRÜFUNG 0.65.158 + 0.65.159 (Supervisor 14:10, addon_check OK, Berichte + Kern.lua K:LohntBis/RebuildBuys gelesen): umgesetzt,
+zur Prüfung. S3a richtig: ein Wert über alle Wege, Anzeigen noch unverändert (Gold-Sicherheit), Selbstkontrolle im Testbericht.
+S2-B4/SK1-B4 wie verlangt (Neuaufbau einmal, mailCache vor dem Abholen). Reihenfolge-Erklärung angenommen; jetzt TB157-1..4
+(TB157-4 mit der Ursache von 14:05) und TB159-1, dann T131-1, dann S3b.
+S3-1 MITTEL (vor S3b)  K:LohntBis Weg "haendler": offer("haendler", v) = Händlerpreis selbst. Kauf zum Händlerpreis bringt 0 Gewinn
+   – "Lohnt bis" muss auch hier den Mindestgewinn abziehen (Händler-Marge 20 % wie im Testbericht "Kauf-Sicherheit": v / 1,2,
+   abgerundet). Test T696 anpassen: Händler 300 -> Lohnt bis 250.
+ANTWORT auf eure Frage (0.65.158, Supervisor entschieden, dreifach gegen Entscheide geprüft: DE30b, "fundiert und belegbar", P2):
+   Ein Sniper-/Sammelkauf-Ziel "entzaubern" steigt NICHT auf den AH-Wert, solange der Weg "ah" (Flip) nicht ehrlich geprüft ist.
+   Heute: Flip "zu wenig Daten (9)". Erst wenn der Flip-Weg P2 besteht (ohne eigenen Fall besser als die Grundlinie, Fehler ≤ 10 %,
+   n ≥ 30), darf das Ziel bis zum Flip-Wert steigen – und nur mit dem Flip-Mindestgewinn. Fällt der Flip-Weg zurück (P4), sofort
+   wieder der Entzauber-Wert. Im Testbericht je Ziel anzeigen, welcher Weg die Grenze setzt.
+
 TESTBERICHT 0.65.157 13:55 (Nutzer, AH offen, Vollscan 13:52; Supervisor 14:05 im Code nachgeprüft) – Ursache von TB157-4 GEFUNDEN:
 TB157-4 (jetzt HOCH, Ursache belegt): T676 ruft move(-500, nil) -> BK:OnMoney(…, ctx = nil) -> ctx = self:FlowContext() = der
    ECHTE Ort im Spiel (13:55 Auktionshaus offen) statt "sonst". Darum (1) T676 "sonst +0" statt −500 und (2) die −500 landen über
