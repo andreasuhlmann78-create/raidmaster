@@ -1,0 +1,19 @@
+AHSentinel 0.65.152 – TB138-6 (b) + TB138b-6/-7 (Testfehler im Client) – umgesetzt, zur Prüfung
+
+TB138-6 (b): Buchhaltung "je Item": Entzauber-Materialien eines Stufenbands (Waves.BANDS: 5-25, 26-35, 36-45, 46-55, 56-60)
+  als EINE Zeile "Entzaubern 26–35 (n)" mit Summe (verkauft, Erlös, eingesetzt, Gewinn, % nur aus Stücken mit Einkauf);
+  einzelne Materialien im Tooltip der Zeile (neu: UI:Table rowTooltip für Zeilen ohne Item). Ein einzelnes Material mit
+  Verlust fällt nur noch auf, wenn die Gruppe Verlust macht. BK:ByItem ohne zweites Argument wie bisher (Bericht, API).
+  TR T679 (Visionenstaub +300, Seelenstaub −100 -> eine Zeile +200 mit 2 Einzelzeilen; anderes Item eigene Zeile).
+  Hinweis zur Frage Visionenstaub (137 verkauft, eingesetzt 1s 32c): kann ich ohne Client-Daten nicht klären – kommt ein
+  Material per Post von einer Figur ohne AHSentinel-Buchung, hat es Kostenbasis 0 (Herkunft unbekannt).
+TB138b-6/-7 (Ursachen aus dem Client-Bericht 0.65.138, json 1794639248):
+- T285/T289/T291: gelernter Markt-Faktor Ln:MarketFactor (Client 0,284) wirkte in den Test (2000 -> 568, 600 -> 170,6,
+  10 -> 2,84 -> N 2). Test schaltet ihn und VS:MeasuredRate aus. Keine Regression der Rechnung.
+- T223: echte Essenz-Angebote (Se.prices / Buy.detail, 123c "ah") gingen vor dem Markt -> im Test ausgeblendet.
+- T272: echter Sync-Ausgang S.outbox nicht leer -> SendNow reihte die Test-Nachricht ein ("true", nichts gesendet).
+  Test mit leerem Ausgang. Im Spiel funktioniert der Sync (Bildschirmfoto 07:59), der Ausgang wird gepumpt.
+- T310: Vorrat VS.pool enthielt die echten 6446 Items -> Test mit eigenem Vorrat.
+- Offen (NIEDRIG): T129 (Job-Fehler-Eintrag), T167 (0 Aufbauten), T659 (aus 0.65.138; seit NP141/HB1 umgebaut – bitte mit
+  neuem Testbericht prüfen).
+Gesamtlauf 248/248, addon_check OK. Weiter: 0.66-Rechenkern S1 (Lernschicht + ehrliche Prüfung) mit TB138-4.
