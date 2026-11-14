@@ -113,3 +113,6 @@ dann Messauftrag statt Regel.
 - 13.11. 23:50 Faktor ×0,57 war ein Median über Zufallsbeute (Mittel 0,97) – ich habe ihn heute als "belegt" weitergegeben
   und darauf DE30 begründet. Regel: Jede Kennzahl über Zufallsergebnisse prüfen: Median vs. Mittel vs. Summe/Summe
   nebeneinander nachrechnen (aus den Rohdaten im Daten-Repo), bevor sie als Erkenntnis ins Gehirn oder in einen Auftrag geht.
+- (14.11. 14:40, Nutzer) Verteilte Zahlen (Umbuchung beim Entzaubern/Herstellen, Kosten-Anteile) nie als Realität deuten und nie
+  daraus eine Empfehlung ableiten. Vor jeder Aussage zu Gewinn: Gold rein/raus der ganzen Sache prüfen. Meine Empfehlung "26–35 nicht
+  mehr kaufen" war aus einer Material-Zeile abgeleitet – falsch.

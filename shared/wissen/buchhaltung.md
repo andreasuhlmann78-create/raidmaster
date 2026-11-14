@@ -67,6 +67,12 @@ Wer an der Buchhaltung eines GoldSentinel-Addons arbeitet, prüft oder Aufträge
    als "ohne Einkauf" ausgewiesen.
 3. **Entzaubern als Umbuchung:** Kostenbasis des Teils -> auf die erhaltenen Materialien nach relativem Verkaufswert im
    Moment des Entzauberns. Herstellen analog (Zutaten -> Produkt).
+   LEHRE 14.11. 14:40 (Nutzer: "überlege, was der Wert mit der Realität zu tun hat"): Der Gewinn JE MATERIAL nach einer
+   Umbuchung ist eine Verteilung, keine Realität. Beispiel "Entzaubern 26–35": Seelenstaub −5g 96s, Astralessenz +7g 55s,
+   Splitter +1g 91s – real ist nur die Summe (+3g 51s = Gold rein minus Gold raus für die Gruppe). Das Minus beim Seelenstaub
+   entsteht aus (1) Kostenanteil nach dem Preis BEIM Entzaubern, (2) Preisfall bis zum Verkauf (Halten-Verlust, Welle 26–35),
+   (3) Reparaturen (BH-AUS-3 hat 1g 90s Einstand von Phantom-Ware auf Rechnungen umgebucht). Nie aus einer Material-Zeile eine
+   Kauf-Entscheidung ableiten; entscheiden nur mit Gruppe/Weg gesamt und dem Halten-Verlust getrennt.
 4. **Verkauf sofort als "ausstehend"** beim Hinweis "Käufer gefunden", mit Rechnung abgleichen (auctionID/Item+Menge+
    Preis), nie doppelt.
 5. **Abstimmung mit dem Gold:** Gold aller Charaktere zu Beginn/jetzt mitschreiben; Differenz zur Buchhaltung im

@@ -30,6 +30,14 @@ BH-ANZ-S1 MITTEL (Screenshot des Nutzers 14:35, 0.65.159, Buchhaltung "Seit Neus
    Spalte % aus denselben Stücken wie Gewinn ODER Gewinn-Spalte ebenfalls nur aus Stücken mit Einkauf und die freien Stücke als
    eigene Zeile "ohne Einkauf +x". Test: Gruppe mit gekauften (−) und freien (+) Stücken -> Vorzeichen von Gewinn und % gleich.
    Gleiches Muster bei "Entzaubern 36–45": Gewinn 18g69 auf 3g91 Einsatz, % 141 – prüfen, was die 141 % sind.
+BH-ANZ-S2 MITTEL (Nutzer 14:40 zur Zeile "Seelenstaub −5g 96s"): Der Gewinn je Material nach dem Entzaubern ist eine
+   Kosten-Verteilung (Umbuchung nach Preis beim Entzaubern) und für den Spieler ohne Nutzen – er wirkt wie "Seelenstaub macht
+   Verlust", real hat die Gruppe +3g 51s gebracht. Im Tooltip/Details der Entzauber-Gruppen: nicht mehr "Gewinn je Material",
+   sondern je Gruppe EINE Zahl (Gold rein − Gold raus) und darunter getrennt "Preis gefallen seit dem Entzaubern −x" (Halten-
+   Verlust, Summe über die Materialien) und "Reparaturen −y" (BH-AUS-3 u. ä.), wenn ≠ 0. Materialien nur mit Menge und Erlös.
+   Test: Gruppe mit Preisfall -> Gruppe +, Halten-Verlust −, keine Material-Gewinnzahl. Selbstkontrolle: Gruppe = Summe Erlös −
+   Einsatz (SK1-i-Muster).
+
 GW-S1 NIEDRIG (gleicher Screenshot, Gewinn-Fenster Braune Leinenhose): "bester Weg: entzaubern · Händler −38c" und darunter
    "Händler zahlt mehr: 60c" – widerspricht sich für den Spieler. Zeile nur zeigen, wenn der Händler-Weg wirklich besser ist, sonst
    weglassen (oder "Händler: 60c" ohne "mehr").
