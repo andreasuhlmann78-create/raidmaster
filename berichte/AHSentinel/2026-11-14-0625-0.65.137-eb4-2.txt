@@ -1,0 +1,13 @@
+Bericht AHSentinel 0.65.137 – EB4-2
+Stand: 14.11.2026 · Status: umgesetzt, zur Prüfung
+(1) Herstellen: BK:OnCraft war bisher NICHT verbunden (nur Tests). Jetzt: Activity erkennt das Herstellen
+    (UNIT_SPELLCAST_SUCCEEDED + Rezept aus Crafting:RecipeIndex) und feuert CRAFT_DONE(pid, made, reagents); Books bucht
+    sofort OnCraft (Zutaten aus dem Lager, Kosten ins Produkt, Herkunft "craft") und merkt lastCraftT. CheckVendorUse
+    wartet 60 s nach dem Herstellen, bei offenem Briefkasten und bei wartender Post. Folge: hergestellte Ware trägt ab
+    jetzt ihre Zutatenkosten (vorher "ohne Einkauf" -> Gewinn zu hoch). "made" = gerundeter Mittelwert des Rezepts.
+(2) Post: hooksecurefunc("SendMail") liest die Anhänge (GetSendMailItemLink/GetSendMailItem), bei MAIL_SEND_SUCCESS:
+    an eigene Figur -> OnTwinkMail (Einstand wandert mit), an andere -> Eigenbedarf "verschickt" (nur Ware im Lager;
+    Bericht EB1-Zeile). Eigene AHSentinel-Sendungen (Extras.sending) bucht weiter TWINK_MAIL_SENT. Lesart: "sonst nur
+    melden" als Eigenbedarf mit eigenem Grund umgesetzt (sichtbar im Testbericht), damit kein Phantom-Bestand bleibt.
+- Test T660 T-EB4c/d (Trank 1/100, Fläschchen 0, kein Eigenbedarf; verschickt -> Eigenbedarf 100) – PASS.
+  Gesamtlauf 246/246 Szenarien, addon_check OK. Im Client prüfen: Herstellen eines Tranks (Buchung), Post an Twink.
