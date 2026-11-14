@@ -25,6 +25,43 @@ Ausgabe: Testbericht-Abschnitt "SELBSTKONTROLLE" (je Kontrolle: Fälle, stimmig,
    angeben, welche Kontrolle ihn abdeckt.
 Tests: T-SK1a–i mit erfundenen Ereignissen (stimmig und absichtlich falsch -> erkannt). Danach Rechenkern S1.
 
+ZUSATZBEFUNDE NACHPRÜFUNG 0.65.148–152 (Entwurf 11:23, vom Supervisor 11:40 geprüft – NP152-1 und -4 im Code bestätigt, freigegeben).
+Reihenfolge: nach SK1 und 0.66 S1, klein; NP152-3 ergänzt TB138b-3, NP152-2 gehört zu A7.
+NP152-1 MITTEL  TB138-2 Ziel "Lücke ≤ 1 % des Umsatzes" wird verwässert.
+   Books.lua 962–975 (BookedFlowByDay) zählt den Umsatz "turn" über ALLE Buchungen seit db.since; FlowGaps (988) und
+   FlowTotals (1015: s.ok = |Lücke| ≤ max(100, turn × 1 %)) vergleichen aber nur die GEMESSENEN Tage (db.flow beginnt mit
+   0.65.150). Mit Wochen alter Buchhaltung ist der Umsatz viel grösser als der der gemessenen Tage -> die 1 %-Grenze ist zu
+   grosszügig, "ok" und das Prozent im Testbericht ("x % vom Umsatz") sind zu gut.
+   Dazu: Erster Messtag ist ein Teil-Tag (flowLast erst ab PLAYER_ENTERING_WORLD, 1038), gebucht wird aber der ganze Tag ->
+   künstliche Lücke am ersten Tag.
+   Lösung: Umsatz nur aus Tagen zählen, die in db.flow[ch] stehen; je Figur Messbeginn (Zeitpunkt) speichern und für den ersten
+   Tag nur Buchungen ab Messbeginn vergleichen. Test T676 erweitern: alte Buchungen vor Messbeginn (z. B. 100'000 Umsatz) ->
+   Prozent unverändert; Teil-Tag -> Lücke 0.
+
+NP152-2 MITTEL  TB138-2 Tageszuordnung (zu A7 des Supervisors): Verkauf zählt am Tag der Rechnung (e.ti, Books.lua 971), das
+   Gold kommt aber erst beim Abholen der Post (Ort "post"). Wird die Post an einem anderen Tag abgeholt, wandert die Lücke
+   von Tag zu Tag (Summe stimmt, Tagesliste nicht). Lösung: für die Abstimmung je Tag den Zeitpunkt des Abholens (Post-Geld
+   genommen, BR1-Nachhaken TakeInboxMoney) verwenden, sonst ti; zusammen mit A7 (erstattete Anzahlung im Post-Geld) messen.
+
+NP152-3 MITTEL  TB138b-3 nur teilweise: Die Testgrenzen sind schwächer als der Auftrag.
+   Auftrag (offen-ahsentinel.txt, TB138b-3): Speicher je Scan ≤ 10 MB, ≤ 1 Bereinigung, Einlesen/Preisverlauf in Portionen
+   ≤ 8 ms, zweiter Scan endet beim gleichen Speicher. Szenario s92 (tests/wowsim/scenarios_new.lua 6993–7000) prüft nur
+   "Lauf 2 längster Frame < 150 ms", "Einlesen ≤ 16 ms", "Speicher < 35'000 KB", "bleibend < 4'000 KB". Bericht 0.65.149
+   selbst: Müll zweiter Scan +18–23 MB (Ziel 10), Rest Digest ~9 MB, cache:today 7 MB, realcheck ~9 MB offen.
+   Client-Ausgangslage (testberichte/diagnose/AHSentinel/0.65.142-fe3e7d14673f.txt, neu seit 09:55, VOR dem Umbau): Vollscan
+   182'696 Auktionen, Lücke 165 ms, Speicher 343 -> 375 MB (+32 MB), 7 Bereinigungen; fullscan-Schritt 74 ms "bis Ende
+   fullscan"; cache:today:10 68 ms (Comfort.lua:843, gehört zu T373 c); core:realcheck 15–17 ms (MarketCore.lua:515).
+   Lösung: Grenzen in s92 auf den Auftrag setzen (Speicher Lauf 2 ≤ 10'000 KB, längster Frame ≤ 16 ms, Ziel 8), die drei
+   Rest-Posten (Digest-steps, cache:today, realcheck) angehen; im Client Vollscan zweimal und Testbericht "Vollscan-Messung".
+   Status: teilweise (Marktwert-Teil belegt, Rest offen).
+
+NP152-4 NIEDRIG  UI_Sell.lua 580 (SetWarnings): Zeilen je Hinweis = ceil(Textbreite / 440). Mit Wortumbruch (290
+   SetWordWrap(true)) braucht ein Text oft eine Zeile mehr, als die Breite sagt (Wort passt nicht mehr ans Zeilenende).
+   SetMaxLines(2) (294) schneidet dann die letzte Zeile ab – genau der Fall, den die Prüfung 09:55 (2) vermeiden wollte.
+   Lösung: Höhe messen statt Breite (warnMeasure:SetWidth(width), SetWordWrap(true), GetStringHeight / Zeilenhöhe) oder
+   10 % Reserve. T669 um einen Hinweis knapp unter 2 × 440 px mit langem Schlusswort erweitern.
+
+
 PRÜFUNG 0.65.148–0.65.152 (Supervisor 11:20, addon_check 0.65.152 OK, alle 5 Berichte gelesen) – zur Prüfung, Reihenfolge eingehalten:
 - 148 HB1 Händler-Bilanz (gemessen, Schlusskontrolle, Rückkauf, Tests T670–T674) + UI-V1 (Klick wählt das gesehene Item, wenn
   die Liste <0,5 s vorher neu gezeichnet wurde; T667/T668 ohne SKIP). 149 TB138b-3 Speicher (GetMarketValue ohne neue

@@ -1,0 +1,12 @@
+NACHRICHT AN DIE AHSENTINEL-SITZUNG (zum Einfügen)
+Erst laufende Arbeit fertig machen. Stand 14.11. – Nachprüfung 0.65.148–0.65.152: Reihenfolge eingehalten, addon_check OK,
+Marktwert-Umbau unabhängig nachgerechnet (20'000 Fälle, 0 Abweichungen) – danke.
+ZU TUN (nach 0.66 S1, klein):
+- NP152-1 MITTEL Books.lua 962–1015: Umsatz für das 1 %-Ziel nur aus gemessenen Tagen; Messbeginn je Figur, erster Tag ab
+  Messbeginn. T676 erweitern.
+- NP152-3 MITTEL TB138b-3 Rest: s92-Grenzen auf den Auftrag (≤ 10 MB, ≤ 16/8 ms), Digest/cache:today/realcheck.
+- NP152-2 MITTEL Tageszuordnung Post-Geld (Abholzeit statt ti), mit A7 messen.
+- NP152-4 NIEDRIG UI_Sell.lua 580: Hinweis-Zeilen über die Höhe messen, nicht über die Breite.
+git pull --rebase und auftraege/AHSentinel/offen-ahsentinel.txt lesen; nach der Umsetzung Bericht in berichte/AHSentinel/.
+Nächste Versionsnummer, komplette Dateien, alte Clients nie brechen, alle Locale-Dateien, CHANGELOG EN/DE, vor dem Push
+python3 addon-check/addon_check.py <ZIP> -> kein FEHLER. Ist ein Befund falsch, bitte begründet zurückmelden.
