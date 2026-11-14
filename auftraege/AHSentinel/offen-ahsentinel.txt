@@ -32,6 +32,17 @@ PRÜFUNG 0.65.167 (Supervisor 16:00, addon_check OK, Bericht gelesen): EK-1 umge
    Im Client prüfen: nach einer Herstell-Runde SK1-m = 0 Abweichungen und Einstand im Verkaufen-Fenster ≠ 0.
 Reihenfolge jetzt: SN-EIN1, SN-DEF1, SN-MAX1, BR-LEER1, VS-1, Ketten Schritt 2 (nach Freigabe), Rest.
 
+RM1 MITTEL (Auftrag des Nutzers 16:22 "Risikomanagement", Grundlage markt-strategie.md 8j) – nach MH-1/FL-1, mit den Ketten:
+   Jeder Kauf-Vorschlag (Heute tun, Flip, Sniper-Ziel, Ketten-Einkaufsliste) bekommt eine Risiko-Prüfung, bevor er erscheint:
+   a) Risiko = Menge × (Kaufpreis − Notausgang); Notausgang = max(Händlerpreis, sicherer Entzauberwert); Risiko ≤ 2 % des Golds.
+   b) Menge ≤ Absatz/Tag × 2 und ≤ 30 % des Angebots vor mir.  c) Klumpen: Materialien eines Stufenbands/derselben Welle zählen
+   zusammen gegen die 10 %.  d) Probe ohne eigene Fälle (= FL-1).  e) Zeit-Stopp beim Verkaufen: nach 2 abgelaufenen Laufzeiten
+   Vorschlag "Preis senken" bzw. Notausgang statt Abbruch-Kaskade.  f) Verlust-Bremse: 7-Tage-Ergebnis < 0 -> Vorschlags-Mengen
+   halbieren.
+   Anzeige (Grundsatz 15:18): bleibt EINE Zahl; gekürzte Menge mit Satz "Menge begrenzt – Risiko höchstens 2 % deines Golds".
+   Test je Regel (auch falsche Fälle); Selbstkontrolle: im Testbericht Anzahl gekürzter/gesperrter Vorschläge je Regel.
+   VOR der Freigabe: Supervisor prüft an echten Buchungen (Nachspielen), dass die Regeln die Gewinne der Kette nicht abwürgen.
+
 FL-1 HOCH (Screenshot 16:21, 0.65.168, Heute tun – Gold-Sicherheit, VERMUTUNG im Code prüfen): Zeile "Kaufe 107x Geschnitztes
    Zentaurentotem bis 2s 30c, wieder einstellen um 3s 44c (verkauft sich ~663,2/Tag, gemessen, 4 Tage) · Sicherheit: niedrig ·
    lernt noch (0 von 20)" -> Einsatz 107 × 2s 30c = 2g 46s bei 17g 32s Gold = 14 % in EINE Ware, Weg Flip ohne einen eigenen Fall.

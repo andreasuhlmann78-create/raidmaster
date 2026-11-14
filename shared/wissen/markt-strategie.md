@@ -683,6 +683,22 @@ gegen die heutigen festen Budgets: mehr Gold am Ende UND kein grösserer schlech
 Anzeige für den Spieler (psychologie.md): EINE Zahl je Weg "bringt je 1g Einsatz +x" grün und "setz höchstens y" – keine Formeln.
 Messauftrag K1 (Supervisor, offline): sobald je Weg ≥ 30 abgeschlossene Fälle vorliegen (Entzaubern hat 450; Flip 9, Herstellen 0).
 
+## 8j. Risikomanagement (Auftrag des Nutzers 14.11. 16:22) – Grundregeln aus dem Trading, aufs AH übertragen
+1. Positionsgrösse: nicht "wie viel Gold", sondern "wie viel kann ich verlieren". Risiko einer Position = Menge × (Kaufpreis −
+   Notausgang), Notausgang = Händlerpreis bzw. sicherer Mindestwert (Entzauberwert). Höchstens ~2 % des Golds Risiko je Position.
+2. Kapital je Ware ≤ 10 %, gesamt gebunden ≤ 25–50 % (heute 25 %/10 %), Rest als Reserve.
+3. Liquidität: nie mehr kaufen, als der Markt in 1–2 Tagen abnimmt (Menge ≤ Absatz/Tag × 1–2 und ≤ 30 % des Angebots vor mir).
+4. Klumpen: Waren, die zusammen fallen (alle Entzauber-Materialien eines Stufenbands, Welle), zählen als EINE Position.
+5. Probe zuerst: ohne eigene Erfahrung nur eine kleine Probe (5–10 % des Item-Budgets), erst nach bestätigtem Gewinn grösser
+   (FL-1). Feldstudie Leinenhose = gutes Beispiel: 50 -> 132 -> 161.
+6. Ausstieg vorher festlegen: Zeit-Stopp (nach 2 abgelaufenen Laufzeiten Preis senken bzw. Notausgang), keine Abbruch-Kaskade
+   (jeder Abbruch kostet die Anzahlung).
+7. Chance/Risiko ≥ 2:1 und Erwartungswert > 0 (8i); Trefferquote allein zählt nicht.
+8. Verlust-Bremse: Woche mit Verlust > X % -> Positionsgrössen halbieren, bis wieder Gewinn (Schutz vor Serien).
+9. Schwarze Schwäne (Patch, Server-Event, Phase): nie alles in eine Ware, Reserve halten.
+10. Journal + Nachschau (haben wir: Buchhaltung, Prognose-Journal, Selbstkontrolle).
+Stand AHSentinel: 2 (Budget) und 7 (Mindestgewinn) da, 5 fehlt (FL-1), 1/3/4/6/8 fehlen -> Auftrag RM1.
+
 ## 9. Pflege dieser Datei
 
 - Neue Messung oder Entscheid des Nutzers -> hier eintragen (mit Datum), Status belegt/vermutet.
