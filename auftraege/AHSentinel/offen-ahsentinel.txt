@@ -21,7 +21,27 @@
 >>> !!! OBERSTE PRIO – NIE IM RUHEMODUS (Entscheid des Nutzers 14.11. 00:28/00:29/00:30) – gilt ab sofort, dauerhaft:
 >>>    Die AHSentinel-Sitzung plant sich selbst Weck-Runden: am Ende JEDER Antwort/Arbeit mit dem Werkzeug send_later
 >>>    (delay_minutes 5, initiation human_request) eine Erinnerung an sich selbst setzen: "Weck-Runde: git pull --rebase,
->>>    auftraege/AHSentinel/offen-ahsentinel.txt Liste TB138 – BEFUNDE AUS DEM TESTBERICHT 0.65.138 (Nutzer 14.11. 07:43, Prüf-Sitzung 07:55) – ZUOBERST ABARBEITEN
+>>>    auftraege/AHSentinel/offen-ahsentinel.txt Liste TB138b – VOLLER TESTLAUF NACH FRISCHEM VOLLSCAN (Nutzer 14.11. 07:52, 0.65.138, Prüf-Sitzung 08:15) – mit TB138 zuoberst
+=========================================================================================================================
+TB138b-1 HOCH  Lua-Fehler im Spiel: "Job:craft-top: Crafting.lua:515: attempt to index field '?' (a nil value)" (1×). Ursache
+               finden (neue Herstellen-Erkennung 0.65.137?), Test mit fehlendem Rezept/Zutat.
+TB138b-2 HOCH  Sandbox wieder undicht: 9 Pfade wiederhergestellt (vsLastMeasure.* und books.gold.<Figur>.lastT). Die Testroutine
+               darf echte Daten nie berühren – Schreibzugriffe dieser Pfade in der Testroutine umleiten (früher schon: books.gold).
+TB138b-3 HOCH  Ruckeln beim Vollscan (RF): Einlesen längster Frame 164 ms, Preisverlauf+Neuaufbau 105 ms, 25 Frames über 33 ms,
+               Bilder/s fallen von 120 auf 48. Speicher AHSentinel 123 -> 158 MB (+35 MB), 20 Speicherbereinigungen (Ziel
+               ≤ 10 MB, ≤ 1). Widerspruch im selben Bericht: M1d sagt "längster Frame 7,4 ms" – die Messung trifft offenbar
+               nicht dieselben Schritte. Beides auf EINE Messung bringen (längste Lücke zwischen zwei Frames je Phase) und
+               die Phasen Einlesen und Preisverlauf in Portionen ≤ 8 ms legen, Tabellen wiederverwenden statt neu anlegen.
+               Hinweis: diesmal nur 191'385 Auktionen (sonst ~300'000) – trotzdem 164 ms.
+TB138b-4 MITTEL T659 T-EB4b scheitert im Client (vorhanden 0, verbraucht 0, Lager 20/400), im eigenen Lauf PASS. Vermutlich sperrt
+               "nie während der Testroutine" den eigenen Test. Test so bauen, dass er im Client läuft.
+TB138b-5 MITTEL T647 "Heute" in Portionen: längster Schritt 10,4 ms bei Disenchant.lua:1508 (FindDeals), Ziel ≤ 8 ms.
+TB138b-6 MITTEL Absatz-Tests rot: T285 (AB1/AB2), T289 (AB7/AB8), T291 (AB10) – Regression oder geänderte Rechnung? Begründen oder
+               beheben. T223 Entzauberwert: "Gewinn 62/−838" statt Gewinn = Wert − Kaufpreis – prüfen.
+TB138b-7 NIEDRIG T272 Sync erwartet GUILD+PARTY, Figur (Stufe 10) ist evtl. in keiner Gilde/Gruppe -> Test soll dann SKIP melden,
+               nicht FEHLER. T310 erwartet 300 Items, liest echte 6446 -> Testdaten trennen. T129, T167 prüfen.
+
+TB138 – BEFUNDE AUS DEM TESTBERICHT 0.65.138 (Nutzer 14.11. 07:43, Prüf-Sitzung 07:55) – ZUOBERST ABARBEITEN
 ==========================================================================================================
 TB138-1 HOCH  Phantom-Lager nicht weg. BH-AUS-3 hat 12 Buchungen/30 Stück umgebucht, aber der Abgleich meldet weiter
               "Lager mehr als vorhanden": 2996 +40, 11083 +25, 2320 +16, 2455 +13, 279972 +11, 159 +9, 6662 +9, 278243 +6.
