@@ -1,50 +1,120 @@
 {
- "ausgewertet": "2026-11-14T06:30:29Z",
+ "ausgewertet": "2026-11-14T07:44:06Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 27,
+   "berichte": 30,
    "letzter_test": {
-    "id": "AHSentinel-1794614513-9fbbd1-1",
-    "version": "0.65.125",
-    "time": 1794614486,
+    "id": "AHSentinel-1794639248-59c5e9-1",
+    "version": "0.65.138",
+    "time": 1794639138,
     "counts": {
-     "client": 0,
-     "fehler": 3,
-     "ok": 4,
-     "uebersprungen": 3
+     "client": 16,
+     "fehler": 10,
+     "ok": 698,
+     "uebersprungen": 22
     }
    },
    "fehler_tests": [
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.125",
+     "version": "0.65.138",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T625",
-     "name": "PS Tooltip eines Items <= 5 ms Rechenzeit (ohne Zwischenspeicher, bis 30 Items)",
-     "detail": "ergebnis: max 158.3 ms (Item 15347), Ø 5.6 ms, 30 Items | erwartet: <= 5 ms",
-     "bericht": "AHSentinel-1794614513-9fbbd1-1"
+     "id": "T129",
+     "name": "Fehler in Hintergrund-Aufgabe wird gemeldet",
+     "detail": "ergebnis: kein Eintrag | erwartet: Eintrag wo = Job:ahs-test-error",
+     "bericht": "AHSentinel-1794639248-59c5e9-1"
     },
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.125",
+     "version": "0.65.138",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T626",
-     "name": "PS Reiter wechseln, Liste aufbauen <= 50 ms bis sichtbar",
-     "detail": "ergebnis: max 1057 ms (Reiter profit), 11 Reiter | erwartet: <= 50 ms",
-     "bericht": "AHSentinel-1794614513-9fbbd1-1"
+     "id": "T167",
+     "name": "Ereignisse gesammelt: höchstens 3 Neuaufbauten",
+     "detail": "ergebnis: 20 Ereignisse, 0 Aufbauten | erwartet: 1 bis 3",
+     "bericht": "AHSentinel-1794639248-59c5e9-1"
     },
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.125",
+     "version": "0.65.138",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T630",
-     "name": "PS Einloggen/reload: AHSentinel am Stück <= 100 ms",
-     "detail": "ergebnis: Laden 1 ms · Start 299 ms | erwartet: <= 100 ms",
-     "bericht": "AHSentinel-1794614513-9fbbd1-1"
+     "id": "T223",
+     "name": "Entzauberungswert gleich je Gruppe, Gewinn beim Kauf je Kaufpreis, Block-Anteile = Wert, Ausreisser zählt nicht",
+     "detail": "ergebnis: Wert 162/162, Gewinn 62/-838, Summe 171 = 171, Essenz 123 (ah, unsicher true) | erwartet: gleicher Wert, Gewinn = Wert - Kaufpreis, Summe = Wert, 2c-Angebot ignoriert (Markt 300c)",
+     "bericht": "AHSentinel-1794639248-59c5e9-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.138",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T272",
+     "name": "Sync über GoldSentinelSync (T-SY1 bis T-SY3, T-GS1 bis T-GS5): nie Kanal, Gilde/Gruppe, Kanal verweigert, alte Nachrich…",
+     "detail": "ergebnis:  true:0: 1 S:0:abc|nil true true true | erwartet: GUILD+PARTY false:0: 1 S:0:abc|nil true true true",
+     "bericht": "AHSentinel-1794639248-59c5e9-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.138",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T285",
+     "name": "Angebot und Absatz: Warteschlange, Absatz, Einstellungen, kaum",
+     "detail": "ergebnis: AB1 60 (N 7, kaum true) · AB2 90 (N 2) · AB3 kaum true · AB4 Q 7 · AB6 3/4 Zeilen | erwartet: AB1 Händler 60 < Entzaubern 119, N > 1, kaum · AB2 190, N 1 · AB3 kaum · AB4 Q 7 · AB6 Shift mehr Zeilen",
+     "bericht": "AHSentinel-1794639248-59c5e9-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.138",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T289",
+     "name": "Absatz: Markt-S, eigene Verkäufe als Untergrenze, nie kaum bei eigenen Verkäufen",
+     "detail": "ergebnis: AB7 S 568.75130538565 W 19.1 kaum false · AB8 kaum false | erwartet: AB7 S 2000 W 5.4 kein kaum · AB8 kein kaum",
+     "bericht": "AHSentinel-1794639248-59c5e9-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.138",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T291",
+     "name": "Absatz: Deckel bei überfüllten Items, eigene Quote zuerst",
+     "detail": "ergebnis: AB10 S 170.6 N 2 · AB11 N 1.11 (own) | erwartet: AB10 S 44.4 N 6 · AB11 N 1.11 (own)",
+     "bericht": "AHSentinel-1794639248-59c5e9-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.138",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T310",
+     "name": "T-VS5 Lesen in Portionen: 30'000 Einträge, kein Frame über 8 ms, 0-basierter Index",
+     "detail": "ergebnis: 30000 gelesen, 6446 Items, 10 Portionen, längste 5.0 ms, Index ab 0 | erwartet: 30000 gelesen, 300 Items, längste ≤ 8 ms, Index ab 0",
+     "bericht": "AHSentinel-1794639248-59c5e9-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.138",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T647",
+     "name": "T-T373b Heute (ComputeTodayActions) mit 5000 Items in Portionen: längster Schritt <= 8 ms, längstes Bild <= 16 ms",
+     "detail": "ergebnis: fertig true · längstes Bild 11.4 ms · längster Schritt 10.4 ms bis Disenchant.lua:1508 · 470 Bilder | erwartet: <= 8 ms Schritt, <= 16 ms Bild",
+     "bericht": "AHSentinel-1794639248-59c5e9-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.138",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T659",
+     "name": "T-EB4b 20 Wasser beim Händler gekauft, 20 verbraucht -> Lager 0, Eigenbedarf = Kaufpreis; andere Ware wird nicht angefa…",
+     "detail": "ergebnis: vorhanden: 0 · verbraucht: 0 · Lager 20/400 · Handelsware 3 · Eigenbedarf nil · Gewinn 0 | erwartet: 0 · 20 · 0/0 · 3 · 400 · 0",
+     "bericht": "AHSentinel-1794639248-59c5e9-1"
     }
    ],
    "fehler_spiel": [
@@ -75,6 +145,20 @@
       "forever 1.60.1 (Interface 16001)"
      ],
      "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/Seller.lua]:1433: in function <Interface/AddOns/AHSentinel/Seller.lua:1425>\n"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "spiel",
+     "wo": "Job:craft-top",
+     "msg": "Interface/AddOns/AHSentinel/Crafting.lua:515: attempt to index field '?' (a nil value)",
+     "anzahl": 1,
+     "versionen": [
+      "0.65.138"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:52: in function <Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:50>\n[tail call]: ?\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:350: in function <Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:331>\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:299: in function <Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:297>\n"
     }
    ]
   },
@@ -481,32 +565,102 @@
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.125",
+   "version": "0.65.138",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T625",
-   "name": "PS Tooltip eines Items <= 5 ms Rechenzeit (ohne Zwischenspeicher, bis 30 Items)",
-   "detail": "ergebnis: max 158.3 ms (Item 15347), Ø 5.6 ms, 30 Items | erwartet: <= 5 ms",
-   "bericht": "AHSentinel-1794614513-9fbbd1-1"
+   "id": "T129",
+   "name": "Fehler in Hintergrund-Aufgabe wird gemeldet",
+   "detail": "ergebnis: kein Eintrag | erwartet: Eintrag wo = Job:ahs-test-error",
+   "bericht": "AHSentinel-1794639248-59c5e9-1"
   },
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.125",
+   "version": "0.65.138",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T626",
-   "name": "PS Reiter wechseln, Liste aufbauen <= 50 ms bis sichtbar",
-   "detail": "ergebnis: max 1057 ms (Reiter profit), 11 Reiter | erwartet: <= 50 ms",
-   "bericht": "AHSentinel-1794614513-9fbbd1-1"
+   "id": "T167",
+   "name": "Ereignisse gesammelt: höchstens 3 Neuaufbauten",
+   "detail": "ergebnis: 20 Ereignisse, 0 Aufbauten | erwartet: 1 bis 3",
+   "bericht": "AHSentinel-1794639248-59c5e9-1"
   },
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.125",
+   "version": "0.65.138",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T630",
-   "name": "PS Einloggen/reload: AHSentinel am Stück <= 100 ms",
-   "detail": "ergebnis: Laden 1 ms · Start 299 ms | erwartet: <= 100 ms",
-   "bericht": "AHSentinel-1794614513-9fbbd1-1"
+   "id": "T223",
+   "name": "Entzauberungswert gleich je Gruppe, Gewinn beim Kauf je Kaufpreis, Block-Anteile = Wert, Ausreisser zählt nicht",
+   "detail": "ergebnis: Wert 162/162, Gewinn 62/-838, Summe 171 = 171, Essenz 123 (ah, unsicher true) | erwartet: gleicher Wert, Gewinn = Wert - Kaufpreis, Summe = Wert, 2c-Angebot ignoriert (Markt 300c)",
+   "bericht": "AHSentinel-1794639248-59c5e9-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.138",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T272",
+   "name": "Sync über GoldSentinelSync (T-SY1 bis T-SY3, T-GS1 bis T-GS5): nie Kanal, Gilde/Gruppe, Kanal verweigert, alte Nachrich…",
+   "detail": "ergebnis:  true:0: 1 S:0:abc|nil true true true | erwartet: GUILD+PARTY false:0: 1 S:0:abc|nil true true true",
+   "bericht": "AHSentinel-1794639248-59c5e9-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.138",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T285",
+   "name": "Angebot und Absatz: Warteschlange, Absatz, Einstellungen, kaum",
+   "detail": "ergebnis: AB1 60 (N 7, kaum true) · AB2 90 (N 2) · AB3 kaum true · AB4 Q 7 · AB6 3/4 Zeilen | erwartet: AB1 Händler 60 < Entzaubern 119, N > 1, kaum · AB2 190, N 1 · AB3 kaum · AB4 Q 7 · AB6 Shift mehr Zeilen",
+   "bericht": "AHSentinel-1794639248-59c5e9-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.138",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T289",
+   "name": "Absatz: Markt-S, eigene Verkäufe als Untergrenze, nie kaum bei eigenen Verkäufen",
+   "detail": "ergebnis: AB7 S 568.75130538565 W 19.1 kaum false · AB8 kaum false | erwartet: AB7 S 2000 W 5.4 kein kaum · AB8 kein kaum",
+   "bericht": "AHSentinel-1794639248-59c5e9-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.138",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T291",
+   "name": "Absatz: Deckel bei überfüllten Items, eigene Quote zuerst",
+   "detail": "ergebnis: AB10 S 170.6 N 2 · AB11 N 1.11 (own) | erwartet: AB10 S 44.4 N 6 · AB11 N 1.11 (own)",
+   "bericht": "AHSentinel-1794639248-59c5e9-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.138",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T310",
+   "name": "T-VS5 Lesen in Portionen: 30'000 Einträge, kein Frame über 8 ms, 0-basierter Index",
+   "detail": "ergebnis: 30000 gelesen, 6446 Items, 10 Portionen, längste 5.0 ms, Index ab 0 | erwartet: 30000 gelesen, 300 Items, längste ≤ 8 ms, Index ab 0",
+   "bericht": "AHSentinel-1794639248-59c5e9-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.138",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T647",
+   "name": "T-T373b Heute (ComputeTodayActions) mit 5000 Items in Portionen: längster Schritt <= 8 ms, längstes Bild <= 16 ms",
+   "detail": "ergebnis: fertig true · längstes Bild 11.4 ms · längster Schritt 10.4 ms bis Disenchant.lua:1508 · 470 Bilder | erwartet: <= 8 ms Schritt, <= 16 ms Bild",
+   "bericht": "AHSentinel-1794639248-59c5e9-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.138",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T659",
+   "name": "T-EB4b 20 Wasser beim Händler gekauft, 20 verbraucht -> Lager 0, Eigenbedarf = Kaufpreis; andere Ware wird nicht angefa…",
+   "detail": "ergebnis: vorhanden: 0 · verbraucht: 0 · Lager 20/400 · Handelsware 3 · Eigenbedarf nil · Gewinn 0 | erwartet: 0 · 20 · 0/0 · 3 · 400 · 0",
+   "bericht": "AHSentinel-1794639248-59c5e9-1"
   },
   {
    "addon": "AHSentinel",
@@ -535,6 +689,20 @@
     "forever 1.60.1 (Interface 16001)"
    ],
    "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/Seller.lua]:1433: in function <Interface/AddOns/AHSentinel/Seller.lua:1425>\n"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "spiel",
+   "wo": "Job:craft-top",
+   "msg": "Interface/AddOns/AHSentinel/Crafting.lua:515: attempt to index field '?' (a nil value)",
+   "anzahl": 1,
+   "versionen": [
+    "0.65.138"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:52: in function <Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:50>\n[tail call]: ?\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:350: in function <Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:331>\n[Interface/AddOns/AHSentinel/AHAnalyzerPro.lua]:299: in function <Interface/AddOns/AHSentinel/AHAnalyzerPro.lua:297>\n"
   },
   {
    "addon": "BuffSentinel",
@@ -832,32 +1000,32 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 98,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.99-2bf892d983c3.txt"
+    "anzahl": 100,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.138-3828ae5894fd.txt"
    },
    "BuffSentinel": {
-    "anzahl": 30,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.12-7f8dfb5af187.txt"
+    "anzahl": 32,
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.18-9f70a9935edc.txt"
    },
    "GSMesstest": {
     "anzahl": 9,
     "neueste": "testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt"
    },
    "GuildSentinel": {
-    "anzahl": 89,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.36-905d55a5c1d1.txt"
+    "anzahl": 91,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.36-f2c0f626b6e3.txt"
    },
    "LevelPilot": {
     "anzahl": 8,
     "neueste": "testberichte/diagnose/LevelPilot/3.12.27-3aeb503e40ae.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 71,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.43-ca335490305e.txt"
+    "anzahl": 73,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.43-1605514919b5.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 77,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.9-393857b54d8e.txt"
+    "anzahl": 79,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.10-6be538962e81.txt"
    }
   },
   "wege": {
