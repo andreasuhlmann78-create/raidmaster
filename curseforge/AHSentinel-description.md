@@ -12,6 +12,14 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.173
+
+- **Accounting:** the tooltip over "Profit" now shows exactly four lines – proceeds, invested, fees, profit – with the same
+  numbers as the header. "Profit %" is simply profit ÷ invested of that line; if the line contains items without purchase
+  price it shows "–" (the tooltip says how many). Profit and % never have different signs.
+- **"Today":** rows that turned out "no longer worth it" are no longer shown; the flip part calculates in smaller steps.
+- Full scan: slow event handlers of AHSentinel are now measured and named at the longest frame (to find the remaining stutter).
+
 ### Version 0.65.172
 
 - **Market tab simpler:** only "Today" and "Disenchant" are shown – Flip, Vendor, Gaps, Crowded and Trends are not backed by
@@ -52,20 +60,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   whole proceeds as profit. Point at the line for a short explanation. New self-check. Test T714.
 - **Sniper, new target:** amount empty = 1000, budget empty = 5g, max price is always yours to enter (no automatic price).
   Existing targets stay unchanged. Test T713.
-
-### Version 0.65.168
-
-- **Sniper, gold safety:** a number without unit in "Max/item" (and other max prices when buying) now means COPPER – "22" is
-  22c, not 22g. Budgets stay gold ("6" = 6g). Price fields when SELLING need a unit ("13" is red "unit missing", posting is
-  blocked until you write 13s). A max price above 50 × market value asks for confirmation (typo?). Test T710.
-- **Sniper, gold safety:** the confirmed server price is now checked as average per item (total ÷ amount). Above your max the
-  sniper does not buy and searches again – it then only takes the items within your max. New self-check "sniper buy ≤ max".
-  Test T711.
-- **Best recipes:** the list could stay empty ("No prices yet") – fixed; without an offer list the normal price is used. New
-  self-check: list empty although a scan is younger than 1 hour. Test T712.
-- **Sells:** the time estimate in the tooltip now uses your place in the queue: offers cheaper than you plus your items, at the
-  usual sales pace ("fast (~2 h)" instead of "slow (~13 h)" when you are at the front). With Shift a short sentence explains it.
-  New self-check: predicted vs. real sale time of your auctions. Test T709.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
