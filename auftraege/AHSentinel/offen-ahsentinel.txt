@@ -79,12 +79,14 @@ Einzelheiten zu jedem Punkt stehen weiter unten (Suche nach dem Kürzel). Diese 
 2. RF-M1 / RF SEHR HOCH  0.65.125: Preisverlauf zur Laufzeit flach – ZUR PRÜFUNG (Bericht, T-RFM1, Messung im Client offen).
                         Danach weiter: Caches begrenzen, Scan grosser Markt, Vollscan-Einlesen. (alt: JETZT DRAN) (0.65.123: Speicher-Aufschlüsselung im Tempo-Test da – Messung im Client offen) Ruckeln: 240 MB Grundstand (~150 MB Laufzeit-Caches), Preisverlauf gepackt (Objekte 220k -> 7k),
                         Scan grosser Markt 141–150 ms, Vollscan-Einlesen 159 ms, +88 MB beim Vollscan. Danach PS-Ziele.
-3. 0.65.115-Rest MITTEL  T373/TS111.1-Rest, TS111.2b/T555b-Tests, UI1618a-R, SBX1, UI1509, UI1510, FW1 (Releaseplan).
+3. 0.65.115-Rest MITTEL  0.65.126 (Prüf-Sitzung 01:30, addon_check OK): UI1509, UI1510 (im Client bestätigen), T373b offline –
+                        zur Prüfung. Offen: TS111.2b/T555b-Tests, UI1618a-R, SBX1, FW1.
 3b. SN-M (HINWEIS, Messung Prüf-Sitzung 01:20, markt-strategie.md 8g "Sniper-/Entzauber-Käufe"): 462 Käufe, +34 %.
                         Gewinn je Kaufpreis/Wert: ≤ 0,7 +43–53 %, 0,7–0,8 +33 %, 0,8–0,9 +18 %, > 0,9 ≈ 0 %. DE30b (20 % =
                         Wert/1,2 = 0,83) passt, aber 0,8–0,9 bringt nur +18 %: Sniper-Höchstpreis für Entzauber-Ziele nie über
                         0,9 × Wert (harte Obergrenze, Test T-SNM1), und die Trefferquote je Preisstufe im Testbericht zeigen.
-3a. PR1        HOCH       Verkaufs-Prognose (Prüf-Sitzung 14.11. 01:00, nachgerechnet aus forecast.list, 81 Einstellungen,
+3a. PR1        HOCH       Teil 1 in 0.65.126 zur Prüfung (Abbruch zensiert, Grund "u"/"a"); offen (2) Chance je Preisstufe,
+                        (3) Kette. Verkaufs-Prognose (Prüf-Sitzung 14.11. 01:00, nachgerechnet aus forecast.list, 81 Einstellungen,
                         Daten PC 14.11. 00:43). Hinweise des Nutzers 00:50: (a) Abbruch durch den Spieler und echter Ablauf
                         MÜSSEN unterschieden werden; (b) Händler stellen nie länger als 2 Std. ein (z. B. entzaubern und gleich
                         verkaufen) – alle 81 Einstellungen sind 2 Std.
