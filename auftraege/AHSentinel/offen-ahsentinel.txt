@@ -23,8 +23,11 @@ PRÜFUNG 0.65.165 + 0.65.166 (Supervisor 15:55, addon_check 0.65.166 OK, Bericht
        TB170-8 (Berufsfenster 0 Rezepte), TB168-10 (AH-Post abholen findet die Post nicht).
     BLOCK 2: TB168-2 (SK1-c Sniper-Gold messen), SN-MAX1 (Zahl ohne Einheit = Kupfer), MR1-V (unzuverlässige Ansichten
        ausblenden, Entzaubern hochgerechnet mit Hinweis), VK-1 (Reiter "Verkauft", Hauptzahl "Gold kommt").
+       + HERSTELLUNGS-KETTEN LIVE (Nutzer 17:08: "die will ich auch"): Ketten Schritt 2 mit den VORGABEN 14:51 fertig, MH-1-Rest
+       (eine Zahl mit ProfessionSentinel), Ke.LIVE erst EIN, wenn der Supervisor den Testbericht von Block 2 geprüft hat
+       (Entscheid 14:09 dreifach prüfen: Test der Sitzung + Selbstkontrolle SK1-l + Prüfung Supervisor).
     BLOCK 3: TB170-6/-7 + TB168-1 (Ruckeln/Speicher Vollscan), TB168-9 (Testroutine in Portionen), TB170-10 (eine Zahl Lohnt bis).
-    ZURÜCKGESTELLT bis nach Block 3 (nicht anfangen): Ketten Schritt 2 / Ke.LIVE, RM1, EW1, Wyckoff, MH-1-Rest, FL-Feinheiten,
+    ZURÜCKGESTELLT bis nach Block 3 (nicht anfangen): RM1, EW1, Wyckoff, FL-Feinheiten,
        TB168-3..8 (Selbstkontroll-Feinheiten), TB170-5/-9, T277, T647. Der Supervisor gibt frei, wenn Block 1–3 grün sind.
 >>> SOFORT (Nutzer 14.11. 16:56): Weckrunde abstellen bis auf weiteres. Keine automatischen Wiederholungen, keine
     ScheduleWakeup/send_later/Loop-Termine mehr; bestehende löschen. Weiterarbeiten nur, wenn der Nutzer schreibt.

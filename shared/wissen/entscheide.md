@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 14.11.2026 17:06/17:08 | AHS fertigstellen (Nutzung 91 %): nur FERTIG-LISTE Block 1–3, wenige Versionen; Herstellungs-Ketten live gehören dazu (Block 2, Ke.LIVE nach Prüfung Supervisor) | offen-ahsentinel.txt FERTIG-LISTE |
 | 16:33 | Wunsch: Reiter "Verkauft" – alle verkauften Auktionen mit Menge, Erlös, Dauer; unten das Total inkl. Zeit bis zum Briefkasten. | AHSentinel VK-1 (Supervisor ergänzt Gewinn je Zeile und "noch unterwegs"). |
 | 16:28 | Entzaubern im Markt-Reiter: ungemessene Gruppen aus den gemessenen (niederstufigen) Entzauberungen hochrechnen statt ausblenden, AHS weist darauf hin; frischer AH-Scan wichtig. | AHSentinel MR1-V: Tabelle × Korrektur aus gemessenen Gruppen, Hinweis "hochgerechnet aus N", Preise nur aus Scan ≤ 30 Min., Mindestgewinn 25 %. |
 | 15:49 | Sniper-Standard: Budget 5g, Menge 1000 Stück, Preis des Items legt der Spieler selbst fest. | AHSentinel SN-DEF1 (Max leer mit Platzhalter, ohne Max kein Start); ersetzt TU3-Standard "Menge leer". |
