@@ -7,6 +7,15 @@ PRÜFUNG 0.65.158 + 0.65.159 (Supervisor 14:10, addon_check OK, Berichte + Kern.
 zur Prüfung. S3a richtig: ein Wert über alle Wege, Anzeigen noch unverändert (Gold-Sicherheit), Selbstkontrolle im Testbericht.
 S2-B4/SK1-B4 wie verlangt (Neuaufbau einmal, mailCache vor dem Abholen). Reihenfolge-Erklärung angenommen; jetzt TB157-1..4
 (TB157-4 mit der Ursache von 14:05) und TB159-1, dann T131-1, dann S3b.
+VS-1 MITTEL (Feldstudie des Nutzers, Screenshot 15:38): Seltsamer Staub 176 Stück zu 1s 12c (2c unter dem günstigsten) in 9
+   Auktionen + Geringe Magieessenz 39 zu 1s 39c – ALLES in ≈ 7 Min. verkauft (14:23 ebenso: 50er-Ladung in 3 Min.). Tooltip zeigt
+   gleichzeitig "Verkauft sich: langsam (~13 Std.)". Die Dauer-Schätzung beachtet den Platz in der Warteschlange nicht: wer
+   ganz vorne steht (günstigstes Angebot), verkauft mit dem Absatz pro Minute, nicht mit dem Durchschnitt aller Angebote.
+   Lösung (zu V1/PR2-Wettlauf): Dauer = Menge vor mir (billigere + gleich teure, die früher kamen) + meine Menge, geteilt durch
+   den gemessenen Absatz je Std.; "langsam" nur, wenn das > Laufzeit. Test: 0 Stück vor mir, Absatz 1'770/Tag, 176 Stück ->
+   ≈ 2,4 Std. (nicht 13); 8'600 vor mir -> > 24 Std. Selbstkontrolle: vorhergesagte vs. tatsächliche Dauer je eigener Auktion
+   (aus Rechnung) im Testbericht. Einordnung: nach den Herstellungs-Ketten.
+
 EK-1 HOCH (Screenshot des Nutzers 15:31, 0.65.165, Verkaufen-Fenster) – VERMUTUNG, bitte im Code/mit Daten bestätigen:
    Seltsamer Staub 176 Stück (aus ~132 selbst hergestellten und entzauberten Braunen Leinenhosen; Leinenstoff per Sniper gekauft,
    Ballen und Hosen selbst hergestellt, Grober Faden beim Händler). Fenster: Erlös nach Gebühren 1g 88s 94c, "Gewinn erwartet

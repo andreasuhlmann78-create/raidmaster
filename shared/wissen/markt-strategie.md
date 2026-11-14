@@ -292,6 +292,17 @@ Um zu erfahren, ob ein höherer Preis noch verkauft, gelegentlich leicht höher 
   so schneller Abverkauf spricht für zu tiefen Preis oder Aufkäufer (Flipper/Sniper) -> Preis-Leiter vor/nach prüfen (Daten folgen).
 - Dazu (Nutzer 14:27): 3 Auktionen wegen Unterbietung abgebrochen und neu eingestellt -> im Daten-Abbild prüfen: Abbruch-Grund
   "unterboten" (TB138-4) erfasst, PR1-Kette (gleiche Ware neu eingestellt), verlorene Anzahlung gebucht (BH-ANZ).
+- ZWEITE LADUNG (Screenshot "Meine Auktionen" 15:38, Zahlen vom Bildschirm nachgerechnet): ~132 Braune Leinenhosen entzaubert
+  -> 176 Seltsamer Staub (1,33 je Hose) + 39 Geringe Magieessenz (0,30 je Hose). Eingestellt ~15:31 zu 1s 12c (Staub, 2c unter
+  dem günstigsten 1s 14c) und 1s 39c (Essenz); ALLES verkauft bis 15:38 (≈ 7 Min.). Brutto Staub 1g 97s 12c + Essenz 54s 21c
+  (+ 1 Seelenstaub 4s 77c, nicht Studie) = 2g 56s 10c, erhalten laut AHS 2g 43s 26c. Ohne Seelenstaub netto ≈ 2g 38s 76c.
+  Einsatz: 528 Leinenstoff à 22–25c (Mischung, genau erst mit Daten) + 132 Grober Faden à 10c = 1g 29s – 1g 45s ->
+  GEWINN ≈ +94s bis +1g 10s für die Ladung (≈ +65–85 %).
+  LEHRE: Zuvorderst in der Warteschlange (1–2c unter dem günstigsten) verkauft sich auch eine grosse Menge in Minuten, obwohl
+  8'600 Stück im AH stehen – Käufer nehmen die billigsten zuerst (Wettlauf/PR2: Platz 1 entscheidet). AHS zeigte im Tooltip
+  "Verkauft sich: langsam (~13 Std.)" -> falsch für Platz 1 (Befund an AHSentinel VS-1). Wyckoff-Sicht: hohe Aufnahme ohne
+  Preisfall (Staub blieb bei 1s 14c) = starke Nachfrage oder Aufkäufer; nach dem nächsten Vollscan prüfen, ob die Ware
+  teurer wieder auftaucht.
 
 ## 8. Sniping, Flippen, Handel – Grundsätze (Wunsch des Nutzers 10.11. 09:28: "in allen Bereichen der Beste")
 
