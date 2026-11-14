@@ -48,6 +48,13 @@ SK1-j NEU (mit BH-ANZ-S2, Entscheid des Nutzers 14:46 "verhindern"): Selbstkontr
    je Umbuchung Faktor Einstand/Scan-Preis je Material; weicht ein Material > 33 % vom Mittel der Umbuchung ab -> Abweichung mit
    Zahlen (wie buchhaltung_plausi.py P1). Test: absichtlich schiefe Verteilung -> erkannt; richtige -> stimmig.
 
+BR-W1 MITTEL (Screenshot des Nutzers 14:54, Beste Rezepte): "Wollstoffballen +1s 66c verk." – nachgerechnet mit Scan 11:28: 3 ×
+   Wollstoff Median 1s 40c = 4s 20c, Wollstoffballen 4s 59c × 0,95 = 4s 36c -> ≈ +16c. Vermutung (zu prüfen): Zutaten werden mit
+   dem billigsten Einzelangebot statt mit dem kaufbaren Preis für die nötige Menge bewertet (oder Ballenpreis von 07:52 5s 37c).
+   Zutaten-Kosten = Preis, zu dem die Menge für eine sinnvolle Serie (z. B. 20 Stück) wirklich kaufbar ist (Preis-Leiter), Produkt
+   = realistischer Verkaufspreis. Test: billigstes Angebot 1 Stück à 1s 00c, Rest 1s 40c -> Gewinn mit 1s 40c gerechnet. Gehört
+   zu den Herstellungs-Ketten (nur echte Gewinne zeigen – ein Schein-Gewinn ist schlimmer als keiner).
+
 GW-S1 NIEDRIG (gleicher Screenshot, Gewinn-Fenster Braune Leinenhose): "bester Weg: entzaubern · Händler −38c" und darunter
    "Händler zahlt mehr: 60c" – widerspricht sich für den Spieler. Zeile nur zeigen, wenn der Händler-Weg wirklich besser ist, sonst
    weglassen (oder "Händler: 60c" ohne "mehr").
