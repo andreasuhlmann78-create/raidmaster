@@ -12,6 +12,15 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.151
+
+- **Player trades booked:** buying or selling through the trade window now appears in the books – measured from gold and
+  bags (source/way "player"). Gifts without gold are not booked as sales. Test T678.
+- **Material waves:** the index only uses whole days – the partial current day (morning prices only) no longer distorts it.
+  Test T677.
+- "Today" calculates in smaller portions (less stutter). Test report: disenchant buy safety follows the group rules
+  (20/25/30 %, no budget).
+
 ### Version 0.65.150
 
 - **Gold reconciliation as cash flow:** every gold change is now measured and assigned to where it happened (auction house,
@@ -44,14 +53,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - "Proceeds after fees" is now honest: sale price minus AH cut. Possible returns only count in "Expected profit".
 - Notes sit in a fixed area above the button: at most 2 lines, most important first, all others in the "(i)" tooltip.
   Shorter: "Vendor pays more: 1c", "Price 120x above market – sells at 25c". Test T669.
-
-### Version 0.65.146
-
-- **Sell – always the current AH state:** every selected item is searched on the server again right away (front of the
-  queue), even if the last price is only a few minutes old. Until the answer arrives the old list is shown grey with
-  "updating …"; when the server throttles, it shows in how many seconds it allows a search again – the search then runs
-  by itself. After posting, cancelling or buying the selected item it searches again immediately.
-- Every click in the Sell list is logged (item, selected before/after, errors, title). Test T668.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
