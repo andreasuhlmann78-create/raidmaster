@@ -12,6 +12,11 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.139
+
+- **Calculation core (preparing 0.66):** AHSentinel measures market waves per level band (disenchanting materials):
+  "in the wave" (2 days of strong falls), "through" (sideways) or open. Test report only for now. Test T662.
+
 ### Version 0.65.138
 
 - **Accounting – game costs:** repairs at a vendor are booked as game costs (not in the trading profit) and show in the
@@ -33,11 +38,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 - **Accounting – vendor purchases:** purchases from vendors are now booked (purchase with source "vendor", cost basis
   in stock, e.g. for crafting). The gold check adds up better. Test T658.
-
-### Version 0.65.134
-
-- **Details – sell rate per sales chain:** cancelling and relisting cheaper no longer counts as "not sold" – only goods
-  that expire and are not relisted. Test T657.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

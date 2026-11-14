@@ -1,5 +1,5 @@
-📦 **AHSentinel 0.65.138** – Spielkosten 🔧
+📦 **AHSentinel 0.65.139** – Marktwellen messen 🌊
 
-• Reparaturen werden als Spielkosten gebucht und im Fenster „Details“ gezeigt.
+• Vorbereitung für 0.66: Wellen je Stufenband werden gemessen (vorerst nur im Testbericht).
 
 **Installation:** ZIP unten herunterladen, entpacken und den Ordner `AHSentinel` in `Interface/AddOns` ersetzen. Deine Daten und Einstellungen bleiben erhalten.
