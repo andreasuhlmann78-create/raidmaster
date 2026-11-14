@@ -1,0 +1,26 @@
+Bericht AHSentinel 0.65.126 – Rest 0.65.115 (UI1509, UI1510, T373b) und PR1 Teil 1
+Stand: 14.11.2026 02:15 · Status: umgesetzt, zur Prüfung (TB125/BH-AUS-3/SN-M kamen während der Arbeit – nächste Version)
+
+UI1509 (UI_Main.lua UI:Table): Leer-Hinweis jetzt LEFT/RIGHT an die Liste gebunden (16 px Rand), umbrechend, zentriert.
+  Vorher nur CENTER ohne Breite -> lange Texte liefen über den Rand. Gilt für alle Listen (ein gemeinsamer Baustein).
+  Test T645 T-UI1509 (Anker LEFT@Liste,RIGHT@Liste) – PASS.
+UI1510 (UI_Main.lua ShowTextWindow): Ursache vermutlich das riesige Textfeld (ganzer Bericht, Höhe Zeilen × 15 px)
+  – sehr hohe EditBox bleibt im Client leer/schwarz. Jetzt Teile zu höchstens 400 Zeilen / 40'000 Zeichen, Pfeile
+  oben rechts, "Teil x von y", SetMaxLetters(0). Test T646 T-UI1510 (3000 Zeilen -> ≥ 8 Teile, Text > 0, Ende im
+  letzten Teil, sichtbar) – PASS. Im Client bitte bestätigen.
+T373b: offline-Test T647 – ComputeTodayActions mit 5000 Items als Hintergrund-Aufgabe: längster Schritt ≤ 8 ms,
+  längstes Bild ≤ 16 ms – PASS (Pausen waren schon in allen Schleifen; Client-Messung T373 bleibt der Beleg).
+PR1 Teil 1 (Forecast.lua):
+  - Abbruch (r = c) ist zensiert: PostOutcome -> nil; nicht mehr in n/Trefferquote/Kalibrierung/Zuverlässigkeit/
+    Preislage-Zellen und damit nicht im Lernen (Ln:ItemCells/Chance nutzen PostOutcome).
+  - Abbruch-Grund beim Abbruch festgehalten (neues Feld cr am Ende der P-Felder, alte Einträge bleiben lesbar):
+    "u" = günstigeres fremdes Angebot im letzten Scan (aktueller Preis < eigener Stückpreis), sonst "a".
+  - Bericht: "PR1 Abbrüche (zensiert): N, davon unterboten M · ohne Abbrüche: zutreffend/vorhergesagt/verkauft (N) ·
+    alt mit Abbrüchen: … (N)" und "PR1 je Preisstufe (Preis/Marktwert): verkauft x % (N)"; Felder prognose_pr1,
+    prognose_preisstufe. Hinweis: die gespeicherte Zusammenfassung (aus dem Ringpuffer gefallene alte Fälle) enthält
+    Abbrüche aus früheren Versionen noch – lässt sich nicht trennen.
+  - Test T648 T-PR1a (2 verkauft, 2 abgelaufen, 2 abgebrochen davon 1 unterboten -> 4 Fälle, Abbrüche 2/1) – PASS.
+    T303/T313 angepasst (Abbruch zählt nicht; T313 mit 3 zusätzlichen Abbrüchen, Chance unverändert 0,575).
+  - Offen PR1 (2) Chance je Preisstufe in der Prognose, (3) Kette Ablauf -> Neu -> Verkauf, T-PR1b/c.
+Gesamtlauf 246/246, s42 PASS, addon_check OK.
+Als Nächstes: TB125 (1b) mit BH-AUS-3, dann SN-M.
