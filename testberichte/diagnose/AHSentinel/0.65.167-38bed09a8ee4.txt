@@ -1,0 +1,226 @@
+AHSentinel-Protokoll v0.65.167 · 14.11. 15:56:25
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  14.11. 15:53:34 L10 ? v0.65.167
+  14.11. 15:50:41 L10 ? v0.65.167
+  14.11. 15:38:22 L10 ? v0.65.165
+  14.11. 15:30:41 L10 ? v0.65.165
+  14.11. 15:29:17 L10 ? v0.65.165
+  14.11. 13:59:47 L10 ? v0.65.159
+  14.11. 13:35:50 L10 ? v0.65.157
+  14.11. 13:03:14 L10 ? v0.65.153
+  14.11. 11:26:36 L10 ? v0.65.152
+  14.11. 11:22:16 L10 ? v0.65.152
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 5 Min., 6913 Items, Preis-Sync an
+  SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GoldSentinelMarkt 0, GoldSentinelTest 0, GuildSentinel 0, ThreatSentinel 0
+  SYNC gesendet 33 · empfangen 0 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 2) · gesendet 3 · weitergegeben 0 · offline 2 · Listen 2 · Warteschlange 0 · gespeichert ja
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Gewinn-Fenster angedockt an ProfessionsFrame (Versatz 59)
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, minimapAngle=18.1, priceGuard=20, theme=modern, tooltipDEDetail=true, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[14.11. 15:56:23] AUFBAU ×9 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 70 ms
+[14.11. 15:55:01] ABBRECHEN AUCTION_CANCELED auctionID 90750160 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:54:53] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 66 ms
+[14.11. 15:54:35] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[14.11. 15:54:33] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 36 ms
+[14.11. 15:54:24] ABSATZ Item 2996 · Q 909 (vollscan) · S 2009.1 (measured) · S roh 2009.1 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.5 · N 1.0
+[14.11. 15:54:23] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 126 ms
+[14.11. 15:53:45] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 57 ms bis Comfort.lua:895 · 57 ms
+[14.11. 15:53:43] ABSATZ-UNPLAUSIBEL Item 3240 · 542.9/Tag · Quelle geschätzt
+[14.11. 15:53:43] ABSATZ-UNPLAUSIBEL Item 6317 · 8.0/Tag · Quelle geschätzt
+[14.11. 15:53:43] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 26 ms bis Extras.lua:279 · 29 ms
+[14.11. 15:53:43] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 18 ms bis Extras.lua:279 · 18 ms
+[14.11. 15:53:42] ABSATZ Item 10940 · Q 9 (vollscan) · S 1089.2 (measured) · S roh 1089.2 · Deckel - · eigene Quote 35/35 · Laufzeit 24 Std. · W 0.0 · N 1.0
+[14.11. 15:53:42] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.0 Std., 10940: 0.0 Std., 11082: 0.0 Std. · 0 frisch geholt
+[14.11. 15:53:42] ABSATZ Item 11083 · Q 22 (vollscan) · S 620.9 (measured) · S roh 620.9 · Deckel - · eigene Quote 20/22 · Laufzeit 24 Std. · W 0.0 · N 1.1
+[14.11. 15:53:41] ABSATZ Item 11082 · Q 10 (vollscan) · S 148.0 (measured) · S roh 148.0 · Deckel - · eigene Quote 20/20 · Laufzeit 24 Std. · W 0.1 · N 1.0
+[14.11. 15:53:41] ABSATZ Item 10938 · Q 204 (vollscan) · S 909.3 (measured) · S roh 909.3 · Deckel - · eigene Quote 29/30 · Laufzeit 24 Std. · W 0.2 · N 1.0
+[14.11. 15:53:41] ABSATZ-UNPLAUSIBEL Item 12226 · 62.4/Tag · Quelle geschätzt
+[14.11. 15:53:41] ABSATZ-UNPLAUSIBEL Item 6328 · 111.4/Tag · Quelle gemessen
+[14.11. 15:53:41] ABSATZ-UNPLAUSIBEL Item 16083 · 111.5/Tag · Quelle gemessen
+[14.11. 15:53:39] SYNC Weg=GUILD
+[14.11. 15:53:36] PD7 PD7 geladen: 5965 Items, 210866 Einträge geprüft, 0 Fehler · Zustand active
+[14.11. 15:53:04] AUFBAU ×4 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 7236 ms
+[14.11. 15:52:38] LANGSAM Hintergrund-Aufgabe pd7:prepare · 0 Schritte · längster Schritt 17 ms bis PD7.lua:192 · 19 ms
+[14.11. 15:52:25] AUFBAU ×2 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 38349 ms
+[14.11. 15:52:13] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 16 ms bis Extras.lua:279 · 16 ms
+[14.11. 15:51:45] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 11772 ms
+[14.11. 15:51:45] LANGSAM Hintergrund-Aufgabe core:realcheck · 0 Schritte · längster Schritt 16 ms bis MarketCore.lua:529 · 17 ms
+[14.11. 15:51:44] MATERIAL-PREIS Item 11176 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:51:44] MATERIAL-PREIS Item 16202 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:51:43] MATERIAL-PREIS Item 11175 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:51:43] MATERIAL-PREIS Item 10978 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:51:43] MATERIAL-PREIS Item 10939 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:51:43] MATERIAL-PREIS Item 11177 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:51:43] MATERIAL-PREIS Item 16203 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:51:43] MATERIAL-PREIS Item 14344 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:51:43] MATERIAL-PREIS Item 10938 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:51:43] MATERIAL-PREIS Item 11178 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:51:43] MATERIAL-PREIS Item 11139 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:51:43] MATERIAL-PREIS Item 11084 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:51:43] MATERIAL-PREIS Item 11138 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:51:43] MATERIAL-PREIS Item 20725 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:51:43] MATERIAL-PREIS Item 10998 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:51:43] MATERIAL-PREIS Item 11083 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:51:43] MATERIAL-PREIS Item 11137 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:51:43] MATERIAL-PREIS Item 11082 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:51:43] MATERIAL-PREIS Item 16204 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:51:43] MATERIAL-PREIS Item 11174 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:51:43] MATERIAL-PREIS Item 11135 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:51:43] MATERIAL-PREIS Item 14343 · Quelle ah · Alter 0 Min. · unsicher: Scan 9086 / Marktwert 5773
+[14.11. 15:51:43] MATERIAL-PREIS Item 11134 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:51:43] MATERIAL-PREIS Item 10940 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:51:43] M2 Ausrüstung: auctionID:n,buyoutAmount:n,containsAccountItem:b,containsOwnerItem:b,containsSocketedItem:b,itemKey:t,itemLink:s,owners,quantity:n,timeLeft:n,totalNumberOfOwners:n
+[14.11. 15:51:41] LANGSAM Hintergrund-Aufgabe market:de · 988 Schritte · längster Schritt 16 ms bis Ende market:de · 22 ms
+[14.11. 15:51:39] ABSATZ-UNPLAUSIBEL Item 3664 · 138.1/Tag · Quelle geschätzt
+[14.11. 15:51:39] ABSATZ-UNPLAUSIBEL Item 5780 · 12.0/Tag · Quelle geschätzt
+[14.11. 15:51:39] ABSATZ-UNPLAUSIBEL Item 10407 · 7.0/Tag · Quelle geschätzt
+[14.11. 15:51:39] ABSATZ-UNPLAUSIBEL Item 2682 · 54.0/Tag · Quelle geschätzt
+[14.11. 15:51:39] ABSATZ-UNPLAUSIBEL Item 7730 · 6.2/Tag · Quelle geschätzt
+[14.11. 15:51:38] ABSATZ-UNPLAUSIBEL Item 3836 · 72.5/Tag · Quelle geschätzt
+[14.11. 15:51:38] ABSATZ-UNPLAUSIBEL Item 8175 · 62.6/Tag · Quelle geschätzt
+[14.11. 15:51:38] ABSATZ-UNPLAUSIBEL Item 6328 · 111.4/Tag · Quelle gemessen
+[14.11. 15:51:38] ABSATZ-UNPLAUSIBEL Item 8203 · 12.2/Tag · Quelle geschätzt
+[14.11. 15:51:38] ABSATZ-UNPLAUSIBEL Item 6317 · 8.0/Tag · Quelle geschätzt
+[14.11. 15:51:38] ABSATZ-UNPLAUSIBEL Item 274976 · 173.9/Tag · Quelle geschätzt
+[14.11. 15:51:38] ABSATZ-UNPLAUSIBEL Item 3871 · 6.9/Tag · Quelle geschätzt
+[14.11. 15:51:38] ABSATZ-UNPLAUSIBEL Item 3220 · 276.6/Tag · Quelle geschätzt
+[14.11. 15:51:38] ABSATZ-UNPLAUSIBEL Item 252027 · 209.5/Tag · Quelle geschätzt
+[14.11. 15:51:38] ABSATZ-UNPLAUSIBEL Item 11404 · 77.3/Tag · Quelle geschätzt
+[14.11. 15:51:37] ABSATZ-UNPLAUSIBEL Item 17038 · 15.1/Tag · Quelle geschätzt
+[14.11. 15:51:36] VOLLSCAN Messung 280568 Auktionen · 6342 Items · Lücke 197 ms (Nachlauf: Speicherbereinigung nein · Aufgaben 6 ms (market:vendor, 0 Schritte)) · Speicher 391865->395689 KB · GC 26 · Warten auf Server 19296/154; Ereignis-Aufruf 0/1; Einlesen 12474/45; Verdichtung 575/37; Verfolgung V4 2403/36; Preisverlauf+Neuaufbau 1479/104; Nachlauf 0/197
+[14.11. 15:51:36] PREIS-ALT nach Scan · letzter Scan Vollscan · Waren im Vollscan 155 · Hauptmaterialien 11083: 0.0 Std., 10940: 0.0 Std., 11082: 0.0 Std. · 0 frisch geholt
+[14.11. 15:51:36] ABSATZ-UNPLAUSIBEL Item 12226 · 62.4/Tag · Quelle geschätzt
+[14.11. 15:51:36] ABSATZ-UNPLAUSIBEL Item 252859 · 7.3/Tag · Quelle geschätzt
+[14.11. 15:51:36] ABSATZ-UNPLAUSIBEL Item 7166 · 29.1/Tag · Quelle geschätzt
+[14.11. 15:51:34] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 18009 ms
+[14.11. 15:51:33] LANGSAM Hintergrund-Aufgabe fullscan · 3 Schritte · längster Schritt 67 ms bis Ende fullscan · 67 ms
+[14.11. 15:51:33] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[14.11. 15:51:31] VOLLSCAN Absatz unplausibel: Item 248686 · 2451/Tag bei Ø 361 im AH (6.4 Std.)
+[14.11. 15:51:30] LANGSAM Hintergrund-Aufgabe fullscan · 0 Schritte · längster Schritt 22 ms bis Vollscan.lua:1001 · 24 ms
+[14.11. 15:51:30] VOLLSCAN M1d 280568 Auktionen gelesen (280556 gültig) · 2633 ms in 846 Portionen · längster Frame 4.2 ms · 6342 Items
+[14.11. 15:51:22] ABBRECHEN AUCTION_CANCELED auctionID 90704969 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:22] ABBRECHEN AUCTION_CANCELED auctionID 90704963 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:22] ABBRECHEN AUCTION_CANCELED auctionID 90704823 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:22] ABBRECHEN AUCTION_CANCELED auctionID 90704786 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:22] ABBRECHEN AUCTION_CANCELED auctionID 90704714 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:22] ABBRECHEN AUCTION_CANCELED auctionID 90704657 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:22] ABBRECHEN AUCTION_CANCELED auctionID 90704297 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:22] ABBRECHEN AUCTION_CANCELED auctionID 90704178 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:22] ABBRECHEN AUCTION_CANCELED auctionID 90703975 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:22] ABBRECHEN AUCTION_CANCELED auctionID 90703922 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:22] ABBRECHEN AUCTION_CANCELED auctionID 90703846 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:22] ABBRECHEN AUCTION_CANCELED auctionID 90703776 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:22] ABBRECHEN AUCTION_CANCELED auctionID 90703739 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:22] ABBRECHEN AUCTION_CANCELED auctionID 90703548 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87358290 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87358246 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87358240 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87358239 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87358238 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87358187 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87358158 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87358144 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87358134 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87358131 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87358071 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87358070 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87358045 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87358020 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87357958 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87357947 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87357943 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87357902 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87357898 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87357769 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87357765 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87357737 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87357661 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87357650 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87357644 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87357637 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87357626 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87357610 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:16] ABBRECHEN AUCTION_CANCELED auctionID 87357518 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:14] ABBRECHEN AUCTION_CANCELED auctionID 78533375 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:14] ABBRECHEN AUCTION_CANCELED auctionID 78532623 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:14] ABBRECHEN AUCTION_CANCELED auctionID 78533131 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:14] ABBRECHEN AUCTION_CANCELED auctionID 78533213 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:14] ABBRECHEN AUCTION_CANCELED auctionID 78533614 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:14] ABBRECHEN AUCTION_CANCELED auctionID 78532256 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:14] ABBRECHEN AUCTION_CANCELED auctionID 78532940 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:14] ABBRECHEN AUCTION_CANCELED auctionID 78532482 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:51:14] VOLLSCAN M1c Abstand 1635 s · neue Liste · 280568 Auktionen · Antwort nach 19.3 s
+[14.11. 15:51:06] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 19 ms
+[14.11. 15:51:03] LANGSAM Hintergrund-Aufgabe market:flip · 0 Schritte · längster Schritt 18 ms bis Ende market:flip · 18 ms
+[14.11. 15:51:00] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 4013 ms
+[14.11. 15:51:00] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 133 ms bis Comfort.lua:883 · 134 ms
+[14.11. 15:50:58] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 23 ms bis Comfort.lua:736 · 23 ms
+[14.11. 15:50:58] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 25 ms bis Comfort.lua:701 · 25 ms
+[14.11. 15:50:58] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 16 ms bis Comfort.lua:701 · 16 ms
+[14.11. 15:50:58] ABSATZ-UNPLAUSIBEL Item 3240 · 557.5/Tag · Quelle geschätzt
+[14.11. 15:50:57] ABSATZ-UNPLAUSIBEL Item 4333 · 13.2/Tag · Quelle geschätzt
+[14.11. 15:50:57] ABSATZ-UNPLAUSIBEL Item 5482 · 7.3/Tag · Quelle geschätzt
+[14.11. 15:50:57] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.2 Std., 10940: 0.3 Std., 11082: 0.2 Std. · 0 frisch geholt
+[14.11. 15:50:57] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 27 ms bis Extras.lua:279 · 27 ms
+[14.11. 15:50:47] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 1200 ms
+[14.11. 15:50:46] SYNC Weg=GUILD
+[14.11. 15:50:45] ABSATZ Item 118 · Q 70 (vollscan) · S 1150.4 (measured) · S roh 1150.4 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.1 · N 1.0
+[14.11. 15:50:45] ABSATZ Item 4604 · Q 587 (scan, Q gesamt) · S 39.4 (market, gelernt) · S roh 116.4 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 14.9 · N 7.0 · kaum
+[14.11. 15:50:41] ABSATZ-UNPLAUSIBEL Item 16083 · 111.5/Tag · Quelle gemessen
+[14.11. 15:50:41] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[14.11. 15:50:31] AUFBAU ×13 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 100 ms
+[14.11. 15:48:22] SYNC gesendet 2, empfangen 0, verworfen 0 · Kanal verweigert 0
+[14.11. 15:48:18] AUFBAU ×27 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 93 ms
+[14.11. 15:43:48] AUFBAU Beste Rezepte (0 Rezepte) · Auslöser DATA_CHANGED · 16 ms
+[14.11. 15:43:45] ABSATZ Item 118 · Q 70 (vollscan) · S 1150.4 (measured) · S roh 1150.4 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.1 · N 1.0
+[14.11. 15:43:38] SNIPER Treffer 2 · gekauft 2 · Ø Suche>Treffer 137 ms, Treffer>Reserv. 642 ms, Reserv.>bereit 110 ms, bereit>bestätigt 185 ms, bestätigt>gekauft 2764 ms
+[14.11. 15:43:04] ABBRECHEN AUCTION_CANCELED auctionID 0 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:43:04] KAUF-DOPPELT Kauf-Ereignis ohne passende eigene Kaufmeldung (Buchung über die Rechnung)
+[14.11. 15:42:48] ABBRECHEN AUCTION_CANCELED auctionID 0 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:42:48] KAUF-DOPPELT Kauf-Ereignis ohne passende eigene Kaufmeldung (Buchung über die Rechnung)
+[14.11. 15:42:45] SNIPER-SUCHE Ziel 2589 · Angebote 96 · Treffer ≤ Max 2 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[14.11. 15:42:38] SNIPER Treffer 3 · gekauft 3 · Ø Suche>Treffer 125 ms, Treffer>Reserv. 346 ms, Reserv.>bereit 289 ms, bereit>bestätigt 114 ms, bestätigt>gekauft 2911 ms
+[14.11. 15:42:02] ABBRECHEN AUCTION_CANCELED auctionID 0 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:42:02] KAUF-DOPPELT Kauf-Ereignis ohne passende eigene Kaufmeldung (Buchung über die Rechnung)
+[14.11. 15:41:52] ABBRECHEN AUCTION_CANCELED auctionID 0 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:41:52] KAUF-DOPPELT Kauf-Ereignis ohne passende eigene Kaufmeldung (Buchung über die Rechnung)
+[14.11. 15:41:46] ABBRECHEN AUCTION_CANCELED auctionID 0 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:41:46] KAUF-DOPPELT Kauf-Ereignis ohne passende eigene Kaufmeldung (Buchung über die Rechnung)
+[14.11. 15:41:44] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.0 Std., 10940: 0.2 Std., 11082: 0.0 Std. · 0 frisch geholt
+[14.11. 15:41:39] SNIPER-SUCHE Ziel 2589 · Angebote 94 · Treffer ≤ Max 0 · gekauft 858 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[14.11. 15:41:38] SNIPER Treffer 4 · gekauft 4 · Ø Suche>Treffer 111 ms, Treffer>Reserv. 377 ms, Reserv.>bereit 257 ms, bereit>bestätigt 71 ms, bestätigt>gekauft 3179 ms
+[14.11. 15:41:09] ABBRECHEN AUCTION_CANCELED auctionID 0 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:41:09] KAUF-DOPPELT Kauf-Ereignis ohne passende eigene Kaufmeldung (Buchung über die Rechnung)
+[14.11. 15:41:01] ABBRECHEN AUCTION_CANCELED auctionID 0 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:41:01] KAUF-DOPPELT Kauf-Ereignis ohne passende eigene Kaufmeldung (Buchung über die Rechnung)
+[14.11. 15:40:47] ABBRECHEN AUCTION_CANCELED auctionID 0 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:40:47] KAUF-DOPPELT Kauf-Ereignis ohne passende eigene Kaufmeldung (Buchung über die Rechnung)
+[14.11. 15:40:38] ABBRECHEN AUCTION_CANCELED auctionID 0 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:40:38] KAUF-DOPPELT Kauf-Ereignis ohne passende eigene Kaufmeldung (Buchung über die Rechnung)
+[14.11. 15:40:38] SNIPER Treffer 4 · gekauft 3, Fehler 1 · Ø Suche>Treffer 126 ms, Treffer>Reserv. 212 ms, Reserv.>bereit 352 ms, bereit>bestätigt 186 ms, bestätigt>gekauft 3043 ms
+[14.11. 15:40:36] SNIPER-SUCHE Ziel 2589 · Angebote 95 · Treffer ≤ Max 1 · gekauft 594 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[14.11. 15:40:31] ABBRECHEN AUCTION_CANCELED auctionID 0 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:40:31] KAUF-DOPPELT Kauf-Ereignis ohne passende eigene Kaufmeldung (Buchung über die Rechnung)
+[14.11. 15:39:59] ABBRECHEN AUCTION_CANCELED auctionID 0 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:39:59] KAUF-DOPPELT Kauf-Ereignis ohne passende eigene Kaufmeldung (Buchung über die Rechnung)
+[14.11. 15:39:53] ABBRECHEN AUCTION_CANCELED auctionID 0 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:39:53] KAUF-DOPPELT Kauf-Ereignis ohne passende eigene Kaufmeldung (Buchung über die Rechnung)
+[14.11. 15:39:45] ABBRECHEN AUCTION_CANCELED auctionID 0 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:39:45] KAUF-DOPPELT Kauf-Ereignis ohne passende eigene Kaufmeldung (Buchung über die Rechnung)
+[14.11. 15:39:41] ABBRECHEN AUCTION_CANCELED auctionID 92068848 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:39:38] SNIPER Treffer 1 · gestiegen 1 · Ø Suche>Treffer 145 ms, Treffer>Reserv. 1489 ms, Reserv.>bereit 415 ms, bereit>bestätigt 115 ms
+[14.11. 15:39:37] ABBRECHEN AUCTION_CANCELED auctionID 92068848 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:39:35] ABBRECHEN AUCTION_CANCELED auctionID 92068055 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:39:35] SNIPER-SUCHE Ziel 2589 · Angebote 95 · Treffer ≤ Max 1 · gekauft 511 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[14.11. 15:39:34] ABSATZ Item 2589 · Q 144 (vollscan) · S 1230.3 (measured) · S roh 1230.3 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.1 · N 1.0
+[14.11. 15:39:30] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[14.11. 15:39:30] EINSTELLEN Item 11083 · Menge 6 · Auktionen 1 · Laufzeit 1 · Preis 474/Stück, 2844 gesamt · Gebühr erwartet 100, abgezogen 100 (3.52 % vom Preis)
+[14.11. 15:39:29] AHS-POST PostCommodity: arg2=1 arg3=6 arg4=474 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/3
