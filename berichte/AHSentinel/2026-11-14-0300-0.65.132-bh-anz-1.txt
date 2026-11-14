@@ -1,0 +1,12 @@
+Bericht AHSentinel 0.65.132 – BH-ANZ-1
+Stand: 14.11.2026 · Status: umgesetzt, zur Prüfung
+- BK:DepositStatus ohne feste 26-Std.-Grenze: hinterlegt bis zu einem Ereignis "depx" (neue Buchung):
+  Ablauf-Post (Mailer, Betreff AUCTION_EXPIRED_MAIL_SUBJECT, M:IsExpiredMail) bzw. Abbruch (A:On "AUCTION_CANCELLED").
+  Verfallen zum Zeitpunkt des Ereignisses. Erstattung löst die älteste hinterlegte auf, ohne Zeitgrenze; reicht sie
+  weiter, auch eine schon verfallene (Forever: Erstattung beim Abbruch, L2).
+- Rest-Regel: ohne Ereignis nach 7 Tagen verfallen (z. B. Ablauf-Post nur von Hand geöffnet, nicht über AHSentinel) –
+  Annahme, im Bericht offen. Rechnung ohne Erstattung als Auslöser: nicht umgesetzt (Teilverkäufe einer Waren-Auktion
+  bringen je Rechnung nur einen Teil der Anzahlung zurück – Zuordnung unsicher); kommt mit Messung.
+- Test T654 erweitert: ohne Ereignis hinterlegt 50 -> nach Ablauf-Post verfallen 50; T-BHA10 Erstattung nach 3 Tagen
+  -> aufgelöst (verfallen unverändert, hinterlegt 0) – PASS. Gesamtlauf 246/246, addon_check OK.
+Weiter: EB7 Details-Fenster + EB-DET.
