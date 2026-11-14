@@ -9,6 +9,10 @@ Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei jeder Änderung nac
    (MN1b und MN2b in 0.9.38 erledigt – Nachprüfung 14.11.2026.)
 ========================================================================================================================
 
+>>> GoldSentinelMarkt v4 (14.11. 11:55, Supervisor, Befund MN-S2): Schalter "Marktdaten teilen" aus stoppt jetzt auch eine
+>>>    schon geplante Antwort an die Gilde. NICHT DRINGEND: beim nächsten Release unverändert aus shared/ mitkopieren (cmp);
+>>>    bis dahin zeigt addon_check nur die WARNUNG "veraltete offizielle Fassung". Test 79/79 (mit Gegenprobe v3: erkannt).
+
 >>> GoldSentinelMarkt v3 (13.11. 23:45, Entscheid des Nutzers): Export hält 6 statt 2 Scans (max. 1,5 MB, Ruckeln/
 >>>    SavedVariables klein). NICHT DRINGEND: beim nächsten Release ohnehin mitkopieren (byte-gleich aus shared/).
 >>>    Bis dahin zeigt addon_check nur die WARNUNG "veraltete offizielle Fassung (Version 2)" – kein Fehler.

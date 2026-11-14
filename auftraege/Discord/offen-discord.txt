@@ -9,6 +9,10 @@ Immer von oben nach unten abarbeiten. Einzelheiten weiter unten (Suche nach dem 
 4. D-MN7e2   NIEDRIG market_catchup ohne Fehlerbehandlung (Task-Ausnahme bei fehlendem Leserecht).
 ========================================================================================================================
 
+>>> GoldSentinelMarkt v4 (14.11. 11:55, Supervisor, Befund MN-S2): Schalter "Marktdaten teilen" aus stoppt jetzt auch eine
+>>>    schon geplante Antwort an die Gilde. NICHT DRINGEND: beim nächsten Release unverändert aus shared/ mitkopieren (cmp);
+>>>    bis dahin zeigt addon_check nur die WARNUNG "veraltete offizielle Fassung". Test 79/79 (mit Gegenprobe v3: erkannt).
+
 >>> KEEP90 (MITTEL, Entscheid des Nutzers 13.11. 23:35 – "das hat Platz, der Server hat 2 GB"):
 >>>    1. market.KEEP_DAYS 35 -> 90 (Trends über Monate).
 >>>    2. ACHTUNG: MAX_STORE_BYTES steht auf 3 GB (market.py:57) – grösser als der ganze Server (2 GB). Senken auf

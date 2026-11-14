@@ -8,6 +8,10 @@ Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei jeder Änderung nac
 (Erledigt seit 2.5.11: SYNC, MARKT-v3, alte Punkte 1–4 – siehe unten.)
 ========================================================================================================================
 
+>>> GoldSentinelMarkt v4 (14.11. 11:55, Supervisor, Befund MN-S2): Schalter "Marktdaten teilen" aus stoppt jetzt auch eine
+>>>    schon geplante Antwort an die Gilde. NICHT DRINGEND: beim nächsten Release unverändert aus shared/ mitkopieren (cmp);
+>>>    bis dahin zeigt addon_check nur die WARNUNG "veraltete offizielle Fassung". Test 79/79 (mit Gegenprobe v3: erkannt).
+
 >>> BP-2026-11-14 (Blizzard-Hotfix 13.11., Kaivax 14.11. 01:54 UTC, https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-13-2026/2403040/10) – nur Hinweis, KEIN Auftrag:
     - Paladin: Richturteil des Befehls zählt jetzt als Nahkampf und löst Treffer-Effekte aus (andere Richturteile bleiben
       Fernkampf, siehe Hotfix 11.11.). ThreatSentinel nutzt Richturteil 20271 nur für den Spott (sealTaunt) -> kein Einfluss.

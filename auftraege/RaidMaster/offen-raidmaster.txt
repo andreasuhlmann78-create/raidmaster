@@ -8,6 +8,10 @@ Immer von oben nach unten abarbeiten. Einzelheiten weiter unten (Suche nach dem 
 4. CH-G      SPÄTER  gemeinsame Befehlsliste (nach AHSentinel). Client-Test durch den Nutzer: zurückgestellt.
 ========================================================================================================================
 
+>>> GoldSentinelMarkt v4 (14.11. 11:55, Supervisor, Befund MN-S2): Schalter "Marktdaten teilen" aus stoppt jetzt auch eine
+>>>    schon geplante Antwort an die Gilde. NICHT DRINGEND: beim nächsten Release unverändert aus shared/ mitkopieren (cmp);
+>>>    bis dahin zeigt addon_check nur die WARNUNG "veraltete offizielle Fassung". Test 79/79 (mit Gegenprobe v3: erkannt).
+
 >>> Uploader zu GoldSentinelMarkt v3 (UP-v3): bis zu 6 Export-Zeilen je Addon (zusammen ≤ 1,5 MB). NACHPRÜFUNG 14.11.:
 >>>    Der Code von 2.3.7 hält das schon – je Scan einmal (uploader.py:573–576), Zeile ≤ 2 MB (uploader.py:96), Paket
 >>>    auf Teile ≤ 4 MB geteilt (uploader.py:676–685), Format "GSMARKT1|1|…" in v3 unverändert. Es fehlt nur ein Test.

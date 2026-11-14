@@ -4,11 +4,14 @@ unten abarbeiten. Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei j
 ========================================================================================================================
 1. BP-2026-11-13-1 Teil 2  MITTEL  Waffen-IDs nach der Client-Messung (Schamane, nach Hotfix 13.11.) in
                                    BS.WEAPON_ENCHANT eintragen. Wartet auf die Messung des Nutzers.
-2. MN-S2     NIEDRIG  answerAt-Antwort nach Schalter aus – wartet auf die Korrektur in shared/GoldSentinelMarkt.lua
-                      (Prüf-Sitzung); danach neu kopieren und Testfall in T178 aufnehmen.
+2. MN-S2     NIEDRIG  shared/GoldSentinelMarkt.lua v4 ist da (14.11. 11:55): neu kopieren und Testfall in T178 aufnehmen.
 3. CH-G      SPÄTER   gemeinsame Befehlsliste (nach AHSentinel).
 Sonst ist kein Code-Auftrag offen. Nächster Schritt liegt beim Nutzer: Client-Tests (Punkt "IM CLIENT PRÜFEN").
 ========================================================================================================================
+
+>>> GoldSentinelMarkt v4 (14.11. 11:55, Supervisor, Befund MN-S2): Schalter "Marktdaten teilen" aus stoppt jetzt auch eine
+>>>    schon geplante Antwort an die Gilde. NICHT DRINGEND: beim nächsten Release unverändert aus shared/ mitkopieren (cmp);
+>>>    bis dahin zeigt addon_check nur die WARNUNG "veraltete offizielle Fassung". Test 79/79 (mit Gegenprobe v3: erkannt).
 
 >>> SPÄTER (Entscheid des Nutzers 13.11. 23:26): Gemeinsame Befehlsliste shared/GoldSentinelCmdHint.lua (CH-G) –
 >>>    AHSentinel stellt zuerst um, dieses Addon danach. JETZT NICHTS TUN; der Auftrag kommt hier, wenn es soweit ist.
