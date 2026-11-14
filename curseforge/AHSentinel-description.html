@@ -7,6 +7,14 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.164</h3>
+<ul>
+<li><strong>Accounting, disenchanting:</strong> the cost of a disenchanted item is now split onto the materials by their current market price.
+  Before, the "realistic resale price" was used, which pushes slow-selling essences and shards down a lot – Soul Dust got far
+  too much cost (about 6s instead of 4s per dust), the essences too little, so dust looked like a loss. Bookings already made
+  stay unchanged. New self-check "split when disenchanting": warns if one material's cost differs by more than a third from the
+  others (with numbers). Test T703.</li>
+</ul>
 <h3>Version 0.65.163</h3>
 <ul>
 <li><strong>Stock (gold safety):</strong> the "phantom stock" rule of 0.65.160 could book out your own running or returned auctions and AH
@@ -43,14 +51,7 @@
   booked out – no more phantom stock. Test T699.</li>
 <li>Stock self-check: "more on hand than booked" (loot, gifts) is no longer an error, only grey info.</li>
 </ul>
-<h3>Version 0.65.159</h3>
-<ul>
-<li><strong>Buy limit learns right away:</strong> completed purchases of the last 30 days are recounted once (each exactly once), so the buy
-  limit per price level works without waiting weeks. Test T697.</li>
-<li><strong>Mail self-check:</strong> if the money has already left the mail after collecting, the state from the last mailbox read counts.
-  Test T698.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

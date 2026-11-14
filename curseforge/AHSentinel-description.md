@@ -12,6 +12,14 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.164
+
+- **Accounting, disenchanting:** the cost of a disenchanted item is now split onto the materials by their current market price.
+  Before, the "realistic resale price" was used, which pushes slow-selling essences and shards down a lot – Soul Dust got far
+  too much cost (about 6s instead of 4s per dust), the essences too little, so dust looked like a loss. Bookings already made
+  stay unchanged. New self-check "split when disenchanting": warns if one material's cost differs by more than a third from the
+  others (with numbers). Test T703.
+
 ### Version 0.65.163
 
 - **Stock (gold safety):** the "phantom stock" rule of 0.65.160 could book out your own running or returned auctions and AH
@@ -47,13 +55,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Stock:** goods that are nowhere any more (no bag, bank, mail or auction) and were not restocked for over a day are
   booked out – no more phantom stock. Test T699.
 - Stock self-check: "more on hand than booked" (loot, gifts) is no longer an error, only grey info.
-
-### Version 0.65.159
-
-- **Buy limit learns right away:** completed purchases of the last 30 days are recounted once (each exactly once), so the buy
-  limit per price level works without waiting weeks. Test T697.
-- **Mail self-check:** if the money has already left the mail after collecting, the state from the last mailbox read counts.
-  Test T698.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
