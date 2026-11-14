@@ -1,0 +1,26 @@
+NACHRICHT AN DIE DISCORD-SITZUNG (zum Einfügen)
+===============================================
+Erst laufende Arbeit fertig machen.
+Stand: 14.11.2026, 08:30 · Nachprüfung Bot 1.5.132 (geplante Nachprüfung der Prüf-Sitzung)
+
+Erledigt (danke): D-MN7a (Quelle aus "quelle", nur gehasht), D-MN7b-Test, D-MN7c (nur eigener Webhook, Kopf-Prüfung,
+Grenzen), D-MN7d (abgeschlossene Woche, Zwischenbericht, eine Zone), D-MN7e (Nachlesen nach dem Start), D-MN7f
+(3 MB, kein Verlauf), D-T1 (bot_harness, Ablauf-Tests), D-MN8b. Bot-Tests 225/225, alle Module importierbar.
+
+ZU TUN (nach Schwere):
+1. KEEP90 (MITTEL, Entscheid des Nutzers 13.11. 23:35): KEEP_DAYS 35 -> 90 (market.py:52); MAX_STORE_BYTES 3 GB
+   (market.py:57) senken auf min(1 GB, 50 % des freien Platzes, shutil.disk_usage); bei MAX_SCANS/Bytes die ÄLTESTEN
+   Scans löschen statt den neuen abzuweisen (heute "begrenzt", market.py:196–199); Bot misst freien Platz,
+   Markt-Ordner und Arbeitsspeicher (Zeile in /marktdaten und im Wochenbericht). Tests T-KEEP90a–c.
+2. Betrieb (MITTEL): nach /update /marktdaten prüfen, Quellen je Rechner mit Uploader 2.3.7, Wochenbericht Mo 16.11.
+   muss GSMARKTW1-2026-W46.md heissen.
+3. D-MN7c2 (NIEDRIG): Grenze je Quelle (market.py:55) lässt sich mit neuer Zufallskennung je Paket umgehen.
+   Zusätzlich Grenze über alle Quellen je Stunde (z. B. 120) und höchstens z. B. 20 neue Kennungen je Tag. Test T-D-MN7c2.
+4. D-MN7e2 (NIEDRIG): market_catchup (bot.py:2770, gestartet bot.py:232) fängt discord.HTTPException/Forbidden von
+   ch.history nicht ab -> "Task exception was never retrieved". Abfangen, eine Protokollzeile. Test mit Attrappe.
+
+git pull --rebase und auftraege/Discord/offen-discord.txt lesen; nach der Umsetzung Bericht in berichte/Discord/
+ablegen ("umgesetzt, zur Prüfung").
+Nächste Version: Bot 1.5.133. Komplette Dateien, ältere Uploader nie brechen, CHANGELOG/ANLEITUNG nachführen,
+neue Module in bot-tests.yml, vor dem Push python3 -I -m unittest discover -s RaidMasterBot/tests -> alles OK.
+Ist ein Befund falsch, bitte begründet zurückmelden.

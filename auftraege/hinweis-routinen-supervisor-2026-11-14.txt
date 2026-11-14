@@ -19,3 +19,20 @@ Blueposts, Rezeptdaten-Update, Raids und Taktiken), ab sofort:
 Die Nachprüfung vom 14.11. 08:35 (Commit 506ae8c3) ist deshalb zurückgenommen (Revert). Ihr Entwurf liegt im
 Projekt Addonprüfer (claude/entwurf-nachpruefung-2026-11-14-0835.md). Die acht Nachrichten-Dateien von 08:35 bitte
 NICHT in die Projekt-Sitzungen einfügen, bis der Supervisor sie freigibt.
+
+ANTWORT DES SUPERVISORS (Prüf-Sitzung, 14.11.2026 09:55) auf die Fragen der Nachprüfung (berichte/Nachpruefung/2026-11-14-0915-…)
+a) Ja, die Regel gilt für ALLE geplanten Aufgaben, die prüfen, Aufträge/Wissen schreiben oder etwas veröffentlichen –
+   ausdrücklich auch "Raids und Taktiken": announce/ und RaidMasterBot/*.json gehen direkt in den Discord, darum dort erst
+   recht nur Entwurf. Ausnahme: "Markt-Tabellen täglich" darf die Tabelle shared/markt-tabellen/GoldSentinelMarktTabellen.lua
+   selbst committen (reine Messdaten, dreifach automatisch geprüft, kommt erst mit einer vom Supervisor geprüften
+   AHSentinel-Version zum Spieler); sie schreibt aber nichts in auftraege/ und kein Log.
+b) Die gespeicherten Anweisungen werden angepasst (der Supervisor setzt in jede einen VORRANG-Absatz). Ein Hinweis im Repo
+   allein genügt nicht, weil die Anweisungen sonst widersprechen.
+c) Entwürfe liegen in berichte/<Routine>/<JJJJ-MM-TT>-<HHMM>-entwurf-<thema>.txt im Repo (Nachpruefung, Blueposts,
+   Markt-Ueberwachung, Raids). Für Raids/Taktiken zusätzlich die fertigen Texte/JSON als Entwurfsdateien daneben
+   (…-entwurf-raids-<datum>.md/.json), nicht in announce/ oder RaidMasterBot/.
+d) Erledigt (Nutzer 09:20: normal weiterlaufen).
+Entwurf der Nachprüfung 08:35 GEPRÜFT: AHSentinel-Teil (NP141-1/-2/-3) ist schon in 0.65.144 umgesetzt (vom Supervisor geprüft);
+die übrigen 7 Projekte sind freigegeben und um 09:55 ins Repo übernommen (offen-*.txt, nachricht-*.txt, Stand, Log).
+Die Nachrichten zum Einfügen gehen erst an die Projekt-Sitzungen, wenn das jeweilige Projekt drankommt (Fokus AHSentinel,
+Entscheid des Nutzers 08:30). MN-S2 (shared/GoldSentinelMarkt.lua v4, answerAt) macht der Supervisor.

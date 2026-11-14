@@ -1,0 +1,29 @@
+NACHRICHT AN DIE PROFESSIONSENTINEL-SITZUNG (zum Einfügen)
+==========================================================
+Erst laufende Arbeit fertig machen.
+
+Stand: Nachprüfung 0.9.45 durch die Prüf-Sitzung (geplante Nachprüfung), 14.11.2026, 08:30 MEZ.
+
+Erledigt in 0.9.45 (danke):
+- GoldSentinelMarkt.lua = offizielle Version 2 (Punkt 1 aus 0.9.44, MN VERSION 2), T266 prüft FeedStart/Feed.
+- An/Aus über die Sprachtabelle: ns.OnOffText (Core.lua 688) an allen fünf Stellen, Test T267.
+- HK-P zum grössten Teil: TodayCrafts liefert safe, spellID, prof, made, materials, canCraft, cooldown, highMargin;
+  Ungesichertes nirgends angezeigt, nur gezählt (Testbericht-Zeile "Heute herstellen, nicht gesichert").
+addon_check: OK, 0 FEHLER, 1 WARNUNG (GoldSentinelMarkt Version 2 statt 3). run_offline: Forever 223/0, Era 205/0,
+Retail 204/0, TBC ohne Lua-Fehler, "Regressionen: 64 von 64" (T143 einmal über 16 ms = Zeitmessung, zählt nicht).
+
+ZU TUN (Reihenfolge):
+1. MITTEL – HK-P Rest: WARTEN. Abklingzeit-Restzeit (TodayCrafts kennt nur cooldown = true; canCraft fest true) und die
+   Frage "Gruppe 'Daten prüfen' auch weg?" sind an die Prüf-Sitzung/den Nutzer weitergegeben. Antwort kommt in offen-*.txt.
+2. MITTEL – Neuaufbau im Client bestätigen (nur Prüfung, /ps testroutine h, /ps protokoll).
+3. NIEDRIG – MARKT-v3: beim nächsten Release shared/GoldSentinelMarkt.lua (Version 3) unverändert kopieren (cmp direkt
+   vor dem Packen), T266 auf VERSION >= 3 anheben.
+4. NIEDRIG – README.md Zeile 46: "266 cases" -> es sind T01–T267; beim nächsten Release nachführen.
+5. NIEDRIG – T145 Speicher nahe der Grenze: im Client prüfen; wenn zu hoch, Testdaten zurückbauen, Grenze nicht erhöhen.
+6. Warten: Punkt 6 (Leiter zu kurz, auf AHSentinel), BL3/BL4 = CH-G (nach AHSentinel), Frage GoldSentinelSync.
+
+git pull --rebase und auftraege/ProfessionSentinel/offen-professionsentinel.txt lesen; nach der Umsetzung Bericht in
+berichte/ProfessionSentinel/ ablegen ("umgesetzt, zur Prüfung" mit Belegen).
+Nächste Version 0.9.46, komplette Dateien, alte Clients nie brechen, alle Locale-Dateien, CHANGELOG EN/DE, vor dem Push
+python3 addon-check/addon_check.py download/ProfessionSentinel-0.9.46.zip -> kein FEHLER.
+Ist ein Befund falsch, bitte begründet zurückmelden.

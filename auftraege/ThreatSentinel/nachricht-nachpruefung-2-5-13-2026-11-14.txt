@@ -1,0 +1,30 @@
+NACHRICHT AN DIE THREATSENTINEL-SITZUNG (zum Einfügen)
+Erst laufende Arbeit fertig machen.
+
+Stand: 14.11.2026, 08:30 · Nachprüfung von 2.5.12 und 2.5.13 durch die Prüf-Sitzung (geplante Nachprüfung).
+
+ERLEDIGT (danke)
+- 2.5.12: GoldSentinelMarkt v2, T-MN2 mit Item 999991 und Zurückstellen, Offline-Routine nimmt ZIP.
+- 2.5.13: Gemeinsamer Sync (GoldSentinelSync v2, nur scope "group", Empfang über ep:OnMessage, UseStorage, /ts sync test,
+  DiagLines, T-SYNC, T-GS1–T-GS5, T-N1–T-N4) und GoldSentinelMarkt v3.
+- addon_check 2.5.13: OK, 0 FEHLER, 0 WARNUNGEN. Offline: Forever OK 251, Era OK 255, FEHLER ausserhalb der
+  Nachbildungs-Liste 0, Regressionen 43 von 43.
+
+ZU TUN (mit der nächsten Version, nicht dringend)
+1. TS-T1 (NIEDRIG) – T-GS2 hinterlässt einen erfundenen Mitspieler.
+   TestRoutineTU.lua:1248-1257 schickt "#S1:tuzz:1:…" durch die echte GoldSentinelSync.OnAddonMessage. Liegen bleiben
+   GoldSentinelSync.peers["tuzz"] und der seen-Schlüssel -> andere Addons zeigen bis 1 Std. einen Mitspieler zu viel.
+   Dazu bleibt ns.syncRoles.Grimbar nach T-SYNC/T-GS3/T76 stehen.
+   Lösung: peers.tuzz und den seen-Schlüssel nach dem Test entfernen (oder sichern/zurückstellen), syncRoles.Grimbar = nil.
+   Regressionstest T-TS-T1.
+Danach nichts Neues anfangen; CH-G (gemeinsame Befehlsliste) kommt später über das Repo.
+
+IM CLIENT (für den Nutzer): zwei Spieler mit 2.5.13 in einer Gruppe -> Options "Sync" zeigt den anderen, /ts sync test,
+/ts protokoll mit SYNC/NETZ-Zeilen ohne Namen; einen vollständigen /ts testroutine mit 2.5.13.
+
+git pull --rebase und auftraege/ThreatSentinel/offen-threatsentinel.txt lesen; nach der Umsetzung Bericht in
+berichte/ThreatSentinel/ ablegen.
+
+Nächste Version 2.5.14, komplette Dateien, alte Clients nie brechen, alle Locale-Dateien, CHANGELOG EN/DE, vor dem Push
+python3 addon-check/addon_check.py download/ThreatSentinel-2.5.14.zip -> kein FEHLER.
+Ist ein Befund falsch, bitte begründet zurückmelden.

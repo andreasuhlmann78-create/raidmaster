@@ -1,3 +1,13 @@
+PRÜFUNG 0.65.146/0.65.147 (Supervisor 09:55, addon_check 0.65.147 OK, Berichte gelesen):
+- UI-V1b umgesetzt (Suche bei jeder Auswahl, grau "wird aktualisiert", Server-Wartezeit, neu nach Einstellen/Abbruch/Kauf),
+  Klick-Protokoll VERKAUFEN-KLICK da – zur Prüfung, im Client bestätigen. T667/T668 noch SKIP im Simulator -> mit 0.65.148.
+- UI-V3/UI-V2 umgesetzt (eigene Zeile Verkaufschance, Hinweise fest 2 Zeilen + (i), Erlös = brutto − Gebühr, "Gewinn
+  erwartet" grün/rot/grau) – zur Prüfung. Zwei kleine Punkte: (1) Text "Preis %dx über Markt" – "x" liest sich wie "mal";
+  besser "%d %% über Markt" bzw. als Zahl "verkauft sich bei %s" allein. (2) enGB/130 % nicht geprüft: mit festen Zeilen
+  ohne Umbruch wird langer englischer Text ABGESCHNITTEN statt umgebrochen – Test T669 um "kein Text abgeschnitten"
+  (GetStringWidth ≤ Breite) für deDE und enGB erweitern.
+- Reihenfolge jetzt eingehalten. Weiter: 3 HB1 (mit T667 ohne SKIP), dann 4 TB138b-3.
+
 PRÜFUNG 0.65.145 (Prüf-Sitzung 09:20, addon_check OK, Bericht und UI_Sell-Änderung gelesen) – UI-V1 NICHT ERLEDIGT:
 - Der Nutzer hatte scriptErrors an und sah KEINEN Fehler (Nachtrag 09:05). pcall um jeden Schritt hilft nur, wenn ein Schritt
   wirft – bleibt rechts trotzdem das alte Item, ist die Ursache woanders (Klick erreicht Select nicht, Liste wird zwischen

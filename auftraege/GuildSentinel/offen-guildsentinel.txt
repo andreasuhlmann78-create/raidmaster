@@ -1,12 +1,12 @@
 ========================================================================================================================
-PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 00:40). Immer von oben nach unten abarbeiten.
+PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 00:40, nachgeführt Nachprüfung 0.9.38 14.11. 08:30). Immer von oben nach unten abarbeiten.
 Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei jeder Änderung nachgeführt.
 ========================================================================================================================
 1. GA        HOCH    Altersfrage (ab 16) + Werbetext: im Client bestätigen (Nutzer, Client-Tests zurückgestellt).
 2. RP / RV   MITTEL  Rekrutierung in Phasen; Rechtsklick-Menü mit Rängen.
-3. MN2b      NIEDRIG Schalter-Anzeige Marktdaten.
-4. MARKT-v3  NIEDRIG GoldSentinelMarkt v3 beim nächsten Release mitkopieren.
-5. CH-G      SPÄTER  gemeinsame Befehlsliste (nach AHSentinel). GV1 Einladen gesperrt = Absicht.
+3. MARKT-v3  NIEDRIG GoldSentinelMarkt v3 beim nächsten Release mitkopieren (0.9.38 hat v2 -> addon_check WARNUNG).
+4. CH-G      SPÄTER  gemeinsame Befehlsliste (nach AHSentinel). GV1 Einladen gesperrt = Absicht.
+   (MN1b und MN2b in 0.9.38 erledigt – Nachprüfung 14.11.2026.)
 ========================================================================================================================
 
 >>> GoldSentinelMarkt v3 (13.11. 23:45, Entscheid des Nutzers): Export hält 6 statt 2 Scans (max. 1,5 MB, Ruckeln/
@@ -16,63 +16,48 @@ Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei jeder Änderung nac
 >>> SPÄTER (Entscheid des Nutzers 13.11. 23:26): Gemeinsame Befehlsliste shared/GoldSentinelCmdHint.lua (CH-G) –
 >>>    AHSentinel stellt zuerst um, dieses Addon danach. JETZT NICHTS TUN; der Auftrag kommt hier, wenn es soweit ist.
 
-OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.37)
+OFFENE PUNKTE GUILDSENTINEL (nach der Nachprüfung von 0.9.38)
 =============================================================
-Stand: 13. November 2026, 17:45 · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/GuildSentinel-0.9.37.zip
-(Veröffentlichung 577b473, Repo GuildSentinel be83b1a = Inhalt der ZIP), verglichen mit 0.9.36 aus der git-Geschichte.
-Gelesen: berichte/GuildSentinel/2026-11-13-1700-version-0.9.37-mn.txt. Frühere Stände: Nachprüfung 0.9.36 (16:30).
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.36.
+Stand: Nachprüfung 0.9.38, 14.11.2026, 08:30 MEZ · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage:
+download/GuildSentinel-0.9.38.zip (Veröffentlichung 75e0b31, Repo GuildSentinel 7f16ef2 = Inhalt der ZIP, diff -r leer),
+verglichen mit 0.9.37 (Repo GuildSentinel be83b1a). Gelesen: berichte/GuildSentinel/2026-11-13-2250-version-0.9.38-mn-v2.txt
+– die gemeldeten Punkte sind im Code belegt. Frühere Stände: Nachprüfung 0.9.37 (13.11. 17:45).
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.9.37.
 
-Erledigt in 0.9.37 (danke):
-- Punkt 1 aus 0.9.36 (NIEDRIG, GA1 "Gildenverwaltung > Einladen umgeht die Alters-Sperre"): Sperre zentral in
-  ns.OpenGuildInvite (Recruit.lua:625–629) über Rc.AgeBlocked (Recruit.lua:612–623, Name ohne Server, Gross/Klein egal).
-  Gilt damit für Ad.Invite (Admin.lua:230), das Mitglieder-Menü und die Bewerberliste. Keine Ausnahme für den
-  Gildenmeister – begründet (Absage ist schon raus), angenommen. Test T289f (TestRoutine.lua:3671–3679, scheitert ohne
-  die Korrektur, weil Ad.Invite sonst true liefert), Regression "GA1-Sperre".
-- MN2: Einstellungen > "Marktdaten teilen (anonym, nur Preise)" (Pages.lua:2197–2206), setzt GoldSentinelMarkt.SetShare.
-  Text in Locales.lua und allen 9 Locale-Dateien, CHANGELOG EN/DE.
-- MN3: Diagnose-Zeilen aus GoldSentinelMarkt.DiagLines() + "MARKT-NETZ Speicher x KB", ohne Datei
-  "MARKT-NETZ: Datei nicht geladen" (Diag.lua:125–135), alles in pcall.
-- MN4: T291–T293 (TestRoutine.lua:3722–3752), Offline-Ladetest test/run_nomarkt.lua "ohne" 4/4 und "mit" 8/8.
-  gsMarkt in der Sandbox vom Vergleich ausgenommen (TestRoutine.lua:66) – begründet, angenommen.
-- MN1 zum Teil: TOC nach GoldSentinelSync.lua (GuildSentinel.toc:24), Attach in ADDON_LOADED mit pcall (Core.lua:730–733).
-  Die Kopie selbst ist veraltet -> Punkt 1.
+Erledigt in 0.9.38 (danke):
+- MN1b (HOCH) / MN VERSION 2 (Stand 22:20): GuildSentinel/GoldSentinelMarkt.lua = offizielle Version 2 (addon_check
+  erkennt sie als offizielle Fassung, nur noch WARNUNG "veraltet" wegen v3 -> Punkt 1). T291 prüft VERSION >= 2 und
+  FeedStart/Feed als Funktionen (TestRoutine.lua:3724–3731), Regression "MN1b" (TestRoutine.lua:3162).
+- MN2b (NIEDRIG): ns.MarketShareState() (Core.lua:724–730) liest GoldSentinelMarkt.IsShareOn(); eigener Wert an, Netz
+  aus -> Hinweis "In einem anderen GoldSentinel-Addon ausgeschaltet." Haken und Hinweis Pages.lua:2198–2213 (Hinweis
+  wird beim Anzeigen über c.Refresh/OnShow nachgeführt, UI.lua:96–105). Text in Locales.lua und allen 9 Locale-Dateien.
+  Test T294 (TestRoutine.lua:3745–3756), Regression "MN2b". CHANGELOG EN/DE 0.9.38.
+- Aus 0.9.37 übernommen: GA1-Sperre, MN2–MN4 (siehe Nachprüfung 0.9.37), bleiben im Regressionstest.
 
-Prüfungen: Addon-Prüfung 1 FEHLER, 0 WARNUNGEN (Lua-Syntax mit lupa, Ladetest, Sprachtest):
-  "GuildSentinel/GoldSentinelMarkt.lua: weicht von shared/GoldSentinelMarkt.lua ab (Version 1, Vorlage Version 1)".
-GoldSentinelGame.lua, GoldSentinelSync.lua, GoldSentinelTest.lua byte-gleich mit shared/. GoldSentinelMarkt.lua ist die
-Fassung von 16:05 (raidmaster a3c51a5), nicht die aktuelle mit FeedStart/Feed (6e66279, 16:49 – kam 6 Minuten nach der
-Veröffentlichung). Der Bericht nannte die Datei damals zu Recht byte-gleich; das ist kein Selbst-Ändern.
-Offline mit Lua 5.1 (Repo GuildSentinel be83b1a, Kopie im Arbeitsordner): run_routine 16001 und 11508 je 16/16 bestanden,
-run 77/77, run_admin 34/34, run_v5 84/84, run_new 102/102, run_lang 7/7, run_uicheck 13/13, run_nomarkt ohne 4/4 und
-mit 8/8. 0 fehlgeschlagen, kein T:Skip "noch nicht".
-Im Diff 0.9.36 -> 0.9.37: keine Lua-Fehler, keine nil-Zugriffe (GoldSentinelMarkt überall mit _G-Prüfung und pcall,
-ns.Comm.Serialize vorhanden), kein Ersetzen von Blizzard-Funktionen, keine geschützte Funktion direkt aufgerufen, neue
-Texte in allen Sprachen, Era/TBC nicht gebrochen (T293, run_routine 11508).
-Testberichte 0.9.36-b0a5ae9ca849 und 0.9.36-fe8e9bece9c9 (Forever, deDE): "Fehler in dieser Sitzung: 0". Die einzige
-Zeile "VERBOTEN … Recruit.lua:492 < Pages.lua:983" stammt vom 13.11. 05:43 (ältere Version, steht unverändert schon in den
-früheren Berichten 0.9.35/0.9.36) – kein neuer Befund.
+Prüfungen (0.9.38): addon_check "GuildSentinel-0.9.38.zip: OK", 0 FEHLER, 1 WARNUNG ("GoldSentinelMarkt.lua: veraltete
+offizielle Fassung (Version 2) – auf Version 3 aktualisieren", Punkt 1). Ladetest und Sprachtest bestanden.
+GoldSentinelGame.lua, GoldSentinelSync.lua, GoldSentinelTest.lua byte-gleich mit shared/.
+Offline mit Lua 5.1 (Repo 7f16ef2): run_routine 16001 und 11508 je 16/16 (Routine Forever OK 276 · FEHLER 0), run 77/77,
+run_admin 34/34, run_v5 84/84, run_new 102/102, run_lang 7/7, run_uicheck 13/13, run_nomarkt ohne 4/4 und mit 8/8.
+Kein T:Skip "noch nicht".
+Im Diff 0.9.37 -> 0.9.38: keine Lua-Fehler, keine nil-Zugriffe (MarketShareState prüft GM, GM.IsShareOn und
+GuildSentinelDB), keine Blizzard-Funktion ersetzt, neue Texte in allen Sprachen, Era/TBC nicht gebrochen (11508 OK).
 
 OFFENE PUNKTE
-1. HOCH (NEU) – MN1b: GoldSentinelMarkt.lua veraltet -> addon_check FEHLER.
-   GuildSentinel/GoldSentinelMarkt.lua (ZIP 0.9.37) = Fassung a3c51a5 (16:05). shared/ hat seit 6e66279 (16:49,
-   "MN KORREKTUR 2") FeedStart/Feed. Beide tragen VERSION 1, darum ist es für die Prüfung keine "ältere Fassung",
-   sondern eine Abweichung. Folge im Spiel: gleiche Version -> die zuerst geladene Kopie gewinnt; fehlt dort
-   FeedStart/Feed, liest GSMarkt einen Scan doppelt bzw. ein Host-Addon findet die Funktion nicht.
-   Lösung: shared/GoldSentinelMarkt.lua NEU und unverändert kopieren (cmp mit shared/ -> gleich), neue Version
-   veröffentlichen. Test T-MN1b (z. B. T291 erweitern): type(GoldSentinelMarkt.FeedStart) == "function" und
-   type(GoldSentinelMarkt.Feed) == "function". Vor dem Push addon_check -> kein FEHLER.
+1. NIEDRIG – MARKT-v3: GoldSentinelMarkt.lua Version 3 beim nächsten Release mitkopieren.
+   GuildSentinel/GoldSentinelMarkt.lua (ZIP 0.9.38) = offizielle Version 2; shared/GoldSentinelMarkt.lua ist Version 3
+   (Zeile 55, Export 6 statt 2 Scans, max. 1,5 MB). Lösung: unverändert kopieren (cmp gleich), direkt vor dem Packen
+   git pull --rebase und cmp erneut; T291 auf VERSION >= 3 anheben. Nicht dringend, keine eigene Version nur dafür nötig.
+2. MITTEL – RP / RV (aus den PRIORITÄTEN): Rekrutierung in Phasen und Rechtsklick-Menü mit Rängen – im Client
+   bestätigen (siehe IM CLIENT PRÜFEN, RP 0.9.31 und RV 0.9.30).
+3. SPÄTER – CH-G: gemeinsame Befehlsliste, erst nach AHSentinel; JETZT NICHTS TUN.
 
-2. NIEDRIG (NEU) – MN2b: Schalter "Marktdaten teilen" zeigt nur den eigenen Wert.
-   Pages.lua:2198–2201 liest nur GuildSentinelDB.gsMarktAus. GoldSentinelMarkt.IsShareOn() ist aber für alle Addons
-   gemeinsam aus, sobald EIN Addon (z. B. AHSentinel) "aus" gespeichert hat. Dann steht bei GuildSentinel ein Haken,
-   obwohl nichts gelesen und nichts gesendet wird.
-   Lösung: Haken aus GM.IsShareOn() lesen; ist der eigene Wert an, das Netz aber aus, kurzer Hinweis "in einem anderen
-   GoldSentinel-Addon ausgeschaltet" (alle Locales). Test T-MN2b: zweiter Host mit gsMarktAus = true -> Haken aus,
-   Hinweis sichtbar.
-
-IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.37 bzw. der nächsten Version, Ergebnis dem
+IM CLIENT PRÜFEN (/gs testroutine und /gs protokoll im echten Client mit 0.9.38 bzw. der nächsten Version, Ergebnis dem
 Nutzer melden)
+   - Neu MN2b (0.9.38): Einstellungen: Haken "Marktdaten teilen" und der graue Hinweis rechts daneben (Abstand 330)
+     überlappen nichts und sind nicht abgeschnitten (deDE, enGB, ruRU). In einem anderen GoldSentinel-Addon (z. B.
+     /ps markt) ausschalten, GuildSentinel-Einstellungen öffnen -> Haken aus, Hinweis sichtbar. AHSentinel-Vollscan ohne
+     Ruckeln; /gs protokoll "MARKT-NETZ v2 …".
    - Neu MN (0.9.37): Einstellungen: Haken "Marktdaten teilen (anonym, nur Preise)" sichtbar, an, nichts überlappt
      (deDE, enGB, ruRU). AH öffnen, ein anderes Addon (z. B. AHSentinel) macht einen Vollscan -> /gs protokoll zeigt
      "MARKT-NETZ … Scans mitgelesen 1 …" und "MARKT-NETZ Speicher x KB"; kein Ruckeln beim Mitlesen. Haken aus ->
@@ -149,7 +134,7 @@ Nutzer melden)
      Hinweis; /gs verwaltung öffnet das Fenster. Passwort festlegen, falsch/richtig entsperren.
    - Letzter vollständiger Testlauf im Spiel ist noch 0.9.13 (09.11. 05:47 UTC): T82, T118, T143, T154 waren dort
      FEHLER, offline seit 0.9.21 bestanden. Mit der nächsten Version erneut /gs testroutine. Dazu T45 "[Test], 0",
-     Bereich K (T182-T187, T237), T239-T293, Berufe-Knopf in Forever ohne "Aktion blockiert", issecretvalue nach dem
+     Bereich K (T182-T187, T237), T239-T294, Berufe-Knopf in Forever ohne "Aktion blockiert", issecretvalue nach dem
      Kampf, T168 (/gs testroutine whisperq), Bank-Charakter -> #gildenbank, Sprachwahl folgt ohne Einstellung dem
      Client. Die letzten Diagnose-Berichte (0.9.36, Forever) zeigen 0 Fehler in der Sitzung.
 
@@ -166,11 +151,10 @@ HINWEIS FÜR KÜNFTIGE VERSIONEN
      Das Alter von Bewerbern nie speichern, teilen oder protokollieren (nur 16+ / unter 16 / unklar).
    - Gemeinsame Dateien nur unverändert aus shared/ kopieren – direkt vor dem Packen der ZIP noch einmal
      git pull --rebase im raidmaster-Repo und cmp gegen shared/ (Lehre MN1b: shared/ kann sich kurz vorher ändern).
-   - Die Version muss höher sein als 0.9.37 (download/, announce/, CurseForge).
+   - Die Version muss höher sein als 0.9.38 (download/, announce/, CurseForge).
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/GuildSentinel/ ablegen.
-   MN VERSION 2 (13.11. 20:00, DRINGEND): GoldSentinelMarkt.lua Version 2 – in Clients mit AHSentinel liest sie nichts mehr selbst (doppeltes Lesen machte den Sniper/das Spiel ruckelig), Warteschlange max. 10, Gilde nur einmal je Stunde ganzer Scan. SOFORT neu kopieren und veröffentlichen (Version 1 = Warnung "veraltet").
-   MN VERSION 2 – STAND 13.11. 22:20 (D-MN7b ausverkaufte Items im Export): wer v2 schon kopiert hat, bitte NOCHMALS kopieren (Prüfung "exact").
+   (MN VERSION 2 vom 13.11. 20:00/22:20: in 0.9.38 umgesetzt, erledigt.)
 
 REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nicht selbst"): Eigene Tests und Testroutinen
    laufen lassen und gefundene Fehler im Bericht melden – mehr nicht. Nie "erledigt/freigegeben/bestanden/geprüft"
