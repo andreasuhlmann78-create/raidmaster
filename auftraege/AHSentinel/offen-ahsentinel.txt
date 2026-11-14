@@ -5,6 +5,22 @@ PRÜFUNG 0.65.158 + 0.65.159 (Supervisor 14:10, addon_check OK, Berichte + Kern.
 zur Prüfung. S3a richtig: ein Wert über alle Wege, Anzeigen noch unverändert (Gold-Sicherheit), Selbstkontrolle im Testbericht.
 S2-B4/SK1-B4 wie verlangt (Neuaufbau einmal, mailCache vor dem Abholen). Reihenfolge-Erklärung angenommen; jetzt TB157-1..4
 (TB157-4 mit der Ursache von 14:05) und TB159-1, dann T131-1, dann S3b.
+PRÜFUNG 0.65.162–0.65.164 (Supervisor 15:15, addon_check 0.65.164 OK, Berichte + Books.lua CorrectStock/MatValue gelesen):
+umgesetzt, zur Prüfung im Client: DW-K1 (Knopf, SK1-j), NP160-1/-2/-3/-4 (Ausbuchen nur mit Briefkasten UND eigenen Auktionen
+nach dem letzten Zugang/Auktionsende, Rücknahme UndoMissingArrived, Reparatur-Zeilen, SK1-f fehlt/zurück), BH-ANZ-S1/S2 (eine
+Zahl je Gruppe, % aus denselben Stücken, keine Material-Gewinne), T131-1 (eigener Handler, s42c), BH-ANZ-S2 Nachtrag (Verteilung
+nach A:RealPrice für alle Materialien, Diagnose ENTZ-VERTEILUNG, SK1-k). Ursache der Seelenstaub-Schieflage (RealisticCap drückt
+langsame Ware) ist schlüssig und passt zu buchhaltung_plausi.py.
+ENTSCHEIDE des Supervisors zu euren Fragen (dreifach gegen Entscheide geprüft: Gold rein/raus, "nie bestehende Daten umrechnen",
+wirtschaft-forever.md Abschnitt 0):
+- Halten-Verlust: JA, ab der nächsten Version den Preis je Material beim Entzaubern am Lager-Posten mitführen (neues Feld, alte
+  Daten unverändert) und "Preis gefallen seit dem Entzaubern −x" nur für neue Entzauberungen zeigen. Keine Schätzung für alte.
+- "Reparaturen je Gruppe": NEIN, entfällt (Reparaturen sind je Rechnung gebucht; im Reparatur-Protokoll reicht es).
+- Alte Lager-Posten mit zu hohem Staub-Einstand: NICHT umbuchen (Regel). Betrifft nur noch den Restbestand; der Phantom-Posten
+  11083 (25 Stück) wird über NP160-1 ausgebucht, sobald Briefkasten + Auktionen gesehen sind.
+- Prüfnamen SK1-j (Knopf) / SK1-k (Verteilung) so übernommen.
+Nächstes wie geplant: Herstellungs-Ketten S3b + S3-2 (Vorgaben 14:51, BR-W1), dann Halten-Verlust-Feld, Rest NIEDRIG.
+
 PRÜFUNG 0.65.160 + 0.65.161 (Supervisor 14:45; Entwurf Nachprüfung 14:20 geprüft und übernommen; addon_check OK; Books.lua
 CorrectStock/HaveCount, SelfCheck.lua, Kern.lua selbst nachgelesen). Umgesetzt, zur Prüfung: TB157-3, TB157-4 (Sperre in 0.65.161,
 SC:OnFlow/OnMailTake TestBlocked), TB159-1 (s42b, T129/T167 SKIP statt FEHLER, T184 mit Diagnose), S3-1 (Händler /1,2).
