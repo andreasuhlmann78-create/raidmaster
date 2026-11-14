@@ -1,5 +1,11 @@
 >>> GRUNDSATZ NACHVOLLZIEHBAR (Nutzer 14.11. 15:18, gilt für alles Neue): Zahl + EIN Satz, was sie ist und wie sie entsteht (≤ 20 Wörter, Alltagssprache). Siehe auftraege/README.md.
 
+PS-API1 MITTEL (Supervisor 15:55, für AHSentinel-Herstellungs-Ketten, Wunsch des Nutzers 14:51 "AHS erkennt die Berufe"):
+   ProfessionSentinelAPI.KnownRecipes(figur?) -> je bekanntem Rezept { spellID/recipeID, productID, Menge, Zutaten {id, Menge},
+   Beruf, Fertigkeitsstufe (orange/gelb/grün/grau) } für die eingeloggte Figur (und gemerkte Twinks, wenn vorhanden). Aus dem
+   Zwischenspeicher, Aufruf ≤ 2 ms, keine Namen ausser Item-IDs. GRUNDSATZ: Test (Figur mit/ohne Beruf, leere Liste), Selbst-
+   kontrolle (Anzahl Rezepte = Berufsfenster), Prüfung Supervisor. Reihenfolge: wenn ProfessionSentinel drankommt, mit PS-TC1.
+
 PS-TC1 MITTEL (Supervisor 14:45, aus AHSentinel-Testbericht 0.65.157 T373): ProfessionSentinelAPI.TodayCrafts(5) braucht im Spiel
    153 ms am Stück (Bild > 16 ms). AHSentinel ruft es jetzt nur alle 15 Min. auf – jeder Aufruf ruckelt trotzdem. Lösung:
    TodayCrafts aus einem Zwischenspeicher beantworten (Aufruf ≤ 2 ms), Neuberechnung nach Scan/Rezeptänderung in Portionen ≤ 8 ms.
