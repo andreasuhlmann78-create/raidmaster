@@ -1,0 +1,12 @@
+Bericht AHSentinel 0.65.128 – PR1 Teil 2 und 3
+Stand: 14.11.2026 · Status: umgesetzt, zur Prüfung
+(2) Fc:PostPrediction: Verkaufschance p = Ln:Chance(Item, Preis/Marktwert, Laufzeit) – gelernt je Preisstufe aus
+    echten Verkäufen (Item -> Warengruppe -> geteilt, Abbrüche zensiert seit 0.65.126), sobald nicht mehr nur
+    Startwert. Die alte Wartezeit-Rechnung bleibt als r.pw (nicht gespeichert). Anzeige unverändert (ShownChance mit
+    Kalibrierung, "lernt noch" bis belegt). Test T651 T-PR1b (6/10 bei 1,00 vs 2/10 bei 1,15 -> p fällt, < 0,5) – PASS.
+(3) Fc:Chains: Einstellungen desselben Items mit höchstens 6 Std. Abstand nach dem Ende der vorigen = eine Kette bis
+    "verkauft". Bericht "PR1 Ketten: n (verkauft x %, offen) · Einstellungen je Kette Median/Ø · Neu-Einstellungen ·
+    Preis letzte/erste Median" (Feld prognose_ketten). Test T652 T-PR1c (4 Einstellungen = 1 Kette, Preis 0,92) – PASS.
+    Noch nicht: verfallene Anzahlungen je Kette (P-Einträge speichern keine Anzahlung) – mit EB-DET.
+Gesamtlauf 246/246, s42 PASS, addon_check OK.
+Weiter laut Nacht-Reihenfolge: RF-Rest (Caches), Rest 0.65.115, EB/EB-DET/BH-ANZ.
