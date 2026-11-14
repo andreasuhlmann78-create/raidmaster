@@ -1,0 +1,66 @@
+AHSentinel 0.65.163 – NP160-1 (mit NP160-2/3/4), BH-ANZ-S1/S2, T131-1 – umgesetzt, zur Prüfung
+=============================================================================================
+
+NP160-1 HOCH (Phantom-Regel bucht Auktionen/Post aus) – umgesetzt, zur Prüfung
+- Books.lua CorrectStock: die 24-Std.-Regel (TB157-2, PHANTOM_H) ist entfernt. Ausgebucht wird nur noch, wenn NACH dem
+  letzten Zugang (fee/buy/depx/xfer) UND nach dem Ende/Verschwinden eigener Auktionen dieses Items ein Briefkasten-Abbild
+  existiert UND die eigenen Auktionen gelesen wurden (Lösung a, erste Variante). Sonst nur melden (StockCheck/SK1-f).
+- Eigene Auktionen dauerhaft (Comfort.lua K:OnOwnedRead / LoginExpiryCheck):
+  * A.db.ownedSeenT = Zeit der letzten Lesung der eigenen Auktionen (über Sitzungen; Se.ownedTime lebte nur in der Sitzung).
+  * A.db.ownedLeft[itemID] = min(Ende, jetzt) einer Auktion, die aus der Liste verschwand (abgelaufen, abgebrochen,
+    verkauft) -> Ware kann ab dann im Briefkasten liegen; Einträge > 30 Tage fallen weg. ownedEnds-Einträge haben jetzt aid.
+  * Nie während der Testroutine geschrieben (K.testEnds-Sandbox und A:InTestRoutine-Wache).
+- HaveCount zählt laufende Auktionen aus ownedEnds (Ende in der Zukunft), wenn in dieser Sitzung noch nicht gelesen.
+- Fälle: (A) eingestellt, Auktion läuft -> Ende in der Zukunft -> Briefkasten kann nicht "danach" sein -> gesperrt;
+  (B) Auktion abgelaufen, Briefkasten davor gesehen -> gesperrt; (C) AH-Kauf, Briefkasten seither nicht gesehen -> gesperrt.
+  11083 (Briefkasten + Auktionen danach gesehen, nirgends vorhanden) -> ausgebucht.
+- (b) Rücknahme: BK:UndoMissingArrived (bei jedem CorrectStock): "fehlt"-Buchungen der letzten 30 Tage, für die jetzt mehr
+  vorhanden ist als im Lager steht -> Ware mit altem Einstand zurück (Put, Herkunft bt aus der Buchung, neu gespeichert),
+  Buchung markiert undone/back (nicht gelöscht). Nur ganze Buchungen, neueste zuerst. Gilt auch für die falschen
+  Ausbuchungen aus 0.65.160–0.65.162, sobald die Ware ankommt.
+- NP160-4: ist der Bestand verlässlich (Briefkasten + Auktionen danach), wird auch teilweise Fehlendes ausgebucht
+  (T663 neu: 30 gebucht, 25 da -> 5 aus). Die 7-Tage-Sperre ist durch die Auktions-/Post-Zeiten ersetzt.
+- NP160-2: jede "fehlt"-Ausbuchung und jede Rücknahme schreibt eine Zeile ins Reparatur-Protokoll (RepairNote); T699 prüft sie.
+- NP160-3: SK1-f-Text im Bericht ohne Farbcode.
+- Selbstkontrolle: SK1-f zeigt "fehlt gebucht X Stück / später zurückgenommen Y (30 Tage)" (BK:MissingStats).
+- Tests: T701 (A/B/C, alle > 24 Std. alt: 0 ausgebucht; danach nur die Ware, die nirgends ist; Ankunft -> 5 zurück mit
+  Einstand 500; fehlt 5 / zurück 5), T699 (11083 mit Reparatur-Zeile), T663 (teilweise), T666/T659 unverändert grün.
+
+BH-ANZ-S1 / S2 MITTEL – umgesetzt, zur Prüfung
+- Ursache bestätigt: Gewinn = Erlös − Einsatz aller Stücke, % nur aus gekauften Stücken (AB6). Gewählt: % aus DENSELBEN
+  Stücken wie der Gewinn (Gewinn / Einsatz), weil BH-ANZ-S2 für die Gruppe genau diese eine Zahl (Gold rein − Gold raus)
+  verlangt; die zweite Variante (Gewinn nur aus gekauften Stücken) hätte S2 widersprochen.
+  Die "141 %" bei 36–45 waren: Gewinn nur der gekauften Stücke / Einsatz; der Rest der 18g 69s kam aus Stücken ohne Einkauf.
+- Tooltip der Entzauber-Gruppe: "Ergebnis (Gold rein − Gold raus)", darunter "davon Stücke ohne Einkauf" (wenn ≠ 0),
+  Materialien nur mit Menge und Erlös (nach Erlös sortiert), keine Gewinnzahl je Material mehr.
+- NICHT umgesetzt (begründet): "Preis gefallen seit dem Entzaubern −x" (Halten-Verlust). Der Preis je Material im Moment des
+  Entzauberns wird nicht gespeichert (OnDisenchant verteilt nur den Einstand nach relativem Wert); aus den vorhandenen
+  Buchungen lässt er sich nicht exakt zurückrechnen, eine Schätzung wäre gegen wirtschaft-forever.md Abschnitt 0. Vorschlag:
+  ab der nächsten Version den Wert beim Entzaubern je Lager-Posten mitführen (neues Feld, alte Daten unverändert) und die
+  Zeile dann nur für neue Entzauberungen zeigen. "Reparaturen −y" je Gruppe ebenfalls nicht: Reparaturen (BH-AUS-3) sind je
+  Rechnung gebucht, nicht je Gruppe. Bitte Entscheid, ob so gewünscht.
+- Selbstkontrolle (SK1-i): CheckDisplay prüft zusätzlich je Gruppe: Gewinn = Summe Erlös − Summe Einsatz der Materialien und
+  % mit gleichem Vorzeichen.
+- Test T702: gekauft −200 (Einsatz 1200) + ohne Einkauf +600 -> Gruppe +400, % +33, davon ohne Einkauf +600, erstes Material
+  nach Erlös, Selbstkontrolle stimmig.
+
+T131-1 NIEDRIG – umgesetzt, zur Prüfung
+- Während T131 hängt ein eigener Handler vor dem bisherigen (seterrorhandler): nur "AHS-Test T131" wird gezählt
+  (GoldSentinelTest.Error) und NICHT weitergereicht; andere Fehler gehen an den bisherigen Handler. Handler sofort zurück
+  nach dem Fehler, bei Zeitüberschreitung und in TR:Finish (Abbruch). Lässt sich der Handler nicht setzen (BugGrabber), wird
+  der Testfehler gar nicht ausgelöst -> SKIP.
+- Hinweis: T131 prüft damit nicht mehr den Abgriff von GoldSentinelTest selbst (der würde den Fehler ans Fenster weitergeben),
+  sondern dass der unbehandelte Fehler beim Handler ankommt und im Fehlerspeicher landet.
+- Neues Sim-Szenario s42c_testroutine_t131_errorhandler: Sim mit echtem Fehler-Handler-Weg; 0 sichtbare Testfehler,
+  T131 PASS, Handler danach zurück, ein fremder Fehler geht weiter ans Fenster.
+
+Grundsatz (Test / Selbstkontrolle / Supervisor): NP160-1 T701+T699+T663 / SK1-f fehlt-zurück-Zahl; BH-ANZ T702 / SK1-i Gruppe;
+T131-1 s42c / – (Testroutine selbst).
+Locales: 2 neue Schlüssel in allen Sprachen; CHANGELOG EN/DE.
+Nächstes laut Reihenfolge: S3b (mit S3-2).
+
+Nachtrag Reihenfolge: Die neue Reihenfolge (Commit 616a297/ee9e0af, BH-ANZ-S2 Nachtrag zuerst) kam, während 0.65.163 schon im
+Volltest lief ("laufende Arbeit fertig machen"). Der Nachtrag (Verteilung beim Entzaubern nach aktuellem Preis + Selbstkontrolle)
+ist fertig vorbereitet und kommt sofort als 0.65.164. Die Selbstkontrolle heisst dort SK1-k, weil SK1-j schon der
+Entzaubern-Knopf (DW-K1) ist. Danach Herstellungs-Ketten (S3b + S3-2, Vorgaben 14:51, BR-W1).
+Volltest: 250/250 Szenarien bestanden (neu s42c). addon_check: OK.
