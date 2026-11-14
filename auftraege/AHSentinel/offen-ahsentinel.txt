@@ -32,6 +32,14 @@ PRÜFUNG 0.65.167 (Supervisor 16:00, addon_check OK, Bericht gelesen): EK-1 umge
    Im Client prüfen: nach einer Herstell-Runde SK1-m = 0 Abweichungen und Einstand im Verkaufen-Fenster ≠ 0.
 Reihenfolge jetzt: SN-EIN1, SN-DEF1, SN-MAX1, BR-LEER1, VS-1, Ketten Schritt 2 (nach Freigabe), Rest.
 
+BH-ANZ-S3 MITTEL (Nutzer 16:11 "Gewinn 477 %?", Screenshot 0.65.167, 7 Tage, Entzaubern 36–45): Gewinn 18g 69s 15c / Einsatz
+   3g 91s 84c = 477 %, davon aber 13g 18s 44c aus Stücken OHNE Einkauf (Kosten 0). Gekaufte Stücke allein: 5g 50s 71c auf 3g 91s 84c
+   = 141 %. Die 477 % sind keine Rendite (Gewinn freier Stücke durch Einsatz der gekauften). Lösung: Gewinn % NUR aus gekauften
+   Stücken (Gewinn gekaufte / Einsatz); Gewinn-Zahl bleibt Gold rein − Gold raus; gibt es keine gekauften Stücke -> "–".
+   Vorzeichen-Regel aus BH-ANZ-S1 bleibt: haben Gewinn und % verschiedenes Vorzeichen, steht unter der Zahl der Satz
+   "davon ohne Einkauf +x" (er erklärt es). Test: 36–45-Fall -> 141 %; nur freie Stücke -> "–". Selbstkontrolle SK1-i: % = Gewinn
+   gekaufte / Einsatz.
+
 GW-S2 NIEDRIG (Screenshot 16:07, 0.65.167, Gewinn-Fenster Fraktionsbanner): "bester Weg: Händler" und "Händler zahlt mehr: 0c" bei
    einem Verlust-Rezept (−61c), dessen Produkt der Händler nicht kauft (Händlerpreis 0). Kein bester Weg mit 0 -> "kein Weg mit
    Gewinn" (oder Zeile weglassen); "Händler zahlt mehr" nie bei 0. Test: Produkt ohne Händlerpreis, Verlust -> keine Händler-Zeile.
