@@ -1,3 +1,8 @@
+PRÜFUNG Uploader 2.3.9 (Supervisor 16:05, Tests 93/93 grün, Bericht + sync.py "ud"/ud_done gelesen): UP-S1-2 umgesetzt –
+FREIGEGEBEN für den Nutzer, Bedingung: auf BEIDEN Rechnern 2.3.9 (alte Uploader ignorieren "ud"). 2.3.8 überspringen.
+Im Betrieb prüfen: nach dem Update genau eine Konflikt-Meldung je Datei am Rechner mit dem defekten Stand, AHSentinelMerge-Block
+in AHSentinel.lua, danach normale Abgleiche.
+
 ========================================================================================================================
 PRÜFUNG Uploader 2.3.8 (Supervisor 15:50, Tests 43/43 grün, sync.py gelesen): UP-S1 a/b/c + Selbstkontrolle umgesetzt.
 NICHT FREIGEGEBEN für den Nutzer – neuer Befund vor der Auslieferung:
