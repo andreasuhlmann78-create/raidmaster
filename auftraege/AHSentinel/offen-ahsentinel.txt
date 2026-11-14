@@ -25,6 +25,16 @@ TB170-2 HOCH (neu, Rückschritt): T373 cache:today:10 18,8 ms je Frame (längste
    Vermutlich K:ChainUse (Ketten-Zutaten Tiefe 3 + Taschen) in einem Schritt. In Portionen teilen; Zeitmessung im Bericht.
 TB170-3 PRÜFEN: "Lohnt bis" bester Weg vorher ah 34 / haendler 26, jetzt de 5 / haendler 55 – AH als bester Weg fällt ganz weg.
    Belegen, dass das an anderen Items liegt (Liste der 60) und nicht an GW-S2/MH-1; sonst Fehler.
+TB170-3 ERLEDIGT durch Teil server 16:51 (frischer Vollscan): bester Weg ah 33 / de 1 / haendler 26 – der Wert 16:48 kam aus
+   dem Stand vor dem Scan. Kein Fehler.
+TEIL SERVER 0.65.170 (16:51): 57 OK · 5 FEHLER. Vollscan deutlich besser: Nachlauf 29 ms (vorher 829), längste Lücke 91 ms,
+   Frames über 33 ms 9 von 3342 (vorher 737). SK1-r Heute-Einsatz 3/3 stimmig. Rot:
+TB170-5 NIEDRIG (Test): T49 "Einstellen (simuliert)" stellt zu 1s ein, der Schutz blockt richtig (47 % unter 1s 87c). Der Test
+   muss einen Preis nahe am Markt nehmen (z. B. günstigstes Angebot − 1c) und den Schutz getrennt prüfen.
+TB170-6 HOCH (Ruckeln): T458 Preisverlauf+Neuaufbau längster Frame 81 ms, Einlesen/Verdichtung 27 ms, V4 31 ms; T126
+   Scan-Auswertung Portion 21,3 ms (Ziel ≤ 8). Gehört zu TB168-1.
+TB170-7 MITTEL (Speicher): T459 63 Speicherbereinigungen; Lua-Speicher vor dem Scan 655 MB, AHSentinel 350 MB (Teil 16:25: 154 MB).
+   Klären, was nach der Testroutine im Speicher bleibt (Testdaten, Sandbox-Kopien?) – nach dem Test freigeben.
 TB170-4: TU5 echte Daten SKIP ("noch nicht gelaufen") – nach dem Update fehlt der Lauf; nach dem nächsten Vollscan nachholen, ok.
 Weiter rot wie bekannt: T277, T647, SK1-c/h/j (TB168-1/-2/-7). SK1-r noch 0 Fälle.
 ANTWORT MH-1 (Bericht 0.65.170, 16:46): Die Herstellen-Zeile aus der Kette bleibt hinter Ke.LIVE, bis die Ketten freigegeben
