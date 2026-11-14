@@ -1,4 +1,21 @@
 ========================================================================================================================
+PRÜFUNG Uploader 2.3.8 (Supervisor 15:50, Tests 43/43 grün, sync.py gelesen): UP-S1 a/b/c + Selbstkontrolle umgesetzt.
+NICHT FREIGEGEBEN für den Nutzer – neuer Befund vor der Auslieferung:
+UP-S1-2 HOCH (Gold-/Daten-Sicherheit): Nach "defekt" lädt Rechner A seinen Stand hoch, der auf einem ÄLTEREN gemeinsamen Stand
+   beruht (er hat den defekten Stand von B nie gelesen). Rechner B hat seit seinem eigenen (defekten) Upload lokal NICHTS
+   geändert -> pull() auf B sieht je Datei "Remote ≠ Basis, lokal = Basis" -> übernimmt A's Fassung STILL (kein Konflikt, kein
+   AHSentinelMerge). Alles, was B zwischen A's Basis und seinem defekten Stand gespielt hat (z. B. Buchhaltung eines ganzen
+   Vormittags), ist auf B weg – nur noch in einer gewöhnlichen Sicherung. Es gibt keine Eltern-Angabe (grep parent/base: nichts).
+   Lösung: Upload über einen defekten Stand trägt im Index "ueber_defekt": ["<key>:<rev>", Rechner B]. Sieht B einen Stand, der
+   über SEINEN Stand hinweggeschrieben wurde, gilt JEDE abweichende Datei als Konflikt (S4/S8f): neuere gewinnt, die andere
+   bleibt gesichert, AHSentinel.lua bekommt immer den AHSentinelMerge-Block. Test: A (Basis r1) schreibt über defektes r2 von B;
+   B (lokal = r2) zieht -> Konflikt je Datei, Merge-Block da, nichts still ersetzt. Falscher Fall: normales Weiterschreiben
+   ohne defekt -> wie bisher still übernommen.
+   Bis dahin: 2.3.8 NICHT an den Nutzer geben. Der Supervisor empfiehlt dem Nutzer den sicheren Weg mit 2.3.7: am anderen
+   Rechner einmal WoW starten und beenden (lesbarer neuer Stand), dann greift die normale Konfliktregel.
+========================================================================================================================
+
+========================================================================================================================
 UP-S1 HOCH – SOFORT (Supervisor 14.11. 15:40, Uploader 2.3.7 beim Nutzer, im Code bestätigt): EIN unlesbarer Stand des anderen
 Rechners blockiert den Abgleich dieses Rechners für immer – heutige Spiel-Daten werden nicht hochgeladen.
 Beleg (Uploader-Fenster des Nutzers, zweiter Rechner, nach "Spiel beenden" 15:34):
