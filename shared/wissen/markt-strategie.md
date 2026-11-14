@@ -527,6 +527,23 @@ Neuer Reiter: Lage (Bänder) / Mein Lager / Chancen / Trefferzeile – Auftrag a
   Quellen: Q14 https://www.shopify.com/blog/gmroi · Q15 https://www.spscommerce.com/community/articles/gmroii-combining-sales-profitability-and-asset-efficiency
   · Q16 https://o9solutions.com/articles/effective-markdown-optimization · Q17 https://www.invent.ai/blog/markdown-optimization-for-inventory-performance
 
+### GEMESSEN 14.11. 08:20 – Welche Prognose trifft? Nachrechnung OHNE den eigenen Fall (Daten PC 14.11. 07:44)
+Werkzeug addon-check/marktanalyse/prognose_vergleich.py. 64 abgeschlossene Einstellungen (Abbrüche raus), 27 verkauft (42 %).
+Jede Vorhersage nur aus den ANDEREN Fällen gelernt (leave-one-out), sonst schönt sie sich selbst.
+- Alte Prognose (fast überall 80–100 %): Brier 0,50, Treffer 44 %. Schlechter als Raten.
+- Immer "verkauft sich nicht" sagen: 58 % Treffer (Grundlinie, jede Prognose muss darüber liegen).
+- Chance je Preisstufe (Preis/Marktwert): Brier 0,248, Treffer 66 %. Besser als alt, aber nur so gut wie ein Münzwurf beim
+  Brier. Meine frühere Zahl "69 %" (08:05 im Chat) war MIT dem eigenen Fall gerechnet und damit zu optimistisch.
+- Schlangen-Modell "vor mir liegen Q Stück, Absatz S je Laufzeit": beim Einstellen lag der Nutzer in 60 von 64 Fällen
+  GANZ VORNE (Q = 0) – trotzdem nur 26 verkauft. Auch wo der Absatz rechnerisch das Doppelte der Menge war: 8 von 27.
+  -> Die Schlange BEIM EINSTELLEN sagt nichts voraus. Entscheidend ist, was DANACH passiert: andere stellen billiger ein
+  (Unterbieten), der Nutzer zieht zurück (Abbruch) oder es läuft ab. (Mein Vorschlag 08:05 "Schlange beim Einstellen"
+  war damit widerlegt – korrigiert.)
+- Folgerung (Hypothese, zu messen): Die Chance ist ein WETTLAUF: kommt ein Käufer, bevor jemand billiger einstellt?
+  Braucht je Item: Käufe je Stunde (gemessen) und neue billigere Angebote je Stunde (aus aufeinanderfolgenden Scans).
+  Chance in 2 Std. ≈ Käufe / (Käufe + Unterbietungen) über die Laufzeit. Messauftrag M-WL1 (siehe 7).
+- Datenlage: fast nur Staub/Essenz, eine Figur, 4 Tage, mitten in der Welle. Jede Zahl hier ist Richtung, nicht Gesetz.
+
 ### GEMESSEN 14.11. 01:00 – Verkaufs-Prognose (81 Einstellungen, alle 2 Std., fast nur Staub/Essenz)
 - Händler stellen nur 2 Std. ein (Nutzer 00:50). Abgebrochene (17) zählen nicht (zensiert, Nutzer 00:50).
 - Ohne Abbrüche: vorhergesagt 88 %, verkauft 47 % der Stücke; 37 von 64 abgelaufen ohne Verkauf.

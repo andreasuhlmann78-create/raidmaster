@@ -11,6 +11,8 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 08:07 | "Ich will, dass du alles nochmals genau prüfst – und vergiss nicht dein Gehirn." Gilt für Vorschläge zum Rechenkern: erst an den Daten prüfen, dann vorschlagen. | markt-strategie.md 8g GEMESSEN 08:20, pruef-ablauf.md E (14.11.). |
+| 08:02 | Frage des Nutzers: aus dem Rechenkern eine kleine KI basteln? -> noch OFFEN (Vorschlag der Prüf-Sitzung: lernende Statistik im Spiel, schwere Rechnung ausserhalb, Modell erst bei vielen Fällen und nur wenn nachweislich besser). | Entscheid ausstehend. |
 | 01:38 | Gute Nacht – "wenn ich morgen hi sage, nehmen wir den Faden genau hier wieder auf". | auftraege/morgen-uebersicht-2026-11-14.txt (Einstieg bei "hi"). |
 | 01:23 | Sparsam (Wochen-Nutzung ca. 32 %), aber es darf nicht zum Stillstand kommen. | AHSentinel: weiterarbeiten, Weck-Runde 30 Min., kurze Berichte, kleine abgeschlossene Versionen; Prüf-Sitzung nachts alle 30 Min. |
 | 01:19 | AHSentinel die Nacht durcharbeiten lassen – morgen früh soll alles fertig sein. | offen-ahsentinel.txt zuoberst NACHT-ARBEIT; Prüf-Sitzung prüft die Nacht durch (5-Min.-Runden). |

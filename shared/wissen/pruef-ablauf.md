@@ -76,6 +76,10 @@ für JEDE neue Version jedes Projekts (auch für die geplante Nachprüfung).
   ergänzen (Abschnitt E), damit er nicht wieder durchrutscht.
 
 ## E. Prüfregeln aus Fehlern (fortlaufend)
+- 14.11. Trefferquote "69 %" für die Preisstufen genannt – mit denselben Fällen gelernt und geprüft (zu optimistisch, ohne
+  eigenen Fall 66 % bei Grundlinie 58 %). Und ein Schlangen-Modell vorgeschlagen, ohne es vorher an den Daten zu prüfen
+  (widerlegt). REGEL: Jede Vorhersage-Güte nur OHNE den eigenen Fall (leave-one-out oder zeitlich getrennt) nennen, immer
+  mit Grundlinie ("immer nein sagen") daneben. Jede Modell-Idee erst an den Daten prüfen, dann vorschlagen.
 - 13.11. Sniper zählte gescheiterte Käufe, Budget verdoppelt nach Zurücksetzen -> bei jeder Sniper-Änderung Zähler und
   Budget über Fehlkauf, Zurücksetzen und Nachfüllen nachrechnen.
 - 13.11. Tooltip-Zeilen widersprachen sich (8s 46c vs. 3s 73c) -> alle Zeilen eines Tooltips gegeneinander prüfen.
