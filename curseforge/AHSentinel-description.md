@@ -12,6 +12,14 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.177
+
+- **Disenchant tooltip:** materials are shown plainly again, following the WoW Forever reference – e.g. "1–2 Vision Dust
+  75 %" with the price per piece. No more calculation details ("× Ø", "Scan"); your own disenchants keep being learned in the
+  background.
+- **Test and measuring functions only for development:** test routine, self test, self checks, diagnostic log and timing
+  measurements no longer run for normal players – less CPU time and memory.
+
 ### Version 0.65.176
 
 - **More thorough sniper check (`/ahs testroutine sniper`):** at the open auction house the test now watches your own
@@ -41,17 +49,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   price it shows "–" (the tooltip says how many). Profit and % never have different signs.
 - **"Today":** rows that turned out "no longer worth it" are no longer shown; the flip part calculates in smaller steps.
 - Full scan: slow event handlers of AHSentinel are now measured and named at the longest frame (to find the remaining stutter).
-
-### Version 0.65.172
-
-- **Market tab simpler:** only "Today" and "Disenchant" are shown – Flip, Vendor, Gaps, Crowded and Trends are not backed by
-  your own data yet and are hidden (option "Market: all views (experts)"). A sentence on top: only what pays off with your data.
-  Test T723.
-- **Disenchant:** groups you have not measured yet are extrapolated from your own disenchants (all measured groups together,
-  at most +10 %, from 100 disenchants on) and marked grey "extrapolated from n own disenchants". Test T724.
-- **"Today":** sorted by profit again after quantities were limited; calculates in smaller steps (less stutter). Interface
-  "worth up to" returns the same value as the tooltip (also for vendor/auction way). Best recipes are not recalculated twice
-  within 2 seconds. Tests T725, test routine fixes.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
