@@ -1,0 +1,22 @@
+AHSentinel 0.65.156 – NP152-1..4 – umgesetzt, zur Prüfung (NP152-3 teilweise)
+
+Hinweis Reihenfolge: Prüfung 1033c37 (SK1-B1, S2-B1 … VOR NP152) kam, während 0.65.156 schon im Gesamtlauf war – Version
+abgeschlossen; SK1-B1/B2/B3 und S2-B1/B2/B3 folgen jetzt als 0.65.157.
+NP152-1: db.flowStart[ch] = erster gemessener Geldfluss je Figur; FlowGaps vergleicht Buchungen erst ab Messbeginn (Teil-Tag),
+  Umsatz je Tag nur für Tage in db.flow. TR T694 (alte Buchungen 100'000 und Verkauf vor Messbeginn zählen nicht; Lücke 0,
+  Umsatz 1000).
+NP152-2 + A7: Nachhaken TakeInboxMoney/AutoLootMailItem -> BK:OnTakeMoney: Rechnung (GetInboxInvoiceInfo seller) gegen
+  Post-Geld (GetInboxHeaderInfo money): A7-Zähler "= Kaufpreis − Gebühr + Anzahlung / = Kaufpreis − Gebühr / anders" (Bericht
+  "A7 Post-Geld je Verkauf"); am passenden Verkauf e.tm (Abholzeit) und bei "mit Anzahlung" e.dr. Geldfluss je Tag nutzt
+  tm (sonst ti) und zählt dr mit; SK1-b ebenso. TR T695 (Rechnung heute, morgen 1100 abgeholt -> zählt morgen 1100).
+NP152-3 (teilweise): Vollscan-Müll weiter gesenkt – Digest nutzt die Tabellen des VORLETZTEN Scans (PD5a bleibt: der letzte
+  gilt bis zum Ende), Compare/CompareQty ohne Tabelle je Signatur, TrackedSet/EncodeSigs mit Hilfslisten, realcheck "Lohnt bis"
+  10 reihum statt 40 (eine Prüfung ~160 KB). s92 jetzt mit drittem Scan, ohne Bereinigung gemessen: neu angelegt 13,8 MB
+  (vorher > 60 MB), bleibend 4,1–4,3 MB (Preisverlauf + doppelter Puffer), längste Hintergrund-Portion 9 ms.
+  Ziel 10 MB NICHT erreicht – Rest: cache:today ~2,9 MB, cache:itemlist ~2,4 MB, Track ~2 MB, realcheck ~1,6 MB. s92 prüft als
+  Regressionsgrenze 15 MB und meldet das 10-MB-Ziel als "noch nicht erreicht". Im Sim gibt es einen 46-ms-Frame im Nachlauf
+  ausserhalb der Aufgaben (nicht GC – auch mit gestoppter Bereinigung); Ursache noch offen.
+NP152-4: Hinweis-Zeilen = max(Breite × 1,1 / Feldbreite, gemessene Höhe / Zeilenhöhe) mit Umbruch; T669 um Hinweis knapp unter
+  2 Zeilen + langes Schlusswort erweitert (-> nur Tooltip).
+Selbstkontrolle: A7 im Bericht, Tagesbilanz (SK1-e) nutzt die neue Tageszuordnung; Vollscan (SK1-h) misst je Scan im Spiel.
+Gesamtlauf 248/248 (s92 nach Umbau der Messung einzeln grün), addon_check OK.
