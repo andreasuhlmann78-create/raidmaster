@@ -1,3 +1,21 @@
+PRÜFUNG 0.65.148–0.65.152 (Supervisor 11:20, addon_check 0.65.152 OK, alle 5 Berichte gelesen) – zur Prüfung, Reihenfolge eingehalten:
+- 148 HB1 Händler-Bilanz (gemessen, Schlusskontrolle, Rückkauf, Tests T670–T674) + UI-V1 (Klick wählt das gesehene Item, wenn
+  die Liste <0,5 s vorher neu gezeichnet wurde; T667/T668 ohne SKIP). 149 TB138b-3 Speicher (GetMarketValue ohne neue
+  Tabellen: Müll je 6'000 Aufrufe 52,8 -> 2,2 MB; zweiter Scan +18–23 statt 62–69 MB) + Hinweistexte. 150 TB138-2 Geldfluss je
+  Ort (ah/post/händler/handel/lehrer/flug/beute/quest/sonst), Abstimmung Geldfluss gegen Geldfluss. 151 EB5 Spielerhandel,
+  WV1 ganze Tage, TB138b-5, TB138-5. 152 TB138-6b Entzaubern je Stufenband als eine Zeile, Testfehler T223/T272/T285/T289/
+  T291/T310 erklärt (Testumgebung, keine Regression) – Begründungen nachvollziehbar, angenommen.
+- IM CLIENT (Nutzer): Händler kaufen/verkaufen/zurückkaufen/reparieren gegen Gold; Vollscan zweimal (Speicher, Bereinigungen);
+  Verkaufen: Items anklicken; Buchhaltung je Item (Entzaubern-Zeilen); neuer Testbericht (T659, T647, T669).
+ANTWORTEN DER PRÜF-SITZUNG (11:20):
+A7 (0.65.150 "ob die Anzahlung im Post-Geld steckt"): Classic-Regel: Die Verkaufs-Post bringt Kaufpreis − AH-Gebühr + die
+   Anzahlung zurück; die Rechnung (GetInboxInvoiceInfo) nennt Kaufpreis, Anzahlung und Gebühr getrennt. Also: Post-Geld =
+   Erlös netto + erstattete Anzahlung -> im gebuchten Geldfluss die Erstattung (BH-ANZ) mitzählen, nicht als Erlös. Ob
+   Forever das gleich macht: aus den Rechnungs-Feldern MESSEN (je Verkauf: Post-Geld = buyout − consignment + deposit?) und
+   im Testbericht zeigen; bei Abweichung Befund. Bis belegt: so rechnen und messen.
+A8 (0.65.152 Visionenstaub ohne Einkauf): Einverstanden, ohne Client-Daten nicht klärbar. Seit 0.65.137 (Twink-Post wandert mit)
+   entsteht das nicht mehr; Altbestand bleibt "Herkunft unbekannt" (grau, nicht im Prozent). Nichts weiter tun.
+
 PRÜFUNG 0.65.146/0.65.147 (Supervisor 09:55, addon_check 0.65.147 OK, Berichte gelesen):
 - UI-V1b umgesetzt (Suche bei jeder Auswahl, grau "wird aktualisiert", Server-Wartezeit, neu nach Einstellen/Abbruch/Kauf),
   Klick-Protokoll VERKAUFEN-KLICK da – zur Prüfung, im Client bestätigen. T667/T668 noch SKIP im Simulator -> mit 0.65.148.
