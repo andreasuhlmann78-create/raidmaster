@@ -1,0 +1,20 @@
+AHSentinel 0.65.166 – Halten-Verlust (Entscheid Supervisor 15:15) – umgesetzt, zur Prüfung
+=========================================================================================
+- Lager-Posten (db.books.cb) bekommen zwei NEUE Felder dq (Stück aus Entzaubern mit gemerktem Preis) und dv (Summe der Preise
+  beim Entzaubern, brutto, aus A:RealPrice wie die Verteilung). Alte Posten bleiben unverändert (keine Felder, keine Schätzung).
+- Take nimmt dq/dv anteilig mit (3./4. Rückgabe), Post an eigene Twinks trägt sie weiter, Verkaufsbuchungen (ausstehend,
+  Rechnung, Rest-Rechnung) bekommen dq/dv.
+- Summary: je Item hold = Verkaufspreis brutto (anteilig für dq Stück) − dv; ByItem: row.hold, Gruppe g.hold.
+- Tooltip der Entzauber-Gruppe: "Preis gefallen seit dem Entzaubern −x" bzw. "gestiegen +x", nur wenn ≠ 0, grau, getrennt
+  von der einen Gruppen-Zahl (kein zweiter Gewinn). "Reparaturen je Gruppe" entfällt (Entscheid).
+- Test T705: Staub zu 400 / Essenzen zu 100 gemerkt, Staub für 300 verkauft, Essenzen für 100 -> Gruppe −100; alter Posten ohne
+  Preis -> keine Zahl. Selbstkontrolle: die Gruppen-Zahl prüft SK1-i (Gruppe = Erlös − Einsatz); der Halten-Wert ist nur
+  Information neben der Zahl, keine zweite Gewinnzahl.
+- Locales: 2 neue Schlüssel (alle Sprachen), CHANGELOG EN/DE.
+Grundsatz: Test T705 / SK1-i / Prüfung Supervisor.
+
+GRUNDSATZ NACHVOLLZIEHBAR (Nutzer 15:18, kam vor der Veröffentlichung): Tooltip der Entzauber-Gruppe hat unter der Zahl einen
+grauen Satz (14 Wörter): "Alles Gold aus den Verkäufen der Materialien minus dem Gold, das die entzauberten Teile gekostet
+haben." (alle Sprachen). Test T706 (Satz da, 4–20 Wörter). Für die Ketten (nur Testbericht) folgt der Satz mit der Anzeige nach
+der Freigabe.
+Volltest 250/250, addon_check OK.
