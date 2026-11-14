@@ -12,6 +12,11 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.129
+
+- **Less memory:** per-item caches (market value, sales rate, buyout) are limited and cleared every 10 minutes when
+  too large. The tempo test shows their size. Test T653.
+
 ### Version 0.65.128
 
 - **Sales forecast knows the price:** the chance to sell now comes from your real sales per price level (price
@@ -51,17 +56,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   goes onto the invoice (the goods are sold) instead of back into stock. If you already started 0.65.124, this is
   corrected once afterwards (backup kept). The repair only counts as done once it has run without errors.
 - The tempo test shows the price history tables. Tests T643, T644.
-
-### Version 0.65.124
-
-- **Accounting – profit only from confirmed sales:** auctions that sold but whose payment has not arrived by mail yet
-  ("pending") no longer count in profit; they are shown separately as "in transit". Pending entries older than 24 h
-  without an invoice are flagged in the tooltip.
-- **Invoices in large lots:** an invoice for e.g. 72 items now confirms several small pending entries of the same item
-  (summed by quantity) instead of booking a second sale.
-- **One-time repair:** pending entries already covered by an invoice that was booked as a new sale are marked "replaced
-  by invoice" (nothing deleted, a backup is kept). No more double counting between invoice and pending.
-- Test report: profit old/new, number of resolved entries, gold reconciliation since the start date. Tests T640–T642.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
