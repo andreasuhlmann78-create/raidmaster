@@ -21,7 +21,7 @@ PRÜFUNG 0.65.165 + 0.65.166 (Supervisor 15:55, addon_check 0.65.166 OK, Bericht
     gebündelt in WENIGE Versionen (eine Version je Block, je ein Testbericht – keine Einzel-Versionen pro Punkt):
     BLOCK 1 (sofort): BH-TT1 + BH-ANZ-S4 (Buchhaltung Tooltip/Prozent, siehe unten), DW-K1-B1 (Knopf frei bei offenem PS), TB170-1 (Heute sortieren), TB170-2 (Heute in Portionen),
        TB170-8 (Berufsfenster 0 Rezepte), TB168-10 (AH-Post abholen findet die Post nicht).
-    BLOCK 2: TB168-2 (SK1-c Sniper-Gold messen), SN-MAX1 (Zahl ohne Einheit = Kupfer), MR1-V (unzuverlässige Ansichten
+    BLOCK 2: TB168-2 (SK1-c Sniper-Gold messen), SN-MAX1 (Zahl ohne Einheit = Kupfer), SN-ALLE1 (Sniper prüft alle Ziele, siehe unten), MR1-V (unzuverlässige Ansichten
        ausblenden, Entzaubern hochgerechnet mit Hinweis), VK-1 (Reiter "Verkauft", Hauptzahl "Gold kommt").
        + HERSTELLUNGS-KETTEN LIVE (Nutzer 17:08: "die will ich auch"): Ketten Schritt 2 mit den VORGABEN 14:51 fertig, MH-1-Rest
        (eine Zahl mit ProfessionSentinel), Ke.LIVE erst EIN, wenn der Supervisor den Testbericht von Block 2 geprüft hat
@@ -51,6 +51,11 @@ VK-E1 NIEDRIG (zurückgestellt, Screenshots 17:19, nachgerechnet): Verkaufen-Fen
    nach Stückzahl statt nach Wert verteilt (buchhaltung.md: nach Wert). Summe bleibt gleich, nur die Aufteilung. Belegen oder beheben.
    Und: "Vorschlag" setzt genau das günstigste Angebot (1s 11c / 1s 34c). Feldstudie: 1–2c darunter verkauft in Minuten ->
    Vorschlag = günstigstes − 1c (gehört zu VS-1).
+SN-ALLE1 HOCH (Wunsch des Nutzers 17:47, Block 2): Stehen im Sniper mehrere Zeilen (Ziele), prüft er heute nur das gerade
+   aktive Ziel. Soll: ALLE Ziele der Liste werden der Reihe nach geprüft (reihum, eine Server-Suche nach der anderen im erlaubten
+   Takt – Server-Limit/Wächter wie T138 beachten, kein Ruckeln, Suchen in Portionen). Treffer bei irgendeinem Ziel -> goldenes Signal
+   wie bisher, Zeile des Treffers markiert; Kauf weiter nur per Klick, Budget und Max je Zeile gelten. Anzeige einfach: je Zeile
+   "zuletzt geprüft vor x Sek." Test: 3 Ziele, Treffer beim 3. -> erkannt ohne Umschalten; Server-Takt eingehalten; SK1-o je Ziel.
 BH-TT1 HOCH (Nutzer 17:14, Screenshot 0.65.171, "schlimmer geht es nicht mehr"): Der Tooltip über "Gewinn" in der Buchhaltung
    ist eine Textwand mit Formel, Kasse, Lager, Marktwert, "nicht realisiert", "160 Stück ohne Einkauf", "Verlust bei Entzaubern",
    "Grösster Verlust: Seelenstaub −7s 41c", "Gold seit Stichtag 4g 01s · Buchhaltung erklärt 12g 34s · nicht gebucht −8g 33s",
