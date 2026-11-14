@@ -12,6 +12,13 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.158
+
+- **Calculation core step 3a:** one "worth up to" across all ways (disenchant, resale in the AH, vendor) – the best safe
+  exit per item. The test report compares it with the numbers tooltip, market, bulk buy and sniper show today; all displays
+  switch over once the differences are explained. Test T696.
+- Auction house self-check also finds older bookings.
+
 ### Version 0.65.157
 
 - **Mail self-check fixed:** the mailbox check now counts every taken money by kind (AH sale, other AH mail, gold from
@@ -44,16 +51,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   while your own numbers are missing. The buy limit learns per price level: if a level does not reach the minimum profit,
   the limit is lowered there (never above 90 % of the value). If a disenchant material is in a wave (price falling), Sell
   shows "Wave: sell now". Tests T683–T685.
-
-### Version 0.65.153
-
-- **Calculation core learns with honest checking (step 1):** a new learning layer counts every sales result per item
-  group and price level (few cases -> towards prior knowledge, old cases count less). Each case is predicted first and only
-  counted afterwards – so it shows whether the prediction really hits. Test report "MARKT-KERN" (hits, baseline, Brier).
-  Nothing new is displayed yet. Tests T681, T682.
-- **Cancel reason:** cancelling an auction now counts as "undercut" based on the cheapest OTHER offer of the last search
-  (before, your own auction was often the cheapest -> never "undercut"). Test report: class 80–100 % before/since 0.65.128.
-  Test T680.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
