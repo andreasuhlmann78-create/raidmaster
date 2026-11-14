@@ -38,6 +38,24 @@ TEIL SERVER 0.65.174 (18:15): 56 OK · 3 FEHLER (S28, T72=TB174-1, T126 12,6 ms 
    übersprungen (Server-Abstand 3 Min.) -> TB172-2/TB174-2 offen. "Sniper-Takt 13 Suchen/Min." – zählen hier die Testsuchen mit?
    Für SN-ALLE1-2 nur echte Sniper-Suchen zählen und das im Text sagen. WIDERSPRUCH: Abschnitt "Lohnt bis (S3)" meldet 60/60 gleich,
    S28 im selben Bericht 15 von 20 mit zwei Werten – die beiden Prüfungen messen Verschiedenes; angleichen (TB170-10, Block 3).
+>>> SN-TEST2 HOCH – NUR DIES MACHEN (Nutzer 18:54: "der Sniper-Test soll um alles Wichtige erweitert werden … er soll nur dies
+    machen"). Alles andere ruht, bis SN-TEST2 umgesetzt und geprüft ist. Eine Version, dann Testbericht.
+    Erweiterung von "/ahs testroutine sniper" (SniperTest.lua, S1–S6 bleiben). Am offenen AH, echtes Spiel, kauft nichts ohne
+    Klick/Ja. Läuft mit den ZIELEN DES SPIELERS (falls vorhanden, sonst Test-Waren SPT.ITEMS). Neu:
+    S7 TAKT: während der Beobachtung echte Sniper-Suchen zählen (eigene Zeile, ausdrücklich "im Sniper-Test"): Suchen/Min. Ø und
+       höchster, Abstand zwischen zwei Suchen (Ø/max), Anteil Wartezeit auf den Server; Vergleich mit dem Server-Limit (H2 90/Min.).
+    S8 REIHUM: je Ziel Anzahl Suchen und längster Abstand – jedes Ziel mindestens alle (Anzahl Ziele × Ø-Abstand × 1,5) geprüft.
+    S9 TREFFER RICHTIG: Treffer nur bei Preis/Stück ≤ Max; "22" ohne Einheit = 22 Kupfer; Ware vs. Ausrüstung (Menge 1 bei
+       Ausrüstung); Standardwerte Budget 5g, Menge 1000 gesetzt; goldenes Signal kommt bei Treffer.
+    S10 GELD-SICHERHEIT: Budget und Menge stoppen genau; Zähler zählen nur bestätigte Käufe; nie Kauf ohne Raste/Taste; nie über
+       Max (SK1-o); beim echten S4-Kauf: Gold vorher/nachher = gebuchter Preis (SK1-c).
+    S11 PAUSEN: eigener Klick im AH pausiert den Sniper und er läuft danach von selbst weiter; fälliger Vollscan blockiert ihn und
+       er läuft danach weiter; Drosselung/Fehler vom Server -> langsamer, danach wieder schnell (gemessen).
+    S12 VERPASST: Treffer, die vor dem Kauf weg waren (andere schneller) mit Zeit vom Erkennen bis weg; Ø Reaktion des Spielers.
+    S13 RUCKELN: Bilder/s und längstes Bild während der ganzen Beobachtung, Ziel kein Bild > 33 ms.
+    ERGEBNIS OBEN im Bericht in 3–4 einfachen Sätzen (GRUNDSATZ NACHVOLLZIEHBAR), z. B. "Der Sniper prüfte 3 Ziele reihum,
+    Ø 45 Suchen/Min. (Server erlaubt 90). Jedes Ziel spätestens alle 5 s. 4 Treffer, 1 gekauft, 3 verpasst (andere schneller).
+    Kein Ruckeln." Dann Einzelheiten S1–S13 mit OK/FEHLER. Test in der Testroutine (Nachbildung) für S7–S13 zusätzlich.
 >>> TEST-DEV1 HOCH (Nutzer 18:19 "der Test sollte nur bei mir laufen"): Testroutine (/ahs testroutine …), Testbericht, Mess-
     und Diagnose-Teile (Vollscan-Messung, SK1-Selbstkontrollen, Takt-Zähler, Diagnose-Protokoll) laufen NUR beim Entwickler.
     Umsetzung ohne Namen im Code/Repo: versteckter Schalter "/ahs entwickler an|aus" (kontoweit in SavedVariables, Standard AUS).
