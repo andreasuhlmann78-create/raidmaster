@@ -64,7 +64,15 @@ TT-DE1 WIEDER AKTIV, ENDGÜLTIG (Nutzer 00:09 "halte dich bei den Materialien an
         1–2 Große Mystikeressenz     20 %  24s 56c
         1 Großer leuchtender Splitter  7 %  31s 56c
     Test: Gruppe mit gemessenen Spannen -> Text wie oben; ohne Messung -> Tabellen-Spanne; Summe "Entzaubern" unverändert.
-WEITER JETZT: TT-DE1 (klein), dann TEST-DEV1 (Test nur beim Entwickler), dann FERTIG-LISTE Block 2/3 wie oben.
+EK-X1 HOCH (Nutzer 00:12, Screenshot 0.65.176, Kaufen > Einkauf): Knopf "X" neben "Suchen" (Tooltip "Suche und Filter
+    zurücksetzen") – beim Klick passiert sichtbar nichts, dafür ruckelt es bei JEDEM Klick. Im Bild sind Suchtext, Stufe/iLvl,
+    "Alle Seltenheiten" und Kategorie "Alle" schon leer, die Liste (500 Einträge, 28 Seiten) bleibt gleich.
+    Soll: (1) X setzt Suchtext, Stufe/iLvl, Seltenheit, Kategorie UND die Ergebnisliste zurück (leere Liste bzw. Startansicht) und
+    zeigt das sichtbar; ist schon alles leer, ist X grau. (2) Kein Ruckeln: kein Neuaufbau aller Items im Klick – Liste aus dem
+    Zwischenspeicher bzw. in Portionen ≤ 8 ms. Im Testbericht: ms je Klick auf X/Suchen/Kategorie (Ziel kein Bild > 33 ms).
+    Prüfen, ob auch andere Klicks im Einkauf ruckeln (Kategorie, Seite, Favoriten). Test + Selbstkontrolle (UICheck: X wirkt,
+    Klickzeit gemessen).
+WEITER JETZT: TT-DE1 (klein), EK-X1, dann TEST-DEV1 (Test nur beim Entwickler), dann FERTIG-LISTE Block 2/3 wie oben.
 >>> (erledigt, siehe Prüfung oben) SN-TEST2 HOCH – NUR DIES MACHEN (Nutzer 18:54: "der Sniper-Test soll um alles Wichtige erweitert werden … er soll nur dies
     machen"). Alles andere ruht, bis SN-TEST2 umgesetzt und geprüft ist. Eine Version, dann Testbericht.
     Erweiterung von "/ahs testroutine sniper" (SniperTest.lua, S1–S6 bleiben). Am offenen AH, echtes Spiel, kauft nichts ohne
