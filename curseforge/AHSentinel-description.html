@@ -7,6 +7,15 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.176</h3>
+<ul>
+<li><strong>More thorough sniper check (<code>/ahs testroutine sniper</code>):</strong> at the open auction house the test now watches your own
+  targets (a test target if you have none) and measures: pace (searches per minute against the server limit of 90),
+  whether all targets get their turn, whether hits are correct (only up to the max price, marked gold), money safety
+  (nothing sent; for the test purchase gold before − after = booked price), pauses (the sniper resumes by itself),
+  missed hits and stutter (no frame longer than 33 ms). The result is at the very top of the report in a few plain sentences.</li>
+<li>Still nothing is bought without your wheel notch/key.</li>
+</ul>
 <h3>Version 0.65.175</h3>
 <ul>
 <li><strong>Sniper speed measured:</strong> each sniper session (from switching on to off) is measured – searches, average and highest
@@ -39,18 +48,7 @@
   "worth up to" returns the same value as the tooltip (also for vendor/auction way). Best recipes are not recalculated twice
   within 2 seconds. Tests T725, test routine fixes.</li>
 </ul>
-<h3>Version 0.65.171</h3>
-<ul>
-<li><strong>Less stutter after a full scan:</strong> the end of the scan measured the memory of ALL addons twice in one frame (several hundred
-  ms with large saved data). This now only happens in the speed test. Test T721.</li>
-<li><strong>Self-check gold:</strong> auction house and mailbox sessions now also measure the gold directly (start/end); money changes at an
-  open auction house are no longer attributed to a vendor visit that did not close properly. Test T719.</li>
-<li>Self-check: disenchanting is no longer counted as "craft without recipe" (the spell name is shown); the daily balance uses 1 %
-  of the turnover like the accounting; the disenchant button names what it would cover and tries other spots. Test T720.</li>
-<li>Test routine: a clear chat warning before it starts (about 2 minutes, please do nothing), a reminder if you open the mailbox
-  or auction house meanwhile, and the longest frame in the report. Test T722.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

@@ -12,6 +12,15 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.176
+
+- **More thorough sniper check (`/ahs testroutine sniper`):** at the open auction house the test now watches your own
+  targets (a test target if you have none) and measures: pace (searches per minute against the server limit of 90),
+  whether all targets get their turn, whether hits are correct (only up to the max price, marked gold), money safety
+  (nothing sent; for the test purchase gold before − after = booked price), pauses (the sniper resumes by itself),
+  missed hits and stutter (no frame longer than 33 ms). The result is at the very top of the report in a few plain sentences.
+- Still nothing is bought without your wheel notch/key.
+
 ### Version 0.65.175
 
 - **Sniper speed measured:** each sniper session (from switching on to off) is measured – searches, average and highest
@@ -43,17 +52,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **"Today":** sorted by profit again after quantities were limited; calculates in smaller steps (less stutter). Interface
   "worth up to" returns the same value as the tooltip (also for vendor/auction way). Best recipes are not recalculated twice
   within 2 seconds. Tests T725, test routine fixes.
-
-### Version 0.65.171
-
-- **Less stutter after a full scan:** the end of the scan measured the memory of ALL addons twice in one frame (several hundred
-  ms with large saved data). This now only happens in the speed test. Test T721.
-- **Self-check gold:** auction house and mailbox sessions now also measure the gold directly (start/end); money changes at an
-  open auction house are no longer attributed to a vendor visit that did not close properly. Test T719.
-- Self-check: disenchanting is no longer counted as "craft without recipe" (the spell name is shown); the daily balance uses 1 %
-  of the turnover like the accounting; the disenchant button names what it would cover and tries other spots. Test T720.
-- Test routine: a clear chat warning before it starts (about 2 minutes, please do nothing), a reminder if you open the mailbox
-  or auction house meanwhile, and the longest frame in the report. Test T722.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
