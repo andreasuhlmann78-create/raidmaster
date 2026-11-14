@@ -70,8 +70,9 @@ EK-X1 HOCH (Nutzer 00:12, Screenshot 0.65.176, Kaufen > Einkauf): Knopf "X" nebe
     Soll: (1) X setzt Suchtext, Stufe/iLvl, Seltenheit, Kategorie UND die Ergebnisliste zurück (leere Liste bzw. Startansicht) und
     zeigt das sichtbar; ist schon alles leer, ist X grau. (2) Kein Ruckeln: kein Neuaufbau aller Items im Klick – Liste aus dem
     Zwischenspeicher bzw. in Portionen ≤ 8 ms. Im Testbericht: ms je Klick auf X/Suchen/Kategorie (Ziel kein Bild > 33 ms).
-    Prüfen, ob auch andere Klicks im Einkauf ruckeln (Kategorie, Seite, Favoriten). Test + Selbstkontrolle (UICheck: X wirkt,
-    Klickzeit gemessen).
+    NUTZER 00:13: Ruckeln NUR beim X (andere Klicks ok). Und: die offene Favoriten-Liste (Menü "+ Aktuelle Suche speichern /
+    Rüstung, ab Grün") geht beim Klick auf X nicht zu – X muss ein offenes Favoriten-Menü schliessen (wie Klick daneben / Esc).
+    Test + Selbstkontrolle (UICheck: X wirkt, Favoriten-Menü zu, Klickzeit gemessen).
 WEITER JETZT: TT-DE1 (klein), EK-X1, dann TEST-DEV1 (Test nur beim Entwickler), dann FERTIG-LISTE Block 2/3 wie oben.
 >>> (erledigt, siehe Prüfung oben) SN-TEST2 HOCH – NUR DIES MACHEN (Nutzer 18:54: "der Sniper-Test soll um alles Wichtige erweitert werden … er soll nur dies
     machen"). Alles andere ruht, bis SN-TEST2 umgesetzt und geprüft ist. Eine Version, dann Testbericht.
