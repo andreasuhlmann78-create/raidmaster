@@ -1,0 +1,16 @@
+AHSentinel 0.65.162 – DW-K1 Entzaubern-Knopf am Berufsfenster – umgesetzt, zur Prüfung
+
+Neu DEButton.lua (nach DEWindow.lua): Knopf "Entzaubern (n)" am Berufsfenster (TRADE_SKILL_SHOW, 0,1 s später platziert;
+  TRADE_SKILL_CLOSE versteckt). NUR dieser Knopf, kein automatisches Öffnen. Klick = DW:Show() (Kampf: gesperrt wie bisher).
+- n = #DW:Queue() (gleiche Regeln wie das Entzauber-Fenster: Sperrliste, übersprungene, Ausrüstungs-Sets, Quest, grün–violett);
+  gezählt bei TRADE_SKILL_SHOW und BAG_UPDATE_DELAYED (Zwischenspeicher, kein Rechnen beim Zeichnen). n = 0 -> Text grau.
+- Platz: rechts am Knopf "Alle erstellen" (alt TradeSkillCreateAllButton, neu ProfessionsFrame.CraftingPage.CreateAllButton),
+  links daneben, wenn der Knopf innerhalb des Fensters bleibt und KEINEN sichtbaren Button/EditBox des Fensters und kein
+  ProfessionSentinel-Fenster überlappt (Rechteck-Prüfung); sonst Rückfall unter das Berufsfenster (ausserhalb).
+- Selbstkontrolle SK1-j "Entzaubern-Knopf": bei jedem Öffnen Knopf sichtbar und frei, n = Zahl des Entzauber-Fensters;
+  Testroutine Bereich Q (TSK1j).
+Test T700 (Ersatz-Fenster): 3 Teile -> "Entzaubern (3)" neben Alle erstellen, frei; Platz besetzt -> unter dem Fenster, frei;
+  0 Teile -> "(0)"; Klick öffnet das Entzauber-Fenster 1×. Im Kampf: DW:Show sperrt (unverändert, im Sim nicht nachstellbar
+  ohne Blizzard-Funktion zu ersetzen). Locales alle Sprachen, CHANGELOG EN/DE.
+Im Spiel bitte prüfen (Supervisor/Nutzer): Lage des Knopfs im Berufsfenster (Forever modern + Era alt), Testbericht SK1-j.
+Gesamtlauf 249/249, addon_check OK. Weiter: T131-1, dann S3b (mit S3-2 Braune Leinenhose).
