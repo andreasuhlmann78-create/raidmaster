@@ -1,0 +1,10 @@
+Bericht AHSentinel 0.65.135 – EB4 Händlerkauf
+Stand: 14.11.2026 · Status: umgesetzt, zur Prüfung
+- Nachhaken an BuyMerchantItem (hooksecurefunc, Blizzard unverändert, nur lesen): BK:OnMerchantBuy(index, qty) liest
+  Item und Preis je Stapel (GetMerchantItemInfo/Link über BK:MerchantInfo), bucht Einkauf (k "buy", src "vendor") und
+  legt die Ware mit Herkunft "vendor" ins Lager. Nicht während der Testroutine (ausser Ersatztabelle). Eigenbedarf
+  (anlegen) erkennt EB1 weiter. Gold-Abstimmung: Händlerkäufe sind jetzt erklärt.
+- Nicht erfasst: Käufe mit anderer Währung (Preis 0), Rückkauf/Verkauf an Händler (bleibt wie bisher), Spielkosten
+  (Reparatur, Training, Flug) und Einnahmen (Quest, Beute) – nächster EB-Teil (EB3/EB5 Spielerhandel danach).
+- Aufgeräumt: doppelte Definition BK:DepositWord entfernt (gleicher Inhalt).
+- Test T658 T-EB4 – PASS. Gesamtlauf 246/246 Szenarien, addon_check OK.
