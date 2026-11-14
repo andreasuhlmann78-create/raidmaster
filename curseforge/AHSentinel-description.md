@@ -12,6 +12,13 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.154
+
+- **Calculation core step 2:** market tables (recalculated daily) now ship with the addon and serve as prior knowledge
+  while your own numbers are missing. The buy limit learns per price level: if a level does not reach the minimum profit,
+  the limit is lowered there (never above 90 % of the value). If a disenchant material is in a wave (price falling), Sell
+  shows "Wave: sell now". Tests T683–T685.
+
 ### Version 0.65.153
 
 - **Calculation core learns with honest checking (step 1):** a new learning layer counts every sales result per item
@@ -45,14 +52,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   mail, vendor, player trade, trainer, flight master, loot, quest, other). Measured trading cash flow is reconciled against
   booked cash flow – money outside trading (quests, loot, trainer, flights) counts as explained. The test report lists the
   largest gaps per day with their places. Test T676.
-
-### Version 0.65.149
-
-- **Less stutter after the full scan:** the market value calculation no longer creates helper tables per item. A scan now
-  leaves about two thirds less memory garbage (test: 65 MB -> 18–23 MB), fewer garbage collections, and memory hardly grows
-  per scan. Same values as before (6000 items compared). Test T675.
-- **Sell:** notes are no longer cut off – as many as fully fit in 2 lines are shown, the rest in the "(i)" tooltip.
-  "Far too expensive – sells at …" instead of "Price 120x above market".
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
