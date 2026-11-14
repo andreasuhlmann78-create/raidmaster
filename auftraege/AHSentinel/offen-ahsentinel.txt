@@ -13,6 +13,13 @@ S3-2 MITTEL (Fall des Nutzers 14:05, für S3b – nachgerechnet mit Scan 13:48):
    falsch rot. S3b: Tooltip zeigt EINE Zahl = bester Weg, den DIESER Spieler gehen kann (Rezept bekannt -> Herstellen mit
    Materialkosten), Zeile "bester Weg: herstellen + entzaubern". Test T-S3b: Rezept bekannt -> +31c grün; ohne Rezept -> Kauf-Weg.
    Selbstkontrolle: LohntCheck zählt Items mit zwei verschiedenen Gewinnen in Tooltip/Beste Rezepte -> 0.
+   ZIEL DES NUTZERS dazu (14:08): "Es gibt mehr Möglichkeiten für ein Geschäft mit Marge 20–30 %" – die Kette Kaufen -> Herstellen
+   (auch Zwischenprodukte, z. B. Stoff -> Ballen) -> Entzaubern/Verkaufen ist ein eigener Weg. Gehört zu RK1/RK3
+   (anweisung-markt-reiter.txt) und wird mit S3b/S5 gebaut: (a) mehrstufige Ketten über ALLE bekannten Rezepte (Kreise verhindern),
+   (b) je Zutat "lohnt bis" über die beste Kette (Leinenstoff: Schwelle ≈ 30c, mit 20 % Mindestgewinn ≈ 26c), (c) im Markt-Reiter
+   eine Liste "Herstellen" mit den Ketten ≥ 20 % Gewinn, Einkaufsliste und Absatz-Prüfung (Material-Menge je Tag), (d) gelernt wird
+   der Weg "craft" aus bestätigten Buchungen (L1). Testfall: genau dieses Beispiel (4 × 25c + 10c -> Hose -> Entzaubern ≈ +22c).
+
 
 S3-1 MITTEL (vor S3b)  K:LohntBis Weg "haendler": offer("haendler", v) = Händlerpreis selbst. Kauf zum Händlerpreis bringt 0 Gewinn
    – "Lohnt bis" muss auch hier den Mindestgewinn abziehen (Händler-Marge 20 % wie im Testbericht "Kauf-Sicherheit": v / 1,2,
