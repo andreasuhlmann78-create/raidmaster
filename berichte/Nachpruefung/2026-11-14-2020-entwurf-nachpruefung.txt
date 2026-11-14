@@ -1,0 +1,106 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+BERICHT NACHPRÜFUNG AN DIE PRÜF-SITZUNG
+Stand: 14.11.2026 20:20 · Sitzung: geplante Nachprüfung · Basis-Commit: d0f106f
+Nichts in auftraege/**, nachrichten-log.txt oder nachpruefung-stand.json geschrieben, keine Nachricht an den Nutzer verschickt.
+
+GEPRÜFT
+- AHSentinel 0.65.175 und 0.65.176 (neu seit Stand 0.65.174). Diff 0.65.174 -> 0.65.176.
+- Alle anderen Projekte unverändert: BuffSentinel 0.9.21, GuildSentinel 0.9.38, ProfessionSentinel 0.9.45, ThreatSentinel 2.5.13,
+  LevelPilot 3.12.31, RaidMaster 3.0.26, Bot 1.5.134, Uploader 2.3.9.
+- Gelesen: berichte/AHSentinel/2026-11-14-1831-0.65.175-sn-alle1-2.txt und 2026-11-14-1919-sn-test2-0.65.176.txt,
+  offen-ahsentinel.txt (SN-TEST2, TEST-DEV1, RUCKEL-1), nachricht-sniper-test2-2026-11-14.txt.
+- Doppelt vermieden: Testberichte 0.65.173/0.65.174 (Haupt + Teil server) hat der Supervisor 18:13/18:15 ausgewertet
+  (TB174-1, TB174-2, SN-ALLE1-2) -> nur erwähnt. Keine neuen Testberichte (JSON) zu 0.65.175/0.65.176.
+- Neue Diagnose-Dateien seit dem Stand: AHSentinel 0.65.175 (2), GuildSentinel 0.9.38 (5), ProfessionSentinel 0.9.45 (3) und
+  0.9.32 (1, alt), ThreatSentinel 2.5.13 (3), LevelPilot 3.12.30 (3). Überall 0 Lua-Fehler.
+  Hinweis: LevelPilot-Diagnosen stammen von 3.12.30, veröffentlicht ist 3.12.31 (Spieler noch nicht aktualisiert?).
+- Hinweis Stand-Datei: "testberichte_bis": "0594f3d" ist nicht auflösbar (schon im Entwurf 17:20 gemeldet). Vorschlag: d0f106f.
+- Versehen dieses Laufs: "python3 addon-check/testberichte.py --help" führt die Auswertung aus (kein Hilfetext) und ändert
+  testberichte/status.json/.md. Sofort mit git checkout verworfen, nichts committet. Vorschlag fürs Prüfsystem (NIEDRIG):
+  --help abfangen, damit der Aufruf aus der Routine-Anweisung nichts verändert.
+
+ERGEBNIS AHSENTINEL 0.65.175 + 0.65.176
+addon_check 0.65.176 (mit lupa, Lua 5.1): OK, 0 FEHLER, 0 WARNUNGEN. GoldSentinelGame/Test/Sync/CmdHint byte-gleich mit shared/,
+GoldSentinelDev.lua unverändert. Locales: 1 neuer Schlüssel "vor %d s" in allen 10 Dateien, Platzhalter gleich.
+CHANGELOG EN/DE für 0.65.175 und 0.65.176 vorhanden. Kein Taint: Ersetzt werden im Test nur eigene Funktionen (Sn.*, A.IsScanning,
+A.Buy.Blocks, A.Seller.HasWork, A.Watcher.IsBusy), alle danach zurückgestellt; A.pace (gap/errors/answers) wird nach T739
+zurückgesetzt. Keine Blizzard-Funktion ersetzt.
+Offline-Tests (tests/run_offline.sh, lua5.1) auf dem ZIP 0.65.176: s42_testroutine_auto PASS, s44_testroutine_sniper PASS (28 Checks;
+T617/T734 FEHLER nur in der Nachbildung mit 100-ms-Bildern, wie im Bericht beschrieben).
+
+Je Punkt (umgesetzt, zur Prüfung – Freigabe beim Supervisor):
+- SN-ALLE1-2: Sniper.lua:1466–1499 Sitzung zählt nur echte Sniper-Suchen (nicht in der Testroutine), je Kalenderminute; beim
+  Ausschalten als db.lastSession gespeichert (Sniper.lua:2318). Testbericht-Zeile SelfCheck.lua:372–376 (SessionText).
+  T727 erweitert (90 Suchen in 2 Min. -> höchster 60/Min., 3 Ziele) – richtig gerechnet. ABER siehe NP176-1.
+  Beleg aus dem Spiel (Diagnose 0.65.175, 19:06–19:16): jede Minute "SUCHEN Grenze erreicht: 80–85 in 60 s (max 90)" –
+  der Takt geht also an die Grenze, wie verlangt. Zahl im Testbericht steht noch aus.
+- SN-ALLE1-1: Sniper.lua:1513 "vor %d s". Gut.
+- TB174-1: Comfort.lua:969–989 "Preis gefallen" nur bei sellNow ≥ 1s UND > warten, höchstens 2 Zeilen. Der 1c-Fisch fällt weg.
+  Ob eine verbleibende Zeile ihren Knopf hat (T72 meldete "kein Knopf"), zeigt erst der nächste Testbericht -> IM CLIENT PRÜFEN.
+- SN-TEST2 (0.65.176, SniperTest.lua): S7–S13 gemessen (T728–T734), Nachbildung T735–T742, Ergebnis oben in Sätzen
+  (TestRoutine.lua:1251–1255, SniperTest:TopLines). Läuft mit den eigenen Zielen des Spielers, sonst SPT.ITEMS. Kaufen in der
+  Beobachtung gesperrt; S10 Gold-Abgleich nach S4 (GetMoney vorher/1,5 s nachher, exakter Vergleich SniperTest.lua:348).
+  Inhaltlich deckt es die Vorgabe offen-ahsentinel.txt Z. 41–58 ab. Freigabe erst mit dem Testbericht "/ahs testroutine sniper".
+- Zurückgestellt laut Repo und richtig nicht angefasst: RUCKEL-1/TB174-2, TEST-DEV1, BH-TT2, S28.
+- Gesamtlauf laut Bericht 249/250 (T459 Speicherbereinigungen 3–5) – gehört zu RUCKEL-1, nicht zu dieser Version.
+
+BEFUNDE
+NP176-1 MITTEL – Echte Sniper-Sitzung geht verloren, wenn die Testroutine den Sniper ausschaltet.
+   TestRoutine.lua:975–977: self.running = true wird VOR A.Sniper:SetArmed(false) gesetzt. SetArmed(false) ruft SessionEnd
+   (Sniper.lua:2318), und SessionEnd speichert nur, wenn NICHT InTestRoutine() (Sniper.lua:1489) – die ist dann schon true.
+   Folge: Wer den Sniper laufen lässt und direkt "/ahs testroutine" startet (der Bericht 0.65.175 sagt ausdrücklich, das gehe),
+   bekommt "noch keine echte Sniper-Sitzung" bzw. eine alte Sitzung – genau der Beleg für SN-ALLE1-2 fehlt dann.
+   Dasselbe bei /reload oder Ausloggen mit eingeschaltetem Sniper: self.sess liegt nur im Speicher, wird nie gespeichert.
+   Lösung: (a) in TestRoutine.lua erst SetArmed(false), dann running = true – oder SessionEnd speichert, wenn die Sitzung
+   ausserhalb der Testroutine begonnen hat (Flag in sess, z. B. sess.real = true in SessionNote); (b) bei PLAYER_LOGOUT
+   (AHAnalyzerPro.lua:4170) SessionStats als lastSession sichern. Test: T727 um "Testroutine schaltet aus -> lastSession
+   gesetzt" und "Logout -> lastSession gesetzt" ergänzen.
+NP176-2 NIEDRIG – S11 im Spiel meist SKIP. SniperTest.lua:619–627 gibt SKIP, wenn in den 120 s keine Pause vorkam; die
+   Nachbildung T739 prüft den AH-Klick nur in der Auswertung (SPT:Pauses), nicht das Verhalten des Snipers selbst.
+   Vorgabe S11 verlangt "eigener Klick im AH pausiert den Sniper und er läuft danach von selbst weiter". Lösung: während der
+   Beobachtung einmal im Chat auffordern ("Jetzt einmal im AH etwas suchen"), dann ist S11 im Spiel belegt; in T739 zusätzlich
+   eine eigene Spielersuche nachbilden (Ergebnis-Ereignis ohne eigene Suche -> Sniper wartet -> sucht danach selbst weiter).
+
+IM CLIENT PRÜFEN
+- "/ahs testroutine sniper" mit eigenen Zielen am offenen AH (Bericht steht aus) – S1–S13, Ergebnis oben.
+- Sniper-Takt: Sniper einige Minuten laufen lassen, MANUELL ausschalten (wegen NP176-1), dann Testroutine -> Zeile
+  "Sniper-Takt … letzte Sitzung" mit Ø und höchstem Takt.
+- TB174-1: T72 grün und "Preis gefallen"-Zeilen (falls vorhanden) mit Knopf.
+- Diagnose 0.65.175 19:24–19:37: Ziel 6393 meldet 13 Min. lang je Minute 5–9 "Treffer ≤ Max", "gekauft" bleibt 12; dazu
+  "SNIPER Treffer 39 · weg 39" (alle Treffer verschwunden, keiner gekauft). Frage an AHSentinel: Ist Menge/Budget von 6393
+  erreicht? Dann darf es kein Treffer und kein goldenes Signal sein (nur was Gold bringt). Sonst: Warum kam kein Kauf –
+  Spieler nicht da oder Signal fehlt? S12 im Sniper-Test soll das zeigen.
+- Weiter bekannt (nicht neu): cache:warm-today 152–178 ms bei Comfort.lua:1002 (PSCrafts) = TB157-1/PS-TC1; ui-refresh
+  206–250 ms (19:05) gehört zu RUCKEL-1.
+
+MARKT-KERN (letzter Testbericht 0.65.174, schon vom Supervisor gesehen): Weg snipe 2 Fälle, Treffer 100 %, mittlerer Fehler 49 %
+(Grenze ≤ 15 %, aber nur 2 Fälle, Weg "lernt" -> grau, keine Verletzung nach Ü2); flip/de/craft/vendor 0 Fälle; MA1 0 geprüft;
+kern_lohnt 60/50/10. Keine neuen Zahlen.
+
+VORSCHLAG FÜR DEN SUPERVISOR (nur übertragen, wenn bestätigt)
+1) offen-ahsentinel.txt, oben nach SN-TEST2 einfügen:
+   PRÜFUNG 0.65.175 + 0.65.176 (Nachprüfung 20:20, addon_check OK, Offline s42/s44 PASS): umgesetzt, zur Prüfung.
+   SN-ALLE1-1 gut. SN-ALLE1-2 und TB174-1 richtig gebaut, Beleg mit dem nächsten Testbericht. SN-TEST2 deckt S7–S13 ab,
+   Freigabe nach dem Bericht "/ahs testroutine sniper".
+   NP176-1 MITTEL (Text oben) und NP176-2 NIEDRIG (Text oben). Reihenfolge: nach dem Sniper-Testbericht, in der nächsten
+   Sniper-Version zusammen beheben (SN-TEST2 "nur dies" bleibt).
+2) addon-check/nachpruefung-stand.json: "AHSentinel": "0.65.176", "geprueft": "2026-11-14T20:20+01:00",
+   "testberichte_bis": "d0f106f".
+3) auftraege/nachrichten-log.txt:
+   2026-11-14 20:20 | AHSentinel | 0.65.175/176 nachgeprüft: NP176-1 MITTEL (Sniper-Sitzung geht beim Start der Testroutine
+   verloren), NP176-2 NIEDRIG – nur Repo | Nachprüfung | offen | -
+4) Nachricht zum Einfügen (falls der Supervisor sie schicken will):
+   NACHRICHT AN DIE AHSENTINEL-SITZUNG (zum Einfügen)
+   Erst laufende Arbeit fertig machen. Stand 14.11. 20:20, Nachprüfung 0.65.175/0.65.176: addon_check OK, SN-ALLE1-1 gut,
+   SN-ALLE1-2/TB174-1/SN-TEST2 umgesetzt, zur Prüfung (Testbericht ausstehend).
+   ZU TUN (nach dem Sniper-Testbericht, in der nächsten Sniper-Version):
+   1. NP176-1 MITTEL: TestRoutine.lua:975–977 setzt running vor SetArmed(false) -> SessionEnd (Sniper.lua:1489) speichert die
+      echte Sitzung nicht. Reihenfolge tauschen oder Sitzung mit Flag "echt" speichern; zusätzlich bei PLAYER_LOGOUT sichern.
+      T727 ergänzen.
+   2. NP176-2 NIEDRIG: S11 im Spiel zur eigenen Suche auffordern; T739 um eine nachgebildete Spielersuche ergänzen.
+   git pull --rebase und auftraege/AHSentinel/offen-ahsentinel.txt lesen; nach der Umsetzung Bericht in berichte/AHSentinel/.
+   Nächste Version 0.65.177, komplette Dateien, alte Clients nie brechen, alle Locale-Dateien, CHANGELOG EN/DE, vor dem Push
+   python3 addon-check/addon_check.py <ZIP> -> kein FEHLER. Ist ein Befund falsch, bitte begründet zurückmelden.
+
+Commit: dieser Entwurf (berichte/Nachpruefung/2026-11-14-2020-entwurf-nachpruefung.txt).
