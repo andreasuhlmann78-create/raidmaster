@@ -1,0 +1,46 @@
+ANWEISUNG AHSENTINEL – REGELN FÜR DEN RECHENKERN 0.66 AUS DEN MESSUNGEN VOM 14.11.2026
+=====================================================================================
+Von der Prüf-Sitzung, 14.11. 01:20. Gehört zu Prio 6 (0.66 RECHENKERN) in offen-ahsentinel.txt. Grundlage: eigene
+Nachrechnung aus den SavedVariables (PC 14.11. 00:43, Laptop deckungsgleich), Werkzeuge in addon-check/marktanalyse/,
+Einzelheiten in shared/wissen/markt-strategie.md 8g. Grundsatz des Nutzers: "Nur wer den Markt vorausahnen kann, macht
+richtig Gold – aber immer fundiert und belegbar." Im Spiel nur Ergebnisse ("lohnt / lohnt nicht", "verkauft sich",
+"zu teuer – bei x"), nie Rechenwege, Prozentregeln oder Faktoren (OR, DE30b).
+
+Stufen: BELEGT = darf die Anzeige bestimmen · HINWEIS = rechnen und messen, nicht anzeigen · OFFEN = nur Daten sammeln.
+
+R1 ENTZAUBER-WERT (BELEGT, 648 Entzauberungen)
+   Wert = Summe Beute / Summe Vorhersage je Gruppe – nie Median über Zufallsbeute (KF2). Gemessen 0,96 (26–30) und
+   0,95 (36–40): die Tabelle stimmt. Chance 1,03–1,05, Menge 0,96–1,00.
+R2 MINDESTGEWINN ENTZAUBERN JE GRUPPE (BELEGT, Entscheid des Nutzers 23:51) – wie in 0.65.122 umgesetzt:
+   gemessen gut 20 % · ungemessen und Tabelle verlässlich 20 % · Tabelle weicht ab 25 % · gemessen schlecht 30 %.
+   Gruppe = Stufenband + Qualität (welche Materialien herauskommen), Rüstung + Waffe zusammen.
+R3 SNIPER-HÖCHSTPREIS FÜR ENTZAUBER-ZIELE (BELEGT, 462 Käufe, +34 % gesamt)
+   Kaufpreis/Wert ≤ 0,7: +43–53 % · 0,7–0,8: +33 % · 0,8–0,9: +18 % · > 0,9: ≈ 0 % oder Verlust.
+   -> Max = Wert / (1 + Mindestgewinn der Gruppe), aber NIE über 0,9 × Wert (harte Grenze, SN-M).
+   Gewinn je Preisstufe laufend messen; fällt eine Stufe unter ihren Mindestgewinn, Grenze dort senken.
+R4 WELLEN JE STUFENBAND (BELEGT als Reihenfolge und Zeitpunkt)
+   Die Levelwelle wandert ca. 1 Band je 1–2 Tage nach oben; ein Band fällt beim Durchziehen auf 12–35 % des Startpreises,
+   danach seitwärts. Erkennung: Band-Index (Tagesmedian Staub/Essenz/Splitter bzw. Waren des Bands) 2 Tage nacheinander
+   > 15 % gefallen = "in der Welle" -> nicht kaufen/halten, zügig verkaufen; 3 Tage ±10 % = "durch".
+   Seit 11./12.11. sind alle Bänder durch. Nächste Welle VERMUTET zur Raid-Öffnung 9.12. (nur beobachten).
+R5 VERKAUFEN – DER PREIS ENTSCHEIDET (BELEGT als Richtung, 64 Einstellungen, fast nur Staub/Essenz)
+   Preis/Marktwert ≤ 1,00: 59 % verkauft · 1,10–1,25: 25 % · > 1,50: 15 %. Die alte Prognose sagt überall 80–100 % –
+   ersetzen durch Chance je Preisstufe und Warengruppe (PR1).
+R6 VERKAUFSKETTE STATT EINZEL-EINSTELLUNG (BELEGT, 32 Ketten)
+   Händler stellen 2 Std. ein (Nutzer). Abbruch = meist unterboten (Nutzer) -> Teil der Kette, kein Fehlschlag.
+   84 % der Ketten enden mit Verkauf, Median 1 Einstellung, ca. 20 Min.; wer neu einstellt, verkauft bei ca. 0,92 des
+   ersten Preises. Anzeige: "verkauft sich (meist sofort)" bzw. "bei x verkauft es sich". Abbruch-Grund im Moment des
+   Abbruchs festhalten (günstigeres fremdes Angebot?).
+R7 TAGESZYKLUS (HINWEIS – nicht anzeigen)
+   Bereinigt: vormittags +2 bis +4 %, abends 17–19 Uhr −2 bis −3,5 %; Gegenprobe nur 10/16 Stunden gleich. Weiter messen;
+   belegt erst nach ≥ 3 Wochen und ≥ 80 % gleicher Richtung. Spanne liegt nahe der Gebühr (5 %).
+R8 WOCHEN- UND MONATSZYKLUS (OFFEN – nur Daten sammeln)
+   Je Wochentag erst 1–2 Tage, überlagert vom Start-Einbruch. Woche frühestens nach 3–4 Wochen, Monat nach 2–3 Monaten
+   (Bot behält 90 Tage, KEEP90).
+R9 BUCHHALTUNG ALS GRUNDLAGE (BELEGT)
+   Gewinn nur aus bestätigten Verkäufen; Bücher = Kassenbuch je Item; Lager = wirklicher Bestand (BH-AUS-3). Lernwerte
+   (Gewinn je Weg, R2/R3) nur aus diesen Zahlen.
+
+Tests: je Regel ein Test mit den Messwerten oben als Prüffall (T-RK-R1 … T-RK-R9). Im Testbericht je Regel die aktuelle
+Messung und ob sie noch gilt (die Prüf-Sitzung wiederholt die Messungen jeden Montag).
+Ist eine Regel mit euren Daten nicht nachvollziehbar: begründet im Bericht melden, nicht still abweichen.
