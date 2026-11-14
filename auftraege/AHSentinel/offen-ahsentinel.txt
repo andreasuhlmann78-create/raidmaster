@@ -43,6 +43,12 @@ RM1 MITTEL (Auftrag des Nutzers 16:22 "Risikomanagement", Grundlage markt-strate
    Test je Regel (auch falsche Fälle); Selbstkontrolle: im Testbericht Anzahl gekürzter/gesperrter Vorschläge je Regel.
    VOR der Freigabe: Supervisor prüft an echten Buchungen (Nachspielen), dass die Regeln die Gewinne der Kette nicht abwürgen.
 
+PRÜFUNG 0.65.168 + 0.65.169 (Supervisor 16:35, addon_check beide OK, Berichte gelesen): SN-EIN1, SN-MAX1, BR-LEER1, VS-1,
+   EK-1-Korrektur (Gewinn erwartet = Erlös − Rückläufe − Einstand), SN-DEF1 umgesetzt, zur Prüfung im Client. Hinweis SN-MAX1: die
+   +0,5c Rundungs-Toleranz gilt je Stück auf den Durchschnitt – bei Max 22c ist Ø 22,4c erlaubt; so lassen (Rundung), aber im
+   Testbericht SK1-o den bezahlten Ø mit 1 Nachkommastelle zeigen.
+   Weiter: MR1-V (inkl. Hochrechnung Entzaubern, Entscheid 16:28), MH-1, FL-1, dann Ketten Schritt 2, RM1.
+
 MR1-V HOCH – VORGEZOGEN (Nutzer 16:25: "einige Dinge sind gar nicht hilfreich – haben wir in den letzten 48 Std. nicht besprochen,
    wie was anpassen?" – JA: Entscheid 13.11. 06:00 "Absatz nicht zuverlässig -> Flippen/Lücken/Überfüllt GESPERRT" und
    anweisung-markt-reiter.txt MR1 (13.11. 06:20): "Flippen, Lücken, Überfüllt, Händler, Trends als eigene Ansichten ENTFALLEN").
