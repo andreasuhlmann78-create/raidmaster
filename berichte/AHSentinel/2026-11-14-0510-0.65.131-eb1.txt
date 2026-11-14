@@ -1,0 +1,11 @@
+Bericht AHSentinel 0.65.131 – EB1 Eigenbedarf
+Stand: 14.11.2026 · Status: umgesetzt, zur Prüfung
+- BK:CheckOwnUse (nach PLAYER_EQUIPMENT_CHANGED, gesammelt nach 2 s, und 30 s nach dem Einloggen; nie während der
+  Testroutine): je Lager-Item der Figur so viele Stück, wie neu angelegt bzw. als Tasche eingesetzt sind
+  (GetInventoryItemID Plätze 1–23, BK:EquippedCount), werden aus dem Lager genommen und als Buchung "own" (Eigenbedarf,
+  Einstand) gebucht. db.ownEq merkt die gebuchten je Figur/Item (abgelegt -> wieder frei). Summary: s.ownUse/s.ownN –
+  nicht im Handelsgewinn. Buchhaltung optisch unverändert (EB-Entscheid 21:06); Zeile im Testbericht
+  "EB1 Eigenbedarf" (Feld buch_eigenbedarf).
+- Gold-Abstimmung: Eigenbedarf ist kein Gold-Fluss (der Kauf war schon ein Kauf) – unverändert richtig.
+- Nicht in dieser Version: verbraucht (Tränke), an Twink geschickt, Händler-/Spielerhandel (EB2–EB5), Details-Fenster
+  (EB7) und EB-DET. Test T655 T-EB1 – PASS. Gesamtlauf 246/246, addon_check OK.
