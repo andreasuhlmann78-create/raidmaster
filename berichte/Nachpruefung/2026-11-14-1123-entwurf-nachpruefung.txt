@@ -1,0 +1,117 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+Bericht der geplanten Nachprüfung – 14.11.2026 11:23 (Lauf ab 11:14)
+Nach VORRANG-Absatz: nichts in auftraege/, kein Log, kein Stand, keine Nachricht an den Nutzer. Nur dieser Entwurf.
+
+STAND
+- addon-check/nachpruefung-stand.json (Supervisor 09:55): AHSentinel 0.65.147, alle anderen unverändert.
+- Neu veröffentlicht seit dem Stand: NUR AHSentinel 0.65.148, .149, .150, .151, .152 (download/AHSentinel-0.65.152.zip).
+  BuffSentinel 0.9.21, GuildSentinel 0.9.38, ProfessionSentinel 0.9.45, ThreatSentinel 2.5.13, LevelPilot 3.12.30,
+  RaidMaster 3.0.26, Bot 1.5.132, Uploader 2.3.7: keine neue Version.
+- Hinweis: Im Projekt-Repo AHAnalyzerPro liegt schon 0.65.153 (Rechenkern S1 + TB138-4), noch NICHT in raidmaster/download –
+  nicht geprüft, kommt mit dem nächsten Lauf.
+- DOPPELT VERMIEDEN: Der Supervisor hat 0.65.148–0.65.152 um 11:20 geprüft (Commit b2127f4, Log-Zeile 11:20, offen-ahsentinel.txt
+  "PRÜFUNG 0.65.148–0.65.152", Antworten A7/A8). Dieser Entwurf wiederholt das nicht, sondern bringt nur, was die eigene
+  Nachprüfung ZUSÄTZLICH gefunden bzw. unabhängig nachgerechnet hat.
+- Gelesene Berichte: berichte/AHSentinel/2026-11-14-0952-0.65.148, -1017-0.65.149, -1033-0.65.150, -1049-0.65.151,
+  -1107-0.65.152 (dazu die schon geprüften 1030-0.65.144 und 1120-0.65.145).
+
+PRÜFUNGEN (eigene)
+- addon_check (mit lupa, Lua 5.1): 0.65.148, .149, .150, .151 (aus der git-Geschichte) und .152 je OK, 0 FEHLER, 0 WARNUNGEN.
+  Sprachtest: neue Schlüssel "Viel zu teuer – verkauft sich bei %s", "Entzaubern %s" in allen 10 Locale-Dateien, Platzhalter gleich.
+- diff -r 0.65.147 -> 0.65.152 (1411 Zeilen; AHAnalyzerPro, Books, Disenchant, Learn, MarketCore, UI_Ledger, UI_Main, UI_Sell,
+  Waves, TestRoutine, Locales, CHANGELOG EN/DE) vollständig gelesen.
+- UNABHÄNGIG NACHGERECHNET – Marktwert (Grundlage für "Lohnt bis", RK1): alte (0.65.147) und neue (0.65.152) A:GetMarketValue in
+  lupa nebeneinander geladen, 20'000 Zufalls-Verläufe (0–40 Einträge, Mondpreise ..9999, 0-Preise, Lockangebote q 1–2, Flags,
+  ältere/neuere Zeilen, Halbwertszeit): 0 Abweichungen (19'306 Fälle mit Wert). Die TB138b-3-Umstellung ändert die Rechnung nicht.
+  Pufferwiederverwendung geprüft: idx/spare tauschen sauber, Liste vor dem Sortieren auf m gekürzt, kein Rückruf in
+  GetMarketValue aus IsOddPrice (keine Wiedereintritts-Gefahr).
+- Disenchant.lua 205–207: neue Positionen von pcall(GetItemInfo) (quality 4, ilvl 5, equipLoc 10, classID 13, subClassID 14)
+  stimmen mit der alten info[]-Liste überein.
+- Alte Clients: Books.lua SlotItem – Rückfall GetContainerItemInfo (count Pos. 2, link Pos. 7, itemID Pos. 10) richtig;
+  NUM_REAGENTBAG_SLOTS nil -> 0; alle neuen Ereignisse mit pcall registriert. Keine Blizzard-Funktion/C_-Tabelle ersetzt, auch
+  nicht in T670–T679 (Tests stubben nur BKx:Money/BagCounts bzw. eigene Funktionen).
+- Offline-Tests (tests/run_offline.sh aus Projekt-Commit eca6c90 = 0.65.152, gegen das ZIP): s42_testroutine_auto PASS (5/0),
+  s43_testroutine_server PASS (14/0), s92_fullscan_smooth PASS (9/0). Ausgabe zeigt "FAIL H T458 Vollscan ruckelfrei 54 ms" –
+  Zeitmessung in der Cloud-Maschine, zählt nicht (wie T139–T145).
+- Markt-Kern (2b): Keine neue Freigabe und keine Änderung an "Lohnt bis"/Freigaben in 148–152 (ausser Marktwert-Umbau, siehe
+  oben: gleiche Zahlen). Kein neuer Testbericht mit Abschnitt "MARKT-KERN" -> keine Zahlen gegen Ü2 zu prüfen.
+
+ZUSÄTZLICHE BEFUNDE (Vorschlag für offen-ahsentinel.txt, Abschnitt nach "PRÜFUNG 0.65.148–0.65.152")
+
+NP152-1 MITTEL  TB138-2 Ziel "Lücke ≤ 1 % des Umsatzes" wird verwässert.
+   Books.lua 962–975 (BookedFlowByDay) zählt den Umsatz "turn" über ALLE Buchungen seit db.since; FlowGaps (988) und
+   FlowTotals (1015: s.ok = |Lücke| ≤ max(100, turn × 1 %)) vergleichen aber nur die GEMESSENEN Tage (db.flow beginnt mit
+   0.65.150). Mit Wochen alter Buchhaltung ist der Umsatz viel grösser als der der gemessenen Tage -> die 1 %-Grenze ist zu
+   grosszügig, "ok" und das Prozent im Testbericht ("x % vom Umsatz") sind zu gut.
+   Dazu: Erster Messtag ist ein Teil-Tag (flowLast erst ab PLAYER_ENTERING_WORLD, 1038), gebucht wird aber der ganze Tag ->
+   künstliche Lücke am ersten Tag.
+   Lösung: Umsatz nur aus Tagen zählen, die in db.flow[ch] stehen; je Figur Messbeginn (Zeitpunkt) speichern und für den ersten
+   Tag nur Buchungen ab Messbeginn vergleichen. Test T676 erweitern: alte Buchungen vor Messbeginn (z. B. 100'000 Umsatz) ->
+   Prozent unverändert; Teil-Tag -> Lücke 0.
+
+NP152-2 MITTEL  TB138-2 Tageszuordnung (zu A7 des Supervisors): Verkauf zählt am Tag der Rechnung (e.ti, Books.lua 971), das
+   Gold kommt aber erst beim Abholen der Post (Ort "post"). Wird die Post an einem anderen Tag abgeholt, wandert die Lücke
+   von Tag zu Tag (Summe stimmt, Tagesliste nicht). Lösung: für die Abstimmung je Tag den Zeitpunkt des Abholens (Post-Geld
+   genommen, BR1-Nachhaken TakeInboxMoney) verwenden, sonst ti; zusammen mit A7 (erstattete Anzahlung im Post-Geld) messen.
+
+NP152-3 MITTEL  TB138b-3 nur teilweise: Die Testgrenzen sind schwächer als der Auftrag.
+   Auftrag (offen-ahsentinel.txt, TB138b-3): Speicher je Scan ≤ 10 MB, ≤ 1 Bereinigung, Einlesen/Preisverlauf in Portionen
+   ≤ 8 ms, zweiter Scan endet beim gleichen Speicher. Szenario s92 (tests/wowsim/scenarios_new.lua 6993–7000) prüft nur
+   "Lauf 2 längster Frame < 150 ms", "Einlesen ≤ 16 ms", "Speicher < 35'000 KB", "bleibend < 4'000 KB". Bericht 0.65.149
+   selbst: Müll zweiter Scan +18–23 MB (Ziel 10), Rest Digest ~9 MB, cache:today 7 MB, realcheck ~9 MB offen.
+   Client-Ausgangslage (testberichte/diagnose/AHSentinel/0.65.142-fe3e7d14673f.txt, neu seit 09:55, VOR dem Umbau): Vollscan
+   182'696 Auktionen, Lücke 165 ms, Speicher 343 -> 375 MB (+32 MB), 7 Bereinigungen; fullscan-Schritt 74 ms "bis Ende
+   fullscan"; cache:today:10 68 ms (Comfort.lua:843, gehört zu T373 c); core:realcheck 15–17 ms (MarketCore.lua:515).
+   Lösung: Grenzen in s92 auf den Auftrag setzen (Speicher Lauf 2 ≤ 10'000 KB, längster Frame ≤ 16 ms, Ziel 8), die drei
+   Rest-Posten (Digest-steps, cache:today, realcheck) angehen; im Client Vollscan zweimal und Testbericht "Vollscan-Messung".
+   Status: teilweise (Marktwert-Teil belegt, Rest offen).
+
+NP152-4 NIEDRIG  UI_Sell.lua 580 (SetWarnings): Zeilen je Hinweis = ceil(Textbreite / 440). Mit Wortumbruch (290
+   SetWordWrap(true)) braucht ein Text oft eine Zeile mehr, als die Breite sagt (Wort passt nicht mehr ans Zeilenende).
+   SetMaxLines(2) (294) schneidet dann die letzte Zeile ab – genau der Fall, den die Prüfung 09:55 (2) vermeiden wollte.
+   Lösung: Höhe messen statt Breite (warnMeasure:SetWidth(width), SetWordWrap(true), GetStringHeight / Zeilenhöhe) oder
+   10 % Reserve. T669 um einen Hinweis knapp unter 2 × 440 px mit langem Schlusswort erweitern.
+
+BESTÄTIGT (keine Befunde, zur Kenntnis für den Supervisor)
+- HB1 (Books.lua 729–905): Kauf/Verkauf/Reparatur/Rückkauf/Schlusskontrolle wie HB1-1 bis HB1-4 beauftragt; alte
+  Sofort-Buchung entfernt (OnMerchantBuy/OnRepair nur Hinweis), Testroutine schreibt nicht in echte Daten (Skip/InTestRoutine).
+  Split verteilt exakt (letzter Teil = Rest).
+- EB5 (Books.lua 1050–1110): Spieler-Einkauf mit Kostenbasis-Art "flip" wie ein AH-Kauf (Books.lua 166), Summe exakt.
+- UI-V1 (UI_Main.lua 847–855, 868, 1240): gesehenes Item wird gewählt, wenn innerhalb 0,5 s vor dem Klick neu gezeichnet;
+  Vergleich über idKey, robust auch mit der Zeilen-Wiederverwendung aus TB138b-3 (itemRowPool). Ursache bleibt Hypothese ->
+  IM CLIENT PRÜFEN (Klick-Protokoll VERKAUFEN-KLICK, t.redirects im Testbericht).
+- WV1 (Waves.lua 27–54): Fenster = 10 ganze Tage bis gestern, heute ausgeschlossen. Erledigt laut Code.
+- TB138-6 b (Books.lua 1265–1300, UI_Ledger.lua 197/208–215/562): Gruppenzeile, % nur aus Stücken mit Einkauf (gleiche Regel
+  AB6 wie je Item), Einzelzeilen im Tooltip; ByItem ohne zweites Argument unverändert.
+- Learn.lua 794–806 (TB138-5): A.Core = MK (MarketCore.lua 22), DE_MAX_SHARE 0,9 wird richtig gelesen.
+
+TESTBERICHTE (Schritt 4)
+- Neu seit 09:55: Commit 4d7cdbb (Diagnosen AHSentinel 0.65.142, BuffSentinel 0.9.18, GuildSentinel 0.9.36, ProfessionSentinel
+  0.9.43, ThreatSentinel 2.5.10) und 282b361 (nur status). Alle Diagnosen: 0 Lua-Fehler. Ältere Versionen als die aktuellen –
+  ausser den Vollscan-Zahlen in NP152-3 nichts Neues. Kein Abschnitt MARKT-KERN.
+- Stand-Vorschlag: testberichte_bis = 282b361 (der bisherige Wert cd7e422e existiert in der Geschichte nicht mehr –
+  vermutlich durch einen Rebase; bitte im Stand ersetzen).
+
+VORSCHLAG FÜR DEN SUPERVISOR
+1. NP152-1 bis NP152-4 in offen-ahsentinel.txt aufnehmen (NP152-3 als Ergänzung zu TB138b-3, NP152-2 zu A7).
+2. nachpruefung-stand.json: AHSentinel 0.65.152, testberichte_bis 282b361.
+3. Log-Zeile: "AHSentinel | Nachprüfung 0.65.148–152 (Entwurf 11:23): Zusatzbefunde NP152-1..4 (MITTEL/NIEDRIG)".
+4. Vorgeschlagene Nachricht an die AHSentinel-Sitzung (erst schicken, wenn der Supervisor freigibt):
+   ---
+   NACHRICHT AN DIE AHSENTINEL-SITZUNG (zum Einfügen)
+   Erst laufende Arbeit fertig machen. Stand 14.11. – Nachprüfung 0.65.148–0.65.152: Reihenfolge eingehalten, addon_check OK,
+   Marktwert-Umbau unabhängig nachgerechnet (20'000 Fälle, 0 Abweichungen) – danke.
+   ZU TUN (nach 0.66 S1, klein):
+   - NP152-1 MITTEL Books.lua 962–1015: Umsatz für das 1 %-Ziel nur aus gemessenen Tagen; Messbeginn je Figur, erster Tag ab
+     Messbeginn. T676 erweitern.
+   - NP152-3 MITTEL TB138b-3 Rest: s92-Grenzen auf den Auftrag (≤ 10 MB, ≤ 16/8 ms), Digest/cache:today/realcheck.
+   - NP152-2 MITTEL Tageszuordnung Post-Geld (Abholzeit statt ti), mit A7 messen.
+   - NP152-4 NIEDRIG UI_Sell.lua 580: Hinweis-Zeilen über die Höhe messen, nicht über die Breite.
+   git pull --rebase und auftraege/AHSentinel/offen-ahsentinel.txt lesen; nach der Umsetzung Bericht in berichte/AHSentinel/.
+   Nächste Versionsnummer, komplette Dateien, alte Clients nie brechen, alle Locale-Dateien, CHANGELOG EN/DE, vor dem Push
+   python3 addon-check/addon_check.py <ZIP> -> kein FEHLER. Ist ein Befund falsch, bitte begründet zurückmelden.
+   ---
+
+Ergebnis je Projekt: AHSentinel 0.65.152 – keine FEHLER, kein Befund HOCH; 3 × MITTEL, 1 × NIEDRIG (zusätzlich zur Prüfung
+des Supervisors 11:20). Alle anderen Projekte: keine neue Version.
