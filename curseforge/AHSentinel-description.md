@@ -12,6 +12,11 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.138
+
+- **Accounting – game costs:** repairs at a vendor are booked as game costs (not in the trading profit) and show in the
+  "Details" window; the gold check adds up better. Guild bank repairs do not count. Test T661.
+
 ### Version 0.65.137
 
 - **Accounting – crafting:** when crafting, the cost of the reagents (e.g. vials from a vendor) moves into the crafted
@@ -33,12 +38,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 - **Details – sell rate per sales chain:** cancelling and relisting cheaper no longer counts as "not sold" – only goods
   that expire and are not relisted. Test T657.
-
-### Version 0.65.133
-
-- **Accounting – "Details" button:** opens its own window (Today / Week / Total, Total by default) with trading
-  (profit), trading per hour (profit ÷ play time without AFK, from 2 h), own use, lost deposit, sell rate, return per
-  route (disenchanting as the sum of all cases) and gold check. Otherwise the accounting tab looks as before. Test T656.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
