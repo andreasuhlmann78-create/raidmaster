@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-14T21:19:44Z",
+ "ausgewertet": "2026-11-14T22:16:28Z",
  "hinweis": "Der Bot ist auf keinem Server (oder DISCORD_GUILD_ID passt nicht).",
  "addons": {
   "AHSentinel": {
@@ -1009,7 +1009,7 @@
    },
    "BuffSentinel": {
     "anzahl": 35,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.12-9013338d4969.txt"
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.18-e3167d853789.txt"
    },
    "GSMesstest": {
     "anzahl": 9,
@@ -1017,25 +1017,25 @@
    },
    "GuildSentinel": {
     "anzahl": 112,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.38-b54b63a79529.txt"
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.38-0e77f069f6a6.txt"
    },
    "LevelPilot": {
     "anzahl": 16,
-    "neueste": "testberichte/diagnose/LevelPilot/3.12.30-f472958c4c64.txt"
+    "neueste": "testberichte/diagnose/LevelPilot/3.12.30-53fbb985d448.txt"
    },
    "ProfessionSentinel": {
     "anzahl": 93,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.45-e57407e50403.txt"
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.45-7a8cd483f3af.txt"
    },
    "ThreatSentinel": {
     "anzahl": 94,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.9-d96edf5d530e.txt"
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.4-6191344fc78e.txt"
    }
   },
   "wege": {
    "LevelPilot": {
     "anzahl": 155,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794674988-88d49f.json"
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794653036-3b17f1.json"
    }
   }
  }
