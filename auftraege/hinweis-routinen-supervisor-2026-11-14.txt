@@ -36,3 +36,12 @@ Entwurf der Nachprüfung 08:35 GEPRÜFT: AHSentinel-Teil (NP141-1/-2/-3) ist sch
 die übrigen 7 Projekte sind freigegeben und um 09:55 ins Repo übernommen (offen-*.txt, nachricht-*.txt, Stand, Log).
 Die Nachrichten zum Einfügen gehen erst an die Projekt-Sitzungen, wenn das jeweilige Projekt drankommt (Fokus AHSentinel,
 Entscheid des Nutzers 08:30). MN-S2 (shared/GoldSentinelMarkt.lua v4, answerAt) macht der Supervisor.
+
+STAND DER UMSTELLUNG (Supervisor 11:50):
+- "Nachprüfung neuer Addon-Versionen": gespeicherte Anweisung mit VORRANG-Absatz (10:05) – erster Lauf danach 11:13 hat korrekt
+  nur einen Entwurf abgelegt (berichte/Nachpruefung/2026-11-14-1123-…), vom Supervisor 11:40 freigegeben.
+- "Blueposts" und "AHSentinel Markt-Überwachung": Ihre Anweisung beginnt mit "Lies zuerst raidmaster/CLAUDE.md" – dort steht
+  der VORRANG-Abschnitt. Gilt damit; der Supervisor prüft den nächsten Lauf (21:38 bzw. Mo 05:47).
+- "Raids und Taktiken" und "ProfessionSentinel Rezeptdaten-Update": vom Nutzer direkt angelegt – der Supervisor kann die
+  Anweisung NICHT ändern (nur der Nutzer). Sie arbeiten im raidmaster-Repo bzw. mit ihm und sehen den VORRANG in CLAUDE.md.
+  Hält sich ein Lauf nicht daran (direkt veröffentlicht), meldet der Supervisor es dem Nutzer mit dem nötigen Text.
