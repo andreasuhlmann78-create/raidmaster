@@ -152,3 +152,8 @@ HK-P (13.11. 22:22/22:26/22:32, Entscheid des Nutzers): in 0.9.45 umgesetzt (Fel
 REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nicht selbst"): Eigene Tests und Testroutinen
    laufen lassen und gefundene Fehler im Bericht melden – mehr nicht. Nie "erledigt/freigegeben/bestanden/geprüft"
    erklären; Berichte schreiben "umgesetzt, zur Prüfung" mit Belegen. Erledigt setzt nur die Prüf-Sitzung.
+
+PS-DW1 MITTEL (Nutzer 17:05, AHSentinel 0.65.170): Ein Rahmen von ProfessionSentinel liegt unten links über dem Knopf
+   "Entzaubern (n)" von AHSentinel am Berufsfenster und fängt den Klick ab (mit PS aus geht der Knopf). Prüfen, welcher PS-Rahmen
+   dort Maus annimmt (auch unsichtbare/leere Rahmen, EnableMouse); nur sichtbare Bedienteile dürfen Klicks nehmen. Die Lage des
+   AHS-Knopfs ändert AHS (DW-K1-B1); PS ändert nur PS. Test: mit beiden Addons ist der AHS-Knopf klickbar.

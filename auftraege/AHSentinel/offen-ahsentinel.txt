@@ -26,6 +26,9 @@ DW-K1-B1 HOCH (Nutzer 16:59, Screenshot, 0.65.170): Knopf "Entzaubern (40)" unte
    anderer Rahmen (ProfessionSentinel, Blizzard-Leiste) darüber und fängt den Klick (Frame-Ebene/Strata, EnableMouse)? wirft
    DW:Show() einen stillen Fehler? Test: Klick per Code (Knopf:Click()) UND Treffertest GetMouseFocus über dem Knopf -> muss
    der Knopf selbst sein. Im /ahs protokoll eine Zeile "KLICK Entzaubern-Knopf -> Fenster offen ja/nein". Gehört vor TB170-1.
+   URSACHE BESTÄTIGT (Nutzer 17:05): Mit ProfessionSentinel AUS geht der Knopf. ProfessionSentinel liegt also über dem Knopf.
+   AHS: Knopf so setzen, dass er frei ist, wenn ProfessionSentinel offen ist (Lage neben dem PS-Panel wie bei T177, Ebene über
+   dem Panel), und der Treffertest muss mit PS an grün sein. Test mit PS an und aus. Auch an ProfessionSentinel gemeldet (PS-DW1).
 PRÜFUNG 0.65.170 (Testbericht 14.11. 16:48, Hauptteil; server/berufe/haendler folgen): 764 OK · 7 FEHLER · 73 s (vorher 116 s).
    Wirkt: Flippen 10 -> 1 Zeile (FL-1), T184 und T598 nicht mehr rot. NICHT freigegeben – zwei neue Fehler kamen mit 0.65.170:
 TB170-1 HOCH (neu, Rückschritt): T72 "Heute tun: nicht nach Gold sortiert" (SelfTest.lua:667). Vermutlich MK:ApplyTodayRelease /
