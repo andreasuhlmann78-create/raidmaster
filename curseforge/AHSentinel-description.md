@@ -12,6 +12,14 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.149
+
+- **Less stutter after the full scan:** the market value calculation no longer creates helper tables per item. A scan now
+  leaves about two thirds less memory garbage (test: 65 MB -> 18–23 MB), fewer garbage collections, and memory hardly grows
+  per scan. Same values as before (6000 items compared). Test T675.
+- **Sell:** notes are no longer cut off – as many as fully fit in 2 lines are shown, the rest in the "(i)" tooltip.
+  "Far too expensive – sells at …" instead of "Price 120x above market".
+
 ### Version 0.65.148
 
 - **Vendor measured instead of assumed:** purchases, sales to the vendor (also by hand), buybacks and repairs are booked from
@@ -42,13 +50,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 - **Sell – item selection:** an item chosen on the left now always appears on the right, even if a single step (price
   suggestion, duration, counting bags) fails; the error goes to the error log with item and step. Test T667.
-
-### Version 0.65.144
-
-- **Safer stock check:** goods that may still be in the mailbox (AH purchase, mail from one of your characters,
-  returned auction) are only booked out after the mailbox was seen afterwards – freshly bought goods not for 7 days.
-  What 0.65.140–0.65.143 booked out too early as "missing" or "consumed" returns to stock once.
-- Missing stock and goods sent to others are shown separately from own use (Details window, test report). Test T666.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
