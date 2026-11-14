@@ -19,7 +19,7 @@ PRÜFUNG 0.65.165 + 0.65.166 (Supervisor 15:55, addon_check 0.65.166 OK, Bericht
   dahin bleibt euer Weg (Berufsfenster einmal öffnen). Wenn die API da ist: nutzen, sonst Rückfall.
 >>> FERTIG-LISTE (Nutzer 17:06: "lass uns AHS fertigstellen", Nutzung 91 %). Nur noch diese Punkte, in dieser Reihenfolge,
     gebündelt in WENIGE Versionen (eine Version je Block, je ein Testbericht – keine Einzel-Versionen pro Punkt):
-    BLOCK 1 (sofort): DW-K1-B1 (Knopf frei bei offenem PS), TB170-1 (Heute sortieren), TB170-2 (Heute in Portionen),
+    BLOCK 1 (sofort): BH-TT1 + BH-ANZ-S4 (Buchhaltung Tooltip/Prozent, siehe unten), DW-K1-B1 (Knopf frei bei offenem PS), TB170-1 (Heute sortieren), TB170-2 (Heute in Portionen),
        TB170-8 (Berufsfenster 0 Rezepte), TB168-10 (AH-Post abholen findet die Post nicht).
     BLOCK 2: TB168-2 (SK1-c Sniper-Gold messen), SN-MAX1 (Zahl ohne Einheit = Kupfer), MR1-V (unzuverlässige Ansichten
        ausblenden, Entzaubern hochgerechnet mit Hinweis), VK-1 (Reiter "Verkauft", Hauptzahl "Gold kommt").
@@ -29,6 +29,26 @@ PRÜFUNG 0.65.165 + 0.65.166 (Supervisor 15:55, addon_check 0.65.166 OK, Bericht
     BLOCK 3: TB170-6/-7 + TB168-1 (Ruckeln/Speicher Vollscan), TB168-9 (Testroutine in Portionen), TB170-10 (eine Zahl Lohnt bis).
     ZURÜCKGESTELLT bis nach Block 3 (nicht anfangen): RM1, EW1, Wyckoff, FL-Feinheiten,
        TB168-3..8 (Selbstkontroll-Feinheiten), TB170-5/-9, T277, T647. Der Supervisor gibt frei, wenn Block 1–3 grün sind.
+BH-TT1 HOCH (Nutzer 17:14, Screenshot 0.65.171, "schlimmer geht es nicht mehr"): Der Tooltip über "Gewinn" in der Buchhaltung
+   ist eine Textwand mit Formel, Kasse, Lager, Marktwert, "nicht realisiert", "160 Stück ohne Einkauf", "Verlust bei Entzaubern",
+   "Grösster Verlust: Seelenstaub −7s 41c", "Gold seit Stichtag 4g 01s · Buchhaltung erklärt 12g 34s · nicht gebucht −8g 33s",
+   "! 32 % … Kostenbasis prüfen". Verstösst gegen die Entscheide 13.11. (nur Ergebnisse, nie Rechenweg; Einzelheiten hinter einem
+   Knopf; Buchhaltung zeigt optisch nicht mehr als vorher), GRUNDSATZ NACHVOLLZIEHBAR und TB138-6b (Verlust eines Materials nur
+   zeigen, wenn die GRUPPE Verlust macht). Der Spieler kann mit nichts davon etwas tun – es macht nur Angst.
+   SO SOLL ER AUSSEHEN (genau diese 4 Zeilen, Zahlen = die Zahlen im Kopf, sonst nichts):
+       Erlös        54g 57s 14c
+       Eingesetzt  −30g 80s 52c
+       Gebühren         −1s
+       Gewinn       23g 75s 62c
+   Alles andere raus aus dem Tooltip. Gold-Abstimmung, nicht gebucht, Kasse/Lager, Kostenbasis-Warnung, grösster Verlust ->
+   nur in den Testbericht (Prüfung) bzw. hinter "Details". Kein Hinweis, den der Spieler nicht selbst beheben kann.
+   Selbstkontrolle: Tooltip hat 4 Zeilen und Summe = Kopf. Test T: Tooltip-Text gegen diese Vorlage.
+BH-ANZ-S4 HOCH (ersetzt die %-Regel aus BH-ANZ-S3, Screenshot 17:14): "Entzaubern 26–35: Gewinn +3g 74s, Gewinn % −3 %" –
+   Plus beim Gewinn und Minus bei % in derselben Zeile versteht kein Spieler (meine Regel S3 war falsch, Fehler des Supervisors).
+   NEU, einfach nachvollziehbar: Gewinn % = Gewinn ÷ Eingesetzt mit genau den Zahlen dieser Zeile. Enthält die Zeile Stücke ohne
+   Einkauf (z. B. 36–45: 169 verkauft, eingesetzt nur 3g 91s), dann "–" statt einer Zahl, Tooltip auf dem Strich: "enthält x
+   Stück ohne Einkaufspreis". Kopf "Rendite" gleich (Gewinn ÷ Eingesetzt), sonst "–". Vorzeichen von Gewinn und % sind immer gleich.
+   SK1-i: % = Gewinn ÷ Eingesetzt der Zeile; Gewinn und % nie mit verschiedenem Vorzeichen.
 >>> SOFORT (Nutzer 14.11. 16:56): Weckrunde abstellen bis auf weiteres. Keine automatischen Wiederholungen, keine
     ScheduleWakeup/send_later/Loop-Termine mehr; bestehende löschen. Weiterarbeiten nur, wenn der Nutzer schreibt.
     Grund: Wochen-Nutzung 89 %, Reset Montag 05:00. Der Nutzer sagt, wann es wieder losgeht.

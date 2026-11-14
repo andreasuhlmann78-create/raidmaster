@@ -130,3 +130,9 @@ dann Messauftrag statt Regel.
 - (14.11. 14:40, Nutzer) Verteilte Zahlen (Umbuchung beim Entzaubern/Herstellen, Kosten-Anteile) nie als Realität deuten und nie
   daraus eine Empfehlung ableiten. Vor jeder Aussage zu Gewinn: Gold rein/raus der ganzen Sache prüfen. Meine Empfehlung "26–35 nicht
   mehr kaufen" war aus einer Material-Zeile abgeleitet – falsch.
+
+E-Regel (14.11. 17:14, Buchhaltungs-Tooltip "schlimmer geht es nicht mehr"): Jede neue oder geänderte ANZEIGE (Tooltip, Kopfzeile,
+Spalte) vor der Freigabe gegen die Anzeige-Entscheide prüfen: nur Ergebnisse, nie Rechenweg; höchstens 4–5 Zeilen; nur was der
+Spieler selbst ändern kann; Gewinn und % nie mit verschiedenem Vorzeichen; keine Prüf-Diagnose (Abstimmung, "nicht gebucht",
+Kostenbasis) für den Spieler – die gehört in den Testbericht. Aufträge des Supervisors, die Diagnosen verlangen, immer mit
+"NUR Testbericht" kennzeichnen, sonst baut das Projekt sie in die Anzeige ein.
