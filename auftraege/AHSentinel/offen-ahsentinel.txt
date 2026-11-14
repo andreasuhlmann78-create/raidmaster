@@ -17,6 +17,15 @@ PRÜFUNG 0.65.165 + 0.65.166 (Supervisor 15:55, addon_check 0.65.166 OK, Bericht
   Staub 83 % × Ø 1,5 + Essenz 17 % × Ø 1,6 (nicht 1s 32c fest).
 - Antwort zu ProfessionSentinel-API: JA, wird bei ProfessionSentinel beauftragt (PS-API1 "Rezepte mit Zutaten je Figur"); bis
   dahin bleibt euer Weg (Berufsfenster einmal öffnen). Wenn die API da ist: nutzen, sonst Rückfall.
+>>> FERTIG-LISTE (Nutzer 17:06: "lass uns AHS fertigstellen", Nutzung 91 %). Nur noch diese Punkte, in dieser Reihenfolge,
+    gebündelt in WENIGE Versionen (eine Version je Block, je ein Testbericht – keine Einzel-Versionen pro Punkt):
+    BLOCK 1 (sofort): DW-K1-B1 (Knopf frei bei offenem PS), TB170-1 (Heute sortieren), TB170-2 (Heute in Portionen),
+       TB170-8 (Berufsfenster 0 Rezepte), TB168-10 (AH-Post abholen findet die Post nicht).
+    BLOCK 2: TB168-2 (SK1-c Sniper-Gold messen), SN-MAX1 (Zahl ohne Einheit = Kupfer), MR1-V (unzuverlässige Ansichten
+       ausblenden, Entzaubern hochgerechnet mit Hinweis), VK-1 (Reiter "Verkauft", Hauptzahl "Gold kommt").
+    BLOCK 3: TB170-6/-7 + TB168-1 (Ruckeln/Speicher Vollscan), TB168-9 (Testroutine in Portionen), TB170-10 (eine Zahl Lohnt bis).
+    ZURÜCKGESTELLT bis nach Block 3 (nicht anfangen): Ketten Schritt 2 / Ke.LIVE, RM1, EW1, Wyckoff, MH-1-Rest, FL-Feinheiten,
+       TB168-3..8 (Selbstkontroll-Feinheiten), TB170-5/-9, T277, T647. Der Supervisor gibt frei, wenn Block 1–3 grün sind.
 >>> SOFORT (Nutzer 14.11. 16:56): Weckrunde abstellen bis auf weiteres. Keine automatischen Wiederholungen, keine
     ScheduleWakeup/send_later/Loop-Termine mehr; bestehende löschen. Weiterarbeiten nur, wenn der Nutzer schreibt.
     Grund: Wochen-Nutzung 89 %, Reset Montag 05:00. Der Nutzer sagt, wann es wieder losgeht.
@@ -76,7 +85,7 @@ PRÜFUNG 0.65.167 (Supervisor 16:00, addon_check OK, Bericht gelesen): EK-1 umge
    Herstellen nur über den Zwischenspeicher erkannt -> kein OnCraft -> Einstand 0). GW-S1 umgesetzt. Entscheid zu alten Buchungen:
    NICHT umbuchen (Regel); der Supervisor rechnet die Hosen-Ladungen getrennt nach, bis der Staub-Bestand verkauft ist.
    Im Client prüfen: nach einer Herstell-Runde SK1-m = 0 Abweichungen und Einstand im Verkaufen-Fenster ≠ 0.
-Reihenfolge jetzt: DW-K1-B1 (Knopf geht nicht), TB170-1/-2 (HOCH, Rückschritt), TB168-1/-2 (HOCH), MR1-V (Ansichten ausblenden), SN-MAX1, MH-1, FL-1, BR-LEER1, VS-1, Ketten Schritt 2 (nach Freigabe), Rest.
+Reihenfolge jetzt: siehe FERTIG-LISTE oben (gilt vor dieser Zeile). Alt: TB170-1/-2 (HOCH, Rückschritt), TB168-1/-2 (HOCH), MR1-V (Ansichten ausblenden), SN-MAX1, MH-1, FL-1, BR-LEER1, VS-1, Ketten Schritt 2 (nach Freigabe), Rest.
 
 RM1 MITTEL (Auftrag des Nutzers 16:22 "Risikomanagement", Grundlage markt-strategie.md 8j) – nach MH-1/FL-1, mit den Ketten:
    Jeder Kauf-Vorschlag (Heute tun, Flip, Sniper-Ziel, Ketten-Einkaufsliste) bekommt eine Risiko-Prüfung, bevor er erscheint:
