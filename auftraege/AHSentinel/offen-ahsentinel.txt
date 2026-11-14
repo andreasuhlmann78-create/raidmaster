@@ -43,6 +43,18 @@ RM1 MITTEL (Auftrag des Nutzers 16:22 "Risikomanagement", Grundlage markt-strate
    Test je Regel (auch falsche Fälle); Selbstkontrolle: im Testbericht Anzahl gekürzter/gesperrter Vorschläge je Regel.
    VOR der Freigabe: Supervisor prüft an echten Buchungen (Nachspielen), dass die Regeln die Gewinne der Kette nicht abwürgen.
 
+VK-1 MITTEL (Wunsch des Nutzers 16:33, nach MR1-V/MH-1/FL-1): Reiter "Verkauft" im Verkaufen-Fenster (neben Einstellen / Meine
+   Auktionen). Liste aller verkauften eigenen Auktionen (Zeitraum Heute / 7 Tage, Standard Heute), je Zeile: Item, Menge,
+   Preis/Stück, Erlös netto (nach 5 %), Gewinn (Erlös − Einstand, grün/rot), Dauer eingestellt -> verkauft, Dauer verkauft ->
+   im Briefkasten, Status (unterwegs / im Briefkasten / abgeholt). Ganz unten EINE Summenzeile: Menge, Erlös, Gewinn, Ø Dauer bis
+   Verkauf, Ø Zeit bis Briefkasten, "noch unterwegs: x Gold".
+   Zeiten: eingestellt = Einzahlungs-Buchung (fee), verkauft = Verkaufs-Meldung (wenn lesbar) sonst Rechnungs-Zeit − gemessene
+   Post-Verzögerung (dann "~" davor = geschätzt), im Briefkasten = Rechnung (ti), abgeholt = tm. Keine neuen Speicherfelder nötig
+   ausser, wo fehlend, die Einstell-Zeit am Verkauf (pred/ft).
+   Erklär-Satz (Grundsatz 15:18): "Alle verkauften Auktionen: wie schnell sie weggingen und wann das Gold im Briefkasten ist."
+   Test: 3 Verkäufe (einer mit Meldung, einer ohne, einer unterwegs) -> Zeilen + Summe; Summe Gewinn = Buchhaltung "Heute" für
+   dieselben Verkäufe. Selbstkontrolle (SK1-i-Muster): Summe "Verkauft" heute = Buchhaltung Heute (Handel).
+
 PRÜFUNG 0.65.168 + 0.65.169 (Supervisor 16:35, addon_check beide OK, Berichte gelesen): SN-EIN1, SN-MAX1, BR-LEER1, VS-1,
    EK-1-Korrektur (Gewinn erwartet = Erlös − Rückläufe − Einstand), SN-DEF1 umgesetzt, zur Prüfung im Client. Hinweis SN-MAX1: die
    +0,5c Rundungs-Toleranz gilt je Stück auf den Durchschnitt – bei Max 22c ist Ø 22,4c erlaubt; so lassen (Rundung), aber im
