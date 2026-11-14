@@ -1,0 +1,39 @@
+BERICHT LEVELPILOT AN DEN SUPERVISOR (PRÜF-SITZUNG) – WUNSCH DES NUTZERS
+Stand: 14.11.2026 13:50 · Sitzung: LevelPilot-Projekt-Sitzung · Version: 3.12.30 (Commit 25bb604)
+Anlass: Auftrag des Nutzers an die LevelPilot-Sitzung (14.11.2026, 13:44).
+
+WUNSCH DES NUTZERS (Wortlaut sinngemäss)
+"Ich brauche einen Button in den Optionen, um die Ingame-Meldungen abzuschalten – und zwar ALLE, keine 'Hier ist der
+Erste-Hilfe-Lehrer' und dergleichen. Der Button soll 'Meldungen' heissen."
+Bitte als Auftrag freigeben und in auftraege/LevelPilot/ (offen-levelpilot.txt) mit Priorität eintragen.
+Die LevelPilot-Sitzung baut nichts, bevor der Auftrag dort steht.
+
+HEUTIGER STAND (gesucht in 3.12.30)
+- Kein Hauptschalter. Es gibt nur Einzelschalter in der Zentrale:
+  Extras/Hinweise: "Klassenquests der nächsten Level", "Klassen-Erinnerungen", "Trainer-Besuche und Kosten",
+  "Reittier-Planung", "Erste Hilfe und Kochen" (das ist die Meldung "Erste Hilfe kannst du hier lernen: …",
+  Hints.lua:232); Extras/Zeit & Sitzung: "Hinweis auf offene Abgaben beim Zonenwechsel", "„Wo war ich?“ beim
+  Einloggen", "Bilanz beim Ausloggen"; Extras links: "Hinweis, wenn ein Questgegenstand nah ist",
+  "Hinweis: Gegenstände ohne Nutzen"; Assistent: Haltbarkeit, Taschen, Upgrades, Munition, Talentpunkte, Klassentrainer.
+- Meldungswege im Code:
+  a) Chat: LP:Print an rund 60 Stellen in 19 Dateien (Bestätigungen wie "Repariert für …", "Fliege nach …",
+     "Vorräte gekauft …", "Belohnung angelegt …", "Belohnungs-Empfehlung …", Hinweise, Fehlermeldungen).
+  b) Bildschirmmitte (UIErrorsFrame): Session.lua:265 (offene Abgaben beim Zonenwechsel), Pins.lua:137 (Questgegenstand
+     in der Nähe, mit Ton Pins.lua:138).
+  c) Toast-Fenster (LP.UI:Toast), z. B. Advisor.lua:376 (Belohnung).
+  d) Hinweis-Liste des Assistenten (Advisor-Hinweise im Guide/Assistent-Reiter).
+
+VORSCHLAG DER SITZUNG (zur Entscheidung durch den Supervisor/Nutzer)
+- Ein Schalter "Meldungen" (Standard an) in der Zentrale, Reiter Einstellungen. Aus = keine Meldungen von LevelPilot:
+  kein Chat (a), keine Meldung in der Bildschirmmitte und kein Ton (b), keine Toasts (c), keine Hinweise des
+  Assistenten im Guide (d). Die Einzelschalter bleiben und gelten, wenn "Meldungen" an ist.
+- Ausnahmen, bitte entscheiden:
+  1. Antworten auf eigene Befehle (/lp help, /lp diag, /lp find, /lp way, /lp testroutine): weiter zeigen? Vorschlag ja,
+     weil der Spieler sie selbst angefordert hat.
+  2. Sicherheits-/Fehlermeldungen ("Im Kampf nicht möglich.", "Nicht genug Gold zum Reparieren"): Vorschlag ja, bleiben.
+  3. Der Guide selbst (Schritte, Pfeil, Pfadlinie) ist keine Meldung und bleibt.
+- Test T-ML: alle Meldungswege mit "Meldungen" aus -> 0 Chatzeilen, 0 Bildschirmmeldungen, 0 Toasts, 0 Töne; Schalter an
+  -> unverändert; Locale in allen Sprachen, CHANGELOG EN/DE.
+
+FRAGEN
+- Freigabe des Auftrags, Priorität, und die Ausnahmen 1 und 2.
