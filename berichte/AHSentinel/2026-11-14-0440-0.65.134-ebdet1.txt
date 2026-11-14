@@ -1,0 +1,11 @@
+Bericht AHSentinel 0.65.134 – EB-DET-1
+Stand: 14.11.2026 · Status: umgesetzt, zur Prüfung
+- Fc:ChainSellRate(from): Verkaufsquote je Kette (gleiche Kettenregel wie PR1-Ketten: neue Einstellung höchstens 6 Std.
+  nach dem Ende der vorigen). Eingestellt = grösste Menge einer Einstellung der Kette, verkauft = Summe verkaufter Stück
+  (höchstens eingestellt); nur abgeschlossene Ketten, Beginn im Zeitraum. Abbruch mit Neu-Einstellung zählt nicht
+  doppelt; nur Ablauf ohne Neu-Einstellung = nicht verkauft. BK:Details nutzt sie.
+- Test T657 T-EBD2 (abbrechen + neu + verkauft 5/5 = 100 %; dazu Ablauf 4 Stück -> 5/9) – PASS.
+- Zur Kleinigkeit "246/246": Das ist die Zahl der Simulations-SZENARIEN (run_all), nicht der Testroutinen-Tests.
+  Neue Tests (T656, T657 …) laufen innerhalb des Szenarios s42 (Testroutine), daher bleibt 246. s42 meldet jetzt
+  726 Zeilen (PASS/FAIL/SKIP) mit 0 FEHLER.
+Gesamtlauf 246/246 Szenarien, s42 PASS, addon_check OK.
