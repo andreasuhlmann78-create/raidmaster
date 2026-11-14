@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-14 22:16 UTC
+Ausgewertet: 2026-11-14 22:51 UTC
 
 **Hinweis:** Der Bot ist auf keinem Server (oder DISCORD_GUILD_ID passt nicht).
 
@@ -20,19 +20,19 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 120 | `testberichte/diagnose/AHSentinel/0.65.99-2bf892d983c3.txt` |
-| BuffSentinel | 35 | `testberichte/diagnose/BuffSentinel/0.9.18-e3167d853789.txt` |
-| GSMesstest | 9 | `testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt` |
-| GuildSentinel | 112 | `testberichte/diagnose/GuildSentinel/0.9.38-0e77f069f6a6.txt` |
-| LevelPilot | 16 | `testberichte/diagnose/LevelPilot/3.12.30-53fbb985d448.txt` |
-| ProfessionSentinel | 93 | `testberichte/diagnose/ProfessionSentinel/0.9.45-7a8cd483f3af.txt` |
-| ThreatSentinel | 94 | `testberichte/diagnose/ThreatSentinel/2.5.4-6191344fc78e.txt` |
+| AHSentinel | 120 | `testberichte/diagnose/AHSentinel/0.65.99-ea23619300d1.txt` |
+| BuffSentinel | 35 | `testberichte/diagnose/BuffSentinel/0.9.18-76e246dc6532.txt` |
+| GSMesstest | 9 | `testberichte/diagnose/GSMesstest/3-cfdd02c16375.txt` |
+| GuildSentinel | 112 | `testberichte/diagnose/GuildSentinel/0.9.38-61156a371eba.txt` |
+| LevelPilot | 16 | `testberichte/diagnose/LevelPilot/3.12.30-f472958c4c64.txt` |
+| ProfessionSentinel | 93 | `testberichte/diagnose/ProfessionSentinel/0.9.43-8f4350a12a6e.txt` |
+| ThreatSentinel | 94 | `testberichte/diagnose/ThreatSentinel/2.5.9-7f347d5503ad.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 155 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794653036-3b17f1.json` |
+| LevelPilot | 155 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794675192-3c58eb.json` |
 
 ## AHSentinel
 
