@@ -30,7 +30,7 @@ PRÜFUNG 0.65.167 (Supervisor 16:00, addon_check OK, Bericht gelesen): EK-1 umge
    Herstellen nur über den Zwischenspeicher erkannt -> kein OnCraft -> Einstand 0). GW-S1 umgesetzt. Entscheid zu alten Buchungen:
    NICHT umbuchen (Regel); der Supervisor rechnet die Hosen-Ladungen getrennt nach, bis der Staub-Bestand verkauft ist.
    Im Client prüfen: nach einer Herstell-Runde SK1-m = 0 Abweichungen und Einstand im Verkaufen-Fenster ≠ 0.
-Reihenfolge jetzt: SN-EIN1, SN-DEF1, MR1-V (Ansichten ausblenden), SN-MAX1, MH-1, FL-1, BR-LEER1, VS-1, Ketten Schritt 2 (nach Freigabe), Rest.
+Reihenfolge jetzt: TB168-1/-2 (HOCH), MR1-V (Ansichten ausblenden), SN-MAX1, MH-1, FL-1, BR-LEER1, VS-1, Ketten Schritt 2 (nach Freigabe), Rest.
 
 RM1 MITTEL (Auftrag des Nutzers 16:22 "Risikomanagement", Grundlage markt-strategie.md 8j) – nach MH-1/FL-1, mit den Ketten:
    Jeder Kauf-Vorschlag (Heute tun, Flip, Sniper-Ziel, Ketten-Einkaufsliste) bekommt eine Risiko-Prüfung, bevor er erscheint:
@@ -42,6 +42,24 @@ RM1 MITTEL (Auftrag des Nutzers 16:22 "Risikomanagement", Grundlage markt-strate
    Anzeige (Grundsatz 15:18): bleibt EINE Zahl; gekürzte Menge mit Satz "Menge begrenzt – Risiko höchstens 2 % deines Golds".
    Test je Regel (auch falsche Fälle); Selbstkontrolle: im Testbericht Anzahl gekürzter/gesperrter Vorschläge je Regel.
    VOR der Freigabe: Supervisor prüft an echten Buchungen (Nachspielen), dass die Regeln die Gewinne der Kette nicht abwürgen.
+
+TESTBERICHT 0.65.168 IM SPIEL (Nutzer 16:39, Supervisor 16:50) – Selbstkontrolle liefert echte Befunde. Reihenfolge: VOR MR1-V.
+TB168-1 HOCH Ruckeln Vollscan: "Nachlauf längster Frame 829 ms" (SK1-h: 894/800/829 ms bei 3 Scans), Preisverlauf+Neuaufbau 104 ms,
+   737 von 3058 Frames > 33 ms; Speicher +20–27 MB je Scan. Kein Bild > 16 ms (Entscheid). Nachlauf in Portionen; Ursache messen.
+TB168-2 HOCH SK1-c AH: 8 Fälle, alle "Gold +0 · gebucht −x" (14:31 −9724, 14:38 −6100, 15:41 −7840 = Sniper-Käufe Leinenstoff).
+   Gold-Änderungen beim Sniper-Kauf erreichen SC:OnFlow/den Ort "ah" nicht (TB138-2 Tag: ah nur −500). Ursache finden (Ort beim
+   Kauf? Sitzung erst nach dem Kauf gestartet? PLAYER_MONEY verpasst?) – sonst ist auch die Tagesbilanz falsch.
+TB168-3 MITTEL SK1-b Post: 0 Fälle, obwohl der Briefkasten geleert wurde (A7 zählt 8 Abholungen). Sitzung wird nicht ausgewertet.
+TB168-4 MITTEL A7: alle 8 "anders" – "Post 468 · Kaufpreis 1 − Gebühr 23 · Anzahlung 14": Felder von GetInboxInvoiceInfo auf Forever
+   falsch gelesen (Kaufpreis 1?). Rückgabe-Reihenfolge im Client prüfen (/dump GetInboxInvoiceInfo(i)) und Diagnose-Zeile.
+TB168-5 MITTEL SK1-m: 102 von 410 "Herstellen ohne Rezept" – darunter Zauber 13262 = ENTZAUBERN (kein Herstellen, ausnehmen) und 3909
+   (welches Rezept? Ballen/Hose prüfen). Erst danach ist SK1-m aussagekräftig.
+TB168-6 NIEDRIG SK1-e Grenze: Tagesbilanz rot bei Lücke +512, TB138-2 sagt "0,6 % vom Umsatz 79461, Ziel ≤ 1 %" = grün. SK1-e rechnet
+   1 % vom Netto statt vom Umsatz – gleiche Definition wie TB138-2.
+TB168-7 NIEDRIG SK1-j Knopf "verdeckt etwas" (4×) – was wird verdeckt? Lage korrigieren, Diagnose nennt das verdeckte Element.
+TB168-8 NIEDRIG S28: 4251 Lohnt bis 939 vs. Marktzeile 938 (1c Rundung) – gleiche Rundung überall.
+Gut: SK1-a Händler 4/4, SK1-g Verkaufen-Fenster 29/29, SK1-p 80/80, SK1-n 119/121, Kaufen je Stufe mit eigenen Fällen (Grenzen
+   0,90/0,80/0,80), Beute/Vorhersage 2:1:a 1,04 (272 Fälle), Ketten-Zeile 4343 +78 (76 %).
 
 VK-1 MITTEL (Wunsch des Nutzers 16:33, nach MR1-V/MH-1/FL-1): Reiter "Verkauft" im Verkaufen-Fenster (neben Einstellen / Meine
    Auktionen). Liste aller verkauften eigenen Auktionen (Zeitraum Heute / 7 Tage, Standard Heute), je Zeile: Item, Menge,
