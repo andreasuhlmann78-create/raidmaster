@@ -37,6 +37,18 @@ UI-V1 HOCH (Nutzer 08:38, 0.65.142, Bildschirmfotos 08:37): Im Reiter Verkaufen 
    passiert lange nichts (Nutzer misst die Zeit). Bei 261 MB Speicher (TB138b-3) und 119 ms Reiterwechsel (T626) Verdacht:
    Speicherbereinigung bzw. Neuaufbau beim Wechsel. Ziel: Wechsel ≤ 50 ms sichtbar (PS-Ziel), "Preis prüfen" danach im
    Hintergrund. Messung im Testbericht: Klick -> sichtbar (ms), mit Speicher vorher/nachher.
+UI-V3 HOCH (Nutzer 08:39 "Text überschneidet sich, für mich nicht zu lesen", Bildschirmfotos 08:37–08:38, 0.65.142, Reiter
+   Verkaufen > Einstellen, deDE, 2560×1440):
+   (a) Zeile Einstellgebühr: "1s (verkauft 44 %) lernt noch (nicht kalibriert)" bricht um und liegt ÜBER "Verkauf brutto 10s 62c"
+       (Wollstoffballen). -> Chance nicht in die Gebühren-Zeile hängen; eigene Zeile "Verkaufschance" (grau "lernt noch") oder weg.
+   (b) Hinweise unten (Krank aussehender Fisch): "Achtung: Ein Händler zahlt 1c …", "Markt liegt unter deinem Mindestpreis …",
+       "Einstellgebühr … (wird beim Verkauf erstattet)" stapeln sich, laufen in/unter den Knopf "Einstellen" und überdecken sich.
+       -> Hinweisbereich mit fester Höhe ÜBER dem Knopf, höchstens 2 Zeilen, wichtigster zuerst, Rest im Tooltip (i).
+       Ganze Sätze kürzen: "Händler zahlt mehr: 1c" statt Erklärungen (Psychologie: nur Ergebnis, Zahlen).
+   (c) Fisch: "Erlös nach Gebühren −4s 98c" für ein 2c-Item (UI-V2): für den Spieler unverständlich – hier nur "Händler: +1c" grün.
+   Test: T-G6/Bereich K automatisch für das Einstellen-Feld: alle Zeilen ohne Überlappung (Rechtecke vergleichen) bei langen
+   Hinweisen, deDE und enGB, 100/130 % UI-Grösse. Im Testbericht: Anzahl Überlappungen = 0.
+
 UI-V2 MITTEL Zeile "Erlös nach Gebühren" zeigt bei Leinenstoff 6 × 47c rot "−1s 32c", obwohl Brutto 2s 82c − Gebühr 14c = 2s 68c
    (UI_Sell.lua: final = net − erwarteter Verlust der Einzahlung über 5 erwartete Einstellungen = 4s). Für den Spieler
    widersprüchlich (Zeile heisst "nach Gebühren", rechnet aber Rückläufe ein). Lösung: Zeile "Erlös nach Gebühren" = 2s 68c;
