@@ -12,6 +12,11 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.134
+
+- **Details – sell rate per sales chain:** cancelling and relisting cheaper no longer counts as "not sold" – only goods
+  that expire and are not relisted. Test T657.
+
 ### Version 0.65.133
 
 - **Accounting – "Details" button:** opens its own window (Today / Week / Total, Total by default) with trading
@@ -35,11 +40,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   When it comes back on a sale, it is not income. Only a lost deposit (expired/cancelled) is an expense – in the period
   it expired. Named as in the game (the client's "Deposit" text).
 - Test report: held and lost deposits. Test T654.
-
-### Version 0.65.129
-
-- **Less memory:** per-item caches (market value, sales rate, buyout) are limited and cleared every 10 minutes when
-  too large. The tempo test shows their size. Test T653.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
