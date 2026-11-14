@@ -17,6 +17,9 @@ PRÜFUNG 0.65.165 + 0.65.166 (Supervisor 15:55, addon_check 0.65.166 OK, Bericht
   Staub 83 % × Ø 1,5 + Essenz 17 % × Ø 1,6 (nicht 1s 32c fest).
 - Antwort zu ProfessionSentinel-API: JA, wird bei ProfessionSentinel beauftragt (PS-API1 "Rezepte mit Zutaten je Figur"); bis
   dahin bleibt euer Weg (Berufsfenster einmal öffnen). Wenn die API da ist: nutzen, sonst Rückfall.
+>>> SOFORT (Nutzer 14.11. 16:56): Weckrunde abstellen bis auf weiteres. Keine automatischen Wiederholungen, keine
+    ScheduleWakeup/send_later/Loop-Termine mehr; bestehende löschen. Weiterarbeiten nur, wenn der Nutzer schreibt.
+    Grund: Wochen-Nutzung 89 %, Reset Montag 05:00. Der Nutzer sagt, wann es wieder losgeht.
 PRÜFUNG 0.65.170 (Testbericht 14.11. 16:48, Hauptteil; server/berufe/haendler folgen): 764 OK · 7 FEHLER · 73 s (vorher 116 s).
    Wirkt: Flippen 10 -> 1 Zeile (FL-1), T184 und T598 nicht mehr rot. NICHT freigegeben – zwei neue Fehler kamen mit 0.65.170:
 TB170-1 HOCH (neu, Rückschritt): T72 "Heute tun: nicht nach Gold sortiert" (SelfTest.lua:667). Vermutlich MK:ApplyTodayRelease /
