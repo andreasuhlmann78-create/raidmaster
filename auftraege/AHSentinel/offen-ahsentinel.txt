@@ -141,7 +141,10 @@ Einzelheiten zu jedem Punkt stehen weiter unten (Suche nach dem Kürzel). Diese 
                         Verkauf = ein Fall). Im Bericht: Trefferquote alt/neu, je Preisstufe.
 4. CH-G       ZUR PRÜFUNG 0.65.123: GoldSentinelCmdHint.lua byte-gleich, in der .toc, addon_check OK (Prüf-Sitzung 00:30).
                         Im Client bestätigen (Liste, Klick wählt, Enter führt aus). Bericht 0.65.123 fehlt noch.
-5d. EB4-2     MITTEL     (Prüf-Sitzung 05:45, zu 0.65.136, Books.lua 559–576) CheckVendorUse bucht alles, was im Bestand
+5d. EB4-2     0.65.137 zur Prüfung (addon_check OK, T-EB4c/d PASS). Herstellen ist jetzt erst wirklich gebucht – im Client
+                        prüfen (Trank herstellen, Post an Twink). Hinweis für EB3: Post an andere Spieler MIT Nachnahme (COD) ist
+                        ein Verkauf, kein Eigenbedarf – bei EB3 Spielerhandel so buchen (Test).
+                        Ursprünglich: MITTEL (Prüf-Sitzung 05:45, zu 0.65.136, Books.lua 559–576) CheckVendorUse bucht alles, was im Bestand
                         fehlt, als Eigenbedarf. Zwei Lücken: (1) Händler-Zutaten, die beim Herstellen verbraucht werden: läuft
                         der Abgleich vor der Herstellen-Buchung (Books.lua 378), landen sie als Eigenbedarf statt als Kosten des
                         Produkts -> Gewinn beim Verkauf des Produkts zu hoch. Reihenfolge sichern (Herstellen bucht sofort beim
