@@ -31,6 +31,22 @@ TB138-1 HOCH  Phantom-Lager nicht weg. BH-AUS-3 hat 12 Buchungen/30 Stück umgeb
               "vendor" (159 Wasser, 2320 Faden: vor 0.65.135 gekauft) und Tränke (2455, 6662: verbraucht). Erwartung
               danach: Lager dieser Figur = Taschen+Bank+eigene Auktionen. Gewinn 221977 liegt weiter über meiner
               Nachrechnung (ca. 205284) – die Prüf-Sitzung rechnet mit den nächsten Daten nach.
+>>> TB138-1 NACHTRAG 08:00 (Bildschirmfoto des Nutzers 07:44, Taschen offen): In den Taschen liegen Stapel mit 16, 6 und
+              11 Stück – genau die Mengen, die der Abgleich als "vorhanden 0" meldet (2320 +16, 278243 +6, 279972 +11).
+              Verdacht: BK:HaveCount liefert 0, obwohl die Ware da ist (Aufruf vor dem Laden der Taschen, Sandbox der
+              Testroutine oder falsche ID). Dann ist der Abgleich selbst falsch – und CheckVendorUse (0.65.136) würde
+              ECHTE Ware als "verbraucht" ausbuchen. ZUERST HaveCount prüfen und testen (T-BHA3b: Ware in Taschen ->
+              vorhanden = Menge, auch direkt nach Login), erst danach Lager korrigieren. Nutzer bestätigt die Gegenstände.
+TB138-6 HOCH  Anzeige Buchhaltung (Bildschirmfoto 07:44, "Seit Neustart"): Kopf "Gewinn mit Einkauf 4g 50s, Rendite 16 %"
+              + Kleintext "dazu ohne Einkauf 17g 69s 68c – Kostenbasis prüfen", die Liste darunter ergibt zusammen
+              +22g 19s 77c. Zwei verschiedene Gewinne für den Gelegenheitsspieler = Verwirrung. Und Seelenstaub steht rot
+              "−5g 95s / −41 %", obwohl Entzaubern 26–30 als Weg +35 % bringt (Kosten werden nach Wert beim Entzaubern
+              aufgeteilt; Seelenstaub ist danach in der Welle gefallen). Verlustaversion: der Spieler hört auf zu
+              entzaubern, obwohl es sich lohnt. Lösung: (a) Kopf = EIN Gewinn (grün/rot), "ohne Einkauf" als eigene
+              graue Zeile "Herkunft unbekannt: x" darunter, nicht als zweiter Gewinn; (b) Entzauber-Materialien in der
+              Liste je Gruppe zusammenfassen ("Entzaubern 26–30: +x"), Einzelzeilen nur aufgeklappt; Verlust eines
+              Materials nur zeigen, wenn die GRUPPE Verlust macht. Visionenstaub: 137 verkauft, eingesetzt nur 1s 32c –
+              Kosten der 36–40-Teile fehlen (vor 0.65.137 per Post von einer anderen Figur gekommen?) -> im Bericht klären.
 TB138-2 HOCH  Gold-Abstimmung: Gold +9403, Buchhaltung +119832, nicht gebucht −110429 (11g). Gewinn und Gold-Fluss sind
               verschiedene Dinge: Einkäufe ins Lager senken das Gold, nicht den Gewinn. Abstimmung muss GELDFLUSS gegen
               GELDFLUSS rechnen (Erlöse − Käufe − Gebühren − Anzahlungen netto − Spielkosten ± Post), nicht Gewinn
