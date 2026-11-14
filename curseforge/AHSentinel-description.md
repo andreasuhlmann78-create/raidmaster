@@ -12,6 +12,11 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.132
+
+- **Deposit – more precise:** a deposit only counts as lost when the expiry mail arrives or you cancel the auction –
+  no longer after a fixed time. A refund read late (even days later) always resolves it. Test T654.
+
 ### Version 0.65.131
 
 - **Accounting – own use:** goods you bought and then equip or use as a bag are no longer trade goods: they leave the
@@ -36,18 +41,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   relative to market value) – listing higher means a smaller chance. Without learned cases it stays as before.
 - Test report: sales chains (expired/cancelled -> relisted -> sold counts as one case), with number of listings and
   price of the last vs. the first listing. Tests T651, T652.
-
-### Version 0.65.127
-
-- **Accounting – phantom stock removed:** goods still in stock after the repair although they were sold are moved onto
-  the invoices once (purchase cost there, not in stock). New: stock check against bags, bank and own auctions – if the
-  stock shows more, the test report says so (reported only, nothing changed silently).
-- **Gold reconciliation** now only covers the period with recorded gold amounts, over all characters; before that "learning".
-- **Bargains tab** no longer calculates when opened but in the background (shows the last result immediately).
-- **Sniper/disenchant:** buy limit never above 0.9 × value.
-- The test routine no longer writes real gold amounts. Tempo test: startup parts with file:line, tooltip measurement
-  notes garbage collection, cause of full-scan gaps, last full-scan measurement survives a reload.
-- Test report: purchases per price level, disenchant breakdown from sums. Tests T649, T650.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
