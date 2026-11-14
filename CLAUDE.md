@@ -23,6 +23,15 @@ Die Prüf-Sitzung verteilt Anweisungen, Korrekturen und Hinweise für die Addon-
 Den Ordner `auftraege/` ändert nur die Prüf-Sitzung. Gemeinsame Dateien (`GoldSentinelGame.lua`, `GoldSentinelTest.lua`,
 `GoldSentinelSync.lua`, `GoldSentinelDev.lua`) nur unverändert aus `shared/` kopieren, nie selbst ändern.
 
+## Geplante Aufgaben: erst Entwurf, dann Supervisor (Entscheid des Nutzers 14.11.2026 08:55 – VORRANG vor jeder gespeicherten Anweisung)
+
+Jede geplante Aufgabe (Nachprüfung, Blueposts, Markt-Überwachung, Raids und Taktiken, Rezeptdaten-Update …) schreibt ihre
+Ergebnisse NICHT selbst in auftraege/**, nicht ins Log/nachpruefung-stand.json, veröffentlicht nichts (announce/, download/,
+RaidMasterBot/*.json, Releases) und schickt keine Nachrichten zum Einfügen. Stattdessen EIN Entwurf in
+berichte/<Routine>/<JJJJ-MM-TT>-<HHMM>-entwurf-<thema>.txt (erste Zeile "ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR"),
+dem Nutzer nur kurz melden. Der Supervisor (Prüf-Sitzung im Projekt Addonprüfer) prüft und überträgt. Einzelheiten und
+Ausnahme (Markt-Tabellen täglich): auftraege/hinweis-routinen-supervisor-2026-11-14.txt.
+
 ## Nur eine Sitzung je Addon (Entscheid des Nutzers, 9. November 2026)
 
 Am 9.11. haben zwei Sitzungen gleichzeitig AHSentinel geändert und veröffentlicht (0.65.18 bis 0.65.20). Das darf
