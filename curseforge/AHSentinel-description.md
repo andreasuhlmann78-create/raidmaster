@@ -12,6 +12,13 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.159
+
+- **Buy limit learns right away:** completed purchases of the last 30 days are recounted once (each exactly once), so the buy
+  limit per price level works without waiting weeks. Test T697.
+- **Mail self-check:** if the money has already left the mail after collecting, the state from the last mailbox read counts.
+  Test T698.
+
 ### Version 0.65.158
 
 - **Calculation core step 3a:** one "worth up to" across all ways (disenchant, resale in the AH, vendor) – the best safe
@@ -44,13 +51,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   after every click, memory after every full scan and the profit displays against each other. Results in the test report
   ("Self-check" section) and in /ahs testroutine; the details window only shows a line when something is off. No need to
   note your gold any more. Tests T686–T693.
-
-### Version 0.65.154
-
-- **Calculation core step 2:** market tables (recalculated daily) now ship with the addon and serve as prior knowledge
-  while your own numbers are missing. The buy limit learns per price level: if a level does not reach the minimum profit,
-  the limit is lowered there (never above 90 % of the value). If a disenchant material is in a wave (price falling), Sell
-  shows "Wave: sell now". Tests T683–T685.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
