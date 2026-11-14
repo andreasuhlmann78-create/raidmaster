@@ -12,6 +12,13 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.137
+
+- **Accounting – crafting:** when crafting, the cost of the reagents (e.g. vials from a vendor) moves into the crafted
+  product – the later sale shows the real profit.
+- **Sent mail:** goods sent to one of your characters keep their purchase cost; goods sent to other players count as
+  own use. Sent or crafted vendor goods no longer count wrongly as "consumed". Test T660.
+
 ### Version 0.65.136
 
 - **Accounting – consumed vendor goods:** what you bought from a vendor and used up (food, water, ammo, reagents) leaves
@@ -32,11 +39,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Accounting – "Details" button:** opens its own window (Today / Week / Total, Total by default) with trading
   (profit), trading per hour (profit ÷ play time without AFK, from 2 h), own use, lost deposit, sell rate, return per
   route (disenchanting as the sum of all cases) and gold check. Otherwise the accounting tab looks as before. Test T656.
-
-### Version 0.65.132
-
-- **Deposit – more precise:** a deposit only counts as lost when the expiry mail arrives or you cancel the auction –
-  no longer after a fixed time. A refund read late (even days later) always resolves it. Test T654.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
