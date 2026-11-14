@@ -1,0 +1,18 @@
+AHSentinel 0.65.153 – 0.66 Rechenkern S1 (Lernschicht + ehrliche Prüfung) + TB138-4 – umgesetzt, zur Prüfung
+
+S1 (neu Kern.lua, nach Waves.lua): gemeinsame Lernschicht nach anweisung-rechenkern-066.txt.
+- L1 Zähler je Weg und Zelle, L2 (y + 2 × Vorwissen) / (n + 2), L3 Summe/Summe, L4 Tages-Töpfe: > 14 Tage halb, > 30 Tage
+  gelöscht, L5 nur 2 Zahlen je Zelle und Tag (db.kern, neues Feld; Bericht zeigt Grösse, Ziel < 300 KB).
+- P1 jeder Fall wird VOR dem Zählen vorhergesagt (nur aus früheren Fällen), P2 Grundlinie "immer nein", Zahl erst bei
+  n ≥ 30, Treffer > Grundlinie und Brier < 0,20, P4 7 Tage unter der Grundlinie (≥ 10 Fälle) -> Rückfall.
+- Zuerst Verkaufschance: Zelle = Warengruppe : Preisstufe (Fc.REL_B), Vorwissen = gezählte Gruppenquote (Start 0,3),
+  "alt" = beim Einstellen gezeigte Chance e.p. Gefüttert in Fc:Close (Ergebnis bekannt, Abbruch zensiert); einmalig
+  Nachtrag der letzten 30 Tage in Zeitfolge (Hintergrund, Portionen). Anzeige ändert sich noch NICHT (S4).
+- Testbericht "MARKT-KERN Verkaufschance: Treffer neu / Grundlinie / alt · Brier · n · seit · Anzeige Zahl|grau (Grund)",
+  P4 rot, Speicherzeile. Testroutine schreibt nie in db.kern.
+- TR T681 (L1–L5: 0,300 · 0,533 · 0,776 · alt 0,50 · KB), T682 (P1 erster Fall 0,30; 40 Verkäufe -> Zahl; 12 Nicht-Verkäufe
+  in 7 Tagen -> Rückfall, grau).
+TB138-4: Abbruch-Grund nach dem günstigsten FREMDEN Angebot der letzten Suche (Se.prices, ≤ 30 Min.), sonst Scan – vorher war
+  im Scan oft die eigene Auktion die günstigste -> nie "unterboten". Bericht: Klasse 80–100 % vor/ab 0.65.128 (Zeitpunkt der
+  Veröffentlichung) getrennt mit vorhergesagt/verkauft/Brier. TR T680 (u 10 % · a).
+Gesamtlauf 248/248, addon_check OK. Weiter: S2 (V2 Kaufgrenze je Preisstufe, V3 Welle -> jetzt verkaufen, A2 Tabellen).
