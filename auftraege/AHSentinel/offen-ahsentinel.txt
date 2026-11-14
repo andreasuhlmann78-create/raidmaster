@@ -29,6 +29,10 @@ ausgebucht, wenn 7 Tage nicht eingestellt – Seelenstaub wird laufend eingestel
 die in KEINEM Abbild und in keiner laufenden Auktion/Post steht, die 7-Tage-Sperre nicht anwenden.
 Reihenfolge danach: PR2 (klein, sofort – der Nutzer liefert heute Fälle), dann TB138-6/TB138c, TB138-2, TB138-3/b-3.
 
+STAND 08:40: 0.65.142 (TB138-6a/TB138c ein Gewinn, Details grau) und 0.65.143 (PR2-1/-2, BR1-1/-2/-3, 11083-Sperre) – zur
+Prüfung, addon_check OK. Im Client prüfen: Abbruch über Blizzards Fenster -> Grund festgehalten; Post von Hand schnell
+abgeholt -> Verkauf gebucht (T-BR1a). Als Nächstes: HB1, dann TB138b-3 (Speicher wächst je Scan), TB138-2.
+
 HB1 – HÄNDLER: GELD UND WARE GEMESSEN STATT ANGENOMMEN (Entscheid des Nutzers 14.11. 08:18: "Geld geht raus, Ware kommt rein –
    das ist ganz einfach messbar. Keine Fehler, lieber alles 3 mal prüfen.") HOCH, zusammen mit BR1.
    Ist-Stand im Code 0.65.141 (Prüf-Sitzung 09:00, dreifach gelesen: Books.lua 528–632, Extras.lua 105–145/530–545, Comfort.lua 483):
