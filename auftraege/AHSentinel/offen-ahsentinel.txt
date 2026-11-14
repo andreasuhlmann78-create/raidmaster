@@ -31,6 +31,18 @@ TB138-1 HOCH  Phantom-Lager nicht weg. BH-AUS-3 hat 12 Buchungen/30 Stück umgeb
               "vendor" (159 Wasser, 2320 Faden: vor 0.65.135 gekauft) und Tränke (2455, 6662: verbraucht). Erwartung
               danach: Lager dieser Figur = Taschen+Bank+eigene Auktionen. Gewinn 221977 liegt weiter über meiner
               Nachrechnung (ca. 205284) – die Prüf-Sitzung rechnet mit den nächsten Daten nach.
+>>> TB138-1 NACHTRAG 2 (08:05, SEHR HOCH, VOR ALLEM ANDEREN): Bank-Foto des Nutzers 07:46 bestätigt: der Abgleich ist
+              FALSCH, nicht das Lager. In der Bank liegen u. a. grünes Elixier 9 (6662 +9), Wasserschlauch 9 (159 +9),
+              blaue Manatränke 3+5+5 = 13 (2455 +13), Stoffballen 4×20, ein Gegenstand 25 (Fragezeichen-Symbol, Nutzer
+              klärt) – in den Taschen 16/6/11 (2320, 278243, 279972). HaveCount meldet 0.
+              Ursache vermutlich: GetItemCount(id, true) kennt die Bank im Classic-Client nur, wenn die Bank in DIESER
+              Sitzung offen war. Lösung: eigenes Bank-Abbild beim Öffnen der Bank speichern (BANKFRAME_OPENED/
+              PLAYERBANKSLOTS_CHANGED, je Figur, SavedVariables) und HaveCount = Taschen + gespeicherte Bank + eigene
+              Auktionen + Post unterwegs. Solange die Bank nie gesehen wurde: Abgleich nur MELDEN ("Bank nicht bekannt"),
+              NIE ausbuchen.
+              SOFORT prüfen: Hat CheckVendorUse (0.65.136–138) oder die BH-AUS-3-Reparatur (07:35, 30 Stück) schon echte
+              Ware ausgebucht? Wenn ja: rückgängig machen (Buchung "own"/Umbuchung zurück, Testbericht-Zeile).
+              Tests: T-HC1 Bank geschlossen, Abbild vorhanden -> Menge stimmt; T-HC2 nie gesehen -> nichts ausbuchen.
 >>> TB138-1 NACHTRAG 08:00 (Bildschirmfoto des Nutzers 07:44, Taschen offen): In den Taschen liegen Stapel mit 16, 6 und
               11 Stück – genau die Mengen, die der Abgleich als "vorhanden 0" meldet (2320 +16, 278243 +6, 279972 +11).
               Verdacht: BK:HaveCount liefert 0, obwohl die Ware da ist (Aufruf vor dem Laden der Taschen, Sandbox der
