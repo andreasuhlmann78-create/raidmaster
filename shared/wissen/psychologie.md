@@ -51,6 +51,10 @@ Pflicht: Bei jeder Prüfung einer sichtbaren Änderung und bei jedem Auftrag mit
 8. **Erfolgserlebnis:** Gewinne sichtbar und freundlich (grün, kurz), ohne Prahlerei; Fehler des Addons sofort beheben.
 9. **Ruhe statt Stress:** Kein Ruckeln, keine Flut von Meldungen – beides erzeugt Frust, der nichts mit Gold zu tun hat.
 
+## 3b. Nachvollziehbar (Entscheid des Nutzers 14.11. 15:18)
+Jede Funktion: Zahl + EIN Satz "was ist das, wie entsteht es" in Alltagssprache (≤ 20 Wörter). Warum nur kurz und optional.
+Der Spieler soll verstehen, was AHS tut – sonst vertraut er der Zahl nicht (Vertrauen = Nutzen).
+
 ## 4. Prüffragen (bei jeder sichtbaren Änderung)
 
 - Welchen NUTZEN hat der Spieler davon – in einem Satz, ohne Fachwort?

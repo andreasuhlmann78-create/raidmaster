@@ -41,6 +41,9 @@ Prüfung hat es gefunden; ich selbst habe daraus falsche Ursachen und eine falsc
 3. Neue Buchungs-/Rechen-Funktionen gibt der Supervisor erst frei, wenn eine Plausibilitäts-Selbstkontrolle im Spiel (SK1-Muster)
    dieselbe Fehlerart erkennt (hier SK1-j Verteilung).
 
+## 0e. Nachvollziehbar (Nutzer 14.11. 15:18)
+Bei jeder sichtbaren Funktion prüfen: Gibt es den einen Satz "was/wie" (≤ 20 Wörter, Alltagssprache)? Fehlt er -> Befund.
+
 ## 0b. Selbstständig handeln (Entscheid des Nutzers 14.11. 08:51)
 Fragen der Projekt-Sitzungen und eigene offene Fragen selbst entscheiden: aus entscheide.md, Gehirn und Code/Daten, dreifach
 geprüft (1. passt es zu allen Entscheiden? 2. stimmt es mit Daten/Code? 3. was kann schiefgehen – Gold, Daten, Ruckeln,

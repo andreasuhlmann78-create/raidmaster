@@ -1,3 +1,5 @@
+>>> GRUNDSATZ NACHVOLLZIEHBAR (Nutzer 14.11. 15:18, gilt für alles Neue): Zahl + EIN Satz, was sie ist und wie sie entsteht (≤ 20 Wörter, Alltagssprache). Siehe auftraege/README.md.
+
 PRÜFUNG 3.12.31 (Supervisor 14:45, Entwurf Nachprüfung 14:20 übernommen; addon_check OK, gemeinsame Dateien byte-gleich):
 ML1 Schalter "Meldungen" UMGESETZT, zur Prüfung im Client (Schalter AUS -> eine Stunde spielen -> Testbericht "durchgerutscht 0";
 /lp help antwortet weiter). Eine Weiche (Core.lua 237–318), Toast/Advisor prüfen MessagesOn, Test T290 mit falschem Fall – gut.

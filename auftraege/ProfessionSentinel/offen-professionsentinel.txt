@@ -1,3 +1,5 @@
+>>> GRUNDSATZ NACHVOLLZIEHBAR (Nutzer 14.11. 15:18, gilt für alles Neue): Zahl + EIN Satz, was sie ist und wie sie entsteht (≤ 20 Wörter, Alltagssprache). Siehe auftraege/README.md.
+
 PS-TC1 MITTEL (Supervisor 14:45, aus AHSentinel-Testbericht 0.65.157 T373): ProfessionSentinelAPI.TodayCrafts(5) braucht im Spiel
    153 ms am Stück (Bild > 16 ms). AHSentinel ruft es jetzt nur alle 15 Min. auf – jeder Aufruf ruckelt trotzdem. Lösung:
    TodayCrafts aus einem Zwischenspeicher beantworten (Aufruf ≤ 2 ms), Neuberechnung nach Scan/Rezeptänderung in Portionen ≤ 8 ms.

@@ -56,6 +56,13 @@ Schwere, von oben nach unten abzuarbeiten. Die Prüf-Sitzung führt ihn bei JEDE
 umsortiert). Projekte arbeiten strikt in dieser Reihenfolge.
 
 
+GRUNDSATZ NACHVOLLZIEHBAR (Entscheid des Nutzers 14.11.2026 15:18, gilt IMMER und für alle Projekte): "Egal was wir einbauen,
+es muss für den Spieler einfach nachvollziehbar sein, WIE es funktioniert – das Warum ist nicht ganz so wichtig."
+Umsetzung (vereinbar mit "Anzeige als Zahl, keine Rechenwege", 01:15): Die Hauptanzeige bleibt EINE Zahl. Dazu je Funktion EIN
+kurzer Satz in Alltagssprache, was die Zahl ist und wie sie entsteht (Tooltip/Hilfe-Zeile), z. B. "Gewinn, wenn du jetzt kaufst,
+entzauberst und das Material verkaufst (nach AH-Gebühr)". Keine Formeln, keine Fachwörter, kein Prozent-Rechenweg. Warum
+(Begründung) nur, wenn es kurz ist. Prüfung: ein Gelegenheitsspieler versteht den Satz beim ersten Lesen; Test: Satz da, ≤ 20 Wörter.
+
 GRUNDSATZ (Entscheid des Nutzers 14.11.2026 11:24, gilt IMMER und für alle Projekte): Alles, was eingebaut wird, wird streng
 geprüft. Jede neue Funktion kommt mit (1) Test in der Testroutine (auch absichtlich falsche Fälle), (2) Selbstkontrolle im
 Spiel, wo messbar (passiv gegen echte Ereignisse, Ergebnis im Testbericht), (3) Prüfung durch den Supervisor. Fehlt einer der
