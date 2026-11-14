@@ -1,0 +1,18 @@
+AHSentinel 0.65.146 – UI-V1b (+ UI-V1 Nachtrag Klick-Protokoll) – umgesetzt, zur Prüfung
+
+UI-V1b (Entscheid 08:42, 1:1 aktueller AH-Stand):
+- UI_Sell p:Select: bei offenem AH IMMER Se:CheckPrice(itemID, true) (vorne in der Schlange, Preempt), auch bei frischem Preis
+  (PRICE_FRESH 300 s gilt hier nicht mehr; Vorladen/Wächter unverändert).
+- Bis die Antwort da ist: alte Liste mit Alpha 0,45 (grau), Zeile "wird aktualisiert …"; drosselt der Server:
+  "wird aktualisiert … (Server lässt in x s wieder suchen)" aus neuem A:QueryWait() (max(QueryGap, QuerySpacing) − seit letzter
+  Suche), zählt jede Sekunde herunter; die Schlange startet die Suche von selbst.
+- Neu suchen nach AUCTION_POSTED, AUCTION_CANCELLED und BUY_PURCHASE_RESULT(ok) des gewählten Items (UI.SellRecheck).
+- Liste = Server-Antwort (wie bisher ReadListings, eigene markiert).
+UI-V1 Nachtrag: jeder Klick in der Taschen-Liste -> Protokoll VERKAUFEN-KLICK (Item, vorher/nachher gewählt, Fehler, Titel).
+
+Belege: TR T668 (T-UI-V1b, im Simulator SKIP mangels Taschen-Items), Szenario s96_uiv1b_research: frischer Preis, Item
+erneut gewählt -> Suche läuft/vorne, grau + Text, neue Antwort mit neuem Stempel, danach Liste normal (8/8).
+Gesamtlauf 247/247, addon_check OK.
+
+Hinweis: Im Test wird kein echtes AUCTION_POSTED gefeuert (würde Buchhaltung/Prognose berühren), sondern UI.SellRecheck direkt.
+Gesehen: WV1 (6b) aufgenommen. Weiter mit UI-V3 (+UI-V2).
