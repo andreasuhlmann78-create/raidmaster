@@ -1,6 +1,12 @@
 GRUNDSATZ (Nutzer 14.11. 11:24, IMMER): Jede neue Funktion = Test in der Testroutine (auch falsche Fälle) + Selbstkontrolle im
 Spiel wo messbar (SK1-Muster) + Prüfung durch den Supervisor. Im Bericht je Funktion alle drei nennen.
 
+T131-1 NIEDRIG (Nutzer 13:57, Supervisor geprüft): Der absichtliche Test-Fehler "AHS-Test T131" (TestRoutine.lua 2936) erscheint
+   beim Nutzer als echtes Lua-Fehlerfenster (Count 2) – sieht aus wie ein Absturz. Während T131 den Fehler-Handler kurz umhängen:
+   eigenen Testfehler zählen/erkennen (Text "AHS-Test T131"), NICHT an das Fehlerfenster/BugSack weiterreichen, danach den alten
+   Handler sofort zurück (auch bei Zeitüberschreitung). Andere Fehler in dieser Zeit normal weiterreichen. Test: Lauf erzeugt
+   0 sichtbare Fehler, T131 weiter PASS bzw. SKIP ohne Abgriff.
+
 TESTBERICHT 0.65.157 IM SPIEL (Nutzer 13:38, Supervisor 13:45 gegen Daten-Abbild 13:40 geprüft): 738 OK · 4 FEHLER.
 Reihenfolge: VOR S2-B4/SK1-B4.
 TB157-1 HOCH  T373 Ruckeln schlimmer: cache:today:10 ein Schritt 153 ms (Comfort.lua:855) – vorher 44–68 ms (Z. 120/866).
