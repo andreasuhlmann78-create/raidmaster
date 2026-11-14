@@ -45,8 +45,9 @@ RM1 MITTEL (Auftrag des Nutzers 16:22 "Risikomanagement", Grundlage markt-strate
 
 VK-1 MITTEL (Wunsch des Nutzers 16:33, nach MR1-V/MH-1/FL-1): Reiter "Verkauft" im Verkaufen-Fenster (neben Einstellen / Meine
    Auktionen). Liste aller verkauften eigenen Auktionen (Zeitraum Heute / 7 Tage, Standard Heute), je Zeile: Item, Menge,
-   Preis/Stück, Erlös netto (nach 5 %), Gewinn (Erlös − Einstand, grün/rot), Dauer eingestellt -> verkauft, Dauer verkauft ->
-   im Briefkasten, Status (unterwegs / im Briefkasten / abgeholt). Ganz unten EINE Summenzeile: Menge, Erlös, Gewinn, Ø Dauer bis
+   Preis/Stück, "Gold kommt" (= Erlös netto nach 5 %, Hauptzahl – Nutzer 16:37: "da sehen sie das Gold, das kommt"; Gewinn je
+   Zeile NUR im Tooltip, eine Zahl je Zeile), Dauer eingestellt -> verkauft, Dauer verkauft ->
+   im Briefkasten, Status (unterwegs / im Briefkasten / abgeholt). Ganz unten EINE Summenzeile: Menge, Gold kommt, Gewinn (grün, nur hier), Ø Dauer bis
    Verkauf, Ø Zeit bis Briefkasten, "noch unterwegs: x Gold".
    Zeiten: eingestellt = Einzahlungs-Buchung (fee), verkauft = Verkaufs-Meldung (wenn lesbar) sonst Rechnungs-Zeit − gemessene
    Post-Verzögerung (dann "~" davor = geschätzt), im Briefkasten = Rechnung (ti), abgeholt = tm. Keine neuen Speicherfelder nötig
