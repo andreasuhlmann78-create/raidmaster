@@ -17,6 +17,9 @@ PRÜFUNG 0.65.165 + 0.65.166 (Supervisor 15:55, addon_check 0.65.166 OK, Bericht
   Staub 83 % × Ø 1,5 + Essenz 17 % × Ø 1,6 (nicht 1s 32c fest).
 - Antwort zu ProfessionSentinel-API: JA, wird bei ProfessionSentinel beauftragt (PS-API1 "Rezepte mit Zutaten je Figur"); bis
   dahin bleibt euer Weg (Berufsfenster einmal öffnen). Wenn die API da ist: nutzen, sonst Rückfall.
+SN-ALLE1 SICHT 0.65.174 (Screenshot 18:12): reihum wirkt – Treffer abwechselnd bei Wächterhandschuhe (17s) und Silberfaden-
+   handschuhe (9s 71c), alle 3 Zeilen "geprüf…". SN-ALLE1-1 KLEIN: Spalte "Stand" schneidet "geprüft vor x Sek." ab (nur "geprüf…"
+   sichtbar) – Text kürzen ("vor 3 s") oder Spalte breiter, Bereich K. Testbericht mit Sniper-Takt folgt.
 >>> JETZT (Nutzer 18:01 "lass ihn den Sniper fertig machen"): Block 1 ist bis auf TB172-2 geprüft – SN-ALLE1 jetzt bauen.
     TB172-2 prüfe ich mit dem Teil server des nächsten Testberichts mit.
 >>> HÖCHSTE PRIORITÄT (Nutzer 17:52): SN-ALLE1 (Sniper prüft ALLE Ziele, so schnell wie der Server erlaubt) – sofort nach
