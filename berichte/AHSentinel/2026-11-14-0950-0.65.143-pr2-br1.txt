@@ -1,0 +1,20 @@
+Bericht AHSentinel 0.65.143 – PR2 und BR1 (+ Hinweis 11083)
+Stand: 14.11.2026 · Status: umgesetzt, zur Prüfung
+PR2-1: Abbrüche über Blizzards Fenster/andere Addons wurden nicht erkannt (Se:OnCanceled verwarf AUCTION_CANCELED ohne
+  eigenen pendingCancel) -> deshalb cr bei allen 17 leer. Neu: hooksecurefunc(C_AuctionHouse, "CancelAuction") setzt bei
+  einer eigenen laufenden Auktion pendingCancel (external) -> normaler Ablauf (Zeile weg, Fc:OnCancel, BH-ANZ depx).
+  Fc:OnCancel: cr u/a wie bisher, neu cg = Abstand in %. Beim Abschluss (Close) neu ub = unterboten während der Laufzeit
+  (bestätigter Scan-Preis unter dem eigenen Stückpreis im Zeitraum der Einstellung). P-Felder am Ende: cg, ub, pw.
+PR2-2: Fc:PriceChance – Quote je Preisstufe der Warengruppe (alle Laufzeiten), gezogen zur Gesamtquote der Gruppe mit
+  k = 2, ab 10 Fällen in der Gruppe; ersetzt die Chance in PostPrediction, alte Rechnung als pw gespeichert. Anzeige
+  weiter über ShownChance (grau "lernt noch", bis kalibriert). Bericht "PR2 Prognose neu gegen alt: Treffer neu/alt/
+  immer-nein, Brier neu/alt (N)" (Feld prognose_pr2) + Abbrüche u/a + unterboten während der Laufzeit. PR2-3 später.
+BR1: BK:ScanInbox bei MAIL_SHOW/MAIL_INBOX_UPDATE (0,3 s) und Nachhaken an TakeInboxMoney/TakeInboxItem/AutoLootMailItem/
+  DeleteInboxItem/ReturnInboxItem (wertet die Post vor dem Verschwinden aus und ruft Le:ScanInbox für Rechnungen):
+  BR1-2 Ablauf-Post -> BK:NoteInboxMail (Schlüssel Item/Menge/Ablaufzeit, nie doppelt, auch Mailer nutzt ihn) ->
+  Anzahlung verfallen. BR1-3 Abbild der Anhänge (db.inboxSnap je Figur) zählt im Lager-Abgleich als vorhanden.
+  Abbruch-Post bleibt über AUCTION_CANCELED gebucht. Ketten (PR1) laufen über die Einstellungen, nicht über die Post.
+11083-Hinweis: CorrectStock wendet die 7-Tage-Sperre nicht an, wenn die Ware in keinem Abbild (Taschen, Bank, Auktion,
+  Briefkasten-Abbild bekannt) steht.
+Tests: T664 T-PR2a/b, T665 T-BR1b/c – PASS. T-BR1a (Post in 0,1 s von Hand abgeholt -> Verkauf gebucht) nur im Client prüfbar.
+Gesamtlauf 246/246, addon_check OK.
