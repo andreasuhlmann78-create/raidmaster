@@ -1,102 +1,21 @@
 {
- "ausgewertet": "2026-11-14T15:46:36Z",
+ "ausgewertet": "2026-11-14T16:21:38Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 34,
+   "berichte": 40,
    "letzter_test": {
-    "id": "AHSentinel-1794661020-7baad5-2",
-    "version": "0.65.157",
-    "time": 1794660935,
+    "id": "AHSentinel-1794671681-6f87a5-4",
+    "version": "0.65.170",
+    "time": 1794671677,
     "counts": {
-     "client": 16,
-     "fehler": 8,
-     "ok": 737,
-     "uebersprungen": 25
+     "client": 0,
+     "fehler": 0,
+     "ok": 5,
+     "uebersprungen": 1
     }
    },
-   "fehler_tests": [
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.157",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T129",
-     "name": "Fehler in Hintergrund-Aufgabe wird gemeldet",
-     "detail": "ergebnis: kein Eintrag | erwartet: Eintrag wo = Job:ahs-test-error",
-     "bericht": "AHSentinel-1794661020-7baad5-2"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.157",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T167",
-     "name": "Ereignisse gesammelt: höchstens 3 Neuaufbauten",
-     "detail": "ergebnis: 20 Ereignisse, 0 Aufbauten | erwartet: 1 bis 3",
-     "bericht": "AHSentinel-1794661020-7baad5-2"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.157",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T184",
-     "name": "Heute tun: Angebot unter Händlerpreis ergibt Zeile mit richtigem Gewinn, sonst keine",
-     "detail": "ergebnis: Gewinn nil (-), mit 10s-Grenze 0 Zeilen, über Händlerpreis 0, ohne Händlerpreis 0 | erwartet: +1s 50c (150), 0, 0, 0",
-     "bericht": "AHSentinel-1794661020-7baad5-2"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.157",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T277",
-     "name": "GoldSentinelSync 2 und GoldSentinelTest 2 (T-N1 bis T-N4, T-GT1, T-GT2) und gebündelte Scan-Preise im Netz",
-     "detail": "ergebnis: true/true false 0/true true true true true | erwartet: true/true true 0/true true true true true",
-     "bericht": "AHSentinel-1794661020-7baad5-2"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.157",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T647",
-     "name": "T-T373b Heute (ComputeTodayActions) mit 5000 Items in Portionen: längster Schritt <= 8 ms, längstes Bild <= 16 ms",
-     "detail": "ergebnis: fertig true · längstes Bild 11.4 ms · längster Schritt 10.4 ms bis Disenchant.lua:1508 · 109 Bilder | erwartet: <= 8 ms Schritt, <= 16 ms Bild",
-     "bericht": "AHSentinel-1794661020-7baad5-2"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.157",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T676",
-     "name": "T-GA2 Geldfluss gegen Geldfluss: Post +1000 (Verkauf gebucht), Händler −200 (Kauf gebucht), Quest +100, Beute +50, Le…",
-     "detail": "ergebnis: Handel +800 · gebucht +800 · Lücke +0 · ausserhalb +120 · danach sonst +0 (Liste 0) | erwartet: Handel = gebucht · Lücke 0 · ausserhalb +120 · sonst −500 (Liste −500)",
-     "bericht": "AHSentinel-1794661020-7baad5-2"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.157",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "TSK1c",
-     "name": "SELBSTKONTROLLE im Spiel: Auktionshaus",
-     "detail": "ergebnis: 1 Fälle · 0 stimmig · 1 Abweichungen · zuletzt 14.11. 13:53 Gold -500 · gebucht +0 · Differenz -500 | erwartet: 0 Abweichungen",
-     "bericht": "AHSentinel-1794661020-7baad5-2"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "test",
-     "version": "0.65.157",
-     "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T598",
-     "name": "T-SN1951a Sniper: 3 gesendete, vom Server abgelehnte Einzelkäufe -> Zähler 0, Budget unverändert; erst die Bestätigu…",
-     "detail": "ergebnis: true · true · true · gesendet 0/0 vorgemerkt 3 · nach Fehlern 0/0 rest 35/31240 tot 3 offen 0 · bestätigt 0/0 rest 35/31240 | erwartet: true · true · true · gesendet 0/0 vorgemerkt 3 · nach Fehlern 0/0 rest 35/31240 tot 3 offen 0 · bestätigt 1/880 rest 34/30360",
-     "bericht": "AHSentinel-1794661020-7baad5-2"
-    }
-   ],
+   "fehler_tests": [],
    "fehler_spiel": [
     {
      "addon": "AHSentinel",
@@ -616,86 +535,6 @@
  "offen": [
   {
    "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.157",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T129",
-   "name": "Fehler in Hintergrund-Aufgabe wird gemeldet",
-   "detail": "ergebnis: kein Eintrag | erwartet: Eintrag wo = Job:ahs-test-error",
-   "bericht": "AHSentinel-1794661020-7baad5-2"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.157",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T167",
-   "name": "Ereignisse gesammelt: höchstens 3 Neuaufbauten",
-   "detail": "ergebnis: 20 Ereignisse, 0 Aufbauten | erwartet: 1 bis 3",
-   "bericht": "AHSentinel-1794661020-7baad5-2"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.157",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T184",
-   "name": "Heute tun: Angebot unter Händlerpreis ergibt Zeile mit richtigem Gewinn, sonst keine",
-   "detail": "ergebnis: Gewinn nil (-), mit 10s-Grenze 0 Zeilen, über Händlerpreis 0, ohne Händlerpreis 0 | erwartet: +1s 50c (150), 0, 0, 0",
-   "bericht": "AHSentinel-1794661020-7baad5-2"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.157",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T277",
-   "name": "GoldSentinelSync 2 und GoldSentinelTest 2 (T-N1 bis T-N4, T-GT1, T-GT2) und gebündelte Scan-Preise im Netz",
-   "detail": "ergebnis: true/true false 0/true true true true true | erwartet: true/true true 0/true true true true true",
-   "bericht": "AHSentinel-1794661020-7baad5-2"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.157",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T647",
-   "name": "T-T373b Heute (ComputeTodayActions) mit 5000 Items in Portionen: längster Schritt <= 8 ms, längstes Bild <= 16 ms",
-   "detail": "ergebnis: fertig true · längstes Bild 11.4 ms · längster Schritt 10.4 ms bis Disenchant.lua:1508 · 109 Bilder | erwartet: <= 8 ms Schritt, <= 16 ms Bild",
-   "bericht": "AHSentinel-1794661020-7baad5-2"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.157",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T676",
-   "name": "T-GA2 Geldfluss gegen Geldfluss: Post +1000 (Verkauf gebucht), Händler −200 (Kauf gebucht), Quest +100, Beute +50, Le…",
-   "detail": "ergebnis: Handel +800 · gebucht +800 · Lücke +0 · ausserhalb +120 · danach sonst +0 (Liste 0) | erwartet: Handel = gebucht · Lücke 0 · ausserhalb +120 · sonst −500 (Liste −500)",
-   "bericht": "AHSentinel-1794661020-7baad5-2"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.157",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "TSK1c",
-   "name": "SELBSTKONTROLLE im Spiel: Auktionshaus",
-   "detail": "ergebnis: 1 Fälle · 0 stimmig · 1 Abweichungen · zuletzt 14.11. 13:53 Gold -500 · gebucht +0 · Differenz -500 | erwartet: 0 Abweichungen",
-   "bericht": "AHSentinel-1794661020-7baad5-2"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "test",
-   "version": "0.65.157",
-   "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T598",
-   "name": "T-SN1951a Sniper: 3 gesendete, vom Server abgelehnte Einzelkäufe -> Zähler 0, Budget unverändert; erst die Bestätigu…",
-   "detail": "ergebnis: true · true · true · gesendet 0/0 vorgemerkt 3 · nach Fehlern 0/0 rest 35/31240 tot 3 offen 0 · bestätigt 0/0 rest 35/31240 | erwartet: true · true · true · gesendet 0/0 vorgemerkt 3 · nach Fehlern 0/0 rest 35/31240 tot 3 offen 0 · bestätigt 1/880 rest 34/30360",
-   "bericht": "AHSentinel-1794661020-7baad5-2"
-  },
-  {
-   "addon": "AHSentinel",
    "art": "spiel",
    "wo": "ADDON_ACTION_FORBIDDEN",
    "msg": "UNKNOWN()",
@@ -1104,8 +943,8 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 111,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.157-04c05bd24e27.txt"
+    "anzahl": 113,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.168-d31a51437186.txt"
    },
    "BuffSentinel": {
     "anzahl": 35,
@@ -1116,20 +955,20 @@
     "neueste": "testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt"
    },
    "GuildSentinel": {
-    "anzahl": 103,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.38-61156a371eba.txt"
+    "anzahl": 105,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.38-b461adf5f36a.txt"
    },
    "LevelPilot": {
-    "anzahl": 10,
-    "neueste": "testberichte/diagnose/LevelPilot/3.12.30-15fdfa384bd0.txt"
+    "anzahl": 11,
+    "neueste": "testberichte/diagnose/LevelPilot/3.12.30-f472958c4c64.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 85,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.32-656033dfd769.txt"
+    "anzahl": 87,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.45-8d1ee6645901.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 87,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.13-8d842bb8e04c.txt"
+    "anzahl": 89,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.13-902dbc95fc39.txt"
    }
   },
   "wege": {

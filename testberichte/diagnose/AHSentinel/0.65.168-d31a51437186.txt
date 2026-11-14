@@ -1,0 +1,226 @@
+AHSentinel-Protokoll v0.65.168 · 14.11. 16:48:10
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  14.11. 16:19:48 L10 ? v0.65.168
+  14.11. 16:17:31 L10 ? v0.65.168
+  14.11. 16:07:15 L10 ? v0.65.167
+  14.11. 15:56:29 L10 ? v0.65.167
+  14.11. 15:53:34 L10 ? v0.65.167
+  14.11. 15:50:41 L10 ? v0.65.167
+  14.11. 15:38:22 L10 ? v0.65.165
+  14.11. 15:30:41 L10 ? v0.65.165
+  14.11. 15:29:17 L10 ? v0.65.165
+  14.11. 13:59:47 L10 ? v0.65.159
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 23 Min., 6922 Items, Preis-Sync an
+  SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 2, GoldSentinelMarkt 2, GoldSentinelTest 2, GuildSentinel 2, ThreatSentinel 0
+  SYNC gesendet 422 · empfangen 75 · verworfen: nopath 4, secret 2 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 0) · gesendet 6 · weitergegeben 0 · offline 1 · Listen 6 · Warteschlange 0 · gespeichert ja
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Gewinn-Fenster angedockt an ohne Namen (Versatz 59.000122070312)
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, minimapAngle=18.1, priceGuard=20, theme=modern, tooltipDEDetail=true, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0 (dazu 11 in der Testroutine, nur in deren Protokoll)
+
+== Einträge (200, neueste zuerst)
+[14.11. 16:43:13] RECHNUNG Item 11082 · Menge 2 (Feld 5 2, Feld 11 2) · Feld 4 2680 · consignment 134 · deposit 100 · Post-Gold 2646 · gesamt 2680 · Stück 1340 · Feld 4 = Gesamt: ja
+[14.11. 16:43:13] WERT Gruppe 7 · Item 11082 · vorhergesagt 1341 · echt 1340 · Abweichung +0 %
+[14.11. 16:43:13] RECHNUNG Item 11083 · Menge 6 (Feld 5 6, Feld 11 6) · Feld 4 2844 · consignment 142 · deposit 99 · Post-Gold 2801 · gesamt 2844 · Stück 474 · Feld 4 = Gesamt: ja
+[14.11. 16:43:13] WERT Gruppe 7 · Item 11083 · vorhergesagt 475 · echt 474 · Abweichung +0 %
+[14.11. 16:43:13] RECHNUNG Item ? · Menge 2 (Feld 5 2, Feld 11 2) · Feld 4 2680 · consignment 134 · deposit 100 · Post-Gold 2646 · gesamt 2680 · Stück 1340 · Feld 4 = Gesamt: ja
+[14.11. 16:42:15] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 11 ms bis Comfort.lua:874 · 16 ms
+[14.11. 16:42:08] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 16 ms bis Extras.lua:279 · 16 ms
+[14.11. 16:41:50] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 22 ms bis Extras.lua:279 · 22 ms
+[14.11. 16:39:33] AUFBAU ×4 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 64 ms
+[14.11. 16:38:42] PREIS-ALT AH offen · letzter Scan Vollscan · Waren im Vollscan 160 · Hauptmaterialien 11083: 0.2 Std., 10940: 0.1 Std., 11082: 0.2 Std. · 0 frisch geholt
+[14.11. 16:38:39] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 92 ms
+[14.11. 16:38:33] ABSATZ Item 4245 · Q 41 (vollscan) · S 219.6 (measured) · S roh 219.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.2 · N 3.0
+[14.11. 16:38:28] RECHNUNG Item 11083 · Menge 1 (Feld 5 1, Feld 11 1) · Feld 4 477 · consignment 23 · deposit 14 · Post-Gold 468 · gesamt 477 · Stück 477 · Feld 4 = Gesamt: ja
+[14.11. 16:38:28] BUCHHALTUNG Rechnung weicht ab: Item 11083 · 1 Stück · ausstehend 453 · Rechnung 454 (Rechnung gilt)
+[14.11. 16:38:28] WERT Gruppe 7 · Item 11083 · vorhergesagt 475 · echt 477 · Abweichung +0 %
+[14.11. 16:38:28] RECHNUNG Item 10940 · Menge 176 (Feld 5 176, Feld 11 176) · Feld 4 19712 · consignment 985 · deposit 96 · Post-Gold 18823 · gesamt 19712 · Stück 112 · Feld 4 = Gesamt: ja
+[14.11. 16:38:28] WERT Gruppe 7 · Item 10940 · vorhergesagt 114 · echt 112 · Abweichung +2 %
+[14.11. 16:38:28] RECHNUNG Item 10938 · Menge 39 (Feld 5 39, Feld 11 39) · Feld 4 5421 · consignment 271 · deposit 99 · Post-Gold 5249 · gesamt 5421 · Stück 139 · Feld 4 = Gesamt: ja
+[14.11. 16:38:28] WERT Gruppe 7 · Item 10938 · vorhergesagt 140 · echt 139 · Abweichung +1 %
+[14.11. 16:38:28] RECHNUNG-ROH 1=seller, 2=Geringe Magieessenz, 4=5421, 5=39, 6=99, 7=271, 8=0, 9=0, 10=0, 11=39, 12=false
+[14.11. 16:37:19] AUFBAU ×11 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 110 ms
+[14.11. 16:34:20] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 16:34:19] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 20 ms
+[14.11. 16:34:16] DE-GEZÄHLT ×2 Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 16:34:08] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 16:34:06] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 35 ms
+[14.11. 16:34:03] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 16:34:01] VERKAUFEN-KLICK Zeile Item 2997 · vorher 4343 · nachher 2997 · Fehler 0 · Titel Wollstoffballen
+[14.11. 16:33:59] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 16:33:54] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 34 ms
+[14.11. 16:33:54] VERKAUFEN-KLICK Zeile Item 4343 · vorher 2997 · nachher 4343 · Fehler 0 · Titel Braune Leinenhose
+[14.11. 16:33:53] VERKAUFEN-KLICK Zeile Item 2997 · vorher 2320 · nachher 2997 · Fehler 0 · Titel Wollstoffballen
+[14.11. 16:33:52] VERKAUFEN-KLICK Zeile Item 2320 · vorher nil · nachher 2320 · Fehler 0 · Titel Grober Faden
+[14.11. 16:33:52] ABSATZ Item 2320 · Q 113 (vollscan) · S 526.0 (market, gelernt) · S roh 1272.0 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.2 · N 1.0
+[14.11. 16:33:52] ABSATZ Item 279972 · Q 576 (vollscan) · S 96.1 (market, gelernt) · S roh 250.1 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 6.0 · N 7.0
+[14.11. 16:33:51] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 16:33:47] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 16:33:44] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 20 ms
+[14.11. 16:33:42] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 16:32:47] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 62 ms
+[14.11. 16:32:31] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 66 ms
+[14.11. 16:32:29] ABSATZ Item 2589 · Q 504 (vollscan) · S 1230.3 (measured) · S roh 1230.3 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.4 · N 1.0
+[14.11. 16:32:29] ABSATZ Item 2997 · Q 368 (vollscan) · S 195.4 (measured) · S roh 195.4 · Deckel - · eigene Quote 3/3 · Laufzeit 24 Std. · W 1.9 · N 1.0
+[14.11. 16:32:29] ABSATZ Item 10938 · Q 549 (search) · S 909.3 (measured) · S roh 909.3 · Deckel - · eigene Quote 29/30 · Laufzeit 24 Std. · W 0.6 · N 1.0
+[14.11. 16:31:59] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 20 ms
+[14.11. 16:31:57] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 16:31:53] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 16:31:49] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 21 ms
+[14.11. 16:31:49] DE-GEZÄHLT ×2 Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 16:31:40] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10938×1
+[14.11. 16:31:39] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 20 ms
+[14.11. 16:31:36] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 16:31:32] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 16:31:29] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 20 ms
+[14.11. 16:31:28] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 16:31:23] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10938×1
+[14.11. 16:31:19] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 16:31:19] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 20 ms
+[14.11. 16:31:15] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10938×2
+[14.11. 16:31:11] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 16:31:09] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 43 ms
+[14.11. 16:31:06] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10938×2
+[14.11. 16:31:02] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 16:30:59] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 21 ms
+[14.11. 16:30:58] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 16:30:53] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10938×2
+[14.11. 16:30:49] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 20 ms
+[14.11. 16:30:48] DE-GEZÄHLT ×3 Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 16:30:39] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 33 ms
+[14.11. 16:30:36] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 16:30:08] ABSATZ Item 4604 · Q 26 (vollscan) · S 44.2 (market, gelernt) · S roh 115.2 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.6 · N 1.0
+[14.11. 16:30:08] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 33 ms
+[14.11. 16:30:07] ABSATZ Item 2996 · Q 252 (vollscan) · S 2009.1 (measured) · S roh 2009.1 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.1 · N 1.0
+[14.11. 16:30:01] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 16:29:58] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 20 ms
+[14.11. 16:29:57] DE-GEZÄHLT ×3 Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 16:29:48] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 48 ms
+[14.11. 16:29:47] SYNC gesendet 323, empfangen 2, verworfen 0 · Kanal verweigert 0
+[14.11. 16:29:44] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 16:29:40] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10938×1
+[14.11. 16:29:38] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 22 ms
+[14.11. 16:29:35] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 16:28:22] AUFBAU ×14 Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 4916 ms
+[14.11. 16:26:26] LANGSAM Hintergrund-Aufgabe pd7:prepare · 0 Schritte · längster Schritt 14 ms bis PD7.lua:192 · 17 ms
+[14.11. 16:26:13] ABSATZ Item 118 · Q 73 (vollscan) · S 1150.4 (measured) · S roh 1150.4 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.1 · N 1.0
+[14.11. 16:26:11] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 19 ms
+[14.11. 16:26:07] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 20 ms
+[14.11. 16:26:07] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 16:26:03] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 16:25:59] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 1832 ms
+[14.11. 16:25:56] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 17 ms bis Comfort.lua:736 · 17 ms
+[14.11. 16:25:56] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 19 ms bis Comfort.lua:701 · 19 ms
+[14.11. 16:25:54] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 16:25:52] ABSATZ-UNPLAUSIBEL Item 7055 · 23.0/Tag · Quelle geschätzt
+[14.11. 16:25:28] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 8657 ms
+[14.11. 16:25:28] LANGSAM ×2 Hintergrund-Aufgabe core:realcheck · 0 Schritte · längster Schritt 17 ms bis MarketCore.lua:529 · 18 ms
+[14.11. 16:25:28] LANGSAM ×3 Hintergrund-Aufgabe core:realcheck · 0 Schritte · längster Schritt 15 ms bis MarketCore.lua:529 · 18 ms
+[14.11. 16:25:26] MATERIAL-PREIS Item 11176 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 16:25:26] MATERIAL-PREIS Item 16202 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 16:25:26] MATERIAL-PREIS Item 11175 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 16:25:26] MATERIAL-PREIS Item 10978 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 16:25:26] MATERIAL-PREIS Item 10939 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 16:25:26] MATERIAL-PREIS Item 11177 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 16:25:26] MATERIAL-PREIS Item 16203 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 16:25:26] MATERIAL-PREIS Item 14344 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 16:25:26] MATERIAL-PREIS Item 10938 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 16:25:26] MATERIAL-PREIS Item 11178 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 16:25:26] MATERIAL-PREIS Item 11139 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 16:25:26] MATERIAL-PREIS Item 11084 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 16:25:26] MATERIAL-PREIS Item 11138 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 16:25:26] MATERIAL-PREIS Item 20725 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 16:25:26] MATERIAL-PREIS Item 10998 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 16:25:26] MATERIAL-PREIS Item 11083 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 16:25:26] MATERIAL-PREIS Item 11137 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 16:25:26] MATERIAL-PREIS Item 11082 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 16:25:26] MATERIAL-PREIS Item 16204 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 16:25:26] MATERIAL-PREIS Item 11174 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 16:25:26] MATERIAL-PREIS Item 11135 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 16:25:26] MATERIAL-PREIS Item 14343 · Quelle ah · Alter 0 Min. · unsicher: Scan 9086 / Marktwert 5773
+[14.11. 16:25:26] MATERIAL-PREIS Item 11134 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 16:25:26] MATERIAL-PREIS Item 10940 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 16:25:26] LANGSAM Hintergrund-Aufgabe sync-send · 0 Schritte · längster Schritt 15 ms bis Sync.lua:190 · 18 ms
+[14.11. 16:25:21] VOLLSCAN Messung 286146 Auktionen · 6346 Items · Lücke 829 ms (Nachlauf: Speicherbereinigung ja · Aufgaben 6 ms (cache:itemlist, 0 Schritte)) · Speicher 388106->412169 KB · GC 16 · Warten auf Server 19367/77; Ereignis-Aufruf 0/1; Einlesen 24118/53; Verdichtung 617/45; Verfolgung V4 7001/38; Preisverlauf+Neuaufbau 1709/104; Nachlauf 0/829
+[14.11. 16:25:21] PREIS-ALT nach Scan · letzter Scan Vollscan · Waren im Vollscan 160 · Hauptmaterialien 11083: 0.0 Std., 10940: 0.0 Std., 11082: 0.0 Std. · 0 frisch geholt
+[14.11. 16:25:18] LANGSAM Hintergrund-Aufgabe fullscan · 3 Schritte · längster Schritt 78 ms bis Ende fullscan · 78 ms
+[14.11. 16:25:18] LANGSAM Hintergrund-Aufgabe fullscan · 0 Schritte · längster Schritt 15 ms bis AHAnalyzerPro.lua:144 · 17 ms
+[14.11. 16:25:11] VOLLSCAN Absatz unplausibel: Item 4377 · 11876/Tag bei Ø 2558 im AH (6.2 Std.)
+[14.11. 16:25:09] LANGSAM Hintergrund-Aufgabe fullscan · 0 Schritte · längster Schritt 24 ms bis Vollscan.lua:1001 · 25 ms
+[14.11. 16:25:09] VOLLSCAN M1d 286146 Auktionen gelesen (286135 gültig) · 2883 ms in 924 Portionen · längster Frame 4.0 ms · 6346 Items
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91121280 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91121127 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91121040 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91120873 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91120847 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91120520 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91120374 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91120342 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91120331 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91120319 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91120277 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91120060 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91119702 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91119626 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91119616 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91119596 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91119578 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91119341 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91119306 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91119276 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91119246 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91119137 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91119128 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91119098 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91119038 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91118923 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91118790 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91118684 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91118566 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91118461 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91118360 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:52] ABBRECHEN AUCTION_CANCELED auctionID 91118245 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87520282 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87520125 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87520097 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87520096 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87520078 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87520070 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87520062 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87520056 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87520018 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519999 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519983 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519980 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519968 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519903 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519872 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519870 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519836 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519787 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519672 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519662 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519602 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519595 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519586 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519578 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519567 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519557 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519522 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519523 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519517 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519476 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519471 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519448 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519432 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519423 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519422 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:41] ABBRECHEN AUCTION_CANCELED auctionID 87519371 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:40] ABBRECHEN AUCTION_CANCELED auctionID 78904324 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:40] ABBRECHEN AUCTION_CANCELED auctionID 78904953 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 16:24:40] VOLLSCAN M1c Abstand 947 s · neue Liste · 286146 Auktionen · Antwort nach 19.4 s
