@@ -141,7 +141,8 @@ Einzelheiten zu jedem Punkt stehen weiter unten (Suche nach dem Kürzel). Diese 
                         Verkauf = ein Fall). Im Bericht: Trefferquote alt/neu, je Preisstufe.
 4. CH-G       ZUR PRÜFUNG 0.65.123: GoldSentinelCmdHint.lua byte-gleich, in der .toc, addon_check OK (Prüf-Sitzung 00:30).
                         Im Client bestätigen (Liste, Klick wählt, Enter führt aus). Bericht 0.65.123 fehlt noch.
-5b. EB-DET-1  MITTEL     (Prüf-Sitzung 04:05, zu 0.65.133) Verkaufsquote zählt Abbrüche als "nicht verkauft". Nach Entscheid
+5b. EB-DET-1  0.65.134 zur Prüfung (addon_check OK, T-EBD2 PASS; Erklärung 246 = Szenarien, plausibel). Ursprünglich: MITTEL
+                        (Prüf-Sitzung 04:05, zu 0.65.133) Verkaufsquote zählt Abbrüche als "nicht verkauft". Nach Entscheid
                         des Nutzers (14.11. 00:5x) ist ein Abbruch meist Unterbieten und Teil der Verkaufskette (R6) -> Quote je
                         KETTE: verkaufte Stück / eingestellte Stück, wobei neu eingestellte Ware nach Abbruch nicht doppelt zählt;
                         nur Ablauf ohne Neu-Einstellung = nicht verkauft. Test T-EBD2 (einstellen, abbrechen, neu einstellen,
