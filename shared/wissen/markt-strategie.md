@@ -655,6 +655,16 @@ MESSAUFTRAG W1 (Supervisor, offline in addon-check/marktanalyse, erst ab ≥ 3 W
   UND Absatz ≥ Mittel 7 Tage. Prüfen: steigt der Preis danach in 3–5 Tagen ≥ 15 % häufiger als ohne Signal (Grundlinie)? Ebenso
   "Verteilung" -> Fall. Nur wenn out-of-sample besser: als Tabelle (A1) an AHSentinel (V3/V4), Anzeige nur als Zahl/Richtung.
 
+## 8i. Erwartungswert je Weg und Positionsgrösse nach Kelly (Nutzer 14.11. 15:16: "ja – du bist verantwortlich, dass es Sinn
+macht und der Spieler einen grossen Nutzen daraus ziehen kann")
+Quelle der Idee: Van K. Tharp (Erwartungswert, Positionsgrösse), Ed Thorp (Kelly). Erwartungswert je Weg E = Σ Rückfluss /
+Σ Einsatz − 1 aus bestätigten Buchungen (Summe/Summe, L3). Kelly für Gewinn-/Verlust-Verteilungen: f* ≈ E / Varianz der Rendite
+je Einsatz; in der Praxis HALBE Kelly und Deckel (nie mehr als heute 25 % gesamt / 10 % je Item).
+NUTZEN-TEST (Pflicht vor jedem Auftrag, Supervisor): mit den echten Buchungen nachspielen ("Was wäre mit Kelly-Budgets gewesen?")
+gegen die heutigen festen Budgets: mehr Gold am Ende UND kein grösserer schlechtester Tag. Nur wenn beides -> Auftrag an AHSentinel.
+Anzeige für den Spieler (psychologie.md): EINE Zahl je Weg "bringt je 1g Einsatz +x" grün und "setz höchstens y" – keine Formeln.
+Messauftrag K1 (Supervisor, offline): sobald je Weg ≥ 30 abgeschlossene Fälle vorliegen (Entzaubern hat 450; Flip 9, Herstellen 0).
+
 ## 9. Pflege dieser Datei
 
 - Neue Messung oder Entscheid des Nutzers -> hier eintragen (mit Datum), Status belegt/vermutet.

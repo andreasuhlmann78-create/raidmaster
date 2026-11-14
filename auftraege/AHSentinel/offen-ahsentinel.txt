@@ -20,6 +20,8 @@ wirtschaft-forever.md Abschnitt 0):
   11083 (25 Stück) wird über NP160-1 ausgebucht, sobald Briefkasten + Auktionen gesehen sind.
 - Prüfnamen SK1-j (Knopf) / SK1-k (Verteilung) so übernommen.
 Nächstes wie geplant: Herstellungs-Ketten S3b + S3-2 (Vorgaben 14:51, BR-W1), dann Halten-Verlust-Feld, Rest NIEDRIG.
+VORMERKUNG (noch KEIN Auftrag): EW1 Erwartungswert je Weg + Budget nach halber Kelly – der Supervisor macht zuerst den
+   Nutzen-Test (markt-strategie.md 8i). Nur wenn er besteht, kommt ein Auftrag (nach den Herstellungs-Ketten).
 
 PRÜFUNG 0.65.160 + 0.65.161 (Supervisor 14:45; Entwurf Nachprüfung 14:20 geprüft und übernommen; addon_check OK; Books.lua
 CorrectStock/HaveCount, SelfCheck.lua, Kern.lua selbst nachgelesen). Umgesetzt, zur Prüfung: TB157-3, TB157-4 (Sperre in 0.65.161,
