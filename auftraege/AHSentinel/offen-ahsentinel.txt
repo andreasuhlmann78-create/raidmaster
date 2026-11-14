@@ -34,6 +34,34 @@ Einzelheiten zu jedem Punkt stehen weiter unten (Suche nach dem Kürzel). Diese 
                         Ist 0.65.124 beim Nutzer schon gelaufen (repairedBHAUS gesetzt): Folge-Reparatur aus db.repairBHAUS
                         (Sicherung) – Lager-Zugang zurücknehmen, Einstand umbuchen. Test T-BHA8 (Reparatur: Lager unverändert,
                         Rechnung bekommt den Einstand, Gewinn = Erlös − Einstand). Im Bericht Gewinn/Lager vorher-nachher.
+1b. TB125      SEHR HOCH  Client-Testbericht 0.65.125 (Tempo, 14.11. 01:01) – Prüf-Sitzung 01:10. Erst laufende Arbeit sauber
+                        abschliessen, dann diese Punkte VOR allem Weiteren (Rückschritte beim Ruckeln):
+   TB125-1 Vollscan RÜCKSCHRITT: "Lücke 760 ms (Einlesen)" und "Nachlauf längster Frame 448 ms" (vorher 159–221 ms bzw.
+           ≤ 52 ms), Speicher 450 -> 565 MB (+114 MB), GC 6. Vermutung: der flache Preisverlauf (RF-M1) – Anhängen an
+           wachsende Listen bzw. Umbauen beim Einlesen in einem Stück. Verursacher mit Datei:Zeile messen, in Portionen
+           mit Zeitbudget (4 ms) bringen. Ziel: kein Bild > 16 ms.
+   TB125-2 Tooltip NEU ROT: T625 max 158 ms (Item 15347), Ø 5,6 ms (Ziel ≤ 5 ms). Vermutung: A:GetHistory baut für
+           lange Verläufe eine frische Tabellen-Kopie. Tooltip darf nie den ganzen Verlauf kopieren (flach lesen).
+   TB125-3 Start RÜCKSCHRITT: T630 Laden 1 ms (gut, PD7 in Portionen wirkt), aber Start 299 ms am Stück (vorher 44 ms).
+           Verursacher nennen (Datei:Zeile), in Portionen nach dem Einloggen.
+   TB125-4 Reiter: T626 jetzt "profit" (Buchhaltung) 1057 ms – auch dieser Reiter darf nie beim Öffnen rechnen
+           (gleiche Lösung wie Markt-Reiter: vorberechnen, sofort anzeigen).
+   TB125-5 T631 übersprungen "noch kein Vollscan gemessen", obwohl "Vollscan-Messung: letzte gespeichert" im selben
+           Bericht steht – T631 liest die gespeicherte Messung nicht (TB118-4 nicht wirksam).
+   TB125-6 Sandbox FEHLER: Die Testroutine hat echte Daten verändert (books.gold.<Figur>.lastT, wurde wiederhergestellt).
+           RecordGold während der Testroutine/Simulated sperren. (Spielernamen gehören nie in Berichte im Repo.)
+   TB125-7 Gold-Abstimmung irreführend: "seit Stichtag (diese Figur): Gold +36'012 · Buchhaltung +220'037 · nicht gebucht
+           −184'025". Gold-Stände gibt es erst seit 14.11. 00:43, die Buchhaltung seit 11.11. – Zeiträume passen nicht.
+           Abstimmung nur über den Zeitraum, für den Gold-Stände da sind, und über ALLE Figuren der Buchhaltung; sonst
+           grau "lernt noch". Erst ab 2 Gold-Ständen je Figur rechnen.
+   TB125-8 PR1 noch offen (erwartet): Zuverlässigkeit zählt weiter die 17 Abbrüche, Zeile "Entzaubern zerlegt … Rest
+           0,57" zeigt noch die alte Median-Zerlegung – mit PR1/KF2 auf Summen umstellen.
+   Buchhaltung (Prüf-Sitzung nachgerechnet): Erlös 502'260 = Kassenbuch (gut), 53 Buchungen aufgelöst, 0 ausstehend.
+   Gewinn 240'086 statt erwartet ca. 205'284: eingesetzt 261'303 statt 296'105 -> 34'802c Einstand gingen ins Lager
+   (Lager jetzt 11082 19 Stück, 11083 36 Stück). Ob diese Ware wirklich da ist, klärt der Nutzer (Taschen/Bank/AH).
+   Ist sie nicht da: Phantom-Ware -> Rest ebenfalls auf die Rechnungen buchen (BH-AUS-3).
+   Entzaubern je Gruppe: 26–30 +35 % -> 20 %; 36–40 +19,9 % (Anzeige "+20 %") -> 30 % "gemessen schlecht" – regelgerecht
+   (Grenze ≥ 20 %), aber knapp: Anzeige ohne Rundung, die zur Regel widerspricht ("+19,9 %").
 1. BH-AUS     ZUR PRÜFUNG 0.65.124 (Prüf-Sitzung 00:55: addon_check OK, Books.lua Zuordnung summiert, Reparatur, 24-Std.-
                         Grenze, Gold-Stände je Figur belegt). Offen: echte Zahlen aus dem nächsten Client-Testbericht
                         (Gewinn alt/neu, aufgelöste Buchungen, Gold-Abstimmung) – die Prüf-Sitzung rechnet nach.
