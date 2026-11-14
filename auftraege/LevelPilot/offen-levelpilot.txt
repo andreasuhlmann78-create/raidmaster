@@ -1,4 +1,27 @@
 ========================================================================================================================
+SOFORT – VOR ALLEM ANDEREN: ML1 SCHALTER "MELDUNGEN" (Wunsch des Nutzers 14.11. 13:44, vom Supervisor 13:50 freigegeben)
+Bezug: berichte/LevelPilot/2026-11-14-1350-wunsch-schalter-meldungen.txt. Euer Vorschlag ist richtig und wird so freigegeben.
+- Ein Schalter "Meldungen" (enGB "Messages", alle Locales) in der Zentrale, Reiter Einstellungen, gut sichtbar oben.
+  Standard AN (alte Clients/Einstellungen unverändert). AUS = LevelPilot meldet nichts von selbst:
+  a) kein LP:Print-Hinweis im Chat, b) nichts in der Bildschirmmitte (UIErrorsFrame) und KEIN Ton, c) keine Toasts,
+  d) keine Hinweise des Assistenten im Guide/Assistent-Reiter (Erste-Hilfe-Lehrer, Trainer, Reittier, Abgaben, "Wo war ich?",
+  Bilanz beim Ausloggen, Questgegenstand nah, Gegenstände ohne Nutzen, Haltbarkeit, Taschen, Munition, Talentpunkte …).
+  Die Einzelschalter bleiben und wirken nur, wenn "Meldungen" AN ist (beim Wiedereinschalten unverändert).
+- Ausnahmen (entschieden): 1. Antworten auf EIGENE Befehle (/lp help, diag, find, way, testroutine …) bleiben – der Spieler hat
+  sie angefordert. 2. Fehlermeldung auf eine eigene Handlung ("Im Kampf nicht möglich.", "Nicht genug Gold zum Reparieren")
+  bleibt, aber nur als direkte Antwort auf den Klick/Befehl, nie als ungefragter Hinweis. 3. Guide (Schritte, Pfeil,
+  Pfadlinie) ist keine Meldung und bleibt.
+- Umsetzung an EINER Stelle (z. B. LP:Notify(kind, …) / Weiche in LP:Print, UI:Toast, UIErrorsFrame-Aufrufe, Advisor-Liste),
+  damit keine Meldung den Schalter umgeht. Kein Ruckeln, keine Kosten bei AUS.
+- GRUNDSATZ (Nutzer 11:24): Test + Selbstkontrolle + Prüfung.
+  Test T-ML: alle Wege a–d mit AUS -> 0 Chatzeilen, 0 Bildschirmmeldungen, 0 Toasts, 0 Töne, 0 Assistent-Hinweise; mit AN ->
+  unverändert; Ausnahme 1/2 auch bei AUS sichtbar; absichtlich falscher Fall: ein Aufruf am Schalter vorbei wird erkannt
+  (Test zählt alle LP:Print/Toast/UIErrorsFrame-Stellen im Code gegen die Weiche).
+  Selbstkontrolle im Spiel: bei AUS Zähler "unterdrückt n · durchgerutscht 0" im Testbericht/Diagnose; durchgerutscht > 0 = FEHLER.
+- Locales alle Sprachen, CHANGELOG EN/DE, Bericht nach berichte/LevelPilot/ ("umgesetzt, zur Prüfung").
+========================================================================================================================
+
+========================================================================================================================
 PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 08:30, Nachprüfung 3.12.30). Immer von oben nach unten.
 Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei jeder Änderung nachgeführt.
 ========================================================================================================================
