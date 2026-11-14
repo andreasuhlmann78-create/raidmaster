@@ -31,6 +31,11 @@ TB138-1 HOCH  Phantom-Lager nicht weg. BH-AUS-3 hat 12 Buchungen/30 Stück umgeb
               "vendor" (159 Wasser, 2320 Faden: vor 0.65.135 gekauft) und Tränke (2455, 6662: verbraucht). Erwartung
               danach: Lager dieser Figur = Taschen+Bank+eigene Auktionen. Gewinn 221977 liegt weiter über meiner
               Nachrechnung (ca. 205284) – die Prüf-Sitzung rechnet mit den nächsten Daten nach.
+>>> TB138-1 NACHTRAG 3 (08:10, Daten PC 07:44 nachgesehen): AHSentinel HAT das Abbild schon – chars[<Figur>].bags und
+              .bank (bankTime gesetzt). Darin: Bank 2996 = 80, 159 = 9, 2455 = 13, 6662 = 9, 278243 = 6; Taschen
+              279972 = 11, 2320 = 16. Genau die Posten, die der Abgleich als "vorhanden 0" meldet. -> BK:HaveCount muss
+              dieses Abbild (Taschen + Bank) nutzen statt nur GetItemCount. 11083 (Seelenstaub) steht in KEINEM Abbild ->
+              die 25 Stück sind echte Phantom-Ware (Einstand ca. 15822) und dürfen umgebucht werden; alle anderen nicht.
 >>> TB138-1 NACHTRAG 2 (08:05, SEHR HOCH, VOR ALLEM ANDEREN): Bank-Foto des Nutzers 07:46 bestätigt: der Abgleich ist
               FALSCH, nicht das Lager. In der Bank liegen u. a. grünes Elixier 9 (6662 +9), Wasserschlauch 9 (159 +9),
               blaue Manatränke 3+5+5 = 13 (2455 +13), Stoffballen 4×20, ein Gegenstand 25 (Fragezeichen-Symbol, Nutzer
