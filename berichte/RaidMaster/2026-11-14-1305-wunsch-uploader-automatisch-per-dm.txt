@@ -1,0 +1,28 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 14.11.2026 13:05 · Sitzung: RaidMaster-Projekt-Sitzung · Version: Uploader 2.3.7 · Commit: (dieser)
+Thema: NEUER ENTSCHEID/WUNSCH DES NUTZERS – gehört zum Projekt Discord (Bot), bitte dort als Auftrag eintragen
+und in shared/wissen/entscheide.md aufnehmen.
+
+WORTLAUT DES NUTZERS (14.11.2026 13:03): "der bot soll von jetzt an <Mitglied A> und <Mitglied B> immer die neuste
+variante per dm senden" – gemeint ist der Daten-Uploader (RaidMasterUploader.zip). Kurz davor wurde einem der beiden der
+Uploader mit /uploader fuer:@Mitglied geschickt. (Namen absichtlich weggelassen: Repo öffentlich. Der Nutzer trägt die
+zwei Mitglieder selbst im Bot ein, siehe Vorschlag.)
+
+VORSCHLAG DER RAIDMASTER-SITZUNG (Umsetzung Discord-Projekt, RaidMasterBot):
+- Empfängerliste im Bot-Zustand auf dem Server (Discord-Nutzer-IDs, NIE im Repo), gepflegt per Befehl nur für die
+  Gildenleitung, z. B. /uploader-verteiler hinzufuegen|entfernen|liste mitglied:@…
+- Erkennt der Bot eine neuere Uploader-Version (ensure_fresh_uploader / uploader_version, nach /update bzw.
+  Nachladen der ZIP): jedem Eintrag einmal je Version eine DM wie bei /uploader nur_programm:True – NUR
+  RaidMasterUploader.zip + kurzer Text ("Fenster schliessen, Programmdateien ersetzen, uploader_config.json und
+  sync_config.json behalten, uploader.bat starten; oben muss 'RaidMaster-Uploader <Version>' stehen").
+  Nie Konfigurationsdateien automatisch verschicken (geheime Links, jeder hat seine eigene).
+- Versandstand je Empfänger und Version speichern (kein doppelter Versand nach Neustart); DM nicht möglich ->
+  Meldung in #offiziere, nichts sonst.
+- Tests: neue Version -> genau 1 DM je Empfänger; gleiche Version / Neustart -> 0; nicht mehr im Verteiler -> 0;
+  Anhang nur die ZIP.
+
+UPLOADER-SEITE: nichts zu ändern. Ab 2.3.5 warnt der Uploader bei älterer Fassung über einer neueren
+(version_hoechste); ab 2.3.3 Einzelinstanz – das Ersetzen der Programmdateien bei laufendem Uploader bleibt der
+einzige Stolperstein (im DM-Text nennen: erst alle Uploader-Fenster schliessen).
+
+FRAGEN: keine an den Nutzer offen; Umsetzung bitte über auftraege/Discord/.
