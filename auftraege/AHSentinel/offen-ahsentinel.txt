@@ -1,6 +1,26 @@
 GRUNDSATZ (Nutzer 14.11. 11:24, IMMER): Jede neue Funktion = Test in der Testroutine (auch falsche Fälle) + Selbstkontrolle im
 Spiel wo messbar (SK1-Muster) + Prüfung durch den Supervisor. Im Bericht je Funktion alle drei nennen.
 
+TESTBERICHT 0.65.157 IM SPIEL (Nutzer 13:38, Supervisor 13:45 gegen Daten-Abbild 13:40 geprüft): 738 OK · 4 FEHLER.
+Reihenfolge: VOR S2-B4/SK1-B4.
+TB157-1 HOCH  T373 Ruckeln schlimmer: cache:today:10 ein Schritt 153 ms (Comfort.lua:855) – vorher 44–68 ms (Z. 120/866).
+   Ziel ≤ 8 ms je Portion (Entscheid kein Ruckeln). Comfort.lua 840–860 in Portionen mit A:Pause(); s88/T-T373b mit echter
+   Datenmenge (6176 Items, 908 verfolgt) nachstellen. Selbstkontrolle: längste Portion je Aufgabe im Testbericht (gibt es) -> rot.
+TB157-2 HOCH  11083 weiter 25 Phantom im Lager (Einstand 15822): Abbild 13:40 – in KEINER Tasche und KEINER Bank dieser Figur,
+   SK1-f meldet es, BH-AUS-3 meldet +25. Die "11083-Sperre" aus 0.65.143 greift nicht. Ware ohne Abbild, ohne laufende Auktion
+   und ohne Post sofort ausbuchen (Einstand auf Verlust/Rechnung wie BH-AUS-3), nicht nach 7 Tagen. Test: Lager 25, nirgends
+   vorhanden, Bank bekannt -> nach dem Abgleich Lager 0, eine Reparatur-Zeile.
+TB157-3 MITTEL  SK1-f zählt "vorhanden > Lager" als Abweichung: 2996 Lager 40 / vorhanden 80 (Bank 80 laut Abbild), 4238 Lager
+   1 / vorhanden 5. Das ist Ware ohne Einkauf (Beute, Geschenk) – kein Fehler der Buchhaltung. Abweichung nur bei Lager >
+   vorhanden; "mehr vorhanden als gebucht" als eigene graue Info-Zahl. Test mit beiden Richtungen.
+TB157-4 MITTEL  T676 (T-GA2, Geldfluss) scheitert IM SPIEL: "sonst +0 (Liste 0)" statt −500 – im Sim grün (248/248). Vermutlich
+   seit NP152-1 (flowStart): im Spiel gibt es schon db.flowStart der echten Figur, der Test schreibt vor dem Messbeginn ->
+   zählt nicht. Test mit eigener Test-Figur/flowStart in der Sandbox, Sim mit vorhandenem flowStart ergänzen.
+Bekannt, bleiben offen: T647 (TB138b-5, 10,3 ms bei Disenchant.lua:1508), T277 (Netz-Test, Z. 1025), TB138-2 Gold-Abstimmung
+   (−110429, unverändert).
+Frage zu V2 (mit S2-B4 beantworten): "Kaufen je Stufe" zeigt eigene Fälle nur in ≤ 0,8 (n 98), alle anderen 0 – SN-M zählt aber
+   175 Käufe ≤ 0,7 und 42 in 0,8–0,9. Warum landen die Nachtrags-Fälle alle in einer Stufe (Wert ev vs. mv beim Nachtrag?).
+
 PRÜFUNG 0.65.157 (Supervisor 13:28, addon_check OK, Bericht + Books.lua OnMailMoney/Haken + SelfCheck.lua gelesen):
 SK1-B1/B2/B3 und S2-B1/B2/B3 umgesetzt, zur Prüfung im Client (SK1-b nach 2 Briefkasten-Besuchen, MARKT-KERN Kaufen je Stufe).
 Richtig: Post jetzt je genommenem Geld nach Art, keine A7-Vermutung; Handel gegen geschriebene Buchungen; Verkaufen-Fenster mit
