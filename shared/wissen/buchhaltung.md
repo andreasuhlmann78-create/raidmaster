@@ -151,6 +151,15 @@ wirklichen Bestand (Taschen/Bank/AH/Post) ab; Lager > Bestand = Befund.
 REGEL: Ausstehend ist kein Erlös. Gewinn nur aus bestätigten Verkäufen; jede Buchhaltungs-Prüfung gleicht Bücher und
 Kassenbuch je Item ab (Stück und Erlös) – Unterschied = Befund.
 
+## 5f. Händler und Briefkasten: messen statt annehmen (Entscheide des Nutzers 14.11. 08:17/08:18)
+- Grundsatz: Gebucht wird, was Gold und Taschen WIRKLICH zeigen (Unterschied vorher/nachher), nicht Listenpreise oder
+  Annahmen. Gescheiterte Käufe/Reparaturen bewegen kein Gold -> keine Buchung. Jeder Händlerbesuch endet mit einer
+  Schlusskontrolle (Gold Ende − Gold Anfang = Summe der Buchungen, Rest als "unklar" sichtbar).
+- Verkauf an den Händler ist ein Verkauf (Erlös, Einstand raus, Weg "Händler") – kein "fehlt"/"verbraucht".
+- Post zählt immer, auch von Hand oder durch andere Addons abgeholt: jede Post vor dem Verschwinden lesen (BR1).
+- Stand 0.65.141 (dreifach gelesen): Händlerverkauf und Rückkauf werden gar nicht gebucht, Kauf/Reparatur mit Listenpreis
+  und auch beim Scheitern -> Auftrag HB1. Eine Lücke in der Gold-Abstimmung (TB138-2) kann teils daher kommen.
+
 ## 6. Quellen
 
 - [TSM: Why am I missing sales or purchase data on my items?](https://support.tradeskillmaster.com/en_US/addon/why-am-i-missing-sales-or-purchase-data-on-my-items)

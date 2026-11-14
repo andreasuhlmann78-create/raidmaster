@@ -29,6 +29,38 @@ ausgebucht, wenn 7 Tage nicht eingestellt – Seelenstaub wird laufend eingestel
 die in KEINEM Abbild und in keiner laufenden Auktion/Post steht, die 7-Tage-Sperre nicht anwenden.
 Reihenfolge danach: PR2 (klein, sofort – der Nutzer liefert heute Fälle), dann TB138-6/TB138c, TB138-2, TB138-3/b-3.
 
+HB1 – HÄNDLER: GELD UND WARE GEMESSEN STATT ANGENOMMEN (Entscheid des Nutzers 14.11. 08:18: "Geld geht raus, Ware kommt rein –
+   das ist ganz einfach messbar. Keine Fehler, lieber alles 3 mal prüfen.") HOCH, zusammen mit BR1.
+   Ist-Stand im Code 0.65.141 (Prüf-Sitzung 09:00, dreifach gelesen: Books.lua 528–632, Extras.lua 105–145/530–545, Comfort.lua 483):
+   - Kauf beim Händler: Nachhaken an BuyMerchantItem bucht SOFORT mit dem LISTENPREIS (GetMerchantItemInfo), Menge geraten
+     (Stück oder Stapel? offen). Wird gebucht, auch wenn der Kauf scheitert (Taschen voll, zu wenig Gold).
+   - Reparatur: Nachhaken an RepairAllItems, Betrag GetRepairAllCost VOR der Antwort des Servers; scheitert die Reparatur, steht
+     sie trotzdem in den Büchern. Einzelreparatur (Hammer) fehlt.
+   - VERKAUF AN DEN HÄNDLER: wird NIRGENDS gebucht – weder AHSentinels Knopf (X:SellToVendor) noch Rechtsklick von Hand. Folgen:
+     Gold kommt herein ohne Buchung (Gold-Abstimmung TB138-2 geht nicht auf), und verkaufte Ware fehlt danach im Bestand ->
+     CorrectStock bucht sie als "fehlt"/"verbraucht" aus statt als Verkauf. Rückkauf (Buyback) fehlt ebenso.
+   LÖSUNG (einfach, gemessen): "Händler-Bilanz" je Händlerbesuch.
+   HB1-1 Bei MERCHANT_SHOW Gold (GetMoney) und Taschen-Abbild festhalten. Bei jedem PLAYER_MONEY und BAG_UPDATE_DELAYED, solange
+         der Händler offen ist: Unterschied seit dem letzten Stand rechnen (Gold ±, je Item ±Stück). Zusammengehörige Ereignisse
+         erst buchen, wenn 0,5 s Ruhe ist (Gold und Taschen kommen in getrennten Ereignissen).
+   HB1-2 Einordnen: Gold weniger + Ware mehr = Händlerkauf (Kosten = gemessener Goldabgang, auf die Items nach Listenpreis
+         verteilt); Gold mehr + Ware weniger = Verkauf an den Händler (Erlös = gemessener Goldzugang; Einstand aus dem Lager ->
+         Gewinn/Verlust Weg "Händler"); Gold weniger ohne Ware = Spielkosten (Reparatur, falls RepairAll-/Hammer-Hinweis, sonst
+         "Händler sonstiges"); Gold mehr + Ware mehr nach einem Verkauf desselben Items = Rückkauf (Verkauf zurücknehmen).
+         Ware weniger OHNE Gold (angelegt, zerstört) -> nicht hier buchen (EB1/CorrectStock wie bisher).
+         Die Nachhaken (BuyMerchantItem, RepairAllItems, UseContainerItem) bleiben nur als HINWEIS, was gerade passierte –
+         gebucht wird nur, was Gold und Taschen wirklich zeigen. Gescheiterte Käufe/Reparaturen = kein Goldabgang = keine Buchung.
+   HB1-3 Schlusskontrolle bei MERCHANT_CLOSED: Gold beim Schliessen − Gold beim Öffnen = Summe aller Händler-Buchungen dieses
+         Besuchs. Rest ≠ 0 -> eigene Buchung "Händler unklar" (sichtbar im Testbericht, nie still verloren).
+   HB1-4 Die alte Sofort-Buchung (OnMerchantBuy, OnRepair) entfällt bzw. wird durch HB1 ersetzt – nie doppelt buchen.
+         Alte Einträge bleiben unverändert (alte Clients/alte Daten nicht brechen).
+   Tests (je mit Gold- und Taschen-Ereignissen in verschiedener Reihenfolge): T-HB1 Kauf 5 Wasser (Stapel 5) -> 1 Buchung, Kosten =
+   Goldabgang; T-HB2 Kauf scheitert (kein Gold) -> nichts; T-HB3 Verkauf 10 Leinen von Hand -> Erlös gebucht, Lager −10, kein
+   "fehlt"; T-HB4 AHSentinels Verkaufen-Knopf 12 Items -> 12 Verkäufe, Summe = Goldzugang; T-HB5 Rückkauf -> Verkauf
+   zurückgenommen; T-HB6 Reparatur gescheitert -> nichts, gelungen -> Betrag = Goldabgang; T-HB7 Gegenstand anlegen am
+   Händler -> keine Händler-Buchung; T-HB8 Schlusskontrolle Rest 0. Im Bericht je Test die Zahlen.
+   Im Client prüfen (Nutzer): Wasser kaufen, etwas verkaufen, zurückkaufen, reparieren – Gold vorher/nachher gegen Buchhaltung.
+
 BR1 – BRIEFKASTEN AUCH VON HAND VOLL ZÄHLEN (Entscheid des Nutzers 14.11. 08:17: "Der Briefkasten muss nicht immer über AHS
    geöffnet werden – wenn nicht, muss das auch gezählt werden.") HOCH, mit PR2 zusammen.
    Stand im Code (Prüf-Sitzung 08:50): MAIL_SHOW/MAIL_INBOX_UPDATE -> nach 0,5 s Le:ScanInbox liest die Rechnungen – gut. Lücken:
