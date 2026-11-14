@@ -32,6 +32,10 @@ PRÜFUNG 0.65.167 (Supervisor 16:00, addon_check OK, Bericht gelesen): EK-1 umge
    Im Client prüfen: nach einer Herstell-Runde SK1-m = 0 Abweichungen und Einstand im Verkaufen-Fenster ≠ 0.
 Reihenfolge jetzt: SN-EIN1, SN-DEF1, SN-MAX1, BR-LEER1, VS-1, Ketten Schritt 2 (nach Freigabe), Rest.
 
+GW-S2 NIEDRIG (Screenshot 16:07, 0.65.167, Gewinn-Fenster Fraktionsbanner): "bester Weg: Händler" und "Händler zahlt mehr: 0c" bei
+   einem Verlust-Rezept (−61c), dessen Produkt der Händler nicht kauft (Händlerpreis 0). Kein bester Weg mit 0 -> "kein Weg mit
+   Gewinn" (oder Zeile weglassen); "Händler zahlt mehr" nie bei 0. Test: Produkt ohne Händlerpreis, Verlust -> keine Händler-Zeile.
+
 SN-DEF1 MITTEL (Entscheid des Nutzers 15:49, mit SN-EIN1 zusammen bauen): Sniper-Standardwerte für ein NEUES Ziel:
    Budget = 5g, Menge = 1000 Stück, Max/Stück = LEER – den Preis legt der Spieler selbst fest (grauer Platzhalter, z. B. "Preis
    eingeben (z. B. 22c)", ohne Max kein Start; KEIN automatisch eingesetzter Preis). Ersetzt den bisherigen Standard aus TU3
