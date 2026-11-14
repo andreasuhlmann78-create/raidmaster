@@ -82,6 +82,18 @@ SN-B1 HOCH (Nutzer 00:19, Screenshot 0.65.176, Ziel Leinenstoff max 18c): Status
     handschuhe), obwohl nur noch Leinenstoff in der Liste steht (1 Eintrag). Prüfen: Zahl der Ziele in der Rotation (PickTarget,
     db.targets inkl. erledigte/gelöschte/ausgeblendete) = Zahl der sichtbaren Zeilen; gelöschte Ziele sofort aus der Rotation.
     Im Status "x Ziele aktiv" anzeigen. Test: 3 Ziele, 2 löschen -> Rotation 1, Leinenstoff jede Runde.
+    PRÜFUNG SUPERVISOR 00:36 (Daten-Stand 00:35 + Code 0.65.176) – URSACHE BELEGT:
+    - Verdacht "3 Ziele" WIDERLEGT: db.sniper.targets enthält nur i:2589 (Leinenstoff, max 18, 289 gekauft für 48s 20c, hitN 12);
+      interval = 0. (lastSession 23:57 "3 Ziele, 60 s, 14 Suchen" ist die alte Sitzung.)
+    - Der 8-s-Abstand ist A.GAP_MAX: AHAnalyzerPro.lua:4213 wertet JEDES AUCTION_HOUSE_SHOW_ERROR innerhalb 3 s nach einer Suche
+      als Server-Bremse -> A:QueryError() verdoppelt den Abstand (0,3 -> 0,6 -> … -> 8 s). Die abgebrochenen Leinenstoff-Käufe
+      ("Preis ist inzwischen gestiegen") lösen genau solche Fehler aus -> nach ~5 Fehlkäufen 8 s.
+    - Zurück geht es nur mit ×0,85 je Antwort (A:QueryAnswered): von 8 s auf 0 braucht ~37 Antworten im 8-s-Takt ≈ 5 Minuten.
+    SOLL: (1) Nur echte Drossel bremst (AUCTION_HOUSE_THROTTLED_MESSAGE_DROPPED bzw. Fehlertext "zu viele Anfragen"); Kauf-Fehler
+    (Preis gestiegen, Angebot weg, nicht genug Gold) bremsen NIE die Suche. (2) Mit Drossel-Schnittstelle (HasThrottleAPI) entscheidet
+    der Server (QUERY_READY) – nach 2 Antworten ohne Fehler Abstand sofort wieder auf das Minimum, GAP_MAX höchstens 2 s.
+    (3) Status nennt den Grund ("Server bremst" / "Kauf läuft" …). Test: 5 Kauf-Fehler hintereinander -> Abstand bleibt minimal;
+    echte Drossel -> langsamer, nach 2 Antworten wieder voll.
 SN-B2 HOCH ("ich verliere sehr viele Duelle"): Chat zeigt mehrfach "Preis wird geprüft: 70x Leinenstoff … Preis ist inzwischen
     gestiegen (13s 70c) – Kauf abgebrochen" und "Zu teuer: Ø 19c je Stück über deinem Max 18c – nicht gekauft". Der Sniper will
     70 Stück auf einmal; bis zur Bestätigung haben andere die billigsten weggekauft -> Durchschnitt über Max -> Abbruch, Duell
