@@ -7,6 +7,14 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.146</h3>
+<ul>
+<li><strong>Sell – always the current AH state:</strong> every selected item is searched on the server again right away (front of the
+  queue), even if the last price is only a few minutes old. Until the answer arrives the old list is shown grey with
+  "updating …"; when the server throttles, it shows in how many seconds it allows a search again – the search then runs
+  by itself. After posting, cancelling or buying the selected item it searches again immediately.</li>
+<li>Every click in the Sell list is logged (item, selected before/after, errors, title). Test T668.</li>
+</ul>
 <h3>Version 0.65.145</h3>
 <ul>
 <li><strong>Sell – item selection:</strong> an item chosen on the left now always appears on the right, even if a single step (price
@@ -34,13 +42,7 @@
 <li><strong>Details:</strong> return per route only shown as a number from 30 cases (grey "still learning" before); the gold check
   only warns in red once it is consistent (grey "being reconciled" before).</li>
 </ul>
-<h3>Version 0.65.141</h3>
-<ul>
-<li>Fixed: "Crafting.lua:515 attempt to index field" when building the crafting list.</li>
-<li>The test routine no longer writes real data while cleaning up (gold amount, full-scan measurement).</li>
-<li>Test T659 now also runs in the game (mailbox/crafting locks disabled for the test).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

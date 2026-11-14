@@ -12,6 +12,14 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.146
+
+- **Sell – always the current AH state:** every selected item is searched on the server again right away (front of the
+  queue), even if the last price is only a few minutes old. Until the answer arrives the old list is shown grey with
+  "updating …"; when the server throttles, it shows in how many seconds it allows a search again – the search then runs
+  by itself. After posting, cancelling or buying the selected item it searches again immediately.
+- Every click in the Sell list is logged (item, selected before/after, errors, title). Test T668.
+
 ### Version 0.65.145
 
 - **Sell – item selection:** an item chosen on the left now always appears on the right, even if a single step (price
@@ -38,12 +46,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   purchase"). Goods without a known purchase show in grey as "unknown origin".
 - **Details:** return per route only shown as a number from 30 cases (grey "still learning" before); the gold check
   only warns in red once it is consistent (grey "being reconciled" before).
-
-### Version 0.65.141
-
-- Fixed: "Crafting.lua:515 attempt to index field" when building the crafting list.
-- The test routine no longer writes real data while cleaning up (gold amount, full-scan measurement).
-- Test T659 now also runs in the game (mailbox/crafting locks disabled for the test).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
