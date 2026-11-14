@@ -1,0 +1,10 @@
+Bericht AHSentinel 0.65.138 – EB Spielkosten (Reparatur)
+Stand: 14.11.2026 · Status: umgesetzt, zur Prüfung
+- hooksecurefunc("RepairAllItems"): Betrag = GetRepairAllCost im Moment des Aufrufs; Buchung k "cost" (why reparatur),
+  nicht bei Gildenbank-Reparatur, nicht während der Testroutine. Summary s.gameCost (nicht im Handelsgewinn);
+  Gold-Abstimmung (Reconcile/ReconcileAll) zieht Spielkosten als erklärt ab; Details-Fenster Zeile "Spielkosten
+  (Reparatur)" (Fenster 16 Zeilen, Höhe 450).
+- Nicht erfasst: Einzelreparatur je Teil (Hammer-Cursor), Training, Flug, Quest-/Beute-Einnahmen – nächste EB-Teile.
+  Hinweis der Prüf-Sitzung für EB3 notiert: Post mit Nachnahme (COD) = Verkauf.
+- Im Client prüfen: Reparieren, Betrag gegen Gold vorher/nachher.
+- Test T661 T-EB-SK (12'000 gebucht, Gildenbank nicht, Gewinn 0, Details 12'000) – PASS. Gesamtlauf 246/246, addon_check OK.
