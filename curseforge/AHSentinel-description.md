@@ -12,6 +12,12 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.131
+
+- **Accounting – own use:** goods you bought and then equip or use as a bag are no longer trade goods: they leave the
+  stock and do not count in the trading profit (separate "own use" expense, test report only). The accounting tab
+  looks as before. Test T655.
+
 ### Version 0.65.130
 
 - **Accounting – deposit booked correctly:** the deposit paid when listing is held and no longer lowers the profit.
@@ -42,17 +48,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - The test routine no longer writes real gold amounts. Tempo test: startup parts with file:line, tooltip measurement
   notes garbage collection, cause of full-scan gaps, last full-scan measurement survives a reload.
 - Test report: purchases per price level, disenchant breakdown from sums. Tests T649, T650.
-
-### Version 0.65.126
-
-- **Empty lists:** the hint in an empty list (e.g. Market > Disenchant) now stays inside the list and wraps to its
-  width instead of running across the screen.
-- **"Test report" window:** very long reports are shown in parts (arrows top right, "Part x of y") instead of the
-  window staying empty/black.
-- **More honest sales forecast:** auctions you cancelled yourself no longer count as "not sold" (neither hit nor miss,
-  not used for learning). On cancel AHSentinel notes whether you had been undercut. The test report shows the hit rate
-  old/new and the sold share per price level.
-- Test: the "Today" list with 5000 items is computed in small portions (T647). Tests T645–T648.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

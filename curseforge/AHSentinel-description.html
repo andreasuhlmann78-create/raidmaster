@@ -7,6 +7,12 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.131</h3>
+<ul>
+<li><strong>Accounting – own use:</strong> goods you bought and then equip or use as a bag are no longer trade goods: they leave the
+  stock and do not count in the trading profit (separate "own use" expense, test report only). The accounting tab
+  looks as before. Test T655.</li>
+</ul>
 <h3>Version 0.65.130</h3>
 <ul>
 <li><strong>Accounting – deposit booked correctly:</strong> the deposit paid when listing is held and no longer lowers the profit.
@@ -38,18 +44,7 @@
   notes garbage collection, cause of full-scan gaps, last full-scan measurement survives a reload.</li>
 <li>Test report: purchases per price level, disenchant breakdown from sums. Tests T649, T650.</li>
 </ul>
-<h3>Version 0.65.126</h3>
-<ul>
-<li><strong>Empty lists:</strong> the hint in an empty list (e.g. Market &gt; Disenchant) now stays inside the list and wraps to its
-  width instead of running across the screen.</li>
-<li><strong>"Test report" window:</strong> very long reports are shown in parts (arrows top right, "Part x of y") instead of the
-  window staying empty/black.</li>
-<li><strong>More honest sales forecast:</strong> auctions you cancelled yourself no longer count as "not sold" (neither hit nor miss,
-  not used for learning). On cancel AHSentinel notes whether you had been undercut. The test report shows the hit rate
-  old/new and the sold share per price level.</li>
-<li>Test: the "Today" list with 5000 items is computed in small portions (T647). Tests T645–T648.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
