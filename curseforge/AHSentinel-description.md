@@ -12,6 +12,18 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.127
+
+- **Accounting – phantom stock removed:** goods still in stock after the repair although they were sold are moved onto
+  the invoices once (purchase cost there, not in stock). New: stock check against bags, bank and own auctions – if the
+  stock shows more, the test report says so (reported only, nothing changed silently).
+- **Gold reconciliation** now only covers the period with recorded gold amounts, over all characters; before that "learning".
+- **Bargains tab** no longer calculates when opened but in the background (shows the last result immediately).
+- **Sniper/disenchant:** buy limit never above 0.9 × value.
+- The test routine no longer writes real gold amounts. Tempo test: startup parts with file:line, tooltip measurement
+  notes garbage collection, cause of full-scan gaps, last full-scan measurement survives a reload.
+- Test report: purchases per price level, disenchant breakdown from sums. Tests T649, T650.
+
 ### Version 0.65.126
 
 - **Empty lists:** the hint in an empty list (e.g. Market > Disenchant) now stays inside the list and wraps to its
@@ -52,14 +64,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - Speed test (`/ahs testroutine tempo`): memory of AHSentinel broken down by area (size and number of tables) in the
   test report.
 - Tests T638, T639.
-
-### Version 0.65.122
-
-- **Disenchanting – final rules per material group:** 20 % minimum profit for groups your results prove and also for
-  groups not measured yet, as long as the disenchant table matches your measured results (within ±10 %); 25 % only if
-  the table deviates; 30 % for groups that measured badly. No budget cap per group. In the game you only see whether it
-  pays or not – the rules appear only in the test report.
-- Test T637 updated.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
