@@ -12,6 +12,13 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.162
+
+- **New: "Disenchant (n)" button at the profession window** – opens the AHSentinel disenchant window without typing
+  "/ahs entzaubern". n = disenchantable items in your bags (blocked items, equipment sets and quest items don't count); grey
+  at 0. The button sits left of "Create All" when there is room, otherwise below the profession window – it never covers
+  another button. Locked in combat. Test T700, self-check "disenchant button".
+
 ### Version 0.65.161
 
 - **Self-check:** the test routine never writes into the real mailbox or AH check sessions any more (before, a test at the open
@@ -41,14 +48,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   exit per item. The test report compares it with the numbers tooltip, market, bulk buy and sniper show today; all displays
   switch over once the differences are explained. Test T696.
 - Auction house self-check also finds older bookings.
-
-### Version 0.65.157
-
-- **Mail self-check fixed:** the mailbox check now counts every taken money by kind (AH sale, other AH mail, gold from
-  players, COD) and only reports gold that cannot be explained or a sale without booking – no more false red results. Trade
-  and the Sell window are checked more closely (written bookings, first row price and quantity).
-- **Buy limit:** your own purchases count before the table (the table is only prior knowledge), profit per level as a sum.
-  If no price level pays off, there is no "worth up to". Test report: predicted vs. achieved profit per level.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
