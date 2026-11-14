@@ -1,0 +1,44 @@
+BERICHT THREATSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 14.11.2026 09:00 · Sitzung: ThreatSentinel-Projekt-Sitzung · Version: 2.5.13 · Commit: 00eeaf8
+Anlass: offen-threatsentinel.txt Prioritäten 1 (SYNC, entschieden 14.11. 00:50) und 2 (MARKT-v3). Umgesetzt, zur Prüfung.
+addon_check 2.5.13: "## ThreatSentinel-2.5.13.zip: OK", keine Zeile mit Warnung/veraltet. GoldSentinelSync (v2),
+GoldSentinelMarkt (v3), GoldSentinelGame, GoldSentinelTest vor der Veröffentlichung mit cmp gegen shared/: gleich.
+
+UMGESETZT
+SYNC (anweisung-gemeinsamer-sync.txt, anweisung-sync-version2.txt)
+  1. GoldSentinelSync.lua unverändert; TOC: GoldSentinelDev, GoldSentinelGame, GoldSentinelSync, GoldSentinelTest,
+     GoldSentinelMarkt, dann die eigenen Dateien (Markt direkt nach Sync bzw. Test, wie in Punkt 4 der offen-Datei).
+  2. Sync.lua: S:Init -> GoldSentinelSync.Register("ThreatSentinel", "ThreatSentinel", Version), ep:OnMessage -> S:OnReceive
+     (sender nil -> verworfen "ohne Absender", geschützt -> "geschützt"; Realm abgeschnitten ohne Ambiguate). Bisherige
+     Kennung behalten -> Nachrichten alter Versionen (ohne Kopf) werden verstanden (T-GS3).
+     Eigenes CHAT_MSG_ADDON, RegisterAddonMessagePrefix und SendAddonMessage in Sync.lua entfernt.
+  S3 Jede Send-Stelle geprüft: H (Rolle/Version), T (Spott), R (Widerstand), X (Kontrollverlust) betreffen nur die eigene
+     Gruppe -> alle über ep:Send(text, { scope = "group" }): nie GUILD, nie CHANNEL, nie Netz. Im CHANGELOG genannt.
+  S2 ep:UseStorage(ThreatSentinelDB) nach dem Laden (gsSync; Sandbox der Testroutine lässt gs*-Schlüssel aus).
+  4. "/ts sync test" (neuer Eintrag in ns.COMMANDS, öffentlich) -> GoldSentinelSync.Ping, Ausgabe
+     "Sync-Test: N Antworten (Gilde a, Gruppe b)" (EN/DE). ep:Peers wird nicht angezeigt (ThreatSentinel zeigt nur
+     Mitspieler der eigenen Gruppe, Options-Liste "Sync" wie bisher).
+  5/S5 Diagnose: GoldSentinelSync.DiagLines() (SYNC …, NETZ …) in DiagExtra, dazu die eigene Zeile
+     "Sync (Gruppe/Schlachtzug): gesendet, empfangen, nachgeholt, ohne Gruppe, verworfen".
+  6. Kein eigener Takt/keine eigene Warteschlange zum Senden. BEHALTEN (mit Absicht): die Kampfsperre der modernen API
+     (Zustand H im Kampf merken, nach dem Kampf einmal senden; T/R/X im Kampf verworfen). Sie ist keine Drossel, sondern
+     Q5 (Befund 10.11.): GoldSentinelSync pumpt Gruppen-Nachrichten auch im Kampf, die moderne API verweigert sie dort.
+TESTS (Bereich U, TestRoutineTU.lua SYNC(); nur GoldSentinelSync.api-Einträge und eigene Felder ersetzt; was ein Test in
+  die Warteschlange der Datei legt, nimmt er wieder heraus, api.send liefert im Test false)
+  T-SYNC Senden echter Weg bis zur Warteschlange: Gruppe -> PARTY, Schlachtzug -> RAID, Netz 0, Kopf #S1; Empfang TANK.
+  T-GS1 ep:Send mit scope group; Wege für scope group: RAID/PARTY/keiner, nie GUILD/CHANNEL.
+  T-GS2 Kopf-Nachricht mit sender nil: kein Fehler, nichts zugeordnet.  T-GS3 alte Nachricht ohne Kopf: TANK 2.5.12.
+  T-GS4 Kennung ThreatSentinel, Endpunkt angemeldet, keine Kanal-Wege.  T-GS5 /ts sync test gibt eine Zeile aus.
+  T-N1 Version >= 2.  T-N2 gsSync vorhanden, Speicher gesetzt.  T-N3 nie ins Netz.  T-N4 Diagnose mit NETZ, ohne Namen.
+  Angepasst: T76 (Empfang über den Endpunkt), T102, T106 (Senden mit/ohne Endpunkt), T09 (CHAT_MSG_ADDON meldet jetzt
+  GoldSentinelSync an), T-BL2 (Liste mit "sync test"). Regressionen: 43 von 43 (neu: SYNC, T-MN2).
+  Offline mit download/ThreatSentinel-2.5.13.zip: Forever OK 251, Era OK 255, FEHLER ausserhalb der Nachbildungs-Liste 0
+  (T76 ist aus der Nachbildungs-Liste entfernt, er läuft jetzt auch offline).
+MARKT-v3: GoldSentinelMarkt.lua Version 3 unverändert kopiert; T-MN1–T-MN4 offline unverändert.
+
+HINWEIS / FOLGE
+  Spieler mit ThreatSentinel 2.5.12 oder älter verstehen Nachrichten ab 2.5.13 nicht (Kopf "#S1:…" der gemeinsamen Datei);
+  sie erkennen andere Tanks weiter an der Gruppenrolle. Umgekehrt versteht 2.5.13 die alten Nachrichten. Im CHANGELOG und
+  in der Ankündigung steht "bitte aktualisieren".
+IM CLIENT (Vorschlag): zwei Spieler mit 2.5.13 in einer Gruppe -> Options "Sync" zeigt den anderen; /ts sync test;
+  /ts protokoll mit Zeilen SYNC GoldSentinelSync 2 und NETZ; Spott eines Tanks wird beim anderen als "übernommen" gezeigt.
