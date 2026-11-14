@@ -12,6 +12,14 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.165
+
+- **Best recipes:** ingredients you have to buy now cost the price at which the amount for a series of 20 crafts is really
+  available (price ladder), not the cheapest single offer – no more fake profits like "Bolt of Woolen Cloth +1s 66c".
+- **Crafting chains (preparation):** AHSentinel now calculates, after every scan, the crafting chains of your known recipes
+  (buy → craft, also intermediates → sell or disenchant) and keeps only those with at least 20 % profit. Until they are fully
+  checked they only appear in the test report, not in tooltips or the market tab. Test T704.
+
 ### Version 0.65.164
 
 - **Accounting, disenchanting:** the cost of a disenchanted item is now split onto the materials by their current market price.
@@ -47,14 +55,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Worth up to (vendor):** buying at the vendor price earns nothing – the vendor way now uses a 20 % minimum profit.
 - Test routine: after a fresh full scan, tests wait longer for their background tasks; with a full queue they are "skipped" with
   a reason instead of failing. New simulator run with the auction house open.
-
-### Version 0.65.160
-
-- **Less stutter in "Today":** crafting suggestions from ProfessionSentinel are fetched at most every 15 minutes instead of
-  after every scan (one step took up to 153 ms).
-- **Stock:** goods that are nowhere any more (no bag, bank, mail or auction) and were not restocked for over a day are
-  booked out – no more phantom stock. Test T699.
-- Stock self-check: "more on hand than booked" (loot, gifts) is no longer an error, only grey info.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

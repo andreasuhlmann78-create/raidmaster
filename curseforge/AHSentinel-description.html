@@ -7,6 +7,14 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.165</h3>
+<ul>
+<li><strong>Best recipes:</strong> ingredients you have to buy now cost the price at which the amount for a series of 20 crafts is really
+  available (price ladder), not the cheapest single offer – no more fake profits like "Bolt of Woolen Cloth +1s 66c".</li>
+<li><strong>Crafting chains (preparation):</strong> AHSentinel now calculates, after every scan, the crafting chains of your known recipes
+  (buy → craft, also intermediates → sell or disenchant) and keeps only those with at least 20 % profit. Until they are fully
+  checked they only appear in the test report, not in tooltips or the market tab. Test T704.</li>
+</ul>
 <h3>Version 0.65.164</h3>
 <ul>
 <li><strong>Accounting, disenchanting:</strong> the cost of a disenchanted item is now split onto the materials by their current market price.
@@ -43,15 +51,7 @@
 <li>Test routine: after a fresh full scan, tests wait longer for their background tasks; with a full queue they are "skipped" with
   a reason instead of failing. New simulator run with the auction house open.</li>
 </ul>
-<h3>Version 0.65.160</h3>
-<ul>
-<li><strong>Less stutter in "Today":</strong> crafting suggestions from ProfessionSentinel are fetched at most every 15 minutes instead of
-  after every scan (one step took up to 153 ms).</li>
-<li><strong>Stock:</strong> goods that are nowhere any more (no bag, bank, mail or auction) and were not restocked for over a day are
-  booked out – no more phantom stock. Test T699.</li>
-<li>Stock self-check: "more on hand than booked" (loot, gifts) is no longer an error, only grey info.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
