@@ -1,0 +1,19 @@
+Bericht AHSentinel 0.65.144 – NP141-1, NP141-2, NP141-3 (Nachprüfung 0.65.140/141)
+Stand: 14.11.2026 · Status: umgesetzt, zur Prüfung
+NP141-1: BK:CorrectStock bucht je Item nur aus, wenn ein Briefkasten-Abbild (db.inboxSnap je Figur, seit 0.65.143 beim
+  Lesen des Briefkastens) NACH dem letzten Zugang dieses Items besteht. Zugang = buy (Figur), xfer an diese Figur, fee
+  (Einstellen -> Ablauf/Abbruch kommt per Post), depx. 7-Tage-Sperre gilt jetzt für buy/xfer/fee/depx; Ausnahme (11083):
+  Ware steht nirgends (have 0) und der Briefkasten wurde danach gesehen. HaveCount zählt das Briefkasten-Abbild mit.
+  Einmalige Rücknahme (Merker undoNP1411): alle nicht zurückgenommenen "fehlt"/"verbraucht"-Buchungen (gibt es erst seit
+  0.65.140) werden markiert (undone) und die Ware mit Einstand zurückgelegt; repairLog "NP141-1 …". Danach bucht der
+  Abgleich mit Briefkasten-Abbild neu.
+NP141-2: Summary trennt own why "fehlt" (s.missing, Fehlbestand) und "verschickt" (s.sent) vom Eigenbedarf (s.ownUse:
+  angelegt/verbraucht). Testbericht-Zeile "EB1 Eigenbedarf … · Fehlbestand … · verschickt an andere …", Details-Fenster
+  graue Zeile "Fehlbestand (nicht im Gewinn)" (nur wenn > 0), Sprachtabellen.
+NP141-3: CompareAndRestore in pcall, finishing wird immer zurückgesetzt (Fehler in die Problemliste); Zeitgeber Books.lua
+  (Login 30 s, BAG_UPDATE_DELAYED, PLAYER_EQUIPMENT_CHANGED) prüfen A:InTestRoutine().
+Tests: T666 T-HC3–HC6 (Kauf im Briefkasten 0, Twink-Post ohne neues Abbild 0, danach gesehen -> 5 als Fehlbestand,
+  Twink-Ware bleibt, Eigenbedarf 0) – PASS. T663 angepasst (frisch gekauft = 7-Tage-Sperre: 5 statt 10 ausgebucht), T659
+  mit Briefkasten-Abbild, T660 "verschickt" in s.sent. Gesamtlauf 246/246 (s42 im Gesamtlauf einmal T310 8,9 ms unter
+  Last, einzeln PASS), addon_check OK.
+Weiter: HB1 (Händler-Bilanz), TB138b-3 Speicher wächst je Scan (zuoberst nach BR1/HB1/PR2), TB138-2, TB138c-2 Zerlegung.
