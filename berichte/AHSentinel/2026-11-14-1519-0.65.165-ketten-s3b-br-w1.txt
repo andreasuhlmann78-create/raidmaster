@@ -1,0 +1,39 @@
+AHSentinel 0.65.165 – Herstellungs-Ketten S3b/S3-2 (Vorgaben 14:51, Schritt 1) + BR-W1 – umgesetzt, zur Prüfung
+=============================================================================================================
+
+Neue Datei Ketten.lua (nach Kern.lua in der TOC). Freigabe-Regel 14:09 eingehalten: Ke.LIVE = false – die Ketten stehen NUR im
+Testbericht (Zeile "MARKT-KERN Ketten"), nicht in Tooltip, Markt-Reiter oder "Beste Rezepte".
+
+Vorgaben des Nutzers 14:51:
+(1) Berufe/Rezepte je Figur: gemerkte Rezepte aus Crafting.lua (Cr:KnownRecipes, beim Öffnen des Berufsfensters je Figur und
+    Beruf gespeichert, A.db.recipes). ProfessionSentinel: dessen API liefert heute keine Rezeptliste mit Zutaten (nur
+    TodayCrafts) – Bitte an die Prüf-Sitzung, ob dort ein API-Aufruf "Rezepte mit Zutaten je Figur" beauftragt werden soll.
+    Ohne geöffnetes Berufsfenster kennt AHS die Rezepte einer Figur noch nicht (Hinweis im Bericht: "keine Rezepte gemerkt").
+(2) Ketten je Figur gespeichert (A.db.chains[Figur], höchstens 30, nur IDs/Zahlen), nach jedem SCAN_FINISHED in der
+    Hintergrund-Arbeit (A:Job, A:Pause) neu gerechnet, nie beim Öffnen. Nie in der Testroutine (Ersatz Ke.testDB).
+(3) je Kette: Produkt, Weg (verk./entz.), Gewinn je Herstellung als Zahl, Prozent, Kosten, Wert, Einkaufsliste (einkaufbare
+    Zutaten für eine Serie). Die Anzeige mit EINEM Knopf (Einkaufsliste) baue ich erst nach der Freigabe.
+(4) Nur was Gold bringt: Verlust / unter 20 % / Preis fehlt / Produkt ohne Preis werden NICHT in die Liste genommen, nur
+    gezählt ("nicht gezeigt: Verlust n, unter Mindestgewinn n, Preis fehlt n, Kreis verhindert n").
+
+Rechnung (S3-2 ZIEL):
+- Mehrstufig über alle bekannten Rezepte (Tiefe 3), Kreise verhindert (visiting-Menge; A aus B, B aus A).
+- Zutat: günstigster Weg aus Händler (Kaufpreis), AH über die Preisleiter für eine Serie von 20 Herstellungen (A:OfferLadder;
+  was die Leiter nicht hergibt zum teuersten bekannten Preis; ohne Leiter A:RealPrice), selbst herstellen.
+- Produkt: Bestes aus A:RealValue (nach Gebühren, Neu-Einstellungen, Händler-Untergrenze) und Entzauber-Wert (Cr:DisenchantValue).
+- Testfall Hose wie im Auftrag: 2 Ballen (je 2 Leinenstoff à 25c) + Faden 10c Händler, Entzaubern 1s 32c -> +22c (20 %).
+
+BR-W1 (Beste Rezepte, sichtbar): Crafting.lua ReadRecipe – was gekauft werden muss, kostet den Durchschnittspreis der Preisleiter
+für eine Serie von 20 (Cr.SERIES), nicht das billigste Einzelangebot. Ursache bestätigt: unit = A:RealPrice = aktuelles
+(billigstes bereinigtes) Angebot × Menge. Eigene Zutaten bleiben wie bisher mit A:RealValue bewertet.
+
+Selbstkontrolle SK1-l (Ketten vorhergesagt/realisiert): beim Herstellen (CRAFT_DONE) wird der vorhergesagte Gewinn der Kette
+gemerkt; Verkäufe danach (Buchungen) -> realisiert je Stück; Testbericht-Zeile mit Anzahl, mit Gewinn, ohne Gewinn + Beispiele.
+
+Tests T704: Hose +22 (entz., Leinen 80 Stück für 20), Verlust-Kette, fehlende Zutat und Kreis nicht gezeigt (Kreis gezählt),
+Wollstoffballen mit Leiter 1×1s + Rest 1s 40c: Kosten 4s 18c (nicht 3s), unter Mindestgewinn; Bericht-Zeile vorhanden.
+Nicht in diesem Schritt (folgt nach Freigabe): S3b-Tooltip "EINE Zahl = bester Weg dieses Spielers" (Umschalter Ke.LIVE),
+LohntCheck "zwei Gewinne" für Tooltip/Beste Rezepte, Liste "Herstellen" im Markt-Reiter mit Einkaufsliste-Knopf und
+Absatz-Prüfung, Lernen des Wegs "craft" (L1).
+Grundsatz: Test T704 / Selbstkontrolle SK1-l / Prüfung Supervisor (gegen echte Preise, Bericht-Zeile).
+Volltest 250/250, addon_check OK.
