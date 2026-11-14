@@ -33,6 +33,16 @@ STAND 08:40: 0.65.142 (TB138-6a/TB138c ein Gewinn, Details grau) und 0.65.143 (P
 Prüfung, addon_check OK. Im Client prüfen: Abbruch über Blizzards Fenster -> Grund festgehalten; Post von Hand schnell
 abgeholt -> Verkauf gebucht (T-BR1a). Als Nächstes: HB1, dann TB138b-3 (Speicher wächst je Scan), TB138-2.
 
+UI-V1 HOCH (Nutzer 08:38, 0.65.142, Bildschirmfotos 08:37): Im Reiter Verkaufen ein anderes Item links anklicken -> rechts
+   passiert lange nichts (Nutzer misst die Zeit). Bei 261 MB Speicher (TB138b-3) und 119 ms Reiterwechsel (T626) Verdacht:
+   Speicherbereinigung bzw. Neuaufbau beim Wechsel. Ziel: Wechsel ≤ 50 ms sichtbar (PS-Ziel), "Preis prüfen" danach im
+   Hintergrund. Messung im Testbericht: Klick -> sichtbar (ms), mit Speicher vorher/nachher.
+UI-V2 MITTEL Zeile "Erlös nach Gebühren" zeigt bei Leinenstoff 6 × 47c rot "−1s 32c", obwohl Brutto 2s 82c − Gebühr 14c = 2s 68c
+   (UI_Sell.lua: final = net − erwarteter Verlust der Einzahlung über 5 erwartete Einstellungen = 4s). Für den Spieler
+   widersprüchlich (Zeile heisst "nach Gebühren", rechnet aber Rückläufe ein). Lösung: Zeile "Erlös nach Gebühren" = 2s 68c;
+   darunter EINE Zahl grün/rot "Gewinn erwartet" mit den Rückläufen, und bei Preis weit über Markt der Hinweis als Zahl
+   "verkauft sich bei 25c". Erst ab gemessener Quote (PR2), sonst grau.
+
 HB1 – HÄNDLER: GELD UND WARE GEMESSEN STATT ANGENOMMEN (Entscheid des Nutzers 14.11. 08:18: "Geld geht raus, Ware kommt rein –
    das ist ganz einfach messbar. Keine Fehler, lieber alles 3 mal prüfen.") HOCH, zusammen mit BR1.
    Ist-Stand im Code 0.65.141 (Prüf-Sitzung 09:00, dreifach gelesen: Books.lua 528–632, Extras.lua 105–145/530–545, Comfort.lua 483):
