@@ -1,0 +1,12 @@
+Bericht AHSentinel 0.65.145 – UI-V1 (Verkaufen: gewähltes Item erscheint nicht)
+Stand: 14.11.2026 · Status: umgesetzt, zur Prüfung
+- UI_Sell.lua p:Select: jeder Schritt (Handpreis, Laufzeit, Taschen, Laufzeit-Hinweis, Menge/Stapel, Vorschlag, Absatz,
+  Preis prüfen) einzeln in pcall; ein Fehler wird mit Schritt und Item ins Fehlerprotokoll geschrieben
+  (A:ReportError "Sell:Select:<Schritt>"), Zähler p.selectErrors. Refresh läuft IMMER am Ende (auch in pcall, Fehler
+  ebenfalls protokolliert). Damit zeigt rechts sofort das gewählte Item.
+- Die eigentliche Ursache ist im Code nicht sichtbar (in der Simulation kein Fehler) – mit dieser Version steht sie nach
+  dem nächsten Klick im Fehlerprotokoll/Testbericht (Bereich "Sell:Select:…"). Im Client prüfen.
+- Test T667 T-UI-V1: jedes Item der Taschen-Liste (bis 12) wählen -> Titel = gewähltes Item, 0 Fehler, ≤ 50 ms
+  (öffnet den Reiter Verkaufen bei Bedarf und kehrt zurück). In der Simulation SKIP (keine Items in der Liste).
+Gesamtlauf 246/246, addon_check OK.
+Weiter: HB1 (Händler-Bilanz) mit BR1-Rest, TB138b-3 (Speicher wächst je Scan), UI-V3, UI-V2.
