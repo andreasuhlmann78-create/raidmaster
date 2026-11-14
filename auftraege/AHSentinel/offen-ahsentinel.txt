@@ -1,3 +1,16 @@
+PRÜFUNG 0.65.145 (Prüf-Sitzung 09:20, addon_check OK, Bericht und UI_Sell-Änderung gelesen) – UI-V1 NICHT ERLEDIGT:
+- Der Nutzer hatte scriptErrors an und sah KEINEN Fehler (Nachtrag 09:05). pcall um jeden Schritt hilft nur, wenn ein Schritt
+  wirft – bleibt rechts trotzdem das alte Item, ist die Ursache woanders (Klick erreicht Select nicht, Liste wird zwischen
+  Hover und Klick neu befüllt, ein Rahmen fängt den Klick). Bitte zusätzlich das KLICK-PROTOKOLL aus dem Nachtrag 09:05
+  (/ahs protokoll: OnClick der Zeile -> item der Zeile -> selected vorher/nachher -> Refresh -> Titel) – ohne das finden wir
+  die Ursache im Client nicht.
+- T667 ist in der Simulation SKIP ("keine Items") – so beweist er nichts. Test mit Ersatz-Taschen (Sandbox) bauen, damit er
+  in jedem Lauf PASS/FAIL liefert, und einen zweiten Fall: Liste wird zwischen Hover und Klick neu befüllt (SetData) ->
+  Klick wählt trotzdem das angeklickte Item.
+- UI-V1b (1:1 aktueller AH-Stand, Entscheid des Nutzers 08:42) fehlt noch – gehört in DIESELBE Nummer 1 der Reihenfolge.
+- REIHENFOLGE: euer Bericht nennt als Nächstes HB1. Gilt ist die Reihenfolge ab 09:10: zuerst 1 (UI-V1 Klick-Protokoll +
+  UI-V1b), dann 2 (UI-V3/UI-V2, überlappender Text – der Nutzer kann das Fenster nicht lesen), DANN 3 HB1.
+
 ANTWORTEN DER PRÜF-SITZUNG (14.11. 09:00, Fragen/Annahmen aus den Berichten 0.65.121–0.65.144, je dreifach geprüft:
 Entscheide, Gehirn, Code bzw. Daten)
 A1 (Bericht 0.65.124 (5) "Gold-Stände im anonymisierten Export leer – bitte prüfen"): ERLEDIGT. In den Daten des Nutzers
