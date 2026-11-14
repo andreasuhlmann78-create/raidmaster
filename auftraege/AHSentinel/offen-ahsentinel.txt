@@ -1,3 +1,24 @@
+ANTWORTEN DER PRÜF-SITZUNG (14.11. 09:00, Fragen/Annahmen aus den Berichten 0.65.121–0.65.144, je dreifach geprüft:
+Entscheide, Gehirn, Code bzw. Daten)
+A1 (Bericht 0.65.124 (5) "Gold-Stände im anonymisierten Export leer – bitte prüfen"): ERLEDIGT. In den Daten des Nutzers
+   (PC 14.11. 08:23) stehen books.gold für 2 Figuren; der Testbericht zeigt "Gold-Stände 2 Figuren". Kein Handlungsbedarf.
+A2 (0.65.130 Annahme "Abbruch = Anzahlung verfällt", 0.65.132 "Forever: Erstattung beim Abbruch, L2"): Die Annahme ist
+   BELEGT (wirtschaft-forever.md: Protokoll 10.11. 07:12 "ABBRUCH Item 10938 · Erstattung 0", dazu Spielerberichte). Der
+   Satz in 0.65.132 "Forever: Erstattung beim Abbruch" widerspricht dem – bitte im Code prüfen, dass ein Abbruch die
+   Anzahlung verfallen lässt und eine Erstattung NACH einem Abbruch nicht erwartet wird. Kommt doch eine, nicht still
+   auflösen, sondern als Messung im Testbericht zeigen ("Erstattung nach Abbruch: n") – das wäre neu und wird geprüft.
+A3 (0.65.132 "Rechnung ohne Erstattung als Auslöser nicht umgesetzt, Teilverkäufe unsicher"): Einverstanden, nicht raten.
+   Stand im Gehirn (wirtschaft-forever.md Zeile 46, VERMUTET): Erstattung bei Teilverkauf etwa anteilig (gezahlt × verkauft /
+   eingestellt). Vorgehen: bis zur Messung bleibt die Anzahlung "hinterlegt", bis Ablauf-Post/Abbruch kommt (wie jetzt);
+   zusätzlich je Rechnung messen und im Testbericht zeigen: gezahlt, verkauft/eingestellt, erstattet, anteilig erwartet.
+   Ab 10 Fällen mit ≤ 2c Abweichung -> Regel belegt, dann Teil-Auflösung je Rechnung.
+A4 (0.65.133 "AFK = Kennzeichen des Spiels (~5 Min.) statt über 15 Min."): EINVERSTANDEN. Der Entscheid des Nutzers lautet
+   "Online-Zeit ohne AFK" (entscheide.md 13.11. 21:xx); "über 15 Min." war nur meine Formulierung. Das Spiel-Kennzeichen ist
+   messbar und näher an "AFK".
+A5 (0.65.136 Annahme "GetItemCount kennt die Bank"): ERLEDIGT durch 0.65.140 (Taschen-/Bank-Abbild, TB138-1).
+A6 Bitten "im Client bestätigen/messen" (0.65.125–0.65.143) sind beim Nutzer als Testliste angekommen (Chat 09:00); Ergebnisse
+   kommen mit seinen nächsten Daten.
+
 REIHENFOLGE AB 09:10 (Prüf-Sitzung, Nutzer 2–3 Std. weg, "pushe weiter nach Plan") – kleine abgeschlossene Versionen, je Version
 ein Bericht, nichts anderes dazwischen:
  1. UI-V1 + UI-V1b  Verkaufen: gewähltes Item sofort rechts, 1:1 aktueller AH-Stand (SEHR HOCH, Entscheid 08:42)
