@@ -1,0 +1,19 @@
+AHSentinel 0.65.151 – EB5, WV1, TB138b-5, TB138-5 – umgesetzt, zur Prüfung
+
+EB5 Handel mit Spielern (Books.lua "EB5"): TRADE_SHOW Gold+Taschen, 1,5 s nach TRADE_CLOSED Vergleich wie HB1:
+  Ware+ & Gold− = Einkauf (src "spieler", Kosten = Goldabgang, nach Marktwert verteilt, Summe exakt), Ware− & Gold+ =
+  Verkauf (via "spieler", st "c", Einstand aus dem Lager); nur Ware/nur Gold (Geschenk, Tausch) = keine Buchung.
+  TR T678: Kauf 3 für 300 -> Lager 3/300, Verkauf 2 für 500 -> Erlös 500, Einstand 200, Lager 1; Geschenk -> nichts.
+  EB3 Nachnahme-Post noch offen.
+WV1 (Waves.lua): Fenster = die letzten 10 GANZEN Tage (endet gestern), heute zählt nicht. TR T677: 10 Tage flach, heute +14 %
+  -> "durch", 10 Tage im Index. T662 unverändert grün.
+TB138b-5: FindDeals pausiert zusätzlich nach DealValue und vor BatchNet (der lange Schritt 10,4 ms war ein Item ohne Pause
+  zwischen Wert und Kaufgrenze). Im Client bitte T647 ansehen.
+TB138-5: Testbericht "Kauf-Sicherheit: Entzaubern DE30b: Mindestgewinn je Gruppe 20/25/30 %, höchstens 90 % vom Wert,
+  Sicherheitsmarge x % (N), kein Budget"; Flip/Händler wie bisher.
+Gesamtlauf 248/248, addon_check OK.
+Gefunden für TB138b-6/-7 (nächste Version): Absatz-Tests T285/T289/T291 rot im Client, weil der gelernte Markt-Faktor
+  (Ln:MarketFactor, im Client 0,284: 2000 -> 568, 600 -> 170,6, 10 -> 2,84) nicht ausgeblendet war – Testfehler, keine
+  Regression. T223: echte Essenz-Angebote (Verkaufen/Einkauf, 123c) gingen vor dem Markt. T272: echter Sync-Ausgang
+  (S.outbox) nicht leer -> Test-Nachricht dahinter eingereiht. T310: Vorrat VS.pool mit den echten 6446 Items.
+Weiter: TB138b-6/-7 Testkorrekturen + TB138-6 (b) als 0.65.152.
