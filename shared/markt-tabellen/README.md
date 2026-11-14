@@ -15,5 +15,11 @@ GoldSentinelMarktTabellen = {
 }
 ```
 
+Erzeugen: `python3 -I addon-check/marktanalyse/markt_tabellen.py <AHSentinel.lua> [...] shared/markt-tabellen/GoldSentinelMarktTabellen.lua`
+(täglich durch die geplante Aufgabe "Markt-Tabellen täglich"). Zählweisen wie im Addon: Verkauf = Anteil verkauft
+(Fc:PostOutcome, Abbruch zensiert), Entzaubern Summe/Summe (KF2) mit DE30b-Mindestgewinn, Kaufen Gewinn je Kaufpreis/Wert
+(SN-M), Wellen wie Waves.lua – OHNE den angefangenen letzten Tag; zusätzlicher Zustand "steigt" (2 Tage je > +10 %, nur Hinweis).
+Auslieferung: AHSentinel nimmt bei jeder Version die neueste Datei unverändert ins ZIP (wie Wegdaten).
+
 Regeln: Jeder Teil mit `n` (Fallzahl). AHSentinel nutzt einen Teil nur als Vorwissen (L2, k = 2); eigene Zählung geht vor.
 Fehlt die Datei oder ein Teil: alles läuft ohne. Grösse < 50 KB. Format nur erweitern, nie umbauen (alte Clients).
