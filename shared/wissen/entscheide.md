@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 14.11.2026 18:19 | Testroutine und Mess-/Diagnoseteile laufen nur beim Entwickler (versteckter Schalter, Standard aus), nicht bei anderen Spielern | offen-ahsentinel.txt TEST-DEV1 |
 | 14.11.2026 18:18 | Sniper-Test (SN-ALLE1-2, echter Takt) hat höchste Priorität; Ruckeln während der Testroutine ist egal, normale Spieler lassen sie nicht laufen -> RUCKEL-1 zurückgestellt | offen-ahsentinel.txt KORREKTUR 18:18 |
 | 14.11.2026 17:47 | Sniper mit mehreren Zeilen prüft ALLE Ziele (reihum), nicht nur das aktive – sonst nützen mehrere Ziele nichts | offen-ahsentinel.txt SN-ALLE1 (Block 2) |
 | 14.11.2026 17:06/17:08 | AHS fertigstellen (Nutzung 91 %): nur FERTIG-LISTE Block 1–3, wenige Versionen; Herstellungs-Ketten live gehören dazu (Block 2, Ke.LIVE nach Prüfung Supervisor) | offen-ahsentinel.txt FERTIG-LISTE |
