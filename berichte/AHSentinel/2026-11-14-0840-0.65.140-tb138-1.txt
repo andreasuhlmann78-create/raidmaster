@@ -1,0 +1,22 @@
+Bericht AHSentinel 0.65.140 – TB138-1 (Lager-Abgleich), Nachträge 2 und 3
+Stand: 14.11.2026 · Status: umgesetzt, zur Prüfung
+Ursache: BK:HaveCount nutzte nur GetItemCount(id, true): kennt die Bank nur bei offener Bank und fehlt in neueren
+Clients als globale Funktion (dann 0 für alles). Folge: Abgleich meldete Ware in Taschen/Bank als 0.
+- BK:HaveCount = max(Abbild Taschen chars[Figur].bags, Live-Taschen C_Item.GetItemCount bzw. GetItemCount ohne Bank)
+  + Abbild Bank chars[Figur].bank + eigene laufende Auktionen; zweiter Rückgabewert: Bank bekannt (bankTime).
+- BK:CorrectStock (ersetzt CheckVendorUse für alle Ware): bucht nur aus, wenn die Bank bekannt ist; nicht bei offenem
+  Briefkasten, wartender Post, 60 s nach dem Herstellen; nicht für Items, die in den letzten 7 Tagen eingestellt wurden
+  (zurückgekommene Auktionen evtl. noch im Briefkasten). Händlerware -> Eigenbedarf "verbraucht", andere -> "fehlt"
+  (Abgang, nicht im Gewinn). Läuft 30 s nach dem Einloggen und nach Taschen-Änderungen (gesammelt, 30 s).
+- Einmalige Rücknahme BK:UndoVendorUse (Merker undoTB1381): alle "verbraucht"-Buchungen aus 0.65.136–0.65.139 werden
+  markiert (undone, nichts gelöscht) und die Ware mit Einstand zurück ins Lager gelegt; danach gleicht CorrectStock mit
+  dem richtigen Bestand neu ab. repairLog-Zeile mit Anzahl/Stück. BH-AUS-3 (30 Stück) bleibt (nur Phantom-Ware laut
+  Nachtrag 3); die 25 × 11083 stehen in keinem Abbild -> CorrectStock bucht sie als "fehlt" aus, sobald die Bank bekannt
+  ist und 11083 seit 7 Tagen nicht eingestellt wurde.
+- Bericht: Abgleich-Zeile nennt "Bank bekannt / NICHT bekannt – nichts ausgebucht".
+- Test T663 T-HC1/HC2 (16+9 = 25 aus dem Abbild ohne offene Bank; Bank unbekannt -> 0 ausgebucht; bekannt -> nur das
+  Fehlende; Rücknahme) – PASS; T659 auf "Bank bekannt" gestellt.
+Offen: TB138-2 (Gold-Abstimmung als Geldfluss: Reconcile rechnet schon Erlöse − Käufe − Gebühren − Spielkosten; die
+  −110k kommen vermutlich von Buchungen mit altem Zeitstempel bzw. fehlenden Käufen – nächste Version mit Lücken-Liste),
+  TB138-3/4/5/6.
+Gesamtlauf 246/246 (s10_scan_smooth einmal unter Last rot, einzeln PASS – bekannt), addon_check OK.
