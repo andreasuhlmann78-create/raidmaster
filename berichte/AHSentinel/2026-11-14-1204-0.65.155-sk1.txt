@@ -1,0 +1,25 @@
+AHSentinel 0.65.155 – SK1 Selbstkontrolle im Spiel – umgesetzt, zur Prüfung
+
+Hinweis Reihenfolge: SK1 sollte vor S2 kommen – 0.65.154 (S2) war beim Lesen von 3f74493 schon fertig getestet und wurde
+abgeschlossen (Nutzer 11:26 "erst Aufgabe beenden"); SK1 folgt jetzt.
+Neu SelfCheck.lua (A.SelfCheck): passiv, nur Zähler (Fälle/stimmig/Abweichung) + letzte 20 Abweichungen mit Zahlen (ohne
+Namen) in db.selfcheck; Testroutine schreibt nie echt (eigene Tests mit SC.testDB).
+- a Händler: je Besuch Gold-Änderung gegen HB1-Buchungen (aus HBClose, Rest ≠ 0 = Abweichung).
+- b Post / c AH: je Sitzung (MAIL_SHOW…CLOSED, AUCTION_HOUSE_SHOW…CLOSED, 2 s Nachlauf) gemessenes Gold am Ort (Geldfluss
+  TB138-2) gegen Buchungen der Sitzung (Post: bestätigte Erlöse; AH: Käufe + Anzahlungen). Post-Abweichung > 0 wird mit
+  "(erstattete Anzahlung? A7)" vermerkt -> misst A7.
+- d Handel: EB5 TradeSettle, Gold ohne Buchung (z. B. Gold verschenkt) = Abweichung.
+- e Tagesbilanz: je Tag Lücke ≤ max(100, 1 % des Tagesumsatzes).
+- f Lager: Lager je Item = HaveCount (Taschen+Bank+Briefkasten+Auktionen), nur wenn Bank bekannt; beim Bericht, ≤ 200 Items.
+- g Verkaufen-Fenster: nach jedem Klick Titel = gewähltes Item, Liste = letzte Server-Antwort (nicht während "wird aktualisiert").
+- h Vollscan: nach jeder Messung (VS:MFinal) Speicher vorher/nachher, Bereinigungen, Lücke; letzte 5 Scans; Abweichung,
+  wenn ein Scan (≤ 6 Std. nach dem vorigen) > 10 MB über dem vorigen endet.
+- i Anzeige: Gewinn-Kopf = Details, Summe der Liste = Erlös − eingesetzt.
+Ausgabe: Testbericht-Abschnitt "SELBSTKONTROLLE" (je Kontrolle Fälle/stimmig/Abweichungen, letzte 3 Beispiele, Verlauf
+  der Scans); /ahs testroutine Bereich Q (TSK1a/b/c/d/g/h: PASS ohne Abweichung, FEHLER mit, SKIP ohne Fälle); Details-Fenster
+  nur eine Zeile, wenn etwas rot ist.
+Tests (stimmig + absichtlich falsch): T686 a, T687 b/c, T688 d, T689 e, T690 f, T691 g, T692 h, T693 i; Szenario s96 prüft
+  SK1-g mit echten Klicks (3 Fälle, 0 Abweichungen). Gesamtlauf 248/248, addon_check OK.
+Abdeckung früherer "Im Client prüfen": HB1 Händler -> a; BR1/A7 Post -> b; Kauf/Einstellen -> c; EB5 -> d; TB138-2 -> e;
+  TB138-1/NP141 Lager -> f; UI-V1/V1b -> g; TB138b-3 -> h; TB138c-1 -> i.
+Weiter: NP152-1..4.
