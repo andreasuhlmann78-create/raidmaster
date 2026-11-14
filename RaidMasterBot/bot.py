@@ -5283,11 +5283,19 @@ def uploader_package() -> str | None:
 
 
 @bot.tree.command(name="uploader", description="Daten-Uploader per Direktnachricht: Programm + Einrichtungsdatei (Gildenleitung)")
-@app_commands.describe(nur_programm="Nur das Programm (RaidMasterUploader.zip) schicken, ohne neue Einrichtungsdatei – z. B. für ein Update")
-async def uploader_cmd(inter: discord.Interaction, nur_programm: bool = False):
+@app_commands.describe(nur_programm="Nur das Programm (RaidMasterUploader.zip) schicken, ohne neue Einrichtungsdatei – z. B. für ein Update",
+                       fuer="Optional: für dieses Mitglied (bekommt alles selbst per PN, mit eigenem #sync-daten); leer = für dich")
+async def uploader_cmd(inter: discord.Interaction, nur_programm: bool = False, fuer: discord.Member | None = None):
     if not is_admin(inter.user):
         await inter.response.send_message("Das dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
         return
+    # ab 1.5.134 (Wunsch des Nutzers 14.11.): /uploader fuer:@Mitglied – die geheimen Dateien gehen direkt an das Mitglied,
+    # mit seinem EIGENEN privaten #sync-daten (nie die sync_config.json eines anderen weitergeben)
+    target = fuer or inter.user
+    if getattr(target, "bot", False):
+        await inter.response.send_message("An Bots wird kein Uploader geschickt.", ephemeral=True)
+        return
+    other = target.id != inter.user.id
     if nur_programm:
         await inter.response.defer(ephemeral=True, thinking=True)
         have, want = await ensure_fresh_uploader()
@@ -5298,11 +5306,17 @@ async def uploader_cmd(inter: discord.Interaction, nur_programm: bool = False):
             return
         vnote = uploader_version.note(have, want)
         try:
-            await inter.user.send(f"📦 **RaidMaster-Uploader {have or ''}**. Entpacken und die alten Dateien ersetzen – "
-                                  "deine `uploader_config.json` im Ordner behalten.\n" + vnote,
-                                  file=discord.File(pkg, filename="RaidMasterUploader.zip"))
-            await inter.followup.send("Ich habe dir den Uploader per Direktnachricht geschickt. 📬 " + vnote, ephemeral=True)
+            await target.send(f"📦 **RaidMaster-Uploader {have or ''}**. Entpacken und die alten Dateien ersetzen – "
+                              "deine `uploader_config.json` im Ordner behalten.\n" + vnote,
+                              file=discord.File(pkg, filename="RaidMasterUploader.zip"))
+            await inter.followup.send(("Ich habe " + target.mention + " den Uploader per Direktnachricht geschickt. 📬 "
+                                       if other else "Ich habe dir den Uploader per Direktnachricht geschickt. 📬 ")
+                                      + vnote, ephemeral=True)
         except discord.HTTPException:
+            if other:
+                await inter.followup.send(f"{target.mention} nimmt keine Direktnachrichten vom Bot an (Privatnachrichten "
+                                          "von Servermitgliedern erlauben). Nichts geschickt.", ephemeral=True)
+                return
             await inter.followup.send("Direktnachricht nicht möglich (Privatnachrichten von Servermitgliedern erlauben) – hier die Datei. "
                                       + vnote, file=discord.File(pkg, filename="RaidMasterUploader.zip"), ephemeral=True)
         return
@@ -5319,7 +5333,7 @@ async def uploader_cmd(inter: discord.Interaction, nur_programm: bool = False):
     # zwei Webhooks: #bot-daten (Spieldaten) und #testberichte (Testberichte der GoldSentinel-Addons)
     data_url, test_url, notes = await uploader_setup.setup_uploader_hooks(ch.guild, ch, cfg, f"/uploader von {inter.user}")
     # Abgleich PC/Laptop (ab 1.5.113): privater Kanal #sync-daten nur für dich, Webhook + Index -> sync_config.json
-    sync_conf, sync_notes = await uploader_setup.setup_sync(ch.guild, inter.user, cfg, f"/uploader von {inter.user}")
+    sync_conf, sync_notes = await uploader_setup.setup_sync(ch.guild, target, cfg, f"/uploader von {inter.user}")
     notes += sync_notes
     save_config()
     conf = uploader_setup.uploader_config(data_url, test_url, bot.user.id)
@@ -5352,10 +5366,19 @@ async def uploader_cmd(inter: discord.Interaction, nur_programm: bool = False):
             out.insert(0, discord.File(pkg, filename="RaidMasterUploader.zip"))
         return out
     # privat per Direktnachricht (nur du siehst sie); geht das nicht, hier nur für dich sichtbar
+    if other:
+        text = (f"✉️ **{inter.user.display_name}** (Gildenleitung) schickt dir den Daten-Uploader.\n\n" + text)
     try:
-        await inter.user.send(text, files=files())
-        await inter.followup.send("Ich habe dir den Uploader und die Einrichtungsdatei per **Direktnachricht** geschickt. 📬", ephemeral=True)
+        await target.send(text, files=files())
+        await inter.followup.send(("Ich habe " + target.mention + " den Uploader und die Einrichtungsdateien per "
+                                   "**Direktnachricht** geschickt. 📬" if other else
+                                   "Ich habe dir den Uploader und die Einrichtungsdatei per **Direktnachricht** geschickt. 📬"),
+                                  ephemeral=True)
     except discord.HTTPException:
+        if other:   # die Dateien nie an jemand anderen umleiten
+            await inter.followup.send(f"{target.mention} nimmt keine Direktnachrichten vom Bot an (Privatnachrichten von "
+                                      "Servermitgliedern erlauben). Nichts geschickt.", ephemeral=True)
+            return
         await inter.followup.send(text + "\n\n_(Direktnachricht nicht möglich – bitte Privatnachrichten von Servermitgliedern erlauben.)_",
                                   files=files(), ephemeral=True)
 

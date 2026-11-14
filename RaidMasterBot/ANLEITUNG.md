@@ -151,6 +151,10 @@ Seit das Serverprofil öffentlich ist, sollen Neue ohne Rolle nicht den ganzen G
   Bank-Charakter an (der Gildenbank-Stand bleibt dabei unverändert).
 - **/uploader (ab 1.5.128):** prüft vor dem Senden, ob die Uploader-ZIP der neuesten Fassung im Repo entspricht, holt
   sie sonst nach und nennt die Version in der Antwort (bei älterer Fassung mit Warnung).
+- **/uploader fuer:@Mitglied (ab 1.5.134):** schickt Uploader, uploader_config.json und eine EIGENE sync_config.json
+  (eigener privater #sync-daten) direkt per PN an das Mitglied. Nimmt es keine PN an, geht nichts an jemand anderen.
+- **/pn mitglied:@… [vorlage] (ab 1.5.133):** Gildenleitung schickt eine Privatnachricht über den Bot (Formular mit
+  Vorschau, Vorlage „Uploader-Anleitung“); im Protokoll steht nie der Text.
 - **Selbstprüfung (nur lesen):** beim Start und alle 6 Stunden prüft der Bot Grundregeln (darf er in allen
   Anmeldekanälen posten? Offiziers- und Addon-Kanäle nicht für alle sichtbar? Mitglieder-Bereich dicht, Rolle Mitglied
   und #bewerbung vorhanden?). Verstösse stehen im Protokoll als „GRUNDREGEL VERLETZT …“ und einmal in #bot-befehle.
