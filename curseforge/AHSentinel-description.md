@@ -12,6 +12,18 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.170
+
+- **"Today", gold safety:** a single buy suggestion uses at most 10 % of your gold; while a way is still learning (no own
+  cases yet) only a small trial amount is suggested. New self-check. Test T718.
+- **"Today" follows your own best way:** ingredients of a profitable crafting chain you know (e.g. bolts and thread for a
+  pants recipe) are no longer suggested for sale; items worth more disenchanted get "Disenchant" instead of "sell at vendor";
+  the number is now the profit (not the proceeds), with a short sentence on hover. Test T717.
+- **Accounting:** "Profit %" of disenchant groups again counts only bought items (no more 477 %); the tooltip explains the
+  part without purchase. Test T715.
+- **Profit window:** no "Vendor pays more: 0c" and no "best way: vendor" when the vendor doesn't buy the item and every way
+  loses – it says "no way with profit". Test T716.
+
 ### Version 0.65.169
 
 - **Sell window:** "Expected profit" now subtracts what the goods cost you (average cost of your stock). Before it showed the
@@ -47,14 +59,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Accounting, disenchant groups:** materials from new disenchants remember their price at the moment of disenchanting. The
   group tooltip shows separately "Price fell since disenchanting −x" (or rose) – how much waiting cost or earned you. Older stock
   has no such price and is not estimated. A short sentence explains the group number. Tests T705, T706.
-
-### Version 0.65.165
-
-- **Best recipes:** ingredients you have to buy now cost the price at which the amount for a series of 20 crafts is really
-  available (price ladder), not the cheapest single offer – no more fake profits like "Bolt of Woolen Cloth +1s 66c".
-- **Crafting chains (preparation):** AHSentinel now calculates, after every scan, the crafting chains of your known recipes
-  (buy → craft, also intermediates → sell or disenchant) and keeps only those with at least 20 % profit. Until they are fully
-  checked they only appear in the test report, not in tooltips or the market tab. Test T704.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
