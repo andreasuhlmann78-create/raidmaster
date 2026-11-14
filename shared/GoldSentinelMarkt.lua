@@ -52,7 +52,10 @@
 --   eines Abends ohne laufenden Uploader gehen nicht verloren), hoechstens 1,5 MB zusammen (aelteste fallen weg) –
 --   damit Speichern/Laden der SavedVariables klein bleibt (Ruckeln vermeiden). Sonst unveraendert.
 
-local VERSION = 3
+-- Version 4 (14. November 2026, Befund MN-S2 der BuffSentinel-Sitzung): Schalter aus stoppt auch eine schon geplante
+--   Antwort "A:" (Tick prueft IsShareOn, SetShare(false) verwirft answerAt und askAt). Sonst unveraendert.
+
+local VERSION = 4
 
 local existing = _G.GoldSentinelMarkt
 if type(existing) == "table" and (tonumber(existing.VERSION) or 0) >= VERSION then return end
@@ -197,6 +200,7 @@ function M.SetShare(addon, on)
     local db = M.hosts[addon]
     if not db then return end
     db.gsMarktAus = (on == false) or nil
+    if on == false then M.answerAt, M.askAt = nil, nil end   -- v4 (MN-S2): geplante Frage/Antwort verwerfen
 end
 
 function M.IsShareOn()
@@ -638,6 +642,7 @@ function M.Tick()
     end
     if M.answerAt and now >= M.answerAt then
         M.answerAt = nil
+        if not M.IsShareOn() then return M.Pump() end      -- v4 (MN-S2): Schalter aus -> keine Antwort mehr
         local f, fac = Fac()
         if f and M.ep then
             M.ep:Send("A:" .. fac .. ":" .. Enc(f.t), { scope = "guild", net = false })

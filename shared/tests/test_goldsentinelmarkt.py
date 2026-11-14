@@ -318,12 +318,12 @@ check("Abbruch bei geänderter Liste", y.ev("GoldSentinelMarkt.Stats().aborted")
 z = Client("Testz", 13)
 set_auctions(z, rows1)
 scan(z)
-z.run(SRC.replace("local VERSION = 3", "local VERSION = 4"))
-check("neuere Fassung aktiv", z.ev("GoldSentinelMarkt.VERSION"), 4)
+z.run(SRC.replace("local VERSION = 4", "local VERSION = 5"))
+check("neuere Fassung aktiv", z.ev("GoldSentinelMarkt.VERSION"), 5)
 check("Daten übernommen", z.ev("GoldSentinelMarkt.Get(2589).preis"), 95)
 check("alter Frame still", z.ev("FRAMES[#FRAMES - 1].scripts.OnUpdate == nil"), True)
-z.run(SRC)                     # ältere Fassung lädt danach -> bleibt bei 4
-check("ältere Fassung übernimmt nicht", z.ev("GoldSentinelMarkt.VERSION"), 4)
+z.run(SRC)                     # ältere Fassung lädt danach -> bleibt bei 5
+check("ältere Fassung übernimmt nicht", z.ev("GoldSentinelMarkt.VERSION"), 5)
 
 # --- 14. Feed: Host-Addon liest selbst und gibt weiter, kein zweites Lesen ---------------------------------------------
 h = Client("Testh", 14)
@@ -389,7 +389,21 @@ tr.execute("B = {} for i = 1, 4 do B[#B+1] = string.rep('x', 600 * 1024) end Gol
 check("Export: höchstens 1,5 MB zusammen", tr.eval("#B"), 2)
 tr.execute("C = { string.rep('y', 2 * 1024 * 1024) } GoldSentinelMarkt.TrimExport(C)")
 check("Export: neuester Scan bleibt immer", tr.eval("#C"), 1)
-check("Version 3", tr.eval("GoldSentinelMarkt.VERSION"), 3)
+check("Version 4", tr.eval("GoldSentinelMarkt.VERSION"), 4)
+
+# v4 (MN-S2): geplante Antwort "A:" geht nach dem Ausschalten nicht mehr raus (Tick und SetShare)
+for i, via in enumerate(("tick", "setshare")):
+    c = Client("Testms" + str(i), 30 + i)
+    c.run('DBM = {}; GoldSentinelMarkt.Attach("MSAddon", DBM)')
+    c.run("GoldSentinelMarkt.answerAt = GoldSentinelMarkt.api.now() + 1; GoldSentinelMarkt.answerT = 1")
+    if via == "tick":
+        c.run('DBM.gsMarktAus = true')          # Schalter aus, ohne SetShare (anderes Addon)
+    else:
+        c.run('GoldSentinelMarkt.SetShare("MSAddon", false)')
+    c.clear()
+    c.tick(30)
+    check("aus: keine Antwort A (" + via + ")", any(":A:" in m[1] for m in c.sent() if m[0] == "GSMARKT1"), False)
+    check("aus: answerAt verworfen (" + via + ")", c.ev("GoldSentinelMarkt.answerAt"), None)
 
 print(f"{checks - fails}/{checks} Prüfungen bestanden")
 sys.exit(1 if fails else 0)
