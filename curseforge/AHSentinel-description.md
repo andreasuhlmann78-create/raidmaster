@@ -12,6 +12,17 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.126
+
+- **Empty lists:** the hint in an empty list (e.g. Market > Disenchant) now stays inside the list and wraps to its
+  width instead of running across the screen.
+- **"Test report" window:** very long reports are shown in parts (arrows top right, "Part x of y") instead of the
+  window staying empty/black.
+- **More honest sales forecast:** auctions you cancelled yourself no longer count as "not sold" (neither hit nor miss,
+  not used for learning). On cancel AHSentinel notes whether you had been undercut. The test report shows the hit rate
+  old/new and the sold share per price level.
+- Test: the "Today" list with 5000 items is computed in small portions (T647). Tests T645–T648.
+
 ### Version 0.65.125
 
 - **Less stutter – compact price history in memory:** in game AHSentinel now keeps the price history as one compact
@@ -49,18 +60,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   the table deviates; 30 % for groups that measured badly. No budget cap per group. In the game you only see whether it
   pays or not – the rules appear only in the test report.
 - Test T637 updated.
-
-### Version 0.65.121
-
-- **Disenchant value was corrected far too much (important):** the material price correction (×0.57) used the median of
-  a random result – mostly cheap dust, rarely an expensive essence or shard. On average the prediction was right
-  (≈ 0.96). Now the correction uses sums (total loot / total prediction, from 30 cases), so "Worth up to", the sniper
-  maximum and the profit line are realistic again. The learned safety margin for disenchanting uses sums too.
-- **Minimum profit for disenchanting per material group:** 20 % for groups your own results prove (≥ 30 purchases,
-  total profit ≥ 20 %), 25 % for groups not proven yet (and at most 20 % of the disenchant budget per group to learn
-  them), 30 % only for groups that measured badly. Weapons and armour of the same level band count together.
-- Test report: total profit per group (loot / spent) and the minimum profit that applies.
-- Tests T589, T637.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

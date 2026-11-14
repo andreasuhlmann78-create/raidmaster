@@ -7,6 +7,17 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.126</h3>
+<ul>
+<li><strong>Empty lists:</strong> the hint in an empty list (e.g. Market &gt; Disenchant) now stays inside the list and wraps to its
+  width instead of running across the screen.</li>
+<li><strong>"Test report" window:</strong> very long reports are shown in parts (arrows top right, "Part x of y") instead of the
+  window staying empty/black.</li>
+<li><strong>More honest sales forecast:</strong> auctions you cancelled yourself no longer count as "not sold" (neither hit nor miss,
+  not used for learning). On cancel AHSentinel notes whether you had been undercut. The test report shows the hit rate
+  old/new and the sold share per price level.</li>
+<li>Test: the "Today" list with 5000 items is computed in small portions (T647). Tests T645–T648.</li>
+</ul>
 <h3>Version 0.65.125</h3>
 <ul>
 <li><strong>Less stutter – compact price history in memory:</strong> in game AHSentinel now keeps the price history as one compact
@@ -45,19 +56,7 @@
   pays or not – the rules appear only in the test report.</li>
 <li>Test T637 updated.</li>
 </ul>
-<h3>Version 0.65.121</h3>
-<ul>
-<li><strong>Disenchant value was corrected far too much (important):</strong> the material price correction (×0.57) used the median of
-  a random result – mostly cheap dust, rarely an expensive essence or shard. On average the prediction was right
-  (≈ 0.96). Now the correction uses sums (total loot / total prediction, from 30 cases), so "Worth up to", the sniper
-  maximum and the profit line are realistic again. The learned safety margin for disenchanting uses sums too.</li>
-<li><strong>Minimum profit for disenchanting per material group:</strong> 20 % for groups your own results prove (≥ 30 purchases,
-  total profit ≥ 20 %), 25 % for groups not proven yet (and at most 20 % of the disenchant budget per group to learn
-  them), 30 % only for groups that measured badly. Weapons and armour of the same level band count together.</li>
-<li>Test report: total profit per group (loot / spent) and the minimum profit that applies.</li>
-<li>Tests T589, T637.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
