@@ -12,6 +12,12 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.133
+
+- **Accounting – "Details" button:** opens its own window (Today / Week / Total, Total by default) with trading
+  (profit), trading per hour (profit ÷ play time without AFK, from 2 h), own use, lost deposit, sell rate, return per
+  route (disenchanting as the sum of all cases) and gold check. Otherwise the accounting tab looks as before. Test T656.
+
 ### Version 0.65.132
 
 - **Deposit – more precise:** a deposit only counts as lost when the expiry mail arrives or you cancel the auction –
@@ -34,13 +40,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 - **Less memory:** per-item caches (market value, sales rate, buyout) are limited and cleared every 10 minutes when
   too large. The tempo test shows their size. Test T653.
-
-### Version 0.65.128
-
-- **Sales forecast knows the price:** the chance to sell now comes from your real sales per price level (price
-  relative to market value) – listing higher means a smaller chance. Without learned cases it stays as before.
-- Test report: sales chains (expired/cancelled -> relisted -> sold counts as one case), with number of listings and
-  price of the last vs. the first listing. Tests T651, T652.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
