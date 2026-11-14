@@ -1,0 +1,16 @@
+AHSentinel 0.65.169 – EK-1 Korrektur (Anzeige "Gewinn erwartet") + SN-DEF1 – umgesetzt, zur Prüfung
+=================================================================================================
+EK-1 Korrektur (Supervisor 16:10): bestätigt – UI_Sell rechnete "Gewinn erwartet" = Erlös nach Gebühren − erwarteter Verlust
+der Einstellgebühr, OHNE Einstand (der Name versprach Gewinn). Jetzt Se:ExpectedProfit(id, Erlös, Rückläufe, Menge) =
+Erlös − Rückläufe − Lager-Einstand (Durchschnitt des Lager-Postens dieser Figur, BK:Position; Stück über dem Posten ohne
+Einstand). Erklär-Satz beim Zeigen auf die Zeile (15 Wörter). Selbstkontrolle SK1-q beim Klick auf Einstellen: angezeigt =
+Erlös − Rückläufe − Einstand, unabhängig aus dem Lager-Posten nachgerechnet. Test T714 (176 Staub à 62c: Gewinn = Erlös − 10912;
+ohne Posten = Erlös; Satz ≤ 20 Wörter).
+Hinweis: Lager anderer Figuren/Bank-Twinks zählt nicht (Einstand je Figur, wie die Buchhaltung); Post an Twinks trägt den
+Einstand mit (BP2), also stimmt es auch nach dem Umschicken.
+SN-DEF1 (Entscheid 15:49): Sn:NewTargetDefaults – im Sniper-Reiter Menge leer -> 1000, Budget leer -> 5g; Max bleibt Pflicht
+(Platzhalter "Preis eingeben (z. B. 22c)", ohne Max kein Ziel). Ist der Max selbst über 5g, Budget mindestens 1 Stück (sonst kein Ziel möglich; Sim s10_quality_picker). Platzhalter "1000"/"5g", Erklär-Satz als Tooltip der Felder.
+Sn:DefaultQty (Schnittstelle für andere Wege, TU3) unverändert; andere Aufrufer (Markt, Einkaufslisten, Selbsttest) geben
+Menge/Budget selbst an. Test T713.
+Grundsatz: T713/T714 / SK1-q / Prüfung Supervisor. Locales 3 neue Schlüssel, CHANGELOG EN/DE.
+Volltest 250/250, addon_check OK.
