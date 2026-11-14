@@ -1,0 +1,26 @@
+AHSentinel 0.65.167 – EK-1 (Einstand der Herstell-Kette) + GW-S1 – umgesetzt, zur Prüfung
+=========================================================================================
+
+EK-1 HOCH – Ursache im Code gefunden (bitte mit Daten bestätigen):
+- Herstellen wird über UNIT_SPELLCAST_SUCCEEDED erkannt (Activity.lua); das Produkt kam NUR aus Cr:RecipeIndex(nil, true) =
+  Zwischenspeicher des offenen Berufs, den nur die Hintergrund-Arbeit von "Beste Rezepte" baut (und nur für die gerade
+  gelesene Berufsart). Fehlte der Eintrag (Fenster frisch geöffnet, Tafel aus, anderer Beruf/Art, Cache verworfen), lief KEIN
+  CRAFT_DONE -> kein BK:OnCraft -> Ballen/Hose ohne Lager-Posten; die Zutaten blieben im Lager (später "fehlt"/Abgleich);
+  beim Entzaubern der Hose Take ohne Posten -> Einstand 0 -> Staub/Essenz mit Einstand 0 -> Gewinn = Erlös (wie im Screenshot).
+- Lösung: Cr:RecipeByName(name): 1. Zwischenspeicher, 2. offenes Berufsfenster direkt (Zeile mit dem Namen, Zutaten), 3. die
+  gemerkten Rezepte dieser Figur (A.db.recipes). Activity nutzt sie.
+- Selbstkontrolle SK1-m "Herstellen gebucht": jedes erkannte Herstellen ohne gefundenes Rezept = Abweichung (Zauber-ID).
+  Erkennt das Spiel ein Herstellen gar nicht (IsCraftSpell), sieht SK1-m es nicht – falls die Abweichung im Client bleibt, ist
+  das der nächste Verdacht (bitte SK1-m und SK1-f nach einer Herstell-Runde im Testbericht ansehen).
+- Bestehende Buchungen (Staub mit Einstand 0, Zutaten noch im Lager) werden NICHT umgebucht (Regel). Folge: der aktuelle
+  Staub-Bestand zeigt weiter zu viel Gewinn, bis er verkauft ist; die nicht verbrauchten Leinenstoff-/Faden-Posten bucht der
+  Lager-Abgleich als "fehlt" aus, sobald Briefkasten + Auktionen gesehen sind (NP160-1). Umbuchung nur auf Entscheid.
+- Test T708: Zwischenspeicher leer -> Rezept gefunden ("gemerkt"), unbekanntes Rezept -> nil; 4 Stoff à 22c + Faden 10c ->
+  2 Ballen -> Hose -> Entzaubern -> Einstand Staub + Essenz = 98c.
+
+GW-S1 NIEDRIG: Cr:VendorNote – bester Weg entzaubern -> "Händler: 60c" (ohne "mehr"); bester Weg Händler/Verkauf -> wie bisher.
+Test T707.
+
+Grundsatz: T708/SK1-m (EK-1), T707 (GW-S1, reine Anzeige, Selbstkontrolle nicht messbar) / Prüfung Supervisor.
+Locales: 1 neuer Schlüssel ("Händler: %s"), CHANGELOG EN/DE.
+Volltest 250/250, addon_check OK.
