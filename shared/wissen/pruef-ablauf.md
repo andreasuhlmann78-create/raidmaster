@@ -76,6 +76,10 @@ für JEDE neue Version jedes Projekts (auch für die geplante Nachprüfung).
   ergänzen (Abschnitt E), damit er nicht wieder durchrutscht.
 
 ## E. Prüfregeln aus Fehlern (fortlaufend)
+- 14.11. 08:35 ThreatSentinel 2.5.13/BuffSentinel 0.9.21 ein zweites Mal geprüft, obwohl die geplante Nachprüfung es gerade
+  tat (Konflikt beim Push, doppelte Arbeit verworfen). REGEL (effizient UND genau, Nutzer 08:29): vor jeder Prüfung
+  `git pull` + addon-check/nachpruefung-stand.json + nachrichten-log.txt ansehen; schon geprüft -> nur deren Ergebnis lesen.
+  Code-Stellen, die eine Buchung/Anzeige betreffen, dreifach lesen (Ereignis -> Rechnung -> Speicher), bevor ein Befund rausgeht.
 - 14.11. Trefferquote "69 %" für die Preisstufen genannt – mit denselben Fällen gelernt und geprüft (zu optimistisch, ohne
   eigenen Fall 66 % bei Grundlinie 58 %). Und ein Schlangen-Modell vorgeschlagen, ohne es vorher an den Daten zu prüfen
   (widerlegt). REGEL: Jede Vorhersage-Güte nur OHNE den eigenen Fall (leave-one-out oder zeitlich getrennt) nennen, immer
