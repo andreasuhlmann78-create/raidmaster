@@ -29,6 +29,21 @@ ausgebucht, wenn 7 Tage nicht eingestellt – Seelenstaub wird laufend eingestel
 die in KEINEM Abbild und in keiner laufenden Auktion/Post steht, die 7-Tage-Sperre nicht anwenden.
 Reihenfolge danach: PR2 (klein, sofort – der Nutzer liefert heute Fälle), dann TB138-6/TB138c, TB138-2, TB138-3/b-3.
 
+BR1 – BRIEFKASTEN AUCH VON HAND VOLL ZÄHLEN (Entscheid des Nutzers 14.11. 08:17: "Der Briefkasten muss nicht immer über AHS
+   geöffnet werden – wenn nicht, muss das auch gezählt werden.") HOCH, mit PR2 zusammen.
+   Stand im Code (Prüf-Sitzung 08:50): MAIL_SHOW/MAIL_INBOX_UPDATE -> nach 0,5 s Le:ScanInbox liest die Rechnungen – gut. Lücken:
+BR1-1 Holt der Spieler (oder ein anderes Addon, z. B. Postal "alles öffnen") die Post schneller als 0,5 s ab, ist die Rechnung
+      weg, bevor sie gelesen ist. -> hooksecurefunc auf TakeInboxMoney, TakeInboxItem, AutoLootMailItem, DeleteInboxItem
+      (und ReturnInboxItem): VOR dem Verschwinden die Rechnung/den Betreff dieser einen Post lesen und buchen (nur lesen,
+      doppelt sicher über seenSold-Schlüssel).
+BR1-2 Ablauf- und Abbruch-Post (BH-ANZ, PR1-Ketten, Lager zurück) wird nur über AHSentinels Abholen erkannt (Bericht 0.65.132:
+      "Ablauf-Post nur von Hand geöffnet -> 7-Tage-Restregel"). -> beim Öffnen des Briefkastens ALLE Betreffs lesen
+      (Ablauf, Abbruch, Verkauf, Kauf) und buchen, egal wer abholt. Die 7-Tage-Restregel bleibt nur für Post, die nie
+      gesehen wurde.
+BR1-3 Ware aus Ablauf-/Abbruch-Post kommt von Hand in die Taschen -> Lager und Ketten (PR1) wie beim Abholen über AHSentinel.
+Tests: T-BR1a Post von Hand in 0,1 s abgeholt -> Verkauf gebucht; T-BR1b Ablauf-Post von Hand -> Anzahlung verfallen,
+Kette fortgesetzt, Ware im Lager; T-BR1c gleiche Post zweimal gesehen -> einmal gebucht.
+
 PR2 – PROGNOSE SOFORT VERBESSERN (Prüf-Sitzung 08:40, gemessen markt-strategie.md 8g "GEMESSEN 08:20" und Wettlauf 08:35)
    Der Nutzer liefert heute und morgen viele neue Fälle (kaufen, entzaubern, verkaufen) – darum JETZT, klein und eigene Version:
 PR2-1 HOCH  Abbruch-Grund beim Abbruch festhalten (Feld cr, bei allen 17 bisher leer): im Moment des Abbruchs aus dem letzten

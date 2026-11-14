@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 08:17 | Der Briefkasten wird nicht immer über AHSentinel geöffnet – auch von Hand abgeholte Post muss voll gezählt werden (Verkäufe, Käufe, Ablauf, Abbruch). | offen-ahsentinel.txt BR1 (BR1-1 bis -3). |
 | 08:07 | "Ich will, dass du alles nochmals genau prüfst – und vergiss nicht dein Gehirn." Gilt für Vorschläge zum Rechenkern: erst an den Daten prüfen, dann vorschlagen. | markt-strategie.md 8g GEMESSEN 08:20, pruef-ablauf.md E (14.11.). |
 | 08:02 | Frage des Nutzers: aus dem Rechenkern eine kleine KI basteln? -> noch OFFEN (Vorschlag der Prüf-Sitzung: lernende Statistik im Spiel, schwere Rechnung ausserhalb, Modell erst bei vielen Fällen und nur wenn nachweislich besser). | Entscheid ausstehend. |
 | 01:38 | Gute Nacht – "wenn ich morgen hi sage, nehmen wir den Faden genau hier wieder auf". | auftraege/morgen-uebersicht-2026-11-14.txt (Einstieg bei "hi"). |
