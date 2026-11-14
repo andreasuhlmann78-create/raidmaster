@@ -1,0 +1,48 @@
+AHSentinel 0.65.168 – SN-EIN1, SN-MAX1, BR-LEER1, VS-1 – umgesetzt, zur Prüfung
+===============================================================================
+
+SN-EIN1 HOCH (Entscheid des Nutzers 15:45)
+- Neue Funktion A:ParseMoney(text, plain): mit Einheit wie ParseGold; ohne Einheit "copper" (Kaufen) / "gold" (Budget) /
+  "none" (Verkaufen -> nil + "einheit"). A:ParseGold unverändert.
+- UI:MoneyInput(parent, onChange, mode): "buy" = Kupfer (Sniper Max/Stück, Einkauf-Gebot UI_Buy, Wunschliste Kaufpreis,
+  Wächter Mindestwert/Stück – dort ist Kupfer gemeint, Standard 10c), "sell" = Einheit Pflicht (Verkaufen Preis/Stück,
+  Wunschliste Verkaufspreis): Vorschau rot "Einheit fehlt: g, s oder c", GetCopper = nil -> Einstellen gesperrt (vorhandene
+  Prüfung "kein Preis"). Budgets (Sniper, Wächter) und Gewinn-Rechner bleiben Gold. Vorschau "= 22c" wie bisher; Tooltip-Text
+  je Art. Nach dem Verlassen des Felds wird mit Einheit geschrieben ("22" -> "22c").
+- Selbstkontrolle: Sn:CheckHighMax (nur bei Eingabe im Sniper-Reiter, nicht für Selbsttest/Schnittstellen) – Max > 50 × Marktwert -> rote Warnung "Tippfehler?", erst beim zweiten Hinzufügen mit
+  demselben Wert gespeichert. Gespeicherte Ziele unverändert (schon Kupfer).
+- Test T710 (inkl. falscher Fälle).
+- Mindestpreis beim Verkaufen (Se:GetFloor): wird nicht über ein Geldfeld eingegeben -> nicht betroffen.
+
+SN-MAX1 HOCH
+- Ursache: COMMODITY_PRICE_UPDATED prüfte nur unit <= Max (Stückpreis der ersten Stufe) und total <= Budget; der Durchschnitt
+  über mehrere Stufen (34s 84c / 152 = 22,9c) wurde nie gegen Max geprüft.
+- Jetzt Sn:PriceOK(t, Menge, Gesamt) = Gesamt/Menge <= Max (+0,5c Rundung): bei der Preisbestätigung (sonst Abbruch "Zu teuer:
+  Ø x je Stück über deinem Max y – nicht gekauft, Angebote werden neu gesucht", Ergebnis verworfen -> neue Suche; der Plan
+  nimmt dann nur Stufen <= Max = "Menge senken") und als letzte Sperre in Sn:Confirm vor ConfirmCommoditiesPurchase.
+- Selbstkontrolle SK1-o: je Sniper-Kauf bezahlter Ø-Stückpreis <= Max, sonst rot (Testbericht).
+- Test T711: 152/34s 84c -> nein; 100/21s -> ja; Leiter 100×21c+52×26c als 152 -> nein; PlanNext -> 100.
+
+BR-LEER1 MITTEL
+- Vermutete Ursache im eigenen Code (0.65.165 BR-W1): pcall(Cr:LadderCost) -> BestUnit -> RecipeIndex() baut den
+  Rezept-Index neu (nach jedem Daten-Ereignis indexDirty) und ruft dabei A:Pause -> coroutine.yield INNERHALB von pcall
+  ("yield across C-call boundary") in der Hintergrund-Arbeit der Rangliste. Nicht im Sim nachstellbar (dort keine Leiter).
+- Lösung: Cr:SeriesUnit liest NUR die Angebotsliste (keine Rezepte, keine Pause); ohne Liste gilt der Stückpreis wie vor
+  BR-W1 (Rückfall). Selbstkontrolle SK1-p: Rangliste gebaut, 0 Einträge, Rezepte da und Scan < 1 Std. -> rot.
+- Test T712: ohne Liste Gewinn da (Kosten 1000), Serie Ø 1380 bei 1×1000 + Rest 1400, Kosten mit Liste 1380.
+
+VS-1 MITTEL
+- Le:QueueHours(item, Menge, Preis) = (Stück vor mir zu meinem Preis + meine Stück) / Absatz je Std. (A:SellOutlook: Queue,
+  perDay); mein Preis ohne Angabe = A:RealPrice − 1c (nur billigere stehen vor mir). Tooltip "Verkauft sich": für eigene Ware
+  (Taschen) bzw. Items mit eigener Geschichte; ≤ 12 Std. "schnell", ≤ Laufzeit "in der Laufzeit", sonst "langsam"; "kaum"
+  aus der eigenen Geschichte (Abläufe) bleibt vorrangig. Mit Shift ein Satz (GRUNDSATZ NACHVOLLZIEHBAR, 15 Wörter).
+- Beim Einstellen wird die Vorhersage (Std.) an der Einzahlungs-Buchung gemerkt (pred). SK1-n: vorhergesagt vs. tatsächlich
+  je eigener Auktion (14 Tage): Abweichung bei Verkauf > 2 × Vorhersage + 1 Std. oder Ablauf trotz Vorhersage in der Laufzeit.
+- Test T709: 0 vor mir, 1770/Tag, 176 Stück -> 2,4 Std. schnell; 8600 vor mir -> > 24 Std. langsam; SK1-n 2 Fälle (1/1).
+- Le:SellSpeed (Laufzeit-Vorbelegung) unverändert.
+
+Locales: 8 neue Schlüssel in allen Sprachen, CHANGELOG EN/DE.
+Grundsatz: Tests T709–T712 / Selbstkontrollen SK1-n, SK1-o, SK1-p, CheckHighMax / Prüfung Supervisor.
+- Sim-Szenario s24_report_0610 an den Entscheid angepasst: Sniper-Max "1.5" = 2c, Budget "1.5" = 1g 50s.
+Volltest 250/250, addon_check OK.
+SN-DEF1 und EK-1 Korrektur (Anzeige Gewinn erwartet) folgen sofort als 0.65.169 (kamen während des Volltests).
