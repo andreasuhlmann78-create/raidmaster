@@ -1,0 +1,15 @@
+AHSentinel 0.65.160 – TB157-1..4 – umgesetzt, zur Prüfung
+
+TB157-1: Der lange Schritt (153 ms, Comfort.lua:855) ist der Aufruf ProfessionSentinelAPI.TodayCrafts(5) – Rechnung in
+  ProfessionSentinel ohne Pause (anderes Addon, hier nicht änderbar). AHSentinel holt das Ergebnis jetzt höchstens alle 15 Min.
+  (K:PSCrafts, Zeit gemessen in psCache.ms) statt bei jedem Neuaufbau von "Heute tun". Befund für ProfessionSentinel: TodayCrafts
+  sollte in Portionen rechnen oder zwischenspeichern (bitte an dessen Sitzung weitergeben).
+TB157-2: CorrectStock entsperrt Ware, die nirgends ist (have 0: keine Tasche/Bank/Post/Auktion), wenn der letzte Zugang älter
+  als 24 Std. ist (vorher: gesperrt, solange der Briefkasten seit dem Zugang nicht gesehen war) -> Fehlbestand gebucht.
+  Nicht "sofort": ein frischer AH-Kauf liegt oft ungesehen im Briefkasten; 24 Std. als Kompromiss. TR T699 (25 Stück, Einstand
+  15822, Kauf vor 2 Tagen, Briefkasten zuletzt davor gesehen -> Lager 0, Fehlbestand 15822).
+TB157-3: SK1-f zählt nur "Lager > vorhanden" als Abweichung; "mehr vorhanden als gebucht" graue Info-Zahl. T690 beide Richtungen.
+TB157-4: T676 gibt den Ort ausdrücklich an ("sonst") – im Spiel lief die Testroutine am offenen AH. Die Ursache-Ergänzung des
+  Supervisors (14:05: SC:OnFlow ohne Testroutinen-Sperre -> −500 in der echten AH-Sitzung, SK1-c-Eintrag 13:53 = Test-Artefakt)
+  kam nach dem Bau dieser Version; die Sperre folgt in 0.65.161 zusammen mit TB159-1 und S3-1.
+Gesamtlauf 248/248, addon_check OK.
