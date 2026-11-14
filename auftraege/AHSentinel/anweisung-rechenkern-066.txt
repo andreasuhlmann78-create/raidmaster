@@ -1,0 +1,68 @@
+ANWEISUNG AHSENTINEL – BAUPLAN 0.66 RECHENKERN: LERNEN, PRÜFEN, VORAUSAHNEN
+==========================================================================
+Von der Prüf-Sitzung, 14.11.2026 09:10. FREIGEGEBEN (Entscheid des Nutzers 08:51: selbstständig, dreifach geprüft).
+Einordnung: Reihenfolge ab 09:10, Punkt 7 – nach den Punkten 1–6 (Verkaufen, Händler-Bilanz, Speicher, Gold-Abstimmung).
+Ersetzt nichts: RK1–RK8 (anweisung-markt-reiter.txt) und R1–R9 (anweisung-rechenkern-regeln-2026-11-14.txt) gelten weiter.
+Dieser Bauplan legt fest, WIE der Kern lernt, wie jede Zahl geprüft wird und in welcher Reihenfolge gebaut wird.
+
+GRUNDSÄTZE DES NUTZERS (entscheide.md)
+- "Nur wer den Markt vorausahnen kann, macht richtig Gold – aber immer fundiert und belegbar."
+- Anzeige nur als ZAHL: Gewinn grün "+x", Verlust rot "−x", Verkaufspreis als Zahl. Keine Rechenwege, keine Prozentregeln.
+- Spieler-Bild: Gelegenheitsspieler, wollen mehr Gold mit wenig Aufwand (psychologie.md: Verlustaversion, Einzelfall).
+- Kein Ruckeln: jede Rechnung in Portionen ≤ 8 ms, Tooltip ≤ 5 ms, nichts Teures beim Klick.
+- Leitlinie "kleine KI" (Prüf-Sitzung 08:02–08:15, mit Daten geprüft): lernende Statistik im Spiel; schwere Rechnung
+  ausserhalb (Prüf-Sitzung, jeden Montag) als Tabellen; ein Modell erst, wenn es ohne eigenen Fall messbar besser trifft.
+
+TEIL 1 – LERNSCHICHT (eine gemeinsame Art zu lernen, für jeden Weg)
+L1 Zählen statt annehmen: je Weg (Flip, Sniper/Kauf, Entzaubern je Gruppe, Herstellen je Rezept, Händler) und je Zelle
+   (Warengruppe × Preisstufe bzw. Gruppe) werden Fälle gezählt: Vorhersage, Ergebnis, Datum.
+L2 Vorsicht bei wenigen Fällen: Schätzung = (Treffer + k × Vorwissen) / (Fälle + k), k = 2 (wie PR2). Vorwissen = Tabelle
+   (Entzaubern), Gesamtquote der Gruppe (Verkauf) oder Kaufpreis-Regel (Sniper). Mit vielen Fällen zählt die eigene Zahl.
+L3 Zufallsbeute nie über den Median: Summe/Summe (KF2, R1).
+L4 Alter zählt weniger: Fälle älter als 14 Tage zählen halb, älter als 30 Tage nicht mehr (Markt ändert sich mit Wellen).
+L5 Speicher: je Zelle nur Zähler (n, Treffer, Summen), keine Einzelfälle über das Journal hinaus. Ziel gesamt < 300 KB.
+
+TEIL 2 – EHRLICHE PRÜFUNG (Selbsttest, im Testbericht "MARKT-KERN")
+P1 Jede Vorhersage-Art wird OHNE den eigenen Fall geprüft (Fall vorhersagen nur aus Fällen davor = zeitlich getrennt).
+P2 Immer mit Grundlinie daneben ("immer nein" bzw. "Tabelle allein"). Anzeige als Zahl erst, wenn die Vorhersage die
+   Grundlinie schlägt UND Brier < 0,20 (Verkaufschance) bzw. Fehler ≤ 10 % (Werte). Sonst grau "lernt noch (n)".
+P3 Zeile im Testbericht je Art: Treffer neu / Grundlinie / alt, Brier, n, seit wann. Die Prüf-Sitzung rechnet jeden Montag
+   mit den Daten nach (Werkzeuge addon-check/marktanalyse/prognose_vergleich.py, unterboten.py, sniper_kaeufe.py).
+P4 Fällt eine Art 7 Tage lang unter die Grundlinie: automatisch zurück auf Vorwissen, Zeile rot im Testbericht.
+
+TEIL 3 – VORAUSAHNEN (was der Kern vorhersagt)
+V1 Verkaufen (R5, R6, PR2): Chance in der Laufzeit je Preisstufe und Warengruppe (gezählt). DANEBEN mitrechnen, nicht
+   anzeigen: Wettlauf = Käufer je Std. gegen Unterbietungen je Std. (gemessen 14.11.: unterboten 12 % verkauft, nicht
+   unterboten 27 %). Anzeige wechselt auf den Wettlauf erst nach P2. Ergebnis für den Spieler: EIN Verkaufspreis als
+   Zahl ("verkauft sich bei 3s 40c") = höchster Preis, dessen Chance in 2 Std. ≥ 50 % ist.
+V2 Kaufen (R3, SN-M): Höchstpreis = Wert / (1 + Mindestgewinn der Gruppe), nie über 0,9 × Wert. Gewinn je Preisstufe
+   laufend zählen (L1); fällt eine Stufe 7 Tage unter ihren Mindestgewinn -> Grenze dort senken (R3, automatisch).
+V3 Halten oder sofort verkaufen (RK6, R4): Welle je Stufenband (Waves.lua, 0.65.139). In der Welle oder fallend: Material
+   sofort verkaufen ("jetzt verkaufen: +x"), nicht halten, nicht auf Vorrat kaufen. Grösse des Verlusts je Tag halten:
+   Messauftrag M-HD1 (Kauf -> Entzaubern -> Verkauf, Tage dazwischen, Preis beim Entzaubern vs. beim Verkauf; erste Daten:
+   Entzaubern realisiert −9 % gegen +34 % beim Entzaubern, n 16 – TB138c-2). Bis belegt: nur Richtung.
+V4 Tages- und Wochenzyklus (R7, R8): nur messen, nicht anzeigen, bis belegt (≥ 3 Wochen, ≥ 80 % gleiche Richtung).
+
+TEIL 4 – AUSSERHALB DES SPIELS (schwere Rechnung)
+A1 Die Prüf-Sitzung rechnet jeden Montag aus allen Daten (Uploads, Bot 90 Tage) Tabellen: Wellen-Stand je Band, Quoten je
+   Preisstufe, Mindestgewinn je Entzauber-Gruppe, Zyklen. Ablage: shared/markt-tabellen/ (neu), Form wie Wegdaten.
+A2 AHSentinel liest die Tabelle beim Laden (nur Nachschlagen, kein Rechnen) und nutzt sie als Vorwissen (L2). Eigene
+   Zählung geht vor, sobald genug Fälle da sind. Fehlt die Tabelle: alles läuft ohne sie.
+
+TEIL 5 – REIHENFOLGE (je Schritt eine kleine Version mit Bericht)
+S1 Lernschicht L1–L5 + Prüfung P1–P4 als gemeinsame Funktion; zuerst für die Verkaufschance (PR2) – Testbericht-Zeilen.
+S2 V2 (Kaufgrenze lernt je Preisstufe) + V3 Richtung (Welle -> "jetzt verkaufen").
+S3 RK1/RK2 EIN "Lohnt bis" über alle Wege auf der Lernschicht (Selbsttest: nie zwei Zahlen für ein Item).
+S4 V1 Verkaufspreis als Zahl im Verkaufen-Fenster und Tooltip (nur nach P2).
+S5 A2 Tabellen lesen; RK3–RK7 nach anweisung-markt-reiter.txt.
+
+ABGLEICH MIT FRÜHEREN ENTSCHEIDEN (dreifach geprüft, 09:10)
+- DE30b (23:51): Entzaubern hat Mindestgewinn je Gruppe 20/25/30 % und KEIN Budget -> RK4-Budget (25 %/10 %) gilt nicht für
+  Entzaubern; RK5-Risiko-Wahl ändert beim Entzaubern nichts (DE30b geht vor).
+- Zahlen statt Worte (01:15), kein Schnickschnack (23:5x), Psychologie: alles Graue ("lernt noch") ohne Prozent-Erklärung.
+- Ruckeln: Lernschicht rechnet nur beim Ergebnis eines Falls (selten), Anzeige liest nur Zwischenspeicher.
+- Buchhaltung als Grundlage (R9): gelernt wird nur aus bestätigten Buchungen (BR1/HB1 vorher fertig – darum Punkt 7).
+
+TESTS: T-RK0-L1…L5, T-RK0-P1…P4 (mit erfundenen Fällen: wenige Fälle -> Vorwissen; viele -> eigene Zahl; P1 ohne eigenen
+Fall; P4 Rückfall), T-RK0-V1…V4, T-RK0-A2 (Tabelle fehlt -> läuft). Im Testbericht je Art die aktuelle Messung.
+Ist etwas mit euren Daten nicht nachvollziehbar: begründet im Bericht melden, nicht still abweichen.

@@ -527,6 +527,11 @@ Neuer Reiter: Lage (Bänder) / Mein Lager / Chancen / Trefferzeile – Auftrag a
   Quellen: Q14 https://www.shopify.com/blog/gmroi · Q15 https://www.spscommerce.com/community/articles/gmroii-combining-sales-profitability-and-asset-efficiency
   · Q16 https://o9solutions.com/articles/effective-markdown-optimization · Q17 https://www.invent.ai/blog/markdown-optimization-for-inventory-performance
 
+### BAUPLAN 0.66 RECHENKERN (14.11. 09:10, freigegeben) – auftraege/AHSentinel/anweisung-rechenkern-066.txt
+Lernschicht (zählen, Vorsicht bei wenigen Fällen k = 2, Summe/Summe, Alter zählt weniger), ehrliche Prüfung (ohne eigenen
+Fall, gegen Grundlinie, Anzeige erst wenn besser, Rückfall), Vorausahnen (Verkaufspreis als Zahl, Kaufgrenze lernt, Welle ->
+sofort verkaufen, Zyklen nur messen), Tabellen von aussen (Montag). Reihenfolge S1–S5.
+
 ### GEMESSEN 14.11. 08:20 – Welche Prognose trifft? Nachrechnung OHNE den eigenen Fall (Daten PC 14.11. 07:44)
 Werkzeug addon-check/marktanalyse/prognose_vergleich.py. 64 abgeschlossene Einstellungen (Abbrüche raus), 27 verkauft (42 %).
 Jede Vorhersage nur aus den ANDEREN Fällen gelernt (leave-one-out), sonst schönt sie sich selbst.
