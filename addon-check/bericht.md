@@ -5,7 +5,7 @@ Vorlage shared/GoldSentinelTest.lua: Version 2
 Tests der gemeinsamen Datei: bestanden 30/30 Prüfungen bestanden; GoldSentinelGame-Tests: bestanden; 75/75 Prüfungen bestanden; GoldSentinelSync-Tests: bestanden (79/79); GoldSentinelTest-Tests: bestanden (65/65); OK 56 / FEHLER 0; UICheck-Tests: bestanden (9/9); Vorlage-Tests: bestanden (76/76); 123/123 Prüfungen bestanden; Ladetest-Tests: 35/35 bestanden; Testberichte-Tests: bestanden (25/25); Wegdaten-Tests: bestanden (14/14)
 Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
-## AHSentinel-0.65.140.zip: OK
+## AHSentinel-0.65.141.zip: OK
 
 ## BuffSentinel-0.9.21.zip: OK
 
@@ -20,6 +20,5 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 
 ## ThreatSentinel-2.5.13.zip: OK
 
-## levelpilot__levelpilot-3.12.29.LevelPilot.zip: OK (1 Warnungen)
-- **WARNUNG** LevelPilot/GoldSentinelMarkt.lua: veraltete offizielle Fassung (Version 2) – auf shared/GoldSentinelMarkt.lua Version 3 aktualisieren
+## levelpilot__levelpilot-3.12.30.LevelPilot.zip: OK
 
