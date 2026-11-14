@@ -1,0 +1,14 @@
+AHSentinel 0.65.175 – SN-ALLE1-2 (Nummer 1, Nutzer 18:18), SN-ALLE1-1, TB174-1 – umgesetzt, zur Prüfung
+=====================================================================================================
+SN-ALLE1-2: Sn:SessionNote zählt NUR echte Sniper-Suchen (Sniper eingeschaltet, nicht in der Testroutine) je Minute; Sitzung =
+Einschalten bis Ausschalten. Beim Ausschalten (SetArmed(false), auch durch den Start der Testroutine) wird sie als
+A.db.sniper.lastSession gespeichert: Beginn, Dauer, Suchen, Ø/Min., höchster Takt (Suchen in einer Kalenderminute), Ziele.
+Testbericht-Zeile: "Sniper-Takt (nur echte Sniper-Suchen, ohne Testroutine) – letzte Sitzung | läuft: Datum, Dauer, Suchen,
+Ø x/Min., höchster y/Min., z Ziele". Die frühere "letzte 60 s"-Zahl entfällt (zählte Testsuchen mit). Test T727 erweitert
+(90 Suchen in 2 Min. -> höchster 60/Min., 3 Ziele).
+Ablauf für den Beleg: Sniper einschalten, einige Minuten laufen lassen, ausschalten, dann Testroutine -> Zeile "letzte Sitzung".
+SN-ALLE1-1: Zeilentext kurz "vor 12 s".
+TB174-1 HOCH: "Preis gefallen"-Zeile (L8 Verlustgrenze) nur, wenn jetzt verkaufen ≥ 1s bringt UND mehr als warten; sonst keine
+Zeile (1c-Fisch-Fall fällt weg). Die Zeile hat ihren Knopf wie bisher.
+Zurückgestellt laut Repo: RUCKEL-1/TB174-2 (nach Block 3), BH-TT2, S28.
+Volltest 250/250, addon_check OK. Bitte Testbericht (vorher Sniper einige Minuten laufen lassen und ausschalten).
