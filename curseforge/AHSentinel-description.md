@@ -12,6 +12,13 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.175
+
+- **Sniper speed measured:** each sniper session (from switching on to off) is measured – searches, average and highest
+  searches per minute, number of targets – only real sniper searches, never the test routine. The test report shows the last
+  session. The row text is shorter ("12 s ago").
+- **"Today":** a "price fell" row only appears if selling now is really worth it (at least 1s and more than waiting).
+
 ### Version 0.65.174
 
 - **Sniper checks ALL targets:** every target in your list is searched in turn, equally often, as fast as the server allows
@@ -47,18 +54,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   of the turnover like the accounting; the disenchant button names what it would cover and tries other spots. Test T720.
 - Test routine: a clear chat warning before it starts (about 2 minutes, please do nothing), a reminder if you open the mailbox
   or auction house meanwhile, and the longest frame in the report. Test T722.
-
-### Version 0.65.170
-
-- **"Today", gold safety:** a single buy suggestion uses at most 10 % of your gold; while a way is still learning (no own
-  cases yet) only a small trial amount is suggested. New self-check. Test T718.
-- **"Today" follows your own best way:** ingredients of a profitable crafting chain you know (e.g. bolts and thread for a
-  pants recipe) are no longer suggested for sale; items worth more disenchanted get "Disenchant" instead of "sell at vendor";
-  the number is now the profit (not the proceeds), with a short sentence on hover. Test T717.
-- **Accounting:** "Profit %" of disenchant groups again counts only bought items (no more 477 %); the tooltip explains the
-  part without purchase. Test T715.
-- **Profit window:** no "Vendor pays more: 0c" and no "best way: vendor" when the vendor doesn't buy the item and every way
-  loses – it says "no way with profit". Test T716.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
