@@ -12,6 +12,13 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.142
+
+- **Accounting – one profit:** the header now shows the same profit as the "Details" window (no second "profit with
+  purchase"). Goods without a known purchase show in grey as "unknown origin".
+- **Details:** return per route only shown as a number from 30 cases (grey "still learning" before); the gold check
+  only warns in red once it is consistent (grey "being reconciled" before).
+
 ### Version 0.65.141
 
 - Fixed: "Crafting.lua:515 attempt to index field" when building the crafting list.
@@ -34,13 +41,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 - **Accounting – game costs:** repairs at a vendor are booked as game costs (not in the trading profit) and show in the
   "Details" window; the gold check adds up better. Guild bank repairs do not count. Test T661.
-
-### Version 0.65.137
-
-- **Accounting – crafting:** when crafting, the cost of the reagents (e.g. vials from a vendor) moves into the crafted
-  product – the later sale shows the real profit.
-- **Sent mail:** goods sent to one of your characters keep their purchase cost; goods sent to other players count as
-  own use. Sent or crafted vendor goods no longer count wrongly as "consumed". Test T660.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
