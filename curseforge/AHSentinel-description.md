@@ -12,6 +12,13 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.144
+
+- **Safer stock check:** goods that may still be in the mailbox (AH purchase, mail from one of your characters,
+  returned auction) are only booked out after the mailbox was seen afterwards – freshly bought goods not for 7 days.
+  What 0.65.140–0.65.143 booked out too early as "missing" or "consumed" returns to stock once.
+- Missing stock and goods sent to others are shown separately from own use (Details window, test report). Test T666.
+
 ### Version 0.65.143
 
 - **Mailbox by hand:** mail now counts even if you (or another addon) collect it yourself – invoices, expiry mail
@@ -39,11 +46,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   stored snapshot of your bags and bank (bank as of the last visit). As long as the bank was never seen, nothing is
   booked out. What 0.65.136–0.65.139 wrongly booked out as "consumed" returns to stock once. Goods that are really
   missing are booked as removed (not in profit). Test T663.
-
-### Version 0.65.139
-
-- **Calculation core (preparing 0.66):** AHSentinel measures market waves per level band (disenchanting materials):
-  "in the wave" (2 days of strong falls), "through" (sideways) or open. Test report only for now. Test T662.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
