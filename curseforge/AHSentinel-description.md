@@ -12,6 +12,17 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.171
+
+- **Less stutter after a full scan:** the end of the scan measured the memory of ALL addons twice in one frame (several hundred
+  ms with large saved data). This now only happens in the speed test. Test T721.
+- **Self-check gold:** auction house and mailbox sessions now also measure the gold directly (start/end); money changes at an
+  open auction house are no longer attributed to a vendor visit that did not close properly. Test T719.
+- Self-check: disenchanting is no longer counted as "craft without recipe" (the spell name is shown); the daily balance uses 1 %
+  of the turnover like the accounting; the disenchant button names what it would cover and tries other spots. Test T720.
+- Test routine: a clear chat warning before it starts (about 2 minutes, please do nothing), a reminder if you open the mailbox
+  or auction house meanwhile, and the longest frame in the report. Test T722.
+
 ### Version 0.65.170
 
 - **"Today", gold safety:** a single buy suggestion uses at most 10 % of your gold; while a way is still learning (no own
@@ -53,12 +64,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   Earlier bookings stay unchanged.
 - **Profit window:** if disenchanting is the best way, the vendor amount is shown as "Vendor: 60c" (no longer "vendor pays more",
   which contradicted "best way: disenchant"). Test T707.
-
-### Version 0.65.166
-
-- **Accounting, disenchant groups:** materials from new disenchants remember their price at the moment of disenchanting. The
-  group tooltip shows separately "Price fell since disenchanting −x" (or rose) – how much waiting cost or earned you. Older stock
-  has no such price and is not estimated. A short sentence explains the group number. Tests T705, T706.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
