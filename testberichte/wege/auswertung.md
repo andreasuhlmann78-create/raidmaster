@@ -58,9 +58,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Das Brachland (1413)
 
-- Wegstücke 2332, Knoten 1208, zusammenhängende Teile 21
+- Wegstücke 2339, Knoten 1217, zusammenhängende Teile 21
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 1169 Knoten, Bereich 34–66 / 3–91
+  - Teil 1: 1178 Knoten, Bereich 34–66 / 3–91
   - Teil 2: 5 Knoten, Bereich 58–59 / 40–42
   - Teil 3: 4 Knoten, Bereich 64–64 / 3–4
   - Teil 4: 3 Knoten, Bereich 54–54 / 44–46
@@ -73,7 +73,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 - **Ausreisser:** Wegstück 345: Sprung 4.7 % von 46.2,29.3 nach 44.5,33.7
 - **Ausreisser:** Wegstück 624: Sprung 6.3 % von 52.7,33.9 nach 54.8,39.8
 - **Ausreisser:** Wegstück 747: Sprung 4.5 % von 44.6,33.5 nach 46.2,29.3
-- **Widerspruch:** gesperrt (FEST) bei 45.2,62.9, aber 6× gelaufen
+- **Widerspruch:** gesperrt (FEST) bei 45.2,62.9, aber 8× gelaufen
 - Gesperrte Wegstücke: 1
 
 ## Kalimdor (1414)
@@ -159,12 +159,11 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Vorgebirge von Hillsbrad (1424)
 
-- Wegstücke 44, Knoten 133, zusammenhängende Teile 4
+- Wegstücke 53, Knoten 134, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 106 Knoten, Bereich 37–64 / 19–40
-  - Teil 2: 14 Knoten, Bereich 45–47 / 29–35
-  - Teil 3: 11 Knoten, Bereich 62–62 / 32–40
-  - Teil 4: 2 Knoten, Bereich 63–64 / 39–39
+  - Teil 1: 121 Knoten, Bereich 37–64 / 19–40
+  - Teil 2: 11 Knoten, Bereich 62–62 / 32–40
+  - Teil 3: 2 Knoten, Bereich 63–64 / 39–39
 - **Ausreisser:** Wegstück 1: Sprung 5.2 % von 61.8,39.2 nach 62.0,34.0
 
 ## Sumpfland (1437)
@@ -211,9 +210,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Orgrimmar (1454)
 
-- Wegstücke 865, Knoten 838, zusammenhängende Teile 5
+- Wegstücke 870, Knoten 848, zusammenhängende Teile 5
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 830 Knoten, Bereich 22–82 / 19–95
+  - Teil 1: 840 Knoten, Bereich 22–82 / 19–95
   - Teil 2: 3 Knoten, Bereich 38–40 / 28–30
   - Teil 3: 2 Knoten, Bereich 42–44 / 30–30
   - Teil 4: 2 Knoten, Bereich 44–45 / 64–64
@@ -276,7 +275,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 1343, Knoten 715, zusammenhängende Teile 2
+- Wegstücke 1344, Knoten 715, zusammenhängende Teile 2
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 713 Knoten, Bereich 44–86 / 1–96
   - Teil 2: 2 Knoten, Bereich 83–84 / 15–16
