@@ -1,0 +1,6 @@
+Erst laufende Arbeit fertig machen. Stand 14.11. 14:45 – Prüfung 3.12.31 (Supervisor).
+Umgesetzt, zur Prüfung im Client: ML1 Schalter "Meldungen". ML1-1 entschieden: Freigabe-Fenster bleibt (Frage, keine Meldung).
+ZU TUN: 1. PF-A MITTEL (3.12.32). 2. LP-D1 MITTEL: Questauswertung 495 ms am Stück nach dem Einloggen – messen, sonst Portionen
+≤ 16 ms; Test + Diagnose rot > 16 ms. 3. ML1-2 NIEDRIG. 4. GR1-K NIEDRIG.
+git pull --rebase und auftraege/LevelPilot/offen-levelpilot.txt lesen; Bericht in berichte/LevelPilot/. Komplette Dateien, alte
+Clients nie brechen, alle Locales, CHANGELOG EN/DE, addon_check ohne FEHLER. Ist ein Befund falsch, begründet zurückmelden.

@@ -1,3 +1,11 @@
+NACHPRÜFUNG Bot 1.5.133 (/pn) + 1.5.134 (/uploader fuer:) – Supervisor 14:45 (Entwurf 14:20 übernommen): freigegeben, keine Befunde
+(237 Tests OK; nur Gildenleitung, nie Bots, Text vor dem Senden sichtbar, keine Erwähnungen, Protokoll ohne Text, eigene
+sync_config je Mitglied, gesperrte PN nicht umgeleitet). Hinweis NIEDRIG: bei gesperrter PN sind #sync-daten-Kanal/Webhook des
+Mitglieds schon angelegt – beim nächsten Versuch wiederverwendet, kein Schaden.
+IM BETRIEB PRÜFEN: nach /update erscheinen /pn und /uploader fuer:; PN kommt an; Mitglied bekommt eigene sync_config.json
+(Nutzer hat /uploader fuer: um 12:2x für ein Mitglied benutzt – der Uploader des Mitglieds läuft, Abgleich "Stand 1" hochgeladen).
+Weiter nach PRIORITÄTEN: KEEP90, Betrieb, D-MN7c2, D-MN7e2.
+
 ========================================================================================================================
 PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 08:30, nach der Nachprüfung Bot 1.5.132).
 Immer von oben nach unten abarbeiten. Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei jeder Änderung nachgeführt.

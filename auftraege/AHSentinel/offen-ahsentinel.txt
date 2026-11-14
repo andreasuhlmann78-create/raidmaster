@@ -5,6 +5,36 @@ PRÜFUNG 0.65.158 + 0.65.159 (Supervisor 14:10, addon_check OK, Berichte + Kern.
 zur Prüfung. S3a richtig: ein Wert über alle Wege, Anzeigen noch unverändert (Gold-Sicherheit), Selbstkontrolle im Testbericht.
 S2-B4/SK1-B4 wie verlangt (Neuaufbau einmal, mailCache vor dem Abholen). Reihenfolge-Erklärung angenommen; jetzt TB157-1..4
 (TB157-4 mit der Ursache von 14:05) und TB159-1, dann T131-1, dann S3b.
+PRÜFUNG 0.65.160 + 0.65.161 (Supervisor 14:45; Entwurf Nachprüfung 14:20 geprüft und übernommen; addon_check OK; Books.lua
+CorrectStock/HaveCount, SelfCheck.lua, Kern.lua selbst nachgelesen). Umgesetzt, zur Prüfung: TB157-3, TB157-4 (Sperre in 0.65.161,
+SC:OnFlow/OnMailTake TestBlocked), TB159-1 (s42b, T129/T167 SKIP statt FEHLER, T184 mit Diagnose), S3-1 (Händler /1,2).
+TB157-1 teilweise: Ursache ist ProfessionSentinelAPI.TodayCrafts (153 ms) – an ProfessionSentinel (PS-TC1); bei euch fehlen nach
+   dem GRUNDSATZ Test (2. Aufruf in 15 Min. ruft nicht, danach wieder; ok=false nicht 15 Min. festhalten) und Selbstkontrolle
+   (psCache.ms im Testbericht, rot > 16 ms).
+NP160-1 HOCH (VOR allem anderen, Gold-Sicherheit – im Code bestätigt: Books.lua 761 + HaveCount 1756–1766): die TB157-2-Regel bucht
+   laufende oder zurückgekommene eigene Auktionen als "fehlt" aus. HaveCount zählt Auktionen nur aus Se.owned (nur im Speicher der
+   Sitzung, Seller.lua 35/1167), das Briefkasten-Abbild kann ÄLTER als der Zugang sein (Bedingung prüft nur inbox.t vorhanden).
+   Fälle: (A) eingestellt, ausgeloggt, > 24 Std. später Taschen-Änderung vor dem AH-Besuch; (B) Auktion abgelaufen, Ware ungesehen
+   im Briefkasten; (C) AH-Kauf, > 24 Std. nicht beim Briefkasten -> jeweils "fehlt", Einstand verloren, spätere Ankunft nur graue
+   Info. Lösung: (a) Ausbuchen nur, wenn NACH dem letzten Zugang Briefkasten-Abbild UND eigene Auktionen (Se.ownedTime) gesehen
+   wurden, oder HaveCount zählt laufende Auktionen aus A.db.ownedEnds (bis Ende), danach "unterwegs" bis ein Briefkasten-Abbild
+   danach existiert; sonst nur melden. (b) Rücknahme: kommt Ware an, für die in 30 Tagen "fehlt" gebucht wurde -> Buchung
+   zurücknehmen mit altem Einstand (wie UndoVendorUse). (c) 11083 bleibt gelöst (Briefkasten + Auktionen gesehen, nirgends).
+   Tests A/B/C nicht ausgebucht, 11083 ausgebucht, Rücknahme. Selbstkontrolle: "fehlt gebucht / später zurückgenommen".
+NP160-2 NIEDRIG  T699 prüft keine Reparatur-/Protokollzeile (TB157-2 verlangte eine) – ergänzen.
+NP160-3 NIEDRIG  SelfCheck.lua 271 schreibt Farbcode |cff888888 in den Testbericht-Text – im Bericht ohne Farbe.
+NP160-4 NIEDRIG  have teilweise vorhanden (10 von 25) bleibt gesperrt (nur have == 0) – mit NP160-1a lösen.
+BH-ANZ-S1 MITTEL (Screenshot des Nutzers 14:35, 0.65.159, Buchhaltung "Seit Neustart"): "Entzaubern 26–35": Gewinn +3g 50s 62c
+   GRÜN, daneben "Gewinn % −4 %". Ursache Books.lua 1392/1399: % nur aus Stücken mit Einkauf (AB6), Gewinn aus allen (auch
+   Herkunft unbekannt, Kosten 0). Zwei Zahlen erzählen Gegenteiliges (Entscheid "eine Zahl je Sache", psychologie.md). Lösung:
+   Spalte % aus denselben Stücken wie Gewinn ODER Gewinn-Spalte ebenfalls nur aus Stücken mit Einkauf und die freien Stücke als
+   eigene Zeile "ohne Einkauf +x". Test: Gruppe mit gekauften (−) und freien (+) Stücken -> Vorzeichen von Gewinn und % gleich.
+   Gleiches Muster bei "Entzaubern 36–45": Gewinn 18g69 auf 3g91 Einsatz, % 141 – prüfen, was die 141 % sind.
+GW-S1 NIEDRIG (gleicher Screenshot, Gewinn-Fenster Braune Leinenhose): "bester Weg: entzaubern · Händler −38c" und darunter
+   "Händler zahlt mehr: 60c" – widerspricht sich für den Spieler. Zeile nur zeigen, wenn der Händler-Weg wirklich besser ist, sonst
+   weglassen (oder "Händler: 60c" ohne "mehr").
+Reihenfolge jetzt: NP160-1, BH-ANZ-S1, T131-1, DW-K1, S3b (mit S3-2), Rest NIEDRIG.
+
 DW-K1 HOCH (Wunsch des Nutzers 14:13/14:15, klein, SOFORT nach TB157-4): Knopf am Berufsfenster für das Entzauber-Fenster.
    Der Nutzer will nicht jedes Mal "/ahs entzaubern" tippen. Gewählt: NUR ein Knopf am Berufsfenster (kein automatisches Öffnen,
    kein Minikarten-/Tasten-Weg – nicht eigenmächtig dazubauen).

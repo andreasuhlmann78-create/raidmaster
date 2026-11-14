@@ -1,5 +1,15 @@
+PRÜFUNG 3.12.31 (Supervisor 14:45, Entwurf Nachprüfung 14:20 übernommen; addon_check OK, gemeinsame Dateien byte-gleich):
+ML1 Schalter "Meldungen" UMGESETZT, zur Prüfung im Client (Schalter AUS -> eine Stunde spielen -> Testbericht "durchgerutscht 0";
+/lp help antwortet weiter). Eine Weiche (Core.lua 237–318), Toast/Advisor prüfen MessagesOn, Test T290 mit falschem Fall – gut.
+ML1-1 entschieden: Das einmalige Freigabe-Fenster "Startdatenbank" (Comm.lua 552–567) ist eine FRAGE, keine Meldung -> bleibt
+   auch bei AUS. Nichts ändern.
+ML1-2 NIEDRIG  LP:MessagesLine ist fest deutsch – erscheint sie in /lp diag für Spieler, über die Sprachtabelle.
+LP-D1 MITTEL (Diagnose 3.12.30, 13:42): "Questauswertung 495 ms" am Stück nach dem Einloggen (Planner BuildCandidates,
+   Perf.lua 220). Messen, ob im Ladebildschirm; sonst in Portionen ≤ 16 ms (wie PF-A). Test mit 3920 Quests L31, Diagnose rot
+   > 16 ms. Reihenfolge: PF-A (3.12.32), dann LP-D1, dann ML1-2, GR1-K.
+
 ========================================================================================================================
-SOFORT – VOR ALLEM ANDEREN: ML1 SCHALTER "MELDUNGEN" (Wunsch des Nutzers 14.11. 13:44, vom Supervisor 13:50 freigegeben)
+ML1 (umgesetzt in 3.12.31, zur Prüfung im Client) – SCHALTER "MELDUNGEN" (Wunsch des Nutzers 14.11. 13:44, vom Supervisor 13:50 freigegeben)
 Bezug: berichte/LevelPilot/2026-11-14-1350-wunsch-schalter-meldungen.txt. Euer Vorschlag ist richtig und wird so freigegeben.
 - Ein Schalter "Meldungen" (enGB "Messages", alle Locales) in der Zentrale, Reiter Einstellungen, gut sichtbar oben.
   Standard AN (alte Clients/Einstellungen unverändert). AUS = LevelPilot meldet nichts von selbst:

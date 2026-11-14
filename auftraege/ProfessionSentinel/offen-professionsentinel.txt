@@ -1,3 +1,9 @@
+PS-TC1 MITTEL (Supervisor 14:45, aus AHSentinel-Testbericht 0.65.157 T373): ProfessionSentinelAPI.TodayCrafts(5) braucht im Spiel
+   153 ms am Stück (Bild > 16 ms). AHSentinel ruft es jetzt nur alle 15 Min. auf – jeder Aufruf ruckelt trotzdem. Lösung:
+   TodayCrafts aus einem Zwischenspeicher beantworten (Aufruf ≤ 2 ms), Neuberechnung nach Scan/Rezeptänderung in Portionen ≤ 8 ms.
+   GRUNDSATZ: Test (grosse Rezeptliste, Aufruf ≤ 2 ms, Portionen ≤ 8 ms), Selbstkontrolle (Diagnose "API TodayCrafts längster
+   Aufruf X ms", rot > 16 ms), Prüfung Supervisor. Reihenfolge: wenn ProfessionSentinel drankommt (Fokus AHSentinel, Nutzer 08:30).
+
 ========================================================================================================================
 PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 00:40, nachgeführt Nachprüfung 0.9.45 14.11. 08:30).
 Immer von oben nach unten abarbeiten. Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei jeder Änderung nachgeführt.
