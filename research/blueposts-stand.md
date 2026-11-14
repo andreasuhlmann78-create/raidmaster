@@ -1,6 +1,6 @@
 # Blizzard-Blueposts – Stand der Prüfung (für die geplante Aufgabe "Blizzard-Blueposts für GoldSentinel-Projekte prüfen")
 
-Geprüft bis: 14.11.2026 07:46 MEZ (06:46 UTC, geplante Aufgabe Blueposts). Thread heisst jetzt "WoW: Forever Hotfixes – November 13, 2026"; neuester Blue-Post Kaivax #10 vom 14.11. 01:54 UTC (Hotfixes 13.11.). Posts #11/#12 konnten nicht gelesen werden (Abruf blockiert), in der Suche keine Spur davon – beim nächsten Lauf nachsehen. Frühere Läufe: 13.11. 21:45; 13.11. 07:50; Kontrolle 13.11. 14:15.
+Geprüft bis: 14.11.2026 21:50 MEZ (20:50 UTC, geplante Aufgabe Blueposts, nur Suche). Thread heisst laut Suche weiterhin "WoW: Forever Hotfixes – November 13, 2026"; neuester gefundener Blue-Post bleibt Kaivax #10 (14.11. 01:54 UTC). Zweitquellen (space4games, wofwforever, bluetracker.gg, timesaver.gg) führen ebenfalls nur Hotfixes bis 13.11. Forenabruf (Posts #11 ff.) war wieder blockiert (Abruf-Freigabe unbeantwortet) – beim nächsten Lauf erneut versuchen. Keine neuen Posts zu AH, Berufen, Addon-API, Gilde, Quests, Raids. Kein Entwurf nötig. Frühere Läufe: 14.11. 07:46; 13.11. 21:45; 13.11. 07:50; Kontrolle 13.11. 14:15.
 
 ## Schon bearbeitet
 | Datum | Post | URL | Folge |
