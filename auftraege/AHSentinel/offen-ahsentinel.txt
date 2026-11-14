@@ -1,3 +1,12 @@
+REIHENFOLGE AB 09:10 (Prüf-Sitzung, Nutzer 2–3 Std. weg, "pushe weiter nach Plan") – kleine abgeschlossene Versionen, je Version
+ein Bericht, nichts anderes dazwischen:
+ 1. UI-V1 + UI-V1b  Verkaufen: gewähltes Item sofort rechts, 1:1 aktueller AH-Stand (SEHR HOCH, Entscheid 08:42)
+ 2. UI-V3 (+ UI-V2) Verkaufen: kein überlappender Text, Erlös-Zeile ehrlich, Zahlen grün/rot
+ 3. HB1             Händler-Bilanz aus Gold- und Taschen-Unterschied (Entscheid 08:18)
+ 4. TB138b-3        Speicher wächst je Vollscan +35 MB, Lücke 584 ms
+ 5. TB138-2         Gold-Abstimmung Geldfluss gegen Geldfluss
+ 6. TB138-4/-5, TB138b-5/-6/-7, TB138-6 (b), EB3/EB5, dann 0.66 Rechenkern (Bauplan folgt von der Prüf-Sitzung)
+
 >>> ??? FRAGE DES NUTZERS (14.11. 01:26) – bitte SOFORT in der nächsten Weck-Runde als kurzen Bericht beantworten
 >>>    (berichte/AHSentinel/<datum>-<zeit>-frage-cloud.txt): Läuft diese AHSentinel-Sitzung in der CLOUD (Anthropic-Server,
 >>>    z. B. Arbeitsordner /home/claude/…, Linux-Container) oder LOKAL auf dem Rechner des Nutzers (Windows-Pfad, z. B.
