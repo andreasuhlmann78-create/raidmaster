@@ -32,6 +32,12 @@ PRÜFUNG 0.65.165 + 0.65.166 (Supervisor 15:55, addon_check 0.65.166 OK, Bericht
 TB171-1 (Screenshot 17:17, 0.65.171, Markt > Heute): Spalte "Zahl" weiter nicht nach Gold sortiert (91s 75c, 30s 75c, 7s 83c,
    2s 30c, 1s 30c, 24s 48c, 17s 50c …) -> TB170-1 noch offen. Zeile "Kaufe 1x Flitzdistel … nicht mehr lohnend" darf gar nicht
    erscheinen (Entscheid: nur zeigen, was Gold bringt). Zu Block 1.
+VK-E1 NIEDRIG (zurückgestellt, Screenshots 17:19, nachgerechnet): Verkaufen-Fenster rechnet richtig (Staub 196×1s 11c = 2g 17s 56c,
+   5 % = 10s 87c, netto 2g 06s 69c; Essenz 42×1s 34c = 56s 28c, 5 % = 2s 81c, netto 53s 47c). Aber Einstand je Stück ist bei
+   beiden ~58c (Staub 113s 07c/196, Essenz 24s 32c/42), obwohl die Essenz 37 % mehr wert ist. Vermutung: Kosten beim Entzaubern
+   nach Stückzahl statt nach Wert verteilt (buchhaltung.md: nach Wert). Summe bleibt gleich, nur die Aufteilung. Belegen oder beheben.
+   Und: "Vorschlag" setzt genau das günstigste Angebot (1s 11c / 1s 34c). Feldstudie: 1–2c darunter verkauft in Minuten ->
+   Vorschlag = günstigstes − 1c (gehört zu VS-1).
 BH-TT1 HOCH (Nutzer 17:14, Screenshot 0.65.171, "schlimmer geht es nicht mehr"): Der Tooltip über "Gewinn" in der Buchhaltung
    ist eine Textwand mit Formel, Kasse, Lager, Marktwert, "nicht realisiert", "160 Stück ohne Einkauf", "Verlust bei Entzaubern",
    "Grösster Verlust: Seelenstaub −7s 41c", "Gold seit Stichtag 4g 01s · Buchhaltung erklärt 12g 34s · nicht gebucht −8g 33s",
