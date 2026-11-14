@@ -1,0 +1,50 @@
+{
+ "addon": "AHSentinel",
+ "counts": {},
+ "env": {
+  "build": "70888",
+  "class": "DRUID",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 30,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [
+  {
+   "count": 18,
+   "first": 1793979684,
+   "last": 1793979694,
+   "msg": "UNKNOWN()",
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:397: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:390>\n[C]: ?\n[C]: in function 'UseContainerItem'\n[Interface/AddOns/Blizzard_UIPanels_Game/Mainline/ContainerFrame.lua]:1611: in function 'ContainerFrameItemButton_OnClick'\n[Interface/AddOns/Blizzard_UIPanels_Game/Mainline/ContainerFrame.lua]:1696: in function <...s/Blizzard_UIPanels_Game/Mainline/ContainerFrame.lua:1683>\n",
+   "version": "0.65.16",
+   "wo": "ADDON_ACTION_FORBIDDEN"
+  },
+  {
+   "count": 10,
+   "first": 1794320931,
+   "last": 1794320931,
+   "msg": "Interface/AddOns/AHSentinel/Seller.lua:1433: attempt to index local 'msg' (a secret string value, while execution tainted by 'AHSentinel')",
+   "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[C]: ?\n[Interface/AddOns/AHSentinel/Seller.lua]:1433: in function <Interface/AddOns/AHSentinel/Seller.lua:1425>\n",
+   "version": "0.65.77",
+   "wo": "Lua"
+  },
+  {
+   "count": 2,
+   "first": 1794414301,
+   "last": 1794414308,
+   "msg": "UNKNOWN()",
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:407: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:400>\n[C]: ?\n[C]: in function 'UseContainerItem'\n[Interface/AddOns/Blizzard_UIPanels_Game/Mainline/ContainerFrame.lua]:1611: in function 'ContainerFrameItemButton_OnClick'\n[Interface/AddOns/Blizzard_UIPanels_Game/Mainline/ContainerFrame.lua]:1696: in function <...s/Blizzard_UIPanels_Game/Mainline/ContainerFrame.lua:1683>\n",
+   "version": "0.65.80",
+   "wo": "ADDON_ACTION_FORBIDDEN"
+  }
+ ],
+ "f": 1,
+ "id": "AHSentinel-1794414309-0449ca-2",
+ "kind": "fehler",
+ "time": 1794414309,
+ "version": "0.65.80"
+}

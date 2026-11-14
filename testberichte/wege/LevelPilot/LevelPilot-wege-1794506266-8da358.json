@@ -1,0 +1,92 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "70888",
+  "class": "SHAMAN",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 1,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 1,
+ "fest": [],
+ "id": "LevelPilot-wege-1794506266-8da358",
+ "kind": "wege",
+ "npc": [
+  {
+   "id": 3143,
+   "map": 1411,
+   "new": [
+    42.1,
+    68.4
+   ],
+   "old": [
+    1411,
+    42.1,
+    68.3
+   ],
+   "t": 1794505879
+  },
+  {
+   "id": 10176,
+   "map": 1411,
+   "new": [
+    43.3,
+    68.6
+   ],
+   "old": [
+    1411,
+    43.3,
+    68.5
+   ],
+   "t": 1794505863
+  }
+ ],
+ "time": 1794506266,
+ "version": "3.12.13",
+ "zones": [
+  {
+   "edges": [
+    {
+     "n": 1,
+     "p": [
+      42.2,
+      68.4,
+      44.9,
+      67.7,
+      45,
+      67.3,
+      44.7,
+      67.4,
+      43.9,
+      67.6,
+      43.7,
+      67.9,
+      42.7,
+      68.4,
+      42.2,
+      68.4
+     ],
+     "src": "selbst"
+    },
+    {
+     "n": 1,
+     "p": [
+      42.2,
+      68.4,
+      43,
+      68.1
+     ],
+     "src": "selbst"
+    }
+   ],
+   "map": 1411,
+   "name": "Durotar"
+  }
+ ]
+}

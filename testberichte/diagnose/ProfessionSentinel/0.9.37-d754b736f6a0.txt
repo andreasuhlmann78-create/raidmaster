@@ -1,0 +1,28 @@
+forever 1.60.1 70938|16001|2026-11-14 12:56
+ProfessionSentinel 0.9.37 – Diagnose-Protokoll · 14.11.2026 12:56
+Client forever 1.60.1 (70938) · Interface 16001 · Sprache deDE
+Sitzungen: 47 (seit 05.11.2026)
+Geänderte Einstellungen: minimapAngle=253.49827185777, panelMode=disenchant, panelOpen=false
+
+== Diagnose
+  Preisquelle: AHSentinel
+  Panel offen: nein
+  Angedockt an: –
+  Neuaufbauten: 0 angefragt, 0 ausgeführt
+  Lua-Fehler des Addons seit dem letzten Bericht: 0
+  Berichte, die noch gemeldet werden: 0
+
+== Einträge (13, neueste zuerst, höchstens 200)
+[14.11. 11:35:17] LANGSAM ×632 UI:Refresh · 108.2 ms (zuletzt 57.7 ms) (v0.9.37)
+[14.11. 11:35:17] LANGSAM ×92 UI:UpdateBest · 108.2 ms (zuletzt 57.7 ms) (v0.9.37)
+[14.11. 11:35:17] LANGSAM ×626 AD.Update · 108.1 ms (zuletzt 57.6 ms) (v0.9.37)
+[13.11. 23:51:41] AUFBAU ×90 Scan · 90 Anfragen · 128.8 ms (zuletzt 54.2 ms) (v0.9.37)
+[13.11. 23:51:41] LANGSAM ×117 UI:Aufbau (Teil 1) · 98.0 ms (zuletzt 54.2 ms) (v0.9.37)
+[13.11. 23:50:59] AUFBAU ×359 TRADE_SKILL_SHOW · 1412 Anfragen · 76.6 ms (v0.9.37)
+[13.11. 16:27:03] LANGSAM ×5 UI:Aufbau (Teil 3) · 76.6 ms (zuletzt 46.7 ms) (v0.9.37)
+[13.11. 16:27:03] LANGSAM ×61 UI:Aufbau (Teil 2) · 79.0 ms (zuletzt 35.0 ms) (v0.9.37)
+[10.11. 23:58:38] AUFBAU ×1478 TRADE_SKILL_LIST_UPDATE · 2250 Anfragen · 151.8 ms (zuletzt 3.9 ms) (v0.9.37)
+[10.11. 23:56:26] LANGSAM ×4 UI:Refresh/recipes · 57.4 ms (zuletzt 21.6 ms) (v0.9.37)
+[10.11. 23:56:19] LANGSAM ×2 UI:Refresh/plan · 33.0 ms (v0.9.37)
+[10.11. 23:56:19] LANGSAM ×2 Plan · 29.7 ms (v0.9.37)
+[10.11. 23:52:48] AUFBAU Herstellen fertig · 1 Anfragen · 10.6 ms (v0.9.37)

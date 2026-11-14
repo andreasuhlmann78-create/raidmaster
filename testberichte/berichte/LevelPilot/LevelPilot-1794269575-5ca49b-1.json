@@ -1,0 +1,50 @@
+{
+ "addon": "LevelPilot",
+ "counts": {},
+ "env": {
+  "build": "70862",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 25,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [
+  {
+   "count": 19,
+   "first": 1794052560,
+   "last": 1794052561,
+   "msg": "Interface/AddOns/LevelPilot/Comm.lua:405: attempt to index field 'Caves' (a nil value)",
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:317: in function 'Report'\n[Interface/AddOns/LevelPilot/Comm.lua]:506: in function <Interface/AddOns/LevelPilot/Comm.lua:498>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:206: in function <Interface/AddOns/LevelPilot/Core.lua:202>\n",
+   "version": "3.12.13",
+   "wo": "Comm-Empfang"
+  },
+  {
+   "count": 1361,
+   "first": 1794078753,
+   "last": 1794080641,
+   "msg": "Interface/AddOns/LevelPilot/Session.lua:29: attempt to perform boolean test on a secret boolean value (execution tainted by 'LevelPilot')",
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:317: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:335: in function <Interface/AddOns/LevelPilot/Core.lua:330>\n[tail call]: ?\n[Interface/AddOns/LevelPilot/Core.lua]:344: in function 'Safe'\n[Interface/AddOns/LevelPilot/Core.lua]:370: in function <Interface/AddOns/LevelPilot/Core.lua:370>\n",
+   "version": "3.12.13",
+   "wo": "session"
+  },
+  {
+   "count": 1,
+   "first": 1794260973,
+   "last": 1794260973,
+   "msg": "Interface/AddOns/LevelPilot/Graph.lua:533: attempt to index upvalue 'G' (a nil value)",
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:317: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:323: in function 'Try'\n[Interface/AddOns/LevelPilot/Graph.lua]:731: in function <Interface/AddOns/LevelPilot/Graph.lua:731>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:206: in function <Interface/AddOns/LevelPilot/Core.lua:202>\n",
+   "version": "3.12.13",
+   "wo": "Wegdaten"
+  }
+ ],
+ "f": 1,
+ "id": "LevelPilot-1794269575-5ca49b-1",
+ "kind": "fehler",
+ "time": 1794269575,
+ "version": "3.12.13"
+}

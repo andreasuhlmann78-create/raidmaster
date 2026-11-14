@@ -1,9 +1,9 @@
 {
- "ausgewertet": "2026-11-14T11:53:06Z",
+ "ausgewertet": "2026-11-14T12:57:31Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 30,
+   "berichte": 32,
    "letzter_test": {
     "id": "AHSentinel-1794639248-59c5e9-1",
     "version": "0.65.138",
@@ -121,9 +121,39 @@
     {
      "addon": "AHSentinel",
      "art": "spiel",
+     "wo": "ADDON_ACTION_FORBIDDEN",
+     "msg": "UNKNOWN()",
+     "anzahl": 20,
+     "versionen": [
+      "0.65.16",
+      "0.65.80"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:397: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:390>\n[C]: ?\n[C]: in function 'UseContainerItem'\n[Interface/AddOns/Blizzard_UIPanels_Game/Mainline/ContainerFrame.lua]:1611: in function 'ContainerFrameItemButton_OnClick'\n[Interface/AddOns/Blizzard_UIPanels_Game/Mainline/ContainerFrame.lua]:1696: in function <...s/Blizzard_UIPanels_Game/Mainline/ContainerFrame.lua:1683>\n"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "spiel",
+     "wo": "Lua",
+     "msg": "Interface/AddOns/AHSentinel/Seller.lua:1433: attempt to index local 'msg' (a secret string value, while execution tainted by 'AHSentinel')",
+     "anzahl": 11,
+     "versionen": [
+      "0.65.77",
+      "0.65.80"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/Seller.lua]:1433: in function <Interface/AddOns/AHSentinel/Seller.lua:1425>\n"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "spiel",
      "wo": "ADDON_ACTION_BLOCKED",
      "msg": "UNKNOWN()",
-     "anzahl": 3,
+     "anzahl": 6,
      "versionen": [
       "0.65.16"
      ],
@@ -131,20 +161,6 @@
       "forever 1.60.1 (Interface 16001)"
      ],
      "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:397: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:390>\n[C]: ?\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/Sniper.lua]:817: in function 'Reserve'\n[Interface/AddOns/AHSentinel/Sniper.lua]:1264: in function 'Tick'\n[Interface/AddOns/AHSentinel/Sniper.lua]:1294: in function <Interface/AddOns/AHSentinel/Sniper.lua:1290>\n"
-    },
-    {
-     "addon": "AHSentinel",
-     "art": "spiel",
-     "wo": "Lua",
-     "msg": "Interface/AddOns/AHSentinel/Seller.lua:1433: attempt to index local 'msg' (a secret string value, while execution tainted by 'AHSentinel')",
-     "anzahl": 1,
-     "versionen": [
-      "0.65.80"
-     ],
-     "clients": [
-      "forever 1.60.1 (Interface 16001)"
-     ],
-     "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/Seller.lua]:1433: in function <Interface/AddOns/AHSentinel/Seller.lua:1425>\n"
     },
     {
      "addon": "AHSentinel",
@@ -163,7 +179,7 @@
    ]
   },
   "BuffSentinel": {
-   "berichte": 3,
+   "berichte": 5,
    "letzter_test": {
     "id": "BuffSentinel-1793837971-e2af59-9",
     "version": "0.9.7",
@@ -191,9 +207,23 @@
     {
      "addon": "BuffSentinel",
      "art": "spiel",
+     "wo": "Gruppe",
+     "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
+     "anzahl": 541,
+     "versionen": [
+      "0.9.7"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[Interface/AddOns/BuffSentinel/Core.lua]:1245: in function 'TallyError'\n[Interface/AddOns/BuffSentinel/Core.lua]:1251: in function 'CountError'\n[Interface/AddOns/BuffSentinel/Core.lua]:1228: in function <Interface/AddOns/BuffSentinel/Core.lua:1218>\n"
+    },
+    {
+     "addon": "BuffSentinel",
+     "art": "spiel",
      "wo": "Event UNIT_AURA",
      "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
-     "anzahl": 2,
+     "anzahl": 17,
      "versionen": [
       "0.9.7"
      ],
@@ -207,7 +237,7 @@
      "art": "spiel",
      "wo": "Event PLAYER_REGEN_ENABLED",
      "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
-     "anzahl": 1,
+     "anzahl": 9,
      "versionen": [
       "0.9.7"
      ],
@@ -215,11 +245,25 @@
       "forever 1.60.1 (Interface 16001)"
      ],
      "stack": "[Interface/AddOns/BuffSentinel/Core.lua]:1245: in function 'TallyError'\n[Interface/AddOns/BuffSentinel/Core.lua]:1175: in function <Interface/AddOns/BuffSentinel/Core.lua:1169>\n"
+    },
+    {
+     "addon": "BuffSentinel",
+     "art": "spiel",
+     "wo": "Scan",
+     "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
+     "anzahl": 2,
+     "versionen": [
+      "0.9.7"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[Interface/AddOns/BuffSentinel/Core.lua]:1245: in function 'TallyError'\n[Interface/AddOns/BuffSentinel/Core.lua]:1251: in function 'CountError'\n[Interface/AddOns/BuffSentinel/Core.lua]:1103: in function <Interface/AddOns/BuffSentinel/Core.lua:1101>\n[Interface/AddOns/BuffSentinel/Core.lua]:1128: in function 'FullScan'\n[Interface/AddOns/BuffSentinel/Core.lua]:1145: in function <Interface/AddOns/BuffSentinel/Core.lua:1140>\n"
     }
    ]
   },
   "GuildSentinel": {
-   "berichte": 5,
+   "berichte": 6,
    "letzter_test": {
     "id": "GuildSentinel-1794203247-f4dd4b-1",
     "version": "0.9.13",
@@ -279,7 +323,7 @@
      "art": "spiel",
      "wo": "ADDON_ACTION_BLOCKED",
      "msg": "UNKNOWN()",
-     "anzahl": 4,
+     "anzahl": 24,
      "versionen": [
       "0.9.13"
      ],
@@ -319,7 +363,7 @@
    ]
   },
   "LevelPilot": {
-   "berichte": 13,
+   "berichte": 14,
    "letzter_test": {
     "id": "LevelPilot-1793838099-fe4a80-12",
     "version": "3.12.6",
@@ -338,7 +382,7 @@
      "art": "spiel",
      "wo": "session",
      "msg": "Interface/AddOns/LevelPilot/Session.lua:29: attempt to perform boolean test on a secret boolean value (execution tainted by 'LevelPilot')",
-     "anzahl": 646,
+     "anzahl": 2007,
      "versionen": [
       "3.12.13"
      ],
@@ -346,6 +390,34 @@
       "forever 1.60.1 (Interface 16001)"
      ],
      "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:317: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:335: in function <Interface/AddOns/LevelPilot/Core.lua:330>\n[tail call]: ?\n[Interface/AddOns/LevelPilot/Core.lua]:344: in function 'Safe'\n[Interface/AddOns/LevelPilot/Core.lua]:370: in function <Interface/AddOns/LevelPilot/Core.lua:370>\n"
+    },
+    {
+     "addon": "LevelPilot",
+     "art": "spiel",
+     "wo": "Comm-Empfang",
+     "msg": "Interface/AddOns/LevelPilot/Comm.lua:405: attempt to index field 'Caves' (a nil value)",
+     "anzahl": 19,
+     "versionen": [
+      "3.12.13"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:317: in function 'Report'\n[Interface/AddOns/LevelPilot/Comm.lua]:506: in function <Interface/AddOns/LevelPilot/Comm.lua:498>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:206: in function <Interface/AddOns/LevelPilot/Core.lua:202>\n"
+    },
+    {
+     "addon": "LevelPilot",
+     "art": "spiel",
+     "wo": "Wegdaten",
+     "msg": "Interface/AddOns/LevelPilot/Graph.lua:533: attempt to index upvalue 'G' (a nil value)",
+     "anzahl": 1,
+     "versionen": [
+      "3.12.13"
+     ],
+     "clients": [
+      "forever 1.60.1 (Interface 16001)"
+     ],
+     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:317: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:323: in function 'Try'\n[Interface/AddOns/LevelPilot/Graph.lua]:731: in function <Interface/AddOns/LevelPilot/Graph.lua:731>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:206: in function <Interface/AddOns/LevelPilot/Core.lua:202>\n"
     }
    ]
   },
@@ -665,9 +737,39 @@
   {
    "addon": "AHSentinel",
    "art": "spiel",
+   "wo": "ADDON_ACTION_FORBIDDEN",
+   "msg": "UNKNOWN()",
+   "anzahl": 20,
+   "versionen": [
+    "0.65.16",
+    "0.65.80"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:397: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:390>\n[C]: ?\n[C]: in function 'UseContainerItem'\n[Interface/AddOns/Blizzard_UIPanels_Game/Mainline/ContainerFrame.lua]:1611: in function 'ContainerFrameItemButton_OnClick'\n[Interface/AddOns/Blizzard_UIPanels_Game/Mainline/ContainerFrame.lua]:1696: in function <...s/Blizzard_UIPanels_Game/Mainline/ContainerFrame.lua:1683>\n"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "spiel",
+   "wo": "Lua",
+   "msg": "Interface/AddOns/AHSentinel/Seller.lua:1433: attempt to index local 'msg' (a secret string value, while execution tainted by 'AHSentinel')",
+   "anzahl": 11,
+   "versionen": [
+    "0.65.77",
+    "0.65.80"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/Seller.lua]:1433: in function <Interface/AddOns/AHSentinel/Seller.lua:1425>\n"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "spiel",
    "wo": "ADDON_ACTION_BLOCKED",
    "msg": "UNKNOWN()",
-   "anzahl": 3,
+   "anzahl": 6,
    "versionen": [
     "0.65.16"
    ],
@@ -675,20 +777,6 @@
     "forever 1.60.1 (Interface 16001)"
    ],
    "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:397: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:390>\n[C]: ?\n[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/Sniper.lua]:817: in function 'Reserve'\n[Interface/AddOns/AHSentinel/Sniper.lua]:1264: in function 'Tick'\n[Interface/AddOns/AHSentinel/Sniper.lua]:1294: in function <Interface/AddOns/AHSentinel/Sniper.lua:1290>\n"
-  },
-  {
-   "addon": "AHSentinel",
-   "art": "spiel",
-   "wo": "Lua",
-   "msg": "Interface/AddOns/AHSentinel/Seller.lua:1433: attempt to index local 'msg' (a secret string value, while execution tainted by 'AHSentinel')",
-   "anzahl": 1,
-   "versionen": [
-    "0.65.80"
-   ],
-   "clients": [
-    "forever 1.60.1 (Interface 16001)"
-   ],
-   "stack": "[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:356: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:355>\n[tail call]: ?\n[C]: ?\n[Interface/AddOns/AHSentinel/Seller.lua]:1433: in function <Interface/AddOns/AHSentinel/Seller.lua:1425>\n"
   },
   {
    "addon": "AHSentinel",
@@ -717,9 +805,23 @@
   {
    "addon": "BuffSentinel",
    "art": "spiel",
+   "wo": "Gruppe",
+   "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
+   "anzahl": 541,
+   "versionen": [
+    "0.9.7"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[Interface/AddOns/BuffSentinel/Core.lua]:1245: in function 'TallyError'\n[Interface/AddOns/BuffSentinel/Core.lua]:1251: in function 'CountError'\n[Interface/AddOns/BuffSentinel/Core.lua]:1228: in function <Interface/AddOns/BuffSentinel/Core.lua:1218>\n"
+  },
+  {
+   "addon": "BuffSentinel",
+   "art": "spiel",
    "wo": "Event UNIT_AURA",
    "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
-   "anzahl": 2,
+   "anzahl": 17,
    "versionen": [
     "0.9.7"
    ],
@@ -733,7 +835,7 @@
    "art": "spiel",
    "wo": "Event PLAYER_REGEN_ENABLED",
    "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
-   "anzahl": 1,
+   "anzahl": 9,
    "versionen": [
     "0.9.7"
    ],
@@ -741,6 +843,20 @@
     "forever 1.60.1 (Interface 16001)"
    ],
    "stack": "[Interface/AddOns/BuffSentinel/Core.lua]:1245: in function 'TallyError'\n[Interface/AddOns/BuffSentinel/Core.lua]:1175: in function <Interface/AddOns/BuffSentinel/Core.lua:1169>\n"
+  },
+  {
+   "addon": "BuffSentinel",
+   "art": "spiel",
+   "wo": "Scan",
+   "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
+   "anzahl": 2,
+   "versionen": [
+    "0.9.7"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[Interface/AddOns/BuffSentinel/Core.lua]:1245: in function 'TallyError'\n[Interface/AddOns/BuffSentinel/Core.lua]:1251: in function 'CountError'\n[Interface/AddOns/BuffSentinel/Core.lua]:1103: in function <Interface/AddOns/BuffSentinel/Core.lua:1101>\n[Interface/AddOns/BuffSentinel/Core.lua]:1128: in function 'FullScan'\n[Interface/AddOns/BuffSentinel/Core.lua]:1145: in function <Interface/AddOns/BuffSentinel/Core.lua:1140>\n"
   },
   {
    "addon": "GuildSentinel",
@@ -787,7 +903,7 @@
    "art": "spiel",
    "wo": "ADDON_ACTION_BLOCKED",
    "msg": "UNKNOWN()",
-   "anzahl": 4,
+   "anzahl": 24,
    "versionen": [
     "0.9.13"
    ],
@@ -829,7 +945,7 @@
    "art": "spiel",
    "wo": "session",
    "msg": "Interface/AddOns/LevelPilot/Session.lua:29: attempt to perform boolean test on a secret boolean value (execution tainted by 'LevelPilot')",
-   "anzahl": 646,
+   "anzahl": 2007,
    "versionen": [
     "3.12.13"
    ],
@@ -837,6 +953,34 @@
     "forever 1.60.1 (Interface 16001)"
    ],
    "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:317: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:335: in function <Interface/AddOns/LevelPilot/Core.lua:330>\n[tail call]: ?\n[Interface/AddOns/LevelPilot/Core.lua]:344: in function 'Safe'\n[Interface/AddOns/LevelPilot/Core.lua]:370: in function <Interface/AddOns/LevelPilot/Core.lua:370>\n"
+  },
+  {
+   "addon": "LevelPilot",
+   "art": "spiel",
+   "wo": "Comm-Empfang",
+   "msg": "Interface/AddOns/LevelPilot/Comm.lua:405: attempt to index field 'Caves' (a nil value)",
+   "anzahl": 19,
+   "versionen": [
+    "3.12.13"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:317: in function 'Report'\n[Interface/AddOns/LevelPilot/Comm.lua]:506: in function <Interface/AddOns/LevelPilot/Comm.lua:498>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:206: in function <Interface/AddOns/LevelPilot/Core.lua:202>\n"
+  },
+  {
+   "addon": "LevelPilot",
+   "art": "spiel",
+   "wo": "Wegdaten",
+   "msg": "Interface/AddOns/LevelPilot/Graph.lua:533: attempt to index upvalue 'G' (a nil value)",
+   "anzahl": 1,
+   "versionen": [
+    "3.12.13"
+   ],
+   "clients": [
+    "forever 1.60.1 (Interface 16001)"
+   ],
+   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:317: in function 'Report'\n[Interface/AddOns/LevelPilot/Core.lua]:323: in function 'Try'\n[Interface/AddOns/LevelPilot/Graph.lua]:731: in function <Interface/AddOns/LevelPilot/Graph.lua:731>\n[C]: in function 'pcall'\n[Interface/AddOns/LevelPilot/Core.lua]:206: in function <Interface/AddOns/LevelPilot/Core.lua:202>\n"
   },
   {
    "addon": "ProfessionSentinel",
@@ -1000,38 +1144,38 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 102,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.99-ea23619300d1.txt"
+    "anzahl": 106,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.153-b55bb7eee104.txt"
    },
    "BuffSentinel": {
-    "anzahl": 34,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.18-e3167d853789.txt"
+    "anzahl": 35,
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.12-75e54db6a38f.txt"
    },
    "GSMesstest": {
     "anzahl": 9,
     "neueste": "testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt"
    },
    "GuildSentinel": {
-    "anzahl": 93,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.36-905d55a5c1d1.txt"
+    "anzahl": 97,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.38-31780e936a5a.txt"
    },
    "LevelPilot": {
-    "anzahl": 8,
-    "neueste": "testberichte/diagnose/LevelPilot/3.12.27-3aeb503e40ae.txt"
+    "anzahl": 10,
+    "neueste": "testberichte/diagnose/LevelPilot/3.12.24-99168260a65e.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 75,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.43-ca335490305e.txt"
+    "anzahl": 79,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.37-d754b736f6a0.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 81,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.9-393857b54d8e.txt"
+    "anzahl": 83,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.6-0f7d7a1d007f.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 131,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794581384-0f42aa.json"
+    "anzahl": 148,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794653036-3b17f1.json"
    }
   }
  }

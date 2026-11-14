@@ -1,15 +1,15 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-14 11:53 UTC
+Ausgewertet: 2026-11-14 12:57 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
 | Addon | letzter Testlauf | Version | Client | OK | FEHLER | übersprungen | im Client prüfen | Fehler im Spiel (7 Tage) |
 |---|---|---|---|---|---|---|---|---|
-| AHSentinel | 14.11.2026 06:52 UTC | 0.65.138 | forever 1.60.1 (Interface 16001) | 698 | 10 | 22 | 16 | 5 |
-| BuffSentinel | 05.11.2026 00:19 UTC | 0.9.7 | forever 1.60.1 (Interface 16001) | 120 | 1 | 10 | 11 | 3 |
-| GuildSentinel | 09.11.2026 05:47 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 153 | 4 | 23 | 5 | 6 |
-| LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 646 |
+| AHSentinel | 14.11.2026 06:52 UTC | 0.65.138 | forever 1.60.1 (Interface 16001) | 698 | 10 | 22 | 16 | 38 |
+| BuffSentinel | 05.11.2026 00:19 UTC | 0.9.7 | forever 1.60.1 (Interface 16001) | 120 | 1 | 10 | 11 | 569 |
+| GuildSentinel | 09.11.2026 05:47 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 153 | 4 | 23 | 5 | 26 |
+| LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 2027 |
 | ProfessionSentinel | 09.11.2026 06:57 UTC | 0.9.28 | forever 1.60.1 (Interface 16001) | 5 | 2 | 1 | 0 | 0 |
 | RaidMaster | 05.11.2026 00:07 UTC | 3.0.17 | forever 1.60.1 (Interface 16001) | 98 | 3 | 10 | 12 | 2 |
 | ThreatSentinel | 10.11.2026 10:06 UTC | 2.5.4 | forever 1.60.1 (Interface 16001) | 7 | 1 | 0 | 1 | 6 |
@@ -18,19 +18,19 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 102 | `testberichte/diagnose/AHSentinel/0.65.99-ea23619300d1.txt` |
-| BuffSentinel | 34 | `testberichte/diagnose/BuffSentinel/0.9.18-e3167d853789.txt` |
+| AHSentinel | 106 | `testberichte/diagnose/AHSentinel/0.65.153-b55bb7eee104.txt` |
+| BuffSentinel | 35 | `testberichte/diagnose/BuffSentinel/0.9.12-75e54db6a38f.txt` |
 | GSMesstest | 9 | `testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt` |
-| GuildSentinel | 93 | `testberichte/diagnose/GuildSentinel/0.9.36-905d55a5c1d1.txt` |
-| LevelPilot | 8 | `testberichte/diagnose/LevelPilot/3.12.27-3aeb503e40ae.txt` |
-| ProfessionSentinel | 75 | `testberichte/diagnose/ProfessionSentinel/0.9.43-ca335490305e.txt` |
-| ThreatSentinel | 81 | `testberichte/diagnose/ThreatSentinel/2.5.9-393857b54d8e.txt` |
+| GuildSentinel | 97 | `testberichte/diagnose/GuildSentinel/0.9.38-31780e936a5a.txt` |
+| LevelPilot | 10 | `testberichte/diagnose/LevelPilot/3.12.24-99168260a65e.txt` |
+| ProfessionSentinel | 79 | `testberichte/diagnose/ProfessionSentinel/0.9.37-d754b736f6a0.txt` |
+| ThreatSentinel | 83 | `testberichte/diagnose/ThreatSentinel/2.5.6-0f7d7a1d007f.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 131 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794581384-0f42aa.json` |
+| LevelPilot | 148 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794653036-3b17f1.json` |
 
 ## AHSentinel
 
@@ -101,8 +101,9 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 - [CLIENT] T197 K – Gewinn-Fenster am Berufsfenster (anleitung: Berufsfenster öffnen (mit und ohne ProfessionSentinel), dann /ahs testroutine k: T192 ohne "überdeckt", T195 ohne Fehler)
 
 **Fehler im Spiel (letzte 7 Tage)**
-- 3× `ADDON_ACTION_BLOCKED`: UNKNOWN() – Version 0.65.16 · forever 1.60.1 (Interface 16001) · zuletzt 08.11.2026 17:09 UTC
-- 1× `Lua`: Interface/AddOns/AHSentinel/Seller.lua:1433: attempt to index local 'msg' (a secret string value, while execution tainted by 'AHSentinel') – Version 0.65.80 · forever 1.60.1 (Interface 16001) · zuletzt 10.11.2026 14:28 UTC
+- 20× `ADDON_ACTION_FORBIDDEN`: UNKNOWN() – Version 0.65.16, 0.65.80 · forever 1.60.1 (Interface 16001) · zuletzt 11.11.2026 16:25 UTC
+- 11× `Lua`: Interface/AddOns/AHSentinel/Seller.lua:1433: attempt to index local 'msg' (a secret string value, while execution tainted by 'AHSentinel') – Version 0.65.77, 0.65.80 · forever 1.60.1 (Interface 16001) · zuletzt 10.11.2026 14:28 UTC
+- 6× `ADDON_ACTION_BLOCKED`: UNKNOWN() – Version 0.65.16 · forever 1.60.1 (Interface 16001) · zuletzt 08.11.2026 21:54 UTC
 - 1× `Job:craft-top`: Interface/AddOns/AHSentinel/Crafting.lua:515: attempt to index field '?' (a nil value) – Version 0.65.138 · forever 1.60.1 (Interface 16001) · zuletzt 14.11.2026 06:53 UTC
 
 ## BuffSentinel
@@ -132,10 +133,14 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 - [CLIENT] T135 J – Gegenprobe alter Client (anleitung: Classic Era oder TBC Anniversary: Proc im Kampf, Execute unter 20 %, Dispel im Kampf, Cooldown beim Pull – alles wie vorher; /bsen fehler 'Sperren: nein')
 
 **Fehler im Spiel (letzte 7 Tage)**
-- 2× `Event UNIT_AURA`: GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'
+- 541× `Gruppe`: GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'
+Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) · zuletzt 06.11.2026 20:05 UTC
+- 17× `Event UNIT_AURA`: GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'
 Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) · zuletzt 08.11.2026 20:31 UTC
-- 1× `Event PLAYER_REGEN_ENABLED`: GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'
-Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) · zuletzt 08.11.2026 20:31 UTC
+- 9× `Event PLAYER_REGEN_ENABLED`: GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'
+Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) · zuletzt 10.11.2026 14:10 UTC
+- 2× `Scan`: GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'
+Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) · zuletzt 11.11.2026 15:09 UTC
 
 ## GuildSentinel
 
@@ -174,7 +179,7 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 - [FEHLER] T82 B – nichts gesendet (ergebnis: echt 1 (C_ChatInfo.SendAddonMessage 1), Warteschlange +0 | erwartet: echt 0, Warteschlange +0)
 
 **Fehler im Spiel (letzte 7 Tage)**
-- 4× `ADDON_ACTION_BLOCKED`: UNKNOWN() – Version 0.9.13 · forever 1.60.1 (Interface 16001) · zuletzt 08.11.2026 09:01 UTC
+- 24× `ADDON_ACTION_BLOCKED`: UNKNOWN() – Version 0.9.13 · forever 1.60.1 (Interface 16001) · zuletzt 08.11.2026 09:01 UTC
 - 1× `ADDON_ACTION_BLOCKED`: fn() – Version 0.9.21 · forever 1.60.1 (Interface 16001) · zuletzt 10.11.2026 10:09 UTC
 - 1× `ADDON_ACTION_FORBIDDEN`: fn() – Version 0.9.28 · forever 1.60.1 (Interface 16001) · zuletzt 13.11.2026 04:43 UTC
 
@@ -183,7 +188,9 @@ Lua Taint: BuffSentinel – Version 0.9.7 · forever 1.60.1 (Interface 16001) ·
 **Testlauf 3.12.6 · forever 1.60.1 (Interface 16001) · 05.11.2026 00:21 UTC** – OK 11 · FEHLER 0 · übersprungen 0 · im Client prüfen 0
 
 **Fehler im Spiel (letzte 7 Tage)**
-- 646× `session`: Interface/AddOns/LevelPilot/Session.lua:29: attempt to perform boolean test on a secret boolean value (execution tainted by 'LevelPilot') – Version 3.12.13 · forever 1.60.1 (Interface 16001) · zuletzt 08.11.2026 20:41 UTC
+- 2007× `session`: Interface/AddOns/LevelPilot/Session.lua:29: attempt to perform boolean test on a secret boolean value (execution tainted by 'LevelPilot') – Version 3.12.13 · forever 1.60.1 (Interface 16001) · zuletzt 08.11.2026 20:41 UTC
+- 19× `Comm-Empfang`: Interface/AddOns/LevelPilot/Comm.lua:405: attempt to index field 'Caves' (a nil value) – Version 3.12.13 · forever 1.60.1 (Interface 16001) · zuletzt 07.11.2026 11:56 UTC
+- 1× `Wegdaten`: Interface/AddOns/LevelPilot/Graph.lua:533: attempt to index upvalue 'G' (a nil value) – Version 3.12.13 · forever 1.60.1 (Interface 16001) · zuletzt 09.11.2026 21:49 UTC
 
 ## ProfessionSentinel
 

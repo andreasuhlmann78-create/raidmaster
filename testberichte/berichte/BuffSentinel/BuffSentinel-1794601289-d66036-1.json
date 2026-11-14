@@ -1,0 +1,59 @@
+{
+ "addon": "BuffSentinel",
+ "counts": {},
+ "env": {
+  "build": "70938",
+  "class": "DRUID",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 31,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "errors": [
+  {
+   "count": 293,
+   "first": 1793989501,
+   "last": 1793989501,
+   "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
+   "stack": "[Interface/AddOns/BuffSentinel/Core.lua]:1245: in function 'TallyError'\n[Interface/AddOns/BuffSentinel/Core.lua]:1251: in function 'CountError'\n[Interface/AddOns/BuffSentinel/Core.lua]:1228: in function <Interface/AddOns/BuffSentinel/Core.lua:1218>\n",
+   "version": "0.9.7",
+   "wo": "Gruppe"
+  },
+  {
+   "count": 9,
+   "first": 1794078760,
+   "last": 1794079834,
+   "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
+   "stack": "[Interface/AddOns/BuffSentinel/Core.lua]:1245: in function 'TallyError'\n[Interface/AddOns/BuffSentinel/Core.lua]:1175: in function <Interface/AddOns/BuffSentinel/Core.lua:1169>\n",
+   "version": "0.9.7",
+   "wo": "Event UNIT_AURA"
+  },
+  {
+   "count": 3,
+   "first": 1794319859,
+   "last": 1794319859,
+   "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
+   "stack": "[Interface/AddOns/BuffSentinel/Core.lua]:1245: in function 'TallyError'\n[Interface/AddOns/BuffSentinel/Core.lua]:1175: in function <Interface/AddOns/BuffSentinel/Core.lua:1169>\n",
+   "version": "0.9.7",
+   "wo": "Event PLAYER_REGEN_ENABLED"
+  },
+  {
+   "count": 2,
+   "first": 1794408609,
+   "last": 1794409762,
+   "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
+   "stack": "[Interface/AddOns/BuffSentinel/Core.lua]:1245: in function 'TallyError'\n[Interface/AddOns/BuffSentinel/Core.lua]:1251: in function 'CountError'\n[Interface/AddOns/BuffSentinel/Core.lua]:1103: in function <Interface/AddOns/BuffSentinel/Core.lua:1101>\n[Interface/AddOns/BuffSentinel/Core.lua]:1128: in function 'FullScan'\n[Interface/AddOns/BuffSentinel/Core.lua]:1145: in function <Interface/AddOns/BuffSentinel/Core.lua:1140>\n",
+   "version": "0.9.7",
+   "wo": "Scan"
+  }
+ ],
+ "f": 1,
+ "id": "BuffSentinel-1794601289-d66036-1",
+ "kind": "fehler",
+ "time": 1794601289,
+ "version": "0.9.7"
+}
