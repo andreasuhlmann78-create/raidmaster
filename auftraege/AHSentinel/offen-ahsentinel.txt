@@ -1,6 +1,20 @@
 GRUNDSATZ (Nutzer 14.11. 11:24, IMMER): Jede neue Funktion = Test in der Testroutine (auch falsche Fälle) + Selbstkontrolle im
 Spiel wo messbar (SK1-Muster) + Prüfung durch den Supervisor. Im Bericht je Funktion alle drei nennen.
 
+TESTBERICHT 0.65.157 13:55 (Nutzer, AH offen, Vollscan 13:52; Supervisor 14:05 im Code nachgeprüft) – Ursache von TB157-4 GEFUNDEN:
+TB157-4 (jetzt HOCH, Ursache belegt): T676 ruft move(-500, nil) -> BK:OnMoney(…, ctx = nil) -> ctx = self:FlowContext() = der
+   ECHTE Ort im Spiel (13:55 Auktionshaus offen) statt "sonst". Darum (1) T676 "sonst +0" statt −500 und (2) die −500 landen über
+   SC:OnFlow (SelfCheck.lua 81, ohne Testroutinen-Sperre) in der ECHTEN AH-Sitzung -> SK1-c "13:53 Gold −500 · gebucht +0 ·
+   Differenz −500" ist ein Test-Artefakt, kein Buchungsfehler. Lösung: Tests geben ctx immer ausdrücklich an ("sonst"), FlowContext
+   im Test aus der Sandbox; SC:OnFlow/OnMailTake/Note während der Testroutine ohne testDB nie in echte Sitzungen; Test: Testroutine
+   bei offenem AH -> SK1-c unverändert. Danach SK1-c-Zähler dieses Falls nicht nachträglich löschen, nur im Bericht vermerken.
+TB159-1 MITTEL  Vier Tests, die um 13:38 grün waren, scheitern um 13:55 (AH offen, frischer Scan): T129 (Fehler in Hintergrund-
+   Aufgabe nicht gemeldet), T167 (20 Ereignisse, 0 Neuaufbauten), T184 (Heute tun: Gewinn nil statt +1s 50c), T598 (Sniper:
+   bestätigt 0/0 statt 1/880). Gleiche Ursache prüfen: echter Zustand (AH offen, laufende Jobs, Sniper-Zähler) sickert in Tests.
+   Jeder Test muss bei offenem und geschlossenem AH gleich ausgehen – im Sim beide Fälle laufen lassen.
+Gut: T373 jetzt PASS; SK1-a Händler 1/1, SK1-e 1/1, SK1-g Verkaufen-Fenster 10/10 stimmig; Vollscan-Lücke 142 ms (vorher 345),
+   aber Preisverlauf+Neuaufbau 82 ms und Nachlauf 77 ms je Frame, 450 von 2484 Frames > 33 ms -> gehört zu NP152-3/TB138b-3.
+
 T131-1 NIEDRIG (Nutzer 13:57, Supervisor geprüft): Der absichtliche Test-Fehler "AHS-Test T131" (TestRoutine.lua 2936) erscheint
    beim Nutzer als echtes Lua-Fehlerfenster (Count 2) – sieht aus wie ein Absturz. Während T131 den Fehler-Handler kurz umhängen:
    eigenen Testfehler zählen/erkennen (Text "AHS-Test T131"), NICHT an das Fehlerfenster/BugSack weiterreichen, danach den alten
