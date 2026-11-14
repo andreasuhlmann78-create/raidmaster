@@ -1,6 +1,20 @@
 GRUNDSATZ (Nutzer 14.11. 11:24, IMMER): Jede neue Funktion = Test in der Testroutine (auch falsche Fälle) + Selbstkontrolle im
 Spiel wo messbar (SK1-Muster) + Prüfung durch den Supervisor. Im Bericht je Funktion alle drei nennen.
 
+PRÜFUNG 0.65.157 (Supervisor 13:28, addon_check OK, Bericht + Books.lua OnMailMoney/Haken + SelfCheck.lua gelesen):
+SK1-B1/B2/B3 und S2-B1/B2/B3 umgesetzt, zur Prüfung im Client (SK1-b nach 2 Briefkasten-Besuchen, MARKT-KERN Kaufen je Stufe).
+Richtig: Post jetzt je genommenem Geld nach Art, keine A7-Vermutung; Handel gegen geschriebene Buchungen; Verkaufen-Fenster mit
+Preis/Menge; Kaufgewinn Summe/Summe, Tabelle nur Vorwissen k = 2, BUY_MIN nur eigene Fälle, Stufe ≤ 0,6 schlecht -> kein Lohnt bis.
+Noch offen (klein, in dieser Reihenfolge):
+S2-B4 NIEDRIG  "Zählung beginnt neu": Die Käufe der letzten 30 Tage liegen im Prognose-Journal (B-Einträge r = "c") – den
+   Nachtrag für die neuen Wege buyk/buye einmal mit neuem Merker (z. B. st.filledBuy2) laufen lassen, sonst wirkt V2 erst nach
+   Wochen (BUY_MIN 10 je Stufe aus neuen Käufen). Test: Nachtrag zählt einen alten Kauf genau einmal.
+SK1-B4 NIEDRIG  Die Post-Haken laufen NACH dem Aufruf (hooksecurefunc) und lesen GetInboxHeaderInfo(i) sofort – im Spiel
+   prüfen, ob money/COD dann noch stehen (sonst wird nichts gezählt und SK1-b meldet "Gold ohne genommene Post"). Die
+   Selbstkontrolle zeigt es selbst: im Testbericht SK1-b nach dem ersten Briefkasten-Besuch ansehen; falls 0 genommen, die Werte
+   VOR dem Aufruf merken (eigener Vor-Haken über den Knopf bzw. Zwischenspeicher beim MAIL_INBOX_UPDATE).
+Dann wie angekündigt: SC:Booked-Abbruch (AH) über die Zahl, NP152-3 Rest, danach Rechenkern S3.
+
 PRÜFUNG 0.65.156 (Supervisor 12:55, addon_check OK, Bericht + Books.lua OnTakeMoney + SelfCheck.lua gelesen): NP152-1/-2/-4
 umgesetzt, zur Prüfung im Client; NP152-3 teilweise (13,8 MB statt 10 MB, ehrlich gemeldet – bleibt offen, nach SK1-B1/S2-B1).
 Reihenfolge-Erklärung angenommen. Zu SK1-B1: Abholzeit e.tm ist jetzt da und SK1-b nutzt sie – damit ist der Kern von SK1-B1
