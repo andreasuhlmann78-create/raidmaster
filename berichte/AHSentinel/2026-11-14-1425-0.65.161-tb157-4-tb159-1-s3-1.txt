@@ -1,0 +1,13 @@
+AHSentinel 0.65.161 – TB157-4 (Ursache 14:05), TB159-1, S3-1 – umgesetzt, zur Prüfung
+
+TB157-4: SC:OnFlow und SC:OnMailTake tun während der Testroutine (ohne SC.testDB) nichts mehr - Test-Geldflüsse landen nie
+  in echten Briefkasten-/AH-Sitzungen. (Note schrieb schon vorher nie echt.) T676 gibt den Ort fest an (seit 0.65.160).
+  Der SK1-c-Eintrag "13:53 Gold −500" bleibt stehen (nicht gelöscht) - Test-Artefakt.
+TB159-1: Neues Szenario s42b: ganze Testroutine mit OFFENEM AH nach frischem Scan - im Sim grün (vorher fand es einen echten
+  Fehler: TestBlocked war nach seiner ersten Verwendung definiert -> T687/T698 rot, behoben). T129/T167: warten nach einem
+  frischen Vollscan bis 30 s auf ihre Hintergrund-Aufgabe (vorher 5/6 s - Warteschlange nach dem Scan voll); läuft sie in 30 s
+  nicht, SKIP mit Grund und Zahl der Aufgaben statt FEHLER. T184/T598: im Sim bei offenem und geschlossenem AH grün, Ursache im
+  Spiel nicht nachstellbar; T184 schreibt bei FEHLER jetzt Diagnose dazu (Tabellen-Händlerpreis, plausibel, AH offen) - bitte
+  den nächsten Testbericht ansehen.
+S3-1: K:LohntBis Weg "haendler" = Händlerpreis / 1,2 (Mindestgewinn 20 %, abgerundet). T696: Händler 300 -> 250.
+Gesamtlauf 249/249 (neu s42b), addon_check OK. Weiter: T131-1, dann S3b.
