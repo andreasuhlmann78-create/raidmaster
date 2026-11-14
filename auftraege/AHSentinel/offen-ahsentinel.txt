@@ -35,6 +35,13 @@ TB170-6 HOCH (Ruckeln): T458 Preisverlauf+Neuaufbau längster Frame 81 ms, Einle
    Scan-Auswertung Portion 21,3 ms (Ziel ≤ 8). Gehört zu TB168-1.
 TB170-7 MITTEL (Speicher): T459 63 Speicherbereinigungen; Lua-Speicher vor dem Scan 655 MB, AHSentinel 350 MB (Teil 16:25: 154 MB).
    Klären, was nach der Testroutine im Speicher bleibt (Testdaten, Sandbox-Kopien?) – nach dem Test freigeben.
+TEIL BERUFE 0.65.170 (16:53): 5 OK · 2 FEHLER.
+TB170-8 HOCH: T64 "Berufsfenster echt: modern, 0 Rezepte" bei offenem Berufsfenster (der Spieler hat gleichzeitig hergestellt,
+   SK1-m 3× Zauber 3909 um 16:53). Entweder liest AHS das Fenster zu früh/falsch oder es zählt das falsche Fenster. Im Bericht
+   ausgeben: welches Fenster (Beruf/Name), Anzahl Zeilen laut Blizzard-API, Anzahl laut AHS. "Beste Rezepte" (SK1-p 82/82) zeigt
+   Rezepte, also kann die Liste nicht leer sein – Widerspruch klären.
+TB170-9 MITTEL: T124 Zwischenspeicher Berufsliste wirkt nicht: 1. Mal 10,7 ms, 2. Mal 10,0 ms (soll < 2 ms).
+Dazu SK1-m: 3909 weiter als "Herstellen ohne Rezept" gezählt (TB168-5), SK1-j +1 Fall "verdeckt etwas" (TB168-7).
 TB170-4: TU5 echte Daten SKIP ("noch nicht gelaufen") – nach dem Update fehlt der Lauf; nach dem nächsten Vollscan nachholen, ok.
 Weiter rot wie bekannt: T277, T647, SK1-c/h/j (TB168-1/-2/-7). SK1-r noch 0 Fälle.
 ANTWORT MH-1 (Bericht 0.65.170, 16:46): Die Herstellen-Zeile aus der Kette bleibt hinter Ke.LIVE, bis die Ketten freigegeben
