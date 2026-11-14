@@ -23,6 +23,17 @@ SN-ALLE1 SICHT 0.65.174 (Screenshot 18:12): reihum wirkt – Treffer abwechselnd
    TESTÄNDERUNG GEPRÜFT (Commit 4b5913b): T271/SN4 prüfte bisher die Gewichtung (Ziel mit Treffern öfter), jetzt "beide Ziele gleich
    oft" (na == nb) – entspricht dem Entscheid 17:47, nicht aufgeweicht. Neu T727: 3 Ziele, Ziel 1 mit 4 Treffern -> 6 Runden je 2×,
    Text "geprüft vor 12 Sek.", Takt 2/Min. aus 3 Suchzeiten (eine älter als 60 s) – richtig gerechnet. In Ordnung.
+PRÜFUNG 0.65.174 Hauptteil (18:13): 773 OK · 7 FEHLER. Neu bzw. wieder rot:
+TB174-1 HOCH (Rückschritt): T72 "Heute tun: kein Knopf für: Preis gefallen: 1x Krank aussehender Fisch (Marktwert 1c statt 2c
+   beim Kauf) – jetzt verkaufen bringt 1c, warten erwartet 1c". Neue Zeilenart ohne Knopf, und eine 1c-Zeile ohne Nutzen
+   (verkaufen = warten) darf gar nicht erscheinen (Entscheid: nur was Gold bringt). Mindestbetrag je Zeile, sonst weg.
+SN-ALLE1-2 HOCH: "Sniper-Takt: 2 Suchen/Min. (letzte 60 s)" ist nicht aussagekräftig – der Bericht entsteht nach 68 s Testlauf,
+   der Sniper war da schon aus. Takt so messen, dass er etwas zeigt: "letzte aktive Sniper-Minute" bzw. Ø und höchster Takt der
+   letzten Sniper-Sitzung (Suchen/Min., Dauer, Ziele), gespeichert beim Ausschalten. Ziel "so schnell wie erlaubt" muss im
+   Bericht belegt sein (Erwartung: weit über 2/Min.; Server-Limit H2 90/Min.).
+TB174-2 HOCH (Speicher/Ruckeln, zu TB170-7/TB172-2): Vollscan 18:04 (0.65.174, Sniper lief vermutlich mit): Speicher +155 MB
+   (425 -> 580 MB), Einlesen 31 s statt 13 s, Verfolgung V4 7,1 s mit Bild 113 ms, Lücke 373 ms. Prüfen, ob Sniper-Suchen und
+   Vollscan sich in die Quere kommen (PD5b: Vollscan blockiert den Sniper – greift das?), und warum der Speicher so wächst.
 >>> JETZT (Nutzer 18:01 "lass ihn den Sniper fertig machen"): Block 1 ist bis auf TB172-2 geprüft – SN-ALLE1 jetzt bauen.
     TB172-2 prüfe ich mit dem Teil server des nächsten Testberichts mit.
 >>> HÖCHSTE PRIORITÄT (Nutzer 17:52): SN-ALLE1 (Sniper prüft ALLE Ziele, so schnell wie der Server erlaubt) – sofort nach
