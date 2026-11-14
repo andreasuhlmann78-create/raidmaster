@@ -7,6 +7,14 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.157</h3>
+<ul>
+<li><strong>Mail self-check fixed:</strong> the mailbox check now counts every taken money by kind (AH sale, other AH mail, gold from
+  players, COD) and only reports gold that cannot be explained or a sale without booking – no more false red results. Trade
+  and the Sell window are checked more closely (written bookings, first row price and quantity).</li>
+<li><strong>Buy limit:</strong> your own purchases count before the table (the table is only prior knowledge), profit per level as a sum.
+  If no price level pays off, there is no "worth up to". Test report: predicted vs. achieved profit per level.</li>
+</ul>
 <h3>Version 0.65.156</h3>
 <ul>
 <li><strong>Less stutter on full scans (part 2):</strong> price ladders, tracking and checks after the scan no longer create new tables
@@ -42,15 +50,7 @@
   (before, your own auction was often the cheapest -&gt; never "undercut"). Test report: class 80–100 % before/since 0.65.128.
   Test T680.</li>
 </ul>
-<h3>Version 0.65.152</h3>
-<ul>
-<li><strong>Books – disenchant materials per group:</strong> in the "per item" list, dust, essences and shards of one level band are shown
-  together in one line ("Disenchanting 26–35"); the tooltip lists the single materials. What counts is whether disenchanting a
-  group pays off – not one material that just dropped in a wave. Test T679.</li>
-<li>Test routine: sales, disenchant, sync and full-scan tests (T285, T289, T291, T223, T272, T310) now run in game independent
-  of your real learned data.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

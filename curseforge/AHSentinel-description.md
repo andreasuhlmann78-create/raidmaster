@@ -12,6 +12,14 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.157
+
+- **Mail self-check fixed:** the mailbox check now counts every taken money by kind (AH sale, other AH mail, gold from
+  players, COD) and only reports gold that cannot be explained or a sale without booking – no more false red results. Trade
+  and the Sell window are checked more closely (written bookings, first row price and quantity).
+- **Buy limit:** your own purchases count before the table (the table is only prior knowledge), profit per level as a sum.
+  If no price level pays off, there is no "worth up to". Test report: predicted vs. achieved profit per level.
+
 ### Version 0.65.156
 
 - **Less stutter on full scans (part 2):** price ladders, tracking and checks after the scan no longer create new tables
@@ -46,14 +54,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Cancel reason:** cancelling an auction now counts as "undercut" based on the cheapest OTHER offer of the last search
   (before, your own auction was often the cheapest -> never "undercut"). Test report: class 80–100 % before/since 0.65.128.
   Test T680.
-
-### Version 0.65.152
-
-- **Books – disenchant materials per group:** in the "per item" list, dust, essences and shards of one level band are shown
-  together in one line ("Disenchanting 26–35"); the tooltip lists the single materials. What counts is whether disenchanting a
-  group pays off – not one material that just dropped in a wave. Test T679.
-- Test routine: sales, disenchant, sync and full-scan tests (T285, T289, T291, T223, T272, T310) now run in game independent
-  of your real learned data.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
