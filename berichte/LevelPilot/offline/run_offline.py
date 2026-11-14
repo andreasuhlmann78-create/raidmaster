@@ -12,7 +12,8 @@ Lua 5.1: zuerst die Umgebungsvariable LUA51 (Pfad zu einem lua5.1-Programm), dan
 Teil 1 – Testroutine A–J (/lp testroutine im Nachbau, lua/test40.lua): WoW Forever deDE und enUS (Horde, Durotar L6),
          WoW Forever Allianz (Wald von Elwynn L10), Classic Era deDE, TBC Classic deDE.
 Teil 2 – Regressionsläufe (lua/test*.lua): Szenarien seit 2.x, darunter test15 = Wegnetz-Prüfung (Höhlen, Tunnel,
-         gelaufene Wege, Wegführung).
+         gelaufene Wege, Wegführung), dazu die Code-Prüfung der Meldungs-Weiche (ML1: keine Chat-, Bildschirm- oder
+         Tonausgabe am Schalter "Meldungen" vorbei).
 Nicht im Repo (laufen nur in der Arbeitsumgebung der LevelPilot-Sitzung): Läufe mit echten SavedVariables oder
 Weltsimulation (test26, test28–test31) und die Entwickler-Erkennung (test34, test37) – sie enthalten Namen.
 """
@@ -64,6 +65,33 @@ REGRESSION += [
     ("test36", {"FOREVER": "1", "LVL": "20", "MAP": "1413", "PX": "52", "PY": "30"}, "Troll", "HUNTER", "Horde", False),
     ("test38", DUROTAR, "Troll", "HUNTER", "Horde", False),
 ]
+
+
+# 3.12.31 ML1: Meldungs-Weiche – keine Ausgabe am Schalter "Meldungen" vorbei (statische Prüfung des Codes)
+DIRECT_OUT = re.compile(r"DEFAULT_CHAT_FRAME:AddMessage|UIErrorsFrame:AddMessage|RaidNotice_AddMessage|(?<![\w.])PlaySound\b|(?<![\w.:])print\s*\(")
+SKIP_FILES = re.compile(r"^(GoldSentinel.*|TestRoutine|Locale_.*)\.lua$")
+
+
+def check_message_gate(root):
+    """Liefert (ok, text, befunde): direkte Ausgaben nur in LP.sink (Core.lua), LP.out nur in Core.lua/UI.lua."""
+    found = []
+    for fn in sorted(os.listdir(root)):
+        if not fn.endswith(".lua") or SKIP_FILES.match(fn):
+            continue
+        lines = open(os.path.join(root, fn), encoding="utf-8", errors="replace").read().split("\n")
+        in_sink = False
+        for i, line in enumerate(lines, 1):
+            code = line.split("--", 1)[0]
+            if fn == "Core.lua" and code.strip().startswith("LP.sink = {"):
+                in_sink = True
+            if DIRECT_OUT.search(code) and not in_sink:
+                found.append("%s:%d %s" % (fn, i, line.strip()[:120]))
+            if "LP.out." in code and fn not in ("Core.lua", "UI.lua"):
+                found.append("%s:%d LP.out direkt: %s" % (fn, i, line.strip()[:100]))
+            if in_sink and code.strip() == "}":
+                in_sink = False
+    ok = not found
+    return ok, ("== ALLE TESTS OK" if ok else "== %d FEHLER" % len(found)), found
 
 
 def version_key(p):
@@ -163,6 +191,9 @@ def main():
         if only in (None, "regression"):
             jobs += [(t + (" (Wegnetz)" if t == "test15" else ""), e, r, c, f, np, t) for (t, e, r, c, f, np) in REGRESSION]
         results = []
+        if only in (None, "regression"):
+            ok, text, found = check_message_gate(root)
+            results.append(("Meldungs-Weiche (ML1, Code-Prüfung)", ok, text, found))
         with cf.ThreadPoolExecutor(max_workers=max(1, min(8, os.cpu_count() or 2))) as ex:
             futs = [ex.submit(run_one, cmd, root, pack, j) for j in jobs]
             for fu in futs:

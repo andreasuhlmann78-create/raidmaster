@@ -1,0 +1,47 @@
+BERICHT LEVELPILOT AN DEN SUPERVISOR (PRÜF-SITZUNG)
+Stand: 14.11.2026 14:40 · Sitzung: LevelPilot-Projekt-Sitzung · Version: 3.12.31 · Commit: dieser Commit
+(announce/levelpilot__levelpilot-3.12.31.LevelPilot.zip)
+Anlass: ML1 SOFORT (offen-levelpilot.txt, freigegeben 13:50) und GoldSentinelMarkt v4 (5c2d3bf).
+
+UMGESETZT, ZUR PRÜFUNG
+1. ML1 Schalter "Meldungen" (enUS "Messages", alle 9 Locale-Dateien), Zentrale → Einstellungen oben (Center.lua:386,
+   neben der Überschrift "Automatik"), Standard AN (Core.lua DEFAULTS messages = true).
+   EINE Weiche (Core.lua:237–318):
+   - LP.sink = echte Ausgabe (Chat, Bildschirmmitte, Ton) – einzige Stelle mit DEFAULT_CHAT_FRAME/UIErrorsFrame/PlaySound.
+   - LP.out = einziger Weg dorthin; zählt "durchgerutscht", wenn bei AUS etwas ausser einer Antwort hinausgeht.
+   - LP:Print (ungefragt) und LP:Screen (Bildschirmmitte + Ton) unterdrücken bei AUS und zählen "unterdrückt".
+   - LP:Reply / LP:ReplyRaw = Antwort auf eigene Handlung (Ausnahmen 1 und 2), LP:AsReply(fn) = alles während eines
+     /lp-Befehls (SlashCmd, Core.lua:876) gilt als Antwort.
+   - UI:Toast (UI.lua) und Advisor:Run (Advisor.lua:390, Hinweise im Guide/Assistent) prüfen LP:MessagesOn().
+   Umgestellt: Pins.lua (Questgegenstand nah + Ton) und Session.lua (offene Abgaben) auf LP:Screen; Diagnose-Liste
+   (Planner) auf LP:ReplyRaw; Antworten auf Klicks/Befehle auf LP:Reply (Advisor 336, Backup Import, Center Abgleich/
+   Gruppe, Comfort way/find, Comm, Engine Überspringen/Zurückstellen/Zurückholen, Navigation Pfeil, Planner Modus und
+   Neu-Planen, Protocol leeren, SelfTest, Social Teilen, Supply "Im Kampf nicht möglich.", UI Fenstergrösse, Virtual,
+   Sprache wechseln, Testroutine-Meldungen). Alles Übrige (Login-Zeile, Reparatur/Graues verkauft/Fliegen/Vorräte,
+   Belohnung angelegt, Dungeon betreten/verlassen, Level-Bestwert, "Wo war ich?", Bilanz beim Ausloggen, Tipps,
+   Datenpaket veraltet, Protokoll-Hinweis, Lua-Fehlermeldung im Chat, Perf "pausiert") ist ungefragt und bei AUS still.
+   Fehler werden weiter ins Diagnose-Protokoll geschrieben.
+   Selbstkontrolle: Zeile "MELDUNGEN: an/aus · unterdrückt n · durchgerutscht n" in Testbericht und /lp diag;
+   durchgerutscht > 0 meldet die Grundregel-Prüfung (Protocol.lua:613) als "GRUNDREGEL VERLETZT".
+   Test T290 [T-ML] (TestRoutine.lua:5704), ersetzt nur LP.sink: AUS -> Chat 0, Mitte 0, Ton 0, Toast unterdrückt,
+   Assistent-Hinweise 0; Antworten (Reply und Print während eines Befehls) sichtbar; durchgerutscht 0; absichtlich
+   falscher Fall (LP.out.chat am Schalter vorbei) wird erkannt (1); AN -> Chat 1, Mitte 1, Ton 1; Schalter in der
+   Zentrale, Standard an. In TR.REGRESSIONS (33).
+   Code-Prüfung in der Offline-Routine: "Meldungs-Weiche" sucht direkte Chat-/Bildschirm-/Ton-Ausgaben ausserhalb von
+   LP.sink und LP.out ausserhalb Core/UI. Gegenprobe mit 3.12.30: 6 Fundstellen (FEHLER), 3.12.31: 0.
+2. GoldSentinelMarkt v4 unverändert kopiert (cmp gleich).
+3. CHANGELOG EN/DE 3.12.31.
+
+BELEGE (eigene Tests, keine Freigabe)
+- addon_check LevelPilot-3.12.31.zip: OK (hier ohne lupa).
+- run_offline.py: 34 Läufe, 33 ohne FEHLER; FEHLER nur Forever Allianz T150/T155 (PF-A, offen, unverändert seit 3.12.29).
+- Lokale Gesamtregression 36 Läufe ohne FEHLER. Testroutine Horde: OK 266 · FEHLER 0, Regressionen 33 von 33.
+
+NÄCHSTES (nach offen-levelpilot.txt / Nachricht 3.12.30)
+- PF-A (MITTEL) Planung Allianz < 16 ms, dann GR1-K (NIEDRIG) Kompaktmodus. Beginne jetzt mit PF-A als 3.12.32.
+
+FRAGEN
+- keine.
+
+IM CLIENT GETESTET
+- noch nicht.
