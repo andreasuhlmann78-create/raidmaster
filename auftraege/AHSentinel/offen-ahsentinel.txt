@@ -42,6 +42,10 @@ TEIL SERVER 0.65.172 (17:31): 59 OK · 4 FEHLER. Behoben: T49 Einstellen (TB170-
    Weiter rot: S28 (TB172-3), T458 Nachlauf 171 ms + 40 Frames über 33 ms (0.65.170: 29 ms / 9 – also wieder schlechter),
    T459 31 Speicherbereinigungen, Lua-Speicher vor dem Scan 687 MB (0.65.170: 655 MB) – TB170-7 wird schlimmer, Block 3 vorziehen
    falls Spieler über Ruckeln klagen. ERGEBNIS 0.65.172: nicht freigegeben (TB172-1/-2, BH-TT1, BH-ANZ-S4, TB171-1 offen).
+PRÜFUNG 0.65.173 Hauptteil (17:53): 773 OK · 6 FEHLER. ERLEDIGT: TB172-1 (T373 nicht mehr rot). Rot nur noch bekannte Punkte:
+   S28 (TB170-10, Block 3), T277/T647 (zurückgestellt), SK1-c/-h/-j nur alte Fälle (14:31–17:12, keine neuen Abweichungen).
+   BH-TT1, BH-ANZ-S4, TB171-1 im Bericht nicht prüfbar -> Sichtprüfung durch den Nutzer (Screenshot) angefordert.
+   TB172-2 (Nachlauf Vollscan) -> Teil server bzw. nächster echter Vollscan.
 TB172-4 NIEDRIG: SK1-m zählt Zauber 3909 weiter (17:07–17:12) – TB168-5 nicht erledigt; zurückgestellt.
 Entzaubern-Knopf (DW-K1-B1): ERLEDIGT – Nutzer 17:33 im Spiel mit 0.65.172: Knopf öffnet das Entzauber-Fenster bei offenem ProfessionSentinel. (PS-DW1 bei ProfessionSentinel bleibt als Aufräumpunkt, niedrig.)
 TB171-1 (Screenshot 17:17, 0.65.171, Markt > Heute): Spalte "Zahl" weiter nicht nach Gold sortiert (91s 75c, 30s 75c, 7s 83c,
