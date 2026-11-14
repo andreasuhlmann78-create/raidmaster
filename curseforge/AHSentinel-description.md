@@ -12,6 +12,14 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.161
+
+- **Self-check:** the test routine never writes into the real mailbox or AH check sessions any more (before, a test at the open
+  AH could cause a false deviation).
+- **Worth up to (vendor):** buying at the vendor price earns nothing – the vendor way now uses a 20 % minimum profit.
+- Test routine: after a fresh full scan, tests wait longer for their background tasks; with a full queue they are "skipped" with
+  a reason instead of failing. New simulator run with the auction house open.
+
 ### Version 0.65.160
 
 - **Less stutter in "Today":** crafting suggestions from ProfessionSentinel are fetched at most every 15 minutes instead of
@@ -41,16 +49,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   and the Sell window are checked more closely (written bookings, first row price and quantity).
 - **Buy limit:** your own purchases count before the table (the table is only prior knowledge), profit per level as a sum.
   If no price level pays off, there is no "worth up to". Test report: predicted vs. achieved profit per level.
-
-### Version 0.65.156
-
-- **Less stutter on full scans (part 2):** price ladders, tracking and checks after the scan no longer create new tables
-  per item. From the third scan on, a full scan allocates about 13.8 MB in the test (before more than 60 MB),
-  no background portion above 9 ms.
-- **More accurate gold reconciliation:** counts only from the start of measurement (old bookings no longer dilute the 1 %
-  limit), mail money counts on the day you collect it, and it is measured whether the deposit is part of the mail money.
-  Tests T694, T695.
-- Sell: notes are measured by height – nothing gets cut off any more.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

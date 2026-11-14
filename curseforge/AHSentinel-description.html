@@ -7,6 +7,14 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.161</h3>
+<ul>
+<li><strong>Self-check:</strong> the test routine never writes into the real mailbox or AH check sessions any more (before, a test at the open
+  AH could cause a false deviation).</li>
+<li><strong>Worth up to (vendor):</strong> buying at the vendor price earns nothing – the vendor way now uses a 20 % minimum profit.</li>
+<li>Test routine: after a fresh full scan, tests wait longer for their background tasks; with a full queue they are "skipped" with
+  a reason instead of failing. New simulator run with the auction house open.</li>
+</ul>
 <h3>Version 0.65.160</h3>
 <ul>
 <li><strong>Less stutter in "Today":</strong> crafting suggestions from ProfessionSentinel are fetched at most every 15 minutes instead of
@@ -37,17 +45,7 @@
 <li><strong>Buy limit:</strong> your own purchases count before the table (the table is only prior knowledge), profit per level as a sum.
   If no price level pays off, there is no "worth up to". Test report: predicted vs. achieved profit per level.</li>
 </ul>
-<h3>Version 0.65.156</h3>
-<ul>
-<li><strong>Less stutter on full scans (part 2):</strong> price ladders, tracking and checks after the scan no longer create new tables
-  per item. From the third scan on, a full scan allocates about 13.8 MB in the test (before more than 60 MB),
-  no background portion above 9 ms.</li>
-<li><strong>More accurate gold reconciliation:</strong> counts only from the start of measurement (old bookings no longer dilute the 1 %
-  limit), mail money counts on the day you collect it, and it is measured whether the deposit is part of the mail money.
-  Tests T694, T695.</li>
-<li>Sell: notes are measured by height – nothing gets cut off any more.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
