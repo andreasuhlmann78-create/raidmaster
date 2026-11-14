@@ -1,0 +1,23 @@
+AHSentinel 0.65.157 – SK1-B1/B2/B3 + S2-B1/B2/B3 – umgesetzt, zur Prüfung
+
+SK1-B1: SK1-b rechnet nicht mehr über Buchungszeiten. Je genommenem Geld (Nachhaken TakeInboxMoney/AutoLootMailItem, bei
+  TakeInboxItem Nachnahme) -> BK:OnMailMoney ordnet nach Art: ah-verkauf (Rechnung "seller"), ah-sonstig (andere AH-Rechnung),
+  ohne-rechnung (Spieler-Gold, Überboten ohne Rechnung), nachnahme (−COD). Sitzung: gemessenes Gold am Briefkasten gegen
+  Summe der genommenen Post; Abweichung nur bei ungeklärtem Gold oder Verkaufs-Rechnung ohne gefundene Buchung (OnTakeMoney
+  liefert jetzt "gefunden"). Keine "A7?"-Vermutung mehr (A7 nur im eigenen Zähler). Damit ist der 1-Tages-Abbruch in
+  SC:Booked für die Post nicht mehr beteiligt (Supervisor 12:55); SC:Booked gilt nur noch für das AH (Käufe/Anzahlungen in der
+  Sitzung) – Abbruch dort folgt in 0.65.158 über die Zahl der Einträge statt über 1 Tag.
+  Bekannt (Supervisor 12:55): OnTakeMoney ordnet über den Erlös ± 1 zu, ohne Item – bei zwei gleich teuren offenen Verkäufen
+  kann die andere Buchung den Abholtag bekommen (Betrag gleich, Tagesbilanz gleich).
+  TR T687: Verkauf +1000 gebucht -> stimmig, Spieler-Gold +500 -> stimmig (eigene Art), Rechnung ohne Buchung -> Abweichung,
+  Gold ohne genommene Post -> Abweichung, AH −300 = Kauf -> stimmig, keine A7-Vermutung.
+SK1-B2: Handel gegen die tatsächlich geschriebenen Buchungen (Summe cost/rev der neuen Einträge).
+SK1-B3: Verkaufen-Fenster zusätzlich erste Zeile Preis und Menge gegen die letzte Server-Antwort. TR T691 (3/1/2).
+S2-B1/B2: Gewinn je Stufe = Σ Erlös / Σ Kaufpreis − 1 (Wege buyk/buye), Tabelle nur Vorwissen mit k = 2 "Durchschnitts-
+  käufen"; BUY_MIN zählt nur eigene Fälle (Tabelle allein senkt nichts). Hinweis: Käufe, die mit 0.65.154 schon unter "buyg"
+  gezählt wurden, werden nicht umgerechnet (neue Wege; der 30-Tage-Nachtrag ist bereits gelaufen) – die Zählung beginnt neu.
+S2-B3: hält schon die Stufe ≤ 0,6 den Mindestgewinn nicht -> Grenze 0 -> MK:LimitFromNet gibt nil (kein "Lohnt bis").
+Grundsatz S2: Selbstkontrolle je Stufe "vorhergesagt vs. realisiert" (Vorhersage aus den Zählern VOR dem Fall) im Testbericht
+  "MARKT-KERN Kaufen je Stufe".
+TR T684 neu (nur Tabelle 0,90 · eigene +30 % gewinnt 0,90 · Verluste 0,7–0,8 -> 0,70 · Verluste ≤ 0,6 -> 0, Lohnt bis nil).
+Gesamtlauf 248/248, addon_check OK. Weiter: SC:Booked-Abbruch (AH), NP152-3 Rest, dann Rechenkern S3.
