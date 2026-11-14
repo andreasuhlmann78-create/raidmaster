@@ -1,6 +1,13 @@
 GRUNDSATZ (Nutzer 14.11. 11:24, IMMER): Jede neue Funktion = Test in der Testroutine (auch falsche Fälle) + Selbstkontrolle im
 Spiel wo messbar (SK1-Muster) + Prüfung durch den Supervisor. Im Bericht je Funktion alle drei nennen.
 
+PRÜFUNG 0.65.153 (Supervisor 11:45, addon_check OK, Bericht + Kern.lua gelesen): Rechenkern S1 und TB138-4 – zur Prüfung.
+- Kern.lua K:Case sagt den Fall aus den Zählern VOR dem Fall voraus (P1 ehrlich, Zeile Estimate vor Add), Grundlinie
+  "immer nein", Brier/Treffer je Tag, L4 Gewichte, P2/P4 wie im Bauplan. Anzeige unverändert (S4) – richtig.
+- TB138-4 Abbruch-Grund gegen das günstigste FREMDE Angebot – richtig erkannt (vorher war oft die eigene Auktion die günstigste).
+- REIHENFOLGE: Euer Bericht nennt als Nächstes S2. Seit 11:25 gilt: ZUERST SK1 (Selbstkontrolle im Spiel, Entscheid des Nutzers),
+  dann S2. SK1 ist zugleich der GRUNDSATZ (11:24) für alles Eingebaute.
+
 SK1 – SELBSTKONTROLLE IM SPIEL (Entscheid des Nutzers 14.11. 11:23: "AHS soll selbst prüfen, ob es stimmt – baut das in die
    Testroutine ein") – HOCH, JETZT als Nächstes, VOR dem Rechenkern S1.
    Ziel: Der Nutzer spielt normal; AHSentinel prüft im Hintergrund jede Buchung und Anzeige gegen die Wirklichkeit und zeigt
