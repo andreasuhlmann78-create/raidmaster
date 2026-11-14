@@ -1,0 +1,225 @@
+AHSentinel-Protokoll v0.65.125 · 14.11. 01:40:30
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  14.11. 01:39:31 L10 ? v0.65.125
+  14.11. 01:02:29 L10 ? v0.65.125
+  14.11. 00:59:32 L10 ? v0.65.125
+  14.11. 00:42:55 L10 ? v0.65.118
+  14.11. 00:00:38 L10 ? v0.65.118
+  13.11. 22:54:38 L10 ? v0.65.118
+  13.11. 22:39:29 L10 ? v0.65.116
+  13.11. 21:55:23 L10 ? v0.65.116
+  13.11. 21:43:15 L10 ? v0.65.116
+  13.11. 21:13:23 L10 ? v0.65.114
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 51 Sek., 6809 Items, Preis-Sync an
+  SYNC GoldSentinelSync 2 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 0, BuffSentinel 0, GoldSentinelMarkt 0, GuildSentinel 0
+  SYNC gesendet 99 · empfangen 0 · verworfen: 0 · Warteschlange 40 · Kanal verweigert 0
+  NETZ an · bekannt 3 (mit Sync 2: 3, pausiert 0) · gesendet 0 · weitergegeben 0 · offline 0 · Listen 0 · Warteschlange 0 · gespeichert ja
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, minimapAngle=18.1, priceGuard=20, theme=modern, tooltipDEDetail=true, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[14.11. 01:40:27] LANGSAM Hintergrund-Aufgabe core:realcheck · 0 Schritte · längster Schritt 15 ms bis MarketCore.lua:511 · 17 ms
+[14.11. 01:40:25] MATERIAL-PREIS Item 11176 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 01:40:25] MATERIAL-PREIS Item 16202 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 01:40:25] MATERIAL-PREIS Item 11175 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 01:40:25] MATERIAL-PREIS Item 10978 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 01:40:25] MATERIAL-PREIS Item 10939 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 01:40:25] MATERIAL-PREIS Item 11177 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 01:40:25] MATERIAL-PREIS Item 16203 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 01:40:25] MATERIAL-PREIS Item 14344 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 01:40:25] MATERIAL-PREIS Item 10938 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 01:40:25] MATERIAL-PREIS Item 11178 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 01:40:25] MATERIAL-PREIS Item 11139 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 01:40:25] MATERIAL-PREIS Item 11084 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 01:40:25] MATERIAL-PREIS Item 11138 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 01:40:25] MATERIAL-PREIS Item 20725 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 01:40:25] MATERIAL-PREIS Item 10998 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 01:40:25] MATERIAL-PREIS Item 11083 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 01:40:25] MATERIAL-PREIS Item 11137 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 01:40:25] MATERIAL-PREIS Item 11082 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 01:40:25] MATERIAL-PREIS Item 16204 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 01:40:25] MATERIAL-PREIS Item 11174 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 01:40:25] MATERIAL-PREIS Item 11135 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 01:40:25] MATERIAL-PREIS Item 14343 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 01:40:25] MATERIAL-PREIS Item 11134 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 01:40:25] MATERIAL-PREIS Item 10940 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 01:40:25] LANGSAM Hintergrund-Aufgabe sync-send · 0 Schritte · längster Schritt 14 ms bis Sync.lua:190 · 18 ms
+[14.11. 01:40:23] VOLLSCAN Messung 301100 Auktionen · 6253 Items · Lücke 177 ms (Einlesen) · Speicher 387446->413591 KB · GC 18 · Warten auf Server 19029/127; Ereignis-Aufruf 0/1; Einlesen 15261/177; Verdichtung 618/26; Verfolgung V4 2161/38; Preisverlauf+Neuaufbau 1373/99; Nachlauf 0/50
+[14.11. 01:40:23] PREIS-ALT nach Scan · letzter Scan Vollscan · Waren im Vollscan 168 · Hauptmaterialien 11083: 0.0 Std., 11082: 0.0 Std., 11137: 0.0 Std. · 0 frisch geholt
+[14.11. 01:40:20] LANGSAM Hintergrund-Aufgabe fullscan · 3 Schritte · längster Schritt 82 ms bis Ende fullscan · 82 ms
+[14.11. 01:40:19] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[14.11. 01:40:18] VOLLSCAN Absatz unplausibel: Item 4567 · 381/Tag bei Ø 137 im AH (6.4 Std.)
+[14.11. 01:40:17] VOLLSCAN Absatz unplausibel: Item 3173 · 2940/Tag bei Ø 1036 im AH (6.7 Std.)
+[14.11. 01:40:17] LANGSAM Hintergrund-Aufgabe fullscan · 0 Schritte · längster Schritt 23 ms bis Vollscan.lua:943 · 26 ms
+[14.11. 01:40:17] VOLLSCAN M1d 301100 Auktionen gelesen (301095 gültig) · 2624 ms in 844 Portionen · längster Frame 5.7 ms · 6253 Items
+[14.11. 01:40:09] ABBRECHEN AUCTION_CANCELED auctionID 84048233 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:09] ABBRECHEN AUCTION_CANCELED auctionID 84048171 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:09] ABBRECHEN AUCTION_CANCELED auctionID 84048090 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:09] ABBRECHEN AUCTION_CANCELED auctionID 84047664 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:09] ABBRECHEN AUCTION_CANCELED auctionID 84047660 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:09] ABBRECHEN AUCTION_CANCELED auctionID 84047639 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:09] ABBRECHEN AUCTION_CANCELED auctionID 84047549 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:09] ABBRECHEN AUCTION_CANCELED auctionID 84047422 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:09] ABBRECHEN AUCTION_CANCELED auctionID 84047389 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:09] ABBRECHEN AUCTION_CANCELED auctionID 84047130 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:09] ABBRECHEN AUCTION_CANCELED auctionID 84046886 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:09] ABBRECHEN AUCTION_CANCELED auctionID 84046702 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:09] ABBRECHEN AUCTION_CANCELED auctionID 84046664 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:09] ABBRECHEN AUCTION_CANCELED auctionID 84046521 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:09] ABBRECHEN AUCTION_CANCELED auctionID 84046472 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:09] ABBRECHEN AUCTION_CANCELED auctionID 84046362 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:09] ABBRECHEN AUCTION_CANCELED auctionID 84046240 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:09] ABBRECHEN AUCTION_CANCELED auctionID 84046040 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:09] ABBRECHEN AUCTION_CANCELED auctionID 84045575 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:07] ABBRECHEN AUCTION_CANCELED auctionID 84047664 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:07] ABBRECHEN AUCTION_CANCELED auctionID 84047660 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:07] ABBRECHEN AUCTION_CANCELED auctionID 84047639 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:07] ABBRECHEN AUCTION_CANCELED auctionID 84047549 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:07] ABBRECHEN AUCTION_CANCELED auctionID 84047422 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:07] ABBRECHEN AUCTION_CANCELED auctionID 84047389 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:07] ABBRECHEN AUCTION_CANCELED auctionID 84047130 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:07] ABBRECHEN AUCTION_CANCELED auctionID 84046886 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:07] ABBRECHEN AUCTION_CANCELED auctionID 84046702 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:07] ABBRECHEN AUCTION_CANCELED auctionID 84046664 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:07] ABBRECHEN AUCTION_CANCELED auctionID 84046521 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:07] ABBRECHEN AUCTION_CANCELED auctionID 84046472 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:07] ABBRECHEN AUCTION_CANCELED auctionID 84046362 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:07] ABBRECHEN AUCTION_CANCELED auctionID 84046240 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:07] ABBRECHEN AUCTION_CANCELED auctionID 84046040 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:07] ABBRECHEN AUCTION_CANCELED auctionID 84045575 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:04] ABBRECHEN AUCTION_CANCELED auctionID 79777084 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:04] ABBRECHEN AUCTION_CANCELED auctionID 79776947 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:04] ABBRECHEN AUCTION_CANCELED auctionID 79776961 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:04] ABBRECHEN AUCTION_CANCELED auctionID 79776910 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:04] ABBRECHEN AUCTION_CANCELED auctionID 79777737 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:04] ABBRECHEN AUCTION_CANCELED auctionID 79778262 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:04] ABBRECHEN AUCTION_CANCELED auctionID 73182766 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:04] ABBRECHEN AUCTION_CANCELED auctionID 73182713 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:04] ABBRECHEN AUCTION_CANCELED auctionID 79777337 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79778532 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79776612 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79776680 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79778566 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79778326 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 73182470 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79776512 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79777084 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79776947 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 73182471 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79776502 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 73183061 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 73182280 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79777746 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79776352 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79776961 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79777506 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79777767 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79778062 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79777688 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 73182799 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79778690 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79776910 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79777737 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79778262 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 73182523 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 73182766 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79776020 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 73182713 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79777186 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79777337 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79777896 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 73182651 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79776612 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79776680 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79778566 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79778038 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79778326 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 73182470 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79778064 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79776512 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79776835 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79777527 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79776781 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79777893 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79777154 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 73182471 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79778244 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:03] ABBRECHEN AUCTION_CANCELED auctionID 79776113 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79776502 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 73182645 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 73183061 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 73182280 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79777746 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79776352 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79777420 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79778028 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79776439 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79777506 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79775809 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79776992 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79777767 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79778062 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79776238 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79777688 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79776179 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 73182600 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 73182799 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79778690 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79777963 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79776582 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79775833 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 73182523 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79776020 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79775360 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79777426 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79776981 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79775935 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79776567 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 73182949 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79777070 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79777186 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79775830 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79777318 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79777802 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79777896 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 73182651 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79777909 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79778317 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79778144 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79777278 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79778038 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79775862 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79778335 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79776743 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:02] ABBRECHEN AUCTION_CANCELED auctionID 79778064 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:01] ABBRECHEN AUCTION_CANCELED auctionID 79776835 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:01] ABBRECHEN AUCTION_CANCELED auctionID 79776297 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:01] ABBRECHEN AUCTION_CANCELED auctionID 79778209 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:01] ABBRECHEN AUCTION_CANCELED auctionID 79777527 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:01] ABBRECHEN AUCTION_CANCELED auctionID 79777795 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:01] ABBRECHEN AUCTION_CANCELED auctionID 79776698 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:01] ABBRECHEN AUCTION_CANCELED auctionID 79776781 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:01] ABBRECHEN AUCTION_CANCELED auctionID 79776201 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:01] ABBRECHEN AUCTION_CANCELED auctionID 79776383 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:01] ABBRECHEN AUCTION_CANCELED auctionID 79777893 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:01] ABBRECHEN AUCTION_CANCELED auctionID 79778042 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:01] ABBRECHEN AUCTION_CANCELED auctionID 79777154 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:01] ABBRECHEN AUCTION_CANCELED auctionID 79778066 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:01] ABBRECHEN AUCTION_CANCELED auctionID 79777433 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:01] ABBRECHEN AUCTION_CANCELED auctionID 79777574 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:01] ABBRECHEN AUCTION_CANCELED auctionID 79776810 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:01] ABBRECHEN AUCTION_CANCELED auctionID 79777697 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:01] ABBRECHEN AUCTION_CANCELED auctionID 79777650 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:01] ABBRECHEN AUCTION_CANCELED auctionID 79777474 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:01] ABBRECHEN AUCTION_CANCELED auctionID 79776729 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:01] ABBRECHEN AUCTION_CANCELED auctionID 79776215 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:01] ABBRECHEN AUCTION_CANCELED auctionID 79776510 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:01] ABBRECHEN AUCTION_CANCELED auctionID 73182349 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:01] ABBRECHEN AUCTION_CANCELED auctionID 79777719 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:01] ABBRECHEN AUCTION_CANCELED auctionID 79776113 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 01:40:01] ABBRECHEN AUCTION_CANCELED auctionID 79777462 (erwartet nil) -> unerwartet, nichts geändert
