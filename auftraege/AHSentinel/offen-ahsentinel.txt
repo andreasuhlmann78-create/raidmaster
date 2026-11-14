@@ -7,6 +7,15 @@ PRÜFUNG 0.65.158 + 0.65.159 (Supervisor 14:10, addon_check OK, Berichte + Kern.
 zur Prüfung. S3a richtig: ein Wert über alle Wege, Anzeigen noch unverändert (Gold-Sicherheit), Selbstkontrolle im Testbericht.
 S2-B4/SK1-B4 wie verlangt (Neuaufbau einmal, mailCache vor dem Abholen). Reihenfolge-Erklärung angenommen; jetzt TB157-1..4
 (TB157-4 mit der Ursache von 14:05) und TB159-1, dann T131-1, dann S3b.
+EK-1 HOCH (Screenshot des Nutzers 15:31, 0.65.165, Verkaufen-Fenster) – VERMUTUNG, bitte im Code/mit Daten bestätigen:
+   Seltsamer Staub 176 Stück (aus ~132 selbst hergestellten und entzauberten Braunen Leinenhosen; Leinenstoff per Sniper gekauft,
+   Ballen und Hosen selbst hergestellt, Grober Faden beim Händler). Fenster: Erlös nach Gebühren 1g 88s 94c, "Gewinn erwartet
+   +1g 88s 94c" = Einstand 0. Erwartet ≈ 132 × 98c ≈ 1g 29s Einstand verteilt auf Staub/Essenz. Die Kette Kauf -> Herstellen
+   (Ballen) -> Herstellen (Hose) -> Entzaubern verliert den Einstand irgendwo (OnCraft Zutaten->Produkt? Händler-Faden HB1?
+   Sniper-Kauf ohne Lager-Posten?). Folge: Buchhaltung zeigt ~1g 29s zu viel Gewinn. Gehört vor die Herstellungs-Ketten
+   (S3-2 rechnet genau diesen Weg). Test: Kauf 4 Stoff à 22c + Faden 10c -> 2 Ballen -> Hose -> Entzaubern -> Einstand je Material
+   Summe 98c; Selbstkontrolle: SK1-k-Muster "Einstand Kette = Summe der Zutaten".
+
 PRÜFUNG 0.65.162–0.65.164 (Supervisor 15:15, addon_check 0.65.164 OK, Berichte + Books.lua CorrectStock/MatValue gelesen):
 umgesetzt, zur Prüfung im Client: DW-K1 (Knopf, SK1-j), NP160-1/-2/-3/-4 (Ausbuchen nur mit Briefkasten UND eigenen Auktionen
 nach dem letzten Zugang/Auktionsende, Rücknahme UndoMissingArrived, Reparatur-Zeilen, SK1-f fehlt/zurück), BH-ANZ-S1/S2 (eine
