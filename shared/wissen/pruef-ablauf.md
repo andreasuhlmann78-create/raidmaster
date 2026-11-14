@@ -30,6 +30,17 @@ Jede neue Funktion, in jedem Addon, braucht drei Dinge, sonst gilt sie nicht als
 3. Strenge Prüfung durch den Supervisor (Abschnitt A, dreifach: Entscheide, Code/Daten, Risiko).
 Jeder Auftrag nennt diese drei Punkte; fehlt einer im Bericht, ist der Auftrag nicht umgesetzt.
 
+## 0d. Fehler VERHINDERN – Supervisor ist verantwortlich (Entscheid des Nutzers 14.11. 14:46: "ich will, dass solche Sachen verhindert werden – von dir!")
+Anlass: AHSentinel verteilte beim Entzaubern den Einstand schief (Seelenstaub Faktor 1,65 statt ~1,1, Essenzen 0,2–0,5) – keine
+Prüfung hat es gefunden; ich selbst habe daraus falsche Ursachen und eine falsche Empfehlung gemacht.
+1. JEDE Aussage an den Nutzer über Geld, Gewinn, Ursachen oder Empfehlungen ist vorher mit Daten-Abbild oder Code belegt.
+   Nicht belegt -> ausdrücklich "Vermutung, prüfe ich" – nie als Tatsache. Verteilte Zahlen (Umbuchung) nie als Realität.
+2. Bei JEDEM neuen Daten-Abbild (goldsentinel-daten) und JEDER AHSentinel-Version, die Books/Buchhaltung/Entzaubern/Herstellen
+   ändert: `python3 -I addon-check/marktanalyse/buchhaltung_plausi.py <AHSentinel.lua>` laufen lassen. WARNUNG -> Befund an
+   AHSentinel (mit Zahlen) BEVOR ich dem Nutzer etwas zu Gewinnen sage. Das Werkzeug wächst: jede neue Fehlerart -> neue Prüfung.
+3. Neue Buchungs-/Rechen-Funktionen gibt der Supervisor erst frei, wenn eine Plausibilitäts-Selbstkontrolle im Spiel (SK1-Muster)
+   dieselbe Fehlerart erkennt (hier SK1-j Verteilung).
+
 ## 0b. Selbstständig handeln (Entscheid des Nutzers 14.11. 08:51)
 Fragen der Projekt-Sitzungen und eigene offene Fragen selbst entscheiden: aus entscheide.md, Gehirn und Code/Daten, dreifach
 geprüft (1. passt es zu allen Entscheiden? 2. stimmt es mit Daten/Code? 3. was kann schiefgehen – Gold, Daten, Ruckeln,

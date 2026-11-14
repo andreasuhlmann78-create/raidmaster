@@ -41,6 +41,12 @@ BH-ANZ-S2 MITTEL (Nutzer 14:40 zur Zeile "Seelenstaub −5g 96s"): Der Gewinn je
    Entzauber-Tagen 3s 76c–4s 06c. Prüfen, welchen Wert D:MatPrice(11083) beim Entzaubern lieferte (Quelle, Alter) – der Anteil des
    Staubs wurde offenbar zu hoch angesetzt, die Essenzen zu tief. Diagnose-Zeile: je Entzauberung MatValue je Material vs.
    letzter Scan-Preis; Test: Verteilung nach aktuellen Scan-Preisen.
+   BELEG (Supervisor 14:55, neues Werkzeug addon-check/marktanalyse/buchhaltung_plausi.py, Daten-Abbild 14:40): verkaufte Materialien
+   vom 13.11., Faktor Einstand/Markt: Seelenstaub 11083 1,65 · 11082 0,53 ·
+   11084 0,35 · 11135 0,20 (Tagesmittel 1,09). Aus denselben Entzauberungen müssten alle etwa 1,09 haben -> Verteilung schief.
+SK1-j NEU (mit BH-ANZ-S2, Entscheid des Nutzers 14:46 "verhindern"): Selbstkontrolle der Verteilung beim Entzaubern/Herstellen:
+   je Umbuchung Faktor Einstand/Scan-Preis je Material; weicht ein Material > 33 % vom Mittel der Umbuchung ab -> Abweichung mit
+   Zahlen (wie buchhaltung_plausi.py P1). Test: absichtlich schiefe Verteilung -> erkannt; richtige -> stimmig.
 
 GW-S1 NIEDRIG (gleicher Screenshot, Gewinn-Fenster Braune Leinenhose): "bester Weg: entzaubern · Händler −38c" und darunter
    "Händler zahlt mehr: 60c" – widerspricht sich für den Spieler. Zeile nur zeigen, wenn der Händler-Weg wirklich besser ist, sonst
