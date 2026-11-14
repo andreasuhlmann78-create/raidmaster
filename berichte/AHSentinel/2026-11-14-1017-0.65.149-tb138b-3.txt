@@ -1,0 +1,23 @@
+AHSentinel 0.65.149 – TB138b-3 (Speicher je Vollscan) + Punkte der Prüfung 09:55 – umgesetzt, zur Prüfung
+
+Messung (Simulator, 21'102 Auktionen, 6'108 Items, Speicher-Zuordnung je Hintergrund-Aufgabe zwischen zwei Pausen, GC aus):
+  vorher: cache:itemlist 55,2 MB · fullscan 12,4 · core:realcheck 10,7 · cache:today 7,1 -> zweiter Scan +62–69 MB Müll,
+  bleibend +5,8–6,5 MB. Ursache Nr. 1: A:GetMarketValue legte je Item für jede Verlaufszeile eine Tabelle {v,t,q} an plus
+  4 Hilfslisten (~8 KB je Item) – nach dem Scan ist der Cache ungültig, also für JEDES Item. Bei ~20'000 Items im Client
+  entsprechend mehr -> viele Speicherbereinigungen, Lücken.
+Umsetzung:
+- GetMarketValue ohne neue Tabellen: wiederverwendete Hilfs-Listen (Indizes, Parallel-Arrays), Cache-Eintrag wiederverwendet.
+  Rechnung unverändert: 6'000 Zufalls-Items (Mondpreise, Lockangebote, 0-Preise, Flags u/q-nil, Gleichstände) alt = neu,
+  0 Abweichungen. Müll je 6'000 Aufrufe: 52,8 MB -> 2,2 MB.
+- Item-Liste (BuildItemRows): Zeilen je Item wiederverwendet. RealCheckItem ohne Hilfsfunktion je Item. D:Prior ohne
+  Hilfstabelle {pcall(GetItemInfo)}.
+- Ergebnis zweiter Scan: Müll +18–23 MB (vorher 62–69), Spitze 105 MB (vorher 148), bleibend +2,3 MB (Preisverlauf, gewollt).
+  Szenario s92 prüft jetzt: Lauf 2 < 35 MB und bleibend < 4 MB. TR T675: Marktwert ≤ 0,5 KB je Item, gleiche Werte (Sandbox).
+Rest (nicht in dieser Version): Verdichtung (Digest, neue steps-Tabellen je Item ~9 MB), cache:today 7 MB, realcheck noch
+  ~9 MB (Ursache noch offen) – nächster Schritt, falls die Client-Messung noch zu viele Bereinigungen zeigt.
+Prüfung 09:55: (1) "Preis %dx über Markt" -> "Viel zu teuer – verkauft sich bei %s". (2) Hinweise nicht mehr abgeschnitten:
+  Breite jedes Hinweises gemessen, gezeigt wird, was ganz in 2 Zeilen passt (Rang zuerst), Rest im Tooltip (i); T669 prüft
+  zusätzlich "abgeschnitten 0" (Wert-Zeilen GetStringWidth ≤ Breite, Beschriftungen ≤ 196 px). enGB wird im Simulator nicht
+  geschaltet – im Client mit englischem Client die Zeile von T669 ansehen.
+Gesamtlauf 248/248, addon_check OK. Im Client bitte: Vollscan zweimal, Testbericht "Vollscan-Messung" (Speicher, Bereinigungen).
+Weiter: 5 TB138-2.
