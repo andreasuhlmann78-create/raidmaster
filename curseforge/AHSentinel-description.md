@@ -12,6 +12,13 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.128
+
+- **Sales forecast knows the price:** the chance to sell now comes from your real sales per price level (price
+  relative to market value) – listing higher means a smaller chance. Without learned cases it stays as before.
+- Test report: sales chains (expired/cancelled -> relisted -> sold counts as one case), with number of listings and
+  price of the last vs. the first listing. Tests T651, T652.
+
 ### Version 0.65.127
 
 - **Accounting – phantom stock removed:** goods still in stock after the repair although they were sold are moved onto
@@ -55,15 +62,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **One-time repair:** pending entries already covered by an invoice that was booked as a new sale are marked "replaced
   by invoice" (nothing deleted, a backup is kept). No more double counting between invoice and pending.
 - Test report: profit old/new, number of resolved entries, gold reconciliation since the start date. Tests T640–T642.
-
-### Version 0.65.123
-
-- **Shared command list:** the list while typing `/ahs` now comes from the shared GoldSentinel file
-  (GoldSentinelCmdHint.lua), the same for all GoldSentinel addons. Use stays the same (click selects, Tab/Shift+Tab,
-  Enter runs); your usage counters are kept.
-- Speed test (`/ahs testroutine tempo`): memory of AHSentinel broken down by area (size and number of tables) in the
-  test report.
-- Tests T638, T639.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
