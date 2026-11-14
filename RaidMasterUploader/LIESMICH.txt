@@ -241,3 +241,12 @@ Version 2.3.7 – Marktdaten: Quelle und Meldung (MN6b, U3):
 - Markt-Scans über 2 MB werden übersprungen und einmal gemeldet (so viel nimmt der Bot an).
 - Markt-Zeile in unbekanntem Format: nicht gesendet, aber jetzt EINMAL im Fenster gemeldet
   ("Markt-Zeile in unbekanntem Format – nicht gesendet"), ohne ihren Inhalt.
+
+Version 2.3.8 – Abgleich bleibt nicht mehr hängen (UP-S1):
+- Kommt ein Stand des anderen Rechners leer oder kaputt an, holt der Uploader ihn einmal frisch von Discord.
+- Bleibt er unlesbar (mindestens 3 Versuche über 30 Minuten), gilt er als defekt: Dieser Rechner lädt seine Daten wieder
+  normal hoch. Vorher wird die eigene Fassung gesichert. Eigene Dateien werden nie überschrieben.
+  Meldung: "Stand des anderen Rechners defekt – hier wird weiter hochgeladen, dort bitte einmal WoW beenden."
+- Die Meldung "nicht lesbar" kommt nur noch einmal je Stand statt jede Minute.
+- Neu in der Statuszeile: "Abgleich blockiert seit … (Grund)", wenn über eine Stunde lang trotz geänderter Daten nichts
+  hochgeladen wurde.

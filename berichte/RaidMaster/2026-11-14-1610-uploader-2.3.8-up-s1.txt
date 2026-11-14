@@ -1,0 +1,49 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 14.11.2026 16:10 · Sitzung: RaidMaster-Projekt-Sitzung · Version: Uploader 2.3.8 (Addon unverändert 3.0.26)
+Commit: dieser Push
+
+UMGESETZT, ZUR PRÜFUNG – UP-S1 HOCH (unlesbarer Abgleich-Stand blockiert Upload):
+a) RaidMasterUploader/sync.py:732 get_part: Anhang 0 Byte oder HTTP-Fehler -> Nachricht EINMAL neu lesen (frische
+   signierte CDN-Adresse) und Anhang neu holen; erst dann StoreError mit Grund, z. B.
+   "Paket nicht ladbar (0 Byte, HTTP 200, laut Discord <n> Byte)" bzw. "(HTTP 403)" / "(kein Netz)" – ohne Webhook-Adresse.
+b) sync.py:1011 _unreadable: Fehlversuche je Stand ("<Spielversion/Konto>:<rev>", uploader_state.json sync.unlesbar).
+   Ab DEFECT_TRIES=3 Versuchen UND mindestens DEFECT_SECONDS=30 Min. seit dem ersten (sync.py:91–92) gilt der Stand als
+   defekt (sync.defekt, höchstens 50): pending() wertet ihn nicht mehr als "neuer" (sync.py:990), der eigene Stand geht
+   normal hoch (Index-Eintrag ersetzt, der defekte Stand wandert in den Verlauf). Vorher Sicherung der lokalen Dateien
+   dieser Spielversion ("…-vor-defektem-stand" im Sicherungsordner). Lokale Dateien werden nie überschrieben.
+   Meldung (Fenster + Windows-Hinweis): "Stand des anderen Rechners (<Rechner>, <Zeit>) defekt – hier wird weiter
+   hochgeladen, dort bitte einmal WoW beenden." Statuszeile danach: "· defekter Stand des anderen Rechners übergangen
+   (dort einmal WoW beenden)" (sync.py:854). Wird der Stand wieder lesbar, bevor er als defekt gilt: normal übernommen,
+   Zähler gelöscht.
+c) "neuer Stand nicht lesbar (…)" nur EINMAL je Stand (beim ersten Fehlversuch), nicht mehr alle 60 s. Die Statuszeile
+   zeigt den Fehler weiter ("· FEHLER: …").
+Selbstkontrolle: sync.py:1046 _note_blocked – geänderte Dateien, aber > 1 Std. (BLOCKED_WARN, sync.py:93) kein Upload ->
+   EINE Logzeile und in der Statuszeile "Abgleich blockiert seit <Zeit> (<Grund>)"; Grund = letzter Fehler oder
+   "neuerer Stand vom <Rechner> … noch nicht übernommen" oder "wartet auf WoW-Ende". Erfolgreicher Upload setzt zurück.
+
+Zum Befund: Ursache wie beschrieben bestätigt (pull -> read_package "empty file", tick ruft push nur bei
+   not remote_newer()). Ob Discord den Anhang wirklich leer ausliefert oder schon leer gespeichert wurde, zeigt ab 2.3.8
+   die neue Meldung (HTTP-Status, Länge laut Discord) – bitte beim Nutzer ablesen.
+
+EIGENE TESTS (Hinweise, keine Freigabe), auch falsche Fälle:
+- test_sync.Webhook.test_ups1a_leerer_anhang_neu_holen (Zeile 1093): 1× leer -> Neuholen klappt, 2 GET der Nachricht;
+  2× leer -> Fehler mit "0 Byte" und "HTTP", ohne Geheimnis.
+- test_sync.UnlesbarUPS1 (Zeile 258):
+  ups1b – 0 Byte: 5 Versuche in 20 Min. -> NICHT defekt, Index bleibt beim anderen Rechner, Hinweis genau 1×; nach 31 Min.
+          defekt, Upload läuft (Index-Rechner = dieser), lokale Datei unverändert, Sicherung da, Statuszeile "aktuell",
+          der andere Rechner übernimmt danach den neuen Stand normal.
+  ups1c – einmal unlesbar, dann lesbar -> normal übernommen, Zähler leer, nichts defekt.
+  ups1d – 3 Fehler in 3 Min. -> noch nicht defekt (falscher Fall).
+  ups1e – WoW läuft, neuerer Stand wartet, Dateien geändert: nach > 1 Std. genau EINE Zeile "Abgleich blockiert seit".
+- Uploader-Tests: test_daten 12, test_sync 43 (+5), test_uploader 21, test_umfassend 14 (Regressionen 57/57) – grün.
+- Bot-Tests einzeln: alle OK (test_uploads_gs_up einmal aus RaidMasterBot/ heraus 1 Fehlschlag, danach in beiden
+  Verzeichnissen mehrfach OK – nicht reproduzierbar, Hinweis an Discord).
+- download/RaidMasterUploader.zip neu (ohne tests/, ohne Konfigurations-/Statusdateien), VERSION 2.3.8.
+
+FÜR DEN NUTZER (zweiter Rechner, der seit 11.11. nichts hochlädt):
+- Bot /update, dann /uploader nur_programm:True; Uploader-Fenster schliessen, Programmdateien ersetzen, uploader.bat.
+  Spätestens 30 Min. danach meldet er "Stand des anderen Rechners … defekt" und lädt wieder hoch. Am anderen Rechner
+  einmal WoW beenden (lädt dann einen neuen, lesbaren Stand hoch).
+
+OFFEN/HINWEIS: GoldSentinelMarkt v4 kommt mit dem nächsten Addon-Release (diese Veröffentlichung betrifft nur den
+Uploader). GRUNDSATZ NACHVOLLZIEHBAR: Meldungen oben in Alltagssprache, je ein Satz.

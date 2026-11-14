@@ -215,3 +215,10 @@ Version 2.3.7 – market data: source and notice (MN6b, U3):
   laptop and different players as separate sources. Old bots ignore the field.
 - Market scans larger than 2 MB are skipped and reported once (the bot's limit).
 - Market line in an unknown format: not sent, but now reported ONCE in the window, without its content.
+
+Version 2.3.8 – sync no longer gets stuck (UP-S1):
+- If the other computer's state arrives empty or broken, the uploader fetches it once more from Discord.
+- If it stays unreadable (at least 3 attempts over 30 minutes), it counts as broken: this computer uploads its data
+  normally again. Its own version is backed up first. Local files are never overwritten.
+- The "not readable" notice appears only once per state instead of every minute.
+- New in the status line: "sync blocked since … (reason)" when nothing was uploaded for over an hour despite changes.

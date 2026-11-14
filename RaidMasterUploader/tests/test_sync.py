@@ -255,6 +255,78 @@ class Abgleich(unittest.TestCase):
         self.assertEqual(len(self.store.deleted), 3)
 
 
+class UnlesbarUPS1(unittest.TestCase):
+    """UP-S1 (2.3.8): ein unlesbarer Stand des anderen Rechners darf das Hochladen nicht für immer blockieren."""
+
+    def setUp(self):
+        self.d = tempfile.mkdtemp()
+        self.store = FakeStore()
+        self.pc = Machine(self.d, "PC", self.store)
+        self.lap = Machine(self.d, "Laptop", self.store)
+        self.lap.write("SavedVariables/RaidMaster.lua", "RaidMasterDB = { 1 }\n", T0 - 7200)
+        self.assertTrue(self.lap.sync.push(now=T0 - 7000))
+        self.assertTrue(self.pc.sync.pull(now=T0 - 6900))
+        self.pc.write("SavedVariables/RaidMaster.lua", "RaidMasterDB = { 2 }\n", T0 - 600)
+        self.assertTrue(self.pc.sync.push(now=T0 - 500))
+        self.pid = self.store.index["r"][""][1][0]
+
+    def tearDown(self):
+        shutil.rmtree(self.d, ignore_errors=True)
+
+    def test_ups1b_dreimal_defekt_dann_upload_nichts_ueberschrieben(self):
+        self.store.parts[self.pid] = b""                       # Anhang kommt leer zurück
+        self.lap.write("SavedVariables/RaidMaster.lua", "RaidMasterDB = { 3 }\n", T0 - 100)
+        for t in (0, 60, 120, 600, 1200):
+            self.lap.sync.next_remote = 0
+            self.lap.sync.tick(now=T0 + t)
+        self.assertEqual(self.store.index["machine"], "PC")      # noch nicht defekt (< 30 Min.)
+        self.assertEqual(sum("nicht lesbar" in l for l in self.lap.logs), 1)   # c) nur EIN Hinweis je Stand
+        self.lap.sync.next_remote = 0
+        self.lap.sync.tick(now=T0 + 1900)                        # >= 3 Versuche über >= 30 Min. -> defekt
+        self.assertTrue(any("defekt" in n for n in self.lap.notes))
+        self.lap.sync.tick(now=T0 + 1905)
+        self.assertEqual(self.store.index["machine"], "Laptop")  # Upload läuft wieder
+        self.assertEqual(self.lap.read("SavedVariables/RaidMaster.lua"), "RaidMasterDB = { 3 }\n")
+        self.assertTrue(any("vor-defektem-stand" in b for b in self.lap.backups()))
+        self.assertIn("aktuell", self.lap.sync.status_line())
+        self.assertNotIn("NICHT", self.lap.sync.status_line())
+        self.assertIsNone(self.lap.sync.s.get("blocked_since"))
+        # der andere Rechner holt den Stand des Laptops danach normal
+        self.assertTrue(self.pc.sync.pull(now=T0 + 2000))
+        self.assertIn("{ 3 }", self.pc.read("SavedVariables/RaidMaster.lua"))
+
+    def test_ups1c_einmal_unlesbar_dann_lesbar_normal(self):
+        good = self.store.parts[self.pid]
+        self.store.parts[self.pid] = b""
+        self.assertFalse(self.lap.sync.pull(now=T0))
+        self.assertEqual(len(self.lap.sync.s.get("unlesbar") or {}), 1)
+        self.store.parts[self.pid] = good
+        self.assertTrue(self.lap.sync.pull(now=T0 + 3000))
+        self.assertEqual(self.lap.read("SavedVariables/RaidMaster.lua"), "RaidMasterDB = { 2 }\n")
+        self.assertEqual(self.lap.sync.s.get("unlesbar"), {})
+        self.assertFalse(self.lap.sync.s.get("defekt"))
+
+    def test_ups1d_drei_fehler_schnell_noch_nicht_defekt(self):
+        # falscher Fall: 3 Fehler in 2 Minuten reichen NICHT (mindestens 30 Min.)
+        self.store.parts[self.pid] = b""
+        for t in (0, 60, 120, 180):
+            self.assertFalse(self.lap.sync.pull(now=T0 + t))
+        self.assertFalse(self.lap.sync.s.get("defekt"))
+        self.assertTrue(self.lap.sync.remote_newer())
+
+    def test_ups1e_selbstkontrolle_blockiert_seit(self):
+        # WoW läuft, neuerer Stand wartet, Dateien hier geändert -> nach > 1 Std. EINE Zeile "Abgleich blockiert seit …"
+        self.lap.running = True
+        self.lap.write("SavedVariables/RaidMaster.lua", "RaidMasterDB = { 4 }\n", T0 - 100)
+        for t in (0, 60, 1800, 3700, 3800):
+            self.lap.sync.next_remote = 0
+            self.lap.sync.tick(now=T0 + t)
+        lines = [l for l in self.lap.logs if "Abgleich blockiert seit" in l]
+        self.assertEqual(len(lines), 1)
+        self.assertIn("noch nicht übernommen", lines[0])
+        self.assertIn("Abgleich blockiert seit", self.lap.sync.blocked_text())
+
+
 class Sofort(unittest.TestCase):
     """2.2.0 (S8): sofort und ohne Klick – T-SY7 … T-SY10; offene Punkte 1, 2, 5 – T-SY11 … T-SY13."""
 
@@ -939,6 +1011,7 @@ class FakeDiscord:
     def __init__(self):
         self.msgs, self.cdn, self.calls, self.n = {"900": {"id": "900", "content": "GSSYNC-INDEX", "attachments": []}}, {}, [], 900
         self.busy, self.date = 0, None
+        self.empty: dict[str, int] = {}       # UP-S1: CDN-Adresse -> so oft 0 Byte liefern
 
     def __call__(self, req, timeout=None):
         import re as _re
@@ -948,6 +1021,9 @@ class FakeDiscord:
             self.busy -= 1
             raise sync.urllib.error.HTTPError(url, 429, "Too Many Requests", {}, io.BytesIO(b'{"retry_after": 2.5}'))
         if url.startswith("https://cdn.invalid/"):
+            if self.empty.get(url):
+                self.empty[url] -= 1
+                return Resp(b"")
             return Resp(self.cdn[url])
         m = _re.match(r"https://discord.invalid/api/webhooks/1/geheim(/messages/(\d+))?(\?wait=true)?$", url)
         assert m, url
@@ -1013,6 +1089,21 @@ class Webhook(unittest.TestCase):
         self.assertIn("PATCH", methods)
         self.assertTrue(all(u.startswith("https://") for _, u in self.fake.calls))
         self.assertFalse(any("geheim" in l for l in pc.logs + lap.logs))
+
+    def test_ups1a_leerer_anhang_neu_holen(self):
+        # UP-S1 a: 0 Byte -> Nachricht neu lesen, Anhang neu holen; zweimal leer -> Fehler mit Grund (0 Byte, HTTP)
+        store = sync.WebhookStore("https://discord.invalid/api/webhooks/1/geheim", "900")
+        pid = store.put_part("stand-1-1.bin", b"INHALT", "Stand 1")
+        url = self.fake.msgs[pid]["attachments"][0]["url"]
+        self.fake.empty[url] = 1
+        self.assertEqual(store.get_part(pid), b"INHALT")
+        self.assertEqual(sum(1 for m, u in self.fake.calls if m == "GET" and u.endswith("/messages/" + pid)), 2)
+        self.fake.empty[url] = 2
+        with self.assertRaises(sync.StoreError) as cm:
+            store.get_part(pid)
+        self.assertIn("0 Byte", str(cm.exception))
+        self.assertIn("HTTP", str(cm.exception))
+        self.assertNotIn("geheim", str(cm.exception))
 
     def test_sy16_discord_bremst_und_uhr(self):
         import email.utils as eu

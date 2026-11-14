@@ -86,6 +86,11 @@ DELETE_PER_TICK = 5              # alte Fassungen in #sync-daten: so viele Lösc
 CHECK_REMOTE_SECONDS = 30        # WoW geschlossen: so oft den Index prüfen
 CHECK_REMOTE_RUNNING = 120       # WoW läuft: so oft (nur für den Hinweis)
 STALE_DAYS = 14                  # so lange unverändert -> nur einmal als Grundstand
+# UP-S1 (ab 2.3.8): ein Stand eines anderen Rechners, der so oft hintereinander und so lange nicht lesbar ist, gilt als
+# DEFEKT – er blockiert dann nicht mehr das Hochladen dieses Rechners (lokale Dateien bleiben unverändert)
+DEFECT_TRIES = 3
+DEFECT_SECONDS = 30 * 60
+BLOCKED_WARN = 60 * 60          # Selbstkontrolle: so lange kein Upload trotz geänderter Dateien -> "Abgleich blockiert seit …"
 CONFLICT_WINDOW = 600            # weniger als 10 Min. auseinander -> Konflikt, schon hochgeladener Stand gewinnt
 TAKEOVER_MAX_AGE = 45            # S8 c: nur so kurz nach dem WoW-Start übernehmen
 TRANSITION_MAX_GAP = 30          # ... und nur, wenn kurz vorher noch kein WoW lief
@@ -725,16 +730,31 @@ class WebhookStore:
         return str(msg["id"])
 
     def get_part(self, msg_id: str) -> bytes:
-        msg = self._req("GET", f"/messages/{msg_id}")
-        att = ((msg or {}).get("attachments") or [None])[0]
-        if not att or not att.get("url"):
-            raise StoreError("Paket nicht mehr vorhanden")
-        req = urllib.request.Request(att["url"], headers={"User-Agent": "GoldSentinel-Uploader"})
-        try:
-            with urllib.request.urlopen(req, timeout=self.timeout) as resp:
-                return resp.read()
-        except (urllib.error.URLError, OSError):
-            raise StoreError("Paket konnte nicht geladen werden") from None
+        """Anhang einer Nachricht laden. UP-S1 (ab 2.3.8): kommt er leer (0 Byte) oder mit HTTP-Fehler, wird die Nachricht
+        EINMAL neu gelesen (frische, signierte CDN-Adresse) und der Anhang neu geholt; erst dann aufgeben – mit Grund
+        (HTTP-Status, Länge) für die Diagnose."""
+        why = ""
+        for _ in range(2):
+            msg = self._req("GET", f"/messages/{msg_id}")
+            att = ((msg or {}).get("attachments") or [None])[0]
+            if not att or not att.get("url"):
+                raise StoreError("Paket nicht mehr vorhanden")
+            req = urllib.request.Request(att["url"], headers={"User-Agent": "GoldSentinel-Uploader"})
+            try:
+                with urllib.request.urlopen(req, timeout=self.timeout) as resp:
+                    data = resp.read()
+                    status = getattr(resp, "status", None) or 200
+            except urllib.error.HTTPError as e:
+                why = f"HTTP {e.code}"
+                continue
+            except (urllib.error.URLError, OSError):
+                why = "kein Netz"
+                continue
+            if data:
+                return data
+            size = att.get("size")
+            why = f"0 Byte, HTTP {status}" + (f", laut Discord {size} Byte" if size is not None else "")
+        raise StoreError(f"Paket nicht ladbar ({why})")
 
     def delete_part(self, msg_id: str) -> bool:
         """Nachricht samt Anhang löschen. True = weg (auch: war schon weg), False = später erneut versuchen."""
@@ -829,6 +849,12 @@ class Sync:
         line += f" · neuester Stand: {newest} · dieser Rechner {here}"
         if self.last_error:
             line += f" · FEHLER: {self.last_error}"
+        bad = set(self.s.get("defekt") or [])
+        if any(f"{k}:{e['rev']}" in bad for k, e in index_roots(self.remote).items()):
+            line += " · defekter Stand des anderen Rechners übergangen (dort einmal WoW beenden)"
+        since = self.s.get("blocked_since")
+        if since and time.time() - float(since) >= BLOCKED_WARN:
+            line += " · " + self.blocked_text()
         return line
 
     def _say(self, text: str):
@@ -961,6 +987,8 @@ class Sync:
         for key, e in index_roots(self.remote).items():
             if str(e.get("machine") or "") == self.me:
                 continue
+            if f"{key}:{e['rev']}" in (self.s.get("defekt") or []):
+                continue                                    # UP-S1: als defekt erkannt -> blockiert nicht mehr
             if self.installed(key) and e["rev"] > int(self.s["revs"].get(key) or 0):
                 out.append(key)
         return sorted(out)
@@ -978,6 +1006,76 @@ class Sync:
             newest = max(float(e.get("time") or 0) for e in es)
             parts.append(f"vom {machine} ({fmt_time(newest)}, {labels})")
         return " und ".join(parts) or "vom anderen Rechner"
+
+    # -- UP-S1 (ab 2.3.8): unlesbarer Stand eines anderen Rechners
+    def _unreadable(self, key, e: dict, now: float, err) -> None:
+        """Zählt Fehlversuche je Stand (Spielversion/Konto + rev). Meldung nur EINMAL je Stand. Nach DEFECT_TRIES
+        Versuchen über mindestens DEFECT_SECONDS gilt er als defekt: er blockiert nicht mehr, dieser Rechner lädt seinen
+        Stand normal hoch (lokale Fassung vorher gesichert). Lokale Dateien werden nie überschrieben."""
+        if key is None or "rev" not in e:
+            self._say(f"Abgleich: neuer Stand nicht lesbar ({err}) – lokale Dateien unverändert.")
+            return
+        mark = f"{key}:{e['rev']}"
+        alive = {f"{k}:{x['rev']}" for k, x in index_roots(self.remote).items()}
+        unl = {m: v for m, v in (self.s.get("unlesbar") or {}).items() if m in alive}
+        n, first = (unl.get(mark) or [0, now])[:2]
+        n += 1
+        unl[mark] = [n, first]
+        self.s["unlesbar"] = unl
+        if n == 1:
+            self._say(f"Abgleich: neuer Stand nicht lesbar ({err}) – lokale Dateien unverändert, "
+                      "neuer Versuch jede Minute.")
+        if n >= DEFECT_TRIES and now - float(first) >= DEFECT_SECONDS:
+            unl.pop(mark, None)
+            self.s["defekt"] = (list(self.s.get("defekt") or []) + [mark])[-50:]
+            local = {rel: f for rel, f in self._scan().items() if self.root_of(rel) == key}
+            if local:
+                try:
+                    self._backup({rel: read(f["path"]) for rel, f in local.items()}, now, "vor-defektem-stand")
+                except OSError:
+                    pass
+            who = str(e.get("machine") or "anderen Rechner")
+            text = (f"Stand des anderen Rechners ({who}, {fmt_time(e.get('time'))}) defekt – hier wird weiter "
+                    "hochgeladen, dort bitte einmal WoW beenden.")
+            self._say("Abgleich: " + text)
+            self.notify(text)
+            self.last_error = ""
+            self.retry_at = now
+        self.save()
+
+    def _note_blocked(self, now: float, uploaded: bool = False) -> None:
+        """Selbstkontrolle (UP-S1): geänderte Dateien, aber seit über BLOCKED_WARN kein Upload -> einmal melden und in der
+        Statuszeile "Abgleich blockiert seit … (Grund)" zeigen. uploaded=True setzt zurück."""
+        if uploaded:
+            if self.s.pop("blocked_since", None) is not None:
+                self.s.pop("blocked_why", None)
+                self.s.pop("blocked_told", None)
+            return
+        try:
+            changed, _ = self.local_changes(now)
+        except OSError:
+            return
+        if not changed:
+            if self.s.pop("blocked_since", None) is not None:
+                self.s.pop("blocked_why", None)
+                self.s.pop("blocked_told", None)
+                self.save()
+            return
+        if not self.s.get("blocked_since"):
+            self.s["blocked_since"] = now
+            self.save()
+        pend = self.pending()
+        self.s["blocked_why"] = (self.last_error or
+                                 (f"neuerer Stand {self.pending_text()} noch nicht übernommen" if pend else
+                                  "wartet auf WoW-Ende"))
+        if now - float(self.s["blocked_since"]) >= BLOCKED_WARN and not self.s.get("blocked_told"):
+            self.s["blocked_told"] = True
+            self._say(self.blocked_text())
+            self.save()
+
+    def blocked_text(self) -> str:
+        since = self.s.get("blocked_since")
+        return f"Abgleich blockiert seit {fmt_time(since)} ({self.s.get('blocked_why') or '?'})" if since else ""
 
     def remote_newer(self) -> bool:
         return bool(self.pending())
@@ -1007,16 +1105,21 @@ class Sync:
             return False
         entries = index_roots(r)
         packages = []
+        cur = None
         try:
             for key in pend:
+                cur = key
                 e = entries[key]
                 manifest, files = read_package(b"".join(self.store.get_part(p) for p in e["parts"]))
                 packages.append((key, e, manifest, files))
         except (StoreError, ValueError, tarfile.TarError, OSError) as e:
             self.last_error = str(e)
             self.retry_at = now + 60
-            self._say(f"Abgleich: neuer Stand nicht lesbar ({e}) – lokale Dateien unverändert.")
+            self._unreadable(cur, entries.get(cur) or {}, now, e)
             return False
+        unl = self.s.get("unlesbar") or {}
+        for key, e, _, _ in packages:
+            unl.pop(f"{key}:{e['rev']}", None)
         local = self._scan()
         take, plain, conf, conflicts, base_new, crels = {}, {}, {}, [], {}, set()
         for key, e, manifest, files in packages:
@@ -1233,6 +1336,7 @@ class Sync:
                 self.s["files"][rel] = f["sha"]
         self.s["last_upload"] = now
         self.s["last_upload_machine"] = self.me
+        self._note_blocked(now, uploaded=True)
         self.save()
         self.delete_old(limit=len(self.s.get("to_delete") or []))
         labels = ", ".join(sorted({flavor_label(k) for k in keys})) or "–"
@@ -1457,6 +1561,7 @@ class Sync:
                 if self.remote_newer() and now >= self.retry_at:
                     self._try_takeover(now)
             if self.remote_newer() or now < self.retry_at:
+                self._note_blocked(now)
                 return                                  # erst nach WoW-Ende übernehmen, dann hochladen
             changed, newest = self.local_changes(now)
             if (changed and now - newest >= QUIET_RUNNING_SECONDS
@@ -1469,12 +1574,15 @@ class Sync:
         self.check_probe(now)
         self.check_remote(now)
         if now < self.retry_at:
+            self._note_blocked(now)
             return
         if self.remote_newer():
             self.pull(now)
         changed, newest = self.local_changes(now)
         if changed and now - newest >= QUIET_SECONDS and not self.remote_newer():
             self.push(now)
+        if changed and self.remote_newer():
+            self._note_blocked(now)
         elif self.s.get("to_delete"):
             self.delete_old()
 

@@ -539,6 +539,11 @@ REGRESSIONEN = {
     "MN6 Markt-Scans einmal, ohne Namen": "test_uploader.Paket.test_mn6_markt_scans_einmal_ohne_namen",
     "MN6b Quelle anonym, gleich": "test_uploader.Paket.test_mn6b_quelle_zufall_bleibt_gleich",
     "U3 Markt-Format unbekannt einmal": "test_uploader.Paket.test_u3_unbekanntes_markt_format_einmal_gemeldet",
+    "UP-S1a leerer Anhang neu holen": "test_sync.Webhook.test_ups1a_leerer_anhang_neu_holen",
+    "UP-S1b defekter Stand blockiert nicht": "test_sync.UnlesbarUPS1.test_ups1b_dreimal_defekt_dann_upload_nichts_ueberschrieben",
+    "UP-S1c wieder lesbar normal": "test_sync.UnlesbarUPS1.test_ups1c_einmal_unlesbar_dann_lesbar_normal",
+    "UP-S1d schnell 3x noch nicht defekt": "test_sync.UnlesbarUPS1.test_ups1d_drei_fehler_schnell_noch_nicht_defekt",
+    "UP-S1e Abgleich blockiert seit": "test_sync.UnlesbarUPS1.test_ups1e_selbstkontrolle_blockiert_seit",
     "RP-U nur bank/raidReady": "test_uploader.Uploader17.test_rp_u_nur_bank_und_raidready",
 }
 
