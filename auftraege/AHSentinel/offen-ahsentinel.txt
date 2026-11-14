@@ -78,6 +78,10 @@ SN-B1 HOCH (Nutzer 00:19, Screenshot 0.65.176, Ziel Leinenstoff max 18c): Status
     setzt (Drossel nach Server-Fehler, abgebrochene Käufe -> A:QueryError?, Option "Abstand"?) und warum er nicht wieder schnell
     wird (S11 verlangt: danach wieder schnell). Grund des Wartens im Status in Worten anzeigen. Test: nach abgebrochenem Kauf
     sucht der Sniper innert ≤ 5 s wieder im vollen Takt.
+    VERDACHT DES NUTZERS (00:22): Der Sniper rechnet evtl. noch mit den 3 Zielen von vorhin (Silberfaden-, Weisenarm-, Wächter-
+    handschuhe), obwohl nur noch Leinenstoff in der Liste steht (1 Eintrag). Prüfen: Zahl der Ziele in der Rotation (PickTarget,
+    db.targets inkl. erledigte/gelöschte/ausgeblendete) = Zahl der sichtbaren Zeilen; gelöschte Ziele sofort aus der Rotation.
+    Im Status "x Ziele aktiv" anzeigen. Test: 3 Ziele, 2 löschen -> Rotation 1, Leinenstoff jede Runde.
 SN-B2 HOCH ("ich verliere sehr viele Duelle"): Chat zeigt mehrfach "Preis wird geprüft: 70x Leinenstoff … Preis ist inzwischen
     gestiegen (13s 70c) – Kauf abgebrochen" und "Zu teuer: Ø 19c je Stück über deinem Max 18c – nicht gekauft". Der Sniper will
     70 Stück auf einmal; bis zur Bestätigung haben andere die billigsten weggekauft -> Durchschnitt über Max -> Abbruch, Duell
