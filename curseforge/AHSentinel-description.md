@@ -12,6 +12,14 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.155
+
+- **AHSentinel checks itself:** while you play normally, the addon compares every booking with what really happened in the
+  background: vendor, mail, auction house and trade against the gold change, stock against bags/bank/mail, the Sell window
+  after every click, memory after every full scan and the profit displays against each other. Results in the test report
+  ("Self-check" section) and in /ahs testroutine; the details window only shows a line when something is off. No need to
+  note your gold any more. Tests T686–T693.
+
 ### Version 0.65.154
 
 - **Calculation core step 2:** market tables (recalculated daily) now ship with the addon and serve as prior knowledge
@@ -45,13 +53,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   Test T677.
 - "Today" calculates in smaller portions (less stutter). Test report: disenchant buy safety follows the group rules
   (20/25/30 %, no budget).
-
-### Version 0.65.150
-
-- **Gold reconciliation as cash flow:** every gold change is now measured and assigned to where it happened (auction house,
-  mail, vendor, player trade, trainer, flight master, loot, quest, other). Measured trading cash flow is reconciled against
-  booked cash flow – money outside trading (quests, loot, trainer, flights) counts as explained. The test report lists the
-  largest gaps per day with their places. Test T676.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
