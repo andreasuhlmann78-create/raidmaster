@@ -1,0 +1,75 @@
+BERICHT LEVELPILOT AN DIE PRÜF-SITZUNG
+Stand: 14.11.2026 09:10 · Sitzung: LevelPilot-Projekt-Sitzung · Version: 3.12.30 · Commit: dieser Commit
+(announce/levelpilot__levelpilot-3.12.30.LevelPilot.zip)
+Anlass: Anweisung 13.11. 23:25 in offen-levelpilot.txt (Prioritäten 1–4: GR1, SP1, TU9, MARKT-v3).
+
+UMGESETZT, ZUR PRÜFUNG
+1. GR1 – Lösung (a) und (b):
+   (a) Planner.lua:1680 P:LaterTurnins: jede fertige Quest im Log (Abgabe bekannt, nicht ignoriert) ohne TURNIN-Schritt
+       bekommt einen Hinweis "Später abgeben: <Quest> (<Zone>)" (NOTE, key "LATER:<ids>", laterIds). Er steht in der
+       letzten angezeigten Zeile (Stelle = Angezeigte Schritte, mindestens 2; bei weniger Schritten am Ende), höchstens
+       4 Quests mit Namen, Rest "+n weitere". Aufruf im normalen Plan (Planner.lua:1666) und im Dungeon (Planner.lua:1777).
+       Auch Quests, deren Abgabe-Aufgabe wegen der Mob-Pflichtregel oder 30 Min. Zurückstellen fehlt, erscheinen dort.
+       Überspringen/Zurückstellen entfernt den Hinweis nicht (Engine.lua:29, 59), Chatzeile "Dieser Hinweis bleibt, bis
+       die fertigen Quests abgegeben sind."
+   (b) Protocol.lua:599 CheckRules zählt laterIds als Abgabe-Schritt.
+   T288 [T-GR1] mit den echten Zahlen: Quest 445 fertig (Abgabe NPC 1937, Karte 1421), Spieler Undercity L10 (1458),
+   einziger Schritt TURNIN:405. Gegenprobe ohne Hinweis: Grundregel meldet 445; mit Hinweis: still; Hinweis an Stelle 2
+   mit Questname und Silberwald; Überspringen/Zurückstellen lässt ihn stehen; bei 10 Schritten in Zeile 5.
+   Kompaktmodus (eine Zeile): der Hinweis ist dort nicht sichtbar (nur Schritt 1) – bitte entscheiden, ob er dort z. B.
+   in die Statusleiste soll.
+2. SP1 – Messung (kein volles collectgarbage):
+   - Diagnose /lp diag: "SPEICHER LevelPilot nach dem Einloggen · aktuell · Höchstwert · Lua gesamt", "SPEICHER angelegt je
+     Modul seit dem Einloggen" (collectgarbage("count") vor/nach jedem gemessenen Aufruf und jeder Hintergrund-Portion,
+     Perf.lua:128, 291; Rückgang = 0), "SPEICHER Bestand: Wegpunkte · Luftlinien-Nachbarn · Geländeprüfungen ·
+     Gefahren-Strecken · Quests entschlüsselt · Aufgaben · Questlog" (Perf.lua:175). Wert nach dem Einloggen = erste
+     Messung 30 s nach dem Login (Protocol.lua:398). Je Sitzung in der Sitzungsliste: Speicher Login»Ende, max.
+   - MESSUNG im Nachbau (Untoter Priester L10, 30 Min. simuliert zwischen Tirisfal und Undercity, Questdaten Paket 1.6.1):
+       Bestand nach voller Müllabfuhr (nur im Nachbau): +1,23 MB nach 1 Min., danach +1,40 MB und gleichbleibend bis
+       Min. 30 (kein Wachstum). Zwischenspeicher gleichbleibend (Quests entschlüsselt 164, Luftlinien 16, Gelände 52).
+       Angelegt in 30 Min.: 59,4 MB (Routenberechnung 26,3 · Navigation 22,5 · Anzeige 7,3 · Questauswertung 1,8 ·
+       Aufzeichnung 1,2 · Protokoll 0,3), also rund 2 MB je Minute, die als Müll wieder frei werden.
+     Einschätzung (nicht belegt, Messauftrag im Spiel): Die 114/125 MB nach 4–5 Std. sind eher noch nicht abgeräumter Müll
+     (GetAddOnMemoryUsage zählt ihn mit) als Bestand. Belegt wird das erst mit der neuen Diagnose aus dem Spiel
+     (Bestand-Zeile über mehrere Stunden). Das Wegnetz im Nachbau ist klein (12 Wegpunkte); im Spiel können die
+     Zwischenspeicher bis zu ihren Grenzen wachsen (Luftlinien 50 000, Gelände 60 000, Gefahren 50 000 Einträge) –
+     auch das zeigt die Bestand-Zeile.
+     Nach Auftrag nichts behoben (kein Bestand nachgewiesen). Möglicher nächster Schritt, falls gewünscht: weniger Müll in
+     Routenberechnung und Navigation (Tabellen wiederverwenden).
+   - T289 [T-SP1]: angelegter Speicher wird gezählt (100→150 KB = 50, Rückgang = 0), Diagnose-Zeilen vorhanden,
+     10 Neuplanungen am selben Ort lassen die Zwischenspeicher nicht wachsen.
+3. TU9 – Offline-Routine: berichte/LevelPilot/offline/run_offline.py (README.md daneben). Ohne Argument die neueste
+   announce-ZIP, Rückgabewert 1 bei FEHLER. Lua 5.1 über LUA51, lua5.1/lua51 im PATH oder lupa. Teil 1: Testroutine
+   A–J (lua/test40.lua) in 5 Lagen: Forever deDE/enUS Horde, Forever Allianz, Classic Era, TBC Classic (Nachbau kennt jetzt
+   FLAVOR=era/tbc und IsEventRegistered). Teil 2: 28 Regressionsläufe, darunter test15 = Wegnetz-Prüfung.
+   Nicht im Repo, weil Namen enthalten (öffentliches Repo): test26, test28–31 (echte SavedVariables/Weltsimulation),
+   test34, test37 (Entwickler-Erkennung mit echten Namen). Sie liefen lokal ohne FEHLER.
+4. MARKT-v3: shared/GoldSentinelMarkt.lua (VERSION 3) unverändert kopiert, cmp gleich.
+5. CHANGELOG EN/DE 3.12.30, Locale-Texte in allen 9 Dateien (Später abgeben, +%d weitere, Hinweis-Chatzeile). Die neuen
+   Diagnose-Zeilen sind wie die übrigen ZEIT-Zeilen deutsch.
+
+GEFUNDENE FEHLER (durch die Offline-Routine)
+- T220 meldete auf Allianz-Charakteren fälschlich FEHLER (Hordequest 1656). Jetzt "nicht prüfbar" auf der Allianz
+  (TestRoutine.lua:3805). Spieler auf der Allianz hätten in /lp testroutine einen falschen FEHLER gesehen.
+- OFFEN, NICHT BEHOBEN: Forever Allianz (Mensch L10, Wald von Elwynn): T150 Replan Median 19 ms (Grenze 16 ms), T155
+  23 ms je Planung. Schon in 3.12.29 so (gleicher Lauf). Horde Durotar L6 liegt unter der Grenze. Zeitmessung im Nachbau
+  hängt vom Rechner ab; im Spiel prüfen. Darum endet run_offline.py derzeit mit Rückgabewert 1 (32 von 33 Läufen ohne
+  FEHLER). Bitte entscheiden: optimieren (welche Grenze) oder Grenze im Nachbau anders.
+
+BELEGE (eigene Tests, keine Freigabe)
+- addon_check LevelPilot-3.12.30.zip: OK (hier ohne lupa, Ladetest also übersprungen).
+- run_offline.py 3.12.30: 33 Läufe, 32 ohne FEHLER, 1 mit FEHLER (T150/T155 Allianz, siehe oben).
+  Forever deDE Horde: OK 265 · FEHLER 0; Regressionen 32 von 32 vorhanden.
+- Lokale Gesamtregression (36 Läufe inkl. der privaten): ohne FEHLER.
+
+HINWEIS BP-2026-11-14 (Hotfix 13.11.)
+- Graue Dungeon-Gegner 0 EP: LevelPilot rechnet Monster-EP im Dungeon mit Gegnern auf Spielerstufe
+  (Planner.lua DungeonRate, KillXPFormula: grau = 0) und schlägt Dungeons nur von Mindeststufe −2 bis Höchststufe vor.
+  Keine Route wird dadurch falsch. Übrige Punkte (Respawn, Quest-Korrekturen, Gebiete) ändern keine Daten im Addon.
+
+FRAGEN
+- GR1 Kompaktmodus (siehe 1).
+- T150/T155 Allianz (siehe oben).
+
+IM CLIENT GETESTET
+- noch nicht (3.12.26–3.12.30).
