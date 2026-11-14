@@ -1,12 +1,12 @@
 {
-  "geprueft": "2026-11-13T20:37:07Z",
-  "commit": "0bc0dd0",
-  "ok": false,
+  "geprueft": "2026-11-14T01:47:09Z",
+  "commit": "bcb449f",
+  "ok": true,
   "fehler": null,
   "hinweis": "Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 45 Minuten.",
   "ankuendigungen": [
     {
-      "datei": "announce/ahsentinel__ahsentinel-0.65.116.md",
+      "datei": "announce/ahsentinel__ahsentinel-0.65.131.md",
       "kanal": "ahsentinel",
       "seit_push_min": 35,
       "abdeckung": 1.0,
@@ -15,156 +15,133 @@
     {
       "datei": "announce/ahsentinel__ahsentinel-0-vorstellung-1.8.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 6690,
+      "seit_push_min": 7000,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/ahsentinel__ahsentinel-hilfe-1.0.md",
       "kanal": "ahsentinel",
-      "seit_push_min": 13887,
+      "seit_push_min": 14197,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/barrow-taktik__uebersicht-1.1.md",
       "kanal": "barrow-taktik",
-      "seit_push_min": 14718,
+      "seit_push_min": 15028,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
-      "datei": "announce/buffsentinel__buffsentinel-0.9.18.md",
+      "datei": "announce/buffsentinel__buffsentinel-0.9.20.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 285,
+      "seit_push_min": 244,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
-      "datei": "announce/guildsentinel__guildsentinel-0.9.37.md",
+      "datei": "announce/guildsentinel__guildsentinel-0.9.38.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 293,
-      "abdeckung": 0.2,
-      "status": "veraltet",
-      "fehlende_zeilen": [
-        "📦 **GuildSentinel 0.9.37** – Marktdaten-Netz",
-        "• GuildSentinel liest jetzt **Auktionshaus-Vollscans anderer Addons still mit** – nur Preise, Mengen und Absatz, **keine Namen** – und teilt sie anonym mit der ",
-        "• Standard an, ausschalten unter Einstellungen > **„Marktdaten teilen (anonym, nur Preise)“**. Nie im Kampf, nie ein eigener Scan.",
-        "• Die Alters-Sperre gilt jetzt auch für Gildenverwaltung > Einladen."
-      ]
+      "seit_push_min": 252,
+      "abdeckung": 1.0,
+      "status": "ok"
     },
     {
       "datei": "announce/hyjal-taktik__uebersicht-1.1.md",
       "kanal": "hyjal-taktik",
-      "seit_push_min": 14718,
+      "seit_push_min": 15028,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
-      "datei": "announce/levelpilot__levelpilot-3.12.28.md",
+      "datei": "announce/levelpilot__levelpilot-3.12.29.md",
       "kanal": "levelpilot",
-      "seit_push_min": 288,
-      "abdeckung": 0.3,
-      "status": "veraltet",
-      "fehlende_zeilen": [
-        "📢 **LevelPilot 3.12.28** – Marktdaten-Netz",
-        "LevelPilot hilft jetzt mit, den Markt auf WoW Forever komplett zu messen – gemeinsam mit allen GoldSentinel-Addons.",
-        "• Macht **irgendein** Addon im Auktionshaus einen Vollscan, liest LevelPilot ihn still mit: tiefster Stückpreis, Menge und Anzahl Auktionen je Gegenstand.",
-        "• Die Preise werden **anonym** mit Gilde und Netz geteilt – **keine Namen**, keine Abfrage, LevelPilot startet selbst nie einen Scan.",
-        "• Läuft pro Spiel nur einmal, egal wie viele GoldSentinel-Addons du hast."
-      ]
+      "seit_push_min": 250,
+      "abdeckung": 1.0,
+      "status": "ok"
     },
     {
-      "datei": "announce/levelpilot__levelpilot-uebersicht-3.12.28.md",
+      "datei": "announce/levelpilot__levelpilot-uebersicht-3.12.29.md",
       "kanal": "levelpilot",
-      "seit_push_min": 288,
+      "seit_push_min": 250,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/lore__alpine-vanguard-vorstellung-1.0.md",
       "kanal": "lore",
-      "seit_push_min": 18441,
+      "seit_push_min": 18751,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/mc-feuerresi__feuerresi-1.1.md",
       "kanal": "mc-feuerresi",
-      "seit_push_min": 14718,
+      "seit_push_min": 15028,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/onyxia-feuerresi__feuerresi-1.0.md",
       "kanal": "onyxia-feuerresi",
-      "seit_push_min": 23859,
+      "seit_push_min": 24169,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/onyxia-taktik__onyxia-video-1.0.md",
       "kanal": "onyxia-taktik",
-      "seit_push_min": 25284,
+      "seit_push_min": 25594,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
-      "datei": "announce/professionsentinel__professionsentinel-0.9.44.md",
+      "datei": "announce/professionsentinel__professionsentinel-0.9.45.md",
       "kanal": "professionsentinel",
-      "seit_push_min": 291,
-      "abdeckung": 0.25,
-      "status": "veraltet",
-      "fehlende_zeilen": [
-        "📦 **ProfessionSentinel 0.9.44** – Marktdaten-Netz 📈",
-        "• **Marktdaten teilen:** ProfessionSentinel liest die Auktionshaus-Scans mit, die du sowieso machst (z. B. mit AHSentinel), und merkt sich je Item Preis, Menge ",
-        "• Kein zusätzlicher Scan, keine Abfrage. Ausschalten jederzeit: Rechtsklick auf den Minimap-Button oder `/ps markt`"
-      ]
+      "seit_push_min": 250,
+      "abdeckung": 1.0,
+      "status": "ok"
     },
     {
       "datei": "announce/professionsentinel__professionsentinel-0-vorstellung-1.27.md",
       "kanal": "professionsentinel",
-      "seit_push_min": 966,
+      "seit_push_min": 1276,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
-      "datei": "announce/threatsentinel__threatsentinel-2.5.11.md",
+      "datei": "announce/threatsentinel__threatsentinel-2.5.12.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 293,
-      "abdeckung": 0.4,
-      "status": "veraltet",
-      "fehlende_zeilen": [
-        "📦 **ThreatSentinel 2.5.11** – Marktdaten-Netz",
-        "• ThreatSentinel trägt jetzt den gemeinsamen, anonymen Marktdaten-Leser der GoldSentinel-Addons mit: Wenn ein Auktionshaus-Addon einen Vollscan macht, werden di",
-        "• Abschaltbar in den Einstellungen: „Marktdaten teilen (anonym, nur Preise)“"
-      ]
+      "seit_push_min": 252,
+      "abdeckung": 1.0,
+      "status": "ok"
     },
     {
       "datei": "announce/threatsentinel__threatsentinel-0-vorstellung-2.2.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 16146,
+      "seit_push_min": 16456,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-12.md",
       "kanal": "buffsentinel",
-      "seit_push_min": 13837,
+      "seit_push_min": 14147,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-19.md",
       "kanal": "guildsentinel",
-      "seit_push_min": 2217,
+      "seit_push_min": 2527,
       "abdeckung": 1.0,
       "status": "ok"
     },
     {
       "datei": "announce/levelpilot__levelpilot-uebersicht.md",
       "kanal": "levelpilot",
-      "seit_push_min": 26109,
+      "seit_push_min": 26419,
       "abdeckung": 1.0,
       "status": "ok"
     }
@@ -172,30 +149,34 @@
   "addons": [
     {
       "addon": "AHSentinel",
-      "version": "0.65.116",
-      "datei": "download/AHSentinel-0.65.116.zip",
+      "version": "0.65.131",
+      "datei": "download/AHSentinel-0.65.131.zip",
       "kanal": "ahsentinel",
       "seit_push_min": 35,
       "status": "ok",
-      "gepostet": "2026-11-13 20:23 UTC",
+      "gepostet": "2026-11-14 01:25 UTC",
       "anhang": [
-        "AHSentinel-0.65.116.zip"
+        "AHSentinel-0.65.131.zip"
       ]
     },
     {
       "addon": "RaidMaster",
-      "version": "3.0.25",
+      "version": "3.0.26",
       "datei": "RaidMaster/RaidMaster.toc",
       "kanal": "raid-addon",
-      "seit_push_min": 289,
-      "status": "fehlt"
+      "seit_push_min": 247,
+      "status": "ok",
+      "gepostet": "2026-11-13 21:54 UTC",
+      "anhang": [
+        "RaidMaster-3.0.26.zip"
+      ]
     }
   ],
   "info": [
     {
       "datei": "announce/threatsentinel__threatsentinel-0-vorstellung.md",
       "kanal": "threatsentinel",
-      "seit_push_min": 24924,
+      "seit_push_min": 25234,
       "abdeckung": 1.0,
       "status": "ok",
       "nur_info": "ersetzt durch threatsentinel__threatsentinel-0-vorstellung-2.2.md"
