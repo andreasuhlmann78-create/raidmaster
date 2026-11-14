@@ -121,7 +121,8 @@ etwas für die Gilde. Prüffrage: schnell, schlicht, verlässlich – und macht 
 
 - Takt: bei jeder Nachricht des Nutzers + alle 5 Min. bei intensiver Arbeit (Nutzer 22:36); nur Neues melden.
 - Geplante Aufgaben: Nachprüfung (5× täglich), AHSentinel Markt-Überwachung (Mo 05:47), Blueposts (07:38/21:38),
-  Rezeptdaten-Update, Raids und Taktiken.
+  Rezeptdaten-Update (mit Supervisor, 07:21, trig_01Q3e6A5gu4Eoca65mnAhSg3), Raids und Taktiken (mit Supervisor, 07:54,
+  trig_019SbU842kQHaV75pbHuuofJ) – beide nur Entwürfe; die alten zwei schaltet der Nutzer aus.
 - Gebaut: GSMesstest 5.1, GoldSentinelMarkt v2, GoldSentinelCmdHint v1 (Test 30/30).
 - Termine: ab 17./18.11. Mindest-Einzahlung 1c (Bluepost) prüfen. Später: nachrechnung.py (ZN), sobald AHS GSZAHL1 liefert.
 - Offen beim Nutzer: ThreatSentinel gemeinsamer Sync (ja/nein).

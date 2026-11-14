@@ -45,3 +45,10 @@ STAND DER UMSTELLUNG (Supervisor 11:50):
 - "Raids und Taktiken" und "ProfessionSentinel Rezeptdaten-Update": vom Nutzer direkt angelegt – der Supervisor kann die
   Anweisung NICHT ändern (nur der Nutzer). Sie arbeiten im raidmaster-Repo bzw. mit ihm und sehen den VORRANG in CLAUDE.md.
   Hält sich ein Lauf nicht daran (direkt veröffentlicht), meldet der Supervisor es dem Nutzer mit dem nötigen Text.
+
+ERSATZ-AUFGABEN (Supervisor 11:55, Nutzer konnte die alten Anweisungen nicht bearbeiten):
+- "Raids und Taktiken für WoW Forever (mit Supervisor)" trig_019SbU842kQHaV75pbHuuofJ, täglich 07:54, Entwürfe in berichte/Raids/.
+- "ProfessionSentinel Rezeptdaten-Update (mit Supervisor)" trig_01Q3e6A5gu4Eoca65mnAhSg3, täglich 07:21, Daten auf Branch
+  entwurf-<Datum>, Entwurf in berichte/Rezeptdaten/; kein main, kein Release, nichts in announce/ oder download/.
+- Die zwei alten Aufgaben (trig_01NG4EovtRDoVGwweAvPRCtD, trig_014TAhJfvGt4PBC6miU4aTEB) schaltet der Nutzer aus.
+  Laufen sie trotzdem noch einmal, prüft der Supervisor ihr Ergebnis wie einen Entwurf.
