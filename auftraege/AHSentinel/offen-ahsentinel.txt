@@ -1,6 +1,18 @@
 GRUNDSATZ (Nutzer 14.11. 11:24, IMMER): Jede neue Funktion = Test in der Testroutine (auch falsche Fälle) + Selbstkontrolle im
 Spiel wo messbar (SK1-Muster) + Prüfung durch den Supervisor. Im Bericht je Funktion alle drei nennen.
 
+PRÜFUNG 0.65.156 (Supervisor 12:55, addon_check OK, Bericht + Books.lua OnTakeMoney + SelfCheck.lua gelesen): NP152-1/-2/-4
+umgesetzt, zur Prüfung im Client; NP152-3 teilweise (13,8 MB statt 10 MB, ehrlich gemeldet – bleibt offen, nach SK1-B1/S2-B1).
+Reihenfolge-Erklärung angenommen. Zu SK1-B1: Abholzeit e.tm ist jetzt da und SK1-b nutzt sie – damit ist der Kern von SK1-B1
+behoben. NOCH OFFEN in SK1-B1 (für 0.65.157):
+ - SC:Booked bricht bei "(e.t or 0) < t0 − 86400 and t < t0" ab. Läuft rückwärts im Log; jeder ANDERE Eintrag älter als 1 Tag,
+   der zwischen dem alten Verkauf und dem Log-Ende liegt, beendet die Schleife, bevor der heute abgeholte alte Verkauf erreicht
+   ist -> Rechnungen, die > 1 Tag im Briefkasten lagen, fehlen weiter. Abbruch nur über Zahl (wie OnTakeMoney: 500) oder über
+   31 Tage (MATCH_AFTER), nicht über 1 Tag.
+ - OnTakeMoney ordnet über den Erlös (± 1) zu, ohne Item: bei zwei gleich teuren offenen Verkäufen kann die falsche Buchung tm
+   bekommen – für SK1-b egal (gleicher Betrag), für den Abholtag in der Tagesbilanz auch; nur im Bericht erwähnen.
+ - Spieler-Post/Nachnahme/Überboten weiter als eigene Art (nicht "A7?"), wie in SK1-B1 verlangt.
+
 PRÜFUNG 0.65.154 + 0.65.155 (Supervisor 12:35, addon_check OK, Berichte + Kern.lua/MarketCore.lua/SelfCheck.lua/Books.lua/
 Ledger.lua dreifach gelesen). Reihenfolge-Erklärung (S2 vor SK1, Nutzer 11:26 "erst Aufgabe beenden") angenommen.
 Richtig: A2 Tabelle nur nachschlagen, fehlt sie -> läuft ohne; V2 wirkt nur über LimitFromNet, nie über 0,9; Testroutine fest
