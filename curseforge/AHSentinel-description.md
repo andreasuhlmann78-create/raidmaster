@@ -12,6 +12,16 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.153
+
+- **Calculation core learns with honest checking (step 1):** a new learning layer counts every sales result per item
+  group and price level (few cases -> towards prior knowledge, old cases count less). Each case is predicted first and only
+  counted afterwards – so it shows whether the prediction really hits. Test report "MARKT-KERN" (hits, baseline, Brier).
+  Nothing new is displayed yet. Tests T681, T682.
+- **Cancel reason:** cancelling an auction now counts as "undercut" based on the cheapest OTHER offer of the last search
+  (before, your own auction was often the cheapest -> never "undercut"). Test report: class 80–100 % before/since 0.65.128.
+  Test T680.
+
 ### Version 0.65.152
 
 - **Books – disenchant materials per group:** in the "per item" list, dust, essences and shards of one level band are shown
@@ -43,15 +53,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   per scan. Same values as before (6000 items compared). Test T675.
 - **Sell:** notes are no longer cut off – as many as fully fit in 2 lines are shown, the rest in the "(i)" tooltip.
   "Far too expensive – sells at …" instead of "Price 120x above market".
-
-### Version 0.65.148
-
-- **Vendor measured instead of assumed:** purchases, sales to the vendor (also by hand), buybacks and repairs are booked from
-  the change in gold and bags – exactly the amount really paid. Failed purchases or repairs are no longer booked. Sales to the
-  vendor now appear in the books (way "Vendor") instead of later as "missing". When the vendor closes, the visit is checked;
-  any remainder shows as "vendor unclear". Tests T670–T674.
-- **Sell – click hits the item you saw:** if the bag list is re-sorted right between hovering and clicking, the click still
-  selects the item that was under the mouse. Tests T667/T668 now always run (substitute bags).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
