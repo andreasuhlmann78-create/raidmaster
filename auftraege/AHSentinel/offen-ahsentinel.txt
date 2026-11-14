@@ -1,3 +1,27 @@
+SK1 – SELBSTKONTROLLE IM SPIEL (Entscheid des Nutzers 14.11. 11:23: "AHS soll selbst prüfen, ob es stimmt – baut das in die
+   Testroutine ein") – HOCH, JETZT als Nächstes, VOR dem Rechenkern S1.
+   Ziel: Der Nutzer spielt normal; AHSentinel prüft im Hintergrund jede Buchung und Anzeige gegen die Wirklichkeit und zeigt
+   das Ergebnis in /ahs testroutine und im Testbericht. Kein "Gold vorher/nachher notieren" mehr durch den Nutzer.
+   Jede Kontrolle läuft passiv bei echten Ereignissen (keine Aktion, nichts kaufen), kostet ≤ 1 ms je Ereignis, schreibt nur
+   Zähler und die letzten 20 Abweichungen (ohne Namen), nie während der Testroutine in echte Daten.
+SK1-a Händler: je Besuch Gold-Änderung = Summe der Händler-Buchungen (HB1-3) -> Zähler Besuche / stimmig / Abweichung (c).
+SK1-b Post: je Briefkasten-Sitzung Gold-Änderung = gebuchte Rechnungen + Erstattungen (A7) -> stimmig / Abweichung je Art.
+SK1-c AH: je Kauf/Einstellen/Abbruch Gold-Änderung = gebuchter Betrag (Kaufpreis, Anzahlung).
+SK1-d Handel mit Spielern: wie EB5 – Gold und Ware gegen Buchung.
+SK1-e Tagesbilanz: Geldfluss gemessen vs. gebucht (TB138-2) je Tag, Lücke in % -> grün ≤ 1 %, sonst rot mit Ort.
+SK1-f Lager: nach jedem Abgleich Lager je Item = Taschen + Bank + Briefkasten + Auktionen (Abbild) -> Abweichungen gezählt.
+SK1-g Verkaufen-Fenster: nach jedem Klick Titel rechts = gewähltes Item und Liste = letzte Server-Antwort (UI-V1/V1b) ->
+      stimmig / falsch.
+SK1-h Vollscan: nach JEDEM Vollscan automatisch Speicher vorher/nachher, Bereinigungen, längste Lücke (ohne /ahs testroutine
+      tempo) -> Verlauf der letzten 5 Scans; zweiter Scan darf nicht über dem ersten enden (TB138b-3).
+SK1-i Anzeige: Gewinn-Kopf = Details "Handel" = Summe der Liste (TB138c-1); zwei Zahlen für dasselbe = Fehler.
+Ausgabe: Testbericht-Abschnitt "SELBSTKONTROLLE" (je Kontrolle: Fälle, stimmig, Abweichungen, letzte 3 Beispiele mit Zahlen),
+   in /ahs testroutine als Bereich mit PASS/FEHLER (FEHLER, wenn Abweichungen > 0 bzw. Lücke > 1 %), und eine Zeile im
+   Details-Fenster nur, wenn etwas rot ist ("Buchhaltung prüft sich: 1 Abweichung – Details im Testbericht").
+   Alle bisherigen "Im Client prüfen"-Punkte, die so messbar sind, werden damit automatisch geprüft – im Bericht je Punkt
+   angeben, welche Kontrolle ihn abdeckt.
+Tests: T-SK1a–i mit erfundenen Ereignissen (stimmig und absichtlich falsch -> erkannt). Danach Rechenkern S1.
+
 PRÜFUNG 0.65.148–0.65.152 (Supervisor 11:20, addon_check 0.65.152 OK, alle 5 Berichte gelesen) – zur Prüfung, Reihenfolge eingehalten:
 - 148 HB1 Händler-Bilanz (gemessen, Schlusskontrolle, Rückkauf, Tests T670–T674) + UI-V1 (Klick wählt das gesehene Item, wenn
   die Liste <0,5 s vorher neu gezeichnet wurde; T667/T668 ohne SKIP). 149 TB138b-3 Speicher (GetMarketValue ohne neue
