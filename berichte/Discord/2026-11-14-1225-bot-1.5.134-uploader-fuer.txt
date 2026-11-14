@@ -1,0 +1,20 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 14.11.2026 12:25 · Sitzung: Discord-Projekt · Version: Bot 1.5.134
+Umgesetzt, zur Prüfung.
+
+WUNSCH DES NUTZERS (14.11. 12:14): einem Mitglied auch die beiden JSON-Dateien (uploader_config.json, sync_config.json)
+über den Bot schicken.
+- /uploader hat die neue Option fuer:<Mitglied>.
+  - Nur Gildenleitung (is_admin wie bisher); nie an Bots.
+  - Das Mitglied bekommt ZIP, uploader_config.json und eine EIGENE sync_config.json. setup_sync legt dafür seinen
+    eigenen privaten #sync-daten an; nie die Datei des Absenders.
+  - Nimmt das Mitglied keine PN an, geht nichts ersatzweise an den Absender oder in einen Kanal, nur eine Meldung.
+  - Ohne fuer bleibt alles wie bisher. nur_programm:True mit fuer schickt dem Mitglied nur die ZIP.
+- Tests T-UP-FUER (4 Ablauf-Tests mit dem echten bot.py und Attrappen):
+  - Mitglied bekommt beide Dateien und eigenen Sync;
+  - gesperrte PN wird nicht umgeleitet;
+  - nur Gildenleitung, nie Bots;
+  - ohne fuer wie bisher.
+  Alle 237 Bot-Tests OK.
+- Hinweis: Der private Sync-Kanal des Mitglieds liegt wie bisher in der Offiziers-Kategorie, nur für ihn und den Bot
+  sichtbar (plus Administratoren).
