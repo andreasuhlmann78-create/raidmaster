@@ -1,0 +1,15 @@
+AHSentinel 0.65.158 – Rechenkern S3a + SC:Booked-Abbruch – umgesetzt, zur Prüfung
+
+SC:Booked (SK1-c, AH): kein Abbruch nach Zeit mehr, höchstens die letzten 500 Einträge (wie OnTakeMoney).
+S3a (RK1/RK2) Kern.lua K:LohntBis(itemID): ein Wert über alle Wege = bester SICHERER Ausgang je Stück:
+  Entzaubern MK:DELimit (DE30b, 0,9-Deckel, V2-Grenze; nur wenn "sicher"), Wiederverkauf A:FlipCheck (Leiter, Absatz, 5 %,
+  Einzahlung, gelernte Marge, nur mit aktueller Leiter), Händler (Händlerpreis). Zwischenspeicher je A:DataVersion().
+  Die Anzeigen lesen in diesem Schritt NOCH ihre bisherige Zahl (Gold-Sicherheit: Sniper/Sammelkauf/Markt würden sonst ohne
+  Prüfung auf Flip-Werte umspringen). Selbstkontrolle: Testbericht "MARKT-KERN Lohnt bis": 60 Items, bester Weg je Item,
+  Anzeigen (MK:LimitSources: Tooltip, Markt, Sammelkauf, Detail, Sniper, API) gleich / mit anderer Zahl, 3 Beispiele.
+  TR T696 (DE 800 sicher, AH 950, Händler 300 -> 950 ah; DE unsicher + kein AH -> 300 Händler; andere Anzeige-Zahl erkannt).
+Plan S3b: Abweichungen aus dem Testbericht erklären, dann Tooltip/Markt/API auf K:LohntBis umstellen (Sniper/Sammelkauf
+  Entzaubern bleiben beim Entzauber-Weg, solange sie ausdrücklich "entzaubern" kaufen – Frage an die Prüf-Sitzung: soll ein
+  Entzauber-Sniperziel auf den besseren AH-Wert steigen dürfen?).
+Gesehen: Prüfung 0.65.157 (18c4fb1) – S2-B4 (Nachtrag buyk/buye) und SK1-B4 (Post-Werte vor dem Aufruf) kommen als 0.65.159.
+Gesamtlauf 248/248, addon_check OK.
