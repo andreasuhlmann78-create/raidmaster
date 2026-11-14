@@ -19,6 +19,12 @@ PRÜFUNG 0.65.165 + 0.65.166 (Supervisor 15:55, addon_check 0.65.166 OK, Bericht
   dahin bleibt euer Weg (Berufsfenster einmal öffnen). Wenn die API da ist: nutzen, sonst Rückfall.
 Reihenfolge jetzt: SN-EIN1 (HOCH, Gold, Entscheid 15:45), SN-MAX1 (HOCH, Gold), EK-1 (HOCH), BR-LEER1, dann VS-1, dann Ketten Schritt 2 nach Freigabe, Rest NIEDRIG.
 
+PRÜFUNG 0.65.167 (Supervisor 16:00, addon_check OK, Bericht gelesen): EK-1 umgesetzt, zur Prüfung im Client (Ursache schlüssig:
+   Herstellen nur über den Zwischenspeicher erkannt -> kein OnCraft -> Einstand 0). GW-S1 umgesetzt. Entscheid zu alten Buchungen:
+   NICHT umbuchen (Regel); der Supervisor rechnet die Hosen-Ladungen getrennt nach, bis der Staub-Bestand verkauft ist.
+   Im Client prüfen: nach einer Herstell-Runde SK1-m = 0 Abweichungen und Einstand im Verkaufen-Fenster ≠ 0.
+Reihenfolge jetzt: SN-EIN1, SN-DEF1, SN-MAX1, BR-LEER1, VS-1, Ketten Schritt 2 (nach Freigabe), Rest.
+
 SN-DEF1 MITTEL (Entscheid des Nutzers 15:49, mit SN-EIN1 zusammen bauen): Sniper-Standardwerte für ein NEUES Ziel:
    Budget = 5g, Menge = 1000 Stück, Max/Stück = LEER – den Preis legt der Spieler selbst fest (grauer Platzhalter, z. B. "Preis
    eingeben (z. B. 22c)", ohne Max kein Start; KEIN automatisch eingesetzter Preis). Ersetzt den bisherigen Standard aus TU3
