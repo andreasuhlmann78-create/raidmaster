@@ -1,0 +1,225 @@
+AHSentinel-Protokoll v0.65.173 · 14.11. 17:53:12
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  14.11. 17:52:03 L10 ? v0.65.173
+  14.11. 17:49:53 L10 ? v0.65.173
+  14.11. 17:29:05 L10 ? v0.65.172
+  14.11. 17:28:20 L10 ? v0.65.172
+  14.11. 17:09:58 L10 ? v0.65.171
+  14.11. 17:07:23 L10 ? v0.65.171
+  14.11. 17:05:20 L10 ? v0.65.170
+  14.11. 17:04:38 L10 ? v0.65.170
+  14.11. 16:48:14 L10 ? v0.65.170
+  14.11. 16:19:48 L10 ? v0.65.168
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 21 Min., 6934 Items, Preis-Sync an
+  SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GoldSentinelMarkt 0, GoldSentinelTest 0, GuildSentinel 2, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0
+  SYNC gesendet 17 · empfangen 20 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 1) · gesendet 3 · weitergegeben 0 · offline 1 · Listen 2 · Warteschlange 0 · gespeichert ja
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, minimapAngle=18.1, priceGuard=20, theme=modern, tooltipDEDetail=true, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[14.11. 17:52:23] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 149 ms bis Comfort.lua:996 · 150 ms
+[14.11. 17:52:20] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 18 ms bis Extras.lua:279 · 19 ms
+[14.11. 17:52:20] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 24 ms bis Extras.lua:279 · 25 ms
+[14.11. 17:52:20] ABSATZ-UNPLAUSIBEL Item 3240 · 465.2/Tag · Quelle geschätzt
+[14.11. 17:52:20] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 15 ms bis Extras.lua:279 · 20 ms
+[14.11. 17:52:19] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 18 ms bis Extras.lua:279 · 18 ms
+[14.11. 17:52:19] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[14.11. 17:52:19] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 27 ms bis Extras.lua:279 · 30 ms
+[14.11. 17:52:09] SYNC Weg=GUILD
+[14.11. 17:52:03] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[14.11. 17:51:52] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.3 Std., 10940: 0.3 Std., 11082: 0.3 Std. · 0 frisch geholt
+[14.11. 17:51:50] ENTZAUBERWERT Item 6613 · eigene Ø aus 621 · 11083 73% × 1.53 à 427, 11082 21% × 1.47 à 1330, 11084 6% × 1.00 à 3916 · brutto 1183 · netto 1124
+[14.11. 17:51:50] ABSATZ Item 6613 · Q 2 (scan, Q gesamt) · S 3.3 (market, gelernt) · S roh 9.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.9 · N 7.0
+[14.11. 17:51:50] ABSATZ Item 3365 · Q 1 (scan, Q gesamt) · S 1.1 (market, gelernt) · S roh 3.3 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 1.8 · N 2.0
+[14.11. 17:51:50] SNIPER-SUCHE Ziel 6613 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[14.11. 17:51:47] SNIPER-SUCHE Ziel 6393 · Angebote 26 · Treffer ≤ Max 1 · gekauft 6 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[14.11. 17:51:47] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[14.11. 17:51:37] ABSATZ Item 2997 · Q 78 (vollscan) · S 195.4 (measured) · S roh 195.4 · Deckel - · eigene Quote 3/3 · Laufzeit 24 Std. · W 0.4 · N 1.0
+[14.11. 17:51:37] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 19 ms
+[14.11. 17:51:34] ABSATZ Item 11083 · Q 110 (vollscan) · S 620.9 (measured) · S roh 620.9 · Deckel - · eigene Quote 22/22 · Laufzeit 24 Std. · W 0.2 · N 1.0
+[14.11. 17:51:34] DE-GEZÄHLT Item 6393 · Itemstufe 28 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[14.11. 17:51:32] ABSATZ Item 11082 · Q 14 (vollscan) · S 148.0 (measured) · S roh 148.0 · Deckel - · eigene Quote 21/20 · Laufzeit 24 Std. · W 0.1 · N 1.0
+[14.11. 17:51:32] ABSATZ Item 4245 · Q 7 (vollscan) · S 219.6 (measured) · S roh 219.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.0 · N 1.0
+[14.11. 17:50:35] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 19 ms
+[14.11. 17:50:30] DE-GEZÄHLT Item 6393 · Itemstufe 28 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[14.11. 17:50:25] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 20 ms
+[14.11. 17:50:23] DE-GEZÄHLT Item 6393 · Itemstufe 28 · Gruppe 2:4:a · Weg Fenster · Beute 11082×1
+[14.11. 17:50:18] DE-GEZÄHLT Item 6393 · Itemstufe 28 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[14.11. 17:50:16] ENTZAUBERWERT Item 6393 · eigene Ø aus 617 · 11083 73% × 1.53 à 427, 11082 21% × 1.47 à 1330, 11084 6% × 1.00 à 3916 · brutto 1182 · netto 1123
+[14.11. 17:50:16] DE-CHANCEN Gruppe 2:4:a · Tabelle 11083 75%/11082 20%/11084 5% · echt 11083 73%/11082 21%/11084 6% (617)
+[14.11. 17:50:16] ABSATZ Item 6393 · Q 25 (scan, Q gesamt) · S 4.9 (market, gelernt) · S roh 15.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 5.3 · N 7.0
+[14.11. 17:50:16] ENTZAUBERWERT Item 4307 · eigene Ø aus 353 · 10940 83% × 1.53 à 103, 10938 17% × 1.57 à 129 · brutto 173 · netto 164
+[14.11. 17:50:16] DE-CHANCEN Gruppe 2:1:a · Tabelle 10940 80%/10938 20% · echt 10940 83%/10938 17% (353)
+[14.11. 17:50:16] ABSATZ Item 4307 · Q 8 (vollscan) · S 4.4 (measured) · S roh 4.4 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 2.0 · N 3.0
+[14.11. 17:50:15] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 44 ms
+[14.11. 17:50:14] DE-GEZÄHLT Item 6393 · Itemstufe 28 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[14.11. 17:50:12] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 26 ms bis Comfort.lua:996 · 27 ms
+[14.11. 17:50:10] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 17 ms bis Extras.lua:279 · 18 ms
+[14.11. 17:50:10] DE-GEZÄHLT Item 6393 · Itemstufe 28 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[14.11. 17:50:10] ABSATZ-UNPLAUSIBEL Item 3240 · 465.2/Tag · Quelle geschätzt
+[14.11. 17:50:09] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 16 ms bis Extras.lua:279 · 20 ms
+[14.11. 17:50:06] KLICK Entzaubern-Knopf -> Fenster offen ja
+[14.11. 17:50:05] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 206 ms
+[14.11. 17:50:05] LANGSAM Hintergrund-Aufgabe craft-top · 0 Schritte · längster Schritt 28 ms bis Crafting.lua:570 · 28 ms
+[14.11. 17:50:04] ABSATZ Item 118 · Q 141 (vollscan) · S 1102.9 (measured) · S roh 1102.9 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.1 · N 1.0
+[14.11. 17:50:04] ABSATZ Item 4604 · Q 788 (scan, Q gesamt) · S 27.8 (market, gelernt) · S roh 114.3 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 28.4 · N 7.0 · kaum
+[14.11. 17:49:58] SYNC Weg=GUILD
+[14.11. 17:49:54] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[14.11. 17:49:53] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[14.11. 17:49:39] SNIPER-SUCHE Ziel 6613 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 270)
+[14.11. 17:49:26] SNIPER-SUCHE Ziel 6393 · Angebote 25 · Treffer ≤ Max 0 · gekauft 6 · Sperre - · tot wieder geliefert 1 (Sitzung 254)
+[14.11. 17:49:17] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 64 ms
+[14.11. 17:49:13] SUCHEN Grenze erreicht: 84 in 60 s (max je Minute = 90)
+[14.11. 17:49:05] SYNC gesendet 320, empfangen 4, verworfen nopath 1 · Kanal verweigert 0
+[14.11. 17:48:35] SNIPER-SUCHE Ziel 6613 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 186)
+[14.11. 17:48:26] SNIPER-SUCHE Ziel 6393 · Angebote 25 · Treffer ≤ Max 0 · gekauft 6 · Sperre - · tot wieder geliefert 1 (Sitzung 175)
+[14.11. 17:48:13] SUCHEN Grenze erreicht: 85 in 60 s (max je Minute = 90)
+[14.11. 17:47:31] SNIPER-SUCHE Ziel 6613 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 102)
+[14.11. 17:47:25] SNIPER-SUCHE Ziel 6393 · Angebote 25 · Treffer ≤ Max 0 · gekauft 6 · Sperre - · tot wieder geliefert 1 (Sitzung 95)
+[14.11. 17:47:15] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 70 ms
+[14.11. 17:47:12] SUCHEN Grenze erreicht: 80 in 60 s (max je Minute = 90)
+[14.11. 17:46:26] SNIPER-SUCHE Ziel 6613 · Angebote 0 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 18)
+[14.11. 17:46:26] SNIPER Treffer 2 · Fehler 2 · Ø Suche>Treffer 121 ms, Treffer>Reserv. 720 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms
+[14.11. 17:46:25] SNIPER-SUCHE Ziel 6393 · Angebote 26 · Treffer ≤ Max 0 · gekauft 6 · Sperre - · tot wieder geliefert 1 (Sitzung 17)
+[14.11. 17:46:20] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 40 ms
+[14.11. 17:46:17] DETAIL-PROBE Item 6613 · Quelle Scan (Alter 13 Min.) · Browse 10 Treffer · itemKey 28/14310
+[14.11. 17:46:17] LANGSAM Hintergrund-Aufgabe ui-refresh · 1 Schritte · längster Schritt 206 ms bis Ende ui-refresh · 208 ms
+[14.11. 17:46:16] LANGSAM Hintergrund-Aufgabe ui-refresh · 1 Schritte · längster Schritt 215 ms bis Ende ui-refresh · 217 ms
+[14.11. 17:46:13] SNIPER-UNBESTÄTIGT Item 6393 · Angebot 92884519 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[14.11. 17:46:13] SNIPER-UNBESTÄTIGT Item 6393 · Angebot 92571415 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[14.11. 17:46:08] ENTZAUBERWERT Item 10404 · eigene Ø aus 615 · 11083 73% × 1.53 à 427, 11082 21% × 1.47 à 1330, 11084 6% × 1.00 à 3916 · brutto 1184 · netto 1125
+[14.11. 17:46:08] ABSATZ Item 10404 · Q 8 (vollscan) · S 4.9 (market, gelernt) · S roh 17.8 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.8 · N 7.0
+[14.11. 17:46:07] ENTZAUBERWERT Item 14181 · eigene Ø aus 615 · 11083 73% × 1.53 à 427, 11082 21% × 1.47 à 1330, 11084 6% × 1.00 à 3916 · brutto 1184 · netto 1125
+[14.11. 17:46:07] ABSATZ Item 14181 · Q 7 (vollscan) · S 3.0 (market, gelernt) · S roh 10.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 2.7 · N 7.0
+[14.11. 17:46:07] ENTZAUBERWERT Item 7048 · eigene Ø aus 615 · 11083 73% × 1.53 à 427, 11082 21% × 1.47 à 1330, 11084 6% × 1.00 à 3916 · brutto 1184 · netto 1125
+[14.11. 17:46:07] ABSATZ Item 7048 · Q 56 (vollscan) · S 96.2 (measured) · S roh 96.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.6 · N 7.0
+[14.11. 17:46:07] ENTZAUBERWERT Item 3483 · eigene Ø aus 615 · 11083 73% × 1.53 à 427, 11082 21% × 1.47 à 1330, 11084 6% × 1.00 à 3916 · brutto 1184 · netto 1125
+[14.11. 17:46:07] ABSATZ Item 3483 · Q 26 (vollscan) · S 22.4 (measured) · S roh 22.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.2 · N 7.0
+[14.11. 17:46:05] SNIPER-UNBESTÄTIGT Item 6393 · Angebot 92884519 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[14.11. 17:46:05] SNIPER-UNBESTÄTIGT Item 6393 · Angebot 93522335 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[14.11. 17:46:05] SNIPER-UNBESTÄTIGT Item 6393 · Angebot 92657834 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[14.11. 17:46:05] SNIPER-UNBESTÄTIGT Item 6393 · Angebot 92365777 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[14.11. 17:46:04] SNIPER-UNBESTÄTIGT Item 6393 · Angebot 93633237 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[14.11. 17:46:04] SNIPER-UNBESTÄTIGT Item 6393 · Angebot 92571415 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[14.11. 17:46:04] ENTZAUBERWERT Item 6613 · eigene Ø aus 615 · 11083 73% × 1.53 à 427, 11082 21% × 1.47 à 1330, 11084 6% × 1.00 à 3916 · brutto 1184 · netto 1125
+[14.11. 17:46:04] ABSATZ Item 6613 · Q 4 (vollscan) · S 2.7 (market, gelernt) · S roh 9.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.8 · N 7.0
+[14.11. 17:46:04] ABSATZ Item 3365 · Q 1 (scan, Q gesamt) · S 0.9 (market, gelernt) · S roh 3.3 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 2.2 · N 3.0
+[14.11. 17:46:00] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 215 ms bis Ende ui-refresh · 215 ms
+[14.11. 17:45:44] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 20 ms
+[14.11. 17:45:43] ABBRECHEN AUCTION_CANCELED auctionID 92571415 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 17:45:43] ABBRECHEN AUCTION_CANCELED auctionID 92884519 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 17:45:42] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 20 ms
+[14.11. 17:45:38] SNIPER-TOT-AUSGEBLENDET Item 6393 · Preis 971 · Einzelangebot · Grund Server: 10
+[14.11. 17:45:38] SNIPER-FEHLSCHLAG Item 6393 · Angebot 92365777 · Server: 10 · Server-Meldung 10 · Treffer vor 4941 ms
+[14.11. 17:45:35] ABBRECHEN AUCTION_CANCELED auctionID 93522335 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 17:45:35] ABBRECHEN AUCTION_CANCELED auctionID 92657834 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 17:45:35] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 30 ms
+[14.11. 17:45:34] ABBRECHEN AUCTION_CANCELED auctionID 93633237 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 17:45:26] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 45 ms
+[14.11. 17:45:25] SNIPER Treffer 1 · gekauft 1 · Ø Suche>Treffer 128 ms, Treffer>Reserv. 521 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms
+[14.11. 17:45:25] ABBRECHEN AUCTION_CANCELED auctionID 93633763 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 17:45:24] SNIPER-SUCHE Ziel 6393 · Angebote 33 · Treffer ≤ Max 7 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[14.11. 17:45:16] ABSATZ Item 2589 · Q 0 (search) · S 1230.3 (measured) · S roh 1230.3 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.0 · N 1.0
+[14.11. 17:45:14] M2 Ausrüstung: auctionID:n,buyoutAmount:n,containsAccountItem:b,containsOwnerItem:b,containsSocketedItem:b,itemKey:t,itemLink:s,owners,quantity:n,timeLeft:n,totalNumberOfOwners:n
+[14.11. 17:45:08] ENTZAUBERWERT Item 6393 · eigene Ø aus 615 · 11083 73% × 1.53 à 427, 11082 21% × 1.47 à 1330, 11084 6% × 1.00 à 3916 · brutto 1184 · netto 1125
+[14.11. 17:45:08] DE-CHANCEN Gruppe 2:4:a · Tabelle 11083 75%/11082 20%/11084 5% · echt 11083 73%/11082 21%/11084 6% (615)
+[14.11. 17:45:08] ABSATZ Item 6393 · Q 5 (vollscan) · S 4.1 (market, gelernt) · S roh 15.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.5 · N 7.0
+[14.11. 17:45:08] ENTZAUBERWERT Item 4307 · eigene Ø aus 353 · 10940 83% × 1.53 à 103, 10938 17% × 1.57 à 129 · brutto 173 · netto 164
+[14.11. 17:45:08] DE-CHANCEN Gruppe 2:1:a · Tabelle 10940 80%/10938 20% · echt 10940 83%/10938 17% (353)
+[14.11. 17:45:08] ABSATZ Item 4307 · Q 8 (vollscan) · S 4.4 (measured) · S roh 4.4 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 2.0 · N 3.0
+[14.11. 17:45:00] ABSATZ Item 1705 · Q 57 (vollscan) · S 43.2 (measured) · S roh 43.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.3 · N 7.0
+[14.11. 17:45:00] ABSATZ Item 249425 · Q 112 (vollscan) · S 143.2 (measured) · S roh 143.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.8 · N 7.0
+[14.11. 17:44:57] ABSATZ Item 268417 · Q 4 (search) · S 30.5 (market, gelernt) · S roh 61.8 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.2 · N 1.0
+[14.11. 17:44:57] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 48 ms
+[14.11. 17:44:55] M2 Ware: auctionID:n,containsAccountItem:b,containsOwnerItem:b,itemID:n,numOwnerItems:n,owners,quantity:n,timeLeftSeconds:n,totalNumberOfOwners:n,unitPrice:n
+[14.11. 17:44:53] ABSATZ Item 249428 · Q 36 (vollscan) · S 349.5 (measured) · S roh 349.5 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.1 · N 2.0
+[14.11. 17:44:50] ABSATZ Item 2835 · Q 1176 (vollscan) · S 3249.7 (measured) · S roh 3249.7 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.4 · N 1.0
+[14.11. 17:44:50] ABSATZ Item 2678 · Q 2499 (vollscan) · S 1030.0 (market, gelernt) · S roh 2835.8 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 2.4 · N 3.0
+[14.11. 17:44:49] ABSATZ Item 3470 · Q 6069 (vollscan) · S 678.3 (measured) · S roh 678.3 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 8.9 · N 7.0 · kaum
+[14.11. 17:44:49] ABSATZ Item 3371 · Q 719 (vollscan) · S 1325.3 (market, gelernt) · S roh 3649.0 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.5 · N 1.0
+[14.11. 17:44:43] ABSATZ Item 5465 · Q 1226 (vollscan) · S 393.9 (measured) · S roh 393.9 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 3.1 · N 4.0
+[14.11. 17:44:43] ABSATZ Item 6362 · Q 269 (vollscan) · S 795.0 (measured) · S roh 795.0 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.3 · N 1.0
+[14.11. 17:39:05] SYNC gesendet 320, empfangen 3, verworfen nopath 1 · Kanal verweigert 0
+[14.11. 17:33:04] KLICK Entzaubern-Knopf -> Fenster offen ja
+[14.11. 17:33:04] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 0 ms
+[14.11. 17:33:03] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 1784 ms
+[14.11. 17:33:03] KLICK Entzaubern-Knopf -> Fenster offen ja
+[14.11. 17:33:02] ABSATZ Item 4604 · Q 124 (vollscan) · S 43.6 (market, gelernt) · S roh 114.3 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 2.9 · N 3.0
+[14.11. 17:33:02] ABSATZ Item 118 · Q 141 (vollscan) · S 1102.9 (measured) · S roh 1102.9 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.1 · N 1.0
+[14.11. 17:33:01] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 24 ms bis Comfort.lua:791 · 24 ms
+[14.11. 17:33:01] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 18 ms bis Comfort.lua:756 · 18 ms
+[14.11. 17:32:38] LANGSAM Hintergrund-Aufgabe sync-send · 0 Schritte · längster Schritt 15 ms bis Sync.lua:190 · 20 ms
+[14.11. 17:32:37] ABSATZ-UNPLAUSIBEL Item 4319 · 16.7/Tag · Quelle geschätzt
+[14.11. 17:32:37] ABSATZ-UNPLAUSIBEL Item 250346 · 78.6/Tag · Quelle geschätzt
+[14.11. 17:32:37] ABSATZ-UNPLAUSIBEL Item 15084 · 12.1/Tag · Quelle geschätzt
+[14.11. 17:32:37] ABSATZ-UNPLAUSIBEL Item 13856 · 40.2/Tag · Quelle geschätzt
+[14.11. 17:32:37] ABSATZ-UNPLAUSIBEL Item 7047 · 10.8/Tag · Quelle geschätzt
+[14.11. 17:32:37] ABSATZ-UNPLAUSIBEL Item 3240 · 465.2/Tag · Quelle geschätzt
+[14.11. 17:32:37] ABSATZ-UNPLAUSIBEL Item 1515 · 7.9/Tag · Quelle geschätzt
+[14.11. 17:32:37] ABSATZ-UNPLAUSIBEL Item 9172 · 20.2/Tag · Quelle geschätzt
+[14.11. 17:32:37] ABSATZ-UNPLAUSIBEL Item 4698 · 7.3/Tag · Quelle geschätzt
+[14.11. 17:32:37] ABSATZ-UNPLAUSIBEL Item 4455 · 13.2/Tag · Quelle geschätzt
+[14.11. 17:32:37] ABSATZ-UNPLAUSIBEL Item 252859 · 7.2/Tag · Quelle geschätzt
+[14.11. 17:32:37] ABSATZ-UNPLAUSIBEL Item 6270 · 8.0/Tag · Quelle geschätzt
+[14.11. 17:32:37] ABSATZ-UNPLAUSIBEL Item 274048 · 10.7/Tag · Quelle geschätzt
+[14.11. 17:29:11] SYNC Weg=GUILD
+[14.11. 17:29:05] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[14.11. 17:28:39] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 156 ms bis Comfort.lua:984 · 156 ms
+[14.11. 17:28:38] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 19 ms bis Comfort.lua:791 · 19 ms
+[14.11. 17:28:38] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 16 ms bis Comfort.lua:756 · 16 ms
+[14.11. 17:28:38] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 17 ms bis Comfort.lua:756 · 17 ms
+[14.11. 17:28:37] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 25 ms bis Extras.lua:279 · 25 ms
+[14.11. 17:28:37] LANGSAM ×2 Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 18 ms bis Extras.lua:279 · 19 ms
+[14.11. 17:28:36] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 23 ms bis Extras.lua:279 · 25 ms
+[14.11. 17:28:35] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[14.11. 17:28:35] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 28 ms bis Extras.lua:279 · 33 ms
+[14.11. 17:28:35] ABSATZ-UNPLAUSIBEL Item 6037 · 232.1/Tag · Quelle geschätzt
+[14.11. 17:28:25] SYNC Weg=GUILD
+[14.11. 17:28:24] PD7 PD7 geladen: 5964 Items, 207741 Einträge geprüft, 0 Fehler · Zustand active
+[14.11. 17:26:13] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 64 ms bis Comfort.lua:982 · 64 ms
+[14.11. 17:26:11] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 21 ms bis Comfort.lua:791 · 21 ms
+[14.11. 17:26:11] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 17 ms bis Comfort.lua:756 · 18 ms
+[14.11. 17:26:08] ABBRECHEN AUCTION_CANCELED auctionID 93463329 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 17:25:55] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 37 ms bis Comfort.lua:748 · 41 ms
+[14.11. 17:25:44] ENTZAUBERWERT Item 15967 · Tabelle · 16204 75% × 1.50 à 7637, 16203 20% × 1.50 à 18986, 14344 5% × 1.00 à 26505 · brutto 16443 · netto 15612
+[14.11. 17:25:44] DE-CHANCEN Gruppe 2:10:a · Tabelle 16204 75%/16203 20%/14344 5% · echt 16204 -/16203 -/14344 - (0)
+[14.11. 17:25:44] ABSATZ Item 15967 · Q 2 (scan, Q gesamt) · S 0.1 (market, gelernt) · S roh 0.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 22.3 · N 7.0 · kaum
+[14.11. 17:25:38] ENTZAUBERWERT Item 9938 · Tabelle · 11176 75% × 1.50 à 2937, 11175 20% × 1.50 à 9489, 11178 5% × 1.00 à 16144 · brutto 7332 · netto 6958
+[14.11. 17:25:38] ABSATZ Item 9938 · Q 1 (vollscan) · S 1.1 (market, gelernt) · S roh 3.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.8 · N 7.0
+[14.11. 17:25:13] ENTZAUBERWERT Item 8108 · Tabelle · 11176 75% × 1.50 à 2937, 11175 20% × 1.50 à 9489, 11178 5% × 1.00 à 16144 · brutto 7332 · netto 6958
+[14.11. 17:25:13] DE-CHANCEN Gruppe 2:8:a · Tabelle 11176 75%/11175 20%/11178 5% · echt 11176 -/11175 -/11178 - (0)
+[14.11. 17:25:13] ABSATZ Item 8108 · Q 3 (vollscan) · S 1.1 (market, gelernt) · S roh 3.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 3.5 · N 7.0
+[14.11. 17:25:03] ENTZAUBERWERT Item 6040 · eigene Ø aus 124 · 11137 73% × 1.52 à 948, 11135 20% × 1.32 à 2367, 11139 7% × 1.00 à 3191 · brutto 2027 · netto 1908
+[14.11. 17:25:03] DE-CHANCEN Gruppe 2:6:a · Tabelle 11137 75%/11135 20%/11139 5% · echt 11137 73%/11135 20%/11139 7% (124)
+[14.11. 17:25:03] ABSATZ Item 6040 · Q 59 (vollscan) · S 40.1 (measured) · S roh 40.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.5 · N 7.0
+[14.11. 17:24:52] ENTZAUBERWERT Item 6613 · eigene Ø aus 613 · 11083 73% × 1.53 à 398, 11082 21% × 1.47 à 1279, 11084 6% × 1.00 à 3915 · brutto 1134 · netto 1077
+[14.11. 17:24:52] ABSATZ Item 6613 · Q 4 (vollscan) · S 3.4 (market, gelernt) · S roh 10.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.5 · N 7.0
+[14.11. 17:24:42] ENTZAUBERWERT Item 6393 · eigene Ø aus 613 · 11083 73% × 1.53 à 398, 11082 21% × 1.47 à 1279, 11084 6% × 1.00 à 3915 · brutto 1134 · netto 1077
+[14.11. 17:24:42] ABSATZ Item 6393 · Q 6 (vollscan) · S 5.1 (market, gelernt) · S roh 15.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.4 · N 7.0
+[14.11. 17:24:38] ENTZAUBERWERT Item 7048 · eigene Ø aus 613 · 11083 73% × 1.53 à 398, 11082 21% × 1.47 à 1279, 11084 6% × 1.00 à 3915 · brutto 1134 · netto 1077
+[14.11. 17:24:38] ABSATZ Item 7048 · Q 24 (vollscan) · S 96.2 (measured) · S roh 96.2 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.3 · N 4.0
+[14.11. 17:24:37] ENTZAUBERWERT Item 3483 · eigene Ø aus 613 · 11083 73% × 1.53 à 398, 11082 21% × 1.47 à 1279, 11084 6% × 1.00 à 3915 · brutto 1134 · netto 1077
+[14.11. 17:24:37] DE-CHANCEN Gruppe 2:4:a · Tabelle 11083 75%/11082 20%/11084 5% · echt 11083 73%/11082 21%/11084 6% (613)
+[14.11. 17:24:37] ABSATZ Item 3483 · Q 30 (vollscan) · S 22.4 (measured) · S roh 22.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 1.4 · N 7.0
+[14.11. 17:24:35] ABSATZ Item 3381 · Q 13 (vollscan) · S 1.0 (market, gelernt) · S roh 2.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 14.3 · N 7.0 · kaum
+[14.11. 17:24:35] ABSATZ Item 1807 · Q 6 (vollscan) · S 0.8 (market, gelernt) · S roh 2.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 8.7 · N 7.0 · kaum
+[14.11. 17:24:35] ENTZAUBERWERT Item 4307 · eigene Ø aus 353 · 10940 83% × 1.53 à 99, 10938 17% × 1.57 à 127 · brutto 167 · netto 159
+[14.11. 17:24:35] ABSATZ Item 4307 · Q 34 (search) · S 4.4 (measured) · S roh 4.4 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 7.9 · N 7.0 · kaum
+[14.11. 17:24:35] ABSATZ Item 1805 · Q 7 (vollscan) · S 1.3 (market, gelernt) · S roh 3.7 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 6.3 · N 7.0
+[14.11. 17:24:35] ABSATZ Item 3365 · Q 1 (scan, Q gesamt) · S 1.1 (market, gelernt) · S roh 3.3 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 1.8 · N 2.0
+[14.11. 17:24:28] ABSATZ Item 1423 · Q 6 (vollscan) · S 0.6 (market, gelernt) · S roh 1.9 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 11.0 · N 7.0 · kaum
+[14.11. 17:24:28] ABSATZ Item 1419 · Q 3 (vollscan) · S 0.8 (market, gelernt) · S roh 2.2 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 5.3 · N 6.0
+[14.11. 17:23:34] ABBRECHEN AUCTION_CANCELED auctionID 93463329 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 17:23:33] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=2 · Minimum jetzt 100
+[14.11. 17:23:33] EINSTELLEN Item 10940 · Menge 46 · Auktionen 1 · Laufzeit 1 · Preis 99/Stück, 4554 gesamt · Gebühr erwartet 100, abgezogen 100 (2.20 % vom Preis)
+[14.11. 17:23:32] AHS-POST PostCommodity: arg2=1 arg3=46 arg4=99 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/3
+[14.11. 17:23:32] PREIS-ALT AH offen · letzter Scan Vollscan · Waren im Vollscan 167 · Hauptmaterialien 11083: 0.2 Std., 10940: 0.0 Std., 11082: 0.2 Std. · 0 frisch geholt
+[14.11. 17:23:30] VERKAUFEN-KLICK Zeile Item 10940 · vorher 2589 · nachher 10940 · Fehler 0 · Titel Seltsamer Staub
+[14.11. 17:23:18] ABBRECHEN AUCTION_CANCELED auctionID 113 (erwartet 93420717) -> fremd, nichts geändert
+[14.11. 17:23:18] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED

@@ -1,21 +1,62 @@
 {
- "ausgewertet": "2026-11-14T16:21:38Z",
+ "ausgewertet": "2026-11-14T17:17:12Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 40,
+   "berichte": 42,
    "letzter_test": {
-    "id": "AHSentinel-1794671681-6f87a5-4",
-    "version": "0.65.170",
-    "time": 1794671677,
+    "id": "AHSentinel-1794673957-d4c597-2",
+    "version": "0.65.172",
+    "time": 1794673878,
     "counts": {
      "client": 0,
-     "fehler": 0,
-     "ok": 5,
-     "uebersprungen": 1
+     "fehler": 4,
+     "ok": 59,
+     "uebersprungen": 4
     }
    },
-   "fehler_tests": [],
+   "fehler_tests": [
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.172",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "S28",
+     "name": "Auswertungen: Ein \"Lohnt bis\" je Item (RK2-A)",
+     "detail": "ergebnis: Interface/AddOns/AHSentinel/SelfTest.lua:593: 14 von 20 Items mit zwei Werten – 5963: Lohnt bis 1128 · abweichend: api=2625 | erwartet: bestanden",
+     "bericht": "AHSentinel-1794673957-d4c597-2"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.172",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T126",
+     "name": "Scan-Auswertung in Portionen",
+     "detail": "ergebnis: längste Portion 15.4 ms in 259 Frames | erwartet: <= 8 ms",
+     "bericht": "AHSentinel-1794673957-d4c597-2"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.172",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T458",
+     "name": "T-VF1 Vollscan ruckelfrei: kein Schritt mit längstem Frame über 16 ms (Ziel ≤ Budget)",
+     "detail": "ergebnis: längster Frame 171 ms (Nachlauf) · Frames über 33 ms 40 von 3353 · zu lang: Einlesen 26 ms, Verdichtung 31 ms, Verfolgung V4 37 ms, Preisverlauf+Neuaufbau 68 ms, Nachlauf 171 ms | erwartet: jeder Schritt ≤ 16 ms (Ziel 4 ms)",
+     "bericht": "AHSentinel-1794673957-d4c597-2"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.172",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T459",
+     "name": "T-VF2 Vollscan: Speicher-Zuwachs ≤ 10 MB, höchstens 1 Speicherbereinigung",
+     "detail": "ergebnis: Zuwachs -56438 KB (ganzer Lua-Speicher) · Speicherbereinigungen 31 | erwartet: ≤ 10240 KB · ≤ 1",
+     "bericht": "AHSentinel-1794673957-d4c597-2"
+    }
+   ],
    "fehler_spiel": [
     {
      "addon": "AHSentinel",
@@ -535,6 +576,46 @@
  "offen": [
   {
    "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.172",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "S28",
+   "name": "Auswertungen: Ein \"Lohnt bis\" je Item (RK2-A)",
+   "detail": "ergebnis: Interface/AddOns/AHSentinel/SelfTest.lua:593: 14 von 20 Items mit zwei Werten – 5963: Lohnt bis 1128 · abweichend: api=2625 | erwartet: bestanden",
+   "bericht": "AHSentinel-1794673957-d4c597-2"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.172",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T126",
+   "name": "Scan-Auswertung in Portionen",
+   "detail": "ergebnis: längste Portion 15.4 ms in 259 Frames | erwartet: <= 8 ms",
+   "bericht": "AHSentinel-1794673957-d4c597-2"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.172",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T458",
+   "name": "T-VF1 Vollscan ruckelfrei: kein Schritt mit längstem Frame über 16 ms (Ziel ≤ Budget)",
+   "detail": "ergebnis: längster Frame 171 ms (Nachlauf) · Frames über 33 ms 40 von 3353 · zu lang: Einlesen 26 ms, Verdichtung 31 ms, Verfolgung V4 37 ms, Preisverlauf+Neuaufbau 68 ms, Nachlauf 171 ms | erwartet: jeder Schritt ≤ 16 ms (Ziel 4 ms)",
+   "bericht": "AHSentinel-1794673957-d4c597-2"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.172",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T459",
+   "name": "T-VF2 Vollscan: Speicher-Zuwachs ≤ 10 MB, höchstens 1 Speicherbereinigung",
+   "detail": "ergebnis: Zuwachs -56438 KB (ganzer Lua-Speicher) · Speicherbereinigungen 31 | erwartet: ≤ 10240 KB · ≤ 1",
+   "bericht": "AHSentinel-1794673957-d4c597-2"
+  },
+  {
+   "addon": "AHSentinel",
    "art": "spiel",
    "wo": "ADDON_ACTION_FORBIDDEN",
    "msg": "UNKNOWN()",
@@ -943,8 +1024,8 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 113,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.168-d31a51437186.txt"
+    "anzahl": 115,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.172-8910c3c39c05.txt"
    },
    "BuffSentinel": {
     "anzahl": 35,
@@ -955,26 +1036,26 @@
     "neueste": "testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt"
    },
    "GuildSentinel": {
-    "anzahl": 105,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.38-b461adf5f36a.txt"
+    "anzahl": 107,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.38-b9a9b7e5758b.txt"
    },
    "LevelPilot": {
-    "anzahl": 11,
-    "neueste": "testberichte/diagnose/LevelPilot/3.12.30-f472958c4c64.txt"
+    "anzahl": 13,
+    "neueste": "testberichte/diagnose/LevelPilot/3.12.30-59af8814a8f3.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 87,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.45-8d1ee6645901.txt"
+    "anzahl": 89,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.45-bbca32a6bc68.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 89,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.13-902dbc95fc39.txt"
+    "anzahl": 91,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.13-389d17ac663a.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 148,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794653036-3b17f1.json"
+    "anzahl": 152,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794673695-4e8a8b.json"
    }
   }
  }
