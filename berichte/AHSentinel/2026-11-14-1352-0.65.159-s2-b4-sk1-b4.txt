@@ -1,0 +1,15 @@
+AHSentinel 0.65.159 – S2-B4 + SK1-B4 – umgesetzt, zur Prüfung
+
+Hinweis Reihenfolge: TB157-1..4 (4ee0fb5, "VOR S2-B4/SK1-B4") kam, als 0.65.159 schon im Gesamtlauf war – abgeschlossen;
+TB157-1..4 jetzt als 0.65.160.
+S2-B4: K:RebuildBuys (Merker st.filledBuy2): leert buyk/buye/buyp/buyr und zählt alle abgeschlossenen Käufe (B, r = "c") der
+  letzten 30 Tage in Zeitfolge neu – live seit 0.65.157 gezählte zählen so genau einmal. Läuft einmal nach dem Laden (Job).
+  TR T697 (live + Journal -> 1 Fall, zweiter Aufruf 0).
+Zur Frage V2 ("eigene Fälle nur in ≤ 0,8, n 98"): Stufe = pr / ev wie markt_tabellen.py (gleicher Nenner). Unterschiede:
+  (1) bis 0.65.158 zählten buyk/buye nur LIVE abgeschlossene Käufe seit 0.65.157 (der Nachtrag lief in 0.65.154 in den alten Weg
+  "buyg") – das waren offenbar fast nur Sniper-Käufe am "Lohnt bis" (pr/ev ≈ 0,75–0,8); (2) Kern zählt nur r = "c" (alle Stück
+  zugeordnet) der letzten 30 Tage, die Tabelle alle mit rq > 0 ohne Zeitgrenze. Mit dem Neuaufbau in 0.65.159 sollten die
+  Stufen ≤ 0,6/0,7 aus dem Journal gefüllt sein – im nächsten Testbericht "MARKT-KERN Kaufen je Stufe" ansehen.
+SK1-B4: BK:ScanInbox merkt je Post Geld, Nachnahme und Rechnung (Art, Kaufpreis, Anzahlung, Gebühr) in BK.mailCache; die Haken
+  (nach dem Aufruf) nehmen diese Werte, wenn die Post schon leer ist (OnMailMoney und OnTakeMoney). TR T698.
+Gesamtlauf 248/248, addon_check OK.
