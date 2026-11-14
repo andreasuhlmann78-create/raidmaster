@@ -1,3 +1,9 @@
+>>> ??? FRAGE DES NUTZERS (14.11. 01:26) – bitte SOFORT in der nächsten Weck-Runde als kurzen Bericht beantworten
+>>>    (berichte/AHSentinel/<datum>-<zeit>-frage-cloud.txt): Läuft diese AHSentinel-Sitzung in der CLOUD (Anthropic-Server,
+>>>    z. B. Arbeitsordner /home/claude/…, Linux-Container) oder LOKAL auf dem Rechner des Nutzers (Windows-Pfad, z. B.
+>>>    C:\…)? Belege: Ausgabe von `pwd` und `uname -a` (bzw. `ver` unter Windows). Hintergrund: Der Nutzer will wissen, ob
+>>>    er den Rechner über Nacht ausschalten darf, ohne dass die Arbeit stoppt.
+
 >>> !!! SPARSAM, ABER KEIN STILLSTAND (Entscheid des Nutzers 14.11. 01:23 – Wochen-Nutzung nur noch ca. 32 %):
 >>>    Weiterarbeiten ohne Stillstand, aber sparsam: (1) Reihenfolge wie unten, zuerst TB125 + BH-AUS-3, SN-M, PR1;
 >>>    danach weiter in der Liste, aber ohne Leerlauf. (2) Weck-Runde nur noch alle 30 Min. (statt 5), wenn gerade nichts
