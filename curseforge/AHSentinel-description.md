@@ -12,6 +12,13 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.169
+
+- **Sell window:** "Expected profit" now subtracts what the goods cost you (average cost of your stock). Before it showed the
+  whole proceeds as profit. Point at the line for a short explanation. New self-check. Test T714.
+- **Sniper, new target:** amount empty = 1000, budget empty = 5g, max price is always yours to enter (no automatic price).
+  Existing targets stay unchanged. Test T713.
+
 ### Version 0.65.168
 
 - **Sniper, gold safety:** a number without unit in "Max/item" (and other max prices when buying) now means COPPER – "22" is
@@ -48,14 +55,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Crafting chains (preparation):** AHSentinel now calculates, after every scan, the crafting chains of your known recipes
   (buy → craft, also intermediates → sell or disenchant) and keeps only those with at least 20 % profit. Until they are fully
   checked they only appear in the test report, not in tooltips or the market tab. Test T704.
-
-### Version 0.65.164
-
-- **Accounting, disenchanting:** the cost of a disenchanted item is now split onto the materials by their current market price.
-  Before, the "realistic resale price" was used, which pushes slow-selling essences and shards down a lot – Soul Dust got far
-  too much cost (about 6s instead of 4s per dust), the essences too little, so dust looked like a loss. Bookings already made
-  stay unchanged. New self-check "split when disenchanting": warns if one material's cost differs by more than a third from the
-  others (with numbers). Test T703.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
