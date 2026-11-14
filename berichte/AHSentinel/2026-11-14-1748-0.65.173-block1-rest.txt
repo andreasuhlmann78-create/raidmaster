@@ -1,0 +1,22 @@
+AHSentinel 0.65.173 – FERTIG-LISTE Block 1 (Rest): BH-TT1, BH-ANZ-S4, TB171-1, TB172-1, TB172-2 – umgesetzt, zur Prüfung
+=======================================================================================================================
+BH-TT1 HOCH: p:ProfitTooltip liefert genau 4 Zeilen (Erlös, Eingesetzt −, Gebühren −, Gewinn = Kopf). Alle früheren Zeilen
+(Kasse, Lager, Ausstehend, ohne Einkauf, Verluste, Gold-Abstimmung, Kostenbasis-Warnung, Stichtag) stehen in
+p:ProfitDiagLines (nur für Testbericht/Prüfung; nicht im Tooltip). Test T (Buchhaltung Gewinn-Kopf) prüft 4 Zeilen, Summe = Kopf,
+kein "Kasse". Selbstkontrolle: SK1-i (Kopf = Details = Liste) unverändert.
+BH-ANZ-S4 HOCH (ersetzt S3): Gewinn % = Gewinn ÷ Eingesetzt der Zeile (Item und Gruppe); enthält die Zeile Stücke ohne Einkauf
+(Zähler freeN aus den Verkaufsbuchungen) -> "–", Tooltip der Zeile/Gruppe "enthält x Stück ohne Einkaufspreis". Kopf "Rendite"
+gleich (Gewinn ÷ Eingesetzt, sonst "–"). SK1-i prüft % = Gewinn ÷ Eingesetzt bzw. "–" und nie verschiedene Vorzeichen.
+Tests T702 (Gruppe mit freien Stücken -> –), T715 (nur gekauft 141 %, mit freien –), T465 angepasst (Rendite –).
+TB171-1: K:TodayActions lässt Zeilen weg, deren Prüfung "nicht mehr lohnend" ergab (Today-Zustand "stale"). Sortierung siehe
+TB170-1 (0.65.172, T72 grün).
+TB172-1 HOCH (T373 18,2 ms bis Comfort.lua:791): Der lange Schritt war der Flip-Abschnitt (je Angebot FlipRowCheck + IsReliable +
+PerDayInfo + Kaufgrenze in einem Stück). Jetzt drei zusätzliche A:Pause dazwischen. Messung im Client nötig (T373).
+TB172-2 HOCH (Nachlauf/"Warten auf Server" 775–879 ms): die 0.65.171-Ursache (UpdateAddOnMemoryUsage) ist weg (Teil server
+0.65.170: Nachlauf 29 ms). Für den Rest NICHT vermutet, sondern gemessen: A:TimeFrame misst jetzt die Ereignis-Aufrufe der Module
+Kern, Vollscan, Verkaufen und Sniper; ein Aufruf > 16 ms wird gemerkt und beim längsten Bild des Vollscans genannt ("Lücke …:
+Speicherbereinigung ja/nein · Ereignis <Modul>/<Ereignis> x ms · Aufgaben …"). Steht dort "Ereignis keins" und "Aufgaben keine",
+lag die Zeit ausserhalb von AHSentinel (Blizzard verarbeitet die GetAll-Daten, anderes Addon). Bitte im nächsten Testbericht
+(SK1-h, Vollscan-Zeile) lesen; danach gezielt beheben.
+Volltest: siehe unten. Locales 1 neuer Schlüssel, CHANGELOG EN/DE.
+Volltest 249/250 + s69 nach Anpassung an BH-TT1 grün (nur Szenario geändert, Addon unverändert); addon_check OK. Bitte Testbericht Block 1.
