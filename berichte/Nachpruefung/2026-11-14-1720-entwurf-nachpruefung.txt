@@ -1,0 +1,75 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+BERICHT NACHPRÜFUNG AN DIE PRÜF-SITZUNG
+Stand: 14.11.2026 17:20 · Sitzung: geplante Nachprüfung · Basis-Commit: b1205cc
+Nichts in auftraege/**, nachrichten-log.txt oder nachpruefung-stand.json geschrieben, keine Nachricht an den Nutzer verschickt.
+
+GEPRÜFT
+- AHSentinel 0.65.171 (neu seit Stand 0.65.170). Alle anderen Projekte unverändert (BuffSentinel 0.9.21, GuildSentinel 0.9.38,
+  ProfessionSentinel 0.9.45, ThreatSentinel 2.5.13, LevelPilot 3.12.31, RaidMaster 3.0.26, Bot 1.5.134, Uploader 2.3.9).
+- Testberichte: keine neuen seit 2ad15dc (15:46); TB168 hat der Supervisor 16:50 schon ausgewertet -> nur erwähnt.
+- Hinweis Stand-Datei: "testberichte_bis": "0594f3d" ist im heutigen origin/main nicht mehr auflösbar (fatal: bad revision).
+  Vorschlag: auf 2ad15dc setzen.
+- Doppelt vermieden: BH-TT1 (Supervisor 17:14, Screenshot 0.65.171) und DW-K1-B1-Ursache (PS-DW1, 17:05) stehen schon in
+  offen-ahsentinel.txt bzw. offen-professionsentinel.txt -> nicht wiederholt.
+- Gelesen: berichte/AHSentinel/2026-11-14-1658- und -1702-0.65.171-tb168.txt.
+
+ERGEBNIS AHSENTINEL 0.65.171
+addon_check (mit lupa, Lua 5.1): OK, 0 FEHLER, 0 WARNUNGEN. Gemeinsame Dateien GoldSentinelGame/Test/Sync byte-gleich mit
+shared/ (GoldSentinelDev.lua liegt nicht in shared/, unverändert seit 0.65.170). Locales: 2 neue Schlüssel in allen 10 Dateien,
+keine Platzhalter. CHANGELOG EN/DE vorhanden. Kein Taint, keine Blizzard-Funktion ersetzt (T719 ersetzt nur A.IsAHOpen,
+BK.FlowGaps, VS.AddonKB im Test und stellt zurück). Alte Clients: nur pcall/GetSpellInfo/C_Timer mit Prüfung – unkritisch.
+
+Je Punkt (umgesetzt, zur Prüfung – Freigabe beim Supervisor):
+- TB168-1 (Nachlauf): Vollscan.lua:181/192/275 – UpdateAddOnMemoryUsage nur noch mit VS.MEASURE_OWN; T721 prüft 0/2 Aufrufe.
+  Richtig, ABER siehe NP171-2.
+- TB168-2 (SK1-c): Books.lua:1101 Händler-Bilanz nur bei offenem Händler; FlowContext Reihenfolge AH > Post > hängende
+  Bilanz (Books.lua:1118–1123); SelfCheck.lua:69–91 Gold direkt gemessen (GetMoney Anfang / 2 s nach Schliessen), Orte im Text.
+  Plausibel; Ursache erst mit nächstem Testbericht belegbar -> IM CLIENT PRÜFEN.
+- TB168-5: Activity.lua:358 Zauber 13262 übersprungen, Zaubername in der Meldung. Gut.
+- TB168-6: SelfCheck.lua:261 Grenze 1 % vom gebuchten Umsatz des Tages (turn aus BookedFlowByDay). Gut (T720).
+- TB168-7: DEButton.lua:95–113 probiert drei Plätze, HitName nennt das verdeckte Element. Hinweis: DB:Overlaps (DEButton.lua:47–71)
+  sucht nur Button/CheckButton/EditBox im Berufsfenster und zwei PS-Globale; ein einfacher PS-Frame mit EnableMouse (Ursache
+  DW-K1-B1, 17:05) wird damit NICHT erkannt. Kein neuer Befund – DW-K1-B1 (Block 1) verlangt schon den Treffertest GetMouseFocus.
+- TB168-9: Hinweis im Chat und Erinnerung bei MAIL_SHOW/AUCTION_HOUSE_SHOW da. Längstes Bild: defekt -> NP171-1.
+- Reihenfolge: 0.65.171 erschien 16:58–17:02, also VOR der FERTIG-LISTE (17:06). TB168-5/-6/-7 gehören dort zu
+  "zurückgestellt" – kein Verstoss, nur Hinweis, dass ab jetzt Block 1 gilt.
+
+NEUE BEFUNDE (Vorschlag für offen-ahsentinel.txt, in Block 3 zu TB168-1/-9 einordnen)
+
+NP171-1 MITTEL – T722 "längstes Bild" misst nie etwas
+   TestRoutine.lua:1272 setzt frame:SetScript("OnUpdate", …) für die Bild-Messung; TestRoutine.lua:1295 setzt auf DEMSELBEN
+   frame ein zweites OnUpdate (Poll). SetScript ersetzt den Handler -> der erste läuft nie, TR.maxFrame bleibt 0, T722 meldet
+   immer "0 ms (bei -)" und ist grün (TestRoutine.lua:1051, gibt immer true zurück). Die Diagnose aus TB168-9 fehlt damit.
+   Lösung: beide in EIN OnUpdate zusammenlegen (erst Bild messen, dann acc/Poll) oder HookScript für das zweite. T722 muss rot
+   bzw. "nicht gemessen" werden, wenn während eines Laufs 0 Bilder gemessen wurden. Test: Lauf simulieren, zwei OnUpdate-Aufrufe
+   mit 40 ms Abstand -> maxFrame ≥ 40.
+
+NP171-2 MITTEL – MEASURE_OWN bleibt nach dem Tempo-Test an
+   TempoTest.lua:152 (TPT:MemBreakdown) setzt A.FullScan.MEASURE_OWN = true und setzt es nie zurück. Danach misst jeder
+   normale Vollscan dieser Sitzung wieder ZWEIMAL UpdateAddOnMemoryUsage (Vollscan.lua:192 und :275) – das Ruckeln aus TB168-1
+   kommt bis zum /reload zurück, und genau nach einem Tempo-Test misst der Nutzer meist weiter.
+   Lösung: Wert vorher merken und nach der Messung zurücksetzen (oder nur für die Dauer von TPT setzen, Rücksetzen auch bei Abbruch).
+   Test: nach TPT:MemBreakdown ist MEASURE_OWN wieder false; normaler MBegin/MEnd danach = 0 Aufrufe.
+
+IM CLIENT PRÜFEN (AHSentinel 0.65.171)
+- SK1-h Nachlauf: nach Vollscan ohne Tempo-Test Nachlauf deutlich unter 829 ms?
+- SK1-b/SK1-c: Text "gemessen x, Fluss am Ort y (Orte: …)" erscheint nach Sniper-Kauf bzw. Post abholen; welcher Ort?
+- Entzaubern-Knopf mit ProfessionSentinel AN klickbar? (erwartet: nein, bis DW-K1-B1/PS-DW1 umgesetzt)
+
+MARKT-KERN: kein neuer Testbericht mit Abschnitt MARKT-KERN seit dem letzten Stand -> keine Zahlen gegen Ü2.
+
+VORSCHLAG STAND (für den Supervisor): nachpruefung-stand.json AHSentinel 0.65.171, testberichte_bis 2ad15dc.
+VORSCHLAG LOG-ZEILE: 2026-11-14 17:20 | AHSentinel | 0.65.171 geprüft: TB168-1/-2/-5/-6/-7/-9 umgesetzt zur Prüfung;
+   NP171-1 MITTEL T722 misst nie, NP171-2 MITTEL MEASURE_OWN bleibt an – nur Repo | Supervisor | offen | -
+
+NACHRICHTENTEXT (Vorschlag, nur falls der Supervisor eine Nachricht will – sonst genügt offen-ahsentinel.txt)
+NACHRICHT AN DIE AHSENTINEL-SITZUNG (zum Einfügen)
+Erst laufende Arbeit fertig machen (FERTIG-LISTE Block 1 hat Vorrang).
+Nachprüfung 0.65.171: addon_check OK. TB168-1/-2/-5/-6/-7/-9 umgesetzt, zur Prüfung.
+Zu tun in Block 3 (zusammen mit TB168-1/-9):
+1. NP171-1 MITTEL TestRoutine.lua:1272/1295 – zweites OnUpdate überschreibt die Bild-Messung; T722 immer 0 ms. Zusammenlegen.
+2. NP171-2 MITTEL TempoTest.lua:152 – MEASURE_OWN nach der Messung zurücksetzen, sonst Ruckeln bis /reload.
+git pull --rebase und auftraege/AHSentinel/offen-ahsentinel.txt lesen; nach der Umsetzung Bericht in berichte/AHSentinel/.
+Komplette Dateien, alte Clients nie brechen, alle Locale-Dateien, CHANGELOG EN/DE, vor dem Push addon_check -> kein FEHLER.
+Ist ein Befund falsch, bitte begründet zurückmelden.
