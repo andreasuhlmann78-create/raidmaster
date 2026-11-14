@@ -1,0 +1,14 @@
+Bericht AHSentinel 0.65.136 – EB4-1
+Stand: 14.11.2026 · Status: umgesetzt, zur Prüfung
+- Lösung (a): BK:CheckVendorUse – nur Lagerposten mit Herkunft "vendor": fehlt im wirklichen Bestand (BK:HaveCount =
+  Taschen+Bank über GetItemCount(id, true) + eigene laufende Auktionen) etwas, wird es als Eigenbedarf "verbraucht"
+  gebucht (Einstand aus dem Lager). Läuft 30 s nach dem Einloggen und nach BAG_UPDATE_DELAYED (gesammelt, höchstens
+  alle 30 s), nie während der Testroutine. Gemischte Posten (Händler + AH, bt "mix") werden nicht angefasst, nur vom
+  Lager-Abgleich (BH-AUS-3 b) gemeldet.
+- Warnung addon_check: BK:MerchantInfo nutzt zuerst C_MerchantFrame.GetItemInfo (Tabelle price/stackCount), sonst
+  GetMerchantItemInfo.
+- Messauftrag offen ("im Client prüfen"): qty in BuyMerchantItem = Stück (so gerechnet: price * qty / Stapelgrösse) –
+  bitte einmal mit einem Stapel-Artikel (Wasser 5er) Gold vorher/nachher vergleichen.
+- Annahme: GetItemCount(id, true) kennt die Bank (gespeicherter Stand); Händlerware liegt selten auf der Bank.
+- Test T659 T-EB4b (20 Wasser gekauft, verbraucht -> Lager 0, Eigenbedarf 400, Handelsware unberührt) – PASS.
+  Gesamtlauf 246/246 Szenarien, addon_check OK.
