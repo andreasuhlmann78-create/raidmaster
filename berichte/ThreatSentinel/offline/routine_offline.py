@@ -115,13 +115,11 @@ print(out)
 # Fälle, die nur in der Nachbildung FEHLER sind (die Nachbildung kann das Spiel dort nicht nachstellen)
 NACHBILDUNG = {
     "T02": "Version aus der .toc: GetAddOnMetadata liefert in der Nachbildung nichts",
-    "T09": "Ereignis-Anmeldung: die Nachbildung meldet jedes Ereignis als angemeldet",
+    "T09": "Ereignis-Anmeldung: Ereignisse der Nachbildung",
     "T20": "UnitIsUnit der Nachbildung vergleicht nicht wie das Spiel",
     "T34": "Positionen: Frames der Nachbildung merken keine Ankerpunkte",
     "T39": "UnitDetailedThreatSituation der Nachbildung liefert Werte ohne Ziel",
-    "T76": "Ambiguate/Chat-Ereignis der Nachbildung",
     "T133": "Prefix-Anmeldung der Nachbildung",
-    "TU6-R1": "Folge: T76 ist in der Nachbildung FEHLER",
 }
 import re
 report = out.split("----")[0]
