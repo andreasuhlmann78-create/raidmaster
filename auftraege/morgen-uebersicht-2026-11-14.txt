@@ -30,3 +30,5 @@ NACHT-VERLAUF: (wird ergänzt)
 - 04:37 0.65.134 (Verkaufsquote je Verkaufskette: Abbruch + neu einstellen zählt nicht als Fehlschlag). addon_check OK.
 - 05:10 0.65.135 (Händlerkäufe werden gebucht). addon_check OK, 1 Warnung. Befund EB4-1 HOCH: verbrauchte
   Händlerware (Essen, Wasser, Reagenzien) bliebe als Phantom-Bestand im Lager.
+- 05:45 0.65.136 (verbrauchte Händlerware = Eigenbedarf, kein Phantom-Bestand mehr). addon_check OK. Befund EB4-2
+  MITTEL: Händler-Zutaten beim Herstellen und verschickte Post nicht als "verbraucht" buchen.

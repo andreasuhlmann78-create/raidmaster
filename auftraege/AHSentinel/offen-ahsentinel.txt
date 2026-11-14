@@ -141,7 +141,14 @@ Einzelheiten zu jedem Punkt stehen weiter unten (Suche nach dem Kürzel). Diese 
                         Verkauf = ein Fall). Im Bericht: Trefferquote alt/neu, je Preisstufe.
 4. CH-G       ZUR PRÜFUNG 0.65.123: GoldSentinelCmdHint.lua byte-gleich, in der .toc, addon_check OK (Prüf-Sitzung 00:30).
                         Im Client bestätigen (Liste, Klick wählt, Enter führt aus). Bericht 0.65.123 fehlt noch.
-5c. EB4-1     HOCH       (Prüf-Sitzung 05:10, zu 0.65.135, Books.lua 536–548) Jeder Händlerkauf geht ins Lager (Put
+5d. EB4-2     MITTEL     (Prüf-Sitzung 05:45, zu 0.65.136, Books.lua 559–576) CheckVendorUse bucht alles, was im Bestand
+                        fehlt, als Eigenbedarf. Zwei Lücken: (1) Händler-Zutaten, die beim Herstellen verbraucht werden: läuft
+                        der Abgleich vor der Herstellen-Buchung (Books.lua 378), landen sie als Eigenbedarf statt als Kosten des
+                        Produkts -> Gewinn beim Verkauf des Produkts zu hoch. Reihenfolge sichern (Herstellen bucht sofort beim
+                        Ereignis; Abgleich danach) + Test T-EB4c (Fläschchen kaufen, Trank herstellen -> Kosten im Trank, kein
+                        Eigenbedarf). (2) Ware im Briefkasten/an Twink verschickt zählt nicht im Bestand -> fälschlich
+                        "verbraucht". Verschickte Post als Umbuchung zum Empfänger bzw. Briefkasten mitzählen; sonst nur melden.
+5c. EB4-1     0.65.136 zur Prüfung (addon_check OK ohne Warnung, T-EB4b PASS). Ursprünglich: HOCH (Prüf-Sitzung 05:10, zu 0.65.135, Books.lua 536–548) Jeder Händlerkauf geht ins Lager (Put
                         "vendor"). Verbrauchtes (Essen, Wasser, Munition, Reagenzien, Fläschchen fürs Herstellen) bleibt dann
                         für immer im Lager -> wieder Phantom-Bestand wie BH-AUS-3 (Regel: Lager = wirklicher Bestand). Lösung:
                         (a) Händlerware gleicht das Lager mit dem echten Bestand ab (Taschen+Bank; was fehlt und nicht verkauft/
