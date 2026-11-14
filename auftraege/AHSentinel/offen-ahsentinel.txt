@@ -56,6 +56,11 @@ SN-ALLE1 HOCH (Wunsch des Nutzers 17:47, Block 2): Stehen im Sniper mehrere Zeil
    Takt – Server-Limit/Wächter wie T138 beachten, kein Ruckeln, Suchen in Portionen). Treffer bei irgendeinem Ziel -> goldenes Signal
    wie bisher, Zeile des Treffers markiert; Kauf weiter nur per Klick, Budget und Max je Zeile gelten. Anzeige einfach: je Zeile
    "zuletzt geprüft vor x Sek." Test: 3 Ziele, Treffer beim 3. -> erkannt ohne Umschalten; Server-Takt eingehalten; SK1-o je Ziel.
+   TEMPO (Nutzer 17:49 "so schnell wie der Server erlaubt"): kein fester Abstand – nächste Suche sobald der Client sie erlaubt
+   (Abfrage "Suche erlaubt?" bzw. Antwort des Servers abwarten), gemessenen Takt im Testbericht zeigen (Suchen/Min.). Grenzen:
+   (a) eigene Klicks des Spielers im AH (Kaufen, Einstellen, Suchen) haben immer Vorrang – Sniper pausiert solange;
+   (b) fälliger Vollscan wird nicht blockiert (T142); (c) Fehlermeldung/Drosselung vom Server -> Takt automatisch langsamer,
+   danach wieder hoch; (d) keine Ruckler (Auswertung in Portionen ≤ 8 ms).
 BH-TT1 HOCH (Nutzer 17:14, Screenshot 0.65.171, "schlimmer geht es nicht mehr"): Der Tooltip über "Gewinn" in der Buchhaltung
    ist eine Textwand mit Formel, Kasse, Lager, Marktwert, "nicht realisiert", "160 Stück ohne Einkauf", "Verlust bei Entzaubern",
    "Grösster Verlust: Seelenstaub −7s 41c", "Gold seit Stichtag 4g 01s · Buchhaltung erklärt 12g 34s · nicht gebucht −8g 33s",
