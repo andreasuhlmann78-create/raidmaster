@@ -21,7 +21,35 @@
 >>> !!! OBERSTE PRIO – NIE IM RUHEMODUS (Entscheid des Nutzers 14.11. 00:28/00:29/00:30) – gilt ab sofort, dauerhaft:
 >>>    Die AHSentinel-Sitzung plant sich selbst Weck-Runden: am Ende JEDER Antwort/Arbeit mit dem Werkzeug send_later
 >>>    (delay_minutes 5, initiation human_request) eine Erinnerung an sich selbst setzen: "Weck-Runde: git pull --rebase,
->>>    auftraege/AHSentinel/offen-ahsentinel.txt Liste PRIORITÄTEN lesen, obersten offenen Punkt umsetzen bzw. weiter-
+>>>    auftraege/AHSentinel/offen-ahsentinel.txt Liste TB138 – BEFUNDE AUS DEM TESTBERICHT 0.65.138 (Nutzer 14.11. 07:43, Prüf-Sitzung 07:55) – ZUOBERST ABARBEITEN
+==========================================================================================================
+TB138-1 HOCH  Phantom-Lager nicht weg. BH-AUS-3 hat 12 Buchungen/30 Stück umgebucht, aber der Abgleich meldet weiter
+              "Lager mehr als vorhanden": 2996 +40, 11083 +25, 2320 +16, 2455 +13, 279972 +11, 159 +9, 6662 +9, 278243 +6.
+              Der Nutzer hat KEINE Mats (bestätigt 14.11. 01:2x). 11083 allein: Einstand 15822 im Lager. Der Abgleich
+              muss korrigieren, nicht nur melden: was fehlt und nicht verkauft/unterwegs ist -> verkauft (wenn Rechnung
+              da) bzw. Eigenbedarf/Abgang (Kosten raus aus dem Lager, nicht in den Gewinn). Auch Händlerware ohne bt
+              "vendor" (159 Wasser, 2320 Faden: vor 0.65.135 gekauft) und Tränke (2455, 6662: verbraucht). Erwartung
+              danach: Lager dieser Figur = Taschen+Bank+eigene Auktionen. Gewinn 221977 liegt weiter über meiner
+              Nachrechnung (ca. 205284) – die Prüf-Sitzung rechnet mit den nächsten Daten nach.
+TB138-2 HOCH  Gold-Abstimmung: Gold +9403, Buchhaltung +119832, nicht gebucht −110429 (11g). Gewinn und Gold-Fluss sind
+              verschiedene Dinge: Einkäufe ins Lager senken das Gold, nicht den Gewinn. Abstimmung muss GELDFLUSS gegen
+              GELDFLUSS rechnen (Erlöse − Käufe − Gebühren − Anzahlungen netto − Spielkosten ± Post), nicht Gewinn
+              gegen Gold. Danach muss der Rest klein sein (≤ 1 %), sonst Liste der grössten Lücken je Tag. Test T-GA2.
+TB138-3 MITTEL Tempo (RF-M1 noch nicht erreicht): Tooltip max 13,3 ms (Ziel 5; früher 158 – viel besser), Reiter
+              "market" 119 ms (Ziel 50), Speicher AHSentinel 176–185 MB, +25,5 MB / 10 Bereinigungen. Achtung: Vollscan war
+              362 Min. alt – die Speicher-Messung T631 gilt nur direkt nach einem Vollscan (Testroutine soll das
+              selbst melden: "erst Vollscan" statt FEHLER). Preisverlauf ~14,6 MB (355k Zeilen) ist der grösste Posten.
+TB138-4 MITTEL Prognose: 80–100 % vorhergesagt -> 38 % verkauft, Brier 0,51 (schlechter als Münzwurf). Neue Einstellungen
+              seit 0.65.128 müssen die Chance je Preisstufe (PR1) zeigen; im Testbericht getrennt ausweisen: Fälle vor/
+              nach 0.65.128, damit sichtbar ist, ob PR1 wirkt. Abbrüche 17, "davon unterboten 0" – der Grund wird
+              offenbar nicht erfasst (Nutzer: Abbruch = meist unterboten) -> prüfen und Test.
+TB138-5 NIEDRIG Testbericht-Zeile "Kauf-Sicherheit: Entzaubern Marge 10 %, Budget …" widerspricht DE30b (20/25/30 %, kein
+              Budget). Im Code wirkt LimitFromNet (DE30b), L7 nur als Ersatz – Zeile auf DE30b je Gruppe umstellen, Budget
+              für Entzaubern nicht mehr zeigen.
+Bestätigt durch die Messung (gut): SN-M (> 0,9 × Wert: −2 %), DE-Gruppen 2:4 +35 % -> 20 %, 2:6 +19,x % -> 30 %
+(regelgerecht, knapp unter 20 %), Vollscan längster Frame 5,7 ms, Prognose-Speicher 87 KB.
+
+PRIORITÄTEN lesen, obersten offenen Punkt umsetzen bzw. weiter-
 >>>    machen, veröffentlichen, Bericht, dann nächste Weck-Runde in 5 Min." – solange in der Prio-Liste etwas offen ist.
 >>>    Läuft gerade eine Arbeit, die Runde nur nutzen, um ins Repo zu schauen (neue Aufträge), dann weiterarbeiten.
 >>>    NICHT STÖREN (Nutzer 00:29): Die Weck-Runde darf die Arbeit nie unterbrechen. send_later unterbricht keinen laufenden
