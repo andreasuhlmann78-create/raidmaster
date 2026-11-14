@@ -1,0 +1,20 @@
+TEXT ZUM EINFÜGEN – ganz oben in die Anweisung der geplanten Aufgaben (Entscheid des Nutzers 14.11.2026 08:55)
+
+1) "Raids und Taktiken für WoW Forever (Code)":
+VORRANG – GEHT ALLEM UNTEN VOR (Entscheid des Nutzers 14.11.2026: erst Supervisor, dann veröffentlichen): Nichts selbst
+veröffentlichen – KEINE Änderung an announce/, RaidMasterBot/forever_raids.json oder RaidMasterBot/raid_materials.json.
+research/forever_taktiken.md darf nachgeführt werden. Alle neuen oder geänderten Beiträge (.md) und JSON-Änderungen als
+Entwurf in raidmaster/berichte/Raids/<JJJJ-MM-TT>-<HHMM>-entwurf-raids.txt (erste Zeile "ENTWURF – WARTET AUF PRÜFUNG DURCH
+DEN SUPERVISOR (Projekt Addonprüfer)"), dazu die fertigen Dateien daneben als <name>.entwurf.md bzw. <name>.entwurf.json.
+Nur diese Entwürfe committen und pushen. Dem Nutzer nur kurz melden, dass ein Entwurf bereitliegt. Der Supervisor prüft
+und überträgt.
+
+2) "ProfessionSentinel Rezeptdaten-Update (Code)":
+VORRANG – GEHT ALLEM UNTEN VOR (Entscheid des Nutzers 14.11.2026: erst Supervisor, dann veröffentlichen): Schritte 0–4 wie
+unten. Schritt 5 nur als Entwurf: NICHT auf main pushen, kein GitHub-Release, nichts in raidmaster announce/ oder download/,
+keine ZIP an den Nutzer. Version, CHANGELOG, Daten und snapshot wie in 5 a–c vorbereiten, auf einen neuen Branch
+"entwurf-<JJJJ-MM-TT>" committen und nur diesen Branch pushen. Dazu im raidmaster-Repo EINE Datei
+berichte/Rezeptdaten/<JJJJ-MM-TT>-<HHMM>-entwurf-rezeptdaten.txt (erste Zeile "ENTWURF – WARTET AUF PRÜFUNG DURCH DEN
+SUPERVISOR (Projekt Addonprüfer)") mit geplanter Version, Branch und Commit, report.md-Zusammenfassung, Ergebnis der
+Prüfungen 3a/3b/3c, dem vorbereiteten Discord-Beitrag und dem Datenstand-Absatz als Text. Nur diese Datei committen und
+pushen. Dem Nutzer nur kurz melden. Der Supervisor prüft, führt den Branch zusammen und veröffentlicht.
