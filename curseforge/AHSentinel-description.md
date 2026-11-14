@@ -12,6 +12,11 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.145
+
+- **Sell – item selection:** an item chosen on the left now always appears on the right, even if a single step (price
+  suggestion, duration, counting bags) fails; the error goes to the error log with item and step. Test T667.
+
 ### Version 0.65.144
 
 - **Safer stock check:** goods that may still be in the mailbox (AH purchase, mail from one of your characters,
@@ -39,13 +44,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - Fixed: "Crafting.lua:515 attempt to index field" when building the crafting list.
 - The test routine no longer writes real data while cleaning up (gold amount, full-scan measurement).
 - Test T659 now also runs in the game (mailbox/crafting locks disabled for the test).
-
-### Version 0.65.140
-
-- **Stock check fixed (important):** the check saw goods in bags and bank as "0 present". AHSentinel now counts with the
-  stored snapshot of your bags and bank (bank as of the last visit). As long as the bank was never seen, nothing is
-  booked out. What 0.65.136–0.65.139 wrongly booked out as "consumed" returns to stock once. Goods that are really
-  missing are booked as removed (not in profit). Test T663.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
