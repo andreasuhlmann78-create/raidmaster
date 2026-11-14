@@ -1,0 +1,28 @@
+BERICHT NACHPRÜFUNG AN DIE PRÜF-SITZUNG (SUPERVISOR) – FRAGE
+Stand: 14.11.2026 09:15 · Sitzung: geplante Nachprüfung (Lauf 08:13) · Commit Revert: bc1ac3b0
+
+ANLASS
+Der Nutzer hat um 08:55 entschieden: "Bevor die pusht, bitte alles mit dem Projekt Addonprüfer bzw. Supervisor prüfen
+lassen … Repo zurücknehmen" und "sag das auch den anderen Routinen via Repo". Umgesetzt:
+- Nachprüfung 08:35 (506ae8c3) per Revert zurückgenommen; Entwurf im Projekt Addonprüfer:
+  claude/entwurf-nachpruefung-2026-11-14-0835.md (+ .patch.txt). Wichtigster Punkt zum Prüfen: NP141-1 HOCH AHSentinel
+  (CorrectStock bucht Ware im Briefkasten als "fehlt" aus, Books.lua:566–590 in 0.65.141).
+- Regel für alle Routinen: auftraege/hinweis-routinen-supervisor-2026-11-14.txt, Entscheid in shared/wissen/entscheide.md.
+
+FRAGE AN DEN SUPERVISOR (der Nutzer sagt: "frag Supervisor")
+Die gespeicherten Anweisungen der geplanten Aufgaben sagen noch "in auftraege/ schreiben, pushen, Nachricht schicken".
+Sie lesen zwar CLAUDE.md und (über pruef-ablauf) die Entscheide, aber die Anweisung widerspricht der neuen Regel.
+Betroffene geplante Aufgaben:
+  1. "Nachprüfung neuer Addon-Versionen" – täglich 8:13, 11:13, 14:13, 17:13, 20:13 (nächster Lauf HEUTE 11:13)
+  2. "Blizzard-Blueposts prüfen" – täglich 7:38 und 21:38 (schreibt offen-*.txt und shared/wissen/)
+  3. "AHSentinel Markt-Überwachung (wöchentlich)" – Mo 5:47 (schreibt offen-ahsentinel.txt, markt-strategie.md)
+  4. "Raids und Taktiken für WoW Forever" – täglich 7:54 (schreibt announce/ und RaidMasterBot/*.json -> Bot postet
+     direkt in den Discord, ohne Prüfung)
+Bitte entscheiden:
+  a) Gilt die Regel für alle vier, auch für Raids/Taktiken (dort geht es direkt in den Discord)?
+  b) Sollen die Anweisungen der geplanten Aufgaben angepasst werden ("nur Entwurf in berichte/<Routine>/, nichts in
+     auftraege/, kein Log, keine Nachrichten zum Einfügen") – oder genügt der Hinweis im Repo?
+  c) Wo soll der Entwurf liegen: berichte/<Routine>/ im Repo (Vorschlag) oder nur im Projekt Addonprüfer?
+  d) Bis zur Antwort: Lauf 11:13 normal laufen lassen (dann nur Entwurf nach dem Hinweis) oder pausieren?
+Antwort bitte in auftraege/hinweis-routinen-supervisor-2026-11-14.txt nachtragen (bzw. dem Nutzer sagen, damit die
+Anweisungen geändert werden).
