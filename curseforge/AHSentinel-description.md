@@ -12,6 +12,17 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.172
+
+- **Market tab simpler:** only "Today" and "Disenchant" are shown – Flip, Vendor, Gaps, Crowded and Trends are not backed by
+  your own data yet and are hidden (option "Market: all views (experts)"). A sentence on top: only what pays off with your data.
+  Test T723.
+- **Disenchant:** groups you have not measured yet are extrapolated from your own disenchants (all measured groups together,
+  at most +10 %, from 100 disenchants on) and marked grey "extrapolated from n own disenchants". Test T724.
+- **"Today":** sorted by profit again after quantities were limited; calculates in smaller steps (less stutter). Interface
+  "worth up to" returns the same value as the tooltip (also for vendor/auction way). Best recipes are not recalculated twice
+  within 2 seconds. Tests T725, test routine fixes.
+
 ### Version 0.65.171
 
 - **Less stutter after a full scan:** the end of the scan measured the memory of ALL addons twice in one frame (several hundred
@@ -55,15 +66,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Sells:** the time estimate in the tooltip now uses your place in the queue: offers cheaper than you plus your items, at the
   usual sales pace ("fast (~2 h)" instead of "slow (~13 h)" when you are at the front). With Shift a short sentence explains it.
   New self-check: predicted vs. real sale time of your auctions. Test T709.
-
-### Version 0.65.167
-
-- **Accounting, crafting:** a craft was only booked when the recipe was already in the "best recipes" cache. Otherwise the
-  crafted item had no cost, and materials disenchanted from it showed the full revenue as profit. Now the recipe is also found
-  in the open profession window or in the recipes remembered for this character. New self-check "craft booked". Test T708.
-  Earlier bookings stay unchanged.
-- **Profit window:** if disenchanting is the best way, the vendor amount is shown as "Vendor: 60c" (no longer "vendor pays more",
-  which contradicted "best way: disenchant"). Test T707.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

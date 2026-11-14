@@ -7,6 +7,17 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.172</h3>
+<ul>
+<li><strong>Market tab simpler:</strong> only "Today" and "Disenchant" are shown – Flip, Vendor, Gaps, Crowded and Trends are not backed by
+  your own data yet and are hidden (option "Market: all views (experts)"). A sentence on top: only what pays off with your data.
+  Test T723.</li>
+<li><strong>Disenchant:</strong> groups you have not measured yet are extrapolated from your own disenchants (all measured groups together,
+  at most +10 %, from 100 disenchants on) and marked grey "extrapolated from n own disenchants". Test T724.</li>
+<li><strong>"Today":</strong> sorted by profit again after quantities were limited; calculates in smaller steps (less stutter). Interface
+  "worth up to" returns the same value as the tooltip (also for vendor/auction way). Best recipes are not recalculated twice
+  within 2 seconds. Tests T725, test routine fixes.</li>
+</ul>
 <h3>Version 0.65.171</h3>
 <ul>
 <li><strong>Less stutter after a full scan:</strong> the end of the scan measured the memory of ALL addons twice in one frame (several hundred
@@ -51,16 +62,7 @@
   usual sales pace ("fast (~2 h)" instead of "slow (~13 h)" when you are at the front). With Shift a short sentence explains it.
   New self-check: predicted vs. real sale time of your auctions. Test T709.</li>
 </ul>
-<h3>Version 0.65.167</h3>
-<ul>
-<li><strong>Accounting, crafting:</strong> a craft was only booked when the recipe was already in the "best recipes" cache. Otherwise the
-  crafted item had no cost, and materials disenchanted from it showed the full revenue as profit. Now the recipe is also found
-  in the open profession window or in the recipes remembered for this character. New self-check "craft booked". Test T708.
-  Earlier bookings stay unchanged.</li>
-<li><strong>Profit window:</strong> if disenchanting is the best way, the vendor amount is shown as "Vendor: 60c" (no longer "vendor pays more",
-  which contradicted "best way: disenchant"). Test T707.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
