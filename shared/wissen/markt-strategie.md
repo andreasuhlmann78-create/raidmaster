@@ -542,6 +542,14 @@ Jede Vorhersage nur aus den ANDEREN Fällen gelernt (leave-one-out), sonst schö
 - Folgerung (Hypothese, zu messen): Die Chance ist ein WETTLAUF: kommt ein Käufer, bevor jemand billiger einstellt?
   Braucht je Item: Käufe je Stunde (gemessen) und neue billigere Angebote je Stunde (aus aufeinanderfolgenden Scans).
   Chance in 2 Std. ≈ Käufe / (Käufe + Unterbietungen) über die Laufzeit. Messauftrag M-WL1 (siehe 7).
+- Wettlauf geprüft (unterboten.py, 08:35): Laufzeiten mit mindestens einem Scan (45 von 81; schnelle Verkäufe fallen meist
+  zwischen zwei Scans und fehlen hier). Unterboten (fremdes Angebot billiger während der Laufzeit): 2 verkauft, 15 abgelaufen,
+  5 Abbruch -> 2 von 17 verkauft (12 %). Nicht unterboten: 4 verkauft, 11 abgelaufen, 8 Abbruch -> 4 von 15 (27 %).
+  -> Unterbieten halbiert die Chance ungefähr. ABER auch ohne Unterbieten laufen die meisten ab: in der Welle kamen in
+  2 Std. schlicht zu wenige Käufer. Beides gehört in die Rechnung: Käufer je Stunde UND Unterbietungen je Stunde.
+  Abbrüche: nur 5 von 13 (mit Scan) waren in den Scans als unterboten sichtbar – Scans alle 15–60 Min. sind zu grob;
+  der Abbruch-Grund wird im Journal NICHT gespeichert (cr leer bei allen 17, TB138-4) – muss AHSentinel beim Abbruch
+  selbst festhalten.
 - Datenlage: fast nur Staub/Essenz, eine Figur, 4 Tage, mitten in der Welle. Jede Zahl hier ist Richtung, nicht Gesetz.
 
 ### GEMESSEN 14.11. 01:00 – Verkaufs-Prognose (81 Einstellungen, alle 2 Std., fast nur Staub/Essenz)
