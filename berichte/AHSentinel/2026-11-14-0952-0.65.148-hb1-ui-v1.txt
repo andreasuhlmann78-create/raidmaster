@@ -1,0 +1,30 @@
+AHSentinel 0.65.148 – HB1 Händler-Bilanz + UI-V1 (Prüfung 0.65.145) – umgesetzt, zur Prüfung
+
+UI-V1 (Prüfung 09:20):
+- Mögliche Ursache gefunden und behoben: UI:Table OnClick nahm self.item der Zeile IM MOMENT DES KLICKS. Wird die Liste zwischen
+  Hover und Klick neu befüllt (Taschen-Änderung, SetData), rutscht ein anderes Item in die Zeile -> rechts falsches/altes Item,
+  ohne Lua-Fehler. Jetzt: OnEnter merkt das gesehene Item; wurde die Liste innerhalb 0,5 s vor dem Klick neu gezeichnet, wird
+  das gesehene Item gewählt (t.redirects zählt). Gilt für alle Tabellen.
+- T667/T668 laufen mit Ersatz-Taschen (Se.GetBagItems/CountInBags, nur eigene Funktionen) – nie mehr SKIP. T667 Fall 2:
+  Hover Zeile 1, Liste umgekehrt neu befüllt, Klick -> gewählt = gesehen. Klick-Protokoll VERKAUFEN-KLICK seit 0.65.146
+  (in der Testroutine nicht geschrieben).
+HB1 (Books.lua, Abschnitt "HB1 Händler-Bilanz"):
+- HB1-1 MERCHANT_SHOW: Gold + Taschen-Abbild (alle Taschen inkl. gebundener Items). PLAYER_MONEY/BAG_UPDATE_DELAYED -> nach 0,5 s
+  Ruhe buchen; fehlt die zweite Hälfte (nur Gold oder nur Taschen), bis 2 s warten (Reparatur-Hinweis/InRepairMode: sofort).
+- HB1-2 Gold− & Ware+ = Kauf (Kosten = Goldabgang, nach Listenpreis-Hinweis verteilt, Summe exakt); Gold+ & Ware− = Verkauf an
+  den Händler (k sale, via "vendor", st "c", Erlös = Goldzugang nach Händlerpreis verteilt, Einstand aus dem Lager);
+  Gold− ohne Ware = Spielkosten "reparatur" (Hinweis) bzw. "händler sonstiges"; Gold− & Ware+ eines eben (≤ 2 Std.) an den
+  Händler verkauften Items = Rückkauf (Verkauf st "x" xwhy "rückkauf", Ware mit Einstand zurück; Teilrückkauf teilt den Eintrag).
+  Ware ohne Gold (angelegt) und gemischte Fälle: nicht gebucht.
+- HB1-3 MERCHANT_CLOSED: Rest = Gold-Änderung − gebuchte Summe; ≠ 0 -> k "cost" why "händler unklar" (Betrag negativ = Gold kam).
+  Letzter Besuch in BK.hbLast.
+- HB1-4 OnMerchantBuy/OnRepair buchen nicht mehr (nur Hinweise; starten die Bilanz, falls MERCHANT_SHOW fehlte, z. B. /reload).
+  Alte Einträge unverändert. Testroutine: keine Händler-Buchung in echte Daten (InTestRoutine-Wächter).
+Belege TR: T670 HB1/HB2 (Gold zuerst/Taschen zuerst je "wartet", dann −125/−130 Kauf, gescheiterter Kauf -> nichts, Rest 0,
+  Lager 10/255), T671 HB3/HB5 (Verkauf 10 Leinen +100, Einstand 500, Lager 0, fehlt 0, Gewinn −400; Rückkauf -> x, 10/500,
+  Gewinn 0), T672 HB4 (12 Items, Summe 12347 = Goldzugang), T673 HB6/HB7 (gescheitert 0, gelungen −4321 reparatur, angelegt 0),
+  T674 HB8 (Rest 0; Tausch -> "händler unklar" 50). T658–T661 auf die Messung umgestellt (gleiche Zahlen).
+Gesamtlauf 248/248, addon_check OK.
+Anmerkung: Weg in "Details" richtet sich weiter nach der Herkunft (bt), Händler-Verkäufe sind über via="vendor" erkennbar.
+Im Client prüfen (Nutzer): Wasser kaufen, etwas verkaufen, zurückkaufen, reparieren – Gold vorher/nachher gegen Buchhaltung.
+Weiter: 4. TB138b-3.
