@@ -1,0 +1,177 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+NACHPRÜFUNG (geplante Aufgabe) – Stand 14.11.2026 14:20
+Geprüft: AHSentinel 0.65.160, LevelPilot 3.12.31, RaidMasterBot 1.5.133 + 1.5.134, neue Testberichte/Diagnosen (Commit 0594f3d).
+Unverändert seit dem Stand 11:40: BuffSentinel 0.9.21, GuildSentinel 0.9.38, ProfessionSentinel 0.9.45, RaidMaster 3.0.26,
+ThreatSentinel 2.5.13, Uploader 2.3.7.
+Nichts in auftraege/, im Log oder in nachpruefung-stand.json geändert (VORRANG). Alles unten ist Vorschlag für den Supervisor.
+
+Doppelt vermieden: Laut nachrichten-log.txt hat der Supervisor 0.65.158/159 (14:10), die Testberichte 0.65.157 von 13:38 und 13:55
+(13:45/14:05) und DW-K1 (14:15) schon bearbeitet – hier nur erwähnt. 0.65.160, LevelPilot 3.12.31 und Bot 1.5.133/134 stehen noch
+nicht im Log.
+
+Hinweis zum Stand: "testberichte_bis": "282b361" in nachpruefung-stand.json gibt es in der jetzigen main-Geschichte nicht mehr
+(git: bad revision; lokale main war "ahead 50, behind 50"). Vorschlag: beim Übertragen auf 0594f3d setzen.
+
+========================================================================================================================
+1) AHSENTINEL 0.65.160 (Bericht berichte/AHSentinel/2026-11-14-1408-0.65.160-tb157.txt gelesen)
+========================================================================================================================
+addon_check: OK, kein FEHLER, keine WARNUNG. Diff 0.65.159 -> 0.65.160: Books.lua, Comfort.lua, SelfCheck.lua, TestRoutine.lua,
+CHANGELOG EN/DE, Version. Gemeinsame Dateien unverändert (addon_check).
+
+Je Punkt:
+- TB157-3 (MITTEL) UMGESETZT: SelfCheck.lua:227–229 "mehr vorhanden als gebucht" zählt als stimmig + eigene Info-Zahl,
+  Ausgabe SelfCheck.lua:271; T690 prüft beide Richtungen (stimmig 2 · Abweichung 1 · mehr 1). Entspricht dem Auftrag.
+- TB157-4 (HOCH) TEILWEISE: nur T676 gibt den Ort fest an (TestRoutine.lua:10464–10465). Die eigentliche Ursache aus 14:05
+  (SC:OnFlow/OnMailTake/Note ohne Testroutinen-Sperre -> −500 in der echten AH-Sitzung) ist NICHT behoben; der Bericht sagt
+  selbst "folgt in 0.65.161". Bleibt offen (HOCH), dazu TB159-1.
+- TB157-1 (HOCH) TEILWEISE: Comfort.lua:608–617 K:PSCrafts merkt das Ergebnis von ProfessionSentinelAPI.TodayCrafts 15 Min.
+  (Aufruf Comfort.lua:852). Der Auftrag verlangte Portionen ≤ 8 ms; jetzt kommt der 153-ms-Schritt nur seltener (beim ersten
+  Aufbau und alle 15 Min.), aber jedes Mal weiterhin ein Bild > 16 ms. Die Ursache liegt in ProfessionSentinel (siehe 4).
+  Es fehlen nach dem GRUNDSATZ 11:24: (1) ein Test für den Zwischenspeicher (2. Aufruf innerhalb 15 Min. ruft TodayCrafts nicht,
+  nach 15 Min. wieder; Fehler-Ergebnis ok=false wird nicht 15 Min. lang festgehalten oder bewusst so), (2) Selbstkontrolle:
+  psCache.ms wird gemessen, aber nirgends ausgegeben (grep psCache: nur Comfort.lua) -> Zeile im Testbericht "PS TodayCrafts
+  zuletzt X ms" und rot > 16 ms.
+- TB157-2 (HOCH) UMGESETZT, ABER NEUES RISIKO -> Befund NP160-1 HOCH (unten). Abweichung vom Auftrag ("sofort ausbuchen") ist im
+  Bericht begründet (24 Std. wegen ungesehener Post) – die Begründung trifft zu, die 24-Std.-Regel reicht aber nicht.
+
+NEUE BEFUNDE
+NP160-1 HOCH (Buchhaltung, Gold-Sicherheit Prüfablauf A6) – Books.lua:759–761 bucht laufende oder zurückgekommene eigene
+   Auktionen als "fehlt" aus.
+   Weg: CorrectStock läuft bei jedem BAG_UPDATE_DELAYED (Books.lua:2258–2263), ohne dass AH oder Briefkasten offen waren.
+   HaveCount (Books.lua:1756–1766) zählt eigene Auktionen nur aus Se.owned – das ist nur im Speicher der Sitzung (Seller.lua:35,
+   gesetzt erst beim Lesen der eigenen Auktionen, Seller.lua:1167). Das gespeicherte A.db.ownedEnds (Comfort.lua:134–185) wird
+   nicht genutzt. lastIn enthält auch das Einstellen ("fee", Books.lua:752).
+   Fall A: Spieler stellt 20 Stück für 48 Std. ein, loggt aus, loggt 25 Std. später ein, AH noch nicht besucht. Taschen ändern
+   sich -> have = 0 (Se.owned leer), letzter Zugang (fee) > 24 Std. -> NEU entsperrt -> 20 Stück "fehlt" (Einstand als Verlust).
+   Fall B (häufiger, Classic-Laufzeiten 2/8/24 Std.): Auktion läuft über Nacht ab, Ware liegt ungesehen im Briefkasten; am
+   nächsten Tag ändert sich vor dem Briefkasten eine Tasche -> "fehlt".
+   Fall C: AH-Kauf, Spieler geht > 24 Std. nicht zum Briefkasten (Casual) -> "fehlt".
+   Folge: Fehlbestand/Verlust falsch; beim späteren Abholen erscheint die Ware nur als graue Info "mehr vorhanden als gebucht"
+   (TB157-3) – der Einstand ist verloren, der spätere Verkauf zeigt zu viel Gewinn. Nichts nimmt die "fehlt"-Buchung zurück.
+   Vor 0.65.160 bestand das Risiko nur, wenn der Briefkasten nach dem Zugang gesehen war; jetzt in jedem Fall nach 24 Std.
+   Lösung (Vorschlag):
+   a) Ausbuchen nur, wenn in DIESER Sitzung (oder nach dem letzten Zugang) BEIDES gesehen wurde: Briefkasten-Abbild nach lastIn
+      UND eigene Auktionen gelesen (Se.ownedTime > lastIn) – oder HaveCount zählt laufende Auktionen aus A.db.ownedEnds, solange
+      deren Ende nicht vorbei ist; nach dem Ende gilt die Ware als "unterwegs im Briefkasten", bis ein Abbild danach existiert.
+      Sonst nur melden (StockCheck), nicht buchen.
+   b) Rücknahme: kommt Ware an (Briefkasten abgeholt, Taschen-Zuwachs), für die in den letzten 30 Tagen "fehlt" gebucht wurde,
+      die Buchung zurücknehmen (wie UndoVendorUse, mit altem Einstand) statt "mehr vorhanden als gebucht".
+   c) 11083 (der echte Fall) bleibt gelöst, wenn Briefkasten und eigene Auktionen danach gesehen wurden.
+   Test (auch falsche Fälle): Fall A, B, C -> NICHT ausgebucht; 11083-Fall mit Briefkasten + Auktionen gesehen -> ausgebucht,
+   Lager 0, Reparatur-/Fehlbestand-Zeile; Rücknahme-Fall -> Lager zurück mit Einstand. Selbstkontrolle: Zähler "fehlt gebucht /
+   später zurückgenommen" im Testbericht (zurückgenommen > 0 = Regel zu früh).
+   Bitte im Supervisor-Durchgang bestätigen, ob db.inboxSnap/Se.owned im Spiel tatsächlich so leer sind (Diagnose).
+NP160-2 NIEDRIG  TB157-2 verlangte "eine Reparatur-Zeile" – T699 prüft nur Lager 0 und Fehlbestand 15822, keine Reparatur-/
+   Protokollzeile. Test ergänzen.
+NP160-3 NIEDRIG  SelfCheck.lua:271 schreibt eine Farbcode-Sequenz (|cff888888 … |r) in den Testbericht-Text; beim Kopieren
+   als Text erscheint "|cff888888". Prüfen, ob andere Testbericht-Zeilen Farbcodes enthalten – sonst ohne Farbe.
+NP160-4 NIEDRIG  have teilweise vorhanden (z. B. 10 von 25) bleibt wie vorher gesperrt (Books.lua:761 nur have == 0) – mit
+   NP160-1a gemeinsam lösen.
+
+Vorschlag für offen-ahsentinel.txt (Supervisor): Block "PRÜFUNG 0.65.160" mit TB157-3 erledigt, TB157-1/-2/-4 teilweise wie oben,
+NP160-1 HOCH vor S3b (gehört in die Reihenfolge direkt nach TB157-4/TB159-1), NP160-2..4 NIEDRIG. Prioritäten-Block nachführen.
+MARKT-KERN (2b): keine neue Testbericht-Datei mit Abschnitt MARKT-KERN seit dem Stand (0594f3d enthält nur alte Fehler-Berichte
+0.65.16/0.65.80 und Diagnosen 0.65.153/0.65.157, vom Supervisor um 13:45/14:05 ausgewertet) – keine Zahlen gegen Ü2 zu prüfen.
+Rechenkern-Änderungen in 0.65.160: keine (Kern.lua unverändert).
+
+========================================================================================================================
+2) LEVELPILOT 3.12.31 (Bericht berichte/LevelPilot/2026-11-14-1440-3.12.31-ml1-meldungen.txt gelesen)
+========================================================================================================================
+addon_check (mit lupa): OK, kein FEHLER. GoldSentinelGame/Markt(v4)/Sync/Test byte-gleich mit shared/ (cmp).
+Offline-Routine (berichte/LevelPilot/offline/run_offline.py, 3.12.31): 34 Läufe, 33 ohne FEHLER; FEHLER nur Forever Allianz
+T150 (Median 27,85 ms) und T155 (21,86 ms) = PF-A, bekannt. "Meldungs-Weiche (ML1, Code-Prüfung)": ALLE TESTS OK.
+
+ML1 (SOFORT) UMGESETZT, ZUR PRÜFUNG – im Code belegt:
+- EINE Weiche Core.lua:237–318: LP.sink ist die einzige Stelle mit DEFAULT_CHAT_FRAME/UIErrorsFrame/PlaySound (Core.lua:248–250);
+  eigene grep-Suche über alle Dateien: keine weitere direkte Ausgabe (ausser Social.lua:118 ChatFrame_OpenChat = Eingabezeile auf
+  Klick, und Session.lua:283 SendChatMessage nur auf Befehl /lp bilanz gilde – beides Antworten auf eigene Handlung).
+- Toast UI.lua:819 und Advisor.lua:390 prüfen LP:MessagesOn(); Standard an (LP.db.messages == false nur bei AUS, alte
+  Einstellungen bleiben an).
+- Selbstkontrolle LP:MessagesLine (Core.lua:313) "unterdrückt n · durchgerutscht n"; durchgerutscht zählt jede Ausgabe bei AUS
+  ausserhalb einer Antwort (Core.lua:258–263) -> erkennt auch Umgehungen über LP.out. Test T290 mit absichtlich falschem Fall.
+Hinweise (NIEDRIG, Supervisor entscheidet):
+ML1-1 NIEDRIG  Comm.lua:552–567 AskConsent zeigt das einmalige Freigabe-Fenster (StaticPopup "Startdatenbank") auch bei
+   Meldungen AUS. Es ist eine Frage, keine Meldung – vermutlich richtig so; sonst bei AUS bis zum nächsten Öffnen der Zentrale
+   verschieben. Bitte entscheiden.
+ML1-2 NIEDRIG  LP:MessagesLine (Core.lua:314) ist fest deutsch ("MELDUNGEN … unterdrückt … durchgerutscht"). Für Testbericht ok;
+   erscheint die Zeile auch in /lp diag für Spieler, über die Sprachtabelle.
+
+NEUER BEFUND AUS DER DIAGNOSE (testberichte/diagnose/LevelPilot/3.12.30-15fdfa384bd0.txt, 14.11. 13:42, L31 Druide, Donnerfels):
+LP-D1 MITTEL  "ZEIT Questauswertung 495 ms/1× max 495" (erste 60 s nach dem Einloggen) – ein Aufruf Planner BuildCandidates
+   (Perf.lua:220, Kategorie "quests") dauert 495 ms am Stück. PS-Ziele: kein Bild > 16 ms, Start ≤ 100 ms. Bisher in keinem
+   Auftrag (grep "Questauswertung" in auftraege/LevelPilot: nichts). Messauftrag: läuft der Aufruf noch im Ladebildschirm oder
+   schon in der Welt? In der Welt -> in Portionen über Bilder verteilen (wie PF-A), sonst nach dem Ladebildschirm verschieben.
+   Test: BuildCandidates mit Datenpaket 3920 Quests, L31, im Nachbau längste Portion ≤ 16 ms. Selbstkontrolle: die Diagnose-Zeile
+   gibt es schon -> max > 16 ms rot. Gehört zu PF-A (gleiches Thema, Prio direkt danach).
+Vorschlag offen-levelpilot.txt: ML1 umgesetzt (zur Prüfung im Client: Schalter AUS -> eine Stunde spielen -> Testbericht
+"durchgerutscht 0"), ML1-1/-2 NIEDRIG, LP-D1 MITTEL hinter PF-A. Nächstes laut Bericht: PF-A als 3.12.32 – passt zu PRIORITÄTEN.
+IM CLIENT PRÜFEN: Schalter in Zentrale -> Einstellungen oben sichtbar; AUS: keine Chatzeile/Mitte/Ton/Toast beim Questgegenstand,
+Abgaben, Reparatur; /lp help antwortet weiter; MELDUNGEN-Zeile im Testbericht.
+
+========================================================================================================================
+3) DISCORD – RAIDMASTERBOT 1.5.133 (/pn) und 1.5.134 (/uploader fuer:) (Berichte 12:10 und 12:25 gelesen)
+========================================================================================================================
+Bot-Tests: python3 -I -m unittest discover -s RaidMasterBot/tests -> 237 Tests OK. bot.py/pn.py Syntax ok.
+Diff bot.py/pn.py/test_pn.py/ANLEITUNG.md/Workflow geprüft:
+- /pn: nur is_creator (= is_admin, bot.py:541–543), nie an Bots, Formular zeigt den Text vor dem Senden (TextInput max 1900,
+  Titel ≤ 45 Zeichen), AllowedMentions.none, Forbidden -> klare Meldung, Protokoll nur ID + Länge (pn.py log_line). Vorlage ohne
+  Namen und ohne geheimen Link (nur der öffentliche Download-Link). In Ordnung.
+- /uploader fuer: Ziel = Mitglied, nie Bot; eigene sync_config über setup_sync(target) – je Nutzer-ID eigener Kanal
+  (uploader_setup.py:141 ff., cfg["sync"][user.id]); bei gesperrter PN nichts umgeleitet (bot.py ab 5366). Ohne fuer wie bisher.
+Ergebnis: freigegeben, keine Befunde. Hinweis NIEDRIG (nur zur Kenntnis): bei gesperrter PN des Mitglieds sind sein #sync-daten-
+Kanal und Webhook schon angelegt (setup_sync vor dem Senden) – beim nächsten Versuch werden sie wiederverwendet, kein Schaden.
+IM BETRIEB PRÜFEN: nach /update erscheinen /pn und die Option fuer; PN kommt an; Mitglied bekommt eigene sync_config.json.
+Vorschlag offen-discord.txt: Abschnitt "Nachprüfung 1.5.133/1.5.134: freigegeben" + IM BETRIEB PRÜFEN; PRIORITÄTEN unverändert
+(KEEP90, Betrieb, D-MN7c2, D-MN7e2). GoldSentinelMarkt v4 betrifft den Bot nicht.
+
+========================================================================================================================
+4) PROFESSIONSENTINEL – Befund aus AHSentinel TB157-1 (andere Addon-Sitzung, Pflicht: auch in dessen offen-*.txt)
+========================================================================================================================
+PS-TC1 MITTEL  ProfessionSentinelAPI.TodayCrafts(5) braucht im Spiel 153 ms am Stück (AHSentinel-Testbericht 0.65.157, T373,
+   Comfort.lua:855 der Vorversion). AHSentinel ruft es jetzt nur alle 15 Min. auf, jeder Aufruf ist aber ein Bild > 16 ms.
+   Lösung: TodayCrafts aus einem Zwischenspeicher beantworten, der nach Scan/Rezeptänderung in Portionen (≤ 8 ms, A:Pause-Muster)
+   neu gerechnet wird; Aufruf selbst ≤ 2 ms. Test: TodayCrafts mit grosser Rezeptliste ≤ 2 ms je Aufruf, Neuberechnung in
+   Portionen ≤ 8 ms. Selbstkontrolle: Diagnose-Zeile "API TodayCrafts längster Aufruf X ms" (> 16 ms rot).
+   Bisher in keinem ProfessionSentinel-Auftrag (grep TodayCrafts in auftraege/ProfessionSentinel: nur HK-P-Felder).
+
+========================================================================================================================
+5) TESTBERICHTE / DIAGNOSEN (Commit 0594f3d, 12:57 UTC)
+========================================================================================================================
+- Neue JSON-Testberichte: nur alte Versionen (AHSentinel 0.65.16 und 0.65.80, BuffSentinel 0.9.7 ×2, GuildSentinel 0.9.13,
+  LevelPilot 3.12.13) – überholt, keine neuen Befunde.
+- Diagnosen aktueller Versionen: GuildSentinel 0.9.38 (4×) Fehler 0; ThreatSentinel 2.5.13 Fehler 0; ProfessionSentinel 0.9.45
+  Lua-Fehler 0, Aufbau 0,2 ms; LevelPilot 3.12.30 -> LP-D1 (oben). AHSentinel 0.65.153/0.65.157: vom Supervisor ausgewertet.
+- Achtung Werkzeug: "python3 addon-check/testberichte.py --help" zeigt keine Hilfe, sondern führt die Auswertung aus und ändert
+  testberichte/status.json und status.md (hier sofort mit git checkout zurückgenommen, nichts committet). Vorschlag (Prüfsystem,
+  NIEDRIG): --help abfangen; in der Anweisung der Nachprüfung steht "--help zeigt die Auswertung".
+
+========================================================================================================================
+VORGESCHLAGENE NACHRICHTENTEXTE (erst nach Freigabe durch den Supervisor)
+========================================================================================================================
+AHSentinel: Keine Einfüge-Nachricht nötig (Weck-Runde, Repo genügt – pruef-ablauf 0). Inhalt für offen-ahsentinel.txt siehe 1).
+
+NACHRICHT AN DIE LEVELPILOT-SITZUNG (zum Einfügen)
+Erst laufende Arbeit fertig machen. Stand 14.11. – Nachprüfung 3.12.31.
+Erledigt zur Prüfung: ML1 Schalter "Meldungen" (eine Weiche, T290, Code-Prüfung offline grün), GoldSentinelMarkt v4.
+ZU TUN: 1. PF-A MITTEL (wie geplant, 3.12.32). 2. LP-D1 MITTEL: Questauswertung 495 ms am Stück nach dem Einloggen
+(Diagnose 3.12.30, Perf.lua:220 BuildCandidates) – messen, ob im Ladebildschirm; sonst in Portionen ≤ 16 ms; Test + Diagnose rot
+> 16 ms. 3. ML1-1/ML1-2 NIEDRIG nach Entscheid des Supervisors. 4. GR1-K NIEDRIG.
+git pull --rebase und auftraege/LevelPilot/offen-levelpilot.txt lesen; nach der Umsetzung Bericht in berichte/LevelPilot/.
+Nächste Version 3.12.32, komplette Dateien, alte Clients nie brechen, alle Locale-Dateien, CHANGELOG EN/DE, vor dem Push
+python3 addon-check/addon_check.py <ZIP> -> kein FEHLER. Ist ein Befund falsch, bitte begründet zurückmelden.
+
+NACHRICHT AN DIE DISCORD-SITZUNG (zum Einfügen)
+Erst laufende Arbeit fertig machen. Stand 14.11. – Nachprüfung Bot 1.5.133/1.5.134: freigegeben, keine Befunde (237 Tests OK).
+Im Betrieb prüfen: nach /update /pn und /uploader fuer: testen. ZU TUN weiter nach PRIORITÄTEN: KEEP90, Betrieb, D-MN7c2, D-MN7e2.
+git pull --rebase und auftraege/Discord/offen-discord.txt lesen; Bericht in berichte/Discord/. Nächste Version 1.5.135,
+Tests grün vor dem Push. Ist ein Befund falsch, bitte begründet zurückmelden.
+
+NACHRICHT AN DIE PROFESSIONSENTINEL-SITZUNG (zum Einfügen, erst wenn das Projekt drankommt)
+Erst laufende Arbeit fertig machen. Neuer Punkt PS-TC1 MITTEL: ProfessionSentinelAPI.TodayCrafts(5) braucht im Spiel 153 ms am
+Stück (gemessen in AHSentinel). Zwischenspeicher + Neuberechnung in Portionen ≤ 8 ms, Aufruf ≤ 2 ms; Test und Diagnose-Zeile.
+git pull --rebase und auftraege/ProfessionSentinel/offen-professionsentinel.txt lesen; Bericht in berichte/ProfessionSentinel/.
+Nächste Version 0.9.46, komplette Dateien, alte Clients nie brechen, Locales, CHANGELOG EN/DE, addon_check ohne FEHLER.
+
+Vorgeschlagene Stand-Werte (nachpruefung-stand.json): AHSentinel 0.65.160, LevelPilot 3.12.31, RaidMasterBot 1.5.134,
+testberichte_bis 0594f3d.
