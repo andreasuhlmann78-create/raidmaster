@@ -34,3 +34,5 @@ NACHT-VERLAUF: (wird ergänzt)
   MITTEL: Händler-Zutaten beim Herstellen und verschickte Post nicht als "verbraucht" buchen.
 - 06:48 0.65.137 (Herstellen wird jetzt wirklich gebucht – Zutatenkosten im Produkt; Post an Twinks wandert mit).
   addon_check OK. Im Spiel prüfen: einen Trank herstellen, etwas an einen Twink schicken.
+- 07:21 0.65.138 (Reparaturkosten werden gebucht, zählen nicht gegen den Handelsgewinn). addon_check OK.
+  Im Spiel prüfen: reparieren, Betrag gegen Gold vorher/nachher.

@@ -141,6 +141,10 @@ Einzelheiten zu jedem Punkt stehen weiter unten (Suche nach dem Kürzel). Diese 
                         Verkauf = ein Fall). Im Bericht: Trefferquote alt/neu, je Preisstufe.
 4. CH-G       ZUR PRÜFUNG 0.65.123: GoldSentinelCmdHint.lua byte-gleich, in der .toc, addon_check OK (Prüf-Sitzung 00:30).
                         Im Client bestätigen (Liste, Klick wählt, Enter führt aus). Bericht 0.65.123 fehlt noch.
+5e. EB-SK     0.65.138 Spielkosten Reparatur zur Prüfung (addon_check OK, T-EB-SK PASS). Im Client prüfen: Betrag gegen Gold
+                        vorher/nachher; Post-Hook liest GetRepairAllCost NACH dem Aufruf – gilt nur, solange der Server noch nicht
+                        geantwortet hat. Randfall: zu wenig Gold -> Reparatur scheitert, Betrag würde trotzdem gebucht (besser:
+                        Buchung erst bei Goldabgang/PLAYER_MONEY bestätigen). Weiter: Einzelreparatur, Training, Flug, Einnahmen, EB3.
 5d. EB4-2     0.65.137 zur Prüfung (addon_check OK, T-EB4c/d PASS). Herstellen ist jetzt erst wirklich gebucht – im Client
                         prüfen (Trank herstellen, Post an Twink). Hinweis für EB3: Post an andere Spieler MIT Nachnahme (COD) ist
                         ein Verkauf, kein Eigenbedarf – bei EB3 Spielerhandel so buchen (Test).
