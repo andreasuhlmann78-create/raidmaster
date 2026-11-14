@@ -12,6 +12,13 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.140
+
+- **Stock check fixed (important):** the check saw goods in bags and bank as "0 present". AHSentinel now counts with the
+  stored snapshot of your bags and bank (bank as of the last visit). As long as the bank was never seen, nothing is
+  booked out. What 0.65.136–0.65.139 wrongly booked out as "consumed" returns to stock once. Goods that are really
+  missing are booked as removed (not in profit). Test T663.
+
 ### Version 0.65.139
 
 - **Calculation core (preparing 0.66):** AHSentinel measures market waves per level band (disenchanting materials):
@@ -33,11 +40,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 - **Accounting – consumed vendor goods:** what you bought from a vendor and used up (food, water, ammo, reagents) leaves
   the stock and counts as own use – no more phantom stock. Test T659.
-
-### Version 0.65.135
-
-- **Accounting – vendor purchases:** purchases from vendors are now booked (purchase with source "vendor", cost basis
-  in stock, e.g. for crafting). The gold check adds up better. Test T658.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
