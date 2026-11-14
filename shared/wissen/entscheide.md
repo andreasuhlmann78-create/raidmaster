@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 14:15 | Entzauber-Fenster ohne Befehl: gewählt NUR "Knopf am Berufsfenster" (nicht automatisch, nicht Minikarte, nicht Taste). | offen-ahsentinel.txt DW-K1 |
 | 14:09 | "Ich will, dass alles 3 mal geprüft wird, bevor es live geht." (zu den Herstellen-Ketten; bestätigt Grundsatz 11:24) | Neue Anzeigen erst nach Test + Selbstkontrolle + Supervisor-Prüfung live; vorher nur im Testbericht. S3-2 FREIGABE. |
 | 14:08 | "Es gibt mehr Möglichkeiten für ein Geschäft mit Marge 20–30 %" (Beispiel: Leinenstoff 25c -> Ballen -> Braune Leinenhose -> Entzaubern, ≈ +22c je Hose) – Ketten Kaufen -> Herstellen -> Entzaubern/Verkaufen systematisch finden. | offen-ahsentinel.txt S3-2 (RK1/RK3, S3b/S5). "Die Masse macht das Gold" (14:06) – mit Grenze je Zutat (lohnt bis) und Absatz-Prüfung. |
 | 13:44 | LevelPilot: Schalter "Meldungen" in den Optionen schaltet ALLE Ingame-Meldungen ab (z. B. "Hier ist der Erste-Hilfe-Lehrer") | offen-levelpilot.txt ML1 SOFORT; Ausnahmen (Supervisor 13:50): Antworten auf eigene Befehle, Fehler auf eigene Handlung, Guide selbst |

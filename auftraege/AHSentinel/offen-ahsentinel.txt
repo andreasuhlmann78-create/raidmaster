@@ -5,6 +5,17 @@ PRÜFUNG 0.65.158 + 0.65.159 (Supervisor 14:10, addon_check OK, Berichte + Kern.
 zur Prüfung. S3a richtig: ein Wert über alle Wege, Anzeigen noch unverändert (Gold-Sicherheit), Selbstkontrolle im Testbericht.
 S2-B4/SK1-B4 wie verlangt (Neuaufbau einmal, mailCache vor dem Abholen). Reihenfolge-Erklärung angenommen; jetzt TB157-1..4
 (TB157-4 mit der Ursache von 14:05) und TB159-1, dann T131-1, dann S3b.
+DW-K1 HOCH (Wunsch des Nutzers 14:13/14:15, klein, SOFORT nach TB157-4): Knopf am Berufsfenster für das Entzauber-Fenster.
+   Der Nutzer will nicht jedes Mal "/ahs entzaubern" tippen. Gewählt: NUR ein Knopf am Berufsfenster (kein automatisches Öffnen,
+   kein Minikarten-/Tasten-Weg – nicht eigenmächtig dazubauen).
+   - Neben "Alle erstellen"/"Erstellen" (Blizzard- und modernes Berufsfenster, Forever + alte Clients) ein Knopf "Entzaubern (n)",
+     n = entzauberbare Teile in den Taschen nach den Regeln von DEWindow (Sperrliste, Sets, Quest, grün–violett). n = 0 -> grau.
+   - Klick = DW:Show() (im Kampf gesperrt wie bisher). Verdeckt keinen Blizzard-Knopf und nicht ProfessionSentinel (T177/T192).
+   - n wird nur bei BAG_UPDATE_DELAYED neu gezählt (Zwischenspeicher, kein Rechnen beim Zeichnen, ≤ 1 ms).
+   - Locales alle Sprachen, CHANGELOG EN/DE.
+   GRUNDSATZ: Test (Knopf da/nicht da, n richtig mit gesperrten und erlaubten Teilen, im Kampf kein Öffnen, kein Überlappen) +
+   Selbstkontrolle (UICheck: Knopf sichtbar und frei, n = Zahl im Entzauber-Fenster) + Prüfung Supervisor.
+
 S3-2 MITTEL (Fall des Nutzers 14:05, für S3b – nachgerechnet mit Scan 13:48): Braune Leinenhose (4343) – der Nutzer stellt sie her
    (2 Leinenstoffballen = 4 Leinenstoff à 24c + Grober Faden 10c = 1s 06c) und entzaubert (Seltsamer Staub 1s 15c, Geringe Magie-
    essenz 1s 20c; eigene Messung Gruppe 2:1:a: Staub 80 % × Ø 1,08, Essenz 20 % × Ø 1,67 -> nach 5 % Gebühr ≈ 1s 32c) -> ≈ +26c
