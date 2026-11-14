@@ -1,0 +1,17 @@
+Bericht AHSentinel 0.65.133 – EB7 Details-Fenster und EB-DET
+Stand: 14.11.2026 · Status: umgesetzt, zur Prüfung
+- Einziges neues Element in der Buchhaltung: Knopf "Details" (rechts neben den Zeitraum-Knöpfen). Fenster
+  "Buchhaltung – Details" (UI:ShowBooksDetails, Daten BK:Details): Umschalter Heute / Woche / Gesamt, Standard Gesamt.
+  Zeilen: Handel (Gewinn) grün/rot · Handel pro Stunde = Gewinn ÷ Online-Zeit im Zeitraum (neu Act "online": jede Minute
+  eingeloggt ohne AFK-Kennzeichen; unter 2 Std. grau "lernt noch") · Eigenbedarf · "<DEPOSIT> verfallen" · Verkaufsquote
+  (verkaufte / eingestellte Stück aus dem Prognose-Journal, Abbrüche/Abläufe = nicht verkauft, ab 5 Stück) · Rendite je
+  Weg (Entzaubern/Flippen/Händler/Herstellen = Gewinn / eingesetzt aus Summary byType/byTypeCost, Entzaubern als Summe,
+  ab 5 Verkäufen) · Gold-Abstimmung (BK:ReconcileAll, ✓ wenn |nicht zugeordnet| ≤ 1 % bzw. 1s).
+- Abweichungen/Annahmen: AFK = Kennzeichen des Spiels (setzt nach ~5 Min. ein) statt "über 15 Min."; Online-Zeit wird
+  erst ab dieser Version gemessen (anfangs "lernt noch"). Sniper ist eine Quelle, kein Weg – Rendite je Weg nach der
+  Herkunft der Kostenbasis (bt). Spielkosten/Einnahmen (EB-Rest) noch nicht erfasst – stecken in "nicht zugeordnet".
+  Keine Rechenwege angezeigt (Entscheid OR).
+- Test T656 T-EB7/T-EBD1 (Gewinn 1800, 3 Std. -> 600/Std., Entzaubern +30 % aus 6 Fällen mit Einzelverlusten, Standard
+  Gesamt, ≥ 8 Zeilen) – PASS. Gesamtlauf 246/246, addon_check OK. Im Client prüfen: Fenster, Knopf-Position.
+Offen in EB: EB2 (von Hand umbuchen – entfällt laut Entscheid, wenn neue Steuerung nötig), EB3–EB5 (Händler-/Spieler-
+Handel, Spielkosten/Einnahmen), EB-DET T-EBD2/3 eigene Tests.
