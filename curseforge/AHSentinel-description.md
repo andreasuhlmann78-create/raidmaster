@@ -12,6 +12,15 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.167
+
+- **Accounting, crafting:** a craft was only booked when the recipe was already in the "best recipes" cache. Otherwise the
+  crafted item had no cost, and materials disenchanted from it showed the full revenue as profit. Now the recipe is also found
+  in the open profession window or in the recipes remembered for this character. New self-check "craft booked". Test T708.
+  Earlier bookings stay unchanged.
+- **Profit window:** if disenchanting is the best way, the vendor amount is shown as "Vendor: 60c" (no longer "vendor pays more",
+  which contradicted "best way: disenchant"). Test T707.
+
 ### Version 0.65.166
 
 - **Accounting, disenchant groups:** materials from new disenchants remember their price at the moment of disenchanting. The
@@ -46,13 +55,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   with amount and revenue – no misleading "loss per material". Test T702, self-check: group = revenue − cost.
 - Test routine: the intentional test error (T131) no longer opens the Lua error window; your error handler is restored right
   after. Test report: no colour code in the self-check text.
-
-### Version 0.65.162
-
-- **New: "Disenchant (n)" button at the profession window** – opens the AHSentinel disenchant window without typing
-  "/ahs entzaubern". n = disenchantable items in your bags (blocked items, equipment sets and quest items don't count); grey
-  at 0. The button sits left of "Create All" when there is room, otherwise below the profession window – it never covers
-  another button. Locked in combat. Test T700, self-check "disenchant button".
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
