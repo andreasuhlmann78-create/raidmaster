@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 01:23 | Sparsam (Wochen-Nutzung ca. 32 %), aber es darf nicht zum Stillstand kommen. | AHSentinel: weiterarbeiten, Weck-Runde 30 Min., kurze Berichte, kleine abgeschlossene Versionen; Prüf-Sitzung nachts alle 30 Min. |
 | 01:19 | AHSentinel die Nacht durcharbeiten lassen – morgen früh soll alles fertig sein. | offen-ahsentinel.txt zuoberst NACHT-ARBEIT; Prüf-Sitzung prüft die Nacht durch (5-Min.-Runden). |
 | 01:15 | Anzeige in ZAHLEN statt Worten: grün = lohnt sich (+x), rot = lohnt sich nicht (−x) – "ich finde Zahlen besser als Buchstaben". | Rechenkern-Regeln, DE30b, PR1: überall Zahlen grün/rot (wie LT). |
 | 01:06 | Bestand des Nutzers: 19g 89s Gold, acht 10er-Taschen, Kleinkram auf der Bank – keine Astralessenzen/Seelenstaub. | AHSentinel BH-AUS-3 (Phantom-Ware umbuchen, Lager-Abgleich mit Taschen/Bank). |
