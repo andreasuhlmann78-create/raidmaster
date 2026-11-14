@@ -290,6 +290,8 @@ Um zu erfahren, ob ein höherer Preis noch verkauft, gelegentlich leicht höher 
   Splitter (11139). Andere Materialien -> in der Auswertung über die Item-ID getrennt; in der normalen Entzauber-Statistik zählen sie.
 - Ergebnis Nutzer: eingestellt ca. 14:23, "alles verkauft" um 14:26 (≈ 3 Min., auch Seelenstaub/Splitter). Deutung offen:
   so schneller Abverkauf spricht für zu tiefen Preis oder Aufkäufer (Flipper/Sniper) -> Preis-Leiter vor/nach prüfen (Daten folgen).
+- Dazu (Nutzer 14:27): 3 Auktionen wegen Unterbietung abgebrochen und neu eingestellt -> im Daten-Abbild prüfen: Abbruch-Grund
+  "unterboten" (TB138-4) erfasst, PR1-Kette (gleiche Ware neu eingestellt), verlorene Anzahlung gebucht (BH-ANZ).
 
 ## 8. Sniping, Flippen, Handel – Grundsätze (Wunsch des Nutzers 10.11. 09:28: "in allen Bereichen der Beste")
 
