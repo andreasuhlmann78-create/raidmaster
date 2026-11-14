@@ -19,6 +19,13 @@ PRÜFUNG 0.65.165 + 0.65.166 (Supervisor 15:55, addon_check 0.65.166 OK, Bericht
   dahin bleibt euer Weg (Berufsfenster einmal öffnen). Wenn die API da ist: nutzen, sonst Rückfall.
 Reihenfolge jetzt: SN-EIN1 (HOCH, Gold, Entscheid 15:45), SN-MAX1 (HOCH, Gold), EK-1 (HOCH), BR-LEER1, dann VS-1, dann Ketten Schritt 2 nach Freigabe, Rest NIEDRIG.
 
+SN-DEF1 MITTEL (Entscheid des Nutzers 15:49, mit SN-EIN1 zusammen bauen): Sniper-Standardwerte für ein NEUES Ziel:
+   Budget = 5g, Menge = 1000 Stück, Max/Stück = LEER – den Preis legt der Spieler selbst fest (grauer Platzhalter, z. B. "Preis
+   eingeben (z. B. 22c)", ohne Max kein Start; KEIN automatisch eingesetzter Preis). Ersetzt den bisherigen Standard aus TU3
+   ("Menge leer -> bis Budget"). Bestehende Ziele unverändert. Erklär-Satz (Grundsatz 15:18): "Kauft bis 1000 Stück, höchstens
+   für 5g, nur zum Preis, den du einträgst." Test: neues Ziel -> 5g/1000/leer; Start ohne Max gesperrt; TU3-Standard-Test
+   angepasst.
+
 SN-EIN1 HOCH – ZUERST (Entscheid des Nutzers 15:45, Gold-Sicherheit; im Code bestätigt AHAnalyzerPro.lua 513 A:ParseGold: eine Zahl
    ohne Einheit = GOLD, "22" -> 220000 Kupfer; Screenshot 15:42 zeigt im Sniper "Max/Stück 22g = 22 [Gold]"):
    "Wenn man beim Sniper Max/Stück nur 22 schreibt, dürfen daraus nicht 22 Gold werden, sondern 22 Kupfer."
