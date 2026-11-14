@@ -44,17 +44,22 @@ V3 Halten oder sofort verkaufen (RK6, R4): Welle je Stufenband (Waves.lua, 0.65.
 V4 Tages- und Wochenzyklus (R7, R8): nur messen, nicht anzeigen, bis belegt (≥ 3 Wochen, ≥ 80 % gleiche Richtung).
 
 TEIL 4 – AUSSERHALB DES SPIELS (schwere Rechnung)
-A1 Die Prüf-Sitzung rechnet jeden Montag aus allen Daten (Uploads, Bot 90 Tage) Tabellen: Wellen-Stand je Band, Quoten je
-   Preisstufe, Mindestgewinn je Entzauber-Gruppe, Zyklen. Ablage: shared/markt-tabellen/ (neu), Form wie Wegdaten.
+A1 TÄGLICH (Entscheid des Nutzers 09:01 "öfters"; Wellen wandern 1 Band je 1–2 Tage, wöchentlich wäre zu spät): die
+   Prüf-Sitzung bzw. eine geplante Aufgabe rechnet jeden Morgen aus allen Daten (Uploads, Bot 90 Tage) die Tabellen neu:
+   Wellen-Stand je Band, Quoten je Preisstufe, Mindestgewinn je Entzauber-Gruppe, Kaufgrenzen je Preisstufe, Zyklen.
+   Ablage: shared/markt-tabellen/GoldSentinelMarktTabellen.lua (eine Lua-Tabelle, Datum + Datenstand je Teil, < 50 KB),
+   über das Addon-ZIP ausgeliefert wie die Wegdaten (jede neue AHSentinel-Version nimmt die neueste mit).
+   Zusätzlich jeden Montag die grosse Nachrechnung (Prüfung P3).
 A2 AHSentinel liest die Tabelle beim Laden (nur Nachschlagen, kein Rechnen) und nutzt sie als Vorwissen (L2). Eigene
    Zählung geht vor, sobald genug Fälle da sind. Fehlt die Tabelle: alles läuft ohne sie.
 
 TEIL 5 – REIHENFOLGE (je Schritt eine kleine Version mit Bericht)
 S1 Lernschicht L1–L5 + Prüfung P1–P4 als gemeinsame Funktion; zuerst für die Verkaufschance (PR2) – Testbericht-Zeilen.
-S2 V2 (Kaufgrenze lernt je Preisstufe) + V3 Richtung (Welle -> "jetzt verkaufen").
+S2 V2 (Kaufgrenze lernt je Preisstufe) + V3 Richtung (Welle -> "jetzt verkaufen") + A2 Tabellen lesen (vorgezogen,
+   Entscheid 09:01) – Form der Tabelle: shared/markt-tabellen/README.md (legt die Prüf-Sitzung an).
 S3 RK1/RK2 EIN "Lohnt bis" über alle Wege auf der Lernschicht (Selbsttest: nie zwei Zahlen für ein Item).
 S4 V1 Verkaufspreis als Zahl im Verkaufen-Fenster und Tooltip (nur nach P2).
-S5 A2 Tabellen lesen; RK3–RK7 nach anweisung-markt-reiter.txt.
+S5 RK3–RK7 nach anweisung-markt-reiter.txt.
 
 ABGLEICH MIT FRÜHEREN ENTSCHEIDEN (dreifach geprüft, 09:10)
 - DE30b (23:51): Entzaubern hat Mindestgewinn je Gruppe 20/25/30 % und KEIN Budget -> RK4-Budget (25 %/10 %) gilt nicht für
