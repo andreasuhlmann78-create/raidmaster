@@ -17,6 +17,16 @@ PRÜFUNG 0.65.165 + 0.65.166 (Supervisor 15:55, addon_check 0.65.166 OK, Bericht
   Staub 83 % × Ø 1,5 + Essenz 17 % × Ø 1,6 (nicht 1s 32c fest).
 - Antwort zu ProfessionSentinel-API: JA, wird bei ProfessionSentinel beauftragt (PS-API1 "Rezepte mit Zutaten je Figur"); bis
   dahin bleibt euer Weg (Berufsfenster einmal öffnen). Wenn die API da ist: nutzen, sonst Rückfall.
+PRÜFUNG 0.65.170 (Testbericht 14.11. 16:48, Hauptteil; server/berufe/haendler folgen): 764 OK · 7 FEHLER · 73 s (vorher 116 s).
+   Wirkt: Flippen 10 -> 1 Zeile (FL-1), T184 und T598 nicht mehr rot. NICHT freigegeben – zwei neue Fehler kamen mit 0.65.170:
+TB170-1 HOCH (neu, Rückschritt): T72 "Heute tun: nicht nach Gold sortiert" (SelfTest.lua:667). Vermutlich MK:ApplyTodayRelease /
+   K:ChainUse (Menge gekürzt oder Entzaubern-Zeile neu, danach nicht neu sortiert). Nach dem Kürzen neu nach Gewinn sortieren.
+TB170-2 HOCH (neu, Rückschritt): T373 cache:today:10 18,8 ms je Frame (längster Schritt 19 ms bis Comfort.lua:756), Ziel < 16 ms.
+   Vermutlich K:ChainUse (Ketten-Zutaten Tiefe 3 + Taschen) in einem Schritt. In Portionen teilen; Zeitmessung im Bericht.
+TB170-3 PRÜFEN: "Lohnt bis" bester Weg vorher ah 34 / haendler 26, jetzt de 5 / haendler 55 – AH als bester Weg fällt ganz weg.
+   Belegen, dass das an anderen Items liegt (Liste der 60) und nicht an GW-S2/MH-1; sonst Fehler.
+TB170-4: TU5 echte Daten SKIP ("noch nicht gelaufen") – nach dem Update fehlt der Lauf; nach dem nächsten Vollscan nachholen, ok.
+Weiter rot wie bekannt: T277, T647, SK1-c/h/j (TB168-1/-2/-7). SK1-r noch 0 Fälle.
 ANTWORT MH-1 (Bericht 0.65.170, 16:46): Die Herstellen-Zeile aus der Kette bleibt hinter Ke.LIVE, bis die Ketten freigegeben
    sind (Entscheid 14:09 "alles dreimal geprüft, bevor es live geht"). Bis dahin keine zweite Zahl erfinden. Die Prüfung von
    0.65.170 folgt mit dem Testbericht, der jetzt läuft.
@@ -33,7 +43,7 @@ PRÜFUNG 0.65.167 (Supervisor 16:00, addon_check OK, Bericht gelesen): EK-1 umge
    Herstellen nur über den Zwischenspeicher erkannt -> kein OnCraft -> Einstand 0). GW-S1 umgesetzt. Entscheid zu alten Buchungen:
    NICHT umbuchen (Regel); der Supervisor rechnet die Hosen-Ladungen getrennt nach, bis der Staub-Bestand verkauft ist.
    Im Client prüfen: nach einer Herstell-Runde SK1-m = 0 Abweichungen und Einstand im Verkaufen-Fenster ≠ 0.
-Reihenfolge jetzt: TB168-1/-2 (HOCH), MR1-V (Ansichten ausblenden), SN-MAX1, MH-1, FL-1, BR-LEER1, VS-1, Ketten Schritt 2 (nach Freigabe), Rest.
+Reihenfolge jetzt: TB170-1/-2 (HOCH, Rückschritt), TB168-1/-2 (HOCH), MR1-V (Ansichten ausblenden), SN-MAX1, MH-1, FL-1, BR-LEER1, VS-1, Ketten Schritt 2 (nach Freigabe), Rest.
 
 RM1 MITTEL (Auftrag des Nutzers 16:22 "Risikomanagement", Grundlage markt-strategie.md 8j) – nach MH-1/FL-1, mit den Ketten:
    Jeder Kauf-Vorschlag (Heute tun, Flip, Sniper-Ziel, Ketten-Einkaufsliste) bekommt eine Risiko-Prüfung, bevor er erscheint:
