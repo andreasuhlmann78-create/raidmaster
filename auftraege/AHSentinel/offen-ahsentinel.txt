@@ -17,11 +17,13 @@ PRÜFUNG 0.65.165 + 0.65.166 (Supervisor 15:55, addon_check 0.65.166 OK, Bericht
   Staub 83 % × Ø 1,5 + Essenz 17 % × Ø 1,6 (nicht 1s 32c fest).
 - Antwort zu ProfessionSentinel-API: JA, wird bei ProfessionSentinel beauftragt (PS-API1 "Rezepte mit Zutaten je Figur"); bis
   dahin bleibt euer Weg (Berufsfenster einmal öffnen). Wenn die API da ist: nutzen, sonst Rückfall.
+>>> HÖCHSTE PRIORITÄT (Nutzer 17:52): SN-ALLE1 (Sniper prüft ALLE Ziele, so schnell wie der Server erlaubt) – sofort nach
+    0.65.173 (laufende Arbeit fertig machen), vor allem anderen. Eigene Version, dann Testbericht. Text siehe SN-ALLE1 unten.
 >>> FERTIG-LISTE (Nutzer 17:06: "lass uns AHS fertigstellen", Nutzung 91 %). Nur noch diese Punkte, in dieser Reihenfolge,
     gebündelt in WENIGE Versionen (eine Version je Block, je ein Testbericht – keine Einzel-Versionen pro Punkt):
     BLOCK 1 (sofort): BH-TT1 + BH-ANZ-S4 (Buchhaltung Tooltip/Prozent, siehe unten), DW-K1-B1 (Knopf frei bei offenem PS), TB170-1 (Heute sortieren), TB170-2 (Heute in Portionen),
        TB170-8 (Berufsfenster 0 Rezepte), TB168-10 (AH-Post abholen findet die Post nicht).
-    BLOCK 2: TB168-2 (SK1-c Sniper-Gold messen), SN-MAX1 (Zahl ohne Einheit = Kupfer), SN-ALLE1 (Sniper prüft alle Ziele, siehe unten), MR1-V (unzuverlässige Ansichten
+    BLOCK 2: TB168-2 (SK1-c Sniper-Gold messen), SN-MAX1 (Zahl ohne Einheit = Kupfer), (SN-ALLE1 vorgezogen, siehe HÖCHSTE PRIORITÄT), MR1-V (unzuverlässige Ansichten
        ausblenden, Entzaubern hochgerechnet mit Hinweis), VK-1 (Reiter "Verkauft", Hauptzahl "Gold kommt").
        + HERSTELLUNGS-KETTEN LIVE (Nutzer 17:08: "die will ich auch"): Ketten Schritt 2 mit den VORGABEN 14:51 fertig, MH-1-Rest
        (eine Zahl mit ProfessionSentinel), Ke.LIVE erst EIN, wenn der Supervisor den Testbericht von Block 2 geprüft hat
