@@ -1,0 +1,30 @@
+AHSentinel 0.65.171 – Testbericht 0.65.168: TB168-1, -2, -5, -6, -7, -9 – umgesetzt, zur Prüfung
+===============================================================================================
+
+TB168-1 HOCH (Nachlauf 829 ms): Ursache im Code gefunden (bitte im Client mit SK1-h bestätigen): VS:MEnd rief am Scan-Ende
+VS:AddonKB = UpdateAddOnMemoryUsage() (misst ALLE Addons, mit grossen SavedVariables mehrere 100 ms) – und gleich danach
+für A.db.vsLastMeasure ein ZWEITES Mal, im selben Bild. Dieses Bild wird dem Schritt "Nachlauf" zugeschrieben (MSet direkt
+danach). Jetzt: eigener Speicher nur mit VS.MEASURE_OWN (setzt der Tempo-Test), sonst ganzer Lua-Speicher (collectgarbage).
+Test T721 (normal 0 Aufrufe, Tempo-Test 2). Offen aus TB168-1: "Preisverlauf+Neuaufbau 104 ms" und Speicher +20–27 MB je Scan
+(NP152-3-Rest) – nächste Schritte nach MR1-V.
+
+TB168-2 HOCH (SK1-c "Gold +0 · gebucht −x"): Ursache nicht sicher bestimmbar ohne Client. Im Code zwei Schwachstellen behoben:
+(1) BK:FlowContext gab "haendler" zurück, solange eine Händler-Bilanz (BK.hb) offen war – blieb sie ohne MERCHANT_CLOSED
+hängen, landete AH-/Post-Geld beim Händler (passt zu TB138-2 "ah nur −500"). Jetzt: offenes AH vor offenem Briefkasten vor
+hängender Bilanz; die Händler-Bilanz reagiert nur noch bei offenem Händler. (2) SK1-b/c messen das Gold der Sitzung zusätzlich
+direkt (GetMoney beim Öffnen / 2 s nach dem Schliessen); verfehlt der Fluss die Messung, gilt die Messung und der Text nennt die
+Orte des Flusses ("gemessen x, Fluss am Ort y (Orte: …)") -> der nächste Testbericht zeigt die Ursache. Test T719.
+TB168-3 (SK1-b 0 Fälle) hat vermutlich dieselbe Ursache (Fluss nicht am Ort "post"); mit der Messung entstehen jetzt Fälle.
+TB168-5: Zauber 13262 (Entzaubern) wird nicht mehr als Herstellen gezählt; jede Abweichung nennt den Zaubernamen
+(für 3909 bitte im nächsten Bericht nachsehen).
+TB168-6: SK1-e Grenze = 1 % vom Umsatz des Tages (wie TB138-2), ohne Umsatz wie bisher. Test T720.
+TB168-7: Entzaubern-Knopf: Diagnose nennt das verdeckte Element (Name/Text) und den Platz; probiert unter dem Fenster, eine
+Zeile tiefer, über dem Fenster. Test T720 (Name).
+TB168-9: Hinweis im Chat vor dem Lauf (~2 Min., nichts tun), Erinnerung bei Briefkasten/AH während des Laufs, längstes Bild mit
+Test-ID im Bericht (T722, Messung). Die Testroutine läuft schon in Portionen (SLICE_MS); einzelne Tests sind länger – die
+neue Zeile zeigt, welcher.
+Noch offen aus dem Testbericht: TB168-4 (GetInboxInvoiceInfo in Forever), TB168-8 (1c Rundung), TB168-10 (AH-Post abholen).
+Danach MR1-V, VK-1.
+Locales 2 neue Schlüssel, CHANGELOG EN/DE. Grundsatz: T719–T722 / Selbstkontrollen sind selbst Gegenstand / Prüfung Supervisor.
+Volltest 250/250, addon_check OK.
+Nachtrag: Prüfung 0.65.170 gelesen (TB170-1..10). TB170-1/-2/-5/-8/-9/-10 und MR1-V (Teil 1+2) folgen als 0.65.172.
