@@ -38,6 +38,16 @@ TEIL SERVER 0.65.174 (18:15): 56 OK · 3 FEHLER (S28, T72=TB174-1, T126 12,6 ms 
    übersprungen (Server-Abstand 3 Min.) -> TB172-2/TB174-2 offen. "Sniper-Takt 13 Suchen/Min." – zählen hier die Testsuchen mit?
    Für SN-ALLE1-2 nur echte Sniper-Suchen zählen und das im Text sagen. WIDERSPRUCH: Abschnitt "Lohnt bis (S3)" meldet 60/60 gleich,
    S28 im selben Bericht 15 von 20 mit zwei Werten – die beiden Prüfungen messen Verschiedenes; angleichen (TB170-10, Block 3).
+>>> RUCKEL-1 SOFORT, VOR ALLEM ANDEREN (Nutzer 18:16): "es ruckelt immer wie verrückt". Sniper lief um 18:04 NICHT – der
+    Vollscan allein brauchte 31 s Einlesen, +155 MB Speicher, 27 Speicherbereinigungen, Lücke 373 ms. Lua-Speicher gesamt bis
+    687 MB, AHSentinel allein 290–350 MB (Teil 16:25: 154 MB). Bei so viel Speicher dauert jede automatische Speicherbereinigung
+    des Spiels lange -> Ruckeln auch ausserhalb des Scans. Das ist für den Spieler der wichtigste Fehler überhaupt.
+    Auftrag: (1) Messen statt vermuten: Speicher von AHSentinel je Teil (Preisverlauf 425k Zeilen ~17 MB geschätzt, Vollscan-Tabellen,
+    Absatz/Verfolgung V4, Rhythmus, Testroutine-Reste, Zwischenspeicher/Caches) – im Bericht als Liste mit KB; dazu Speicher direkt
+    nach /reload, nach Vollscan, nach Testroutine. (2) Alles freigeben, was nach dem Scan nicht mehr gebraucht wird (Rohliste der
+    ~300k Auktionen, Zwischentabellen), Tabellen wiederverwenden statt neu anlegen, keine Strings je Auktion bauen.
+    (3) Ziel: AHSentinel nach dem Scan < 150 MB, Zuwachs je Scan ≤ 10 MB, Bild nie > 33 ms, auch beim Herumlaufen.
+    Test + Selbstkontrolle SK1-h mit diesen Grenzen. Erst danach TB174-1, SN-ALLE1-2.
 >>> JETZT (Nutzer 18:01 "lass ihn den Sniper fertig machen"): Block 1 ist bis auf TB172-2 geprüft – SN-ALLE1 jetzt bauen.
     TB172-2 prüfe ich mit dem Teil server des nächsten Testberichts mit.
 >>> HÖCHSTE PRIORITÄT (Nutzer 17:52): SN-ALLE1 (Sniper prüft ALLE Ziele, so schnell wie der Server erlaubt) – sofort nach
