@@ -20,6 +20,12 @@ PRÜFUNG 0.65.165 + 0.65.166 (Supervisor 15:55, addon_check 0.65.166 OK, Bericht
 >>> SOFORT (Nutzer 14.11. 16:56): Weckrunde abstellen bis auf weiteres. Keine automatischen Wiederholungen, keine
     ScheduleWakeup/send_later/Loop-Termine mehr; bestehende löschen. Weiterarbeiten nur, wenn der Nutzer schreibt.
     Grund: Wochen-Nutzung 89 %, Reset Montag 05:00. Der Nutzer sagt, wann es wieder losgeht.
+DW-K1-B1 HOCH (Nutzer 16:59, Screenshot, 0.65.170): Knopf "Entzaubern (40)" unten links am Schneiderei-Fenster ist sichtbar,
+   n = 40 stimmt (40 Braune Leinenhosen in den Taschen), aber "Button geht nicht" – Klick öffnet das Entzauber-Fenster nicht.
+   Nicht im Kampf. Dazu SK1-j seit 16:08 "Knopf sichtbar · verdeckt etwas". Prüfen: OnClick überhaupt verbunden? liegt ein
+   anderer Rahmen (ProfessionSentinel, Blizzard-Leiste) darüber und fängt den Klick (Frame-Ebene/Strata, EnableMouse)? wirft
+   DW:Show() einen stillen Fehler? Test: Klick per Code (Knopf:Click()) UND Treffertest GetMouseFocus über dem Knopf -> muss
+   der Knopf selbst sein. Im /ahs protokoll eine Zeile "KLICK Entzaubern-Knopf -> Fenster offen ja/nein". Gehört vor TB170-1.
 PRÜFUNG 0.65.170 (Testbericht 14.11. 16:48, Hauptteil; server/berufe/haendler folgen): 764 OK · 7 FEHLER · 73 s (vorher 116 s).
    Wirkt: Flippen 10 -> 1 Zeile (FL-1), T184 und T598 nicht mehr rot. NICHT freigegeben – zwei neue Fehler kamen mit 0.65.170:
 TB170-1 HOCH (neu, Rückschritt): T72 "Heute tun: nicht nach Gold sortiert" (SelfTest.lua:667). Vermutlich MK:ApplyTodayRelease /
@@ -67,7 +73,7 @@ PRÜFUNG 0.65.167 (Supervisor 16:00, addon_check OK, Bericht gelesen): EK-1 umge
    Herstellen nur über den Zwischenspeicher erkannt -> kein OnCraft -> Einstand 0). GW-S1 umgesetzt. Entscheid zu alten Buchungen:
    NICHT umbuchen (Regel); der Supervisor rechnet die Hosen-Ladungen getrennt nach, bis der Staub-Bestand verkauft ist.
    Im Client prüfen: nach einer Herstell-Runde SK1-m = 0 Abweichungen und Einstand im Verkaufen-Fenster ≠ 0.
-Reihenfolge jetzt: TB170-1/-2 (HOCH, Rückschritt), TB168-1/-2 (HOCH), MR1-V (Ansichten ausblenden), SN-MAX1, MH-1, FL-1, BR-LEER1, VS-1, Ketten Schritt 2 (nach Freigabe), Rest.
+Reihenfolge jetzt: DW-K1-B1 (Knopf geht nicht), TB170-1/-2 (HOCH, Rückschritt), TB168-1/-2 (HOCH), MR1-V (Ansichten ausblenden), SN-MAX1, MH-1, FL-1, BR-LEER1, VS-1, Ketten Schritt 2 (nach Freigabe), Rest.
 
 RM1 MITTEL (Auftrag des Nutzers 16:22 "Risikomanagement", Grundlage markt-strategie.md 8j) – nach MH-1/FL-1, mit den Ketten:
    Jeder Kauf-Vorschlag (Heute tun, Flip, Sniper-Ziel, Ketten-Einkaufsliste) bekommt eine Risiko-Prüfung, bevor er erscheint:
