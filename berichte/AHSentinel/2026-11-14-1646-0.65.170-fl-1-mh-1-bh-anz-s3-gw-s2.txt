@@ -1,0 +1,33 @@
+AHSentinel 0.65.170 – FL-1, MH-1, BH-ANZ-S3, GW-S2 – umgesetzt, zur Prüfung
+===========================================================================
+
+FL-1 HOCH (Gold-Sicherheit) – Ursache bestätigt: K.TODAY_ITEM_SHARE war 0,20 (20 % je Item, nicht 10 % wie RK4), und ein
+lernender Weg bekam nur eine graue Notiz, aber die volle Menge.
+- K.TODAY_ITEM_SHARE = 0,10; MK:ItemBudget(probe): Budget je Item = 10 % des Golds, lernender Weg ("lernt noch") = 10 % davon.
+- MK:ApplyTodayRelease kürzt jeden Kauf-Vorschlag (flip/bid/de/vendor) auf das Budget (Menge, Einsatz, Gewinn, Text neu);
+  passt kein Stück, fällt die Zeile weg.
+- Selbstkontrolle SK1-r "Heute tun: Einsatz je Item" im Testbericht (gezeigte Liste, Einsatz ≤ Budget, sonst rot mit Zahlen).
+- Test T718: Gold 17g, Flip lernt -> 7 Stück (16s 10c, Probe 17s); frei -> 73 Stück (≤ 1g 70s); SK 3/2/1.
+
+MH-1 HOCH – umgesetzt so weit ohne Freigabe der Ketten möglich:
+- K:ChainUse(Taschen): Zutaten (auch Zwischenprodukte, Tiefe 3) der gemerkten Ketten mit Gewinn ≥ 20 % (A.db.chains, 0.65.165)
+  -> kein "Verkaufe"-Vorschlag mehr (Ballen, Faden, Stoff). Herstellbare Menge aus den Taschen (259 Ballen / 2, 130 Faden -> 129).
+- Entzauber-Wert je Stück (Cr:DisenchantValue) > Händler und > AH-Wert -> Zeile "Entzaubere n× … (Material ca. x je Stück)"
+  (öffnet das Entzauber-Fenster), keine Verkaufs-/Händler-Zeile; Händler-Zeile nur noch mit Gewinn > 0.
+- Spalte "Zahl" = Gewinn: Verkaufen/Händler = Erlös − Lager-Einstand (Eröffnungsbestand "open" ohne Einstand: nur bewertet, nie bezahlt – sonst fiele "Taschen verkaufen" für alten Bestand ganz weg, Sim s23); Satz je Zeile beim Zeigen (r.help, ≤ 20 Wörter).
+- "Stelle 129× Hose her (+67c je Stück)" aus der Kette steht hinter Ke.LIVE (Freigabe 14:09 "dreifach geprüft"): erst nach
+  der Freigabe sichtbar; dann entfällt auch die ProfessionSentinel-Zeile für dasselbe Produkt (eine Zahl). Bitte Entscheid,
+  ob MH-1 die Herstellen-Zeile vor der Freigabe zeigen darf.
+- Offen (RK1): ProfessionSentinel "Stelle 5× her (+25c)" rechnet selbst – solange Ke.LIVE aus ist, bleiben zwei Zahlen möglich.
+- Test T717 (Kette Hose: Ballen/Faden/Stoff gesperrt, Hose nicht, herstellbar 129, Entzaubern besser).
+- Selbstkontrolle "Heute-Zahl = Beste-Rezepte-Zahl": kommt mit Ke.LIVE (dann gleiche Quelle Ke:Chain); heute gibt es die
+  Herstellen-Zeile aus der Kette noch nicht.
+
+BH-ANZ-S3 MITTEL: Gewinn % = Gewinn der gekauften Stücke / Einsatz (Zeile und Gruppe), ohne Einsatz "–"; Gewinn-Zahl bleibt Gold
+rein − Gold raus; "davon Stücke ohne Einkauf" erklärt verschiedene Vorzeichen. SK1-i prüft % = gekaufte / Einsatz. Tests T715
+(141 %, nur frei -> –), T702 angepasst (−17 %).
+GW-S2 NIEDRIG: Cr:VendorNote nie bei 0; Cr:WayText: Verlust ohne Händler-Betrag und ohne Entzaubern -> "kein Weg mit Gewinn".
+Test T716.
+Locales 5 neue Schlüssel, CHANGELOG EN/DE.
+Grundsatz: T715–T718 / SK1-i, SK1-r / Prüfung Supervisor.
+Volltest 250/250, addon_check OK.
