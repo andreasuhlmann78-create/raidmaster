@@ -43,6 +43,12 @@ UI-V1b SEHR HOCH (Entscheid des Nutzers 08:42): "Rechts muss nicht nur erscheine
    nachholen (nie still alt lassen). Test T-UI-V1b: Item wählen -> Suche gesendet ≤ 50 ms, Liste = Server-Antwort (gleiche
    Einträge wie C_AuctionHouse.GetCommoditySearchResultInfo bzw. GetItemSearchResultInfo), "geprüft vor 0 s".
 
+UI-V1 NACHTRAG 09:05: Nutzer hat /console scriptErrors 1 gesetzt und Items angeklickt – KEINE Fehlermeldung. Der Verdacht
+   "Select bricht mit Fehler ab" ist damit unwahrscheinlich (ausser ein pcall weiter oben schluckt ihn). Ursache offen. Bitte
+   im Client nachstellen und jeden Klick ins Protokoll (/ahs protokoll): Zeile getroffen? item der Zeile, selected vorher/
+   nachher, Select bis Ende gelaufen, Refresh aufgerufen, Titel rechts danach. Prüfen u. a.: wird die Liste zwischen Hover und
+   Klick neu befüllt (SetData durch Taschen-/Preis-Ereignisse) und der Klick trifft eine Zeile mit altem/leerem item? Fängt
+   ein anderer Rahmen (Tooltip, Preisverlauf-Fenster) den Klick? Ergebnis im Bericht.
 UI-V1 SEHR HOCH – KORREKTUR 08:55 (Nutzer 08:40): Es ist nicht langsam – das gewählte Item erscheint rechts GAR NICHT; erst ein
    Klick auf Aktualisieren zeigt es. Code gelesen (UI_Sell.lua 55, 280–312, 592ff; UI_Main.lua 846–856): onClick ->
    p:Select(itemID) setzt ZUERST self.selected und ruft am ENDE self:Refresh(); der Klick ist NICHT in pcall. Wirft ein Schritt
