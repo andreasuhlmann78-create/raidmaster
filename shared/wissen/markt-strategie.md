@@ -699,6 +699,23 @@ Messauftrag K1 (Supervisor, offline): sobald je Weg ≥ 30 abgeschlossene Fälle
 10. Journal + Nachschau (haben wir: Buchhaltung, Prognose-Journal, Selbstkontrolle).
 Stand AHSentinel: 2 (Budget) und 7 (Mindestgewinn) da, 5 fehlt (FL-1), 1/3/4/6/8 fehlen -> Auftrag RM1.
 
+## 8k. Aus dem Netz gelernt (Recherche 14.11. 16:25, Auftrag des Nutzers "im Netz, um dich weiterzuentwickeln") – HYPOTHESEN
+Quellen: NexusFi Risk Management (futures), orthogonal.info "Risk Management & Position Sizing", theledgermind "Systematic Risk
+Management Framework", Hummingbot "Guide to the Avellaneda & Stoikov Strategy".
+1. Volatilitäts-Positionsgrösse (statt fester Menge): Menge ∝ Risiko-Budget / Schwankung des Preises (ATR-Idee). Ware, die stark
+   schwankt (Staub nach Wellen), bekommt kleinere Mengen als ruhige Ware. Fürs AH: σ = Streuung der Tages-Mediane 14 Tage.
+2. Drawdown-Stufen: −10 % vom Höchststand des Handels-Ergebnisses -> Mengen halbieren; −20 % -> nur noch Proben; zurück erst
+   nach neuem Höchststand (genauer als 8j Punkt 8).
+3. Inventar-Risiko (Avellaneda-Stoikov, Market Making): Der "Reservierungspreis" sinkt, je mehr Lager man von einer Ware hat und
+   je stärker sie schwankt: r = Marktpreis − Lager × Risikoscheu × σ² × Restzeit. Fürs AH: je mehr Staub im Lager, desto eher
+   etwas günstiger einstellen und desto weniger nachkaufen; wenig Lager -> geduldiger, höher einstellen. Der Abstand zum besten
+   Preis hängt von der Käufer-Ankunftsrate k ab (unser gemessener Absatz/Std.): viele Käufer -> knapp unterbieten reicht
+   (Feldstudie: 1–2c unter dem günstigsten, alles in Minuten verkauft).
+4. Korrelation: Positionen, die zusammen fallen, gegen ein gemeinsames Limit (= 8j Punkt 4).
+5. Erwartungswert und Kelly (8i) nur mit halber Kelly; Trefferquote ohne Gewinn/Verlust-Grösse sagt nichts.
+Umsetzung: als Ergänzung zu RM1 (g: Menge nach Schwankung, h: Drawdown-Stufen, i: Lager-abhängiger Einstellpreis) – erst
+NACHSPIELEN mit echten Buchungen (Nutzen-Test wie 8i), dann Auftrag.
+
 ## 9. Pflege dieser Datei
 
 - Neue Messung oder Entscheid des Nutzers -> hier eintragen (mit Datum), Status belegt/vermutet.
