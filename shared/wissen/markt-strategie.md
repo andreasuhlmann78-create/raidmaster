@@ -635,6 +635,26 @@ Brauchbar erst nach ≥ 3 Wochen und gleicher Richtung ≥ 80 %; die Spanne lieg
 **3. Wochenzyklus – NICHT BELEGT.** Je Wochentag nur 1–2 Kalendertage, alles überlagert vom Start-Einbruch
 (Sa/So 7./8.11. +64/+29 % = Starttage). Frühestens nach 3–4 Wochen messbar. Monatszyklus: frühestens nach 2–3 Monaten.
 
+## 8h. Wyckoff auf das Auktionshaus übertragen (Auftrag des Nutzers 14.11. 15:11 "beschäftige dich mit Wyckoff") – HYPOTHESE
+Wyckoff (Börse, ~1930): Preise laufen in Phasen Akkumulation -> Aufschwung (Markup) -> Verteilung (Distribution) -> Abschwung
+(Markdown). Drei Gesetze: Angebot/Nachfrage; Ursache/Wirkung (je länger die Seitwärts-Phase, desto grösser die Bewegung danach);
+Aufwand/Ergebnis (viel Umsatz ohne Preisbewegung = jemand nimmt die Ware auf bzw. gibt sie ab). Muster: "Spring" (kurzer Fall unter
+die Spanne, sofort aufgekauft = Boden), "Upthrust" (kurzer Sprung über die Spanne, verpufft = Spitze). Wissenschaftlich schwach
+belegt, an der Börse oft subjektiv – bei uns NUR nach Messung (Abschnitt 0, P1/P2: ohne eigenen Fall besser als die Grundlinie).
+Übertragung (was wir messen können, je Material und Tag): Preis (Median Scan), ANGEBOT = Stück im AH, NACHFRAGE = gemessener
+Absatz (Stück weg je Tag, Vollscan-Verfolgung V4), Neu-Einstellungen.
+- Abschwung = unsere "Welle" (Waves.lua), Akkumulation ≈ "durch" (seitwärts tief), Aufschwung ≈ "steigt". Wyckoff ergänzt das
+  ANGEBOT: Akkumulation erkennbar, wenn der Preis seitwärts bleibt (±10 %) und das Angebot schrumpft, während der Absatz normal
+  bleibt (Aufwand/Ergebnis: Ware wird aufgenommen, Preis hält) -> Vorrat kaufen VOR dem Anstieg.
+- Verteilung: Preis oben seitwärts, Angebot wächst (viele stellen ein), Absatz sinkt -> Vorrat jetzt verkaufen, nicht halten.
+- Spring = billiges Angebot unter der Spanne, das binnen Minuten weg ist (unser Sniper sieht das) -> Boden-Signal.
+- "Composite Operator" = Grossaufkäufer/Flipper; D6 (Aufkauf erkannt: Menge −70 % in 6 Std., Preis +50 %) ist dessen Spur.
+- Feldstudie 14:26 (alles in 3 Min. verkauft) ist genau ein Aufwand/Ergebnis-Fall: grosse Menge, Preis? -> nach dem Vollscan prüfen.
+MESSAUFTRAG W1 (Supervisor, offline in addon-check/marktanalyse, erst ab ≥ 3 Wochen Daten aussagekräftig, vorher Probeläufe):
+  je Material und Tag Phase nach festen Regeln (keine Bauchgefühle); Signal "Akkumulation" = Preis 3 Tage ±10 % UND Angebot −30 %
+  UND Absatz ≥ Mittel 7 Tage. Prüfen: steigt der Preis danach in 3–5 Tagen ≥ 15 % häufiger als ohne Signal (Grundlinie)? Ebenso
+  "Verteilung" -> Fall. Nur wenn out-of-sample besser: als Tabelle (A1) an AHSentinel (V3/V4), Anzeige nur als Zahl/Richtung.
+
 ## 9. Pflege dieser Datei
 
 - Neue Messung oder Entscheid des Nutzers -> hier eintragen (mit Datum), Status belegt/vermutet.
