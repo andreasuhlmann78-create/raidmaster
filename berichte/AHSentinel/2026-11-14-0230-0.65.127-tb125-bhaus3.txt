@@ -1,0 +1,44 @@
+Bericht AHSentinel 0.65.127 – TB125 (1b), BH-AUS-3, SN-M
+Stand: 14.11.2026 · Status: umgesetzt, zur Prüfung
+
+BH-AUS-3 (Books.lua):
+- MoveCostToInvoice: Rest ohne passendes free geht jetzt auch auf die Rechnung (inv.cost += Rest-Einstand), nie ins
+  Lager (Antwort des Nutzers 01:06: Ware nicht vorhanden).
+- Folge-Reparatur BK:RepairPendingAUS3 (einmal, Merker repairedBHAUS3 nur bei Erfolg): aus den Sicherungen
+  (repairBHAUS2 bzw. repairBHAUS mit ifree) je x-Buchung den damaligen Rest neu gerechnet, aus dem Lager genommen
+  (nie unter 0) und auf die passende Rechnung gebucht. Sicherung db.repairBHAUS3, repairLog, Diagnose, Bericht-Zeile
+  "BH-AUS-3 Phantom-Ware …: Lager -x Stück · Einstand y auf Rechnungen · Gewinn alt -> neu" (Feld buch_reparatur3).
+  Erwartung der Prüf-Sitzung: Gewinn ca. 205'284c, Lager ohne 11082/11083.
+- (b) Lager-Abgleich BK:StockCheck (diese Figur): Lager je Item gegen GetItemCount(id, true) + eigene laufende
+  Auktionen; Bericht "BH-AUS-3 Lager mehr als vorhanden: Item x: Lager a, vorhanden b (+c)" (Feld buch_lager_mehr).
+  Nur melden, nichts korrigieren. Post (ungeöffnet) zählt nicht mit -> bitte im Client mit leerem Briefkasten prüfen.
+- Test T649 T-BHA9 (Rest auf Rechnung, Folge-Reparatur 15 Stück aus dem Lager, Abgleich +5) – PASS; T641 an die
+  Regel angepasst (Rechnung ohne Einstand, Gewinn alt 16'800 -> neu 5'400). repairBHAUSInfo wird bei einem zweiten
+  Lauf ohne Treffer nicht mehr überschrieben.
+
+TB125:
+- TB125-1 Vollscan-Lücke: Das Einlesen (ReadPortion) berührt den Preisverlauf NICHT (liest nur die Auktionsliste in
+  den Vorrat). Die Lücke wird dem gerade laufenden Schritt zugeschrieben, nicht ihrem Verursacher. Neu: bei jeder neuen
+  grössten Lücke wird die Ursache festgehalten ("Speicherbereinigung ja/nein · Aufgaben x ms (Name, Schritte,
+  längster Schritt bis Datei:Zeile)" bzw. "keine" = Ereignis/anderes Addon) – Feld vollscan_luecke und Messzeile.
+  Vermutung (nicht belegt): einmalige Umwandlung des Verlaufs nach dem Einloggen (RF-M1, ~345'000 Tabellen werden
+  Abfall) fällt in die erste Speicherbereinigung; hist:flat pausiert jetzt je Item statt je 100 Items. Verdichtungs-
+  Prüfung ohne Zeichenketten je Eintrag. Bitte Vollscan erst einige Minuten nach dem Einloggen messen und die Ursache
+  aus dem neuen Feld lesen.
+- TB125-2 Tooltip: kein Tooltip-Pfad kopiert den Verlauf (A:GetHistory nur noch in der Grafik eines Items). T625 zeigt
+  jetzt zusätzlich "ohne Speicherbereinigung max x ms (n Aufrufe mit Bereinigung)" – 158 ms bei Ø 5,6 ms deutet auf
+  eine Speicherbereinigung in genau diesem Aufruf.
+- TB125-3 Start: A:Fire("READY") misst jeden Empfänger; T630 nennt die 5 langsamsten mit Datei:Zeile. Vermutung: die
+  einmaligen Buchhaltungs-Reparaturen (BH-AUS-2 beim ersten Start mit 0.65.125).
+- TB125-4 Schnäppchen-Reiter (profit): rechnet nie mehr beim Öffnen – A:CachedValue im Hintergrund (Portionen),
+  sofort der letzte Stand bzw. "Wird berechnet …", Neuzeichnen per CACHE_UPDATED. Szenarien warten (T.profitWait).
+- TB125-5 T631: Vollscan-Messung wird jetzt auch in MFinal (mit Zahlen) und im Messverlauf gespeichert; T631 liest
+  sie über den Reload. Alte Verlaufszeilen ohne Zahlen bleiben übersprungen bis zum nächsten Vollscan.
+- TB125-6 RecordGold während TR.running gesperrt (ausser Ersatztabelle).
+- TB125-7 Gold-Abstimmung: BK:ReconcileAll über ALLE Figuren mit ≥ 2 Gold-Ständen, je Figur nur ab dem ersten Stand bis
+  zum letzten; sonst "lernt noch". Reconcile (Anzeige) "seit Stichtag" ab dem ersten Gold-Stand der Figur.
+- TB125-8 Entzaubern zerlegt: Rest aus Summe Beute / Summe Vorhersage statt Median. PR1-Abbrüche seit 0.65.126.
+SN-M (MarketCore.lua): MK.DE_MAX_SHARE = 0,9 – jede Entzauber-Kaufgrenze (Sniper, Markt, Tooltip, Sammelkauf) höchstens
+  0,9 × Netto-Wert. Test T650 T-SNM1 (5 % -> 9000, 20 % -> 8333) – PASS. Bericht: "SN-M Käufe je Preisstufe
+  (Kaufpreis/Wert, Gewinn gesamt)" (Feld kauf_preisstufe).
+Gesamtlauf 246/246 PASS, s42 PASS, addon_check OK. Szenarien warten auf den Hintergrund-Reiter (T.profitWait).
