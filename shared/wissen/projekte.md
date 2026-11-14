@@ -1,3 +1,6 @@
+FOKUS (Entscheid des Nutzers 14.11. 08:30): Nur AHSentinel. Andere Projekte später, eines nach dem anderen; bis dahin nur bei
+Sicherheit/Datenverlust eingreifen. Die geplante Nachprüfung prüft die anderen weiter.
+
 # Projekte – Gehirn der Prüf-Sitzung (Stand 13.11.2026, 23:35)
 
 Auf Wunsch des Nutzers (13.11. 22:09, nochmals 23:27: "merke dir alles über die anderen Addons, damit du nichts vergisst
