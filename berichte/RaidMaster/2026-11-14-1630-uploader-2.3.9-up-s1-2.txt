@@ -5,7 +5,7 @@ Commit: dieser Push · Bezug: Prüfung 2.3.8 (147ee2a), Befund UP-S1-2 HOCH
 UMGESETZT, ZUR PRÜFUNG – UP-S1-2 (über einen defekten Stand hinweg nichts still ersetzen):
 - Index-Feld "ud" = {"<Spielversion/Konto>": [rev des defekten Stands, Rechner des defekten Stands]}
   (RaidMasterUploader/sync.py:796 index_over_defect). Gekürzt statt "ueber_defekt", damit der Index unter INDEX_MAX bleibt.
-- push (sync.py:1328–1332, 1343): Wird über einen als defekt markierten Stand eines ANDEREN Rechners hochgeladen, kommt
+- push (sync.py:1339, 1349): Wird über einen als defekt markierten Stand eines ANDEREN Rechners hochgeladen, kommt
   dieser Stand in "ud". Der Vermerk bleibt bei weiteren Uploads erhalten, bis der Rechner des defekten Stands selbst
   wieder für diese Spielversion hochlädt (dann ist der Konflikt bei ihm aufgelöst) – dann entfernt.
 - pull (sync.py:1146): Steht in "ud" DIESER Rechner, gilt jede abweichende Datei dieser Spielversion als Konflikt
@@ -15,7 +15,7 @@ UMGESETZT, ZUR PRÜFUNG – UP-S1-2 (über einen defekten Stand hinweg nichts st
 - Alte Uploader (≤ 2.3.8) ignorieren "ud". Ist der Rechner mit dem defekten Stand noch auf 2.3.7/2.3.8, wirkt der Schutz
   dort NICHT -> beide Rechner zuerst auf 2.3.9 bringen (siehe unten).
 
-EIGENE TESTS (Hinweise, keine Freigabe) – test_sync.UeberDefektUPS12 (tests/test_sync.py:258):
+EIGENE TESTS (Hinweise, keine Freigabe) – test_sync.UeberDefektUPS12 (tests/test_sync.py:330):
 - ups12a: Laptop (Basis r1) lädt über defektes r2 des PC hoch -> Index "ud" = {"": [2, "PC"]}; PC (lokal = r2) zieht ->
   Konflikt je Datei im Protokoll (RaidMaster.lua, AHSentinel.lua), RaidMaster.lua.lokal gesichert, AHSentinel.lua des PC
   bleibt (neuer) mit AHSentinelMerge-Block; nichts still ersetzt. Danach neuer Laptop-Stand -> normal, keine neue .lokal.
