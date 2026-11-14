@@ -49,9 +49,14 @@ SN-TEST2-1 MITTEL: S5/S13 rot – Ø 112 Bilder/s, aber längster Frame 63 ms, 5
 TT-DE1 HOCH (Nutzer 23:59, Screenshot Tooltip Goldene Schuppenarmschienen, 0.65.176): Die Materialzeilen beim Entzaubern zeigen
     heute "Visionenstaub 73 % × Ø 1,5 · 8s 85c Scan" – das ist Rechenweg. Früher stand die MENGE als Spanne, z. B.
     "2–5 Seelenstaub · 1–2 Essenz · 1 Splitter" – so will es der Nutzer wieder (GRUNDSATZ NACHVOLLZIEHBAR).
-    NEU je Zeile: "<von>–<bis> <Material>  <Chance %>  <Preis je Stück>", z. B. "1–2 Visionenstaub  73 %  8s 85c"; Spanne aus den
-    eigenen Entzauberungen der Gruppe (kleinste–grösste Menge je Entzauberung), solange zu wenige Fälle aus der Forever-Tabelle;
-    bei gleicher Zahl nur "1 Splitter". Kein "× Ø", kein "Scan". Kopfzeile "Materialien (aus 124 eigenen Entzauberungen)" bleibt.
+    NEU je Zeile: "<von>–<bis> <Material>  <Chance %>  <Preis je Stück>", z. B. "1–2 Visionenstaub  73 %  8s 85c".
+    PRÄZISIERT (Nutzer 00:00): Die Spanne ist die GRUNDANGABE aus der Forever-Tabelle (was das Item grundsätzlich ergibt),
+    nicht aus den Messungen; die Chance % kommt aus den eigenen Entzauberungen, der Preis wie bisher. Bei gleicher Zahl nur
+    "1 Splitter". Kein "× Ø", kein "Scan". Kopfzeile "Materialien (aus 124 eigenen Entzauberungen)" bleibt. Vom Nutzer bestätigt:
+        Materialien (aus 124 eigenen Entzauberungen)
+        1–2 Visionenstaub            73 %   8s 85c
+        1–2 Große Mystikeressenz     20 %  24s 56c
+        1 Großer leuchtender Splitter  7 %  31s 56c
     Test: Gruppe mit gemessenen Spannen -> Text wie oben; ohne Messung -> Tabellen-Spanne; Summe "Entzaubern" unverändert.
 WEITER JETZT: TT-DE1 (klein), dann TEST-DEV1 (Test nur beim Entwickler), dann FERTIG-LISTE Block 2/3 wie oben.
 >>> (erledigt, siehe Prüfung oben) SN-TEST2 HOCH – NUR DIES MACHEN (Nutzer 18:54: "der Sniper-Test soll um alles Wichtige erweitert werden … er soll nur dies
