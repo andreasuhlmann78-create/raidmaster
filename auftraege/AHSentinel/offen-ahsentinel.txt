@@ -42,6 +42,10 @@ TB170-8 HOCH: T64 "Berufsfenster echt: modern, 0 Rezepte" bei offenem Berufsfens
    Rezepte, also kann die Liste nicht leer sein – Widerspruch klären.
 TB170-9 MITTEL: T124 Zwischenspeicher Berufsliste wirkt nicht: 1. Mal 10,7 ms, 2. Mal 10,0 ms (soll < 2 ms).
 Dazu SK1-m: 3909 weiter als "Herstellen ohne Rezept" gezählt (TB168-5), SK1-j +1 Fall "verdeckt etwas" (TB168-7).
+TEIL HAENDLER 0.65.170 (16:54): 5 OK · 0 FEHLER.
+TB170-10 MITTEL (S3 "eine Zahl"): "Lohnt bis" ein Wert vs. API weicht je nach Lauf ab: 16:48 4 · 16:51 6 · 16:53 2 · 16:54 18 von 60
+   (z. B. Item 9844: ein Wert 3090 (haendler) · api 1461). Die API muss denselben Wert liefern wie die Anzeige (S3-1/S3-2).
+ERGEBNIS 0.65.170 GESAMT: nicht freigegeben. Zuerst TB170-1/-2/-8 (HOCH), dann TB170-6/-7/-9/-10, TB170-5 (Test).
 TB170-4: TU5 echte Daten SKIP ("noch nicht gelaufen") – nach dem Update fehlt der Lauf; nach dem nächsten Vollscan nachholen, ok.
 Weiter rot wie bekannt: T277, T647, SK1-c/h/j (TB168-1/-2/-7). SK1-r noch 0 Fälle.
 ANTWORT MH-1 (Bericht 0.65.170, 16:46): Die Herstellen-Zeile aus der Kette bleibt hinter Ke.LIVE, bis die Ketten freigegeben
