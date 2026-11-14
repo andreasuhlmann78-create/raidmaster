@@ -1,3 +1,6 @@
+GEPLANTE AUFGABE "Markt-Tabellen täglich (AHSentinel)" seit 14.11.: jeden Morgen 05:37 (Zürich), Cloud, ohne Rückfrage;
+rechnet shared/markt-tabellen/GoldSentinelMarktTabellen.lua aus der neuesten AHSentinel.lua (Werkzeug markt_tabellen.py).
+
 FOKUS (Entscheid des Nutzers 14.11. 08:30): Nur AHSentinel. Andere Projekte später, eines nach dem anderen; bis dahin nur bei
 Sicherheit/Datenverlust eingreifen. Die geplante Nachprüfung prüft die anderen weiter.
 
