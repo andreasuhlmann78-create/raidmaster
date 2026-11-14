@@ -32,6 +32,22 @@ PRÜFUNG 0.65.167 (Supervisor 16:00, addon_check OK, Bericht gelesen): EK-1 umge
    Im Client prüfen: nach einer Herstell-Runde SK1-m = 0 Abweichungen und Einstand im Verkaufen-Fenster ≠ 0.
 Reihenfolge jetzt: SN-EIN1, SN-DEF1, SN-MAX1, BR-LEER1, VS-1, Ketten Schritt 2 (nach Freigabe), Rest.
 
+MH-1 HOCH (Nutzer 16:16 "Markt und Tipps prüfe den Vorschlag", Screenshot 0.65.167 Markt -> Heute, teils verdeckt – Lesung
+   unter Vorbehalt): "Heute tun" widerspricht dem eigenen besten Weg des Spielers, der gerade Braune Leinenhosen herstellt und
+   entzaubert (Beste Rezepte: Braune Leinenhose +67c ent.; Feldstudie belegt +73 %):
+   - "Verkaufe 259x Leinenstoffballen" (1g 20s) – das sind die Zutaten der laufenden Kette; als Ballen ≈ +5c/Ballen, in der
+     Kette ≈ +34c/Ballen.
+   - "Verkaufe 28x Braune Leinenhose" (16s 80c = 60c/Stück, Händler?) – Entzaubern bringt ≈ 1s 70c je Hose.
+   - "Verkaufe 130x Grober Faden" (10s 6c) – Zutat der Kette (vom Händler für 10c gekauft).
+   - "Stelle 5x Braune Leinenhose her (+25c je Stück)" – Beste Rezepte zeigt für dieselbe Sache +67c (zwei Zahlen, RK1).
+   - Spalte "Zahl": Erlös oder Gewinn? Für den Spieler nicht erkennbar (Grundsatz NACHVOLLZIEHBAR 15:18).
+   Lösung (gehört zu S3b/Ketten, RK1 "ein bester Weg"): Heute tun nutzt K:LohntBis/Ketten: Ware, die Zutat einer Kette ≥ 20 % ist,
+   wird nicht zum Verkauf vorgeschlagen (sondern "herstellen"); kein Händler-Vorschlag, wenn Entzaubern/AH mehr bringt; je Zeile
+   EINE Zahl = Gewinn (grün), gleiche Zahl wie Beste Rezepte/Tooltip; Satz je Zeile, was die Zahl ist. Test: Spieler mit Rezept
+   Braune Leinenhose, 259 Ballen, 130 Faden, 28 Hosen -> Vorschlag "28 Hosen entzaubern" + "129 Hosen herstellen", keine
+   Verkaufs-Zeilen für Ballen/Faden/Hosen-an-Händler. Selbstkontrolle: LohntCheck – Heute-Zahl = Beste-Rezepte-Zahl je Item.
+   Einordnung: direkt mit Ketten Schritt 2 (vor VS-1).
+
 BH-ANZ-S3 MITTEL (Nutzer 16:11 "Gewinn 477 %?", Screenshot 0.65.167, 7 Tage, Entzaubern 36–45): Gewinn 18g 69s 15c / Einsatz
    3g 91s 84c = 477 %, davon aber 13g 18s 44c aus Stücken OHNE Einkauf (Kosten 0). Gekaufte Stücke allein: 5g 50s 71c auf 3g 91s 84c
    = 141 %. Die 477 % sind keine Rendite (Gewinn freier Stücke durch Einsatz der gekauften). Lösung: Gewinn % NUR aus gekauften
