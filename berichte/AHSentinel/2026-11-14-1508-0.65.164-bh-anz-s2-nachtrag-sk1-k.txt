@@ -1,0 +1,25 @@
+AHSentinel 0.65.164 – BH-ANZ-S2 Nachtrag (Seelenstaub-Einstand) + Selbstkontrolle Verteilung – umgesetzt, zur Prüfung
+==================================================================================================================
+
+Ursache (Code): BK:MatValue verteilte den Einstand beim Entzaubern nach D:MatPrice = REALISTISCHER Wiederverkaufspreis
+(RealisticCap: Preisleiter + Absatz je Tag). Der drückt langsam verkaufte Ware (Essenzen, Splitter: kurze Leiter, wenig Absatz)
+stark, schnelle Ware (Seelenstaub) kaum -> Staub bekam relativ zu viel Einstand, Essenzen zu wenig. Das passt zum Beleg des
+Supervisors (Faktor Einstand/Markt: Staub 1,65 · 11082 0,53 · 11084 0,35 · 11135 0,20). Ein einzelnes D:MatPrice(11083) aus
+dem Spiel habe ich nicht (kein Zugriff auf die Daten), die Diagnose-Zeile liefert es ab jetzt je Entzauberung.
+
+Umgesetzt:
+- BK:MatValue = aktueller Preis aus der EINEN Preisfunktion A:RealPrice (bereinigter Scan, sonst Marktwert), für alle
+  Materialien derselbe Massstab; zweiter Rückgabewert = Quelle.
+- Diagnose "ENTZ-VERTEILUNG" je Entzauberung mit ≥ 2 Materialien: je Material Menge, Einstand, Preis, Quelle (nur IDs/Zahlen,
+  nie in der Testroutine).
+- Selbstkontrolle SK1-k "Verteilung beim Entzaubern" (im Auftrag "SK1-j" genannt – SK1-j ist schon der Entzaubern-Knopf aus
+  DW-K1, daher k): je Umbuchung Faktor Einstand / (Menge × Preis) je Material; > 33 % vom Mittel der Umbuchung -> Abweichung
+  mit Zahlen (wie buchhaltung_plausi.py P1). Testbericht-Zeile, rot zählt in RedCount.
+- Herstellen: OnCraft hat nur ein Produkt (keine Verteilung) -> keine Prüfung nötig.
+- Bestehende Buchungen bleiben unverändert (Regel: nie bestehende Daten umrechnen). Der zu hohe Staub-Einstand im Lager wirkt,
+  bis der Bestand verkauft ist. Eine Umbuchung alter Posten nur auf Entscheid (Vorschlag: markieren + Sicherung, wie BH-AUS).
+- Test T703: Teil 1000 -> 1 Staub (Preis 400) + 2 Essenzen (Preis 100), Wiederverkaufspreise absichtlich umgekehrt (100/400):
+  Einstand 667/333 (nach aktuellem Preis); SK1-k stimmig; absichtlich schief (Faktor 1,65 / 0,35) -> erkannt.
+Volltest 250/250, addon_check OK.
+Grundsatz: Test T703 / Selbstkontrolle SK1-k / Prüfung Supervisor.
+Nächstes: Herstellungs-Ketten S3b + S3-2 (Vorgaben 14:51) mit BR-W1.
