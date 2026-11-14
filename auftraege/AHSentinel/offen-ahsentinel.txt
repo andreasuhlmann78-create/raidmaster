@@ -23,6 +23,19 @@
 >>>    (delay_minutes 5, initiation human_request) eine Erinnerung an sich selbst setzen: "Weck-Runde: git pull --rebase,
 >>>    auftraege/AHSentinel/offen-ahsentinel.txt Liste TB138b – VOLLER TESTLAUF NACH FRISCHEM VOLLSCAN (Nutzer 14.11. 07:52, 0.65.138, Prüf-Sitzung 08:15) – mit TB138 zuoberst
 =========================================================================================================================
+PR2 – PROGNOSE SOFORT VERBESSERN (Prüf-Sitzung 08:40, gemessen markt-strategie.md 8g "GEMESSEN 08:20" und Wettlauf 08:35)
+   Der Nutzer liefert heute und morgen viele neue Fälle (kaufen, entzaubern, verkaufen) – darum JETZT, klein und eigene Version:
+PR2-1 HOCH  Abbruch-Grund beim Abbruch festhalten (Feld cr, bei allen 17 bisher leer): im Moment des Abbruchs aus dem letzten
+            Scan/der letzten Suche: gab es ein fremdes Angebot unter dem eigenen Preis? -> cr "u" (unterboten, mit Abstand in %)
+            sonst "a" (anderer Grund). Dazu beim Ablauf und beim Verkauf: "unterboten während der Laufzeit ja/nein" (aus den
+            Scans dieser Laufzeit). Test T-PR2a.
+PR2-2 HOCH  Angezeigte Verkaufschance = gezählte Quote je Preisstufe (PR1) statt der alten Rechnung (fast immer 80–100 %).
+            Nachgerechnet ohne eigenen Fall: alt 44 % Treffer, Preisstufe 66 %, Grundlinie "immer nein" 58 %. Wenige Fälle
+            je Stufe -> Richtung Gesamtquote ziehen (Beta-Vorwissen, k = 2). Anzeige weiter grau "lernt noch", bis Brier < 0,20.
+            Im Testbericht: Treffer/Brier ohne eigenen Fall, alt vs. neu, mit Grundlinie. Test T-PR2b.
+PR2-3 SPÄTER (0.66) Wettlauf-Modell (Käufer je Std. gegen Unterbietungen je Std.) nur als Vergleich mitrechnen, nicht
+            anzeigen, bis es ohne eigenen Fall besser trifft als PR2-2.
+
 TB138c DETAILS-FENSTER (Bildschirmfoto 07:59, 0.65.138) – Fenster und Knopf sehen gut aus. Befunde:
 TB138c-1 HOCH  Zwei verschiedene Gewinne: Details "Handel (Gewinn) 22g 19s 77c" (richtig, EINE Zahl), Hauptfenster-Kopf "Gewinn mit
                Einkauf 4g 50s" – gleicher Zeitraum "Gesamt/Seit Neustart". Kopf wie Details (siehe TB138-6).
