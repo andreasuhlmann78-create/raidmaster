@@ -28,3 +28,5 @@ NACHT-VERLAUF: (wird ergänzt)
 - 04:05 0.65.133 (Buchhaltung: Knopf "Details" mit Handel/Std., Eigenbedarf, Anzahlung verfallen, Verkaufsquote,
   Rendite je Weg, Gold-Abstimmung). addon_check OK. Kleinbefund EB-DET-1: Verkaufsquote zählt Abbrüche als Fehlschlag.
 - 04:37 0.65.134 (Verkaufsquote je Verkaufskette: Abbruch + neu einstellen zählt nicht als Fehlschlag). addon_check OK.
+- 05:10 0.65.135 (Händlerkäufe werden gebucht). addon_check OK, 1 Warnung. Befund EB4-1 HOCH: verbrauchte
+  Händlerware (Essen, Wasser, Reagenzien) bliebe als Phantom-Bestand im Lager.

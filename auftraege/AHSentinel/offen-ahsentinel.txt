@@ -141,6 +141,16 @@ Einzelheiten zu jedem Punkt stehen weiter unten (Suche nach dem Kürzel). Diese 
                         Verkauf = ein Fall). Im Bericht: Trefferquote alt/neu, je Preisstufe.
 4. CH-G       ZUR PRÜFUNG 0.65.123: GoldSentinelCmdHint.lua byte-gleich, in der .toc, addon_check OK (Prüf-Sitzung 00:30).
                         Im Client bestätigen (Liste, Klick wählt, Enter führt aus). Bericht 0.65.123 fehlt noch.
+5c. EB4-1     HOCH       (Prüf-Sitzung 05:10, zu 0.65.135, Books.lua 536–548) Jeder Händlerkauf geht ins Lager (Put
+                        "vendor"). Verbrauchtes (Essen, Wasser, Munition, Reagenzien, Fläschchen fürs Herstellen) bleibt dann
+                        für immer im Lager -> wieder Phantom-Bestand wie BH-AUS-3 (Regel: Lager = wirklicher Bestand). Lösung:
+                        (a) Händlerware gleicht das Lager mit dem echten Bestand ab (Taschen+Bank; was fehlt und nicht verkauft/
+                        eingesetzt wurde = Eigenbedarf, Umbuchung wie EB1), oder (b) nur Händlerware ins Lager, die als Zutat
+                        eines bekannten Rezepts dient bzw. im AH gehandelt wird; Rest sofort Eigenbedarf. Test T-EB4b: 20 Wasser
+                        kaufen, 20 verbrauchen -> Lager 0, Eigenbedarf = Kaufpreis.
+                        Zweitens messen: Bedeutet qty in BuyMerchantItem Stück oder Stapel (Wasser zu 5er-Stapeln)? Code rechnet
+                        Stück (price*qty/stack) – im Client einmal mit einem Stapel-Artikel nachprüfen (Gold vorher/nachher).
+                        Warnung addon_check: GetMerchantItemInfo ohne C_MerchantFrame.GetItemInfo-Ersatz (neuere Clients).
 5b. EB-DET-1  0.65.134 zur Prüfung (addon_check OK, T-EBD2 PASS; Erklärung 246 = Szenarien, plausibel). Ursprünglich: MITTEL
                         (Prüf-Sitzung 04:05, zu 0.65.133) Verkaufsquote zählt Abbrüche als "nicht verkauft". Nach Entscheid
                         des Nutzers (14.11. 00:5x) ist ein Abbruch meist Unterbieten und Teil der Verkaufskette (R6) -> Quote je
