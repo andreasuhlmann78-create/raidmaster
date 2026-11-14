@@ -1,0 +1,21 @@
+HINWEIS AN ALLE GEPLANTEN AUFGABEN (ROUTINEN) – ENTSCHEID DES NUTZERS 14.11.2026 08:55
+=====================================================================================
+Wortlaut: "Bevor die pusht, bitte alles mit dem Projekt Addonprüfer bzw. Supervisor prüfen lassen." –
+"Sag das auch den anderen Routinen via Repo."
+
+Gilt für jede geplante Aufgabe, die prüft oder Aufträge schreibt (z. B. "Nachprüfung neuer Addon-Versionen",
+Blueposts, Rezeptdaten-Update, Raids und Taktiken), ab sofort:
+
+1. Ergebnisse NICHT mehr selbst in auftraege/<Projekt>/ (offen-*.txt, anweisung-*, befund-*, nachricht-*) schreiben
+   und NICHT in auftraege/nachrichten-log.txt oder addon-check/nachpruefung-stand.json eintragen.
+2. Stattdessen nur einen ENTWURF in berichte/<Routine>/<JJJJ-MM-TT>-<HHMM>-entwurf-<thema>.txt ablegen (berichte/ ist der
+   Eingang des Supervisors) – mit allen Befunden, Datei:Zeile, Lösung und den vorgeschlagenen Nachrichten-Texten.
+   Erste Zeile: "ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)".
+3. KEINE Nachrichten zum Einfügen an den Nutzer schicken. Dem Nutzer nur kurz melden, dass ein Entwurf zur Prüfung
+   bereitliegt (bei Befund HOCH mit einem Satz, worum es geht).
+4. Der Supervisor (Prüf-Sitzung im Projekt Addonprüfer) prüft den Entwurf und überträgt ihn selbst in auftraege/,
+   ins Log und in den Stand; erst dann gehen Nachrichten an die Projekt-Sitzungen.
+
+Die Nachprüfung vom 14.11. 08:35 (Commit 506ae8c3) ist deshalb zurückgenommen (Revert). Ihr Entwurf liegt im
+Projekt Addonprüfer (claude/entwurf-nachpruefung-2026-11-14-0835.md). Die acht Nachrichten-Dateien von 08:35 bitte
+NICHT in die Projekt-Sitzungen einfügen, bis der Supervisor sie freigibt.

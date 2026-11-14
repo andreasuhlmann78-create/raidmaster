@@ -1,11 +1,12 @@
 ========================================================================================================================
-PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 08:30, Nachprüfung 2.5.13). Immer von oben nach unten.
+PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 00:40). Immer von oben nach unten abarbeiten.
 Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei jeder Änderung nachgeführt.
 ========================================================================================================================
-1. TS-T1     NIEDRIG T-GS2 lässt einen erfundenen Mitspieler in GoldSentinelSync zurück (aufräumen), mit der nächsten Version.
-2. IM CLIENT         Sync 2.5.13 mit zwei Spielern (siehe IM CLIENT PRÜFEN) – Aufgabe des Nutzers, kein Code.
-3. CH-G      SPÄTER  gemeinsame Befehlsliste (nach AHSentinel). Bis dahin nichts Neues anfangen, auf Anweisung warten.
-(Erledigt seit 2.5.11: SYNC, MARKT-v3, alte Punkte 1–4 – siehe unten.)
+1. SYNC      HOCH    ENTSCHIEDEN 14.11. 00:50: gemeinsamen Sync (shared/GoldSentinelSync.lua, unverändert kopieren) einbauen,
+                     damit ThreatSentinel Testberichte und Marktdaten teilen kann. Bestehende eigene Nachrichten auf Endpoint
+                     umstellen, alte Clients nicht brechen, Test T-SYNC (Senden/Empfangen, kein CHANNEL).
+2. MARKT-v3  NIEDRIG GoldSentinelMarkt v3 beim nächsten Release mitkopieren.
+3. CH-G      SPÄTER  gemeinsame Befehlsliste (nach AHSentinel).
 ========================================================================================================================
 
 >>> BP-2026-11-14 (Blizzard-Hotfix 13.11., Kaivax 14.11. 01:54 UTC, https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-13-2026/2403040/10) – nur Hinweis, KEIN Auftrag:
@@ -15,94 +16,108 @@ Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei jeder Änderung nac
     - Krieger: Berserkerwut entfernt jetzt Kopfnuss; Betäubungs-Abnahme (DR) für Kreaturen korrigiert -> kein Einfluss.
     Nur melden, falls im Spiel etwas davon anders wirkt (Bericht in berichte/ThreatSentinel/).
 
+>>> GoldSentinelMarkt v3 (13.11. 23:45, Entscheid des Nutzers): Export hält 6 statt 2 Scans (max. 1,5 MB, Ruckeln/
+>>>    SavedVariables klein). NICHT DRINGEND: beim nächsten Release ohnehin mitkopieren (byte-gleich aus shared/).
+>>>    Bis dahin zeigt addon_check nur die WARNUNG "veraltete offizielle Fassung (Version 2)" – kein Fehler.
+
 >>> SPÄTER (Entscheid des Nutzers 13.11. 23:26): Gemeinsame Befehlsliste shared/GoldSentinelCmdHint.lua (CH-G) –
 >>>    AHSentinel stellt zuerst um, dieses Addon danach. JETZT NICHTS TUN; der Auftrag kommt hier, wenn es soweit ist.
 
-OFFENE PUNKTE THREATSENTINEL (nach der Nachprüfung von 2.5.13)
+OFFENE PUNKTE THREATSENTINEL (nach der Nachprüfung von 2.5.11)
 ==============================================================
-Stand: 14. November 2026, 08:30 MEZ · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/ThreatSentinel-2.5.13.zip
-(Commit 00eeaf8) und announce/…-2.5.12.ThreatSentinel.zip, Diff 2.5.11 -> 2.5.12 -> 2.5.13, Berichte
-berichte/ThreatSentinel/2026-11-13-2300-version-2.5.12.txt und 2026-11-14-0900-sync-2.5.13.txt.
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 2.5.11.
+Stand: 13. November 2026, 17:45 MEZ · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/ThreatSentinel-2.5.11.zip
+(Commit 5803e50), Diff gegen 2.5.10, Bericht berichte/ThreatSentinel/2026-11-13-1715-marktdaten-netz-2.5.11.txt,
+Diagnose-Protokolle testberichte/diagnose/ThreatSentinel/2.5.10-57d3a3207298.txt und 2.5.10-e445491a626e.txt.
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 2.5.9/2.5.10 (inkl. der
+Abschnitte NACHPRÜFUNG 13.11. 14:30 und MN).
 
-Erledigt in 2.5.12 (danke):
-- Alter Punkt 1 (GoldSentinelMarkt veraltet): in 2.5.12 v2 kopiert, in 2.5.13 v3 – byte-gleich mit shared/ (cmp geprüft).
-- Alter Punkt 2 (T-MN2 kann echte Marktdaten beschreiben): Test-Item 999991, aktuelle Zeit, Eintrag/Zähler/outbox/
-  feedUntil werden zurückgestellt (TestRoutineTU.lua:1340 ff.).
-- Alter Punkt 3 (Offline-Routine nimmt keine ZIP): routine_offline.py nimmt ZIP oder Ordner (hier mit der ZIP 2.5.13 gelaufen).
+Erledigt in 2.5.10 (Nachprüfung 13.11. 14:30, danke): TU1–TU9 (Bereich U, TestRoutineTU.lua, Regressionen 41 von 41,
+Grundregel-Wächter T:CheckRules), BL1–BL4 (ns.COMMANDS, CmdHint.lua nur HookScript, T-BL1–T-BL6).
 
-Erledigt in 2.5.13 (danke):
-- SYNC (Prio 1, anweisung-gemeinsamer-sync.txt + anweisung-sync-version2.txt): GoldSentinelSync.lua v2 byte-gleich,
-  TOC Dev/Game/Sync/Test/Markt vor den eigenen Dateien (ThreatSentinel.toc:10-14). Sync.lua: Endpunkt mit bisheriger
-  Kennung (S:Init Sync.lua:104-117, Aufruf über die Modul-Inits Core.lua:1198-1200 nach InitDB), Empfang über ep:OnMessage
-  -> S:OnReceive (Sync.lua:289-300; sender nil -> "ohne Absender", Realm abgeschnitten), Senden nur ep:Send(…, scope
-  "group") (Sync.lua:97-104) -> nie GUILD/CHANNEL/Netz. Eigenes CHAT_MSG_ADDON/RegisterAddonMessagePrefix/SendAddonMessage
-  entfernt. S2 UseStorage (Sync.lua:116). "/ts sync test" (Core.lua:1344, Texte EN/DE Locales.lua:216-219 und 861-864,
-  Platzhalter gleich). Diagnose: DiagLines (Diag.lua:116-118). Kampfsperre der modernen API mit Begründung Q5 behalten –
-  richtig, ist keine Drossel. T-SYNC, T-GS1–T-GS5, T-N1–T-N4 (TestRoutineTU.lua:1187-1305) ersetzen nur
-  GoldSentinelSync.api-Einträge und eigene Felder, keine Blizzard-Funktion; Warteschlangen-Einträge werden wieder entfernt,
-  api.send liefert im Test false. CHANGELOG EN/DE 2.5.13 mit "bitte aktualisieren".
-- MARKT-v3: GoldSentinelMarkt.lua Version 3 byte-gleich.
-- Alter Punkt 4 (Sync-Entscheid): mit dem Entscheid 14.11. 00:50 und SYNC erledigt. anweisung-gemeinsamer-sync.txt und
-  anweisung-sync-version2.txt sind damit umgesetzt (dürfen von der Prüf-Sitzung entfernt werden).
+Erledigt in 2.5.11 (danke):
+- MN1 bis auf Punkt 1 unten: GoldSentinelMarkt.lua in der TOC nach GoldSentinelTest.lua (ThreatSentinel.toc:13; ohne
+  GoldSentinelSync ist das richtig), Anmeldung beim Laden in pcall (Core.lua:1195-1197, ns:AttachMarket Core.lua:1208-1214),
+  fehlt die Datei, läuft das Addon normal.
+- MN2: Schalter "Marktdaten teilen (anonym, nur Preise)" (Options.lua:538, Profil-Feld marketShare Standard an Core.lua:158,
+  ns:ApplyMarketShare Core.lua:1217-1221, auch bei jedem ApplySettings Core.lua:1087), O_MARKET EN/DE (Locales.lua:215 und 856),
+  CHANGELOG EN/DE 2.5.11.
+- MN3: Zeile "MARKT-NETZ: v1, an/aus, mitgelesene Scans, gesendet/empfangen, Speicher" (ns:MarketLine Core.lua:1224-1242) im
+  Diagnose-Protokoll (Diag.lua:117) und im Testbericht (Text und Feld "markt", TestRoutine.lua:3645-3647 und 3663). Keine Namen.
+- MN4: T-MN1–T-MN4 (TestRoutineTU.lua:1178-1252, Aufruf Bereich U Zeile 1264). Ersetzt werden nur Einträge der gemeinsamen
+  Datei (GM.api.ah, Felder) und alles wird zurückgestellt; keine Blizzard-Funktion ersetzt.
 
-Prüfungen: addon_check 2.5.13: OK, 0 FEHLER, 0 WARNUNGEN (Ladetest, Sprachtest). GoldSentinelGame/Test/Sync/Markt
-byte-gleich mit shared/ (GoldSentinelDev.lua gibt es in shared/ nicht; unverändert seit 2.5.11). .toc und ns.version 2.5.13.
-Offline-Routine (download/ThreatSentinel-2.5.13.zip): Forever OK 251, Era OK 255, FEHLER ausserhalb der Nachbildungs-Liste 0,
-"Regressionen: 43 von 43 vorhanden". Die 6 FEHLER der Nachbildungs-Liste (T02, T09, T20, T34, T39, T133) sind begründet;
-T133 (Prefix angemeldet) meldet jetzt GoldSentinelSync an -> im Client prüfen. Kein Testfall nur als T:Skip("noch nicht ...").
-Alte Clients: Era/TBC bekommen über GoldSentinelSync die alten Sendefunktionen; Spieler mit ThreatSentinel bis 2.5.12
-verstehen die neuen Nachrichten (Kopf #S1) nicht – gewollt und angekündigt, umgekehrt geht es (T-GS3).
+Prüfungen: addon_check 2.5.11: 1 FEHLER (Punkt 1), 0 WARNUNGEN; Ladetest und Sprachtest ohne Meldung.
+GoldSentinelGame.lua und GoldSentinelTest.lua byte-gleich mit shared/. GoldSentinelMarkt.lua = Stand a3c51a5 (vor der
+Korrektur 2 vom 13.11. 16:49), nicht mehr gleich mit shared/. .toc und ns.version 2.5.11. Neuer Text O_MARKET in EN und DE
+(ThreatSentinel hat nur diese zwei Tabellen). Offline-Routine (berichte/ThreatSentinel/offline/routine_offline.py, ausgepackter
+Ordner): Forever OK 239, Era OK 243, FEHLER ausserhalb der Nachbildungs-Liste 0; T-MN1–T-MN4 OK in beiden. Kein Testfall nur als
+T:Skip("noch nicht ..."). Diagnose 2.5.10 aus dem Spiel (13.11. 15:49 und 16:19, Forever deDE): 0 Fehler, 0 gesperrte Aktionen;
+keine neue LESBAR-Zeile (nur Sitzungen ohne Kampf, Heiler).
 
-OFFENE PUNKTE
--------------
+1. GOLDSENTINELMARKT.LUA VERALTET (HOCH, NEU – addon_check FEHLER)
+   ThreatSentinel/GoldSentinelMarkt.lua weicht von shared/GoldSentinelMarkt.lua ab. Die Kopie ist der Stand vor der
+   MN KORREKTUR 2 (FeedStart/Feed, shared Commit 6e66279, 6 Minuten nach 2.5.11 veröffentlicht – kein Versäumnis der Sitzung).
+   Folge: Die Veröffentlichung ist blockiert; ohne FeedStart/Feed liest diese Kopie einen Scan doppelt, wenn sie gewinnt.
+   Lösung: shared/GoldSentinelMarkt.lua NEU und unverändert kopieren (cmp muss gleich sein), nächste Version, CHANGELOG EN/DE.
+   Test: die Prüfung "exact" in addon_check ist der bleibende Test; T-MN1–T-MN4 müssen mit der neuen Kopie weiter OK sein.
 
-TS-T1 (NIEDRIG, NEU) – T-GS2 hinterlässt einen erfundenen Mitspieler in GoldSentinelSync
-   TestRoutineTU.lua:1248-1257: T-GS2 schickt "#S1:tuzz:1:H:TANK:2.5.13" durch die echte GoldSentinelSync.OnAddonMessage.
-   Zurückgestellt werden nur die Zähler received. Liegen bleiben: GoldSentinelSync.peers["tuzz"] (shared
-   GoldSentinelSync.lua:596-598) und der Dubletten-Schlüssel "tuzz:1:ThreatSentinel" in seen. Folge: Nach /ts testroutine
-   zeigen andere GoldSentinel-Addons (ep:Peers(3600), /gssync, Diagnose "Mitspieler") bis zu 1 Std. einen Mitspieler zu viel.
-   Ähnlich bleibt ns.syncRoles.Grimbar nach T-SYNC/T-GS3 stehen (wie schon bei T76) – bitte ebenfalls entfernen.
-   Lösung: am Ende von T-GS2 GoldSentinelSync.peers.tuzz = nil und den seen-Schlüssel entfernen (bzw. seen/peers vorher
-   sichern und zurückstellen); ns.syncRoles.Grimbar = nil nach T-SYNC, T-GS3 und T76. Regressionstest T-TS-T1: nach dem
-   Bereich U keine Mitspieler-Einträge mit sid "tuzz" und kein syncRoles.Grimbar.
+2. T-MN2 KANN ECHTE MARKTDATEN BESCHREIBEN (NIEDRIG, NEU)
+   TestRoutineTU.lua:1212-1213: T-MN2 schickt GM.OnMessage("S:H:1:1,1,1,1") und ("S:A:...") an die echte Datei. Nur der
+   geprüfte Schalter verhindert, dass ein falscher Eintrag (Item 1, Preis 1) in ThreatSentinelDB.gsMarkt landet. Schlägt
+   genau das fehl, das der Test prüft, bleibt der falsche Wert in den echten Daten und wird weitergegeben; zurückgestellt
+   werden nur die Zähler (Zeile 1216-1217).
+   Lösung: vor dem Test den Eintrag der eigenen Fraktion für Item 1 (bzw. ThreatSentinelDB.gsMarkt) sichern und danach
+   zurückstellen, oder eine Item-ID nehmen, die es nicht gibt, und sie danach entfernen.
 
-Zur Kenntnis (nicht von ThreatSentinel zu tun): Der Befund aus dem Bericht 2.5.11, Punkt 2 (M.Pump prüft IsShareOn nicht),
-betrifft shared/GoldSentinelMarkt.lua (Prüf-Sitzung).
+3. OFFLINE-ROUTINE NIMMT KEINE ZIP (NIEDRIG, aus der Nachprüfung 13.11. 14:30 – unverändert)
+   berichte/ThreatSentinel/offline/routine_offline.py:17 nimmt nur einen ausgepackten Ordner; mit einer ZIP bricht es ab
+   (NotADirectoryError). Lösung: ZIP annehmen oder ohne Argument die neueste download/ThreatSentinel-*.zip nehmen (wie BuffSentinel).
+
+4. GEMEINSAMER SYNC (Hinweis, Entscheid des Nutzers) – unverändert
+   Die Begründung ist richtig: ThreatSentinel braucht keine gemeinsame Warteschlange, kein GUILD und kein Netz.
+   Offener Nachteil: Testberichte teilt GoldSentinelTest 2 nur, wenn ein anderes Addon GoldSentinelSync 2 mitbringt; dasselbe
+   gilt jetzt für GoldSentinelMarkt (ohne fremdes GoldSentinelSync nur Mitlesen und Speichern, kein Teilen).
+   anweisung-gemeinsamer-sync.txt und anweisung-sync-version2.txt bleiben, bis der Nutzer entschieden hat. Nichts tun,
+   solange kein Entscheid kommt. Kommt GoldSentinelSync dazu: GoldSentinelMarkt.lua in der TOC direkt danach.
+
+Zur Kenntnis (an die Prüf-Sitzung weitergegeben, nicht von ThreatSentinel zu tun): Der Befund aus dem Bericht 2.5.11, Punkt 2
+(M.Pump prüft IsShareOn nicht), betrifft shared/GoldSentinelMarkt.lua und ist dort noch offen. Danke für die Meldung.
 
 IM CLIENT PRÜFEN
-   - SYNC 2.5.13 (neu): zwei Spieler mit 2.5.13 in einer Gruppe -> Options "Sync" zeigt den anderen Tank; /ts sync test ->
-     "Sync-Test: N Antworten (Gilde a, Gruppe b)"; /ts protokoll mit Zeilen "SYNC …" und "NETZ …" ohne Namen und
-     "Sync (Gruppe/Schlachtzug): gesendet > 0". Spott eines Tanks wird beim anderen als "übernommen" gezeigt. Ein Spieler
-     mit 2.5.12 in der Gruppe: kein Lua-Fehler; seine Rolle kommt bei 2.5.13 an. Im Kampf (Forever/moderne API): kein
-     "Addon geblockt", Rolle wird nach dem Kampf nachgeholt ("nachgeholt" steigt). T133 im echten Client OK.
-   - Marktdaten-Netz (2.5.11–2.5.13): /ts protokoll zeigt die Zeile MARKT-NETZ v3. Mit einem AH-Addon (z. B. AHSentinel) einen
+   - Marktdaten-Netz (2.5.11/2.5.12): /ts protokoll zeigt die Zeile MARKT-NETZ. Mit einem AH-Addon (z. B. AHSentinel) einen
      Vollscan machen -> danach "mitgelesene Scans 1" und Speicher > 0 KB; kein Ruckeln, nichts im Kampf. Schalter aus ->
      nach dem nächsten Vollscan bleibt die Zahl gleich. /ts testroutine u: T-MN1–T-MN4 OK.
    - Forever-Dungeon im Modus ANZEIGE: einmal je Kampf eine Zeile LESBAR-PLAKETTEN im Diagnose-Protokoll, ohne Namen.
-     Bisher keine solche Zeile. Damit entscheidet sich, ob eine Tank-Aggrowarnung in Forever möglich ist.
+     Bisher keine solche Zeile (auch die Protokolle 2.5.10 vom 13.11. 15:49/16:19 nur ohne Kampf, als Heiler). Damit
+     entscheidet sich, ob eine Tank-Aggrowarnung in Forever möglich ist.
    - Spott, der fehlschlägt (zu weit, Abklingzeit): Zusammenfassung zeigt "Gründe: …" mit dem Klartext des Spiels
-     (deDE und enGB). Steht dort nur "anderer Grund", fehlt der passende Schlüssel in LG.WHY_KEYS (Text melden).
-   - /ts testroutine mit Bereich U: "Regressionen: 43 von 43 vorhanden", TU5-E2 (Testprotokoll eines echten Kampfs),
+     (deDE und enGB). Steht dort bei "zu weit entfernt" oder "noch nicht bereit" nur "anderer Grund", fehlt der passende
+     Schlüssel in LG.WHY_KEYS (bitte Text der Meldung melden).
+   - /ts testroutine mit Bereich U: "Regressionen: 41 von 41 vorhanden", TU5-E2 (Testprotokoll eines echten Kampfs),
      TU7-K1 Skalierung; T-K2, T-G1, T-W1 OK.
    - Testassistent in Forever: Plaketten-, HUD- und Rückhol-Schritte "n/a", nicht "fehlgeschlagen".
    - Bereich K mit sichtbarer BuffSentinel-Leiste und offenen Blizzard-Fenstern: T181 ohne Überlappen (T186), T-K2.
-   - T144 zweimal hintereinander /ts testroutine i: beide Male "1x".
+   - T144 zweimal hintereinander /ts testroutine i: beide Male "1x" (seit 2.5.6 erwartet behoben).
    - Sprachtest: /ts testroutine sprache, /reload -> englisch; /ts testroutine f -> T128, T-L1, T-L2 OK; danach Deutsch.
+   - Diagnose-Protokoll: SYNC "nachgeholt" steigt nach Kampf in Gruppe, solo nicht.
    - /reload mitten im Kampf: kein "MODUS DISPLAY -> FULL" im selben Kampf (T-P1b). T139/T139b < 16 ms.
    - T135 /gsgame (Version 3), T154 Pull mit 3+ Mobs ("Blocked: none").
    - Era und TBC: Aggrometer wie bisher, keine zweite Kopfzeile; "Spott widerstanden"; kein "Addon geblockt" (T117, T176b);
-     Spott-Grund kommt auch dort; MARKT-NETZ still, kein Lua-Fehler; Sync über GoldSentinelSync in der Gruppe.
+     Spott-Grund kommt auch dort (UI_ERROR_MESSAGE mit Text im 2. Argument); MARKT-NETZ still, kein Lua-Fehler.
    - Aus älteren Berichten noch offen: T11 und T177 (Interface-Nummer), T46, T109, T110, T148, T149, T157, T174, T188.
-     Letzter Testlauf im Repo ist 2.5.4 (10.11.) – bitte einen vollständigen /ts testroutine mit 2.5.13.
+     Letzter Testlauf im Repo ist 2.5.4 (10.11. 10:06 UTC) – mit der nächsten Version bitte einen vollständigen /ts testroutine.
 
 HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Keine echten Spieler- oder Charakternamen (hinweis-keine-spielernamen.txt).
-   - Gemeinsame Dateien nur unverändert aus shared/ kopieren – direkt vor dem Push nochmals mit cmp gegen shared/ prüfen.
+   - Gemeinsame Dateien nur unverändert aus shared/ kopieren – direkt vor dem Push nochmals mit cmp gegen shared/ prüfen
+     (shared/ kann sich zwischen Einbau und Veröffentlichung ändern).
    - Jeder Befund bekommt einen Regressionstest T-<Befund-ID> (auftraege/README.md).
-   - Die Version muss höher sein als 2.5.13.
+   - Die Version muss höher sein als 2.5.11.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/ThreatSentinel/ ablegen.
+   MN VERSION 2 (13.11. 20:00, DRINGEND): GoldSentinelMarkt.lua Version 2 – in Clients mit AHSentinel liest sie nichts mehr selbst (doppeltes Lesen machte den Sniper/das Spiel ruckelig), Warteschlange max. 10, Gilde nur einmal je Stunde ganzer Scan. SOFORT neu kopieren und veröffentlichen (Version 1 = Warnung "veraltet").
+   MN VERSION 2 – STAND 13.11. 22:20 (D-MN7b ausverkaufte Items im Export): wer v2 schon kopiert hat, bitte NOCHMALS kopieren (Prüfung "exact").
+
 REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nicht selbst"): Eigene Tests und Testroutinen
    laufen lassen und gefundene Fehler im Bericht melden – mehr nicht. Nie "erledigt/freigegeben/bestanden/geprüft"
    erklären; Berichte schreiben "umgesetzt, zur Prüfung" mit Belegen. Erledigt setzt nur die Prüf-Sitzung.

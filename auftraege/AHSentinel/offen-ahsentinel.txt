@@ -80,64 +80,6 @@ BR1-3 Ware aus Ablauf-/Abbruch-Post kommt von Hand in die Taschen -> Lager und K
 Tests: T-BR1a Post von Hand in 0,1 s abgeholt -> Verkauf gebucht; T-BR1b Ablauf-Post von Hand -> Anzahlung verfallen,
 Kette fortgesetzt, Ware im Lager; T-BR1c gleiche Post zweimal gesehen -> einmal gebucht.
 
-NACHPRÜFUNG 0.65.140 + 0.65.141 (geplante Nachprüfung, 14.11.2026 08:25 MEZ) – verglichen mit 0.65.139
-   Ergänzt die Kurzprüfung der Chat-Sitzung (STAND 08:45 oben). NP141-1 ist NICHT durch BR1 abgedeckt: BR1 liest Rechnungen,
-   NP141-1 betrifft Ware, die noch im Briefkasten liegt und von CorrectStock als "fehlt" ausgebucht wird.
-   Grundlage: download/AHSentinel-0.65.141.zip, 0.65.139/0.65.140 aus der git-Geschichte (0444f60, c7df90f, e333262).
-   Berichte gelesen: berichte/AHSentinel/2026-11-14-0840-0.65.140-tb138-1.txt, 2026-11-14-0920-0.65.141-tb138b.txt.
-   addon_check 0.65.141: OK (kein FEHLER). GoldSentinelGame/Test/Sync byte-gleich mit shared/. CHANGELOG EN/DE für
-   0.65.140 und 0.65.141 vorhanden. Keine neuen sichtbaren Texte (Locales unverändert, Bericht-Zeile deutsch wie bisher).
-   Umgesetzt und im Code belegt (danke):
-   - TB138b-1: Crafting.lua:511–518 Cr:ReadAll ohne Schnittstelle -> leere Liste, num() in pcall. Geprüft.
-   - TB138b-2: AHAnalyzerPro.lua:1210–1214 A:InTestRoutine() (running oder finishing); TestRoutine.lua:1090/1108
-     finishing bis nach CompareAndRestore; Books.lua:823 RecordGold, Vollscan.lua:278 und :306 vsLastMeasure geschützt.
-     Geprüft (Rest siehe NP141-3).
-   - TB138b-4: T659 setzt Herstellen-/Briefkasten-/Post-Sperren und Snapshot für den Test aus und stellt sie zurück
-     (TestRoutine.lua:10180–10206). Im Client prüfen, ob T659 jetzt grün ist.
-   - TB138-1 (Teil HaveCount, Nachtrag 2/3): Books.lua:1129–1147 BK:Snapshot/HaveCount = max(Abbild Taschen, Live-Taschen)
-     + Abbild Bank + eigene Auktionen; ohne bankTime wird nie ausgebucht (Books.lua:571–572); Rücknahme der falschen
-     "verbraucht" einmalig (Books.lua:595–610, Merker undoTB1381 Books.lua:1581–1583). Test T663 deckt Abbild, Bank
-     unbekannt und Rücknahme ab. HaveCount ist damit geprüft. ABER: CorrectStock bucht jetzt ALLE Ware aus -> NP141-1.
-
-NP141-1 HOCH (GELD/BUCHHALTUNG, NEU): CorrectStock bucht Ware im BRIEFKASTEN als "fehlt" aus.
-   Books.lua:566–590 BK:CorrectStock läuft 30 s nach dem Einloggen und nach jedem BAG_UPDATE_DELAYED (Books.lua:1595,
-   :1612–1614) und gilt seit 0.65.140 für ALLE Lagerposten (vorher nur Händlerware). HaveCount (Books.lua:1141–1147)
-   zählt Taschen + Bank-Abbild + eigene Auktionen, aber NICHT den Briefkasten. Gesperrt wird nur bei offenem Briefkasten,
-   eigener wartender Sendung (BK.pendingMail, nur beim Absender gesetzt, Books.lua:1539–1544) und für Items mit Gebühr
-   (k "fee") in den letzten 7 Tagen. Folgen (in Classic kommt jede gekaufte Ware per Post):
-   a) AH-Kauf: Ledger.lua:311 BookPurchase -> Ledger.lua:66 BK:OnBuy legt die Ware sofort ins Lager (Books.lua:239–246).
-      Liegt sie noch ungeöffnet im Briefkasten, bucht die nächste Taschen-Änderung + 30 s sie als "fehlt" aus.
-      Beim Sniper ist das der Normalfall. Danach: Lager 0, Ware real da -> späterer Verkauf mit Einstand 0 = Gewinn zu hoch.
-   b) Post an eine eigene Figur: Books.lua:390–401 OnTwinkMail legt die Ware sofort ins Lager der Empfänger-Figur.
-      Der Empfänger loggt ein, 30 s später -> "fehlt" (pendingMail und fee-Sperre gelten beim Empfänger nicht).
-   c) Abgelaufene/abgebrochene Auktionen, die länger als 7 Tage nach dem Einstellen im Briefkasten liegen (Post hält 30 Tage).
-   Der Test T663 deckt das nicht ab (kein Fall mit Ware im Briefkasten).
-   Lösung: (1) Briefkasten-Abbild je Figur (beim Öffnen GetInboxItem/GetInboxNumItems zählen, je Item-ID, mit mailTime)
-   in HaveCount einrechnen. (2) Nie ausbuchen, solange es seit dem letzten Zugang des Items (buy, xfer an diese Figur,
-   fee, Abbruch/Ablauf) kein Briefkasten-Abbild gibt, das NACH diesem Zugang aufgenommen wurde; dazu die 7-Tage-Sperre
-   auf alle Zugänge (k "buy" und "xfer" mit to = Figur) ausweiten. (3) Einmalige Rücknahme wie UndoVendorUse auch für
-   die in 0.65.140/0.65.141 gebuchten "fehlt"/"verbraucht" (Merker undoNP1411), danach neu abgleichen. (4) Tests:
-   T-HC3 Sniper-Kauf, Ware im Briefkasten, Taschen-Änderung -> 0 ausgebucht; T-HC4 Post von Twink, Empfänger loggt ein
-   -> 0 ausgebucht; T-HC5 nach dem Leeren des Briefkastens fehlt echte Ware -> ausgebucht. Muss mit 0.65.141 ROT sein.
-   Bis zur Lösung: CorrectStock nur für bt "vendor" (wie 0.65.139) und für die übrigen Posten nur MELDEN.
-
-NP141-2 MITTEL (NEU): "fehlt" wird als Eigenbedarf gezählt. Books.lua:456–457 zählt jede Buchung k "own" (also auch
-   why "fehlt" und "verschickt") in s.ownUse; angezeigt als "EB1 Eigenbedarf (angelegt, nicht im Handelsgewinn)"
-   (Books.lua:1411) und im Details-Fenster (Books.lua:646 own). Ein Fehlbestand ist kein Eigenbedarf. Lösung: why "fehlt"
-   getrennt summieren (s.lost/s.lostN, Zeile "Fehlbestand (ausgebucht)") – im Gewinn nicht enthalten, im Bericht eigene
-   Zeile; Text über die Sprachtabelle. Test T-HC6.
-
-NP141-3 NIEDRIG (NEU): TestRoutine.lua:1105–1108 CompareAndRestore läuft nicht in pcall – bricht es ab, bleibt
-   finishing = true und RecordGold/vsLastMeasure schreiben für die ganze Sitzung nichts mehr. Lösung: finishing in jedem
-   Fall zurücksetzen (pcall um CompareAndRestore, Fehler in problems). Ausserdem prüfen die Zeitgeber Books.lua:1595 und
-   :1610/:1616 noch TestRoutine.running statt A:InTestRoutine() – angleichen.
-
-IM CLIENT PRÜFEN (0.65.141): T659 und T663 im Client grün; Testbericht-Zeile "BH-AUS-3 … Bank bekannt"; repairLog-Zeile
-   "TB138-1 verbraucht zurückgenommen" mit Anzahl/Stück; nach einem Sniper-Kauf (Ware noch im Briefkasten) und einer
-   Taschen-Änderung: darf KEINE "fehlt"-Buchung entstehen (NP141-1 – mit 0.65.141 erwartet: entsteht).
-MARKT-KERN: kein neuer Testbericht mit Zahlen (neuester mit Abschnitt: 0.65.125, alle Wege 0 Fälle "lernt", MA1 0) –
-   Grenzwerte Ü2 nicht prüfbar. 0.65.140/141 ändern den Markt-Kern nicht (MarketCore.lua unverändert).
-
 PR2 – PROGNOSE SOFORT VERBESSERN (Prüf-Sitzung 08:40, gemessen markt-strategie.md 8g "GEMESSEN 08:20" und Wettlauf 08:35)
    Der Nutzer liefert heute und morgen viele neue Fälle (kaufen, entzaubern, verkaufen) – darum JETZT, klein und eigene Version:
 PR2-1 HOCH  Abbruch-Grund beim Abbruch festhalten (Feld cr, bei allen 17 bisher leer): im Moment des Abbruchs aus dem letzten
@@ -164,9 +106,9 @@ TB138c-2 HOCH  Rendite je Weg "Entzaubern: −9 % (16)" in Rot. Meine Messung be
 TB138c-3 MITTEL Gold-Abstimmung zeigt dem Spieler rot "nicht zugeordnet 11g 4s 27c" – solange TB138-2 nicht gelöst ist, nicht rot
                anzeigen (grau "wird abgeglichen"). Erst eine stimmige Abstimmung darf rot warnen.
 
-TB138b-1 HOCH  [umgesetzt in 0.65.141, geprüft 14.11. – siehe NACHPRÜFUNG 0.65.141] Lua-Fehler im Spiel: "Job:craft-top: Crafting.lua:515: attempt to index field '?' (a nil value)" (1×). Ursache
+TB138b-1 HOCH  Lua-Fehler im Spiel: "Job:craft-top: Crafting.lua:515: attempt to index field '?' (a nil value)" (1×). Ursache
                finden (neue Herstellen-Erkennung 0.65.137?), Test mit fehlendem Rezept/Zutat.
-TB138b-2 HOCH  [umgesetzt in 0.65.141, geprüft 14.11.; Rest NP141-3] Sandbox wieder undicht: 9 Pfade wiederhergestellt (vsLastMeasure.* und books.gold.<Figur>.lastT). Die Testroutine
+TB138b-2 HOCH  Sandbox wieder undicht: 9 Pfade wiederhergestellt (vsLastMeasure.* und books.gold.<Figur>.lastT). Die Testroutine
                darf echte Daten nie berühren – Schreibzugriffe dieser Pfade in der Testroutine umleiten (früher schon: books.gold).
 TB138b-3 HOCH  Ruckeln beim Vollscan (RF): Einlesen längster Frame 164 ms, Preisverlauf+Neuaufbau 105 ms, 25 Frames über 33 ms,
                Bilder/s fallen von 120 auf 48. Speicher AHSentinel 123 -> 158 MB (+35 MB), 20 Speicherbereinigungen (Ziel
@@ -181,7 +123,7 @@ TB138b-3 HOCH  Ruckeln beim Vollscan (RF): Einlesen längster Frame 164 ms, Prei
                welche Tabellen nach dem Scan wachsen (Messung je Modul vor/nach, collectgarbage("count") je Phase),
                Deckel bzw. Freigabe nach dem Scan. Ziel: zweiter Scan endet beim gleichen Speicher wie der erste.
                Das ist das grösste Ruckel-Problem – nach BR1/HB1/PR2 zuoberst.
-TB138b-4 MITTEL [umgesetzt in 0.65.141, geprüft 14.11.; im Client grün bestätigen] T659 T-EB4b scheitert im Client (vorhanden 0, verbraucht 0, Lager 20/400), im eigenen Lauf PASS. Vermutlich sperrt
+TB138b-4 MITTEL T659 T-EB4b scheitert im Client (vorhanden 0, verbraucht 0, Lager 20/400), im eigenen Lauf PASS. Vermutlich sperrt
                "nie während der Testroutine" den eigenen Test. Test so bauen, dass er im Client läuft.
 TB138b-5 MITTEL T647 "Heute" in Portionen: längster Schritt 10,4 ms bei Disenchant.lua:1508 (FindDeals), Ziel ≤ 8 ms.
 TB138b-6 MITTEL Absatz-Tests rot: T285 (AB1/AB2), T289 (AB7/AB8), T291 (AB10) – Regression oder geänderte Rechnung? Begründen oder
@@ -196,7 +138,7 @@ TB138b-7 MITTEL (08:25 wieder gesenkt: Bildschirmfoto 07:59 zeigt "Sync über Gi
 
 TB138 – BEFUNDE AUS DEM TESTBERICHT 0.65.138 (Nutzer 14.11. 07:43, Prüf-Sitzung 07:55) – ZUOBERST ABARBEITEN
 ==========================================================================================================
-TB138-1 HOCH  [teilweise in 0.65.140: HaveCount mit Abbild geprüft; Ausbuchen aller Ware -> NEUER Befund NP141-1 HOCH] Phantom-Lager nicht weg. BH-AUS-3 hat 12 Buchungen/30 Stück umgebucht, aber der Abgleich meldet weiter
+TB138-1 HOCH  Phantom-Lager nicht weg. BH-AUS-3 hat 12 Buchungen/30 Stück umgebucht, aber der Abgleich meldet weiter
               "Lager mehr als vorhanden": 2996 +40, 11083 +25, 2320 +16, 2455 +13, 279972 +11, 159 +9, 6662 +9, 278243 +6.
               Der Nutzer hat KEINE Mats (bestätigt 14.11. 01:2x). 11083 allein: Einstand 15822 im Lager. Der Abgleich
               muss korrigieren, nicht nur melden: was fehlt und nicht verkauft/unterwegs ist -> verkauft (wenn Rechnung
@@ -575,10 +517,8 @@ UMGESETZT, ZUR PRÜFUNG / IM CLIENT BESTÄTIGEN (Client-Tests vom Nutzer zurück
 >>> und Können, KEIN Frust (falsche Zahlen, Ruckeln, Fehlkäufe), wenig Aufwand, Dazulernen ohne Rechenwege, etwas für die
 >>> Gilde. Jede Änderung daran messen: schnell, schlicht, verlässlich – und macht ein Erfolg sichtbar Freude?
 
-OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.141)
+OFFENE PUNKTE AHSENTINEL (nach der Nachprüfung von 0.65.113)
 ============================================================
-Stand: Nachprüfung 0.65.141, 14.11.2026 08:25 MEZ (geplante Nachprüfung; Ergebnis im Block "NACHPRÜFUNG 0.65.140 + 0.65.141" oben).
-Die Prüf-Sitzung im Chat hat 0.65.114–0.65.139 geprüft (Blöcke oben). Der folgende Stand ist der Stand nach 0.65.113:
 Stand: 2026-11-13 20:20 MEZ · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage: download/AHSentinel-0.65.113.zip
 (AHAnalyzerPro ead7f06), verglichen mit 0.65.112 aus der git-Geschichte; Bericht berichte/AHSentinel/2026-11-13-2016-0.65.113.txt.
 Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 0.65.112 mit den

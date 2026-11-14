@@ -1,12 +1,11 @@
 ========================================================================================================================
-PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 08:30, nach der Nachprüfung Bot 1.5.132).
-Immer von oben nach unten abarbeiten. Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei jeder Änderung nachgeführt.
+PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 00:40). Immer von oben nach unten abarbeiten.
+Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei jeder Änderung nachgeführt.
 ========================================================================================================================
 1. KEEP90    MITTEL  90 Tage behalten (auch für Monatszyklen, Nutzer 00:19: Tages-/Wochen-/Monatszyklen messen –
                      Wochenbericht: je Warengruppe Preis/Angebot nach Stunde und Wochentag, Monat sobald ≥ 2 Monate); Speichergrenze 3 GB > Server -> höchstens 1 GB und 50 % frei; Bot misst Platz selbst.
 2. Betrieb   MITTEL  nach /update: /marktdaten prüfen, Quellen je Rechner (Uploader 2.3.7), Wochenbericht Mo 16.11.
-3. D-MN7c2   NIEDRIG Grenze je Quelle mit neuer Zufallskennung je Paket umgehbar -> zusätzlich Grenze gesamt je Stunde.
-4. D-MN7e2   NIEDRIG market_catchup ohne Fehlerbehandlung (Task-Ausnahme bei fehlendem Leserecht).
+3. Rest D-MN7/D-T1   zur Prüfung (1.5.132) – Code-Prüfung in der nächsten Nachprüfung.
 ========================================================================================================================
 
 >>> KEEP90 (MITTEL, Entscheid des Nutzers 13.11. 23:35 – "das hat Platz, der Server hat 2 GB"):
@@ -19,8 +18,8 @@ Immer von oben nach unten abarbeiten. Einzelheiten weiter unten (Suche nach dem 
 >>>    4. Unklar: "2 GB" = Festplatte oder Arbeitsspeicher? Punkt 3 klärt es; Wert im Bericht nennen.
 >>>    Tests T-KEEP90a (90 Tage behalten), T-KEEP90b (Grenze = min(1 GB, 50 % frei), älteste weg), T-KEEP90c (Anzeige).
 
->>> PRÜF-SITZUNG 23:50: Bot 1.5.132 – Bot-Tests hier 225 OK (Code-Prüfung D-MN7a–f/D-MN8b/D-T1: erledigt in der
->>> Nachprüfung 14.11. 08:30, siehe unten). Antwort Datenvolumen gelesen, an den Nutzer weitergegeben. Grenzen bleiben so (Empfehlung c, e).
+>>> PRÜF-SITZUNG 23:50: Bot 1.5.132 – Bot-Tests hier 225 OK (Code-Prüfung D-MN7a–f/D-MN8b/D-T1 in der nächsten
+>>> Nachprüfung). Antwort Datenvolumen gelesen, an den Nutzer weitergegeben. Grenzen bleiben so (Empfehlung c, e).
 >>> EXPORT_KEEP 2 -> 6 (a): ENTSCHIEDEN 23:33, gebaut als GoldSentinelMarkt v3 (Prüf-Sitzung). KEEP_DAYS 90 (b): ENTSCHIEDEN 23:35 -> Punkt KEEP90. B5 Server-Messung: offen (Nutzer).
 >>> (ERLEDIGT, beantwortet) FRAGE DES NUTZERS (13.11. 23:20) – bitte als Bericht in berichte/Discord/ beantworten, NICHTS umsetzen:
 >>> "Kann der Bot vom Datenvolumen her grösser gemacht werden, und was hat das für Einflüsse?"
@@ -34,66 +33,120 @@ Immer von oben nach unten abarbeiten. Einzelheiten weiter unten (Suche nach dem 
 >>> 4. Empfehlung mit Zahlen: welche Grenze auf welchen Wert, was es bringt (mehr Marktdaten/Quellen), Risiko.
 >>> Keine Tokens, Server-IDs oder Spielernamen in den Bericht.
 
-OFFENE PUNKTE DISCORD (nach der Nachprüfung von Bot 1.5.132)
+OFFENE PUNKTE DISCORD (nach der Nachprüfung von Bot 1.5.131)
 =============================================================
-Stand: Nachprüfung 1.5.132, 14.11.2026, 08:30 · von der Prüf-Sitzung (geplante Nachprüfung)
-Grundlage: RaidMasterBot 1.5.132 (Commit 0bf7697), verglichen mit Bot 1.5.131 (96569f5). Gelesen:
-berichte/Discord/2026-11-13-2345-bot-1.5.132-und-datenvolumen.txt (Teil A Umsetzung, Teil B Datenvolumen – Teil B
-wurde von der Prüf-Sitzung am 13.11. 23:50 an den Nutzer weitergegeben; Entscheide a) und b) siehe oben).
-Mitgeprüft: Uploader 2.3.7 (MN6b "quelle", MARKT_MAX_ONE 2 MB).
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 1.5.131.
+Stand: 13. November 2026, 17:40 MEZ · von der Prüf-Sitzung (geplante Nachprüfung)
+Grundlage: RaidMasterBot 1.5.131 (Commit 96569f5), verglichen mit Bot 1.5.130 (fec499e). Gelesen:
+berichte/Discord/2026-11-13-1650-mn7-sammelstelle.txt und -1700-gesamtstand.txt. Mitgeprüft: Uploader 2.3.6
+(RaidMasterUploader/uploader.py, MN6) und shared/GoldSentinelMarkt.lua v1 (Export GSMARKT1).
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 1.5.130.
 Zuständig für den Gilden-Discord (Server-Bot, Kanäle, Rollen, Einrichtung) ist das Discord-Projekt (Entscheid des
 Nutzers 12.11.). Keine Server-IDs, Links, Tokens oder Spielernamen in Dateien oder Commits.
 
-Erledigt in 1.5.132 (danke):
-- D-MN7a (MITTEL): market.source_from_text (market.py:140) liest "quelle" nur als genau 16 Hex, legt nur einen Hash
-  ab; je Anhang bestimmt, sonst Webhook-Hash (bot.py:2752). Passt zum Uploader 2.3.7 (uploader.py:418, :694).
-- D-MN7b (Test): T-MN7 mit ausverkauftem Eintrag "7,0,0,0,3,2" – Absatz zählt, kein Preis 0 im Verlauf
-  (market.py aggregate: Preis nur bei p > 0, ausverkauft nur Absatz).
-- D-MN7c: market_source nur mit eigener testberichte_webhook_id (uploader_setup.py:105–111); parse_line verwirft
-  Zeilen mit weniger Einträgen als <Items> (market.py:112); Grenzen je Quelle/Stunde, gesamt, Bytes
-  (market.py:55–57, :196–199) mit Zähler "begrenzt" in Bericht und /marktdaten. Rest siehe Punkt 2 (D-MN7c2).
-- D-MN7d: Montagsbericht = abgeschlossene Kalenderwoche in der Zone des Bots (market.py:336 last_week_window, auch
-  Zeitumstellung), Zwischenbericht mit eigenem Namen "-zwischen-<MMTT-HHMM>", setzt den Merker nicht; Sammler-Regex
-  angepasst (markt_bericht_holen.py:24); market.set_tz(TZ) beim Start (bot.py:134); heads jetzt [since, until).
-- D-MN7e: market_catchup (bot.py:2770) liest nach on_ready 60 Min. / höchstens 200 Nachrichten nach, nur eigener
-  Webhook, nie antworten/löschen. Rest siehe Punkt 3 (D-MN7e2).
-- D-MN7f: MAX_LINE 3 MB (market.py:49), kein "verlauf" mehr, Zahlen in array("q").
-- D-T1: tests/bot_harness.py lädt bot.py in einem Temp-Ordner mit Attrappen-config.json (im Repo entsteht nichts –
-  nach den Tests hier git status leer); Ablauf-Tests für market_intake, market_catchup, blizzard_monthly,
-  post_market_report, receive_upload (GuildSentinel 26 MB -> Protokollzeile bot.py:4989).
-- D-MN8b: blizzard_fp erst nach erfolgreichem Senden gespeichert; ohne Kanal Warnung, alter Fingerabdruck bleibt.
-Prüfungen: Bot-Tests hier 225/225 OK (python3 -I -m unittest discover -s RaidMasterBot/tests). bot.py, market,
-uploader_setup, markt_bericht_holen in einer Kopie mit Attrappen-config.json importierbar. Keine Tokens, Webhook-URLs,
-Server-IDs, Einladungslinks oder Spielernamen im Diff; Berichte nur mit Item-IDs und Zahlen.
+Erledigt in 1.5.131 (danke):
+- MN7 (MITTEL) SAMMELSTELLE gebaut: market.py liest GSMARKT1 v1 genau nach der Anweisung (Kopf dezimal, 6 Felder
+  Base36, market.py:53–86; Untergrenze nie über der Obergrenze :84), je Fraktion + Scan-Zeit nur ein Scan
+  (market.py:143–164), Zukunft > 1 h und älter als 35 Tage abgelehnt/gelöscht (:146, :166–175). Je Item
+  Preisverlauf, Angebot, Absatz je Tag als Spanne, Umschlag, Abdeckung x/168, Absatz je Stunde (market.py:210–255).
+  Annahme aus #bot-daten (bot.py:4948–4951, vor dem Löschen) und still aus #testberichte (bot.py:458–461,
+  uploader_setup.py:105–109; nie antworten, nie löschen). Blockierendes (gzip, Dateien, Bericht) läuft in
+  asyncio.to_thread unter einem Lock (bot.py:2733–2757, :2767–2784). Wochenbericht montags als Anhang
+  (bot.py:2767), Workflow .github/workflows/markt-bericht.yml + markt_bericht_holen.py (nur Anhänge des Bots, feste
+  Dateinamen, ≤ 1 MB, nur cdn.discordapp.com) nach testberichte/markt/. /marktdaten nur Gildenleitung, defer vor
+  dem Bericht, COMMAND_INFO-Eintrag (bot.py:2825, :6827). Rückweg zu den Addons (Phase 2) wie beauftragt nicht gebaut.
+- MN8 monatlich: blizzard_monthly (bot.py:2787–2821) führt list_realms einmal im Monat aus, Fingerabdruck nur der
+  Realm-Zeilen (market.py:336–340), Bericht nur bei Änderung, Ausgabe über redact (ohne Zugangsdaten).
+- D-GS1b (NIEDRIG): gs_has_bank = False vor dem if (bot.py:4957). Test T-D-GS1b (Quelltext-Test, siehe Punkt 7).
+- TU6: Regressionen 20 von 20 (neu T-MN7, T-MN7b, T-D-GS1b); market im Import-Schritt von bot-tests.yml.
+- Frage aus dem Bericht (stilles Mitlesen in #testberichte): angenommen, weil nur Webhook-Nachrichten gelesen
+  werden, nur GSMARKT1 ausgewertet wird und der Bot dort nie antwortet oder löscht – mit der Bedingung aus Punkt 3
+  (nur der eigene Uploader-Webhook).
+
+Prüfungen: Bot-Tests hier 211/211 OK (python3 -I -m unittest discover -s RaidMasterBot/tests). Alle Module des
+Import-Schritts plus markt_bericht_holen importierbar, py_compile OK. bot.py selbst ist importierbar (Kopie mit
+Attrappen-config.json in einem Arbeitsordner, nie im Repo). Funktionsprobe market_intake mit Attrappen-Nachrichten:
+neu/doppelt richtig, aber zwei Absender über den #testberichte-Webhook = 1 Quelle (Punkt 1). Tests ändern keine
+Dateien im Repo. Keine Tokens, Webhook-URLs, Server-IDs, Einladungslinks oder Spielernamen im Diff; der
+Wochenbericht enthält nur Item-IDs, Zahlen und Zählungen (keine Quellen-Hashes).
 
 OFFENE PUNKTE (nach Schwere)
 ----------------------------
-1. KEEP90 (MITTEL, Entscheid des Nutzers 13.11. 23:35) – Einzelheiten oben (">>> KEEP90"). Noch nicht umgesetzt
-   (1.5.132 entstand vor dem Entscheid): market.py:52 KEEP_DAYS = 35, market.py:57 MAX_STORE_BYTES = 3 GB.
-   ZUSÄTZLICH aus der Nachprüfung: Bei Erreichen von MAX_SCANS oder MAX_STORE_BYTES weist Store.add heute den NEUEN
-   Scan ab ("begrenzt", market.py:196–199). Nach KEEP90 Punkt 2 sollen stattdessen die ÄLTESTEN Scans gelöscht
-   werden (die Grenze je Quelle und Stunde bleibt eine Abweisung). Test T-KEEP90b deckt beides ab.
+1. D-MN7a (MITTEL, NEU) – "Quellen" zählt Webhooks, nicht Spieler: immer 1.
+   market_intake nimmt als Quelle den Hash der Webhook-ID (bot.py:2746, market.py:107–109). Alle Uploader schicken
+   über DENSELBEN Webhook (ein Daten-Webhook, ein #testberichte-Webhook, uploader_setup.py:55–83); Uploader 2.3.6
+   schickt GSMARKT1 nur im Paket an #testberichte. Folge: jeder Scan hat 1 Quelle, auch PC + Laptop oder zwei
+   Spieler; der Wochenbericht nennt immer "Quellen: 1". Die Anweisung verlangt Anzahl Scans UND Quellen, und
+   markt-strategie.md (Teil Marktdaten-Netz) verlangt "mehrere Quellen" für fremde Daten. Die Live-Prüfung
+   "1 Scan, 2 Quellen" kann so nicht gelingen.
+   Lösung: optionales Feld im Paket lesen, z. B. {"items": [...], "quelle": "<16 Hex>"} – eine Zufallskennung, die
+   der Uploader einmal erzeugt und in uploader_state.json behält (nie aus Konto- oder Charakternamen abgeleitet);
+   der Bot speichert nur source_key(quelle). Ohne Feld (alter Uploader) wie bisher der Webhook-Hash. Der
+   Uploader-Teil geht als Auftrag an RaidMaster (MN6b). Test T-D-MN7a: zwei Pakete mit gleicher Zeile, gleicher
+   Webhook-ID, verschiedener quelle -> 1 Scan, 2 Quellen; ohne quelle -> 1 Quelle; quelle mit falschem Format
+   (nicht 16 Hex) -> Webhook-Hash.
 
-2. D-MN7c2 (NIEDRIG, NEU) – Grenze je Quelle lässt sich umgehen.
-   Die Quelle kommt aus dem Paketfeld "quelle" (market.py:140, bot.py:2752). Wer den Uploader-Webhook hat, kann je
-   Paket eine neue Zufallskennung schicken; dann greift MAX_NEW_PER_SOURCE_HOUR (market.py:55) nie, nur MAX_SCANS.
-   Lösung: zusätzlich eine Grenze über alle Quellen zusammen je Stunde (z. B. 120 neue Scans je Stunde gesamt) und
-   höchstens z. B. 20 neue Quellen-Kennungen je Tag; darüber "begrenzt". Test T-D-MN7c2: 31 Pakete mit 31
-   verschiedenen Kennungen in einer Stunde über der Gesamtgrenze -> der Rest "begrenzt".
+2. D-MN7b (NIEDRIG, NEU) – Ein vollständig ausverkauftes Item fehlt im Export (Hinweis, Ursache in shared/).
+   shared/GoldSentinelMarkt.lua:366–369 schreibt nur Items des AKTUELLEN Scans in die Zeile; die Abgänge von Items,
+   die seit dem letzten Scan ganz verschwunden sind, gehen verloren. Der Bot rechnet richtig mit dem, was kommt
+   (market.py:223–233 zählt Einträge mit Menge 0 korrekt). Nichts am Bot ändern; die Prüf-Sitzung korrigiert die
+   gemeinsame Datei (Eintrag "id,0,0,0,abgänge,abgängeVorsichtig"). Danach bitte im Test T-MN7 einen Eintrag mit
+   Menge 0 und Auktionen 0 ergänzen: Absatz zählt, kein Preis im Verlauf.
 
-3. D-MN7e2 (NIEDRIG, NEU) – market_catchup ohne Fehlerbehandlung.
-   bot.py:232 startet asyncio.create_task(market_catchup()) ohne try/except; ch.history (bot.py:2778) wirft bei
-   fehlendem Leserecht discord.Forbidden bzw. bei Netzfehlern HTTPException -> "Task exception was never retrieved"
-   im Protokoll, kein klarer Hinweis. Lösung: in market_catchup discord.HTTPException abfangen und eine Zeile
-   "Marktdaten: Nachlesen in #testberichte nicht möglich (<Grund>)" protokollieren. Test mit Attrappe, deren history
-   Forbidden wirft -> kein Fehler, Protokollzeile.
+3. D-MN7c (NIEDRIG, NEU) – Fälschung und Masse nicht begrenzt.
+   market_source nimmt JEDEN Webhook in #testberichte (uploader_setup.py:105–109), obwohl die eigene Webhook-ID in
+   cfg["testberichte_webhook_id"] steht. Es gibt keine Plausibilitätsprüfung (Kopf <Items> = Zahl der Einträge,
+   Summe der Auktionen <= <Auktionen>) und keine Grenze je Quelle und Stunde oder für die Ablage gesamt. Wer die
+   Uploader-Konfiguration hat, kann beliebig viele Scans mit erfundenen Zeiten (innerhalb 35 Tagen) ablegen, den
+   Platz eines echten Scans (gleiche Fraktion + Zeit) zuerst besetzen und den Bericht verzerren oder die Platte füllen.
+   Lösung: market_source nur mit webhook_id == cfg["testberichte_webhook_id"] (falls gesetzt); in parse_line
+   Kopf gegen Einträge prüfen (sonst "ungültig"); je Quelle höchstens z. B. 12 neue Scans je Stunde, gesamt
+   höchstens z. B. 3000 Scans (älteste zuerst löschen). Test T-D-MN7c: fremde Webhook-ID -> nichts gelesen; Kopf
+   <Items> passt nicht -> ungültig; 13. Scan derselben Quelle in einer Stunde -> abgelehnt.
+
+4. D-MN7d (NIEDRIG, NEU) – Wochenbericht trägt die falsche Woche; Zeitzone uneinheitlich.
+   post_market_report läuft montags und benennt den Bericht nach der NEUEN Woche (market.week_key(now),
+   bot.py:2778, market.py:275–281), der Inhalt deckt aber die 7 Tage davor ab. Ein Bericht über /marktdaten
+   bericht:True unter der Woche erhält denselben Namen wie der Montagsbericht dieser Woche und überschreibt
+   testberichte/markt/<JJJJ>-W<KW>.md. hour_of_week und die Zeiten im Bericht nehmen die Serverzeit
+   (datetime.fromtimestamp ohne Zone, market.py:205–207, :286–288), der Rest des Bots ZoneInfo(TZ).
+   Lösung: Montagsbericht nach der abgedeckten Woche benennen (week_key(now - 1 Tag)); /marktdaten bericht:True als
+   GSMARKTW1-<JJJJ>-W<KW>-zwischen.md (Regex in markt_bericht_holen.py:23 anpassen) oder nur posten, nicht ins Repo;
+   überall dieselbe Zone (TZ des Bots) übergeben. Test T-D-MN7d: Montag 16.11.2026 -> Name 2026-W46 (abgedeckte
+   Woche, nicht W47), Zwischenbericht überschreibt ihn nicht.
+
+5. D-MN7e (NIEDRIG, NEU) – Scans gehen verloren, wenn der Bot gerade nicht läuft.
+   Der Uploader merkt sich einen Scan als gesendet, sobald der Webhook ihn annimmt; der Bot liest #testberichte nur in
+   on_message (bot.py:458–461). Während eines Neustarts (Selbst-Update bis alle 30 Min.) kommen Pakete ohne
+   Auswertung an und sind weg (tb_aufraeumen löscht sie nach 1 h).
+   Lösung: in on_ready die letzten 60 Minuten von #testberichte lesen (nur Webhook-Nachrichten, nur
+   market_source) und market_intake aufrufen – die Ablage verwirft Doppelte ohnehin. Test T-D-MN7e mit
+   Attrappen-Verlauf: 2 Pakete im Verlauf -> 2 Scans; zweiter Start -> 0 neu, 2 doppelt.
+
+6. D-MN7f (NIEDRIG, NEU) – Grenzen Bot/Uploader passen nicht zusammen; Speicher des Wochenberichts.
+   market.MAX_LINE = 2 MB (market.py:37), der Uploader schickt Zeilen bis 3 MB (uploader.py:95): Zeilen zwischen
+   2 und 3 MB verwirft der Bot still als "ungültig". (Ein echter Vollscan mit ~6'100 Items ist ~0,15 MB, darum selten.)
+   aggregate hält je Item den ganzen "verlauf" aller Scans im Speicher (market.py:224–226, :246), der Bericht nutzt ihn
+   nicht; bei mehreren Spielern (z. B. 3 Scans/Stunde × 168 × 6'100 Items ≈ 3 Mio. Einträge) sind das mehrere
+   hundert MB auf dem Server.
+   Lösung: MAX_LINE auf 3 MB (oder grösser als MARKT_MAX_ONE des Uploaders); "verlauf" nicht sammeln oder auf die
+   letzten N Werte je Item kürzen. Test T-D-MN7f: Zeile mit 2,5 MB wird gelesen.
+
+7. D-T1 (NIEDRIG, NEU) – T-MN7b und T-D-GS1b prüfen nur den Quelltext als Text.
+   Begründung im Bericht: "bot.py nicht importierbar". Geprüft: bot.py lässt sich in einer Kopie des Ordners mit einer
+   Attrappen-config.json (Token-Platzhalter) importieren, ohne den Bot zu starten. Hinweis für künftige Versionen:
+   Regressionstests als Funktionstest mit Attrappen.
+   Lösung: in den Tests RaidMasterBot in einen tempfile-Ordner kopieren, Attrappen-config.json schreiben, bot
+   importieren (nie im Repo eine config.json anlegen). Dann T-MN7b als Ablauf: market_intake mit Attrappen-
+   Nachricht (Anhang paket-*.json.gz) -> 1 Scan; T-D-GS1b: receive_upload mit nur GuildSentinel.lua (size > 25 MB)
+   -> kein Fehler, kein Bank-Post, Protokoll-Zeile "GuildSentinel-Datei zu gross" (die Zeile fehlt noch).
+
+8. D-MN8b (NIEDRIG, NEU) – Änderung der Realm-Listen kann verloren gehen.
+   blizzard_monthly speichert den neuen Fingerabdruck (bot.py:2800–2808), bevor feststeht, dass der Kanal da ist
+   (bot.py:2812–2814). Fehlt der Bot-Kanal, ist die Änderung gespeichert, aber nie gemeldet.
+   Lösung: blizzard_fp erst nach erfolgreichem ch.send speichern (oder bei ch is None im Protokoll warnen und den
+   alten Fingerabdruck behalten). Test T-D-MN8b: Kanal fehlt -> beim nächsten Lauf mit Kanal kommt der Bericht.
 
 IM CLIENT / IM BETRIEB PRÜFEN (Server / Discord beim Nutzer)
-   - Nach dem Selbst-Update auf 1.5.132: /marktdaten zeigt "… wegen Grenzen nicht abgelegt"; nach einem Neustart im
-     Protokoll ggf. "Marktdaten: n Pakete der letzten 60 Minuten nachgelesen", kein Task-Fehler.
-   - Uploader 2.3.7 auf PC und Laptop: derselbe Scan -> /marktdaten "1 Scan, 2 Quellen" (D-MN7a).
-   - Montag 16.11.: Datei heisst GSMARKTW1-2026-W46.md (abgedeckte Woche), Zeitraum Mo 09.11. 00:00 bis Mo 16.11. 00:00.
    - Neu MN7: Nach dem Selbst-Update auf 1.5.131 antwortet /marktdaten; im Protokoll kein Fehler zu market.
    - Sobald Uploader 2.3.6 GSMARKT1 schickt: /marktdaten zeigt Scans je Fraktion; Protokoll "Marktdaten: x neue
      Scans"; im Arbeitsordner data/markt/ nur index.json und scans/*.json.gz. Nach D-MN7a: PC + Laptop mit demselben
@@ -101,7 +154,7 @@ IM CLIENT / IM BETRIEB PRÜFEN (Server / Discord beim Nutzer)
    - Montag: GSMARKTW1-…md in #bot-befehle, danach (Workflow alle 6 h) unter testberichte/markt/. Darin keine Namen,
      nur Item-IDs. Speicherbedarf des Bots beim Bericht (z. B. systemctl status raidmaster, Speicher) notieren.
    - MN8 monatlich: erster Lauf nur "unverändert"/gespeichert im Protokoll, keine Datei.
-   - D-UP1 (1.5.128): /uploader nur_programm:True -> Antwort und DM nennen "Uploader-Version 2.3.7" (neueste in
+   - D-UP1 (1.5.128): /uploader nur_programm:True -> Antwort und DM nennen "Uploader-Version 2.3.6" (neueste in
      RaidMasterUploader/uploader.py); keine Warnung. Nach jeder Uploader-Veröffentlichung: ZIP ohne /update nachgeladen.
    - D-GS1 (1.5.128): Upload von GuildSentinel.lua ohne Gildenbank -> Protokoll "GuildSentinel-Daten empfangen
      (nur Raidfähigkeit)", #gildenbank unverändert; Raidfähigkeit am Montag in #offiziere.
@@ -141,10 +194,10 @@ HINWEIS FÜR KÜNFTIGE VERSIONEN
      Attrappen-config in einer Kopie importierbar, Punkt 7).
    - Alles, was nach testberichte/ ins öffentliche Repo geht, nur mit Item-IDs und Zahlen – keine Quellen-Hashes,
      Webhook-IDs, Kanal- oder Server-IDs.
-   - Versionen höher als Bot 1.5.132.
+   - Versionen höher als Bot 1.5.131.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/Discord/ ablegen.
-   D-MN7b ERLEDIGT IN shared/ (13.11. 22:20; Test T-MN7 ergänzt in 1.5.132 – erledigt): GoldSentinelMarkt.lua Version 2 exportiert ganz verschwundene Items als
+   D-MN7b ERLEDIGT IN shared/ (13.11. 22:20): GoldSentinelMarkt.lua Version 2 exportiert ganz verschwundene Items als
       "id,0,0,0,abgänge,abgängeVorsichtig" (nur wenn Abgänge aus Stufe 3/4 > 0). Test 71/71. Bitte T-MN7 um einen Eintrag
       mit Menge 0 ergänzen (Absatz zählt, kein Preis im Verlauf).
 

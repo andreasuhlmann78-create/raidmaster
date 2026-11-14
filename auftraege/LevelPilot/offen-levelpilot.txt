@@ -1,13 +1,12 @@
 ========================================================================================================================
-PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 08:30, Nachprüfung 3.12.30). Immer von oben nach unten.
+PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 00:40). Immer von oben nach unten abarbeiten.
 Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei jeder Änderung nachgeführt.
 ========================================================================================================================
-1. PF-A      MITTEL  Planung Allianz (Elwynn L10) über der 16-ms-Grenze: T150 Median 26 ms, T155 30 ms -> schneller machen
-                     oder über Bilder verteilen. Grenze bleibt 16 ms (PS-Ziel "kein Bild > 16 ms").
-2. GR1-K     NIEDRIG Kompaktmodus: Hinweis "Später abgeben" unsichtbar -> kurz in der einen Zeile anhängen (Vorschlag unten).
-3. SP1-M     MESSUNG Speicher-Bestand im Spiel (neue Diagnose-Zeilen) – Aufgabe des Nutzers; erst danach entscheiden.
-4. WARTEND   Wegpunkte (Wegdaten-Exporte), Punkt 15 nur auf Kommando. CH-G SPÄTER.
-(Erledigt seit 3.12.28: MK1, GR1, SP1-Messung im Nachbau, TU9, MARKT-v3 – siehe unten.)
+1. GR1       MITTEL  Planer + Grundregel: (a) "Später: Abgabe" + (b) CheckRules, T-GR1.
+2. SP1       MITTEL  Speicher messen (Bericht), nur bei Befund beheben.
+3. TU9       MITTEL  Offline-Routine run_offline.py ins Repo.
+4. MARKT-v3  NIEDRIG GoldSentinelMarkt v3 beim nächsten Release mitkopieren.
+5. WARTEND   Wegpunkte (Wegdaten-Exporte), Punkt 15 nur auf Kommando. CH-G SPÄTER.
 ========================================================================================================================
 
 >>> BP-2026-11-14 (Blizzard-Hotfix 13.11., Kaivax 14.11. 01:54 UTC, https://us.forums.blizzard.com/en/wow/t/wow-forever-hotfixes-november-13-2026/2403040/10) – nur Hinweis, KEIN Auftrag:
@@ -19,83 +18,112 @@ Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei jeder Änderung nac
       Schlingendorntal, Zephras-Insel.
     Nur melden, falls Routen oder Hinweise dadurch falsch werden (Bericht in berichte/LevelPilot/).
 
+>>> GoldSentinelMarkt v3 (13.11. 23:45, Entscheid des Nutzers): Export hält 6 statt 2 Scans (max. 1,5 MB, Ruckeln/
+>>>    SavedVariables klein). NICHT DRINGEND: beim nächsten Release ohnehin mitkopieren (byte-gleich aus shared/).
+>>>    Bis dahin zeigt addon_check nur die WARNUNG "veraltete offizielle Fassung (Version 2)" – kein Fehler.
+
 >>> SPÄTER (Entscheid des Nutzers 13.11. 23:26): Gemeinsame Befehlsliste shared/GoldSentinelCmdHint.lua (CH-G) –
 >>>    AHSentinel stellt zuerst um, dieses Addon danach. JETZT NICHTS TUN; der Auftrag kommt hier, wenn es soweit ist.
 
-OFFENE PUNKTE LEVELPILOT (nach der Nachprüfung von 3.12.30)
+>>> ANWEISUNG DER PRÜF-SITZUNG 13.11. 23:25 (Antwort auf die Berichte 23:15/23:20) – 3.12.30 jetzt beginnen:
+>>> 1. GR1: Lösung (a) UND (b) freigegeben, wie vorgeschlagen, mit Regressionstest T-GR1 (Quest 445, NPC 1937).
+>>> 2. SP1: Messung wie vorgeschlagen (nach Login, aktuell, Höchstwert, Zuwachs je Modul, kein volles
+>>>    collectgarbage). Ergebnis im Bericht; nur bei echtem Bestand beheben (T-SP1).
+>>> 3. TU9: Offline-Routine run_offline.py ins Repo.
+>>> Danach nichts Neues anfangen, auf Anweisung warten. Punkt 1 (Wegdaten) und 15 bleiben wartend.
+>>> 3.12.26–3.12.29: umgesetzt, zur Prüfung; addon_check 3.12.29 OK, GoldSentinelMarkt v2 byte-gleich (Prüf-Sitzung
+>>> 22:41). Client-Test durch den Nutzer folgt (Reihenfolge siehe auftraege/weckliste.txt "Für den Nutzer").
+
+OFFENE PUNKTE LEVELPILOT (nach der Nachprüfung von 3.12.28)
 ==========================================================
-Stand: 14. November 2026, 08:30 MEZ · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage:
-announce/levelpilot__levelpilot-3.12.29.LevelPilot.zip (Commit 59e7fac) und -3.12.30 (Commit 25bb604), Diff 3.12.28 ->
-3.12.29 -> 3.12.30, Berichte berichte/LevelPilot/2026-11-13-2245-3.12.29-gsmarkt-v2.txt und 2026-11-14-0910-3.12.30-gr1-sp1-tu9.txt.
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 3.12.28.
+Stand: 13. November 2026, 17:45 MEZ · von der Prüf-Sitzung (geplante Nachprüfung) · Grundlage:
+announce/levelpilot__levelpilot-3.12.28.LevelPilot.zip (Commit 6e6aa9d), Bericht berichte/LevelPilot/2026-11-13-1650-3.12.28-mn.txt
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 3.12.25 samt den Abschnitten
+TU, BL, NACHPRÜFUNG 13.11. 14:30 und MN (alles Offene daraus steht unten).
+Geprüft: Diff 3.12.27 -> 3.12.28 (Core.lua, Center.lua, Protocol.lua, TestRoutine.lua, LevelPilot.toc, alle Locale-Dateien,
+CHANGELOG EN/DE, neu GoldSentinelMarkt.lua), Diagnose-Berichte 3.12.27 und Wegdaten-Exporte seit Commit 608594a.
 
-Erledigt in 3.12.29 (danke):
-- MK1: GoldSentinelMarkt v2 kopiert (in 3.12.30 v3); WithMarkt sichert/leert/stellt feedUntil zurück (TestRoutine.lua:5413,
-  5429), Regressionstest T287 [T-MK1] mit echtem feedUntil und api.ahs (TestRoutine.lua:5529 ff., TR.REGRESSIONS 5175).
-
-Erledigt in 3.12.30 (danke):
-- GR1 (a)+(b): P:LaterTurnins (Planner.lua:1675-1709) – jede fertige Quest ohne Abgabe-Schritt erscheint als NOTE
-  "Später abgeben: Quest (Zone)", höchstens 4 mit Namen, Rest "+n weitere"; Aufruf im Plan (Planner.lua:1666) und im
-  Dungeon (Planner.lua:1777). Überspringen/Zurückstellen lässt den Hinweis stehen (Engine.lua:29-33, 59-62).
-  CheckRules zählt laterIds (Protocol.lua:596-600). T288 [T-GR1] mit den echten Zahlen (445/1937/Undercity L10/TURNIN:405)
-  in TR.REGRESSIONS (TestRoutine.lua:5176). Texte in allen 9 Locale-Dateien, Platzhalter %d gleich.
-- SP1 (Messteil): Diagnose-Zeilen SPEICHER nach dem Einloggen/aktuell/Höchstwert, angelegt je Modul, Bestand der
-  Zwischenspeicher (Protocol.lua:386-398, 496-501; Perf.lua; Graph/Danger/QuestDB CacheSize), je Sitzung "Speicher
-  Login»Ende, max". Kein volles collectgarbage im Spiel (nur "count"; Names.lua:205 "step" wie bisher). T289 [T-SP1].
-  Ergebnis im Nachbau: Bestand +1,4 MB und gleichbleibend über 30 Min., rund 2 MB/Min. Müll. Die Einschätzung "eher Müll
-  als Bestand" ist plausibel, aber erst mit der Diagnose aus dem Spiel belegt -> SP1-M.
-- TU9: berichte/LevelPilot/offline/run_offline.py + README. Hier nachgelaufen (lua5.1): 33 Läufe, 32 ohne FEHLER
-  (Forever deDE/enUS Horde, Era, TBC je OK 265 · FEHLER 0; 28 Regressionsläufe inkl. test15 Wegnetz OK); 1 Lauf mit FEHLER
-  = Allianz T150/T155 (-> PF-A); Rückgabewert dann 1 (geprüft).
-- MARKT-v3: GoldSentinelMarkt.lua Version 3 byte-gleich.
-- Eigener Fund T220 (Allianz falscher FEHLER) behoben (TestRoutine.lua:3805) – danke.
-- Hinweis BP-2026-11-14 (graue Dungeon-Gegner 0 EP): Antwort im Bericht passt (KillXPFormula grau = 0) – kein Auftrag.
-
-Prüfungen: addon_check 3.12.30 (mit lupa, Ladetest und Sprachtest): OK, 0 FEHLER, 0 WARNUNGEN. GoldSentinelGame/Test/
-Sync/Markt byte-gleich mit shared/. .toc und LP.version 3.12.30, CHANGELOG EN/DE 3.12.30. Kein Testfall nur als
-T:Skip("noch nicht ..."). Keine Blizzard-Funktion ersetzt. Gegenprobe 3.12.29 Allianz: T150 Median 30,8 ms, T155 31,5 ms
--> PF-A ist kein Rückschritt durch GR1, sondern schon vorher so.
+Erledigt in 3.12.28 (danke):
+- MN1: GoldSentinelMarkt.lua in der .toc direkt nach GoldSentinelSync.lua (LevelPilot.toc:23), Anmeldung beim Laden
+  (Core.lua:615 -> LP:MarktAttach, Core.lua:568), ohne Datei bzw. ohne C_AuctionHouse still aus. (Die Kopie selbst ist
+  inzwischen veraltet -> Punkt MK1.)
+- MN2: Schalter "Marktdaten teilen (anonym, nur Preise)" in der Zentrale, Reiter Austausch (Center.lua:274), Standard an
+  (Core.lua:142), LP:MarktSync auch beim Umschalten "nur für diesen Charakter" (Center.lua:407). Text in allen 9
+  Locale-Dateien (esMX erbt von esES). CHANGELOG EN/DE 3.12.28.
+- MN3: Zeile "MARKT-NETZ: v… · an/aus · Scans mitgelesen · gesendet · empfangen · Speicher" (Core.lua:584) im Testbericht
+  (TestRoutine.lua:6095-6098) und in der Diagnose samt GSMarkt.DiagLines (Protocol.lua:478-487).
+- MN4: Tests T282-T286 (TestRoutine.lua:5393-5565). Ersetzt wird nur GoldSentinelMarkt.api (Testtabelle) und der Zustand
+  der Datei, keine Blizzard-Funktion, keine C_-Tabelle; im Test wird nichts gesendet (Pump nur bei Schalter aus, askAt
+  zurückgesetzt).
+- Eigener Befund 3.12.27 (Schalter "Befehlsliste beim Tippen von /lp" lag auf "Einstellungen nur für diesen Charakter"):
+  eigene Zeile (Center.lua:432), Regressionstest T286 in TR.REGRESSIONS.
+- BERICHT: Bericht zu 3.12.26-3.12.28 liegt in berichte/LevelPilot/ (danke).
+- CHANGELOG 3.12.26 richtiggestellt ("TU1-TU8; TU9 Offline-Routine folgt", EN/DE).
+- Aus der Nachprüfung 13.11. 14:30 schon bestätigt: TU1-TU8 (3.12.26), BL1-BL4 Befehlsliste (3.12.27).
+Prüfungen: addon_check 3.12.28 -> 1 FEHLER (GoldSentinelMarkt.lua weicht von shared/ ab, siehe MK1), 0 WARNUNG. Grund: Die
+Prüf-Sitzung hat shared/GoldSentinelMarkt.lua 22 Sekunden NACH der Veröffentlichung ergänzt (Commit 6e66279, FeedStart/Feed);
+die Kopie in 3.12.28 ist byte-gleich mit dem Stand davor (a3c51a5). Gegenprobe: 3.12.28 mit der aktuellen shared-Datei
+neu gepackt -> addon_check OK (Ladetest deDE/enUS, Sprachtest, Syntax). GoldSentinelGame.lua, GoldSentinelTest.lua,
+GoldSentinelSync.lua byte-gleich mit shared/. .toc und LP.version 3.12.28. Keine Blizzard-Funktion ersetzt. Era/TBC: die
+Datei liest ohne C_AuctionHouse nichts (GoldSentinelMarkt.lua:79-84). Die Testroutine (T282-T286) lief hier offline nicht
+(braucht den echten Client) -> IM CLIENT PRÜFEN.
+Diagnose 3.12.27 (6 Berichte im Repo): "Letzter Fehler: keiner" in allen – keine Lua-Fehler. Neu aufgefallen: GR1 und SP1.
+Wegdaten-Exporte 3.12.27 (2 Stück): nur geteilte Wegstücke Tausend Nadeln (1441), keine FEST/blockiert-Einträge, keine
+Fehler; testberichte/wege/auswertung.md: Tausend Nadeln jetzt ein zusammenhängendes Netz (vorher 3 Teile).
 
 OFFENE PUNKTE
 -------------
 
-PF-A (MITTEL, NEU – Antwort auf die Frage im Bericht 3.12.30) – Planung auf der Allianz über 16 ms
-   run_offline.py, Lage Forever deDE Allianz (Mensch L10, Wald von Elwynn): T150 Planner:Replan(true) Median 26,0 ms,
-   Höchstwert 41,0 ms; T155 29,9 ms je Planung (30). Horde Durotar L6 unter der Grenze (3.12.29 dort knapp: T155 16,4/18,0 ms).
-   Entscheid der Prüf-Sitzung: Die Grenze bleibt 16 ms (PS-Ziel des Nutzers "kein Bild > 16 ms"); der Nachbau ist eher
-   schneller als ein Spiel-Client mit anderen Addons. Lösung: Replan auf der Allianz messen (welcher Teil kostet: Routen-
-   berechnung/Navigation, siehe SP1 "angelegt je Modul" – im Nachbau 26,3 + 22,5 MB Müll in 30 Min.: viele neue Tabellen), Tabellen
-   wiederverwenden bzw. die Planung über mehrere Bilder verteilen (wie die Hintergrund-Portionen). Ziel: T150 Median < 16 ms
-   und Höchstwert < 33 ms in allen 5 Lagen. Regressionstest: T150/T155 bleiben (Allianz-Lage in run_offline.py).
+MK1 (HOCH, NEU) – GoldSentinelMarkt.lua veraltet -> addon_check FEHLER
+   LevelPilot/GoldSentinelMarkt.lua (3.12.28) = shared-Stand a3c51a5; shared/ hat seit 6e66279 FeedStart/Feed
+   (GoldSentinelMarkt.lua:217, 399-410 in shared/). Beide tragen VERSION 1.
+   Lösung: shared/GoldSentinelMarkt.lua unverändert neu kopieren (cmp). Dazu in der Testroutine WithMarkt
+   (TestRoutine.lua:5404) auch "feedUntil" sichern, auf nil setzen und zurückstellen: Die neue Datei bricht in OnReplicate
+   ab, solange feedUntil gesetzt ist; läuft gleichzeitig der Vollscan eines anderen Addons (AHSentinel FeedStart), meldet
+   T283 sonst FEHLER "an: Lesen vorgemerkt false", obwohl LevelPilot richtig arbeitet. Regressionstest T-MK1: T283 mit
+   gesetztem GM.feedUntil (echter Wert = Uhr + 300) muss weiter "Lesen vorgemerkt true" liefern.
 
-GR1-K (NIEDRIG, NEU – Antwort auf die Frage im Bericht 3.12.30) – Kompaktmodus zeigt "Später abgeben" nicht
-   Im Kompaktmodus (eine Zeile, nur Schritt 1) ist der Hinweis unsichtbar; der Spieler kann eine fertige Quest dort aus
-   den Augen verlieren (Grundregel GR1). Vorschlag der Prüf-Sitzung (einfach, für Casual-Spieler verständlich): in der einen
-   Zeile kurz anhängen, z. B. "… · +1 später abgeben" (grün wie der Hinweis), Mouseover/Tooltip zeigt die Questnamen.
-   Kein neuer Rahmen, keine Statusleiste. Test T-GR1-K: Kompaktmodus mit Quest 445 fertig -> Zeile enthält den Zusatz.
+GR1 (MITTEL, NEU) – Grundregel im echten Spiel verletzt: "Quest 445 fertig, aber kein Abgabe-Schritt"
+   In allen 6 Diagnose-Berichten 3.12.27 (testberichte/diagnose/LevelPilot/3.12.27-*.txt), zuletzt ×8 um 16:09: Priester
+   L10, Undercity (1458), Fokus Tirisfal, aktueller Schritt TURNIN:405. Quest 445 "Lieferung in den Silberwald" ist fertig,
+   Abgabe bei NPC 1937 im Silberwald.
+   Ursache (Code): Planner.lua:1521-1527 nimmt fertige Quests nur in der Fokus-Zone, in der Nähe oder in der aktuellen
+   Zone auf (der Kommentar sagt "fertige Quests ueberall"); Protocol.lua:583-588 (CheckRules) verlangt dagegen für jede
+   fertige Quest einen Abgabe-Schritt in E:Steps(). Planer und Grundregel widersprechen sich.
+   Lösung: entscheiden und vereinheitlichen. Entweder (a) die Abgabe ferner fertiger Quests als zurückgestellten Schritt
+   führen und im Guide zeigen ("später: Abgabe im Silberwald"), oder (b) CheckRules zählt auch zurückgestellte
+   Abgabe-Aufgaben (P.lastTasks) und meldet nur, wenn die Quest gar keine Abgabe-Aufgabe hat. Der Spieler darf eine fertige
+   Quest nie aus den Augen verlieren. Regressionstest T-GR1 mit den echten Zahlen (Quest 445 fertig, Ende NPC 1937
+   Silberwald, Spieler Undercity L10, Fokus Tirisfal, Schritt TURNIN:405): keine Grundregel-Verletzung und Abgabe sichtbar.
 
-SP1-M (MESSUNG, Aufgabe des Nutzers) – Speicher im Spiel
-   Nach 2–4 Std. normalem Spiel /lp diag: Zeilen "SPEICHER … Bestand" und "angelegt je Modul". Wächst der Bestand
-   (Wegpunkte, Luftlinien, Gelände, Gefahren) bis an die Grenzen (50 000/60 000/50 000)? Erst dann Befund und Behebung.
+SP1 (MITTEL, NEU, Messauftrag) – Speicher von LevelPilot bis 125 MB
+   Diagnose 3.12.27: "Speicher max" 12,0 / 13,3 / 29,8 / 40,0 / 114,6 / 125,2 MB (Protocol.lua:385-393 misst
+   GetAddOnMemoryUsage("LevelPilot")). Sitzungen 4-5 Std. gespielt, Charakter steht meist in Undercity.
+   Ob das liegengebliebener Müll (Garbage) oder echter Bestand ist, ist offen. Lösung: messen statt raten – in der Diagnose
+   zusätzlich den Wert kurz nach dem Einloggen, den aktuellen Wert und den Zuwachs je Modul (Perf-Aufträge, Wegsuche,
+   Protokoll) zeigen; kein volles collectgarbage im Spiel (Stocken), höchstens schrittweise ("step"). Ergebnis als Bericht
+   in berichte/LevelPilot/. Ist es echter Bestand: Ursache beheben, Regressionstest T-SP1 (Speicher nach N Planungen
+   wächst nicht unbegrenzt).
 
-1. WEGPUNKTE UND STRASSEN (anweisung-wegpunkte-strassen.txt) – weiter gültig, wartend
+TU9 (MITTEL, aus der Nachprüfung 14:30, weiter offen) – Offline-Routine fehlt
+   anweisung-tests-umfassend.txt TU9: Testroutine A-J im nachgebauten Spiel (addon-check/ladetest.py), dazu Wegnetz-Prüfung
+   als eigener Offline-Test. Ablage wie BuffSentinel/ThreatSentinel: berichte/LevelPilot/offline/run_offline.py (ohne
+   Argument die neueste announce/levelpilot__levelpilot-*.LevelPilot.zip, Rückgabewert 1 bei FEHLER). Die Sitzung meldet
+   einen eigenen Nachbau ausserhalb des Repos – bitte diesen ins Repo legen.
+
+1. WEGPUNKTE UND STRASSEN (anweisung-wegpunkte-strassen.txt) – weiter gültig
    Punkt 1/6 eigene Koordinatenlisten für Mulgore, Brachland, Thunder Bluff, sobald genug aufgezeichnet ist; Punkt 12
-   gestrichen; Punkt 15 erst auf Kommando des Nutzers. Wartet auf Wegdaten-Exporte aus dem Spiel.
+   gestrichen; Punkt 15 erst auf Kommando des Nutzers. Wartet auf Wegdaten-Exporte aus dem Spiel (die zwei neuen Exporte
+   enthalten nur Tausend Nadeln).
 
-Weiter gültig (Regeln, keine offenen Punkte): anweisung-tests-umfassend.txt (TU1-TU9 umgesetzt, gilt für jede neue
-Funktion), anweisung-marktdaten-netz.txt (MN1-MN4 + MK1 umgesetzt), testroutine-levelpilot.txt, nachtrag-testroutinen.txt,
-hinweis-*.txt. Jeder Befund bekommt einen bleibenden Regressionstest T-<ID>; Test nur als Skip = nicht erledigt.
+Weiter gültig (Regeln, keine offenen Punkte): anweisung-tests-umfassend.txt (TU1-TU8 umgesetzt, gilt für jede neue
+Funktion), anweisung-marktdaten-netz.txt (MN1-MN4 umgesetzt bis auf MK1), testroutine-levelpilot.txt,
+nachtrag-testroutinen.txt, hinweis-*.txt. Jeder Befund bekommt einen bleibenden Regressionstest T-<ID>; Test nur als Skip =
+nicht erledigt (auftraege/README.md).
 
 IM CLIENT PRÜFEN (Ergebnisse dem Nutzer melden)
-   - 3.12.30 GR1: mit einer fertigen Quest, deren Abgabe in einer anderen Zone liegt (z. B. 445 Silberwald, Spieler in
-     Undercity): Hinweis "Später abgeben: … (Silberwald)" in der letzten angezeigten Zeile; Überspringen lässt ihn stehen
-     (Chatzeile); nach der Abgabe verschwindet er. /lp diag: keine Grundregel-Meldung "Quest … fertig, aber kein Abgabe-Schritt".
-   - 3.12.30 SP1: /lp diag nach 30 Min. und nach 2–4 Std.: Zeilen SPEICHER (nach dem Einloggen, aktuell, Höchstwert, angelegt
-     je Modul, Bestand); Sitzungsliste mit "Speicher …»… MB, max …". Kein Stocken durch die Messung.
-   - 3.12.30 PF-A: Mit einem Allianz-Charakter im Wald von Elwynn: /lp diag ZEIT-Zeilen (Replan) – über 16 ms?
-   - 3.12.29/3.12.30: /lp testroutine: T282–T289 OK, "Regressionen: 32 von 32", Zeile MARKT-NETZ v3.
-   - 3.12.28: Im Auktionshaus mit dem Vollscan eines anderen Addons: /lp diag "Scans mitgelesen 1", kein Stocken beim
-     Lesen; Schalter aus -> "aus", keine neuen Scans.
+   - 3.12.28: /lp testroutine: T282-T286 OK, Zeile MARKT-NETZ im Testbericht. Im Auktionshaus mit dem Vollscan eines
+     anderen Addons: /lp diag "Scans mitgelesen 1", kein Stocken beim Lesen; Schalter aus -> "aus", keine neuen Scans.
    - 3.12.28: Zentrale, Reiter Austausch: "Marktdaten teilen" rechts oben, überlappt nichts; Reiter Einstellungen:
      "Befehlsliste beim Tippen von /lp" und "Einstellungen nur für diesen Charakter" auf eigenen Zeilen, Unterstützen-Knopf
      darunter.
@@ -133,7 +161,7 @@ IM CLIENT PRÜFEN (Ergebnisse dem Nutzer melden)
    - 3.12.21: /gstest – einmalige Frage; ohne Zustimmung geht nichts hinaus (T253 im echten Client).
    - Hinweis: LevelPilot bis 3.12.20 versteht die Nachrichten mit Kopf "#S1:" nicht; bis 3.12.21 fehlt die Prüfsumme
      in "Z"/"E" (ab 3.12.23 werden diese verworfen). Mitspieler sollen aktualisieren.
-   - /lp testroutine im echten Client, besonders T224-T229 (Tooltips/Überlappen), T240, T241, T242-T289 und T128
+   - /lp testroutine im echten Client, besonders T224-T229 (Tooltips/Überlappen), T240, T241, T242-T286 und T128
      ("ergänzt, false, kein Fehler"; Fehlerzähler steigt während der Routine nicht).
    - Fehlerprotokoll nach einer Spielsitzung mit Kampf und AFK: kein "secret boolean/number".
    - /dump GetPlayerFacing(), IsIndoors(), IsResting() im Kampf und in einer Instanz: Zahl/Wahrheitswert, nil oder
@@ -149,15 +177,17 @@ IM CLIENT PRÜFEN (Ergebnisse dem Nutzer melden)
      /dump GetLootSourceInfo(1) bei offenem Beutefenster; Belohnungs-Hinweis bei QUEST_COMPLETE mit Gegenstand
      nicht im Cache; Nachkaufen beim echten Händler (MERCHANT_SHOW -> Restock); /lp testroutine reise (T84, T180, T183).
 
-
 HINWEIS FÜR KÜNFTIGE VERSIONEN
    - Keine echten Spieler- oder Charakternamen (hinweis-keine-spielernamen.txt).
    - Gemeinsame Dateien (GoldSentinelGame.lua, GoldSentinelTest.lua, GoldSentinelSync.lua, GoldSentinelMarkt.lua) nur
      unverändert aus shared/ kopieren – direkt vor dem Packen nochmals cmp gegen shared/, weil sich shared/ ändern kann.
-   - Die Version muss höher sein als 3.12.30.
+   - Die Version muss höher sein als 3.12.28.
    - Nach jeder Version einen Bericht in berichte/LevelPilot/ (Vorlage berichte/README.md).
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/LevelPilot/ ablegen.
+   MN VERSION 2 (13.11. 20:00, DRINGEND): GoldSentinelMarkt.lua Version 2 – in Clients mit AHSentinel liest sie nichts mehr selbst (doppeltes Lesen machte den Sniper/das Spiel ruckelig), Warteschlange max. 10, Gilde nur einmal je Stunde ganzer Scan. SOFORT neu kopieren und veröffentlichen (Version 1 = Warnung "veraltet").
+   MN VERSION 2 – STAND 13.11. 22:20 (D-MN7b ausverkaufte Items im Export): wer v2 schon kopiert hat, bitte NOCHMALS kopieren (Prüfung "exact").
+
 REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nicht selbst"): Eigene Tests und Testroutinen
    laufen lassen und gefundene Fehler im Bericht melden – mehr nicht. Nie "erledigt/freigegeben/bestanden/geprüft"
    erklären; Berichte schreiben "umgesetzt, zur Prüfung" mit Belegen. Erledigt setzt nur die Prüf-Sitzung.

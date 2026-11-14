@@ -1,16 +1,15 @@
 ========================================================================================================================
-PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 08:30, nach der Nachprüfung 3.0.26 / 2.3.7).
-Immer von oben nach unten abarbeiten. Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei jeder Änderung nachgeführt.
+PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 00:40). Immer von oben nach unten abarbeiten.
+Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei jeder Änderung nachgeführt.
 ========================================================================================================================
-1. T90       MITTEL  Fehler unter enUS in der eigenen Nachbildung klären (Ursache im Bericht).
-2. MARKT-v3  NIEDRIG GoldSentinelMarkt v3 beim nächsten Release mitkopieren (addon_check: WARNUNG Version 2).
-3. UP-v3     NIEDRIG Uploader hält 6 Export-Zeilen schon (Teilung ≤ 4 MB); nur Test T-UPv3 ergänzen.
+1. UP-v3     MITTEL  Uploader: bis zu 6 Markt-Export-Zeilen je Addon mitschicken, Paketgrenze 4 MB halten.
+2. T90       MITTEL  Fehler unter enUS in der eigenen Nachbildung klären.
+3. MARKT-v3  NIEDRIG GoldSentinelMarkt v3 beim nächsten Release mitkopieren.
 4. CH-G      SPÄTER  gemeinsame Befehlsliste (nach AHSentinel). Client-Test durch den Nutzer: zurückgestellt.
 ========================================================================================================================
 
->>> Uploader zu GoldSentinelMarkt v3 (UP-v3): bis zu 6 Export-Zeilen je Addon (zusammen ≤ 1,5 MB). NACHPRÜFUNG 14.11.:
->>>    Der Code von 2.3.7 hält das schon – je Scan einmal (uploader.py:573–576), Zeile ≤ 2 MB (uploader.py:96), Paket
->>>    auf Teile ≤ 4 MB geteilt (uploader.py:676–685), Format "GSMARKT1|1|…" in v3 unverändert. Es fehlt nur ein Test.
+>>> Uploader zu GoldSentinelMarkt v3: bis zu 6 Export-Zeilen je Addon (zusammen ≤ 1,5 MB). Bitte prüfen, dass der
+>>>    Uploader alle Zeilen schickt und die Paketgrenze (TEST_MAX_JSON 4 MB) hält; sonst auf mehrere Pakete teilen.
 
 >>> GoldSentinelMarkt v3 (13.11. 23:45, Entscheid des Nutzers): Export hält 6 statt 2 Scans (max. 1,5 MB, Ruckeln/
 >>>    SavedVariables klein). NICHT DRINGEND: beim nächsten Release ohnehin mitkopieren (byte-gleich aus shared/).
@@ -27,60 +26,87 @@ Immer von oben nach unten abarbeiten. Einzelheiten weiter unten (Suche nach dem 
 >>> 3. Frage 3: Keine weiteren Aufträge jetzt. Nach T90 auf die Client-Ergebnisse warten.
 >>> D-MN7a/D-UP1/D-MN7f liegen beim Discord-Projekt (auftraege/Discord/), nicht hier.
 
-OFFENE PUNKTE RAIDMASTER (nach der Nachprüfung von RaidMaster 3.0.26 und Uploader 2.3.7)
+OFFENE PUNKTE RAIDMASTER (nach der Nachprüfung von RaidMaster 3.0.25 und Uploader 2.3.6)
 =========================================================================================
-Stand: Nachprüfung 3.0.26 / 2.3.7, 14.11.2026, 08:30 · von der Prüf-Sitzung (geplante Nachprüfung)
-Grundlage: Addon 3.0.26 (Ordner RaidMaster/ und download/RaidMaster-3.0.26.zip, = RaidMaster-latest.zip) und
-Uploader 2.3.7 (Ordner RaidMasterUploader/ und download/RaidMasterUploader.zip), Commit 0e4ce1a, verglichen mit
-3.0.25 / 2.3.6 (Commit a5bc6d1). Gelesen: berichte/RaidMaster/2026-11-13-2240-raidmaster-3.0.26-uploader-2.3.7-markt-v2.txt
-und -2320-zusammenfassung-3.0.26-2.3.7-naechste-schritte.txt (Fragen 1–3 beantwortet am 13.11. 23:25, siehe oben).
+Stand: 13. November 2026, 17:45 · von der Prüf-Sitzung (geplante Nachprüfung)
+Grundlage: Addon 3.0.25 (Ordner RaidMaster/ und download/RaidMaster-3.0.25.zip, = RaidMaster-latest.zip) und
+Uploader 2.3.6 (Ordner RaidMasterUploader/ und download/RaidMasterUploader.zip), Commit a5bc6d1, verglichen mit
+3.0.24 / 2.3.5 (Commit a5bc6d1^). Dazu der Bericht berichte/RaidMaster/2026-11-13-1715-raidmaster-3.0.25-uploader-2.3.6-markt.txt.
 Der Discord-Bot gehört zum Discord-Projekt (auftraege/Discord/offen-discord.txt).
-Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand nach 3.0.25 / 2.3.6.
+Diese Datei ist vollständig: Sie enthält alles, was noch offen ist. Sie ersetzt den Stand vom 13.11. 08:20 mit den
+Nachträgen T-DU12 (12:10), NACHPRÜFUNG 14:30 und MN (15:35, 16:00, 16:05, 17:00).
 
-Erledigt in 3.0.26 / 2.3.7 (danke):
-- MN1-K (HOCH): RaidMaster/GoldSentinelMarkt.lua war beim Commit byte-gleich mit shared/ (Version 2, Stand 22:20 mit
-  D-MN7b). T180 prüft FeedStart/Feed (Test/Routine.lua:2644), Regression "MN1-K FeedStart/Feed" (Routine.lua:3347).
-- MN6b (MITTEL): markt_source (uploader.py:418) – einmal secrets.token_hex(8), in uploader_state.json "markt_quelle",
-  ungültiger Wert wird ersetzt, nie aus Namen; im Paket nur bei Teilen mit GSMARKT1 (uploader.py:635, :694);
-  MARKT_MAX_ONE 2 MB (uploader.py:96). Test test_uploader.Paket.test_mn6b_quelle_zufall_bleibt_gleich. Gegenstück im
-  Bot 1.5.132 vorhanden (market.source_from_text, nur 16 Hex, nur gehasht abgelegt).
-- MN-T (NIEDRIG): MarktState/MarktRestore sichern GM.stats tief und schreiben in dieselbe Tabelle zurück
-  (Routine.lua:2617, :2622); T181/T182 prüfen "Zähler unverändert" (Routine.lua:2682, :2713).
-- U3 (NIEDRIG): unbekanntes Markt-Format einmal je Prüfwert gemeldet, ohne Inhalt, höchstens 100 Prüfwerte
-  (uploader.py:560–571). Test test_u3_unbekanntes_markt_format_einmal_gemeldet.
-Prüfungen: addon_check download/RaidMaster-3.0.26.zip: OK, 0 FEHLER, 1 WARNUNG (GoldSentinelMarkt Version 2, shared/
-ist seit 13.11. 23:45 Version 3 -> Punkt MARKT-v3, kein Fehler von 3.0.26). Lua-Syntax OK (lupa, Lua 5.1), Ladetest
-und Sprachtest im addon_check. GoldSentinelGame/Test/Sync byte-gleich mit shared/. ZIP = Ordner (diff -r leer),
-latest = 3.0.26, RaidMasterUploader.zip = Ordner (ohne tests/). Uploader-Tests hier nachgelaufen: test_daten 12,
-test_sync 38, test_uploader 21, test_umfassend 14 (TU1–TU7 0 FEHLER, TU6 52) – alle grün. Bot-Tests 225/225 OK.
-Keine Tokens, Links, Server-IDs, Spieler- oder Rechnernamen im Diff. CHANGELOG EN/DE (LIESMICH/README_EN beider
-Ordner) vorhanden. Keine neuen sichtbaren Spieltexte in 3.0.26.
+Erledigt in 3.0.25 / 2.3.6 (danke):
+- MN1 (teilweise, siehe Punkt 1): GoldSentinelMarkt.lua in der TOC nach GoldSentinelSync.lua (RaidMaster.toc:22);
+  RM.AttachMarkt beim Laden nach InitDB (Core.lua:848, Aufruf Core.lua:901): GoldSentinelMarkt.Attach("RaidMaster",
+  RaidMasterDB), Schalter aus RaidMasterDB.config.marktTeilen; ohne Datei/AH-API still (false). Die KOPIE ist aber
+  der Stand vor der Korrektur 2 (17:00) – kam nach eurem Commit (16:47), daher nicht euer Fehler.
+- MN2: Schalter "Marktdaten teilen (anonym, nur Preise)" mit Tooltip (Pages.lua:1931), Standard an, RM.SetMarktShare
+  (Core.lua:856) -> GoldSentinelMarkt.SetShare; Texte in allen 10 Locale-Dateien (Locales/*.lua, je 2 Schlüssel, keine
+  Platzhalter); LIESMICH.txt:14 / README_EN.txt:26.
+- MN3: RM.MarktLine (Core.lua:863) "MARKT-NETZ: v1 · an/aus · mitgelesene Scans · gesendet/empfangen · Speicher";
+  im Testbericht-Text und als Feld "markt" (Test/Routine.lua R.Finish).
+- MN4: Tests T180 (mit/ohne Datei), T181 (Schalter aus: kein Lesen, kein Senden), T182 (ohne AH-API kein Lua-Fehler),
+  T183 (Testbericht-Zeile) in Test/Routine.lua:2617–2697, in den Regressionen (Routine.lua:3319). Sandbox nimmt
+  gsMarkt/gsMarktAus aus (Routine.lua:132) – nachvollziehbar.
+- MN6 (Uploader 2.3.6): GSMARKT1-Zeilen aus den SavedVariables aller Addons (uploader.py:91 EXTRA_STR), nur das genaue
+  Format (uploader.py:94 MARKT_LINE, Base36, keine Namen möglich), je Scan einmal (Kennung m-<Fraktion>-<Scan-Zeit>,
+  uploader_state.json "markt", höchstens 300), > 3 MB übersprungen und einmal gemeldet (uploader.py:537–561), im Paket
+  wie GSDIAG1/GSWEGE1. Test test_uploader.Paket.test_mn6_markt_scans_einmal_ohne_namen, in test_umfassend REGRESSIONEN.
+  Kompatibel mit Bot 1.5.131 (MN7: market_intake liest paket-*.json.gz aus #testberichte, market.LINE_RE akzeptiert das
+  Format; doppelte Scans vom PC und Laptop zählt der Bot einmal). Die Addon-Prüfung (addon-check/testberichte.py) lässt
+  GSMARKT1-Einträge im Paket unbeachtet – kein Konflikt.
+Prüfungen: addon_check download/RaidMaster-3.0.25.zip: 1 FEHLER (Punkt 1), 0 WARNUNG, Lua-Syntax OK (lupa, Lua 5.1).
+GoldSentinelGame/Test/Sync byte-gleich mit shared/; GoldSentinelMarkt NICHT (Punkt 1). ZIP = Ordner, latest = 3.0.25,
+RaidMasterUploader.zip = Ordner (ohne tests/). Uploader-Tests hier nachgelaufen: test_daten 12, test_sync 38,
+test_uploader 19, test_umfassend 14 – alle grün. Bot-Tests 211/211 OK. Keine Tokens, Links, Server-IDs, Spieler- oder
+Rechnernamen im Diff. CHANGELOG EN/DE (LIESMICH/README_EN beider Ordner) vorhanden.
 
 OFFENE PUNKTE (nach Schwere)
 ----------------------------
-1. T90 (MITTEL, seit 13.11. 23:25) – FEHLER "609:" unter Spielsprache enUS in der eigenen Nachbildung.
-   Laut Bericht gleich mit 3.0.25 (Gegenprobe). Die Projekt-Sitzung untersucht die Nachbildung selbst (Ladereihenfolge
-   der Locale-Dateien) und meldet die Ursache im Bericht – Ergebnis "liegt an der Nachbildung" nur mit Beleg (welche
-   Datei, welche Zeile 609, warum im Spiel anders). Den Nutzer nicht dafür ins englische Spiel schicken.
+1. MN1-K (HOCH, NEU) – GoldSentinelMarkt.lua veraltet, addon_check FEHLER.
+   RaidMaster/GoldSentinelMarkt.lua ist der Stand von shared/ nach Korrektur 1 (16:05), nicht der aktuelle nach
+   Korrektur 2 (17:00, FeedStart/Feed). Erste Abweichung RaidMaster/GoldSentinelMarkt.lua:39. addon_check meldet:
+   "weicht von shared/GoldSentinelMarkt.lua ab ... die Vorlage unverändert kopieren" -> 3.0.25 dürfte so nicht
+   veröffentlicht sein. Folge im Spiel: Beide Fassungen heissen "Version 1"; lädt die RaidMaster-Kopie zuerst, fehlen
+   GoldSentinelMarkt.FeedStart/Feed für Addons mit eigenem Vollscan (AHSentinel MN5) und derselbe Scan wird doppelt
+   gelesen.
+   Lösung: shared/GoldSentinelMarkt.lua unverändert neu kopieren (cmp gleich), Version 3.0.26, neues ZIP + latest.
+   Test: T180 zusätzlich prüfen, dass GoldSentinelMarkt.FeedStart und .Feed Funktionen sind (Regressionstest MN1-K).
+   Vor dem Push addon_check -> kein FEHLER.
 
-2. MARKT-v3 (NIEDRIG) – beim nächsten Release shared/GoldSentinelMarkt.lua (Version 3) unverändert kopieren (cmp
-   gleich) und vor dem Push addon_check -> keine WARNUNG "veraltete offizielle Fassung" mehr.
+1b. MN6b (MITTEL, NEU, aus der Nachprüfung Bot 1.5.131, Discord D-MN7a) – Marktdaten ohne Quellen-Kennung.
+   Der Bot zählt "Quellen" über die Webhook-ID; alle Uploader nutzen denselben Webhook, darum steht immer 1 (auch bei
+   PC und Laptop). Lösung: Der Uploader erzeugt einmal eine anonyme Zufallskennung (16 Hex, in uploader_state.json,
+   nie aus Namen oder Rechnernamen abgeleitet) und schickt sie im GSMARKT1-Paket als Feld "quelle" mit (optional,
+   alte Bots ignorieren es). Hinweis: MARKT_MAX_ONE ist 3 MB (uploader.py:95), der Bot nimmt nur 2 MB an – die
+   Grenze wird im Bot angepasst (Discord D-MN7f); bis dahin im Uploader nicht über 2 MB senden oder melden.
+   Test: Kennung bleibt über Neustarts gleich, ist 16 Hex, steht im Paket.
 
-3. UP-v3 (NIEDRIG) – Test fehlt. Der Code hält 6 Export-Zeilen je Addon schon (siehe Hinweis oben). Lösung: Test
-   T-UPv3 in tests/test_uploader.py: SavedVariables mit 6 GSMARKT1-Zeilen à ~250 KB (echtes Format wie
-   shared/GoldSentinelMarkt.lua:401) -> 6 Markt-Scans, Pakete je ≤ 4 MB entpackt, nach erneutem Lauf 0 neue; in
-   test_umfassend REGRESSIONEN aufnehmen.
+2. MN-T (NIEDRIG, NEU) – Testroutine verändert die laufenden Zähler des Marktdaten-Netzes.
+   T181 ruft OnReplicate mit Schalter aus (Test/Routine.lua:2645–2647) -> GoldSentinelMarkt.stats.dropped.aus +1;
+   T182 (Routine.lua:2660–2688) kann stats.aborted/dropped erhöhen. MarktState/MarktRestore (Routine.lua:2609–2616)
+   sichern die Zähler nicht. Folge: Nach jeder Testroutine zeigen MARKT-NETZ-Zeile/DiagLines "verworfen: aus 1" u. ä.,
+   obwohl der Spieler nichts ausgeschaltet hat – verfälscht die Diagnose.
+   Lösung: in MarktState eine Kopie von GM.stats (inkl. dropped) sichern und in MarktRestore zurückschreiben.
+   Test: nach T181/T182 sind GM.stats unverändert.
+
+3. U3 (NIEDRIG, NEU) – Uploader verwirft Markt-Zeilen in unbekanntem Format still.
+   uploader.py:540: passt eine GSMARKT1-Zeile nicht zu MARKT_LINE, wird sie ohne jede Meldung übersprungen. Ändert sich
+   das Format in shared/ (z. B. ein Feld mehr), gehen alle Markt-Scans unbemerkt verloren.
+   Lösung: einmal je Kennung/Prüfwert (wie "zu_gross") eine Zeile im Fenster "Markt-Zeile in unbekanntem Format –
+   nicht gesendet (GoldSentinelMarkt neuer als der Uploader?)", ohne Inhalt der Zeile. Test dazu (einmal, nicht bei
+   jedem Durchlauf).
 
 4. TU-Rest (MITTEL, seit 13.11. 14:30) – TU2/TU7-Rest der umfassenden Tests nur im Client prüfbar (siehe IM CLIENT
    PRÜFEN). Nichts zu programmieren, bis der Nutzer im Client geprüft hat.
 
-5. D-UP1 (Info, Discord-Projekt) – /uploader liefert 2.3.7 erst nach /update des Bots (1.5.132). Zuständig Discord.
+5. D-UP1 (Info, Discord-Projekt) – PC noch auf älterem Uploader: erst aktualisieren, wenn /uploader die neueste Fassung
+   (jetzt 2.3.6) liefert. Zuständig Discord (auftraege/Discord/offen-discord.txt).
 
 LIVE PRÜFEN (Uploader beim Nutzer)
-   - Umstieg auf 2.3.7 (Anleitung im LIESMICH, Abschnitt 2.3.5): alle Uploader-Fenster schliessen, nur Programmdateien
-     ersetzen, uploader.bat. Startzeile zeigt "RaidMaster-Uploader 2.3.7", Ordner, PID.
-   - MN6b: In uploader_state.json steht "markt_quelle" (16 Zeichen), PC und Laptop verschieden, nach Neustart gleich;
-     nach /update des Bots zeigt /marktdaten bei einem Scan von PC und Laptop "2 Quellen".
+   - Umstieg auf 2.3.6 (Anleitung im LIESMICH, Abschnitt 2.3.5): alle Uploader-Fenster schliessen, nur Programmdateien
+     ersetzen, uploader.bat. Startzeile zeigt "RaidMaster-Uploader 2.3.6", Ordner, PID.
    - MN6: Nach einem AH-Vollscan (z. B. mit AHSentinel) und /reload: Paketzeile "GoldSentinel-Paket: … n Markt-Scan(s)";
      derselbe Scan nach erneutem /reload nicht noch einmal; im Bot-Log "Marktdaten: n neue Scans".
    - Grösse: RaidMaster.lua nach einigen Scans (Ziel Marktdaten ≤ ~0,5 MB + 2 Export-Zeilen à ~150 KB); Abgleich PC/Laptop
@@ -102,9 +128,8 @@ LIVE PRÜFEN (Uploader beim Nutzer)
    - Nach mehreren /reload innerhalb von 15 Minuten genau EINE Nachricht "GoldSentinel-Paket: …"; "zu gross" höchstens
      einmal je Protokoll.
 
-IM CLIENT PRÜFEN (mit 3.0.26)
-   - /rm testroutine: T180–T183 OK (Forever und Era; T180 "FeedStart/Feed da", T181/T182 "Zähler unverändert");
-     Zeile "MARKT-NETZ: v2 · an · …"; danach in der MARKT-NETZ-Zeile KEIN "verworfen: aus 1" (MN-T) im Bericht; danach /reload ->
+IM CLIENT PRÜFEN (mit 3.0.25 bzw. 3.0.26)
+   - /rm testroutine: T180–T183 OK (Forever und Era); Zeile "MARKT-NETZ: v1 · an · …" im Bericht; danach /reload ->
      Bericht in #testberichte. Dazu T165, T162–T164, T142, T122 (n = 3), T43, Bereich K (T155–T160), T133b, Bereich L
      (TU2/TU7-Rest).
    - MN2: Einstellungen -> Schalter "Marktdaten teilen (anonym, nur Preise)" sichtbar, überlappt nichts (neue Zeile
@@ -126,7 +151,7 @@ HINWEIS FÜR KÜNFTIGE VERSIONEN
      ins Repo.
    - GoldSentinelGame/Test/Sync/Markt nur unverändert aus shared/ – vor jedem Push erneut mit shared/ vergleichen (cmp),
      die Prüf-Sitzung ergänzt gemeinsame Dateien laufend. RaidMaster ruft GoldSentinelSync.Register NICHT auf.
-   - Versionen höher als Addon 3.0.26, Uploader 2.3.7.
+   - Versionen höher als Addon 3.0.25, Uploader 2.3.6.
 
 Ist ein Befund falsch, bitte dem Nutzer begründet zurückmelden und einen Bericht in berichte/RaidMaster/ ablegen.
    MN VERSION 2 (13.11. 20:00, DRINGEND): GoldSentinelMarkt.lua Version 2 – in Clients mit AHSentinel liest sie nichts mehr selbst (doppeltes Lesen machte den Sniper/das Spiel ruckelig), Warteschlange max. 10, Gilde nur einmal je Stunde ganzer Scan. SOFORT neu kopieren und veröffentlichen (Version 1 = Warnung "veraltet").

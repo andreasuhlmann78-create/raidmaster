@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 08:55 | "Bevor die pusht, bitte alles mit dem Projekt Addonprüfer bzw. Supervisor prüfen lassen … Repo zurücknehmen" und "sag das auch den anderen Routinen via Repo". Geplante Aufgaben (Routinen) schreiben ihre Ergebnisse nicht mehr selbst in auftraege/ und schicken keine Nachrichten zum Einfügen mehr, bevor der Supervisor (Prüf-Sitzung im Projekt Addonprüfer) sie geprüft hat. | Nachprüfung 08:35 (Commit 506ae8c3) zurückgenommen; Entwurf liegt im Projekt Addonprüfer. Regel für alle Routinen: auftraege/hinweis-routinen-supervisor-2026-11-14.txt |
 | 08:30 | "Konzentrier dich auf AHS, der Rest kommt step by step später." Prüf-Sitzung arbeitet nur an AHSentinel; andere Projekte nur lesen/vermerken, wenn etwas brennt (Sicherheit, Datenverlust). | projekte.md Fokus. |
 | 08:29 | "Du hast gesehen, was die dreifache Prüfung bewirkt hat – ich will, dass du immer effizient, aber genau deine Aufgaben ausführst." Gilt für jede Arbeit der Prüf-Sitzung. | pruef-ablauf.md 0 und E. |
 | 08:18 | Händler: "Geld geht raus und Ware kommt rein – das ist ganz einfach messbar. Keine Fehler, lieber alles 3 mal prüfen." -> Händler-Geschäfte aus Gold- und Taschen-Unterschied buchen, nicht aus Listenpreisen. | offen-ahsentinel.txt HB1. |
