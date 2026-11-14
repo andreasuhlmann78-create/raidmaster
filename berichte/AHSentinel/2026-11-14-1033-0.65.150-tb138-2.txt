@@ -1,0 +1,19 @@
+AHSentinel 0.65.150 – TB138-2 Gold-Abstimmung Geldfluss gegen Geldfluss – umgesetzt, zur Prüfung
+
+Ursache der Differenz (Gold +9403, Buchhaltung +119832): Gold-Stände gab es nur beim Laden/Abmelden/Öffnen der Buchhaltung –
+was dazwischen ausserhalb der Buchungen passierte (Lehrer, Flug, Quest, Beute, Handel, Händler vor HB1, Porto), war nicht
+messbar. Neu (Books.lua, Abschnitt "TB138-2 Geldfluss"):
+- Jede Gold-Änderung (PLAYER_MONEY) wird gemessen und einem Ort zugeordnet: ah, post, haendler (HB1), handel (Spieler),
+  lehrer, flug (bis 10 s nach Flugkarte), beute (≤ 3 s nach LOOT/CHAT_MSG_MONEY), quest (≤ 3 s nach QUEST_*), sonst.
+  Summe je Figur und Tag in db.flow (neues Feld, 60 Tage, nichts Bestehendes geändert). Testroutine schreibt nie echt.
+- Abstimmung: gemessener Handels-Geldfluss (ah+post+haendler+handel) gegen gebuchten Geldfluss (Verkäufe bestätigt am Tag
+  der Rechnung, − Käufe − Anzahlungen − Spielkosten) je Tag. Lehrer/Flug/Beute/Quest = erklärt, ausserhalb des Handels.
+  Ziel Lücke ≤ 1 % des gebuchten Umsatzes (sonst Liste). Details-Fenster "Gold-Abgleich" nutzt den Geldfluss, sobald gemessen.
+- Testbericht: "TB138-2 Geldfluss (n Tage gemessen): Handel gemessen · gebucht · Lücke (x % vom Umsatz) · ausserhalb Handel ·
+  sonst" und die 5 grössten Lücken je Tag mit den Orten (ohne Figurennamen).
+Beleg: TR T676 (T-GA2: Post +1000 = Verkauf, Händler −200 = Kauf, Quest +100, Beute +50, Lehrer −30 -> Lücke 0, ausserhalb
+  +120; unbekannte −500 -> "sonst" −500 in der Liste). Gesamtlauf 248/248, addon_check OK.
+Grenzen: Die alte Zeile "BH-AUS Gold-Abstimmung" (Stände) bleibt zum Vergleich. Messung beginnt ab dieser Version (frühere
+  Tage nicht nachträglich). Verkaufserlös-Definition (Rechnung − AH-Gebühr; ob die Anzahlung im Post-Geld steckt) zeigt die
+  Lückenliste je Tag – danach ggf. Messauftrag.
+Weiter: 6 (TB138-5, TB138b-5, EB5) und 6b WV1 als 0.65.151.
