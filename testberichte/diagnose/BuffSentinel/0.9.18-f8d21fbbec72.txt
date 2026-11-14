@@ -1,0 +1,50 @@
+BuffSentinel-Protokoll v0.9.18 · 14.11. 00:42
+Client deDE · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  14.11. 00:00 L10 PRIEST v0.9.18 forever
+  13.11. 22:54 L10 PRIEST v0.9.18 forever
+  13.11. 22:39 L10 PRIEST v0.9.18 forever
+  13.11. 21:55 L10 PRIEST v0.9.18 forever
+  13.11. 21:43 L10 PRIEST v0.9.18 forever
+  13.11. 21:13 L10 PRIEST v0.9.18 forever
+  13.11. 20:43 L10 PRIEST v0.9.18 forever
+  13.11. 20:25 L10 PRIEST v0.9.18 forever
+  13.11. 19:44 L10 PRIEST v0.9.18 forever
+  13.11. 19:41 L24 WARRIOR v0.9.18 forever
+
+== Diagnose
+  Fehler in dieser Sitzung: 0
+  Version forever · Sperren: ja · Kampflog: nein · Aurenzugriff verweigert: 0
+  MARKT-NETZ: v1 · an · Scans mitgelesen 2 · gesendet/empfangen 872/0 · gespeicherte Items 6453
+  MARKT-NETZ v1 · an · Addons: BuffSentinel
+  MARKT-NETZ Scans 2 (davon vom Host übergeben 0; zuletzt 307146 Auktionen, 6242 Items, 2973 ms in 455 Bildern) · Vergleiche 1 · abgebrochen 0
+  MARKT-NETZ Items 6453 (eigen 6453, Netz 0, Absatz gemessen 6270) · gesendet 872 · empfangen 0 · angenommen 0 · Warteschlange 531
+  MARKT-NETZ verworfen: nichts
+  SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 2, BuffSentinel 0, GoldSentinelMarkt 0, GoldSentinelTest 2, GuildSentinel 2
+  SYNC gesendet 1284 · empfangen 166 · verworfen: queue 100 · Warteschlange 180 · Kanal verweigert 0
+  NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 1) · gesendet 12 · weitergegeben 0 · offline 6 · Listen 10 · Warteschlange 0 · gespeichert ja
+  SYNC BuffSentinel gesendet 9 · empfangen 3
+
+== Einträge (22, neueste zuerst)
+[14.11. 00:40] SYNC ×2 gesendet 9, empfangen 3, verworfen 0
+[14.11. 00:20] SYNC ×2 gesendet 5, empfangen 0, verworfen 0
+[14.11. 00:00] SYNC Weg=GoldSentinelSync 2 (Gilde/Gruppe/Netz)
+[13.11. 23:54] SYNC ×4 gesendet 9, empfangen 3, verworfen 0
+[13.11. 23:14] SYNC ×2 gesendet 5, empfangen 0, verworfen 0
+[13.11. 22:54] SYNC Weg=GoldSentinelSync 2 (Gilde/Gruppe/Netz)
+[13.11. 22:49] SYNC gesendet 9, empfangen 3, verworfen 0
+[13.11. 22:39] SYNC Weg=GoldSentinelSync 2 (Gilde/Gruppe/Netz)
+[13.11. 22:35] SYNC gesendet 21, empfangen 12, verworfen 0
+[13.11. 22:25] SYNC gesendet 13, empfangen 6, verworfen 0
+[13.11. 22:15] SYNC ×2 gesendet 5, empfangen 0, verworfen 0
+[13.11. 21:55] SYNC Weg=GoldSentinelSync 2 (Gilde/Gruppe/Netz)
+[13.11. 21:53] SYNC gesendet 9, empfangen 11, verworfen 0
+[13.11. 21:43] SYNC Weg=GoldSentinelSync 2 (Gilde/Gruppe/Netz)
+[13.11. 21:33] SYNC ×2 gesendet 5, empfangen 0, verworfen 0
+[13.11. 21:13] SYNC Weg=GoldSentinelSync 2 (Gilde/Gruppe/Netz)
+[13.11. 21:03] SYNC ×2 gesendet 5, empfangen 0, verworfen 0
+[13.11. 20:43] SYNC Weg=GoldSentinelSync 2 (Gilde/Gruppe/Netz)
+[13.11. 20:35] SYNC gesendet 13, empfangen 23, verworfen 0
+[13.11. 20:25] SYNC Weg=GoldSentinelSync 2 (Gilde/Gruppe/Netz)
+[13.11. 19:54] SYNC gesendet 9, empfangen 9, verworfen 0
+[13.11. 19:44] SYNC ×2 Weg=GoldSentinelSync 2 (Gilde/Gruppe/Netz)
