@@ -1,0 +1,27 @@
+NACHRICHT AN DIE RAIDMASTER-SITZUNG (zum Einfügen)
+==================================================
+Erst laufende Arbeit fertig machen.
+Stand: 14.11.2026, 08:30 · Nachprüfung RaidMaster 3.0.26 und Uploader 2.3.7 (geplante Nachprüfung der Prüf-Sitzung)
+
+Erledigt (danke): MN1-K (GoldSentinelMarkt v2 byte-gleich, T180 FeedStart/Feed), MN6b (anonyme Quellen-Kennung,
+2 MB), MN-T (Zähler bleiben nach T181/T182 gleich), U3 (unbekanntes Markt-Format einmal gemeldet).
+addon_check 3.0.26: OK, 0 FEHLER, 1 WARNUNG (GoldSentinelMarkt Version 2 – shared/ ist jetzt Version 3).
+Uploader-Tests 12/38/21/14 grün, Bot-Tests 225/225.
+
+ZU TUN (nach Schwere):
+1. T90 (MITTEL): FEHLER "609:" unter enUS in der eigenen Nachbildung untersuchen (Ladereihenfolge der Locale-Dateien)
+   und die Ursache mit Beleg im Bericht nennen (Datei, Zeile, warum im Spiel anders). Den Nutzer nicht ins
+   englische Spiel schicken.
+2. MARKT-v3 (NIEDRIG): beim nächsten Release shared/GoldSentinelMarkt.lua (Version 3) unverändert kopieren (cmp gleich);
+   addon_check danach ohne WARNUNG.
+3. UP-v3 (NIEDRIG): Der Uploader-Code hält 6 Export-Zeilen schon (je Scan einmal uploader.py:573–576, Zeile ≤ 2 MB
+   uploader.py:96, Teile ≤ 4 MB uploader.py:676–685). Nur Test T-UPv3 ergänzen: 6 GSMARKT1-Zeilen à ~250 KB im
+   echten Format -> 6 Scans, jedes Paket ≤ 4 MB entpackt, zweiter Lauf 0 neu; in test_umfassend REGRESSIONEN.
+4. TU-Rest (MITTEL): nur im Client – nichts programmieren.
+
+git pull --rebase und auftraege/RaidMaster/offen-raidmaster.txt lesen; nach der Umsetzung Bericht in
+berichte/RaidMaster/ ablegen ("umgesetzt, zur Prüfung").
+Nächste Versionen: Addon 3.0.27 / Uploader 2.3.8 (nur was sich ändert). Komplette Dateien, alte Clients nie brechen,
+alle Locale-Dateien, CHANGELOG EN/DE, vor dem Push python3 addon-check/addon_check.py download/RaidMaster-<Version>.zip
+-> kein FEHLER.
+Ist ein Befund falsch, bitte begründet zurückmelden.

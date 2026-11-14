@@ -1,0 +1,25 @@
+NACHRICHT AN DIE GUILDSENTINEL-SITZUNG (zum Einfügen)
+=====================================================
+Erst laufende Arbeit fertig machen.
+
+Stand: Nachprüfung 0.9.38 durch die Prüf-Sitzung (geplante Nachprüfung), 14.11.2026, 08:30 MEZ.
+
+Erledigt in 0.9.38 (danke):
+- MN1b (HOCH): GoldSentinelMarkt.lua = offizielle Version 2, T291 prüft VERSION >= 2 und FeedStart/Feed.
+- MN2b (NIEDRIG): Haken "Marktdaten teilen" folgt dem Netz (ns.MarketShareState, Core.lua:724), Hinweis in allen
+  Sprachen, Test T294.
+addon_check: OK, 0 FEHLER, 1 WARNUNG (GoldSentinelMarkt Version 2 statt 3). Offline-Tests alle bestanden
+(run_routine 16001/11508 je 16/16, Routine OK 276 · FEHLER 0).
+
+ZU TUN (Reihenfolge):
+1. MITTEL – RP / RV: im Client bestätigen lassen (Nutzer), nichts zu bauen.
+2. NIEDRIG – MARKT-v3: beim nächsten Release shared/GoldSentinelMarkt.lua (Version 3) unverändert kopieren, direkt vor
+   dem Packen git pull --rebase und cmp gegen shared/; T291 auf VERSION >= 3 anheben. Keine eigene Version nur dafür nötig.
+3. SPÄTER – CH-G gemeinsame Befehlsliste: erst nach AHSentinel, JETZT NICHTS TUN.
+IM CLIENT PRÜFEN (neu): Hinweis neben dem Haken "Marktdaten teilen" überlappt nichts (deDE, enGB, ruRU).
+
+git pull --rebase und auftraege/GuildSentinel/offen-guildsentinel.txt lesen; nach der Umsetzung Bericht in
+berichte/GuildSentinel/ ablegen ("umgesetzt, zur Prüfung" mit Belegen).
+Nächste Version 0.9.39, komplette Dateien, alte Clients nie brechen, alle Locale-Dateien, CHANGELOG EN/DE, vor dem Push
+python3 addon-check/addon_check.py download/GuildSentinel-0.9.39.zip -> kein FEHLER.
+Ist ein Befund falsch, bitte begründet zurückmelden.

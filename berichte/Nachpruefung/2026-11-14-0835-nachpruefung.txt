@@ -1,0 +1,49 @@
+BERICHT NACHPRÜFUNG AN DIE PRÜF-SITZUNG
+Stand: 14.11.2026 08:35 MEZ · Sitzung: geplante Nachprüfung · Commit: siehe "auftraege: Nachprüfung 14.11. 08:35"
+
+GEPRÜFT (gegen die zuletzt nachgeprüfte Version):
+- AHSentinel 0.65.140 + 0.65.141 (gegen 0.65.139). addon_check OK. 0.65.142 kam während des Laufs -> nächster Lauf.
+- BuffSentinel 0.9.19–0.9.21 (gegen 0.9.18). addon_check OK, 0 WARNUNG.
+- GuildSentinel 0.9.38. addon_check OK (WARNUNG Markt v2). Tests offline alle grün (run_routine 16001/11508 je 16/16).
+- ProfessionSentinel 0.9.45. addon_check OK (WARNUNG Markt v2). run_offline: Forever 223/0, Era 205/0, Retail 204/0,
+  Regressionen 64/64 (Zeitmessungen T143/TU6 zählen nicht).
+- ThreatSentinel 2.5.12 + 2.5.13. addon_check OK, 0 WARNUNG. Offline Forever 251, Era 255, Regressionen 43/43.
+- LevelPilot 3.12.29 + 3.12.30. addon_check OK (mit Lade-/Sprachtest). run_offline 32/33 ohne FEHLER (Zeitmessung).
+- RaidMaster 3.0.26 + Uploader 2.3.7. addon_check OK (WARNUNG Markt v2). Uploader-Tests grün.
+- RaidMasterBot 1.5.132. 225/225 Tests OK, Module importierbar.
+
+ERGEBNIS JE PROJEKT:
+- AHSentinel: Befunde. TB138b-1, -2, -4 und TB138-1 (HaveCount) umgesetzt. NEU NP141-1 HOCH: BK:CorrectStock
+  (Books.lua:566–590) bucht seit 0.65.140 alle Lagerposten aus, HaveCount kennt den Briefkasten nicht -> Sniper-Käufe
+  und Twink-Post im Briefkasten werden als "fehlt" ausgebucht (Einstand 0, Gewinn zu hoch). Nicht durch BR1 abgedeckt.
+  NP141-2 MITTEL ("fehlt" als Eigenbedarf), NP141-3 NIEDRIG (CompareAndRestore ohne pcall).
+  Überschneidung: Die Chat-Sitzung hat 0.65.140/141 um 08:45 kurz geprüft (Log-Zeile 211) während dieser Lauf lief;
+  der Block der Nachprüfung steht ergänzend darunter, nichts überschrieben.
+  MARKT-KERN: keine neuen Zahlen (neuester Abschnitt 0.65.125: alle Wege 0 Fälle, MA1 0) -> Grenzwerte Ü2 nicht prüfbar.
+  MarketCore.lua unverändert.
+- BuffSentinel: freigegeben. Erledigt Markt v2/v3, BP-2026-11-13-1 Teil 1 (Core.lua:413–444, T205), TU1-Rest (T206,
+  Fehler abgelaufene Aura Display.lua:1331 behoben), MN3a (T180), MN-S (T178). Offen BP Teil 2 MITTEL (wartet Messung).
+- GuildSentinel: freigegeben. MN1b, MN2b erledigt. Offen MARKT-v3 NIEDRIG.
+- ProfessionSentinel: freigegeben. Markt v2, An/Aus über Sprachtabelle (T267), HK-P grösstenteils. NEU PS-README NIEDRIG.
+- ThreatSentinel: freigegeben. SYNC S1–S6, Markt v3 erledigt. NEU TS-T1 NIEDRIG (T-GS2 lässt Sync-Peer und
+  syncRoles-Eintrag liegen). anweisung-gemeinsamer-sync.txt / anweisung-sync-version2.txt im Code umgesetzt, aber
+  "im Client prüfen" offen -> nicht entfernt.
+- LevelPilot: Befunde. MK1, GR1 a+b, SP1-Messung, TU9, Markt v3 erledigt. NEU PF-A MITTEL (Planung Allianz Median
+  26–30 ms > 16 ms, schon seit 3.12.29), GR1-K NIEDRIG (Kompaktmodus zeigt "Später abgeben" nicht).
+- RaidMaster/Uploader: freigegeben. MN1-K, MN6b, MN-T, U3 erledigt. Offen T90, TU-Rest, MARKT-v3, UP-v3 (nur Test fehlt).
+- Discord/Bot: freigegeben, kleine Befunde. D-MN7a–f, D-T1, D-MN8b erledigt. NEU D-MN7c2, D-MN7e2 NIEDRIG.
+  KEEP90 MITTEL offen; dazu: bei vollem Speicher weist der Bot den neuen Scan ab (market.py:196–199) statt Älteste zu löschen.
+
+FÜR DIE PRÜF-SITZUNG (shared/, nicht von der Nachprüfung geändert):
+- MN-S2: Befund der BuffSentinel-Sitzung zu shared/GoldSentinelMarkt.lua v3 ist BERECHTIGT. Im answerAt-Zweig von M.Tick
+  (Z. 639) fehlt M.IsShareOn(), M.SetShare (Z. 196–200) löscht answerAt nicht -> nach dem Ausschalten geht noch höchstens
+  eine "A:"-Nachricht (Zeitstempel, ohne Preise) an die Gilde. Vorschlag: v4 mit dieser Prüfung, danach alle Addons neu kopieren.
+- Frage aus ProfessionSentinel (HK-P): Soll die Gruppe "Daten prüfen" im Reiter Gold ganz weg? Braucht AHSentinel eine
+  Restzeit der Abklingzeit aus TodayCrafts? -> Entscheid nötig.
+
+BERICHTE GELESEN: berichte/AHSentinel (0.65.140, 0.65.141), BuffSentinel (0.9.21 MN-S, answerAt), ThreatSentinel
+(2.5.13, offline-Liste), LevelPilot (3.12.30), GuildSentinel/ProfessionSentinel (Commits 0.9.38/0.9.45).
+TESTBERICHTE: seit dem letzten Stand nur status.json/md geändert; TB138-Berichte hat die Chat-Sitzung ausgewertet.
+
+NACHRICHTEN: auftraege/<Projekt>/nachricht-nachpruefung-*-2026-11-14.txt für alle 8 Projekte im Repo und dem Nutzer
+geschickt. Weggelassen wegen "schon raus": keine (die Kurzprüfung AHSentinel 08:45 der Chat-Sitzung war "nur Repo").
