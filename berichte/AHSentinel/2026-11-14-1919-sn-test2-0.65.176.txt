@@ -1,0 +1,39 @@
+AHSentinel 0.65.176 – SN-TEST2 (Auftrag 18:54 "nur dies") – umgesetzt, zur Prüfung
+
+Was: "/ahs testroutine sniper" erweitert (SniperTest.lua). S1–S6 bleiben. Die Beobachtung (120 s, Kaufen gesperrt)
+nutzt jetzt die offenen eigenen Ziele des Spielers; ohne eigene Ziele wie bisher ein Testziel aus SPT.ITEMS.
+Neu gemessen (echtes Spiel, offenes AH):
+- S7 Takt (T728): Suchen gesamt, Ø/Min., höchste Zahl in 60 s (gleitend), dazu alle Module zusammen (QueriesLastMinute),
+  Abstand Ø/max, Anteil Warten auf den Server (Antwort ausstehend / Freigabe+Drossel). FEHLER bei > 90 in 60 s.
+- S8 reihum (T729): je Ziel Anzahl Suchen und längste Lücke (Spielzeit ohne Pausen, inkl. Anfang/Ende);
+  Grenze = Ziele × Ø Abstand × 1,5. FEHLER, wenn ein Ziel nie oder zu selten dran war.
+- S9 Treffer richtig (T730): jedes geplante Angebot Stückpreis ≤ Max (+0,5c wie SN-MAX1), Treffer golden markiert
+  (neu Sn:HitMarked, dieselbe Stelle wie die Anzeige). SKIP ohne Treffer.
+- S10 Geld-Sicherheit (T731): in der Beobachtung 0 gesendet, Zähler (gekauft/ausgegeben) der Ziele unverändert;
+  beim echten S4-Kauf Gold vorher − nachher (1,5 s nach Bestätigung) = gebuchter Preis.
+- S11 Pausen (T732): Markt-Scan/Vollscan/Einkauf/Preisprüfung und eigene AH-Suche ("AH-Klick", erkannt an Ergebnis-
+  Ereignissen ohne eigene Suche) -> nächste Sniper-Suche ≤ 5 s danach; Drossel: Abstand vorher/höchstens/nachher.
+  SKIP, wenn in den 120 s keine Pause und keine Drossel vorkam (Nachbildung T739 deckt es ab).
+- S12 verpasst (T733): Treffer, die in einer späteren Antwort fehlen, Zeit vom Erkennen bis weg (Ø, schnellstens);
+  Ø Reaktion des Spielers (Tageszahl) und S4 Treffer bis Kauf.
+- S13 Ruckeln (T734): Bilder/s und längster Frame über die ganze Beobachtung, FEHLER bei einem Frame > 33 ms.
+- ERGEBNIS OBEN: im Bericht des Teils sniper ganz oben 3–4 einfache Sätze (Ziele/Takt, Lücke, Treffer/gekauft/
+  verpasst, Ruckeln + "Alles OK"/"FEHLER bei: …"), dann eine Zeile S1–S13 mit OK/FEHLER/SKIP.
+Nachbildung (läuft in der normalen Testroutine und im Teil sniper): T735 S7, T736 S8, T737 S9 ("22" = 22c,
+Ausrüstung 1 Stück, Ware Budget/Max, Standard 1000/5g, golden), T738 S10 (Menge 7/74c und Budget 6/62c exakt,
+kein Kauf ohne Taste, PriceOK, Gold-Abgleich), T739 S11 (Tick: Scan/Vollscan pausieren und Sniper sucht danach
+selbst weiter; Drossel langsamer -> wieder schnell), T740 S12, T741 S13, T742 Ergebnis-Sätze.
+Nichts kauft ohne Raste/Taste; keine Blizzard-Funktion ersetzt (Nahtstellen nur eigene Funktionen).
+
+Belege (eigene Tests, keine Freigabe):
+- s44_testroutine_sniper erweitert: S7–S13 im Bericht, T735–T742 PASS, Ergebnis oben. Beispiel aus der Nachbildung:
+  "Der Sniper prüfte 1 Ziel reihum, Ø 84 Suchen/Min. (Server erlaubt 90). Jedes Ziel spätestens alle 1 s.
+   1 Treffer, 0 gekauft, 0 verpasst. Ruckeln: längster Frame 100 ms … FEHLER bei: S5, S13."
+  (S5/S13 FEHLER nur in der Nachbildung: dort ist jedes Bild 100 ms.)
+- Gesamtlauf 249/250. Abweichung: s43_testroutine_server T459 (Vollscan, höchstens 1 Speicherbereinigung:
+  bekommen 3–5). Tritt mit 0.65.175 heute ebenso auf (gegengeprüft) – nicht durch diese Version; gehört zum
+  zurückgestellten Speicher-Thema RUCKEL-1/TB174-2.
+- addon_check: OK.
+
+Bitte: "/ahs testroutine sniper" am offenen AH im Spiel laufen lassen (mit eigenen Sniper-Zielen) und den Bericht
+schicken – dann Prüfung durch die Prüf-Sitzung. Danach ruht weiter alles andere bis zur Prüfung von SN-TEST2.
