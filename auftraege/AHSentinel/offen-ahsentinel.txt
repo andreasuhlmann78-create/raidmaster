@@ -23,6 +23,19 @@
 >>>    (delay_minutes 5, initiation human_request) eine Erinnerung an sich selbst setzen: "Weck-Runde: git pull --rebase,
 >>>    auftraege/AHSentinel/offen-ahsentinel.txt Liste TB138b – VOLLER TESTLAUF NACH FRISCHEM VOLLSCAN (Nutzer 14.11. 07:52, 0.65.138, Prüf-Sitzung 08:15) – mit TB138 zuoberst
 =========================================================================================================================
+TB138c DETAILS-FENSTER (Bildschirmfoto 07:59, 0.65.138) – Fenster und Knopf sehen gut aus. Befunde:
+TB138c-1 HOCH  Zwei verschiedene Gewinne: Details "Handel (Gewinn) 22g 19s 77c" (richtig, EINE Zahl), Hauptfenster-Kopf "Gewinn mit
+               Einkauf 4g 50s" – gleicher Zeitraum "Gesamt/Seit Neustart". Kopf wie Details (siehe TB138-6).
+TB138c-2 HOCH  Rendite je Weg "Entzaubern: −9 % (16)" in Rot. Meine Messung beim Entzaubern (Wert der Beute beim Entzaubern gegen
+               Kaufpreis) ergibt +34 %. Der Unterschied ist wahrscheinlich echt: Material wurde vor der Welle teuer eingebucht
+               und nach dem Einbruch verkauft (Seelenstaub −41 %) – oder er kommt aus der BH-AUS-3-Umbuchung (18980 Einstand
+               auf Rechnungen) und den 16 Fällen mit bekanntem Einkauf. Bitte im Bericht zerlegen: je Gruppe, Kauf ->
+               Entzaubern -> Verkauf, Tage dazwischen, Preis der Beute beim Entzaubern vs. beim Verkauf, mit/ohne
+               BH-AUS-3-Anteil. Anzeige erst ab N ≥ 30 als Zahl, sonst grau "lernt noch (16)" (wie Handel pro Stunde) –
+               eine rote −9 % aus 16 Fällen schreckt den Spieler vom Entzaubern ab (Psychologie: Verlustaversion).
+TB138c-3 MITTEL Gold-Abstimmung zeigt dem Spieler rot "nicht zugeordnet 11g 4s 27c" – solange TB138-2 nicht gelöst ist, nicht rot
+               anzeigen (grau "wird abgeglichen"). Erst eine stimmige Abstimmung darf rot warnen.
+
 TB138b-1 HOCH  Lua-Fehler im Spiel: "Job:craft-top: Crafting.lua:515: attempt to index field '?' (a nil value)" (1×). Ursache
                finden (neue Herstellen-Erkennung 0.65.137?), Test mit fehlendem Rezept/Zutat.
 TB138b-2 HOCH  Sandbox wieder undicht: 9 Pfade wiederhergestellt (vsLastMeasure.* und books.gold.<Figur>.lastT). Die Testroutine
@@ -38,7 +51,8 @@ TB138b-4 MITTEL T659 T-EB4b scheitert im Client (vorhanden 0, verbraucht 0, Lage
 TB138b-5 MITTEL T647 "Heute" in Portionen: längster Schritt 10,4 ms bei Disenchant.lua:1508 (FindDeals), Ziel ≤ 8 ms.
 TB138b-6 MITTEL Absatz-Tests rot: T285 (AB1/AB2), T289 (AB7/AB8), T291 (AB10) – Regression oder geänderte Rechnung? Begründen oder
                beheben. T223 Entzauberwert: "Gewinn 62/−838" statt Gewinn = Wert − Kaufpreis – prüfen.
-TB138b-7 HOCH  (korrigiert 08:20) T272 Sync: Der Test stellt Gilde+Gruppe selbst nach (api.inGuild/inGroup = true) – trotzdem
+TB138b-7 MITTEL (08:25 wieder gesenkt: Bildschirmfoto 07:59 zeigt "Sync über Gilde: 1 Mitspieler" – der Sync läuft im Spiel; dann
+               ist T272 ein Testfehler. Trotzdem klären, warum SendNow im Test nichts schickt.) Alt: (korrigiert 08:20) T272 Sync: Der Test stellt Gilde+Gruppe selbst nach (api.inGuild/inGroup = true) – trotzdem
                verschickt S.SendNow NICHTS (ist "", soll "GUILD+PARTY"). Die Figur ist laut Nutzer in einer Gilde, die
                Statuszeile sagt "Sync über Gilde: niemand mit AHSentinel online". Verdacht: AHSentinel sendet seine
                Sync-Nachrichten gar nicht mehr (Drossel, enabled, Simulated oder Wechsel auf GoldSentinelSync).
