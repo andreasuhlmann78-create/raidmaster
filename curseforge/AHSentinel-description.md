@@ -12,6 +12,16 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.156
+
+- **Less stutter on full scans (part 2):** price ladders, tracking and checks after the scan no longer create new tables
+  per item. From the third scan on, a full scan allocates about 13.8 MB in the test (before more than 60 MB),
+  no background portion above 9 ms.
+- **More accurate gold reconciliation:** counts only from the start of measurement (old bookings no longer dilute the 1 %
+  limit), mail money counts on the day you collect it, and it is measured whether the deposit is part of the mail money.
+  Tests T694, T695.
+- Sell: notes are measured by height – nothing gets cut off any more.
+
 ### Version 0.65.155
 
 - **AHSentinel checks itself:** while you play normally, the addon compares every booking with what really happened in the
@@ -44,15 +54,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   group pays off – not one material that just dropped in a wave. Test T679.
 - Test routine: sales, disenchant, sync and full-scan tests (T285, T289, T291, T223, T272, T310) now run in game independent
   of your real learned data.
-
-### Version 0.65.151
-
-- **Player trades booked:** buying or selling through the trade window now appears in the books – measured from gold and
-  bags (source/way "player"). Gifts without gold are not booked as sales. Test T678.
-- **Material waves:** the index only uses whole days – the partial current day (morning prices only) no longer distorts it.
-  Test T677.
-- "Today" calculates in smaller portions (less stutter). Test report: disenchant buy safety follows the group rules
-  (20/25/30 %, no budget).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

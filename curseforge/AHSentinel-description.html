@@ -7,6 +7,16 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.156</h3>
+<ul>
+<li><strong>Less stutter on full scans (part 2):</strong> price ladders, tracking and checks after the scan no longer create new tables
+  per item. From the third scan on, a full scan allocates about 13.8 MB in the test (before more than 60 MB),
+  no background portion above 9 ms.</li>
+<li><strong>More accurate gold reconciliation:</strong> counts only from the start of measurement (old bookings no longer dilute the 1 %
+  limit), mail money counts on the day you collect it, and it is measured whether the deposit is part of the mail money.
+  Tests T694, T695.</li>
+<li>Sell: notes are measured by height – nothing gets cut off any more.</li>
+</ul>
 <h3>Version 0.65.155</h3>
 <ul>
 <li><strong>AHSentinel checks itself:</strong> while you play normally, the addon compares every booking with what really happened in the
@@ -40,16 +50,7 @@
 <li>Test routine: sales, disenchant, sync and full-scan tests (T285, T289, T291, T223, T272, T310) now run in game independent
   of your real learned data.</li>
 </ul>
-<h3>Version 0.65.151</h3>
-<ul>
-<li><strong>Player trades booked:</strong> buying or selling through the trade window now appears in the books – measured from gold and
-  bags (source/way "player"). Gifts without gold are not booked as sales. Test T678.</li>
-<li><strong>Material waves:</strong> the index only uses whole days – the partial current day (morning prices only) no longer distorts it.
-  Test T677.</li>
-<li>"Today" calculates in smaller portions (less stutter). Test report: disenchant buy safety follows the group rules
-  (20/25/30 %, no budget).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
