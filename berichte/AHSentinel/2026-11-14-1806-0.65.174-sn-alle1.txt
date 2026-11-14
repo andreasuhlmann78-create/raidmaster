@@ -1,0 +1,17 @@
+AHSentinel 0.65.174 – SN-ALLE1 (höchste Priorität, Nutzer 17:52) – umgesetzt, zur Prüfung
+=========================================================================================
+Ursache (Code): Der Sniper wechselte schon zwischen allen offenen Zielen (Sn:PickTarget, B2), aber GEWICHTET: Ziel mit Treffern
+in 10 Min. Gewicht 1 + n, Ziel ohne Treffer 1/3. Mit 4 Treffern beim einen kam ein anderes erst nach ~15 Suchen dran – für den
+Spieler "prüft nur das aktive Ziel".
+Umgesetzt:
+- Sn.ROUND_ROBIN: alle Ziele Gewicht 1 -> streng reihum, gleich oft (Wächter-Schnäppchen haben wie bisher Vorrang).
+- Tempo: keine feste Pause (MIN_INTERVAL 0; die Option "Abstand" des Spielers gilt weiter, Standard 0) – nächste Suche, sobald
+  A:CanQueryNow / CanSearch es erlaubt (Server-Limit H2 90/Min., Sniper zuerst; Drosselung/Fehler über A:QueryError wie bisher).
+  Eigene Klicks (Einkauf/Verkaufen-Arbeit) pausieren den Sniper (Sperre "buy"/"seller", höchstens BLOCK_MAX), Vollscan blockiert
+  ihn (PD5b) – unverändert.
+- Je Ziel "geprüft vor x Sek." in der Spalte Stand (nur im Speicher); Zeile mit wartendem Treffer golden "*".
+- Testbericht: "Sniper-Takt: x Suchen/Min. (letzte 60 s)".
+- Test T727 (3 Ziele, Treffer beim 1. -> 6 Runden je 2×; Text; Takt), T271 an den Entscheid angepasst (SN4 Gewichtung ersetzt).
+- SK1-o (Kauf ≤ Max) gilt je Kauf und damit je Ziel – unverändert.
+Nicht neu: Auswertung in Portionen ≤ 8 ms (bestehende PollSearch/FinishSearch). Messung im Client nötig (Takt, Ruckeln).
+Volltest 250/250, addon_check OK. Bitte Testbericht.
