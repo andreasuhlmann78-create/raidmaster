@@ -1,0 +1,226 @@
+AHSentinel-Protokoll v0.65.173 · 14.11. 18:10:29
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  14.11. 17:53:17 L10 ? v0.65.173
+  14.11. 17:52:03 L10 ? v0.65.173
+  14.11. 17:49:53 L10 ? v0.65.173
+  14.11. 17:29:05 L10 ? v0.65.172
+  14.11. 17:28:20 L10 ? v0.65.172
+  14.11. 17:09:58 L10 ? v0.65.171
+  14.11. 17:07:23 L10 ? v0.65.171
+  14.11. 17:05:20 L10 ? v0.65.170
+  14.11. 17:04:38 L10 ? v0.65.170
+  14.11. 16:48:14 L10 ? v0.65.170
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 7 Min., 6938 Items, Preis-Sync an
+  SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 2, GoldSentinelMarkt 2, GoldSentinelTest 2, GuildSentinel 2, LevelPilot 1, LevelPilotG 1, ThreatSentinel 0
+  SYNC gesendet 341 · empfangen 41 · verworfen: nopath 2, secret 1 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 1) · gesendet 5 · weitergegeben 0 · offline 2 · Listen 4 · Warteschlange 0 · gespeichert ja
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Gewinn-Fenster angedockt an ohne Namen (Versatz nil)
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, minimapAngle=18.1, priceGuard=20, theme=modern, tooltipDEDetail=true, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0 (dazu 6 in der Testroutine, nur in deren Protokoll)
+
+== Einträge (200, neueste zuerst)
+[14.11. 18:05:13] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 14 ms bis Disenchant.lua:1527 · 17 ms
+[14.11. 18:04:53] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 18 ms bis Extras.lua:279 · 18 ms
+[14.11. 18:04:51] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 20 ms bis Extras.lua:279 · 20 ms
+[14.11. 18:04:43] ABSATZ-UNPLAUSIBEL Item 10548 · 40.3/Tag · Quelle geschätzt
+[14.11. 18:04:42] GRUNDREGEL VERLETZT Item 14261 · Lohnt bis 3013 · abweichend: api=3370
+[14.11. 18:04:42] GRUNDREGEL VERLETZT Item 1727 · Lohnt bis 3035 · abweichend: api=21328
+[14.11. 18:04:42] GRUNDREGEL VERLETZT Item 6587 · Lohnt bis 420 · abweichend: api=955
+[14.11. 18:04:42] GRUNDREGEL VERLETZT Item 6331 · Lohnt bis 2534 · abweichend: api=7888
+[14.11. 18:04:41] LANGSAM Hintergrund-Aufgabe core:realcheck · 0 Schritte · längster Schritt 25 ms bis MarketCore.lua:574 · 25 ms
+[14.11. 18:04:41] GRUNDREGEL VERLETZT Item 12532 · Lohnt bis 23306 · abweichend: api=408487
+[14.11. 18:04:41] GRUNDREGEL VERLETZT Item 282088 · Lohnt bis 8110 · abweichend: api=8506
+[14.11. 18:04:41] LANGSAM Hintergrund-Aufgabe core:realcheck · 0 Schritte · längster Schritt 16 ms bis MarketCore.lua:574 · 16 ms
+[14.11. 18:04:41] GRUNDREGEL VERLETZT Item 9972 · Lohnt bis 3013 · abweichend: api=6552
+[14.11. 18:04:41] LANGSAM Hintergrund-Aufgabe core:realcheck · 0 Schritte · längster Schritt 16 ms bis MarketCore.lua:574 · 16 ms
+[14.11. 18:04:40] MATERIAL-PREIS Item 11176 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 18:04:40] MATERIAL-PREIS Item 16202 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 18:04:40] MATERIAL-PREIS Item 11175 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 18:04:40] MATERIAL-PREIS Item 10978 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 18:04:40] MATERIAL-PREIS Item 10939 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 18:04:40] MATERIAL-PREIS Item 11177 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 18:04:40] MATERIAL-PREIS Item 16203 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 18:04:40] MATERIAL-PREIS Item 14344 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 18:04:40] MATERIAL-PREIS Item 10938 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 18:04:40] MATERIAL-PREIS Item 11178 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 18:04:40] MATERIAL-PREIS Item 11139 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 18:04:40] MATERIAL-PREIS Item 11084 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 18:04:40] MATERIAL-PREIS Item 11138 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 18:04:40] MATERIAL-PREIS Item 20725 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 18:04:40] MATERIAL-PREIS Item 10998 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 18:04:40] MATERIAL-PREIS Item 11083 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 18:04:40] MATERIAL-PREIS Item 11137 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 18:04:40] MATERIAL-PREIS Item 11082 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 18:04:40] MATERIAL-PREIS Item 16204 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 18:04:40] MATERIAL-PREIS Item 11174 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 18:04:40] MATERIAL-PREIS Item 11135 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 18:04:40] MATERIAL-PREIS Item 14343 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 18:04:40] MATERIAL-PREIS Item 11134 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 18:04:40] MATERIAL-PREIS Item 10940 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 18:04:40] LANGSAM Hintergrund-Aufgabe sync-send · 0 Schritte · längster Schritt 16 ms bis Sync.lua:190 · 19 ms
+[14.11. 18:04:36] VOLLSCAN Messung 298715 Auktionen · 6377 Items · Lücke 373 ms (Nachlauf: Speicherbereinigung ja · Ereignis keins (> 16 ms) · Aufgaben 6 ms (cache:itemlist, 0 Schritte)) · Speicher 526473->580506 KB · GC 27 · Warten auf Server 21894/50; Ereignis-Aufruf 0/1; Einlesen 30970/48; Verdichtung 705/47; Verfolgung V4 7128/113; Preisverlauf+Neuaufbau 787/71; Nachlauf 0/373
+[14.11. 18:04:36] PREIS-ALT nach Scan · letzter Scan Vollscan · Waren im Vollscan 155 · Hauptmaterialien 11083: 0.0 Std., 10940: 0.0 Std., 11082: 0.0 Std. · 0 frisch geholt
+[14.11. 18:04:33] LANGSAM Hintergrund-Aufgabe forecast-eval · 0 Schritte · längster Schritt 132 ms bis Forecast.lua:841 · 134 ms
+[14.11. 18:04:33] ABSATZ-UNPLAUSIBEL Item 2457 · 968.9/Tag · Quelle gemessen
+[14.11. 18:04:33] ABSATZ-UNPLAUSIBEL Item 9259 · 1747.6/Tag · Quelle geschätzt
+[14.11. 18:04:30] VOLLSCAN Absatz unplausibel: Item 248694 · 1863/Tag bei Ø 615 im AH (6.3 Std.)
+[14.11. 18:04:28] VOLLSCAN Absatz unplausibel: Item 2251 · 2712/Tag bei Ø 741 im AH (6.3 Std.)
+[14.11. 18:04:25] LANGSAM Hintergrund-Aufgabe fullscan · 0 Schritte · längster Schritt 48 ms bis Vollscan.lua:1008 · 51 ms
+[14.11. 18:04:25] VOLLSCAN M1d 298715 Auktionen gelesen (298706 gültig) · 2906 ms in 930 Portionen · längster Frame 3.8 ms · 6377 Items
+[14.11. 18:04:23] LANGSAM Hintergrund-Aufgabe fullscan · 0 Schritte · längster Schritt 13 ms bis Vollscan.lua:904 · 18 ms
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92390466 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92390283 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92390252 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92390160 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92390081 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92390063 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92389576 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92389486 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92389414 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92389403 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92389362 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92389257 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92389163 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92389004 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92389000 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92388895 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92388787 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92388745 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92388694 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92388634 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92388592 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92388574 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92388532 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92388471 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92388396 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92388223 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92388041 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92387923 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92387820 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92387756 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92387490 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92387382 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92387359 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92386995 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92386902 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92386842 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92386747 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92386719 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92386534 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92386506 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92386384 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92386352 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92386259 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92386225 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:04:08] ABBRECHEN AUCTION_CANCELED auctionID 92386017 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88210692 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88210682 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88210670 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88210634 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88210533 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88210532 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88210482 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88210469 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88210450 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88210412 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88210344 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88210333 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88210328 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88210185 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88210165 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88210148 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88210106 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88210081 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88210066 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88210049 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88210007 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209989 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209948 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209949 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209897 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209883 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209825 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209775 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209747 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209728 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209688 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209692 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209673 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209623 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209594 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209544 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209546 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209545 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209535 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209529 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209527 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209525 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209522 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209513 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209470 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209464 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209441 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209428 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209425 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209342 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209340 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209261 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209173 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209160 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209133 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209104 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209102 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209060 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209045 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88209032 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88208904 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88208903 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88208877 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88208836 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88208820 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88208821 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88208811 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88208802 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88208757 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88208720 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:51] ABBRECHEN AUCTION_CANCELED auctionID 88208604 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:48] ABBRECHEN AUCTION_CANCELED auctionID 80064778 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:48] ABBRECHEN AUCTION_CANCELED auctionID 80065935 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:48] ABBRECHEN AUCTION_CANCELED auctionID 80065851 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:48] ABBRECHEN AUCTION_CANCELED auctionID 80065793 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:48] ABBRECHEN AUCTION_CANCELED auctionID 80063138 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:48] ABBRECHEN AUCTION_CANCELED auctionID 80063653 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:48] ABBRECHEN AUCTION_CANCELED auctionID 80064929 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:48] ABBRECHEN AUCTION_CANCELED auctionID 80065503 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:48] ABBRECHEN AUCTION_CANCELED auctionID 80063593 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:48] ABBRECHEN AUCTION_CANCELED auctionID 80064420 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 18:03:48] VOLLSCAN M1c Abstand 1895 s · neue Liste · 298715 Auktionen · Antwort nach 21.9 s
+[14.11. 18:03:25] ABSATZ Item 2589 · Q 0 (search) · S 1230.3 (measured) · S roh 1230.3 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.0 · N 1.0
+[14.11. 18:03:16] SYNC gesendet 4, empfangen 2, verworfen nopath 1 · Kanal verweigert 0
+[14.11. 17:59:57] ABSATZ Item 6299 · Q 583 (vollscan) · S 39.4 (measured) · S roh 39.4 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 14.8 · N 7.0 · kaum
+[14.11. 17:53:50] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.4 Std., 10940: 0.4 Std., 11082: 0.4 Std. · 0 frisch geholt
+[14.11. 17:53:47] ENTZAUBERWERT Item 6393 · eigene Ø aus 621 · 11083 73% × 1.53 à 427, 11082 21% × 1.47 à 1330, 11084 6% × 1.00 à 3916 · brutto 1183 · netto 1124
+[14.11. 17:53:47] ABSATZ Item 6393 · Q 26 (scan, Q gesamt) · S 4.9 (market, gelernt) · S roh 15.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 5.5 · N 7.0
+[14.11. 17:53:47] ENTZAUBERWERT Item 4307 · eigene Ø aus 353 · 10940 83% × 1.53 à 103, 10938 17% × 1.57 à 129 · brutto 173 · netto 164
+[14.11. 17:53:47] DE-CHANCEN Gruppe 2:1:a · Tabelle 10940 80%/10938 20% · echt 10940 83%/10938 17% (353)
+[14.11. 17:53:47] ABSATZ Item 4307 · Q 8 (vollscan) · S 4.4 (measured) · S roh 4.4 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 2.0 · N 3.0
+[14.11. 17:53:47] ENTZAUBERWERT Item 6613 · eigene Ø aus 621 · 11083 73% × 1.53 à 427, 11082 21% × 1.47 à 1330, 11084 6% × 1.00 à 3916 · brutto 1183 · netto 1124
+[14.11. 17:53:47] DE-CHANCEN Gruppe 2:4:a · Tabelle 11083 75%/11082 20%/11084 5% · echt 11083 73%/11082 21%/11084 6% (621)
+[14.11. 17:53:47] ABSATZ Item 6613 · Q 2 (scan, Q gesamt) · S 3.3 (market, gelernt) · S roh 9.9 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.9 · N 7.0
+[14.11. 17:53:47] ABSATZ Item 3365 · Q 1 (scan, Q gesamt) · S 1.2 (market, gelernt) · S roh 3.3 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 1.6 · N 2.0
+[14.11. 17:53:46] SNIPER-SUCHE Ziel 6393 · Angebote 27 · Treffer ≤ Max 2 · gekauft 6 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[14.11. 17:53:45] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[14.11. 17:53:36] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 152 ms bis Comfort.lua:996 · 152 ms
+[14.11. 17:53:34] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 29 ms bis Extras.lua:279 · 31 ms
+[14.11. 17:53:34] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 25 ms bis Extras.lua:279 · 29 ms
+[14.11. 17:53:34] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 15 ms bis Extras.lua:279 · 16 ms
+[14.11. 17:53:34] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 17 ms bis Extras.lua:279 · 23 ms
+[14.11. 17:53:34] ABSATZ-UNPLAUSIBEL Item 3240 · 465.2/Tag · Quelle geschätzt
+[14.11. 17:53:33] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 18 ms bis Extras.lua:279 · 18 ms
+[14.11. 17:53:33] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[14.11. 17:53:32] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 30 ms bis Extras.lua:279 · 34 ms
