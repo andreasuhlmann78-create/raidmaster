@@ -1,0 +1,26 @@
+AHSentinel 0.65.178 – SN-B1, SN-B2 (mit Korrektur 00:38), EK-X1 – umgesetzt, zur Prüfung
+
+SN-B1 (Ursache wie Supervisor 00:36 belegt: AH-Fehlermeldungen nach Kauf-Abbrüchen verdoppelten den Abstand bis 8 s):
+- A:AHErrorIsThrottle() = nie: AUCTION_HOUSE_SHOW_ERROR bremst die Suche nicht mehr. Bremse nur noch bei
+  THROTTLED_MESSAGE_DROPPED (Grund "verworfener Anfrage") und Suchen ohne Antwort.
+- Mit Drossel-Schnittstelle: GAP_MAX_THROTTLED 2 s; nach 2 Antworten ohne Fehler sofort Minimum (GAP_OK_RESET).
+  Ohne Schnittstelle: 10 s ohne neuen Fehler -> Abstand wie vor der Fehlerserie (GAP_RESET).
+- Alle Kauf-Aufrufe (Reservieren, Bestätigen, Abbrechen, Sofortkauf; Sniper und Einkauf) merken A:NoteTrade().
+- Status in Worten (A:QueryWaitText): "Server noch nicht bereit" / "Server-Grenze erreicht (90 Suchen pro Minute)" /
+  "Server bremst nach <Grund> – Abstand x s, wieder schnell in y s" / "Kurz warten …". Dazu "x Ziele aktiv" (= Rotation).
+- Rotation: GetActiveTargets = Zeilen der Liste (GetTargets); gelöschte Ziele sofort weg (Test 3 -> 1).
+SN-B2 (Korrektur Nutzer 00:38: volle Menge behalten, gleich schnell):
+- (a) gestrichen: weiter alle Stück ≤ Max (T269 SN5 = 50 wie bisher, T745 = 30 statt 70).
+- (b) Preis-Update zu hoch (Ø über Max oder Budget) und erste Stufe ≤ Max: kein Abbruch mit neuer Suche, sondern
+  Sn.retryCap (halbe Menge, höchstens Budget/Stückpreis, 15 s gültig); die angezeigte Antwort bleibt, die nächste
+  Raste reserviert sofort die kleinere Menge (keine Suche, kein Abstand). Erste Stufe über Max -> sofort neu suchen.
+  Kauf weiter nur per Raste/Taste (Forever erlaubt Reservieren nur mit Tastendruck), nie über Max (SN-MAX1 unverändert).
+- (c) Zeiten Treffer -> Bestätigung getrennt "erster Versuch" / "nachgefasst" (Episode läuft beim Nachfassen weiter,
+  MeterRetry), zusätzlich je Abschnitt; im Sniper-Test S12 (T733) angezeigt.
+EK-X1: p:ResetAll(): Felder leeren ohne Zwischen-Aufbau (bisher bis zu 4 volle Neuaufbauten mit 500 Items = Ruckeln),
+  Ergebnisliste leer (Startansicht), Favoriten-Menü zu, EIN Aufbau, Klickzeit gemessen (p.lastResetMs); X grau, wenn
+  nichts zurückzusetzen ist. Test T746 (Testroutine, Reiter Einkauf offen) und Szenario s178 (11 Prüfungen).
+SN-B3 (Warnung mit Kette): noch offen – braucht den Kettenwert je Zutat; Ketten sind noch hinter Ke.LIVE = false.
+  Frage an den Supervisor: darf die Warnung den gemerkten Kettenwert schon vor der Freigabe der Ketten nutzen?
+Tests: T745 (Bremse, 5 Kauf-Fehler bremsen nicht, Drossel nach 2 Antworten voll, Rotation, Menge 30, Nachfassen 15),
+  T739/T738/T269 angepasst. Gesamtlauf 251/251, addon_check OK.
