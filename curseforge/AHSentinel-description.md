@@ -12,6 +12,17 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.178
+
+- **Sniper fast again:** a cancelled purchase (price rose, listing gone) no longer slows down the searches. After a real
+  server error the sniper is back at full pace after 10 seconds. The status line says in words why it is waiting and how
+  many targets are active.
+- **Fewer lost duels:** if the price rose before confirmation, the sniper no longer cancels and searches again – the next
+  notch asks for a smaller quantity right away. Your full quantity stays the goal. Buying still only happens on your
+  notch/key and never above your max price.
+- **Shopping, X button:** resets search, filters, category and the list, closes the favourites menu and no longer stutters.
+  If there is nothing to reset, X is grey.
+
 ### Version 0.65.177
 
 - **Disenchant tooltip:** materials are shown plainly again, following the WoW Forever reference – e.g. "1–2 Vision Dust
@@ -41,14 +52,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Sniper checks ALL targets:** every target in your list is searched in turn, equally often, as fast as the server allows
   (before, a target with hits was searched much more often and the others rarely). Each row shows "checked x s ago"; a row
   with a waiting hit is marked gold. Buying still only by click; budget and max per row apply. Test T727.
-
-### Version 0.65.173
-
-- **Accounting:** the tooltip over "Profit" now shows exactly four lines – proceeds, invested, fees, profit – with the same
-  numbers as the header. "Profit %" is simply profit ÷ invested of that line; if the line contains items without purchase
-  price it shows "–" (the tooltip says how many). Profit and % never have different signs.
-- **"Today":** rows that turned out "no longer worth it" are no longer shown; the flip part calculates in smaller steps.
-- Full scan: slow event handlers of AHSentinel are now measured and named at the longest frame (to find the remaining stutter).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

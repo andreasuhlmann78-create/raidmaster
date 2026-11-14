@@ -7,6 +7,17 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.178</h3>
+<ul>
+<li><strong>Sniper fast again:</strong> a cancelled purchase (price rose, listing gone) no longer slows down the searches. After a real
+  server error the sniper is back at full pace after 10 seconds. The status line says in words why it is waiting and how
+  many targets are active.</li>
+<li><strong>Fewer lost duels:</strong> if the price rose before confirmation, the sniper no longer cancels and searches again – the next
+  notch asks for a smaller quantity right away. Your full quantity stays the goal. Buying still only happens on your
+  notch/key and never above your max price.</li>
+<li><strong>Shopping, X button:</strong> resets search, filters, category and the list, closes the favourites menu and no longer stutters.
+  If there is nothing to reset, X is grey.</li>
+</ul>
 <h3>Version 0.65.177</h3>
 <ul>
 <li><strong>Disenchant tooltip:</strong> materials are shown plainly again, following the WoW Forever reference – e.g. "1–2 Vision Dust
@@ -37,15 +48,7 @@
   (before, a target with hits was searched much more often and the others rarely). Each row shows "checked x s ago"; a row
   with a waiting hit is marked gold. Buying still only by click; budget and max per row apply. Test T727.</li>
 </ul>
-<h3>Version 0.65.173</h3>
-<ul>
-<li><strong>Accounting:</strong> the tooltip over "Profit" now shows exactly four lines – proceeds, invested, fees, profit – with the same
-  numbers as the header. "Profit %" is simply profit ÷ invested of that line; if the line contains items without purchase
-  price it shows "–" (the tooltip says how many). Profit and % never have different signs.</li>
-<li><strong>"Today":</strong> rows that turned out "no longer worth it" are no longer shown; the flip part calculates in smaller steps.</li>
-<li>Full scan: slow event handlers of AHSentinel are now measured and named at the longest frame (to find the remaining stutter).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>
