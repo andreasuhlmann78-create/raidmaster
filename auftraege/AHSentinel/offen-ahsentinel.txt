@@ -38,8 +38,12 @@ TB138b-4 MITTEL T659 T-EB4b scheitert im Client (vorhanden 0, verbraucht 0, Lage
 TB138b-5 MITTEL T647 "Heute" in Portionen: längster Schritt 10,4 ms bei Disenchant.lua:1508 (FindDeals), Ziel ≤ 8 ms.
 TB138b-6 MITTEL Absatz-Tests rot: T285 (AB1/AB2), T289 (AB7/AB8), T291 (AB10) – Regression oder geänderte Rechnung? Begründen oder
                beheben. T223 Entzauberwert: "Gewinn 62/−838" statt Gewinn = Wert − Kaufpreis – prüfen.
-TB138b-7 NIEDRIG T272 Sync erwartet GUILD+PARTY, Figur (Stufe 10) ist evtl. in keiner Gilde/Gruppe -> Test soll dann SKIP melden,
-               nicht FEHLER. T310 erwartet 300 Items, liest echte 6446 -> Testdaten trennen. T129, T167 prüfen.
+TB138b-7 HOCH  (korrigiert 08:20) T272 Sync: Der Test stellt Gilde+Gruppe selbst nach (api.inGuild/inGroup = true) – trotzdem
+               verschickt S.SendNow NICHTS (ist "", soll "GUILD+PARTY"). Die Figur ist laut Nutzer in einer Gilde, die
+               Statuszeile sagt "Sync über Gilde: niemand mit AHSentinel online". Verdacht: AHSentinel sendet seine
+               Sync-Nachrichten gar nicht mehr (Drossel, enabled, Simulated oder Wechsel auf GoldSentinelSync).
+               Ursache finden, Test T272 im Client grün, im Spiel /ahs sync test -> "über GUILD gesendet".
+               Weiter NIEDRIG: T310 erwartet 300 Items, liest echte 6446 -> Testdaten trennen. T129, T167 prüfen.
 
 TB138 – BEFUNDE AUS DEM TESTBERICHT 0.65.138 (Nutzer 14.11. 07:43, Prüf-Sitzung 07:55) – ZUOBERST ABARBEITEN
 ==========================================================================================================
