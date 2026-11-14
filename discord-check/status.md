@@ -1,6 +1,6 @@
 # Discord-Prüfung
 
-Geprüft: 2026-11-14T01:47:09Z (Commit bcb449f), Server: Alpine Vanguard
+Geprüft: 2026-11-14T02:29:06Z (Commit 3ddb744), Server: Alpine Vanguard
 
 **Ergebnis: ✅ alles im Discord**
 
@@ -10,14 +10,14 @@ Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 4
 
 | | Addon | Version | Kanal | Gepostet | seit Push |
 |---|---|---|---|---|---|
-| ✅ ok | AHSentinel | 0.65.131 | #ahsentinel | 2026-11-14 01:25 UTC | 35 Min. |
+| ✅ ok | AHSentinel | 0.65.132 | #ahsentinel | 2026-11-14 01:55 UTC | 35 Min. |
 | ✅ ok | RaidMaster | 3.0.26 | #raid-addon | 2026-11-13 21:54 UTC | 4 Std. |
 
 ## Ankündigungen (announce/, neueste Fassung je Reihe)
 
 | | Datei | Kanal | Abdeckung | seit Push |
 |---|---|---|---|---|
-| ✅ ok | ahsentinel__ahsentinel-0.65.131.md | #ahsentinel | 100 % | 35 Min. |
+| ✅ ok | ahsentinel__ahsentinel-0.65.132.md | #ahsentinel | 100 % | 35 Min. |
 | ✅ ok | ahsentinel__ahsentinel-0-vorstellung-1.8.md | #ahsentinel | 100 % | 4 Tage |
 | ✅ ok | ahsentinel__ahsentinel-hilfe-1.0.md | #ahsentinel | 100 % | 9 Tage |
 | ✅ ok | barrow-taktik__uebersicht-1.1.md | #barrow-taktik | 100 % | 10 Tage |
