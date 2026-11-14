@@ -29,6 +29,15 @@ PRÜFUNG 0.65.165 + 0.65.166 (Supervisor 15:55, addon_check 0.65.166 OK, Bericht
     BLOCK 3: TB170-6/-7 + TB168-1 (Ruckeln/Speicher Vollscan), TB168-9 (Testroutine in Portionen), TB170-10 (eine Zahl Lohnt bis).
     ZURÜCKGESTELLT bis nach Block 3 (nicht anfangen): RM1, EW1, Wyckoff, FL-Feinheiten,
        TB168-3..8 (Selbstkontroll-Feinheiten), TB170-5/-9, T277, T647. Der Supervisor gibt frei, wenn Block 1–3 grün sind.
+PRÜFUNG 0.65.172 Hauptteil (17:29): 772 OK · 7 FEHLER. Behoben: T72 Heute sortiert (TB170-1), SK1-e Tagesbilanz stimmig, neue
+   SK1-c-Fälle stimmig (2/2, die 8 alten bleiben Geschichte). Buchhaltung "unterwegs 24750" = Verkäufe des Nutzers 17:19–17:26
+   (netto 2g 47s 44c) – passt. NICHT behoben:
+TB172-1 HOCH: T373 cache:today:10 18,2 ms (Comfort.lua:791) – TB170-2 ist NICHT erledigt, obwohl im Bericht gemeldet.
+TB172-2 HOCH: Vollscan 17:12 (0.65.171) Nachlauf 879 ms, "Warten auf Server" längster Frame 775 ms – TB168-1 (gemeldet in
+   0.65.171 als behoben) ist NICHT erledigt. Ursache mit Zeitmessung je Aufruf im Nachlauf belegen, nicht vermuten.
+TB172-3: S28 (RK2-A) jetzt rot: 17 von 20 Items mit zwei "Lohnt bis"-Werten (z. B. 2315: 218 · api 255) = TB170-10, Block 3.
+TB172-4 NIEDRIG: SK1-m zählt Zauber 3909 weiter (17:07–17:12) – TB168-5 nicht erledigt; zurückgestellt.
+Entzaubern-Knopf (DW-K1-B1): SK1-j ohne neuen Fall seit 16:57 – Nutzer prüft im Spiel.
 TB171-1 (Screenshot 17:17, 0.65.171, Markt > Heute): Spalte "Zahl" weiter nicht nach Gold sortiert (91s 75c, 30s 75c, 7s 83c,
    2s 30c, 1s 30c, 24s 48c, 17s 50c …) -> TB170-1 noch offen. Zeile "Kaufe 1x Flitzdistel … nicht mehr lohnend" darf gar nicht
    erscheinen (Entscheid: nur zeigen, was Gold bringt). Zu Block 1.
