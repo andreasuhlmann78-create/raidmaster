@@ -1,0 +1,18 @@
+MORGEN-ÜBERSICHT 14.11.2026 (Prüf-Sitzung, laufend nachgeführt)
+
+FERTIG UND GEPRÜFT (im Code, addon_check OK) – im Spiel noch zu bestätigen:
+- 0.65.124/125/127 Buchhaltung: Gewinn nur aus bestätigten Verkäufen, Doppel aufgelöst, Phantom-Ware umgebucht,
+  Lager-Abgleich mit Taschen/Bank. Erwartet: Gewinn ca. 20g53.
+- 0.65.125/127 Ruckeln: Preisverlauf platzsparend, Tooltip ohne Verlaufs-Kopie, Reiter "profit" im Hintergrund,
+  Ursachen-Messung für Vollscan-Lücken und Start.
+- 0.65.126 UI1509/UI1510 (Leer-Hinweis, Testbericht-Fenster), PR1 Teil 1 (Abbrüche zählen nicht).
+- 0.65.127 SN-M Sniper zahlt für Entzauber-Ziele nie über 0,9 × Wert.
+
+IM SPIEL TESTEN (neueste Version):
+1. Installieren, einloggen, einige Minuten warten, AH: Vollscan, OHNE Reload /ahs testroutine tempo, dann /reload.
+2. Briefkasten leeren, Buchhaltung öffnen: Gewinn ca. 20g53? Keine Astralessenz/Seelenstaub mehr im Lager?
+
+OFFEN (Reihenfolge): PR1 (2)(3), RF-Rest (Caches), 0.65.115-Rest, EB/Details-Fenster, 0.66 Rechenkern, Entscheide des Abends.
+
+NACHT-VERLAUF: (wird ergänzt)
+- 01:35 0.65.127 erschienen, geprüft. AHSentinel läuft in der CLOUD (Bericht 02:31) – Rechner darf aus sein.

@@ -54,7 +54,10 @@ Einzelheiten zu jedem Punkt stehen weiter unten (Suche nach dem Kürzel). Diese 
                         Ist 0.65.124 beim Nutzer schon gelaufen (repairedBHAUS gesetzt): Folge-Reparatur aus db.repairBHAUS
                         (Sicherung) – Lager-Zugang zurücknehmen, Einstand umbuchen. Test T-BHA8 (Reparatur: Lager unverändert,
                         Rechnung bekommt den Einstand, Gewinn = Erlös − Einstand). Im Bericht Gewinn/Lager vorher-nachher.
-1b. TB125      SEHR HOCH  Client-Testbericht 0.65.125 (Tempo, 14.11. 01:01) – Prüf-Sitzung 01:10. Erst laufende Arbeit sauber
+1b. TB125      ZUR PRÜFUNG 0.65.127 (Prüf-Sitzung 01:40: addon_check OK; Ursachen-Messung eingebaut, Tooltip ohne Verlaufs-
+                        Kopie, Reiter profit im Hintergrund, T631 über Reload, RecordGold im Test gesperrt, Gold-Abstimmung je
+                        Figur ab erstem Stand). Beleg nur im Client: nächster Tempo-Test (Vollscan einige Min. nach Einloggen).
+                        Ursprünglich: SEHR HOCH  Client-Testbericht 0.65.125 (Tempo, 14.11. 01:01) – Prüf-Sitzung 01:10. Erst laufende Arbeit sauber
                         abschliessen, dann diese Punkte VOR allem Weiteren (Rückschritte beim Ruckeln):
    TB125-1 Vollscan RÜCKSCHRITT: "Lücke 760 ms (Einlesen)" und "Nachlauf längster Frame 448 ms" (vorher 159–221 ms bzw.
            ≤ 52 ms), Speicher 450 -> 565 MB (+114 MB), GC 6. Vermutung: der flache Preisverlauf (RF-M1) – Anhängen an
@@ -101,7 +104,7 @@ Einzelheiten zu jedem Punkt stehen weiter unten (Suche nach dem Kürzel). Diese 
                         Scan grosser Markt 141–150 ms, Vollscan-Einlesen 159 ms, +88 MB beim Vollscan. Danach PS-Ziele.
 3. 0.65.115-Rest MITTEL  0.65.126 (Prüf-Sitzung 01:30, addon_check OK): UI1509, UI1510 (im Client bestätigen), T373b offline –
                         zur Prüfung. Offen: TS111.2b/T555b-Tests, UI1618a-R, SBX1, FW1.
-3b. SN-M (HINWEIS, Messung Prüf-Sitzung 01:20, markt-strategie.md 8g "Sniper-/Entzauber-Käufe"): 462 Käufe, +34 %.
+3b. SN-M  ZUR PRÜFUNG 0.65.127 (MK.DE_MAX_SHARE = 0,9, MarketCore.lua:332–336, T650). (HINWEIS, Messung Prüf-Sitzung 01:20, markt-strategie.md 8g "Sniper-/Entzauber-Käufe"): 462 Käufe, +34 %.
                         Gewinn je Kaufpreis/Wert: ≤ 0,7 +43–53 %, 0,7–0,8 +33 %, 0,8–0,9 +18 %, > 0,9 ≈ 0 %. DE30b (20 % =
                         Wert/1,2 = 0,83) passt, aber 0,8–0,9 bringt nur +18 %: Sniper-Höchstpreis für Entzauber-Ziele nie über
                         0,9 × Wert (harte Obergrenze, Test T-SNM1), und die Trefferquote je Preisstufe im Testbericht zeigen.
