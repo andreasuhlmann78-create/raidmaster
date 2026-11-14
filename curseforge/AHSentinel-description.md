@@ -12,6 +12,11 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.135
+
+- **Accounting – vendor purchases:** purchases from vendors are now booked (purchase with source "vendor", cost basis
+  in stock, e.g. for crafting). The gold check adds up better. Test T658.
+
 ### Version 0.65.134
 
 - **Details – sell rate per sales chain:** cancelling and relisting cheaper no longer counts as "not sold" – only goods
@@ -33,13 +38,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Accounting – own use:** goods you bought and then equip or use as a bag are no longer trade goods: they leave the
   stock and do not count in the trading profit (separate "own use" expense, test report only). The accounting tab
   looks as before. Test T655.
-
-### Version 0.65.130
-
-- **Accounting – deposit booked correctly:** the deposit paid when listing is held and no longer lowers the profit.
-  When it comes back on a sale, it is not income. Only a lost deposit (expired/cancelled) is an expense – in the period
-  it expired. Named as in the game (the client's "Deposit" text).
-- Test report: held and lost deposits. Test T654.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 

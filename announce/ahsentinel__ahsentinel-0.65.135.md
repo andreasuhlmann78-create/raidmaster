@@ -1,5 +1,5 @@
-📦 **AHSentinel 0.65.134** – Verkaufsquote je Verkaufskette 📈
+📦 **AHSentinel 0.65.135** – Händlerkäufe in der Buchhaltung 🛒
 
-• Abbrechen und neu einstellen zählt nicht mehr als „nicht verkauft“.
+• Käufe beim Händler werden gebucht – die Gold-Abstimmung geht besser auf.
 
 **Installation:** ZIP unten herunterladen, entpacken und den Ordner `AHSentinel` in `Interface/AddOns` ersetzen. Deine Daten und Einstellungen bleiben erhalten.
