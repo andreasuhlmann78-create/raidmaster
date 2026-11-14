@@ -281,6 +281,14 @@ Um zu erfahren, ob ein höherer Preis noch verkauft, gelegentlich leicht höher 
   1,35 × Einsatz (+35 %) bei 26–30, +20 % bei 36–40. REGEL: Bei Zufallsergebnissen (Entzaubern, Beute, Prozs) nie den
   Median oder Einzel-Verlustquoten, sondern Summe/Summe bzw. Mittel mit genug Fällen.
 
+### 7b. FELDSTUDIE 14.11.2026 (Nutzer, ab ca. 14:11) – Massenverkauf Entzauber-Material
+- Ablauf: 50 × Braune Leinenhose (4343) hergestellt (Leinenstoff à 25c, Grober Faden 10c), entzaubert, das ganze Material
+  (Seltsamer Staub 10940, Geringe Magieessenz 10938) AUF EINMAL zum aktuellen Preis ins AH ("es ist eine Feldstudie").
+- Erwartung Supervisor (Scan 13:48, eigene Quote 2:1:a): ≈ 43 Staub + 17 Essenz, Wert nach Gebühr ≈ 66s, Einsatz ≈ 55s, ≈ +11s.
+- Messen: Verkaufsquote/-dauer je Menge, Unterbietungen, Preis vorher (Scan 13:48) und nachher (nächster Vollscan), realer Gewinn.
+- NICHT zur Feldstudie (Nutzer 14:22, normal messen): 3 andere Teile entzaubert -> 5 Seelenstaub (11083) + 1 Grosser glänzender
+  Splitter (11139). Andere Materialien -> in der Auswertung über die Item-ID getrennt; in der normalen Entzauber-Statistik zählen sie.
+
 ## 8. Sniping, Flippen, Handel – Grundsätze (Wunsch des Nutzers 10.11. 09:28: "in allen Bereichen der Beste")
 
 Sniper heute (Sniper.lua): Ziele mit Höchstpreis/Menge/Budget, sucht selbst der Reihe nach, kauft nur per Tastendruck
