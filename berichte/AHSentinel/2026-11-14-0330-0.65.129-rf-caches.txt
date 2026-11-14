@@ -1,0 +1,11 @@
+Bericht AHSentinel 0.65.129 – RF-Rest (Caches)
+Stand: 14.11.2026 · Status: umgesetzt, zur Prüfung
+- A:TrimCaches: Zwischenspeicher je Item (Marktwert marketCache, Absatz liqCache, Aufkauf buyoutCache) über
+  A.CACHE_MAX_ITEMS = 4000 Einträgen werden geleert (rechnen bei Bedarf neu); Prüfung alle 10 Min. (nicht während der
+  Testroutine), letzte Leerung in A.lastTrim.
+- Tempo-Test T639 zählt zusätzlich Marktwert-, Absatz-, Aufkauf-Speicher und Lernen (Items). Die anderen grossen
+  Laufzeit-Strukturen (Vollscan-Vorrat, PD7-Pakete, Markt-Reiter, Werte) waren schon dabei – welche wirklich gross ist,
+  zeigt erst der nächste Tempo-Test im Client ("im Client prüfen"); danach gezielt begrenzen.
+- Test T653 (unter der Grenze behalten, darüber geleert) – PASS. Gesamtlauf 246/246, addon_check OK.
+Rest 0.65.115 ist damit aus meiner Sicht umgesetzt (UI1618a-R/SBX1/FW1/TS111.2b/T555b früher, UI1509/UI1510/T373b in
+0.65.126). Weiter: EB/EB-DET/BH-ANZ.
