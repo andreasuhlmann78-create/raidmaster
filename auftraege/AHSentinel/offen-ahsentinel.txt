@@ -84,6 +84,11 @@ S3-2 MITTEL (Fall des Nutzers 14:05, für S3b – nachgerechnet mit Scan 13:48):
    (1) Tests in der Testroutine (richtige + absichtlich falsche Ketten, Kreise, fehlende Zutat), (2) Selbstkontrolle im Spiel
    (Kette vorhergesagt vs. realisiert aus Buchungen) und (3) Prüfung durch den Supervisor gegen echte Preise. Bis dahin nur im
    Testbericht ("MARKT-KERN Ketten"), nicht in Tooltip/Markt.
+   VORGABEN DES NUTZERS (14:51): (1) AHS erkennt selbst, welche Berufe der Spieler hat (Beruf, Stufe, bekannte Rezepte – je Figur,
+   ProfessionSentinel nutzen wenn geladen), (2) AHS merkt sich die Herstellungs-Ketten, die zum Verkauf führen (pro Figur
+   gespeichert, nach Scan aktualisiert, nicht bei jedem Öffnen neu gerechnet), (3) sinnvoll dargestellt – einfach, ein Blick:
+   Kette, Gewinn als Zahl, ein Knopf (Einkaufsliste), (4) NUR was Gold bringt: Ketten mit Verlust oder unter dem Mindestgewinn
+   werden NICHT gezeigt (kein rotes Minus in der Liste; psychologie.md "nur Nutzen").
 
 
 S3-1 MITTEL (vor S3b)  K:LohntBis Weg "haendler": offer("haendler", v) = Händlerpreis selbst. Kauf zum Händlerpreis bringt 0 Gewinn
