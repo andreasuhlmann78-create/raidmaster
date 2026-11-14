@@ -1,0 +1,17 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 14.11.2026 12:10 · Sitzung: Discord-Projekt · Version: Bot 1.5.133
+Umgesetzt, zur Prüfung.
+
+WUNSCH DES NUTZERS (14.11. 11:59): Die Uploader-Anleitung soll ein Mitglied als PN vom Bot bekommen.
+- Neu: /pn mitglied:<Mitglied> [vorlage:Uploader-Anleitung] (RaidMasterBot/pn.py, bot.py PnModal/pn_cmd).
+  - Nur Gildenchef und Offiziere (is_creator); nie an Bots.
+  - Ein Formular zeigt den Text vor dem Senden (Vorlage vorausgefüllt, änderbar, höchstens 1900 Zeichen).
+  - Ohne Erwähnungen (AllowedMentions.none). Nimmt der Empfänger keine PN an, kommt eine klare Meldung.
+  - Im Protokoll steht nur die Empfänger-ID und die Länge, nie der Text.
+  - Die Vorlage "uploader" enthält keine Namen und keinen geheimen Link. Die uploader_config.json geht weiter nur
+    über /uploader bzw. privat vom Nutzer.
+- Tests T-PN (8): Text, falsche und leere Fälle, nur Gildenleitung, nie an Bots, gesperrte PN, Inhalt nicht im
+  Protokoll; Ablauf mit dem echten bot.py (bot_harness). Alle 233 Bot-Tests OK. Workflow-Importliste um pn ergänzt.
+- Im Betrieb zu prüfen: Nach /update erscheint /pn; die PN kommt beim Mitglied an.
+
+Die offenen Punkte KEEP90, D-MN7c2 und D-MN7e2 sind als Nächstes dran (Reihenfolge nach PRIORITÄTEN).
