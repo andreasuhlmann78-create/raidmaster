@@ -537,6 +537,16 @@ Neuer Reiter: Lage (Bänder) / Mein Lager / Chancen / Trefferzeile – Auftrag a
   > 1,50 -> 15 % (n 9). Die Prognose reagiert kaum darauf (überall 80–100 %).
 - Folgerung: Chance je Preisstufe lernen; für 2-Std.-Händler die Kette bis zum endgültigen Verkauf messen (AHSentinel PR1).
 
+### GEMESSEN 14.11. 01:20 – Sniper-/Entzauber-Käufe (462 Käufe mit Ergebnis, Daten PC 14.11. 00:43)
+Ergebnis je Kauf = zugeordneter Netto-Erlös (Beute zum Materialpreis beim Entzaubern bzw. Verkauf) gegen Kaufpreis.
+- Gesamt: Einsatz 48,59 g -> Netto 65,09 g = +34,0 %. Sniper allein: 447 Käufe, 45,26 g Einsatz, +34,3 %.
+- Je Kaufpreis / vorhergesagtem Wert (ev):  ≤ 0,6: +53 % (n 21) · 0,6–0,7: +43 % (n 154) · 0,7–0,8: +33 % (n 234) ·
+  0,8–0,9: +18 % (n 42) · über 0,9: etwa 0 % oder Verlust (n 11).
+- Folgerung (belegt, n 462, fast nur Entzaubern 26–40): Der Sniper-Höchstpreis von etwa 0,8 × Wert bringt rund +30 %;
+  zwischen 0,8 und 0,9 × Wert bleibt der Gewinn unter 20 %. Das passt zu DE30b (20 % Mindestgewinn = höchstens Wert/1,2
+  = 0,83 × Wert) – mit einer kleinen Lücke: im Bereich 0,8–0,9 wurden nur +18 % erreicht, die Vorhersage ist dort
+  ca. 2 Punkte zu optimistisch. Über 0,9 × Wert nie kaufen.
+
 ### GEMESSEN 14.11. 01:15 – Verkaufs-KETTEN (2-Std.-Händler, Daten PC 14.11. 00:43, 81 Einstellungen, 32 Ketten)
 Kette = alle Einstellungen eines Items bis zum Verkauf (Ablauf/Abbruch -> neu einstellen gehört dazu).
 - 27 von 32 Ketten enden mit Verkauf (84 %); 5 noch offen bzw. aufgegeben.
