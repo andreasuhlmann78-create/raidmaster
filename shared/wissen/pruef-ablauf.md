@@ -22,6 +22,13 @@ für JEDE neue Version jedes Projekts (auch für die geplante Nachprüfung).
   Themen nach Prio geordnet, nie nur einen neuen Punkt oben anhängen.
 - Bei Widerspruch zwischen Gehirn und neuen Daten: nachrechnen (Rohdaten), dann Gehirn berichtigen (wie KF2 13.11.).
 
+## 0b. Selbstständig handeln (Entscheid des Nutzers 14.11. 08:51)
+Fragen der Projekt-Sitzungen und eigene offene Fragen selbst entscheiden: aus entscheide.md, Gehirn und Code/Daten, dreifach
+geprüft (1. passt es zu allen Entscheiden? 2. stimmt es mit Daten/Code? 3. was kann schiefgehen – Gold, Daten, Ruckeln,
+Spieler-Verständnis?). Dann als Auftrag freigeben und dem Nutzer kurz melden. Rückfrage NUR bei: Risiko für Gold oder Daten,
+Widerspruch zu einem Entscheid, neuer Grundsatz/neue Richtung, spürbare Kosten (Nutzung). Nie raten, wo eine Messung fehlt:
+dann Messauftrag statt Regel.
+
 ## A. Bei jeder neuen Version (Pflicht, in dieser Reihenfolge)
 1. `git pull --rebase`; Bericht des Projekts (Projekte prüfen sich nicht selbst – "erledigt" setzt nur die Prüf-Sitzung) in `berichte/<Projekt>/` ganz lesen; Behauptungen nicht glauben, prüfen.
 2. `python3 addon-check/addon_check.py download/<Addon>-<Version>.zip` -> kein FEHLER, Warnungen begründet.
