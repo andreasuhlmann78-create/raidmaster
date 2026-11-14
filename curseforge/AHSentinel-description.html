@@ -7,6 +7,15 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.147</h3>
+<ul>
+<li><strong>Sell – posting area tidied up:</strong> no overlapping text any more. Every number has its own line: new "Expected profit"
+  (green/red, grey while the addon is still learning the sell rate) and "Chance to sell" – the chance is no longer attached to
+  the deposit line.</li>
+<li>"Proceeds after fees" is now honest: sale price minus AH cut. Possible returns only count in "Expected profit".</li>
+<li>Notes sit in a fixed area above the button: at most 2 lines, most important first, all others in the "(i)" tooltip.
+  Shorter: "Vendor pays more: 1c", "Price 120x above market – sells at 25c". Test T669.</li>
+</ul>
 <h3>Version 0.65.146</h3>
 <ul>
 <li><strong>Sell – always the current AH state:</strong> every selected item is searched on the server again right away (front of the
@@ -35,14 +44,7 @@
   AHSentinel notes whether you were undercut and by how much. Tests T664, T665.</li>
 <li>Stock check: goods that are nowhere anymore (bags, bank, auction, mailbox) are booked out right away.</li>
 </ul>
-<h3>Version 0.65.142</h3>
-<ul>
-<li><strong>Accounting – one profit:</strong> the header now shows the same profit as the "Details" window (no second "profit with
-  purchase"). Goods without a known purchase show in grey as "unknown origin".</li>
-<li><strong>Details:</strong> return per route only shown as a number from 30 cases (grey "still learning" before); the gold check
-  only warns in red once it is consistent (grey "being reconciled" before).</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

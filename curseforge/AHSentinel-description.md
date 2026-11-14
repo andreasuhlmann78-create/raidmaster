@@ -12,6 +12,15 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.147
+
+- **Sell – posting area tidied up:** no overlapping text any more. Every number has its own line: new "Expected profit"
+  (green/red, grey while the addon is still learning the sell rate) and "Chance to sell" – the chance is no longer attached to
+  the deposit line.
+- "Proceeds after fees" is now honest: sale price minus AH cut. Possible returns only count in "Expected profit".
+- Notes sit in a fixed area above the button: at most 2 lines, most important first, all others in the "(i)" tooltip.
+  Shorter: "Vendor pays more: 1c", "Price 120x above market – sells at 25c". Test T669.
+
 ### Version 0.65.146
 
 - **Sell – always the current AH state:** every selected item is searched on the server again right away (front of the
@@ -39,13 +48,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 - **Sales forecast:** the chance now comes from your counted rate per price level. On cancel (also via Blizzard's window)
   AHSentinel notes whether you were undercut and by how much. Tests T664, T665.
 - Stock check: goods that are nowhere anymore (bags, bank, auction, mailbox) are booked out right away.
-
-### Version 0.65.142
-
-- **Accounting – one profit:** the header now shows the same profit as the "Details" window (no second "profit with
-  purchase"). Goods without a known purchase show in grey as "unknown origin".
-- **Details:** return per route only shown as a number from 30 cases (grey "still learning" before); the gold check
-  only warns in red once it is consistent (grey "being reconciled" before).
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
