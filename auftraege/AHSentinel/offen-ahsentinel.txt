@@ -1,3 +1,11 @@
+>>> !!! NACHT-ARBEIT (Entscheid des Nutzers 14.11. 01:19): "Lass sie durcharbeiten – wenn ich morgen aufstehe, soll alles
+>>>    fertig sein." Die ganze Nacht die Prio-Liste von oben nach unten abarbeiten, Version für Version, ohne auf den Nutzer
+>>>    zu warten (Weck-Runde läuft weiter). Der Nutzer schläft: KEINE Fragen an ihn – bei Unklarem die vernünftigste Lesart
+>>>    wählen, im Bericht begründen, weitermachen. Was nur im Spiel prüfbar ist: Test vorbereiten, als "im Client prüfen"
+>>>    im Bericht vermerken, nicht darauf warten. Jede Version: Bericht, addon_check, nichts Gespeichertes riskieren
+>>>    (Sicherung vor jeder Umwandlung). Reihenfolge: TB125 + BH-AUS-3, SN-M, PR1 (2)(3), RF-Rest (Caches), Rest 0.65.115,
+>>>    EB/EB-DET/BH-ANZ, 0.66 Rechenkern (anweisung-rechenkern-regeln-2026-11-14.txt), Entscheide des Abends.
+
 >>> !!! OBERSTE PRIO – NIE IM RUHEMODUS (Entscheid des Nutzers 14.11. 00:28/00:29/00:30) – gilt ab sofort, dauerhaft:
 >>>    Die AHSentinel-Sitzung plant sich selbst Weck-Runden: am Ende JEDER Antwort/Arbeit mit dem Werkzeug send_later
 >>>    (delay_minutes 5, initiation human_request) eine Erinnerung an sich selbst setzen: "Weck-Runde: git pull --rebase,
