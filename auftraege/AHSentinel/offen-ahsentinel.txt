@@ -141,6 +141,12 @@ Einzelheiten zu jedem Punkt stehen weiter unten (Suche nach dem Kürzel). Diese 
                         Verkauf = ein Fall). Im Bericht: Trefferquote alt/neu, je Preisstufe.
 4. CH-G       ZUR PRÜFUNG 0.65.123: GoldSentinelCmdHint.lua byte-gleich, in der .toc, addon_check OK (Prüf-Sitzung 00:30).
                         Im Client bestätigen (Liste, Klick wählt, Enter führt aus). Bericht 0.65.123 fehlt noch.
+5b. EB-DET-1  MITTEL     (Prüf-Sitzung 04:05, zu 0.65.133) Verkaufsquote zählt Abbrüche als "nicht verkauft". Nach Entscheid
+                        des Nutzers (14.11. 00:5x) ist ein Abbruch meist Unterbieten und Teil der Verkaufskette (R6) -> Quote je
+                        KETTE: verkaufte Stück / eingestellte Stück, wobei neu eingestellte Ware nach Abbruch nicht doppelt zählt;
+                        nur Ablauf ohne Neu-Einstellung = nicht verkauft. Test T-EBD2 (einstellen, abbrechen, neu einstellen,
+                        verkauft -> 100 %). Kleinigkeit: Gesamtlauf meldet wie 0.65.132 "246/246", obwohl T656 neu ist – Zahl prüfen.
+5. EB          0.65.133 EB7 Details-Fenster + EB-DET zur Prüfung (addon_check OK). Weiter: EB3–EB5, EB-DET-1.
 5a. BH-ANZ-1  0.65.132 zur Prüfung (addon_check OK, T-BHA10 PASS). Offen als Messung: 7-Tage-Restregel und Rechnung ohne
                         Erstattung (Teilverkäufe) – im Client prüfen. Ursprünglich: MITTEL (Prüf-Sitzung 02:30, zu 0.65.130) Die feste Grenze "nach 26 Std. nicht zurück = verfallen" passt nicht:
                         Erstattungen kommen erst, wenn der Briefkasten gelesen wird (B1 Median 277 Min., ohne Login auch
