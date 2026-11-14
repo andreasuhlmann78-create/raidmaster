@@ -250,3 +250,9 @@ Version 2.3.8 – Abgleich bleibt nicht mehr hängen (UP-S1):
 - Die Meldung "nicht lesbar" kommt nur noch einmal je Stand statt jede Minute.
 - Neu in der Statuszeile: "Abgleich blockiert seit … (Grund)", wenn über eine Stunde lang trotz geänderter Daten nichts
   hochgeladen wurde.
+
+Version 2.3.9 – kein stilles Überschreiben nach einem defekten Stand (UP-S1-2):
+- Lädt ein Rechner über einen defekten Stand des anderen Rechners hinweg hoch, merkt er sich das im Abgleich.
+- Der andere Rechner übernimmt dann nichts still: Jede abweichende Datei gilt als Konflikt. Die neuere Fassung gewinnt,
+  die andere wird gesichert, und AHSentinel führt die Buchhaltung beider Rechner beim nächsten Login zusammen.
+- Das passiert nur einmal je defektem Stand; danach läuft der Abgleich wieder wie gewohnt.

@@ -327,6 +327,77 @@ class UnlesbarUPS1(unittest.TestCase):
         self.assertIn("Abgleich blockiert seit", self.lap.sync.blocked_text())
 
 
+class UeberDefektUPS12(unittest.TestCase):
+    """UP-S1-2 (2.3.9): Wer über einen defekten Stand hinweg hochlädt, vermerkt das im Index; der Rechner des defekten
+    Stands übernimmt dann nichts still, sondern behandelt jede abweichende Datei als Konflikt."""
+
+    def setUp(self):
+        self.d = tempfile.mkdtemp()
+        self.store = FakeStore()
+        self.pc = Machine(self.d, "PC", self.store)
+        self.lap = Machine(self.d, "Laptop", self.store)
+        # Basis r1 vom Laptop, PC holt sie
+        self.lap.write("SavedVariables/RaidMaster.lua", "RaidMasterDB = { 1 }\n", T0 - 7200)
+        self.lap.write("SavedVariables/AHSentinel.lua", AH_LAPTOP, T0 - 7200)
+        self.assertTrue(self.lap.sync.push(now=T0 - 7000))
+        self.assertTrue(self.pc.sync.pull(now=T0 - 6900))
+
+    def tearDown(self):
+        shutil.rmtree(self.d, ignore_errors=True)
+
+    def defekt_und_drueber(self):
+        # PC spielt (Buchhaltung) und lädt r2 hoch – für den Laptop unlesbar
+        self.pc.write("SavedVariables/RaidMaster.lua", "RaidMasterDB = { 2 }\n", T0 - 600)
+        self.pc.write("SavedVariables/AHSentinel.lua", AH_PC, T0 - 600)
+        self.assertTrue(self.pc.sync.push(now=T0 - 500))
+        self.store.parts[self.store.index["r"][""][1][0]] = b""
+        self.lap.write("SavedVariables/RaidMaster.lua", "RaidMasterDB = { 3 }\n", T0 - 100)
+        for t in (0, 60, 120, 1900, 1905):
+            self.lap.sync.next_remote = 0
+            self.lap.sync.tick(now=T0 + t)
+        self.assertEqual(self.store.index["machine"], "Laptop")
+
+    def test_ups12a_vermerk_und_konflikt_statt_still(self):
+        self.defekt_und_drueber()
+        self.assertEqual(self.store.index.get("ud"), {"": [2, "PC"]})
+        self.assertTrue(self.pc.sync.pull(now=T0 + 2000))
+        logs = " ".join(self.pc.logs)
+        self.assertIn("RaidMaster.lua:", logs)                   # Konflikt gemeldet, nicht still übernommen
+        self.assertIn("AHSentinel.lua:", logs)
+        b = self.pc.backups()
+        self.assertTrue(any(x.endswith("SavedVariables/RaidMaster.lua.lokal") for x in b))   # PC-Fassung gesichert
+        ah = self.pc.read("SavedVariables/AHSentinel.lua")
+        self.assertIn("AHSentinelMerge", ah)                     # Buchhaltung wird beim nächsten Login zusammengeführt
+        self.assertIn('["n"] = 256', ah)                         # PC-Fassung (neuer) bleibt
+        # nur EINMAL: ein weiterer neuer Stand vom Laptop wird wieder normal behandelt
+        n = len(self.pc.backups())
+        self.lap.write("SavedVariables/RaidMaster.lua", "RaidMasterDB = { 5 }\n", T0 + 2500)
+        self.lap.sync.next_remote = 0
+        self.lap.sync.tick(now=T0 + 2600)
+        self.assertTrue(self.pc.sync.push(now=T0 + 2700) or True)
+        self.pc.sync.next_remote = 0
+        self.assertTrue(self.pc.sync.pull(now=T0 + 2800))
+        self.assertFalse(any(x.endswith(".lokal") for x in self.pc.backups()[n:]))
+
+    def test_ups12b_vermerk_weg_wenn_pc_wieder_hochlaedt(self):
+        self.defekt_und_drueber()
+        self.pc.sync.pull(now=T0 + 2000)
+        self.pc.write("SavedVariables/RaidMaster.lua", "RaidMasterDB = { 9 }\n", T0 + 2100)
+        self.assertTrue(self.pc.sync.push(now=T0 + 2200))
+        self.assertEqual(self.store.index["machine"], "PC")
+        self.assertNotIn("ud", self.store.index)
+
+    def test_ups12c_falscher_fall_normal_still(self):
+        # ohne defekten Stand: Laptop schreibt normal weiter -> PC übernimmt still wie bisher, kein Vermerk
+        self.lap.write("SavedVariables/RaidMaster.lua", "RaidMasterDB = { 4 }\n", T0 - 100)
+        self.assertTrue(self.lap.sync.push(now=T0))
+        self.assertNotIn("ud", self.store.index)
+        self.assertTrue(self.pc.sync.pull(now=T0 + 100))
+        self.assertEqual(self.pc.read("SavedVariables/RaidMaster.lua"), "RaidMasterDB = { 4 }\n")
+        self.assertFalse(any(x.endswith(".lokal") for x in self.pc.backups()))
+        self.assertFalse(any("RaidMaster.lua:" in l for l in self.pc.logs))
+
+
 class Sofort(unittest.TestCase):
     """2.2.0 (S8): sofort und ohne Klick – T-SY7 … T-SY10; offene Punkte 1, 2, 5 – T-SY11 … T-SY13."""
 

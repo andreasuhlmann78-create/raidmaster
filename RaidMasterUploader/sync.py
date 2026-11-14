@@ -793,6 +793,22 @@ def index_roots(idx: dict | None) -> dict[str, dict]:
     return {}
 
 
+def index_over_defect(idx: dict | None) -> dict[str, list]:
+    """UP-S1-2 (ab 2.3.9): Index-Feld "ud" = {Spielversion/Konto: [rev des defekten Stands, Rechner des defekten Stands]}.
+    Steht dort, dass über den Stand DIESES Rechners hinweggeschrieben wurde, gilt beim Übernehmen jede abweichende Datei
+    als Konflikt (nie still ersetzen). Alte Uploader ignorieren das Feld."""
+    ud = (idx or {}).get("ud") if isinstance(idx, dict) else None
+    out = {}
+    if isinstance(ud, dict):
+        for k, v in ud.items():
+            if isinstance(v, list) and len(v) >= 2:
+                try:
+                    out[str(k)] = [int(v[0] or 0), str(v[1] or "")]
+                except (TypeError, ValueError):
+                    pass
+    return out
+
+
 def index_parts(idx: dict | None) -> list[str]:
     """Alle Nachrichten des aktuellen Stands (für Tests und Aufräumen)."""
     return [p for e in index_roots(idx).values() for p in e["parts"]]
@@ -1122,8 +1138,12 @@ class Sync:
             unl.pop(f"{key}:{e['rev']}", None)
         local = self._scan()
         take, plain, conf, conflicts, base_new, crels = {}, {}, {}, [], {}, set()
+        over = index_over_defect(r)
         for key, e, manifest, files in packages:
             meta = manifest.get("files") or {}
+            # UP-S1-2: über den (defekten) Stand DIESES Rechners hinweggeschrieben -> jede abweichende Datei ist Konflikt
+            ov = over.get(key) or [0, ""]
+            forced = ov[1] == self.me and f"{key}:{ov[0]}" not in (self.s.get("ud_done") or [])
             moff = float(manifest.get("off") or 0.0)
             for rel, data in files.items():
                 if not self._safe_rel(rel) or (key != "*" and self.root_of(rel) != key) or self._path(rel) is None:
@@ -1137,11 +1157,11 @@ class Sync:
                 if cur["sha"] == rsha:
                     continue
                 base = self.s["files"].get(rel)
-                if cur["sha"] == base:
+                if cur["sha"] == base and not forced:
                     take[rel] = data                                # hier nicht geändert -> übernehmen
                     plain[rel] = read(cur["path"])
                     continue
-                if rsha == base:
+                if rsha == base and not forced:
                     continue                                        # nur hier geändert -> bleibt, geht hoch
                 # an beiden Rechnern geändert – oder noch nie abgeglichen und verschieden (offen 1 a): Konflikt
                 m = meta.get(rel) or {}
@@ -1196,6 +1216,11 @@ class Sync:
         self.s["files"].update(base_new)
         for key, e, _, _ in packages:
             self.s["revs"][key] = e["rev"]
+            ov = over.get(key) or [0, ""]
+            if ov[1] == self.me:            # UP-S1-2: nur EINMAL als Konflikt behandeln, nicht bei jedem neuen Stand
+                done = list(self.s.get("ud_done") or [])
+                if f"{key}:{ov[0]}" not in done:
+                    self.s["ud_done"] = (done + [f"{key}:{ov[0]}"])[-50:]
         self.s["seq"] = max(int(self.s.get("seq") or 0), int(r.get("seq") or 0))
         self.s["last_pull"] = now
         self.last_taken = sorted(take)
@@ -1302,6 +1327,16 @@ class Sync:
                 history.append(list(legacy["parts"]))
                 history += [list(p) for _, p in (self.remote or {}).get("history") or []
                             if isinstance(p, list) and p != legacy["parts"]]
+            # UP-S1-2: Über einen defekten Stand eines anderen Rechners hinweg hochladen -> im Index vermerken ("ud"), bis
+            # jener Rechner selbst wieder hochlädt (dann hat er den Konflikt beim Übernehmen schon aufgelöst)
+            ud = {} if legacy else index_over_defect(self.remote)
+            bad = set(self.s.get("defekt") or [])
+            for key in new_parts:
+                old = entries.get(key)
+                if ud.get(key) and ud[key][1] == self.me:
+                    ud.pop(key)
+                if old and f"{key}:{old['rev']}" in bad and str(old.get("machine") or "") != self.me:
+                    ud[key] = [int(old["rev"]), str(old.get("machine") or "")]
             for key, parts in new_parts.items():
                 if key in r_new:
                     history.append(list(r_new[key][1]))
@@ -1310,6 +1345,8 @@ class Sync:
             history = history[len(drop):]
             index = {"v": 2, "seq": seq, "machine": self.me, "time": round(now), "off": round(off), "r": r_new,
                      "h": history}
+            if ud:
+                index["ud"] = ud
             while len(json.dumps(index, separators=(",", ":"))) > INDEX_MAX and index["h"]:
                 drop.append(index["h"].pop(0))
             self.store.write_index(index)

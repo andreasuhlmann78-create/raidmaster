@@ -222,3 +222,9 @@ Version 2.3.8 – sync no longer gets stuck (UP-S1):
   normally again. Its own version is backed up first. Local files are never overwritten.
 - The "not readable" notice appears only once per state instead of every minute.
 - New in the status line: "sync blocked since … (reason)" when nothing was uploaded for over an hour despite changes.
+
+Version 2.3.9 – no silent overwrite after a broken state (UP-S1-2):
+- If a computer uploads over a broken state of the other computer, it records that in the sync index.
+- The other computer then takes nothing over silently: every differing file counts as a conflict. The newer version
+  wins, the other one is backed up, and AHSentinel merges both computers' bookkeeping at the next login.
+- This happens once per broken state; afterwards sync works as usual.

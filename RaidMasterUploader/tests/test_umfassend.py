@@ -544,6 +544,9 @@ REGRESSIONEN = {
     "UP-S1c wieder lesbar normal": "test_sync.UnlesbarUPS1.test_ups1c_einmal_unlesbar_dann_lesbar_normal",
     "UP-S1d schnell 3x noch nicht defekt": "test_sync.UnlesbarUPS1.test_ups1d_drei_fehler_schnell_noch_nicht_defekt",
     "UP-S1e Abgleich blockiert seit": "test_sync.UnlesbarUPS1.test_ups1e_selbstkontrolle_blockiert_seit",
+    "UP-S1-2a über defekt: Konflikt statt still": "test_sync.UeberDefektUPS12.test_ups12a_vermerk_und_konflikt_statt_still",
+    "UP-S1-2b Vermerk weg nach eigenem Upload": "test_sync.UeberDefektUPS12.test_ups12b_vermerk_weg_wenn_pc_wieder_hochlaedt",
+    "UP-S1-2c normal still (falscher Fall)": "test_sync.UeberDefektUPS12.test_ups12c_falscher_fall_normal_still",
     "RP-U nur bank/raidReady": "test_uploader.Uploader17.test_rp_u_nur_bank_und_raidready",
 }
 
