@@ -1,0 +1,12 @@
+Bericht AHSentinel 0.65.142 – TB138-6 (a), TB138c-1/2/3
+Stand: 14.11.2026 · Status: umgesetzt, zur Prüfung
+- TB138c-1/TB138-6 (a): Kopf der Buchhaltung = EIN Gewinn (BK:Summary.profit, gleich wie Details "Handel"), kein
+  "Gewinn mit Einkauf" mehr; "ohne Einkauf" nur grau als "Herkunft unbekannt: x" in der Unterzeile.
+- TB138c-2: Rendite je Weg im Details-Fenster erst ab 30 Fällen als Zahl (BK.DETAIL_MIN_WAY), sonst grau "lernt noch (n)".
+  Die Zerlegung Entzaubern −9 % (Kauf -> Entzaubern -> Verkauf, Tage, Preis beim Entzaubern vs. Verkauf, mit/ohne
+  BH-AUS-3-Anteil) folgt im Bericht der nächsten Version.
+- TB138c-3: Gold-Abstimmung grau "wird abgeglichen", solange nicht stimmig; grün ✓ wenn stimmig.
+- Offen aus TB138-6: (b) Entzauber-Materialien in der Liste je Gruppe zusammenfassen.
+- T656 auf 30 Fälle umgestellt – PASS. Gesamtlauf 246/246, addon_check OK.
+Gesehen und als Nächstes (Reihenfolge der Prüf-Sitzung): PR2 (Abbruch-Grund, Quote je Preisstufe anzeigen) zusammen mit
+BR1 (Briefkasten von Hand voll zählen), Hinweis zu 11083 (7-Tage-Sperre nicht für Ware ohne Abbild/Auktion/Post).
