@@ -12,6 +12,14 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.152
+
+- **Books – disenchant materials per group:** in the "per item" list, dust, essences and shards of one level band are shown
+  together in one line ("Disenchanting 26–35"); the tooltip lists the single materials. What counts is whether disenchanting a
+  group pays off – not one material that just dropped in a wave. Test T679.
+- Test routine: sales, disenchant, sync and full-scan tests (T285, T289, T291, T223, T272, T310) now run in game independent
+  of your real learned data.
+
 ### Version 0.65.151
 
 - **Player trades booked:** buying or selling through the trade window now appears in the books – measured from gold and
@@ -44,15 +52,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   any remainder shows as "vendor unclear". Tests T670–T674.
 - **Sell – click hits the item you saw:** if the bag list is re-sorted right between hovering and clicking, the click still
   selects the item that was under the mouse. Tests T667/T668 now always run (substitute bags).
-
-### Version 0.65.147
-
-- **Sell – posting area tidied up:** no overlapping text any more. Every number has its own line: new "Expected profit"
-  (green/red, grey while the addon is still learning the sell rate) and "Chance to sell" – the chance is no longer attached to
-  the deposit line.
-- "Proceeds after fees" is now honest: sale price minus AH cut. Possible returns only count in "Expected profit".
-- Notes sit in a fixed area above the button: at most 2 lines, most important first, all others in the "(i)" tooltip.
-  Shorter: "Vendor pays more: 1c", "Price 120x above market – sells at 25c". Test T669.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
