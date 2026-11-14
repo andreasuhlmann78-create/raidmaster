@@ -1,3 +1,28 @@
+========================================================================================================================
+UP-S1 HOCH – SOFORT (Supervisor 14.11. 15:40, Uploader 2.3.7 beim Nutzer, im Code bestätigt): EIN unlesbarer Stand des anderen
+Rechners blockiert den Abgleich dieses Rechners für immer – heutige Spiel-Daten werden nicht hochgeladen.
+Beleg (Uploader-Fenster des Nutzers, zweiter Rechner, nach "Spiel beenden" 15:34):
+  "Abgleich: zuletzt hochgeladen 11.11. 20:38 (…) · neuester Stand: <anderer Rechner> 14.11. 11:30 · dieser Rechner NICHT aktuell"
+  (alle 10 Min. seit 13:4x), dann "Abgleich: neuer Stand nicht lesbar (empty file) – lokale Dateien unverändert" und
+  "… · FEHLER: empty file", alle 60 s wiederholt.
+Ursache im Code (sync.py): pull() liest die Teile mit store.get_part() -> Anhang kommt mit 0 Byte zurück -> read_package wirft
+  tarfile "empty file" -> return False, retry_at +60 s. tick(): solange remote_newer() gilt, wird NIE push() aufgerufen – weder
+  bei laufendem WoW (Zeile ~1458 "erst nach WoW-Ende übernehmen, dann hochladen") noch danach (push nur "not remote_newer()").
+  Der Rechner lädt also seit 11.11. nichts mehr hoch, solange der Stand 14.11. 11:30 unlesbar bleibt. Lokale Dateien sind sicher.
+Lösung:
+  a) get_part: 0 Byte oder HTTP-Fehler -> eigene Meldung mit Status/Länge (Diagnose), einmal den Anhang über die Nachricht
+     NEU holen (frische, signierte CDN-URL), erst dann aufgeben.
+  b) Ein Stand, der 3× hintereinander (≥ 30 Min.) nicht lesbar ist, gilt als DEFEKT: merken (rev + machine), nicht mehr als
+     "neuer" werten, deutlich melden ("Stand des anderen Rechners defekt – hier wird weiter hochgeladen, dort bitte einmal
+     WoW beenden"), und den lokalen Stand normal hochladen (Konfliktregel S4/S8f: lokale Fassung zusätzlich sichern). Nie
+     lokale Daten überschreiben.
+  c) Hinweis im Fenster nur einmal je Stand statt alle 60 s.
+  Test (auch falsche Fälle): Teil 0 Byte -> Neuholen; 3× defekt -> Upload läuft, Meldung; lesbarer neuer Stand -> normal
+  übernehmen; nichts lokal überschrieben. Selbstkontrolle: Zeile im Fenster/Bericht "Abgleich blockiert seit … (Grund)" wenn
+  > 1 Std. kein Upload trotz geänderter Dateien.
+GRUNDSATZ: Test + Selbstkontrolle + Prüfung. Bericht nach berichte/RaidMaster/.
+========================================================================================================================
+
 >>> GRUNDSATZ NACHVOLLZIEHBAR (Nutzer 14.11. 15:18, gilt für alles Neue): Zahl + EIN Satz, was sie ist und wie sie entsteht (≤ 20 Wörter, Alltagssprache). Siehe auftraege/README.md.
 
 ========================================================================================================================
