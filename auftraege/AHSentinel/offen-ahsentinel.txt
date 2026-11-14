@@ -58,6 +58,9 @@ TB168-6 NIEDRIG SK1-e Grenze: Tagesbilanz rot bei Lücke +512, TB138-2 sagt "0,6
    1 % vom Netto statt vom Umsatz – gleiche Definition wie TB138-2.
 TB168-7 NIEDRIG SK1-j Knopf "verdeckt etwas" (4×) – was wird verdeckt? Lage korrigieren, Diagnose nennt das verdeckte Element.
 TB168-8 NIEDRIG S28: 4251 Lohnt bis 939 vs. Marktzeile 938 (1c Rundung) – gleiche Rundung überall.
+TB168-9 MITTEL (Nutzer 16:42): Während der Testroutine (118 s) beim Post-Abholen "ein riesen Lag – dachte, das Spiel stürzt ab".
+   Testroutine in Portionen (kein Bild > 16 ms auch im Test) ODER vorher deutlich "Testroutine läuft ~2 Min. – bitte nichts tun,
+   Spiel kann ruckeln" mit Fortschritt; Briefkasten/AH-Aktionen während des Laufs abfangen. Längstes Bild im Bericht ausgeben.
 Gut: SK1-a Händler 4/4, SK1-g Verkaufen-Fenster 29/29, SK1-p 80/80, SK1-n 119/121, Kaufen je Stufe mit eigenen Fällen (Grenzen
    0,90/0,80/0,80), Beute/Vorhersage 2:1:a 1,04 (272 Fälle), Ketten-Zeile 4343 +78 (76 %).
 
