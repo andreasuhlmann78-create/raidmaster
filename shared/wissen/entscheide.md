@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 01:38 | Gute Nacht – "wenn ich morgen hi sage, nehmen wir den Faden genau hier wieder auf". | auftraege/morgen-uebersicht-2026-11-14.txt (Einstieg bei "hi"). |
 | 01:23 | Sparsam (Wochen-Nutzung ca. 32 %), aber es darf nicht zum Stillstand kommen. | AHSentinel: weiterarbeiten, Weck-Runde 30 Min., kurze Berichte, kleine abgeschlossene Versionen; Prüf-Sitzung nachts alle 30 Min. |
 | 01:19 | AHSentinel die Nacht durcharbeiten lassen – morgen früh soll alles fertig sein. | offen-ahsentinel.txt zuoberst NACHT-ARBEIT; Prüf-Sitzung prüft die Nacht durch (5-Min.-Runden). |
 | 01:15 | Anzeige in ZAHLEN statt Worten: grün = lohnt sich (+x), rot = lohnt sich nicht (−x) – "ich finde Zahlen besser als Buchstaben". | Rechenkern-Regeln, DE30b, PR1: überall Zahlen grün/rot (wie LT). |
