@@ -37,6 +37,10 @@ BH-ANZ-S2 MITTEL (Nutzer 14:40 zur Zeile "Seelenstaub −5g 96s"): Der Gewinn je
    Verlust, Summe über die Materialien) und "Reparaturen −y" (BH-AUS-3 u. ä.), wenn ≠ 0. Materialien nur mit Menge und Erlös.
    Test: Gruppe mit Preisfall -> Gruppe +, Halten-Verlust −, keine Material-Gewinnzahl. Selbstkontrolle: Gruppe = Summe Erlös −
    Einsatz (SK1-i-Muster).
+   NACHTRAG 14:50 (Daten-Abbild): Seelenstaub (11083) bekam beim Entzaubern Ø 6s 01c Einstand je Stück, AH-Preis an den
+   Entzauber-Tagen 3s 76c–4s 06c. Prüfen, welchen Wert D:MatPrice(11083) beim Entzaubern lieferte (Quelle, Alter) – der Anteil des
+   Staubs wurde offenbar zu hoch angesetzt, die Essenzen zu tief. Diagnose-Zeile: je Entzauberung MatValue je Material vs.
+   letzter Scan-Preis; Test: Verteilung nach aktuellen Scan-Preisen.
 
 GW-S1 NIEDRIG (gleicher Screenshot, Gewinn-Fenster Braune Leinenhose): "bester Weg: entzaubern · Händler −38c" und darunter
    "Händler zahlt mehr: 60c" – widerspricht sich für den Spieler. Zeile nur zeigen, wenn der Händler-Weg wirklich besser ist, sonst

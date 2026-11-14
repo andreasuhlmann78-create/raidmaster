@@ -70,9 +70,12 @@ Wer an der Buchhaltung eines GoldSentinel-Addons arbeitet, prüft oder Aufträge
    LEHRE 14.11. 14:40 (Nutzer: "überlege, was der Wert mit der Realität zu tun hat"): Der Gewinn JE MATERIAL nach einer
    Umbuchung ist eine Verteilung, keine Realität. Beispiel "Entzaubern 26–35": Seelenstaub −5g 96s, Astralessenz +7g 55s,
    Splitter +1g 91s – real ist nur die Summe (+3g 51s = Gold rein minus Gold raus für die Gruppe). Das Minus beim Seelenstaub
-   entsteht aus (1) Kostenanteil nach dem Preis BEIM Entzaubern, (2) Preisfall bis zum Verkauf (Halten-Verlust, Welle 26–35),
-   (3) Reparaturen (BH-AUS-3 hat 1g 90s Einstand von Phantom-Ware auf Rechnungen umgebucht). Nie aus einer Material-Zeile eine
-   Kauf-Entscheidung ableiten; entscheiden nur mit Gruppe/Weg gesamt und dem Halten-Verlust getrennt.
+   entsteht aus dem Kostenanteil, den AHSentinel beim Entzaubern zuteilt (Books.lua OnDisenchant: Kaufpreis × MatValue-Anteil).
+   NACHGEPRÜFT 14:50 mit dem Daten-Abbild: Seelenstaub bekam im Schnitt 6s 01c Einstand je Stück (515 verkauft am 13.11.), der
+   AH-Preis lag an den Entzauber-Tagen bei 4s 06c (11.11.) bzw. 3s 76c (13.11., 266 Entzauberungen), verkauft für Ø 3s 55c.
+   -> KEIN grosser Preisfall nach dem Entzaubern (−6 %); die Schieflage kommt aus der Verteilung (Staub-Anteil zu hoch bewertet).
+   FALSCH waren meine Aussagen "Preisfall danach" und "Reparatur BH-AUS-3 hat 1g 90s auf Staub umgebucht" (nicht belegt).
+   Nie aus einer Material-Zeile eine Kauf-Entscheidung ableiten; entscheiden nur mit Gruppe/Weg gesamt.
 4. **Verkauf sofort als "ausstehend"** beim Hinweis "Käufer gefunden", mit Rechnung abgleichen (auctionID/Item+Menge+
    Preis), nie doppelt.
 5. **Abstimmung mit dem Gold:** Gold aller Charaktere zu Beginn/jetzt mitschreiben; Differenz zur Buchhaltung im
