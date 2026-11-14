@@ -7,6 +7,15 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.148</h3>
+<ul>
+<li><strong>Vendor measured instead of assumed:</strong> purchases, sales to the vendor (also by hand), buybacks and repairs are booked from
+  the change in gold and bags – exactly the amount really paid. Failed purchases or repairs are no longer booked. Sales to the
+  vendor now appear in the books (way "Vendor") instead of later as "missing". When the vendor closes, the visit is checked;
+  any remainder shows as "vendor unclear". Tests T670–T674.</li>
+<li><strong>Sell – click hits the item you saw:</strong> if the bag list is re-sorted right between hovering and clicking, the click still
+  selects the item that was under the mouse. Tests T667/T668 now always run (substitute bags).</li>
+</ul>
 <h3>Version 0.65.147</h3>
 <ul>
 <li><strong>Sell – posting area tidied up:</strong> no overlapping text any more. Every number has its own line: new "Expected profit"
@@ -36,15 +45,7 @@
   What 0.65.140–0.65.143 booked out too early as "missing" or "consumed" returns to stock once.</li>
 <li>Missing stock and goods sent to others are shown separately from own use (Details window, test report). Test T666.</li>
 </ul>
-<h3>Version 0.65.143</h3>
-<ul>
-<li><strong>Mailbox by hand:</strong> mail now counts even if you (or another addon) collect it yourself – invoices, expiry mail
-  (deposit lost) and goods in the mailbox (count as present in the stock check).</li>
-<li><strong>Sales forecast:</strong> the chance now comes from your counted rate per price level. On cancel (also via Blizzard's window)
-  AHSentinel notes whether you were undercut and by how much. Tests T664, T665.</li>
-<li>Stock check: goods that are nowhere anymore (bags, bank, auction, mailbox) are booked out right away.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

@@ -12,6 +12,15 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.148
+
+- **Vendor measured instead of assumed:** purchases, sales to the vendor (also by hand), buybacks and repairs are booked from
+  the change in gold and bags – exactly the amount really paid. Failed purchases or repairs are no longer booked. Sales to the
+  vendor now appear in the books (way "Vendor") instead of later as "missing". When the vendor closes, the visit is checked;
+  any remainder shows as "vendor unclear". Tests T670–T674.
+- **Sell – click hits the item you saw:** if the bag list is re-sorted right between hovering and clicking, the click still
+  selects the item that was under the mouse. Tests T667/T668 now always run (substitute bags).
+
 ### Version 0.65.147
 
 - **Sell – posting area tidied up:** no overlapping text any more. Every number has its own line: new "Expected profit"
@@ -40,14 +49,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   returned auction) are only booked out after the mailbox was seen afterwards – freshly bought goods not for 7 days.
   What 0.65.140–0.65.143 booked out too early as "missing" or "consumed" returns to stock once.
 - Missing stock and goods sent to others are shown separately from own use (Details window, test report). Test T666.
-
-### Version 0.65.143
-
-- **Mailbox by hand:** mail now counts even if you (or another addon) collect it yourself – invoices, expiry mail
-  (deposit lost) and goods in the mailbox (count as present in the stock check).
-- **Sales forecast:** the chance now comes from your counted rate per price level. On cancel (also via Blizzard's window)
-  AHSentinel notes whether you were undercut and by how much. Tests T664, T665.
-- Stock check: goods that are nowhere anymore (bags, bank, auction, mailbox) are booked out right away.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
