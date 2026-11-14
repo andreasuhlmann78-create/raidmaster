@@ -1,0 +1,17 @@
+Bericht AHSentinel 0.65.139 – Rechenkern R4 (Wellen je Stufenband), Stand der Regeln R1–R9
+Stand: 14.11.2026 · Status: umgesetzt, zur Prüfung
+R4: neue Datei Waves.lua (A.Waves). Bänder nach Entzauber-Materialien (5-25, 26-35, 36-45, 46-55, 56-60, je Staub/Essenz/
+    Splitter). Index je Tag = Mittel über die Materialien von Tagesmedian (bestätigte Preise, flacher Verlauf) /
+    Tagesmedian am ersten Tag (Fenster 10 Tage). Zustand: letzte 2 Tage je > 15 % gefallen = "welle"; letzte 3 Tage je
+    ±10 % = "durch"; sonst "offen". W:InWave(itemID) für die spätere Anzeige (nicht kaufen/halten) – noch nichts
+    angezeigt (Anzeige mit dem Markt-Reiter). Bericht "R4 Wellen je Band" (Feld markt_wellen). Test T662 T-RK-R4 – PASS.
+Stand der übrigen Regeln (aus meiner Sicht, zur Prüfung):
+  R1 Summen statt Median: KF2 (0.65.121) + Zerlegung TB125-8 (0.65.127).  R2: DE30b (0.65.122).
+  R3: Max = Wert/(1+Mindestgewinn) über MK:LimitFromNet + harte Grenze 0,9 (SN-M, 0.65.127); "Grenze senken, wenn eine
+      Stufe unter ihren Mindestgewinn fällt" noch nicht automatisch (Messung je Preisstufe im Bericht seit 0.65.127).
+  R5: Chance je Preisstufe (PR1, 0.65.128).  R6: Ketten + Abbruch-Grund (0.65.126/128), Anzeige "verkauft sich bei x"
+      noch offen (Markt-Reiter).  R7/R8: noch keine eigene Messung im Addon (Tageszyklus/Woche) – nächster Teil.
+  R9: BH-AUS/BH-ANZ/EB (0.65.124–0.65.138).
+  Tests T-RK-R1…R9 als eigene Prüffälle: bisher nur R4 (T662); die anderen sind durch T589/T637/T650/T651/T652/T640ff
+  abgedeckt – eigene T-RK-Kennungen folgen mit dem nächsten Teil.
+Gesamtlauf 246/246 Szenarien, addon_check OK.
