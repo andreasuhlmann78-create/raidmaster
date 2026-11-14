@@ -12,6 +12,12 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.141
+
+- Fixed: "Crafting.lua:515 attempt to index field" when building the crafting list.
+- The test routine no longer writes real data while cleaning up (gold amount, full-scan measurement).
+- Test T659 now also runs in the game (mailbox/crafting locks disabled for the test).
+
 ### Version 0.65.140
 
 - **Stock check fixed (important):** the check saw goods in bags and bank as "0 present". AHSentinel now counts with the
@@ -35,11 +41,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   product – the later sale shows the real profit.
 - **Sent mail:** goods sent to one of your characters keep their purchase cost; goods sent to other players count as
   own use. Sent or crafted vendor goods no longer count wrongly as "consumed". Test T660.
-
-### Version 0.65.136
-
-- **Accounting – consumed vendor goods:** what you bought from a vendor and used up (food, water, ammo, reagents) leaves
-  the stock and counts as own use – no more phantom stock. Test T659.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
