@@ -1,0 +1,15 @@
+AHSentinel 0.65.147 – UI-V3 + UI-V2 – umgesetzt, zur Prüfung
+
+UI-V3 (a) Verkaufschance in eigener Zeile "Verkaufschance" (grau "x % (lernt noch)" solange nicht kalibriert), nie mehr in der
+  Gebühren-Zeile. Alle Summen-Zeilen ohne Umbruch (SetWordWrap false, Höhe 14, Abstand 15).
+(b) Hinweisbereich fester Höhe (24 px) ÜBER dem Knopf, höchstens 2 Zeilen, Rang 1 rot (Verlust/Schutz/Händler) vor 2 orange vor
+  3 gelb vor 4 Info; alle Hinweise im Tooltip "(i)". Texte gekürzt: "Händler zahlt mehr: 1c" (grün), "Markt unter Mindestpreis x",
+  "Preis 120x über Markt – verkauft sich bei 25c"; "(wird beim Verkauf erstattet)" entfällt.
+UI-V2 "Erlös nach Gebühren" = brutto − AH-Gebühr (Leinen 6×47c -> 2s 68c). Neue Zeile "Gewinn erwartet" = Erlös − erwarteter
+  Verlust der Einzahlung (Rückläufe), grün/rot, grau solange die Quote nicht kalibriert ist (ShownChance).
+Belege: TR T669 (lange Hinweise: sichtbar 2 von 6, (i) da, Überlappungen 0 über GetTop/GetBottom, Chance nicht in Gebühren-Zeile),
+  Szenario s97_uiv3_layout (Eisenerz zu 1c: viele Hinweise, 7 Zeilenpaare ohne Überlappung, Erlös = Proceeds net),
+  s10_layout_fill (Knopf im Fenster, auch breites AH). Gesamtlauf 248/248, addon_check OK.
+Offen/Abweichung: enGB/130 % nicht einzeln geprüft – Höhe und Zeilen sind fest, unabhängig von Sprache und Skalierung.
+Gesehen: Prüfung 0.65.145 (771d65a) – Klick-Protokoll in 0.65.146, T667 ohne SKIP + Fall "zwischen Hover und Klick neu befüllt"
+  kommt mit 0.65.148 (zusammen mit HB1).
