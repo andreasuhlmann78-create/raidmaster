@@ -1,0 +1,46 @@
+BuffSentinel 0.9.21 – Bericht an die Prüf-Sitzung
+Datum: 14.11.2026, 08:01
+Stand: umgesetzt, zur Prüfung
+
+Auftrag (offen-buffsentinel.txt, PRIORITÄTEN 14.11. 00:40)
+1. MN-S (MITTEL): T178 erweitert, GoldSentinelMarkt v3 mitkopiert -> umgesetzt, zur Prüfung
+2. BP-2026-11-13-1 Teil 2: wartet weiter auf die Messung im Client (nach dem Hotfix vom 13.11.), nichts geraten
+3. CH-G: SPÄTER, nichts getan
+
+Veröffentlicht
+- download/BuffSentinel-0.9.21.zip, README-Link, announce/buffsentinel__buffsentinel-0.9.21.md (+ .BuffSentinel.zip),
+  0.9.20-Ankündigung entfernt
+- addon_check lokal: "BuffSentinel-0.9.21.zip: OK (1 Warnungen)" – Warnung nur "Lua-Syntax NICHT geprüft" (lupa fehlt
+  lokal, der GitHub-Lauf prüft sie)
+- Gemeinsame Dateien direkt vor dem ZIP mit cmp gegen shared/ verglichen: Game v3, Sync v2, Test v2, Markt v3 gleich
+
+Änderungen
+1. T178 (Bereich B, Regression "MN-S" in Selftest.REGRESSIONS, wird von T162 mitgezählt) – neuer Teil T-MN-S:
+   - Schalter wieder an (BS:MarketShareOn() und GM.IsShareOn() beide an)
+   - GM.outbox = 2 Einträge (einer Gilde, einer net=true), GM.readAt = GM.api.now() - 1 (Lesen fällig), GM.reader = nil
+   - BS:SetMarketShare(false), dann GM.Tick()
+   - erwartet: ep:Send 0 Aufrufe, api.ah 0 Aufrufe (kein Lesen), GM.reader nil, GM.readAt nil, #GM.outbox 0,
+     stats.dropped.aus um mindestens 2 gestiegen
+   - läuft in Isolated (GM.api/ep/askAt/answerAt/readAt/lastEv/reader/outbox/stats und gsMarktAus werden zurückgesetzt)
+   - Anzeige jetzt "aus/lesen/gezählt/T-MN-S/sends", Ergebnis im Nachbau: "ja/ja/ja/ja/0"
+2. GoldSentinelMarkt.lua v3 unverändert aus shared/ kopiert (Export 6 Scans, höchstens 1,5 MB).
+3. TU4 (T232): Portionen brechen jetzt nach 2 ms ab statt nach 4 ms. Grund: Im Offline-Runner fiel T232 sporadisch
+   (8,1 ms bzw. 8,7 ms, 1 von 48 Läufen). Messung je Fall: einzelne Fälle (immer um Fall ~295 und ~912, wechselnde
+   Klassen) brauchen 1–2 ms, eine Portion mit Speicherbereinigung bis ~6 ms. Mit 4 ms bzw. 3 ms Grenze ging das über 8 ms.
+   Nach der Änderung: 48 von 48 Offline-Läufen PASS (8 × 6 Kombinationen), run25m T232 3,0–7,1 ms bei 11–13 Bildern.
+   Hinweis: der Höchstwert 7,1 ms liegt nahe an 8 ms; die Spitzen kommen von der Speicherbereinigung im Nachbau.
+
+Belege (eigene Tests, keine Freigabe)
+- Offline-Runner (berichte/BuffSentinel/offline), classic/forever/retail × deDE/enUS, 8 Durchläufe: 48 × RESULT PASS
+- run25m (Mock): T178 OK "ja/ja/ja/ja/0", T176/T177/T179/T180 OK, T232 OK; sonst unverändert die bekannten
+  12 Nachbau-FEHLER (T144 Talente 55, T02/T13/T23/T28/T45/T48/T51/T95/T100/T116, T162 nur wegen UI-Tests im Mock)
+
+Befund an die Prüf-Sitzung (gemeinsame Datei, nicht von mir geändert)
+- GoldSentinelMarkt v3, M.Tick Zeile 639–645: Ist M.answerAt eingeplant (nur bei Schalter an, Zeile 590) und wird der
+  Schalter danach ausgeschaltet, sendet der nächste Tick trotzdem einmal "A:<fac>:<t>" über ep:Send – dort fehlt die
+  Bedingung M.IsShareOn() (die askAt-Zeile 634 hat sie). Die danach eingereihten Scan-Daten (QueueScan) verwirft Pump
+  korrekt als "aus". Folge: nach dem Ausschalten kann höchstens eine kurze Antwort-Nachricht (nur Zeitstempel, keine
+  Preise) an die Gilde gehen. Vorschlag: "if M.answerAt and now >= M.answerAt then M.answerAt = nil; if not
+  M.IsShareOn() then ... return/überspringen". Ich habe den Fall NICHT in T178 aufgenommen, weil er mit v3 fehlschlagen
+  würde; nach einer Korrektur in shared/ nehme ich ihn sofort auf (answerAt fällig + Schalter aus + Tick -> 0 Sends).
+  Die Ankündigung 0.9.21 verspricht deshalb nur "wartende Marktdaten werden verworfen, kein Scan wird gelesen".
