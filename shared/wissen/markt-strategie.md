@@ -789,3 +789,25 @@ Auch die Prüf-Sitzung selbst nennt dem Nutzer Zahlen nur nachgerechnet oder kla
 Reiter ≤ 50 ms, Sniper ≤ 2 s, Kauf sofort, kein Bild > 16 ms, Start ≤ 100 ms am Stück, Vollscan ≤ 10 MB) sind
 Freigabe-Bedingung (Auftrag PS, Testteil "tempo"). Die Prüf-Sitzung trägt die Verantwortung, das bei jeder Version
 selbst nachzuprüfen – nicht nur den Bericht des Projekts zu glauben.
+
+## 8l Entzauber-Ketten aus Lehrer-Rezepten (Schneiderei) – Auswertung 15.11.2026 00:45 (Wunsch des Nutzers)
+
+Quelle Rezepte: ProfessionSentinel Data_Forever.lua (Quelle-Bit "lehrer", Ergebnis grün). Preise: AHSentinel-Datenstand 15.11.
+00:35 (letzter Scan, günstigstes Angebot; Faden/Farbstoff Händler). Entzauber-Wert: Forever-Vorgabe Rüstung 75/20/5 mit Classic-
+Mengenspannen (Ø der Spanne), 95 % (AH-Gebühr). Ballen = billiger von Ballen oder 2× Stoff. **Itemstufen aus Classic-Wissen,
+NICHT im Spiel geprüft (Vermutung)** – Gruppe kann um eine Stufe daneben liegen. Werkzeug: addon-check/marktanalyse/de_ketten_lehrer.py.
+
+| Rezept | Skill | Gruppe | Kosten | Entzaubern | Gewinn |
+|---|---|---|---|---|---|
+| Schwere Leinenhandschuhe | 50 | 5–15 | 94c | 1s 54c | +60c (64 %) |
+| Braune Leinenhose | 50 | 5–15 | 94c | 1s 54c | +60c (64 %) |
+| Verstärktes Leinencape | 60 | 5–15 | 1s 14c | 1s 54c | +40c (36 %) |
+| Azurblaue Seidenkapuze | 130 | 26–30 | 9s 32c | 11s 60c | +2s 28c (24 %) |
+| Seidenes Stirnband | 135 | 31–35 | 13s 10c | 15s 04c | +1s 94c (15 %) |
+| Schwarzes Magiestoffstirnband / -schultern | 205 | 46–50 | 70s 16c | 77s 12c | +6s 96c (10 %) |
+| Braune Leinenrobe | 50 | 5–15 | 1s 36c | 1s 54c | +18c (14 %) |
+
+Alle Woll-Rezepte (Wollcape bis Schwere Wollhose) −14 bis −78 %; Seide sonst −12 bis −68 %; Schattenzwirn, Aschenstoff,
+Runenstoffgürtel stark negativ. Fazit: Leinen ist der beste Entzauber-Weg; danach erst wieder Seidenkapuze/-stirnband (Skill 130–135).
+Preise ändern sich – vor jeder Runde im Gewinn-Fenster prüfen. Messauftrag: Itemstufen im Spiel bestätigen (AHS kennt sie).
+
