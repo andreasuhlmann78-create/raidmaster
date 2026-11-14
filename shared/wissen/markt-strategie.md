@@ -303,6 +303,13 @@ Um zu erfahren, ob ein höherer Preis noch verkauft, gelegentlich leicht höher 
   "Verkauft sich: langsam (~13 Std.)" -> falsch für Platz 1 (Befund an AHSentinel VS-1). Wyckoff-Sicht: hohe Aufnahme ohne
   Preisfall (Staub blieb bei 1s 14c) = starke Nachfrage oder Aufkäufer; nach dem nächsten Vollscan prüfen, ob die Ware
   teurer wieder auftaucht.
+- NACHGERECHNET MIT DEN BUCHUNGEN (Daten-Abbild 15:56, belegt): heute 1'395 Leinenstoff gekauft Ø 22,5c, 166 Grober Faden à 10c,
+  574 Ballen und 182 Braune Leinenhosen hergestellt, 182 entzaubert.
+  Ladung 1 (eingestellt 14:23–14:26, Rechnungen 15:29): 61 Staub + 10 Essenz, Erlös netto 77s 19c, Einsatz 49s 75c -> +27s 44c (+55 %).
+  Ladung 2 (eingestellt 15:32/15:38, Rechnungen noch ausstehend): 176 Staub + 39 Essenz, Erlös netto 2g 38s 77c, Einsatz
+  1g 32s 75c -> +1g 06s 02c (+80 %). Zusammen +1g 33s 46c auf 1g 82s 50c Einsatz (+73 %), Einsatz je Hose ≈ 1s 00c.
+  Ausbeute je Hose: Ladung 1 1,22 Staub/0,20 Essenz, Ladung 2 1,33/0,30.
+  Meine Schätzung vorher (Screenshot): +94s bis +1g 10s für Ladung 2 -> passt (+1g 06s).
 
 ## 8. Sniping, Flippen, Handel – Grundsätze (Wunsch des Nutzers 10.11. 09:28: "in allen Bereichen der Beste")
 

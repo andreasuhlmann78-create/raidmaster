@@ -19,6 +19,13 @@ PRÜFUNG 0.65.165 + 0.65.166 (Supervisor 15:55, addon_check 0.65.166 OK, Bericht
   dahin bleibt euer Weg (Berufsfenster einmal öffnen). Wenn die API da ist: nutzen, sonst Rückfall.
 Reihenfolge jetzt: SN-EIN1 (HOCH, Gold, Entscheid 15:45), SN-MAX1 (HOCH, Gold), EK-1 (HOCH), BR-LEER1, dann VS-1, dann Ketten Schritt 2 nach Freigabe, Rest NIEDRIG.
 
+EK-1 KORREKTUR (Supervisor 16:10, Daten-Abbild 15:56 – belegt): Die BUCHUNGEN haben den Einstand: Verkäufe Seltsamer Staub heute
+   Einstand Ø 62–64c je Stück, Essenz Ø 58–61c; 574 Ballen und 182 Hosen als "craft" gebucht, 182 Entzauberungen. Der Einstand ging
+   also NICHT in der Buchhaltung verloren. Falsch war die ANZEIGE im Verkaufen-Fenster ("Gewinn erwartet +1g 88s 94c" = ganzer Erlös
+   bei 176 Staub, Screenshot 15:31). Bitte prüfen: welche Kosten nimmt "Gewinn erwartet" im Verkaufen-Fenster (Lager-Einstand der
+   Figur? Bank/andere Figur?). Eure Änderung aus 0.65.167 (Rezept auch ohne Zwischenspeicher) bleibt sinnvoll. Test: Lager-Posten
+   176 Staub à 62c -> "Gewinn erwartet" = Erlös − 176 × 62c. Selbstkontrolle (SK1-i-Muster): Gewinn erwartet = Erlös − Lager-Einstand.
+
 PRÜFUNG 0.65.167 (Supervisor 16:00, addon_check OK, Bericht gelesen): EK-1 umgesetzt, zur Prüfung im Client (Ursache schlüssig:
    Herstellen nur über den Zwischenspeicher erkannt -> kein OnCraft -> Einstand 0). GW-S1 umgesetzt. Entscheid zu alten Buchungen:
    NICHT umbuchen (Regel); der Supervisor rechnet die Hosen-Ladungen getrennt nach, bis der Staub-Bestand verkauft ist.
