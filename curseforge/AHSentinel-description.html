@@ -7,6 +7,14 @@
 <p>AHSentinel scans the auction house, keeps a price history for every item and turns it into market values, trends and charts. It finds bargains for you, helps you sell at the right price and keeps a ledger of everything you earn and spend. It opens in its own resizable window with just five tabs – <strong>Overview, Buy, Sell, Market, Ledger</strong> – can be used completely with the mouse and speaks the language of your WoW client.</p>
 <hr />
 <h2>What's new</h2>
+<h3>Version 0.65.160</h3>
+<ul>
+<li><strong>Less stutter in "Today":</strong> crafting suggestions from ProfessionSentinel are fetched at most every 15 minutes instead of
+  after every scan (one step took up to 153 ms).</li>
+<li><strong>Stock:</strong> goods that are nowhere any more (no bag, bank, mail or auction) and were not restocked for over a day are
+  booked out – no more phantom stock. Test T699.</li>
+<li>Stock self-check: "more on hand than booked" (loot, gifts) is no longer an error, only grey info.</li>
+</ul>
 <h3>Version 0.65.159</h3>
 <ul>
 <li><strong>Buy limit learns right away:</strong> completed purchases of the last 30 days are recounted once (each exactly once), so the buy
@@ -39,15 +47,7 @@
   Tests T694, T695.</li>
 <li>Sell: notes are measured by height – nothing gets cut off any more.</li>
 </ul>
-<h3>Version 0.65.155</h3>
-<ul>
-<li><strong>AHSentinel checks itself:</strong> while you play normally, the addon compares every booking with what really happened in the
-  background: vendor, mail, auction house and trade against the gold change, stock against bags/bank/mail, the Sell window
-  after every click, memory after every full scan and the profit displays against each other. Results in the test report
-  ("Self-check" section) and in /ahs testroutine; the details window only shows a line when something is off. No need to
-  note your gold any more. Tests T686–T693.</li>
-</ul>
-<p><em>Older versions: see the changelog of each file in the <strong>Files</strong> tab.</em></p>
+<p><em>Older versions: see the changelog of each file in the </em><em>Files</em><em> tab.</em></p>
 <hr />
 <h2>☕ Support the addon</h2>
 <p>AHSentinel is free and made in my spare time. If it helps you make gold, you can support it with a small donation – thank you so much!</p>

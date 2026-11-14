@@ -12,6 +12,14 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.160
+
+- **Less stutter in "Today":** crafting suggestions from ProfessionSentinel are fetched at most every 15 minutes instead of
+  after every scan (one step took up to 153 ms).
+- **Stock:** goods that are nowhere any more (no bag, bank, mail or auction) and were not restocked for over a day are
+  booked out – no more phantom stock. Test T699.
+- Stock self-check: "more on hand than booked" (loot, gifts) is no longer an error, only grey info.
+
 ### Version 0.65.159
 
 - **Buy limit learns right away:** completed purchases of the last 30 days are recounted once (each exactly once), so the buy
@@ -43,14 +51,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   limit), mail money counts on the day you collect it, and it is measured whether the deposit is part of the mail money.
   Tests T694, T695.
 - Sell: notes are measured by height – nothing gets cut off any more.
-
-### Version 0.65.155
-
-- **AHSentinel checks itself:** while you play normally, the addon compares every booking with what really happened in the
-  background: vendor, mail, auction house and trade against the gold change, stock against bags/bank/mail, the Sell window
-  after every click, memory after every full scan and the profit displays against each other. Results in the test report
-  ("Self-check" section) and in /ahs testroutine; the details window only shows a line when something is off. No need to
-  note your gold any more. Tests T686–T693.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
