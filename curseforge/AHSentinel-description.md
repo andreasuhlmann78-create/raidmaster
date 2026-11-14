@@ -12,6 +12,19 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.163
+
+- **Stock (gold safety):** the "phantom stock" rule of 0.65.160 could book out your own running or returned auctions and AH
+  purchases still in the mail as "missing". Now goods are only booked out when the mailbox AND your own auctions were seen
+  after the last arrival (and after your auctions of that item ended) – also if only part is missing. Auctions from earlier
+  sessions count as on hand. If booked-out goods arrive later (30 days), the booking is reversed with the old cost. Each
+  booking-out and reversal gets a line in the repair log. Tests T699, T701, T663.
+- **Accounting, disenchant groups:** profit and "Profit %" now come from the same items (before: profit +3g 50s green next to
+  −4 %). The group tooltip shows ONE number (gold in − gold out), "of which items without purchase", and the materials only
+  with amount and revenue – no misleading "loss per material". Test T702, self-check: group = revenue − cost.
+- Test routine: the intentional test error (T131) no longer opens the Lua error window; your error handler is restored right
+  after. Test report: no colour code in the self-check text.
+
 ### Version 0.65.162
 
 - **New: "Disenchant (n)" button at the profession window** – opens the AHSentinel disenchant window without typing
@@ -41,13 +54,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
   limit per price level works without waiting weeks. Test T697.
 - **Mail self-check:** if the money has already left the mail after collecting, the state from the last mailbox read counts.
   Test T698.
-
-### Version 0.65.158
-
-- **Calculation core step 3a:** one "worth up to" across all ways (disenchant, resale in the AH, vendor) – the best safe
-  exit per item. The test report compares it with the numbers tooltip, market, bulk buy and sniper show today; all displays
-  switch over once the differences are explained. Test T696.
-- Auction house self-check also finds older bookings.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
