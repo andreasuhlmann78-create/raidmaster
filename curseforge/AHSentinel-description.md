@@ -12,6 +12,14 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 ## What's new
 
+### Version 0.65.143
+
+- **Mailbox by hand:** mail now counts even if you (or another addon) collect it yourself – invoices, expiry mail
+  (deposit lost) and goods in the mailbox (count as present in the stock check).
+- **Sales forecast:** the chance now comes from your counted rate per price level. On cancel (also via Blizzard's window)
+  AHSentinel notes whether you were undercut and by how much. Tests T664, T665.
+- Stock check: goods that are nowhere anymore (bags, bank, auction, mailbox) are booked out right away.
+
 ### Version 0.65.142
 
 - **Accounting – one profit:** the header now shows the same profit as the "Details" window (no second "profit with
@@ -36,11 +44,6 @@ AHSentinel scans the auction house, keeps a price history for every item and tur
 
 - **Calculation core (preparing 0.66):** AHSentinel measures market waves per level band (disenchanting materials):
   "in the wave" (2 days of strong falls), "through" (sideways) or open. Test report only for now. Test T662.
-
-### Version 0.65.138
-
-- **Accounting – game costs:** repairs at a vendor are booked as game costs (not in the trading profit) and show in the
-  "Details" window; the gold check adds up better. Guild bank repairs do not count. Test T661.
 
 *Older versions: see the changelog of each file in the **Files** tab.*
 
