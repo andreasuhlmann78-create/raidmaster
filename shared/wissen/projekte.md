@@ -149,3 +149,13 @@ I5 JA, aber IM SPIEL statt aufs Handy und nur GESICHERTE Treffer (Daten ≤ 60 s
 "simpel und einfach, ohne grossen Schnickschnack" -> Auftrag HK · I8 nein ("bringt nur Neid").
 Entscheide 13.11. 23:23: I2 NEIN · I3 SPÄTER (nach EB/BH-ANZ) · I4 SPÄTER (erst wenn die Verkaufs-Prognose stimmt) ·
 I6 ERST MESSEN (nur Daten sammeln, nichts anzeigen, bis belegt) -> Auftrag I6-M.
+
+## WEITERARBEIT MONTAG 16.11.2026 (Nutzer 14.11. 17:09: "merk dir den Rest, Montag weiter")
+Nutzung 91 %, Reset Mo 05:00. Am Montag zuerst:
+1. git pull; berichte/* (Routinen-Entwürfe Raids/Rezeptdaten/Markt/Nachprüfung vom Morgen) prüfen und übertragen.
+2. AHSentinel: Stand der FERTIG-LISTE (offen-ahsentinel.txt) – welcher Block ist umgesetzt, Testbericht prüfen, nächsten Block anstossen.
+   Block 1: DW-K1-B1, TB170-1/-2/-8, TB168-10. Block 2: TB168-2, SN-MAX1, MR1-V, VK-1, Ketten live (Ke.LIVE nach Prüfung).
+   Block 3: TB170-6/-7, TB168-1/-9, TB170-10.
+3. Zurückgestellt (nach Block 3): RM1, EW1 (Kelly, Nutzen-Test), Wyckoff W1, TB168-3..8, TB170-5/-9, T277, T647.
+4. Andere: ProfessionSentinel PS-DW1 (verdeckt AHS-Knopf), PS-TC1, PS-API1; LevelPilot PF-A, LP-D1; buchhaltung_plausi.py je Datenstand.
+5. Weckrunden AHS bleiben aus, bis der Nutzer sie freigibt.
