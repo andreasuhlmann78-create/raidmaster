@@ -1,0 +1,225 @@
+AHSentinel-Protokoll v0.65.165 · 14.11. 15:33:22
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  14.11. 15:30:41 L10 ? v0.65.165
+  14.11. 15:29:17 L10 ? v0.65.165
+  14.11. 13:59:47 L10 ? v0.65.159
+  14.11. 13:35:50 L10 ? v0.65.157
+  14.11. 13:03:14 L10 ? v0.65.153
+  14.11. 11:26:36 L10 ? v0.65.152
+  14.11. 11:22:16 L10 ? v0.65.152
+  14.11. 11:20:34 L10 ? v0.65.142
+  14.11. 08:36:53 L10 ? v0.65.142
+  14.11. 08:33:22 L10 ? v0.65.142
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 9 Min., 6910 Items, Preis-Sync an
+  SYNC GoldSentinelSync 2 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 0, GoldSentinelMarkt 0, GoldSentinelTest 0, GuildSentinel 3, ThreatSentinel 0
+  SYNC gesendet 14 · empfangen 17 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 1) · gesendet 2 · weitergegeben 0 · offline 1 · Listen 2 · Warteschlange 0 · gespeichert ja
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, minimapAngle=18.1, priceGuard=20, theme=modern, tooltipDEDetail=true, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[14.11. 15:33:21] ABBRECHEN ×2 AUCTION_CANCELED auctionID 91980390 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:32:57] ABBRECHEN AUCTION_CANCELED auctionID 91982011 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:32:53] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[14.11. 15:32:53] EINSTELLEN Item 11083 · Menge 7 · Auktionen 1 · Laufzeit 1 · Preis 477/Stück, 3339 gesamt · Gebühr erwartet 100, abgezogen 100 (2.99 % vom Preis)
+[14.11. 15:32:53] AHS-POST PostCommodity: arg2=1 arg3=7 arg4=477 arg5=nil, ItemLocation gültig ja, Bag/Slot 1/3
+[14.11. 15:32:50] VERKAUFEN-KLICK Zeile Item 11083 · vorher 11082 · nachher 11083 · Fehler 0 · Titel Seelenstaub
+[14.11. 15:32:50] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[14.11. 15:32:50] EINSTELLEN Item 11082 · Menge 2 · Auktionen 1 · Laufzeit 1 · Preis 1344/Stück, 2688 gesamt · Gebühr erwartet 100, abgezogen 100 (3.72 % vom Preis)
+[14.11. 15:32:49] AHS-POST PostCommodity: arg2=1 arg3=2 arg4=1344 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/9
+[14.11. 15:32:48] ABBRECHEN AUCTION_CANCELED auctionID 91980390 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:32:46] VERKAUFEN-KLICK Zeile Item 11082 · vorher 10938 · nachher 11082 · Fehler 0 · Titel Große Astralessenz
+[14.11. 15:32:46] EIGENE Ware Item 10940 · buyout 112 · Menge 169 · als Stückpreis gelesen
+[14.11. 15:32:46] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=1 · Minimum jetzt 100
+[14.11. 15:32:46] EINSTELLEN Item 10938 · Menge 39 · Auktionen 1 · Laufzeit 1 · Preis 139/Stück, 5421 gesamt · Gebühr erwartet 100, abgezogen 100 (1.84 % vom Preis)
+[14.11. 15:32:45] AHS-POST PostCommodity: arg2=1 arg3=39 arg4=139 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/3
+[14.11. 15:32:43] ABBRECHEN ×2 AUCTION_CANCELED auctionID 91979248 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:32:41] VERKAUFEN-KLICK Zeile Item 10938 · vorher 10940 · nachher 10938 · Fehler 0 · Titel Geringe Magieessenz
+[14.11. 15:32:40] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=8 · Minimum jetzt 100
+[14.11. 15:32:40] EINSTELLEN Item 10940 · Menge 176 · Auktionen 1 · Laufzeit 1 · Preis 112/Stück, 19712 gesamt · Gebühr erwartet 100, abgezogen 100 (0.51 % vom Preis)
+[14.11. 15:32:39] AHS-POST PostCommodity: arg2=1 arg3=176 arg4=112 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/4
+[14.11. 15:32:35] VERKAUFEN-KLICK ×3 Zeile Item 10940 · vorher 10940 · nachher 10940 · Fehler 0 · Titel Seltsamer Staub
+[14.11. 15:32:14] PD7 Preisverlauf verdichtet: 387221 -> 384150 Zeilen (~15882 -> ~15756 KB)
+[14.11. 15:31:41] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[14.11. 15:31:15] ABSATZ Item 2997 · Q 11 (vollscan) · S 195.4 (measured) · S roh 195.4 · Deckel - · eigene Quote 3/3 · Laufzeit 24 Std. · W 0.1 · N 1.0
+[14.11. 15:31:15] ABSATZ Item 11083 · Q 10 (vollscan) · S 620.9 (measured) · S roh 620.9 · Deckel - · eigene Quote 20/22 · Laufzeit 24 Std. · W 0.0 · N 1.1
+[14.11. 15:31:11] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.1 Std., 10940: 0.0 Std., 11082: 0.1 Std. · 0 frisch geholt
+[14.11. 15:31:11] ABSATZ Item 11082 · Q 24 (vollscan) · S 148.0 (measured) · S roh 148.0 · Deckel - · eigene Quote 20/20 · Laufzeit 24 Std. · W 0.2 · N 1.0
+[14.11. 15:31:11] ABSATZ Item 10938 · Q 10 (vollscan) · S 909.3 (measured) · S roh 909.3 · Deckel - · eigene Quote 29/30 · Laufzeit 24 Std. · W 0.0 · N 1.0
+[14.11. 15:31:11] VERKAUFEN-KLICK Zeile Item 10940 · vorher nil · nachher 10940 · Fehler 0 · Titel Seltsamer Staub
+[14.11. 15:31:09] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[14.11. 15:31:09] ABSATZ Item 10940 · Q 624 (vollscan) · S 1089.2 (measured) · S roh 1089.2 · Deckel - · eigene Quote 35/35 · Laufzeit 24 Std. · W 0.6 · N 1.0
+[14.11. 15:31:00] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 57 ms bis Comfort.lua:883 · 57 ms
+[14.11. 15:30:58] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 16 ms bis Disenchant.lua:1508 · 18 ms
+[14.11. 15:30:58] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 19 ms bis Comfort.lua:775 · 20 ms
+[14.11. 15:30:58] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 17 ms bis Comfort.lua:736 · 17 ms
+[14.11. 15:30:58] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 17 ms bis Comfort.lua:701 · 17 ms
+[14.11. 15:30:58] ABSATZ-UNPLAUSIBEL Item 3240 · 557.5/Tag · Quelle geschätzt
+[14.11. 15:30:58] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 17 ms bis Extras.lua:279 · 20 ms
+[14.11. 15:30:57] ABSATZ-UNPLAUSIBEL Item 4333 · 13.2/Tag · Quelle geschätzt
+[14.11. 15:30:57] ABSATZ-UNPLAUSIBEL Item 5482 · 7.3/Tag · Quelle geschätzt
+[14.11. 15:30:57] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 16 ms bis Extras.lua:279 · 18 ms
+[14.11. 15:30:57] LANGSAM ×2 Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 17 ms bis Extras.lua:279 · 20 ms
+[14.11. 15:30:56] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 16 ms bis Extras.lua:279 · 21 ms
+[14.11. 15:30:46] SYNC Weg=GUILD
+[14.11. 15:30:44] ABSATZ Item 4604 · Q 587 (scan, Q gesamt) · S 26.9 (market, gelernt) · S roh 116.4 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 21.9 · N 7.0 · kaum
+[14.11. 15:30:44] ABSATZ-UNPLAUSIBEL Item 16083 · 111.5/Tag · Quelle gemessen
+[14.11. 15:30:41] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[14.11. 15:30:22] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[14.11. 15:30:00] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.1 Std., 10940: 0.0 Std., 11082: 0.1 Std. · 0 frisch geholt
+[14.11. 15:29:36] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 79 ms bis Comfort.lua:883 · 79 ms
+[14.11. 15:29:34] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 18 ms bis Comfort.lua:736 · 18 ms
+[14.11. 15:29:33] ABSATZ-UNPLAUSIBEL Item 3240 · 557.5/Tag · Quelle geschätzt
+[14.11. 15:29:33] ABSATZ-UNPLAUSIBEL Item 4333 · 13.2/Tag · Quelle geschätzt
+[14.11. 15:29:33] ABSATZ-UNPLAUSIBEL Item 5482 · 7.3/Tag · Quelle geschätzt
+[14.11. 15:29:23] LANGSAM Hintergrund-Aufgabe forecast-eval · 0 Schritte · längster Schritt 30 ms bis Forecast.lua:841 · 30 ms
+[14.11. 15:29:23] LANGSAM Hintergrund-Aufgabe forecast-eval · 0 Schritte · längster Schritt 14 ms bis Forecast.lua:841 · 16 ms
+[14.11. 15:29:23] LANGSAM Hintergrund-Aufgabe forecast-eval · 0 Schritte · längster Schritt 30 ms bis Forecast.lua:841 · 31 ms
+[14.11. 15:29:23] ABSATZ-UNPLAUSIBEL Item 16083 · 111.5/Tag · Quelle gemessen
+[14.11. 15:29:22] SYNC Weg=GUILD
+[14.11. 15:29:21] RECHNUNG Item 11084 · Menge 1 (Feld 5 1, Feld 11 1) · Feld 4 4118 · consignment 205 · deposit 100 · Post-Gold 4013 · gesamt 4118 · Stück 4118 · Feld 4 = Gesamt: ja
+[14.11. 15:29:21] BUCHHALTUNG Rechnung weicht ab: Item 11084 · 1 Stück · ausstehend 3912 · Rechnung 3913 (Rechnung gilt)
+[14.11. 15:29:21] WERT Gruppe 7 · Item 11084 · vorhergesagt 4129 · echt 4118 · Abweichung +0 %
+[14.11. 15:29:21] RECHNUNG Item 10938 · Menge 10 (Feld 5 10, Feld 11 10) · Feld 4 1230 · consignment 61 · deposit 100 · Post-Gold 1269 · gesamt 1230 · Stück 123 · Feld 4 = Gesamt: ja
+[14.11. 15:29:21] WERT Gruppe 7 · Item 10938 · vorhergesagt 124 · echt 123 · Abweichung +1 %
+[14.11. 15:29:21] RECHNUNG Item 10940 · Menge 35 (Feld 5 35, Feld 11 35) · Feld 4 4060 · consignment 203 · deposit 57 · Post-Gold 3914 · gesamt 4060 · Stück 116 · Feld 4 = Gesamt: ja
+[14.11. 15:29:21] WERT Gruppe 7 · Item 10940 · vorhergesagt 110 · echt 116 · Abweichung -5 %
+[14.11. 15:29:21] RECHNUNG Item 10940 · Menge 26 (Feld 5 26, Feld 11 26) · Feld 4 2834 · consignment 141 · deposit 99 · Post-Gold 2792 · gesamt 2834 · Stück 109 · Feld 4 = Gesamt: ja
+[14.11. 15:29:21] WERT Gruppe 7 · Item 10940 · vorhergesagt 110 · echt 109 · Abweichung +1 %
+[14.11. 15:29:21] RECHNUNG Item 11083 · Menge 5 (Feld 5 5, Feld 11 5) · Feld 4 2360 · consignment 118 · deposit 100 · Post-Gold 2342 · gesamt 2360 · Stück 472 · Feld 4 = Gesamt: ja
+[14.11. 15:29:21] WERT Gruppe 7 · Item 11083 · vorhergesagt 473 · echt 472 · Abweichung +0 %
+[14.11. 15:29:21] RECHNUNG-ROH 1=seller, 2=Seelenstaub, 4=2360, 5=5, 6=100, 7=118, 8=0, 9=0, 10=0, 11=5, 12=false
+[14.11. 15:29:19] PD7 PD7 geladen: 5965 Items, 213916 Einträge geprüft, 0 Fehler · Zustand active
+[14.11. 15:27:16] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 29 ms
+[14.11. 15:27:05] ABSATZ Item 10978 · Q 22 (vollscan) · S 186.6 (measured) · S roh 186.6 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.1 · N 1.0
+[14.11. 15:27:05] ABSATZ Item 6338 · Q 16 (vollscan) · S 19.9 (measured) · S roh 19.9 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.9 · N 1.0
+[14.11. 15:27:05] ABSATZ Item 275724 · Q 9 (vollscan) · S 9.8 (market, gelernt) · S roh 24.8 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 1.0 · N 2.0
+[14.11. 15:27:05] ABSATZ Item 6217 · Q 509 (vollscan) · S 61.8 (measured) · S roh 61.8 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 8.2 · N 7.0 · kaum
+[14.11. 15:27:05] ABSATZ Item 247786 · Q 160 (vollscan) · S 464.1 (market, gelernt) · S roh 1171.4 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.3 · N 1.0
+[14.11. 15:24:56] AUFBAU Beste Rezepte (20 Rezepte) · Auslöser DATA_CHANGED · 1614 ms
+[14.11. 15:24:56] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 132 ms bis Comfort.lua:843 · 133 ms
+[14.11. 15:24:51] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 18 ms bis Extras.lua:279 · 18 ms
+[14.11. 15:24:43] ABSATZ-UNPLAUSIBEL Item 3240 · 557.5/Tag · Quelle geschätzt
+[14.11. 15:24:31] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 17 ms bis Extras.lua:279 · 17 ms
+[14.11. 15:24:21] LANGSAM Hintergrund-Aufgabe core:realcheck · 0 Schritte · längster Schritt 25 ms bis MarketCore.lua:529 · 28 ms
+[14.11. 15:24:21] LANGSAM ×3 Hintergrund-Aufgabe core:realcheck · 0 Schritte · längster Schritt 17 ms bis MarketCore.lua:529 · 19 ms
+[14.11. 15:24:21] LANGSAM ×2 Hintergrund-Aufgabe core:realcheck · 0 Schritte · längster Schritt 14 ms bis MarketCore.lua:529 · 16 ms
+[14.11. 15:24:21] LANGSAM Hintergrund-Aufgabe core:realcheck · 0 Schritte · längster Schritt 19 ms bis MarketCore.lua:529 · 21 ms
+[14.11. 15:24:19] MATERIAL-PREIS Item 11176 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:24:19] MATERIAL-PREIS Item 16202 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:24:19] MATERIAL-PREIS Item 11175 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:24:19] MATERIAL-PREIS Item 10978 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:24:19] MATERIAL-PREIS Item 10939 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:24:19] MATERIAL-PREIS Item 11177 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:24:19] MATERIAL-PREIS Item 16203 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:24:19] MATERIAL-PREIS Item 14344 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:24:19] MATERIAL-PREIS Item 10938 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:24:19] MATERIAL-PREIS Item 11178 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:24:19] MATERIAL-PREIS Item 11139 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:24:19] MATERIAL-PREIS Item 11084 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:24:19] MATERIAL-PREIS Item 11138 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:24:19] MATERIAL-PREIS Item 20725 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:24:19] MATERIAL-PREIS Item 10998 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:24:19] MATERIAL-PREIS Item 11083 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:24:19] MATERIAL-PREIS Item 11137 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:24:19] MATERIAL-PREIS Item 11082 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:24:19] MATERIAL-PREIS Item 16204 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:24:19] MATERIAL-PREIS Item 11174 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:24:19] MATERIAL-PREIS Item 11135 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:24:19] MATERIAL-PREIS Item 14343 · Quelle ah · Alter 0 Min. · unsicher: Scan 9086 / Marktwert 5773
+[14.11. 15:24:19] MATERIAL-PREIS Item 11134 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:24:19] MATERIAL-PREIS Item 10940 · Quelle ah · Alter 0 Min. · sicher
+[14.11. 15:24:18] LANGSAM Hintergrund-Aufgabe sync-send · 0 Schritte · längster Schritt 18 ms bis Sync.lua:190 · 19 ms
+[14.11. 15:24:16] VOLLSCAN Messung 273071 Auktionen · 6323 Items · Lücke 894 ms (Nachlauf: Speicherbereinigung ja · Aufgaben 6 ms (cache:itemlist, 0 Schritte)) · Speicher 450977->491084 KB · GC 4 · Warten auf Server 15938/135; Ereignis-Aufruf 0/1; Einlesen 10103/142; Verdichtung 571/48; Verfolgung V4 2126/38; Preisverlauf+Neuaufbau 1570/136; Nachlauf 0/894
+[14.11. 15:24:16] PREIS-ALT nach Scan · letzter Scan Vollscan · Waren im Vollscan 159 · Hauptmaterialien 11083: 0.0 Std., 10940: 0.0 Std., 11082: 0.0 Std. · 0 frisch geholt
+[14.11. 15:24:14] ABSATZ-UNPLAUSIBEL Item 16083 · 90.6/Tag · Quelle gemessen
+[14.11. 15:24:13] LANGSAM Hintergrund-Aufgabe fullscan · 3 Schritte · längster Schritt 152 ms bis Ende fullscan · 152 ms
+[14.11. 15:24:12] LANGSAM Hintergrund-Aufgabe fullscan · 0 Schritte · längster Schritt 16 ms bis AHAnalyzerPro.lua:144 · 16 ms
+[14.11. 15:24:12] LANGSAM Empfänger #15 von SCAN_FINISHED · 16 ms
+[14.11. 15:24:11] VOLLSCAN Absatz unplausibel: Item 3857 · 2616/Tag bei Ø 587 im AH (6.7 Std.)
+[14.11. 15:24:10] VOLLSCAN Absatz unplausibel: Item 248688 · 1932/Tag bei Ø 248 im AH (6.7 Std.)
+[14.11. 15:24:09] LANGSAM Hintergrund-Aufgabe fullscan · 0 Schritte · längster Schritt 23 ms bis Vollscan.lua:1001 · 26 ms
+[14.11. 15:24:09] VOLLSCAN M1d 273071 Auktionen gelesen (273059 gültig) · 2525 ms in 812 Portionen · längster Frame 3.5 ms · 6323 Items
+[14.11. 15:24:02] ABBRECHEN AUCTION_CANCELED auctionID 90373916 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:24:02] ABBRECHEN AUCTION_CANCELED auctionID 90373545 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:24:02] ABBRECHEN AUCTION_CANCELED auctionID 90373476 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:24:02] ABBRECHEN AUCTION_CANCELED auctionID 90373375 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:24:02] ABBRECHEN AUCTION_CANCELED auctionID 90373136 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:24:02] ABBRECHEN AUCTION_CANCELED auctionID 90372953 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:23:57] ABBRECHEN AUCTION_CANCELED auctionID 87249166 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:23:57] ABBRECHEN AUCTION_CANCELED auctionID 87249140 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:23:57] ABBRECHEN AUCTION_CANCELED auctionID 87249133 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:23:57] ABBRECHEN AUCTION_CANCELED auctionID 87249119 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:23:57] ABBRECHEN AUCTION_CANCELED auctionID 87249005 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:23:57] ABBRECHEN AUCTION_CANCELED auctionID 87248983 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:23:57] ABBRECHEN AUCTION_CANCELED auctionID 87248979 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:23:57] ABBRECHEN AUCTION_CANCELED auctionID 87248827 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:23:57] ABBRECHEN AUCTION_CANCELED auctionID 87248823 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:23:57] ABBRECHEN AUCTION_CANCELED auctionID 87248801 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:23:57] ABBRECHEN AUCTION_CANCELED auctionID 87248797 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:23:57] ABBRECHEN AUCTION_CANCELED auctionID 87248793 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:23:57] ABBRECHEN AUCTION_CANCELED auctionID 87248740 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:23:57] ABBRECHEN AUCTION_CANCELED auctionID 87248700 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:23:57] ABBRECHEN AUCTION_CANCELED auctionID 87248691 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:23:56] ABBRECHEN AUCTION_CANCELED auctionID 78237118 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:23:56] ABBRECHEN AUCTION_CANCELED auctionID 78237270 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:23:56] ABBRECHEN AUCTION_CANCELED auctionID 78236370 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:23:56] ABBRECHEN AUCTION_CANCELED auctionID 78237400 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:23:56] ABBRECHEN AUCTION_CANCELED auctionID 78235859 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:23:56] ABBRECHEN AUCTION_CANCELED auctionID 78237023 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:23:56] ABBRECHEN AUCTION_CANCELED auctionID 78236205 (erwartet nil) -> unerwartet, nichts geändert
+[14.11. 15:23:56] VOLLSCAN M1c Abstand 3004 s · neue Liste · 273071 Auktionen · Antwort nach 15.9 s
+[14.11. 15:23:44] PREIS-ALT AH offen · letzter Scan Vollscan · Waren im Vollscan 148 · Hauptmaterialien 11083: 0.8 Std., 10940: 0.8 Std., 11082: 0.8 Std. · 8 frisch geholt
+[14.11. 15:21:53] ABSATZ Item 11082 · Q 0 (search) · S 120.2 (measured) · S roh 120.2 · Deckel - · eigene Quote 20/20 · Laufzeit 24 Std. · W 0.0 · N 1.0
+[14.11. 15:21:38] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 15:21:33] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10938×2
+[14.11. 15:21:29] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 15:21:25] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 15:21:21] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10938×1
+[14.11. 15:21:17] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 15:21:13] DE-GEZÄHLT ×2 Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 15:21:05] DE-GEZÄHLT ×2 Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 15:20:57] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 15:20:52] DE-GEZÄHLT ×2 Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 15:20:44] DE-GEZÄHLT ×6 Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 15:20:18] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 15:20:14] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10938×2
+[14.11. 15:20:09] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 15:20:01] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10938×2
+[14.11. 15:19:56] DE-GEZÄHLT ×2 Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 15:19:48] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 15:19:46] SYNC gesendet 335, empfangen 3, verworfen 0 · Kanal verweigert 0
+[14.11. 15:19:44] DE-GEZÄHLT ×2 Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 15:19:08] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 15:19:04] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 15:19:00] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 15:18:56] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10938×2
+[14.11. 15:18:52] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 15:18:09] DE-GEZÄHLT ×2 Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 15:17:29] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10938×1
+[14.11. 15:17:25] DE-GEZÄHLT ×2 Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 15:17:17] DE-GEZÄHLT ×2 Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 15:17:08] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10938×1
+[14.11. 15:17:04] DE-GEZÄHLT ×2 Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 15:15:22] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10938×2
+[14.11. 15:15:18] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 15:15:13] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 15:15:09] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 15:15:05] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 15:15:01] DE-GEZÄHLT ×2 Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 15:14:52] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 15:14:48] DE-GEZÄHLT ×2 Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 15:10:30] DE-GEZÄHLT ×4 Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 15:10:13] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10938×1
+[14.11. 15:10:09] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 15:10:05] DE-GEZÄHLT ×2 Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 15:09:56] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10938×2
+[14.11. 15:09:52] DE-GEZÄHLT ×2 Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1
+[14.11. 15:09:46] SYNC gesendet 331, empfangen 3, verworfen 0 · Kanal verweigert 0
+[14.11. 15:09:44] DE-GEZÄHLT ×4 Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×2
+[14.11. 15:09:27] DE-GEZÄHLT Item 4343 · Itemstufe 10 · Gruppe 2:1:a · Weg Fenster · Beute 10940×1

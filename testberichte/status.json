@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-14T13:56:55Z",
+ "ausgewertet": "2026-11-14T14:50:06Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -133,7 +133,7 @@
      "art": "spiel",
      "wo": "ADDON_ACTION_BLOCKED",
      "msg": "UNKNOWN()",
-     "anzahl": 6,
+     "anzahl": 5,
      "versionen": [
       "0.65.16"
      ],
@@ -729,7 +729,7 @@
    "art": "spiel",
    "wo": "ADDON_ACTION_BLOCKED",
    "msg": "UNKNOWN()",
-   "anzahl": 6,
+   "anzahl": 5,
    "versionen": [
     "0.65.16"
    ],
@@ -1104,38 +1104,38 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 107,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.157-2addd230a515.txt"
+    "anzahl": 108,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.165-39517fda6062.txt"
    },
    "BuffSentinel": {
     "anzahl": 35,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.12-7f8dfb5af187.txt"
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.18-76e246dc6532.txt"
    },
    "GSMesstest": {
     "anzahl": 9,
-    "neueste": "testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt"
+    "neueste": "testberichte/diagnose/GSMesstest/3-cfdd02c16375.txt"
    },
    "GuildSentinel": {
-    "anzahl": 98,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.38-ff703bd3ff5d.txt"
+    "anzahl": 99,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.38-f7d17c169cc6.txt"
    },
    "LevelPilot": {
     "anzahl": 10,
-    "neueste": "testberichte/diagnose/LevelPilot/3.12.30-15fdfa384bd0.txt"
+    "neueste": "testberichte/diagnose/LevelPilot/3.12.27-52066e964b24.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 80,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.45-83a9b1875370.txt"
+    "anzahl": 81,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.45-a7d80e35eb77.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 84,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.13-d225142b2cdb.txt"
+    "anzahl": 85,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.13-049a7204dff9.txt"
    }
   },
   "wege": {
    "LevelPilot": {
     "anzahl": 148,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794653036-3b17f1.json"
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794581384-0f42aa.json"
    }
   }
  }
