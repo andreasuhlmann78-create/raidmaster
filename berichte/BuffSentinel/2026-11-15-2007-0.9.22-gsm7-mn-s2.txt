@@ -1,0 +1,44 @@
+BuffSentinel 0.9.22 – Bericht an die Prüf-Sitzung
+Datum: 15.11.2026, 20:07
+Stand: umgesetzt, zur Prüfung
+
+Aufträge (offen-buffsentinel.txt, Stand 15.11. 19:59 bzw. Prioritäten 14.11. 08:30)
+- GSM7 (MITTEL): GoldSentinelMarkt v7 byte-gleich aus shared/ kopiert -> umgesetzt, zur Prüfung
+- MN-S2 (NIEDRIG): v4-Korrektur ist in v7 enthalten; Testfall in T178 aufgenommen -> umgesetzt, zur Prüfung
+- BP-2026-11-13-1 Teil 2: wartet weiter auf die Messung des Nutzers als Schamane (nach dem Hotfix 13.11.), nichts geraten
+- CH-G: SPÄTER, nichts getan
+- Nacht-Analyse buffsentinel-2026-11-16.md: B-1 = GSM7 (umgesetzt). B-2/B-3 ohne Auftrag. B-4 (keine Offline-Routine
+  sichtbar): Die Offline-Routine liegt seit 0.9.21 in berichte/BuffSentinel/offline/ (run_offline.py, run_offline.lua,
+  mock_wow.lua, run_offline.sh). Aufruf: BS_ROOT=<entpackter Ordner BuffSentinel> BS_FLAVOR=forever|classic|retail
+  BS_LOCALE=deDE|enUS. Die Prüf-Sitzung hat sie am 14.11. selbst benutzt (18 × RESULT PASS). B-4 ist damit
+  aus meiner Sicht nicht zutreffend – bitte nachsehen.
+
+Veröffentlicht (Commit 10839791)
+- download/BuffSentinel-0.9.22.zip, README-Link, announce/buffsentinel__buffsentinel-0.9.22.md (+ .BuffSentinel.zip),
+  0.9.21 aus download/ und announce/ entfernt. BuffSentinel steht nicht in curseforge/projects.json -> Zip sofort in download/.
+- Auf origin/main nachgeprüft: git status ohne "ahead", announce 0.9.22 und download/BuffSentinel-0.9.22.zip vorhanden.
+- addon_check lokal: "BuffSentinel-0.9.22.zip: OK (1 Warnungen)" – Warnung nur "Lua-Syntax NICHT geprüft" (lupa lässt sich
+  hier nicht installieren; der GitHub-Lauf prüft sie).
+- cmp direkt vor dem ZIP: GoldSentinelGame, -Sync, -Test, -Markt (v7) byte-gleich mit shared/.
+
+Änderung T178 (SelfTest.lua, Bereich B; Regression "MN-S2" in Selftest.REGRESSIONS, von T162 mitgezählt)
+Neuer Teil nach T-MN-S, im selben Isolated (alle GM-Felder und gsMarktAus werden zurückgesetzt):
+- Gegenprobe: Schalter an, GM.answerAt = jetzt - 1, GM.Tick() -> ep:Send muss aufgerufen werden und answerAt nil sein.
+  Ohne diese Gegenprobe könnte der Test auch dann "OK" melden, wenn der Weg gar nicht sendet.
+- a) answerAt fällig, BS:SetMarketShare(false), Tick -> 0 zusätzliche Sends, answerAt nil.
+- b) Schalter schon aus, answerAt wird trotzdem fällig gesetzt (wie bei Ausschalten in einem anderen Addon ohne SetShare
+  dieses Addons), Tick -> 0 zusätzliche Sends, answerAt nil, Warteschlange leer.
+- Anzeige: "aus/lesen/gezählt/T-MN-S/Gegenprobe,a,b/Sends der Gegenprobe".
+
+Belege (eigene Tests, keine Freigabe)
+- run25m (Mock) mit v7: T178 OK "ja/ja/ja/ja/ja,ja,ja/1", T176 "v7 · ja", T177/T179/T180 OK, T232 3,4 ms · 11 Bilder;
+  sonst unverändert die bekannten 12 Nachbau-FEHLER aus den Grenzen des Mocks (T144, T02, T13, T23, T28, T45, T48, T51,
+  T95, T100, T116; T162 nur wegen der UI-Tests im Mock, "28 von 28 vorhanden").
+- Gegenprobe gegen die alte Fassung: mit GoldSentinelMarkt v3 (Commit 14f79e3) meldet T178 FEHLER
+  "ja/ja/ja/ja/ja,nein,nein/3" -> der neue Test erkennt den Befund MN-S2. Danach wieder v7 eingesetzt (cmp gleich).
+- Offline-Routine 0.9.22: forever/classic/retail × deDE/enUS, je 3 Läufe: 18 × RESULT PASS, keine FAIL-Zeilen.
+
+Hinweis
+- v5–v7 betreffen den Feed (Weitergeben eines Scans in Portionen, weniger Speicher). BuffSentinel ruft davon nichts
+  selbst auf; die Schnittstellen, die BuffSentinel nutzt (Attach, SetShare, IsShareOn, DiagLines, Tick, VERSION), sind
+  gleich geblieben – T176–T180 laufen unverändert.
