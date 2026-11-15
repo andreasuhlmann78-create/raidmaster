@@ -15,16 +15,27 @@
 -- Es kauft nichts, verkauft nichts, ruft keine geschützte Funktion auf und ändert kein anderes Addon (nur lesen und
 -- hooksecurefunc = nachher mithören). Keine Spielernamen im Ergebnis (nur ItemIDs, Zahlen, Systemtexte ohne Namen).
 --
+-- 1.3 (Nutzer 15:59 "Messtool den neuen Gegebenheiten anpassen"):
+--   * "Server bereit" wird VOR der Anfrage gemessen (Stand am Ende des vorigen Bildes + Drossel-Ereignis SYSTEM_READY);
+--     1.2 las den Wert im Nach-Hook, also nach der eigenen Anfrage -> Zahl war wertlos. Dazu: "n. Anfrage im selben Bild".
+--   * Doppelt gesendet getrennt: DOPPELT (erster Kauf noch offen / schon gekauft) gegen WIEDERHOLT (nach Fehler oder ohne Antwort)
+--   * Vollscan-Antworten zusammengefasst (eine Zeile je Scan statt tausender), Zusammenfassungen getrennt aufbewahrt
+--   * Ruhemodus: Sekunden mit Sniper an, laufende AHS-Aufgaben in dieser Zeit, Anfragen ans AH nach Quelle (Addon/Datei)
+--   * Rasten ohne Kauf nach Sniper-Status, Suchen je Ziel-Item mit/ohne Treffer
+--
 -- Ergebnis: beim Ausloggen oder /reload als "GSDIAG1|GSSniperLog|…" in GSSniperLogDB.export -> der RaidMasterUploader
 -- bringt es nach testberichte/diagnose/GSSniperLog/. Befehl: /gssl (Stand), /gssl aus|an, /gssl leeren.
 
-local ADDON, VERSION = "GSSniperLog", "1.2"
+local ADDON, VERSION = "GSSniperLog", "1.3"
 local MAXLOG = 6000            -- Zeilen im Speicher (älteste fallen weg)
 local EXPORT_MAX = 400000      -- Zeichen in der Ausgabe für den Uploader
 local CONFIRM_MAX = 30         -- Sekunden: ohne Antwort gilt ein Kauf als "keine Bestätigung"
 local PAUSE_LOG = 3            -- Sekunden ohne Sniper-Suche (Sniper an, AH offen) -> als Pause festhalten
 local SPIKE_MS = 100           -- längere Frames werden einzeln festgehalten
 local RESULT_MAX = 60          -- so viele Angebote je Ergebnis werden gelesen
+local SUMMAX = 800             -- 1.3: Zusammenfassungs-Zeilen (Minute, Bilder, Addons, Pausen, Ruhe) getrennt aufbewahren
+local SUM_EXPORT = 120000      -- 1.3: davon höchstens so viele Zeichen in der Ausgabe
+local SUMCAT = { MINUTE = true, BILDER = true, ADDONS = true, PAUSE = true, SITZUNG = true, AH = true, RUHE = true, VOLLSCAN = true }
 
 local B = { on = true, bids = {}, sent = {}, searches = {}, offers = {}, tot = {}, min = {}, buckets = {},
             ah = false, mail = false, merchant = false, lastMoney = nil, status = nil, statusT = nil,
@@ -76,7 +87,17 @@ end
 local function Log(kat, text)
     if not B.on then return end
     local d = DB()
-    d.log[#d.log + 1] = Clock() .. " " .. kat .. " " .. Clean(text)
+    local line = Clock() .. " " .. kat .. " " .. Clean(text)
+    d.log[#d.log + 1] = line
+    if SUMCAT[kat] then
+        if type(d.sum) ~= "table" then d.sum = {} end
+        d.sum[#d.sum + 1] = line
+        if #d.sum > SUMMAX + 100 then
+            local keep = {}
+            for i = #d.sum - SUMMAX + 1, #d.sum do keep[#keep + 1] = d.sum[i] end
+            d.sum = keep
+        end
+    end
     -- in Blöcken kürzen (nicht bei jeder Zeile die ganze Liste umkopieren)
     if #d.log > MAXLOG + 500 then
         local keep = {}
@@ -141,6 +162,7 @@ end
 ---------------------------------------------------------------------------
 local function NoteCall(kind)
     B.lastCall, B.lastCallT = kind, Now()
+    B.callsInFrame = (B.callsInFrame or 0) + 1
 end
 -- Ist die Drossel des Auktionshauses gerade bereit? (nil = unbekannt)
 local function ServerReady()
@@ -151,13 +173,67 @@ local function ServerReady()
     return r and true or false
 end
 B.ServerReady = ServerReady
+-- 1.3: Bereitschaft VOR der Anfrage = Stand am Ende des vorigen Bildes (bzw. SYSTEM_READY danach). Zweiter Wert: wie viele
+-- Anfragen in diesem Bild schon vorher gingen (dann ist der Stand für diese Anfrage nicht mehr sicher).
+local function ReadyBefore()
+    return B.readyFrame, (B.callsInFrame or 0)
+end
+B.ReadyBefore = ReadyBefore
+-- 1.3: Wer hat die Anfrage gestellt? Aus dem Aufrufstapel das erste Addon (ohne GSSniperLog); bei AHSentinel die erste Datei,
+-- die nicht nur Weiterleitung ist (API.lua). Blizzard-Oberfläche = "Blizzard". Unbekannt = "?".
+local PASS = { ["API.lua"] = true, ["LegacyAH.lua"] = true }
+local function Source()
+    local ds = _G.debugstack
+    if type(ds) ~= "function" then return "?" end
+    local ok, st = pcall(ds, 3, 14, 0)
+    if not ok or type(st) ~= "string" then return "?" end
+    local first, firstAddon
+    for addon, file in st:gmatch("AddOns[/\\]([%w_%-%.]+)[/\\]([%w_%-%./\\]-%.lua)") do
+        if addon ~= ADDON then
+            if addon:find("^Blizzard_") then
+                if not first then return "Blizzard" end
+            else
+                local base = file:match("([^/\\]+)$") or file
+                if not first then first, firstAddon = addon .. "/" .. base, addon end
+                if addon == firstAddon and not PASS[base] then return addon .. "/" .. base end
+            end
+        end
+    end
+    if first then return first end
+    if st:find("Blizzard_", 1, true) or st:find("FrameXML", 1, true) then return "Blizzard" end
+    return "?"
+end
+B.Source = Source
+local function NoteSource(kind)
+    local src = Source()
+    B.min.src = B.min.src or {}
+    Inc(B.min.src, kind .. " " .. src)
+    B.tot.src = B.tot.src or {}
+    Inc(B.tot.src, kind .. " " .. src)
+    -- beim Snipen: alles, was nicht der Sniper von AHSentinel ist, ist "fremd" (Ruhemodus-Messung)
+    if B.snipingNow and not src:find("^AHSentinel/Sniper") then
+        Inc(B.min, "fremdBeimSnipen"); Inc(B.tot, "fremdBeimSnipen")
+        if (B.min.fremdLog or 0) < 5 then
+            Inc(B.min, "fremdLog")
+            Log("ANFRAGE-FREMD", kind .. " von " .. src .. " während Sniper an")
+        end
+    end
+    return src
+end
+B.NoteSource = NoteSource
 B.NoteCall = NoteCall
 local function NoteSearch(kind, itemID)
     local now = Now()
+    local ready, before = ReadyBefore()
     NoteCall("Suche")
-    if ServerReady() == false then Inc(B.tot, "sucheNichtBereit"); Inc(B.min, "sucheNichtBereit") end
+    if ready == false then Inc(B.tot, "sucheNichtBereit"); Inc(B.min, "sucheNichtBereit") end
+    if before > 0 then Inc(B.tot, "sucheGleichesBild"); Inc(B.min, "sucheGleichesBild") end
     Inc(B.tot, "suchen"); Inc(B.min, "suchen")
-    if itemID then B.searches[itemID] = now end
+    if itemID then
+        B.searches[itemID] = now
+        B.min.sItem = B.min.sItem or {}
+        Inc(B.min.sItem, itemID)
+    end
     if B.lastSearchT and SniperArmed() and AHOpen() then
         local gap = now - B.lastSearchT
         if gap > (B.min.gapMax or 0) then B.min.gapMax = gap end
@@ -222,6 +298,7 @@ local function ReadItemResults(itemKey)
         end
         for aid in pairs(seen) do if B.offers[aid] then B.offers[aid].last = now end end
         Inc(B.min, "unterMax", under)
+        if under > 0 and lat then B.min.hItem = B.min.hItem or {}; Inc(B.min.hItem, id) end
         -- nur festhalten, wenn sich etwas ändert oder Angebote unter Max da sind (sonst 70 gleiche Zeilen je Minute)
         B.lastRes = B.lastRes or {}
         local sig = tostring(n) .. ":" .. tostring(under) .. ":" .. tostring(cheapest)
@@ -275,20 +352,28 @@ local function OpenCount()
 end
 local function Bucket(open) return open >= 2 and "≥2" or tostring(open) end
 
-local function NoteBid(auctionID, amount)
+local function NoteBid(auctionID, amount, src)
     local now = Now()
+    local ready, before = ReadyBefore()
     NoteCall("Kauf")
     local open = OpenCount()
-    local ready = ServerReady()
     if ready == false then Inc(B.tot, "kaufNichtBereit"); Inc(B.min, "kaufNichtBereit") end
+    if before > 0 then Inc(B.tot, "kaufGleichesBild"); Inc(B.min, "kaufGleichesBild") end
     -- Raste -> Senden (Mausrad/Taste von AHSentinel)
     local raste
     if B.rasteT and now - B.rasteT < 1 then
         raste = now - B.rasteT
-        B.rasteT = nil
+        B.rasteT, B.rasteSt = nil, nil
         Inc(B.min, "rasteSum", raste); Inc(B.min, "rasteN")
     end
-    local dup = B.sent[auctionID] and true or false
+    -- 1.3: doppelt = derselbe Kauf, während der erste noch offen ist oder schon gekauft wurde; wiederholt = nach Fehler/ohne Antwort
+    local prior = B.bids[auctionID]
+    local dup, rep
+    if B.sent[auctionID] then
+        if prior and prior.ok then dup = "schon gekauft"
+        elseif prior and not prior.done and not prior.late and not prior.err then dup = "erster Kauf noch offen"
+        else rep = prior and (prior.err and ("nach " .. tostring(prior.err)) or (prior.late and "nach keiner Antwort") or "nach Fehler") or "nach Fehler" end
+    end
     B.sent[auctionID] = now
     local o = B.offers[auctionID]
     local seen = o and (now - o.t) or nil
@@ -296,11 +381,13 @@ local function NoteBid(auctionID, amount)
                           item = o and o.item or nil }
     Inc(B.tot, "gesendet"); Inc(B.min, "gesendet")
     if dup then Inc(B.tot, "doppelt"); Inc(B.min, "doppelt") end
+    if rep then Inc(B.tot, "wiederholt"); Inc(B.min, "wiederholt") end
     local bk = B.buckets[Bucket(open)] or { n = 0, ok = 0 }
     B.buckets[Bucket(open)] = bk
     bk.n = bk.n + 1
-    Log("KAUF-GESENDET", string.format("Angebot %s · %s · offen beim Senden %d · Server bereit %s%s%s%s", tostring(auctionID), Money(amount), open,
-        ready == nil and "?" or (ready and "ja" or "NEIN"), dup and " · DOPPELT GESENDET" or "",
+    Log("KAUF-GESENDET", string.format("Angebot %s · %s · offen beim Senden %d · Server bereit (vorher) %s%s%s%s%s%s%s", tostring(auctionID), Money(amount), open,
+        ready == nil and "?" or (ready and "ja" or "NEIN"), before > 0 and string.format(" · %d. Anfrage im selben Bild", before + 1) or "",
+        src and (" · von " .. src) or "", dup and (" · DOPPELT GESENDET (" .. dup .. ")") or "", rep and (" · WIEDERHOLT (" .. rep .. ")") or "",
         seen and string.format(" · %.2f s nach erstem Sehen", seen) or "", raste and string.format(" · %d ms nach der Raste", math.floor(raste * 1000)) or ""))
 end
 
@@ -418,8 +505,23 @@ end
 ---------------------------------------------------------------------------
 -- Minuten-Zusammenfassung
 ---------------------------------------------------------------------------
+local function RuheMinute(m)
+    if (m.snipeSec or 0) == 0 and not m.src then return end
+    local function List(t, fmt)
+        local arr = {}
+        for k, v in pairs(t or {}) do arr[#arr + 1] = { k, v } end
+        table.sort(arr, function(a, b) if a[2] ~= b[2] then return a[2] > b[2] end return tostring(a[1]) < tostring(b[1]) end)
+        local out = {}
+        for i = 1, math.min(10, #arr) do out[#out + 1] = fmt(arr[i][1], arr[i][2]) end
+        return #out > 0 and table.concat(out, ", ") or "keine"
+    end
+    Log("RUHE", string.format("Sniper an (AH offen) %d s · AHS-Aufgaben liefen dabei: %s · Anfragen nach Quelle: %s · fremd beim Snipen %d",
+        m.snipeSec or 0, List(m.jobSec, function(k, v) return k .. " " .. v .. " s" end),
+        List(m.src, function(k, v) return k .. " " .. v end), m.fremdBeimSnipen or 0))
+end
 local function MinuteSummary()
     local m = B.min
+    pcall(RuheMinute, m)
     if (m.suchen or 0) == 0 and (m.gesendet or 0) == 0 and (m.weg or 0) == 0 then
         B.min = {}
         B.maxFrameMin = 0
@@ -429,16 +531,30 @@ local function MinuteSummary()
     parts[#parts + 1] = string.format("Suchen %d (Ø Antwort %s, längste %s, längste Lücke %s)", m.suchen or 0,
         (m.latN or 0) > 0 and string.format("%.2f s", m.latSum / m.latN) or "-",
         m.latMax and string.format("%.2f s", m.latMax) or "-", m.gapMax and string.format("%.1f s", m.gapMax) or "-")
-    parts[#parts + 1] = string.format("gesendet %d · gekauft %d · ohne Antwort %d · doppelt %d · Fehler %d · weggeschnappt %d",
-        m.gesendet or 0, m.gekauft or 0, m.ohneAntwort or 0, m.doppelt or 0, m.fehler or 0, m.weg or 0)
+    parts[#parts + 1] = string.format("gesendet %d · gekauft %d · ohne Antwort %d · doppelt %d · wiederholt %d · Fehler %d · weggeschnappt %d",
+        m.gesendet or 0, m.gekauft or 0, m.ohneAntwort or 0, m.doppelt or 0, m.wiederholt or 0, m.fehler or 0, m.weg or 0)
     parts[#parts + 1] = string.format("Antwortzeit Ø %s, längste %s",
         (m.antwortN or 0) > 0 and string.format("%.2f s", m.antwortSum / m.antwortN) or "-",
         m.antwortMax and string.format("%.2f s", m.antwortMax) or "-")
     parts[#parts + 1] = string.format("Summe bestätigt %s · Gold-Abgang AH-Kauf %s · AHSentinel gezählt +%d / %s",
         Money(m.summe or 0), Money(m.goldKauf or 0), m.ahsGekauft or 0, Money(m.ahsAusgegeben or 0))
-    parts[#parts + 1] = string.format("Rasten %d (ohne Kauf %d, Raste->Senden Ø %s) · gesendet bei Server nicht bereit: Käufe %d, Suchen %d",
+    parts[#parts + 1] = string.format("Rasten %d (ohne Kauf %d, Raste->Senden Ø %s) · Server nicht bereit (vorher): Käufe %d, Suchen %d · im selben Bild wie eine andere Anfrage: Käufe %d, Suchen %d",
         m.rasten or 0, m.rasteOhne or 0, (m.rasteN or 0) > 0 and string.format("%d ms", math.floor(m.rasteSum / m.rasteN * 1000)) or "-",
-        m.kaufNichtBereit or 0, m.sucheNichtBereit or 0)
+        m.kaufNichtBereit or 0, m.sucheNichtBereit or 0, m.kaufGleichesBild or 0, m.sucheGleichesBild or 0)
+    local function List(t, fmt)
+        local arr = {}
+        for k, v in pairs(t or {}) do arr[#arr + 1] = { k, v } end
+        table.sort(arr, function(a, b) if a[2] ~= b[2] then return a[2] > b[2] end return tostring(a[1]) < tostring(b[1]) end)
+        local out = {}
+        for i = 1, math.min(8, #arr) do out[#out + 1] = fmt(arr[i][1], arr[i][2]) end
+        return table.concat(out, ", ")
+    end
+    if m.rasteOhneSt then
+        parts[#parts + 1] = "ohne Kauf nach Status: " .. List(m.rasteOhneSt, function(k, v) return k .. " " .. v end)
+    end
+    if m.sItem then
+        parts[#parts + 1] = "Suchen je Item: " .. List(m.sItem, function(k, v) return string.format("%s %d (mit Treffer %d)", tostring(k), v, (m.hItem and m.hItem[k]) or 0) end)
+    end
     Log("MINUTE", table.concat(parts, " · "))
     B.min = {}
     B.maxFrameMin = 0
@@ -450,8 +566,8 @@ end
 local function SummaryLines()
     local t = B.tot
     local out = {}
-    out[#out + 1] = string.format("Sitzung seit %s · Suchen %d · gesendet %d · gekauft %d (davon spät %d) · ohne Antwort %d · doppelt gesendet %d · Fehler %d",
-        B.startClock or "?", t.suchen or 0, t.gesendet or 0, t.gekauft or 0, t.spaet or 0, t.ohneAntwort or 0, t.doppelt or 0, t.fehler or 0)
+    out[#out + 1] = string.format("Sitzung seit %s · Suchen %d · gesendet %d · gekauft %d (davon spät %d) · ohne Antwort %d · doppelt gesendet %d · wiederholt nach Fehler/ohne Antwort %d · Fehler %d",
+        B.startClock or "?", t.suchen or 0, t.gesendet or 0, t.gekauft or 0, t.spaet or 0, t.ohneAntwort or 0, t.doppelt or 0, t.wiederholt or 0, t.fehler or 0)
     out[#out + 1] = string.format("Weggeschnappt (Angebot unter Max verschwand ohne unseren Kauf): %d", t.weg or 0)
     local bk = {}
     for _, k in ipairs({ "0", "1", "≥2" }) do
@@ -471,8 +587,16 @@ local function SummaryLines()
     out[#out + 1] = "Fehler/Server-Meldungen: " .. (#e > 0 and table.concat(e, " · ") or "keine")
     out[#out + 1] = string.format("Bildaussetzer > %d ms: %d · längster Frame %d ms (Ursachen je Aussetzer in den Zeilen BILD, je Minute BILDER und ADDONS)",
         SPIKE_MS, B.spikes or 0, math.floor((B.maxFrame or 0) * 1000))
-    out[#out + 1] = string.format("Rasten %d (ohne Kauf %d) · Käufe gesendet, obwohl der Server nicht bereit war: %d · Suchen dabei: %d",
-        t.rasten or 0, t.rasteOhne or 0, t.kaufNichtBereit or 0, t.sucheNichtBereit or 0)
+    out[#out + 1] = string.format("Rasten %d (ohne Kauf %d) · Server nicht bereit (Stand VOR der Anfrage): Käufe %d, Suchen %d · im selben Bild wie eine andere Anfrage: Käufe %d, Suchen %d",
+        t.rasten or 0, t.rasteOhne or 0, t.kaufNichtBereit or 0, t.sucheNichtBereit or 0, t.kaufGleichesBild or 0, t.sucheGleichesBild or 0)
+    local src = {}
+    for k, v in pairs(t.src or {}) do src[#src + 1] = { k, v } end
+    table.sort(src, function(a, b) if a[2] ~= b[2] then return a[2] > b[2] end return a[1] < b[1] end)
+    local sp = {}
+    for i = 1, math.min(10, #src) do sp[#sp + 1] = src[i][1] .. " " .. src[i][2] end
+    out[#out + 1] = string.format("Anfragen ans AH nach Quelle: %s · davon fremd während Sniper an: %d · Sniper an (AH offen) %d s",
+        #sp > 0 and table.concat(sp, ", ") or "-", t.fremdBeimSnipen or 0, t.snipeSec or 0)
+    out[#out + 1] = string.format("Vollscan-Antworten: %d (in %d Schüben)", t.vsAntworten or 0, t.vsSchuebe or 0)
     local A = AHS()
     out[#out + 1] = "AHSentinel-Version: " .. tostring(A and A.version or "nicht geladen")
     return out
@@ -486,6 +610,17 @@ local function BuildExport()
     lines[#lines + 1] = ""
     lines[#lines + 1] = "== Zusammenfassung (diese Sitzung)"
     for _, s in ipairs(SummaryLines()) do lines[#lines + 1] = "  " .. s end
+    lines[#lines + 1] = ""
+    -- 1.3: Zusammenfassungen (Minute, Bilder, Addons, Pausen, Ruhe, Vollscan) gehen nie verloren
+    local sum = type(d.sum) == "table" and d.sum or {}
+    lines[#lines + 1] = string.format("== Minuten, Pausen, Ruhe (%d, neueste zuerst)", #sum)
+    local ssize = 0
+    for i = #sum, 1, -1 do
+        local s = sum[i]
+        if ssize + #s + 1 > SUM_EXPORT then break end
+        lines[#lines + 1] = s
+        ssize = ssize + #s + 1
+    end
     lines[#lines + 1] = ""
     lines[#lines + 1] = string.format("== Einträge (%d, neueste zuerst)", #d.log)
     local size = 0
@@ -543,12 +678,15 @@ local function Hook()
     local function H(name, fn)
         if type(C[name]) == "function" then pcall(hooksecurefunc, C, name, function(...) if B.on then pcall(fn, ...) end end) end
     end
-    H("SendSearchQuery", function(itemKey) NoteSearch("Einzel", ItemIDOfKey(itemKey)) end)
-    H("SendSellSearchQuery", function(itemKey) NoteSearch("Verkauf", ItemIDOfKey(itemKey)) end)
-    H("SendBrowseQuery", function() NoteSearch("Durchsuchen", nil) end)
-    H("ReplicateItems", function() B.vollscanT = Now(); Inc(B.tot, "vollscans"); Log("VOLLSCAN", "gestartet") end)
-    H("PlaceBid", function(auctionID, amount) NoteBid(auctionID, amount) end)
+    H("SendSearchQuery", function(itemKey) NoteSource("Suche"); NoteSearch("Einzel", ItemIDOfKey(itemKey)) end)
+    H("SendSellSearchQuery", function(itemKey) NoteSource("Verkaufssuche"); NoteSearch("Verkauf", ItemIDOfKey(itemKey)) end)
+    H("SendBrowseQuery", function() NoteSource("Durchsuchen"); NoteSearch("Durchsuchen", nil) end)
+    H("ReplicateItems", function() local src = NoteSource("Vollscan"); B.vollscanT = Now(); Inc(B.tot, "vollscans"); Log("VOLLSCAN", "gestartet von " .. src) end)
+    H("PlaceBid", function(auctionID, amount) local src = NoteSource("Kauf"); NoteBid(auctionID, amount, src) end)
+    H("QueryOwnedAuctions", function() NoteSource("Eigene Auktionen"); NoteCall("Eigene Auktionen") end)
+    H("QueryBids", function() NoteSource("Gebote"); NoteCall("Gebote") end)
     H("StartCommoditiesPurchase", function(itemID, qty)
+        NoteSource("Warenkauf")
         Inc(B.tot, "warenStart")
         B.comm = { t = Now(), item = tonumber(itemID), qty = tonumber(qty) or 0 }
         Log("WARE-START", string.format("Item %s · %s Stück", tostring(itemID), tostring(qty)))
@@ -602,6 +740,7 @@ handlers.PLAYER_LOGIN = function()
     pcall(WatchAHS)                               -- Ausgangsstand der AHSentinel-Zähler sofort festhalten
 end
 handlers.PLAYER_LOGOUT = function()
+    pcall(VollscanEnd, true)
     pcall(MinuteSummary)
     pcall(BuildExport)
 end
@@ -680,10 +819,29 @@ handlers.AUCTION_CANCELED = function(auctionID)
     Log("AUCTION_CANCELED", "Auktion " .. tostring(auctionID) .. (b and " (unser Kauf)" or " (eigene Auktion oder fremd)"))
 end
 handlers.AUCTION_HOUSE_AUCTION_CREATED = function() Log("EINSTELLEN-OK", "Auktion erstellt") end
+-- 1.3: ein Vollscan liefert tausende Antworten -> eine Zeile am Anfang, eine Zusammenfassung am Ende (5 s Ruhe)
 handlers.REPLICATE_ITEM_LIST_UPDATE = function()
-    Log("VOLLSCAN", B.vollscanT and string.format("Antwort nach %.1f s", Now() - B.vollscanT) or "Antwort (fremd ausgelöst)")
+    local now = Now()
+    Inc(B.tot, "vsAntworten")
+    local v = B.vs
+    if not v then
+        v = { t0 = now, n = 0, own = B.vollscanT ~= nil }
+        B.vs = v
+        Inc(B.tot, "vsSchuebe")
+        Log("VOLLSCAN", B.vollscanT and string.format("Antwort nach %.1f s", now - B.vollscanT) or "Antwort (fremd ausgelöst)")
+    end
+    v.n, v.last = v.n + 1, now
     B.vollscanT = nil
 end
+local function VollscanEnd(force)
+    local v = B.vs
+    if not v then return end
+    if force or Now() - (v.last or v.t0) >= 5 then
+        Log("VOLLSCAN", string.format("%d Antworten in %.1f s (%s)", v.n, (v.last or v.t0) - v.t0, v.own and "selbst gestartet" or "fremd ausgelöst"))
+        B.vs = nil
+    end
+end
+B.VollscanEnd = VollscanEnd
 for _, e in ipairs({ "AUCTION_HOUSE_THROTTLED_MESSAGE_DROPPED", "AUCTION_HOUSE_THROTTLED_MESSAGE_QUEUED",
     "AUCTION_HOUSE_THROTTLED_MESSAGE_SENT", "AUCTION_HOUSE_THROTTLED_MESSAGE_RESPONSE_RECEIVED",
     "AUCTION_HOUSE_THROTTLED_SYSTEM_READY" }) do
@@ -698,6 +856,7 @@ for _, e in ipairs({ "AUCTION_HOUSE_THROTTLED_MESSAGE_DROPPED", "AUCTION_HOUSE_T
         elseif short == "MESSAGE_QUEUED" then
             Log("DROSSEL", "in Warteschlange · " .. last)
         elseif short == "SYSTEM_READY" then
+            B.readyFrame = true                          -- 1.3: ab jetzt bereit (gilt für die nächste Anfrage)
             Log("DROSSEL", "Server wieder bereit")
         end
     end
@@ -864,6 +1023,20 @@ local function FrameMinute()
 end
 
 -- Rasten von AHSentinel (Mausrad/Taste) mithören: HookScript auf seine Knöpfe, ändert nichts
+-- Raste ohne Kauf zählen, mit dem Sniper-Status zur Zeit der Raste
+local function RasteOhne()
+    Inc(B.min, "rasteOhne"); Inc(B.tot, "rasteOhne")
+    local st = tostring(B.rasteSt or B.status or "-")
+    if #st > 60 then st = st:sub(1, 60) end
+    B.min.rasteOhneSt = B.min.rasteOhneSt or {}
+    Inc(B.min.rasteOhneSt, st)
+    if (B.min.rasteOhneLog or 0) < 3 then
+        Inc(B.min, "rasteOhneLog")
+        pcall(Log, "RASTE", "ohne Kauf (Status bei der Raste: " .. st .. ")")
+    end
+    B.rasteT, B.rasteSt = nil, nil
+end
+B.RasteOhne = RasteOhne
 local function HookRasten()
     if B.rastenHooked then return end
     for _, n in ipairs({ "AHAnalyzerProSnipeButton", "AHAnalyzerProSnipeOnlyButton" }) do
@@ -872,10 +1045,10 @@ local function HookRasten()
             B.rastenHooked = true
             pcall(b.HookScript, b, "OnClick", function()
                 if not B.on then return end
-                if B.rasteT then                 -- vorige Raste ohne Kauf
-                    Inc(B.min, "rasteOhne"); Inc(B.tot, "rasteOhne")
-                end
+                if B.rasteT then B.RasteOhne() end        -- vorige Raste ohne Kauf
                 B.rasteT = Now()
+                local okS, st = pcall(StatusText)
+                B.rasteSt = (okS and st) or B.status or "-"
                 Inc(B.min, "rasten"); Inc(B.tot, "rasten")
             end)
         end
@@ -916,14 +1089,7 @@ f:SetScript("OnUpdate", function(_, el)
         end
     end
     -- Raste ohne Kauf nach 1 s
-    if B.rasteT and now - B.rasteT >= 1 then
-        Inc(B.min, "rasteOhne"); Inc(B.tot, "rasteOhne")
-        if (B.min.rasteOhneLog or 0) < 3 then
-            Inc(B.min, "rasteOhneLog")
-            pcall(Log, "RASTE", "ohne Kauf (Status: " .. tostring(B.status or "-") .. ")")
-        end
-        B.rasteT = nil
-    end
+    if B.rasteT and now - B.rasteT >= 1 then pcall(RasteOhne) end
     acc = acc + el
     minAcc = minAcc + el
     if acc >= 1 then
@@ -931,6 +1097,23 @@ f:SetScript("OnUpdate", function(_, el)
         local ok, err = pcall(WatchAHS)
         if not ok then pcall(Log, "GSSL-FEHLER", "Lesen: " .. tostring(err)) end
         pcall(CheckTimeouts)
+        pcall(VollscanEnd, false)
+        -- Ruhemodus-Messung: Sekunden mit Sniper an und AH offen, und welche AHS-Aufgaben dabei liefen
+        B.snipingNow = SniperArmed() and AHOpen()
+        if B.snipingNow then
+            Inc(B.min, "snipeSec"); Inc(B.tot, "snipeSec")
+            local A = AHS()
+            if A and type(A.jobs) == "table" then
+                B.min.jobSec = B.min.jobSec or {}
+                local seen = {}
+                for _, j in ipairs(A.jobs) do
+                    if type(j) == "table" and j.name then
+                        local n = tostring(j.name):gsub(":%d+$", "")
+                        if not seen[n] then seen[n] = true; Inc(B.min.jobSec, n) end
+                    end
+                end
+            end
+        end
         -- Pause beenden, sobald wieder gesucht wird
         if B.pauseOpen and B.lastSearchT and B.lastSearchT > (B.pauseStart or 0) then
             B.pauseOpen = false
@@ -949,6 +1132,9 @@ f:SetScript("OnUpdate", function(_, el)
         if not ok then pcall(Log, "GSSL-FEHLER", "Addons: " .. tostring(err)) end
         if not B.rastenHooked then pcall(HookRasten) end
     end
+    -- 1.3: Stand der Drossel am Ende dieses Bildes = "vorher" für die Anfragen im nächsten Bild
+    B.readyFrame = ServerReady()
+    B.callsInFrame = 0
     local d = Ms() - t0
     R.own = R.own + d
     if d > R.ownMax then R.ownMax = d end
@@ -965,7 +1151,7 @@ SlashCmdList.GSSNIPERLOG = function(arg)
     elseif a == "an" then
         B.on = true; DB().off = nil; Print("an")
     elseif a == "leeren" then
-        local d = DB(); d.log = {}; d.export = nil; B.tot, B.min, B.buckets, B.errs = {}, {}, {}, {}
+        local d = DB(); d.log = {}; d.sum = {}; d.export = nil; B.tot, B.min, B.buckets, B.errs = {}, {}, {}, {}
         Print("Mitschrift geleert.")
     else
         Print(string.format("%s · %d Zeilen · /gssl aus|an|leeren · Ergebnis geht beim Ausloggen oder /reload an den Uploader",

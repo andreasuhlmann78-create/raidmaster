@@ -144,7 +144,7 @@ do
     check(W.find("MINUTE Suchen 1") == 1, "Lauf 1: Minuten-Zusammenfassung")
     W.fire("PLAYER_LOGOUT")
     local ex = W.env.GSSniperLogDB.export
-    check(type(ex) == "string" and ex:find("^GSDIAG1|GSSniperLog|1.2|") ~= nil, "Lauf 1: Export beginnt mit GSDIAG1|GSSniperLog|1.2|")
+    check(type(ex) == "string" and ex:find("^GSDIAG1|GSSniperLog|1.3|") ~= nil, "Lauf 1: Export beginnt mit GSDIAG1|GSSniperLog|1.3|")
     check(ex:find("== Einträge (", 1, true) ~= nil, "Lauf 1: Export hat '== Einträge'")
     check(W.B.tot.eigeneFehler == nil, "Lauf 1: keine eigenen Fehler")
 end
@@ -280,8 +280,10 @@ do
     W2.fire("PLAYER_LOGOUT")
     local ex = W2.env.GSSniperLogDB.export
     check(#ex <= 400000 + 200, "Lauf 5c: Export höchstens 400000 Zeichen")
-    local firstEntry = ex:match("== Einträge %(%d+, neueste zuerst%)\n([^\n]*)")
-    check(firstEntry and firstEntry:find("Auktion 6100") ~= nil, "Lauf 5c: Export beginnt mit dem neuesten Eintrag")
+    -- beim Ausloggen kommen noch die Minuten-/Ruhe-Zeile dazu; die neueste Abbruch-Zeile steht direkt dahinter
+    local head = ex:match("== Einträge %(%d+, neueste zuerst%)\n([^\n]*\n[^\n]*\n[^\n]*)")
+    local p0, p1 = head and head:find("Auktion 6100", 1, true), head and head:find("Auktion 6099", 1, true)
+    check(p0 ~= nil and (p1 == nil or p0 < p1), "Lauf 5c: Export beginnt mit den neuesten Einträgen")
     -- d) Befehle
     local W3 = NewWorld()
     W3.fire("PLAYER_LOGIN")
@@ -391,7 +393,7 @@ do
     W.ready = false
     snipe.scripts.OnClick(snipe); W.tick(0.12, 0.12)
     W.env.C_AuctionHouse.PlaceBid(901, 900)
-    check(W.find("KAUF%-GESENDET Angebot 901 · 9s00c · offen beim Senden 0 · Server bereit NEIN · 120 ms nach der Raste") == 1, "Lauf 7a: Raste->Senden und Server nicht bereit")
+    check(W.find("KAUF%-GESENDET Angebot 901 · 9s00c · offen beim Senden 0 · Server bereit %(vorher%) NEIN · von %? · 120 ms nach der Raste") == 1, "Lauf 7a: Raste->Senden und Server nicht bereit")
     snipe.scripts.OnClick(snipe); W.tick(1.2)
     check(W.find("RASTE ohne Kauf") == 1, "Lauf 7a: Raste ohne Kauf")
     W.tick(60)
@@ -399,7 +401,7 @@ do
     check(W.find("NichtGeladen") == 0, "Lauf 7a: nicht geladene Addons fehlen")
     check(W.find("BILDER %d+ Bilder") == 1, "Lauf 7a: Bilder-Zeile je Minute")
     check(W.find("über 100 ms 2 · längstes 320 ms") == 1, "Lauf 7a: Bilder über 100 ms gezählt (320 + 120 ms), längstes 320 ms")
-    check(W.find("Rasten 2 %(ohne Kauf 1, Raste%->Senden Ø 120 ms%) · gesendet bei Server nicht bereit: Käufe 1") == 1, "Lauf 7a: Minuten-Zeile Rasten/Server")
+    check(W.find("Rasten 2 %(ohne Kauf 1, Raste%->Senden Ø 120 ms%) · Server nicht bereit %(vorher%): Käufe 1") == 1, "Lauf 7a: Minuten-Zeile Rasten/Server")
     check(W.B.tot.eigeneFehler == nil, "Lauf 7a: keine eigenen Fehler")
     -- b) ohne Profiler: Speicher je Addon, teure Messung schaltet sich ab
     local W2 = NewWorld()
@@ -420,6 +422,116 @@ do
     check(W3.find("BILD 500 ms · AH zu") == 1, "Lauf 7c: Ruckler auch bei geschlossenem AH festgehalten")
 end
 
+
+---------------------------------------------------------------------------
+-- Lauf 8 (1.3): Bereitschaft VOR der Anfrage, doppelt/wiederholt, Vollscan gebündelt, Zusammenfassungen bleiben,
+-- Quelle der Anfragen, Ruhemodus-Messung, Rasten ohne Kauf nach Status, Suchen je Item
+---------------------------------------------------------------------------
+do
+    local W = NewWorld()
+    local C = W.env.C_AuctionHouse
+    -- Server-Drossel: jede Anfrage belegt sie (wie im Spiel) -> ein Nach-Hook würde immer "nicht bereit" sehen
+    W.ready = true
+    C.IsThrottledMessageSystemReady = function() return W.ready end
+    local origBid, origSearch = C.PlaceBid, C.SendSearchQuery
+    C.PlaceBid = function(...) W.ready = false; return origBid(...) end
+    C.SendSearchQuery = function(...) W.ready = false; return origSearch(...) end
+    C.QueryOwnedAuctions = function() W.ready = false end
+    W.stack = "Interface/AddOns/GSSniperLog/GSSniperLog.lua:10: in function\nInterface/AddOns/AHSentinel/API.lua:55: in function 'PlaceBid'\nInterface/AddOns/AHSentinel/Sniper.lua:2740: in function 'BuyNext'"
+    W.env.debugstack = function() return W.stack end
+    W.env.AHAnalyzerPro.jobs = { { name = "forecast-eval", started = true }, { name = "cache:today:10" } }
+    W.fire("PLAYER_LOGIN"); W.fire("AUCTION_HOUSE_SHOW")
+    W.tick(1.1)                                                    -- Bild: bereit = ja
+    C.PlaceBid(301, 900)
+    check(W.find("Angebot 301 · 9s00c · offen beim Senden 0 · Server bereit %(vorher%) ja · von AHSentinel/Sniper%.lua") == 1, "Lauf 8: bereit VOR der Anfrage = ja (Nach-Hook-Wert wäre NEIN), Quelle Sniper.lua statt API.lua")
+    C.PlaceBid(302, 900)                                           -- gleiches Bild
+    check(W.find("Angebot 302 · 9s00c · offen beim Senden 1 · Server bereit %(vorher%) ja · 2%. Anfrage im selben Bild") == 1, "Lauf 8: zweite Anfrage im selben Bild gekennzeichnet")
+    W.frame(16)                                                    -- Bild: Drossel belegt -> nicht bereit
+    C.PlaceBid(303, 900)
+    check(W.find("Angebot 303 · 9s00c · offen beim Senden 2 · Server bereit %(vorher%) NEIN") == 1, "Lauf 8: nach belegter Drossel = NEIN")
+    W.fire("AUCTION_HOUSE_THROTTLED_SYSTEM_READY")
+    C.PlaceBid(304, 900)
+    check(W.find("Angebot 304 · 9s00c · offen beim Senden 3 · Server bereit %(vorher%) ja · 2%. Anfrage im selben Bild") == 1, "Lauf 8: SYSTEM_READY gilt sofort als bereit")
+    -- doppelt (erster offen) / wiederholt (nach Code 10) / doppelt (schon gekauft)
+    W.ready = true; W.frame(16)
+    C.PlaceBid(301, 900)
+    check(W.find("Angebot 301 .* DOPPELT GESENDET %(erster Kauf noch offen%)") == 1, "Lauf 8: doppelt, solange der erste offen ist")
+    W.fire("AUCTION_HOUSE_PURCHASE_COMPLETED", 302); W.pay(-900)
+    W.ready = true; W.frame(16)
+    C.PlaceBid(302, 900)
+    check(W.find("Angebot 302 .* DOPPELT GESENDET %(schon gekauft%)") == 1, "Lauf 8: nach Kauf erneut = doppelt (schon gekauft)")
+    check(W.B.tot.doppelt == 2 and (W.B.tot.wiederholt or 0) == 0, "Lauf 8: Zähler doppelt 2, wiederholt 0 (ist " .. tostring(W.B.tot.doppelt) .. "/" .. tostring(W.B.tot.wiederholt) .. ")")
+    -- fremde Anfrage beim Snipen (Meine Auktionen von AHSentinel) und Blizzard-Suche
+    W.stack = "Interface/AddOns/AHSentinel/API.lua:80: in function\nInterface/AddOns/AHSentinel/UI_Auctions.lua:120: in function 'Refresh'"
+    C.QueryOwnedAuctions()
+    W.stack = "Interface/AddOns/Blizzard_AuctionHouseUI/Blizzard_AuctionHouseFrame.lua:200: in function"
+    W.search(4251)
+    check(W.find("ANFRAGE%-FREMD Eigene Auktionen von AHSentinel/UI_Auctions%.lua während Sniper an") == 1, "Lauf 8: Meine-Auktionen-Anfrage beim Snipen als fremd erkannt")
+    check(W.find("ANFRAGE%-FREMD Suche von Blizzard während Sniper an") == 1, "Lauf 8: Blizzard-Suche beim Snipen als fremd erkannt")
+    -- Suchen je Item (mit Treffer)
+    W.stack = "Interface/AddOns/AHSentinel/Sniper.lua:1199: in function"
+    W.results[4251] = { offer(401, 800) }
+    W.search(4251); W.tick(0.2); W.fire("ITEM_SEARCH_RESULTS_UPDATED", { itemID = 4251 })
+    W.results[7048] = {}
+    W.search(7048); W.tick(0.2); W.fire("ITEM_SEARCH_RESULTS_UPDATED", { itemID = 7048 })
+    -- Rasten ohne Kauf mit Status
+    local snipe = W.env.CreateFrame("Button")
+    W.env.AHAnalyzerProSnipeButton = snipe
+    snipe.scripts.OnClick = function() end
+    W.B.rastenHooked = nil; W.B.HookRasten()
+    W.status = "Treffer! Mausrad zum Kaufen"
+    W.tick(1.1)
+    for _ = 1, 3 do snipe.scripts.OnClick(snipe); W.tick(0.3) end
+    W.tick(1.2)
+    -- Vollscan: 3000 Antworten -> 2 Zeilen (Anfang + Zusammenfassung)
+    for _ = 1, 3000 do W.fire("REPLICATE_ITEM_LIST_UPDATE") end
+    check(W.find("VOLLSCAN") == 1, "Lauf 8: 3000 Vollscan-Antworten = 1 Zeile, solange der Scan läuft")
+    W.tick(6)
+    check(W.find("VOLLSCAN 3000 Antworten in 0%.0 s %(fremd ausgelöst%)") == 1, "Lauf 8: Vollscan-Zusammenfassung nach 5 s Ruhe")
+    W.tick(60)
+    check(W.find("RUHE Sniper an %(AH offen%) %d+ s · AHS%-Aufgaben liefen dabei: cache:today %d+ s, forecast%-eval %d+ s") == 1, "Lauf 8: Ruhe-Zeile mit laufenden AHS-Aufgaben (cache:today:10 zusammengefasst)")
+    check(W.find("Anfragen nach Quelle: Kauf AHSentinel/Sniper%.lua 6, Suche AHSentinel/Sniper%.lua 2, Eigene Auktionen AHSentinel/UI_Auctions%.lua 1, Suche Blizzard 1 · fremd beim Snipen 2") == 1, "Lauf 8: Quellen je Minute gezählt")
+    check(W.find("ohne Kauf nach Status: Treffer! Mausrad zum Kaufen 3") == 1, "Lauf 8: Rasten ohne Kauf nach Status")
+    check(W.find("Suchen je Item: 4251 2 %(mit Treffer 1%), 7048 1 %(mit Treffer 0%)") == 1, "Lauf 8: Suchen je Item mit Treffern")
+    check(W.find("Server nicht bereit %(vorher%): Käufe 1") == 1, "Lauf 8: Minute zählt nur den echten 'nicht bereit'-Kauf")
+    -- Zusammenfassungen bleiben, auch wenn 7000 andere Zeilen folgen
+    for i = 1, 7000 do C.CancelAuction(i) end
+    W.fire("PLAYER_LOGOUT")
+    local ex = W.env.GSSniperLogDB.export
+    local secS = ex:find("== Minuten, Pausen, Ruhe (", 1, true)
+    local secE = ex:find("== Einträge (", 1, true)
+    check(secS and secE and secS < secE, "Lauf 8: Abschnitt Zusammenfassungen vor den Einträgen")
+    local sumPart = secS and secE and ex:sub(secS, secE) or ""
+    check(sumPart:find("MINUTE Suchen", 1, true) and sumPart:find("RUHE Sniper an", 1, true) and sumPart:find("VOLLSCAN 3000", 1, true), "Lauf 8: MINUTE/RUHE/VOLLSCAN überleben 7000 neue Zeilen")
+    local sl = table.concat(W.B.SummaryLines(), "\n")
+    check(sl:find("wiederholt nach Fehler/ohne Antwort 0", 1, true) and sl:find("Vollscan-Antworten: 3000 (in 1 Schüben)", 1, true), "Lauf 8: Zusammenfassung mit wiederholt und Vollscan")
+    check(sl:find("Server nicht bereit (Stand VOR der Anfrage): Käufe 1", 1, true) ~= nil, "Lauf 8: Zusammenfassung 'vorher' = 1")
+    check(W.B.tot.eigeneFehler == nil and W.find("GSSL%-FEHLER") == 0, "Lauf 8: keine eigenen Fehler (" .. tostring(W.B.lastError) .. ")")
+    -- wiederholt: nach Code 10 und nach keiner Antwort (eigene Welt, damit der Fehler sicher zum richtigen Kauf gehört)
+    local W3 = NewWorld()
+    W3.fire("PLAYER_LOGIN"); W3.fire("AUCTION_HOUSE_SHOW"); W3.tick(1.1)
+    W3.env.C_AuctionHouse.PlaceBid(320, 900)
+    W3.fire("AUCTION_HOUSE_SHOW_ERROR", 10); W3.tick(0.5)
+    W3.env.C_AuctionHouse.PlaceBid(320, 900)
+    check(W3.find("Angebot 320 .* WIEDERHOLT %(nach Code 10%)") == 1, "Lauf 8: nach Code 10 erneut = wiederholt, nicht doppelt")
+    W3.env.C_AuctionHouse.PlaceBid(321, 900); W3.tick(31)
+    W3.env.C_AuctionHouse.PlaceBid(321, 900)
+    check(W3.find("Angebot 321 .* WIEDERHOLT %(nach keiner Antwort%)") == 1, "Lauf 8: nach 30 s ohne Antwort erneut = wiederholt")
+    check((W3.B.tot.doppelt or 0) == 0 and W3.B.tot.wiederholt == 2, "Lauf 8: doppelt 0, wiederholt 2")
+    -- ohne debugstack: Quelle "?" ohne Fehler
+    local W2 = NewWorld()
+    W2.fire("PLAYER_LOGIN"); W2.fire("AUCTION_HOUSE_SHOW"); W2.tick(1.1)
+    W2.env.C_AuctionHouse.PlaceBid(9, 900)
+    check(W2.find("Angebot 9 · 9s00c · offen beim Senden 0 · Server bereit %(vorher%) %? · von %?") == 1, "Lauf 8: ohne Drossel-Abfrage und Stapel '?'")
+    check(W2.B.tot.eigeneFehler == nil, "Lauf 8: ohne debugstack keine Fehler")
+    -- Stapel im Format neuerer Clients ([string "@Interface/AddOns/..."]:Zeile)
+    W2.env.debugstack = function() return '[string "@Interface/AddOns/GSSniperLog/GSSniperLog.lua"]:10: in function <x>\n[string "@Interface/AddOns/AHSentinel/API.lua"]:55: in function\n[string "@Interface/AddOns/AHSentinel/Seller.lua"]:300: in function' end
+    check(W2.B.Source() == "AHSentinel/Seller.lua", "Lauf 8: Quelle aus [string \"@...\"]-Format (ist " .. tostring(W2.B.Source()) .. ")")
+    W2.env.debugstack = function() return '[string "@Interface/AddOns/Auctionator/Source/Scan.lua"]:20: in function' end
+    check(W2.B.Source() == "Auctionator/Scan.lua", "Lauf 8: fremdes Addon erkannt (ist " .. tostring(W2.B.Source()) .. ")")
+    W2.env.debugstack = function() error("kaputt") end
+    check(W2.B.Source() == "?", "Lauf 8: Fehler im Stapel -> '?'")
+end
 ---------------------------------------------------------------------------
 -- Zufallsläufe (5 Seeds): wilde Ereignisfolgen, Invarianten müssen halten, Zeit je Ereignis messen
 ---------------------------------------------------------------------------
@@ -466,7 +578,7 @@ for seed = 1, 5 do
     check((T.gekauft or 0) <= (T.gesendet or 0) + 1, "Zufall " .. seed .. ": gekauft (ohne fremde) nie mehr als gesendet")
     check(#W.log() <= 6500, "Zufall " .. seed .. ": höchstens 6500 Zeilen")
     local ex = W.env.GSSniperLogDB.export
-    check(ex:find("^GSDIAG1|GSSniperLog|1.2|") and #ex <= 400200, "Zufall " .. seed .. ": Export gültig")
+    check(ex:find("^GSDIAG1|GSSniperLog|1.3|") and #ex <= 400200, "Zufall " .. seed .. ": Export gültig")
     check(not ex:find("\0"), "Zufall " .. seed .. ": Export ohne Nullzeichen")
     check(dt / nEv < 0.0005, string.format("Zufall %d: schnell genug (%.3f ms je Ereignis)", seed, dt / nEv * 1000))
     print(string.format("Zufall %d: %d Ereignisse, %.3f ms je Ereignis, %d Zeilen, gesendet %d, gekauft %d, weg %d",

@@ -120,3 +120,19 @@ Neu:
 - Sniper: Rasten (Mausrad/Taste von AHSentinel, nur mitgehört über HookScript) – Raste -> Senden in ms, Rasten ohne Kauf mit
   AHS-Status; je Kauf/Suche, ob die Drossel des Auktionshauses bereit war (IsThrottledMessageSystemReady).
 Tests: 7 Szenario-Läufe + 5 Zufallsläufe à 20000 Ereignisse, 119/119 OK, 5× wiederholt, 0,03 ms je Ereignis.
+ACHTUNG (16:05 festgestellt): "Server bereit" wurde in 1.2 im Nach-Hook gelesen (nach der eigenen Anfrage) – Zahl wertlos.
+
+### GSSniperLog 1.3 (15.11. 16:20, Nutzer 15:59: "Messtool den neuen Gegebenheiten anpassen")
+- Server bereit VOR der Anfrage: Stand der Drossel am Ende des vorigen Bildes, AUCTION_HOUSE_THROTTLED_SYSTEM_READY setzt
+  sofort "bereit"; zusätzlich "n. Anfrage im selben Bild" (dann ist der Stand für diese Anfrage nicht mehr sicher).
+- DOPPELT GESENDET nur noch, wenn der erste Kauf noch offen ist oder schon gekauft wurde; WIEDERHOLT, wenn er vorher einen
+  Fehler (z. B. Code 10) oder keine Antwort hatte (das ist nach GSL2-1 erlaubt). Eigene Zähler.
+- Vollscan: eine Zeile am Anfang, eine Zusammenfassung nach 5 s Ruhe ("n Antworten in x s") statt tausender Zeilen.
+- Zusammenfassungen (MINUTE, BILDER, ADDONS, PAUSE, RUHE, VOLLSCAN, AH, SITZUNG) zusätzlich in einer eigenen Liste
+  (800 Zeilen), in der Ausgabe als eigener Abschnitt vor den Einträgen – gehen nie mehr verloren.
+- RUHE je Minute (Sniper-Ruhemodus SN-RUHE1): Sekunden mit Sniper an + AH offen, welche AHS-Aufgaben dabei liefen (Sekunden),
+  Anfragen ans AH nach Quelle (Addon/Datei aus dem Aufrufstapel, API.lua übersprungen, "Blizzard", "?"), Anzahl fremder
+  Anfragen während Sniper an (+ Zeile ANFRAGE-FREMD, höchstens 5 je Minute). Neu mitgehört: QueryOwnedAuctions, QueryBids.
+  Verdacht, im Spiel zu bestätigen: debugstack im Nach-Hook enthält den Aufrufer – sonst steht "?".
+- MINUTE: Rasten ohne Kauf nach Sniper-Status zur Zeit der Raste; Suchen je Item mit/ohne Treffer ≤ Max.
+Tests: 8 Szenario-Läufe + 5 Zufallsläufe à 20000 Ereignisse, 148/148 OK, 5× wiederholt, 0,03 ms je Ereignis.
