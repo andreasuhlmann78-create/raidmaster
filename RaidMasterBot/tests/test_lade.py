@@ -151,6 +151,12 @@ class Lade(unittest.TestCase):
         self.assertIs(pug_bot.bot, b.bot)                        # D-3 Schritt 22: PUG-Einladung
         self.assertIs(b.handle_member_join, pug_bot.handle_member_join)
         self.assertIs(b.bot.tree.get_command("pug-einladung").callback, pug_bot.pug_invite_cmd.callback)
+        import ereignis_bot
+        import handwerk_bot
+        self.assertIs(ereignis_bot.bot, b.bot)                   # D-3 Schritt 23: Ereignisse, Berufe
+        self.assertIs(handwerk_bot.bot, b.bot)
+        self.assertIs(b.create_raid_event, ereignis_bot.create_raid_event)
+        self.assertIs(handwerk_bot.class_emoji, symbole_bot.class_emoji)
         import update_bot
         for mod in (pug_bot, betrieb_bot, update_bot):                # D-3 Schritt 19: Neustart nur in grund.py
             self.assertIs(mod.restart_soon, grund.restart_soon, mod.__name__)

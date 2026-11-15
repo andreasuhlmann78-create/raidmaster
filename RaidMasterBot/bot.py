@@ -482,6 +482,9 @@ import betrieb_bot  # noqa: E402,F401 – D-3 Schritt 21: Server-Betrieb (meldet
 from betrieb_bot import backup_loop, icon_map_loop, tb_cleanup_loop  # noqa: E402
 import pug_bot  # noqa: E402,F401 – D-3 Schritt 22: PUG-Einladung (meldet /pug-einladung beim Import an)
 from pug_bot import handle_member_join, refresh_invite_cache  # noqa: E402
+import handwerk_bot  # noqa: E402,F401 – D-3 Schritt 23: Berufe-Verzeichnis (meldet /handwerk, /berufe an)
+import ereignis_bot  # noqa: E402,F401 – D-3 Schritt 23: Discord-Ereignisse (meldet /raid-ereignisse an)
+from ereignis_bot import create_raid_event, delete_raid_event  # noqa: E402
 from mitglieder_bot import handle_apply_button, maintain_member_area  # noqa: E402
 
 # ---------------------------------------------------------------------------
@@ -2080,68 +2083,6 @@ bot.tree.add_command(twink_group)
 
 
 # ---------------------------------------------------------------------------
-# Berufe-Verzeichnis (Addon: Seite Skillungen > "Meine Berufe einlesen")
-# ---------------------------------------------------------------------------
-@bot.tree.command(name="handwerk", description="Wer kann das herstellen? (aus den Berufen der Addon-Nutzer)")
-@app_commands.describe(suche="Teil des Namens, z. B. Feuerschutz")
-async def handwerk_cmd(inter: discord.Interaction, suche: str):
-    profs = rmd.professions(bot.dkp_db)
-    found = rmd.find_crafters(profs, suche)
-    if not profs:
-        await inter.response.send_message("Noch keine Berufe bekannt – im Spiel bei RaidMaster → Skillungen → **Meine Berufe einlesen** klicken.",
-                                          ephemeral=True)
-        return
-    if not found:
-        await inter.response.send_message(f"Niemand mit RaidMaster kann „{suche}“ herstellen.", ephemeral=True)
-        return
-    lines = [f"🔨 **Wer kann „{suche}“ herstellen?**"]
-    last = None
-    for x in found:
-        if x["recipe"] != last:
-            lines.append(f"**{x['recipe']}**")
-            last = x["recipe"]
-        dot = await class_emoji(x.get("c"))
-        lines.append(f"  {dot} {x['name']} – {x['prof']}" + (f" ({x['rank']})" if x.get("rank") else ""))
-    for part in rmd.split_discord("\n".join(lines)):
-        if not inter.response.is_done():
-            await inter.response.send_message(part, ephemeral=True)
-        else:
-            await inter.followup.send(part, ephemeral=True)
-
-
-@bot.tree.command(name="berufe", description="Berufe eines Charakters (oder aller, wenn leer)")
-@app_commands.describe(name="Charaktername (leer = Übersicht der Gilde)")
-async def berufe_cmd(inter: discord.Interaction, name: str | None = None):
-    profs = rmd.professions(bot.dkp_db)
-    if not profs:
-        await inter.response.send_message("Noch keine Berufe bekannt – im Spiel bei RaidMaster → Skillungen → **Meine Berufe einlesen** klicken.",
-                                          ephemeral=True)
-        return
-    lines = []
-    if name:
-        e = next((v for k, v in profs.items() if k.lower() == name.strip().lower()), None)
-        if not e:
-            await inter.response.send_message(f"Von {name} sind keine Berufe bekannt.", ephemeral=True)
-            return
-        lines.append(f"🔨 **Berufe von {name}**")
-        for prof, v in sorted(e["p"].items()):
-            lines.append(f"**{prof}** {v.get('r') or '?'}/{v.get('m') or '?'}" + (f" · {len(v['recipes'])} Rezepte" if v["recipes"] else ""))
-    else:
-        by_prof: dict[str, list] = {}
-        for who, e in profs.items():
-            for prof, v in e["p"].items():
-                by_prof.setdefault(prof, []).append((v.get("r") or 0, who))
-        lines.append("🔨 **Berufe der Gilde** (mit RaidMaster eingelesen)")
-        for prof in sorted(by_prof):
-            people = ", ".join(f"{w} ({r})" for r, w in sorted(by_prof[prof], reverse=True))
-            lines.append(f"**{prof}:** {people}")
-    parts = rmd.split_discord("\n".join(lines))
-    await inter.response.send_message(parts[0], ephemeral=True)
-    for part in parts[1:]:
-        await inter.followup.send(part, ephemeral=True)
-
-
-# ---------------------------------------------------------------------------
 # Ruhmeshalle (#ruhmeshalle): Erstkills, Rekord-Tafeln, Aufräumen, /erfolge stehen ab 1.5.153 in ruhmeshalle_bot.py;
 # hier noch /rekorde (braucht raid_pool_autocomplete) und Raider des Monats
 # ---------------------------------------------------------------------------
@@ -2269,68 +2210,6 @@ async def rdm_cmd(inter: discord.Interaction, monat: str | None = None, verkuend
         f"{i + 1}. {r['name']} – {r['score']} Punkte ({r['raids']} Raids, {r['punctual']}× pünktlich, {r['bench']}× Ersatzbank)"
         for i, r in enumerate(ranking[:10])]
     await inter.response.send_message("\n".join(lines), ephemeral=True)
-
-
-# ---------------------------------------------------------------------------
-# Discord-Ereignisse: jeder Raid steht auch im Ereignis-Kalender des Servers
-# ---------------------------------------------------------------------------
-RAID_EVENT_HOURS = 3
-
-
-async def create_raid_event(raid: dict):
-    if not cfg.get("raid_events", True) or raid.get("test") or raid.get("event_id"):
-        return
-    guild = bot_guild()
-    if guild is None or not guild.me.guild_permissions.manage_events:
-        if guild is not None:
-            log.info("Ereignis für Raid #%s nicht angelegt: Bot braucht die Berechtigung 'Events verwalten'.", raid["id"])
-        return
-    start = datetime.fromtimestamp(raid["start"], ZoneInfo(TZ))
-    if start.timestamp() < time.time() + 60:
-        return
-    end = start + timedelta(hours=RAID_EVENT_HOURS)
-    ch = await channel_by_id(raid.get("channel_id"))
-    jump = f"https://discord.com/channels/{guild.id}/{raid['channel_id']}/{raid['message_id']}" if raid.get("message_id") else ""
-    desc = (raid.get("description") or "") + (f"\n\nAnmeldung: {jump}" if jump else "")
-    try:
-        ev = await guild.create_scheduled_event(
-            name=raid["title"][:100], start_time=start, end_time=end, entity_type=discord.EntityType.external,
-            privacy_level=discord.PrivacyLevel.guild_only, location=f"WoW Forever – {raid.get('pool_name') or 'Raid'}"[:100],
-            description=desc[:1000] or None)
-        raid["event_id"] = ev.id
-        book.save()
-    except (discord.HTTPException, TypeError) as e:
-        log.warning("Ereignis für Raid #%s nicht angelegt: %s", raid["id"], e)
-
-
-async def delete_raid_event(raid: dict):
-    eid = raid.get("event_id")
-    guild = bot_guild()
-    if not eid or guild is None:
-        return
-    try:
-        ev = guild.get_scheduled_event(int(eid)) or await guild.fetch_scheduled_event(int(eid))
-        await ev.delete()
-    except discord.HTTPException:
-        pass
-    raid.pop("event_id", None)
-    book.save()
-
-
-@bot.tree.command(name="raid-ereignisse", description="Für alle offenen Raids die Discord-Ereignisse anlegen (Offiziere)")
-async def raid_events_cmd(inter: discord.Interaction):
-    if not is_creator(inter.user):
-        await inter.response.send_message("Das dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
-        return
-    await inter.response.defer(ephemeral=True)
-    n = 0
-    for r in book.open_raids():
-        if not r.get("event_id") and not r.get("cancelled"):
-            await create_raid_event(r)
-            n += 1 if r.get("event_id") else 0
-    await inter.followup.send(f"{n} Ereignisse angelegt." if n else
-                              "Keine neuen Ereignisse (alle haben schon eins, oder dem Bot fehlt die Berechtigung „Events verwalten“).",
-                              ephemeral=True)
 
 
 # ---------------------------------------------------------------------------
