@@ -1,0 +1,47 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 23:09 (aus date) · Sitzung: ProfessionSentinel-Sitzung · Version: 0.9.54 · Commit: 093ef93 (Quell-Repo), Release v0.9.54
+Grundlage: anweisung-ui-crafter-2026-11-15.txt 3.4b SKILLSPUR (freigegeben 19:55) und 3.4 (Zeile "Bestes:" entfällt), Schritt (4).
+Hinweis: Hier steht nur "umgesetzt, zur Prüfung" mit Belegen. Ob etwas erledigt ist, entscheidet die Prüf-Sitzung.
+
+UMGESETZT, ZUR PRÜFUNG (Lifeline.lua, alle Spielversionen mit Blizzard-Liste: Forever/Retail ProfessionsFrame, Era TradeSkillFrame und CraftFrame)
+------------------------------------------------------------------------------------------------------------------------------------
+- Linie (2 px) unten in jeder Rezeptzeile, von 4 px links bis 4 px rechts, verankert an der Zeile (nie über Name/Anzahl/Pfeilen):
+  Abschnitte orange/gelb/grün/grau im Verhältnis der Schwellen des Rezepts (LL.Layout, Daten der laufenden Spielversion); aktueller
+  Abschnitt 85 % Deckkraft, die anderen 30 % (Vorgabe 20–45 %); weisser Strich 2×6 px = eigene Fertigkeit. Er wandert nach jedem Punkt:
+  LL.RefreshBlizzard läuft bei jeder Fertigkeitsänderung (Scan) und dekoriert nur die sichtbaren Zeilen neu – kein Neuaufbau der Liste.
+- Rechts EINE Zahl in der Schrift der Zeile (LL.SpurNumber): orange = sichere Punkte bis Gelb (gelb − Fertigkeit), gelb/grün = Chance
+  auf den nächsten Punkt in % (gerundet), grau/rot = nichts. Kein "≈", kein "×". Platzprüfung wie bisher (LL.SignFits: nie über Name/Anzahl).
+- Chance messen ("zuerst messen"): bei jeder eigenen Herstellung (UNIT_SPELLCAST_SUCCEEDED) die Fertigkeit vorher; 2 s später die
+  Fertigkeit danach -> Band (Viertel des Wegs gelb->grau, q0..q3) n+1, bei Punkt up+1 (ProfessionSentinelDB.skillChance, nur Zahlen,
+  keine Namen). Ab 30 Fällen im Band gilt die gemessene Chance, sonst die Formel p = (grau − Fertigkeit)/(grau − gelb) mit "geschätzt".
+  Orange wird nicht gemessen (immer ein Punkt). NICHT umgesetzt: Zusammenlegen in der Gilde über GoldSentinelSync (PS bringt
+  GoldSentinelSync nicht mit – Frage aus 0.9.44 offen) und das Forever-Talent "Working Overtime" (die Messung enthält es von selbst).
+- Tooltip (HookScript OnEnter an der Blizzard-Zeile, Blizzards eigener Tooltip bleibt): "Skillspur", "gelb ab · grün ab · grau ab",
+  "noch n sichere Punkte (bis X)" bzw. "Chance … % (geschätzt|gemessen, n …)", ein Satz zur Rechnung.
+- Einstellung: L.LL_OPTION heisst "Skillspur im Handwerksbuch" (db.lifeline, Standard an, /ps line, Minimap-Optionen). Name über die
+  Locale-Schlüssel LL_SPUR/LL_OPTION – der Nutzer kann ihn noch ändern.
+- 3.4: Die Zeile "Bestes: …" unter dem Berufsfenster entfällt (UI:UpdateBest blendet sie immer aus; UI.BestHintsShown für den Test).
+  Ein Stern in der Blizzard-Liste gab es in 0.9.53 nicht (geprüft: AD.IsBest nur im Panel) – also nichts zu behalten.
+- K (T242/LL.CheckRows): prüft jetzt "Skillspur ausserhalb der Zeile" statt "Balken sichtbar".
+
+TESTS (eigene, Hinweise – keine Freigabe)
+-----------------------------------------
+- T239 neu gefasst: orange 90/100 -> "10"; gelb 110 -> "75 %"; grün 130 -> "25 %"; grau nichts; nie ≈/×; Linie an der Zeile, orange als
+  aktueller Abschnitt; höchstens eine Zahl; Strich wandert (95 > 90); Einstellung aus -> nichts.
+- T240 neu gefasst: vor der Messung geschätzt; Gegenprobe 29 Fälle = noch geschätzt; 30 Fälle (9 Punkte) -> gemessen 30 % und die Zahl
+  zeigt "30 %"; andere Bänder geschätzt, orange ohne Band; Tooltip mit Stufen/Chance/sicheren Punkten; Zeile "Bestes" 0 sichtbar.
+- run_offline: Forever OK 233 / FEHLER 0, Era OK 215 / 0, Retail OK 214 / 0, TBC ohne Lua-Fehler, Exit 0. --lua51 Forever/Retail 0 FEHLER.
+- Schnelltest Ausgang 0 (T119 besteht jetzt auch dort – Liste gekürzt). check_actions OK.
+- addon_check auf download/ProfessionSentinel-0.9.54.zip und die announce-Zip: OK, 0 FEHLER, 0 WARNUNG. ZIP = Quell-Repo (diff -r leer).
+
+IM CLIENT PRÜFEN (wichtig – nur im Spiel sichtbar)
+----------------------------------------------------
+- Forever/Retail (ProfessionsFrame) und Era (TradeSkillFrame, CraftFrame Verzauberkunst): Linie unten in jeder Zeile, verdeckt nichts
+  (Kategorie-Balken, Pfeile, Anzahl), passt bei 75 %/125 %; Zahl rechts lesbar; /ps testroutine k -> T242 OK.
+- Nach einem Fertigkeitspunkt wandert der Strich ohne Flackern; Tooltip einer Zeile mit den Skillspur-Zeilen.
+- Bild-Abnahme durch den Nutzer ("feiner und moderner, nahtlos").
+
+WEITER
+------
+- (5) Texte (3.5: jede Zahl im Tooltip mit einem Satz ≤ 20 Wörter, keine Fachwörter in Zeilen).
+- Rest Schritt 2: Skillen Plan + Rangliste, "Beruf von <Figur>", LevelPilot-Weg; Twinks in der Einkaufsliste.
