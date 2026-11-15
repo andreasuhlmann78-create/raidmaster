@@ -27,7 +27,8 @@ BETRIEB NACHGESTELLT (an einer Kopie)
 3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
 
 STAND D-3
-- bot.py: 7240 Zeilen vor D-3 (Bericht 1.5.147) -> 5738 jetzt. Ausgelagert: bot_hilfen, kern, grund, markt_bot,
+- bot.py: 7437 Zeilen vor D-3 (Stand 1.5.145, wc -l) -> 5738 jetzt. [BERICHTIGT 15.11. 21:55: vorher «7240 (Bericht
+  1.5.147)» – das war weder der Stand vor D-3 noch nachgezählt] Ausgelagert: bot_hilfen, kern, grund, markt_bot,
   rechte_bot, pn_bot, symbole_bot, ruhmeshalle_bot, uploader_bot, bank_bot, regeln_bot, beute_bot, klassen_bot.
 - NÄCHSTE BEREICHE (gross, eng verflochten): DKP, Raids/Anmeldungen, Uploads, Server-Einrichtung, zuletzt
   RaidBot. Vor jedem: Abhängigkeiten prüfen; wo nötig zuerst kleine gemeinsame Teile nach grund.py.

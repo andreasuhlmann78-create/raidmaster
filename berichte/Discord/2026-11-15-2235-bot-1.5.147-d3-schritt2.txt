@@ -22,7 +22,8 @@ Umgesetzt, zur Prüfung. D-3 Schritt 2 (Weg A).
   nicht: kern liest config.json neben sich, im Repo gibt es keine, also sys.exit. test_lade importiert kern darum nur
   über bot_harness. Gleiche Slash-Befehle (test_befehle_liste grün, 49). Alle 288 Tests OK, jede Testdatei einzeln
   mit -I OK, GitHub Bot-Tests erfolgreich.
-- bot.py: 7240 -> 7179 Zeilen.
+- bot.py: 7252 -> 7174 Zeilen (wc -l der Commits 1.5.146/1.5.147). [BERICHTIGT 15.11. 21:55: vorher «7240 -> 7179», nicht
+  nachgezählt]
 - NÄCHSTER SCHRITT 3: das Bot-Objekt (Klasse RaidBot, Intents, bot = …) und die Grundfunktionen, die fast alle
   Bereiche brauchen (channel_by_id, post_bot_log, bot_guild, is_admin/is_creator …), nach kern bzw. ein Modul
   "grund.py". Erst danach lassen sich Bereiche wie die Marktdaten als echte Module abtrennen.
