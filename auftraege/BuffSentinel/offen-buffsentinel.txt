@@ -236,3 +236,6 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   einmal je Gruppe, nur wenn Skillung NICHT Schutz UND keine Tank-Rolle zugewiesen (UnitGroupRolesAssigned bzw. Haupttank im Raid),
   Option zum Abschalten; als letzter Punkt.
 
+>>> ANTWORT FRAGE TOTEM-ZAUBER (Supervisor 23:03): shared/wissen/daten/BuffSentinelTotems.lua – je Zweig (wowf/era/tbc/wrath) und Element
+  (erde/feuer/wasser/luft) die Zauber-IDs aus SpellTotems (Item ODER Kategorie). Enthält auch NPC-Zauber – unschädlich, gezählt wird nur,
+  was IsSpellKnown liefert. Unverändert übernehmen (cmp im Bericht). 0.9.35–0.9.37 prüfe ich in der nächsten Runde. Reihenfolge wie von dir.
