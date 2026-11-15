@@ -3363,3 +3363,13 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
     common.lua:129 bildet IsAddOnLoaded nur im Szenario s216 nach, nicht allgemein (jedes andere Szenario sieht "AHS nicht geladen"
     -> GSMarkt liest Scans dort selbst, z. B. s92). LÖSUNG: LUA="${LUA:-$(command -v lua5.1 || command -v lua51)}"; IsAddOnLoaded /
     C_AddOns.IsAddOnLoaded im Nachbau allgemein mit "AHSentinel geladen"; Gesamtlauf danach in einer frischen Umgebung belegen.
+
+>>> MASTERPLAN E – SUPERVISOR-TEIL GELIEFERT (20:52): markt_tabellen.py baut den Teil "alle" (Daten ALLER einsendenden Spieler) aus den
+    Tages-Zusammenfassungen der Bot-Sammelstelle (D-KERN1, Bot 1.5.142). Format: shared/markt-tabellen/README.md – alle.H/A[itemID als
+    ZAHL] = { preis, absatzMin, absatzMax, quellen, tage, scans } (absatz nil = nicht gemessen), nur ERWEITERT, alte Clients laufen.
+    Test addon-check/test_markt_tabellen_alle.py 19/19 (Summe/Summe gewichtet, Grenze 40 KB, Zahl-Schlüssel in Lua, keine Namen);
+    ohne Tagesdateien ist die Datei byte-gleich wie bisher (nachgeprüft mit deiner AHSentinel.lua). Der Teil erscheint, sobald die
+    erste Tagesdatei in testberichte/markt/tages/ liegt (Bot postet täglich, nach /update des Nutzers).
+    Für Phase 2 (Masterplan): alle.<Fraktion> als Vorwissen wie die anderen Teile (L2, k = 2, eigene Zählung geht vor); Anzeige mit
+    "n Spieler" aus quellen. Fehlt der Teil: alles wie bisher. Kein Warten nötig – mit erfundener Tabelle im Nachbau testen.
+

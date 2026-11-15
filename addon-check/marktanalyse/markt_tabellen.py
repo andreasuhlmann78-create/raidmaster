@@ -1,12 +1,16 @@
 """Markt-Tabellen für AHSentinel (Entscheid des Nutzers 14.11.2026 09:01: täglich neu rechnen, das Addon schlägt nur nach).
 
-Aufruf:  python3 -I markt_tabellen.py <AHSentinel.lua> [weitere AHSentinel.lua ...] <ausgabe.lua>
+Aufruf:  python3 -I markt_tabellen.py [--tages <Ordner>] <AHSentinel.lua> [weitere AHSentinel.lua ...] <ausgabe.lua>
+  --tages: Ordner mit den anonymen Tages-Zusammenfassungen der Bot-Sammelstelle (testberichte/markt/tages/<JJJJ-MM-TT>.json,
+  D-KERN1) -> zusätzlicher Teil "alle" (Masterplan AHSentinel E: Daten ALLER einsendenden Spieler). Ohne --tages wird
+  raidmaster/testberichte/markt/tages genommen, falls es den Ordner gibt; sonst kein Teil "alle" (alles andere wie bisher).
 Liest die SavedVariables (privates Daten-Repo), rechnet Wellen je Stufenband, Verkaufsquote je Warengruppe und Preisstufe,
 Entzauber-Gewinn je Gruppe (DE30b-Mindestgewinn) und Sniper-/Kaufgewinn je Preisstufe. Schreibt nur Zahlen, keine Namen.
 Format: shared/markt-tabellen/README.md. Regeln wie im Addon (Waves.lua, PR2, DE30b, SN-M) – Summe/Summe, nie Median über
 Zufallsbeute. Jeder Teil mit n (Fallzahl).
 """
-import sys, re, time, collections, statistics as st
+import sys, re, time, json, collections, statistics as st
+from pathlib import Path
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from lupa.lua51 import LuaRuntime
@@ -185,12 +189,96 @@ def buy_bands(dbs):
     return [{"bis": b, "n": n, "gewinn": round(rv / cost - 1, 3)} for b, (n, cost, rv) in sorted(cells.items()) if cost]
 
 
+ALLE_TAGE = 14                 # so viele Tage (neueste Dateien) fliessen in "alle" ein
+ALLE_MAX_BYTES = 40 * 1024     # Teil "alle" höchstens so gross (ganze Datei < 50 KB, README)
+ALLE_FELDER = ["preis", "absatzMin", "absatzMax", "quellen", "tage", "scans"]
+
+
+def alle(tages_dir, max_bytes=ALLE_MAX_BYTES, keep=ALLE_TAGE):
+    """Teil "alle" aus den Tages-Zusammenfassungen der Sammelstelle (Bot D-KERN1, Format GSMARKTT1).
+    Je Fraktion und Item: preis = Median der Tages-Mediane (Kupfer), absatzMin/absatzMax = Abgänge je Tag als Spanne,
+    Summe/Summe über die Tage gewichtet mit der Vergleichsdauer des Tages (vergleich_h), quellen = höchste Quellenzahl an
+    einem Tag (Untergrenze der verschiedenen Spieler – die Sammelstelle gibt keine Kennungen heraus), tage, scans.
+    Nur Items mit Preis. Zu gross -> Items mit den wenigsten Scans weglassen, Anzahl in "weggelassen" (nie still)."""
+    files = []
+    if tages_dir and Path(tages_dir).is_dir():                 # nur Dateien <JJJJ-MM-TT>.json, die neuesten keep
+        files = sorted(p for p in Path(tages_dir).glob("*.json") if re.match(r"^\d{4}-\d{2}-\d{2}\.json$", p.name))[-keep:]
+    days, acc = [], {}
+    for fp in files:
+        try:
+            d = json.loads(fp.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            continue
+        if d.get("format") != "GSMARKTT1" or not isinstance(d.get("fraktionen"), dict):
+            continue
+        fel = d.get("felder") or []
+        ix = {n: i for i, n in enumerate(fel)}
+        need = ["scans", "quellen", "preis_median", "absatz_min_tag", "absatz_max_tag"]
+        if any(n not in ix for n in need):
+            continue
+        days.append((int(d.get("von") or 0), int(d.get("bis") or 0)))
+        for fac, fr in d["fraktionen"].items():
+            if fac not in ("H", "A", "N") or not isinstance(fr, dict):
+                continue
+            w = num(fr.get("vergleich_h")) or 0.0
+            for iid, row in (fr.get("items") or {}).items():
+                try:
+                    iid = int(iid)
+                except (TypeError, ValueError):
+                    continue
+                if not isinstance(row, list) or len(row) < len(fel):
+                    continue
+                e = acc.setdefault(fac, {}).setdefault(iid, {"p": [], "lo": 0.0, "hi": 0.0, "w": 0.0, "q": 0, "t": 0, "n": 0})
+                n, q, p = num(row[ix["scans"]]) or 0, num(row[ix["quellen"]]) or 0, num(row[ix["preis_median"]])
+                lo, hi = num(row[ix["absatz_min_tag"]]), num(row[ix["absatz_max_tag"]])
+                e["t"] += 1
+                e["n"] += int(n)
+                e["q"] = max(e["q"], int(q))
+                if p and p > 0:
+                    e["p"].append(p)
+                if lo is not None and hi is not None and w > 0:
+                    e["lo"] += lo * w
+                    e["hi"] += hi * w
+                    e["w"] += w
+    if not days:
+        return None
+    out = {"v": 1, "tage": len(days), "von": min(a for a, _ in days), "bis": max(b for _, b in days),
+           "felder": list(ALLE_FELDER), "weggelassen": 0}
+    rows = []                      # (scans, fac, iid, zeile)
+    for fac, items in acc.items():
+        for iid, e in items.items():
+            if not e["p"]:
+                continue
+            lo = round(e["lo"] / e["w"], 2) if e["w"] else None
+            hi = round(e["hi"] / e["w"], 2) if e["w"] else None
+            rows.append((e["n"], fac, iid, [int(round(st.median(e["p"]))), lo, hi, e["q"], e["t"], e["n"]]))
+    rows.sort(key=lambda r: (-r[0], r[1], r[2]))
+    keepn = len(rows)
+
+    def build(k):
+        o = dict(out)
+        for fac in ("H", "A", "N"):
+            sel = {iid: z for _, f, iid, z in rows[:k] if f == fac}
+            if sel:
+                o[fac] = dict(sorted(sel.items()))
+        o["weggelassen"] = len(rows) - k
+        return o
+    res = build(keepn)
+    while keepn > 0 and len(lua_val(res)) > max_bytes:
+        keepn = max(0, keepn - max(1, keepn // 20))     # je Runde 5 % der Items mit den wenigsten Scans weg
+        res = build(keepn)
+    return res
+
+
 def lua_val(v, ind=""):
     if isinstance(v, dict):
         inner = ind + "  "
         parts = []
         for k, x in v.items():
-            key = f'["{k}"]' if not re.match(r"^[A-Za-z_][A-Za-z0-9_]*$", str(k)) else str(k)
+            if isinstance(k, int):
+                key = f"[{k}]"                                   # Item-ID: Zahl-Schlüssel (AHSentinel schlägt mit Zahl nach)
+            else:
+                key = f'["{k}"]' if not re.match(r"^[A-Za-z_][A-Za-z0-9_]*$", str(k)) else str(k)
             parts.append(f"{inner}{key} = {lua_val(x, inner)},")
         return "{\n" + "\n".join(parts) + f"\n{ind}}}"
     if isinstance(v, list):
@@ -205,10 +293,19 @@ def lua_val(v, ind=""):
 
 
 def main():
-    if len(sys.argv) < 3:
+    args = sys.argv[1:]
+    # ohne --tages: der Ordner der Sammelstelle im Repo, falls vorhanden (so nimmt die tägliche Aufgabe "alle" ohne Änderung mit)
+    std = Path(__file__).resolve().parents[2] / "testberichte" / "markt" / "tages"
+    tages = str(std) if std.is_dir() else None
+    if args[:1] == ["--tages"]:
+        if len(args) < 2:
+            print(__doc__)
+            sys.exit(1)
+        tages, args = args[1], args[2:]
+    if len(args) < 1 or (len(args) < 2 and not tages):
         print(__doc__)
         sys.exit(1)
-    dbs = [load(p) for p in sys.argv[1:-1]]
+    dbs = [load(p) for p in args[:-1]]
     ser = collections.defaultdict(list)
     for db in dbs:
         for k, v in series_of(db).items():
@@ -216,10 +313,13 @@ def main():
     datenbis = max((t for v in ser.values() for t, _ in v), default=0)
     tab = {"v": 1, "erstellt": int(time.time()), "datenBis": datenbis, "wellen": waves(ser),
            "verkauf": dict(sell_quotes(dbs)), "entzaubern": de_groups(dbs), "kaufen": buy_bands(dbs)}
+    al = alle(tages) if tages else None
+    if al:
+        tab["alle"] = al
     text = ("-- GoldSentinelMarktTabellen (Prüf-Sitzung, täglich neu; nur Zahlen, keine Namen). Format: shared/markt-tabellen/"
             "README.md\nGoldSentinelMarktTabellen = " + lua_val(tab) + "\n")
-    open(sys.argv[-1], "w", encoding="utf-8").write(text)
-    print(f"geschrieben: {sys.argv[-1]} ({len(text)} Bytes) · Wellen {len(tab['wellen'])} · Verkauf-Gruppen {len(tab['verkauf'])}"
+    open(args[-1], "w", encoding="utf-8").write(text)
+    print(f"geschrieben: {args[-1]} ({len(text)} Bytes) · Wellen {len(tab['wellen'])} · Verkauf-Gruppen {len(tab['verkauf'])}"
           f" · Entzauber-Gruppen {len(tab['entzaubern'])} · Kauf-Stufen {len(tab['kaufen'])}")
     for k, w in tab["wellen"].items():
         print(f"  Band {k}: {w}")
@@ -227,6 +327,9 @@ def main():
         print(f"  Entzaubern {k}: {d}")
     print("  Kaufen:", tab["kaufen"])
     print("  Verkauf:", {g: v for g, v in tab["verkauf"].items()})
+    if al:
+        print(f"  Alle: {al['tage']} Tage, Items " + ", ".join(f"{f} {len(al[f])}" for f in ("H", "A", "N") if f in al)
+              + f", weggelassen {al['weggelassen']}")
 
 
 if __name__ == "__main__":
