@@ -44,6 +44,32 @@
 >>>    5. GSL7-1 (Angebot nach Code 4 nie nochmals senden), GSL5-4 (Status "Kauf bestätigt" verdeckt "Treffer!"), GSL5-5 (Vollscan
 >>>       im Ruhemodus klären), GSL6-3 (Beleg Budget/Max).
 >>>    Danach weiter mit Phase 4 (RK5 nach der Antwort unten, RK6/RK7 …).
+>>>    6. NEU 18:5x (Spieler betroffen, HOCH, direkt nach 1.): ESL1 und DE-WIN1 – siehe Blöcke gleich unten.
+
+>>> ESL1 – "Materialien als Einkaufsliste" meldet Erfolg, aber keine Liste (Spieler-Meldung über den Nutzer 18:49, EN-Client:
+    "it said it added stuff to shopping list . but I dont see any shopping list created"; Supervisor 18:5x).
+    BELEGT IM CODE (Crafting.lua 618–641 Cr:ReagentsToList): Die Rückgaben von A.Lists:Create(listName) und A.Lists:AddItem(...)
+    werden NICHT geprüft – "added" zählt trotzdem hoch, und die Erfolgsmeldung "Materials for %dx %s put on the list '%s'" kommt
+    auch dann, wenn keine Liste angelegt und nichts eingetragen wurde. MissingToList (645 ff.) gleich prüfen.
+    VERDACHT, ZU MESSEN: listName ist leer (die Meldung des Spielers endet mit "list ." – Name fehlt). API[kind].title() kann ""
+    liefern ("" ist in Lua wahr -> kein Ersatz "Berufe"); Li:Create("") scheitert ("Bitte einen Namen …"), AddItem dann
+    "Liste nicht gefunden". Auch Namen > 40 Zeichen scheitern so still.
+    Lösung: Name prüfen (leer/zu lang -> L["Berufe"] bzw. kürzen), jede Rückgabe von Create/AddItem prüfen, Erfolg nur melden,
+    wenn mind. 1 Eintrag wirklich auf der Liste steht, sonst die echte Fehlermeldung. Danach öffnet sich das Fenster mit der Liste.
+    Test (Testroutine): title() = "", nil, 41 Zeichen, normal – je beide Knöpfe; Liste existiert danach und hat die Einträge.
+
+>>> DE-WIN1 – Entzauber-Fenster zeigt "Nichts zum Entzaubern.", obwohl entzauberbare Teile in der Tasche sind (Nutzer 18:46,
+    Bildschirmfoto, AHS 0.65.203, nach 34 Entzauberungen in Folge; "Gesperrt (0)", keine Zeile "x gesperrt, y übersprungen").
+    Aus dem Code (DEWindow.lua 290 DW:Queue, Disenchant.lua 203 D:Prior): Bei Gesperrt (0) und ohne Hinweiszeile bleibt nur, dass
+    D:Prior(itemID) nil liefert oder SlotInfo nichts findet. VERDACHT, ZU MESSEN (Ursache NICHT belegt):
+      (a) GetItemInfo liefert für das Item (noch) nichts -> Prior nil; das Fenster wird nur bei BAG_UPDATE_DELAYED/Kampf neu
+          gezeichnet, nicht bei GET_ITEM_INFO_RECEIVED -> bleibt leer, bis sich die Tasche ändert;
+      (b) Zustand nach dem Entzaubern (pending/bagPending) hängt und Refresh kommt nicht;
+      (c) anderes.
+    Auftrag: Ursache mit Beleg finden. Dazu ins Fenster bzw. Protokoll eine Zeile DE-LEER, sobald die Liste leer ist, aber
+    entzauberbare Teile (Qualität 2–4, Waffe/Rüstung) in der Tasche liegen: je Teil itemID und der Grund, warum es fehlt
+    (Prior nil wegen GetItemInfo / Klasse / Stufe / NOT_DE / gesperrt / übersprungen / Ausrüstungsset / Quest). Dann beheben;
+    falls (a): bei GET_ITEM_INFO_RECEIVED neu zeichnen. Nie ein Teil still ausblenden – der Spieler muss den Grund sehen.
 
 >>> !!! NACHT-ARBEIT 15./16.11. (Nutzer 16:34: "schreibe AHS das ins Repo genau mit der Reihenfolge – und ich will, dass AHS die
 >>>    ganze Nacht durcharbeitet – triff die nötigen Schritte"). Gilt ab sofort bis der Nutzer am 16.11. "hi" sagt:
