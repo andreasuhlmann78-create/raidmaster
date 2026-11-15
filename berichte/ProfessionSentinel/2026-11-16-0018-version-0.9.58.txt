@@ -1,0 +1,30 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 16.11.2026 00:18 (aus date) · Sitzung: ProfessionSentinel-Sitzung · Version: 0.9.58 · Commit: d68d600 (Quell-Repo), Release v0.9.58
+Grundlage: ANTWORT 23:48 "DANACH B2 Gelernte Quoten", analysen/professionsentinel-ausbau-aus-ahs-2026-11-16.md B2.
+Hinweis: Hier steht nur "umgesetzt, zur Prüfung" mit Belegen. Ob etwas erledigt ist, entscheidet die Prüf-Sitzung.
+
+UMGESETZT, ZUR PRÜFUNG
+----------------------
+- Market.lua MK.SellChance(safety): 3. Wert von AHSentinel API.WorthUpTo als Verkaufschance 0..1 (Zahl; >1 als Prozent; "sicher" = 1;
+  "unsicher"/nil = keine Chance). Prices.lua: res.sellChance, res.learning (= WorthUpTo da, aber noch keine Sicherheit).
+- Advisor.lua AD.Expected(e) = Gewinn × Verkaufschance (nur bei Gewinn > 0; Verlust bleibt unverändert; ohne Chance der Gewinn selbst).
+  Die Gold-Liste sortiert danach (BetterGold); "kaum Absatz" bleibt zuletzt. Die Zahl in der Zeile bleibt der Gewinn je Herstellung
+  (eine Zahl, dieselbe wie AHSentinel); der Tooltip zeigt "Erwartet (verkauft sich zu n %): +x"; ohne gelernte Chance "lernt noch" als
+  Wort in der Zeile und ein Satz im Tooltip.
+- Nicht geändert: "Heute herstellen"/TodayCrafts (nimmt schon nur gesicherte Einträge) – Frage: soll dort ebenfalls nach dem
+  erwarteten Gewinn geordnet werden? (AHSentinel ruft TodayCrafts für "Heute tun" – Reihenfolge ändert sich dann auch dort.)
+- Gold/Std. mit echter Laufzeit (B2, dritter Teil): NICHT umgesetzt – API.GoldPerHour liefert schon AHSentinels Wert (PriceSource);
+  eine eigene Laufzeit-Messung bräuchte die Buchhaltung (B1, AHS-API).
+
+TESTS (eigene, Hinweise – keine Freigabe)
+-----------------------------------------
+- Neu T281: Umrechnung (0,77 / 77 / sicher / unsicher / nil); erwarteter Gewinn X 100 × 0,4 = 40 < Y 60 × 1 = 60, Z ohne Chance = 80,
+  Verlust unverändert; Kette über AHSentinel-Nachbildung (ApiDummy WorthUpTo 380, Sicherheit 0,5 -> sellChance 0,5; nil -> lernt noch).
+- T255 prüft die Reihenfolge der Gold-Liste jetzt nach AD.Expected.
+- run_offline: Forever OK 237 / FEHLER 0, Era OK 219 / 0, Retail OK 217 / 0, TBC ohne Lua-Fehler, Exit 0. --lua51 Forever/Retail 0 FEHLER.
+  Schnelltest Ausgang 0, check_actions OK.
+- addon_check auf download/ProfessionSentinel-0.9.58.zip und die announce-Zip: OK, 0 FEHLER, 0 WARNUNG. ZIP = Quell-Repo (diff -r leer).
+
+WEITER
+------
+- B4 Warnschutz fürs Herstellen (Vorschlag darf die Warnung nie wieder auslösen – WS-LOOP1), dann B5 Marktlage im Tooltip.
