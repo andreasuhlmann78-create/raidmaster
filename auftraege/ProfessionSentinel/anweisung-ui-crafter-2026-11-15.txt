@@ -7,7 +7,7 @@ Entscheid 19:28: PS ist DAS Berufs-Addon; am Berufsfenster nur EINE Liste "beste
 ZIEL DES NUTZERS (19:32): "Ich will, dass dieses Addon das beste Crafter-Addon auf dem Markt wird … nützlich in jeder Hinsicht."
 UND: "Nutze die breite Datenbank von PS – sie hat alle Rezepte ALLER WoW-Versionen, nicht nur Forever. Bitte das nicht
 vernachlässigen." -> Alles in dieser Anweisung gilt für jede Spielversion, die PS kennt (Data_Forever ~2211, Data_Era ~1267,
-Data_Retail ~10172 Rezepte, dazu TBC-Erkennung). Forever-Eigenes (Gunst, Lager-Objekte, Spezialisierungs-Quests) erscheint nur in
+Data_Retail ~10172 Rezepte, dazu TBC-Erkennung). Forever-Eigenes (Händlergunst, Lager-Objekte, Spezialisierungs-Quests) erscheint nur in
 Forever; jede Version bekommt ihre eigenen Stärken sichtbar (siehe Abschnitt 1b). Bild-Entwurf: Artifact "ProfessionSentinel – neues
 Fenster" (Supervisor, 4 Ansichten: Jetzt, Skillen, Gold+Einkauf, Rezepte).
 
@@ -24,7 +24,7 @@ Fünf Fragen, die jeder Crafter stellt – jede bekommt EINEN klaren Ort:
   F1 "Was mache ich JETZT?"                 -> ein nächster Schritt (skillen ODER Gold), ein Klick.
   F2 "Wie skille ich am billigsten auf X?"  -> Plan Schritt für Schritt (Rezept, Anzahl, Material gesamt, wo lernen).
   F3 "Womit verdiene ich Gold?"             -> Rangliste mit EINER Zahl (Gewinn je Herstellung nach Gebühr), gesichert.
-  F4 "Welche Rezepte fehlen mir, woher?"    -> Sammlung: Lehrer / Händler / Drop / Quest / Gunst, Kartenpin, Rezept im AH.
+  F4 "Welche Rezepte fehlen mir, woher?"    -> Sammlung: Lehrer / Händler / Drop / Quest / Händlergunst, Kartenpin, Rezept im AH.
   F5 "Was brauche ich dafür?"               -> EINE Einkaufsliste über Taschen, Bank, Twinks, Händler, AH (Sniper).
 Was andere Addons bieten und PS noch fehlt (Übernahme sinnvoll):
   - Warteschlange (Skillet, CraftSim): mehrere Rezepte vormerken, Material gesamt, beim Erstellen abarbeiten; bleibt nach dem
@@ -34,7 +34,7 @@ Was andere Addons bieten und PS noch fehlt (Übernahme sinnvoll):
   - Abklingzeiten über alle Figuren (Transmutation, Mondstoff, Salzstreuer) auf einen Blick.
   - Wer in Gilde/Twinks kann ein Rezept (GuildSentinel kennt Rezepte je Mitglied) – im Rezept-Detail.
 WoW-Forever-Eigenheiten, die PS sichtbar führen muss (warcrafttavern Forever-Berufe-Guide):
-  - Händlergunst / Handelslager-Rezepte (gibt es schon: Reiter-Ansicht "Gunst").
+  - Händlergunst / Handelslager-Rezepte (gibt es schon: Reiter-Ansicht "Händlergunst").
   - Lager-Objekte je Beruf (Stufe 1–3, z. B. Amboss, Gärbottich) – gehören als Rezepte in die Sammlung mit eigenem Hinweis.
   - Spezialisierungen (Schmied, Ingenieur, Leder) mit eigenen Rezepten; Fertigkeitsgrenzen 75/150/225/300 mit Lehrer-Stufe.
   - Material-Taschen (eigener Platz) beim Zählen des Bestands mitzählen.
@@ -44,7 +44,7 @@ WoW-Forever-Eigenheiten, die PS sichtbar führen muss (warcrafttavern Forever-Be
   - Classic Era / Hardcore / Anniversary (Data_Era, Interface 115xx): Skillen bis 300, Lehrer-Stufen, Händler- und Drop-Rezepte mit
     Ort (Kartenpin), Abklingzeiten (Transmutation, Mondstoff, Salzstreuer), Verzauberkunst im alten Fenster (CraftFrame) –
     alles muss genauso gut gehen wie in Forever. Kein Händlergunst-Teil sichtbar.
-  - WoW Forever (Data_Forever): wie oben + Gunst/Handelslager, Lager-Objekte, Spezialisierungen, Material-Taschen, 600+ neue Rezepte.
+  - WoW Forever (Data_Forever): wie oben + Händlergunst/Handelslager, Lager-Objekte, Spezialisierungen, Material-Taschen, 600+ neue Rezepte.
   - TBC (falls erkannt): Juwelenschleifen, Erweiterung 375 – eigene Prüfung, nichts aus Forever einblenden.
   - Retail (Data_Retail, ~10 000 Rezepte): Erweiterungs-Stufen je Beruf (Classic … aktuelle Erweiterung) als Gruppen/Filter,
     Qualitätsstufen und Handwerksaufträge nur anzeigen, was PS sicher weiss (kein CraftSim-Nachbau ohne Daten); Rezeptquelle,
@@ -58,7 +58,7 @@ WoW-Forever-Eigenheiten, die PS sichtbar führen muss (warcrafttavern Forever-Be
 ======================================================================================================================
 2. WAS HEUTE UNÜBERSICHTLICH IST (Bestandsaufnahme UI.lua 0.9.45)
 ======================================================================================================================
-  U-1 Drei Ebenen Navigation: 3 Hauptreiter ("Rezepte / Skillen / Gold") + 2. Reihe mit bis zu 7 Ansichten (Rezepte, Gunst, Plan,
+  U-1 Drei Ebenen Navigation: 3 Hauptreiter ("Rezepte / Skillen / Gold") + 2. Reihe mit bis zu 7 Ansichten (Rezepte, Händlergunst, Plan,
       Rangliste, Lehrer, Herstellen lohnt, Verzauberer) + 4 Filterknöpfe (Alle/Gelernt/Lernbar/Fehlt) + Haken "Nur fehlende"
       + Suche. Die aktive Wahl ist nur durch Text "> Gold <" markiert; graue Blizzard-Knöpfe (UIPanelButtonTemplate).
   U-2 "Bestes Rezept" an vier Stellen: Zeile "Bestes: …" unter dem Berufsfenster, Stern in der Liste, Gold-Rangliste,
@@ -67,7 +67,7 @@ WoW-Forever-Eigenheiten, die PS sichtbar führen muss (warcrafttavern Forever-Be
       nirgends erklärt.
   U-4 Zeilen überladen: Platz-Nummer, Stern, Name, NEU/LERNEN, farbige Stufe, Herkunfts-Punkte, Lebenslinien-Balken, Hinweis.
   U-5 Zusammenfassungs-Zeile "Preise: … · Herstellen: …/Std." und Datenstand-Zeile – Fachsprache, dicht.
-  U-6 Gunst steckt im Reiter "Rezepte", Entzaubern im Reiter "Gold" nur für Verzauberer – Orte folgen nicht den Fragen F1–F5.
+  U-6 Händlergunst steckt im Reiter "Rezepte", Entzaubern im Reiter "Gold" nur für Verzauberer – Orte folgen nicht den Fragen F1–F5.
   U-7 Drei bis vier Fenster nebeneinander (Berufsfenster, AHS-Gewinn, PS-Panel, ggf. AHS-Hauptfenster) – Bildschirm voll.
   U-8 Rezept-Alarm als Summe ("340 fehlende Rezepte") – kein Einzelfall, kein nächster Schritt.
 
@@ -93,8 +93,8 @@ WoW-Forever-Eigenheiten, die PS sichtbar führen muss (warcrafttavern Forever-Be
   GOLD (F3): eine Liste "Herstellen lohnt" mit EINER Zahl je Zeile (Gewinn je Herstellung nach 5 %, Weg verk./ent.), Sicherheit
       als Punkt (grün gesichert / grau lernt noch). Entzaubern-Handel (Verzauberer) als Abschnitt unten, nicht als eigene Ansicht.
   REZEPTE (F4): die Sammlung: ein Filter-Feld (Auswahl: Alle / Gelernt / Lernbar / Fehlt) statt 4 Knöpfe + Haken; Gruppen nach
-      Platz wie heute; Quelle als kleines Symbol (Lehrer/Händler/Drop/Quest/Gunst/Lager-Objekt). Gunst wird ein Filter
-      "Gunst-Rezepte" + Abschnitt, nicht eine Ansicht.
+      Platz wie heute; Quelle als kleines Symbol (Lehrer/Händler/Drop/Quest/Händlergunst/Lager-Objekt). Händlergunst wird ein Filter
+      "Händlergunst-Rezepte" + Abschnitt, nicht eine Ansicht.
   EINKAUF-LEISTE (F5): unten im Fenster, eingeklappt eine Zeile "Warteschlange 3 · fehlt: 12× Leinenstoff, 4× Faden"; aufgeklappt
       die Warteschlange und die EINE Einkaufsliste: je Material Bedarf, hab (Taschen/Bank/Twinks), Händler [Kaufen], AH [Sniper
       mit "Kauf bis"] (Ausbau B3). Nur Klicks des Spielers kaufen.
@@ -115,10 +115,10 @@ WoW-Forever-Eigenheiten, die PS sichtbar führen muss (warcrafttavern Forever-Be
   - Keine Fachwörter in Zeilen ("netto", "Leiter", "Quote" nur im Shift-Teil).
 
 3.6 Was NICHT verloren gehen darf (Abbildung alt -> neu, im Bericht als Tabelle mit Test je Zeile):
-  Rezepte-Liste -> Rezepte · Gunst -> Rezepte-Filter + Jetzt-Karte · Plan -> Skillen · Rangliste -> Skillen ("billigster Weg") ·
+  Rezepte-Liste -> Rezepte · Händlergunst -> Rezepte-Filter + Jetzt-Karte · Plan -> Skillen · Rangliste -> Skillen ("billigster Weg") ·
   Lehrer -> Skillen-Schritte + "Alle Lehrer…" · Herstellen lohnt -> Gold · Verzauberer -> Gold-Abschnitt · Heute herstellen ->
   Jetzt · Details -> Klick in jedem Reiter · Mengenfenster am Händler -> bleibt · Rezept-Alarm -> Jetzt-Karte (Einzelfall) ·
-  Kistenrechner -> Rezepte/Gunst-Abschnitt · Minimap, Befehle, Tooltip -> bleiben. Kein Befehl und keine Einstellung fällt weg.
+  Kistenrechner -> Rezepte/Händlergunst-Abschnitt · Minimap, Befehle, Tooltip -> bleiben. Kein Befehl und keine Einstellung fällt weg.
 
 ======================================================================================================================
 4. TESTS UND ABNAHME
@@ -130,3 +130,5 @@ WoW-Forever-Eigenheiten, die PS sichtbar führen muss (warcrafttavern Forever-Be
   - Bild-Abnahme durch den Nutzer im Spiel (Aussehen "elegant").
 Reihenfolge nach Freigabe: (1) PS-TC1 + Ausbau A1/A2 (Ruckeln), (2) Fenster/Stil + 4 Reiter + Zeilen, (3) Einkauf-Leiste mit
 Warteschlange, (4) Blizzard-Fenster-Zeichen, (5) Texte. Je Schritt eine Version mit Bericht "umgesetzt, zur Prüfung".
+
+BEGRIFF (Nutzer 19:35): Es heisst "Händlergunst" – überall so schreiben (Reiter, Filter, Texte, Locales deDE), nie nur "Gunst".
