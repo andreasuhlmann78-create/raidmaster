@@ -1,0 +1,19 @@
+BERICHT LevelPilot 3.12.44 – Wunsch ProfessionSentinel: LevelPilotAPI.NavigateTo
+Projekt: LevelPilot · Datum: 16.11.2026 00:01 (aus date) · Status: umgesetzt, zur Prüfung
+
+Bezug: offen-levelpilot.txt, WUNSCH PROFESSIONSENTINEL (Supervisor 23:48).
+
+SCHNITTSTELLE (neue Datei Api.lua, als letzte Datei im TOC geladen):
+- LevelPilotAPI.NavigateTo(uiMapID, x, y, titel) -> true/false. x/y in Prozent (0–100). Setzt das Ziel wie die bestehenden
+  Ziele "Finde nächsten"/Wegpunkt (Planner.priority, Schritt GOTO oben im Guide, Pfeil, Weg inkl. Flüge/Schiffe; Schlüssel
+  "PRIO:API:<Karte>:<x>:<y>") und plant neu. false bei fehlender/ungültiger Karte oder Koordinate (nicht 0–100, kein Zahlenwert)
+  oder wenn Geo:ToWorld für die Karte nichts liefert. titel optional (sonst Kartenname).
+- LevelPilotAPI.version = 1. Beschreibung in README.md ("Schnittstelle für andere Addons").
+- Hinweis an PS: Wie bei "Finde nächsten" endet das Ziel, wenn es erreicht ist oder übersprungen wird; öffnet der Spieler einen
+  Händler, löscht LevelPilot "PRIO:"-Ziele (bestehendes Verhalten seit 3.0, Ziel "Reparieren/Verkaufen").
+BELEGE: T306: gültig -> true, Schritt GOTO mit Titel und Weltkoordinaten oben · ohne Titel -> true · x=150, ohne Karte, Text
+statt Zahl -> false · Ziel bleibt dabei unverändert · 2 Neuplanungen · Version 1. Unbekannte Karte im Nachbau nicht prüfbar (der
+Nachbau liefert für jede Karte Koordinaten) -> im Client prüfen (CLIENT T306). run_offline.py (allein): 37/37 ohne FEHLER
+(im Client prüfen 16), Meldungs-Weiche OK; private Regressionen 36/36; addon_check OK.
+NÄCHSTES: eigener Rest aus LP-N1 (Waffenmeister-Hinweis ist drin; offen: Upgrade-Finder Schritt 2 wartet auf den Entscheid des
+Nutzers).
