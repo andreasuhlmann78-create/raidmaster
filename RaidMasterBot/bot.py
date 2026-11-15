@@ -5284,10 +5284,15 @@ def uploader_package() -> str | None:
 
 @bot.tree.command(name="uploader", description="Daten-Uploader per Direktnachricht: Programm + Einrichtungsdatei (Gildenleitung)")
 @app_commands.describe(nur_programm="Nur das Programm (RaidMasterUploader.zip) schicken, ohne neue Einrichtungsdatei – z. B. für ein Update",
-                       fuer="Optional: für dieses Mitglied (bekommt alles selbst per PN, mit eigenem #sync-daten); leer = für dich")
-async def uploader_cmd(inter: discord.Interaction, nur_programm: bool = False, fuer: discord.Member | None = None):
+                       fuer="Optional: für dieses Mitglied (bekommt alles selbst per PN, mit eigenem #sync-daten); leer = für dich",
+                       an_offiziere="Nur die neueste Uploader-ZIP per PN an alle Offiziere (ihre Einrichtungsdateien bleiben)")
+async def uploader_cmd(inter: discord.Interaction, nur_programm: bool = False, fuer: discord.Member | None = None,
+                       an_offiziere: bool = False):
     if not is_admin(inter.user):
         await inter.response.send_message("Das dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
+        return
+    if an_offiziere:
+        await uploader_to_officers(inter)
         return
     # ab 1.5.134 (Wunsch des Nutzers 14.11.): /uploader fuer:@Mitglied – die geheimen Dateien gehen direkt an das Mitglied,
     # mit seinem EIGENEN privaten #sync-daten (nie die sync_config.json eines anderen weitergeben)
@@ -5386,6 +5391,46 @@ async def uploader_cmd(inter: discord.Interaction, nur_programm: bool = False, f
 # ---------------------------------------------------------------------------
 # Server-Betrieb: Selbst-Update
 # ---------------------------------------------------------------------------
+
+async def uploader_to_officers(inter: discord.Interaction):
+    """/uploader an_offiziere:True (ab 1.5.135, Wunsch des Nutzers 15.11.): nur die neueste RaidMasterUploader.zip per
+    PN an alle Offiziere (ohne den Absender). Keine Einrichtungsdateien – die bestehende uploader_config.json und
+    sync_config.json bleiben im Ordner. Gesperrte PN: nichts umleiten, nur melden. Protokoll nur mit Zahlen."""
+    await inter.response.defer(ephemeral=True, thinking=True)
+    have, want = await ensure_fresh_uploader()
+    pkg = uploader_package()
+    if not pkg:
+        await inter.followup.send("RaidMasterUploader.zip liegt noch nicht auf dem Server – nach dem nächsten Update "
+                                  "(`/update`) erneut.", ephemeral=True)
+        return
+    guild = inter.guild or bot_guild()
+    targets = pn.offiziere(guild.members if guild else [], inter.user.id)
+    if not targets:
+        await inter.followup.send("Keine Offiziere gefunden (Rolle „Offizier“) – nichts geschickt.", ephemeral=True)
+        return
+    vnote = uploader_version.note(have, want)
+    text = (f"📦 **RaidMaster-Uploader {have or ''}** – neue Version von {inter.user.display_name} (Gildenleitung).\n"
+            "Entpacken und die alten Dateien im Ordner **RaidMasterUploader** ersetzen. Deine `uploader_config.json` "
+            "und `sync_config.json` im Ordner behalten (nicht löschen). Danach `uploader.bat` neu starten.\n" + vnote)
+    ok, blocked = [], []
+    for m in targets:
+        try:
+            await m.send(text, file=discord.File(pkg, filename="RaidMasterUploader.zip"),
+                         allowed_mentions=discord.AllowedMentions.none())
+            ok.append(m)
+        except discord.HTTPException:
+            blocked.append(m)
+        await asyncio.sleep(1)          # Discord: nicht zu schnell hintereinander
+    log.info("Uploader %s an Offiziere: %d geschickt, %d ohne PN", have or "?", len(ok), len(blocked))
+    lines = [f"📬 Uploader **{have or '?'}** an {len(ok)} von {len(targets)} Offizieren geschickt."]
+    if ok:
+        lines.append("Bekommen: " + ", ".join(m.mention for m in ok))
+    if blocked:
+        lines.append("⚠️ Keine PN möglich (Privatnachrichten von Servermitgliedern erlauben): "
+                     + ", ".join(m.mention for m in blocked) + " – nichts umgeleitet.")
+    lines.append(vnote)
+    await inter.followup.send("\n".join(lines)[:1900], ephemeral=True, allowed_mentions=discord.AllowedMentions.none())
+
 
 async def ensure_test_channel() -> str | None:
     """#testberichte (OFFIZIERE, nur Bot und Admins) beim Start anlegen, falls er fehlt – ohne /raidmaster-einrichten.

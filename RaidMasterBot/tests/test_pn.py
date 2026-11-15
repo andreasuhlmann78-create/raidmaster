@@ -231,5 +231,93 @@ class UploaderFuer(unittest.TestCase):
         self.assertEqual(len(i.user.sent), 1)
 
 
+class Rolle:
+    def __init__(self, name):
+        self.name = name
+
+
+class UploaderOffiziere(UploaderFuer):
+    """T-UP-OFF (1.5.135): /uploader an_offiziere:True – nur die ZIP an alle Offiziere, nie Einrichtungsdateien."""
+    # die Tests von UploaderFuer laufen dort; hier nur die Attrappen übernehmen
+    test_an_mitglied_mit_eigenem_sync = test_pn_gesperrt_nichts_umleiten = None
+    test_nur_gildenleitung_und_nie_bots = test_ohne_fuer_wie_bisher = None
+
+    def setUp(self):
+        super().setUp()
+        import tempfile
+        fd, self.zip = tempfile.mkstemp(suffix=".zip")
+        os.write(fd, b"PK-test")
+        os.close(fd)
+        self.bot.uploader_package = lambda: self.zip
+        self._sleep = self.bot.asyncio.sleep
+
+        async def nosleep(_):
+            return None
+        self.bot.asyncio.sleep = nosleep
+
+    def tearDown(self):
+        self.bot.asyncio.sleep = self._sleep
+        os.remove(self.zip)
+        super().tearDown()
+
+    def members(self):
+        off1, off2, gesperrt = Member(11), Member(12), Member(13, forbid=True)
+        for m in (off1, off2, gesperrt):
+            m.roles = [Rolle("Offizier")]
+        mitglied = Member(14)
+        mitglied.roles = [Rolle("Mitglied")]
+        bot = Member(15, bot=True)
+        bot.roles = [Rolle("Offizier")]
+        return off1, off2, gesperrt, mitglied, bot
+
+    def test_offiziere_auswahl(self):
+        off1, off2, gesperrt, mitglied, bot = self.members()
+        chef = Member(1000)
+        chef.roles = [Rolle("offizier")]
+        got = pn.offiziere([off2, mitglied, bot, off1, chef, off1, gesperrt], ausser_id=1000)
+        self.assertEqual([m.id for m in got], [11, 12, 13])       # keine Bots, nicht der Absender, nie doppelt
+        self.assertEqual(pn.offiziere([], 1), [])
+        self.assertEqual(pn.offiziere(None, 1), [])
+
+    def test_an_alle_offiziere_nur_zip(self):
+        off1, off2, gesperrt, mitglied, bot = self.members()
+        i, sent = self.inter()
+        i.guild = types.SimpleNamespace(members=[off1, off2, gesperrt, mitglied, bot, i.user])
+        with self.assertLogs("raidmaster", level="INFO") as cm:
+            asyncio.run(self.bot.uploader_cmd.callback(i, False, None, True))
+        for m in (off1, off2):
+            self.assertEqual(len(m.sent), 1)
+            self.assertEqual(m.sent[0][1]["file"].filename, "RaidMasterUploader.zip")
+            self.assertNotIn("files", m.sent[0][1])                 # keine Einrichtungsdateien
+            self.assertIn("behalten", m.sent[0][0])
+        self.assertEqual((mitglied.sent, bot.sent, i.user.sent), ([], [], []))
+        self.assertEqual(self.sync_for, [])                         # kein #sync-daten angelegt
+        self.assertIn("an 2 von 3 Offizieren", sent[-1])
+        self.assertIn("<@13>", sent[-1])                            # gesperrte PN gemeldet, nicht umgeleitet
+        self.assertTrue(any("2 geschickt, 1 ohne PN" in r for r in cm.output))
+
+    def test_keine_offiziere(self):
+        i, sent = self.inter()
+        i.guild = types.SimpleNamespace(members=[i.user])
+        asyncio.run(self.bot.uploader_cmd.callback(i, False, None, True))
+        self.assertIn("Keine Offiziere", sent[-1])
+
+    def test_ohne_zip(self):
+        self.bot.uploader_package = lambda: None
+        off1 = self.members()[0]
+        i, sent = self.inter()
+        i.guild = types.SimpleNamespace(members=[off1])
+        asyncio.run(self.bot.uploader_cmd.callback(i, False, None, True))
+        self.assertEqual(off1.sent, [])
+        self.assertIn("noch nicht auf dem Server", sent[-1])
+
+    def test_nur_gildenleitung_offiziere(self):
+        off1 = self.members()[0]
+        i, sent = self.inter(admin=False)
+        i.guild = types.SimpleNamespace(members=[off1])
+        asyncio.run(self.bot.uploader_cmd.callback(i, False, None, True))
+        self.assertEqual(off1.sent, [])
+
+
 if __name__ == "__main__":
     unittest.main()

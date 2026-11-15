@@ -153,6 +153,9 @@ Seit das Serverprofil öffentlich ist, sollen Neue ohne Rolle nicht den ganzen G
   sie sonst nach und nennt die Version in der Antwort (bei älterer Fassung mit Warnung).
 - **/uploader fuer:@Mitglied (ab 1.5.134):** schickt Uploader, uploader_config.json und eine EIGENE sync_config.json
   (eigener privater #sync-daten) direkt per PN an das Mitglied. Nimmt es keine PN an, geht nichts an jemand anderen.
+- **/uploader an_offiziere:True (ab 1.5.135):** schickt nur die neueste RaidMasterUploader.zip per PN an alle
+  Offiziere (Rolle „Offizier“, ohne den Absender, keine Bots). Keine Einrichtungsdateien – ihre uploader_config.json und
+  sync_config.json bleiben. Wer keine PN annimmt, wird genannt; nichts wird umgeleitet.
 - **/pn mitglied:@… [vorlage] (ab 1.5.133):** Gildenleitung schickt eine Privatnachricht über den Bot (Formular mit
   Vorschau, Vorlage „Uploader-Anleitung“); im Protokoll steht nie der Text.
 - **Selbstprüfung (nur lesen):** beim Start und alle 6 Stunden prüft der Bot Grundregeln (darf er in allen

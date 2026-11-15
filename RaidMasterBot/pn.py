@@ -44,6 +44,19 @@ def nachricht(absender: str, text: str, gilde: str | None = None) -> str | None:
     return (kopf + text)[:2000]
 
 
+def offiziere(members, ausser_id: int | None = None) -> list:
+    """Empfänger für /uploader an_offiziere:True (ab 1.5.135): alle Mitglieder mit der Rolle "Offizier" (wie is_admin),
+    keine Bots, ohne den Absender, jedes Mitglied höchstens einmal, nach ID sortiert (feste Reihenfolge)."""
+    out, seen = [], set()
+    for m in members or []:
+        if getattr(m, "bot", False) or m.id == ausser_id or m.id in seen:
+            continue
+        if any(str(getattr(r, "name", "")).lower() == "offizier" for r in getattr(m, "roles", [])):
+            seen.add(m.id)
+            out.append(m)
+    return sorted(out, key=lambda m: m.id)
+
+
 def log_line(empfaenger_id: int, text: str) -> str:
     """Protokoll ohne Inhalt."""
     return f"PN an {empfaenger_id} gesendet ({len(text or '')} Zeichen)"
