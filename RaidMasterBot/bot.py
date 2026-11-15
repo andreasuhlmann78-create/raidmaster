@@ -57,8 +57,6 @@ from kern import (  # noqa: E402 – D-3 Schritt 2: gemeinsame Objekte, nur einm
     BASE,
     DATA_DIR,
     log,
-    ORANGE,
-    GREY,
     CONFIG_ERROR,
     save_config,
     cfg,
@@ -474,6 +472,7 @@ from gildenname_bot import (  # noqa: E402
 import befehlsliste_bot  # noqa: E402,F401 – D-3 Schritt 16: Befehlslisten
 from befehlsliste_bot import ensure_command_list  # noqa: E402
 import mitglieder_bot  # noqa: E402,F401 – D-3 Schritt 17: Mitglieder-Bereich und Bewerbung
+from mitglieder_bot import handle_apply_button, maintain_member_area  # noqa: E402
 import ankuendigung_bot  # noqa: E402,F401 – D-3 Schritt 18: Addon-Versionen und Ankündigungen
 from ankuendigung_bot import ANNOUNCE_DIR, check_addon_release  # noqa: E402
 import update_bot  # noqa: E402,F401 – D-3 Schritt 20: Selbst-Update (meldet /update beim Import an)
@@ -485,7 +484,9 @@ from pug_bot import handle_member_join, refresh_invite_cache  # noqa: E402
 import handwerk_bot  # noqa: E402,F401 – D-3 Schritt 23: Berufe-Verzeichnis (meldet /handwerk, /berufe an)
 import ereignis_bot  # noqa: E402,F401 – D-3 Schritt 23: Discord-Ereignisse (meldet /raid-ereignisse an)
 from ereignis_bot import create_raid_event, delete_raid_event  # noqa: E402
-from mitglieder_bot import handle_apply_button, maintain_member_area  # noqa: E402
+import raidanzeige_bot  # noqa: E402,F401 – D-3 Schritt 24: Raid-Anzeige
+from raidanzeige_bot import raid_embed, update_raid_message  # noqa: E402
+import twink_bot  # noqa: E402,F401 – D-3 Schritt 24: Twinks (meldet /twink beim Import an)
 
 # ---------------------------------------------------------------------------
 # Hilfen
@@ -508,43 +509,6 @@ def members_with_power() -> list[str]:
         if names:
             out.append(f"{m.display_name} ({', '.join(names)})")
     return out
-
-
-def raid_embed(raid: dict) -> discord.Embed:
-    start = raid["start"]
-    title = raid["title"]
-    if raid.get("cancelled"):
-        title += " – ABGESAGT"
-    elif raid.get("closed"):
-        title += " (Anmeldung geschlossen)"
-    desc = f"🗓️ <t:{start}:F> · <t:{start}:R>"
-    if raid.get("pool_name"):
-        desc = f"🏰 **{raid['pool_name']}**\n" + desc
-    if raid.get("mode") == "pug":
-        desc += "\n🎲 **PUG-Raid** · kein DKP · Soft Reserve und Loot über softres.it"
-        if raid.get("softres"):
-            desc += f"\n🔗 **Soft Reserve:** {raid['softres']}"
-    if raid.get("description"):
-        desc += "\n" + raid["description"]
-    count = book.count_status(raid, "an")
-    desc += f"\n\n**Angemeldet: {count}" + (f" / {raid['max']}" if raid.get("max") else "") + "**"
-    summary = rmd.class_summary(raid)
-    if summary:
-        desc += "\n" + summary
-    e = discord.Embed(title=title, description=desc, color=GREY if raid.get("closed") else ORANGE)
-    for name, value, inline in rmd.raid_fields(raid):
-        e.add_field(name=name, value=value, inline=inline)
-    e.set_footer(text=f"Raid-ID {raid['id']} · RaidMaster")
-    return e
-
-
-async def update_raid_message(raid: dict):
-    if raid.get("message_id"):
-        try:
-            channel = bot.get_channel(raid["channel_id"]) or await bot.fetch_channel(raid["channel_id"])
-            await channel.get_partial_message(raid["message_id"]).edit(embed=raid_embed(raid), view=raid_view(raid))
-        except discord.HTTPException as e:
-            log.warning("Raid-Nachricht %s konnte nicht aktualisiert werden: %s", raid["id"], e)
 
 
 def addon_hint(raid: dict | None, actual: str) -> str:
@@ -2010,76 +1974,6 @@ async def dkp_dm_cmd(inter: discord.Interaction, wahl: app_commands.Choice[str])
     book.profiles.save()
     await inter.response.send_message("Nach jedem Raid bekommst du deine DKP-Zusammenfassung per Direktnachricht."
                                       if wahl.value == "an" else "Keine DKP-Nachrichten mehr nach dem Raid.", ephemeral=True)
-
-
-# ---------------------------------------------------------------------------
-# Twinks: weitere Charaktere eines Discord-Mitglieds (Anmeldung, "Main vor Twink" im Addon)
-# ---------------------------------------------------------------------------
-twink_group = app_commands.Group(name="twink", description="Twinks (weitere Charaktere) verwalten")
-CLASS_CHOICES = [app_commands.Choice(name=v, value=k) for k, v in rmd.CLASSES.items()][:25]
-ROLE_CHOICES = [app_commands.Choice(name=v, value=k) for k, v in rmd.ROLES.items()]
-
-
-async def own_char_autocomplete(inter: discord.Interaction, current: str) -> list[app_commands.Choice[str]]:
-    return [app_commands.Choice(name=c["name"] + (" (Main)" if c["main"] else " (Twink)"), value=c["name"])
-            for c in book.characters(inter.user.id) if current.lower() in c["name"].lower()][:25]
-
-
-async def refresh_signups_of(user_id: int):
-    for r in book.open_raids():
-        if str(user_id) in r["signups"]:
-            await update_raid_message(r)
-
-
-@twink_group.command(name="hinzufügen", description="Twink anlegen (Name wie im Spiel)")
-@app_commands.describe(name="Charaktername des Twinks", klasse="Klasse", rolle="Rolle")
-@app_commands.choices(klasse=CLASS_CHOICES, rolle=ROLE_CHOICES)
-async def twink_add(inter: discord.Interaction, name: str, klasse: app_commands.Choice[str], rolle: app_commands.Choice[str]):
-    if not book.profile(inter.user.id):
-        await inter.response.send_message("Lege zuerst deinen Main an (`/charakter` oder beim Raid „Charakter registrieren“).", ephemeral=True)
-        return
-    clean = rmd.clean_name(name)
-    if not clean.isalpha():
-        await inter.response.send_message("Der Name darf nur Buchstaben enthalten.", ephemeral=True)
-        return
-    p = book.add_alt(inter.user.id, clean, klasse.value, rolle.value)
-    await inter.response.send_message(f"Twink **{clean}** ({klasse.name}, {rolle.name}) gespeichert – Main ist **{p.get('main')}**.\n"
-                                      "Mit `/twink wechseln` meldest du dich mit ihm an. Im Spiel gilt „Main vor Twink“.", ephemeral=True)
-
-
-@twink_group.command(name="entfernen", description="Twink löschen")
-@app_commands.autocomplete(name=own_char_autocomplete)
-async def twink_remove(inter: discord.Interaction, name: str):
-    ok = book.remove_alt(inter.user.id, name)
-    await inter.response.send_message(f"Twink **{name}** entfernt." if ok else "Diesen Twink gibt es nicht.", ephemeral=True)
-    await refresh_signups_of(inter.user.id)
-
-
-@twink_group.command(name="wechseln", description="Mit welchem Charakter meldest du dich an? (Main oder Twink)")
-@app_commands.autocomplete(name=own_char_autocomplete)
-async def twink_switch(inter: discord.Interaction, name: str):
-    p = book.switch_char(inter.user.id, name)
-    if not p:
-        await inter.response.send_message("Diesen Charakter gibt es in deinem Profil nicht (`/twink liste`).", ephemeral=True)
-        return
-    is_twink = p["name"].lower() != (p.get("main") or p["name"]).lower()
-    await inter.response.send_message(f"Du meldest dich jetzt mit **{p['name']}** an" + (f" (Twink von {p['main']})." if is_twink else " (Main)."),
-                                      ephemeral=True)
-
-
-@twink_group.command(name="liste", description="Deine Charaktere (Main und Twinks)")
-async def twink_list(inter: discord.Interaction):
-    chars = book.characters(inter.user.id)
-    if not chars:
-        await inter.response.send_message("Noch kein Profil – `/charakter`.", ephemeral=True)
-        return
-    active = (book.profile(inter.user.id) or {}).get("name", "")
-    lines = [f"{'⭐' if c['main'] else '↳'} **{c['name']}** · {rmd.CLASSES.get(c['cls'], c['cls'])} · {rmd.ROLES.get(c['role'], c['role'])}"
-             + (" · *aktiv*" if c["name"].lower() == active.lower() else "") for c in chars]
-    await inter.response.send_message("\n".join(lines), ephemeral=True)
-
-
-bot.tree.add_command(twink_group)
 
 
 # ---------------------------------------------------------------------------

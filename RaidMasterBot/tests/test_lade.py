@@ -157,6 +157,12 @@ class Lade(unittest.TestCase):
         self.assertIs(handwerk_bot.bot, b.bot)
         self.assertIs(b.create_raid_event, ereignis_bot.create_raid_event)
         self.assertIs(handwerk_bot.class_emoji, symbole_bot.class_emoji)
+        import raidanzeige_bot
+        import twink_bot
+        self.assertIs(raidanzeige_bot.bot, b.bot)                # D-3 Schritt 24: Raid-Anzeige, Twinks
+        self.assertIs(twink_bot.bot, b.bot)
+        self.assertIs(b.update_raid_message, raidanzeige_bot.update_raid_message)
+        self.assertIs(twink_bot.update_raid_message, raidanzeige_bot.update_raid_message)
         import update_bot
         for mod in (pug_bot, betrieb_bot, update_bot):                # D-3 Schritt 19: Neustart nur in grund.py
             self.assertIs(mod.restart_soon, grund.restart_soon, mod.__name__)
