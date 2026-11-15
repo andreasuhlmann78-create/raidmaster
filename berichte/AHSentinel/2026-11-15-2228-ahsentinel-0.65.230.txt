@@ -1,0 +1,28 @@
+AHSentinel 0.65.230 – MA4 Stufenbänder (Messung; Antwort Supervisor 21:02 F3) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.230 und sofort im Discord.
+Reihenfolge: RK6 braucht die Richtung aus einem BELEGTEN Band (F3) – MA4 gab es noch nicht (nur Waves mit 4–5 Entzauber-
+Materialien je Band). Darum zuerst die Messung; Nachfrage frage-ma4-rk6 (G1 Band für Materialien ohne Stufe, G2 Schwelle
+fallend) offen. RK6-Abzug kommt in der Version danach.
+
+Waves.lua
+  - W.LBANDS 1–25 / 26–45 / 46–60 nach BENÖTIGTER Stufe (GetItemInfo, nur aus dem Item-Cache; keine neuen Anfragen).
+  - W:ComputeLevelBands: Fenster 10 ganze Tage (endet gestern, wie WV1); je Item Tagesmedian der bestätigten Preise
+    (W:DailyMedians), Verhältnis zum ersten Tag; Index je Tag = Median der Verhältnisse der Items des Bands, nur Tage mit
+    ≥ 20 Items. BELEGT = ≥ 5 solcher Tage (F3).
+  - W:Direction: Spitze = 3 Tage > +15 % (F1); fällt = 3 Tage < −5 % und letzter Tag < 0; steigt = 3 Tage > +5 % (nur
+    Hinweis); sonst ruhig. ANNAHME ±5 % (G2), im Testbericht so gekennzeichnet.
+  - W:LevelBands: einmal je Tag im Hintergrund (A:Job "ma4", Portionen über A:Pause), Zwischenspeicher je Tag.
+  - G1: Entzauber-Materialien ohne Stufe -> Band ihrer Herkunft (W.MAT_BAND: 5-25 -> 1–25; 26-35/36-45 -> 26–45;
+    46-55/56-60 -> 46–60), W:ItemBand = benötigte Stufe, sonst Material-Herkunft; Handwerkswaren ohne Stufe: kein Band.
+    Testbericht-Zeile "MA4 Materialien ohne Stufe (Herkunft, G1)".
+  - W:ItemTrend(itemID): Richtung des Bands des Items nur, wenn belegt; sonst nil.
+  - Nur Messung, KEINE Wirkung auf "Lohnt bis" oder Käufe.
+MarketCore.lua Testbericht MARKT-KERN: statt "MA4 messe noch" je Band "belegt (Tage, Items) · Richtung · 3 Tage · letzter
+  Tag · ANNAHME" bzw. "messe noch (x von 5 Tagen mit ≥ 20 Items; n Items)".
+API.lua API.MarketState: 2. Wert = Richtung des Bands ("faellt"/"steigt"/"spitze"/"ruhig"), nil solange nicht belegt (API.md).
+Tests
+  - T806 (Testroutine M, eigene Reihen über W.DailyMedians, je Item anderer Grundpreis): Band 1–25 25 Items 10 Tage belegt
+    fällt −8 % · 26–45 25 Items belegt Spitze +20 % · 46–60 10 Items 0 Tage nicht belegt ohne Richtung · API Band 1 "faellt",
+    Band 3 nil · Item Band 2 "spitze" · Material-Bänder Staub 10940 -> 1, 11083 -> 2, 11137 -> 2, 16204 -> 3, Leinenstoff 2589 -> kein Band. Mit 0.65.229 rot.
+  - CHANGELOG EN/DE, API.md.
+Gesamtlauf (frischer Klon, Kopie 0.65.230): BESTANDEN 280, FEHLGESCHLAGEN 0 (s92/s216 ohne Wiederholung grün).
