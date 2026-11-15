@@ -1,0 +1,25 @@
+AHSentinel 0.65.229 – MR8 Laufzeit passend (Antwort Supervisor 21:02 F4/F5) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.229 und sofort im Discord.
+
+Activity.lua Act:SessionLeft(now): nur mit GELERNTEM Rhythmus (MR7 basis "gelernt"; eingestellt/ohne Daten -> nil = keine
+  Vorwahl, F4). Übliche Spielzeit dieses Wochentags = Median der Login-Uhrzeit (Logins dieses Wochentags der letzten 28 Tage,
+  sonst aller Tage) + Median der Online-Zeit an gespielten Tagen dieses Wochentags (sonst aller). Rückgabe Sekunden bis zum
+  üblichen Ende.
+AHAnalyzerPro.lua A:RhythmDuration(itemID, qty, depositOf): Option "Laufzeit vorwählen" (settings.rhythmDuration, Standard an).
+  Noch ≥ 2 Std. -> Stufe 1 (2 Std.), Grund "du spielst voraussichtlich noch n Std."; sonst Stufe 3 (24 Std.), Grund "du bist
+  voraussichtlich ~n Tage weg" (nächstes Login > 1 Tag) bzw. "bis morgen weg". Satz mit Einzahlung beider Laufzeiten
+  ("Einzahlung X statt Y", X = gewählte, aus Se:Deposit = Blizzard-Anzeige bzw. Formel mit db.minDeposit, F5).
+  AUSLEGUNG (bitte prüfen): spielt der Spieler noch ≥ 2 Std., gilt 2 Std. auch dann, wenn das nächste Login > 1 Tag ist (die
+  Auktion läuft während er noch online ist ab); "nächstes Login > 1 Tag" wirkt also nur, wenn die Sitzung bald endet.
+UI_Sell.lua: beim Wählen eines Items (nach Standard-Laufzeit und Hinweis) Vorwahl + Satz in der grauen Zeile unter den
+  Laufzeit-Knöpfen. Klickt der Spieler selbst eine Laufzeit (p.userDuration), gibt es in dieser Sitzung keine Vorwahl mehr –
+  wie bisher gilt dann die Standard-Laufzeit je neuem Item (Entscheid D2).
+Optionen: Zeile "Laufzeit vorwählen" an/aus.
+Tests
+  - T805 (Testroutine M, fester Mittwoch, Logins Mo/Mi/Fr 10 Uhr, 4 Std. online): ohne Daten nil · Mi 11 Uhr (noch 3 Std.)
+    Stufe 1, Text "noch 3 Std." · Mi 13 Uhr (noch 1 Std.) Stufe 3, Text "~2 Tage weg" und "Einzahlung 3s statt 1s" ·
+    eingestellt "täglich" nil · Option aus nil. Mit 0.65.228 rot.
+  - Szenario s229_mr8_duration: ohne Rhythmus Standard; gelernt + 1 Std. -> 24 Std. mit Grund und Einzahlung; 3 Std. -> 2 Std.;
+    eigene Wahl 8 Std. -> danach keine Vorwahl mehr.
+  - Locales +6, CHANGELOG EN/DE.
+Gesamtlauf (frische Kopie des Repos 8161ef0, Addon 0.65.229): 279 bestanden, 1 rot = s92 Speicher 15,8 MB (Grenze 15), Wiederholungen rot/grün. Drei weitere Einzelläufe grün (13,9 / 14,4 / 14,0 MB). Streuung in allen Versionen 0.65.223–229 gleich (9,9–16,7 MB) – keine Regression; Hinweis an die Prüf-Sitzung (hinweis-s92-streuung).
