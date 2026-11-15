@@ -1,0 +1,13 @@
+AHSentinel 0.65.244 – Phase 7 MR1/MR3 Vorschlag A Teil 1: "Treffer je Weg" im Markt-Reiter – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.244 und sofort im Discord.
+(Frage MR1-Aufbau A/B liegt seit 23:47 in berichte/AHSentinel/…-frage-mr1-aufbau.txt; dieser Teil passt zu beiden Wegen.)
+Umsetzung:
+  - MarketCore.lua MK:QuoteLine(): je Weg aus MK.WAYS (Flippen, Sniper, Entzaubern, Herstellen, Händler) aus MA2 (MK:Quote,
+    MK:WayState): frei grün "64 % (25)", lernt grau "12/20", gesperrt rot "45 %". Nur Anzeige.
+  - UI_MarketView.lua: eigene Zeile p.quote über der Fusszeile (Tabelle endet 16 px höher), Tooltip mit der Erklärung der
+    Farben und Grenzen (20 Fälle, 60 %). Längster Fall (alle gesperrt) passt in allen 11 Sprachen (gemessen; zuerst mit dem
+    Wort "gesperrt" zu lang -> nur Farbe + Tooltip).
+Tests: T818 (lernt 12/20, frei 64 % (25), gesperrt 45 %, ohne Fälle 0/20) grün; s244_quote_line (sichtbar, passt in allen
+  Sprachen, keine Überlappung mit Tabelle und Fusszeile; run_all.sh Sprachen-Schleife, mit dieser Version ins Repo) – mit 0.65.243
+  rot (Zeile fehlt). s78, s204, s222, s232 grün. s42 grün. CHANGELOG EN/DE.
+Gesamtlauf (frischer Klon, Kopie 0.65.244, s244 + Sprachen-Schleife mit dieser Version ins Repo): BESTANDEN 315, FEHLGESCHLAGEN 0.
