@@ -45,6 +45,12 @@
     Sitzung: Suchen 1211 · Käufe gesendet 343 · bestätigt 116 (34 %) · ohne Antwort 220 · DOPPELT gesendet 56 · Code 10 ×175 ·
     Code 4 ×3 · DROPPED nach Kauf ×163, nach Suche ×20 · Käufe gesendet, obwohl IsThrottledMessageSystemReady false: 259 von 343 ·
     weggeschnappt (Angebot ≤ Max verschwand ohne unseren Kauf) 153 · Gold bestätigt 10g20s82 = Gold-Abgang AH-Kauf 10g20s82 (exakt).
+  BERICHTIGUNG SUPERVISOR 16:05 (Messfehler im Messwerkzeug, nicht in AHS): Die Zahl "gesendet, obwohl Server nicht bereit: 259/343"
+         (und "Suchen dabei 1207/1211") ist NICHT belegt. GSSniperLog 1.2 liest IsThrottledMessageSystemReady() in einem Nach-Hook
+         (hooksecurefunc läuft NACH PlaceBid/SendSearchQuery) – da ist die Drossel durch genau diese Anfrage schon belegt. Belegt bleiben:
+         Code 10 ×175, ohne Antwort 220, doppelt 56, DROPPED ×183, MarkDead bei Fehlern, Status "Treffer!" 43 s ohne Kauf, Zähler +1
+         bei Fristablauf. Der Fix (a) "nur bei QueryReady senden" bleibt richtig (0.65.194). GSSniperLog 1.3 misst die Bereitschaft
+         VOR der Anfrage (letzter Wert des vorigen Bildes + Drossel-Ereignisse).
   GSL2-1 BELEGT, Ursachenkette der vielen "Interner Auktion-Fehler" + verpassten Käufe:
          (1) Kauf wird gesendet, obwohl der Server nicht bereit ist (259/343) -> Code 10 (175×) oder gar keine Antwort (220×).
          (2) Sniper.lua 729 ItemPurchaseFailed -> MarkDead (1359) bei JEDEM Fehler, auch Code 10 -> Angebot DEAD_TTL = 600 s
