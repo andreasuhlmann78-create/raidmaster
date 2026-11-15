@@ -144,7 +144,7 @@ do
     check(W.find("MINUTE Suchen 1") == 1, "Lauf 1: Minuten-Zusammenfassung")
     W.fire("PLAYER_LOGOUT")
     local ex = W.env.GSSniperLogDB.export
-    check(type(ex) == "string" and ex:find("^GSDIAG1|GSSniperLog|1.3|") ~= nil, "Lauf 1: Export beginnt mit GSDIAG1|GSSniperLog|1.3|")
+    check(type(ex) == "string" and ex:find("^GSDIAG1|GSSniperLog|1.4|") ~= nil, "Lauf 1: Export beginnt mit GSDIAG1|GSSniperLog|1.4|")
     check(ex:find("== Einträge (", 1, true) ~= nil, "Lauf 1: Export hat '== Einträge'")
     check(W.B.tot.eigeneFehler == nil, "Lauf 1: keine eigenen Fehler")
 end
@@ -532,6 +532,56 @@ do
     W2.env.debugstack = function() error("kaputt") end
     check(W2.B.Source() == "?", "Lauf 8: Fehler im Stapel -> '?'")
 end
+
+---------------------------------------------------------------------------
+-- Lauf 9 (1.4): Mausrad über AHSentinel-Fenstern (WheelBuy) zählt als Raste, nur wenn ein Treffer wartet
+---------------------------------------------------------------------------
+do
+    local W = NewWorld()
+    local function mkFrame(withWheel)
+        local fr = W.env.CreateFrame("Frame")
+        fr.kids = {}
+        function fr:GetChildren() return unpack(self.kids) end
+        function fr:GetScript(k) return self.scripts[k] end
+        if withWheel then fr.scripts.OnMouseWheel = function() end end
+        return fr
+    end
+    local win = mkFrame(true)
+    local tbl = mkFrame(true)
+    local plain = mkFrame(false)
+    win.kids = { plain }
+    plain.kids = { tbl }                                   -- Tabelle tiefer verschachtelt
+    W.env.AHAnalyzerProWindow = win
+    W.wait = false
+    W.env.AHAnalyzerPro.Sniper.HitWaiting = function() return W.wait end
+    W.fire("PLAYER_LOGIN"); W.fire("AUCTION_HOUSE_SHOW")
+    W.tick(1.1)
+    tbl.scripts.OnMouseWheel(tbl, 1)                       -- kein Treffer: normales Blättern, keine Raste
+    check((W.B.tot.rasten or 0) == 0, "Lauf 9: Mausrad ohne wartenden Treffer = keine Raste")
+    W.wait = true
+    W.status = "Treffer! Mausrad zum Kaufen"
+    W.tick(1.1)
+    tbl.scripts.OnMouseWheel(tbl, -1); W.tick(0.2)
+    W.env.C_AuctionHouse.PlaceBid(77, 900)
+    check(W.find("Angebot 77 .* 200 ms nach der Raste") == 1, "Lauf 9: Mausrad über Tabelle -> Raste -> Kauf 200 ms")
+    win.scripts.OnMouseWheel(win, -1); W.tick(1.2)
+    check(W.find("RASTE ohne Kauf %(Status bei der Raste: Treffer! Mausrad zum Kaufen%)") == 1, "Lauf 9: Mausrad über Fenster ohne Kauf")
+    -- neue Tabelle nach dem Start wird beim Minutenlauf erfasst
+    local late = mkFrame(true)
+    win.kids = { plain, late }
+    W.tick(60)
+    check(W.find("Rasten über: Mausrad über AHS%-Fenster 2") == 1, "Lauf 9: Minute nennt Quelle der Rasten")
+    late.scripts.OnMouseWheel(late, 1)
+    check(W.B.tot.rasten == 3, "Lauf 9: später entstandene Tabelle erfasst (Rasten " .. tostring(W.B.tot.rasten) .. ")")
+    -- doppelt hooken darf nicht doppelt zählen
+    W.B.HookRasten(); W.B.HookRasten()
+    late.scripts.OnMouseWheel(late, 1)
+    check(W.B.tot.rasten == 4, "Lauf 9: mehrfaches Hooken zählt einfach (Rasten " .. tostring(W.B.tot.rasten) .. ")")
+    -- HitWaiting wirft Fehler -> keine Raste, kein Fehler
+    W.env.AHAnalyzerPro.Sniper.HitWaiting = function() error("x") end
+    late.scripts.OnMouseWheel(late, 1)
+    check(W.B.tot.rasten == 4 and W.B.tot.eigeneFehler == nil, "Lauf 9: Fehler in HitWaiting abgefangen")
+end
 ---------------------------------------------------------------------------
 -- Zufallsläufe (5 Seeds): wilde Ereignisfolgen, Invarianten müssen halten, Zeit je Ereignis messen
 ---------------------------------------------------------------------------
@@ -578,7 +628,7 @@ for seed = 1, 5 do
     check((T.gekauft or 0) <= (T.gesendet or 0) + 1, "Zufall " .. seed .. ": gekauft (ohne fremde) nie mehr als gesendet")
     check(#W.log() <= 6500, "Zufall " .. seed .. ": höchstens 6500 Zeilen")
     local ex = W.env.GSSniperLogDB.export
-    check(ex:find("^GSDIAG1|GSSniperLog|1.3|") and #ex <= 400200, "Zufall " .. seed .. ": Export gültig")
+    check(ex:find("^GSDIAG1|GSSniperLog|1.4|") and #ex <= 400200, "Zufall " .. seed .. ": Export gültig")
     check(not ex:find("\0"), "Zufall " .. seed .. ": Export ohne Nullzeichen")
     check(dt / nEv < 0.0005, string.format("Zufall %d: schnell genug (%.3f ms je Ereignis)", seed, dt / nEv * 1000))
     print(string.format("Zufall %d: %d Ereignisse, %.3f ms je Ereignis, %d Zeilen, gesendet %d, gekauft %d, weg %d",

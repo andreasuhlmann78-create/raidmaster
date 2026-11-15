@@ -40,6 +40,24 @@
 >>>       ein Satz, Tests, offene Fragen, und die Liste "Im Spiel prüfen" (kurz, in der Reihenfolge, in der der Nutzer sie tun soll).
 >>>    Der Block NACHT-ARBEIT vom 14.11. weiter unten ist ÜBERHOLT (alte Reihenfolge).
 
+>>> GSL3 – PROTOKOLL 3 (GSSniperLog 1.3, Nutzer 16:18–16:45, AHS 0.65.196; Supervisor 16:55). Masterplan Phase 1.2.
+    GUT (Fortschritt belegt): 14 Käufe gesendet, 14 bestätigt (100 %), Code 10 = 0, doppelt 0, wiederholt 0, ohne Antwort 0,
+    Antwort Ø 0,46 s; Zähler AHS 14 / 1g21s00 = bestätigt = Gold-Abgang (exakt); keine Bilder > 100 ms in den letzten Minuten.
+    Das ist noch KEINE Abnahme (nur 14 Käufe in einer Minute; A1 verlangt 2 Min. Mausrad mit vielen Angeboten).
+  GSL3-1 MITTEL – forecast-eval lief beim Snipen 50–60 s je Minute (16:21–16:30, 16:38–16:40, Sniper an + AH offen) trotz
+         GSL2-3 "Prognose wartet beim Snipen" (0.65.196). Verdacht: die 120-s-Grenze von A:SnipeDefer lässt die Aufgabe danach
+         trotzdem laufen, oder schon begonnene Aufgaben laufen weiter. Mit SN-RUHE1 (0.65.197) belegen: in Protokoll 4 darf die
+         RUHE-Zeile beim Snipen höchstens kurz Aufgaben zeigen; 30-Min.-Grenze statt 120 s (SN-RUHE1 a).
+  GSL3-2 NIEDRIG – Verkaufen-Reiter beim scharfen Sniper: 16:39–16:40 kamen 12 Anfragen von Seller.lua (Suche/Eigene Auktionen),
+         während der Sniper an war (der Nutzer hat verkauft). Den Spieler NIE blockieren: Wenn der Spieler selbst einen anderen
+         Reiter benutzt, pausiert der Sniper (Status "Sniper pausiert – du verkaufst gerade", weiter nach 30 s ohne Eingabe)
+         statt um die Drossel zu konkurrieren. Ergänzt SN-RUHE1 (b): blockiert werden nur AHS-eigene Hintergrund-Anfragen.
+  GSL3-3 NIEDRIG – Pausen 8,1 s und 8,8 s (16:39:14, 16:39:25) direkt nach dem Öffnen des AH mit Status "Treffer! Mausrad zum
+         Kaufen"; sonst 3,6–4,5 s zwischen Suchen, solange ein Treffer wartet. Bitte belegen, ob die 8-s-Werte vom Öffnen
+         kommen (Meine Auktionen/Seller-Anfragen zuerst) – Ziel nach dem Öffnen ≤ 2 s bis zur ersten Sniper-Suche.
+  Hinweis Messwerkzeug: GSSniperLog 1.3 zählte Rasten über AHS-Fenster (Sn:WheelBuy) nicht – 1.4 behebt das. "Weggeschnappt 150"
+  lässt sich darum für 16:23–16:30 nicht bewerten (der Nutzer war in der Zeit im Chat, nicht am Mausrad).
+
 >>> MASTERPLAN AHSENTINEL – VOLLSTÄNDIG IN auftraege/AHSentinel/masterplan-ahsentinel.txt (Supervisor 16:31; Nutzer 16:25 "Masterplan",
     16:28 "nicht nur meine Daten, sondern die aller Spieler", 16:29 "erinnere dich an alles und ergänze den Masterplan").
     ZUERST DIESE DATEI LESEN – sie ist die EINE Reihenfolge und ersetzt jede frühere (auch 16:22 und 16:26). Kurz:

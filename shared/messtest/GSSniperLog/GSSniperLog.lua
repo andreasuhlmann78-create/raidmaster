@@ -23,10 +23,13 @@
 --   * Ruhemodus: Sekunden mit Sniper an, laufende AHS-Aufgaben in dieser Zeit, Anfragen ans AH nach Quelle (Addon/Datei)
 --   * Rasten ohne Kauf nach Sniper-Status, Suchen je Ziel-Item mit/ohne Treffer
 --
+-- 1.4 (Protokoll 15.11. 16:45: "Rasten 0" trotz 14 Käufen): Mausrad über AHSentinel-Fenstern zählt als Raste, wenn ein
+--   Treffer wartet (AHSentinel kauft dort über Sn:WheelBuy statt über die Knöpfe); Minuten-Zeile "Rasten über: …".
+--
 -- Ergebnis: beim Ausloggen oder /reload als "GSDIAG1|GSSniperLog|…" in GSSniperLogDB.export -> der RaidMasterUploader
 -- bringt es nach testberichte/diagnose/GSSniperLog/. Befehl: /gssl (Stand), /gssl aus|an, /gssl leeren.
 
-local ADDON, VERSION = "GSSniperLog", "1.3"
+local ADDON, VERSION = "GSSniperLog", "1.4"
 local MAXLOG = 6000            -- Zeilen im Speicher (älteste fallen weg)
 local EXPORT_MAX = 400000      -- Zeichen in der Ausgabe für den Uploader
 local CONFIRM_MAX = 30         -- Sekunden: ohne Antwort gilt ein Kauf als "keine Bestätigung"
@@ -549,6 +552,9 @@ local function MinuteSummary()
         for i = 1, math.min(8, #arr) do out[#out + 1] = fmt(arr[i][1], arr[i][2]) end
         return table.concat(out, ", ")
     end
+    if m.rasteSrc then
+        parts[#parts + 1] = "Rasten über: " .. List(m.rasteSrc, function(k, v) return k .. " " .. v end)
+    end
     if m.rasteOhneSt then
         parts[#parts + 1] = "ohne Kauf nach Status: " .. List(m.rasteOhneSt, function(k, v) return k .. " " .. v end)
     end
@@ -1037,21 +1043,57 @@ local function RasteOhne()
     B.rasteT, B.rasteSt = nil, nil
 end
 B.RasteOhne = RasteOhne
-local function HookRasten()
-    if B.rastenHooked then return end
-    for _, n in ipairs({ "AHAnalyzerProSnipeButton", "AHAnalyzerProSnipeOnlyButton" }) do
-        local b = _G[n]
-        if b and b.HookScript then
-            B.rastenHooked = true
-            pcall(b.HookScript, b, "OnClick", function()
-                if not B.on then return end
-                if B.rasteT then B.RasteOhne() end        -- vorige Raste ohne Kauf
-                B.rasteT = Now()
-                local okS, st = pcall(StatusText)
-                B.rasteSt = (okS and st) or B.status or "-"
-                Inc(B.min, "rasten"); Inc(B.tot, "rasten")
+-- 1.4: Eine Raste ist (a) ein Klick auf einen Auslöse-Knopf von AHSentinel (Mausrad/Taste über der Spielwelt) oder
+-- (b) ein Mausrad über einem AHSentinel-Fenster, während ein Treffer wartet (AHSentinel kauft dann über Sn:WheelBuy,
+-- nicht über die Knöpfe – das fehlte in 1.2/1.3: "Rasten 0" trotz 14 Käufen). Nur HookScript (nachher mithören).
+local function NoteRaste(src)
+    if not B.on then return end
+    if B.rasteT then B.RasteOhne() end            -- vorige Raste ohne Kauf
+    B.rasteT = Now()
+    local okS, st = pcall(StatusText)
+    B.rasteSt = (okS and st) or B.status or "-"
+    Inc(B.min, "rasten"); Inc(B.tot, "rasten")
+    B.min.rasteSrc = B.min.rasteSrc or {}
+    Inc(B.min.rasteSrc, src)
+end
+B.NoteRaste = NoteRaste
+local function HitWaiting()
+    local A = AHS()
+    local Sn = A and A.Sniper
+    if not (Sn and type(Sn.HitWaiting) == "function") then return false end
+    local ok, v = pcall(Sn.HitWaiting, Sn)
+    return ok and v and true or false
+end
+B.hooked = B.hooked or setmetatable({}, { __mode = "k" })
+local function HookWheel(fr, depth)
+    if type(fr) ~= "table" or depth > 7 then return end
+    if not B.hooked[fr] and fr.GetScript and fr.HookScript then
+        local okG, sc = pcall(fr.GetScript, fr, "OnMouseWheel")
+        if okG and sc then
+            B.hooked[fr] = true
+            pcall(fr.HookScript, fr, "OnMouseWheel", function()
+                if B.on and AHOpen() and HitWaiting() then NoteRaste("Mausrad über AHS-Fenster") end
             end)
         end
+    end
+    if fr.GetChildren then
+        local okC, kids = pcall(function() return { fr:GetChildren() } end)
+        if okC then for _, k in ipairs(kids) do HookWheel(k, depth + 1) end end
+    end
+end
+local function HookRasten()
+    for _, n in ipairs({ "AHAnalyzerProSnipeButton", "AHAnalyzerProSnipeOnlyButton" }) do
+        local b = _G[n]
+        if b and b.HookScript and not B.hooked[b] then
+            B.hooked[b] = true
+            B.rastenHooked = true
+            pcall(b.HookScript, b, "OnClick", function() NoteRaste("Taste/Mausrad Spielwelt") end)
+        end
+    end
+    -- Fenster von AHSentinel (auch die Tabellen darin) – neu entstandene werden beim nächsten Durchlauf erfasst
+    for _, n in ipairs({ "AHAnalyzerProWindow", "AHAnalyzerProAHPanel" }) do
+        local w = _G[n]
+        if w then pcall(HookWheel, w, 0) end
     end
 end
 B.HookRasten = HookRasten
@@ -1130,7 +1172,7 @@ f:SetScript("OnUpdate", function(_, el)
         if not ok then pcall(Log, "GSSL-FEHLER", "Bilder: " .. tostring(err)) end
         ok, err = pcall(AddonMinute)
         if not ok then pcall(Log, "GSSL-FEHLER", "Addons: " .. tostring(err)) end
-        if not B.rastenHooked then pcall(HookRasten) end
+        pcall(HookRasten)                    -- 1.4: neue Fenster/Tabellen von AHSentinel mit erfassen
     end
     -- 1.3: Stand der Drossel am Ende dieses Bildes = "vorher" für die Anfragen im nächsten Bild
     B.readyFrame = ServerReady()
