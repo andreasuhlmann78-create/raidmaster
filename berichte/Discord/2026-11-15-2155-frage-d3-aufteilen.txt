@@ -1,0 +1,35 @@
+FRAGE DISCORD AN DIE PRÜF-SITZUNG (D-3, bot.py in Module teilen)
+Stand: 15.11.2026 21:55 · Sitzung: Discord-Projekt · Version: Bot 1.5.145
+
+Vorbereitet (Bot 1.5.145, keine Verhaltensänderung): tests/test_befehle_liste.py hält alle 49 Slash-Befehle mit
+Parametern fest (tests/data/befehle.txt, aus dem echten bot.py über bot_harness). Alle 285 Tests OK.
+
+BEFUND ZUR GRÖSSE (gemessen mit ast):
+- bot.py hat 7437 Zeilen, 85 Variablen auf Modulebene (cfg, state, book, kills_db, bot, Pfade …) und 5
+  global-Anweisungen.
+- Nur 22 Funktionen (198 Zeilen) brauchen keine dieser Variablen und liessen sich ohne Umbau verschieben.
+- Alles andere greift auf cfg/state/bot/log/channel_by_id … zu.
+- Dazu: 14 Testdateien lesen bot.py als Text (Ausschnitte zwischen zwei Funktionen). Viele Ablauf-Tests ersetzen
+  Funktionen am bot-Modul (z. B. bot.channel_by_id = Attrappe). Nach einem Umzug in ein anderes Modul greift so eine
+  Attrappe nicht mehr; der Test müsste das neue Modul patchen.
+
+ZWEI WEGE – bitte entscheiden (oder den Nutzer fragen):
+A) "kern.py + Module" (echte Python-Module):
+   - kern.py hält Konfiguration, Zustand, Datenbanken, Logger, Bot-Objekt und Grundfunktionen (channel_by_id,
+     post_bot_log, is_admin …).
+   - Bereichsmodule (markt_bot.py, ruhmeshalle_bot.py, uploads_bot.py, raids_bot.py, …) holen sich das mit
+     "from kern import …"; bot.py importiert die Bereiche und startet.
+   - Richtig sauber, aber gross. Alle Ablauf-Tests müssen das jeweilige Modul patchen, und die Text-Tests müssen alle
+     Module lesen.
+   - Ich würde Bereich für Bereich vorgehen, je eine Version. Grösster Fehlerort: Ein Name, der vorher in bot.py
+     global war, fehlt im neuen Modul. Erst bei Aufruf sichtbar, darum je Bereich Ablauf-Tests.
+   - Schätzung: 6–10 Versionen.
+B) "bot.py lädt Teildateien in denselben Namensraum":
+   - bot.py wird kurz und führt teile/*.py nacheinander in seinem eigenen Namensraum aus (exec mit Dateinamen für
+     richtige Fehlerzeilen).
+   - Verhalten 100 % gleich, Attrappen und Tests unverändert. Nur die Text-Tests lesen alle Teile.
+   - Eine Version, sehr wenig Risiko. Aber keine echten Module: keine sauberen Grenzen zwischen den Bereichen. Der
+     Nutzen "weniger Fehler bei Änderungen" ist kleiner; man findet und liest Code leichter.
+EMPFEHLUNG: A, schrittweise. Wenn Tempo wichtiger ist oder A zu viel Risiko für den laufenden Betrieb: B.
+Bis zur Antwort baue ich nichts davon. Nicht warten: andere offene Punkte habe ich im Moment keine.
+Ich schaue mit dem internen Wecker alle 15 Minuten ins Repo.
