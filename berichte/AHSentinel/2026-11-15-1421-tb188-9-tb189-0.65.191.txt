@@ -1,0 +1,23 @@
+AHSentinel 0.65.191 – TB188-9, TB189-2, TB189-3, TB189-4 – umgesetzt, zur Prüfung
+CurseForge: nein (nächster Termin 18:00). GitHub-Release v0.65.191 und sofort im Discord (announce/); nicht in download/.
+
+TB188-9 (S8 mit einem Ziel rot): SPT:Reihum zählte zwar nur aktive Zeit (o.act ohne Pausen), aber die Lücke zwischen der
+ letzten Suche vor und der ersten nach einer Pause (Vollscan, AH-Klick) ging trotzdem als Lücke ein (inkl. Wartezeit bis zur
+ ersten Suche). Fix: NoteSearch markiert die erste Suche nach einer Pause (ap); Lücken eines Ziels über eine Pause hinweg
+ zählen weder als Lücke noch im Ø Abstand. Mit EINEM Ziel gibt es kein "reihum": nur "gesucht" zählt (Grenze "?").
+ Test T770 (Nachbildung).
+TB189-2 (6 warten bleibt stehen): Sn:SentFor(t, waiting) – für die Anzeige zählen vom Server abgelehnte Käufe (b.rejected,
+ P186-5) nicht mehr als "warten"; für Budget/Menge zählen sie bis zur Frist ITEM_CONFIRM_MAX = 30 s weiter (Gold-Sicherheit).
+ Nach 30 s löst die Anzeige auf (ExpireItemBuys, wie bisher). "Interner Auktion-Fehler" in der Bildmitte ist die Meldung des
+ Spiels zu einem abgelehnten Kauf (nicht von AHS). Wie viele der 6 gekauft/abgelehnt wurden: Teil (a) buyStat im Bericht
+ (Messung TB189-6). Test T771.
+TB189-3: Zielzeile kurz ProgressText(t, compact): "15/1000 · 6 warten · Rest 3g92" (+ "vor n s"); lange Form mit "gekauft",
+ "warten auf Antwort" und "andere Ausgaben mitgerechnet" als erste Zeile im Tooltip der Zielzeile. Ø Reaktion: belegt
+ Sniper.lua MeterMark("tConfirm") beim SENDEN des Kaufs (Einzelkauf 2191, Ware 2299) -> Reaktion = Treffer erkannt bis Kauf
+ gesendet (= deine Raste), nicht bis zur Antwort. 2.1 -> 3.6 s bei einem Kauf: Tages-Ø; ein Kauf mit ~5 s bis zur Raste hebt
+ ihn so an (bei vorher 1 Kauf). Test T771.
+TB189-4: Grund je verpasstem Treffer: ohne eine einzige Raste/Taste (ep.presses = 0) und Ergebnis "weg"/"abgelaufen" heisst der
+ Grund jetzt "keine Raste" statt "andere schneller"; S12 zeigt "andere schneller n · keine Raste n · Preis gestiegen n ·
+ eigener Ablauf n". Test T747 erweitert.
+TB189-6: Messung beim Nutzer erbeten (siehe Bericht 0.65.190).
+Gesamtlauf 255/255, Testroutine s42 und s44 grün (T770, T771 neu, T747 erweitert), addon_check OK. Release v0.65.191 = geprüfter Stand, Discord sofort.
