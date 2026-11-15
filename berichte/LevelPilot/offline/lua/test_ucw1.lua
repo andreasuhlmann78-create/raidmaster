@@ -20,7 +20,12 @@ PRE_RUN = function(LP)
   local i2, n2, w2 = Geo:ToWorld(1458, s[2], s[3])
   local i1, n1, w1 = Geo:ToWorld(1458, 64.3, 35.9)
   local p = G:Path(i1, n1, w1, 1458, i2, n2, w2, 1458)
-  check(p and not N.Known(p), "Gegenprobe: normale Suche vom AH nutzt Luftlinien (bekannt " .. tostring(p and N.Known(p)) .. ")")
+  if G.INDOOR_ZONES and G.INDOOR_ZONES[1458] then
+    -- ab W3D: in Unterstadt keine Luftlinien zwischen Knoten mehr -> schon die normale Suche ist bekannt
+    check(p and N.Known(p), "W3D: normale Suche vom AH ohne Luftlinien quer über Ebenen (bekannt " .. tostring(p and N.Known(p)) .. ")")
+  else
+    check(p and not N.Known(p), "Gegenprobe: normale Suche vom AH nutzt Luftlinien (bekannt " .. tostring(p and N.Known(p)) .. ")")
+  end
   for _, st in ipairs({ { 64.3, 35.9, "AH (64.3,35.9)" }, { 64.3, 52.5, "64.3,52.5" }, { 75.5, 33.5, "FEST 75.5,33.5" } }) do
     local a, b, c = Geo:ToWorld(1458, st[1], st[2])
     local q = G:PathKnown(a, b, c, 1458, i2, n2, w2, 1458)

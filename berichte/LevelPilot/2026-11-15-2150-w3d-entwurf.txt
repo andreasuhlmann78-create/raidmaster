@@ -1,0 +1,45 @@
+BERICHT LEVELPILOT AN DEN SUPERVISOR (PRÜF-SITZUNG)
+Stand: 15.11.2026 21:50 · Sitzung: LevelPilot-Projekt-Sitzung · veröffentlicht: 3.12.35 (unverändert)
+Anlass: W3D HOCH (d94e1967, Konzept shared/wissen/analysen/levelpilot-wegfuehrung-3d.md ganz gelesen), Reihenfolge (0):
+"B2 + SNAP-Trennung nach drinnen/draussen + Unterzone im Nachbau bauen und testen, NICHT veröffentlichen".
+
+STAND: ENTWURF GEBAUT UND IM NACHBAU GETESTET – NICHT VERÖFFENTLICHT (wartet auf die Messung mit GSWegMess)
+Änderung gegen 3.12.35 (nur Graph.lua und Recorder.lua): berichte/LevelPilot/w3d-entwurf/w3d-entwurf-gegen-3.12.35.diff
+- B1 (vorläufig): Graph.LevelKey() = nil draussen (wie bisher), drinnen "i:<GetSubZoneText>" (IsIndoors). Austauschbar, damit das
+  Messergebnis (welches Zeichen trennt die Ebenen) ohne Umbau eingesetzt werden kann. Recorder speichert den Schlüssel je Punkt;
+  KeyPoints glättet einen Ebenenwechsel nicht weg (beide Punkte bleiben).
+- SNAP/Join nur innerhalb desselben Schlüssels: AddNode(…, key) legt nur Knoten derselben Ebene zusammen; Join hängt nur an Kanten,
+  deren beide Enden dieselbe Ebene haben.
+- B3 (Anfang): eine gelaufene Kante zwischen zwei Ebenen wird als Tor markiert (e.g = true, beide Richtungen). Sturz-Einbahn und
+  Aufzug-Wartezeit noch NICHT (brauchen die Messung: IsFalling/Aufzug-Erkennung).
+- B2: Luftlinien zwischen Knoten nur draussen und in derselben Ebene; drinnen nur Start -> Knoten bzw. Knoten -> Ziel bis 40 yd.
+  Für Zonen, die ganz aus Räumen bestehen (Graph.INDOOR_ZONES = Unterstadt 1458, aus wago.tools UiMap laut Konzept), gilt das auch
+  für ältere Knoten ohne Schlüssel.
+- PathRaw(…, sKey, gKey): Ebene von Start/Ziel optional; andere Ebene -> nie "direkt" (Luftlinie), Anschluss nur an Knoten dieser
+  Ebene (Grundlage für B5 "falsche Ebene").
+
+TESTS (Nachbau, Abschnitt 7 des Konzepts) – berichte/LevelPilot/offline/lua/test_w3d.lua, auf dem Entwurf 8/8:
+- SNAP legt Punkte verschiedener Ebenen nie zusammen (A und B an derselben Stelle = 2 Knoten; A + 3 yd = derselbe Knoten).
+- Zwei Ebenen mit GLEICHEN 2D-Koordinaten, Tor nur am Ostende: Weg von A (Westende) nach B (Westende, gleiche Stelle!) führt über
+  das Tor (östlichster Punkt 45,0 = Tor). Gegenprobe ohne Ebenen-Angabe: "direkt".
+- Drinnen keine Luftlinie über eine Lücke von 150 yd (nur bekannte Wege: kein Weg; normale Suche: keine Luftlinie zwischen Knoten).
+- Draussen wie bisher: Weg mit Luftlinie zwischen zwei Stücken ohne Schlüssel.
+- Genau ein Tor markiert; Aufzeichnung behält beide Punkte am Ebenenwechsel.
+- Gegenprobe mit 3.12.35: "W3D fehlt" -> FEHLER.
+REGRESSION OFFENES GELÄNDE: Durotar mit allen eingesandten Wegdaten (779 Wegstücke), 200 Zufallspaare (eigener Zufall, Seed 7):
+Art, Kosten und Punktzahl jedes Weges in 3.12.35 und im Entwurf IDENTISCH (diff leer).
+UNTERSTADT: test_ucw1 auf dem Entwurf: schon die normale Suche liefert den bekannten Weg AH -> Bethor (keine Luftlinien mehr).
+GESAMT: run_offline.py auf dem Entwurf 35/35 ohne FEHLER; lokale Gesamtregression 36/36 ohne FEHLER.
+
+NOCH NICHT IM ENTWURF (nach der Messung): Schlüssel aus dem Messergebnis festlegen; Sturz-Einbahn, Aufzug mit Wartezeit
+(TransportAnimation: Unterstadt 16,7 s, Donnerfels 30 s); Schlüssel im Austausch (GSWEGE1/Sync) – sonst bleiben geteilte Wege ohne
+Ebene; B4 Startdaten Unterstadt; B5 Klartext je Tor und "falsche Ebene". Hinweis: GetSubZoneText ist sprachabhängig – für den
+Austausch zwischen Spielern verschiedener Sprachen braucht der Schlüssel eine sprachfreie Form (z. B. Zuordnung der Unterzonen-
+Namen zu WMOAreaTable-IDs je Sprache) – Vorschlag, mit der Messung zu entscheiden.
+
+ALS NÄCHSTES: Messung des Nutzers mit GSWegMess (4 Testläufe) abwarten und dabei nicht untätig sein: B3-Sturz/Aufzug-Erkennung
+und den sprachfreien Schlüssel im Nachbau vorbereiten. Alle 15 Min. ins Repo.
+
+FRAGEN
+- Soll der Entwurf bis zur Messung nur im Arbeitsordner bleiben (so jetzt), oder als eigene Testversion (nicht in Discord) in
+  berichte/LevelPilot/w3d-entwurf/ als ZIP für den Supervisor?
