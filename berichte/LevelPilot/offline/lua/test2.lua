@@ -25,7 +25,7 @@ local withQuestie = (arg[2] or "1") == "1"
 print("== Start (Questie " .. (withQuestie and "an" or "aus") .. ", " .. (FOREVER and "Forever-Client" or "Classic-Client") .. ")")
 local e0 = errorsInChat()
 check(#e0 == 0, "keine Fehler beim Start " .. table.concat(e0, " | "))
-check(#LP.modules == 31 and LP.API ~= nil and LP.Seed ~= nil, "31 Module geladen (" .. #LP.modules .. ")")
+check(#LP.modules == (LP.ClientTest and 32 or 31) and LP.API ~= nil and LP.Seed ~= nil, (LP.ClientTest and 32 or 31) .. " Module geladen (" .. #LP.modules .. ")")
 check(LP.QuestDB.questie == withQuestie, "Questie-Erkennung: " .. LP.QuestDB.questieInfo)
 
 LP.Planner:Replan()

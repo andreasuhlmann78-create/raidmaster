@@ -1,0 +1,26 @@
+BERICHT LevelPilot 3.12.45 – LP-N2: geführter Client-Test (/lp clienttest)
+Projekt: LevelPilot · Datum: 16.11.2026 00:40 (aus date) · Status: umgesetzt, zur Prüfung
+
+Bezug: offen-levelpilot.txt, NACHT-PRÜFUNG 00:19 (LP-N2 MITTEL).
+
+UMSETZUNG (neue Datei ClientTest.lua, Modul "ClientTest"; Befehl /lp clienttest; Diagnose-Zeilen in Protocol.lua)
+- Je Punkt T297–T306 eine automatische Prüfung im Spiel:
+  T297 LevelInfo-Form · T298 Startwegnetz geladen (Karten/Kanten; N/A ausser Forever) · T299 SubKey (Tabelle; in einer Stadt
+  muss der aktuelle Ort bekannt sein) · T300 UnitIsAFK/IsResting vorhanden · T301 Waffenart der Haupthand = Name der Fertigkeit
+  · T302 Waffenmeister der eigenen Fraktion im Datenpaket · T303 Fortschritt einer Quest lesbar · T304 MerchantFrame und
+  MerchantItem1ItemButton vorhanden · T305 alle Stellen des Klassen-Builds im Talentbaum gefunden · T306 NavigateTo lehnt
+  unbekannte Karte und x=150 ab (Ziel wird wiederhergestellt).
+- Fragen nur wo hinschauen nötig und nur wenn die Automatik OK ist (3 Stück): T300 "/afk draussen – Hinweis da?", T304 "Plus-Zeichen
+  beim Händler?", T305 "Steht in Baum b, Reihe r, Spalte c das Talent <Name>?". Fenster: ein Satz, Knöpfe OK / Nicht OK /
+  Überspringen. Texte in allen Sprachdateien (Reihenfolge der Platzhalter je Sprache geprüft).
+- Ergebnis: LevelPilotDB.clientTest (Version, Zeit, Zeilen) und in /lp diag "CLIENTTEST <Version> (<Zeit>):" + eine Zeile je Punkt
+  "Txxx OK|FEHLER|N/A – Name: Detail"; am Ende eine Chatzeile mit der Zusammenfassung (über die Meldungs-Weiche, LP:Reply).
+BELEGE
+- T307 (deDE/enUS): eigene Prüfpunkte – zuerst gefragt A · 3 Fragen · OK/OK/FEHLER/Lua-Fehler->FEHLER/"Nicht OK"->FEHLER/
+  "Überspringen"->N/A · Meldung · 7 Diagnose-Zeilen · danach die echten 10 Punkte ohne Lua-Fehler.
+- Nachbau-Lauf der echten Punkte (ohne Spiel-API): T297/298/299 OK, T300/T304 FEHLER (API/Rahmen fehlen im Nachbau), T301/302/303/305
+  N/A, T306 FEHLER (der Nachbau kennt jede Karte) – erwartet; im Spiel gelten die echten Werte.
+- T01 und test2 kennen das neue Modul (32 Module; test2 nimmt für ältere Fassungen weiter 31).
+- run_offline.py (allein): 37/37 ohne FEHLER, Meldungs-Weiche OK; private Regressionen 36/36; addon_check OK.
+NUTZEN FÜR DEN NUTZER: /lp clienttest einmal laufen lassen, drei Fragen beantworten, dann /lp diag kopieren – statt 10 Anleitungen
+zu lesen. Danach (Idee Supervisor) dasselbe für den GSWegMess-Ablauf möglich.
