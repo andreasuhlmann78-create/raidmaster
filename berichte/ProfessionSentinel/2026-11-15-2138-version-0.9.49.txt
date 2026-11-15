@@ -1,0 +1,61 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 21:38 (aus date) · Sitzung: ProfessionSentinel-Sitzung · Version: 0.9.49 · Commit: dd7a239 (Quell-Repo), Release v0.9.49
+Grundlage: anweisung-ui-crafter-2026-11-15.txt Schritt (2) – Teil 2 (3.1b Berufswechsel, "Nächster Lehrer" a–e), NACHT-PRÜFUNG 21:19.
+Hinweis: Hier steht nur "umgesetzt, zur Prüfung" mit Belegen. Ob etwas erledigt ist, entscheidet die Prüf-Sitzung.
+Uhrzeit: ab jetzt aus "date" (HINWEIS 21:19). Der Dateiname des Berichts 0.9.48 ("2125") war geschätzt; geschrieben um ca. 21:13.
+
+BERICHTIGUNG ZU 0.9.46 (selbst gefunden)
+----------------------------------------
+- T271 (PS-DW1, A3) war mit { api = true } angelegt und lief deshalb NUR in "/ps testroutine api", nicht im normalen Lauf. Die Aussage im
+  Bericht 0.9.46, T271 sei in Forever/Era/Retail ohne FEHLER gelaufen, stimmte für den normalen Lauf nicht. Nachgeholt am 15.11. 21:2x:
+  "testroutine api" Forever OK 18 / 0, Era 14 / 0, Retail 15 / 0. Jetzt ohne api-Kennzeichen (die Fälle ersetzen keine Blizzard-
+  Funktion mehr: DE.After bzw. WP.levelTest als eigene Felder) – T271 und T274 laufen in jeder Testroutine.
+
+UMGESETZT, ZUR PRÜFUNG
+----------------------
+1. Nächster passender Lehrer (Anweisung 3.2 "NÄCHSTER LEHRER" a–e), Waypoint.lua:
+   (a) WP.NearestTrainer(prof, rang): Lehrer der nächsten Stufe (WP.NextRank), eigene Fraktion (WP.IsFriendly), nach Entfernung:
+       gleicher Kontinent über C_Map.GetWorldPosFromMapPos (Spieler: GetBestMapForUnit + GetPlayerMapPosition; nur lesend, über
+       ns.API), sonst zuerst eine Hauptstadt der Fraktion (uiMapID 1453–1458), sonst irgendein freundlicher. NPC-Positionen
+       zwischengespeichert. Anzeige "Nächster Lehrer (Experte): Name, ~300 Yards, Orgrimmar" (auf 10 Yards gerundet) bzw. "in <Zone>".
+       Orte: Reiter Jetzt (Karte an der Grenze, Satz statt "Klick: Liste der Lehrer"), Skillen/Plan (eigene Gruppe, sobald ≤ 25 Punkte
+       vor 75/150/225), Skillen/Lehrer (Zusammenfassung; Liste je Stufe: freundlich zuerst, dann nach Entfernung, Entfernung je Zeile).
+   (b) Klick = "Weg zeigen" über WP.Set: TomTom -> Blizzard-Kartenpin -> Chat (vorhanden). LevelPilot-Übergabe: noch NICHT – dafür
+       fehlt eine abgesprochene Schnittstelle (LevelPilot UC-W1). Bitte über die Prüf-Sitzung klären, welche Funktion LevelPilot
+       anbietet (z. B. LevelPilotAPI.NavigateTo(uiMapID, x, y, titel)).
+   (c) Stufe zu niedrig (WP.RANKS level 5/10/20/35 gegen UnitLevel): "Experte ab Stufe 20 (du: 18) – noch kann dir das kein Lehrer
+       beibringen", kein Weg.
+   (d) Retail (ns.HasSourceData false): "Lehrer: in jeder Hauptstadt – frag eine Stadtwache".
+   (e) Test T274: je Fraktion (Horde, Allianz über WP.factionTest) drei Orte = an drei verschiedenen Lehrern stehen -> genau dieser ist
+       der nächste und nie einer der anderen Fraktion; ohne Position -> Hauptstadt; Grenze 150 -> Satz mit "Experte" und Weg; Stufe 18
+       -> Hinweis ohne Weg; Retail-Satz. Positionen im Test aus den Kartenkoordinaten gebildet (WP.NpcPos/PlayerPos ersetzt, keine
+       Blizzard-Funktion ersetzt). Brachland/Orgrimmar/Unterstadt als echte Orte: im Client prüfen (Weltkoordinaten nur im Spiel).
+2. Berufswechsel (3.1b) aus dem Zwischenspeicher: UI.viewCache["beruf|reiter"] = letzter VOLLSTÄNDIGER Aufbau (ohne Suchtext). Beim
+   Start eines portionierten Neuaufbaus zeigt UI.ShowCachedFor im selben Bild Reiter (je Beruf gemerkt), Kopfzeile "Beruf
+   Fertigkeit" und den gemerkten Inhalt dieses Berufs (oder eine leere Liste) – nie den Inhalt des vorherigen Berufs; die frischen
+   Zahlen folgen in Portionen. Messung "Berufswechsel (sofort)" in /ps protokoll. Test T275: 5× zwischen zwei Berufen (portioniert,
+   Bilder von Hand), jedes Mal richtiger Reiter, Kopfzeile und Inhalt dieses Berufs, Wechsel ≤ 16 ms (Mock 0,2–0,6 ms). Gegenprobe:
+   ohne UI.ShowCachedFor 10 Fehler. Die Testroutine leert den Zwischenspeicher am Ende (keine Testdaten bleiben).
+
+TESTS (eigene, Hinweise – keine Freigabe)
+-----------------------------------------
+- run_offline (LuaJIT): Forever OK 231 / FEHLER 0, Era OK 213 / 0, Retail OK 212 / 0, TBC ohne Lua-Fehler, Exit 0.
+- run_offline --lua51 (wie im Spiel): Forever OK 231 / 0 (auch T143 und T145), Retail OK 212 / 0.
+- Schnelltest Ausgang 0 (feste Liste um T275 ergänzt: vergleicht den sichtbaren Datenanbieter; im einfachen Mock teilen alle Listen
+  EINEN globalen LAST_DP, smoketest.lua 129/580). check_actions OK. Gegenprobe P-3 aus 0.9.46 gilt weiter.
+- addon_check auf download/ProfessionSentinel-0.9.49.zip und die announce-Zip: OK, 0 FEHLER, 0 WARNUNG. ZIP = Quell-Repo (diff -r leer).
+
+IM CLIENT PRÜFEN (neu)
+----------------------
+- Lederverarbeitung 145/150 in Orgrimmar, im Brachland und in Unterstadt: Karte "Bald Grenze 150" mit dem nächsten Experten-Lehrer und
+  plausibler Entfernung; Klick setzt TomTom-/Kartenpunkt. Mit einer Figur unter Stufe 20: Hinweis statt Weg.
+- Zwischen zwei Berufen hin und her: kein kurzes Aufblitzen des alten Berufs, jeweils der gemerkte Reiter.
+- /ps protokoll: "Berufswechsel (sofort)" unter 16 ms.
+
+OFFEN (Schritt 2, Rest -> 0.9.50) und danach
+-----------------------------------------------
+- Zeilen mit EINER Zahl je Reiter (3.3), Lebenslinien-Balken nur in Skillen, Herkunfts-Symbol nur in Rezepte.
+- Skillen: Plan und Rangliste zusammen ("billigster Weg / mit dem, was ich habe"); Gold: Verzauberer als Abschnitt.
+- "Beruf von <Figur>" für verlinkte Berufe (nur lesend).
+- LevelPilot-Übergabe für "Weg zeigen" (wartet auf Schnittstelle, siehe 1b).
+- Danach Schritte (3) Einkauf-Leiste mit Warteschlange, (4) Skillspur, (5) Texte.
