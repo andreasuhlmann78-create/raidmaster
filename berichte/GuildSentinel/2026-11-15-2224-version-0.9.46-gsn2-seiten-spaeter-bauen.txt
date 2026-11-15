@@ -1,0 +1,32 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 22:24 (Uhrzeit aus date, Europe/Zurich) · Sitzung: GuildSentinel-Projekt-Sitzung · Version: 0.9.46 · Commit: GuildSentinel a22420f
+Veröffentlichung: Discord ja (announce/, sofort). CurseForge: nein (nächster Termin 16.11.2026 18:00).
+Auftrag: GS-N2 (Nacht-Prüfung 22:18) – Seiten erst beim ersten Anwählen bauen, NUR wenn im Nachbau belegt.
+
+MESSUNG (test/perf_open.lua, je frisch geladen, Mittel aus 20 Läufen, Lua 5.1 os.clock; Frames/Schriften/Texturen gezählt):
+                                   vorher (0.9.45)                  nachher (0.9.46)
+  Erstes Öffnen (Startseite)       832 Frames, 1370 Schr./Text.,    48 Frames, 125 Schr./Text.,
+                                   14,82 ms (Era 13,09 ms)          2,84 ms (Era 2,86 ms)
+  Summe aller Seiten               1033 Frames, 2612 Objekte        1033 Frames, 2612 Objekte (gleich, nur verteilt)
+  Grösste Einzelseite beim ersten  –                                Mitglieder 887 Objekte (beim Anklicken)
+  Anwählen
+  -> Belegt: das erste Öffnen erzeugt 94 % weniger Fenster-Objekte und braucht im Nachbau 81 % weniger Zeit. Gesamtarbeit
+  gleich; sie verteilt sich auf die Klicks. Die Spiel-Zeit selbst ist nicht gemessen (Verdacht G-4 bleibt bis zum
+  Protokoll des Nutzers offen); dazu jetzt zusätzlich LANGSAM "Seite bauen <Seite>" im Diagnose-Protokoll.
+
+UMGESETZT, ZUR PRÜFUNG:
+- UI.lua: BuildNow legt je Seite nur das leere Panel und den Navigations-Knopf an; UI:EnsureBuilt(i) baut die Seite beim
+  ersten UI:SelectNow (vor panel:Show und onShow), einmal (panel.built), gemessen über ns.Timed("Seite bauen <key>").
+- Durchgesehen, was vorher auf gebaute Seiten bauen konnte: alle Ereignis-Listener der Seiten laufen über WhenShown bzw.
+  IsPageShown (nur angezeigte = gebaute Seite); UpdateSecure prüft self.panel; PagesExtra registriert nur Bausteine, die
+  Bd.build später nutzt; PLAYER_GUILD_UPDATE/GS_FEATURES wählen über UI:Select (baut bei Bedarf).
+
+EIGENE TESTS (Belege, keine Freigabe):
+- test/run_alle.sh: "GESAMT: 128 Läufe, 0 rot · 4495 Einzelprüfungen bestanden, 0 fehlgeschlagen" (inkl. run_uicheck,
+  run_uilang 8 Sprachen, run_routine mit OpenAllPages – alle Seiten und Reiter einmal geöffnet).
+- Routine: Forever OK 299, Era OK 304, TBC OK 304, je FEHLER 0.
+- run_g4.lua 10/10 je 16001/11508/20505: erstes Öffnen baut nur die Startseite; Mitglieder beim ersten Anwählen gebaut
+  und gemessen; erneutes Anwählen baut nicht noch einmal; alle angewählten Seiten gebaut. Gegenprobe (wieder alles beim
+  Öffnen bauen): 3 Prüfungen rot ("baut nur die Startseite: 13").
+
+IM CLIENT PRÜFEN: erstes Öffnen nach /reload; jede Seite einmal anklicken (alles da?); /gs protokoll -> LANGSAM-Einträge?
