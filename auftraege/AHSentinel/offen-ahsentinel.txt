@@ -23,6 +23,11 @@
 >>> !!! NIE ENGLISCH (Supervisor 17:36, Screenshot des Nutzers): In deiner Sitzung stand "Release 0.65.200 from the tested copy, then
 >>>    restore 0.65.201 work." – auch Zwischensätze, die der Nutzer sieht, IMMER Deutsch (Direktive 15.11. 12:38).
 
+>>> !!! FRAGEN NUR AN DEN SUPERVISOR (Nutzer 18:02: "sag AHS, wenn er Fragen hat, beantwortest du sie – mich braucht es dazu nicht"):
+>>>    Jede Frage als Bericht in berichte/AHSentinel/<JJJJ-MM-TT>-<HHMM>-frage-<thema>.txt (Uhrzeit aus date). Der Supervisor
+>>>    antwortet in dieser Datei (Block "NACHT-PRÜFUNG …" bzw. "ANTWORT …"), Prüfrunde alle 30 Min. Bis zur Antwort NICHT warten:
+>>>    vernünftigste Lesart umsetzen oder am nächsten Punkt des Masterplans weiterarbeiten. Den Nutzer nie fragen.
+
 >>> !!! DRINGEND – FREIE HAND (Nutzer 17:30: "AHS braucht keine Erlaubnis, er hat freie Hand, er muss keine Eingabe-Erlaubnis mehr
 >>>    einholen"): Arbeite selbstständig durch. Frag den Nutzer NICHT mehr um Erlaubnis oder Bestätigung – weder vor einer Version,
 >>>    noch vor einem Push, Release oder Discord-Beitrag, noch bei Unklarem (vernünftigste Lesart, im Bericht begründen).

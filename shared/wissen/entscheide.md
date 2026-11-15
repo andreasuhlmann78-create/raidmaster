@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 15.11.2026 18:02 | AHS stellt Fragen nur noch dem Supervisor (Berichte), nicht dem Nutzer; Supervisor beantwortet sie | offen-ahsentinel.txt FRAGEN NUR AN DEN SUPERVISOR |
 | 15.11.2026 18:01 | Bei Addon-Kontrollen jeweils das ganze Repo ansehen (Geschichte: Commits, Berichte, Aufträge), um zu verstehen, wie es zum Aufbau kam; was unklar ist, nachprüfen statt annehmen | pruef-ablauf.md A0, Nacht-Analyse 15./16.11. |
 | 15.11.2026 17:30 | AHS hat freie Hand: keine Erlaubnis/Eingabe-Erlaubnis mehr beim Nutzer einholen, selbstständig durcharbeiten (Grenzen: Masterplan, Direktiven, Sicherheit, CurseForge erst nach Abnahme) | offen-ahsentinel.txt DRINGEND – FREIE HAND |
 | 15.11.2026 17:21 | GSL4-1 (Code 10 trotz gelungenem Kauf) als Prio an AHS, danach weiter mit dem Masterplan | offen-ahsentinel.txt PRIO JETZT |
