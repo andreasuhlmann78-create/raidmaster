@@ -1,0 +1,24 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.35-splitter-platz
+Datum: 15.11.2026, 22:58 (aus date)
+
+Stand: BS-N1 Rest Punkt 1 (Seelensplitter-Platz) umgesetzt, zur Prüfung. Daten: shared/wissen/daten/bs-n1-rest.md Abschnitt 1.
+
+Veröffentlicht: download/BuffSentinel-0.9.35.zip, README, announce 0.9.35 (+ Zip), 0.9.34 entfernt; auf origin/main nachgeprüft.
+addon_check "OK (1 Warnungen)" (nur Lua-Syntax nicht geprüft). cmp Game/Sync/Test/Markt v7 und BuffSentinelVorratDaten gleich.
+
+Umsetzung
+- Core.lua BS:ShardSpace(): Taschen 0–4, GetContainerNumFreeSlots (C_Container oder alt, mit pcall) liefert freie Plätze und
+  bagType; gezählt nur bagType 0 (normale Tasche) oder Bit 4 gesetzt (Seelentasche; ohne bit-Bibliothek gerechnet:
+  floor(bagType/4) % 2 == 1, damit es in jedem Lua läuft). Funktion fehlt -> nil (nichts).
+- Data/Warlock.lua "shardspace": alertOnly, max = 3, low = 1 (Warnung bei 0 freien Plätzen, Anzeige "voll"), Seelendieb 1120
+  gelernt. Gezählt beim Taschen-Ereignis/Layout (Baustein Vorrat), nie je Bild.
+- Locales EN/DE (5 Schlüssel), CHANGELOG EN/DE.
+
+Belege (eigene Tests, keine Freigabe)
+- T228 "5/5/0/0/5/5/nil · ja": normal 3+2 = 5; Seelentasche (4) 5; Köcher (1) und Kräutertasche (32) 0; alles voll 0; alte
+  Schnittstelle 5; bagType 12 (Bit 4 gesetzt) zählt; Funktion fehlt nil. Anzeige bei 0 mit "voll", bei 1 und nil nicht.
+- run25m OK 178, die bekannten 12 Nachbau-FEHLER. Offline-Routine mit der veröffentlichten Zip: forever/era/tbc/retail ×
+  deDE/enUS = 8 × RESULT PASS.
+
+IM CLIENT PRÜFEN (Nutzer): Hexer mit vollen Taschen -> "KEIN PLATZ FÜR SPLITTER!".
+Nächster Punkt: Federn (Levitieren/Langsamer Fall).
