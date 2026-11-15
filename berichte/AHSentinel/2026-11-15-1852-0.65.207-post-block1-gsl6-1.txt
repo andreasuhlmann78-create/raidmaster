@@ -1,0 +1,63 @@
+AHSentinel 0.65.207 – POST-BLOCK1 (Masterplan 1.3b) + GSL6-1/GSL5-2 – umgesetzt, zur Prüfung
+CurseForge: nein (erst nach der Sniper-Abnahme). GitHub-Release v0.65.207 und sofort im Discord.
+
+POST-BLOCK1 (Spieler-Meldung "ADDON_ACTION_BLOCKED … UNKNOWN()" beim Einstellen)
+(a) Jeder Weg zu PostItem/PostCommodity (Code gelesen, 0.65.206):
+    Alle Wege laufen über EINE Stelle: Se:Post -> pcall(C.PostItem / C.PostCommodity).
+    WoW Forever / altes AH: LegacyAH.lua AH.PostItem/PostCommodity -> LegacyPost: PickupContainerItem,
+    ClickAuctionSellItemButton, PostAuction.
+    - Knopf "Einstellen" (UI_Sell p.postBtn, UI:Button OnClick -> p:Post -> Se:Post) – Klick.
+    - Warnschutz "Trotzdem einstellen" (Dialog-Knopf OnClick -> d.onAnyway -> p:Post) – Klick. Die Enter-Taste im Warnschutz
+      ruft nur "Preis anpassen", nie Post.
+    - Serie (p.batchBtn OnClick -> Se:BatchStep -> Se:Post) – Klick, ein Klick = eine Auktion.
+    - Neu einstellen (Meine Auktionen bzw. Briefkasten-Knopf OnClick -> X:RepostStep -> Se:BatchStep) – Klick.
+    - Heute tun (Markt/Übersicht, Tabellen-Knopf OnClick -> T:Click -> T:Post -> Se:Post, nur im Schritt "sellready") – Klick.
+    - Messreihe (SilverTest, nur /ahs-Testbefehl, Klick je Schritt) – Klick.
+    Kein Weg über C_Timer, OnUpdate, Ereignis, Antwort nach Wartezeit, Mausrad oder Enter im Preisfeld.
+    UI:Button ruft die Aktion direkt in OnClick auf (kein Aufschub).
+(b) Kein Knopf verzögert das Einstellen. Preisprüfung (Se:CheckPrice) und Einstellen sind getrennte Klicks; Today
+    "Prüfen" -> "Einstellen" ebenso.
+    Beleg: Szenario s207_post_block. Die Nachbildung verlangt für PostItem/PostCommodity das Hardware-Ereignis. Der Knopf
+    stellt ein, ein Aufruf ohne Klick schlägt fehl.
+    Verdacht, zu messen (Supervisor fragt den Spieler): Da AHSentinel selbst nur aus Klicks einstellt, bleiben drei
+    Möglichkeiten:
+      - Verseuchung (taint): Der Spieler stellt mit Blizzards eigenem Fenster ein, und AHSentinel hat vorher etwas am
+        Auktionshaus-Rahmen verändert (eigener Reiter am AuctionFrame), sodass Blizzards PostAuction als AHSentinel gemeldet
+        wird ("UNKNOWN()" passt zu einem Aufruf über eine Blizzard-Funktionsreferenz);
+      - eine alte Version (0.65.178?) mit einem anderen Weg;
+      - ein Klick in einem Fenster, das WoW nicht als Hardware-Ereignis zählt.
+    Die neue Diagnose unterscheidet die Fälle: "nach eigenem Einstellen" (mit Weg) bzw. "ohne eigenes Einstellen".
+(c) Neu: Se:OnActionBlocked (Ereignisse ADDON_ACTION_BLOCKED/FORBIDDEN, nur AHSentinel).
+    - Bis 3 s nach einem eigenen PostItem/PostCommodity: Meldung "Einstellen braucht einen Klick – bitte nochmal auf
+      Einstellen klicken".
+      - Kommt das Ereignis während des Aufrufs, gibt Se:Post die Meldung im Fenster zurück statt "Wird eingestellt …" und
+        setzt keine 5-s-Warte-Sperre.
+      - Kommt es später, steht die Meldung im Chat und die Sperre wird gelöst.
+    - Diagnose POST-BLOCKED: Funktion, "nach eigenem / ohne eigenes Einstellen", Weg (Knopf/Warnschutz/Serie/Neu
+      einstellen/Heute), Sekunden seit dem Aufruf, altes AH ja/nein, Version.
+    - Ohne eigenes Einstellen und AH offen: nur die Diagnose (Beleg für Fall Verseuchung).
+    - Fremde Addons: nichts.
+    - Vorher (0.65.206, Gegenprobe): blockiertes Einstellen meldete "Wird eingestellt …", der nächste Klick war 5 s gesperrt.
+(d) Szenario s207_post_block (12 Prüfungen):
+    - Knopf stellt ein;
+    - ohne Klick -> kein Einstellen;
+    - Sperre während des Aufrufs -> keine Warte-Sperre, Diagnose mit "Weg Knopf" und "UNKNOWN()", Meldung im Fenster, keine
+      doppelte Chat-Meldung;
+    - nächster Klick stellt ein;
+    - spätes Ereignis -> Chat-Meldung, Sperre gelöst;
+    - fremdes Addon -> keine Diagnose.
+    - Mit 0.65.206: 5 Prüfungen rot.
+
+GSL6-1 = GSL5-2 HOCH (Ruhemodus wirkt nicht auf begonnene Aufgaben; Code-Beleg AHAnalyzerPro.lua A:SnipeDefer
+"if j.started then return false end")
+  - Im Ruhemodus hält jetzt auch eine begonnene Aufgabe der QUIET-Liste zwischen zwei Schritten an. Die coroutine wird nicht
+    fortgesetzt und läuft danach an derselben Stelle weiter. Die 30-Min.-Grenze (QUIET_MAX) gilt weiter.
+  - Ohne Ruhemodus bleibt es wie 0.65.196: nur noch nicht begonnene Prognose/Zwischenspeicher, höchstens 120 s.
+  - Anzeige "Ruhemodus: n Aufgaben pausiert" zählt die begonnenen mit.
+  - T778 erweitert ("begonnen true" im Ruhemodus, "begonnen false" ohne).
+  - Szenario s207_quiet_started: Aufgabe 134 von 400 Schritten -> Sniper an -> 3 s kein Schritt -> Sniper aus -> bis 400.
+    Mit 0.65.206 rot (lief bis 400 durch).
+  - Locales +1 (alle Sprachen), CHANGELOG EN/DE.
+Gesamtlauf (262 Szenarien, Lua 5.1): 261 bestanden, 1 rot: s10_scan_smooth "längster Frame 165 ms". Das ist eine bekannte
+CPU-Zeit-Messung; parallel liefen Einzeltests für 0.65.208. Einzeln 3× wiederholt: 3× grün (116/112/114 ms).
+Keine Änderung am Scan in 0.65.207. addon_check: siehe Release.
