@@ -20,6 +20,31 @@
     alle Wege getestet (Erfolg, Fehler, Abbruch, AH zu, Kampf, alte Clients); keine Sperre ohne Zeitlimit; nichts abgeschnitten
     oder doppelt; Bericht nur "umgesetzt, zur Prüfung" mit Belegen. Lieber eine Version später als eine mit Fehlern.
 
+>>> SUPERVISOR 16:35 – ANTWORTEN UND NEUE BEFEHLE (Nutzer 16:21 "bitte erteile AHS neue Befehle"; Berichte 15:50 und 16:25 gelesen)
+  1. GSL2-1 (2) – AHS hat recht: In 0.65.193 erreichte Code 10 beim modernen AH MarkDead/600 s NICHT (Aufrufer nur über
+     lastBuyError = LegacyAH.lua). Mein Befund war in diesem Punkt falsch; die sichtbare Wirkung kam vom übergangenen Code 10
+     (itemBuys[1] = schon abgelehnter Kauf), den AHS in 0.65.196 gefunden und behoben hat (T776). Angenommen.
+  2. TT-DE3 – ERLEDIGT, Befund des Supervisors war falsch. Nachgerechnet aus den SavedVariables (15:01): Gruppe "2:4:a"
+     (grüne Rüstung, Itemstufe 26–30) eigene 950 + geteilte 15 = 965 Entzauberungen: Staub 1078 (1,117/DE), Essenz 307 (0,318),
+     Splitter 51 (0,053) -> zu den Tooltip-Netto-Preisen 3s99/14s01/34s74 = 10s75 ≈ 10s73 (Rundung). Die Entzauber-Tabelle hängt
+     im Spiel nur von Qualität + Itemstufe ab, nicht vom Item: Splitter 5 % laut Tabelle, Gruppe 5,3 %, Schulter allein 3,6 %
+     (15 von 415, z ≈ −1,3 gegen 5 % = Zufall). Je GRUPPE rechnen ist richtig, NICHTS ändern.
+  3. DE-AUFT1 – ENTSCHEID Supervisor (passt zu buchhaltung.md Regel 3 "relativer Verkaufswert"; Nutzer kann widersprechen):
+     Vorschlag 1 umsetzen. Einstand je Material-Stück = Preis_m (netto, Stand beim Entzaubern) × (Einstand des Teils / ERWARTETER
+     Netto-Wert einer Entzauberung dieser Gruppe, D:ActualNet). Unterschied tatsächlich − erwartet (Glück/Pech) als eigener Posten
+     "Entzauber-Ausbeute" (EN "Disenchant yield") in Buchhaltung/Bericht/Gewinn-Fenster, NICHT im Tooltip (Nutzer 11:50: Tooltip
+     bleibt). Summen müssen exakt aufgehen: Σ Einstand der Mats + Ausbeute = Einstand der Teile (Test mit 1000 Zufalls-
+     Entzauberungen, Differenz 0c). Nur NEUE Entzauberungen; alte Buchungen bleiben (kein stilles Umschreiben), im Bericht nennen,
+     ab welchem Zeitpunkt die neue Regel gilt. Locales EN/DE, CHANGELOG EN/DE.
+  4. GSL2-3 – Verdacht von AHS (113–116-ms-Bilder kommen aus der Blizzard-AH-Oberfläche) wird mit GSSniperLog 1.3 gemessen
+     (ADDONS-Zeile: AHS Ø klein + Ruckler bleiben = nicht AHS). Bis dahin nichts weiter.
+  5. GSSniperLog 1.3 (Messwerkzeug): "Server bereit" der Version 1.2 war ein Messfehler (Nach-Hook) – siehe Berichtigung bei GSL2.
+  NEUE REIHENFOLGE: SN-RUHE1 (läuft) -> DE-AUFT1 -> restlicher Sniper-Block (SN-B5 Max zur Planung speichern, SN-B6 Zähler nach
+  Bestätigung prüfen, SN-B7 Treffer "geleert" ohne Grund, SN-B8 Testkauf-Gold erklären, T745 Wartegrund "false", TB182-2
+  Tageslücke 7g67, TB184-U3 Unterbereiche im UI-Prüfteil) -> Abnahme A1–A6 mit GSSniperLog-Protokoll 3 (0.65.196+) -> danach
+  TT-DE2, KERN-T1, MAIL-1 Rest, VK-P1, UI-CLEAN1 (B)/UI-REF1, HP-2/3/4.
+  CurseForge 18:00: AHSentinel erst nach der Sniper-Abnahme (Discord jede Version sofort, wie bisher).
+
 >>> SN-RUHE1 Sniper-Ruhemodus (Nutzer 15:53 "ja bitte"; nach GSL2-1/2/4, zusammen mit GSL2-3). Solange Sniper AN und AH offen:
     Grundlage Protokoll 2 (GSSniperLog 1.2, 15:01–15:29): Lua-Speicher 410–475 MB, bis 62 Speicherbereinigungen/Min.; bei Aussetzern
     liefen forecast-eval 35×, cache:today 20×, ketten:refresh, ui-refresh, pd7:prepare, fullscan; ~11 % der Suchen gingen an Ziele

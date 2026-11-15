@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 15.11.2026 16:35 | (Supervisor, Nutzer 16:21 "erteile AHS neue Befehle") DE-AUFT1: Einstand der Mats nach erwartetem Entzauber-Wert, Glück/Pech als "Entzauber-Ausbeute"; TT-DE3 bleibt je Gruppe | offen-ahsentinel.txt, buchhaltung.md |
 | 15.11.2026 15:53 | Sniper-Ruhemodus: beim Snipen alles andere pausieren (Hintergrundaufgaben, andere AH-Anfragen, Neuaufbau), Suchzeit nach Chance | offen-ahsentinel.txt SN-RUHE1 |
 | 15.11.2026 15:12 | Sniper-Angebotsliste: bestätigte bzw. sicher weggeschnappte Zeilen 1 s markieren, dann entfernen; bei Fehler/keine Antwort bleibt die Zeile – "es dürfen keine Fehler passieren" | offen-ahsentinel.txt SN-UI1 |
 | 15.11.2026 14:57 | DIREKTIVE: nie wieder vergessen, ins Repo zu laden (Anlass: GSL1-Auftrag stand nur im Chat, Commit 14:48 enthielt ihn nicht) – nach jedem Commit auf origin/main nachprüfen, dass der Inhalt wirklich drin ist | CLAUDE.md, pruef-ablauf.md E, alle offen-*.txt |
