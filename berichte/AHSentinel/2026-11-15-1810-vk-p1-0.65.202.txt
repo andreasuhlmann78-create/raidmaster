@@ -1,0 +1,35 @@
+AHSentinel 0.65.202 – VK-P1 (a)–(d) (Masterplan 3.4) + GoldSentinelMarkt Version 5 (Masterplan 2.2) – umgesetzt, zur Prüfung
+CurseForge: nein (erst nach der Sniper-Abnahme). GitHub-Release v0.65.202 und sofort im Discord.
+
+VK-P1 (Seller.lua, UI_Sell.lua):
+ (a) Se:DEBetter(id, Stückpreis): Entzauberwert netto (D:DealValue, dieselbe Zahl wie das Entzauber-Fenster) > Verkauf netto
+     (Stückpreis × (1 − 5 %)) -> Wert.
+     - Verkaufen-Fenster: oberste Zeile grün "Entzaubern lohnt mehr (≈ X statt Y) – nicht einstellen".
+     - Einstellen: Se:SellWarning liefert eine Warnung "unter dem Entzauberwert" -> bestehende Rückfrage des Warnschutzes (WS), Ton.
+     - Gilt für jedes entzauberbare Item (D:Prior), nicht nur Sniper-Ware.
+ (b) Markt unter dem automatischen Mindestpreis:
+     - Satz "Verkauf zurzeit mit Verlust: Markt <Vorschlag aus dem Markt>, dein Mindestpreis <M> – warten oder Händler (<Händlerpreis>)"
+       (SuggestRaw2, auch als Hinweiszeile im Fenster).
+     - Der Preis im Feld bleibt der Mindestpreis (der Spieler entscheidet), aber er wird nicht mehr als verkäuflich dargestellt.
+ (c) Greift der Mindestpreis, wird bei Silberpreisen AUFgerundet (1141 -> 1200), nie mehr ab (vorher 1100 < 1141).
+ (d) Tooltip "Gewinn erwartet" mit der Rechnung in einem Satz aus denselben Werten wie die Zeilen darüber:
+     "<Erlös nach Gebühren> − <erwartet verlorene Einstellgebühr> − <Einstand (n Stück)> = <Gewinn>" (Se:ExpectedProfit).
+     Das Beispiel −2s63 im Screenshot entstand aus Erlös − Einstand der 11 Stück aus dem Lager-Posten − erwartete Gebühr;
+     jetzt ist das sichtbar.
+ Test T788: Mindestpreis 1141 -> Vorschlag 1200, Satz (b) mit Händler 6s59; DE netto 1118 > 855 -> Warnung "unter dem
+     Entzauberwert" mit 1118; DE netto 700 -> keine.
+GoldSentinelMarkt Version 5 (Supervisor 17:48):
+  - Byte-gleich kopiert.
+  - VS:FeedNet gibt jetzt auch die Abgänge der verfolgten Items mit: abg = vorzeitig verschwundene Auktionen aus VS:Compare,
+    abgV = abg − neue Auktionen, dt = Abstand der Vollscans. Andere Items gehen ohne abg (v5 lässt deren Absatz unberührt).
+  - FEED BLEIBT AUS (VS.FEED_ON = false), gemessen mit Feed AN in s92 (6000 Items, Lauf 3, je ein unabhängiger Lauf):
+    neu angelegt +19,5 / +21,6 / +16,8 MB gegen ~13 MB ohne Feed. Die Grenze von 15 MB ist dreimal gerissen; die Zeit je Bild war ok.
+    Die Arbeit von GSMarkt (Apply/Pack je Item, Export-Zeilen) fällt in dieselbe Messung.
+  - BITTE an den Supervisor (GSMarkt v6):
+    - beim Feed weniger anlegen: keine Tabelle je Item für conv/cmp, Export-Zeile in Teilen/wiederverwendet;
+    - oder s92 die Grenze für AHSentinel + GSMarkt neu setzen (Entscheid).
+    Sobald s92 mit Feed grün ist, schalte ich ein; T782 prüft den Weg mit Abgängen schon (abg 4/1, dt 1200).
+MN5-Entscheid (Rechenwert nur ohne eigenen Wert, "unsicher", nie Kauf/Sniper/Kaufgrenze; Anzeige nur im Markt-Reiter):
+  kommt als eigene Version (Phase 2.2 Rest), weil es alle Kaufwege berührt und Tests aller Wege braucht (Nacht-Regel 5).
+Locales +4 (alle Sprachen), CHANGELOG EN/DE.
+GESAMTLAUF
