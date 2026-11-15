@@ -318,12 +318,12 @@ check("Abbruch bei geänderter Liste", y.ev("GoldSentinelMarkt.Stats().aborted")
 z = Client("Testz", 13)
 set_auctions(z, rows1)
 scan(z)
-z.run(SRC.replace("local VERSION = 4", "local VERSION = 5"))
-check("neuere Fassung aktiv", z.ev("GoldSentinelMarkt.VERSION"), 5)
+z.run(SRC.replace("local VERSION = 5", "local VERSION = 6"))
+check("neuere Fassung aktiv", z.ev("GoldSentinelMarkt.VERSION"), 6)
 check("Daten übernommen", z.ev("GoldSentinelMarkt.Get(2589).preis"), 95)
 check("alter Frame still", z.ev("FRAMES[#FRAMES - 1].scripts.OnUpdate == nil"), True)
-z.run(SRC)                     # ältere Fassung lädt danach -> bleibt bei 5
-check("ältere Fassung übernimmt nicht", z.ev("GoldSentinelMarkt.VERSION"), 5)
+z.run(SRC)                     # ältere Fassung lädt danach -> bleibt bei 6
+check("ältere Fassung übernimmt nicht", z.ev("GoldSentinelMarkt.VERSION"), 6)
 
 # --- 14. Feed: Host-Addon liest selbst und gibt weiter, kein zweites Lesen ---------------------------------------------
 h = Client("Testh", 14)
@@ -334,6 +334,8 @@ check("Feed: Scan nicht selbst gelesen", h.ev("GoldSentinelMarkt.Stats().scans")
 h.run('''GoldSentinelMarkt.Feed("ProbeAddon", TIME, 81, {
   [2589] = { preis = 95, menge = 1400, n = 70, abg = 22, abgV = 20 },
   [14047] = { preis = 99, menge = 1, n = 1, abg = 0, abgV = 0 } }, 2400)''')
+check("v5: Feed nur angenommen, noch nicht gerechnet", h.ev("GoldSentinelMarkt.Get(2589) == nil and GoldSentinelMarkt.feedJob ~= nil"), True)
+h.tick(0.2)
 gh = h.ev("GoldSentinelMarkt.Get(2589)")
 check("Feed übernommen", (gh.preis, gh.menge, gh.n, gh.quelle), (95, 1400, 70, "eigen"))
 check("Feed: Absatz Unter-/Obergrenze", (round(gh.absatz), round(gh.absatzMax)), (round(20 * 86400 / 2400), round(22 * 86400 / 2400)))
@@ -389,7 +391,7 @@ tr.execute("B = {} for i = 1, 4 do B[#B+1] = string.rep('x', 600 * 1024) end Gol
 check("Export: höchstens 1,5 MB zusammen", tr.eval("#B"), 2)
 tr.execute("C = { string.rep('y', 2 * 1024 * 1024) } GoldSentinelMarkt.TrimExport(C)")
 check("Export: neuester Scan bleibt immer", tr.eval("#C"), 1)
-check("Version 4", tr.eval("GoldSentinelMarkt.VERSION"), 4)
+check("Version 5", tr.eval("GoldSentinelMarkt.VERSION"), 5)
 
 # v4 (MN-S2): geplante Antwort "A:" geht nach dem Ausschalten nicht mehr raus (Tick und SetShare)
 for i, via in enumerate(("tick", "setshare")):
@@ -404,6 +406,76 @@ for i, via in enumerate(("tick", "setshare")):
     c.tick(30)
     check("aus: keine Antwort A (" + via + ")", any(":A:" in m[1] for m in c.sent() if m[0] == "GSMARKT1"), False)
     check("aus: answerAt verworfen (" + via + ")", c.ev("GoldSentinelMarkt.answerAt"), None)
+
+
+# v5: Feed in Portionen (≤ BUDGET_MS je Bild), Abgänge nur für Items mit abg, Export in zwei Zeilen, nichts verloren
+fc = Client("Testfp", 40)
+fc.run('DBF = {}; GoldSentinelMarkt.Attach("AHSentinel", DBF)')
+fc.run("""
+ITEMS = {}
+for i = 1, 6000 do
+  if i % 2 == 0 then ITEMS[100000 + i] = { preis = 100 + i, menge = 5, n = 2, abg = 3, abgV = 2 }
+  else ITEMS[100000 + i] = { preis = 100 + i, menge = 5, n = 2 } end
+end
+GoldSentinelMarkt.Feed("AHSentinel", TIME, 12000, ITEMS, 1800)
+""")
+check("v5: Feed kehrt sofort zurück (nichts gerechnet)", fc.ev("GoldSentinelMarkt.feedJob.i"), 0)
+fc.run("PORTIONS = 0; MAXMS = 0")
+for _ in range(200):
+    fc.run("""
+local j = GoldSentinelMarkt.feedJob
+if j then
+  local before = MSCLOCK
+  GoldSentinelMarkt.FeedPortion(GoldSentinelMarkt.BUDGET_MS)
+  PORTIONS = PORTIONS + 1
+  local used = MSCLOCK - before
+  if used > MAXMS then MAXMS = used end
+end""")
+    if fc.ev("GoldSentinelMarkt.feedJob") is None:
+        break
+check("v5: Feed fertig gerechnet", fc.ev("GoldSentinelMarkt.feedJob"), None)
+check("v5: in mehreren Portionen", fc.ev("PORTIONS") > 5, True)
+check("v5: keine Portion über Budget + 2 Prüfschritte", fc.ev("MAXMS") <= fc.ev("GoldSentinelMarkt.BUDGET_MS") + 2, True)
+ga = fc.ev("GoldSentinelMarkt.Get(100002)")
+gb = fc.ev("GoldSentinelMarkt.Get(100001)")
+check("v5: Item mit abg hat Absatz", (gb is not None, ga is not None, round(ga.absatzMax)), (True, True, round(3 * 86400 / 1800)))
+check("v5: Item ohne abg hat KEINEN Absatz 0 (unbekannt)", (gb.absatz, gb.absatzMax), (None, None))
+ex = [fc.ev("GoldSentinelMarkt.store.export[%d]" % i) for i in range(1, fc.ev("#GoldSentinelMarkt.store.export") + 1)]
+check("v5: zwei Export-Zeilen", len(ex), 2)
+pa, pb = ex[0].split("|"), ex[1].split("|")
+check("v5: Zeile A mit Vergleich, 3000 Items", (pa[3], pa[5], pa[6]), (str(fc.ev("TIME")), "3000", "1800"))
+check("v5: Zeile B ohne Vergleich, t+1, 3000 Items", (pb[3], pb[5], pb[6]), (str(fc.ev("TIME") + 1), "3000", "0"))
+import importlib.util as _iu
+_spec = _iu.spec_from_file_location("market", str(ROOT / "RaidMasterBot/market.py"))
+_mk = _iu.module_from_spec(_spec); _spec.loader.exec_module(_mk)
+pA, pB = _mk.parse_line(ex[0]), _mk.parse_line(ex[1])
+check("v5: Sammelstelle liest beide Zeilen", (pA is not None, pB is not None, len(pA["e"]), len(pB["e"])), (True, True, 3000, 3000))
+check("v5: verschiedene Schlüssel (nicht doppelt)", _mk.Store.key(pA) != _mk.Store.key(pB), True)
+# zweiter Feed während der erste läuft: erster wird zu Ende gerechnet
+fc2 = Client("Testfp2", 41)
+fc2.run('DBF = {}; GoldSentinelMarkt.Attach("AHSentinel", DBF)')
+fc2.run("""
+local A, B = {}, {}
+for i = 1, 3000 do A[200000 + i] = { preis = 50, menge = 1, n = 1 } end
+for i = 1, 10 do B[300000 + i] = { preis = 70, menge = 1, n = 1 } end
+GoldSentinelMarkt.Feed("AHSentinel", TIME, 3000, A, 0)
+GoldSentinelMarkt.FeedPortion(GoldSentinelMarkt.BUDGET_MS)
+GoldSentinelMarkt.Feed("AHSentinel", TIME + 900, 10, B, 0)
+""")
+check("v5: erster Feed vollständig vor dem zweiten", fc2.ev("GoldSentinelMarkt.Get(203000) ~= nil and GoldSentinelMarkt.Stats().scans"), 1)
+fc2.tick(0.5)
+check("v5: zweiter Feed danach", (fc2.ev("GoldSentinelMarkt.Get(300010).preis"), fc2.ev("GoldSentinelMarkt.Stats().scans")), (70, 2))
+check("v5: dt 0 = eine Zeile", fc2.ev("#GoldSentinelMarkt.store.export"), 2)
+# Kampf: kein Rechnen; Schalter aus: Feed wird nicht angenommen
+fc3 = Client("Testfp3", 42)
+fc3.run('DBF = {}; GoldSentinelMarkt.Attach("AHSentinel", DBF)')
+fc3.run('COMBAT = true; GoldSentinelMarkt.Feed("AHSentinel", TIME, 1, { [5] = { preis = 9, menge = 1, n = 1 } }, 0)')
+fc3.tick(1)
+check("v5: im Kampf nicht gerechnet", fc3.ev("GoldSentinelMarkt.Get(5)"), None)
+fc3.run("COMBAT = false"); fc3.tick(0.2)
+check("v5: nach dem Kampf gerechnet", fc3.ev("GoldSentinelMarkt.Get(5).preis"), 9)
+fc3.run('GoldSentinelMarkt.SetShare("AHSentinel", false); GoldSentinelMarkt.Feed("AHSentinel", TIME, 1, { [6] = { preis = 9, menge = 1, n = 1 } }, 0)')
+check("v5: Schalter aus = kein Feed", fc3.ev("GoldSentinelMarkt.feedJob"), None)
 
 print(f"{checks - fails}/{checks} Prüfungen bestanden")
 sys.exit(1 if fails else 0)

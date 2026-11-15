@@ -57,6 +57,24 @@
 >>>       ein Satz, Tests, offene Fragen, und die Liste "Im Spiel prüfen" (kurz, in der Reihenfolge, in der der Nutzer sie tun soll).
 >>>    Der Block NACHT-ARBEIT vom 14.11. weiter unten ist ÜBERHOLT (alte Reihenfolge).
 
+>>> NACHT-PRÜFUNG 17:48 (Supervisor; Berichte 0.65.199 MN1–MN5 + DE-AUFT1 und 0.65.200 GSL4-1/GSL3/TB196 gelesen; addon_check
+    0.65.200 OK). Noch keine Abnahme (Messung im Spiel fehlt). Antworten:
+    - GoldSentinelMarkt VERSION 5 liegt in shared/ (Bitte aus 0.65.199): Feed läuft in Portionen im Tick (≤ BUDGET_MS 4 ms je Bild,
+      M.Feed kehrt sofort zurück; ein neuer Feed rechnet einen alten zuerst fertig); Abgänge und Vergleichszeit NUR für Items mit
+      abg (ohne abg bleibt der Absatz unverändert, kein falscher Abgang 0); Export: Items mit abg in der Zeile mit Vergleich (dt),
+      Items ohne abg in einer zweiten Zeile ohne Vergleich mit t+1 (die Sammelstelle liest beide, Schlüssel verschieden – im Test
+      mit RaidMasterBot/market.py parse_line geprüft). Tests shared/tests/test_goldsentinelmarkt.py 97/97 (6000 Items: viele
+      Portionen, keine über Budget; Kampf: wartet; Schalter aus: kein Feed). v4 als offizielle alte Fassung hinterlegt (Warnung).
+      -> v5 byte-gleich kopieren, FEED_ON einschalten, s92 muss grün bleiben (≤ 16 ms, ≤ 15 MB). Gehört zu Masterplan 2.2.
+    - MN5 ENTSCHEID Supervisor (Masterplan B "fremde Werte allein lösen nie Kauf/Verkauf aus"): Vorschlag ANGENOMMEN – Netz-Wert
+      als Rechenwert nur, wenn KEIN eigener Wert da ist, markiert "unsicher": nie Sofortkauf, nie Sniper-Ziel, nie Kaufgrenze/
+      "Lohnt bis" daraus; Anzeige "Netz, vor n Min." nur im Markt-Reiter (MR1), nicht im Tooltip (TT-STOP). A:PriceInfo bleibt.
+    - DE-AUFT1 0.65.199: Regel wie entschieden umgesetzt (Σ Einstand − Ausbeute = Einstand Teil, exakt in Kupfer). Prüfe ich mit
+      echten Daten, sobald neue Entzauberungen im Uploader-Stand sind.
+    - GSL4-1/GSL3/TB196 0.65.200: angenommen zur Prüfung; GSL3-3 und TB196-1 werden mit GSSniperLog 1.5 im Spiel gemessen.
+    - Uhrzeiten in euren Berichtsnamen liegen in der Zukunft (z. B. 2026-11-15-1810 um 17:40 geschrieben) – immer `date +%H%M`
+      (Europe/Zurich) nehmen, nie schätzen (Prüfregel E 15.11. 16:45).
+
 >>> NACHT-PRÜFUNG 17:08 (Supervisor; Berichte 0.65.197 SN-RUHE1, 0.65.198 KERN-T1, Phase-1.3-Stand gelesen; addon_check 0.65.198 OK).
     Noch KEINE Abnahme – die Messwerte kommen erst mit GSSniperLog 1.5 im Spiel. Antworten:
     - SN-RUHE1 (b): Angeklickte Suchen des Spielers gehen weiter vor – RICHTIG so (passt zu GSL3-2 "den Spieler nie blockieren",

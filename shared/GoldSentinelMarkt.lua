@@ -55,7 +55,15 @@
 -- Version 4 (14. November 2026, Befund MN-S2 der BuffSentinel-Sitzung): Schalter aus stoppt auch eine schon geplante
 --   Antwort "A:" (Tick prueft IsShareOn, SetShare(false) verwirft answerAt und askAt). Sonst unveraendert.
 
-local VERSION = 4
+-- Version 5 (15. November 2026, Bitte der AHSentinel-Sitzung, Bericht 0.65.199): Feed laeuft in Portionen (hoechstens
+--   BUDGET_MS je Bild, im Tick; M.Feed nimmt nur an und kehrt sofort zurueck) – vorher alle Items eines Scans in EINEM
+--   Aufruf (54–62 ms, +22 MB). Abgaenge beim Feed nur fuer die Items, zu denen das Host-Addon Abgaenge liefert (abg):
+--   nur dort zaehlen Abgaenge und Vergleichszeit; Items ohne abg behalten ihren Absatz (vorher: Abgang 0 + Zeit = falsch
+--   kleiner Absatz). Export: Items mit Abgaengen in der Zeile mit Vergleich (dt), Items ohne in einer zweiten Zeile ohne
+--   Vergleich (Zeit t+1, damit die Sammelstelle sie nicht als doppelt verwirft). Ein neuer Feed, waehrend ein alter laeuft:
+--   der alte wird zuerst fertig gerechnet (nichts geht verloren).
+
+local VERSION = 5
 
 local existing = _G.GoldSentinelMarkt
 if type(existing) == "table" and (tonumber(existing.VERSION) or 0) >= VERSION then return end
@@ -448,29 +456,80 @@ function M.FeedStart(addon)
     if M.reader then M.reader = nil; M.stats.aborted = M.stats.aborted + 1; Drop("feed statt lesen") end
 end
 
+-- v5: Feed nimmt nur an (Liste der Item-IDs) und rechnet im Tick in Portionen (FeedPortion)
+local FeedPortion, FeedFinish
 function M.Feed(addon, t, n, items, dt)
     M.feedUntil = nil
     if not M.hosts[addon] or type(items) ~= "table" or not M.IsShareOn() then return end
-    t, dt = tonumber(t) or M.api.time(), tonumber(dt) or 0
-    local conv, cmp, low = {}, nil, nil
-    if dt > 0 then cmp, low = {}, {} end
-    for id, it in pairs(items) do
-        id = tonumber(id)
-        if id and type(it) == "table" then
-            conv[id] = { math.floor(tonumber(it.preis) or 0), math.floor(tonumber(it.menge) or 0),
-                         math.floor(tonumber(it.n) or 0) }
-            if cmp then
-                local g = math.floor(tonumber(it.abg) or 0)
-                cmp[id] = g
-                low[id] = math.min(g, math.floor(tonumber(it.abgV) or g))
-            end
-        end
+    if M.feedJob then                       -- alter Feed noch nicht fertig: zuerst ganz zu Ende rechnen
+        while M.feedJob and not FeedPortion(M.feedJob, nil) do end
     end
+    t, dt = tonumber(t) or M.api.time(), tonumber(dt) or 0
+    local ids = {}
+    for id in pairs(items) do ids[#ids + 1] = id end
     M.stats.fed = (M.stats.fed or 0) + 1
-    if cmp then M.stats.compared = M.stats.compared + 1 end
     M.prev = nil                -- naechstes eigenes Lesen vergleicht nicht mit einem Feed (keine Signaturen)
-    Apply(t, tonumber(n) or 0, conv, cmp, low, dt, nil)
+    M.feedJob = { t = t, cnt = tonumber(n) or 0, dt = dt, src = items, ids = ids, i = 0, changed = {},
+                  partsA = {}, partsB = {}, nA = 0, nB = 0, ms = 0, frames = 0 }
 end
+
+-- eine Portion rechnen; budget = ms (nil = ohne Grenze). Rueckgabe true, wenn fertig.
+FeedPortion = function(j, budget)
+    local f = Fac()
+    if not f then M.feedJob = nil; return true end
+    local t0 = M.api.ms()
+    local ids, src = j.ids, j.src
+    local cmpOn = j.dt > 0
+    while j.i < #ids do
+        j.i = j.i + 1
+        local id = tonumber(ids[j.i])
+        local it = src[ids[j.i]]
+        if id and type(it) == "table" then
+            local p, q, a = math.floor(tonumber(it.preis) or 0), math.floor(tonumber(it.menge) or 0), math.floor(tonumber(it.n) or 0)
+            local hasAbg = cmpOn and it.abg ~= nil
+            local g = hasAbg and math.floor(tonumber(it.abg) or 0) or 0
+            local lo = hasAbg and math.min(g, math.floor(tonumber(it.abgV) or g)) or 0
+            local old = Unpack(f.i[id])
+            local e = { p = p, q = q, n = a, t = j.t, o = 0, g = old and old.g or 0, h = old and old.h or 0, l = old and old.l or 0 }
+            if hasAbg then e.g, e.l, e.h = e.g + g, e.l + lo, e.h + j.dt end
+            if not old or old.o ~= 0 or (old.p or 0) == 0 or math.abs((e.p or 0) - old.p) / old.p >= M.NET_CHANGE then
+                j.changed[#j.changed + 1] = id
+            end
+            f.i[id] = Pack(e)
+            local part = Enc(id) .. "," .. Enc(p) .. "," .. Enc(q) .. "," .. Enc(a) .. "," .. Enc(g) .. "," .. Enc(lo)
+            if hasAbg or not cmpOn then j.nA = j.nA + 1; j.partsA[j.nA] = part
+            else j.nB = j.nB + 1; j.partsB[j.nB] = part end
+        end
+        if budget and (j.i % M.CHECK_EVERY == 0) and M.api.ms() - t0 >= budget then break end
+    end
+    j.ms, j.frames = j.ms + (M.api.ms() - t0), j.frames + 1
+    if j.i >= #ids then FeedFinish(j); return true end
+    return false
+end
+
+FeedFinish = function(j)
+    M.feedJob = nil
+    local f, fac = Fac()
+    if not f then return end
+    f.t = j.t
+    M.stats.scans = M.stats.scans + 1
+    M.stats.read = j.cnt
+    M.stats.lastT = j.t
+    M.stats.items = j.nA + j.nB
+    M.stats.lastMs, M.stats.lastFrames = j.ms, j.frames
+    if j.dt > 0 then M.stats.compared = M.stats.compared + 1 end
+    local s = M.store
+    s.export = s.export or {}
+    table.insert(s.export, string.format("GSMARKT1|%d|%s|%d|%d|%d|%d|%s", 1, fac, j.t, j.cnt, j.nA,
+        j.dt > 0 and j.dt or 0, table.concat(j.partsA, ";")))
+    if j.nB > 0 then           -- Items ohne Abgaenge: eigene Zeile ohne Vergleich (t+1, sonst "doppelt" bei der Sammelstelle)
+        table.insert(s.export, string.format("GSMARKT1|%d|%s|%d|%d|%d|%d|%s", 1, fac, j.t + 1, j.cnt, j.nB, 0,
+            table.concat(j.partsB, ";")))
+    end
+    M.TrimExport(s.export)
+    QueueScan(j.t, j.changed)
+end
+M.FeedPortion = function(budget) if M.feedJob then return FeedPortion(M.feedJob, budget) end return true end
 
 ---------------------------------------------------------------------------
 -- Teilen
@@ -621,6 +680,10 @@ function M.Tick()
     Register()
     local now = M.api.now()
     if M.readAt and now >= M.readAt and not M.api.inCombat() then StartRead() end
+    if M.feedJob and not M.api.inCombat() then
+        local ok, e3 = pcall(FeedPortion, M.feedJob, M.BUDGET_MS)
+        if not ok then M.feedJob = nil; Drop(("feed " .. tostring(e3)):sub(1, 60)) end
+    end
     local r = M.reader
     if r and not M.api.inCombat() then
         local done, err = ReadPortion(r)
@@ -692,7 +755,7 @@ if CF then
     local acc = 0
     fr:SetScript("OnUpdate", function(_, dt)
         acc = acc + (dt or 0)
-        if acc < 0.05 and not _G.GoldSentinelMarkt.reader then return end
+        if acc < 0.05 and not _G.GoldSentinelMarkt.reader and not _G.GoldSentinelMarkt.feedJob then return end
         acc = 0
         pcall(_G.GoldSentinelMarkt.Tick)
     end)
