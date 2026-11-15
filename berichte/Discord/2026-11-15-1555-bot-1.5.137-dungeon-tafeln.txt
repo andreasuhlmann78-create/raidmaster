@@ -1,0 +1,45 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 15:55 · Sitzung: Discord-Projekt · Version: Bot 1.5.137
+Umgesetzt, zur Prüfung.
+
+ENTSCHEID DES NUTZERS (15.11. 15:15, bitte in shared/wissen/entscheide.md): "hole dir die Infos wegen Dungeons und Level und
+sende sie dem Bot, damit er das auch weiss". Damit ist der Auftrag an RaidMaster aus dem Bericht 1510 (Dungeon-Liste
+liefern) HINFÄLLIG. Der Bot hat die Daten jetzt selbst.
+
+UMGESETZT:
+- bosses.json hat jetzt "dungeons": 29 Dungeons (20 klassische, 9 neue von WoW Forever) mit 225 Bossen.
+  Erzeugt mit make_bosses.py --dbm <Pfad> aus Deadly Boss Mods (github.com/DeadlyBossMods/dbm-dungeons, Stand 15.11.).
+  - Quelle: DBM-Party-Vanilla Classic/ + Shared/ nach der Ladebedingung der .toc für "vanilla". Retail-Fassungen und
+    Season of Discovery sind ausgenommen. Dazu DBM-Party-Forever (Halle der Thanen … Terrasse des Formers).
+  - Boss-Reihenfolge wie in der .toc.
+  - Bei "IsClassic() and X or Y" werden beide IDs übernommen.
+  - Beleg, dass Forever eigene IDs hat: Todesminen Classic 2741–2747 statt Retail-Wiki 161–167; DBM-Mods mit
+    "if DBM:IsForever()".
+  - Prüfung: jede Encounter-ID kommt in Raids + Dungeons genau einmal vor (Test).
+- Deutsche Namen und Level (Empfehlung, keine Mindeststufe):
+  - neue Dungeons: Blizzard (news.blizzard.com/de-de/article/24301455). Halle der Thanen 13–18 … Terrasse des Formers
+    58–60.
+  - klassische Dungeons: PC Games, "WoW Forever: Alle Dungeons und ihre Level im Überblick". Die Werte decken sich mit
+    warcrafttavern.com/forever/guides/dungeons.
+  - Mehrteilige Dungeons (Kloster, Düsterbruch, Stratholme): eine Tafel, Level vom niedrigsten bis zum höchsten Flügel.
+  - Abweichungen zwischen den Quellen, Verdacht, zu messen:
+    - Festung Krol'dok: 40–45 (Blizzard), eine Seite 40–55.
+    - Ragefireabgrund: Name nach PC Games, im deutschen Classic-Client evtl. anders.
+    Die Tafel zeigt beim Boss immer den Namen aus dem Spiel.
+- rekord_tafel.py:
+  - Je Dungeon eine Tafel, unter den Raid-Tafeln, nach Level sortiert. Titel z. B. "Die Todesminen (Level 17–26)".
+  - Nur gelegte Bosse, mit dem Namen aus dem Spiel (deutsch), dazu "x von y Bossen gelegt". Ungelegte Bosse werden
+    nicht gezeigt, weil DBM nur englische Namen hat.
+  - Kein "ganzer Dungeon".
+  - Die Tafel "Weitere Bosse" heisst jetzt "Weitere Bosse (ohne Zuordnung)".
+- Tests T-RT (12): Dungeon-Reihenfolge nach Level, nur gelegte Bosse, Namen aus dem Spiel, alte ID zählt, echte Daten
+  (29 Dungeons, sortiert, jede ID einmal). Alle 254 Bot-Tests OK.
+
+HINWEIS (unverändertes Verhalten, zur Prüfung):
+- update_hall_of_fame postet einen "🏆 Erstkill" für JEDEN Kill mit Erstkill-Kennzeichen (f). Records.lua setzt f
+  auch bei Dungeon-Bossen.
+- Verdacht, zu messen: Sobald Dungeon-Kills hochgeladen werden, erscheinen in #ruhmeshalle Erstkill-Beiträge für
+  Dungeon-Bosse.
+- Frage an den Nutzer offen: ob Erstkills nur für Raids gepostet werden sollen.
+
+WEITER NACH PRIORITÄTEN: UP-404 (a–d), KEEP90, D-MN7c2, D-MN7e2.
