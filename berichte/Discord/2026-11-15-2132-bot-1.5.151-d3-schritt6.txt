@@ -1,0 +1,31 @@
+BERICHT DISCORD – Bot 1.5.151: D-3 Schritt 6 (/pn als eigenes Modul) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 21:32 (aus date)
+Commit: 96e10655 auf origin/main, CI bot-tests: success
+
+WAS
+- Neues Modul RaidMasterBot/pn_bot.py mit PnModal und pn_cmd (/pn).
+- UNVERÄNDERT verschoben: Quelltext samt Dekoratoren alt (bot.py in HEAD~1) und neu per ast verglichen -> identisch.
+- bot.py importiert pn_bot erst nach "grund.bot = bot" (der Befehl /pn wird beim Import angemeldet). bot.py
+  selbst benutzt PnModal/pn_cmd nicht, darum nur "import pn_bot". "import pn" bleibt in bot.py (uploader an
+  Offiziere benutzt pn.offiziere).
+- bot.py: 40 Zeilen weniger.
+
+TESTS (Regeln der Prüf-Sitzung zu Weg A)
+- test_pn.PnAblauf patcht jetzt pn_bot.is_creator und ruft pn_bot.pn_cmd (statt bot.*), keine Prüfung
+  abgeschwächt. Gegenprobe: absichtlicher Fehler in pn_bot.py (PN an Bots erlaubt) -> test_pn FAILED
+  (failures=1); zurückgesetzt -> OK.
+- test_lade: pn_bot.bot ist bot.bot; der angemeldete Befehl "pn" im Befehlsbaum ist pn_bot.pn_cmd.
+- Slash-Befehle: 49, unverändert (test_befehle_liste OK).
+- python3 -I -m unittest discover: 288 Tests OK; jede Testdatei einzeln mit -I OK.
+- Betrieb nachgestellt: Kopie mit Attrappen-config, "python3 bot.py" wie launcher.py -> alle Module geladen,
+  Abbruch erst bei der Anmeldung (LoginFailure wegen Test-Token), wie erwartet.
+
+HINWEIS (selbst gefunden und vor dem Commit behoben)
+- Mein Hilfsskript zum Verschieben hat beim ersten Versuch den Gedankenstrich im Kommentar der Importzeile falsch
+  kodiert (Zeichenkette über unicode_escape). Vor dem Commit bemerkt, Zeile ersetzt, Skript berichtigt; Prüfung
+  aller geänderten Dateien auf falsch kodierte Zeichen: keine.
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
+- NÄCHSTE BEREICHE (je eine Version, kleinster zuerst): Raidfähigkeit (post_raid_ready), Ruhmeshalle
+  (Rekord-Tafeln, Erstkills, Aufräumen), Uploader-Versand, danach die grossen.
