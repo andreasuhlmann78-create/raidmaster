@@ -42,8 +42,9 @@ class GuildSentinelUpload(unittest.TestCase):
         self.assertIsNone(raid_ready.newest([None, None]))
 
     def test_bot_bank_nur_mit_bank(self):
-        with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as f:
-            src = f.read()
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import bot_quelle                      # D-3 Schritt 34: receive_upload steht ab 1.5.181 in upload_bot.py
+        src = bot_quelle.funktion("receive_upload")
         self.assertIn("gs_path = GS_UPLOAD_PATH if gs_has_bank else GS_READY_PATH", src)
         block = src[src.index("if not att and gs_att is not None:"):][:300]
         self.assertLess(block.index("if gs_has_bank:"), block.index("post_guild_bank()"))

@@ -30,8 +30,9 @@ class Raid(unittest.TestCase):
                                  "liste", "aufstellung", "taktik"]))
         self.assertIs(self.bot.bot.tree.get_command("rekorde").callback, self.m.rekorde_cmd.callback)
         self.assertIs(sys.modules["anmeldung_bot"].send_export, self.m.send_export)     # ab 1.5.180 dort benutzt
-        for name in ("post_all_tactics", "process_assignment", "reminder_loop"):
+        for name in ("post_all_tactics", "reminder_loop"):
             self.assertIs(getattr(self.bot, name), getattr(self.m, name), name)
+        self.assertIs(sys.modules["upload_bot"].process_assignment, self.m.process_assignment)   # ab 1.5.181 dort
 
     def test_taktiken_geladen_und_kurz(self):
         self.assertTrue(os.path.isfile(os.path.join(os.path.dirname(self.m.__file__), "raid_tactics.json")))

@@ -72,7 +72,7 @@ class Lade(unittest.TestCase):
         self.assertIs(b.channel_by_id, grund.channel_by_id)
         import markt_bot
         self.assertIs(markt_bot.bot, b.bot)                      # D-3 Schritt 4: Marktdaten-Modul
-        self.assertIs(b.market_intake, markt_bot.market_intake)
+        self.assertIs(sys.modules["upload_bot"].market_intake, markt_bot.market_intake)   # ab 1.5.181 dort benutzt
         import rechte_bot
         self.assertIs(rechte_bot.bot, b.bot)                     # D-3 Schritt 5: Rechte-Modul
         self.assertIs(b.check_bot_rights, rechte_bot.check_bot_rights)
@@ -85,7 +85,7 @@ class Lade(unittest.TestCase):
         self.assertIs(b.state, symbole_bot.state)
         import ruhmeshalle_bot
         self.assertIs(ruhmeshalle_bot.bot, b.bot)                # D-3 Schritt 8: Ruhmeshalle
-        self.assertIs(b.update_hall_of_fame, ruhmeshalle_bot.update_hall_of_fame)
+        self.assertIs(sys.modules["upload_bot"].update_hall_of_fame, ruhmeshalle_bot.update_hall_of_fame)
         self.assertIs(ruhmeshalle_bot.class_emoji, symbole_bot.class_emoji)
         self.assertIs(ruhmeshalle_bot.kills_db, kern.kills_db)
         for name, fn in (("ruhmeshalle-aufraeumen", ruhmeshalle_bot.ruhmeshalle_aufraeumen_cmd),
@@ -107,7 +107,7 @@ class Lade(unittest.TestCase):
         self.assertIs(regeln_bot.post_guild_bank, bank_bot.post_guild_bank)
         import beute_bot
         self.assertIs(beute_bot.bot, b.bot)                      # D-3 Schritt 12: Beute-Datenbank
-        self.assertIs(b.update_lootdb, beute_bot.update_lootdb)
+        self.assertIs(sys.modules["upload_bot"].update_lootdb, beute_bot.update_lootdb)
         self.assertIs(beute_bot.ensure_dkp_rules, regeln_bot.ensure_dkp_rules)
         self.assertIs(sys.modules["raid_bot"].raid_channel, grund.raid_channel)
         self.assertIs(beute_bot.raid_channel, grund.raid_channel)
@@ -134,6 +134,7 @@ class Lade(unittest.TestCase):
         import mitglieder_bot
         self.assertIs(mitglieder_bot.bot, b.bot)                 # D-3 Schritt 17: Mitglieder-Bereich
         self.assertIs(b.maintain_member_area, mitglieder_bot.maintain_member_area)
+        self.assertIs(sys.modules["upload_bot"].maintain_member_area, mitglieder_bot.maintain_member_area)
         self.assertIs(mitglieder_bot.ensure_welcome, willkommen_bot.ensure_welcome)
         import ankuendigung_bot
         self.assertIs(ankuendigung_bot.bot, b.bot)               # D-3 Schritt 18: Addon-Versionen, Ankündigungen
@@ -171,8 +172,8 @@ class Lade(unittest.TestCase):
         import dkp_nachricht_bot
         self.assertIs(beutepost_bot.bot, b.bot)                  # D-3 Schritt 27: Beute-Posts, DKP-Nachricht
         self.assertIs(dkp_nachricht_bot.bot, b.bot)
-        self.assertIs(b.post_new_loot, beutepost_bot.post_new_loot)
-        self.assertIs(b.send_raid_dms, dkp_nachricht_bot.send_raid_dms)
+        self.assertIs(sys.modules["upload_bot"].post_new_loot, beutepost_bot.post_new_loot)
+        self.assertIs(sys.modules["upload_bot"].send_raid_dms, dkp_nachricht_bot.send_raid_dms)
         for name in ("class_emoji", "item_emoji", "item_icon", "wowhead_tip"):   # Symbole nur aus symbole_bot
             self.assertIs(getattr(beutepost_bot, name), getattr(symbole_bot, name), name)
         import monatlich_bot
@@ -184,12 +185,12 @@ class Lade(unittest.TestCase):
         import dkp_tafel_bot
         import testdaten_bot
         self.assertIs(dkp_tafel_bot.bot, b.bot)                  # D-3 Schritt 26: DKP-Tabellen, Testdaten
-        self.assertIs(b.post_dkp_tables, dkp_tafel_bot.post_dkp_tables)
+        self.assertIs(sys.modules["upload_bot"].post_dkp_tables, dkp_tafel_bot.post_dkp_tables)
         self.assertIs(dkp_tafel_bot.send_test, testdaten_bot.send_test)
         import testupload_bot
         self.assertIs(testupload_bot.bot, b.bot)                 # D-3 Schritt 29: Testmodus
         self.assertIs(testupload_bot.send_test, testdaten_bot.send_test)
-        self.assertIs(b.handle_test_upload, testupload_bot.handle_test_upload)
+        self.assertIs(sys.modules["upload_bot"].handle_test_upload, testupload_bot.handle_test_upload)
         self.assertIs(b.test_cleanup_loop, testupload_bot.test_cleanup_loop)
         import update_bot
         for mod in (pug_bot, betrieb_bot, update_bot):                # D-3 Schritt 19: Neustart nur in grund.py
@@ -207,7 +208,7 @@ class Lade(unittest.TestCase):
         self.assertIs(kanalpflege_bot.dkp_channel_for, dkp_tafel_bot.dkp_channel_for)
         import dkp_befehle_bot
         self.assertIs(dkp_befehle_bot.bot, b.bot)                # D-3 Schritt 31: DKP-Befehle
-        self.assertIs(b.reload_dkp_if_needed, dkp_befehle_bot.reload_dkp_if_needed)
+        self.assertIs(sys.modules["upload_bot"].reload_dkp_if_needed, dkp_befehle_bot.reload_dkp_if_needed)
         import raid_bot
         self.assertIs(raid_bot.bot, b.bot)                       # D-3 Schritt 32: Raids
         self.assertIs(b.reminder_loop, raid_bot.reminder_loop)
@@ -216,6 +217,12 @@ class Lade(unittest.TestCase):
         import anmeldung_bot
         self.assertIs(anmeldung_bot.bot, b.bot)                  # D-3 Schritt 33: Anmeldung
         self.assertIs(b.bot.on_interaction, anmeldung_bot.on_interaction)
+        import upload_bot
+        self.assertIs(upload_bot.bot, b.bot)                     # D-3 Schritt 34: Daten-Upload
+        self.assertIs(b.receive_upload, upload_bot.receive_upload)
+        self.assertIs(b.dkp_loop, upload_bot.dkp_loop)
+        self.assertIs(upload_bot.post_raid_ready, bank_bot.post_raid_ready)
+        self.assertIs(upload_bot.process_assignment, raid_bot.process_assignment)
 
     def test_findet_fehlenden_namen(self):
         self.assertEqual(unbound("def f():\n    return cfg['x']\n"), [(2, "cfg")])

@@ -57,7 +57,7 @@ class Ersatz(unittest.TestCase):
         an = sys.modules["anmeldung_bot"]                                 # ab 1.5.180: Knöpfe dort
         self.assertIs(an.offer_substitute, self.m.offer_substitute)
         self.assertIs(an.accept_substitute, self.m.accept_substitute)
-        self.assertIs(self.bot.sync_specs, sys.modules["skillung_bot"].sync_specs)
+        self.assertIs(sys.modules["upload_bot"].sync_specs, sys.modules["skillung_bot"].sync_specs)   # ab 1.5.181 dort benutzt
 
     def test_fragt_ersten_kandidaten(self):
         r = self.raid()

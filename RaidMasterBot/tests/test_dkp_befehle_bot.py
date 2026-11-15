@@ -45,7 +45,8 @@ class DkpBefehle(unittest.TestCase):
         os.remove(self.path)
 
     def test_gleiche_funktion_in_bot(self):
-        self.assertIs(self.bot.reload_dkp_if_needed, self.m.reload_dkp_if_needed)
+        self.assertIs(sys.modules["upload_bot"].reload_dkp_if_needed, self.m.reload_dkp_if_needed)   # ab 1.5.181 dort benutzt
+        self.assertIs(sys.modules["raid_bot"].reload_dkp_if_needed, self.m.reload_dkp_if_needed)
         for name in ("dkp", "dkpliste", "raidmaster-status"):
             self.assertIsNotNone(self.bot.bot.tree.get_command(name), name)
 

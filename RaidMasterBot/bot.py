@@ -18,28 +18,21 @@ from __future__ import annotations
 import asyncio
 import os
 import sys
-import re
 import time
 
 import discord
 from discord import app_commands
-from discord.ext import tasks
 
 import raidmaster_data as rmd
 import guildbank
 import uploader_setup
 import member_area
 import market
-from bot_hilfen import (  # noqa: E402 – D-3 Schritt 1: Hilfen ohne Zustand
-    check_upload,
-    test_info,
-)
 import server_setup
 import updater
 
 from kern import (  # noqa: E402 – D-3 Schritt 2: gemeinsame Objekte, nur einmal vorhanden
     BASE,
-    DATA_DIR,
     log,
     CONFIG_ERROR,
     save_config,
@@ -47,10 +40,6 @@ from kern import (  # noqa: E402 – D-3 Schritt 2: gemeinsame Objekte, nur einm
     TZ,
     book,
     state,
-    UPLOAD_PATH,
-    GS_UPLOAD_PATH,
-    GS_READY_PATH,
-    SHOTS_DIR,
 )
 
 market.set_tz(TZ)          # D-MN7d: Marktberichte in der Zeitzone des Bots
@@ -399,7 +388,6 @@ grund.bot = bot          # D-3 Schritt 3: die Grundfunktionen in grund.py benutz
 import markt_bot  # noqa: E402 – D-3 Schritt 4: Marktdaten (meldet /marktdaten an, darum erst hier)
 from markt_bot import (  # noqa: E402
     market_catchup,
-    market_intake,
     market_intake_safe,
 )
 import rechte_bot  # noqa: E402 – D-3 Schritt 5: Rechte des Bots (UP-404)
@@ -407,14 +395,10 @@ from rechte_bot import check_bot_rights  # noqa: E402
 import pn_bot  # noqa: E402,F401 – D-3 Schritt 6: /pn (meldet den Befehl beim Import an, darum erst hier)
 import symbole_bot  # noqa: E402,F401 – D-3 Schritt 7: Symbole, Emojis, Wowhead
 import ruhmeshalle_bot  # noqa: E402,F401 – D-3 Schritt 8: Ruhmeshalle (meldet zwei Befehle beim Import an)
-from ruhmeshalle_bot import (  # noqa: E402
-    update_hall_of_fame,
-)
 import uploader_bot  # noqa: E402,F401 – D-3 Schritt 9: Uploader-Versand (meldet /uploader beim Import an)
 import bank_bot  # noqa: E402,F401 – D-3 Schritt 10: Gildenbank und Raidfähigkeit (meldet /bank beim Import an)
 from bank_bot import (  # noqa: E402
     post_guild_bank,
-    post_raid_ready,
 )
 import regeln_bot  # noqa: E402,F401 – D-3 Schritt 11: Regeln
 from regeln_bot import (  # noqa: E402
@@ -422,7 +406,6 @@ from regeln_bot import (  # noqa: E402
     ensure_guild_rules,
 )
 import beute_bot  # noqa: E402,F401 – D-3 Schritt 12: Beute-Datenbank (meldet /beute beim Import an)
-from beute_bot import update_lootdb  # noqa: E402
 import klassen_bot  # noqa: E402,F401 – D-3 Schritt 13: Klassenfarben
 from klassen_bot import sync_class_roles  # noqa: E402
 import willkommen_bot  # noqa: E402,F401 – D-3 Schritt 14: Willkommen (meldet /willkommen und /einladung an)
@@ -454,36 +437,33 @@ import ereignis_bot  # noqa: E402,F401 – D-3 Schritt 23: Discord-Ereignisse (m
 import raidanzeige_bot  # noqa: E402,F401 – D-3 Schritt 24: Raid-Anzeige
 from raidanzeige_bot import update_raid_message  # noqa: E402
 import twink_bot  # noqa: E402,F401 – D-3 Schritt 24: Twinks (meldet /twink beim Import an)
-from skillung_bot import sync_specs  # noqa: E402 – D-3 Schritt 25: Skillung übernehmen
-from dkp_tafel_bot import (  # noqa: E402 – D-3 Schritt 26: DKP-Tabellen und Raid-Abrechnung
-    post_dkp_tables,
-    post_raid_summaries,
-    remove_overall,
-)
-from beutepost_bot import post_new_loot  # noqa: E402 – D-3 Schritt 27: Beute-Posts
+import skillung_bot  # noqa: E402,F401 – D-3 Schritt 25: Skillung übernehmen
+import dkp_tafel_bot  # noqa: E402,F401 – D-3 Schritt 26: DKP-Tabellen und Raid-Abrechnung
+import beutepost_bot  # noqa: E402,F401 – D-3 Schritt 27: Beute-Posts
 import dkp_nachricht_bot  # noqa: E402,F401 – D-3 Schritt 27: persönliche DKP-Nachricht (meldet /dkp-nachricht an)
-from dkp_nachricht_bot import send_raid_dms  # noqa: E402
 import monatlich_bot  # noqa: E402,F401 – D-3 Schritt 28: Monatliches, Raider des Monats (meldet /raider-des-monats an)
 from monatlich_bot import monthly_loop  # noqa: E402
-from testupload_bot import handle_test_upload, test_cleanup_loop  # noqa: E402 – D-3 Schritt 29: Testmodus
+from testupload_bot import test_cleanup_loop  # noqa: E402 – D-3 Schritt 29: Testmodus
 from kanalpflege_bot import (  # noqa: E402 – D-3 Schritt 30: Kanalpflege
     clear_channels_once,
     ensure_channel_texts,
     ensure_listed_raid_categories,
-    ensure_new_raid_categories,
     ensure_voice_limits,
     remove_unused_channels_once,
     sync_raid_visibility,
 )
 import dkp_befehle_bot  # noqa: E402,F401 – D-3 Schritt 31: DKP-Befehle (meldet /dkp, /dkpliste, /raidmaster-status an)
-from dkp_befehle_bot import reload_dkp_if_needed  # noqa: E402
 import raid_bot  # noqa: E402,F401 – D-3 Schritt 32: Raids (meldet /raid und /rekorde beim Import an)
 from raid_bot import (  # noqa: E402
     post_all_tactics,
-    process_assignment,
     reminder_loop,
 )
 import anmeldung_bot  # noqa: E402,F401 – D-3 Schritt 33: Anmeldung (on_interaction, /charakter)
+import upload_bot  # noqa: E402,F401 – D-3 Schritt 34: Daten-Upload (dkp_loop, process_new_data, receive_upload)
+from upload_bot import (  # noqa: E402
+    dkp_loop,
+    receive_upload,
+)
 
 # ---------------------------------------------------------------------------
 # Hilfen
@@ -570,210 +550,10 @@ async def on_app_command_error(inter: discord.Interaction, error: app_commands.A
 
 
 # ---------------------------------------------------------------------------
-# Hintergrund: Erinnerung und automatisches Schließen
+# Ausgelagert (D-3): Daten-Upload, process_new_data, dkp_loop: ab 1.5.181 in upload_bot.py. Beute: beute_bot.py,
+# beutepost_bot.py, dkp_nachricht_bot.py. Ruhmeshalle: ruhmeshalle_bot.py. Gildenbank/Raidfähigkeit: bank_bot.py.
+# Klassenfarben: klassen_bot.py, Skillung: skillung_bot.py, Ersatz: ersatz_bot.py. Ankündigungen: ankuendigung_bot.py.
 # ---------------------------------------------------------------------------
-
-
-@tasks.loop(seconds=30)
-async def dkp_loop():
-    await process_new_data()
-
-
-async def process_new_data():
-    try:
-        changed = await asyncio.to_thread(reload_dkp_if_needed)
-    except Exception as e:
-        # Datei wird evtl. gerade von WoW geschrieben – beim nächsten Durchlauf erneut
-        log.warning("RaidMaster-Datei noch nicht lesbar: %s", e)
-        return
-    if not changed:
-        return
-    log.info("Neue DKP-Daten gelesen (%d Spieler).", len(bot.dkp_rows))
-    try:
-        await sync_specs()
-        try:
-            await sync_class_roles()
-        except Exception:  # noqa: BLE001
-            log.exception("Klassenfarben konnten nicht gesetzt werden")
-        await ensure_new_raid_categories()
-        try:
-            rep = await sync_raid_visibility()
-            if rep:
-                await post_bot_log("🗂️ Raid-Kategorien: " + "; ".join(rep))
-        except Exception:  # noqa: BLE001
-            log.exception("Sichtbarkeit der Raid-Kategorien konnte nicht abgeglichen werden")
-        try:
-            rep = await maintain_member_area()
-            if rep:
-                await post_bot_log("🔐 Nur für Mitglieder freigegeben: " + ", ".join(rep))
-        except Exception:  # noqa: BLE001
-            log.exception("Mitglieder-Bereich konnte nicht abgeglichen werden")
-        await post_raid_summaries()
-        await post_dkp_tables()
-        await remove_overall()
-        await post_new_loot()
-        await update_lootdb()
-        await update_hall_of_fame()
-        await post_guild_bank()
-        await send_raid_dms()
-        await process_assignment()
-    except discord.HTTPException as e:
-        log.warning("Posten fehlgeschlagen: %s", e)
-
-
-# ---------------------------------------------------------------------------
-# Eigene Beute-Datenbank (/beute): ab 1.5.157 in beute_bot.py. Beute-Posts nach dem Raid: ab 1.5.174 in
-# beutepost_bot.py. Persönliche DKP-Nachricht: ab 1.5.174 in dkp_nachricht_bot.py.
-# ---------------------------------------------------------------------------
-
-
-# ---------------------------------------------------------------------------
-# Ruhmeshalle (#ruhmeshalle): Erstkills, Rekord-Tafeln, Aufräumen, /erfolge stehen ab 1.5.153 in ruhmeshalle_bot.py;
-# hier noch /rekorde (braucht raid_pool_autocomplete) und Raider des Monats
-# ---------------------------------------------------------------------------
-
-
-# ---------------------------------------------------------------------------
-# Gildenbank (/bank, Bestand in #gildenbank) und Raidfähigkeit: ab 1.5.155 in bank_bot.py
-# Beute-Datenbank (/beute, Beutetabellen): ab 1.5.157 in beute_bot.py
-# ---------------------------------------------------------------------------
-
-
-# ---------------------------------------------------------------------------
-# Klassenfarben (Rollen in WoW-Klassenfarbe): ab 1.5.158 in klassen_bot.py.
-# Skillung aus dem Spiel in die Raid-Anmeldungen übernehmen (sync_specs): ab 1.5.172 in skillung_bot.py.
-# Ersatz bei Absage (offer_substitute, accept_substitute): ab 1.5.172 in ersatz_bot.py.
-# ---------------------------------------------------------------------------
-
-
-# ---------------------------------------------------------------------------
-# Addon-Versionen (neue ZIP im Ordner "addon") und Ankündigungen: ab 1.5.164 in ankuendigung_bot.py
-# ---------------------------------------------------------------------------
-
-
-# ---------------------------------------------------------------------------
-# Server-Betrieb: Daten-Upload vom PC der Raidleitung
-# ---------------------------------------------------------------------------
-
-async def receive_upload(message: discord.Message):
-    allowed = [int(x) for x in cfg.get("uploader_webhooks") or []]
-    if allowed and message.webhook_id not in allowed:
-        log.warning("Upload von unbekanntem Webhook %s ignoriert.", message.webhook_id)
-        return
-    try:
-        await market_intake(message)          # MN7: GSMARKT1-Zeilen aus allen Anhängen (vor dem Löschen der Nachricht)
-    except Exception:  # noqa: BLE001
-        log.exception("Marktdaten konnten nicht gelesen werden")
-    # Anhänge nach Dateinamen: RaidMaster.lua(.gz) wie bisher, GuildSentinel.lua(.gz) nur für den Gildenbank-Bestand.
-    # Ein alter Uploader schickt nur RaidMaster.lua.gz – das funktioniert unverändert.
-    rm_i, gs_i = rmd.pick_upload_files([a.filename for a in message.attachments])
-    att = message.attachments[rm_i] if rm_i is not None else None
-    gs_att = message.attachments[gs_i] if gs_i is not None else None
-    gs_has_bank = False         # D-GS1b: auch bei einer GuildSentinel-Datei > 25 MB gesetzt
-    if gs_att is not None and gs_att.size > 25 * 1024 * 1024:
-        log.warning("GuildSentinel-Datei %s ist zu gross (%.1f MB > 25 MB) – nicht gelesen.", gs_att.filename,
-                    gs_att.size / 1024 / 1024)
-    if gs_att is not None and gs_att.size <= 25 * 1024 * 1024:
-        try:
-            gs_text, gs_db = await asyncio.to_thread(rmd.check_guildsentinel_upload, await gs_att.read(), gs_att.filename)
-            gs_has_bank = rmd.guild_bank(gs_db) is not None
-            # ohne Gildenbank (nur Raidfähigkeit) getrennt ablegen: der Bank-Stand bleibt unverändert (D-GS1)
-            gs_path = GS_UPLOAD_PATH if gs_has_bank else GS_READY_PATH
-            os.makedirs(DATA_DIR, exist_ok=True)
-            tmp_gs = gs_path + ".tmp"
-            with open(tmp_gs, "w", encoding="utf-8") as f_gs:
-                f_gs.write(gs_text)
-            os.replace(tmp_gs, gs_path)
-            log.info("GuildSentinel-Daten empfangen (%s).", "Gildenbank" if gs_has_bank else "nur Raidfähigkeit")
-        except (ValueError, OSError, discord.HTTPException) as e:
-            log.warning("GuildSentinel-Datei nicht übernommen (alter Stand bleibt): %s", e)
-            gs_att = None
-            gs_has_bank = False
-        if gs_att is not None:
-            try:
-                await post_raid_ready()
-            except Exception:  # noqa: BLE001
-                log.exception("Raidfähigkeit konnte nicht gepostet werden")
-    if not att and gs_att is not None:
-        if gs_has_bank:
-            try:
-                await post_guild_bank()
-            except Exception:  # noqa: BLE001
-                log.exception("Gildenbank-Bestand konnte nicht gepostet werden")
-        return
-    if not att:
-        if not message.attachments:
-            log.warning("Upload ohne Anhang empfangen – Message Content Intent einschalten (siehe ANLEITUNG, Probleme).")
-            await post_bot_log("⚠️ Daten-Upload ohne Datei empfangen: Im Discord-Entwicklerportal unter Bot → Privileged "
-                               "Gateway Intents den **Message Content Intent** einschalten, in config.json "
-                               "`\"message_content_intent\": true` setzen und den Bot neu starten.")
-        return
-    if att.size > 25 * 1024 * 1024:
-        log.warning("Upload zu groß (%d Bytes).", att.size)
-        return
-    raw = await att.read()
-    # Erstkill-Screenshots vom Uploader (shot_<Boss-ID>_<Zeit>.jpg) aufheben – die Ruhmeshalle postet sie
-    for a in message.attachments:
-        m_ = re.match(r"^shot_(\d+)_(\d+)\.(jpg|jpeg|png)$", a.filename.lower())
-        if m_ and a.size <= 10 * 1024 * 1024:
-            try:
-                os.makedirs(SHOTS_DIR, exist_ok=True)
-                with open(os.path.join(SHOTS_DIR, a.filename.lower()), "wb") as f_:
-                    f_.write(await a.read())
-            except (OSError, discord.HTTPException) as e:
-                log.warning("Screenshot %s nicht gespeichert: %s", a.filename, e)
-    try:
-        text, db = await asyncio.to_thread(check_upload, raw, att.filename)
-    except ValueError as e:
-        log.warning("Upload abgelehnt: %s", e)
-        return
-    if test_info(db):
-        # Testmodus des Test-Tools: echte Daten bleiben unberührt, Test wird gepostet und nach 10 Min. gelöscht
-        uploader = message.author.name if message.author else "?"
-        try:
-            await message.delete()
-        except discord.HTTPException:
-            pass
-        state.data["last_test_upload"] = int(time.time())
-        state.data["last_test_upload_by"] = uploader
-        state.save()
-        if test_info(db).get("post"):
-            try:
-                n = await handle_test_upload(db, uploader)
-                await post_bot_log(f"🧪 Testdaten von {uploader} empfangen – {n} Nachrichten gepostet, werden nach 10 Minuten gelöscht."
-                                   if n else f"🧪 Testdaten von {uploader} empfangen, aber keine DKP-/Loot-Kanäle gefunden "
-                                   "(`/raidmaster-einrichten` ausführen).")
-            except Exception as e:  # noqa: BLE001
-                log.exception("Testdaten konnten nicht gepostet werden")
-                await post_bot_log(f"⚠️ Testdaten von {uploader} konnten nicht gepostet werden: {e}")
-        else:
-            log.info("Upload von %s aus dem Testmodus ignoriert (echte Daten bleiben).", uploader)
-            await post_bot_log(f"🧪 Daten von {uploader} kamen aus dem Testmodus (ohne „Test an Discord senden“) – nicht übernommen, echte DKP bleiben.")
-        return
-    new_version = int((db.get("data") or {}).get("version") or 0)
-    current = int((bot.dkp_data or {}).get("version") or 0)
-    uploader = message.author.name if message.author else "?"
-    if new_version < current and uploader != state.data.get("last_upload_by"):
-        log.info("Upload von %s ignoriert: älterer DKP-Stand (%d < %d).", uploader, new_version, current)
-        await post_bot_log(f"ℹ️ Daten von {uploader} nicht übernommen: älterer DKP-Stand als der vorhandene.")
-        return
-    os.makedirs(DATA_DIR, exist_ok=True)
-    tmp = UPLOAD_PATH + ".tmp"
-    with open(tmp, "w", encoding="utf-8") as f:
-        f.write(text)
-    os.replace(tmp, UPLOAD_PATH)
-    state.data["last_upload"] = int(time.time())
-    state.data["last_upload_by"] = uploader
-    state.save()
-    log.info("Neue Daten von %s empfangen (%d KB).", uploader, len(text) // 1024)
-    if cfg.get("upload_receipts", True):
-        players = len((db.get("data") or {}).get("players") or {})
-        await post_bot_log(f"📥 Daten von {uploader} empfangen ({players} Spieler) – DKP- und Loot-Kanäle werden aktualisiert.")
-    try:
-        await message.delete()
-    except discord.HTTPException:
-        pass
-    await process_new_data()
 
 
 # ---------------------------------------------------------------------------
@@ -835,9 +615,6 @@ async def repair_missing_announcements():
 # Befehlsliste im Offiziersbereich und #befehle (nur der Bot schreibt): ab 1.5.161 in befehlsliste_bot.py
 # ---------------------------------------------------------------------------
 
-@dkp_loop.before_loop
-async def before_dkp():
-    await bot.wait_until_ready()
 
 
 if __name__ == "__main__":

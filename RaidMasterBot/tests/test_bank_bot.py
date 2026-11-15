@@ -60,7 +60,9 @@ class Raidfaehigkeit(unittest.TestCase):
         m.state.data.update(self.saved[4])
 
     def test_gleiche_funktionen_in_bot(self):
-        self.assertIs(self.bot.post_raid_ready, self.m.post_raid_ready)
+        up = sys.modules["upload_bot"]                                         # ab 1.5.181 dort benutzt
+        self.assertIs(up.post_raid_ready, self.m.post_raid_ready)
+        self.assertIs(up.post_guild_bank, self.m.post_guild_bank)
         self.assertIs(self.bot.post_guild_bank, self.m.post_guild_bank)
 
     def test_nur_offiziere_und_je_einmal(self):

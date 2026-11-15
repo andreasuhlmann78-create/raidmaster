@@ -393,6 +393,7 @@ REGRESSIONEN = {
     "T-D3-DKPBEFEHLE": ("test_dkp_befehle_bot", "DkpBefehle", "test_nur_bei_aenderung_laden"),
     "T-D3-RAID": ("test_raid_bot", "Raid", "test_angemeldet_und_gleiche_objekte"),
     "T-D3-ANMELDUNG": ("test_anmeldung_bot", "Anmeldung", "test_verteilung"),
+    "T-D3-UPLOAD": ("test_upload_bot", "Empfang", "test_echte_daten_abgelegt_und_verarbeitet"),
     "T-D3-BEFEHLE": ("test_befehle_liste", "BefehleListe", "test_gleiche_befehle"),
     "T-D-MN8b": ("test_market", "BotAblauf", "test_T_D_MN8b_aenderung_erst_nach_senden_merken"),
     "T-D-GS1b": ("test_market", "BotAblauf", "test_T_D_GS1b_grosse_guildsentinel_datei"),

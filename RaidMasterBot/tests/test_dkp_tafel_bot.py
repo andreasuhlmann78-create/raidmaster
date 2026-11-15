@@ -49,7 +49,7 @@ class Dkp(unittest.TestCase):
         self.assertIs(sys.modules["kanalpflege_bot"].dkp_channel_for, self.m.dkp_channel_for)   # ab 1.5.177 dort
         self.assertIs(sys.modules["dkp_befehle_bot"].dkp_list_messages, self.m.dkp_list_messages)   # ab 1.5.178 dort
         for name in ("post_dkp_tables", "post_raid_summaries", "remove_overall"):
-            self.assertIs(getattr(self.bot, name), getattr(self.m, name), name)
+            self.assertIs(getattr(sys.modules["upload_bot"], name), getattr(self.m, name), name)   # ab 1.5.181 dort benutzt
         self.assertIs(sys.modules["testupload_bot"].send_test, sys.modules["testdaten_bot"].send_test)
 
     def test_kanal_je_pool(self):

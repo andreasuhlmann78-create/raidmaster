@@ -72,7 +72,7 @@ class Beute(unittest.TestCase):
         g = self.bot.bot.tree.get_command("beute")
         self.assertIs(g, self.m.beute_group)
         self.assertEqual(sorted(c.name for c in g.commands), ["boss", "entfernen", "export", "tabellen"])
-        self.assertIs(self.bot.update_lootdb, self.m.update_lootdb)
+        self.assertIs(sys.modules["upload_bot"].update_lootdb, self.m.update_lootdb)          # ab 1.5.181 dort benutzt
 
     def test_offiziers_befehle_gesperrt(self):
         self.m.is_creator = lambda u: False

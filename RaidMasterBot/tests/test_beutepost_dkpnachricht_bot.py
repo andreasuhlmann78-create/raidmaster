@@ -23,7 +23,7 @@ class Beutepost(unittest.TestCase):
         cls.m = sys.modules["beutepost_bot"]
 
     def test_gleiche_funktionen_in_bot(self):
-        self.assertIs(self.bot.post_new_loot, self.m.post_new_loot)
+        self.assertIs(sys.modules["upload_bot"].post_new_loot, self.m.post_new_loot)          # ab 1.5.181 dort benutzt
         self.assertIs(sys.modules["anmeldung_bot"].show_tip, self.m.show_tip)            # ab 1.5.180 dort benutzt
         self.assertIs(sys.modules["testupload_bot"].send_loot_list, self.m.send_loot_list)   # ab 1.5.176 dort benutzt
 
@@ -98,7 +98,7 @@ class DkpNachricht(unittest.TestCase):
         m.asyncio.sleep, m.bot.dkp_data = self.saved_sleep, self.saved_data
 
     def test_gleiche_funktionen_in_bot(self):
-        self.assertIs(self.bot.send_raid_dms, self.m.send_raid_dms)
+        self.assertIs(sys.modules["upload_bot"].send_raid_dms, self.m.send_raid_dms)          # ab 1.5.181 dort benutzt
         self.assertIs(sys.modules["monatlich_bot"].find_member_for_char, self.saved["find_member_for_char"])
 
     def test_einmal_nur_an_teilnehmer(self):

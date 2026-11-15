@@ -43,9 +43,10 @@ class Kanalpflege(unittest.TestCase):
 
     def test_gleiche_funktionen_in_bot(self):
         for name in ("clear_channels_once", "ensure_channel_texts", "ensure_listed_raid_categories",
-                     "ensure_new_raid_categories", "ensure_voice_limits", "remove_unused_channels_once",
-                     "sync_raid_visibility"):
+                     "ensure_voice_limits", "remove_unused_channels_once", "sync_raid_visibility"):
             self.assertIs(getattr(self.bot, name), getattr(self.m, name), name)
+        for name in ("ensure_new_raid_categories", "sync_raid_visibility"):       # ab 1.5.181 in upload_bot benutzt
+            self.assertIs(getattr(sys.modules["upload_bot"], name), getattr(self.m, name), name)
 
     def test_heute_nichts_zu_leeren(self):
         # Stand 1.5.177: CLEAR_CHANNELS_ONCE ist leer (#mc-dkp erledigt, seit Bot 1.5.109) – es wird nichts geleert

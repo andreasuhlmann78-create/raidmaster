@@ -53,7 +53,7 @@ class Testmodus(unittest.TestCase):
         m.state.save, m.book.save = self.saved[2], self.saved[3]
 
     def test_gleiche_objekte_in_bot(self):
-        self.assertIs(self.bot.handle_test_upload, self.m.handle_test_upload)
+        self.assertIs(sys.modules["upload_bot"].handle_test_upload, self.m.handle_test_upload)   # ab 1.5.181 dort benutzt
         self.assertIs(self.bot.test_cleanup_loop, self.m.test_cleanup_loop)
 
     def test_aufraeumen(self):

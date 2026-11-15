@@ -500,12 +500,12 @@ class BotAblauf(unittest.TestCase):
 
     def test_T_D_MN7a_zwei_rechner_zwei_quellen(self):
         t = time.time() - H
-        r1 = run(self.bot.market_intake(FakeMessage([self.paket("0123456789abcdef", t)], webhook_id=5)))
-        r2 = run(self.bot.market_intake(FakeMessage([self.paket("fedcba9876543210", t)], webhook_id=5)))
+        r1 = run(self.m.market_intake(FakeMessage([self.paket("0123456789abcdef", t)], webhook_id=5)))
+        r2 = run(self.m.market_intake(FakeMessage([self.paket("fedcba9876543210", t)], webhook_id=5)))
         self.assertEqual((r1["neu"], r2["doppelt"]), (1, 1))
         head = next(iter(self.m._market_store.index["scans"].values()))
         self.assertEqual(len(head["q"]), 2)                                  # gleicher Webhook, zwei Quellen
-        r3 = run(self.bot.market_intake(FakeMessage([self.paket(None, t)], webhook_id=5)))   # alter Uploader
+        r3 = run(self.m.market_intake(FakeMessage([self.paket(None, t)], webhook_id=5)))   # alter Uploader
         self.assertEqual(r3["doppelt"], 1)
         self.assertEqual(len(head["q"]), 3)
         with open(os.path.join(self.dir, "index.json"), encoding="utf-8") as f:
@@ -652,7 +652,7 @@ class BotAblauf(unittest.TestCase):
 
     def test_intake_antwortet_und_loescht_nie(self):
         msg = FakeMessage([self.paket("0123456789abcdef")], webhook_id=5)
-        run(self.bot.market_intake(msg))
+        run(self.m.market_intake(msg))
         self.assertFalse(msg.deleted)
 
 
