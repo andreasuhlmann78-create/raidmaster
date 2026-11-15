@@ -23,7 +23,6 @@ import time
 import discord
 from discord import app_commands
 
-import raidmaster_data as rmd
 import guildbank
 import uploader_setup
 import member_area
@@ -464,6 +463,7 @@ from upload_bot import (  # noqa: E402
     dkp_loop,
     receive_upload,
 )
+import einrichten_bot  # noqa: E402,F401 – D-3 Schritt 35: Server-Einrichtung (meldet /raidmaster-einrichten an)
 
 # ---------------------------------------------------------------------------
 # Hilfen
@@ -490,50 +490,9 @@ def members_with_power() -> list[str]:
 
 # ---------------------------------------------------------------------------
 # Charakterprofil, Knöpfe an den Raid-Nachrichten, /charakter: ab 1.5.180 in anmeldung_bot.py.
-# /dkp, /dkpliste, /raidmaster-status: ab 1.5.178 in dkp_befehle_bot.py. Hier: /raidmaster-einrichten
+# /dkp, /dkpliste, /raidmaster-status: ab 1.5.178 in dkp_befehle_bot.py. /raidmaster-einrichten: ab 1.5.182 in
+# einrichten_bot.py. Hier: Fehlerantwort für alle Befehle
 # ---------------------------------------------------------------------------
-@bot.tree.command(name="raidmaster-einrichten", description="Legt Kanäle, Rollen und Berechtigungen für die Gilde automatisch an")
-async def setup_cmd(inter: discord.Interaction):
-    member = inter.user
-    if not is_admin(member):
-        await inter.response.send_message("Die Einrichtung dürfen nur der Gildenchef und die Offiziere starten.", ephemeral=True)
-        return
-    me = inter.guild.me
-    missing = []
-    if not me.guild_permissions.manage_channels:
-        missing.append("Kanäle verwalten")
-    if not me.guild_permissions.manage_roles:
-        missing.append("Rollen verwalten")
-    if missing:
-        await inter.response.send_message(
-            "Dem Bot fehlen dafür einmalig die Rechte: **" + "**, **".join(missing) + "**.\n"
-            "So gibst du sie ihm: **Servereinstellungen → Rollen → Raidmaster tool → Berechtigungen** → "
-            "die genannten Rechte einschalten → speichern. Danach `/raidmaster-einrichten` erneut ausführen.\n"
-            "Nach der Einrichtung kannst du die Rechte wieder ausschalten.",
-            ephemeral=True)
-        return
-    await inter.response.defer(ephemeral=True, thinking=True)
-    settings = None
-    if bot.dkp_data and isinstance(bot.dkp_data.get("settings"), dict):
-        settings = bot.dkp_data["settings"]
-    try:
-        extra = {k: rmd.pool_name(k, bot.dkp_data) for k in rmd.pool_list(bot.dkp_data or {}) if k not in rmd.POOLS}
-        report = await server_setup.run_setup(inter.guild, member, cfg, settings, extra)
-        cfg.setdefault("raid_names", {}).update(extra)
-        save_config()
-        await check_addon_release()
-        report.append(await ensure_welcome(update=True))
-        report.append(await ensure_command_list())
-        report += await ensure_dkp_rules()
-    except discord.Forbidden:
-        await inter.followup.send("Discord hat eine Aktion verweigert. Prüfe, ob die Rolle **Raidmaster tool** in "
-                                  "**Servereinstellungen → Rollen** möglichst weit oben steht, und versuche es erneut.", ephemeral=True)
-        return
-    text = "\n".join(report)
-    while text:
-        part, text = text[:1900], text[1900:]
-        await inter.followup.send(part, ephemeral=True)
-    log.info("Server-Einrichtung durch %s abgeschlossen.", member)
 
 
 @bot.tree.error
