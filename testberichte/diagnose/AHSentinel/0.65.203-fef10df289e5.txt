@@ -1,0 +1,226 @@
+AHSentinel-Protokoll v0.65.203 · 15.11. 19:39:11
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  15.11. 19:38:24 L10 ? v0.65.203
+  15.11. 19:03:53 L10 ? v0.65.203
+  15.11. 18:56:59 L10 ? v0.65.203
+  15.11. 18:55:54 L10 ? v0.65.203
+  15.11. 18:52:11 L10 ? v0.65.203
+  15.11. 18:42:06 L10 ? v0.65.203
+  15.11. 18:32:14 L10 ? v0.65.203
+  15.11. 18:14:11 L10 ? v0.65.202
+  15.11. 18:09:56 L10 ? v0.65.201
+  15.11. 18:09:00 L10 ? v0.65.201
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 38 Min., 7096 Items, Preis-Sync an
+  SYNC GoldSentinelSync 2 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 2, GoldSentinelMarkt 2, GuildSentinel 2, LevelPilot 1, LevelPilotG 1, ThreatSentinel 0
+  SYNC gesendet 25 · empfangen 7 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 1) · gesendet 1 · weitergegeben 0 · offline 1 · Listen 0 · Warteschlange 0 · gespeichert ja
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Gewinn-Fenster angedockt an ProfessionsFrame (Versatz 59)
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, marketExpert=false, minimapAngle=216.6, priceGuard=20, sniperSignal=true, theme=modern, tooltipDEDetail=true, vendorButton=false, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[15.11. 19:38:54] ENTZAUBERWERT Item 4307 · eigene Ø aus 766 · 10940 79% × 1.50 à 116, 10938 21% × 1.56 à 128 · brutto 189 · netto 180
+[15.11. 19:38:54] ABSATZ Item 4307 · Q 10 (vollscan) · S 15.1 (measured) · S roh 15.1 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.7 · N 1.0
+[15.11. 19:38:54] BUCHHALTUNG Fehlbestand ausgebucht: Item 4251 × 1, Einstand 870 · nicht in Taschen, Bank, Briefkasten (Abbild 15.11. 19:11) und eigenen Auktionen; letzter Zugang 15.11. 18:56
+[15.11. 19:38:53] ENTZAUBERWERT Item 2580 · eigene Ø aus 766 · 10940 79% × 1.50 à 116, 10938 21% × 1.56 à 128 · brutto 189 · netto 180
+[15.11. 19:38:53] DE-CHANCEN Gruppe 2:1:a · Tabelle 10940 80%/10938 20% · echt 10940 79%/10938 21% (766)
+[15.11. 19:38:53] ABSATZ Item 2580 · Q 45 (scan, Q gesamt) · S 35.5 (measured) · S roh 35.5 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 1.3 · N 2.0
+[15.11. 19:38:45] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 306 ms
+[15.11. 19:38:44] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser DATA_CHANGED · 2324 ms
+[15.11. 19:38:44] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 155 ms bis Comfort.lua:1002 · 155 ms
+[15.11. 19:38:42] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 22 ms bis Disenchant.lua:1527 · 22 ms
+[15.11. 19:38:42] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 19 ms bis Comfort.lua:931 · 20 ms
+[15.11. 19:38:42] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 28 ms bis Comfort.lua:765 · 33 ms
+[15.11. 19:38:42] ABSATZ-UNPLAUSIBEL Item 1716 · 11.8/Tag · Quelle geschätzt
+[15.11. 19:38:41] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 15 ms bis Extras.lua:279 · 20 ms
+[15.11. 19:38:41] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 13 ms bis Extras.lua:279 · 18 ms
+[15.11. 19:38:41] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 14 ms bis Extras.lua:279 · 17 ms
+[15.11. 19:38:41] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 38 ms bis Extras.lua:279 · 40 ms
+[15.11. 19:38:41] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 32 ms bis Extras.lua:279 · 33 ms
+[15.11. 19:38:41] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 16 ms bis Extras.lua:279 · 22 ms
+[15.11. 19:38:41] ABSATZ Item 118 · Q 299 (vollscan) · S 915.1 (measured) · S roh 915.1 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.3 · N 1.0
+[15.11. 19:38:40] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 18 ms bis Extras.lua:279 · 22 ms
+[15.11. 19:38:40] ABSATZ-UNPLAUSIBEL Item 7390 · 9.9/Tag · Quelle geschätzt
+[15.11. 19:38:40] LANGSAM ×3 Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 25 ms bis Extras.lua:279 · 28 ms
+[15.11. 19:38:40] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[15.11. 19:38:40] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 33 ms bis Extras.lua:279 · 38 ms
+[15.11. 19:38:40] ABSATZ-UNPLAUSIBEL Item 13443 · 155.9/Tag · Quelle geschätzt
+[15.11. 19:38:30] SYNC Weg=GUILD
+[15.11. 19:38:25] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[15.11. 19:12:24] PREIS-ALT ×2 AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.0 Std., 10940: 0.2 Std., 11082: 0.0 Std. · 0 frisch geholt
+[15.11. 19:11:18] ABBRECHEN AUCTION_CANCELED auctionID 111265127 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 19:11:13] ABBRECHEN AUCTION_CANCELED auctionID 111262275 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 19:10:58] ABBRECHEN ×2 AUCTION_CANCELED auctionID 111263632 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 19:10:45] ABBRECHEN AUCTION_CANCELED auctionID 111262275 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 19:10:45] ABBRECHEN AUCTION_CANCELED auctionID 111263632 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 19:10:43] AHS-POST PostCommodity: arg2=1 arg3=4 arg4=919 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/5
+[15.11. 19:10:43] WARNSCHUTZ Item 11134 · Preis 919 · Vergleich 919 (unter deinem Einkaufspreis) · trotzdem eingestellt
+[15.11. 19:10:41] WARNSCHUTZ Item 11134 · Preis 919 · Vergleich 919 (unter deinem Einkaufspreis) · gewarnt
+[15.11. 19:10:37] ABBRECHEN AUCTION_CANCELED auctionID 111263632 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 19:10:35] WARNSCHUTZ Item 11134 · Preis 833 · Vergleich 919 (unter deinem Einkaufspreis) · Preis angepasst
+[15.11. 19:10:33] WARNSCHUTZ Item 11134 · Preis 833 · Vergleich 919 (unter deinem Einkaufspreis) · gewarnt
+[15.11. 19:10:30] VERKAUFEN-KLICK Zeile Item 11134 · vorher 11084 · nachher 11134 · Fehler 0 · Titel Geringe Mystikeressenz
+[15.11. 19:10:29] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[15.11. 19:10:29] EINSTELLEN Item 11084 · Menge 2 · Auktionen 1 · Laufzeit 1 · Preis 3598/Stück, 7196 gesamt · Gebühr erwartet 100, abgezogen 100 (1.39 % vom Preis) · Günstigstes 3599 · Mindestpreis 2 (vendor)
+[15.11. 19:10:28] AHS-POST PostCommodity: arg2=1 arg3=2 arg4=3598 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/9
+[15.11. 19:10:28] ABBRECHEN AUCTION_CANCELED auctionID 111262275 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 19:10:26] ABBRECHEN AUCTION_CANCELED auctionID 111263632 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 19:10:24] VERKAUFEN-KLICK Zeile Item 11084 · vorher 11082 · nachher 11084 · Fehler 0 · Titel Großer gleißender Splitter
+[15.11. 19:10:24] ABBRECHEN AUCTION_CANCELED auctionID 111262275 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 19:10:23] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=0 · Minimum jetzt 100
+[15.11. 19:10:23] EINSTELLEN Item 11082 · Menge 13 · Auktionen 1 · Laufzeit 1 · Preis 1442/Stück, 18746 gesamt · Gebühr erwartet 100, abgezogen 100 (0.53 % vom Preis) · Günstigstes 1443 · Mindestpreis 2 (vendor)
+[15.11. 19:10:22] AHS-POST PostCommodity: arg2=1 arg3=13 arg4=1442 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/7
+[15.11. 19:10:19] VERKAUFEN-KLICK Zeile Item 11082 · vorher 11083 · nachher 11082 · Fehler 0 · Titel Große Astralessenz
+[15.11. 19:10:19] EIGENE Ware Item 11083 · buyout 409 · Menge 62 · als Stückpreis gelesen
+[15.11. 19:10:19] ABSATZ Item 2997 · Q 0 (vollscan) · S 254.3 (measured) · S roh 254.3 · Deckel - · eigene Quote 3/3 · Laufzeit 24 Std. · W 0.0 · N 1.0
+[15.11. 19:10:19] MINDESTEINZAHLUNG gemessen=100 je Auktion · Formel=3 · Minimum jetzt 100
+[15.11. 19:10:19] EINSTELLEN Item 11083 · Menge 62 · Auktionen 1 · Laufzeit 1 · Preis 409/Stück, 25358 gesamt · Gebühr erwartet 100, abgezogen 100 (0.39 % vom Preis) · Günstigstes 410 · Mindestpreis 2 (vendor)
+[15.11. 19:10:19] ABSATZ Item 6338 · Q 121 (vollscan) · S 81.1 (measured) · S roh 81.1 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 1.1 · N 2.0
+[15.11. 19:10:19] ABSATZ Item 4470 · Q 4605 (scan, Q gesamt) · S 433.1 (market, gelernt) · S roh 1088.0 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 10.6 · N 7.0 · kaum
+[15.11. 19:10:18] AHS-POST PostCommodity: arg2=1 arg3=62 arg4=409 arg5=nil, ItemLocation gültig ja, Bag/Slot 0/6
+[15.11. 19:10:07] ABSATZ Item 279972 · Q 18 (vollscan) · S 111.8 (market, gelernt) · S roh 299.9 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.2 · N 1.0
+[15.11. 19:10:07] ABSATZ Item 11134 · Q 56 (vollscan) · S 290.6 (measured) · S roh 290.6 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.1 · N 1.0
+[15.11. 19:10:06] VERKAUFEN-KLICK Zeile Item 11083 · vorher nil · nachher 11083 · Fehler 0 · Titel Seelenstaub
+[15.11. 19:10:05] ABSATZ Item 11084 · Q 14 (vollscan) · S 84.6 (measured) · S roh 84.6 · Deckel - · eigene Quote 21/21 · Laufzeit 24 Std. · W 0.2 · N 1.0
+[15.11. 19:10:05] ABSATZ Item 11082 · Q 21 (vollscan) · S 142.5 (measured) · S roh 142.5 · Deckel - · eigene Quote 34/31 · Laufzeit 24 Std. · W 0.2 · N 1.0
+[15.11. 19:09:59] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 19:09:59] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1030): 11083×1 Einstand 323 (netto 381) · Ausbeute -548
+[15.11. 19:09:55] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 19:09:55] ENTZ-VERTEILUNG Teil 4251 (870, erwartet netto 1030): 11083×2 Einstand 645 (netto 381) · Ausbeute -225
+[15.11. 19:09:51] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 19:09:51] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1030): 11083×2 Einstand 646 (netto 381) · Ausbeute -225
+[15.11. 19:09:46] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 19:09:46] ENTZ-VERTEILUNG Teil 4251 (870, erwartet netto 1030): 11083×2 Einstand 645 (netto 381) · Ausbeute -225
+[15.11. 19:09:42] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 19:09:42] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1031): 11083×1 Einstand 323 (netto 381) · Ausbeute -548
+[15.11. 19:09:38] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 19:09:38] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1031): 11083×2 Einstand 645 (netto 381) · Ausbeute -226
+[15.11. 19:09:34] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 19:09:34] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1031): 11083×2 Einstand 645 (netto 381) · Ausbeute -226
+[15.11. 19:09:30] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 19:09:30] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1031): 11083×1 Einstand 322 (netto 381) · Ausbeute -549
+[15.11. 19:09:26] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 19:09:26] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1032): 11083×2 Einstand 645 (netto 381) · Ausbeute -226
+[15.11. 19:09:22] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11082×1
+[15.11. 19:09:22] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1032): 11082×1 Einstand 1155 (netto 1368) · Ausbeute +284
+[15.11. 19:09:18] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 19:09:18] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1032): 11083×1 Einstand 322 (netto 381) · Ausbeute -549
+[15.11. 19:09:14] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 19:09:14] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1032): 11083×1 Einstand 322 (netto 381) · Ausbeute -549
+[15.11. 19:09:09] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 19:09:09] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1033): 11083×2 Einstand 644 (netto 381) · Ausbeute -227
+[15.11. 19:09:05] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 19:09:05] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1033): 11083×2 Einstand 644 (netto 381) · Ausbeute -227
+[15.11. 19:09:01] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 19:09:01] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1033): 11083×2 Einstand 644 (netto 381) · Ausbeute -227
+[15.11. 19:08:57] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 19:08:57] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1033): 11083×1 Einstand 322 (netto 381) · Ausbeute -549
+[15.11. 19:08:52] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 19:08:52] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1034): 11083×1 Einstand 322 (netto 381) · Ausbeute -549
+[15.11. 19:08:48] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.1 Std., 10940: 0.1 Std., 11082: 0.1 Std. · 0 frisch geholt
+[15.11. 19:08:47] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 19:08:47] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1034): 11083×2 Einstand 643 (netto 381) · Ausbeute -228
+[15.11. 19:06:28] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 29 ms
+[15.11. 19:06:22] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 19:06:22] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1035): 11083×2 Einstand 643 (netto 381) · Ausbeute -228
+[15.11. 19:06:21] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 32 ms
+[15.11. 19:06:17] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 19:06:17] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1035): 11083×2 Einstand 643 (netto 381) · Ausbeute -228
+[15.11. 19:06:13] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 19:06:13] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1035): 11083×2 Einstand 643 (netto 381) · Ausbeute -228
+[15.11. 19:06:11] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 31 ms
+[15.11. 19:06:09] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 19:06:09] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1035): 11083×1 Einstand 321 (netto 381) · Ausbeute -550
+[15.11. 19:06:05] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 19:06:05] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1036): 11083×1 Einstand 321 (netto 381) · Ausbeute -550
+[15.11. 19:06:01] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser DATA_CHANGED · 35 ms
+[15.11. 19:06:00] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 19:06:00] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1036): 11083×1 Einstand 321 (netto 381) · Ausbeute -550
+[15.11. 19:05:56] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 19:05:56] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1037): 11083×2 Einstand 642 (netto 381) · Ausbeute -229
+[15.11. 19:05:52] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11084×1
+[15.11. 19:05:52] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1037): 11084×1 Einstand 2832 (netto 3371) · Ausbeute +1961
+[15.11. 19:05:51] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 32 ms
+[15.11. 19:05:48] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 19:05:48] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1035): 11083×1 Einstand 321 (netto 381) · Ausbeute -550
+[15.11. 19:05:44] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11082×1
+[15.11. 19:05:44] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1036): 11082×1 Einstand 1151 (netto 1368) · Ausbeute +280
+[15.11. 19:05:41] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 44 ms
+[15.11. 19:05:39] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 19:05:39] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1035): 11083×2 Einstand 643 (netto 381) · Ausbeute -228
+[15.11. 19:05:35] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11084×1
+[15.11. 19:05:35] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1036): 11084×1 Einstand 2836 (netto 3371) · Ausbeute +1965
+[15.11. 19:05:31] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser DATA_CHANGED · 46 ms
+[15.11. 19:05:30] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[15.11. 19:05:30] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1034): 11082×2 Einstand 2307 (netto 1368) · Ausbeute +1436
+[15.11. 19:05:26] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 19:05:26] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1033): 11083×1 Einstand 322 (netto 381) · Ausbeute -549
+[15.11. 19:05:22] PD7 Preisverlauf verdichtet: 494358 -> 494354 Zeilen (~20276 -> ~20276 KB)
+[15.11. 19:05:22] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11082×1
+[15.11. 19:05:22] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1033): 11082×1 Einstand 1154 (netto 1368) · Ausbeute +283
+[15.11. 19:05:21] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 32 ms
+[15.11. 19:05:18] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 19:05:18] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1033): 11083×2 Einstand 644 (netto 381) · Ausbeute -227
+[15.11. 19:05:08] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 11083: 0.1 Std., 10940: 0.1 Std., 11082: 0.1 Std. · 0 frisch geholt
+[15.11. 19:05:07] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 1724 ms
+[15.11. 19:05:07] SNIPER-RUHE Ruhemodus aus nach 4 s
+[15.11. 19:05:05] SNIPER-SUCHE Ziel 4251 · Angebote 486 · Treffer ≤ Max 5 · gekauft 48 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 19:05:05] ABSATZ Item 11083 · Q 144 (vollscan) · S 534.8 (measured) · S roh 534.8 · Deckel - · eigene Quote 37/27 · Laufzeit 24 Std. · W 0.3 · N 1.0
+[15.11. 19:05:04] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 19:05:04] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1033): 11083×1 Einstand 322 (netto 381) · Ausbeute -549
+[15.11. 19:05:04] SNIPER-SUCHE Ziel 14580 · Angebote 33 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 19:05:03] SNIPER-SUCHE Ziel 7048 · Angebote 410 · Treffer ≤ Max 0 · gekauft 3 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 19:05:03] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[15.11. 19:05:03] SNIPER-RUHE Ruhemodus an
+[15.11. 19:05:00] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[15.11. 19:05:00] ENTZ-VERTEILUNG Teil 4251 (871, erwartet netto 1033): 11082×2 Einstand 2307 (netto 1368) · Ausbeute +1436
+[15.11. 19:04:56] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 19:04:56] ENTZ-VERTEILUNG Teil 7048 (839, erwartet netto 1032): 11083×2 Einstand 621 (netto 381) · Ausbeute -218
+[15.11. 19:04:55] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 20 ms
+[15.11. 19:04:52] DE-GEZÄHLT Item 7048 · Itemstufe 29 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 19:04:52] ENTZ-VERTEILUNG Teil 7048 (839, erwartet netto 1032): 11083×1 Einstand 310 (netto 381) · Ausbeute -529
+[15.11. 19:04:47] KLICK Entzaubern-Knopf -> Fenster offen ja
+[15.11. 19:04:46] ABSATZ Item 118 · Q 299 (vollscan) · S 915.1 (measured) · S roh 915.1 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.3 · N 1.0
+[15.11. 19:04:46] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser DATA_CHANGED · 106 ms
+[15.11. 19:04:45] ENTZAUBERWERT Item 7048 · eigene Ø aus 1326 · 11083 75% × 1.53 à 382, 11082 20% × 1.52 à 1369, 11084 6% × 1.00 à 3372 · brutto 1087 · netto 1033
+[15.11. 19:04:45] DE-CHANCEN Gruppe 2:4:a · Tabelle 11083 75%/11082 20%/11084 5% · echt 11083 75%/11082 20%/11084 6% (1326)
+[15.11. 19:04:45] ABSATZ Item 7048 · Q 0 (vollscan) · S 89.1 (measured) · S roh 89.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.0 · N 1.0
+[15.11. 19:04:44] ABSATZ Item 4245 · Q 10 (vollscan) · S 246.4 (measured) · S roh 246.4 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.0 · N 1.0
+[15.11. 19:04:13] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 337 ms bis Comfort.lua:1002 · 337 ms
+[15.11. 19:04:12] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 29 ms bis Disenchant.lua:1527 · 31 ms
+[15.11. 19:04:12] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 14 ms bis Comfort.lua:845 · 17 ms
+[15.11. 19:04:11] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 19 ms bis Comfort.lua:765 · 23 ms
+[15.11. 19:04:11] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 17 ms bis Extras.lua:279 · 17 ms
+[15.11. 19:04:11] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 15 ms bis Extras.lua:279 · 18 ms
+[15.11. 19:04:10] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 16 ms bis Extras.lua:279 · 21 ms
+[15.11. 19:04:10] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 17 ms bis Extras.lua:279 · 17 ms
+[15.11. 19:04:10] ABSATZ-UNPLAUSIBEL Item 1716 · 11.8/Tag · Quelle geschätzt
+[15.11. 19:04:10] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 16 ms bis Extras.lua:279 · 19 ms
+[15.11. 19:04:10] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 12 ms bis Extras.lua:279 · 17 ms
+[15.11. 19:04:10] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 11 ms bis Extras.lua:279 · 16 ms
+[15.11. 19:04:10] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 30 ms bis Extras.lua:279 · 31 ms
+[15.11. 19:04:10] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 17 ms bis Extras.lua:279 · 23 ms
+[15.11. 19:04:10] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 15 ms bis Extras.lua:279 · 16 ms
+[15.11. 19:04:09] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 16 ms bis Extras.lua:279 · 16 ms
+[15.11. 19:04:09] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 17 ms bis Extras.lua:279 · 17 ms
+[15.11. 19:04:09] LANGSAM ×2 Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 15 ms bis Extras.lua:279 · 20 ms
+[15.11. 19:04:09] ABSATZ-UNPLAUSIBEL Item 7390 · 9.9/Tag · Quelle geschätzt
+[15.11. 19:04:09] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 24 ms bis Extras.lua:279 · 27 ms
+[15.11. 19:04:09] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 25 ms bis Extras.lua:279 · 25 ms
+[15.11. 19:04:09] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[15.11. 19:04:09] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 28 ms bis Extras.lua:279 · 30 ms
+[15.11. 19:04:08] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 34 ms bis Extras.lua:279 · 36 ms
+[15.11. 19:04:08] ABSATZ-UNPLAUSIBEL Item 13443 · 155.9/Tag · Quelle geschätzt
+[15.11. 19:03:58] SYNC Weg=GUILD
+[15.11. 19:03:53] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[15.11. 19:03:47] SNIPER-RUHE Ruhemodus aus nach 131 s
+[15.11. 19:03:38] ABBRECHEN AUCTION_CANCELED auctionID 111085977 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 19:03:35] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 18 ms bis Ende ui-refresh · 18 ms
+[15.11. 19:03:35] SNIPER-RUHE Speicher 469625 KB (-28498 KB in 60 s) · Suchen 45
+[15.11. 19:03:16] SNIPER-SUCHE Ziel 14580 · Angebote 33 · Treffer ≤ Max 0 · gekauft 0 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 19:03:15] SNIPER-SUCHE Ziel 7048 · Angebote 413 · Treffer ≤ Max 0 · gekauft 3 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
