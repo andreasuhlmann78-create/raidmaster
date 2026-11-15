@@ -1,0 +1,51 @@
+BERICHT DISCORD – Bot 1.5.179: D-3 Schritt 32 (Raids als eigenes Modul) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 23:06 (aus date)
+Commit: f80aecca auf origin/main, CI bot-tests: success
+
+WAS
+- raid_bot.py (634 Zeilen): der ganze Abschnitt "Befehle: /raid ..." bis bot.tree.add_command(raid_group) (484
+  Zeilen: raid_group, Autovervollständigung, /raid erstellen|testraid|absagen|softres|schliessen|oeffnen|export|
+  liste|aufstellung|taktik, Testraid-Daten, Aufstellung/Einteilung, Taktiken samt Laden aus raid_tactics.json)
+  sowie send_export, /rekorde, reminder_loop, before_reminder, process_assignment.
+- UNVERÄNDERT verschoben: alles wörtlich im alten bot.py und im Modul (Textvergleich je Teil).
+- raid_tactics.json: das Modul lädt sie über os.path.dirname(__file__) – im Betrieb derselbe Ordner wie bot.py.
+  Nachgestellt (Kopie, Start wie python3 bot.py): raid_bot aus dem Bot-Ordner, 59 von 59 Taktiken geladen.
+- bot.py: 13 dadurch unbenutzte Importe entfernt (io, json, zlib, mc_tactics, raid_post, ZoneInfo, datetime,
+  create_raid_event, delete_raid_event, clean_softres, is_creator, raid_channel, kills_db). pyflakes ungefiltert
+  vor/nach: nur der gewollte Modul-Import neu.
+- Veralteter Kommentar "Server-Betrieb: Selbst-Update" über ensure_test_channel berichtigt.
+- bot.py: git diff --numstat +8 −605, jetzt 1109 Zeilen.
+
+TESTS
+- Angepasst (Namen nicht mehr über bot.py): test_rekord_tafel (kills_db 10× über ruhmeshalle_bot – dasselbe
+  Objekt aus kern), test_lade (kills_db, raid_channel, create_raid_event am Modul raid_bot),
+  test_ereignis_handwerk_bot (create/delete_raid_event an raid_bot), test_mitgliederbereich (raid_create über
+  bot_quelle.funktion – gleicher Funktionstext, jetzt mit Dekoratoren).
+  Hinweis: beim ersten Gesamtlauf fielen 4 Stellen mit self.bot.kills_db auf (meine Suche hatte nur b./ getattr
+  geprüft) – behoben, Suche künftig auch nach ".bot.<name>".
+- NEU test_raid_bot.py (3 Tests, REGRESSIONEN T-D3-RAID): /raid mit genau zehn Unterbefehlen, /rekorde, vier
+  übernommene Namen identisch; raid_tactics.json neben dem Modul, Taktiken geladen, jede Taktik-Nachricht
+  ≤ 2000 Zeichen, unbekannter Raid -> keine; Schliessen/Öffnen nur Gildenleitung, Schliessen setzt closed und
+  aktualisiert die Anmeldung.
+  Gegenproben: closed nicht gesetzt -> ERROR (1); Taktik-Text verdreifacht (über 2000) -> FAILED (1);
+  "ohne Bosse keine Taktik" entfernt -> OK, weil alle 59 Raids in raid_tactics.json Bosse haben (für die
+  heutigen Daten gleichwertig, kein Test-Loch für vorhandene Raids).
+- Slash-Befehle: 49, unverändert. 396 Tests OK; jede Testdatei einzeln mit -I OK; REGRESSIONEN 71 von 71.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update vom Stand 1.5.178: updater._copy_new kopiert VERSION, bot.py, raid_bot.py, tests; config/state/ZIP
+   unverändert (md5); VERSION 1.5.179; raid_tactics.json vorhanden.
+2. Start wie launcher.py: Abbruch erst bei der Anmeldung (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+4. Neustart nach Update (Ende-zu-Ende, aktualisierte Kopie): Exit-Code 42.
+
+STAND D-3: bot.py 7437 (vor D-3) -> 1109 Zeilen; 36 Module ausgelagert.
+VERBLEIBEND in bot.py (der Kern): RaidBot (Start, Ereignisse, Schleifen starten), Anmeldung per Knopf
+(on_interaction, ProfileView, NameModal, register_*_player, addon_hint), /charakter, /raidmaster-einrichten,
+on_app_command_error, members_with_power, Uploads (dkp_loop, process_new_data, receive_upload),
+ensure_test_channel, repair_missing_announcements, Start (__main__).
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
+- Vorschlag: Anmeldung (on_interaction usw.) und Uploads je als Modul; RaidBot und der Start bleiben in bot.py
+  (Einstiegspunkt für launcher.py). Ich mache weiter, sofern die Prüf-Sitzung nichts anderes sagt.
