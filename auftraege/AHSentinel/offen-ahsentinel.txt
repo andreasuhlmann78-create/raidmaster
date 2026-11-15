@@ -1,3 +1,25 @@
+>>> SN-B11 HÖCHSTE PRIO – RELEASE-BLOCKER (Nutzer 12:04 "oberste Prio, schau dir den Sniper an", 3 Screenshots 12:03, 0.65.183;
+    Ziel Schultern des Hügelwächters 1000 Stk., Max 9s14, Budget 10g; 564 Angebote, viele "kaufbar" zu 7s99/8s, 87 % Markt):
+    Stand "5/1000 gekauft (+65 gesendet)" -> eine Sekunde später "(+67 gesendet)". Gold laut Screenshots: 11g14s79 (11:54) ->
+    10g72s85 (12:03) = −41s94 ≈ 5 × 7s99 (39s95) + Kleinkram -> der ZÄHLER 5 STIMMT mit dem Gold (SN-B10-Fix wirkt, Budget sicher).
+    ABER: 67 gesendete Käufe in < 30 s, davon nur 5 echt gekauft (≈ 7 %). Der Nutzer scrollt, Liste zeigt weiter "kaufbar",
+    fast nichts kommt an. Verdacht (Code Sniper.lua: Einzelkäufe über PlaceBid, mehrere gleichzeitig offen; Befunde 15.11.
+    01:xx "Interner Auktion-Fehler"): Der Server nimmt Einzelkäufe nur nacheinander an; was gesendet wird, während ein Kauf
+    noch offen ist, wird verworfen (Fehler ohne Angebot oder gar keine Antwort). Zu tun:
+    (a) MESSEN (zuerst, im Testbericht "sniper"): je gesendetem Kauf Zeit bis Antwort, Art der Antwort (gewonnen / Fehler-Code /
+        keine), wie viele Käufe zu dem Zeitpunkt offen waren, gleiche auctionID schon gesendet ja/nein. Ergebnis: Erfolgsquote
+        je "offen = 0 / 1 / ≥ 2". Belegen, ob paralleles Senden verliert.
+    (b) Ausrüstung (Einzelkäufe): höchstens EIN Kauf gleichzeitig offen; die nächste Raste wartet auf Antwort (gewonnen/Fehler)
+        oder höchstens die gemessene Antwortzeit (Median + Puffer, z. B. 1,5 s), dann über Gold entscheiden. Rasten in der
+        Wartezeit: kein Senden, Status "warte auf Antwort … (n s)". Tempo = so schnell, wie der Server ANNIMMT, nicht wie
+        geklickt wird (Nutzer 14.11.: "so schnell wie erlaubt"). Waren (Stapel) unverändert.
+    (c) Anzeige: "(+67 gesendet)" verwirrt – stattdessen "5/1000 gekauft · 1 wartet auf Antwort" bzw. im Zähler-Tooltip
+        "gesendet 67 · gekauft 5 · abgelehnt 62". "Budget ü…" ist abgeschnitten (TB-UI) – kurz "Rest 9g60".
+    (d) Liste: Zeilen, die gerade gesendet wurden, nicht nochmals senden; abgelehnte Angebote einmal neu prüfen (Preis/da?), dann
+        erst wieder "kaufbar".
+    Test S-Takt: 60 Rasten in 20 s gegen ein Server-Modell, das nur nacheinander annimmt -> Erfolgsquote ≥ 90 % der gesendeten,
+    Zähler = Gold. Bericht: gemessene Quote vorher/nachher aus echten Daten.
+
 >>> TT-STOP (Nutzer 11:50, gilt ab sofort, VORRANG vor allen älteren Aufträgen zum Item-Tooltip): "Den Rest vom Tooltip wird nicht
     angefasst! Nach dem Release bleibt der Tooltip so, bis ich etwas anderes sage." -> Am Item-Tooltip ändert AHS NUR noch den
     Abschnitt "Materialien" nach TT-DE2. Alles andere (Preis, Marktwert, Gewinn, Entzaubern, Verkaufen, Pausen-/Sniper-Zeilen,
