@@ -51,6 +51,11 @@
          Stelle messen und auf ≤ 16 ms bringen. Daneben: forecast-eval 35× und cache:today 20× bei offenem AH während des Snipens –
          beim Snipen pausieren.
   GSL2-4 8,2-s-Pausen weiter in 0.65.193 (15:20–15:26: 9× 8,1–8,9 s, einmal 40,3 s, Status "sucht selbstständig") = GSL1-2.
+  SUPERVISOR 15:50 – Code-Sicht 0.65.194/0.65.195 (noch KEINE Abnahme): Kauf nur bei QueryReady (Sniper.lua 2738ff), ein Einzelkauf
+         zur Zeit, Zählen nur auf Bestätigung (GSL1-3), modernes AH: Code 10 -> errorSeen, Zeile bleibt kaufbar (720, 2938ff); MarkDead
+         nur bei Code 4 mit genau EINEM offenen Kauf – passt zu GSL2-1(b). Entschieden wird mit Protokoll 3 (GSSniperLog 1.2, 0.65.195):
+         Ziel ≥ 80 % der gesendeten Käufe bestätigt, Code 10 ≈ 0, doppelt 0, "gesendet bei Server nicht bereit" 0, weggeschnappt
+         nur bei echtem Wettbewerb, Zähler = Gold.
   Reihenfolge ab jetzt: GSL2-1 (enthält GSL1-1) -> GSL2-2 (= GSL1-3) -> GSL2-4 (= GSL1-2) -> GSL2-3 -> SN-UI1 -> Rest Sniper-Block.
 
 >>> GSL1 – NEUER AUFTRAG, HÖCHSTE PRIO IM SNIPER-BLOCK (Supervisor 15.11. 14:50; Grundlage: erstes Protokoll des passiven Mess-Addons
