@@ -1,0 +1,42 @@
+BERICHT DISCORD – Bot 1.5.176: D-3 Schritt 29 (Testmodus RaidMasterTest als eigenes Modul) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 22:55 (aus date)
+Commit: ae5d3cc1 auf origin/main, CI bot-tests: success
+
+WAS
+- testupload_bot.py: Abschnitt "Testmodus (RaidMasterTest)" (handle_test_upload, test_cleanup_loop,
+  before_test_cleanup; 85 Zeilen) und remove_expired_test_raids (14 Zeilen, stand bei den Raid-Befehlen).
+- UNVERÄNDERT verschoben: beide Blöcke wörtlich im alten bot.py und im Modul.
+- Bleibt in bot.py: ensure_test_channel – test_discord_kanaele und test_testberichte schneiden dort von
+  "async def ensure_test_channel" bis "async def repair_missing_announcements"; kommt mit dem Kanal-/Start-Bereich.
+- bot.py: dadurch unbenutzt und entfernt: send_loot_list, TEST_TTL, send_test. pyflakes ungefiltert vor/nach:
+  nichts Neues.
+- bot.py: git diff --numstat +2 −105, jetzt 2095 Zeilen.
+
+SELBST GEFUNDEN (vor dem Commit behoben)
+- Meine Suche nach Tests, die die entfernten Namen über bot.py benutzen, prüfte nur "b.name"/"self.bot.name".
+  test_beutepost_dkpnachricht_bot griff per getattr(self.bot, name) auf send_loot_list zu – erst im Gesamtlauf
+  aufgefallen (ERROR), dann am Modul geprüft. Prüfregel für mich: vor dem Entfernen eines Namens aus bot.py auch
+  nach dem Namen als Zeichenkette in tests/ suchen.
+
+TESTS
+- NEU test_testupload_bot.py (3 Tests, REGRESSIONEN T-D3-TESTMODUS): fällige Testnachricht gelöscht, nicht
+  fällige bleibt; NotFound gilt als erledigt; anderer Discord-Fehler -> eine Stunde lang erneut versuchen, danach
+  aufgegeben; abgelaufener Testraid samt Nachricht entfernt, laufender Testraid und echter Raid bleiben.
+  Gegenproben: Fälligkeit ignoriert, Stunden-Grenze entfernt, Ablauf der Testraids ignoriert -> je FAILED (1).
+- test_lade, test_dkp_tafel_bot, test_beutepost_dkpnachricht_bot: send_test/send_loot_list am Modul
+  testupload_bot geprüft (Identität mit testdaten_bot bzw. beutepost_bot).
+- Slash-Befehle: 49, unverändert. 386 Tests OK; jede Testdatei einzeln mit -I OK; REGRESSIONEN 68 von 68.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update vom Stand 1.5.175: updater._copy_new kopiert VERSION, bot.py, tests, testupload_bot.py;
+   config/state/ZIP unverändert (md5); VERSION 1.5.176.
+2. Start wie launcher.py: Abbruch erst bei der Anmeldung (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+4. Neustart nach Update (Ende-zu-Ende, aktualisierte Kopie): Exit-Code 42.
+
+STAND D-3: bot.py 7437 (vor D-3) -> 2095 Zeilen; 33 Module ausgelagert.
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
+- NÄCHSTE BEREICHE: Kanalpflege (Texte, Sprachkanäle, Raid-Kategorien, Aufräumer), Raids/Anmeldung, Uploads,
+  zuletzt RaidBot.
