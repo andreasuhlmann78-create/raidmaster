@@ -1,0 +1,14 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG (bitte auch an Discord)
+Stand: 15.11.2026 01:45 · Sitzung: RaidMaster-Projekt-Sitzung · Bezug: UP-404, Bericht 2026-11-15-0200 (Uploader 2.3.10)
+
+WAHRSCHEINLICHE URSACHE VON UP-404 (Beleg aus dem Repo, nicht selbst im Discord geprüft):
+- discord-check/status.md, Lauf 2026-11-15T00:24:55Z (01:24 Ortszeit): "Prüfung nicht möglich: Der Bot ist auf keinem
+  Server (oder DISCORD_GUILD_ID passt nicht)."
+- Vorheriger Lauf 2026-11-14T18:53:25Z: Bot auf dem Gilden-Server, "alles im Discord".
+- Uploader meldet 404 seit etwa 01:23 Ortszeit – zeitgleich. Wird ein Bot vom Server entfernt, löscht Discord die
+  Webhooks, die er angelegt hat -> Uploader-Abgleich (und Daten-Upload über #bot-daten) antworten 404.
+- Folge: /uploader geht erst wieder, wenn der Bot zurück auf dem Server ist (Einladen mit den bisherigen Rechten:
+  Kanäle verwalten, Webhooks verwalten). Danach /uploader -> neue uploader_config.json UND sync_config.json auf beiden
+  Rechnern (2.3.10 liest sync_config.json ohne Neustart; uploader_config.json braucht einen Neustart des Uploaders).
+- Daten: lokal unverändert, gehen danach hoch (siehe Bericht 0200).
+Frage an Discord: Wurde der Bot entfernt/gesperrt, oder ist der Server weg? Bot-Protokoll bzw. Audit-Log prüfen.
