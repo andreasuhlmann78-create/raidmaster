@@ -1,5 +1,5 @@
 {
- "ausgewertet": "2026-11-15T20:46:58Z",
+ "ausgewertet": "2026-11-15T21:21:29Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
@@ -168,7 +168,7 @@
      "art": "spiel",
      "wo": "Event UNIT_AURA",
      "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
-     "anzahl": 17,
+     "anzahl": 15,
      "versionen": [
       "0.9.7"
      ],
@@ -182,7 +182,7 @@
      "art": "spiel",
      "wo": "Event PLAYER_REGEN_ENABLED",
      "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
-     "anzahl": 9,
+     "anzahl": 8,
      "versionen": [
       "0.9.7"
      ],
@@ -327,7 +327,7 @@
      "art": "spiel",
      "wo": "session",
      "msg": "Interface/AddOns/LevelPilot/Session.lua:29: attempt to perform boolean test on a secret boolean value (execution tainted by 'LevelPilot')",
-     "anzahl": 1690,
+     "anzahl": 1361,
      "versionen": [
       "3.12.13"
      ],
@@ -448,22 +448,7 @@
      "bericht": "RaidMaster-1793837319-f8792f-1"
     }
    ],
-   "fehler_spiel": [
-    {
-     "addon": "RaidMaster",
-     "art": "spiel",
-     "wo": "ADDON_ACTION_FORBIDDEN",
-     "msg": "SetRaidTarget()",
-     "anzahl": 1,
-     "versionen": [
-      "3.0.17"
-     ],
-     "clients": [
-      "forever 1.60.1 (Interface 16001)"
-     ],
-     "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:397: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:390>\n[C]: in function 'SetRaidTarget'\n[Interface/AddOns/RaidMaster/Core.lua]:132: in function <Interface/AddOns/RaidMaster/Core.lua:132>\n[C]: in function 'pcall'\n[Interface/AddOns/RaidMaster/Markers.lua]:65: in function 'Mark'\n[Interface/AddOns/RaidMaster/Markers.lua]:304: in function <Interface/AddOns/RaidMaster/Markers.lua:303>\n"
-    }
-   ]
+   "fehler_spiel": []
   },
   "ThreatSentinel": {
    "berichte": 11,
@@ -711,7 +696,7 @@
    "art": "spiel",
    "wo": "Event UNIT_AURA",
    "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
-   "anzahl": 17,
+   "anzahl": 15,
    "versionen": [
     "0.9.7"
    ],
@@ -725,7 +710,7 @@
    "art": "spiel",
    "wo": "Event PLAYER_REGEN_ENABLED",
    "msg": "GetAuraDataByIndex(): Auras cannot be accessed when secret while tainted by 'BuffSentinel'\nLua Taint: BuffSentinel",
-   "anzahl": 9,
+   "anzahl": 8,
    "versionen": [
     "0.9.7"
    ],
@@ -835,7 +820,7 @@
    "art": "spiel",
    "wo": "session",
    "msg": "Interface/AddOns/LevelPilot/Session.lua:29: attempt to perform boolean test on a secret boolean value (execution tainted by 'LevelPilot')",
-   "anzahl": 1690,
+   "anzahl": 1361,
    "versionen": [
     "3.12.13"
    ],
@@ -921,20 +906,6 @@
    "name": "!dkp mit Doppelnamen (Forever-Weg)",
    "detail": "ergebnis: [RaidMaster] <Name>: MC 40 · Ony 90 | erwartet: <Name> … 40",
    "bericht": "RaidMaster-1793837319-f8792f-1"
-  },
-  {
-   "addon": "RaidMaster",
-   "art": "spiel",
-   "wo": "ADDON_ACTION_FORBIDDEN",
-   "msg": "SetRaidTarget()",
-   "anzahl": 1,
-   "versionen": [
-    "3.0.17"
-   ],
-   "clients": [
-    "forever 1.60.1 (Interface 16001)"
-   ],
-   "stack": "[C]: in function 'pcall'\n[Interface/AddOns/AHSentinel/GoldSentinelTest.lua]:397: in function <Interface/AddOns/AHSentinel/GoldSentinelTest.lua:390>\n[C]: in function 'SetRaidTarget'\n[Interface/AddOns/RaidMaster/Core.lua]:132: in function <Interface/AddOns/RaidMaster/Core.lua:132>\n[C]: in function 'pcall'\n[Interface/AddOns/RaidMaster/Markers.lua]:65: in function 'Mark'\n[Interface/AddOns/RaidMaster/Markers.lua]:304: in function <Interface/AddOns/RaidMaster/Markers.lua:303>\n"
   },
   {
    "addon": "ThreatSentinel",
@@ -1035,11 +1006,11 @@
   "diagnose": {
    "AHSentinel": {
     "anzahl": 146,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.99-ea23619300d1.txt"
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.99-2bf892d983c3.txt"
    },
    "BuffSentinel": {
     "anzahl": 40,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.12-7f8dfb5af187.txt"
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.21-ba8ede23106d.txt"
    },
    "GSMesstest": {
     "anzahl": 9,
@@ -1051,7 +1022,7 @@
    },
    "GuildSentinel": {
     "anzahl": 144,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.39-5adb6d81ffc8.txt"
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.39-df8e511c619e.txt"
    },
    "LevelPilot": {
     "anzahl": 41,
@@ -1063,7 +1034,7 @@
    },
    "ThreatSentinel": {
     "anzahl": 120,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.9-393857b54d8e.txt"
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.9-d96edf5d530e.txt"
    }
   },
   "wege": {
