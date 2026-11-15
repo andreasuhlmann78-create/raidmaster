@@ -144,7 +144,7 @@ do
     check(W.find("MINUTE Suchen 1") == 1, "Lauf 1: Minuten-Zusammenfassung")
     W.fire("PLAYER_LOGOUT")
     local ex = W.env.GSSniperLogDB.export
-    check(type(ex) == "string" and ex:find("^GSDIAG1|GSSniperLog|1.5|") ~= nil, "Lauf 1: Export beginnt mit GSDIAG1|GSSniperLog|1.5|")
+    check(type(ex) == "string" and ex:find("^GSDIAG1|GSSniperLog|1.6|") ~= nil, "Lauf 1: Export beginnt mit GSDIAG1|GSSniperLog|1.6|")
     check(ex:find("== Einträge (", 1, true) ~= nil, "Lauf 1: Export hat '== Einträge'")
     check(W.B.tot.eigeneFehler == nil, "Lauf 1: keine eigenen Fehler")
 end
@@ -489,7 +489,7 @@ do
     W.tick(6)
     check(W.find("VOLLSCAN 3000 Antworten in 0%.0 s %(fremd ausgelöst%)") == 1, "Lauf 8: Vollscan-Zusammenfassung nach 5 s Ruhe")
     W.tick(60)
-    check(W.find("RUHE Sniper an %(AH offen%) %d+ s · AHS%-Aufgaben liefen dabei: cache:today %d+ s, forecast%-eval %d+ s") == 1, "Lauf 8: Ruhe-Zeile mit laufenden AHS-Aufgaben (cache:today:10 zusammengefasst)")
+    check(W.find("RUHE Sniper an %(AH offen%) %d+ s · AHS%-Aufgaben liefen dabei %(begonnen%): forecast%-eval %d+ s · wartend: cache:today %d+ s") == 1, "Lauf 8: Ruhe-Zeile trennt begonnene und wartende Aufgaben (cache:today:10 zusammengefasst)")
     check(W.find("Anfragen nach Quelle: Kauf AHSentinel/Sniper%.lua 6, Suche AHSentinel/Sniper%.lua 2, Eigene Auktionen AHSentinel/UI_Auctions%.lua 1, Suche Blizzard 1 · fremd beim Snipen 2") == 1, "Lauf 8: Quellen je Minute gezählt")
     check(W.find("ohne Kauf nach Status: Treffer! Mausrad zum Kaufen 3") == 1, "Lauf 8: Rasten ohne Kauf nach Status")
     check(W.find("Suchen je Item: 4251 2 %(mit Treffer 1%), 7048 1 %(mit Treffer 0%)") == 1, "Lauf 8: Suchen je Item mit Treffern")
@@ -672,7 +672,7 @@ for seed = 1, 5 do
     check((T.gekauft or 0) <= (T.gesendet or 0) + 1, "Zufall " .. seed .. ": gekauft (ohne fremde) nie mehr als gesendet")
     check(#W.log() <= 6500, "Zufall " .. seed .. ": höchstens 6500 Zeilen")
     local ex = W.env.GSSniperLogDB.export
-    check(ex:find("^GSDIAG1|GSSniperLog|1.5|") and #ex <= 400200, "Zufall " .. seed .. ": Export gültig")
+    check(ex:find("^GSDIAG1|GSSniperLog|1.6|") and #ex <= 400200, "Zufall " .. seed .. ": Export gültig")
     check(not ex:find("\0"), "Zufall " .. seed .. ": Export ohne Nullzeichen")
     check(dt / nEv < 0.0005, string.format("Zufall %d: schnell genug (%.3f ms je Ereignis)", seed, dt / nEv * 1000))
     print(string.format("Zufall %d: %d Ereignisse, %.3f ms je Ereignis, %d Zeilen, gesendet %d, gekauft %d, weg %d",

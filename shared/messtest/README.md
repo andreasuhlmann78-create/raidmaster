@@ -150,3 +150,7 @@ Tests: 9 Szenario-Läufe + 5 Zufallsläufe, 155/155 OK, 5× wiederholt.
   Refresh/Search, nie Get/Has/Is), mit Quelle (Addon/Datei). AH-FEHLER- und Warteschlangen-Zeilen nennen die Anfragen der
   letzten 0,5 s ("davor: Gebote Blizzard −40 ms, Kauf AHSentinel/Sniper.lua −70 ms"). Neuer Zähler "Code 10 trotz Kauf".
 Tests: 10 Szenario-Läufe + 5 Zufallsläufe, 165/165 OK, 5× wiederholt, 0,03 ms je Ereignis.
+
+### GSSniperLog 1.6 (15.11. 18:34, aus Protokoll 6 von 18:32)
+- Messfehler in 1.3–1.5: RUHE zählte jede Aufgabe in A.jobs als "liefen", auch die nur wartenden. 1.6 trennt "liefen dabei
+  (begonnen)" (j.started) von "wartend". Tests 165/165, 5× wiederholt.

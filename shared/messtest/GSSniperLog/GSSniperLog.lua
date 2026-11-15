@@ -31,10 +31,13 @@
 --   Refresh*/Search*), mit Quelle; bei jedem AH-Fehler und jeder Drossel-Warteschlange stehen die Anfragen der letzten
 --   0,5 s in der Zeile ("davor: PlaceBid AHSentinel/Sniper.lua −72 ms, …"). So zeigt sich, wer den Fehler auslöst.
 --
+-- 1.6 (Protokoll 15.11. 18:32): RUHE trennt Aufgaben, die laufen (j.started), von Aufgaben, die nur warten
+--   ("wartend"); 1.5 zählte beides als "liefen".
+--
 -- Ergebnis: beim Ausloggen oder /reload als "GSDIAG1|GSSniperLog|…" in GSSniperLogDB.export -> der RaidMasterUploader
 -- bringt es nach testberichte/diagnose/GSSniperLog/. Befehl: /gssl (Stand), /gssl aus|an, /gssl leeren.
 
-local ADDON, VERSION = "GSSniperLog", "1.5"
+local ADDON, VERSION = "GSSniperLog", "1.6"
 local MAXLOG = 6000            -- Zeilen im Speicher (älteste fallen weg)
 local EXPORT_MAX = 400000      -- Zeichen in der Ausgabe für den Uploader
 local CONFIRM_MAX = 30         -- Sekunden: ohne Antwort gilt ein Kauf als "keine Bestätigung"
@@ -556,8 +559,8 @@ local function RuheMinute(m)
         for i = 1, math.min(10, #arr) do out[#out + 1] = fmt(arr[i][1], arr[i][2]) end
         return #out > 0 and table.concat(out, ", ") or "keine"
     end
-    Log("RUHE", string.format("Sniper an (AH offen) %d s · AHS-Aufgaben liefen dabei: %s · Anfragen nach Quelle: %s · fremd beim Snipen %d",
-        m.snipeSec or 0, List(m.jobSec, function(k, v) return k .. " " .. v .. " s" end),
+    Log("RUHE", string.format("Sniper an (AH offen) %d s · AHS-Aufgaben liefen dabei (begonnen): %s · wartend: %s · Anfragen nach Quelle: %s · fremd beim Snipen %d",
+        m.snipeSec or 0, List(m.jobSec, function(k, v) return k .. " " .. v .. " s" end), List(m.jobWait, function(k, v) return k .. " " .. v .. " s" end),
         List(m.src, function(k, v) return k .. " " .. v end), m.fremdBeimSnipen or 0))
 end
 local function MinuteSummary()
@@ -1208,11 +1211,16 @@ f:SetScript("OnUpdate", function(_, el)
             local A = AHS()
             if A and type(A.jobs) == "table" then
                 B.min.jobSec = B.min.jobSec or {}
+                B.min.jobWait = B.min.jobWait or {}
                 local seen = {}
                 for _, j in ipairs(A.jobs) do
                     if type(j) == "table" and j.name then
                         local n = tostring(j.name):gsub(":%d+$", "")
-                        if not seen[n] then seen[n] = true; Inc(B.min.jobSec, n) end
+                        local key = (j.started and "L:" or "W:") .. n
+                        if not seen[key] then
+                            seen[key] = true
+                            if j.started then Inc(B.min.jobSec, n) else Inc(B.min.jobWait, n) end
+                        end
                     end
                 end
             end
