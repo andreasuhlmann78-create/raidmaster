@@ -1,0 +1,36 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 16.11.2026 00:08 (aus date) · Sitzung: ProfessionSentinel-Sitzung · Version: 0.9.56 · Commit: 288cbe7 (Quell-Repo), Release v0.9.56
+Grundlage: ANTWORT FRAGEN REST SCHRITT 2 (Supervisor 23:48): 1 weglassen (umgesetzt: nicht gebaut), 2 bauen, 3 an LevelPilot.
+Hinweis: Hier steht nur "umgesetzt, zur Prüfung" mit Belegen. Ob etwas erledigt ist, entscheidet die Prüf-Sitzung.
+
+UMGESETZT, ZUR PRÜFUNG
+----------------------
+- Plan "mit dem, was ich habe" (genaue Rechnung): AD.Plan(recipes, from, to, learnedFn, withPrices, stock). stock = Funktion id -> Anzahl
+  (Taschen + Bank, GetItemCount mit Bank). Je Material wird der Rest einmal gelesen und dann je Skillpunkt um die erwarteten
+  Herstellungen (1/p) × Menge verbraucht. Bewertung je Kandidat: eigenes Material kostet nichts (Gewinn + gesparter Marktwert bzw.
+  "Material je Punkt" nur für das, was fehlt), der Rest zum Marktpreis. Ein Rezept gewinnt nur, solange sein Material reicht; danach
+  der billigste Weg. Leerer Vorrat = exakt der bisherige Plan.
+- PL.Build(prof, rank, max, withStock) mit eigenem Zwischenspeicher-Schlüssel ("stock"); neue Ansicht "planstock" im Reiter Skillen.
+  Umschalter: Billigst · Mit Vorrat · Rangliste · Lehrer (Breite je nach Text; Suchfeld im Reiter Skillen 130 statt 148 px). Hinweis
+  oben in der Zusammenfassung: "Plan mit dem, was du hast: …".
+- Portionen: Die Advisor-Schleifen geben im Panel-Aufbau (UI.Yield, 10 ms) und in einer Hintergrund-Aufgabe (ns.Jobs, 6 ms) ab. Den
+  Plan rechnet das Panel im portionierten Aufbau (wie "Billigst"); T279 misst ihn zusätzlich als Aufgabe (Plan 1->300 mit Vorrat).
+- "Beruf von <Figur>": nicht gebaut (Antwort: weglassen).
+
+TESTS (eigene, Hinweise – keine Freigabe)
+-----------------------------------------
+- Neu T279: Gegenprobe leerer Vorrat = Plan "Billigst" (gleiche Schritte und Herstellungen); ohne Vorrat das billigere A; mit 8× Material
+  für B (4 Herstellungen, orange) -> B von 50 bis 54, danach A bis 60; Ansicht "Mit Vorrat"; Portion ≤ 8 ms als Aufgabe. Gegenprobe ohne
+  Verbrauch des Vorrats: T279 rot (B bliebe bis zum Ende).
+- run_offline: Forever OK 235 / FEHLER 0, Era OK 217 / 0, Retail OK 216 / 0, TBC ohne Lua-Fehler, Exit 0. --lua51 Forever/Retail 0 FEHLER.
+  Area K (T80/T81/T118/T167, alle Ansichten inkl. "planstock"): nichts überlappt. Schnelltest Ausgang 0, check_actions OK.
+- addon_check auf download/ProfessionSentinel-0.9.56.zip und die announce-Zip: OK, 0 FEHLER, 0 WARNUNG. ZIP = Quell-Repo (diff -r leer).
+
+IM CLIENT PRÜFEN
+----------------
+- Reiter Skillen: vier Schalter lesbar, nicht abgeschnitten, Suchfeld daneben frei (deDE/enUS); "Mit Vorrat" mit Material in den
+  Taschen -> Plan nimmt das Rezept mit Vorrat zuerst.
+
+WEITER
+------
+- LevelPilotAPI.NavigateTo (HINWEIS 00:05) für "Weg zeigen" -> 0.9.57. Danach B2 (Verkaufschance), B4 (Warnschutz), B5 (Marktlage).
