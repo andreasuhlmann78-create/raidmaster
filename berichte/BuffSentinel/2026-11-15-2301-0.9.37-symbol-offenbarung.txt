@@ -1,0 +1,18 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.37-symbol-offenbarung
+Datum: 15.11.2026, 23:01 (aus date)
+
+Stand: BS-N1 Rest Punkt 3 umgesetzt, zur Prüfung. Daten: bs-n1-rest.md Abschnitt 3 (Name "Symbol der Offenbarung" übernommen).
+
+Veröffentlicht: download/BuffSentinel-0.9.37.zip, README, announce 0.9.37 (+ Zip), 0.9.36 entfernt; auf origin/main nachgeprüft.
+addon_check "OK (1 Warnungen)" (nur Lua-Syntax). cmp Game/Sync/Test/Markt v7 und BuffSentinelVorratDaten gleich.
+
+Umsetzung: Data/Paladin.lua "r_divinity": ranks { 19752 -> 17033 } (19753/19754 ohne Reagenz, nicht aufgenommen), low = 1 (Hinweis
+bei 0), groupOnly (nur in der Gruppe – allein ist Göttliches Eingreifen nutzlos, kein Dauer-Hinweis beim Leveln), max = 3, Standard an.
+Locales EN/DE (4 Schlüssel; deDE "Symbol der Offenbarung" wie in den Spieldaten), CHANGELOG EN/DE.
+
+Belege (eigene Tests, keine Freigabe)
+- T233 "ja nein · 2:17033 · ja": mit 19752 gelernt an, ohne aus; Zählung 2 Symbole, Item 17033; Anzeige bei 0 in der Gruppe ja,
+  allein nein, mit 1 nein. T218 (Paladin r_symbol) unverändert OK.
+- run25m OK 180, bekannte 12 Nachbau-FEHLER. Offline-Routine (veröffentlichte Zip): 8 × RESULT PASS.
+
+Nächster Punkt: Totems (Schamane), Relikt-Platz als Verdacht.
