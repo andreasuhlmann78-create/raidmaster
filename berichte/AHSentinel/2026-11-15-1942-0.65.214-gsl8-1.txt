@@ -1,0 +1,34 @@
+AHSentinel 0.65.214 – GSL8-1 GetItemInfo-Sturm nach dem Vollscan (MITTEL, Ruckeln) – umgesetzt, zur Prüfung
+CurseForge: nein (erst nach der Sniper-Abnahme). GitHub-Release v0.65.214 und sofort im Discord.
+
+GSL8-1 (AHAnalyzerPro.lua A:ItemInfoAllowed, A:GetClientItemName; Names.lua LearnFromMarket; Disenchant.lua D:Prior)
+  - Ursache im Code (Teilbeleg):
+    - In WoW Classic/Forever stösst GetItemInfo für ein unbekanntes Item selbst die Server-Anfrage an (NEED_LOAD aus, der
+      gedrosselte Lader A:QueueItemLoad wirkt dort nicht).
+    - Nach dem Vollscan rufen Aufgaben mit Schleifen über alle Markt-Items GetItemInfo für Tausende neue Items:
+      - Names:LearnFromMarket (Aufgabe "names");
+      - A:GetClientItemName (cache:itemlist, cache:warm-today …);
+      - D:Prior (de:matdiag, Markt "Entzaubern").
+    - Das passt zu den Aufgaben in den langsamen Bildern von Protokoll 8. Die Zählung je Aufgabe belegt es im nächsten
+      Protokoll (siehe unten).
+  - Neu: A:ItemInfoAllowed(itemID).
+    - Nur für Items, die der Client NICHT kennt (C_Item.IsItemDataCachedByID == false): höchstens ITEM_REQ_PER_S = 200 neue
+      Anfragen je Sekunde, über alle Aufgaben.
+    - Darüber liefert der Aufrufer dieses Mal nichts: eingebaute Namen, Prior nil; das nächste Bild bzw. die nächste Runde holt
+      es nach.
+    - Bekannte Items sind nie begrenzt.
+    - Genutzt in GetClientItemName, Names:LearnFromMarket und D:Prior.
+  - Zähler: neue Anfragen, zurückgestellte, je Aufgabe (A.currentJob). Diagnose-Zeile ITEMINFO höchstens 1× je Minute (ab 200
+    Anfragen).
+  - DE-WIN1 bleibt gedeckt: Ein Teil, dessen Prior wegen der Grenze nil ist, erscheint mit Grund "Iteminfo noch nicht geladen".
+    Bei GET_ITEM_INFO_RECEIVED zeichnet das Fenster neu.
+  - Szenario s214_iteminfo_gate:
+    - 600 unbekannte Items in derselben Sekunde -> genau 200 Anfragen;
+    - bekanntes Item unbegrenzt;
+    - nächste Sekunde die nächsten 200;
+    - Zähler zurückgestellt > 0.
+    - Mit 0.65.213: 600 auf einmal (rot).
+  - Verdacht, zu messen: ob 200/s im Spiel ruhig genug ist (Ziel: kein Bild > 50 ms durch AHS nach dem Vollscan). Messung mit
+    GSSniperLog. Der Wert lässt sich mit einer Zahl ändern.
+  - CHANGELOG EN/DE (keine neuen Locales; ITEMINFO ist ein Protokolltext).
+Gesamtlauf (269 Szenarien, Lua 5.1): 268 bestanden. Rot nur s215_ws_paths = Test der NÄCHSTEN Version (0.65.215), mit 0.65.214 absichtlich rot (Gegenprobe). addon_check: siehe Release.

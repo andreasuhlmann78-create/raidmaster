@@ -1,0 +1,44 @@
+AHSentinel 0.65.215 – WS-LOOP1 + POST-BLOCK1 Warnschutz-Weg (HOCH, Entscheid des Nutzers 19:15 "Warnung bleibt, muss
+funktionieren") – umgesetzt, zur Prüfung
+CurseForge: nein (erst nach der Sniper-Abnahme). GitHub-Release v0.65.215 und sofort im Discord.
+
+WS-LOOP1 (Seller.lua Se:WarnRule, Se:SellWarning, Se:RoundPriceUp; UI_Sell.lua ShowGuard)
+  (a) Je Regel der kleinste Preis, der sie NICHT mehr auslöst:
+      - Angebot: max(ceil(0,9 × günstigstes); Unterbieten);
+      - Marktwert: ceil(0,75 × Marktwert);
+      - Händler, Einkauf, Entzaubern (Netto-Regeln): ceil(ref / 0,95).
+      Danach nach OBEN auf das Raster des Items (Einzelstücke ganze Silber, RoundPriceUp; p:Post rundet nach unten, darum
+      vorher die Schleife).
+      Der Vorschlag wird bis 8× gegen ALLE Regeln geprüft, bis keine mehr greift. "Preis anpassen" setzt genau diesen Wert
+      (w.fix).
+  (b) Text der Netto-Regeln mit echten Zahlen: "Achtung: Nach 5 % Gebühr bekommst du 8s73c – das ist 46c unter deinem
+      Einkaufspreis (9s19c). Verlust: ~1s84c." (Fall des Nutzers, 4 Stück). Die Brutto-Regeln (Angebot, Marktwert) behalten den
+      bisherigen Text.
+  (c) Test T796, je Grund: Vorschlag ohne erneute Warnung.
+      - Einkauf 919 -> 968;
+      - Händler 500 -> 527;
+      - Markt 700 -> 750;
+      - Angebot 1000 -> 1999;
+      - Entzaubern 900 -> 948;
+      - Silber-Raster 900 -> 1000.
+      Dazu der Text exakt. T546 (WS1) unverändert grün.
+POST-BLOCK1 Warnschutz-Weg (vom Nutzer nachgestellt, 0.65.203: "Trotzdem einstellen" gesperrt):
+  - Ursache NICHT belegt (im Spiel zu messen: Zeile POST-BLOCKED, ab 0.65.207 vorhanden).
+  - Geändert nach den beiden Verdachten des Supervisors:
+    (1) "Trotzdem einstellen" stellt jetzt ZUERST ein (onAnyway -> p:Post direkt im Klick), danach erst Hide und Ton.
+        Vorher liefen d:Hide() und Se:Alarm (PlaySound) vor PostAuction.
+    (2) Das Tasten-Fenster des Warnschutzes ruft SetPropagateKeyboardInput nur ausserhalb des Kampfs (wie UI_Main free()).
+  - Sicherheitsnetz: Bestätigtes Item und bestätigter Preis bleiben 30 s bestätigt (wsKeep). Sperrt WoW das Einstellen
+    trotzdem, kommt die Meldung "nochmal auf Einstellen klicken" (0.65.207), und der nächste Klick auf "Einstellen" stellt OHNE
+    erneute Warnung ein. Vorher: Schleife Warnung -> gesperrt -> Warnung.
+  - Abbrechen stellt nichts ein (unverändert).
+  - Szenario s215_ws_paths:
+    - Preis anpassen -> Einstellen ohne Warnung;
+    - Trotzdem einstellen -> eingestellt;
+    - gesperrt -> Meldung, nächster Klick stellt ohne Warnung ein.
+    - Mit 0.65.214 rot (letzter Weg).
+  - s95_ws_guard grün.
+  - Abnahme im Spiel (Liste "Im Spiel prüfen"): Warnschutz -> Trotzdem einstellen 5× mit Ware und Einzelstück, ohne Meldung.
+    Falls doch gesperrt: Zeile POST-BLOCKED liefern.
+  Locales +1 (alle Sprachen), CHANGELOG EN/DE.
+Gesamtlauf (269 Szenarien, Lua 5.1): 269 bestanden, 0 rot. addon_check: siehe Release.
