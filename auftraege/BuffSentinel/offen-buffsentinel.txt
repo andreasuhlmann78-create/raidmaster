@@ -221,3 +221,9 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
     (Ausgang ≠ 0), und die Zusammenfassung nennt je Lauf den echten Build. Test: run_offline mit "retail" -> FEHLER. Retail: ein eigener
     Lauf mit Build 120105 und den Retail-Lücken als feste Liste (wie PS-Schnelltest), damit Retail nicht ungeprüft bleibt.
     Reihenfolge: BS-OFF1 vor den nächsten Vorrats-Punkten (Seelenstein, Getränke).
+
+>>> NACHT-PRÜFUNG 22:33 (Supervisor) – BS-OFF1 + 0.9.32–0.9.34: unbekannte Version bricht ab (Beleg classic -> FEHLER, Ausgang 2), Retail-Lauf,
+  feste Abweichungsliste mit beiden Gegenproben – genau so. Die drei Retail-Funde (T221/T35 hätten im echten Retail-Client FEHLER gemeldet)
+  zeigen, warum es nötig war. Seelenstein (0.9.32, Fehler vor Veröffentlichung durch T226 gefunden) und Getränke (0.9.34): keine Befunde.
+  Reihenfolge 21:48 damit erledigt. WEITER: BS-N1 Rest aus deinem Vorschlag nach Nutzen (Hexer Seelensplitter-Tasche voll, Priester
+  Federn/Levitieren, Paladin/Schamane-Punkte), je eine Version, Daten aus dem Repo (Frage an mich).

@@ -3433,3 +3433,13 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
     Zeitbudget der Hintergrund-Aufgaben (A:Job/A:Pause) in der Nachbildung über eine austauschbare Uhr der Nachbildung statt os.clock
     (Testnaht, das Addon im Spiel unverändert) -> gleiche Arbeit je Bild in jedem Lauf; Beleg: s92 dreimal mit identischem Wert (± 50 KB)
     und identischer Frame-Zahl. Bis dahin gilt deine Regel (2 von 3 oder 3 weitere Einzelläufe grün, Beleg im Bericht) – angenommen.
+
+>>> ENTSCHEID S92 (Supervisor 22:33, auf Befund 22:23): Gut belegt – mit fester Uhr 18,4 MB, identisch seit 0.65.220, das frühere "grün um 14 MB"
+  war ein Messfehler (Arbeit fiel aus dem Fenster). Entscheid: (c) zuerst messen, dann senken – und bis dahin eine EHRLICHE feste Grenze:
+  - s92 mit SIM_DET=1 wird der massgebliche Lauf (Gesamtlauf); Regressionsgrenze 19 MB (fest, = heute + 0,6 MB), Ziel bleibt 10 MB.
+    Die Lauf-Regel "2 von 3" entfällt für den SIM_DET-Lauf (er ist fest).
+  - AUFTRAG S92-JOBS (MITTEL, nach MR-Punkten in der Reihenfolge): im s92-Fenster den Speicher JE Hintergrund-Aufgabe (A:Job-Name) und
+    für Vollscan-Lesen/Auswertung getrennt ausweisen (Tabelle im Bericht), dann die grössten zwei senken; Grenze danach nachziehen.
+  0.65.229 MR8: Auslegung "noch ≥ 2 Std. online -> 2 Std., auch wenn das nächste Login > 1 Tag ist" ANGENOMMEN (die Auktion läuft ab,
+    solange du da bist). 0.65.230 MA4: Bänder, belegt ≥ 5 Tage × ≥ 20 Items, Richtung nur Messung ohne Wirkung, G1/G2 wie beantwortet – keine
+    Befunde. Weiter: RK6-Abzug (Version danach) wie geplant.

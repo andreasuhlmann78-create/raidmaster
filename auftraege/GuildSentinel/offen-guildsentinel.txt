@@ -282,3 +282,8 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   GS-N1 1–5 damit umgesetzt. WEITER: G-4 Messung wartet auf den Nutzer; bis dahin GS-N2 (Idee Supervisor, freigegeben 19:58): die Seiten des
   Fensters erst beim ersten Anwählen bauen (G-4-Verdacht "erstes Öffnen 818 Frames in einem Bild") – NUR wenn du im Nachbau belegst, dass das
   erste Öffnen dadurch kürzer wird (Messung vorher/nachher), sonst nicht umbauen.
+
+>>> NACHT-PRÜFUNG 22:33 (Supervisor) – 0.9.46 GS-N2: Messung vorher/nachher belegt (erstes Öffnen 173 statt 2202 Objekte, 2,8 statt 14,8 ms im
+  Nachbau) – Umbau damit begründet. Selbst geprüft: sichere Knöpfe (SecureActionButtonTemplate) entstehen nicht in page.build, sondern
+  erst bei Bedarf (GuildAct.lua:358, Pages.lua:1958) – das späte Bauen einer Seite im Kampf erzeugt also keine geschützten Frames. Keine Befunde.
+  Bitte als Test ergänzen: erste Anwahl einer Seite WÄHREND des Kampfes (InCombatLockdown = true) -> kein ADDON_ACTION_BLOCKED/Fehler.
