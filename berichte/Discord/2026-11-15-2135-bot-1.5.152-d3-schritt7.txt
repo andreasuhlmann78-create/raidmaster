@@ -1,0 +1,35 @@
+BERICHT DISCORD – Bot 1.5.152: D-3 Schritt 7 (Symbole, Emojis, Wowhead als eigenes Modul) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 21:35 (aus date)
+Commit: c1702c94 auf origin/main, CI bot-tests: success
+
+WARUM DIESER BEREICH JETZT
+- Geplant war als Nächstes die Ruhmeshalle. Abhängigkeitsprüfung (ast, welche bot.py-Namen ein Bereich benutzt):
+  die Ruhmeshalle braucht class_emoji (über member_names_with_dots). class_emoji teilt _emoji_lock mit item_emoji,
+  das wiederum item_icon_name/WOWHEAD_FLAVOR braucht. Diese Gruppe benutzen auch DKP, Beute, Bank und Handwerk.
+  Darum zuerst diese Gruppe als eigener, kleiner Bereich – sonst müsste ein Modul Namen aus bot.py holen.
+- Raidfähigkeit (post_raid_ready) zurückgestellt: braucht guildsentinel_db() aus dem Bank-Bereich; kommt mit
+  diesem bzw. nach ihm.
+
+WAS
+- Neues Modul RaidMasterBot/symbole_bot.py: WOWHEAD_FLAVOR, item_icon, item_icon_name, wowhead_tip,
+  QUALITY_SQUARES, _emoji_lock, item_emoji, class_emoji.
+- UNVERÄNDERT verschoben: Quelltext je Name alt (bot.py in HEAD~1) und neu per ast verglichen -> alle 8 identisch.
+- bot.py importiert symbole_bot nach "grund.bot = bot" und übernimmt die dort benutzten Namen (WOWHEAD_FLAVOR,
+  class_emoji, item_emoji, item_icon, wowhead_tip). bot.py: 113 Zeilen weniger.
+
+TESTS
+- NEU test_symbole.py (5 Tests, in REGRESSIONEN als T-D3-SYMBOLE): bot.py benutzt dieselben Funktionen; unbekannte
+  Klasse -> leer; Merker im state wird benutzt (ohne Speichern); ohne Discord-Emoji -> Ersatz-Emoji und Merker
+  (nur einmal gespeichert); Item ohne Symbol -> Quadrat in Qualitätsfarbe.
+  Gegenprobe: absichtlicher Fehler in symbole_bot.py (falscher Merker bei Fehler) -> FAILED (failures=1);
+  zurückgesetzt -> OK.
+- test_lade: symbole_bot.bot ist bot.bot; class_emoji/item_emoji/state dieselben Objekte.
+- Slash-Befehle: 49, unverändert. python3 -I -m unittest discover: 293 Tests OK (288 + 5 neue); jede Testdatei
+  einzeln mit -I OK.
+- Betrieb nachgestellt: Kopie mit Attrappen-config, "python3 bot.py" wie launcher.py -> Abbruch erst bei der
+  Anmeldung (LoginFailure wegen Test-Token), wie erwartet.
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
+- NÄCHSTE BEREICHE: Ruhmeshalle (hall_channel, Erstkills, Rekord-Tafeln, Aufräumen, Erfolge), Uploader-Versand,
+  danach Bank (mit guildsentinel_db und Raidfähigkeit), DKP, Beute, Raids, Uploads, Server-Einrichtung.
