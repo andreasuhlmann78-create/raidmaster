@@ -1,0 +1,34 @@
+AHSentinel 0.65.219 – UI-REF1 (Masterplan 5.1; Entscheid des Nutzers 15.11. 10:29) – umgesetzt, zur Prüfung
+CurseForge: nein (erst nach der Sniper-Abnahme). GitHub-Release v0.65.219 und sofort im Discord.
+Reihenfolge: Phase 4 ist so weit umgesetzt, wie es ohne Messdaten geht. Offen:
+  - RK6 = 0.67;
+  - 4.5 braucht ein Protokoll;
+  - TB170-10/S28 braucht einen Testbericht.
+Phase 2 (Gehirn) war mit 0.65.198/199 gebaut: Gilden-Sync "K", MarketPrior/GuildPrior, Testbericht MARKT-KERN mit Brier,
+Grundlinie, seit, Anzeige, Fälle je Tag und geeichtem Anteil. Offen ist dort nur:
+  - "alle Spieler": wartet auf den Teil "alle" in GoldSentinelMarktTabellen (Supervisor, Masterplan E);
+  - Feed: über der Grenze, siehe 0.65.218.
+Deshalb Phase 5.
+
+UI-REF1 (UI_Main.lua UI:RefreshNow, UI:RefreshButton)
+  - Ein Knopf (Aktualisieren-Symbol) in beiden AHSentinel-Fenstern an derselben Stelle: oben rechts, direkt links neben
+    Optionen.
+    - Hauptfenster: Kopfzeile [… Test][Unterstützen][?][⟳][Optionen][X].
+    - AH-Fenster: Reiterleiste […][Test][?][⟳][⚙][Markt scannen].
+    - Platz der Reiter (TabSpace) um 28 px verkleinert.
+  - Klick: aktueller Reiter neu.
+    - Hat der Reiter ein eigenes Aktualisieren (Markt), gilt derselbe Weg (p.refreshBtn: fresh = Zwischenspeicher der Ansicht
+      verwerfen).
+    - Sonst p.fresh = true + RefreshActive.
+  - Shift-Klick: alles neu (DataVersion erhöht -> alle "Lohnt bis"-/Markt-Zwischenspeicher; DATA_CHANGED; Markt-Cache leer).
+  - Rechnen im Hintergrund wie bisher (keine Sperre).
+  - Die bisherigen Knöpfe in einzelnen Reitern (z. B. Markt "Aktualisieren") bleiben vorerst. Entfernen gehört zu UI-CLEAN1 (B);
+    das mache ich nur mit den Befunden aus TB184-U3/TB181-1..3/HP-3.
+  - Szenario s219_refresh_button:
+    - beide Fenster: Knopf links neben Optionen ohne Überlappung;
+    - Klick = nur Reiter (DataVersion gleich);
+    - Shift = alles (DataVersion +1).
+    - Mit 0.65.218 rot.
+    - s2_tab_layout (Reiter passen, Texte passen), s78, s74 grün.
+  - Locales +1 (alle Sprachen), CHANGELOG EN/DE.
+272 bestanden, 0 rot (lua5.1, alle Szenarien)
