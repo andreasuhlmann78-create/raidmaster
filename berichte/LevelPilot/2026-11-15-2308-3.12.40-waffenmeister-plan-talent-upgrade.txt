@@ -1,0 +1,40 @@
+BERICHT LevelPilot 3.12.40 – LP-N1 4b Waffenmeister; Plan für 1 Talent-Empfehlung und 2 Upgrade-Finder
+Projekt: LevelPilot · Datum: 15.11.2026 23:08 (aus date) · Status: 4b umgesetzt, zur Prüfung; 1 und 2 nur Plan (nicht gebaut)
+
+Bezug: offen-levelpilot.txt, NACHT-PRÜFUNG 22:49 ("4b Waffenmeister … Orte aus eigenen Daten", "1 und 2: erst kurzer Plan").
+
+A. 4b WAFFENMEISTER (Advisor.lua CheckWeaponMaster, Schalter advWeapon)
+- Auslöser: Waffe (Gegenstandsklasse 2, Qualität grün oder besser) in der Tasche, deren Waffenart die Klasse auf Forever lernen
+  darf, aber noch keine Fertigkeit hat; Stangenwaffen erst ab Level 20. Nicht im Kampf.
+- Wer lehrt was / welche Klasse darf was: warcrafttavern.com/forever/guides/weapon-trainers (Forever: Schurke Einhandäxte,
+  Druide Stangenwaffen) und blizzardwatch.com/2026/10/06/weapon-trainers-wow-classic-forever (gleiche Liste); Orte und NPC-IDs
+  aus unserem Datenpaket (Npcs.lua, sb="Weapon Master": Hanashi 2704, Sayoc 11868, Ansekhwa 11869, Archibald 11870, Woo Ping
+  11867, Buliwyf 11865, Bixi 13084, Ilyenia 11866). Keine Spieldateien.
+- Ziel: nächster passender Waffenmeister der eigenen Fraktion mit "Hinführen"; auf einem anderen Kontinent nur Name und Stadt.
+  Kosten als "etwa 10 Silber" / "etwa 1 Gold" (Rufrabatt, Quelle: Artikel).
+- Sicherheit (nie ein falscher "nicht gelernt"-Hinweis): Name der Fertigkeit und Waffenart (GetItemSubClassInfo) werden nur
+  verglichen, wenn die Waffenart der angelegten Waffe als Fertigkeit vorkommt (Abgleich der Sprache); sonst still.
+- Test T302 (deDE/enUS/Allianz): ungelernt 1 (nennt den Lehrer der eigenen Fraktion: Horde Sayoc, Allianz Woo Ping) · gelernt 0 ·
+  grau 0 · Zauberstab beim Krieger 0 · Stangenwaffe Lv15 0 / Lv20 1 · Sprache passt nicht 0. Im Client prüfen: 1 Anleitung.
+- run_offline.py mit der veröffentlichten ZIP: 37/37 ohne FEHLER (allein laufen lassen; ein Lauf parallel zu den privaten
+  Regressionen zeigte T263 16,0 ms durch CPU-Last – einzeln 6–10 ms in 3.12.37/3.12.38/3.12.40, Grenze 16 ms). addon_check OK.
+
+B. PLAN 1 – TALENT-EMPFEHLUNG [G] (nicht gebaut)
+- Datenquelle: Talentbäume aus wago.tools (Talent, TalentTab; Zweig wowf) – nur Nummern/Namen wie bei AreaTable. Builds: EIGENE,
+  aus den Talent-Beschreibungen begründet (je Klasse 1 Level-Build, z. B. Krieger Waffen, Jäger Tierherrschaft), keine Builds
+  von Zygor/RestedXP/Wowhead übernehmen (deren Auswahl und Texte sind ihr Werk).
+- Rechtsfrage: Tabellenwerte wie Quest-/Gebietsdaten unbedenklich (Präzedenz Questie); fremde Builds nicht kopieren.
+- Aufwand: Daten 9 Klassen × 51 Punkte (Forever-Änderungen prüfen), Anzeige "nächster Punkt: X" im Hinweis "Talentpunkte frei"
+  (klein), Markierung im Talentfenster (mittel, Blizzard-Rahmen je Client verschieden). Tests je Klasse. Schätzung: 2 Versionen.
+- Vorschlag: zuerst nur Text-Empfehlung im vorhandenen Hinweis, ohne Eingriff ins Talentfenster.
+
+C. PLAN 2 – UPGRADE-FINDER [G] (nicht gebaut)
+- Datenquelle: Werte der Gegenstände im Spiel (GetItemStats/GetItemInfo) – keine fremde Datenbank; Gewichte je Klasse/Spec
+  eigen und einfach (wie die bestehende Upgrade-Prüfung CheckUpgrades). Preise: GoldSentinelMarkt (Marktdaten-Netz) für das AH.
+- Rechtsfrage: nur Spiel-API und eigene Gewichte; keine Listen aus Zygor/RestedXP.
+- Aufwand: Schritt 1 [M] beim Händler: Upgrades im Händlerfenster markieren (Waren sind im Spiel lesbar). Schritt 2 [G] AH:
+  braucht eine Liste tragbarer Gegenstände je Platz/Level (wago.tools Item-Tabellen, gross) plus Preise aus dem Marktdaten-Netz;
+  Abstimmung mit AHSentinel (eine Sitzung je Addon).
+- Vorschlag: Schritt 1 als nächstes [M] nach den Grind-Ausweichorten; Schritt 2 erst nach Freigabe.
+
+NÄCHSTES: 3 Grind-Ausweichorte [M].
