@@ -1,0 +1,52 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 · Sitzung: GuildSentinel-Projekt-Sitzung · Version: 0.9.40 · Commit: GuildSentinel c37401b
+Veröffentlichung: Discord ja (announce/, sofort). CurseForge: nein (nächster Termin 16.11.2026 18:00 – dann Zip nach download/).
+Aufträge: NEU 19:59 (Nacht-Analyse) in der Reihenfolge G-3, GSM7, G-1.
+
+UMGESETZT, ZUR PRÜFUNG:
+- G-3 (MITTEL) Gesamtgrenze für automatische Flüsternachrichten an Fremde (Recruit.lua, Rc.OnWhisper):
+  Rc.AUTO_MAX = 5 neue automatische Gespräche (Antwort und/oder Bewerbungsfragen) in Rc.AUTO_WINDOW = 600 s, gleitendes
+  Fenster (Rc.AutoAllowed/Rc.AutoUse, Zeitpunkte nach GetTime, ältere als 600 s fallen heraus) – keine Sperre ohne
+  Zeitlimit. Darüber: nichts automatisch hinaus; der Bewerber wird trotzdem erfasst (a.noAuto = true), der Spieler sieht
+  EINE Zeile statt "Neuer Bewerber …": "Neuer Bewerber: %s – automatische Antworten pausiert (höchstens %d in %d Minuten),
+  bitte selbst anschreiben." (10 Sprachen). Antworten eines laufenden Bewerbers auf seine Fragen (nächste Frage, Danke,
+  Alters-Absage) zählen nicht zur Grenze – sie sind je Bewerber durch die Fragenzahl begrenzt und kommen nur auf seine
+  eigene Nachricht. Die Grenze je Name (einmal je 10 Minuten) bleibt; die Namensliste wird jetzt auch geleert (vorher
+  wuchs sie ohne Ende). Ein Neuladen setzt das Fenster zurück (nur durch den Spieler selbst auslösbar).
+  Dabei gefunden und behoben: ein schon bekannter Bewerber ohne offene Frage bekam bei JEDER Nachricht (alle 10 Min.)
+  wieder den festen Antworttext, auch ohne Stichwort. Jetzt nur, wenn er das Stichwort erneut schreibt.
+- GSM7 (MITTEL): shared/GoldSentinelMarkt.lua Version 7 byte-gleich kopiert; cmp Game/Test/Sync/Markt gegen shared/
+  = gleich, direkt vor dem Packen erneut (publish-Skript bricht sonst ab). addon_check ohne WARNUNG zur Marktdatei.
+  Den shared-Test 104/104 kann ich hier nicht laufen lassen (lupa nicht installierbar); er läuft im GitHub-Lauf.
+- G-1 (NIEDRIG) Alte Regressionstests – Ursachen belegt, Tests nachgeführt (Verhalten des Addons unverändert richtig):
+  · run_v6.lua (4 rot): Der Test nahm blind den ERSTEN CHAT_MSG_SYSTEM-Filter; seit GoldSentinelSync 2 meldet sich dessen
+    Filter (Offline-Meldungen ausblenden, gibt die Nachricht unverändert weiter) zuerst an. Jetzt ns.Social.SystemFilter +
+    neue Prüfung, dass er angemeldet ist. 112/112.
+  · run_v7.lua (2 rot): "Kanal betreten" – seit 0.9.20 absichtlich kein eigener Kanal (Forever). Test prüft jetzt, dass
+    nie ein Kanal betreten wird, auch nicht beim Aus-/Einschalten. 92/96/95 je Version.
+  · run_v8.lua (6 rot): EINE Ursache – der Test rief ns.SetLanguage(ns.db.lang) selbst auf (das Addon tut das nicht; die
+    Sprachwahl ist seit der Einstellung "Sprache" absichtlich wirksam). Danach lief der Rest auf Englisch, die 5 deutschen
+    Meldetexte wurden nicht gefunden (Ausgaben stimmten, z. B. "Only officers can write officer notes."). Jetzt über
+    ns.ApplyLang: alte Einstellung settings.lang ignoriert, uiLang gilt, "wie der Spiel-Client" führt zurück. 54/54.
+  · Neues Skript test/run_alle.sh: alle 30 run_*.lua in 119 Läufen + check_act.py, Gesamtzahl. ROT bei Exit ≠ 0, Zeile
+    "FAIL", "N fehlgeschlagen" > 0, "N Fehlermeldungen" > 0, Routine "FEHLER N" > 0 oder fehlender Zusammenfassung.
+    Eigener Fehler eingestanden: mein bisheriges Lauf-Skript zählte nur den Exit-Code – darum blieben run_v6/v7/v8 bei mir
+    unbemerkt rot ("FEHLGESCHLAGEN: 0" in früheren Berichten war für diese drei Skripte falsch).
+    Gegenprobe: eine eingebaute falsche Prüfung in run_v6 -> "ROT run_v6.lua … 1 fehlgeschlagen", Exit 1.
+
+EIGENE TESTS (Belege, keine Freigabe):
+- addon_check "GuildSentinel-0.9.40.zip: OK", 0 Warnungen (Lua-Syntaxprüfung mit: luac5.1 (Lua 5.1)).
+- test/run_alle.sh: "GESAMT: 119 Läufe, 0 rot · 4316 Einzelprüfungen bestanden, 0 fehlgeschlagen".
+- Routine offline: Forever OK 286, Era OK 291, TBC OK 291, je FEHLER 0.
+- T296a: 20 Fremde -> angeschrieben 5, pausiert 15, Hinweise 15, Bewerber 20. T296b: Fenster gleitet (voll bei 5,
+  bei t0+600 noch voll, bei erstem Eintrag+600 frei). T296c: bekannter Bewerber ohne Stichwort -> keine Wiederholung.
+  Gegenproben: Grenze ausgeschaltet -> T296a/b rot; Stichwort-Bedingung entfernt -> T296c rot ("Nachrichten 2 -> 3").
+  T66 läuft mit eigener leerer Grenze (die Testroutine verbraucht nichts vom Spieler). Testnamen GSTest…, keine Spieler.
+- test/run_g3.lua über den echten Ereignisweg (CHAT_MSG_WHISPER, 20 Fremde alle 3 s): 5 Namen, 10 Nachrichten (Antwort +
+  erste Frage), 20 Bewerber, 15 pausiert, 15 Hinweise; Antwort von Bewerber 1 -> Frage 2 trotz voller Grenze; nach
+  600 s neuer Fremder wieder automatisch. 7/7 für 16001, 11508, 20505.
+- Hinweis G-5 (Altersfrage): seit 0.9.36 wird nur "16+ / unter 16 / unklar" gespeichert, nie Zahl oder Antworttext
+  (T289e); nicht in Sync/Uploader.
+
+IM CLIENT PRÜFEN: zwei, drei Bewerber normal: Antwort + Fragen wie bisher; (falls möglich) mehr als 5 Fremde in 10 Min.:
+Zeile "automatische Antworten pausiert" im eigenen Chat, Bewerber auf der Seite Rekrutierung.
