@@ -1,0 +1,28 @@
+AHSentinel 0.65.192 – P190-1, P190-2, P190-3 – umgesetzt, zur Prüfung
+CurseForge: nein (nächster Termin 18:00). GitHub-Release v0.65.192 und sofort im Discord (announce/); nicht in download/.
+Reihenfolge laut Prüfung 14:20: P190-1 -> TB189-2 -> TB189-3/4 -> TB188-9 -> P190-2/3. TB189-2/3/4 und TB188-9 stehen schon in
+0.65.191 (Bericht 0.65.191).
+
+P190-1 (RetrySearch ohne Rücksicht):
+ Belegt, dass nach DROPPED nicht in die Drossel gehämmert wird: RetrySearch setzt nur lastSearch zurück; gesucht wird erst über
+ Sn:Tick -> CheckNext -> Sn:CanSearch, und CanSearch verlangt A:CanQueryNow("sniper") (Sniper.lua ~1149) = Abstand seit der
+ letzten Anfrage UND A:QueryReady() = C_AuctionHouse.IsThrottledMessageSystemReady() (AHAnalyzerPro.lua 3462) UND freies
+ Suchbudget. Beim Ereignis MESSAGE_DROPPED ruft AHAnalyzerPro.lua zudem A:QueryError -> Abstand ×2 (mit Drossel-Schnittstelle
+ höchstens 2 s). Test T772 (Suche ohne Server-Freigabe -> CanSearch false).
+ Neu: "ersetzt" (fremde Suche) -> erst nach RETRY_GRACE = 1 s Rücksicht (Sn.retryAfter, im Tick vor der Suche geprüft);
+ höchstens RETRY_MAX = 3 sofortige Wiederholungen in RETRY_WINDOW = 10 s, danach normaler Takt (lastSearch bleibt, Zähler
+ limited). Sniper-Bericht: "Suchen neu gesendet: vom Server verworfen n · durch andere Suche ersetzt n · Grenze 3 in 10 s
+ erreicht n". Test T772.
+P190-2 (others ohne Gesendete / gelöschte Ziele): Ausgaben je Ziel jetzt aus Sn.spentByKey (gezählte Käufe dieser Spiel-
+ Sitzung: CountItemBuy, CountPurchase, Rücknahme P186-1 zieht ab) – bleibt erhalten, wenn ein Ziel gelöscht wird. Dazu zählen
+ gesendete, noch unbestätigte, nicht abgelehnte Käufe der anderen Ziele seit dem Startpunkt (itemBuys, Frist 30 s). goldStart
+ merkt dazu den Zeitpunkt t. Testroutine: spentByKey/goldStart/retry gehören zur Laufzeit-Sicherung (SaveRuntime/
+ RestoreRuntime) und zu WithItemBuy – Tests zählen nie in die echte Sitzung. Test T767 erweitert: B gesendet (Gold weg) -> A
+ unverändert; B gelöscht -> A unverändert.
+P190-3 (verlorene Verkäufe): in die Summen zurückholen geht nicht verlässlich – die Post-Rechnungen der alten Buchhaltung
+ (db.ledger.entries, kind sale) kennen Menge und Erlös, aber nicht den Einstand der Stücke (der stand nur in den gelöschten
+ Buchungen). Darum nur nennen: Bericht-Zeile "Verloren (vor 0.65.190 nach dem Stichtag gekürzt, laut Post-Rechnungen): n
+ Verkäufe, Erlös x (netto)" (Zeitraum Stichtag bis älteste Buchung), Feld buch_verloren. Erscheint nur, wenn die älteste
+ Buchung nach dem Stichtag liegt.
+Gesamtlauf 255/255, Testroutine s42 und s44 grün (T772 neu, T767 erweitert), addon_check OK. Release v0.65.192 = geprüfter Stand, Discord sofort.
+Offen: TB189-6 (Messung beim Nutzer /ahs einzelkauf aus/an), danach nach Sniper-Abnahme TT-DE2, KERN-T1, MAIL-Rest, VK-P1, UI.
