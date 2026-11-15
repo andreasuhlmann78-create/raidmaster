@@ -20,6 +20,14 @@
     alle Wege getestet (Erfolg, Fehler, Abbruch, AH zu, Kampf, alte Clients); keine Sperre ohne Zeitlimit; nichts abgeschnitten
     oder doppelt; Bericht nur "umgesetzt, zur Prüfung" mit Belegen. Lieber eine Version später als eine mit Fehlern.
 
+>>> !!! PRIO JETZT – VOR ALLEM ANDEREN (Nutzer 17:21: "GSL4-1 bitte an AHS pushen als Prio, danach weiter mit Masterplan"):
+>>>    GSL4-1 (a)(b)(c) – Block "GSL4 – PROTOKOLL 4" weiter unten: Code 10, dem innerhalb von 2 s PURCHASE_COMPLETED folgt, ist kein
+>>>    Fehlschlag (keine "Fehler – nochmal"-Zeile, kein OfferTry/keine Pause, Zähler "Code 10 trotz Kauf" im Sniper-Bericht);
+>>>    nach einem Kauf 300 ms keine eigene andere Anfrage; Status "Kauf bestätigt (Server meldete kurz einen internen Fehler –
+>>>    ohne Folgen)". Tests: Code 10 + Bestätigung 0,1/1,9/2,1 s, Code 10 ohne Bestätigung (bleibt Fehler), zwei Käufe hintereinander.
+>>>    Laufende Arbeit sauber abschliessen, dann GSL4-1 als eigene kleine Version, Bericht, Discord. DANACH weiter mit dem Masterplan
+>>>    (2.2 MN1–MN5 Marktdaten-Netz aller Spieler).
+
 >>> !!! NACHT-ARBEIT 15./16.11. (Nutzer 16:34: "schreibe AHS das ins Repo genau mit der Reihenfolge – und ich will, dass AHS die
 >>>    ganze Nacht durcharbeitet – triff die nötigen Schritte"). Gilt ab sofort bis der Nutzer am 16.11. "hi" sagt:
 >>>    1. REIHENFOLGE = masterplan-ahsentinel.txt, Abschnitt D, genau so: Phase 1 (1.1 SN-RUHE1, 1.3 Rest Sniper-Block; 1.2 und

@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 15.11.2026 17:21 | GSL4-1 (Code 10 trotz gelungenem Kauf) als Prio an AHS, danach weiter mit dem Masterplan | offen-ahsentinel.txt PRIO JETZT |
 | 15.11.2026 16:42 | Nacht 15./16.11. ab 19:00: Supervisor prüft SÄMTLICHE anderen Addons auf Herz und Nieren (mit allem Wissen aus AHS), Ergebnis festhalten für die Zukunft. Bei den anderen Addons werden KEINE Fehler behoben – auch die schon im Repo stehenden nicht bzw. noch nicht | shared/wissen/analysen/ (Ergebnis), projekte.md |
 | 15.11.2026 16:34 | AHS arbeitet die ganze Nacht durch, genau in der Reihenfolge des Masterplans; Supervisor trifft die nötigen Schritte (Nacht-Block, Weck-Runde AHS 5 Min., Supervisor prüft die Nacht durch) | offen-ahsentinel.txt NACHT-ARBEIT 15./16.11. |
 | 15.11.2026 16:31 | Nutzer 16:28/16:29: Rechenkern soll die Daten ALLER Spieler nutzen; "erinnere dich an alles und ergänze den Masterplan" -> masterplan-ahsentinel.txt (Phasen 1–8, Datenstufen eigene > fremde Auktionen > Gilde > Netz aller Spieler > Tabellen; MN1–MN5 vorgezogen in Phase 2; Bot D-KERN1, Tabellen-Teil "alle") | auftraege/AHSentinel/masterplan-ahsentinel.txt, offen-discord.txt D-KERN1 |
