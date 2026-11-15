@@ -1,0 +1,17 @@
+AHSentinel 0.65.243 – Phase 7 MR4 Lage je Stufenband – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.243 und sofort im Discord.
+Umsetzung:
+  - Waves.lua W:LageTiles(now, store): je MA4-Band { belegt, Richtung (nur belegt), Tage, nötig 5, Items, Aufkauf-Zahl }; Aufkauf =
+    Items des Bands (W:ItemBand, G1) mit gültigem Kennzeichen (A:BuyoutInfo, D6, db.buyouts). Ohne Stand (Rechnung im
+    Hintergrund) nil.
+  - UI_MarketView.lua MV:LageLine(): Kopfzeile 1 "Stufen  1-25 fällt · 26-45 messe 3/5 · 46-60 ruhig · Aufkauf 2"; Richtung farbig
+    (fällt rot, steigt grün, Spitze orange, ruhig hell), "messe x/5" grau, Band mit Aufkauf orange, Summe einmal am Ende (je Band
+    eine Zahl passte in frFR/esES/ruRU nicht – gemessen). Der Preis-Index über alle Waren entfällt im Kopf (MR4 "kein Preis-Index
+    mehr"; MV:IndexText bleibt nur für den Bericht). Kopf wird neu gesetzt, sobald die Bänder fertig gerechnet sind (je Sekunde
+    geprüft: W.ma4 geändert).
+  - "Kacheln" als farbige Abschnitte einer Zeile (Platz im Kopf); Abweichung von MR4 "Kacheln" – bitte bestätigen oder ablehnen.
+Tests: T817 (belegt fällt / unbelegt messe 3/5 / belegt ruhig mit 2 Aufkäufen; Text; ohne Stand "werden berechnet") – mit
+  0.65.242 rot (LageTiles fehlt), grün mit 0.65.243. s243_mr4_lage: längster Fall (alle "messe 4/5", 36 Aufkäufe bzw. alle
+  belegt) passt in allen 11 Sprachen (run_all.sh Sprachen-Schleife, mit dieser Version ins Repo). s78 (Lage-Zeile ohne "Markt
+  heute") angepasst – mit 0.65.242 rot. s241/s225 grün. s42 grün. CHANGELOG EN/DE.
+Gesamtlauf (frischer Klon, Kopie 0.65.243, s243 + s78 + Sprachen-Schleife mit dieser Version ins Repo): BESTANDEN 304, FEHLGESCHLAGEN 0.
