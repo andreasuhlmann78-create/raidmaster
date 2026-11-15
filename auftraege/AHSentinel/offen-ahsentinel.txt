@@ -114,7 +114,21 @@ SN-B2 HOCH ("ich verliere sehr viele Duelle"): Chat zeigt mehrfach "Preis wird g
 SN-B3 MITTEL: Rote Zeile "Max über Verkaufswert – jeder Kauf verliert ca. 2c/Stück" bei Leinenstoff 18c. Der Spieler kauft ihn
     für seine Kette (Ballen -> Braune Leinenhose -> Entzaubern, laut Ketten +70c je Hose). Die Warnung muss die gemerkte Kette
     berücksichtigen (Wert über die Kette) und darf dann nicht "verliert" sagen.
-WEITER JETZT: SN-B1, SN-B2 (Sniper = Nr. 1 des Nutzers), dann TT-DE1, EK-X1, dann TEST-DEV1 (Test nur beim Entwickler), dann FERTIG-LISTE Block 2/3 wie oben.
+SN-B4 HOCH (14 Screenshots 01:00, 0.65.178, Ziel Leinenstoff max 18c; heute 59 Treffer · 15 gekauft · 40 verpasst):
+    Der Kauf braucht mehrere Raste-Runden und verliert dabei: "Treffer 33x für 1s 32c" -> "Preis bestätigt 33x 1s 32c – nochmal
+    Mausrad" -> "Kauf gesendet 33x 1s 32c" -> wieder "Preis wird geprüft 33x" -> "Preis bestätigt 33x für 4s 92c" -> "Kauf gesendet"
+    -> "Preis ist inzwischen gestiegen (7s 26c) – abgebrochen". Ebenso 5x für 20c: 3 Runden "bestätigt/gesendet/geprüft" bei
+    GLEICHEM Preis, erst dann "Gekauft". Und 19x 76c -> 2s 47c. Beobachtung: nach "Kauf gesendet" startet AHS die Preisprüfung
+    mit DERSELBEN Menge neu (33 statt der halben Menge laut SN-B2b), jede Runde kostet eine Raste und Zeit.
+    Auftrag: (1) Im Protokoll je Kauf die Schritte mit Zeit (ms) und der Server-Antwort/Fehlermeldung (Text/Code) – warum kam
+    nach "Kauf gesendet" kein "gewonnen", sondern eine neue Preisprüfung? (2) Nach fehlgeschlagener Bestätigung: Menge aus dem
+    neuen Preis-Update = was jetzt noch ≤ Max da ist (nicht wieder 33); bei gleichem Preis nicht erneut fragen. (3) Ziel: Treffer
+    -> gewonnen mit höchstens 2 Rasten, im Sniper-Test S12 Anzahl Rasten je Kauf und Zeit messen; "verpasst" je Grund zählen
+    (andere schneller / Preis gestiegen / eigener Ablauf).
+ANTWORT SN-B3 (Frage im Bericht 0.65.178): Vor der Freigabe der Ketten KEINEN Kettenwert verwenden (Entscheid 14:09). Bis dahin:
+    ist das Ziel Zutat eines gelernten Rezepts, statt "jeder Kauf verliert ca. 2c/Stück" neutral "Zutat für deine Rezepte –
+    Gewinn siehe Gewinn-Fenster" (grau, nicht rot). Mit Ke.LIVE dann der echte Kettenwert.
+WEITER JETZT: SN-B4, dann SN-B3 (neutraler Text), dann TT-DE1-Rest/TEST-DEV1 laut Berichten prüfen. (Alt:) SN-B1, SN-B2 (Sniper = Nr. 1 des Nutzers), dann TT-DE1, EK-X1, dann TEST-DEV1 (Test nur beim Entwickler), dann FERTIG-LISTE Block 2/3 wie oben.
 >>> (erledigt, siehe Prüfung oben) SN-TEST2 HOCH – NUR DIES MACHEN (Nutzer 18:54: "der Sniper-Test soll um alles Wichtige erweitert werden … er soll nur dies
     machen"). Alles andere ruht, bis SN-TEST2 umgesetzt und geprüft ist. Eine Version, dann Testbericht.
     Erweiterung von "/ahs testroutine sniper" (SniperTest.lua, S1–S6 bleiben). Am offenen AH, echtes Spiel, kauft nichts ohne
