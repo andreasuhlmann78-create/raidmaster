@@ -2549,15 +2549,23 @@ async def member_names_with_dots(names: list[str]) -> str:
     return ", ".join(parts)
 
 
+def kill_area(k: dict) -> dict:
+    """Raid oder Dungeon eines Kills (ab 1.5.138) – über die Encounter-ID, nicht über den Topf."""
+    names = {r["key"]: rmd.pool_name(r["key"], bot.dkp_data) for r in RECORD_BOSSES}
+    return rekord_tafel.area_of(k, RECORD_BOSSES, RECORD_DUNGEONS, names)
+
+
 async def post_first_kill(ch, k: dict) -> bool:
-    raid = rmd.pool_name(k["p"], bot.dkp_data) if k.get("p") else ""
+    area = kill_area(k)
+    # Ohne Zuordnung wie bisher der Topf; Dungeon-Erstkills ohne Screenshot (Entscheid des Nutzers 15.11. 15:51)
+    raid = area["name"] or (rmd.pool_name(k["p"], bot.dkp_data) if k.get("p") else "")
     emb = discord.Embed(title=f"🏆 Erstkill: {k['n']}", colour=0xFF8C1A,
                         description=(f"**{raid}** · <t:{k['t']}:F>\n"
                                      f"Nach **{k['w'] + 1}** {'Versuch' if k['w'] == 0 else 'Versuchen'}"
                                      + (f" · Kampfdauer **{rmd.fmt_duration(k.get('d'))}**" if k.get("d") else "")))
     if k.get("m"):
         emb.add_field(name=f"Dabei ({len(k['m'])})", value=(await member_names_with_dots(k["m"]))[:1024], inline=False)
-    path = shot_for(k)
+    path = None if area["dungeon"] else shot_for(k)
     try:
         if path:
             fn = "erstkill" + os.path.splitext(path)[1]
@@ -2568,7 +2576,8 @@ async def post_first_kill(ch, k: dict) -> bool:
     except discord.HTTPException as e:
         log.warning("Erstkill nicht gepostet: %s", e)
         return False
-    state.data.setdefault("first_posted", {})[f"{k['e']}:{k['t']}"] = bool(path)
+    # Dungeon: True = fertig (kein Screenshot nachreichen); Raid ohne Bild: False = Bild kommt evtl. später
+    state.data.setdefault("first_posted", {})[f"{k['e']}:{k['t']}"] = bool(path) or area["dungeon"]
     return True
 
 
@@ -2592,7 +2601,7 @@ async def update_hall_of_fame():
                     await post_first_kill(ch, k)
                 else:
                     posted[key] = True
-            elif posted[key] is False and shot_for(k):
+            elif posted[key] is False and not kill_area(k)["dungeon"] and shot_for(k):
                 try:
                     path = shot_for(k)
                     await ch.send(f"📸 Der Screenshot vom Erstkill **{k['n']}**:", file=discord.File(path))

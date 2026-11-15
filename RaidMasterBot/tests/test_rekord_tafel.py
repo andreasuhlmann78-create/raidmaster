@@ -158,12 +158,72 @@ class Dungeons(unittest.TestCase):
         self.assertIn(2746, [e for b in dm["bosses"] for e in b["e"]])                  # VanCleef (Classic-ID)
 
 
+class Erstkill(unittest.TestCase):
+    """T-EK (1.5.138): Dungeon-Erstkill mit Dungeon-Namen und OHNE Screenshot, Raid-Erstkill wie bisher mit Bild."""
+    @classmethod
+    def setUpClass(cls):
+        from bot_harness import load_bot
+        cls.bot, _ = load_bot()
+
+    def setUp(self):
+        import tempfile
+        b = self.bot
+        self.saved = (b.RECORD_BOSSES, b.RECORD_DUNGEONS, b.SHOTS_DIR, dict(b.state.data))
+        b.RECORD_BOSSES, b.RECORD_DUNGEONS = RAIDS, DUNGEONS
+        b.SHOTS_DIR = tempfile.mkdtemp()
+        for e in (2746, 663):
+            with open(os.path.join(b.SHOTS_DIR, f"shot_{e}_{T0}.jpg"), "wb") as f:
+                f.write(b"jpg")
+
+        async def names(m):
+            return ", ".join(m)
+        self._names = b.member_names_with_dots
+        b.member_names_with_dots = names
+
+    def tearDown(self):
+        import shutil
+        b = self.bot
+        shutil.rmtree(b.SHOTS_DIR)
+        b.RECORD_BOSSES, b.RECORD_DUNGEONS, b.SHOTS_DIR = self.saved[:3]
+        b.state.data.clear()
+        b.state.data.update(self.saved[3])
+        b.member_names_with_dots = self._names
+
+    def test_area(self):
+        a = rt.area_of(k(2746, T0, 95, p="mc"), RAIDS, DUNGEONS, NAMES)
+        self.assertEqual(a, {"key": "dg-dm", "name": "Die Todesminen", "dungeon": True})
+        self.assertEqual(rt.area_of(k(663, T0, 95), RAIDS, DUNGEONS, NAMES)["name"], "Molten Core")
+        self.assertEqual(rt.area_of(k(1, T0, 95), RAIDS, DUNGEONS, NAMES), {"key": rt.OTHER, "name": "", "dungeon": False})
+
+    def test_dungeon_ohne_bild_raid_mit_bild(self):
+        ch = Chan()
+        kd = dict(k(2746, T0, 95, p="mc", n="Edwin van Cleef"), w=0, f=True, m=["A", "B"])
+        kr = dict(k(663, T0, 95, n="Lucifron"), w=2, f=True, m=["A"])
+        self.assertTrue(asyncio.run(self.bot.post_first_kill(ch, kd)))
+        self.assertTrue(asyncio.run(self.bot.post_first_kill(ch, kr)))
+        d, r = ch.msgs
+        self.assertIn("**Die Todesminen**", d.embed.description)                       # nicht "Molten Core"
+        self.assertNotIn("file", d.kw)
+        self.assertIsNone(d.embed.image.url)
+        self.assertIn("**Molten Core**", r.embed.description)
+        self.assertEqual(r.kw["file"].filename, "erstkill.jpg")
+        posted = self.bot.state.data["first_posted"]
+        self.assertTrue(posted[f"2746:{T0}"])                                           # nie Bild nachreichen
+        self.assertTrue(posted[f"663:{T0}"])
+
+    def test_raid_ohne_bild_wartet_auf_bild(self):
+        ch = Chan()
+        kr = dict(k(664, T0, 95, n="Magmadar"), w=0, f=True, m=[])
+        asyncio.run(self.bot.post_first_kill(ch, kr))
+        self.assertFalse(self.bot.state.data["first_posted"][f"664:{T0}"])            # Bild kann später kommen
+
+
 class Msg:
     _next = 100
 
-    def __init__(self, ch, content=None, embed=None, author=1):
+    def __init__(self, ch, content=None, embed=None, author=1, kw=None):
         Msg._next += 1
-        self.id, self.ch, self.content, self.embed = Msg._next, ch, content, embed
+        self.id, self.ch, self.content, self.embed, self.kw = Msg._next, ch, content, embed, kw or {}
         self.author = types.SimpleNamespace(id=author)
 
     async def edit(self, embed=None, **kw):
@@ -179,7 +239,7 @@ class Chan:
         self.msgs, self.edits = [], 0
 
     async def send(self, content=None, embed=None, **kw):
-        m = Msg(self, content, embed)
+        m = Msg(self, content, embed, kw=kw)
         self.msgs.append(m)
         return m
 

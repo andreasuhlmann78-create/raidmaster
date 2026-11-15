@@ -62,6 +62,18 @@ def raid_of(kill: dict, emap: dict, raids: list[dict]) -> str:
     return OTHER
 
 
+def area_of(kill: dict, raids: list[dict], dungeons: list[dict], names: dict[str, str]) -> dict:
+    """Wo lag der Boss? {key, name, dungeon}. Für Erstkill-Beiträge (ab 1.5.138): Dungeon-Erstkills ohne Screenshot
+    und mit dem Dungeon-Namen statt des Topfs (der Topf ist bei Dungeon-Bossen der des Raidabends)."""
+    key = raid_of(kill, encounter_map(list(raids) + list(dungeons or [])), raids)
+    dg = next((d for d in dungeons or [] if d["key"] == key), None)
+    if dg:
+        return {"key": key, "name": dg.get("name", key), "dungeon": True}
+    if key == OTHER:
+        return {"key": key, "name": "", "dungeon": False}
+    return {"key": key, "name": names.get(key, key), "dungeon": False}
+
+
 def fmt(sec: int | None) -> str:
     """m:ss, ab einer Stunde h:mm:ss."""
     if sec is None:
