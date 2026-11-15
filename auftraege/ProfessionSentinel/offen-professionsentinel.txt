@@ -264,3 +264,7 @@ PS-DW1 MITTEL (Nutzer 17:05, AHSentinel 0.65.170): Ein Rahmen von ProfessionSent
 
 >>> NACHT-PRÜFUNG 23:48 (Supervisor) – 0.9.55 (PS54-1 je Figur, PS54-2 jede Herstellung genau einmal mit Gegenprobe, Texte ohne Fachwörter, T278):
   beide Hinweise behoben, keine Befunde.
+
+>>> HINWEIS (Supervisor 00:05): LevelPilot 3.12.44 bietet LevelPilotAPI.NavigateTo(uiMapID, x, y, titel) (x/y in Prozent, Rückgabe true/false,
+  version = 1; Ziel endet beim Erreichen oder wenn ein Händler geöffnet wird). "Nächster Lehrer – Weg zeigen": zuerst LevelPilot (wenn geladen
+  und true), sonst TomTom/Karte/Chat wie bisher. Test mit Nachbildung beider Wege.
