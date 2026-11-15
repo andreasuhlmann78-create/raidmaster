@@ -1,0 +1,44 @@
+BERICHT DISCORD – Bot 1.5.180: D-3 Schritt 33 (Anmeldung als eigenes Modul) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 23:10 (aus date)
+Commit: e98cef9c auf origin/main, CI bot-tests: success
+
+WAS
+- anmeldung_bot.py: addon_hint, NameModal, ProfileView, register_pug_player, register_raid_player,
+  on_interaction (@bot.event), /charakter – samt Kommentaren direkt darüber.
+- UNVERÄNDERT verschoben: per ast verglichen, alle 7 identisch; keine Kommentarzeile verloren.
+- on_interaction meldet sich beim Import am selben Bot-Objekt an. Nachgestellter Start (python3 bot.py, Anmeldung
+  ersetzt) vor/nach verglichen: gleiche 5 Ereignisse (on_guild_join, on_interaction, on_member_join, on_message,
+  on_ready), gleiche 30 Befehle oben (49 mit Unterbefehlen); on_interaction kommt jetzt aus anmeldung_bot.
+- bot.py: 10 dadurch unbenutzte Importnamen entfernt (profile_text, raid_view, status_text, handle_name_button,
+  send_export, show_tip, accept_substitute, offer_substitute, handle_apply_button, raid_embed).
+  BERICHTIGUNG: in der Commit-Nachricht steht "11" – gezählt sind es 10.
+- Drei leere Abschnitts-Köpfe in bot.py zu einem Hinweis zusammengefasst.
+- bot.py: git diff --numstat +6 −250, jetzt 865 Zeilen.
+
+TESTS
+- Angepasst (Namen nicht mehr über bot.py): test_beutepost_dkpnachricht_bot (show_tip), test_lade (raid_view,
+  offer_substitute), test_ersatz_skillung_bot, test_mitglieder_bot, test_raid_bot (send_export),
+  test_raidanzeige_twink_bot (raid_embed) – jeweils Identität am Modul anmeldung_bot.
+- NEU test_anmeldung_bot.py (3 Tests, REGRESSIONEN T-D3-ANMELDUNG): bot.on_interaction ist die aus dem Modul;
+  Knöpfe rmtip/rmapply/rm:export/rm:sub an die richtige Stelle mit den richtigen Werten; fremder Knopf und
+  Befehls-Interaktion -> keine Antwort, kein Aufruf; unbekannter Raid -> "gibt es nicht mehr"; Fehler im
+  Gildennamen-Knopf -> Protokoll und freundliche Meldung.
+  Gegenproben: Typ-Prüfung entfernt -> FAILED (1); Raid-Prüfung entfernt -> ERROR (1); "nur rm:-Knöpfe" entfernt
+  fiel zuerst NICHT auf (Fehler wurde abgefangen) – Test verschärft (fremder Knopf darf nicht antworten), dann
+  FAILED (1).
+- Slash-Befehle: 49, unverändert. 399 Tests OK; jede Testdatei einzeln mit -I OK; REGRESSIONEN 72 von 72.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update vom Stand 1.5.179: updater._copy_new kopiert VERSION, anmeldung_bot.py, bot.py, tests;
+   config/state/ZIP unverändert (md5); VERSION 1.5.180.
+2. Start wie launcher.py: Abbruch erst bei der Anmeldung (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+4. Neustart nach Update (Ende-zu-Ende, aktualisierte Kopie): Exit-Code 42.
+
+STAND D-3: bot.py 7437 (vor D-3) -> 865 Zeilen; 37 Module ausgelagert.
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
+- NÄCHSTER SCHRITT: Uploads (dkp_loop, process_new_data, receive_upload) als Modul; danach bleibt in bot.py nur
+  Start/Zusammenbau (RaidBot, /raidmaster-einrichten, Start-Hilfen) – dann der Schlussbericht D-3 (Wunsch der
+  Prüf-Sitzung 23:03).
