@@ -366,6 +366,7 @@ REGRESSIONEN = {
     "T-D3-KLASSEN": ("test_klassen_bot", "Klassen", "test_rollen_vergeben_und_falsche_entfernen"),
     "T-D3-WILLKOMMEN": ("test_willkommen_bot", "Willkommen", "test_einmal_posten_dann_nur_bei_aenderung"),
     "T-D3-GILDENNAME": ("test_gildenname_bot", "Gildenname", "test_namenspruefung"),
+    "T-D3-BEFEHLSLISTE": ("test_befehlsliste_bot", "Befehlsliste", "test_mitgliederliste_nur_fuer_alle"),
     "T-D3-BEFEHLE": ("test_befehle_liste", "BefehleListe", "test_gleiche_befehle"),
     "T-D-MN8b": ("test_market", "BotAblauf", "test_T_D_MN8b_aenderung_erst_nach_senden_merken"),
     "T-D-GS1b": ("test_market", "BotAblauf", "test_T_D_GS1b_grosse_guildsentinel_datei"),

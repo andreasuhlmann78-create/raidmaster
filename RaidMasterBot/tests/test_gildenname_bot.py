@@ -53,7 +53,7 @@ class Gildenname(unittest.TestCase):
         m.bot._connection.user = self.saved_user
 
     def test_gleiche_funktionen_in_bot(self):
-        self.assertIs(self.bot.name_poll, self.m.name_poll)
+        self.assertIs(self.bot.handle_name_post, self.m.handle_name_post)
         self.assertIs(self.bot.apply_fixed_guild_name, self.m.apply_fixed_guild_name)
 
     def test_namenspruefung(self):
