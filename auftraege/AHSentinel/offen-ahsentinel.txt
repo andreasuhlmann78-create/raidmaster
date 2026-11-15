@@ -55,6 +55,14 @@ HP-3 MITTEL (Nutzer 10:36, Screenshot Schnäppchen > Entzauberwert leer): Text "
     "Zurzeit nichts unter dem Entzauber-Wert mit mindestens 30 % Gewinn (geprüft: n Items, Preise vom Scan vor x Min.)". Prüfen,
     warum Markt > Entzaubern gleichzeitig Zeilen zeigt (Bericht 01:36: "Entzaubern 3") – beide Ansichten müssen dieselbe Regel und
     dieselben Treffer haben (eine Zahl). Teil von UI-CLEAN1/HP-2, gleiche Reihenfolge.
+HP-4 MITTEL (Nutzer 10:42 "so bringt das nichts", Screenshots Schnäppchen > Marktwert und > Flips, 0.65.180): Die Ansichten
+    "Marktwert" und "Flips" unter Kaufen > Schnäppchen AUSBLENDEN (wie MR1 am 13.11. "Flippen" im Markt-Reiter). Grund: beide
+    rechnen gegen den Median der ANGEBOTSpreise (nicht bezahlte Preise), Gewinn/Tag ist nicht gemessen (Robuster Stein 1s16/Stk.
+    und 1g48/Tag hiesse 128 Stk./Tag verkauft), Widersprüche (Xorothianische Fusslappen Liste +85g, Tooltip −10g), "Schnäppchen"
+    sind oft gefallene Märkte oder Ladenhüter (Handwerksverfügung −83 %). Daten und Rechnung bleiben im Hintergrund (Lernen,
+    Testbericht), nichts löschen. Zurück erst, wenn der Rechenkern echte Verkäufe je Item misst und die Trefferquote die
+    Grenzwerte (MARKT-KERN) erfüllt. BLEIBEN: Händlerpreis (HP-2), Entzauberwert (HP-3), Flipping-Rechner (reines Rechenwerkzeug).
+    "Gebote" prüft der Supervisor noch – bis dahin unverändert. Teil von UI-CLEAN1 (B), in der Liste der Entfernungen aufführen.
 UI-REF1 MITTEL (Nutzer 10:29 bestätigt, Vorschlag Supervisor): EIN Aktualisieren-Knopf, in JEDEM AHSentinel-Fenster an genau
     derselben Stelle (Kopfzeile oben rechts neben "Optionen", gleiches Symbol). Klick = aktualisiert den aktuellen Reiter (Sniper:
     sofort suchen; Markt: neu rechnen; Buchhaltung/Verkaufen/Einkauf: neu laden); Shift+Klick = alles. Tooltip in einem Satz,
