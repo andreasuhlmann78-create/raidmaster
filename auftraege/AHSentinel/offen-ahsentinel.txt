@@ -20,6 +20,33 @@
     alle Wege getestet (Erfolg, Fehler, Abbruch, AH zu, Kampf, alte Clients); keine Sperre ohne Zeitlimit; nichts abgeschnitten
     oder doppelt; Bericht nur "umgesetzt, zur Prüfung" mit Belegen. Lieber eine Version später als eine mit Fehlern.
 
+>>> MASTERPLAN AHSENTINEL – GILT AB 16:50 (Nutzer 16:24/16:25 "was ist mit dem Ausbau des Gehirns?", "wir hatten doch einen Masterplan
+    für AHS"). Ersetzt die Zeile "NEUE REIHENFOLGE" im Block 16:35. Grundlage: RELEASEPLAN 13.11. 13:15 (verbindlich, unten in dieser
+    Datei) + anweisung-rechenkern-066.txt Teil 5 (S1–S5) + KERN-T1 (Nutzer 10:45 "oberste Prio"). Stand des Plans:
+      0.65.109–113 falsche Zahlen/Ruckeln/Zuverlässigkeit – erledigt. 0.66 RECHENKERN ("Gehirn"): S1 Lernschicht (0.65.153), S2 V2/V3/A2
+      (0.65.154), S3a ein "Lohnt bis" (0.65.158), S3b Ketten (0.65.165, Tooltip-Teil ruht wegen TT-STOP) – erledigt, zur Prüfung.
+      OFFEN: KERN-T1 (Gehirn lernt schneller), S4 = VK-P1 (Verkaufspreis als Zahl), S5 = RK3–RK7 (anweisung-markt-reiter.txt),
+      MR2 Mein Lager, API-PM2/3-Rest, Absatz als Spanne, MN1–MN5 (GoldSentinelMarkt FeedStart/Feed). 0.67 SPIELRHYTHMUS (MR5–MR9,
+      RK6 Haltedauer). 0.68 NEUER MARKT-REITER (MR1/MR3/MR4/MR10 – MR1-V Teil 1 in 0.65.172).
+    REIHENFOLGE AB JETZT (oben = zuerst; Release-Blocker und Befunde aus einem Sniper-Protokoll gehen IMMER vor):
+      1. SN-RUHE1 Sniper-Ruhemodus (läuft) – fertig machen.
+      2. KERN-T1 AUSBAU DES GEHIRNS, HÖCHSTE PRIO NACH DEM SNIPER: (1) fremde Auktionen als Fälle, an eigenen geeicht, eigener Weg
+         "markt" mit eigener Prüfung P1–P4; (2) Gilden-Sync der Zähler; (3) Vorwissen-Anschluss (Tabellen kommen täglich 05:37 aus
+         shared/markt-tabellen). Läuft PARALLEL zur Sniper-Abnahme: Die Abnahme wartet auf das Spiel-Protokoll des Nutzers
+         (GSSniperLog 1.3) – nicht warten (Zweite Direktive). Kommt ein Sniper-Befund, wird er zuerst erledigt.
+      3. DE-AUFT1 Entzauber-Einstand nach erwartetem Wert (klein, Buchhaltung = Grundlage des Gehirns, R9).
+      4. Rest Sniper-Block: SN-B5, SN-B6, SN-B7, SN-B8, T745, TB182-2, TB184-U3, GSL2-3 (Ruckler-Stelle) -> Abnahme A1–A6.
+      5. TB181-4 HOCH (Nutzer 10:49: "unterbotene abbrechen ging nicht mit dem Knopf") (a)–(d) + TB181-3 (Fusszeile doppelt).
+      6. TT-DE2 Entzauber-Teil des Tooltips (Variante B, ohne die 10s76; Rest des Tooltips NICHT anfassen, TT-STOP).
+      7. 0.66-Rest: S4 = VK-P1 Verkaufspreis (nur nach P2) -> MR2 Mein Lager -> S5 RK3–RK7 -> API-PM2/3 -> Absatz als Spanne ->
+         MN1–MN5. Danach Version 0.66.0 = "Rechenkern fertig" (eigener Bericht mit Testbericht MARKT-KERN).
+      8. MAIL-1 Rest (Post).
+      9. UI: UI-REF1 (ein Aktualisieren-Knopf oben rechts) -> UI-CLEAN1 (B) mit TB184-U3-Befunden -> HP-4 (Marktwert/Flips aus)
+         -> HP-3 -> HP-2.
+     10. 0.67 SPIELRHYTHMUS (MR5–MR9, RK6) -> 11. 0.68 NEUER MARKT-REITER (MR1/MR3/MR4/MR10).
+    Kleinere offene Punkte in die passende Version legen. Je Version: Regressionstest (mit alter Version ROT), addon_check ohne
+    FEHLER, Bericht "umgesetzt, zur Prüfung". CurseForge erst nach der Sniper-Abnahme; Discord jede Version sofort.
+
 >>> SUPERVISOR 16:35 – ANTWORTEN UND NEUE BEFEHLE (Nutzer 16:21 "bitte erteile AHS neue Befehle"; Berichte 15:50 und 16:25 gelesen)
   1. GSL2-1 (2) – AHS hat recht: In 0.65.193 erreichte Code 10 beim modernen AH MarkDead/600 s NICHT (Aufrufer nur über
      lastBuyError = LegacyAH.lua). Mein Befund war in diesem Punkt falsch; die sichtbare Wirkung kam vom übergangenen Code 10
@@ -39,7 +66,7 @@
   4. GSL2-3 – Verdacht von AHS (113–116-ms-Bilder kommen aus der Blizzard-AH-Oberfläche) wird mit GSSniperLog 1.3 gemessen
      (ADDONS-Zeile: AHS Ø klein + Ruckler bleiben = nicht AHS). Bis dahin nichts weiter.
   5. GSSniperLog 1.3 (Messwerkzeug): "Server bereit" der Version 1.2 war ein Messfehler (Nach-Hook) – siehe Berichtigung bei GSL2.
-  NEUE REIHENFOLGE: SN-RUHE1 (läuft) -> DE-AUFT1 -> restlicher Sniper-Block (SN-B5 Max zur Planung speichern, SN-B6 Zähler nach
+  [ÜBERHOLT durch MASTERPLAN 16:50] NEUE REIHENFOLGE: SN-RUHE1 (läuft) -> DE-AUFT1 -> restlicher Sniper-Block (SN-B5 Max zur Planung speichern, SN-B6 Zähler nach
   Bestätigung prüfen, SN-B7 Treffer "geleert" ohne Grund, SN-B8 Testkauf-Gold erklären, T745 Wartegrund "false", TB182-2
   Tageslücke 7g67, TB184-U3 Unterbereiche im UI-Prüfteil) -> Abnahme A1–A6 mit GSSniperLog-Protokoll 3 (0.65.196+) -> danach
   TT-DE2, KERN-T1, MAIL-1 Rest, VK-P1, UI-CLEAN1 (B)/UI-REF1, HP-2/3/4.

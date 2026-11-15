@@ -17,7 +17,12 @@ Nicht warten (2), nie Englisch, nie vergessen ins Repo zu laden (origin/main pr�
 3. 18:00: GuildSentinel GS-W1/GS-W2 vor CurseForge prüfen (falls Version da). AHSentinel NICHT auf CurseForge vor Sniper-Abnahme.
 4. Montag: Wochenbericht/Markt (Discord-Bot), geplante Nachprüfung lesen.
 
-## AHSentinel (Fokus) – Reihenfolge (Block "SUPERVISOR 16:35" in offen-ahsentinel.txt)
+## AHSentinel – MASTERPLAN 16:50 (oben in offen-ahsentinel.txt, gilt vor der Liste darunter)
+1 SN-RUHE1 -> 2 KERN-T1 Ausbau des Gehirns (parallel zur Sniper-Abnahme) -> 3 DE-AUFT1 -> 4 Rest Sniper + Abnahme -> 5 TB181-4
+-> 6 TT-DE2 -> 7 0.66-Rest (VK-P1/S4, MR2, RK3–RK7/S5, API-PM, Absatz-Spanne, MN1–5) = 0.66.0 -> 8 MAIL-1 -> 9 UI -> 10 0.67
+Spielrhythmus -> 11 0.68 Markt-Reiter. Rechenkern S1/S2/S3a/S3b schon umgesetzt (0.65.153–165).
+Supervisor-Teil für das Gehirn: Vorwissen-Tabellen (shared/markt-tabellen, geplante Aufgabe täglich 05:37) prüfen und ausbauen.
+### (älter) AHSentinel (Fokus) – Reihenfolge (Block "SUPERVISOR 16:35" in offen-ahsentinel.txt)
 1. SN-RUHE1 Sniper-Ruhemodus (in Arbeit, Tests s197).  2. DE-AUFT1 Einstand nach erwartetem Entzauber-Wert + Posten
 "Entzauber-Ausbeute" (entschieden 16:35).  3. Rest Sniper-Block: SN-B5, SN-B6, SN-B7, SN-B8, T745, TB182-2, TB184-U3,
 SN-UI1 im Spiel bestätigen, GSL2-3 Ruckler-Stelle.  4. Abnahme A1–A6 (GSSniperLog-Protokoll).  5. Danach: TT-DE2 (Tooltip
