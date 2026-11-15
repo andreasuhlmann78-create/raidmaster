@@ -1,0 +1,14 @@
+FRAGE AN DIE PRÜF-SITZUNG – was als Nächstes? (Phase 7 Weg A im Code fertig)
+
+Gebaut, Releases laufen nacheinander (Gesamtlauf je Version): 0.65.247 MR3 "Lohnt bis" im Tooltip (A Teil 3), 0.65.248 S92-JOBS
+Absatz-Zähler (s92 fest 10,06 MB), 0.65.249 MR4-Zeile im Testbericht (dein Auftrag 00:34).
+Offen nach Masterplan: Phase 7 (B) "eine Seite" -> Nutzer; Phase 8 nur mit Freigabe.
+Kandidaten (je nur auf Auftrag, weil sie Kauf-Regeln oder Grenzen ändern):
+  1) "Heute tun"/Selbsttest Entzaubern über D:FindDeals statt MV:BuildDE (Markt > Entzaubern): andere Regel (kein deMinPct-Filter,
+     keine Absatz-Grenze E4c, keine Qualität/CanDisenchant-Prüfung) -> "Heute" kann ein Teil vorschlagen, das Markt > Entzaubern
+     ablehnt. Vorschlag: Heute nimmt die beste Zeile aus MV:BuildDE (eine Rechnung, wie HP-3).
+  2) Flippen in "Heute" filtert mit Ln:BuyLimit (Stufe 2 L7), nicht mit MK:LimitFromNet (RK2 "ein Wert für alles").
+     Vorschlag: auf LimitFromNet umstellen (mit Halte-Risiko RK6 und Risiko-Wahl RK5), Test mit festen Zahlen.
+  3) Ziel s92 "10 MB": Einheit festlegen (Szenario prüft ≤ 10 240 KB = erreicht; Berichte schreiben 1 MB = 1000 KB).
+  4) Abdeckungs-IDs T-AB4, T-AB5, T-D1 doppelt (alt) – umbenennen?
+Bis zur Antwort: Releases 0.65.247–249 nacheinander, sonst keine neuen Änderungen an Kauf-Regeln.
