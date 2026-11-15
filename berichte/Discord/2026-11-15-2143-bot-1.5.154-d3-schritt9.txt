@@ -1,0 +1,43 @@
+BERICHT DISCORD – Bot 1.5.154: D-3 Schritt 9 (Uploader-Versand als eigenes Modul) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 21:43 (aus date)
+Commit: 87264234 auf origin/main, CI bot-tests: success
+
+WAS
+- Neues Modul RaidMasterBot/uploader_bot.py (210 Zeilen): ensure_fresh_uploader, uploader_package, /uploader
+  (uploader_cmd), uploader_to_officers.
+- UNVERÄNDERT verschoben: Quelltext je Name samt Dekoratoren per ast verglichen -> alle 4 identisch.
+- ADDON_DIR (= BASE/addon) von bot.py nach kern.py, gleicher Wert; bot.py (Addon-Zips) und uploader_bot holen ihn
+  von dort. Lade-Test prüft den Wert und dass es dasselbe Objekt ist.
+- bot.py: Importe pn und uploader_version entfallen (dort nicht mehr benutzt). git diff --numstat +2 −186,
+  bot.py jetzt 6238 Zeilen.
+
+TESTS
+- test_pn (UploaderFuer, UploaderOffiziere): 16 Ersetzungen bot -> uploader_bot (is_admin, channel_by_id,
+  ensure_fresh_uploader, uploader_package, save_config, uploader_cmd) plus Sichern/Zurücksetzen der Attrappen am
+  neuen Modul; keine Prüfung abgeschwächt.
+- test_sync_setup.test_s4 und test_uploads_gs_up.test_bot_nennt_version lasen einen Ausschnitt von bot.py ab
+  "async def uploader_cmd"; jetzt bot_quelle.funktion("uploader_cmd") (genau die Funktion, egal in welchem Modul).
+  Vorher geprüft: alle Aussagen gelten für den Funktionstext (2× ensure_fresh_uploader(), note(have, want),
+  setup_sync, sync_config.json, Autostart-einrichten.bat, Administrator). Unterschied: der alte Test zählte nur in
+  den ersten 6000 Zeichen ab der Funktion, der neue in der ganzen Funktion (7607 Zeichen) – die Funktion endet vor
+  dem nächsten Bereich, also nichts Fremdes mitgezählt.
+- LÜCKE GEFUNDEN UND GESCHLOSSEN: Gegenprobe "Absender nicht ausschliessen" (im Aufruf pn.offiziere(…, 0) statt
+  inter.user.id) fiel in den bisherigen Tests NICHT auf (Absender hatte dort keine Offiziers-Rolle). NEU
+  test_absender_offizier_bekommt_nichts (REGRESSIONEN T-UP-OFF-ABS): Absender mit Rolle Offizier bekommt nichts,
+  der andere Offizier genau eine PN. Mit der Gegenprobe -> FAILED; zurückgesetzt -> OK.
+- test_lade: uploader_bot.bot ist bot.bot; /uploader im Befehlsbaum ist uploader_bot.uploader_cmd; ADDON_DIR.
+- Slash-Befehle: 49, unverändert. 294 Tests OK (293 + 1 neuer); jede Testdatei einzeln mit -I OK;
+  REGRESSIONEN 39 von 39.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update: Ordner auf Stand 1.5.153 mit Attrappen-config.json, data/state.json und addon/RaidMasterUploader.zip,
+   dann updater._copy_new(neu, alt): kopiert VERSION, bot.py, kern.py, tests, uploader_bot.py; config.json,
+   state.json und die Uploader-ZIP im addon-Ordner unverändert (md5); VERSION danach 1.5.154.
+2. Start wie launcher.py (subprocess, cwd=BASE, aus fremdem Arbeitsordner): Abbruch erst bei der Anmeldung
+   (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
+- NÄCHSTE BEREICHE: Bank (guildsentinel_db, current_bank, Bank-Texte) zusammen mit Raidfähigkeit
+  (post_raid_ready), danach DKP, Beute, Raids, Uploads, Server-Einrichtung.
