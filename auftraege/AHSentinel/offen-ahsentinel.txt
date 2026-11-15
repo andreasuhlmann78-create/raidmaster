@@ -20,6 +20,26 @@
     alle Wege getestet (Erfolg, Fehler, Abbruch, AH zu, Kampf, alte Clients); keine Sperre ohne Zeitlimit; nichts abgeschnitten
     oder doppelt; Bericht nur "umgesetzt, zur Prüfung" mit Belegen. Lieber eine Version später als eine mit Fehlern.
 
+>>> SN-RUHE1 Sniper-Ruhemodus (Nutzer 15:53 "ja bitte"; nach GSL2-1/2/4, zusammen mit GSL2-3). Solange Sniper AN und AH offen:
+    Grundlage Protokoll 2 (GSSniperLog 1.2, 15:01–15:29): Lua-Speicher 410–475 MB, bis 62 Speicherbereinigungen/Min.; bei Aussetzern
+    liefen forecast-eval 35×, cache:today 20×, ketten:refresh, ui-refresh, pd7:prepare, fullscan; ~11 % der Suchen gingen an Ziele
+    ohne einen einzigen Treffer ≤ Max (7048, 14580).
+    (a) Hintergrund-Aufgaben pausieren (forecast-eval, cache:*, ketten:refresh, pd7:*, fullscan, Learn/Kern-Auswertung, Sync-
+        Verarbeitung grösserer Pakete); nur Sniper und das sichtbare Sniper-Fenster arbeiten. Nach Sniper AUS / AH zu: Aufgaben
+        laufen weiter (nichts geht verloren, keine Sperre ohne Zeitlimit: spätestens nach 30 Min. Sniper laufen sie in kleinen
+        Schritten trotzdem, Stand im Status).
+    (b) Keine eigenen AH-Anfragen ausser dem Sniper: kein Aktualisieren Meine Auktionen, keine Markt-/Einzelsuchen anderer Reiter,
+        kein Vollscan-Start (Knopf grau mit Grund). Fremde Suchen (Spieler/andere Addons) nicht blockieren, aber im Status nennen.
+    (c) Nicht sichtbare Reiter/Tabellen nicht neu aufbauen; Tooltip-Rechnungen aus dem Zwischenspeicher.
+    (d) Speicher-Müll senken: keine neuen Tabellen je Suchergebnis/Ereignis im Sniper-Pfad (wiederverwenden), Ziel: < 5 Speicher-
+        bereinigungen/Min. beim Snipen (GSSniperLog BILDER-Zeile).
+    (e) Suchzeit nach Chance: Ziele mit Treffern ≤ Max in den letzten 5 Min. öfter; Ziele ohne Treffer seit 10 Min. höchstens alle
+        30 s (Reihum bleibt, keines fällt ganz heraus). Im Ziel-Tooltip "seltener gesucht: keine Treffer seit …".
+    (f) Anzeige im Sniper-Fenster: "Ruhemodus: n Aufgaben pausiert" (Tooltip mit Liste). Einstellung An/Aus, Standard AN.
+    (g) Messung im Bericht (vorher/nachher mit Testroutine) + Abnahme mit GSSniperLog-Protokoll: Bilder > 100 ms ≤ 1/Min.,
+        AHS Ø ≤ 2 ms je Bild, Aufgaben bei Aussetzern "keine", Speicherbereinigungen < 5/Min. Tests: Sniper an/aus, AH auf/zu,
+        Kampf, Reload während Pause, 30-Min.-Grenze. Locales EN/DE, CHANGELOG EN/DE.
+
 >>> GSL2 – ZWEITES PROTOKOLL GSSniperLog 1.2 (Nutzer 15:01–15:29, AHS 0.65.193; Nutzer 15:33 "läuft nicht viel besser", 15:34 "meldet
     sehr oft Interner Auktionsfehler"). Supervisor ausgewertet, Zahlen aus dem Protokoll, Code-Stellen gelesen. HÖCHSTE PRIO, VOR GSL1-2.
     Sitzung: Suchen 1211 · Käufe gesendet 343 · bestätigt 116 (34 %) · ohne Antwort 220 · DOPPELT gesendet 56 · Code 10 ×175 ·
