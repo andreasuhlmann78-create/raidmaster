@@ -1,0 +1,23 @@
+AHSentinel 0.65.234 – V4 Tages-/Wochenzyklus (anweisung-rechenkern-066 V4, Nutzer 14.11. 00:19; Masterplan Phase 6) – zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.234 und sofort im Discord.
+JK1–JK4 (Zeitpunkt je Item, Timing.lua) gibt es seit 11.11.; neu ist V4 = Zyklus je Gruppe/Band mit Bestätigung über Wochen.
+
+Waves.lua (nur Messung, nichts angezeigt, keine Empfehlung):
+  - W:ComputeCycles: Woche = 7 ganze Tage bis gestern; Items je MA4-Band (benötigte Stufe, Materialien nach Herkunft G1);
+    bestätigte Preise. Tageszyklus: je Punkt Abweichung vom Tagesmedian desselben Items (bereinigt um den Tagesverlauf, wie
+    markt-strategie 8g), je Stunde Median über die Werte (≥ 20) -> Zeichen +/−/0 (±1 %). Wochenzyklus: je Item (≥ 5 Tage)
+    Tagesmedian / Median der Woche − 1, je Wochentag Median (≥ 20 Items).
+  - W:LogCycles: einmal je Woche (JJJJ-WW der Woche bis gestern) ins db.v4log (höchstens 60), im MA4-Hintergrund-Auftrag;
+    nicht in Nachbildung/Testroutine.
+  - W:CycleStatus: BELEGT ab 3 Wochen, wenn ≥ 80 % der Stellen, die in mindestens einer Woche eine Richtung zeigen, in allen 3
+    Wochen dasselbe Zeichen haben (V4 "≥ 80 % gleiche Richtung").
+  - Testbericht MARKT-KERN je Band: "V4 Band x: Tageszyklus messe (n von 3 Wochen) / BELEGT (y % gleich · Muster) ·
+    Wochenzyklus … (ANNAHMEN ±1 %, ≥ 20 Werte; nur Messung)".
+  ANNAHMEN, BITTE PRÜFEN: Schwelle ±1 % je Stunde/Tag, ≥ 20 Werte bzw. Items, Wochenfenster Mo–So nach Kalenderwoche %W.
+Tests
+  - T810 (Testroutine M, Preisverlauf über die eigene Funktion A:HF ersetzt, 25 Items, 7 Tage × 24 Std.): morgens 8–12 Uhr
+    "+++++", abends 18–20 Uhr "---", Samstag "+", leeres Band 2 "..."; 2 Wochen -> nicht belegt; 3 Wochen -> Tag und Woche
+    belegt; dieselbe Woche zweimal geloggt zählt einmal (Log 9 = 3 Wochen × 3 Bänder). Mit 0.65.233 rot.
+  - s92/s216/s10 einzeln grün (Speicher Lauf 3 14,0 MB).
+  - CHANGELOG EN/DE.
+Gesamtlauf (frischer Klon, Kopie 0.65.234): BESTANDEN 281, FEHLGESCHLAGEN 0 (s92 fest, ohne Wiederholung).
