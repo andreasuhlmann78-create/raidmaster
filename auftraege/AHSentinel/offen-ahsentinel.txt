@@ -48,7 +48,7 @@ HP-2 HOCH (Nutzer 10:33, Screenshot Kaufen > Schnäppchen > "Händlerpreis", 0.6
     Wunsch des Nutzers), Menge = diese Stücke (bzw. 1000, wenn der Nutzer mehr will), Budget = Σ dieser Stücke, Kauf nie ≥ Händler-
     preis (SK1-o). (5) Alter der Preise sichtbar ("vor x Min."), älter als 30 Min. grau. Test mit Leiter 3 Stufen (unter/gleich/
     über Händlerpreis) + Tabellen-Händlerpreis (darf nicht erscheinen) + Selbstkontrolle (Menge/Gewinn gesamt = Nachrechnung).
-    Reihenfolge: nach SN-B9 und dem Ketten-Kandidaten, vor UI-CLEAN1.
+    Reihenfolge (Nutzer 10:36): als LETZTES, nach UI-CLEAN1 (B).
 UI-REF1 MITTEL (Nutzer 10:29 bestätigt, Vorschlag Supervisor): EIN Aktualisieren-Knopf, in JEDEM AHSentinel-Fenster an genau
     derselben Stelle (Kopfzeile oben rechts neben "Optionen", gleiches Symbol). Klick = aktualisiert den aktuellen Reiter (Sniper:
     sofort suchen; Markt: neu rechnen; Buchhaltung/Verkaufen/Einkauf: neu laden); Shift+Klick = alles. Tooltip in einem Satz,
@@ -58,7 +58,7 @@ UI-REF1 MITTEL (Nutzer 10:29 bestätigt, Vorschlag Supervisor): EIN Aktualisiere
 >>> TEMPO UND PFLICHTEN (Nutzer 10:29 "gib Gas – aber vernachlässige deine Pflichten nicht"): zügig arbeiten, aber jede Version
     mit Test + Selbstkontrolle (Grundsatz 14.11.), Locales und CHANGELOG EN/DE, addon_check ohne FEHLER, Bericht in berichte/
     ("umgesetzt, zur Prüfung" mit Belegen), GRUNDSATZ NACHVOLLZIEHBAR, keine Gold-Risiken, nichts für "erledigt" erklären.
-    Reihenfolge: SN-B9 -> Ketten-Kandidat 0.65.181 -> UI-CLEAN1 (A) -> UI-REF1 -> UI-CLEAN1 (B).
+    Reihenfolge: SN-B9 -> Ketten-Kandidat 0.65.181 -> UI-CLEAN1 (A) -> UI-REF1 -> UI-CLEAN1 (B) -> HP-2.
 >>> NUR KETTE (Nutzer 15.11. 07:11 "nur Kette bitte"): ausschliesslich KETTE-K1, alles andere ruht (auch Sniper-Reste SN-B6/SN-B8 –
     die bleiben offen und kommen erst wieder, wenn der Nutzer es sagt).
     ZIEL (Nutzer 07:12 "er soll es soweit machen, dass wir releasen können"): KETTE-K1 komplett bis RELEASE-KANDIDAT – eine Version
