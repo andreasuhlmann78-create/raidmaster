@@ -170,6 +170,17 @@
         Einstellung bleibt nach /reload. Locales EN/DE (alle Sprachen), CHANGELOG EN/DE.
 
 >>> POST-BLOCK1 HOCH – SPIELER-MELDUNG (fremder Spieler, über den Nutzer 18:25): "error when posting item
+>>> POST-BLOCK1 – NACHGESTELLT VOM NUTZER (19:12, 3 Bildschirmfotos 19:10:42–19:10:46, Client 0.65.203, altes AH; Nutzer: "geht nicht"):
+    Weg = WARNSCHUTZ "Trotzdem einstellen" (UI_Sell.lua 682 -> d.onAnyway 701 -> p:Post -> Se:Post -> LegacyPost: PickupContainerItem,
+    ClickAuctionSellItemButton, PostAuction). Item: Geringe Mystikeressenz ×4 (Ware), 9s19c/Stück (Warnschutz "0 % unter Einkaufspreis").
+    Ergebnis: Meldung "Interface-Aktion auf Grund eines Addons fehlgeschlagen", Status bleibt "Wird eingestellt: 4x … 9s19c/Stück …",
+    die 4 Essenzen bleiben in der Tasche (nicht eingestellt). Kurz davor stellte der normale Knopf "2x Großer gleißender Splitter"
+    problemlos ein. => Der gesperrte Weg ist BELEGT: Warnschutz -> Trotzdem einstellen (mindestens dieser).
+    Ursache NICHT belegt. Verdachte, zu messen: (1) im Warnschutz-Fenster läuft beim Klick etwas, das das Hardware-Ereignis vor
+    PostAuction verbraucht oder verliert (d:Hide() vor dem Aufruf? OnHide-Haken? Se:Alarm?); (2) der Warnschutz hat EnableKeyboard +
+    OnKeyDown mit SetPropagateKeyboardInput OHNE die free()-Prüfung, die UI_Main.lua 1381 ff. hat (Forever: modernes API mit
+    Kampf-Sperren); (3) anderes. Test im Spiel mit 0.65.208: Zeile POST-BLOCKED (Funktion, Weg, Zeit) – der Nutzer stellt es nach.
+    Lösung erst nach Beleg; Abnahme: Warnschutz -> Trotzdem einstellen stellt Ware UND Einzelstück ein, ohne Meldung, 5×.
     1x [ADDON_ACTION_BLOCKED] AddOn 'AHSentinel' tried to call the protected function 'UNKNOWN()'.
     [!BugGrabber/BugGrabber.lua]:554: in function '?'"  – Version des Spielers unbekannt (CurseForge = 0.65.178?).
     Einstellen ist für den Spieler blockiert = Kernfunktion kaputt. Supervisor-Code-Sicht (0.65.202): Se:Post ruft
