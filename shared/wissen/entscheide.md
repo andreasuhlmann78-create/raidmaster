@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 15.11.2026 12:13 | Sniper komplett fixen, oberste Prio: AHS arbeitet NUR am Sniper bis zur Abnahme (A1–A6), alles andere ruht | offen-ahsentinel.txt SNIPER-KOMPLETT (oben) |
 | 15.11.2026 11:50 | Item-Tooltip eingefroren: ausser "Materialien" (TT-DE2) nichts mehr anfassen; nach dem Release bleibt er so, bis der Nutzer etwas anderes sagt | offen-ahsentinel.txt TT-STOP (oben) |
 | 15.11.2026 10:59 | Entzauber-Tooltip: Variante B (Spalten Vorgabe / bei dir (n) / Preis), Ø je Entzauberung nur gemessen, ohne Vorgabe-Zahl | offen-ahsentinel.txt TT-DE2 |
 | 15.11.2026 10:45 | Kern muss schnell lernen, ohne Einbussen, oberste Prio: fremde Auktionen als Fälle (geeicht an eigenen), Gilden-Sync der Zähler, Vorwissen-Tabellen; keine Schwellen senken, kein teureres/kleineres Einstellen | offen-ahsentinel.txt KERN-T1 |

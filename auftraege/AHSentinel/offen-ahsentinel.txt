@@ -1,3 +1,22 @@
+>>> SNIPER-KOMPLETT – NUR DIES, ALLES ANDERE RUHT (Nutzer 12:13 "oberste Prio, wir müssen jetzt endlich den Sniper komplett fixen!!!!")
+    Bis zur Abnahme durch den Supervisor arbeitet AHS NUR am Sniper. TT-DE2, KERN-T1, MAIL-1, VK-P1, UI-… ruhen (Reihenfolge danach
+    wie 12:00). Kein Flickwerk mehr: EINMAL den ganzen Kauf-Ablauf durchgehen (Suche -> Treffer -> Raste -> Senden -> Antwort ->
+    Zählen/Gold/Budget -> Anzeige -> nächstes Ziel) und alle offenen Punkte in EINER Version schliessen:
+      SN-B11 (67 gesendet / 5 gekauft: ein offener Ausrüstungskauf zur Zeit, Messung, Anzeige, keine Doppel-Sendung)
+      SN-B10 (in 0.65.183: Zähler = Gold – im Spiel bestätigt 12:03, 5 Käufe = −41s94; nur noch Kopf/Anzeige prüfen)
+      SN-B5 (S9: Max zum Zeitpunkt der Planung speichern), SN-B6 (Zähler nach Bestätigung), SN-B7 (Treffer "geleert" ohne Grund),
+      SN-B8 (Testkauf Gold −13674 vs gebucht 1 – mit B10 erklärt? belegen), SN-B2/SN-B4 (verlorene Duelle: Preisprüfung vor
+      dem Kauf kostet Zeit), T745 (Wartegrund-Text "false"), TB182-2 (Tageslücke 7g67 erklären).
+    ABNAHME (was "komplett" heisst – Supervisor prüft jede Zahl, Nutzer testet im Spiel):
+      A1 Ausrüstung (z. B. Schultern, viele Angebote): 2 Min. Mausrad -> ≥ 80 % der gesendeten Käufe kommen an; Zähler = Gold-
+         Abgang ÷ Preis exakt; nie über Budget/Max; keine Pause "gescheitert", wenn Ware ankam.
+      A2 Waren (Stapel, z. B. Leinenstoff): Zähler = Gold, Max nie überschritten, Teilmengen richtig.
+      A3 Mehrere Ziele: reihum, jedes Ziel eigener Zähler/Budget, Wechsel ohne Hänger.
+      A4 Nie hängen: Status nie länger als 30 s "Suche läuft"/"warte", An/Aus/Zähler zurücksetzen wirken sofort.
+      A5 Anzeige: eine Zahl je Sache, nichts abgeschnitten (Stand, Budget-Rest, Heute-Kopf geht auf: gekauft + verpasst ≤ Treffer).
+      A6 /ahs testroutine sniper: alle S-Tests + T752 + neuer S-Takt grün; Abschnitt "Geld je Ziel" Differenz 0.
+    Bericht: je Punkt Ursache (Code-Stelle) + Fix + Test + Messwerte aus echten Daten; "umgesetzt, zur Prüfung".
+
 >>> SN-B11 HÖCHSTE PRIO – RELEASE-BLOCKER (Nutzer 12:04 "oberste Prio, schau dir den Sniper an", 3 Screenshots 12:03, 0.65.183;
     Ziel Schultern des Hügelwächters 1000 Stk., Max 9s14, Budget 10g; 564 Angebote, viele "kaufbar" zu 7s99/8s, 87 % Markt):
     Stand "5/1000 gekauft (+65 gesendet)" -> eine Sekunde später "(+67 gesendet)". Gold laut Screenshots: 11g14s79 (11:54) ->
