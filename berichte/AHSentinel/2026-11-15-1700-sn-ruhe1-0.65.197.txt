@@ -1,0 +1,62 @@
+AHSentinel 0.65.197 – SN-RUHE1 Sniper-Ruhemodus – umgesetzt (a, b, e, f; c und d nur teilweise, siehe unten), zur Prüfung
+CurseForge: nein (laut Masterplan 16:50 erst nach der Sniper-Abnahme). GitHub-Release v0.65.197 und sofort im Discord; nicht in download/
+
+Ruhemodus = Einstellung an (db.sniper.quiet, Standard an, /ahs ruhe an|aus) UND Sniper-Modus selbst an (db.armed, Sn:ModeArmed)
+UND AH offen (Sn:QuietOn).
+Nicht Sn:IsArmed: Das ist auch wahr, wenn nur der Wächter ein Schnäppchen hat (Mausrad aktiv). Dann sperrte der Ruhemodus den
+Wächter selbst; die Nachbildung s9_watcher_fallback wurde rot, das ist behoben. s197 prüft es.
+Beginn und Ende stehen im Protokoll SNIPER-RUHE. In der Testroutine ist er aus, ausser ein Test schaltet ihn ausdrücklich
+ein (die Tests messen Aufgaben und Suchen selbst).
+(a) A:SnipeDefer: noch nicht begonnene Aufgaben mit diesen Namen warten (A.QUIET_JOBS):
+    forecast*, cache:*, ketten:*, pd7*, kern:*, learn:*, core:*, craft-top, de:matdiag, hist:flat, merge:market, names, timing.
+    Laufen weiter: scan (Auswertung eigener Suchen), fullscan (Start ist ohnehin gesperrt), books:*, ui-refresh, market:<Ansicht>
+    (sichtbare Ansicht), sync-send, Testroutine.
+    Sync-Empfang ist keine Aufgabe, sondern läuft im Ereignis. Er ist NICHT pausiert; bei Bedarf als eigener Punkt.
+    Grenze QUIET_MAX = 1800 s ab Beginn des Ruhemodus, danach laufen die Aufgaben in ihren üblichen kleinen Schritten.
+    Nach Sniper aus oder AH zu laufen sie sofort weiter. Nichts wird verworfen: A:Job behält die Aufgabe in der Liste.
+    Bilder, in denen nur aufgeschobene Aufgaben warten, zählen nicht als Rechenbild (RunJobs meldet false).
+(b) A:QuietBlocks(prio) / A:CanQueryNow(prio): Im Ruhemodus fragen nur "sniper" und "user" an.
+    "user" = vom Spieler angeklickt: Einkauf-Suche (Buy:TryStart), "Unterbietung prüfen"-Liste (Seller.queue) und
+    "Aktualisieren" in Meine Auktionen (Se:QueryOwned(true)).
+    Gesperrt sind die selbstständigen Anfragen:
+    - Hintergrund-Preisprüfung (Seller.bgQueue, Grund "wartet: Sniper-Ruhemodus");
+    - automatisches Aktualisieren von Meine Auktionen (gemerkt ownedWanted, beim Ende des Ruhemodus bei offenem AH nachgeholt);
+    - Wächter-Runden;
+    - Scan-Wunsch, Markt-Scan und Schnell-Vollscan (A:StartFullScan/VS:Start mit Grund; Scan-Knopf grau "Scan wartet:
+      Sniper-Ruhemodus").
+    ABWEICHUNG vom Wortlaut "keine Markt-/Einzelsuchen anderer Reiter", begründet:
+    - Die Nachbildung s10_buy_priority hält den früheren Entscheid "Was du selbst suchst, geht vor" fest (Buy.lua "Vorrang für
+      deine Suche"). Mit gesperrter Einkauf-Suche wurde sie rot (3 Fehler).
+    - Schlimmer: Die wartende Einkauf-Suche hielt über Buy:Blocks auch den Sniper an, bis BLOCK_MAX ablief ("Sniper hat danach
+      gesucht" rot).
+    - Darum gehen angeklickte Suchen weiter vor. Soll auch das gesperrt sein, braucht es einen Entscheid des Nutzers.
+    Fremde Suchen (Spieler, andere Addons) werden nicht blockiert; der Sniper nennt sie wie bisher (P190-1).
+    Der Wächter ist mit gesperrt (er ist nicht der Sniper). Bitte bestätigen.
+(c) Teilweise: Der Sniper aktualisiert schon nur den sichtbaren Sniper-/Wächter-Reiter (UI_Sniper SNIPER_CHANGED), andere Reiter
+    bauen sich nur als aktiver Reiter neu auf. Tooltip-Rechnungen aus dem Zwischenspeicher sind noch nicht umgestellt
+    (Messung zuerst).
+(d) Erst die Messung, keine Code-Senkung ohne Beleg: Im Ruhemodus schreibt AHS jede Minute "SNIPER-RUHE Speicher n KB (±x KB in
+    60 s) · Suchen n" ins Protokoll. Ein Rückgang heisst, eine Speicherbereinigung lief.
+    Damit und mit GSSniperLog (BILDER) lässt sich belegen, welcher Anteil vom Sniper-Pfad kommt. Erst dann ändere ich ihn gezielt
+    (Kandidaten: newResult-Tabelle je Suche in FinishSearch, Listings-Kopien, SNIPER_CHANGED-Neuaufbau der Tabelle).
+(e) CheckNext: Im Ruhemodus kommen Ziele ohne Angebot ≤ Max seit COLD_AFTER = 600 s (ab der ersten Suche dieser Sitzung) höchstens
+    alle COLD_GAP = 30 s in die Auswahl. Reihum bleibt (Credits), keines fällt heraus. Sind alle Ziele kalt, gilt reihum wie bisher.
+    Ziel-Tooltip: "seltener gesucht: keine Treffer seit n Min.".
+(f) Sniper-Fenster unter der Zusammenfassung: "Ruhemodus: n Aufgaben pausiert" bzw. "Ruhemodus aus". Der Tooltip listet die
+    Aufgaben, die 30-Min.-Grenze, was wartet und den Befehl. Nachgeführt jede Sekunde.
+(g) Tests (eigene, keine Freigabe):
+    - T778: an/aus-Bedingungen, Liste pausiert/nicht, begonnene Aufgabe, nur Sniper sucht, 30 Min., kalte Ziele nach 30 s wieder
+      dran, Tooltip, AH zu, Einstellung aus.
+    - T777 angepasst (Ruhemodus aus = GSL2-3-Weg).
+    - Nachbildung s197_sniper_quiet: Prognose wartet, andere Aufgabe läuft, Anzeige "Ruhemodus: 1 Aufgaben pausiert", nur
+      Sniper sucht, kein Scan-Start, Kampf ohne Fehler, AH zu -> läuft, 30-Min.-Grenze, Sniper aus, Einstellung aus.
+    - Reload während der Pause: Die Einstellung ist gespeichert, aufgeschobene Aufgaben werden beim Start ohnehin neu angelegt;
+      in der Nachbildung nicht eigens geprüft.
+    Locales EN/DE (+14, alle Sprachen), CHANGELOG EN/DE.
+    Messung vorher/nachher: Die Abnahmewerte (Bilder > 100 ms, AHS Ø je Bild, Speicherbereinigungen/Min.) liefert erst
+    GSSniperLog im Spiel.
+Gesamtlauf der Nachbildung (wowsim, alle Szenarien inkl. s197): BESTANDEN 257, FEHLGESCHLAGEN 0.
+Hinweis s92_fullscan_smooth (NP152-3, "neu angelegt" ≤ 15 MB): Der Wert schwankt mit dem Zeitpunkt der Speicherbereinigung.
+Je 6 Läufe gleichzeitig: 0.65.196 = 14,0–16,4 MB (3 von 6 über 15 MB), 0.65.197 = 13,7–15,0 MB. Keine Verschlechterung durch
+0.65.197. Eine Grenze, die schon 0.65.196 in der Hälfte der Läufe reisst, misst nicht sicher – Vorschlag an den Supervisor:
+NP152-3 als Median aus 3 Läufen messen.
