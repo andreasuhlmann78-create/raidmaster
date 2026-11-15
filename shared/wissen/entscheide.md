@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 15.11.2026 18:01 | Bei Addon-Kontrollen jeweils das ganze Repo ansehen (Geschichte: Commits, Berichte, Aufträge), um zu verstehen, wie es zum Aufbau kam; was unklar ist, nachprüfen statt annehmen | pruef-ablauf.md A0, Nacht-Analyse 15./16.11. |
 | 15.11.2026 17:30 | AHS hat freie Hand: keine Erlaubnis/Eingabe-Erlaubnis mehr beim Nutzer einholen, selbstständig durcharbeiten (Grenzen: Masterplan, Direktiven, Sicherheit, CurseForge erst nach Abnahme) | offen-ahsentinel.txt DRINGEND – FREIE HAND |
 | 15.11.2026 17:21 | GSL4-1 (Code 10 trotz gelungenem Kauf) als Prio an AHS, danach weiter mit dem Masterplan | offen-ahsentinel.txt PRIO JETZT |
 | 15.11.2026 16:42 | Nacht 15./16.11. ab 19:00: Supervisor prüft SÄMTLICHE anderen Addons auf Herz und Nieren (mit allem Wissen aus AHS), Ergebnis festhalten für die Zukunft. Bei den anderen Addons werden KEINE Fehler behoben – auch die schon im Repo stehenden nicht bzw. noch nicht | shared/wissen/analysen/ (Ergebnis), projekte.md |
