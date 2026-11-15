@@ -111,6 +111,7 @@ lootdb = rmd.Store(os.path.join(DATA_DIR, "loot_db.json"), rmd.lootdb_empty())
 kills_db = rmd.Store(os.path.join(DATA_DIR, "kills.json"), {"kills": []})
 fame_db = rmd.Store(os.path.join(DATA_DIR, "achievements.json"), {"init": False, "players": {}})
 SHOTS_DIR = os.path.join(DATA_DIR, "shots")
+ADDON_DIR = os.path.join(BASE, "addon")              # D-3 Schritt 9 (1.5.154): aus bot.py – Addon-Zips und Uploader
 for _k, _v in rmd.lootdb_empty().items():
     lootdb.data.setdefault(_k, _v)
 # Datei-ID -> Name der Spielsymbole (für die Item-Emojis; mitgeliefert, wird regelmäßig aktualisiert)

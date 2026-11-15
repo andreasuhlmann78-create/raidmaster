@@ -93,6 +93,11 @@ class Lade(unittest.TestCase):
         for name, fn in (("ruhmeshalle-aufraeumen", ruhmeshalle_bot.ruhmeshalle_aufraeumen_cmd),
                          ("erfolge", ruhmeshalle_bot.erfolge_cmd)):
             self.assertIs(b.bot.tree.get_command(name).callback, fn.callback)
+        import uploader_bot
+        self.assertIs(uploader_bot.bot, b.bot)                   # D-3 Schritt 9: Uploader-Versand
+        self.assertIs(b.bot.tree.get_command("uploader").callback, uploader_bot.uploader_cmd.callback)
+        self.assertEqual(uploader_bot.ADDON_DIR, os.path.join(os.path.dirname(b.__file__), "addon"))
+        self.assertIs(b.ADDON_DIR, kern.ADDON_DIR)
         self.assertIs(b.NO_PING, grund.NO_PING)
 
     def test_findet_fehlenden_namen(self):

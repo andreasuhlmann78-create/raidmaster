@@ -11,6 +11,7 @@ import zipfile
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, HERE)
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))   # bot_quelle (D-3)
 import raid_ready  # noqa: E402
 import raidmaster_data as rmd  # noqa: E402
 import uploader_version as uv  # noqa: E402
@@ -81,9 +82,8 @@ class UploaderVersion(unittest.TestCase):
                 self.assertEqual(uv.file_version(repo_zip), uv.parse_version(f.read()))
 
     def test_bot_nennt_version(self):
-        with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as f:
-            src = f.read()
-        body = src[src.index("async def uploader_cmd("):]
+        import bot_quelle                                       # D-3 Schritt 9: uploader_cmd steht in uploader_bot.py
+        body = bot_quelle.funktion("uploader_cmd")
         self.assertGreaterEqual(body[:6000].count("ensure_fresh_uploader()"), 2)
         self.assertIn("uploader_version.note(have, want)", body[:6000])
 

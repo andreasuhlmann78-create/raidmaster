@@ -359,6 +359,7 @@ REGRESSIONEN = {
     "T-UP404d": ("test_bot_rechte", "BotAblauf", "test_private_kanaele_freigeben"),
     "T-D3-LADE": ("test_lade", "Lade", "test_alle_namen_aufloesbar"),
     "T-D3-SYMBOLE": ("test_symbole", "Symbole", "test_ersatz_wenn_discord_nichts_liefert"),
+    "T-UP-OFF-ABS": ("test_pn", "UploaderOffiziere", "test_absender_offizier_bekommt_nichts"),
     "T-D3-BEFEHLE": ("test_befehle_liste", "BefehleListe", "test_gleiche_befehle"),
     "T-D-MN8b": ("test_market", "BotAblauf", "test_T_D_MN8b_aenderung_erst_nach_senden_merken"),
     "T-D-GS1b": ("test_market", "BotAblauf", "test_T_D_GS1b_grosse_guildsentinel_datei"),

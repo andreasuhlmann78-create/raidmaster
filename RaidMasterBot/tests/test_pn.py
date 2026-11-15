@@ -133,10 +133,11 @@ class UploaderFuer(unittest.TestCase):
     def setUpClass(cls):
         from bot_harness import load_bot
         cls.bot, _ = load_bot()
+        cls.m = sys.modules["uploader_bot"]    # D-3 Schritt 9: /uploader steht in uploader_bot.py – dort patchen
 
     def setUp(self):
         b = self.bot
-        self.saved = {k: getattr(b, k) for k in ("is_admin", "channel_by_id", "ensure_fresh_uploader",
+        self.saved = {k: getattr(self.m, k) for k in ("is_admin", "channel_by_id", "ensure_fresh_uploader",
                                                    "uploader_package", "save_config")}
         self.saved_setup = (b.uploader_setup.setup_uploader_hooks, b.uploader_setup.setup_sync,
                             b.uploader_setup.uploader_config)
@@ -160,11 +161,11 @@ class UploaderFuer(unittest.TestCase):
 
         async def fresh():
             return "2.3.7", "2.3.7"
-        b.is_admin = lambda u: getattr(u, "admin", False)
-        b.channel_by_id = by_id
-        b.ensure_fresh_uploader = fresh
-        b.uploader_package = lambda: None
-        b.save_config = lambda: None
+        self.m.is_admin = lambda u: getattr(u, "admin", False)
+        self.m.channel_by_id = by_id
+        self.m.ensure_fresh_uploader = fresh
+        self.m.uploader_package = lambda: None
+        self.m.save_config = lambda: None
         b.uploader_setup.setup_uploader_hooks = hooks
         b.uploader_setup.setup_sync = sync
         b.uploader_setup.uploader_config = lambda d, t, uid: {"d": d}
@@ -173,7 +174,7 @@ class UploaderFuer(unittest.TestCase):
 
     def tearDown(self):
         for k, v in self.saved.items():
-            setattr(self.bot, k, v)
+            setattr(self.m, k, v)
         (self.bot.uploader_setup.setup_uploader_hooks, self.bot.uploader_setup.setup_sync,
          self.bot.uploader_setup.uploader_config) = self.saved_setup
         self.bot.bot._connection.user = self._user
@@ -198,7 +199,7 @@ class UploaderFuer(unittest.TestCase):
     def test_an_mitglied_mit_eigenem_sync(self):
         i, sent = self.inter()
         m = Member(5)
-        asyncio.run(self.bot.uploader_cmd.callback(i, False, m))
+        asyncio.run(self.m.uploader_cmd.callback(i, False, m))
         self.assertEqual(self.sync_for, [5])                       # eigener Kanal für das Mitglied
         self.assertEqual(len(m.sent), 1)
         names = [f.filename for f in m.sent[0][1]["files"]]
@@ -210,24 +211,24 @@ class UploaderFuer(unittest.TestCase):
     def test_pn_gesperrt_nichts_umleiten(self):
         i, sent = self.inter()
         m = Member(5, forbid=True)
-        asyncio.run(self.bot.uploader_cmd.callback(i, False, m))
+        asyncio.run(self.m.uploader_cmd.callback(i, False, m))
         self.assertIn("Nichts geschickt", sent[-1])
         self.assertFalse(any("uploader_config" in str(x) for x in sent[:-1]))
 
     def test_nur_gildenleitung_und_nie_bots(self):
         i, sent = self.inter(admin=False)
         m = Member(5)
-        asyncio.run(self.bot.uploader_cmd.callback(i, False, m))
+        asyncio.run(self.m.uploader_cmd.callback(i, False, m))
         self.assertEqual(m.sent, [])
         i, sent = self.inter()
         b = Member(6, bot=True)
-        asyncio.run(self.bot.uploader_cmd.callback(i, False, b))
+        asyncio.run(self.m.uploader_cmd.callback(i, False, b))
         self.assertEqual(b.sent, [])
         self.assertEqual(self.sync_for, [])
 
     def test_ohne_fuer_wie_bisher(self):
         i, sent = self.inter()
-        asyncio.run(self.bot.uploader_cmd.callback(i, False, None))
+        asyncio.run(self.m.uploader_cmd.callback(i, False, None))
         self.assertEqual(self.sync_for, [1000])
         self.assertEqual(len(i.user.sent), 1)
 
@@ -249,7 +250,7 @@ class UploaderOffiziere(UploaderFuer):
         fd, self.zip = tempfile.mkstemp(suffix=".zip")
         os.write(fd, b"PK-test")
         os.close(fd)
-        self.bot.uploader_package = lambda: self.zip
+        self.m.uploader_package = lambda: self.zip
         self._sleep = self.bot.asyncio.sleep
 
         async def nosleep(_):
@@ -285,7 +286,7 @@ class UploaderOffiziere(UploaderFuer):
         i, sent = self.inter()
         i.guild = types.SimpleNamespace(members=[off1, off2, gesperrt, mitglied, bot, i.user])
         with self.assertLogs("raidmaster", level="INFO") as cm:
-            asyncio.run(self.bot.uploader_cmd.callback(i, False, None, True))
+            asyncio.run(self.m.uploader_cmd.callback(i, False, None, True))
         for m in (off1, off2):
             self.assertEqual(len(m.sent), 1)
             self.assertEqual(m.sent[0][1]["file"].filename, "RaidMasterUploader.zip")
@@ -300,15 +301,26 @@ class UploaderOffiziere(UploaderFuer):
     def test_keine_offiziere(self):
         i, sent = self.inter()
         i.guild = types.SimpleNamespace(members=[i.user])
-        asyncio.run(self.bot.uploader_cmd.callback(i, False, None, True))
+        asyncio.run(self.m.uploader_cmd.callback(i, False, None, True))
         self.assertIn("Keine Offiziere", sent[-1])
 
+    def test_absender_offizier_bekommt_nichts(self):
+        # D-3 Schritt 9 (1.5.154): auch der Aufruf im Bot muss den Absender ausschliessen (nicht nur pn.offiziere)
+        off1 = self.members()[0]
+        i, sent = self.inter()
+        i.user.roles = [Rolle("Offizier")]
+        i.guild = types.SimpleNamespace(members=[i.user, off1])
+        asyncio.run(self.m.uploader_cmd.callback(i, False, None, True))
+        self.assertEqual(i.user.sent, [])
+        self.assertEqual(len(off1.sent), 1)
+        self.assertIn("an 1 von 1 Offizieren", sent[-1])
+
     def test_ohne_zip(self):
-        self.bot.uploader_package = lambda: None
+        self.m.uploader_package = lambda: None
         off1 = self.members()[0]
         i, sent = self.inter()
         i.guild = types.SimpleNamespace(members=[off1])
-        asyncio.run(self.bot.uploader_cmd.callback(i, False, None, True))
+        asyncio.run(self.m.uploader_cmd.callback(i, False, None, True))
         self.assertEqual(off1.sent, [])
         self.assertIn("noch nicht auf dem Server", sent[-1])
 
@@ -316,7 +328,7 @@ class UploaderOffiziere(UploaderFuer):
         off1 = self.members()[0]
         i, sent = self.inter(admin=False)
         i.guild = types.SimpleNamespace(members=[off1])
-        asyncio.run(self.bot.uploader_cmd.callback(i, False, None, True))
+        asyncio.run(self.m.uploader_cmd.callback(i, False, None, True))
         self.assertEqual(off1.sent, [])
 
 

@@ -8,6 +8,7 @@ import unittest
 
 BOT_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, BOT_DIR)
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))   # bot_quelle (D-3)
 import discord  # noqa: E402
 import uploader_setup as us  # noqa: E402
 
@@ -113,9 +114,8 @@ class SyncSetup(unittest.TestCase):
         self.assertIn("Kanäle verwalten", notes[0])
 
     def test_s4_bot_schickt_sync_config(self):
-        with open(os.path.join(BOT_DIR, "bot.py"), encoding="utf-8") as f:
-            src = f.read()
-        body = src[src.index("async def uploader_cmd"):src.index("# Server-Betrieb: Selbst-Update")]
+        import bot_quelle                                       # D-3 Schritt 9: uploader_cmd steht in uploader_bot.py
+        body = bot_quelle.funktion("uploader_cmd")
         self.assertIn("uploader_setup.setup_sync(", body)
         self.assertIn('filename="sync_config.json"', body)
         self.assertIn("Autostart-einrichten.bat", body)                 # 1.5.114: einziger Schritt (S8 d)
