@@ -1,0 +1,32 @@
+BERICHT LevelPilot 3.12.43 – LP-N1 Punkt 1: Talent-Vorschlag als Text im Hinweis "Talentpunkte frei"
+Projekt: LevelPilot · Datum: 15.11.2026 23:41 (aus date) · Status: umgesetzt, zur Prüfung
+
+Bezug: offen-levelpilot.txt, NACHT-PRÜFUNG 23:18 ("1 Talent-Empfehlung FREIGEGEBEN nur als Text … eigene Builds, je Klasse ein
+Level-Build, mit EINEM Satz Begründung je Punkt; keine fremden Builds/Texte"), Tabellen 23:33 (berichte/LevelPilot/talente/).
+
+DATEN
+- berichte/LevelPilot/talente/builds.py: eigene Auswahl und eigene Sätze (de, en) je Talent; Beschreibungen der Tabelle nur zum
+  Verstehen gelesen (bei unsicheren Talenten die volle Beschreibung geprüft, z. B. Einbruch der Nacht: "zaubert viel schneller",
+  nicht "sofort", weil der Prozentwert nicht in der Tabelle steht). Talente ohne Namen in der Tabelle (z. B. Verstärkung r2c2,
+  Überleben r6) und deren Folgetalente werden NICHT verwendet.
+- talente_bauen.py prüft je Klasse: 51 Punkte, jede Reihe nur mit 5×Reihe Punkten im Baum vorher, Vorbedingungen mit Rang,
+  Höchstränge, Talent gehört zur Klasse, Waffen-Alternativen an der Stelle erlaubt -> Data/TalentBuilds.lua (reproduzierbar).
+  Verteilung: Krieger Waffen 31/Furor 20 · Paladin Vergeltung 31/Heilig 20 · Jäger Tierherrschaft 35/Treffsicherheit 16 ·
+  Schurke Kampf 32/Meucheln 19 · Priester Schatten 31/Disziplin 20 · Schamane Verstärkung 32/Elementar 19 · Magier Frost 31/
+  Arkan 20 · Hexenmeister Gebrechen 30/Dämonologie 21 · Druide Wilder Kampf 31/Wiederherstellung 20.
+  Waffenabhängig: Krieger Waffenmeister (Axt/Stangenwaffe | Streitkolben/Stab | Schwert), Schurke Niedermetzeln (Axt/Schwert |
+  Streitkolben | Dolch/Faust) nach der angelegten Waffe; sonst der erste.
+CODE (Advisor.lua)
+- A:TalentNext(): geht den Build durch, sucht jedes Talent im Spiel über Baum/Reihe/Spalte (GetNumTalents/GetTalentInfo, Namen
+  in der Spielsprache), zählt wiederholte Einträge zusammen und nennt den ersten noch nicht erreichten Rang. Findet es ein Talent
+  nicht (anderer Baum/Client): still, kein Vorschlag. Sprache der Begründung: deDE deutsch, sonst englisch.
+- Hinweis: "<n> Talentpunkt(e) frei – Talente verteilen (Taste N)" + neue Zeile "Vorschlag (Level-Build von LevelPilot): <Talent>
+  x/y – <Satz>". Kein Eingriff ins Talentfenster, nichts automatisch. Schalter advTalents wie bisher.
+BELEGE
+- T305: 51 Punkte für alle 9 Klassen · erster Vorschlag Rang 1 mit Satz · nach 3+1 Punkten der zweite Eintrag Rang 2 · Schwert ->
+  Schwert-Waffenmeister · andere Waffe -> Standard · fremder Baum -> kein Vorschlag. Im Client prüfen: 1 Anleitung.
+- run_offline.py mit der veröffentlichten ZIP (allein): 37/37 ohne FEHLER (im Client prüfen 15), Meldungs-Weiche OK; private
+  Regressionen 36/36; addon_check OK.
+GRENZEN (Verdacht, zu messen): Baum-Nummer = OrderIndex+1 und Reihe/Spalte 1-basiert wie in Classic (GetTalentInfo) – im
+Forever-Client prüfen (CLIENT T305). Begründungen nur de/en (andere Sprachen englisch). Ob die Builds die besten fürs Leveln auf
+Forever sind, ist eine Einschätzung, nicht gemessen; Rückmeldung der Spieler aufnehmen.
