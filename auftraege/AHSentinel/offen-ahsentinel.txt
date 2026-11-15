@@ -55,6 +55,15 @@ HP-3 MITTEL (Nutzer 10:36, Screenshot Schnäppchen > Entzauberwert leer): Text "
     "Zurzeit nichts unter dem Entzauber-Wert mit mindestens 30 % Gewinn (geprüft: n Items, Preise vom Scan vor x Min.)". Prüfen,
     warum Markt > Entzaubern gleichzeitig Zeilen zeigt (Bericht 01:36: "Entzaubern 3") – beide Ansichten müssen dieselbe Regel und
     dieselben Treffer haben (eine Zahl). Teil von UI-CLEAN1/HP-2, gleiche Reihenfolge.
+TB181 (Nutzer 10:46, Screenshot Verkaufen > Meine Auktionen, 0.65.181) – Supervisor nachgerechnet: Wert 5s39+46s44+1g41s03+38s84
+    = 2g31s70 OK, 4×11s61 und 9×15s67 OK, erhalten 90s98 × 0,95 = 86s43 OK, Warnung "2 Auktionen < 30 Min." passt (23 Min.).
+    Befunde -> in UI-CLEAN1 (A/B) aufnehmen, die Testroutine muss sie finden:
+    TB181-1 Rote Meldung oben rechts "Keine unterbotenen Auktionen (vorher …)" überlappt "4 Einträge" und ist abgeschnitten.
+            Gehört (wenn überhaupt) in die Statuszeile, ein Satz, nicht rot (rot = Handlungsbedarf).
+    TB181-2 Knopf "Nächste unterbotene abbrechen" ist ROT hervorgehoben, obwohl 0 unterboten -> grau/deaktiviert, wenn nichts
+            zu tun ist (wie "Neu einstellen (0)"). Rot nur bei unterboten > 0 – sonst verleitet er zum Klick (Einstellgebühr weg).
+    TB181-3 Fusszeile "Summe der Liste: aktiv … unterboten 0 (0) · verkauft …" wiederholt die Kopfzeile (eine Zahl einmal) ->
+            eine von beiden weg (Vorschlag: Fusszeile nur bei Filter, wenn sie sich von der Kopfzeile unterscheidet).
 KERN-T1 HÖCHSTE PRIO (Nutzer 10:45 "der Kern muss schnell lernen – aber ohne Einbussen", "oberste Prio"): Der Rechenkern
     lernt heute nur aus EIGENEN Fällen (≈ 80 Verkaufsfälle in 4 Tagen) -> Anzeige-Schwelle (N ≥ 30, Brier < 0,20) wird kaum
     erreicht. Mehr Fälle, ohne Gold, Gebühren oder Verkäufe zu opfern und OHNE Schwellen zu senken:
