@@ -1,0 +1,30 @@
+AHSentinel 0.65.201 – TB181-4 (a)–(d) + TB181-3 (Masterplan 3.2) – umgesetzt, zur Prüfung
+CurseForge: nein (erst nach der Sniper-Abnahme). GitHub-Release v0.65.201 und sofort im Discord.
+
+TB181-4 (a): Solange keine Auktion "unterboten" ist, aber Auktionen mit Status "?" (Preis unbekannt) da sind:
+  - Kopf "? unterboten · Preise werden geprüft" statt "0 unterboten". Die Zahl wird je Sprache durch "?" ersetzt; der Hinweis kommt
+    gelb ans Ende.
+  - Knopf "Nächste unterbotene abbrechen" grau, aber klickbar (enabledState), Tooltip "Preise werden noch geprüft – gleich nochmals".
+TB181-4 (b):
+  - Klick bei "?": Se:CancelNextUndercut stösst für jedes Item mit Status "?" die Preisprüfung vorrangig an
+    (Se:CheckPrice(id, true, true), je Item einmal). Meldung "Preise werden noch geprüft – gleich nochmals", KEIN Abbruch.
+  - Der nächste Klick bricht EINE unterbotene ab (Hardware-Ereignis je Abbruch, kein Automatismus).
+  - Gibt es weder "unterboten" noch "?": wie bisher "Keine unterbotenen Auktionen …".
+TB181-4 (c):
+  - Status kurz "liegen lassen" (grau) statt "unterboten – liegen lassen".
+  - Tooltip zuerst "Unterboten um <Abstand> – Abbrechen kostet die Gebühr, lohnt nicht" (eigener Stückpreis − neuer Preis), dann
+    die bisherige Rechnung.
+TB181-4 (d): Test T787:
+  - zwei Zeilen "?" desselben Items + eine "liegen" -> Klick 1: Meldung, Preisprüfung 1× (Item, vorn), 0 Abbrüche;
+  - danach eine "unterboten" -> Klick 2 bricht genau diese ab; "liegen lassen" nie.
+TB181-3: Die Fusszeile "Summe der Liste …" erscheint nur, wenn die Tabelle gefiltert ist (sichtbare ≠ alle, z. B. "Verkaufte: aus"
+  mit Verkauften); sonst wiederholte sie die Kopfzeile. T356 angepasst: ungefiltert leer, gefiltert die Summe.
+Nachbildung: s2_undercut_cancel, s187_testroutine_ui_walk grün; Locales +3 (alle Sprachen), CHANGELOG EN/DE.
+Phase 3.3 MAIL-1: (a)–(d) sind seit 0.65.184 umgesetzt (Bericht 2026-11-15-1210). Der "Rest" ist die Messung POST-ÜBERSPRUNGEN im
+  Spiel; ohne neues Protokoll nichts zu tun. In die Morgen-Liste "Im Spiel prüfen".
+Gesamtlauf der Nachbildung: BESTANDEN 256, FEHLGESCHLAGEN 2. Beide ohne Fehler im Addon:
+  - s80_sold_total: Die Prüfung erwartete die Fusszeile immer (vor TB181-3). Angepasst: ungefiltert keine Fusszeile, gefiltert die
+    Summe. Danach grün.
+  - s10_scan_smooth: 160 ms gegen die Grenze von 150 ms. Der Test misst echte CPU-Zeit und lief, während ich parallel einzelne Tests
+    startete. Allein wiederholt: 110 ms, grün (bekannt schwankend, siehe frühere Berichte).
+addon_check: 1 WARNUNG (GoldSentinelMarkt Version 4 statt 5) – 0.65.202 bringt Version 5 mit.
