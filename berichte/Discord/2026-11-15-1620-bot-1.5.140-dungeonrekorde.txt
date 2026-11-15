@@ -1,0 +1,13 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 16:20 · Sitzung: Discord-Projekt · Version: Bot 1.5.140
+Umgesetzt, zur Prüfung.
+
+ENTSCHEID DES NUTZERS (15.11. 16:17, bitte in shared/wissen/entscheide.md): Dungeon-Tafeln heissen "Dungeonrekorde" statt
+"Rekorde".
+- rekord_tafel.DUNGEON_PREFIX = "⏱️ Dungeonrekorde · ". Titel z. B. "⏱️ Dungeonrekorde · Die Todesminen (Level 17–26)".
+- Raid-Tafeln bleiben "⏱️ Rekorde · <Raid>".
+- Die Schlüssel sind unverändert. Der Bot bearbeitet die bestehenden Tafeln also nur (Titel), statt sie neu zu posten.
+  Der einmalige Neuaufbau mit den Überschriften aus 1.5.139 kommt trotzdem beim nächsten Upload.
+- Test angepasst. Alle 257 Bot-Tests OK.
+- Offene Frage an den Nutzer (16:16): Tafeln in einem eigenen Kanal #rekorde, damit neue Erstkills und Erfolge nicht
+  darunter erscheinen? Noch keine Antwort.
