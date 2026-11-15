@@ -1,0 +1,46 @@
+BERICHT DISCORD – Bot 1.5.165: D-3 Schritt 19 (restart_soon und EXIT_CODE nach grund.py) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 22:21 (aus date)
+Commit: 94df29db auf origin/main, CI bot-tests: success
+
+WARUM
+- Vorbereitung für den Update-Bereich: restart_soon setzte mit "global EXIT_CODE" eine Variable in bot.py, die
+  bot.py am Ende für sys.exit liest. Ein Update-Modul kann bot.py nicht importieren; darum Neustart-Funktion und
+  Exit-Code zusammen nach grund.py.
+
+WAS
+- restart_soon UNVERÄNDERT nach grund.py (Text identisch); EXIT_CODE = 0 nach grund.py. "global EXIT_CODE" wirkt
+  dort im Modul grund.
+- EINZIGE bewusste Code-Änderung: letzte Zeile von bot.py sys.exit(EXIT_CODE) -> sys.exit(grund.EXIT_CODE).
+- bot.py importiert restart_soon aus grund (gebraucht von /daten-import und /pug-einladung).
+- bot.py: git diff --numstat +2 −9.
+
+BELEG (Ende-zu-Ende, beide Stände gleich behandelt)
+- Skript startet bot.py als __main__ (runpy, wie python3 bot.py), ersetzt nur die Discord-Anmeldung: entweder
+  ruft der Ersatz restart_soon auf (wie nach einem Update) oder endet sofort. Exit-Code des Prozesses:
+  1.5.164: nach restart_soon 42, ohne Neustart 0 · 1.5.165: nach restart_soon 42, ohne Neustart 0.
+  42 = updater.RESTART_CODE -> launcher.py startet neu. Verhalten unverändert.
+- Hinweis zur Messung: ein erster Lauf zeigte überall 0 – mein Fehler im Messbefehl (0 nach einer
+  Befehlsersetzung im echo); korrigiert und neu gemessen, Werte oben.
+
+TESTS
+- test_neustart_schleife.BotIntents: Ausschnitt endet jetzt an "sys.exit(grund.EXIT_CODE)" (gleiche Prüfungen).
+- NEU Klasse Neustart (2 Tests, REGRESSIONEN T-D3-NEUSTART): restart_soon setzt grund.EXIT_CODE auf RESTART_CODE
+  und schliesst den Bot; bot.py endet mit sys.exit(grund.EXIT_CODE), hat keine eigene EXIT_CODE-Zuweisung,
+  "global EXIT_CODE" steht nur in grund.py. Gegenprobe: "global EXIT_CODE" in grund entfernt -> FAILED (1).
+- test_lade: bot.restart_soon ist grund.restart_soon; bot hat kein EXIT_CODE mehr.
+- Slash-Befehle: 49, unverändert. 340 Tests OK; jede Testdatei einzeln mit -I OK; REGRESSIONEN 51 von 51.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update vom Stand 1.5.164: updater._copy_new kopiert VERSION, bot.py, grund.py, tests; config/state/ZIP
+   unverändert (md5); VERSION 1.5.165.
+2. Start wie launcher.py: Abbruch erst bei der Anmeldung (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+4. Neustart-Code nach Update: siehe BELEG (42).
+
+IM CLIENT ZU PRÜFEN (nach /update auf 1.5.165)
+- Das nächste Update (1.5.166) startet den Bot wie gewohnt neu (Protokoll: neue Version läuft).
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
+- NÄCHSTER SCHRITT: Update-Bereich (update_lock, _restart_pending, apply_update, _apply_update, check_github,
+  _check_github, update_loop, confirm_later, report_update_result, /update) als update_bot.py.
