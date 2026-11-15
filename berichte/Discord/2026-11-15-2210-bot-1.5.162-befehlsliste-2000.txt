@@ -1,0 +1,47 @@
+BERICHT DISCORD – Bot 1.5.162: #befehlsliste – keine Nachricht über 2000 Zeichen – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 22:10 (aus date)
+Commit: 35075d4a auf origin/main, CI bot-tests: success
+
+BEFUND (selbst gefunden, gemessen – nicht vermutet)
+- Neuer Test (Schritt 16) prüfte die Länge jeder Nachricht der Befehlslisten: Teil 3 der Offiziersliste hat
+  2022 Zeichen. Discord nimmt höchstens 2000 Zeichen je Nachricht an.
+- Gemessen an alten Ständen (git archive + bot_harness, command_list_text):
+  1.5.133 [1461, 1418, 1840, 1875] · 1.5.135 [1461, 1418, 1862, 1875] · 1.5.140 gleich ·
+  1.5.141 [1461, 1418, 2022, 1875] · 1.5.145 gleich · 1.5.161 gleich.
+  -> seit 1.5.141 (/ruhmeshalle-aufraeumen kam in den Abschnitt "Verwaltung").
+- Ursache: raidmaster_data.chunk_blocks fasst Blöcke bis 1900 Zeichen zusammen, liess aber einen EINZELNEN
+  Block über dem Limit ungeteilt (nur der letzte Teil wurde auf 2000 gekürzt). Der Abschnitt "Verwaltung" ist
+  allein länger als 1900.
+- Folge im Betrieb (aus dem Code abgeleitet, Verdacht – im Protokoll des Servers zu prüfen): Bearbeiten der 3.
+  Nachricht von #befehlsliste scheitert, danach scheitert auch das Neu-Posten (HTTP 400); _post_list fängt das
+  Senden nicht ab -> ensure_command_list bricht ab; der Rest der Liste wird nicht aktualisiert.
+
+BEHEBUNG
+- chunk_blocks teilt einen zu langen Block an Zeilengrenzen (gierig, jedes Stück <= 1900); eine einzelne zu
+  lange Zeile wird hart geteilt. Ausgabe nie über 2000.
+- Bei Blöcken bis zum Limit ist das Ergebnis genau wie bisher: Vergleich alte/neue Fassung an 300
+  Zufallsfällen gleich. Andere Aufrufer (Einteilung, Aufstellung) ändern sich nur, wenn ein Block zu lang wäre –
+  dann bisher ebenfalls abgelehnt.
+- Offiziersliste jetzt 5 Teile [1461, 1418, 1879, 1849, 168]; Mitgliederliste unverändert [1462, 842]. Beim
+  nächsten Start werden die 4 vorhandenen Nachrichten bearbeitet und eine 5. gepostet.
+
+TESTS
+- NEU test_chunk_blocks.py (4 Tests, REGRESSIONEN T-CHUNK): kurze Blöcke wie bisher; zu langer Block geteilt,
+  nichts verloren, Reihenfolge gleich; einzelne lange Zeile 4500 -> [1900, 1900, 700]; Zufallsfälle nie > 2000.
+- NEU test_befehlsliste_bot.test_keine_nachricht_ueber_2000 (T-CHUNK-LISTE).
+- Gegenprobe mit der alten Fassung von chunk_blocks: test_chunk_blocks FAILED (3), Listen-Test FAILED (1).
+- 328 Tests OK; jede Testdatei einzeln mit -I OK; REGRESSIONEN 48 von 48; 49 Slash-Befehle unverändert.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update vom Stand 1.5.161: updater._copy_new kopiert VERSION, raidmaster_data.py, tests; config/state/ZIP
+   unverändert (md5); VERSION 1.5.162.
+2. Start wie launcher.py: Abbruch erst bei der Anmeldung (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+
+IM CLIENT ZU PRÜFEN (nach /update)
+- #befehlsliste: 5 Nachrichten, die dritte beginnt mit "🛠️ **Verwaltung**", keine Fehlermeldung im Protokoll.
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
+- NÄCHSTE BEREICHE D-3: Mitgliederbereich, Update/Sicherung, Ankündigungen und Addon-Releases, DKP, Raids,
+  Uploads, zuletzt RaidBot.

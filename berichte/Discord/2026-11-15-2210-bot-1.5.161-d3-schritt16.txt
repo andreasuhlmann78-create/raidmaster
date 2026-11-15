@@ -1,0 +1,29 @@
+BERICHT DISCORD – Bot 1.5.161: D-3 Schritt 16 (Befehlslisten als eigenes Modul) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 22:10 (aus date)
+Commit: acc0fe03 auf origin/main, CI bot-tests: success
+
+WAS
+- Neues Modul RaidMasterBot/befehlsliste_bot.py (249 Zeilen): COMMAND_INFO, SECTION_ORDER,
+  ADDON_COMMAND_BLOCKS, command_list_text, _command_entries, member_command_list_text, _post_list,
+  ensure_member_command_list, ensure_command_list (224 Zeilen am Stück).
+- UNVERÄNDERT verschoben: der Block steht wörtlich im alten bot.py und im Modul (Textvergleich).
+- bot.py übernimmt ensure_command_list; name_poll wird in bot.py nicht mehr gebraucht (Import entfernt; Lade-
+  und Gildenname-Test prüfen jetzt handle_name_post bzw. befehlsliste_bot.name_poll).
+- Leerer Abschnitts-Kommentar "Befehlsliste im Offiziersbereich" in bot.py zeigt jetzt auf befehlsliste_bot.py.
+- bot.py: git diff --numstat +3 −228, jetzt 4828 Zeilen.
+
+TESTS
+- test_befehle (COMMAND_INFO-Regeln) liest seit 1.5.160 alle Module – findet COMMAND_INFO jetzt im Modul, OK.
+- NEU test_befehlsliste_bot.py (3 Tests, REGRESSIONEN T-D3-BEFEHLSLISTE) mit dem echten Befehlsbaum:
+  Offiziersliste nennt genau alle Bot-Befehle (ohne die /rm-Befehle im Spiel); Mitgliederliste nur Befehle "für
+  alle" (nie /uploader, /pn, /update, /raid erstellen, /beute entfernen), nach Ende der Abstimmung ohne
+  /gildenname; _post_list bearbeitet vorhandene, postet fehlende, löscht überzählige Nachrichten.
+  Gegenproben: "alle"-Filter entfernt, Gildenname-Filter entfernt, Löschen überzähliger entfernt -> je FAILED (1).
+- Slash-Befehle: 49, unverändert. 323 Tests OK; jede Testdatei einzeln mit -I OK; REGRESSIONEN 46 von 46.
+- DABEI GEFUNDEN: Längenprüfung der Liste schlug an -> eigener Bericht und eigene Version 1.5.162.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update vom Stand 1.5.160: updater._copy_new kopiert VERSION, befehlsliste_bot.py, bot.py, tests;
+   config/state/ZIP unverändert (md5); VERSION 1.5.161.
+2. Start wie launcher.py: Abbruch erst bei der Anmeldung (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
