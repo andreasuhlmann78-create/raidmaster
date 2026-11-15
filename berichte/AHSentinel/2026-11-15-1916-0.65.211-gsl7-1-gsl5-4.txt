@@ -1,0 +1,45 @@
+AHSentinel 0.65.211 – GSL7-1 + GSL5-4 (PRIO JETZT 5) und Beleg GSL6-3 – umgesetzt, zur Prüfung
+CurseForge: nein (erst nach der Sniper-Abnahme). GitHub-Release v0.65.211 und sofort im Discord.
+
+GSL7-1 (Sniper.lua OnEvent AUCTION_HOUSE_SHOW_ERROR, Sn.CODE4_WIN = 1,0 s)
+  - Bisher (SN-UI1 a): Code 4 galt nur bei GENAU EINEM offenen Einzelkauf als "weg". Mit mehreren offenen Käufen (z. B. nach
+    Code-10-Freigaben) blieb das Angebot kaufbar und wurde nochmals gesendet (Protokoll 7: 110786591).
+  - Neu: Code 4 bei mehreren offenen Käufen gehört zum JÜNGSTEN offenen Kauf, wenn er höchstens 1,0 s alt ist (Protokoll 7:
+    150–220 ms). Dann ItemPurchaseFailed -> MarkDead (nie mehr senden), Zeile "weg", nicht gezählt.
+    - Ältere offene Käufe bleiben offen; Bestätigung bzw. Gold entscheidet.
+    - Ist kein offener Kauf so jung: wie bisher (ältester offener Kauf, errorSeen/Fallback, nicht "weg").
+  - Gold-Sicherheit: Eine falsche Zuordnung kann nur ein Angebot zu früh "weg" setzen (verpasste Chance), nie einen Kauf zählen
+    oder Budget freigeben. Das gezählte Gold kommt nur aus Bestätigung bzw. Gold-Abgang.
+  - Szenario s211_code4_status:
+    - zwei offene Käufe (0,6 s / 0,15 s), Code 4 -> 7002 weg + tot, 7001 offen;
+    - beide älter als 1 s -> keiner weg.
+    - Mit 0.65.210 rot.
+
+GSL5-4 / GSL8-3 (Sniper.lua Sn:GetStatusText)
+  - "Kauf bestätigt (Server meldete kurz einen internen Fehler – ohne Folgen)" steht nur noch, wenn KEIN Treffer wartet
+    (keine Reservierung, kein Plan).
+  - Wartet einer, steht "Treffer! … zum Kaufen" vorne, grau dahinter " · letzter Kauf bestätigt" (für die Zeit c10OkUntil).
+  - Szenario: ohne Treffer der Hinweis; mit Treffer "Treffer!" am Anfang und der Zusatz. Mit 0.65.210 rot.
+  - Der Kaufen-Knopf (SN-BTN1) zeigt ohnehin den Zustand des Treffers, nicht diesen Hinweis.
+
+GSL5-5 (Vollscan 0,7 s nach Sniper AUS -> AN) – Code-Beleg und neue Diagnose:
+  - Jede Scan-Start-Stelle prüft A:QuietBlocks() IM MOMENT des Starts: A:StartFullScan (Knöpfe, Minimap, /ahs scan,
+    Scan-Wunsch TryWantedScan/WantScan) und VS:Start (Schnell-Vollscan, /ahs vollscan).
+  - Damit startet im Ruhemodus kein Scan (T778, s197 "kein Scan-Start"). Der Start 18:12:28 lag also in einem Moment, in dem
+    der Ruhemodus aus war, das heisst AHS sah den Sniper-Modus aus (db.armed) oder das AH zu.
+  - Verdacht, zu messen: ein Scan-Wunsch bzw. Klick in der Sekunde "Sniper aus" und der Start, bevor AHS das erneute "an" sah.
+  - Neu: Zeile SCAN-START (normal/schnell, Weg "Klick/Befehl" bzw. "Wunsch/automatisch", Sniper-Modus, Ruhemodus, AH offen)
+    bei jedem echten Start. Das nächste Protokoll belegt den Weg.
+
+GSL6-3 Beleg (Frage: rechnen Budget/Max die unbestätigten Käufe mit?) – JA, Code gelesen:
+  - Budget: Sn:Remaining(t) zieht Sn:SentFor(t) ab, also ALLE gesendeten Käufe dieses Ziels der letzten ITEM_CONFIRM_MAX = 30 s
+    bzw. nach Gold-Abgang ITEM_LATE_MAX = 300 s. Das gilt auch für die nach Code 10 freigegebenen ("released" wird dort nicht
+    ausgenommen, nur in der Wartezeit-Sicht "waiting").
+  - Dazu die Gold-Prüfung SN-B10 (3): Gold-Abgang seit Start ≤ Budget, abzüglich der Käufe anderer Ziele inklusive deren
+    unbestätigter.
+  - Menge: SentFor liefert auch die gesendete Menge (qtyLeft).
+  - Max: jedes Angebot wird einzeln gegen t.maxPrice geprüft (PlanNext), unabhängig von offenen Käufen.
+  - Damit kann "mehr als ein offener Kauf" nie über Budget, Menge oder Max gehen. Belegt durch A1-Protokolle 5–9:
+    Zähler = Gold-Abgang exakt.
+  - Locales +1 (alle Sprachen), CHANGELOG EN/DE.
+Gesamtlauf (267 Szenarien, Lua 5.1): 266 bestanden. Rot nur s212_scan_lock = Test der NÄCHSTEN Version (SN-SCAN1, 0.65.212), mit 0.65.211 absichtlich rot (Gegenprobe). addon_check: siehe Release.
