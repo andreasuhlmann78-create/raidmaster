@@ -106,6 +106,15 @@ from kern import (  # noqa: E402 – D-3 Schritt 2: gemeinsame Objekte, nur einm
 )
 
 market.set_tz(TZ)          # D-MN7d: Marktberichte in der Zeitzone des Bots
+from grund import (  # noqa: E402 – D-3 Schritt 3: Grundfunktionen
+    bot_guild,
+    channel_by_id,
+    is_admin,
+    is_creator,
+    is_guild_leader,
+    post_bot_log,
+)
+import grund  # noqa: E402
 EXIT_CODE = 0
 
 # ---------------------------------------------------------------------------
@@ -441,38 +450,11 @@ class RaidBot(discord.Client):
 
 
 bot = RaidBot()
+grund.bot = bot          # D-3 Schritt 3: die Grundfunktionen in grund.py benutzen dasselbe Bot-Objekt
 
 # ---------------------------------------------------------------------------
 # Hilfen
 # ---------------------------------------------------------------------------
-
-
-# Wer im Discord etwas verändern darf: nur der Gildenchef (config "guild_leader", Charaktername aus config.json)
-# und die Rolle Offizier. Der Server-Besitzer bleibt als Notfall-Zugang erlaubt, damit sich niemand aussperrt.
-def is_guild_leader(member) -> bool:
-    if not isinstance(member, discord.Member):
-        return False
-    leader = (cfg.get("guild_leader") or "").strip().lower()
-    if not leader:
-        return False
-    uid = book.user_for_char(cfg.get("guild_leader"))
-    if uid and int(uid) == member.id:
-        return True
-    for cand in (getattr(member, "nick", None), getattr(member, "global_name", None), member.name):
-        c = str(cand or "").strip().lower()
-        if c and (c == leader or c.startswith(leader + " ")):
-            return True
-    return False
-
-
-def is_admin(member) -> bool:
-    if not isinstance(member, discord.Member):
-        return False
-    if member.guild and member.id == member.guild.owner_id:
-        return True
-    if is_guild_leader(member):
-        return True
-    return any(role.name.lower() == "offizier" for role in member.roles)
 
 
 def is_chef(member) -> bool:
@@ -500,11 +482,6 @@ def members_with_power() -> list[str]:
         if names:
             out.append(f"{m.display_name} ({', '.join(names)})")
     return out
-
-
-def is_creator(member) -> bool:
-    """Raids, Einteilung, Beute-Daten usw. verwalten – seit 1.5.64 wie alles andere nur Gildenchef und Offiziere."""
-    return is_admin(member)
 
 
 def raid_embed(raid: dict) -> discord.Embed:
@@ -1103,16 +1080,6 @@ async def raid_list(inter: discord.Interaction):
         link = f"https://discord.com/channels/{inter.guild_id}/{r['channel_id']}/{r['message_id']}" if r.get("message_id") else ""
         lines.append(f"**#{r['id']} {r['title']}** – <t:{r['start']}:F> – {book.count_status(r, 'an')} angemeldet {link}")
     await inter.response.send_message("\n".join(lines)[:1990], ephemeral=True)
-
-
-async def channel_by_id(channel_id) -> discord.abc.Messageable | None:
-    if not channel_id:
-        return None
-    try:
-        return bot.get_channel(int(channel_id)) or await bot.fetch_channel(int(channel_id))
-    except discord.HTTPException as e:
-        log.warning("Kanal %s nicht erreichbar: %s", channel_id, e)
-        return None
 
 
 async def assignment_channel(pool: str | None):
@@ -5497,15 +5464,6 @@ async def repair_missing_announcements():
         await post_bot_log("📣 Diese Ankündigungen fehlten im Discord und werden neu gepostet: " + ", ".join(freed))
 
 
-async def post_bot_log(text: str):
-    ch = await channel_by_id(cfg.get("botcmd_channel_id") or cfg.get("officer_channel_id"))
-    if ch:
-        try:
-            await ch.send(text[:1990])
-        except discord.HTTPException:
-            pass
-
-
 async def restart_soon():
     global EXIT_CODE
     EXIT_CODE = updater.RESTART_CODE
@@ -5876,10 +5834,6 @@ async def import_cmd(inter: discord.Interaction, datei: discord.Attachment):
 # ---------------------------------------------------------------------------
 # PUG-Einladungslink: wer darüber beitritt, bekommt automatisch die Rolle Gast
 # ---------------------------------------------------------------------------
-
-def bot_guild():
-    return bot.get_guild(int(cfg["guild_id"])) if cfg.get("guild_id") else None
-
 
 async def refresh_invite_cache():
     uses = await fetch_invite_uses(bot_guild())

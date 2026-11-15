@@ -49,6 +49,8 @@ class Lade(unittest.TestCase):
 
     def test_module_importierbar(self):
         sys.path.insert(0, bot_quelle.BOT_DIR)
+        from bot_harness import load_bot                    # zuerst: lädt kern aus der Testkopie (mit Attrappen-config)
+        load_bot()                                          # – sonst würde "import grund" kern aus dem Repo laden
         # bot.py und kern.py: unten über bot_harness (kern liest config.json neben sich); Sammler braucht requests
         skip = {"bot.py", "kern.py", "markt_bericht_holen.py"}
         for p in bot_quelle.dateien():
@@ -64,6 +66,9 @@ class Lade(unittest.TestCase):
         self.assertIs(b.state, kern.state)
         self.assertIs(b.kills_db, kern.kills_db)
         self.assertEqual(os.path.dirname(kern.__file__), os.path.dirname(b.__file__))
+        import grund
+        self.assertIs(grund.bot, b.bot)                          # D-3 Schritt 3: Grundfunktionen mit demselben Bot
+        self.assertIs(b.channel_by_id, grund.channel_by_id)
 
     def test_findet_fehlenden_namen(self):
         self.assertEqual(unbound("def f():\n    return cfg['x']\n"), [(2, "cfg")])
