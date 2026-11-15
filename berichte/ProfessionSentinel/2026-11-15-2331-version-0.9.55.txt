@@ -1,0 +1,32 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 23:31 (aus date) · Sitzung: ProfessionSentinel-Sitzung · Version: 0.9.55 · Commit: 231a430 (Quell-Repo), Release v0.9.55
+Grundlage: NACHT-PRÜFUNG 23:18 (Hinweise PS54-1, PS54-2), anweisung-ui-crafter 3.5 (Texte), Schritt (5).
+Hinweis: Hier steht nur "umgesetzt, zur Prüfung" mit Belegen. Ob etwas erledigt ist, entscheidet die Prüf-Sitzung.
+
+UMGESETZT, ZUR PRÜFUNG
+----------------------
+- PS54-1: Messung je Figur: ProfessionSentinelDB.chars[<Figur>].skillChance (LL.Store über ns.Char()), nicht mehr kontoweit. Den Rang
+  von "Working Overtime" liest PS nicht (keine verlässliche API bekannt) – je Figur getrennt reicht, weil der Rang je Figur fest ist.
+  Tooltip: "(gemessen aus n Herstellungen dieser Figur)" / "(geschätzt, n Herstellungen dieser Figur gemessen)". Alte kontoweite
+  Werte (db.skillChance aus 0.9.54) werden nicht übernommen (nur ~1 Std. alt, Figur unbekannt).
+- PS54-2: Jede Herstellung wird genau EINMAL gezählt: bei der nächsten Herstellung desselben Berufs (Fertigkeit jetzt = nach der
+  vorigen) oder LL.SETTLE = 3 s nach der letzten (Token: nur der zuletzt gestellte Zeitgeber zählt); anderer Beruf dazwischen -> die
+  offene wird sofort abgeschlossen. Ein Punkt zwischen Herstellung k und k+1 gehört zu k. T240: 5 Herstellungen, 1 Punkt nach der
+  zweiten -> gezählt 5 / 1, Punkt im Band q1 (Fertigkeit 112). Gegenprobe mit der alten Logik (2-s-Fenster je Herstellung): T240 rot.
+- Texte (3.5): Fachwörter aus allen Texten entfernt – deDE "Netto"/"netto"/"Leiter"/"Quote", enUS "net"/"ladder": GOLD_GROUP,
+  MK_CHECK, MK_CHECK_EXPLAIN, NET_CRAFT, NET_POINT, GOLD_EXPLAIN (kürzer, ohne "≤N" – steht im Tooltip), TODAY_EXPLAIN ("nach 5 %
+  Gebühr"), PLAN_COST. T278 prüft beide Sprachen auf diese Wörter und die Erklärsätze der neuen Teile (Karten, Leiste, Sniper) auf
+  höchstens 20 Wörter je Satz. Gegenprobe: "Netto" in NET_CRAFT -> T278 rot.
+
+TESTS (eigene, Hinweise – keine Freigabe)
+-----------------------------------------
+- run_offline: Forever OK 234 / FEHLER 0, Era OK 216 / 0, Retail OK 215 / 0, TBC ohne Lua-Fehler, Exit 0. Schnelltest Ausgang 0,
+  check_actions OK.
+- --lua51: Retail 0 FEHLER; Forever 2 von 3 Läufen 0 FEHLER, 1 Lauf T145 +2092 KB (Bereich H). Die Schwankung von T145 unter Lua 5.1
+  besteht seit 0.9.45 (damals +1524 KB) – Ursache nicht belegt; Verdacht, zu messen: Zeitpunkt der Speicherbereinigung von Lua 5.1.
+- addon_check auf download/ProfessionSentinel-0.9.55.zip und die announce-Zip: OK, 0 FEHLER, 0 WARNUNG. ZIP = Quell-Repo (diff -r leer).
+
+WEITER
+------
+- Rest Schritt 2: Skillen Plan + Rangliste ("billigster Weg / mit dem, was ich habe"), "Beruf von <Figur>", LevelPilot-Weg (wartet).
+- Twinks in der Einkaufsliste (braucht eine Bestandsquelle), Handwerks-Protokoll B1 (AHS-API), T145 unter Lua 5.1 messen.
