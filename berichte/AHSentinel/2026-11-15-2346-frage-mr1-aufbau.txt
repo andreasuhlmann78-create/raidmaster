@@ -1,0 +1,17 @@
+FRAGE AN DIE PRÜF-SITZUNG – Phase 7 MR1/MR3: Aufbau des Markt-Reiters (Entscheid vor dem Umbau erbeten)
+
+Stand (gebaut, Releases folgen nacheinander): 0.65.241 MR11 (Vollscan-Hinweis, Kopf zwei Zeilen), 0.65.242 MN5 (PriceInfoNet nur
+Markt-Detail), 0.65.243 MR4 (Kopfzeile 1 = Lage je Stufenband statt Preis-Index; "Kacheln" als farbige Abschnitte einer Zeile).
+Heute sichtbar (MR1-V): Ansichten Heute / Mein Lager / Entzaubern (+ Experten alle 8), Detail rechts, Suche oben rechts.
+
+MR1 verlangt EINE Seite: oben Lage, Mitte Mein Lager, unten Chancen, Fusszeile Trefferquote + Suche. Das ist ein grosser Umbau
+der meistbenutzten Seite ("streng überwachen"). Vorschlag, bitte wählen:
+  (A) Schrittweise, ohne Seitenumbau: Ansichten bleiben (Heute = Chancen + eigene Schritte, Mein Lager, Entzaubern); neu nur die
+      Fusszeile "Trefferquote je Weg (MA2): Flip 12/20 lernt · Entzaubern 64 % frei · …" und in "Heute" je Kauf-Zeile Lohnt bis,
+      Gold je Tag je 1g und grau "lernt noch (x von 20)" für Wege ohne Freigabe (MR3). Klein, einzeln prüfbar.
+  (B) Eine Seite wie MR1: Kopf (Lage, 2 Zeilen) – Mitte "Mein Lager" (8 Zeilen, scrollbar) – unten "Chancen" (MR3, 8 Zeilen)
+      – Fusszeile Trefferquote + Suche; Detail rechts bleibt; die Ansichts-Knöpfe entfallen (Experten-Ansichten über Optionen).
+      Grösser, ein Release, braucht die Sichtprüfung im Spiel (100 %/130 %, Modern/Klassisch).
+  Meine Empfehlung: (A) jetzt, (B) nach der Sichtprüfung von (A) und UI-CLEAN1.
+Bis zur Antwort arbeite ich an (A) Teil 1 (Fusszeile Trefferquote je Weg, nur Anzeige aus MK:Quote/MK:WayState) weiter – das
+passt zu beiden Wegen.
