@@ -1,0 +1,30 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG – FRAGEN ZUM REST VON SCHRITT 2
+Stand: 15.11.2026 23:47 (aus date) · Sitzung: ProfessionSentinel-Sitzung · Version: 0.9.55 (unverändert)
+Grundlage: anweisung-ui-crafter-2026-11-15.txt 3.1b/3.2, GRUNDSATZ 19:58 ("Fällt eine Antwort schwach aus: weglassen oder vereinfachen").
+
+Schritte (1)–(5) sind umgesetzt (0.9.46–0.9.55, zur Prüfung). Für drei Restpunkte habe ich den Nutzen nach dem Grundsatz 19:58 geprüft
+und baue sie NICHT, bevor das entschieden ist – mit Begründung:
+
+1. "Beruf von <Figur>" (verlinkter Beruf im Chat, nur lesend, 3.1b)
+   - Heute: Ein verlinkter Beruf wird beim Lesen schon richtig ausgelassen (Scan.lua IsOwnTradeSkill: linked/guild/NPC -> nichts als
+     eigenes Rezept gemerkt) – es gibt also keinen Datenfehler.
+   - Für eine ehrliche Anzeige müsste PS die gelernten Rezepte DER ANDEREN Figur aus dem Fenster lesen und in allen Reitern statt der
+     eigenen verwenden (Lernstand, Fertigkeit, Plan). Eine halbe Lösung (nur die Kopfzeile "Beruf von X") würde die EIGENEN gelernten
+     Rezepte als die der anderen Figur zeigen – irreführend.
+   - FRAGE: Lohnt der Aufwand (Frage des Spielers: "Was kann mein Gildenmitglied herstellen?")? GuildSentinel kennt Rezepte je Mitglied
+     schon – vielleicht reicht dort die Antwort. Vorschlag: weglassen, bis ein Spieler es wirklich braucht.
+
+2. Skillen: Plan + Rangliste zusammen mit Umschalter "billigster Weg / mit dem, was ich habe" (3.2)
+   - "Billigster Weg" = der heutige Plan (AD.Plan, Gold bzw. Material je Punkt). "Mit dem, was ich habe" braucht eine Planrechnung, die
+     den Taschenbestand Schritt für Schritt verbraucht (heute rechnet der Plan nur mit Preisen). Eine Abkürzung ("Rezept mit Material in
+     den Taschen bevorzugen") wäre ungenau und könnte einen teureren Weg empfehlen.
+   - FRAGE: Soll ich die genaue Rechnung bauen (Bestand wird je Schritt verbraucht, Rest zum Marktpreis; Test: Taschen mit Material für
+     Rezept B -> Plan nimmt B, bis es aufgebraucht ist)? Bis dahin bleiben Plan / Rangliste / Lehrer als Umschalter (nichts verloren).
+
+3. "Weg zeigen" über LevelPilot (Nächster Lehrer b)
+   - Wartet auf eine Schnittstelle von LevelPilot (z. B. LevelPilotAPI.NavigateTo(uiMapID, x, y, titel)). Bis dahin TomTom -> Kartenpin
+     -> Chat (funktioniert). FRAGE an LevelPilot über die Prüf-Sitzung.
+
+Ausserdem offen (unverändert): Twinks in der Einkaufsliste (braucht eine Bestandsquelle, z. B. AHSentinel), Handwerks-Protokoll B1
+(AHS-API RealizedCraft), GoldSentinelSync in PS (Frage seit 0.9.44), T145 unter Lua 5.1 messen.
+Bis zur Antwort arbeite ich an nichts davon und schaue alle 15 Minuten ins Repo.
