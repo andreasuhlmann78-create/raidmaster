@@ -1,0 +1,34 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.41-bs-n2-leistung
+Datum: 15.11.2026, 23:25 (aus date)
+
+Stand: BS-N2 umgesetzt, zur Prüfung.
+
+Veröffentlicht: download/BuffSentinel-0.9.41.zip, README, announce 0.9.41 (+ Zip), 0.9.40 entfernt; auf origin/main nachgeprüft.
+addon_check "OK (1 Warnungen)" (nur Lua-Syntax). cmp: Game/Sync/Test/Markt v7, BuffSentinelVorratDaten, BuffSentinelTotems gleich.
+
+Umsetzung (wie ThreatSentinel)
+- Diag.lua: BS.PerfStart/PerfAdd/PerfStop. Im Kampf (PLAYER_REGEN_DISABLED bis _ENABLED; nicht während der Testroutine) wird je Bild
+  (gleiche GetTime = gleiches Bild, über BS.API) die Zeit aller BuffSentinel-Teile summiert: jeder Ereignis-Handler (OnEvent misst
+  mit debugprofilestop) und jede Aktualisierung über BS.Timed (Refresh 0,1 s, RefreshGroup 0,5 s). Am Kampfende eine Protokoll-Zeile
+  "LEISTUNG Kampf: längster Rahmen durch BuffSentinel X ms (Teil), über 16 ms: n von m Rahmen" (m = Bilder mit BuffSentinel-Arbeit;
+  Teil = grösster Anteil im längsten Bild), ohne Namen; DiagExtra zeigt "Leistung im letzten Kampf: …".
+- Kosten je Taschen-Ereignis: OnEvent misst BAG_UPDATE_DELAYED immer (2 Uhr-Abfragen); DiagExtra "Vorrat je Taschen-Ereignis:
+  n Ereignisse, Mittel x ms, höchstens y ms".
+- Kosten der Messung: 2× debugprofilestop je Handler/Teil, nur im Kampf (bzw. je Taschen-Ereignis). Grenze: nur BuffSentinel-Code,
+  nicht das Zeichnen durch das Spiel, nicht andere Addons.
+
+Messwerte (Nachbau, Lua 5.4 auf diesem Rechner – im Client zu bestätigen)
+- T239: alle 18 Vorrats-Einträge aller Klassen gleichzeitig (Getränke, Tierfutter, Splitter-Platz, Gesundheitsstein, Managem,
+  Reagenzien, Federn, Totems …), volle Taschen 5 × 20 Plätze, 50 Läufe: Mittel 0,061 ms, höchstens 0,085–0,094 ms je
+  Taschen-Ereignis – Ziel < 1 ms eingehalten (Faktor > 10 Reserve). Ein Spieler hat nur die Einträge seiner Klasse (2–6).
+- Kampf: im Nachbau nicht sinnvoll messbar (kein echtes Bild-Timing) -> Zahlen kommen aus dem Client (T238 / Protokoll).
+
+Belege (eigene Tests, keine Freigabe)
+- T237 "Kampf: längster Rahmen durch BuffSentinel 18.0 ms (UNIT_AURA), über 16 ms: 1 von 3 Rahmen · 1 · nil" – genau eine
+  Protokoll-Zeile; Kampf ohne BuffSentinel-Arbeit -> keine Zeile.
+- T238 zeigt im Testbericht die Zeile des letzten ECHTEN Kampfes (FEHLER, wenn ein Bild über 16 ms lag); ohne Kampf "Leistung: noch
+  kein Kampf gemessen". Fund unterwegs: die nachgestellten Kämpfe der Testroutine starteten die Messung -> jetzt ausgenommen.
+- run25m OK 186, bekannte 12 Nachbau-FEHLER. Offline-Routine (veröffentlichte Zip): 8 × RESULT PASS.
+
+IM CLIENT MESSEN (Nutzer): ein Dungeon/Raid spielen, danach /bsen protokoll -> Zeilen LEISTUNG und "Vorrat je Taschen-Ereignis"
+schicken (oder Testroutine: T238).
