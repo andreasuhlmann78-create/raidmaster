@@ -1,0 +1,23 @@
+AHSentinel 0.65.222 – HP-4 (Masterplan 5.3; Nutzer 14.11. 10:42) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.222 und sofort im Discord.
+
+UI_Profit.lua (Kaufen > Schnäppchen)
+  - Knöpfe "Marktwert" (market) und "Flips" (flip) ausgeblendet (p.marketBtn/flipBtn:Hide(), p.hiddenViews).
+  - Standard-Ansicht "Unter Händlerpreis" (vorher "Unter Marktwert").
+  - "Händlerpreis" hängt jetzt direkt am Titel (Stelle des alten ersten Knopfs), dahinter Entzauberwert, Gebote – keine Lücke.
+  - UI-Prüfung (TB184-U3, uiaView) kennt nur noch die drei sichtbaren Ansichten; sonst meldete T750 "Knopf nicht sichtbar".
+  - NICHTS gelöscht: Rechnung (MarketDeals, Extras:GetFlipDeals) und Daten bleiben; die Szenarien s1_market_deals, s1_vendor_deals,
+    s13_flips, s13_absurd_profit und smoke_all klicken weiter die versteckten Knöpfe und prüfen die Hintergrund-Rechnung.
+  - "Gebote" unverändert (prüft der Supervisor noch). Flipping-Rechner unverändert.
+  - Liste der Entfernungen für UI-CLEAN1 (B): Schnäppchen > Marktwert, Schnäppchen > Flips (beide nur ausgeblendet).
+  - Szenario s222_hp4_hidden: Standard Händlerpreis; Marktwert/Flips unsichtbar; die drei sichtbar und wählbar; Händlerpreis
+    hängt nicht am versteckten Knopf; UI-Prüfung nur sichtbare Ansichten; Schwellen-Knöpfe nur bei Gebote; Reihe ohne
+    Überlappung. Mit 0.65.221 rot. s1_market_deals angepasst (Standard jetzt Händlerpreis, dann versteckter Knopf).
+  - CHANGELOG EN/DE (keine neuen Texte).
+T200-1 (Nacht-Prüfung 20:52, Nachbildung) mit dieser Version:
+  - Ursache belegt: wowsim.lua mit IsAddOnLoaded (Sim.loadedAddons = { AHSentinel = true }, C_AddOns.IsAddOnLoaded) und
+    GetTradeSkillRecipeLink hatte ich um 19:53 nur LOKAL ergänzt, nie nach ahanalyzerpro/tests/wowsim kopiert.
+  - Jetzt im Repo: wowsim.lua; run_all.sh ohne festen Pfad (LUA="${LUA:-lua5.1 bzw. lua51 im PATH}"), Addon-Ordner ohne
+    Argument = ../AHSentinel oder die Repo-Wurzel (vorher tests/AHSentinel = gab es nicht).
+  - Gesamtlauf aus einer FRISCHEN Kopie des Repos (git clone, nur LUA gesetzt, Addon = 0.65.222).
+Gesamtlauf (frische Kopie des Repos eab477b, nur LUA gesetzt, Addon 0.65.222): 273 bestanden, 0 rot.
