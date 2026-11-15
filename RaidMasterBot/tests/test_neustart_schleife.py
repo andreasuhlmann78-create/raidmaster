@@ -38,7 +38,7 @@ class BotIntents(unittest.TestCase):
         with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as f:
             src = f.read()
         self.block = src[src.index("except discord.PrivilegedIntentsRequired:"):]
-        self.block = self.block[:self.block.index("sys.exit(EXIT_CODE)")]
+        self.block = self.block[:self.block.index("sys.exit(grund.EXIT_CODE)")]   # D-3 Schritt 19 (1.5.165)
 
     def test_drei_stufen_und_ende(self):
         self.assertEqual(self.block.count("sys.exit(updater.RESTART_CODE)"), 2)
@@ -52,6 +52,58 @@ class BotIntents(unittest.TestCase):
         with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as f:
             src = f.read()
         self.assertTrue(re.search(r"intents\.message_content = .*and not message_content_blocked\(\)", src))
+
+
+
+class Neustart(unittest.TestCase):
+    """T-D3-NEUSTART (1.5.165): restart_soon und EXIT_CODE stehen in grund.py. Nach einem Update muss sich der Bot mit
+    updater.RESTART_CODE beenden, sonst startet launcher.py ihn nicht neu (Update käme nie an)."""
+
+    @classmethod
+    def setUpClass(cls):
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        from bot_harness import load_bot
+        cls.bot, _ = load_bot()
+        import grund
+        cls.g = grund
+
+    def test_restart_soon_setzt_exit_code(self):
+        import asyncio
+        import updater
+        g = self.g
+        closed = []
+        saved = (g.EXIT_CODE, g.asyncio.sleep, g.bot.close)
+
+        async def nosleep(_):
+            return None
+
+        async def close():
+            closed.append(True)
+        g.asyncio.sleep, g.bot.close = nosleep, close
+        try:
+            g.EXIT_CODE = 0
+            asyncio.run(g.restart_soon())
+            self.assertEqual(g.EXIT_CODE, updater.RESTART_CODE)
+            self.assertEqual(closed, [True])
+        finally:
+            g.EXIT_CODE, g.asyncio.sleep, g.bot.close = saved
+        self.assertIs(self.bot.restart_soon, g.restart_soon)
+
+    def test_bot_beendet_sich_mit_grund_exit_code(self):
+        import ast
+        with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as f:
+            src = f.read()
+        self.assertTrue(src.rstrip().endswith("sys.exit(grund.EXIT_CODE)          # D-3 Schritt 19 (1.5.165): "
+                                              "restart_soon setzt grund.EXIT_CODE"))
+        tree = ast.parse(src)
+        top = [n.targets[0].id for n in tree.body if isinstance(n, ast.Assign) and isinstance(n.targets[0], ast.Name)]
+        self.assertNotIn("EXIT_CODE", top)                      # keine zweite, nie gesetzte Kopie in bot.py
+        import bot_quelle
+        for p in bot_quelle.dateien():
+            with open(p, encoding="utf-8") as f:
+                code = f.read()
+            if "global EXIT_CODE" in code:
+                self.assertEqual(os.path.basename(p), "grund.py")
 
 
 if __name__ == "__main__":

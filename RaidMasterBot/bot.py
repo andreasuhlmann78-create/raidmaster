@@ -100,9 +100,9 @@ from grund import (  # noqa: E402 – D-3 Schritt 3: Grundfunktionen
     is_creator,
     post_bot_log,
     raid_channel,
+    restart_soon,
 )
 import grund  # noqa: E402
-EXIT_CODE = 0
 
 # ---------------------------------------------------------------------------
 # Bot
@@ -3062,13 +3062,6 @@ async def repair_missing_announcements():
         await post_bot_log("📣 Diese Ankündigungen fehlten im Discord und werden neu gepostet: " + ", ".join(freed))
 
 
-async def restart_soon():
-    global EXIT_CODE
-    EXIT_CODE = updater.RESTART_CODE
-    await asyncio.sleep(2)
-    await bot.close()
-
-
 # Immer nur EIN Update gleichzeitig (ab Bot 1.5.100): Bis 1.5.99 konnten /update und die automatische Prüfung
 # gleichzeitig laufen. Beide entpackten in denselben Ordner update/tmp, der zweite löschte ihn dem ersten unter den
 # Füssen weg ("[Errno 2] No such file or directory: …/update/tmp/…").
@@ -3542,4 +3535,4 @@ if __name__ == "__main__":
                   "werden – der Bot hält an. Bitte im Entwicklerportal unter Bot -> Privileged Gateway Intents prüfen "
                   "und dann neu starten: sudo systemctl restart raidmaster")
         sys.exit(CONFIG_ERROR)
-    sys.exit(EXIT_CODE)
+    sys.exit(grund.EXIT_CODE)          # D-3 Schritt 19 (1.5.165): restart_soon setzt grund.EXIT_CODE

@@ -2,19 +2,23 @@
 
 UNVERÄNDERT aus bot.py: Rechte (is_guild_leader, is_admin, is_creator), Kanal holen (channel_by_id), Server
 (bot_guild), Meldung in den Bot-Kanal (post_bot_log); ab 1.5.157 raid_channel (Kanal-ID eines Raid-Pools),
-ab 1.5.159 is_chef.
+ab 1.5.159 is_chef; ab 1.5.165 restart_soon mit EXIT_CODE.
 Das Bot-Objekt selbst entsteht in bot.py; bot.py trägt es gleich danach hier ein ("grund.bot = bot"), bevor
 irgendein Ereignis oder Befehl laufen kann. Die Funktionen lesen "bot" erst beim Aufruf.
 Weg A "kern.py + Module" (Antwort der Prüf-Sitzung 15.11. 20:48).
 """
 from __future__ import annotations
 
+import asyncio
+
 import discord
 
+import updater
 from kern import book, cfg, log
 
 bot: discord.Client | None = None      # wird von bot.py gesetzt (grund.bot = bot)
 NO_PING = discord.AllowedMentions(roles=False, users=False, everyone=False)   # D-3 Schritt 4: aus bot.py
+EXIT_CODE = 0      # D-3 Schritt 19 (1.5.165): aus bot.py – restart_soon setzt ihn, bot.py beendet sich damit
 
 
 # Wer im Discord etwas verändern darf: nur der Gildenchef (config "guild_leader", Charaktername aus config.json)
@@ -81,3 +85,11 @@ def is_chef(member) -> bool:
     if member.guild and member.id == member.guild.owner_id:
         return True
     return is_guild_leader(member)
+
+
+# D-3 Schritt 19 (1.5.165): aus bot.py – nach einem Update mit RESTART_CODE beenden, launcher.py startet neu
+async def restart_soon():
+    global EXIT_CODE
+    EXIT_CODE = updater.RESTART_CODE
+    await asyncio.sleep(2)
+    await bot.close()
