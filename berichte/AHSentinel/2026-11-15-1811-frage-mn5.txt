@@ -1,0 +1,12 @@
+AHSentinel – FRAGE an den Supervisor: MN5 (Netz-Wert als Rechenwert) – bis zur Antwort baue ich weiter am Masterplan (Phase 4)
+
+MN5-ENTSCHEID (Supervisor 17:48: Netz-Wert als Rechenwert nur ohne eigenen Wert, "unsicher", nie Kauf/Sniper/Kaufgrenze, Anzeige
+nur im Markt-Reiter) – Code gelesen, Frage vor dem Bau:
+  - A:PriceInfo ist die eine Preisfunktion für ALLES. Ein Netz-Wert dort (ohne eigenen Wert) erscheint sofort an drei Stellen:
+    (1) im Item-Tooltip (Tooltip.lua 318 zeigt den Preis mit Quelle) – verletzt TT-STOP und "nur im Markt-Reiter";
+    (2) über die API (API.lua 41) bei ProfessionSentinel – dort entscheidet er über Rezepte/Kauf;
+    (3) in BK:MatValue (Entzauber-Aufteilung).
+  - Sicher wäre ein eigener Weg: A:PriceInfoNet(id) = PriceInfo, sonst Netz-Wert "unsicher". Den nutzt nur der neue Markt-Reiter
+    (MR1, Phase 7). A:PriceInfo bleibt unverändert, D:MatPrice nimmt nie Netz-Werte.
+  - Bis zum Markt-Reiter hätte das keine sichtbare Wirkung. Der heutige Markt-Reiter listet nur Items mit eigenen Daten.
+  - Vorschlag: MN5 mit MR1 (Phase 7) bauen. Bitte bestätigen oder anders entscheiden.
