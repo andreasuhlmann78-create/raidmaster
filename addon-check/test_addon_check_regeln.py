@@ -231,5 +231,27 @@ with tempfile.TemporaryDirectory() as d:
     r = a.check_zip(make_zip(d, "ProbeAddon", "9.9.10", {"Core.lua": "local x = 1\n", "Origin.lua": "local y = 2\n"}))
     check("kein Fehlalarm bei normalen Namen (Origin.lua)", not any("Patch-Rest" in t for l, t in r))
 
+# --- CurseForge-Addons: ältere Zip in download/ bis 18:00 ist gewollt (GS-Hinweis 15.11. 20:25) ----------------------
+with tempfile.TemporaryDirectory() as d:
+    dl = Path(d) / "download"
+    dl.mkdir()
+    pv, cfa = a.published_versions, a.curseforge_addons
+    try:
+        a.published_versions = lambda: {"probecf": {"1.0.2": {"Discord (announce/)"}},
+                                        "probenocf": {"1.0.2": {"Discord (announce/)"}},
+                                        "probegit": {"1.0.2": {"download/ (Git-Geschichte)", "Discord (announce/)"}}}
+        a.curseforge_addons = lambda: {"probecf", "probegit"}
+        r = a.check_zip(make_zip(dl, "ProbeCF", "1.0.1", {"Core.lua": "local x = 1\n"}))
+        check("CF-Addon: download/ älter als Discord -> nur Warnung 18:00",
+              not any(l == "FEHLER" and "NIEDRIGER" in t for l, t in r) and any(l == "WARNUNG" and "18:00" in t for l, t in r))
+        r = a.check_zip(make_zip(dl, "ProbeNoCF", "1.0.1", {"Core.lua": "local x = 1\n"}))
+        check("Addon ohne CurseForge: weiter FEHLER", any(l == "FEHLER" and "NIEDRIGER" in t for l, t in r))
+        r = a.check_zip(make_zip(dl, "ProbeGit", "1.0.1", {"Core.lua": "local x = 1\n"}))
+        check("CF-Addon, höhere Version schon in download/ -> weiter FEHLER", any(l == "FEHLER" and "NIEDRIGER" in t for l, t in r))
+        r = a.check_zip(make_zip(d, "ProbeCF", "1.0.1", {"Core.lua": "local x = 1\n"}))
+        check("CF-Addon ausserhalb download/ -> weiter FEHLER", any(l == "FEHLER" and "NIEDRIGER" in t for l, t in r))
+    finally:
+        a.published_versions, a.curseforge_addons = pv, cfa
+
 print(f"{ok}/{ok + fail} Prüfungen bestanden")
 sys.exit(1 if fail else 0)

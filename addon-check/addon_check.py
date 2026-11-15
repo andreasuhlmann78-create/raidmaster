@@ -41,6 +41,15 @@ DOWNLOAD = ROOT / "download"
 ANNOUNCE = ROOT / "announce"
 SHARED_DIR = ROOT / "shared"
 UPLOADED = ROOT / "curseforge" / "uploaded.json"
+CF_PROJECTS = ROOT / "curseforge" / "projects.json"
+
+
+def curseforge_addons():
+    """Addons, deren Zip erst um 18:00 nach download/ kommt (Entscheid 15.11. 13:16) – klein geschrieben."""
+    try:
+        return {k.lower() for k in json.loads(CF_PROJECTS.read_text(encoding="utf-8"))}
+    except Exception:
+        return set()
 # Weitere Ordner mit schon veröffentlichten ZIPs (z. B. setzt der Discord-Bot hier seine Ordner addon/ und announce/
 # ein – dort hat er keine Git-Geschichte, kennt aber alles, was er schon gepostet hat)
 EXTRA_DIRS = []
@@ -785,8 +794,16 @@ def check_zip(path, shared_ref=None, dev_max=None):
                         key=lambda v: version_key(zaddon, v))
         if higher:
             top = higher[-1]
-            err(f"Version {ver} ist NIEDRIGER als schon veröffentlichte {top} ({', '.join(sorted(known[top]))}). "
-                f"Neue Version muss höher sein als {top}, sonst bekommen Spieler das Update nicht.")
+            # GS-Hinweis 15.11. 20:25: CurseForge-Addons liegen bis 18:00 absichtlich mit der älteren Zip in download/,
+            # während Discord (announce/) schon die neue hat – das ist gewollt, kein FEHLER
+            only_discord = all(known[v] <= {"Discord (announce/)"} for v in higher)
+            if (not from_announce and path.parent.name == "download" and only_discord
+                    and zaddon.lower() in curseforge_addons()):
+                warn(f"Version {ver} in download/ wartet auf CurseForge 18:00 – Discord hat schon {top} "
+                     f"(gewollt, Entscheid 15.11. 13:16)")
+            else:
+                err(f"Version {ver} ist NIEDRIGER als schon veröffentlichte {top} ({', '.join(sorted(known[top]))}). "
+                    f"Neue Version muss höher sein als {top}, sonst bekommen Spieler das Update nicht.")
 
     # gleiche Version, anderer Inhalt?
     if ver or zver:
@@ -929,10 +946,21 @@ def default_zips():
         out.append(p)
         have.add(zip_name_version(p)[0].lower())
     newest = {}
+    cf = curseforge_addons()
+    dl_ver = {}
+    for p in out:
+        a_, v_ = zip_name_version(p)
+        if v_:
+            dl_ver[a_.lower()] = v_
     for p in ANNOUNCE.glob("*__*.zip"):
         addon, ver = zip_name_version(p)
-        if not ver or addon.lower() in have:
+        if not ver:
             continue
+        if addon.lower() in have:
+            # CurseForge-Addons: die neuere Discord-Zip bis 18:00 zusätzlich prüfen (GS-Hinweis 15.11. 20:25)
+            dv = dl_ver.get(addon.lower())
+            if not (addon.lower() in cf and dv and version_key(addon, ver) > version_key(addon, dv)):
+                continue
         if addon not in newest or version_key(addon, ver) > version_key(addon, newest[addon][0]):
             newest[addon] = (ver, p)
     # Abgelöste Einzel-ZIPs weglassen: Steckt das Addon in einer neueren ZIP derselben Reihe (z. B. das frühere
