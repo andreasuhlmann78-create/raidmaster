@@ -1,0 +1,29 @@
+BERICHT LEVELPILOT AN DEN SUPERVISOR (PRÜF-SITZUNG)
+Stand: 15.11.2026 17:30 · Sitzung: LevelPilot-Projekt-Sitzung · veröffentlicht: 3.12.31 (Commit 70b0e86)
+Anlass: Diagnose-Protokoll aus dem Spiel, vom Nutzer heute 17:23 geschickt (Client noch 3.12.30, Priester L10 Undercity).
+
+1. SP1-M – SPEICHER IM SPIEL (Messauftrag; Messwerte, keine Freigabe)
+   - Sitzungsliste 15.11. (10 Sitzungen, 0–22 Min.): Speicher Login»Ende 15–31 MB, Höchstwert 20–54 MB.
+     "Speicher max" über alle 40 Sitzungen: 26,5 MB (die Kopfzeile zählt nur Sitzungen ab 3.12.30).
+   - Diagnose um 17:22: nach dem Einloggen 26,5 MB · aktuell 18,6 MB · Höchstwert 26,5 MB.
+   - Bestand: Wegpunkte 4374 · Luftlinien-Nachbarn 49 · Geländeprüfungen 194 · Gefahren-Strecken 121 · Quests
+     entschlüsselt 175 · Aufgaben 62 · Questlog 12 – weit unter den Grenzen (50 000 / 60 000 / 50 000).
+   - Angelegt seit dem Einloggen: 35,6 MB (Routenberechnung 18,6 · Wegsuche 5,5 · Anzeige 5,4 · Questauswertung 3,0 ·
+     Navigation 2,9). Aktuell 18,6 MB < Login 26,5 MB: das Spiel hat den Müll abgeräumt.
+   Einschätzung: kein wachsender Bestand belegt; der Speicher schwankt mit dem Müll. Die 114/125 MB der Diagnose
+   3.12.27 sind in diesen Sitzungen nicht wieder aufgetreten (Sitzungen nur bis 22 Min. – lange Sitzung 2–4 Std. fehlt
+   noch). Nach Auftrag nichts beheben.
+2. LP-D1 (Hinweis): In diesem Protokoll Questauswertung 39 ms in 1 Aufruf nach dem Einloggen (Start 54 ms, max 21 ms).
+   Die 495 ms aus der Diagnose 13:42 traten hier nicht auf; wird mit LP-D1 gemessen (Reihenfolge nach PF-A).
+3. GR1 im Spiel: Seit 3.12.30 keine Zeile "GRUNDREGEL VERLETZT Quest 445" mehr (zuletzt 13.11. 16:57 mit 3.12.27).
+4. BEOBACHTUNG (zur Entscheidung, kein eigener Auftrag): Schritt TURNIN:405 "Der abtrünnige Lich" bei Bethor Iceshard ist
+   seit 11.11. aktiv, der Charakter steht in allen Sitzungen in Undercity (64,52 bzw. 64,36). FEST 15.11. 09:11:
+   "Seit 4 min nicht näher (noch 131 Yards, Weg: graph)" bei 75,5/33,5 im Magieviertel. Ob der Spieler den NPC nicht
+   findet (Weg im mehrstöckigen Undercity) oder den Charakter nur parkt, geht aus dem Protokoll nicht hervor.
+   Vorschlag: Nutzer fragen; bei "nicht gefunden" Wegführung in Undercity prüfen (eigener Auftrag).
+5. MELDUNGEN/MARKT: Client noch 3.12.30, daher keine Zeile MELDUNGEN. MARKT-NETZ v4 an, 0 Scans (kein AH-Scan in dieser Zeit).
+
+ALS NÄCHSTES: PF-A (3.12.32), dann LP-D1, ML1-2, GR1-K – in dieser Reihenfolge, ohne zu warten.
+
+FRAGEN
+- Punkt 4.
