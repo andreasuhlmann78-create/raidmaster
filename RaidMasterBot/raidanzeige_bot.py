@@ -73,6 +73,9 @@ def raid_embed(raid: dict) -> discord.Embed:
     summary = rmd.class_summary(raid)
     if summary:
         desc += "\n" + summary
+    limits = rmd.limits_text(raid)       # D-N1 Wunsch 4 (ab 1.5.185)
+    if limits:
+        desc += "\n" + limits
     absent = absence_line(raid)          # D-N1 (ab 1.5.184)
     if absent:
         desc += "\n" + absent

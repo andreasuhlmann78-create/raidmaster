@@ -35,8 +35,13 @@ def raid_view(raid: dict) -> discord.ui.View:
     return v
 
 
-def status_text(actual: str, wanted: str) -> str:
+def status_text(actual: str, wanted: str, raid: dict | None = None, role: str | None = None) -> str:
     if actual != wanted and actual == "ersatz":
+        # ab 1.5.185: voll nur für die eigene Rolle (D-N1 Wunsch 4) – der ganze Raid hat noch Platz
+        if raid is not None and role and not (raid.get("max") and sum(
+                1 for s in raid["signups"].values() if s["status"] == "an") >= raid["max"]):
+            return (f"Für **{rmd.ROLES.get(role, role)}** sind alle Plätze belegt – du stehst auf der **Ersatzbank**. "
+                    "Wird ein Platz frei, kann dich der Bot fragen.")
         return "Der Raid ist voll – du stehst auf der **Ersatzbank**."
     return {
         "an": "Du bist **angemeldet**. ✅",

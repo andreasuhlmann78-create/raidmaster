@@ -531,6 +531,7 @@ Der Bot führt im Kanal **#gildenname** eine Abstimmung (fehlt der Kanal, legt e
 | `/raid aufstellung` | Offiziere | Aufstellung + Gruppen posten |
 | `/raid liste`, `schliessen`, `oeffnen`, `absagen`, `export` | Offiziere | Raids verwalten |
 | `/raid fehlend` | Offiziere | Wer aus der Gilde hat sich zu einem Raid noch nicht gemeldet? (nur für dich sichtbar, schreibt niemanden an) |
+| `/raid grenzen` | Offiziere | Plätze je Rolle festlegen (z. B. höchstens 8 Heiler, 0 = keine Grenze); darüber kommen neue Anmeldungen auf die Ersatzbank, schon Angemeldete bleiben. Ohne Werte: zeigt den Stand. |
 | `/raid taktik` | Offiziere | Taktik eines Raids (oder ohne Angabe: aller Raids) in die Taktik-Kanäle (#mc-taktik, #onyxia-taktik …) |
 | `/raid softres` | Offiziere | softres.it-Link eines PUG-Raids setzen/ändern |
 | `/addon` | alle | Download-Link der aktuellen Addon-Version |

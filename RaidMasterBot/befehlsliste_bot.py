@@ -35,6 +35,7 @@ COMMAND_INFO = {
     "raid export": ("Gildenleitung", "Raids"),
     "raid taktik": ("Gildenleitung", "Raids"),
     "raid fehlend": ("Gildenleitung", "Raids"),
+    "raid grenzen": ("Gildenleitung", "Raids"),
     "pug-einladung": ("Gildenleitung", "Raids"),
     "einladung": ("Gildenleitung", "Server"),
     "mitgliederbereich einrichten": ("Gildenleitung", "Server"),

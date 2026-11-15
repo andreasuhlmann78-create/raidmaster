@@ -93,11 +93,14 @@ class Ersatz(unittest.TestCase):
         async def by_id(cid):
             return Off()
         self.m.update_raid_message, self.m.channel_by_id = upd, by_id
-        self.m.book.profile = lambda uid: {"name": "Bankdrücker"}
+        self.m.book.profile = lambda uid: {"name": "Bankdrücker", "role": "heal"}
         signed = []
-        self.m.book.signup = lambda raid, uid, st, prof, t: signed.append((uid, st))
+        # wie RaidBook.signup: liefert den gesetzten Status (ab 1.5.185 ausgewertet: Rolle voll -> "ersatz")
+        self.m.book.signup = lambda raid, uid, st, prof, t: signed.append((uid, st)) or self.result
         asyncio.run(self.m.accept_substitute(types.SimpleNamespace(user=types.SimpleNamespace(id=42), response=R()), raid))
         return msgs, officer, signed
+
+    result = "an"
 
     def test_zusage(self):
         msgs, officer, signed = self.zusage(self.raid())
@@ -107,6 +110,13 @@ class Ersatz(unittest.TestCase):
         msgs, officer, signed = self.zusage(self.raid(signups={"1": {"status": "an"}, "2": {"status": "an"}}))
         self.assertEqual(signed, [])
         self.assertIn("schon wieder besetzt", msgs[0])
+
+    def test_zusage_rolle_voll(self):
+        self.result = "ersatz"                                             # ab 1.5.185: Plätze der Rolle belegt
+        msgs, officer, signed = self.zusage(self.raid())
+        self.assertEqual(signed, [(42, "an")])
+        self.assertIn("Für **Heiler** ist leider kein Platz mehr frei", msgs[0])
+        self.assertEqual(officer, [])
 
 
 

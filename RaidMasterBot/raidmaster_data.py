@@ -1269,6 +1269,10 @@ class RaidBook:
             already = current and current["status"] == "an"
             if not already and self.count_status(raid, "an") >= raid["max"]:
                 status = "ersatz"
+        # D-N1 Wunsch 4 (ab 1.5.185): Plätze je Rolle – wer mit derselben Rolle schon angemeldet ist, bleibt es
+        if status == "an" and not (current and current["status"] == "an" and current.get("role") == profile["role"]):
+            if role_full(raid, profile["role"], key):
+                status = "ersatz"
         entry = current or {"t": now_ts}
         entry.update(name=profile["name"], cls=profile["cls"], role=profile["role"], status=status,
                      spec=spec_short(profile.get("spec")))
@@ -1282,6 +1286,30 @@ class RaidBook:
         raid["signups"][key] = entry
         self.save()
         return status
+
+
+LIMIT_ROLES = ("tank", "heal", "melee", "ranged")
+
+
+def role_full(raid: dict, role: str, key: str | None = None) -> bool:
+    """D-N1 Wunsch 4 (ab Bot 1.5.185): Sind für diese Rolle alle Plätze belegt? raid["limits"] = {"heal": 8, …};
+    ohne Grenze für die Rolle nie. key (Discord-ID als Text) wird nicht mitgezählt."""
+    n = (raid.get("limits") or {}).get(role)
+    if not n:
+        return False
+    taken = sum(1 for k, s in raid["signups"].items() if k != key and s["status"] == "an" and s.get("role") == role)
+    return taken >= n
+
+
+def limits_text(raid: dict) -> str:
+    """'🎯 Plätze je Rolle: Tank 1/2 · Heiler 8/8' – nur Rollen mit Grenze; ohne Grenzen leer."""
+    limits = raid.get("limits") or {}
+    parts = []
+    for r in LIMIT_ROLES:
+        if limits.get(r):
+            taken = sum(1 for s in raid["signups"].values() if s["status"] == "an" and s.get("role") == r)
+            parts.append(f"{ROLES[r]} {taken}/{limits[r]}" + (" ✅" if taken >= limits[r] else ""))
+    return ("🎯 Plätze je Rolle: " + " · ".join(parts)) if parts else ""
 
 
 def clean_name(name: str) -> str:

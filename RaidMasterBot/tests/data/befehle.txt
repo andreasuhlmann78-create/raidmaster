@@ -33,6 +33,7 @@
 /raid erstellen(titel, datum, uhrzeit, raid, beschreibung, max_spieler, modus, softres)
 /raid export(raid)
 /raid fehlend(raid)
+/raid grenzen(raid, tanks, heiler, nahkampf, fernkampf)
 /raid liste()
 /raid oeffnen(raid)
 /raid schliessen(raid)

@@ -397,6 +397,7 @@ REGRESSIONEN = {
     "T-D3-EINRICHTEN": ("test_einrichten_bot", "Einrichten", "test_ablauf_und_bericht_in_teilen"),
     "T-D-N1": ("test_dn1", "Fehlend", "test_nur_ohne_rueckmeldung"),
     "T-D-N1-ABW": ("test_abwesenheit", "Anzeige", "test_zeile_nur_namen"),
+    "T-D-N1-GRENZEN": ("test_grenzen", "Buch", "test_grenze_je_rolle"),
     "T-D3-BEFEHLE": ("test_befehle_liste", "BefehleListe", "test_gleiche_befehle"),
     "T-D-MN8b": ("test_market", "BotAblauf", "test_T_D_MN8b_aenderung_erst_nach_senden_merken"),
     "T-D-GS1b": ("test_market", "BotAblauf", "test_T_D_GS1b_grosse_guildsentinel_datei"),

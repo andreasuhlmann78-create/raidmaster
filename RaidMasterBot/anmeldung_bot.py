@@ -66,7 +66,7 @@ class NameModal(discord.ui.Modal):
         raid = book.get(pv.raid_id) if pv.raid_id else None
         if raid and pv.status and not raid.get("closed"):
             actual = book.signup(raid, inter.user.id, pv.status, profile, int(time.time()))
-            text += "\n" + status_text(actual, pv.status) + addon_hint(raid, actual)
+            text += "\n" + status_text(actual, pv.status, raid, profile["role"]) + addon_hint(raid, actual)
         await inter.response.send_message(text, ephemeral=True)
         # alle offenen Raids mit dieser Anmeldung aktualisieren
         for r in book.open_raids():
@@ -242,7 +242,7 @@ async def on_interaction(inter: discord.Interaction):
         await inter.response.edit_message(embed=raid_embed(raid), view=raid_view(raid))
         if before == "an" and actual in ("ab", "vielleicht"):
             asyncio.create_task(offer_substitute(raid, profile))
-        await inter.followup.send(f"{status_text(actual, action)}\nCharakter: {profile_text(profile)}" + addon_hint(raid, actual),
+        await inter.followup.send(f"{status_text(actual, action, raid, profile['role'])}\nCharakter: {profile_text(profile)}" + addon_hint(raid, actual),
                                   ephemeral=True)
     except Exception:
         log.exception("Fehler bei Knopf %s", cid)

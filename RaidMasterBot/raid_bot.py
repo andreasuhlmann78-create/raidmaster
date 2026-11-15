@@ -530,6 +530,50 @@ async def raid_tactics(inter: discord.Interaction, raid: str = ""):
     await inter.followup.send(f"Taktik in {channel.mention} gepostet ({n} Beiträge).", ephemeral=True)
 
 
+@raid_group.command(name="grenzen", description="Plätze je Rolle festlegen (z. B. höchstens 8 Heiler) – darüber Ersatzbank")
+@app_commands.describe(raid="Welcher Raid?", tanks="höchstens so viele Tanks (0 = keine Grenze)",
+                       heiler="höchstens so viele Heiler (0 = keine Grenze)",
+                       nahkampf="höchstens so viele Nahkämpfer (0 = keine Grenze)",
+                       fernkampf="höchstens so viele Fernkämpfer (0 = keine Grenze)")
+@app_commands.autocomplete(raid=raid_autocomplete)
+async def raid_limits(inter: discord.Interaction, raid: str, tanks: app_commands.Range[int, 0, 40] | None = None,
+                      heiler: app_commands.Range[int, 0, 40] | None = None,
+                      nahkampf: app_commands.Range[int, 0, 40] | None = None,
+                      fernkampf: app_commands.Range[int, 0, 40] | None = None):
+    """D-N1 Wunsch 4 (ab Bot 1.5.185): Plätze je Rolle. Ohne Werte: zeigt den Stand. Schon Angemeldete bleiben
+    angemeldet (niemand wird verschoben); neue Anmeldungen über der Grenze kommen auf die Ersatzbank."""
+    if not is_creator(inter.user):
+        await inter.response.send_message("Das dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
+        return
+    r = book.get(raid)
+    if not r:
+        await inter.response.send_message("Raid nicht gefunden.", ephemeral=True)
+        return
+    given = {"tank": tanks, "heal": heiler, "melee": nahkampf, "ranged": fernkampf}
+    if any(v is not None for v in given.values()):
+        limits = dict(r.get("limits") or {})
+        for role, v in given.items():
+            if v is None:
+                continue
+            if v:
+                limits[role] = v
+            else:
+                limits.pop(role, None)
+        if limits:
+            r["limits"] = limits
+        else:
+            r.pop("limits", None)
+        book.save()
+        await update_raid_message(r)
+    text = rmd.limits_text(r) or "Keine Grenzen je Rolle – alle Plätze offen (bis zur Höchstzahl des Raids)."
+    over = [rmd.ROLES[role] for role in rmd.LIMIT_ROLES if (r.get("limits") or {}).get(role)
+            and sum(1 for s in r["signups"].values() if s["status"] == "an" and s.get("role") == role) > r["limits"][role]]
+    if over:
+        text += ("\nSchon mehr angemeldet als erlaubt: " + ", ".join(over) + " – die Angemeldeten bleiben, neue kommen "
+                 "auf die Ersatzbank.")
+    await inter.response.send_message(f"**{r['title']}**\n{text}", ephemeral=True)
+
+
 def missing_members(members, signups: dict, absent: set[str] | None = None) -> list[str]:
     """D-N1 (ab Bot 1.5.183): Gildenmitglieder (Rolle Mitglied, Raider, Raidleitung oder Offizier; keine Bots) ohne
     jede Rückmeldung (angemeldet, Ersatzbank, vielleicht, abgemeldet) zu einem Raid – sortiert nach Anzeigename.

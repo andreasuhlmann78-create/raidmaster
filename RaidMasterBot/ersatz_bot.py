@@ -75,7 +75,11 @@ async def accept_substitute(inter: discord.Interaction, raid: dict):
     if not profile:
         await inter.response.send_message("Dein Profil fehlt – bitte beim Raid über „Anmelden“ anmelden.", ephemeral=True)
         return
-    book.signup(raid, inter.user.id, "an", profile, int(time.time()))
+    if book.signup(raid, inter.user.id, "an", profile, int(time.time())) != "an":     # ab 1.5.185: Rolle voll
+        await inter.response.send_message(
+            f"Danke! Für **{rmd.ROLES.get(profile['role'], profile['role'])}** ist leider kein Platz mehr frei – du "
+            "bleibst auf der Ersatzbank.", ephemeral=True)
+        return
     await update_raid_message(raid)
     await inter.response.send_message(f"✅ Super, du bist für **{raid['title']}** angemeldet!", ephemeral=True)
     ch = await channel_by_id(cfg.get("officer_channel_id"))
