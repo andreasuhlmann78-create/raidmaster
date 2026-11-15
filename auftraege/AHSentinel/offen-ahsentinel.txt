@@ -92,6 +92,11 @@ TB188 (Sniper-Testbericht 0.65.188, 15.11. 13:27 – Supervisor geprüft): Abnah
             so bauen, dass eine gebuchte Zahl nur wächst oder mit benannter Reparatur sinkt.
     TB188-4: 13:02 automatisch ausgebucht 45 × Item 10940 (Einstand 1g18s22, TB182-4) – bekam der Spieler einen Hinweis? Im Bericht
             mit Grund nennen (TB182-3 Regel: grosse Ausbuchungen nie still).
+    TB188-6 HOCH – RELEASE-BLOCKER (Nutzer 13:32/13:34 "ich glaube der Selbsttest hängt" – "/ahs testroutine sniper", 0.65.188, zweiter
+            Lauf nach 13:27): Testroutine darf nie hängen (Direktive Perfektion: keine Sperre ohne Zeitlimit). Jeder S-Test bekommt
+            ein Zeitlimit (z. B. 60 s), danach FEHLER "Zeitlimit" mit Name des Tests und weiter mit dem nächsten; Gesamtlauf
+            höchstens 5 Min. Fortschritt sichtbar ("S7 von 13 läuft – noch höchstens n s"). Ursache des Hängers aus dem
+            Abbruch-Bericht des Nutzers belegen (folgt).
     TB188-5 Hinweis (zurückgestellt, Nutzer 14.11. "Ruckeln im Test egal"): S5/S13 längster Frame 427 ms, Ursachen AHSentinel 4,
             Sync 3, fremd 27 – AHSentinel-Anteil im Auge behalten (RUCKEL-1).
     Sniper-Takt Testlauf Ø 72/Min. (Server 90), echte Sitzung 12:38 Ø 60/Min. – noch mit Einzelkauf AN (0.65.186).
