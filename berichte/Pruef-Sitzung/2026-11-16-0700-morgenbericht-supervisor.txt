@@ -1,5 +1,5 @@
 MORGENBERICHT DES SUPERVISORS – Nacht 15./16.11.2026 (wird die Nacht über fortgeschrieben)
-Stand: 15.11.2026 21:48 (Uhrzeit aus date)
+Stand: 15.11.2026 23:18 (Uhrzeit aus date)
 
 =====================================================================================================================
 1. DAS WICHTIGSTE IN KÜRZE
@@ -63,12 +63,15 @@ Discord-Bot 1.5.142–1.5.145
 5. FÜR DICH (wenn du Zeit hast)
 =====================================================================================================================
 Im Spiel prüfen:
+  - ProfessionSentinel 0.9.54 SKILLSPUR im Handwerksbuch (Linie je Rezept, eine Zahl rechts) – Bild-Abnahme: gefällt sie dir?
+  - AHSentinel: Fenster "Seit deinem letzten Besuch" / "Bevor du gehst", Laufzeit-Vorwahl im Verkaufen-Fenster.
   - AHSentinel 0.65.215 Warnschutz (5×), SN-SCAN1 Sniper-Knopf im Vollscan gesperrt, nach Vollscan Marktdaten-Zähler steigt.
   - GSWegMess in Unterstadt (AH -> Magieviertel, Aufzug zu den Ruinen), danach Datei GSWegMess.lua schicken.
   - ThreatSentinel: ein Dungeon als Tank, dann /ts protokoll (Zeilen LEISTUNG).
   - BuffSentinel: Jäger < 200 Pfeile, Hexer < 3 Splitter.
   - ProfessionSentinel 0.9.46: nach Vollscan kein Ruckler; /ps protokoll Zeile "Langsamste Wege".
 Entscheide (keiner eilt):
+  - LevelPilot Upgrade-Finder Schritt 2 (bessere Ausrüstung im AH suchen, mit Marktdaten): bauen oder nicht? (Schritt 1 beim Händler läuft.)
   - GuildSentinel: abgeschlossene Bewerbungen (aufgenommen/abgelehnt) nach 90 Tagen automatisch löschen – Standard AN mit Option
     und Chat-Zeile beim Löschen. Bestätigen oder Standard AUS?
   - GuildSentinel-Daten im privaten Daten-Repo: Der Uploader liefert die ganze GuildSentinel.lua dorthin, also auch Bewerber (Name,
