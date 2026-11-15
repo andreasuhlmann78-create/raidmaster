@@ -1,0 +1,41 @@
+BERICHT DISCORD – Bot 1.5.185: D-N1 Wunsch 4 Plätze je Rolle – umgesetzt, zur Prüfung
+Zeit: 16.11.2026 00:23 (aus date)
+Commit: b017e65e auf origin/main (CI Bot-Tests beim Schreiben noch in der Warteschlange – Ergebnis im nächsten Bericht)
+
+WAS
+- /raid grenzen raid:<Raid> tanks:<n> heiler:<n> nahkampf:<n> fernkampf:<n> (Gildenleitung; jeder Wert optional,
+  0 = Grenze entfernen, ganz ohne Werte = Stand anzeigen). Gespeichert am Raid als "limits".
+- Anmeldung (RaidBook.signup): "an" in einer Rolle, deren Plätze belegt sind -> Ersatzbank. Wer mit derselben Rolle
+  schon angemeldet ist, bleibt angemeldet – auch wenn die Grenze nachträglich gesenkt wird (niemand wird
+  verschoben; /raid grenzen nennt dann "Schon mehr angemeldet als erlaubt: Heiler"). Wechsel in eine volle Rolle
+  -> Ersatzbank. Die Höchstzahl des Raids (max_spieler) gilt unverändert zuerst.
+- Meldung an die Person: "Für **Heiler** sind alle Plätze belegt – du stehst auf der Ersatzbank" (nur wenn der Raid
+  sonst noch Platz hat; ist er voll, wie bisher "Der Raid ist voll").
+- Karte der Anmeldung: "🎯 Plätze je Rolle: Tank 1/2 · Heiler 8/8 ✅" (nur Rollen mit Grenze).
+- Ersatz-Zusage ("Ich komme!"): ist die Rolle inzwischen voll -> "Für Heiler ist leider kein Platz mehr frei – du
+  bleibst auf der Ersatzbank", keine Meldung an #offiziere. Vorher hätte der Bot "angemeldet" gemeldet, obwohl
+  der Eintrag Ersatzbank blieb – das gab es ohne Rollen-Grenzen nicht.
+- Alte Raids ohne "limits": Verhalten unverändert (Test). Addon-Export unverändert.
+- Befehle 54 -> 55 (+ /raid grenzen), sonst gleich; Ereignis-Methoden gleich. Keine neuen Rechte.
+
+TESTS
+- NEU test_grenzen.py (8 Tests, REGRESSIONEN T-D-N1-GRENZEN; RaidBook mit echter Datei im Temp-Ordner, danach neu
+  geladen). test_ersatz_skillung_bot: die Attrappe für book.signup lieferte None – jetzt wie das echte RaidBook den
+  gesetzten Status; neuer Test "Rolle voll". Keine Prüfung abgeschwächt.
+- Gegenproben (12, alle aufgefallen): Rollen-Prüfung wirkungslos, Bleiben-Ausnahme weg, Rollenwechsel ignoriert,
+  sich selbst mitgezählt, > statt >=, immer Rollen-Meldung, Ersatz-Zusage ignoriert Rolle, Karte ohne Plätze,
+  Rechte-Prüfung weg, 0 entfernt nicht, kein Hinweis bei zu vielen.
+  (Erster Versuch "Rollenprüfung weg" erzeugte einen Syntaxfehler – als Gegenprobe ungültig, durch "pass" ersetzt.)
+- 442 Tests OK; jede der 59 Testdateien einzeln mit -I OK; REGRESSIONEN 77 von 77.
+
+BETRIEB NACHGESTELLT (Kopie)
+- Update vom Stand 1.5.184 kopiert ANLEITUNG.md, VERSION, anmeldung_bot.py, befehlsliste_bot.py, bot_hilfen.py,
+  ersatz_bot.py, raid_bot.py, raidanzeige_bot.py, raidmaster_data.py, tests; config.json und state unverändert (md5).
+  Start wie launcher: Abbruch erst bei der Anmeldung (LoginFailure). Ohne config.json Exit 3. Neustart-Code 42.
+
+IM DISCORD PRÜFEN (nach /update)
+- /raid grenzen raid:<Raid> heiler:1 -> Karte zeigt "Plätze je Rolle"; ein zweiter Heiler landet mit der Meldung
+  "Für Heiler sind alle Plätze belegt" auf der Ersatzbank. Danach /raid grenzen heiler:0.
+
+STAND D-N1: Wunsch 2, 5 (1.5.183), 1 (1.5.184), 4 (1.5.185) umgesetzt, zur Prüfung. Wunsch 3 (wiederkehrende Raids)
+wartet laut Auftrag auf die Rückmeldung des Nutzers.
