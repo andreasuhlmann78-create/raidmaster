@@ -144,6 +144,11 @@ class Lade(unittest.TestCase):
         self.assertEqual(ankuendigung_bot.ADDON_DIR, kern.ADDON_DIR)
         self.assertIs(b.restart_soon, grund.restart_soon)               # D-3 Schritt 19: Neustart in grund.py
         self.assertFalse(hasattr(b, "EXIT_CODE"))                       # nur grund.EXIT_CODE
+        import update_bot
+        self.assertIs(update_bot.bot, b.bot)                     # D-3 Schritt 20: Selbst-Update
+        self.assertIs(b.update_loop, update_bot.update_loop)
+        self.assertIs(update_bot.restart_soon, grund.restart_soon)
+        self.assertIs(update_bot.check_addon_release, ankuendigung_bot.check_addon_release)
         self.assertIs(b.NO_PING, grund.NO_PING)
 
     def test_findet_fehlenden_namen(self):

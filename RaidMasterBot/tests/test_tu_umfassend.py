@@ -374,6 +374,7 @@ REGRESSIONEN = {
     "T-D3-NEUSTART": ("test_neustart_schleife", "Neustart", "test_restart_soon_setzt_exit_code"),
     "T-POSTLIST-FEHLER": ("test_befehlsliste_bot", "Befehlsliste", "test_abgelehnter_teil_bricht_nicht_ab"),
     "T-POSTLIST-OFFIZIERE": ("test_befehlsliste_bot", "Befehlsliste", "test_offiziersliste_ueber_post_list"),
+    "T-D3-UPDATE": ("test_update_bot", "Update", "test_bot_aenderung_neustart_und_danach_nichts"),
     "T-D3-BEFEHLE": ("test_befehle_liste", "BefehleListe", "test_gleiche_befehle"),
     "T-D-MN8b": ("test_market", "BotAblauf", "test_T_D_MN8b_aenderung_erst_nach_senden_merken"),
     "T-D-GS1b": ("test_market", "BotAblauf", "test_T_D_GS1b_grosse_guildsentinel_datei"),

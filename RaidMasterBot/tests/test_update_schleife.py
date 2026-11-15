@@ -59,10 +59,9 @@ class CopyNew(unittest.TestCase):
 
 class BotPruefung(unittest.TestCase):
     def test_eben_installiert_wird_nicht_nochmal_eingespielt(self):
-        here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        with open(os.path.join(here, "bot.py"), encoding="utf-8") as f:
-            src = f.read()
-        block = src[src.index("async def _check_github("):]
+        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+        import bot_quelle                       # D-3 Schritt 20: _check_github steht in update_bot.py
+        block = bot_quelle.funktion("_check_github")
         block = block[:block.index("github_zip(")]
         self.assertIn('pending.get("ref")', block)                        # Prüfung VOR dem Herunterladen
 
