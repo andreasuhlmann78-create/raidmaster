@@ -71,15 +71,16 @@ class PnAblauf(unittest.TestCase):
     def setUpClass(cls):
         from bot_harness import load_bot
         cls.bot, _ = load_bot()
-        cls.orig = cls.bot.is_creator
-        cls.bot.is_creator = lambda u: getattr(u, "admin", False)
+        cls.m = sys.modules["pn_bot"]          # D-3 Schritt 6: /pn steht in pn_bot.py – dort patchen und aufrufen
+        cls.orig = cls.m.is_creator
+        cls.m.is_creator = lambda u: getattr(u, "admin", False)
 
     @classmethod
     def tearDownClass(cls):
-        cls.bot.is_creator = cls.orig
+        cls.m.is_creator = cls.orig
 
     def run_cmd(self, inter, member, vorlage=None):
-        return asyncio.run(self.bot.pn_cmd.callback(inter, member, vorlage))
+        return asyncio.run(self.m.pn_cmd.callback(inter, member, vorlage))
 
     def test_nur_gildenleitung(self):
         i, m = Inter(admin=False), Member()

@@ -76,6 +76,9 @@ class Lade(unittest.TestCase):
         self.assertIs(rechte_bot.bot, b.bot)                     # D-3 Schritt 5: Rechte-Modul
         self.assertIs(b.check_bot_rights, rechte_bot.check_bot_rights)
         self.assertIs(rechte_bot.post_bot_log, b.post_bot_log)
+        import pn_bot
+        self.assertIs(pn_bot.bot, b.bot)                         # D-3 Schritt 6: /pn-Modul
+        self.assertIs(b.bot.tree.get_command("pn").callback, pn_bot.pn_cmd.callback)
         self.assertIs(b.NO_PING, grund.NO_PING)
 
     def test_findet_fehlenden_namen(self):
