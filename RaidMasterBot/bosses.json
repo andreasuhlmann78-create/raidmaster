@@ -1,5 +1,5 @@
 {
- "_info": "Erzeugt von make_bosses.py aus RaidMaster/Data.lua und RaidData.lua – nicht von Hand ändern. Nur Raids von WoW Forever; Bosse in der Reihenfolge des Addons.",
+ "_info": "Erzeugt von make_bosses.py aus RaidMaster/Data.lua und RaidData.lua (Raids) und Deadly Boss Mods (Dungeons, englische Bossnamen) – nicht von Hand ändern. Nur WoW Forever. Quellen der Dungeon-Namen und Level: siehe make_bosses.py.",
  "raids": [
   {
    "key": "mc",
@@ -395,6 +395,1777 @@
       1114
      ],
      "n": "Kel'Thuzad"
+    }
+   ]
+  }
+ ],
+ "dungeons": [
+  {
+   "key": "dg-thanen",
+   "name": "Halle der Thanen",
+   "lvl": [
+    13,
+    18
+   ],
+   "zone": [
+    3065
+   ],
+   "bosses": [
+    {
+     "e": [
+      3493
+     ],
+     "n": "Faldrim Anvilmar"
+    },
+    {
+     "e": [
+      3495
+     ],
+     "n": "Infurnus"
+    },
+    {
+     "e": [
+      3494
+     ],
+     "n": "Plunder"
+    },
+    {
+     "e": [
+      3496
+     ],
+     "n": "Durgen Dirgehammer"
+    }
+   ]
+  },
+  {
+   "key": "dg-rfc",
+   "name": "Ragefireabgrund",
+   "lvl": [
+    13,
+    18
+   ],
+   "zone": [
+    389
+   ],
+   "bosses": [
+    {
+     "e": [
+      2732
+     ],
+     "n": "Oggleflint"
+    },
+    {
+     "e": [
+      2733
+     ],
+     "n": "Taragaman the Hungerer"
+    },
+    {
+     "e": [
+      2734
+     ],
+     "n": "Jergosh the Invoker"
+    },
+    {
+     "e": [
+      2735
+     ],
+     "n": "Bazzalan"
+    }
+   ]
+  },
+  {
+   "key": "dg-lordaeron",
+   "name": "Ruinen von Lordaeron",
+   "lvl": [
+    15,
+    20
+   ],
+   "zone": [
+    2999
+   ],
+   "bosses": [
+    {
+     "e": [
+      3353
+     ],
+     "n": "Witherfang"
+    },
+    {
+     "e": [
+      3357
+     ],
+     "n": "The Abandoned"
+    },
+    {
+     "e": [
+      3355
+     ],
+     "n": "The Butcher"
+    },
+    {
+     "e": [
+      3354
+     ],
+     "n": "Rath'mael"
+    },
+    {
+     "e": [
+      3408
+     ],
+     "n": "Lordaeron Captain"
+    },
+    {
+     "e": [
+      3411
+     ],
+     "n": "Viktor the Vile"
+    },
+    {
+     "e": [
+      3412
+     ],
+     "n": "Bjork"
+    }
+   ]
+  },
+  {
+   "key": "dg-wc",
+   "name": "Höhlen des Wehklagens",
+   "lvl": [
+    15,
+    24
+   ],
+   "zone": [
+    43
+   ],
+   "bosses": [
+    {
+     "e": [
+      585
+     ],
+     "n": "Lady Anacondra"
+    },
+    {
+     "e": [
+      588
+     ],
+     "n": "Lord Pythas"
+    },
+    {
+     "e": [
+      586
+     ],
+     "n": "Lord Cobrahn"
+    },
+    {
+     "e": [
+      587
+     ],
+     "n": "Kresh"
+    },
+    {
+     "e": [
+      589
+     ],
+     "n": "Skum"
+    },
+    {
+     "e": [
+      590
+     ],
+     "n": "Lord Serpentis"
+    },
+    {
+     "e": [
+      591
+     ],
+     "n": "Veran the Everliving"
+    },
+    {
+     "e": [
+      592
+     ],
+     "n": "Mutanus the Devourer"
+    }
+   ]
+  },
+  {
+   "key": "dg-dm",
+   "name": "Die Todesminen",
+   "lvl": [
+    17,
+    26
+   ],
+   "zone": [
+    36
+   ],
+   "bosses": [
+    {
+     "e": [
+      2967,
+      2741
+     ],
+     "n": "Rhahk'Zor"
+    },
+    {
+     "e": [
+      3676
+     ],
+     "n": "Miner Johnson"
+    },
+    {
+     "e": [
+      2968,
+      2742
+     ],
+     "n": "Sneed's Shredder"
+    },
+    {
+     "e": [
+      2969,
+      2743
+     ],
+     "n": "Gilnid"
+    },
+    {
+     "e": [
+      2970,
+      2745
+     ],
+     "n": "Mr. Smite"
+    },
+    {
+     "e": [
+      2971,
+      2744
+     ],
+     "n": "Captain Greenskin"
+    },
+    {
+     "e": [
+      2972,
+      2747
+     ],
+     "n": "Edwin Van Cleef"
+    },
+    {
+     "e": [
+      2986,
+      2746
+     ],
+     "n": "Cookie"
+    }
+   ]
+  },
+  {
+   "key": "dg-sfk",
+   "name": "Burg Schattenfang",
+   "lvl": [
+    20,
+    30
+   ],
+   "zone": [
+    33
+   ],
+   "bosses": [
+    {
+     "e": [
+      2748
+     ],
+     "n": "Rethilgore"
+    },
+    {
+     "e": [
+      2749
+     ],
+     "n": "Razorclaw the Butcher"
+    },
+    {
+     "e": [
+      2750
+     ],
+     "n": "Baron Silverlaine"
+    },
+    {
+     "e": [
+      2751
+     ],
+     "n": "Commander Springvale"
+    },
+    {
+     "e": [
+      2752
+     ],
+     "n": "Odo the Blindwatcher"
+    },
+    {
+     "e": [
+      2753
+     ],
+     "n": "Fenrus the Devourer"
+    },
+    {
+     "e": [
+      2754
+     ],
+     "n": "Wolf Master Nandos"
+    },
+    {
+     "e": [
+      2755
+     ],
+     "n": "Archmage Arugal"
+    }
+   ]
+  },
+  {
+   "key": "dg-ausgrabung",
+   "name": "Ausgrabungsstätte",
+   "lvl": [
+    24,
+    29
+   ],
+   "zone": [
+    2998
+   ],
+   "bosses": [
+    {
+     "e": [
+      3480
+     ],
+     "n": "Saltspine"
+    },
+    {
+     "e": [
+      3481
+     ],
+     "n": "Shadetooth"
+    },
+    {
+     "e": [
+      3644
+     ],
+     "n": "Highland Horror"
+    },
+    {
+     "e": [
+      3482
+     ],
+     "n": "Relic Guardian"
+    }
+   ]
+  },
+  {
+   "key": "dg-stocks",
+   "name": "Das Verlies",
+   "lvl": [
+    24,
+    32
+   ],
+   "zone": [
+    34
+   ],
+   "bosses": [
+    {
+     "e": [
+      2756
+     ],
+     "n": "Targorr the Dread"
+    },
+    {
+     "e": [
+      2757
+     ],
+     "n": "Kam Deepfury"
+    },
+    {
+     "e": [
+      2758
+     ],
+     "n": "Hamhock"
+    },
+    {
+     "e": [
+      2760
+     ],
+     "n": "Bazil Thredd"
+    },
+    {
+     "e": [
+      2759
+     ],
+     "n": "Dextren Ward"
+    }
+   ]
+  },
+  {
+   "key": "dg-bfd",
+   "name": "Tiefschwarze Grotte",
+   "lvl": [
+    24,
+    32
+   ],
+   "zone": [
+    48
+   ],
+   "bosses": [
+    {
+     "e": [
+      2761,
+      2916
+     ],
+     "n": "Ghamoo-Ra"
+    },
+    {
+     "e": [
+      2762,
+      2915
+     ],
+     "n": "Lady Sarevess"
+    },
+    {
+     "e": [
+      2763,
+      2914
+     ],
+     "n": "Gelihast"
+    },
+    {
+     "e": [
+      2766,
+      2911
+     ],
+     "n": "Twilight Lord Kelris"
+    },
+    {
+     "e": [
+      2765,
+      2912
+     ],
+     "n": "Old Serra'kis"
+    },
+    {
+     "e": [
+      2767,
+      2910
+     ],
+     "n": "Aku'mai"
+    }
+   ]
+  },
+  {
+   "key": "dg-dalaran",
+   "name": "Stadt Dalaran",
+   "lvl": [
+    28,
+    33
+   ],
+   "zone": [
+    2959
+   ],
+   "bosses": [
+    {
+     "e": [
+      3298
+     ],
+     "n": "Arcane Anomaly"
+    },
+    {
+     "e": [
+      3299
+     ],
+     "n": "Fel Ancient"
+    },
+    {
+     "e": [
+      3300
+     ],
+     "n": "Mana Devourer"
+    },
+    {
+     "e": [
+      3301
+     ],
+     "n": "Mana Elemental"
+    },
+    {
+     "e": [
+      3302
+     ],
+     "n": "Unstable Sentinel"
+    },
+    {
+     "e": [
+      3303
+     ],
+     "n": "Shade of the Archmage"
+    },
+    {
+     "e": [
+      3310
+     ],
+     "n": "Lyn the Ignored"
+    },
+    {
+     "e": [
+      3311
+     ],
+     "n": "Atrexis the Grave Knight"
+    },
+    {
+     "e": [
+      3312
+     ],
+     "n": "Mana Wraith"
+    }
+   ]
+  },
+  {
+   "key": "dg-gnomer",
+   "name": "Gnomeregan",
+   "lvl": [
+    29,
+    38
+   ],
+   "zone": [
+    90
+   ],
+   "bosses": [
+    {
+     "e": [
+      2768,
+      379
+     ],
+     "n": "Grubbis"
+    },
+    {
+     "e": [
+      2769,
+      378
+     ],
+     "n": "Viscous Fallout"
+    },
+    {
+     "e": [
+      2770,
+      380
+     ],
+     "n": "Electrocutioner6000"
+    },
+    {
+     "e": [
+      2771,
+      381
+     ],
+     "n": "Crowd Pummeler"
+    },
+    {
+     "e": [
+      2772,
+      382
+     ],
+     "n": "Mekgineer Thermaplugg"
+    }
+   ]
+  },
+  {
+   "key": "dg-rfk",
+   "name": "Kral der Klingenhauer",
+   "lvl": [
+    29,
+    38
+   ],
+   "zone": [
+    47
+   ],
+   "bosses": [
+    {
+     "e": [
+      2773
+     ],
+     "n": "Roogug"
+    },
+    {
+     "e": [
+      2774
+     ],
+     "n": "Aggem Thorncurse"
+    },
+    {
+     "e": [
+      2775
+     ],
+     "n": "Death Speaker Jargba"
+    },
+    {
+     "e": [
+      2776
+     ],
+     "n": "Overload Ramtusk"
+    },
+    {
+     "e": [
+      2777
+     ],
+     "n": "Agathelos the Raging"
+    },
+    {
+     "e": [
+      2778
+     ],
+     "n": "Charlga Razorflank"
+    }
+   ]
+  },
+  {
+   "key": "dg-sm",
+   "name": "Scharlachrotes Kloster",
+   "lvl": [
+    30,
+    46
+   ],
+   "zone": [
+    189
+   ],
+   "bosses": [
+    {
+     "e": [
+      444
+     ],
+     "n": "Interrogator Vishas"
+    },
+    {
+     "e": [
+      2779,
+      2818,
+      445
+     ],
+     "n": "Bloodmage Thalnos"
+    },
+    {
+     "e": [
+      446
+     ],
+     "n": "Houndmaster Loksey"
+    },
+    {
+     "e": [
+      447
+     ],
+     "n": "Arcanist Doan"
+    },
+    {
+     "e": [
+      448
+     ],
+     "n": "Herod"
+    },
+    {
+     "e": [
+      450
+     ],
+     "n": "Mograine & Whitemane"
+    },
+    {
+     "e": [
+      449
+     ],
+     "n": "High Inquisitor Fairbanks"
+    }
+   ]
+  },
+  {
+   "key": "dg-versunken",
+   "name": "Die Versunkene Stadt",
+   "lvl": [
+    35,
+    40
+   ],
+   "zone": [
+    2970
+   ],
+   "bosses": [
+    {
+     "e": [
+      3474
+     ],
+     "n": "Zul'Alai"
+    },
+    {
+     "e": [
+      3475
+     ],
+     "n": "Var'Taka"
+    },
+    {
+     "e": [
+      3476
+     ],
+     "n": "Captain Dreadrise"
+    },
+    {
+     "e": [
+      3478
+     ],
+     "n": "Deathless Guardians"
+    },
+    {
+     "e": [
+      3511
+     ],
+     "n": "Primeval Elemental"
+    },
+    {
+     "e": [
+      3479
+     ],
+     "n": "Min'loth the Serpent"
+    }
+   ]
+  },
+  {
+   "key": "dg-rfd",
+   "name": "Hügel der Klingenhauer",
+   "lvl": [
+    37,
+    46
+   ],
+   "zone": [
+    129
+   ],
+   "bosses": [
+    {
+     "e": [
+      2780
+     ],
+     "n": "Tuten'kash"
+    },
+    {
+     "e": [
+      2782
+     ],
+     "n": "Mordress Fire Eye"
+    },
+    {
+     "e": [
+      2784
+     ],
+     "n": "Glutton"
+    },
+    {
+     "e": [
+      2783
+     ],
+     "n": "Ragglesnout"
+    },
+    {
+     "e": [
+      2785
+     ],
+     "n": "Amnenar the Coldbringer"
+    },
+    {
+     "e": [
+      2781
+     ],
+     "n": "Plaguemaw the Rotting"
+    }
+   ]
+  },
+  {
+   "key": "dg-kroldok",
+   "name": "Festung Krol'dok",
+   "lvl": [
+    40,
+    45
+   ],
+   "zone": [
+    3039
+   ],
+   "bosses": [
+    {
+     "e": [
+      3450
+     ],
+     "n": "Slavecrusher Grox"
+    },
+    {
+     "e": [
+      3452
+     ],
+     "n": "Twilight Commander Zarmok"
+    },
+    {
+     "e": [
+      3453
+     ],
+     "n": "Handler Ashka"
+    },
+    {
+     "e": [
+      3449
+     ],
+     "n": "Nar'gurk"
+    },
+    {
+     "e": [
+      3451
+     ],
+     "n": "Overseer Mugg"
+    }
+   ]
+  },
+  {
+   "key": "dg-ulda",
+   "name": "Uldaman",
+   "lvl": [
+    41,
+    51
+   ],
+   "zone": [
+    70
+   ],
+   "bosses": [
+    {
+     "e": [
+      547
+     ],
+     "n": "Revelosh"
+    },
+    {
+     "e": [
+      548
+     ],
+     "n": "The Lost Dwarves"
+    },
+    {
+     "e": [
+      549
+     ],
+     "n": "Ironaya"
+    },
+    {
+     "e": [
+      1887
+     ],
+     "n": "Obsidian Sentinel"
+    },
+    {
+     "e": [
+      551
+     ],
+     "n": "Ancient Stone Keeper"
+    },
+    {
+     "e": [
+      552
+     ],
+     "n": "Galgann Firehammer"
+    },
+    {
+     "e": [
+      553
+     ],
+     "n": "Grimlok"
+    },
+    {
+     "e": [
+      554
+     ],
+     "n": "Archaedas"
+    }
+   ]
+  },
+  {
+   "key": "dg-zf",
+   "name": "Zul'Farrak",
+   "lvl": [
+    44,
+    54
+   ],
+   "zone": [
+    209
+   ],
+   "bosses": [
+    {
+     "e": [
+      594
+     ],
+     "n": "Gahzrilla"
+    },
+    {
+     "e": [
+      595
+     ],
+     "n": "Antusul"
+    },
+    {
+     "e": [
+      596
+     ],
+     "n": "Theka the Martyr"
+    },
+    {
+     "e": [
+      597
+     ],
+     "n": "Witch Doctor Zumrah"
+    },
+    {
+     "e": [
+      593
+     ],
+     "n": "Hydromancer Velrath"
+    },
+    {
+     "e": [
+      598,
+      599
+     ],
+     "n": "Nekrum_Sezzziz"
+    },
+    {
+     "e": [
+      600
+     ],
+     "n": "Chief Ukorz Sandscalp"
+    }
+   ]
+  },
+  {
+   "key": "dg-mara",
+   "name": "Maraudon",
+   "lvl": [
+    46,
+    55
+   ],
+   "zone": [
+    349
+   ],
+   "bosses": [
+    {
+     "e": [
+      422
+     ],
+     "n": "Noxxion"
+    },
+    {
+     "e": [
+      423
+     ],
+     "n": "Razorlash"
+    },
+    {
+     "e": [
+      427
+     ],
+     "n": "Tinkerer Gizlock"
+    },
+    {
+     "e": [
+      424
+     ],
+     "n": "Lord Vyletongue"
+    },
+    {
+     "e": [
+      425
+     ],
+     "n": "Celebras the Cursed"
+    },
+    {
+     "e": [
+      426
+     ],
+     "n": "Landslide"
+    },
+    {
+     "e": [
+      428
+     ],
+     "n": "Rotgrip"
+    },
+    {
+     "e": [
+      429
+     ],
+     "n": "Princess Theradras"
+    }
+   ]
+  },
+  {
+   "key": "dg-alcaz",
+   "name": "Alcaz-Gefängnis",
+   "lvl": [
+    48,
+    53
+   ],
+   "zone": [
+    2994
+   ],
+   "bosses": [
+    {
+     "e": [
+      3403
+     ],
+     "n": "Overseer Wrex"
+    },
+    {
+     "e": [
+      3410
+     ],
+     "n": "Tidemistress Ca'zass"
+    },
+    {
+     "e": [
+      3418
+     ],
+     "n": "Katerina the Cleaner"
+    },
+    {
+     "e": [
+      3415
+     ],
+     "n": "The Questioner"
+    },
+    {
+     "e": [
+      3409
+     ],
+     "n": "Blazeroar"
+    }
+   ]
+  },
+  {
+   "key": "dg-st",
+   "name": "Versunkener Tempel",
+   "lvl": [
+    50,
+    60
+   ],
+   "zone": [
+    109
+   ],
+   "bosses": [
+    {
+     "e": [
+      492,
+      3583
+     ],
+     "n": "Avatar of Hakkar"
+    },
+    {
+     "e": [
+      488,
+      3589
+     ],
+     "n": "Jammalan the Prophet"
+    },
+    {
+     "e": [
+      486,
+      3588
+     ],
+     "n": "Dreamscythe"
+    },
+    {
+     "e": [
+      487,
+      3587
+     ],
+     "n": "Weaver"
+    },
+    {
+     "e": [
+      490,
+      3586
+     ],
+     "n": "Morphaz"
+    },
+    {
+     "e": [
+      491,
+      3585
+     ],
+     "n": "Hazzas"
+    },
+    {
+     "e": [
+      493,
+      3584
+     ],
+     "n": "Shade of Eranikus"
+    }
+   ]
+  },
+  {
+   "key": "dg-brd",
+   "name": "Schwarzfelstiefen",
+   "lvl": [
+    52,
+    60
+   ],
+   "zone": [
+    230
+   ],
+   "bosses": [
+    {
+     "e": [
+      227
+     ],
+     "n": "Gerstahn"
+    },
+    {
+     "e": [
+      228
+     ],
+     "n": "Lord Roccor"
+    },
+    {
+     "e": [
+      229
+     ],
+     "n": "Houndmaster Grebmar"
+    },
+    {
+     "e": [
+      230
+     ],
+     "n": "Ring of Law"
+    },
+    {
+     "e": [
+      231
+     ],
+     "n": "Pyromancer Loregrain"
+    },
+    {
+     "e": [
+      232
+     ],
+     "n": "Lord Incendius"
+    },
+    {
+     "e": [
+      233
+     ],
+     "n": "Warden Stilgiss"
+    },
+    {
+     "e": [
+      234
+     ],
+     "n": "Fineous Darkvire"
+    },
+    {
+     "e": [
+      235
+     ],
+     "n": "Bael Gar"
+    },
+    {
+     "e": [
+      236
+     ],
+     "n": "General Angerforge"
+    },
+    {
+     "e": [
+      237
+     ],
+     "n": "Golem Lord Argelmach"
+    },
+    {
+     "e": [
+      238
+     ],
+     "n": "Hurley Blackbreath"
+    },
+    {
+     "e": [
+      239
+     ],
+     "n": "Phalanx"
+    },
+    {
+     "e": [
+      241
+     ],
+     "n": "Plugger Spazzring"
+    },
+    {
+     "e": [
+      242
+     ],
+     "n": "Ambassador Flamelash"
+    },
+    {
+     "e": [
+      243
+     ],
+     "n": "The Seven"
+    },
+    {
+     "e": [
+      244
+     ],
+     "n": "Magmus"
+    },
+    {
+     "e": [
+      245,
+      2790
+     ],
+     "n": "Emperor Dagran Thaurissan"
+    }
+   ]
+  },
+  {
+   "key": "dg-dire",
+   "name": "Düsterbruch",
+   "lvl": [
+    54,
+    60
+   ],
+   "zone": [
+    429
+   ],
+   "bosses": [
+    {
+     "e": [
+      343
+     ],
+     "n": "Zevrim Thornhoof"
+    },
+    {
+     "e": [
+      344
+     ],
+     "n": "Hydrospawn"
+    },
+    {
+     "e": [
+      345
+     ],
+     "n": "Lethtendris"
+    },
+    {
+     "e": [
+      346
+     ],
+     "n": "Alzzin"
+    },
+    {
+     "e": [
+      350
+     ],
+     "n": "Tendris Warpwood"
+    },
+    {
+     "e": [
+      347
+     ],
+     "n": "Illyanna Ravensoak"
+    },
+    {
+     "e": [
+      348
+     ],
+     "n": "Magister Kelendris"
+    },
+    {
+     "e": [
+      349
+     ],
+     "n": "Immolthar"
+    },
+    {
+     "e": [
+      361
+     ],
+     "n": "Prince Tortheldrin"
+    },
+    {
+     "e": [
+      362
+     ],
+     "n": "Guard Moldar"
+    },
+    {
+     "e": [
+      363
+     ],
+     "n": "Stomper Kreeg"
+    },
+    {
+     "e": [
+      364
+     ],
+     "n": "Guard Fengus"
+    },
+    {
+     "e": [
+      365
+     ],
+     "n": "Guard Slipkik"
+    },
+    {
+     "e": [
+      366
+     ],
+     "n": "Captain Kromcrush"
+    },
+    {
+     "e": [
+      367
+     ],
+     "n": "Cho Rush"
+    },
+    {
+     "e": [
+      368
+     ],
+     "n": "King Gordok"
+    }
+   ]
+  },
+  {
+   "key": "dg-schwarzschlund",
+   "name": "Schwarzschlundfeste",
+   "lvl": [
+    55,
+    60
+   ],
+   "zone": [
+    2974
+   ],
+   "bosses": [
+    {
+     "e": [
+      3315
+     ],
+     "n": "Withermaw"
+    },
+    {
+     "e": [
+      3316
+     ],
+     "n": "Impaan the Imprisoner"
+    },
+    {
+     "e": [
+      3327
+     ],
+     "n": "Elder Shaman Bloodmane"
+    },
+    {
+     "e": [
+      3322
+     ],
+     "n": "Bonesnout the Unbroken"
+    },
+    {
+     "e": [
+      3334
+     ],
+     "n": "Varrox Bleakhoof"
+    },
+    {
+     "e": [
+      3323
+     ],
+     "n": "Blackmaw Behemoth"
+    },
+    {
+     "e": [
+      3336
+     ],
+     "n": "Unbound Spirit"
+    }
+   ]
+  },
+  {
+   "key": "dg-lbrs",
+   "name": "Untere Schwarzfelsspitze",
+   "lvl": [
+    55,
+    60
+   ],
+   "zone": [
+    229
+   ],
+   "bosses": [
+    {
+     "e": [
+      267
+     ],
+     "n": "Highlord Omokk"
+    },
+    {
+     "e": [
+      268
+     ],
+     "n": "Shadow Hunter Voshgajin"
+    },
+    {
+     "e": [
+      269
+     ],
+     "n": "War Master Voone"
+    },
+    {
+     "e": [
+      270
+     ],
+     "n": "Mother Smolderweb"
+    },
+    {
+     "e": [
+      271
+     ],
+     "n": "Urok Doomhowl"
+    },
+    {
+     "e": [
+      272
+     ],
+     "n": "Quartermaster Zigris"
+    },
+    {
+     "e": [
+      274
+     ],
+     "n": "Halycon"
+    },
+    {
+     "e": [
+      273
+     ],
+     "n": "Gizrul"
+    },
+    {
+     "e": [
+      275
+     ],
+     "n": "Overlord Wyrmthalak"
+    }
+   ]
+  },
+  {
+   "key": "dg-scholo",
+   "name": "Scholomance",
+   "lvl": [
+    58,
+    60
+   ],
+   "zone": [
+    289
+   ],
+   "bosses": [
+    {
+     "e": [
+      2805,
+      451
+     ],
+     "n": "Kirtonos the Herald"
+    },
+    {
+     "e": [
+      2804,
+      452
+     ],
+     "n": "Jandice Barov"
+    },
+    {
+     "e": [
+      2811,
+      453
+     ],
+     "n": "Rattlegore"
+    },
+    {
+     "e": [
+      2809,
+      454
+     ],
+     "n": "Marduk Blackpool"
+    },
+    {
+     "e": [
+      2813,
+      455
+     ],
+     "n": "Vectus"
+    },
+    {
+     "e": [
+      2810,
+      456
+     ],
+     "n": "Ras Frostwhisper"
+    },
+    {
+     "e": [
+      2803,
+      457
+     ],
+     "n": "Instructor Malicia"
+    },
+    {
+     "e": [
+      2802,
+      458
+     ],
+     "n": "Doctor Theolen Krastinov"
+    },
+    {
+     "e": [
+      2808,
+      459
+     ],
+     "n": "Lorekeeper Polkelt"
+    },
+    {
+     "e": [
+      2812,
+      460
+     ],
+     "n": "The Ravenian"
+    },
+    {
+     "e": [
+      2807,
+      461
+     ],
+     "n": "Lord Alexei Barov"
+    },
+    {
+     "e": [
+      2806,
+      462
+     ],
+     "n": "Lady Illucia Barov"
+    },
+    {
+     "e": [
+      2801,
+      463
+     ],
+     "n": "Darkmaster Gandling"
+    }
+   ]
+  },
+  {
+   "key": "dg-strat",
+   "name": "Stratholme",
+   "lvl": [
+    58,
+    60
+   ],
+   "zone": [
+    329
+   ],
+   "bosses": [
+    {
+     "e": [
+      473
+     ],
+     "n": "Hearthsinger Forresten"
+    },
+    {
+     "e": [
+      474
+     ],
+     "n": "Timmy the Cruel"
+    },
+    {
+     "e": [
+      476
+     ],
+     "n": "Commander Malor"
+    },
+    {
+     "e": [
+      475
+     ],
+     "n": "Willey Hopebreaker"
+    },
+    {
+     "e": [
+      477
+     ],
+     "n": "Instructor Galford"
+    },
+    {
+     "e": [
+      478
+     ],
+     "n": "Balnazzar"
+    },
+    {
+     "e": [
+      472
+     ],
+     "n": "The Unforgiven"
+    },
+    {
+     "e": [
+      479
+     ],
+     "n": "Baroness Anastari"
+    },
+    {
+     "e": [
+      480
+     ],
+     "n": "Narubenkan"
+    },
+    {
+     "e": [
+      481
+     ],
+     "n": "Maleki the Pallid"
+    },
+    {
+     "e": [
+      482
+     ],
+     "n": "Magistrate Barthilas"
+    },
+    {
+     "e": [
+      483
+     ],
+     "n": "Ramstein the Gorger"
+    },
+    {
+     "e": [
+      484
+     ],
+     "n": "Lord Aurius Rivendare"
+    }
+   ]
+  },
+  {
+   "key": "dg-former",
+   "name": "Terrasse des Formers",
+   "lvl": [
+    58,
+    60
+   ],
+   "zone": [
+    3001
+   ],
+   "bosses": [
+    {
+     "e": [
+      3498
+     ],
+     "n": "Titanosaur"
+    },
+    {
+     "e": [
+      3499
+     ],
+     "n": "Ravasaur Hunters"
+    },
+    {
+     "e": [
+      3500
+     ],
+     "n": "Thunderhoof"
+    },
+    {
+     "e": [
+      3501
+     ],
+     "n": "Venomridge"
+    },
+    {
+     "e": [
+      3507
+     ],
+     "n": "Direhorn Matriarch"
+    },
+    {
+     "e": [
+      3503
+     ],
+     "n": "Cinder"
+    },
+    {
+     "e": [
+      3504
+     ],
+     "n": "King Op"
+    },
+    {
+     "e": [
+      3597
+     ],
+     "n": "Snowtalon"
+    },
+    {
+     "e": [
+      3505
+     ],
+     "n": "Bolt"
+    },
+    {
+     "e": [
+      3600
+     ],
+     "n": "Vitrix"
+    },
+    {
+     "e": [
+      3502
+     ],
+     "n": "Nanaya"
+    }
+   ]
+  },
+  {
+   "key": "dg-ubrs",
+   "name": "Obere Schwarzfelsspitze",
+   "lvl": [
+    59,
+    60
+   ],
+   "zone": [
+    229
+   ],
+   "bosses": [
+    {
+     "e": [
+      3062
+     ],
+     "n": "Pyroguard Emberseer"
+    },
+    {
+     "e": [
+      3063
+     ],
+     "n": "Warchief Rend Blackhand"
+    },
+    {
+     "e": [
+      3068
+     ],
+     "n": "The Beast"
+    },
+    {
+     "e": [
+      3070
+     ],
+     "n": "Lord Valthalak"
+    },
+    {
+     "e": [
+      3069
+     ],
+     "n": "General Drakkisath"
     }
    ]
   }

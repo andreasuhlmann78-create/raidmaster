@@ -5,12 +5,16 @@ Bosse in der Reihenfolge des Raids mit Bestzeit und Datum, "–" für Bosse ohne
 Raidabend, darunter die Bestzeit für den ganzen Raid (erster Pull bis letzter Boss an einem Abend).
 Die bisherigen einzelnen Zeilen "⏱️ Neuer Rekord: …" entfallen (werden einmal aufgeräumt).
 
+Dungeons (ab 1.5.137, Nutzer 15:15): je Dungeon eine Tafel, nach Level sortiert (bosses.json "dungeons", Quellen in
+make_bosses.py). Eine Dungeon-Tafel zeigt nur gelegte Bosse (Name aus dem Spiel, deutsch) und "x von y Bossen".
+
 Zuordnung eines Kills zu Raid/Dungeon (ohne Discord testbar, tests/test_rekord_tafel.py):
-1. Encounter-ID steht in bosses.json (erzeugt aus den Raid-Daten des Addons) -> dieser Raid.
+1. Encounter-ID steht in bosses.json (Raids aus den Raid-Daten des Addons, Dungeons aus Deadly Boss Mods) -> dieser
+   Raid bzw. Dungeon.
 2. sonst: Kill hat als Topf einen eigenen Raid von WoW Forever ohne Bossliste (Barrow Deeps, Hyjalgipfel) -> dieser Raid
    (die Bosse kennt das Addon erst ab dem ersten Kampf; Reihenfolge = Reihenfolge des ersten Kills).
-3. sonst -> Tafel "Weitere Bosse (Dungeons und andere)". Grund: Das Addon trägt auch Dungeon-Bosse mit dem Topf des
-   laufenden Raidabends ein; der Topf allein sagt also nicht sicher, wo der Boss steht.
+3. sonst -> Tafel "Weitere Bosse (ohne Zuordnung)". Grund: Das Addon trägt auch Dungeon-Bosse mit dem Topf des
+   laufenden Raidabends ein (RaidMaster/Records.lua PoolFor); der Topf allein sagt also nicht sicher, wo der Boss steht.
 """
 from __future__ import annotations
 
@@ -20,18 +24,23 @@ import os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 OTHER = "_weitere"
-OTHER_NAME = "Weitere Bosse (Dungeons und andere)"
+OTHER_NAME = "Weitere Bosse (ohne Zuordnung)"
 MIN_DURATION = 10           # wie rmd.best_times: kürzere Kämpfe sind Messfehler
 EVENING_GAP = 6 * 3600      # mehr als 6 h zwischen zwei Kills = neuer Raidabend
 TITLE_PREFIX = "⏱️ Rekorde · "
 
 
-def load_bosses(path: str | None = None) -> list[dict]:
+def load_bosses(path: str | None = None, part: str = "raids") -> list[dict]:
+    """part = "raids" oder "dungeons" (Dungeons schon nach Level sortiert)."""
     try:
         with open(path or os.path.join(HERE, "bosses.json"), encoding="utf-8") as f:
-            return [r for r in json.load(f).get("raids") or [] if isinstance(r, dict) and r.get("key")]
+            return [r for r in json.load(f).get(part) or [] if isinstance(r, dict) and r.get("key")]
     except (OSError, ValueError):
         return []
+
+
+def load_dungeons(path: str | None = None) -> list[dict]:
+    return load_bosses(path, "dungeons")
 
 
 def encounter_map(raids: list[dict]) -> dict[int, tuple[str, int]]:
@@ -95,20 +104,28 @@ def full_clear(kills: list[dict], boss_ids: list[set]) -> dict | None:
     return best
 
 
-def boards(kills: list[dict], raids: list[dict], names: dict[str, str]) -> list[dict]:
-    """Alle Tafeln in fester Reihenfolge (Reihenfolge von bosses.json, "Weitere" zuletzt). Nur Raids mit mind. einem
-    Kill. Jede Tafel: {key, title, rows: [{n, d, t, new}], full}."""
-    emap = encounter_map(raids)
+def boards(kills: list[dict], raids: list[dict], names: dict[str, str],
+           dungeons: list[dict] | None = None) -> list[dict]:
+    """Alle Tafeln in fester Reihenfolge: Raids (Reihenfolge von bosses.json), Dungeons (nach Level), "Weitere"
+    zuletzt. Nur Raids/Dungeons mit mind. einem Kill. Jede Tafel: {key, title, rows: [{n, d, t, new, killed}], full,
+    dungeon, total}."""
+    dungeons = dungeons or []
+    areas = list(raids) + list(dungeons)
+    emap = encounter_map(areas)
     by_raid: dict[str, list[dict]] = {}
     for k in kills or []:
         if not k.get("e") or not k.get("t"):
             continue
         by_raid.setdefault(raid_of(k, emap, raids), []).append(k)
-    order = [r["key"] for r in raids] + [OTHER]
+    order = [r["key"] for r in areas] + [OTHER]
     out = []
     for key in order:
         ks = by_raid.get(key)
         if not ks:
+            continue
+        dg = next((d for d in dungeons if d["key"] == key), None)
+        if dg:
+            out.append(dungeon_board(dg, ks))
             continue
         raid = next((r for r in raids if r["key"] == key), None)
         evs = evenings(ks)
@@ -139,8 +156,30 @@ def boards(kills: list[dict], raids: list[dict], names: dict[str, str]) -> list[
                              "new": bool(k and id(k) in last_evening), "killed": True})
             full = None
         title = TITLE_PREFIX + (OTHER_NAME if key == OTHER else names.get(key, key))
-        out.append({"key": key, "title": title, "rows": rows, "full": full})
+        out.append({"key": key, "title": title, "rows": rows, "full": full, "dungeon": False, "total": None})
     return out
+
+
+def dungeon_board(dg: dict, ks: list[dict]) -> dict:
+    """Dungeon-Tafel: nur gelegte Bosse in der Reihenfolge des Dungeons, Name aus dem Spiel (neuester Kill)."""
+    evs = evenings(ks)
+    last_evening = {id(k) for k in evs[-1]} if evs else set()
+    rows = []
+    for b in dg.get("bosses") or []:
+        ids = set(int(e) for e in b.get("e") or [])
+        mine = [k for k in ks if k["e"] in ids]
+        if not mine:
+            continue
+        timed = [k for k in mine if k.get("d") and k["d"] >= MIN_DURATION]
+        k = min(timed, key=lambda x: x["d"]) if timed else None
+        newest = max(mine, key=lambda x: x["t"])
+        name = newest.get("n") if newest.get("n") and not str(newest.get("n")).startswith("Boss ") else b["n"]
+        rows.append({"n": name, "d": k["d"] if k else None, "t": k["t"] if k else None,
+                     "new": bool(k and id(k) in last_evening), "killed": True})
+    lo, hi = (dg.get("lvl") or [None, None])[:2]
+    lvl = f" (Level {lo}–{hi})" if lo and hi else ""
+    return {"key": dg["key"], "title": TITLE_PREFIX + dg.get("name", dg["key"]) + lvl, "rows": rows, "full": None,
+            "dungeon": True, "total": len(dg.get("bosses") or [])}
 
 
 def board_text(board: dict) -> str:
@@ -153,6 +192,9 @@ def board_text(board: dict) -> str:
             lines.append(f"**{r['n']}** – gelegt, keine Kampfdauer gemessen")
         else:
             lines.append(f"{r['n']} – noch kein Kill")
+    if board.get("dungeon"):
+        lines.append("")
+        lines.append(f"{len(board['rows'])} von {board['total']} Bossen gelegt")
     if board.get("full"):
         lines.append("")
         lines.append(f"🏁 Ganzer Raid (erster Pull bis letzter Boss): **{fmt(board['full']['d'])}** · "

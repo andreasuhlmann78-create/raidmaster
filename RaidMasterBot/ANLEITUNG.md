@@ -358,6 +358,10 @@ Für die Lua-Prüfung braucht der Bot `lupa` (steht in `requirements.txt`, wird 
     den Raid-Daten des Addons); Bosse ohne Zuordnung (z. B. Dungeons) stehen auf der Tafel „Weitere Bosse“. Kommt
     ein Raid neu dazu, postet der Bot alle Tafeln in der richtigen Reihenfolge neu. Die früheren Einzelzeilen
     „Neuer Rekord“ werden einmal gelöscht. Alle Bestzeiten als Liste: `/rekorde`.
+  - **Dungeon-Tafeln (ab 1.5.137):** je Dungeon eine Tafel unter den Raids, nach Level sortiert (20 klassische und
+    9 neue Dungeons von WoW Forever), z. B. „Die Todesminen (Level 17–26)“. Gezeigt werden nur gelegte Bosse mit
+    ihrem Namen aus dem Spiel und „x von y Bossen gelegt“. Encounter-IDs aus Deadly Boss Mods, deutsche Namen und
+    Level aus Blizzard (neue Dungeons) und PC Games (klassische) – Einzelheiten in `make_bosses.py`.
   - **Erfolge**: Unermüdlich (10 Raids am Stück), Stammgast (25 Raids), Urgestein (50), Bossjäger (100 Bosse),
     Retter in der Not (5× von der Ersatzbank), Glückspilz (10 Items), „Erster <Boss>“. Abfragen: `/erfolge [Name]`.
   - **Raider des Monats** am Monatsanfang (Raid dabei 10 Punkte, pünktlich 2, Ersatzbank bereit 5) – bekommt

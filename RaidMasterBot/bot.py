@@ -2609,6 +2609,7 @@ async def update_hall_of_fame():
 
 
 RECORD_BOSSES = rekord_tafel.load_bosses()
+RECORD_DUNGEONS = rekord_tafel.load_dungeons()      # ab 1.5.137: je Dungeon eine Tafel, nach Level sortiert
 
 
 async def cleanup_old_record_lines(ch) -> int:
@@ -2629,7 +2630,7 @@ async def update_record_boards(ch) -> dict:
     """Je Raid eine Tafel in #ruhmeshalle: einmal posten, danach nur bearbeiten (ab 1.5.136).
     Kommt ein Raid neu dazu oder fehlt eine Tafel, werden alle Tafeln in der richtigen Reihenfolge neu gepostet."""
     names = {r["key"]: rmd.pool_name(r["key"], bot.dkp_data) for r in RECORD_BOSSES}
-    boards = rekord_tafel.boards(kills_db.data.get("kills") or [], RECORD_BOSSES, names)
+    boards = rekord_tafel.boards(kills_db.data.get("kills") or [], RECORD_BOSSES, names, RECORD_DUNGEONS)
     st = state.data.setdefault("record_boards", {"order": [], "msgs": {}, "hash": {}})
     res = {"posted": 0, "edited": 0, "deleted_old": 0}
     if not state.data.get("record_lines_cleaned"):

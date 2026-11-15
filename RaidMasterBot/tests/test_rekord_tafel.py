@@ -80,7 +80,7 @@ class Tafeln(unittest.TestCase):
         self.assertEqual(mc["full"], {"d": 4095, "t": T0 + 5000})
         self.assertEqual([r["n"] for r in b[2]["rows"]], ["Erster", "Zweiter"])
         other = b[3]
-        self.assertEqual(other["title"], "⏱️ Rekorde · Weitere Bosse (Dungeons und andere)")
+        self.assertEqual(other["title"], "⏱️ Rekorde · Weitere Bosse (ohne Zuordnung)")
         self.assertEqual((other["rows"][0]["d"], other["rows"][0]["killed"]), (None, True))
 
     def test_text(self):
@@ -116,6 +116,46 @@ class Tafeln(unittest.TestCase):
         self.assertTrue(rt.is_old_record_line("⏱️ **Neuer Rekord: Lucifron in 1:12** (vorher 1:35 …"))
         for no in ("🏆 Erstkill", "", None, "⏱️ Rekorde · Molten Core"):
             self.assertFalse(rt.is_old_record_line(no))
+
+
+DUNGEONS = [
+    {"key": "dg-rfc", "name": "Ragefireabgrund", "lvl": [13, 18], "bosses": [{"e": [2732], "n": "Oggleflint"},
+                                                                            {"e": [2735], "n": "Bazzalan"}]},
+    {"key": "dg-dm", "name": "Die Todesminen", "lvl": [17, 26], "bosses": [{"e": [2741, 161], "n": "Rhahk'Zor"},
+                                                                         {"e": [2746], "n": "Edwin VanCleef"},
+                                                                         {"e": [2745], "n": "Cookie"}]},
+]
+
+
+class Dungeons(unittest.TestCase):
+    def test_dungeon_tafeln_nach_level(self):
+        ks = [k(2741, T0, 40, p="mc", n="Rhahk'Zor"), k(2746, T0 + 600, 95, p="mc", n="Edwin van Cleef"),
+              k(2732, T0 - DAY, 30, p=None, n="Oggleflint"), k(663, T0, 95)]
+        b = rt.boards(ks, RAIDS, NAMES, DUNGEONS)
+        self.assertEqual([x["key"] for x in b], ["mc", "dg-rfc", "dg-dm"])          # Raids, dann nach Level
+        dm = b[2]
+        self.assertEqual(dm["title"], "⏱️ Rekorde · Die Todesminen (Level 17–26)")
+        self.assertEqual([r["n"] for r in dm["rows"]], ["Rhahk'Zor", "Edwin van Cleef"])  # nur gelegte, Name aus dem Spiel
+        t = rt.board_text(dm)
+        self.assertIn("2 von 3 Bossen gelegt", t)
+        self.assertNotIn("Cookie", t)                                                   # ungelegt: nicht gezeigt
+        self.assertNotIn("Ganzer Raid", t)
+        # alte ID (161) zählt auch
+        b2 = rt.boards([k(161, T0, 40, n="Rhahk'Zor")], RAIDS, NAMES, DUNGEONS)
+        self.assertEqual(b2[0]["key"], "dg-dm")
+
+    def test_echte_dungeondaten(self):
+        dg = rt.load_dungeons()
+        self.assertEqual(len(dg), 29)                                                   # 20 klassische + 9 neue
+        lv = [d["lvl"][0] for d in dg]
+        self.assertEqual(lv, sorted(lv))                                                # nach Level sortiert
+        names = [d["name"] for d in dg]
+        for n in ("Halle der Thanen", "Die Todesminen", "Terrasse des Formers", "Obere Schwarzfelsspitze"):
+            self.assertIn(n, names)
+        ids = [e for d in dg + rt.load_bosses() for b in d["bosses"] for e in b["e"]]
+        self.assertEqual(len(ids), len(set(ids)))                                       # jede ID nur einmal
+        dm = next(d for d in dg if d["name"] == "Die Todesminen")
+        self.assertIn(2746, [e for b in dm["bosses"] for e in b["e"]])                  # VanCleef (Classic-ID)
 
 
 class Msg:
@@ -204,7 +244,7 @@ class BotAblauf(unittest.TestCase):
         self.assertEqual(ch.msgs[0].content, "🏆 Erstkill … bleibt")      # Erstkill bleibt
         self.assertEqual(self.titles(ch), ["⏱️ Rekorde · Molten Core", "⏱️ Rekorde · Onyxias Hort",
                                            "⏱️ Rekorde · Barrow Deeps",
-                                           "⏱️ Rekorde · Weitere Bosse (Dungeons und andere)"])
+                                           "⏱️ Rekorde · Weitere Bosse (ohne Zuordnung)"])
         # nochmals ohne Änderung: nichts gepostet, nichts bearbeitet
         r = asyncio.run(self.bot.update_record_boards(ch))
         self.assertEqual((r["posted"], r["edited"], r["deleted_old"]), (0, 0, 0))
