@@ -24,6 +24,19 @@
       A6 /ahs testroutine sniper: alle S-Tests + T752 + neuer S-Takt grün; Abschnitt "Geld je Ziel" Differenz 0.
     Bericht: je Punkt Ursache (Code-Stelle) + Fix + Test + Messwerte aus echten Daten; "umgesetzt, zur Prüfung".
 
+>>> VORPRÜFUNG 0.65.185 (Supervisor 12:35, Code gelesen, Bericht fehlt noch – "nicht warten"):
+    V185-1 WICHTIG: (b) "nur ein Einzelkauf zur Zeit" (ItemGate, Wartezeit 1–3 s je Kauf) beruht auf meiner FALSCHEN Annahme von
+           12:08 (korrigiert 12:22: die 67 Käufe kamen an, nur spät bestätigt). Gleichzeitiges Senden hat NICHT nachweislich
+           verloren. Ein Warten von 1,5 s je Kauf macht den Sniper langsamer (≈ 40 Käufe/Min. statt ~2/s) und kann Duelle
+           kosten. -> (b) NICHT fest einbauen, sondern nach der Messung (a) entscheiden: Erfolgsquote "offen 0/1/≥2" aus
+           buyStat. Bis dahin Schalter (Standard: AUS = paralleles Senden wie 0.65.183), Testbericht zeigt die Quoten; liegt
+           "offen ≥2" nicht deutlich unter "offen 0" (< 90 % davon), bleibt es aus.
+    V185-2 (e) Doppel-Sendung wird nur GEZÄHLT (sentIDs), PlanNext überspringt die auctionID aber nicht -> wenn dup > 0, muss
+           PlanNext gesendete/gekaufte auctionIDs als "gesendet"/"gekauft" führen (über neue Suchen hinweg). sentIDs wird nie
+           geleert – Frist (z. B. ITEM_LATE_MAX) einbauen.
+    V185-3 SN-B12 (Vollscan-Sperre ohne Zeitlimit) ist in 0.65.185 noch NICHT umgesetzt (Sn:FullScanRunning unverändert) –
+           Release-Blocker, gehört in die nächste Version.
+    V185-4 SN-B11 (f) Heute-Zähler (Treffer vs. Stück) noch offen.
 >>> SN-B12 RELEASE-BLOCKER (Nutzer 12:17, Screenshot 12:16, 0.65.183): Vollscan fertig ("AH-Scan fertig", "letzter Scan vor
     42 Sek."), Sniper bleibt trotzdem gesperrt: rot "Warte, bis der Vollscan fertig ist.", "Ergebnis ist veraltet – neue Suche
     nötig", "gesucht vor 5 Min.", Kaufen grau; Sniper AN/AUS (4×) hilft nicht. Code (Supervisor): Sn:CanSearch (Sniper.lua:872)
