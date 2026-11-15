@@ -1,0 +1,75 @@
+AHSentinel 0.65.196 – GSL2-1 (b)(c)(d), GSL2-3, dazu Befunde TT-DE3 und DE-AUFT1 – umgesetzt, zur Prüfung
+CurseForge: nein (nächster Termin 18:00). GitHub-Release v0.65.196 und sofort im Discord; nicht in download/.
+Grundlage: GSL2 betraf 0.65.193. GSL2-1 (a) [= GSL1-1], GSL2-2 [= GSL1-3] und GSL2-4 [= GSL1-2] stecken seit 0.65.194 drin
+(Bericht 2026-11-15-1528). Hier der Rest.
+
+GSL2-1 (2) – Befund teilweise falsch, mit Code belegt (0.65.193, Sniper.lua):
+  - ItemPurchaseFailed -> MarkDead (Z. 729, 600 s) wird beim MODERNEN AH (WoW Forever: Code 10 kommt als Zahl in
+    AUCTION_HOUSE_SHOW_ERROR) gar nicht erreicht. Aufrufer ist nur der Fehlerzweig mit AH.lastBuyError (Z. 2770), und den
+    setzt allein LegacyAH.lua Z. 757 (altes Classic-AH, UI_ERROR_MESSAGE). Code 10 lief über ItemFallback (Z. 602):
+    `b.listing.gone = true` = "weg" NUR in der aktuellen Liste bis zur nächsten Suche, kein Sn.dead, kein HideDeadOffer, keine 600 s.
+    MarkDead für Waren nur bei COMMODITY_PURCHASE_FAILED (Z. 2759).
+  - Das sichtbare Ergebnis ("Treffer!", Raste ohne Kauf, gute Angebote "weg") gab es trotzdem. Neu gefundener Fehler, der dazu
+    passt (Verdacht, zu messen):
+    Der Fehlerzweig nahm `itemBuys[1]`. Liegt dort ein schon abgelehnter, freigegebener Kauf (bleibt bis 30 s in der Liste),
+    wurde der Code 10 des NEUEN Kaufs übergangen: kein errorSeen, kein Fallback. Der neue Kauf blieb "offen", und "ein
+    Einzelkauf zur Zeit" (ItemGate) liess die Rasten bis zur Wartezeit ins Leere laufen.
+    Behoben: Es gilt jetzt der älteste noch offene Kauf ohne Fehler (nicht freigegeben). Test T776 Schritt 3 deckt das ab;
+    vorher war er rot ("3. gesendet geplant nil").
+GSL2-1 (b) umgesetzt:
+  - Code 10 / Fehler ohne Angebot (ItemFallback) und keine Antwort (ExpireItemBuys) zählen je auctionID einen Versuch
+    (Sn:OfferTry). Das Angebot bleibt kaufbar ("Fehler – nochmal" / "keine Antwort").
+  - Nach OFFER_RETRY_MAX = 2 Wiederholungen (3. Versuch ohne Kauf) folgen OFFER_PAUSE = 30 s Pause: Status "Pause 30 s" bzw.
+    "Pause", nicht planbar (SentState "Pause"), Protokoll SNIPER-PAUSE. Danach wieder kaufbar.
+  - Bestätigung (PURCHASE_COMPLETED) setzt den Zähler zurück. Nie MarkDead/600 s; Code 4 bleibt "weg" (SN-UI1).
+GSL2-1 (c):
+  - Doppelt senden ist gesperrt, solange ein Kauf offen ist (SentState "gesendet": itemBuys/itemLate nicht abgelehnt, sentIDs
+    300 s). Seit 0.65.194 ausserdem: ein Einzelkauf zur Zeit und keine Suche während eines offenen Kaufs.
+  - Erneut gesendet wird nur nach Ablehnung (Code 10) oder ohne Antwort nach 30 s – wie (b) es erlaubt, höchstens 2-mal.
+GSL2-1 (d): Statt "Server noch nicht bereit – Raste wartet" steht jetzt "Server noch nicht bereit (0,4 s) – Raste wartet"
+    (Zeit seit der ersten Raste, die warten musste). Die Zahl der Rasten steht im Sniper-Bericht ("Raste wartete auf Server n").
+GSL2-3:
+  - Messung: Rechenzeit je Sniper-Ereignis (debugprofilestop um Sn:OnEvent) und je Fenster-Neuaufbau (SNIPER_CHANGED ->
+    UI:RefreshActive). Je Name Anzahl, Ø und Höchstwert, die 6 höchsten in der Zeile "Einzelkäufe" des Sniper-Berichts
+    ("Rechenzeit (Sniper-Ereignisse und Fenster): …").
+  - Beim Snipen pausiert: Solange der Sniper scharf und das AH offen ist, beginnen "forecast-eval" und "cache:*" nicht
+    (A:SnipeDefer). Höchstens 120 s je Aufgabe (keine Sperre ohne Zeitlimit); begonnene Aufgaben laufen in ihren Pausen
+    weiter, andere Aufgaben ohne Änderung.
+  - Beim ersten Gesamtlauf fiel s43 (H T126) einmal mit 16,4 ms durch, gemessen über 82 Bilder statt 17. Ursache belegt: Bilder,
+    in denen nur aufgeschobene Aufgaben warteten, zählten in der Messung mit. Behoben: Diese Bilder zählen jetzt nicht mehr
+    (RunJobs meldet "nichts gerechnet"). Danach wieder 17 Bilder, 6,0 ms.
+    Die 16,4 ms selbst waren ein einmaliger Ausreisser der echten CPU-Zeit: 12 Wiederholungen, davon 8 gleichzeitig, lagen alle
+    bei 6,0–6,3 ms. Ältere Gesamtläufe zeigten dieselbe Art Ausreisser (T459 in 0.65.176/177).
+  - Ob die 113–116-ms-Bilder nach dem Kauf von AHS kommen, zeigt erst die Messung im Spiel. Verdacht, zu messen: Sie stammen aus
+    der Blizzard-AH-Oberfläche (AHS-Profiler lag bei Ø 14–15 ms je Bild, AHS-Aufgaben "keine").
+Tests (eigene, keine Freigabe):
+  - T776 (GSL2-1 b): Code 10 -> kaufbar; keine Antwort -> kaufbar; 3. Versuch -> Pause 30 s; tot false, ausgeblendet 0;
+    nach 30 s kaufbar; Bestätigung -> Zähler weg.
+  - T777 (GSL2-3): Aufschieben ja/nein inkl. 120-s-Grenze, begonnene Aufgaben, AH zu; Text der Rechenzeit.
+  - T775/s195, s42, s44 grün. Locales EN/DE (+3, alle Sprachen), CHANGELOG EN/DE.
+Gesamtlauf der Nachbildung (wowsim, alle Szenarien, nach der Korrektur der Bild-Zählung): BESTANDEN 256, FEHLGESCHLAGEN 0.
+
+TT-DE3 (Verdacht, Ursache aus dem Code belegt, Zahl ohne Änderung, Tooltip nicht angefasst):
+  - "Entzaubern 10s73" ist D:DealValue -> D:ActualValue (Disenchant.lua). Das rechnet NICHT je Item, sondern je GRUPPE:
+    D:Prior(4251) -> Schlüssel "2:k:a" (grüne Rüstung, Itemstufen-Band). D:Combined(key) zählt eigene deStats[key] UND geteilte
+    deShared[*].g[key] aller Items dieses Bandes zusammen.
+  - Wert = Σ (total_m × MatPrice_m) / n; netto = Wert − Σ (total_m/n × FeePerPiece_m) (D:ActualNet). Korrektur nur bei f < 1.
+    Die Tooltip-Preise (3s99/14s01/34s74) sind bereits netto. Mit denselben Preisen ergibt sich 10s73 genau dann, wenn die
+    Gruppe je Entzauberung z. B. etwas mehr Essenz/Splitter bringt als die 415 eigenen Entzauberungen von 4251 allein.
+  - Bitte mit deStats["2:k:a"] + deShared (gleicher Schlüssel) aus den SavedVariables nachrechnen. Die Formel steht oben.
+  - Die Abweichung ist +31c (+3 %). Ob "je Gruppe" so bleiben soll (mehr Daten, gleicher Gruppen-Würfel) oder je Item gerechnet
+    werden soll, entscheidet der Supervisor bzw. der Nutzer. Bis dahin ändere ich nichts.
+DE-AUFT1 (Ursache aus dem Code belegt):
+  - BK:OnDisenchant (Books.lua) verteilt den Einstand JE ENTZAUBERUNG auf die Beute dieser einen Entzauberung, nach
+    aktuellem Preis (BK:MatValue).
+  - Bringt eine Entzauberung nur Staub (74,5 % der Fälle), trägt der Staub den GANZEN Einstand des Teils. Bringt sie nur Essenz,
+    trägt die Essenz alles.
+  - Folge: Der Einstand je Material ≈ Einstand des Teils / Ø Stück je Entzauberung dieser Art, unabhängig vom Marktwert.
+    Mit den Supervisor-Zahlen: Staub 1,120/0,745 = 1,50 Stück je Staub-Entzauberung, Essenz 0,335/0,219 = 1,53. Daraus folgen
+    Einstände 5s06 bzw. 5s61, also Teil-Einstand ca. 7s6 bzw. 8s6. Das passt zu den Schulterpreisen und erklärt Staub über und
+    Essenz weit unter dem Markt.
+  - Vorschlag zur Entscheidung (betrifft buchhaltung.md "Entzaubern = Umbuchung"): Einstand je Stück = Preis_m × (Einstand des
+    Teils / erwarteter Wert der Entzauberung). Glück oder Pech (tatsächlicher minus erwarteter Wert) wird als eigener Posten
+    "Entzauber-Ausbeute" gebucht.
+  - Alternative ohne neuen Posten: so lassen und nur im Tooltip/Bericht den Gewinn der GANZEN Kette zeigen.
+  - Ich ändere die Buchhaltung erst nach Entscheid.
