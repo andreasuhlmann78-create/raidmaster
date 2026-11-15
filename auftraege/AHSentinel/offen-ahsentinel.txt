@@ -40,6 +40,24 @@
 >>>       ein Satz, Tests, offene Fragen, und die Liste "Im Spiel prüfen" (kurz, in der Reihenfolge, in der der Nutzer sie tun soll).
 >>>    Der Block NACHT-ARBEIT vom 14.11. weiter unten ist ÜBERHOLT (alte Reihenfolge).
 
+>>> TB196 (Nutzer-Screenshot 16:49, Sniper-Fenster 0.65.196; Supervisor 16:54) – Masterplan Phase 1.3/1.2:
+    NACHGERECHNET OK: Kopf "noch 859 Stück" = 1000 − 140 gekauft − 1 wartet ✓; "Insgesamt 14 Stück für 1g24s84 (Ø 8s92)" =
+    124,84 / 14 = 8,917 ✓; Dokebi-Tooltip Gewinn +77c = Entzaubern 10s47 − Preis 9s70 ✓.
+  TB196-1 HOCH – "Interner Auktion-Fehler" (rot, Bildmitte) um 16:49 mit 0.65.196, während Käufe zu 8s90 bestätigt werden.
+         Protokoll 3 (bis 16:45) hatte 0 × Code 10 – Ursache mit dem nächsten Protokoll (GSSniperLog 1.4) belegen; bis dahin
+         Verdacht: zweiter Kauf/Suche im selben Moment. Jeder Code 10 muss im Sniper-Bericht mit Ursache stehen (letzte Anfrage,
+         offene Käufe, Server bereit vorher).
+  TB196-2 MITTEL (A5 "nichts abgeschnitten", TB184-U2 nicht erledigt) – Zielliste: Namen abgeschnitten ("Azurblaue Seide…",
+         "Dokebi-Armschi…", "Schultern des…"), Spalte Stand abgeschnitten ("140/1000 · 1 warten · Rest 7g81 · vor…").
+         Stand kürzer (z. B. "140/1000 · Rest 7g81", Rest im Tooltip) oder Spalte breiter; Namen voll im Tooltip, gekürzt nur
+         mit "…" an Wortgrenze. Die UI-Prüfung (TB184-U1/U3) muss das finden – wenn nicht: Prüfung reparieren.
+  TB196-3 MITTEL – Kopfzeile "Heute: 433 Treffer · 169 mit Kauf · 263 verpasst · gekauft 395 Stück · Ø Reaktion 10.4 s" bricht um;
+         "10.4 s" steht in der nächsten Zeile links neben "4 Einträge" (überlappt fast). Zahlen: 169 + 263 = 432 ≠ 433 – der
+         eine wartende Treffer muss genannt werden ("1 wartet"), sonst geht die Zahl nicht auf. Dezimalpunkt deutsch: "10,4 s".
+  TB196-4 NIEDRIG – Liste rechts: 13 gleiche Zeilen "8s90 · 97 % · 1 · kaufbar" (399 Einträge, 31 Seiten). Gleiche Angebote
+         (gleicher Preis, gleiche Menge, gleiches iLvl) als EINE Zeile "8s90 × 13 kaufbar" zusammenfassen (Kaufen bleibt je
+         auctionID, SN-UI1 zählt weiter je Angebot). Erst nach Phase 1.3, nur wenn die Tests von SN-UI1 grün bleiben.
+
 >>> GSL3 – PROTOKOLL 3 (GSSniperLog 1.3, Nutzer 16:18–16:45, AHS 0.65.196; Supervisor 16:50). Masterplan Phase 1.2.
     GUT (Fortschritt belegt): 14 Käufe gesendet, 14 bestätigt (100 %), Code 10 = 0, doppelt 0, wiederholt 0, ohne Antwort 0,
     Antwort Ø 0,46 s; Zähler AHS 14 / 1g21s00 = bestätigt = Gold-Abgang (exakt); keine Bilder > 100 ms in den letzten Minuten.
