@@ -32,6 +32,11 @@ PS-TC1 MITTEL (Supervisor 14:45, aus AHSentinel-Testbericht 0.65.157 T373): Prof
    GRUNDSATZ: Test (grosse Rezeptliste, Aufruf ≤ 2 ms, Portionen ≤ 8 ms), Selbstkontrolle (Diagnose "API TodayCrafts längster
    Aufruf X ms", rot > 16 ms), Prüfung Supervisor. Reihenfolge: wenn ProfessionSentinel drankommt (Fokus AHSentinel, Nutzer 08:30).
 
+>>> NEU 19:32 – ZIEL DES NUTZERS: "das beste Crafter-Addon auf dem Markt, nützlich in jeder Hinsicht", für ALLE WoW-Versionen.
+>>>    Anweisung: auftraege/ProfessionSentinel/anweisung-ui-crafter-2026-11-15.txt (UI-Überarbeitung 2, alle Spielversionen).
+>>>    STATUS: wartet auf Freigabe des Bild-Entwurfs durch den Nutzer – bis dahin NICHT umsetzen. Grundlage davor: PS-TC1 und Ruckeln
+>>>    (shared/wissen/analysen/professionsentinel-2026-11-16.md P-1, Ausbau A1/A2 in professionsentinel-ausbau-aus-ahs-2026-11-16.md).
+
 ========================================================================================================================
 PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 00:40, nachgeführt Nachprüfung 0.9.45 14.11. 08:30).
 Immer von oben nach unten abarbeiten. Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei jeder Änderung nachgeführt.
