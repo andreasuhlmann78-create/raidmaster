@@ -207,8 +207,8 @@ PRÜFUNG UP-404 (Supervisor 15.11. 12:50, Bericht 2026-11-15-0145 gelesen): Ursa
    02:33 läuft (Neustart, Administrator für neue Rolle). Teil (1) Ursache damit erledigt. OFFEN, zur Prüfung: (2) bei Dauerfehler
    nicht alle 5 s versuchen (Rückzug auf 1 Min., eine Zeile je Minute) – im Uploader umsetzen bzw. belegen; (3) Beleg, dass seit
    14.11. 18:50 nichts verloren ging (erster erfolgreicher Upload nach /uploader mit Zeit); (4) Fenster-Text bei 404 in Worten:
-   "Bot nicht auf dem Server oder Webhook gelöscht – /uploader im Discord neu ausführen". Nutzer: nach /uploader beide Rechner
-   neu konfiguriert? (offen).
+   "Bot nicht auf dem Server oder Webhook gelöscht – /uploader im Discord neu ausführen". Nutzer 15.11. 12:47: /uploader ausgeführt,
+   neue Konfiguration eingespielt, Uploader läuft wieder ohne 404 (bestätigt). Offen bleiben nur (2), (3), (4).
 UP-404 HOCH (Nutzer 15.11. 01:26, Screenshot Uploader): "Abgleich: Discord antwortet 404 – lokale Dateien bleiben unverändert,
    neuer Versuch später." alle 5 s seit mind. 01:23; "zuletzt hochgeladen 14.11. 18:50 (DESKTOP-NVITMSE) · neuester Stand: – ·
    FEHLER: Discord antwortet 404". Der Abgleich über Discord findet sein Ziel nicht mehr (Kanal/Nachricht/Webhook gelöscht oder
