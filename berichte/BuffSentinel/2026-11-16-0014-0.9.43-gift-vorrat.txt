@@ -1,0 +1,30 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.43-gift-vorrat
+Datum: 16.11.2026, 00:14 (aus date)
+
+Stand: Gift-Vorrat (Schurke) umgesetzt, zur Prüfung. Daten: shared/wissen/daten/BuffSentinelGifte.lua (Antwort 00:05).
+
+Veröffentlicht: download/BuffSentinel-0.9.43.zip, README, announce 0.9.43 (+ Zip), 0.9.42 entfernt; auf origin/main nachgeprüft.
+addon_check "OK (1 Warnungen)" (nur Lua-Syntax). cmp gegen die Datei IN der Zip: BuffSentinelGifte.lua gleich; dazu Game/Sync/Test/Markt
+v7, BuffSentinelVorratDaten, BuffSentinelTotems gleich. .toc lädt BuffSentinelGifte.lua nach BuffSentinelTotems.lua.
+
+Umsetzung
+- Data/Rogue.lua "poisonstock": alertOnly, max = 3, low = 10, minLevel = 20, auch allein. Core.lua SupplyCount (supply.poisons): alle
+  Listen des Zweigs (BS.DATA_BRANCH) zusammen, auch "saison" (wie beauftragt: mitzählen schadet nicht), über alle Taschen.
+- Bewusste Regel (bitte prüfen): Summe ALLER Gifte statt "aufgetragenes Gift" – welches Gift auf der Waffe ist, lässt sich nicht sicher
+  einer Item-ID zuordnen. Folge: kein Fehlalarm; ein Schurke mit 20 Sofort- und 0 Tödlichen Giften bekommt keinen Hinweis (verpasst).
+- Stufe 20: ab dann gibt es Gifte (Schurken-Giftquest); keine ID, eine Stufe – bitte prüfen.
+- Locales EN/DE (4), CHANGELOG EN/DE.
+
+ABGLEICH alte Listen Data/Rogue.lua (INSTANT/DEADLY, von vor der Regel) mit den Spieldaten (maschinell):
+- Wrath: identisch (Sofort 9 IDs, Tödlich 9 IDs).
+- TBC: alt zusätzlich 43230, 43231 (Sofort) und 43232, 43233 (Tödlich) – Wrath-Gifte, in TBC nicht vorhanden.
+- Era/wowf: alt zusätzlich 21927, 43230, 43231 (Sofort) und 22053, 22054, 43232, 43233 (Tödlich) – TBC-/Wrath-Gifte.
+- Fehlend in den alten Listen: nichts. Die Extras sind harmlos (Gegenstand gibt es im Zweig nicht -> 0 in den Taschen); die Listen für
+  "Gift auf die Waffe" (poison_mh/oh) bleiben darum unverändert. Wund-/Verkrüppelnd-/Gedanken-/Anästhetikum-Gifte kann der Knopf
+  weiterhin nicht auftragen (wie bisher nur Sofort/Tödlich) – möglicher späterer Ausbau.
+
+Belege: T242 "7/7/9/14/nil · ja" (Era 8928×4 + 10922×3 = 7; Forever 7; TBC + 21835×2 = 9; Wrath + 43231×5 = 14; Cata nil; Wasser zählt
+nicht; Anzeige 7 auf 60 ja, 10 nein, Stufe 19 nein, 0 auf 20 ja). T239 jetzt 19 Vorrats-Einträge: Mittel 0,086 ms, höchstens 0,124 ms je
+Taschen-Ereignis (Ziel < 1 ms). run25m OK 188, bekannte 12 Nachbau-FEHLER. Offline-Routine (veröffentlichte Zip): 8 × RESULT PASS.
+
+Nächste Punkte (Antwort 00:05): Wiedergeburt-Saaten, Teleport-/Portal-Runen, Ghul – Daten-Frage folgt in eigener Datei.
