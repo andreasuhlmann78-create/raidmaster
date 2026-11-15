@@ -1,0 +1,11 @@
+AHSentinel 0.65.242 – Phase 7 MN5 (Antwort Supervisor 18:22: A:PriceInfoNet nur für den Markt-Reiter) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.242 und sofort im Discord.
+Umsetzung:
+  - AHAnalyzerPro.lua A:PriceInfoNet(id): eigener Wert = A:PriceInfo (unverändert); ohne eigenen Wert A:NetPrice (nur fremde Werte,
+    neuer als der eigene Scan, ≤ 6 Std., Schalter "Marktdaten teilen") als { value, source = "netz", unsure = true, netAge }.
+  - Einziger Nutzer: Markt-Reiter-Detail (MV:DetailLines) – nur ohne eigenen Preis und Marktwert eine Zeile "Netz (andere Spieler):
+    x, vor n Min. – unsicher, nie für Käufe". A:PriceInfo, Tooltip, API (ProfessionSentinel), Buchhaltung, Sniper, Lohnt bis:
+    unverändert ohne Netz (grep: PriceInfoNet nur in MV:DetailLines).
+Tests: T816 (eigener Wert 500/ah; ohne eigenen 777/netz unsicher 10 Min.; PriceInfo ohne Netz nil; Detail nur ohne eigenen Wert;
+  Schalter aus nil) – mit 0.65.241 rot (PriceInfoNet fehlt), mit 0.65.242 grün. T783 (MN5 Netz-Wert) grün. s42 grün. CHANGELOG EN/DE.
+Gesamtlauf (frischer Klon, Kopie 0.65.242): BESTANDEN 293, FEHLGESCHLAGEN 0.
