@@ -1,5 +1,10 @@
 >>> NUR KETTE (Nutzer 15.11. 07:11 "nur Kette bitte"): ausschliesslich KETTE-K1, alles andere ruht (auch Sniper-Reste SN-B6/SN-B8 –
     die bleiben offen und kommen erst wieder, wenn der Nutzer es sagt).
+    ZIEL (Nutzer 07:12 "er soll es soweit machen, dass wir releasen können"): KETTE-K1 komplett bis RELEASE-KANDIDAT – eine Version
+    mit Ke.LIVE = true, alle Punkte (1)–(4) umgesetzt, eigener Volltest grün, NUR im Repo (download/), NICHT auf CurseForge.
+    Ablauf: Nutzer testet im Spiel (/ahs testroutine + Blick auf Heute tun/Beste Rezepte) -> Supervisor rechnet die Ketten-Zeilen
+    nach -> bei OK geht genau diese Version um 18:00 auf CurseForge (Regel 1× täglich). Findet der Supervisor einen Fehler: Ke.LIVE
+    im nächsten Kandidaten wieder false bzw. Fehler beheben – kein Release mit falschen Ketten-Zahlen.
 KETTE-K1 HOCH – Ketten Schritt 2 bis zur Freigabe (Vorgaben 14:51, Freigabe-Regel 14:09):
     (1) WIDERSPRUCH beheben (Testbericht 01:36 vs. Beste Rezepte 01:04): "MARKT-KERN Ketten" zeigt Schwere Leinenhandschuhe 4307
         "verk. +39 (Wert 133)" und die Braune Leinenhose 4343 GAR NICHT, "Beste Rezepte" zeigt beide "+61c ent.". Nachrechnung
