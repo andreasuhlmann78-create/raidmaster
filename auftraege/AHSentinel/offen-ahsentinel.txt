@@ -171,6 +171,9 @@
 
 >>> POST-BLOCK1 HOCH – SPIELER-MELDUNG (fremder Spieler, über den Nutzer 18:25): "error when posting item
 >>> POST-BLOCK1 – NACHGESTELLT VOM NUTZER (19:12, 3 Bildschirmfotos 19:10:42–19:10:46, Client 0.65.203, altes AH; Nutzer: "geht nicht"):
+>>> ENTSCHEID DES NUTZERS 19:15 zu WS-LOOP1 + POST-BLOCK1: "Ich finde die Warnung top – sie muss einfach funktionieren!"
+    -> Der Warnschutz BLEIBT (nicht entfernen, nicht abschwächen). Er muss in allen drei Wegen funktionieren: "Preis anpassen" führt
+    zu einem Preis ohne erneute Warnung, "Trotzdem einstellen" stellt wirklich ein (ohne Sperre), "Abbrechen" stellt nichts ein.
 >>> WS-LOOP1 – HOCH, SPIELER KANN NICHT EINSTELLEN (19:14, Nutzer: "das geht eben auch nicht – dann kommt die Warnung"). BELEGT IM CODE:
     Seller.lua Se:SellWarning Zeile ~18: Warnung, wenn unit × (1 − 5 %) < Einkaufs-Ø (Erlös NACH Gebühr unter dem Einkauf). Aber
     ref = avg, und "Preis anpassen (…)" (UI_Sell.lua 698 d.onFix) setzt genau avg = 9s19c. Mit 9s19c gilt wieder 919 × 0,95 = 873 < 919
