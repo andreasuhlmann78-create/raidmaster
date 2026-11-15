@@ -1,0 +1,49 @@
+BERICHT LEVELPILOT AN DEN SUPERVISOR (PRÜF-SITZUNG)
+Stand: 15.11.2026 21:10 · Sitzung: LevelPilot-Projekt-Sitzung · Version: 3.12.35 · Commit: dieser Commit
+(announce/levelpilot__levelpilot-3.12.35.LevelPilot.zip)
+Anlass: UC-W1 MITTEL (Prüfung 19:21) – "313 Yards (Weg unbekannt) – Der abtrünnige Lich" am AH in Undercity.
+
+UMGESETZT, ZUR PRÜFUNG
+URSACHE (belegt):
+- Daten: Alle eingesandten Wegdaten (testberichte/wege/LevelPilot/*.json, 197 Dateien) für Undercity 1458 zusammengeführt:
+  1581 Wegstücke; das grosse Netz (1080 Knoten auf 0,1 % gerundet) enthält sowohl die AH-Positionen (64.3,35.9: nächster
+  Knoten 0,45 %; 64.3,52.5: 0,22 %) als auch einen Knoten 0,32 % neben Bethor Iceshard (NPC 1498, Paket 84.1,17.5).
+  Ein gelaufener Weg existiert also. (Die Auswertung wege/auswertung.md nennt 3 Teile; die 2 kleinen liegen abseits.)
+- Code: Navigation.lua (Recalc) nimmt Graph:Path; Nav.Known verlangt, dass ausser dem ersten/letzten Stück (<= 40 yd)
+  nur gelaufene/geteilte Kanten vorkommen. Graph:PathRaw erlaubt Luftlinien zwischen Knoten derselben Zone (VIRT_RANGE).
+  In Undercity liegen die Ebenen auf derselben Karte übereinander; die Luftlinie quer über die Ebenen ist billiger als der
+  gelaufene Weg über Ring/Aufzug.
+- Messung im Nachbau mit genau diesen Daten: normale Suche AH (64.3,35.9) -> Bethor: Weg mit 6 Luftlinien (längste 119 yd),
+  Known = false -> "Weg unbekannt"; von 64.3,52.5: 4 Luftlinien (115 yd); vom FEST-Ort 75.5,33.5: 2 Luftlinien (98 yd).
+  Das erklärt auch FEST 15.11. 09:11 (der Spieler folgte einem Weg mit Luftlinie, die nicht begehbar ist).
+LÖSUNG:
+- Graph.lua:621 PathRaw(…, knownOnly): nur gespeicherte Kanten (und Übergänge über Kanten), Luftlinie nur Start->erster
+  Knoten und letzter Knoten->Ziel, jeweils <= Nav.ARRIVE (40 yd) – genau die Regel von Nav.Known; ohne Weg: nil (keine
+  Notlösung Luftlinie). Graph.lua:765 Graph:PathKnown.
+- Navigation.lua:203: findet die normale Suche nur einen Weg, der nicht bekannt ist (und keinen Höhlenweg), sucht LevelPilot
+  einen ganz bekannten Weg und nimmt ihn, wenn es ihn gibt. Sonst unverändert "Weg unbekannt". Läuft in der Portion der
+  Wegsuche (LP.Jobs, Abgabe alle 2 Suchschritte).
+- Ergebnis im Nachbau mit den echten Daten: AH -> Bethor 13 Punkte, ca. 799 yd (Luftlinie 540 yd), über
+  65.3,32.4 · 66.1,29.2 · 67.9,24.5 · 69.3,23.6 · 72.8,26.7 · 74.2,28.1 · 76.4,28.7 · 79.6,23.9 · 85.9,19.8 · 85.5,18.1;
+  Known = true. Rechenzeit der zusätzlichen Suche 18–28 ms (in Portionen).
+TESTS:
+- Offline: berichte/LevelPilot/offline/lua/test_ucw1.lua mit uc_edges.lua (nur Koordinaten aus den eingesandten Daten):
+  Gegenprobe normale Suche bekannt=false (der Fehler); PathKnown von AH, 64.3,52.5 und FEST-Ort bekannt; Navigation AH ->
+  Bethor ohne "Weg unbekannt". Gegenprobe mit 3.12.34: Test bricht ab (PathKnown fehlt) -> FEHLER. In run_offline.py.
+- Spiel: T296 (TestRoutine.lua:6013) mit dem eigenen Wegnetz des Spielers (nur lesen); ohne Wege am AH "nicht prüfbar".
+OFFEN / HINWEIS:
+- Ob der gefundene Weg im Spiel wirklich über Aufzug/Ring führt, kann der Nachbau nicht zeigen (keine Ebenen) – bitte im
+  Spiel: am AH in Undercity den Schritt "Der abtrünnige Lich" ansehen: Linie statt "Weg unbekannt", und dem Weg folgen.
+- Der zusätzliche Weg kann länger sein als die Luftlinie (hier 799 statt 540 yd); er besteht aber nur aus gelaufenen Wegen.
+
+BELEGE (eigene Tests, keine Freigabe)
+- addon_check LevelPilot-3.12.35.zip: OK, keine Warnung (hier ohne lupa). Gemeinsame Dateien byte-gleich (Markt v6).
+- run_offline.py: 35 Läufe, 35 ohne FEHLER (neu: test_ucw1). Lokale Gesamtregression 36 Läufe ohne FEHLER.
+- CHANGELOG EN/DE 3.12.35.
+
+ALS NÄCHSTES: SP1-M (Aufgabe des Nutzers), Wegpunkte wartend. Hinweis: Die eingesandten Wegdaten (testberichte/wege) liegen
+im Repo – Punkt 1 "eigene Koordinatenlisten Mulgore/Brachland/Thunder Bluff" ist damit nicht mehr blockiert. Soll die
+Sitzung ihn jetzt angehen? Bis zur Antwort schaue ich alle 15 Min. ins Repo.
+
+IM CLIENT GETESTET
+- noch nicht.

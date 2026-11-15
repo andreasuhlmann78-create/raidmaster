@@ -19,6 +19,8 @@ Lua 5.1: `LUA51=/pfad/zu/lua5.1`, sonst `lua5.1`/`lua51` im PATH, sonst `lupa` (
 |---|---|---|
 | Testroutine A–J | `lua/test40.lua` | Forever deDE und enUS (Orc-Krieger L6, Durotar), Forever Allianz (Mensch-Krieger L10, Wald von Elwynn), Classic Era deDE, TBC Classic deDE |
 | Regression | `lua/test2.lua` … `lua/test38.lua` | Szenarien seit 2.x; `test15` = Wegnetz-Prüfung (Höhlen, Tunnel, gelaufene Wege, Wegführung) |
+| Undercity-Weg | `lua/test_ucw1.lua` + `lua/uc_edges.lua` | UC-W1: Auktionshaus → Bethor Iceshard über die eingesandten Wegdaten (bekannter Weg statt „Weg unbekannt“) |
+| Meldungs-Weiche | in `run_offline.py` | ML1: keine Chat-, Bildschirm- oder Tonausgabe am Schalter „Meldungen“ vorbei |
 
 Spielversion im Nachbau: `FOREVER=1` (1.60.1), `FLAVOR=era` (1.15.7) oder `FLAVOR=tbc` (2.5.4); Sprache `LOCALE`.
 

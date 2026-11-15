@@ -64,6 +64,8 @@ REGRESSION += [
     ("test35", DUROTAR, "Troll", "HUNTER", "Horde", False),
     ("test36", {"FOREVER": "1", "LVL": "20", "MAP": "1413", "PX": "52", "PY": "30"}, "Troll", "HUNTER", "Horde", False),
     ("test38", DUROTAR, "Troll", "HUNTER", "Horde", False),
+    # 3.12.35 UC-W1: Undercity AH -> Bethor Iceshard mit den eingesandten Wegdaten (uc_edges.lua)
+    ("test_ucw1", {"FOREVER": "1", "LVL": "10", "MAP": "1458", "PX": "64.3", "PY": "35.9"}, "Scourge", "PRIEST", "Horde", False),
 ]
 
 
@@ -189,7 +191,8 @@ def main():
         if only in (None, "testroutine"):
             jobs += [(n, e, r, c, f, False, "test40") for (n, e, r, c, f) in ROUTINE]
         if only in (None, "regression"):
-            jobs += [(t + (" (Wegnetz)" if t == "test15" else ""), e, r, c, f, np, t) for (t, e, r, c, f, np) in REGRESSION]
+            jobs += [(t + (" (Wegnetz)" if t == "test15" else (" (Undercity-Weg)" if t == "test_ucw1" else "")), e, r, c, f, np, t)
+                     for (t, e, r, c, f, np) in REGRESSION]
         results = []
         if only in (None, "regression"):
             ok, text, found = check_message_gate(root)
