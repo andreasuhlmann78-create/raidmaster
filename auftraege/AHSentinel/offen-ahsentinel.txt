@@ -1,4 +1,10 @@
 >>> SN-H1 HOCH – RELEASE-BLOCKER für 0.65.180 (Nutzer 10:21 "der Sniper geht nicht mehr", Screenshot): Sniper an, 1 Ziel
+>>> TT-STOP (Nutzer 11:50, gilt ab sofort, VORRANG vor allen älteren Aufträgen zum Item-Tooltip): "Den Rest vom Tooltip wird nicht
+    angefasst! Nach dem Release bleibt der Tooltip so, bis ich etwas anderes sage." -> Am Item-Tooltip ändert AHS NUR noch den
+    Abschnitt "Materialien" nach TT-DE2. Alles andere (Preis, Marktwert, Gewinn, Entzaubern, Verkaufen, Pausen-/Sniper-Zeilen,
+    Rechtsklick-Hinweis, Preisverlauf) bleibt wie in 0.65.181 – Zeilen, Reihenfolge, Texte, Farben, Rechnung. Ältere offene
+    Punkte, die den Item-Tooltip ändern würden (z. B. S3b "eine Zahl = bester Weg"), ruhen. Nach dem Release: keine Änderung am
+    Item-Tooltip ohne neuen Entscheid des Nutzers. Selbstkontrolle/Test: Tooltip-Text (ohne Materialien) gleich wie 0.65.181.
     (Leinenstoff max 15c), Status "wartet: Suche läuft noch … · zuletzt vor 469 s: 0 Treffer · Vollscan-Sperre noch 13 Min. (Sniper
     sucht trotzdem)", unten "Suche läuft noch …". An/Aus hilft nicht. Chat davor: "4 auffällig billige Waren werden nachgeprüft
     (Lockangebote zählen nicht)" und "131 Items unter Händlerpreis". Sn:CanSearch liefert "Suche läuft noch" auch, wenn
@@ -68,8 +74,7 @@ TT-DE2 HOCH (Nutzer 10:59 "Variante B, aber ohne die 10s76"; ergänzt TT-DE1): T
     "Gilde (n)"); Prozent = Anteil der Entzauberungen mit diesem Material (times/n), gerundet. Unter 30 Fällen statt Prozent
     grau "noch n/30". Ø-Zeile NUR der gemessene Wert (keine Vorgabe-Zahl daneben, Nutzer 10:59), Spalte "bei dir"; es ist
     DIESELBE Zahl, mit der "Entzaubern" und "Gewinn" oben rechnen (eine Zahl) – unter 30 Fällen die Mischung wie bisher.
-    Beschriften, ob netto (nach 5 % AH-Anteil) oder brutto, und oben gleich rechnen (heute Gewinn 2s18 = 11s18 − 9s00: Anteil
-    abgezogen? belegen). Spalten bündig, nichts abgeschnitten, nicht breiter als der Tooltip heute. Test mit Gruppe < 30 und
+    Ø-Zeile mit Zusatz "netto" bzw. "brutto", je nachdem wie AHS heute rechnet – an den Zeilen OBEN nichts ändern (TT-STOP). Spalten bündig, nichts abgeschnitten, nicht breiter als der Tooltip heute. Test mit Gruppe < 30 und
     ≥ 30 Fällen, Selbstkontrolle (Ø-Zeile = Wert in "Entzaubern").
 SN-B10 RELEASE-BLOCKER (Nutzer 10:53 "schau dir die Snipermeldungen an", Screenshot 10:51, 0.65.181; Ziel Schultern des
     Hügelwächters, 1000 Stk., Max 9s14, Budget 5g). Widersprüche (Supervisor, Code Sniper.lua gelesen):
