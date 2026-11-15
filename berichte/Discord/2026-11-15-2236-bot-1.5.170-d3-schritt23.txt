@@ -1,0 +1,40 @@
+BERICHT DISCORD – Bot 1.5.170: D-3 Schritt 23 (Berufe-Verzeichnis und Discord-Ereignisse als eigene Module) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 22:36 (aus date)
+Commit: a4dfaacf auf origin/main, CI bot-tests: success
+
+WAS
+- handwerk_bot.py: Abschnitt "Berufe-Verzeichnis" (/handwerk, /berufe; 60 Zeilen).
+- ereignis_bot.py: Abschnitt "Discord-Ereignisse" (RAID_EVENT_HOURS, create_raid_event, delete_raid_event,
+  /raid-ereignisse; 60 Zeilen). bot.py übernimmt create_raid_event (Raid erstellen) und delete_raid_event
+  (Raid absagen).
+- Zwei kleine, unabhängige Bereiche in einer Version (Hinweis der Prüf-Sitzung 21:34: für /update gleich gut).
+- UNVERÄNDERT verschoben: beide Blöcke stehen wörtlich im alten bot.py und im jeweiligen Modul (Textvergleich).
+- pyflakes ungefiltert vor/nach: neu nur die zwei gewollten Modul-Importe; die einzige Meldung von vor D-3
+  ("local variable 'ch' is assigned to but never used" in create_raid_event) steht jetzt in ereignis_bot.py –
+  Code nicht angefasst (D-3 ändert nichts am Verhalten).
+- bot.py: git diff --numstat +3 −124, jetzt 2961 Zeilen.
+
+TESTS
+- NEU test_ereignis_handwerk_bot.py (5 Tests, REGRESSIONEN T-D3-EREIGNIS, T-D3-HANDWERK):
+  Ereignis wird für einen künftigen Raid angelegt (3 Stunden, Link zur Anmeldung in der Beschreibung), nie
+  doppelt; Absage löscht es und vergisst die ID; nicht für Testraids, vergangene Raids, ohne Recht "Events
+  verwalten" oder mit raid_events=false. /handwerk und /berufe angemeldet; ohne eingelesene Berufe Hinweis auf
+  "Meine Berufe einlesen".
+  Gegenproben: Doppel-Schutz entfernt, Dauer 2 statt 3 Stunden, Zeitprüfung entfernt, ID nicht vergessen ->
+  je FAILED (1); zurückgesetzt -> OK.
+- test_lade: beide Module mit demselben Bot; create_raid_event dasselbe Objekt; class_emoji aus symbole_bot.
+- Slash-Befehle: 49, unverändert. 360 Tests OK; jede Testdatei einzeln mit -I OK; REGRESSIONEN 58 von 58.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update vom Stand 1.5.169: updater._copy_new kopiert VERSION, bot.py, ereignis_bot.py, handwerk_bot.py, tests;
+   config/state/ZIP unverändert (md5); VERSION 1.5.170.
+2. Start wie launcher.py: Abbruch erst bei der Anmeldung (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+4. Neustart nach Update (Ende-zu-Ende, aktualisierte Kopie): Exit-Code 42.
+
+STAND D-3: bot.py 7437 (vor D-3) -> 2961 Zeilen; 23 Module ausgelagert.
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
+- NÄCHSTE BEREICHE: Raid-Anzeige (raid_embed, update_raid_message) als Grundlage, dann Twinks, Ersatzbank,
+  Skillung; danach DKP, Raids, Uploads, Testberichte, Kanal-Aufräumer, zuletzt RaidBot.
