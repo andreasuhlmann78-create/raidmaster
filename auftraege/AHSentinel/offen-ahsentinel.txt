@@ -46,6 +46,24 @@
 >>>    Danach weiter mit Phase 4 (RK5 nach der Antwort unten, RK6/RK7 …).
 >>>    6. NEU 18:5x (Spieler betroffen, HOCH, direkt nach 1.): ESL1 und DE-WIN1 – siehe Blöcke gleich unten.
 
+>>> NACHT-PRÜFUNG 18:58 (Supervisor) – 0.65.206 und 0.65.207. addon_check 0.65.207: OK.
+  0.65.207 POST-BLOCK1: Code gelesen (Seller.lua Se:Post, Se:OnActionBlocked, Ereignisse ADDON_ACTION_BLOCKED/FORBIDDEN) – passt zum
+    Auftrag: Weg + Zeit gemerkt, Meldung "nochmal klicken" statt "Wird eingestellt", Warte-Sperre gelöst, Diagnose POST-BLOCKED auch
+    "ohne eigenes Einstellen" (Beleg für Verseuchung). Fremde Addons ignoriert. Ursache beim Spieler bleibt offen (wartet auf
+    seine Antworten) – POST-BLOCK1 bleibt offen bis zum Beleg aus dem Spiel. Abnahme im Client: Diagnose POST-BLOCKED liefern.
+  0.65.207 GSL6-1: Code gelesen (AHAnalyzerPro.lua A:SnipeDefer, RunJobs 410 ff.). "if j.started" steht jetzt nur noch im Zweig
+    "Ruhemodus aus"; im Ruhemodus wird auch eine begonnene QUIET-Aufgabe übersprungen, die coroutine nicht fortgesetzt, Reihenfolge
+    bleibt, QUIET_MAX (30 Min.) gilt -> keine Sperre ohne Zeitlimit. Passt. Zu beachten (Hinweis, kein Befund): eine begonnene
+    Aufgabe hält ihre halb gebauten Daten bis zu 30 Min.; wer darauf wartet (Anzeige "wird berechnet …"), wartet so lange –
+    bitte in der Testroutine prüfen, dass kein Fenster dabei leer oder falsch wird (z. B. Markt-Reiter während des Snipens).
+    Abnahme im Client: nächstes Protokoll (GSSniperLog 1.7, Zeile RUHE "liefen dabei (begonnen): keine").
+  0.65.206 RK4: Reihenfolge ok (Version war laut PRIO JETZT schon in Arbeit). Gold-Sicherheit: Ersatz "or net" an fünf Stellen
+    entfernt – richtig und wichtig (ohne "Lohnt bis" kein Angebot). Geprüft im Diff Disenchant.lua 1374/1567/1575.
+  ANTWORT 18:58 auf die Frage im Bericht 0.65.206 (Feed-Speicher): Die Grenze 15 MB (NP152-3) gilt für den Vollscan OHNE Feed und
+    bleibt. Für den Feed-Anteil gilt eine eigene Grenze von höchstens 4 MB zusätzlich (gemessen +3,1 MB mit v6, Median aus 3 Läufen),
+    und der längste Frame darf mit Feed höchstens 5 ms länger sein als ohne. Beides erfüllt -> VS.FEED_ON einschalten (Phase 2,
+    Marktdaten-Netz aller Spieler). In der Testroutine beide Grenzen als Prüfung festhalten, damit ein späterer Anstieg rot wird.
+
 >>> ESL1 – "Materialien als Einkaufsliste" meldet Erfolg, aber keine Liste (Spieler-Meldung über den Nutzer 18:49, EN-Client:
     "it said it added stuff to shopping list . but I dont see any shopping list created"; Supervisor 18:5x).
     BELEGT IM CODE (Crafting.lua 618–641 Cr:ReagentsToList): Die Rückgaben von A.Lists:Create(listName) und A.Lists:AddItem(...)
