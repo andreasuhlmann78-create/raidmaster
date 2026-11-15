@@ -1,0 +1,18 @@
+AHSentinel 0.65.221 – RK7-Antwort (Nacht-Prüfung Supervisor 20:15, NIEDRIG) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.221 und sofort im Discord.
+
+Antwort umgesetzt: Die Anzeige bleibt nach Gewinn sortiert (MH-1). Neu sagt die Liste, wenn das Budget eingreift.
+Comfort.lua K:AllocateBudget(out, max, totalCap) – die Budget-Verteilung aus K:ComputeTodayActions herausgezogen (sonst
+unverändert: Rang RK7 zuerst, passt ein Vorschlag nicht ganz -> Menge gekürzt, sonst fällt er weg).
+  - Gekürzte Zeile: Text + " - Menge gekürzt: das Budget geht zuerst an sicherere und schnellere Wege." (r.budgetCut).
+  - Wegen des Budgets weggefallen (nicht passend und nicht kürzbar bzw. gekürzt ohne Gewinn): gezählt; am Ende EINE Tipp-Zeile
+    "%d weitere Vorschläge weggelassen: das Budget (%s, %d %% deines Golds) geht zuerst an sicherere und schnellere Wege."
+    (kind budgethint, tip, ohne Knopf, Spalte Gewinn "Tipp" wie der PS-Hinweis).
+  - Wegen der Höchstzahl (10 Zeilen) abgeschnittene zählen NICHT (sie fallen nicht wegen des Budgets weg).
+  - Kleine Berichtigung dabei: Eine Zeile, die gekürzt keinen Gewinn mehr hätte, wurde bisher trotzdem verändert (Menge/Text),
+    obwohl sie wegfiel; jetzt bleibt sie unverändert.
+  - Today.lua: budgethint ohne Knopf, ohne Stand, Klick tut nichts. SelfTest "Heute tun": Tipp-Zeilen brauchen keinen Knopf.
+  - Test T799 (Testroutine, Modul M): Reihe a,b,e,c,Tipp · eingesetzt 1000 von 1000 · C 10 -> 2 Stück, Einsatz 100, Gewinn 40,
+    Satz da · Tipp-Zeile weg 1, kein Knopf · Höchstzahl 2: 2 Zeilen, weg 0. Mit 0.65.220 rot (K:AllocateBudget fehlt).
+  - Abdeckung T-RK7-SATZ -> T799. Locales +2 (alle Sprachen), CHANGELOG EN/DE.
+Gesamtlauf: 271 bestanden, 1 rot = s216 Frame-Zeit (47 ms gegen 42 + 5; CPU-Zeitmessung, parallel liefen Einzeltests auf 2 Kernen) -> allein 3× wiederholt: grün (Frame mit Feed 39–43 ms, ohne 43–50 ms). Speicher-Prüfungen in allen Läufen grün.
