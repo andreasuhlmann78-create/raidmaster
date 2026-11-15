@@ -28,6 +28,9 @@ UI-CLEAN1 HOCH (Nutzer 10:25 "in der Testroutine prüfen, ob es Fenster, Reiter 
           normale Spieler (TEST-DEV1).
         Ergebnis im Bericht als Liste "Fenster > Reiter > Abschnitt: Befund" + Zahl; Ziel 0.
     (B) Danach ALLES Gefundene bereinigen (entfernen, kürzen, verschieben) – nichts Neues hinzufügen. Liste vor/nach im Bericht.
+        NUTZER 10:27: "Bei Teil B geht nichts verloren, das wichtig ist." Darum: keine Funktion und keine Daten löschen; was noch
+        gebraucht wird, wird verschoben/zusammengelegt, nicht entfernt. Vor dem Entfernen eines sichtbaren Elements im Bericht
+        "wird entfernt: … – Ersatz/Grund: …" und der Supervisor prüft die Liste; gespeicherte Daten (SavedVariables) bleiben immer.
     Reihenfolge: SN-B9 (Release-Blocker) -> UI-CLEAN1 (A) in 0.65.181 mitliefern -> (B) Bereinigung. Für das Release um 18:00 müssen
     Überlappungen und abgeschnittene Texte in sichtbaren Hauptansichten behoben sein; Rest von (B) darf in den nächsten Tag.
 >>> NUR KETTE (Nutzer 15.11. 07:11 "nur Kette bitte"): ausschliesslich KETTE-K1, alles andere ruht (auch Sniper-Reste SN-B6/SN-B8 –
