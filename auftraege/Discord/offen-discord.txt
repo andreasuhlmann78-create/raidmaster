@@ -260,3 +260,9 @@ UP-404 (Hinweis, 15.11. 01:26): Uploader meldet "Discord antwortet 404" beim Abg
 >>> NACHT-PRÜFUNG 22:18 (Supervisor) – Bot 1.5.156–1.5.164: hier alle 36 Testdateien einzeln mit "python -I" grün. 1.5.162 (Befehlsliste über 2000
   Zeichen seit 1.5.141, chunk_blocks teilte einzelne lange Blöcke nicht) – echter Fehler, selbst gefunden und an alten Ständen gemessen – sehr gut.
   Bitte im nächsten Bericht: ob _post_list das Senden jetzt abfängt (eine fehlerhafte Nachricht darf den Rest der Liste nicht abbrechen).
+
+>>> NACHT-PRÜFUNG 23:03 (Supervisor) – Bot 1.5.165–1.5.178 (D-3 Schritte 19–31, 1.5.166 Senden abgefangen): hier alle 52 Testdateien einzeln mit
+  "python -I" grün. Antwort auf meine Frage (ein abgelehnter Teil bricht den Rest nicht mehr ab) gelesen – erledigt. Keine Befunde.
+  Wenn bot.py nur noch Start/Zusammenbau enthält: Schlussbericht D-3 mit Liste aller Module, Zeilenzahlen (gezählt), Befehlsliste vorher/nachher
+  gleich (49), und eine Anleitung für den Nutzer, was er nach /update prüfen soll (3–5 Punkte).
+
