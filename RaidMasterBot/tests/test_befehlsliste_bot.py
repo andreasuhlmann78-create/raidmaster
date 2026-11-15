@@ -92,5 +92,52 @@ class Befehlsliste(unittest.TestCase):
         self.assertEqual(self.m.state.data["liste_test"], [11, 12, 301])
 
 
+    def test_abgelehnter_teil_bricht_nicht_ab(self):
+        # 1.5.166 (Frage Prüf-Sitzung 22:18): Senden eines Teils scheitert -> Rest wird trotzdem gepostet
+        import discord
+        ch = Ch()
+        orig = ch.send
+
+        async def send(text, **kw):
+            if text == "b":
+                raise discord.HTTPException(types.SimpleNamespace(status=400, reason="Bad Request"), "zu lang")
+            return await orig(text, **kw)
+        ch.send = send
+        self.m.state.data["liste_test"] = []
+        with self.assertLogs("raidmaster", level="WARNING") as cm:
+            asyncio.run(self.m._post_list(ch, ["a", "b", "c"], "liste_test"))
+        self.assertEqual(ch.sent, ["a", "c"])
+        self.assertEqual(self.m.state.data["liste_test"], [301, 302])
+        self.assertTrue(any("Teil 2 von 3 nicht gepostet" in x for x in cm.output))
+        ch.send = orig                                                   # nächster Lauf: fehlender Teil kommt nach
+        asyncio.run(self.m._post_list(ch, ["a", "b", "c"], "liste_test"))
+        self.assertEqual(ch.edited, [301, 302])
+        self.assertEqual(ch.sent[-1], "c")
+        self.assertEqual(len(self.m.state.data["liste_test"]), 3)
+
+    def test_offiziersliste_ueber_post_list(self):
+        # 1.5.166: #befehlsliste nutzt _post_list (bis 1.5.165 eine eigene Kopie ohne Fehlerbehandlung)
+        m, ch, calls = self.m, Ch(), []
+        saved = (m.bot_guild, m.channel_by_id, m.ensure_member_command_list, m._post_list)
+
+        async def by_id(cid):
+            return ch
+
+        async def members():
+            return "ok"
+
+        async def post(channel, parts, key):
+            calls.append((channel, len(parts), key))
+        ch.mention = "#befehlsliste"
+        m.bot_guild = lambda: types.SimpleNamespace(text_channels=[], me=None)
+        m.channel_by_id, m.ensure_member_command_list, m._post_list = by_id, members, post
+        try:
+            r = asyncio.run(m.ensure_command_list())
+        finally:
+            m.bot_guild, m.channel_by_id, m.ensure_member_command_list, m._post_list = saved
+        self.assertEqual(calls, [(ch, len(m.command_list_text()), "command_list_messages")])
+        self.assertIn("aktuell", r)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -171,7 +171,13 @@ async def _post_list(channel, parts: list[str], key: str):
                 continue
             except discord.HTTPException:
                 pass
-        msg = await channel.send(text, allowed_mentions=no_ping)
+        try:
+            msg = await channel.send(text, allowed_mentions=no_ping)
+        except discord.HTTPException as e:
+            # 1.5.166 (Prüf-Sitzung 22:18): ein abgelehnter Teil bricht den Rest der Liste nicht ab; beim nächsten
+            # Lauf fehlt seine ID und er wird erneut gepostet
+            log.warning("Liste %s: Teil %d von %d nicht gepostet: %s", key, i + 1, len(parts), e)
+            continue
         new_ids.append(msg.id)
     for mid in old_ids[len(parts):]:
         try:
@@ -225,25 +231,7 @@ async def ensure_command_list() -> str:
         log.exception("Befehle für Mitglieder konnten nicht gepostet werden")
     if channel is None:
         return "Befehlsliste: Kanal #befehlsliste fehlt – `/raidmaster-einrichten` ausführen." + member
-    parts = command_list_text()
-    old_ids = list(state.data.get("command_list_messages") or [])
-    new_ids = []
-    no_ping = discord.AllowedMentions(roles=False, users=False, everyone=False)
-    for i, text in enumerate(parts):
-        if i < len(old_ids):
-            try:
-                await channel.get_partial_message(int(old_ids[i])).edit(content=text, allowed_mentions=no_ping)
-                new_ids.append(old_ids[i])
-                continue
-            except discord.HTTPException:
-                pass
-        msg = await channel.send(text, allowed_mentions=no_ping)
-        new_ids.append(msg.id)
-    for mid in old_ids[len(parts):]:
-        try:
-            await channel.get_partial_message(int(mid)).delete()
-        except discord.HTTPException:
-            pass
-    state.data["command_list_messages"] = new_ids
-    state.save()
+    # 1.5.166: dieselbe Schleife wie _post_list (bis 1.5.165 hier als Kopie) – damit gilt auch hier: ein abgelehnter
+    # Teil bricht den Rest nicht ab (Frage der Prüf-Sitzung 22:18)
+    await _post_list(channel, command_list_text(), "command_list_messages")
     return f"✅ Befehlsliste in {channel.mention} aktuell." + member
