@@ -109,6 +109,9 @@ TB186-1 HOCH (Nutzer 12:46 "da stimmt was nicht … schau die abgebrochene Aukti
     der Mindestpreis über dem Günstigsten -> Status "liegen lassen – Markt unter deinem Mindestpreis", nie "Abbrechen lohnt".
     (b) Beim Neu-Einstellen einer zurückgekommenen Ware zum selben Preis, der schon unterboten ist: Hinweis/Rückfrage.
     (c) Herkunft der Mystik-Auktion 12:42 belegen (Protokoll). Test: Mindestpreis > Günstigstes -> kein "Abbrechen lohnt".
+    NACHTRAG 13:34 (Screenshot Tasche des Nutzers): 4 × Geringe Mystikeressenz liegen in der TASCHE (Gold 19g55s93). Um 12:42 stand
+    dieselbe Menge als aktive Auktion 4 × 11s61 "1 Std." in Meine Auktionen. Entweder wurde sie zwischen 12:42 und 13:34 erneut
+    abgebrochen/zurückgegeben, oder die Zeile 12:42 war veraltet. Mit (c) aus dem Protokoll (EINSTELLEN/ABBRECHEN/Post) belegen.
 >>> PRÜFUNG 0.65.186 (Supervisor 12:45, Bericht + Code Sniper.lua/Ledger.lua gelesen) – NICHT abgenommen, Befunde:
     P186-1 HOCH (Gold-Zähler, A1/A5): DOPPELZÄHLUNG möglich. ReconcileItemBuys zählt bei Gold-Abgang die ÄLTESTEN offenen
            Käufe (A). Kam in Wahrheit B durch und meldet der Server später B (ItemPurchaseConfirmed, Sniper.lua 594–612): B ist
