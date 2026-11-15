@@ -67,6 +67,12 @@ GRUNDSATZ: Test + Selbstkontrolle + Prüfung. Bericht nach berichte/RaidMaster/.
 
 >>> GRUNDSATZ NACHVOLLZIEHBAR (Nutzer 14.11. 15:18, gilt für alles Neue): Zahl + EIN Satz, was sie ist und wie sie entsteht (≤ 20 Wörter, Alltagssprache). Siehe auftraege/README.md.
 
+>>> NEU 19:59 (Idee/Befund Supervisor, Nacht-Analyse 15.11., freigegeben durch Nutzer 19:58 "alle Addons überarbeiten") – Einzelheiten: shared/wissen/analysen/raidmaster-2026-11-16.md
+  Reihenfolge unverändert: zuerst UP-S1 / UP-S1-2 (HOCH, Datenverlust beim Uploader), dann:
+  GSM7 MITTEL – GoldSentinelMarkt Version 7 aus shared/ byte-gleich kopieren (ersetzt die alte Fassung in der Zip). NUTZEN: ohne
+       AHSentinel läuft sonst eure alte Fassung – beim Weitergeben eines Scans bis 7,5 MB Speicher-Müll und ein langer Ruckler; mit v7
+       2,8 MB, gleiches Ergebnis. Test: addon_check ohne WARNUNG zur Marktdatei, shared-Test 104/104.
+
 ========================================================================================================================
 PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 08:30, nach der Nachprüfung 3.0.26 / 2.3.7).
 Immer von oben nach unten abarbeiten. Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei jeder Änderung nachgeführt.

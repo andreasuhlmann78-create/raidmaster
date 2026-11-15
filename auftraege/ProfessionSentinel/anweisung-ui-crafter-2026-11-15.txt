@@ -194,3 +194,12 @@ Reihenfolge nach Freigabe: (1) PS-TC1 + Ausbau A1/A2 (Ruckeln), (2) Fenster/Stil
 Warteschlange, (4) Blizzard-Fenster-Zeichen, (5) Texte. Je Schritt eine Version mit Bericht "umgesetzt, zur Prüfung".
 
 BEGRIFF (Nutzer 19:35): Es heisst "Händlergunst" – überall so schreiben (Reiter, Filter, Texte, Locales deDE), nie nur "Gunst".
+
+ZUSATZ 19:59 (Idee/Befund Supervisor, Nacht-Analyse 15.11., freigegeben durch Nutzer 19:58 "alle Addons überarbeiten") – aus shared/wissen/analysen/professionsentinel-2026-11-16.md, in Schritt (1) bzw. beim nächsten Release:
+  GSM7 MITTEL – GoldSentinelMarkt Version 7 aus shared/ byte-gleich kopieren (ersetzt die alte Fassung in der Zip). NUTZEN: ohne
+       AHSentinel läuft sonst eure alte Fassung – beim Weitergeben eines Scans bis 7,5 MB Speicher-Müll und ein langer Ruckler; mit v7
+       2,8 MB, gleiches Ergebnis. Test: addon_check ohne WARNUNG zur Marktdatei, shared-Test 104/104.
+  P-3 NIEDRIG – Smoketest: AUTOTEST zeigt "FEHLER 25" und meldet trotzdem OK. NUTZEN: Regressionen fallen auf. Massgeblich bleibt
+       run_offline.py; im Smoketest mindestens die Zahl FEHLER mit der Erwartung des Mocks vergleichen (feste Liste erwarteter Fälle).
+  P-5 MESSUNG – Welche TOC wählt der Forever-Client (_Camelot oder die allgemeine mit Data_Retail 2,3 MB)? NUTZEN: weniger Ladezeit und
+       Speicher, falls Retail-Daten unnötig mitgeladen werden. Im Spiel prüfen (Speicher je Addon), dann entscheiden.
