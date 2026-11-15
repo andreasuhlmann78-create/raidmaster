@@ -4,6 +4,44 @@ rechnet shared/markt-tabellen/GoldSentinelMarktTabellen.lua aus der neuesten AHS
 FOKUS (Entscheid des Nutzers 14.11. 08:30): Nur AHSentinel. Andere Projekte später, eines nach dem anderen; bis dahin nur bei
 Sicherheit/Datenverlust eingreifen. Die geplante Nachprüfung prüft die anderen weiter.
 
+# STAND 15.11.2026 16:45 – ALLE OFFENEN PUNKTE (Nutzer 16:22 "alle offenen Punkte für die nächsten Punkte aufs Gehirn")
+Gilt vor den älteren Abschnitten unten. Einzelheiten je Punkt in auftraege/<Projekt>/offen-*.txt. Direktiven: Perfektion (1),
+Nicht warten (2), nie Englisch, nie vergessen ins Repo zu laden (origin/main prüfen), Discord sofort / CurseForge 18:00.
+
+## Supervisor selbst (nächste Schritte)
+1. GSSniperLog-Protokoll 3 auswerten (Nutzer: GSSniperLog 1.3 + AHS 0.65.196, ≥ 10 Min. snipen). Messen: Käufe bestätigt
+   ≥ 80 %, Code 10 ≈ 0, doppelt 0 (wiederholt erlaubt, ≤ 2), Server bereit VOR der Anfrage, Zähler = Gold, weggeschnappt,
+   Rasten ohne Kauf nach Status, RUHE-Zeile (AHS-Aufgaben beim Snipen, fremde Anfragen, Quelle = debugstack im Nach-Hook
+   noch unbestätigt), Ruckler 113 ms nach Kauf: AHS (ADDONS-Zeile) oder Blizzard-AH.
+2. AHS-Berichte 0.65.196+ prüfen (SN-RUHE1, DE-AUFT1) – Code lesen, Zahlen nachrechnen, Abnahme A1–A6 nur mit Protokoll.
+3. 18:00: GuildSentinel GS-W1/GS-W2 vor CurseForge prüfen (falls Version da). AHSentinel NICHT auf CurseForge vor Sniper-Abnahme.
+4. Montag: Wochenbericht/Markt (Discord-Bot), geplante Nachprüfung lesen.
+
+## AHSentinel (Fokus) – Reihenfolge (Block "SUPERVISOR 16:35" in offen-ahsentinel.txt)
+1. SN-RUHE1 Sniper-Ruhemodus (in Arbeit, Tests s197).  2. DE-AUFT1 Einstand nach erwartetem Entzauber-Wert + Posten
+"Entzauber-Ausbeute" (entschieden 16:35).  3. Rest Sniper-Block: SN-B5, SN-B6, SN-B7, SN-B8, T745, TB182-2, TB184-U3,
+SN-UI1 im Spiel bestätigen, GSL2-3 Ruckler-Stelle.  4. Abnahme A1–A6 (GSSniperLog-Protokoll).  5. Danach: TT-DE2 (Tooltip
+Variante B, nur der Entzauber-Teil – Rest bleibt, Nutzer 11:50), KERN-T1 (Lernen beschleunigen), MAIL-1 Rest, VK-P1
+(Verkaufspreis), UI-CLEAN1 (B)/UI-REF1, HP-2/3/4 (Marktwert/Flips ausblenden).
+Erledigt/geklärt heute: GSL1-1..3 (0.65.194), SN-UI1 (0.65.195), GSL2-1 b–d (0.65.196), TT-DE3 (Supervisor-Befund falsch),
+TB192 (0.65.194). Supervisor-Fehler heute: SN-B11 (5 von 67), GSL1-4 Quelle, GSL2 "Server bereit" (Nach-Hook) – E-Regeln.
+
+## Andere Projekte (nur bei Sicherheit sofort, sonst nach AHS)
+- GuildSentinel: GS-W1 "/w {name} gilde" zurück (auch Vorschlag 2), GS-W2 mehrere Vorschläge zur Auswahl – CurseForge 18:00.
+- RaidMaster/Uploader: UP-S1/UP-S1-2 HOCH (älterer Stand nach "defekt" überschreibt – Datensicherheit), MN6b, MN-T, U3,
+  UP-404-Rest (Back-off, Beleg kein Datenverlust, Fehlertext im Fenster).
+- Discord-Bot: UP-404-Rest (Befehle beim Beitritt neu anmelden, Rechte statt Administrator), KEEP90 (90 Tage, Grenze
+  ≤ 1 GB statt 3 GB), D-MN7a–f, D-MN8b, D-T1.
+- LevelPilot: ML1 im Spiel prüfen, LP-D1 (495 ms Questauswertung), PF-A (Allianz > 16 ms), ML1-2 (Sprache).
+- ProfessionSentinel: PS-API1 (Berufe für AHS-Ketten), PS-TC1 (TodayCrafts zu langsam), Client-Prüfpunkte.
+- ThreatSentinel: T133 im Spiel, TS-T1 (Test hinterlässt erfundenen Mitspieler).
+- BuffSentinel: nichts Dringendes, Markt v4 beim nächsten Release kopieren.
+- Alle: GoldSentinelMarkt v4 beim nächsten Release; CmdHint (CH-G) erst nach AHS.
+
+## Werkzeuge der Prüf-Sitzung
+- shared/messtest/GSSniperLog 1.3 (passiv, Tests 148/148). Regel: immer Mini-Addons; Messzeitpunkt klären (vor/nach Aufruf).
+- Auswertungen: shared/wissen/auswertungen/ (15.11. Kaufen-Entzaubern-Verkaufen, mit Berichtigung 16:35).
+
 # Projekte – Gehirn der Prüf-Sitzung (Stand 13.11.2026, 23:35)
 
 Auf Wunsch des Nutzers (13.11. 22:09, nochmals 23:27: "merke dir alles über die anderen Addons, damit du nichts vergisst
