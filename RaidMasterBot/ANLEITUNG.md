@@ -186,6 +186,22 @@ Seit das Serverprofil öffentlich ist, sollen Neue ohne Rolle nicht den ganzen G
 - Einmal im Monat wiederholt der Bot die Blizzard-Prüfung (`blizzard_api_check.py --list`, nur mit eingetragenem
   Zugang) und meldet nur, wenn sich die Realm-Listen geändert haben (`GSBLIZZ1-<Datum>.txt`).
 
+## 6d. Bot-Rechte und Einladung (ab Bot 1.5.143, UP-404)
+
+- Beim Start und nach jeder Einladung prüft der Bot: Ist er auf dem Gilden-Server? Fehlen Rechte? Hat seine Rolle
+  „Administrator“ (mehr als nötig)? Fehler stehen immer im Protokoll („Bot nicht auf dem Server …“), Warnungen und
+  Hinweise zusätzlich in #bot-befehle – nur wenn sie sich ändern.
+- Nach dem (Wieder-)Einladen meldet der Bot seine Befehle sofort für den Server an – kein Neustart nötig.
+- Wird der Bot entfernt, steht das sofort im Protokoll. Einmal liest er das Audit-Log und meldet in #bot-befehle,
+  wann und durch welche Rolle er entfernt/eingeladen wurde (nur Rolle und Grund).
+- **Administrator ausschalten:** Solange die Rolle des Bots Administrator hat, gibt der Bot einmal allen privaten
+  Kanälen eine ausdrückliche Freigabe für sich selbst (Meldung in #bot-befehle). Danach in Discord:
+  Server-Einstellungen → Rollen → Rolle des Bots → „Administrator“ aus. Der Bot meldet beim nächsten Start, falls
+  ein nötiges Recht fehlt.
+- **Neu einladen ohne Administrator:** im Discord-Entwicklerportal OAuth2 → URL-Generator, Bereiche `bot` und
+  `applications.commands`, Rechte-Zahl **361582685297**. Diese Zahl gibt genau die Rechte aus `bot_rechte.NEEDED`
+  (Kanäle/Rollen/Webhooks/Nachrichten verwalten, Threads, Einladungen, Server verwalten, Posten, Dateien, Reaktionen).
+
 ## 7. Uploader auf dem PC der Raidleitung
 
 Der Uploader schickt die Addon-Daten (DKP, Loot, Einteilung, Skillungen) an den Bot. Er braucht nur
