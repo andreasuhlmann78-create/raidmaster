@@ -70,7 +70,8 @@ GRUNDSATZ: Test + Selbstkontrolle + Prüfung. Bericht nach berichte/RaidMaster/.
 >>> ZUSAMMENSPIEL MIT DISCORD (Supervisor 15.11. 20:10, Nutzer 20:06 "RaidMaster ist auch involviert"): Die Discord-Sitzung baut
     heute Nacht UP-404 (b)(c)(d) – Bot meldet fehlenden Server/fehlende Rechte. Der Uploader-Text dazu (2.3.10 "Bot nicht auf dem
     Server") muss gleich lauten; ändert die Discord-Sitzung den Wortlaut, zieht der Uploader nach (eigene Version, Bericht). Kein
-    Format-Wechsel nötig wegen GoldSentinelMarkt v7 (Export-Zeilen byte-gleich zu v6, ≤ 1,5 MB < Uploader-Grenze 3 MB) – im Test belegen.
+    Format-Wechsel nötig wegen GoldSentinelMarkt v7 (Export-Zeilen byte-gleich zu v6, ≤ 1,5 MB < Uploader-Grenze MARKT_MAX_ONE 2 MB, uploader.py:96) – im Test belegen. Hinweis: Bot nimmt 3 MB (market.MAX_LINE),
+    Uploader 2 MB – Kommentar uploader.py:95 ("so viel nimmt der Bot") ist veraltet; NIEDRIG, Kommentar oder Wert angleichen.
     Reihenfolge sonst unverändert (UP-S1/UP-S1-2 zuerst).
 
 >>> NEU 19:59 (Idee/Befund Supervisor, Nacht-Analyse 15.11., freigegeben durch Nutzer 19:58 "alle Addons überarbeiten") – Einzelheiten: shared/wissen/analysen/raidmaster-2026-11-16.md
