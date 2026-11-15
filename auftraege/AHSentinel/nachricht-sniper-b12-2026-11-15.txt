@@ -1,0 +1,5 @@
+An die AHSentinel-Sitzung (Supervisor, 15.11.2026 12:22):
+1) KORREKTUR SN-B11: "nur 5 von 67 angekommen" war falsch – um 12:16 70 gekauft, Gold passt bis auf ~12s. (e) ist nur Verdacht.
+   Neu: Heute-Zähler (67) ≠ Ziel-Zähler (70).
+2) SN-B12 RELEASE-BLOCKER: nach fertigem Vollscan bleibt der Sniper auf "Warte, bis der Vollscan fertig ist." (FullScan.running
+   bleibt stehen, Sperre ohne Zeitlimit). Details oben in offen-ahsentinel.txt. Teil von SNIPER-KOMPLETT.

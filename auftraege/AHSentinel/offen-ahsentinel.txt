@@ -17,8 +17,24 @@
       A6 /ahs testroutine sniper: alle S-Tests + T752 + neuer S-Takt grün; Abschnitt "Geld je Ziel" Differenz 0.
     Bericht: je Punkt Ursache (Code-Stelle) + Fix + Test + Messwerte aus echten Daten; "umgesetzt, zur Prüfung".
 
+>>> SN-B12 RELEASE-BLOCKER (Nutzer 12:17, Screenshot 12:16, 0.65.183): Vollscan fertig ("AH-Scan fertig", "letzter Scan vor
+    42 Sek."), Sniper bleibt trotzdem gesperrt: rot "Warte, bis der Vollscan fertig ist.", "Ergebnis ist veraltet – neue Suche
+    nötig", "gesucht vor 5 Min.", Kaufen grau; Sniper AN/AUS (4×) hilft nicht. Code (Supervisor): Sn:CanSearch (Sniper.lua:872)
+    sperrt, solange A.FullScan.running ~= nil. running wird nur in A:ProcessBest über info.done() geleert (AHAnalyzerPro.lua:
+    3913, nach der Schleife mit self:Pause()) bzw. Vollscan.lua 138/432/459. Bricht die Verarbeitung ab (Fehler, AH zu, Auftrag
+    verworfen) oder läuft sie lange, bleibt running stehen – und genau diese Sperre hat KEIN Zeitlimit (SN-H1/HoldCheck deckt sie
+    nicht ab). Zu tun: (a) running in JEDEM Ende leeren (Erfolg, Fehler via pcall, AH geschlossen, Abbruch); (b) Sperre mit
+    Zeitlimit wie SN-H1 (Vollscan dauert gemessen 12–15 s + Verarbeitung -> nach 120 s lösen, Grund ins Protokoll);
+    (c) Status nennt, was noch läuft ("Vollscan verarbeitet … n s"); (d) Test: Verarbeitung bricht mit Fehler ab -> Sniper sucht
+    danach sofort wieder. Teil von SNIPER-KOMPLETT, Abnahme A4.
 >>> SN-B11 HÖCHSTE PRIO – RELEASE-BLOCKER (Nutzer 12:04 "oberste Prio, schau dir den Sniper an", 3 Screenshots 12:03, 0.65.183;
     Ziel Schultern des Hügelwächters 1000 Stk., Max 9s14, Budget 10g; 564 Angebote, viele "kaufbar" zu 7s99/8s, 87 % Markt):
+    KORREKTUR SUPERVISOR 12:20 (Screenshot 12:16): Meine Annahme "nur 5 von 67 kamen an" war FALSCH. Um 12:16 steht "70/1000
+    gekauft · Budget übrig 4g39s18" (= 5g60s82 für 70, Ø 8s01) und Gold 5g63s96 (12:03: 10g72s85, −5g08s89). Die gesendeten
+    Käufe kamen an, nur die Bestätigung kam spät. Rest-Differenz ≈ 12s (Gold-Abgang 5g08s89 gegen 65 × ~8s01 = 5g20s87) – belegen.
+    Neu sichtbar: Kopf "Heute: 67 gekauft" gegen Ziel "70/1000" (12:03: Heute 61 / Ziel 5) – der Heute-Zähler zählt die über
+    Gold nachgezählten Käufe nicht mit -> eine Zahl (A5). (a) Messung bleibt Pflicht (Antwortzeit je Kauf), (e) als Verdacht
+    prüfen, nicht als belegt behandeln. Ursprünglicher Text:
     Stand "5/1000 gekauft (+65 gesendet)" -> eine Sekunde später "(+67 gesendet)". Gold laut Screenshots: 11g14s79 (11:54) ->
     10g72s85 (12:03) = −41s94 ≈ 5 × 7s99 (39s95) + Kleinkram -> der ZÄHLER 5 STIMMT mit dem Gold (SN-B10-Fix wirkt, Budget sicher).
     ABER: 67 gesendete Käufe in < 30 s, davon nur 5 echt gekauft (≈ 7 %). Der Nutzer scrollt, Liste zeigt weiter "kaufbar",
