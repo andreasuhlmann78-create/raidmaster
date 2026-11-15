@@ -65,7 +65,7 @@ class Lade(unittest.TestCase):
         import kern
         self.assertIs(b.cfg, kern.cfg)                           # D-3 Schritt 2: dieselben Objekte, nur einmal
         self.assertIs(b.state, kern.state)
-        self.assertIs(b.kills_db, kern.kills_db)
+        self.assertIs(sys.modules["raid_bot"].kills_db, kern.kills_db)   # bot.py braucht kills_db ab 1.5.179 nicht mehr
         self.assertEqual(os.path.dirname(kern.__file__), os.path.dirname(b.__file__))
         import grund
         self.assertIs(grund.bot, b.bot)                          # D-3 Schritt 3: Grundfunktionen mit demselben Bot
@@ -87,7 +87,7 @@ class Lade(unittest.TestCase):
         self.assertIs(ruhmeshalle_bot.bot, b.bot)                # D-3 Schritt 8: Ruhmeshalle
         self.assertIs(b.update_hall_of_fame, ruhmeshalle_bot.update_hall_of_fame)
         self.assertIs(ruhmeshalle_bot.class_emoji, symbole_bot.class_emoji)
-        self.assertIs(ruhmeshalle_bot.kills_db, b.kills_db)
+        self.assertIs(ruhmeshalle_bot.kills_db, kern.kills_db)
         for name, fn in (("ruhmeshalle-aufraeumen", ruhmeshalle_bot.ruhmeshalle_aufraeumen_cmd),
                          ("erfolge", ruhmeshalle_bot.erfolge_cmd)):
             self.assertIs(b.bot.tree.get_command(name).callback, fn.callback)
@@ -109,7 +109,7 @@ class Lade(unittest.TestCase):
         self.assertIs(beute_bot.bot, b.bot)                      # D-3 Schritt 12: Beute-Datenbank
         self.assertIs(b.update_lootdb, beute_bot.update_lootdb)
         self.assertIs(beute_bot.ensure_dkp_rules, regeln_bot.ensure_dkp_rules)
-        self.assertIs(b.raid_channel, grund.raid_channel)
+        self.assertIs(sys.modules["raid_bot"].raid_channel, grund.raid_channel)
         self.assertIs(beute_bot.raid_channel, grund.raid_channel)
         import klassen_bot
         self.assertIs(klassen_bot.bot, b.bot)                    # D-3 Schritt 13: Klassenfarben
@@ -152,7 +152,7 @@ class Lade(unittest.TestCase):
         import handwerk_bot
         self.assertIs(ereignis_bot.bot, b.bot)                   # D-3 Schritt 23: Ereignisse, Berufe
         self.assertIs(handwerk_bot.bot, b.bot)
-        self.assertIs(b.create_raid_event, ereignis_bot.create_raid_event)
+        self.assertIs(sys.modules["raid_bot"].create_raid_event, ereignis_bot.create_raid_event)
         self.assertIs(handwerk_bot.class_emoji, symbole_bot.class_emoji)
         import raidanzeige_bot
         import twink_bot
@@ -208,6 +208,11 @@ class Lade(unittest.TestCase):
         import dkp_befehle_bot
         self.assertIs(dkp_befehle_bot.bot, b.bot)                # D-3 Schritt 31: DKP-Befehle
         self.assertIs(b.reload_dkp_if_needed, dkp_befehle_bot.reload_dkp_if_needed)
+        import raid_bot
+        self.assertIs(raid_bot.bot, b.bot)                       # D-3 Schritt 32: Raids
+        self.assertIs(b.reminder_loop, raid_bot.reminder_loop)
+        self.assertIs(raid_bot.reload_dkp_if_needed, dkp_befehle_bot.reload_dkp_if_needed)
+        self.assertIs(raid_bot.update_raid_message, raidanzeige_bot.update_raid_message)
 
     def test_findet_fehlenden_namen(self):
         self.assertEqual(unbound("def f():\n    return cfg['x']\n"), [(2, "cfg")])

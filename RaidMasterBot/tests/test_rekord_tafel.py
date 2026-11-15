@@ -282,13 +282,13 @@ class Aufraeumen(unittest.TestCase):
 
         async def hall():
             return ch
-        saved = (self.m.hall_channel, self.m.is_admin, b.asyncio.sleep, dict(b.state.data), b.kills_db.data)
+        saved = (self.m.hall_channel, self.m.is_admin, b.asyncio.sleep, dict(b.state.data), self.m.kills_db.data)
         self.m.hall_channel, self.m.is_admin = hall, (lambda u: True)
 
         async def nosleep(_):
             return None
         b.asyncio.sleep = nosleep
-        b.kills_db.data = {"kills": [{"e": 663, "t": 1763000000}]}
+        self.m.kills_db.data = {"kills": [{"e": 663, "t": 1763000000}]}
         b.state.data["first_posted"] = {"663:1763000000": False}
         try:
             sent = []
@@ -317,7 +317,7 @@ class Aufraeumen(unittest.TestCase):
             self.m.hall_channel, self.m.is_admin, b.asyncio.sleep = saved[:3]
             b.state.data.clear()
             b.state.data.update(saved[3])
-            b.kills_db.data = saved[4]
+            self.m.kills_db.data = saved[4]
 
 
 class Msg:
@@ -371,9 +371,9 @@ class BotAblauf(unittest.TestCase):
 
     def setUp(self):
         b = self.bot
-        self.saved = (self.m.RECORD_BOSSES, dict(b.kills_db.data), dict(b.state.data), b.bot._connection.user)
+        self.saved = (self.m.RECORD_BOSSES, dict(self.m.kills_db.data), dict(b.state.data), b.bot._connection.user)
         self.m.RECORD_BOSSES = RAIDS
-        b.kills_db.data = {"kills": Tafeln().kills()}
+        self.m.kills_db.data = {"kills": Tafeln().kills()}
         b.state.data.pop("record_boards", None)
         b.state.data.pop("record_lines_cleaned", None)
         b.bot._connection.user = types.SimpleNamespace(id=1)
@@ -385,7 +385,7 @@ class BotAblauf(unittest.TestCase):
 
     def tearDown(self):
         b = self.bot
-        self.m.RECORD_BOSSES, b.kills_db.data = self.saved[0], self.saved[1]
+        self.m.RECORD_BOSSES, self.m.kills_db.data = self.saved[0], self.saved[1]
         b.state.data.clear()
         b.state.data.update(self.saved[2])
         b.bot._connection.user = self.saved[3]
@@ -416,7 +416,7 @@ class BotAblauf(unittest.TestCase):
         self.assertEqual((r["posted"], r["edited"], r["deleted_old"]), (0, 0, 0))
         # neuer Rekord Magmadar: nur die MC-Tafel wird bearbeitet, kein neuer Beitrag
         n = len(ch.msgs)
-        self.bot.kills_db.data["kills"].append(k(664, T0 + 8 * DAY, 99))
+        self.m.kills_db.data["kills"].append(k(664, T0 + 8 * DAY, 99))
         r = asyncio.run(self.m.update_record_boards(ch))
         self.assertEqual((r["posted"], r["edited"]), (0, 1))
         self.assertEqual(len(ch.msgs), n)
@@ -424,11 +424,11 @@ class BotAblauf(unittest.TestCase):
 
     def test_neuer_raid_ordnet_neu(self):
         ch = Chan()
-        self.bot.kills_db.data = {"kills": [k(663, T0, 95)]}
+        self.m.kills_db.data = {"kills": [k(663, T0, 95)]}
         asyncio.run(self.m.update_record_boards(ch))
         self.assertEqual(self.titles(ch), ["⏱️ Rekorde · Molten Core"])
         asyncio.run(ch.send("🏆 Erstkill Onyxia"))
-        self.bot.kills_db.data["kills"].append(k(1084, T0 + DAY, 185, p="ony"))
+        self.m.kills_db.data["kills"].append(k(1084, T0 + DAY, 185, p="ony"))
         r = asyncio.run(self.m.update_record_boards(ch))
         self.assertEqual(r["posted"], 3)                                  # Überschrift + 2 Tafeln
         self.assertEqual(self.titles(ch), ["⏱️ Rekorde · Molten Core", "⏱️ Rekorde · Onyxias Hort"])
@@ -439,7 +439,7 @@ class BotAblauf(unittest.TestCase):
         ch = Chan()
         asyncio.run(self.m.update_record_boards(ch))
         ch.msgs.remove(next(m for m in ch.msgs if m.embed and m.embed.title.endswith("Molten Core")))  # von Hand gelöscht
-        self.bot.kills_db.data["kills"].append(k(663, T0 + 9 * DAY, 60))
+        self.m.kills_db.data["kills"].append(k(663, T0 + 9 * DAY, 60))
         r = asyncio.run(self.m.update_record_boards(ch))
         self.assertEqual(r["posted"], 6)
         self.assertEqual(len([m for m in ch.msgs if m.embed]), 4)

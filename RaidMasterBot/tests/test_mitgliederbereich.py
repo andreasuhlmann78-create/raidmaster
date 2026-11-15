@@ -328,17 +328,15 @@ class AddonMigration(unittest.TestCase):
 
 class BotCode(unittest.TestCase):
     def test_raid_erstellen_antwortet_vor_dem_posten(self):
-        with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as f:
-            src = f.read()
-        body = src[src.index("async def raid_create("):]
-        body = body[:body.index("\n\n\n")]
+        import bot_quelle                      # D-3 Schritt 32: raid_create steht in raid_bot.py
+        body = bot_quelle.funktion("raid_create")
         self.assertLess(body.index("inter.response.defer("), body.index("channel_by_id("))
         self.assertLess(body.index("inter.response.defer("), body.index("raid_post.post_new_raid("))
         self.assertNotIn("inter.response.send_message(embed", body)
 
     def test_raid_aus_dem_kanal(self):
-        with open(os.path.join(HERE, "bot.py"), encoding="utf-8") as f:
-            src = f.read()
+        import bot_quelle                      # D-3 Schritt 32: raid_create steht in raid_bot.py
+        src = bot_quelle.funktion("raid_create")
         self.assertIn('pool = raid or pool_from_channel(inter.channel) or "mc"', src)
         self.assertIn("raid: str | None = None", src[src.index("async def raid_create("):][:300])
 

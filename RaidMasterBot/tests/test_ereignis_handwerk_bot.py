@@ -63,8 +63,9 @@ class Ereignis(unittest.TestCase):
         return dict({"id": 1, "title": "MC", "start": int(time.time()) + 86400, "channel_id": 5, "message_id": 9}, **kw)
 
     def test_gleiche_funktionen_in_bot(self):
-        self.assertIs(self.bot.create_raid_event, self.m.create_raid_event)
-        self.assertIs(self.bot.delete_raid_event, self.m.delete_raid_event)
+        rb = sys.modules["raid_bot"]                                     # ab 1.5.179 benutzt raid_bot die Ereignisse
+        self.assertIs(rb.create_raid_event, self.m.create_raid_event)
+        self.assertIs(rb.delete_raid_event, self.m.delete_raid_event)
 
     def test_anlegen_einmal_und_absage_loescht(self):
         g = Guild()
