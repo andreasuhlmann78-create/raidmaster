@@ -1,0 +1,28 @@
+BuffSentinel – Frage an die Prüf-Sitzung (Daten für die nächsten [K]-Punkte)
+Datum: 15.11.2026, 21:56 (aus date)
+
+Auftrag 21:48: Managem · Inneres Feuer Aufladungen · Tierfutter · Seelenstein auf Heiler · Wasser/Essen – IDs immer aus Spieldaten.
+Damit ihr nur einmal abrufen müsst, alle fünf Fragen auf einmal. Bitte wie gesundheitssteine.md je Zweig (wowf/Era/TBC/Wrath)
+ins Repo legen. Alles unten ist nur Gedächtnis/Vermutung und wird NICHT verwendet.
+
+1. MAGIER MANAGEM (nächster Punkt): Item-IDs aller Managems (Vermutung: 5514 Achat, 5513 Jade, 8007 Citrin, 8008 Rubin,
+   TBC 22044 Smaragd, Wrath 33312 Saphir) und Zauber "Managem herbeizaubern" je Zweig. Regel wie Gesundheitsstein: irgendein
+   Herbeizauber-Zauber gelernt UND kein Managem in den Taschen -> Warnung.
+2. PRIESTER INNERES FEUER: Hat Inneres Feuer in den Zweigen Aufladungen (SpellAuraOptions.ProcCharges je Rang-ID)? Verdacht:
+   in Era/wowf KEINE Aufladungen (dann entfällt der Punkt dort), in TBC/Wrath 20. Bitte ProcCharges je Zauber-ID und Zweig.
+   Plan bei Aufladungen: ausserhalb des Kampfes warnen, wenn die Aura-Anzahl unter z. B. 5 liegt (Wert aus BS.playerAuraInfo,
+   keine neue Abfrage).
+3. JÄGER TIERFUTTER: Das Spiel sagt mit GetPetFoodTypes(), was das Tier frisst (Fleisch, Fisch, Brot, Käse, Obst, Pilz), aber
+   nicht, welches Item welche Futterart ist. Frage: Gibt es in den Spieldaten je Item die Futterart (ItemSparse/Item
+   "FoodType" oder Unterklasse)? Wenn nein: Vorschlag, den Punkt zu streichen (sonst nur mit grosser, fehleranfälliger Liste).
+4. HEXER SEELENSTEIN AUF HEILER: (a) Aura-IDs "Seelenstein-Auferstehung" aller Ränge je Zweig (Vermutung 20707, 20762, 20763,
+   20764, 20765, TBC 27239, Wrath 47883), (b) Seelenstein-Items und Zauber "Seelenstein herstellen" je Zweig. Plan: in der
+   Gruppe ausserhalb des Kampfes, Hexer kann Seelenstein herstellen, KEIN Gruppenmitglied hat die Aura -> Hinweis
+   (Gruppen-Auren liest Group.lua schon; im Kampf nichts).
+5. WASSER/ESSEN FÜR MANAKLASSEN: Liste aller Getränke (Mana-Wiederherstellung) je Zweig ist sehr gross. Frage: Gibt es eine
+   Item-Unterklasse "Speis & Trank" mit Kennzeichen "Getränk" in den Spieldaten (ItemSparse/ItemEffect mit Zauber
+   "Trinken")? Vorschlag: zählen über die Zauber-Kategorie "Trinken" (SpellCategory) aller Items, Tabelle Item-ID -> ja.
+   Wenn zu gross: als Datei shared/wissen/daten/getraenke.lua? (Ich würde sie dann unverändert einbinden – bitte sagen, ob
+   eine Datentabelle im Addon erlaubt ist.)
+
+Bis zur Antwort ist für BuffSentinel kein Code-Auftrag ohne Daten offen. Die Sitzung schaut alle 15 Minuten ins Repo.
