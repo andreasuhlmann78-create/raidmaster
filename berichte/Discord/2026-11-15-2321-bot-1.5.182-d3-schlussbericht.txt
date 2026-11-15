@@ -1,0 +1,98 @@
+BERICHT DISCORD – Bot 1.5.182: D-3 Schritt 35 (/raidmaster-einrichten) und SCHLUSSBERICHT D-3 – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 23:21 (aus date)
+Commits: 86d5a4a4 (1.5.182) auf origin/main, CI Bot-Tests: success
+
+A. SCHRITT 35 (1.5.182)
+- einrichten_bot.py: setup_cmd (/raidmaster-einrichten). Per ast verglichen: identisch; alle übrigen Funktionen
+  in bot.py unverändert. Kommentar-Kopf in bot.py angepasst (die alte Zeile "Hier: /raidmaster-einrichten" ist
+  die einzige entfallene Kommentarzeile).
+- bot.py: Import raidmaster_data dadurch unbenutzt -> entfernt (1 Name). pyflakes ungefiltert vor/nach: neu nur
+  "einrichten_bot imported but unused" (Modul-Import, gewollt). git diff --numstat bot.py +3 −44, jetzt 601 Zeilen.
+- NEU test_einrichten_bot.py (5 Tests, REGRESSIONEN T-D3-EINRICHTEN): angemeldet; nur Gildenleitung; fehlende
+  Rechte genau genannt, nichts eingerichtet; Ablauf Einrichtung -> Speichern -> Addon -> Willkommen(update) ->
+  Befehlsliste -> Regeln; Bericht vollständig in Teilen <= 1900 Zeichen; Discord-Verweigerung -> Hinweis, nichts
+  gespeichert. Gegenproben (6, alle aufgefallen): Admin-Prüfung weg, Rechte-Prüfung weg, 1900 -> 2100,
+  save_config weg, Willkommen ohne update, Forbidden nicht abgefangen.
+- 411 Tests OK; jede der 56 Testdateien einzeln mit -I OK; REGRESSIONEN 74 von 74.
+- Betrieb nachgestellt (Kopie): 1. Update vom Stand 1.5.181 kopiert VERSION, bot.py, einrichten_bot.py, tests;
+  config.json und state unverändert (md5); danach gleich der Quelle. 2. Start wie launcher: Abbruch erst bei der
+  Anmeldung (LoginFailure). 3. Ohne config.json: Exit 3, Meldung, config.json angelegt. 4. Neustart-Code 42
+  (ohne Neustart 0). 5. Start-Vergleich 1.5.181/1.5.182: gleiche 8 Ereignis-Methoden, 30/49 Befehle.
+
+B. SCHLUSSBERICHT D-3 (Wunsch der Prüf-Sitzung 23:03)
+1. bot.py enthält nur noch Start und Zusammenbau (601 Zeilen, gezählt mit wc -l; vor D-3 in 1.5.145: 7437):
+   - Importe (67 Zeilen, die mit import/from beginnen) und der Modul-Import-Block nach "grund.bot = bot" in Schritt-Reihenfolge
+   - MESSAGE_CONTENT_RETRY, message_content_blocked (Intents beim Start)
+   - class RaidBot (313 Zeilen): __init__, setup_hook (Schleifen starten), on_guild_join, on_guild_remove,
+     on_ready (Startablauf), on_invite_create, on_invite_delete, on_member_join, on_message (verteilt an die Module)
+   - bot = RaidBot(), grund.bot = bot
+   - Start-Prüfungen, die nur on_ready aufruft: POWER_PERMS/members_with_power, ensure_test_channel,
+     repair_missing_announcements; dazu on_app_command_error (Fehlerantwort für alle Befehle, am Befehlsbaum)
+   - __main__: bot.run, Intents-Neustart, sys.exit(grund.EXIT_CODE)
+   Falls die Prüf-Sitzung die drei Start-Prüfungen auch ausgelagert haben will: ein Schritt, sonst bleibt es so.
+2. Module aus D-3 (39; Zeilen mit wc -l gezählt, Stand 1.5.182):
+  Version  Schritt     Datei                  Zeilen
+  1.5.146  Schritt 1   bot_hilfen.py            230
+  1.5.147  Schritt 2   kern.py                  124
+  1.5.148  Schritt 3   grund.py                  95
+  1.5.149  Schritt 4   markt_bot.py             221
+  1.5.150  Schritt 5   rechte_bot.py             71
+  1.5.151  Schritt 6   pn_bot.py                 58
+  1.5.152  Schritt 7   symbole_bot.py           180
+  1.5.153  Schritt 8   ruhmeshalle_bot.py       319
+  1.5.154  Schritt 9   uploader_bot.py          210
+  1.5.155  Schritt 10  bank_bot.py              184
+  1.5.156  Schritt 11  regeln_bot.py            148
+  1.5.157  Schritt 12  beute_bot.py             182
+  1.5.158  Schritt 13  klassen_bot.py           104
+  1.5.159  Schritt 14  willkommen_bot.py        116
+  1.5.160  Schritt 15  gildenname_bot.py        621
+  1.5.161  Schritt 16  befehlsliste_bot.py      237
+  1.5.163  Schritt 17  mitglieder_bot.py        295
+  1.5.164  Schritt 18  ankuendigung_bot.py     1048
+  1.5.167  Schritt 20  update_bot.py            186
+  1.5.168  Schritt 21  betrieb_bot.py           232
+  1.5.169  Schritt 22  pug_bot.py               103
+  1.5.170  Schritt 23  ereignis_bot.py           84
+  1.5.170  Schritt 23  handwerk_bot.py           80
+  1.5.171  Schritt 24  raidanzeige_bot.py        55
+  1.5.171  Schritt 24  twink_bot.py              89
+  1.5.172  Schritt 25  ersatz_bot.py             86
+  1.5.172  Schritt 25  skillung_bot.py           43
+  1.5.173  Schritt 26  dkp_tafel_bot.py         273
+  1.5.173  Schritt 26  testdaten_bot.py          35
+  1.5.174  Schritt 27  beutepost_bot.py         144
+  1.5.174  Schritt 27  dkp_nachricht_bot.py     105
+  1.5.175  Schritt 28  monatlich_bot.py         134
+  1.5.176  Schritt 29  testupload_bot.py        129
+  1.5.177  Schritt 30  kanalpflege_bot.py       317
+  1.5.178  Schritt 31  dkp_befehle_bot.py       132
+  1.5.179  Schritt 32  raid_bot.py              634
+  1.5.180  Schritt 33  anmeldung_bot.py         259
+  1.5.181  Schritt 34  upload_bot.py            221
+  1.5.182  Schritt 35  einrichten_bot.py         66
+   Summe der 39 Module: 7850 Zeilen; mit bot.py 8451 (vor D-3 bot.py allein 7437 –
+   die Mehrzeilen sind nicht nach Ursache aufgeschlüsselt. Verdacht, zu messen: Modul-Köpfe und Importe je Modul
+   sowie die Fehlerbehebungen 1.5.162 und 1.5.166).
+   Ohne eigenes Modul: Schritt 19 (1.5.165, restart_soon/EXIT_CODE nach grund.py), 1.5.162 (chunk_blocks-Fehler),
+   1.5.166 (_post_list fängt Sende-Fehler).
+3. Befehlsliste vorher/nachher: 1.5.145 (vor D-3, git archive 0d45be23~1) und 1.5.182 jeweils als __main__
+   gestartet (Anmeldung ersetzt), alle Befehle mit Unterbefehlen, Parametern (Pflicht/optional) und Beschreibung
+   ausgegeben: je 49 Zeilen, diff leer – identisch. Ereignis-Methoden ebenfalls gleich (8), einziger Unterschied:
+   on_interaction stammt jetzt aus anmeldung_bot (angemeldet am selben Bot-Objekt).
+4. Tests: vor D-3 285 (in der Kopie 1 Umgebungsfehler: test_e08 liest .github ausserhalb des Ordners), jetzt 411
+   in 56 Dateien (29 neu seit D-3), alle OK, jede Datei einzeln mit -I OK.
+
+C. ANLEITUNG FÜR DEN NUTZER NACH /update (auf 1.5.182)
+1. In #bot-log steht "✅ Update installiert – RaidMaster-Bot 1.5.182 läuft." – oder /raidmaster-status zeigt
+   oben "RaidMaster-Bot 1.5.182".
+2. In Discord "/" tippen: die Bot-Befehle erscheinen (z. B. /raid, /dkp, /charakter); /dkp zeigt deinen Stand.
+3. Bei einer offenen Raid-Anmeldung einen Knopf drücken (z. B. Vielleicht, danach wieder wie vorher): die Anzeige
+   ändert sich sofort.
+4. Nach dem nächsten Upload des Uploaders: in #bot-log "📥 Daten von … empfangen (… Spieler)", die DKP-Kanäle sind
+   aktuell, /raidmaster-status zeigt "Letzter Daten-Upload".
+5. Geht etwas nicht (z. B. "Da ist etwas schiefgelaufen" bei einem Befehl oder eine ⚠️-Meldung in #bot-log):
+   Bildschirmfoto an die Discord-Sitzung, nichts selbst zurücksetzen.
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3-aufteilen): noch keine Antwort.
