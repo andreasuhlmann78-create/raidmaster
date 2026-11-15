@@ -383,6 +383,8 @@ REGRESSIONEN = {
     "T-D3-TWINK": ("test_raidanzeige_twink_bot", "Twink", "test_nur_eigene_raids_aktualisiert"),
     "T-D3-ERSATZ": ("test_ersatz_skillung_bot", "Ersatz", "test_fragt_nicht"),
     "T-D3-SKILLUNG": ("test_ersatz_skillung_bot", "Skillung", "test_raids_und_pn_nur_bei_rollenwechsel"),
+    "T-D3-DKP": ("test_dkp_tafel_bot", "Dkp", "test_tabellen_nicht_waehrend_raid_und_nur_mit_dkp_und_kanal"),
+    "T-D3-TESTDATEN": ("test_dkp_tafel_bot", "Testdaten", "test_vorgemerkt_und_geteilt"),
     "T-D3-BEFEHLE": ("test_befehle_liste", "BefehleListe", "test_gleiche_befehle"),
     "T-D-MN8b": ("test_market", "BotAblauf", "test_T_D_MN8b_aenderung_erst_nach_senden_merken"),
     "T-D-GS1b": ("test_market", "BotAblauf", "test_T_D_GS1b_grosse_guildsentinel_datei"),

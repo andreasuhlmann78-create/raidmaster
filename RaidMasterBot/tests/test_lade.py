@@ -170,6 +170,12 @@ class Lade(unittest.TestCase):
         self.assertIs(b.offer_substitute, ersatz_bot.offer_substitute)
         self.assertIs(ersatz_bot.update_raid_message, raidanzeige_bot.update_raid_message)
         self.assertIs(skillung_bot.update_raid_message, raidanzeige_bot.update_raid_message)
+        import dkp_tafel_bot
+        import testdaten_bot
+        self.assertIs(dkp_tafel_bot.bot, b.bot)                  # D-3 Schritt 26: DKP-Tabellen, Testdaten
+        self.assertIs(b.post_dkp_tables, dkp_tafel_bot.post_dkp_tables)
+        self.assertIs(dkp_tafel_bot.send_test, testdaten_bot.send_test)
+        self.assertIs(b.send_test, testdaten_bot.send_test)
         import update_bot
         for mod in (pug_bot, betrieb_bot, update_bot):                # D-3 Schritt 19: Neustart nur in grund.py
             self.assertIs(mod.restart_soon, grund.restart_soon, mod.__name__)
