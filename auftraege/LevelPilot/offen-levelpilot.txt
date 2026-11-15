@@ -53,13 +53,32 @@ Bezug: berichte/LevelPilot/2026-11-14-1350-wunsch-schalter-meldungen.txt. Euer V
 - Locales alle Sprachen, CHANGELOG EN/DE, Bericht nach berichte/LevelPilot/ ("umgesetzt, zur Prüfung").
 ========================================================================================================================
 
+>>> PRÜFUNG 3.12.32 + 3.12.33 (Supervisor 15.11. 19:21) – Berichte 18:10 und 19:00 gelesen.
+  PF-A (3.12.32): Ursache belegt (Danger.lua Route/Key 95 %), Lösung ohne Änderung der Route, T291 vergleicht Punkt für Punkt mit
+    der alten Rechnung (Abweichung 0) + Gegenprobe – sauber. Nachbau 25,2 -> 2,5 ms (Allianz). Offen aus deinem Bericht: Höchstwert
+    26 ms im ERSTEN Lauf (Ursache nicht einzeln gemessen) – bitte noch belegen (Verdacht: Aufbau von Zwischenspeichern beim ersten
+    Lauf -> dann in Portionen oder vorab). Abnahme im Spiel: Diagnose-Zeile Planung Allianz < 16 ms.
+  LP-D1 (3.12.33): Messfehler belegt (Wanduhr zählte die Pausen der Portion mit) – genau die Lehre "Messzeitpunkt" aus AHS (E-Regel
+    Nach-Hook). Lösung (Pausen abziehen) + am Stück laufende Wege in die Neuplanung verlegt – passt. T292 mit Gegenprobe – gut.
+  ML1-2, GR1-K (3.12.33): passt (T290, T293 mit Gegenprobe).
+  Damit: PF-A, LP-D1, ML1-2, GR1-K umgesetzt – Abnahme im Spiel durch den Nutzer (Liste "Im Spiel prüfen").
+  ANTWORT auf Frage Bericht 17:30 Punkt 4 (TURNIN:405 "Der abtrünnige Lich"): Der Nutzer steht absichtlich in Undercity am
+    Auktionshaus (Snipen) – er parkt, die Quest ist nicht vergessen. ABER: Seine Bildschirmfotos 19:00–19:10 zeigen am AH in
+    Undercity "313 Yards (Weg unbekannt) – Der abtrünnige Lich". Innerhalb von Undercity kennt LevelPilot also keinen Weg zum NPC
+    (Bethor Iceshard, Magieviertel). Neuer Punkt UC-W1 (MITTEL): Wegführung innerhalb Undercity (mehrstöckig: Aufzüge, Ringe,
+    Viertel) – Ursache belegen (fehlen Knoten im Graph? Ebene/Z?), dann Weg herstellen; Test: AH (64,36) -> Bethor Iceshard ergibt
+    einen Weg mit Aufzug/Ring, nicht "Weg unbekannt". Reihenfolge: nach SP1-M-Auswertung, vor Wegpunkte.
+  VORSCHLAG L-1 – WARTET AUF FREIGABE DES NUTZERS, NOCH NICHT UMSETZEN: Spiel-Profiler (GSSniperLog 15.11.) zeigt im AH alle ~5 Min.
+    eine Minute mit Ø ~1 ms und Spitzen bis 179 ms (Bilder > 50 ms: 53 -> 63 in 45 Min.). Verdacht, fast belegt: Protocol.lua 670
+    Ticker "protocol_memory" 300 s -> UpdateAddOnMemoryUsage() misst ALLE Addons (in AHS gemessen bis 829 ms, TB168-1). Erst nach
+    Freigabe als Auftrag.
+
 ========================================================================================================================
 PRIORITÄTEN – vollständige Reihenfolge (Prüf-Sitzung, Stand 14.11. 08:30, Nachprüfung 3.12.30). Immer von oben nach unten.
 Einzelheiten weiter unten (Suche nach dem Kürzel). Wird bei jeder Änderung nachgeführt.
 ========================================================================================================================
-1. PF-A      MITTEL  Planung Allianz (Elwynn L10) über der 16-ms-Grenze: T150 Median 26 ms, T155 30 ms -> schneller machen
-                     oder über Bilder verteilen. Grenze bleibt 16 ms (PS-Ziel "kein Bild > 16 ms").
-2. GR1-K     NIEDRIG Kompaktmodus: Hinweis "Später abgeben" unsichtbar -> kurz in der einen Zeile anhängen (Vorschlag unten).
+1. PF-A Rest NIEDRIG Höchstwert 26 ms im ersten Lauf belegen (siehe PRÜFUNG 19:21). PF-A/LP-D1/ML1-2/GR1-K umgesetzt -> Abnahme im Spiel.
+2. UC-W1     MITTEL  Wegführung innerhalb Undercity ("Weg unbekannt" zum Lich-NPC) – siehe PRÜFUNG 19:21.
 3. SP1-M     MESSUNG Speicher-Bestand im Spiel (neue Diagnose-Zeilen) – Aufgabe des Nutzers; erst danach entscheiden.
 4. WARTEND   Wegpunkte (Wegdaten-Exporte), Punkt 15 nur auf Kommando. CH-G SPÄTER.
 (Erledigt seit 3.12.28: MK1, GR1, SP1-Messung im Nachbau, TU9, MARKT-v3 – siehe unten.)
