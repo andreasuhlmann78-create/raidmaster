@@ -105,9 +105,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Tirisfal (1420)
 
-- Wegstücke 678, Knoten 1001, zusammenhängende Teile 18
+- Wegstücke 690, Knoten 1003, zusammenhängende Teile 18
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 960 Knoten, Bereich 25–85 / 21–78
+  - Teil 1: 962 Knoten, Bereich 25–85 / 21–78
   - Teil 2: 8 Knoten, Bereich 56–59 / 41–43
   - Teil 3: 4 Knoten, Bereich 63–63 / 47–51
   - Teil 4: 4 Knoten, Bereich 58–60 / 81–82
@@ -283,7 +283,7 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Undercity (1458)
 
-- Wegstücke 1546, Knoten 824, zusammenhängende Teile 3
+- Wegstücke 1547, Knoten 824, zusammenhängende Teile 3
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
   - Teil 1: 821 Knoten, Bereich 44–86 / 1–96
   - Teil 2: 2 Knoten, Bereich 83–84 / 15–16

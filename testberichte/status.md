@@ -1,6 +1,6 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-15 16:49 UTC
+Ausgewertet: 2026-11-15 17:44 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
@@ -18,20 +18,20 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 140 | `testberichte/diagnose/AHSentinel/0.65.196-84d704c725ce.txt` |
-| BuffSentinel | 38 | `testberichte/diagnose/BuffSentinel/0.9.12-7f8dfb5af187.txt` |
+| AHSentinel | 142 | `testberichte/diagnose/AHSentinel/0.65.200-38cabad01867.txt` |
+| BuffSentinel | 39 | `testberichte/diagnose/BuffSentinel/0.9.21-2c03fdd0e24c.txt` |
 | GSMesstest | 9 | `testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt` |
-| GSSniperLog | 8 | `testberichte/diagnose/GSSniperLog/1.3-52c992a6565b.txt` |
-| GuildSentinel | 136 | `testberichte/diagnose/GuildSentinel/0.9.39-22ff864428a6.txt` |
-| LevelPilot | 36 | `testberichte/diagnose/LevelPilot/3.12.30-0d21f66b7ef1.txt` |
-| ProfessionSentinel | 116 | `testberichte/diagnose/ProfessionSentinel/0.9.45-60b3aa1413b6.txt` |
-| ThreatSentinel | 114 | `testberichte/diagnose/ThreatSentinel/2.5.13-7ad5c78db41a.txt` |
+| GSSniperLog | 10 | `testberichte/diagnose/GSSniperLog/1.5-4ae9e3c50eed.txt` |
+| GuildSentinel | 139 | `testberichte/diagnose/GuildSentinel/0.9.39-45ed2115386b.txt` |
+| LevelPilot | 38 | `testberichte/diagnose/LevelPilot/3.12.30-042eac8b05e3.txt` |
+| ProfessionSentinel | 119 | `testberichte/diagnose/ProfessionSentinel/0.9.45-9856182ef74d.txt` |
+| ThreatSentinel | 116 | `testberichte/diagnose/ThreatSentinel/2.5.13-244b48fc0466.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 192 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794758108-19ac8c.json` |
+| LevelPilot | 194 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794762846-8f1070.json` |
 
 ## AHSentinel
 
