@@ -91,6 +91,15 @@ TB189 (Nutzer 13:53, 2 Screenshots Sniper 13:52:51/13:53:00, 0.65.189; 2 Ziele: 
     abgelehnte noch als "warten"? Anzeige muss nach Frist (30 s) auflösen.
     TB189-3 MITTEL (A5): Ziel-Zeile "15/1000 gekauft · 6 warten auf Antwort · …" abgeschnitten (Rest/Budget nicht sichtbar); Kopf
     "Ø Reaktion 2.1 s" -> "3.6 s" bei einem einzigen Kauf – Wert prüfen (Reaktion = Treffer bis Kauf-Senden, nicht bis Antwort?).
+    TB189-5 HOCH (BELEGT, Screenshot 13:54:33 + Code Sniper.lua Remaining ~345): Bei MEHREREN Zielen frisst jedes Ziel das Budget
+            der anderen. Azurblaue Seidenkapuze bleibt bei 3/1000 gekauft, aber "Rest" sinkt 13:53:00 3g92 -> 13:54:33 3g46 (−46s) –
+            genau in der Zeit, in der die Schultern 16 -> 21 kauften: 5 × 9s14 = 45s70, Gold 14g19s38 -> 13g73s68 = −45s70.
+            Ursache: Remaining nimmt als Gold-Grenze drop = Gold beim Start DIESES Ziels − Gold jetzt, also auch alle Käufe anderer
+            Ziele (und jede andere Ausgabe). Folge: das zweite Ziel stoppt viel zu früh ("über Budget"), obwohl es kaum etwas
+            ausgegeben hat. Fix: vom Gold-Abgang die seit Start gezählten Käufe der ANDEREN Ziele (goldLog je Ziel) abziehen; nur
+            nicht zuordenbarer Abgang bleibt als Sicherheitsabzug, und der wird im Status genannt ("Rest 4g73 · 46s andere Ausgaben
+            mitgerechnet"). Test: 2 Ziele, Ziel B kauft 5×, Rest von Ziel A bleibt gleich; ungezählter Kauf von A senkt A.
+            Gut: Zähler Schultern 16 -> 21 = Gold −45s70 = 5 × 9s14 ✓ (Zähler = Gold), "6 warten" -> "2 warten" (löst sich auf).
     TB189-4 Hinweis: 192 verpasst bei 279 Treffern (69 %) – für A1 im Abnahmetest messen, woran verpasst wird (anderer Käufer
     schneller? Raste zu spät? Max knapp?) – Grund je verpasstem Treffer im Sniper-Bericht zählen.
 TB188 (Sniper-Testbericht 0.65.188, 15.11. 13:27 – Supervisor geprüft): Abnahme NICHT möglich (keine Käufe im Lauf, S4 vom Nutzer
