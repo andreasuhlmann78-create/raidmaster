@@ -1,10 +1,250 @@
 {
-  "geprueft": "2026-11-15T00:24:55Z",
-  "commit": "7e32534",
+  "geprueft": "2026-11-15T01:07:47Z",
+  "commit": "ceffa90",
   "ok": false,
-  "fehler": "Der Bot ist auf keinem Server (oder DISCORD_GUILD_ID passt nicht).",
+  "fehler": null,
   "hinweis": "Der Bot holt Änderungen etwa alle 30 Minuten. 'wartet' = Push ist jünger als 45 Minuten.",
-  "ankuendigungen": [],
-  "addons": [],
-  "info": []
+  "ankuendigungen": [
+    {
+      "datei": "announce/ahsentinel__ahsentinel-0.65.178.md",
+      "kanal": "ahsentinel",
+      "seit_push_min": 78,
+      "status": "kein_zugriff"
+    },
+    {
+      "datei": "announce/ahsentinel__ahsentinel-0-vorstellung-1.8.md",
+      "kanal": "ahsentinel",
+      "seit_push_min": 8401,
+      "status": "kein_zugriff"
+    },
+    {
+      "datei": "announce/ahsentinel__ahsentinel-hilfe-1.0.md",
+      "kanal": "ahsentinel",
+      "seit_push_min": 15598,
+      "status": "kein_zugriff"
+    },
+    {
+      "datei": "announce/barrow-taktik__uebersicht-1.1.md",
+      "kanal": "barrow-taktik",
+      "seit_push_min": 16428,
+      "status": "kein_zugriff"
+    },
+    {
+      "datei": "announce/buffsentinel__buffsentinel-0.9.21.md",
+      "kanal": "buffsentinel",
+      "seit_push_min": 1086,
+      "status": "kein_zugriff"
+    },
+    {
+      "datei": "announce/guildsentinel__guildsentinel-0.9.38.md",
+      "kanal": "guildsentinel",
+      "seit_push_min": 1652,
+      "status": "kein_zugriff"
+    },
+    {
+      "datei": "announce/hyjal-taktik__uebersicht-1.1.md",
+      "kanal": "hyjal-taktik",
+      "seit_push_min": 16428,
+      "status": "kein_zugriff"
+    },
+    {
+      "datei": "announce/levelpilot__levelpilot-3.12.31.md",
+      "kanal": "levelpilot",
+      "seit_push_min": 734,
+      "status": "kein_zugriff"
+    },
+    {
+      "datei": "announce/levelpilot__levelpilot-uebersicht-3.12.31.md",
+      "kanal": "levelpilot",
+      "seit_push_min": 734,
+      "status": "kein_zugriff"
+    },
+    {
+      "datei": "announce/lore__alpine-vanguard-vorstellung-1.0.md",
+      "kanal": "lore",
+      "seit_push_min": 20151,
+      "abdeckung": 1.0,
+      "status": "ok"
+    },
+    {
+      "datei": "announce/mc-feuerresi__feuerresi-1.1.md",
+      "kanal": "mc-feuerresi",
+      "seit_push_min": 16428,
+      "status": "kein_zugriff"
+    },
+    {
+      "datei": "announce/onyxia-feuerresi__feuerresi-1.0.md",
+      "kanal": "onyxia-feuerresi",
+      "seit_push_min": 25570,
+      "status": "kein_zugriff"
+    },
+    {
+      "datei": "announce/onyxia-taktik__onyxia-video-1.0.md",
+      "kanal": "onyxia-taktik",
+      "seit_push_min": 26994,
+      "status": "kein_zugriff"
+    },
+    {
+      "datei": "announce/professionsentinel__professionsentinel-0.9.45.md",
+      "kanal": "professionsentinel",
+      "seit_push_min": 1651,
+      "status": "kein_zugriff"
+    },
+    {
+      "datei": "announce/professionsentinel__professionsentinel-0-vorstellung-1.27.md",
+      "kanal": "professionsentinel",
+      "seit_push_min": 2677,
+      "status": "kein_zugriff"
+    },
+    {
+      "datei": "announce/threatsentinel__threatsentinel-2.5.13.md",
+      "kanal": "threatsentinel",
+      "seit_push_min": 1086,
+      "status": "kein_zugriff"
+    },
+    {
+      "datei": "announce/threatsentinel__threatsentinel-0-vorstellung-2.2.md",
+      "kanal": "threatsentinel",
+      "seit_push_min": 17857,
+      "status": "kein_zugriff"
+    },
+    {
+      "datei": "announce/buffsentinel__buffsentinel-0-vorstellung-12.md",
+      "kanal": "buffsentinel",
+      "seit_push_min": 15548,
+      "status": "kein_zugriff"
+    },
+    {
+      "datei": "announce/guildsentinel__guildsentinel-0-vorstellung-19.md",
+      "kanal": "guildsentinel",
+      "seit_push_min": 3927,
+      "status": "kein_zugriff"
+    },
+    {
+      "datei": "announce/levelpilot__levelpilot-uebersicht.md",
+      "kanal": "levelpilot",
+      "seit_push_min": 27820,
+      "status": "kein_zugriff"
+    }
+  ],
+  "addons": [
+    {
+      "addon": "AHSentinel",
+      "version": "0.65.178",
+      "datei": "download/AHSentinel-0.65.178.zip",
+      "kanal": "ahsentinel",
+      "seit_push_min": 78,
+      "status": "kein_zugriff"
+    },
+    {
+      "addon": "RaidMaster",
+      "version": "3.0.26",
+      "datei": "RaidMaster/RaidMaster.toc",
+      "kanal": "raid-addon",
+      "seit_push_min": 1647,
+      "status": "ok",
+      "gepostet": "2026-11-13 21:54 UTC",
+      "anhang": [
+        "RaidMaster-3.0.26.zip"
+      ]
+    }
+  ],
+  "info": [
+    {
+      "datei": "announce/threatsentinel__threatsentinel-0-vorstellung.md",
+      "kanal": "threatsentinel",
+      "seit_push_min": 26635,
+      "status": "kein_zugriff",
+      "nur_info": "ersetzt durch threatsentinel__threatsentinel-0-vorstellung-2.2.md"
+    }
+  ],
+  "server": "Alpine Vanguard",
+  "wartet": false,
+  "bot": [
+    {
+      "pruefung": "Kanäle aus /raidmaster-einrichten",
+      "status": "ok",
+      "detail": "alle da"
+    },
+    {
+      "pruefung": "Regeln #verhaltensregeln",
+      "status": "ok",
+      "detail": "2/2 Beiträge da"
+    },
+    {
+      "pruefung": "Regeln #loot-regeln",
+      "status": "ok",
+      "detail": "2/2 Beiträge da"
+    },
+    {
+      "pruefung": "Regeln #gildenbank",
+      "status": "kein_zugriff",
+      "detail": "Bot darf den Kanal nicht lesen"
+    },
+    {
+      "pruefung": "Regeln #ränge-und-aufnahme",
+      "status": "ok",
+      "detail": "1/1 Beiträge da"
+    },
+    {
+      "pruefung": "Regeln #pug-regeln",
+      "status": "ok",
+      "detail": "2/2 Beiträge da"
+    },
+    {
+      "pruefung": "Gildenbank: #gildenbank-bestand aufgelöst",
+      "status": "ok",
+      "detail": "Kanal weg"
+    },
+    {
+      "pruefung": "Gildenbank: Bestand unter den Regeln",
+      "status": "kein_zugriff",
+      "detail": "Bot darf #gildenbank nicht lesen"
+    },
+    {
+      "pruefung": "Raid Molten Core",
+      "status": "ok",
+      "detail": "alle Kanäle da"
+    },
+    {
+      "pruefung": "Raid Onyxias Hort",
+      "status": "ok",
+      "detail": "alle Kanäle da"
+    },
+    {
+      "pruefung": "Raid Barrow Deeps",
+      "status": "ok",
+      "detail": "alle Kanäle da"
+    },
+    {
+      "pruefung": "Raid Hyjalgipfel",
+      "status": "ok",
+      "detail": "alle Kanäle da"
+    },
+    {
+      "pruefung": "Raid Pechschwingenhort ausgeblendet (noch nicht angekündigt)",
+      "status": "ok",
+      "detail": "für Mitglieder unsichtbar"
+    },
+    {
+      "pruefung": "Raid Zul'Gurub ausgeblendet (noch nicht angekündigt)",
+      "status": "ok",
+      "detail": "für Mitglieder unsichtbar"
+    },
+    {
+      "pruefung": "Raid Ruinen von Ahn'Qiraj ausgeblendet (noch nicht angekündigt)",
+      "status": "ok",
+      "detail": "für Mitglieder unsichtbar"
+    },
+    {
+      "pruefung": "Raid Tempel von Ahn'Qiraj ausgeblendet (noch nicht angekündigt)",
+      "status": "ok",
+      "detail": "für Mitglieder unsichtbar"
+    },
+    {
+      "pruefung": "Raid Naxxramas ausgeblendet (noch nicht angekündigt)",
+      "status": "ok",
+      "detail": "für Mitglieder unsichtbar"
+    }
+  ]
 }
