@@ -1,0 +1,26 @@
+AHSentinel 0.65.188 – TB186-1 (Abbrechen-Empfehlung ohne Mindestpreis) – umgesetzt, zur Prüfung
+CurseForge: nein (nächster Termin 18:00). GitHub-Release v0.65.188, Zip an den Nutzer; nicht in download/.
+Enthält 0.65.187 (SN-B12, P186-1..5, TB184-U1/U3 – eigener Bericht).
+
+(a) Ursache wie vom Supervisor belegt: Se:CancelWorth rechnete newPrice = Undercut(Günstigstes) ohne Mindestpreis.
+    Fix: neues Se:RelistFloor(itemID) – dieselbe Reihenfolge wie Se:SuggestRaw2 (Hand-Mindestpreis, sonst der höhere aus
+    AutoFloor und Learn.Limits). CancelWorth rechnet mit newPrice = max(Undercut, Mindestpreis). Liegt dieser Preis bei oder
+    über dem eigenen Preis: Rückgabe "lohnt nicht" mit floorBlock -> Status "liegen" (Spalte "unterboten – liegen lassen"),
+    Tooltip "Liegen lassen – Markt unter deinem Mindestpreis (x)" + "Abbrechen kostet die Einstellgebühr; neu eingestellt würde
+    zum selben oder höheren Preis." Nie "Abbrechen lohnt".
+    Test T759: Mindestpreis 8s, Günstigstes 6s, eigener 10s -> gerechnet mit 8s (nicht 6s); Mindestpreis 12s -> lohnt false,
+    floorBlock true; ohne Mindestpreis -> Undercut(6s) wie bisher. Bisherige CancelWorth-Tests (T-H1, 6571ff.) unverändert grün.
+(b) Neu-Einstellen einer zurückgekommenen Ware: der Vorschlag hält den Mindestpreis schon ein und sagt es (Seller.lua
+    SuggestRaw2: "Markt liegt unter deinem Mindestpreis (x) – einstellen zum Mindestpreis oder warten"); die Serie überspringt
+    "Konkurrenz unter deinem Mindestpreis" (BatchStep). Mit (a) entsteht die Schleife Abbrechen -> Neu-Einstellen zum selben
+    Preis nicht mehr. Keine zusätzliche Rückfrage eingebaut – bitte sagen, falls trotzdem gewünscht.
+(c) Herkunft BELEGT aus der Diagnose testberichte/diagnose/AHSentinel/0.65.184-e9c6be98ad1f.txt:
+    [12:11:48] VERKAUFEN-KLICK Zeile Item 11134 (Geringe Mystikeressenz), [12:11:51] AHS-POST PostCommodity Menge 4, Preis 1161,
+    [12:11:52] EINSTELLEN Item 11134 · Menge 4 · Laufzeit 1 · Preis 1161/Stück · Gebühr 100. -> Die Auktion um 12:42 ist eine
+    NEUE Auktion, um 12:11 über den Verkaufen-Knopf von AHS zum selben Preis eingestellt (nicht die abgebrochene von ~10:50).
+    Warum der Vorschlag 11s61 war, steht nicht im Protokoll (Verdacht, zu messen: Mindestpreis). Darum nennt die Zeile EINSTELLEN
+    jetzt zusätzlich "Günstigstes x · Mindestpreis y (Quelle)".
+    Nebenbefund derselben Diagnose: viele "ABBRECHEN AUCTION_CANCELED (erwartet nil) -> unerwartet" um 12:16 und 12:25
+    (Abbrüche, die nicht über AHS liefen) – nur zur Info.
+Gesamtlauf 253/253, Testroutine s42 grün (T759 neu), addon_check OK. Release v0.65.188 = geprüfter Stand.
+Nächster Punkt: Rest SNIPER-KOMPLETT (A1–A6 brauchen Messung im Spiel; Verdacht, zu prüfen: Wartegrund "Markt-Scan läuft" hat im Sniper kein eigenes Zeitlimit).
