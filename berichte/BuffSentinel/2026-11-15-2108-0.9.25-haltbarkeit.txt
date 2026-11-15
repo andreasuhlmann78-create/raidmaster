@@ -1,0 +1,39 @@
+BuffSentinel 0.9.25 – Bericht an die Prüf-Sitzung
+Datum: 15.11.2026, 21:08
+Stand: BS-N1 Punkt 4 umgesetzt, zur Prüfung (Punkt 1 und 3 warten auf belegte Item-IDs, siehe Bericht 21:06)
+
+Veröffentlicht: download/BuffSentinel-0.9.25.zip, README, announce 0.9.25 (+ Zip), 0.9.24 entfernt; auf origin/main
+nachgeprüft. addon_check lokal "OK (1 Warnungen)" (nur Lua-Syntax nicht geprüft, lupa fehlt hier). cmp: Game/Sync/Test/
+Markt v7 byte-gleich.
+
+Umsetzung
+- Core.lua BS.COMMON_ENTRIES: Eintrag "durability" für ALLE Klassen (v = "all", retail = true, alertOnly), Grenze 30 %.
+  ResolveEntries hängt die gemeinsamen Einträge an die Klassen-Einträge an.
+- BS:UpdateDurability(): kleinster Prozentwert über Plätze 1–18 (GetInventoryItemDurability, mit pcall; geschützte Werte
+  und Plätze ohne Haltbarkeit übersprungen; Funktion fehlt -> nil). Aufruf nur bei UPDATE_INVENTORY_DURABILITY (neu in
+  BS.EVENTS, mit Handler; T29 prüft das) und im Layout – nie je Bild.
+- Display.lua EvalBuff: nur ausserhalb des Kampfes, nur Ort "resting" (Hauptstadt/Gasthaus) oder "sanctuary"
+  (Schutzgebiet, z. B. Shattrath/Dalaran – GetContext meldet dort sanctuary vor resting), nur wenn Wert < 30;
+  Anzeige "25%", bei 0 "kaputt". Beritten nie (allgemeine Regel).
+- Refresh: Haltbarkeit wird auch ausgewertet, wenn die Zonen-Einstellung "Hauptstädte & Gasthäuser" aus ist (Standard aus),
+  sonst würde die Erinnerung nie erscheinen. Alle anderen Einträge bleiben an die Zonen-Einstellung gebunden.
+- Tooltip mit Wert, Grenze und Hinweis; Status-Text im Optionsfenster; Locales EN/DE (6 Schlüssel); CHANGELOG EN/DE.
+
+Bewusste Entscheidungen (bitte prüfen)
+- Schwächster Gegenstand statt Durchschnitt (Prepped nimmt den Durchschnitt): Ein einzelner kaputter Gegenstand verliert
+  alle Werte, das soll nicht im Durchschnitt untergehen.
+- Grenze 30 % fest (wie Munition/Splitter).
+- Beritten keine Anzeige (gleiche Regel wie alle Buff-Erinnerungen) – nach dem Absteigen in der Stadt erscheint sie.
+
+Belege (eigene Tests, keine Freigabe)
+- T216 "25/100/0/nil/nil/nil/40 · ja nein ja ja nein nein nein nein · ja nein": Werte 50/25/100 % -> 25; voll 100;
+  kaputt 0; keine Plätze nil; max 0 nil; Funktion fehlt nil; geschützter Wert übersprungen -> 40. Anzeige: 25 % Stadt ja
+  ("25%"), 30 % nein, 0 % ja ("kaputt"), Schutzgebiet ja, offene Welt nein, Dungeon nein, Kampf nein, kein Wert nein.
+  Refresh mit Zonen-Einstellung aus (GetContext false/"resting"): Haltbarkeit sichtbar, normaler Buff nicht.
+- T29 (Ereignisse mit Handler) OK; TU1 T200/T251–T253 0 Abweichungen (3220/2772/3480 Fälle), TU4 0 Verletzungen.
+- run25m: OK 169, die bekannten 12 Nachbau-FEHLER; T28 zählt im Mock jetzt 12 statt 11 "falsche Tooltips" – der Mock hat
+  kein echtes GameTooltip, jeder aktive Knopf zählt dort (ein Knopf mehr = Haltbarkeit). Im Client prüfen.
+- Offline-Routine: forever/classic/retail/tbc × deDE/enUS = 8 × RESULT PASS.
+
+IM CLIENT PRÜFEN (Nutzer)
+- In Orgrimmar mit einem Gegenstand unter 30 %: "REPARIEREN!" mit Prozent; reparieren -> verschwindet; draussen nichts.
