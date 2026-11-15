@@ -1,0 +1,30 @@
+AHSentinel 0.65.231 – RK6 Halte-Risiko (Antwort Supervisor 21:02 F1–F3, 21:33 G1/G2) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.231 und sofort im Discord.
+
+MarketCore.lua
+  - MK:HoldFactor(itemID, saleDays): nur wenn der Verkauf > 1 Tag dauert (F2). Richtung nur aus einem BELEGTEN MA4-Band
+    (W:ItemTrend; Materialien nach Herkunft, G1), sonst 0 % (F3). ANNAHME RK6 (F1): fällt -> Faktor 1 − 5 % × Tage bis zum
+    nächsten Login (MR7, sonst 1 Tag); Spitze -> 0 (nie halten, nie mit Haltedauer kaufen); ruhig/steigt -> 1 (Steigen nie
+    als Gewinn).
+  - MK:DEHoldFactor(itemID): Entzaubern – gehalten werden die Materialien: Verkaufsdauer = SellOutlook-Wartezeit des
+    wichtigsten Materials (Wert × Stück je Entzauberung). Billige Prüfung zuerst: ohne fallendes/Spitzen-Band keine Rechnung.
+  - MK:LimitFromNet (die EINE "Lohnt bis"-Rechnung, RK2): Netto-Wert × Faktor; Faktor 0 -> kein "Lohnt bis". Damit wirkt
+    RK6 überall, wo "Lohnt bis" gerechnet wird (Tooltip, Markt, Sammelkauf, Sniper-Entzauberziele, API.WorthUpTo).
+Comfort.lua "Heute tun" Flips: Verkaufsdauer = Menge / Absatz je Tag; fällt/Spitze bei > 1 Tag -> kein Flip ("Kauf mit
+  Haltedauer > 1 Tag nur in ruhigen/steigenden Bändern").
+UI_MarketView.lua "Mein Lager": Hinweis gelb "Band fällt – vor dem Ausloggen verkaufen" bzw. "Spitze im Band – jetzt verkaufen".
+Testlog (F1): Waves W:LogBands schreibt je belegtem Band und Tag den Index mit (db.ma4log, höchstens 90); Testbericht-Zeile
+  "RK6 ANNAHME fällt 5 %/Tag … · gemessen: Band Tag -> Tag: ±x % in n Tagen (x %/Tag, Richtung vorher …)". Nicht in
+  Nachbildung/Testroutine.
+Tests
+  - T807 (Testroutine M, Richtung/Rhythmus über die eigenen Funktionen ersetzt): ≤ 1 Tag 1,00 · fällt (2 Tage bis Login)
+    0,90 · Spitze 0,00 · ruhig/steigt/unbelegt 1,00 · "Lohnt bis" mit Faktor 0,9 kleiner, mit Spitze nil · Verlauf je Band.
+    Mit 0.65.230 rot (MK:HoldFactor fehlt).
+  - s92 (Speicher Vollscan) einzeln: 0.65.230 15,4 MB, 0.65.231 14,2–15,7 MB – Streuung der Speicherbereinigung (0.65.223:
+    9,9–14,1 MB), kein RK6-Effekt; Regel 2 von 3 gilt. Entzauber-Szenarien s6, s51, s223 grün.
+  - Heute ändert sich in der Nachbildung nichts (kein Band belegt) – Wirkung erst mit ≥ 5 Tagen × 20 Items je Band.
+  - Locales +2, CHANGELOG EN/DE.
+Gesamtlauf (frischer Klon, Kopie 0.65.231): BESTANDEN 280, FEHLGESCHLAGEN 0.
+NACHTRAG (eigener Fund nach dem Bau): Der Band-Verlauf für F1 (db.ma4log, Testbericht "RK6 … gemessen") ist in dieser Version
+  NICHT von Tag zu Tag vergleichbar (Index je Tagesrechnung auf wanderndem 10-Tage-Fenster; +2 %/Tag ergäbe 0 %). Wirkung nur
+  im Testbericht, nicht auf Preise. Behoben in 0.65.238 (Ketten-Index, Bericht folgt mit 0.65.238).
