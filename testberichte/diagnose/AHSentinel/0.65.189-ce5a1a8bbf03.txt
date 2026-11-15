@@ -1,0 +1,225 @@
+AHSentinel-Protokoll v0.65.189 · 15.11. 13:41:14
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  15.11. 13:40:39 L10 ? v0.65.189
+  15.11. 13:35:08 L10 ? v0.65.188
+  15.11. 13:27:11 L10 ? v0.65.188
+  15.11. 13:19:53 L10 ? v0.65.188
+  15.11. 13:01:40 L10 ? v0.65.187
+  15.11. 12:37:50 L10 ? v0.65.186
+  15.11. 12:26:45 L10 ? v0.65.184
+  15.11. 12:01:49 L10 ? v0.65.183
+  15.11. 11:57:32 L10 ? v0.65.182
+  15.11. 11:51:10 L10 ? v0.65.182
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 5 Min., 7052 Items, Preis-Sync an
+  SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 0, GoldSentinelMarkt 0, GuildSentinel 2, LevelPilot 1, LevelPilotG 0, ThreatSentinel 0
+  SYNC gesendet 12 · empfangen 22 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 1) · gesendet 1 · weitergegeben 0 · offline 1 · Listen 0 · Warteschlange 0 · gespeichert ja
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, marketExpert=false, minimapAngle=216.6, priceGuard=20, sniperSignal=true, theme=modern, tooltipDEDetail=true, vendorButton=false, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[15.11. 13:40:58] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 296 ms bis Comfort.lua:1002 · 296 ms
+[15.11. 13:40:56] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 17 ms bis Disenchant.lua:1527 · 19 ms
+[15.11. 13:40:56] ABSATZ-UNPLAUSIBEL Item 7947 · 6.9/Tag · Quelle geschätzt
+[15.11. 13:40:56] LANGSAM ×3 Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 14 ms bis Extras.lua:279 · 19 ms
+[15.11. 13:40:55] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 33 ms bis Extras.lua:279 · 37 ms
+[15.11. 13:40:55] ABSATZ-UNPLAUSIBEL Item 7919 · 120.6/Tag · Quelle geschätzt
+[15.11. 13:40:45] SYNC Weg=GUILD
+[15.11. 13:40:41] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[15.11. 13:40:40] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[15.11. 13:40:33] LANGSAM ×2 Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 18 ms bis Ende ui-refresh · 18 ms
+[15.11. 13:40:30] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 19 ms bis Ende ui-refresh · 19 ms
+[15.11. 13:40:29] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 18 ms bis Ende ui-refresh · 18 ms
+[15.11. 13:40:28] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 19 ms bis Ende ui-refresh · 19 ms
+[15.11. 13:40:27] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 25 ms bis Ende ui-refresh · 25 ms
+[15.11. 13:40:25] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 18 ms bis Ende ui-refresh · 18 ms
+[15.11. 13:40:24] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 23 ms bis Ende ui-refresh · 23 ms
+[15.11. 13:40:22] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 18 ms bis Ende ui-refresh · 18 ms
+[15.11. 13:40:22] SNIPER-SUCHE Ziel 4251 · Angebote 501 · Treffer ≤ Max 0 · gekauft 80 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 13:40:20] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 19 ms bis Ende ui-refresh · 19 ms
+[15.11. 13:40:19] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 22 ms bis Ende ui-refresh · 22 ms
+[15.11. 13:40:18] LANGSAM ×4 Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 19 ms bis Ende ui-refresh · 19 ms
+[15.11. 13:40:13] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 20 ms bis Ende ui-refresh · 20 ms
+[15.11. 13:40:12] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 19 ms bis Ende ui-refresh · 19 ms
+[15.11. 13:40:11] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 18 ms bis Ende ui-refresh · 18 ms
+[15.11. 13:40:10] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 19 ms bis Ende ui-refresh · 19 ms
+[15.11. 13:40:08] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 26 ms bis Ende ui-refresh · 26 ms
+[15.11. 13:40:07] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 21 ms bis Ende ui-refresh · 21 ms
+[15.11. 13:40:06] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 20 ms bis Ende ui-refresh · 20 ms
+[15.11. 13:40:05] LANGSAM ×2 Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 19 ms bis Ende ui-refresh · 19 ms
+[15.11. 13:40:01] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 18 ms bis Ende ui-refresh · 18 ms
+[15.11. 13:40:00] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 19 ms bis Ende ui-refresh · 19 ms
+[15.11. 13:39:59] SUCHEN Grenze erreicht: 80 in 60 s (max je Minute = 90)
+[15.11. 13:39:59] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 18 ms bis Ende ui-refresh · 18 ms
+[15.11. 13:39:58] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 19 ms bis Ende ui-refresh · 19 ms
+[15.11. 13:39:56] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 20 ms bis Ende ui-refresh · 20 ms
+[15.11. 13:39:55] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 18 ms bis Ende ui-refresh · 18 ms
+[15.11. 13:39:54] SNIPER Treffer 2 · weg 1, Fehler 1 · Ø Suche>Treffer 157 ms, Treffer>Reserv. 45 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms
+[15.11. 13:39:54] LANGSAM ×8 Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 19 ms bis Ende ui-refresh · 19 ms
+[15.11. 13:39:43] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 18 ms bis Ende ui-refresh · 18 ms
+[15.11. 13:39:42] LANGSAM ×5 Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 19 ms bis Ende ui-refresh · 19 ms
+[15.11. 13:39:36] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 20 ms bis Ende ui-refresh · 20 ms
+[15.11. 13:39:35] LANGSAM ×2 Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 19 ms bis Ende ui-refresh · 19 ms
+[15.11. 13:39:33] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 18 ms bis Ende ui-refresh · 18 ms
+[15.11. 13:39:31] LANGSAM ×2 Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 20 ms bis Ende ui-refresh · 20 ms
+[15.11. 13:39:29] LANGSAM ×3 Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 18 ms bis Ende ui-refresh · 19 ms
+[15.11. 13:39:25] SNIPER-BESTÄTIGT Item 4251 · Angebot 106089564 · über Gold (keine Antwort des Servers)
+[15.11. 13:39:24] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 19 ms bis Ende ui-refresh · 19 ms
+[15.11. 13:39:24] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 106089156 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 13:39:23] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 106089411 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 13:39:23] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 19 ms bis Ende ui-refresh · 19 ms
+[15.11. 13:39:23] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 106089796 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 13:39:22] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 20 ms bis Ende ui-refresh · 20 ms
+[15.11. 13:39:22] SNIPER-SUCHE Ziel 4251 · Angebote 507 · Treffer ≤ Max 6 · gekauft 79 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 13:39:21] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 20 ms bis Ende ui-refresh · 20 ms
+[15.11. 13:39:19] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 23 ms bis Ende ui-refresh · 23 ms
+[15.11. 13:39:18] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 18 ms bis Ende ui-refresh · 18 ms
+[15.11. 13:39:17] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 106083441 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 13:39:17] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 24 ms bis Ende ui-refresh · 24 ms
+[15.11. 13:39:17] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 106066396 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 13:39:17] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 106083338 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 13:39:16] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 19 ms bis Ende ui-refresh · 19 ms
+[15.11. 13:39:16] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 106066140 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 13:39:16] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 106066271 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 13:39:15] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 106066017 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 13:39:15] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 106082930 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 13:39:14] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 106083980 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 13:39:14] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 20 ms bis Ende ui-refresh · 20 ms
+[15.11. 13:39:13] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 19 ms bis Ende ui-refresh · 19 ms
+[15.11. 13:39:12] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 20 ms bis Ende ui-refresh · 20 ms
+[15.11. 13:39:11] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 19 ms bis Ende ui-refresh · 19 ms
+[15.11. 13:39:10] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 20 ms bis Ende ui-refresh · 20 ms
+[15.11. 13:39:09] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 21 ms bis Ende ui-refresh · 21 ms
+[15.11. 13:39:07] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 24 ms bis Ende ui-refresh · 24 ms
+[15.11. 13:39:06] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 20 ms bis Ende ui-refresh · 20 ms
+[15.11. 13:39:05] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 19 ms bis Ende ui-refresh · 19 ms
+[15.11. 13:39:04] LANGSAM ×2 Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 20 ms bis Ende ui-refresh · 20 ms
+[15.11. 13:38:54] KAUF gesendet · Angebot 106089564 · offen 11
+[15.11. 13:38:54] SNIPER Treffer 1 · gekauft 1 · Ø Suche>Treffer 167 ms, Treffer>Reserv. 67024 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms
+[15.11. 13:38:54] ABBRECHEN AUCTION_CANCELED auctionID 106089156 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 13:38:54] KAUF gesendet · Angebot 106089156 · offen 10
+[15.11. 13:38:53] ABBRECHEN AUCTION_CANCELED auctionID 106089286 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 13:38:53] KAUF gesendet · Angebot 106089411 · offen 10
+[15.11. 13:38:53] LANGSAM Hintergrund-Aufgabe ui-refresh · 0 Schritte · längster Schritt 18 ms bis Ende ui-refresh · 18 ms
+[15.11. 13:38:53] KAUF gesendet · Angebot 106089286 · offen 9
+[15.11. 13:38:52] KAUF gesendet · Angebot 106089796 · offen 8
+[15.11. 13:38:47] KAUF gesendet · Angebot 106083441 · offen 8
+[15.11. 13:38:47] KAUF gesendet · Angebot 106083338 · offen 7
+[15.11. 13:38:46] KAUF gesendet · Angebot 106066396 · offen 6
+[15.11. 13:38:46] KAUF gesendet · Angebot 106066271 · offen 5
+[15.11. 13:38:45] KAUF gesendet · Angebot 106066140 · offen 4
+[15.11. 13:38:45] KAUF gesendet · Angebot 106066017 · offen 3
+[15.11. 13:38:45] KAUF gesendet · Angebot 106082930 · offen 2
+[15.11. 13:38:44] ABBRECHEN AUCTION_CANCELED auctionID 106089030 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 13:38:44] KAUF gesendet · Angebot 106083980 · offen 2
+[15.11. 13:38:44] KAUF gesendet · Angebot 106089030 · offen 1
+[15.11. 13:38:43] KAUF gesendet · Angebot 106089156 · offen 0
+[15.11. 13:38:33] SUCHEN Grenze erreicht: 80 in 60 s (max je Minute = 90)
+[15.11. 13:38:21] SNIPER-SUCHE Ziel 4251 · Angebote 509 · Treffer ≤ Max 8 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 13:38:07] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 13 ms bis Disenchant.lua:1527 · 18 ms
+[15.11. 13:37:49] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 16 ms bis Extras.lua:279 · 16 ms
+[15.11. 13:37:49] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 20 ms bis Extras.lua:279 · 20 ms
+[15.11. 13:37:28] SNIPER Treffer 3 · gekauft 1, weg 1, gestiegen 1 · Ø 
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 250605 · 11.7/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 279944 · 115.0/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 250982 · 6.4/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 6456 · 16.4/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 12655 · 88.9/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 4311 · 25.3/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 7055 · 16.8/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 4091 · 7.1/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 14759 · 6.5/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 7060 · 12.2/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 2698 · 6.0/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 7059 · 8.0/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 3662 · 144.2/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 4786 · 6.5/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 6714 · 96.7/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 8174 · 19.7/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 2848 · 14.7/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 3664 · 113.8/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 3846 · 10.5/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 7754 · 8.0/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 5602 · 28.1/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 284871 · 10.0/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 250938 · 71.0/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 250935 · 58.1/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 3825 · 278.5/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 264068 · 30.8/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 16000 · 81.9/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 4735 · 7.8/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 12408 · 13.8/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 5468 · 22.5/Tag · Quelle geschätzt
+[15.11. 13:37:27] ABSATZ-UNPLAUSIBEL Item 3390 · 233.0/Tag · Quelle geschätzt
+[15.11. 13:35:25] ABSATZ-UNPLAUSIBEL Item 279960 · 187.4/Tag · Quelle geschätzt
+[15.11. 13:35:24] ABSATZ-UNPLAUSIBEL Item 7947 · 6.9/Tag · Quelle geschätzt
+[15.11. 13:35:24] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 11 ms bis Extras.lua:279 · 16 ms
+[15.11. 13:35:24] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 21 ms bis Extras.lua:279 · 21 ms
+[15.11. 13:35:23] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[15.11. 13:35:23] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 21 ms bis Extras.lua:279 · 22 ms
+[15.11. 13:35:21] SNIPER-SPERRE Beginn: Vollscan läuft - Sniper wartet
+[15.11. 13:35:17] ENTZAUBERWERT Item 4251 · eigene Ø aus 818 · 11083 74% × 1.52 à 402, 11082 21% × 1.50 à 1426, 11084 6% × 1.00 à 2825 · brutto 1107 · netto 1049
+[15.11. 13:35:17] DE-CHANCEN Gruppe 2:4:a · Tabelle 11083 75%/11082 20%/11084 5% · echt 11083 74%/11082 21%/11084 6% (818)
+[15.11. 13:35:17] ABSATZ Item 4251 · Q 27 (vollscan) · S 75.1 (measured) · S roh 75.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.4 · N 5.0
+[15.11. 13:35:16] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 10940: 0.6 Std., 11083: 0.3 Std., 11082: 0.3 Std. · 5 frisch geholt
+[15.11. 13:35:15] SNIPER-SUCHE Ziel 4251 · Angebote 413 · Treffer ≤ Max 0 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 13:35:15] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[15.11. 13:35:15] LANGSAM Hintergrund-Aufgabe forecast-eval · 0 Schritte · längster Schritt 15 ms bis Forecast.lua:841 · 17 ms
+[15.11. 13:35:15] LANGSAM Hintergrund-Aufgabe forecast-eval · 0 Schritte · längster Schritt 17 ms bis Forecast.lua:841 · 19 ms
+[15.11. 13:35:13] ABSATZ-UNPLAUSIBEL Item 5051 · 222.7/Tag · Quelle gemessen
+[15.11. 13:35:13] ABSATZ-UNPLAUSIBEL Item 7919 · 120.6/Tag · Quelle geschätzt
+[15.11. 13:35:13] SYNC Weg=GUILD
+[15.11. 13:35:08] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[15.11. 13:32:38] SNIPER Treffer 3 · gekauft 1, weg 1, gestiegen 1 · Ø 
+[15.11. 13:29:23] LANGSAM Hintergrund-Aufgabe cache:today:10 · 0 Schritte · längster Schritt 14 ms bis Extras.lua:279 · 19 ms
+[15.11. 13:29:21] SNIPER Treffer 3 · gekauft 1, weg 1, gestiegen 1 · Ø 
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 279944 · 115.0/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 3846 · 10.5/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 3664 · 113.8/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 6456 · 16.4/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 4091 · 7.1/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 14759 · 6.5/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 7060 · 12.2/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 2698 · 6.0/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 7059 · 8.0/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 7055 · 16.8/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 3662 · 144.2/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 4786 · 6.5/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 4311 · 25.3/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 6714 · 96.7/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 8174 · 19.7/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 2848 · 14.7/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 12655 · 88.9/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 250982 · 6.4/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 7754 · 8.0/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 5602 · 28.1/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 250605 · 11.7/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 284871 · 10.0/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 250938 · 71.0/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 250935 · 58.1/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 3825 · 278.5/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 264068 · 30.8/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 16000 · 81.9/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 4735 · 7.8/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 12408 · 13.8/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 5468 · 22.5/Tag · Quelle geschätzt
+[15.11. 13:29:20] ABSATZ-UNPLAUSIBEL Item 3390 · 233.0/Tag · Quelle geschätzt
+[15.11. 13:27:18] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 10940: 0.4 Std., 11083: 0.2 Std., 11082: 0.2 Std. · 2 frisch geholt
+[15.11. 13:27:18] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[15.11. 13:27:17] SYNC Weg=GUILD
+[15.11. 13:27:11] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[15.11. 13:20:12] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 241 ms bis Comfort.lua:1002 · 241 ms
+[15.11. 13:20:10] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 17 ms bis Disenchant.lua:1527 · 18 ms
+[15.11. 13:20:10] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 14 ms bis Comfort.lua:845 · 18 ms
+[15.11. 13:20:10] ABSATZ-UNPLAUSIBEL Item 279960 · 187.4/Tag · Quelle geschätzt
+[15.11. 13:20:10] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 20 ms bis Extras.lua:279 · 24 ms
+[15.11. 13:20:09] ABSATZ-UNPLAUSIBEL Item 7947 · 6.9/Tag · Quelle geschätzt
+[15.11. 13:20:09] LANGSAM ×3 Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 21 ms bis Extras.lua:279 · 26 ms
+[15.11. 13:20:09] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[15.11. 13:20:09] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 22 ms bis Extras.lua:279 · 25 ms
+[15.11. 13:20:08] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 30 ms bis Extras.lua:279 · 30 ms

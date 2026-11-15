@@ -1,30 +1,60 @@
 {
- "ausgewertet": "2026-11-15T11:48:22Z",
+ "ausgewertet": "2026-11-15T12:59:26Z",
  "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 53,
+   "berichte": 56,
    "letzter_test": {
-    "id": "AHSentinel-1794742044-2d133b-1",
-    "version": "0.65.184",
-    "time": 1794742020,
+    "id": "AHSentinel-1794746248-076796-1",
+    "version": "0.65.188",
+    "time": 1794746125,
     "counts": {
      "client": 0,
-     "fehler": 1,
-     "ok": 3,
-     "uebersprungen": 0
+     "fehler": 4,
+     "ok": 22,
+     "uebersprungen": 1
     }
    },
    "fehler_tests": [
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.184",
+     "version": "0.65.188",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T750",
-     "name": "UI-CLEAN1 Fenster/Reiter/Optionen (Klassisch/Modern, 100 %/130 %): nichts überlappt, nichts abgeschnitten, kein Knopf o…",
-     "detail": "ergebnis: 203 Befunde (AH offen · Klassisch+Modern · 100+130 % · deDE · 44 Ansichten) · je Art: ragt heraus 42 · abgeschnitten 77 · überlappt 84 · je Ansicht: Kaufen > Schnäppchen: 44 · Kaufen > Sniper: 38 · Markt > Markt: 32 · Übersicht > overview: 18 · Kaufen > Einkauf: 14 · Verkaufen > Mein… | erwartet: 0 Befunde",
-     "bericht": "AHSentinel-1794742044-2d133b-1"
+     "id": "T617",
+     "name": "SN1951-S5 Ruckeln: Ø ≥ 30 Bilder/s, kein Frame > 50 ms, Sync-Warteschlange ≤ 10",
+     "detail": "ergebnis: Ø 94 / min 39 Bilder/s · längster Frame 286 ms · Sync-Warteschlange max 2 (GuildSentinel 2) · Ursachen: fremd 83 (46 ms: nicht AHSentinel (Spiel oder anderes Addon); 38 ms: nicht AHSentinel (Spiel oder anderes Addon); 38 ms: nicht AHSentinel (Spiel oder anderes Addon); 37 ms: nicht AHSentinel (… | erwartet: ≥ 30 · ≤ 50 ms · ≤ 10",
+     "bericht": "AHSentinel-1794746248-076796-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.188",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T729",
+     "name": "SN-TEST2-S8 reihum: jedes Ziel gesucht, längste Lücke ≤ Ziele × Ø Abstand × 1,5 (ohne Pausen)",
+     "detail": "ergebnis: 1 Ziele · i:4251 78×/1.2 s · Ø Abstand 0.7 s · Grenze 1.1 s | erwartet: jedes Ziel ≥ 1× · Lücke ≤ Grenze",
+     "bericht": "AHSentinel-1794746248-076796-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.188",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T732",
+     "name": "SN-TEST2-S11 Pausen: nach Markt-Scan/Vollscan/Einkauf/AH-Klick sucht der Sniper von selbst weiter (≤ 5 s); Drossel -> …",
+     "detail": "ergebnis: 9 Pausen (vollscan 38 s -> weiter nach 8.5 s; AH-Klick 0 s -> weiter nach 8.6 s; seller 8 s -> weiter nach 0.0 s; AH-Klick 0 s -> weiter nach 8.7 s) · längste bis zur nächsten Suche 9.3 s · Drossel: Abstand 0.00 -> höchstens 0.30 -> 0.00 s (wieder schnell) | erwartet: weiter nach ≤ 5 s · wieder schnell",
+     "bericht": "AHSentinel-1794746248-076796-1"
+    },
+    {
+     "addon": "AHSentinel",
+     "art": "test",
+     "version": "0.65.188",
+     "client": "forever 1.60.1 (Interface 16001)",
+     "id": "T734",
+     "name": "SN-TEST2-S13 Ruckeln: Bilder/s und längster Frame über die ganze Beobachtung, kein Frame > 33 ms",
+     "detail": "ergebnis: Ø 94 / min 39 Bilder/s · längster Frame 286 ms · Frames > 33 ms: 83 · Ursachen: fremd 83 (46 ms: nicht AHSentinel (Spiel oder anderes Addon); 38 ms: nicht AHSentinel (Spiel oder anderes Addon); 38 ms: nicht AHSentinel (Spiel oder anderes Addon); 37 ms: nicht AHSentinel (Spiel oder anderes Addon… | erwartet: kein Frame > 33 ms",
+     "bericht": "AHSentinel-1794746248-076796-1"
     }
    ],
    "fehler_spiel": [
@@ -548,12 +578,42 @@
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.184",
+   "version": "0.65.188",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T750",
-   "name": "UI-CLEAN1 Fenster/Reiter/Optionen (Klassisch/Modern, 100 %/130 %): nichts überlappt, nichts abgeschnitten, kein Knopf o…",
-   "detail": "ergebnis: 203 Befunde (AH offen · Klassisch+Modern · 100+130 % · deDE · 44 Ansichten) · je Art: ragt heraus 42 · abgeschnitten 77 · überlappt 84 · je Ansicht: Kaufen > Schnäppchen: 44 · Kaufen > Sniper: 38 · Markt > Markt: 32 · Übersicht > overview: 18 · Kaufen > Einkauf: 14 · Verkaufen > Mein… | erwartet: 0 Befunde",
-   "bericht": "AHSentinel-1794742044-2d133b-1"
+   "id": "T617",
+   "name": "SN1951-S5 Ruckeln: Ø ≥ 30 Bilder/s, kein Frame > 50 ms, Sync-Warteschlange ≤ 10",
+   "detail": "ergebnis: Ø 94 / min 39 Bilder/s · längster Frame 286 ms · Sync-Warteschlange max 2 (GuildSentinel 2) · Ursachen: fremd 83 (46 ms: nicht AHSentinel (Spiel oder anderes Addon); 38 ms: nicht AHSentinel (Spiel oder anderes Addon); 38 ms: nicht AHSentinel (Spiel oder anderes Addon); 37 ms: nicht AHSentinel (… | erwartet: ≥ 30 · ≤ 50 ms · ≤ 10",
+   "bericht": "AHSentinel-1794746248-076796-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.188",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T729",
+   "name": "SN-TEST2-S8 reihum: jedes Ziel gesucht, längste Lücke ≤ Ziele × Ø Abstand × 1,5 (ohne Pausen)",
+   "detail": "ergebnis: 1 Ziele · i:4251 78×/1.2 s · Ø Abstand 0.7 s · Grenze 1.1 s | erwartet: jedes Ziel ≥ 1× · Lücke ≤ Grenze",
+   "bericht": "AHSentinel-1794746248-076796-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.188",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T732",
+   "name": "SN-TEST2-S11 Pausen: nach Markt-Scan/Vollscan/Einkauf/AH-Klick sucht der Sniper von selbst weiter (≤ 5 s); Drossel -> …",
+   "detail": "ergebnis: 9 Pausen (vollscan 38 s -> weiter nach 8.5 s; AH-Klick 0 s -> weiter nach 8.6 s; seller 8 s -> weiter nach 0.0 s; AH-Klick 0 s -> weiter nach 8.7 s) · längste bis zur nächsten Suche 9.3 s · Drossel: Abstand 0.00 -> höchstens 0.30 -> 0.00 s (wieder schnell) | erwartet: weiter nach ≤ 5 s · wieder schnell",
+   "bericht": "AHSentinel-1794746248-076796-1"
+  },
+  {
+   "addon": "AHSentinel",
+   "art": "test",
+   "version": "0.65.188",
+   "client": "forever 1.60.1 (Interface 16001)",
+   "id": "T734",
+   "name": "SN-TEST2-S13 Ruckeln: Bilder/s und längster Frame über die ganze Beobachtung, kein Frame > 33 ms",
+   "detail": "ergebnis: Ø 94 / min 39 Bilder/s · längster Frame 286 ms · Frames > 33 ms: 83 · Ursachen: fremd 83 (46 ms: nicht AHSentinel (Spiel oder anderes Addon); 38 ms: nicht AHSentinel (Spiel oder anderes Addon); 38 ms: nicht AHSentinel (Spiel oder anderes Addon); 37 ms: nicht AHSentinel (Spiel oder anderes Addon… | erwartet: kein Frame > 33 ms",
+   "bericht": "AHSentinel-1794746248-076796-1"
   },
   {
    "addon": "AHSentinel",
@@ -966,38 +1026,38 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 127,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.182-d73cec15a1f9.txt"
+    "anzahl": 131,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.153-7fbbaab1129a.txt"
    },
    "BuffSentinel": {
-    "anzahl": 35,
-    "neueste": "testberichte/diagnose/BuffSentinel/0.9.18-90b64a191a2b.txt"
+    "anzahl": 37,
+    "neueste": "testberichte/diagnose/BuffSentinel/0.9.21-954831c99821.txt"
    },
    "GSMesstest": {
     "anzahl": 9,
     "neueste": "testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt"
    },
    "GuildSentinel": {
-    "anzahl": 119,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.38-1a895542c960.txt"
+    "anzahl": 126,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.38-e7eada8b66f4.txt"
    },
    "LevelPilot": {
-    "anzahl": 23,
-    "neueste": "testberichte/diagnose/LevelPilot/3.12.30-11f73b538fe4.txt"
+    "anzahl": 27,
+    "neueste": "testberichte/diagnose/LevelPilot/3.12.24-380792c77533.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 100,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.45-71de9e96cbd8.txt"
+    "anzahl": 106,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.32-f20258571d33.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 101,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.13-c75f175ae430.txt"
+    "anzahl": 105,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.6-bdca8cfdf92f.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 166,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794740247-0b9381.json"
+    "anzahl": 178,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794744612-0e9267.json"
    }
   }
  }

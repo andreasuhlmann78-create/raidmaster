@@ -1,12 +1,12 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-15 11:48 UTC
+Ausgewertet: 2026-11-15 12:59 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
 | Addon | letzter Testlauf | Version | Client | OK | FEHLER | übersprungen | im Client prüfen | Fehler im Spiel (7 Tage) |
 |---|---|---|---|---|---|---|---|---|
-| AHSentinel | 15.11.2026 11:27 UTC | 0.65.184 | forever 1.60.1 (Interface 16001) | 3 | 1 | 0 | 0 | 40 |
+| AHSentinel | 15.11.2026 12:35 UTC | 0.65.188 | forever 1.60.1 (Interface 16001) | 22 | 4 | 1 | 0 | 40 |
 | BuffSentinel | 05.11.2026 00:19 UTC | 0.9.7 | forever 1.60.1 (Interface 16001) | 120 | 1 | 10 | 11 | 569 |
 | GuildSentinel | 09.11.2026 05:47 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 153 | 4 | 23 | 5 | 22 |
 | LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 1924 |
@@ -18,27 +18,21 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 127 | `testberichte/diagnose/AHSentinel/0.65.182-d73cec15a1f9.txt` |
-| BuffSentinel | 35 | `testberichte/diagnose/BuffSentinel/0.9.18-90b64a191a2b.txt` |
+| AHSentinel | 131 | `testberichte/diagnose/AHSentinel/0.65.153-7fbbaab1129a.txt` |
+| BuffSentinel | 37 | `testberichte/diagnose/BuffSentinel/0.9.21-954831c99821.txt` |
 | GSMesstest | 9 | `testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt` |
-| GuildSentinel | 119 | `testberichte/diagnose/GuildSentinel/0.9.38-1a895542c960.txt` |
-| LevelPilot | 23 | `testberichte/diagnose/LevelPilot/3.12.30-11f73b538fe4.txt` |
-| ProfessionSentinel | 100 | `testberichte/diagnose/ProfessionSentinel/0.9.45-71de9e96cbd8.txt` |
-| ThreatSentinel | 101 | `testberichte/diagnose/ThreatSentinel/2.5.13-c75f175ae430.txt` |
+| GuildSentinel | 126 | `testberichte/diagnose/GuildSentinel/0.9.38-e7eada8b66f4.txt` |
+| LevelPilot | 27 | `testberichte/diagnose/LevelPilot/3.12.24-380792c77533.txt` |
+| ProfessionSentinel | 106 | `testberichte/diagnose/ProfessionSentinel/0.9.32-f20258571d33.txt` |
+| ThreatSentinel | 105 | `testberichte/diagnose/ThreatSentinel/2.5.6-bdca8cfdf92f.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 166 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794740247-0b9381.json` |
+| LevelPilot | 178 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794744612-0e9267.json` |
 
 ## AHSentinel
-
-**Testlauf 0.65.179 · forever 1.60.1 (Interface 16001) · 15.11.2026 00:36 UTC** – OK 22 · FEHLER 3 · übersprungen 1 · im Client prüfen 0 · Sandbox OK
-- [FEHLER] T731 J – SN-TEST2-S10 Geld-Sicherheit: Beobachtung sendet nichts, Zähler unverändert; S4 Gold vorher − nachher = gebuchter Pr… (ergebnis: gesendet 0 · Zähler geändert 0 · S4 Gold 201005 -> 187331 (−13674) · gebucht 1 | erwartet: gesendet 0 · geändert 0 · Gold = gebucht)
-- [SKIP] T732 J – SN-TEST2-S11 Pausen: nach Markt-Scan/Vollscan/Einkauf/AH-Klick sucht der Sniper von selbst weiter (≤ 5 s); Drossel -> … (grund: keine Pause und keine Drossel während der Beobachtung (Nachbildung T739))
-- [FEHLER] T614 J – SN1951-S2 Zielzeile = bestätigte Käufe: gesendet -> Fehler zählt nicht, Bestätigung zählt (ergebnis: gesendet: "0/10 gekauft (+2 gesendet) · Budget übrig 8s 15c" · danach "0/10 gekauft · Budget übrig 10s" | erwartet: 0/10 (+2 gesendet) · danach 1/10, 95c)
-- [FEHLER] T745 M – SN-B1/SN-B2: Bremse nach Fehler nach 10 s weg, 5 Kauf-Fehler bremsen nicht, echte Drossel nach 2 Antworten wieder voll, … (ergebnis: Bremse true, Text false, nach 10 s true · 5 Kauf-Fehler: gebremst 0, Abstand gleich true · Drossel langsamer true (≤ true s), wieder voll true · Ziele 3 -> 1, Runden i:990197403,i:990197403,i:990197403 · fragt 30 an, gestiegen -> 15 (Plan 15), erste Stufe über Max -> nil | erwartet: Bremse true, Text true, nach 10 s true · 5 Kauf-Fehler: gebremst 0, Abstand gleich true · Drossel langsamer true (≤ true s), wieder voll true · Ziele 3 -> 1, Runden i:990197403,i:990197403,i:990197403 · fragt 30 an, gestiegen -> 15 (Plan 15), erste Stufe über Max -> nil)
 
 **Testlauf 0.65.182 · forever 1.60.1 (Interface 16001) · 15.11.2026 10:57 UTC** – OK 3 · FEHLER 1 · übersprungen 0 · im Client prüfen 0 · Sandbox OK
 - [FEHLER] T750 U – UI-CLEAN1 Fenster/Reiter/Optionen (Klassisch/Modern, 100 %/130 %): nichts überlappt, nichts abgeschnitten, kein Knopf o… (ergebnis: 309 Befunde (AH offen · Klassisch+Modern · 100+130 % · deDE · 44 Ansichten): AHSentinel Klassisch 100 % > Übersicht > overview: Frame ragt aus dem Fenster | AHSentinel Klassisch 100 % > Übersicht > overview: 'Übersicht' ragt aus dem Fenster | AHSentinel Klassisch 100 % > Übersicht > overview… | erwartet: 0 Befunde)
@@ -49,6 +43,13 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 **Testlauf 0.65.184 · forever 1.60.1 (Interface 16001) · 15.11.2026 11:27 UTC** – OK 3 · FEHLER 1 · übersprungen 0 · im Client prüfen 0 · Sandbox OK
 - [FEHLER] T750 U – UI-CLEAN1 Fenster/Reiter/Optionen (Klassisch/Modern, 100 %/130 %): nichts überlappt, nichts abgeschnitten, kein Knopf o… (ergebnis: 203 Befunde (AH offen · Klassisch+Modern · 100+130 % · deDE · 44 Ansichten) · je Art: ragt heraus 42 · abgeschnitten 77 · überlappt 84 · je Ansicht: Kaufen > Schnäppchen: 44 · Kaufen > Sniper: 38 · Markt > Markt: 32 · Übersicht > overview: 18 · Kaufen > Einkauf: 14 · Verkaufen > Mein… | erwartet: 0 Befunde)
+
+**Testlauf 0.65.188 · forever 1.60.1 (Interface 16001) · 15.11.2026 12:35 UTC** – OK 22 · FEHLER 4 · übersprungen 1 · im Client prüfen 0 · Sandbox FEHLER: 200 Pfade, wiederhergestellt (nicht vollständig): totalScans, scanLog.1.items, scanLog.1.t, scanLog.1.duration, scanLog.1.entries, scanLog.2.items, scanLog.2.t, scanLog.2.duration, scanLog.2.entries, scanLog.3.items, scanLog.3.t, scanLog.3.duration
+- [SKIP] T616 J – SN1951-S4 echter Mausrad-Kauf: eine Raste = genau 1 Stück (≤ 5c, nur nach Ja) (grund: Spieler hat den Testkauf nicht erlaubt (Nein))
+- [FEHLER] T617 J – SN1951-S5 Ruckeln: Ø ≥ 30 Bilder/s, kein Frame > 50 ms, Sync-Warteschlange ≤ 10 (ergebnis: Ø 94 / min 39 Bilder/s · längster Frame 286 ms · Sync-Warteschlange max 2 (GuildSentinel 2) · Ursachen: fremd 83 (46 ms: nicht AHSentinel (Spiel oder anderes Addon); 38 ms: nicht AHSentinel (Spiel oder anderes Addon); 38 ms: nicht AHSentinel (Spiel oder anderes Addon); 37 ms: nicht AHSentinel (… | erwartet: ≥ 30 · ≤ 50 ms · ≤ 10)
+- [FEHLER] T729 J – SN-TEST2-S8 reihum: jedes Ziel gesucht, längste Lücke ≤ Ziele × Ø Abstand × 1,5 (ohne Pausen) (ergebnis: 1 Ziele · i:4251 78×/1.2 s · Ø Abstand 0.7 s · Grenze 1.1 s | erwartet: jedes Ziel ≥ 1× · Lücke ≤ Grenze)
+- [FEHLER] T732 J – SN-TEST2-S11 Pausen: nach Markt-Scan/Vollscan/Einkauf/AH-Klick sucht der Sniper von selbst weiter (≤ 5 s); Drossel -> … (ergebnis: 9 Pausen (vollscan 38 s -> weiter nach 8.5 s; AH-Klick 0 s -> weiter nach 8.6 s; seller 8 s -> weiter nach 0.0 s; AH-Klick 0 s -> weiter nach 8.7 s) · längste bis zur nächsten Suche 9.3 s · Drossel: Abstand 0.00 -> höchstens 0.30 -> 0.00 s (wieder schnell) | erwartet: weiter nach ≤ 5 s · wieder schnell)
+- [FEHLER] T734 J – SN-TEST2-S13 Ruckeln: Bilder/s und längster Frame über die ganze Beobachtung, kein Frame > 33 ms (ergebnis: Ø 94 / min 39 Bilder/s · längster Frame 286 ms · Frames > 33 ms: 83 · Ursachen: fremd 83 (46 ms: nicht AHSentinel (Spiel oder anderes Addon); 38 ms: nicht AHSentinel (Spiel oder anderes Addon); 38 ms: nicht AHSentinel (Spiel oder anderes Addon); 37 ms: nicht AHSentinel (Spiel oder anderes Addon… | erwartet: kein Frame > 33 ms)
 
 **Fehler im Spiel (letzte 7 Tage)**
 - 20× `ADDON_ACTION_FORBIDDEN`: UNKNOWN() – Version 0.65.16, 0.65.80 · forever 1.60.1 (Interface 16001) · zuletzt 11.11.2026 16:25 UTC

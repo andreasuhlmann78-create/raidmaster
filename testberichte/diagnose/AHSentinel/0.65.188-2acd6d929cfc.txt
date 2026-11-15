@@ -1,0 +1,225 @@
+AHSentinel-Protokoll v0.65.188 · 15.11. 13:27:06
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  15.11. 13:19:53 L10 ? v0.65.188
+  15.11. 13:01:40 L10 ? v0.65.187
+  15.11. 12:37:50 L10 ? v0.65.186
+  15.11. 12:26:45 L10 ? v0.65.184
+  15.11. 12:01:49 L10 ? v0.65.183
+  15.11. 11:57:32 L10 ? v0.65.182
+  15.11. 11:51:10 L10 ? v0.65.182
+  15.11. 11:50:46 L10 ? v0.65.182
+  15.11. 10:46:13 L10 ? v0.65.181
+  15.11. 10:30:30 L10 ? v0.65.180
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 1 Std., 7042 Items, Preis-Sync an
+  SYNC GoldSentinelSync 2 · Wege: GUILD · Mitspieler (1 Std.): AHSentinel 5, GoldSentinelMarkt 5, GoldSentinelTest 3, GuildSentinel 5, LevelPilot 3, LevelPilotG 3, ThreatSentinel 0
+  SYNC gesendet 52 · empfangen 132 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 1) · gesendet 3 · weitergegeben 0 · offline 1 · Listen 2 · Warteschlange 0 · gespeichert ja
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, marketExpert=false, minimapAngle=216.6, priceGuard=20, sniperSignal=true, theme=modern, tooltipDEDetail=true, vendorButton=false, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[15.11. 13:20:12] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 241 ms bis Comfort.lua:1002 · 241 ms
+[15.11. 13:20:10] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 17 ms bis Disenchant.lua:1527 · 18 ms
+[15.11. 13:20:10] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 14 ms bis Comfort.lua:845 · 18 ms
+[15.11. 13:20:10] ABSATZ-UNPLAUSIBEL Item 279960 · 187.4/Tag · Quelle geschätzt
+[15.11. 13:20:10] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 20 ms bis Extras.lua:279 · 24 ms
+[15.11. 13:20:09] ABSATZ-UNPLAUSIBEL Item 7947 · 6.9/Tag · Quelle geschätzt
+[15.11. 13:20:09] LANGSAM ×3 Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 21 ms bis Extras.lua:279 · 26 ms
+[15.11. 13:20:09] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[15.11. 13:20:09] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 22 ms bis Extras.lua:279 · 25 ms
+[15.11. 13:20:08] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 30 ms bis Extras.lua:279 · 30 ms
+[15.11. 13:20:08] ABSATZ-UNPLAUSIBEL Item 5051 · 222.7/Tag · Quelle gemessen
+[15.11. 13:20:08] ABSATZ-UNPLAUSIBEL Item 7919 · 120.6/Tag · Quelle geschätzt
+[15.11. 13:20:00] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 10940: 0.3 Std., 11083: 0.0 Std., 11082: 0.0 Std. · 4 frisch geholt
+[15.11. 13:20:00] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[15.11. 13:19:58] SYNC Weg=GUILD
+[15.11. 13:19:53] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[15.11. 13:17:32] ABBRECHEN AUCTION_CANCELED auctionID 113 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 13:17:31] ABBRECHEN Fehlermeldung des Servers: 4
+[15.11. 13:17:31] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[15.11. 13:17:31] ABBRECHEN Klick: Zeile auctionID 104889315 · Item 11134 · Menge 4 · Status unterboten · Preis 1161
+[15.11. 13:17:31] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[15.11. 13:17:31] ABBRECHEN Klick: Zeile auctionID 104888418 · Item 11084 · Menge 3 · Status unterboten · Preis 3885
+[15.11. 13:17:31] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[15.11. 13:17:31] ABBRECHEN Blizzard-Abbruch auctionID 104685042 · Item 11082
+[15.11. 13:17:31] ABBRECHEN Klick: Zeile auctionID 104685042 · Item 11082 · Menge 4 · Status liegen · Preis 1536
+[15.11. 13:17:31] ABBRECHEN Fehlermeldung des Servers: 4
+[15.11. 13:17:31] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[15.11. 13:17:31] ABBRECHEN Klick: Zeile auctionID 104886040 · Item 11083 · Menge 14 · Status liegen · Preis 424
+[15.11. 13:17:29] ABBRECHEN ×2 AUCTION_CANCELED auctionID 113 (erwartet 104886040) -> fremd, nichts geändert
+[15.11. 13:17:28] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[15.11. 13:17:28] ABBRECHEN Klick: Zeile auctionID 104886040 · Item 11083 · Menge 14 · Status liegen · Preis 424
+[15.11. 13:17:28] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[15.11. 13:17:28] ABBRECHEN Klick: Zeile auctionID 104685042 · Item 11082 · Menge 4 · Status liegen · Preis 1536
+[15.11. 13:17:28] ABBRECHEN AUCTION_CANCELED auctionID 113 (erwartet 104888418) -> fremd, nichts geändert
+[15.11. 13:17:28] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[15.11. 13:17:28] ABBRECHEN Klick: Zeile auctionID 104888418 · Item 11084 · Menge 3 · Status unterboten · Preis 3885
+[15.11. 13:17:27] ABBRECHEN CancelAuction aufgerufen, warte auf AUCTION_CANCELED
+[15.11. 13:17:27] ABBRECHEN Blizzard-Abbruch auctionID 104889315 · Item 11134
+[15.11. 13:17:27] ABBRECHEN Klick: Zeile auctionID 104889315 · Item 11134 · Menge 4 · Status unterboten · Preis 1161
+[15.11. 13:17:27] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 10940: 0.3 Std., 11083: 0.0 Std., 11082: 0.3 Std. · 0 frisch geholt
+[15.11. 13:17:10] RECHNUNG Item 11084 · Menge 5 (Feld 5 5, Feld 11 5) · Feld 4 18485 · consignment 924 · deposit 100 · Post-Gold 17661 · gesamt 18485 · Stück 3697 · Feld 4 = Gesamt: ja
+[15.11. 13:17:10] WERT Gruppe 7 · Item 11084 · vorhergesagt 159 · echt 3697 · Abweichung -96 %
+[15.11. 13:17:10] RECHNUNG Item 11083 · Menge 71 (Feld 5 71, Feld 11 71) · Feld 4 30175 · consignment 1508 · deposit 98 · Post-Gold 28765 · gesamt 30175 · Stück 425 · Feld 4 = Gesamt: ja
+[15.11. 13:17:10] WERT Gruppe 7 · Item 11083 · vorhergesagt 4 · echt 425 · Abweichung -99 %
+[15.11. 13:17:10] RECHNUNG Item 11082 · Menge 22 (Feld 5 22, Feld 11 22) · Feld 4 33000 · consignment 1650 · deposit 100 · Post-Gold 31450 · gesamt 33000 · Stück 1500 · Feld 4 = Gesamt: ja
+[15.11. 13:17:10] WERT Gruppe 7 · Item 11082 · vorhergesagt 3 · echt 1500 · Abweichung -100 %
+[15.11. 13:17:10] RECHNUNG Item 11083 · Menge 76 (Feld 5 76, Feld 11 76) · Feld 4 32224 · consignment 1611 · deposit 83 · Post-Gold 30696 · gesamt 32224 · Stück 424 · Feld 4 = Gesamt: ja
+[15.11. 13:17:10] WERT Gruppe 7 · Item 11083 · vorhergesagt 4 · echt 424 · Abweichung -99 %
+[15.11. 13:17:10] RECHNUNG Item 11082 · Menge 24 (Feld 5 24, Feld 11 24) · Feld 4 36864 · consignment 1843 · deposit 154 · Post-Gold 35175 · gesamt 36864 · Stück 1536 · Feld 4 = Gesamt: ja
+[15.11. 13:17:10] WERT Gruppe 7 · Item 11082 · vorhergesagt 3 · echt 1536 · Abweichung -100 %
+[15.11. 13:17:10] RECHNUNG-ROH 1=seller, 2=Große Astralessenz, 4=36864, 5=24, 6=154, 7=1843, 8=0, 9=0, 10=0, 11=24, 12=false
+[15.11. 13:11:39] SYNC gesendet 4, empfangen 10, verworfen 0 · Kanal verweigert 0
+[15.11. 13:03:10] PD7 Preisverlauf verdichtet: 463651 -> 463638 Zeilen (~19016 -> ~19016 KB)
+[15.11. 13:02:17] ABSATZ Item 11083 · Q 132 (search) · S 507.1 (measured) · S roh 507.1 · Deckel - · eigene Quote 26/27 · Laufzeit 24 Std. · W 0.3 · N 1.0
+[15.11. 13:02:17] ABSATZ Item 11082 · Q 35 (search) · S 135.1 (measured) · S roh 135.1 · Deckel - · eigene Quote 25/31 · Laufzeit 24 Std. · W 0.3 · N 1.2
+[15.11. 13:02:17] ABSATZ Item 11084 · Q 8 (search) · S 80.2 (measured) · S roh 80.2 · Deckel - · eigene Quote 16/21 · Laufzeit 24 Std. · W 0.1 · N 1.3
+[15.11. 13:02:17] ABSATZ Item 11134 · Q 53 (search) · S 275.6 (measured) · S roh 275.6 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.1 · N 1.0
+[15.11. 13:02:08] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 10940: 0.8 Std., 11083: 0.3 Std., 11082: 0.3 Std. · 7 frisch geholt
+[15.11. 13:02:08] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[15.11. 13:02:04] EIGENE Ware Item 11083 · buyout 424 · Menge 14 · als Stückpreis gelesen
+[15.11. 13:02:04] ENTZAUBERWERT Item 4251 · eigene Ø aus 818 · 11083 74% × 1.52 à 401, 11082 21% × 1.50 à 1436, 11084 6% × 1.00 à 2818 · brutto 1110 · netto 1051
+[15.11. 13:02:04] DE-CHANCEN Gruppe 2:4:a · Tabelle 11083 75%/11082 20%/11084 5% · echt 11083 74%/11082 21%/11084 6% (818)
+[15.11. 13:02:04] ABSATZ Item 4251 · Q 1 (vollscan) · S 75.1 (measured) · S roh 75.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.0 · N 1.0
+[15.11. 13:01:58] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 276 ms bis Comfort.lua:1002 · 276 ms
+[15.11. 13:01:57] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 18 ms bis Disenchant.lua:1527 · 22 ms
+[15.11. 13:01:57] ABSATZ-UNPLAUSIBEL Item 7947 · 6.9/Tag · Quelle geschätzt
+[15.11. 13:01:57] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 22 ms bis Extras.lua:279 · 25 ms
+[15.11. 13:01:57] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 20 ms bis Extras.lua:279 · 23 ms
+[15.11. 13:01:56] ABSATZ-UNPLAUSIBEL Item 279960 · 187.4/Tag · Quelle geschätzt
+[15.11. 13:01:56] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 22 ms bis Extras.lua:279 · 27 ms
+[15.11. 13:01:56] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 21 ms bis Extras.lua:279 · 24 ms
+[15.11. 13:01:56] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 22 ms bis Extras.lua:279 · 22 ms
+[15.11. 13:01:56] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[15.11. 13:01:55] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 22 ms bis Extras.lua:279 · 25 ms
+[15.11. 13:01:55] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 31 ms bis Extras.lua:279 · 35 ms
+[15.11. 13:01:55] ABSATZ-UNPLAUSIBEL Item 5051 · 222.7/Tag · Quelle gemessen
+[15.11. 13:01:55] ABSATZ-UNPLAUSIBEL Item 7919 · 120.6/Tag · Quelle geschätzt
+[15.11. 13:01:45] SYNC Weg=GUILD
+[15.11. 13:01:40] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[15.11. 13:00:18] SNIPER-SUCHE Ziel 4251 · Angebote 391 · Treffer ≤ Max 35 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:59:17] SNIPER-SUCHE Ziel 4251 · Angebote 375 · Treffer ≤ Max 19 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:58:17] SNIPER-SUCHE Ziel 4251 · Angebote 365 · Treffer ≤ Max 6 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:57:49] SYNC gesendet 4, empfangen 36, verworfen 0 · Kanal verweigert 0
+[15.11. 12:57:16] SNIPER-SUCHE Ziel 4251 · Angebote 358 · Treffer ≤ Max 0 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:56:15] SNIPER-SUCHE Ziel 4251 · Angebote 351 · Treffer ≤ Max 0 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:55:15] SNIPER-SUCHE Ziel 4251 · Angebote 328 · Treffer ≤ Max 0 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:54:15] SNIPER-SUCHE Ziel 4251 · Angebote 307 · Treffer ≤ Max 0 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:53:15] SNIPER-SUCHE Ziel 4251 · Angebote 298 · Treffer ≤ Max 0 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:52:49] SNIPER Treffer 1 · weg 1 · Ø Suche>Treffer 100 ms
+[15.11. 12:52:14] SNIPER-SUCHE Ziel 4251 · Angebote 313 · Treffer ≤ Max 15 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:51:14] SNIPER-SUCHE Ziel 4251 · Angebote 302 · Treffer ≤ Max 4 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:50:13] SNIPER-SUCHE Ziel 4251 · Angebote 285 · Treffer ≤ Max 0 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:49:12] SNIPER-SUCHE Ziel 4251 · Angebote 274 · Treffer ≤ Max 0 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:48:11] SNIPER-SUCHE Ziel 4251 · Angebote 277 · Treffer ≤ Max 0 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:47:49] SYNC gesendet 2, empfangen 4, verworfen 0 · Kanal verweigert 0
+[15.11. 12:47:10] SNIPER-SUCHE Ziel 4251 · Angebote 277 · Treffer ≤ Max 0 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:46:10] SNIPER-SUCHE Ziel 4251 · Angebote 244 · Treffer ≤ Max 0 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:45:09] SNIPER-SUCHE Ziel 4251 · Angebote 236 · Treffer ≤ Max 0 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:44:08] SNIPER-SUCHE Ziel 4251 · Angebote 226 · Treffer ≤ Max 0 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:43:44] SNIPER Treffer 1 · weg 1 · Ø Suche>Treffer 133 ms
+[15.11. 12:43:07] SNIPER-SUCHE Ziel 4251 · Angebote 227 · Treffer ≤ Max 1 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:42:06] SNIPER-SUCHE Ziel 4251 · Angebote 230 · Treffer ≤ Max 0 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:41:06] SNIPER-SUCHE Ziel 4251 · Angebote 276 · Treffer ≤ Max 0 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:40:05] SNIPER-SUCHE Ziel 4251 · Angebote 291 · Treffer ≤ Max 0 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:39:05] SNIPER-SUCHE Ziel 4251 · Angebote 381 · Treffer ≤ Max 0 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:38:36] ABSATZ Item 11083 · Q 127 (search) · S 507.1 (measured) · S roh 507.1 · Deckel - · eigene Quote 26/27 · Laufzeit 24 Std. · W 0.3 · N 1.0
+[15.11. 12:38:35] ABSATZ Item 11082 · Q 31 (search) · S 135.1 (measured) · S roh 135.1 · Deckel - · eigene Quote 25/30 · Laufzeit 24 Std. · W 0.2 · N 1.2
+[15.11. 12:38:35] ABSATZ Item 11084 · Q 104 (search) · S 80.2 (measured) · S roh 80.2 · Deckel - · eigene Quote 16/21 · Laufzeit 24 Std. · W 1.3 · N 1.3
+[15.11. 12:38:35] ABSATZ Item 11134 · Q 304 (search) · S 275.6 (measured) · S roh 275.6 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.8 · N 1.0
+[15.11. 12:38:09] PREIS-ALT AH offen · letzter Scan - · Waren im Vollscan - · Hauptmaterialien 10940: 0.4 Std., 11083: 0.4 Std., 11082: 0.4 Std. · 0 frisch geholt
+[15.11. 12:38:08] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 311 ms bis Comfort.lua:1002 · 311 ms
+[15.11. 12:38:07] EIGENE Ware Item 11083 · buyout 424 · Menge 14 · als Stückpreis gelesen
+[15.11. 12:38:07] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 15 ms bis Disenchant.lua:1527 · 18 ms
+[15.11. 12:38:07] ABSATZ-UNPLAUSIBEL Item 279960 · 187.4/Tag · Quelle geschätzt
+[15.11. 12:38:07] LANGSAM Hintergrund-Aufgabe cache:warm-today · 0 Schritte · längster Schritt 20 ms bis Extras.lua:279 · 22 ms
+[15.11. 12:38:06] ABSATZ-UNPLAUSIBEL Item 7947 · 6.9/Tag · Quelle geschätzt
+[15.11. 12:38:04] SNIPER-SUCHE Ziel 4251 · Angebote 459 · Treffer ≤ Max 0 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:38:04] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[15.11. 12:38:04] ENTZAUBERWERT Item 4251 · eigene Ø aus 817 · 11083 74% × 1.52 à 402, 11082 21% × 1.50 à 1452, 11084 6% × 1.00 à 3437 · brutto 1153 · netto 1092
+[15.11. 12:38:04] DE-CHANCEN Gruppe 2:4:a · Tabelle 11083 75%/11082 20%/11084 5% · echt 11083 74%/11082 21%/11084 6% (817)
+[15.11. 12:38:04] ABSATZ Item 4251 · Q 36 (vollscan) · S 75.1 (measured) · S roh 75.1 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.5 · N 6.0
+[15.11. 12:38:04] LANGSAM Hintergrund-Aufgabe forecast-eval · 0 Schritte · längster Schritt 28 ms bis Forecast.lua:841 · 29 ms
+[15.11. 12:38:04] LANGSAM Hintergrund-Aufgabe forecast-eval · 0 Schritte · längster Schritt 14 ms bis Forecast.lua:841 · 17 ms
+[15.11. 12:38:04] ABSATZ-UNPLAUSIBEL Item 5051 · 222.7/Tag · Quelle gemessen
+[15.11. 12:38:04] ABSATZ-UNPLAUSIBEL Item 7919 · 120.6/Tag · Quelle geschätzt
+[15.11. 12:37:55] SYNC Weg=GUILD
+[15.11. 12:37:51] VERKAUF-MELDUNG Vorlage Es wurde ein Käufer für Eure Auktion gefunden: %1$s · Muster ja
+[15.11. 12:37:50] PD7 PD7 geladen: 0 Items, 0 Einträge geprüft, 0 Fehler · Zustand active
+[15.11. 12:37:05] SNIPER-SUCHE Ziel 4251 · Angebote 527 · Treffer ≤ Max 0 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:37:04] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser DATA_CHANGED · 180 ms
+[15.11. 12:36:44] SYNC gesendet 1, empfangen 0, verworfen 0 · Kanal verweigert 0
+[15.11. 12:36:33] SNIPER Treffer 1 · weg 1 · Ø Suche>Treffer 100 ms
+[15.11. 12:36:04] SNIPER-SUCHE Ziel 4251 · Angebote 530 · Treffer ≤ Max 3 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:35:03] SNIPER-SUCHE Ziel 4251 · Angebote 514 · Treffer ≤ Max 0 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:34:39] SNIPER Treffer 1 · weg 1 · Ø Suche>Treffer 166 ms
+[15.11. 12:34:03] SNIPER-SUCHE Ziel 4251 · Angebote 510 · Treffer ≤ Max 0 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:33:39] SNIPER Treffer 1 · weg 1 · Ø Suche>Treffer 133 ms
+[15.11. 12:33:02] SNIPER-SUCHE Ziel 4251 · Angebote 512 · Treffer ≤ Max 2 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:32:13] SNIPER Treffer 1 · weg 1 · Ø Suche>Treffer 200 ms
+[15.11. 12:32:01] SNIPER-SUCHE Ziel 4251 · Angebote 490 · Treffer ≤ Max 3 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:31:30] SUCHEN Grenze erreicht: 85 in 60 s (max je Minute = 90)
+[15.11. 12:31:01] SNIPER-SUCHE Ziel 4251 · Angebote 484 · Treffer ≤ Max 0 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:30:29] SUCHEN Grenze erreicht: 85 in 60 s (max je Minute = 90)
+[15.11. 12:30:28] SNIPER Treffer 1 · weg 1 · Ø Suche>Treffer 166 ms
+[15.11. 12:30:01] SNIPER-SUCHE Ziel 4251 · Angebote 476 · Treffer ≤ Max 0 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:29:29] SUCHEN Grenze erreicht: 85 in 60 s (max je Minute = 90)
+[15.11. 12:29:00] SNIPER-SUCHE Ziel 4251 · Angebote 446 · Treffer ≤ Max 0 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:28:29] SUCHEN Grenze erreicht: 80 in 60 s (max je Minute = 90)
+[15.11. 12:28:00] SNIPER-SUCHE Ziel 4251 · Angebote 434 · Treffer ≤ Max 0 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:27:24] ABSATZ-UNPLAUSIBEL Item 279944 · 115.0/Tag · Quelle geschätzt
+[15.11. 12:27:24] ABSATZ-UNPLAUSIBEL Item 3846 · 10.5/Tag · Quelle geschätzt
+[15.11. 12:27:24] ABSATZ-UNPLAUSIBEL Item 6456 · 16.4/Tag · Quelle geschätzt
+[15.11. 12:27:24] ABSATZ-UNPLAUSIBEL Item 7060 · 12.2/Tag · Quelle geschätzt
+[15.11. 12:27:24] ABSATZ-UNPLAUSIBEL Item 2698 · 6.0/Tag · Quelle geschätzt
+[15.11. 12:27:24] ABSATZ-UNPLAUSIBEL Item 7055 · 16.8/Tag · Quelle geschätzt
+[15.11. 12:27:23] ABSATZ-UNPLAUSIBEL Item 2848 · 14.7/Tag · Quelle geschätzt
+[15.11. 12:27:23] ABSATZ-UNPLAUSIBEL Item 12655 · 88.9/Tag · Quelle geschätzt
+[15.11. 12:27:23] ABSATZ-UNPLAUSIBEL Item 5602 · 28.1/Tag · Quelle geschätzt
+[15.11. 12:27:23] ABSATZ-UNPLAUSIBEL Item 250605 · 11.7/Tag · Quelle geschätzt
+[15.11. 12:27:23] ABSATZ-UNPLAUSIBEL Item 250938 · 71.0/Tag · Quelle geschätzt
+[15.11. 12:27:23] ABSATZ-UNPLAUSIBEL Item 16000 · 81.9/Tag · Quelle geschätzt
+[15.11. 12:27:23] ABSATZ-UNPLAUSIBEL Item 12408 · 13.8/Tag · Quelle geschätzt
+[15.11. 12:27:00] SNIPER-SUCHE Ziel 4251 · Angebote 402 · Treffer ≤ Max 0 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 0)
+[15.11. 12:27:00] SUCHEN max je Minute = 90 (Sniper hat Vorrang, andere bis 80)
+[15.11. 12:26:59] ABSATZ-UNPLAUSIBEL Item 5051 · 222.7/Tag · Quelle gemessen
+[15.11. 12:26:59] ABSATZ-UNPLAUSIBEL Item 7919 · 120.6/Tag · Quelle geschätzt
+[15.11. 12:26:52] PD7 PD7 geladen: 6384 Items, 217174 Einträge geprüft, 0 Fehler · Zustand active
+[15.11. 12:26:50] SYNC Weg=GUILD
+[15.11. 12:26:35] SNIPER Treffer 1 · weg 1 · Ø Suche>Treffer 100 ms
+[15.11. 12:26:20] SUCHEN Grenze erreicht: 80 in 60 s (max je Minute = 90)
+[15.11. 12:25:59] SNIPER-SUCHE Ziel 4251 · Angebote 405 · Treffer ≤ Max 4 · gekauft 76 · Sperre - · tot wieder geliefert 0 (Sitzung 4)
+[15.11. 12:25:47] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 105067306 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 12:25:47] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 105067824 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 12:25:47] SNIPER-BESTÄTIGT Item 4251 · Angebot 105067779 · über Gold (keine Antwort des Servers)
+[15.11. 12:25:46] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 105065504 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 12:25:46] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 105064512 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 12:25:45] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 105064437 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 12:25:45] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 105064909 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 12:25:44] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 105066359 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 12:25:35] SNIPER Treffer 2 · gekauft 1, Fehler 1 · Ø Suche>Treffer 93 ms, Treffer>Reserv. 4534 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms
+[15.11. 12:25:34] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 105064512 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 12:25:34] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 105064909 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 12:25:34] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 105063875 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 12:25:16] ABBRECHEN AUCTION_CANCELED auctionID 105067078 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 12:25:15] ABBRECHEN AUCTION_CANCELED auctionID 105064437 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 12:25:15] ABBRECHEN AUCTION_CANCELED auctionID 105066868 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 12:25:14] ABBRECHEN AUCTION_CANCELED auctionID 105066225 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 12:25:12] SNIPER-TOT-AUSGEBLENDET Item 4251 · Preis 910 · Einzelangebot · Grund nach weg wieder geliefert
+[15.11. 12:25:04] ABBRECHEN AUCTION_CANCELED auctionID 105064955 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 12:24:58] SNIPER-SUCHE Ziel 4251 · Angebote 408 · Treffer ≤ Max 1 · gekauft 70 · Sperre - · tot wieder geliefert 0 (Sitzung 1)
+[15.11. 12:24:54] SUCHEN Grenze erreicht: 85 in 60 s (max je Minute = 90)
+[15.11. 12:24:35] SNIPER Treffer 1 · weg 1 · Ø Suche>Treffer 100 ms
+[15.11. 12:23:57] SNIPER-SUCHE Ziel 4251 · Angebote 413 · Treffer ≤ Max 3 · gekauft 70 · Sperre - · tot wieder geliefert 0 (Sitzung 1)
+[15.11. 12:23:53] SUCHEN Grenze erreicht: 85 in 60 s (max je Minute = 90)
+[15.11. 12:23:35] SNIPER Treffer 1 · weg 1 · Ø Suche>Treffer 100 ms
+[15.11. 12:22:57] SNIPER-SUCHE Ziel 4251 · Angebote 440 · Treffer ≤ Max 21 · gekauft 70 · Sperre - · tot wieder geliefert 0 (Sitzung 1)
+[15.11. 12:22:53] SUCHEN Grenze erreicht: 83 in 60 s (max je Minute = 90)
+[15.11. 12:22:35] SNIPER Treffer 1 · weg 1 · Ø Suche>Treffer 100 ms
+[15.11. 12:21:57] SNIPER-SUCHE Ziel 4251 · Angebote 412 · Treffer ≤ Max 1 · gekauft 70 · Sperre - · tot wieder geliefert 0 (Sitzung 1)
+[15.11. 12:21:52] SUCHEN Grenze erreicht: 84 in 60 s (max je Minute = 90)
