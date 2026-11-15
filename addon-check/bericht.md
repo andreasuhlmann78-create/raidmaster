@@ -17,8 +17,7 @@ Lua-Syntaxprüfung mit: lupa (Lua 5.1)
 ## ProfessionSentinel-0.9.45.zip: OK (1 Warnungen)
 - **WARNUNG** ProfessionSentinel/GoldSentinelMarkt.lua: veraltete offizielle Fassung (Version 2) – auf shared/GoldSentinelMarkt.lua Version 7 aktualisieren
 
-## RaidMaster-3.0.26.zip: OK (1 Warnungen)
-- **WARNUNG** RaidMaster/GoldSentinelMarkt.lua: veraltete offizielle Fassung (Version 2) – auf shared/GoldSentinelMarkt.lua Version 7 aktualisieren
+## RaidMaster-3.0.27.zip: OK
 
 ## ThreatSentinel-2.5.14.zip: OK
 
