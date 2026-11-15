@@ -1,0 +1,38 @@
+BERICHT DISCORD – Bot 1.5.172: D-3 Schritt 25 (Ersatz bei Absage und Skillung als eigene Module) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 22:42 (aus date)
+Commit: e6596eb3 auf origin/main, CI bot-tests: success
+
+WAS
+- ersatz_bot.py: Abschnitt "Ersatz bei Absage" (SUB_HOURS, offer_substitute, accept_substitute; 61 Zeilen).
+- skillung_bot.py: sync_specs (24 Zeilen; Skillung aus dem Spiel in Profil und Anmeldungen, PN bei Rollenwechsel).
+- Beide brauchen nur raidanzeige_bot.update_raid_message (seit Schritt 24) – darum jetzt möglich.
+- UNVERÄNDERT verschoben: beide Blöcke wörtlich im alten bot.py und im Modul (Textvergleich).
+- bot.py: Importname sub_candidates dadurch unbenutzt -> entfernt; Abschnitts-Kommentar zeigt auf die Module.
+  pyflakes ungefiltert vor/nach: keine neue Meldung.
+- bot.py: git diff --numstat +4 −89, jetzt 2770 Zeilen.
+
+TESTS
+- NEU test_ersatz_skillung_bot.py (5 Tests, REGRESSIONEN T-D3-ERSATZ, T-D3-SKILLUNG):
+  Ersatz: erster Kandidat bekommt PN mit Knopf rm:sub:<Raid-ID> und wird gemerkt; nicht gefragt bei Raid in mehr
+  als 48 Stunden, Testraid, geschlossen, voll, auto_substitute=false. Zusage: angemeldet, Offiziere informiert;
+  voller Raid -> "schon wieder besetzt", keine Anmeldung.
+  Skillung: nur Raids des Mitglieds aktualisiert; PN nur bei echtem Rollenwechsel, nicht beim ersten Einlesen.
+  Gegenproben: Zeitfenster entfernt, Voll-Prüfung entfernt, Merker entfernt, Voll-Prüfung bei Zusage entfernt,
+  "nicht beim ersten Einlesen" entfernt -> je FAILED/ERROR (1); zurückgesetzt -> OK.
+- test_lade: beide Module mit demselben Bot; update_raid_message überall dasselbe Objekt.
+- Slash-Befehle: 49, unverändert. 371 Tests OK; jede Testdatei einzeln mit -I OK; REGRESSIONEN 62 von 62.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update vom Stand 1.5.171: updater._copy_new kopiert VERSION, bot.py, ersatz_bot.py, skillung_bot.py, tests;
+   config/state/ZIP unverändert (md5); VERSION 1.5.172.
+2. Start wie launcher.py: Abbruch erst bei der Anmeldung (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+4. Neustart nach Update (Ende-zu-Ende, aktualisierte Kopie): Exit-Code 42.
+
+STAND D-3: bot.py 7437 (vor D-3) -> 2770 Zeilen; 27 Module ausgelagert.
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
+- NÄCHSTE BEREICHE (die grossen, eng verflochtenen): DKP-Tabellen und -Nachrichten, Raids/Anmeldung
+  (on_interaction, ProfileView), Uploads (receive_upload, process_new_data), Testberichte, Kanal-Aufräumer,
+  Raider des Monats, zuletzt RaidBot.
