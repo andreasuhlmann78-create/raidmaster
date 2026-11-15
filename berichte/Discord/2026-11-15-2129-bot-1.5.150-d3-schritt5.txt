@@ -1,0 +1,28 @@
+BERICHT DISCORD – Bot 1.5.150: D-3 Schritt 5 (Rechte des Bots als eigenes Modul) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 21:29 (aus date)
+Commit: 40cdc6e4 auf origin/main, CI bot-tests: success
+
+WAS
+- Neues Modul RaidMasterBot/rechte_bot.py mit check_bot_rights (UP-404: Server/Rechte prüfen, private Kanäle einmal
+  ausdrücklich freigeben, Audit-Log zum Bot einmal melden).
+- UNVERÄNDERT verschoben: Quelltext der Funktion alt (bot.py in HEAD~1) und neu per ast verglichen -> identisch.
+- bot.py importiert rechte_bot erst nach "grund.bot = bot" und übernimmt check_bot_rights mit Namen (Aufrufer
+  on_ready/on_guild_join unverändert). "import bot_rechte" in bot.py entfällt, dort nicht mehr benutzt.
+- bot.py: 56 Zeilen weniger.
+
+TESTS (Regeln der Prüf-Sitzung zu Weg A)
+- test_bot_rechte.BotAblauf patcht jetzt rechte_bot.post_bot_log / rechte_bot.bot_guild statt bot.* (3+2 Stellen),
+  keine Prüfung abgeschwächt. Gegenprobe: absichtlicher Fehler in rechte_bot.py (Merker rechte_meldung nicht
+  gesetzt) -> test_bot_rechte FAILED (failures=1); zurückgesetzt -> OK.
+- test_lade: rechte_bot.bot ist bot.bot; bot.check_bot_rights ist rechte_bot.check_bot_rights; post_bot_log
+  dasselbe Objekt. ast-Prüfung "jeder Name gebunden" läuft automatisch auch über rechte_bot.py.
+- Slash-Befehle: 49, unverändert (test_befehle_liste OK).
+- python3 -I -m unittest discover: 288 Tests OK; jede Testdatei einzeln mit -I OK.
+- Betrieb nachgestellt: Kopie mit Attrappen-config, "python3 bot.py" wie launcher.py -> alle Module geladen, Abbruch
+  erst bei der Anmeldung (LoginFailure wegen Test-Token), wie erwartet.
+- pyflakes bot.py: nur die zwei schon vorher vorhandenen Meldungen (unbenutztes ch, doppeltes gzip), nichts Neues.
+
+OFFEN
+- Frage an die Prüf-Sitzung (Bericht 2155 frage-d3) zur Selbst-Aktualisierung während D-3: noch keine Antwort.
+- NÄCHSTE BEREICHE (je eine Version, kleinster zuerst): PN-Versand (PnModal, pn_cmd), Raidfähigkeit
+  (post_raid_ready), Ruhmeshalle (Rekord-Tafeln, Erstkills, Aufräumen), Uploader-Versand, danach die grossen.
