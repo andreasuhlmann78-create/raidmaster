@@ -390,6 +390,7 @@ REGRESSIONEN = {
     "T-D3-MONATLICH": ("test_monatlich_bot", "Monatlich", "test_ablauf"),
     "T-D3-TESTMODUS": ("test_testupload_bot", "Testmodus", "test_aufraeumen"),
     "T-D3-KANALPFLEGE": ("test_kanalpflege_bot", "Kanalpflege", "test_einmal_geleert_nie_wieder"),
+    "T-D3-DKPBEFEHLE": ("test_dkp_befehle_bot", "DkpBefehle", "test_nur_bei_aenderung_laden"),
     "T-D3-BEFEHLE": ("test_befehle_liste", "BefehleListe", "test_gleiche_befehle"),
     "T-D-MN8b": ("test_market", "BotAblauf", "test_T_D_MN8b_aenderung_erst_nach_senden_merken"),
     "T-D-GS1b": ("test_market", "BotAblauf", "test_T_D_GS1b_grosse_guildsentinel_datei"),

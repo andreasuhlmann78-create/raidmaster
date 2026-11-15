@@ -205,6 +205,9 @@ class Lade(unittest.TestCase):
         self.assertIs(b.sync_raid_visibility, kanalpflege_bot.sync_raid_visibility)
         self.assertIs(kanalpflege_bot.NO_PING, grund.NO_PING)
         self.assertIs(kanalpflege_bot.dkp_channel_for, dkp_tafel_bot.dkp_channel_for)
+        import dkp_befehle_bot
+        self.assertIs(dkp_befehle_bot.bot, b.bot)                # D-3 Schritt 31: DKP-Befehle
+        self.assertIs(b.reload_dkp_if_needed, dkp_befehle_bot.reload_dkp_if_needed)
 
     def test_findet_fehlenden_namen(self):
         self.assertEqual(unbound("def f():\n    return cfg['x']\n"), [(2, "cfg")])

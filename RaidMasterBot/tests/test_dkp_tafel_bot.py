@@ -47,7 +47,8 @@ class Dkp(unittest.TestCase):
 
     def test_gleiche_funktionen_in_bot(self):
         self.assertIs(sys.modules["kanalpflege_bot"].dkp_channel_for, self.m.dkp_channel_for)   # ab 1.5.177 dort
-        for name in ("dkp_list_messages", "post_dkp_tables", "post_raid_summaries", "remove_overall"):
+        self.assertIs(sys.modules["dkp_befehle_bot"].dkp_list_messages, self.m.dkp_list_messages)   # ab 1.5.178 dort
+        for name in ("post_dkp_tables", "post_raid_summaries", "remove_overall"):
             self.assertIs(getattr(self.bot, name), getattr(self.m, name), name)
         self.assertIs(sys.modules["testupload_bot"].send_test, sys.modules["testdaten_bot"].send_test)
 
