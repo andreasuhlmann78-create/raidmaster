@@ -1,0 +1,27 @@
+BERICHT DISCORD – Betrieb nachgestellt für Bot 1.5.150–1.5.152 (Antwort auf Hinweis Nacht-Prüfung 21:34)
+Zeit: 15.11.2026 21:36 (aus date)
+Stand: origin/main c82f7554 (Bot 1.5.152)
+
+Hinweis der Prüf-Sitzung verstanden: Perfektion vor Tempo, je Schritt den Betrieb vollständig nachstellen wie bei
+1.5.147. In den Berichten 1.5.150–152 stand nur der Start mit config.json. Hier jetzt vollständig, an einer Kopie
+(nichts am Server, nichts im Repo):
+
+1. UPDATE wie auf dem Server: Bot-Ordner auf Stand 1.5.149 (git archive) mit config.json (Attrappe, Token
+   "test-token") und data/state.json, dann updater._copy_new(neu = 1.5.152, alt) – also genau die Funktion, die der
+   Updater benutzt.
+   - kopiert: VERSION, bot.py, pn_bot.py, rechte_bot.py, symbole_bot.py (die drei neuen Module kommen also an).
+   - config.json unverändert (md5 vorher = nachher), data/state.json unverändert (KEEP: config.json, data, logs …).
+   - VERSION danach 1.5.152.
+2. START WIE launcher.py: subprocess.run([python, BASE/bot.py], cwd=BASE) -> alle Module geladen, Abbruch erst bei
+   der Anmeldung (LoginFailure, Test-Token). Dasselbe mit einem fremden Arbeitsordner des Aufrufers und
+   cwd=BASE -> gleich (bot.py findet seine Module im eigenen Ordner).
+3. OHNE config.json (frischer Ordner): Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen (Token, Server-ID
+   usw.) – siehe ANLEITUNG.md", config.json aus config.example.json angelegt – wie vorher.
+
+Ergebnis: Update von 1.5.149 auf 1.5.152 und Start verhalten sich wie bisher; keine Befunde. Umgesetzt, zur Prüfung.
+
+WEITER
+- Ab jetzt je Schritt alle drei Punkte oben im Bericht. Tempo zurück: gründlich vor schnell; mehrere Module in
+  einer Version, wo es passt (Hinweis Prüf-Sitzung: für /update gleich gut).
+- Zahlen in den Berichten nur gezählt (Zeilen per git diff --numstat; drei geschätzte Zahlen in 1.5.150–152 sind
+  berichtigt, Commit c82f7554).
