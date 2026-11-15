@@ -1,5 +1,5 @@
 AHSentinel – Nacht 15./16.11.2026 (Nacht-Arbeit nach masterplan-ahsentinel.txt Abschnitt D und PRIO-JETZT-Liste)
-Stand: 15.11.2026 20:13 (Zwischenstand – wird bis 07:00 fortgeschrieben)
+Stand: 15.11. 22:00 (Zwischenstand, wird bis 07:00 fortgeschrieben)
 Alle Versionen: GitHub-Release + Discord (announce/). KEIN CurseForge (erst nach der Sniper-Abnahme). Jede Version "umgesetzt,
 zur Prüfung", Bericht je Version in berichte/AHSentinel/.
 
@@ -26,6 +26,26 @@ VERSIONEN DER NACHT (je ein Satz)
   0.65.216 RK7: Budget-Verteilung in "Heute tun" nach Gold je Tag je 1g × Sicherheit; Feed-Messung (bleibt aus, 6,3 MB > 4 MB).
   0.65.217 PS-DOCK1: mit ProfessionSentinel kein eigenes Gewinn-Fenster; API.ReagentsToList für PS.
   0.65.218 GoldSentinelMarkt v7 übernommen; Feed gemessen (Median 5,8 MB > 4 MB) -> bleibt aus.
+  0.65.219 UI-REF1: ein Aktualisieren-Knopf in beiden Fenstern links neben Optionen (Klick = Reiter, Shift = alles).
+  0.65.220 FEED-1: Feed an (direkt gemessen 1,4–2,4 MB je Scan, FeedNet-Tabellen wiederverwendet 1543 -> 129 KB).
+  0.65.221 RK7-Antwort: "Heute tun" sagt, wenn das Budget eine Menge kürzt oder Vorschläge weglässt (Anzeige nach Gewinn).
+  0.65.222 HP-4: Schnäppchen "Marktwert" und "Flips" ausgeblendet, Standard "Unter Händlerpreis".
+  0.65.223 HP-3 + API.QuietOn: Schnäppchen > Entzauberwert = Markt > Entzaubern; "+" bis "Lohnt bis" (vorher Wert − 1c!).
+  0.65.224 HP-2: Händler-Schnäppchen genau je Preisstufe (Menge, Gewinn gesamt, Alter), "+" Max Händler − 1c, eine Rechnung.
+  0.65.225 MR7: Spielrhythmus gelernt ("Nächstes Login ~x Tage") und einstellbar.
+  0.65.226 Phase 2 "alle Spieler": Absatz je Tag mit dem Teil "alle" der Markt-Tabellen als Vorwissen (k = 2).
+  0.65.227 MR5: "Seit deinem letzten Besuch" nach > 24 Std. Pause (verkauft, zurück, Bänder, nächste Schritte).
+  0.65.228 BH-TT2: "Erlös:" vor den Material-Zeilen im Buchhaltungs-Tooltip; VK-E1 belegt erledigt (DE-AUFT1). Phase 3 fertig.
+  0.65.229 MR8: Laufzeit passend zum gelernten Rhythmus vorwählen (2 / 24 Std., Grund und Einzahlung, eigene Wahl geht vor).
+  0.65.230 MA4: Stufenbänder nach benötigter Stufe gemessen (belegt ab 5 Tagen × 20 Items, Richtung) – noch ohne Wirkung.
+  0.65.231 RK6: Halte-Risiko in "Lohnt bis" (fällt −5 %/Tag bis zum nächsten Login, Spitze = kein Kauf), nur belegte Bänder.
+  0.65.232 MR6: "Bevor du gehst" (3 Schritte, Knopf im Markt-Reiter, einmal kurz vor Ende der üblichen Spielzeit).
+  0.65.233 Nacht-Prüfung 21:48: Sniper-Ziele aus "+"/Entzaubern nie über der Item-Grenze (10 % des Golds); MR7-Trefferquote.
+  0.65.234 V4: Tages-/Wochenzyklus je Band gemessen (belegt erst ab 3 Wochen, ≥ 80 % gleiche Richtung) – nur Testbericht.
+  0.65.235 MR9: Plan nach Pausen (≥ 2 Tage) im Fenster "Seit deinem letzten Besuch". Damit Phase 6 im Code fertig.
+  Eigener Befund im Gesamtlauf 0.65.224: s92 rot (Händler-Rechnung rechnete den Marktwert für alle Items) – vor der
+  Veröffentlichung behoben und belegt.
+  Dazu T200-1: Nachbildung im Repo vollständig (IsAddOnLoaded, run_all.sh ohne festen Pfad), Gesamtläufe aus frischer Kopie.
 WEITERE
 
 TESTS
@@ -35,8 +55,17 @@ TESTS
 
 OFFENE FRAGEN / ENTSCHEIDE
   - RK5: beantwortet (18:39), umgesetzt in 0.65.213.
-  - Feed (Marktdaten-Netz): auch mit v7 Median 5,8 MB Feed-Anteil im ganzen Vollscan (s216) > 4 MB -> bleibt aus; Nachbau mit ganzem Vollscan erbeten.
-  - RK7: Soll auch die ANZEIGE in "Heute tun" nach dem RK7-Rang sortiert werden (heute nur die Budget-Verteilung)?
+  - Feed: FEED-1 (Supervisor 20:25) umgesetzt in 0.65.220 – Feed an.
+  - RK7: beantwortet (20:15: Anzeige nach Gewinn, Satz bei Kürzung) – umgesetzt in 0.65.221.
+  - HP-3: alte Sniper-Ziele aus Schnäppchen > Entzauberwert "+" (vor 0.65.223) haben Max = Wert − 1c; ich ändere Ziele des
+    Spielers nicht selbst – bitte im Sniper prüfen (Hinweis auch im Discord).
+  - RK6/MR8: beantwortet 21:02 (−5 %/Tag fallend, Spitze = verkaufen, nur belegte Bänder; MR8 vorwählen sichtbar) – MR8 in
+    0.65.229. Nachfrage MA4/RK6 beantwortet 21:33 (G1/G2 angenommen) – RK6 in 0.65.231.
+  - s216 Frame-Grenze: CPU-Zeit, Ausreisser mit und ohne Feed; run_all.sh behandelt s216 jetzt wie s92 (2 von 3, Supervisor).
+  - HP-2 "+" ohne genaue Stufen: angenommen (21:48) mit Item-Grenze – umgesetzt in 0.65.233.
+  - Abdeckungs-IDs T-AB4, T-AB5, T-D1 doppelt in der Testroutine (alt, nicht von mir) – ändere ich nur auf Auftrag.
+  - "Heute tun" und Selbsttest nutzen für Entzauber-Vorschläge noch D:FindDeals (andere Regel als Markt > Entzaubern) –
+    Verdacht, zu prüfen; auf Wunsch stelle ich es um.
   - GSL6-2 Ursache der 1,28 s: Verdacht "eigene Suche belegt die Drossel" – Messwert jetzt im Sniper-Bericht.
 
 IM SPIEL PRÜFEN (in dieser Reihenfolge)
@@ -53,3 +82,14 @@ IM SPIEL PRÜFEN (in dieser Reihenfolge)
   8. Einstellungen: Wege (Entzaubern/Herstellen/Flippen/Händler) und Risiko (vorsichtig/normal/mutig) mit Beispiel im Tooltip.
   9. Tooltip eines entzauberbaren Teils: Materialien "Vorgabe | bei dir (n)" und "Ø je Entzauberung … netto".
  10. Testroutine /ahs testroutine und /ahs testroutine ui laufen durch (ohne echte Käufe).
+ 11. Vollscan mit GoldSentinelMarkt: Diagnose MARKT-NETZ zeigt "Feed" nach dem Scan; kein Ruckeln nach dem Scan.
+ 12. Kaufen > Schnäppchen: öffnet mit Händlerpreis; Entzauberwert zeigt dieselben Items wie Markt > Entzaubern; "+" -> Ziel bis
+     "Lohnt bis"; leere Liste nennt den Grund.
+ 13. "Heute tun" mit wenig Gold: gekürzte Zeile mit Satz, Tipp-Zeile "weitere Vorschläge weggelassen".
+ 14. Kaufen > Schnäppchen > Händlerpreis: Spalte Menge (genau bzw. "≥ 1"), Gewinn gesamt, "(vor x Min.)", "+" -> Sniper-Ziel
+     mit Max Händler − 1c, Menge, Budget.
+ 15. Markt-Reiter Kopf: "Nächstes Login ~x (gelernt/ohne Daten)"; Optionen > Spielrhythmus wechselt.
+ 16. Nach > 1 Tag Pause: Fenster "Seit deinem letzten Besuch" einmal; Zahlen gegen Buchhaltung/Post.
+ 18. Markt-Reiter: Knopf "Bevor du gehst" (3 Schritte); "Mein Lager" gelb bei fallendem Band (erst mit belegten Bändern).
+ 19. Schnäppchen "+" mit wenig Gold: kein Ziel, Meldung "Budget je Item reicht nicht".
+ 17. UI-CLEAN1 (B): bitte "/ahs testroutine ui" mit 0.65.227 (100 % und 130 %, Modern/Klassisch) – Befunde für die Bereinigung.
