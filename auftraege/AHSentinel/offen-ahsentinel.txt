@@ -184,6 +184,14 @@
          Sitzung). Das 0,3-s-Kaufpause aus GSL4-1 (b) (Sniper.lua 652 BUY_QUIET) wirkt. Preis dafür: Raste -> Senden ist zweigeteilt,
          36 Käufe in 9–43 ms und 57 in 222–303 ms (= Warten bis 0,3 s nach dem letzten Senden). BEHALTEN. Nicht verkürzen, ohne
          vorher Code 10 erneut zu messen.
+  !!! BERICHTIGUNG GSL8-0 (18:59, Supervisor, Protokoll 9 mit GSSniperLog 1.7, 18:55–18:56, GLEICHE Version 0.65.203): "Code 10 trotz
+         Kauf" = 11 bei 16 gesendet / 13 gekauft. Die 0 aus Protokoll 8 war also NICHT die Wirkung von BUY_QUIET (das gab es in beiden
+         Protokollen). GSL8-0 ist damit WIDERLEGT – nichts daraus ableiten. BUY_QUIET trotzdem nicht ändern ohne neue Messung.
+         Verdacht, zu messen (nicht belegt): in Protokoll 8 gingen die Käufe ab 18:51:45 mit "offen beim Senden 1" raus (ohne Code 10),
+         in Protokoll 9 alle mit "offen 0" (mit Code 10). Zu wenige Fälle für einen Schluss.
+         Protokoll 9 sonst: Gold 1g16s30c = Abgang = Zähler 13 (Differenz 0), doppelt 0; Code 4 ×3, keines erneut gesendet; Minute
+         18:56: 330 von 338 Rasten ohne Kauf mit Status "Kauf bestätigt (Server meldete kurz einen internen Fehler …)" -> GSL5-4
+         (in 0.65.208 SN-BTN1 mitprüfen). Bildaussetzer: längster 1054 ms.
   GSL8-1 NEU (MITTEL, Ruckeln): Nach dem Vollscan (18:46:29–18:46:43 und 18:47:22–23) kommen GET_ITEM_INFO_RECEIVED-Stürme von
          2 800–9 300 Ereignissen je 2 s; dabei 20+ Bilder mit 100–177 ms und eines mit 446 ms (18:46:32, Aufgaben cache:itemlist,
          names, de:matdiag, cache:warm-today, forecast:hours). Aufgaben in diesen Bildern: fullscan*, cache:today:10*,
