@@ -1,0 +1,29 @@
+BERICHT DISCORD AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 22:35 · Sitzung: Discord-Projekt · Version: Bot 1.5.147
+Umgesetzt, zur Prüfung. D-3 Schritt 2 (Weg A).
+
+- kern.py (neu): UNVERÄNDERT und in derselben Reihenfolge aus bot.py verschoben:
+  BASE, CONFIG_PATH, DATA_DIR, log (+ basicConfig), ORANGE, GREY, DEFAULT_CONFIG, CONFIG_ERROR, load_config,
+  save_config, cfg, TZ, book, state (+ Vorgaben), UPLOAD_PATH, GS_UPLOAD_PATH, GS_READY_PATH, MARKT_DIR, lootdb,
+  kills_db, fame_db, SHOTS_DIR, ICON_MAP_BUNDLED/FRESH, ICON_LISTFILE_URL, rmd.load_icon_fileids(…), Umstellung des
+  alten dkp_messages-Formats.
+- Bleibt in bot.py:
+  - EXIT_CODE: wird in bot.py per "global" neu gesetzt; verschoben würde die Änderung kern nicht erreichen.
+  - market.set_tz(TZ).
+- bot.py übernimmt alles mit Namen (from kern import …). Es sind DIESELBEN Objekte, nicht Kopien. Der Lade-Test prüft:
+  bot.cfg is kern.cfg, state, kills_db; kern liegt im Bot-Ordner.
+- Betrieb nachgestellt (Kopie des Bot-Ordners):
+  - ohne config.json: config.example.json wird kopiert, Meldung "Bitte zuerst config.json ausfüllen …", Exit-Code 3,
+    wie vorher;
+  - mit config.json lädt der Bot, BASE von bot und kern gleich.
+  - launcher.py startet bot.py als Skript mit cwd=BASE, darum findet bot.py kern.py im eigenen Ordner.
+  - Der Updater kopiert alle Dateien des Bot-Ordners (updater.py:181), also auch kern.py.
+- Tests: bot_harness lädt kern ausdrücklich aus der Testkopie, mit der Attrappen-config. Aus dem Repo ginge das
+  nicht: kern liest config.json neben sich, im Repo gibt es keine, also sys.exit. test_lade importiert kern darum nur
+  über bot_harness. Gleiche Slash-Befehle (test_befehle_liste grün, 49). Alle 288 Tests OK, jede Testdatei einzeln
+  mit -I OK, GitHub Bot-Tests erfolgreich.
+- bot.py: 7240 -> 7179 Zeilen.
+- NÄCHSTER SCHRITT 3: das Bot-Objekt (Klasse RaidBot, Intents, bot = …) und die Grundfunktionen, die fast alle
+  Bereiche brauchen (channel_by_id, post_bot_log, bot_guild, is_admin/is_creator …), nach kern bzw. ein Modul
+  "grund.py". Erst danach lassen sich Bereiche wie die Marktdaten als echte Module abtrennen.
+  Offen bleibt die Frage aus dem Bericht 2210: Selbst-Update während D-3 aus?
