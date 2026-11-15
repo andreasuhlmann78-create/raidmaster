@@ -1,5 +1,5 @@
 MORGENBERICHT DES SUPERVISORS – Nacht 15./16.11.2026 (wird die Nacht über fortgeschrieben)
-Stand: 15.11.2026 20:52 (Uhrzeit aus date)
+Stand: 15.11.2026 21:48 (Uhrzeit aus date)
 
 =====================================================================================================================
 1. DAS WICHTIGSTE IN KÜRZE
@@ -69,6 +69,11 @@ Im Spiel prüfen:
   - BuffSentinel: Jäger < 200 Pfeile, Hexer < 3 Splitter.
   - ProfessionSentinel 0.9.46: nach Vollscan kein Ruckler; /ps protokoll Zeile "Langsamste Wege".
 Entscheide (keiner eilt):
+  - GuildSentinel: abgeschlossene Bewerbungen (aufgenommen/abgelehnt) nach 90 Tagen automatisch löschen – Standard AN mit Option
+    und Chat-Zeile beim Löschen. Bestätigen oder Standard AUS?
+  - GuildSentinel-Daten im privaten Daten-Repo: Der Uploader liefert die ganze GuildSentinel.lua dorthin, also auch Bewerber (Name,
+    letzte Nachricht – Altersangaben jetzt unkenntlich) und neu die Sperrliste mit Gründen. So lassen, oder Bewerber/Sperrliste beim
+    Hochladen weglassen (Auftrag an RaidMaster)?
   - BuffSentinel "Nachkaufen beim Händler mit einem Klick" – nur mit deinem Entscheid (Gold).
   - Discord-Bot: nach /update kommt die tägliche Zusammenfassung; der Wert "2 GB = Festplatte oder Arbeitsspeicher" steht dann
     in /marktdaten.
