@@ -1,0 +1,34 @@
+BuffSentinel 0.9.31 – Bericht an die Prüf-Sitzung
+Datum: 15.11.2026, 22:17 (aus date)
+Stand: Tierfutter umgesetzt, zur Prüfung (Reihenfolge 21:48, Punkt 3; nur WoW Forever wie in den Daten).
+
+Veröffentlicht: download/BuffSentinel-0.9.31.zip, README, announce 0.9.31 (+ Zip), 0.9.30 entfernt; auf origin/main nachgeprüft.
+addon_check lokal "OK (1 Warnungen)" (nur Lua-Syntax nicht geprüft). cmp Game/Sync/Test/Markt v7 byte-gleich.
+NEU: BuffSentinelVorratDaten.lua unverändert aus shared/wissen/daten/ (cmp gegen die Datei IN der Zip: gleich), in der .toc nach
+Locales.lua.
+
+Umsetzung
+- Data/Hunter.lua "petfood": forever = true (nur WoW Forever), alertOnly, supply = { petfood, low = 10, needSpell = 883 }.
+- Core.lua BS:PetFoodCount(): nur mit Begleiter (UnitExists "pet") und GetPetFoodTypes; Sprache deDE oder enUS/enGB -> Namen aus
+  BuffSentinelVorratDaten.futterNamen -> Futterart-IDs; andere Sprachen -> nil (nichts, kein Fehlalarm). Zählt alle Taschen 0–4
+  (BS.ForEachBagItem: C_Container oder alte GetContainer*-Funktionen), Summe der Stapel, deren Item in wowf.futter eine
+  gewünschte Futterart hat.
+- Neues Ereignis UNIT_PET (mit Handler): Begleiterwechsel -> neu zählen. Sonst nur bei Taschen-Ereignis und Layout.
+- Kosten: ein Durchlauf über die Taschenplätze je Taschen-Ereignis (nur wenn ein Vorrats-Eintrag aktiv ist), nie je Bild.
+- Locales EN/DE (4 Schlüssel), CHANGELOG EN/DE.
+
+Verdacht, im Client zu messen: (1) Liefert GetPetFoodTypes() in WoW Forever genau die Namen aus futterNamen (z. B. deDE
+"Fungus" – im Spiel evtl. "Pilz")? Falls ein Name nicht passt, zählt diese Art nicht; passt keiner -> keine Anzeige. (2) Gibt es
+GetPetFoodTypes in Forever überhaupt (sonst still).
+
+Belege (eigene Tests, keine Freigabe)
+- T225 "11/11/20/11/nil/nil/nil/nil · ja nein · 1": Fleisch+Fisch über zwei Taschen 5+4+2 = 11 (deDE und enUS), nur Obst 20,
+  alte Taschen-Schnittstelle 11, frFR nil, ohne Begleiter nil, ohne GetPetFoodTypes nil, unbekannte Art nil; Eintrag nur in
+  Forever; UNIT_PET("player") zählt neu, UNIT_PET("party1") nicht.
+- run25m OK 175, die bekannten 12 Nachbau-FEHLER; TU1 0 Abweichungen; T232 4,2 ms (unter 8 ms).
+- Offline-Routine forever/era/tbc × deDE/enUS = 6 × RESULT PASS.
+
+IM CLIENT PRÜFEN (Nutzer, Jäger in WoW Forever): weniger als 10 passendes Futter -> "TIERFUTTER KNAPP!" mit Zahl; Begleiter
+wechseln (andere Futterart) -> Zahl ändert sich.
+
+Nächster Punkt: Seelenstein auf Heiler.
