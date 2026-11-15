@@ -1,0 +1,54 @@
+BuffSentinel 0.9.23 – Bericht an die Prüf-Sitzung
+Datum: 15.11.2026, 20:35
+Stand: umgesetzt, zur Prüfung
+
+Auftrag BS-N1 (offen-buffsentinel.txt, Nacht-Prüfung 20:15)
+(1) Vorschlag je Klasse: berichte/BuffSentinel/2026-11-15-2025-vorschlag-nutzen.txt (mit Quellen; Häufigkeit ist NICHT
+    gemessen, siehe dort "Wie erhoben"). Frage an den Supervisor am Ende der Datei (nächste [K]-Punkte).
+(2) Die zwei kleinsten umgesetzt: Munition knapp (Jäger) und Seelensplitter knapp (Hexenmeister) -> umgesetzt, zur Prüfung.
+
+Veröffentlicht
+- download/BuffSentinel-0.9.23.zip, README-Link, announce/buffsentinel__buffsentinel-0.9.23.md (+ .BuffSentinel.zip),
+  0.9.22 aus download/ und announce/ entfernt (BuffSentinel nicht in curseforge/projects.json).
+- Auf origin/main nachgeprüft (git status ohne "ahead", Zip und Vorschlag vorhanden).
+- addon_check lokal: OK (1 Warnung "Lua-Syntax NICHT geprüft", lupa hier nicht installierbar; alle Dateien laden im
+  Nachbau Lua 5.4 ohne Fehler). cmp: GoldSentinelGame/-Sync/-Test/-Markt (v7) byte-gleich mit shared/.
+
+Umsetzung (Baustein "Vorrat")
+- Data/Hunter.lua: Eintrag "ammo" (kind buff, alertOnly, max = 3), supply = { ammo = true, low = 200, hint }.
+- Data/Warlock.lua: Eintrag "shards" (kind buff, alertOnly, max = 3), supply = { item = 6265, low = 3, needSpell = 1120
+  (Seelendieb), hint }.
+- Core.lua: BS:SupplyCount(sp) – Munition nur, wenn Fernkampfplatz 18 eine Waffe der Klasse 2 mit Unterklasse 2 (Bogen),
+  3 (Schusswaffe) oder 18 (Armbrust) hat UND der Client einen Munitionsplatz kennt (GetInventorySlotInfo("AMMOSLOT") == 0,
+  geschützt mit pcall); leerer Platz 0 -> 0; sonst GetInventoryItemCount("player", 0). Gegenstände über BS.ItemCount.
+  Geschützte Werte -> nil. BS:UpdateSupply() zählt alle Vorrats-Einträge; aufgerufen bei BAG_UPDATE_DELAYED,
+  UNIT_INVENTORY_CHANGED("player") und im Layout – nie je Bild. ResolveEntries: known = needSpell gelernt (sonst true).
+  EntryStatus: "Vorrat: warnt ausserhalb des Kampfes unter %d".
+- Display.lua: EvalBuff-Zweig für Vorrat: im Kampf nie; beritten nie (allgemeine Regel); nur wenn gespeicherter Zähler
+  eine Zahl < low ist; Zahl im Zähler-Feld, bei 0 "leer"/"empty", Symbol grau bei 0. Kein Spiel-Aufruf in diesem Zweig.
+  Tooltip: "Vorrat: %d · Warnung unter %d" + Hinweis (Händler bzw. Seelendieb). Knopf ohne Klick-Aktion (alertOnly).
+- Locales EN/DE: 9 neue Schlüssel (SUPPLY_*, ALERT_AMMO/SHARDS, TU_T207/T208), über den Generator; vor der Änderung
+  geprüft, dass der Generator byte-gleich die alte Locales.lua erzeugt.
+- CHANGELOG EN/DE 0.9.23.
+
+Grenzen bewusst gewählt (bitte prüfen)
+- Grenzen fest: 200 Schuss (ein Stapel), 3 Splitter. Einstellbar wäre eine neue Option – nicht Teil der "kleinsten".
+- Nur ausserhalb des Kampfes (wie Auftrag: keine zusätzliche Rechenzeit im Kampf; Zählen nur bei Ereignissen).
+- Ab Cata (expansion 4) und Retail gibt es beide Einträge nicht (Munition entfernt, Splitter sind Ressource).
+
+Belege (eigene Tests, keine Freigabe)
+- T207 "150/250/7/0/nil/nil/nil/nil · ja nein ja nein nein nein · 0": Bogen 150, Schusswaffe 250, Armbrust 7, leerer
+  Platz 0, Wurfwaffe nil, Zauberstab nil, keine Fernkampfwaffe nil, Client ohne Munitionsplatz nil; Anzeige: 150 ja,
+  250 nein, 0 ja ("leer"), im Kampf nein, beritten nein, ohne Zähler nein; 0 Spiel-Aufrufe in EvalBuff.
+- T208 "ja nein nein ja ja nein · 2/5": Splitter-Eintrag aktiv mit Seelendieb, ohne Seelendieb aus, in Cata nicht
+  vorhanden; Munition in Classic aktiv, in Wrath vorhanden, in Cata nicht; Zähler beim Taschen-Ereignis 2, dann 5.
+- TU1-Lagen (T200, T251–T253): Vorrat hat eigene Erwartung (nur B1 zeigt; B2 = genug Vorrat, B3 beritten, B4 Kampf zeigen
+  nicht): 0 Abweichungen (2980/2532/3240 Fälle). TU4 1000 Fälle 0 Verletzungen, T232 2,2 ms.
+- run25m: OK 167, die bekannten 12 Nachbau-FEHLER (Mock-Grenzen), keine neuen.
+- Offline-Routine: forever/classic/retail × deDE/enUS je 2 Läufe = 12 × RESULT PASS; tbc und era je deDE/enUS RESULT PASS.
+
+IM CLIENT PRÜFEN (Nutzer)
+- Jäger (Era/Forever) mit Bogen: unter 200 Pfeilen erscheint "MUNITION KNAPP!" mit Zahl; Pfeile kaufen -> verschwindet.
+  WoW Forever: Verdacht zu messen, ob GetInventorySlotInfo("AMMOSLOT") 0 liefert – falls nicht, bleibt die Anzeige still
+  (kein Fehlalarm), dann bitte melden.
+- Hexenmeister: unter 3 Seelensplittern "SPLITTER KNAPP!".
