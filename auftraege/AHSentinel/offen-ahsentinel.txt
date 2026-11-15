@@ -6,7 +6,10 @@
     oder doppelt; Bericht nur "umgesetzt, zur Prüfung" mit Belegen. Lieber eine Version später als eine mit Fehlern.
 
 >>> SNIPER-KOMPLETT – NUR DIES, ALLES ANDERE RUHT (Nutzer 12:13 "oberste Prio, wir müssen jetzt endlich den Sniper komplett fixen!!!!")
-    Bis zur Abnahme durch den Supervisor arbeitet AHS NUR am Sniper. TT-DE2, KERN-T1, MAIL-1, VK-P1, UI-… ruhen (Reihenfolge danach
+    NACHTRAG 12:29 (Nutzer "oberste Prio" zu TB184-U3, UI-Prüfung aller Untersektionen): TB184-U3 (+ U1) gehört mit in diesen
+    Block – gleich hohe Prio wie der Sniper. Reihenfolge: zuerst SN-B12 (Release-Blocker, klein), dann TB184-U1/U3 (nur Prüfteil,
+    Entwickler-Modus, kein Risiko für Spieler), dann der Rest des Sniper-Blocks. Danach wie gehabt.
+    Bis zur Abnahme durch den Supervisor arbeitet AHS NUR am Sniper und an TB184-U1/U3. TT-DE2, KERN-T1, MAIL-1, VK-P1, UI-… ruhen (Reihenfolge danach
     wie 12:00). Kein Flickwerk mehr: EINMAL den ganzen Kauf-Ablauf durchgehen (Suche -> Treffer -> Raste -> Senden -> Antwort ->
     Zählen/Gold/Budget -> Anzeige -> nächstes Ziel) und alle offenen Punkte in EINER Version schliessen:
       SN-B11 (67 gesendet / 5 gekauft: ein offener Ausrüstungskauf zur Zeit, Messung, Anzeige, keine Doppel-Sendung)
