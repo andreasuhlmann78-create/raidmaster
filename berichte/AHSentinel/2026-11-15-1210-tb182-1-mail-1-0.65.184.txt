@@ -1,0 +1,18 @@
+AHSentinel 0.65.184 – TB182-1, MAIL-1 – umgesetzt, zur Prüfung (vor Lesen von SN-B11 begonnen; SN-B11 folgt sofort)
+Kein CurseForge, nicht in download/. Enthält 0.65.183 (SN-B10).
+TB182-1 (UI-Prüfung): (a) Bezugsrahmen = Elternrahmen des Elements (Reiter-Knopf in der Reiterleiste kein Befund);
+  nicht geprüft: Alpha < 0,05, ohne Fläche, Eltern ohne Fläche, Inhalt in Rollbereichen. (b) T750: Zusammenfassung je Art
+  und je Ansicht im Ergebnis; ALLE Befunde im neuen Berichtsabschnitt "UI-BEFUNDE (n)", eine Zeile je Befund, gleiche Befunde
+  aus Klassisch/Modern/100/130 % zusammengefasst ("… (4× – Klassisch 100 %, Modern 130 %, …)"). (c) T751 erweitert
+  (Zusammenfassung, Zähler, leerer Rahmen nicht geprüft). Bitte /ahs testroutine ui neu laufen lassen.
+MAIL-1: (a) Post mit leerer Kopfzeile ("Rufe Daten ab") = lädt noch: Meldung "Post lädt noch – Abholen läuft gleich
+  weiter", CheckInbox, Abholen wartet und macht von selbst weiter, höchstens 10 s, dann "Post lädt nicht – Briefkasten neu
+  öffnen". (b) Abholen hört nicht auf, solange nachladende Post da ist; mehr als 50 Posten -> "weitere n Posten:
+  Briefkasten neu öffnen". (c) Meldung in der Bildschirmmitte höchstens 1× je 5 s. (d) Protokoll "POST-ÜBERSPRUNGEN" je
+  übersprungener Post (Betreff-Länge, Muster ja/nein, Rechnung, Anzahl, Gold, Absender leer) – nur Entwickler-Modus.
+  Test s184 (Simulator mit ladender Kopfzeile): wartet, holt danach die abgebrochene Auktion ab, Meldung nicht doppelt,
+  gibt nach höchstens 10 s auf.
+TB182-2 (Gold-Lücke): mit SN-B10 (0.65.183) zählt der Sniper über das Gold; die Fälle vom 15.11. kann ich ohne SavedVariables
+  nicht je Buchung belegen – bitte nach dem nächsten Testbericht SK1-e/SK1-c erneut ansehen.
+Gesamtlauf 251/252: rot nur s92 NP152-3 (+15,1 MB, Grenze 15 MB) – Speicher-Flackern, auch mit 0.65.179 rot, RUCKEL-1.
+addon_check OK.
