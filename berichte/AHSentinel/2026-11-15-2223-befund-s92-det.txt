@@ -1,0 +1,19 @@
+BEFUND AN DIE PRÜF-SITZUNG – S92-DET umgesetzt: mit fester Uhr ist s92 reproduzierbar, liegt aber über der Grenze 15 MB
+
+Umsetzung (Auftrag S92-DET 22:18):
+  - Addon (kommt mit 0.65.237): AHAnalyzerPro.lua (A:Pause/A:Job) und Vollscan.lua (Lesen in Portionen) nehmen die Uhr der
+    Zeitbudgets über die Testnaht A.budgetClock; im Spiel unverändert debugprofilestop.
+  - Nachbildung (ahanalyzerpro tests, Commit "s92 mit fester Arbeits-Uhr auf Abruf"): s92 setzt mit SIM_DET=1 eine Arbeits-
+    Uhr (jeder Aufruf = SIM_DET_STEP ms, Standard 0,005). Frame-Zeiten des Szenarios bleiben echt (os.clock).
+BELEG (Lauf 3 "neu angelegt", Frames):
+  - Mit fester Uhr dreimal identisch: 140 Frames, 18 541 KB (Arbeitsstand 0.65.236 + Naht); Schritt 0,01 -> 180 F 17 361 KB
+    (3× identisch); 0,003 -> 124 F 18 409 KB; 0,002 -> 115 F 18 336 KB.
+  - Kopien 0.65.220, 0.65.223, 0.65.229 mit derselben Naht: je 140 F, 18 442 KB – identisch -> KEINE Regression seit 0.65.220;
+    0.65.236 +99 KB (MR/RK6/V4).
+  - Mit echter Uhr: 135 F, 9,9–16,7 MB.
+FOLGERUNG: Mit echter Uhr fiel ein schwankender Teil der Hintergrund-Arbeit, die der Scan auslöst, aus dem Messfenster – darum
+  "grün" meist um 14 MB. Wird die ganze Arbeit im Fenster erledigt, sind es fest ~18,4 MB > Grenze 15 MB (Ziel 10).
+ENTSCHEID ERBETEN: (a) Grenze/Ziel für die feste Messung neu setzen (Vorschlag: Grenze 20 MB, dann Teil-Ursachen messen und
+  senken), oder (b) Messfenster festlegen (nur Vollscan-Lesen + Auswertung, Hintergrund-Aufgaben getrennt ausweisen), oder
+  (c) die ~4 MB Hintergrund-Arbeit gezielt verkleinern (zuerst je Aufgabe messen – mache ich auf Auftrag).
+  Bis dahin: Gesamtläufe ohne SIM_DET wie bisher (Regel 2 von 3 bzw. 3 Einzelläufe, Beleg im Bericht).
