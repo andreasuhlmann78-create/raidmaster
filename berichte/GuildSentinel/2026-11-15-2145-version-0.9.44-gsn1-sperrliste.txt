@@ -1,0 +1,45 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 21:45 (Uhrzeit aus date, Europe/Zurich) · Sitzung: GuildSentinel-Projekt-Sitzung · Version: 0.9.44 · Commit: GuildSentinel be1b001
+Veröffentlichung: Discord ja (announce/, sofort). CurseForge: nein (nächster Termin 16.11.2026 18:00).
+Auftrag: GS-N1 3 Sperrliste (freigegeben 21:33): nur lokal + Offiziers-Sync, KEINE Nachricht an den gesperrten Spieler.
+
+UMGESETZT, ZUR PRÜFUNG:
+- Daten: g.ban (neu in den Gilden-Standardwerten) [Name] = { t, by, r = Grund (≤ 120 Bytes), del = true als Grabstein }.
+  Schlüssel = ns.Proper(Name) (ohne Server); Suche Gross/Klein egal, EXAKT (kein "Vorname allein", keine falschen Treffer).
+- Ändern nur Offiziere (ns.IsOfficer); Nicht-Offiziere -> Meldung, nichts gespeichert. Abgleich wie Offiziersnotizen:
+  Einzel-Nachricht BAN (nur von Offizieren angenommen, Feature "lead") und im vollen Abgleich ONOTES als Feld b (ältere
+  Versionen lesen b nicht, ihr Abgleich ohne b lässt die Liste stehen). Neuerer Stand (t) gewinnt, Grabstein inklusive.
+- Bewerbung eines Gesperrten (Rc.OnWhisper, VOR Fragen-Antwort und automatischer Antwort): erfasst (Status "auf
+  Sperrliste"), offene Frage beendet, KEINE Nachricht an ihn; Hinweis im eigenen Chat höchstens alle 10 Min. je Name.
+- Einladen: ns.OpenGuildInvite (zentral: Bewerberseite, Gildenverwaltung, Mitglieder-Menü) gesperrt mit Meldung inkl.
+  Grund und Pfad "Leitung > Sperrliste"; Knopf "In die Gilde einladen" bei gesperrten Bewerbern aus.
+- Beitritt trotzdem (GS_JOINED): rote Warnung im Chat, nur bei Offizieren.
+- Spieler-Tooltip: "Auf der Sperrliste: <Grund>" nur für Offiziere, auch für Spieler ausserhalb der Gilde.
+- Seite Leitung > neuer Reiter "Sperrliste": Erklärung, Name + Grund + "Sperren", Liste (Name, Grund, Von, Seit),
+  "Von der Sperrliste nehmen" mit Rückfrage.
+- 16 neue Texte, 10 Sprachen (Pfade mit den echten Seiten-/Reiternamen je Sprache). Status-Wort neu "auf Sperrliste"
+  (das vorhandene "gesperrt" heisst in den Sprachen "locked" – passte nicht).
+
+GEFUNDENE FEHLER (dabei behoben):
+- Mein erster Entwurf rief im ONOTES-Empfang eine erst später definierte lokale Funktion auf (Lua: globales nil) – der
+  Fehler wurde vom Ereignis-pcall still gezählt. Gefunden durch test/run_ban.lua; behoben (Le.StoreBan).
+- Daraus gelernt: meine neuen Testskripte (run_g3, run_g4, run_ban) gaben "0 Fehlermeldungen" FEST aus. Jetzt zählen sie
+  ns.errors.n + Zeitgeber-Fehler, listen sie auf und enden mit Exit 1. Gegenprobe: Fehler wieder eingebaut ->
+  "1 Fehlermeldungen" + Text, run_alle.sh rot. (Ältere Skripte zählen nur M.errors – siehe Hinweis unten.)
+
+EIGENE TESTS (Belege, keine Freigabe):
+- test/run_alle.sh: "GESAMT: 125 Läufe, 0 rot · 4436 Einzelprüfungen bestanden, 0 fehlgeschlagen".
+- Routine: Forever OK 297, Era OK 302, TBC OK 302, je FEHLER 0.
+- T299a Gross/Klein, nur Offiziere, Grabstein, älter/neuer; T299b Bewerbung: erfasst, 0 Nachrichten, 1 Hinweis bei 2
+  Flüstern, keine Frage; T299c Einladen gesperrt (keine /ginvite), Liste "auf Sperrliste"; T299d Beitritts-Warnung,
+  Tooltip mit Grund, Nicht-Offizier ohne.
+- Gegenproben (je rot): Prüfung in OnWhisper aus (T299b "Nachrichten 3"); in OpenGuildInvite aus (T299c "eingeladen
+  true"); Beitritts-Warnung aus (T299d); Tooltip ohne Offiziers-Prüfung (T299d "Nicht-Offizier ohne false");
+  Zeitvergleich in StoreBan aus (T299a).
+- test/run_ban.lua 10/10, 0 Fehlermeldungen, je 16001/11508/20505: BAN von Offizier/Mitglied, Grabsteine, ONOTES mit/
+  ohne b, eigener Abgleich enthält die Liste, Reiter gebaut, Liste zeigt Eintrag, Sperren über die Seite.
+
+HINWEIS: Die älteren Testskripte (run_v5 … run_v914) zählen als Fehlermeldungen nur M.errors (rote Debug-Ausgaben und
+Zeitgeber), nicht ns.errors.n. Ich stelle sie nach GS-N1 4/5 um (Verdacht: dort bleiben gezählte Fehler unsichtbar).
+
+WEITER: GS-N1 4 Rückkehrer melden, 5 Notiz-Protokoll.
