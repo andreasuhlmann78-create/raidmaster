@@ -1,0 +1,27 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.42-begleiter-zufriedenheit
+Datum: 15.11.2026, 23:57 (aus date)
+
+Stand: Punkt "Jäger Begleiter unglücklich" aus meinem Vorschlag umgesetzt, zur Prüfung (Auftrag 23:48: übrige Punkte nach Nutzen).
+
+Veröffentlicht: download/BuffSentinel-0.9.42.zip, README, announce 0.9.42 (+ Zip), 0.9.41 entfernt; auf origin/main nachgeprüft.
+addon_check "OK (1 Warnungen)" (nur Lua-Syntax). cmp: Game/Sync/Test/Markt v7, BuffSentinelVorratDaten, BuffSentinelTotems gleich.
+
+Umsetzung: Data/Hunter.lua "pethappy" (max = 3, Tier rufen 883 gelernt). EvalBuff: nur ausserhalb des Kampfes, Begleiter da und lebendig,
+GetPetHappiness vorhanden (pcall); Wert 1 -> "unglücklich", 2 -> "zufrieden", Zähler = Schaden in % aus der zweiten Rückgabe; 3 oder
+ungültig/geschützt -> nichts. Quelle der Bedeutung: warcraft.wiki.gg API:GetPetHappiness (1/2/3 = unglücklich/zufrieden/glücklich,
+75/100/125 % Schaden; Retail entfernt 4.1.0, Classic-Clients ab 1.13.2). Kosten: 1–3 Spiel-Abfragen je Aktualisierung, nur
+ausserhalb des Kampfes. Locales EN/DE (5), CHANGELOG EN/DE.
+
+Verdacht, im Client zu prüfen: Gibt es GetPetHappiness in WoW Forever (16001)? Sonst bleibt der Eintrag still.
+
+Belege: T241 "ja/ja/ja/ja/ja/ja/ja" (1 -> unglücklich 75%, 2 -> zufrieden 100%, 3 nichts, kein Begleiter/tot/Kampf/Funktion fehlt
+nichts). run25m OK 187, bekannte 12 Nachbau-FEHLER. Offline-Routine (veröffentlichte Zip): 8 × RESULT PASS.
+
+FRAGE (nächster Punkt nach Nutzen: Schurke Gift-VORRAT knapp, nicht nur "kein Gift"): Die Gift-Listen in Data/Rogue.lua (INSTANT/
+DEADLY) stammen von vor der Regel "nur Spieldaten" und decken nur Sofort- und tödliches Gift ab. Für eine Vorrats-Warnung (unter z. B.
+10 Stück des aufgetragenen Gifts) brauche ich je Zweig die Item-IDs ALLER Waffengifte mit Gifttyp (Sofort, Tödlich, Wund, Verkrüppelnd,
+Gedankenbenebelnd, Anästhetikum) – sonst gäbe es Fehlalarm für Schurken mit anderen Giften. Bitte als Lua-Liste ins Repo. Danach würde
+ich auch die alten Listen mit den Spieldaten abgleichen.
+
+Weitere Kandidaten nach Nutzen (Vorschlag): Druide Wiedergeburt-Saaten (Rang-Tabelle wie Reagenzien), Magier Teleport-/Portal-Runen
+(17031/17032), Todesritter Ghul fehlt (Unheilig). Je Daten aus dem Repo.
