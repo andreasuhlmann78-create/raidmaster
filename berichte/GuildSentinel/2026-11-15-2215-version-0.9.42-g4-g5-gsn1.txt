@@ -1,0 +1,65 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 · Sitzung: GuildSentinel-Projekt-Sitzung · Version: 0.9.42 · Commit: GuildSentinel 8db2fd8
+Veröffentlichung: Discord ja (announce/, sofort). CurseForge: nein (nächster Termin 16.11.2026 18:00).
+Auftrag: Nacht-Prüfung 21:03 – Rest der Nacht-Analyse (G-2, G-4, G-5), danach GS-N1.
+
+G-2 (Markt v4 statt v6): mit 0.9.40 erledigt (v7 byte-gleich, siehe Bericht 0.9.40). In 0.9.42 cmp gegen shared/ erneut gleich.
+
+G-4 (Ruckeln, Ursache nicht gemessen) – UMGESETZT, ZUR PRÜFUNG (Messung + Messhilfe, keine Verhaltensänderung):
+- Offline gemessen (test/perf_events.lua, 1000 Mitglieder, 1 Std. Spiel mit Roster-Update alle 10 s, Lua 5.1, os.clock):
+  längste Rechenzeit je Teil: Mitgliederliste lesen (Roster.lua:345 -> R:Scan) 15–18 ms, Summe 1,7 s/Std.;
+  Ziele (Goals.lua:230) 4–6 ms; RaidReady.lua:373 2 ms; alles andere ≤ 1 ms. Bei kleinen Gilden (≤ 50) unter 1 ms.
+- Fenster erstmals öffnen: 818 Frames + 1356 Schriften/Texturen in EINEM Bild (alle Seiten werden beim ersten Öffnen
+  gebaut); offline 4,8 ms, im Spiel deutlich teurer (echte Frames). VERDACHT, ZU MESSEN: die 3 Spitzen > 50 ms (58 ms) in
+  ~1 Std. bei einer kleinen Gilde kommen vom ersten Öffnen des Fensters, nicht vom Mitglieder-Lesen.
+- Damit das im Spiel belegt wird: UI:Build und das Lesen der Mitgliederliste laufen jetzt über ns.Timed -> Eintrag
+  LANGSAM "Fenster aufbauen" bzw. "Mitgliederliste lesen" mit ms im Diagnose-Protokoll (/gs protokoll), wenn > 16 ms.
+  Je nach Ergebnis: Seiten erst beim ersten Anwählen bauen (grösserer Umbau, erst nach Beleg) bzw. Scan in Portionen.
+- Test: test/run_g4.lua 6/6 je 16001/11508/20505 (beide gemessen, zweites Öffnen baut nicht neu, LANGSAM mit Namen).
+
+G-5 (Altersfrage, Datenschutz) – GEPRÜFT, Stand belegt:
+- Gespeichert wird nur a.age = ok/young/unclear und als Antwort der Text "16+ / unter 16 / unklar" (seit 0.9.36, T289e).
+- Sync: Bewerber (g.apps) werden nie gesendet (Comm/Sync berühren apps nicht – grep). Uploader an den Bot: nur bank und
+  raidReady (RaidMasterUploader/uploader.py GS_FIELDS). 
+- HINWEIS/FRAGE: Die Daten-Lieferung an das PRIVATE Prüf-Repo des Nutzers (daten.py DU2) nimmt die ganze GuildSentinel.lua
+  mit – also auch Bewerber (Namen, letzte Nachricht, Antworten, Alters-KATEGORIE). Das war Entscheid des Nutzers (11.11.);
+  nicht mein Bereich (Uploader = RaidMaster). Ausserdem: a.msg ist die letzte Flüsternachricht im Wortlaut – nennt ein
+  Bewerber sein Alter ausserhalb der Altersfrage (z. B. "bin 15"), steht es dort. Vorschlag zur Entscheidung: a.msg nur
+  aus der ERSTEN Nachricht, oder Zahlen in a.msg nicht speichern. Bis zur Antwort unverändert. Die neue 90-Tage-Löschung
+  (GS-N1) verkürzt die Speicherdauer abgeschlossener Bewerbungen ohnehin.
+
+GS-N1 – 5 häufige Wünsche von Gildenleitungen, die GuildSentinel noch nicht löst (je mit Nutzen-Satz):
+Quellen: Guild Roster Manager (wowinterface info24623 / CurseForge), Blizzard-Forum "Guild Management Wish List for
+11.0.1", CurseForge-Gildenaddons (Guild Recruiter, GuildHQ u. a.).
+ 1. Beitritts- und Beförderungsdatum direkt beim Mitglied (GRM-Mouseover, Blizzard-Wunschliste "join dates, promotion
+    dates"). NUTZEN: Wer wie lange dabei ist und wann zuletzt befördert wurde, sieht man ohne Suchen – fair befördern.
+    -> UMGESETZT (Tooltip, siehe unten).
+ 2. Alte Bewerbungen automatisch löschen (Blizzard-Wunschliste "purge old applicant history after 90 days").
+    NUTZEN: Die Bewerberliste bleibt übersichtlich, alte Daten liegen nicht ewig herum. -> UMGESETZT.
+ 3. Sperrliste: Warnung, wenn ein gesperrter Spieler flüstert, sich bewirbt oder eingeladen werden soll (GRM "Ban list").
+    NUTZEN: Wer wegen Ärger gehen musste, kommt nicht unbemerkt über einen anderen Offizier zurück.
+ 4. Rückkehrer melden: "X ist nach 34 Tagen wieder online" an Offiziere (GRM "returning inactive members").
+    NUTZEN: Rückkehrer sofort begrüssen statt sie aus Versehen als inaktiv zu entfernen.
+ 5. Notiz-Änderungen protokollieren (GRM-Log "note changes"; Blizzard-Wunsch nach mehr Notiz-Verlauf).
+    NUTZEN: Man sieht, wann eine öffentliche/Offiziersnotiz geändert wurde und was vorher stand.
+ Keiner davon vermehrt Nachrichten an Fremde (G-3 gilt). 3–5 als Vorschläge zur Freigabe; Reihenfolge nach Nutzen 3, 4, 5.
+
+UMGESETZT, ZUR PRÜFUNG (GS-N1, die zwei kleinsten):
+- Tooltip.lua: bei Mitgliedern "In der Gilde seit <TT.MM.JJJJ>" (Lead:JoinTime = frühester bekannter Beitritt) und
+  "Zuletzt befördert/degradiert: <Datum> (<Rang>)" (neuester promote/demote-Eintrag für DIESEN Namen aus g.log). Ohne
+  Daten keine Zeile. Recruit.lua: Rc.PurgeOldApps beim Laden der Gilde (GS_GUILD, nicht im Testmodus): Status joined/
+  declined/agedecl UND letzte Nachricht (sonst tj/t) älter als 90 Tage -> gelöscht; new/invited bleiben immer.
+  Diagnose INFO "Bewerbungen aufgeräumt: n".
+- 3 neue Texte, 10 Sprachen.
+
+EIGENE TESTS (Belege, keine Freigabe):
+- addon_check der Zip: siehe Lauf beim Veröffentlichen (ohne FEHLER, Ausgabe unten im Commit geprüft).
+- test/run_alle.sh: "GESAMT: 122 Läufe, 0 rot · 4364 Einzelprüfungen bestanden, 0 fehlgeschlagen".
+- Routine: Forever OK 290, Era OK 295, TBC OK 295, je FEHLER 0.
+- T297a: seit-Datum, letzter Rangwechsel des richtigen Namens (fremder neuerer Eintrag steht zuerst), ohne Daten nur
+  1 Zeile. T297b: 7 Fälle -> gelöscht 4 (joined/declined/agedecl alt, joined nur mit t alt), übrig new/invited alt und
+  declined jung. Gegenproben rot: seit-Zeile aus; Namensfilter entfernt ("befördert false"); "new" mitgelöscht ("5, EF").
+- run_g4.lua: GS_GUILD räumt auf, offene Bewerbung bleibt.
+
+IM CLIENT PRÜFEN: Tooltip über einem Gildenmitglied (seit / zuletzt befördert); nach einer Spielstunde /gs protokoll –
+gibt es LANGSAM "Fenster aufbauen" oder "Mitgliederliste lesen", und mit wie vielen ms?
