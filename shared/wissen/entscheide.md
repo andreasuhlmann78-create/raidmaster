@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 15.11.2026 12:23 | ZWEITE DIREKTIVE: nicht warten ("wer wartet, verliert") – keine Sitzung wartet untätig, immer am nächsten machbaren Punkt weiter; unter Perfektion | CLAUDE.md, alle offen-*.txt |
 | 15.11.2026 12:22 | PERFEKTION IST DIE OBERSTE DIREKTIVE – Vorrang vor allem anderen, auch vor Tempo | CLAUDE.md (ganz oben), alle offen-*.txt |
 | 15.11.2026 12:20 | Perfektion ab jetzt, für alle Projekte und die Prüf-Sitzung (nicht nur Sniper): Ursache belegt, Zahlen gehen auf, alle Wege getestet, keine Sperre ohne Zeitlimit | alle offen-*.txt (PERFEKTION oben), pruef-ablauf.md E |
 | 15.11.2026 12:13 | Sniper komplett fixen, oberste Prio: AHS arbeitet NUR am Sniper bis zur Abnahme (A1–A6), alles andere ruht | offen-ahsentinel.txt SNIPER-KOMPLETT (oben) |

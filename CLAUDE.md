@@ -10,6 +10,13 @@ Ursache belegt statt vermutet, jede Zahl geht auf, alle Wege getestet, keine Spe
 oder doppelt, Vermutungen als "Verdacht, zu messen" kennzeichnen. Lieber später als mit Fehlern. Tempo nie auf Kosten der
 Richtigkeit.
 
+## ZWEITE DIREKTIVE: NICHT WARTEN (Entscheid des Nutzers 15.11.2026 12:23 – "wer wartet, verliert")
+
+Keine Sitzung wartet untätig auf andere. Statt "ich warte auf die nächste Version/Antwort": sofort weiterarbeiten an dem, was
+schon geht – Prüf-Sitzung: Code der offenen Punkte selbst durchsehen, Ursachen belegen, Tests/Abnahmen vorbereiten, Berichte
+prüfen; Projekte: nächster Punkt der Reihenfolge. Nur bei echten Nutzer-Entscheiden fragen – und bis zur Antwort am Rest
+weiterarbeiten. Gilt unter der Ersten Direktive (Perfektion): nicht warten heisst nie schludern.
+
 ## Aufträge der Prüf-Sitzung – vor jeder Arbeit an einem Addon lesen
 
 Ausnahme: Geplante Aufgaben (z. B. «ProfessionSentinel Rezeptdaten-Update», «Raids und Taktiken für WoW Forever») führen nur
