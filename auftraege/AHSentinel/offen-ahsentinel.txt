@@ -62,6 +62,17 @@ HP-3 MITTEL (Nutzer 10:36, Screenshot Schnäppchen > Entzauberwert leer): Text "
     "Zurzeit nichts unter dem Entzauber-Wert mit mindestens 30 % Gewinn (geprüft: n Items, Preise vom Scan vor x Min.)". Prüfen,
     warum Markt > Entzaubern gleichzeitig Zeilen zeigt (Bericht 01:36: "Entzaubern 3") – beide Ansichten müssen dieselbe Regel und
     dieselben Treffer haben (eine Zahl). Teil von UI-CLEAN1/HP-2, gleiche Reihenfolge.
+MAIL-1 HOCH (Nutzer 11:55, 2 Screenshots Briefkasten, 0.65.182): Erster Klick holt 2 Items (5 Splitter, 1 Schultern), dann
+    4× "Keine Auktionspost zum Abholen." (Chat + Bildschirmmitte) – im Posteingang liegt aber noch "Auktionshaus der Horde –
+    Rufe Daten ab" (Symbol mit 9). Ursache (Code Mailer.lua:116 NextMail/IsAuctionMail, Supervisor): Solange der Server die
+    Kopfzeile nicht geliefert hat ("Rufe Daten ab"), sind sender/subject/itemCount leer -> Post wird übersprungen -> "keine".
+    Zu tun: (a) Post mit noch leerer Kopfzeile zählt als "lädt noch": Meldung "Post lädt noch – Abholen läuft gleich weiter"
+    und automatisch weiter, sobald MAIL_INBOX_UPDATE die Daten bringt (CheckInbox, höchstens 10 s, dann ehrliche Meldung).
+    (b) Das Abholen hört nicht nach der ersten Post auf, solange weitere AH-Post (auch nachladende) da ist; WoW zeigt nur die
+    ersten 50 – danach Hinweis "weitere Post nach dem Leeren: Briefkasten neu öffnen".
+    (c) Gleiche Meldung nicht mehrfach in die Bildschirmmitte (höchstens 1× je 5 s).
+    Wichtig für SN-B10 (Zähler gegen Ware): gekaufte Ware muss vollständig abgeholt und gebucht werden.
+    Test: Kopfzeile erst leer, dann geladen -> holt ab; 60 Posten -> Hinweis 50er-Grenze; Meldung nicht doppelt.
 VK-P1 HOCH (Nutzer 11:52 "weshalb wird der falsche Verkaufspreis vorgeschlagen?", Screenshot Verkaufen > Einstellen, 0.65.182,
     Schultern des Hügelwächters, 11 in Taschen, gekauft Ø 9s03, Markt 9s20, Günstigstes 9s, 479 Angebote fast alle 9s):
     Vorschlag 11s + "Markt unter Mindestpreis 11s41". Ursache (Code Seller.lua:555 AutoFloor, Supervisor): Mindestpreis = Einkauf
