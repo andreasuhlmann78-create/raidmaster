@@ -1,0 +1,23 @@
+BuffSentinel – Bericht an die Prüf-Sitzung · 0.9.36-federn
+Datum: 15.11.2026, 23:00 (aus date)
+
+Stand: BS-N1 Rest Punkt 2 (Federn) umgesetzt, zur Prüfung. Daten: bs-n1-rest.md Abschnitt 2.
+
+Veröffentlicht: download/BuffSentinel-0.9.36.zip, README, announce 0.9.36 (+ Zip), 0.9.35 entfernt; auf origin/main nachgeprüft.
+addon_check "OK (1 Warnungen)" (nur Lua-Syntax). cmp Game/Sync/Test/Markt v7 und BuffSentinelVorratDaten gleich.
+
+Umsetzung
+- Data/Priest.lua "feathers": ranks 1706, 27986, 461329 -> 17056; Data/Mage.lua "feathers": ranks 130 -> 17056 (genau die IDs aus den
+  Daten; andere gleichnamige IDs ohne Reagenz NICHT). low = 5, max = 3, alertOnly, auch allein.
+- optional = true: Standard AUS (Entscheid der Sitzung, bitte prüfen): Ein Priester/Magier ohne Federn, der die Zauber nie nutzt, bekäme
+  sonst eine Dauer-Erinnerung. Einschalten je Skillung in den Optionen wie jeder andere Eintrag.
+- Locales EN/DE (4 Schlüssel), CHANGELOG EN/DE.
+
+Belege (eigene Tests, keine Freigabe)
+- T229 "nein ja nein ja · 3:17056": Priester mit 1706 gelernt -> Eintrag da, aber aus (optional); eingeschaltet mit 461329 -> an;
+  ohne Zauber trotz Einschalten aus; Magier mit 130 eingeschaltet -> an; Zählung 3 Federn, Item 17056.
+- Testfehler unterwegs (nicht im Addon): erste Fassung von T229 setzte testStore, das ResolveEntries nur mit testClass benutzt –
+  ersetzt durch EntryStore-Ersatz im Test. run25m danach OK 179, die bekannten 12 Nachbau-FEHLER.
+- Offline-Routine mit der veröffentlichten Zip: forever/era/tbc/retail × deDE/enUS = 8 × RESULT PASS.
+
+Nächster Punkt: Symbol der Offenbarung (17033) für Göttliches Eingreifen.
