@@ -1,0 +1,35 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 21:38 (Uhrzeit aus date, Europe/Zurich) · Sitzung: GuildSentinel-Projekt-Sitzung · Version: 0.9.43 · Commit: GuildSentinel e8385a8
+Veröffentlichung: Discord ja (announce/, sofort). CurseForge: nein (nächster Termin 16.11.2026 18:00).
+Auftrag: Nacht-Prüfung 21:33 – GS-N1 (2) Option + Chat-Zeile, G-5 Alter in a.msg unkenntlich.
+
+BERICHTIGUNG UHRZEIT: Meine Berichte 0.9.41 ("2130") und 0.9.42 ("2215") hatten geschätzte Uhrzeiten im Dateinamen –
+geschrieben wurden sie um ca. 21:0x bzw. 21:2x. Ab jetzt nur aus date (Hinweis Supervisor 21:19). Die Dateinamen lasse
+ich stehen (Verweise darauf); hier zur Klarstellung.
+
+UMGESETZT, ZUR PRÜFUNG:
+- GS-N1 (2) Option: ns.db.appsPurge (Standard true, neu in den Standardwerten). Checkbox "Abgeschlossene Bewerbungen nach
+  90 Tagen löschen" unter Rekrutierung > Antworten & Begrüßung (unter dem Absage-Text), Tooltip: "Beigetreten, abgelehnt
+  oder abgelehnt wegen Alter: 90 Tage nach der letzten Nachricht werden sie beim Einloggen gelöscht. Offene Bewerbungen
+  bleiben immer." Aus -> Rc.PurgeOldApps löscht nichts. Wird gelöscht: EINE Zeile im eigenen Chat "%d alte Bewerbungen
+  (abgeschlossen, älter als 90 Tage) gelöscht – abschaltbar unter Rekrutierung > Antworten & Begrüßung." (Pfad in jeder
+  Sprache mit den echten Namen der Seite und des Reiters). Aufräumen läuft einmal je Gilden-Laden -> höchstens eine Zeile.
+- G-5: Rc.MaskAge(msg) vor dem Speichern von a.msg (AddApplicant) UND der Antworten auf andere Bewerbungsfragen (a.qa,
+  TakeAnswer – dort stand auch Freitext, z. B. "Erzähl von dir"). Regeln wie beauftragt: 1–2-stellige Zahl direkt nach
+  ich bin/bin/i am/i'm/i’m/im/age/alter (mit optionalem ":"), oder direkt vor jahre/jahren/jahr/j./years/year/yrs/yo/y/o
+  -> "…". Nicht: Zahl mit Buchstaben dahinter ("im 40er Raid"), 3-stellig ("bin 115"), Stufen ("lvl 60", "level 45",
+  "Stufe 15 Jäger" – bewusst KEIN blosses "j", sonst träfe "15 Jäger"). Geschützte Werte (secret) bleiben unberührt.
+  Abweichung vom Auftrag: Liste "vor": "jahr" ergänzt (Einzahl), "j" ohne Punkt nur in "15j" mit Grenze (nicht "15 Jäger").
+- 3 neue Texte, 10 Sprachen.
+
+EIGENE TESTS (Belege, keine Freigabe):
+- test/run_alle.sh: "GESAMT: 122 Läufe, 0 rot · 4382 Einzelprüfungen bestanden, 0 fehlgeschlagen".
+- Routine: Forever OK 293, Era OK 298, TBC OK 298, je FEHLER 0.
+- T298a 16 Fälle deDE/enUS (10 zu maskieren, 6 Gegenbeispiele); T298b über OnWhisper/TakeAnswer: gespeichert
+  "hallo gilde, ich bin …" und "Schamane lvl 40, … Jahre". T297c: Option aus -> 0 gelöscht, 0 Zeilen; an -> 2, genau
+  1 Zeile mit dem richtigen Text.
+- Gegenproben rot: Option wirkungslos (T297c "aus: 2 gelöscht"); MaskAge in AddApplicant weg (T298b "ich bin 15");
+  MaskAge in TakeAnswer weg (T298b "15 Jahre"); Wortgrenze nach der Zahl weg (T298a "im …er Raid").
+- addon_check: beim Veröffentlichen (siehe Commit; Skript bricht sonst ab).
+
+WEITER: GS-N1 3 Sperrliste (freigegeben), dann 4 Rückkehrer, 5 Notiz-Protokoll.
