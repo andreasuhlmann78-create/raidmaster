@@ -105,6 +105,7 @@ dann Messauftrag statt Regel.
   ergänzen (Abschnitt E), damit er nicht wieder durchrutscht.
 
 ## E. Prüfregeln aus Fehlern (fortlaufend)
+- 15.11. 14:57 Nutzer: "Direktive – nie wieder vergessen ins Repo zu laden". Anlass: GSL1-1..5 nur im Chat; das Einfüge-Skript fand seinen Anker nicht, der Commit 14:48 enthielt nur die Log-Zeile. REGEL: Einfügen nur mit assert auf den Anker; nach dem Push `git show origin/main:<Datei> | grep -c <Kürzel>` > 0 prüfen, erst dann melden.
 - 15.11. 14:35 Nutzer: "von jetzt an immer Mini-Addons basteln – viel effektiver als einzelne Tests". REGEL: Was im Spiel gemessen
   werden muss, misst die Prüf-Sitzung mit einem eigenen passiven Mini-Addon (shared/messtest/, nicht veröffentlicht, ändert
   kein anderes Addon, keine Namen, Ergebnis als GSDIAG1 über den Uploader). Jedes Werkzeug vor der Abgabe mit nachgebauter

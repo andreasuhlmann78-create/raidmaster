@@ -1,3 +1,5 @@
+>>> NIE VERGESSEN, INS REPO ZU LADEN (Nutzer 15.11.2026 14:57, Direktive): Was nicht auf origin/main steht, gilt als nicht gemacht.
+    Nach jedem Push prüfen: git show origin/main:<Datei> | grep -c "<Kürzel>" > 0 – erst dann melden.
 >>> GS-W2 HOCH (Nutzer 15.11.2026 13:52 "ich will bei Vorschlag unter mehreren Vorschlägen auswählen können – GuildSentinel soll welche
     erstellen, immer mit /w {name} gilde"): Statt nur "Vorschlag 1/2" eine AUSWAHL von mehreren fertigen Werbetexten (z. B. 5–8),
     die GuildSentinel selbst erstellt – verschiedene Töne/Längen (kurz, freundlich, Raid-fokussiert, Aufbau-Phase, mit Discord-

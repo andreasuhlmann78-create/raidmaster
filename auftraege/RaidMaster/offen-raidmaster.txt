@@ -1,3 +1,5 @@
+>>> NIE VERGESSEN, INS REPO ZU LADEN (Nutzer 15.11.2026 14:57, Direktive): Was nicht auf origin/main steht, gilt als nicht gemacht.
+    Nach jedem Push prüfen: git show origin/main:<Datei> | grep -c "<Kürzel>" > 0 – erst dann melden.
 >>> VERÖFFENTLICHEN (Entscheid des Nutzers 15.11.2026 13:16, gilt für ALLE Addons): (1) DISCORD: jede neue Version IMMER sofort im
     Discord veröffentlichen (announce/, Text Deutsch, englischer Teil nur für englische Spieler). (2) CURSEFORGE: nur 1× täglich um
     18:00 – für die Addons, die schon auf CurseForge sind (curseforge/projects.json: zurzeit AHSentinel, GuildSentinel). Kommt ein

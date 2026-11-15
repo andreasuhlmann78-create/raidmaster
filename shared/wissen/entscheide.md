@@ -11,6 +11,7 @@ markt-strategie.md, buchhaltung.md, projekte.md und in den offen-*.txt; sie gelt
 
 | Zeit | Entscheid | Wirkung / Auftrag |
 |---|---|---|
+| 15.11.2026 14:57 | DIREKTIVE: nie wieder vergessen, ins Repo zu laden (Anlass: GSL1-Auftrag stand nur im Chat, Commit 14:48 enthielt ihn nicht) – nach jedem Commit auf origin/main nachprüfen, dass der Inhalt wirklich drin ist | CLAUDE.md, pruef-ablauf.md E, alle offen-*.txt |
 | 15.11.2026 14:35 | Ab jetzt immer Mini-Addons (Messwerkzeuge in shared/messtest) statt einzelner Tests – laufen passiv im Hintergrund beim normalen Spielen; GSSniperLog misst Sniper und Ruckler | shared/messtest/README.md, pruef-ablauf.md |
 | 15.11.2026 13:52 | GuildSentinel: mehrere Werbetext-Vorschläge zur Auswahl (von GS erstellt), jeder immer mit "/w {name} gilde" | offen-guildsentinel.txt GS-W2 |
 | 15.11.2026 13:49 | GuildSentinel: Rekrutierungstext wieder mit "/w {name} gilde" (auch Vorschlag 2, nie wegkürzen) | offen-guildsentinel.txt GS-W1 |

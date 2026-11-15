@@ -10,6 +10,13 @@ Ursache belegt statt vermutet, jede Zahl geht auf, alle Wege getestet, keine Spe
 oder doppelt, Vermutungen als "Verdacht, zu messen" kennzeichnen. Lieber später als mit Fehlern. Tempo nie auf Kosten der
 Richtigkeit.
 
+## DIREKTIVE: NIE VERGESSEN, INS REPO ZU LADEN (Entscheid des Nutzers 15.11.2026 14:57)
+
+Was nicht auf origin/main steht, gilt als nicht gemacht. Nach JEDEM Commit + Push nachprüfen, dass der Inhalt wirklich
+angekommen ist: `git fetch -q && git show origin/main:<Datei> | grep -c "<Kürzel>"` (bzw. `git status -sb` ohne "ahead",
+`git diff --stat HEAD~1` zeigt die erwarteten Dateien). Skripte, die Text einfügen, brechen ab, wenn der Anker fehlt
+(`assert`), statt still nichts zu ändern. Erst nach dieser Prüfung dem Nutzer "im Repo" melden.
+
 ## ZWEITE DIREKTIVE: NICHT WARTEN (Entscheid des Nutzers 15.11.2026 12:23 – "wer wartet, verliert")
 
 Keine Sitzung wartet untätig auf andere. Statt "ich warte auf die nächste Version/Antwort": sofort weiterarbeiten an dem, was
