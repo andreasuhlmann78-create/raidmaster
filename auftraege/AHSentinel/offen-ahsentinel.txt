@@ -62,6 +62,30 @@ HP-3 MITTEL (Nutzer 10:36, Screenshot Schnäppchen > Entzauberwert leer): Text "
     "Zurzeit nichts unter dem Entzauber-Wert mit mindestens 30 % Gewinn (geprüft: n Items, Preise vom Scan vor x Min.)". Prüfen,
     warum Markt > Entzaubern gleichzeitig Zeilen zeigt (Bericht 01:36: "Entzaubern 3") – beide Ansichten müssen dieselbe Regel und
     dieselben Treffer haben (eine Zahl). Teil von UI-CLEAN1/HP-2, gleiche Reihenfolge.
+TB182 (Testbericht 0.65.182 vom 15.11. 11:57, "/ahs testroutine ui" mit AH offen; Supervisor geprüft):
+    TB182-1 HOCH (UI-CLEAN1 A): T750 meldet 309 Befunde in 44 Ansichten, im Bericht aber nur die ersten 3 (abgeschnitten nach
+            "…") – damit ist (B) nicht planbar. Die ersten 3 sind sehr wahrscheinlich FALSCHE Treffer: "Übersicht > overview:
+            Frame ragt aus dem Fenster" und "'Übersicht' ragt aus dem Fenster" – der Reiter-Knopf sitzt absichtlich am Rand.
+            Zu tun: (a) Bezugsrahmen je Element richtig wählen (Reiterleiste/Kopf gehören zum Hauptfenster inkl. Rand; Grenze
+            = sichtbarer Rahmen des AHSentinel-Fensters, nicht der Inhaltsbereich); unsichtbare/leere Rahmen (Alpha 0, keine
+            Fläche) nicht prüfen. (b) Bericht: ZUERST Zusammenfassung je Art und Ansicht (z. B. "ragt heraus 120 · abgeschnitten
+            80 · überlappt 60 · ohne Funktion 9" und "Kaufen > Sniper: 12 …"), dann ALLE Befunde vollständig (eigener Abschnitt
+            "UI-BEFUNDE", eine Zeile je Befund, gleiche Befunde in Klassisch/Modern/100/130 % zusammengefasst mit Zähler).
+            (c) Selbsttest: bekannte gute Ansicht -> 0 Befunde; absichtlich überlappende -> erkannt. Dann neu laufen lassen.
+    TB182-2 HOCH (zu SN-B10/SN-B8, Gold): SK1-e Tagesbilanz 15.11.: Handel −10g48s10 gemessen, gebucht −18g15s65 -> Lücke
+            +7g67s55 (11,6 % vom Umsatz, Ziel ≤ 1 %); nach Kanal: AH −25g15s37, Post +7g69s08, Händler +6g98s19. Es ist MEHR
+            Ausgabe gebucht als Gold weg ist – passt zu doppelt/zu früh gebuchten Sniper-Käufen (SN-B10: "aufgebraucht" bei
+            26 Stück). SK1-c AH 9 Abweichungen (z. B. 15.11. 09:01 Gold −3s98, gebucht 0). In SN-B10 mitlösen und belegen:
+            nach dem Fix Lücke 15.11.-Fälle erklärt (je Buchung: Sniper-Kauf gebucht / Gold-Abgang).
+    TB182-3 HOCH (Buchhaltung): "Reparatur Fehlbestand ausgebucht" 15.11. 10:21 (0.65.180): 384 × Item 6338, 362 × Item 6450,
+            493 × Item 6217 (Einstand 1g36s43 / 7g09s20 / 2s00 = 8g47s63) – automatisch ausgebucht. 1239 Stück dieser Items hat
+            der Nutzer kaum je besessen -> woher kam der gebuchte Bestand (Herkunft je Buchung zeigen)? Zusammen mit SK1-m
+            "Herstellen ohne Rezept: Zauber 836 / 3909" (236 Abweichungen) prüfen: wird ein Zauber, der kein Herstellen ist,
+            als Herstellung gebucht (Ware ein/aus)? Ausbuchungen dieser Grösse nie still – im Bericht und als Hinweis an den
+            Spieler ("x Stück ausgebucht, Grund …"). Ziel: Gewinn/Lager nur aus echten Vorgängen.
+    TB182-4 MITTEL: SK1-f Item 10940 Lager 45, vorhanden 0 (BH-AUS-3) – seit Tagen offen; Grund belegen oder ausbuchen mit Hinweis.
+    TB182-5 Hinweis: SK1-h Speicher nach Vollscan 10:19 +114 MB (471 -> 585 MB), längster Frame 5,5 ms OK – im Auge behalten
+            (Ruckeln zurückgestellt, RUCKEL-1).
 MAIL-1 HOCH (Nutzer 11:55, 2 Screenshots Briefkasten, 0.65.182): Erster Klick holt 2 Items (5 Splitter, 1 Schultern), dann
     4× "Keine Auktionspost zum Abholen." (Chat + Bildschirmmitte) – im Posteingang liegt aber noch "Auktionshaus der Horde –
     Rufe Daten ab" (Symbol mit 9). Ursache (Code Mailer.lua:116 NextMail/IsAuctionMail, Supervisor): Solange der Server die
