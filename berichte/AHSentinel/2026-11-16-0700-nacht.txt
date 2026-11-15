@@ -1,0 +1,53 @@
+AHSentinel – Nacht 15./16.11.2026 (Nacht-Arbeit nach masterplan-ahsentinel.txt Abschnitt D und PRIO-JETZT-Liste)
+Stand: 15.11.2026 19:52 (Zwischenstand – wird bis 07:00 fortgeschrieben)
+Alle Versionen: GitHub-Release + Discord (announce/). KEIN CurseForge (erst nach der Sniper-Abnahme). Jede Version "umgesetzt,
+zur Prüfung", Bericht je Version in berichte/AHSentinel/.
+
+VERSIONEN DER NACHT (je ein Satz)
+  0.65.197 SN-RUHE1: Ruhemodus beim Snipen (Hintergrund-Rechnungen pausieren, nur der Sniper sucht, kalte Ziele seltener).
+  0.65.198 KERN-T1: fremde Auktionen aus zwei Vollscans als Fälle für den Rechenkern; Gilden-Teilen der Kern-Werte.
+  0.65.199 MN1–MN5 + DE-AUFT1: Marktdaten-Netz angebunden (Feed noch aus); Entzauber-Einstand nach erwartetem Wert.
+  0.65.200 GSL4-1, GSL3-1..3, TB196-1..3, NP152-3: Code 10 trotz Kauf kein Fehler, 0,3 s Kaufpause, Spieler-Pause 30 s.
+  0.65.201 TB181-4/TB181-3: Abbrechen-Knopf bei Preis "?" prüft zuerst, Fusszeile nur gefiltert.
+  0.65.202 VK-P1: Warnung "unter dem Entzauberwert", Verlust-Satz, Mindestpreis nach oben gerundet.
+  0.65.203 TT-DE2: Entzauber-Tooltip mit "bei dir (n)" (eigene Ergebnisse) und "Ø je Entzauberung netto".
+  0.65.204 MR2 Mein Lager: Taschen, Bank, Post, Auktionen aller Figuren mit Wert, Herkunft und einem Knopf.
+  0.65.205 RK3: Berufsfenster "kein Gewinn – Zutaten roh verkaufen (+y)".
+  0.65.206 RK4: Wege abwählbar, Verzauberkunst über alle Figuren; Fehler behoben: ohne "Lohnt bis" nie Netto als Ersatz-Grenze.
+  0.65.207 POST-BLOCK1 + GSL6-1: Meldung bei gesperrtem Einstellen (Diagnose POST-BLOCKED); Ruhemodus auch für begonnene Aufgaben.
+  0.65.208 SN-BTN1: Haupt-Knopf "Kaufen" (ein Klick ein Kauf, Ware zwei Schritte), Einstellung "Kaufen mit".
+  0.65.209 GSL6-2: Liste vom Server nach dem Kauf sofort ausgewertet; Messwert "Bestätigung -> nächster Kauf".
+  0.65.210 ESL1 + DE-WIN1: Einkaufsliste aus dem Berufsfenster repariert; Entzauber-Fenster nennt Gründe und zeichnet neu.
+  0.65.211 GSL7-1 + GSL5-4 (+ GSL5-5 Diagnose, GSL6-3 Beleg): Code 4 dem jüngsten Kauf; "Treffer!" vor "Kauf bestätigt".
+  0.65.212 SN-SCAN1: Sniper-Knopf während des Vollscans gesperrt; Verkaufen-Prüfungen ohne Klick warten im Ruhemodus (60 s / 30 s).
+  0.65.213 RK5: Risiko-Wahl vorsichtig/normal/mutig (nur Sicherheitsmarge).
+  0.65.214 GSL8-1: höchstens 200 neue Item-Anfragen je Sekunde (Ruckeln nach dem Vollscan).
+  0.65.215 WS-LOOP1 + POST-BLOCK1 Warnschutz: "Preis anpassen" ohne Endlosschleife, "Trotzdem einstellen" stellt zuerst ein.
+  0.65.216 RK7: Budget-Verteilung in "Heute tun" nach Gold je Tag je 1g × Sicherheit; Feed-Messung (bleibt aus, 6,3 MB > 4 MB).
+WEITERE
+
+TESTS
+  Je Version: neue Prüfungen in der Testroutine (T789–T796) bzw. Szenarien in der Nachbildung (s204 … s215), mit der Vorversion rot
+  (Gegenprobe), Gesamtlauf aller Szenarien (Lua 5.1) ohne Rot ausser dem Test der jeweils nächsten Version; bekannte
+  CPU-Zeit-Messungen (s10_scan_smooth, T126) bei Rot einzeln 3× wiederholt (grün).
+
+OFFENE FRAGEN / ENTSCHEIDE
+  - RK5: beantwortet (18:39), umgesetzt in 0.65.213.
+  - Feed (Marktdaten-Netz): gemessen 6,3 MB Feed-Anteil > Grenze 4 MB -> bleibt aus; Entscheid v7 oder Grenze offen.
+  - RK7: Soll auch die ANZEIGE in "Heute tun" nach dem RK7-Rang sortiert werden (heute nur die Budget-Verteilung)?
+  - GSL6-2 Ursache der 1,28 s: Verdacht "eigene Suche belegt die Drossel" – Messwert jetzt im Sniper-Bericht.
+
+IM SPIEL PRÜFEN (in dieser Reihenfolge)
+  1. Einstellen über den Warnschutz: zu billig einstellen -> "Preis anpassen" -> Einstellen (keine zweite Warnung); dann
+     "Trotzdem einstellen" 5× mit Ware und Einzelstück. Falls gesperrt: Diagnose-Zeile POST-BLOCKED schicken.
+  2. Sniper-Knopf "Kaufen": Einzelstück ein Klick ein Kauf; Ware "Preis anfragen" -> "Kaufen bestätigen"; Aussehen der Zustände
+     (bereit / wartet / kein Treffer / gekauft); Einstellung "nur Knopf" (Mausrad frei).
+  3. Vollscan starten, während des Scans Sniper-Knopf an/aus (gesperrt, Restzeit im Tooltip); nach dem Scan sucht der Sniper sofort.
+  4. GSSniperLog 1.7 Protokoll mit Sniper: Zeilen "Bestätigung -> nächster Kauf", "Raste wartete auf Server", Code 4 nicht doppelt,
+     RUHE "liefen dabei (begonnen): keine", SCAN-START-Zeilen, ITEMINFO nach dem Vollscan (Ruckeln < 50 ms?).
+  5. Entzauber-Fenster nach einem Vollscan: nie leer ohne Grund; Zeile DE-LEER im Diagnose-Protokoll, falls leer.
+  6. Berufsfenster: "Materialien als Einkaufsliste" und "Nur was mir fehlt" -> Liste erscheint mit Einträgen.
+  7. Markt-Reiter "Mein Lager": Mengen (Taschen/Bank/Post/Auktionen), Wert, Knopf Einstellen -> Zeile in Heute.
+  8. Einstellungen: Wege (Entzaubern/Herstellen/Flippen/Händler) und Risiko (vorsichtig/normal/mutig) mit Beispiel im Tooltip.
+  9. Tooltip eines entzauberbaren Teils: Materialien "Vorgabe | bei dir (n)" und "Ø je Entzauberung … netto".
+ 10. Testroutine /ahs testroutine und /ahs testroutine ui laufen durch (ohne echte Käufe).
