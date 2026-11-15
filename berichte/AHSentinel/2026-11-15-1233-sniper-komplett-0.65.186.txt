@@ -1,0 +1,37 @@
+AHSentinel 0.65.186 – SNIPER-KOMPLETT (SN-B11 a–e, B10-Rest, B5, B6, B7, B8, T745) – umgesetzt, zur Prüfung
+CurseForge: nein (nächster Termin 18:00). GitHub-Release v0.65.186, Zip an den Nutzer; nicht in download/ (Workflow lädt
+sofort hoch). Enthält 0.65.183 (SN-B10), 0.65.184 (TB182-1, MAIL-1 – vor SNIPER-KOMPLETT gebaut), 0.65.185 (SN-B11 a–c).
+Messwerte aus echten Daten: keine (Sitzung hat keinen Spielzugang) – (a) liefert sie mit dem nächsten Sniper-Testbericht.
+
+SN-B11 (67 gesendet / 5 gekauft):
+ (e) Ursache BELEGT im Code (Befund Supervisor 12:20 bestätigt): FinishSearch baut neue Listings ohne "used"; ApplyDead übertrug
+     nur self.dead. -> nach jeder Suche wurde dasselbe gesendete Angebot wieder "kaufbar" und nochmals gesendet.
+     Fix: Sn:SentState(auctionID) aus itemCounted / offenen itemBuys / itemLate / sentIDs (Frist ITEM_LATE_MAX). ApplyDead und
+     PlanNext setzen solche Angebote auf used mit Status "gesendet" bzw. "gekauft"; nie zweimal dieselbe auctionID.
+     Test T754: gesendet -> neue Suche liefert dasselbe Angebot -> Plan nimmt das nächste (Status "gesendet"); nach
+     Bestätigung "gekauft".
+ (b) Nur EIN Einzelkauf offen: Sn:ItemGate – die Raste wartet auf Antwort oder höchstens ItemWaitMax (Median der gemessenen
+     Antwortzeiten + 0,5 s, 1–3 s, ohne Messung 1,5 s); dann Gold-Abgleich, der offene Kauf hält nicht mehr auf (zählt bis zur
+     Frist im Budget). Status "warte auf Antwort … (x s)". Waren unverändert (inFlight-Sperre SN-B4).
+     Test T753 (S-Takt): 60 Rasten in 20 s, Server nimmt nur nacheinander an, Antwort 0,4 s -> ≥ 90 % der gesendeten gekauft,
+     höchstens 1 offen, Zähler × Preis = Gold-Abgang, doppelt 0.
+ (a) Messung je gesendetem Kauf: offen beim Senden (0/1/≥2), doppelt gesendet, Antwort (Server/Gold/Fehler-Code/keine), Zeit;
+     Sniper-Bericht (oben): "Einzelkäufe: gesendet n · gekauft n · abgelehnt n · offen 0: ok/n (%) · offen 1 … · ≥2 … ·
+     Antwort … · doppelt gesendet n · Wartezeit x s". Protokoll KAUF "gesendet · Angebot … · offen n · DOPPELT".
+ (c) Anzeige: "5/1000 gekauft · 1 wartet auf Antwort · Rest 9g60" statt "(+67 gesendet)" / "Budget übrig …" (abgeschnitten).
+ (d) Abgelehnt (modern, Fehler ohne Angebot): Angebot nur in dieser Liste "weg", nicht 10 Min. tot – die nächste Suche prüft neu.
+SN-B10-Rest: Kopf "gekauft + verpasst ≤ Treffer" (0.65.183), Zähler = Gold im Spiel bestätigt (12:03).
+SN-B5: S9 speichert den Max zur Planungszeit (l.planMax) und vergleicht damit – Max-Änderung während des Tests kein Befund mehr.
+SN-B6 Ursache BELEGT: Test S2 (T614) liess itemCounted["2"] 5 Min. stehen -> beim nächsten Lauf galt die Bestätigung von
+     Angebot 2 als "schon gezählt" -> 0/10. Fix: T614 startet mit leeren Listen (itemCounted/itemLate/goldLog/sentIDs/buyStat)
+     und stellt sie zurück; ebenso WithItemBuy (T610–T612, T752–T754). Echte Käufe waren nicht betroffen.
+SN-B7: Treffer "geleert" – Sn.result wird an 8 Stellen bewusst geleert (neu suchen, Ziel geändert/entfernt, Treffer weg, über
+     Max). Jetzt mit Zeitstempel clearedAt; S1 zählt bewusstes Leeren nicht als "ohne Grund verschwunden".
+SN-B8: S10 zieht Gold anderer im selben Fenster gezählter Käufe ab (Sn:SpentSince) und nennt die Summe; ein 1c-Testkauf mit
+     −13674 Gold zeigt damit, wie viel andere Käufe ausmachten. Verdacht (zu messen): offene Käufe aus der Sitzung davor.
+T745: Text-Prüfung jetzt unabhängig von Server-Bereitschaft/Budget (im Spiel war QueryReady falsch -> "Server noch nicht bereit").
+TB182-2 (Tageslücke 7g67): Verdacht, zu messen – doppelt gesendete Käufe (e) wurden im Ledger als Kauf vorgemerkt
+     (NotePurchase je Senden). Mit (e) und (b) entfällt das Doppel-Senden; bitte die nächste Tagesbilanz SK1-e ansehen.
+SN-B2/B4 (Preisprüfung kostet Zeit): unverändert, Zeiten je Abschnitt im S12 (seit 0.65.180).
+Gesamtlauf 252/252, addon_check OK. Abnahme A1–A6 bitte im Spiel (zuerst /ahs testroutine sniper, dann 2 Min. Mausrad Schultern).
+Neu gesehen: TB184, TB184-U3 (UI) – ruhen bis zur Sniper-Abnahme (SNIPER-KOMPLETT); TB184-U3 "oberste Prio neben Sniper" folgt als Nächstes.
