@@ -18,6 +18,11 @@ import discord
 
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, HERE)
+# D-2 (Bot 1.5.144): auch den Test-Ordner selbst, damit die REGRESSIONEN (test_*-Module) mit "python -I <Datei>" und
+# aus jedem Arbeitsordner gefunden werden – nicht nur über "unittest discover".
+TESTS = os.path.dirname(os.path.abspath(__file__))
+if TESTS not in sys.path:
+    sys.path.insert(0, TESTS)
 import member_area  # noqa: E402
 import raid_ready  # noqa: E402
 import raidmaster_data as rmd  # noqa: E402
