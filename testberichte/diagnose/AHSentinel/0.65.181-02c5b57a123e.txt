@@ -1,0 +1,226 @@
+AHSentinel-Protokoll v0.65.181 · 15.11. 11:31:20
+Client deDE · Interface 16001 · Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja
+Sitzungen: 20
+  15.11. 10:46:13 L10 ? v0.65.181
+  15.11. 10:30:30 L10 ? v0.65.180
+  15.11. 10:21:29 L10 ? v0.65.180
+  15.11. 07:35:34 L10 ? v0.65.180
+  15.11. 06:51:53 L10 ? v0.65.179
+  15.11. 00:22:48 L10 ? v0.65.176
+  14.11. 23:48:07 L10 ? v0.65.176
+  14.11. 18:50:14 L10 ? v0.65.175
+  14.11. 18:49:27 L10 ? v0.65.175
+  14.11. 18:10:39 L10 ? v0.65.174
+
+== Diagnose
+  Preisquelle: Markt-Scan vor vor 44 Min., 7034 Items, Preis-Sync an
+  SYNC GoldSentinelSync 2 · Wege: keiner · Mitspieler (1 Std.): AHSentinel 2, GoldSentinelMarkt 2, GoldSentinelTest 2, GuildSentinel 2, LevelPilot 1, LevelPilotG 1, ThreatSentinel 0
+  SYNC gesendet 462 · empfangen 82 · verworfen: 0 · Warteschlange 0 · Kanal verweigert 0
+  NETZ an · bekannt 4 (mit Sync 2: 4, pausiert 0) · gesendet 12 · weitergegeben 0 · offline 4 · Listen 10 · Warteschlange 0 · gespeichert ja
+  Fenster offen: Hauptfenster false, Auktionshaus false, Gewinn-Fenster false, Berufsfenster zu
+  Gewinn-Fenster angedockt an ProfessionsFrame (Versatz 59)
+  Einstellungen geändert: cmdHint=true, fastScan=true, helpSeen=true, marketExpert=false, priceGuard=20, sniperSignal=true, theme=modern, tooltipDEDetail=true, vendorButton=false, vendorFlipMin=500
+  Sprache: Client deDE, Addon deDE
+  Fehler in dieser Sitzung: 0
+
+== Einträge (200, neueste zuerst)
+[15.11. 11:26:12] SYNC gesendet 324, empfangen 2, verworfen 0 · Kanal verweigert 0
+[15.11. 11:21:29] ABBRECHEN AUCTION_CANCELED auctionID 103015748 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 11:16:12] SYNC gesendet 324, empfangen 0, verworfen 0 · Kanal verweigert 0
+[15.11. 11:10:32] ABBRECHEN AUCTION_CANCELED auctionID 102930773 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 11:09:57] ABBRECHEN AUCTION_CANCELED auctionID 102926903 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 11:06:12] SYNC gesendet 324, empfangen 0, verworfen 0 · Kanal verweigert 0
+[15.11. 11:01:06] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 29 ms
+[15.11. 11:01:02] DE-GEZÄHLT ×2 Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 11:00:56] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 28 ms
+[15.11. 11:00:54] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 11:00:49] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 11:00:46] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 34 ms
+[15.11. 11:00:45] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[15.11. 11:00:41] DE-GEZÄHLT ×2 Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 11:00:36] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 20 ms
+[15.11. 11:00:32] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[15.11. 11:00:28] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 11:00:26] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 28 ms
+[15.11. 11:00:24] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 11:00:20] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11084×1
+[15.11. 11:00:16] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser DATA_CHANGED · 28 ms
+[15.11. 11:00:16] DE-GEZÄHLT ×2 Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 11:00:08] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11084×1
+[15.11. 11:00:06] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 104 ms
+[15.11. 11:00:06] LANGSAM Hintergrund-Aufgabe craft-top · 0 Schritte · längster Schritt 15 ms bis Crafting.lua:585 · 16 ms
+[15.11. 11:00:06] LANGSAM Hintergrund-Aufgabe craft-top · 0 Schritte · längster Schritt 14 ms bis Crafting.lua:585 · 16 ms
+[15.11. 11:00:04] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11084×1
+[15.11. 11:00:00] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 11:00:00] ABSATZ-UNPLAUSIBEL Item 12207 · 859.1/Tag · Quelle geschätzt
+[15.11. 11:00:00] ABSATZ-UNPLAUSIBEL Item 7919 · 122.5/Tag · Quelle geschätzt
+[15.11. 11:00:00] ABSATZ-UNPLAUSIBEL Item 730 · 1096.2/Tag · Quelle geschätzt
+[15.11. 11:00:00] ABSATZ-UNPLAUSIBEL Item 5503 · 1318.8/Tag · Quelle geschätzt
+[15.11. 10:59:56] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser DATA_CHANGED · 31 ms
+[15.11. 10:59:56] DE-GEZÄHLT ×3 Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 10:59:46] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 30 ms
+[15.11. 10:59:43] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 10:58:10] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 72 ms
+[15.11. 10:58:07] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 10:58:03] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 10:58:00] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 35 ms
+[15.11. 10:57:58] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 10:57:50] AUFBAU ×7 Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 75 ms
+[15.11. 10:57:32] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 10:57:28] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 10:57:25] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 32 ms
+[15.11. 10:57:24] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 10:57:20] DE-GEZÄHLT ×2 Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 10:57:15] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 21 ms
+[15.11. 10:57:12] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11084×1
+[15.11. 10:57:07] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[15.11. 10:57:05] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 35 ms
+[15.11. 10:57:03] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 10:56:58] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[15.11. 10:56:55] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 31 ms
+[15.11. 10:56:54] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[15.11. 10:56:50] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 10:56:46] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 10:56:45] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 21 ms
+[15.11. 10:56:42] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 10:56:38] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 10:56:35] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 37 ms
+[15.11. 10:56:34] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 10:56:29] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 10:56:25] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11082×1
+[15.11. 10:56:25] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 47 ms
+[15.11. 10:56:21] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 10:56:12] SYNC gesendet 319, empfangen 0, verworfen 0 · Kanal verweigert 0
+[15.11. 10:55:10] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 68 ms
+[15.11. 10:55:06] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 10:55:02] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[15.11. 10:55:00] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 28 ms
+[15.11. 10:54:57] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 10:54:53] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[15.11. 10:54:50] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 31 ms
+[15.11. 10:54:49] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 10:54:45] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 10:54:41] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11082×2
+[15.11. 10:54:40] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 27 ms
+[15.11. 10:54:37] DE-GEZÄHLT ×2 Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 10:54:30] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 29 ms
+[15.11. 10:54:28] DE-GEZÄHLT ×2 Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 10:54:20] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 30 ms
+[15.11. 10:54:19] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 10:54:14] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11082×1
+[15.11. 10:54:10] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser DATA_CHANGED · 30 ms
+[15.11. 10:54:10] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 10:54:06] DE-GEZÄHLT ×2 Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 10:54:00] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 31 ms
+[15.11. 10:53:58] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 10:53:21] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 65 ms
+[15.11. 10:53:11] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser DATA_CHANGED · 66 ms
+[15.11. 10:53:11] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 10:53:07] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 10:53:03] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 10:53:01] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 31 ms
+[15.11. 10:52:57] ABSATZ Item 11083 · Q 274 (vollscan) · S 507.1 (measured) · S roh 507.1 · Deckel - · eigene Quote 25/27 · Laufzeit 24 Std. · W 0.5 · N 1.1
+[15.11. 10:52:57] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×1
+[15.11. 10:52:53] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11082×1
+[15.11. 10:52:51] AUFBAU Beste Rezepte (25 Rezepte) · Auslöser TRADE_SKILL_LIST_UPDATE · 31 ms
+[15.11. 10:52:50] ENTZAUBERWERT Item 6264 · eigene Ø aus 44 · 10940 77% × 4.97 à 90, 10998 11% × 1.40 à 460, 10978 11% × 1.00 à 355 · brutto 474 · netto 442
+[15.11. 10:52:50] DE-CHANCEN Gruppe 2:3:a · Tabelle 10940 75%/10998 20%/10978 5% · echt 10940 77%/10998 11%/10978 11% (44)
+[15.11. 10:52:50] ABSATZ Item 6264 · Q 33 (vollscan) · S 11.8 (market, gelernt) · S roh 32.0 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 2.9 · N 7.0
+[15.11. 10:52:50] ENTZAUBERWERT Item 16607 · eigene Ø aus 766 · 10940 79% × 1.50 à 90, 10938 21% × 1.56 à 111 · brutto 151 · netto 143
+[15.11. 10:52:50] ENTZAUBERWERT Item 4307 · eigene Ø aus 766 · 10940 79% × 1.50 à 90, 10938 21% × 1.56 à 111 · brutto 151 · netto 143
+[15.11. 10:52:50] ABSATZ Item 4307 · Q 30 (vollscan) · S 14.4 (measured) · S roh 14.4 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 2.2 · N 3.0
+[15.11. 10:52:50] ENTZAUBERWERT Item 4343 · eigene Ø aus 766 · 10940 79% × 1.50 à 90, 10938 21% × 1.56 à 111 · brutto 151 · netto 143
+[15.11. 10:52:50] DE-CHANCEN Gruppe 2:1:a · Tabelle 10940 80%/10938 20% · echt 10940 79%/10938 21% (766)
+[15.11. 10:52:50] ABSATZ Item 4343 · Q 25 (vollscan) · S 29.9 (measured) · S roh 29.9 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.9 · N 1.0
+[15.11. 10:52:50] ABSATZ Item 1378 · Q 5 (vollscan) · S 0.9 (market, gelernt) · S roh 2.5 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 6.4 · N 7.0
+[15.11. 10:52:49] DE-GEZÄHLT Item 4251 · Itemstufe 26 · Gruppe 2:4:a · Weg Fenster · Beute 11083×2
+[15.11. 10:52:47] ABSATZ-UNPLAUSIBEL Item 10046 · 7.3/Tag · Quelle geschätzt
+[15.11. 10:52:45] KLICK Entzaubern-Knopf -> Fenster offen ja
+[15.11. 10:52:44] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103896150 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:52:44] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103856554 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:52:44] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103895993 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:52:43] ABSATZ-UNPLAUSIBEL Item 4311 · 26.8/Tag · Quelle geschätzt
+[15.11. 10:52:43] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103820113 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:52:42] ABSATZ Item 118 · Q 150 (vollscan) · S 867.7 (measured) · S roh 867.7 · Deckel - · eigene Quote - · Laufzeit 24 Std. · W 0.2 · N 1.0
+[15.11. 10:52:41] ABSATZ Item 4245 · Q 76 (vollscan) · S 233.6 (measured) · S roh 233.6 · Deckel - · eigene Quote - · Laufzeit 2 Std. · W 0.3 · N 4.0
+[15.11. 10:52:33] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103859706 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:52:32] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103847921 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:52:32] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103853206 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:52:32] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103819178 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:52:23] RECHNUNG Item ? · Menge 3 (Feld 5 3, Feld 11 3) · Feld 4 4695 · consignment 234 · deposit 99 · Post-Gold 4560 · gesamt 4695 · Stück 1565 · Feld 4 = Gesamt: ja
+[15.11. 10:52:23] RECHNUNG Item ? · Menge 2 (Feld 5 2, Feld 11 2) · Feld 4 848 · consignment 42 · deposit 100 · Post-Gold 906 · gesamt 848 · Stück 424 · Feld 4 = Gesamt: ja
+[15.11. 10:52:22] RECHNUNG Item 11082 · Menge 3 (Feld 5 3, Feld 11 3) · Feld 4 4695 · consignment 234 · deposit 99 · Post-Gold 4560 · gesamt 4695 · Stück 1565 · Feld 4 = Gesamt: ja
+[15.11. 10:52:22] WERT Gruppe 7 · Item 11082 · vorhergesagt 0 · echt 1565 · Abweichung -100 %
+[15.11. 10:52:22] RECHNUNG Item 11083 · Menge 2 (Feld 5 2, Feld 11 2) · Feld 4 848 · consignment 42 · deposit 100 · Post-Gold 906 · gesamt 848 · Stück 424 · Feld 4 = Gesamt: ja
+[15.11. 10:52:22] WERT Gruppe 7 · Item 11083 · vorhergesagt 0 · echt 424 · Abweichung -100 %
+[15.11. 10:52:22] RECHNUNG-ROH 1=seller, 2=Seelenstaub, 4=848, 5=2, 6=100, 7=42, 8=0, 9=0, 10=0, 11=2, 12=false
+[15.11. 10:52:18] SNIPER Treffer 4 · gekauft 3, Fehler 1 · Ø Suche>Treffer 124 ms, Treffer>Reserv. 803 ms, Reserv.>bereit 0 ms, bereit>bestätigt 0 ms
+[15.11. 10:52:16] SNIPER-TOT-AUSGEBLENDET Item 4251 · Preis 914 · Einzelangebot · Grund Server: 10
+[15.11. 10:52:16] SNIPER-FEHLSCHLAG Item 4251 · Angebot 103860224 · Server: 10 · Server-Meldung 10 · Treffer vor 4407 ms
+[15.11. 10:52:14] ABBRECHEN AUCTION_CANCELED auctionID 103856554 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 10:52:13] ABBRECHEN AUCTION_CANCELED auctionID 103820113 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 10:52:13] ABBRECHEN AUCTION_CANCELED auctionID 103896185 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 10:52:10] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103860475 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:52:10] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103860566 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:52:09] SNIPER-BESTÄTIGT Item 4251 · Angebot 103856554 · über Gold (keine Antwort des Servers)
+[15.11. 10:52:09] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103853373 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:52:09] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103853206 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:52:09] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103819433 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:52:08] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103820113 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:52:08] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103852645 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:52:04] SNIPER-BESTÄTIGT Item 4251 · Angebot 103882550 · über Gold (Fehlermeldung gehörte nicht zu diesem Kauf)
+[15.11. 10:52:03] ABBRECHEN AUCTION_CANCELED auctionID 103859706 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 10:52:02] ABBRECHEN AUCTION_CANCELED auctionID 103847921 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 10:52:02] ABBRECHEN AUCTION_CANCELED auctionID 103819178 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 10:52:01] ABBRECHEN AUCTION_CANCELED auctionID 103860224 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 10:51:58] SNIPER-BUDGET aufgefüllt i:4251 +50000
+[15.11. 10:51:58] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103860475 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:57] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103860044 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:57] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103860566 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:56] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103860224 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:56] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103860383 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:55] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103820505 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:55] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103853206 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:55] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103819958 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:54] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103819433 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:54] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103820364 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:54] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103820113 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:53] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103847921 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:52] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103852553 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:52] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103848122 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:52] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103819178 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:51] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103880241 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:51] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103880372 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:51] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103880021 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:50] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103878467 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:50] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103879744 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:49] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103882216 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:49] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103881801 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:43] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103860224 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:42] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103819178 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:41] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103820113 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:41] ABBRECHEN AUCTION_CANCELED auctionID 103860475 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 10:51:40] ABBRECHEN AUCTION_CANCELED auctionID 103860566 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 10:51:39] ABBRECHEN AUCTION_CANCELED auctionID 103853373 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 10:51:39] ABBRECHEN AUCTION_CANCELED auctionID 103819433 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 10:51:38] ABBRECHEN AUCTION_CANCELED auctionID 103852645 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 10:51:38] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103852645 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:38] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103850365 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:37] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103849850 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:37] ABBRECHEN AUCTION_CANCELED auctionID 103882550 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 10:51:36] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103835301 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:36] SNIPER-UNBESTÄTIGT Item 4251 · Angebot 103835470 · keine Antwort in 30 s, Gold unverändert – vorerst nicht gezählt
+[15.11. 10:51:32] SNIPER-BESTÄTIGT Item 4251 · Angebot 103847921 · über Gold (Fehlermeldung gehörte nicht zu diesem Kauf)
+[15.11. 10:51:29] ABBRECHEN AUCTION_CANCELED auctionID 103856087 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 10:51:28] SNIPER-TOT-AUSGEBLENDET Item 4251 · Preis 900 · Einzelangebot · Grund Server: 10
+[15.11. 10:51:28] SNIPER-FEHLSCHLAG Item 4251 · Angebot 103880372 · Server: 10 · Server-Meldung 10 · Treffer vor 10271 ms
+[15.11. 10:51:28] ABBRECHEN AUCTION_CANCELED auctionID 103859784 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 10:51:27] ABBRECHEN AUCTION_CANCELED auctionID 103860044 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 10:51:27] ABBRECHEN AUCTION_CANCELED auctionID 103853291 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 10:51:26] ABBRECHEN AUCTION_CANCELED auctionID 103860383 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 10:51:26] ABBRECHEN AUCTION_CANCELED auctionID 103820505 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 10:51:25] SNIPER-TOT-AUSGEBLENDET Item 4251 · Preis 900 · Einzelangebot · Grund Server: 10
+[15.11. 10:51:25] SNIPER-FEHLSCHLAG Item 4251 · Angebot 103878467 · Server: 10 · Server-Meldung 10 · Treffer vor 6912 ms
+[15.11. 10:51:25] ABBRECHEN AUCTION_CANCELED auctionID 103819958 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 10:51:24] ABBRECHEN AUCTION_CANCELED auctionID 103820364 (erwartet nil) -> unerwartet, nichts geändert
+[15.11. 10:51:23] ABBRECHEN AUCTION_CANCELED auctionID 103853127 (erwartet nil) -> unerwartet, nichts geändert

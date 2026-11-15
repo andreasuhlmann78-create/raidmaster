@@ -1,0 +1,73 @@
+{
+ "addon": "LevelPilot",
+ "blocked": [],
+ "env": {
+  "build": "70938",
+  "class": "PRIEST",
+  "client": "1.60.1",
+  "flavor": "forever",
+  "gsgame": 3,
+  "interface": 16001,
+  "level": 10,
+  "locale": "deDE",
+  "project": 18,
+  "status": "Spielversion: WoW Forever (1.60.1, 16001) · API: modern (Kampf-Sperren) · Geschützte Werte: ja"
+ },
+ "f": 1,
+ "fest": [],
+ "id": "LevelPilot-wege-1794738680-5bc63c",
+ "kind": "wege",
+ "npc": [],
+ "time": 1794738680,
+ "version": "3.12.30",
+ "zones": [
+  {
+   "edges": [
+    {
+     "n": 2,
+     "p": [
+      55.6,
+      26.6,
+      55.7,
+      25.6,
+      55.9,
+      25.1,
+      56.1,
+      24.5,
+      56.3,
+      23.9,
+      56.5,
+      23.3,
+      56.8,
+      22.8,
+      57,
+      22.3,
+      57.3,
+      21.7,
+      57.5,
+      21.1,
+      57.7,
+      20.6,
+      58,
+      19.8,
+      58.4,
+      19.5,
+      58.8,
+      19.3,
+      59.3,
+      19.7,
+      59.7,
+      19.7,
+      60.2,
+      19.7,
+      60.8,
+      19.7
+     ],
+     "src": "geteilt"
+    }
+   ],
+   "map": 1424,
+   "name": "Vorgebirge von Hillsbrad"
+  }
+ ]
+}

@@ -159,9 +159,9 @@ Erzeugt von addon-check/wege_check.py. Koordinaten in Prozent der Zonenkarte.
 
 ## Vorgebirge von Hillsbrad (1424)
 
-- Wegstücke 112, Knoten 405, zusammenhängende Teile 2
+- Wegstücke 113, Knoten 415, zusammenhängende Teile 2
 - **Lücken:** das Netz zerfällt in getrennte Teile (Verbindung fehlt):
-  - Teil 1: 403 Knoten, Bereich 27–64 / 19–64
+  - Teil 1: 413 Knoten, Bereich 27–64 / 19–64
   - Teil 2: 2 Knoten, Bereich 63–64 / 39–39
 - **Ausreisser:** Wegstück 1: Sprung 5.2 % von 61.8,39.2 nach 62.0,34.0
 
