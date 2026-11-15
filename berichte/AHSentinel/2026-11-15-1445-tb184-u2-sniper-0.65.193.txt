@@ -1,0 +1,17 @@
+AHSentinel 0.65.193 – TB184-U2 Sniper-Teile (SNIPER-KOMPLETT A5) – umgesetzt, zur Prüfung
+CurseForge: nein (nächster Termin 18:00). GitHub-Release v0.65.193 und sofort im Discord; nicht in download/.
+Anlass: im Repo nichts Neues (14:36) -> nicht warten: Sniper-Teile aus TB184-U2 ("Sniper-Teile sofort in SNIPER-KOMPLETT A5").
+
+ - Platzhalter "Stufe ab"/"Stufe bis" abgeschnitten: Felder 50 -> 54 px (Filterreihe 426 von 446 px). UI:EditBox passt jetzt
+   jeden Platzhalter ein: ist er breiter als das Feld (Breite − 11 px), wird seine Schrift schrittweise kleiner bis 7 pt
+   (beim Zeigen des Felds, gilt für alle Eingabefelder; die Schrift der Eingabe selbst bleibt). Längster Text "Nivel hasta"
+   (esES, 11 Zeichen) passt bei 7 pt in 43 px. Verdacht, zu messen: in koKR/zhCN abhängig von der Schrift – UI-Prüfung
+   (/ahs testroutine ui) zeigt es mit Pixeln.
+ - "Preisverlauf"-Knopf überlagert "402 Einträge": die Zeile "n Einträge" sitzt über der rechten oberen Ecke der Tabelle
+   (UI:Table scrollText, BOTTOMRIGHT an TOPRIGHT +3); Knöpfe -46..-70, Tabelle ab -80 -> Text -77..-65 = 5 px Überlappung in
+   der Höhe; seitlich, wenn der rechte Bereich schmal ist (im Auktionshaus, 130 %). Jetzt Knöpfe -44..-68, Tabelle ab -84 ->
+   Text -81..-69: kein Überlappen in der Höhe mehr.
+ - "X ragt aus dem Knopf": ohne die Pixel-Angabe der neuen UI-Prüfung (TB184-U1) nicht eindeutig, welches "X" (Löschen-Knopf
+   der Eingabe 24 px oder Abbrechen-Knopf der Zielzeile 26 px). Bitte /ahs testroutine ui laufen lassen – der Befund nennt
+   jetzt Pfad, Grösse und Pixel.
+Gesamtlauf 255/255, addon_check OK. Release v0.65.193 = geprüfter Stand, Discord sofort.
