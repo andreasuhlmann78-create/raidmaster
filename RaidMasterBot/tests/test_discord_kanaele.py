@@ -18,6 +18,13 @@ def src(name="bot.py"):
         return f.read()
 
 
+def alle():
+    """bot.py und alle Bot-Module (D-3: Code wandert schrittweise aus bot.py in Module)."""
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import bot_quelle
+    return bot_quelle.alle()
+
+
 class Named:
     def __init__(self, name, cid):
         self.name, self.id = name, cid
@@ -34,7 +41,7 @@ class AHSentinelChannel(unittest.TestCase):
         self.assertIsNone(server_setup.find_channel([Named("allgemein", 3)], "ahsentinel"))
 
     def test_bot_postet_ahsentinel_nach_ahsentinel(self):
-        s = src()
+        s = alle()                 # D-3 Schritt 18: steht in ankuendigung_bot.py (repair_… in bot.py)
         block = s[s.index("EXTRA_ADDONS = {"):s.index("async def extra_channel")]
         self.assertIn('"channel_name": "ahsentinel"', block)
         self.assertNotIn('"channel_name": "aktionshaus"', block)
@@ -49,12 +56,12 @@ class AHSentinelChannel(unittest.TestCase):
         self.assertNotIn('("aktionshaus_channel_id", "aktionshaus")', src("server_setup.py"))
 
     def test_alte_aktionshaus_dateien_nicht_posten(self):
-        s = src()
+        s = alle()                 # D-3 Schritt 18: steht in ankuendigung_bot.py (repair_… in bot.py)
         line = next(l for l in s.splitlines() if l.startswith("ANNOUNCE_CHANNELS = "))
         self.assertNotIn("aktionshaus", line)
 
     def test_vorstellung_nie_als_fortsetzung_geloescht(self):
-        s = src()
+        s = alle()                 # D-3 Schritt 18: steht in ankuendigung_bot.py (repair_… in bot.py)
         body = s[s.index("async def remove_old_releases"):s.index("async def remove_old_releases") + 2600]
         self.assertIn("announced_ids", body)
         self.assertIn("m.id in announced_ids", body)

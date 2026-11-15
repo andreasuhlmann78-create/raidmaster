@@ -60,7 +60,8 @@ class Lade(unittest.TestCase):
             importlib.import_module(name[:-3])
         from bot_harness import load_bot                    # bot.py selbst über die Attrappen-config
         b, _ = load_bot()
-        self.assertTrue(hasattr(b, "zip_addon_info"))           # aus bot_hilfen übernommen
+        import bot_hilfen                                   # aus bot_hilfen übernommen (D-3 Schritt 1)
+        self.assertIs(b.raid_view, bot_hilfen.raid_view)
         import kern
         self.assertIs(b.cfg, kern.cfg)                           # D-3 Schritt 2: dieselben Objekte, nur einmal
         self.assertIs(b.state, kern.state)
@@ -137,6 +138,10 @@ class Lade(unittest.TestCase):
         self.assertIs(mitglieder_bot.bot, b.bot)                 # D-3 Schritt 17: Mitglieder-Bereich
         self.assertIs(b.maintain_member_area, mitglieder_bot.maintain_member_area)
         self.assertIs(mitglieder_bot.ensure_welcome, willkommen_bot.ensure_welcome)
+        import ankuendigung_bot
+        self.assertIs(ankuendigung_bot.bot, b.bot)               # D-3 Schritt 18: Addon-Versionen, Ankündigungen
+        self.assertIs(b.check_addon_release, ankuendigung_bot.check_addon_release)
+        self.assertEqual(ankuendigung_bot.ADDON_DIR, kern.ADDON_DIR)
         self.assertIs(b.NO_PING, grund.NO_PING)
 
     def test_findet_fehlenden_namen(self):
