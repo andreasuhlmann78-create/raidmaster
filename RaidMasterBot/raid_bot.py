@@ -25,6 +25,7 @@ from discord.ext import tasks
 
 import grund
 import mc_tactics
+import member_area
 import raid_post
 import raidmaster_data as rmd
 import server_setup
@@ -520,6 +521,54 @@ async def raid_tactics(inter: discord.Interaction, raid: str = ""):
         await inter.followup.send(f"Posten fehlgeschlagen: {e}", ephemeral=True)
         return
     await inter.followup.send(f"Taktik in {channel.mention} gepostet ({n} Beiträge).", ephemeral=True)
+
+
+def missing_members(members, signups: dict) -> list[str]:
+    """D-N1 (ab Bot 1.5.183): Gildenmitglieder (Rolle Mitglied, Raider, Raidleitung oder Offizier; keine Bots) ohne
+    jede Rückmeldung (angemeldet, Ersatzbank, vielleicht, abgemeldet) zu einem Raid – sortiert nach Anzeigename."""
+    roles = {n.lower() for n in member_area.MEMBER_ROLES}
+    out = []
+    for m in members:
+        if m.bot or str(m.id) in signups:
+            continue
+        if any(r.name.lower() in roles for r in m.roles):
+            out.append(m.display_name)
+    return sorted(out, key=str.lower)
+
+
+@raid_group.command(name="fehlend", description="Wer aus der Gilde hat sich zu einem Raid noch nicht gemeldet? (Offiziere)")
+@app_commands.describe(raid="Welcher Raid?")
+@app_commands.autocomplete(raid=raid_autocomplete)
+async def raid_missing(inter: discord.Interaction, raid: str):
+    """Nur für die Gildenleitung sichtbar (ephemeral); der Bot schreibt niemanden an."""
+    if not is_creator(inter.user):
+        await inter.response.send_message("Das dürfen nur der Gildenchef und die Offiziere.", ephemeral=True)
+        return
+    r = book.get(raid)
+    if not r:
+        await inter.response.send_message("Raid nicht gefunden.", ephemeral=True)
+        return
+    guild = inter.guild or bot_guild()
+    if guild is None or not bot.intents.members:
+        await inter.response.send_message(
+            "Dafür braucht der Bot die Mitgliederliste: im Discord-Entwicklerportal unter Bot → Privileged Gateway "
+            "Intents den **Server Members Intent** einschalten und den Bot neu starten.", ephemeral=True)
+        return
+    names = missing_members(guild.members, r["signups"])
+    if not names:
+        await inter.response.send_message(f"Zu **{r['title']}** haben sich alle Gildenmitglieder gemeldet. ✅",
+                                          ephemeral=True)
+        return
+    text = f"**{r['title']}** – noch keine Rückmeldung von {len(names)} Mitgliedern:\n"
+    shown = 0
+    for n in names:
+        if len(text) + len(n) + 40 > 1900:
+            break
+        text += f"• {n}\n"
+        shown += 1
+    if shown < len(names):
+        text += f"… und {len(names) - shown} weitere."
+    await inter.response.send_message(text, ephemeral=True)
 
 
 bot.tree.add_command(raid_group)

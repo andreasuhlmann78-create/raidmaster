@@ -76,6 +76,34 @@ async def dkp_cmd(inter: discord.Interaction, name: str | None = None):
     await inter.response.send_message("\n".join(lines), ephemeral=True)
 
 
+
+@bot.tree.command(name="anwesenheit", description="Wie oft war ein Charakter bei den letzten Raids dabei?")
+@app_commands.describe(name="Charaktername (leer = dein eigener)")
+async def attendance_cmd(inter: discord.Interaction, name: str | None = None):
+    """D-N1 (ab Bot 1.5.183): Teilnahme an den letzten Raidtagen – dieselbe Zählung wie für die Aufstellung
+    (rmd.attendance: aus dem Addon, sonst aus den Discord-Anmeldungen)."""
+    try:
+        await asyncio.to_thread(reload_dkp_if_needed)
+    except Exception:
+        log.exception("DKP-Datei konnte nicht gelesen werden")
+    if not name:
+        p = book.profile(inter.user.id)
+        if not p:
+            await inter.response.send_message("Gib einen Namen an oder lege mit `/charakter` deinen Charakter fest.",
+                                              ephemeral=True)
+            return
+        name = p["name"]
+    name = rmd.clean_name(name)
+    att, n, source = rmd.attendance(bot.dkp_data, book)
+    if not n:
+        await inter.response.send_message("Noch keine vergangenen Raids erfasst.", ephemeral=True)
+        return
+    days = round(att.get(name.lower(), 0) * n)
+    unit = "Raidtagen" if source == "Addon" else "Raids"
+    await inter.response.send_message(
+        f"**{name}** war bei **{days} von {n}** der letzten {unit} dabei ({round(100 * days / n)} %). "
+        f"Quelle: {'RaidMaster-Addon' if source == 'Addon' else 'Discord-Anmeldungen'}.", ephemeral=True)
+
 async def pool_autocomplete(inter: discord.Interaction, current: str) -> list[app_commands.Choice[str]]:
     keys = rmd.pool_list(bot.dkp_data or {})
     out = []

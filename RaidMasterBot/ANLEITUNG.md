@@ -530,12 +530,14 @@ Der Bot führt im Kanal **#gildenname** eine Abstimmung (fehlt der Kanal, legt e
 | `/raid erstellen` | Offiziere | Raid (DKP oder PUG) zur Anmeldung |
 | `/raid aufstellung` | Offiziere | Aufstellung + Gruppen posten |
 | `/raid liste`, `schliessen`, `oeffnen`, `absagen`, `export` | Offiziere | Raids verwalten |
+| `/raid fehlend` | Offiziere | Wer aus der Gilde hat sich zu einem Raid noch nicht gemeldet? (nur für dich sichtbar, schreibt niemanden an) |
 | `/raid taktik` | Offiziere | Taktik eines Raids (oder ohne Angabe: aller Raids) in die Taktik-Kanäle (#mc-taktik, #onyxia-taktik …) |
 | `/raid softres` | Offiziere | softres.it-Link eines PUG-Raids setzen/ändern |
 | `/addon` | alle | Download-Link der aktuellen Addon-Version |
 | `/addon-hochladen` | Admins | Addon-ZIP hochladen (RaidMaster → #raid-addon, AHSentinel → #ahsentinel) |
 | `/charakter` | alle | Charakter und Rolle festlegen |
 | `/dkp`, `/dkpliste` | alle | DKP abfragen |
+| `/anwesenheit` | alle | Wie oft war ein Charakter bei den letzten Raids dabei? |
 | `/raidmaster-status` | Offiziere | Version, Uploads, Datenstand |
 | `/raidmaster-einrichten` | Admins | Server einrichten/ergänzen |
 | `/uploader` | Admins | Uploader-Programm + Einrichtungsdatei (Webhooks für #bot-daten und #testberichte) per Direktnachricht (`nur_programm`: nur das Programm) |

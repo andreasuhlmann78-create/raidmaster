@@ -395,6 +395,7 @@ REGRESSIONEN = {
     "T-D3-ANMELDUNG": ("test_anmeldung_bot", "Anmeldung", "test_verteilung"),
     "T-D3-UPLOAD": ("test_upload_bot", "Empfang", "test_echte_daten_abgelegt_und_verarbeitet"),
     "T-D3-EINRICHTEN": ("test_einrichten_bot", "Einrichten", "test_ablauf_und_bericht_in_teilen"),
+    "T-D-N1": ("test_dn1", "Fehlend", "test_nur_ohne_rueckmeldung"),
     "T-D3-BEFEHLE": ("test_befehle_liste", "BefehleListe", "test_gleiche_befehle"),
     "T-D-MN8b": ("test_market", "BotAblauf", "test_T_D_MN8b_aenderung_erst_nach_senden_merken"),
     "T-D-GS1b": ("test_market", "BotAblauf", "test_T_D_GS1b_grosse_guildsentinel_datei"),
