@@ -137,7 +137,7 @@ ACHTUNG (16:05 festgestellt): "Server bereit" wurde in 1.2 im Nach-Hook gelesen 
 - MINUTE: Rasten ohne Kauf nach Sniper-Status zur Zeit der Raste; Suchen je Item mit/ohne Treffer ≤ Max.
 Tests: 8 Szenario-Läufe + 5 Zufallsläufe à 20000 Ereignisse, 148/148 OK, 5× wiederholt, 0,03 ms je Ereignis.
 
-### GSSniperLog 1.4 (15.11. 16:55, aus Protokoll 3 von 16:45)
+### GSSniperLog 1.4 (15.11. 16:50, aus Protokoll 3 von 16:45)
 - Fehler in 1.2/1.3: "Rasten 0" trotz 14 Käufen. AHSentinel kauft bei Mausrad über seinen Fenstern über Sn:WheelBuy
   (OnMouseWheel von AHAnalyzerProWindow, AHAnalyzerProAHPanel und den Tabellen), nicht über die Auslöse-Knöpfe.
   1.4 hört zusätzlich OnMouseWheel aller AHSentinel-Fenster mit (HookScript, auch verschachtelte Tabellen, neue werden
