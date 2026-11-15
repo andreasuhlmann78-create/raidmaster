@@ -48,7 +48,7 @@ class Dkp(unittest.TestCase):
     def test_gleiche_funktionen_in_bot(self):
         for name in ("dkp_channel_for", "dkp_list_messages", "post_dkp_tables", "post_raid_summaries", "remove_overall"):
             self.assertIs(getattr(self.bot, name), getattr(self.m, name), name)
-        self.assertIs(self.bot.send_test, sys.modules["testdaten_bot"].send_test)
+        self.assertIs(sys.modules["testupload_bot"].send_test, sys.modules["testdaten_bot"].send_test)
 
     def test_kanal_je_pool(self):
         c = self.m.cfg

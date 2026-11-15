@@ -186,7 +186,11 @@ class Lade(unittest.TestCase):
         self.assertIs(dkp_tafel_bot.bot, b.bot)                  # D-3 Schritt 26: DKP-Tabellen, Testdaten
         self.assertIs(b.post_dkp_tables, dkp_tafel_bot.post_dkp_tables)
         self.assertIs(dkp_tafel_bot.send_test, testdaten_bot.send_test)
-        self.assertIs(b.send_test, testdaten_bot.send_test)
+        import testupload_bot
+        self.assertIs(testupload_bot.bot, b.bot)                 # D-3 Schritt 29: Testmodus
+        self.assertIs(testupload_bot.send_test, testdaten_bot.send_test)
+        self.assertIs(b.handle_test_upload, testupload_bot.handle_test_upload)
+        self.assertIs(b.test_cleanup_loop, testupload_bot.test_cleanup_loop)
         import update_bot
         for mod in (pug_bot, betrieb_bot, update_bot):                # D-3 Schritt 19: Neustart nur in grund.py
             self.assertIs(mod.restart_soon, grund.restart_soon, mod.__name__)
