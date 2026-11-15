@@ -62,6 +62,24 @@
 >>>       ein Satz, Tests, offene Fragen, und die Liste "Im Spiel prüfen" (kurz, in der Reihenfolge, in der der Nutzer sie tun soll).
 >>>    Der Block NACHT-ARBEIT vom 14.11. weiter unten ist ÜBERHOLT (alte Reihenfolge).
 
+>>> POST-BLOCK1 HOCH – SPIELER-MELDUNG (fremder Spieler, über den Nutzer 18:25): "error when posting item
+    1x [ADDON_ACTION_BLOCKED] AddOn 'AHSentinel' tried to call the protected function 'UNKNOWN()'.
+    [!BugGrabber/BugGrabber.lua]:554: in function '?'"  – Version des Spielers unbekannt (CurseForge = 0.65.178?).
+    Einstellen ist für den Spieler blockiert = Kernfunktion kaputt. Supervisor-Code-Sicht (0.65.202): Se:Post ruft
+    pcall(C.PostItem/C.PostCommodity, …) (Seller.lua 1013/1020); Aufrufer Knopf Einstellen, Warnschutz "Trotzdem einstellen"
+    (UI_Sell.lua 699), Serie (BatchStep, UI_Sell.lua 75), Neu einstellen (Extras.lua 357), Heute tun (Today.lua 266/429/432) –
+    alle über Klick; kein Timer gefunden. "UNKNOWN()" = Aufruf über eine lokale Referenz ohne Hardware-Ereignis ODER verseuchter
+    (tainted) Aufrufpfad. Zu tun (vor Phase-4-Arbeit, nach laufender Version):
+    (a) JEDEN Weg zu PostItem/PostCommodity belegen: kommt er direkt aus einem Klick/Tastendruck des Spielers (nicht aus
+        C_Timer, OnUpdate, Ereignis, Rückfrage nach Wartezeit, Mausrad, Enter in einem Eingabefeld ohne Klick)? Liste im Bericht.
+    (b) Prüfen, ob ein Knopf seine Aktion verzögert (z. B. erst Preisprüfung/Anfrage, dann Post im Antwort-Ereignis) – das wäre
+        ohne Hardware-Ereignis und genau dieser Fehler. Dann: Post nur beim nächsten Klick ("nochmal klicken"), nie automatisch.
+    (c) Das Ereignis ADDON_ACTION_BLOCKED mit Funktionsname auch beim Einstellen auswerten (wie beim Sniper): Meldung an den
+        Spieler "Einstellen braucht einen Klick – bitte nochmal auf Einstellen klicken" statt stillem Fehler; Diagnose-Zeile
+        POST-BLOCKED mit dem letzten Post-Weg (Knopf/Serie/Heute/Warnschutz) und Version.
+    (d) Test in der Nachbildung: jeder Post-Weg mit und ohne Hardware-Ereignis (wowsim kann das Ereignis nachbilden?) – sonst
+        Code-Beleg je Weg. Bericht "umgesetzt, zur Prüfung". Der Supervisor fragt den Spieler nach Version, Weg und vollem Fehlertext.
+
 >>> GSL5 – PROTOKOLL 5 (GSSniperLog 1.5, Nutzer 17:20–18:14, AHS 0.65.201; Supervisor 18:23). Masterplan Phase 1.2/1.4.
     ABNAHME A1 (Ausrüstung, ≥ 2 Min. Mausrad) – BESTANDEN, nachgerechnet 18:09–18:11: 25 Käufe gesendet, 24 bestätigt (96 % ≥ 80 %),
     Zähler = Gold-Abgang = bestätigt je Minute exakt (19 / 1g64s50 · 4 / 35s27 · 1 / 8s27), nie über Max (8s27–9s00 bei Max 9s14),
