@@ -107,6 +107,12 @@ class Lade(unittest.TestCase):
         self.assertIs(regeln_bot.bot, b.bot)                     # D-3 Schritt 11: Regeln
         self.assertIs(b.ensure_guild_rules, regeln_bot.ensure_guild_rules)
         self.assertIs(regeln_bot.post_guild_bank, bank_bot.post_guild_bank)
+        import beute_bot
+        self.assertIs(beute_bot.bot, b.bot)                      # D-3 Schritt 12: Beute-Datenbank
+        self.assertIs(b.update_lootdb, beute_bot.update_lootdb)
+        self.assertIs(beute_bot.ensure_dkp_rules, regeln_bot.ensure_dkp_rules)
+        self.assertIs(b.raid_channel, grund.raid_channel)
+        self.assertIs(beute_bot.raid_channel, grund.raid_channel)
         self.assertIs(b.NO_PING, grund.NO_PING)
 
     def test_findet_fehlenden_namen(self):

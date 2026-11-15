@@ -362,6 +362,7 @@ REGRESSIONEN = {
     "T-UP-OFF-ABS": ("test_pn", "UploaderOffiziere", "test_absender_offizier_bekommt_nichts"),
     "T-D3-BANK": ("test_bank_bot", "Raidfaehigkeit", "test_nur_offiziere_und_je_einmal"),
     "T-D3-REGELN": ("test_regeln_bot", "Regeln", "test_dkp_regeln_einmal_dann_bearbeiten"),
+    "T-D3-BEUTE": ("test_beute_bot", "Beute", "test_beutetabelle_ersetzt_alte_nachrichten"),
     "T-D3-BEFEHLE": ("test_befehle_liste", "BefehleListe", "test_gleiche_befehle"),
     "T-D-MN8b": ("test_market", "BotAblauf", "test_T_D_MN8b_aenderung_erst_nach_senden_merken"),
     "T-D-GS1b": ("test_market", "BotAblauf", "test_T_D_GS1b_grosse_guildsentinel_datei"),
