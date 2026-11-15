@@ -95,6 +95,22 @@ WoW-Forever-Eigenheiten, die PS sichtbar führen muss (warcrafttavern Forever-Be
   REZEPTE (F4): die Sammlung: ein Filter-Feld (Auswahl: Alle / Gelernt / Lernbar / Fehlt) statt 4 Knöpfe + Haken; Gruppen nach
       Platz wie heute; Quelle als kleines Symbol (Lehrer/Händler/Drop/Quest/Händlergunst/Lager-Objekt). Händlergunst wird ein Filter
       "Händlergunst-Rezepte" + Abschnitt, nicht eine Ansicht.
+  NÄCHSTER LEHRER (Frage des Nutzers 19:37: "Wie löst du das, wenn jemand nicht weiss, wo der nächste Lehrer ist?"):
+      Heute (UI.lua RefreshTrainers ~2188) sind die Lehrer nur "freundlich zuerst, dann alphabetisch" sortiert – NICHT nach
+      Entfernung. Neu:
+      (a) "Nächster passender Lehrer" = Lehrer der nächsten Stufe, eigene Fraktion, nach Entfernung zum Spieler (gleicher
+          Kontinent über C_Map-Weltkoordinaten; sonst Hauptstadt der Fraktion zuerst). Anzeige: Name, Ort, "~300 Yards" bzw. "in
+          Unterstadt" – EINE Zeile im Skillen-Plan beim Schritt "Lehrer" und als Karte im Reiter Jetzt, sobald die Grenze nah ist
+          (z. B. 70/75, 145/150, 220/225) oder erreicht ("Grenze 150 erreicht – du skillst nicht weiter, bis du Experte lernst").
+      (b) Ein Knopf "Weg zeigen": TomTom -> Blizzard-Kartenpin -> Chat (Waypoint.lua, gibt es schon). Ist LevelPilot geladen:
+          Weg an LevelPilot übergeben (Navigation mit Pfeil, auch Stockwerke/Aufzüge) – Schnittstelle mit LevelPilot absprechen
+          (dort offen: UC-W1 Weg in Unterstadt).
+      (c) Auch die Stufen-Voraussetzung nennen: "Experte ab Stufe 20 (du: 18)" – kein Weg zum Lehrer, wenn man ihn noch gar nicht
+          lernen darf.
+      (d) Retail (keine Lehrer-Daten, ns.HasSourceData false): ehrlich sagen "Lehrer: in jeder Hauptstadt, Stadtwache fragen"
+          statt einer leeren Liste.
+      (e) Test: Spieler an drei Orten (Orgrimmar, Brachland, Unterstadt) -> jeweils der nächste freundliche Lehrer der richtigen
+          Stufe; Allianz-Gegenprobe; Grenze 150 erreicht -> Karte erscheint; Stufe zu niedrig -> Hinweis statt Weg.
   EINKAUF-LEISTE (F5): unten im Fenster, eingeklappt eine Zeile "Warteschlange 3 · fehlt: 12× Leinenstoff, 4× Faden"; aufgeklappt
       die Warteschlange und die EINE Einkaufsliste: je Material Bedarf, hab (Taschen/Bank/Twinks), Händler [Kaufen], AH [Sniper
       mit "Kauf bis"] (Ausbau B3). Nur Klicks des Spielers kaufen.
