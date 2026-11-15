@@ -1,0 +1,26 @@
+AHSentinel 0.65.232 – MR6 "Bevor du gehst" (Masterplan Phase 6) – umgesetzt, zur Prüfung
+CurseForge: nein. GitHub-Release v0.65.232 und sofort im Discord.
+
+UI_MarketView.lua MV:BeforeYouGo: aus "Mein Lager" (MV:BuildStock) drei Schritte:
+  1. verliert bis zum nächsten Login (Zeilen mit RK6-Hinweis Band fällt/Spitze): Anzahl und Σ Wert -> jetzt verkaufen/umwandeln;
+     sonst "Nichts verliert … (kein fallendes Band)".
+  2. einstellen (Taschen, bester Ausgang "Einstellen"): Anzahl, "mit 24 Std. Laufzeit", wenn das nächste Login > 1 Tag (MR7).
+  3. darf liegen bleiben: alle übrigen.
+  Knopf "Bevor du gehst" im Kopf des Markt-Reiters links neben der Suche; die Kopfzeile (Index, Rhythmus) endet davor (kein
+  Überlappen, s232 prüft die Lage).
+UI_Main.lua UI:ShowBeforeGo (Fenster mit den 3 Schritten, Knöpfe "Mein Lager"/"Schliessen") und UI:MaybeShowBeforeGo:
+  einmal je Sitzung beim Öffnen, wenn die übliche Spielzeit (MR8 Act:SessionLeft, nur gelernt) in ≤ 15 Min. endet (bis 30 Min.
+  danach); nie während der Testroutine, nicht zusammen mit "Seit deinem letzten Besuch". settings.beforeGoAuto = false schaltet
+  das automatische Fenster ab (noch ohne Optionen-Zeile – AUSLEGUNG: der Knopf bleibt immer).
+  Nur Anzeige – kein Kauf, kein Einstellen.
+Tests
+  - T808 (Testroutine M, eigene Lager-Zeilen über die eigene Funktion MV.BuildStock): 3 Zeilen; verliert 2 Items Wert 15s;
+    einstellen 1 Item mit 24 Std. (Login ~3 Tage); liegen 2; leeres Lager -> beide "nichts"-Sätze. Mit 0.65.231 rot.
+  - Szenario s232_mr6_before_go: Knopf da, links neben der Suche ohne Überlappung, Kopfzeile endet davor, Fenster mit 3
+    Schritten; 10 Min. vor Ende automatisch, nur einmal; 3 Std. vorher nicht. Dazu s225, s219, s2_tab_layout grün.
+  - Locales +8, CHANGELOG EN/DE.
+Gesamtlauf (frischer Klon, Kopie 0.65.232, s232 mit dieser Version ins Repo): BESTANDEN 281, FEHLGESCHLAGEN 0.
+ENTSCHEID S92 (22:33) in der Nachbildung umgesetzt (tests, Commit 557d92d): run_all.sh lässt s92 fest laufen (SIM_DET=1), ohne
+  Wiederholung; Grenze im festen Lauf 19 MB (ohne SIM_DET weiter 15 MB); s216 behält 2 von 3. Hinweis: bis 0.65.236 hat das
+  Addon die Naht noch nicht (kommt mit 0.65.237) – für 0.65.232–236 misst der "feste" Lauf darum noch mit echter Uhr
+  (0.65.232: 9 533 KB). Ab 0.65.237 fest (18 541 KB). S92-JOBS-Tabelle: kommt mit 0.65.239 (Messung + Senkung).
