@@ -41,6 +41,23 @@ IM BETRIEB PRÜFEN: nach /update erscheinen /pn und /uploader fuer:; PN kommt an
 (Nutzer hat /uploader fuer: um 12:2x für ein Mitglied benutzt – der Uploader des Mitglieds läuft, Abgleich "Stand 1" hochgeladen).
 Weiter nach PRIORITÄTEN: KEEP90, Betrieb, D-MN7c2, D-MN7e2.
 
+>>> NACHT-REIHENFOLGE (Supervisor 15.11. 20:10, Nutzer 20:06 "ich wecke noch Discord auf … RaidMaster ist auch involviert";
+    ersetzt die Liste PRIORITÄTEN vom 14.11.; Grundsatz Nutzen 19:58; Perfektion). Von oben nach unten, je Punkt eine Version + Bericht:
+  1. KEEP90 + D-KERN1 zusammen (MITTEL) – 90 Tage, Speichergrenze min(1 GB, 50 % frei), Bot misst Platz/Speicher selbst, dazu die
+     anonyme Tages-Zusammenfassung testberichte/markt/tages/<JJJJ-MM-TT>.json. NUTZEN: AHSentinel Phase 2 ("Gehirn") rechnet mit den
+     Daten ALLER Spieler statt nur den eigenen; der Server läuft nie voll. Hinweis: GoldSentinelMarkt v7 (shared/) ändert am
+     Export-Format nichts (byte-gleiche Zeilen, Export ≤ 1,5 MB < MAX_LINE 3 MB) – keine Anpassung im Bot nötig, bitte im Test belegen
+     (eine v7-Exportzeile aus shared/tests als Eingabe).
+  2. UP-404 (b)(c)(d) (MITTEL, gemeinsam mit RaidMaster/Uploader): Bot meldet beim Start, wenn er auf keinem Server ist oder Rechte
+     fehlen; Slash-Befehle bei on_guild_join neu anmelden; Rolle ohne Administrator. NUTZEN: nie wieder eine Nacht ohne Daten, ohne es
+     zu merken. Abstimmung: der Uploader zeigt bei 403/404 schon "Bot nicht auf dem Server" (2.3.10) – Wortlaut gleich halten, im
+     Bericht beide Meldungen nebeneinander zeigen. (a) Audit-Log nur Rolle/Grund, keine Namen.
+  3. D-MN7c2, D-MN7e2 (NIEDRIG) – Grenze gesamt je Stunde; market_catchup mit Fehlerbehandlung.
+  4. D-2 (NIEDRIG) – Testpfad im Test selbst setzen; danach alle Tests mit "python -I" grün.
+  5. D-3 (NIEDRIG, nur wenn 1–4 fertig) – bot.py (7325 Zeilen) in Module teilen, OHNE Verhaltensänderung: vorher/nachher alle
+     Tests grün, gleiche Slash-Befehle (Liste im Bericht), gleiche Texte. NUTZEN: weniger Fehler bei jeder künftigen Änderung.
+  Bei Fragen: berichte/Discord/*-frage-*.txt – der Supervisor antwortet in seiner 15-Minuten-Runde. Nicht warten: nächster Punkt.
+
 >>> NEU 19:59 (Idee/Befund Supervisor, Nacht-Analyse 15.11., freigegeben durch Nutzer 19:58 "alle Addons überarbeiten") – Einzelheiten: shared/wissen/analysen/discord-bot-2026-11-16.md
   D-2 NIEDRIG – tests/test_tu_umfassend.py setzt den Test-Ordner nicht selbst in den Suchpfad (mit "python -I" 26 Fehler). NUTZEN: ein
        gemeinsamer Testlauf aller Tests zeigt ehrlich grün/rot. Lösung: sys.path im Test setzen. Test: python -I test_tu_umfassend.py -> OK.
