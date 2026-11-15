@@ -1,0 +1,87 @@
+BERICHT PROFESSIONSENTINEL AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 20:55 · Sitzung: ProfessionSentinel-Sitzung · Version: 0.9.47 · Commit: f208757 (Quell-Repo), Release v0.9.47
+Grundlage: anweisung-ui-crafter-2026-11-15.txt Schritt (2), Nacht-Prüfung 20:45 (WEITER-Punkt, T143/T145), HINWEIS 20:15 (PS-DOCK1).
+Hinweis: Hier steht nur "umgesetzt, zur Prüfung" mit Belegen. Ob etwas erledigt ist, entscheidet die Prüf-Sitzung.
+
+UMFANG: Schritt (2) Teil 1. Was aus Schritt (2) noch fehlt, steht unten unter OFFEN (Teil 2 kommt als 0.9.48).
+
+UMGESETZT, ZUR PRÜFUNG
+----------------------
+1. Vier Reiter, eine Ebene (3.2, U-1): Jetzt · Skillen · Gold · Rezepte (UI.TAB_ORDER). Flache Reiter mit Akzentlinie (UI.FlatButton/
+   UI.SetSelected, Farbe wie AHS) statt UIPanelButtonTemplate und "> Gold <". Die Ansichten eines Reiters sind ein kleiner Umschalter
+   in derselben Zeile wie früher (flache Text-Chips, keine grauen Knöpfe): Skillen = Plan / Rangliste / Lehrer; Gold = Herstellen lohnt
+   / Verzauberer; Rezepte = Alle / Gelernt / Lernbar / Fehlt (+ Händlergunst in Forever). Jetzt hat keinen Umschalter und keine Suche.
+2. Reiter "Jetzt" (F1, Startseite, RefreshNow in UI.lua): höchstens drei Karten mit EINER Zahl, EINEM Satz, EINEM Klick:
+   - Nächster Skillpunkt: erster Schritt aus dem Skillplan (PL.Build, Zwischenspeicher), Zahl = Herstellungen bis zur nächsten Farbe
+     (Lifeline.Calc), Satz = "Material da" bzw. "fehlt: 2× Leinenstoff …" bzw. "noch nicht gelernt"; Klick = im Berufsfenster auswählen
+     (nicht gelernt: Reiter Skillen/Plan mit Lernort).
+   - Bestes Gold-Rezept jetzt: erster Eintrag aus Today.Candidates (gesichert, Zwischenspeicher PS-TC1), Zahl = Gewinn je Herstellung
+     (dieselbe Funktion Advisor.NetColored wie Reiter Gold), Klick = nächster Schritt (TD.Run).
+   - Rezept im AH: der günstigste Einzelfall aus dem Rezept-Alarm mit Figur und Preis (psychologie.md "Einzelfall statt Summe", P-4);
+     Klick = in den Sniper (höchstens dieser Preis). Die Summe steht nur noch als Zahl am Reiter Rezepte.
+   - Grenze (Forever/Era/TBC, nicht Retail): ab 5 Punkten vor 75/150/225 "Bald Grenze …", an der Grenze "Grenze 150 erreicht – du
+     skillst erst weiter, wenn du beim Lehrer die nächste Stufe lernst"; Klick = Lehrer-Ansicht. (Nächster Lehrer nach Entfernung:
+     Teil 2.)
+   - Abklingzeiten (GuildSentinel) als eine kleine Zeile. Nichts zu tun -> ein Satz mit dem Weg zu Skillen/Rezepte.
+   - Tooltips: je Karte ein Satz ≤ 20 Wörter (z. B. "Gewinn je Herstellung: Verkaufspreis nach 5 % Gebühr minus Material.").
+3. Öffnen mit dem Berufsfenster (3.1b): host OnShow -> UI:Show, wenn Einstellung "Mit dem Berufsfenster öffnen" an (Standard an,
+   db.autoOpen, /ps auto, Minimap-Optionen). Schliesst sich mit dem Berufsfenster (wie bisher). Das X schliesst nur für jetzt.
+   Knopf am Berufsfenster heisst "ProfessionSentinel" (3.4) und ist immer da (HINWEIS 20:15 PS-DOCK1: bringt das Panel zurück).
+   ProfessionSentinelAPI.IsEnabled() = false, wenn der Spieler das Öffnen abgeschaltet hat (dann zeigt AHS sein Fenster wieder).
+   Beim Testen gefunden und behoben: der erste Entwurf von UI.ToggleAutoOpen schaltete nicht wieder an (Lua "a and nil or b").
+4. Reiter je Beruf (3.1b): db.profTab[beruf] = zuletzt benutzter Reiter; beim Berufswechsel wird er wieder gewählt (UI.NoteProfession).
+   Kopfzeile immer Beruf + Fertigkeit ("Schneiderei 110/150 – Plan").
+5. Stil (3.1): dunkler flacher Hintergrund wie AHS (Standard), klassischer Blizzard-Stil als Einstellung (/ps stil, Minimap-Optionen).
+6. Rezepte-Filter (3.2, U-1): ein Umschalter statt 4 Knöpfe + Haken. Der Haken "Nur fehlende" ist entfernt: db.filters.missing wurde
+   in 0.9.46 nirgends mehr gelesen (UI.lua RefreshRecipes nutzt nur db.filters.show) – er war wirkungslos; der Filter "Fehlt" zeigt
+   genau das. Die Einstellung bleibt in den SavedVariables erhalten (nichts gelöscht).
+7. Händlergunst (Begriff 19:35): alle deutschen Texte, die nur "Gunst" sagten (8 Schlüssel), sagen jetzt "Händlergunst". T273 prüft
+   alle deDE-Texte.
+8. T143 (Nacht-Prüfung 20:45): Advisor-Schleifen geben jetzt auch in einer Hintergrund-Aufgabe ab (ns.Jobs.Yield); T143 misst
+   AD.Plan 1->300 wie im Panel in Portionen. Unter Lua 5.1: längste Portion ≤ 6 ms (vorher 16,7–20,6 ms am Stück) – OK in Forever
+   und Retail (--lua51).
+
+ABBILDUNG ALT -> NEU (3.6, je Zeile der Test)
+---------------------------------------------
+Rezepte-Liste -> Rezepte (T79, T81, T118) · Händlergunst -> Rezepte-Umschalter "Händlergunst" (T80, T118) · Plan -> Skillen/Plan
+(T80, T81, T118) · Rangliste -> Skillen/Rangliste (T80, T81) · Lehrer -> Skillen/Lehrer + Grenz-Karte Jetzt (T80, T272) · Herstellen
+lohnt -> Gold (T81, T118) · Verzauberer -> Gold/Verzauberer (T80, T118) · Heute herstellen -> Jetzt-Karte Gold + Gruppe in der
+Rangliste (T43, T45, T272) · Details -> Klick (T81) · Mengenfenster -> unverändert (T228–T238) · Rezept-Alarm -> Jetzt-Karte
+Einzelfall + Zahl am Reiter Rezepte (T272) · Kistenrechner -> Händlergunst-Ansicht (T80, T81) · Minimap, Befehle, Tooltip ->
+unverändert, neu /ps auto und /ps stil (T262–T264 Befehlstabelle, T273). T80 und T81 laufen über jede Ansicht (S.Modes, jetzt auch
+"Jetzt" und "Gold"). Kein Befehl und keine Einstellung fällt weg (filters.missing siehe 6).
+
+TESTS (eigene, Hinweise – keine Freigabe)
+-----------------------------------------
+- Neu: T272 (Jetzt: Karten, gleiche Zahl wie Heute herstellen, höchstens 3, Rezept im AH als EIN Einzelfall, Grenze soon/reached/
+  keine Karte an 300/Retail), T273 (Öffnen abschaltbar + IsEnabled, Knopf heisst ProfessionSentinel, Reiter je Beruf, Kopfzeile mit
+  Fertigkeit, dunkel/klassisch, kein "nur Gunst" in deDE). T118 neu: genau vier Reiter in der Reihenfolge, jede alte Ansicht markiert
+  genau ihren Reiter. Area K (nichts überlappt/abgeschnitten) läuft jetzt auch für die Ansichten "Jetzt" und "Gold" (S.Modes).
+- run_offline (LuaJIT): Forever OK 228 / FEHLER 0, Era OK 210 / 0, Retail OK 209 / 0, TBC ohne Lua-Fehler, Exit 0. T145 in allen
+  Läufen OK. --lua51: Forever nur T145 (+1131 KB; 0.9.45 +1524 KB), Retail 0 FEHLER. check_actions OK. Schnelltest Ausgang 0
+  (feste Liste um T272 ergänzt: liest die Listenzeilen wie T229/T231/T236–T244, die der einfache Mock nicht kann).
+- addon_check auf download/ProfessionSentinel-0.9.47.zip und announce-Zip: OK, 0 FEHLER, 0 WARNUNG. ZIP = Quell-Repo (diff -r leer).
+- Release-Text v0.9.47 jetzt zuerst Deutsch (release.yml aus 0.9.46).
+
+T145 (Nacht-Prüfung: "Ursache der +2 KB belegen")
+- Mit 0.9.47 liegt T145 unter LuaJIT in allen Läufen unter 1024 KB (OK); unter Lua 5.1 +1131 KB. Die Grundlast von rund 1 MB stammt
+  gemessen je Fall vor allem aus T86 (+518 KB), T246 (+486 KB), T130 (+217 KB), T260 (+198 KB) (Speicher vor/nach jedem Fall, 0.9.46).
+  Was davon bleibt (Zeilen-Pools, Fenster), ist noch nicht belegt – Verdacht, zu messen. Grenze nicht erhöht.
+
+IM CLIENT PRÜFEN (neu mit 0.9.47)
+---------------------------------
+- Berufsfenster öffnen -> PS-Fenster rechts daneben ohne Klick; X -> zu; Fenster zu/auf -> wieder da; /ps auto -> öffnet nicht mehr,
+  Knopf "ProfessionSentinel" öffnet trotzdem. Mit AHSentinel: kein AHS-Gewinn-Fenster, solange PS an ist.
+- Zwischen zwei Berufen wechseln: jeweils der zuletzt benutzte Reiter, Kopfzeile "Beruf Fertigkeit".
+- Reiter Jetzt: Karten lesbar, nichts abgeschnitten (deDE/enUS, 75 %/125 %); Klick auf Skill-Karte wählt das Rezept im Berufsfenster.
+- Dunkler Stil "elegant"? (Bild-Abnahme des Nutzers), /ps stil -> klassisch.
+
+OFFEN (Schritt 2, Teil 2 -> 0.9.48) und danach
+-----------------------------------------------
+- Zwischenspeicher je Beruf für den Wechsel ≤ 16 ms / sichtbarer Inhalt ≤ 0,2 s, "kein alter Inhalt sichtbar" (3.1b) – heute baut der
+  Wechsel in Portionen neu; Messung + Test folgen.
+- Nächster passender Lehrer nach Entfernung (a)–(e) mit "Weg zeigen" (TomTom/Karte/LevelPilot), Stufen-Voraussetzung, Retail-Satz.
+- Zeilen mit EINER Zahl je Reiter (3.3), Lebenslinien-Balken nur in Skillen, Herkunfts-Symbol nur in Rezepte; Skillen: Plan und
+  Rangliste zusammen ("billigster Weg / mit dem, was ich habe"); Gold: Verzauberer als Abschnitt statt Ansicht.
+- "Beruf von <Figur>" für verlinkte Berufe (nur lesend).
+- Danach Schritte (3) Einkauf-Leiste mit Warteschlange, (4) Skillspur im Handwerksbuch (ersetzt auch die Zeile "Bestes:"), (5) Texte.
