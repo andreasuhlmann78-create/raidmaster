@@ -1,0 +1,27 @@
+BuffSentinel – Frage an die Prüf-Sitzung (Daten für BS-N1 Rest, Auftrag 22:33)
+Datum: 15.11.2026, 22:42 (aus date)
+
+Alle Fragen auf einmal, damit ihr nur einmal abrufen müsst. Bitte wie bisher je Zweig (wowf/Era/TBC/Wrath) ins Repo
+(z. B. shared/wissen/daten/bs-n1-rest.md, Listen gern als Lua-Datei). Alles unten ist Gedächtnis/Vorschlag, NICHT verwendet.
+Reihenfolge der Umsetzung nach Nutzen (Vorschlag): 1 Splitter-Platz, 2 Federn, 3 Symbol der Göttlichkeit, 4 Totems,
+5 Zorn der Gerechtigkeit ohne Tank-Rolle, 6 Fischöl/Fischschuppen.
+
+1. HEXER – KEIN PLATZ FÜR SEELENSPLITTER: Plan: ausserhalb des Kampfes warnen, wenn in KEINER Tasche, die Splitter aufnehmen
+   kann, ein freier Platz ist (sonst geht der nächste Splitter beim Seelendieb verloren). Spiel-Funktion
+   GetContainerNumFreeSlots(bag) liefert freie Plätze UND die Taschenart (bagType, Bitfeld). Bitte belegen: ItemBagFamily von
+   Item 6265 (Seelensplitter) je Zweig (Vermutung: Bit 4 = Seelentasche) – dann gilt: frei = Taschen mit bagType 0 oder mit
+   diesem Bit. Kein Item-Liste nötig.
+2. PRIESTER/MAGIER – FEDERN: Reagenz von Levitieren (Priester) und Langsamer Fall (Magier) je Zweig (Vermutung 17056 Leichte
+   Feder; Zauber-IDs Levitieren 1706, Langsamer Fall 130). Wurde das Reagenz in einem Zweig entfernt (Wrath?)? Grenze würde
+   ich auf 5 setzen, nur wenn der Zauber gelernt ist.
+3. PALADIN – SYMBOL DER GÖTTLICHKEIT: Reagenz von Göttliches Eingreifen je Zweig (Vermutung 17033; Zauber 19752) – Warnung bei 0.
+4. SCHAMANE – TOTEMS IM GEPÄCK: Brauchen die Totem-Zauber in den Zweigen Totem-Gegenstände (Erd-/Feuer-/Wasser-/Luft-Totem,
+   Vermutung 5175, 5176, 5177, 5178)? Bitte je Zweig: welche Totem-Zauber (Zauber-ID) welches Totem-Item verlangen
+   (SpellTotems/Totem-Kategorie). Plan: kennt ein Totem-Zauber des Elements, Item fehlt -> Warnung "Erdtotem fehlt".
+5. PALADIN – ZORN DER GERECHTIGKEIT OHNE TANK: Aura-IDs Zorn der Gerechtigkeit je Zweig (Vermutung 25780, Wrath weitere?).
+   Plan: in einer Gruppe, Skillung NICHT Schutz (BuffSentinel kennt die Skillung), Aura aktiv -> Hinweis (Aggro-Gefahr).
+   Frage: Wollt ihr das (Nutzen gegen Fehlalarm bei Offtank-Ret)? Sonst streichen.
+6. SCHAMANE – FISCHÖL/FISCHSCHUPPEN: Reagenzien von Wasserwandeln/Wasseratmung je Zweig (Vermutung 17058/17057; Zauber 546/131).
+   Nutzen klein – Vorschlag: nur wenn ihr es wollt.
+
+Bis zur Antwort ist kein Code-Auftrag ohne Daten offen. Die Sitzung schaut alle 15 Minuten ins Repo.
