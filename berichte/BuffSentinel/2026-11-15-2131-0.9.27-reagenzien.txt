@@ -1,0 +1,52 @@
+BuffSentinel 0.9.27 – Bericht an die Prüf-Sitzung
+Datum: 15.11.2026, 21:31 (aus date)
+Stand: BS-N1 Punkt 1 umgesetzt, zur Prüfung · Punkt 3 Gesundheitsstein: FRAGE (IDs unten bitte aus ItemSparse belegen)
+
+Danke für die Tabelle shared/wissen/daten/reagenzien-gruppenbuffs.md – alle IDs im Code stammen daraus (1:1 abgeglichen).
+
+Veröffentlicht: download/BuffSentinel-0.9.27.zip, README, announce 0.9.27 (+ Zip), 0.9.26 entfernt; auf origin/main
+nachgeprüft. addon_check lokal "OK (1 Warnungen)" (nur Lua-Syntax nicht geprüft). cmp Game/Sync/Test/Markt v7 byte-gleich.
+
+Umsetzung (Baustein "Vorrat", erweitert um ranks)
+- Core.lua BS:SupplyCount: supply.ranks = { {Zauber-ID, Item-ID}, … } vom höchsten zum tiefsten Rang; gezählt wird das
+  Item des ERSTEN gelernten Rangs (BS.KnowsSpellID = IsPlayerSpell/IsSpellKnown je ID). Kein Rang gelernt -> nil (nichts).
+  Rückgabe zusätzlich die Item-ID (Tooltip "Benötigt: <Name aus dem Spiel>").
+- ResolveEntries: Eintrag gilt als gelernt, wenn irgendein Rang bekannt ist.
+- UpdateSupply merkt sich zusätzlich, ob man in einer Gruppe ist (GetGroupUnits > 1); läuft bei Taschen-Ereignis und Layout
+  (Layout läuft bei GROUP_ROSTER_UPDATE).
+- EvalBuff: supply.groupOnly -> nur in der Gruppe.
+- Einträge (alle max = 3, alertOnly, Grenze in Klammern):
+  Magier r_powder (10, Gruppe): 61316/43002/27127/23028 -> 17020.
+  Druide r_gotw (10, Gruppe): 48470->44605, 26991->22148, 21850->17026, 21849->17021.
+  Priester r_candle (10, Gruppe): 48162->44615, 25392->17029, 21564->17029, 21562->17028.
+  Paladin r_symbol (20, Gruppe): alle 18 Grosse-Segen-IDs der Tabelle -> 21177 (wowf kennt einige nicht; es zählt nur, was
+  der Spieler kennt).
+  Schamane r_ankh (1 = Warnung nur bei 0, auch allein): 20608/21169/27740 -> 17030.
+- Locales EN/DE (11 Schlüssel), CHANGELOG EN/DE.
+
+Bewusste Entscheidungen (bitte prüfen)
+- Priester: nur die Kette Gebet der Seelenstärke. Ein Priester Stufe 56–59 mit Seelenstärke R1 (Heilige Kerze) und
+  Schattenschutz R1 (Hochheilige Kerze) bekommt nur die Warnung für die Heilige Kerze. Auf 60 sind beide gleich (17029).
+- Grenzen 10 / 20 / Ankh 0 fest; Gruppen-Reagenzien nur in der Gruppe (allein kein Dauer-Hinweis beim Leveln).
+- Ab Cata keine Einträge (Reagenzien laut warcraft.wiki.gg mit 4.0.1 entfernt; Ankh-Gegenstand erst 5.0.4 – Cata bleibt
+  vorsichtig ohne Ankh-Warnung).
+
+Belege (eigene Tests, keine Freigabe)
+- T218 "3:17021 7:17026 11:22148 13:44605 2:17028 20:17029 5:44615 nil:nil · nein ja nein ja nein · r_powder r_gotw r_candle
+  r_symbol r_ankh nil nil": höchster Rang wählt das richtige Item (auch mit Lücken, z. B. R4 + R1 -> 44605); kein Rang -> nil;
+  allein nein, Gruppe ja, genug nein, Ankh allein bei 0 ja, mit 1 nein; Einträge je Klasse vorhanden, Magier in Cata und
+  Krieger keiner.
+- TU1 T200/T251–T253 0 Abweichungen (3300/2852/3560 Fälle), TU4 0 Verletzungen (T232 2,2 ms); run25m OK 171, die
+  bekannten 12 Nachbau-FEHLER.
+- Offline-Routine forever/classic/retail/tbc × deDE/enUS = 8 × RESULT PASS.
+
+IM CLIENT PRÜFEN (Nutzer): Magier/Priester/Druide/Paladin in einer Gruppe mit wenig Reagenzien -> "REAGENZ KNAPP!" mit Zahl.
+
+FRAGE PUNKT 3 GESUNDHEITSSTEIN – bitte aus wago.tools ItemSparse (+ SpellName für die Herstell-Zauber) belegen und ins Repo
+legen (wie die Reagenz-Tabelle). Meine Liste ist NUR aus dem Gedächtnis, nicht verwendet:
+- Classic: 5512 (schwach) + 19004/19005 (Talent Verbesserter Gesundheitsstein 1/2), 5511 + 19006/19007, 5509 + 19008/19009,
+  5510 + 19010/19011, 9421 + 19012/19013.
+- TBC: 22103/22104/22105. Wrath: 36889–36894 (Dämonischer/Teufels-Gesundheitsstein, je mit Talentstufen).
+- Benötigt je Zweig (wowf/Era/TBC/Wrath): alle Item-IDs der Gesundheitssteine und die Zauber-IDs "Gesundheitsstein
+  herstellen" je Rang (damit nur Hexenmeister erinnert werden, die einen Stein herstellen können).
+Bis dahin ist für BuffSentinel nichts anderes offen; die Sitzung schaut alle 15 Minuten ins Repo.
