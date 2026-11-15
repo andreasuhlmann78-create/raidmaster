@@ -1,0 +1,43 @@
+BERICHT DISCORD – Bot 1.5.159: D-3 Schritt 14 (Willkommen als eigenes Modul, is_chef nach grund.py) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 21:59 (aus date)
+Commit: 648628bb auf origin/main, CI bot-tests: success
+
+WARUM
+- Ziel ist die Gildennamen-Abstimmung (grösster abgeschlossener Bereich, ~600 Zeilen) und danach die
+  Befehlsliste (braucht name_poll). Die Abstimmung braucht ensure_welcome und is_chef – darum zuerst diese.
+
+WAS
+- Neues Modul RaidMasterBot/willkommen_bot.py (116 Zeilen): welcome_invite_cmd (/einladung),
+  post_welcome_invite_once, OLD_WELCOME_START, ensure_welcome, welcome_cmd (/willkommen).
+- is_chef unverändert nach grund.py.
+- UNVERÄNDERT verschoben: per ast verglichen -> alle 5 identisch, is_chef identisch.
+- Bleibt in bot.py: PUG-Einladung (/pug-einladung, refresh_invite_cache, handle_member_join) – pug_invite_cmd
+  braucht restart_soon (Update-Bereich).
+- bot.py: Importe invites und is_guild_leader entfallen (nur noch in den verschobenen Funktionen benutzt).
+  git diff --numstat +6 −103, bot.py jetzt 5641 Zeilen.
+
+TESTS
+- test_einladung e07/e08 lasen Ausschnitte von bot.py ("async def welcome_invite_cmd" bis "OLD_WELCOME_START = "
+  bzw. bis "async def post_welcome_invite_once"); jetzt bot_quelle.funktion(...) für genau diese Funktionen
+  (e07: beide Funktionen zusammen, wie der alte Ausschnitt) und bot_quelle.alle() für die Anmeldung von
+  /einladung. Gleiche Aussagen; der neue Text enthält zusätzlich die Dekorator-Zeile (strenger, nicht schwächer).
+- NEU test_willkommen_bot.py (4 Tests, REGRESSIONEN T-D3-WILLKOMMEN): Text einmal posten und nur die alte
+  Bot-Begrüßung löschen (nicht fremde Beiträge); beim Start unverändert nichts; geänderte Fassung wird
+  bearbeitet statt neu gepostet; ohne Kanal Meldung; /willkommen nur Gildenleitung; Gildenname nur Gildenchef
+  (Offizier ändert ihn nicht). Gegenproben: Hash-Vergleich entfernt, Chef-Prüfung entfernt, Begrüßungs-Filter
+  entfernt -> je FAILED (1); zurückgesetzt -> OK.
+- test_lade: willkommen_bot.bot ist bot.bot; ensure_welcome dasselbe Objekt; is_chef aus grund; /willkommen und
+  /einladung im Befehlsbaum aus willkommen_bot.
+- Slash-Befehle: 49, unverändert. 315 Tests OK (311 + 4 neue); jede Testdatei einzeln mit -I OK;
+  REGRESSIONEN 44 von 44.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update vom Stand 1.5.158 (Attrappen-config, state.json, Uploader-ZIP im addon-Ordner): updater._copy_new
+   kopiert VERSION, bot.py, grund.py, tests, willkommen_bot.py; config/state/ZIP unverändert (md5); VERSION 1.5.159.
+2. Start wie launcher.py: Abbruch erst bei der Anmeldung (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
+- NÄCHSTE BEREICHE: Gildennamen-Abstimmung, danach Befehlsliste, Mitgliederbereich, Update/Sicherung, Ankündigungen
+  und Addon-Releases, DKP, Raids, Uploads, zuletzt RaidBot.
