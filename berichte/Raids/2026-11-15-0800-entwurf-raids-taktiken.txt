@@ -1,0 +1,30 @@
+ENTWURF – WARTET AUF PRÜFUNG DURCH DEN SUPERVISOR (Projekt Addonprüfer)
+
+Routine: "Raids und Taktiken für WoW Forever" (alte Aufgabe, ohne "mit Supervisor" im Titel – lief trotzdem am 15.11.;
+hält sich an den VORRANG in CLAUDE.md: nur Entwurf, nichts in announce/ oder RaidMasterBot/*.json)
+Lauf: 15.11.2026, ca. 08:00 MEZ
+
+ERGEBNIS: nichts Neues – keine Änderung an announce/, forever_raids.json, raid_materials.json vorgeschlagen.
+
+(A) Neue Raids: keine neue offizielle Ankündigung. Barrow Deeps (10), Hyjalgipfel (20), Onyxias Hort (40) weiter ab 09.12.2026
+    (Blizzard https://worldofwarcraft.blizzard.com/news/24303009). Frühjahr 2027 weiter ohne Raidnamen.
+(B) Taktiken: Barrow/Hyjal öffnen erst 09.12. – keine offiziellen Bossfähigkeiten. Wochenprüfung mc/ony/bwl/zg/aq/naxx
+    fällig am 16.11. (letzte 09.11.), heute nicht nötig.
+(C) Materialien/Rezepte: nichts Bestätigtes (Malleable Essence of Nature bleibt Datamining).
+(D) Resistenz-Kanäle: für Barrow/Hyjal nichts gesichert, kein Kanal.
+
+Hotfixes: neueste gefundene Forever-Hotfixes 10.11.2026 (Blizzard-Forum https://us.forums.blizzard.com/en/wow/t/2403040/6,
+Bericht mein-mmo.de): Verstärker-Schamane (Mahlstromwaffe – Blizzard nennt "Auswirkungen auf die Ausrüstung im kommenden Raid",
+Raid ohne Namen), Gold-Belohnungen für Quests ab Stufe 48, AH-Mindestanzahlung 1 Kupfer. Nichts zu Onyxia, Barrow, Hyjal,
+Resistenzen oder Raid-Materialien. Keine Hotfixes vom 11.–15.11. gefunden.
+Netzwerk: warcrafttavern.com in dieser Sitzung nicht erreichbar (nur über Suchergebnisse geprüft).
+
+VORSCHLAG für research/forever_taktiken.md, Abschnitt "Was noch fehlt" (vom Supervisor zu übernehmen):
+- 2026-11-15: nichts Neues. Keine neue offizielle Raid-Ankündigung; Forever-Hotfixes bis 10.11. (Schamane/Mahlstromwaffe
+  mit Hinweis auf den kommenden Raid, Quest-Gold ab Stufe 48, AH-Mindestanzahlung 1 Kupfer) – nichts zu Raids, Resistenzen
+  oder Raid-Materialien. Quellen: https://us.forums.blizzard.com/en/wow/t/2403040/6,
+  https://mein-mmo.de/wow-forever-hotfixes-10-november-2026-patch-notes/
+Tabelle "Letzte Wochenprüfung": barrow und hyjal -> 2026-11-15, Ergebnis unverändert.
+
+HINWEIS: Die Notizen der Läufe 05.–14.11. liegen nur auf den Branches claude/upbeat-ritchie-* (nicht in main).
+Stand 14.11. auf origin/claude/upbeat-ritchie-sdoic1 (research/forever_taktiken.md).
