@@ -476,11 +476,12 @@ class BotAblauf(unittest.TestCase):
     def setUpClass(cls):
         from bot_harness import load_bot
         cls.bot, cls.tmp = load_bot()
+        cls.m = sys.modules["markt_bot"]     # D-3 Schritt 4: die Marktdaten-Funktionen liegen in markt_bot – dort patchen
 
     def setUp(self):
         self.dir = tempfile.mkdtemp()
-        self.bot._market_store = market.Store(self.dir)
-        self.bot._market_lock = asyncio.Lock()
+        self.m._market_store = market.Store(self.dir)
+        self.m._market_lock = asyncio.Lock()
         self.cfg_backup = dict(self.bot.cfg)
         self.state_backup = dict(self.bot.state.data)
 
@@ -502,7 +503,7 @@ class BotAblauf(unittest.TestCase):
         r1 = run(self.bot.market_intake(FakeMessage([self.paket("0123456789abcdef", t)], webhook_id=5)))
         r2 = run(self.bot.market_intake(FakeMessage([self.paket("fedcba9876543210", t)], webhook_id=5)))
         self.assertEqual((r1["neu"], r2["doppelt"]), (1, 1))
-        head = next(iter(self.bot._market_store.index["scans"].values()))
+        head = next(iter(self.m._market_store.index["scans"].values()))
         self.assertEqual(len(head["q"]), 2)                                  # gleicher Webhook, zwei Quellen
         r3 = run(self.bot.market_intake(FakeMessage([self.paket(None, t)], webhook_id=5)))   # alter Uploader
         self.assertEqual(r3["doppelt"], 1)
@@ -528,14 +529,14 @@ class BotAblauf(unittest.TestCase):
 
         async def by_id(cid):
             return ch if cid == 20 else None
-        orig = self.bot.channel_by_id
-        self.bot.channel_by_id = by_id
+        orig = self.m.channel_by_id
+        self.m.channel_by_id = by_id
         try:
             n = run(self.bot.market_catchup())
         finally:
-            self.bot.channel_by_id = orig
+            self.m.channel_by_id = orig
         self.assertEqual(n, 2)
-        self.assertEqual([h["f"] for h in self.bot._market_store.index["scans"].values()], ["H"])   # einmal abgelegt
+        self.assertEqual([h["f"] for h in self.m._market_store.index["scans"].values()], ["H"])   # einmal abgelegt
         self.assertEqual(ch.sent, [])                                        # nie antworten
         self.assertFalse(own.deleted or other.deleted or person.deleted)    # nie löschen
 
@@ -550,9 +551,9 @@ class BotAblauf(unittest.TestCase):
 
         async def by_id(cid):
             return chans["x"]
-        orig_l, orig_c = self.bot.blizzard_api_check.list_realms, self.bot.channel_by_id
-        self.bot.blizzard_api_check.list_realms = fake_list
-        self.bot.channel_by_id = by_id
+        orig_l, orig_c = self.m.blizzard_api_check.list_realms, self.m.channel_by_id
+        self.m.blizzard_api_check.list_realms = fake_list
+        self.m.channel_by_id = by_id
         try:
             tz = ZoneInfo("Europe/Zurich")
             self.bot.state.data.pop("blizzard_fp", None)
@@ -568,8 +569,8 @@ class BotAblauf(unittest.TestCase):
             self.assertNotEqual(self.bot.state.data["blizzard_fp"], fp0)
             self.assertEqual(len(ch.sent), 1)
         finally:
-            self.bot.blizzard_api_check.list_realms = orig_l
-            self.bot.channel_by_id = orig_c
+            self.m.blizzard_api_check.list_realms = orig_l
+            self.m.channel_by_id = orig_c
 
     def test_T_D_MN7d_bot_berichte(self):
         self.bot.cfg.update({"botcmd_channel_id": 30})
@@ -577,8 +578,8 @@ class BotAblauf(unittest.TestCase):
 
         async def by_id(cid):
             return ch
-        orig = self.bot.channel_by_id
-        self.bot.channel_by_id = by_id
+        orig = self.m.channel_by_id
+        self.m.channel_by_id = by_id
         try:
             tz = ZoneInfo(self.bot.TZ)
             mon = datetime(2026, 11, 16, 9, tzinfo=tz)
@@ -591,7 +592,7 @@ class BotAblauf(unittest.TestCase):
             self.assertIsNone(run(self.bot.post_market_report(mon)))          # nie doppelt
             self.assertEqual([kw["file"].filename for _, kw in ch.sent], [z, w])
         finally:
-            self.bot.channel_by_id = orig
+            self.m.channel_by_id = orig
 
     def test_T_D_KERN1_tagesbericht_posten(self):
         self.bot.cfg.update({"botcmd_channel_id": 30})
@@ -599,8 +600,8 @@ class BotAblauf(unittest.TestCase):
 
         async def by_id(cid):
             return ch
-        orig = self.bot.channel_by_id
-        self.bot.channel_by_id = by_id
+        orig = self.m.channel_by_id
+        self.m.channel_by_id = by_id
         try:
             tz = market.TZ
             now = datetime(2026, 11, 16, 0, 30, tzinfo=tz)
@@ -609,13 +610,13 @@ class BotAblauf(unittest.TestCase):
             self.assertEqual(self.bot.state.data["market_day"], "2026-11-15")
             self.bot.state.data.pop("market_day")
             t0 = market.day_window("2026-11-15")[0]
-            market.ingest_text(self.bot._market_store, line("H", t0 + 60, {2589: (100, 5, 2, 0, 0)}), "x", now.timestamp())
+            market.ingest_text(self.m._market_store, line("H", t0 + 60, {2589: (100, 5, 2, 0, 0)}), "x", now.timestamp())
             name = run(self.bot.post_market_daily(now))
             self.assertEqual(name, "GSMARKTT1-2026-11-15.json")
             self.assertIsNone(run(self.bot.post_market_daily(now)))             # nie doppelt
             self.assertEqual(len(ch.sent), 1)
         finally:
-            self.bot.channel_by_id = orig
+            self.m.channel_by_id = orig
 
     def test_T_D_MN7e2_nachlesen_ohne_recht(self):
         import discord
@@ -631,14 +632,14 @@ class BotAblauf(unittest.TestCase):
 
         async def by_id(cid):
             return ch
-        orig = self.bot.channel_by_id
-        self.bot.channel_by_id = by_id
+        orig = self.m.channel_by_id
+        self.m.channel_by_id = by_id
         try:
             with self.assertLogs("raidmaster", level="WARNING") as cm:
                 self.assertEqual(run(self.bot.market_catchup()), 0)
             self.assertTrue(any("Nachlesen in #testberichte nicht möglich (403" in r for r in cm.output))
         finally:
-            self.bot.channel_by_id = orig
+            self.m.channel_by_id = orig
 
     def test_T_D_GS1b_grosse_guildsentinel_datei(self):
         self.bot.cfg["uploader_webhooks"] = [5]

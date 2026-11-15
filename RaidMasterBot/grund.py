@@ -13,6 +13,7 @@ import discord
 from kern import book, cfg, log
 
 bot: discord.Client | None = None      # wird von bot.py gesetzt (grund.bot = bot)
+NO_PING = discord.AllowedMentions(roles=False, users=False, everyone=False)   # D-3 Schritt 4: aus bot.py
 
 
 # Wer im Discord etwas verändern darf: nur der Gildenchef (config "guild_leader", Charaktername aus config.json)

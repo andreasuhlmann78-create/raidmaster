@@ -69,6 +69,10 @@ class Lade(unittest.TestCase):
         import grund
         self.assertIs(grund.bot, b.bot)                          # D-3 Schritt 3: Grundfunktionen mit demselben Bot
         self.assertIs(b.channel_by_id, grund.channel_by_id)
+        import markt_bot
+        self.assertIs(markt_bot.bot, b.bot)                      # D-3 Schritt 4: Marktdaten-Modul
+        self.assertIs(b.market_intake, markt_bot.market_intake)
+        self.assertIs(b.NO_PING, grund.NO_PING)
 
     def test_findet_fehlenden_namen(self):
         self.assertEqual(unbound("def f():\n    return cfg['x']\n"), [(2, "cfg")])
