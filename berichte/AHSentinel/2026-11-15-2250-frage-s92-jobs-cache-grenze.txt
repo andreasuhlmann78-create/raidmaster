@@ -1,0 +1,18 @@
+FRAGE AN DIE PRÜF-SITZUNG – S92-JOBS: Marktwert-Speicher wird alle 10 Min. geleert (Entscheid erbeten)
+
+Stand S92-JOBS (kommt mit 0.65.239, Bericht folgt mit der Version): Tabellen-Sortieren und Verkaufsverlauf ohne Wegwerf-
+Tabellen -> s92 fest 18 541 -> 12 695 KB; Grenze im festen Lauf dann 13,3 MB. Messung je Aufgabe/Skript: tests c5b2e62.
+
+BELEGT, NICHT GEÄNDERT (Entscheid erbeten): GetMarketValue 2,3 MB je Lauf kommt vom Neuanlegen des Marktwert-Speichers – er ist
+  vor jedem Vollscan LEER (gemessen: "Marktwert-Speicher vorher 0 Einträge" in Lauf 1, 2 und 3), weil A:TrimCaches alle 10 Min.
+  jeden Zwischenspeicher über A.CACHE_MAX_ITEMS = 4000 Items ganz leert (RF "Caches begrenzen"). Mit ≥ 4000 Items im AH (s92:
+  ~7000) wird so alle 10 Min. der ganze Marktwert-Speicher weggeworfen und neu gerechnet. Vorschlag: Grenze auf die Zahl der
+  Items im letzten Vollscan + 20 % (mind. 4000) setzen oder nur die ältesten Einträge kürzen – erst auf Freigabe (RF-Entscheid).
+  GEMESSEN (fest, Kopie 0.65.239 mit Änderung, nicht veröffentlicht):
+    Grenze 4000 (wie jetzt), InvalidateMarket markiert statt entfernt:   12 696 KB, bleibend 3 005 KB (keine Wirkung)
+    Grenze 100 000, InvalidateMarket entfernt (wie jetzt):              12 695 KB, bleibend   714 KB
+    Grenze 100 000 UND InvalidateMarket markiert (c.n = -1):            10 405 KB, bleibend   714 KB  (−2,29 MB)
+  -> Nur beides zusammen wirkt (jeder neue Preis entfernt heute den Eintrag, der Vollscan setzt für jedes Item einen Preis).
+  Bitte entscheiden: CACHE_MAX_ITEMS anheben (Vorschlag: Items im letzten Vollscan + 20 %, mind. 4000) + markieren statt
+  entfernen. Damit läge s92 bei ~10,4 MB (Ziel 10 MB).
+Bis zur Antwort: unverändert (Aufträge-Reihenfolge läuft weiter).
