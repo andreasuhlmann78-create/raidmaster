@@ -26,8 +26,12 @@ Jede Zeile: Zauber-ID, Name, Reagenz (Item-ID, Name), Menge. "–" = gibt es in 
 | 48170 | Gebet des Schattenschutzes (höchster Rang Wrath) | 44615 Andachtskerze | 1 | – | – | – | ja |
 | 20608 / 21169 / 27740 | Reinkarnation (Schamane) | 17030 Ankh | 1 | ja | ja | ja | ja |
 | 25782, 25894, 25898, 25916, 25918 | Großer Segen (Macht, Weisheit, Könige …) | 21177 Symbol der Könige | 1 | ja | ja | ja | ja |
-| 25890, 25895, 25899, 25919, 25920 | Großer Segen (Licht, Rettung, Refugium, Weisheit) | 21177 Symbol der Könige | 1 | – (wowf nicht in der Tabelle) | ja | teils | teils |
-| 27141, 27143, 27145, 27169 | Großer Segen (TBC-Ränge) | 21177 Symbol der Könige | 1 | – | – | ja | 27141/27143 |
+| 25890 | Großer Segen des Lichts | 21177 Symbol der Könige | 1 | – | ja | ja | – |
+| 25895 | Großer Segen der Rettung | 21177 Symbol der Könige | 1 | – | ja | ja | – |
+| 25899 | Großer Segen des Refugiums | 21177 Symbol der Könige | 1 | – | ja | ja | ja |
+| 25919, 25920 | Großer Segen der Weisheit (weitere Ränge) | 21177 Symbol der Könige | 1 | – | ja | – | – |
+| 27141, 27143 | Großer Segen der Macht / Weisheit (TBC-Rang) | 21177 Symbol der Könige | 1 | – | – | ja | ja |
+| 27145, 27169 | Großer Segen des Lichts / Refugiums (TBC-Rang) | 21177 Symbol der Könige | 1 | – | – | ja | – |
 | 48933, 48934, 48937, 48938 | Großer Segen (Wrath-Ränge) | 21177 Symbol der Könige | 1 | – | – | – | ja |
 
 Wichtig für die Zählung (kein Fehlalarm):
