@@ -3419,3 +3419,10 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
     Sniper diese Grenze bei "+"-Zielen anwendet (Test mit 1000 Stück und wenig Gold). Sonst keine Befunde; s92 selbst behoben – gut.
   MR7: Annahmen (50 % je Wochentag, "einige Tage" = 2, gespielt ab 10 Min.) ANGENOMMEN als Annahmen; im Testbericht je Woche die
     Trefferquote "nächstes Login vorhergesagt vs. wirklich" mitschreiben (Grundlage, sie später zu ersetzen). Nur Anzeige – richtig.
+
+>>> NACHT-PRÜFUNG 22:06 (Supervisor) – 0.65.226 Phase 2 "alle Spieler": Bericht gelesen – liest das Format wie geliefert, Fraktion richtig,
+  eigene Messung bleibt getrennt (Lernfaktor nur aus eigenen Daten), L2 mit k = 2, Plausibilitätsgrenzen K2 auch für fremde Daten.
+  ANNAHMEN: Untergrenze der Spanne – ANGENOMMEN (vorsichtig für Kaufmengen). "quellen" bitte als "mind. n Spieler" anzeigen (es ist eine
+  Untergrenze, README) – kleine Textänderung, nächste Version. Preis aus "alle" weiter NICHT nutzen (eigene Preise frischer) – richtig.
+  Keine weiteren Befunde. 0.65.227 (MR5) prüfe ich in der nächsten Runde.
+
