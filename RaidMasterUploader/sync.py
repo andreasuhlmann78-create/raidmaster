@@ -1059,6 +1059,30 @@ class Sync:
             except OSError:
                 pass
 
+    def _fit_counters(self) -> None:
+        """UP-404b (ab 2.3.11): Die Stand-Nummer (seq) eines Index sinkt nie. Ist ein gemerkter Zähler (revs) grösser als
+        die seq des gelesenen Index, stammt er von einem ALTEN Abgleich-Ort (neue sync_config.json, z. B. noch mit 2.3.9
+        gewechselt). Solche Zähler gelten hier nicht: verwerfen, sonst würden neue Stände des anderen Rechners mit
+        kleinerer Nummer nie übernommen. Grundstand (files) bleibt."""
+        if not isinstance(self.remote, dict):
+            return
+        seq_r = int(self.remote.get("seq") or 0)
+        revs = self.s.get("revs") or {}
+        stale = sorted(k for k, v in revs.items() if int(v or 0) > seq_r)
+        if not stale and int(self.s.get("seq") or 0) <= seq_r:
+            return
+        for k in stale:
+            revs.pop(k, None)
+        if int(self.s.get("seq") or 0) > seq_r:
+            self.s["seq"] = max([seq_r] + [int(v or 0) for v in revs.values()])
+        if stale:
+            self.log("Abgleich: Zähler vom alten Abgleich-Ort angepasst ("
+                     + ", ".join(flavor_label(k) for k in stale) + ") – Daten unverändert.")
+        try:
+            self.save()
+        except OSError:
+            pass
+
     def switch_store(self, store) -> None:
         """Neue sync_config.json im laufenden Betrieb: neuen Ort übernehmen, Fehlerzustand vergessen."""
         self.store = store
@@ -1096,6 +1120,7 @@ class Sync:
             self.fail_until = self.retry_at = now + REMOTE_FAIL_WAIT
             self._say_limited(f"Abgleich: {e} – lokale Dateien bleiben unverändert, neuer Versuch in 1 Minute.", now)
             return None
+        self._fit_counters()
         if int((self.remote or {}).get("seq") or 0) > int(self.s.get("seq") or 0) and not self.pending():
             self.s["seq"] = int(self.remote.get("seq") or 0)   # nur Spielversionen, die es hier nicht gibt
         return self.remote

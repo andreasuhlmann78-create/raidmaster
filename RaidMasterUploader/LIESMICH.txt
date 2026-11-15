@@ -264,3 +264,9 @@ Version 2.3.10 – "Discord antwortet 404" (UP-404):
   danach hoch.
 - Bei einem dauerhaften Fehler versucht er es nicht mehr alle 5 Sekunden, sondern alle 5 Minuten (bei Netzfehlern jede
   Minute), und dieselbe Meldung erscheint höchstens alle 10 Minuten.
+
+Version 2.3.11 – Zähler nach neuer sync_config.json (UP-404b):
+- Wurde die sync_config.json noch mit einer älteren Fassung getauscht, behielt der Uploader Zähler vom alten
+  Abgleich-Ort ("GRUNDREGEL VERLETZT (Abgleich): rev … grösser als seq"). Dann hätte er neue Stände des anderen Rechners
+  für diese Spielversion nicht übernommen. Jetzt passt er die Zähler beim ersten Abgleich an und meldet das einmal.
+  Deine Daten bleiben unverändert.

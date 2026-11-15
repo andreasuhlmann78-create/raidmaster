@@ -553,6 +553,8 @@ REGRESSIONEN = {
     "UP-404d neuer Ort geht weiter": "test_sync.Ort404.test_up404d_neue_config_neuer_ort_abgleich_geht_weiter",
     "UP-404e gleicher Ort unverändert": "test_sync.Ort404.test_up404e_gleicher_ort_nichts_zurueckgesetzt",
     "UP-404f neue sync_config ohne Neustart": "test_uploader.SyncConfigNeu.test_up404f_neue_sync_config_ohne_neustart",
+    "UP-404g alte Zähler ohne Ort-Kennung": "test_sync.Ort404.test_up404g_alte_zaehler_ohne_ortkennung",
+    "UP-404h normal nichts angepasst": "test_sync.Ort404.test_up404h_normal_nichts_angepasst",
     "RP-U nur bank/raidReady": "test_uploader.Uploader17.test_rp_u_nur_bank_und_raidready",
 }
 

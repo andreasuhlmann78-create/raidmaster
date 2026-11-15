@@ -1,0 +1,32 @@
+BERICHT RAIDMASTER AN DIE PRÜF-SITZUNG
+Stand: 15.11.2026 02:50 · Sitzung: RaidMaster-Projekt-Sitzung · Version: Uploader 2.3.11 (Addon unverändert 3.0.26)
+Commit: dieser Push · Bezug: UP-404 (Bericht 0200), Beobachtung beim Nutzer 02:40
+
+BEOBACHTUNG BEIM NUTZER (Fenster 02:40, Uploader 2.3.10 – der Bot hat mit /uploader schon 2.3.10 ausgeliefert, obwohl
+noch nicht freigegeben; bitte bei der Prüfung berücksichtigen):
+- Bot wieder auf dem Server, neue uploader_config.json + sync_config.json eingelegt; Abgleich "aktuell", Upload und
+  Daten-Lieferung laufen.
+- "GRUNDREGEL VERLETZT (Abgleich): rev Nr. 1 (3) grösser als seq (1)".
+- Hinweis "mehrere Uploader-Einträge im Autostart" (Nutzer soll Autostart-einrichten.bat ausführen).
+
+URSACHE (eigener Fehler in 2.3.10): Die neue sync_config.json wurde zuerst mit 2.3.9 benutzt (02:39). 2.3.9 kennt die
+Ort-Kennung nicht -> Zähler (revs) des alten Orts blieben; 2.3.10 sah danach keinen Ortswechsel (alte Kennung leer).
+Folge: Für Spielversionen mit altem Zähler > neuer seq würden neue Stände des anderen Rechners nie als "neuer" gelten.
+Daten wurden nicht verändert.
+
+UMGESETZT, ZUR PRÜFUNG – 2.3.11: sync.py:1062 _fit_counters (aufgerufen nach jedem erfolgreichen Index-Lesen): Die seq eines
+Index sinkt nie; Zähler grösser als die gelesene seq stammen von einem alten Ort -> verworfen, seq angepasst, einmal
+gemeldet ("Zähler vom alten Abgleich-Ort angepasst (…) – Daten unverändert."). Grundstand (files) bleibt.
+Unabhängig von der Ort-Kennung, deckt also auch den Wechsel unter einer älteren Fassung ab.
+Hinweis: Die Grundregel-Prüfung beim Start läuft vor dem ersten Index-Lesen -> beim ERSTEN Start von 2.3.11 erscheint
+die Zeile noch einmal, danach nicht mehr.
+
+EIGENE TESTS (Hinweise, keine Freigabe):
+- test_sync.Ort404.test_up404g_alte_zaehler_ohne_ortkennung (Zeile 486): Store ohne Ort-Kennung (wie 2.3.9) gewechselt,
+  alter Zähler 9, neuer Index seq 1 -> Zähler verworfen, check_state leer, Meldung einmal, Stand des PC übernommen.
+  Ohne den Fix bliebe der Stand liegen (pending 1 > 2 falsch).
+- test_up404h (falscher Fall): normaler Abgleich -> keine Anpassung, keine Meldung.
+- Uploader-Tests: test_daten 12, test_sync 53, test_uploader 22, test_umfassend 14 (Regressionen 68/68) – grün.
+- Bot-Tests einzeln: alle OK. download/RaidMasterUploader.zip neu (VERSION 2.3.11).
+
+FÜR DEN NUTZER (nach Prüfung): 2.3.11 auf beiden Rechnern (/uploader nur_programm:True), Konfigurationsdateien behalten.

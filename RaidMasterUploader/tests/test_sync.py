@@ -483,6 +483,32 @@ class Ort404(unittest.TestCase):
         self.assertFalse(any(x.endswith(".lokal") for x in self.lap.backups()))   # still: Laptop hatte nichts geändert
         self.assertEqual(sync.check_state(self.pc.st), [])
 
+    def test_up404g_alte_zaehler_ohne_ortkennung(self):
+        # UP-404b (2.3.11): Config schon mit 2.3.9 getauscht (keine Ort-Kennung) -> Zähler vom alten Ort grösser als
+        # die seq des neuen Index; neuer Stand des PC mit kleiner Nummer muss trotzdem übernommen werden
+        self.lap.sync.s["revs"]["_anniversary_/KONTO"] = 9               # Zähler einer anderen Spielversion, alt
+        self.lap.sync.s["seq"] = 9
+        neu = FakeStore()                                               # ohne location(): wie 2.3.9
+        self.pc.sync.store = neu
+        self.lap.sync.store = neu
+        self.pc.sync.s["revs"], self.pc.sync.s["seq"] = {}, 0
+        self.pc.write("SavedVariables/RaidMaster.lua", "RaidMasterDB = { 8 }\n", T0 - 100)
+        self.assertTrue(self.pc.sync.push(now=T0))                     # neuer Index: seq 1
+        self.assertEqual(neu.index["seq"], 1)
+        self.lap.sync.next_remote = 0
+        self.lap.sync.check_remote(now=T0 + 10, force=True)
+        self.assertNotIn("_anniversary_/KONTO", self.lap.sync.s["revs"])
+        self.assertEqual(sync.check_state(self.lap.st), [])
+        self.assertTrue(any("alten Abgleich-Ort angepasst" in l for l in self.lap.logs))
+        self.assertTrue(self.lap.sync.pull(now=T0 + 20))
+        self.assertEqual(self.lap.read("SavedVariables/RaidMaster.lua"), "RaidMasterDB = { 8 }\n")
+
+    def test_up404h_normal_nichts_angepasst(self):
+        # falscher Fall: normaler Abgleich -> keine Anpassung, keine Meldung
+        self.lap.sync.next_remote = 0
+        self.lap.sync.check_remote(now=T0, force=True)
+        self.assertFalse(any("angepasst" in l for l in self.lap.logs))
+
     def test_up404e_gleicher_ort_nichts_zurueckgesetzt(self):
         # falscher Fall: dieselbe sync_config.json erneut -> Zähler bleiben, kein Neu-Hochladen
         revs = dict(self.lap.sync.s["revs"])

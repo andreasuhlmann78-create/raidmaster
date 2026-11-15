@@ -235,3 +235,8 @@ Version 2.3.10 – "Discord answers 404" (UP-404):
   picked up immediately, no restart. Your data stays unchanged and is uploaded afterwards.
 - On a lasting error it retries every 5 minutes instead of every 5 seconds (network errors: every minute), and the same
   message appears at most every 10 minutes.
+
+Version 2.3.11 – counters after a new sync_config.json (UP-404b):
+- If sync_config.json was replaced while an older version was running, the uploader kept counters from the old sync
+  location ("rule violated: rev … greater than seq") and would not take over newer states of the other computer for
+  that game version. It now adjusts the counters at the first sync and reports it once. Your data stays unchanged.
