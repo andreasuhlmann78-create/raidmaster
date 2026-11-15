@@ -1,0 +1,33 @@
+BuffSentinel BS-OFF1 + 0.9.33 – Bericht an die Prüf-Sitzung
+Datum: 15.11.2026, 22:24 (aus date)
+Stand: BS-OFF1 umgesetzt, zur Prüfung. Dabei 0.9.32 (Seelenstein) schon vorher veröffentlicht – Reihenfolge-Hinweis 22:18 kam,
+während 0.9.32 lief (Bericht 0.9.32 liegt vor). 0.9.33 = Korrekturen aus dem neuen Retail-Lauf.
+
+BS-OFF1 (berichte/BuffSentinel/offline/, Commit 9735de2b, auf origin/main geprüft)
+- run_offline.lua: FLAVORS = forever 16001, era 11508, tbc 20506, retail 120105. Unbekannte Version -> "FEHLER unbekannte
+  Spielversion '<x>' (bekannt: …)", "RESULT FAIL", Ausgang 2 – kein stiller Rückfall mehr. Beleg: BS_FLAVOR=classic ->
+  "FEHLER unbekannte Spielversion 'classic' (bekannt: era, forever, retail, tbc)" / RESULT FAIL / Ausgang 2.
+- Zusammenfassung je Lauf mit echtem Build: "Gesamt … · Build <n>"; Kopfzeile wie bisher mit Build.
+- Feste Liste der Nachbau-Abweichungen NACHBAU_ERWARTET = T13, T23, T28, T45, T48, T51, T95, T100, T116 (für ALLE vier
+  Versionen gleich, gemessen). Neue Abweichung -> "NEU (nicht erwartet)" -> FAIL; erwartete fehlt -> "ERWARTETE … nicht mehr
+  da (Liste anpassen)" -> FAIL. Beide Wege geprüft (Kopie des Runners mit T999 bzw. ohne T13: je RESULT FAIL mit Meldung).
+- Retail-Lücken in TU1–TU7 als feste Liste RETAIL_TU_LUECKEN (zählen in Retail nicht) – zurzeit LEER, weil alle Retail-Funde
+  echte Test-Fehler waren und behoben sind (unten).
+- run_offline.sh / run_offline.py: Kombinationen jetzt forever/era/tbc/retail × deDE/enUS. (Python-Weg braucht lupa – hier
+  nicht installierbar, nicht ausgeführt; Lua-Runner über Lua 5.4 per ctypes ausgeführt.)
+- "nur Nachbau"-Zeilen zeigen jetzt das Ergebnis (160 Zeichen), damit Ursachen sichtbar sind.
+
+Funde im ersten Retail-Lauf (alle in SelfTest.lua, behoben in 0.9.33, für Spieler keine Änderung)
+- T221 (TU3) und T35: prüften eigene Procs; in Retail gibt es keine eigenen Procs (ResolveEntries lässt sie bewusst weg). Im
+  ECHTEN Retail-Client hätten beide FEHLER gemeldet. Jetzt: Regel mit isRetail = false prüfen, T221 zusätzlich "in Retail
+  entsteht kein eigener Proc".
+- T117 (zählt in T162/TU6): verglich x:GetAlpha() > 0 für eine Zahl, die nie benutzt wurde -> Schleife entfernt.
+- T84: rief globales unpack auf (fehlt in Lua 5.4) -> (unpack or table.unpack). War in Era/TBC eine 10. Nachbau-Abweichung.
+- 0.9.33 veröffentlicht: download/BuffSentinel-0.9.33.zip, README, announce (+ Zip), 0.9.32 entfernt; addon_check "OK (1 Warnungen)".
+
+Beleg mit der veröffentlichten Zip 0.9.33 (entpackt): forever/era/tbc/retail × deDE/enUS = 8 × RESULT PASS, je TU-FEHLER 0,
+Nachbau-Abweichungen 9 (nicht erwartet 0, veraltet 0), Builds 16001/11508/20506/120105.
+
+BERICHTIGUNG zu frueheren Berichten (wie in 0.9.29 gemeldet): Läufe "classic/retail" vor BS-OFF1 waren forever-Läufe.
+
+Nächster Punkt: Wasser/Essen für Manaklassen (Getränke-Listen je Zweig).
