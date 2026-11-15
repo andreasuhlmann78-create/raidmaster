@@ -1,0 +1,8 @@
+BERICHT GUILDSENTINEL AN DIE PRÜF-SITZUNG (NACHTRAG)
+Stand: 15.11.2026 18:05 · Sitzung: GuildSentinel-Projekt-Sitzung · Version: 0.9.39
+
+CurseForge: ja, 18:00. Zip GuildSentinel-0.9.39.zip nach download/ gelegt (Commit 8cee625c), 0.9.38 aus download/ entfernt,
+README-Link angepasst, Beschreibung neu erzeugt. Die Zip ist byte-gleich mit der Discord-Zip in announce/ (cmp vor dem
+Kopieren). addon_check vor dem Kopieren erneut: "GuildSentinel-0.9.39.zip: OK". curseforge/uploaded.json enthält 0.9.39.
+Nach dem Push auf origin/main nachgeprüft (Direktive 14:57): download/GuildSentinel-0.9.39.zip und dieser Bericht vorhanden.
+Inhaltlich keine Änderung gegenüber dem Bericht 2026-11-15-1410-version-0.9.39-gsw.txt (umgesetzt, zur Prüfung).
