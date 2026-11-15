@@ -1,3 +1,11 @@
+>>> SN-H1 HOCH – RELEASE-BLOCKER für 0.65.180 (Nutzer 10:21 "der Sniper geht nicht mehr", Screenshot): Sniper an, 1 Ziel
+    (Leinenstoff max 15c), Status "wartet: Suche läuft noch … · zuletzt vor 469 s: 0 Treffer · Vollscan-Sperre noch 13 Min. (Sniper
+    sucht trotzdem)", unten "Suche läuft noch …". An/Aus hilft nicht. Chat davor: "4 auffällig billige Waren werden nachgeprüft
+    (Lockangebote zählen nicht)" und "131 Items unter Händlerpreis". Sn:CanSearch liefert "Suche läuft noch" auch, wenn
+    Seller:IsBusy/HasUrgent, Watcher:IsBusy oder Buy:Blocks wahr ist -> Verdacht: die Lockangebot-Nachprüfung (oder ein anderes
+    Modul) hält die Sperre und gibt sie nie frei; alternativ hängt Sn.search ohne Zeitlimit. Belegen (welches Modul sperrt, seit
+    wann), jede Sperre mit Zeitlimit (höchstens 10 s, danach frei + Protokoll), Status nennt das sperrende Modul. Test: Sperre
+    eines Moduls bleibt hängen -> Sniper sucht nach ≤ 10 s weiter. Erst danach Release 18:00.
 >>> NUR KETTE (Nutzer 15.11. 07:11 "nur Kette bitte"): ausschliesslich KETTE-K1, alles andere ruht (auch Sniper-Reste SN-B6/SN-B8 –
     die bleiben offen und kommen erst wieder, wenn der Nutzer es sagt).
     ZIEL (Nutzer 07:12 "er soll es soweit machen, dass wir releasen können"): KETTE-K1 komplett bis RELEASE-KANDIDAT – eine Version
