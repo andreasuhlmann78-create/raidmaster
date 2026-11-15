@@ -1,0 +1,62 @@
+AHSentinel 0.65.198 – KERN-T1 (1) fremde Auktionen, (2) Gilden-Sync, (3) Vorwissen-Anschluss (Masterplan 2.1, 2.3, 2.4) – umgesetzt, zur Prüfung
+CurseForge: nein (erst nach der Sniper-Abnahme). GitHub-Release v0.65.198 und sofort im Discord.
+Nacht-Arbeit 15./16.11.: Masterplan D. Nächster Punkt 2.2 MN1–MN5, danach 1.3 Rest Sniper-Block bzw. Phase 3.
+
+(1) FREMDE AUKTIONEN ALS FÄLLE (Weg "markt", Datenstufe 2)
+  - Quelle: VS:Track (Verfolgung V4) vergleicht schon heute jeden Vollscan mit dem vorigen (Signaturen Menge:Sofortkauf:Stufe der
+    SIG_MAX = 60 billigsten Auktionen je verfolgtem Item).
+    Neu ist VS:MarketPairs, direkt nach VS:Compare desselben Items: Die flachen Listen von Scan A und die Zählung von Scan B sind
+    noch gefüllt. Darum entsteht keine neue Tabelle je Auktion, es gibt keine Server-Anfrage extra und es wird nichts zusätzlich
+    gespeichert ausser den Kern-Zählern.
+  - Fall = eine fremde Einzelauktion aus Scan A, die zwischen A und B sicher NICHT abläuft: STAGE_MIN_H[Stufe] × 3600 > Abstand.
+    Nur Scan-Paare mit 5–60 Min. Abstand (MKT_DMIN/MAX).
+  - Ergebnis: vorzeitig weg -> geeichter Anteil "verkauft" der Gruppe; noch da -> 0.
+  - Eigene Auktionen abgezogen: aus dem Journal (OwnRunning) und neu aus "Meine Auktionen" (Se.owned, nicht verkauft; doppelte
+    nur einmal, VS:OwnForMarket). So zählen auch eigene Auktionen, die nicht über AHS eingestellt wurden, nie als fremder Fall.
+  - Waren (Commodities) zählen nicht: Teilkäufe, W2.
+  - Eichung K:Calibration(g) aus dem eigenen Journal der letzten 30 Tage:
+    f_g = (verkauft "s" + k·f0) / (verkauft + abgebrochen "c" + k), k = 2.
+    f0 = Gegenprobe der Vollscans VS:CancelFactor (ab 5 Fällen), sonst 0,5. Keine pauschale Annahme mehr im neuen Weg.
+    (A:SellOutlook "halb verkauft" bleibt bis VK-P1 unverändert – nichts Sichtbares geändert.)
+  - Zelle = Warengruppe : Preisstufe (wie "sell", Fc:RelClass von Stückpreis / Marktwert).
+    Eigene Grundlinie ("immer nein") und eigener Brier (P1–P4): je Item und Zelle EINE Vorhersage vor dem Stapel, K:CaseBatch.
+    Exakte Summen: Brier = n0·p² + n1·(p − f)².
+  - Wettlauf M-WL1: Zähler "marktu" je Zelle :u1/:u0 (neue billigere Auktion in B?). Nur im Testbericht.
+  - Als Vorwissen (L2) der eigenen Verkaufs-Zellen erst nach bestandener eigener Prüfung (K:Show("markt")). Umgerechnet auf
+    2 Std.: p2 = 1 − (1 − p)^(7200 / Ø Fall-Länge).
+    Reihenfolge des Vorwissens: Tabelle von aussen > Gilde > Markt > gezählte Gruppen-Quote.
+(2) GILDEN-SYNC (Weg "gilde", Datenstufe 3)
+  - Nachricht "K" über GoldSentinelSync (Drossel und Kampf regelt GoldSentinelSync; Sync.lua leitet "K" weiter, "Q" beantwortet
+    auch der Kern).
+  - Inhalt: Zähler je Weg (sell/markt), Zelle und Tag der letzten 14 Tage, n ≤ 5000, y in Zehnteln. Keine Namen, keine
+    Einzelfälle; Absender nur als Kürzel (D:SenderKey).
+  - Senden: nach Vollscans mit neuen Markt-Fällen höchstens alle 30 Min. (K:MaybeShare) und auf Anfrage "Q" (verzögert).
+    Nie in der Testroutine.
+  - Empfang: Es zählt nur der ZUWACHS gegenüber der letzten Sendung dieses Absenders, nichts doppelt.
+    Abgelehnt werden: eigene Twinks (D:IsOwnChar), unbekannte Gruppe/Stufe, n ≤ 0 oder > 5000, y > n, Tag älter als 30 Tage
+    oder in der Zukunft, mehr als eine Sendung je Minute, mehr als 30 Absender.
+    Alte Clients ignorieren "K" (unbekannte Art).
+  - Zuwachs = eigener Weg "gilde" (Zelle "<Weg>:<Zelle>") mit Grundlinie, Brier, P1–P4 (CaseBatch).
+    Vorwissen der eigenen Zellen erst nach bestandener Prüfung (K:GuildPrior), vor "markt": gleiche Grösse "verkauft in der Laufzeit".
+(3) VORWISSEN-ANSCHLUSS (Datenstufe 5)
+  - K:TableCell(Weg, Zelle) liest GoldSentinelMarktTabellen.kern[Weg][Zelle] = { p = 0..1, n = Fälle } und mischt das bisherige
+    Vorwissen mit Gewicht n gegen k = 2 (K:Estimate, alle Wege). Fehlt die Tabelle, der Teil oder die Zelle, läuft alles wie bisher.
+  - VORSCHLAG an den Supervisor (shared/markt-tabellen/README.md, "Format nur erweitern"): neuer Teil
+    kern = { sell = { ["de:3"] = { p = 0.30, n = 40 }, ... }, markt = { ... }, gilde = { ... } }
+    Zellen = "<Warengruppe>:<Preisstufe 1–5>", Gruppen wie Fc:Group; dazu der Teil "alle Spieler" (Masterplan E), sobald MN da ist.
+(2.5) TESTBERICHT MARKT-KERN, neue Zeilen:
+  - je Weg (Verkaufschance, Markt, Gilde): Treffer neu / Grundlinie / alt, Brier, n, seit, Anzeige, P4;
+  - "Fälle je Tag (letzte 7 Tage): eigen / Markt / Gilde";
+  - "geeichter Anteil verkauft je Gruppe (n)";
+  - "Wettlauf: unterboten x % verkauft (n) · nicht unterboten y % (n) · Ø Fall-Länge".
+  Speicher: nur Zähler je Zelle und Tag (L5); K:Size zählt mit.
+TESTS (eigene, keine Freigabe):
+  - T779: zwei Scans; vorzeitig weg, noch da, kann ablaufen, eigene, unterboten; Stapel-Bewertung exakt; Vorwissen erst nach
+    Prüfung, auf 2 Std.; Tabelle je Zelle. Werte von Hand nachgerechnet:
+    Brier 0,451 = 0,005625 + 0,275625 + 0,170156; Vorwissen 1 − 0,73^6 = 0,849; Tabelle (0,5·8 + 2·0,24)/10 = 0,448 -> 0,374.
+  - T780: Eichung (3 + 0,8) / 6 = 0,633; andere Gruppe 0,267; ohne Fälle 0,400; älter als 30 Tage zählt nicht.
+  - T781: Senden/Annehmen, Zuwachs, gleiche Sendung zweimal, Twink, Unsinn; Vorwissen erst nach Prüfung 0,427.
+  - Nachbildung s198_kern_markt: zwei echte Vollscans 20 Min. auseinander, 10 Schwerter × 5 Auktionen, eine eigene, 5 Warenstapel.
+    Ergebnis 50 Fälle, Summe Ergebnis = 20 × geeichter Anteil, unterboten 25, längster Frame des 2. Vollscans 2 ms, keine Fehler.
+  - Mit 0.65.197 wären T779–T781 und s198 rot (Funktionen fehlen).
+Gesamtlauf der Nachbildung (wowsim, alle Szenarien inkl. s198): BESTANDEN 258, FEHLGESCHLAGEN 0.
