@@ -1,0 +1,41 @@
+BERICHT DISCORD – Bot 1.5.174: D-3 Schritt 27 (Beute-Posts und persönliche DKP-Nachricht als eigene Module) – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 22:49 (aus date)
+Commit: dd66190c auf origin/main, CI bot-tests: success
+
+WAS
+- beutepost_bot.py: Abschnitt "Items wie im Spiel" (item_embed, remember_tip, loot_line, send_loot_list, show_tip,
+  post_new_loot; 117 Zeilen).
+- dkp_nachricht_bot.py: Abschnitt "Persönliche DKP-Nachricht nach dem Raid" (DM_MAX_AGE, find_member_for_char,
+  send_raid_dms, /dkp-nachricht; 79 Zeilen).
+- UNVERÄNDERT verschoben: beide Blöcke wörtlich im alten bot.py und im Modul (Textvergleich).
+- bot.py: dadurch unbenutzt und entfernt: import render, player_class und die Namen aus symbole_bot
+  (WOWHEAD_FLAVOR, class_emoji, item_emoji, item_icon, wowhead_tip). test_symbole und test_lade prüfen die
+  Symbole jetzt an beutepost_bot (Identität mit symbole_bot) statt an bot.py.
+- Veralteter Abschnitts-Kommentar "Eigene Beute-Datenbank …" in bot.py zeigt jetzt auf beute_bot, beutepost_bot
+  und dkp_nachricht_bot (stand seit 1.5.157 über leerem Abschnitt).
+- pyflakes ungefiltert vor/nach: nur der gewollte Modul-Import neu.
+- bot.py: git diff --numstat +5 −211, jetzt 2304 Zeilen.
+
+TESTS
+- NEU test_beutepost_dkpnachricht_bot.py (5 Tests, REGRESSIONEN T-D3-BEUTEPOST, T-D3-DKPNACHRICHT):
+  Tooltip-Speicher höchstens 400 Items, ältester fällt weg, ohne Item nichts; DKP-Nachricht je Raid genau
+  einmal, alter Raid (> 2 Tage) gemerkt aber nicht geschickt, nur an Anwesende/Verdienende, nie an Bots oder wer
+  abbestellt hat; /dkp-nachricht aus|an schaltet um.
+  Gegenproben: 400er-Grenze entfernt, Doppel-Schutz entfernt, Alters-Grenze entfernt, Bot-Ausschluss entfernt,
+  Abbestellung ignoriert -> je FAILED (1); zurückgesetzt -> OK.
+- test_lade: beide Module mit demselben Bot; post_new_loot, send_raid_dms dieselben Objekte.
+- Slash-Befehle: 49, unverändert. 381 Tests OK; jede Testdatei einzeln mit -I OK; REGRESSIONEN 66 von 66.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update vom Stand 1.5.173: updater._copy_new kopiert VERSION, beutepost_bot.py, bot.py, dkp_nachricht_bot.py,
+   tests; config/state/ZIP unverändert (md5); VERSION 1.5.174.
+2. Start wie launcher.py: Abbruch erst bei der Anmeldung (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+4. Neustart nach Update (Ende-zu-Ende, aktualisierte Kopie): Exit-Code 42.
+
+STAND D-3: bot.py 7437 (vor D-3) -> 2304 Zeilen; 31 Module ausgelagert.
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
+- NÄCHSTE BEREICHE: Raider des Monats und monatliche Schleife, Test-Uploads, Raids/Anmeldung, Uploads,
+  Kanal-Aufräumer, zuletzt RaidBot.
