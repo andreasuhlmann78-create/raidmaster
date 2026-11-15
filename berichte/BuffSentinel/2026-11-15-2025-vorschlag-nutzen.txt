@@ -1,0 +1,128 @@
+BuffSentinel – BS-N1 Teil 1: Vorschlag Nutzen-Ausbau (Ärgernisse/Wünsche je Klasse, die BuffSentinel noch nicht löst)
+Datum: 15.11.2026, 20:25 · Stand: Vorschlag an den Supervisor (Teil 2 – zwei kleinste umgesetzt – siehe Bericht 0.9.23)
+
+WIE ERHOBEN (ehrlich):
+- Häufigkeit ist NICHT gemessen. Kommentare auf CurseForge sind beim Abruf nicht lesbar (nur Anzahl, kein Text);
+  Foren-Umfragen gibt es keine. "Häufig" heisst hier: der Wunsch ist der Grund, warum es eigene Addons dafür gibt
+  (Nachfrage-Signal), und er kommt in mehreren vergleichbaren Addons vor.
+- Quellen (Funktionslisten vergleichbarer Addons, Stand 15.11.2026):
+  ToppedOff Forever https://www.curseforge.com/wow/addons/toppedoff-forever (Buffs, Vorräte, Begleiter, Haltbarkeit,
+    Taschenplatz, Nachkaufen beim Händler)
+  Prepped https://github.com/alwindh/prepped (Reparatur nur in Stadt/Gasthaus, Wasser, Munition, Begleiter zufrieden/
+    Futter, Reagenzien je Klasse, Buffs, "warnen wenn bald fällig")
+  Simple Class Reminders https://www.curseforge.com/wow/addons/simple-class-reminders (Gesundheitsstein, Begleiter,
+    Gruppenbuffs, Waffen-Verzauberung/Gifte)
+  PetChecker https://www.curseforge.com/wow/addons/pet-checker (Begleiter da/Leben/Haltung)
+  Missing Class Buff, Titan Panel Reagent Tracker, ConsumableWatcher (Namen/Zweck aus der Suche)
+- Abgeglichen mit dem eigenen Code (Data/*.lua, 0.9.22): Was BuffSentinel schon hat, ist NICHT aufgeführt
+  (Rüstungen, Aspekte, Siegel/Auren/Segen, Schilde, Imbues, Gifte, Gruppenbuffs mit Einzel-/Gruppenzauber,
+  Procs, Abklingzeiten, Reinigen, Gestalten).
+- Gegenstands- und Zauber-IDs in dieser Liste sind Arbeitsstand (nicht im Client gemessen) – vor jeder Umsetzung aus
+  Spieldaten (wago.tools) bzw. im Client belegen. Nur die zwei umgesetzten (6265 Seelensplitter, Munitionsplatz 0) sind im
+  Code mit Tests abgesichert; der Rest ist Vorschlag.
+- Rechenzeit: Alle Vorschläge sind Ereignis-gesteuert (Taschen, Begleiter, Ausrüstung) oder nur ausserhalb des Kampfes;
+  keiner braucht im Kampf mehr als heute.
+
+Kürzel: [U] = in 0.9.23 umgesetzt (die zwei kleinsten), [K] = klein, [M] = mittel, [G] = gross.
+Je Punkt ein Satz NUTZEN: welche Frage beantwortet es, was spart es.
+
+JÄGER
+1. [U] Munition knapp/leer (bis Wrath) – "Reicht meine Munition für den Raid?" – spart den Lauf zum Händler mitten im Dungeon.
+2. [K] Begleiter fehlt / tot (UNIT_PET) – "Ist mein Tier da?" – spart den Pull ohne Tier (viel weniger Schaden, Aggro-Probleme).
+3. [K] Begleiter unglücklich (GetPetHappiness, bis Wrath) – "Macht mein Tier vollen Schaden?" – unglücklich = weniger Schaden, später Flucht.
+4. [K] Tierfutter in den Taschen knapp (Liste je Futterart) – "Kann ich mein Tier füttern?" – spart Händlerlauf.
+5. [M] Falscher Aspekt für die Lage (z. B. Gepard/Rudel im Kampf) – "Bremse ich die Gruppe?" – BuffSentinel zählt Gepard/Rudel heute
+   bewusst nicht; Warnung "Rudel im Kampf" fehlt (Benommenheit der Gruppe).
+
+HEXENMEISTER
+1. [U] Seelensplitter knapp (bis Wrath) – "Habe ich Splitter für Stein, Beschwörung, Seelenstein?" – spart das Nachfarmen am Raideingang.
+2. [K] Kein Gesundheitsstein in der Tasche (Item-Liste je Rang) – "Habe ich meinen Stein?" – rettet im Notfall das Leben.
+3. [K] Begleiter fehlt / tot – "Ist mein Dämon da?" (ausser bei Dämonischer Opferung, Aura 18788 u. a.) – spart Pull ohne Dämon.
+4. [K] Seelenstein auf einem Heiler fehlt (Gruppen-Aura, ausserhalb des Kampfes) – "Hat jemand meinen Seelenstein?" – spart einen Wipe.
+5. [M] Seelensplitter-Tasche voll (Taschenplatz) – "Verliere ich Splitter?" – spart verlorene Splitter beim Seelendieb.
+
+MAGIER
+1. [K] Arkanes Pulver knapp (17020, Arkane Brillanz) – "Kann ich die Gruppe buffen?" – spart Einzel-Buffen (8 statt 1 Klick).
+2. [K] Kein Managem in der Tasche (Liste je Rang) – "Habe ich meinen Mana-Notvorrat?" – spart Mana-Engpass im Bosskampf.
+3. [K] Teleport-/Portal-Runen knapp (17031/17032) – "Kann ich Portale verkaufen/die Gruppe heimbringen?" – spart Händlerlauf.
+4. [K] Essen/Wasser zum Verteilen fehlt (eigenes beschworenes Wasser) – "Habe ich Wasser für die Gruppe?" – spart Pausen.
+5. [M] Wasserelementar fehlt (Frost, ab Wrath) – "Ist mein Elementar da?" – mehr Schaden.
+
+PRIESTER
+1. [K] Heilige/Geweihte Kerze knapp (17028/17029, Gebet der Seelenstärke) – "Kann ich die Gruppe buffen?" – spart Einzel-Buffen.
+2. [K] Inneres Feuer: Aufladungen fast verbraucht (ausserhalb des Kampfes) – "Hält mein Inneres Feuer den Pull?" – spart
+   Nachbuffen im Kampf (Inneres Feuer selbst prüft BuffSentinel schon, die Aufladungen nicht).
+3. [K] Leichte Federn knapp (17056, Levitieren) – "Kann ich levitieren?" – spart Sturztode/Umwege.
+4. [M] Furchtzauberschutz auf dem Tank fehlt (Zwerg/Forever-Regeln prüfen) – "Ist der Tank gegen Furcht geschützt?" – spart Wipes.
+5. [M] Göttlicher Willen/Schattenschutz-Gruppenbuff vor Raidbossen mit Schattenschaden – Hinweis je Zone (Datenaufwand).
+
+PALADIN
+1. [K] Symbol der Könige knapp (21177, Grosser Segen) – "Kann ich Grosse Segen geben?" – spart 5× Einzel-Segen.
+2. [K] Symbol der Göttlichkeit knapp (17033, Göttliches Eingreifen) – "Habe ich das Reagenz für den Notfall?" – rettet den Raid.
+3. [M] Segens-Verteilung in der Gruppe (wer gibt welchen Segen) – "Doppelt der Segen mit dem anderen Paladin?" – spart Absprachen
+   (braucht Sync; gross, wenn mit anderen Paladinen abgestimmt).
+4. [K] Zorn der Gerechtigkeit an, obwohl nicht Tank (Holy/Ret in Gruppe) – "Ziehe ich gerade Aggro?" – spart Tode.
+5. [M] Aura doppelt mit anderem Paladin – "Laufen zwei gleiche Auren?" – mehr Nutzen für die Gruppe.
+
+SCHAMANE
+1. [K] Ankh knapp (17030, Reinkarnation) – "Kann ich mich selbst wiederbeleben?" – spart den Lauf vom Friedhof.
+2. [K] Totem fehlt im Gepäck (Classic: Erd-/Feuer-/Wasser-/Luft-Totem-Gegenstände 5175–5178) – "Kann ich alle Totems setzen?" – spart
+   Händlerlauf (häufiger Anfänger-Ärger).
+3. [M] Totems ausser Reichweite der Gruppe (GetTotemInfo + Reichweite) – "Wirken meine Totems noch?" – braucht Rechenzeit im Kampf,
+   daher nur nach Zustimmung und mit Messung.
+4. [K] Fischöl/Fischschuppen knapp (Wasseratmung/Wasserwandeln) – "Habe ich die Reagenzien?" – kleiner Nutzen.
+5. BP-2026-11-13-1 (Imbue + Waffen-Totem) ist schon Auftrag, wartet auf die Messung.
+
+SCHURKE
+1. [K] Gift-Vorrat knapp (Anzahl, nicht nur "kein Gift") – "Reichen meine Gifte für den Raid?" – BuffSentinel prüft heute nur, ob
+   ein Gift da ist; Warnung unter z. B. 10 Stück spart Herstellen am Raideingang.
+2. [K] Blitzstaub knapp (5140, Verschwinden) – "Kann ich verschwinden?" – rettet das Leben.
+3. [K] Wurfwaffe/Munition leer (Rogue mit Bogen/Schusswaffe zum Pullen) – gleiche Regel wie [U] Jäger, nur für Fernkampfwaffe.
+4. [M] Gift läuft bald ab (Restzeit < 5 Min. vor dem Pull, ausserhalb des Kampfes) – "Hält das Gift den Bosskampf?" – spart Nachgiften
+   im Kampf (heute erst nach Ablauf).
+5. [K] Dietrich/Werkzeug (Schlossknacken) – kleiner Nutzen, eher Nische.
+
+KRIEGER
+1. [K] Wurfwaffe/Fernkampfwaffe fehlt (Pullen) – "Kann ich pullen?" – spart Laufen.
+2. [K] Falsche Haltung für die Skillung ausserhalb des Kampfes (Tank in Kampfhaltung) – "Bin ich bereit für den Pull?" – spart Aggroverlust.
+3. [M] Schlachtruf/Befehlsruf läuft bald ab (vor dem Pull) – "Hält mein Ruf den Pull?" – heute erst nach Ablauf/im Kampf.
+4. [K] Rüstung beschädigt (Haltbarkeit < 30 %, nur Stadt/Gasthaus) – für alle Klassen, Tanks besonders – spart Reparatur-Überraschung.
+5. [M] Schildwall/Letztes Gefecht bereit vor Bosspull – BuffSentinel zeigt Abklingzeiten im Kampf schon; Vorab-Hinweis ist Nische.
+
+DRUIDE
+1. [K] Wilder Dornwurz/Wildbeeren knapp (17026 u. a., Gabe der Wildnis) – "Kann ich die Gruppe buffen?" – spart Einzel-Buffen.
+2. [K] Dornwurz-Reagenz für Wiedergeburt knapp (17034–17038 je Rang) – "Kann ich im Kampf beleben?" – rettet Raid-Versuche.
+3. [M] Gestalt passt nicht zur Rolle vor dem Pull (Bär-Tank in Katze) – "Bin ich bereit?" – spart Aggroverlust.
+4. [M] Omen/Dornen-Erinnerung je Rolle (Dornen auf Tank statt auf sich selbst) – Gruppen-Ziel nötig.
+5. [K] Mondkingestalt im Kampf vergessen – BuffSentinel hat "moonkin" schon (Gleichgewicht) – kein neuer Punkt.
+
+TODESRITTER (ab Wrath/modern)
+1. [K] Ghul fehlt (Unheilig) – "Ist mein Ghul da?" – spart Pull ohne Ghul.
+2. [K] Runenwaffe ohne Runenverzauberung (Wrath+) – "Ist meine Rune drauf?" – Simple Class Reminders hat das; kleiner Datenaufwand.
+3. [K] Präsenz passt nicht zur Rolle (Blut/Frost/Unheilig) ausserhalb des Kampfes – spart Aggroverlust.
+4. [M] Horn des Winters: BuffSentinel hat es schon (horn) – kein neuer Punkt.
+5. [M] Leichenstaub knapp (Armee der Toten, Wrath, 37201) – "Kann ich die Armee rufen?" – kleiner Nutzen.
+
+MÖNCH, DÄMONENJÄGER, RUFER (nur modern/Retail)
+- Retail erlaubt im Kampf kaum Aura-Daten; BuffSentinel zeigt dort nur Buff-Erinnerungen ausserhalb des Kampfes. Wünsche aus den
+  Quellen: Rufer "Bronze-Segen" (hat BuffSentinel: r_bronze), Fläschchen/Essen-Buff vor dem Pull (für alle Klassen, siehe unten).
+
+FÜR ALLE KLASSEN (aus allen Quellen, mehrfach vorhanden)
+A. [K] Haltbarkeit niedrig, nur in Stadt/Gasthaus (Prepped, ToppedOff) – spart die Reparatur-Überraschung im Dungeon.
+B. [K] Wasser/Essen knapp für Manaklassen (Prepped) – spart Pausen.
+C. [M] Fläschchen/Elixier/Essens-Buff fehlt in Dungeon/Raid (ToppedOff) – "Bin ich raidbereit?" – Datenaufwand je Version.
+D. [M] Bereitschaftscheck-Zusammenfassung: beim Ready-Check alle fehlenden Buffs/Vorräte auf einen Blick – spart das Suchen.
+E. [G] Nachkaufen mit einem Klick beim Händler (ToppedOff) – grösster Nutzen, aber Gold-Sicherheit: nur mit Bestätigung und
+   Kostenanzeige (Entscheid des Nutzers nötig).
+
+WARUM DIESE ZWEI ZUERST (Teil 2)
+- Munition (Jäger) und Seelensplitter (Hexenmeister) sind die kleinsten: je ein Zähler, ein Ereignis, keine neue Oberfläche,
+  keine Gruppendaten, kein Sync, kein Gold. Beide sind in den Quellen vertreten (Prepped: Munition; ToppedOff: Reagenzien/
+  Munition) und betreffen Classic/WoW Forever, wo der Nutzer spielt.
+- Nächste kleine Kandidaten mit dem gleichen Baustein (Vorrat = Gegenstand + Grenze): Reagenzien für Gruppenbuffs
+  (Mage 17020, Priester 17029, Paladin 21177, Druide 17026, Schamane Ankh 17030), Gesundheitsstein, Gift-Vorrat, Haltbarkeit.
+  Für den Gruppenbuff-Reagenzien-Punkt muss die Item-ID je Spielversion geprüft werden (TBC/Wrath andere Reagenzien) –
+  vor der Umsetzung messen bzw. aus Spieldaten (wago.tools) belegen.
+
+FRAGE AN DEN SUPERVISOR: Welche der [K]-Punkte sollen als nächstes kommen? Vorschlag: Reagenzien für Gruppenbuffs (alle
+Buff-Klassen auf einmal) + Begleiter fehlt (Jäger/Hexenmeister) + Gesundheitsstein.
