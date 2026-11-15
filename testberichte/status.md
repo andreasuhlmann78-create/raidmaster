@@ -1,14 +1,12 @@
 # Testberichte der GoldSentinel-Addons
 
-Ausgewertet: 2026-11-15 01:19 UTC
-
-**Hinweis:** Der Bot darf #testberichte nicht lesen.
+Ausgewertet: 2026-11-15 02:30 UTC
 
 Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> hier. Neue Berichte kommen beim nächsten /reload oder Ausloggen und dem nächsten Lauf des Uploaders.
 
 | Addon | letzter Testlauf | Version | Client | OK | FEHLER | übersprungen | im Client prüfen | Fehler im Spiel (7 Tage) |
 |---|---|---|---|---|---|---|---|---|
-| AHSentinel | 14.11.2026 17:15 UTC | 0.65.174 | forever 1.60.1 (Interface 16001) | 56 | 3 | 8 | 0 | 37 |
+| AHSentinel | 15.11.2026 00:36 UTC | 0.65.179 | forever 1.60.1 (Interface 16001) | 22 | 3 | 1 | 0 | 37 |
 | BuffSentinel | 05.11.2026 00:19 UTC | 0.9.7 | forever 1.60.1 (Interface 16001) | 120 | 1 | 10 | 11 | 569 |
 | GuildSentinel | 09.11.2026 05:47 UTC | 0.9.13 | forever 1.60.1 (Interface 16001) | 153 | 4 | 23 | 5 | 26 |
 | LevelPilot | 05.11.2026 00:21 UTC | 3.12.6 | forever 1.60.1 (Interface 16001) | 11 | 0 | 0 | 0 | 2027 |
@@ -20,34 +18,21 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| AHSentinel | 120 | `testberichte/diagnose/AHSentinel/0.65.99-ea23619300d1.txt` |
+| AHSentinel | 121 | `testberichte/diagnose/AHSentinel/0.65.179-c94eb0190684.txt` |
 | BuffSentinel | 35 | `testberichte/diagnose/BuffSentinel/0.9.12-7f8dfb5af187.txt` |
 | GSMesstest | 9 | `testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt` |
-| GuildSentinel | 112 | `testberichte/diagnose/GuildSentinel/0.9.38-0e77f069f6a6.txt` |
-| LevelPilot | 16 | `testberichte/diagnose/LevelPilot/3.12.30-53fbb985d448.txt` |
-| ProfessionSentinel | 93 | `testberichte/diagnose/ProfessionSentinel/0.9.45-bbca32a6bc68.txt` |
-| ThreatSentinel | 94 | `testberichte/diagnose/ThreatSentinel/2.5.9-393857b54d8e.txt` |
+| GuildSentinel | 113 | `testberichte/diagnose/GuildSentinel/0.9.38-6ad688841df5.txt` |
+| LevelPilot | 17 | `testberichte/diagnose/LevelPilot/3.12.30-791bb6485da7.txt` |
+| ProfessionSentinel | 94 | `testberichte/diagnose/ProfessionSentinel/0.9.45-239d74dac31f.txt` |
+| ThreatSentinel | 95 | `testberichte/diagnose/ThreatSentinel/2.5.13-3d9605f6f546.txt` |
 
 ## Wegdaten (GSWEGE1)
 
 | Addon | Anzahl | neueste Datei |
 |---|---|---|
-| LevelPilot | 155 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794653036-3b17f1.json` |
+| LevelPilot | 160 | `testberichte/wege/LevelPilot/LevelPilot-wege-1794703777-0e6435.json` |
 
 ## AHSentinel
-
-**Testlauf 0.65.170 · forever 1.60.1 (Interface 16001) · 14.11.2026 15:54 UTC** – OK 5 · FEHLER 0 · übersprungen 1 · im Client prüfen 0 · Sandbox OK
-- [SKIP] T100 D – Alter Händler-Weg (grund: nur im alten Client (Classic Era, TBC))
-
-**Testlauf 0.65.172 · forever 1.60.1 (Interface 16001) · 14.11.2026 16:31 UTC** – OK 59 · FEHLER 4 · übersprungen 4 · im Client prüfen 0 · Sandbox OK
-- [FEHLER] S28 B – Auswertungen: Ein "Lohnt bis" je Item (RK2-A) (ergebnis: Interface/AddOns/AHSentinel/SelfTest.lua:593: 14 von 20 Items mit zwei Werten – 5963: Lohnt bis 1128 · abweichend: api=2625 | erwartet: bestanden)
-- [SKIP] T40 B – Server: Sniper: Suche (kauft nichts) (grund: Scharfer Pfeil: günstigstes Angebot 1c je Stück - kein Item über 1c, Treffer bei Max 1c wäre richtig)
-- [SKIP] T36 B – Handel (simuliert): Gebot (grund: Waren haben keine Gebote)
-- [SKIP] T27 B – Einbindung ins Auktionshaus (grund: Einbindung in den Optionen aus)
-- [FEHLER] T126 H – Scan-Auswertung in Portionen (ergebnis: längste Portion 15.4 ms in 259 Frames | erwartet: <= 8 ms)
-- [FEHLER] T458 H – T-VF1 Vollscan ruckelfrei: kein Schritt mit längstem Frame über 16 ms (Ziel ≤ Budget) (ergebnis: längster Frame 171 ms (Nachlauf) · Frames über 33 ms 40 von 3353 · zu lang: Einlesen 26 ms, Verdichtung 31 ms, Verfolgung V4 37 ms, Preisverlauf+Neuaufbau 68 ms, Nachlauf 171 ms | erwartet: jeder Schritt ≤ 16 ms (Ziel 4 ms))
-- [FEHLER] T459 H – T-VF2 Vollscan: Speicher-Zuwachs ≤ 10 MB, höchstens 1 Speicherbereinigung (ergebnis: Zuwachs -56438 KB (ganzer Lua-Speicher) · Speicherbereinigungen 31 | erwartet: ≤ 10240 KB · ≤ 1)
-- [SKIP] T98 D – Server-Wege altes AH (grund: nur im alten Client (Classic Era, TBC))
 
 **Testlauf 0.65.173 · forever 1.60.1 (Interface 16001) · 14.11.2026 16:53 UTC** – OK 773 · FEHLER 6 · übersprungen 23 · im Client prüfen 16 · Sandbox OK
 - [CLIENT] T08c A – Berufe-Weiche (Forever) (anleitung: /dump GetNumTradeSkills – muss nil sein, sonst liest das Addon die alte Liste)
@@ -108,6 +93,17 @@ Weg: Addon -> SavedVariables -> RaidMasterUploader -> Discord #testberichte -> h
 - [SKIP] T459 H – T-VF2 Vollscan: Speicher-Zuwachs ≤ 10 MB, höchstens 1 Speicherbereinigung (grund: Server-Abstand: erst in 3 Min. wieder (Messung beim nächsten Lauf))
 - [SKIP] T411 H – T-VM2 Vollscan: kein Schritt und keine Lücke über 1 s (grund: Server-Abstand: erst in 3 Min. wieder (Messung beim nächsten Lauf))
 - [SKIP] T98 D – Server-Wege altes AH (grund: nur im alten Client (Classic Era, TBC))
+
+**Testlauf 0.65.176 · forever 1.60.1 (Interface 16001) · 14.11.2026 22:49 UTC** – OK 21 · FEHLER 2 · übersprungen 1 · im Client prüfen 0 · Sandbox OK
+- [FEHLER] T617 J – SN1951-S5 Ruckeln: Ø ≥ 30 Bilder/s, kein Frame > 50 ms, Sync-Warteschlange ≤ 10 (ergebnis: Ø 112 / min 103 Bilder/s · längster Frame 63 ms · Sync-Warteschlange max 9 (GuildSentinel 9) | erwartet: ≥ 30 · ≤ 50 ms · ≤ 10)
+- [SKIP] T732 J – SN-TEST2-S11 Pausen: nach Markt-Scan/Vollscan/Einkauf/AH-Klick sucht der Sniper von selbst weiter (≤ 5 s); Drossel -> … (grund: keine Pause und keine Drossel während der Beobachtung (Nachbildung T739))
+- [FEHLER] T734 J – SN-TEST2-S13 Ruckeln: Bilder/s und längster Frame über die ganze Beobachtung, kein Frame > 33 ms (ergebnis: Ø 112 / min 103 Bilder/s · längster Frame 63 ms · Frames > 33 ms: 5 | erwartet: kein Frame > 33 ms)
+
+**Testlauf 0.65.179 · forever 1.60.1 (Interface 16001) · 15.11.2026 00:36 UTC** – OK 22 · FEHLER 3 · übersprungen 1 · im Client prüfen 0 · Sandbox OK
+- [FEHLER] T731 J – SN-TEST2-S10 Geld-Sicherheit: Beobachtung sendet nichts, Zähler unverändert; S4 Gold vorher − nachher = gebuchter Pr… (ergebnis: gesendet 0 · Zähler geändert 0 · S4 Gold 201005 -> 187331 (−13674) · gebucht 1 | erwartet: gesendet 0 · geändert 0 · Gold = gebucht)
+- [SKIP] T732 J – SN-TEST2-S11 Pausen: nach Markt-Scan/Vollscan/Einkauf/AH-Klick sucht der Sniper von selbst weiter (≤ 5 s); Drossel -> … (grund: keine Pause und keine Drossel während der Beobachtung (Nachbildung T739))
+- [FEHLER] T614 J – SN1951-S2 Zielzeile = bestätigte Käufe: gesendet -> Fehler zählt nicht, Bestätigung zählt (ergebnis: gesendet: "0/10 gekauft (+2 gesendet) · Budget übrig 8s 15c" · danach "0/10 gekauft · Budget übrig 10s" | erwartet: 0/10 (+2 gesendet) · danach 1/10, 95c)
+- [FEHLER] T745 M – SN-B1/SN-B2: Bremse nach Fehler nach 10 s weg, 5 Kauf-Fehler bremsen nicht, echte Drossel nach 2 Antworten wieder voll, … (ergebnis: Bremse true, Text false, nach 10 s true · 5 Kauf-Fehler: gebremst 0, Abstand gleich true · Drossel langsamer true (≤ true s), wieder voll true · Ziele 3 -> 1, Runden i:990197403,i:990197403,i:990197403 · fragt 30 an, gestiegen -> 15 (Plan 15), erste Stufe über Max -> nil | erwartet: Bremse true, Text true, nach 10 s true · 5 Kauf-Fehler: gebremst 0, Abstand gleich true · Drossel langsamer true (≤ true s), wieder voll true · Ziele 3 -> 1, Runden i:990197403,i:990197403,i:990197403 · fragt 30 an, gestiegen -> 15 (Plan 15), erste Stufe über Max -> nil)
 
 **Fehler im Spiel (letzte 7 Tage)**
 - 20× `ADDON_ACTION_FORBIDDEN`: UNKNOWN() – Version 0.65.16, 0.65.80 · forever 1.60.1 (Interface 16001) · zuletzt 11.11.2026 16:25 UTC

@@ -1,50 +1,50 @@
 {
- "ausgewertet": "2026-11-15T01:19:55Z",
- "hinweis": "Der Bot darf #testberichte nicht lesen.",
+ "ausgewertet": "2026-11-15T02:30:50Z",
+ "hinweis": null,
  "addons": {
   "AHSentinel": {
-   "berichte": 45,
+   "berichte": 49,
    "letzter_test": {
-    "id": "AHSentinel-1794676549-fdc834-2",
-    "version": "0.65.174",
-    "time": 1794676514,
+    "id": "AHSentinel-1794703117-7658fa-3",
+    "version": "0.65.179",
+    "time": 1794702995,
     "counts": {
      "client": 0,
      "fehler": 3,
-     "ok": 56,
-     "uebersprungen": 8
+     "ok": 22,
+     "uebersprungen": 1
     }
    },
    "fehler_tests": [
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.174",
+     "version": "0.65.179",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "S28",
-     "name": "Auswertungen: Ein \"Lohnt bis\" je Item (RK2-A)",
-     "detail": "ergebnis: Interface/AddOns/AHSentinel/SelfTest.lua:593: 15 von 20 Items mit zwei Werten – 2865: Lohnt bis 420 · abweichend: api=480 | erwartet: bestanden",
-     "bericht": "AHSentinel-1794676549-fdc834-2"
+     "id": "T731",
+     "name": "SN-TEST2-S10 Geld-Sicherheit: Beobachtung sendet nichts, Zähler unverändert; S4 Gold vorher − nachher = gebuchter Pr…",
+     "detail": "ergebnis: gesendet 0 · Zähler geändert 0 · S4 Gold 201005 -> 187331 (−13674) · gebucht 1 | erwartet: gesendet 0 · geändert 0 · Gold = gebucht",
+     "bericht": "AHSentinel-1794703117-7658fa-3"
     },
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.174",
+     "version": "0.65.179",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T72",
-     "name": "Auswertungen: Heute tun",
-     "detail": "ergebnis: Interface/AddOns/AHSentinel/SelfTest.lua:689: kein Knopf für: Preis gefallen: 1x Krank aussehender Fisch (Marktwert 1c statt 2c beim Kauf) - jetzt verkaufen bringt 1c, warten erwartet 1c | erwartet: bestanden",
-     "bericht": "AHSentinel-1794676549-fdc834-2"
+     "id": "T614",
+     "name": "SN1951-S2 Zielzeile = bestätigte Käufe: gesendet -> Fehler zählt nicht, Bestätigung zählt",
+     "detail": "ergebnis: gesendet: \"0/10 gekauft (+2 gesendet) · Budget übrig 8s 15c\" · danach \"0/10 gekauft · Budget übrig 10s\" | erwartet: 0/10 (+2 gesendet) · danach 1/10, 95c",
+     "bericht": "AHSentinel-1794703117-7658fa-3"
     },
     {
      "addon": "AHSentinel",
      "art": "test",
-     "version": "0.65.174",
+     "version": "0.65.179",
      "client": "forever 1.60.1 (Interface 16001)",
-     "id": "T126",
-     "name": "Scan-Auswertung in Portionen",
-     "detail": "ergebnis: längste Portion 12.6 ms in 177 Frames | erwartet: <= 8 ms",
-     "bericht": "AHSentinel-1794676549-fdc834-2"
+     "id": "T745",
+     "name": "SN-B1/SN-B2: Bremse nach Fehler nach 10 s weg, 5 Kauf-Fehler bremsen nicht, echte Drossel nach 2 Antworten wieder voll, …",
+     "detail": "ergebnis: Bremse true, Text false, nach 10 s true · 5 Kauf-Fehler: gebremst 0, Abstand gleich true · Drossel langsamer true (≤ true s), wieder voll true · Ziele 3 -> 1, Runden i:990197403,i:990197403,i:990197403 · fragt 30 an, gestiegen -> 15 (Plan 15), erste Stufe über Max -> nil | erwartet: Bremse true, Text true, nach 10 s true · 5 Kauf-Fehler: gebremst 0, Abstand gleich true · Drossel langsamer true (≤ true s), wieder voll true · Ziele 3 -> 1, Runden i:990197403,i:990197403,i:990197403 · fragt 30 an, gestiegen -> 15 (Plan 15), erste Stufe über Max -> nil",
+     "bericht": "AHSentinel-1794703117-7658fa-3"
     }
    ],
    "fehler_spiel": [
@@ -567,32 +567,32 @@
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.174",
+   "version": "0.65.179",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "S28",
-   "name": "Auswertungen: Ein \"Lohnt bis\" je Item (RK2-A)",
-   "detail": "ergebnis: Interface/AddOns/AHSentinel/SelfTest.lua:593: 15 von 20 Items mit zwei Werten – 2865: Lohnt bis 420 · abweichend: api=480 | erwartet: bestanden",
-   "bericht": "AHSentinel-1794676549-fdc834-2"
+   "id": "T731",
+   "name": "SN-TEST2-S10 Geld-Sicherheit: Beobachtung sendet nichts, Zähler unverändert; S4 Gold vorher − nachher = gebuchter Pr…",
+   "detail": "ergebnis: gesendet 0 · Zähler geändert 0 · S4 Gold 201005 -> 187331 (−13674) · gebucht 1 | erwartet: gesendet 0 · geändert 0 · Gold = gebucht",
+   "bericht": "AHSentinel-1794703117-7658fa-3"
   },
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.174",
+   "version": "0.65.179",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T72",
-   "name": "Auswertungen: Heute tun",
-   "detail": "ergebnis: Interface/AddOns/AHSentinel/SelfTest.lua:689: kein Knopf für: Preis gefallen: 1x Krank aussehender Fisch (Marktwert 1c statt 2c beim Kauf) - jetzt verkaufen bringt 1c, warten erwartet 1c | erwartet: bestanden",
-   "bericht": "AHSentinel-1794676549-fdc834-2"
+   "id": "T614",
+   "name": "SN1951-S2 Zielzeile = bestätigte Käufe: gesendet -> Fehler zählt nicht, Bestätigung zählt",
+   "detail": "ergebnis: gesendet: \"0/10 gekauft (+2 gesendet) · Budget übrig 8s 15c\" · danach \"0/10 gekauft · Budget übrig 10s\" | erwartet: 0/10 (+2 gesendet) · danach 1/10, 95c",
+   "bericht": "AHSentinel-1794703117-7658fa-3"
   },
   {
    "addon": "AHSentinel",
    "art": "test",
-   "version": "0.65.174",
+   "version": "0.65.179",
    "client": "forever 1.60.1 (Interface 16001)",
-   "id": "T126",
-   "name": "Scan-Auswertung in Portionen",
-   "detail": "ergebnis: längste Portion 12.6 ms in 177 Frames | erwartet: <= 8 ms",
-   "bericht": "AHSentinel-1794676549-fdc834-2"
+   "id": "T745",
+   "name": "SN-B1/SN-B2: Bremse nach Fehler nach 10 s weg, 5 Kauf-Fehler bremsen nicht, echte Drossel nach 2 Antworten wieder voll, …",
+   "detail": "ergebnis: Bremse true, Text false, nach 10 s true · 5 Kauf-Fehler: gebremst 0, Abstand gleich true · Drossel langsamer true (≤ true s), wieder voll true · Ziele 3 -> 1, Runden i:990197403,i:990197403,i:990197403 · fragt 30 an, gestiegen -> 15 (Plan 15), erste Stufe über Max -> nil | erwartet: Bremse true, Text true, nach 10 s true · 5 Kauf-Fehler: gebremst 0, Abstand gleich true · Drossel langsamer true (≤ true s), wieder voll true · Ziele 3 -> 1, Runden i:990197403,i:990197403,i:990197403 · fragt 30 an, gestiegen -> 15 (Plan 15), erste Stufe über Max -> nil",
+   "bericht": "AHSentinel-1794703117-7658fa-3"
   },
   {
    "addon": "AHSentinel",
@@ -1004,8 +1004,8 @@
  "extras": {
   "diagnose": {
    "AHSentinel": {
-    "anzahl": 120,
-    "neueste": "testberichte/diagnose/AHSentinel/0.65.99-ea23619300d1.txt"
+    "anzahl": 121,
+    "neueste": "testberichte/diagnose/AHSentinel/0.65.179-c94eb0190684.txt"
    },
    "BuffSentinel": {
     "anzahl": 35,
@@ -1016,26 +1016,26 @@
     "neueste": "testberichte/diagnose/GSMesstest/3-0a66b30190ae.txt"
    },
    "GuildSentinel": {
-    "anzahl": 112,
-    "neueste": "testberichte/diagnose/GuildSentinel/0.9.38-0e77f069f6a6.txt"
+    "anzahl": 113,
+    "neueste": "testberichte/diagnose/GuildSentinel/0.9.38-6ad688841df5.txt"
    },
    "LevelPilot": {
-    "anzahl": 16,
-    "neueste": "testberichte/diagnose/LevelPilot/3.12.30-53fbb985d448.txt"
+    "anzahl": 17,
+    "neueste": "testberichte/diagnose/LevelPilot/3.12.30-791bb6485da7.txt"
    },
    "ProfessionSentinel": {
-    "anzahl": 93,
-    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.45-bbca32a6bc68.txt"
+    "anzahl": 94,
+    "neueste": "testberichte/diagnose/ProfessionSentinel/0.9.45-239d74dac31f.txt"
    },
    "ThreatSentinel": {
-    "anzahl": 94,
-    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.9-393857b54d8e.txt"
+    "anzahl": 95,
+    "neueste": "testberichte/diagnose/ThreatSentinel/2.5.13-3d9605f6f546.txt"
    }
   },
   "wege": {
    "LevelPilot": {
-    "anzahl": 155,
-    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794653036-3b17f1.json"
+    "anzahl": 160,
+    "neueste": "testberichte/wege/LevelPilot/LevelPilot-wege-1794703777-0e6435.json"
    }
   }
  }
