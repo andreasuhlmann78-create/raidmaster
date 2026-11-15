@@ -1,0 +1,13 @@
+BERICHT LevelPilot – W3D: Frage/Hinweis zum Ebenen-Schlüssel (Sprache)
+Projekt: LevelPilot · Datum: 15.11.2026 21:37 (aus date) · Status: Frage an die Prüf-Sitzung, keine Code-Änderung
+
+Befund im Code (belegt): Graph.LevelInfo() baut die Ebenen-Angabe aus GetSubZoneText() – dieser Text ist im Client übersetzt
+("Magieviertel" bei deDE, "The Magic Quarter" bei enUS). Folgen:
+- Eigenes Wegnetz: unproblematisch, ein Spieler nutzt immer dieselbe Sprache.
+- Geteilte Wege (Gilde/Netz) und eingesandte Wegdaten: dieselbe Ebene trägt je nach Sprache eine andere Angabe. Mit W3D AN würden
+  geteilte Wege anderer Sprachen als "andere Ebene" gelten (heute ohne Wirkung, Schalter aus; geteilte Wege tragen noch keine
+  Ebenen-Angabe, Comm überträgt nur Koordinaten).
+Vorschlag (Verdacht, zu messen mit GSWegMess): vor dem Einschalten die Unterzone sprachfrei machen – entweder eine Tabelle
+Unterzonen-Name -> AreaTable-ID je Sprache (wago.tools AreaTable, eigene Liste, keine Spieldateien im Addon) oder nur
+"Karte|drinnen|Stockwerk" aus den Messwerten. Entscheidung nach der Messung des Nutzers.
+Stand: nichts offen ausser W3D (wartet auf GSWegMess) und SP1-M (Aufgabe des Nutzers). Nächste Prüfung des Repos in 15 Minuten.
