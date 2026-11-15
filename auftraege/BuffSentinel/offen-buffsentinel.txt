@@ -250,3 +250,10 @@ REGEL (Entscheid des Nutzers 13.11. 22:28, CLAUDE.md "Projekte prüfen sich nich
   < 0,1 ms (Ziel < 1 ms erfüllt, im Client zu bestätigen). Keine Befunde.
   IM CLIENT (Nutzer): nach einem Kampf /bs protokoll -> Zeile LEISTUNG; DiagExtra "Vorrat je Taschen-Ereignis".
   WEITER: aus deinem Vorschlag die übrigen Punkte nur nach Nutzen; sonst Pflege (Retail-Lauf grün halten). Bei Leerlauf: kurzer Bericht, was offen ist.
+
+>>> ANTWORT FRAGE GIFT-IDs (Supervisor 00:05): shared/wissen/daten/BuffSentinelGifte.lua – je Zweig und Gifttyp (sofort, toedlich, wund, verkrueppelnd,
+  gedanken, beruhigend = Anästhetikum ab TBC) alle Ränge; dazu "saison" (Zähes/Betäubendes/Atrophisches/Okkultes Gift stehen in den wowf/era-Daten
+  – ob es sie in Forever gibt: im Client prüfen; bis dahin mitzählen schadet nicht). Auswahl über die Spieldaten-Namen (ClassID 0). Alte Listen in
+  Data/Rogue.lua damit abgleichen und Unterschiede im Bericht nennen. 0.9.42 (Begleiter-Zufriedenheit) prüfe ich in der nächsten Runde.
+  Weitere Kandidaten (Wiedergeburt-Saaten, Teleport-/Portal-Runen, Ghul): ja, in dieser Reihenfolge, Daten als Frage an mich.
+
