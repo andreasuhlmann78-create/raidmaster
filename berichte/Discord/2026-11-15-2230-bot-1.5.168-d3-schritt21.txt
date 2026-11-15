@@ -1,0 +1,51 @@
+BERICHT DISCORD – Bot 1.5.168: D-3 Schritt 21 (Server-Betrieb als eigenes Modul) + unbenutzte Importe entfernt – umgesetzt, zur Prüfung
+Zeit: 15.11.2026 22:30 (aus date)
+Commit: 7c3f3964 auf origin/main, CI bot-tests: success
+
+WAS
+- Neues Modul RaidMasterBot/betrieb_bot.py (232 Zeilen): tb_cleanup_loop/before_tb_cleanup (#testberichte
+  aufräumen), make_data_backup/backup_loop/before_backup (tägliche Sicherung), refresh_icon_map/run_self_check/
+  icon_map_loop/before_icon_map (Spielsymbole, Selbstprüfung), IMPORT_FILES und /daten-import – 199 Zeilen am
+  Stück samt Kommentaren.
+- UNVERÄNDERT verschoben: der Block steht wörtlich im alten bot.py und im Modul (Textvergleich).
+- bot.py übernimmt backup_loop, icon_map_loop, tb_cleanup_loop (Start in RaidBot.setup_hook).
+
+SELBST GEFUNDEN UND BEHOBEN: DURCH D-3 UNBENUTZTE IMPORTE IN bot.py
+- Ich hatte in den Berichten pyflakes-Meldungen gefiltert und in 1.5.156 behauptet, die übrigen Meldungen gebe es
+  "schon vor D-3". Nachgemessen an den Ständen 1.5.145–1.5.164 (pyflakes je Stand): FALSCH. Vor D-3 (1.5.145)
+  nur "ch unbenutzt". Durch D-3 unbenutzt: gzip (seit 1.5.146), logging, shutil, CONFIG_PATH, DEFAULT_CONFIG,
+  load_config, ICON_MAP_BUNDLED (seit 1.5.148), blizzard_api_check, MARKT_DIR (seit 1.5.149), fame_db (seit
+  1.5.153), lootdb (seit 1.5.157), ADDON_DIR (seit 1.5.164); dazu ICON_MAP_FRESH, ICON_LISTFILE_URL, zipfile,
+  self_check, tb_aufraeumen durch diesen Schritt; tip_view wurde schon vor D-3 nie benutzt.
+- Wirkung: keine (nur unbenutzte Namen). Alle entfernt; pyflakes meldet für bot.py jetzt nur noch "ch unbenutzt"
+  (von vor D-3, nicht angefasst). Kein Test benutzte die Namen über bot.py (geprüft; test_lade prüft ADDON_DIR
+  jetzt an uploader_bot).
+- Bericht 1.5.156 berichtigt (mit Datum der Berichtigung).
+- Prüfregel für mich ab jetzt je Schritt: pyflakes bot.py UNGEFILTERT gegen den Stand vorher vergleichen; jede
+  neue Meldung im selben Schritt beheben.
+
+TESTS
+- test_tb_aufraeumen.test_t07: liest tb_cleanup_loop jetzt aus betrieb_bot.py (gleiche Aussagen: postet nichts,
+  ruft tb_aufraeumen.cleanup).
+- NEU test_betrieb_bot.py (4 Tests, REGRESSIONEN T-D3-BETRIEB): drei Schleifen dieselben Objekte wie in bot.py,
+  /daten-import im Befehlsbaum; Sicherung nur .json/.lua (keine .txt), ältere Sicherungen über backup_days
+  hinaus gelöscht; ohne Datenordner keine Sicherung; /daten-import nur Gildenleitung.
+  Gegenproben: Dateifilter entfernt -> FAILED (1); Löschen alter Sicherungen entfernt -> FAILED (1);
+  Rechte-Prüfung entfernt -> ERROR (1); zurückgesetzt -> OK.
+- test_lade: betrieb_bot.bot ist bot.bot; Schleifen und /daten-import aus betrieb_bot.
+- Slash-Befehle: 49, unverändert. 351 Tests OK; jede Testdatei einzeln mit -I OK; REGRESSIONEN 55 von 55.
+- bot.py: git diff --numstat +2 −219, jetzt 3164 Zeilen.
+
+BETRIEB NACHGESTELLT (an einer Kopie)
+1. Update vom Stand 1.5.167: updater._copy_new kopiert VERSION, betrieb_bot.py, bot.py, tests; config/state/ZIP
+   unverändert (md5); VERSION 1.5.168.
+2. Start wie launcher.py: Abbruch erst bei der Anmeldung (LoginFailure, Test-Token).
+3. Ohne config.json: Exit-Code 3, Meldung "Bitte zuerst config.json ausfüllen …", config.json angelegt.
+4. Neustart nach Update (Ende-zu-Ende, aktualisierte Kopie): Exit-Code 42.
+
+STAND D-3: bot.py 7437 (vor D-3) -> 3164 Zeilen; 20 Module ausgelagert.
+
+OFFEN
+- Frage zur Selbst-Aktualisierung während D-3 (Bericht 2155 frage-d3): noch keine Antwort.
+- NÄCHSTE BEREICHE: Testberichte/Test-Uploads, DKP, Raids, Uploads, Kanal-Aufräumer, PUG-Einladung, zuletzt
+  RaidBot.
