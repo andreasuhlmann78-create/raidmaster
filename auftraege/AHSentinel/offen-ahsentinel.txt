@@ -55,6 +55,21 @@ HP-3 MITTEL (Nutzer 10:36, Screenshot Schnäppchen > Entzauberwert leer): Text "
     "Zurzeit nichts unter dem Entzauber-Wert mit mindestens 30 % Gewinn (geprüft: n Items, Preise vom Scan vor x Min.)". Prüfen,
     warum Markt > Entzaubern gleichzeitig Zeilen zeigt (Bericht 01:36: "Entzaubern 3") – beide Ansichten müssen dieselbe Regel und
     dieselben Treffer haben (eine Zahl). Teil von UI-CLEAN1/HP-2, gleiche Reihenfolge.
+SN-B10 RELEASE-BLOCKER (Nutzer 10:53 "schau dir die Snipermeldungen an", Screenshot 10:51, 0.65.181; Ziel Schultern des
+    Hügelwächters, 1000 Stk., Max 9s14, Budget 5g). Widersprüche (Supervisor, Code Sniper.lua gelesen):
+    (1) Chat: "Ihr habt eine Auktion gewonnen" + "Gekauft: 1x … für 9s14" (mehrfach) – gleichzeitig Ziel "pausiert bis 11:00 –
+        3 Käufe gescheitert". Erfolgreiche Käufe dürfen nicht als gescheitert zählen; ReportFail/failRow belegen.
+    (2) "Budget von 5g ist aufgebraucht (26 Stück gekauft)": 26 × 9s14 = 2g37s64, nicht 5g. Remaining() zieht gesendete,
+        unbestätigte Käufe (SentFor fc) vom Budget ab -> entweder bleiben ~28 gesendete Käufe ewig "offen" (Budget blockiert,
+        Zähler zu tief = SN-B6) oder sie sind echt gekauft und ungezählt.
+    (3) Gold laut Screenshots: 16g64s18 (10:46/10:48) -> 11g01s36 (10:51) = −5g62s82 in ~3 Min. ≈ 61 × 9s14 (5g57s54) + Gebühren.
+        Wenn das stimmt: Budget 5g ÜBERSCHRITTEN (Gold-Sicherheit!) und Zähler 26 statt ~55–61 (SN-B8). Wahrheit = Anzahl im
+        Briefkasten (Nutzer zählt).
+    (4) Kopf "Heute: 145 Treffer · 59 gekauft · 88 verpasst": 59 + 88 = 147 > 145 – eine Zahl muss aufgehen.
+    Zu tun: Kauf zählt genau einmal, sobald der Server bestätigt ODER das Gold um den Preis sinkt; gesendet-unbestätigt
+    höchstens INFLIGHT_MAX, dann per Gold entscheiden (nie offen hängen); Budget-Grenze gegen das ECHTE Gold seit Start des
+    Ziels prüfen (Gold-Start − Gold jetzt ≤ Budget), nie darüber. Test S-Budget: 60 schnelle Käufe, Gold-Abgang = Zähler ×
+    Preis, nie > Budget. Testbericht SNIPER: je Ziel Zähler, Summe Preise, Gold-Abgang seit Start, Differenz.
 TB181 (Nutzer 10:46, Screenshot Verkaufen > Meine Auktionen, 0.65.181) – Supervisor nachgerechnet: Wert 5s39+46s44+1g41s03+38s84
     = 2g31s70 OK, 4×11s61 und 9×15s67 OK, erhalten 90s98 × 0,95 = 86s43 OK, Warnung "2 Auktionen < 30 Min." passt (23 Min.).
     Befunde -> in UI-CLEAN1 (A/B) aufnehmen, die Testroutine muss sie finden:
